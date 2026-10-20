@@ -189,141 +189,66 @@ typedef struct {
 
 typedef struct { u32 w[4]; } ViewerBankCfg;
 
-typedef struct { u32 w[8]; } ViewerBgTemplate;
-
-typedef struct { ViewerBgTemplate t[6]; } ViewerBgTemplates;
-
 #include "../sdk_gx.h"
 
-extern void BMP_WIN_Init(u16 heapId);
+#include "../arm9/bmp_win.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void BG_SYS_MarkTileDirty(u32 bit);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#ifdef __MWERKS__
+#define BG_SYS_InitBgLayer BG_SYS_InitBgLayer_hdr
+#endif
+#include "../arm9/bg_sys.h"
+
+typedef struct { struct BgTemplate t[6]; } ViewerBgTemplates;
+#ifdef __MWERKS__
+#undef BG_SYS_InitBgLayer
+void BG_SYS_InitBgLayer(u8, const struct BgTemplate *, int);
+#endif
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/arc_util.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void BMP_WIN_Exit(void);
+#ifdef __MWERKS__
+#define PRINTSYS_Print PRINTSYS_Print_hdr
+#define PRINTSYS_PrintColor PRINTSYS_PrintColor_hdr
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_Print
+#undef PRINTSYS_PrintColor
+void PRINTSYS_Print(struct Bmp *, short, short, struct Strbuf *, struct GfFont *);
+void PRINTSYS_PrintColor(struct Bmp *, short, short, struct Strbuf *, struct GfFont *, unsigned short);
+#endif
 struct GfFont;
-extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
-extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
+#include "../arm9/strbuf.h"
+#include "../arm9/pms_draw.h"
 struct BeaconDetailGraQuad;
-extern void PMS_DRAW_Print(u32 wk, u32 bmpWin, struct BeaconDetailGraQuad *pms, u32 id);
-extern void PMS_DRAW_SetVisible(struct PmsDraw *o, int i, u32 visible);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
+#include "../arm9/msgdata.h"
 struct GameData;
-extern void *GAME_DATA_GetTrainerCardSign(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct TrainerCardSignature;
-extern u8 TRCARD_SIGN_GetSeenBefore(struct TrainerCardSignature *card);
-extern u32 CURSOR_MOVE_GetTableKind(u32 x);
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void WORDSET_FormatNumber(struct Strbuf *text, int number, unsigned int topDigitIndex, unsigned int padMode, unsigned int isHalfWidth);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
-extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/trcard_sign.h"
+#include "../arm9/cursor_move.h"
+#include "../arm9/wordset.h"
+#include "../arm9/playtime.h"
+#include "../arm9/arc_tool.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void ARC_TOOL_DeleteHandle(void *h);
-extern u32 APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern u32 APP_ICON_GetStatusCellFileId(u32 a);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_ReleasePalette(u32 r);
-extern void CLACT_ReleaseCharacter(u32 r);
-extern void CLACT_ReleaseCellAnim(u32 r);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MIi_CpuClearFast(int v, void *p, int size);
-extern void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p);
-extern void VIEWER_ACTOR_Init3D(ViewerTextWork *p);
-extern void VIEWER_ACTOR_CreateModel(ViewerTextWork *p);
-extern void VIEWER_ACTOR_InitBgWindow(ViewerTextWork *p);
-extern void VIEWER_ACTOR_CreateFont(ViewerTextWork *p);
-extern void VIEWER_ACTOR_SetSelection(ViewerTextWork *p, u16 v);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern int VIEWER_ACTOR_DispatchState(ViewerTextWork *p);
-extern void VIEWER_ACTOR_DrawModel(ViewerTextWork *p);
-extern void VIEWER_ACTOR_PrintQueMain(ViewerTextWork *p);
-extern void CLACT_DrawSystem(void);
-extern void VIEWER_ACTOR_DeleteFont(ViewerTextWork *p);
-extern void VIEWER_ACTOR_DeleteBgWindow(ViewerTextWork *p);
-extern void VIEWER_ACTOR_DeleteModel(ViewerTextWork *p);
-extern void VIEWER_ACTOR_Exit3D(ViewerTextWork *p);
-extern void VIEWER_ACTOR_DeleteObjects(ViewerTextWork *p);
-extern void VIEWER_ACTOR_SaveBadgeTimers(ViewerTextWork *p);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
-extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
-extern void CLACT_VBlankSystem(void);
-extern void BG_SYS_Update(void);
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*cb)(void *, ViewerTextWork *), void *work, u32 priority);
-extern void VIEWER_ACTOR_SetPageCount(ViewerTextWork *p);
-extern void VIEWER_ACTOR_LoadBadgeTimers(ViewerTextWork *p);
-extern u32 WORDSET_Delete(struct WordSet *p);
+#include "../arm9/clact.h"
+#include "../arm9/app_icon.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "viewer_actor.h"
+#include "../arm9/net.h"
+#include "../arm9/wipe.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_Create(u16 heapId);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_InitBgLayer(u8 frame, const ViewerBgTemplate *t, int mode);
-extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BG_SYS_Delete(void);
-extern u32 APP_ICON_GetStatusAnimFileId(void);
-extern u32 APP_ICON_GetStatusFrameFileId(void);
-extern u32 APP_ICON_GetStatusDataFileId(void);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16 heap);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_PushTile(u32 index);
-extern void BMP_MENUWORK_LoadPltt(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
-extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_use.h"
+struct TcbTask;
+#include "../arm9/tcb_list.h"
+#include "../arm9/g2.h"
 void VIEWER_TEXT_Init(ViewerWork *p);
 void VIEWER_TEXT_Exit(ViewerWork *p);
 void VIEWER_TEXT_Draw(ViewerWork *p, void **bg, const ViewerInfo *info);
@@ -344,7 +269,7 @@ void VIEWER_TEXT_PrintStringPad(ViewerWork *p, void *a, int x, int dx, int y, vo
 void VIEWER_TEXT_PrintWrapped(ViewerWork *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int w0, int h0, int idx);
 void VIEWER_TEXT_Print(ViewerWork *p, void *a, int x, int dx, int y, void *s);
 void VIEWER_TEXT_PrintRow(ViewerWork *p, void *a, int y, const ViewerInfo *info, void *s, int idx);
-void VIEWER_TEXT_NoOp(void);
+void VIEWER_TEXT_NoOp(void *work, void *bg, u32 flag, void *str);
 void VIEWER_TEXT_InitActors(ViewerAnim *a, u32 x);
 void VIEWER_TEXT_CreateActor(ViewerAnim *a);
 void VIEWER_TEXT_DeleteActors(ViewerAnim *a);
@@ -845,7 +770,7 @@ void VIEWER_TEXT_PrintRow(ViewerWork *p, void *a, int y, const ViewerInfo *info,
 
 
 
-void VIEWER_TEXT_NoOp(void) { }
+void VIEWER_TEXT_NoOp(void *work, void *bg, u32 flag, void *str) { }
 
 
 
@@ -857,7 +782,7 @@ void VIEWER_TEXT_InitActors(ViewerAnim *a, u32 x)
     void *h;
 
     h = ARC_TOOL_CreateHandle(0x28, a->heap);
-    CLACT_InitSystem((struct SysInit *)gClActorInitParam, (struct DispVramCfg *)x, a->heap);
+    CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam, (const struct DispVramCfg *)x, a->heap);
     a->unit = (u32)CLACT_CreateUnit(0x23, 0, a->heap);
     a->res[0].palette = CLACT_RegisterPaletteEx(h, 0xC, 1, 0, 0, 5, a->heap);
     a->res[0].chr = CLACT_RegisterCharacter(h, 0x1D, 0, 1, a->heap);
@@ -888,7 +813,7 @@ void VIEWER_TEXT_CreateActor(ViewerAnim *a)
         pos.y = tbl.t[i].y;
         pos.z = tbl.t[i].z;
         pos.pri = tbl.t[i].pri;
-        a->obj[i] = CLACT_CreateActor((void *)a->unit, a->res[tbl.t[i].cell].palette, a->res[tbl.t[i].chr].chr, a->res[tbl.t[i].anm].cellAnim, &pos, 1, a->heap);
+        a->obj[i] = CLACT_CreateActor((struct Unit *)a->unit, a->res[tbl.t[i].cell].palette, a->res[tbl.t[i].chr].chr, a->res[tbl.t[i].anm].cellAnim, (const struct ActorInitParam *)&pos, 1, a->heap);
         CLACT_SetActorDrawEnable(a->obj[i], 1);
         CLACT_SetActorAutoAnimSpeed(a->obj[i], 0x1000);
         CLACT_SetActorAutoAnim(a->obj[i], 1);
@@ -913,7 +838,7 @@ void VIEWER_TEXT_DeleteActors(ViewerAnim *a)
         CLACT_ReleaseCharacter(a->res[i].chr);
         CLACT_ReleaseCellAnim(a->res[i].cellAnim);
     }
-    CLACT_DeleteUnit((struct Bank *)a->unit);
+    CLACT_DeleteUnit((struct Unit *)a->unit);
     CLACT_ExitSystem();
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & ~0x300010) | 0x10;
 }
@@ -1032,7 +957,7 @@ void VIEWER_TEXT_LoadResources(ViewerTextWork *p, ViewerArgs *parent)
     }
     p->strbuf = STRBUF_Create(0x68, 0x27);
     p->wordSet = WORDSET_Create(8, 0x40, 0x27);
-    p->vblankTask = GFL_USE_AddMainTask(VIEWER_TEXT_VBlank, (ViewerTextWork *)p, 0);
+    p->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))VIEWER_TEXT_VBlank, (void *)p, 0);
     p->rowCount = 8;
     p->snap = -1;
     VIEWER_ACTOR_SetPageCount(p);
@@ -1189,7 +1114,7 @@ void VIEWER_TEXT_InitClact(ViewerTextWork *p)
 {
     void *arc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), 0x27);
 
-    CLACT_InitSystem((struct SysInit *)gClActorInitParam, (struct DispVramCfg *)d_021C88FC, 0x27);
+    CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam, (const struct DispVramCfg *)d_021C88FC, 0x27);
     p->unit = CLACT_CreateUnit(0x24, 1, 0x27);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);

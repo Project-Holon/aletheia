@@ -43,15 +43,8 @@ struct Range;
 struct Node02061DFC;
 struct List02061E48;
 struct Pool02061E48;
-struct Blk;
 #include "../types.h"
-
-typedef struct Blk {
-    u32 addr;
-    u32 size;
-    struct Blk *prev;
-    struct Blk *next;
-} Blk;
+#include "nns_gfd_lnk_vram_man.h"
 
 typedef struct Node02061FF8 {
     u32 addr;
@@ -105,7 +98,7 @@ struct GfdLnkBlock;
 struct GfdLnkBlock;
 struct GfdLnkBlockPool;
 struct GfdLnkBlockList;
-BOOL NNSi_GfdAllocLnkVram(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment);
+BOOL NNSi_GfdAllocLnkVram(NNSiGfdLnkBlock **list, NNSiGfdLnkBlock **pool, u32 *pRet, u32 size, u32 alignment);
 void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg);
 int NNSi_GfdFreeLnkVram(void *headp, void *freep, int addr, int szByte);
 int NNSi_GfdSizeToGranuleTex(int v);
@@ -129,15 +122,15 @@ extern u32 NNS_GfdDefaultFuncFreePlttVram;
 extern u32 g_02146BB4;
 extern struct HeapB g_02146BB0_blk;
 
-static inline Blk *GetNewBlock_(Blk **pool)
+static inline NNSiGfdLnkBlock *GetNewBlock_(NNSiGfdLnkBlock **pool)
 {
-    Blk *b = *pool;
+    NNSiGfdLnkBlock *b = *pool;
     if (b != 0)
         *pool = b->next;
     return b;
 }
 
-static inline void InitBlock_(Blk *b, u32 addr, u32 size)
+static inline void InitBlock_(NNSiGfdLnkBlock *b, u32 addr, u32 size)
 {
     b->addr = addr;
     b->size = size;
@@ -145,7 +138,7 @@ static inline void InitBlock_(Blk *b, u32 addr, u32 size)
     b->next = 0;
 }
 
-static inline void InsertBlock_(Blk **list, Blk *b)
+static inline void InsertBlock_(NNSiGfdLnkBlock **list, NNSiGfdLnkBlock *b)
 {
     if (*list != 0)
         (*list)->prev = b;
@@ -154,10 +147,10 @@ static inline void InsertBlock_(Blk **list, Blk *b)
     *list = b;
 }
 
-static inline void RemoveBlock_(Blk **list, Blk *b)
+static inline void RemoveBlock_(NNSiGfdLnkBlock **list, NNSiGfdLnkBlock *b)
 {
-    Blk *prev = b->prev;
-    Blk *next = b->next;
+    NNSiGfdLnkBlock *prev = b->prev;
+    NNSiGfdLnkBlock *next = b->next;
     if (prev != 0)
         prev->next = next;
     else
@@ -192,14 +185,14 @@ static inline void RemoveBlock_(Blk **list, Blk *b)
  *       --func NNSi_GfdAllocLnkVram --addr 0x02061EB8 --arm --cc ../2.0/sp2
  *   EXACT, 320 bytes, no relocations (sp2p2 EXACT too, 1.1p1 312 DIFF).
  */
-BOOL NNSi_GfdAllocLnkVram(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment)
+BOOL NNSi_GfdAllocLnkVram(NNSiGfdLnkBlock **list, NNSiGfdLnkBlock **pool, u32 *pRet, u32 size, u32 alignment)
 {
     u32 aligned;
     u32 need;
     u32 pad;
-    Blk *found = 0;
+    NNSiGfdLnkBlock *found = 0;
     {
-        Blk *b = *list;
+        NNSiGfdLnkBlock *b = *list;
 
         while (b) {
             if (alignment > 1) {
@@ -221,7 +214,7 @@ BOOL NNSi_GfdAllocLnkVram(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 align
 
     if (found) {
         if (pad > 0) {
-            Blk *nb = GetNewBlock_(pool);
+            NNSiGfdLnkBlock *nb = GetNewBlock_(pool);
             if (nb) {
                 InitBlock_(nb, found->addr, pad);
                 InsertBlock_(list, nb);
@@ -363,9 +356,9 @@ u32 NNS_GfdFreeTexVram(u32 h)
 
     if (szByte != 0) {
         if (flag != 0) {
-            r = NNSi_GfdFreeLnkVram((void *)((u32)&g_02146B98), (void *)((u32)&g_02146B9C), addr, szByte);
+            r = NNSi_GfdFreeLnkVram((void *)((uptr)&g_02146B98), (void *)((uptr)&g_02146B9C), addr, szByte);
         } else {
-            r = NNSi_GfdFreeLnkVram((void *)((u32)&g_02146B94), (void *)((u32)&g_02146B9C), addr, szByte);
+            r = NNSi_GfdFreeLnkVram((void *)((uptr)&g_02146B94), (void *)((uptr)&g_02146B9C), addr, szByte);
         }
         if (r != 0) return 0;
         return 1;
@@ -459,7 +452,7 @@ void NNSi_GfdInitTexVramHeap(u32 szByte, u32 szByteFor4x4, u32 pManagementWork, 
 
     NNSi_GfdClearBlockListHead((struct GfdLnkBlock **)(&g_02146B94.head_a));
     NNSi_GfdClearBlockListHead((struct GfdLnkBlock **)(&g_02146B98));
-    g_02146B94_blk.pool = (u32)NNSi_GfdInitBlockPool((struct GfdLnkBlock *)g_02146B94_blk.pManagementWork, g_02146B94_blk.szByteManagementWork >> 4);
+    g_02146B94_blk.pool = (uptr)NNSi_GfdInitBlockPool((struct GfdLnkBlock *)g_02146B94_blk.pManagementWork, g_02146B94_blk.szByteManagementWork >> 4);
 
     if (t.r[0].acc8 != 0)
         NNSi_GfdAddBlock((struct GfdLnkBlockList *)(&g_02146B98), (struct GfdLnkBlockPool *)(&g_02146B9C), 0, t.r[0].acc8);
@@ -504,8 +497,8 @@ void NNSi_GfdInitPlttVramManager(u32 szByte, u32 pManagementWork, u32 szByteMana
     if (useAsDefault == 0) {
         return;
     }
-    NNS_GfdDefaultFuncAllocPlttVram = (u32)NNS_GfdAllocPlttVram;
-    NNS_GfdDefaultFuncFreePlttVram = (u32)NNS_GfdFreePlttVram;
+    NNS_GfdDefaultFuncAllocPlttVram = (uptr)NNS_GfdAllocPlttVram;
+    NNS_GfdDefaultFuncFreePlttVram = (uptr)NNS_GfdFreePlttVram;
 }
 
 /*
@@ -550,13 +543,13 @@ u32 NNS_GfdAllocPlttVram(u32 size, u32 flag)
     if (size >= 0x7FFF8)
         return 0;
     if (flag != 0) {
-        r = NNSi_GfdAllocLnkVram((struct Blk **)(&g_02146BB0), (struct Blk **)(&g_02146BB4), &addr, size, 8);
+        r = NNSi_GfdAllocLnkVram((struct NNSiGfdLnkBlock **)(&g_02146BB0), (struct NNSiGfdLnkBlock **)(&g_02146BB4), &addr, size, 8);
         if (addr + size > 0x10000) {
             NNSi_GfdFreeLnkVram(&g_02146BB0, &g_02146BB4, addr, size);
             return 0;
         }
     } else {
-        r = NNSi_GfdAllocLnkVram((struct Blk **)(&g_02146BB0), (struct Blk **)(&g_02146BB4), &addr, size, 0x10);
+        r = NNSi_GfdAllocLnkVram((struct NNSiGfdLnkBlock **)(&g_02146BB0), (struct NNSiGfdLnkBlock **)(&g_02146BB4), &addr, size, 0x10);
     }
     if (r == 0)
         return 0;
@@ -573,7 +566,7 @@ int NNS_GfdFreePlttVram(u32 id)
 
 void NNSi_GfdInitPlttVramHeap(void)
 {
-    g_02146BB0_blk.pool = (u32)NNSi_GfdInitBlockPool((struct GfdLnkBlock *)g_02146BB0_blk.pManagementWork, g_02146BB0_blk.szByteManagementWork >> 4);
+    g_02146BB0_blk.pool = (uptr)NNSi_GfdInitBlockPool((struct GfdLnkBlock *)g_02146BB0_blk.pManagementWork, g_02146BB0_blk.szByteManagementWork >> 4);
     NNSi_GfdClearBlockListHead((struct GfdLnkBlock **)(&g_02146BB0.head));
     NNSi_GfdAddBlock((struct GfdLnkBlockList *)(&g_02146BB0), (struct GfdLnkBlockPool *)(&g_02146BB4), 0, g_02146BB0_blk.szByte);
     NNSi_GfdMergeFreeBlockList(&g_02146BB0.head, &g_02146BB4);

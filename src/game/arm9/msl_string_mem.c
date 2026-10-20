@@ -154,7 +154,7 @@ void __fill_mem(u8 *dest, u32 val, u32 count)
 
     byte_val = val & 0xff;
     if (count >= 0x20) {
-        align = (u32)(-(int)(u32)dest) & 3;
+        align = (u32)(-(int)(uptr)dest) & 3;
         if (align != 0) {
             count -= align;
             do {

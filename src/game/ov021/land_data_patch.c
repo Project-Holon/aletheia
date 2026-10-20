@@ -33,14 +33,13 @@ typedef struct LandAttrBlock {
     u16 width;
 } LandAttrBlock;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, int heapID);
-extern void MI_CpuCopy8(void *src, void *dst, int n);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/mi_memory.h"
 struct BuildModelObjectDesc;
 struct BuildModelMan;
-extern void FIELD_BUILDMODEL_RegisterObject(struct BuildModelMan *man, int mapObject, struct BuildModelObjectDesc *desc, int index);
-u32 *LAND_DATA_PATCH_Create(u32 patchId, u32 heapId);
+#include "field_buildmodel.h"
+u32 *LAND_DATA_PATCH_Create(u32 patchId, u16 heapId);
 void LAND_DATA_PATCH_Delete(void **patch);
 void LAND_DATA_PATCH_OverwriteAttr(u32 patch, u8 *mapAttr, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height);
 u32 LAND_DATA_PATCH_AddBuildModels(u32 patch, u32 bmodelMan, u32 mapIndex, u32 firstIndex, int offsetX, int offsetZ);
@@ -49,10 +48,10 @@ int LAND_DATA_PATCH_GetBuildModelBlock(u32 patch);
 extern char d_021DE558[];
 
 /* Allocates a patch handle and loads patch file patchId. */
-u32 *LAND_DATA_PATCH_Create(u32 patchId, u32 heapId)
+u32 *LAND_DATA_PATCH_Create(u32 patchId, u16 heapId)
 {
     u32 *patch = GFL_HEAP_Alloc(heapId, 4, 1, d_021DE558, 0x4f);
-    patch[0] = ARC_UTIL_LoadMember(0x9c, patchId, 0, heapId);
+    patch[0] = (u32)ARC_UTIL_LoadMember(0x9c, patchId, 0, heapId);
     return patch;
 }
 

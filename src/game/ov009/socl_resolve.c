@@ -41,20 +41,16 @@ typedef struct {
     unsigned char pad5c[0xa0 - 0x5c];
 } CpsSoc;
 
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void CPS_SocRegister(int v);
-extern unsigned long CPS_Resolve(char *name);
-extern void CPS_SocUnRegister(void);
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
+#include "../arm9/mi_memory.h"
+#include "cps_network.h"
+#include "../arm9/os_system.h"
 extern unsigned long SOCL_GetHostID(void);
-extern int OS_GetProcMode(void);
-extern void OS_Sleep(unsigned long msec);
+#include "../arm9/os_thread.h"
 unsigned long SOCL_Resolve(char *hostname);
 unsigned long SOCL_InetAtoH(char *hostname);
 int SOCL_SetResolver(unsigned long dns1, unsigned long dns2);
 unsigned long SOCL_GetHostID(void);
-extern SoclConfig *gSoclConfig;
+extern SOCLConfig *gSoclConfig;
 extern unsigned long gCpsDnsIp[2];
 extern unsigned long gCpsDhcpMode;
 extern unsigned long CPSMyIp;
@@ -80,7 +76,7 @@ unsigned long SOCL_Resolve(char *hostname)
     soc.buf_size = 0xb68;
     soc.work_end = buffers + 0xb68;
     soc.work = 0xb9e;
-    CPS_SocRegister((int)(&soc));
+    CPS_SocRegister((sptr)(&soc));
     hostip = CPS_Resolve(hostname);
     CPS_SocUnRegister();
     gSoclConfig->free(buffers);

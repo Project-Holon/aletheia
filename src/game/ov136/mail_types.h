@@ -23,7 +23,7 @@ struct MsgData;
 struct GfFont;
 struct PalAnmSlot;
 struct PrintQue;
-struct ClactUnit;
+struct Unit;
 struct AppTaskMenuRes;
 struct AppTaskMenu;
 struct AppTaskMenuWin;
@@ -35,7 +35,7 @@ struct GameData;
 struct BgWinFrm;
 struct ClactActor;
 struct WordSet;
-struct PrintStream;
+struct TextPrinter;
 struct TouchSelect;
 
 /* Request and result of the mail screens (0x1C). */
@@ -140,7 +140,7 @@ struct MailEditProc {
     /* 0x090 */ u8 pad_90[8];
     /* 0x098 */ struct PrintQue *printQue;
     /* 0x09C */ void *printStream;
-    /* 0x0A0 */ struct ClactUnit *clactUnit;
+    /* 0x0A0 */ struct Unit *clactUnit;
     /* 0x0A4 */ u8 pad_A4[0x50];
     /* 0x0F4 */ void *blinkTaskMem;
     /* 0x0F8 */ void *blinkTaskList;
@@ -155,7 +155,7 @@ struct MailEditProc {
     /* 0x130 */ struct MailMenuEntry buttonEntry[2];
     /* 0x148 */ struct PmsDraw *pmsDraw;
     /* 0x14C */ struct PmsData closingWord;
-    /* 0x154 */ struct ClactUnit *pmsClactUnit;
+    /* 0x154 */ struct Unit *pmsClactUnit;
     /* 0x158 */ struct PrintQue *pmsPrintQue;
 };
 
@@ -208,7 +208,7 @@ struct MailBoxView {
     /* 0x044 */ struct BmpWin *win[0x20];
     /* 0x0C4 */ struct MailWinSlot slot[0x20];
     /* 0x1C4 */ struct PrintQue *printQue;
-    /* 0x1C8 */ struct PrintStream *printStream;
+    /* 0x1C8 */ struct TextPrinter *printStream;
     /* 0x1CC */ struct Tcbl *tcbl;
     /* 0x1D0 */ struct MsgData *msgData;
     /* 0x1D4 */ struct WordSet *wordSet;
@@ -218,7 +218,7 @@ struct MailBoxView {
     /* 0x1DE: two bytes of compiler alignment before menuKind. */
     /* 0x1E0 */ int menuKind;              /* index of the menu handler table */
     /* 0x1E4 */ u8 pad_1E4[8];
-    /* 0x1EC */ struct ClactUnit *clactUnit;
+    /* 0x1EC */ struct Unit *clactUnit;
     /* 0x1F0 */ struct ClactActor *actor[8];
     /* 0x210 */ int charRes[8];
     /* 0x230 */ int paletteRes[8];
@@ -238,7 +238,7 @@ struct MailBoxView {
     /* 0x344 */ struct MailMenuEntry twoEntry[2];
     /* 0x35C */ struct PmsDraw *pmsDraw;
     /* 0x360 */ struct PmsData closingWord;
-    /* 0x368 */ struct ClactUnit *pmsClactUnit;
+    /* 0x368 */ struct Unit *pmsClactUnit;
     /* 0x36C */ struct PrintQue *pmsPrintQue;
 };
 

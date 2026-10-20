@@ -95,41 +95,34 @@ typedef struct Camera {
     u32 bufSize;
 } Camera;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void UI_SetKeepAwakeFlagsGlobal(unsigned char flags);
+#include "../arm9/ui.h"
 
-extern int OS_IsRunOnTwl(void);
+#include "../arm9/os_emulator.h"
 
-extern void OS_Terminate(void);
+#include "../arm9/os_terminate_processor.h"
 
-extern unsigned int OS_EnableIrqMask(unsigned int intr);
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
 
-extern void UI_SetIntrDataGlobal(u32 a, u32 b);
 
-extern void OS_Sleep(u32 msec);
+#include "../arm9/os_thread.h"
 
-extern unsigned int DSPi_IsShutterSoundPlayingCore(void);
+#include "../twl/dsp_util.h"
 
-extern void DSPi_UnloadG711Core(void);
+#include "../twl/dsp_g711.h"
 
-extern void CAMERA_StopCore(void);
+#include "../twl/camera_api.h"
 
-extern void MI_StopNDma(int);
+#include "../twl/mi_ndma.h"
 
-extern void CAMERA_EndCore(void);
 
-unsigned int CAMERA_InitCore(void);
 
-unsigned int CAMERA_I2CInitCore(unsigned int camera);
 
-unsigned int CAMERA_I2CEffectExCore(unsigned int camera, unsigned int context, unsigned int effect);
 
-unsigned int CAMERA_I2CAutoExposureCore(unsigned int camera, unsigned int enable);
 
-unsigned int CAMERA_I2CAutoWhiteBalanceCore(unsigned int camera, unsigned int enable);
 
-u32 CAMERA_I2CActivateCore(u32 camera);
 
 void CAMERA_SetVsyncCallbackCore(void *);
 
@@ -137,59 +130,38 @@ void CAMERA_SetBufferErrorCallbackCore(void *);
 
 void CAMERA_SetRebootCallbackCore(void *);
 
-void CAMERA_SetOutputFormatCore(int);
+#include "../twl/camera.h"
 
-unsigned int MI_FreeWram(unsigned int ch, unsigned int proc);
+#include "../twl/mi_sharedWram.h"
 
-unsigned int MI_CancelWram(unsigned int ch, unsigned int proc);
 
-void DSPi_OpenStaticComponentG711Core(unsigned int *file);
 
-unsigned int DSPi_LoadG711Core(unsigned int file, unsigned int bankMaskA, unsigned int bankMaskB);
 
-extern void UI_ClearKeepAwakeFlagsGlobal(unsigned char v);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
+#include "../arm9/arc_tool.h"
 
-extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
+#include "../arm9/net.h"
 
-extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
-extern void DC_FlushRange(void *, u32);
+#include "../arm9/os_cache.h"
 
-extern void GFL_NET_FreeAligned(void *p);
 
-extern u32 CAMERA_I2CSizeExCore(u32 a, u32 b, u32 c);
 
-void DSPi_StopSoundCore(void);
 
-u32 CAMERA_GetBytesAtOnceCore(u32 width);
 
-void MI_Camera_NDmaRecvAsync(unsigned int ch, unsigned int dst, unsigned int blockWordCount, unsigned int size, int mode, void (*s1)(void), unsigned int arg);
 
-unsigned int DSPi_PlayShutterSoundCore(unsigned char *p, unsigned int len);
 
-void CAMERA_StopCaptureCore(void);
 
-void CAMERA_ClearBufferCore(void);
 
-void CAMERA_StartCaptureCore(void);
 
-int CAMERA_IsBusyCore(void);
 
-unsigned int MI_IsNDmaBusy(int ch);
 
-void CAMERA_SetTrimmingCore(unsigned int enable);
 
-unsigned int CAMERA_GetMaxLinesRoundCore(u32, u32);
 
-void CAMERA_SetTransferLinesCore(int);
 
-u32 CAMERA_SizeToWidthCore(u32 v);
+#include "../twl/camera_util.h"
 
-u32 CAMERA_SizeToHeightCore(u32 v);
 
 Camera *CTVT_CAMERA_Create(int id);
 

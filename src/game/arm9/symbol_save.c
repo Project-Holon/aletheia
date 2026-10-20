@@ -76,9 +76,7 @@ struct SymbolRec {
 struct SaveControl;
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
-
-
-extern u32   SAVE_CONTROL_ReadRecordFromFlash(void *a, u32 b, u32 c, void *d, u32 e);
+#include "save_control.h"
 
 
 #include "../ov010/comm_player.h"

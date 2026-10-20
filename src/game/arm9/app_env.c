@@ -35,7 +35,7 @@ u32 APP_ENV_IsRunOnTwl(void);
 
 int APP_ENV_HasParentalControlBits(void);
 
-void APP_ENV_IsWirelessAvailable(void);
+BOOL APP_ENV_IsWirelessAvailable(void);
 
 u32 APP_ENV_IsEulaAgreed(void);
 
@@ -65,9 +65,9 @@ int APP_ENV_HasParentalControlBits(void)
 }
 
 /* Bare tail call into an ARM SDK leaf. */
-void APP_ENV_IsWirelessAvailable(void)
+BOOL APP_ENV_IsWirelessAvailable(void)
 {
-    OS_IsAvailableWireless();
+    return OS_IsAvailableWireless();
 }
 
 /*

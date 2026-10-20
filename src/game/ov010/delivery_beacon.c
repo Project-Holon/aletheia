@@ -81,20 +81,12 @@ typedef struct DeliveryBeacon {
     DeliveryBeaconStepFunc step;          /* 31BC */
 } DeliveryBeacon;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuCopy8(void *src, void *dst, u32 size);
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-extern u8 *NET_WHPIPE_GetEntryBeaconData(int index);
-extern void NET_WHPIPE_ReleaseEntrySlot(u32 index);
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
-extern void NET_WHPIPE_SelectEntry(u32 index);
-extern void NET_WHPIPE_ReleaseAllEntrySlots(void);
-extern void GF_STANDARD_XorCrypt(u16 *data, u32 size, u32 seed);
-extern void GFL_NET_BeaconScanStart(void);
-extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 transportArg, u32 userArg);
-extern u32 GFL_HEAP_Free(void *ptr);
-extern int GFL_NET_Exit(int arg);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_panic.h"
+#include "../ov014/net_whpipe.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/net.h"
 DeliveryBeaconSlot *DELIVERY_BEACON_GetCursorSlot(DeliveryBeacon *work);
 void DELIVERY_BEACON_SetStep(DeliveryBeacon *work, DeliveryBeaconStepFunc step);
 void DELIVERY_BEACON_SetStepAtLine(DeliveryBeacon *work, DeliveryBeaconStepFunc step, int line);

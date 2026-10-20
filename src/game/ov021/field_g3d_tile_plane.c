@@ -68,7 +68,7 @@ typedef struct TileSurface {
 
 #define NRM(i) ((NormComp *)gTileNormalTable)[i]
 
-extern u32 FX_Div(u32 a, u32 b);
+#include "../arm9/fx_cp.h"
 
 void FIELD_G3D_MAPPER_GetTilePlane(TileSurface *out, int idx, PackedTileMap *map, VecFx32 *pos, fx32 size, fx32 base);
 

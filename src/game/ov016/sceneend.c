@@ -30,16 +30,14 @@
 typedef _Bool bool;
 
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
-extern void DWCi_ChangeScene(unsigned int v);
+#include "dwcutil_main.h"
 extern bool DWCi_EFFlCheck(int lcd);
-extern void DWCi_TSKlOperate(int kind, unsigned char flag);
-extern void DWCi_CEINlRelease(int lcd);
-extern void DWCi_HLlEnd(void);
-extern void DWCi_FOCUSlEnd(void);
-extern void DWCi_MSGlRelease(void *msg);
-extern void DWCi_MSGlEnd(void);
-extern void DWCi_SETTIGNlEnd(void);
-extern void DWCi_EndUtility(void);
+#include "task.h"
+#include "cellinfo.h"
+#include "headline.h"
+#include "focus.h"
+#include "message.h"
+#include "setting.h"
 void DWCi_SceneEnd(void);
 extern void *gCommentWork;
 
@@ -52,7 +50,7 @@ void DWCi_SceneEnd(void)
 {
 	DWCi_EFFlFade(3, 1, 0x3f, 0x14);
 	DWCi_EFFlFade(3, 0, 0x3f, 0x14);
-	DWCi_ChangeScene((unsigned int)endScene);
+	DWCi_ChangeScene((uptr)endScene);
 }
 
 static void endScene(void)

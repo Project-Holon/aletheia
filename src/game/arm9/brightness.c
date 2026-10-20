@@ -21,6 +21,7 @@
  *   g_brightnessSub  0x021468FC  data
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 struct BrightnessChange {
     u32 plane;
@@ -160,9 +161,9 @@ void BRIGHTNESS_ChangeStep(struct BrightnessChange *p)
         flag = 1;
     }
     if (p->screenMask & 1) {
-        G2x_SetBlendBrightness_((u32)((void *)0x04000050), p->plane, p->current);
+        G2x_SetBlendBrightness_((uptr)((void *)REG_BLDCNT_ADDR), p->plane, p->current);
     } else if (p->screenMask & 2) {
-        G2x_SetBlendBrightness_((u32)((void *)0x04001050), p->plane, p->current);
+        G2x_SetBlendBrightness_((uptr)((void *)REG_DB_BLDCNT_ADDR), p->plane, p->current);
     }
     if (flag == 1)
         p->active = 0;
@@ -267,12 +268,12 @@ void BRIGHTNESS_ChangeRequest(u16 steps, s16 from, s16 to, u32 plane, u32 mask)
     }
 
     if (mask & 1) {
-        G2x_SetBlendBrightness_(0x04000050, plane, to);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, plane, to);
         BRIGHTNESS_ChangeInit(&g_brightnessMain, steps, from, to, plane, 1);
     }
 
     if (mask & 2) {
-        G2x_SetBlendBrightness_(0x04001050, plane, to);
+        G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, plane, to);
         BRIGHTNESS_ChangeInit(&g_brightnessSub, steps, from, to, plane, 2);
     }
 }
@@ -280,10 +281,10 @@ void BRIGHTNESS_ChangeRequest(u16 steps, s16 from, s16 to, u32 plane, u32 mask)
 void BRIGHTNESS_Set(u32 brightness, u32 plane, u32 mask)
 {
     if (mask & 1) {
-        G2x_SetBlendBrightness_(0x04000050, plane, brightness);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, plane, brightness);
     }
     if (mask & 2) {
-        G2x_SetBlendBrightness_(0x04001050, plane, brightness);
+        G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, plane, brightness);
     }
     BRIGHTNESS_ChangeReset(mask);
 }

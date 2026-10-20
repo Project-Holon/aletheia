@@ -54,6 +54,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_encsession_types.h"
+#include "dwc_ghttp.h"
 #include "dwc_ghttp_types.h"
 
 typedef union {
@@ -75,30 +76,16 @@ typedef struct {
 
 extern int strncmp(u8 *s1, u8 *s2, u32 n);
 extern u8 *strncpy(u8 *dest, u8 *src, u32 n);
-extern void *DWC_Alloc(int name, u32 size);
-extern void DWC_Free(int name, void *ptr, u32 size);
-extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
-extern void MATH_CalcSHA1(void *digest, void *data, u32 len);
-extern void *memcpy();
+#include "../arm9/dwc_memfunc.h"
+#include "../ov009/gsplatformutil.h"
+#include "../arm9/dgt_sha1.h"
+#include "../arm9/msl_string_mem.h"
 extern void DWCi_EncSetError(void);
-extern void DWCi_GsFree(void *ptr);
-extern unsigned long strtoul(u32 s, u32 *endptr, u32 base);
-extern int DWC_InitGHTTP();
-extern int DWCi_IsError(void);
-extern void DWCi_SetError(int mode, long value);
-extern int DWC_GetGHTTPDataEx(char *url, int bufferLen, int bufferClear, DWCGHTTPProgressCallback progressCallback, DWCGHTTPCompletedCallback completedCallback, void *param);
-extern int DWC_ProcessGHTTP(void);
-extern void DWC_CancelGHTTPRequest(int request);
-extern int DWC_ShutdownGHTTP(void);
-extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
+#include "../arm9/msl_strtod.h"
+#include "../arm9/dwc_error.h"
+#include "../arm9/os_printf.h"
 
-unsigned long b64size(unsigned long len);
-void my_randinit(u32 seed);
-unsigned char my_rand(void);
-int DWCi_EncValidateKey(char *gameName, const char *secretKey, unsigned long multiplier, unsigned long increment, unsigned long modulus, unsigned long checksumMask);
-int DWCi_EncSessionValidateResponse(char *response, int responseLen);
-void DWCi_EncSessionProgressCallback(int state, const char *buffer, int bufferLen, int bytesReceived, int totalSize, void *param);
+#include "dwc_encsession_1.h"
 
 void DWCi_EncSessionCompleteCallback(char *buffer, int bufferLen, int result, void *param);
 int DWCi_EncSessionEncrypt(u8 *outBuffer, u8 *header, u32 headerLen, u8 *source, u32 sourceLen);
@@ -262,10 +249,10 @@ void DWCi_EncSessionInitialize(int server, char *initData)
     init = (DWCEncInitData *)initData;
     strncpy((u8 *)secretKey, (u8 *)init->info.secretKey, 20);
     secretKey[20] = '\0';
-    multiplier = strtoul((u32)strncpy((u8 *)buffer, (u8 *)init->info.multiplier, 8), 0, 16);
-    increment = strtoul((u32)strncpy((u8 *)buffer, (u8 *)init->info.increment, 8), 0, 16);
-    modulus = strtoul((u32)strncpy((u8 *)buffer, (u8 *)init->info.modulus, 8), 0, 16);
-    checksumMask = strtoul((u32)strncpy((u8 *)buffer, (u8 *)init->info.checksumMask, 8), 0, 16);
+    multiplier = strtoul((char *)strncpy((u8 *)buffer, (u8 *)init->info.multiplier, 8), 0, 16);
+    increment = strtoul((char *)strncpy((u8 *)buffer, (u8 *)init->info.increment, 8), 0, 16);
+    modulus = strtoul((char *)strncpy((u8 *)buffer, (u8 *)init->info.modulus, 8), 0, 16);
+    checksumMask = strtoul((char *)strncpy((u8 *)buffer, (u8 *)init->info.checksumMask, 8), 0, 16);
     DWCi_EncValidateKey(init->info.gameName, secretKey, multiplier, increment, modulus, checksumMask);
     DWC_InitGHTTP(0);
     gDwcEncSession.state = 3;
@@ -363,7 +350,7 @@ void DWCi_EncSessionShutdown(void)
 u32 DWCi_EncSessionGetResponse(u32 *outLen)
 {
     *outLen = gDwcEncSession.decodedBufferLen;
-    return (u32)gDwcEncSession.decodedBuffer;
+    return (uptr)gDwcEncSession.decodedBuffer;
 }
 
 /*

@@ -51,13 +51,12 @@ typedef struct {
 } MmdlG3dObjCont;
 struct MmdlSys;
 extern u32 FLDMMDL_SysGetHeapId(struct MmdlSys *sys);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct Mmdl;
 extern struct MmdlSys *FLDMMDL_GetMmdlSys(struct Mmdl *mmdl);
 extern void *FLDMMDL_GetObjCodeParam(void *p);
 extern int FLDMMDL_CheckSameObjCodeOther(struct Mmdl *mmdl, u32 objCode);
 extern u16 FLDMMDL_GetObjCode(struct Mmdl *mmdl);
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void *FLDMMDL_SysGetResArcHandle(struct MmdlSys *sys);
 extern u16 FLDMMDL_SysGetMmdlMax(struct MmdlSys *sys);
 extern void FLDMMDL_SysSetG3dObjCont(struct MmdlSys *sys, void *g3dObjCont);
@@ -71,7 +70,7 @@ extern void FIELD_G3DOBJ_SetResDescAnimeArc(struct FieldG3dObjResDesc *desc, uns
 extern void FIELD_G3DOBJ_AddResDescAnimeFile(struct FieldG3dObjResDesc *desc, unsigned short file);
 extern int FIELD_G3DOBJ_AddResourceDefaultPal(struct FieldG3dObjCtrl *ctrl, struct FieldG3dObjResDesc *desc, int mode);
 extern u8 *FLDMMDL_GetObjCodeParamMdlRes(u8 *p);
-extern u32 FIELD_G3DOBJ_AddObject(u32, u32, u32, u32);
+extern u16 FIELD_G3DOBJ_AddObject(u32, u32, u32, u32);
 extern void FIELD_G3DOBJ_DeleteObject(struct FieldG3dObjCtrl *ctrl, int objIdx);
 void FLDMMDL_G3DOBJ_Create(int a, int b);
 void FLDMMDL_G3DOBJ_Delete(struct MmdlSys *a);

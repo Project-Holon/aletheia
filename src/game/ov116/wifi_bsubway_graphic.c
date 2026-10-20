@@ -184,152 +184,125 @@ struct BgTemplate;
 struct DispConfig;
 #include "../types.h"
 
-typedef struct { void (*f[3])(int **, int); } Tbl;
+typedef struct { int (*f[3])(int **, int); } Tbl;
 
 struct Arc { int f0; int f4; int f8; u8 *fC; };
 struct CodeinParam;
 
-extern struct CodeinParam *CODEIN_PARAM_Create(u32 heap, u32 mode, u32 initialPage, u32 maxLength, u32 *src);
+#include "../arm9/codein_param.h"
 struct GameSystem;
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-extern void CODEIN_PARAM_Delete(struct CodeinParam *param);
-extern u16 STRBUF_GetEosChar(void);
+#include "../arm9/gamesystem.h"
+#include "../arm9/strbuf.h"
 struct Strbuf;
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
-extern int WIFI_BSUBWAY_PollHttpRequest(u8 *,u8 *,int);
-extern void WIFI_BSUBWAY_StartHttpRequest(u8 *status, u8 *async, u8 *unusedA, int heapId);
-extern void WIFI_BSUBWAY_StartUploadPlayer(u8 *,u8 *);
-extern int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *p);
+#include "wifi_bsubway.h"
 struct BsubwayScoreData;
-extern u32 BSUBWAY_SCOREDATA_AccessFlag(struct BsubwayScoreData *p, int i, unsigned int op);
-extern u8 BSUBWAY_SCOREDATA_GetLevel(struct BsubwayScoreData *p);
-extern void WIFI_BSUBWAY_StartRoomRequest(u8 *,u8 *,u16);
-extern void WIFI_BSUBWAY_StartPlayerDownload(u8 *,u8 *,u16);
-extern int WIFI_BSUBWAY_FinishRoomRequest(u8 *,u8 *);
-extern int WIFI_BSUBWAY_FinishPlayerDownload(u8 *,u8 *);
-extern u16 WIFI_BSUBWAY_GetRoomNumber(u8 *);
-extern u16 WIFI_BSUBWAY_GetPlayerIndex(u8 *);
-extern u16 WIFI_BSUBWAY_GetDownloadResult(u8 *);
-extern int WIFI_BSUBWAY_GetTransferState(unsigned char *p);
-extern void WIFI_BSUBWAY_NormalizeTrainers(u8 *);
-extern void WIFI_BSUBWAY_SaveTrainers(u8 *,void *);
-extern void WIFI_BSUBWAY_SaveHistory(u8 *,void *);
-extern void WIFI_BSUBWAY_OpenCodeIn(u8 *,int);
-extern int FADE_IsActive(void);
-extern void FADE_Start(u32 a, int b, int c, int d);
-extern int DWC_GetDateTime(void *date, void *time);
+#include "../arm9/gds_profile.h"
+#include "../arm9/fade.h"
+#include "../ov009/dwc_nasfunc.h"
 struct BsubwayWifiData;
-extern int BSUBWAY_WIFIDATA_GetTrainerBit(struct BsubwayWifiData *p, u8 a, u8 b, struct Stamp *q);
-extern void WIFI_BSUBWAY_ClearTrainers(void *a);
 struct WifiList;
-extern struct WifiList *WIFILIST_GetWork(struct WifiList *list);
-extern int WIFILIST_GetGsProfileId(struct WifiList *list);
+#include "../arm9/wifilist.h"
 struct MyStatus;
-extern void MYSTATUS_SetProfileIdOnce(struct MyStatus *mystatus, u32 profile_id);
-extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
-extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
-extern void DPW_BT_Init(unsigned a, unsigned b, unsigned c, unsigned mode);
-extern void DPW_BT_GetServerStateAsync(void);
-extern void WIFI_BSUBWAY_AsyncReset(u8 *p);
-extern int WIFI_BSUBWAY_PollAsync(u8 *, int *);
-extern int DPW_BT_IsAsyncEnd(void);
-extern void DPW_BT_CancelAsync(void);
-extern void DPW_BT_End(void);
-extern int DWC_RAPCOMMON_HandleNetError(int,int);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern u32 GFL_NET_STATE_GetError(void);
-extern int WIFI_BSUBWAY_AsyncHasError(u8 *p);
-extern int WIFI_BSUBWAY_CheckFatalError(int *p);
-extern int WIFI_BSUBWAY_GetErrorState(int *p);
+#include "../arm9/mystatus.h"
+#include "../arm9/dwc_account.h"
+#include "../ov114/dpw_bt.h"
+#include "../ov009/dwc_rapcommon.h"
+#include "../arm9/net_err.h"
+#include "../arm9/net_state.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+#ifdef __MWERKS__
+#define BMP_WIN_Init BMP_WIN_Init_hdr
+#endif
+#include "../arm9/bmp_win.h"
+#ifdef __MWERKS__
+#undef BMP_WIN_Init
+void BMP_WIN_Init(unsigned);
+#endif
+#ifdef __MWERKS__
+#define BMP_MENUWORK_LoadFrameGfx BMP_MENUWORK_LoadFrameGfx_hdr
+#endif
+#include "../arm9/bmp_menuwork.h"
+#ifdef __MWERKS__
+#undef BMP_MENUWORK_LoadFrameGfx
+void * BMP_MENUWORK_LoadFrameGfx(u32, unsigned int, unsigned int, unsigned int);
+#endif
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct BmpWin;
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *TCBL_Create(u32, u32, u32, u32);
-extern void BG_SYS_SetMainPlaneVisible(u32, u32);
-extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
+#ifdef __MWERKS__
+#define BG_SYS_Create BG_SYS_Create_hdr
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_Create
+void BG_SYS_Create(unsigned);
+#endif
+#include "../arm9/msgdata.h"
+#ifdef __MWERKS__
+#define WORDSET_CreateDefault WORDSET_CreateDefault_hdr
+#endif
+#include "../arm9/gf_font.h"
+#ifdef __MWERKS__
+#undef WORDSET_CreateDefault
+struct WordSet * WORDSET_CreateDefault(u32);
+#endif
+#ifdef __MWERKS__
+#define TCBL_Create TCBL_Create_hdr
+#endif
+#include "../arm9/tcbl.h"
+#ifdef __MWERKS__
+#undef TCBL_Create
+struct TcblSystem * TCBL_Create(u32, u32, u32, u32);
+#endif
+#include "../arm9/net.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+#include "../arm9/printsys.h"
 struct TcblSystem;
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern unsigned int WORDSET_Delete(struct WordSet *p);
-extern unsigned int GF_FONT_Delete(struct GfFont *font);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void BMP_MENU_DeleteYesNo(u8 *o);
-extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern void MI_CpuFill8(void *,int,int);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern void *ARC_TOOL_CreateHandle(unsigned int, unsigned int);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, int, int, int, int, unsigned int);
-extern unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, int, int, int, int, unsigned int);
-extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *, int, int, int, u16, int, int, unsigned int);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u16 flags);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern int ARC_UTIL_UploadPaletteFromArchiveWhole(int, int, int, int, int, unsigned int);
-extern void MI_CpuCopy8(const void *, void *, unsigned int);
-extern unsigned int GFL_HEAP_Free(void *p);
-extern void *GFL_USE_AddMainTask(void *, void *, int);
-extern void DC_FlushRange(void *, unsigned int);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern unsigned int BG_SYS_CreateRun(unsigned int layer, unsigned int size, unsigned int top);
-extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, unsigned int palSlot, unsigned int frameId, unsigned int heapId);
-extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
-extern void GX_LoadBGPltt(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GXS_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
-extern void BG_SYS_ChangeScrollImmediate(unsigned int layer, unsigned int a, unsigned int b);
-extern void BG_SYS_FreeTileRun(unsigned int layer, unsigned int offset, unsigned int size);
+#include "../arm9/wordset.h"
+#include "../arm9/bmp_menu.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_tool.h"
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadPaletteFromHandleWhole ARC_UTIL_UploadPaletteFromHandleWhole_hdr
+#define ARC_UTIL_UploadBgPaletteAddFromHandle ARC_UTIL_UploadBgPaletteAddFromHandle_hdr
+#define ARC_UTIL_RegisterObjCharFromHandle ARC_UTIL_RegisterObjCharFromHandle_hdr
+#define ARC_UTIL_UploadPaletteFromArchiveWhole ARC_UTIL_UploadPaletteFromArchiveWhole_hdr
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_UploadPaletteFromHandleWhole
+#undef ARC_UTIL_UploadBgPaletteAddFromHandle
+#undef ARC_UTIL_RegisterObjCharFromHandle
+#undef ARC_UTIL_UploadPaletteFromArchiveWhole
+void ARC_UTIL_UploadPaletteFromHandleWhole(void *, int, int, int, int, unsigned int);
+u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *, int, int, int, u16, int, int, unsigned int);
+unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, int, int, int, int, unsigned int);
+void ARC_UTIL_UploadPaletteFromArchiveWhole(int, int, int, int, int, unsigned int);
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/g2.h"
+#ifdef __MWERKS__
+#define PALANM_BlendColors PALANM_BlendColors_hdr
+#endif
+#include "../arm9/palanm.h"
+#ifdef __MWERKS__
+#undef PALANM_BlendColors
+void PALANM_BlendColors(u16 *, u16 *, u16, u8, u16);
+#endif
+#include "../arm9/gx_load2d.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern void GF_FONT_SetTextColor(unsigned int r, unsigned int g, unsigned int b);
-extern signed char MSG_SPEED_GetWait(void);
-extern void *PRINTSYS_PrintStream(unsigned int,int,int,unsigned int,unsigned int,unsigned int,unsigned int,int,u16,int);
-extern unsigned int PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern unsigned int KEY_GetTrg(void);
-extern int TOUCHPANEL_GetTrg(void);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, unsigned int i, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
-extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
-extern unsigned int BMP_MENU_ProcessYesNo(u8 *);
+#include "../arm9/tcb_list.h"
+#include "../arm9/msg_speed.h"
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
 struct TcbList;
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
 struct TimeIcon;
-extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
+#include "../arm9/time_icon.h"
 struct GameData;
-extern int GAME_DATA_SaveStart(struct GameData *gd);
-extern int GAME_DATA_SaveMain(struct GameData *gd);
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
-extern void BG_SYS_ClearGraphicsMemory(unsigned);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_SetLcdSwap(unsigned int swap);
-extern void BG_SYS_ResetSubDisplay(void);
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
-extern void GF_FONT_InitTextColor(void);
+#include "../arm9/game_data.h"
 extern void WIFI_BSUBWAY_GRAPHIC_Draw(void *);
-extern void BG_SYS_Create(unsigned);
-extern void BMP_WIN_Init(unsigned);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *tmpl, unsigned int type);
-extern void BG_SYS_FreeSlot(u8);
-extern void BG_SYS_SetPlaneVisible(u8,u8);
-void BG_SYS_FreeLayerBuf(unsigned int i);
-void BMP_WIN_Exit(void);
-void BG_SYS_Delete(void);
 void WIFI_BSUBWAY_GRAPHIC_SetupTextParam(struct WifiBsubwayWork *p, u32 heap);
 void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(struct WifiBsubwayWork *p);
 u32 WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(struct WifiBsubwayWork *p);
@@ -338,7 +311,7 @@ void WIFI_BSUBWAY_GRAPHIC_Noop(void *work);
 int WIFI_BSUBWAY_GRAPHIC_GetSaveState(struct WifiBsubwayWork *p);
 void WIFI_BSUBWAY_GRAPHIC_StartRetryProc(struct WifiBsubwayWork *p);
 void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *work);
-void WIFI_BSUBWAY_GRAPHIC_DispatchTable(int **p, int x);
+int WIFI_BSUBWAY_GRAPHIC_DispatchTable(int **p, int x);
 int WIFI_BSUBWAY_GRAPHIC_Step(struct WifiBsubwayWork *p,int b);
 int WIFI_BSUBWAY_GRAPHIC_StepWithInput(struct WifiBsubwayWork *p,short heap);
 int WIFI_BSUBWAY_GRAPHIC_StepRetry(struct WifiBsubwayWork *p,short heap);
@@ -441,10 +414,10 @@ void WIFI_BSUBWAY_GRAPHIC_StartRetryProc(struct WifiBsubwayWork *p) {
 
 void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *work) { }
 
-void WIFI_BSUBWAY_GRAPHIC_DispatchTable(int **p, int x)
+int WIFI_BSUBWAY_GRAPHIC_DispatchTable(int **p, int x)
 {
     Tbl t = d_021D8580;
-    t.f[**p](p, x);
+    return t.f[**p](p, x);
 }
 
 /*
@@ -693,7 +666,7 @@ void WIFI_BSUBWAY_GRAPHIC_UpdateText(struct WifiBsubwayGraphic *p)
 /*
  * lever: 2026-10-05 (wD9r lane92): the heap parameter is a signed 16-bit value (`short heap`). With u32
  *   heap the last call hoisted the heap reload above `str r6,[sp]` (10 bytes, waves D3 to D9r). The
- *   image truncates heap only for ARC_UTIL_LoadPaletteBlockFromHandle (u16 cast); the other callees take it unchanged.
+ *   image truncates heap only for ARC_UTIL_LoadPaletteBlockFromHandle(u16 cast); the other callees take it unchanged.
  */
 void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) {
     struct Arc *res;
@@ -719,7 +692,7 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) 
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 5, 0, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 0, 0, j, heap), j, j, heap);
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 7, 3, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 3, 0, j, heap), j, j, heap);
     MI_CpuFill8(&p->animCallback, 0, 0x970);
-    blk = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 2, (unsigned int)(&res), (u16)heap);
+    blk = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 2, (void *)(unsigned int)(&res), (u16)heap);
     MI_CpuCopy8(res->fC, p->pad014, 0x1e0);
     MI_CpuCopy8(res->fC, p->palette, 0x1e0);
     GFL_HEAP_Free(blk);
@@ -738,7 +711,7 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) 
             sh = t >> 8;
             b = pa + j * 32;
             for (m = 4; m < 11; m++) {
-                PALANM_BlendColors(a + m * 2, b + m * 2, 1, (u8)sh, *(u16 *)(q + 0x14 + m * 2));
+                PALANM_BlendColors((u16 *)(a + m * 2), (u16 *)(b + m * 2), 1, (u8)sh, *(u16 *)(q + 0x14 + m * 2));
             }
             j++;
             if (done == 1) break;
@@ -754,8 +727,8 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) 
     ARC_TOOL_DeleteHandle(arc);
     BG_SYS_CreateRun(1, 0x20, 0);
     BG_SYS_CreateRun(2, 0x20, 0);
-    p->frameGfxA = (unsigned int)BMP_MENUWORK_LoadFrameGfx((void *)1, 0xd, 0, heap);
-    p->frameGfxB = (unsigned int)BMP_MENUWORK_LoadFrameGfx((void *)2, 0xd, 0, heap);
+    p->frameGfxA = (unsigned int)BMP_MENUWORK_LoadFrameGfx((u32)(void *)1, 0xd, 0, heap);
+    p->frameGfxB = (unsigned int)BMP_MENUWORK_LoadFrameGfx((u32)(void *)2, 0xd, 0, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x180, 0x20, heap);
 }
 
@@ -787,11 +760,11 @@ void WIFI_BSUBWAY_GRAPHIC_DeleteBgAnim(struct WifiBsubwayGraphic *p) {
 
 void WIFI_BSUBWAY_GRAPHIC_PrintMessage(struct WifiBsubwayGraphic *p,unsigned int a) {
  if(p->printStream!=0) {PRINTSYS_PrintStreamDelete(p->printStream); p->printStream=0;}
- MSGDATA_ReadString((struct MsgBank *)p->msgBank,a,(void *)p->strbufA);
- WORDSET_CopyTaggedText((struct WordSet *)p->wordSet,(void *)p->strbufB,(void *)p->strbufA);
- BMP_Clear((struct CharBuf *)((unsigned int)BMP_WIN_GetBmp((struct Descriptor *)p->window)),15);
+ MSGDATA_ReadString((struct MsgBank *)p->msgBank,a,(struct Strbuf *)p->strbufA);
+ WORDSET_CopyTaggedText((struct WordSet *)p->wordSet,(struct Strbuf *)p->strbufB,(struct Strbuf *)p->strbufA);
+ BMP_Clear((struct Bmp *)((struct CharBuf *)((unsigned int)BMP_WIN_GetBmp((struct BmpWin *)(struct Descriptor *)p->window))),15);
  GF_FONT_SetTextColor(1,2,15);
- p->printStream=PRINTSYS_PrintStream((unsigned int)p->window,0,0,(unsigned int)p->strbufB,(unsigned int)p->font,MSG_SPEED_GetWait(),(unsigned int)p->tcbl,2,p->heapId,15);
+ p->printStream=PRINTSYS_PrintStream((struct BmpWin *)((unsigned int)p->window),0,0,(struct Strbuf *)((unsigned int)p->strbufB),(struct GfFont *)((unsigned int)p->font),MSG_SPEED_GetWait(),(struct Tcbl *)((unsigned int)p->tcbl),2,p->heapId,15);
  BMP_MENUWORK_DrawWindow((void *)p->window,1,(u16)p->frameGfxA,13);
  BMP_WIN_TransferChars((struct BmpWin *)p->window);
 }
@@ -880,5 +853,4 @@ void WIFI_BSUBWAY_GRAPHIC_TeardownBg(void *work)
     MI_CpuFill8(work, 0, 4);
 }
 
-extern void BG_SYS_Update(void *);
-void WIFI_BSUBWAY_GRAPHIC_Draw(void *p) { BG_SYS_Update(p); }
+void WIFI_BSUBWAY_GRAPHIC_Draw(void *p) { BG_SYS_Update(); }

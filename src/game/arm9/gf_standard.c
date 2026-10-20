@@ -136,7 +136,7 @@ void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 
 u32 GF_STANDARD_GetSecondsOfDay(void);
 
-void GF_STANDARD_GetRtcTimestamp(void);
+s64 GF_STANDARD_GetRtcTimestamp(void);
 
 s32 GF_STANDARD_GetDayOfYear(struct RtcDateSigned *d);
 
@@ -607,9 +607,9 @@ u32 GF_STANDARD_GetSecondsOfDay(void)
  *   python tools/match.py one --src src/matched/GF_STANDARD_GetRtcTimestamp.c \
  *       --func GF_STANDARD_GetRtcTimestamp --addr 0x0203F524 --cc 1.1p1 --arm
  */
-void GF_STANDARD_GetRtcTimestamp(void)
+s64 GF_STANDARD_GetRtcTimestamp(void)
 {
-    RTC_ConvertDateTimeToSecond((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
+    return RTC_ConvertDateTimeToSecond((struct RTCDate *)(&g_02146A0C), (struct RTCTime *)(&g_02146A1C));
 }
 
 /*

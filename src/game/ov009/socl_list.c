@@ -28,8 +28,8 @@ typedef struct Sock {
 	struct Sock *next;
 } Sock;
 
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
 void SOCLi_SocketRegister(void *a);
 void SOCLi_SocketRegisterList(void **next, char *socket);
 void SOCLi_SocketRegisterTrash(int a);
@@ -130,7 +130,7 @@ void SOCLi_SocketUnregisterTrash(int a)
 
 int SOCL_SocketIsInvalid(struct SOCLSocket *socket)
 {
-    if ((int)socket <= 0
+    if ((sptr)socket <= 0
         || SOCLi_SocketGetNextPtr(&SOCLiSocketList, socket) == 0)
         return 1;
     return 0;
@@ -143,5 +143,5 @@ int SOCL_SocketIsInvalid(struct SOCLSocket *socket)
  */
 int SOCL_SocketIsInTrash(void *b)
 {
-    return (int)(Sock **)(SOCLi_SocketGetNextPtr((struct SOCLSocket **)((Sock * *)SOCLiTrashList), (struct SOCLSocket *)((Sock *)b))) != 0;
+    return (sptr)(Sock **)(SOCLi_SocketGetNextPtr((struct SOCLSocket **)((Sock * *)SOCLiTrashList), (struct SOCLSocket *)((Sock *)b))) != 0;
 }

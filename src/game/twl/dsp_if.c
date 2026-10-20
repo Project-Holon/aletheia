@@ -17,10 +17,10 @@
  *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
-extern void OS_SpinWaitSysCycles(u32);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
 void DSP_PowerOnCore(void);
 void DSP_PowerOffCore(void);
 void DSP_ResetOnCore(void);
@@ -36,17 +36,17 @@ u16 DSP_GetSemaphoreCore(void);
 void DSP_ClearSemaphoreCore(u16 v);
 void DSP_MaskSemaphoreCore(u16 v);
 
-#define REG_PWR (*(vu16 *)0x04004006)
-#define REG_CNT (*(vu16 *)0x04004004)
-#define REG_CH0_CTRL (*(vu16 *)0x04004310)
-#define REG_CH0_SEL (*(vu16 *)0x04004318)
-#define REG_CH0_A (*(vu16 *)0x04004324)
-#define REG_CH0_B (*(vu16 *)0x0400432C)
-#define REG_CH0_C (*(vu16 *)0x04004334)
-#define REG_DATA (*(vu16 *)0x04004300)
-#define REG_CTRL (*(vu16 *)0x04004304)
-#define REG_MODE (*(vu16 *)0x04004308)
-#define REG_STAT (*(vu16 *)0x0400430C)
+#define REG_PWR (*(vu16 *)REG_SCFG_RST_ADDR)
+#define REG_CNT (*(vu16 *)REG_SCFG_CLK_ADDR)
+#define REG_CH0_CTRL (*(vu16 *)REG_AES_IV_ADDR)
+#define REG_CH0_SEL (*(vu16 *)REG_AES_BLK_ADDR)
+#define REG_CH0_A (*(vu16 *)REG_AES_KEY0_ADDR)
+#define REG_CH0_B (*(vu16 *)REG_AES_KEY1_ADDR)
+#define REG_CH0_C (*(vu16 *)REG_AES_KEY2_ADDR)
+#define REG_DATA (*(vu16 *)REG_AES_CNT_ADDR)
+#define REG_CTRL (*(vu16 *)REG_AES_BLKCNT_ADDR)
+#define REG_MODE (*(vu16 *)REG_AES_WRFIFO_ADDR)
+#define REG_STAT (*(vu16 *)REG_AES_RDFIFO_ADDR)
 
 void DSP_PowerOnCore(void)
 {
@@ -116,7 +116,7 @@ u16 DSP_RecvDataCore(u32 ch)
 {
     while (!DSP_RecvDataIsReadyCore(ch)) {
     }
-    return *(volatile u16 *)(0x04004300 + ch * 8 + 0x24);
+    return *(volatile u16 *)(REG_AES_CNT_ADDR + ch * 8 + 0x24);
 }
 
 void DSP_SendFifoExCore(u32 mode, u16 control, u16 *src, s32 count, u16 flags)
@@ -173,7 +173,7 @@ void DSP_RecvFifoExCore(u32 mode, u16 *dst, u16 control, s32 count, u16 flags)
 
 u16 DSP_GetSemaphoreCore(void)
 {
-    return *(volatile u16 *)0x0400431C;
+    return *(volatile u16 *)REG_AES_CTR_ADDR;
 }
 
 void DSP_ClearSemaphoreCore(u16 mask)

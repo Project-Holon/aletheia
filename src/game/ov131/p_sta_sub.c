@@ -119,7 +119,6 @@
 
 #include "../types.h"
 
-struct Actor;
 struct Unit;
 struct Bmp;
 struct BmpWin;
@@ -198,10 +197,10 @@ struct PStaSubWork {
     int personalAttr38;                 /* 0x14: personal field 38, not read afterwards */
     struct BmpWin *nameWin;             /* 0x18: nickname, gender, level */
     struct BmpWin *itemWin;             /* 0x1C: held item */
-    struct Actor *ballObj;              /* 0x20 */
-    struct Actor *iconObj[STA_SUB_ICON_COUNT];  /* 0x24: marks, shiny, pokerus cured */
-    struct Actor *pokerusObj;           /* 0x44 */
-    struct Actor *conditionObj;         /* 0x48: status condition, replaces the pokerus icon */
+    struct ClactActor *ballObj;              /* 0x20 */
+    struct ClactActor *iconObj[STA_SUB_ICON_COUNT];  /* 0x24: marks, shiny, pokerus cured */
+    struct ClactActor *pokerusObj;           /* 0x44 */
+    struct ClactActor *conditionObj;         /* 0x48: status condition, replaces the pokerus icon */
     VecFx32 petOffset;                  /* 0x4C: sprite offset from the pet reaction */
     unsigned int didPet;                /* 0x58: 1 once a reaction started in this touch */
     unsigned int petState;              /* 0x5C: STA_SUB_PET_* */
@@ -228,84 +227,40 @@ struct PStaSubWork {
 struct StaSubFrameTable { int frame[2]; };
 
 /* Hit areas of the touch screen. */
-struct TouchHitTable { StaTouchRect rect[3]; };
+#include "../arm9/touchpanel_shared_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 anim);
+struct PStaSubHitTable { TouchHitTable rect[3]; };
+
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/clact.h"
 struct G3dCamera;
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 fileId, u32 a, u32 b, u32 c, u32 d, u16 heapId);
-extern u32 APP_ICON_GetArchiveId(void);
-extern int APP_ICON_GetBallThrowCellFileId(int ballId);
-extern int APP_ICON_GetBallThrowAnimFileId(int ballId);
-extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int arg);
+#include "../arm9/g3d_camera.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/app_icon.h"
+#include "../arm9/poke_tool.h"
 struct MsgBank;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
-extern void STRBUF_Delete(struct Strbuf *str);
+#include "../arm9/msgdata.h"
+#include "../arm9/strbuf.h"
 struct GfFont;
 struct PrintQueue;
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/printsys.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/wordset.h"
 struct McssWork;
-extern void MCSS_ResetVanishFlag(struct McssWork *work);
-extern void MCSS_SetVanishFlag(struct McssWork *work);
-extern void MCSS_SetOfsPosition(struct McssWork *work, unsigned int *src);
-extern void MCSS_SetOfsScale(struct McssWork *work, unsigned int *src);
-extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, VecFx32 *in);
+#include "../arm9/mcss.h"
 struct Party;
-extern int POKEPARTY_GetSlotFlag(struct Party *party, unsigned int pos);
+#include "../arm9/pokeparty.h"
 struct PersonalData;
-extern struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, unsigned int field);
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32 flag);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
+#include "../arm9/poke_personal.h"
+#include "../arm9/bg_sys.h"
 struct PaletteData;
-extern void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
-extern void CLACT_TransferCharacter(int chrRes, void *chr);
-extern u32 POKERUS_IsBoxCured(struct BoxPokemon *mon);
-extern u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *mon);
-extern u32 POKE_TOOL_GetStatusCondition(struct PokemonParam *pp);
-extern int APP_ICON_GetStatusIconAnim(struct PokemonParam *pp);
-extern u32 POKERUS_IsBoxInfected(struct BoxPokemon *mon);
-extern void POKEPARTY_SetSlotFlag(struct Party *party, unsigned int pos, unsigned int set);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern u32 POKE_TOOL_CalcBoxLevel(struct BoxPokemon *mon);
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
-extern void WORDSET_SetSlotFromMsg36(struct WordSet *wordSet, u32 index, u32 itemId);
-extern void MCSS_ResetAnmStopFlag(struct McssWork *work);
-extern void MCSS_SetPosition(struct McssWork *work, unsigned int *src);
+#include "../arm9/pokerus.h"
+#include "../arm9/gf_font.h"
 extern int _ffix(float);
-extern void MCSS_SetAnmStopFlag(struct McssWork *work);
-extern int TOUCHPANEL_GetTrg(void);
-extern int TOUCHPANEL_GetCont(void);
-extern int TOUCHPANEL_HitCont(const struct TouchHitTable *table);
 struct McssSys;
-extern struct McssWork *MCSS_TOOL_AddPokeMcss(struct McssSys *sys, void *pp, unsigned int direction, int x, int y, int z);
-extern void MCSS_SetShadowAlpha(struct McssWork *work, int alpha);
-extern void MCSS_SetShadowRotateX(struct McssWork *work, unsigned short rotX);
-extern void MCSS_TOOL_SetAnimeStopCallback(void *mcss);
-extern void MCSS_SetShadowScale(struct McssWork *work, unsigned int *src);
-extern void MCSS_Del(struct McssSys *sys, struct McssWork *work);
-extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void MCSS_SetShadowOffset(struct McssWork *work, int *src);
-void *P_STATUS_GetPokePara(PStatusWork *wk);
-int P_STATUS_GetPokeParaSource(PStatusWork *wk);
+#include "../arm9/fx_vec.h"
+#include "p_status.h"
 void *P_STA_SUB_Create(PStatusWork *wk);
 void P_STA_SUB_Delete(PStatusWork *wk, PStaSubWork *work);
 void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work);
@@ -352,7 +307,7 @@ extern const VecFx32 d_021DC1A4;
 extern const VecFx32 d_021DC18C;
 extern const VecFx32 d_021DC1BC;
 extern const VecFx32 d_021DC1D4;
-extern const struct TouchHitTable d_021DC1E0;
+extern const struct PStaSubHitTable d_021DC1E0;
 extern const VecFx32 d_021DC1F8;
 extern const VecFx32 d_021DC240;
 extern const VecFx32 d_021DC180;
@@ -450,46 +405,46 @@ void P_STA_SUB_Exit(PStatusWork *wk, PStaSubWork *work) {
 }
 
 void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *work) {
-    StaOamActorPos pos[4];
+    struct ActorInitParam pos[4];
     u8 i;
     pos[3].x = 168;
     pos[3].y = 8;
-    pos[3].drawPriority = 10;
-    pos[3].bgPriority = 1;
-    pos[3].animSeq = 0;
+    pos[3].draw_priority = 10;
+    pos[3].bg_priority = 1;
+    pos[3].anim_seq = 0;
     work->ballObj = CLACT_CreateActor(wk->clunit, wk->objRes[14], wk->objRes[1], wk->objRes[27], &pos[3], 0, wk->heapId);
-    CLACT_SetActorDrawEnable(work->ballObj, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->ballObj, 0);
     pos[2].y = 128;
-    pos[2].drawPriority = 10;
-    pos[2].bgPriority = 1;
+    pos[2].draw_priority = 10;
+    pos[2].bg_priority = 1;
     for (i = 0; i < 8; i++) {
         pos[2].x = d_021DC158[i];
-        pos[2].animSeq = d_021DC160[i];
+        pos[2].anim_seq = d_021DC160[i];
         work->iconObj[i] = CLACT_CreateActor(wk->clunit, wk->objRes[15], wk->objRes[2], wk->objRes[28], &pos[2], 0, wk->heapId);
-        CLACT_SetActorDrawEnable(work->iconObj[i], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->iconObj[i], 1);
     }
     pos[1].x = 236;
     pos[1].y = 26;
-    pos[1].drawPriority = 10;
-    pos[1].bgPriority = 1;
-    pos[1].animSeq = 0;
+    pos[1].draw_priority = 10;
+    pos[1].bg_priority = 1;
+    pos[1].anim_seq = 0;
     work->pokerusObj = CLACT_CreateActor(wk->clunit, wk->objRes[22], wk->objRes[9], wk->objRes[34], &pos[1], 0, wk->heapId);
-    CLACT_SetActorDrawEnable(work->pokerusObj, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->pokerusObj, 0);
     pos[0].x = 241;
     pos[0].y = 31;
-    pos[0].drawPriority = 10;
-    pos[0].bgPriority = 1;
-    pos[0].animSeq = 0;
+    pos[0].draw_priority = 10;
+    pos[0].bg_priority = 1;
+    pos[0].anim_seq = 0;
     work->conditionObj = CLACT_CreateActor(wk->clunit, wk->objRes[23], wk->objRes[10], wk->objRes[35], &pos[0], 0, wk->heapId);
-    CLACT_SetActorDrawEnable(work->conditionObj, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->conditionObj, 0);
 }
 
 void P_STA_SUB_DeleteObjects(PStatusWork *wk, PStaSubWork *work) {
     u8 i;
-    CLACT_DeleteActor(work->conditionObj);
-    CLACT_DeleteActor(work->pokerusObj);
-    for (i = 0; i < 8; i++) CLACT_DeleteActor(work->iconObj[i]);
-    CLACT_DeleteActor(work->ballObj);
+    CLACT_DeleteActor((struct ClactActor *)work->conditionObj);
+    CLACT_DeleteActor((struct ClactActor *)work->pokerusObj);
+    for (i = 0; i < 8; i++) CLACT_DeleteActor((struct ClactActor *)work->iconObj[i]);
+    CLACT_DeleteActor((struct ClactActor *)work->ballObj);
 }
 
 void P_STA_SUB_InitWindows(PStatusWork *wk, PStaSubWork *work) {
@@ -553,19 +508,19 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     GFL_HEAP_Free(ballBuf);
     ballArc = APP_ICON_GetArchiveId();
     ballBuf = ARC_UTIL_LoadBgCharDataFromArchive(ballArc, APP_ICON_GetBallThrowAnimFileId(ballId), 0, &ballChr, wk->heapId);
-    CLACT_TransferCharacter((int)wk->objRes[14], ballChr);
-    GFL_HEAP_Free(ballBuf);
-    CLACT_SetActorDrawEnable(work->ballObj, 1);
-    marks = POKE_TOOL_GetBoxValue(mon, 11, 0);
+    CLACT_TransferCharacter((int)wk->objRes[14], (NNSG2dCharacterData *)ballChr);
+    GFL_HEAP_Free((void *)ballBuf);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->ballObj, 1);
+    marks = POKE_TOOL_GetBoxValue((struct BoxPokemon *)mon, 11, 0);
     for (i = 0, markBit = 1; i < STA_SUB_ICON_MARK_COUNT; markBit = (u8)(markBit << 1), i++) {
-        if (marks & markBit) CLACT_SetActorAnimSeq(work->iconObj[i], i * 2 + 1);
-        else CLACT_SetActorAnimSeq(work->iconObj[i], i * 2);
+        if (marks & markBit) CLACT_SetActorAnimSeq((struct ClactActor *)work->iconObj[i], i * 2 + 1);
+        else CLACT_SetActorAnimSeq((struct ClactActor *)work->iconObj[i], i * 2);
     }
-    if (POKERUS_IsBoxCured(mon) == 1) CLACT_SetActorDrawEnable(work->iconObj[STA_SUB_ICON_POKERUS_CURED], 1);
-    else CLACT_SetActorDrawEnable(work->iconObj[STA_SUB_ICON_POKERUS_CURED], 0);
-    if (POKE_TOOL_IsBoxShiny(mon) == 1 && wk->isEgg == 0)
-        CLACT_SetActorDrawEnable(work->iconObj[STA_SUB_ICON_SHINY], 1);
-    else CLACT_SetActorDrawEnable(work->iconObj[STA_SUB_ICON_SHINY], 0);
+    if (POKERUS_IsBoxCured((struct BoxPokemon *)mon) == 1) CLACT_SetActorDrawEnable((struct ClactActor *)work->iconObj[STA_SUB_ICON_POKERUS_CURED], 1);
+    else CLACT_SetActorDrawEnable((struct ClactActor *)work->iconObj[STA_SUB_ICON_POKERUS_CURED], 0);
+    if (POKE_TOOL_IsBoxShiny((struct BoxPokemon *)mon) == 1 && wk->isEgg == 0)
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->iconObj[STA_SUB_ICON_SHINY], 1);
+    else CLACT_SetActorDrawEnable((struct ClactActor *)work->iconObj[STA_SUB_ICON_SHINY], 0);
     if (work->showFront == 1) {
         VecFx32 cameraPos = d_021DC204;
         VecFx32 scale = d_021DC21C;
@@ -589,14 +544,14 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
         G3D_CAMERA_Reset(wk->camera);
         work->flipState = STA_SUB_FLIP_BACK;
     }
-    if ((u8)POKE_TOOL_GetStatusCondition(pp) != 0) {
-        CLACT_SetActorAnimSeq(work->conditionObj, APP_ICON_GetStatusIconAnim(pp));
-        CLACT_SetActorDrawEnable(work->conditionObj, 1);
-        CLACT_SetActorDrawEnable(work->pokerusObj, 0);
+    if ((u8)POKE_TOOL_GetStatusCondition((struct PokemonParam *)pp) != 0) {
+        CLACT_SetActorAnimSeq((struct ClactActor *)work->conditionObj, APP_ICON_GetStatusIconAnim((const struct PokemonParam *)pp));
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->conditionObj, 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->pokerusObj, 0);
     } else {
-        CLACT_SetActorDrawEnable(work->conditionObj, 0);
-        if (POKERUS_IsBoxInfected(mon) == 1) CLACT_SetActorDrawEnable(work->pokerusObj, 1);
-        else CLACT_SetActorDrawEnable(work->pokerusObj, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->conditionObj, 0);
+        if (POKERUS_IsBoxInfected((struct BoxPokemon *)mon) == 1) CLACT_SetActorDrawEnable((struct ClactActor *)work->pokerusObj, 1);
+        else CLACT_SetActorDrawEnable((struct ClactActor *)work->pokerusObj, 0);
     }
     {
         VecFx32 zero = {0, 0, 0};
@@ -614,7 +569,7 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
 }
 
 void P_STA_SUB_FreeWindows(PStatusWork *wk, PStaSubWork *work) {
-    PStatusParam *param = wk->param;
+    PStatusProcParam *param = wk->param;
     if (param->ppt == 1) POKEPARTY_SetSlotFlag(param->ppd, wk->dispPos, work->showFront);
     BMP_WIN_Delete(work->itemWin);
     BMP_WIN_Delete(work->nameWin);
@@ -623,7 +578,7 @@ void P_STA_SUB_FreeWindows(PStatusWork *wk, PStaSubWork *work) {
 void P_STA_SUB_HideSprite(PStatusWork *wk, PStaSubWork *work)
 {
     P_STA_SUB_DeleteMcss(wk, work);
-    CLACT_SetActorDrawEnable(work->ballObj, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->ballObj, 0);
 }
 
 void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
@@ -633,7 +588,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     wordSet = WORDSET_CreateDefault(wk->heapId);
     buf = STRBUF_Create(32, wk->heapId);
     name = STRBUF_Create(32, wk->heapId);
-    POKE_TOOL_GetBoxValue(mon, (unsigned int)115, (unsigned int)name);
+    POKE_TOOL_GetBoxValue(mon, (unsigned int)115, (uptr)name);
     WORDSET_SetSlotTag(wordSet, 0, name, 0, 1, 2);
     text = MSGDATA_AllocString(wk->msgData, 0);
     WORDSET_CopyTaggedText(wordSet, buf, text);
@@ -864,7 +819,7 @@ int P_STA_SUB_PetRise(PStatusWork *wk, PStaSubWork *work, int isRising)
  *   zero already in r4), not the counter; the three post-loop stores are 0 too.
  */
 void P_STA_SUB_UpdateTouch(PStatusWork *wk, PStaSubWork *work) {
-    struct TouchHitTable hitTable = d_021DC1E0;
+    struct PStaSubHitTable hitTable = d_021DC1E0;
     u32 x, y;
     int isTouch, isHeld, hitArea;
     u8 i;
@@ -872,7 +827,7 @@ void P_STA_SUB_UpdateTouch(PStatusWork *wk, PStaSubWork *work) {
     if (wk->isEgg != 0) return;
     isTouch = TOUCHPANEL_GetTrg();
     isHeld = TOUCHPANEL_GetCont();
-    hitArea = TOUCHPANEL_HitCont(&hitTable);
+    hitArea = TOUCHPANEL_HitCont(hitTable.rect);
     if (work->flipState == STA_SUB_FLIP_IDLE) {
         if (hitArea == 0 || (hitArea == 1 && isTouch == 0)) {
             if (isTouch == 1) {
@@ -1045,7 +1000,12 @@ void P_STA_SUB_CreateMcss(PStatusWork *wk, PStaSubWork *work, void *mon)
     MCSS_SetShadowAlpha(work->mcss[STA_SUB_MCSS_FRONT], 2);
     MCSS_SetShadowRotateX(work->mcss[STA_SUB_MCSS_FRONT], 0xd555);
     MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&frontScale));
+#ifdef __MWERKS__
+    /* The original prototype returned void. */
+    ((void (*)(void *))MCSS_TOOL_SetAnimeStopCallback)(work->mcss[STA_SUB_MCSS_FRONT]);
+#else
     MCSS_TOOL_SetAnimeStopCallback(work->mcss[STA_SUB_MCSS_FRONT]);
+#endif
     MCSS_SetShadowScale(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&extraOfs));
     work->mcss[STA_SUB_MCSS_BACK] = MCSS_TOOL_AddPokeMcss(wk->mcssSys, pp, 1, 0xd8000, 0x48000, 0);
     MCSS_SetShadowAlpha(work->mcss[STA_SUB_MCSS_BACK], 2);

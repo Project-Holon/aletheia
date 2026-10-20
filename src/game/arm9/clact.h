@@ -1,6 +1,58 @@
 #ifndef GAME_ARM9_CLACT_H
 #define GAME_ARM9_CLACT_H
 
+struct AnimCtrl;
+
+/* Setup record of CLACT_InitSystem (0x1C bytes). */
+struct ClactSysInit {
+    s16 surface_pos[4];  /* 0x00 */
+    u8  oam_main_base;   /* 0x08 */
+    u8  oam_main_count;  /* 0x09 */
+    u8  oam_sub_base;    /* 0x0a */
+    u8  oam_sub_count;   /* 0x0b */
+    u32 n_transfers;     /* 0x0c */
+    u16 n_chars;         /* 0x10 */
+    u16 n_pltts;         /* 0x12 */
+    u16 n_cells;         /* 0x14 */
+    u16 n_spare;         /* 0x16 */
+    u16 n_main_blocks;   /* 0x18 */
+    u16 n_sub_blocks;    /* 0x1a */
+};
+
+/* Initial placement of a plain actor (CLACT_CreateActor), the first 8 bytes of ActorInit. */
+struct ActorInitParam {
+    s16 x;             /* 0x00 */
+    s16 y;             /* 0x02 */
+    u16 anim_seq;      /* 0x04 */
+    u8  draw_priority; /* 0x06 */
+    u8  bg_priority;   /* 0x07 */
+};
+
+/* Initial placement of an affine actor (CLACT_CreateAffineActor). */
+struct ActorInit {
+    struct ActorInitParam param;   /* 0x00 */
+    s16 origin_x;      /* 0x08 */
+    s16 origin_y;      /* 0x0a */
+    u32 scale_x;       /* 0x0c */
+    u32 scale_y;       /* 0x10 */
+    u16 rotation;      /* 0x14 */
+    u16 affine_mode;   /* 0x16 */
+};
+
+/* Screen position or offset of an actor. */
+struct ClactVec2 {
+    s16 x;
+    s16 y;
+};
+
+/* One animation command (CLACT_ApplyActorAnimCommand). */
+struct ClactAnimCommand {
+    u16 op;     /* 0x00 */
+    u16 tag;    /* 0x02 */
+    u32 param;  /* 0x04 */
+    u32 func;   /* 0x08 */
+};
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of clact.c, prototypes copied from their definitions. */
 
@@ -14,10 +66,14 @@ struct SurfaceInit;
 struct ClactVec2;
 struct Unit;
 struct ClactActor;
+struct ActorInitParam;
 struct ActorInit;
-struct Pt16;
+struct Pt16 {
+    u16 x;
+    u16 y;
+};
 struct Pair32;
-struct Cmd;
+struct ClactAnimCommand;
 struct OamManagers;
 struct OamManager;
 struct Surface;
@@ -73,7 +129,7 @@ void CLACT_SetUnitDrawEnable(struct Unit *unit, u32 enable);
 u32 CLACT_GetUnitDrawEnable(struct Unit *unit);
 void CLACT_SetUnitRenderer(struct Unit *unit, void *renderer);
 void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
-struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
+struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
 struct ClactActor *CLACT_CreateAffineActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
 void CLACT_DeleteActor(struct ClactActor *actor);
 void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
@@ -127,7 +183,7 @@ void CLACT_StopActorAnim(struct ClactActor *actor);
 u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
 void CLACT_RestartActorAnim(struct ClactActor *actor);
 void CLACT_SetActorAnimLoopCount(struct ClactActor *actor, u32 loop_limit);
-void CLACT_ApplyActorAnimCommand(struct ClactActor *actor, const struct Cmd *cmd);
+void CLACT_ApplyActorAnimCommand(struct ClactActor *actor, const struct ClactAnimCommand *cmd);
 void CLACT_ResetActorAnimCommand(struct ClactActor *actor);
 void CLACT_SetActorVisible(struct ClactActor *actor, u32 visible);
 void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 heap_id);
@@ -181,11 +237,11 @@ void CLACT_DrawActor(struct ClactActor *actor, struct Renderer *renderer);
 void CLACT_SetupActorDraw(struct ClactActor *actor, struct Renderer *renderer);
 void CLACT_ApplyActorTransform(struct ClactActor *actor);
 void CLACT_UpdateActorAutoAnim(struct ClactActor *actor);
-void CLACT_ApplyActorInit(struct ClactActor *actor, const struct ActorInit *init, u32 space);
+void CLACT_ApplyActorInit(struct ClactActor *actor, const struct ActorInitParam *init, u32 space);
 void CLACT_ApplyActorResources(struct ClactActor *actor, const struct ActorReq *req);
 void CLACT_GetSurfaceOrigin(struct ClactActor *actor, u32 surface_idx, u16 *out);
 void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct ClactBankHead *anim_bank);
-struct ClactActor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
+struct ClactActor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInitParam *init, struct ActorReq *req, u32 space, u16 heap_id);
 struct ClactActor *CLACT_CreateActorFull(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
 void CLACT_InitAnimCtl(struct AnimCtl *anim_ctl, void *req, u32 heap_id);
 void CLACT_ExitAnimCtl(struct AnimCtl *anim_ctl);
@@ -231,7 +287,7 @@ void *CLACT_GetVramCellUserAttr(struct AnimCtl *anim_ctl, u32 idx);
 u16 CLACT_GetCellBankCount(struct AnimCtl *anim_ctl);
 u16 CLACT_GetMultiCellBankCount(struct AnimCtl *anim_ctl);
 u16 CLACT_GetVramCellBankCount(struct AnimCtl *anim_ctl);
-void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd);
+void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct ClactAnimCommand *cmd);
 void CLACT_ResetAnimCommand(struct AnimCtl *anim_ctl);
 void CLACT_InitResources(struct ClactRes *res, u32 heapId, const struct DispVramCfg *cfg, const struct Caps *caps);
 void CLACT_ExitResources(struct ClactRes *res);
@@ -250,7 +306,5 @@ s32 CLACT_LoadCellAnimBanks(struct ClactRes *res, s32 idx, void *cell_file, void
 void CLACT_FreeCellAnimTable(void *cells);
 void CLACT_SetupCharacter(struct ClactRes *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info);
 /* END mkheaders: generated region */
-
-struct AnimCtrl;
 
 #endif

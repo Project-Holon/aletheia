@@ -54,27 +54,19 @@ extern void *__memcpy(void *dest, const void *src, unsigned long n);
 
 #include "../types.h"
 
-extern unsigned int current_time(void);
+#include "gsplatformutil.h"
 struct SOCSockAddr;
-extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
+#include "gsplatformsocket.h"
 extern void FIFOAddRear(SBServerFIFO *fifo, SBServer *server);
-extern void SocketStartUp(void);
-extern int socket(int pf, int type, int protocol);
 extern void FIFOClear(SBServerFIFO *fifo);
-extern int closesocket(int sock);
 static void QEStartQuery(SBQueryEngine *engine, SBServer *server);
-extern int atoi(u32 s);
+#include "../arm9/msl_strtod.h"
 int FIFORemove(SBServerFIFO *fifo, SBServer *server);
-extern int NTSLengthSB(char *buf, int len);
-extern int qr2_internal_is_master_only_key(char *keyname);
-extern void SBServerAddKeyValue(SBServer *server, char *keyname, char *value);
-extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
-extern void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len);
-extern void SBServerParseQR2FullKeysSingle(SBServer *server, char *data, int len);
-extern u8 *strstr(u8 *s1, u8 *s2);
-extern void SBServerParseKeyVals(SBServer *server, char *keyvals);
-extern int CanReceiveOnSocket(int sock);
-extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
+#include "sb_server_types.h"
+#include "sb_serverlist.h"
+#include "qr2regkeys.h"
+#include "sb_server.h"
+#include "../arm9/msl_string_str.h"
 extern void ParseSingleQR2Reply(SBQueryEngine *engine,
                                 SBServer *server, char *data, int len);
 void FIFOAddFront(SBServerFIFO *fifo, SBServer *server);
@@ -346,7 +338,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
     if (server->state & 0x80) {
         server->state &= (unsigned char)~0x80;
         if (len > 0) {
-            server->querychallenge = (unsigned int)atoi((u32)data);
+            server->querychallenge = (unsigned int)atoi(data);
             FIFORemove(&engine->querylist, server);
             QEStartQuery(engine, server);
             engine->ListCallback(engine, 3, server, engine->instance);

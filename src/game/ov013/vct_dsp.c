@@ -53,9 +53,8 @@
 /* Lever: the enum constant gives the hangover count its own type, so the cast to short keeps the smulbb. */
 typedef enum { HangoverFramesDefault } HangoverFrames;
 
-extern void MI_CpuCopy8(void *dst, void *src, int n);
+#include "../arm9/mi_memory.h"
 
-extern void MIi_CpuCopyFast(void *src, void *dst, u32 n);
 
 void VCT_DSP_ResetVoiceGate(void);
 

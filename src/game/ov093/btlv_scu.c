@@ -232,26 +232,34 @@
  *   PRINTSYS_CopyLine  0x0201D37C  thumb  arm9
  *   PRINTSYS_InitCallerSuppliedArray  0x0201D33C  thumb  arm9
  */
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define PRINTSYS_Print PRINTSYS_PrintHeader
+#endif
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define BTL_MSG_FormatArgs BTL_MSG_FormatArgsHeader
+#endif
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define STRBUF_Create STRBUF_CreateHeader
+#endif
 #include "btlv_scu_types.h"
+#include "../sdk_ioreg.h"
 #include "btlv_core_types.h"
-extern int FADE_IsActive(void);
+#include "../arm9/fade.h"
 
 #define BTLV_SCU_SE_PLATE_SLIDE 0x573
 #define BTLV_SCU_SE_PLATE_FADE 0x54d
 #define BTLV_SCU_SE_PLATE_MOSAIC 0x54e
 #define BTLV_SCU_EFFECT_WITHDRAW 0x26c
 #define BTLV_SCU_EFFECT_SEND_OUT 0x26d
-struct PalAnmSlot;
+struct PaletteFade;
 struct BgTemplate;
 struct PrintStream;
 /* Task procedure of the task system: (task, work). */
 typedef void (*TcblTaskFn)(void *task, void *work);
 
-/* Which name plate a view position uses. */
-typedef enum BtlvScuPlateSide {
-    BTLV_SCU_PLATE_LOCAL,
-    BTLV_SCU_PLATE_OPPOSING
-} BtlvScuPlateSide;
 
 /* Work of the mon send-out task (BTLV_SCU_TaskMonSendOut). */
 struct BtlvScuSlotTask {
@@ -299,157 +307,55 @@ struct BtlvScuFadeTask {
     u8 *counter;
 };
 
-extern u32 BTL_CLIENT_IsMainStepActive(struct BtlClient *client);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern struct MsgBuf *STRBUF_Create(int, int);
+#include "btl_client.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
-extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
-extern struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
-extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
-extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern void BG_SYS_Init(u32, u32, u32, u32);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
+#include "../arm9/bg_sys.h"
+#include "../arm9/arc_util.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+#include "../arm9/bmp_win.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BMP_WIN_DrawFrame(struct BmpWin *win, u16 base, u32 pal);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BG_SYS_PushTile(u32 index);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
-extern void ARC_TOOL_DeleteHandle(void *h);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+#include "../arm9/bmp.h"
+#include "../arm9/arc_tool.h"
 struct Strbuf;
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void BG_SYS_ClearSlot(u32 i);
 struct BtlMain;
-extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
-extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
-extern int BTL_MAIN_IsMultiMode(struct BtlMain *main);
-extern int GXx_GetMasterBrightness_(volatile u16 *);
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern u8 BTL_MAIN_GetSlotFromViewPos(struct BtlMain *main, u8 slot);
-extern u8 *BTL_SIDE_GetPokeAtPos(struct BtlMain **side, u8 position);
+#include "btl_main.h"
+#include "../arm9/gx.h"
 struct PokemonParam;
-extern struct PokemonParam *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *mon);
-extern void BTLV_EFFECT_SetPokeSpriteKey(void *sprite, int side);
-extern int BTLV_EFFECT_IsBusy(void);
-extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *mon);
-extern void BTLV_EFFECT_StartEffectOnPoke(int, u32);
-extern void BTL_MSG_FormatArgs(struct MsgBuf *buf, u32 msgId, u32 argCount, ...);
-extern void BTLV_EFFECT_StartEffect(u32);
-extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, s32 mask);
-extern u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlMain *main, s32 slot);
-extern u16 BTL_MAIN_GetTrainerType(struct BtlMain *main, s32 slot);
-extern void BTLV_EFFECT_AddPokeSprite(int, u32, u32, u32, u32);
+#include "btl_pokeparam.h"
 struct BtlvPartyBallBarParam;
-extern void BTLV_EFFECT_CreatePartyBallBar(struct BtlvPartyBallBarParam *param);
-extern u8 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
-extern void BTLV_EFFECT_DeletePartyBallBar(u32);
-extern int BTLV_EFFECT_IsPartyBallBarActive(u32);
-extern u8 BTL_MAIN_GetClientTrainerIndex(struct BtlMain *main, u32 clientId, u8 nth);
-extern u8 BTL_MAIN_GetEnemyLanePosFromWork(struct BtlMain *main, u32 basePos, s32 lane);
-extern u8 BTL_MAIN_GetViewPosOfSlot(struct BtlMain *main, u32 slot);
-extern u8 BTL_MAIN_GetOwnOpponentClient(struct BtlMain *main, s32 nth);
-extern u32 BTL_MAIN_GetOpponentClient(struct BtlMain *main, s32 clientId, s32 nth);
-extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *mon);
-extern u8 BTL_MAIN_GetOwnPartnerClient(struct BtlMain *main);
-extern u8 BTL_MAIN_IsOwnClientSecondTeam(struct BtlMain *main);
-extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlMain *main, s32 slot);
-extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+#include "../arm9/gf_font.h"
 struct GfFont;
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-extern int BTL_MAIN_GetTextSpeedFrames(struct BtlMain *main);
-extern struct PrintStream *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 y, struct MsgBuf *str, void *font, s32 speed, void *taskSys, u32 reserved, u32 heapId, u16 color, u32 callback);
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamStop(struct TextPrinter *printer);
-extern u8 BTL_MAIN_GetCommPos(struct BtlMain *main);
-extern void PRINTSYS_PrintStreamRun(struct TextPrinter *printer);
-extern u32 PRINTSYS_PrintStreamIsOverrideSpeed(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamSetSpeed(struct TextPrinter *printer, s32 wait);
-extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
-extern void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer);
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern u32 KEY_GetCont(void);
-extern int TOUCHPANEL_GetCont(void);
-extern u32 KEY_GetTrg(void);
-extern int TOUCHPANEL_GetTrg(void);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern int GFL_USE_IsSeqPlaying(u32 a);
+#include "../arm9/msg_speed.h"
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
 struct BtlvEffScriptRequest;
-extern void BTLV_EFFECT_StartEffectWithRequest(struct BtlvEffScriptRequest *request);
-extern void GFL_USE_StopAllSe(void);
-extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *mon, int valueId);
-extern void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 viewPos, u32 value);
-extern void BTLV_EFFECT_StartDamageTintTask(int viewPos, int motionId);
-extern void BTLV_EFFECT_GaugeStartHpChangeInstant(u32 viewPos, u32 value);
-extern int BTLV_EFFECT_GaugeIsAnimating(void);
-extern void BTLV_EFFECT_GaugeDeleteSlot(u32 viewPos);
-extern void BTLV_EFFECT_StartPokeAppearEffect(int viewPos);
-extern void BTLV_EFFECT_DeletePokeSprite(int viewPos);
 struct TcblSystem;
 struct TcblTask;
-extern struct TcblTask *TCBL_AddTask(struct TcblSystem *tcbl, TcblTaskFn proc, u32 workSize, u32 priority);
-extern void *TCBL_GetWork(struct TcblTask *task);
-extern void TCBL_DeleteTask(struct TcblTask *task);
 struct BtlSide;
-extern struct BtlPokeParam *BTL_SIDE_GetClientPoke(struct BtlSide *side, u32 clientId, u8 nth);
-extern void BTLV_EFFECT_SetLowHpBgmSuppressed(u32 hide);
-extern struct PokemonParam *BTL_POKEPARAM_GetMon(struct BtlPokeParam *mon);
-extern void BTLV_EFFECT_StartHitTask(void *mon, int viewPos);
-extern void BTLV_EFFECT_ResetPokeSprite(void *mon, int viewPos);
-extern void BTLV_EFFECT_GaugeInitSlotFromBattlePoke(struct BtlMain *battleMain, struct BtlPokeParam *battlePoke, u32 slotIdx);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern unsigned int BTL_MAIN_GetRuleSlotSpan(struct BtlMain *main);
-extern u8 BTL_MAIN_GetPosParity(u32 viewPos);
-extern int BTL_MAIN_IsLocalSide(struct BtlMain *main, u8 side);
-extern void BTLV_EFFECT_TimerSetVisible(u32 target, u32 hideFlag, u32 param);
-extern void BTLV_EFFECT_ResumeVmWait(void);
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
-extern void BMP_Delete(struct Bmp *bmp);
-extern void BTLV_EFFECT_SetPokeEffectValue(int viewPos, u32 speciesId);
-extern void BG_SYS_LoadTileData(int bgPlane, const void *src, u32 size, u32 tile);
-extern void BG_SYS_ChangeScrollImmediate(u32 bgPlane, u32 mode, u32 value);
-extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void *BTLV_EFFECT_GetOwner(void);
-extern int PALANM_RequestFade(void *slots, u16 mode, u16 mask, s16 start, u8 end, u8 wait, u16 color, void *ctx);
-extern u32 PALANM_GetFadeRequestBits(const char *slots);
-extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-extern u32 PRINTSYS_InitCallerSuppliedArray(struct Strbuf *text, struct GfFont *font, u32 spacing, u32 *widths, u32 maxLines);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
-extern u32 PRINTSYS_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 lineNumber);
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+#include "../arm9/g2.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/printsys.h"
+#include "../arm9/tcbl.h"
+#include "btl_msg.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/palanm.h"
+#include "../ov094/btlv_effect.h"
+#ifdef __MWERKS__
+#undef STRBUF_Create
+extern struct Strbuf * STRBUF_Create(int capacity, int heapId);
+#endif
+#ifdef __MWERKS__
+#undef BTL_MSG_FormatArgs
+extern void BTL_MSG_FormatArgs(struct Strbuf *dest, u32 msgId, u32 argCount, ...);
+#endif
+#ifdef __MWERKS__
+#undef PRINTSYS_Print
+extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
+#endif
 struct BtlSideSlot;
-extern struct BtlSideSlot *BTL_SIDE_GetSlotOfClientThunk(struct BtlSide *side, s32 clientId);
-extern u8 BTL_SLOT_GetCount(struct BtlSideSlot *slot);
-extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlSideSlot *slot, u32 index);
-extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
-extern int BTL_POKEPARAM_IsAbleToBattle(struct BtlPokeParam *pp);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BTL_POKEPARAM_ReadStatsFromMon(struct PokemonParam **monPtr, u16 *stats);
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
-extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
-extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
-void BTL_MSG_GetUiString(struct Strbuf *dest, u32 msgId);
-void BTL_MSG_BuildBallStatusOpen(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
-void BTL_MSG_BuildBallStatusRefresh(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
 void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int a);
 void BTLV_SCU_InitMessage(struct BtlvMessage *msg, int kind, int id);
 void BTLV_SCU_AppendMessageArg(struct BtlvMessage *msg, u32 val);
@@ -493,29 +399,29 @@ int BTLV_SCU_RunOwnSendOutDoubleSolo(BtlvScu *scu, int *state, u8 ownClient);
 int BTLV_SCU_RunOwnSendOutDoublePartner(BtlvScu *scu, int *state, u32 ownClient, u8 partnerClient);
 int BTLV_SCU_PhaseOwnSendOutTriple(BtlvScu *scu, int *state);
 u16 BTLV_SCU_GetSendOutMessageId(BtlvScu *scu, int monCount);
-void BTLV_SCU_PrintMessageInstant(BtlvScu *scu, struct MsgBuf *str);
-void BTLV_SCU_StartMessage(BtlvScu *scu, struct MsgBuf *str, u16 wait, u32 callback);
+void BTLV_SCU_PrintMessageInstant(BtlvScu *scu, struct Strbuf *str);
+void BTLV_SCU_StartMessage(BtlvScu *scu, struct Strbuf *str, u16 wait, PrintCallback callback);
 u32 BTLV_SCU_ConsumeMessageEnded(BtlvScu *scu);
 int BTLV_SCU_UpdateMessage(BtlvScu *scu);
 void BTLV_SCU_StartWazaEffect(BtlvScu *scu, int attackerPos, int defenderPos, u32 wazaId, u32 effectSeq, int turnCount, u8 continueCount);
 int BTLV_SCU_ProcWazaEffect(int *state, BtlvScu *scu);
 int BTLV_SCU_RunWazaProc(BtlvScu *scu);
 void BTLV_SCU_StartMonDamageAnim(BtlvScu *scu, u8 slotIdx, u16 motionId, int instant);
-int BTLV_SCU_IsMonDamageAnimDone(void);
+int BTLV_SCU_IsMonDamageAnimDone(BtlvScu *scu);
 void BTLV_SCU_StartMonMotion(BtlvScu *scu, u8 slotIdx, u32 motionId);
 int BTLV_SCU_IsMonMotionDone(BtlvScu *scu);
 void BTLV_SCU_StartMonExit(BtlvScu *scu, int slotIdx, u32 flag);
-int BTLV_SCU_IsMonExitDone(void);
+int BTLV_SCU_IsMonExitDone(BtlvScu *scu);
 void BTLV_SCU_LoadAndShowMon(BtlvScu *scu, u8 slotIdx);
-int BTLV_SCU_IsMonLoadDone(void);
+int BTLV_SCU_IsMonLoadDone(BtlvScu *scu);
 void BTLV_SCU_StartMonWithdraw(BtlvScu *scu, u16 viewPos, u16 effectId, int instant);
 u32 BTLV_SCU_IsMonWithdrawDone(BtlvScu *scu);
-void BTLV_SCU_TaskMonWithdraw(void *task, void *workPtr);
+void BTLV_SCU_TaskMonWithdraw(struct TcblTask *task, void *workPtr);
 void BTLV_SCU_StartMonSendOut(BtlvScu *scu, u8 slotIdx, int clientId, u8 partyIdx, int quiet);
 int BTLV_SCU_IsMonSendOutDone(BtlvScu *scu);
-void BTLV_SCU_TaskMonSendOut(void *task, void *workPtr);
+void BTLV_SCU_TaskMonSendOut(struct TcblTask *task, void *workPtr);
 void BTLV_SCU_StartHpGaugeUpdate(BtlvScu *scu, u8 slotIdx, int instant);
-int BTLV_SCU_IsHpGaugeIdle(void);
+int BTLV_SCU_IsHpGaugeIdle(BtlvScu *scu);
 void BTLV_SCU_HideMonPair(BtlvScu *scu, int slotA, int slotB);
 int BTLV_SCU_ShowMonPair(BtlvScu *scu, int slotA, int slotB);
 void BTLV_SCU_HideMon(BtlvScu *scu, int slotIdx);
@@ -525,18 +431,18 @@ void BTLV_SCU_StartPosCueEffect(struct BtlvScu *unused, int viewPos);
 int BTLV_SCU_IsPosCueEffectDone(int unused, int viewPos);
 void BTLV_SCU_StartMonFormChange(BtlvScu *scu, u8 slotIdx, u32 flag);
 u32 BTLV_SCU_IsMonFormChangeDone(BtlvScu *scu);
-void BTLV_SCU_TaskMonFormChange(void *task, void *workPtr);
+void BTLV_SCU_TaskMonFormChange(struct TcblTask *task, void *workPtr);
 void BTLV_SCU_StartMonGraphicSwapFrom(BtlvScu *scu, u32 destPos, u32 srcPos, u32 flag);
 void BTLV_SCU_StartMonGraphicSwap(BtlvScu *scu, u32 viewPos, u32 flag);
 u32 BTLV_SCU_IsMonGraphicSwapDone(BtlvScu *scu);
-void BTLV_SCU_TaskMonGraphicSwap(void *task, void *workPtr);
+void BTLV_SCU_TaskMonGraphicSwap(struct TcblTask *task, void *workPtr);
 void BTLV_SCU_InitMsgWinFade(BtlvScuWinSlide *fade, struct BmpWin *win);
 void BTLV_SCU_StartMsgWinFadeOut(BtlvScuWinSlide *fade);
 void BTLV_SCU_StartMsgWinFadeIn(BtlvScuWinSlide *fade, int keepText);
 int BTLV_SCU_UpdateMsgWinFade(BtlvScuWinSlide *fade);
 void BTLV_SCU_StartMsgWinFadeOutTask(BtlvScu *scu);
 u32 BTLV_SCU_IsMsgWinFadeOutTaskDone(BtlvScu *scu);
-void BTLV_SCU_TaskMsgWinFadeOut(void *task, void *workPtr);
+void BTLV_SCU_TaskMsgWinFadeOut(struct TcblTask *task, void *workPtr);
 void BTLV_SCU_InitMonSlots(BtlvScu *scu);
 void BTLV_SCU_ResetMonSlots(BtlvScu *scu);
 void BTLV_SCU_InitMonSlot(BtlvScuMonSlot *slot, BtlvScu *owner, u8 slotIdx);
@@ -545,11 +451,11 @@ void BTLV_SCU_HideMonSlot(BtlvScuMonSlot *slot);
 void BTLV_SCU_ShowMonSlot(BtlvScuMonSlot *slot);
 BtlvScuPlateSide BTLV_SCU_GetNamePlateSide(struct BtlContext *ctx, u32 viewPos);
 void BTLV_SCU_StartNamePlate(BtlvScu *scu, u8 viewPos, int closeLater);
-void BTLV_SCU_ProcNamePlateAt(BtlvScu *scu, u32 viewPos);
+int BTLV_SCU_ProcNamePlateAt(BtlvScu *scu, u32 viewPos);
 void BTLV_SCU_HideNamePlateAt(BtlvScu *scu, u32 viewPos);
-void BTLV_SCU_IsNamePlateHiddenAt(BtlvScu *scu, u32 viewPos);
+int BTLV_SCU_IsNamePlateHiddenAt(BtlvScu *scu, u32 viewPos);
 void BTLV_SCU_RefreshNamePlateAt(BtlvScu *scu, u8 viewPos);
-void BTLV_SCU_ProcNamePlateMosaicAt(BtlvScu *scu, u32 viewPos);
+int BTLV_SCU_ProcNamePlateMosaicAt(BtlvScu *scu, u32 viewPos);
 void BTLV_SCU_InitNamePlates(BtlvScu *scu, u32 tile);
 void BTLV_SCU_FreeNamePlates(BtlvScu *scu);
 void BTLV_SCU_PrepareNamePlate(BtlvScuNamePlate *plate, u8 viewPos, int closeLater);
@@ -563,9 +469,9 @@ void BTLV_SCU_GetBallStates(BtlvScu *scu, u32 *outStates, u32 clientA, u32 clien
 void BTLV_SCU_PrintWaitMessage(BtlvScu *scu);
 int BTLV_SCU_UpdateWaitMessage(BtlvScu *scu);
 void BTLV_SCU_NoOp(char *unused);
-void BTLV_SCU_StartFadeIn(void);
+void BTLV_SCU_StartFadeIn(BtlvScu *scu);
 void BTLV_SCU_ClearWaitWindow(BtlvScu *scu);
-int BTLV_SCU_GetWaitState(void);
+int BTLV_SCU_GetWaitState(BtlvScu *scu);
 void BTLV_SCU_StartBallWindowOpen(BtlvScu *scu, void **partySource, BtlvBallStates *states);
 int BTLV_SCU_UpdateBallWindowOpen(BtlvScu *scu);
 void BTLV_SCU_StartBallWindowRefresh(BtlvScu *scu);
@@ -585,7 +491,7 @@ extern const BtlvScuPhaseProc gBtlvScuEntryTriplePhases[];
 
 
 /* Master brightness register of the main engine. */
-#define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)0x0400006c)
+#define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)REG_MASTER_BRIGHT_ADDR)
 
 
 extern int (*const gBtlvScuSingleLinkPhases[][2])(BtlvScu *, int *);
@@ -681,10 +587,10 @@ void BTLV_SCU_SetupDisplay(BtlvScu *scu)
     BG_SYS_InitBgLayer(1, &gBtlvScuBgTemplateMsg, 0);
     BG_SYS_InitBgLayer(2, &gBtlvScuBgTemplateName, 0);
     BG_SYS_InitBgLayer(3, &gBtlvScuBgTemplateBack, 0);
-    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 0xb, 0x5a, scu->heapId, 0, 0x20, 0, 0);
-    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), 0xb, 0xd6, scu->heapId, 0, 0x60, 0x10, 0x10);
+    PALANM_LoadArcPaletteToSlotAt(BTLV_EFFECT_GetPalanm(), 0xb, 0x5a, scu->heapId, 0, 0x20, 0, 0);
+    PALANM_LoadArcPaletteToSlotAt(BTLV_EFFECT_GetPalanm(), 0xb, 0xd6, scu->heapId, 0, 0x60, 0x10, 0x10);
     zero = 0;
-    PALANM_CopyToSlot((struct PalAnmSlot *)BTLV_EFFECT_GetPalanm(), &zero, 0, 0, 2);
+    PALANM_CopyToSlot(BTLV_EFFECT_GetPalanm(), &zero, 0, 0, 2);
     BG_SYS_SetTileEntry(1, 0, 0, 0, 0x20, 0x20, 0x11);
     BG_SYS_Init(1, 0, 1, 0);
     frameTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0x59, 1);
@@ -1999,7 +1905,7 @@ u16 BTLV_SCU_GetSendOutMessageId(BtlvScu *scu, int monCount)
 
 
 /* Hardware registers of the main engine. */
-#define REG_MOSAIC (*(volatile u8 *)0x0400004c)
+#define REG_MOSAIC (*(volatile u8 *)REG_MOSAIC_ADDR)
 
 
 
@@ -2009,12 +1915,12 @@ u16 BTLV_SCU_GetSendOutMessageId(BtlvScu *scu, int monCount)
 
 
 /* Blend control register of the main engine. */
-#define REG_BLDCNT 0x04000050
+#define REG_BLDCNT REG_BLDCNT_ADDR
 
 
 
 /* Prints a message into the message window at once. */
-void BTLV_SCU_PrintMessageInstant(BtlvScu *scu, struct MsgBuf *str)
+void BTLV_SCU_PrintMessageInstant(BtlvScu *scu, struct Strbuf *str)
 {
     BMP_Clear((struct Bmp *)scu->msgWinChars, 0xc);
     GF_FONT_SetTextColor(1, 9, 0xc);
@@ -2031,9 +1937,9 @@ void BTLV_SCU_PrintMessageInstant(BtlvScu *scu, struct MsgBuf *str)
 
 
 /* Starts a streamed message; wait 0xFF means the default 0x50 frames. */
-void BTLV_SCU_StartMessage(BtlvScu *scu, struct MsgBuf *str, u16 wait, u32 callback)
+void BTLV_SCU_StartMessage(BtlvScu *scu, struct Strbuf *str, u16 wait, PrintCallback callback)
 {
-    struct PrintStream *stream;
+    struct TextPrinter *stream;
 
     BMP_Clear((struct Bmp *)scu->msgWinChars, 0xc);
     GF_FONT_SetTextColor(1, 9, 0xc);
@@ -2042,7 +1948,7 @@ void BTLV_SCU_StartMessage(BtlvScu *scu, struct MsgBuf *str, u16 wait, u32 callb
                       scu->taskSys, 0,
                       scu->heapId, 0xc, callback);
     scu->msgStream = stream;
-    PRINTSYS_PrintStreamStop((struct TextPrinter *)stream);
+    PRINTSYS_PrintStreamStop(stream);
     scu->msgStep = 0;
     scu->msgKeepText = 0;
     if (wait == 0xff) {
@@ -2087,20 +1993,20 @@ int BTLV_SCU_UpdateMessage(BtlvScu *scu)
             break;
         }
         if (scu->msgStream != 0)
-            PRINTSYS_PrintStreamRun((struct TextPrinter *)scu->msgStream);
+            PRINTSYS_PrintStreamRun(scu->msgStream);
         scu->msgStep = scu->msgStep + 1;
     case 2:
         if (scu->msgStream != 0) {
             if (BTL_MAIN_GetCommPos((struct BtlMain *)scu->context) == 0) {
                 if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
-                    if (PRINTSYS_PrintStreamIsOverrideSpeed((struct TextPrinter *)scu->msgStream) == 0)
-                        PRINTSYS_PrintStreamSetSpeed((struct TextPrinter *)scu->msgStream, MSG_SPEED_GetWaitForSpeed(2));
+                    if (PRINTSYS_PrintStreamIsOverrideSpeed(scu->msgStream) == 0)
+                        PRINTSYS_PrintStreamSetSpeed(scu->msgStream, MSG_SPEED_GetWaitForSpeed(2));
                 } else {
-                    if (PRINTSYS_PrintStreamIsOverrideSpeed((struct TextPrinter *)scu->msgStream) != 0)
-                        PRINTSYS_PrintStreamResetSpeed((struct TextPrinter *)scu->msgStream);
+                    if (PRINTSYS_PrintStreamIsOverrideSpeed(scu->msgStream) != 0)
+                        PRINTSYS_PrintStreamResetSpeed(scu->msgStream);
                 }
             }
-            scu->msgStreamState = PRINTSYS_PrintStreamGetState((struct TextPrinter *)scu->msgStream);
+            scu->msgStreamState = PRINTSYS_PrintStreamGetState(scu->msgStream);
             if (scu->msgStreamState != 0) {
                 if (BTL_MAIN_GetCommPos((struct BtlMain *)scu->context) == 0)
                     scu->msgStep = 3;
@@ -2134,12 +2040,12 @@ int BTLV_SCU_UpdateMessage(BtlvScu *scu)
     case 5:
         if (scu->msgStreamState == 2) {
             GF_FONT_SetDefaultTextColor();
-            PRINTSYS_PrintStreamDelete((struct TextPrinter *)scu->msgStream);
+            PRINTSYS_PrintStreamDelete(scu->msgStream);
             scu->msgStream = 0;
             scu->msgStep = 6;
             break;
         }
-        PRINTSYS_PrintStreamReleasePause((struct TextPrinter *)scu->msgStream);
+        PRINTSYS_PrintStreamReleasePause(scu->msgStream);
         GFL_USE_PlaySeDefaultVolume(BTLV_SCU_SE_MSG_ADVANCE);
         scu->msgStep = 2;
         scu->msgWait = scu->msgWaitReload;
@@ -2249,7 +2155,7 @@ void BTLV_SCU_StartMonDamageAnim(BtlvScu *scu, u8 slotIdx, u16 motionId, int ins
 
 
 /* Both the effect player and the gauge are idle. */
-int BTLV_SCU_IsMonDamageAnimDone(void)
+int BTLV_SCU_IsMonDamageAnimDone(BtlvScu *scu)
 {
     int effectBusy = BTLV_EFFECT_IsBusy();
     if ((BTLV_EFFECT_GaugeIsAnimating() | effectBusy) == 0)
@@ -2291,7 +2197,7 @@ void BTLV_SCU_StartMonExit(BtlvScu *scu, int slotIdx, u32 flag)
 
 
 /* The effect player is idle. */
-int BTLV_SCU_IsMonExitDone(void)
+int BTLV_SCU_IsMonExitDone(BtlvScu *scu)
 {
     if (BTLV_EFFECT_IsBusy() == 0)
         return 1;
@@ -2311,7 +2217,7 @@ void BTLV_SCU_LoadAndShowMon(BtlvScu *scu, u8 slotIdx)
 
 
 /* The effect player is idle. */
-int BTLV_SCU_IsMonLoadDone(void)
+int BTLV_SCU_IsMonLoadDone(BtlvScu *scu)
 {
     if (BTLV_EFFECT_IsBusy() == 0)
         return 1;
@@ -2349,7 +2255,7 @@ u32 BTLV_SCU_IsMonWithdrawDone(BtlvScu *scu) { if (scu->withdrawTaskCount == 0) 
 
 
 /* Task: plays the withdraw effect, then hides the sprite. */
-void BTLV_SCU_TaskMonWithdraw(void *task, void *workPtr)
+void BTLV_SCU_TaskMonWithdraw(struct TcblTask *task, void *workPtr)
 {
     struct BtlvScuWithdrawTask *work = workPtr;
     switch (work->step) {
@@ -2404,7 +2310,7 @@ int BTLV_SCU_IsMonSendOutDone(BtlvScu *scu) { return scu->sendOutTaskCount == 0;
 
 
 /* Task: waits for the effect, then shows the slot. */
-void BTLV_SCU_TaskMonSendOut(void *task, void *workPtr)
+void BTLV_SCU_TaskMonSendOut(struct TcblTask *task, void *workPtr)
 {
     struct BtlvScuSlotTask *work = workPtr;
     switch (work->step) {
@@ -2437,7 +2343,7 @@ void BTLV_SCU_StartHpGaugeUpdate(BtlvScu *scu, u8 slotIdx, int instant)
 
 
 /* The gauge is idle. */
-int BTLV_SCU_IsHpGaugeIdle(void)
+int BTLV_SCU_IsHpGaugeIdle(BtlvScu *scu)
 {
     if (BTLV_EFFECT_GaugeIsAnimating() == 0)
         return 1;
@@ -2528,7 +2434,7 @@ u32 BTLV_SCU_IsMonFormChangeDone(BtlvScu *scu) { if (scu->monTaskCount == 0) ret
 
 
 /* Task: swaps the graphic of the monster, hides it, then shows it again. */
-void BTLV_SCU_TaskMonFormChange(void *task, void *workPtr)
+void BTLV_SCU_TaskMonFormChange(struct TcblTask *task, void *workPtr)
 {
     struct BtlvScuFormChangeTask *work = workPtr;
     void *mon;
@@ -2595,7 +2501,7 @@ u32 BTLV_SCU_IsMonGraphicSwapDone(BtlvScu *scu) { if (scu->monTaskCount == 0) re
 
 
 /* Task: swaps the graphic and waits for the effect player. */
-void BTLV_SCU_TaskMonGraphicSwap(void *task, void *workPtr)
+void BTLV_SCU_TaskMonGraphicSwap(struct TcblTask *task, void *workPtr)
 {
     struct BtlvScuGraphicSwapTask *work = workPtr;
     switch (work->step) {
@@ -2729,7 +2635,7 @@ u32 BTLV_SCU_IsMsgWinFadeOutTaskDone(BtlvScu *scu) { if (scu->monTaskCount == 0)
 
 
 /* Task: fades the message window out and waits for it. */
-void BTLV_SCU_TaskMsgWinFadeOut(void *task, void *workPtr)
+void BTLV_SCU_TaskMsgWinFadeOut(struct TcblTask *task, void *workPtr)
 {
     struct BtlvScuFadeTask *work = workPtr;
     switch (work->step) {
@@ -2864,9 +2770,9 @@ void BTLV_SCU_StartNamePlate(BtlvScu *scu, u8 viewPos, int closeLater)
 
 
 /* Steps the slide-in of the name plate of a view position. */
-void BTLV_SCU_ProcNamePlateAt(BtlvScu *scu, u32 viewPos)
+int BTLV_SCU_ProcNamePlateAt(BtlvScu *scu, u32 viewPos)
 {
-    BTLV_SCU_ProcNamePlate(&scu->namePlates[BTLV_SCU_GetNamePlateSide(scu->context, viewPos)]);
+    return BTLV_SCU_ProcNamePlate(&scu->namePlates[BTLV_SCU_GetNamePlateSide(scu->context, viewPos)]);
 }
 
 
@@ -2883,10 +2789,10 @@ void BTLV_SCU_HideNamePlateAt(BtlvScu *scu, u32 viewPos)
 
 
 /* Checks the name plate of a view position (always 1). */
-void BTLV_SCU_IsNamePlateHiddenAt(BtlvScu *scu, u32 viewPos)
+int BTLV_SCU_IsNamePlateHiddenAt(BtlvScu *scu, u32 viewPos)
 {
     u8 side = BTLV_SCU_GetNamePlateSide(scu->context, viewPos);
-    BTLV_SCU_IsNamePlateHidden(&scu->namePlates[side]);
+    return BTLV_SCU_IsNamePlateHidden(&scu->namePlates[side]);
 }
 
 
@@ -2900,9 +2806,9 @@ void BTLV_SCU_RefreshNamePlateAt(BtlvScu *scu, u8 viewPos)
 
 
 /* Steps the mosaic change of the name plate of a view position. */
-void BTLV_SCU_ProcNamePlateMosaicAt(BtlvScu *scu, u32 viewPos)
+int BTLV_SCU_ProcNamePlateMosaicAt(BtlvScu *scu, u32 viewPos)
 {
-    BTLV_SCU_ProcNamePlateMosaic(&scu->namePlates[BTLV_SCU_GetNamePlateSide(scu->context, viewPos)]);
+    return BTLV_SCU_ProcNamePlateMosaic(&scu->namePlates[BTLV_SCU_GetNamePlateSide(scu->context, viewPos)]);
 }
 
 
@@ -3045,7 +2951,7 @@ int BTLV_SCU_ProcNamePlate(BtlvScuNamePlate *plate)
         plate->phase++;
         break;
     case 5:
-        if (PALANM_GetFadeRequestBits((const char *)BTLV_EFFECT_GetPalanm()) == 0) plate->phase++;
+        if (PALANM_GetFadeRequestBits(BTLV_EFFECT_GetPalanm()) == 0) plate->phase++;
         break;
     case 6:
         if (GFL_USE_IsSeqPlaying(BTLV_SCU_SE_PLATE_FADE) == 0 && GFL_USE_IsSeqPlaying(BTLV_SCU_SE_PLATE_SLIDE) == 0) return 1;
@@ -3145,16 +3051,16 @@ void BTLV_SCU_RefreshNamePlate(BtlvScuNamePlate *plate, u8 viewPos)
 
 static inline void G2_BG2Mosaic(int enable)
 {
-    if (enable) *(volatile u16 *)0x0400000c |= 0x40;
-    else *(volatile u16 *)0x0400000c &= ~0x40;
+    if (enable) *(volatile u16 *)REG_BG2CNT_ADDR |= 0x40;
+    else *(volatile u16 *)REG_BG2CNT_ADDR &= ~0x40;
 }
 
 
 
 static inline void G2_BG3Mosaic(int enable)
 {
-    if (enable) *(volatile u16 *)0x0400000e |= 0x40;
-    else *(volatile u16 *)0x0400000e &= ~0x40;
+    if (enable) *(volatile u16 *)REG_BG3CNT_ADDR |= 0x40;
+    else *(volatile u16 *)REG_BG3CNT_ADDR &= ~0x40;
 }
 
 
@@ -3266,7 +3172,7 @@ void BTLV_SCU_NoOp(char *unused)
 
 
 /* Fade the screen in from black. */
-void BTLV_SCU_StartFadeIn(void)
+void BTLV_SCU_StartFadeIn(BtlvScu *scu)
 {
     int x = 0x10;
     FADE_Start(1, 0, x, x - 0x13);
@@ -3282,7 +3188,7 @@ void BTLV_SCU_ClearWaitWindow(BtlvScu *scu)
 }
 
 
-int BTLV_SCU_GetWaitState(void)
+int BTLV_SCU_GetWaitState(BtlvScu *scu)
 {
     return BTLV_SCU_IsFadeDone();
 }

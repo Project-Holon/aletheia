@@ -216,15 +216,10 @@
 #define FX32_ONE ((int)0x00001000L)
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *mem);
-extern s32 GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
-extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
-extern void VEC_Normalize(const VecFx32 *src, VecFx32 *dst);
-extern fx32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/fx_vec.h"
 
 extern void FIELD_RAIL_WORK_Init(RailWork *work, FieldRailSetting *setting, RailManager *manager);
 extern void FIELD_RAIL_WORK_Reset(RailWork *work, FieldRailSetting *setting);
@@ -255,7 +250,7 @@ RailManager *FIELD_RAIL_Create(u16 heapId, u32 workMax, struct FieldCamera *fiel
 void FIELD_RAIL_Delete(RailManager *manager);
 void FIELD_RAIL_SetSetting(RailManager *manager, FieldRailSetting *setting);
 u32 FIELD_RAIL_ClearSetting(RailManager *manager);
-void FIELD_RAIL_ActivateFreeWork(RailManager *manager);
+RailWork *FIELD_RAIL_ActivateFreeWork(RailManager *manager);
 int FIELD_RAIL_ReleaseWork(RailManager *manager, RailWork *work);
 void FIELD_RAIL_SetFocusWork(RailManager *manager, RailWork *work);
 void FIELD_RAIL_ClearFocusWork(RailManager *manager);
@@ -269,13 +264,13 @@ int FIELD_RAIL_GetUnitScale(RailManager *manager);
 void FIELD_RAIL_MakeLineLocation(RailManager *manager, FieldRailSetting *setting, u16 railIndex, u16 lineGrid, u16 widthPos,
                    RailLocation *outLocation);
 int FIELD_RAIL_StepLocation(RailManager *manager, RailLocation *location, u16 key, VecFx32 *outPos);
-int FIELD_RAIL_TryStepLocation(RailManager *manager, const RailLocation *location, u8 key, RailLocation *outLocation);
+int FIELD_RAIL_TryStepLocation(RailManager *manager, const RailLocation *location, u32 key, RailLocation *outLocation);
 void FIELD_RAIL_GetLocationPos(RailManager *manager, RailLocation *location, VecFx32 *outPos);
 int FIELD_RAIL_GetLocationWidthGrid(RailManager *manager, RailLocation *location);
-void FIELD_RAIL_UpdateCameraAtLocation(RailManager *manager, RailLocation *location);
+void FIELD_RAIL_UpdateCameraAtLocation(RailManager *manager, const RailLocation *location);
 void FIELD_RAIL_WORK_GetLocation(RailWork *work, RailLocation * __restrict outLocation);
 int FIELD_RAIL_WORK_IsLocationValid(RailWork *work, RailLocation *location);
-u8 FIELD_RAIL_WORK_QueryStep(RailWork *work, u8 key, RailLocation *outLocation, VecFx32 *outPos);
+u8 FIELD_RAIL_WORK_QueryStep(RailWork *work, u32 key, RailLocation *outLocation, VecFx32 *outPos);
 void FIELD_RAIL_WORK_GetPrevPos(RailWork *work, VecFx32 *outPos);
 void FIELD_RAIL_WORK_SetLocation(RailWork *work, const RailLocation *location);
 void FIELD_RAIL_WORK_GetPos(RailWork *work, VecFx32 *outPos);
@@ -332,25 +327,11 @@ extern const char sRailFileName[];
 extern const VecFx32 gRailUpAxis;
 extern const u8 gRailStepSizes[];
 
-extern void BUTTON_MAN_ScaleVec(const VecFx32 *v, int scale, VecFx32 *dst);
-extern void VEC_MultAdd(int scale, VecFx32 *a, VecFx32 *b, VecFx32 *c);
-extern u16 FX_Atan2Idx(int a, int b);
-extern int VEC_Fx16Mag(s16 *v);
-extern fx32 VEC_Mag(const VecFx32 *v);
-extern fx32 FX_Div(fx32 numer, fx32 denom);
-extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
-extern u16 FX_AcosIdx(int x);
-extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
-extern void FIELD_CAMERA_EnterMode(struct FieldCamera *camera, u32 mode);
-extern void FIELD_CAMERA_SetEyeRaw(struct FieldCamera *camera, const VecFx32 *eye);
-extern void FIELD_CAMERA_ResumeTargetTrace(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetYaw(struct FieldCamera *camera, u32 yaw);
-extern void FIELD_CAMERA_SetPitch(struct FieldCamera *camera, u16 pitch);
-extern void FIELD_CAMERA_SetDistance(struct FieldCamera *camera, u32 distance);
-extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetTarget(struct FieldCamera *camera, const VecFx32 *target);
-extern void FIELD_CAMERA_SetTargetShift(struct FieldCamera *camera, const VecFx32 *shift);
-extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
+#include "../arm9/button_man.h"
+#include "../arm9/fx_atanidx.h"
+#include "../arm9/fx_cp.h"
+#include "../arm9/fx_asinacosidx.h"
+#include "field_camera.h"
 extern s16 FX_SinCosTable_[];
 extern VecFx32 d_021D9A54;
 extern VecFx32 d_021D9A60;
@@ -442,7 +423,7 @@ u32 FIELD_RAIL_ClearSetting(RailManager *manager)
     return (u32)FIELD_RAIL_CLOSED_Clear(&manager->closedLines);
 }
 
-void FIELD_RAIL_ActivateFreeWork(RailManager *manager)
+RailWork *FIELD_RAIL_ActivateFreeWork(RailManager *manager)
 {
     RailWork *found = 0;
     int i;
@@ -454,6 +435,7 @@ void FIELD_RAIL_ActivateFreeWork(RailManager *manager)
         }
     }
     found->inUse = 1;
+    return found;
 }
 
 int FIELD_RAIL_ReleaseWork(RailManager *manager, RailWork *work)
@@ -634,7 +616,7 @@ int FIELD_RAIL_StepLocation(RailManager *manager, RailLocation *location, u16 ke
     return FIELD_RAIL_WORK_IsLocationValid(manager->probeWork, &manager->probeWork->location);
 }
 
-int FIELD_RAIL_TryStepLocation(RailManager *manager, const RailLocation *location, u8 key, RailLocation *outLocation)
+int FIELD_RAIL_TryStepLocation(RailManager *manager, const RailLocation *location, u32 key, RailLocation *outLocation)
 {
     RailLocation startLocation = *location;
     FIELD_RAIL_WORK_SetLocation(manager->probeWork, location);
@@ -658,7 +640,7 @@ int FIELD_RAIL_GetLocationWidthGrid(RailManager *manager, RailLocation *location
     return manager->probeWork->widthLimit / 16;
 }
 
-void FIELD_RAIL_UpdateCameraAtLocation(RailManager *manager, RailLocation *location)
+void FIELD_RAIL_UpdateCameraAtLocation(RailManager *manager, const RailLocation *location)
 {
     RailCameraFunc cameraFunc;
     RailWork *prevFocus;
@@ -736,7 +718,7 @@ int FIELD_RAIL_WORK_IsLocationValid(RailWork *work, RailLocation *location)
     return 1;
 }
 
-u8 FIELD_RAIL_WORK_QueryStep(RailWork *work, u8 key, RailLocation *outLocation, VecFx32 *outPos)
+u8 FIELD_RAIL_WORK_QueryStep(RailWork *work, u32 key, RailLocation *outLocation, VecFx32 *outPos)
 {
     if (work->queryValid == 0 || key != work->queryKey) {
         work->queryResult = FIELD_RAIL_TryStepLocation(work->manager, &work->location, key, &work->queryLocation);
@@ -2916,7 +2898,7 @@ void FIELD_RAIL_CAMERA_FollowHeadingSlope(RailManager *manager)
     stepVec[0] = stepVec[3];
     stepVec[2] = stepVec[5];
     stepVec[1] = 0;
-    slope = FX_Atan2Idx(-stepVec[4], VEC_Fx16Mag(stepVec));
+    slope = FX_Atan2Idx(-stepVec[4], VEC_Fx16Mag( (const VecFx16 *)stepVec));
     FIELD_CAMERA_SetPitch(fieldCamera, slope + camera->param[1]);
     FIELD_CAMERA_SetDistance(fieldCamera, camera->param[2]);
     FIELD_CAMERA_SetYaw(fieldCamera, (u16)(heading + camera->param[0]));

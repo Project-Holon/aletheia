@@ -60,15 +60,15 @@
 struct LightSlot;
 #include "../types.h"
 
-/* Light direction, three fx16 components. */
-typedef struct {
-    u16 x, y, z;
-} FieldLightDir;
+#include "../sdk_fx.h"
 
-typedef struct { s32 x, y, z; } FieldLightVec32;
+/* Light direction, three fx16 components. */
+typedef VecFx16 FieldLightDir;
+
+typedef VecFx32 FieldLightVec32;
 
 /* One time-of-day entry of the light table (0x34 bytes), as stored in the archive. */
-typedef struct {
+typedef struct FieldLightKeyframe {
     u16 hour;
     s16 minute;
     u8 slotUsed[FIELD_LIGHT_SLOT_COUNT];
@@ -88,21 +88,21 @@ typedef struct {
     s16 delta;
 } FieldLightChannelLerp;
 
-typedef struct {
+typedef struct FieldLightColorLerp {
     FieldLightChannelLerp r;
     FieldLightChannelLerp g;
     FieldLightChannelLerp b;
 } FieldLightColorLerp;
 
 /* Rotation of a light direction from a start vector about an axis by an angle (0x1c bytes). */
-typedef struct {
+typedef struct FieldLightDirLerp {
     FieldLightVec32 start;
     FieldLightVec32 axis;
     u16 angle;
 } FieldLightDirLerp;
 
 /* Blend between two keyframes (0xF4 bytes); step runs from 0 to stepCount. */
-typedef struct {
+typedef struct FieldLightBlend {
     u16 hour;
     s16 minute;
     u8 slotUsed[FIELD_LIGHT_SLOT_COUNT];
@@ -119,7 +119,7 @@ typedef struct {
 } FieldLightBlend;
 
 /* Script-driven fade to a flat color and back (8 bytes). */
-typedef struct {
+typedef struct FieldLightFade {
     u16 state;
     u16 frames;
     u16 returnFrames;
@@ -127,7 +127,7 @@ typedef struct {
 } FieldLightFade;
 
 /* Field map lighting work (0x490 bytes). */
-typedef struct {
+typedef struct FieldLight {
     u16 mode;
     u16 season;
     struct LightSlot *slots;
@@ -144,25 +144,19 @@ typedef struct {
     s32 lastSeconds;
 } FieldLight;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern void MI_CpuCopy8(void *src, void *dst, u32 n);
-extern void G3D_LIGHT_SetDirection(struct LightSlot *slots, u8 index, const FieldLightDir *dir);
-extern void G3D_LIGHT_SetColor(struct LightSlot *slots, u32 index, u16 *color);
-extern void NNS_G3dGlbMaterialColorDiffAmb(u32 diffuse, u32 ambient, u32 flag);
-extern void NNS_G3dGlbMaterialColorSpecEmi(u32 specular, u32 emission, u32 flag);
-extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, int fog);
-extern u32 ARC_TOOL_GetMemberSize(u32 arcId, u32 memberId);
-extern void ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 memberId);
-extern void VEC_Fx16Normalize(void *src, void *dst);
-extern u8 TIMEZONE_GetLight(int season, int hour);
-extern void VEC_Fx16CrossProduct(const s16 *a, const s16 *b, s16 *out);
-extern s32 VEC_Fx16DotProduct(const s16 *a, const s16 *b);
-extern u16 FX_AcosIdx(s32 cosine);
-extern void MTX_RotAxis43(void *mtx, const void *axis, s32 sin, s32 cos);
-extern void MTX_MultVec43(const void *vec, const void *mtx, void *out);
-extern void VEC_Normalize(void *src, void *dst);
-void FIELD_FOG_SetColorRgb(void *fog, u32 colorRgb);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/g3d_light.h"
+#include "../arm9/nns_g3d_glb.h"
+typedef int GXFogBlend;
+typedef int GXFogSlope;
+#include "../arm9/g3x.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/fx_vec.h"
+#include "../arm9/timezone.h"
+#include "../arm9/fx_asinacosidx.h"
+#include "../arm9/fx_mtx43.h"
+#include "field_fog.h"
 void FIELD_LIGHT_Apply(const FieldLight *light, void *fog, struct LightSlot *slots);
 void FIELD_LIGHT_LoadZoneTable(FieldLight *light, u32 tableId);
 void FIELD_LIGHT_LoadTable(FieldLight *light, u32 arcId, u32 memberId);
@@ -171,7 +165,7 @@ u32 FIELD_LIGHT_FindKeyframe(FieldLight *light, int seconds);
 int FIELD_LIGHT_GetKeyframeSeconds(u32 season, const FieldLightKeyframe *keyframe);
 void FIELD_LIGHT_InitColorLerp(FieldLightColorLerp *lerp, s32 from, u32 to);
 u16 FIELD_LIGHT_EvalColorLerp(FieldLightColorLerp *lerp, int step, int stepCount);
-void FIELD_LIGHT_InitDirLerp(FieldLightDirLerp *lerp, const s16 *from, const s16 *to);
+void FIELD_LIGHT_InitDirLerp(FieldLightDirLerp *lerp, const VecFx16 *from, const VecFx16 *to);
 void FIELD_LIGHT_EvalDirLerp(FieldLightDirLerp *lerp, s32 step, s32 stepCount, s16 *out);
 void FIELD_LIGHT_BeginBlendDefault(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightKeyframe *to);
 void FIELD_LIGHT_BeginBlend(FieldLightBlend *blend, FieldLightKeyframe *from, FieldLightKeyframe *to, u32 frames);
@@ -319,10 +313,10 @@ void FIELD_LIGHT_Apply(const FieldLight *light, void *fog, struct LightSlot *slo
     }
     for (i = 0; i < FIELD_LIGHT_SLOT_COUNT; i++) {
         if (light->current.slotUsed[i]) {
-            G3D_LIGHT_SetDirection(slots, i, &light->current.slotDir[i]);
+            G3D_LIGHT_SetDirection(slots, i, (struct Rgb555 *)&light->current.slotDir[i]);
             G3D_LIGHT_SetColor(slots, (u8)i, (u16 *)(&light->current.slotColor[i]));
         } else {
-            G3D_LIGHT_SetDirection(slots, i, &zeroDir);
+            G3D_LIGHT_SetDirection(slots, i, (struct Rgb555 *)&zeroDir);
             G3D_LIGHT_SetColor(slots, (u8)i, &zeroColor);
         }
     }
@@ -424,31 +418,31 @@ static inline void setVec(FieldLightVec32 *vec, s32 x, s32 y, s32 z)
  * The `const` on `from` is what puts its three loads ahead of the stores in
  * the original's order (from[2], from[1], from[0]; stores axis y, z, then x).
  */
-void FIELD_LIGHT_InitDirLerp(FieldLightDirLerp *lerp, const s16 *from, const s16 *to)
+void FIELD_LIGHT_InitDirLerp(FieldLightDirLerp *lerp, const VecFx16 *from, const VecFx16 *to)
 {
-    s16 axis[3];
+    VecFx16 axis;
 
-    setVec(&lerp->start, from[0], from[1], from[2]);
-    VEC_Fx16CrossProduct(from, to, axis);
-    setVec(&lerp->axis, axis[0], axis[1], axis[2]);
+    setVec(&lerp->start, from->x, from->y, from->z);
+    VEC_Fx16CrossProduct(from, to, &axis);
+    setVec(&lerp->axis, axis.x, axis.y, axis.z);
     lerp->angle = FX_AcosIdx(VEC_Fx16DotProduct(from, to));
 }
 
 /* Rotates the start vector about the axis by angle * step / stepCount and normalizes it. */
 void FIELD_LIGHT_EvalDirLerp(FieldLightDirLerp *lerp, s32 step, s32 stepCount, s16 *out)
 {
-    s32 mtx[12];
-    s32 vec[3];
+    union MtxFx43 mtx;
+    VecFx32 vec;
     s32 vx, vy, vz;
     u32 sinCosIndex;
 
     sinCosIndex = (u16)(lerp->angle * step / stepCount) >> 4;
-    MTX_RotAxis43(mtx, &lerp->axis, FX_SinCosTable_[sinCosIndex * 2], FX_SinCosTable_[sinCosIndex * 2 + 1]);
-    MTX_MultVec43(lerp, mtx, vec);
-    VEC_Normalize(vec, vec);
-    vz = vec[2];
-    vy = vec[1];
-    vx = vec[0];
+    MTX_RotAxis43(&mtx, &lerp->axis, FX_SinCosTable_[sinCosIndex * 2], FX_SinCosTable_[sinCosIndex * 2 + 1]);
+    MTX_MultVec43(&lerp->start, &mtx, &vec);
+    VEC_Normalize(&vec, &vec);
+    vz = vec.z;
+    vy = vec.y;
+    vx = vec.x;
     out[0] = vx;
     out[1] = vy;
     out[2] = vz;
@@ -479,7 +473,7 @@ void FIELD_LIGHT_BeginBlend(FieldLightBlend *blend, FieldLightKeyframe *from, Fi
     toDir = to->slotDir;
     for (; i < FIELD_LIGHT_SLOT_COUNT; i++) {
         FIELD_LIGHT_InitColorLerp(&colorLerp[i], from->slotColor[i], to->slotColor[i]);
-        FIELD_LIGHT_InitDirLerp(&dirLerp[i], (const s16 *)&fromDir[i], (const s16 *)&toDir[i]);
+        FIELD_LIGHT_InitDirLerp(&dirLerp[i], &fromDir[i], &toDir[i]);
         blend->slotUsed[i] = to->slotUsed[i];
     }
     FIELD_LIGHT_InitColorLerp(&blend->materialDiffuse, from->materialDiffuse, to->materialDiffuse);
@@ -501,7 +495,7 @@ void FIELD_LIGHT_BeginColorBlend(FieldLightBlend *blend, FieldLightKeyframe *fro
     blend->minute = from->minute;
     for (i = 0; i < FIELD_LIGHT_SLOT_COUNT; i++) {
         FIELD_LIGHT_InitColorLerp(&blend->slotColor[i], from->slotColor[i], color);
-        FIELD_LIGHT_InitDirLerp(&blend->slotDir[i], (const s16 *)&from->slotDir[i], (const s16 *)&from->slotDir[i]);
+        FIELD_LIGHT_InitDirLerp(&blend->slotDir[i], &from->slotDir[i], &from->slotDir[i]);
         blend->slotUsed[i] = from->slotUsed[i];
     }
     FIELD_LIGHT_InitColorLerp(&blend->materialDiffuse, from->materialDiffuse, color);

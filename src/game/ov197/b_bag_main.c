@@ -188,13 +188,13 @@ struct WordSet;
 struct Cfg;
 struct Item;
 struct WinMgr;
-struct Obj;
-struct PalAnmSlot;
+struct ClactActor;
+struct PaletteFade;
 struct PalAnmObj;
 typedef struct PalAnmObj PalAnmObj;
 struct Sub0204A9D0;
-struct Bank;
-struct Vec2;
+struct Unit;
+struct ClactVec2;
 struct MyItemSave;
 struct Tcbl;
 struct Node;
@@ -215,7 +215,7 @@ struct WinSlot {
 };
 
 /* a screen-space point, used by the item actor placement tables */
-struct Pair {
+struct BBagMainPair {
     short x, y;
 };
 
@@ -291,7 +291,7 @@ struct BagWork {
 };
 
 /* palette/screen block loaded by ARC_UTIL_LoadPaletteBlockFromHandle */
-struct ScreenData {
+struct BBagMainScreenData {
     unsigned char pad[0xC];
     char *data;
 };
@@ -300,166 +300,64 @@ typedef struct {unsigned short entry[36][2];} Row;
 
 typedef struct {u16 member;u8 w,h;} WinCfg;
 
-typedef struct {u16 a,b,c;unsigned char d,e;} Config;
+typedef struct {u16 a,b,c;unsigned char d,e;} BBagMainConfig;
 
-struct BgVramReq {u32 a,b,c,d;};
 
-struct BgTemplate {u32 a,b,size,c;u8 d,e,f,g;u32 h;u8 i,j,k,l;u32 m;};
+#include "../arm9/bg_sys.h"
+#include "../arm9/arc_tool.h"
 struct BmpWin;
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 struct GfFont;
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
+#include "../arm9/printsys.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 struct PrintQueue;
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void FILE_UTIL_ReadStringAlt(void *,unsigned,unsigned);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
-extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern signed char MSG_SPEED_GetWait(void);
-extern void *PRINTSYS_PrintStream(void *win, u32 x, u32 y, void *str, u32 font, u32 wait, void *tcbl, u32 priority, u16 heap, u32 fillColor);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern int B_APP_TOOL_Update(void *, int, int);
-extern u32 B_APP_TOOL_ShowWindows(u8 *, u32);
+#include "../arm9/strbuf.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/wordset.h"
+#include "../arm9/file_util.h"
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/msg_speed.h"
+#include "../ov196/b_app_tool.h"
 struct MyItem;
-extern u32 MYITEM_SAVEDATA_HasItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
-extern void *ARC_TOOL_LoadMember(unsigned int archiveID, unsigned int memberIdx, unsigned short heapID);
+#include "../arm9/myitem_savedata.h"
 struct BagSlot;
-extern struct BagSlot *MYITEM_SAVEDATA_GetSlot(struct MyItem *bag, unsigned int pocket, unsigned int index);
-extern u32 GFL_HEAP_Free(void *p);
-extern unsigned ITEM_GFX_IsFlagClear(const unsigned char *,unsigned);
-extern unsigned short ITEM_GFX_GetItemId(unsigned);
-extern u32 ITEM_GFX_GetExtraValue(u32);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/item_gfx.h"
 struct BgWinFrmWork;
-extern struct BgWinFrmWork *BGWINFRM_Create(u32,u32,u32);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, unsigned int idx, unsigned int bgFrame, unsigned int sizeX, unsigned int sizeY);
-extern void BGWINFRM_SetClipArea(struct BgWinFrmWork *wk, u32 idx, s8 xmin, s8 xmax, s8 ymin, s8 ymax);
-extern void BGWINFRM_SetFrameDataArcHandle(struct BgWinFrmWork *wk, unsigned int idx, void *arcHandle, unsigned int datId, unsigned int compressed);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
-extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
-extern void BGWINFRM_ChangePalette(struct BgWinFrmWork *wk, unsigned int idx, int x, int y, unsigned char sizeX, unsigned char sizeY, unsigned char palette);
-extern void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, unsigned int idx);
-extern void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, unsigned int idx);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern unsigned FILE_UTIL_GetItemCount(void);
-extern unsigned FILE_UTIL_Get(unsigned,unsigned);
-extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,u16);
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern unsigned int FILE_UTIL_GetBankCount(void);
-extern unsigned int FILE_UTIL_GetBaseIndex(void);
-extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
-extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
-extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern struct Bank *CLACT_CreateUnit(int,u8,u32);
-struct Actor;
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleaseCharacter(unsigned);
-extern void CLACT_ReleasePalette(unsigned);
-extern void CLACT_ReleaseCellAnim(unsigned);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void B_APP_TOOL_CreateActors(char *,int,int,int,int);
-extern void B_APP_TOOL_SetActorsVisible(char *,void *);
-extern void B_APP_TOOL_DeleteActors(u8 *p);
+#include "../arm9/bgwinfrm.h"
+#include "../arm9/clact.h"
+#include "../arm9/arc_util.h"
+struct NNSG2dCharacterData;
+#include "../arm9/palanm.h"
+/* palanm.h does not declare these yet */
+/* palanm.h does not declare these yet */
+struct ClactActor;
+struct ClactActor;
+struct ClactVec2;
 struct BtlvFingerCursor;
-extern struct BtlvFingerCursor *BTLV_FINGER_CURSOR_Create(void *palAnmSlots, unsigned int palSlot, unsigned short heapId);
-extern void BTLV_FINGER_CURSOR_Delete(struct BtlvFingerCursor *cursor);
-extern void BTLV_FINGER_CURSOR_Start(u32, u32, u32, u32, u32, u32);
-extern void BTLV_FINGER_CURSOR_DeleteActor(struct BtlvFingerCursor *cursor);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern void *BTLV_EFFECT_GetOwner(void);
-extern struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
-extern void *TCB_AddTask(void *, u32, void *, u32);
+#include "../ov094/btlv_effect.h"
+#include "../arm9/tcb_list.h"
 struct BagCursor;
-extern void MYITEM_SAVEDATA_GetBattlePocketCursor(struct BagCursor *cursor, int pocket, short *scroll, short *position);
-extern u16 MYITEM_SAVEDATA_GetLastBattleItem(struct BagCursor *cursor);
-extern u16 MYITEM_SAVEDATA_GetLastBattleItemPocket(struct BagCursor *cursor);
 struct TcblSystem;
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u8 *B_APP_TOOL_Create(u16 v);
-extern void GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern int PALANM_RequestFade(void *,u16,u16,short,u8,u8,u16,void *);
-extern unsigned PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
-extern unsigned WIPE_SYS_EndCheck(void);
-extern u32 PALANM_GetFadeRequestBits(const char *ptr);
+#include "../arm9/tcbl.h"
+#include "../arm9/gx.h"
+#include "../arm9/net.h"
+#include "../arm9/wipe.h"
 struct Cursor;
-extern int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
-extern u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
-extern unsigned FILE_UTIL_GetItemParam(unsigned int item, unsigned int sel, unsigned int heap);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
+#include "../arm9/cursor_move.h"
 struct TextPrinter;
-extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern int TOUCHPANEL_GetTrg(void);
-extern unsigned int KEY_GetCont(void);
-extern u32 KEY_GetTrg(void);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void WIPE_SYS_ExeEnd(void);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void B_APP_TOOL_Delete(void *);
+#include "../arm9/touchpanel.h"
+#include "../arm9/key.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern int BTLV_FINGER_CURSOR_IsActive(struct BtlvFingerCursor *cursor);
-extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *,u32);
-extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
-extern void BG_SYS_ClearSlot(u32);
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
-extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16);
-extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned,unsigned,unsigned,unsigned);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void BG_SYS_ChangeScroll(unsigned int, unsigned int, unsigned int);
-extern void BG_SYS_ClearLayerEx(int channel, u16 val);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/gfl_use.h"
+#include "../ov094/btlv_finger_cursor.h"
 struct CursorVtbl;
 struct CursorEntry;
-extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, unsigned int ctx, unsigned int state, unsigned char start, unsigned short heapId);
-extern void CURSOR_MOVE_EnableInput(struct Cursor *obj);
-extern void CURSOR_MOVE_SetMode(struct Cursor *obj);
-extern u32 CURSOR_MOVE_Delete(void *cursor);
-extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, unsigned int idx);
-extern void B_APP_TOOL_LayoutActors(int *p, u8 *q);
-extern void CURSOR_MOVE_SetCurrent(struct Cursor *obj, unsigned char sel);
 void B_BAG_MAIN_InitWindows(char *p);
 void B_BAG_MAIN_CreateWindows(char *p,u8 unused);
 void B_BAG_MAIN_DeleteWindows(char *a);
@@ -479,8 +377,8 @@ void B_BAG_MAIN_DrawItemUsage(char *p,int n);
 void B_BAG_MAIN_DrawOtherPage(char *p);
 void B_BAG_MAIN_PrintItemMsg(char *p);
 void B_BAG_MAIN_StartItemMsg(char *p);
-int B_BAG_MAIN_UpdateTool(char *a);
-u32 B_BAG_MAIN_ShowWindows(u8 *p);
+void B_BAG_MAIN_UpdateTool(char *a);
+void B_BAG_MAIN_ShowWindows(u8 *p);
 int B_BAG_MAIN_CheckKeyItem(char *p);
 void B_BAG_MAIN_SyncCursorToItem(u8 *p);
 void B_BAG_MAIN_BuildPocketLists(u8 *p);
@@ -500,7 +398,7 @@ void B_BAG_MAIN_LoadItemGraphic(char *p,u16 item,unsigned slot,unsigned offset);
 void B_BAG_MAIN_LoadItemPalette(char *p,unsigned item,unsigned slot);
 void B_BAG_MAIN_RegisterCursorGraphics(char *p);
 void B_BAG_MAIN_RegisterIconGraphics(char *p);
-struct Obj *B_BAG_MAIN_CreateItemActor(char *p,const int *indices);
+struct ClactActor *B_BAG_MAIN_CreateItemActor(char *p,const int *indices);
 void B_BAG_MAIN_CreateItemActors(char *p);
 void B_BAG_MAIN_DeleteItemGraphics(char *p);
 void B_BAG_MAIN_PlaceActor(int a, int b);
@@ -514,7 +412,7 @@ void B_BAG_MAIN_CreateFingerCursor(char *a);
 void B_BAG_MAIN_DeleteFingerCursor(char *a);
 void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b);
 void B_BAG_MAIN_DeleteFingerCursorActor(char *a);
-void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct Pair *src);
+void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct BBagMainPair *src);
 void B_BAG_MAIN_Create(u8 *arg);
 void B_BAG_MAIN_Main(void *task, char *p);
 int B_BAG_MAIN_StateInit(char *p);
@@ -571,11 +469,11 @@ extern const u8 d_0220DB3F[];
 extern const WinCfg d_0220DB44[14];
 extern const int d_0220DBBC[];
 extern const int d_0220DB7C[];
-extern const struct Pair d_0220DB88[];
-extern const struct Pair d_0220DB80[];
+extern const struct BBagMainPair d_0220DB88[];
+extern const struct BBagMainPair d_0220DB80[];
 extern const char d_0220E0E0[];
 extern u16 d_04001050[];
-extern const struct BgVramReq d_0220DEB0;
+extern const struct DispConfig d_0220DEB0;
 extern const struct BgTemplate d_0220DEE0,d_0220DF20,d_0220DF00,d_0220DEC0;
 extern const u32 d_0220DF90[];
 extern const u32 d_0220DF9C[];
@@ -889,8 +787,8 @@ void B_BAG_MAIN_StartItemMsg(char *p)
 {
     void *d;
     GF_FONT_SetTextColor(1, 2, 0);
-    *(void **)(p + 0x1c) = PRINTSYS_PrintStream(*(void **)(p + 0x24), 0, 0, *(void **)(p + 0x14),
-        *(u32 *)(*(char **)p + 4), MSG_SPEED_GetWait(), *(void **)(p + 4), 10,
+    *(void **)(p + 0x1c) = PRINTSYS_PrintStream((struct BmpWin *)(*(void **)(p + 0x24)), 0, 0, (struct Strbuf *)(*(void **)(p + 0x14)),
+        (struct GfFont *)(*(u32 *)(*(char **)p + 4)), MSG_SPEED_GetWait(), (struct Tcbl *)(*(void **)(p + 4)), 10,
         *(u16 *)(*(char **)p + 0xc), 15);
     d = *(void **)(p + 0x24);
     BMP_WIN_TransferChars(d);
@@ -898,17 +796,17 @@ void B_BAG_MAIN_StartItemMsg(char *p)
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
 }
 
-int B_BAG_MAIN_UpdateTool(char *a)
+void B_BAG_MAIN_UpdateTool(char *a)
 {
-    return B_APP_TOOL_Update(a + 0x28, (int)((struct BagWork *)a)->printSys, 0x23);
+    B_APP_TOOL_Update((BAppToolEntry *)(a + 0x28), (struct PrintSys *)((int)((struct BagWork *)a)->printSys), 0x23);
 }
 
 /*
  * Addresses are Black-image addresses.
  */
-u32 B_BAG_MAIN_ShowWindows(u8 *p)
+void B_BAG_MAIN_ShowWindows(u8 *p)
 {
-    return B_APP_TOOL_ShowWindows(p + 0x28, (u32)*(const void * *)(p + 0x59C));
+    B_APP_TOOL_ShowWindows((char *)(p + 0x28), (unsigned char *)((u32)*(const void * *)(p + 0x59C)));
 }
 
 /*
@@ -1257,7 +1155,7 @@ void B_BAG_MAIN_RegisterIconGraphics(char *p)
     *(int *)(p + 0x588)=CLACT_RegisterPaletteEx(arc,116,1,256,4,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     *(int *)(p + 0x594)=CLACT_RegisterCellAnim(arc,120,121,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     buf=ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc,116,(&data),(u16)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId&0x7fff)|0x8000));
-    PALANM_CopyToSlot(((struct BagWork *)p)->palAnm,((struct ScreenData *)data)->data+128,3,128,32);
+    PALANM_CopyToSlot(((struct BagWork *)p)->palAnm,((struct BBagMainScreenData *)data)->data+128,3,128,32);
     GFL_HEAP_Free(buf);
     ARC_TOOL_DeleteHandle(arc);
 }
@@ -1265,41 +1163,41 @@ void B_BAG_MAIN_RegisterIconGraphics(char *p)
 /*
  * matching: const indices restores the load/store scheduling; mutable indices differ in 29 bytes.
  */
-struct Obj *B_BAG_MAIN_CreateItemActor(char *p,const int *indices)
+struct ClactActor *B_BAG_MAIN_CreateItemActor(char *p,const int *indices)
 {
-    Config c;
+    BBagMainConfig c;
     c.a=0;c.b=0;c.c=0;c.d=1;c.e=1;
-    return CLACT_CreateActor((void *)*(unsigned *)&((struct BagWork *)p)->itemUnit,*(unsigned *)(p+indices[0]*4+0x544),*(unsigned *)(p+indices[1]*4+0x568),*(unsigned *)(p+indices[2]*4+0x58c),&c,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
+    return CLACT_CreateActor((struct Unit *)((void *)*(unsigned *)&((struct BagWork *)p)->itemUnit),*(unsigned *)(p+indices[0]*4+0x544),*(unsigned *)(p+indices[1]*4+0x568),*(unsigned *)(p+indices[2]*4+0x58c),(const struct ActorInitParam *)&c,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
 }
 
 /*
  * Raw byte stride i*12 emits muls rather than the flat word-index shift/add.
  * The caller stores live r0 from C3B4; its owner declaration is void.
  */
-void B_BAG_MAIN_CreateItemActors(char *p) { u32 i; *(struct Bank * *)&((struct BagWork *)p)->itemUnit=CLACT_CreateUnit(67,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=(u32)B_BAG_MAIN_CreateItemActor(p,(const int *)((u32)d_0220DBBC+i*12)); }
+void B_BAG_MAIN_CreateItemActors(char *p) { u32 i; *(struct Unit * *)&((struct BagWork *)p)->itemUnit=CLACT_CreateUnit(67,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=(u32)B_BAG_MAIN_CreateItemActor(p,(const int *)((u32)d_0220DBBC+i*12)); }
 
 void B_BAG_MAIN_DeleteItemGraphics(char *p)
 {
     unsigned i;
     B_BAG_MAIN_DeleteFingerCursor(p);
-    for (i = 0; i < 63; i++) CLACT_DeleteActor((struct Actor *)(*(struct Obj **)(p + i * 4 + 0x424)));
+    for (i = 0; i < 63; i++) CLACT_DeleteActor((struct ClactActor *)(*(struct ClactActor **)(p + i * 4 + 0x424)));
     B_BAG_MAIN_DeleteToolActors(p);
     for (i = 0; i < 9; i++) if (*(int *)(p + i * 4 + 0x544) != -1) CLACT_ReleaseCharacter(*(int *)(p + i * 4 + 0x544));
     for (i = 0; i < 9; i++) if (*(int *)(p + i * 4 + 0x568) != -1) CLACT_ReleasePalette(*(int *)(p + i * 4 + 0x568));
     for (i = 0; i < 3; i++) if (*(int *)(p + i * 4 + 0x58c) != -1) CLACT_ReleaseCellAnim(*(int *)(p + i * 4 + 0x58c));
-    CLACT_DeleteUnit(*(struct Bank * *)&((struct BagWork *)p)->itemUnit);
+    CLACT_DeleteUnit(*(struct Unit * *)&((struct BagWork *)p)->itemUnit);
 }
 
 void B_BAG_MAIN_PlaceActor(int a, int b)
 {
-    CLACT_SetActorDrawEnable((struct Actor *)a, 1);
-    CLACT_AddActorSurfacePos((struct Obj *)a, (const struct Vec2 *)b, 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)a, 1);
+    CLACT_AddActorSurfacePos((struct ClactActor *)a, (struct ClactVec2 *)b, 1);
 }
 
 void B_BAG_MAIN_SetDisplayMode(char *p, int mode)
 {
     unsigned int i;
-    for (i = 0; i < 63; i++) CLACT_SetActorDrawEnable((struct Actor *)*(int *)(p + i * 4 + 0x424), 0);
+    for (i = 0; i < 63; i++) CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)(p + i * 4 + 0x424), 0);
     B_BAG_MAIN_DeleteFingerCursorActor(p);
     switch (mode) {
     case 0: B_BAG_MAIN_DisplaySingle(p); break;
@@ -1320,11 +1218,11 @@ void B_BAG_MAIN_DisplayList(char *p)
             B_BAG_MAIN_LoadItemPalette(p, item, i);
             B_BAG_MAIN_PlaceActor(*(int *)(p + i * 4 + 0x424), (int)&d_0220DB88[i]);
             if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
-                B_BAG_MAIN_DrawItemRow(p, i * 8 + 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct Pair *)(&d_0220DB88[i + 6]));
+                B_BAG_MAIN_DrawItemRow(p, i * 8 + 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct BBagMainPair *)(&d_0220DB88[i + 6]));
         }
     }
     if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
-        B_BAG_MAIN_DrawItemRow(p, 55, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->count, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->maxCount, (const struct Pair *)(&d_0220DB88[i + 6]));
+        B_BAG_MAIN_DrawItemRow(p, 55, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->count, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->maxCount, (const struct BBagMainPair *)(&d_0220DB88[i + 6]));
     if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 64, 16);
 }
 
@@ -1337,7 +1235,7 @@ void B_BAG_MAIN_DisplaySelected(char *p)
     B_BAG_MAIN_LoadItemGraphic(p, item, 6, 6);
     B_BAG_MAIN_PlaceActor((int)((struct BagWork *)p)->itemActors[6], (int)&d_0220DB80[0]);
     if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
-        B_BAG_MAIN_DrawItemRow(p, 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct Pair *)(&d_0220DB80[1]));
+        B_BAG_MAIN_DrawItemRow(p, 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct BBagMainPair *)(&d_0220DB80[1]));
     if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 0x68, 0x98);
 }
 
@@ -1361,7 +1259,7 @@ void B_BAG_MAIN_DeleteFingerCursor(char *a)
 
 void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b)
 {
-    BTLV_FINGER_CURSOR_Start((u32)((struct BagWork *)p)->fingerCursor, a, b, 2, 6, 0x14);
+    BTLV_FINGER_CURSOR_Start((struct BtlvFingerCursor *)(u32)((struct BagWork *)p)->fingerCursor, a, b, 2, 6, 0x14);
 }
 
 void B_BAG_MAIN_DeleteFingerCursorActor(char *a)
@@ -1373,9 +1271,9 @@ void B_BAG_MAIN_DeleteFingerCursorActor(char *a)
  * matching: pair aggregate copy emits two unsigned halfword transfers;
  *   explicit objects base keeps the first indexed address split correctly.
  */
-void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct Pair *src)
+void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct BBagMainPair *src)
 {
-    struct Pair v;
+    struct BBagMainPair v;
     u16 i;
     s8 left,right;
     void **objects=(void **)(p+0x424);
@@ -1414,7 +1312,7 @@ void B_BAG_MAIN_Create(u8 *arg)
     int v;
     int sz = 0x5A4;
     p = GFL_HEAP_Alloc(*(u16 *)(arg + 0xc), sz, 1, d_0220E0E0, 0xB1);
-    q = TCB_AddTask(BTLV_EFFECT_GetOwner(), (u32)B_BAG_MAIN_Main, p, 0x64);
+    q = (unsigned char *)TCB_AddTask((struct TcbSystem *)BTLV_EFFECT_GetOwner(), (TcbFunc)B_BAG_MAIN_Main, p, 0x64);
     *(u8 **)p = arg;
     *(void **)(p + 8) = (void *)BTLV_EFFECT_GetPalanm();
     z = 0;
@@ -1901,11 +1799,11 @@ int B_BAG_MAIN_StateWaitKey(char *p)
     }
 }
 
-int B_BAG_MAIN_StateFadeOut(char *p){PALANM_RequestFade(*(PalAnmObj * *)&((struct BagWork *)p)->palAnm,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}
+int B_BAG_MAIN_StateFadeOut(char *p){PALANM_RequestFade((struct PaletteFade *)(const struct PaletteFade *)(struct PaletteFade *)*(PalAnmObj * *)&((struct BagWork *)p)->palAnm,10,65535,0,0,16,0,BTLV_EFFECT_GetOwner());return 19;}
 
 int B_BAG_MAIN_StateWaitFade(char *a)
 {
-    if (PALANM_GetFadeRequestBits((const char *)(((struct BagWork *)a)->palAnm)) == 0)
+    if (PALANM_GetFadeRequestBits((const struct PaletteFade *)(const char *)(((struct BagWork *)a)->palAnm)) == 0)
         return 0x14;
     return 0x13;
 }
@@ -2003,7 +1901,7 @@ int B_BAG_MAIN_StateOtherFlow(char *p)
 
 void B_BAG_MAIN_InitBg(char *p)
 {
- struct BgVramReq req=d_0220DEB0;
+ struct DispConfig req=d_0220DEB0;
  struct BgTemplate b7,b6,b5,b4;
  BG_SYS_ApplyGraphicsMode(&req,1);
  b7=d_0220DEE0;BG_SYS_InitBgLayer(7,&b7,0);
@@ -2030,11 +1928,11 @@ void B_BAG_MAIN_LoadBgGraphics(char *p)
     ARC_UTIL_UploadBgCharFromHandle(handle, 0, 6, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(handle, 3, 6, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(handle, 2, 7, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
-    PALANM_LoadHandlePaletteToSlot(*(struct PalAnmSlot * *)&((struct BagWork *)p)->palAnm, (void *)((u32)handle), 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 224, 0);
+    PALANM_LoadHandlePaletteToSlot(*(struct PaletteFade * *)&((struct BagWork *)p)->palAnm, (void *)((u32)handle), 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 224, 0);
     ARC_TOOL_DeleteHandle(handle);
     BMP_MENUWORK_LoadCharAndPltt(4, 1, 11, 0, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
-    PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot * *)&((struct BagWork *)p)->palAnm, 1, 176, 32);
-    PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct BagWork *)p)->palAnm, 23, 5, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 32, 192);
+    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade * *)&((struct BagWork *)p)->palAnm, 1, 176, 32);
+    PALANM_LoadArcPaletteToSlot(*(struct PaletteFade * *)&((struct BagWork *)p)->palAnm, 23, 5, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 32, 192);
 }
 
 void B_BAG_MAIN_CreateText(char *p){*(struct MsgBank * *)&((struct BagWork *)p)->msgBank=MSGDATA_CreateFromArchive(0,2,17,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct WordSet * *)&((struct BagWork *)p)->wordSet=WORDSET_CreateDefault(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);((struct BagWork *)p)->printSys=(void *)PRINTSYS_QUE_Create((unsigned int)((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);*(struct U16Vec * *)&((struct BagWork *)p)->strBuf=(struct U16Vec *)STRBUF_Create((unsigned int)512,(unsigned int)(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId));}

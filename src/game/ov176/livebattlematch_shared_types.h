@@ -20,7 +20,7 @@ struct LiveBattleMatchWork {
     unsigned int menuValue;   /* 20 copied into the menu descriptor x0 */
     void *mgr;                /* 24 manager pointer handed to the print helpers */
     int   partyFont;              /* 28 int argument for WIFIBATTLEMATCH_VIEW_CreatePartyWindow */
-    int   arg2C;              /* 2C int argument for WIFIBATTLEMATCH_VIEW_CreateDateWindow */
+    void *arg2C;             /* 2C int argument for WIFIBATTLEMATCH_VIEW_CreateDateWindow */
     void *party;              /* 30 pokemon party created by POKEPARTY_Create */
     void *saveBlock;          /* 34 save record base (LIVEBATTLEMATCH_SAVE_GetRecord) */
     void *card;               /* 38 regulation card (REGULATION_GetCard) */
@@ -30,7 +30,7 @@ struct LiveBattleMatchWork {
     void *printSys;           /* 1A4 words[1] */
     int   font;               /* 1A8 words[2] font handle, read as int */
     void *printQue;           /* 1AC words[3] */
-    int   view;               /* 1B0 words[4], read as int by the print helpers */
+    void *view;              /* 1B0 words[4], read as int by the print helpers */
     void *graphic;            /* 1B4 words[5] */
     void *save;               /* 1B8 words[6] save control */
     void *battleData;         /* 1BC words[7] battle record */
@@ -102,7 +102,7 @@ typedef struct {
     int   callback;         /* 10 sub proc created by WIFIBATTLEMATCH_UTIL_CreateCallback */
     RequestConfig config;   /* 14 slot and seven parameters copied from the caller */
     unsigned short heap;    /* 34 heap id */
-} Request;
+} LivebattlematchRequest;
 
 struct GfFont;
 
@@ -116,27 +116,13 @@ struct Big;
 
 /* Partial view of the arm9 regulation card (0x160 bytes); only the BGM byte
  * at 0x15B is read here. The arm9 owner is src/game/arm9/regulation.c. */
-struct RegulationCard {
-    u8 pad_0[0x15B];
-    s8 bgm;
-};
+#include "../arm9/regulation_types.h"
 
 /* Callback descriptor used by the ov177 flow helpers. */
-typedef struct {void (*fn)(void *,int *,int);int a;int b;} FlowCallback;
 
 /* Menu descriptor handed to WIFIBATTLEMATCH_UTIL_CreateMenu (0x30 bytes).
  * Same object as ov177 WifibattlematchMenuDesc, so the fields keep one name. */
-typedef struct {
-    u32 msgBank;    /* 00 message bank handle */
-    u32 font;       /* 04 font handle */
-    u32 printQue;   /* 08 PRINTSYS_QUE handle */
-    u32 items[4];   /* 0C up to four item value ids */
-    u32 count;      /* 1C item count */
-    u16 a,b,c,d;    /* 20..26 */
-    int enabled;    /* 28 cursor enabled */
-    u16 kind;       /* 2C */
-    u16 row;        /* 2E first row (BMP_MENULIST_Create third argument) */
-} WifibattlematchMenuDesc;
+#include "../ov177/wifibattlematch_menu_types.h"
 
 /* 40-byte init block copied into the live battle match object. */
 typedef struct { u32 words[10]; } LiveBattleMatchInit;

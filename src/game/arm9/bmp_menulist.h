@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_BMP_MENULIST_H
 #define GAME_ARM9_BMP_MENULIST_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of bmp_menulist.c, prototypes copied from their definitions. */
 
 struct BmpMenuList;
@@ -36,5 +37,6 @@ void BMP_MENULIST_ShiftWindow(struct BmpWin *win, u32 dir, u32 start, u32 fillCo
 void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap);
 u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
 void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled);
+/* END mkheaders: generated region */
 
 #endif

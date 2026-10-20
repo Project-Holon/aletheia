@@ -151,7 +151,7 @@ BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_count)
         }
         if (req_type == 0)
         {
-            const u32 arg = (u32)p->cmd;
+            const u32 arg = (uptr)p->cmd;
 
             while (PXI_SendWordByFifo(11, arg, 1) < 0)
             {
@@ -212,14 +212,14 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *p)
         case CARD_REQUEST_MODE_RECV:
             DC_InvalidateRange(CARDi_backup_cache_page_buf, len);
             p->cmd->src = p->src;
-            p->cmd->dst = (u32)CARDi_backup_cache_page_buf;
+            p->cmd->dst = (uptr)CARDi_backup_cache_page_buf;
             break;
         case CARD_REQUEST_MODE_SEND:
         case CARD_REQUEST_MODE_SEND_VERIFY:
             MI_CpuCopy8((const void *)p->src, CARDi_backup_cache_page_buf, len);
             DC_FlushRange(CARDi_backup_cache_page_buf, len);
             DC_WaitWriteBufferEmpty();
-            p->cmd->src = (u32)CARDi_backup_cache_page_buf;
+            p->cmd->src = (uptr)CARDi_backup_cache_page_buf;
             p->cmd->dst = p->dst;
             break;
         case CARD_REQUEST_MODE_SPECIAL:
@@ -414,7 +414,7 @@ void CARDi_IdentifyBackupCore(CARDiCommon *p)
 {
     (void)CARDi_Request(p, 2, 1);
     p->cmd->src = 0;
-    p->cmd->dst = (u32)CARDi_backup_cache_page_buf;
+    p->cmd->dst = (uptr)CARDi_backup_cache_page_buf;
     p->cmd->len = 1;
     (void)CARDi_Request(p, 6, 1);
 }

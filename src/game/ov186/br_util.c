@@ -147,34 +147,34 @@ struct Strbuf;
 
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
+#include "../arm9/gds_profile.h"
 struct StoredMon;
 
-extern u32 GDS_PROFILE_GetEggFlag(struct StoredMon *p);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/gfl_use.h"
 
 extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
 struct MsgBank;
+struct ClactActor;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
 
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct WordSet;
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+#include "../arm9/wordset.h"
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void BG_SYS_PushTile(u32 index);
+#include "../arm9/bg_sys.h"
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -194,15 +194,15 @@ struct GdsRecord;
 
 struct PmsDraw;
 
-typedef struct {u16 x,y,id;u8 flag,pad;} Request;
+typedef struct {u16 x,y,id;u8 flag,pad;} BrUtilRequest;
 
-typedef struct {void *text;int id;} Item;
+typedef struct {void *text;int id;} BrUtilItem;
 
-typedef struct {Item *list;u32 count;u8 x,y,width,height,palette,bg,spacing,pad;int mode;char *resources;u32 manager,cursor,other;u16 *selection;} Config;
+typedef struct {BrUtilItem *list;u32 count;u8 x,y,width,height,palette,bg,spacing,pad;int mode;char *resources;u32 manager,cursor,other;u16 *selection;} BrUtilConfig;
 
 typedef struct {u8 top,bottom,left,right;} Area;
 
-typedef struct {Config cfg;u32 handles[4],descriptor;u16 selected,last,index,start,visible;u16 pad46;int hitId;signed char dragDir;u8 scroll,pad4e[2];void (*methods[3])(void);Area areas[10];int dragActive;u16 dragY;u8 pad8A[2];void *bitmaps[];} BrUtilListMenu;
+typedef struct {BrUtilConfig cfg;u32 handles[4],descriptor;u16 selected,last,index,start,visible;u16 pad46;int hitId;signed char dragDir;u8 scroll,pad4e[2];void (*methods[3])(void);Area areas[10];int dragActive;u16 dragY;u8 pad8A[2];void *bitmaps[];} BrUtilListMenu;
 
 /* One text window: window descriptor, owner, string buffer and layout, 0x24 bytes. */
 typedef struct {
@@ -223,7 +223,7 @@ typedef struct {char pad[0x8C];int bitmap[1];} BrUtilListView;
 
 typedef struct {u32 x,y;} BrUtilPair;
 
-typedef struct {u16 x,y,z,w;} Req;
+typedef struct {u16 x,y,z,w;} BrUtilReq;
 
 typedef struct {u8 x,y,w,h;u32 msg;} Ent;
 
@@ -233,12 +233,12 @@ typedef void (*Callback)(u8 *,int *,u32);
 typedef struct BrUtilEffect {
     int x;                      /* 0x00 origin x */
     int y;                      /* 0x04 origin y */
-    const Pair *target;         /* 0x08 target position */
+    const BrPair *target;         /* 0x08 target position */
     int index;                  /* 0x0C sprite index */
     int *task;                  /* 0x10 effect task */
     char *resources;            /* 0x14 resource base */
     char record[12][32];        /* 0x18 motion records */
-    Pair positions[12];         /* 0x198 handle positions */
+    BrPair positions[12];         /* 0x198 handle positions */
     void *handles[12];          /* 0x1F8 actors */
     int timer;                  /* 0x228 effect step counter */
     int flag;                   /* 0x22C effect finished flag */
@@ -289,20 +289,25 @@ typedef struct BrUtilFollow {
 
 typedef struct {short x,y;} ShortPair;
 
-typedef struct {Pair first,second,third;} Table;
+typedef struct {BrPair first,second,third;} Table;
 
 #include "../sdk_fx.h"
 
-extern void * MI_CpuFill8(void *,u32,u32);
+/* The DS code was built against a prototype that returns the destination and takes a word fill value. The host build uses the header. */
+#ifdef __MWERKS__
+#define MI_CpuFill8 MI_CpuFill8_header
+#endif
+#include "../arm9/mi_memory.h"
+#ifdef __MWERKS__
+#undef MI_CpuFill8
+extern void *MI_CpuFill8(void *dest, u32 data, u32 size);
+#endif
 
-extern void *STRBUF_Create(unsigned,unsigned short);
 
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct BmpWin;
 
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
@@ -314,60 +319,44 @@ extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 struct GfFont;
 struct PrintQueue;
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+#include "../arm9/printsys.h"
 
 extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
-extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 
-extern u32 PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font);
 
 extern void GF_PANIC_Fail(const char *,u32,const char *);
 
-extern void BG_SYS_MarkTileDirty(u32);
 
-extern struct Actor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, int heap);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *,u32);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *,unsigned int);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *,unsigned int);
 
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 struct BrRes;
 
 extern void BR_RES_LoadSprite(struct BrRes *res, unsigned int spriteIndex, unsigned int heapId);
 
-extern int BR_RES_GetSprite(char *,int,Triple *);
 
 extern unsigned BR_RES_GetFont(struct BrRes *res);
 
-extern void CLACT_DeleteActor(struct Actor *p);
+extern void CLACT_DeleteActor(struct ClactActor *p);
 
-extern void BMP_Delete(struct Bmp *p);
 
 extern void BR_RES_ReleaseSprite(struct BrRes *res, unsigned int spriteIndex);
 
-extern int GFL_USE_IsSeqPlaying(u32 a);
 
-extern int TOUCHPANEL_HitCont(const void *);
 
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
-extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern void MIi_CpuCopy32(void *,const void *,unsigned);
 
-extern int TOUCHPANEL_HitTrg(const void *);
 
 extern void BR_RES_ApplyBgSet(void *unusedA, u32 palSet);
 
@@ -375,54 +364,32 @@ extern int BR_RES_GetMsgData(struct BrRes *res);
 
 extern int BR_RES_GetWordSet(struct BrRes *res);
 
-extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+#include "../arm9/pms_draw.h"
 
-extern void PMS_DRAW_SetDecoPriority(struct PmsDraw *p, u32 i, u32 val);
 
-extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
-extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
 
-extern void PMS_DRAW_PrintOffset(struct PmsDraw *wk, void *bmpWin, void *pms, unsigned int id, void *offset);
 
-extern u32 GDS_PROFILE_GetSpecies(struct StoredMon *p);
 
-extern u32 GDS_PROFILE_GetFormSpecies(struct StoredMon *p);
 
-extern u32 GDS_PROFILE_GetNicknameFlag(struct StoredMon *p);
 
-extern u32 GDS_PROFILE_GetBadEggFlag(struct StoredMon *p);
 struct GdsProfileRaw;
 
-extern u32 GDS_PROFILE_GetValidatedCountry(struct GdsProfileRaw *p);
 
-extern u32 GDS_PROFILE_GetValidatedRegion(struct GdsProfileRaw *p);
 
-extern u32 GDS_PROFILE_GetBirthMonth(struct GdsProfileRaw *p);
 
-extern u32 GDS_PROFILE_GetTrainerSprite(struct GdsProfileRaw *p);
 
-extern void *GDS_PROFILE_ExportRecord(struct GdsProfileRaw *p, struct GdsRecord *out, unsigned int tag);
 
-extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
 
-extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
 
-extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 
-extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 
-extern void *ARC_TOOL_CreateHandle(u32,u16);
 
-extern int POKE_TOOL_GetIconPaletteArcId(void);
+#include "../arm9/poke_tool_ext.h"
 
-extern int POKE_TOOL_GetIconCellArcId(void);
 
-extern int POKE_TOOL_GetIconCellEntryId(void);
 
-extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32);
 
-extern u32 POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 
 extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
 
@@ -430,19 +397,67 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 
 extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
 
-extern void *CLACT_SetActorPaletteOffset(void *,u32,u32);
 
-extern void PMS_DRAW_Delete(struct PmsDraw *wk);
 
-extern void PMS_DRAW_Main(struct PmsDraw *wk);
 
-extern void CLACT_SetActorAnimSeq(struct Actor *,u16);
+extern void CLACT_SetActorAnimSeq(struct ClactActor *,u16);
 
-extern void CLACT_AddActorSurfacePos(void *,const ShortPair *,u16);
 
-extern long VEC_Mag(const VecFx32 *);
+#include "../arm9/fx_vec.h"
 
-extern u32 FX_Div(u32,u32);
+#include "../arm9/fx_cp.h"
+/* The DS code passes the heap id as a halfword (the original prototype); the header takes a word. The host build uses the header. */
+#ifdef __MWERKS__
+#define STRBUF_Create STRBUF_Create_header
+#endif
+#include "../arm9/strbuf.h"
+#ifdef __MWERKS__
+#undef STRBUF_Create
+extern struct Strbuf *STRBUF_Create(u32 capacity, u16 heapId);
+#endif
+/* The DS code passes the window width as a word (the original prototype); the header takes a byte. The host build uses the header. */
+#ifdef __MWERKS__
+#define BMP_WIN_Create BMP_WIN_Create_header
+#endif
+#include "../arm9/bmp_win.h"
+#ifdef __MWERKS__
+#undef BMP_WIN_Create
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u32 width, u8 height, u8 palette, u8 allocDir);
+#endif
+/* The DS code passes the actor heap id as a word and the surface offset selector as a halfword (the original prototypes); the header has a halfword heap id and a word selector. The host build uses the header. */
+#ifdef __MWERKS__
+#define CLACT_AddActorSurfacePos CLACT_AddActorSurfacePos_header
+#define CLACT_SetActorPaletteOffset CLACT_SetActorPaletteOffset_header
+#define CLACT_CreateActor CLACT_CreateActor_header
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+#undef CLACT_AddActorSurfacePos
+#undef CLACT_SetActorPaletteOffset
+#undef CLACT_CreateActor
+extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u16 which);
+extern void *CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 pltt_op);
+extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, int heap_id);
+#endif
+/* The DS code passes a signed sprite index (the original prototype); the header takes an unsigned index. The host build uses the header. */
+#ifdef __MWERKS__
+#define BR_RES_GetSprite BR_RES_GetSprite_header
+#endif
+#include "../ov186/br_res.h"
+#ifdef __MWERKS__
+#undef BR_RES_GetSprite
+extern int BR_RES_GetSprite(struct BrRes *res, int spriteIndex, void *outSprite);
+#endif
+#include "../arm9/touchpanel.h"
+/* The DS code passes the heap id as a halfword (the original prototype); the header takes a word. The host build uses the header. */
+#ifdef __MWERKS__
+#define ARC_TOOL_CreateHandle ARC_TOOL_CreateHandle_header
+#endif
+#include "../arm9/arc_tool.h"
+#ifdef __MWERKS__
+#undef ARC_TOOL_CreateHandle
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#endif
 
 void *BR_UTIL_Create(unsigned short plane,unsigned a,unsigned short b,unsigned short c,unsigned char d,unsigned char e,void *owner,unsigned short heap);
 
@@ -456,9 +471,9 @@ int BR_UTIL_FlushText(u8*p);
 
 void BR_UTIL_SetTextLayout(u8*p,u32 a,u32 b,u32 c);
 
-void BR_UTIL_AlignText(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out);
+void BR_UTIL_AlignText(int mode,BrPair *base,const void *bmp,void *text,void *font,BrPair *out);
 
-BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap);
+BrUtilListMenu *BR_UTIL_CreateListMenu(const BrUtilConfig *cfg,u16 heap);
 
 void BR_UTIL_DeleteListMenu(char *p);
 
@@ -510,7 +525,7 @@ void BR_UTIL_DeleteProfileScreen(int *p);
 
 int BR_UTIL_MainProfileScreen(u8 *p);
 
-int *BR_UTIL_CreateTask(int payload,int callback,u32 heap);
+int *BR_UTIL_CreateTask(int payload,int callback,int heap);
 
 void BR_UTIL_DeleteTask(void *p);
 
@@ -530,7 +545,7 @@ void BR_UTIL_DeleteHandles(char *r5);
 
 void BR_UTIL_RunHandles(char *p);
 
-void BR_UTIL_StartEffect(char *p,u32 mode,const Pair *pair);
+void BR_UTIL_StartEffect(char *p,u32 mode,const BrPair *pair);
 
 int BR_UTIL_IsEffectDone(char *p);
 
@@ -554,17 +569,17 @@ void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilEffect *p);
 
 void BR_UTIL_EffectToPoint(int *task,int *state,char *p);
 
-int BR_UTIL_InitOrbit(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration);
+int BR_UTIL_InitOrbit(u8 *p,const BrPair *origin,u16 a,u16 b,u16 c,u16 d,int duration);
 
 int BR_UTIL_StepOrbit(char *p, int *out, int step);
 
-int BR_UTIL_InitSpiral(u8 *p,const Pair *origin,u16 a,u16 b,int duration);
+int BR_UTIL_InitSpiral(u8 *p,const BrPair *origin,u16 a,u16 b,int duration);
 
 int BR_UTIL_StepSpiral(char *p, int *out, int step);
 
-void BR_UTIL_InitLine(int *p,const Pair *a,const Pair *b,int c,int d);
+void BR_UTIL_InitLine(int *p,const BrPair *a,const BrPair *b,int c,int d);
 
-int BR_UTIL_StepLine(int *p, Pair *out, int step);
+int BR_UTIL_StepLine(int *p, BrPair *out, int step);
 
 void BR_UTIL_Init(int *p, int a, const int *values, int duration);
 
@@ -574,7 +589,7 @@ extern const char d_02200D5C[];
 
 extern const char d_02200D68[];
 
-extern const Pair d_02200B0C[];
+extern const BrPair d_02200B0C[];
 
 extern const char d_02200AF0[];
 
@@ -618,11 +633,11 @@ void BR_UTIL_Delete(u8*p){BMP_WIN_ClearScreen(*(void* *)&((BrUtilTextWin *)p)->w
 
 void BR_UTIL_SetTextFromMessage(char *p,void *a,void *b,void *font,unsigned short value)
 {
-    Pair xy;
+    BrPair xy;
     void *owner;
     BMP_Clear(BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window),((BrUtilTextWin *)p)->clearColor);
     MSGDATA_ReadString(a,(u32)b,((BrUtilTextWin *)p)->strbuf);
-    BR_UTIL_AlignText(((BrUtilTextWin *)p)->alignMode, (Pair *)(p+28), BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window), ((BrUtilTextWin *)p)->strbuf, font, (Pair *)&xy);
+    BR_UTIL_AlignText(((BrUtilTextWin *)p)->alignMode, (BrPair *)(p+28), BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window), ((BrUtilTextWin *)p)->strbuf, font, (BrPair *)&xy);
     owner=((BrUtilTextWin *)p)->owner;
     PRINTSYS_PrintQueColor(owner,BMP_WIN_GetBmp(((BrUtilTextWin *)p)->bmp),(short)xy.x,(short)xy.y,(((BrUtilTextWin *)p)->strbuf),font,value);
     p[4]=1;
@@ -630,11 +645,11 @@ void BR_UTIL_SetTextFromMessage(char *p,void *a,void *b,void *font,unsigned shor
 
 void BR_UTIL_SetTextFromBuffer(char *p,void *text,void *font,unsigned short value)
 {
-    Pair xy;
+    BrPair xy;
     void *owner;
     BMP_Clear(BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window),((BrUtilTextWin *)p)->clearColor);
     STRBUF_Copy(((BrUtilTextWin *)p)->strbuf,text);
-    BR_UTIL_AlignText(((BrUtilTextWin *)p)->alignMode, (Pair *)(p+28), BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window), ((BrUtilTextWin *)p)->strbuf, font, (Pair *)&xy);
+    BR_UTIL_AlignText(((BrUtilTextWin *)p)->alignMode, (BrPair *)(p+28), BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window), ((BrUtilTextWin *)p)->strbuf, font, (BrPair *)&xy);
     owner=((BrUtilTextWin *)p)->owner;
     PRINTSYS_PrintQueColor(owner,BMP_WIN_GetBmp(((BrUtilTextWin *)p)->bmp),(short)xy.x,(short)xy.y,(((BrUtilTextWin *)p)->strbuf),font,value);
     p[4]=1;
@@ -647,7 +662,7 @@ void BR_UTIL_SetTextLayout(u8*p,u32 a,u32 b,u32 c){((BrUtilTextWin *)p)->alignMo
 /*
  * extent: two zero alignment bytes follow the 86-byte function.
  */
-void BR_UTIL_AlignText(int mode,Pair *base,const void *bmp,void *text,void *font,Pair *out)
+void BR_UTIL_AlignText(int mode,BrPair *base,const void *bmp,void *text,void *font,BrPair *out)
 {
     unsigned x,y;
     switch(mode) {
@@ -663,10 +678,10 @@ void BR_UTIL_AlignText(int mode,Pair *base,const void *bmp,void *text,void *font
 /*
  * lever: u16 heap and const Config pointer restore scheduling; bounded permuter count-before-limit restores the clamp registers. Resource before font gives the original spill slots.
  */
-BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
+BrUtilListMenu *BR_UTIL_CreateListMenu(const BrUtilConfig *cfg,u16 heap)
 {
-    Triple arrows,marks;
-    Request arrow,mark;
+    BrTriple arrows,marks;
+    BrUtilRequest arrow,mark;
     BrUtilListMenu *p;
     int size,mode,count;
     int limit;
@@ -697,20 +712,20 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
         p->methods[0]=(void (*)(void))BR_UTIL_ScrollRows;p->methods[1]=(void (*)(void))BR_UTIL_NeedsScroll;p->methods[2]=(void (*)(void))BR_UTIL_HandleRowTouch;
     } else if(p->cfg.mode==1) {
         p->methods[0]=(void (*)(void))BR_UTIL_ScrollWithCursor;p->methods[1]=(void (*)(void))BR_UTIL_HasMultipleRows;p->methods[2]=(void (*)(void))BR_UTIL_UpdateRowSelection;
-        if(p->cfg.cursor) BR_UTIL_StartEffect((char *)p->cfg.cursor,5,&d_02200B0C[p->index]);
+        if(p->cfg.cursor) BR_UTIL_StartEffect((char *)p->cfg.cursor,5,(const BrPair *)&d_02200B0C[p->index]);
     }
-    p->descriptor=BMP_WIN_Create(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
+    p->descriptor=(u32)BMP_WIN_Create(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
     BMP_WIN_MakeScreen((struct BmpWin *)p->descriptor);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)p->descriptor));
     i=0;
-    MI_CpuFill8(&arrow,0,8);
+    MI_CpuFill8((void *)&arrow,0,8);
     if(cfg->bg<4) {
         BR_RES_LoadSprite((struct BrRes *)p->cfg.resources,7,heap);
-        if(!BR_RES_GetSprite(p->cfg.resources,7,&arrows)) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
+        if(!BR_RES_GetSprite((struct BrRes *)p->cfg.resources,7,(void *)&arrows)) GF_PANIC_Fail((const char *)d_02200D68,0,(const char *)d_02200D68);
         mode=0;
     } else {
         BR_RES_LoadSprite((struct BrRes *)p->cfg.resources,8,heap);
-        if(!BR_RES_GetSprite(p->cfg.resources,8,&arrows)) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
+        if(!BR_RES_GetSprite((struct BrRes *)p->cfg.resources,8,(void *)&arrows)) GF_PANIC_Fail((const char *)d_02200D68,0,(const char *)d_02200D68);
         mode=1;
     }
     arrow.x=128;arrow.flag=0;
@@ -720,18 +735,18 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
         if(cfg->mode==0) arrow.y=i==0?16:128;
         else arrow.y=i==0?64:184;
         arrow.id=i;
-        p->handles[i]=(u32)CLACT_CreateActor((void *)cfg->manager,arrows.y,arrows.z,arrows.x,&arrow,resource,heap);
-        CLACT_SetActorAutoAnim((struct Actor *)p->handles[i],1);CLACT_SetActorObjMode((struct Actor *)p->handles[i],1);
+        p->handles[i]=(u32)CLACT_CreateActor((struct Unit *)((void *)cfg->manager),arrows.y,arrows.z,arrows.x,(const struct ActorInitParam *)&arrow,resource,heap);
+        CLACT_SetActorAutoAnim((struct ClactActor *)p->handles[i],1);CLACT_SetActorObjMode((struct ClactActor *)p->handles[i],1);
     }
     i=0;
-    CLACT_SetActorDrawEnable((struct Actor *)p->handles[0],0);
-    MI_CpuFill8(&mark,0,8);
+    CLACT_SetActorDrawEnable((struct ClactActor *)p->handles[0],0);
+    MI_CpuFill8((void *)&mark,0,8);
     mark.y=72;mark.id=5;mark.flag=0;
-    if(!BR_RES_GetSprite(p->cfg.resources,6,&marks)) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
+    if(!BR_RES_GetSprite((struct BrRes *)p->cfg.resources,6,(void *)&marks)) GF_PANIC_Fail((const char *)d_02200D68,0,(const char *)d_02200D68);
     for(i=2;i<4;i++) {
         mark.x=i==2?24:232;
-        p->handles[i]=(u32)CLACT_CreateActor((void *)p->cfg.manager,marks.y,marks.z,marks.x,&mark,1,heap);
-        CLACT_SetActorObjMode((struct Actor *)p->handles[i],1);
+        p->handles[i]=(u32)CLACT_CreateActor((struct Unit *)((void *)p->cfg.manager),marks.y,marks.z,marks.x,(const struct ActorInitParam *)&mark,1,heap);
+        CLACT_SetActorObjMode((struct ClactActor *)p->handles[i],1);
     }
     font=BR_RES_GetFont((struct BrRes *)p->cfg.resources);
     for(i=0;(u32)i<p->cfg.count;i++) {
@@ -745,17 +760,17 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const Config *cfg,u16 heap)
     }
     BR_UTIL_DrawListRows((char *)p,p->start);
     if(cfg->count<p->visible) {
-        p->scroll=0;CLACT_SetActorDrawEnable((struct Actor *)p->handles[0],0);CLACT_SetActorDrawEnable((struct Actor *)p->handles[1],0);
+        p->scroll=0;CLACT_SetActorDrawEnable((struct ClactActor *)p->handles[0],0);CLACT_SetActorDrawEnable((struct ClactActor *)p->handles[1],0);
     } else {
         p->scroll=1;
         if(p->scroll) {
-            if(p->start==0) CLACT_SetActorDrawEnable((struct Actor *)p->handles[0],0);
-            else CLACT_SetActorDrawEnable((struct Actor *)p->handles[0],1);
-            if(p->cfg.count==p->start+p->visible) CLACT_SetActorDrawEnable((struct Actor *)p->handles[1],0);
-            else CLACT_SetActorDrawEnable((struct Actor *)p->handles[1],1);
+            if(p->start==0) CLACT_SetActorDrawEnable((struct ClactActor *)p->handles[0],0);
+            else CLACT_SetActorDrawEnable((struct ClactActor *)p->handles[0],1);
+            if(p->cfg.count==p->start+p->visible) CLACT_SetActorDrawEnable((struct ClactActor *)p->handles[1],0);
+            else CLACT_SetActorDrawEnable((struct ClactActor *)p->handles[1],1);
         }
     }
-    if(BR_UTIL_ListMenuIsScrollable((char *)p)) for(i=2;i<4;i++) CLACT_SetActorAutoAnim((struct Actor *)p->handles[i],1);
+    if(BR_UTIL_ListMenuIsScrollable((char *)p)) for(i=2;i<4;i++) CLACT_SetActorAutoAnim((struct ClactActor *)p->handles[i],1);
     return p;
 }
 
@@ -763,7 +778,7 @@ void BR_UTIL_DeleteListMenu(char *p)
 {
     int i;
     if(((BrUtilListMenu *)p)->cfg.cursor) BR_UTIL_StartEffect((char *)((BrUtilListMenu *)p)->cfg.cursor,0,0);
-    for(i=0;i<4;i++) CLACT_DeleteActor((struct Actor *)(*(int *)(p+0x28+i*4)));
+    for(i=0;i<4;i++) CLACT_DeleteActor((struct ClactActor *)(*(int *)(p+0x28+i*4)));
     for(i=0;(unsigned)i<((BrUtilListMenu *)p)->cfg.count;i++) {
         if(((BrUtilListMenu *)p)->bitmaps[i] && ((BrUtilListMenu *)p)->cfg.list[i].text) BMP_Delete((struct Bmp *)((BrUtilListMenu *)p)->bitmaps[i]);
     }
@@ -787,10 +802,10 @@ void BR_UTIL_MainListMenu(char *p)
                 BR_UTIL_DrawListRows(p,((BrUtilListMenu *)p)->start);
             }
             if(((BrUtilListMenu *)p)->scroll) {
-                if(((BrUtilListMenu *)p)->start==0) CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((BrUtilListMenu *)p)->handles[0],0);
-                else CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((BrUtilListMenu *)p)->handles[0],1);
-                if(((BrUtilListMenu *)p)->cfg.count==((BrUtilListMenu *)p)->start+((BrUtilListMenu *)p)->visible) CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((BrUtilListMenu *)p)->handles[1],0);
-                else CLACT_SetActorDrawEnable((struct Actor *)*(int *)&((BrUtilListMenu *)p)->handles[1],1);
+                if(((BrUtilListMenu *)p)->start==0) CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)&((BrUtilListMenu *)p)->handles[0],0);
+                else CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)&((BrUtilListMenu *)p)->handles[0],1);
+                if(((BrUtilListMenu *)p)->cfg.count==((BrUtilListMenu *)p)->start+((BrUtilListMenu *)p)->visible) CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)&((BrUtilListMenu *)p)->handles[1],0);
+                else CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)&((BrUtilListMenu *)p)->handles[1],1);
             }
         }
     }
@@ -857,7 +872,7 @@ int BR_UTIL_PollScrollDrag(char *p)
     int x,y;
     int direction=0;
     int delta,absolute;
-    if(TOUCHPANEL_HitCont(d_02200AF0)!=-1) {
+    if(TOUCHPANEL_HitCont((const TouchHitTable *)d_02200AF0)!=-1) {
         TOUCHPANEL_GetPointCont((u32 *)(&x),(u32 *)(&y));
         if(((BrUtilListMenu *)p)->dragActive==0) {((BrUtilListMenu *)p)->dragActive=1;((BrUtilListMenu *)p)->dragY=y;}
         else {
@@ -938,14 +953,14 @@ int BR_UTIL_HasMultipleRows(char *p) { return ((BrUtilListMenu *)p)->cfg.count>1
 void BR_UTIL_HandleRowTouch(char *p)
 {
     int x,y;
-    Pair pair;
+    BrPair pair;
     int result;
     ((BrUtilListMenu *)p)->hitId=-1;
-    result=TOUCHPANEL_HitTrg(p+0x5C);
+    result=TOUCHPANEL_HitTrg((const TouchHitTable *)(p+0x5C));
     if(result!=-1) {
         if(((BrUtilListMenu *)p)->cfg.other) {
             TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
-            BR_UTIL_StartEffect((char *)((BrUtilListMenu *)p)->cfg.other, 1, (const Pair *)&pair);
+            BR_UTIL_StartEffect((char *)((BrUtilListMenu *)p)->cfg.other, 1, (const BrPair *)&pair);
         }
         GFL_USE_PlaySeDefaultVolume(0x703);
         ((BrUtilListMenu *)p)->hitId=((int *)((int)((BrUtilListMenu *)p)->cfg.list+(result+((BrUtilListMenu *)p)->start)*8))[1];
@@ -1379,16 +1394,16 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
     if(B) {
         u32 hf;
         void *h;
-        Req r;
+        BrUtilReq r;
         hf=(heap&0x7fff)|0x8000;
         h=ARC_TOOL_CreateHandle(7,hf);
         *(int *)(p+0x2c)=CLACT_RegisterPaletteCompressed(h,POKE_TOOL_GetIconPaletteArcId(),0,0x80,hf);
         *(int *)(p+0x34)=CLACT_RegisterCellAnim(h,POKE_TOOL_GetIconCellArcId(),POKE_TOOL_GetIconCellEntryId(),(u16)hf);
         *(int *)(p+0x30)=CLACT_RegisterCharacter(h,POKE_TOOL_CalcGraphicIndex(B,C,D,A),0,0,hf);
-        ARC_TOOL_DeleteHandle(h);
-        MI_CpuFill8(&r,0,8);
+        ARC_TOOL_DeleteHandle((void *)h);
+        MI_CpuFill8((void *)&r,0,8);
         r.x=0x4b;r.y=0x40;r.z=1;
-        *(void **)(p+0x24)=CLACT_CreateActor(unit,*(u32 *)(p+0x30),*(u32 *)(p+0x2c),*(u32 *)(p+0x34),&r,0,heap);
+        *(void **)(p+0x24)=CLACT_CreateActor((struct Unit *)unit,*(u32 *)(p+0x30),*(u32 *)(p+0x2c),*(u32 *)(p+0x34),(const struct ActorInitParam *)&r,0,heap);
         CLACT_SetActorPaletteOffset(*(void **)(p+0x24),POKE_TOOL_CalcIconPalette(B,C,D,A),0);
         CLACT_SetActorObjMode(*(void **)(p+0x24),1);
     }
@@ -1422,10 +1437,10 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
         }
     }
     {
-        Req r;
-        MI_CpuFill8(&r,0,8);
+        BrUtilReq r;
+        MI_CpuFill8((void *)&r,0,8);
         r.x=0x30;r.y=0x40;
-        *(void **)(p+0x28)=CLACT_CreateActor(unit,*(u32 *)(p+0x3c),*(u32 *)(p+0x38),*(u32 *)(p+0x40),&r,0,heap);
+        *(void **)(p+0x28)=CLACT_CreateActor((struct Unit *)unit,*(u32 *)(p+0x3c),*(u32 *)(p+0x38),*(u32 *)(p+0x40),(const struct ActorInitParam *)&r,0,heap);
         CLACT_SetActorPaletteOffset(*(void **)(p+0x28),0,1);
         CLACT_SetActorObjMode(*(void **)(p+0x28),1);
     }
@@ -1435,8 +1450,8 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
 void BR_UTIL_DeleteProfileScreen(int *p)
 {
     int i;
-    if(p[10]) {CLACT_DeleteActor((struct Actor *)p[10]);CLACT_ReleasePalette(p[14]);CLACT_ReleaseCharacter(p[15]);CLACT_ReleaseCellAnim(p[16]);}
-    if(p[9]) {CLACT_DeleteActor((struct Actor *)p[9]);CLACT_ReleasePalette(p[11]);CLACT_ReleaseCharacter(p[12]);CLACT_ReleaseCellAnim(p[13]);}
+    if(p[10]) {CLACT_DeleteActor((struct ClactActor *)p[10]);CLACT_ReleasePalette(p[14]);CLACT_ReleaseCharacter(p[15]);CLACT_ReleaseCellAnim(p[16]);}
+    if(p[9]) {CLACT_DeleteActor((struct ClactActor *)p[9]);CLACT_ReleasePalette(p[11]);CLACT_ReleaseCharacter(p[12]);CLACT_ReleaseCellAnim(p[13]);}
     for(i=0;i<7;i++) if(p[i]) {BR_UTIL_Delete((void *)p[i]);p[i]=0;}
     PMS_DRAW_Delete((struct PmsDraw *)p[8]);BR_RES_ApplyBgSet((void *)p[7],8);GFL_HEAP_Free(p);BG_SYS_PushTile(1);
 }
@@ -1450,7 +1465,7 @@ int BR_UTIL_MainProfileScreen(u8 *p)
     return result;
 }
 
-int *BR_UTIL_CreateTask(int payload,int callback,u32 heap)
+int *BR_UTIL_CreateTask(int payload,int callback,int heap)
 {
     int *p;
     p=GFL_HEAP_Alloc(heap,16,0,d_02200D5C,0x6a2);
@@ -1498,8 +1513,8 @@ int BR_UTIL_IsTaskStep(int *p, int v)
 
 char *BR_UTIL_CreateHandles(void *owner, char *resources, int index, int heap)
 {
-    Triple triple;
-    Pair pair;
+    BrTriple triple;
+    BrPair pair;
     unsigned short res;
     char *p;
     int i;
@@ -1508,14 +1523,14 @@ char *BR_UTIL_CreateHandles(void *owner, char *resources, int index, int heap)
     ((BrUtilEffect *)p)->resources=resources;((BrUtilEffect *)p)->index=index;
     ((BrUtilEffect *)p)->task=BR_UTIL_CreateTask((int)p,(int)BR_UTIL_EffectIdle,heap);
     BR_RES_LoadSprite((struct BrRes *)(((BrUtilEffect *)p)->resources),index+9,heap);
-    MI_CpuFill8(&pair,0,8);
-    if(!BR_RES_GetSprite(((BrUtilEffect *)p)->resources,index+9,&triple)) GF_PANIC_Fail(d_02200D68,0,d_02200D68);
+    MI_CpuFill8((void *)&pair,0,8);
+    if(!BR_RES_GetSprite((struct BrRes *)(((BrUtilEffect *)p)->resources),index+9,(void *)&triple)) GF_PANIC_Fail((const char *)d_02200D68,0,(const char *)d_02200D68);
     i=0;
     res=index;
     for(;i<12;i++) {
-        ((BrUtilEffect *)p)->handles[i]=CLACT_CreateActor((void *)owner,triple.y,triple.z,triple.x,&pair,res,heap);
-        CLACT_SetActorDrawEnable((struct Actor *)((BrUtilEffect *)p)->handles[i],0);
-        CLACT_SetActorObjMode((struct Actor *)(((BrUtilEffect *)p)->handles[i]),1);
+        ((BrUtilEffect *)p)->handles[i]=CLACT_CreateActor((struct Unit *)((void *)owner),triple.y,triple.z,triple.x,(const struct ActorInitParam *)&pair,res,heap);
+        CLACT_SetActorDrawEnable((struct ClactActor *)((BrUtilEffect *)p)->handles[i],0);
+        CLACT_SetActorObjMode((struct ClactActor *)(((BrUtilEffect *)p)->handles[i]),1);
     }
     return p;
 }
@@ -1527,7 +1542,7 @@ void BR_UTIL_DeleteHandles(char *r5)
 {
     int i;
     for (i = 0; i < 0xC; i++)
-        CLACT_DeleteActor((struct Actor *)(*(int *)(r5 + 0x1F8 + i * 4)));
+        CLACT_DeleteActor((struct ClactActor *)(*(int *)(r5 + 0x1F8 + i * 4)));
     BR_RES_ReleaseSprite((struct BrRes *)(((BrUtilEffect *)r5)->resources), ((BrUtilEffect *)r5)->index + 9);
     BR_UTIL_DeleteTask((void *)((BrUtilEffect *)r5)->task);
     GFL_HEAP_Free((int *)r5);
@@ -1541,11 +1556,11 @@ void BR_UTIL_RunHandles(char *p)
 /*
  * follower: 021FD938 already filed separately; lead excludes that existing accessor.
  */
-void BR_UTIL_StartEffect(char *p,u32 mode,const Pair *pair)
+void BR_UTIL_StartEffect(char *p,u32 mode,const BrPair *pair)
 {
     if(pair) {
-        *(Pair *)p=*pair;
-        *(const Pair * *)&((BrUtilEffect *)p)->target=pair;
+        *(BrPair *)p=*pair;
+        *(const BrPair * *)&((BrUtilEffect *)p)->target=pair;
     }
     ((BrUtilEffect *)p)->flag=0;
     if(mode==0 && BR_UTIL_IsTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFlyIn)) GFL_USE_PlaySeDefaultVolume(0x701);
@@ -1573,7 +1588,7 @@ void BR_UTIL_SetHandlesAnimSeq(u8 *p,u32 value)
     u16 narrow;
     i=0;
     narrow=value;
-    for(;i<12;i++)CLACT_SetActorAnimSeq(*(struct Actor **)((u32)p+(u32)i*4+0x1f8),narrow);
+    for(;i<12;i++)CLACT_SetActorAnimSeq(*(struct ClactActor **)((u32)p+(u32)i*4+0x1f8),narrow);
 }
 
 void BR_UTIL_EffectIdle(void *unused,int *state,u8 *p)
@@ -1581,7 +1596,7 @@ void BR_UTIL_EffectIdle(void *unused,int *state,u8 *p)
     int i;
     switch(*state) {
     case 0:
-        for(i=0;i<12;i++)CLACT_SetActorDrawEnable(*(struct Actor **)((u32)p+(u32)i*4+0x1f8),0);
+        for(i=0;i<12;i++)CLACT_SetActorDrawEnable(*(struct ClactActor **)((u32)p+(u32)i*4+0x1f8),0);
         ((BrUtilEffect *)p)->flag=1;
         *state=1;
         break;
@@ -1591,7 +1606,7 @@ void BR_UTIL_EffectIdle(void *unused,int *state,u8 *p)
 
 void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilEffect *p)
 {
-    Pair full;
+    BrPair full;
     ShortPair pos;
     int i;
     switch(*state) {
@@ -1600,15 +1615,15 @@ void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilEffect *p)
         for(i=0;i<6;i++) {
             int angle;
             angle=i*0xffff/6;
-            BR_UTIL_InitOrbit((unsigned char *)p->record[i],(const Pair *)p,8,20,angle,angle+0x3333,15);
+            BR_UTIL_InitOrbit((unsigned char *)p->record[i],(const BrPair *)p,8,20,angle,angle+0x3333,15);
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            BR_UTIL_StepOrbit(p->record[i],(int *)&full,p->timer);
+            BR_UTIL_StepOrbit((char *)p->record[i],(int *)&full,p->timer);
             pos.x=full.x;pos.y=full.y;
-            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)p->handles[i],(const struct ClactVec2 *)&pos,p->index);
         }
         if(p->timer++>15) *state=2;
         break;
@@ -1624,7 +1639,7 @@ void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilEffect *p)
 void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilEffect *p)
 {
     ShortPair pos;
-    Pair initial;
+    BrPair initial;
     int i,done;
     switch(*state) {
     case 0:
@@ -1645,7 +1660,7 @@ void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilEffect *p)
         for(;i<12;i++) done&=BR_UTIL_StepFollow((char *)p->record[i],(int *)(&p->positions[i]));
         for(i=0;i<12;i++) {
             pos.x=p->positions[i].x;pos.y=p->positions[i].y;
-            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)p->handles[i],(const struct ClactVec2 *)&pos,p->index);
         }
         p->timer++;
         if(done) *state=2;
@@ -1658,7 +1673,7 @@ void BR_UTIL_EffectFollow6(int unused,int *state,BrUtilEffect *p)
 {
     ShortPair pos;
     ShortPair pos2;
-    Pair initial;
+    BrPair initial;
     int i;
     switch(*state) {
     case 0:
@@ -1668,15 +1683,15 @@ void BR_UTIL_EffectFollow6(int unused,int *state,BrUtilEffect *p)
             p->positions[i]=initial;
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
-        BR_UTIL_InitLine((int *)p->record[0], (const Pair *)(&p->positions[0]), (const Pair *)(&d_02200AD0.second), 0, 36);
+        BR_UTIL_InitLine((int *)p->record[0], (const BrPair *)(&p->positions[0]), (const BrPair *)(&d_02200AD0.second), 0, 36);
         for(i=1;i<6;i++) BR_UTIL_Init((int *)p->record[i],(int)&p->positions[i-1],(int *)&p->positions[i],0x3800-i*0xb33/2);
         *state=1;
     case 1:
-        p->done[1]=BR_UTIL_StepLine((int *)p->record[0], (Pair *)(&p->positions[0]), p->timer);
+        p->done[1]=BR_UTIL_StepLine((int *)p->record[0], (BrPair *)(&p->positions[0]), p->timer);
         for(i=1;i<6;i++) p->done[i+1]=BR_UTIL_StepFollow((char *)p->record[i],(int *)(&p->positions[i]));
         for(i=0;i<6;i++) {
             pos.x=p->positions[i].x;pos.y=p->positions[i].y;
-            CLACT_AddActorSurfacePos(p->handles[i],&pos,p->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)p->handles[i],(const struct ClactVec2 *)&pos,p->index);
         }
         p->timer++;
         if(p->done[1]) {CLACT_SetActorDrawEnable(p->handles[0],0);*state=2;}
@@ -1684,7 +1699,7 @@ void BR_UTIL_EffectFollow6(int unused,int *state,BrUtilEffect *p)
     case 2:
         p->timer=0;
         for(i=6;i<12;i++) {
-            BR_UTIL_InitSpiral((u8 *)p->record[i], (const Pair *)((void *)&d_02200AD0.second), 15, (i*0xffff-0x5fffa)/6, 90);
+            BR_UTIL_InitSpiral((u8 *)p->record[i], (const BrPair *)((void *)&d_02200AD0.second), 15, (i*0xffff-0x5fffa)/6, 90);
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
         *state=3;
@@ -1696,7 +1711,7 @@ void BR_UTIL_EffectFollow6(int unused,int *state,BrUtilEffect *p)
         }
         for(i=0;i<12;i++) {
             pos2.x=p->positions[i].x;pos2.y=p->positions[i].y;
-            CLACT_AddActorSurfacePos(p->handles[i],&pos2,p->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)p->handles[i],(const struct ClactVec2 *)&pos2,p->index);
         }
         p->flag=1;
         p->timer++;
@@ -1706,23 +1721,23 @@ void BR_UTIL_EffectFollow6(int unused,int *state,BrUtilEffect *p)
 
 void BR_UTIL_EffectFlyIn(int unused,int *state,BrUtilEffect *p)
 {
-    Pair full;
+    BrPair full;
     ShortPair pos;
     int i;
     switch(*state) {
     case 0:
         p->timer=0;
         for(i=0;i<6;i++) {
-            BR_UTIL_InitSpiral((u8 *)p->record[i], (const Pair *)((const Pair *)p), 15, (i*0xFFFF)/6, 90);
-            CLACT_SetActorDrawEnable((struct Actor *)p->handles[i],1);
+            BR_UTIL_InitSpiral((u8 *)p->record[i], (const BrPair *)((const BrPair *)p), 15, (i*0xFFFF)/6, 90);
+            CLACT_SetActorDrawEnable((struct ClactActor *)p->handles[i],1);
         }
         GFL_USE_PlaySeDefaultVolume(0x705);
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            BR_UTIL_StepSpiral(p->record[i],(int *)(&full),p->timer);
+            BR_UTIL_StepSpiral((char *)p->record[i],(int *)(&full),p->timer);
             pos.x=full.x;pos.y=full.y;
-            CLACT_AddActorSurfacePos((void *)(p->handles[i]), (const ShortPair *)((ShortPair *)&pos), p->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)(p->handles[i])), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos)), p->index);
         }
         p->timer++;
         break;
@@ -1734,22 +1749,22 @@ void BR_UTIL_EffectFlyIn(int unused,int *state,BrUtilEffect *p)
  */
 void BR_UTIL_EffectFlyInSlow(int unused,int *state,BrUtilEffect *p)
 {
-    Pair full;
+    BrPair full;
     ShortPair pos;
     int i;
     switch(*state) {
     case 0:
         p->timer=0;
         for(i=0;i<6;i++) {
-            BR_UTIL_InitSpiral((u8 *)p->record[i], (const Pair *)((const Pair *)p), 10, (i*0xFFFF)/6, 90);
-            CLACT_SetActorDrawEnable((struct Actor *)p->handles[i],1);
+            BR_UTIL_InitSpiral((u8 *)p->record[i], (const BrPair *)((const BrPair *)p), 10, (i*0xFFFF)/6, 90);
+            CLACT_SetActorDrawEnable((struct ClactActor *)p->handles[i],1);
         }
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            BR_UTIL_StepSpiral(p->record[i],(int *)(&full),p->timer);
+            BR_UTIL_StepSpiral((char *)p->record[i],(int *)(&full),p->timer);
             pos.x=full.x;pos.y=full.y;
-            CLACT_AddActorSurfacePos((void *)(p->handles[i]), (const ShortPair *)((ShortPair *)&pos), p->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)(p->handles[i])), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos)), p->index);
         }
         p->timer++;
         break;
@@ -1770,15 +1785,15 @@ void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilEffect *p)
     case 0:
         p->timer=0;
         for(i=0;i<6;i++) {
-            BR_UTIL_InitOrbit((u8 *)p->record[i], (const Pair *)((const Pair *)p), 8, 20, (i*0xFFFF)/6, (i*0xFFFF)/6+0x3333, 16);
-            CLACT_SetActorDrawEnable((struct Actor *)p->handles[i],1);
+            BR_UTIL_InitOrbit((u8 *)p->record[i], (const BrPair *)((const BrPair *)p), 8, 20, (i*0xFFFF)/6, (i*0xFFFF)/6+0x3333, 16);
+            CLACT_SetActorDrawEnable((struct ClactActor *)p->handles[i],1);
         }
         *state=1;
     case 1:
         for(i=0;i<6;i++) {
-            BR_UTIL_StepOrbit(p->record[i],(int *)&p->positions[i],p->timer);
+            BR_UTIL_StepOrbit((char *)p->record[i],(int *)&p->positions[i],p->timer);
             pos.x=p->positions[i].x;pos.y=p->positions[i].y;
-            CLACT_AddActorSurfacePos((void *)((int)(p->handles[i])), (const ShortPair *)((ShortPair *)&pos), p->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)((int)(p->handles[i]))), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos)), p->index);
         }
         if(p->timer++>16) *state=2;
         break;
@@ -1792,9 +1807,9 @@ void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilEffect *p)
     case 4:
         all=1;
         for(i=0;i<6;i++) {
-            all&=BR_UTIL_StepFollow(p->record[i],(int *)&p->positions[i]);
+            all&=BR_UTIL_StepFollow((char *)p->record[i],(int *)&p->positions[i]);
             pos2.x=p->positions[i].x;pos2.y=p->positions[i].y;
-            CLACT_AddActorSurfacePos((void *)((int)(p->handles[i])), (const ShortPair *)((ShortPair *)&pos2), p->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)((int)(p->handles[i]))), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos2)), p->index);
         }
         if(all) *state=5;
         break;
@@ -1816,7 +1831,7 @@ void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilEffect *p)
  */
 void BR_UTIL_EffectToPoint(int *task,int *state,char *p)
 {
-    Pair full;
+    BrPair full;
     ShortPair pos;
     int i;
     switch(*state) {
@@ -1840,9 +1855,9 @@ void BR_UTIL_EffectToPoint(int *task,int *state,char *p)
         int offset;
         offset=0x228;start=p;i=6;start=p+0x18;offset=0x1f8;
         for(;i<12;i++) {
-            BR_UTIL_StepOrbit(start+i*32,(int *)&full,((BrUtilEffect *)p)->timer);
+            BR_UTIL_StepOrbit((char *)(start+i*32),(int *)&full,((BrUtilEffect *)p)->timer);
             pos.x=full.x;pos.y=full.y;
-            CLACT_AddActorSurfacePos((void *)((int)(*(void **)(p+i*4+offset))), (const ShortPair *)((ShortPair *)&pos), ((BrUtilEffect *)p)->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)((int)(*(void **)(p+i*4+offset)))), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos)), ((BrUtilEffect *)p)->index);
         }
         if((((BrUtilEffect *)p)->timer)++>60)*state=2;
         break;
@@ -1854,7 +1869,7 @@ void BR_UTIL_EffectToPoint(int *task,int *state,char *p)
 /*
  * lever: A named x load before the last halfword store preserves the interleaved copy.
  */
-int BR_UTIL_InitOrbit(u8 *p,const Pair *origin,u16 a,u16 b,u16 c,u16 d,int duration)
+int BR_UTIL_InitOrbit(u8 *p,const BrPair *origin,u16 a,u16 b,u16 c,u16 d,int duration)
 {
     int x;
     MI_CpuFill8(p,0,28);
@@ -1902,10 +1917,10 @@ int BR_UTIL_StepOrbit(char *p, int *out, int step)
 /*
  * lever: The two-word origin copy is a Pair assignment; separate field stores reorder it.
  */
-int BR_UTIL_InitSpiral(u8 *p,const Pair *origin,u16 a,u16 b,int duration)
+int BR_UTIL_InitSpiral(u8 *p,const BrPair *origin,u16 a,u16 b,int duration)
 {
     MI_CpuFill8(p,0,24);
-    *(Pair *)p=*origin;
+    *(BrPair *)p=*origin;
     ((BrUtilSpiral *)p)->duration=duration;
     ((BrUtilSpiral *)p)->radius=a;
     ((BrUtilSpiral *)p)->angle=b;
@@ -1941,14 +1956,14 @@ int BR_UTIL_StepSpiral(char *p, int *out, int step)
 
 #pragma opt_common_subs reset
 
-static inline void copyPair(Pair *dest,const Pair *src) { int y,x; y=src->y; x=src->x; dest->y=y; dest->x=x; }
+static inline void copyPair(BrPair *dest,const BrPair *src) { int y,x; y=src->y; x=src->x; dest->y=y; dest->x=x; }
 
 /*
  * lever: inline pair copy loads y then x before storing; aggregate copy differed by 20 bytes, raw field stores by 23, const raw stores by 22.
  */
-void BR_UTIL_InitLine(int *p,const Pair *a,const Pair *b,int c,int d) { MI_CpuFill8(p,0,0x20); copyPair((Pair *)p,a); copyPair((Pair *)(p+2),b); p[7]=d; p[6]=c; BR_UTIL_StepLine(p,0,0); }
+void BR_UTIL_InitLine(int *p,const BrPair *a,const BrPair *b,int c,int d) { MI_CpuFill8(p,0,0x20); copyPair((BrPair *)p,a); copyPair((BrPair *)(p+2),b); p[7]=d; p[6]=c; BR_UTIL_StepLine(p,0,0); }
 
-int BR_UTIL_StepLine(int *p, Pair *out, int step)
+int BR_UTIL_StepLine(int *p, BrPair *out, int step)
 {
     int done = 0;
     int progress = step - p[6];
@@ -1957,11 +1972,11 @@ int BR_UTIL_StepLine(int *p, Pair *out, int step)
     p[4] = p[0] + (p[2] - p[0]) * progress / p[7];
     p[5] = p[1] + (p[3] - p[1]) * progress / p[7];
     if (progress >= p[7]) {
-        *(Pair *)(p + 4) = *(Pair *)(p + 2);
+        *(BrPair *)(p + 4) = *(BrPair *)(p + 2);
         done = 1;
     }
     if (out) {
-        *out = *(Pair *)(p + 4);
+        *out = *(BrPair *)(p + 4);
     }
     return done;
 }

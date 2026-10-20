@@ -391,7 +391,7 @@ void VM_Jump(ScriptVm *vm, u8 *pc)
 void VM_Call(ScriptVm *vm, u8 *pc)
 {
     u8 *ret = vm->pc;
-    VM_PushStack(vm, (u32)ret);
+    VM_PushStack(vm, (uptr)ret);
     vm->pc = pc;
 }
 

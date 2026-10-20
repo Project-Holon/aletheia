@@ -23,11 +23,10 @@
 #include "vct_types.h"
 #include "vct_audio_shared_types.h"
 
-extern OSIntrMode OS_DisableInterrupts(void);
+#include "../arm9/os_system.h"
 
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
-extern void MIi_CpuClearFast(int, void *, u32);
+#include "../arm9/mi_memory.h"
 
 int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size);
 
@@ -51,7 +50,7 @@ int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size)
     gVoiceFramePool.base = area;
     if (count < 4 || count > 0x48) return 0;
     if (area == 0) return 0;
-    if ((u32)area & 0x1f) {
+    if ((uptr)area & 0x1f) {
         gVoiceFramePool.base = 0;
         return 0;
     }

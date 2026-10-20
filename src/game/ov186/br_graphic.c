@@ -58,82 +58,60 @@
  *   GX_SetGraphicsMode 0x0207D4B0 arm
  */
 #include "br_types.h"
-extern void BG_SYS_Delete(void);
-extern void BMP_WIN_Exit(void);
+#include "../arm9/bmp_win.h"
 
 struct Cfg;
 struct Node;
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
 struct DispVram;
 
-struct Bank;
+struct Unit;
 
-typedef struct BrBgTemplate { unsigned words[8]; } BrBgTemplate;
+#include "../arm9/bg_sys.h"
 
-typedef struct BrBgLayerRow {unsigned id;BrBgTemplate template;unsigned type,enable;} BrBgLayerRow;
+typedef struct BrBgLayerRow {unsigned id;struct BgTemplate template;unsigned type,enable;} BrBgLayerRow;
 
-typedef struct DispConfig {unsigned words[4];} DispConfig;
 
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,unsigned short);
 
-extern void MI_CpuFill8(void *,int,int);
+#include "../arm9/mi_memory.h"
 
-extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *);
 
-extern void BG_SYS_SetLcdSwap(unsigned);
 
 extern void BG_SYS_ResetSubDisplay(void),BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void),GF_FONT_InitTextColor(void);
 
-extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void GF_FONT_SetDefaultTextColor(void);
+#include "../arm9/gf_font.h"
 
-extern void BG_SYS_Create(unsigned);
 
-extern void BMP_WIN_Init(unsigned);
 
-extern void BG_SYS_SetGraphicsMode(DispConfig *);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BrBgTemplate *tmpl, u32 type);
 
-extern void BG_SYS_FreeSlot(unsigned char);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char,unsigned char);
-
-extern void BG_SYS_Update(void);
 struct DispVramCfg;
-struct SysInit;
+struct ClactSysInit;
+struct ClactSysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
+#include "../arm9/clact.h"
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void CLACT_ExitSystem(void);
 
-extern void CLACT_DrawSystem(void);
 
-extern void CLACT_VBlankSystem(void);
 
-extern void BG_SYS_FreeLayerBuf(u32);
 
-extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
+#include "../arm9/gx.h"
 
-void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,unsigned heapId);
+void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,u16 heapId);
 
 void BR_GRAPHIC_Destroy(struct BrGraphic *gfx);
 
@@ -141,9 +119,9 @@ void BR_GRAPHIC_Draw(struct BrGraphic *gfx);
 
 u32 BR_GRAPHIC_GetActorUnit(struct BrGraphic *gfx);
 
-void BR_GRAPHIC_VBlankTask(int taskId, struct BrGraphic *gfx);
+void BR_GRAPHIC_VBlankTask(struct TcbTask *taskId, void *gfx);
 
-void BR_GRAPHIC_InitBgWindows(void *bgState,unsigned heapId);
+void BR_GRAPHIC_InitBgWindows(void *bgState,u16 heapId);
 
 void BR_GRAPHIC_ExitBgWindows(void *bgState);
 
@@ -161,9 +139,9 @@ void BR_GRAPHIC_VBlankActors(void *actorSys);
 
 u32 BR_GRAPHIC_GetUnitFromActorSys(u32*p);
 
-void BR_GRAPHIC_Begin3d(u32 a, u16 b);
+void BR_GRAPHIC_Begin3d(void *graphicHandle, u16 b);
 
-void BR_GRAPHIC_End3d(void);
+void BR_GRAPHIC_End3d(void *graphicHandle, u16 heap);
 
 extern const char d_02200D4C[];
 
@@ -171,7 +149,7 @@ extern const struct DispVram d_0220093C,d_0220096C;
 
 extern const BrBgLayerRow d_0220099C[];
 
-extern DispConfig d_02200900;
+extern struct DispConfig d_02200900;
 
 extern unsigned char d_02200920[];
 
@@ -183,7 +161,7 @@ extern unsigned char d_02200920[];
  *       arm adds a `movs r4, #0` and shifts every register.
  * volatile: hardware DISPCNT read-modify-write at 021FC3FC..021FC40A; BLDCNT stores at 021FC3F4/021FC3FA.
  */
-void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,unsigned heapId)
+void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,u16 heapId)
 {
     const struct DispVram *config;
     struct BrGraphic *gfx;
@@ -198,7 +176,7 @@ void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,unsigned heapId)
     BG_SYS_ResetSubDisplay();BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();GF_FONT_InitTextColor();
     BR_GRAPHIC_InitBgWindows(&gfx->bgState,heapId);
     BR_GRAPHIC_InitActors((int *)&gfx->actors,(int)config,heapId);
-    gfx->vblankTask=GFL_USE_AddMainTask((unsigned)BR_GRAPHIC_VBlankTask,(unsigned)gfx,0);
+    gfx->vblankTask=GFL_USE_AddMainTask(BR_GRAPHIC_VBlankTask, gfx,0);
     return gfx;
 }
 
@@ -227,13 +205,14 @@ void BR_GRAPHIC_Draw(struct BrGraphic *gfx)
 
 u32 BR_GRAPHIC_GetActorUnit(struct BrGraphic *gfx){return BR_GRAPHIC_GetUnitFromActorSys((u32 *)&gfx->actors);}
 
-void BR_GRAPHIC_VBlankTask(int taskId, struct BrGraphic *gfx)
+void BR_GRAPHIC_VBlankTask(struct TcbTask *taskId, void *gfxArg)
 {
+    struct BrGraphic * gfx = gfxArg;
     BR_GRAPHIC_VBlankBg(&gfx->bgState);
     BR_GRAPHIC_VBlankActors(&gfx->actors);
 }
 
-void BR_GRAPHIC_InitBgWindows(void *bgState,unsigned heapId)
+void BR_GRAPHIC_InitBgWindows(void *bgState,u16 heapId)
 {
     unsigned i;
     const BrBgLayerRow *r;
@@ -259,7 +238,7 @@ void BR_GRAPHIC_VBlankBg(void *bgState){BG_SYS_Update();}
 void BR_GRAPHIC_InitActors(int *actorSys, int vramConfig, int heapId)
 {
     MI_CpuFill8((void *)((int)actorSys), 0, 4);
-    CLACT_InitSystem((struct SysInit *)d_02200920, (struct DispVramCfg *)vramConfig, heapId);
+    CLACT_InitSystem((struct ClactSysInit *)d_02200920, (struct DispVramCfg *)vramConfig, heapId);
     actorSys[0] = (int)CLACT_CreateUnit(0x80, 0, heapId);
     CLACT_SetUnitDefaultRenderer((void *)actorSys[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -279,12 +258,12 @@ void BR_GRAPHIC_VBlankActors(void *actorSys){CLACT_VBlankSystem();}
 
 u32 BR_GRAPHIC_GetUnitFromActorSys(u32 *actorSys){return *actorSys;}
 
-void BR_GRAPHIC_Begin3d(u32 unusedA, u16 unusedB){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)BG_SYS_FreeLayerBuf((u8)id);}GX_SetGraphicsMode(1,0,1);}
+void BR_GRAPHIC_Begin3d(void *graphicHandle, u16 unusedB){u32 i,id;for(i=0;i<7;i++){id=d_0220099C[i].id;if(id<4)BG_SYS_FreeLayerBuf((u8)id);}GX_SetGraphicsMode(1,0,1);}
 
 /*
  * volatile: hardware BLDCNT 04000050 and DISPCNT 04000000, read-modify-write at 021FC64A..021FC650.
  */
-void BR_GRAPHIC_End3d(void)
+void BR_GRAPHIC_End3d(void *graphicHandle, u16 heap)
 {
     unsigned i,id;
     const BrBgLayerRow *r;

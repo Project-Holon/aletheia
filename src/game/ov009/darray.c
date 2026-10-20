@@ -29,35 +29,24 @@
  *   ArrayDeleteAt 0x0218437C  arm  ov009
  *   qsort  0x0209455C  arm  arm9
  */
-struct DArrayImplementation {
-    int count;
-    int capacity;
-    int elemsize;
-    int growby;
-    void (*elemfreefn)(void *);
-    void *list;
-};
-
 #include "../types.h"
+#include "darray.h"
 
-extern void *gsirealloc(void *ptr, unsigned long size);
-extern void *memcpy(void *dst, const void *src, unsigned long n);
-extern void *gsimalloc(unsigned long size);
-extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
-extern void gsifree(void *ptr);
-extern void *memmove(void *dst, const void *src, unsigned long n);
-extern void qsort(int a, int b, int c, int d);
+#include "gsmemory.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+extern void qsort(void *table_base, unsigned int num_members, unsigned int member_size, int (*compare_members)(const void *, const void *));
 struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 void ArrayFree(struct DArrayImplementation *array);
-int ArrayLength(const int *array);
+int ArrayLength(struct DArrayImplementation *array);
 void *ArrayNth(struct DArrayImplementation *array, int n);
-void ArrayAppend(void *p, void *a);
+void ArrayAppend(struct DArrayImplementation *array, void *newElem);
 void ArrayInsertAt(struct DArrayImplementation *array, void *newElem, int n);
 void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
 void ArrayRemoveAt(struct DArrayImplementation *array, int n);
-void ArrayDeleteAt(int a, int b);
+void ArrayDeleteAt(struct DArrayImplementation *array, int n);
 void ArrayReplaceAt(struct DArrayImplementation *array, void *newElem, int n);
-void ArraySort(int *p, int b);
+void ArraySort(struct DArrayImplementation *array, int (*comparator)(const void *, const void *));
 int ArraySearch(struct DArrayImplementation *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 void ArrayMapBackwards(struct DArrayImplementation *array, void (*fn)(void *, void *), void *clientData);
 void *ArrayMapBackwards2(struct DArrayImplementation *array, int (*fn)(void *, void *), void *clientData);
@@ -115,9 +104,9 @@ void ArrayFree(struct DArrayImplementation *array)
     gsifree(array);
 }
 
-int ArrayLength(const int *array)
+int ArrayLength(struct DArrayImplementation *array)
 {
-    return *array;
+    return array->count;
 }
 
 static void *mybsearch(void *elem, void *base, int num, int elemsize,
@@ -136,9 +125,9 @@ void *ArrayNth(struct DArrayImplementation *array, int n)
 /*
  * Guarded forward of a word load: calls ArrayInsertAt(p, a, *p) when p is set.
  */
-void ArrayAppend(void *p, void *a)
+void ArrayAppend(struct DArrayImplementation *array, void *newElem)
 {
-    if (p) ArrayInsertAt(p, a, (int)*(void **)p);
+    if (array) ArrayInsertAt(array, newElem, array->count);
 }
 
 void ArrayInsertAt(struct DArrayImplementation *array, void *newElem, int n)
@@ -175,10 +164,10 @@ void ArrayRemoveAt(struct DArrayImplementation *array, int n)
 /*
  * Calls the two helpers on both arguments.
  */
-void ArrayDeleteAt(int a, int b)
+void ArrayDeleteAt(struct DArrayImplementation *array, int n)
 {
-    FreeElement((struct DArrayImplementation *)a, b);
-    ArrayRemoveAt((struct DArrayImplementation *)a, b);
+    FreeElement(array, n);
+    ArrayRemoveAt(array, n);
 }
 
 void ArrayReplaceAt(struct DArrayImplementation *array, void *newElem, int n)
@@ -190,9 +179,9 @@ void ArrayReplaceAt(struct DArrayImplementation *array, void *newElem, int n)
 /*
  * Tail call on three fields of the object and the second argument.
  */
-void ArraySort(int *p, int b)
+void ArraySort(struct DArrayImplementation *array, int (*comparator)(const void *, const void *))
 {
-    qsort(p[5], p[0], p[2], b);
+    qsort(array->list, array->count, array->elemsize, comparator);
 }
 
 int ArraySearch(struct DArrayImplementation *array, void *key,
@@ -243,8 +232,8 @@ void ArrayClear(struct DArrayImplementation *array)
 {
     int i;
 
-    for (i = ArrayLength((const int *)array) - 1; i >= 0; i--)
-        ArrayDeleteAt((int)array, i);
+    for (i = ArrayLength(array) - 1; i >= 0; i--)
+        ArrayDeleteAt(array, i);
 }
 
 static void *mylsearch(void *key, void *base, int count, int size,

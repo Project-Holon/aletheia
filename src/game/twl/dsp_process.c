@@ -16,6 +16,12 @@
  * symbols:
  *   DAT_027344AC   0x027344AC  data twl
  *   DSPi_ProcList  0x027344AC  data twl
+ *   DSPi_ProcessNameFlagged  0x02732D54  data twl
+ *   DSPi_SegNameDataA  0x02732D64  data twl
+ *   DSPi_SegNameDataAHigh  0x02732D68  data twl
+ *   DSPi_SegNameDataB  0x02732D6C  data twl
+ *   DSPi_SegNameDataBHigh  0x02732D70  data twl
+ *   DSPi_DefaultProcessName  0x02732D74  data twl
  *   MI_GetWramBankMaster 0x02730388 arm twl
  *   MI_GetWramMapStart 0x02730414 arm twl
  *   MI_GetWramMapStart_B 0x027303C4 arm twl
@@ -54,6 +60,13 @@
  *   OS_SetIrqFunction  0x02084774  arm  arm9
  */
 #include "../types.h"
+extern char DSPi_ProcessNameFlagged[];
+extern char DSPi_SegNameDataA[];
+extern char DSPi_SegNameDataAHigh[];
+extern char DSPi_SegNameDataB[];
+extern char DSPi_SegNameDataBHigh[];
+extern char DSPi_DefaultProcessName[];
+#include "../arm9/pm.h"
 
 /* One DSP process: list link, name, loaded image state, the 19 interrupt
    handlers, 0x150 bytes. */
@@ -78,11 +91,8 @@ typedef struct DspGlobals {
     DspProc *head;
     u32 preInit;
     u32 thrInit;
-    void (*thrFn)(void);
-    u32 thrArg;
-    u32 pad14[2];
-    void (*preFn)(void);
-    u32 preArg;
+    PMGenCallbackInfo thr;
+    PMGenCallbackInfo pre;
 } DspGlobals;
 
 typedef struct Shared {
@@ -126,24 +136,20 @@ extern DspGlobals DAT_027344AC;
 /* The list head again, under its own name: the original code reaches it
    through two symbols (two literal pool entries). */
 extern DspProc *DSPi_ProcList;
-extern s32 STD_CompareString(const char *a, const char *b);
-extern char *STD_SearchString(char *a, char *b);
-extern void MIi_CpuClearFast(u32 v, void *dst, u32 n);
-extern void MI_CpuFill8(void *p, s32 v, u32 n);
-extern void STD_CopyString(void *dst, void *src);
-extern s32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(s32);
-extern void DC_FlushRange(void *, u32);
-extern s32 OS_IsRunOnTwl(void);
-extern int FS_IsAvailable(void);
-extern void FS_Init(u32 v);
+#include "../arm9/std_string.h"
+#include "../arm9/mi_memory.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/os_emulator.h"
+#include "../arm9/fs_api.h"
 extern void OS_SetIrqFunction(u32 mask, void (*fn)(void));
-extern u32 OS_EnableIrqMask(u32 mask);
-extern u32 OS_DisableIrqMask(u32 mask);
-extern void PMi_InsertPostExitCallbackEx(void *p, u32 v);
-extern void PMi_InsertPreSleepCallbackEx(void *p, u32 v);
-extern void PM_DeletePreSleepCallback(void *p);
-extern void OS_Terminate(void);
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
+#include "../arm9/pm.h"
+#include "pm.h"
+#include "../arm9/os_terminate_processor.h"
+#ifdef __MWERKS__
 extern void DSP_PowerOnCore(void);
 extern void DSP_PowerOffCore(void);
 extern void DSP_ResetOnCore(void);
@@ -151,24 +157,34 @@ extern void DSP_ResetOffExCore(u32 v);
 extern void DSP_MaskSemaphoreCore(u16 mask);
 extern void DSP_SendDataCore(u32 ch, u32 v);
 extern u16 DSP_RecvDataCore(u32 ch);
-extern s32 FS_SeekFile(void *file, u32 a, u32 b);
-extern s32 FS_ReadFile(void *file, void *buf, s32 len);
+#else
+#include "dsp_if.h"
+#endif
+#include "../arm9/fs_file.h"
+#ifdef __MWERKS__
 extern void DSP_InitPipe(void);
 extern DspRing *DSP_LoadPipe(DspRing *out, int ch, int dir);
 extern void DSP_WritePipe(DspRing *r, void *src, u16 count);
 extern void DSP_HookPipeNotification(u32 arg);
+#else
+#include "dsp_pipe.h"
+#endif
+#ifdef __MWERKS__
 extern u32 MI_GetWramMapStart_B(void);
 extern u32 MI_GetWramMapStart_C(void);
 extern u32 MI_GetWramMapStart(u32 type);
 extern u32 MI_IsWramSlotUsed(u32 ch, u32 idx);
 extern u32 MI_GetWramBankMaster(u32 type, u32 bank);
-extern s32 MI_FreeWramSlot(s32 sel, u32 id, s32 n, s32 v);
+extern s32 MI_FreeWramSlot(s32 sel, u32 id, s32 n, s32 v); /* original prototype; the definition differs in argument sign, return type */
 extern u32 MI_AllocWramSlot(u32 ch, s32 start, s32 num, u32 proc);
 extern u32 MI_FreeWram(u32 a, u32 b);
+#else
+#include "mi_sharedWram.h"
+#endif
 
 void DSP_StopDSPComponent(void);
-void DSPi_ShutdownCallback(void);
-void DSPi_PreSleepCallback(void);
+void DSPi_ShutdownCallback(void *arg);
+void DSPi_PreSleepCallback(void *arg);
 void DSPi_MasterInterrupts(void);
 u32 DSPi_ReadProcessImage(DspProc *p, u32 a, void *buf, s32 len);
 u32 DSPi_CommitWram(DspProc *c, s32 sel, u32 idx, s32 mode);
@@ -204,7 +220,7 @@ void DSP_StopDSPComponent(void)
 }
 
 /* Hidden function in the pool gap after DSP_StopDSPComponent. */
-void DSPi_ShutdownCallback(void)
+void DSPi_ShutdownCallback(void *arg)
 {
     DspProc *p;
     for (;;) {
@@ -217,7 +233,7 @@ void DSPi_ShutdownCallback(void)
 }
 
 /* Tail stub: forwards to OS_Terminate. */
-void DSPi_PreSleepCallback(void)
+void DSPi_PreSleepCallback(void *arg)
 {
     OS_Terminate();
 }
@@ -305,19 +321,19 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e)
         }
         name = buf;
     }
-    if (STD_CompareString(name, (char *)0x02732D54) == 0) {
+    if (STD_CompareString(name, DSPi_ProcessNameFlagged) == 0) {
         c->flags |= 1;
     }
     if (e->flags & 8) {
         size = e->sizeA * 2;
         f = (e->flags & 0x20) ? 1 : 0;
-        if (STD_SearchString(name, (char *)0x02732D64)) {
+        if (STD_SearchString(name, DSPi_SegNameDataA)) {
             selv[n] = 1;
             sizev[n] = size;
             flagv[n] = f;
             n++;
         }
-        if (STD_SearchString(name, (char *)0x02732D68)) {
+        if (STD_SearchString(name, DSPi_SegNameDataAHigh)) {
             selv[n] = 1;
             sizev[n] = size + 0x20000;
             flagv[n] = f;
@@ -327,13 +343,13 @@ s32 DSPi_MapAndLoadProcessImageCallback(DspProc *c, Hdr *h, Ent *e)
     if (e->flags & 0x10) {
         size = e->sizeB * 2;
         f = (e->flags & 0x40) ? 1 : 0;
-        if (STD_SearchString(name, (char *)0x02732D6C)) {
+        if (STD_SearchString(name, DSPi_SegNameDataB)) {
             selv[n] = 2;
             sizev[n] = size;
             flagv[n] = f;
             n++;
         }
-        if (STD_SearchString(name, (char *)0x02732D70)) {
+        if (STD_SearchString(name, DSPi_SegNameDataBHigh)) {
             selv[n] = 2;
             sizev[n] = size + 0x20000;
             flagv[n] = f;
@@ -391,9 +407,9 @@ void DSP_InitProcessContext(DspProc *o, void *src)
     o->next = 0;
     o->flags = 0;
     if (src == 0) {
-        src = (void *)0x02732D74;
+        src = DSPi_DefaultProcessName;
     }
-    STD_CopyString(&o->name, src);
+    STD_CopyString(o->name, src);
     o->file = 0;
     o->busy[0] = 0;
     o->busy[1] = 0;
@@ -532,15 +548,15 @@ u32 DSP_ExecuteProcess(DspProc *proc, void *file, u16 bankMaskA, u16 bankMaskB)
         *pp = proc;
         proc->file = 0;
         if (DAT_027344AC.thrInit == 0) {
-            DAT_027344AC.thrFn = DSPi_ShutdownCallback;
-            DAT_027344AC.thrArg = 0;
-            PMi_InsertPostExitCallbackEx(&DAT_027344AC.thrFn, 0x3F2);
+            DAT_027344AC.thr.callback = DSPi_ShutdownCallback;
+            DAT_027344AC.thr.arg = 0;
+            PMi_InsertPostExitCallbackEx(&DAT_027344AC.thr, 0x3F2);
             DAT_027344AC.thrInit = 1;
         }
         if (DAT_027344AC.preInit == 0) {
-            DAT_027344AC.preFn = DSPi_PreSleepCallback;
-            DAT_027344AC.preArg = 0;
-            PMi_InsertPreSleepCallbackEx(&DAT_027344AC.preFn, 0x3F2);
+            DAT_027344AC.pre.callback = DSPi_PreSleepCallback;
+            DAT_027344AC.pre.arg = 0;
+            PMi_InsertPreSleepCallbackEx(&DAT_027344AC.pre, 0x3F2);
             DAT_027344AC.preInit = 1;
         }
         if (OS_IsRunOnTwl() == 1) {
@@ -598,7 +614,7 @@ void DSP_QuitProcess(DspProc *proc)
     }
     proc->next = 0;
     OS_RestoreInterrupts(irq);
-    PM_DeletePreSleepCallback(&DAT_027344AC.preFn);
+    PM_DeletePreSleepCallback(&DAT_027344AC.pre);
     DAT_027344AC.preInit = 0;
 }
 

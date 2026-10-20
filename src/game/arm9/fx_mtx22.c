@@ -16,7 +16,7 @@
 
 #include "../sdk_fx.h"
 
-asm void MTX_Scale22_(void);
+asm void MTX_Scale22_(MtxFx22 *pDst, fx32 x, fx32 y);
 asm void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos);
 
 /*
@@ -26,7 +26,7 @@ asm void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos);
  * void MTX_Scale22_(MtxFx22 *pDst, fx32 x, fx32 y)
  * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
-asm void MTX_Scale22_(void)
+asm void MTX_Scale22_(MtxFx22 *pDst, fx32 x, fx32 y)
 {
     stmia r0!, {r1}
     mov r1, #0

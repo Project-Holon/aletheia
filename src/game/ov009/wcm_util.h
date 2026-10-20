@@ -5,7 +5,7 @@
 /* Public functions of wcm_util.c, prototypes copied from their definitions. */
 
 int WcmCompareMemory(unsigned char *a, unsigned char *b, unsigned int n);
-void WCM_CompareBssID(int a, int b);
+int WCM_CompareBssID(unsigned char *a, unsigned char *b);
 WMLinkLevel WCM_GetLinkLevel(void);
 WMLinkLevel WCM_CalcLinkLevel(unsigned char rssi);
 unsigned char WCMi_GetRssiAverage(void);

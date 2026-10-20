@@ -57,9 +57,9 @@ typedef struct BillboardCmdBlock {
 extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern void NNS_G3dGeFlushBuffer(void);
 extern int  G3X_GetClipMtx(MtxFx44 *pClipMtx);
-extern u32 *NNS_G3dGlbGetWVMtx(void);
-extern u32 *NNS_G3dGlbGetInvWVMtx(void);
-extern u32 *NNS_G3dGlbGetInvCameraMtx(void);
+extern MtxFx43 *NNS_G3dGlbGetWVMtx(void);
+extern MtxFx43 *NNS_G3dGlbGetInvWVMtx(void);
+extern MtxFx43 *NNS_G3dGlbGetInvCameraMtx(void);
 extern void NNS_G3dGeSendDL(const u32 *pDisplayList, u32 size);
 extern void MTX_Copy43To44_(const MtxFx43 *pSrc, MtxFx44 *pDst);
 extern void MTX_Concat44(const MtxFx44 *pA, const MtxFx44 *pB, MtxFx44 *pAB);

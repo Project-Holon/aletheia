@@ -24,15 +24,16 @@
  *   sInterruptTable     0x02FE0000  data
  */
 #include "../../matched/include/G_ItrState.h"
+#include "../sdk_ioreg.h"
 
 typedef struct ItrState ItrState;
 
-extern unsigned long OS_SetIrqMask(unsigned long intr);
-extern unsigned long OS_EnableIrqMask(unsigned long intr);
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
 extern void OS_SetIrqFunction(unsigned long intrBit, void (*function)(void));
-extern unsigned long OS_ResetRequestIrqMask(unsigned long intr);
-extern unsigned long OS_EnableInterrupts(void);
-extern void DWCi_TSKlAct(int kind);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "task.h"
 void DWCi_ITRlIntr(void);
 void DWCi_ITRlEnd(void);
 extern struct ItrState gInterruptWork;
@@ -47,13 +48,13 @@ void DWCi_ITRlIntr(void)
 {
     volatile unsigned short *ime;
     unsigned short old;
-    gInterruptWork.mask = *(volatile unsigned long *)0x04000210;
+    gInterruptWork.mask = *(volatile unsigned long *)REG_IE_ADDR;
     OS_SetIrqMask(0x40018);
     OS_EnableIrqMask(1);
     gInterruptWork.func = OS_GetIrqFunction(1);
     OS_SetIrqFunction(1, intrVBlank);
     OS_ResetRequestIrqMask(1);
-    ime = (volatile unsigned short *)0x04000208;
+    ime = (volatile unsigned short *)REG_IME_ADDR;
     old = *ime;
     *ime = 1;
     OS_EnableInterrupts();
@@ -65,7 +66,7 @@ void DWCi_ITRlIntr(void)
  */
 void DWCi_ITRlEnd(void)
 {
-    volatile unsigned short *ime = (volatile unsigned short *)0x04000208;
+    volatile unsigned short *ime = (volatile unsigned short *)REG_IME_ADDR;
     unsigned short old = *ime;
     *ime = 0;
     OS_SetIrqMask(gInterruptWork.mask);
@@ -79,5 +80,5 @@ void DWCi_ITRlEnd(void)
 static void intrVBlank(void)
 {
     DWCi_TSKlAct(1);
-    *(volatile unsigned int *)((unsigned int)&sInterruptTable + 0x3FF8) |= 1;
+    *(volatile unsigned int *)((uptr)&sInterruptTable + 0x3FF8) |= 1;
 }

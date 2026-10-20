@@ -28,7 +28,11 @@
 
 #include "gfl_heap_wrap.h"
 
-extern void *ARC_TOOL_LoadMemberRange(u32 archiveId, u32 memberIndex, u32 heapId, u32 mode, u32 size);
+#ifdef __MWERKS__
+extern void *ARC_TOOL_LoadMemberRange(u32 archiveId, u32 memberIndex, u32 heapId, u32 mode, u32 size); /* original prototype; the definition differs in argument width */
+#else
+#include "arc_tool.h"
+#endif
 
 
 struct IssCityUnit *ISS_CITY_UNIT_Create(u32 heapId, u32 memberIndex);

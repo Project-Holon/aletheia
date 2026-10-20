@@ -116,9 +116,6 @@
 #define PMSIV_CATEGORY_HEAP 42
 #define PMSIV_CATEGORY_CURSOR_NONE 254
 
-struct ActorSetup {
-    int words[3];
-};
 
 struct PmsivCategory {
     struct PmsInputView *view;
@@ -129,7 +126,7 @@ struct PmsivCategory {
     u32 unusedWord14;
     struct PmsivFade fade;
     struct PmsivBgScroll scroll;
-    struct Actor *cursorActor;
+    struct ClactActor *cursorActor;
     u32 savedCursorVisible;
     int *modeFlag;
     struct BmpWin *categoryWindows[PMSIV_CATEGORY_COUNT];
@@ -140,80 +137,47 @@ struct PmsivCategory {
     u8 printPending;
 };
 
-typedef struct { short x, y; } ScreenPos;
+typedef struct { short x, y; } PmsivCategoryScreenPos;
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct PmsInput;
-extern unsigned int *PMS_INPUT_GetUiInputModePtr(struct PmsInput *input);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+#include "pms_input.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/bg_sys.h"
 struct BmpWin;
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+#include "../arm9/bmp_win.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct PmsInput;
-extern u8 PMS_INPUT_GetBrowseMode(struct PmsInput *input);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
+#include "../arm9/strbuf.h"
 struct Bmp;
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BG_SYS_MarkTileDirty(unsigned);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-struct Actor;
-extern void CLACT_DeleteActor(struct Actor *actor);
+#ifdef __MWERKS__
+#define PRINTSYS_Print PRINTSYS_Print_hdr
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_Print
+void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
+#endif
+struct ClactActor;
+#include "../arm9/clact.h"
 struct BmpWin;
-extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
-extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
-extern void G2x_SetBlendBrightness_(u32, int, int);
-extern void BG_SYS_PushTile(u32);
+#include "../arm9/g2.h"
 struct GfFont;
-extern struct GfFont *PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
-extern u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *wordData, int category);
-extern void GF_FONT_SetTextColor(u32, u32, u32);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+#include "pms_input_view.h"
+#include "pms_input_data.h"
+#include "../arm9/gf_font.h"
 struct GfFont;
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern int PMSI_SEARCH_GetKeyCount(void);
-extern void PMSI_SEARCH_GetKeyLabel(u32 i, struct U16Vec *dst);
-extern void PMSI_SEARCH_GetKeyPosition(u32, int *, int *);
-extern void PMS_INPUT_VIEW_GetUiRes(struct PmsInputView *, struct ActorSetup *, int, int);
-extern struct Actor *PMS_INPUT_VIEW_CreateActor(struct PmsInputView *view, struct ActorSetup *setup, short x, short y, u32 a, int mode);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+#include "pmsi_search.h"
 struct PmsivMenu;
-extern struct PmsivMenu *PMS_INPUT_VIEW_GetMenu(struct PmsInputView *view);
-extern void PMSIV_MENU_SetActiveEntry(struct PmsivMenu *menu, int n, int v);
-extern void CLACT_AddActorSurfacePos(struct Actor *p, const ScreenPos *delta, u32 which);
-extern void PMSIV_FADE_StartBrightness(struct PmsivFade *fade, int plane, int start, int end, int frames);
-extern int PMSIV_FADE_IsBrightnessDone(struct PmsivFade *fade);
-extern void PMSIV_BGSCROLL_Start(struct PmsivBgScroll *scroll, int layer, int axis, int step, int frames);
-extern int PMSIV_BGSCROLL_Step(struct PmsivBgScroll *scroll);
-extern void PMSIV_FADE_StartBlend(struct PmsivFade *fade, int firstPlanes, int secondPlanes, int start, int end, int frames);
-extern int PMSIV_FADE_IsBlendDone(struct PmsivFade *fade);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void BG_SYS_ChangeScroll(u32, u32, u32);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void PMS_INPUT_SetSearchArg(struct PmsInput *input, void *arg);
-extern u8 PMS_INPUT_GetInitialCount(struct PmsInput *input);
-extern u32 BG_SYS_GetScrollY(unsigned);
+#include "pmsiv_menu.h"
+#include "pmsiv_tool.h"
 struct PrintQue;
-extern struct PrintQue *PMS_INPUT_VIEW_GetPrintQue(struct PmsInputView *view);
-extern void PMS_INPUT_GetInitialWord(struct PmsInput *input, unsigned int a, int b);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
-extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
 struct PmsivCategory *PMSIV_CATEGORY_Create(struct PmsInputView *view, struct PmsInputState *input, struct PmsInputData *wordData);
 void PMSIV_CATEGORY_Delete(struct PmsivCategory *p);
@@ -249,7 +213,7 @@ int PMSIV_CATEGORY_IsSelectAnimDone(struct PmsivCategory *p);
 
 extern const char sPmsivCategoryAllocSite[];
 extern const u8 sPmsivCategoryLabelIds[];
-extern const ScreenPos sPmsivCategoryCursorOrigin;
+extern const PmsivCategoryScreenPos sPmsivCategoryCursorOrigin;
 
 struct PmsivCategory *PMSIV_CATEGORY_Create(struct PmsInputView *view, struct PmsInputState *input, struct PmsInputData *wordData)
 {
@@ -272,7 +236,7 @@ struct PmsivCategory *PMSIV_CATEGORY_Create(struct PmsInputView *view, struct Pm
 void PMSIV_CATEGORY_Delete(struct PmsivCategory *p)
 {
     u8 i;
-    if (p->cursorActor) CLACT_DeleteActor((struct Actor *)p->cursorActor);
+    if (p->cursorActor) CLACT_DeleteActor((struct ClactActor *)p->cursorActor);
     for (i = 0; i < PMSIV_CATEGORY_COUNT; i++) if (p->categoryWindows[i]) BMP_WIN_Delete((struct BmpWin *)p->categoryWindows[i]);
     if (p->kanaWindow) BMP_WIN_Delete((struct BmpWin *)p->kanaWindow);
     if (p->titleWindow) BMP_WIN_Delete((struct BmpWin *)p->titleWindow);
@@ -404,11 +368,11 @@ void PMSIV_CATEGORY_MakeListWindow(struct PmsivCategory *p)
 
 void PMSIV_CATEGORY_CreateCursor(struct PmsivCategory *p)
 {
-    struct ActorSetup setup;
+    struct PmsInputViewSpriteRes setup;
     PMS_INPUT_VIEW_GetUiRes(p->view, &setup, 0, 0);
     p->cursorActor = PMS_INPUT_VIEW_CreateActor(p->view, &setup, 48, 64, 3, 1);
-    CLACT_SetActorAnimSeq(p->cursorActor, 4);
-    CLACT_SetActorDrawEnable((struct Actor *)p->cursorActor, 0);
+    CLACT_SetActorAnimSeq((struct ClactActor *)p->cursorActor, 4);
+    CLACT_SetActorDrawEnable((struct ClactActor *)p->cursorActor, 0);
 }
 
 /*
@@ -418,17 +382,17 @@ void PMSIV_CATEGORY_SetCursorVisible(struct PmsivCategory *p, int enable)
 {
     if (enable) {
         if (*p->modeFlag == 0) {
-            CLACT_SetActorDrawEnable((struct Actor *)p->cursorActor, 1);
-            if (PMS_INPUT_GetBrowseMode((struct PmsInput *)p->input) == 0) {
-                CLACT_SetActorAnimSeq(p->cursorActor, 4);
+            CLACT_SetActorDrawEnable((struct ClactActor *)p->cursorActor, 1);
+            if (PMS_INPUT_GetBrowseMode((PmsInput *)p->input) == 0) {
+                CLACT_SetActorAnimSeq((struct ClactActor *)p->cursorActor, 4);
             } else {
-                CLACT_SetActorAnimSeq(p->cursorActor, 6);
+                CLACT_SetActorAnimSeq((struct ClactActor *)p->cursorActor, 6);
             }
         } else {
-            CLACT_SetActorDrawEnable((struct Actor *)p->cursorActor, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)p->cursorActor, 0);
         }
     } else {
-        CLACT_SetActorDrawEnable((struct Actor *)p->cursorActor, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)p->cursorActor, 0);
     }
 }
 
@@ -437,7 +401,7 @@ void PMSIV_CATEGORY_SetCursorVisible(struct PmsivCategory *p, int enable)
  */
 void PMSIV_CATEGORY_MoveCursor(struct PmsivCategory *p, unsigned index)
 {
-    ScreenPos pos;
+    PmsivCategoryScreenPos pos;
     int x, y;
     int animation;
     u8 *kanaCursor;
@@ -466,8 +430,8 @@ void PMSIV_CATEGORY_MoveCursor(struct PmsivCategory *p, unsigned index)
             animation = 6;
         }
     }
-    CLACT_AddActorSurfacePos(p->cursorActor, &pos, 0);
-    CLACT_SetActorAnimSeq(p->cursorActor, animation);
+    CLACT_AddActorSurfacePos((struct ClactActor *)p->cursorActor, (const struct ClactVec2 *)&pos, 0);
+    CLACT_SetActorAnimSeq((struct ClactActor *)p->cursorActor, animation);
 }
 
 void PMSIV_CATEGORY_StartFadeIn(struct PmsivCategory *p)
@@ -679,11 +643,11 @@ int PMSIV_CATEGORY_IsListReady(struct PmsivCategory *p, int waitForPrint)
 
 void PMSIV_CATEGORY_StartSelectAnim(struct PmsivCategory *p, unsigned index)
 {
-    ScreenPos pos;
+    PmsivCategoryScreenPos pos;
     int x, y;
     int animation;
-    p->savedCursorVisible = CLACT_GetActorDrawEnable((struct Actor *)p->cursorActor);
-    CLACT_SetActorDrawEnable((struct Actor *)p->cursorActor, 1);
+    p->savedCursorVisible = CLACT_GetActorDrawEnable((struct ClactActor *)p->cursorActor);
+    CLACT_SetActorDrawEnable((struct ClactActor *)p->cursorActor, 1);
     if (PMS_INPUT_GetBrowseMode((struct PmsInput *)p->input) == 0 && index != PMSIV_CATEGORY_CURSOR_NONE) {
         pos.x = 48 + 80 * (index % 3U);
         pos.y = 64 + 24 * (index / 3U);
@@ -700,17 +664,17 @@ void PMSIV_CATEGORY_StartSelectAnim(struct PmsivCategory *p, unsigned index)
             break;
         }
     }
-    CLACT_AddActorSurfacePos(p->cursorActor, &pos, 0);
-    CLACT_SetActorAnimSeq(p->cursorActor, animation);
+    CLACT_AddActorSurfacePos((struct ClactActor *)p->cursorActor, (const struct ClactVec2 *)&pos, 0);
+    CLACT_SetActorAnimSeq((struct ClactActor *)p->cursorActor, animation);
 }
 
 int PMSIV_CATEGORY_IsSelectAnimDone(struct PmsivCategory *p)
 {
-    u16 animation = CLACT_GetActorAnimSeq((struct Actor *)p->cursorActor);
+    u16 animation = CLACT_GetActorAnimSeq((struct ClactActor *)p->cursorActor);
     if (animation != 31 && animation != 30) return 1;
-    if (CLACT_IsActorAnimActive((struct Actor *)p->cursorActor) == 0) {
-        CLACT_SetActorDrawEnable((struct Actor *)p->cursorActor, p->savedCursorVisible);
-        CLACT_SetActorAnimSeq(p->cursorActor, PMS_INPUT_GetBrowseMode((struct PmsInput *)p->input) == 0 ? 4 : 6);
+    if (CLACT_IsActorAnimActive((struct ClactActor *)p->cursorActor) == 0) {
+        CLACT_SetActorDrawEnable((struct ClactActor *)p->cursorActor, p->savedCursorVisible);
+        CLACT_SetActorAnimSeq((struct ClactActor *)p->cursorActor, PMS_INPUT_GetBrowseMode((PmsInput *)p->input) == 0 ? 4 : 6);
         p->savedCursorVisible = 0;
         return 1;
     }

@@ -154,120 +154,87 @@
 
 struct Proc;
 
-extern void *GFL_HEAP_Alloc(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
+#include "../arm9/ui.h"
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *mem);
 
-extern int GF_OVERLAY_Load(int overlayId);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(int overlayId);
 
-extern void GFL_HEAP_CreateChildHeap(unsigned int parent, unsigned int heapId, unsigned int size);
+#include "../arm9/gfl_heap.h"
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
+#include "../arm9/net.h"
 
-extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
+#include "../arm9/procsys.h"
 
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
-extern u32 TCB_GetTaskOffset(u32 taskCount);
+#include "../arm9/tcb_list.h"
 struct TcbSystem;
 
-extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
 
-extern void TCB_Main(struct TcbSystem *tasks);
 
-extern void TCB_Noop(struct TcbSystem *tasks);
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern unsigned int KEY_GetCont(void);
 
-extern unsigned int KEY_GetRepeat(void);
 
-extern int TOUCHPANEL_GetCont(void);
+#include "../arm9/touchpanel.h"
 
-extern int TOUCHPANEL_GetTrg(void);
 
-extern int TOUCHPANEL_HitTrg(const struct PmsTouchRect *table);
 
-extern unsigned int TOUCHPANEL_GetPointTrg(unsigned int *x, unsigned int *y);
 
-extern unsigned int TOUCHPANEL_HitPoint(const struct PmsTouchBox *table, unsigned int x, unsigned int y);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_use.h"
 struct ButtonMan;
 
-extern struct ButtonMan *BUTTON_MAN_Create(unsigned char *rects, void (*callback)(int, unsigned int, PmsInput *), int arg, int heap);
+#include "../arm9/button_man.h"
 struct ButtonMan;
 
-extern int BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
 
-extern void BUTTON_MAN_Delete(void *buttonMan);
 
-extern u32 PMSI_PARAM_GetInputMode(const struct PmsiParam *param);
+#ifdef __MWERKS__
+#define PMSI_PARAM_GetUiInputMode PMSI_PARAM_GetUiInputMode_hdr
+#endif
+#include "../arm9/pmsi_param.h"
+#ifdef __MWERKS__
+#undef PMSI_PARAM_GetUiInputMode
+u32 PMSI_PARAM_GetUiInputMode(const struct PmsiParam *);
+#endif
 
-extern u32 PMSI_PARAM_GetUiInputMode(const struct PmsiParam *param);
 
-extern void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode);
 
-extern void PMSI_PARAM_GetResult(const struct PmsiParam *param, u16 *outWords, u16 *outSentence);
 
-extern u32 PMSI_PARAM_HasInitialSentence(const struct PmsiParam *param);
 
-extern int PMSI_PARAM_GetSentenceType(const struct PmsData *sentence);
 
-extern unsigned int PMSI_PARAM_GetSentenceId(const struct PmsData *sentence);
 
-extern u8 PMSI_PARAM_GetSentenceCount(u32 sentenceType);
 
-extern void PMSI_PARAM_SetSentenceId(struct PmsData *sentence, int sentenceType, int sentenceId);
 
-extern void PMS_INPUT_VIEW_StartTask(struct PmsInputView *view, int command);
+#include "pms_input_view.h"
 
-extern int PMS_INPUT_VIEW_IsIdle(struct PmsInputView *view);
 
-extern int PMS_INPUT_VIEW_IsTaskNotRunning(struct PmsInputView *view, int command);
 
-extern int PMS_INPUT_VIEW_GetEditValue(struct PmsInputView *view);
 
-extern void PMS_INPUT_VIEW_SetEditText(struct PmsInputView *view, void *src, u8 n);
 
-extern void PMS_INPUT_VIEW_SetMenuItemMode(struct PmsInputView *view, int direction);
 
-extern int PMS_INPUT_VIEW_UpdateEditFocus(struct PmsInputView *view, PmsInput *input, struct PmsInputData *data);
 
-extern int PMS_INPUT_VIEW_UpdateCategoryFocus(struct PmsInputView *view, PmsInput *input, struct PmsInputData *data);
 
-extern int PMS_INPUT_VIEW_UpdateWordwinFocus(struct PmsInputView *view, PmsInput *input, struct PmsInputData *data);
 
-extern struct PmsInputData *PMS_INPUT_DATA_Create(unsigned int heap, void *save);
+#include "pms_input_data.h"
 
-extern void PMS_INPUT_DATA_Delete(struct PmsInputData *data);
 struct PmsInput;
 
-extern void *PMS_INPUT_VIEW_Create(PmsInput *input, struct PmsInputData *data);
 
-extern void PMS_INPUT_VIEW_Delete(struct PmsInputView *view);
 
-extern u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *data, int category);
 struct PmsiSearch;
 
-extern struct PmsiSearch *PMSI_SEARCH_Create(void *owner, struct PmsInputData *wordData, u16 heap);
+#include "pmsi_search.h"
 
-extern void PMSI_SEARCH_Delete(struct PmsiSearch *s);
 
-extern int PMSI_SEARCH_PopKey(struct PmsiSearch *s);
 
-extern int PMSI_SEARCH_Run(struct PmsiSearch *s);
 
-extern void PMSI_SEARCH_PushKey(struct PmsiSearch *s, int key);
 
-extern int PMSI_SEARCH_GetKeyCount(void);
 
-extern void PMSI_SEARCH_GetKeyPosition(unsigned int i, int *column, int *row);
 
 /* pmsiv_wordwin.c */
 extern void PMS_INPUT_InitWordList(struct PmsWordListCursor *cursor, PmsInput *input);
@@ -434,7 +401,11 @@ struct PmsInput *PMS_INPUT_Create(struct Proc *proc, struct PmsiParam *param)
     input = PROCSYS_AllocProcWork(proc, 128, 41);
     input->param = param;
     input->inputMode = PMSI_PARAM_GetInputMode(param);
+#ifdef __MWERKS__
     input->uiInputMode = PMSI_PARAM_GetUiInputMode(input->param);
+#else
+    input->uiInputMode = UI_GetInputMode(); /* PMSI_PARAM_GetUiInputMode is a thunk to it */
+#endif
     PMSI_PARAM_GetResult(input->param, input->words, (u16 *)&input->sentence);
     if (input->inputMode == PMS_INPUT_MODE_SENTENCE) PMS_INPUT_InitSentenceCursor(&input->sentenceCursor, &input->sentence);
     taskBuf = GFL_HEAP_Alloc(41, TCB_GetTaskOffset(5), 0, gPmsInputFileName, 579);
@@ -442,7 +413,7 @@ struct PmsInput *PMS_INPUT_Create(struct Proc *proc, struct PmsiParam *param)
     input->tasks = TCB_Init(5, taskBuf);
     input->data = PMS_INPUT_DATA_Create(41, input->param);
     input->view = PMS_INPUT_VIEW_Create(input, input->data);
-    input->buttonMan = BUTTON_MAN_Create((unsigned char *)gPmsInputButtonRects, PMS_INPUT_OnButton, (int)input, 41);
+    input->buttonMan = BUTTON_MAN_Create((u8 *)gPmsInputButtonRects, (void (*)(s32, s32, s32))PMS_INPUT_OnButton, (int)input, 41);
     input->browseMode = PMS_BROWSE_CATEGORY;
     input->subHandler = 0;
     input->subState = 0;
@@ -548,13 +519,31 @@ void PMS_INPUT_OpenWordList(struct PmsInput *input)
 int PMS_INPUT_HandleMenu(struct PmsInput *input, unsigned int *state) { return gPmsInputMenuHandlers[input->inputMode](input, state); }
 
 /* Redraws the menu view after the input device changed. */
-int PMS_INPUT_UiSwitchMenu(struct PmsInput *input, unsigned int *state) { return PMS_INPUT_VIEW_UpdateEditFocus(input->view, input, input->data); }
+int PMS_INPUT_UiSwitchMenu(struct PmsInput *input, unsigned int *state)
+{
+    PMS_INPUT_VIEW_UpdateEditFocus(input->view, input, input->data);
+#ifndef __MWERKS__
+    return 0; /* the DS returns whatever r0 holds after the view call */
+#endif
+}
 
 /* Redraws the browse view after the input device changed. */
-int PMS_INPUT_UiSwitchBrowse(struct PmsInput *input, unsigned int *state) { return PMS_INPUT_VIEW_UpdateCategoryFocus(input->view, input, input->data); }
+int PMS_INPUT_UiSwitchBrowse(struct PmsInput *input, unsigned int *state)
+{
+    PMS_INPUT_VIEW_UpdateCategoryFocus(input->view, input, input->data);
+#ifndef __MWERKS__
+    return 0; /* the DS returns whatever r0 holds after the view call */
+#endif
+}
 
 /* Redraws the word list view after the input device changed. */
-int PMS_INPUT_UiSwitchWordList(struct PmsInput *input, unsigned int *state) { return PMS_INPUT_VIEW_UpdateWordwinFocus(input->view, input, input->data); }
+int PMS_INPUT_UiSwitchWordList(struct PmsInput *input, unsigned int *state)
+{
+    PMS_INPUT_VIEW_UpdateWordwinFocus(input->view, input, input->data);
+#ifndef __MWERKS__
+    return 0; /* the DS returns whatever r0 holds after the view call */
+#endif
+}
 
 /* Single word menu, button operation. */
 int PMS_INPUT_HandleSingleWordMenuButtons(struct PmsInput *input, unsigned int *state) {
@@ -607,13 +596,13 @@ int PMS_INPUT_HandleSingleWordMenuButtons(struct PmsInput *input, unsigned int *
 /* Touch hit test of the single word menu buttons. */
 int PMS_INPUT_HitSingleWordButtons(struct PmsInput *input)
 {
-    return TOUCHPANEL_HitTrg(gPmsInputSingleWordButtonHits);
+    return TOUCHPANEL_HitTrg((const TouchHitTable *)gPmsInputSingleWordButtonHits);
 }
 
 /* Touch hit test of the two word menu buttons. */
 int PMS_INPUT_HitDoubleWordButtons(struct PmsInput *input)
 {
-    return TOUCHPANEL_HitTrg(gPmsInputDoubleWordButtonHits);
+    return TOUCHPANEL_HitTrg((const TouchHitTable *)gPmsInputDoubleWordButtonHits);
 }
 
 /* Touch hit test of the sentence menu: buttons first, then the word slots. */
@@ -623,7 +612,7 @@ int PMS_INPUT_HitSentenceButtons(struct PmsInput *input)
     struct PmsTouchBox slot = gPmsInputSlotRectTemplate;
     int i, count, result;
     if (!TOUCHPANEL_GetTrg()) return -1;
-    result = TOUCHPANEL_HitTrg(gPmsInputSentenceButtonHits);
+    result = TOUCHPANEL_HitTrg((const TouchHitTable *)gPmsInputSentenceButtonHits);
     if (result != -1) {
         if (PMSI_PARAM_HasInitialSentence(input->param)) { if ((unsigned)(result - 2) <= 3) result = -1; return result; }
         return result;
@@ -632,7 +621,7 @@ int PMS_INPUT_HitSentenceButtons(struct PmsInput *input)
     TOUCHPANEL_GetPointTrg(&x, &y);
     for (i = 0; i < count; i++) {
         PMS_INPUT_VIEW_SetEditText(input->view, &slot, i);
-        if (TOUCHPANEL_HitPoint(&slot, x, y) != -1) return i + 6;
+        if (TOUCHPANEL_HitPoint((const TouchHitTable *)&slot, x, y) != -1) return i + 6;
     }
     return -1;
 }
@@ -1108,7 +1097,7 @@ void PMS_INPUT_HandleBrowseKeys(struct PmsInput *input, unsigned int *state)
 /* Touch hit test of the two top buttons of the browse screen. */
 int PMS_INPUT_HitBrowseTopButtons(struct PmsInput *input)
 {
-    int hit = TOUCHPANEL_HitTrg(gPmsInputBrowseTopButtonHits);
+    int hit = TOUCHPANEL_HitTrg((const TouchHitTable *)gPmsInputBrowseTopButtonHits);
     if (hit == -1) return 0;
     switch (hit) {
     case 0: return 1;
@@ -1118,7 +1107,7 @@ int PMS_INPUT_HitBrowseTopButtons(struct PmsInput *input)
 }
 
 /* Touch hit test of the back button. */
-int PMS_INPUT_HitBackButton(void) { return TOUCHPANEL_HitTrg(gPmsInputBackButtonHit); }
+int PMS_INPUT_HitBackButton(void) { return TOUCHPANEL_HitTrg((const TouchHitTable *)gPmsInputBackButtonHit); }
 
 /* Touch hit test of the 4 by 3 category cells. Returns the cell or -1. */
 int PMS_INPUT_HitCategoryCell(struct PmsInput *input)
@@ -1132,14 +1121,14 @@ int PMS_INPUT_HitCategoryCell(struct PmsInput *input)
         cell.rect.top = 24 * row + 56; cell.rect.bottom = cell.rect.top + 16;
         for (col = 0; col < 3; col++) {
             cell.rect.left = 80 * col + 12; cell.rect.right = cell.rect.left + 72;
-            if (TOUCHPANEL_HitPoint(&cell, x, y) != -1) return col + 3 * row;
+            if (TOUCHPANEL_HitPoint((const TouchHitTable *)&cell, x, y) != -1) return col + 3 * row;
         }
     }
     return -1;
 }
 
 /* Touch hit test of the buttons next to the initial letter list. */
-int PMS_INPUT_HitInitialButtons(struct PmsInput *input) { struct PmsTouchBox3 buttons = gPmsInputInitialButtonHits; return TOUCHPANEL_HitTrg(buttons.rects); }
+int PMS_INPUT_HitInitialButtons(struct PmsInput *input) { struct PmsTouchBox3 buttons = gPmsInputInitialButtonHits; return TOUCHPANEL_HitTrg((const TouchHitTable *)buttons.rects); }
 
 /* Touch hit test of the initial letter cells. Returns the cell or -1. */
 int PMS_INPUT_HitInitialCell(struct PmsInput *input)
@@ -1156,7 +1145,7 @@ int PMS_INPUT_HitInitialCell(struct PmsInput *input)
             cell = base;
             PMSI_SEARCH_GetKeyPosition(i, &x, &y);
             cell.rect.top = y + 48; cell.rect.bottom = y + 64; cell.rect.left = x + 8; cell.rect.right = x + 24;
-            if (TOUCHPANEL_HitTrg(&cell.rect) != -1) return i;
+            if (TOUCHPANEL_HitTrg((const TouchHitTable *)&cell.rect) != -1) return i;
             i++;
         } while (i < count);
     }
@@ -1265,56 +1254,31 @@ int PMS_INPUT_CategoryHasWords(struct PmsInput *input) { if (PMS_INPUT_DATA_GetC
 /* Moves the browse cursor by the pressed direction key. */
 int PMS_INPUT_MoveCursor(struct PmsInput *input) { return gPmsInputCursorMoveFns[input->browseMode](input); }
 
-extern u8 PMSI_SEARCH_GetKeyUp(u32 i);
 
-extern u8 PMSI_SEARCH_GetKeyDown(u32 i);
 
-extern u8 PMSI_SEARCH_GetKeyLeft(u32 i);
 
-extern int PMSI_SEARCH_GetKeyRight(int n);
 
-extern u8 PMSI_SEARCH_GetKeyKind(u32 i);
 
-extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
-extern unsigned PMS_INPUT_VIEW_GetWordwinItem(struct PmsInputView *view, unsigned maxTopRow);
 
-extern void PMS_INPUT_VIEW_SetWordwinScrollOffset(struct PmsInputView *view, u32 y);
 
-extern int PMS_INPUT_VIEW_CompareWordwinPosition(struct PmsInputView *view, int x, unsigned y);
 
-extern int PMS_INPUT_VIEW_GetMenuResult(struct PmsInputView *view);
 
-extern int PMS_INPUT_VIEW_GetEditEntry(struct PmsInputView *view, int slot);
 
-extern unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *data, unsigned int category, unsigned int index);
 
-extern u16 PMSI_SEARCH_GetResultWordId(struct PmsiSearch *s, u32 resultIndex);
 
-extern u8 PMSI_SEARCH_HasResults(struct PmsiSearch *s);
 
-extern void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *data, u32 category, u32 index, int buf);
 
-extern void PMSI_SEARCH_GetResultString(struct PmsiSearch *s, unsigned char resultIndex, int dest);
 struct U16Vec;
 
-extern void PMSI_SEARCH_BuildInputText(struct PmsiSearch *s, struct U16Vec *out);
 
-extern void PMSI_SEARCH_ClearInput(struct PmsiSearch *s);
 
-extern u8 PMSI_SEARCH_GetInputCount(struct PmsiSearch *s);
 
-extern void PMSI_PARAM_SetWordAt(struct PmsData *sentence, unsigned index, u16 word);
 
-extern void PMSI_PARAM_ClearUnusedWords(struct PmsData *sentence, u16 heapId);
 
-extern void PMSI_PARAM_SetResult(struct PmsiParam *param, const u16 *words, const struct PmsData *sentence);
 
-extern int PMSI_PARAM_IsComplete(struct PmsData *sentence, u16 heapId);
 
-extern u16 PMSI_PARAM_GetWordRaw(const struct PmsData *sentence, u32 index);
 
-extern void *PMSI_PARAM_GetSourceString(const struct PmsData *sentence, u32 heapId);
 
 extern int PMS_INPUT_HitBackButton(void);
 
@@ -1562,7 +1526,7 @@ int PMS_INPUT_HitWordList(PmsInput *input)
     struct PmsTouchBox box = gPmsInputWordCellTemplate;
     int outer, inner, stop;
     u16 index;
-    if (TOUCHPANEL_HitTrg(gPmsInputWordListButtonHits) == 0) {
+    if (TOUCHPANEL_HitTrg((const TouchHitTable *)gPmsInputWordListButtonHits) == 0) {
         TOUCHPANEL_GetPointTrg(&x, &y);
         switch (PMS_INPUT_VIEW_CompareWordwinPosition(input->view, x, y)) {
         case 0:
@@ -1590,7 +1554,7 @@ int PMS_INPUT_HitWordList(PmsInput *input)
         for (inner = 0; inner < 2; inner++) {
             box.rect.left = 112 * inner + 16;
             box.rect.right = box.rect.left + 102;
-            if (TOUCHPANEL_HitPoint(&box, x, y) != (u32)-1) {
+            if (TOUCHPANEL_HitPoint((const TouchHitTable *)&box, x, y) != (u32)-1) {
                 input->wordList.touchedIndex = index;
                 input->wordList.column = inner;
                 input->wordList.row = outer;

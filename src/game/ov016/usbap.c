@@ -28,7 +28,7 @@
  *   WM_StartScanEx  0x0208F698  arm
  *   WM_Reset  0x0208F400  arm
  *   WM_End  0x0208F43C  arm
- *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteEx  0x021D7744  arm  ov016
  *   gMemUsbAp   0x021DE654  data
  *   OS_Terminate  0x02088234  arm
  *   DC_InvalidateRange  0x020862B8  arm
@@ -37,6 +37,7 @@
  *   DWCi_TSKlDelete  0x021D7724  arm  ov016
  */
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
+#include "task.h"
 
 #include "../types.h"
 
@@ -109,25 +110,18 @@ typedef struct {
     u16 commentLength;
 } OwnerT;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern u64 OS_GetTick(void);
-extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
-extern int WM_ReadStatus(struct WMStatus *statusBuf);
-extern u16 WM_GetDispersionScanPeriod(void);
+#include "heap.h"
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
+#include "../arm9/wm_standard.h"
+#include "../arm9/wm_sync.h"
 struct OSOwnerInfo;
-extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
-extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
+#include "../arm9/os_ownerinfo.h"
+#include "../arm9/mi_memory.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
-extern void DWCi_HEAPlFree_(void **mem);
 struct WMScanExParam;
-extern int WM_StartScanEx(void (*)(void *), struct WMScanExParam *);
-extern enum WMErrCode WM_Reset(void (*)(void *));
-extern enum WMErrCode WM_End(void (*)(void *));
-extern void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, struct TCB *task);
-extern void OS_Terminate(void);
-extern void DC_InvalidateRange(void *ptr, unsigned long nBytes);
-extern void DWCi_TSKlDelete(int kind, void *task);
+#include "../arm9/os_terminate_processor.h"
+#include "../arm9/os_cache.h"
 int DWCi_USBAPlBegin(void (*callback)(int));
 int DWCi_USBAPlEnd(void);
 void DWCi_USBAPlSetCallback(unsigned int v);
@@ -183,7 +177,7 @@ int DWCi_USBAPlBegin(void (*callback)(int))
     MI_CpuCopy8(owner.nickName, &gUsbapWork->param.ssid[12], owner.nickNameLength * 2);
     if (!startScan())
         goto fail;
-    gUsbapWork->task = DWCi_TSKlForm(0, taskFirst, 0, 0x78);
+    gUsbapWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskFirst, 0, 0x78);
     return 1;
 fail:
     DWCi_HEAPlFree_((void *)0x021DE654);
@@ -202,12 +196,12 @@ static int startScan(void)
 /*
  * note:     wave8 (2026-09-30): EXACT, 220 bytes, 9/9 relocs.  The old
  *           +0094/+0098 residue (`ldr r1,[r0,#0xb90]` vs `ldr r0,[r0,#0xb90]`)
- *           was not an allocator tie: `DWCi_TSKlDeleteByIndex` is a 12-byte veneer to
+ *           was not an allocator tie: `DWCi_TSKlDeleteEx` is a 12-byte veneer to
  *           0x021D7750, whose body opens `mov r4, r1` then `ldrb r1,[r4,#0x11]`
  *           and passes r4 on -- it takes the task pointer as a *second*
  *           argument.  The image keeps `g->task` in r1 across the guard
  *           because the guarded call passes that same value again:
- *           `DWCi_TSKlDeleteByIndex(0, gUsbapWork->task)`.  The one-argument spelling
+ *           `DWCi_TSKlDeleteEx(0, gUsbapWork->task)`.  The one-argument spelling
  *           lets the dying base coalesce into the load destination, which is
  *           the 2-byte residue.  The general lever is
  *           docs/idioms/a-guard-value-still-in-r1-at-the-call-is-the-callees-second-argument.md.
@@ -266,7 +260,7 @@ int DWCi_USBAPlEnd(void)
     if (rs != WM_ERRCODE_OPERATING)
         return 0;
     if (gUsbapWork->task != 0)
-        DWCi_TSKlDeleteByIndex(0, gUsbapWork->task);
+        DWCi_TSKlDeleteEx(0, gUsbapWork->task);
     while (gUsbapWork->end != 2)
         ;
     DWCi_HEAPlFree_((void **)(&gMemUsbAp));

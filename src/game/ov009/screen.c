@@ -22,14 +22,15 @@
  *   gScreenFlag         0x021A3FBC data
  *   gScreenLogBuffer         0x021AD7C8 data
  */
-extern void MIi_CpuCopyFast(void * srcp, void * destp, unsigned long size);
-extern void MIi_CpuClearFast(unsigned long data, void * destp, unsigned long size);
-extern int OS_VSNPrintf(char *dst, unsigned int len, char *format, void *vlist);
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_printf.h"
 extern void PrintChar(char c);
-extern void OS_WaitVBlankIntr(void);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../sdk_stdarg.h"
 void ScrollTopScreen(void);
 void PrintChar(char c);
-void VPrintf(char * format, char * args);
+void VPrintf(const char *format, va_list args);
 extern unsigned short gScreenScrollBuffer[768];
 extern int gScreenScrollCount;
 extern int gScreenFlag;
@@ -73,7 +74,7 @@ void PrintChar(char c)
 }
 
 
-void VPrintf(char * format, char * args)
+void VPrintf(const char *format, va_list args)
 {
     int i;
 

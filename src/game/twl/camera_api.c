@@ -58,6 +58,7 @@
  *   data_04000208                0x04000208  data
  */
 #include "../types.h"
+#include "../arm9/os_thread.h"
 
 typedef void (*TwlCb)(u32);
 typedef void (*TwlFn)(void);
@@ -129,49 +130,28 @@ extern u32 data_02732FC0[];
 extern u32 data_02732FF8[];
 extern u32 data_02733008[];
 extern u32 data_0273419C[];
-extern u32 data_0273302C[];
-extern u32 data_027340EC[];
+extern OSThread data_0273302C;
+extern u8 data_027340EC[];
 extern u16 data_04000208;
 
-extern s32 OS_IsRunOnTwl(void);
-extern u64 OS_GetTick(void);
+#include "../arm9/os_emulator.h"
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 #include "../sdk_os.h"
 
-extern s32 OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_Sleep(u32);
-extern s32 OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
-extern void OS_EnableInterrupts(void);
-extern void PXI_Init(void);
-extern s32 PXI_IsCallbackReady(s32 fifotag, s32 proc);
-extern void PXI_SetFifoRecvCallback(s32 fifotag, void (*)(int, u32, int));
+#include "../arm9/os_message.h"
+#include "../arm9/os_system.h"
+#include "../arm9/pxi_fifo.h"
 struct PMiGenCallbackInfo;
-extern void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, s32 priority);
+#include "../arm9/pm.h"
 extern void PMi_InsertPostExitCallbackEx(struct PMiGenCallbackInfo *info, s32 priority);
 extern void OS_SetIrqFunction(u32, TwlFn);
-extern u32 OS_EnableIrqMask(u32);
-extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
-extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
-extern void OS_WakeupThreadDirect(u32*);
-extern void PM_DeletePreSleepCallback(struct PMiGenCallbackInfo *info);
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
 extern void PM_DeletePostExitCallback(struct PMiGenCallbackInfo *info);
-extern u32 OS_DisableIrqMask(u32);
-extern void OS_KillThread(void *thread, void *arg);
-extern void OS_SpinWaitSysCycles(u32);
-extern void OS_RestoreInterrupts(u32);
-extern int PXI_SendWordByFifo(s32 fifotag, u32 data, s32 err);
-extern u32 OS_GetCpsrIrq(void);
-extern void PXIi_HandlerRecvFifoNotEmpty(void);
 
 /* camera.o */
-extern s32 CAMERA_GetErrorStatusCore(void);
-extern s32 CAMERA_IsBusyCore(void);
-extern void CAMERA_ResetCore(void);
-extern void CAMERA_StopCaptureCore(void);
-extern void CAMERA_ClearBufferCore(void);
-extern void CAMERA_SetVsyncInterruptCore(u32);
-extern void CAMERA_SetBufferErrorInterruptCore(u32);
-extern void CAMERA_SetMasterInterruptCore(u32);
+#include "camera.h"
 
 void CAMERA_CameraIntr(void);
 void CAMERA_SetVsyncCallbackCore(TwlCb callback);
@@ -183,7 +163,7 @@ u32 CAMERA_GetExposureFromPhotoMode(u32 mode);
 void CAMERA_GoReboot(void);
 void CAMERA_Reboot(u32 result, u32 step);
 u32 CAMERA_CheckRetryCount(void);
-void CAMERA_MonitorThread(void);
+void CAMERA_MonitorThread(void *arg);
 u32 CAMERA_InitCore(void);
 void CAMERA_EndCore(void);
 void CAMERA_StopCore(void);
@@ -498,7 +478,7 @@ u32 CAMERA_CheckRetryCount(void) {
     return 0;
 }
 
-void CAMERA_MonitorThread(void) {
+void CAMERA_MonitorThread(void *arg) {
     u32 msg;
     TwlCb cb;
     s32 d;
@@ -610,8 +590,8 @@ u32 CAMERA_InitCore(void) {
     data_02733FC8.outContext = 1;
     data_02733FC8.ledEnabled = 0;
     OS_InitMessageQueue((struct OSMessageQueue *)data_0273417C, (void **)data_0273419C, 1);
-    OS_CreateThread(data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
-    OS_WakeupThreadDirect(data_0273302C);
+    OS_CreateThread(&data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
+    OS_WakeupThreadDirect(&data_0273302C);
     return 0;
 }
 
@@ -630,7 +610,7 @@ void CAMERA_EndCore(void) {
     CAMERA_SetMasterInterruptCore(0);
     OS_SetIrqFunction(0x02000000, 0);
     OS_DisableIrqMask(0x02000000);
-    OS_KillThread(data_0273302C, 0);
+    OS_KillThread(&data_0273302C, 0);
 }
 
 void CAMERA_StopCore(void) {

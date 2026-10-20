@@ -54,58 +54,37 @@
 #include "../types.h"
 #include "fldmmdl_types.h"
 
-/* Current grid position of a field model, as copied out by FLDMMDL_GetGridNowPos. */
-typedef struct MmdlGridVec {
-    s16 x;
-    s16 y;
-    s16 z;
-} MmdlGridVec;
-
 /* Result block of a grid position search: count, then up to 16 models. */
 typedef struct MmdlSearchList {
     int count;
     Mmdl *mmdl[16];
 } MmdlSearchList;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern int GFL_HEAP_Free(void *mem);
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern u32 TCB_GetTaskOffset(u32 capacity);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
 struct TcbSystem;
-extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
-extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
-extern void TCB_Noop(void *tcbSys);
-extern void ARC_TOOL_DeleteHandle(void *arc);
-extern void FLDMMDL_ACMD_DeleteDrawSys(MmdlSys *sys);
-extern void TCB_Main(struct TcbSystem *sys);
-extern void FLDMMDL_BLACT_Update(MmdlSys *sys);
-extern void FLDMMDL_BLACT_RegisterLoadedRes(MmdlSys *sys);
-extern int FLDMMDL_BLACT_IsReservePending(MmdlSys *sys);
-extern void OS_WaitInterrupt(s32 clear, u32 irqFlags);
+#include "../arm9/arc_tool.h"
+#include "../ov021/fldmmdl_acmd.h"
+#include "../ov021/fldmmdl_blact.h"
+#include "../arm9/os_system.h"
 extern int FLDMMDL_HasMovedPos();
 extern void FLDMMDL_MOVE_SetStatusPauseDraw(Mmdl *mmdl);
 extern void FLDMMDL_MOVE_RequestRailMove(Mmdl *mmdl, const MmdlHeader *header);
-extern void FLDMMDL_GetMovedPos(Mmdl *mmdl, MmdlVec *pos);
+#include "fldmmdl_poslog.h"
 struct Mmdl;
-extern u32 *FLDMMDL_MOVE_SetupMove(Mmdl *mmdl);
-extern s32 FLDMMDL_RAIL_MOVE_InitMove(Mmdl *mmdl);
+extern void FLDMMDL_MOVE_SetupMove(struct Mmdl*);
+#include "../ov021/fldmmdl_rail_move.h"
 extern void FLDMMDL_MOVE_UpdateMove(Mmdl *mmdl);
-extern void FLDMMDL_RAIL_MOVE_UpdateMove(Mmdl *mmdl);
-extern void FLDMMDL_ACMD_DrawIfInitialized(Mmdl *mmdl);
 extern int FLDMMDL_MOVE_IsGridInObjectRect(struct Mmdl *mmdl, s32 gridX, s32 gridZ, s32 checkNext);
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*proc)(void *tcb, void *work), void *work, unsigned int priority);
+#include "../arm9/tcb_list.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
 extern void FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
 extern s32 FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
-extern void ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 member);
-extern u32 FLDMMDL_ObjCodeToTableIndex(u32 objCode);
+#include "../arm9/fldmmdl_save.h"
 struct ArcHandle;
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 struct EventWork;
-extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
-extern unsigned int ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
+#include "../arm9/zonedata.h"
 MmdlSys *FLDMMDL_CreateSys(int heapId, int mmdlMax, void *saveData);
 void FLDMMDL_DeleteSys(MmdlSys *sys);
 void FLDMMDL_ClearObjCodeParamCache(MmdlSys *sys);
@@ -137,7 +116,7 @@ void FLDMMDL_UpdateMove(Mmdl *mmdl);
 void FLDMMDL_SysPushAll(MmdlSys *sys);
 void FLDMMDL_SysPopAll(MmdlSys *sys);
 void FLDMMDL_ExecMove(Mmdl *mmdl);
-void FLDMMDL_MoveTcbProc(void *tcb, void *work);
+void FLDMMDL_MoveTcbProc(struct TcbTask *tcb, void *work);
 void FLDMMDL_UpdateDraw(Mmdl *mmdl);
 int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
 void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 code);
@@ -190,9 +169,9 @@ void FLDMMDL_SetDirDisp(Mmdl *mmdl, int dir);
 void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
 u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 u16 FLDMMDL_GetDirDispOld(Mmdl *mmdl);
-void FLDMMDL_SetDirMove(Mmdl *mmdl, int dir);
+void FLDMMDL_SetDirMove(Mmdl *mmdl, u16 dir);
 u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
-void FLDMMDL_SetDirAll(Mmdl *mmdl, int dir);
+void FLDMMDL_SetDirAll(Mmdl *mmdl, u16 dir);
 void FLDMMDL_SetParam(Mmdl *mmdl, int param, int no);
 int FLDMMDL_GetParam(Mmdl *mmdl, int no);
 void FLDMMDL_SetMoveLimitX(Mmdl *mmdl, short limit);
@@ -241,29 +220,29 @@ void FLDMMDL_SetGridOldY(Mmdl *mmdl, s16 y);
 int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
 void FLDMMDL_SetGridOldZ(Mmdl *mmdl, s16 z);
 void FLDMMDL_GetGridNowPos(Mmdl *mmdl, MmdlGridVec *out);
-int FLDMMDL_GetGridNowX(Mmdl *mmdl);
+short FLDMMDL_GetGridNowX(Mmdl *mmdl);
 void FLDMMDL_SetGridNowX(Mmdl *mmdl, short x);
 void FLDMMDL_AddGridNowX(Mmdl *mmdl, short dx);
-int FLDMMDL_GetGridNowY(Mmdl *mmdl);
+short FLDMMDL_GetGridNowY(Mmdl *mmdl);
 void FLDMMDL_SetGridNowY(Mmdl *mmdl, int y);
 void FLDMMDL_AddGridNowY(Mmdl *mmdl, short dy);
-int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
+short FLDMMDL_GetGridNowZ(Mmdl *mmdl);
 void FLDMMDL_SetGridNowZ(Mmdl *mmdl, int z);
 void FLDMMDL_AddGridNowZ(Mmdl *mmdl, short dz);
-MmdlVec *FLDMMDL_GetPosPtr(Mmdl *mmdl);
-void FLDMMDL_GetPos(const Mmdl *mmdl, MmdlVec *out);
-void FLDMMDL_SetPos(Mmdl *mmdl, const MmdlVec *pos);
+VecFx32 *FLDMMDL_GetPosPtr(Mmdl *mmdl);
+void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
+void FLDMMDL_SetPos(Mmdl *mmdl, const VecFx32 *pos);
 s32 FLDMMDL_GetPosY(Mmdl *mmdl);
-void FLDMMDL_GetDrawOffset(Mmdl *mmdl, MmdlVec *out);
-void FLDMMDL_SetDrawOffset(Mmdl *mmdl, const MmdlVec *offset);
-void FLDMMDL_GetDrawOffsetOutside(Mmdl *mmdl, MmdlVec *out);
-void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const MmdlVec *offset);
-void FLDMMDL_GetAttrOffset(Mmdl *mmdl, MmdlVec *out);
-void FLDMMDL_SetAttrOffset(Mmdl *mmdl, const MmdlVec *offset);
+void FLDMMDL_GetDrawOffset(Mmdl *mmdl, VecFx32 *out);
+void FLDMMDL_SetDrawOffset(Mmdl *mmdl, const VecFx32 *offset);
+void FLDMMDL_GetDrawOffsetOutside(Mmdl *mmdl, VecFx32 *out);
+void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const VecFx32 *offset);
+void FLDMMDL_GetAttrOffset(Mmdl *mmdl, VecFx32 *out);
+void FLDMMDL_SetAttrOffset(Mmdl *mmdl, const VecFx32 *offset);
 void *FLDMMDL_GetBlActCont(Mmdl *mmdl);
 u8 FLDMMDL_GetSizeWidth(Mmdl *mmdl);
 u8 FLDMMDL_GetSizeDepth(Mmdl *mmdl);
-void FLDMMDL_GetModelOffset(Mmdl *mmdl, MmdlVec *offset);
+void FLDMMDL_GetModelOffset(Mmdl *mmdl, VecFx32 *offset);
 int FLDMMDL_SysCheckDrawInit(MmdlSys *sys);
 void FLDMMDL_SysSetDrawInit(MmdlSys *sys, int flag);
 void FLDMMDL_SysSetDrawEnable(MmdlSys *sys, int flag);
@@ -317,7 +296,7 @@ void FLDMMDL_SysDeleteZoneChangeMmdl(MmdlSys *sys);
 void FLDMMDL_AddMoveTcb(Mmdl *mmdl, MmdlSys *sys);
 void FLDMMDL_DeleteMoveTcb(Mmdl *mmdl);
 int FLDMMDL_CheckSameObjCodeOther(Mmdl *mmdl, u32 objCode);
-void FLDMMDL_InitPosition(Mmdl *mmdl, const MmdlVec *pos, int dir);
+void FLDMMDL_InitPosition(Mmdl *mmdl, const VecFx32 *pos, int dir);
 void FLDMMDL_InitGridPosition(Mmdl *mmdl, unsigned int gridX, unsigned int y, unsigned int gridZ, u16 dir);
 void FLDMMDL_ChangeHeader(Mmdl *mmdl, const MmdlHeader *header);
 void FLDMMDL_ChangeMoveCode(Mmdl *mmdl, u16 moveCode);
@@ -606,7 +585,7 @@ void FLDMMDL_SetupRailPosFromHeader(Mmdl *mmdl, const MmdlHeader *header, int un
 void FLDMMDL_SetGridPosFromHeader(Mmdl *mmdl, const MmdlHeader *header)
 {
     const MmdlHeaderGridPos *gridPos = (const MmdlHeaderGridPos *)header->pos;
-    MmdlVec pos;
+    VecFx32 pos;
     s32 gridX;
     s32 gridZ;
     s32 posY;
@@ -741,7 +720,7 @@ void FLDMMDL_ExecMove(Mmdl *mmdl)
 /*
  * Move task procedure (added by FLDMMDL_AddMoveTcb): the task work is the model.
  */
-void FLDMMDL_MoveTcbProc(void *tcb, void *work)
+void FLDMMDL_MoveTcbProc(struct TcbTask *tcb, void *work)
 {
     FLDMMDL_ExecMove(work);
 }
@@ -1036,7 +1015,7 @@ u16 FLDMMDL_GetDirDispOld(Mmdl *mmdl)
     return mmdl->dirDispOld;
 }
 
-void FLDMMDL_SetDirMove(Mmdl *mmdl, int dir)
+void FLDMMDL_SetDirMove(Mmdl *mmdl, u16 dir)
 {
     mmdl->dirMoveOld = mmdl->dirMove;
     mmdl->dirMove = dir;
@@ -1047,7 +1026,7 @@ u16 FLDMMDL_GetDirMove(Mmdl *mmdl)
     return mmdl->dirMove;
 }
 
-void FLDMMDL_SetDirAll(Mmdl *mmdl, int dir)
+void FLDMMDL_SetDirAll(Mmdl *mmdl, u16 dir)
 {
     FLDMMDL_SetDirDispCheckPause(mmdl, dir);
     FLDMMDL_SetDirMove(mmdl, dir);
@@ -1344,7 +1323,7 @@ void FLDMMDL_GetGridNowPos(Mmdl *mmdl, MmdlGridVec *out)
     out->z = mmdl->gridNowZ;
 }
 
-int FLDMMDL_GetGridNowX(Mmdl *mmdl)
+short FLDMMDL_GetGridNowX(Mmdl *mmdl)
 {
     return mmdl->gridNowX;
 }
@@ -1359,7 +1338,7 @@ void FLDMMDL_AddGridNowX(Mmdl *mmdl, short dx)
     mmdl->gridNowX += dx;
 }
 
-int FLDMMDL_GetGridNowY(Mmdl *mmdl)
+short FLDMMDL_GetGridNowY(Mmdl *mmdl)
 {
     return mmdl->gridNowY;
 }
@@ -1374,7 +1353,7 @@ void FLDMMDL_AddGridNowY(Mmdl *mmdl, short dy)
     mmdl->gridNowY += dy;
 }
 
-int FLDMMDL_GetGridNowZ(Mmdl *mmdl)
+short FLDMMDL_GetGridNowZ(Mmdl *mmdl)
 {
     return mmdl->gridNowZ;
 }
@@ -1389,17 +1368,17 @@ void FLDMMDL_AddGridNowZ(Mmdl *mmdl, short dz)
     mmdl->gridNowZ += dz;
 }
 
-MmdlVec *FLDMMDL_GetPosPtr(Mmdl *mmdl)
+VecFx32 *FLDMMDL_GetPosPtr(Mmdl *mmdl)
 {
     return &mmdl->pos;
 }
 
-void FLDMMDL_GetPos(const Mmdl *mmdl, MmdlVec *out)
+void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out)
 {
     *out = mmdl->pos;
 }
 
-void FLDMMDL_SetPos(Mmdl *mmdl, const MmdlVec *pos)
+void FLDMMDL_SetPos(Mmdl *mmdl, const VecFx32 *pos)
 {
     mmdl->pos = *pos;
 }
@@ -1409,32 +1388,32 @@ s32 FLDMMDL_GetPosY(Mmdl *mmdl)
     return mmdl->pos.y;
 }
 
-void FLDMMDL_GetDrawOffset(Mmdl *mmdl, MmdlVec *out)
+void FLDMMDL_GetDrawOffset(Mmdl *mmdl, VecFx32 *out)
 {
     *out = mmdl->drawOffset;
 }
 
-void FLDMMDL_SetDrawOffset(Mmdl *mmdl, const MmdlVec *offset)
+void FLDMMDL_SetDrawOffset(Mmdl *mmdl, const VecFx32 *offset)
 {
     mmdl->drawOffset = *offset;
 }
 
-void FLDMMDL_GetDrawOffsetOutside(Mmdl *mmdl, MmdlVec *out)
+void FLDMMDL_GetDrawOffsetOutside(Mmdl *mmdl, VecFx32 *out)
 {
     *out = mmdl->drawOffsetOutside;
 }
 
-void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const MmdlVec *offset)
+void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const VecFx32 *offset)
 {
     mmdl->drawOffsetOutside = *offset;
 }
 
-void FLDMMDL_GetAttrOffset(Mmdl *mmdl, MmdlVec *out)
+void FLDMMDL_GetAttrOffset(Mmdl *mmdl, VecFx32 *out)
 {
     *out = mmdl->attrOffset;
 }
 
-void FLDMMDL_SetAttrOffset(Mmdl *mmdl, const MmdlVec *offset)
+void FLDMMDL_SetAttrOffset(Mmdl *mmdl, const VecFx32 *offset)
 {
     mmdl->attrOffset = *offset;
 }
@@ -1454,7 +1433,7 @@ u8 FLDMMDL_GetSizeDepth(Mmdl *mmdl)
     return mmdl->sizeDepth;
 }
 
-void FLDMMDL_GetModelOffset(Mmdl *mmdl, MmdlVec *offset)
+void FLDMMDL_GetModelOffset(Mmdl *mmdl, VecFx32 *offset)
 {
     offset->x = mmdl->offsetX << 12;
     offset->y = mmdl->offsetY << 12;
@@ -1929,7 +1908,7 @@ int FLDMMDL_CheckSameObjCodeOther(Mmdl *mmdl, u32 objCode)
     return 0;
 }
 
-void FLDMMDL_InitPosition(Mmdl *mmdl, const MmdlVec *pos, int dir)
+void FLDMMDL_InitPosition(Mmdl *mmdl, const VecFx32 *pos, int dir)
 {
     FLDMMDL_SetGridNowX(mmdl, (s16)((pos->x >> 4) / 4096));
     FLDMMDL_SetGridNowY(mmdl, (s16)((pos->y >> 4) / 4096));
@@ -1944,7 +1923,7 @@ void FLDMMDL_InitPosition(Mmdl *mmdl, const MmdlVec *pos, int dir)
 
 void FLDMMDL_InitGridPosition(Mmdl *mmdl, unsigned int gridX, unsigned int y, unsigned int gridZ, u16 dir)
 {
-    MmdlVec pos;
+    VecFx32 pos;
     pos.x = (gridX << 16) + 0x8000;
     pos.y = y << 16;
     pos.z = (gridZ << 16) + 0x8000;

@@ -30,6 +30,10 @@ Mismatch kinds
     python tools/protocheck.py              summary and every mismatch (exit 1 if any)
     python tools/protocheck.py --tsv        tab separated rows: file line name kind declared defined
     python tools/protocheck.py --summary    counts only
+    python tools/protocheck.py --ds          read the DS branch of #ifdef __MWERKS__ guards (default: the host branch)
+
+Guards: a declaration under `#ifdef __MWERKS__` is the original DS prototype; the default run
+reads the host branch (#else / #ifndef) and skips the DS one.  Other conditionals keep every branch.
 """
 import argparse
 import bisect
@@ -45,23 +49,181 @@ import protonames as pn  # noqa: E402
 import placeholdernames as ph  # noqa: E402
 
 # (declaring file, name): a declaration that stays different, with the reason.
-EXCEPTIONS = []
+EXCEPTIONS = [
+    # ov095 btlv_scd.c calls into ov094/btlv_input.c and btlv_effect.c. Their definitions declare pointers
+    # as int (infoWinParam, font, cursorVisible, the touch table pair) and the palette fade as int; the fix
+    # belongs to those ov094 definitions and their callers (lane OVBTLVb).
+    ("src/game/ov095/btlv_scd.c", "BTLV_INPUT_CreateWithMode"),
+    ("src/game/ov095/btlv_scd.c", "BTLV_INPUT_StartPaletteFadeTask"),
+    ("src/game/ov095/btlv_scd.c", "BTLV_INPUT_ProcessTouchInput"),
+    ("src/game/ov095/btlv_scd.c", "BTLV_INPUT_ProcessKeyInput"),
+    ("src/game/ov095/btlv_scd.c", "BTLV_EFFECT_GetPalanm"),
+    # ov094 btlv_effect.c: the original file-local prototype takes the move as a word; the definition takes u16.
+    ("src/game/ov094/btlv_effect.c", "WAZA_TOOL_GetDamageType"),
+    # ov009 (libdwc/GameSpy objects): the C library calls below keep the library prototype.
+    # The definition in arm9/msl_*.c is a stand-in type (u8*, u32 for a string, int for atof,
+    # u32 for rand) and the libc string.h that gives mwcc its strlen/strcpy intrinsics
+    # declares strlen(const char *); the fix belongs to the ARM9 definitions.
+    ("src/game/ov009/dwc_main.c", "memcmp"),
+    ("src/game/ov009/dwc_main.c", "strchr"),
+    ("src/game/ov009/dwc_main.c", "strlen"),
+    ("src/game/ov009/dwc_main.c", "strncpy"),
+    ("src/game/ov009/gpibuddy.c", "strstr"),
+    ("src/game/ov009/gpiinfo.c", "strlen"),
+    ("src/game/ov009/gpiinfo.c", "strncmp"),
+    ("src/game/ov009/gsplatformutil.c", "strlen"),
+    ("src/game/ov009/gsxml.c", "strchr"),
+    ("src/game/ov009/gsxml.c", "strncmp"),
+    ("src/game/ov009/gsxml.c", "strncpy"),
+    ("src/game/ov009/sb_server.c", "strcmp_nocase"),
+    # arm9 callers that keep an original prototype the definition's header cannot serve yet (lane A9PROTO, 2026-10-20).
+    # PRINTSYS_Print* width and pointer types: P3WIDTH sets x/y widths, callers hold font as u32
+    ("src/game/arm9/bmp_menulist.c", "PRINTSYS_PrintQueColor"),
+    ("src/game/arm9/bmp_menulist.c", "PRINTSYS_PrintColor"),
+    # definition or header type is a stand-in owned elsewhere; caller keeps its declaration
+    ("src/game/arm9/button_man.c", "MTX_ScaleApply22"),
+    # clact.c talks to NNS G2D objects through stand-in structs (Surface, OamManager, ClactBankHead); the SDK structs differ in layout use, retype is a whole-file job (width rows: P3WIDTH)
+    ("src/game/arm9/clact.c", "VMAN_Create"),
+    ("src/game/arm9/clact.c", "NNSi_G2dGetCellAnimFrameIdx"),
+    ("src/game/arm9/clact.c", "NNSi_G2dReserveOamManagerSpan"),
+    ("src/game/arm9/clact.c", "NNS_G2dInitRenderSurface"),
+    ("src/game/arm9/clact.c", "NNSi_G2dEntryOamManagerOam"),
+    ("src/game/arm9/clact.c", "NNS_G2dEntryOamManagerAffine"),
+    ("src/game/arm9/clact.c", "NNS_G2dInitCellTransferStateManager"),
+    ("src/game/arm9/clact.c", "NNS_G2dGetMCWorkAreaSize"),
+    ("src/game/arm9/clact.c", "NNS_G2dInitMCAnimation"),
+    ("src/game/arm9/clact.c", "NNS_G2dGetUnpackedCellBank"),
+    ("src/game/arm9/clact.c", "NNS_G2dGetUnpackedAnimBankEx"),
+    # nns_g3d_res.c definitions take int/u8* for pointers and ov010/ov021 callers cast results; fixing needs the overlay callers too
+    ("src/game/arm9/g3d_system.c", "NNS_G3dAnmObjInit"),
+    ("src/game/arm9/g3d_system.c", "NNS_G3dAllocAnmObj"),
+    ("src/game/arm9/g3d_system.c", "NNS_G3dGetMdlSet"),
+    ("src/game/arm9/g3d_system.c", "NNS_G3dGetTex"),
+    # definition in arm9/arc_util.c (held by OVF2b) or ARM9 callback type stand-in; caller keeps its extern
+    ("src/game/arm9/infowin.c", "GFL_USE_AddMainTask"),
+    ("src/game/arm9/infowin.c", "BG_SYS_LoadPltt"),
+    # caller declares the wider original prototype, host same; width apply belongs to P3WIDTH
+    ("src/game/arm9/infowin.c", "BG_SYS_SetTileEntry"),
+    ("src/game/arm9/mcss.c", "ARC_TOOL_LoadMember"),
+    ("src/game/arm9/mcss.c", "ARC_TOOL_CreateHandle"),
+    # definition in arm9/arc_util.c (held by OVF2b) or ARM9 callback type stand-in; caller keeps its extern
+    ("src/game/arm9/mcss.c", "NNSi_G2dMCEnumAnimBank"),
+    ("src/game/arm9/mcss.c", "PALANM_BlendColors"),
+    # caller declares the wider original prototype, host same; width apply belongs to P3WIDTH
+    ("src/game/arm9/mcss.c", "ARC_TOOL_LoadHandleMember"),
+    # ov228 save_outside.c keeps SaveOutsideWork in the .c; arm9 callers use stand-ins until it moves to save_outside.h (lane OVMISC2b)
+    ("src/game/arm9/mystery_data.c", "SAVE_OUTSIDE_Prepare"),
+    ("src/game/arm9/mystery_data.c", "SAVE_OUTSIDE_WriteAsync"),
+    ("src/game/arm9/mystery_data.c", "SAVE_OUTSIDE_IsLoaded"),
+    ("src/game/arm9/mystery_data.c", "SAVE_OUTSIDE_GetPayload"),
+    # definition or header type is a stand-in owned elsewhere; caller keeps its declaration
+    ("src/game/arm9/nns_snd_arc.c", "SND_GetNextInstData"),
+    ("src/game/arm9/particle.c", "SPL_EMITTER_AllocNodeFromHeap"),
+    # caller declares the wider original prototype, host same; width apply belongs to P3WIDTH
+    ("src/game/arm9/pms_draw.c", "CLACT_RegisterCharacter"),
+    ("src/game/arm9/pms_draw.c", "CLACT_RegisterPaletteEx"),
+    ("src/game/arm9/printsys.c", "BMP_Create"),
+    # ov228 save_outside.c keeps SaveOutsideWork in the .c; arm9 callers use stand-ins until it moves to save_outside.h (lane OVMISC2b)
+    ("src/game/arm9/save_control.c", "SAVE_OUTSIDE_IsLoaded"),
+    ("src/game/arm9/save_control.c", "SAVE_OUTSIDE_IsCorrupt"),
+    # definition or header type is a stand-in owned elsewhere; caller keeps its declaration
+    ("src/game/arm9/spl_emitter.c", "MTX_Concat43"),
+    # caller declares the wider original prototype, host same; width apply belongs to P3WIDTH
+    ("src/game/arm9/time_icon.c", "BMP_WIN_Create"),
+    # arm9 callers of the ARC_UTIL_* loaders: the definitions in arc_util.c (lane OVF2b) still take u32 for out
+    # pointers and u16 for heap ids; the callers keep their own extern until arc_util.c is retyped.
+    ("src/game/arm9/app_icon.c", "ARC_UTIL_LoadPaletteDataFromHandle"),
+    ("src/game/arm9/bmp_menuwork.c", "ARC_UTIL_UploadBgCharFromArchive"),
+    ("src/game/arm9/infowin.c", "ARC_UTIL_UploadPaletteFromHandleWhole"),
+    ("src/game/arm9/infowin.c", "ARC_UTIL_UploadBgCharFromHandle"),
+    ("src/game/arm9/wm_icon.c", "ARC_UTIL_UploadPaletteFromHandleWhole"),
+    ("src/game/arm9/wm_icon.c", "ARC_UTIL_UploadScreenFromHandle"),
+    # arc_util.c passes the tile channel as u8 to BG_SYS_PushTile/MarkTileDirty (width, host same).
+    ("src/game/arm9/arc_util.c", "BG_SYS_PushTile"),
+    ("src/game/arm9/arc_util.c", "BG_SYS_MarkTileDirty"),
+    # RTC_GetDateTimeAsync has no header (its RTCDate/RTCTime types are private to the RTC file); gf_standard.c
+    # uses its own RtcDate/RtcTime views of the same structs.
+    ("src/game/arm9/gf_standard.c", "RTC_GetDateTimeAsync"),
+    # arc_util.c loaders keep u32 out pointers: ov112 musical_mcss.c and others pass them as integers; mcss.c and arc_util.c keep the original declarations (lane A9PROTO).
+    ("src/game/arm9/arc_util.c", "NNS_G2dGetUnpackedAnimBankEx"),
+    ("src/game/arm9/arc_util.c", "NNSi_G2dGetUnpackedAnimBank"),
+    ("src/game/arm9/mcss.c", "ARC_UTIL_LoadAnimBankFromArchive"),
+    ("src/game/arm9/mcss.c", "ARC_UTIL_LoadCellBankFromArchive"),
+    ("src/game/arm9/mcss.c", "ARC_UTIL_LoadMultiAnimBankFromArchive"),
+    ("src/game/arm9/mcss.c", "ARC_UTIL_LoadMultiCellBankFromArchive"),
+    # ov009 GameSpy callers declare int rand(void) and divide the result as signed; the ARM9 rand
+    # returns an unsigned value (gpiconnect.c divides it as unsigned, umull). Both forms are in the
+    # original bytes, so the callers keep their own declaration.
+    ("src/game/ov009/gt2auth.c", "rand"),
+    ("src/game/ov009/qr2.c", "rand"),
+    ("src/game/ov009/sb_serverlist.c", "rand"),
+]
 
 KW = {"asm", "const", "volatile", "register", "extern", "static", "inline", "__inline", "auto"}
 SCALARS = {"char", "short", "int", "long", "signed", "unsigned", "float", "double", "void"}
 NOT_TYPE_WORDS = {"return", "else", "do", "case", "goto", "sizeof", "typedef", "if", "while", "for", "switch"}
 
 
+DS_BUILD = [False]   # True: __MWERKS__ is defined (the DS branch of a guard counts)
+_MW = re.compile(r"^\s*#\s*(ifdef|ifndef|if|elif|else|endif)\b\s*(.*)$")
+
+
+def _mw_cond(kind, rest):
+    """True/False when the directive tests only __MWERKS__, else None (unknown)."""
+    rest = rest.strip()
+    if kind == "ifdef":
+        return True if rest == "__MWERKS__" else None
+    if kind == "ifndef":
+        return False if rest == "__MWERKS__" else None
+    if kind in ("if", "elif"):
+        if re.fullmatch(r"defined\s*\(\s*__MWERKS__\s*\)|defined\s+__MWERKS__", rest):
+            return True
+        if re.fullmatch(r"!\s*defined\s*\(\s*__MWERKS__\s*\)|!\s*defined\s+__MWERKS__", rest):
+            return False
+    return None
+
+
 def strip_pp(code):
-    """Preprocessor lines (with continuations) blanked, newlines kept."""
+    """Preprocessor lines (with continuations) blanked, newlines kept.  A branch that
+    #ifdef __MWERKS__ / #ifndef __MWERKS__ / #else selects away is blanked too: the host
+    build (__MWERKS__ undefined) by default, the DS build with DS_BUILD[0] set.  Other
+    conditionals keep every branch."""
     out = []
     cont = False
+    stack = []   # [parent_active, known, cond_value_of_current_branch]
+    active = True
+    mw = DS_BUILD[0]
     for line in code.split("\n"):
+        if cont:
+            cont = line.rstrip().endswith("\\")
+            out.append(" " * len(line))
+            continue
+        m = _MW.match(line) if line.lstrip().startswith("#") else None
+        if m:
+            kind, rest = m.group(1), m.group(2)
+            if kind in ("ifdef", "ifndef", "if"):
+                c = _mw_cond(kind, rest)
+                stack.append([active, c is not None, c])
+                if c is not None:
+                    active = active and (c == mw)
+            elif kind == "elif" and stack:
+                c = _mw_cond(kind, rest)
+                st = stack[-1]
+                if st[1] or c is not None:
+                    st[1] = True
+                    st[2] = c if c is not None else (not st[2])
+                    active = st[0] and (st[2] == mw)
+            elif kind == "else" and stack:
+                st = stack[-1]
+                if st[1]:
+                    active = st[0] and ((not st[2]) == mw)
+            elif kind == "endif" and stack:
+                active = stack.pop()[0]
         if cont or line.lstrip().startswith("#"):
             cont = line.rstrip().endswith("\\")
             out.append(" " * len(line))
         else:
-            out.append(line)
+            out.append(line if active else " " * len(line))
     return "\n".join(out)
 
 
@@ -718,6 +880,7 @@ def implicated(cur, errs, names):
 import threading
 import time
 _tl = threading.local()
+PRECAST = [None]   # optional hook: (rel, text, names) -> text with casts added before the repair rounds
 LIMIT = [900]
 BACKUP = [None]
 
@@ -726,6 +889,8 @@ def pipeline(rel, path, text, crlf, code, semis, types, sel, msgs, lenient=False
     """Apply the selected declaration edits, repair conversions with casts until the file compiles.
     Returns (ok, dropped names).  The file on disk holds the last attempt."""
     cur = splice(text, apply_edits(code, sel, semis, types))
+    if PRECAST[0]:
+        cur = PRECAST[0](rel, cur, [e["name"] for e in sel])
     by_name = {e["name"]: e for e in sel}
     tried = set()
     dropped = set()
@@ -1130,6 +1295,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--tsv", action="store_true")
     ap.add_argument("--summary", action="store_true")
+    ap.add_argument("--ds", action="store_true", help="read the DS branch of __MWERKS__ guards (default: the host branch)")
     ap.add_argument("--fix", action="store_true", help="rewrite mismatching declarations, keep what verifies")
     ap.add_argument("--files", help="with --fix: file with one repo-relative path per line (only these are edited)")
     ap.add_argument("--jobs", type=int, default=4)
@@ -1143,6 +1309,7 @@ def main():
     ap.add_argument("--audit", action="store_true", help="list pointers passed through integer parameters by a cast")
     a = ap.parse_args()
     LIMIT[0] = a.limit
+    DS_BUILD[0] = a.ds
     BACKUP[0] = a.backup
     files = sorted(ph.files_under([GAME]))
     types = Types(files)

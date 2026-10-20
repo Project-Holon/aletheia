@@ -30,8 +30,9 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_Halt  0x020882D0  arm
  */
-#define reg_OS_IME (*(vu16 *)0x04000208)
+#define reg_OS_IME (*(vu16 *)REG_IME_ADDR)
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 

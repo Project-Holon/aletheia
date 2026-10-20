@@ -20,6 +20,7 @@
  *   G3_LoadMtx43   0x0207D8E0  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_fx.h"
 
@@ -33,11 +34,11 @@ void G3_RotX(fx32 s, fx32 c);
 void G3_RotY(fx32 s, fx32 c);
 void G3_RotZ(fx32 s, fx32 c);
 
-#define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
+#define reg_G3X_GXFIFO      (*(vu32 *)REG_GXFIFO_ADDR)
 
-#define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
+#define reg_G3_MTX_MODE     (*(vu32 *)REG_MTX_MODE_ADDR)
 
-#define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
+#define reg_G3_MTX_MULT_3x3 (*(vu32 *)REG_MTX_MULT_3x3_ADDR)
 
 /*
  * sdk:      G3i_PerspectiveW_ (libgx.TWL.HYB.a g3_util.o)
@@ -56,11 +57,11 @@ void G3i_PerspectiveW_(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, 
     }
 }
 
-#define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
+#define reg_G3X_GXFIFO      (*(vu32 *)REG_GXFIFO_ADDR)
 
-#define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
+#define reg_G3_MTX_MODE     (*(vu32 *)REG_MTX_MODE_ADDR)
 
-#define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
+#define reg_G3_MTX_MULT_3x3 (*(vu32 *)REG_MTX_MULT_3x3_ADDR)
 
 /*
  * sdk:      G3i_OrthoW_ (libgx.TWL.HYB.a g3_util.o)
@@ -79,11 +80,11 @@ void G3i_OrthoW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BO
     }
 }
 
-#define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
+#define reg_G3X_GXFIFO      (*(vu32 *)REG_GXFIFO_ADDR)
 
-#define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
+#define reg_G3_MTX_MODE     (*(vu32 *)REG_MTX_MODE_ADDR)
 
-#define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
+#define reg_G3_MTX_MULT_3x3 (*(vu32 *)REG_MTX_MULT_3x3_ADDR)
 
 /*
  * sdk:      G3i_LookAt_ (libgx.TWL.HYB.a g3_util.o)
@@ -102,11 +103,11 @@ void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *tar
     }
 }
 
-#define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
+#define reg_G3X_GXFIFO      (*(vu32 *)REG_GXFIFO_ADDR)
 
-#define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
+#define reg_G3_MTX_MODE     (*(vu32 *)REG_MTX_MODE_ADDR)
 
-#define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
+#define reg_G3_MTX_MULT_3x3 (*(vu32 *)REG_MTX_MULT_3x3_ADDR)
 
 /*
  * sdk:      G3_RotX (libgx.TWL.HYB.a g3_util.o)
@@ -124,11 +125,11 @@ void G3_RotX(fx32 s, fx32 c)
     reg_G3_MTX_MULT_3x3 = (u32)c;
 }
 
-#define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
+#define reg_G3X_GXFIFO      (*(vu32 *)REG_GXFIFO_ADDR)
 
-#define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
+#define reg_G3_MTX_MODE     (*(vu32 *)REG_MTX_MODE_ADDR)
 
-#define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
+#define reg_G3_MTX_MULT_3x3 (*(vu32 *)REG_MTX_MULT_3x3_ADDR)
 
 /*
  * sdk:      G3_RotY (libgx.TWL.HYB.a g3_util.o)
@@ -146,11 +147,11 @@ void G3_RotY(fx32 s, fx32 c)
     reg_G3_MTX_MULT_3x3 = (u32)c;
 }
 
-#define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
+#define reg_G3X_GXFIFO      (*(vu32 *)REG_GXFIFO_ADDR)
 
-#define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
+#define reg_G3_MTX_MODE     (*(vu32 *)REG_MTX_MODE_ADDR)
 
-#define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
+#define reg_G3_MTX_MULT_3x3 (*(vu32 *)REG_MTX_MULT_3x3_ADDR)
 
 /*
  * sdk:      G3_RotZ (libgx.TWL.HYB.a g3_util.o)

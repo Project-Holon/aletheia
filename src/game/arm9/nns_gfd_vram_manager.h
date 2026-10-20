@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_NNS_GFD_VRAM_MANAGER_H
 #define GAME_ARM9_NNS_GFD_VRAM_MANAGER_H
 
+typedef struct NNSiFndObject NNSiFndObject;
+typedef struct NNSG2dCellBank NNSG2dCellBank;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_gfd_vram_manager.c, prototypes copied from their definitions. */
 
@@ -26,8 +29,5 @@ u32 NNSi_GfdDefaultFreeTexVram(void);
 void NNS_GfdSaveVramManager(u32 *dst);
 void NNS_GfdLoadVramManager(u32 *src);
 /* END mkheaders: generated region */
-
-typedef struct NNSiFndObject NNSiFndObject;
-typedef struct NNSG2dCellBank NNSG2dCellBank;
 
 #endif

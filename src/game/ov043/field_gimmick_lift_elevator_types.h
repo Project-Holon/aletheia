@@ -55,8 +55,8 @@ typedef struct CameraShake {
     u8 halfCycles;          /* 0x02 shake count is halfCycles * 2 */
     u8 frameParity;         /* 0x03 shake every second frame */
     int amplitude;          /* 0x04 height offset, sign flips every shake */
-    u8 *camera;             /* 0x08 */
-    int savedCameraTarget;  /* 0x0C camera trace target to restore */
+    struct FieldCamera *camera;             /* 0x08 */
+    const VecFx32 *savedCameraTarget;  /* 0x0C camera trace target to restore */
     VecFx32 savedShift;     /* 0x10 camera target shift to restore */
 } CameraShake;
 
@@ -66,7 +66,7 @@ typedef struct FieldGimmickLiftElevatorWork {
     int curY;                           /* 0x04 current height (fx32) */
     int goalY;                          /* 0x08 height the lift moves to */
     int stepY;                          /* 0x0C height change per frame */
-    int savedCameraTarget;              /* 0x10 elevator: trace target saved while the camera is detached */
+    const VecFx32 *savedCameraTarget;              /* 0x10 elevator: trace target saved while the camera is detached */
     int isRising;                       /* 0x14 elevator: nonzero when it goes up */
     int isStalled;                      /* 0x18 lift 5 hit the obstacle and waits */
     u16 stallFrames;                    /* 0x1C counts shake ends while stalled */

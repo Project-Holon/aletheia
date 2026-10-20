@@ -64,29 +64,20 @@
 #include "../arm9/game_beacon_types.h"
 #include "game_beacon_search_shared_types.h"
 
-struct RtcTime {
-    int hour;
-    int minute;
-    int second;
-};
+#include "../arm9/gf_standard_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
+#include "../arm9/gf_standard.h"
 
-extern int GAME_BEACON_GetNextNewLogIndex(int *cursor);
+#include "../arm9/game_beacon.h"
 
-extern GameBeaconRecord *GAME_BEACON_GetLog(int index);
 
-extern void GAME_BEACON_ClearNewFlag(u32 index);
 
-extern int GAME_BEACON_SetNewFlagByTrainerId(const GameBeaconInfo *info);
 
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
-extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
 int GAME_BEACON_ACCESSOR_TableAddNewLogs(GameBeaconInfoTable *table);
 
@@ -258,15 +249,13 @@ typedef struct GameBeaconActionAttr {
     u8 group;
 } GameBeaconActionAttr;
 
-extern void STRBUF_SetStringN(struct Strbuf *str, const u16 *src, u32 length);
+#include "../arm9/strbuf.h"
 
-extern u32 SYMBOL_SAVE_ReadBitField(const u8 *bits, int id);
+#include "../arm9/symbol_save.h"
 
-extern char *OSi_GetOwnerInfoExBuffer(void);
+#include "../arm9/os_ownerinfoex.h"
 
-extern void STRBUF_Clear(struct Strbuf *str);
 
-extern void STRBUF_SetString(struct Strbuf *str, const u16 *src);
 
 GameBeaconInfo *GAME_BEACON_ACCESSOR_AllocInfo(u32 heapId);
 
@@ -761,31 +750,19 @@ enum BeaconPrintKind {
     BEACON_PRINT_NONE = 15
 };
 
-extern void WORDSET_ClearAllSlots(struct WordSet *wordSet);
+#include "../arm9/wordset.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void STRBUF_Delete(struct Strbuf *buf);
 
-extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
 
-extern void WORDSET_SetSlotSpeciesName(struct WordSet *wordSet, u32 bufferIndex, u16 value);
 
-extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
-extern void WORDSET_SetSlotFromMsg36(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
-extern void WORDSET_SetSlotFromMsg117(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 bufferIndex, u32 value, u32 digits, u32 padding, u32 flag);
 
-extern void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, void *source);
 
-extern void WORDSET_SetSlotFromMsgBE(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
-extern void WORDSET_SetSlotFromMsgA0(struct WordSet *wordSet, u32 bufferIndex, s32 value);
 
-extern void WORDSET_SetSlotWeekday(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
 u8 GAME_BEACON_ACCESSOR_GetActionViewVariant(u32 actionType);
 

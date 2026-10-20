@@ -47,24 +47,19 @@ typedef struct DoorAnimeWork {
     u32 silent;    /* +0x10: close without the close SE */
 } DoorAnimeWork;
 
-extern int GFL_USE_GetSeSlot(u32 seqNo);
-extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
+#include "../arm9/gfl_use.h"
+#include "../arm9/game_event.h"
 struct GameEvent;
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 struct FieldPlayer;
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
-extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+#include "fieldmap.h"
+#include "field_player.h"
 struct FieldG3dMapper;
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
-extern int GFL_USE_IsSeSlotBusy(u32 slot);
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-struct FieldBuildModel;
-extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+struct BuildModelMan;
+#include "field_g3d_mapper.h"
 struct BuildModelRect;
 struct BuildModelMan;
 struct BuildModelEntry;
-extern struct BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryInRect(struct BuildModelMan *man, int kind, struct BuildModelRect *rect);
-extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMan *man, struct BuildModelEntry *entry, int slot, int mode);
+#include "field_buildmodel.h"
 int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work);
 u32 FIELD_DOOR_ANIME_StartOpen(u32 prio, u32 gameSys, u32 fieldmap);
 int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work);
@@ -87,7 +82,7 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
     switch (seq[0]) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(SE_DOOR_OPEN);
-        FIELD_PLAYER_GetPos((u8 *)FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
+        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
@@ -121,7 +116,7 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
 
 u32 FIELD_DOOR_ANIME_StartOpen(u32 prio, u32 gameSys, u32 fieldmap)
 {
-    u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_OpenTask, 0x14);
+    u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, (GameEventFunc)FIELD_DOOR_ANIME_OpenTask, 0x14);
     DoorAnimeWork *work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
@@ -139,7 +134,7 @@ int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
 
     switch (seq[0]) {
     case 0:
-        FIELD_PLAYER_GetPos((u8 *)FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
+        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
@@ -160,7 +155,7 @@ int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
 
 u32 FIELD_DOOR_ANIME_StartSetOpen(u32 prio, u32 gameSys, u32 fieldmap)
 {
-    u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_SetOpenTask, 0x14);
+    u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, (GameEventFunc)FIELD_DOOR_ANIME_SetOpenTask, 0x14);
     DoorAnimeWork *work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
@@ -180,7 +175,7 @@ int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work)
     case 0:
         if (work->silent == 0)
             GFL_USE_PlaySeDefaultVolume(SE_DOOR_CLOSE);
-        FIELD_PLAYER_GetPos((u8 *)FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
+        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
@@ -210,7 +205,7 @@ int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work)
 
 u32 FIELD_DOOR_ANIME_StartClose(u32 prio, u32 gameSys, u32 fieldmap, u32 silent)
 {
-    u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_CloseTask, 0x14);
+    u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, (GameEventFunc)FIELD_DOOR_ANIME_CloseTask, 0x14);
     DoorAnimeWork *work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;

@@ -1,6 +1,9 @@
 #ifndef OV020_FIELD_WFBC_DATA_LOCAL_TYPES_H
 #define OV020_FIELD_WFBC_DATA_LOCAL_TYPES_H
 
+#include "../types.h"
+#include "../sdk_fx.h"
+
 /* One resident of White Forest or Black City (0x18 bytes). */
 typedef struct WfbcPerson {
     u8 isPresent : 4;
@@ -41,8 +44,12 @@ typedef struct WfbcNpcRecord {
     u8 pad02[2];
     u16 initialMoodType1;
     u16 initialMoodType0;
-    u16 requestIds[3];
-    u8 pad0E[0x0A];
+    u16 speciesIds[3];  /* Pokemon the person can bring along */
+    u8 pad0E[2];
+    u8 levels[3];       /* 0x10: level of each species */
+    u8 pad13;
+    u8 weights[3];      /* 0x14: draw weight of each species */
+    u8 pad17;
     int queryValue; /* returned by script query 0 (meaning unknown) */
     u16 eventIds[4];
     u16 giftItemId;
@@ -73,20 +80,11 @@ typedef struct WfbcListEntry {
     int param;
 } WfbcListEntry;
 
-/* Field object header (0x24 bytes). */
-typedef struct MmdlHeader {
-    u16 objId;
-    u16 objCode;
-    u16 moveCode;
-    u16 eventType;
-    u16 eventFlag;
-    u16 eventId;
-    int params[6];
-} MmdlHeader;
+#include "../ov010/fldmmdl_types.h"
 
 struct GameSystem;
 struct Mmdl;
-struct MsgData;
+struct MsgBank;
 struct Strbuf;
 struct WordSet;
 struct FieldMsgHandle;
@@ -100,17 +98,17 @@ typedef struct WfbcTalkEvent {
     void *fieldSystem;
     u16 heapId;
     u8 pad0A[2];
-    int msgBgSys;
-    struct FieldMsgHandle *msgHandle;
-    struct FieldYesNoHandle *yesNoHandle;
-    struct MsgData *msgData;
+    struct FieldMsgBg *msgBgSys;
+    struct FieldTalkWin *msgHandle;
+    struct FieldMenuFunc *yesNoHandle;
+    struct MsgBank *msgData;
     struct WordSet *wordSet;
     struct Strbuf *msgBuf;
     struct Strbuf *tmpBuf;
     struct FieldWfbc *wfbcRuntime;
     struct FieldWfbcPeople *personRecord;
     struct Mmdl *personMmdl;
-    int playerPos[3];
+    struct VecFx32 playerPos;
     void *returnList;
     WfbcData *ownData;
     WfbcData *cityData;

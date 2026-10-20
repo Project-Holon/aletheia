@@ -7,7 +7,7 @@
 #include "../types.h"
 
 int CARDi_ReadCardWithHash(int userdata, int buffer, int offset, int length);
-u32 CARDi_ReadCardWithHashInternalAsync(u32 userdata, u32 buffer, u32 offset, u32 length);
+int CARDi_ReadCardWithHashInternalAsync(void *userdata, void *buffer, u32 offset, u32 length);
 void CARDi_InitRomHash(void);
 void data_0272EB9C(void);
 /* END mkheaders: generated region */

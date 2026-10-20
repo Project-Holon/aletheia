@@ -36,20 +36,14 @@
 #include "ghttp_types.h"
 
 
-extern int ghiResizeBuffer(GHIBuffer *, int);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern void ghiResetBuffer(GHIBuffer *);
-extern void *memmove(void *, const void *, unsigned int);
-extern unsigned int current_time(void);
-extern int ghiEncryptorSslReceiveFunc(void *connection, void *encryptor, char *buffer, int *bufferLen);
-extern int recv(int sock, char *buf, int len, int flags);
-extern int GOAGetLastError(int sock);
-extern int ghiEncryptorSslSendFunc(void *connection, void *encryptor, char *buffer, int bufferLen, int *bytesSent);
-extern int send(int, char *, int, int);
-extern int ghiEncryptDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
-extern int ghiSendBufferedData(GHIConnection *connection);
+#include "ghttpbuffer.h"
+#include "../ov009/gsdebug.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../ov009/gsplatformutil.h"
+#include "ghttpEncryption.h"
+#include "../ov009/gsplatformsocket.h"
 extern int ghiDoSend(GHIConnection *connection, char *buffer, int len);
-extern int ghiAppendDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
 int ghiDecryptReceivedData(GHIConnection *connection);
 int ghiDoReceive(GHIConnection *connection, char *buffer, int *bufferLen);
 int ghiTrySendThenBuffer(GHIConnection *connection, char *buffer, int len);

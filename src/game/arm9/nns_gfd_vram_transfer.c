@@ -25,20 +25,9 @@
  *   NNSi_GfdPushVramTransferTask  0x02061B74  arm
  *   NNSi_GfdAllocLnkVram 0x02061EB8 arm
  */
-struct GfdTransferTaskQueue;
 #include "../types.h"
-
-struct GfdTransferTask {
-    void *pTaskFunc;    /* 0x00 */
-    u32 srcAddr;        /* 0x04, source address (third argument) */
-    u32 dstOffset;      /* 0x08, destination offset in VRAM (second argument) */
-    s32 szByte;         /* 0x0c, byte size consumed */
-};
-
-struct GfdTransferTaskQueue {
-    u8 ring[0x10];
-    s32 totalSzByte;  /* 0x10, running byte total */
-};
+#include "nns_gfd_vram_load.h"
+#include "nns_gfd_lnk_vram_man.h"
 
 struct GfdLnkBlock {
     u32 start;                  /* 0x0 */
@@ -60,13 +49,7 @@ struct GfdLnkBlockList {
     struct GfdLnkBlock *head;
 };
 
-extern u32 NNSi_GfdGetHeadVramTransferTask(u8 *p);
-extern u32 NNSi_GfdPopVramTransferTask(struct GfdTransferTaskQueue *p);
-extern void NNSi_GfdRunVramTransferTask(u32 *s);
 #include "nns_gfd_vram_man.h"
-extern u32 NNSi_GfdGetTailVramTransferTask(u8 *p);
-extern int NNSi_GfdPushVramTransferTask(char *p);
-extern int NNSi_GfdAllocLnkVram(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size, u32 alignment);
 void NNS_GfdDoVramTransfer(void);
 s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte);
 u32 NNSi_GfdMergeAdjacentFreeBlocks(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range);
@@ -74,7 +57,7 @@ void NNSi_GfdClearBlockListHead(struct GfdLnkBlock **ppHead);
 struct GfdLnkBlock *NNSi_GfdInitBlockPool(struct GfdLnkBlock *blocks, u32 count);
 u32 NNSi_GfdAddBlock(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool, u32 start, u32 size);
 int NNSi_GfdAllocBlockUnaligned(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size);
-extern struct GfdTransferTaskQueue sVramTransferTaskQueue;
+extern NNSiGfdVramTransferTaskQueue sVramTransferTaskQueue;
 
 /*
  * Drain loop over the 0x02146B80 work record: fetch the head node, pump the
@@ -92,12 +75,12 @@ extern struct GfdTransferTaskQueue sVramTransferTaskQueue;
  */
 void NNS_GfdDoVramTransfer(void)
 {
-    struct GfdTransferTask *task = (struct GfdTransferTask *)NNSi_GfdGetHeadVramTransferTask((u8 *)(&sVramTransferTaskQueue));
+    NNSiGfdVramTransferTask *task = (NNSiGfdVramTransferTask *)NNSi_GfdGetHeadVramTransferTask(&sVramTransferTaskQueue);
 
-    while (NNSi_GfdPopVramTransferTask((struct GfdTransferTaskQueue *)(&sVramTransferTaskQueue)) != 0) {
-        NNSi_GfdRunVramTransferTask((u32 *)task);
+    while (NNSi_GfdPopVramTransferTask(&sVramTransferTaskQueue) != 0) {
+        NNSi_GfdRunVramTransferTask(task);
         sVramTransferTaskQueue.totalSzByte -= task->szByte;
-        task = (struct GfdTransferTask *)NNSi_GfdGetHeadVramTransferTask((u8 *)(&sVramTransferTaskQueue));
+        task = (NNSiGfdVramTransferTask *)NNSi_GfdGetHeadVramTransferTask(&sVramTransferTaskQueue);
     }
 }
 
@@ -125,18 +108,18 @@ void NNS_GfdDoVramTransfer(void)
  */
 s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte)
 {
-    struct GfdTransferTask *req;
+    NNSiGfdVramTransferTask *req;
 
     if (NNSi_GfdRingIsFull((u8 *)(&sVramTransferTaskQueue)) != 0) {
         return 0;
     }
 
-    req = (struct GfdTransferTask *)NNSi_GfdGetTailVramTransferTask((u8 *)(&sVramTransferTaskQueue));
-    req->pTaskFunc = pTaskFunc;
-    req->srcAddr = srcAddr;
-    req->dstOffset = dstOffset;
+    req = (NNSiGfdVramTransferTask *)NNSi_GfdGetTailVramTransferTask(&sVramTransferTaskQueue);
+    req->taskType = (u32)pTaskFunc;
+    req->pSrc = srcAddr;
+    req->offset = dstOffset;
     req->szByte = szByte;
-    NNSi_GfdPushVramTransferTask((char *)(&sVramTransferTaskQueue));
+    NNSi_GfdPushVramTransferTask(&sVramTransferTaskQueue);
     sVramTransferTaskQueue.totalSzByte += req->szByte;
     return 1;
 }
@@ -280,5 +263,5 @@ err:
 
 int NNSi_GfdAllocBlockUnaligned(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size)
 {
-    return NNSi_GfdAllocLnkVram(ppList, ppPool, pAddr, size, 0);
+    return NNSi_GfdAllocLnkVram((NNSiGfdLnkBlock **)ppList, (NNSiGfdLnkBlock **)ppPool, pAddr, size, 0);
 }

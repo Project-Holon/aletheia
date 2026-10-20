@@ -15,6 +15,7 @@
  * symbols:
  */
 #include "btl_calc_types.h"
+#include "btl_action_word.h"
 
 /*
  * stand-in: the three bit-built actions below (item, forced change, rotate)
@@ -24,29 +25,17 @@
  */
 typedef enum { ACTION_BITS_ZERO = 0 } ActionBits;
 
-void BTL_ACTION_SetFight(union BtlAction *action, u32 moveId, u32 targetPos);
 
-void BTL_ACTION_SetFightTarget(union BtlAction *action, int targetPos);
 
-void BTL_ACTION_SetFightSlotFlag(union BtlAction *action);
 
-u32 BTL_ACTION_GetFightSlotFlag(union BtlAction *action);
 
-u32 BTL_ACTION_GetFightMove(union BtlAction *action);
 
-void BTL_ACTION_SetItem(union BtlAction *action,u32 itemId,u32 targetIndex,u32 itemParam);
 
-void BTL_ACTION_SetChange(union BtlAction *action,u32 posIndex,u32 memberIndex);
 
-void BTL_ACTION_SetChangeDepleted(union BtlAction *action);
 
-int BTL_ACTION_IsChangeDepleted(union BtlAction *action);
 
-void BTL_ACTION_SetRotate(union BtlAction *action,u32 direction);
 
-void BTL_ACTION_SetEscape(union BtlAction *action);
 
-void BTL_ACTION_SetSkip(union BtlAction *action);
 
 /* Makes a fight action: the move and the target position. */
 void BTL_ACTION_SetFight(union BtlAction *action, u32 moveId, u32 targetPos)
@@ -76,7 +65,7 @@ void BTL_ACTION_SetFightSlotFlag(union BtlAction *action)
         action->fight.slotFlag = 1;
 }
 
-u32 BTL_ACTION_GetFightSlotFlag(union BtlAction *action)
+u32 BTL_ACTION_GetFightSlotFlag(const union BtlAction *action)
 {
     if (action->head.kind == 1)
         return action->fight.slotFlag;
@@ -84,7 +73,7 @@ u32 BTL_ACTION_GetFightSlotFlag(union BtlAction *action)
 }
 
 /* The move id of a fight action, else 0. */
-u32 BTL_ACTION_GetFightMove(union BtlAction *action) { if(action->head.kind==1) return (u16)action->fight.moveId; return 0; }
+u32 BTL_ACTION_GetFightMove(const union BtlAction *action) { if(action->head.kind==1) return (u16)action->fight.moveId; return 0; }
 
 /* Makes an item action: the item, the target index and one parameter byte. */
 void BTL_ACTION_SetItem(union BtlAction *action,u32 itemId,u32 targetIndex,u32 itemParam)
@@ -116,7 +105,7 @@ void BTL_ACTION_SetChangeDepleted(union BtlAction *action)
 }
 
 /* True for a change action that a fainted Pokemon forced. */
-int BTL_ACTION_IsChangeDepleted(union BtlAction *action) { if(action->head.kind==3 && action->change.depleted==1) return 1; return 0; }
+int BTL_ACTION_IsChangeDepleted(const union BtlAction *action) { if(action->head.kind==3 && action->change.depleted==1) return 1; return 0; }
 
 /*
  * Makes a rotate action with the given direction.
@@ -149,15 +138,10 @@ void BTL_ACTION_SetSkip(union BtlAction *action)
 
 typedef enum { MASK=15 } Mask;
 
-void BTL_ACTION_SetNone(u32 *action);
 
-void BTL_ACTION_SetForcedSkip(u32 *action);
 
-unsigned int BTL_ACTION_GetKind(union BtlAction *action);
 
-void BTL_ACTION_SetRecordReset(u32 *action);
 
-void BTL_ACTION_SetRecordError(u32 *action);
 
 /*
  * The setters below write only the kind nibble of an action word.
@@ -165,11 +149,11 @@ void BTL_ACTION_SetRecordError(u32 *action);
  * constant (a clear and a mask that contradict each other); the mask-first
  * order in the last AND selects the original register.
  */
-void BTL_ACTION_SetNone(u32 *action) { Mask mask=MASK; *action=mask & (*action & ~15); }
+void BTL_ACTION_SetNone(union BtlAction *action) { Mask mask=MASK; action->raw=mask & (action->raw & ~15); }
 
-void BTL_ACTION_SetForcedSkip(u32 *action) { *action = (*action & ~15) | BTL_ACTION_KIND_FORCED_SKIP; }
+void BTL_ACTION_SetForcedSkip(union BtlAction *action) { action->raw = (action->raw & ~15) | BTL_ACTION_KIND_FORCED_SKIP; }
 
-unsigned int BTL_ACTION_GetKind(union BtlAction *action)
+unsigned int BTL_ACTION_GetKind(const union BtlAction *action)
 {
     return action->head.kind;
 }

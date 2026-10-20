@@ -12,14 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-typedef struct {
-    unsigned char x;
-    unsigned char y;
-    unsigned char m[256];
-} CPSRc4Ctx;
-
-void CPSi_rc4_init(CPSRc4Ctx *ctx, unsigned char *key, int len);
-void CPSi_rc4_crypt(CPSRc4Ctx *ctx, unsigned char *data, int len);
+#include "arc4.h"
 
 
 /*

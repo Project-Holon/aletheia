@@ -7,7 +7,7 @@
 #include "../sdk_fx.h"
 #include "../types.h"
 
-void MTX_Scale22_(void);
+void MTX_Scale22_(MtxFx22 *pDst, fx32 x, fx32 y);
 void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos);
 /* END mkheaders: generated region */
 

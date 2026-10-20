@@ -30,41 +30,19 @@
 struct Trip;
 struct Board;
 struct Vec3;
+#include "sta_act_types.h"
 #include "../types.h"
 
-typedef struct { int x,y,z; } Vec;
 
-/* One billboard element: position, image id and the billboard slot index. */
-typedef struct {
-    u32 active;
-    u32 dirty;
-    int x, y, z;
-    int id;
-    int index;
-} StaActObjEntry;
-
-/* Element manager: heap id, element count, billboard board and 5 element slots. */
-typedef struct {
-    u16 heap;
-    u16 count;
-    void *board;
-    StaActObjEntry entries[5];
-} StaActObjObject;
-
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *);
-extern void BILLBOARD_SetElemPos(u8 *board, int i, struct Trip *src);
-extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/billboard.h"
 struct BbBoard;
-extern void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemIndex, u32 *visible);
-extern void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemIndex);
-extern void BILLBOARD_DeleteImage(struct BbBoard *board, s32 index);
 StaActObjObject *STA_ACT_OBJ_Create(u16 heap, void *board);
 void STA_ACT_OBJ_Delete(char *p);
 void STA_ACT_OBJ_Update(char *p);
 void STA_ACT_OBJ_UpdateEntry(char *o, StaActObjEntry *entry);
 void STA_ACT_OBJ_SetCount(StaActObjObject *o, u16 n);
-StaActObjEntry *STA_ACT_OBJ_AddEntry(StaActObjObject *o);
+StaActObjEntry *STA_ACT_OBJ_AddEntry(StaActObjObject *o, u32 unused);
 void STA_ACT_OBJ_FreeEntry(u32 *o, StaActObjEntry *entry);
 void STA_ACT_OBJ_SetEntryTarget(void *a, StaActObjEntry *entry, u32 *target);
 void STA_ACT_OBJ_GetEntryTarget(void *a, StaActObjEntry *entry, u32 *target);
@@ -96,7 +74,7 @@ void STA_ACT_OBJ_Update(char *p) {int i;for(i=0;i<5;i++)if(((StaActObjObject *)p
  */
 void STA_ACT_OBJ_UpdateEntry(char *o, StaActObjEntry *entry)
 {
-    Vec v;
+    StaActObjVec v;
     float f;
     if(entry->dirty==1) {
         if(((StaActObjObject *)o)->count!=0) f=0.5f+(float)(((StaActObjObject *)o)->count<<12);
@@ -104,7 +82,7 @@ void STA_ACT_OBJ_UpdateEntry(char *o, StaActObjEntry *entry)
         v.x=((int)entry->x-(int)f)/16;
         v.y=(786432-(int)entry->y)/16;
         v.z=entry->z;
-        BILLBOARD_SetElemPos(((StaActObjObject *)o)->board,entry->index,(struct Trip *)(&v));
+        BILLBOARD_SetElemPos((struct BbBoard *)(((StaActObjObject *)o)->board),entry->index,(VecFx32 *)((struct Trip *)(&v)));
         entry->dirty=0;
     }
 }
@@ -116,14 +94,14 @@ void STA_ACT_OBJ_SetCount(StaActObjObject *o, u16 count)
     for(i=0;i<5;i++) if(o->entries[i].active==1) o->entries[i].dirty=1;
 }
 
-StaActObjEntry *STA_ACT_OBJ_AddEntry(StaActObjObject *o)
+StaActObjEntry *STA_ACT_OBJ_AddEntry(StaActObjObject *o, u32 unused)
 {
     u8 i;
     StaActObjEntry *entry;
     for(i=0;i<5;i++) if(o->entries[i].active==0) break;
     entry=&o->entries[i];
     entry->active=1; entry->dirty=1; entry->x=0; entry->y=0; entry->z=0;
-    entry->index=BILLBOARD_AddElem(o->board,entry->id,4096,4096,(struct Vec3 *)(&entry->x),31,0,0);
+    entry->index=BILLBOARD_AddElem((struct BbBoard *)o->board,entry->id,4096,4096,(VecFx32 *)((struct Vec3 *)(&entry->x)),31,0,0);
     BILLBOARD_SetElemVisible(o->board,entry->index,&d_021F8328);
     return entry;
 }

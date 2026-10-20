@@ -60,6 +60,7 @@
  */
 #define DWCi_HEAPlFree(p) DWCi_HEAPlFree_((void **)&(p))
 #include "../types.h"
+#include "../arm9/fs_proc_default.h"
 
 #include "../sdk_card.h"
 
@@ -73,41 +74,21 @@ typedef struct tagMEMARCHIVE {
     u16 lockId;             /* +0xe4 */
 } MEMARCHIVE;
 
-extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
-extern void FS_InitFile(FSFile *file);
-extern int FS_OpenFile(FSFile *file, const char *path);
-extern void OS_Terminate(void);
-extern long OS_GetLockID(void);
+#include "heap.h"
+#include "../arm9/fs_file.h"
+#include "../arm9/os_terminate_processor.h"
+#include "../arm9/os_spinlock.h"
 struct FSFile;
-extern u32 FS_GetFileImageTop(struct FSFile *file);
-extern long FS_ReadFile(FSFile *file, void *buffer, long length);
-extern int FS_CloseFile(FSFile *file);
-extern void FS_InitArchive(FSArchive *arc);
-extern int FS_RegisterArchiveName(FSArchive *arc, const char *name, u32 name_len);
-extern void FS_SetArchiveProc(void *arc, u32 proc, u32 flags);
-extern int FS_LoadArchive(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fnt, u32 fnt_size,
-                         int (*read_func)(FSArchive *, void *, u32, u32),
-                         int (*write_func)(FSArchive *, void *, u32, u32));
-extern u32 FS_LoadArchiveTables(FSArchive *arc, void *mem, u32 max_size);
-extern void *DWCi_QUElFormEx(long size, void *data, long dataSize);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern int FS_ChangeDir(const char *path);
-extern void *FS_UnloadArchiveTables(FSArchive *arc);
-extern int FS_UnloadArchive(FSArchive *arc);
-extern void FS_ReleaseArchiveName(FSArchive *p_arc);
-extern void OS_ReleaseLockID(unsigned short lockID);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void CARD_LockRom(u16 lock_id);
-extern void CARD_UnlockRom(u32 id);
-extern void *FS_GetArchiveBase(void *arc);
+#include "../arm9/fs_proc_mem.h"
+#include "../arm9/fs_archive.h"
+#include "deque.h"
+#include "../arm9/os_printf.h"
+#include "../arm9/card_api.h"
 extern void CARDi_ReadRom(unsigned int dma, void *src, void *dst, unsigned int len, void (*cb)(void *), void *arg, int is_async);
-extern void FS_NotifyArchiveAsyncEnd(struct FSArchive *arc, int ret);
-extern void *DWCi_QUElPopBack(void *queue);
-extern u32 FS_GetLength(FSFile *file);
-extern void MI_UncompressLZ8(void *src, void *dst);
-extern void DWCi_QUElPushBack(void *que, void *elem);
-extern int strlen(const u8 *s);
-extern int memcmp(u8 *s1, u8 *s2, u32 n);
+#include "../arm9/mi_uncompress.h"
+#include "../arm9/msl_string_str.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
 void DWCi_ARClInit(void);
 void DWCi_ARClEnd(void);
 int DWCi_ARClCbWrite(void);
@@ -151,9 +132,9 @@ void DWCi_ARClInit(void)
     FS_InitArchive(&MemArchive->archive);
     if (!FS_RegisterArchiveName(&MemArchive->archive, sArchiveTable1, 3))
         OS_Terminate();
-    FS_SetArchiveProc(&MemArchive->archive, (u32)((int (*)(FSFile *, u32))userProc), 0x602);
+    FS_SetArchiveProc(&MemArchive->archive, (uptr)((int (*)(FSFile *, u32))userProc), 0x602);
     if (!FS_LoadArchive(&MemArchive->archive, base, fat.offset, fat.length, fnt.offset, fnt.length,
-                       (int (*)(FSArchive *, void *, u32,  u32))cbRead, (int (*)(FSArchive *, void *, u32,  u32))DWCi_ARClCbWrite))
+                       (FS_ARCHIVE_READ_FUNC)cbRead, (FS_ARCHIVE_WRITE_FUNC)DWCi_ARClCbWrite))
         OS_Terminate();
     size = FS_LoadArchiveTables(&MemArchive->archive, 0, 0);
     MemArchive->table = DWCi_HEAPlAllocEx(size, 4);
@@ -194,7 +175,7 @@ static int userProc(int unused, unsigned long cmd)
 
 static int cbRead(void *arc, void *dst, unsigned long pos, unsigned long size)
 {
-	unsigned long base = (unsigned int)FS_GetArchiveBase(arc);
+	unsigned long base = (uptr)FS_GetArchiveBase(arc);
 	CARDi_ReadRom(-1, (void *)(pos + base), dst, size, cbReadRom, arc, 1);
 	return 0x100;
 }

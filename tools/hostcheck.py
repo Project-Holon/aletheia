@@ -13,7 +13,16 @@ counted apart as "abi" with the reason; every other failure is FAIL.
 -Wreturn-type is on: "control reaches end of non-void function" is counted per
 file as its own class (not a FAIL); phase checks drive the total to 0.
 
-usage: python tools/hostcheck.py [--tree src/game] [-v] [FILE ...]
+Pointer-width class: every file is also compiled with the bundled 64-bit mingw
+gcc (-m64 -fsyntax-only) with -Wpointer-to-int-cast, -Wint-to-pointer-cast and
+-Wint-conversion.  A pointer kept in an int/u32 truncates on a 64-bit host.
+Counts are per file and per kind ("ptr-to-int", "int-to-ptr", "int-conv");
+hits in headers are counted once per header line.  The phase checks drive the
+total to 0.  --ptr-list FILE writes every hit (path:line:col kind function).
+--no-ptr skips this class.
+
+usage: python tools/hostcheck.py [--tree src/game] [-v] [--no-ptr]
+                                 [--ptr-list FILE] [FILE ...]
 """
 import argparse
 import collections
@@ -32,21 +41,25 @@ BS = chr(92)
 ALL = False
 RETCOUNT = {}
 RETLINES = {}
+GCC64 = glob.glob(os.path.join(HERE, 'gcc-host', '*', 'bin', 'x86_64-w64-mingw32-gcc.exe'))     or glob.glob(os.path.join(HERE, 'gcc-host', '*', 'bin', 'x86_64-w64-mingw32-gcc'))
+PTRHITS = {}
+HDRHITS = {}
+PTR_KINDS = {'pointer-to-int-cast': 'ptr-to-int', 'int-to-pointer-cast': 'int-to-ptr',
+             'int-conversion': 'int-conv'}
+PTR_RE = re.compile(r'^(.*?):(\d+):(\d+): (?:warning|error): (.*?) \[-W(pointer-to-int-cast|'
+                    r'int-to-pointer-cast|int-conversion)\]')
+PTR_FLAGS = ['-m64', '-fsyntax-only', '-std=gnu99', '-fshort-wchar', '-Wno-all', '-Wno-extra',
+             '-Wpointer-to-int-cast', '-Wint-to-pointer-cast', '-Wint-conversion',
+             '-Wno-error=int-conversion', '-Wno-error=implicit-function-declaration',
+             '-Wno-error=incompatible-pointer-types', '-x', 'c']
+PTR = True
 SDK_INCLUDE = os.path.join(ROOT, 'sdk', 'TwlSDK', 'include')
 FLAGS = ['-S', '-o', os.devnull, '-std=gnu99', '-fshort-wchar', '-Wno-all', '-Wno-extra', '-Wreturn-type',
          '-Werror=implicit-function-declaration', '-x', 'c']
 # Documented exceptions: "path:function" pairs whose missing return is kept on
 # purpose (the DS bytes need it) and tracked as missing-return rows in docs/DEBT.tsv.
 RET_EXCEPTIONS = {
-    ('src/game/arm9/gpower.c', 'GPOWER_ApplyCaptureRate'),
-    ('src/game/arm9/iss_switch_set.c', 'ISS_SWITCH_SET_UpdateSwitches'),
-    ('src/game/arm9/mcss.c', 'MCSS_SetAnimCallback'),
-    ('src/game/arm9/save_control.c', 'SAVE_CONTROL_StartSave'),
     ('src/game/arm9/zonedata.c', 'ZONEDATA_GetChangedZoneId'),
-    ('src/game/ov016/rakuraku.c', 'DWCi_RAKUlGetState'),
-    ('src/game/ov094/btlv_effvm.c', 'BTLV_EFFVM_EvalCondition'),
-    ('src/game/ov096/tr_ai.c', 'TR_AI_GetPosition'),
-    ('src/game/ov210/zknsearch_main.c', 'ZKNSEARCH_MAIN_ShowResultActors'),
 }
 FUNC_RE = re.compile(r"In function '([^']*)'")
 RET_RE = re.compile(r'^(.*?):(\d+):\d+: warning: control reaches end of non-void function')
@@ -137,10 +150,34 @@ def blank_asm(text):
     return ''.join(out)
 
 
+def ptrcheck(path, src, d):
+    """Host 64-bit compile: collect pointer/integer conversion hits."""
+    cmd = [GCC64[0]] + PTR_FLAGS + ['-iquote', d, '-I', d, '-I', SDK_INCLUDE, '-']
+    p = subprocess.run(cmd, input=src.encode('latin1'), stdout=subprocess.PIPE,
+                       stderr=subprocess.STDOUT, cwd=ROOT)
+    fn, hits = None, []
+    for l in p.stdout.decode('latin1', 'replace').split(chr(10)):
+        mf = FUNC_RE.search(l)
+        if mf:
+            fn = mf.group(1)
+        m = PTR_RE.match(l)
+        if not m:
+            continue
+        f, ln, col, kind = m.group(1), int(m.group(2)), int(m.group(3)), PTR_KINDS[m.group(5)]
+        if f == '<stdin>':
+            hits.append((ln, col, kind, fn or '-'))
+        else:
+            ap = os.path.normpath(os.path.join(ROOT, f))
+            HDRHITS[(os.path.relpath(ap, ROOT).replace(BS, '/'), ln, col, kind)] = fn or '-'
+    PTRHITS[path] = sorted(set(hits))
+
+
 def check(path):
     with open(path, encoding='latin1', newline='') as fh:
         src = blank_asm(fh.read())
     d = os.path.dirname(os.path.abspath(path))
+    if PTR and GCC64:
+        ptrcheck(path, src, d)
     cmd = [GCC[0]] + FLAGS + ['-iquote', d, '-I', d, '-I', SDK_INCLUDE, '-']
     p = subprocess.run(cmd, input=src.encode('latin1'), stdout=subprocess.PIPE,
                        stderr=subprocess.STDOUT, cwd=ROOT)
@@ -170,10 +207,15 @@ def main():
     ap.add_argument('--tree', default='src/game')
     ap.add_argument('-v', action='store_true')
     ap.add_argument('files', nargs='*')
+    ap.add_argument('--no-ptr', action='store_true', help='skip the 64-bit pointer-width class')
+    ap.add_argument('--ptr-list', metavar='FILE', help='write every pointer-width hit to FILE')
     ap.add_argument('-a', action='store_true', help='show every error of a failing file')
     a = ap.parse_args()
-    global ALL
+    global ALL, PTR
     ALL = a.a
+    PTR = not a.no_ptr
+    if PTR and not GCC64:
+        raise SystemExit('no x86_64 mingw gcc under tools/gcc-host (use --no-ptr)')
     if not GCC:
         raise SystemExit('no arm-none-eabi-gcc under tools/gcc-arm')
     files = a.files or sorted(glob.glob(os.path.join(ROOT, a.tree, '**', '*.c'), recursive=True))
@@ -198,6 +240,28 @@ def main():
             print('%4d %s%s' % (n, os.path.relpath(path, ROOT).replace(BS, '/'),
                               ' (line ' + ', '.join(RETLINES[path]) + ')' if a.v else ''))
     print('missing-return total %d' % tot)
+    ptot = 0
+    if PTR:
+        print('--- pointers stored in integers on a 64-bit host (per file: ptr-to-int / int-to-ptr / int-conv)')
+        per = collections.Counter()
+        rows = []
+        for path, hits in sorted(PTRHITS.items()):
+            rel = os.path.relpath(path, ROOT).replace(BS, '/')
+            for ln, col, kind, fn in hits:
+                per[(rel, kind)] += 1
+                rows.append((rel, ln, col, kind, fn))
+        for (rel, ln, col, kind), fn in sorted(HDRHITS.items()):
+            per[(rel, kind)] += 1
+            rows.append((rel, ln, col, kind, fn))
+        for rel in sorted({r for r, _ in per}):
+            c = [per[(rel, k)] for k in ('ptr-to-int', 'int-to-ptr', 'int-conv')]
+            ptot += sum(c)
+            print('%4d %4d %4d %s' % (c[0], c[1], c[2], rel))
+        print('pointer-width total %d' % ptot)
+        if a.ptr_list:
+            with open(a.ptr_list, 'w', newline=chr(10)) as fh:
+                for r in sorted(rows):
+                    fh.write(('%s:%d:%d' + chr(9) + '%s' + chr(9) + '%s') % r + chr(10))
     print('total %d: PASS %d, abi %d, FAIL %d' % (len(files), cnt['PASS'], cnt['abi'], cnt['FAIL']))
     return 1 if cnt['FAIL'] else 0
 

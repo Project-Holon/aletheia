@@ -71,61 +71,23 @@ GTI2Connection;
 
 #include "../sdk_soc.h"
 
-struct GTI2IncomingBufferMessage {
-    int start;
-    int len;
-    int type;
-    unsigned short serialNumber;
-};
-
 extern u32 _u32_div_f(u32 a, u32 b);
 struct GTI2Connection;
-extern void gti2ConnectionCleanup(struct GTI2Connection *c);
-extern void *TableLookup(struct HashImplementation *table, void *elemKey);
-extern void SocketStartUp(void);
-extern int gt2StringToAddress(char *string, unsigned int *ip, unsigned short *port);
-extern void *gsimalloc(unsigned long size);
-extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
-extern struct HashImplementation *TableNew2(int elemSize, int nBuckets, int nChains,
-                                                int (*hashFn)(void *, int),
-                                                int (*compFn)(void *, void *),
-                                                void (*freeFn)(void *));
-extern void gsifree(void *ptr);
-extern struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate,
-                                                 void (*elemFreeFn)(void *));
-extern void TableFree(struct HashImplementation *table);
-extern int socket(int pf, int type, int protocol);
-extern void ArrayFree(struct DArrayImplementation *array);
-extern int bind(int sock, struct SOCSockAddr *addr, int len);
-extern int closesocket(int sock);
-extern int getsockname(int sock, struct SOCSockAddr *addr, int *len);
-extern void TableFree(struct HashImplementation *table);
-extern void ArrayFree(struct DArrayImplementation *array);
-extern void gsifree(void *ptr);
-extern void SocketShutDown(void);
+#include "gt2connection.h"
+#include "hashtable.h"
+#include "gsplatformutil.h"
+#include "gt2utility.h"
+#include "gsmemory.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "darray.h"
+#include "gsplatformsocket.h"
 extern GTI2Connection *gti2SocketFindConnection(GTI2Socket *socket, unsigned int ip, unsigned short port);
-extern unsigned int current_time(void);
-extern int gti2AllocateBuffer(GTI2Buffer *buffer, int size);
-extern void TableEnter(struct HashImplementation *table, void *newElem);
-extern int ArrayLength(int *array);
-extern void *ArrayNth(struct DArrayImplementation *array, int n);
-extern void ArrayDeleteAt(int a, int b);
-extern int TableRemove(struct HashImplementation *table, void *delElem);
-extern void gti2MessageCheck(unsigned char **message, int *len);
-extern int CanSendOnSocket(int sock);
-extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
-extern int GOAGetLastError(int sock);
-extern int gti2HandleConnectionReset(GTI2Socket *socket, unsigned int ip, unsigned short port);
+#include "gt2buffer.h"
+#include "gt2message.h"
 struct GTI2Socket;
-extern int gti2HandleHostUnreachable(struct GTI2Socket *sock, unsigned int ip, unsigned short port, int send);
-extern int gti2DumpCallback(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip,
-                         unsigned short port, int reset, unsigned char *message, int len, int outgoing);
-extern int gti2ConnectionThink(GTI2Connection *connection,
-                               unsigned int now);
-extern void *TableMapSafe2(struct HashImplementation *table,
-                         int (*fn)(void *, void *), void *data);
-extern void gt2CloseAllConnectionsHard(int *p);
-extern int gti2SocketErrorCallback(GTI2Socket *socket);
+#include "gt2callback.h"
+#include "gt2main.h"
 GTI2Connection *gti2SocketFindConnection(GTI2Socket *socket, u32 ip, u16 port);
 int gti2CreateSocket(GTI2Socket **sock, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void (*callback)(GTI2Socket *), int type);
 void gti2CloseSocket(GTI2Socket *socket);
@@ -365,13 +327,13 @@ void gti2FreeSocketConnection(GTI2Connection *connection)
         return;
     if (connection->state == 7)
     {
-        len = ArrayLength((int *)connection->socket->closedConnections);
+        len = ArrayLength((struct DArrayImplementation *)connection->socket->closedConnections);
         for (i = 0; i < len; i++)
         {
             if (connection == *(GTI2Connection **)ArrayNth(
                     connection->socket->closedConnections, i))
             {
-                ArrayDeleteAt((int)connection->socket->closedConnections, i);
+                ArrayDeleteAt(connection->socket->closedConnections, i);
                 return;
             }
         }
@@ -457,7 +419,7 @@ int gti2SocketConnectionsThink(GTI2Socket *socket)
 
 void gti2FreeClosedConnections(GTI2Socket *socket)
 {
-    int len = ArrayLength((int *)socket->closedConnections);
+    int len = ArrayLength((struct DArrayImplementation *)socket->closedConnections);
     int i;
 
     for (i = len - 1; i >= 0; i--)
@@ -470,7 +432,7 @@ void gti2SocketError(GTI2Socket *socket)
     if (socket->error != 0)
         return;
     socket->error = 1;
-    gt2CloseAllConnectionsHard((int *)socket);
+    gt2CloseAllConnectionsHard(socket);
     if (gti2SocketErrorCallback(socket))
         gti2CloseSocket(socket);
 }

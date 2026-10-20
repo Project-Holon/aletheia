@@ -10,14 +10,14 @@ struct GameSystem;
 struct GameData;
 struct WordSet;
 struct ArcFile;
-struct MsgData;
+struct MsgBank;
 struct GfFont;
 struct Strbuf;
 struct BmpWin;
 struct Bmp;
 struct BmpOamSys;
 struct BmpOam;
-struct ClactUnit;
+struct Unit;
 struct ClactRenderer;
 struct NitroFileHeader;
 struct PlaceNameLetter;
@@ -49,7 +49,7 @@ typedef struct FieldPlaceName {
     struct WordSet *wordSet;                                        /* 0x08 */
     unsigned short heapId;                                          /* 0x0C */
     struct ArcFile *arcHandle;                                      /* 0x10 */
-    struct MsgData *msgData;                                        /* 0x14: arc 2, file 0x59 */
+    struct MsgBank *msgData;                                        /* 0x14: arc 2, file 0x59 */
     struct GfFont *font;                                            /* 0x18 */
     struct Strbuf *message;                                         /* 0x1C */
     unsigned char messageLength;                                    /* 0x20 */
@@ -57,7 +57,7 @@ typedef struct FieldPlaceName {
     int bgCharOffset;                                               /* 0x28: BG3 char area, -1 if none */
     int clactPaletteId;                                             /* 0x2C */
     struct BmpOamSys *bmpOamSys;                                    /* 0x30 */
-    struct ClactUnit *clactUnit[1];                                 /* 0x34 */
+    struct Unit *clactUnit[1];                                 /* 0x34 */
     struct ClactRenderer *clactRenderer;                            /* 0x38 */
     int state;                                                      /* 0x3C */
     unsigned char step;                                             /* 0x40: step inside the state */

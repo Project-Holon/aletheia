@@ -1,6 +1,9 @@
 #ifndef ALETHEIA_OV010_FLDMMDL_TYPES_H
 #define ALETHEIA_OV010_FLDMMDL_TYPES_H
 
+#include "../types.h"
+#include "../sdk_fx.h"
+
 /*
  * Field model (MMDL) system and field model layouts, built by offset from
  * every view in fldmmdl.c. The system is a 0x48-byte block (fldmmdl.c line
@@ -18,11 +21,12 @@ typedef struct MmdlHeaderGridPos {
     int posY; /* 0x20 */
 } MmdlHeaderGridPos;
 
-typedef struct MmdlVec {
-    int x;
-    int y;
-    int z;
-} MmdlVec;
+/* Current grid position of a field model, as copied out by FLDMMDL_GetGridNowPos. */
+typedef struct MmdlGridVec {
+    s16 x;
+    s16 y;
+    s16 z;
+} MmdlGridVec;
 
 /* Object code parameter record (0x1C bytes), one per object code. */
 typedef struct MmdlObjCodeParam {
@@ -138,10 +142,10 @@ struct Mmdl {
     short gridNowY;             /* 0x3E */
     short gridNowZ;             /* 0x40 */
     unsigned char pad_42[2];
-    MmdlVec pos;                /* 0x44 */
-    MmdlVec drawOffset;         /* 0x50 */
-    MmdlVec drawOffsetOutside;  /* 0x5C */
-    MmdlVec attrOffset;         /* 0x68 */
+    VecFx32 pos;                /* 0x44 */
+    VecFx32 drawOffset;         /* 0x50 */
+    VecFx32 drawOffsetOutside;  /* 0x5C */
+    VecFx32 attrOffset;         /* 0x68 */
     unsigned int nowAttr;       /* 0x74 */
     unsigned int oldAttr;       /* 0x78 */
     unsigned char sizeWidth;    /* 0x7C */

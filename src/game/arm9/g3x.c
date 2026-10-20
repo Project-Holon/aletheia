@@ -31,28 +31,29 @@
  *   MIi_CpuClear32       0x02082A7C  arm
  *   GXi_DmaId            0x020A84C0  data
  */
-#define reg_G3X_GXFIFO          (*(vu32 *)0x04000400)
-#define reg_G3X_GXSTAT          (*(vu32 *)0x04000600)
-#define reg_G3X_CLEAR_COLOR     (*(vu32 *)0x04000350)
-#define reg_G3X_CLEAR_DEPTH     (*(vu16 *)0x04000354)
-#define reg_G3X_DISP_1DOT_DEPTH (*(vu16 *)0x04000610)
-#define REG_CLIPMTX_RESULT_0_ADDR 0x04000640
-#define REG_VECMTX_RESULT_0_ADDR  0x04000680
-#define reg_G3X_DISP3DCNT       (*(vu16 *)0x04000060)
-#define reg_G3X_FOG_OFFSET      (*(vu16 *)0x0400035C)
-#define reg_G3_POLYGON_ATTR     (*(vu32 *)0x040004A4)
-#define reg_G3_TEXIMAGE_PARAM   (*(vu32 *)0x040004A8)
-#define reg_G3_TEXPLTT_BASE     (*(vu32 *)0x040004AC)
-#define reg_G3_MTX_MODE         (*(vu32 *)0x04000440)
-#define reg_G3_MTX_POP          (*(vu32 *)0x04000448)
-#define reg_G3_MTX_IDENTITY     (*(vu32 *)0x04000454)
-#define reg_G3_END_VTXS         (*(vu32 *)0x04000504)
-#define reg_G2_BG0OFS           (*(vu32 *)0x04000010)
-#define reg_G2_BG0CNT           (*(vu16 *)0x04000008)
-#define reg_G3X_CLRIMAGE_OFFSET (*(vu16 *)0x04000356)
-#define reg_G3X_FOG_COLOR       (*(vu32 *)0x04000358)
-#define reg_G3_SHININESS (*(vu32 *)0x040004D0)
+#define reg_G3X_GXFIFO          (*(vu32 *)REG_GXFIFO_ADDR)
+#define reg_G3X_GXSTAT          (*(vu32 *)REG_GXSTAT_ADDR)
+#define reg_G3X_CLEAR_COLOR     (*(vu32 *)REG_CLEAR_COLOR_ADDR)
+#define reg_G3X_CLEAR_DEPTH     (*(vu16 *)REG_CLEAR_DEPTH_ADDR)
+#define reg_G3X_DISP_1DOT_DEPTH (*(vu16 *)REG_DISP_1DOT_DEPTH_ADDR)
+#define REG_CLIPMTX_RESULT_0_ADDR REG_CLIPMTX_RESULT_ADDR
+#define REG_VECMTX_RESULT_0_ADDR  REG_VECMTX_RESULT_ADDR
+#define reg_G3X_DISP3DCNT       (*(vu16 *)REG_DISP3DCNT_ADDR)
+#define reg_G3X_FOG_OFFSET      (*(vu16 *)REG_FOG_OFFSET_ADDR)
+#define reg_G3_POLYGON_ATTR     (*(vu32 *)REG_POLYGON_ATTR_ADDR)
+#define reg_G3_TEXIMAGE_PARAM   (*(vu32 *)REG_TEXIMAGE_PARAM_ADDR)
+#define reg_G3_TEXPLTT_BASE     (*(vu32 *)REG_TEXPLTT_BASE_ADDR)
+#define reg_G3_MTX_MODE         (*(vu32 *)REG_MTX_MODE_ADDR)
+#define reg_G3_MTX_POP          (*(vu32 *)REG_MTX_POP_ADDR)
+#define reg_G3_MTX_IDENTITY     (*(vu32 *)REG_MTX_IDENTITY_ADDR)
+#define reg_G3_END_VTXS         (*(vu32 *)REG_END_VTXS_ADDR)
+#define reg_G2_BG0OFS           (*(vu32 *)REG_BG0OFS_ADDR)
+#define reg_G2_BG0CNT           (*(vu16 *)REG_BG0CNT_ADDR)
+#define reg_G3X_CLRIMAGE_OFFSET (*(vu16 *)REG_CLRIMAGE_OFFSET_ADDR)
+#define reg_G3X_FOG_COLOR       (*(vu32 *)REG_FOG_COLOR_ADDR)
+#define reg_G3_SHININESS (*(vu32 *)REG_SHININESS_ADDR)
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_fx.h"
 
@@ -239,12 +240,12 @@ int G3X_GetVectorMtx(MtxFx33 *m)
 
 void G3X_SetEdgeColorTable(const void *src)
 {
-    MIi_CpuCopy16(src, (void *)0x04000330, 0x10);
+    MIi_CpuCopy16(src, (void *)REG_EDGE_COLOR_ADDR, 0x10);
 }
 
 void G3X_SetFogTable(const void *src)
 {
-    MI_Copy32B(src, (void *)0x04000360);
+    MI_Copy32B(src, (void *)REG_FOG_TABLE_ADDR);
 }
 
 /*
@@ -270,15 +271,15 @@ void G3X_InitTable(void)
 
     if (GXi_DmaId != (u32)-1) {
         if (GXi_DmaId > 3) {
-            MI_NDmaFillAsync(GXi_DmaId - 4, (unsigned int)0x04000330, 0, 16, 0, 0);
-            MI_NDmaFill((s32)(GXi_DmaId - 4), (s32)0x04000360, 0, 96);
+            MI_NDmaFillAsync(GXi_DmaId - 4, (unsigned int)REG_EDGE_COLOR_ADDR, 0, 16, 0, 0);
+            MI_NDmaFill((s32)(GXi_DmaId - 4), (s32)REG_FOG_TABLE_ADDR, 0, 96);
         } else {
-            MIi_DmaFill32Async(GXi_DmaId, (void *)0x04000330, 0, 16, 0, 0, 1);
-            MIi_DmaFill32(GXi_DmaId, (void *)0x04000360, 0, 96, 1);
+            MIi_DmaFill32Async(GXi_DmaId, (void *)REG_EDGE_COLOR_ADDR, 0, 16, 0, 0, 1);
+            MIi_DmaFill32(GXi_DmaId, (void *)REG_FOG_TABLE_ADDR, 0, 96, 1);
         }
     } else {
-        MIi_CpuClear32(0, (void *)0x04000330, 16);
-        MIi_CpuClear32(0, (void *)0x04000360, 96);
+        MIi_CpuClear32(0, (void *)REG_EDGE_COLOR_ADDR, 16);
+        MIi_CpuClear32(0, (void *)REG_FOG_TABLE_ADDR, 96);
     }
     for (i = 0; i < 32; i++) {
         reg_G3_SHININESS = 0;

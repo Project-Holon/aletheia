@@ -29,7 +29,7 @@ void SAVE_CONTROL_SetOutsideSaveBroken(struct SaveControl *saveControl, u8 outsi
 void SAVE_CONTROL_ResetToNewGame(struct SaveControl *saveControl);
 void *SAVE_CONTROL_EraseMainSave(struct SaveControl *saveControl);
 void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, u32 *diffSize, u32 *totalSize);
-int SAVE_CONTROL_ReadRecordFromFlash(struct SaveControl *saveControl, u32 recordId, u32 areaIndex, u32 dest, u32 size);
+int SAVE_CONTROL_ReadRecordFromFlash(struct SaveControl *saveControl, u32 recordId, u32 areaIndex, void *dest, u32 size);
 u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 heapId);
 void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
 u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u8 heapId, void *work, u32 workSize);

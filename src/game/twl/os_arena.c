@@ -19,8 +19,8 @@
 
 #include "../types.h"
 
-extern unsigned int OS_GetConsoleType(void);
-extern void OS_SetProtectionRegionEx(int regionNo, unsigned int address, unsigned int sizeDef);
+#include "../arm9/os_emulator.h"
+#include "../arm9/os_protectionregion.h"
 
 void OSi_InitArenaEx_ltdmain(void)
 {

@@ -33,9 +33,9 @@
 #include "musical_shot_sys_shared_types.h"
 #include "mus_poke_draw_shared_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 
 struct ArcFile;
 
@@ -53,31 +53,22 @@ typedef struct McssDistSave {
     void *member3;          /* 0x10 */
 } McssDistSave;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 
-extern u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
 
-extern struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *sys, u32 heap);
+#include "../arm9/musical_dist_save.h"
 
-extern u32 MUSICAL_DIST_SAVE_GetPayload(struct MusicalDist *dist);
 
-extern u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct MusicalDist *dist);
 
-extern void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u16 heapID);
 
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
+#include "../arm9/arc_util.h"
 struct ArcHandle;
 
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
 
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
 
-extern void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *p);
 
 char *MUSICAL_MCSS_CreateMon(void *a,u16 heap);
 

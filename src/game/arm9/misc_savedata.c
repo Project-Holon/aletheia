@@ -27,7 +27,7 @@ typedef struct Tally {
 
 #include "../ov010/questionnaire.h"
 
-int MISC_SAVEDATA_GetStatusByte(int tally, int index);
+int MISC_SAVEDATA_GetStatusByte(void *tally, int index);
 
 u16 MISC_SAVEDATA_GetHalfword(const u16 *p, int i);
 
@@ -47,7 +47,7 @@ int MISC_SAVEDATA_GetScoreValue(int tally, int fieldId, int index);
 
 void MISC_SAVEDATA_FoldTally(Tally *t);
 
-int MISC_SAVEDATA_GetStatusByte(int tally, int index){ return *(unsigned char *)(((tally + index) + ((0xa << 6) << 0))); }
+int MISC_SAVEDATA_GetStatusByte(void *tally, int index){ return *(unsigned char *)(((u32)tally + index) + ((0xa << 6) << 0)); }
 
 /*
  * Unlabelled Thumb leaf in the ARM9 module: halfword array index.

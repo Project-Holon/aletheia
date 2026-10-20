@@ -47,9 +47,8 @@
 #include "iss_switch_sys_shared_types.h"
 #include "iss_switch_set_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
 int POKEGRA_GetArcID(void);
 
@@ -196,7 +195,7 @@ s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare
 }
 
 
-struct Sub0204A9D0;
+struct NNSG2dCharacterData;
 
 struct ArcFile;
 
@@ -207,51 +206,47 @@ struct NitroFileHeader;
 
 typedef enum { POKEGRA_DIR_OFFSET_FRONT } PokegraDirOffset;
 
-extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
+#include "mi_memory.h"
 
-extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
+#include "poke_tool.h"
 
-extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
 struct BoxPokemon;
 
-extern u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *box);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
+#include "arc_util.h"
 
+#ifdef __MWERKS__
 extern s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
+extern u32 CLACT_RegisterCharacter(void *h, u32 file_idx, u32 compressed, u32 engine, u32 s0); /* original prototype; the definition differs in argument width, pointer type, return type */
+extern void CLACT_TransferCharacter(s32 charIndex, struct NNSG2dCharacterData *data);
+#else
+#include "clact.h"
+#endif
 
-extern u32 CLACT_RegisterCharacter(void *h, u32 file_idx, u32 compressed, u32 engine, u32 s0);
 
-extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
+#include "app_icon.h"
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern int APP_ICON_GetBallCellFileId(int a);
 
-extern int APP_ICON_GetBallPaletteFileId(int a);
-
-extern u32   APP_ICON_GetArchiveId(void);
-
+#ifdef __MWERKS__
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+#endif
 
-extern void  ARC_TOOL_DeleteHandle(void *h);
 
-extern int APP_ICON_GetBallAnimFileId(int a);
 
-extern int APP_ICON_GetBallFrameFileId(int a);
 struct ArcHandle;
 
-extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
+#include "arc_tool.h"
 
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 struct PaletteData;
 
+#ifdef __MWERKS__
 extern void  CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
+#endif
 
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
+#include "nns_g2d_anim_bank.h"
 
 void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId);
 
@@ -299,7 +294,7 @@ void *POKEGRA_OpenTrainerHandle(u32 heapId);
 
 s32 POKEGRA_RegisterTrainerPalette(u8 *handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId);
 
-void POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId);
+s32 POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId);
 
 s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId);
 
@@ -780,7 +775,7 @@ u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u3
     cgrIndex = CLACT_RegisterCharacter((void *)handle, cgrArcIndex, 1, vramType, heap);
     if (monsNo == 0x147) {
         charFile = (u32)POKEGRA_LoadCharData((u32 *)(&charData), monsNo, formNo, sex, rare, dir, egg, personality, heapId);
-        CLACT_TransferCharacter(cgrIndex, (struct Sub0204A9D0 *)((u32)charData));
+        CLACT_TransferCharacter(cgrIndex, (struct NNSG2dCharacterData *)charData);
         GFL_HEAP_Free((void *)charFile);
     }
     return cgrIndex;
@@ -894,9 +889,9 @@ s32 POKEGRA_RegisterTrainerPalette(u8 *handle, u32 trType, u32 drawType, u32 pal
     return CLACT_RegisterPaletteEx((void *)handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), drawType, palOffset, 0, 1, heapId);
 }
 
-void POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId)
+s32 POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId)
 {
-    CLACT_RegisterCharacter((void *)handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, drawType, heapId);
+    return CLACT_RegisterCharacter((void *)handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, drawType, heapId);
 }
 
 s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId)

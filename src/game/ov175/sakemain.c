@@ -37,7 +37,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sake_types.h"
-extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, unsigned long n);
+#include "../arm9/msl_string_mem.h"
 
 struct GSTask;
 
@@ -56,18 +56,13 @@ typedef enum SAKERequestType {
 } SAKERequestType;
 
 extern int g_021ACEF8;
-extern int gsCoreIsShutdown(void);
-extern void *gsimalloc(unsigned long size);
-extern void gsifree(void *ptr);
+#include "../ov009/gscore.h"
+#include "../ov009/gsmemory.h"
 extern char *strcpy(char *dst, const char *src);
-extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern void gsiCoreCancelTask(struct GSTask *theTask);
-extern SAKERequestInternal *sakeiInitRequest(SAKEInternal *sake, int type, void *input, SAKERequestCallback callback, void *userData);
-extern void sakeiFreeRequest(SAKERequestInternal *request);
-extern int sakeiStartCreateRecordRequest(SAKERequestInternal *request);
-extern int sakeiStartUpdateRecordRequest(SAKERequestInternal *request);
-extern int sakeiStartGetMyRecordsRequest(SAKERequestInternal *request);
-extern int sakeiStartGetSpecificRecordsRequest(SAKERequestInternal *request);
+#include "../arm9/os_printf.h"
+#include "sakerequest.h"
+#include "sakerequestmodify.h"
+#include "sakerequestread.h"
 int sakeStartup(SAKEInternal **sakePtr);
 void sakeShutdown(SAKEInternal *sake);
 void sakeSetGame(SAKEInternal *sake, const char *gameName, int gameId, const char *secretKey);

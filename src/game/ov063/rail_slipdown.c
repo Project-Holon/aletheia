@@ -78,76 +78,35 @@
 #include "../ov021/fldmmdl_rail_types.h"
 #include "rail_slipdown_types.h"
 
-extern u16 FIELDMAP_GetHeapId(void *fieldMap);
+#include "../ov021/fieldmap.h"
 struct FieldMap;
 struct FieldNogridMapper;
-extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(struct FieldMap *fieldMap);
-extern struct RailWork *FLDMMDL_RAIL_GetRailWork(struct Mmdl *mmdl);
+#include "../ov021/fldmmdl_rail.h"
 struct FieldEffectCont;
-extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
 struct FieldCamera;
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
 struct FieldPlayer;
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern void FIELD_PLAYER_ResetMoveWork(struct FieldPlayer *player);
-extern void FLDMMDL_SetStatusBitHeightGetOff(struct Mmdl *mmdl, int value);
-extern void FLDMMDL_SetStatusBitAttrGetOff(struct Mmdl *mmdl, int value);
-extern void FLDMMDL_SetStatusBitFellowHit(struct Mmdl *mmdl, int flag);
-extern void FLDMMDL_OnMoveBitMovePause(struct Mmdl *mmdl);
+#include "../ov021/field_player.h"
+#include "../ov010/fldmmdl.h"
 struct TcblSys;
-extern struct TcblSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 struct TcbSystem;
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*func)(void *tcb, RailSlipdown *slipdown), void *work, u32 priority);
 extern void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown);
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/tcb_list.h"
 RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer);
 void RAIL_SLIPDOWN_Delete(RailSlipdown *slipdown);
 int RAIL_SLIPDOWN_IsDone(RailSlipdown *slipdown);
 extern const char gRailSlipdownSourceFile[];
 #include "../types.h"
-extern void FLDMMDL_RAIL_GetDrawOffset(struct Mmdl *mmdl, s16 *outOffset);
-extern void VEC_Fx16Normalize(SlipdownDir *in, SlipdownDir *out);
-extern void FIELD_RAIL_WORK_GetPos(struct RailWork *railWork, VecFx32 *outPos);
-extern struct RailManager *FIELD_NOGRID_MAPPER_GetRailMan(struct FieldNogridMapper *mapper);
-extern int FIELD_RAIL_FindSegmentLocation(struct RailManager *railMan, const VecFx32 *start, const VecFx32 *end, RailLocation *outLocation, VecFx32 *outPos);
-extern int FIELD_RAIL_GetLocationWidthGrid(struct RailManager *railMan, RailLocation *location);
-extern u32 FIELD_NOGRID_MAPPER_GetAttribute(struct FieldNogridMapper *mapper, RailLocation *location);
-extern u16 MAP_ATTR_GetFlags(u32 attr);
-extern void FIELD_RAIL_GetLocationPos(struct RailManager *railMan, RailLocation *location, VecFx32 *outPos);
-extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern int VEC_Mag(const VecFx32 *v);
-extern void VEC_Normalize(VecFx32 *in, VecFx32 *out);
-extern u32 FX_Div(u32 a, u32 b);
-extern int FX_Modf(int value, int *out);
-extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
-extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
-extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetMode(struct FieldCamera *camera, u32 mode);
-extern void FIELD_CAMERA_EnterMode(struct FieldCamera *camera, u32 mode);
-extern void FIELD_CAMERA_GetEyeRaw(struct FieldCamera *camera, VecFx32 *outEye);
-extern void FIELD_CAMERA_GetTargetRaw(struct FieldCamera *camera, VecFx32 *outTarget);
-extern void FIELD_NOGRID_MAPPER_SetCameraLocation(struct FieldNogridMapper *mapper, RailLocation *location);
-extern VecFx32 *FIELD_CAMERA_GetTraceTarget(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetTarget(struct FieldCamera *camera, VecFx32 *target);
-extern void FIELD_CAMERA_SetEyeRaw(struct FieldCamera *camera, VecFx32 *eye);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void FLDMMDL_SetMoveBit(struct Mmdl *mmdl, u32 bits);
-extern void FLDEFF_KEMURI_Start(struct Mmdl *mmdl, struct FieldEffectSys *effectSys);
-extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, VecFx32 *pos);
-struct MmdlVec;
-extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
-extern int GFL_USE_GetSeSlot(u32 seId);
-extern void GFL_USE_StopSeSlot(int seSlot);
-extern void FIELD_PLAYER_SetNogridRailLocation(struct FieldPlayer *player, void *a);
-extern void FIELD_PLAYER_GetNogridRailPos(struct FieldPlayer *player, void *outPos);
-extern void FIELD_NOGRID_MAPPER_SetActive(struct FieldNogridMapper *mapper, int active);
-extern int FIELD_NOGRID_MAPPER_UpdateCameraForced(struct FieldNogridMapper *mapper);
-extern void FLDMMDL_RAIL_SetLocation(struct Mmdl *mmdl, RailLocation *location);
-extern void FLDMMDL_ClearMoveBit(struct Mmdl *mmdl, u32 bits);
-extern void FLDMMDL_OffMoveBitMovePause(struct Mmdl *mmdl);
+#include "../arm9/fx_vec.h"
+#include "../ov021/field_rail.h"
+#include "../ov021/field_nogrid_mapper.h"
+#include "../ov021/map_attr.h"
+#include "../arm9/fx_cp.h"
+#include "../arm9/fx.h"
+#include "../ov021/field_camera.h"
+#include "../arm9/gfl_use.h"
+#include "../ov021/fldeff_kemuri.h"
 /* Fixed-point multiply with rounding (12 fraction bits). */
 static inline int fxmul(int a,int b) {return (int)(((s64)a*b+2048)>>12);}
 static inline void setDir16(SlipdownDir *d,int x,int y,int z){d->x=x;d->y=y;d->z=z;}
@@ -173,7 +132,7 @@ RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl
     FLDMMDL_SetStatusBitAttrGetOff(slipdown->mmdl, 1);
     FLDMMDL_SetStatusBitFellowHit(slipdown->mmdl, 0);
     FLDMMDL_OnMoveBitMovePause(slipdown->mmdl);
-    slipdown->task = TCB_AddTask((struct TcbSystem *)FIELDMAP_GetTcblSys(fieldMap), RAIL_SLIPDOWN_TaskMain, slipdown, 0);
+    slipdown->task = TCB_AddTask((struct TcbSystem *)FIELDMAP_GetTcblSys(fieldMap), (TcbFunc)RAIL_SLIPDOWN_TaskMain, (void *)slipdown, 0);
     return slipdown;
 }
 
@@ -210,7 +169,7 @@ void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown)
     case SLIPDOWN_STATE_FIND_LANDING:
         FLDMMDL_RAIL_GetDrawOffset(slipdown->mmdl, (s16 *)(&facing));
         facing.y = 0;
-        VEC_Fx16Normalize(&facing, &facing);
+        VEC_Fx16Normalize((const VecFx16 *)&facing, (VecFx16 *)&facing);
         FIELD_RAIL_WORK_GetPos(slipdown->railWork, &origin);
         slipdown->start.x = origin.x + fxmul(facing.x, 0x10000);
         slipdown->start.y = origin.y + fxmul(facing.y, 0x10000);
@@ -300,7 +259,7 @@ void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown)
             if (slipdown->step % 2 == 0) FLDEFF_KEMURI_Start(slipdown->mmdl, slipdown->effectSys);
         }
         if (slipdown->player != 0) FIELD_PLAYER_SetPos(slipdown->player, &point);
-        else FLDMMDL_SetPos(slipdown->mmdl, (struct MmdlVec *)(&point));
+        else FLDMMDL_SetPos(slipdown->mmdl, &point);
         if (slipdown->player == 0) break;
         {
             int y, z;

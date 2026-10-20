@@ -70,20 +70,20 @@ struct DispVram;
 
 struct BgTemplate;
 
-struct BgVramReq;
+struct DispConfig;
 
 struct DispConfig;
 
 struct Cfg;
 
-struct Bank;
+struct Unit;
 
 typedef struct {
     u32 id;
     u8 data[0x20];
     u32 len;
     u32 mode;
-} Entry;
+} ShinkaDemoGraphicEntry;
 
 typedef struct ShinkaGraphic {
     u8 mainBg[4];
@@ -100,95 +100,75 @@ typedef struct ShinkaG3d {
     void *camera;
 } ShinkaG3d;
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/nns_g3d_anm_calc_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
+#include "../sdk_nnsfnd.h"
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *, int, int);
+#include "../arm9/mi_memory.h"
 
-extern void BG_SYS_ClearGraphicsMemory(u32 keep);
+#include "../arm9/bg_sys.h"
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void BG_SYS_SetLcdSwap(u32);
 
-extern void BG_SYS_ResetSubDisplay(void);
 
-extern void BG_SYS_ClearMainPlanes(void);
 
-extern void BG_SYS_ClearSubPlanes(void);
 
-extern void GF_FONT_InitTextColor(void);
+#include "../arm9/gf_font.h"
 
-extern u32 GFL_USE_AddMainTask(void *, void *, int);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *req, u32 which);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void BG_SYS_FreeSlot(u8);
 
-extern void BG_SYS_SetPlaneVisible(u8, u8);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void BG_SYS_Create(void *);
 
-extern void BMP_WIN_Init(void *);
+#include "../arm9/bmp_win.h"
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void BMP_WIN_Exit(void);
 
-extern void BG_SYS_Delete(void);
 
-extern void BG_SYS_Update(void);
 struct DispVramCfg;
-struct SysInit;
+struct ClactSysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
+#include "../arm9/clact.h"
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void CLACT_ExitSystem(int);
 
-extern void CLACT_DrawSystem(void);
 
-extern void CLACT_VBlankSystem(void);
 
-extern void SHINKA_DEMO_Setup3d(void);
+#include "shinka_demo.h"
 
-extern void G3D_SYSTEM_Init(int, int, int, int, int, void *, void *);
+/* The DS code was built against a prototype with a halfword heap id (the header has a signed halfword). The host build uses the header. */
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_Init_header
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
+extern void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManSize, u16 geBufSize, u16 heapId, void (*setUpFunc)(void));
+#endif
 
-extern u32 G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, void *);
+#include "../arm9/g3d_camera.h"
 
-extern u32 G3D_CAMERA_Delete(void *ptr);
 
-extern void G3D_SYSTEM_Exit(int);
 
-extern void G3D_SYSTEM_DrawStart(void);
 struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
-extern void G3D_SYSTEM_ApplyLookAt(void);
 
-extern void G3D_SYSTEM_DrawEnd(void);
 
-char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b);
+char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u16 b);
 
 void SHINKA_DEMO_GRAPHIC_Destroy(char *p);
 
@@ -204,9 +184,9 @@ void SHINKA_DEMO_GRAPHIC_SetupSubBg(void);
 
 void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(void *unused);
 
-void SHINKA_DEMO_GRAPHIC_VBlank(int a, char *b);
+void SHINKA_DEMO_GRAPHIC_VBlank(struct TcbTask *a, void *b);
 
-void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, void *b);
+void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *a, u16 b);
 
 void SHINKA_DEMO_GRAPHIC_ReleaseMainBg(void *p);
 
@@ -224,7 +204,7 @@ void SHINKA_DEMO_GRAPHIC_VBlankClact(void *unused);
 
 int SHINKA_DEMO_GRAPHIC_GetCameraId(int *p);
 
-void SHINKA_DEMO_GRAPHIC_Init3d(u32 *a, void *b);
+void SHINKA_DEMO_GRAPHIC_Init3d(u32 *a, u16 b);
 
 void SHINKA_DEMO_GRAPHIC_Exit3d(int *p);
 
@@ -238,7 +218,7 @@ extern u32 d_02208CEC[];
 
 extern u8 d_02208CA0[];
 
-extern Entry d_02208D1C[];
+extern ShinkaDemoGraphicEntry d_02208D1C[];
 
 extern const s16 d_020A1EB8[];
 
@@ -248,7 +228,7 @@ extern u32 d_02208C7C[];
 
 extern u32 d_02208C94[];
 
-char *SHINKA_DEMO_GRAPHIC_Create(u32 lcdSwap, u32 heap)
+char *SHINKA_DEMO_GRAPHIC_Create(u32 lcdSwap, u16 heap)
 {
     char *p = GFL_HEAP_Alloc(heap, 0x10, 0, (const char *)d_02208F50, 0x1df);
 
@@ -264,10 +244,10 @@ char *SHINKA_DEMO_GRAPHIC_Create(u32 lcdSwap, u32 heap)
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
-    SHINKA_DEMO_GRAPHIC_SetupMainBg(p, (void *)heap);
+    SHINKA_DEMO_GRAPHIC_SetupMainBg(p, heap);
     SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (int)d_02208CEC, heap);
-    SHINKA_DEMO_GRAPHIC_Init3d((u32 *)(p + 8), (void *)heap);
-    ((ShinkaGraphic *)p)->vblank = (void *)GFL_USE_AddMainTask(SHINKA_DEMO_GRAPHIC_VBlank, p, 0);
+    SHINKA_DEMO_GRAPHIC_Init3d((u32 *)(p + 8), heap);
+    ((ShinkaGraphic *)p)->vblank = GFL_USE_AddMainTask(SHINKA_DEMO_GRAPHIC_VBlank, p, 0);
     return p;
 }
 
@@ -319,11 +299,11 @@ void SHINKA_DEMO_GRAPHIC_SetupSubBg(void)
 {
     u32 i;
 
-    BG_SYS_ApplyGraphicsMode((const struct BgVramReq *)d_02208CA0, (int)1);
+    BG_SYS_ApplyGraphicsMode((const struct DispConfig *)d_02208CA0, (int)1);
     for (i = 0; i < 6; i++) {
         u32 v = d_02208D1C[(int)i].id;
         if (v >= 4) {
-            Entry *e = &d_02208D1C[i];
+            ShinkaDemoGraphicEntry *e = &d_02208D1C[i];
             BG_SYS_InitBgLayer((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
             BG_SYS_FreeSlot(v);
             BG_SYS_SetPlaneVisible(v, e->mode);
@@ -344,8 +324,9 @@ void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(void *unused)
     }
 }
 
-void SHINKA_DEMO_GRAPHIC_VBlank(int unused, char *graphic)
+void SHINKA_DEMO_GRAPHIC_VBlank(struct TcbTask *unused, void *graphicArg)
 {
+    char * graphic = graphicArg;
     SHINKA_DEMO_GRAPHIC_UpdateSubBg(graphic);
     SHINKA_DEMO_GRAPHIC_VBlankClact(graphic + 4);
 }
@@ -354,7 +335,7 @@ void SHINKA_DEMO_GRAPHIC_VBlank(int unused, char *graphic)
  * Twin of SHINKA_DEMO_GRAPHIC_SetupSubBg: the `(int)i` cast on the id read keeps the element
  * address from being hoisted above the guard.
  */
-void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *mainBg, void *heap)
+void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *mainBg, u16 heap)
 {
     u32 i;
 
@@ -365,7 +346,7 @@ void SHINKA_DEMO_GRAPHIC_SetupMainBg(void *mainBg, void *heap)
     for (i = 0; i < 6; i++) {
         u32 v = d_02208D1C[(int)i].id;
         if (v <= 3) {
-            Entry *e = &d_02208D1C[i];
+            ShinkaDemoGraphicEntry *e = &d_02208D1C[i];
             BG_SYS_InitBgLayer((u8)v, (const struct BgTemplate *)e->data, (u8)e->len);
             BG_SYS_FreeSlot(v);
             BG_SYS_SetPlaneVisible(v, e->mode);
@@ -385,7 +366,7 @@ void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *unused){BG_SYS_Update();}
 void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *clact, int vramBanks, u32 heap)
 {
     MI_CpuFill8(clact, 0, 4);
-    CLACT_InitSystem((struct SysInit *)0x02208CB0, (struct DispVramCfg *)vramBanks, heap);
+    CLACT_InitSystem((struct ClactSysInit *)0x02208CB0, (struct DispVramCfg *)vramBanks, heap);
     ((ShinkaClact *)clact)->unit = CLACT_CreateUnit(0x80, 0, heap);
     CLACT_SetUnitDefaultRenderer(((ShinkaClact *)clact)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -394,7 +375,8 @@ void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *clact, int vramBanks, u32 heap
 
 void SHINKA_DEMO_GRAPHIC_ExitClact(char *clact)
 {
-    CLACT_ExitSystem(CLACT_DeleteUnit((struct Bank *)(((ShinkaClact *)clact)->unit)));
+    CLACT_DeleteUnit((struct Unit *)(((ShinkaClact *)clact)->unit));
+    CLACT_ExitSystem();
     MI_CpuFill8(clact, 0, 4);
 }
 
@@ -407,16 +389,17 @@ int SHINKA_DEMO_GRAPHIC_GetCameraId(int *camera)
     return *camera;
 }
 
-void SHINKA_DEMO_GRAPHIC_Init3d(u32 *cameraOut, void *heap)
+void SHINKA_DEMO_GRAPHIC_Init3d(u32 *cameraOut, u16 heap)
 {
-    G3D_SYSTEM_Init(0, 2, 0, 1, 0, heap, SHINKA_DEMO_Setup3d);
-    *cameraOut = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
-                       d_02208C88, d_02208C7C, d_02208C94, heap);
+    G3D_SYSTEM_Init(0, 2, 0, 1, 0, heap, (void (*)(void))SHINKA_DEMO_Setup3d);
+    *cameraOut = (u32)G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
+                       (VecFx32 *)d_02208C88, (VecFx32 *)d_02208C7C, (VecFx32 *)d_02208C94, heap);
 }
 
 void SHINKA_DEMO_GRAPHIC_Exit3d(int *camera)
 {
-    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*camera)));
+    G3D_CAMERA_Delete((void *)(*camera));
+    G3D_SYSTEM_Exit();
 }
 
 void SHINKA_DEMO_GRAPHIC_Update3d(char *g3d)

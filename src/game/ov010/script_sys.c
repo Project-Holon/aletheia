@@ -118,55 +118,42 @@ typedef struct ScriptCmdPermit {
 } ScriptCmdPermit;
 
 extern int GFL_NET_GetRunState(void);
-extern int GFL_NET_Exit(int);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern int GFL_HEAP_Free();
+extern int GFL_NET_Exit(void (*exitCallback)(u32));
+#include "../arm9/gfl_heap_wrap.h"
 struct GameSystem;
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 int GFL_NET_IsSessionNull();
-extern struct GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
-extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
-extern void GAME_EVENT_ChangeEvent(struct GameEvent *now, struct GameEvent *next);
-extern int VM_Control(ScriptVm *vm);
+#include "../arm9/game_event.h"
+#include "../arm9/vm.h"
 struct PlayerWork;
-extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
-extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
-extern GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*eventFunc)(void *, int *, ScriptEventWork *), unsigned int workSize);
-extern int ZONEDATA_ResetEventFlagRange(void *eventFlags, int first, int last);
-extern int ZONEDATA_ClearEventWorkRange(void *eventFlags, int first, int last);
-extern void *GAME_DATA_GetEventData(struct GameData *gameData);
+extern void ZONEDATA_ResetEventFlagRange(struct EventWork*, s32, s32);
+extern void ZONEDATA_ClearEventWorkRange(struct EventWork *eventFlags, u32 first, u32 last);
 struct EventDataSystem;
-extern u32 EVENTDATA_SYSTEM_GetSpecialScriptData(struct EventDataSystem *system);
+#include "eventdata_system.h"
 struct EventWork;
 extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
 struct ScrcmdWorkParam;
 struct ScrcmdWork;
-extern struct ScrcmdWork *SCRCMD_WORK_Create(struct ScrcmdWorkParam *param, int heapId);
-extern ScriptVm *VM_Create(u32 heapId, const ScriptVmParams *params);
-extern void VM_Init(ScriptVm *vm, void *user);
+#include "scrcmd_work.h"
 struct ScrcmdWork;
-extern void SCRCMD_WORK_LoadMsgData(struct ScrcmdWork *work, u32 arcId, u32 fileId);
-extern void VM_Start(ScriptVm *vm, u8 *pc);
-extern u32 VM_GetU32(ScriptVm *vm);
-extern void *VM_GetContext(ScriptVm *vm);
-extern int SCRCMD_WORK_Delete(void *vmCtx);
-extern int VM_Delete();
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 extern u32 ZONEDATA_GetScriptArcId(u32 id);
-extern u16 ZONEDATA_GetMsgArcId(u16);
-extern void *ARC_UTIL_LoadMember(int archive, int fileId, int a, int heapId);
+#ifdef __MWERKS__
+extern u16 ZONEDATA_GetMsgArcId(u16 id); /* original prototype; the definition differs in return type, argument width */
+#else
+extern u32 ZONEDATA_GetMsgArcId(u32);
+#endif
+#ifdef __MWERKS__
+extern void *ARC_UTIL_LoadMember(s32 archiveID, s32 memberIdx, s32 decompress, s32 heapID); /* original prototype; the definition differs in argument width */
+#else
+#include "../arm9/arc_util.h"
+#endif
 extern void GFL_NET_ClearExitFlag();
 extern void GFL_NET_IRC_WIRELESS_Exit();
 extern u32 GFL_NET_Main(void);
-extern void GFL_USE_PollPowerExit();
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
-extern u32 SCRCMD_WORK_GetCallMode(struct ScrcmdWork *work);
-extern u32 SCRCMD_WORK_GetCallParam(struct ScrcmdWork *work);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
-extern void VM_SetHook(ScriptVm *vm, ScriptHookFn hook, void *hookArg);
+#include "../arm9/gfl_use.h"
 GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved);
 void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
 void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, int reserved);
@@ -188,7 +175,7 @@ void SCRIPT_SYS_SetNextEventFromWork(void *scriptWork, void *nextEvent);
 int SCRIPT_SYS_AddScript(void *scriptWork, u16 zoneId, u16 scriptId);
 void *SCRIPT_SYS_GetEventScriptWork(GameEvent *event);
 ScriptSys *SCRIPT_SYS_GetFromWork(void *scriptWork);
-int SCRIPT_SYS_ClearLocalWork(void *eventFlags);
+void SCRIPT_SYS_ClearLocalWork(void *eventFlags);
 void SCRIPT_SYS_RunInitScript(void *fieldSys, int reserved);
 void SCRIPT_SYS_RunRecoverScript(void *fieldSys, int reserved);
 void SCRIPT_SYS_RunScriptNow(void *fieldSys, void *scriptWork, u16 scriptId, int mode);
@@ -200,7 +187,7 @@ void *SCRIPT_SYS_CreateSceneChangeEvent(void *fieldSys, int reserved);
 u16 SCRIPT_SYS_FindSpecialScript(const u8 *table, int key);
 u16 SCRIPT_SYS_FindSceneScript(const void *eventWork, const u8 *list, u32 key);
 ScriptVm *SCRIPT_SYS_CreateVm(u16 heapId, void *scriptWork, u16 zoneId, u16 scriptId, int mode);
-int SCRIPT_SYS_DeleteVm(ScriptVm *vm);
+void SCRIPT_SYS_DeleteVm(ScriptVm *vm);
 u16 SCRIPT_SYS_GetScriptFileId(unsigned zoneId, unsigned scriptId, u16 *outFileId, u16 *outTextBank, u16 *outTextMsgId);
 u8 *SCRIPT_SYS_LoadScriptFile(int fileId, int heapId);
 int SCRIPT_SYS_IsZoneScriptId(u16 scriptId);
@@ -209,11 +196,8 @@ void SCRIPT_SYS_ForceExitNet(void);
 int SCRIPT_SYS_CheckCommandPermit(ScriptVm *vm, void *cmdWork, void *fieldSys, u32 cmdIndex);
 void SCRIPT_SYS_SetCommandCheck(ScriptVm *vm);
 struct ScriptWork;
-struct ScriptWork *SCRIPT_WORK_Create(unsigned short heapId, void *gameSystem, void *event, unsigned short scriptId, int targetObjParam, struct ScriptWork *parentWork);
-int SCRIPT_WORK_Delete(struct ScriptWork *work);
+#include "script_work.h"
 struct ScriptWork;
-void *SCRIPT_WORK_GetEvent(struct ScriptWork *work);
-void SCRIPT_WORK_SetTargetObj(struct ScriptWork *work, void *targetObj);
 extern const char d_02172888[];
 extern const ScriptCmdFn d_0217062C[];
 extern int d_021705D8;
@@ -398,7 +382,7 @@ int SCRIPT_SYS_EventMain(void *event, int *seq, ScriptEventWork *eventWork)
 
 GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 scriptId, void *target, void *parentWork)
 {
-    GameEvent *event = GAME_EVENT_Create(fieldSys, 0, SCRIPT_SYS_EventMain, 8);
+    GameEvent *event = GAME_EVENT_Create(fieldSys, 0, (GameEventFunc)SCRIPT_SYS_EventMain, 8);
     ScriptEventWork *eventWork = GAME_EVENT_GetWork(event);
     eventWork->scriptSys = SCRIPT_SYS_Create(4);
     eventWork->scriptWork = SCRIPT_WORK_Create(4, fieldSys, event, scriptId, (int)parentWork, 0);
@@ -452,10 +436,10 @@ ScriptSys *SCRIPT_SYS_GetFromWork(void *scriptWork)
 }
 
 
-int SCRIPT_SYS_ClearLocalWork(void *eventFlags)
+void SCRIPT_SYS_ClearLocalWork(void *eventFlags)
 {
     ZONEDATA_ResetEventFlagRange(eventFlags, 0, 0x63);
-    return ZONEDATA_ClearEventWorkRange(eventFlags, 0x4000, 0x401F);
+    ZONEDATA_ClearEventWorkRange(eventFlags, 0x4000, 0x401F);
 }
 
 
@@ -621,11 +605,11 @@ ScriptVm *SCRIPT_SYS_CreateVm(u16 heapId, void *scriptWork, u16 zoneId, u16 scri
 }
 
 
-int SCRIPT_SYS_DeleteVm(ScriptVm *vm)
+void SCRIPT_SYS_DeleteVm(ScriptVm *vm)
 {
     SCRCMD_WORK_Delete(VM_GetContext(vm));
     GFL_HEAP_Free(vm->data);
-    return VM_Delete(vm);
+    VM_Delete(vm);
 }
 
 

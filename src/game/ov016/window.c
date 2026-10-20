@@ -42,7 +42,7 @@
  *   DWCi_TSKlDelete   0x021D7724 arm
  *   MemWin            0x021DE658 data
  *   DWCi_WindowG2x_ChangeBlendBrightness_  0x0207D6C0  arm
- *   DWCi_TSKlSetParam  0x021D771C  arm  ov016
+ *   DWCi_TSKlChangeFunc  0x021D771C  arm  ov016
  *   DWCi_CELLlGetPosition  0x021D5250  arm  ov016
  *   sWindowTable11     0x021DA9FE  data
  *   DWCi_Coord2Rect  0x021D600C  arm  ov016
@@ -68,6 +68,7 @@
  *   gMemWindow   0x021DE658  data
  */
 #include "../../matched/include/G_MemWinT.h"
+#include "../sdk_ioreg.h"
 #include "../../matched/include/G_CoordT.h"
 
 struct tagCOORD;
@@ -108,42 +109,24 @@ typedef enum {
     EFF_HIDE = 0x200
 } Eff;
 
-extern u16 *DWCi_MSGlGetEx(void *msg, int id, int n, int num);
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void G2x_SetBlendBrightness_(unsigned long addr, int plane, int brightness);
+#include "message.h"
+#include "heap.h"
+#include "../arm9/g2.h"
 extern void *DWCi_CEINlSetExCell(int lcd, int idx, bool head);
-extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
-extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
-extern void *DWCi_FNTlFormEx(int lcd, int width, int height, int head, int *obj, int font);
-extern void *DWCi_CELLlForm(int lcd, int num, int head);
-extern int DWCi_CMNlFontFlag(void);
-extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, u16 *txt);
-extern void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio);
-extern void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, int effect);
+#include "cell.h"
+typedef int bool_0;
+#include "font.h"
+#include "common.h"
+#include "graphics.h"
 struct tagRect;
-extern void DWCi_GXlSetWndPosition(int lcd, int wnd, struct tagRect *r);
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-void DWCi_TSKlDelete(int kind, void *task);
-extern void DWCi_WindowG2x_ChangeBlendBrightness_(unsigned int addr, int brightness);
-struct TaskObj;
-extern void DWCi_TSKlSetParam(struct TaskObj *task, u32 param);
-extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
-extern void DWCi_Coord2Rect(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
-extern int DWCi_TPlCheckTrigger(u16 *a);
-extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern void DWCi_InputRect(int x0, int y0, int x1, int y1, u16 *r);
+#include "task.h"
+#include "foundation.h"
+#include "input.h"
 struct CellInfo;
-extern unsigned char DWCi_CELLlGetState(struct CellInfo *cell);
-extern void DWCi_CELLlSetEffect(void *cell, int idx, Eff eff, int affine);
 union GXOamAttr;
-extern union GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
-extern void DWCi_CEINlSet(s32 lcd, s32 idx, union GXOamAttr *obj);
-void DWCi_TSKlChangeFunc(void *task, void (*func)(void *));
-extern void DWCi_CELLlDelete(struct CellInfo *p);
+#include "cellinfo.h"
 struct Canvas;
-extern void DWCi_FNTlDelete(struct Canvas *a);
-extern void DWCi_HEAPlFree_(void **mem);
 void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 void DWCi_WINlEnd(void);
 signed char DWCi_WINlGet(void);
@@ -210,7 +193,7 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
     gWindowWork->type = type;
     gWindowWork->input = -2;
     gWindowWork->dark = dark;
-    G2x_SetBlendBrightness_(0x04000050, 0x1f, 0);
+    G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 0x1f, 0);
 
     gWindowWork->cellWin = DWCi_CEINlSetExCell(0, sWindowTable1[type], 0);
     DWCi_CELLlSetPosition(gWindowWork->cellWin, -1, 0x100, 0);
@@ -244,7 +227,7 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
 void DWCi_WINlEnd(void)
 {
     DWCi_TSKlDelete(0, MemWin->task);
-    MemWin->task = DWCi_TSKlForm(1, taskEnd, 0, 0x78);
+    MemWin->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskEnd, 0, 0x78);
 }
 
 /*
@@ -279,10 +262,10 @@ int DWCi_WINlIsInit(void)
 static void taskV(void *task)
 {
     gWindowWork->count--;
-    DWCi_WindowG2x_ChangeBlendBrightness_(0x04000050, gWindowWork->count);
+    DWCi_WindowG2x_ChangeBlendBrightness_(REG_BLDCNT_ADDR, gWindowWork->count);
     if (gWindowWork->count > -12)
         return;
-    DWCi_TSKlSetParam(task, (unsigned int)taskMove);
+    DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskMove);
 }
 
 /*
@@ -323,9 +306,9 @@ static void taskMove(void *task)
     }
     disp(sWindowTable11[gWindowWork->type].y);
     if (gWindowWork->type == 5)
-        gWindowWork->task = DWCi_TSKlForm(0, taskMain1, 0, 0x78);
+        gWindowWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskMain1, 0, 0x78);
     else
-        gWindowWork->task = DWCi_TSKlForm(0, taskMain, 0, 0x78);
+        gWindowWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskMain, 0, 0x78);
     DWCi_TSKlDelete(1, task);
 }
 
@@ -368,7 +351,7 @@ static void taskMain1(void *task, void *work)
     if (gWindowWork->countWait < 0x78)
         return;
     DWCi_TSKlDelete(0, task);
-    gWindowWork->task = DWCi_TSKlForm(1, taskEnd, 0, 0x78);
+    gWindowWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskEnd, 0, 0x78);
 }
 
 /*
@@ -457,7 +440,7 @@ void taskEnd(void *task, void *work)
     MemWin->count++;
     if (MemWin->count < 8)
         return;
-    DWCi_TSKlChangeFunc(task, taskEnd1);
+    DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd1);
 }
 
 /*
@@ -474,9 +457,9 @@ static void taskEnd1(void *task)
     if (y < 192)
         return;
     if (gWindowWork->dark != 0)
-        DWCi_TSKlSetParam(task, (unsigned int)taskEnd2);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd2);
     else
-        DWCi_TSKlSetParam(task, (unsigned int)taskEnd3);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd3);
 }
 
 /*
@@ -485,10 +468,10 @@ static void taskEnd1(void *task)
 static void taskEnd2(void *task)
 {
     gWindowWork->count++;
-    DWCi_WindowG2x_ChangeBlendBrightness_(0x04000050, gWindowWork->count);
+    DWCi_WindowG2x_ChangeBlendBrightness_(REG_BLDCNT_ADDR, gWindowWork->count);
     if (gWindowWork->count < 0)
         return;
-    DWCi_TSKlSetParam(task, (unsigned int)taskEnd3);
+    DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd3);
 }
 
 /*

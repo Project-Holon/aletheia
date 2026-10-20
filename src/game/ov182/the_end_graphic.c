@@ -89,8 +89,8 @@
  *   G3D_CAMERA_Delete   0x02048AC4  arm
  *   G3D_SYSTEM_Exit   0x02046788  arm
  */
-extern void BG_SYS_Delete(void);
-extern void BMP_WIN_Exit(void);
+#include "../arm9/bg_sys.h"
+#include "../arm9/bmp_win.h"
 
 struct ProcSystem;
 struct GfFont;
@@ -100,7 +100,7 @@ struct Proc;
 struct DispVram;
 struct BgTemplate;
 struct DispConfig;
-struct Bank;
+struct Unit;
 struct Cfg;
 #include "../types.h"
 
@@ -132,77 +132,48 @@ struct TheEndActors {
     void *bank;
 };
 
-extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void *, int, int);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/nns_g3d_anm_calc_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
+#include "../sdk_nnsfnd.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern void BG_SYS_SetPriority(int idx, unsigned short val);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(void), void *work, unsigned int priority);
-extern unsigned GPOWER_GetSpecialPowerId(void);
-extern void GXS_LoadBGPltt(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void BG_SYS_FreeLayerBuf(u32 i);
+#include "../arm9/printsys.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern int FADE_IsActive(void);
-extern unsigned KEY_GetTrg(void);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void BG_SYS_PushTile(u32 index);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void G3X_SetFog(int, int, int, int);
-extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
+#include "../arm9/gfl_use.h"
+#include "../arm9/gpower.h"
+#include "../arm9/gx_load2d.h"
+struct TcbTask;
+#include "../arm9/tcb_list.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/fade.h"
+#include "../arm9/key.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_SetLcdSwap(u32 swap);
-extern void BG_SYS_ResetSubDisplay(void);
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
-extern void GF_FONT_InitTextColor(void);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_Create(int);
-extern void BMP_WIN_Init(int);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(unsigned char);
-extern void BG_SYS_Update(void);
+/* The DS code was built against a prototype with a halfword heap id (the header has a signed halfword). The host build uses the header. */
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_Init_header
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
+extern void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManSize, u16 geBufSize, u16 heapId, void (*setUpFunc)(void));
+#endif
 struct DispVramCfg;
-struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
-extern void G3D_SYSTEM_Init(int,int,int,int,u16,u16,void *);
-extern int G3D_CAMERA_Create(int,int,int,int,int,int,int,int,const void *,const void *,const void *,u16);
-extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void G3D_SYSTEM_Exit(void);
+struct ClactSysInit;
+struct ClactSysInit;
+#include "../arm9/clact.h"
+struct VecFx32;
+struct G3dCamera;
+#include "../arm9/g3d_camera.h"
 int THE_END_GRAPHIC_Init(void *task, int b, int c);
 int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p);
 int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p);
-void THE_END_GRAPHIC_DummyTask(void);
+void THE_END_GRAPHIC_DummyTask(struct TcbTask *unused, void *work);
 void THE_END_GRAPHIC_LoadGraphics(unsigned short *p);
 void THE_END_GRAPHIC_Dummy(void *p);
 void THE_END_GRAPHIC_StartFade(void *a, void *b, void *c);
@@ -210,8 +181,8 @@ void THE_END_GRAPHIC_Setup3d(void);
 char *THE_END_GRAPHIC_Create(int a, u16 heap);
 void THE_END_GRAPHIC_Delete(char *p);
 void THE_END_GRAPHIC_Update(char *p);
-void THE_END_GRAPHIC_VBlankTask(int unused, char *p);
-void THE_END_GRAPHIC_InitWindows(void *p, int heap);
+void THE_END_GRAPHIC_VBlankTask(struct TcbTask *unused, void *p);
+void THE_END_GRAPHIC_InitWindows(void *p, u16 heap);
 void THE_END_GRAPHIC_ExitWindows(void *p);
 void THE_END_GRAPHIC_Dummy2(void *p);
 void THE_END_GRAPHIC_RefreshDisplay(void *unused);
@@ -323,7 +294,7 @@ int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p)
     return 0;
 }
 
-void THE_END_GRAPHIC_DummyTask(void)
+void THE_END_GRAPHIC_DummyTask(struct TcbTask *unused, void *work)
 {
 }
 
@@ -391,7 +362,7 @@ char *THE_END_GRAPHIC_Create(int a, u16 heap)
     THE_END_GRAPHIC_InitWindows(p, heap);
     THE_END_GRAPHIC_InitActors((int *)(p + 4), (int)d_021B9C48, heap);
     THE_END_GRAPHIC_InitCamera((int *)(p + 8), heap);
-    ((struct TheEndGraphic *)p)->vblankHandle = GFL_USE_AddMainTask((void ( *)(void))THE_END_GRAPHIC_VBlankTask, p, 0);
+    ((struct TheEndGraphic *)p)->vblankHandle = GFL_USE_AddMainTask(THE_END_GRAPHIC_VBlankTask, p, 0);
     return p;
 }
 
@@ -419,13 +390,14 @@ void THE_END_GRAPHIC_Update(char *p)
     THE_END_GRAPHIC_Dummy2(p);
 }
 
-void THE_END_GRAPHIC_VBlankTask(int unused, char *p)
+void THE_END_GRAPHIC_VBlankTask(struct TcbTask *unused, void *pArg)
 {
+    char * p = pArg;
     THE_END_GRAPHIC_RefreshDisplay(p);
     THE_END_GRAPHIC_VBlankActors(p + 4);
 }
 
-void THE_END_GRAPHIC_InitWindows(void *p, int heap)
+void THE_END_GRAPHIC_InitWindows(void *p, u16 heap)
 {
     unsigned i = 0;
     const TheEndWindowRecord *r;
@@ -452,7 +424,7 @@ void THE_END_GRAPHIC_RefreshDisplay(void *unused) { BG_SYS_Update(); }
 void THE_END_GRAPHIC_InitActors(int *p, int b, int c)
 {
     MI_CpuFill8((void *)((int)p), 0, 4);
-    CLACT_InitSystem((struct SysInit *)d_021B9C0C, (struct DispVramCfg *)b, c);
+    CLACT_InitSystem((struct ClactSysInit *)d_021B9C0C, (struct DispVramCfg *)b, c);
     p[0] = (int)CLACT_CreateUnit(0x80, 0, c);
     CLACT_SetUnitDefaultRenderer((void *)p[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -461,7 +433,7 @@ void THE_END_GRAPHIC_InitActors(int *p, int b, int c)
 
 void THE_END_GRAPHIC_DeleteActors(void *p)
 {
-    CLACT_DeleteUnit((struct Bank *)((struct TheEndActors *)p)->bank);
+    CLACT_DeleteUnit((struct Unit *)((struct TheEndActors *)p)->bank);
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }
@@ -473,7 +445,7 @@ void THE_END_GRAPHIC_VBlankActors(void *unused) { CLACT_VBlankSystem(); }
 void THE_END_GRAPHIC_InitCamera(int *p,u16 heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,0,heap,THE_END_GRAPHIC_Setup3d);
-    *p=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,d_021B9BE4,d_021B9BD8,d_021B9BF0,heap);
+    *p=(s32)G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,(struct VecFx32 *)d_021B9BE4,(struct VecFx32 *)d_021B9BD8,(struct VecFx32 *)d_021B9BF0,heap);
 }
 
 void THE_END_GRAPHIC_DeleteCamera(unsigned int *p)

@@ -41,6 +41,7 @@ struct GameEvent;
 struct GameData;
 struct GameComm;
 #include "../types.h"
+#include "../arm9/ica_anime_shared_types.h"
 
 /* Parameter block read by the Wi-Fi battle match overlay (ov199), 0x14 bytes. */
 typedef struct WifiBattleMatchParam {
@@ -63,26 +64,14 @@ typedef struct WifiBattleMatchEventWork {
     u32 hideFieldObjects;
 } WifiBattleMatchEventWork;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern u32 GAME_COMM_GetKind(struct GameComm *comm);
-extern u16 GFL_USE_GetBgmNo(void);
-extern void GFL_USE_FadeOutBgm(u32 frames);
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_comm.h"
+#include "../arm9/gfl_use.h"
 struct FieldMap;
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
-extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
-extern void GFL_USE_FadeInBgmFull(u32 frames);
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
-void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
-void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void *GAME_EVENT_GetWork(struct GameEvent *event);
+#include "../arm9/field_status.h"
+#include "../arm9/game_event.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../ov021/event_fieldmap_control.h"
 u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatchEventWork *work);
 void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind);
 void EVENT_WIFIBATTLEMATCH_Entry(s32 gameSystem, s32 *request);
@@ -119,7 +108,7 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
         param->gameData = GAMESYSTEM_GetGameData(gameSystem);
         param->matchKind = work->matchKind;
         param->ratedFlag = work->ratedFlag;
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov199_id, d_02213C4C, work->param);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov199_id, d_02213C4C, work->param);
         (*seq)++;
         break;
     case 4:
@@ -153,7 +142,7 @@ u32 EVENT_WIFIBATTLEMATCH_Main(struct GameEvent *event, u32 *seq, WifiBattleMatc
  */
 void *EVENT_WIFIBATTLEMATCH_Create(void *gameSystem, int fieldMap, int entryMode, int ratedFlag, int matchKind)
 {
-    void *event = GAME_EVENT_Create(gameSystem, 0, EVENT_WIFIBATTLEMATCH_Main, 0x20);
+    void *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_WIFIBATTLEMATCH_Main, 0x20);
     WifiBattleMatchEventWork *work;
 
     if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)))

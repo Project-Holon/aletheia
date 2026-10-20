@@ -17,17 +17,13 @@
  *   OS_VSNPrintf  0x02084FA8  arm
  *   STD_TVSNPrintf  0x0208D834  arm
  */
-#define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-#define va_end(v)
-typedef char *va_list;
+#include "../sdk_stdarg.h"
 
 extern int OS_VSPrintf(char *dst, const char *fmt, va_list vlist);
-extern int STD_TVSNPrintf(char *dst, unsigned int len, const char *format, void *vlist);
+extern int STD_TVSNPrintf(char *dst, unsigned int len, const char *format, va_list vlist);
 int OS_SPrintf(char *dst, const char *fmt, ...);
 int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
-int OS_VSNPrintf(char *dst, unsigned int len, const char *format, void *vlist);
-
-
+int OS_VSNPrintf(char *dst, unsigned int len, const char *format, va_list vlist);
 
 int OS_SPrintf(char *dst, const char *fmt, ...)
 {
@@ -36,14 +32,10 @@ int OS_SPrintf(char *dst, const char *fmt, ...)
     return OS_VSPrintf(dst, fmt, vlist);
 }
 
-
-
 int OS_VSPrintf(char *dst, const char *fmt, va_list vlist)
 {
     return OS_VSNPrintf(dst, 0x7fffffff, fmt, vlist);
 }
-
-
 
 /*
  * note:     os_printf.o OS_SNPrintf.
@@ -58,8 +50,7 @@ int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...)
     return ret;
 }
 
-
-int OS_VSNPrintf(char *dst, unsigned int len, const char *format, void *vlist)
+int OS_VSNPrintf(char *dst, unsigned int len, const char *format, va_list vlist)
 {
     return STD_TVSNPrintf(dst, len, format, vlist);
 }

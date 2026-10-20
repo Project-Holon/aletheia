@@ -218,25 +218,25 @@
 struct U16Vec;
 struct App;
 struct Scene;
-struct Node;
+struct ShinkaDemoGraphicNode;
 struct Anim;
 struct Big;
 struct Blk37;
 struct Ctx;
 struct Owner;
-struct PalAnmSlot;
+struct PaletteFade;
 struct PrintSys;
 struct YesNoMenu;
 struct GfFont;
-struct Obj;
-struct Actor;
+struct ClactActor;
+struct ClactActor;
 struct Descriptor;
 struct Cfg;
-struct CharBuf;
+struct Bmp;
 struct MsgBank;
 struct Tcbl;
 struct Rec3;
-struct Rec;
+struct TextPrinter;
 struct WordSet;
 struct BigObj;
 struct RecDC;
@@ -309,206 +309,121 @@ typedef struct {
     u32 val;
 } Param;
 
-extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
+#include "../arm9/nns_g3d_anm_calc_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
+#include "../sdk_nnsfnd.h"
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void *,u32,u32);
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
+#include "../arm9/pokeparty.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32,u32);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
-extern void FADE_Start(u32,int,int,int);
-extern void *GFL_USE_AddMainTask(u32,u32,u32);
-extern void *PROCSYS_Create(int heapId);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
-extern void PROCSYS_Delete(void *);
+#include "../arm9/strbuf.h"
+#include "../arm9/poke_tool.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/fade.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/net.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern u32 GFL_HEAP_Free(void *p);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern u32 PROCSYS_Main(void *);
+#include "../arm9/tcb_list.h"
 /* Original explicitly prepares all four registers, despite the current forwarding own source. */
-extern void PROCSYS_Push(void *,int,void *,void *);
-extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void *SYSTEM_DATA_GetConfig(void *sys);
-extern u32 RECORD_AddOne(void *obj, int i);
-extern void *ZUKAN_SAVE_GetFromGameData(void *);
+struct RecordBlock;
+#include "../arm9/system_data.h"
+#include "../arm9/record.h"
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
-extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *pZukan, void *pMon);
 struct GameData;
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
-extern void POKE_TOOL_ChangeSpecies(struct PokemonParam *pp, unsigned int species);
-extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, unsigned short move, unsigned int slot);
-extern u16 POKE_TOOL_LearnLevelUpMove(struct PokemonParam *pp, unsigned int *tableIndex, unsigned int heapId);
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/game_data.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void *PALANM_Create(u32);
-extern u32 PALANM_Delete(void *ctx);
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-extern void PALANM_SetAutoTransfer(void *o, int v);
+#include "../arm9/printsys.h"
+#include "../arm9/palanm.h"
+/* palanm.h does not declare these yet */
+/* palanm.h does not declare these yet */
 /* Caller narrows only r0; r1 retains the full word, copied to the callee's u16 store. */
-extern void GAME_BEACON_SetPokeEvolution(u16,u32);
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 TCB_GetTaskOffset(u32);
+#include "../arm9/game_beacon.h"
 struct TcbSystem;
-extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
-extern void TCB_Main(struct TcbSystem *sys);
-extern void TCB_Noop(void *);
-extern int GF_OVERLAY_Load(int);
-extern void GF_OVERLAY_Unload(int);
-extern u8 UI_GetInputMode(void);
-extern void UI_SetInputMode(u32);
-extern u32 KEY_GetTrg(void);
-extern int FADE_IsActive(void);
-extern void *YESNO_MENU_Create(u16,u32,u32,u32,u8,u32,u32,u32,u32);
-extern void YESNO_MENU_Delete(u8 *p);
-extern void YESNO_MENU_Start(struct YesNoMenu *s, u32 upperText, u32 lowerText);
-extern void YESNO_MENU_Close(struct YesNoMenu *s);
-extern void YESNO_MENU_Update(struct YesNoMenu *p);
-extern int YESNO_MENU_GetAnswer(struct YesNoMenu *p);
-extern void B_PLIST_MAIN_Create(u8 *);
-extern void SHINKA_DEMO_GRAPHIC_Draw(char *a);
-extern void SHINKA_DEMO_GRAPHIC_Update(char *a);
-extern void SHINKA_DEMO_GRAPHIC_DrawEnd(char *a);
+#include "../arm9/gf_overlay.h"
+#include "../arm9/ui.h"
+#include "../arm9/key.h"
+/* The DS code passes a ninth argument to YESNO_MENU_Create (the definition takes eight); the host build drops it. */
+#ifdef __MWERKS__
+#define YESNO_MENU_Create YESNO_MENU_Create_header
+#endif
+#include "../ov067/yesno_menu.h"
+#ifdef __MWERKS__
+#undef YESNO_MENU_Create
+extern YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, u32 fontId, struct PrintSys *printer, int extra);
+#endif
+#ifdef __MWERKS__
+#define SHINKA_DEMO_YESNO_MENU_CREATE(a, b, c, d, e, f, g, h, extra) YESNO_MENU_Create(a, b, c, d, e, f, g, h, extra)
+#else
+#define SHINKA_DEMO_YESNO_MENU_CREATE(a, b, c, d, e, f, g, h, extra) YESNO_MENU_Create(a, b, c, d, e, f, g, h)
+#endif
+#include "../ov198/b_plist_main.h"
+/* The DS code passes the work pointer to SHINKA_DEMO_GRAPHIC_SetupSubBg in one place (the definition takes no argument); the host build drops it. */
+#ifdef __MWERKS__
+#define SHINKA_DEMO_GRAPHIC_SetupSubBg SHINKA_DEMO_GRAPHIC_SetupSubBg_header
+#endif
+#include "shinka_demo_graphic.h"
+#ifdef __MWERKS__
+#undef SHINKA_DEMO_GRAPHIC_SetupSubBg
 extern void SHINKA_DEMO_GRAPHIC_SetupSubBg();
-extern void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int unused);
-extern void SHINKA_DEMO_VIEW_Main(char *p);
-extern void SHINKA_DEMO_VIEW_Draw(struct Owner *o);
-extern int SHINKA_DEMO_GRAPHIC_GetCamera(char *a);
-extern void SHINKA_DEMO_VIEW_RequestStart(int *p);
-extern void SHINKA_DEMO_VIEW_RequestConfirm(int *p);
-extern void SHINKA_DEMO_VIEW_RequestEvolve(int *p);
-extern void SHINKA_DEMO_VIEW_RequestFadeOut(int *p);
+#endif
+#ifdef __MWERKS__
+#define SHINKA_DEMO_SETUP_SUB_BG_ARG(arg) SHINKA_DEMO_GRAPHIC_SetupSubBg(arg)
+#else
+#define SHINKA_DEMO_SETUP_SUB_BG_ARG(arg) SHINKA_DEMO_GRAPHIC_SetupSubBg()
+#endif
+#include "shinka_demo_view.h"
 struct EffectModel;
-extern void SHINKA_DEMO_EFFECT_Main(struct EffectModel *model);
-extern void SHINKA_DEMO_EFFECT_Draw(char *a);
-extern void SHINKA_DEMO_EFFECT_Trigger(char *a);
-extern void SHINKA_DEMO_EFFECT_StartIntro(int *p);
-extern void SHINKA_DEMO_EFFECT_AdvanceState(int *p);
-extern int SHINKA_DEMO_VIEW_IsStartDone(int *p);
-extern int SHINKA_DEMO_VIEW_IsConfirmDone(int *p);
-extern int SHINKA_DEMO_VIEW_IsEvolveReady(int *p);
-extern int SHINKA_DEMO_VIEW_IsEvolveStarted(int *p);
-extern int SHINKA_DEMO_VIEW_IsEvolveDone(int *p);
-extern int SHINKA_DEMO_VIEW_TrySecondForm(int *p);
-extern int SHINKA_DEMO_EFFECT_IsState4(int *p);
-extern int SHINKA_DEMO_EFFECT_IsCameraReady(int *p);
-extern void GFL_HEAP_CreateChildHeap(u32 parent, u32 id, u32 size);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern void BG_SYS_LoadPlttEntry(u32 bgId, u32 color);
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern char *SHINKA_DEMO_GRAPHIC_Create(u32 a, u32 b);
-extern struct Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 mode, void *res0, u16 evolvedSpecies);
-extern struct EffectModel *SHINKA_DEMO_EFFECT_Create(u16 heap, u32 x);
-extern void SHINKA_DEMO_EFFECT_Destroy(char *a);
-extern void SHINKA_DEMO_VIEW_Destroy(char *p);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void SHINKA_DEMO_GRAPHIC_Destroy(char *p);
-extern void GFL_USE_FadeOutBgm(u32);
-extern int GFL_USE_IsBgmFading(void);
-extern int GFL_USE_IsBgmPlaying(void);
-extern void GFL_USE_SetBgmPaused(unsigned int value);
-extern int GFL_USE_PushBgm(void);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern u32 GFL_USE_StepBgmLoad(unsigned int bgmNo, unsigned int *step, unsigned int abort);
-extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_FadeInBgmFull(u32 a);
-extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void BG_SYS_PushTile(u32 index);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern struct Obj *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleaseCellAnim(u32);
-extern void CLACT_ReleaseCharacter(u32);
-extern void CLACT_ReleasePalette(u32);
-extern void CLACT_SetActorAnimIndex(struct Actor *actor, unsigned int anim_idx);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void PALANM_TransferPalettes(void *p);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+#include "shinka_demo_effect.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/g2.h"
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define WORDSET_CreateDefault WORDSET_CreateDefault_header
+#endif
+#include "../arm9/gf_font.h"
+#ifdef __MWERKS__
+#undef WORDSET_CreateDefault
+extern struct WordSet * WORDSET_CreateDefault(u32);
+#endif
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/clact.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+#include "../arm9/bmp_win.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct CharBuf *buf, int value);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32);
-extern void *BMP_MENUWORK_LoadFrameGfx(unsigned int layer, unsigned int palSlot, unsigned int frameId, unsigned short heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+typedef short s16_p07;
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define BMP_Clear BMP_Clear_header
+#endif
+#include "../arm9/bmp.h"
+#ifdef __MWERKS__
+#undef BMP_Clear
+extern void BMP_Clear(struct Bmp *, int);
+#endif
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/msgdata.h"
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
+#include "../arm9/tcbl.h"
 struct KeyCursor;
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(unsigned int id, unsigned int isLive, unsigned int isFlip, unsigned short heapId);
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
+#include "../arm9/app_keycursor.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
-extern int GFL_USE_IsAnySeBusy(void);
-extern signed char MSG_SPEED_GetWait(void);
-extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 win, s16 x, s16 y, u32 str, u32 font, s32 wait, u32 tcbl, u32 priority, u32 heap, u16 fillColor, u32 a10);
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern unsigned int KEY_GetCont(void);
-extern int TOUCHPANEL_GetCont(void);
-extern int TOUCHPANEL_GetTrg(void);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
-extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
-extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void *GAME_DATA_GetMyItem(struct GameData *gd);
-extern u32 POKEPARTY_GetCapacity(struct Party *party);
+#include "../arm9/msg_speed.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/wordset.h"
 struct MyItem;
-extern u32 MYITEM_SAVEDATA_HasItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
-extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
-extern u32 POKE_TOOL_GetPartyParamSize(void);
+#include "../arm9/myitem_savedata.h"
 struct PartyPokemon;
-extern void POKE_TOOL_CopyPartyPokemon(struct PartyPokemon *src, struct PartyPokemon *dest);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
 struct Mail;
-extern struct Mail *MAIL_Create(int heapId);
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void G3X_SetFog(int, int, int, int);
-extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
+#include "../arm9/mail.h"
+#include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
+#include "../arm9/g3d_system.h"
 int SHINKA_DEMO_Create(void *owner,int unused,u8 *app);
 int SHINKA_DEMO_Destroy(void *a, int unused, int b, int *p);
 int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s);
@@ -537,7 +452,7 @@ void SHINKA_DEMO_CreateActors(int a, char *b);
 void SHINKA_DEMO_DeleteActors(void *unused,char *p);
 void SHINKA_DEMO_ResetActorAnims(int a, int *p);
 int SHINKA_DEMO_AreActorAnimsDone(int a, int *p);
-void SHINKA_DEMO_MainTask(int task, char *p);
+void SHINKA_DEMO_MainTask(struct TcbTask *task, void *p);
 void SHINKA_DEMO_SetupWindows(int a, char *b);
 void SHINKA_DEMO_DeleteWindows(int task, int *p);
 void SHINKA_DEMO_UpdateWindows(int a, char *b);
@@ -589,7 +504,7 @@ int SHINKA_DEMO_Create(void *owner,int unused,u8 *app)
     ((struct Scene *)p)->procData=GFL_HEAP_Alloc(((struct Scene *)p)->mainHeap,0x28,1,d_02208F40,0x242);
     FADE_Start(3,16,16,-16);
     SHINKA_DEMO_StartBgm(app,(u8 *)p);
-    ((struct Scene *)p)->task=GFL_USE_AddMainTask((u32)SHINKA_DEMO_MainTask,(u32)p,1);
+    ((struct Scene *)p)->task=GFL_USE_AddMainTask(SHINKA_DEMO_MainTask, p,1);
     ((struct Scene *)p)->flag10C=0;
     ((struct Scene *)p)->flag110=0;
     ((struct Scene *)p)->flag114=0;
@@ -607,7 +522,7 @@ int SHINKA_DEMO_Destroy(void *a, int unused, int b, int *scene)
 {
     SHINKA_DEMO_DeleteScene(b, scene);
     PROCSYS_Delete(*(void * *)&((struct Scene *)scene)->proc);
-    TCB_DeleteTask((struct TcbTask *)(*(struct Node * *)&((struct Scene *)scene)->task));
+    TCB_DeleteTask((struct TcbTask *)(*(struct ShinkaDemoGraphicNode * *)&((struct Scene *)scene)->task));
     SHINKA_DEMO_Noop(b, scene);
     GFL_HEAP_Free(((struct Scene *)scene)->procData);
     STRBUF_Delete((struct Strbuf *)(*(struct U16Vec * *)&((struct Scene *)scene)->strbuf));
@@ -657,7 +572,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         SHINKA_DEMO_StartResultBgm((int)a,(int *)s);if(W(0x8c))W(0x28)=11;else{SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);W(0x28)=10;}break;
     case 10:W(0x88)=1;W(0x28)=11;break;
     case 11:SHINKA_DEMO_PrintText(s,W(0x78),2,0,0,W(0x14),1,W(0x10));W(0x28)=12;break;
-    case 12:if(SHINKA_DEMO_AdvanceText(s)&&!SHINKA_DEMO_IsBgmState7Or8((int)a,(int *)s)&&SHINKA_DEMO_IsConfirmPressed(s)){GAME_BEACON_SetPokeEvolution((u16)POKE_TOOL_GetPartyValue(P(0x10),5,0),W(0x14));v=GAME_DATA_GetTrainerRecord((void *)A(0));RECORD_AddOne(v,10);RECORD_AddOne(v,88);W(0x28)=17;}break;
+    case 12:if(SHINKA_DEMO_AdvanceText(s)&&!SHINKA_DEMO_IsBgmState7Or8((int)a,(int *)s)&&SHINKA_DEMO_IsConfirmPressed(s)){GAME_BEACON_SetPokeEvolution((u16)POKE_TOOL_GetPartyValue(P(0x10),5,0),(struct Strbuf *)(W(0x14)));v=GAME_DATA_GetTrainerRecord((void *)A(0));(struct Strbuf *)RECORD_AddOne(v,10);(struct Strbuf *)RECORD_AddOne(v,88);W(0x28)=17;}break;
     case 13:if(W(0x24))SHINKA_DEMO_StopBgm((int)a,s);else SHINKA_DEMO_PopBgm((int)a,(int *)s);if(W(0x8c))W(0x28)=15;else{SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);W(0x28)=14;}break;
     case 14:W(0x88)=1;W(0x28)=15;break;
     case 15:SHINKA_DEMO_PrintText(s,W(0x78),1,0,2,W(0x10),4,0);W(0x28)=16;break;
@@ -668,7 +583,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         if(!H(0x1c))W(0x28)=42;else if(H(0x1c)!=0xfffe){if(H(0x1c)&0x8000){H(0x1c)&=0x7fff;W(0x28)=20;}else{W(0x28)=19;SHINKA_DEMO_PrintText(s,W(0x7c),3,0,2,W(0x10),3,(u32)(s+0x1c));SHINKA_DEMO_PlayResultBgm((int)a,(int *)s);}}break;
     case 19:if(SHINKA_DEMO_AdvanceText(s)&&SHINKA_DEMO_IsConfirmPressed(s))W(0x28)=18;break;
     case 20:W(0x28)=21;SHINKA_DEMO_PrintText(s,W(0x7c),4,0,2,W(0x10),3,(u32)(s+0x1c));break;
-    case 21:if(SHINKA_DEMO_AdvanceText(s)){W(0x28)=22;SHINKA_DEMO_SetMenuText(s,W(0x90),2,4,0,4,0,W(0x90),3,4,0,4,0);YESNO_MENU_Start(P(0x9c),W(0x94),W(0x98));}break;
+    case 21:if(SHINKA_DEMO_AdvanceText(s)){W(0x28)=22;SHINKA_DEMO_SetMenuText(s,W(0x90),2,4,0,4,0,W(0x90),3,4,0,4,0);YESNO_MENU_Start((YesNoMenu *)(P(0x9c)),(struct Strbuf *)(W(0x94)),(struct Strbuf *)(W(0x98)));}break;
     case 22:
         result=YESNO_MENU_GetAnswer(P(0x9c));if(result==2)break;
         if(result==1){if(A(0xc)){W(0x28)=23;FADE_Start(3,0,16,0);}else{W(0x28)=27;FADE_Start(2,0,16,0);}}
@@ -681,14 +596,14 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
         ((u8 *)P(0x100))[0xc]=1;*(u32 *)((char *)P(0x100)+8)=A(0);*(u32 *)((char *)P(0x100)+0x24)=0;*(u32 *)P(0x100)=A(4);
         *(void **)((char *)P(0x100)+4)=SYSTEM_DATA_GetConfig(v);((u8 *)P(0x100))[0xe]=POKEPARTY_GetCount((void *)A(4));((u8 *)P(0x100))[0xf]=AB(0xa);*(u16 *)((char *)P(0x100)+0x14)=H(0x1c);
         ((u8 *)P(0x100))[0xd]=2;((u8 *)P(0x100))[0x10]=1;*(u32 *)((char *)P(0x100)+0x20)=0;
-        GF_OVERLAY_Load((int)ov131_id);PROCSYS_Push(P(0x11c),-1,gPokeStatusProcData,P(0x100));break;
+        GF_OVERLAY_Load((int)ov131_id);PROCSYS_Push(P(0x11c),-1,(const struct ProcData *)gPokeStatusProcData,P(0x100));break;
     case 24:if(tick!=1)W(0x28)=25;else return 0;break;
     case 25:GF_OVERLAY_Unload((int)ov131_id);W(0x28)=26;SHINKA_DEMO_SetupScene((App *)((struct App *)a), (Scene *)((struct Scene *)s));GFL_NET_RefreshWmIconAtTopRight(0,H(0));FADE_Start(3,16,0,0);break;
     case 26:
         if(!FADE_IsActive()){q=P(0x100);switch(q[0x12]){case 0:result=q[0x11];B(0x1a)=result;H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),result+0x36,0);W(0x28)=31;break;case 1:case 2:default:W(0x28)=36;break;}}break;
     case 27:
         if(FADE_IsActive())break;
-        W(0x28)=28;YESNO_MENU_Delete(P(0x9c));W(0x9c)=0;SHINKA_DEMO_GRAPHIC_ReleaseSubBg((int)P(4));B(0xac)=UI_GetInputMode()==0;
+        W(0x28)=28;YESNO_MENU_Delete((YesNoMenu *)(P(0x9c)));W(0x9c)=0;SHINKA_DEMO_GRAPHIC_ReleaseSubBg((void *)((int)P(4)));B(0xac)=UI_GetInputMode()==0;
         P(0xa4)=GFL_HEAP_Alloc(H(0),TCB_GetTaskOffset(8),0,(char *)d_02208F40,0x548);
         MI_CpuFill8(P(0xa4),0,TCB_GetTaskOffset(8));P(0xa0)=TCB_Init(8,P(0xa4));P(0xa8)=PALANM_Create(H(0));PALANM_SetAutoTransfer(P(0xa8),1);
         PALANM_AllocSlotBuffers(P(0xa8),1,0x1e0,H(0));PALANM_AllocSlotBuffers(P(0xa8),3,0x1e0,H(0));
@@ -698,7 +613,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 29:
         if(FADE_IsActive())break;
         W(0x28)=30;GF_OVERLAY_Unload((int)ov196_id);GF_OVERLAY_Unload((int)ov198_id);PALANM_FreeSlotBuffers(P(0xa8),1);PALANM_FreeSlotBuffers(P(0xa8),3);PALANM_Delete(P(0xa8));TCB_Noop(P(0xa0));GFL_HEAP_Free(P(0xa4));W(0xa0)=0;W(0xa4)=0;W(0xa8)=0;
-        SHINKA_DEMO_GRAPHIC_SetupSubBg(P(4));P(0x9c)=YESNO_MENU_Create(H(0),5,0,1,0,SHINKA_DEMO_GRAPHIC_GetCamera(P(4)),W(8),W(0xc),0);GFL_NET_RefreshWmIconAtTopRight(0,H(0));FADE_Start(2,16,0,0);break;
+        SHINKA_DEMO_SETUP_SUB_BG_ARG(P(4));P(0x9c)=SHINKA_DEMO_YESNO_MENU_CREATE(H(0),5,0,1,0,(void *)(SHINKA_DEMO_GRAPHIC_GetCamera((char *)(P(4)))),W(8),(struct PrintSys *)(W(0xc)),0);GFL_NET_RefreshWmIconAtTopRight(0,H(0));FADE_Start(2,16,0,0);break;
     case 30:
         if(FADE_IsActive())break;
         B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}
@@ -711,7 +626,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 36:if(W(0x8c))W(0x28)=38;else{W(0x28)=37;SHINKA_DEMO_SetupMessageBox((int)a,(int *)s,1);}break;
     case 37:W(0x88)=1;W(0x28)=38;break;
     case 38:SHINKA_DEMO_PrintText(s,W(0x7c),7,0,4,0,3,(u32)(s+0x1c));W(0x28)=39;break;
-    case 39:if(SHINKA_DEMO_AdvanceText(s)){W(0x28)=40;{u32 w=W(0x90);SHINKA_DEMO_SetMenuText(s,w,4,3,(u32)(s+0x1c),4,0,w,5,3,(u32)(s+0x1c),4,0);}YESNO_MENU_Start(P(0x9c),W(0x94),W(0x98));}break;
+    case 39:if(SHINKA_DEMO_AdvanceText(s)){W(0x28)=40;{u32 w=W(0x90);SHINKA_DEMO_SetMenuText(s,w,4,3,(u32)(s+0x1c),4,0,w,5,3,(u32)(s+0x1c),4,0);}YESNO_MENU_Start((YesNoMenu *)(P(0x9c)),(struct Strbuf *)(W(0x94)),(struct Strbuf *)(W(0x98)));}break;
     case 40:
         result=YESNO_MENU_GetAnswer(P(0x9c));if(result==2)break;
         if(result==1){W(0x28)=41;SHINKA_DEMO_PrintText(s,W(0x7c),8,0,2,W(0x10),3,(u32)(s+0x1c));}else if(!result)W(0x28)=20;
@@ -792,8 +707,8 @@ void SHINKA_DEMO_DeleteScene(int unused, int *scene)
     SHINKA_DEMO_DeleteWindows(unused, scene);
     PRINTSYS_QUE_Clear((struct PrintQueue *)scene[3]);
     PRINTSYS_QUE_Delete((struct PrintQueue *)scene[3]);
-    GF_FONT_Delete((void *)scene[2]);
-    SHINKA_DEMO_GRAPHIC_ReleaseSubBg(scene[1]);
+    GF_FONT_Delete((struct GfFont *)((void *)scene[2]));
+    SHINKA_DEMO_GRAPHIC_ReleaseSubBg((void *)scene[1]);
     SHINKA_DEMO_GRAPHIC_Destroy((char *)scene[1]);
     GF_OVERLAY_Unload((int)ov067_id);
     GFL_HEAP_DeleteChecked(0x68);
@@ -1032,14 +947,14 @@ void SHINKA_DEMO_CreateActors(int unused, char *scene)
     ARC_TOOL_DeleteHandle(h);
     for (z = i; i < 6; i++) {
         char *e = scene + i * 4;
-        ((struct Scene *)scene)->actors[i] = (u32)CLACT_CreateActor((void *)SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Scene *)scene)->graphic)), ((struct Scene *)scene)->character, ((struct Scene *)scene)->palette,
-                                           ((struct Scene *)scene)->cellAnim, d_02208C4C + i * 8, z, ((struct Scene *)scene)->heap);
-        CLACT_SetActorAutoAnim((struct Actor *)((struct Scene *)scene)->actors[i], z);
+        ((struct Scene *)scene)->actors[i] = (u32)CLACT_CreateActor((struct Unit *)((void *)SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Scene *)scene)->graphic))), ((struct Scene *)scene)->character, ((struct Scene *)scene)->palette,
+                                           ((struct Scene *)scene)->cellAnim, (const struct ActorInitParam *)(d_02208C4C + i * 8), z, ((struct Scene *)scene)->heap);
+        CLACT_SetActorAutoAnim((struct ClactActor *)((struct Scene *)scene)->actors[i], z);
     }
     ((struct Scene *)scene)->actorsReady = 1;
 }
 
-void SHINKA_DEMO_DeleteActors(void *unused,char *scene) {u8 i;if(((struct Scene *)scene)->actorsReady){for(i=0;i<6;i++)CLACT_DeleteActor((struct Actor *)(*(u32 *)(scene+0x48+i*4)));CLACT_ReleaseCellAnim(((struct Scene *)scene)->cellAnim);CLACT_ReleaseCharacter(((struct Scene *)scene)->character);CLACT_ReleasePalette(((struct Scene *)scene)->palette);((struct Scene *)scene)->actorsReady=0;}}
+void SHINKA_DEMO_DeleteActors(void *unused,char *scene) {u8 i;if(((struct Scene *)scene)->actorsReady){for(i=0;i<6;i++)CLACT_DeleteActor((struct ClactActor *)(*(u32 *)(scene+0x48+i*4)));CLACT_ReleaseCellAnim(((struct Scene *)scene)->cellAnim);CLACT_ReleaseCharacter(((struct Scene *)scene)->character);CLACT_ReleasePalette(((struct Scene *)scene)->palette);((struct Scene *)scene)->actorsReady=0;}}
 
 /*
  * Leaf of the SHINKA_DEMO_Main dependency tree: when the scene object has the
@@ -1052,8 +967,8 @@ void SHINKA_DEMO_ResetActorAnims(int unused, int *scene)
     if (scene[0x18] == 0)
         return;
     for (i = 0; i < 6; i++) {
-        CLACT_SetActorAnimIndex((struct Actor *)(scene[0x12 + i]), 0);
-        CLACT_SetActorAutoAnim((struct Actor *)scene[0x12 + i], 1);
+        CLACT_SetActorAnimIndex((struct ClactActor *)(scene[0x12 + i]), 0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)scene[0x12 + i], 1);
     }
 }
 
@@ -1070,7 +985,7 @@ int SHINKA_DEMO_AreActorAnimsDone(int unused, int *scene)
         int ok = 1;
 
         for (i = 0; i < 6; i++) {
-            if (CLACT_IsActorAnimActive((struct Actor *)scene[0x12 + i]) != 0) {
+            if (CLACT_IsActorAnimActive((struct ClactActor *)scene[0x12 + i]) != 0) {
                 ok = 0;
                 break;
             }
@@ -1085,8 +1000,9 @@ int SHINKA_DEMO_AreActorAnimsDone(int unused, int *scene)
 /*
  * extent: 82 code bytes followed by two zero alignment bytes at 0x022051FA.
  */
-void SHINKA_DEMO_MainTask(int task, char *scene)
+void SHINKA_DEMO_MainTask(struct TcbTask *task, void *sceneArg)
 {
+    char * scene = sceneArg;
     switch (((struct Scene *)scene)->windowState) {
     case 1:
         BG_SYS_SetPlaneVisible(1, 1);
@@ -1109,10 +1025,10 @@ void SHINKA_DEMO_SetupWindows(int unused, char *scene)
 
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x20, 0x20, ((struct Scene *)scene)->heap);
     ((struct Scene *)scene)->window = (unsigned int)BMP_WIN_Create((unsigned int)1, (unsigned int)0, (unsigned int)0, 1, 1, 1, 0);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((struct Scene *)scene)->window)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((struct Scene *)scene)->window)), 0);
     BMP_WIN_TransferChars((struct BmpWin *)((struct Scene *)scene)->window);
     ((struct Scene *)scene)->menuWindow = (unsigned int)BMP_WIN_Create((unsigned int)1, (unsigned int)1, (unsigned int)0x13, 0x1e, 4, 1, 1);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((struct Scene *)scene)->menuWindow)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((struct Scene *)scene)->menuWindow)), 0);
     p = ((struct Scene *)scene)->menuWindow;
     BMP_WIN_TransferChars((struct BmpWin *)p);
     BMP_WIN_MakeScreen((struct BmpWin *)p);
@@ -1164,10 +1080,10 @@ int SHINKA_DEMO_PrintStreamCallback(int a)
 
 void SHINKA_DEMO_PrintText(char *scene, u32 msgBank, u32 msgId, u32 callback, u32 kind0, u32 value0, u32 kind1, u32 value1)
 {
-    SHINKA_DEMO_ClearText(scene, 0xf);
+    SHINKA_DEMO_ClearText((char *)scene, 0xf);
     *(u32 *)&((struct Scene *)scene)->strbufA = SHINKA_DEMO_BuildString(((struct Scene *)scene)->heap, msgBank, msgId, kind0, value0, kind1, value1);
-    *(u32 *)&((struct Scene *)scene)->printStream = (u32)PRINTSYS_PrintStreamCallBack(*(u32 *)&((struct Scene *)scene)->menuWindow, 0, 0, *(u32 *)&((struct Scene *)scene)->strbufA, ((struct Scene *)scene)->font,
-                                       MSG_SPEED_GetWait(), ((struct Scene *)scene)->tcbl, 2, ((struct Scene *)scene)->heap, 0xf, callback);
+    *(u32 *)&((struct Scene *)scene)->printStream = (u32)PRINTSYS_PrintStreamCallBack((struct BmpWin *)(*(u32 *)&((struct Scene *)scene)->menuWindow), 0, 0, (struct Strbuf *)(*(u32 *)&((struct Scene *)scene)->strbufA), (struct GfFont *)(((struct Scene *)scene)->font),
+                                       MSG_SPEED_GetWait(), (struct Tcbl *)(((struct Scene *)scene)->tcbl), 2, ((struct Scene *)scene)->heap, 0xf, (u8 (*)(u32 arg))callback);
 }
 
 /*
@@ -1231,7 +1147,7 @@ void SHINKA_DEMO_ClearText(char *scene, int fillColor)
 {
     int p;
 
-    BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp((struct BmpWin *)((struct Scene *)scene)->menuWindow), fillColor);
+    BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)((struct Scene *)scene)->menuWindow), fillColor);
     p = ((struct Scene *)scene)->menuWindow;
     BMP_WIN_TransferChars((struct BmpWin *)p);
     BMP_WIN_MakeScreen((struct BmpWin *)p);
@@ -1255,7 +1171,7 @@ void SHINKA_DEMO_SetupMessageBox(int unused, int *p, int flag)
         int *q;
 
         BMP_MENUWORK_DrawWindow((void *)p[0x1b], 0, (unsigned short)p[0x1d], 2);
-        BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct BmpWin *)p[0x1b])), 0xf);
+        BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp((struct BmpWin *)p[0x1b])), 0xf);
         q = (int *)p[0x1b];
         BMP_WIN_TransferChars((struct BmpWin *)q);
         BMP_WIN_MakeScreen((struct BmpWin *)((int)q));
@@ -1268,13 +1184,13 @@ void SHINKA_DEMO_SetupMessageBox(int unused, int *p, int flag)
 void SHINKA_DEMO_CreateConfirmMenu(int unused, char *scene)
 {
     ((struct Scene *)scene)->confirmMsgBank = (u32)MSGDATA_CreateFromArchive(0, 2, 0xe9, ((struct Scene *)scene)->heap);
-    ((struct Scene *)scene)->yesNoMenu = (u32)YESNO_MENU_Create(((struct Scene *)scene)->heap, 5, 0, 1, 0, SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Scene *)scene)->graphic)),
-                                       ((struct Scene *)scene)->font, ((struct Scene *)scene)->printQue, 0);
+    ((struct Scene *)scene)->yesNoMenu = (u32)SHINKA_DEMO_YESNO_MENU_CREATE(((struct Scene *)scene)->heap, 5, 0, 1, 0, (void *)(SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Scene *)scene)->graphic))),
+                                       ((struct Scene *)scene)->font, (struct PrintSys *)(((struct Scene *)scene)->printQue), 0);
     ((struct Scene *)scene)->strbufC = 0;
     ((struct Scene *)scene)->strbufD = 0;
 }
 
-void SHINKA_DEMO_DeleteConfirmMenu(void *unused,char *scene) {YESNO_MENU_Delete(*(u8 * *)&((struct Scene *)scene)->yesNoMenu);*(u32 *)&((struct Scene *)scene)->yesNoMenu=0;if(((struct Scene *)scene)->strbufC)STRBUF_Delete((struct Strbuf *)(((struct Scene *)scene)->strbufC));if(((struct Scene *)scene)->strbufD)STRBUF_Delete((struct Strbuf *)(((struct Scene *)scene)->strbufD));MSGDATA_Delete((struct MsgBank *)(*(struct Rec * *)&((struct Scene *)scene)->confirmMsgBank));}
+void SHINKA_DEMO_DeleteConfirmMenu(void *unused,char *scene) {YESNO_MENU_Delete((YesNoMenu *)(*(u8 * *)&((struct Scene *)scene)->yesNoMenu));*(u32 *)&((struct Scene *)scene)->yesNoMenu=0;if(((struct Scene *)scene)->strbufC)STRBUF_Delete((struct Strbuf *)(((struct Scene *)scene)->strbufC));if(((struct Scene *)scene)->strbufD)STRBUF_Delete((struct Strbuf *)(((struct Scene *)scene)->strbufD));MSGDATA_Delete((struct MsgBank *)(*(struct TextPrinter * *)&((struct Scene *)scene)->confirmMsgBank));}
 
 void SHINKA_DEMO_SetMenuText(char *scene, u32 msgBankC, u32 msgIdC, u32 kindC0, u32 valueC0, u32 kindC1, u32 valueC1,
                    u32 msgBankD, u32 msgIdD, u32 kindD0, u32 valueD0, u32 kindD1, u32 valueD1)

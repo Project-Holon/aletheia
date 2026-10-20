@@ -6,8 +6,6 @@
 
 struct Config;
 
-#include "../types.h"
-
 void CONFIG_InitKeyControlTable(void);
 void *CONFIG_Create(int heap_id);
 void CONFIG_Copy(const struct Config *src, struct Config *dest);

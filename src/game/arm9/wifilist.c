@@ -75,27 +75,24 @@ struct WifiList {
     u8 reserved[4];                                         /* 0x7C0 */
 };
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
 extern void WIFILIST_Init(struct WifiList *list);
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuFill8(void *dst, int val, unsigned n);
 
-extern void GF_OVERLAY_Unload(int handle);
+#include "gf_overlay.h"
 
-extern int GF_OVERLAY_Load(int id);
 
-extern void DWC_RAPCOMMON_InitUserData(void *p);
+#include "../ov009/dwc_rapcommon.h"
 
-extern int  DWC_IsValidFriendData(const void *friendData);
+#include "dwc_account.h"
 
-extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
+#include "strbuf.h"
 
-extern void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
 
 u32 WIFILIST_GetWorkSize(void);
 
@@ -136,27 +133,24 @@ extern unsigned char ov_id_0D[];
 
 struct RtcDate;
 
-extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
+#include "gf_standard.h"
 struct DWCstAccUserData;
 
-extern void DWC_CreateExchangeToken(struct DWCstAccUserData *userdata, void *token);
 struct DWCstAccUserData;
 
-extern int  DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 struct DWCstAccUserData;
 
-extern int  DWC_CheckValidConsole(struct DWCstAccUserData *userdata);
 struct DWCstAccUserData;
 
-extern int  DWC_CheckHasProfile(struct DWCstAccUserData *userdata);
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
+#ifdef __MWERKS__
 extern u32  MYSTATUS_GetId(const struct MyStatus *status);
-
-extern u8   MYSTATUS_GetSex(const struct MyStatus *status);
-
-extern const void *MYSTATUS_GetName(const void *status);
+extern u8   MYSTATUS_GetSex(const struct MyStatus *status); /* original prototype; the definition differs in pointer type, return type */
+extern const void *MYSTATUS_GetName(const void *status); /* original prototype; the definition differs in pointer type, return type */
+#else
+#include "mystatus.h"
+#endif
 
 u32 WIFILIST_GetWorkSize(void)
 {

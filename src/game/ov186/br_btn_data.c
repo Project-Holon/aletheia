@@ -36,31 +36,26 @@ struct MsgBank;
 struct U16Vec;
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *, int, int);
+#include "../arm9/mi_memory.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+#include "../arm9/gf_font.h"
 
-extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
+#include "../arm9/wordset.h"
 
-extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern u32 WORDSET_Delete(struct WordSet *p);
 
-void *BR_BTN_DATA_Create(int *configPtr, int heapId);
+void *BR_BTN_DATA_Create(int *configPtr, u16 heapId);
 
 void BR_BTN_DATA_Delete(void *table);
 
@@ -82,7 +77,7 @@ extern char d_02200D28[];
 
 extern char d_02200D38[];
 
-void *BR_BTN_DATA_Create(int *configPtr, int heapId)
+void *BR_BTN_DATA_Create(int *configPtr, u16 heapId)
 {
     int total = 0;
     int i;

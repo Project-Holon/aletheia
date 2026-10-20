@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_FS_OVERLAY_H
 #define GAME_ARM9_FS_OVERLAY_H
 
+typedef struct FSOverlayInfo FSOverlayInfo;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of fs_overlay.c, prototypes copied from their definitions. */
 
@@ -23,7 +25,5 @@ BOOL FS_UnloadOverlayImage(FSOverlayInfo *p_ovi);
 BOOL FS_LoadOverlay(int target, u32 id);
 int FS_UnloadOverlay(int target, u32 id);
 /* END mkheaders: generated region */
-
-typedef struct FSOverlayInfo FSOverlayInfo;
 
 #endif

@@ -99,6 +99,9 @@
  *   _d2f                  0x0209B64C arm
  *   gsLargeIntReverseBytes  0x0217E934  arm
  */
+#include "gsplatformthread.h"
+#include "gsdebug.h"
+#include "gsplatformutil.h"
 #include "../../matched/arm9_sdk/libc/strncmp/string.h"
 extern void *__builtin__clear(void *dest, unsigned long size);
 
@@ -142,73 +145,34 @@ typedef struct GSIXmlAttribute {
     int owningElementIndex;
 } GSIXmlAttribute;
 
-typedef struct {
-    char *data;
-    int len;
-    int mode;
-} B64StreamData;
+#include "../ov175/auth_types.h"
 
-struct tm {
-    int tm_sec;
-    int tm_min;
-    int tm_hour;
-    int tm_mday;
-    int tm_mon;
-    int tm_year;
-    int tm_wday;
-    int tm_yday;
-    int tm_isdst;
-};
-
-typedef struct gsLargeInt_s {
-    unsigned int mLength;
-    unsigned int mData[64];
-} gsLargeInt;
-
-extern void *gsimalloc(unsigned long size);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+#include "gsmemory.h"
 static int gsiXmlUtilWriteString(GSIXmlStreamWriter *stream, const char *str);
-extern void gsifree(void *ptr);
 extern int gsiXmlUtilWriteChar(GSIXmlStreamWriter *stream, char ch);
-extern void *gsimalloc(unsigned long size);
-extern void gsifree(void *ptr);
-extern void *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void ArrayFree(void *array);
+#include "darray.h"
 extern int gsXmlMoveToStart(void *stream);
 extern void gsiXmlUtilElementFree(void *elem);
 extern void gsiXmlUtilAttributeFree(void *elem);
 static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int len, int *pos, int parentIndex);
 struct DArrayImplementation;
-extern void ArrayClear(struct DArrayImplementation *array);
 extern int gsiXmlUtilParseName(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
 extern int gsiXmlUtilParseString(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
 extern int gsiXmlUtilParseValue(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
-extern int ArrayLength(void *array);
-extern void ArrayAppend(void *array, void *newElem);
-extern void ArrayReplaceAt(void *array, void *newElem, int n);
 static int gsiXmlUtilSkipWhiteSpace(void *, char *, int, int *);
 extern int gsiXmlUtilDecodeString(char *buffer, int *len);
 extern int STD_TSScanf(const char *src, const char *fmt, ...);
-extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
+#include "../arm9/msl_string_mem.h"
 extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
 extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
 extern int gsiXmlUtilWriteXmlSafeString(void *stream, char *str);
 extern int gsUnicodeStringLen(const unsigned short *str);
 extern int gsiXmlUtilWriteUnicodeString(GSIXmlStreamWriter *stream, unsigned short *str);
-extern int sprintf(char *buf, const char *fmt, ...);
-extern void gsiInt64ToString(char *theNumberStr, long long theNumber);
-extern void B64InitEncodeStream(B64StreamData *data, unsigned char *input, int len, int type);
-extern int B64EncodeStream(B64StreamData *data, char *output);
-extern struct tm *gsiSecondsToDate(long *timp);
-extern int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String);
-extern void *gsirealloc(void *ptr, unsigned long size);
-extern void *ArrayNth(void *array, int n);
-extern void B64Decode(const char *input, char *output, int inlen, int *outlen, int encodingType);
-extern int B64DecodeLen(char *input, int encodingType);
-extern long long gsiStringToInt64(const char *s);
-extern long gsiDateToSeconds(struct tm *tb);
+#include "../arm9/msl_printf.h"
+#include "gsstringutil.h"
 extern double atof(const char *s);
-extern int gsLargeIntReverseBytes(char *p);
+typedef int gsi_bool;
+#include "gslargeint.h"
 void *gsXmlCreateStreamWriter(const char **namespaces, int count);
 void *gsXmlCreateStreamReader(void);
 int gsXmlParseBuffer(void *stream, char *data, int len);
@@ -227,7 +191,7 @@ int gsXmlWriteFloatElement(void *stream, char *namespaceName, char *tag, float v
 int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
 int gsXmlWriteBase64BinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
 int gsXmlWriteDateTimeElement(void *stream, char *namespaceName, char *tag, long value);
-int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *tag, gsLargeInt *lint);
+int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *tag, gsLargeInt_t *lint);
 int gsXmlMoveToNext(void *stream, char *matchtag);
 int gsXmlMoveToParent(void *stream);
 int gsXmlMoveToChild(void *stream, char *matchtag);
@@ -273,7 +237,6 @@ extern int strncmp(const char *s1, const char *s2, unsigned long n);
 extern const char *strncpy(const char *dest, const char *src, unsigned int n);
 extern char *strchr(const char *s, int c);
 extern int atoi(const char *s);
-extern void *memmove(void *dst, const void *src, unsigned int n);
 /*
  * Number of halfwords before the terminating zero, less one.
  */
@@ -300,7 +263,7 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
 
     newStream = gsimalloc(sizeof(GSIXmlStreamWriter));
     if (newStream == 0) {
-        gsDebugFormat(0xc, (char *)2, 1, gGsXmlOomWriterFormat, sizeof(GSIXmlStreamWriter));
+        gsDebugFormat(0xc, 2, 1, gGsXmlOomWriterFormat, sizeof(GSIXmlStreamWriter));
         return 0;
     }
 
@@ -317,7 +280,7 @@ void *gsXmlCreateStreamWriter(const char **namespaces, int count)
 
     newStream->buffer = gsimalloc(initialCapacity);
     if (newStream->buffer == 0) {
-        gsDebugFormat(0xc, (char *)2, 1, gGsXmlOomWriterFormat, initialCapacity);
+        gsDebugFormat(0xc, 2, 1, gGsXmlOomWriterFormat, initialCapacity);
         return 0;
     }
     newStream->capacity = initialCapacity;
@@ -378,20 +341,20 @@ void *gsXmlCreateStreamReader(void)
     newStream = (GSIXmlStreamReader *)gsimalloc(sizeof(GSIXmlStreamReader));
     if (newStream == 0)
     {
-        gsDebugFormat(12, (char *)2, 1, gGsXmlOomStreamFormat, sizeof(GSIXmlStreamReader));
+        gsDebugFormat(12, 2, 1, gGsXmlOomStreamFormat, sizeof(GSIXmlStreamReader));
         return 0;
     }
     newStream->elements = ArrayNew(24, 32, gsiXmlUtilElementFree);
     if (newStream->elements == 0)
     {
-        gsDebugFormat(12, (char *)2, 1, gGsXmlOomElementArrayFormat);
+        gsDebugFormat(12, 2, 1, gGsXmlOomElementArrayFormat);
         gsifree(newStream);
         return 0;
     }
     newStream->attributes = ArrayNew(24, 16, gsiXmlUtilAttributeFree);
     if (newStream->attributes == 0)
     {
-        gsDebugFormat(12, (char *)2, 1, gGsXmlOomElementArrayFormat);
+        gsDebugFormat(12, 2, 1, gGsXmlOomElementArrayFormat);
         ArrayFree(newStream->elements);
         gsifree(newStream);
         return 0;
@@ -1127,7 +1090,7 @@ int gsXmlWriteDateTimeElement(void *stream, char *namespaceName, char *tag, long
 /*
  * sdk:      gsXmlWriteLargeIntElement (libdwcgscommon.TWL.HYB.a gsxml.o)
  */
-int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *tag, gsLargeInt *lint)
+int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *tag, gsLargeInt_t *lint)
 {
     GSIXmlStreamWriter *writer;
     unsigned int *readBuf;

@@ -35,6 +35,7 @@
  */
 struct Node;
 #include "wipe_types.h"
+#include "../sdk_ioreg.h"
 
 struct Node;
 
@@ -70,7 +71,6 @@ typedef struct {
 typedef u32 (*FuncPtr)(void *);
 struct TcbSystem;
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, PaletteFade *), void *work, unsigned int priority);
 struct TcbTask;
 #include "tcb_list.h"
 #include "gx_load2d.h"
@@ -157,7 +157,7 @@ void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 col
     n = n / (s32)FADE_GetSpeed();
     g = &g_wipeSys;
     WIPE_SUB_ClearSys(g);
-    WIPE_SYS_SetDivision((u32)divisionMode, g);
+    WIPE_SYS_SetDivision((uptr)divisionMode, g);
     WIPE_InitHBlankSlots(&g->hblank);
     obj = WIPE_SUB_ResolveColor(g, color);
     WIPE_SYS_InitPanel(&g->mainPanel, mainPattern, frames, n, 0, 0, 0,
@@ -286,7 +286,7 @@ void WIPE_SYS_ExeEnd(void)
  */
 void WIPE_ResetWndMask(void *win)
 {
-    WIPE_SUB_SetWindowVisible(0, (u32)win);
+    WIPE_SUB_SetWindowVisible(0, (uptr)win);
 }
 
 /*
@@ -391,9 +391,9 @@ void WIPE_SetBackColor(u32 a)
 void WIPE_SetBrightness(u32 which, int brightness)
 {
     if (which == 0) {
-        GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, brightness);
+        GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_ADDR, brightness);
     } else {
-        GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, brightness);
+        GXx_SetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR, brightness);
     }
 }
 
@@ -586,7 +586,7 @@ void WIPE_SYS_InitPanel(struct WipePanel *panel, u32 pattern, u32 frames, s32 wa
     panel->work = (void *)work;
     panel->screen = screen;
     panel->windowRequests = (struct WindowRequests *)windowRequests;
-    panel->hblank = (u32)hblank;
+    panel->hblank = (uptr)hblank;
     panel->heapId = heapId;
     panel->color = color;
 }
@@ -648,7 +648,7 @@ void WIPE_HBlankSlotsTask(void *task, struct WipeHBlankSlots *p)
 void WIPE_SetHBlankSlot(struct WipeHBlankSlots *p, void *ctx, Handler fn, u32 idx)
 {
     if (p->active[0] == 0 && p->active[1] == 0)
-        g_wipeSys.hblankTask = GFL_USE_AddHBlankTask((void (*)(struct Tcb *, void *))WIPE_HBlankSlotsTask, (void *)p, 0);
+        g_wipeSys.hblankTask = GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))WIPE_HBlankSlotsTask, (void *)p, 0);
 
     p->work[idx] = ctx;
     if (fn != 0)
@@ -689,7 +689,7 @@ void WIPE_SetHBlankSlot(struct WipeHBlankSlots *p, void *ctx, Handler fn, u32 id
  */
 void WIPE_ClearHBlankSlot(struct WipeHBlankSlots *p, u32 idx)
 {
-    u32 zero = 0;
+    uptr zero = 0;
 
     p->active[idx] = zero;
     if (p->active[0] == 0 && p->active[1] == 0 && g_wipeSys.hblankTask != 0) {

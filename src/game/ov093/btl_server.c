@@ -84,73 +84,58 @@
  */
 #include "btl_server_types.h"
 
-extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
 struct BtlMain;
-extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
+#include "btl_main.h"
 struct BtlPokeParam;
 struct PokemonParam;
-extern struct PokemonParam *BTL_POKEPARAM_GetMon(struct BtlPokeParam *pp);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/poke_tool.h"
+/* The callers pass a 16 bit heap id; the shared header takes 32 bits and adds a conversion. */
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void BTL_CALC_SetRngState(void *);
-extern void *GFL_HEAP_Alloc(u16, unsigned int, int, const char *, u16);
+#include "../arm9/strbuf.h"
+#include "btl_calc.h"
 struct BtlAdapter;
-extern struct BtlAdapter *BTL_ADAPTER_Create(u32, int, u32, u32);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void BTL_ADAPTER_Delete(struct BtlAdapter *adapter);
-extern u8 BTL_MAIN_GetCommPos(struct BtlMain *main);
-extern void *BTL_ADAPTER_GetSendBuffer(void *adapter, u32 *out);
-extern int BTL_MAIN_CheckShiftModePrompt(struct BtlMain *main);
 union BtlAction;
-extern u32 BTL_ACTION_GetKind(union BtlAction *action);
-extern u8 *BTL_REC_MakeResetPacket(u8 *p, unsigned int *out);
-extern u16 BTL_MAIN_GetWinBgm(struct BtlMain *main);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
-extern u32 KEY_GetTrg(void);
-extern int TOUCHPANEL_GetTrg(void);
-extern void BTL_REC_LoadPacket(u8 *, void *, int);
-extern int BTL_REC_NextRecord(u8 *p, u32 *pos, u8 *a, u8 *b, u32 *dst);
-extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
-extern void BTL_REC_InitPacket(u8 *, int);
-extern u8 *BTL_REC_MakeSkipPacket(u8 *p, u32 *out, int flag);
-extern void BTL_REC_AddRecord(u8 *p, u8 idx, const void *src, u32 n);
-extern void *BTL_REC_FinishPacket(u8 *recorder, int stage, unsigned int *outSize);
-extern void BTL_ADAPTER_NotifyNet(void);
-extern void BTL_ADAPTER_SetSendData(void *adapter, int command, const void *data, int size);
-extern void BTL_ADAPTER_Idle(void);
-extern void BTL_ADAPTER_Cancel(struct BtlAdapter *adapter);
-extern int BTL_ADAPTER_Update(struct BtlAdapter *adapter);
-extern void BTL_ADAPTER_ResetCommand(struct BtlAdapter *adapter);
-extern void GAME_BEACON_SetPokeLevelUp(void *strBuf);
-extern void GAME_BEACON_SetPokeCapture(u16);
-u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlMain *main, int clientId);
-u8 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
-u8 BTL_MAIN_GetOwnsSlots(struct BtlMain *main);
-void BTL_MAIN_StoreSlotNthResult(struct BtlMain *main, u8 n);
-void BTL_MAIN_SetOutcomeIfUnset(struct BtlMain *main,u32 x);
-int BTL_MAIN_JudgeResultThunk(struct BtlMain *main);
-void BTL_MAIN_AddBonusMoney(struct BtlMain *main, int add);
-void BTL_MAIN_SetDoubleMoney(struct BtlMain *main);
+#include "btl_action_word.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/game_beacon.h"
+#include "btl_pokeparam.h"
+/* The original declares GFL_HEAP_Alloc with a 16-bit heap id; the definition takes a u32. */
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_AllocHeader
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+extern void *GFL_HEAP_Alloc(u16, unsigned int, int, const char *, u16);
+#endif
+#ifdef __MWERKS__
+/* The original callers pass the stage and the command as plain ints; the headers declare u8 and u16. */
+#define BTL_REC_FinishPacket BTL_REC_FinishPacketHeader
+#define BTL_ADAPTER_SetSendData BTL_ADAPTER_SetSendDataHeader
+#endif
+#include "btl_adapter.h"
+#include "btl_rec.h"
+#include "btl_server_flow.h"
+#ifdef __MWERKS__
+#undef BTL_REC_FinishPacket
+#undef BTL_ADAPTER_SetSendData
+extern void *BTL_REC_FinishPacket(BtlRecPacket *recorder, int stage, unsigned int *outSize);
+extern void BTL_ADAPTER_SetSendData(BtlAdapter *adapter, int command, const void *data, int size);
+#endif
+#include "btl_server.h"
 struct BtlSide;
-struct BtlPokeParam *BTL_SIDE_GetClientPoke(struct BtlSide *side, u32 clientId, u8 nth);
 struct BtlSideSlot;
-struct BtlSideSlot *BTL_SIDE_GetSlotOfClient(struct BtlSide *side, s32 clientId);
-u8 BTL_SLOT_GetCount(struct BtlSideSlot *slot);
-u8 BTL_SLOT_CountLiving(struct BtlSideSlot *slot);
-void BTL_MAIN_TrainerRecordAdd(struct BtlMain *main, int i);
-int BTL_MAIN_IsOwnWindowWaiting(struct BtlMain *main);
-int BTL_MAIN_CheckOwnWindowDone(struct BtlMain *main);
-BtlServer *BTL_SERVER_Create(struct BtlMain *main, BtlServerRngState *rngState, void *partyTable, int flowParam, u16 heapId);
+BtlServer *BTL_SERVER_Create(struct BtlMain *main, BtlRngState *rngState, void *partyTable, int flowParam, u16 heapId);
 void BTL_SERVER_SetClientAdapter(BtlServer *server, void *adapter, u8 clientId, u8 battleSlots);
 void BTL_SERVER_CreateClientAdapter(BtlServer *server, int unused, int netId, int clientId, u8 battleSlots);
 void BTL_SERVER_SetClientWithoutAdapter(BtlServer *server, u8 clientId, u8 battleSlots);
 void BTL_SERVER_Restart(BtlServer *server);
 void BTL_SERVER_Delete(BtlServer *server);
 int BTL_SERVER_Update(BtlServer *server);
-void BTL_SERVER_GetFinalData(BtlServer *server, BtlWordPair *out);
+void BTL_SERVER_GetFinalData(BtlServer *server, struct BtlClientSet *out);
 void BTL_SERVER_SetHandler(BtlServer *server, BtlServerHandler handler);
 void BTL_SERVER_GotoSelectCommands(BtlServer *server);
 int BTL_SERVER_StepStart(BtlServer *server, int *step);
@@ -178,46 +163,17 @@ void *BTL_SERVER_BuildActionPacket(BtlServer *server, int stage, int initArg, un
 void BTL_SERVER_CollectReplies(BtlServer *server);
 void BTL_SERVER_SendCommand(BtlServer *server, int command);
 void BTL_SERVER_SendCommandData(BtlServer *server, int command, const void *data, int size);
-void BTL_SERVER_SendCommandDataToClient(BtlServer *server, int command, u32 clientIndex, const void *data, int size);
-int BTL_SERVER_AreRepliesReady(BtlServer *server);
-void BTL_SERVER_ClearReplies(const BtlServer *server);
-void BTL_SERVER_ResetClientCommands(const BtlServer *server);
 void BTL_SERVER_ClearClient(BtlServerClient *client);
-int BTL_SERVER_IsClientSlotUsed(const BtlServerClient *client);
 void BTL_SERVER_SetClientAdapterSlot(BtlServerClient *client, int clientId, void *adapter, int adapterBorrowed);
-void BTL_SERVER_SetClientParty(BtlServerClient *client, void *party, u8 battleSlots);
-BtlServerClient *BTL_SERVER_GetClientChecked(BtlServer *server, unsigned int index);
-BtlServerClient *BTL_SERVER_GetClientIfUsed(BtlServer *server, u32 index);
-int BTL_SERVER_IsClientUsed(BtlServer *server, u8 index);
-u8 BTL_SERVER_GetActionTableValue(BtlServerActionTable *table, u8 index);
-Action BTL_SERVER_GetActionTableEntry(BtlServerActionTable *table, u8 row, u8 column);
-void BTL_SERVER_NotifyLevelUp(BtlServer *server, u32 *pokeParam);
-void BTL_SERVER_NotifyCapture(BtlServer *server, u32 *pokeParam);
+union BtlAction BTL_SERVER_GetActionTableEntry(BtlServerActionTable *table, u8 row, u8 column);
 void BTL_SERVER_AddMainCounter(BtlServer *server, int amount);
 void BTL_SERVER_FinishMainCounter(BtlServer *server);
-void BTL_SERVER_ClearPokeChangeRequests(BtlServer *server);
 void BTL_SERVER_AddPokeChangeRequest(BtlServer *server, u32 clientId);
-void *BTL_SERVER_GetFlow(BtlServer *server);
 struct BtlServerFlow;
-struct BtlServerFlow *BTL_SERVER_FLOW_Create(void *server, void *mainModule, void *pokeCon, void *cmdQueue, s32 bagMode, u16 heap);
-void BTL_SERVER_FLOW_Reset(struct BtlServerFlow *flow);
-void BTL_SERVER_FLOW_Destroy(u8 *flow);
-int BTL_SERVER_FLOW_RunBattleStart(struct BtlServerFlow *flow);
-void BTL_SERVER_FLOW_ResetInitState(u8 *work);
-int BTL_SERVER_FLOW_StartTurn(struct BtlServerFlow *flow, s32 actionTable);
-void BTL_SERVER_FLOW_ResetInitStateAfterSelect(u8 *work);
-int BTL_SERVER_FLOW_StartAfterPokeSelect(struct BtlServerFlow *flow, s32 actionTable);
-void BTL_SERVER_FLOW_ResetInitStateAfterChange(u8 *work);
-int BTL_SERVER_FLOW_StartAfterPokeChange(struct BtlServerFlow *flow, s32 actionTable);
-int BTL_SERVER_FLOW_RunEscapeFromLead(struct BtlServerFlow *flow);
-int BTL_SERVER_FLOW_RunBagModeSetup(struct BtlServerFlow *flow);
-BtlWordPair *BTL_SERVER_FLOW_GetSlotTable(void *flow);
-u8 BTL_SERVER_FLOW_GetChosenSlot(struct BtlServerFlow *flow);
-int BTL_SERVER_FLOW_GetBattleResult(u8 *flow);
 extern u8 gBtlServerFileName[];
 
 
-BtlServer *BTL_SERVER_Create(struct BtlMain *main, BtlServerRngState *rngState, void *partyTable, int flowParam, u16 heapId)
+BtlServer *BTL_SERVER_Create(struct BtlMain *main, BtlRngState *rngState, void *partyTable, int flowParam, u16 heapId)
 {
     BtlServer *server;
     int i;
@@ -309,7 +265,7 @@ int BTL_SERVER_Update(BtlServer *server)
     return 0;
 }
 
-void BTL_SERVER_GetFinalData(BtlServer *server, BtlWordPair *out)
+void BTL_SERVER_GetFinalData(BtlServer *server, struct BtlClientSet *out)
 {
     *out = *server->finalData;
 }
@@ -420,9 +376,9 @@ int BTL_SERVER_StepSelectCommands(BtlServer *server, int *step)
         BTL_SERVER_ClearReplies(server);
         (*step)++;
     case 6:
-        server->flowResult = BTL_SERVER_FLOW_StartTurn(server->flow, (s32)server->reply);
+        server->flowResult = BTL_SERVER_FLOW_StartTurn(server->flow, &server->replies);
         if (BTL_MAIN_GetCommPos(server->main))
-            BTL_SERVER_NoOp(server->reply);
+            BTL_SERVER_NoOp(&server->replies);
         {
             int *buf = server->sendBuf;
             BTL_SERVER_SendCommandData(server, 8, buf + 2, *buf);
@@ -554,7 +510,7 @@ int BTL_SERVER_StepRequestPokeChange(BtlServer *server, int *step)
         BTL_SERVER_FLOW_ResetInitStateAfterChange(server->flow);
         (*step)++;
     case 5:
-        server->flowResult = BTL_SERVER_FLOW_StartAfterPokeChange(server->flow, (s32)server->reply);
+        server->flowResult = BTL_SERVER_FLOW_StartAfterPokeChange(server->flow, &server->replies);
         {
             int *buf = server->sendBuf;
             BTL_SERVER_SendCommandData(server, 8, buf + 2, *buf);
@@ -605,11 +561,11 @@ int BTL_SERVER_CheckShiftPromptNeeded(BtlServer *server)
 u32 BTL_SERVER_GetShiftPromptMon(BtlServer *server)
 {
     BtlServerClient *client = &server->clients[1];
-    Action *action;
+    const union BtlAction *action;
     if (BTL_SERVER_IsClientSlotUsed(client) != 0) {
         action = BTL_ADAPTER_GetSendBuffer(client->adapter, 0);
-        if (BTL_ACTION_GetKind((union BtlAction *)action) == 3) {
-            u8 *party = (u8 *)BTL_SIDE_GetClientPoke(server->partyTable, 1, action->small.move);
+        if (BTL_ACTION_GetKind(action) == 3) {
+            struct BtlPokeParam *party = BTL_SIDE_GetClientPoke(server->partyTable, 1, action->change.memberIndex);
             return BTL_POKEPARAM_GetPokeId(party);
         }
     }
@@ -650,7 +606,7 @@ int BTL_SERVER_StepRequestPokeReplace(BtlServer *server, int *step)
         buf = server->sendBuf;
         buf[0] = 0;
         buf[1] = 0;
-        server->flowResult = BTL_SERVER_FLOW_StartAfterPokeSelect(server->flow, (s32)server->reply);
+        server->flowResult = BTL_SERVER_FLOW_StartAfterPokeSelect(server->flow, &server->replies);
         buf = server->sendBuf;
         BTL_SERVER_SendCommandData(server, 8, buf + 2, buf[0]);
         (*step)++;
@@ -682,7 +638,7 @@ int BTL_SERVER_StepSendRecording(BtlServer *server, int *step)
     unsigned int size;
     switch (*step) {
     case 0: {
-        u8 *packet = BTL_REC_MakeResetPacket(server->recorder, &size);
+        u8 *packet = BTL_REC_MakeResetPacket(&server->recorder, &size);
         BTL_SERVER_SendCommandData(server, 0xa, packet, size);
         (*step)++;
         break;
@@ -873,12 +829,12 @@ void BTL_SERVER_LoadRecorderReplies(BtlServer *server, void *src, int size)
     u32 words[3];
     index = 0;
     for (i = 0; i < 4; i++)
-        server->replyCount[i] = 0;
-    BTL_REC_LoadPacket(server->recorder, src, size);
-    while (BTL_REC_NextRecord(server->recorder, &index, &clientId, &count, words) != 0) {
+        server->replies.count[i] = 0;
+    BTL_REC_LoadPacket(&server->recorder, src, size);
+    while (BTL_REC_NextRecord(&server->recorder, &index, &clientId, &count, words) != 0) {
         for (i = 0; i < count; i++)
-            server->reply[clientId].word[i].value = words[i];
-        server->replyCount[clientId] = count;
+            server->replies.action[clientId][i].raw = words[i];
+        server->replies.count[clientId] = count;
     }
 }
 
@@ -897,15 +853,15 @@ int BTL_SERVER_CompareFlowOutput(BtlServer *server, int stage, void *expected, u
         break;
     case 1:
         BTL_SERVER_FLOW_ResetInitState(server->flow);
-        BTL_SERVER_FLOW_StartTurn(server->flow, (s32)server->reply);
+        BTL_SERVER_FLOW_StartTurn(server->flow, &server->replies);
         break;
     case 2:
         BTL_SERVER_FLOW_ResetInitStateAfterChange(server->flow);
-        BTL_SERVER_FLOW_StartAfterPokeChange(server->flow, (s32)server->reply);
+        BTL_SERVER_FLOW_StartAfterPokeChange(server->flow, &server->replies);
         break;
     case 3:
         BTL_SERVER_FLOW_ResetInitStateAfterSelect(server->flow);
-        BTL_SERVER_FLOW_StartAfterPokeSelect(server->flow, (s32)server->reply);
+        BTL_SERVER_FLOW_StartAfterPokeSelect(server->flow, &server->replies);
         break;
     }
     buf = server->sendBuf;
@@ -918,8 +874,8 @@ int BTL_SERVER_SendSkipPacket(BtlServer *server, int skipFlags)
 {
     unsigned int size;
     u8 *packet;
-    BTL_REC_InitPacket(server->recorder, 1);
-    packet = BTL_REC_MakeSkipPacket(server->recorder, &size, skipFlags);
+    BTL_REC_InitPacket(&server->recorder, 1);
+    packet = BTL_REC_MakeSkipPacket(&server->recorder, &size, skipFlags);
     BTL_SERVER_SendCommandData(server, 10, packet, size);
     return 1;
 }
@@ -947,20 +903,20 @@ void *BTL_SERVER_BuildActionPacket(BtlServer *server, int stage, int initArg, un
 {
     u32 i;
     u32 header;
-    BTL_REC_InitPacket(server->recorder, initArg);
+    BTL_REC_InitPacket(&server->recorder, initArg);
     for (i = 0; i < 4; i++) {
         if (server->clients[i].clientId != 0xff) {
             const void *data = BTL_ADAPTER_GetSendBuffer(server->clients[i].adapter, &header);
-            BTL_REC_AddRecord(server->recorder, i, data, (header << 22) >> 24);
+            BTL_REC_AddRecord(&server->recorder, i, data, (header << 22) >> 24);
         }
     }
-    return BTL_REC_FinishPacket(server->recorder, stage, outSize);
+    return BTL_REC_FinishPacket(&server->recorder, stage, outSize);
 }
 
 /*
  * note 2026-10-05 (final push G6L5): closed by copying each word through a one-word struct
  *   (BtlServerWord, source cursor `BtlServerWord *src`, destination element type BtlServerWord, so
- *   `server->reply[i].word[j] = *src++;` is a struct assignment). The word-copy path creates the load before
+ *   `server->replies.action[i][j] = *src++;` is a struct assignment). The word-copy path creates the load before
  *   the destination address, which gives the walking source in r2 with j in r0, cnt in r1 and
  *   the load in r6. Plain `u32 *s` with `*s++` (every spelling) gave j=r1, cnt=r2, s=r3, load r0
  *   (51 bytes); indexed `s[j]` gave `ldr r6,[r2,r4]` (1 byte). Same shape in both lang c99 and c.
@@ -971,17 +927,17 @@ void BTL_SERVER_CollectReplies(BtlServer *server)
     u32 j;
     u32 size;
     u32 count;
-    BtlServerWord *src;
+    const union BtlAction *src;
     BtlServerClient *client;
     for (i = 0; i < 4; i++) {
         client = &server->clients[i];
-        server->replyCount[i] = 0;
+        server->replies.count[i] = 0;
         if (BTL_SERVER_IsClientSlotUsed(client) != 0) {
             src = BTL_ADAPTER_GetSendBuffer(client->adapter, &size);
             count = size >> 2;
             for (j = 0; j < count; j++) {
-                server->reply[i].word[j] = *src++;
-                server->replyCount[i]++;
+                server->replies.action[i][j] = *src++;
+                server->replies.count[i]++;
             }
         }
     }
@@ -1073,14 +1029,14 @@ int BTL_SERVER_IsClientUsed(BtlServer *server, u8 index) { if (index < 4) return
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: adds r0, r0, r1; adds r0, #0x30; ldrb r0, [r0]; bx lr.
  */
-u8 BTL_SERVER_GetActionTableValue(BtlServerActionTable *table, u8 index) { return table->value[index]; }
+u8 BTL_SERVER_GetActionTableValue(BtlServerActionTable *table, u8 index) { return table->count[index]; }
 
 /* 021BB8B0  movs r3,#0xc; muls r3,r1,r3; lsls r1,r2,#2; adds r0,r0,r3;
  *           ldr r0,[r1,r0] */
 /*
  * Leaf with no calls and no pool; 6 instructions, 12 bytes: movs r3, #0xc; muls r3, r1, r3; lsls r1, r2, #2; adds r0, r0, r3; ldr r0, [r1, r0]; bx lr.
  */
-Action BTL_SERVER_GetActionTableEntry(BtlServerActionTable *table, u8 row, u8 column)
+union BtlAction BTL_SERVER_GetActionTableEntry(BtlServerActionTable *table, u8 row, u8 column)
 {
     return table->action[row][column];
 }

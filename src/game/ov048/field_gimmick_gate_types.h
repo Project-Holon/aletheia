@@ -28,7 +28,7 @@ struct ConfigSave;
 struct MiscSave;
 struct ExtraSaveRecord;
 struct GimmickObjElboard;
-struct StrBuf;
+struct Strbuf;
 typedef struct FieldMap FieldMap;
 
 /* Work id of the gate work in the field map work table. */
@@ -139,14 +139,5 @@ typedef struct GateElboardSetup {
     G3dObject *model;                   /* 0x08: board model of the expansion object */
 } GateElboardSetup;
 
-/* An entry of a list of values from a save (0x1c bytes). */
-typedef struct GateListEntry {
-    struct StrBuf *nameStr;             /* 0x00 */
-    struct StrBuf *placeStr;            /* 0x04 */
-    s32 extraA;                         /* 0x08 */
-    s32 extraB;                         /* 0x0C */
-    u16 entryId;                        /* 0x10: the value the board shows */
-    u8 rest[10];                        /* 0x12 */
-} GateListEntry;
 
 #endif

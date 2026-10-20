@@ -1,6 +1,8 @@
 #ifndef ALETHEIA_OV010_COMM_PLAYER_TYPES_H
 #define ALETHEIA_OV010_COMM_PLAYER_TYPES_H
 
+#include "../sdk_fx.h"
+
 /*
  * Position package of one player, exchanged between players (comm_player.c
  * and the union room and colosseum code). The including file must define

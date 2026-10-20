@@ -121,7 +121,6 @@
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
  */
 #define REG3D (*(volatile unsigned short *)0x04000060)
-struct BgTemplate;
 struct Obj;
 struct Proc;
 struct GfFont;
@@ -139,6 +138,9 @@ struct Actor;
 struct PtS;
 #include "../types.h"
 
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
+
 typedef struct {u32 id;u8 cfg[32];u32 type,enable;} Row;
 
 typedef struct {u32 a,b,c;} Assets;
@@ -147,7 +149,7 @@ typedef enum { BG_MODE0=0, BG_MODE1=1 } BGMode;
 
 typedef enum { LAYER_FIRST=0,LAYER_LIMIT=1 } Layer;
 
-struct Vec2 { short x; short y; };
+struct ChihouZukanAwardVec2 { short x; short y; };
 
 /* Caller input, the third Init argument. */
 struct ChihouZukanAwardArgs {
@@ -179,103 +181,45 @@ typedef enum Bool { BOOL_FALSE=0,BOOL_TRUE=1 } Bool;
 
 #include "../sdk_gx.h"
 
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
 extern void MI_CpuFill8(void*,int,u32);
 extern void *CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32,u32);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern void BG_SYS_SetPriority(int,u16);
-extern void *GFL_USE_AddMainTask(u32,void*,u32);
+#include "../arm9/printsys.h"
+#include "../arm9/gfl_use.h"
 struct GameData;
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+#include "../arm9/game_data.h"
 extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),GXS_SetGraphicsMode(BGMode);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(u8);
-extern void BG_SYS_SetPlaneVisible(u8,u8);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void*,u32,u32,u32,u32,u16);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void*,u32,u32,u32,u32,u32,u16);
-extern void ARC_TOOL_DeleteHandle(void*);
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
 extern void FADE_Start(u32,int,int,int),BG_SYS_PushTile(u32),GFL_NET_RefreshWmIconAtTopRight(u32,u32),GFL_USE_FadeOutBgm(u32);
-extern void BG_SYS_FreeLayerBuf(u32 i);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
+#include "../arm9/tcb_list.h"
 extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(char *);
-extern void PROCSYS_FreeProcWork(struct Proc *);
-extern void GFL_HEAP_DeleteChecked(unsigned int);
+#include "../arm9/gfl_heap_wrap.h"
 extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
-extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPaused(unsigned int value);
-extern int GFL_USE_PushBgm(void);
-extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
-extern int GFL_USE_IsBgmPlaying(void);
-extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_FadeInBgmFull(u32);
-extern void FADE_Start(u32,int,int,int);
-extern int FADE_IsActive(void);
-extern u32 KEY_GetTrg(void);
-extern void UI_SetInputMode(unsigned char);
-extern u32 TOUCHPANEL_GetPointTrg(u32*,u32*);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void BG_SYS_PushTile(unsigned);
-extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/fade.h"
+#include "../arm9/key.h"
+#include "../arm9/ui.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/msgdata.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+#include "../arm9/bmp_win.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32);
-extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern unsigned PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char*,u16);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_LoadPltt(u32,void*,u32,u32);
-extern u16 BMP_WIN_GetCharOffset(struct BmpWin *win);
-extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
 extern unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p);
-extern struct Obj *CLACT_CreateActor(void *,unsigned,unsigned,unsigned,const void *,unsigned short,unsigned short);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern unsigned BG_SYS_GetScrollY(unsigned);
-extern void BG_SYS_ChangeScroll(unsigned,unsigned,unsigned);
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
-extern void G3X_SetFog(BOOL,int,int,int);
-extern void G3X_SetClearColor(unsigned short,int,int,int,BOOL);
+struct ClactActor;
+struct ClactVec2;
+#include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
+#include "../arm9/g3d_system.h"
 int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input);
 int CHIHOU_ZUKAN_AWARD_Exit(void *owner,void *unused1,void *unused2,char *p);
 int CHIHOU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p);
@@ -298,7 +242,7 @@ extern Assets tbl_021BA2C0[];
 extern const unsigned d_021BA148[][11];
 extern const u8 d_021BA174[];
 extern char d_021BA2D8[];
-extern struct Vec2 d_021BA140;
+extern struct ChihouZukanAwardVec2 d_021BA140;
 extern const unsigned short d_021BA200[][4];
 
 int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
@@ -320,7 +264,7 @@ int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
  *(u32*)(p+16)=(unsigned int)PRINTSYS_QUE_Create((unsigned int)*(u16*)p);
  BG_SYS_SetPriority(1,1);BG_SYS_SetPriority(2,0);
- *(void**)(p+20)=GFL_USE_AddMainTask((u32)CHIHOU_ZUKAN_AWARD_Task,p,1);
+ *(void**)(p+20)=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((u32)CHIHOU_ZUKAN_AWARD_Task),(void *)p,1);
  CHIHOU_ZUKAN_AWARD_LoadBgAssets((struct ChihouZukanAwardWork *)p);CHIHOU_ZUKAN_AWARD_SetupWindows((struct ChihouZukanAwardWork *)p);CHIHOU_ZUKAN_AWARD_SetupTiles((struct ChihouZukanAwardWork *)p);CHIHOU_ZUKAN_AWARD_CreateActor((struct ChihouZukanAwardWork *)p);
  settings=(char *)GAME_DATA_GetMyStatus(*(void**)(*(char**)(p+4)));
  *(volatile u16*)0x04001050=i;
@@ -519,14 +463,14 @@ void CHIHOU_ZUKAN_AWARD_CreateActor(struct ChihouZukanAwardWork *p)
     p->charId=CLACT_RegisterCharacter((void *)((unsigned)h),3,0,0,p->heap);
     p->cellAnimId=CLACT_RegisterCellAnim((void *)((unsigned)h),8,9,p->heap);
     ARC_TOOL_DeleteHandle(h);
-    p->actor=CLACT_CreateActor((void *)CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor((char *)p->graphic),p->charId,p->paletteId,p->cellAnimId,&d_021BA140,0,p->heap);
-    CLACT_SetActorDrawEnable((struct Actor *)p->actor,1);
-    CLACT_SetActorAutoAnim((struct Actor *)p->actor,1);
+    p->actor=(struct Obj *)CLACT_CreateActor((void *)CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor((char *)p->graphic),p->charId,p->paletteId,p->cellAnimId,(struct ActorInitParam *)(&d_021BA140),0,p->heap);
+    CLACT_SetActorDrawEnable((struct ClactActor *)p->actor,1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)p->actor,1);
 }
 
 void CHIHOU_ZUKAN_AWARD_DeleteActor(struct ChihouZukanAwardWork *p)
 {
-    CLACT_DeleteActor((struct Actor *)p->actor);
+    CLACT_DeleteActor((struct ClactActor *)p->actor);
     CLACT_ReleaseCellAnim(p->cellAnimId);
     CLACT_ReleaseCharacter(p->charId);
     CLACT_ReleasePalette(p->paletteId);
@@ -542,14 +486,14 @@ void CHIHOU_ZUKAN_AWARD_DeleteActor(struct ChihouZukanAwardWork *p)
 void CHIHOU_ZUKAN_AWARD_SetupActorPos(char *p)
 {
     if(*(unsigned *)(*(unsigned char **)(p+4)+4)==0) {
-        struct Vec2 v;
+        struct ChihouZukanAwardVec2 v;
         short *t;
         BG_SYS_ChangeScrollImmediate(1,3,0x40);
         BG_SYS_ChangeScrollImmediate(2,3,0x40);
         t=(short *)&d_021BA140;
         v.x=t[0];
         v.y=t[1]-64;
-        CLACT_AddActorSurfacePos(*(struct Obj **)(p+0x54),&v,0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct Obj **)(p+0x54)),(const struct ClactVec2 *)&v,0);
         p[0x44]=0;
     }
 }
@@ -561,13 +505,13 @@ void CHIHOU_ZUKAN_AWARD_UpdateActor(struct ChihouZukanAwardWork *p)
     amount=BG_SYS_GetScrollY(1);
     if(!amount) return;
     if(p->countdown==0) {
-        struct Vec2 pair;
+        struct ChihouZukanAwardVec2 pair;
         if(amount>=2) amount=2;
         BG_SYS_ChangeScroll(1,5,amount);
         BG_SYS_ChangeScroll(2,5,amount);
-        CLACT_GetActorSurfacePos((struct Actor *)p->actor,(struct PtS *)&pair,0);
+        CLACT_GetActorSurfacePos((struct ClactActor *)p->actor,(struct ClactVec2 *)&pair,0);
         pair.y+=(short)amount;
-        CLACT_AddActorSurfacePos(p->actor,&pair,0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)p->actor,(const struct ClactVec2 *)&pair,0);
         p->countdown=0;
         return;
     }

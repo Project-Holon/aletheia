@@ -36,7 +36,7 @@
 
 struct ScrcmdWork;
 struct GameSystem;
-struct Tcb;
+struct TcbTask;
 
 /*
  * Camera turn state of SCRCMD_C03CENTER_TurnCameraToQuarter (0x10 bytes, heap block owned by the
@@ -56,33 +56,25 @@ typedef struct FieldCameraDirection {
 } FieldCameraDirection;
 struct ScriptWork;
 
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
+#include "../ov010/scrcmd_work.h"
 struct GameData;
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
 struct ScriptVm;
-extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+#include "../ov010/script_work_cmd.h"
 struct MmdlSys;
-extern void FLDMMDL_SetAreaIdRef(struct MmdlSys *sys, u16 *areaIdRef);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
+#include "../ov010/fldmmdl.h"
+#include "../arm9/gamesystem.h"
 struct FieldMap;
-struct TcblSys;
-extern struct TcblSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+struct TcbSystem;
+#include "fieldmap.h"
 struct FieldCamera;
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern u16 *FIELD_CAMERA_GetViewYawPtr(struct FieldCamera *camera);
+#include "field_camera.h"
 struct FieldCameraView;
-extern struct FieldCameraView *FIELD_CAMERA_GetMoveGoal(struct FieldCamera *camera);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 struct TcbSystem;
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*)(), void *work, u32 priority);
-extern u32 GFL_HEAP_Free(void *p);
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork *work);
-void SCRCMD_C03CENTER_CameraTurnTaskMain(struct Tcb *tcb, CameraTurnTask *turn);
+void SCRCMD_C03CENTER_CameraTurnTaskMain(struct TcbTask *tcb, CameraTurnTask *turn);
 extern const char sScrcmdC03centerFileName[];
 extern u16 gCameraTurnAngle;
 /* Second name for the same object: the pool needs a separate literal for the address handed to the map model system. */
@@ -142,12 +134,12 @@ int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork 
     }
     turn->frame = 0;
     turn->frameCount = frameCount;
-    TCB_AddTask((struct TcbSystem *)tcbSys, SCRCMD_C03CENTER_CameraTurnTaskMain, turn, 0);
+    TCB_AddTask((struct TcbSystem *)tcbSys, (TcbFunc)SCRCMD_C03CENTER_CameraTurnTaskMain, turn, 0);
     return 0;
 }
 
 /* TCB function: advances the camera angle by one step of the turn. */
-void SCRCMD_C03CENTER_CameraTurnTaskMain(struct Tcb *tcb, CameraTurnTask *turn)
+void SCRCMD_C03CENTER_CameraTurnTaskMain(struct TcbTask *tcb, CameraTurnTask *turn)
 {
     turn->frame++;
     gCameraTurnAngle = (turn->angleDelta * turn->frame) / turn->frameCount;

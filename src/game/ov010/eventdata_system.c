@@ -149,28 +149,36 @@ typedef struct EventDataSystem {
 
 #include "../sdk_fx.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern void ARC_TOOL_DeleteHandle(void *arc);
-extern u32 GFL_HEAP_Free(void *block);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_tool.h"
 struct EncountRow;
-extern int FIELD_ENCOUNT_ST_LoadEncountData(struct EncountRow *row, struct ArcFile *arc, u32 zoneId, s32 seasonIndex);
+#include "field_encount_st.h"
 extern unsigned ZONEDATA_GetEventDataId(unsigned);
 struct ArcHandle;
-extern unsigned ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 struct Location;
 extern void ZONEDATA_InitLocation(struct Location *loc);
-extern void ZONEDATA_SetExitLocation(int *, u16, s16, u16, int, unsigned, unsigned, unsigned);
-extern void ZONEDATA_SetExitRailLocation(int *, u16, s16, u16, int, u16, u16, s16);
-extern int ZONEDATA_SetExitLocationIdOnly(int loc, int zoneId, int exitId, int exitOffset);
+#ifdef __MWERKS__
+extern void ZONEDATA_SetExitLocation(struct Location *loc, u16 zoneId, s16 exitId, u16 dir, s32 exitOffset, u32 x, u32 y, u32 z); /* original prototype; the definition differs in argument sign, argument width */
+#else
+extern void ZONEDATA_SetExitLocation(struct Location*, u16, u16, u16, u16, u32, u32, u32);
+#endif
+#ifdef __MWERKS__
+extern void ZONEDATA_SetExitRailLocation(struct Location *loc, u16 zoneId, s16 exitId, u16 dir, s32 exitOffset, u16 railIndex, u16 lineGrid, s16 widthGrid); /* original prototype; the definition differs in argument width */
+#else
+extern void ZONEDATA_SetExitRailLocation(struct Location*, u16, s32, u16, u16, u16, u16, s16);
+#endif
+#ifdef __MWERKS__
+extern void ZONEDATA_SetExitLocationIdOnly(struct Location *loc, int zoneId, int exitId, int exitOffset); /* original prototype; the definition differs in argument width */
+#else
+extern void ZONEDATA_SetExitLocationIdOnly(struct Location*, u16, u16, u16);
+#endif
 struct EventWork;
 extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
-extern u16 HIDDEN_ITEM_GetFlag(u16 id);
+#include "hidden_item.h"
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 extern u8 ZONEDATA_DirToRailKey(int m);
-extern u32 FX_Div(u32 a, u32 b);
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+#include "../arm9/fx_cp.h"
+#include "../arm9/mi_memory.h"
 EventDataSystem *EVENTDATA_SYSTEM_Create(int heapId);
 void EVENTDATA_SYSTEM_Delete(EventDataSystem *system);
 void EVENTDATA_SYSTEM_Clear(EventDataSystem *system);
@@ -180,18 +188,18 @@ void EVENTDATA_SYSTEM_LoadEncountData(EventDataSystem *system, int zoneId, int e
 u32 EVENTDATA_SYSTEM_GetSpecialScriptData(EventDataSystem *system);
 u32 EVENTDATA_SYSTEM_IsEncountDataLoaded(EventDataSystem *system);
 void EVENTDATA_SYSTEM_DisableConnect(EventDataSystem *system, u16 index);
-int EVENTDATA_SYSTEM_CheckAutoPosEvent(EventDataSystem *system, int *pos);
+int EVENTDATA_SYSTEM_CheckAutoPosEvent(EventDataSystem *system, VecFx32 *pos);
 void EVENTDATA_SYSTEM_ReadEventFile(EventDataSystem *system, int zoneId);
 void EVENTDATA_SYSTEM_ClearEventTables(EventDataSystem *system);
 u32 EVENTDATA_SYSTEM_GetEncountData(u32 systemAddr);
 u16 EVENTDATA_SYSTEM_GetConnectCount(EventDataSystem *system);
-int EVENTDATA_SYSTEM_SearchConnectIdByGridPos(EventDataSystem *system, const int *pos);
+int EVENTDATA_SYSTEM_SearchConnectIdByGridPos(EventDataSystem *system, const VecFx32 *pos);
 int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(EventDataSystem *system, RailLocation *location);
 ConnectData *EVENTDATA_SYSTEM_GetConnectData(const EventDataSystem *system, unsigned index);
 int EVENTDATA_SYSTEM_IsSpecialExitConnect(ConnectData *connect);
 int EVENTDATA_SYSTEM_SetConnectExitLocation(const EventDataSystem *system, int *exitInfo, int connectIndex, int exitOffset);
 void EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(ConnectData *connect, int exitInfo, int exitOffset);
-u16 EVENTDATA_SYSTEM_GetConnectGridExitOffset(ConnectData *connect, int *pos);
+u16 EVENTDATA_SYSTEM_GetConnectGridExitOffset(ConnectData *connect, VecFx32 *pos);
 u16 EVENTDATA_SYSTEM_GetConnectRailExitOffset(ConnectData *connect, RailLocation *location);
 int EVENTDATA_SYSTEM_IsConnectExitDir(ConnectData *connect, int dir);
 u8 EVENTDATA_SYSTEM_GetConnectExitType(ConnectData *connect);
@@ -203,33 +211,33 @@ void EVENTDATA_SYSTEM_SetNpcGridPos(EventDataSystem *system, u32 index, u16 dir,
 void EVENTDATA_SYSTEM_SetNpcObjCode(EventDataSystem *system, unsigned index, u16 objCode);
 void EVENTDATA_SYSTEM_SetNpcEventId(EventDataSystem *system, unsigned index, u16 eventId);
 u16 EVENTDATA_SYSTEM_DirToPosEventType(int mode);
-struct EventRec *EVENTDATA_SYSTEM_SearchPosEvent(EventDataSystem *system, void *eventWork, int *pos, int mode);
-struct EventRec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(EventDataSystem *system, void *eventWork, int *pos, int mode);
-struct EventRec *EVENTDATA_SYSTEM_SearchAutoPosEvent(EventDataSystem *system, void *eventWork, int *pos);
+struct EventRec *EVENTDATA_SYSTEM_SearchPosEvent(EventDataSystem *system, void *eventWork, VecFx32 *pos, int mode);
+struct EventRec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(EventDataSystem *system, void *eventWork, VecFx32 *pos, int mode);
+struct EventRec *EVENTDATA_SYSTEM_SearchAutoPosEvent(EventDataSystem *system, void *eventWork, VecFx32 *pos);
 struct EventRec *EVENTDATA_SYSTEM_SearchRailPosEvent(EventDataSystem *system, void *eventWork, RailLocation *location);
-u16 EVENTDATA_SYSTEM_GetPosEventScriptId(EventDataSystem *system, void *eventWork, int *pos, int mode);
-u16 EVENTDATA_SYSTEM_GetAutoPosEventScriptId(EventDataSystem *system, void *eventWork, int *pos);
+u16 EVENTDATA_SYSTEM_GetPosEventScriptId(EventDataSystem *system, void *eventWork, VecFx32 *pos, int mode);
+u16 EVENTDATA_SYSTEM_GetAutoPosEventScriptId(EventDataSystem *system, void *eventWork, VecFx32 *pos);
 u16 EVENTDATA_SYSTEM_GetRailPosEventScriptId(EventDataSystem *system, void *eventWork, RailLocation *location);
 u16 EVENTDATA_SYSTEM_SearchBgEventScriptId(EventDataSystem *system, void *eventFlags, const void *pos, u16 facing);
 u16 EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(EventDataSystem *system, void *eventFlags, const void *pos, u16 facing);
 u16 EVENTDATA_SYSTEM_SearchBgEventScriptIdHidden(EventDataSystem *system, void *eventFlags, const void *pos, u16 facing);
 void EVENTDATA_SYSTEM_GetConnectCenterPosThunk(const ConnectData *connect, VecFx32 *pos);
-void EVENTDATA_SYSTEM_GetPosEventCenterPosThunk(const struct EventRec *event, int *pos);
+void EVENTDATA_SYSTEM_GetPosEventCenterPosThunk(const struct EventRec *event, VecFx32 *pos);
 void EVENTDATA_SYSTEM_SetBgEventGridPos(const EventDataSystem *system, u32 index, u32 gridX, u32 height, u16 gridZ);
 u16 EVENTDATA_SYSTEM_CalcExitOffset(int exitInfo, int playerDir, int isRail, int flipMode, u16 arrivalSize);
-u16 EVENTDATA_SYSTEM_CalcConnectGridExitOffset(ConnectData *connect, int *pos);
+u16 EVENTDATA_SYSTEM_CalcConnectGridExitOffset(ConnectData *connect, VecFx32 *pos);
 u16 EVENTDATA_SYSTEM_CalcConnectRailExitOffset(ConnectData *connect, RailLocation *location);
 int EVENTDATA_SYSTEM_ConnectExitDirToDir(ConnectData *connect);
-void EVENTDATA_SYSTEM_GetConnectExitGridPos(ConnectData *connect, int exitOffset, int *pos);
+void EVENTDATA_SYSTEM_GetConnectExitGridPos(ConnectData *connect, int exitOffset, VecFx32 *pos);
 void EVENTDATA_SYSTEM_GetConnectCenterPos(const ConnectData *connect, VecFx32 *pos);
-int EVENTDATA_SYSTEM_IsConnectGridHit(const ConnectData *connect, const int *pos);
+int EVENTDATA_SYSTEM_IsConnectGridHit(const ConnectData *connect, const VecFx32 *pos);
 void EVENTDATA_SYSTEM_GetConnectExitRailLocation(const ConnectData *connect, int exitOffset, RailLocation *location);
 int EVENTDATA_SYSTEM_IsConnectRailHit(ConnectData *connect, RailLocation *location);
 int EVENTDATA_SYSTEM_IsBgEventGridHit(BgEventData *bg, const VecFx32 *pos);
 int EVENTDATA_SYSTEM_IsBgEventRailHit(BgEventData *bg, const RailLocation *location);
-void EVENTDATA_SYSTEM_GetPosEventCenterPos(const struct EventRec *event, int *pos);
-int EVENTDATA_SYSTEM_IsPosEventGridHit(struct EventRec *event, int *pos);
-int EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight(struct EventRec *event, int *pos);
+void EVENTDATA_SYSTEM_GetPosEventCenterPos(const struct EventRec *event, VecFx32 *pos);
+int EVENTDATA_SYSTEM_IsPosEventGridHit(struct EventRec *event, VecFx32 *pos);
+int EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight(struct EventRec *event, VecFx32 *pos);
 int EVENTDATA_SYSTEM_IsPosEventRailHit(struct EventRec *event, RailLocation *location);
 extern char d_0217299C[];
 
@@ -329,7 +337,7 @@ void EVENTDATA_SYSTEM_DisableConnect(EventDataSystem *system, u16 index)
     }
 }
 
-int EVENTDATA_SYSTEM_CheckAutoPosEvent(EventDataSystem *system, int *pos)
+int EVENTDATA_SYSTEM_CheckAutoPosEvent(EventDataSystem *system, VecFx32 *pos)
 {
     struct EventRec *event = system->posEvents;
     u16 count;
@@ -432,7 +440,7 @@ u16 EVENTDATA_SYSTEM_GetConnectCount(EventDataSystem *system)
 /*
  * note: same shape as EVENTDATA_SYSTEM_SearchConnectIdByRailLocation with the callee EVENTDATA_SYSTEM_IsConnectGridHit.
  */
-int EVENTDATA_SYSTEM_SearchConnectIdByGridPos(EventDataSystem *system, const int *pos)
+int EVENTDATA_SYSTEM_SearchConnectIdByGridPos(EventDataSystem *system, const VecFx32 *pos)
 {
     int i;
     ConnectData *connect;
@@ -493,18 +501,18 @@ int EVENTDATA_SYSTEM_SetConnectExitLocation(const EventDataSystem *system, int *
     if (connect->exitId == 0x100) *exitInfo = 3;
     else *exitInfo = 2;
     if (connect->posType == 0) {
-        EVENTDATA_SYSTEM_GetConnectExitGridPos(connect, exitOffset, (int *)(&gridPos));
-        ZONEDATA_SetExitLocation(exitInfo, system->zoneId, connectIndex, connect->exitDir, exitOffset, gridPos.x, gridPos.y, gridPos.z);
+        EVENTDATA_SYSTEM_GetConnectExitGridPos(connect, exitOffset, &gridPos);
+        ZONEDATA_SetExitLocation((struct Location *)exitInfo, system->zoneId, (s16)connectIndex, connect->exitDir, (s32)exitOffset, gridPos.x, gridPos.y, gridPos.z);
     } else {
         EVENTDATA_SYSTEM_GetConnectExitRailLocation(connect, exitOffset, &railPos);
-        ZONEDATA_SetExitRailLocation(exitInfo, system->zoneId, connectIndex, connect->exitDir, exitOffset, railPos.railIndex, railPos.lineGrid, railPos.widthGrid);
+        ZONEDATA_SetExitRailLocation((struct Location *)exitInfo, system->zoneId, (s16)connectIndex, connect->exitDir, (s32)exitOffset, railPos.railIndex, railPos.lineGrid, railPos.widthGrid);
     }
     return 1;
 }
 
 void EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(ConnectData *connect, int exitInfo, int exitOffset)
 {
-    ZONEDATA_SetExitLocationIdOnly(exitInfo, connect->zoneId, connect->exitId, exitOffset);
+    ZONEDATA_SetExitLocationIdOnly((struct Location *)exitInfo, connect->zoneId, connect->exitId, exitOffset);
 }
 
 /*
@@ -516,7 +524,7 @@ void EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(ConnectData *connect, int exi
  *
  * Addresses are Black-image addresses.
  */
-u16 EVENTDATA_SYSTEM_GetConnectGridExitOffset(ConnectData *connect, int *pos)
+u16 EVENTDATA_SYSTEM_GetConnectGridExitOffset(ConnectData *connect, VecFx32 *pos)
 {
     return EVENTDATA_SYSTEM_CalcConnectGridExitOffset(connect, pos);
 }
@@ -643,7 +651,7 @@ u16 EVENTDATA_SYSTEM_DirToPosEventType(int mode) {
     switch(mode) { case 0: return 1; case 1: return 2; case 2: return 3; case 3: return 4; default: return 0; }
 }
 
-struct EventRec *EVENTDATA_SYSTEM_SearchPosEvent(EventDataSystem *system, void *eventWork, int *pos, int mode)
+struct EventRec *EVENTDATA_SYSTEM_SearchPosEvent(EventDataSystem *system, void *eventWork, VecFx32 *pos, int mode)
 {
     struct EventRec *event = system->posEvents;
     u16 workValue;
@@ -667,7 +675,7 @@ struct EventRec *EVENTDATA_SYSTEM_SearchPosEvent(EventDataSystem *system, void *
     return 0;
 }
 
-struct EventRec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(EventDataSystem *system, void *eventWork, int *pos, int mode)
+struct EventRec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(EventDataSystem *system, void *eventWork, VecFx32 *pos, int mode)
 {
     struct EventRec *event = system->posEvents;
     u16 workValue;
@@ -691,7 +699,7 @@ struct EventRec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(EventDataSystem *sy
     return 0;
 }
 
-struct EventRec *EVENTDATA_SYSTEM_SearchAutoPosEvent(EventDataSystem *system, void *eventWork, int *pos)
+struct EventRec *EVENTDATA_SYSTEM_SearchAutoPosEvent(EventDataSystem *system, void *eventWork, VecFx32 *pos)
 {
     struct EventRec *event = system->posEvents;
     u16 i;
@@ -731,9 +739,9 @@ struct EventRec *EVENTDATA_SYSTEM_SearchRailPosEvent(EventDataSystem *system, vo
     return 0;
 }
 
-u16 EVENTDATA_SYSTEM_GetPosEventScriptId(EventDataSystem *system, void *eventWork, int *pos, int mode) { u16 *event=(u16 *)EVENTDATA_SYSTEM_SearchPosEvent(system,eventWork,pos,mode); if(event) return *event; return 0xffff; }
+u16 EVENTDATA_SYSTEM_GetPosEventScriptId(EventDataSystem *system, void *eventWork, VecFx32 *pos, int mode) { u16 *event=(u16 *)EVENTDATA_SYSTEM_SearchPosEvent(system,eventWork,pos,mode); if(event) return *event; return 0xffff; }
 
-u16 EVENTDATA_SYSTEM_GetAutoPosEventScriptId(EventDataSystem *system, void *eventWork, int *pos) { u16 *event=(u16 *)EVENTDATA_SYSTEM_SearchAutoPosEvent(system,eventWork,pos); if(event) return *event; return 0xffff; }
+u16 EVENTDATA_SYSTEM_GetAutoPosEventScriptId(EventDataSystem *system, void *eventWork, VecFx32 *pos) { u16 *event=(u16 *)EVENTDATA_SYSTEM_SearchAutoPosEvent(system,eventWork,pos); if(event) return *event; return 0xffff; }
 
 u16 EVENTDATA_SYSTEM_GetRailPosEventScriptId(EventDataSystem *system, void *eventWork, RailLocation *location)
 {
@@ -843,7 +851,7 @@ void EVENTDATA_SYSTEM_GetConnectCenterPosThunk(const ConnectData *connect, VecFx
  * Unlabelled leaf (tail-call thunk, a .word run in the ov010 listing) to
  * EVENTDATA_SYSTEM_GetPosEventCenterPos.  Blocker of ov021 SCRCMD_WarpToPositionEvent.
  */
-void EVENTDATA_SYSTEM_GetPosEventCenterPosThunk(const struct EventRec *event, int *pos)
+void EVENTDATA_SYSTEM_GetPosEventCenterPosThunk(const struct EventRec *event, VecFx32 *pos)
 {
     EVENTDATA_SYSTEM_GetPosEventCenterPos(event, pos);
 }
@@ -939,15 +947,15 @@ clamp:
     return offset;
 }
 
-u16 EVENTDATA_SYSTEM_CalcConnectGridExitOffset(ConnectData *connect, int *pos)
+u16 EVENTDATA_SYSTEM_CalcConnectGridExitOffset(ConnectData *connect, VecFx32 *pos)
 {
     ConnectGridArea *grid;
     int dir = EVENTDATA_SYSTEM_ConnectExitDirToDir(connect);
     grid = &connect->area.grid;
     if (grid->sizeX > 1)
-        return (grid->sizeX << 4) | (((pos[0] >> 12) - grid->x) / 16) | (dir << 8);
+        return (grid->sizeX << 4) | (((pos->x >> 12) - grid->x) / 16) | (dir << 8);
     if (grid->sizeZ > 1)
-        return (grid->sizeZ << 4) | (((pos[2] >> 12) - grid->z) / 16) | (dir << 8);
+        return (grid->sizeZ << 4) | (((pos->z >> 12) - grid->z) / 16) | (dir << 8);
     return (dir << 8) | 0x10;
 }
 
@@ -1002,17 +1010,17 @@ int EVENTDATA_SYSTEM_ConnectExitDirToDir(ConnectData *connect)
     }
 }
 
-void EVENTDATA_SYSTEM_GetConnectExitGridPos(ConnectData *connect, int exitOffset, int *pos)
+void EVENTDATA_SYSTEM_GetConnectExitGridPos(ConnectData *connect, int exitOffset, VecFx32 *pos)
 {
     ConnectGridArea *grid = &connect->area.grid;
     int dir = EVENTDATA_SYSTEM_ConnectExitDirToDir(connect);
-    pos[0] = connect->area.grid.x << 12;
-    pos[1] = grid->y << 12;
-    pos[2] = grid->z << 12;
+    pos->x = connect->area.grid.x << 12;
+    pos->y = grid->y << 12;
+    pos->z = grid->z << 12;
     if (grid->sizeX > 1) {
-        pos[0] += EVENTDATA_SYSTEM_CalcExitOffset(exitOffset, dir, 0, 0, grid->sizeX) << 16;
+        pos->x += EVENTDATA_SYSTEM_CalcExitOffset(exitOffset, dir, 0, 0, grid->sizeX) << 16;
     } else if (grid->sizeZ > 1) {
-        pos[2] += EVENTDATA_SYSTEM_CalcExitOffset(exitOffset, dir, 0, 0, grid->sizeZ) << 16;
+        pos->z += EVENTDATA_SYSTEM_CalcExitOffset(exitOffset, dir, 0, 0, grid->sizeZ) << 16;
     }
 }
 
@@ -1040,7 +1048,7 @@ void EVENTDATA_SYSTEM_GetConnectCenterPos(const ConnectData *connect, VecFx32 *p
  * lever: assign the Sub_02162C54 pointer before the position loads; signed x0 has
  * the field's s16 width.
  */
-int EVENTDATA_SYSTEM_IsConnectGridHit(const ConnectData *connect, const int *pos)
+int EVENTDATA_SYSTEM_IsConnectGridHit(const ConnectData *connect, const VecFx32 *pos)
 {
     const ConnectGridArea *grid;
     s16 areaX;
@@ -1049,9 +1057,9 @@ int EVENTDATA_SYSTEM_IsConnectGridHit(const ConnectData *connect, const int *pos
     int gridX;
     if ((int)(connect->posType == 1)) return 0;
     grid = &connect->area.grid;
-    gridX = pos[0] >> 12;
-    gridY = pos[1] >> 12;
-    gridZ = pos[2] >> 12;
+    gridX = pos->x >> 12;
+    gridY = pos->y >> 12;
+    gridZ = pos->z >> 12;
     areaX = connect->area.grid.x;
     if (areaX <= gridX && areaX + (grid->sizeX - 1) * 16 >= gridX
         && grid->y - 2 <= gridY && grid->y + 2 >= gridY
@@ -1133,7 +1141,7 @@ int EVENTDATA_SYSTEM_IsBgEventRailHit(BgEventData *bg, const RailLocation *locat
 /*
  * lever: const source pointer hoists the last halfword load before the output store.
  */
-void EVENTDATA_SYSTEM_GetPosEventCenterPos(const struct EventRec *event, int *pos)
+void EVENTDATA_SYSTEM_GetPosEventCenterPos(const struct EventRec *event, VecFx32 *pos)
 {
     const u16 *areaWords = (const u16 *)event->area;
     int y, x, z;
@@ -1141,12 +1149,12 @@ void EVENTDATA_SYSTEM_GetPosEventCenterPos(const struct EventRec *event, int *po
     z = ((unsigned)areaWords[1] << 16) + z;
     y = ((const s16 *)areaWords)[4] << 12;
     x = FX_Div(areaWords[2] << 16, 0x2000);
-    pos[2] = z;
-    pos[0] = ((unsigned)event->area[0] << 16) + x;
-    pos[1] = y;
+    pos->z = z;
+    pos->x = ((unsigned)event->area[0] << 16) + x;
+    pos->y = y;
 }
 
-int EVENTDATA_SYSTEM_IsPosEventGridHit(struct EventRec *event, int *pos)
+int EVENTDATA_SYSTEM_IsPosEventGridHit(struct EventRec *event, VecFx32 *pos)
 {
     u16 *areaWords;
     int x, y, z;
@@ -1155,9 +1163,9 @@ int EVENTDATA_SYSTEM_IsPosEventGridHit(struct EventRec *event, int *pos)
         return 0;
     }
     areaWords = (u16 *)((u8 *)event + 10);
-    x = (pos[0] >> 4) / 0x1000;
-    z = (pos[2] >> 4) / 0x1000;
-    y = pos[1] >> 12;
+    x = (pos->x >> 4) / 0x1000;
+    z = (pos->z >> 4) / 0x1000;
+    y = pos->y >> 12;
     if (event->area[0] <= x && event->area[0] + areaWords[2] > x
         && areaWords[1] <= z && areaWords[1] + areaWords[3] > z
         && ((s16 *)areaWords)[4] - 2 <= y && ((s16 *)areaWords)[4] + 2 > y) {
@@ -1166,7 +1174,7 @@ int EVENTDATA_SYSTEM_IsPosEventGridHit(struct EventRec *event, int *pos)
     return 0;
 }
 
-int EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight(struct EventRec *event, int *pos)
+int EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight(struct EventRec *event, VecFx32 *pos)
 {
     u16 *areaWords;
     int x, z;
@@ -1175,8 +1183,8 @@ int EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight(struct EventRec *event, int *
         return 0;
     }
     areaWords = (u16 *)((u8 *)event + 10);
-    x = (pos[0] >> 4) / 0x1000;
-    z = (pos[2] >> 4) / 0x1000;
+    x = (pos->x >> 4) / 0x1000;
+    z = (pos->z >> 4) / 0x1000;
     if (event->area[0] <= x && event->area[0] + areaWords[2] > x
         && areaWords[1] <= z && areaWords[1] + areaWords[3] > z) {
         return 1;

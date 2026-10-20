@@ -8,7 +8,7 @@
 #include "../arm9/card_common.h"
 
 BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async);
-void CARDi_OldTypeTaskThread(void);
+void CARDi_OldTypeTaskThread(void *arg);
 BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg);
 void CARDi_EndTask(CARDiCommon *p);
 /* END mkheaders: generated region */

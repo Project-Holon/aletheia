@@ -65,29 +65,17 @@
  */
 #include "sc_types.h"
 
-extern int gsCoreIsShutdown(void);
-extern void gsCoreThink(unsigned int theMS);
-extern void *gsXmlCreateStreamWriter(const char **namespaces, int count);
-extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
-extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
-extern int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
-extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
-extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
-extern int gsXmlCloseWriter(void *stream);
-extern void gsXmlFreeWriter(void **writerRef);
-extern int gsXmlMoveToStart(void *stream);
-extern int gsXmlMoveToNext(void *stream, char *matchtag);
-extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
-extern int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
+#include "../ov009/gscore.h"
+#include "../ov009/gsxml.h"
 extern void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc,
                             void *theUserData);
 struct GSSoapTask;
 extern struct GSSoapTask *gsiExecuteSoapCustom(char *theURL, char *theService, void *theRequestSoap,
                                   GSSoapCallback theCallbackFunc, GSSoapRequestFunc theRequestFunc,
                                   void *theUserData);
-extern int ghiPostAddFileFromMemory(struct GHIPost *_post, char *name, char *buffer, int bufferLen,
-                                    char *reportFilename, char *contentType);
-extern int wsLoginCertWriteXML(GSLoginCertificate *theCertificate, char *theNamespace, void *theWriter);
+typedef int GHIPostingResult;
+#include "../ov114/ghttppost.h"
+#include "authservice.h"
 
 void sciWsCreateSessionCallback(int theHttpResult, void *theRequestSoap, void *theResponseData, void *theUserData);
 void sciWsSetReportIntentionCallback(int theHttpResult, void *theRequestSoap, void *theResponseData, void *theUserData);

@@ -133,19 +133,26 @@ struct TcbSystem;
 struct Node;
 struct Actor;
 struct Obj;
-struct DispVram;
 struct Cfg;
 struct Bank;
 struct CharBuf;
 struct Descriptor;
-struct DispConfig;
 struct GfFont;
-struct BgTemplate;
 struct MsgBank;
 struct U16Vec;
 struct S02030EE8;
 
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/fx_vec.h"
+#include "../arm9/printsys.h"
+#include "../arm9/procsys.h"
+#include "../arm9/tcb_list.h"
+#include "../arm9/touchpanel.h"
 #include "../types.h"
+
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys_types.h"
 
 typedef enum {OBJECT_SIZE=0x150} Size;
 enum Result {DONE=1};
@@ -266,15 +273,12 @@ extern u32 TCB_GetTaskOffset(u32);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 struct TcbSystem;
 extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
-extern void *GFL_USE_AddMainTask(u32,u32,u32);
+extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *),void *,u32);
 extern void GFL_USE_FadeOutBgm(u32 a);
-extern void TCB_DeleteTask(struct Node *n);
-extern void TCB_Noop(int);
 extern u32 GFL_HEAP_Free(void *p);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void GFL_USE_FadeInBgmFull(u32 a);
-extern void PROCSYS_ReplaceGlobal(u32 overlayId, u32 data, u32 procWork);
 struct TcbSystem;
 extern void TCB_Main(struct TcbSystem *sys);
 extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
@@ -282,8 +286,6 @@ extern u32 WIPE_SYS_EndCheck(void);
 extern int MICTEST_CheckTouchOrKey(void);
 extern u32 SND_MIC_IsLimitReached(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void WIPE_ResetWndMask(void *win);
@@ -291,26 +293,10 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void NNS_GfdDoVramTransfer(void);
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
-extern void CLACT_DrawSystem(void);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern u32 APP_ICON_GetArchiveId(void);
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
-extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
-extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
@@ -323,7 +309,6 @@ extern void BG_SYS_FreeLayerBuf(u32 v);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, u32 size, u32 heapID, u16 allocFlags);
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 extern void BG_SYS_Update(void);
 extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
@@ -335,7 +320,6 @@ extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 struct Strbuf;
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
@@ -354,13 +338,9 @@ extern int MIC_StartLimitedSampling(struct MICAutoParam *param);
 extern int MIC_StopLimitedSampling(void);
 extern u32 GFL_USE_GetRandom(u32 range);
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(), void *work, unsigned int priority);
 struct TcblSystem;
 extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 extern int GF_STANDARD_SinFromDegrees(u32 x);
-extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
-extern void VEC_Add(void *, void *, void *);
-extern int TOUCHPANEL_HitTrg(const void *p);
 extern u32 KEY_GetTrg(void);
 
 enum Result MICTEST_Create(struct Proc *proc);
@@ -380,7 +360,7 @@ void MICTEST_StepFinish(MictestState *self, int *state);
 void MICTEST_ResetDisplay(int unused);
 void MICTEST_ClearDisplay(void);
 void MICTEST_SetupVramBanks(void);
-void MICTEST_VBlank(void *unused, MictestWork *p);
+void MICTEST_VBlank(struct TcbTask *unused, void *p);
 void MICTEST_InitActorSystem(int unused, u32 heap);
 void MICTEST_ExitActorSystem(MictestWork *unused);
 void MICTEST_UpdateActors(MictestWork *p);
@@ -405,7 +385,7 @@ int MICTEST_LevelToAnim(u8 level);
 int MICTEST_AreAllSpritesIdle(MictestWork *p);
 int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner);
 void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x, s16 y, int speed, u32 angle, u32 radius, u32 wait);
-void MICTEST_UpdateSpriteTask(void *task, MictestMotion *p);
+void MICTEST_UpdateSpriteTask(struct TcbTask *task, void *work);
 void MICTEST_DeleteSpriteTasks(MictestWork *p);
 int MICTEST_TouchHit(void);
 int MICTEST_CheckTouchOrKey(void);
@@ -436,7 +416,7 @@ enum Result MICTEST_Create(struct Proc *proc)
     MICTEST_SetupVramBanks();
     p->heapHandle=GFL_HEAP_Alloc((u16)p->heapId,TCB_GetTaskOffset(5),0,d_02184A20,0x21d);
     p->taskCtx=TCB_Init(5,p->heapHandle);
-    p->node=GFL_USE_AddMainTask((u32)MICTEST_VBlank,(u32)p,1);
+    p->node=(struct Node *)GFL_USE_AddMainTask(MICTEST_VBlank, p,1);
     MICTEST_InitBg(&p->render,p->heapId);
     MICTEST_InitBgTiles(&p->render,p->heapId);
     MICTEST_CreateWindows(&p->render,p->heapId);
@@ -453,8 +433,8 @@ int MICTEST_Exit(int a, int b, int c, MictestWork *p)
     unsigned short v;
 
     MICTEST_ExitMic(&p->mic);
-    TCB_DeleteTask(p->node);
-    TCB_Noop((int)p->taskCtx);
+    TCB_DeleteTask((struct TcbTask *)p->node);
+    TCB_Noop(p->taskCtx);
     GFL_HEAP_Free(p->heapHandle);
     MICTEST_DeleteUnit(p);
     MICTEST_ExitActorSystem(p);
@@ -465,7 +445,7 @@ int MICTEST_Exit(int a, int b, int c, MictestWork *p)
     PROCSYS_FreeProcWork((struct Proc *)a);
     GFL_HEAP_DeleteChecked(v);
     GFL_USE_FadeInBgmFull(0xa);
-    PROCSYS_ReplaceGlobal((u32)ov088_id,(u32)d_021BD574,0);
+    PROCSYS_ReplaceGlobal((u32)ov088_id,(struct ProcData *)d_021BD574,0);
     return 1;
 }
 
@@ -564,7 +544,7 @@ void MICTEST_StepWaitAnim(MictestState *self, int *state)
         *state = 1;
         break;
     case 1:
-        if (CLACT_IsActorAnimActive((struct Actor *)work->actor[3]) == 0)
+        if (CLACT_IsActorAnimActive((struct ClactActor *)work->actor[3]) == 0)
             *state = 2;
         break;
     case 2:
@@ -624,8 +604,8 @@ void MICTEST_SetupVramBanks(void)
     BG_SYS_SetVramBanks((void *)0x021848D4);
 }
 
-void MICTEST_VBlank(void *unused, MictestWork *p)
-{
+void MICTEST_VBlank(struct TcbTask *unused, void *work_)
+{ MictestWork * p = work_;
     NNS_GfdDoVramTransfer();
     MICTEST_ActorVBlank(p);
     MICTEST_UpdateBg(&p->render);
@@ -660,7 +640,7 @@ void MICTEST_CreateActors(MictestWork *p, u16 heap)
     const MictestActorRow *r;
     const MictestActorRegView *view;
     i=0;
-    p->unit=CLACT_CreateUnit(32,0,heap);
+    p->unit=(struct Bank *)CLACT_CreateUnit(32,0,heap);
     first=ARC_TOOL_CreateHandle(106,heap);
     second=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),heap);
     p->animReg[0].palette=CLACT_RegisterPalette(first,6,0,0,heap);
@@ -679,7 +659,7 @@ void MICTEST_CreateActors(MictestWork *p, u16 heap)
     ARC_TOOL_DeleteHandle(first);
     do{
         r=&d_02184910[i];
-        p->actor[i]=CLACT_CreateActor(p->unit,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->character,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->palette,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->cell,&d_021848AC[r->config],r->id,heap);
+        p->actor[i]=CLACT_CreateActor((struct Unit *)p->unit,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->character,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->palette,((MictestAnimReg *)((u8 *)p + r->group * 4 + 0x20))->cell,(struct ActorInitParam *)(&d_021848AC[r->config]),r->id,heap);
         CLACT_SetActorAutoAnim(p->actor[i],1);
         ++i;
     }while(i<7);
@@ -689,7 +669,7 @@ void MICTEST_CreateActors(MictestWork *p, u16 heap)
     p->messageTimer=10;
 }
 
-void MICTEST_DeleteUnit(MictestWork *p) { CLACT_DeleteUnit(p->unit); }
+void MICTEST_DeleteUnit(MictestWork *p) { CLACT_DeleteUnit((struct Unit *)p->unit); }
 
 void MICTEST_ActorVBlank(void *unused) { CLACT_VBlankSystem(); }
 
@@ -954,8 +934,8 @@ void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x
     o->angle = 0;
     o->step = 0x6000;
     o->radius = radius;
-    CLACT_SetActorPosAxis((struct Actor *)o->actor, x, 0);
-    CLACT_SetActorPosAxis((struct Actor *)o->actor, y, 1);
+    CLACT_SetActorPosAxis((struct ClactActor *)o->actor, x, 0);
+    CLACT_SetActorPosAxis((struct ClactActor *)o->actor, y, 1);
 }
 
 /*
@@ -963,8 +943,9 @@ void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x
  * Verified blocker C copied from GURU2_MAIN_UpdateRecordPosition.c;
  * the 0203F5FC blocker log reports EXACT, 64 bytes:
  */
-void MICTEST_UpdateSpriteTask(void *task, MictestMotion *p)
+void MICTEST_UpdateSpriteTask(struct TcbTask *task, void *work)
 {
+    MictestMotion *p = work;
     s16 x;
     s16 y;
     int angle;
@@ -974,7 +955,7 @@ void MICTEST_UpdateSpriteTask(void *task, MictestMotion *p)
             CLACT_SetActorDrawEnable(p->actor, 1);
         return;
     }
-    VEC_Add(&p->x, &p->vx, &p->x);
+    VEC_Add((struct VecFx32 *)(&p->x), (struct VecFx32 *)(&p->vx), (struct VecFx32 *)(&p->x));
     x = p->x >> 12;
     y = p->y >> 12;
     p->angle += p->step;

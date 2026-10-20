@@ -36,45 +36,40 @@
  *   GFL_NET_SendToHandle  0x0203D3A8  arm
  *   GFL_NET_SYSTEM_GetCurrentAid  0x02039338  arm
  */
-struct Req;
-struct NetHandle;
+struct GFLNetInitializeStruct;
+
 struct Sub0200852CObj;
+struct GFLNetInitializeStruct;
 #include "../types.h"
 
 #include "../ov021/bsubway_scr_types.h"
 
-extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
+#include "../arm9/net.h"
 struct GameData;
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
-extern void OS_GetMacAddress(u8 *macAddress);
-extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
-void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
-extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern int GFL_NET_StartTimingSync();
+#include "../arm9/game_data.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/os_ownerinfo.h"
+#include "../arm9/net_command.h"
 struct GFLNetHandle;
-extern u32 GFL_NET_CheckTimingSync(struct GFLNetHandle *handle, u32 timingNo);
 struct BsubwayScrWork;
-extern void *BSUBWAY_SCR_GetParty(struct BsubwayScrWork *work);
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+#include "../ov021/bsubway_scr.h"
 struct Party;
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern u16 BSUBWAY_SCR_GetWinCount(struct BsubwayScrWork *work);
-extern u16 BSUBWAY_SCR_GetStageNo(u16 v);
-extern void MI_CpuCopy8(void *dst, void *src, int n);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, u32 command, u32 size, void *data);
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+#include "../arm9/pokeparty.h"
+#include "../arm9/poke_tool.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/net_err.h"
+#include "../arm9/net_system.h"
+#include "../arm9/net_handle.h"
+struct GFLNetHandle;
 void BSUBWAY_COMM_NetInit(void *arg);
 void *BSUBWAY_COMM_GetBeaconData(BsubwayScrWork *work);
 int BSUBWAY_COMM_GetBeaconSize(void);
 int BSUBWAY_COMM_CheckConnectService(int a, int b);
 void BSUBWAY_COMM_AddCommandTable(u32 work);
 void BSUBWAY_COMM_DeleteCommandTable(void *work);
-int BSUBWAY_COMM_StartTimingSync(int timingNo);
+void BSUBWAY_COMM_StartTimingSync(u16 timingNo);
 int BSUBWAY_COMM_CheckTimingSync(int timingNo);
 void BSUBWAY_COMM_SetSendPlayerData(BsubwayScrWork *work, void *gameData);
 void BSUBWAY_COMM_SetSendTrainerData(BsubwayScrWork *work);
@@ -104,7 +99,7 @@ extern const u32 d_02171FD4[];
  */
 void BSUBWAY_COMM_NetInit(void *arg)
 {
-    GFL_NET_StartSession((struct Req *)d_02172014, 0, (u32)arg);
+    GFL_NET_StartSession((struct GFLNetInitializeStruct *)d_02172014, 0, (u32)arg);
 }
 
 /*
@@ -156,15 +151,15 @@ void BSUBWAY_COMM_DeleteCommandTable(void *work)
 }
 
 /* Starts the timing sync timingNo on the current net handle. */
-int BSUBWAY_COMM_StartTimingSync(int timingNo)
+void BSUBWAY_COMM_StartTimingSync(u16 timingNo)
 {
-    return GFL_NET_StartTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), timingNo);
+    GFL_NET_StartTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), timingNo);
 }
 
 /* Checks the timing sync timingNo on the current net handle. */
 int BSUBWAY_COMM_CheckTimingSync(int timingNo)
 {
-    return GFL_NET_CheckTimingSync((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), timingNo);
+    return GFL_NET_CheckTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), timingNo);
 }
 
 /* Player data: own sex, the species of the two chosen members and the stage. */
@@ -273,7 +268,7 @@ int BSUBWAY_COMM_SendData(BsubwayScrWork *work)
     command = work->sendCommand;
     if (command >= 0x2C08)
         return 1;
-    if (GFL_NET_SendToHandle((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), command, 0x46, (void *)work->sendBuf.raw) == 1)
+    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), command, 0x46, (void *)work->sendBuf.raw) == 1)
         return 1;
     return 0;
 }

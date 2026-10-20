@@ -50,22 +50,22 @@ typedef struct CalenderWork {
     CalenderZoneEntry zones[CALENDER_ZONE_MAX];
 } CalenderWork;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern void ARC_TOOL_DeleteHandle(void *handle);
 
-extern int FIELD_CLOCK_GetMonth(struct GameData *gameData);
+#include "field_clock.h"
 
-extern int FIELD_CLOCK_GetDay(struct GameData *gameData);
 
-extern u8 ZONEDATA_GetWeatherId(u32 zoneId);
+#ifdef __MWERKS__
+extern u8 ZONEDATA_GetWeatherId(u32 zoneId); /* original prototype; the definition differs in return type */
+#else
+extern u32 ZONEDATA_GetWeatherId(u32);
+#endif
 struct ArcHandle;
 
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 
 extern const char CalenderFileName[];
 
@@ -175,7 +175,7 @@ u8 CALENDER_GetWeatherOnDate(CalenderWork *calender, u32 zoneId, u8 month, u8 da
     u16 position;
 
     if (zoneOffset == 0xffff) {
-        return ZONEDATA_GetWeatherId(zoneId);
+        return (u8)ZONEDATA_GetWeatherId(zoneId);
     }
     position = zoneOffset + CALENDER_GetDayOfYear(month, day);
     ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)calender->arc, 0, position, 1, &weather);

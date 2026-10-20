@@ -103,7 +103,7 @@
  *   DWCi_STRlNLen                    0x021D7200  arm
  *   MI_CpuFill8                      0x02082BCC  arm
  *   DWCi_SBlEnable                   0x021CE9B8  arm
- *   DWCi_SBlSet                      0x021CE9AC  arm
+ *   DWCi_SBlDisp                      0x021CE9AC  arm
  *   DWCi_TSKlDelete                  0x021D7724  arm
  *   DWCi_FOCUSlDisp                  0x021BD41C  arm
  *   taskDown   0x021C61A4   arm
@@ -114,20 +114,17 @@
  *   DWCi_WINlIsInit                  0x021D157C  arm
  */
 #include "../../matched/include/G_SCENEMENU_BSS.h"
+#include "../sdk_ioreg.h"
+#include "../arm9/gx_load2d.h"
 #include "../../matched/include/G_SCENESETAPLIST_BSS.h"
 
 typedef _Bool bool;
 
-typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
+#include "dwcutil_types.h"
 
 #include "gx_oam_types.h"
 
-typedef struct tagAPINFO {
-    unsigned char  ssid[32];          /* 0x00 */
-    unsigned char  bssid[6];          /* 0x20 */
-    unsigned short level;             /* 0x26 */
-    unsigned char  wep;               /* 0x28 */
-} APINFO;
+#include "dwcutil_types.h"
 
 typedef struct tagMEMSSAL {
     APINFO        *info;              /* 0x00 */
@@ -204,83 +201,41 @@ typedef struct { unsigned char v[2]; } PALETTE_INIT;
 
 typedef struct { unsigned char v[1]; } SSAL_N1;
 
-extern void DWCi_ARClRelease(void *file);
-extern void DWCi_BTNlDisable(void);
-extern void DWCi_BTNlEnable(void);
-extern void DWCi_BTNlEnd(void);
-extern s8 DWCi_BTNlGet(void);
-extern int DWCi_BTNlIsEnd(void);
-extern void DWCi_BTNlSet(s8 v);
-extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
-extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
-extern void DWCi_CMNlStep(int step);
-extern int DWCi_COMMENTlDelete(void);
-extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
-extern void DWCi_ChangeScene(u32 v);
+#include "archive.h"
+#include "button.h"
+#include "cellinfo.h"
+#include "common.h"
+#include "comment.h"
+#include "dwcutil_main.h"
 extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
 struct Canvas;
-extern void DWCi_FNTlClear(struct Canvas *cnv, s32 color);
-extern void DWCi_FNTlDeleteBg(void *canvas);
-extern void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval, unsigned short *txt, int font);
-extern void *DWCi_FNTlFormBgEx(int lcd, int font);
-extern void DWCi_FNTlRenewBg(int x);
-extern void DWCi_FOCUSlDelete(void);
-extern void DWCi_FOCUSlDisp(int kind, int x0, int x1, int y);
-extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void DWCi_HLlLoadSet(void);
-extern int DWCi_IPTlCheckRelease(unsigned int f);
-extern int DWCi_IPTlCheckRepeat(unsigned int f);
-extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern void DWCi_OBJlDelete(unsigned int *obj);
-extern void DWCi_SBlDisable(void);
-extern void DWCi_SBlEnable(void);
-extern void DWCi_SBlEnd(void);
-extern unsigned char DWCi_SBlGet(void);
-extern unsigned char DWCi_SBlGetState(void);
-extern void DWCi_SBlInit(int kind, int max, int x, int y, int pos);
-extern void DWCi_SBlSet(int pos);
-extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
-extern void DWCi_SCREENlEnd(void);
-extern void DWCi_SEARCHlEnd(void);
-extern int DWCi_SEARCHlGetApInfo(APINFO **info);
-extern char *DWCi_SETTIGNlGet(void);
-extern void DWCi_SETTINGlSetSetting(int idx);
-extern void DWCi_SETTINGlSetSsid(char *ssid);
-extern void DWCi_SNDlPlay(u32 v);
-extern int DWCi_STRlNLen(unsigned char *s, int maxlen);
-extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern int DWCi_TPlCheckRelease(unsigned short *a);
-extern int DWCi_TPlCheckTrigger(unsigned short *a);
-extern void DWCi_TSKlDelete(int kind, void *task);
-extern void DWCi_TSKlDeleteEx(int kind, void *task);
+typedef int bool_0;
+#include "font.h"
+#include "focus.h"
+#include "graphics.h"
+#include "heap.h"
+#include "headline.h"
+#include "input.h"
+#include "obj.h"
+#include "scrollbar.h"
+#include "screen.h"
+#include "search.h"
+#include "setting.h"
+#include "sound.h"
+#include "str.h"
+#include "task.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void DWCi_WINlEnd(void);
-extern s8 DWCi_WINlGet(void);
+#include "window.h"
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
-extern int DWCi_WINlIsInit(void);
-extern long FX_DivS32(long a, long b);
-extern long FX_ModS32(long a, long b);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void DWCi_SceneSetEdit32(void);
-extern void DWCi_SceneSetSearch(void);
-extern void DWCi_SceneSetSelectWay(void);
-extern void DWCi_SceneSetTestConfirm(void);
-extern void DWCi_CMNlLoadResource(char *, void (*)(void *, unsigned long, unsigned long));
-extern unsigned char *DWCi_Char(unsigned char *name);
-extern void *DWCi_ARClReadEx(char *path, unsigned int *size, int alignment);
-extern void DWCi_SCREENlInit(void *scr);
-extern void DWCi_SCREENlRenew(void);
-extern void DWCi_CMNlButton(int kind);
-extern void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
-extern void DWCi_SceneEnd(void);
+#include "../arm9/fx_cp.h"
+#include "../arm9/mi_memory.h"
+#include "scenesetedit32.h"
+#include "scenesetsearch.h"
+#include "scenesetselectway.h"
+#include "scenesettestconfirm.h"
+#include "sceneend.h"
 void DWCi_SceneSetApList(void);
 void DWCi_SceneSetApList_procScene(void);
 extern SCENESETAPLIST_BSS scenesetaplist_bss;
@@ -289,7 +244,6 @@ extern RECT DWCi_R_SCR;
 extern T25 sSceneSetApListPathXb4ApListBackScr;
 extern T22 sSceneSetApListPathYbBgStep31Pltt;
 extern unsigned char sSceneSetApListPathJb4ApListScr[];
-extern unsigned char GX_LoadBG3Scr[];
 extern unsigned char gSceneSetApListWorkBytes[];
 extern struct SCENESETAPLIST_BSS gSceneSetApListWork;
 /* CELL_LV is named on its own: the loop reaches it through its own pool word
@@ -359,7 +313,7 @@ void DWCi_SceneSetApList(void)
     scenesetaplist_bss.MemSsal->taskV = DWCi_TSKlForm(1, (void (*)(void *, void *))taskVBlank, 0, 0x6e);
     drawApInfo();
     dispFocus();
-    DWCi_ChangeScene((u32)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 /*
@@ -383,19 +337,19 @@ static void initGraphics(void)
 
     buf2 = sSceneSetApListPathXb4ApListBackScr;
     buf = sSceneSetApListPathYbBgStep31Pltt;
-    DWCi_CMNlLoadResource((char *)sSceneSetApListPathJb4ApListScr, (void (*)(void *, unsigned long, unsigned long))GX_LoadBG3Scr);
+    DWCi_CMNlLoadResource((char *)sSceneSetApListPathJb4ApListScr, GX_LoadBG3Scr);
 
-    (*(int **)(gSceneSetApListWorkBytes + 4))[1] = (int)DWCi_ARClReadEx((char *)DWCi_Char((unsigned char *)(&buf2)), 0, (int)4);
+    (*(int **)(gSceneSetApListWorkBytes + 4))[1] = (sptr)DWCi_ARClReadEx((char *)DWCi_Char((unsigned char *)(&buf2)), 0, (int)4);
     DWCi_SCREENlInit((void *)((*(int **)(gSceneSetApListWorkBytes + 4))[1]));
     DWCi_SCREENlRenew();
-    (*(int **)(gSceneSetApListWorkBytes + 4))[2] = (int)DWCi_ARClReadEx((char *)DWCi_Char((unsigned char *)(&buf)), 0, (int)4);
+    (*(int **)(gSceneSetApListWorkBytes + 4))[2] = (sptr)DWCi_ARClReadEx((char *)DWCi_Char((unsigned char *)(&buf)), 0, (int)4);
 
-    p = (u16 *)0x04001008;
+    p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;
-    p = (u16 *)0x04000008;
+    p = (u16 *)REG_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
-    p = (u16 *)0x0400000A;
+    p = (u16 *)REG_BG1CNT_ADDR;
     p[0] = (p[0] & ~3) | 2;
     p[1] = (p[1] & ~3) | 3;
     p[2] = (p[2] & ~3) | 2;
@@ -454,7 +408,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x1d, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x1d);
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
 static void procInit1(void)
@@ -464,7 +418,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(0);
-    DWCi_ChangeScene((u32)procInit2);
+    DWCi_ChangeScene((uptr)procInit2);
 }
 
 static void procInit2(void)
@@ -472,7 +426,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((u32)DWCi_SceneSetApList_procScene);
+    DWCi_ChangeScene((uptr)DWCi_SceneSetApList_procScene);
 }
 
 void DWCi_SceneSetApList_procScene(void)
@@ -652,7 +606,7 @@ static void button(void)
                 DWCi_SBlDisable();
                 DWCi_BTNlDisable();
                 DWCi_WINlInitEx(0xe, 1, 1, -1, 0);
-                DWCi_ChangeScene((u32)procError);
+                DWCi_ChangeScene((uptr)procError);
                 return;
             }
             scenesetaplist_bss.MemSsal->choose = 1;
@@ -660,7 +614,7 @@ static void button(void)
             DWCi_SNDlPlay(6);
         }
     change:
-        DWCi_ChangeScene((u32)endScene);
+        DWCi_ChangeScene((uptr)endScene);
         break;
     }
 }
@@ -669,7 +623,7 @@ static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((u32)endScene1);
+    DWCi_ChangeScene((uptr)endScene1);
 }
 
 static void endScene1(void)
@@ -682,7 +636,7 @@ static void endScene1(void)
         DWCi_BTNlDisable();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x1d, 8);
-    DWCi_ChangeScene((u32)endScene2);
+    DWCi_ChangeScene((uptr)endScene2);
 }
 
 static void endScene2(void)
@@ -717,22 +671,22 @@ static void endScene2(void)
         DWCi_SEARCHlEnd();
         DWCi_SETTINGlSetSetting(((SETTINGINFO *)DWCi_SETTIGNlGet())->idx);
         DWCi_SetParam_(2, 0);
-        DWCi_ChangeScene((u32)DWCi_SceneSetSelectWay);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay);
     } else if (scenesetaplist_bss.Focus == 4) {
         DWCi_SEARCHlEnd();
         DWCi_SetParam_(0, 1);
-        DWCi_ChangeScene((u32)DWCi_SceneSetSearch);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetSearch);
     } else {
         DWCi_SETTINGlSetSsid((char *)scenesetaplist_bss.MemSsal->info[scenesetaplist_bss.MemSsal->apIdx].ssid);
         DWCi_SetParam_(0, 0);
         if (scenesetaplist_bss.MemSsal->info[scenesetaplist_bss.MemSsal->apIdx].wep) {
             DWCi_SetParam_(0, 1);
             DWCi_SetParam2_(1, 1);
-            DWCi_ChangeScene((u32)DWCi_SceneSetEdit32);
+            DWCi_ChangeScene((uptr)DWCi_SceneSetEdit32);
         } else {
             DWCi_SetParam_(0, 1);
             DWCi_SetParam2_(0, 1);
-            DWCi_ChangeScene((u32)DWCi_SceneSetTestConfirm);
+            DWCi_ChangeScene((uptr)DWCi_SceneSetTestConfirm);
         }
     }
     DWCi_HEAPlFree_((void **)&scenesetaplist_bss.MemSsal);
@@ -754,7 +708,7 @@ static void drawApInfo(void)
         drawAp(n, i);
     for (i = 0; i < num; i++, idx++)
         drapApObj(idx, i);
-    DWCi_FNTlRenewBg((int)scenesetaplist_bss.MemSsal->canv);
+    DWCi_FNTlRenewBg((sptr)scenesetaplist_bss.MemSsal->canv);
     setOffset();
 }
 
@@ -850,7 +804,7 @@ static void taskUp(void *task)
     if (def != 0)
         return;
     pos = FX_DivS32(scenesetaplist_bss.Pos * scenesetaplist_bss.MemSsal->distBar, scenesetaplist_bss.MemSsal->distScroll);
-    DWCi_SBlSet(pos);
+    DWCi_SBlDisp(pos);
     DWCi_SBlEnable();
     dispFocus();
     scenesetaplist_bss.MemSsal->task = 0;
@@ -873,7 +827,7 @@ static void taskDown(void *task)
     scenesetaplist_bss.Pos -= (unsigned short)def;
     drawApInfo();
     pos = FX_DivS32(scenesetaplist_bss.Pos * scenesetaplist_bss.MemSsal->distBar, scenesetaplist_bss.MemSsal->distScroll);
-    DWCi_SBlSet(pos);
+    DWCi_SBlDisp(pos);
     DWCi_SBlEnable();
     dispFocus();
     scenesetaplist_bss.MemSsal->task = 0;
@@ -944,7 +898,7 @@ static void moveFocus(int dir)
             scenesetaplist_bss.Pos = 0;
             scenesetaplist_bss.Focus = 0;
             drawApInfo();
-            DWCi_SBlSet(0);
+            DWCi_SBlDisp(0);
         }
         break;
     }
@@ -1001,7 +955,7 @@ static void procError(void)
         return;
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
-    DWCi_ChangeScene((u32)procError1);
+    DWCi_ChangeScene((uptr)procError1);
 }
 
 static void procError1(void)
@@ -1010,5 +964,5 @@ static void procError1(void)
         return;
     DWCi_BTNlEnable();
     DWCi_SBlEnable();
-    DWCi_ChangeScene((u32)DWCi_SceneSetApList_procScene);
+    DWCi_ChangeScene((uptr)DWCi_SceneSetApList_procScene);
 }

@@ -25,20 +25,19 @@
 /* Overlay ids are linker symbols whose address is the id. */
 #define OVERLAY_ID_47 ((int)ov_id_47)
 
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrCmdWork *work);
+#include "scrcmd_work.h"
 
-extern int GF_OVERLAY_Load(int overlayId);
+#include "../arm9/gf_overlay.h"
 
-extern void FIELD_GIMMICK_BRIDGE_ResetSave(struct GameSystem *gameSystem);
+#include "../ov047/field_gimmick_bridge.h"
 
-extern void GF_OVERLAY_Unload(int overlayId);
 
 extern u8 ov_id_47[];
 
-int SCRCMD_GIMMICK_BRIDGE_ResetSave(struct ScriptVm *vm, struct ScrCmdWork *work);
+int SCRCMD_GIMMICK_BRIDGE_ResetSave(struct ScriptVm *vm, struct ScrcmdWork *work);
 
 /* Script command: loads overlay 47 and runs its entry on the game system. */
-int SCRCMD_GIMMICK_BRIDGE_ResetSave(struct ScriptVm *vm, struct ScrCmdWork *work)
+int SCRCMD_GIMMICK_BRIDGE_ResetSave(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(work);
 

@@ -526,6 +526,23 @@ def add_markers(existing, region):
     return re.sub(r"\n{3,}", "\n\n", "\n".join(keep))
 
 
+def region_last(text):
+    """Move the generated region to just before the header's last #endif, so every type the
+    hand-written part defines comes before the prototypes that use it."""
+    if BEGIN not in text or END not in text:
+        return text
+    i = text.index(BEGIN)
+    j = text.index(END, i) + len(END)
+    region = text[i:j]
+    rest = text[:i] + text[j:]
+    k = rest.rfind("#endif")
+    if k < 0:
+        out = rest.rstrip("\n") + "\n\n" + region + "\n"
+    else:
+        out = rest[:k].rstrip("\n") + "\n\n" + region + "\n\n" + rest[k:]
+    return re.sub(r"\n{3,}", "\n\n", out)
+
+
 def header_text(f, info, existing=None):
     """Text of a new header, or the merged text of an existing one.
     A header with the BEGIN and END markers has only that region replaced.  A header with the old
@@ -536,9 +553,9 @@ def header_text(f, info, existing=None):
     if existing is not None and BEGIN in existing and END in existing:
         i = existing.index(BEGIN)
         j = existing.index(END, i) + len(END)
-        return existing[:i] + "\n".join(region_lines(f, info, inc, fwd)) + existing[j:]
+        return region_last(existing[:i] + "\n".join(region_lines(f, info, inc, fwd)) + existing[j:])
     if existing is not None and OLD_MARKER.search(existing):
-        return add_markers(existing, region_lines(f, info, inc, fwd))
+        return region_last(add_markers(existing, region_lines(f, info, inc, fwd)))
     if existing is not None:
         have = set(re.findall(r"\b(\w+)\s*\(", pc_clean_text(existing)))
         add = [d.proto for d in info["ok"] if d.name not in have]
@@ -715,7 +732,10 @@ def apply_plan(idx, hdrs, plan, skip_owners=(), inject=True, extra=(), late=Fals
                 vis.add(b)
                 typedefs.append(b)
             vis |= own
-        if base not in already:
+        have_inc = any(os.path.normpath(os.path.join(os.path.dirname(f), i)) == os.path.normpath(hp)
+                       for i in re.findall(r'^\s*#\s*include\s+"([^"]+)"', raw, re.M))
+        if not have_inc and (base not in already or not os.path.isfile(os.path.join(os.path.dirname(f), base))
+                             or os.path.normpath(os.path.join(os.path.dirname(f), base)) != os.path.normpath(hp)):
             text += '#include "%s"' % inc + nl
             added.append(inc)
         if extra_text:
@@ -749,8 +769,17 @@ def verify_file(path):
 
 
 def write(path, text):
-    with open(path, "w", encoding="latin1", newline="") as fh:
-        fh.write(text)
+    # A write can fail with EINVAL while the file sync or a compiler still holds the file: retry.
+    import time
+    for attempt in range(40):
+        try:
+            with open(path, "w", encoding="latin1", newline="") as fh:
+                fh.write(text)
+            return
+        except OSError:
+            if attempt == 39:
+                raise
+            time.sleep(0.25)
 
 
 ERR = re.compile(r"^(.*?):(\d+): (?!warning)(.*)", re.M)
@@ -848,7 +877,7 @@ def _convert(idx, hdrs, plan, inj, late):
                           late=late)[0]
 
     # 1. compile errors name the callers' disagreements: drop the owner groups they touch
-    for _ in range(40):
+    for _ in range(150):
         text = build()
         write(f, text)
         errs = compile_errors(f)
@@ -938,6 +967,8 @@ def _convert(idx, hdrs, plan, inj, late):
         if not cul:
             # an error that no function explains: give the whole file back
             write(f, orig)
+            for _l, _m, _w in errs[:3]:
+                print("unexplained %s:%s: %s" % (rel(f), _l, _m[:160]), flush=True)
             for r in plan.removals:
                 row(r, "compile error: " + errs[0][1][:120])
             return "failed", 0, rows
@@ -949,9 +980,11 @@ def _convert(idx, hdrs, plan, inj, late):
                 row(r, "compile error: " + cul[r[2]][:120])
     else:
         write(f, orig)
+        print("unexplained %s: no fixpoint after the retry limit" % rel(f), flush=True)
         return "failed", 0, rows
     if len(excluded) == len(owners):
         write(f, orig)
+        print("unexplained %s: every owner group was dropped" % rel(f), flush=True)
         return "failed", 0, rows
     # 2. the compiled file must be EXACT; when it is not, find the owner group that changed the bytes
     ok, _m = verify_file(f)
@@ -972,10 +1005,12 @@ def _convert(idx, hdrs, plan, inj, late):
                         row(r, "bytes differ")
         if not good:
             write(f, orig)
+            print("unexplained %s: no owner group keeps the bytes" % rel(f), flush=True)
             return "failed", 0, rows
         write(f, build())
         if not verify_file(f)[0]:
             write(f, orig)
+            print("unexplained %s: the kept groups together change the bytes" % rel(f), flush=True)
             return "failed", 0, rows
     n = sum(1 for r in plan.removals if r[3].file not in excluded)
     return ("ok" if not excluded else "partial"), n, rows

@@ -67,6 +67,24 @@
  *   RECORD_AddOne  0x02008DF0  thumb
  */
 #include "wifibattlematch_graphic_shared_types.h"
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define BMP_MENUWORK_Create BMP_MENUWORK_Create_header
+#endif
+#include "../arm9/bmp_menuwork.h"
+#ifdef __MWERKS__
+#undef BMP_MENUWORK_Create
+extern BmpMenuWork * BMP_MENUWORK_Create(u32, u16);
+#endif
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define BMP_MENULIST_Create BMP_MENULIST_Create_header
+#endif
+#include "../arm9/bmp_menulist.h"
+#ifdef __MWERKS__
+#undef BMP_MENULIST_Create
+extern struct BmpMenuList * BMP_MENULIST_Create(struct BmpMenuListTemplate *, u16, u16, u16);
+#endif
 #include "wifibattlematch_view_shared_types.h"
 
 struct Tcbl;
@@ -81,7 +99,7 @@ struct Blk;
 
 struct Big;
 
-struct Sub02008C20Obj;
+struct RecordBlock;
 
 struct PrintSys;
 
@@ -97,7 +115,7 @@ struct U16Vec;
 
 struct Cfg;
 
-struct Slot;
+struct WifibattlematchViewSlot;
 
 /*
  * Work object for one wifibattlematch message window.  WIFIBATTLEMATCH_UTIL_Create allocates
@@ -125,23 +143,7 @@ typedef struct WifibattlematchUtilWork {
     u32              ctrlInputType;   /* 0x3C PRINTSYS_CTRL: accepted input types */
 } WifibattlematchUtilWork;
 
-/*
- * Menu descriptor (0x30 bytes).  ov175 views the same object with its own stand-in, so its fields must keep one name across the tree.
- */
-typedef struct WifibattlematchMenuDesc {
-    u32 msgBank;             /* 0x00 message bank */
-    u32 font;                  /* 0x04 font (BmpMenuList font) */
-    u32 printQue;             /* 0x08 PRINTSYS_QUE handle */
-    u32 items[4];       /* 0x0C up to four item value ids */
-    u32 count;          /* 0x1C item count */
-    u16 a;              /* 0x20 */
-    u16 b;              /* 0x22 */
-    u16 c;              /* 0x24 */
-    u16 d;              /* 0x26 */
-    int enabled;        /* 0x28 cursor enabled */
-    u16 kind;           /* 0x2C */
-    u16 row;            /* 0x2E first row (BMP_MENULIST_Create third argument) */
-} WifibattlematchMenuDesc;
+#include "wifibattlematch_menu_types.h"
 
 /*
  * Menu work object created by WIFIBATTLEMATCH_UTIL_CreateMenu (0x1C bytes).
@@ -170,98 +172,75 @@ typedef struct WifibattlematchCallback {
 /* BMP_MENULIST_Create config; only a few words and two halfwords are set. */
 typedef struct { u32 word[13]; } WifibattlematchMenuConfig;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *, u8, u32);
+#include "../arm9/mi_memory.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct Strbuf;
 
-extern struct Strbuf *STRBUF_Create(unsigned int capacity, unsigned int heapId);
+#include "../arm9/strbuf.h"
 struct BmpWin;
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct GfFont;
 struct PrintQueue;
 
-extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void BG_SYS_PushTile(u32);
+#include "../arm9/bg_sys.h"
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
+#include "../arm9/msgdata.h"
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 struct TcblSystem;
 
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+#include "../arm9/tcbl.h"
 
 extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 struct TextPrinter;
 
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 struct TimeIcon;
 
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
+#include "../arm9/time_icon.h"
 struct KeyCursor;
 
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 struct PrintStreamCtrl;
 
-extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 struct TcbList;
 
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
+#include "../arm9/gfl_use.h"
 
-extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, unsigned char fillColor, unsigned char waitInterval, unsigned short heapId);
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
+#include "../arm9/game_data.h"
 
-extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 
-extern int  APP_KEYCURSOR_CreateDefault(int, int, int, int);
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern int  PRINTSYS_PrintStream(int, int, int, int, int, int, int, int, int, int);
 
-extern void *BMP_MENUWORK_Create(u32,u16);
+struct BmpMenuWork;
 
-extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+extern void BMP_MENUWORK_AddMsgItem(struct BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 param, u32 heapId);
 
-extern void *BMP_MENULIST_Create(WifibattlematchMenuConfig *,u16,u16,u16);
 struct BmpMenuList;
 
 extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap);
@@ -275,13 +254,15 @@ extern u32 BMP_MENUWORK_Delete(void *p);
 extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
 struct GameData;
 struct SaveControl;
+struct RecordBlock;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+                              
 
-extern struct Sub02008C20Obj *RECORD_GetFromSave(void *sys);
+#include "../arm9/record.h"
 
-extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 
+#include "../arm9/printsys.h"
+#include "../arm9/app_keycursor.h"
 WifibattlematchUtilWork *WIFIBATTLEMATCH_UTIL_Create(int layer, int winType, unsigned short winWidth, unsigned short winHeight, int unused, int printArg, unsigned short heap);
 
 void WIFIBATTLEMATCH_UTIL_Delete(WifibattlematchUtilWork *p);
@@ -298,7 +279,7 @@ void WIFIBATTLEMATCH_UTIL_StopTimeIcon(WifibattlematchUtilWork *p);
 
 void WIFIBATTLEMATCH_UTIL_ClearBmp(WifibattlematchUtilWork *p);
 
-void WIFIBATTLEMATCH_UTIL_ShowMenu(const WifibattlematchMenuDesc *p, u16 a);
+WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_ShowMenu(const WifibattlematchMenuDesc *p, u16 a);
 
 WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDesc *p,u8 x,u8 y,u8 width,int height,u16 heap);
 
@@ -500,9 +481,9 @@ void WIFIBATTLEMATCH_UTIL_SetMode(WifibattlematchUtilWork *p, int mode)
         if (p->keyCursor != 0) {
             GF_PANIC_Fail((const char *)d_021E8DEC, 0, (const char *)d_021E8DEC);
         }
-        PRINTSYS_CTRL_Init((u8 *)&p->ctrlKeyReleased, 2);
-        p->keyCursor = APP_KEYCURSOR_CreateDefault(p->bgSlot, 1, 0, p->heapId);
-        p->printStream = (void *)PRINTSYS_PrintStream((int)p->win, 0, 0, (int)p->strbuf, p->printArg, MSG_SPEED_GetWait(), (int)p->tcbl, 0, p->heapId, p->bgSlot);
+        PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)(u8 *)&p->ctrlKeyReleased, 2);
+        p->keyCursor = (int)APP_KEYCURSOR_CreateDefault(p->bgSlot, 1, 0, p->heapId);
+        p->printStream = (void *)PRINTSYS_PrintStream((struct BmpWin *)(int)p->win, 0, 0, (struct Strbuf *)(int)p->strbuf, (struct GfFont *)p->printArg, MSG_SPEED_GetWait(), (struct Tcbl *)(int)p->tcbl, 0, p->heapId, p->bgSlot);
         p->state = 1;
         break;
     }
@@ -533,11 +514,11 @@ void WIFIBATTLEMATCH_UTIL_ClearBmp(WifibattlematchUtilWork *p)
     BMP_WIN_TransferChars((struct BmpWin *)p->win);
 }
 
-void WIFIBATTLEMATCH_UTIL_ShowMenu(const WifibattlematchMenuDesc *p, u16 heap)
+WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_ShowMenu(const WifibattlematchMenuDesc *p, u16 heap)
 {
     int height = (p->count & 0x7f) << 1;
 
-    WIFIBATTLEMATCH_UTIL_CreateMenu(p, 0x13, 0x11 - height, 0xc, height, heap);
+    return WIFIBATTLEMATCH_UTIL_CreateMenu(p, 0x13, 0x11 - height, 0xc, height, heap);
 }
 
 /*
@@ -564,7 +545,7 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDe
     out->flag=0;
     out->entries=BMP_MENUWORK_Create(p->count,heap);
     for(index=0;index<p->count;index++)
-        BMP_MENUWORK_AddMsgItem(out->entries,p->msgBank,p->items[index],index,(u16)heap);
+        BMP_MENUWORK_AddMsgItem(out->entries,(struct MsgBank *)p->msgBank,p->items[index],index,(u16)heap);
     config=d_021E8D68;
     config.word[0]=(u32)out->entries;
     *(u16 *)((u8 *)&config+0x10)=p->count;
@@ -574,7 +555,7 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDe
     config.word[10]=(u32)&out->win2;
     config.word[11]=p->printQue;
     config.word[12]=p->font;
-    out->menu=BMP_MENULIST_Create(&config,0,p->row,heap);
+    out->menu=BMP_MENULIST_Create((struct BmpMenuListTemplate *)&config,0,p->row,heap);
     BMP_MENULIST_ResetCursorTile(out->menu,(u16)heap);
     if(p->enabled)
         BMP_MENULIST_SetCancelDisabled(out->menu,0);
@@ -685,19 +666,19 @@ void WIFIBATTLEMATCH_UTIL_SetSaveState(int owner, int state)
 {
     int save;
 
-    save = (int)RECORD_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)owner));
+    save = (int)RECORD_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)owner)));
     switch (state) {
     case 1:
     case 4:
-        RECORD_AddOne((struct Sub02008C20Obj *)save, 0x12);
+        RECORD_AddOne((struct RecordBlock *)save, 0x12);
         break;
     case 0:
     case 3:
-        RECORD_AddOne((struct Sub02008C20Obj *)save, 0x13);
+        RECORD_AddOne((struct RecordBlock *)save, 0x13);
         break;
     case 2:
-        RECORD_AddOne((struct Sub02008C20Obj *)save, 0x14);
+        RECORD_AddOne((struct RecordBlock *)save, 0x14);
         break;
     }
-    RECORD_AddOne((struct Sub02008C20Obj *)save, 0x11);
+    RECORD_AddOne((struct RecordBlock *)save, 0x11);
 }

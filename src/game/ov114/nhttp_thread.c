@@ -129,70 +129,24 @@
 #include "nhttp_types.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 
-extern void NHTTPi_memcpy(void *dst, void *src, u32 size);
-extern int NHTTPi_SocSend(NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
-extern int NHTTPi_SocRecv(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
-extern NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
-extern int NHTTPi_PostSendCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p, char *label_p, int offset);
-extern int NHTTPi_getUrlEncodedSize2(char *p_p, int len);
-extern void NHTTPi_memclr(void *p_p, int size);
-extern int NHTTPi_encodeUrlChar(char *dst_p, int c);
-extern int NHTTPi_isRecvBufFull(NHTTPRes *res_p, u32 pos);
-extern NHTTPConnection *NHTTPi_Response2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPRes *res_p);
-extern void NHTTPi_BufferFullCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p);
-extern NHTTPSysInfo *NHTTPi_GetSystemInfoP(void);
-extern NHTTPBgnEndInfo *NHTTPi_GetBgnEndInfoP(NHTTPSysInfo *sysInfo_p);
-extern NHTTPThreadInfo *NHTTPi_GetThreadInfoP(NHTTPSysInfo *sysInfo_p);
-extern NHTTPReqInfo *NHTTPi_GetReqInfoP(NHTTPSysInfo *sysInfo_p);
-extern int NHTTPi_intToStr(char *p_p, unsigned long n);
+#include "nhttp_stdlib_ntr.h"
+#include "nhttp_socket_ntr.h"
+#include "d_nhttp_common.h"
+#include "nhttp_recvbuf.h"
 extern int NHTTPi_SendData(NHTTPThreadData *threadData_p, char *src_p, int srclen);
 extern int NHTTPi_SendProxyAuthorization(NHTTPThreadData *threadData_p);
-extern NHTTPMutexInfo *NHTTPi_GetMutexInfoP(NHTTPSysInfo *sysInfo_p);
-extern int NHTTPi_strToInt(signed char *s_p, int len);
-extern int NHTTPi_strnicmp(const char *p1_p, const char *p2_p, int size);
-extern NHTTPi_DATALIST *NHTTPi_getHdrFromList(NHTTPi_DATALIST **head_pp);
-extern int NHTTPi_strlen(const char *s_p);
-extern void NHTTPi_free(void *ptr_p);
+#include "nhttp_control.h"
+#include "nhttp_bgnend.h"
 extern int NHTTPi_GetPostContentlength(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, char *label_p, unsigned long *contentLength, int sendtype);
-extern int NHTTPi_getUrlEncodedSize(char *p_p);
-extern int NHTTPi_SocClose(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
-extern void NHTTPi_SetError(NHTTPBgnEndInfo *bgnEndInfo_p, int error);
-extern void NHTTPi_lockReqList(NHTTPMutexInfo *mutexInfo_p);
-extern void NHTTPi_unlockReqList(NHTTPMutexInfo *mutexInfo_p);
-extern int NHTTPi_destroyRequestObject(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
-extern void NHTTPi_CompleteCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p);
-extern void NHTTPi_NotifyCompletion(void *waiter_p);
-extern int NHTTPi_DeleteConnection(NHTTPConnection *connection_p);
-extern NHTTPListInfo *NHTTPi_GetListInfoP(NHTTPSysInfo *sysInfo_p);
-extern NHTTPi_REQLIST *NHTTPi_popReqQueue(NHTTPListInfo *listInfo_p);
-extern void NHTTPi_idleCommThread(NHTTPThreadInfo *threadInfo_p);
-extern int NHTTPi_strcmp(char *s1_p, char *s2_p);
-extern unsigned long NHTTPi_resolveHostname(NHTTPReq *req_p, char *hostname_p);
-extern int NHTTPi_strnlen(char *s_p, int maxLen);
-extern int NHTTPi_checkKeepAlive(int socket);
-extern int NHTTPi_SocOpen(NHTTPReq *req_p);
-extern int NHTTPi_SocConnect(NHTTPBgnEndInfo *bgnEndInfo_p, NHTTPMutexInfo *mutexInfo_p,
-                         NHTTPReq *req_p, int socket, u32 hostaddr, int port);
-extern u32 NHTTPi_GetSSLError(NHTTPBgnEndInfo *bgnEndInfo_p);
-extern int NHTTPi_SocSSLConnect(NHTTPBgnEndInfo *bgnEndInfo_p, NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
+#include "nhttp_request.h"
+#include "d_nhttp_private.h"
+#include "nhttp_list.h"
+#include "nhttp_os_ntr.h"
 extern int NHTTPi_SendBasicAuthorization(NHTTPThreadData *threadData_p);
 extern int NHTTPi_SendHeaderList(NHTTPThreadData *threadData_p);
-extern void *NHTTPi_alloc(unsigned long size, int align);
-extern int NHTTPi_loadFromHdrRecvBuf(NHTTPRes *res_p, char *dst_p, int pos,
-                                     int len);
-extern int NHTTPi_findNextLineHdrRecvBuf(NHTTPRes *res_p, int pos, int limit,
-                                         int *colon_pos_p,
-                                         int *return_code_size_p);
-extern int NHTTPi_getHeaderValue(NHTTPRes *res_p, char *label_p, int *pos_p);
-extern int NHTTPi_compareTokenN_HdrRecvBuf(NHTTPRes *res_p, int pos, int limit,
-                                           char *str_p, char extdeli);
-extern void NHTTPi_SetVirtualContentLength(NHTTPConnection *connection_p, u32 contentLength);
+#include "nhttp_response.h"
 extern int NHTTPi_BufFull(NHTTPMutexInfo *mutexInfo_p, NHTTPRes *res_p);
-extern int NHTTPi_RecvBufN(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket, int pos, int len, int flags);
 extern int NHTTPi_SkipLineBuf(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
-extern int NHTTPi_strToHex(char *p_p, int len);
-extern int NHTTPi_RecvBuf(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket, int pos, int len);
-extern void NHTTPi_ReceivedCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p);
 static int NHTTPi_ThreadSendProc(NHTTPThreadData *threadData_p);
 extern int NHTTPi_ThreadParseHeaderProc(NHTTPThreadData *threadData_p);
 static int NHTTPi_ThreadRecvBodyProc(NHTTPThreadData *threadData_p);

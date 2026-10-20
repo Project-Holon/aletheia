@@ -147,7 +147,7 @@
 
 struct BigObj;
 
-struct Bank;
+struct Unit;
 
 struct Node;
 
@@ -157,7 +157,7 @@ struct DispVram;
 
 struct BgTemplate;
 
-struct Vec2;
+struct ClactVec2;
 
 struct GfFont;
 
@@ -173,7 +173,7 @@ struct Ctx;
 
 struct Proc;
 
-struct RtcTime{unsigned hour,minute,second;};
+#include "../arm9/gf_standard_types.h"
 
 
 typedef enum { SZ0=0,SZ1=1,SZ2=2,SZ3=3 } GXBGScrSize256x16Pltt;
@@ -189,217 +189,165 @@ typedef struct StepHandler {
     int (*update)(struct LocalTvtSys *);
 } StepHandler;
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 
-extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+#include "../arm9/gfl_use.h"
 struct GameData;
 
-extern u8 GAME_DATA_GetSeason(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern u8 TIMEZONE_GetLight(int row, int col);
+#include "../arm9/timezone.h"
 
 extern void GF_STANDARD_GetCachedTime(struct RtcTime *),GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 struct Actor;
+struct ClactActor;
 
-extern void CLACT_DeleteActor(struct Actor *actor);
+#include "../arm9/clact.h"
 
-extern void CLACT_ReleasePalette(unsigned int i);
 
-extern void CLACT_ReleaseCharacter(unsigned int i);
 
-extern void CLACT_ReleaseCellAnim(unsigned int i);
 
-extern unsigned int CLACT_DeleteUnit(struct Bank *bank);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern unsigned int GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
+#include "../arm9/wipe.h"
 
-extern unsigned WIPE_SYS_EndCheck(void);
 
-extern void CLACT_DrawSystem(void);
 
-extern void CLACT_VBlankSystem(void);
 
-extern unsigned int GFL_USE_GetRandomBelow(unsigned int range);
 
-extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
+/* The DS code passes the plane and slot ids as words (the original prototypes); the header has byte parameters. The host build uses the header. */
+#ifdef __MWERKS__
+#define BG_SYS_SetPlaneVisible BG_SYS_SetPlaneVisible_header
+#define BG_SYS_FreeSlot BG_SYS_FreeSlot_header
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_SetPlaneVisible
+#undef BG_SYS_FreeSlot
+extern void BG_SYS_SetPlaneVisible(unsigned int which, unsigned int enable);
+extern void BG_SYS_FreeSlot(unsigned int idx);
+#endif
 
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 
-extern void WIPE_SetBrightnessFadeOut(unsigned int a, unsigned int color);
 
-extern void WIPE_ResetWndMask(void *win);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void MIi_CpuClear32(int,int,unsigned int);
+#include "../arm9/mi_memory.h"
 struct DispVramCfg;
-struct SysInit;
+struct ClactSysInit;
+struct ClactSysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
-extern void BG_SYS_SetMainPlaneVisible(unsigned int mask, unsigned int enable);
 
-extern void BG_SYS_SetSubPlaneVisible(unsigned int mask, unsigned int enable);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/g2.h"
 
 extern void CLACT_ExitSystem(void),BG_SYS_FreeLayerBuf(unsigned),BMP_WIN_Exit(void),BG_SYS_Delete(void);
 
-extern void BG_SYS_InitBgLayer(unsigned,const struct BgTemplate *,unsigned);
 
-extern void BG_SYS_SetPlaneVisible(unsigned,unsigned),BG_SYS_FreeSlot(unsigned),BG_SYS_PushTile(unsigned);
 
-extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned short heapID);
+#include "../arm9/arc_util.h"
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,u16);
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern int CLACT_RegisterPaletteCompressed(void *,unsigned int,unsigned int,unsigned int,u16);
 
-extern int CLACT_RegisterCharacter(void *,unsigned int,unsigned int,unsigned int,u16);
 
-extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
 
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned int,unsigned int,unsigned int,unsigned int,u16);
 
-extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+struct ClactVec2;
 
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 
-extern void CLACT_RestartActorAnim(struct Actor *a);
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, unsigned int heapId);
+#include "../arm9/gf_font.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
+#include "../arm9/msgdata.h"
 
-extern void BMP_MENUWORK_LoadCharAndPltt(unsigned int a, unsigned int b, unsigned int c, unsigned int d, u16 e);
+#include "../arm9/bmp_menuwork.h"
 
-extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 
-extern void ARC_UTIL_UploadPaletteFromArchive(unsigned int archiveID, unsigned int memberIdx, unsigned int kind, unsigned int offset, unsigned int dest, unsigned int size, u16 flags);
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
 
-extern void GF_FONT_SetDefaultTextColor(void);
 struct TcblSystem;
 
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
+#include "../arm9/tcbl.h"
 struct PrintQueue;
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+#include "../arm9/printsys.h"
 struct KeyCursor;
 
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(unsigned int id, unsigned int isLive, unsigned int isFlip, unsigned short heapId);
+#include "../arm9/app_keycursor.h"
 
-extern void GF_FONT_SetTextColor(unsigned int r, unsigned int g, unsigned int b);
 
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 struct TextPrinter;
 
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 
-extern unsigned int WORDSET_Delete(struct WordSet *p);
+#include "../arm9/wordset.h"
 
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 struct BmpWin;
 
-extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 
-extern unsigned int GF_FONT_Delete(struct GfFont *font);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 
-extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 struct PrintStreamCtrl;
 
-extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
 
-extern unsigned int PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern void BG_SYS_MarkTileDirty(unsigned);
 
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 struct Bmp;
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern void PRINTSYS_CTRL_Init(struct PrintStreamCtrl *ctrl, unsigned int inputType);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 
-extern struct Strbuf *STRBUF_Create(unsigned int capacity, unsigned int heapId);
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern unsigned PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 
-extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
-extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
+#include "../arm9/gfl_heap.h"
 
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned int heap);
+#include "../arm9/procsys.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct GameData *GAME_DATA_Create(u16);
 
-extern unsigned int KEY_GetCont(void);
+#include "../arm9/key.h"
 
-extern void LOCAL_TVT_SYS_Delete(unsigned char *),GAME_DATA_Delete(unsigned char *),PROCSYS_FreeProcWork(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
+extern void LOCAL_TVT_SYS_Delete(unsigned char *),PROCSYS_FreeProcWork(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
 
 void LOCAL_TVT_SYS_Create(u8 *p);
 
@@ -407,7 +355,7 @@ void LOCAL_TVT_SYS_Delete(u8 *p);
 
 int LOCAL_TVT_SYS_Main(u8 *p);
 
-void LOCAL_TVT_SYS_VBlankHandler(void);
+void LOCAL_TVT_SYS_VBlankHandler(struct TcbTask *unused, void *work);
 
 void LOCAL_TVT_SYS_SetupDisplay(u8 *p);
 
@@ -453,23 +401,15 @@ int LOCAL_TVT_SYS_ProcExit(struct Proc *a,unsigned unused,int own,unsigned char 
 
 int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, int d);
 
-char *LOCAL_TVT_CHARA_Create(char *p,int index);
+#include "local_tvt_chara.h"
 
-void LOCAL_TVT_CHARA_Delete(unsigned char *unused,char *p);
 
-void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q);
 
-void LOCAL_TVT_CHARA_SetActive(u8 *unused,u8 *q,int unused2);
 
-int LOCAL_TVT_CHARA_IsDone(u8 *unused, char *p);
 
-void LOCAL_TVT_CHARA_ShowWindow(int a, int *p);
 
-unsigned LOCAL_TVT_CHARA_GetState(unsigned char *p);
 
-void LOCAL_TVT_CHARA_SetState(char *p, int v);
 
-void LOCAL_TVT_CHARA_ClearState(char *p);
 
 extern const unsigned int d_021B7450[],d_021B7388[],d_021B73D0[],d_021B73B0[],d_021B7410[],d_021B7430[],d_021B73F0[];
 
@@ -494,7 +434,7 @@ void LOCAL_TVT_SYS_Create(u8 *p)
  else if(time.hour>=midHour && time.hour<lateHour) ((struct LocalTvtSys *)p)->timeSlot=1;
  else ((struct LocalTvtSys *)p)->timeSlot=2;
  for(i=0;i<((struct LocalTvtSys *)p)->charaCount;i++) ((struct LocalTvtSys *)p)->chara[i]=LOCAL_TVT_CHARA_Create((char *)p,i);
- task=GFL_USE_AddMainTask((unsigned)LOCAL_TVT_SYS_VBlankHandler,(unsigned)p,8);
+ task=GFL_USE_AddMainTask(LOCAL_TVT_SYS_VBlankHandler, p,8);
  one=1;((struct LocalTvtSys *)p)->highBase=one;((struct LocalTvtSys *)p)->pending=one;
  ((struct LocalTvtSys *)p)->vblankTask=task;((struct LocalTvtSys *)p)->stepIndex=0;
  ((struct LocalTvtSys *)p)->frameTimer=0;((struct LocalTvtSys *)p)->charaCursor=0;((struct LocalTvtSys *)p)->activeChara.asInt=0;((struct LocalTvtSys *)p)->state=0;
@@ -584,7 +524,7 @@ int LOCAL_TVT_SYS_Main(u8 *p)
     return 0;
 }
 
-void LOCAL_TVT_SYS_VBlankHandler(void) {CLACT_VBlankSystem();BG_SYS_ChangeScrollImmediate(1,0,GFL_USE_GetRandomBelow(256));BG_SYS_ChangeScrollImmediate(1,3,GFL_USE_GetRandomBelow(256));}
+void LOCAL_TVT_SYS_VBlankHandler(struct TcbTask *unused, void *work) {CLACT_VBlankSystem();BG_SYS_ChangeScrollImmediate(1,0,GFL_USE_GetRandomBelow(256));BG_SYS_ChangeScrollImmediate(1,3,GFL_USE_GetRandomBelow(256));}
 
 /*
  *   one --arm, no region: MATCH, 16 bytes, blocker434CC.log; concrete bytes agree,
@@ -621,9 +561,9 @@ void LOCAL_TVT_SYS_SetupDisplay(u8 *p)
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B7410,2,2);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B7430,3,2);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73F0,7,0);
-    MIi_CpuClear32(0,0x06000000,0x40000);
+    MIi_CpuClear32(0,(void *)0x06000000,0x40000);
     c=gClActorInitParam;
-    CLACT_InitSystem((struct SysInit *)(&c),(struct DispVramCfg *)d_021B7450,((struct LocalTvtSys *)p)->heapId);
+    CLACT_InitSystem((struct ClactSysInit *)(&c),(struct DispVramCfg *)d_021B7450,((struct LocalTvtSys *)p)->heapId);
     BG_SYS_SetMainPlaneVisible(16,1);
     BG_SYS_SetSubPlaneVisible(16,1);
     ((struct LocalTvtSys *)p)->unit.ptr=CLACT_CreateUnit(16,0,((struct LocalTvtSys *)p)->heapId);
@@ -663,7 +603,7 @@ void LOCAL_TVT_SYS_CreateGraphics(u8 *p)
     BG_SYS_PushTile(1);
     ARC_TOOL_DeleteHandle(arc);
     spec.kind=10; spec.variant=1; spec.x=0;spec.y=0;spec.z=0;
-    ((struct LocalTvtSys *)p)->actor=CLACT_CreateActor(((struct LocalTvtSys *)p)->unit.ptr,((struct LocalTvtSys *)p)->character.value,((struct LocalTvtSys *)p)->palette.value,((struct LocalTvtSys *)p)->cellAnim.value,&spec,0,((struct LocalTvtSys *)p)->heapId);
+    ((struct LocalTvtSys *)p)->actor=CLACT_CreateActor((struct Unit *)(((struct LocalTvtSys *)p)->unit.ptr),((struct LocalTvtSys *)p)->character.value,((struct LocalTvtSys *)p)->palette.value,((struct LocalTvtSys *)p)->cellAnim.value,(const struct ActorInitParam *)&spec,0,((struct LocalTvtSys *)p)->heapId);
     CLACT_SetActorDrawEnable(((struct LocalTvtSys *)p)->actor,0);
     CLACT_SetActorAutoAnim(((struct LocalTvtSys *)p)->actor,1);
 }
@@ -680,7 +620,7 @@ void LOCAL_TVT_SYS_PositionActor(u8 *p, int index)
     point[0] = x;
     y = (d_021B7380[index].y * 8) + 16;
     point[1] = y;
-    CLACT_AddActorSurfacePos(((struct LocalTvtSys *)p)->actor, (const struct Vec2 *)point, 0);
+    CLACT_AddActorSurfacePos(((struct LocalTvtSys *)p)->actor, (struct ClactVec2 *)point, 0);
     CLACT_SetActorDrawEnable(((struct LocalTvtSys *)p)->actor, 1);
     CLACT_RestartActorAnim(((struct LocalTvtSys *)p)->actor);
 }
@@ -794,7 +734,7 @@ void LOCAL_TVT_SYS_PrintMessage(u8 *p, int message)
  STRBUF_Delete(((struct LocalTvtSys *)p)->textBuf.ptr);((struct LocalTvtSys *)p)->textBuf.ptr=tmp;
  }
  speed=MSG_SPEED_GetWait();
- ((struct LocalTvtSys *)p)->printStream.value=PRINTSYS_PrintStream((unsigned)((struct LocalTvtSys *)p)->window.ptr,0,0,(unsigned)((struct LocalTvtSys *)p)->textBuf.ptr,((struct LocalTvtSys *)p)->font.value,speed,((struct LocalTvtSys *)p)->textCtl.value,2,((struct LocalTvtSys *)p)->heapId,15);
+ ((struct LocalTvtSys *)p)->printStream.value=(unsigned int)PRINTSYS_PrintStream((struct BmpWin *)((unsigned)((struct LocalTvtSys *)p)->window.ptr),0,0,(struct Strbuf *)((unsigned)((struct LocalTvtSys *)p)->textBuf.ptr),(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),speed,(struct Tcbl *)(((struct LocalTvtSys *)p)->textCtl.value),2,((struct LocalTvtSys *)p)->heapId,15);
 }
 
 void LOCAL_TVT_SYS_RunStep(struct LocalTvtSys *o)
@@ -880,7 +820,7 @@ int LOCAL_TVT_SYS_ProcInit(void *ctx,int unused,char *arg)
     return 1;
 }
 
-int LOCAL_TVT_SYS_ProcExit(struct Proc *a,unsigned unused,int own,unsigned char *p) {LOCAL_TVT_SYS_Delete(p);if(own==0){GAME_DATA_Delete((unsigned char *)((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData);GFL_HEAP_Free(((struct LocalTvtSys *)p)->modeData);}PROCSYS_FreeProcWork(a);GFL_HEAP_DeleteChecked(85);return 1;}
+int LOCAL_TVT_SYS_ProcExit(struct Proc *a,unsigned unused,int own,unsigned char *p) {LOCAL_TVT_SYS_Delete(p);if(own==0){GAME_DATA_Delete((struct GameData *)((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData);GFL_HEAP_Free(((struct LocalTvtSys *)p)->modeData);}PROCSYS_FreeProcWork(a);GFL_HEAP_DeleteChecked(85);return 1;}
 
 int LOCAL_TVT_SYS_ProcMain(int a, int b, int c, int d)
 {

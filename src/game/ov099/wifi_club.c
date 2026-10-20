@@ -344,6 +344,82 @@
 #include "wifi_club_work.h"
 #include "wifi_club.h"
 #include "wifi_club_types.h"
+#include "../arm9/app_keycursor.h"
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/bg_sys.h */
+#ifdef __MWERKS__
+#define BG_SYS_DrawTileEx BG_SYS_DrawTileEx_header
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_DrawTileEx
+void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, const void *src, u8 sx, u8 sy, u8 sw, u8 sh);
+#endif
+#include "../arm9/bmp_menulist.h"
+#include "../arm9/bmp_menuwork.h"
+#ifdef __MWERKS__
+/* The original calls take the window position as bytes and the width as a word; the definition takes the
+ * position as words (docs/ORIGINAL_BUGS.tsv, kind B). The header declaration is renamed away. */
+#define BMP_WIN_Create BMP_WIN_Create_header
+#endif
+#include "../arm9/bmp_win.h"
+#ifdef __MWERKS__
+#undef BMP_WIN_Create
+struct BmpWin *BMP_WIN_Create(u32 bgLayer, u8 posX, u8 posY, u32 width, u8 height, u8 palette, u8 allocDir);
+#endif
+#include "../arm9/button_man.h"
+#include "../arm9/clact.h"
+#include "../arm9/game_data.h"
+#include "../arm9/gfl_use.h"
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/mi_memory.h */
+#ifdef __MWERKS__
+#define MI_CpuCopy8 MI_CpuCopy8_header
+#endif
+#include "../arm9/mi_memory.h"
+#ifdef __MWERKS__
+#undef MI_CpuCopy8
+int MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
+#endif
+#include "../arm9/net.h"
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../ov009/dwc_rap.h */
+#ifdef __MWERKS__
+#define DWC_RAP_EnableLocalVchat DWC_RAP_EnableLocalVchat_header
+#endif
+#include "../ov009/dwc_rap.h"
+#ifdef __MWERKS__
+#undef DWC_RAP_EnableLocalVchat
+int DWC_RAP_EnableLocalVchat(void);
+#endif
+#include "../arm9/net_handle.h"
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/pm_voice.h */
+#ifdef __MWERKS__
+#define PM_VOICE_SetMasterVolume PM_VOICE_SetMasterVolume_header
+#endif
+#include "../arm9/pm_voice.h"
+#ifdef __MWERKS__
+#undef PM_VOICE_SetMasterVolume
+void PM_VOICE_SetMasterVolume(s32 volume);
+#endif
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/pokegra.h */
+#ifdef __MWERKS__
+#define POKEGRA_RegisterTrainerCgr POKEGRA_RegisterTrainerCgr_header
+#endif
+#include "../arm9/pokegra.h"
+#ifdef __MWERKS__
+#undef POKEGRA_RegisterTrainerCgr
+s32 POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u16 heapId);
+#endif
+#ifdef __MWERKS__
+/* The original passes the colour as a full word; the definition takes u16 (docs/ORIGINAL_BUGS.tsv, kind B).
+ * The header declaration is renamed away so the original prototype can stand. */
+#define PRINTSYS_PrintColor PRINTSYS_PrintColor_header
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_PrintColor
+void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u32 color);
+#endif
+#include "../arm9/wifi_friend.h"
+#include "../arm9/wifilist.h"
 
 struct GameData;
 struct PokeParty;
@@ -354,17 +430,16 @@ struct NetHandle;
 struct Regulation;
 struct BmpData;
 struct ClactInitParam;
-struct ClactUnit;
+struct Unit;
 struct FriendEntry;
 struct FriendRoster;
 struct GfFont;
-struct MsgData;
+struct MsgBank;
 struct PlayerProfile;
 struct Task;
 struct ClactRenderer;
 struct VramBankConfig;
 struct WordSet;
-typedef struct WifiClubSpritePos { u16 x, y, animSeq, priority; } WifiClubSpritePos;
 
 typedef struct WifiClubTouchBarTable { s32 words[8]; } WifiClubTouchBarTable;
 
@@ -386,304 +461,104 @@ typedef struct GflNetHandle GflNetHandle;
 /* Second menu header, reached through the symbol that sits 4 bytes before it. */
 typedef struct WifiClubMenuHeaderSlot { u32 reserved; WifiClubMenuListHeader header; } WifiClubMenuHeaderSlot;
 
-typedef struct WifiClubIconPos { u16 x, y, z; u8 animSeq, priority; } WifiClubIconPos;
 
 typedef struct WifiClubSceneMessages { u32 messageId[3]; } WifiClubSceneMessages;
 
 typedef int (*WifiClubStateHandler)(WifiClubWork *work, int state);
 
-extern void GF_FONT_SetDefaultTextColor(void);
-extern void *BMP_MENU_CreateYesNo(const void *, u16, u8, u8, u16);
-extern u32 BMP_MENU_ProcessYesNo(void *);
+#include "../arm9/gf_font.h"
+struct WinDat;
+extern struct BmpMenu *BMP_MENU_CreateYesNo(struct WinDat *, u16, u8, u8, u16);
+extern u32 BMP_MENU_ProcessYesNo(struct BmpMenu *);
 struct WifiList;
-extern u32 WIFILIST_GetFriendInfoField(struct WifiList *list, u32 index, u32 field);
 struct Strbuf;
-extern void WIFILIST_CopyFriendNameToStrbuf(struct WifiList *list, s32 index, struct Strbuf *dest);
-extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
-extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *win, u32 kind);
-extern u32 BMP_WIN_Delete(struct BmpWin *window);
+#include "../arm9/wordset.h"
 struct TimeIcon;
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+#include "../arm9/time_icon.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 struct KeyCursor;
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 struct PrintStreamCtrl;
-extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
-extern signed char MSG_SPEED_GetWait(void);
-extern BmpWin *BMP_WIN_Create(u32 layer, u8 x, u8 y, u32 width, u8 height, u8 palette, u8 slot);
+#include "../arm9/msg_speed.h"
 struct MsgBank;
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+#include "../arm9/msgdata.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-extern PrintStream *PRINTSYS_PrintStream(BmpWin *win, u32 x, u32 y, StrBuf *str, void *font, u32 speed, void *tcbl, u32 prio, u32 heapId, u32 palette);
-extern void PRINTSYS_CTRL_Init(void *streamWait, u32 v);
-extern void BMP_WIN_TransferChars(struct BmpWin *window);
-extern void BMP_WIN_MakeScreen(BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 archiveId, u32 fileId, u32 type, u32 offset, u32 size, u16 heapId);
-extern void BMP_WIN_ClearScreen(BmpWin *win);
-extern u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
-extern void BMP_MENULIST_SetColors(struct BmpMenuList *menu, u8 letter, u8 bg, u8 shadow);
-extern void *BMP_MENUWORK_Create(u32, u32);
-extern void BMP_MENUWORK_AddMsgItem(void *menuWork, MsgData *bank, u32 messageId, u32 value, u32 heapId);
-struct MenuTemplate;
-extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, s32 heap);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/arc_util.h"
+struct BmpMenuListTemplate;
 struct MyStatus;
-extern struct MyStatus *SYSTEM_DATA_GetMyStatus(void *saveData);
-extern struct Strbuf *MYSTATUS_CreateNameStrbuf(u16 *name, s32 heap_id);
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern void GF_FONT_SetTextColor(u32, u32, u32);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/system_data.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/strbuf.h"
 extern int DWC_RAP_GetTargetFriendIndex(void);
-extern void BG_SYS_PushTile(u32);
-extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *cursorPos, u16 *listPos);
-extern u32 BMP_MENUWORK_Delete(void *p);
-extern void BMP_MENU_DeleteYesNo(void *menu);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+extern void BMP_MENU_DeleteYesNo(struct BmpMenu *menu);
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heapId, u16 tag, u32 count, u32 workSize);
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 offset);
-extern void BG_SYS_FreeSlot(u8 idx);
-extern u32 CURSOR_MOVE_GetTableGroup(u32 x);
-extern void *POKEGRA_OpenTrainerHandle(int heapId);
-extern s32 POKEGRA_RegisterTrainerCgr(void *a, int b, int c, u16 d);
-extern s32 POKEGRA_RegisterTrainerPalette(void *a, u32 b, u32 c, u32 d, u16 e);
-extern s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void *CLACT_CreateActor(void *owner, s32 charRes, s32 palRes, s32 cellRes, const void *position, unsigned short space, unsigned short heap);
-struct Actor;
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleaseCharacter(u32 idx);
-extern void CLACT_ReleasePalette(u32 idx);
-extern void CLACT_ReleaseCellAnim(u32 idx);
-extern void MI_CpuFill8(void *,int,int);
-extern void *TOUCHBAR_Create(WifiClubTouchBarSetup *setup, int heap);
-extern void TOUCHBAR_SetButtonKeyMask(void *touchBar, unsigned int id, int v);
-extern void TOUCHBAR_Delete(void *touchBar);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
-extern void PRINTSYS_PrintColor(void *bmp, int x, s16 y, StrBuf *str, void *font, u32 color);
-extern void WORDSET_SetSlotNumber(WordSet *wordSet, u32 i, u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/tcbl.h"
+#include "../arm9/cursor_move.h"
+#include "../arm9/arc_tool.h"
+struct ClactActor;
+struct TouchBarParams;
+extern struct TouchBar *TOUCHBAR_Create(struct TouchBarParams *setup, u16 heap);
+extern void TOUCHBAR_SetButtonKeyMask(struct TouchBar *touchBar, unsigned int id, int v);
+extern void TOUCHBAR_Delete(struct TouchBar *touchBar);
 struct Party;
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 struct BoxPokemon;
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
-extern u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
-extern s32 CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
-extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
-extern int POKE_TOOL_GetIconCellArcIdSub(void);
-extern int POKE_TOOL_GetIconCellEntryId(void);
-extern s32 CLACT_RegisterCellAnim(void *archive, u32 first, u32 second, u32 mode);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled);
+#include "../arm9/poke_tool_ext.h"
 struct RegulationText;
-extern struct RegulationText *POKE_REGULATION_CreateText(struct Regulation *reg, struct WordSet *wordSet, u16 heapId, u32 battleMode);
-extern void *REGULATION_CreateCupName(struct Regulation *rule, u32 heapId);
-extern void POKE_REGULATION_DeleteText(struct RegulationText *text);
+#include "../arm9/poke_regulation.h"
+#include "../arm9/regulation.h"
 struct TcblList;
-extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 extern void DWC_RAP_SetVchatEnabled(int);
-extern int DWC_RAP_EnableLocalVchat(void);
-extern void DWC_RAP_StartVchatDefaultHeap(int a);
-extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern int GFL_NET_SetAcceptConnection(unsigned int unused, void *arg);
-extern int GFL_NET_IsParentAid();
 struct GFLNetHandle;
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
-extern int APP_ENV_HasParentalControlBits(void);
-extern unsigned int APP_ENV_IsRunOnTwl(void);
-extern u32 KEY_GetTrg(void);
-extern void *GAME_DATA_GetMyParty(const struct GameData *p);
-extern int POKE_REGULATION_CheckParty(struct Regulation *reg, struct Party *party, u32 *flags);
+#include "../arm9/app_env.h"
+#include "../arm9/key.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 struct BattleBoxSave;
-extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
+#include "../arm9/battle_box.h"
 struct BoxMonGroup;
-extern u32 BATTLE_BOX_HasMon(struct BoxMonGroup *box);
-extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, s32 heap);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *POKE_REGULATION_Load(s32 memberId, s32 heapId);
-extern void POKEPARTY_Copy(struct Party *src, struct Party *dst);
-extern void BMP_MENULIST_GetPos(struct BmpMenuList *menu, u16 *cursorPos, u16 *listPos);
-extern int POKE_REGULATION_GetDataSize(void);
-extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, u32 sendId, u32 command, u32 size, void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern u32 REGULATION_GetRuleValue(struct Regulation *regulation, u32 ruleId);
-extern void GFL_NET_SetAutoExit(u8 enable);
-extern int GFL_NET_SetLoginOption(int);
-extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, u32 command, u32 size, void *data);
+#include "../arm9/gfl_heap_wrap.h"
 struct GFLNetSession;
-extern struct GFLNetSession *GFL_NET_GetInitParam(void);
 struct FieldState;
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
-extern struct WifiList *WIFILIST_GetWork(struct WifiList *list);
-extern struct FriendEntry *WIFILIST_GetDwcFriendData(struct FriendRoster *obj, int i);
-extern void WIFILIST_MergeFriendRecord(struct WifiList *list, s32 src, s32 dest);
-extern int OS_IsRunOnTwl(void);
-extern void GFL_NET_StartSession(WifiClubNetInit *init, u32 flags, u32 userData);
-extern void GFL_NET_CopyInitParam(void *dst);
-extern u32 GAME_DATA_GetBoxManager(const struct GameData *p);
-extern u32 POKEPARTY_GetNonEggCount(struct Party *party);
-extern void GFL_NET_SetWaitMode(u32 waitMode);
+#include "../arm9/os_emulator.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void BG_SYS_SetMainVisiblePlanes(u32);
-extern void BG_SYS_SetSubVisiblePlanes(u32);
-extern WordSet *WORDSET_CreateDefault(u16 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int archive, int fileId, int type, int flags, u32 heapId);
-extern void BG_SYS_SetLcdSwap(u32);
-extern void BMP_WIN_Init(u16);
-extern void *GFL_USE_AddMainTask(u32, u32, u32);
-extern void BG_SYS_SetMainPlaneVisible(u32, u32);
+#include "../arm9/tcb_list.h"
 struct Renderer;
-extern void CLACT_DeleteRenderer(struct Renderer *renderer);
-extern unsigned int CLACT_DeleteUnit(struct ClactUnit *bank);
-extern void CLACT_ExitSystem(void);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern unsigned int WORDSET_Delete(WordSet *p);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void CLACT_VBlankSystem(void);
 struct DispVram;
-extern void BG_SYS_SetVramBanks(struct DispVram *banks);
-extern void BG_SYS_Create(u16);
-extern void BG_SYS_SetGraphicsMode(WifiClubDispConfig *cfg);
-extern void BG_SYS_InitBgLayer(u32 bgId, const WifiClubBgTemplate *tmpl, u32 type);
-extern void BG_SYS_Init(u32, u32, u32, u32);
-extern void BG_SYS_InitSlot(u8 idx);
-extern void BG_SYS_SetPriority(int, u16);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 type, u32 index, u32 offset, u32 size, u16 heapId);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *archive, u32 type, u32 index, u32 offset, u32 size, u16 heapId);
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *archive, u32 type, u32 index, void **outData, u16 heapId);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern void *BMP_MENUWORK_LoadFrameGfx(unsigned int layer, unsigned int palSlot, unsigned int frameId, unsigned short heapId);
+#include "../arm9/wipe.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 struct SurfaceInit;
-extern struct Renderer *CLACT_CreateRenderer(struct SurfaceInit *inits, u32 count, u32 heap_id);
-extern void CLACT_SetUnitRenderer(struct ClactUnit *bank, void *p);
-extern void WIFILIST_SetFriendLastSeen(struct WifiList *list, s32 slot);
 extern int DWC_RAP_IsDisconnected(void);
 extern void DWC_RAP_StopVchat(void);
-extern u32 GFL_USE_GetTargetBgmNo(void);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 extern int DWC_RAP_SetOwnStatus(char *data, int size);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetArea(struct MyStatus *mystatus);
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
-extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
-extern void WIFILIST_SetFriendInfoField(struct WifiList *list, u32 index, u32 field, u32 value);
-extern int GFL_NET_Exit(int force);
-extern u32 GFL_NET_IsIdle(void);
-extern void CLACT_FlushOamIfPending(void);
-extern void GFL_NET_STATE_WifiStartMatch(void);
+#include "../arm9/net_state.h"
 extern unsigned char DWC_RAP_IsUserDataChanged(void);
-extern int GFL_NET_STATE_IsWifiLoginState(void);
-extern int GFL_NET_STATE_IsFatalError(void);
-extern int GFL_NET_STATE_GetWifiState(void);
-extern int GAME_DATA_SaveStart(struct GameData *gd);
-extern int GAME_DATA_SaveMain(struct GameData *gd);
 extern void DWC_RAP_ClearUserDataChanged(int v);
-extern int GFL_NET_STATE_IsWifiLoginOrConnected(void);
-extern int GFL_NET_STATE_IsWifiDisconnectFinal(void);
-extern u32 GFL_NET_IsConnectMember(u32 aid);
-extern void GFL_NET_STATE_WifiDisconnect(u32 force);
-extern u32 WIFILIST_CountFriends(struct WifiList *list);
 extern void DWC_RAP_SetAcceptFriendCallback(void (*callback)(void));
-extern u32 WIFILIST_GetFriendListEnd(struct WifiList *list);
 extern int DWC_RAP_GetNewClientAid(void);
-extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, unsigned int n);
-extern int MI_CpuCopy8(void *,void *,int);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern u32 WIPE_SYS_EndCheck(void);
-extern void GFL_NET_STATE_SetError(int, u32, u32, u32);
-extern u32 GFL_USE_GetRandomBelow(u32);
-extern void GFL_USE_PlaySeInSlot(u32 seqNo, s32 slot);
+#include "../arm9/gf_standard.h"
 extern int DWC_RAP_GetCanceledPeerIndex(void);
 extern s16 DWC_RAP_GetVchatEnabled(void);
-extern int GFL_USE_IsSeSlotBusy(u32 slot);
 extern int DWC_RAP_GetVchatState(char *unused);
 extern int DWC_RAP_IsVchatActive(void);
-extern int GFL_NET_HANDLE_GetNegotiationNum(void);
-extern u32 POKEPARTY_GetAliveNonEggCount(struct Party *party);
 extern unsigned DWC_RAP_GetResult(void);
-extern u32 GFL_NET_HANDLE_IsNegotiationDone(struct GFLNetHandle *handle);
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
-extern int GFL_NET_HANDLE_CheckNegotiation(void);
-extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, u32 playerId);
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
-extern void *MET_TRAINERS_GetFromSave(void *);
+#include "../arm9/met_trainers_savedata.h"
 struct MetTrainersSave;
-extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, u32 value);
-extern int MYSTATUS_GetSize(void);
-extern int WIFILIST_UpdateFriendRecord(void *o);
-extern int GFL_NET_GetRunState(void);
-extern void WIFILIST_CompactFriendList(struct WifiList *list);
-extern void *BUTTON_MAN_Create(const void *table, void *callback, void *userData, int heap);
+#include "../arm9/config.h"
 struct ButtonMan;
-extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
-extern s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
-extern void TOUCHBAR_Update(void *p);
-extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *p);
-extern unsigned int KEY_GetCont(void);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, const void *src, u8 sx, u8 sy, u8 sw, u8 sh);
+extern void TOUCHBAR_Update(struct TouchBar *p);
+extern int TOUCHBAR_GetPressedButtonIdIfDone(struct TouchBar *p);
 extern s32 DWC_RAP_GetFriendStatusData(int i);
 extern unsigned char DWC_RAP_GetFriendStatus(int i);
-extern int GFL_NET_STATE_WifiEnterLogin(int a);
-extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volumeIndex);
-extern void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
-extern void PM_VOICE_SetMasterVolume(int v);
-extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern void GFL_NET_SetUserArg(u32 arg);
-extern void *SYSTEM_DATA_GetConfig(void *sys);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
-extern int DWC_RAPCOMMON_HandleNetError(int,int);
-extern unsigned int GFL_NET_ERR_GetErrorLevel(void);
-extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
-extern void CLACT_DrawSystem(void *);
-extern void GF_FONT_GetTextColor(u8 *,u8 *,u8 *);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern void REGULATION_Copy(struct Regulation *src, struct Regulation *dest);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern void OS_GetMacAddress(u8 *macAddress);
+#include "../arm9/procsys.h"
+#include "../ov009/dwc_rapcommon.h"
+#include "../arm9/net_err.h"
+#include "../arm9/os_ownerinfo.h"
 u32 WIFICLUB_GetMessageIdByIndex(int i);
 void WIFICLUB_OpenYesNoMenu(WifiClubWork *work);
 u32 WIFICLUB_PollYesNoMenu(WifiClubWork *work);
@@ -709,7 +584,7 @@ void WIFICLUB_OpenPartnerPanel(WifiClubWork *work, int panelPlane);
 void WIFICLUB_OpenPartnerPanelWithBg(WifiClubWork *work, int panelPlane);
 void WIFICLUB_CreateTrainerActor(WifiClubWork *work, int friendIndex, int heapId);
 void WIFICLUB_DeleteTrainerActor(WifiClubWork *work);
-void WIFICLUB_CreateTouchBar(WifiClubWork *work, int heapId);
+void WIFICLUB_CreateTouchBar(WifiClubWork *work, u16 heapId);
 void WIFICLUB_DeleteTouchBar(WifiClubWork *work);
 void WIFICLUB_LoadPanelGraphics(WifiClubWork *work);
 void WIFICLUB_DrawPartnerPanel(WifiClubWork *work, int panelPlane);
@@ -843,7 +718,7 @@ int WIFICLUB_HasRuleViolation(WifiClubWork *work);
 void WIFICLUB_ChangeNetMode(WifiClubWork *work, int kind, int value);
 void WIFICLUB_InitScreen(WifiClubWork *work);
 void WIFICLUB_ExitScreen(WifiClubWork *work);
-void WIFICLUB_VBlankTask(void);
+void WIFICLUB_VBlankTask(struct TcbTask *task, void *arg);
 void WIFICLUB_InitVram(void);
 void WIFICLUB_InitBackgrounds(u16 heapId);
 void WIFICLUB_AddPeerActor(WifiClubWork *work, void *actor);
@@ -1036,7 +911,7 @@ extern WifiClubMenuListHeader gWifiClubMainMenuHeader;
 extern WifiClubMenuItem gWifiClubMainMenuItems[];
 extern WifiClubMenuListHeader gWifiClubAnswerMenuHeaderTemplate;
 extern const WifiClubMenuItem gWifiClubAnswerMenuItems[];
-extern const WifiClubSpritePos gWifiClubTrainerSpritePos;
+extern const struct ActorInitParam gWifiClubTrainerSpritePos;
 extern const WifiClubTouchBarTable gWifiClubTouchBarTable;
 extern const WifiClubStatusMessageTable gWifiClubVisitorMessageIds;
 extern WifiClubMenuListHeader gWifiClubRuleMenuHeader;
@@ -1051,11 +926,11 @@ extern const WifiClubSceneMessages gWifiClubSceneMessageIds;
 extern const u32 gWifiClubRuleIdTable[];
 extern const WifiClubRuleTable d_021C38EC;
 extern const WifiClubRuleTable d_021C390C;
-extern WifiClubNetInit d_021C3B9C;
+extern GFLNetInitializeStruct d_021C3B9C;
 extern u8 data_021C3AA0[];
-extern const WifiClubDispConfig d_021C37F4;
-extern const WifiClubBgTemplate d_021C396C, d_021C382C, d_021C384C, d_021C386C;
-extern const WifiClubBgTemplate d_021C38AC, d_021C38CC, d_021C392C, d_021C394C;
+extern const struct DispConfig d_021C37F4;
+extern const struct BgTemplate d_021C396C, d_021C382C, d_021C384C, d_021C386C;
+extern const struct BgTemplate d_021C38AC, d_021C38CC, d_021C392C, d_021C394C;
 extern u8 d_021C3740[];
 extern u8 d_021C375C[];
 extern u8 d_021C3AA0[];
@@ -1075,7 +950,7 @@ u32 WIFICLUB_GetMessageIdByIndex(int i)
 void WIFICLUB_OpenYesNoMenu(WifiClubWork *work)
 {
     GF_FONT_SetDefaultTextColor();
-    work->yesNoMenu = BMP_MENU_CreateYesNo(&gWifiClubYesNoWindowTemplate, work->windowFrameBase, 14, 0, 0x21);
+    work->yesNoMenu = BMP_MENU_CreateYesNo((struct WinDat *)&gWifiClubYesNoWindowTemplate, work->windowFrameBase, 14, 0, 0x21);
 }
 
 
@@ -1174,7 +1049,7 @@ void WIFICLUB_PrintTalkMessage(WifiClubWork *work, int messageId, int useAltBank
     } else {
         u32 speed = MSG_SPEED_GetWait();
         work->printStream = PRINTSYS_PrintStream(work->talkWin, 0, 0, work->printText, work->textFont, speed, work->tcbl, 2, 0x21, 0xF);
-        PRINTSYS_CTRL_Init(work->streamWait, 2);
+        PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)work->streamWait, 2);
     }
     BMP_WIN_TransferChars(work->talkWin);
     BMP_WIN_MakeScreen(work->talkWin);
@@ -1261,7 +1136,7 @@ void WIFICLUB_CreateMenuList(WifiClubWork *work, WifiClubMenuListHeader *header,
     header->pending = &work->menuPending;
     header->font = work->textFont;
     header->owner = work;
-    work->menuList = BMP_MENULIST_Create((struct MenuTemplate *)header, 0, work->menuCursor[menuKind], 0x21);
+    work->menuList = BMP_MENULIST_Create((struct BmpMenuListTemplate *)header, 0, work->menuCursor[menuKind], 0x21);
     if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->menuPrintQueue) == 0) {
         do {
             PRINTSYS_QUE_Main((struct PrintQueue *)work->menuPrintQueue);
@@ -1315,7 +1190,7 @@ void WIFICLUB_CreateAnswerMenu(WifiClubWork *work)
     header.printQueue = work->menuPrintQueue;
     header.pending = &work->menuPending;
     header.font = work->textFont;
-    work->menuList = BMP_MENULIST_Create((struct MenuTemplate *)(&header), 0, 0, 33);
+    work->menuList = BMP_MENULIST_Create((struct BmpMenuListTemplate *)(&header), 0, 0, 33);
     if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->menuPrintQueue) == 0) {
         do {
             PRINTSYS_QUE_Main((struct PrintQueue *)work->menuPrintQueue);
@@ -1341,7 +1216,7 @@ void WIFICLUB_DrawPlayerInfoWindow(WifiClubWork *work)
     if (work->playerInfoWin == 0)
         return;
     GF_FONT_SetDefaultTextColor();
-    name = (struct StrBuf *)MYSTATUS_CreateNameStrbuf(myStatus, 33);
+    name = (struct Strbuf *)MYSTATUS_CreateNameStrbuf(myStatus, 33);
     BMP_Clear(BMP_WIN_GetBmp(work->playerInfoWin), 255);
     if (MYSTATUS_GetSex(myStatus) == 0)
         GF_FONT_SetTextColor(5, 6, 0);
@@ -1421,10 +1296,10 @@ void WIFICLUB_DeleteAllWindows(WifiClubWork *work)
  */
 void WIFICLUB_CreateTextBuffers(WifiClubWork *work)
 {
-    work->printText = (struct StrBuf *)STRBUF_Create(0x17C, 0x21);
-    work->extraText = (struct StrBuf *)STRBUF_Create(0x17C, 0x21);
-    work->rawText = (struct StrBuf *)STRBUF_Create(0x17C, 0x21);
-    work->shortText = (struct StrBuf *)STRBUF_Create(0xB4, 0x21);
+    work->printText = (struct Strbuf *)STRBUF_Create(0x17C, 0x21);
+    work->extraText = (struct Strbuf *)STRBUF_Create(0x17C, 0x21);
+    work->rawText = (struct Strbuf *)STRBUF_Create(0x17C, 0x21);
+    work->shortText = (struct Strbuf *)STRBUF_Create(0xB4, 0x21);
     work->msgPrintQueue = (struct PrintQue *)PRINTSYS_QUE_Create(0x21);
     work->menuPrintQueue = (struct PrintQue *)PRINTSYS_QUE_Create(0x21);
     work->tcbl = TCBL_Create(0x21, 0x21, 2, 0);
@@ -1485,7 +1360,7 @@ void WIFICLUB_OpenPartnerPanelWithBg(WifiClubWork *work, int panelPlane)
 
 void WIFICLUB_CreateTrainerActor(WifiClubWork *work, int friendIndex, int heapId)
 {
-    WifiClubSpritePos pos;
+    struct ActorInitParam pos;
     int trainerId;
     void *archive;
 
@@ -1515,11 +1390,11 @@ void WIFICLUB_DeleteTrainerActor(WifiClubWork *work)
 }
 
 
-void WIFICLUB_CreateTouchBar(WifiClubWork *work, int heapId)
+void WIFICLUB_CreateTouchBar(WifiClubWork *work, u16 heapId)
 {
     WifiClubTouchBarTable table;
     WifiClubTouchBarSetup setup;
-    void *touchBar;
+    struct TouchBar *touchBar;
 
     table = gWifiClubTouchBarTable;
     if (work->touchBar == 0) {
@@ -1532,7 +1407,7 @@ void WIFICLUB_CreateTouchBar(WifiClubWork *work, int heapId)
         setup.originX = 0xC;
         setup.originY = 0xC;
         setup.priority = 2;
-        touchBar = TOUCHBAR_Create(&setup, heapId);
+        touchBar = TOUCHBAR_Create((struct TouchBarParams *)&setup, heapId);
         work->touchBar = touchBar;
         TOUCHBAR_SetButtonKeyMask(touchBar, 1, 0);
     }
@@ -1541,7 +1416,7 @@ void WIFICLUB_CreateTouchBar(WifiClubWork *work, int heapId)
 
 void WIFICLUB_DeleteTouchBar(WifiClubWork *work)
 {
-    void *touchBar = work->touchBar;
+    struct TouchBar *touchBar = work->touchBar;
 
     if (touchBar != 0) {
         TOUCHBAR_Delete(touchBar);
@@ -1712,8 +1587,8 @@ void WIFICLUB_DrawPartyListWindow(WifiClubWork *work, void *party)
     if (work->partyWin == 0)
         work->partyWin = BMP_WIN_Create(2, 1, 5, 30, 6, 15, 1);
     BMP_MENUWORK_DrawWindow(work->partyWin, 2, (u16)work->windowFrameBase, 14);
-    nameText = (struct StrBuf *)STRBUF_Create(0x40, 0x21);
-    templateText = (struct StrBuf *)STRBUF_Create(0x40, 0x21);
+    nameText = (struct Strbuf *)STRBUF_Create(0x40, 0x21);
+    templateText = (struct Strbuf *)STRBUF_Create(0x40, 0x21);
     BMP_Clear(BMP_WIN_GetBmp(work->partyWin), 255);
     BMP_WIN_ClearScreen(work->partyWin);
     count = POKEPARTY_GetCount(party);
@@ -1728,7 +1603,7 @@ void WIFICLUB_DrawPartyListWindow(WifiClubWork *work, void *party)
             WORDSET_SetSlotNumber(work->wordSet, 0, nickname, 3, 0, 1);
             WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)nameText, (struct Strbuf *)templateText);
             x = i * 40;
-            PRINTSYS_Print(BMP_WIN_GetBmp(work->partyWin), x + 1, 32, (struct Strbuf *)nameText, work->nameFont);
+            PRINTSYS_Print(BMP_WIN_GetBmp(work->partyWin), (s16)(x + 1), 32, (struct Strbuf *)nameText, work->nameFont);
             if (gender != 2 && ((species != 0x1d && species != 0x20) || form != 0)) {
                 if (gender == 0) {
                     MSGDATA_ReadString((struct MsgBank *)work->msgBank, 0x75, (struct Strbuf *)templateText);
@@ -1737,7 +1612,7 @@ void WIFICLUB_DrawPartyListWindow(WifiClubWork *work, void *party)
                     MSGDATA_ReadString((struct MsgBank *)work->msgBank, 0x76, (struct Strbuf *)templateText);
                     win = work->partyWin;
                 }
-                PRINTSYS_Print(BMP_WIN_GetBmp(win), x + 30, 16, (struct Strbuf *)templateText, work->textFont);
+                PRINTSYS_Print(BMP_WIN_GetBmp(win), (s16)(x + 30), 16, (struct Strbuf *)templateText, work->textFont);
             }
         }
     }
@@ -1768,15 +1643,15 @@ void WIFICLUB_CreatePartyIcons(WifiClubWork *work, void *party, int base, void *
 {
     int i, count;
     void *mon;
-    WifiClubIconPos pos;
+    struct ActorInitParam pos;
     count = POKEPARTY_GetCount(party);
     for (i = 0; i < count; i++) {
         mon = POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(party, i));
         pos.x = i * 40 + 22;
         pos.y = 54;
-        pos.z = 0;
-        pos.animSeq = 0;
-        pos.priority = 0;
+        pos.anim_seq = 0;
+        pos.draw_priority = 0;
+        pos.bg_priority = 0;
         work->partyIconChar[base + i] = CLACT_RegisterCharacter(archive, POKE_TOOL_GetGraphicIndex(mon), 0, 0, 0x21);
         work->partyIconActor[base + i] = CLACT_CreateActor(work->clactUnit, work->partyIconChar[base + i], work->partyIconPalette, work->partyIconCellAnim, &pos, 0, 0x21);
         CLACT_SetActorPaletteOffset(work->partyIconActor[base + i], POKE_TOOL_GetIconPalette(mon), 1);
@@ -1884,7 +1759,7 @@ void WIFICLUB_ShowRuleWindow(WifiClubWork *work, int mask, u32 ruleFlag, int mod
     BMP_WIN_MakeScreen(work->noticeWin);
     BMP_MENUWORK_DrawWindow(work->noticeWin, 1, (u16)work->windowFrameBase, 14);
     GF_FONT_SetDefaultTextColor();
-    work->regulationText = (struct StrBuf **)POKE_REGULATION_CreateText(work->regulationData, work->wordSet, 33, ruleFlag);
+    work->regulationText = (struct Strbuf **)POKE_REGULATION_CreateText(work->regulationData, work->wordSet, 33, ruleFlag);
     if (mode == 0) {
         text = REGULATION_CreateCupName(work->regulationData, 33);
         PRINTSYS_Print(BMP_WIN_GetBmp(work->noticeWin), 0, 0, (struct Strbuf *)text, work->textFont);
@@ -1943,7 +1818,13 @@ void WIFICLUB_StartVoiceChat(WifiClubWork *work)
     WifiClubSession *session = work->session;
     if (session->voiceChat[0] != 0 && session->voiceChat[1] != 0) {
         DWC_RAP_SetVchatEnabled(1);
+#ifdef __MWERKS__
+        /* The original passes the call result on; the routine returns nothing, r0 is left over. */
         DWC_RAP_StartVchatDefaultHeap(DWC_RAP_EnableLocalVchat());
+#else
+        DWC_RAP_EnableLocalVchat();
+        DWC_RAP_StartVchatDefaultHeap(0);
+#endif
         WIFICLUB_StartBgmFade(work, 0x2A);
         WIFICLUB_SetStatusModeFlag(work->localStatus, 1);
     } else {
@@ -1959,7 +1840,7 @@ void WIFICLUB_StartVoiceChat(WifiClubWork *work)
 int WIFICLUB_StateStartInvite(WifiClubWork *work, int result)
 {
     int zero;
-    GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+    GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 0);
     zero = 0;
     if (GFL_NET_IsParentAid() == 0) {
         work->connectionMode = 3;
@@ -2011,7 +1892,7 @@ int WIFICLUB_StateInviteYesNo(WifiClubWork *work, int result)
 
 int WIFICLUB_StateRestartInvite(WifiClubWork *work, int result)
 {
-    GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)0);
+    GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), (void *)0);
     if (GFL_NET_IsParentAid() != 0) {
         work->connectionMode = 3;
         WIFICLUB_SetPartnerNameWord(work, work->selectedPlusOne - 1);
@@ -3004,7 +2885,7 @@ int WIFICLUB_StateUpdatePartyMenu(WifiClubWork *work, int state)
 int WIFICLUB_StateSendRegisteredParty(WifiClubWork *work, int state)
 {
     int seat;
-    struct NetHandle *handle;
+    struct GFLNetHandle *handle;
 
     seat = 0;
     if (GFL_NET_IsParentAid() == 0) {
@@ -3230,7 +3111,8 @@ int WIFICLUB_StateShowLeaveMessageParent(WifiClubWork *work, int state)
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 0x19, 10) == 0) return state;
     noFlag = 0;
     GFL_NET_SetAutoExit(0);
-    if (GFL_NET_IsParentAid(GFL_NET_SetLoginOption(0)) != 0) {
+    GFL_NET_SetLoginOption(0);
+    if (GFL_NET_IsParentAid() != 0) {
         WIFICLUB_ShowStreamedMessage(work, 0x7c, noFlag);
     } else {
         WIFICLUB_ShowStreamedMessage(work, 0x7d, noFlag);
@@ -3460,7 +3342,8 @@ int WIFICLUB_StateShowDisconnectNotice(WifiClubWork *work, int state)
     noFlag = 0;
     work->connectionMode = noFlag;
     GFL_NET_SetAutoExit(0);
-    if (GFL_NET_IsParentAid(GFL_NET_SetLoginOption(0)) != 0) {
+    GFL_NET_SetLoginOption(0);
+    if (GFL_NET_IsParentAid() != 0) {
         WIFICLUB_ShowStreamedMessage(work, 0x73, noFlag);
     } else {
         WIFICLUB_ShowStreamedMessage(work, 0x7c, noFlag);
@@ -3475,7 +3358,8 @@ int WIFICLUB_StateBranchOnSeatAfterNotify(WifiClubWork *work, int state)
 {
     int noFlag;
     noFlag = 0;
-    if (GFL_NET_IsParentAid(GFL_NET_SetAcceptConnection((unsigned int)GFL_NET_HANDLE_GetCurrentHandle(), 0)) == 0) {
+    GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 0);
+    if (GFL_NET_IsParentAid() == 0) {
         WIFICLUB_SetPartnerNameWord(work, work->selectedPlusOne - 1);
         WIFICLUB_ShowStreamedMessage(work, 0x77, noFlag);
         work->state = WIFICLUB_STATE_OPEN_LEAVE_PROMPT;
@@ -3556,7 +3440,7 @@ int WIFICLUB_StateHandlePeerPhase(WifiClubWork *work, int state)
         work->sceneKind = peerPhase;
         return 2;
     default:
-        GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+        GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 0);
         if (GFL_NET_IsParentAid()) {
             if (WIFICLUB_CheckPartyAgainstRules(work->regulationData, work->gameData, (u32 *)(&violationMask)) &&
                 WIFICLUB_CheckSavedRegulation(work->regulationData, work->savedRegulation, &violationMask)) {
@@ -3619,7 +3503,7 @@ void WIFICLUB_LoadFriendRoster(WifiClubWork *work)
 /* Looks up the first entry of the friend roster. */
 void WIFICLUB_GetFirstFriendEntry(WifiClubWork *work)
 {
-    WIFILIST_GetDwcFriendData((struct FriendRoster *)GAME_DATA_GetWifiList(work->gameData), 0);
+    WIFILIST_GetDwcFriendData((struct WifiList *)GAME_DATA_GetWifiList(work->gameData), 0);
 }
 
 
@@ -3641,7 +3525,7 @@ void WIFICLUB_StartNetSession(WifiClubWork *work, int startSession)
     else
         d_021C3B9C.heapSize = 0x5e400;
     if (startSession)
-        GFL_NET_StartSession(&d_021C3B9C, 0, (u32)work);
+        GFL_NET_StartSession(&d_021C3B9C, 0, (uptr)work);
     else
         GFL_NET_CopyInitParam(&d_021C3B9C);
 }
@@ -3709,7 +3593,7 @@ BOOL WIFICLUB_IsKindActive(int phase)
 /* True for net mode 4 with a busy phase. */
 BOOL WIFICLUB_ShouldEnterWaitMode(int kind, void *value)
 {
-    if (WIFICLUB_IsBusyPhase((int)value) != 0 && kind == 4) {
+    if (WIFICLUB_IsBusyPhase((sptr)value) != 0 && kind == 4) {
         return 1;
     }
 
@@ -3750,7 +3634,7 @@ void WIFICLUB_ChangeNetMode(WifiClubWork *work, int kind, int value)
     switch (kind) {
     case 2:
     case 5:
-        GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+        GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
         return;
     case 0:
     case 1:
@@ -3758,7 +3642,7 @@ void WIFICLUB_ChangeNetMode(WifiClubWork *work, int kind, int value)
     case 4:
     case 6:
     default:
-        GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+        GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
         break;
     }
 }
@@ -3775,16 +3659,16 @@ void WIFICLUB_InitScreen(WifiClubWork *work)
     *(volatile u32 *)0x04001000 &= 0xffffe0ff;
     archive = ARC_TOOL_CreateHandle(0x21, 0x21);
     work->wordSet = WORDSET_CreateDefault(0x21);
-    work->msgBank = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0xd1, 0x21);
-    work->msgBankAlt = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0xe8, 0x21);
+    work->msgBank = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0xd1, 0x21);
+    work->msgBankAlt = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0xe8, 0x21);
     work->textFont = GF_FONT_Create(0x17, 0, 0, 0, 0x21);
     work->nameFont = GF_FONT_Create(0x17, 3, 0, 0, 0x21);
     BG_SYS_SetLcdSwap(1);
     WIFICLUB_InitVram();
     WIFICLUB_InitBackgrounds(0x21);
     BMP_WIN_Init(0x21);
-    WIFICLUB_InitPlanesAndText(work, (int)archive);
-    work->updateTask = GFL_USE_AddMainTask((u32)WIFICLUB_VBlankTask, (u32)work, 1);
+    WIFICLUB_InitPlanesAndText(work, (sptr)archive);
+    work->updateTask = GFL_USE_AddMainTask(WIFICLUB_VBlankTask, work, 1);
     WIFICLUB_TaskHook(work->updateTask);
     WIFICLUB_InitSprites(work, archive);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -3818,7 +3702,7 @@ void WIFICLUB_ExitScreen(WifiClubWork *work)
 
 
 /* V-blank task: updates the sprite system. */
-void WIFICLUB_VBlankTask(void)
+void WIFICLUB_VBlankTask(struct TcbTask *task, void *arg)
 {
     CLACT_VBlankSystem();
 }
@@ -3834,8 +3718,8 @@ void WIFICLUB_InitVram(void)
 /* Sets the display config and the eight background layers. */
 void WIFICLUB_InitBackgrounds(u16 heapId)
 {
-    WifiClubDispConfig dispConfig;
-    WifiClubBgTemplate bg0, bg1, bg2, bg3, bg4, bg5, bg6, bg7;
+    struct DispConfig dispConfig;
+    struct BgTemplate bg0, bg1, bg2, bg3, bg4, bg5, bg6, bg7;
     int i;
     BG_SYS_Create(heapId);
     dispConfig = d_021C37F4;
@@ -3914,7 +3798,7 @@ void WIFICLUB_ClearPeerActors(WifiClubWork *work)
     int i;
     WIFICLUBACTOR_Exit((&work->actorSys));
     for (i = 0; i < WIFICLUB_PEER_SLOT_COUNT; i++) {
-        *(int *)((unsigned int)work + (unsigned int)i * 4 + 0x814) = 0;
+        *(int *)((uptr)work + (unsigned int)i * 4 + 0x814) = 0;
         WIFICLUB_ClearSlotState(work, i + 1);
     }
     MI_CpuFill8(work->shownActorState, 0, WIFICLUB_SLOT_COUNT);
@@ -4064,8 +3948,8 @@ void WIFICLUB_InitPlanesAndText(WifiClubWork *work, int archive)
     BG_SYS_SetSubPlaneVisible(0xD, 1);
     WIFICLUB_LoadBgResources((&work->bgLoad), archive, 0x21);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, k << 5, 0x20, 0x21);
-    work->menuFrameBase = (u32)BMP_MENUWORK_LoadFrameGfx((unsigned int)2, 0xE, 0, 0x21);
-    work->windowFrameBase = (u32)BMP_MENUWORK_LoadFrameGfx((unsigned int)2, 0xE, 0, 0x21);
+    work->menuFrameBase = (uptr)BMP_MENUWORK_LoadFrameGfx((unsigned int)2, 0xE, 0, 0x21);
+    work->windowFrameBase = (uptr)BMP_MENUWORK_LoadFrameGfx((unsigned int)2, 0xE, 0, 0x21);
     work->textBufferC = BMP_MENUWORK_LoadFrameGfx((unsigned int)1, 0xE, 0, 0x21);
 }
 
@@ -4079,7 +3963,7 @@ void WIFICLUB_TaskHook(void *task)
 /* Starts the sprite system with one unit and one renderer. */
 void WIFICLUB_InitSprites(WifiClubWork *work, void *archive)
 {
-    CLACT_InitSystem((struct SysInit *)d_021C3740, (struct DispVramCfg *)d_021C3AA0, 0x21);
+    CLACT_InitSystem((struct ClactSysInit *)d_021C3740, (struct DispVramCfg *)d_021C3AA0, 0x21);
     work->clactUnit = CLACT_CreateUnit(0x64, 0, 0x21);
     work->clactRenderer = CLACT_CreateRenderer((struct SurfaceInit *)d_021C375C, 2, 0x21);
     CLACT_SetUnitRenderer(work->clactUnit, work->clactRenderer);
@@ -4288,7 +4172,7 @@ int WIFICLUB_StateRestartMatch(WifiClubWork *work, int state)
         work->headerWin = WIFICLUB_DeleteWindow(work->headerWin);
         BG_SYS_FreeSlot(3);
         archive = ARC_TOOL_CreateHandle(0x21, 0x21);
-        WIFICLUB_InitPlanesAndText(work, (int)archive);
+        WIFICLUB_InitPlanesAndText(work, (sptr)archive);
         ARC_TOOL_DeleteHandle(archive);
         work->ready = 1;
         if (work->subMenuWork != 0) {
@@ -4477,7 +4361,7 @@ void WIFICLUB_CreateTitleWindows(WifiClubWork *work)
 BOOL WIFICLUB_IsFriendRequestFromPeer(void *friendIndex, WifiClubFriendRequest *request)
 {
     WifiClubPlayerStatus *x = request->status;
-    WifiClubPlayerStatus *y = WIFICLUB_GetFriendStatus((int)friendIndex);
+    WifiClubPlayerStatus *y = WIFICLUB_GetFriendStatus((sptr)friendIndex);
 
     WIFICLUB_GetStatusActionState(x);
     WIFICLUB_GetStatusActionState(y);
@@ -4521,11 +4405,11 @@ void WIFICLUB_ResetClubScreen(WifiClubWork *work)
         kind = 16;
         if (gender) kind = 17;
         work->mapIndexPlusOne = WIFILIST_GetFriendListEnd(work->friendList);
-        WIFICLUBACTOR_Init((&work->actorSys), WIFICLUB_HEAP_ID, (u32)archive, kind, work->mapIndexPlusOne, WIFICLUB_HEAP_ID,
-                      (u32)work->clactUnit, (u32)work->clactRenderer);
+        WIFICLUBACTOR_Init((&work->actorSys), WIFICLUB_HEAP_ID, (uptr)archive, kind, work->mapIndexPlusOne, WIFICLUB_HEAP_ID,
+                      (uptr)work->clactUnit, work->clactRenderer);
         WIFICLUB_AddPeerActor(work, WIFICLUBACTOR_SpawnCursorActor((&work->actorSys), kind));
     }
-    if (!WIFICLUB_IsSlotPanelOpen(work)) WIFICLUB_OpenSlotPanel(work, (int)archive, WIFICLUB_HEAP_ID);
+    if (!WIFICLUB_IsSlotPanelOpen(work)) WIFICLUB_OpenSlotPanel(work, (sptr)archive, WIFICLUB_HEAP_ID);
     WIFICLUB_CopyZeroToDeviceAddr(work->localStatus);
     work->sceneReady = 0;
     WIFICLUB_OpenPanelOrRedrawPage(work, WIFICLUB_HEAP_ID);
@@ -4743,7 +4627,7 @@ void WIFICLUB_ReleaseSlotActors(WifiClubWork *work)
         void *peerActor = work->peerSlots[i];
 
         if (peerActor != 0) {
-            WIFICLUBACTOR_ResumeActorSprite((int)&work->actorSys, peerActor);
+            WIFICLUBACTOR_ResumeActorSprite((sptr)&work->actorSys, peerActor);
         }
     }
 }
@@ -5767,7 +5651,7 @@ int WIFICLUB_StateShowPartnerStatusMessage(WifiClubWork *work, int procState)
     WifiClubPlayerStatus *ownStatus;
     ownStatus = &work->ownStatus;
     selector = 0;
-    GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+    GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 0);
     pickedIndex = WIFICLUBACTOR_GetPickResult(&work->actorSys);
     actor = WIFICLUB_FindPeerActor(work, pickedIndex);
     facing = WIFICLUBACTOR_GetActorFacing(WIFICLUB_FindPeerActor(work, 0));
@@ -6376,7 +6260,7 @@ void WIFICLUB_RecvFriendTrainerCard(int friendIndex, int unused, void *receivedS
 {
     void *friendStatus;
     void *friendRecords;
-    if (handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (handle == (sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
         friendStatus = GAME_DATA_GetMyStatusPlayer(work->gameData, friendIndex);
         MYSTATUS_Copy(receivedStatus, friendStatus);
         friendRecords = MET_TRAINERS_GetFromSave(work->saveData);
@@ -6399,7 +6283,7 @@ void WIFICLUB_NoOpNetCommand(void) {}
 /* Net command: marks the scene result when the sender is the current handle. */
 void WIFICLUB_RecvSceneResult(int unusedA, int unusedB, int unusedC, WifiClubWork *work, int handle)
 {
-    if ((int)GFL_NET_HANDLE_GetCurrentHandle() == handle) {
+    if ((sptr)GFL_NET_HANDLE_GetCurrentHandle() == handle) {
         work->sceneResult = 1;
     }
 }
@@ -6411,7 +6295,7 @@ void WIFICLUB_RecvSceneResult(int unusedA, int unusedB, int unusedC, WifiClubWor
 /* Net command buffer getter: returns the party snapshot of one seat. */
 u32 WIFICLUB_GetSeatPartyBuffer(int seat, WifiClubWork *work)
 {
-    return (u32)work->session->seatParty[seat];
+    return (uptr)work->session->seatParty[seat];
 }
 
 
@@ -6428,7 +6312,7 @@ u32 WIFICLUB_GetSeatPartyBuffer(int seat, WifiClubWork *work)
  */
 void WIFICLUB_RecvResumeState(int unusedA, int unusedB, u8 *payload, WifiClubWork *work, int handle)
 {
-    if (handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (handle == (sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
         if (work->state == WIFICLUB_STATE_WAIT_SYNC_AND_RESUME) {
             work->resumeState = *payload;
             GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 0x1a, 10);
@@ -6450,7 +6334,7 @@ void WIFICLUB_RecvResumeState(int unusedA, int unusedB, u8 *payload, WifiClubWor
 /* Net command: applies the received rule id when the sender is the current handle. */
 void WIFICLUB_RecvRuleId(int unusedA, int unusedB, int *ruleId, WifiClubWork *work, int handle)
 {
-    if (handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (handle == (sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
         WIFICLUB_ApplyRuleId(work, *ruleId);
     }
 }
@@ -6483,12 +6367,12 @@ void WIFICLUB_RecvPeerChoice(int slot, int unused, WifiClubPeerChoice *choice, W
 /* Sends the own trainer card to the peer after the sync. Ends in state 135. */
 int WIFICLUB_StateSendTrainerCard(WifiClubWork *work, int procState)
 {
-    int handle;
+    sptr handle;
     unsigned statusSize;
     void *statusData;
     if (WIFICLUB_HandleNetFailure(work) == 0) {
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 14, 10) != 0) {
-            handle = (int)GFL_NET_HANDLE_GetCurrentHandle();
+            handle = (sptr)GFL_NET_HANDLE_GetCurrentHandle();
             statusSize = MYSTATUS_GetSize();
             statusData = GAME_DATA_GetMyStatus(work->gameData);
             if (GFL_NET_SendToHandle((void *)handle, (u16)0xa04, (u16)statusSize, (void *)statusData) != 0) {
@@ -6622,7 +6506,7 @@ int WIFICLUB_StateBranchOnPartnerPhase(WifiClubWork *work, int procState)
     if (WIFICLUB_HandleNetFailure(work) == 0) {
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 18, 10) != 0) {
             if (WIFICLUB_IsTalkFinishedOrClosed(work) == 1) {
-                WIFILIST_UpdateFriendRecord(WIFILIST_GetDwcFriendData((struct FriendRoster *)GAME_DATA_GetWifiList(work->gameData), 0));
+                WIFILIST_UpdateFriendRecord(WIFILIST_GetDwcFriendData((struct WifiList *)GAME_DATA_GetWifiList(work->gameData), 0));
                 WIFICLUB_ClearTalkWindow(work);
                 partnerStatus = WIFICLUB_GetFriendStatus(DWC_RAP_GetTargetFriendIndex());
                 WIFICLUB_GetStatusKind(work, partnerStatus);
@@ -7037,7 +6921,7 @@ void WIFICLUB_ClosePanelIfTouchActive(WifiClubWork *work, int procState)
  */
 BOOL WIFICLUB_IsSlotPanelOpen(WifiClubWork *work)
 {
-    if ((unsigned int)work->buttonMan != 0) {
+    if ((uptr)work->buttonMan != 0) {
         return 1;
     }
 
@@ -7054,7 +6938,7 @@ void WIFICLUB_OpenSlotPanel(WifiClubWork *work, int narc, int heapId)
     MI_CpuFill8(&work->detailWordSet, 0, 0xf4);
     BG_SYS_SetSubPlaneVisible(7, 1);
     BG_SYS_SetSubPlaneVisible(8, 0);
-    work->buttonMan = BUTTON_MAN_Create(d_021C377C, WIFICLUB_OnSlotButtonEvent, work, heapId);
+    work->buttonMan = BUTTON_MAN_Create((u8 *)d_021C377C, (void (*)(s32, s32, s32))WIFICLUB_OnSlotButtonEvent, (sptr)work, heapId);
     work->detailWordSet = WORDSET_CreateDefault((u16)heapId);
     WIFICLUB_CreateSlotPanelWindows(work, (void *)narc, heapId);
     work->touchDirty = 1;
@@ -7198,7 +7082,7 @@ void WIFICLUB_OnSlotButtonEvent(u32 buttonIndex, int event, WifiClubWork *work)
     u32 slotIndex;
     slotIndex = buttonIndex + (work->page << 3);
     /* Byte offset 0x8cc is the buttonState table. */
-    if (*(u8 *)((u32)work + slotIndex + 0x8cc) == 2 && work->selectedSlotPlusOne == 0 && event == 0) {
+    if (*(u8 *)((uptr)work + slotIndex + 0x8cc) == 2 && work->selectedSlotPlusOne == 0 && event == 0) {
         work->selectedSlotPlusOne = slotIndex + 1;
         GFL_USE_PlaySeDefaultVolume(1356);
     }
@@ -7659,13 +7543,13 @@ int WIFICLUB_ProcInit(void *procObj, int unused, WifiClubSession *session)
     GFL_HEAP_CreateChildHeap(1, 0x8021, 0xa4000);
     work = PROCSYS_AllocProcWork(procObj, 0x1360, 0x21);
     MI_CpuFill8(work, 0, 0x1360);
-    GFL_NET_SetUserArg((u32)work);
+    GFL_NET_SetUserArg((uptr)work);
     work->localStatus = session->localStatus;
     work->saveData = session->saveData;
     work->gameData = session->gameData;
     work->savedRegulation = WIFICLUB_LoadSavedRegulation(work->gameData);
     work->party = GAME_DATA_GetMyParty(work->gameData);
-    work->friendList = GAME_DATA_GetWifiList(work->gameData);
+    work->friendList = (struct WifiList *)GAME_DATA_GetWifiList(work->gameData);
     work->myStatus = SYSTEM_DATA_GetConfig(session->saveData);
     work->entryMode = session->isFriendMatch;
     work->connectionMode = session->connectionMode;
@@ -7731,7 +7615,7 @@ int WIFICLUB_ProcMain(int procTask, int *procState, int unused, WifiClubWork *wo
             }
         }
     }
-    if (work->clactUnit != 0) CLACT_DrawSystem(work->clactUnit);
+    if (work->clactUnit != 0) CLACT_DrawSystem();
     if (work->msgPrintQueue != 0) {
         GF_FONT_GetTextColor(&fontLetter, &fontShadow, &fontBack);
         GF_FONT_SetTextColor(1, 2, 15);
@@ -7858,7 +7742,13 @@ void WIFICLUB_CountChangeAndCopyPeerAddr(WifiClubPlayerStatus *status, WifiClubP
 int WIFICLUB_CopyZeroToDeviceAddr(WifiClubPlayerStatus *status)
 {
     u8 zeroAddr[6] = {0, 0, 0, 0, 0, 0};
+#ifdef __MWERKS__
+    /* The routine is hand-written assembly with no return value; the DS returns whatever r0 holds. */
     return MI_CpuCopy8(zeroAddr, status->deviceAddr, 6);
+#else
+    MI_CpuCopy8(zeroAddr, status->deviceAddr, 6);
+    return 0;
+#endif
 }
 
 

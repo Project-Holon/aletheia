@@ -44,6 +44,7 @@
 typedef _Bool bool;
 
 #include "../sdk_ncfg.h"
+#include "../arm9/msl_strtod.h"
 
 #include "../arm9/dwc_backup.h"
 
@@ -90,23 +91,14 @@ typedef struct aoss_secure_info {
 
 #include "../sdk_dwc.h"
 
-extern int atoi(const char *s);
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
-extern int DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *wifiinfo);
-extern int DWCi_BACKUPlRead(void *mem);
-extern int DWCi_BACKUPlWritePage(DWCMemMap *data, int *page, void *work);
-extern int DWCi_STRlNLen(unsigned char *s, int maxlen);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern unsigned char *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info);
-extern unsigned char DWCi_BACKUPlConvMaskCidr(unsigned char *mask);
-extern unsigned short MATH_CalcCRC16(MATHCRC16Table *table, void *data, unsigned long dataLength);
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void DWCi_BACKUPlConvMaskAddr(int mask, unsigned char *buf);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, unsigned short poly);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void MIi_CpuClear16(unsigned short data, void *destp, unsigned long size);
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../arm9/util_wifiidtool.h"
+#include "str.h"
+#include "../arm9/os_printf.h"
+#include "../arm9/crc.h"
+#include "heap.h"
+#include "../arm9/mi_memory.h"
 void DWCi_SETTIGNlInit(void);
 void DWCi_SETTIGNlEnd(void);
 char *DWCi_SETTIGNlGet(void);
@@ -553,7 +545,7 @@ void DWCi_SETTINGlConvAddress(char *adr, unsigned char *buf)
                 break;
             chr[j] = ' ';
         }
-        buf[i] = atoi((char *)chr);
+        buf[i] = atoi((const char *)chr);
     }
 }
 

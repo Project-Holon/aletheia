@@ -22,16 +22,7 @@
  *   data_02150FEC                0x02150FEC  data
  */
 #include "../types.h"
-
-typedef struct {
-    u32 mode;
-    u32 addr;
-    u32 len;
-    u32 size;
-    u32 flag;
-    u32 fullCallback;
-    u32 fullArg;
-} MicexReq;
+#include "../arm9/mic.h"
 
 typedef struct {
     u32 busy;
@@ -42,26 +33,23 @@ typedef struct {
     u32 fullArg;
 } MicexState;
 
-extern void *MICEXi_GetLimitedSamplingCallback(void);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
 #include "../sdk_os.h"
 
-extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, int msgCount);
-extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, int flags);
-extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
-extern s32 PXI_SendWordByFifo(int fifotag, unsigned int data, int err);
+#include "../arm9/os_message.h"
+#include "../arm9/pxi_fifo.h"
 extern u32 data_02150FEC[];
 
-u32 MICEXi_StartLimitedSampling(const MicexReq *param);
-u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *param, u32 callback, u32 arg);
+MICResult MICEXi_StartLimitedSampling(const MICAutoParam *param);
+MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
 u32 MICEXi_StopLimitedSampling(void);
 u32 MICEXi_StopLimitedSamplingAsync(u32 callback, u32 arg);
 void MicexSyncCallback(u32 result, u32 queue);
 u32 MicexStartLimitedSampling(u32 addr, u32 len, u32 size, u32 flags);
 u32 MicexStopLimitedSampling(void);
 
-u32 MICEXi_StartLimitedSampling(const MicexReq *param) {
+MICResult MICEXi_StartLimitedSampling(const MICAutoParam *param) {
     u32 res;
     u32 buf;
     u32 queue[8];
@@ -70,27 +58,27 @@ u32 MICEXi_StartLimitedSampling(const MicexReq *param) {
         return 5;
     }
     OS_InitMessageQueue((struct OSMessageQueue *)queue, (void **)(&buf), 1);
-    res = MICEXi_StartLimitedSamplingAsync(param, (u32)MicexSyncCallback, (u32)queue);
+    res = MICEXi_StartLimitedSamplingAsync(param, (MICCallback)MicexSyncCallback, queue);
     if (res == 0) {
         OS_ReceiveMessage((struct OSMessageQueue *)queue, (void **)(&res), 1);
     }
     return res;
 }
 
-u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *param, u32 callback, u32 arg) {
+MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg) {
     MicexState *st = MICEXi_GetLimitedSamplingCallback();
     u8 flags;
     u8 tmp;
     u32 mode;
     u32 irq;
 
-    if (param->len == 0) {
+    if (param->size == 0) {
         return 2;
     }
-    if ((param->addr & 0x1f) != 0 || (param->len & 0x1f) != 0) {
+    if (((u32)param->buffer & 0x1f) != 0 || (param->size & 0x1f) != 0) {
         return 2;
     }
-    switch (param->mode) {
+    switch (param->type) {
     case 0:
         mode = 0;
         break;
@@ -112,7 +100,7 @@ u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *param, u32 callback, u32 ar
     default:
         return 2;
     }
-    switch (param->size) {
+    switch (param->rate) {
     case 0x2BF:
     case 0x3FF:
     case 0x57F:
@@ -125,7 +113,7 @@ u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *param, u32 callback, u32 ar
     default:
         return 2;
     }
-    if (param->flag != 0) {
+    if (param->loop_enable != 0) {
         tmp = mode | 0x10;
     } else {
         tmp = mode & ~0x10;
@@ -138,11 +126,11 @@ u32 MICEXi_StartLimitedSamplingAsync(const MicexReq *param, u32 callback, u32 ar
     }
     st->busy = 1;
     OS_RestoreInterrupts(irq);
-    st->cb = callback;
-    st->arg = arg;
-    st->fullCallback = param->fullCallback;
-    st->fullArg = param->fullArg;
-    if (MicexStartLimitedSampling(param->addr, param->len, param->size, flags) == 0) {
+    st->cb = (u32)callback;
+    st->arg = (u32)arg;
+    st->fullCallback = (u32)param->full_callback;
+    st->fullArg = (u32)param->full_arg;
+    if (MicexStartLimitedSampling((u32)param->buffer, param->size, param->rate, flags) == 0) {
         st->busy = 0;
         return 3;
     }

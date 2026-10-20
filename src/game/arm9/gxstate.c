@@ -17,16 +17,17 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_fx.h"
 
 #include "../sdk_gx.h"
 
-#define reg_GX_VRAMCNT   (*(vu32 *)0x04000240)
-#define reg_GX_VRAMCNT_E (*(vu8 *)0x04000244)
-#define reg_GX_VRAMCNT_F (*(vu8 *)0x04000245)
-#define reg_GX_VRAMCNT_G (*(vu8 *)0x04000246)
-#define reg_GX_VRAM_HI_CNT (*(vu16 *)0x04000248)
+#define reg_GX_VRAMCNT   (*(vu32 *)REG_VRAMCNT_A_ADDR)
+#define reg_GX_VRAMCNT_E (*(vu8 *)REG_VRAMCNT_E_ADDR)
+#define reg_GX_VRAMCNT_F (*(vu8 *)REG_VRAMCNT_F_ADDR)
+#define reg_GX_VRAMCNT_G (*(vu8 *)REG_VRAMCNT_G_ADDR)
+#define reg_GX_VRAM_HI_CNT (*(vu16 *)REG_VRAMCNT_H_ADDR)
 
 #define GX_FX32_FX16(x) ((fx16)((x) >> 4))
 

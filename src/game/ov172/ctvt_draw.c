@@ -122,82 +122,40 @@
 #include "../version.h"
 
 /* ARM9 library. */
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void GFL_HEAP_Free(void *p);
-extern void *G2_GetBG2ScrPtr(void);
-extern u32 G2_GetBG3ScrPtr(void);
-extern s32 NNS_GfdRegisterNewVramTransferTask(u32 dmaNo, u32 dest, u16 *src, s32 size);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern void BG_SYS_PushTile(u32 layer);
-extern void BG_SYS_SetPlaneVisible(u32 which, u8 enable);
-extern u32 APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetStatusDataFileId(void);
-extern struct ArcHandle *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
-extern void BG_SYS_ClearSlot(u32 a);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArcHandle *arc, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_ChangeScrollImmediate(u32 a, u32 b, u32 c);
-extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
-extern void BG_SYS_ChangeScroll(u32 a, u32 b, u32 c);
-extern void BG_SYS_MarkTileDirty(u32 layer);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, int tileBase, int palette);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 heapId);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gx_bgcnt.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/app_icon.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/net.h"
 
 /* Cell actors. */
-extern struct ClActor *CLACT_CreateActor(struct ClActUnit *unit, u32 charRes, u32 palRes, u32 cellRes, const void *position, u16 space, u16 heapId);
-extern void CLACT_DeleteActor(struct ClActor *actor);
-extern void CLACT_SetActorAutoAnim(struct ClActor *actor, u32 value);
-extern void CLACT_SetActorDrawEnable(struct ClActor *actor, u32 enable);
-extern u32 CLACT_GetActorDrawEnable(struct ClActor *actor);
-extern u32 CLACT_IsActorAnimActive(struct ClActor *actor);
-extern u16 CLACT_GetActorAnimSeq(struct ClActor *actor);
-extern void CLACT_SetActorAnimSeq(struct ClActor *actor, u16 seq);
-extern void CLACT_SetActorAnimFrame(struct ClActor *actor, u32 frame);
-extern void CLACT_RestartActorAnim(struct ClActor *actor);
-extern void CLACT_AddActorSurfacePos(struct ClActor *actor, const void *delta, u32 space);
-extern void CLACT_GetActorSurfacePos(struct ClActor *actor, void *out, u16 space);
+struct Unit;
 
 /* Windows and text. */
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 w, u8 h, u8 pal, u8 slot);
-extern void *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(void *bmp, u8 value);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct StrBuf *MSGDATA_AllocString(struct MsgData *msg, u32 index);
-extern void STRBUF_Delete(struct StrBuf *str);
-extern void PRINTSYS_PrintQueColor(struct PrintQue *que, void *bmp, short x, u32 y, struct StrBuf *text, u32 font, u32 flags);
-extern void PRINTSYS_QUE_Clear(struct PrintQue *que);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *que, void *bmp);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/strbuf.h"
+struct PrintQueue;
 
 /* Input, wipe, sound. */
-extern int TOUCHPANEL_GetTrg(void);
-extern int TOUCHPANEL_GetCont(void);
-extern int TOUCHPANEL_HitTrg(const void *rects);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
-extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
-extern u32 KEY_GetTrg(void);
-extern void WIPE_SYS_Start(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 heapId);
-extern u32 WIPE_SYS_EndCheck(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+#include "../arm9/touchpanel.h"
+#include "../arm9/key.h"
+#include "../arm9/gfl_use.h"
 
+#include "../ov172/draw_system.h"
+#include "../arm9/wipe.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/clact.h"
+#include "../arm9/printsys.h"
 /* Other ov172 code. */
-extern void DRAW_SYSTEM_PushStroke(struct CtvtSprites *sprites, CtvtStroke *stroke);
-extern void CTVT_CAMVIEW_SetCameraEffect(CtvtWork *work, CtvtCamView *view, int dir);
-extern void CTVT_CAMVIEW_RequestShutterSound1(CtvtWork *work, CtvtCamView *view);
-extern void CTVT_CAMVIEW_StopCapture(CtvtWork *work, CtvtCamView *view);
-extern int CTVT_CAMVIEW_IsShutterIdle(CtvtWork *work, CtvtCamView *view);
-extern u32 CTVT_CAMVIEW_IsLayoutChanging(CtvtWork *work, CtvtCamView *view);
-extern u32 CTVT_COMM_GetNetMode(CtvtWork *work, struct CtvtComm *comm);
-extern void CTVT_COMM_StopSession(CtvtWork *work, struct CtvtComm *comm);
-extern u32 CTVT_COMM_SendCommand(CtvtWork *work, struct CtvtComm *comm, u8 a, u32 b);
-extern void CTVT_COMM_SetTimingSync(CtvtWork *work, struct CtvtComm *comm, u32 id);
-extern int CTVT_COMM_IsTimingSync(CtvtWork *work, struct CtvtComm *comm, u32 id);
-extern CtvtStroke *CTVT_COMM_PopStroke(CtvtWork *work, struct CtvtComm *comm, int *full);
-extern void CTVT_COMM_AdvanceWriteCursor(CtvtWork *work, struct CtvtComm *comm);
+struct DrawCanvas;
+#include "ctvt_camera.h"
+#include "ctvt_comm.h"
 
 extern s16 FX_SinCosTable_[];
 extern const u8 gCtvtDrawPanelButtonRects[];
@@ -268,10 +226,10 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     u16 heapId;
     u8 i;
     struct ArcHandle *arc;
-    struct MsgData *msgData;
+    struct MsgBank *msgData;
     u32 font;
-    struct PrintQue *printQue;
-    struct StrBuf *text;
+    struct PrintQueue *printQue;
+    struct Strbuf *text;
 
     heapId = COMM_TVT_SYS_GetHeapId(work);
     ARC_UTIL_UploadBgPaletteFromHandle(COMM_TVT_SYS_GetArc(work), 0x10, 7, 0, 0, 0, heapId);
@@ -293,27 +251,27 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     d.animSeq = 1;
     d.priority = 8;
     d.flags = 0;
-    scene->button[0] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), &d, 0, heapId);
+    scene->button[0] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), (const struct ActorInitParam *)&d, 0, heapId);
     d.x = 0x38;
     d.animSeq = 0x3;
-    scene->button[1] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), &d, 0, heapId);
+    scene->button[1] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), (const struct ActorInitParam *)&d, 0, heapId);
     d.x = 0x60;
     d.animSeq = 0x5;
-    scene->button[2] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), &d, 0, heapId);
+    scene->button[2] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), (const struct ActorInitParam *)&d, 0, heapId);
     d.x = 0x88;
     d.animSeq = 0x7;
-    scene->button[3] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), &d, 0, heapId);
+    scene->button[3] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), (const struct ActorInitParam *)&d, 0, heapId);
     d.x = 0xc8;
     if (COMM_TVT_SYS_GetViewSwapped(work) == 1) {
         d.animSeq = 0xc;
     } else {
         d.animSeq = 0xa;
     }
-    scene->button[4] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), &d, 0, heapId);
+    scene->button[4] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), (const struct ActorInitParam *)&d, 0, heapId);
     d.x = 0xe0;
     d.y = 0xc0;
     d.animSeq = 0x1;
-    scene->button[5] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 7), COMM_TVT_SYS_GetResId(work, 3), COMM_TVT_SYS_GetResId(work, 10), &d, 0, heapId);
+    scene->button[5] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 7), COMM_TVT_SYS_GetResId(work, 3), COMM_TVT_SYS_GetResId(work, 10), (const struct ActorInitParam *)&d, 0, heapId);
     CLACT_SetActorAutoAnim(scene->button[5], 1);
     for (i = 0; i < 6; i++) {
         CLACT_SetActorDrawEnable(scene->button[i], 1);
@@ -321,39 +279,39 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     d.x = 0x38;
     d.y = 0x48;
     d.animSeq = 0xe;
-    scene->helpIcon[0] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 5), COMM_TVT_SYS_GetResId(work, 1), COMM_TVT_SYS_GetResId(work, 9), &d, 1, heapId);
+    scene->helpIcon[0] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 5), COMM_TVT_SYS_GetResId(work, 1), COMM_TVT_SYS_GetResId(work, 9), (const struct ActorInitParam *)&d, 1, heapId);
     d.y = 0x5c;
     d.animSeq = 0xf;
-    scene->helpIcon[1] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 5), COMM_TVT_SYS_GetResId(work, 1), COMM_TVT_SYS_GetResId(work, 9), &d, 1, heapId);
+    scene->helpIcon[1] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 5), COMM_TVT_SYS_GetResId(work, 1), COMM_TVT_SYS_GetResId(work, 9), (const struct ActorInitParam *)&d, 1, heapId);
     d.y = 0x70;
     d.animSeq = 0x10;
-    scene->helpIcon[2] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 5), COMM_TVT_SYS_GetResId(work, 1), COMM_TVT_SYS_GetResId(work, 9), &d, 1, heapId);
+    scene->helpIcon[2] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 5), COMM_TVT_SYS_GetResId(work, 1), COMM_TVT_SYS_GetResId(work, 9), (const struct ActorInitParam *)&d, 1, heapId);
     d.y = 0x84;
     d.animSeq = 0x11;
-    scene->helpIcon[3] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 5), COMM_TVT_SYS_GetResId(work, 1), COMM_TVT_SYS_GetResId(work, 9), &d, 1, heapId);
+    scene->helpIcon[3] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 5), COMM_TVT_SYS_GetResId(work, 1), COMM_TVT_SYS_GetResId(work, 9), (const struct ActorInitParam *)&d, 1, heapId);
     d.x = 0x2c;
     d.y = 0x8c;
     d.animSeq = 0x1;
-    scene->helpIcon[4] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 6), COMM_TVT_SYS_GetResId(work, 2), COMM_TVT_SYS_GetResId(work, 10), &d, 1, heapId);
+    scene->helpIcon[4] = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 6), COMM_TVT_SYS_GetResId(work, 2), COMM_TVT_SYS_GetResId(work, 10), (const struct ActorInitParam *)&d, 1, heapId);
     for (i = 0; i < 5; i++) {
         CLACT_SetActorDrawEnable(scene->helpIcon[i], 0);
     }
     d.x = 0x10;
     d.y = 0xa0;
     d.animSeq = 0xf;
-    scene->penPicker = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), &d, 0, heapId);
+    scene->penPicker = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), (const struct ActorInitParam *)&d, 0, heapId);
     CLACT_SetActorDrawEnable(scene->penPicker, 0);
     d.x = 0x88;
     d.y = 0xa0;
     d.animSeq = 0x10;
-    scene->stampPicker = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), &d, 0, heapId);
+    scene->stampPicker = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), (const struct ActorInitParam *)&d, 0, heapId);
     CLACT_SetActorDrawEnable(scene->stampPicker, 0);
     d.priority = 0;
-    scene->pickMarker = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), &d, 0, heapId);
+    scene->pickMarker = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), (const struct ActorInitParam *)&d, 0, heapId);
     CLACT_SetActorDrawEnable(scene->pickMarker, 0);
     d.animSeq = 0x19;
     d.priority = 2;
-    scene->cursor = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), &d, 0, heapId);
+    scene->cursor = CLACT_CreateActor(COMM_TVT_SYS_GetClactUnit(work), COMM_TVT_SYS_GetResId(work, 4), COMM_TVT_SYS_GetResId(work, 0), COMM_TVT_SYS_GetResId(work, 8), (const struct ActorInitParam *)&d, 0, heapId);
     CLACT_SetActorDrawEnable(scene->cursor, 0);
     CTVT_DRAW_UpdateToolButtons(work, scene);
     scene->helpWin = 0;
@@ -364,7 +322,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     scene->titleWin = BMP_WIN_Create(4, 3, 1, 0x1c, 2, 0xa, 1);
     BMP_Clear(BMP_WIN_GetBmp(scene->titleWin), 0);
     text = MSGDATA_AllocString(msgData, 0xb);
-    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->titleWin), 1, 0, text, font, 0x440);
+    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->titleWin), 1, 0, text, (struct GfFont *)font, 0x440);
     STRBUF_Delete(text);
     scene->titlePending = 1;
     scene->state = 0;
@@ -445,7 +403,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
     int flag;
     int zero;
     u8 i;
-    struct PrintQue *printQue;
+    struct PrintQueue *printQue;
     u32 sine;
     int visible;
     u32 phase;
@@ -456,9 +414,9 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
     switch (scene->state) {
     case 0:
         if (COMM_TVT_SYS_GetReturnedFromChild(work) == 1) {
-            WIPE_SYS_Start(zero, 1, 1, zero, 6, 1, heapId);
+            WIPE_SYS_Start((void *)zero, 1, 1, zero, 6, 1, heapId);
         } else {
-            WIPE_SYS_Start(4, 1, 1, zero, 6, 1, heapId);
+            WIPE_SYS_Start((void *)4, 1, 1, zero, 6, 1, heapId);
         }
         scene->state = 1;
         break;
@@ -640,7 +598,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
     sine = (s16)((s32)(sine + 0x1000) / 2);
     sine = (u8)(((s32)sine * -9 >> 12) + 0x1c);
     scene->fadeColor = sine | (sine << 5) | (sine << 10);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0xde, &scene->fadeColor, 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)0xe, (u32)0xde, (u32)(&scene->fadeColor), 2);
     return 3;
 }
 
@@ -675,7 +633,7 @@ void CTVT_DRAW_UpdatePanelMode(CtvtWork *work, CtvtDrawScene *scene)
     int hitButton;
     int hitItem;
 
-    hitButton = TOUCHPANEL_HitTrg(gCtvtDrawPanelButtonRects);
+    hitButton = TOUCHPANEL_HitTrg((const TouchHitTable *)gCtvtDrawPanelButtonRects);
     if (hitButton == 0 && CLACT_GetActorDrawEnable(scene->pickMarker) == 0) {
         scene->toolMode = 0;
         scene->drawTool = 0;
@@ -715,7 +673,7 @@ void CTVT_DRAW_UpdatePanelMode(CtvtWork *work, CtvtDrawScene *scene)
         GFL_USE_PlaySeDefaultVolume(0x66f);
     }
     if (scene->sizePickerOpen == 1) {
-        hitItem = TOUCHPANEL_HitTrg(gCtvtDrawSizePickerRects);
+        hitItem = TOUCHPANEL_HitTrg((const TouchHitTable *)gCtvtDrawSizePickerRects);
         if (hitItem != -1) {
             scene->penSize = gCtvtDrawPenSizeValues[hitItem];
             scene->uiHandled = 1;
@@ -724,13 +682,13 @@ void CTVT_DRAW_UpdatePanelMode(CtvtWork *work, CtvtDrawScene *scene)
             CLACT_RestartActorAnim(scene->pickMarker);
             CLACT_SetActorAutoAnim(scene->pickMarker, 1);
             CLACT_SetActorAnimSeq(scene->pickMarker, (u16)(hitItem + 0x11));
-            CLACT_AddActorSurfacePos(scene->pickMarker, &penMarkerPos, 0);
+            CLACT_AddActorSurfacePos(scene->pickMarker, (const struct ClactVec2 *)&penMarkerPos, 0);
             CLACT_SetActorDrawEnable(scene->cursor, 0);
             GFL_USE_PlaySeDefaultVolume(0x66c);
         }
     }
     if (scene->stampPickerOpen == 1) {
-        hitItem = TOUCHPANEL_HitTrg(gCtvtDrawStampPickerRects);
+        hitItem = TOUCHPANEL_HitTrg((const TouchHitTable *)gCtvtDrawStampPickerRects);
         if (hitItem != -1) {
             scene->stampKind = gCtvtDrawStampKindValues[hitItem];
             scene->uiHandled = 1;
@@ -740,7 +698,7 @@ void CTVT_DRAW_UpdatePanelMode(CtvtWork *work, CtvtDrawScene *scene)
             CLACT_RestartActorAnim(scene->pickMarker);
             CLACT_SetActorAutoAnim(scene->pickMarker, 1);
             CLACT_SetActorAnimSeq(scene->pickMarker, (u16)(hitItem + 0x14));
-            CLACT_AddActorSurfacePos(scene->pickMarker, &stampMarkerPos, 0);
+            CLACT_AddActorSurfacePos(scene->pickMarker, (const struct ClactVec2 *)&stampMarkerPos, 0);
             CLACT_SetActorDrawEnable(scene->cursor, 0);
         }
     }
@@ -775,7 +733,7 @@ void CTVT_DRAW_UpdatePanelMode(CtvtWork *work, CtvtDrawScene *scene)
         case 2:
             break;
         }
-        CLACT_AddActorSurfacePos(scene->cursor, &penCursorPos, 0);
+        CLACT_AddActorSurfacePos(scene->cursor, (const struct ClactVec2 *)&penCursorPos, 0);
         CLACT_SetActorDrawEnable(scene->cursor, 1);
     }
     if (scene->stampPickerOpen == 1 && CLACT_IsActorAnimActive(scene->stampPicker) == 0 && CLACT_GetActorDrawEnable(scene->cursor) == 0) {
@@ -794,7 +752,7 @@ void CTVT_DRAW_UpdatePanelMode(CtvtWork *work, CtvtDrawScene *scene)
             stampCursorPos.x = stampCursorPos.x + 0x20;
             break;
         }
-        CLACT_AddActorSurfacePos(scene->cursor, &stampCursorPos, 0);
+        CLACT_AddActorSurfacePos(scene->cursor, (const struct ClactVec2 *)&stampCursorPos, 0);
         CLACT_SetActorDrawEnable(scene->cursor, 1);
     }
 }
@@ -807,8 +765,8 @@ void CTVT_DRAW_UpdateCanvasTouch(CtvtWork *work, CtvtDrawScene *scene)
     u32 x2;
     u32 y2;
     int full2;
-    struct CtvtSprites *sprites2;
-    struct CtvtSprites *sprites1;
+    struct DrawCanvas *sprites2;
+    struct DrawCanvas *sprites1;
     u32 srcRow;
     u16 *bgBuf;
     u32 srcOff;
@@ -839,7 +797,7 @@ void CTVT_DRAW_UpdateCanvasTouch(CtvtWork *work, CtvtDrawScene *scene)
         mode = COMM_TVT_SYS_GetMemberCount(work);
         comm = COMM_TVT_SYS_GetComm(work);
         sprites1 = COMM_TVT_SYS_GetSprites(work);
-        stroke = CTVT_COMM_PopStroke(work, comm, &full1);
+        stroke = (struct CtvtStroke *)CTVT_COMM_PopStroke((struct CtvtWork *)work, (struct CtvtComm *)comm, (int *)&full1);
         if (full1 == 0) {
             stroke->x0 = x;
             stroke->y0 = y;
@@ -861,9 +819,9 @@ void CTVT_DRAW_UpdateCanvasTouch(CtvtWork *work, CtvtDrawScene *scene)
             srcRow = (x << 1) + (u32)bgBuf;
             G2_GetBG3ScrPtr();
             if (COMM_TVT_SYS_GetHalfRes(work) == 1) {
-                dstAddr = ((y >> 1) << 9) + ((x & ~1) + G2_GetBG3ScrPtr());
+                dstAddr = ((y >> 1) << 9) + ((x & ~1) + (u32)G2_GetBG3ScrPtr());
             } else {
-                dstAddr = (y << 9) + ((x << 1) + G2_GetBG3ScrPtr());
+                dstAddr = (y << 9) + ((x << 1) + (u32)G2_GetBG3ScrPtr());
             }
             srcColor = *(u16 *)(srcOff + srcRow);
             if (srcColor & 0x8000) {
@@ -894,7 +852,7 @@ void CTVT_DRAW_UpdateCanvasTouch(CtvtWork *work, CtvtDrawScene *scene)
                 mode = COMM_TVT_SYS_GetMemberCount(work);
                 comm = COMM_TVT_SYS_GetComm(work);
                 sprites2 = COMM_TVT_SYS_GetSprites(work);
-                stroke = CTVT_COMM_PopStroke(work, comm, &full2);
+                stroke = (struct CtvtStroke *)CTVT_COMM_PopStroke((struct CtvtWork *)work, (struct CtvtComm *)comm, (int *)&full2);
                 if (full2 == 0) {
                     stroke->x0 = scene->lastX;
                     stroke->y0 = scene->lastY;
@@ -935,10 +893,10 @@ void CTVT_DRAW_SlidePanel(CtvtWork *work, CtvtDrawScene *scene)
     if (changed == 1) {
         BG_SYS_ChangeScroll(0, 3, 24 - (u8)scene->panelPos);
         for (i = 0; i < 6; i++) {
-            CLACT_GetActorSurfacePos(scene->button[i], &pos, 0);
+            CLACT_GetActorSurfacePos(scene->button[i], (struct ClactVec2 *)&pos, 0);
             pos.y = scene->panelPos + 180;
             if (i == 5) pos.y -= 12;
-            CLACT_AddActorSurfacePos(scene->button[i], &pos, 0);
+            CLACT_AddActorSurfacePos(scene->button[i], (const struct ClactVec2 *)&pos, 0);
         }
     }
 }
@@ -977,19 +935,19 @@ void CTVT_DRAW_UpdateToolButtons(CtvtWork *work, CtvtDrawScene *scene)
 
 void CTVT_DRAW_ShowHelp(CtvtWork *work, CtvtDrawScene *scene, int page)
 {
-    struct StrBuf *textMsg5Or9;
-    struct StrBuf *textMsg4;
-    struct StrBuf *textMsg3;
-    struct StrBuf *textMsg2;
-    struct StrBuf *textMsg1;
-    struct StrBuf *textMsg0;
-    struct StrBuf *textMsg10;
-    struct StrBuf *textMsg8;
-    struct StrBuf *textMsg7;
-    struct StrBuf *textMsg6;
+    struct Strbuf *textMsg5Or9;
+    struct Strbuf *textMsg4;
+    struct Strbuf *textMsg3;
+    struct Strbuf *textMsg2;
+    struct Strbuf *textMsg1;
+    struct Strbuf *textMsg0;
+    struct Strbuf *textMsg10;
+    struct Strbuf *textMsg8;
+    struct Strbuf *textMsg7;
+    struct Strbuf *textMsg6;
     struct BmpWin *oldWin;
-    struct MsgData *msgData;
-    struct PrintQue *printQue;
+    struct MsgBank *msgData;
+    struct PrintQueue *printQue;
     u32 font;
 
     font = COMM_TVT_SYS_GetFont(work);
@@ -1007,41 +965,41 @@ void CTVT_DRAW_ShowHelp(CtvtWork *work, CtvtDrawScene *scene, int page)
         BMP_Clear(BMP_WIN_GetBmp(scene->helpWin), 0xf);
         BMP_WIN_TransferChars(scene->helpWin);
         textMsg6 = MSGDATA_AllocString(msgData, 6);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x4, textMsg6, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x4, textMsg6, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg6);
         textMsg7 = MSGDATA_AllocString(msgData, 7);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x18, textMsg7, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x18, textMsg7, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg7);
         textMsg8 = MSGDATA_AllocString(msgData, 8);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x2c, textMsg8, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x2c, textMsg8, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg8);
         textMsg10 = MSGDATA_AllocString(msgData, 10);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x40, textMsg10, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x40, textMsg10, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg10);
         textMsg5Or9 = MSGDATA_AllocString(msgData, 9);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x54, textMsg5Or9, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x40, 0x54, textMsg5Or9, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg5Or9);
     } else {
         scene->helpWin = BMP_WIN_Create(4, 2, 0x10, 0x1c, 6, 0xa, 1);
         BMP_Clear(BMP_WIN_GetBmp(scene->helpWin), 0xf);
         BMP_WIN_TransferChars(scene->helpWin);
         textMsg0 = MSGDATA_AllocString(msgData, 0);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x8, 0x0, textMsg0, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x8, 0x0, textMsg0, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg0);
         textMsg1 = MSGDATA_AllocString(msgData, 1);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x8, 0x10, textMsg1, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x8, 0x10, textMsg1, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg1);
         textMsg2 = MSGDATA_AllocString(msgData, 2);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x8, 0x20, textMsg2, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x8, 0x20, textMsg2, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg2);
         textMsg3 = MSGDATA_AllocString(msgData, 3);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x50, 0x0, textMsg3, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x50, 0x0, textMsg3, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg3);
         textMsg4 = MSGDATA_AllocString(msgData, 4);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x50, 0x10, textMsg4, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x50, 0x10, textMsg4, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg4);
         textMsg5Or9 = MSGDATA_AllocString(msgData, 5);
-        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x50, 0x20, textMsg5Or9, font, 0x440);
+        PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->helpWin), 0x50, 0x20, textMsg5Or9, (struct GfFont *)font, 0x440);
         STRBUF_Delete(textMsg5Or9);
     }
     scene->helpPending = 1;
@@ -1069,15 +1027,15 @@ int CTVT_DRAW_CheckLeave(CtvtWork *work, int *out)
 void CTVT_DRAW_ShowMessage(CtvtWork *work, CtvtDrawScene *scene, int msgId)
 {
     u32 font = COMM_TVT_SYS_GetFont(work);
-    struct MsgData *msgData = COMM_TVT_SYS_GetMsgData(work);
-    struct PrintQue *printQue = COMM_TVT_SYS_GetPrintQue(work);
-    struct StrBuf *text;
+    struct MsgBank *msgData = COMM_TVT_SYS_GetMsgData(work);
+    struct PrintQueue *printQue = COMM_TVT_SYS_GetPrintQue(work);
+    struct Strbuf *text;
     if (scene->messageWin != 0) BMP_WIN_Delete(scene->messageWin);
     scene->messageWin = BMP_WIN_Create(0, 1, scene->panelTarget == 0 ? 4 : 1, 30, 4, 10, 1);
     PRINTSYS_QUE_Clear(printQue);
     BMP_Clear(BMP_WIN_GetBmp(scene->messageWin), 15);
     text = MSGDATA_AllocString(msgData, msgId);
-    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->messageWin), 0, 0, text, font, 1088);
+    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(scene->messageWin), 0, 0, text, (struct GfFont *)font, 1088);
     STRBUF_Delete(text);
     BMP_WIN_TransferChars(scene->messageWin);
     BMP_WIN_MakeScreen(scene->messageWin);

@@ -31,6 +31,7 @@
  *   WIH_DWC_ResetFilterState 0x020107CC thumb
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -52,7 +53,7 @@ extern char sDwcRaputilFileName[];
 /* Overlay id 107: the symbol is absolute (its address is the id), hence the (int) casts. */
 extern char ov107_id[];
 
-#define REG_IME (*(volatile unsigned short *)0x04000208)
+#define REG_IME (*(volatile unsigned short *)REG_IME_ADDR)
 
 void DWC_RAPUTIL_RunUtility(int heapId)
 {
@@ -69,7 +70,7 @@ void DWC_RAPUTIL_RunUtility(int heapId)
     REG_IME = 1;
 }
 
-int DWC_RAPUTIL_Init(void) { GFL_HEAP_CreateChildHeap(1, 15, 0x40100); NET_DEVICE_TABLE_Select(1); GF_OVERLAY_Load((int)ov107_id); return 1; }
+int DWC_RAPUTIL_Init(void) { GFL_HEAP_CreateChildHeap(1, 15, 0x40100); NET_DEVICE_TABLE_Select(1); GF_OVERLAY_Load((sptr)ov107_id); return 1; }
 
 int DWC_RAPUTIL_Main(void)
 {
@@ -83,4 +84,4 @@ int DWC_RAPUTIL_ResetSystem(void)
     return 1;
 }
 
-int DWC_RAPUTIL_Exit(void) { NET_DEVICE_TABLE_Reset(1); GF_OVERLAY_Unload((int)ov107_id); GFL_HEAP_DeleteChecked(15); WIH_DWC_ResetFilterState(); return 1; }
+int DWC_RAPUTIL_Exit(void) { NET_DEVICE_TABLE_Reset(1); GF_OVERLAY_Unload((sptr)ov107_id); GFL_HEAP_DeleteChecked(15); WIH_DWC_ResetFilterState(); return 1; }

@@ -7,13 +7,13 @@
 #include "../ov101/compatible_irc_sys_types.h"
 
 struct TaskMenuState;
-struct Obj;
+struct ClactActor;
 
 /* Single-button bar of the infrared screens (96 bytes, heap allocated). */
 typedef struct IrcAppBar {
     u8 *taskMenuWin;                   /* 0x00 button window */
     struct TaskMenuState *taskMenuRes; /* 0x04 button resources */
-    struct Obj *actors[7];             /* 0x08 cell actors; slot 0 is the bar icon */
+    struct ClactActor *actors[7];             /* 0x08 cell actors; slot 0 is the bar icon */
     u8 reserved[12];                   /* 0x24 */
     int paletteId;                     /* 0x30 */
     int charId;                        /* 0x34 */
@@ -44,5 +44,8 @@ void IRC_APPBAR_LoadResources(IrcAppBar *bar,unsigned charOffset,int unusedChoic
 void IRC_APPBAR_ReleaseResources(IrcAppBar *bar);
 void IRC_APPBAR_CreateActor(IrcAppBar *bar,unsigned clactUnit,int unusedArg,unsigned anim,u8 priority,u16 heapId);
 extern char gIrcAppBarFileName[];
+
+#include "../types.h"
+void IRC_APPBAR_DeleteActors(void *bar);
 
 #endif

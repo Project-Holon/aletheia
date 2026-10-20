@@ -9,7 +9,7 @@
 
 void MTX_Identity33_(MtxFx33 *pDst);
 void MTX_Copy33To44_(const MtxFx33 *pSrc, MtxFx44 *pDst);
-void MTX_Scale33_(void);
+void MTX_Scale33_(MtxFx33 *pDst, fx32 x, fx32 y, fx32 z);
 void MTX_ScaleApply33(const MtxFx33 *pSrc, MtxFx33 *pDst, fx32 x, fx32 y, fx32 z);
 void MTX_RotX33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
 void MTX_RotY33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);

@@ -22,10 +22,10 @@
  *   OS_UnlockByWord  0x02084CEC  arm  arm9
  *   OS_ReleaseLockID  0x02084F10  arm  arm9
  *   PXI_SetFifoRecvCallback  0x020885A0  arm  arm9
- *   data_027301E0                0x027301E0  data
- *   data_027301EC                0x027301EC  data
- *   data_027301F8                0x027301F8  data
- *   data_02730204                0x02730204  data
+ *   MIi_GetWramBankMasterFuncs                0x027301E0  data
+ *   MIi_GetWramMapStartFuncs                0x027301EC  data
+ *   MIi_SetWramBankEnableFuncs                0x027301F8  data
+ *   MIi_SetWramBankMasterFuncs                0x02730204  data
  *   data_02732F5C                0x02732F5C  data
  *   data_02732F60                0x02732F60  data
  *   data_02732F64                0x02732F64  data
@@ -37,20 +37,24 @@
 
 #define PIN(g, i) (((volatile u16 (*)[8])data_02732F6C)[g][i])
 
-extern void (*const data_02730204[])(u32, u32);
-extern void (*const data_027301F8[])(u32, u32);
-extern u32 (*const data_027301E0[])(u32);
-extern u32 (*const data_027301EC[])(void);
+extern void (*const MIi_SetWramBankMasterFuncs[])(u32, u32);
+extern void (*const MIi_SetWramBankEnableFuncs[])(u32, u32);
+extern u32 (*const MIi_GetWramBankMasterFuncs[])(u32);
+extern u32 (*const MIi_GetWramMapStartFuncs[])(void);
 
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#ifdef __MWERKS__
 extern u32 OS_GetLockID(void);
-extern void OS_LockByWord(u32, void *, void *);
-extern void OS_UnlockByWord(u32, void *, void *);
+extern void OS_LockByWord(u32, void *, void *); /* original prototype; the definition differs in argument width, pointer type, return type, type */
+extern void OS_UnlockByWord(u32, void *, void *); /* original prototype; the definition differs in argument width, pointer type, return type, type */
 extern void OS_ReleaseLockID(u32);
-extern int PXI_SendWordByFifo(int fifotag, unsigned int data, int err);
-extern void SVC_WaitByLoop(u32);
-extern void PXI_SetFifoRecvCallback(u32, void *);
+#else
+#include "../arm9/os_spinlock.h"
+#endif
+#include "../arm9/pxi_fifo.h"
+#include "../arm9/svc_wait_by_loop.h"
+#include "../arm9/pxi_fifo.h"
 extern int data_02732F5C;
 extern int *data_02732F60;
 extern u32 *data_02732F64;
@@ -61,7 +65,7 @@ u32 MIi_GetAddress_A(u32 a);
 static u32 MIi_GetAddress_B(u32 a);
 static u32 MIi_GetAddress_C(u32 a);
 void MIi_InitWramManager(void);
-void MIi_CallbackForPxi(u32 tag, u32 data, int err);
+void MIi_CallbackForPxi(int tag, u32 data, BOOL err);
 u32 MIi_DoAllocWram(u32 ch, int n, u32 val);
 u32 MI_AllocWramSlot(u32 ch, int start, int n, u32 val);
 u32 MIi_DoAllocWramSlot(u32 ch, int start, int n, u32 val);
@@ -118,7 +122,7 @@ void MIi_SetWramBankMaster_C(u32 bank, u32 master)
 
 void MIi_SetWramBankMaster(u32 type, u32 bank, u32 master)
 {
-    data_02730204[type](bank, master);
+    MIi_SetWramBankMasterFuncs[type](bank, master);
 }
 
 /* Register field writers: bit 7 of a byte register set or cleared by a flag. */
@@ -145,7 +149,7 @@ void MIi_SetWramBankEnable_C(u32 bank, u32 enable)
 
 void MIi_SetWramBankEnable(u32 type, u32 bank, u32 enable)
 {
-    data_027301F8[type](bank, enable);
+    MIi_SetWramBankEnableFuncs[type](bank, enable);
 }
 
 /* Register readers: the argument is a register-block base, the mask picks the field. */
@@ -166,7 +170,7 @@ u32 MI_GetWramBankMaster_C(u32 bank)
 
 u32 MI_GetWramBankMaster(u32 type, u32 bank)
 {
-    return data_027301E0[type](bank);
+    return MIi_GetWramBankMasterFuncs[type](bank);
 }
 
 u32 MI_GetWramMapStart_A(void)
@@ -186,7 +190,7 @@ u32 MI_GetWramMapStart_C(void)
 
 u32 MI_GetWramMapStart(u32 type)
 {
-    return data_027301EC[type]();
+    return MIi_GetWramMapStartFuncs[type]();
 }
 
 u32 MIi_GetAddress_A(u32 bank)
@@ -258,7 +262,7 @@ void MIi_InitWramManager(void)
     PXI_SetFifoRecvCallback(0x12, MIi_CallbackForPxi);
 }
 
-void MIi_CallbackForPxi(u32 tag, u32 data, int err)
+void MIi_CallbackForPxi(int tag, u32 data, BOOL err)
 {
     u32 cmd, arg, ch, sub;
     u32 result;

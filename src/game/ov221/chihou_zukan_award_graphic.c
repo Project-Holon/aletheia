@@ -56,13 +56,15 @@
  *   d_021BA1B0 0x021BA1B0 data a4
  *   d_020A1EB8 0x020A1EB8 data a4
  */
-struct DispVram;
 struct Node;
-struct BgTemplate;
-struct DispConfig;
 struct Bank;
 struct Cfg;
 #include "../types.h"
+
+struct G3dCamera;
+struct VecFx32;
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys_types.h"
 
 typedef struct {u32 layer; u8 cfg[32];u32 type,enable;} Row;
 
@@ -77,7 +79,7 @@ struct ChihouZukanAwardGraphic {
     void *proc;            /* +0x0C task proc from GFL_USE_AddMainTask */
 };
 
-typedef struct {u32 x,y,z;} Vec3;
+typedef struct {u32 x,y,z;} ChihouZukanAwardGraphicVec3;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void*,int,u32);
@@ -88,10 +90,10 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void* GFL_USE_AddMainTask(u32,u32,u32);
+extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *),void *,u32);
 struct TcbTask;
 extern void TCB_DeleteTask(struct TcbTask *task);
-extern int CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(int*);
+extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(int*);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_Create(u32);
@@ -105,25 +107,18 @@ extern void BMP_WIN_Exit(void),BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
 extern void CHIHOU_ZUKAN_AWARD_Setup3d(void);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void(*)(void));
-extern u32* G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3*,Vec3*,Vec3*,u32);
+extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct VecFx32 *,struct VecFx32 *,struct VecFx32 *,u32);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern int G3D_SYSTEM_Exit(int);
 void* CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap);
 /* volatile accesses: display cleanup, original 021B9F46..021B9F60. */ void CHIHOU_ZUKAN_AWARD_GRAPHIC_Delete(char*p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p);
-void CHIHOU_ZUKAN_AWARD_GRAPHIC_Task(void *unused, char *p);
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_Task(struct TcbTask *unused, void *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(void*p,u32 heap);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p);
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(void *p);
@@ -138,7 +133,7 @@ extern char d_021BA2F0[];
 extern u32 d_021BA220[];
 extern const Row d_021BA250[];
 extern u32 d_021BA1D4[];
-extern Vec3 d_021BA1B0[3];
+extern ChihouZukanAwardGraphicVec3 d_021BA1B0[3];
 extern const s16 d_020A1EB8[];
 
 /*
@@ -166,7 +161,7 @@ void* CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(p,heap);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(int)g,heap);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(p+8),heap);
- *(void* *)&((struct ChihouZukanAwardGraphic *)p)->proc=GFL_USE_AddMainTask((u32)CHIHOU_ZUKAN_AWARD_GRAPHIC_Task,(u32)p,0);
+ *(void* *)&((struct ChihouZukanAwardGraphic *)p)->proc=GFL_USE_AddMainTask(CHIHOU_ZUKAN_AWARD_GRAPHIC_Task, p,0);
  return p;
 }
 
@@ -197,8 +192,8 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_Update(char *p)
 
 unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p){return CHIHOU_ZUKAN_AWARD_GRAPHIC_GetValue((unsigned *)(p+4));}
 
-void CHIHOU_ZUKAN_AWARD_GRAPHIC_Task(void *unused, char *p)
-{
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_Task(struct TcbTask *unused, void *work_)
+{ char * p = work_;
     CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects(p);
     CHIHOU_ZUKAN_AWARD_GRAPHIC_VBlank(p + 4);
 }
@@ -231,16 +226,16 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p){BG_SYS_Update();}
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((struct SysInit *)0x021BA1E4, (struct DispVramCfg *)a, b);
-    ((struct ClactCtx *)p)->unit = CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer(((struct ClactCtx *)p)->unit);
+    CLACT_InitSystem((struct ClactSysInit *)0x021BA1E4, (struct DispVramCfg *)a, b);
+    ((struct ClactCtx *)p)->unit = (struct Bank *)CLACT_CreateUnit(0x80, 0, b);
+    CLACT_SetUnitDefaultRenderer((struct Unit *)(((struct ClactCtx *)p)->unit));
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteClact(char *p)
 {
-    CLACT_DeleteUnit(((struct ClactCtx *)p)->unit);
+    CLACT_DeleteUnit((struct Unit *)(((struct ClactCtx *)p)->unit));
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }
@@ -254,10 +249,10 @@ unsigned CHIHOU_ZUKAN_AWARD_GRAPHIC_GetValue(unsigned *p){return *p;}
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32**p,u32 heap)
 {
  G3D_SYSTEM_Init(0,1,0,1,0,heap,CHIHOU_ZUKAN_AWARD_Setup3d);
- *p=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&d_021BA1B0[1],&d_021BA1B0[0],&d_021BA1B0[2],heap);
+ *p=(u32 *)G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,(struct VecFx32 *)(&d_021BA1B0[1]),(struct VecFx32 *)(&d_021BA1B0[0]),(struct VecFx32 *)(&d_021BA1B0[2]),heap);
 }
 
-int CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(int *p)
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(int *p)
 {
-    return G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
+    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
 }

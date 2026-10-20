@@ -45,15 +45,11 @@ typedef struct PartyListStatusMsg {
     u8 status;
 } PartyListStatusMsg;
 
-extern void GFL_NET_COMMAND_DeleteCommandTable(u32 commandBase);
+#include "../arm9/net_command.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, u32 sendId, u32 command, u32 size, void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
+#include "../arm9/net_handle.h"
+#include "../arm9/net_err.h"
+#include "../arm9/net.h"
 void PLIST_COMM_Start(PartyListCommWork *work);
 void PLIST_COMM_End(void *unused);
 void PLIST_COMM_Update(PartyListCommWork *work);

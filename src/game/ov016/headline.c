@@ -34,25 +34,20 @@
  *   DC_FlushRange  0x020862F0  arm
  *   DWCi_TSKlDelete  0x021D7724  arm  ov016
  */
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
-extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern unsigned int DWCi_Entry(void);
-extern void GX_LoadBG1Char(void *, unsigned long, unsigned long);
-extern void GX_LoadBG1Scr(void *, unsigned long, unsigned long);
-extern void DWCi_HEAPlFree_(void **mem);
-unsigned char *DWCi_Char(unsigned char *name);
-void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
-void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
-void DWCi_ARClRelease(void *file);
+#include "../arm9/gx_load2d.h"
+#include "common.h"
+#include "heap.h"
+#include "dwcutil_main.h"
+#include "archive.h"
+#include "../arm9/mi_memory.h"
 struct TCB;
-struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+#include "task.h"
 typedef struct {
     unsigned char pad[0xF4];
     unsigned char idx;
 } SETTINGINFO;
-extern char *DWCi_SETTIGNlGet(void);
-extern void DC_FlushRange(void *addr, unsigned long n);
-extern void DWCi_TSKlDelete(int kind, void *task);
+#include "setting.h"
+#include "../arm9/os_cache.h"
 void DWCi_HLlInit(void);
 void DWCi_HLlEnd(void);
 void DWCi_HLlLoad(int idx);

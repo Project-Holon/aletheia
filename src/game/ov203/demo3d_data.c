@@ -92,6 +92,7 @@
  *   _fflt                        0x0209BDBC  arm
  *   _fsub                        0x0209CB8C  arm
  */
+#include "../arm9/printsys.h"
 #include "demo3d_graphic_shared_types.h"
 #include "demo3d_engine_shared_types.h"
 #include "demo3d_data_shared_types.h"
@@ -100,11 +101,11 @@ struct TcblNode;
 
 #include "../types.h"
 
-typedef struct Entry { int x; unsigned short id, pad; int flag; } Entry;
+typedef struct Demo3dDataEntry { int x; unsigned short id, pad; int flag; } Demo3dDataEntry;
 
-typedef struct Pair { const unsigned short *ids; unsigned count; } Pair;
+typedef struct Demo3dDataPair { const unsigned short *ids; unsigned count; } Demo3dDataPair;
 
-typedef struct Group { const Pair *pairs; unsigned count; } Group;
+typedef struct Group { const Demo3dDataPair *pairs; unsigned count; } Group;
 
 typedef struct Selector { const Group *groups; unsigned short count, selector; } Selector;
 
@@ -112,7 +113,7 @@ typedef struct Row { const Selector *selectors; unsigned words[4]; } Row;
 
 /* Data context built by DEMO3D_DATA_Create (16 bytes). */
 typedef struct Demo3dData {
-    Entry         *entries; /* 0x00 six-entry table */
+    Demo3dDataEntry         *entries; /* 0x00 six-entry table */
     unsigned short count;   /* 0x04 */
     unsigned char  pad_6[2];
     char          *extra;   /* 0x08 */
@@ -131,22 +132,20 @@ typedef struct Demo3dDataExtra {
 
 typedef char Demo3dDataExtra_SizeCheck[(sizeof(Demo3dDataExtra) == 0x10) ? 1 : -1];
 
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_USE_AddMainTask(unsigned, unsigned, unsigned);
+extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *), void *, unsigned);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void GF_FONT_SetDefaultTextColor(void);
+#include "../arm9/gf_font.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_FreeSlot(unsigned char);
+#include "../arm9/bg_sys.h"
 
-extern u32 DEMO3D_ENGINE_ClampDemoId(u32 id);
+#include "demo3d_engine.h"
 
-u32 DEMO3D_ENGINE_GetCameraRecord(u32 id);
 
 void *DEMO3D_DATA_Create(unsigned heap);
 
@@ -175,7 +174,7 @@ extern u8 d_021C1860[];
 void *DEMO3D_DATA_Create(unsigned heap)
 {
     char *ctx;
-    Entry *entries;
+    Demo3dDataEntry *entries;
     char *extra;
     int i;
     ctx = GFL_HEAP_Alloc(heap, 16, 1, d_021C3CF0, 0xab);
@@ -200,12 +199,12 @@ void DEMO3D_DATA_Delete(char *a)
 
 void DEMO3D_DATA_BuildTable(char *ctx, const char *config, u8 type)
 {
-    Entry *entries = ((Demo3dData *)ctx)->entries;
+    Demo3dDataEntry *entries = ((Demo3dData *)ctx)->entries;
     char *extra = ((Demo3dData *)ctx)->extra;
     unsigned choice = 0;
     const Group *group;
     int i;
-    const Pair *pair;
+    const Demo3dDataPair *pair;
     group = DEMO3D_DATA_GetPair((char *)(&d_021C1868[*(unsigned *)config].selectors[type]), (u8 *)config);
     if (group->count > 1) choice = ((Demo3dCfg *)config)->timeZone;
     if (choice >= group->count) choice = 0;
@@ -280,27 +279,25 @@ typedef enum {GX_CAPTURE_DEST_VRAM_A_0x00000=0,GX_CAPTURE_DEST_VRAM_D_0x18000=15
 
 typedef struct CaptureConfig {int bank,pad[2];GXCaptureSize size;GXCaptureMode mode;GXCaptureSrcA a;GXCaptureSrcB b;GXCaptureDest dest;} CaptureConfig;
 
-typedef struct Config {unsigned words[11];} Config;
+typedef struct Demo3dDataConfig {unsigned words[11];} Demo3dDataConfig;
 
-typedef struct Demo3dDataCtx { unsigned int id; Config config; int active; void *task; } Demo3dDataCtx;
+typedef struct Demo3dDataCtx { unsigned int id; Demo3dDataConfig config; int active; void *task; } Demo3dDataCtx;
 
 struct Demo3dSeFadeWork { Demo3dCmdContext *owner; u8 state,kind,target,pad; int duration,start,end,current,step; };
 struct TcblSystem;
 struct TcblTask;
 
-extern struct TcblTask *TCBL_AddTask(struct TcblSystem *tcbl, void (*)(void *,void *), unsigned int workSize, unsigned int priority);
 
-extern void *TCBL_GetWork(struct TcblTask *task);
+#include "../arm9/tcbl.h"
 
-extern unsigned short GX_GetBankForLCDC(void);
+#include "../arm9/gx_vramcnt_types.h"
+#include "../arm9/gx_vramcnt.h"
 
-extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
+#include "../arm9/gx.h"
 
-extern void GX_SetBankForLCDC(int);
 
-extern void MIi_CpuClearFast(unsigned,void *,unsigned);
+#include "../arm9/mi_memory.h"
 
-extern void TCBL_DeleteTask(struct TcblTask *task);
 
 extern void GFL_USE_PlaySeInSlot(unsigned int seqNo, int slot);
 
@@ -314,11 +311,10 @@ extern void GFL_USE_SetSeSlotParams(int,unsigned,unsigned,unsigned);
 
 extern void GFL_USE_StopSeSlot(int);
 
-extern void MI_CpuFill8(void *,int,int);
 
 int DEMO3D_DATA_ScaleTime(char *p, int v);
 
-extern u32 FX_Div(u32,u32);
+#include "../arm9/fx_cp.h"
 
 extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
 
@@ -330,13 +326,13 @@ extern void *DEMO3D_DATA_CreateCapture(void *p, unsigned a, unsigned b);
 
 extern void DEMO3D_DATA_DeleteCapture(int);
 
-void *DEMO3D_DATA_CreateTask(void *manager, const Config *source);
+void *DEMO3D_DATA_CreateTask(void *manager, const Demo3dDataConfig *source);
 
 void DEMO3D_DATA_DeleteTask(int *s,unsigned a,unsigned b,unsigned c);
 
 void DEMO3D_DATA_ApplyCapture(void *task, const int *ctx);
 
-void DEMO3D_DATA_FinishTask(void *node,int *s);
+void DEMO3D_DATA_FinishTask(struct TcbTask *node, void *s);
 
 void DEMO3D_DATA_StartCapture(CaptureConfig *s);
 
@@ -362,32 +358,32 @@ void DEMO3D_DATA_StopBgm(void);
 
 extern u8 d_021C1864[];
 
-extern const Config d_021C3B98;
+extern const Demo3dDataConfig d_021C3B98;
 
 u32 DEMO3D_DATA_GetExitCommandList(u32 id)
 {
     return *(u32 *)(d_021C1864 + DEMO3D_ENGINE_ClampDemoId(id) * 0x14);
 }
 
-void * DEMO3D_DATA_CreateCapture(void *p,unsigned a,unsigned b) { Config c;c=d_021C3B98;c.words[8]=a;c.words[9]=b;return DEMO3D_DATA_CreateTask(p, &c); }
+void * DEMO3D_DATA_CreateCapture(void *p,unsigned a,unsigned b) { Demo3dDataConfig c;c=d_021C3B98;c.words[8]=a;c.words[9]=b;return DEMO3D_DATA_CreateTask(p, &c); }
 
 void DEMO3D_DATA_DeleteCapture(int a)
 {
     DEMO3D_DATA_DeleteTask((int *)a, 1, 0, 1);
 }
 
-void *DEMO3D_DATA_CreateTask(void *manager, const Config *source)
+void *DEMO3D_DATA_CreateTask(void *manager, const Demo3dDataConfig *source)
 {
     void *task;
     Demo3dDataCtx *ctx;
-    task = TCBL_AddTask(manager, (void (*)(void *, void *))DEMO3D_DATA_ApplyCapture, 56, 5);
+    task = TCBL_AddTask((struct TcblSystem *)manager, (TcblFunc)((void (*)(void *, void *))DEMO3D_DATA_ApplyCapture), 56, 5);
     ctx = (Demo3dDataCtx *) TCBL_GetWork(task);
-    *(Config *)&ctx->config = *source;
+    *(Demo3dDataConfig *)&ctx->config = *source;
     ctx->task = task;
     ctx->active = 0;
     ctx->id = GX_GetBankForLCDC();
     DEMO3D_DATA_StartCapture((struct CaptureConfig *)((char *)ctx + 4));
-    GFL_USE_AddMainTask((unsigned)DEMO3D_DATA_FinishTask, (unsigned)ctx, 0);
+    GFL_USE_AddMainTask(DEMO3D_DATA_FinishTask, ctx, 0);
     return (void *)ctx;
 }
 
@@ -416,8 +412,8 @@ void DEMO3D_DATA_ApplyCapture(void *task, const int *ctx)
     }
 }
 
-void DEMO3D_DATA_FinishTask(void *node,int *s)
-{
+void DEMO3D_DATA_FinishTask(struct TcbTask *node, void *work_)
+{ int * s = work_;
     int bank;
     switch(s[1]){case 2:bank=1;break;case 6:bank=2;break;case 10:bank=4;break;case 14:bank=8;break;default:bank=0;break;}
     GX_SetBankForLCDC(bank);GX_SetGraphicsMode(s[1],s[2],s[3]);s[12]=1;TCB_DeleteTask(node);
@@ -473,7 +469,7 @@ void DEMO3D_DATA_CreateSeFade(Demo3dCmdContext *owner,u8 kind,u16 target,int sta
     struct Demo3dSeFadeWork *work;
     float a,b,c;
     int final;
-    work=TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)owner->task,(void (*)(void *, void *))DEMO3D_DATA_UpdateSeFade,0x1c,0));
+    work=TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)owner->task,(TcblFunc)((void (*)(void *, void *))DEMO3D_DATA_UpdateSeFade),0x1c,0));
     MI_CpuFill8(work,0,0x1c);
     work->owner=owner;
     work->kind=kind;
@@ -597,71 +593,52 @@ extern void GFL_USE_SetBgmPaused(unsigned int value);
 
 extern int GFL_USE_PushBgm(void),GFL_USE_PopBgm(void);
 
-extern void BRIGHTNESS_Set(u32 brightness, u32 plane, u32 mask);
+#include "../arm9/brightness.h"
 struct Demo3dGraphic;
 
-extern void DEMO3D_GRAPHIC_SetLightSlot(struct Demo3dGraphic *p, unsigned int i, unsigned short val);
+#include "demo3d_graphic.h"
 
-extern void DEMO3D_GRAPHIC_SetLightVector(struct Demo3dGraphic *p, int a, int b);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
+#include "../arm9/msgdata.h"
 
-extern void *MSGDATA_AllocString(struct MsgBank *,u32);
 
-extern void GF_FONT_SetTextColor(u32,u32,u32);
 
 /* The caller stores the live r0 result, although the matched wrapper was typed void. */
-extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 struct BmpWin;
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern void BG_SYS_PushTile(u32);
 
-extern void BMP_MENUWORK_DrawWindowEx(struct BmpWin *desc, unsigned int commitMode, unsigned int tileBase, unsigned int palette);
+#include "../arm9/bmp_menuwork.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void BG_SYS_SetPriority(int,u16);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
+#include "../arm9/arc_util.h"
 struct Bmp;
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void *BMP_MENUWORK_LoadFrameGfx(unsigned int layer, unsigned int palSlot, unsigned int frameId, unsigned short heapId);
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 struct TextPrinter;
 
 extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern void BMP_MENUWORK_FreeTileRun(int a, u32 x);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *,u32,u32,u32,u32,u32,u32,u16);
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/g2.h"
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern void *memset(void *,int,unsigned);
 
@@ -729,7 +706,7 @@ void DEMO3D_DATA_CreateBgmFade(char *p,int channel,int start,int end,unsigned mo
 {
     Demo3dBgmFadeWork *t;
     int flag=0;
-    t=TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)(((Demo3dCmdContext *)p)->task),(void (*)(void *,void *))DEMO3D_DATA_BgmFadeMain,24,0));
+    t=TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)(((Demo3dCmdContext *)p)->task),(TcblFunc)((void (*)(void *,void *))DEMO3D_DATA_BgmFadeMain),24,0));
     MI_CpuFill8(t,0,24);
     t->owner=p;t->mode=mode;
     if(mode==3)flag=1;
@@ -772,7 +749,7 @@ void DEMO3D_DATA_CreateBrightnessFade(Demo3dCmdContext *owner,int mask,int kind,
     struct Demo3dBrightnessFadeWork *work;
     float a,b,c;
     int final;
-    work=TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)owner->task,(void (*)(void *, void *))DEMO3D_DATA_BrightnessFadeMain,0x28,0));
+    work=TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)owner->task,(TcblFunc)((void (*)(void *, void *))DEMO3D_DATA_BrightnessFadeMain),0x28,0));
     MI_CpuFill8(work,0,0x28);
     work->owner=owner;
     work->mask=mask;
@@ -815,7 +792,7 @@ void DEMO3D_DATA_TaskBrightnessSeq(char *p,int unused,int *s)
 void DEMO3D_DATA_CreateBrightnessSeq(char *p,unsigned char engineMask,signed char firstLevel,signed char secondLevel,signed char thirdLevel,int firstDuration,int secondDuration)
 {
     Demo3dBrightnessSeqWork *t;
-    t=TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)(((Demo3dCmdContext *)p)->task),(void (*)(void *,void *))DEMO3D_DATA_BrightnessSeqMain,32,1));
+    t=TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)(((Demo3dCmdContext *)p)->task),(TcblFunc)((void (*)(void *,void *))DEMO3D_DATA_BrightnessSeqMain),32,1));
     MI_CpuFill8(t,0,32);
     t->owner=p;t->firstLevel=firstLevel;t->secondLevel=secondLevel;t->thirdLevel=thirdLevel;t->engineMask=engineMask;t->blendParam=63;t->firstDuration=firstDuration;t->secondDuration=secondDuration;
     DEMO3D_DATA_CreateBrightnessFade((Demo3dCmdContext *)p,t->engineMask,t->blendParam,firstLevel,secondLevel,firstDuration,&t->counter);
@@ -849,7 +826,7 @@ void DEMO3D_DATA_TaskSetLightVector(unsigned unused,char **q,unsigned *v){struct
 
 void DEMO3D_DATA_TaskShowMessage(int a, int b, int *s)
 {
-    unsigned char x = ((struct Ctx *)b)->data.color;
+    unsigned char x = ((struct Demo3dEngineCtx *)b)->data.color;
     int r6 = s[2] * x;
     int r4 = s[1];
     int t = DEMO3D_DATA_ScaleTime((char *)a, s[3]);
@@ -860,7 +837,7 @@ void DEMO3D_DATA_TaskShowMessage(int a, int b, int *s)
 
 void DEMO3D_DATA_CreateMessage(char *p,int a,int b,int c,unsigned char d,unsigned char e,unsigned char f,unsigned char g)
 {
-    DEMO3D_DATA_CreateMessageWindow(p,TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)(((Demo3dCmdContext *)p)->task),(void (*)(void *,void *))DEMO3D_DATA_MessageMain,0x28,1)),a,b,c,d,e,f,g);
+    DEMO3D_DATA_CreateMessageWindow(p,TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)(((Demo3dCmdContext *)p)->task),(TcblFunc)((void (*)(void *,void *))DEMO3D_DATA_MessageMain),0x28,1)),a,b,c,d,e,f,g);
 }
 
 void DEMO3D_DATA_MessageMain(struct TcblNode *task, struct Demo3dMessageContext *ctx)
@@ -877,7 +854,7 @@ void DEMO3D_DATA_MessageMain(struct TcblNode *task, struct Demo3dMessageContext 
         void *desc;
         ctx->text = MSGDATA_AllocString(bank,ctx->index);
         GF_FONT_SetTextColor(1,2,15);
-        ctx->printer = PRINTSYS_PrintStream((u32)ctx->desc,0,0,(u32)ctx->text,cfg->font,cfg->speed,cfg->task,0,cfg->heap,15);
+        ctx->printer = (u32)PRINTSYS_PrintStream(ctx->desc,0,0,ctx->text,(struct GfFont *)cfg->font,cfg->speed,(struct Tcbl *)cfg->task,(u32)0,cfg->heap,15);
         desc = ctx->desc;
         BMP_WIN_TransferChars(desc);
         BMP_WIN_MakeScreen(desc);
@@ -932,7 +909,7 @@ void DEMO3D_DATA_TaskFade(char *p,int unused,int *record)
 
 void DEMO3D_DATA_CreateFade(char *p,int a,int b,int c,int d,int e,int f)
 {
-    DEMO3D_DATA_CreateFadeWork(p,TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)(((Demo3dCmdContext *)p)->task),(void (*)(void *,void *))DEMO3D_DATA_FadeMain,0x2C,1)),a,b,c,d,e,f);
+    DEMO3D_DATA_CreateFadeWork(p,TCBL_GetWork((struct TcblTask *)TCBL_AddTask((struct TcblSystem *)(((Demo3dCmdContext *)p)->task),(TcblFunc)((void (*)(void *,void *))DEMO3D_DATA_FadeMain),0x2C,1)),a,b,c,d,e,f);
 }
 
 /*
@@ -1028,7 +1005,7 @@ void DEMO3D_DATA_TaskDeleteCapture(char *a)
 
 int DEMO3D_DATA_ScaleTime(char *p, int v)
 {
-    struct Cam *cam = ((struct Ctx *)((Demo3dCmdContext *)p)->owner)->cam;
+    struct Cam *cam = ((struct Demo3dEngineCtx *)((Demo3dCmdContext *)p)->owner)->cam;
     int flag = cam->doubled;
 
     if (flag == 1)

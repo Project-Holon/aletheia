@@ -7,11 +7,7 @@
 #ifndef ITEMMENU_TYPES_H
 #define ITEMMENU_TYPES_H
 
-/* One bag list entry: item id and stack size (4 bytes). */
-typedef struct BagSlot {
-    unsigned short itemId;
-    unsigned short count;
-} BagSlot;
+#include "../arm9/myitem_savedata_types.h"
 
 /* Text window handle plus a flag: set when the window still has to be
  * flushed to VRAM after printing. */
@@ -37,7 +33,7 @@ struct WordSet;
 struct Strbuf;
 struct GameData;
 struct MyStatus;
-struct PalAnmSlot;
+struct PaletteFade;
 struct PrintSys;
 struct TaskMenuRes;
 struct Tcbl;
@@ -178,7 +174,7 @@ typedef struct ItemMenuWork {
     /* 0x848 */ unsigned int usageContext;
     /* 0x84C */ int selectedItemId;
     /* 0x850 */ struct BlinkPalAnm *blinkPalAnm;
-    /* 0x854 */ struct PalAnmSlot *palAnmSlot;
+    /* 0x854 */ struct PaletteFade *palAnmSlot;
     /* 0x858 */ int currentPage;
     /* 0x85C */ unsigned int isTouchActive;
     /* 0x860 */ unsigned int isDraggingItem;

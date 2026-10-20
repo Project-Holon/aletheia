@@ -75,34 +75,13 @@ enum {
 #define HAND_RATIO_QUARTER 0x400
 #define BTL_SICK_POISON 5
 
-/* HANDEX_KIND_REMOVE_SIDE_EFFECT: end a side effect (the layers byte is rebuilt by an inline helper). */
-typedef struct HandExRemoveSideEffect {
-    u32 header;
-    u8 effectCont[3];
-    u8 side;
-} HandExRemoveSideEffect;
+#include "../ov093/btl_server_flow.h"
+#include "../ov093/btl_pokeparam.h"
+#include "../ov093/btl_sickcont.h"
+#include "hand_side.h"
 
-/* HANDEX_KIND_PLAY_EFFECT: play a battle animation on a Pokemon, then show a message. */
-typedef struct HandExPlayEffect {
-    u32 header;
-    u16 effectId;
-    u8 viewPos;
-    u8 mode;
-} HandExPlayEffect;
-
-extern int BTL_SERVER_FLOW_IsPokeGroundedById(struct BtlServerFlow *flow, int pokeId);
-extern int BTL_SERVER_FLOW_IsPokeInPosTable(struct BtlServerFlow *flow, u8 pokeId);
-extern int BTL_SERVER_FLOW_GetPokeViewPos(struct BtlServerFlow *flow, int pokeId);
-extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int typeId);
-extern u32 BTL_SICKCONT_MakeKind1Empty(void);
-extern u32 BTL_SICKCONT_MakeKind1Index15(void);
-extern int HAND_SIDE_GetStackCountByFactor(struct BtlEventFactor *factor, u32 side);
-
-extern u8 BTL_MAIN_IsPokeIdInSecondPair(u32 pokeId);
-extern int BTL_CALC_HasDefaultSickCont(int sickIndex);
-extern u16 BTL_POKEPARAM_GetTypePair(struct BtlPokeParam *bpp);
-extern int BTL_CALC_GetTypeAffinityVsPair(int type, u16 typePair);
-extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 paramId);
-extern u32 WAZA_TOOL_IsDamaging(u16 moveId);
+#include "../ov093/btl_main.h"
+#include "../ov093/btl_calc.h"
+#include "../arm9/waza_tool.h"
 
 #endif

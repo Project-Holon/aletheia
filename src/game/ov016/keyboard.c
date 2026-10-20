@@ -69,11 +69,7 @@ typedef _Bool bool;
    written `unsigned char` (ldrb loads of KEY_OUT/SKEY_OUT/BTN_OUT, 0x80 stored
    into input with mov, not mvn). */
 
-typedef struct tagCOORD { unsigned short x, y; } COORD;
-
-typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
-
-typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
+#include "dwcutil_types.h"
 
 #include "gx_oam_types.h"
 
@@ -128,40 +124,22 @@ typedef struct { unsigned char v[5]; } KB_N5;
    docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md) */
 typedef struct { MEMKB *MemKb; } KEYBOARD_BSS;
 
-extern void DWCi_TSKlChangeFunc(void *task, void (*func)(void *));
-extern void DWCi_TSKlDelete(int kind, void *task);
+#include "task.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
+#include "cellinfo.h"
 extern void *DWCi_CEINlSetExCell(int lcd, int idx, bool head);
-extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
-extern void *DWCi_CELLlForm(int lcd, int num, int head);
+#include "cell.h"
 struct CellInfo;
-extern void DWCi_CELLlDelete(struct CellInfo *p);
 union GXOamAttr;
-extern GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
-extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
-extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
-extern void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
-extern void DWCi_CELLlSetPalette(unsigned char *obj, int idx, unsigned int v, unsigned int w);
-extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
-extern void DWCi_Coord2Rect(COORD *coord, COORD *size, RECT *rect);
-extern void *DWCi_FNTlFormEx(int lcd, int width, int height, int head, int *obj, int font);
+#include "foundation.h"
+typedef int bool_0;
+#include "font.h"
 struct Canvas;
-extern void DWCi_FNTlDelete(struct Canvas *a);
-extern void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio);
-extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void DWCi_OBJlDelete(unsigned int *obj);
-extern void DWCi_SNDlPlay(unsigned int v);
-extern int DWCi_IPTlCheckRelease(unsigned int f);
-extern int DWCi_IPTlCheckRepeat(unsigned int f);
-extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern int DWCi_TPlCheck(unsigned short *a);
-extern int DWCi_TPlCheckRelease(unsigned short *a);
-extern int DWCi_TPlCheckTrigger(unsigned short *a);
-extern long FX_ModS32(long a, long b);
+#include "heap.h"
+#include "obj.h"
+#include "sound.h"
+#include "input.h"
+#include "../arm9/fx_cp.h"
 void DWCi_KBlInit(void);
 void DWCi_KBlEnd(void);
 unsigned char DWCi_KBlGet(void);
@@ -281,11 +259,11 @@ void DWCi_KBlInit(void)
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 4; j++) {
             MemKb->canv[i][j] = DWCi_FNTlFormEx(0, 28, 2, 0, &num, 0);
-            a.l = 0;
+            a.x = 0;
             ix = j * 12;
-            for (k = 0; k < 12; k++, ix++, a.l += 18) {
+            for (k = 0; k < 12; k++, ix++, a.x += 18) {
                 buf[0] = KEY_CHR[i][ix];
-                DWCi_FNTlDrawRect(MemKb->canv[i][j], a.l, a.t, a.w, a.h, 2, 0x480, buf);
+                DWCi_FNTlDrawRect(MemKb->canv[i][j], a.x, a.y, a.w, a.h, 2, 0x480, buf);
             }
             if (i == 0)
                 MemKb->cellCanv[j] = DWCi_CELLlForm(0, num, 1);
@@ -302,7 +280,7 @@ void DWCi_KBlInit(void)
 void DWCi_KBlEnd(void)
 {
     DWCi_CELLlDelete(MemKb->cellFocus);
-    DWCi_TSKlChangeFunc(MemKb->task, taskEnd0);
+    DWCi_TSKlChangeFunc(MemKb->task, (void (*)(void *, void *))taskEnd0);
 }
 
 
@@ -373,7 +351,7 @@ static void taskStart0(void *task)
     } else {
         disp(MemKb->page, 0, 81);
         disp(MemKb->page, 1, 192);
-        DWCi_TSKlChangeFunc(task, taskStart1);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart1);
     }
 }
 
@@ -389,7 +367,7 @@ static void taskStart1(void *task)
     } else {
         disp(MemKb->page, 1, 103);
         disp(MemKb->page, 2, 192);
-        DWCi_TSKlChangeFunc(task, taskStart2);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart2);
     }
 }
 
@@ -405,7 +383,7 @@ static void taskStart2(void *task)
     } else {
         disp(MemKb->page, 2, 125);
         disp(MemKb->page, 3, 192);
-        DWCi_TSKlChangeFunc(task, taskStart3);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart3);
     }
 }
 
@@ -421,7 +399,7 @@ static void taskStart3(void *task)
     } else {
         disp(MemKb->page, 3, 147);
         disp(MemKb->page, 4, 192);
-        DWCi_TSKlChangeFunc(task, taskStart4);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart4);
     }
 }
 
@@ -437,7 +415,7 @@ static void taskStart4(void *task)
     } else {
         disp(MemKb->page, 4, 170);
         dispFocus();
-        DWCi_TSKlChangeFunc(task, taskMain);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskMain);
     }
 }
 
@@ -949,7 +927,7 @@ static void taskEnd0(void *task)
     y += 12;
     disp(MemKb->page, 4, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, taskEnd1);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd1);
 }
 
 
@@ -963,7 +941,7 @@ static void taskEnd1(void *task)
     y += 12;
     disp(MemKb->page, 3, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, taskEnd2);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd2);
 }
 
 
@@ -977,7 +955,7 @@ static void taskEnd2(void *task)
     y += 12;
     disp(MemKb->page, 2, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, taskEnd3);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd3);
 }
 
 
@@ -991,7 +969,7 @@ static void taskEnd3(void *task)
     y += 12;
     disp(MemKb->page, 1, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, taskEnd4);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd4);
 }
 
 
@@ -1005,7 +983,7 @@ static void taskEnd4(void *task)
     y += 12;
     disp(MemKb->page, 0, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, taskEnd5);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd5);
 }
 
 

@@ -38,26 +38,14 @@
 #include "ghttp_types.h"
 #include "dwc_ghttp_types.h"
 
-extern int ghttpSetRootCAList(char *url, void *rootCAList);
-extern int ghttpCleanupRootCAList(char *url);
-extern void ghttpStartup(void);
-extern void ghttpCleanup(void);
-extern int DWCi_IsError(void);
-extern void ghttpThink(void);
+#include "ghttpmain.h"
+#include "../arm9/dwc_error.h"
 extern void DWCi_RemoveAllDWCGHTTPParamEntry(void);
-extern void DWC_Free(int name, void *ptr, unsigned int size);
-extern void ghttpCancelRequest(int request);
-extern void ghttpSetMaxRecvTime(int request, unsigned int maxRecvTime);
-extern void DWCi_SetError(int error, int errorCode);
-extern void *DWC_Alloc(int name, unsigned long size);
-extern int ghttpGetExA(const char *url, const char *headers, char *buffer, int bufferSize,
-                         GHIPost *post, int throttle, int blocking,
-                         GHTTPProgressCallbackFn progressCallback,
-                         GHTTPCompletedCallbackFn completedCallback, void *param);
+#include "../arm9/dwc_memfunc.h"
 
 int DWC_GHTTPSetRootCAList(char *url);
 int DWC_GHTTPCleanupRootCAList(char *url);
-int DWC_InitGHTTP(void);
+int DWC_InitGHTTP(void *theParam);
 int DWC_ShutdownGHTTP(void);
 int DWC_ProcessGHTTP(void);
 int GHTTPCompletedCallback(int request, int result, char *buffer, int bufferLen, void *param);
@@ -91,7 +79,7 @@ int DWC_GHTTPCleanupRootCAList(char *url)
 /*
  * Starts the ghttp client and counts one more user of it.
  */
-int DWC_InitGHTTP(void)
+int DWC_InitGHTTP(void *theParam)
 {
     ghttpStartup();
     gDwcGhttpParamList.initCount++;

@@ -32,7 +32,7 @@ struct PokeParam {
     u32 data[0x37];
 };
 
-struct StrBuf;
+struct Strbuf;
 
 /* Save block 0x34: the C-Gear beacon record (greeting and thanks messages and
  * their counters, survey points, recent partners). */
@@ -134,11 +134,11 @@ u32 MISC_IncrementThanksCount(struct MiscSave *beacon);
 
 u16 *MISC_GetGreetMessage(struct MiscSave *beacon);
 
-void MISC_SetGreetMessage(struct MiscSave *beacon, struct StrBuf *message);
+void MISC_SetGreetMessage(struct MiscSave *beacon, struct Strbuf *message);
 
 u16 *MISC_GetThanksMessage(struct MiscSave *beacon);
 
-void MISC_SetThanksMessage(struct MiscSave *beacon, struct StrBuf *message);
+void MISC_SetThanksMessage(struct MiscSave *beacon, struct Strbuf *message);
 
 u8 MISC_GetResearchRank(struct MiscSave *beacon);
 
@@ -208,17 +208,17 @@ u32 MISC_GetSize(void)
 void MISC_Init(struct MiscSave *beacon)
 {
     struct MsgData *msg;
-    struct StrBuf *greet;
-    struct StrBuf *thanks;
+    struct Strbuf *greet;
+    struct Strbuf *thanks;
 
     MI_CpuFill8(beacon, 0, sizeof(struct MiscSave));
     MISC_ClearInputFlags(beacon);
     beacon->bestScore = 0;
     msg = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x2f, 0x8007);
-    greet = (struct StrBuf *)MSGDATA_AllocString((struct MsgBank *)msg, 0x151);
+    greet = (struct Strbuf *)MSGDATA_AllocString((struct MsgBank *)msg, 0x151);
     STRBUF_ToChars((struct Strbuf *)greet, beacon->greetMessage, 9);
     STRBUF_Delete((struct Strbuf *)greet);
-    thanks = (struct StrBuf *)MSGDATA_AllocString((struct MsgBank *)msg, 0x159);
+    thanks = (struct Strbuf *)MSGDATA_AllocString((struct MsgBank *)msg, 0x159);
     STRBUF_ToChars((struct Strbuf *)thanks, beacon->thanksMessage, 9);
     STRBUF_Delete((struct Strbuf *)thanks);
     MSGDATA_Delete((struct MsgBank *)msg);
@@ -369,7 +369,7 @@ u16 *MISC_GetGreetMessage(struct MiscSave *beacon)
     return beacon->greetMessage;
 }
 
-void MISC_SetGreetMessage(struct MiscSave *beacon, struct StrBuf *message)
+void MISC_SetGreetMessage(struct MiscSave *beacon, struct Strbuf *message)
 {
     STRBUF_ToChars((struct Strbuf *)message, beacon->greetMessage, 9);
 }
@@ -379,7 +379,7 @@ u16 *MISC_GetThanksMessage(struct MiscSave *beacon)
     return beacon->thanksMessage;
 }
 
-void MISC_SetThanksMessage(struct MiscSave *beacon, struct StrBuf *message)
+void MISC_SetThanksMessage(struct MiscSave *beacon, struct Strbuf *message)
 {
     STRBUF_ToChars((struct Strbuf *)message, beacon->thanksMessage, 9);
 }

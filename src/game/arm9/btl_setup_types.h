@@ -163,7 +163,7 @@ struct BattleSetupParam {
     unsigned short           levelCap;
     unsigned short           resultCount;
     int                      moneyDelta;
-    unsigned int             moneyRate;
+    unsigned int             outcome;       /* battle result, 1 won */
     unsigned char            resultValue[4];
     void                    *recordBuffer;
     unsigned int             recordSize;

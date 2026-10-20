@@ -1,35 +1,20 @@
 #ifndef BTLV_CLACT_SHARED_TYPES_H
 #define BTLV_CLACT_SHARED_TYPES_H
 
-#include "btlv_effvm_types.h"
-#include "btlv_camera_shared_types.h"
+#include "../ov094/btlv_effvm_types.h"
+#include "../arm9/clact.h"
+#include "../ov094/btlv_camera_shared_types.h"
 
 struct Unit;
 
-struct Actor;
+struct ClactActor;
 
-struct PalAnmSlot;
 
 #define BTLV_CLACT_SLOT_COUNT 7
 
-/* Actor setup, same layout as struct ActorInit in arm9/clact.c. */
-typedef struct BtlvClactActorInit {
-    s16 x;              /* 0x00 */
-    s16 y;              /* 0x02 */
-    u16 animSeq;        /* 0x04 */
-    u8 drawPriority;    /* 0x06 */
-    u8 bgPriority;      /* 0x07 */
-    s16 originX;        /* 0x08 */
-    s16 originY;        /* 0x0A */
-    u32 scaleX;         /* 0x0C */
-    u32 scaleY;         /* 0x10 */
-    u16 rotation;       /* 0x14 */
-    u16 affineMode;     /* 0x16 */
-} BtlvClactActorInit;
-
 /* One loaded sprite: its actor and the three resources it uses. */
 typedef struct BtlvClactSlot {
-    struct Actor *actor;    /* 0x00: 0 = slot free */
+    struct ClactActor *actor;    /* 0x00: 0 = slot free */
     s32 charId;             /* 0x04 */
     s32 paletteId;          /* 0x08 */
     s32 cellId;             /* 0x0C */
@@ -49,16 +34,16 @@ typedef struct BtlvClact {
 /* Work of a move or scale task of one slot (0x50 bytes). */
 typedef struct BtlvClactMoveTask {
     BtlvClact *clact;   /* 0x00 */
-    BtlvVec3 pos;       /* 0x04: current value, written by the mover */
+    VecFx32 pos;       /* 0x04: current value, written by the mover */
     int slot;           /* 0x10 */
     BtlvMover mover;    /* 0x14 */
 } BtlvClactMoveTask;
 
 /* Opaque handles and records that btlv_input.c refers to by tag (lane C094c3 still has no definition for them). */
-struct Bank;
+struct Unit;
 struct PtS;
-struct Vec2;
-struct Obj;
+struct ClactVec2;
+struct ClactActor;
 
 /* Two ints, used by btlv_input.c (lane C094c3). */
 typedef struct BtlvClactPoint {

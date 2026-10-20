@@ -35,9 +35,9 @@ extern unsigned char *strchr(unsigned char *s, int c);
 
 #include "../sdk_math.h"
 
-extern int OS_SNPrintf(char *dst, unsigned int len, char *fmt, ...);
-extern void OS_GetMacAddress(u8 *macAddress);
-extern u64 OS_GetTick(void);
+#include "../arm9/os_printf.h"
+#include "../arm9/os_ownerinfo.h"
+#include "../arm9/os_tick.h"
 /* * DWC_SetCommonKeyValueString: writes one separator-key-separator-value pair and returns its length. */ int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep);
 /* * DWC_AddCommonKeyValueString: appends one key-value pair and returns the whole string's length. */ int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string, char sep);
 int DWC_GetCommonValueString(char *key, char *value, char *string, char separator);
@@ -78,7 +78,7 @@ int DWC_GetCommonValueString(char *key, char *value, char *string, char separato
     for (;;) {
         if (strncmp((unsigned char *)(pSrcBegin + 1), (unsigned char *)key, strlen(key)) == 0) {
             len = strlen(key);
-            if (separator == *(char *)(len + (int)pSrcBegin + 1))
+            if (separator == *(char *)(len + (sptr)pSrcBegin + 1))
                 break;
         }
         pSrcBegin = (char *)strchr((unsigned char *)(pSrcBegin + 1), separator);

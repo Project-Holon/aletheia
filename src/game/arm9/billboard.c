@@ -52,6 +52,7 @@
  *   gBillboardQuad     0x020A1514  data
  */
 #include "billboard_types.h"
+#include "../sdk_ioreg.h"
 
 struct Actor;
 
@@ -118,11 +119,11 @@ void *BILLBOARD_Create(u8 *src, void *heap)
     int i;
 
     file = sBillboard;
-    h = (struct BbBoard *)GFL_HEAP_Alloc((int)heap, sizeof(struct BbBoard), 1, file, 153);
-    h->heapId = (u16)(int)heap;
+    h = (struct BbBoard *)GFL_HEAP_Alloc((sptr)heap, sizeof(struct BbBoard), 1, file, 153);
+    h->heapId = (u16)(sptr)heap;
     *(struct Blob28 *)((u8 *)h + 0x0c) = *(struct Blob28 *)src;
-    h->images = (struct BbImage *)GFL_HEAP_Alloc((int)heap, h->imageCount * 0x28, 1, file, 159);
-    h->elems = (struct BbElem *)GFL_HEAP_Alloc((int)heap, h->elemCount * 0x1c, 1, file, 161);
+    h->images = (struct BbImage *)GFL_HEAP_Alloc((sptr)heap, h->imageCount * 0x28, 1, file, 159);
+    h->elems = (struct BbElem *)GFL_HEAP_Alloc((sptr)heap, h->elemCount * 0x1c, 1, file, 161);
     for (i = 0; i < h->imageCount; i++) {
         h->images[i].handle = 0;
         h->images[i].texFmt = 5;
@@ -319,39 +320,39 @@ void BILLBOARD_GetImageSizeFromFlags(s32 flags, u16 *a, u16 *b)
     }
 }
 
-#define reg_G3_MTX_MODE        (*(volatile u32 *)0x04000440)
+#define reg_G3_MTX_MODE        (*(volatile u32 *)REG_MTX_MODE_ADDR)
 
-#define reg_G3_MTX_PUSH        (*(volatile u32 *)0x04000444)
+#define reg_G3_MTX_PUSH        (*(volatile u32 *)REG_MTX_PUSH_ADDR)
 
-#define reg_G3_MTX_POP         (*(volatile u32 *)0x04000448)
+#define reg_G3_MTX_POP         (*(volatile u32 *)REG_MTX_POP_ADDR)
 
-#define reg_G3_MTX_SCALE       (*(volatile u32 *)0x0400046C)
+#define reg_G3_MTX_SCALE       (*(volatile u32 *)REG_MTX_SCALE_ADDR)
 
-#define reg_G3_COLOR           (*(volatile u32 *)0x04000480)
+#define reg_G3_COLOR           (*(volatile u32 *)REG_COLOR_ADDR)
 
-#define reg_G3_NORMAL          (*(volatile u32 *)0x04000484)
+#define reg_G3_NORMAL          (*(volatile u32 *)REG_NORMAL_ADDR)
 
-#define reg_G3_TEXCOORD        (*(volatile u32 *)0x04000488)
+#define reg_G3_TEXCOORD        (*(volatile u32 *)REG_TEXCOORD_ADDR)
 
-#define reg_G3_VTX_16          (*(volatile u32 *)0x0400048C)
+#define reg_G3_VTX_16          (*(volatile u32 *)REG_VTX_16_ADDR)
 
-#define reg_G3_POLYGON_ATTR    (*(volatile u32 *)0x040004A4)
+#define reg_G3_POLYGON_ATTR    (*(volatile u32 *)REG_POLYGON_ATTR_ADDR)
 
-#define reg_G3_TEXIMAGE_PARAM  (*(volatile u32 *)0x040004A8)
+#define reg_G3_TEXIMAGE_PARAM  (*(volatile u32 *)REG_TEXIMAGE_PARAM_ADDR)
 
-#define reg_G3_TEXPLTT_BASE    (*(volatile u32 *)0x040004AC)
+#define reg_G3_TEXPLTT_BASE    (*(volatile u32 *)REG_TEXPLTT_BASE_ADDR)
 
-#define reg_G3_DIF_AMB         (*(volatile u32 *)0x040004C0)
+#define reg_G3_DIF_AMB         (*(volatile u32 *)REG_DIF_AMB_ADDR)
 
-#define reg_G3_SPE_EMI         (*(volatile u32 *)0x040004C4)
+#define reg_G3_SPE_EMI         (*(volatile u32 *)REG_SPE_EMI_ADDR)
 
-#define reg_G3_LIGHT_VECTOR    (*(volatile u32 *)0x040004C8)
+#define reg_G3_LIGHT_VECTOR    (*(volatile u32 *)REG_LIGHT_VECTOR_ADDR)
 
-#define reg_G3_LIGHT_COLOR     (*(volatile u32 *)0x040004CC)
+#define reg_G3_LIGHT_COLOR     (*(volatile u32 *)REG_LIGHT_COLOR_ADDR)
 
-#define reg_G3_BEGIN_VTXS      (*(volatile u32 *)0x04000500)
+#define reg_G3_BEGIN_VTXS      (*(volatile u32 *)REG_BEGIN_VTXS_ADDR)
 
-#define reg_G3_END_VTXS        (*(volatile u32 *)0x04000504)
+#define reg_G3_END_VTXS        (*(volatile u32 *)REG_END_VTXS_ADDR)
 
 #define GX_VECFX10(x, y, z) \
     ((u32)(((((x) >> 3) & 0x3ff) << 0) | \
@@ -553,7 +554,7 @@ int BILLBOARD_FindFreeImage(struct BbBoard *board, int *outIndex)
 void BILLBOARD_BindImageResource(struct BbImage *image, struct G3dResource *resource)
 {
     u32 plttKey;
-    image->handle = (u32)resource;
+    image->handle = (uptr)resource;
     if (G3D_SYSTEM_TransVramTexture(resource) == 0) {
         image->vramAddr = 0;
         image->plttAddr = 0;
@@ -784,10 +785,10 @@ void BILLBOARD_DeleteAllImages(struct BbBoard *board)
 }
 
 /* Texture VRAM byte offset of one record, through an out-parameter. */
-void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset){ *outTexVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 12)); }
+void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset){ *outTexVramOffset = (int)*(int *)(((index * 0x28 + (sptr)board->images) + 12)); }
 
 /* Palette VRAM byte offset of one record, through an out-parameter. */
-int BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, int index, int *outPlttVramOffset){ return *outPlttVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 16)); }
+int BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, int index, int *outPlttVramOffset){ return *outPlttVramOffset = (int)*(int *)(((index * 0x28 + (sptr)board->images) + 16)); }
 
 /*
  * Texture VRAM key getter through an out-parameter on one 0x28-byte record;
@@ -808,7 +809,7 @@ void BILLBOARD_SetImageTexAddr(struct BbBoard *board, int imageIndex, u32 texKey
 
 void BILLBOARD_GetImagePlttKey(struct BbBoard *board, int imageIndex, u32 *outPlttKey)
 {
-    *outPlttKey = ((struct BbImage *)(imageIndex * sizeof(struct BbImage) + (int)board->images))->plttKey;
+    *outPlttKey = ((struct BbImage *)(imageIndex * sizeof(struct BbImage) + (sptr)board->images))->plttKey;
 }
 
 void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, int frame, int *outOffset, int *outFrameSize, u8 useFrameIndex)
@@ -924,7 +925,7 @@ void BILLBOARD_GetElemCell(struct BbBoard *board, int elemIndex, u16 *outCell)
 
 void BILLBOARD_SetElemCell(struct BbBoard *board, int elemIndex, u16 *cell)
 {
-    ((struct BbElem *)(elemIndex * sizeof(struct BbElem) + (int)board->elems))->cell = *cell;
+    ((struct BbElem *)(elemIndex * sizeof(struct BbElem) + (sptr)board->elems))->cell = *cell;
 }
 
 void BILLBOARD_SetElemScale(struct BbBoard *board, int elemIndex, const s16 *scaleX, const s16 *scaleY)

@@ -1,8 +1,20 @@
 #ifndef POKEMONTRADE_TYPES_H
 #define POKEMONTRADE_TYPES_H
 
+/* Small value types shared by the files of the trade scene. */
+typedef enum { SHADING_TOON, SHADING_HIGHLIGHT } PokemontradeShading;
+
+typedef struct { int a, b; } PokemontradeIntPair;
+
+typedef struct { int a, b, c; } PokemontradeIntTriple;
+
 /* Fixed-point position used by the icon flight path. */
 #include "../sdk_fx.h"
+#include "../arm9/g3d_util_types.h"
+#include "../ov114/nhttp_rap_types.h"
+
+struct ClactActor;
+struct G3dCamera;
 
 /* 20.12 fixed-point cubic Bezier curve used to fly an icon to the box. */
 typedef struct BezierCurve {
@@ -26,7 +38,7 @@ struct TradeRequest {
     void * context;             /* 0x18: struct TradeContext */
     void * party;               /* 0x1C: POKEPARTY handle */
     unsigned char pad_20[4];
-    int httpParam;              /* 0x24: third argument of NHTTP_RAP_Create */
+    char * httpParam;           /* 0x24: third argument of NHTTP_RAP_Create (profile data) */
     unsigned short box;         /* 0x28 */
     unsigned short slot;        /* 0x2A */
     unsigned char pad_2C[2];
@@ -45,7 +57,7 @@ struct TradeContext {
 };
 
 /* One embedded UI scene slot; a CLACT actor handle lives at 0x10. */
-struct UiScene {
+struct PokemontradeUiScene {
     unsigned char pad_0[16];
     void * actor;               /* 0x10 */
 };
@@ -58,7 +70,7 @@ struct GfxLoadResult {
 
 /* Work area of the Pokemon trade scene (overlay 119). One object, fields by byte offset. */
 typedef struct TradeWork {
-    void * httpRap;
+    NHTTPRapSession * httpRap;
     unsigned char pad_4[4];
     struct TradeRequest * request;
     struct ParticleManager * particleManager;
@@ -116,11 +128,11 @@ typedef struct TradeWork {
     unsigned char pad_750[176];
     int  filterIndex;
     unsigned char pad_804[12];
-    int  camera;
+    struct G3dCamera * camera;
     unsigned char pad_814[4];
     void * gfxWorkBuf;
     unsigned char pad_81C[4];
-    void * g3dUtil;
+    G3dUtil * g3dUtil;
     unsigned short  g3dUnitHandle;
     unsigned char pad_826[2];
     int  boxManager;
@@ -165,17 +177,17 @@ typedef struct TradeWork {
     void * nodeA;
     void * charE;
     unsigned char pad_9D0[240];
-    void * boxIconActor;
+    struct ClactActor * boxIconActor;
     unsigned char pad_AC4[236];
-    void * boxIconActorAlt;
+    struct ClactActor * boxIconActorAlt;
     unsigned char pad_BB4[536];
     short  iconX;
     short  iconY;
     unsigned char pad_DD0[296];
     int  netSave;
     unsigned char pad_EFC[8];
-    void * cursorActor;
-    void * actorF08;
+    struct ClactActor * cursorActor;
+    struct ClactActor * actorF08;
     int  actorF0C;
     int  iconActorA;
     int  iconActorB;
@@ -213,10 +225,10 @@ typedef struct TradeWork {
     /* Offer table: [side][index]; side 0 = own offers, side 1 = partner offers, three entries per side. */
     int offerSlot[2][3];
     int offerBox[2][3];
-    void * pickedIconActor;
+    struct ClactActor * pickedIconActor;
     void * offerMon[2][3];
     int offerReceivedValue[2][3];
-    void * offerIconActor[2][3];
+    struct ClactActor * offerIconActor[2][3];
     int offerIconCharRes[2][3];
     void * windowF;
     unsigned char pad_103C[12];
@@ -246,7 +258,8 @@ typedef struct TradeWork {
     int  cursorIndex;
     void * subObjPaletteCopy;
     void * subBgPaletteCopy;
-    unsigned char pad_10AC[64];
+    struct ClactActor * markerActor[8];
+    unsigned char pad_10CC[32];
     int  paletteE;
     unsigned int  cellAnimG;
     unsigned char pad_10F4[40];
@@ -326,13 +339,11 @@ struct Sub02008F80Obj;
 /* Particle and ICA animation manager, allocated separately and owned by TradeWork. */
 struct ParticleManager;
 
-struct Actor;
 
-struct PtS;
+struct ClactVec2;
 
-struct Obj;
 
-struct Vec2;
+struct ClactVec2;
 
 struct Node;
 
@@ -371,9 +382,9 @@ struct Sav;
 /* shared with pokemontrade_nego */
 struct BigObj;
 
-struct Cfg;
+struct PokemontradeCfg;
 
-struct Descriptor;
+struct PokemontradeDescriptor;
 
 struct Rec;
 
@@ -388,14 +399,14 @@ struct Ctx;
 
 struct IcaAnime;
 
-typedef struct Descriptor {int a,b,c,d,e,f,g;u8 h,i,j,k;} Descriptor;
+typedef struct PokemontradeDescriptor {int a,b,c,d,e,f,g;u8 h,i,j,k;} PokemontradeDescriptor;
 
 typedef struct {
     u16 a;
     u16 b;
     int amount;
     unsigned int c;
-} Cfg;
+} PokemontradeCfg;
 
 /* shared with pokemontrade_3d */
 struct Personal;

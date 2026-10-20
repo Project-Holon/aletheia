@@ -1,0 +1,143 @@
+#ifndef GAME_OV170_BOX2_UI_H
+#define GAME_OV170_BOX2_UI_H
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
+/* Public functions of box2_ui.c, prototypes copied from their definitions. */
+
+struct BgWinFrmWork;
+
+#include "../ov170/box2_types.h"
+#include "../types.h"
+
+void BOX2_UI_CreatePartyActors(BoxWork *work);
+void BOX2_UI_ToggleSlotPair(BoxWork *work, int a);
+void BOX2_UI_LayoutPartySlots(BoxTask *task);
+void BOX2_UI_RefreshBoxName(unsigned char *task);
+void BOX2_UI_MoveSlotIcon(BoxTask *task, int d);
+void BOX2_UI_SetCloseButtonPos(BoxWork *a);
+void BOX2_UI_RefreshBoxHeader(BoxTask *task);
+void BOX2_UI_FindSlotPos(BoxWork *work, int row, short *outX, short *outY);
+void BOX2_UI_DrawSlot(BoxTask *task, int i);
+void BOX2_UI_DrawAllSlots(u8 *task);
+void BOX2_UI_DrawSlotByName(char *task, int a);
+void BOX2_UI_UploadSlotChar(BoxTask *task, int a, int i);
+void BOX2_UI_FindAndDrawSlot(BoxTask *task, int a, int b);
+void BOX2_UI_ReplaceColorIndex(int x0, unsigned char *a, unsigned c, unsigned char d, unsigned n);
+void BOX2_UI_LoadMonIcon(int **a, int box, u8 *dest);
+void BOX2_UI_AddSlotIcon(BoxTask *task, int d);
+void BOX2_UI_HideSlotIcon(BoxTask *task, int d);
+void BOX2_UI_UpdateCurrentBoxMarker(BoxTask *task);
+void BOX2_UI_ShowMiniIcon(BoxTask *task, int i);
+void BOX2_UI_SetMiniIconVisible(BoxTask *task, int a, int b);
+void BOX2_UI_DeleteSlotObjects(BoxTask *task, int a, int b, int c);
+void BOX2_UI_HideSlots678(BoxTask *task);
+void BOX2_UI_CreateBmpOam(BoxWork *work);
+void BOX2_UI_DeleteBmpOam(char *work);
+void BOX2_UI_SetSlotOamEnabled(BoxWork *work, int i, int v);
+int BOX2_UI_GetSlotOamEnabled(BoxWork *a, int i);
+void BOX2_UI_MoveSlotOam(BoxWork *work, int i, int flag);
+void BOX2_UI_ShiftSlotOams(BoxWork *work, int d);
+void BOX2_UI_CreateCursor(char **work);
+void BOX2_UI_MoveCursor(char **work, int idx, int v);
+void BOX2_UI_DeleteCursorMove(int *task);
+void BOX2_UI_SetCursorPos(char **task, unsigned idx);
+void BOX2_UI_UpdateCursor(char *task, int v);
+void BOX2_UI_ShowCursor(BoxTask *task, int v);
+void BOX2_UI_HideCursor(BoxTask *task);
+void BOX2_UI_SetCursorSeq(BoxTask *task, int a, int b);
+void BOX2_UI_PlayAndUpdateCursor(BoxTask *task, unsigned int a);
+void BOX2_UI_Dummy(void);
+unsigned BOX2_UI_UpdateCursorInputA(BoxTask *task);
+void BOX2_UI_CursorTagA(void *a, int tag);
+void BOX2_UI_PlaceCursorAtIcon(BoxTask *task, unsigned idx);
+void BOX2_UI_PlaceCursorAtMon(BoxTask *task, unsigned int i);
+unsigned BOX2_UI_UpdateCursorInputB(BoxTask *task);
+void BOX2_UI_CursorTagB(void *a, int tag);
+unsigned BOX2_UI_UpdateCursorInputC(BoxTask *task);
+void BOX2_UI_SetCursorSeqB(BoxTask *task, int a, int b);
+void BOX2_UI_CursorTagC(void *a, int tag);
+void BOX2_UI_SelectSlot(BoxTask *task, unsigned r);
+void BOX2_UI_PickSlot(BoxTask *task, int a, int b);
+void BOX2_UI_ConfirmSlot(BoxTask *task, unsigned r);
+unsigned BOX2_UI_CursorInputLeft(BoxTask *task);
+unsigned BOX2_UI_UpdateCursorInputD(BoxTask *task);
+void BOX2_UI_SetCursorSeqC(BoxTask *task, int a, int b);
+void BOX2_UI_CursorTagD(void *a, int tag);
+unsigned BOX2_UI_CursorInputRight(BoxTask *task);
+void BOX2_UI_PickSlotB(BoxTask *task, int a, int b);
+void BOX2_UI_ConfirmSlotB(BoxTask *task, unsigned r);
+unsigned BOX2_UI_UpdateCursorInputE(BoxTask *task);
+void BOX2_UI_SetCursorSeqD(BoxTask *task, int a, int b);
+void BOX2_UI_CursorTagE(void *a, int tag);
+unsigned BOX2_UI_UpdateCursorInputF(BoxTask *task);
+void BOX2_UI_SetCursorSeqE(BoxTask *task, int a, int b);
+void BOX2_UI_CursorTagF(void *a, int tag);
+void BOX2_UI_SetCursorSeqF(BoxTask *task, int a, int b);
+void BOX2_UI_PlayAndUpdateCursorB(BoxTask *task, unsigned int a);
+void BOX2_UI_SetCursorSeqG(BoxTask *task, int a, int b);
+void BOX2_UI_PlayAndUpdateCursorC(BoxTask *task, unsigned int a);
+void BOX2_UI_PickIconSlot(BoxTask *task, int k, int v);
+void BOX2_UI_MoveCursorToHeld(BoxTask *task, int a);
+unsigned BOX2_UI_UpdateCursorInputG(BoxTask *task);
+void BOX2_UI_SetCursorSeqH(BoxTask *task, int a, int b);
+void BOX2_UI_CursorTagG(void *a, int tag);
+unsigned BOX2_UI_UpdateCursorInputH(BoxTask *task);
+void BOX2_UI_SetCursorSeqI(BoxTask *task, int a, int b);
+void BOX2_UI_CursorTagH(void *a, int tag);
+unsigned BOX2_UI_CursorInputPage(BoxTask *task);
+void BOX2_UI_SetCursorSeqJ(BoxTask *task, int a, int b);
+void BOX2_UI_CursorTagI(char *a, int b);
+void BOX2_UI_MoveCursorBetweenIcons(BoxWork *q, int a, int b);
+void BOX2_UI_PlaceCursorBetween(BoxWork *work, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty);
+int BOX2_UI_HitTableTrg(const char *table, unsigned n);
+int BOX2_UI_HitTableCont(const char *table, unsigned n);
+int BOX2_UI_HitTablePoint(const char *table, unsigned n, int a, int b);
+u32 BOX2_UI_GetPartySlotHit(void);
+int BOX2_UI_GetPartySlotPoint(int a, int b);
+u32 BOX2_UI_GetHandSlotHit(void);
+u32 BOX2_UI_GetBodySlotHit(void);
+int BOX2_UI_GetCloseButtonHit(void);
+int BOX2_UI_GetExitButtonHit(void);
+int BOX2_UI_GetExitButtonPoint(unsigned *a, unsigned *b);
+int BOX2_UI_GetBackButtonPoint(unsigned*a,unsigned*b);
+int BOX2_UI_GetGridSlotPoint(int a, int b);
+int BOX2_UI_GetPageButtonHit(void);
+int BOX2_UI_GetPageButtonHit2(void);
+void BOX2_UI_InitWindowFrames(BoxTask *task);
+void BOX2_UI_DeleteWindowFrames(BoxWork *work);
+void BOX2_UI_SetFrameData(struct BgWinFrmWork *mgr, int frameIndex, int dataId);
+void BOX2_UI_PutTopBarOpen(struct BgWinFrmWork *mgr);
+void BOX2_UI_PutTopBarClosed(struct BgWinFrmWork *mgr);
+void BOX2_UI_PutBottomBarOpen(struct BgWinFrmWork *mgr);
+void BOX2_UI_PutBottomBarClosed(struct BgWinFrmWork *mgr);
+void BOX2_UI_CloseBar(struct BgWinFrmWork *mgr);
+void BOX2_UI_OpenBar(struct BgWinFrmWork *mgr);
+void BOX2_UI_SlideBarIn(struct BgWinFrmWork *mgr);
+void BOX2_UI_SlideBarOut(struct BgWinFrmWork *mgr);
+int BOX2_UI_UpdateBarMove(BoxTask *task);
+int BOX2_UI_IsTopBarOpen(struct BgWinFrmWork *mgr);
+int BOX2_UI_IsTopBarClosed(struct BgWinFrmWork *mgr);
+int BOX2_UI_IsTopBarMid(struct BgWinFrmWork *mgr);
+void BOX2_UI_PutSlotFrames(struct BgWinFrmWork *mgr);
+void BOX2_UI_PutListFrames(struct BgWinFrmWork *mgr);
+void BOX2_UI_ResetSlotFrames(struct BgWinFrmWork *mgr);
+void BOX2_UI_CloseListPack(struct BgWinFrmWork *mgr);
+void BOX2_UI_OpenListPack(struct BgWinFrmWork *mgr);
+int BOX2_UI_UpdateListPacks(struct BgWinFrmWork *mgr);
+int BOX2_UI_IsListOpen(struct BgWinFrmWork *mgr);
+int BOX2_UI_IsListClosed(struct BgWinFrmWork *mgr);
+void BOX2_UI_AddFadeFrame(BoxTask *task);
+void BOX2_UI_PutFadeFrame(struct BgWinFrmWork *mgr);
+void BOX2_UI_ShowWindowA(BoxWork *work);
+void BOX2_UI_HideWindowA(BoxWork *work);
+void BOX2_UI_ShowWindowB(BoxWork *work);
+void BOX2_UI_HideWindowB(BoxWork *work);
+void BOX2_UI_PutTopBarThenClose(struct BgWinFrmWork *mgr);
+void BOX2_UI_RepenTopBar(struct BgWinFrmWork *mgr);
+unsigned BOX2_UI_UpdateTopBarMove(BoxTask *task);
+void BOX2_UI_PutInfoBar(struct BgWinFrmWork *mgr);
+void BOX2_UI_CloseInfoBar(struct BgWinFrmWork *mgr);
+int BOX2_UI_IsInfoBarOpen(struct BgWinFrmWork *mgr);
+/* END mkheaders: generated region */
+
+#endif

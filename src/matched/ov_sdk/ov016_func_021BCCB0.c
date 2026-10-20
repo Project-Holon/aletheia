@@ -12,7 +12,7 @@
  * sdk:      taskStart1 (libdwcutil.TWL.HYB.a(button.o))
  *
  * symbols:
- *   DWCi_TSKlSetParam  0x021d771c  arm  ov016
+ *   DWCi_TSKlChangeFunc  0x021d771c  arm  ov016
  *   gButtonWork  0x021de508  data
  *   func_021BCD00  0x021bcd00  arm  ov016
  */
@@ -23,7 +23,7 @@ typedef _Bool bool;
 
 extern struct tagMEMBTN *gButtonWork;
 
-extern void DWCi_TSKlSetParam(char *p, unsigned int v);
+extern void DWCi_TSKlChangeFunc(char *p, unsigned int v);
 extern void func_021BCD00(void);
 
 void taskStart1(void *task)
@@ -32,6 +32,6 @@ void taskStart1(void *task)
     gButtonWork->count++;
     if (gButtonWork->count >= 4) {
         gButtonWork->count = 0;
-        DWCi_TSKlSetParam(task, (unsigned int)func_021BCD00);
+        DWCi_TSKlChangeFunc(task, (unsigned int)func_021BCD00);
     }
 }

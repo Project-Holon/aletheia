@@ -1,6 +1,11 @@
 #ifndef GAME_OV011_INTRUDE_COMM_H
 #define GAME_OV011_INTRUDE_COMM_H
 
+struct GameComm;
+struct GameData;
+struct VecFx32;
+void INTRUDE_COMM_GetMarkerPosForPartner(struct GameComm *comm, struct GameData *gameData, struct VecFx32 *outPos);
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of intrude_comm.c, prototypes copied from their definitions. */
 

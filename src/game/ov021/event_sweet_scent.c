@@ -75,78 +75,60 @@ typedef struct BgPoint {
     u16 y;
 } BgPoint;
 
-extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
+#include "../arm9/game_event.h"
 struct GameEvent;
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern void MI_CpuFill8(void *p, int v, int n);
+#include "../arm9/mi_memory.h"
 struct FieldMap;
 struct FieldPlayer;
 
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+#include "fieldmap.h"
 struct GameSystem;
 struct GameData;
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void FIELD_PLAYER_StartFormChange(struct FieldPlayer *player, u32 mask);
+#include "field_player.h"
 
-extern int FIELD_PLAYER_StepFormChange(struct FieldPlayer *player);
 struct Mmdl;
 
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 
-extern void FLDMMDL_SetAcmd(struct Mmdl *mmdl, u16 code);
+#include "../ov010/fldmmdl.h"
 
-extern int FLDMMDL_EndAcmd(struct Mmdl *mmdl);
 struct Fld3dCi;
 
-extern struct Fld3dCi *FIELDMAP_GetFld3dCi(struct FieldMap *fieldMap);
 
-extern void *FLD3D_CI_StartPartyMemberSequence(void *gameSystem, struct Fld3dCi *ci, s32 partyPos);
+#include "fld3d_ci.h"
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 struct FieldEncount;
 
-extern struct FieldEncount *FIELDMAP_GetEncount(struct FieldMap *fieldMap);
 
-extern s32 FIELD_ENCOUNT_CheckWildEncount(struct FieldEncount *encount, s32 triggerMode);
+#include "field_encount.h"
 
-extern void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
+#include "../ov010/script_sys.h"
 struct MmdlSys;
 
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
-extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
 struct WeatherSys;
 
-extern struct WeatherSys *FIELDMAP_GetWeather(struct FieldMap *fieldMap);
 
-extern u16 WEATHER_GetWeatherId(struct WeatherSys *sys);
+#include "weather.h"
 struct FldVReq;
 
-extern struct FldVReq *FIELDMAP_GetVReq(struct FieldMap *fieldMap);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/gfl_use.h"
 
-extern void FLD_VREQ_SetMainBlendAlphaEv(struct FldVReq *vreq, s32 ev1, s32 ev2);
+#include "fld_vreq.h"
 
-extern void FLD_VREQ_SetMainBlendAlpha(struct FldVReq *vreq, u32 plane1, u32 plane2, u32 ev1, u32 ev2);
 
-extern void FLD_VREQ_SetBgVisible(struct FldVReq *vreq, s32 frame, u8 visible);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+#include "../arm9/bg_sys.h"
 
-extern void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
 
-extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 
-extern void BG_SYS_PushTile(u32 index);
 
-extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
 extern const BgPoint gSweetScentFadeBgPos;
 
@@ -173,7 +155,7 @@ void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx)
     void *task;
     SweetScentWork *w;
 
-    task = GAME_EVENT_Create(gameSys, 0, SWEET_SCENT_EventMain, sizeof(SweetScentWork));
+    task = GAME_EVENT_Create(gameSys, 0, (GameEventFunc)SWEET_SCENT_EventMain, sizeof(SweetScentWork));
     w = GAME_EVENT_GetWork(task);
     MI_CpuFill8(w, 0, sizeof(SweetScentWork));
     w->partyIdx = partyIdx;
@@ -263,7 +245,7 @@ void SWEET_SCENT_StartFade(void *task, void *gameSys, void *fieldMap)
     void *fadeTask;
     SweetScentFade *fade;
 
-    fadeTask = GAME_EVENT_Create(gameSys, 0, SWEET_SCENT_FadeMain, sizeof(SweetScentFade));
+    fadeTask = GAME_EVENT_Create(gameSys, 0, (GameEventFunc)SWEET_SCENT_FadeMain, sizeof(SweetScentFade));
     fade = GAME_EVENT_GetWork(fadeTask);
     fade->bgLayer = 3;
     fade->level = 0;

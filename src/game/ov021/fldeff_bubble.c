@@ -57,6 +57,7 @@
  *   FLD_BTL_INST_TOOL_LookupKeyValue  0x02168AEC  thumb  ov010
  */
 #include "../ov010/fldmmdl_types.h"
+#include "../arm9/g3d_system_types.h"
 #include "field_effect_types.h"
 
 #include "../types.h"
@@ -65,17 +66,6 @@
 #include "../sdk_fx.h"
 
 typedef struct ArcHandle ArcHandle;
-typedef struct G3dResource G3dResource;                 /* layouts in arm9/g3d_system_types.h */
-typedef struct G3dRender G3dRender;
-typedef struct G3dAnime G3dAnime;
-typedef struct G3dObject G3dObject;
-
-/* Position, scale and rotation an object is drawn with. */
-typedef struct G3dObjectStatus {
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
-} G3dObjectStatus;
 
 /* Id of the bubble resources in the field effect system. */
 #define FLDEFF_ID_BUBBLE 0x10
@@ -131,39 +121,17 @@ typedef struct BubbleWork {
     BubbleParticle bubbles[BUBBLE_MAX];    /* 0x0C */
 } BubbleWork;
 
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct FieldEffectSys;
-extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
-extern u32 G3D_SYSTEM_CheckResourceType(G3dResource *res, u32 kind);
-extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
-extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
-extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
-extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
-extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
-extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
-extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
-extern int G3D_SYSTEM_GetObjectAnimeFrameMax(G3dObject *obj, int anmIdx, int *out);
-extern s32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 anmIdx, s32 *frame);
-extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
-extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
-extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
-struct MmdlVec;
+#include "field_effect.h"
+#include "../arm9/g3d_system.h"
+struct VecFx32;
 struct Mmdl;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
-extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
-extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
-extern void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *out);
-extern void VEC_Fx16Normalize(s16 *in, s16 *out);
+#include "../ov010/fldmmdl.h"
+#include "../ov010/fldmmdl_move.h"
+#include "fldmmdl_rail.h"
+#include "../arm9/fx_vec.h"
 
 void FLDEFF_BUBBLE_Start(Mmdl *mmdl, FieldEffectSys *fieldEffect);
 BubbleRes *FLDEFF_BUBBLE_CreateRes(FieldEffectSys *fieldEffect, u32 heapId);
@@ -200,7 +168,7 @@ void FLDEFF_BUBBLE_Start(Mmdl *mmdl, FieldEffectSys *fieldEffect)
 
     param.res = (struct BubbleRes *)FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_BUBBLE);
     param.mmdl = mmdl;
-    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&pos));
     FIELD_EFFECT_AddObject(fieldEffect, &d_021DB968, &pos, 0, &param, 0);
 }
 
@@ -342,7 +310,7 @@ void FLDEFF_BUBBLE_SpawnBubble(BubbleParticle *bubble, Mmdl *mmdl)
 
     bubble->active = 1;
     bubble->age = 0;
-    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&bubble->pos));
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&bubble->pos));
     if (FLDEFF_BUBBLE_GetFacingVector(mmdl, dirVec) == 0) {
         distance = BUBBLE_FACING_DISTANCE_ALT;
     } else {
@@ -404,6 +372,6 @@ int FLDEFF_BUBBLE_GetFacingVector(Mmdl *mmdl, s16 *dirVec)
         FLDMMDL_RAIL_GetDrawOffsetByDir(mmdl, facing, dirVec);
         dirVec[1] = 0;
     }
-    VEC_Fx16Normalize(dirVec, dirVec);
+    VEC_Fx16Normalize( (const VecFx16 *)dirVec, (VecFx16 *)dirVec);
     return facing;
 }

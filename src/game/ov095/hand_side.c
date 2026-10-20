@@ -58,6 +58,14 @@
  *   gHandSideSeaOfFireHandlers  0x0689D6F8  data  ov095  a4
  *   gHandSideSwampHandlers  0x0689D720  data  ov095  a4
  */
+#ifdef __MWERKS__
+/* The original callers pass the owner id as a full word and the key as a halfword; the header declares narrower types. */
+#define BTL_EVENT_AddFactor BTL_EVENT_AddFactorHeader
+#define MI_CpuFill8 MI_CpuFill8Header
+#define WAZA_TOOL_GetParam WAZA_TOOL_GetParamHeader
+#define BTL_SICKCONT_MakeKind1Index15 BTL_SICKCONT_MakeKind1Index15Header
+#define BTL_SICKCONT_MakeKind1Empty BTL_SICKCONT_MakeKind1EmptyHeader
+#endif
 #include "hand_field_types.h"
 #include "hand_side_types.h"
 
@@ -65,10 +73,25 @@ typedef struct {
     int stackCount;
 } StackCountResult;
 
+#include "../ov093/btl_server_types.h"
+#include "../arm9/mi_memory.h"
+#ifdef __MWERKS__
+#undef BTL_EVENT_AddFactor
+#undef MI_CpuFill8
+#undef WAZA_TOOL_GetParam
+#undef BTL_SICKCONT_MakeKind1Index15
+#undef BTL_SICKCONT_MakeKind1Empty
+extern u32 BTL_SICKCONT_MakeKind1Empty(void);
+extern u32 BTL_SICKCONT_MakeKind1Index15(void);
+extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 paramId);
 extern void MI_CpuFill8(void *dst, int value, int size);
-extern void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value);
-extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
-extern int BTL_SERVER_FLOW_GetRule(s32 *flow);
+extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u16 key, int priority, u32 subPriority, u32 ownerId, u32 handlers, u16 handlerCount);
+#else
+/* The host build reads the condition word of the returned union. */
+#define BTL_SICKCONT_MakeKind1Index15() (BTL_SICKCONT_MakeKind1Index15().raw)
+#define BTL_SICKCONT_MakeKind1Empty() (BTL_SICKCONT_MakeKind1Empty().raw)
+#endif
+#include "../ov093/btl_event.h"
 void HAND_SIDE_InitTable(void);
 struct BtlEventFactor *HAND_SIDE_AddFactor(u8 side, int effectId, BtlEffectCont cont);
 u32 HAND_SIDE_GetStackCount(u32 side, u32 effectId);
@@ -195,7 +218,7 @@ int HAND_SIDE_Remove(u32 side, u32 effectId)
         BTL_EVENT_RemoveFactor(slot->factor);
         slot->factor = 0;
         slot->layers = 0;
-        slot->cont.bits.kind = 0;
+        slot->cont.byPart.kind = 0;
         return 1;
     }
     return 0;
@@ -221,11 +244,11 @@ void HAND_SIDE_TickTurns(void (*onExpired)(u8 side, u32 effectId, u32 arg), u32 
         for (; effectId < BTL_SIDEEFF_COUNT; effectId++) {
             BtlSideEffectSlot *slot = &row->effects[effectId];
 
-            if (slot->layers != 0 && slot->cont.bits.kind == BTL_EFFECT_CONT_TIMED) {
+            if (slot->layers != 0 && slot->cont.byPart.kind == BTL_EFFECT_CONT_TIMED) {
                 slot->turnsElapsed++;
-                if (slot->turnsElapsed >= slot->cont.bits.turnLimit) {
+                if (slot->turnsElapsed >= slot->cont.byPart.paramLow) {
                     slot->layers = 0;
-                    slot->cont.bits.kind = 0;
+                    slot->cont.byPart.kind = 0;
                     BTL_EVENT_RemoveFactor(slot->factor);
                     slot->factor = 0;
                     onExpired(side, effectId, arg);
@@ -300,7 +323,7 @@ void HAND_SIDE_ScreenReduceDamage(struct BtlServerFlow *flow, int side, int dama
     u8 defenderId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
 
     if (side == BTL_MAIN_IsPokeIdInSecondPair(defenderId) && damageType == BTL_EVENT_GetVar(BTL_EVAR_DAMAGE_TYPE) && BTL_EVENT_GetVar(BTL_EVAR_CRITICAL_FLAG) == 0) {
-        int rule = BTL_SERVER_FLOW_GetRule((s32 *)flow);
+        int rule = BTL_SERVER_FLOW_GetRule(flow);
 
         BTL_EVENT_MultiplyVar(BTL_EVAR_RATIO, (rule == BTL_RULE_SINGLE || rule == BTL_RULE_ROTATION) ? HAND_RATIO_SCREEN_SINGLES : HAND_RATIO_SCREEN_DOUBLES);
     }
@@ -342,7 +365,7 @@ void HAND_SIDE_SafeguardNoticeBlocked(struct BtlEventFactor *factor, struct BtlS
         defenderId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
         cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, defenderId);
         BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_MESSAGE_SET, BTL_MSG_SAFEGUARD_BLOCKED);
-        BTL_SERVER_FLOW_AppendMsgRecordArg(&cmd->message, defenderId);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), defenderId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
         *work = 0;
     }
@@ -388,7 +411,7 @@ void HAND_SIDE_MistNoticeStatDrop(struct BtlEventFactor *factor, struct BtlServe
             pokeId = BTL_EVENT_GetVar(BTL_EVAR_POKE_ID);
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_MESSAGE, pokeId);
             BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_MESSAGE_SET, BTL_MSG_MIST_BLOCKED);
-            BTL_SERVER_FLOW_AppendMsgRecordArg(&cmd->message, pokeId);
+            BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), pokeId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
             work[1] = statId;
         }
@@ -481,7 +504,7 @@ void HAND_SIDE_StealthRockHurtOnEnter(struct BtlEventFactor *factor, struct BtlS
         cmd->pokeId = pokeId;
         cmd->amount = BTL_CALC_DivideMaxHpMin1(bpp, divisor);
         BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_MESSAGE_SET, BTL_MSG_STEALTH_ROCK_HURT);
-        BTL_SERVER_FLOW_AppendMsgRecordArg(&cmd->message, pokeId);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
     }
 }
@@ -585,7 +608,7 @@ void HAND_SIDE_SpikesHurtOnEnter(struct BtlEventFactor *factor, struct BtlServer
         cmd->pokeId = pokeId;
         cmd->amount = BTL_CALC_DivideMaxHpMin1(bpp, divisor);
         BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, HANDEX_MESSAGE_SET, BTL_MSG_SPIKES_HURT);
-        BTL_SERVER_FLOW_AppendMsgRecordArg(&cmd->message, pokeId);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
     }
 }
@@ -703,15 +726,15 @@ void HAND_SIDE_SeaOfFireHurt(struct BtlEventFactor *factor, struct BtlServerFlow
         bpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
         if (BTL_POKEPARAM_HasType(bpp, POKETYPE_FIRE) == 0) {
             effectCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_PLAY_EFFECT, pokeId);
-            effectCmd->viewPos = BTL_SERVER_FLOW_GetPokeViewPos(flow, pokeId);
-            effectCmd->mode = 6;
+            effectCmd->fromPos = BTL_SERVER_FLOW_GetPokeViewPos(flow, pokeId);
+            effectCmd->toPos = 6;
             effectCmd->effectId = 0x28e;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, effectCmd);
             damageCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_DAMAGE, 0x1f);
             damageCmd->pokeId = pokeId;
             damageCmd->amount = BTL_CALC_DivideMaxHpMin1(bpp, 8);
             BTL_SERVER_FLOW_InitMsgRecord(&damageCmd->message, HANDEX_MESSAGE_SET, BTL_MSG_SEA_OF_FIRE_HURT);
-            BTL_SERVER_FLOW_AppendMsgRecordArg(&damageCmd->message, pokeId);
+            BTL_SERVER_FLOW_AppendMsgRecordArg((&damageCmd->message), pokeId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, damageCmd);
         }
     }

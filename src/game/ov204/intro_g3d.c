@@ -60,6 +60,11 @@
  *   _fsub                        0x0209CB8C  arm
  *   _ull_mul                     0x0209C054  arm
  */
+#include "../types.h"
+struct G3dUtil;
+struct G3dUtilSetup;
+struct VecFx32;
+#include "../arm9/mcss.h"
 #include "intro_types.h"
 
 struct Obj;
@@ -82,7 +87,7 @@ struct Arg;
 
 struct AnmCtl;
 
-typedef struct {u32 x,y,z;} Vec3;
+typedef struct {u32 x,y,z;} IntroG3dVec3;
 
 /*
  * The intro 3D effect object (0x30 allocated). Created by INTRO_G3D_Create,
@@ -106,81 +111,61 @@ typedef struct IntroG3dWork {
 } IntroG3dWork;
 struct PokemonParam;
 
-extern struct PokemonParam *POKE_TOOL_Create(unsigned short, unsigned short, unsigned long long, unsigned short);
+#include "../arm9/poke_tool.h"
 struct McssAddWork;
 
-extern void MCSS_TOOL_MakeAddWorkFromPP(void *pp, struct McssAddWork *out, unsigned int direction);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct McssSys;
 struct McssWork;
 
-extern struct McssWork *MCSS_Add(struct McssSys *sys, int x, int y, int z, struct McssAddWork *addWork);
 
-extern void MCSS_SetScale(struct McssWork *work, unsigned int *src);
 
-extern void MCSS_SetAnmStopFlag(struct McssWork *work);
 
-extern unsigned int GF_STANDARD_Rand(void);
+#include "../arm9/gf_standard.h"
 
-extern void MCSS_SetAnimCallback(void *, void *, void (*)(void *, void *), int);
 
-extern void MCSS_ResetVanishFlag(struct McssWork *work);
 
-extern void MCSS_SetVanishFlag(struct McssWork *work);
 
-extern void MCSS_SetAnimeIndex(struct McssWork *work, unsigned int animeIndex);
 
-extern void MCSS_ResetAnmStopFlag(struct McssWork *work);
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/g2.h"
 
-extern void MCSS_SetAlpha(struct McssWork *work, int alpha);
 
-extern void MCSS_SetMepachiFlag(struct McssWork *work);
 
-extern void MCSS_ResetMepachiFlag(struct McssWork *work);
 
-extern void MCSS_RestartAnime(struct McssWork *work);
 
-extern void MCSS_GetPosition(struct McssWork *work, unsigned int *out);
 
-extern void MCSS_SetPosition(struct McssWork *work, unsigned int *src);
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void *G3D_UTIL_Create(u16,u16,u32);
+extern struct G3dUtil *G3D_UTIL_Create(u16,u16,u32);
 
-extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u32);
+extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct VecFx32 *,struct VecFx32 *,struct VecFx32 *,u32);
 
-extern u16 G3D_UTIL_AddUnit(void *,const void *);
+extern u16 G3D_UTIL_AddUnit(struct G3dUtil *,const struct G3dUtilSetup *);
 
-extern u32 G3D_UTIL_GetObject(u8 *util, int i);
+extern u32 G3D_UTIL_GetObject(struct G3dUtil *util, int i);
 struct G3dObject;
 
-extern int G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, unsigned int anmIdx);
+#include "../arm9/g3d_system.h"
 
-extern int G3D_SYSTEM_DisableObjectAnime(struct G3dObject *obj, unsigned int anmIdx);
 
 extern unsigned int G3D_CAMERA_Delete(void *);
 
-extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
+extern void G3D_UTIL_RemoveUnit(struct G3dUtil *,u32);
 
-extern void G3D_UTIL_Delete(struct Rec *);
+extern void G3D_UTIL_Delete(struct G3dUtil *);
 struct G3dCamera;
 
 extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
-extern void MTX_Identity33_(void *);
+#include "../arm9/fx_mtx33.h"
 struct G3dObjectStatus;
 
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/gfl_use.h"
 
-extern int G3D_SYSTEM_IncObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
 
-extern int G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, unsigned short anmIdx, int *frame);
 
 void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i);
 
@@ -224,7 +209,7 @@ void INTRO_G3D_SetAnimFrame(char *p,unsigned value);
 
 extern const IntroVec gIntroG3dDefaultPos;
 
-extern const Vec3 gIntroG3dCameraPos,gIntroG3dCameraTarget,gIntroG3dCameraUp;
+extern const IntroG3dVec3 gIntroG3dCameraPos,gIntroG3dCameraTarget,gIntroG3dCameraUp;
 
 extern const char gIntroG3dSite[];
 
@@ -244,7 +229,7 @@ void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned 
     work->slots[i].animFinished = 0;
     work->slots[i].loopAnim = 1;
     work->idleTimer = 20 * (unsigned int)(((unsigned long long)GF_STANDARD_Rand() * 5) >> 32) + 200;
-    MCSS_SetAnimCallback(work->slots[i].object, &work->slots[i], (void (*)(void *, void *))INTRO_G3D_OnAnimEnd, 0);
+    MCSS_SetAnimCallback(work->slots[i].object, (u32)(&work->slots[i]), (u32)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
 }
 
 void INTRO_G3D_SetVanishFlag(u8 *p, int flag, u8 index)
@@ -266,7 +251,7 @@ void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned 
     zero = Zero;
     work->slots[i].animFinished = zero;
     work->slots[i].loopAnim = v;
-    MCSS_SetAnimCallback(work->slots[i].object, &work->slots[i], (void (*)(void *, void *))INTRO_G3D_OnAnimEnd, 0);
+    MCSS_SetAnimCallback(work->slots[i].object, (u32)(&work->slots[i]), (u32)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
 }
 
 unsigned int INTRO_G3D_GetSlotAnimFinished(char *p, u8 i)
@@ -360,16 +345,16 @@ void INTRO_G3D_UpdateIdleAnim(char *p)
 char *INTRO_G3D_Create(void *owner,int kind,u32 heap)
 {
     IntroG3dWork *p;
-    Vec3 a,b,c;
+    IntroG3dVec3 a,b,c;
     void *obj;
     p=GFL_HEAP_Alloc(heap,48,1,gIntroG3dSite,162);
     p->heapId=heap;
     p->owner=owner;
     p->util=G3D_UTIL_Create(10,16,heap);
     a=gIntroG3dCameraPos;b=gIntroG3dCameraTarget;c=gIntroG3dCameraUp;
-    p->camera=G3D_CAMERA_Create(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,&a,&b,&c,heap);
+    p->camera=G3D_CAMERA_Create(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,(struct VecFx32 *)(&a),(struct VecFx32 *)(&b),(struct VecFx32 *)(&c),heap);
     if(kind!=7){
-        p->unitId=G3D_UTIL_AddUnit(p->util,gIntroG3dUnitSetup);
+        p->unitId=G3D_UTIL_AddUnit(p->util,(struct G3dUtilSetup *)gIntroG3dUnitSetup);
         obj=(void *)G3D_UTIL_GetObject(p->util,p->unitId);
         G3D_SYSTEM_EnableObjectAnime(obj,3);G3D_SYSTEM_EnableObjectAnime(obj,4);
         G3D_SYSTEM_DisableObjectAnime(obj,0);G3D_SYSTEM_DisableObjectAnime(obj,1);G3D_SYSTEM_DisableObjectAnime(obj,2);
@@ -402,7 +387,7 @@ void INTRO_G3D_Draw(char *p)
         t.scale[0] = 4096;
         t.scale[1] = 4096;
         t.scale[2] = 4096;
-        MTX_Identity33_(t.matrix);
+        MTX_Identity33_((MtxFx33 *)t.matrix);
         G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(work->util, work->unitId), (struct G3dObjectStatus *)(&t));
     }
 }

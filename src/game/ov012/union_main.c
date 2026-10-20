@@ -46,60 +46,50 @@
 
 #include "union_comm_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern int UNION_SCENE_IsScenePending(UnionRoomWork *work);
+#include "union_scene.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct ColosseumWork;
 
-extern void COLOSSEUM_Delete(struct ColosseumWork *work, void *gameSystem);
+#include "colosseum.h"
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
-extern unsigned int GAME_COMM_GetKind(struct GameComm *gameComm);
+#include "../arm9/game_comm.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern void GAME_COMM_Start(struct GameComm *comm, u32 kind, u32 param);
 
-extern void GAME_BEACON_SEARCH_SetFieldEvent(void);
+#include "../ov010/game_beacon_set.h"
 
-extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
 struct FieldMap;
 
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
-extern u8 GAMESYSTEM_GetFieldMapState(struct GameSystem *gameSystem);
 
-extern int GAME_EVENT_IsRunning(struct GameSystem *gameSystem);
+#include "../arm9/game_event.h"
 
-extern int UNION_ONESELF_RunPlayCategory(UnionRoomWork *work, void *fieldMap);
+#include "../ov019/union_oneself.h"
 
-extern void UNION_CHARA_ProcessBeaconUpdates(UnionRoomWork *work);
+typedef int Bool;
+#include "../ov019/union_chara.h"
 
-extern void UNION_CHARA_Main(UnionRoomWork *work, struct GameData *gameData, void *fieldMap);
 
-extern u32 GAMESYSTEM_IsFieldMapActive(struct GameSystem *gameSystem);
 
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
-extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);
 
-extern void FIELDMAP_CTRL_GRID_SetBusy(struct FieldMap *fieldMap, u32 busy);
+#include "../ov021/fieldmap_ctrl_grid.h"
 
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 
-extern u32 ZONEDATA_IsUnionRoom(u32 zoneId);
+#include "../arm9/zonedata.h"
 
-extern void UNION_CHARA_RefreshParentMarks(UnionRoomWork *work, struct GameData *gameData, void *fieldMap);
 struct CommPlayerWork;
 
-extern void COMM_PLAYER_Resume(struct CommPlayerWork *work);
+#include "../ov010/comm_player.h"
 
-extern void COMM_PLAYER_Suspend(struct CommPlayerWork *work);
 
 void UNION_MAIN_StartComm(struct GameSystem *gameSystem);
 
@@ -142,7 +132,7 @@ void UNION_MAIN_StartComm(struct GameSystem *gameSystem)
     parent->gameComm = gameComm;
     parent->gameData = gameData;
     parent->gameSystem = gameSystem;
-    GAME_COMM_Start(gameComm, (u32)3, (u32)parent);
+    GAME_COMM_Start(gameComm, (u32)3, (uptr)parent);
     GAME_BEACON_SEARCH_SetFieldEvent();
 }
 

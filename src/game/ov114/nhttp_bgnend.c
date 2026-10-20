@@ -42,26 +42,14 @@
 
 typedef enum { FALSE_, TRUE_ } BOOLE;
 
-extern NHTTPSysInfo *NHTTPi_GetSystemInfoP(void);
-extern NHTTPBgnEndInfo *NHTTPi_GetBgnEndInfoP(NHTTPSysInfo *sysInfo_p);
-extern NHTTPListInfo *NHTTPi_GetListInfoP(NHTTPSysInfo *sysInfo_p);
-extern NHTTPReqInfo *NHTTPi_GetReqInfoP(NHTTPSysInfo *sysInfo_p);
-extern NHTTPMutexInfo *NHTTPi_GetMutexInfoP(NHTTPSysInfo *sysInfo_p);
-extern NHTTPThreadInfo *NHTTPi_GetThreadInfoP(NHTTPSysInfo *sysInfo_p);
-extern void NHTTPi_InitListInfo(NHTTPListInfo *listInfo_p);
-extern void NHTTPi_InitRequestInfo(NHTTPReqInfo *reqInfo_p);
-extern void NHTTPi_initLockReqList(NHTTPMutexInfo *mutexInfo_p);
-extern void NHTTPi_InitConnectionList(void);
-extern void NHTTPi_exitLockReqList();
-extern int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priority, unsigned long *stack_p);
-extern void NHTTPi_CheckCurrentThread(NHTTPThreadInfo *threadInfo_p, BOOLE is);
-extern void NHTTPi_cancelAllRequests(NHTTPSysInfo *sysInfo_p);
-extern void NHTTPi_destroyCommThread(NHTTPThreadInfo *threadInfo_p, NHTTPBgnEndInfo *bgnEndInfo_p);
+#include "d_nhttp_common.h"
+#include "nhttp_list.h"
+#include "nhttp_request.h"
+#include "nhttp_os_ntr.h"
 extern void NHTTPi_free(void *ptr_p);
-extern unsigned long NHTTPi_GetConnectionListLength(void);
 struct _NHTTPReq;
 struct _NHTTPMutexInfo;
-extern int NHTTPi_SocClose(struct _NHTTPMutexInfo *mutexInfo_p, struct _NHTTPReq *req_p, int socket);
+#include "nhttp_socket_ntr.h"
 void NHTTPi_InitBgnEndInfo(NHTTPBgnEndInfo *info_p);
 void *NHTTPi_alloc(unsigned long size, int align);
 void NHTTPi_SetError(NHTTPBgnEndInfo *bgnEndInfo_p, int error);

@@ -12,13 +12,13 @@ struct GfFont;
 struct Tcbl;
 struct WordSet;
 struct PrintQue;
-struct MsgData;
+struct MsgBank;
 struct Strbuf;
 struct BmpWin;
 struct Bmp;
 struct BmpOam;
 struct BmpOamSys;
-struct ClactUnit;
+struct Unit;
 struct ClactRenderer;
 struct ClactActor;
 struct ClactRes;
@@ -78,10 +78,10 @@ typedef struct IntrudeSubdispGfx {
     u8 *tiles;                  /* 0x14 */
 } IntrudeSubdispGfx;
 
-typedef struct IntrudeSubdispPos {
-    s16 x;
-    s16 y;
-} IntrudeSubdispPos;
+#include "../arm9/clact.h"
+
+/* A screen position: the clact vector. */
+typedef struct ClactVec2 IntrudeSubdispPos;
 
 /* Where a slot icon goes: its own position and the position of the marker beside it. */
 typedef struct IntrudeSubdispPosPair {
@@ -111,37 +111,27 @@ typedef struct IntrudeSubdispMsgReq {
 } IntrudeSubdispMsgReq;
 
 /* Geometry of one actor, as the clact add function reads it. */
-typedef struct IntrudeSubdispActorParam {
-    u16 x;
-    u16 y;
-    u16 anim;
-    u16 bgPriority;
-} IntrudeSubdispActorParam;
+typedef struct ActorInitParam IntrudeSubdispActorParam;
 
-/* Template of the bmp oam of a button (6 words). */
-typedef struct IntrudeSubdispBmpOamTmpl {
-    struct Bmp *bmp;            /* 0x00 */
-    int x;
-    struct ClactRes *palRes;    /* 0x08 */
-    int y;
-    int priority;
-    int unused14;
-} IntrudeSubdispBmpOamTmpl;
+#include "../arm9/bmp_oam.h"
+
+/* Template of the bmp oam of a button. */
+typedef struct BmpOamParam IntrudeSubdispBmpOamTmpl;
 
 typedef struct IntrudeSubdispWork {
     struct GameSystem *gameSystem;              /* 0x00 */
-    struct ClactRes *charRes;                   /* 0x04: town and mark icons */
-    struct ClactRes *palRes;                    /* 0x08 */
-    struct ClactRes *bmpOamPalRes;              /* 0x0C: palette of the button bitmaps */
-    struct ClactRes *cellRes;                   /* 0x10 */
-    struct ClactRes *infoCharRes;               /* 0x14: number sprite */
-    struct ClactRes *infoCellRes;               /* 0x18 */
+    s32 charRes;                   /* 0x04: town and mark icons */
+    s32 palRes;                    /* 0x08 */
+    s32 bmpOamPalRes;              /* 0x0C: palette of the button bitmaps */
+    s32 cellRes;                   /* 0x10 */
+    s32 infoCharRes;               /* 0x14: number sprite */
+    s32 infoCellRes;               /* 0x18 */
     struct GfFont *font;                        /* 0x1C */
     struct Tcbl *tcbl;                          /* 0x20 */
     struct WordSet *wordSet;                    /* 0x24 */
     struct PrintQue *printQue;                  /* 0x28 */
-    struct MsgData *msgData;                    /* 0x2C: message file 0x2D */
-    struct MsgData *msgDataDetail;              /* 0x30: message file 0x42 */
+    struct MsgBank *msgData;                    /* 0x2C: message file 0x2D */
+    struct MsgBank *msgDataDetail;              /* 0x30: message file 0x42 */
     struct TcbTask *vblankTask;                 /* 0x34 */
     struct Strbuf *strbufMsg;                   /* 0x38 */
     struct Strbuf *strbufText;                  /* 0x3C */
@@ -152,14 +142,14 @@ typedef struct IntrudeSubdispWork {
     struct BmpWin *infoWin;                     /* 0x4C */
     u8 infoPending;                             /* 0x50 */
     u8 pad51[3];
-    struct ClactUnit *clactUnit;                /* 0x54 */
+    struct Unit *clactUnit;                   /* 0x54 */
     struct ClactRenderer *renderer;             /* 0x58 */
     struct ClactActor *actors[INTRUDE_SUBDISP_ACTOR_COUNT]; /* 0x5C: 0..7 towns, 8 palace, 9..11 player marks, 12..14 town marks, 15 own player, 16 button, 17..19 player icons, 20 info icon */
     struct BmpOamSys *bmpOamSys;                /* 0xB0 */
     struct Bmp *buttonBitmaps[2];               /* 0xB4 */
     u8 padBC[4];
     struct BmpOam *buttonOams[2];               /* 0xC0 */
-    struct ClactRes *numberRes;                 /* 0xC8 */
+    void *numberRes;               /* 0xC8 */
     IntrudeSubdispGfx *numberGfx;               /* 0xCC */
     u8 *numberBuf;                              /* 0xD0: 0x200 bytes, three digits of two tiles */
     u32 numberVram;                             /* 0xD4: where the digits are copied to */

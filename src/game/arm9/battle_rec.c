@@ -47,17 +47,16 @@
 
 
 
-extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap);
-
+#ifdef __MWERKS__
+extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap); /* original prototype; the definition differs in argument width */
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *save, u32 id);
-
-extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size);
-
+extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size); /* original prototype; the definition differs in argument width */
 extern void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u32 heapId, u32 work, u32 workSize);
-
 extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *save, u32 id);
-
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *save, u32 id, u32 arg);
+#else
+#include "save_control.h"
+#endif
 
 #include "gfl_heap_wrap.h"
 

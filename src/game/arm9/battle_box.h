@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_BATTLE_BOX_H
 #define GAME_ARM9_BATTLE_BOX_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of battle_box.c, prototypes copied from their definitions. */
 
 struct BattleBoxSave;
@@ -22,5 +23,6 @@ void BATTLE_BOX_SetLockFlags(struct BattleBoxSave *box, u32 flags);
 void BATTLE_BOX_ClearLockFlags(struct BattleBoxSave *box, int flags);
 struct BoxMon *BATTLE_BOX_GetMon(struct BoxMonGroup *groups, u32 group, u32 index);
 u32 BATTLE_BOX_IsLocked(struct BattleBoxSave *box, u32 flags);
+/* END mkheaders: generated region */
 
 #endif

@@ -14,7 +14,7 @@ struct MsgBank;
 struct PrintSys;
 struct PmsDraw;
 struct BmpWin;
-struct ClactUnit;
+struct Unit;
 struct ClactActor;
 struct ClactRes;
 
@@ -45,26 +45,14 @@ typedef struct UnionSubdispWinSlot {
     u8 pad05[3];
 } UnionSubdispWinSlot;
 
-/* Geometry of one actor, as the clact add function reads it. */
-typedef struct UnionSubdispActorParam {
-    u16 x;
-    u16 y;
-    u16 anim;
-    u16 bgPriority;
-} UnionSubdispActorParam;
-
-typedef struct UnionSubdispPos {
-    s16 x;
-    s16 y;
-} UnionSubdispPos;
-
+#include "../arm9/clact.h"
 typedef struct UnionSubdispWork {
     struct GameSystem *gameSystem;                  /* 0x00 */
     u32 bgCharOffset;                               /* 0x04: char area of bg 5 */
-    struct ClactRes *charRes;                       /* 0x08 */
-    struct ClactRes *palRes;                        /* 0x0C */
-    struct ClactRes *cellRes;                       /* 0x10 */
-    struct ClactUnit *clactUnit;                    /* 0x14 */
+    s32 charRes;                       /* 0x08 */
+    s32 palRes;                        /* 0x0C */
+    s32 cellRes;                       /* 0x10 */
+    struct Unit *clactUnit;                    /* 0x14 */
     struct ClactActor *actor[UNION_SUBDISP_ACTOR_COUNT]; /* 0x18 */
     u8 appealNo;                                    /* 0x30: pressed appeal button, 0 = none */
     u8 inputResult;                                 /* 0x31: the chat log input handlers acted */

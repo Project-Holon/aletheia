@@ -36,12 +36,6 @@ typedef struct EncountRow {
     u8 flags;                             /* 0x07: 0x80 set after load */
 } EncountRow;
 
-/* Object returned by FIELDMAP_GetEncount (field map, offset 0x90). */
-typedef struct EffectEncountObj {
-    u8 pad00[0x10];
-    int encountParam;                     /* 0x10 */
-} EffectEncountObj;
-
 /* Field gimmick work (GAME_DATA_GetFieldGimmick). */
 typedef struct FieldGimmickWork {
     u8 pad00[0x0C];
@@ -49,26 +43,25 @@ typedef struct FieldGimmickWork {
 } FieldGimmickWork;
 struct GameData;
 
-extern u32 GAME_DATA_GetFieldGimmick(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
 /* overlay loading, heap, string helpers */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+#include "../arm9/mi_memory.h"
 struct ArcHandle;
 
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
+#include "../arm9/arc_tool.h"
 
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 
                                                       
-extern u32 ZONEDATA_GetEncountId(u32 zoneId);
+#include "../arm9/zonedata.h"
 
-extern struct EffectEncountObj *FIELDMAP_GetEncount(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
-extern int EFFECT_ENCOUNT_LoadSetting(struct EffectEncountObj *obj, int param);
+#include "../ov021/field_encount_types.h"
+#include "../ov021/effect_encount.h"
 
 int FIELD_ENCOUNT_ST_LoadEncountData(EncountRow *row, struct ArcFile *arc, u32 zoneId, int seasonIndex);
 
@@ -76,7 +69,7 @@ void *FIELD_ENCOUNT_ST_Create(u32 heapId);
 
 void FIELD_ENCOUNT_ST_Delete(void *encountState);
 
-int FIELD_ENCOUNT_ST_GetEffectEncount(struct FieldMap *fieldMap);
+void FIELD_ENCOUNT_ST_GetEffectEncount(struct FieldMap *fieldMap);
 
 FieldGimmickWork *FIELD_ENCOUNT_ST_ResetGimmickState(struct GameData *gameData);
 
@@ -122,12 +115,12 @@ void FIELD_ENCOUNT_ST_Delete(void *encountState)
 }
 
 /* Result of the effect-encounter query for the field effect object of `fieldMap`. */
-int FIELD_ENCOUNT_ST_GetEffectEncount(struct FieldMap *fieldMap)
+void FIELD_ENCOUNT_ST_GetEffectEncount(struct FieldMap *fieldMap)
 {
-    EffectEncountObj *obj;
+    FieldEncount *obj;
 
     obj = FIELDMAP_GetEncount(fieldMap);
-    return EFFECT_ENCOUNT_LoadSetting(obj, obj->encountParam);
+    EFFECT_ENCOUNT_LoadSetting(obj, obj->effectEncount);
 }
 
 /* Clear the state word (offset 0xC) of the field gimmick work and return the work. */

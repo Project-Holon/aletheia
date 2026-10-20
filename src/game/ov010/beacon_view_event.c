@@ -39,9 +39,9 @@
 #include "field_skill_check_shared_types.h"
 #include "beacon_view_event_shared_types.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+#include "../arm9/mi_memory.h"
 
 #define OVERLAY_ID_216 ((u32)ov216_id)
 
@@ -63,34 +63,26 @@ typedef struct BeaconSearchEventWork {
     u8 mode;
 } BeaconSearchEventWork;
 
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+#include "../arm9/game_event.h"
 struct FieldSubscreen;
 
-extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int subMode);
+#include "../ov021/event_fieldmap_control.h"
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+#include "../arm9/field_status.h"
 
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndChangeTask(struct GameSystem *gameSystem, u32 soundId, u32 mode, u32 flag);
+#include "../arm9/field_sound_system.h"
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 
-extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopTask(struct GameSystem *gameSystem, u32 mode, u32 frames);
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern void FIELD_SUBSCREEN_ChangeModeNow(struct FieldSubscreen *work, u32 mode);
+#include "../ov021/field_subscreen.h"
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int subMode, int enable, u8 optionA, u8 optionB);
 
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(struct GameSystem *gameSystem);
 
 extern u8 ov216_id[];
 
@@ -170,9 +162,8 @@ typedef struct CalenderEventWork {
     u8 mode;                            /* 0x18 */
 } CalenderEventWork;
 
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*func)(struct GameEvent *, u32 *, void *), u32 workSize);
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
 struct GameEvent *BEACON_VIEW_EVENT_Create(struct GameSystem *gameSystem, void *unused, u8 mode);
 

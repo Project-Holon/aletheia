@@ -68,7 +68,7 @@
 
 struct ScriptWork;
 
-struct ScriptCtl;
+struct ScriptWork;
 
 struct EventDataSystem;
 
@@ -79,7 +79,7 @@ struct EventWork;
 typedef enum { FALSE, TRUE } Bool;
 
 /* Wait callback of a script command: receives the script work as user data. */
-typedef int (*ScriptWorkWaitFn)(ScriptVm *vm, struct ScriptWork *scriptWork);
+typedef int (*ScriptWorkWaitFn)(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
 /* Heap block behind the script command "wait for the comm state". */
 typedef struct CommWaitWork {
@@ -109,103 +109,75 @@ typedef struct CommProcEventWork {
 struct ScrcmdWork;
 
 /* script work (ov010) */
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
+#include "scrcmd_work.h"
 
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
 struct GameData;
 
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScriptWork *scriptWork);
 struct ScriptVm;
 
-extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-extern CommWaitWork **SCRIPT_WORK_GetUserWorkPtr(struct ScriptCtl *scriptCtl);
+#include "script_work.h"
 
-extern void *SCRIPT_WORK_GetGameSystem(struct ScriptWork *work);
 
-extern struct ScriptWork *SCRIPT_WORK_SetReturnFlag(struct ScriptWork *work, unsigned int flag);
 
-extern unsigned int SCRIPT_WORK_GetReturnFlag(struct ScriptWork *work);
 
-extern void SCRIPT_WORK_SetCheckFlag(int flagNo);
 
-extern void SCRIPT_WORK_ResetCheckFlag(int flagNo);
 
-extern void EVENT_TRAINER_ClearDefeatedFlag(char *flagSet, unsigned int flagOffset);
+#include "event_trainer.h"
 
-extern u16 EVENT_TRAINER_GetPrimaryScriptId(unsigned eventKey);
 
-extern u16 EVENT_TRAINER_GetSecondaryScriptId(unsigned eventKey);
 
-extern int MAP_REPLACE_GetDefaultWarpId(void);
+#include "map_replace.h"
 
-extern void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, unsigned short scriptId, void *target, void *parentWork, unsigned short reserved);
+#include "script_sys.h"
 
-extern void EVENTDATA_SYSTEM_SetNpcEventId(struct EventDataSystem *eventData, unsigned slot, u16 eventId);
+#include "eventdata_system.h"
 
-extern void EVENTDATA_SYSTEM_SetNpcObjCode(struct EventDataSystem *eventData, unsigned slot, u16 objCode);
 
 /* script virtual machine */
-extern void VM_SetWait(ScriptVm *vm, ScriptWorkWaitFn waitFn);
 
 /* game system, game event, game data */
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, EventTaskFn taskFn, unsigned int workSize);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, const void *procData, void *procArg);
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
-extern void GAMESYSTEM_SetCommBlocked(struct GameSystem *gameSystem, u32 commBlocked);
 
-extern u32 GAMESYSTEM_IsAlwaysNetFlagSet(struct GameSystem *gameSystem);
 
-extern void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, u32 alwaysNet);
 
-extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern void *GAME_DATA_GetEventData(struct GameData *gameData);
 
-extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
 
-extern u16 GAME_DATA_GetSituationWarpId(struct GameData *gameData);
 
-extern unsigned char *GAME_DATA_GetEventState(struct GameData *gameData);
 
 /* game comm, config, misc */
-extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
+#include "../arm9/game_comm.h"
 
-extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 
-extern int FIELDMAP_CheckCommExit(struct GameComm *gameComm);
+#include "../ov021/fieldmap.h"
 
-extern int APP_ENV_IsWirelessAvailable(void);
+#include "../arm9/app_env.h"
 
 /* heap, archive, random, overlays, memory */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, unsigned short heapID);
+#include "../arm9/arc_util.h"
 
-extern u32 GFL_USE_GetRandom(u32 range);
+#include "../arm9/gfl_use.h"
 
 /* screen, sound */
-extern void BRIGHTNESS_Set(unsigned int brightness, unsigned int plane, unsigned int mask);
+#include "../arm9/brightness.h"
 struct SymbolMapOwner;
 
-extern void SYMBOL_MAP_DeleteLinkRecord(struct SymbolMapOwner *owner);
+#include "symbol_map.h"
 
 extern const char SCRCMD_NETWORK_sFileName[];
 
@@ -213,37 +185,37 @@ extern u8 d_021B9EC0[];
 
 extern u8 ov_id_00CD[];
 
-int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, void *scriptWork);
 
-int SCRCMD_NETWORK_CmdWaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdWaitCommState(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdGetCommValue(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdGetCommValue(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdStartAutoComm(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdStartAutoComm(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdRequestCommExit(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdRequestCommExit(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdRestartAutoComm(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdRestartAutoComm(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
 int SCRCMD_NETWORK_CmdUnblockComm(struct GameSystem **gameSystemRef, void *unused);
 
-int SCRCMD_NETWORK_CmdGetAlwaysNet(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdGetAlwaysNet(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdClearAlwaysNet(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdClearAlwaysNet(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdLoadNpcTable(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdLoadNpcTable(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdFreeNpcTable(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdFreeNpcTable(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdSetNpcEventFromTable(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdSetNpcEventFromTable(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdSetNpcEventPairFromTable(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdSetNpcEventPairFromTable(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdSetNpcTripleFromTable(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdSetNpcTripleFromTable(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_CmdApplyTableEventKeys(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_CmdApplyTableEventKeys(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_NETWORK_PickSixDistinctRandom(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_NETWORK_PickSixDistinctRandom(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
 int SCRCMD_NETWORK_FindNpcTableRow(const NpcTableRow *table, int keyA, int keyB);
 
@@ -253,22 +225,24 @@ int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, u32 *seq, void *wo
 
 struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
 
-struct GameEvent *EVENT_WIFI_PROC_LoadOv020Task(struct GameSystem *gameSystem);
+#include "event_wifi_proc.h"
+#include "script_work_cmd.h"
+#include "../arm9/vm.h"
 
 /*
  * Wait callback of the "wait for the comm state" command: state 0 keeps
  * waiting, state 1 ends the wait, state 2 ends it and stores 2 in the
  * result variable.
  */
-int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, void *scriptWork)
 {
-    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork);
-    struct ScriptCtl *scriptCtl = (struct ScriptCtl *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
+    struct ScriptWork *scriptCtl = (struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork);
     struct GameComm *gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     CommWaitWork *waitWork;
 
     GAMESYSTEM_GetFieldMap(gameSystem);
-    waitWork = *SCRIPT_WORK_GetUserWorkPtr(scriptCtl);
+    waitWork = *(struct CommWaitWork **)SCRIPT_WORK_GetUserWorkPtr(scriptCtl);
     switch (FIELDMAP_CheckCommExit(gameComm)) {
     case 0:
         return 0;
@@ -284,13 +258,13 @@ int SCRCMD_NETWORK_WaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork)
     }
 }
 
-int SCRCMD_NETWORK_CmdWaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdWaitCommState(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     CommWaitWork **slot;
     u16 *resultVar;
     CommWaitWork *waitWork;
 
-    slot = SCRIPT_WORK_GetUserWorkPtr((struct ScriptCtl *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork));
+    slot = (struct CommWaitWork **)SCRIPT_WORK_GetUserWorkPtr((struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork));
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
     waitWork = GFL_HEAP_Alloc(4, 4, 1, SCRCMD_NETWORK_sFileName, 0x63);
     *slot = waitWork;
@@ -300,7 +274,7 @@ int SCRCMD_NETWORK_CmdWaitCommState(ScriptVm *vm, struct ScriptWork *scriptWork)
     return 1;
 }
 
-int SCRCMD_NETWORK_CmdGetCommValue(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdGetCommValue(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
 
@@ -308,20 +282,20 @@ int SCRCMD_NETWORK_CmdGetCommValue(ScriptVm *vm, struct ScriptWork *scriptWork)
     return 0;
 }
 
-int SCRCMD_NETWORK_CmdStartAutoComm(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdStartAutoComm(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
 
     GAMESYSTEM_TryStartAutoComm(gameSystem);
     return 1;
 }
 
-int SCRCMD_NETWORK_CmdRequestCommExit(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdRequestCommExit(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     struct GameSystem *gameSystem;
     struct GameComm *gameComm;
 
-    gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     switch (GAME_COMM_GetKind(gameComm)) {
     case 1:
@@ -339,9 +313,9 @@ int SCRCMD_NETWORK_CmdRequestCommExit(ScriptVm *vm, struct ScriptWork *scriptWor
     return 1;
 }
 
-int SCRCMD_NETWORK_CmdRestartAutoComm(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdRestartAutoComm(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
 
     GAMESYSTEM_SetCommBlocked(gameSystem, 0);
     GAMESYSTEM_TryStartAutoComm(gameSystem);
@@ -360,35 +334,35 @@ int SCRCMD_NETWORK_CmdUnblockComm(struct GameSystem **gameSystemRef, void *unuse
     return 1;
 }
 
-int SCRCMD_NETWORK_CmdGetAlwaysNet(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdGetAlwaysNet(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     struct GameSystem *gameSystem;
     u16 *resultVar;
 
-    gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
     *resultVar = GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem);
     return 0;
 }
 
-int SCRCMD_NETWORK_CmdClearAlwaysNet(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdClearAlwaysNet(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    GAMESYSTEM_SetAlwaysNetFlag(SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork), 0);
+    GAMESYSTEM_SetAlwaysNetFlag(SCRCMD_WORK_GetGameSystem(scriptWork), 0);
     return 0;
 }
 
 /* Loads archive member 0xD1 (the NpcTableRow table) into the script control. */
-int SCRCMD_NETWORK_CmdLoadNpcTable(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdLoadNpcTable(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct ScriptCtl *scriptCtl = (struct ScriptCtl *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork);
+    struct ScriptWork *scriptCtl = (struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork);
 
     SCRIPT_WORK_SetReturnFlag((struct ScriptWork *)scriptCtl, (unsigned int)ARC_UTIL_LoadMember(0xd1, 0, 0, 0x8004));
     return 0;
 }
 
-int SCRCMD_NETWORK_CmdFreeNpcTable(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdFreeNpcTable(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct ScriptCtl *scriptCtl = (struct ScriptCtl *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork);
+    struct ScriptWork *scriptCtl = (struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork);
     void *table = (void *)SCRIPT_WORK_GetReturnFlag((struct ScriptWork *)scriptCtl);
 
     if (table != 0) {
@@ -399,17 +373,17 @@ int SCRCMD_NETWORK_CmdFreeNpcTable(ScriptVm *vm, struct ScriptWork *scriptWork)
 }
 
 /* Sets the event id of NPC record outSlot from the row found by (keyA, keyB). */
-int SCRCMD_NETWORK_CmdSetNpcEventFromTable(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdSetNpcEventFromTable(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct ScriptCtl *scriptCtl = (struct ScriptCtl *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork);
-    u32 keyA = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    u32 outSlot = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    u32 keyB = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
+    struct ScriptWork *scriptCtl = (struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork);
+    u32 keyA = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    u32 outSlot = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    u32 keyB = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     const NpcTableRow *table;
     struct EventDataSystem *eventData;
     u16 eventKey;
 
-    eventData = GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scriptWork));
+    eventData = GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData(scriptWork));
     table = (struct NpcTableRow *)SCRIPT_WORK_GetReturnFlag((struct ScriptWork *)scriptCtl);
     eventKey = table[(u16)SCRCMD_NETWORK_FindNpcTableRow(table, keyA, keyB)].eventKey;
     EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlot, EVENT_TRAINER_GetPrimaryScriptId(eventKey));
@@ -417,18 +391,18 @@ int SCRCMD_NETWORK_CmdSetNpcEventFromTable(ScriptVm *vm, struct ScriptWork *scri
 }
 
 /* Same lookup, sets the event ids of two NPC records. */
-int SCRCMD_NETWORK_CmdSetNpcEventPairFromTable(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdSetNpcEventPairFromTable(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct ScriptCtl *scriptCtl = (struct ScriptCtl *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork);
-    u32 keyA = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    u32 outSlotA = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    u32 outSlotB = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    u32 keyB = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
+    struct ScriptWork *scriptCtl = (struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork);
+    u32 keyA = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    u32 outSlotA = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    u32 outSlotB = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    u32 keyB = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     const NpcTableRow *table;
     struct EventDataSystem *eventData;
     u16 index;
 
-    eventData = GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scriptWork));
+    eventData = GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData(scriptWork));
     table = (struct NpcTableRow *)SCRIPT_WORK_GetReturnFlag((struct ScriptWork *)scriptCtl);
     index = SCRCMD_NETWORK_FindNpcTableRow(table, keyA, keyB);
     EVENTDATA_SYSTEM_SetNpcEventId(eventData, outSlotA, EVENT_TRAINER_GetPrimaryScriptId(table[index].eventKey));
@@ -437,16 +411,16 @@ int SCRCMD_NETWORK_CmdSetNpcEventPairFromTable(ScriptVm *vm, struct ScriptWork *
 }
 
 /* Sets object code and event id of three NPC records from three table rows. */
-int SCRCMD_NETWORK_CmdSetNpcTripleFromTable(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdSetNpcTripleFromTable(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct ScriptCtl *scriptCtl = (struct ScriptCtl *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork);
-    u32 slot0 = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    u32 slot1 = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    u32 slot2 = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    u32 row0 = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    u32 row1 = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    u32 row2 = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scriptWork);
-    struct EventDataSystem *eventData = GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scriptWork));
+    struct ScriptWork *scriptCtl = (struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork);
+    u32 slot0 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    u32 slot1 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    u32 slot2 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    u32 row0 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    u32 row1 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    u32 row2 = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
+    struct EventDataSystem *eventData = GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData(scriptWork));
     NpcTableRow *table = (struct NpcTableRow *)SCRIPT_WORK_GetReturnFlag((struct ScriptWork *)scriptCtl);
 
     EVENTDATA_SYSTEM_SetNpcObjCode(eventData, slot0, table[row0].objCode);
@@ -458,14 +432,14 @@ int SCRCMD_NETWORK_CmdSetNpcTripleFromTable(ScriptVm *vm, struct ScriptWork *scr
     return 0;
 }
 
-int SCRCMD_NETWORK_CmdApplyTableEventKeys(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_CmdApplyTableEventKeys(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct ScriptCtl *scriptCtl;
+    struct ScriptWork *scriptCtl;
     struct EventWork *eventWork;
     int i;
     NpcTableRow *table;
 
-    scriptCtl = (struct ScriptCtl *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork);
+    scriptCtl = (struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork);
     eventWork = GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(SCRIPT_WORK_GetGameSystem((struct ScriptWork *)scriptCtl)));
     table = (struct NpcTableRow *)SCRIPT_WORK_GetReturnFlag((struct ScriptWork *)scriptCtl);
     for (i = 0; i < NPC_TABLE_ROW_COUNT; i++)
@@ -484,11 +458,11 @@ int SCRCMD_NETWORK_CmdApplyTableEventKeys(ScriptVm *vm, struct ScriptWork *scrip
  * declared before picked schedules `movs r7, #0x34` ahead of the zero stores.
  * EXACT* only for the 2-byte pad after the function (218 of 220).
  */
-int SCRCMD_NETWORK_PickSixDistinctRandom(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_NETWORK_PickSixDistinctRandom(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     u16 *outVar0, *outVar1, *outVar2, *outVar3, *outVar4, *outVar5;
 
-    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork);
+    SCRCMD_WORK_GetScriptWork(scriptWork);
     outVar0 = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
     outVar1 = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
     outVar2 = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);

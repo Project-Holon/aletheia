@@ -45,7 +45,7 @@
  *   gDwcSvlLabelSvcHost     0x021A2894  data ov009
  *   gDwcSvlLabelServiceToken     0x021A289C  data ov009
  *   gDwcSvlLabelStatusData     0x021A28AC  data ov009
- *   gMslRefToken     0x02150FEC  data
+ *   OSi_ThreadInfo     0x02150FEC  data
  *
  * Service-locator (SVL) token request on top of the DWC HTTP client.  The
  * control block gDwcSvlWorkarea is one DWCSvlIntWorkarea (0x1C5C bytes): the
@@ -59,78 +59,27 @@
 
 #include "../sdk_os.h"
 
+#include "dwc_http_types.h"
 #include "../sdk_dwc.h"
 
-typedef struct CPSSslConnection {
-    char pad0[0x800];
-    char *server_name;
-    char pad804[0xc];
-    int (*auth_callback)(int result);
-    char pad814[0x1c];
-} CPSSslConnection;
-
-typedef struct CPSSoc {
-    char pad0[0xc];
-    CPSSslConnection *con;
-    char pad10[0x90];
-} CPSSoc;
-
-typedef struct DWCHttp {
-    unsigned char stack[0x1000];
-    unsigned char initflag;
-    DWCHttpParam param;
-    int error;
-    char url[256];
-    char *hostname;
-    char *filepath;
-    unsigned long hostip;
-    int ssl_enabled;
-    unsigned short port;
-    CPSSoc soc;
-    CPSSslConnection con;
-    unsigned char *lowrecvbuf;
-    unsigned char *lowsendbuf;
-    unsigned long lowentropydata[8];
-    int num_postitem;
-    DWCHttpBuffer req;
-    DWCHttpBuffer rep;
-    char content_len_mutex[0x18];
-    int content_len;
-    int receivedbody_len;
-    DWCHttpLabelValue labelvalue[32];
-    OSThread thread;
-    char mutex[0x18];
-    int abort;
-} DWCHttp;
-
-typedef void *(*DWCSvlAlloc)(unsigned long name, long size);
-typedef void (*DWCSvlFree)(unsigned long name, void *ptr, long size);
+#include "cps_ssl_types.h"
 
 typedef struct DWCSvlIntWorkarea {
-    DWCSvlAlloc alloc;
-    DWCSvlFree free;
+    DWCAuthAlloc alloc;
+    DWCAuthFree free;
     DWCHttp http;
     DWCSvlResult *result;
 } DWCSvlIntWorkarea;
 
-extern void DWCi_SetError(int error, int errorCode);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int OS_IsThreadTerminated(OSThread *thread);
-extern void OS_Terminate(void);
+#include "../arm9/dwc_error.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_thread.h"
+#include "../arm9/os_terminate_processor.h"
 extern int strcmp(const char *s1, const char *s2) __attribute__((pure));
-extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
-extern int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
-extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
-extern void DWC_Http_Destroy(char *http);
-extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int DWC_Http_FinishHeader(char *http);
-extern unsigned long OS_GetThreadPriority(OSThread *thread);
-extern void DWC_Http_StartThread(char *http, unsigned int prio);
-extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
-extern char *DWC_Http_GetResult(char *http, char *label);
-extern int DWC_Auth_SetNasTimeDiff(char *datestr);
-extern int atoi(u32 s);
-extern int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned int buffer_len);
+#include "dwc_http.h"
+#include "dwc_cal.h"
+#include "dwc_nastime.h"
+#include "../arm9/msl_strtod.h"
 int DWCi_Svl_ParseHttp(void);
 
 extern DWCSvlIntWorkarea *gDwcSvlWorkarea;
@@ -146,9 +95,8 @@ extern char gDwcSvlLabelReturnCd[];
 extern char gDwcSvlLabelSvcHost[];
 extern char gDwcSvlLabelServiceToken[];
 extern char gDwcSvlLabelStatusData[];
-extern OSThreadInfo gMslRefToken;
 
-int DWC_Svl_Init(DWCSvlAlloc alloc, DWCSvlFree free)
+int DWC_Svl_Init(DWCAuthAlloc alloc, DWCAuthFree free)
 {
     void *p;
 
@@ -236,7 +184,7 @@ int DWC_Svl_GetTokenAsync(char *svc, DWCSvlResult *result)
         return 0;
     }
 
-    DWC_Http_StartThread((char *)(&gDwcSvlWorkarea->http), OS_GetThreadPriority(gMslRefToken.current) - 1);
+    DWC_Http_StartThread((char *)(&gDwcSvlWorkarea->http), OS_GetThreadPriority(OSi_ThreadInfo.current) - 1);
     if (gDwcSvlWorkarea->http.thread.id == 0) {
         DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
         DWCi_SetError(9, -24100);
@@ -301,7 +249,7 @@ int DWCi_Svl_ParseHttp(void)
         DWCi_SetError(15, -25101);
         return 0;
     }
-    httpretcode = atoi((u32)strp);
+    httpretcode = atoi(strp);
     if (errno == 34) {
         DWCi_SetError(15, -25101);
         return 0;
@@ -315,7 +263,7 @@ int DWCi_Svl_ParseHttp(void)
         DWCi_SetError(15, -25101);
         return 0;
     }
-    httpretcode = atoi((u32)retcode);
+    httpretcode = atoi(retcode);
     if (errno == 34) {
         DWCi_SetError(15, -25101);
         return 0;

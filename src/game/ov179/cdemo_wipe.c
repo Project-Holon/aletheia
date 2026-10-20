@@ -26,13 +26,12 @@
 
 #include "../types.h"
 
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, unsigned short flags);
+#include "../arm9/wipe.h"
+#include "../arm9/arc_util.h"
 extern void MIi_CpuCopy32(int, int, int);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 KEY_GetTrg(void);
-extern int GFL_USE_IsBgmPlaying(void);
-extern void GFL_USE_FadeOutBgm(unsigned v);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/key.h"
+#include "../arm9/gfl_use.h"
 void CDEMO_WIPE_StartFadeOut(char *p, u32 a, u32 b, u32 c);
 void CDEMO_WIPE_StartFadeIn(char *p, u32 a, u32 b, u32 c);
 void CDEMO_WIPE_StartFadeOutWhite(char *p, u32 a, u32 b, u32 c);

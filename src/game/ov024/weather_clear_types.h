@@ -11,21 +11,6 @@ typedef struct WeatherZoneFogWork {
 } WeatherZoneFogWork;
 
 /* Weather task services (ov021 weather_task.c) used by the clear weather kind. */
-extern void *WEATHER_TASK_GetWorkBuffer(WeatherTaskSys *task);
-extern int WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId);
-extern int WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, unsigned int memberId);
-extern void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
-extern void WEATHER_TASK_InitFog(WeatherTaskSys *task, int slope, int offset, int phase);
-extern void WEATHER_TASK_DisableFog(WeatherTaskSys *task, int phase);
-extern void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, int slope, int offset, int frames, int mode);
-extern void WEATHER_TASK_ChangeFogOffset(WeatherTaskSys *task, int endOffset, int frames, int mode);
-extern int WEATHER_TASK_IsFogIdle(WeatherTaskSys *task);
-extern int WEATHER_TASK_IsZoneFogActive(WeatherTaskSys *task);
-extern int WEATHER_TASK_IsZoneFog(WeatherTaskSys *task);
-extern int WEATHER_TASK_IsZoneFogLight(WeatherTaskSys *task);
-extern int WEATHER_TASK_GetZoneFogOffset(WeatherTaskSys *task);
-extern int WEATHER_TASK_GetZoneFogSlope(WeatherTaskSys *task);
-extern int WEATHER_TASK_GetZoneFogLightId(WeatherTaskSys *task);
 
 /* Stages of the clear weather kind (WeatherKindDef callbacks: task, variant, heap id). */
 int WEATHER_CLEAR_Begin(WeatherTaskSys *task, int variant, int heapId);

@@ -235,7 +235,7 @@ void FLDMMDL_RestoreFromSaveRecord(Mmdl *mmdl, const NetDeviceRecord *record, Mm
 
     mmdl->mmdlSys = sys;
     {
-        MmdlVec vec = { 0 };
+        VecFx32 vec = { 0 };
         mmdl->gridOldX = mmdl->gridNowX;
         vec.x = (mmdl->gridNowX << 16) + 0x8000;
         mmdl->gridOldY = mmdl->gridNowY;

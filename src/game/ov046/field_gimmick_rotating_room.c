@@ -63,6 +63,11 @@
  *   FIELD_NOGRID_MAPPER_SetLineEnable  0x021BB3DC  thumb  ov021
  *   sRotatingRoomPoseLines  0x021F4430  data  ov046  a4
  */
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS callers pass the anime index of FLD_EXP_OBJ_GetAnime and FLD_EXP_OBJ_SetAnimeEnabled as u16 */
+#ifdef __MWERKS__
+#define FLD_EXP_OBJ_GetAnime FLD_EXP_OBJ_GetAnime_header
+#define FLD_EXP_OBJ_SetAnimeEnabled FLD_EXP_OBJ_SetAnimeEnabled_header
+#endif
 #include "../ov037/gimmick_save_types.h"
 #include "field_gimmick_rotating_room_types.h"
 
@@ -70,8 +75,8 @@ struct FieldMap;
 struct GameSystem;
 struct GameData;
 struct FieldSave;
-struct FldExpObj;
-struct FldExpAnime;
+struct FldExpObjCnt;
+struct FldExpObjAnime;
 struct FldExpUnitDesc;
 struct FieldPlayer;
 struct FldMmdlSys;
@@ -79,61 +84,40 @@ struct Mmdl;
 struct NogridMapper;
 struct GameEvent;
 
-typedef int (*GameEventFunc)(struct GameEvent *event, int *state);
+#include "../arm9/ica_anime_shared_types.h"
 
-extern struct FldExpObj *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct FieldSave *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern FieldGimmickRotatingRoomSave *GIMMICK_WORK_GetWork(struct FieldSave *fieldSave, u32 blockId);
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int workId, int heapId, int size);
+#include "../arm9/gimmick.h"
 struct G3dUtilSetup;
 struct FldExpObjCnt;
-extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int enabled);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, Vec3Fx *outPos);
+#include "../ov021/fld_exp_obj.h"
 struct G3dObjectStatus;
-extern struct G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(struct FldExpObjCnt *cnt, u32 unitIdx, s32 modelIdx);
-extern void FLD_EXP_OBJ_SetModelCullDraw(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, int cullDraw);
-extern struct FldExpAnime *FLD_EXP_OBJ_GetAnime(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex);
 struct FldExpObjAnime;
-extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, s32 loop);
-extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, s32 paused);
-extern void MTX_RotY33_(int *matrix, int sinValue, int cosValue);
-extern void FLD_EXP_OBJ_SetAnimeFrame(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int frame);
-extern int FLD_EXP_OBJ_GetAnimeLastFrame(struct FldExpObjAnime *anime);
-extern FieldGimmickRotatingRoomWork *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int workId);
-extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int workId);
-extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, u16 unitIdx);
-extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc proc, u32 size);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpObjAnime *anime);
-extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern void GFL_USE_StopAllSe(void);
-extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, Vec3Fx *pos);
-extern void FLD_EXP_OBJ_SetModelHidden(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 hidden);
+#include "../arm9/gfl_use.h"
 struct MmdlSys;
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *sys, struct Mmdl **out, u32 *iter);
-extern u16 FLDMMDL_GetObjId(struct Mmdl *mmdl);
-extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
+#include "../ov010/fldmmdl.h"
 struct FieldNogridMapper;
-extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(struct FieldMap *fieldMap);
-extern void FIELD_NOGRID_MAPPER_SetLineEnable(struct FieldNogridMapper *mapper, s32 lineIndex, s32 enable);
+#include "../ov021/field_nogrid_mapper.h"
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../ov021/field_player.h"
+#include "../arm9/fx_mtx33.h"
+#include "../arm9/game_event.h"
+#ifdef __MWERKS__
+#undef FLD_EXP_OBJ_GetAnime
+#undef FLD_EXP_OBJ_SetAnimeEnabled
+FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx);
+void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
+#endif
 
 void FIELD_GIMMICK_ROTATING_ROOM_Init(struct FieldMap *fieldMap);
-void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObj *expObj, int modelIndex, Vec3Fx *pos, u16 *angle, int animCount, int cullDraw);
-void FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(FieldGimmickRotatingRoomSave *save, struct FldExpObj *expObj, int unitIndex);
+void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObjCnt *expObj, int modelIndex, VecFx32 *pos, u16 *angle, int animCount, int cullDraw);
+void FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(FieldGimmickRotatingRoomSave *save, struct FldExpObjCnt *expObj, int unitIndex);
 void FIELD_GIMMICK_ROTATING_ROOM_Exit(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_ROTATING_ROOM_Update(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem, int unitIndex, int side);
-void FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int side);
-void FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex);
+struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int side);
+struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex);
 struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *gameSystem, int direction);
 int FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose(FieldGimmickRotatingRoomUnit *unit);
 int FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim(FieldGimmickRotatingRoomUnit *unit, int newPose);
@@ -142,18 +126,18 @@ int FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc(struct GameEvent *event, int *sta
 int FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc(struct GameEvent *event, int *state);
 int FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc(struct GameEvent *event, int *state);
 int FIELD_GIMMICK_ROTATING_ROOM_HopEventProc(struct GameEvent *event, int *state);
-void FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(struct FldExpObj *expObj, struct FieldMap *fieldMap, u32 hidden);
+void FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(struct FldExpObjCnt *expObj, struct FieldMap *fieldMap, u32 hidden);
 struct Mmdl *FIELD_GIMMICK_ROTATING_ROOM_FindMmdlByObjId(struct FieldMap *fieldMap, int objId);
 void FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish(struct FieldMap *fieldMap, int objId, u32 vanish);
 void FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines(struct FieldMap *fieldMap, int unitIndex, int pose);
-int FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(Vec3Fx *pos);
+int FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(VecFx32 *pos);
 
 extern struct FldExpUnitDesc sRotatingRoomExpUnitDesc;
 extern u16 sRotatingRoomUnitAngles[];         /* initial angle per unit */
-extern Vec3Fx sRotatingRoomBodyPos[];      /* body position per unit */
-extern Vec3Fx sRotatingRoomLeverPos[];      /* lever position per unit (both levers) */
-extern Vec3Fx sRotatingRoomButtonPos[];      /* button position, two per unit */
-extern Vec3Fx sRotatingRoomExtraModelPos;        /* position of the extra model */
+extern VecFx32 sRotatingRoomBodyPos[];      /* body position per unit */
+extern VecFx32 sRotatingRoomLeverPos[];      /* lever position per unit (both levers) */
+extern VecFx32 sRotatingRoomButtonPos[];      /* button position, two per unit */
+extern VecFx32 sRotatingRoomExtraModelPos;        /* position of the extra model */
 extern s16 FX_SinCosTable_[];         /* sine and cosine pairs */
 extern int sRotatingRoomRotateAnimTable[][4];      /* body animation for (old pose, new pose) plus 5 */
 extern int sRotatingRoomHopHeights[];         /* height offsets of the hop, in tiles */
@@ -162,18 +146,18 @@ extern int sRotatingRoomPoseLines[][4][6];   /* walk lines (line, enabled) per (
 
 void FIELD_GIMMICK_ROTATING_ROOM_Init(struct FieldMap *fieldMap)
 {
-    Vec3Fx extraPos;
-    Vec3Fx playerPos;
+    VecFx32 extraPos;
+    VecFx32 playerPos;
     u16 angle;
     int unitIdx;
-    struct FldExpObj *expObj;
+    struct FldExpObjCnt *expObj;
     FieldGimmickRotatingRoomSave *save;
     FieldGimmickRotatingRoomWork *work;
     int firstModel;
     int inside;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    save = ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     work = FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickRotatingRoomWork));
     FLD_EXP_OBJ_AddUnitFromArchive((struct FldExpObjCnt *)expObj, (struct G3dUtilSetup *)(&sRotatingRoomExpUnitDesc), 0);
     for (unitIdx = 0; unitIdx < FIELD_GIMMICK_ROTATING_ROOM_UNIT_COUNT; unitIdx++) {
@@ -203,18 +187,18 @@ void FIELD_GIMMICK_ROTATING_ROOM_Init(struct FieldMap *fieldMap)
 
 
 
-void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObj *expObj, int modelIndex, Vec3Fx *pos, u16 *angle, int animCount, int cullDraw)
+void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObjCnt *expObj, int modelIndex, VecFx32 *pos, u16 *angle, int animCount, int cullDraw)
 {
     FldExpModel *model;
-    struct FldExpAnime *anime;
+    struct FldExpObjAnime *anime;
     int animIdx;
     int tableIdx;
 
-    model = (struct FldExpModel *)FLD_EXP_OBJ_GetModelStatus((struct FldExpObjCnt *)expObj, (int)0, (u16)modelIndex);
+    model = (struct FldExpModel *)((VecFx32 *)FLD_EXP_OBJ_GetModelStatus((struct FldExpObjCnt *)expObj, (int)0, (u16)modelIndex));
     model->pos = *pos;
     if (angle) {
         tableIdx = (*angle >> 4) * 2;
-        MTX_RotY33_(model->rotation, FX_SinCosTable_[tableIdx], FX_SinCosTable_[tableIdx + 1]);
+        MTX_RotY33_(&model->rotation, FX_SinCosTable_[tableIdx], FX_SinCosTable_[tableIdx + 1]);
     }
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, modelIndex, cullDraw);
     for (animIdx = 0; animIdx < animCount; animIdx++) {
@@ -233,18 +217,18 @@ void FIELD_GIMMICK_ROTATING_ROOM_InitModel(struct FldExpObj *expObj, int modelIn
 
 
 
-void FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(FieldGimmickRotatingRoomSave *save, struct FldExpObj *expObj, int unitIdx)
+void FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(FieldGimmickRotatingRoomSave *save, struct FldExpObjCnt *expObj, int unitIdx)
 {
     FieldGimmickRotatingRoomUnit *unit;
     int bodyModel;
     int bodyAnim;
-    struct FldExpAnime *bodyAnime;
+    struct FldExpObjAnime *bodyAnime;
     int leverAnim0;
     int leverModel0;
-    struct FldExpAnime *leverAnime0;
+    struct FldExpObjAnime *leverAnime0;
     int leverAnim1;
     int leverModel1;
-    struct FldExpAnime *leverAnime1;
+    struct FldExpObjAnime *leverAnime1;
 
     unit = &save->units[unitIdx];
     switch (unit->pose) {
@@ -296,7 +280,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose(FieldGimmickRotatingRoomSave *save
 
 void FIELD_GIMMICK_ROTATING_ROOM_Exit(struct FieldMap *fieldMap)
 {
-    struct FldExpObj *expObj;
+    struct FldExpObjCnt *expObj;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
@@ -314,12 +298,12 @@ void FIELD_GIMMICK_ROTATING_ROOM_Exit(struct FieldMap *fieldMap)
 
 void FIELD_GIMMICK_ROTATING_ROOM_Update(struct FieldMap *fieldMap)
 {
-    Vec3Fx playerPos;
-    struct FldExpObj *expObj = FIELDMAP_GetExpObj(fieldMap);
+    VecFx32 playerPos;
+    struct FldExpObjCnt *expObj = FIELDMAP_GetExpObj(fieldMap);
     FieldGimmickRotatingRoomWork *work = FIELDMAP_GetCommonWork(fieldMap, 1);
     int inside = 1;
 
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     FLD_EXP_OBJ_UpdateAnimes((struct FldExpObjCnt *)expObj);
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
     if (FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(&playerPos) == 0)
@@ -344,12 +328,12 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem,
     FieldGimmickRotatingRoomSave *save;
     FieldGimmickRotatingRoomWork *work;
 
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    save = ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->unitIndex = unitIndex;
     work->side = side;
     work->unit = &save->units[unitIndex];
-    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc, 0);
+    GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc, 0);
 }
 
 
@@ -360,18 +344,18 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent(struct GameSystem *gameSystem,
 
 
 
-void FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int side)
+struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int unitIndex, int side)
 {
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     FieldGimmickRotatingRoomSave *save;
     FieldGimmickRotatingRoomWork *work;
 
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    save = ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->unitIndex = unitIndex;
     work->side = side;
     work->unit = &save->units[unitIndex];
-    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc, 0);
+    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc, 0);
 }
 
 
@@ -382,17 +366,17 @@ void FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, 
 
 
 
-void FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex)
+struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, int unitIndex)
 {
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     FieldGimmickRotatingRoomSave *save;
     FieldGimmickRotatingRoomWork *work;
 
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    save = ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     work->unitIndex = unitIndex;
     work->unit = &save->units[unitIndex];
-    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc, 0);
+    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc, 0);
 }
 
 
@@ -414,11 +398,11 @@ struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *g
     FieldGimmickRotatingRoomWork *work;
     FieldGimmickRotatingRoomHopEvent *hop;
     struct GameEvent *hopEvent;
-    Vec3Fx playerPos;
+    VecFx32 playerPos;
 
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    hopEvent = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_HopEventProc, 0);
+    hopEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ROTATING_ROOM_HopEventProc, 0);
     hop = &work->event.hop;
     hop->step = 0;
     hop->speedX = FIELD_GIMMICK_ROTATING_ROOM_HOP_SPEED;
@@ -482,7 +466,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc(struct GameEvent *event, int *st
 
     FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     switch (*state) {
     case 0:
         work->event.anim.modelIndex = (work->side == 0 ? FIELD_GIMMICK_ROTATING_ROOM_MODEL_BUTTON_BASE : FIELD_GIMMICK_ROTATING_ROOM_MODEL_BUTTON_BASE + 1) + work->unitIndex * FIELD_GIMMICK_ROTATING_ROOM_MODELS_PER_UNIT;
@@ -491,7 +475,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc(struct GameEvent *event, int *st
         work->event.anim.stopCount = 1;
         work->event.anim.startSe = FIELD_GIMMICK_ROTATING_ROOM_SE_BUTTON;
         work->event.anim.endSe = FIELD_GIMMICK_ROTATING_ROOM_SE_NONE;
-        GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         (*state)++;
         break;
     case 1:
@@ -515,7 +499,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc(struct GameEvent *event, int *sta
     FIELDMAP_GetExpObj(fieldMap);
     newLeverState = 1;
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     switch (*state) {
     case 0:
         if (work->unit->leverOn[work->side] != 0)
@@ -526,7 +510,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc(struct GameEvent *event, int *sta
         work->event.anim.stopCount = 2;
         work->event.anim.startSe = FIELD_GIMMICK_ROTATING_ROOM_SE_LEVER_START;
         work->event.anim.endSe = FIELD_GIMMICK_ROTATING_ROOM_SE_LEVER_END;
-        GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         work->unit->leverOn[work->side] = newLeverState;
         (*state)++;
         break;
@@ -550,7 +534,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc(struct GameEvent *event, int *st
 
     FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     switch (*state) {
     case 0:
         newPose = FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose(work->unit);
@@ -561,7 +545,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc(struct GameEvent *event, int *st
         work->event.anim.stopCount = 8;
         work->event.anim.startSe = FIELD_GIMMICK_ROTATING_ROOM_SE_ROTATE_START;
         work->event.anim.endSe = FIELD_GIMMICK_ROTATING_ROOM_SE_ROTATE_END;
-        GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc, 0));
         work->unit->pose = newPose;
         (*state)++;
         break;
@@ -578,7 +562,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc(struct GameEvent *event, int *st
 int FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc(struct GameEvent *event, int *state)
 {
     struct FieldMap *fieldMap;
-    struct FldExpObj *expObj;
+    struct FldExpObjCnt *expObj;
     FieldGimmickRotatingRoomAnimEvent *anim;
     u8 modelIdx;
     int i;
@@ -586,8 +570,8 @@ int FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc(struct GameEvent *event, int *
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    anim = &FIELDMAP_GetCommonWork(fieldMap, 1)->event.anim;
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    anim = &((FieldGimmickRotatingRoomWork *)FIELDMAP_GetCommonWork(fieldMap, 1))->event.anim;
+    ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     switch (*state) {
     case 0:
         modelIdx = anim->modelIndex;
@@ -625,12 +609,12 @@ int FIELD_GIMMICK_ROTATING_ROOM_HopEventProc(struct GameEvent *event, int *state
     FieldGimmickRotatingRoomHopEvent *hop;
     int done = 1;
     struct FieldPlayer *player;
-    Vec3Fx pos;
+    VecFx32 pos;
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     FIELDMAP_GetExpObj(fieldMap);
-    hop = &FIELDMAP_GetCommonWork(fieldMap, 1)->event.hop;
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID);
+    hop = &((FieldGimmickRotatingRoomWork *)FIELDMAP_GetCommonWork(fieldMap, 1))->event.hop;
+    ((FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID));
     switch (*state) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(FIELD_GIMMICK_ROTATING_ROOM_SE_HOP_START);
@@ -655,7 +639,7 @@ int FIELD_GIMMICK_ROTATING_ROOM_HopEventProc(struct GameEvent *event, int *state
 
 
 
-void FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(struct FldExpObj *expObj, struct FieldMap *fieldMap, u32 hidden)
+void FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden(struct FldExpObjCnt *expObj, struct FieldMap *fieldMap, u32 hidden)
 {
     FLD_EXP_OBJ_SetModelHidden((struct FldExpObjCnt *)expObj, 0, 15, hidden);
     FLD_EXP_OBJ_SetModelHidden((struct FldExpObjCnt *)expObj, 0, 10, hidden);
@@ -725,7 +709,7 @@ void FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines(struct FieldMap *fieldMap, int u
         FIELD_NOGRID_MAPPER_SetLineEnable((struct FieldNogridMapper *)mapper, lines[i], enabled[i]);
 }
 
-int FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(Vec3Fx *pos)
+int FIELD_GIMMICK_ROTATING_ROOM_IsPosInside(VecFx32 *pos)
 {
     if (pos->y > 0x40000)
         return 0;

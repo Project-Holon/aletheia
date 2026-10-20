@@ -38,53 +38,45 @@
  */
 #include "demo3d_graphic_shared_types.h"
 #include "demo3d_data_shared_types.h"
-extern int GFL_USE_PopBgm(void);
+#include "../arm9/gfl_use.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
 struct GfFont;
 
 struct S02031140;
 
-/* the owner passed to Create; struct Ctx in demo3d_engine.c owns this record */
+/* the owner passed to Create; struct Demo3dEngineCtx in demo3d_engine.c owns this record */
 struct Demo3dOwner {
     u8 pad78[0x78];
     int config;
     u32 time;
 };
 
-typedef struct {int kind;unsigned time;int values[8];} Record;
+typedef struct {int kind;unsigned time;int values[8];} Demo3dCmdsysRecord;
 
-extern void GFL_USE_FadeInBgmFull(u32 a);
 
-extern void GFL_USE_SetBgmPaused(unsigned int value);
 
 extern void DEMO3D_DATA_DeleteCapture(int);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 DEMO3D_DATA_GetExitCommandList(u32 id);
 
-extern void TCBL_Main(struct Tcbl *p);
+#include "../arm9/tcbl.h"
 
-extern Record *DEMO3D_DATA_GetCommandList(int);
+extern Demo3dCmdsysRecord *DEMO3D_DATA_GetCommandList(int);
 struct TcblSystem;
 
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
 
-extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
+#include "../arm9/gf_font.h"
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern void TCBL_DeleteAllTasks(struct TcblSystem *tcbl);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
 Demo3dCmdContext *DEMO3D_CMDSYS_Create(char *owner,unsigned heap);
 
@@ -98,7 +90,7 @@ void DEMO3D_CMDSYS_Release(char *p);
 
 int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index);
 
-void DEMO3D_CMDSYS_Dispatch(Demo3dCmdContext *ctx,char *owner,Record *r);
+void DEMO3D_CMDSYS_Dispatch(Demo3dCmdContext *ctx,char *owner,Demo3dCmdsysRecord *r);
 
 extern const char d_021C3D4C[];
 
@@ -115,26 +107,26 @@ Demo3dCmdContext *DEMO3D_CMDSYS_Create(char *owner,unsigned heap)
 
 void DEMO3D_CMDSYS_Delete(char *p)
 {
-    Record *r;
+    Demo3dCmdsysRecord *r;
     char *owner;
     int i;
-    owner=((Demo3dCmdContext *)p)->owner;r=(Record *)DEMO3D_DATA_GetExitCommandList(((Demo3dCmdContext *)p)->config);
+    owner=((Demo3dCmdContext *)p)->owner;r=(Demo3dCmdsysRecord *)DEMO3D_DATA_GetExitCommandList(((Demo3dCmdContext *)p)->config);
     for(i=0;i<9999;i++,r++) {
         if(r->kind==18) break;
         DEMO3D_CMDSYS_Dispatch((Demo3dCmdContext *)p,(char *)owner,r);
     }
     ((Demo3dCmdContext *)p)->done=1;
-    TCBL_Main(((Demo3dCmdContext *)p)->task);DEMO3D_CMDSYS_Release(p);GFL_HEAP_Free(p);
+    TCBL_Main((struct TcblSystem *)(((Demo3dCmdContext *)p)->task));DEMO3D_CMDSYS_Release(p);GFL_HEAP_Free((void *)p);
 }
 
 void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag)
 {
-    Record *r;
+    Demo3dCmdsysRecord *r;
     char *owner;
     int i;
     owner=p->owner;
     p->flags[2]=flag?1:0;
-    TCBL_Main(p->task);
+    TCBL_Main((struct TcblSystem *)p->task);
     if(p->ended==0 && time!=-4096) {
         r=DEMO3D_DATA_GetCommandList(p->config)+p->index;
         time>>=12;
@@ -170,7 +162,7 @@ void DEMO3D_CMDSYS_Release(char *p)
 
 int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index)
 {
-    Record *r;
+    Demo3dCmdsysRecord *r;
     int i;
     r=DEMO3D_DATA_GetCommandList(((struct Demo3dOwner *)owner)->config);
     for(i=0;i<9999;i++) {
@@ -181,4 +173,4 @@ int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index)
     return 0;
 }
 
-void DEMO3D_CMDSYS_Dispatch(Demo3dCmdContext *ctx,char *owner,Record *r){d_021C3D00[r->kind](ctx,owner,r->values);}
+void DEMO3D_CMDSYS_Dispatch(Demo3dCmdContext *ctx,char *owner,Demo3dCmdsysRecord *r){d_021C3D00[r->kind](ctx,owner,r->values);}

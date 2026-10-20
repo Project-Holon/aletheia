@@ -8,9 +8,9 @@ struct WazaData;
 
 #include "../types.h"
 
-u32 WAZA_TOOL_GetParam(u16 move, u32 param);
+u32 WAZA_TOOL_GetParam(u32 move, u32 param);
 u32 WAZA_TOOL_GetDataParam(const struct WazaData *data, u32 param);
-u32 WAZA_TOOL_GetFlag(u16 move, u32 flag);
+u32 WAZA_TOOL_GetFlag(u32 move, u32 flag);
 u32 WAZA_TOOL_GetDataFlag(const struct WazaData *data, u32 flag);
 s16 WAZA_TOOL_GetSickCont(u16 move);
 u8 WAZA_TOOL_GetRankEffectCount(u16 move);

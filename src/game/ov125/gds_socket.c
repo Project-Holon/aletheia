@@ -104,35 +104,19 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 typedef struct GdsRequestIdTable { int ids[8]; } GdsRequestIdTable;
 #include "../sdk_os.h"
 
-extern void OS_UnlockMutex(struct OSMutex *mutex);
-extern void OS_InitMutex(struct OSMutex *mutex);
-extern int OS_IsTickAvailable(void);
-extern void OS_InitTick(void);
+#include "../arm9/os_mutex.h"
+#include "../arm9/os_tick.h"
 extern void GDS_SOCKET_RunConnection(void);
-extern void OS_CreateThread(void *thread, void (*func)(void *), int arg, void *stack, int stackSize, unsigned priority);
-extern void OS_WakeupThreadDirect(void *thread);
-extern SOCHostEnt *SOC_GetHostByName(const char *name);
-extern char *SOC_InetNtoA(SOCInAddr addr);
-extern char *strcpy(char *dst, const char *src);
-extern int SOC_Socket(int family, int type, int protocol);
-extern unsigned long CPS_Resolve(char *name);
-extern int SOCL_EnableSsl(s32 s, void *con);
-extern int SOC_Shutdown(int socket, int how);
-extern int SOC_Close(int socket);
-extern u64 OS_GetTick(void);
-extern int SOC_Connect(s32 s, void *sockAddr);
+#include "../arm9/os_thread.h"
+#include "../ov009/soc.h"
+#include "../arm9/msl_string_str.h"
+#include "../ov009/cps_network.h"
+#include "../ov009/socl_ssl.h"
 extern void GDS_SOCKET_Lock(void);
-extern int SOC_Send(int socket, void *buf, int len, int flags);
-extern int SOC_Recv(int socket, void *buf, int len, int flags);
-extern void OS_DestroyThread(void *thread);
-extern void OS_Sleep(unsigned long msec);
-extern int DWC_SVLGetTokenAsync(char *svl, void *result);
-extern int DWC_SVLProcess(void);
-extern int DWC_GetLastErrorEx(int *errorCode, int *errorType);
+#include "../ov009/dwc_nasfunc.h"
+#include "../arm9/dwc_error.h"
 int GDS_SOCKET_Start(const char *host, int port, GdsClientInfo *client);
-extern void *DWC_Alloc(s32 name, u32 size);
-extern void DWC_Free(s32 name, void *ptr, u32 size);
-extern void OS_LockMutex(struct OSMutex *mutex);
+#include "../arm9/dwc_memfunc.h"
 extern void GDS_SOCKET_Reset(void);
 void GDS_SOCKET_ResetConnection(void);
 extern unsigned GDS_SOCKET_GetStateUnlocked(void);
@@ -140,14 +124,13 @@ extern int GDS_SOCKET_GetErrorUnlocked(void);
 extern void *GDS_SOCKET_GetReplyUnlocked(void);
 extern int GDS_SOCKET_GetReplySizeUnlocked(void);
 extern int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, int bodySize);
-extern void *memcpy(void *dest, const void *src, unsigned int n);
-extern void OS_GetLowEntropyData(u32 *buffer);
-extern void CPS_SslAddRandomSeed(void *seed, u32 size);
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern s32 STD_GetStringLength(const char *s);
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../arm9/os_entropy.h"
+#include "../ov009/ssl.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/std_string.h"
 char *GDS_SOCKET_Alloc(int size);
-extern char *STD_CopyString(char *dst, const char *src);
 void GDS_SOCKET_Free(int ptr);
 void GDS_SOCKET_Unlock(void);
 int GDS_SOCKET_InitLock(void);
@@ -168,7 +151,7 @@ void GDS_SOCKET_Sleep(int msec);
 int GDS_SOCKET_WaitToken(void);
 void GDS_SOCKET_NopBegin(void);
 void GDS_SOCKET_InitSsl(void);
-void GDS_SOCKET_Begin(GdsClientInfo *client, const char *host, int port);
+int GDS_SOCKET_Begin(GdsClientInfo *client, const char *host, int port);
 void GDS_SOCKET_Shutdown(void);
 unsigned GDS_SOCKET_GetState(void);
 int GDS_SOCKET_GetError(void);
@@ -456,8 +439,8 @@ void GDS_SOCKET_ThreadEntry(void *p)
 }
 
 int GDS_SOCKET_StartThread(void) {
- OS_CreateThread(gGdsConnectThread, GDS_SOCKET_ThreadEntry, 0, gGdsConnectThreadStackTop, 0x800, gGdsSocket->threadPriority);
- OS_WakeupThreadDirect(gGdsConnectThread);
+ OS_CreateThread((OSThread *)gGdsConnectThread, (void (*)(void *))((void (*)(void *))GDS_SOCKET_ThreadEntry), 0, (void *)gGdsConnectThreadStackTop, 0x800, gGdsSocket->threadPriority);
+ OS_WakeupThreadDirect((OSThread *)gGdsConnectThread);
  return 1;
 }
 
@@ -621,16 +604,16 @@ int GDS_SOCKET_Receive(void)
     int ret = 0;
 
     t0 = OS_GetTick();
-    OS_CreateThread(gGdsReceiveThread, GDS_SOCKET_ReceiveThread, 0, &d_021D9E40b, 0x800, gGdsSocket->threadPriority);
+    OS_CreateThread((OSThread *)gGdsReceiveThread, (void (*)(void *))GDS_SOCKET_ReceiveThread, 0, (void *)&d_021D9E40b, 0x800, gGdsSocket->threadPriority);
     gGdsSocket->receiveResult = -6;
     gGdsSocket->receiveCount = 0;
     gGdsSocket->receiveReady = 0;
-    OS_WakeupThreadDirect(gGdsReceiveThread);
+    OS_WakeupThreadDirect((OSThread *)gGdsReceiveThread);
     start = t0 / 0x7fd88;
     for (;;) {
         if (gGdsSocket->receiveTimeout != 0 && (int)((OS_GetTick() / 0x7fd88) - start) >= gGdsSocket->receiveTimeout) {
             gGdsSocket->errorCode = 12;
-            OS_DestroyThread(gGdsReceiveThread);
+            OS_DestroyThread((OSThread *)gGdsReceiveThread);
             return ret;
         }
         if (gGdsSocket->receiveReady == 0) {
@@ -640,7 +623,7 @@ int GDS_SOCKET_Receive(void)
         if (r != -6) {
             if (r <= 0) {
                 gGdsSocket->errorCode = 9;
-                OS_DestroyThread(gGdsReceiveThread);
+                OS_DestroyThread((OSThread *)gGdsReceiveThread);
                 return 0;
             }
             count += r;
@@ -661,14 +644,14 @@ int GDS_SOCKET_Receive(void)
         if (gGdsSocket->cancelRequested == 1) {
             gGdsSocket->errorCode = GDS_SOCKET_ERROR_ABORTED;
             GDS_SOCKET_Unlock();
-            OS_DestroyThread(gGdsReceiveThread);
+            OS_DestroyThread((OSThread *)gGdsReceiveThread);
             return 0;
         }
         GDS_SOCKET_Unlock();
         gGdsSocket->receiveReady = zero;
         GDS_SOCKET_Sleep(1);
     }
-    OS_DestroyThread(gGdsReceiveThread);
+    OS_DestroyThread((OSThread *)gGdsReceiveThread);
     return 1;
 }
 
@@ -738,9 +721,9 @@ void GDS_SOCKET_InitSsl(void)
 /*
  * Addresses are Black-image addresses.
  */
-void GDS_SOCKET_Begin(GdsClientInfo *client, const char *host, int port)
+int GDS_SOCKET_Begin(GdsClientInfo *client, const char *host, int port)
 {
-    GDS_SOCKET_Start(host, port, client);
+    return GDS_SOCKET_Start(host, port, client);
 }
 
 void GDS_SOCKET_Shutdown(void)

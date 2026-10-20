@@ -71,13 +71,21 @@ typedef struct CTRDGRomCycle {
 } CTRDGRomCycle;
 
 #include "svc_cpu_set.h"
+#ifdef __MWERKS__
 extern u16 OS_GetLockID(void);
+#else
+#include "os_spinlock.h"
+#endif
 extern void CTRDGi_LockByProcessor(u32 lockID, u32 *info);
 #include "os_system.h"
+#ifdef __MWERKS__
 extern unsigned short OS_ReadOwnerOfLockWord(char *lock);
-extern u32 OS_TryLockCartridge(u32 lockID);
+extern u32 OS_TryLockCartridge(u32 lockID); /* original prototype; the definition differs in argument width, return type */
+#endif
 #include "svc_wait_by_loop.h"
+#ifdef __MWERKS__
 extern void OS_UnLockCartridge(u16 lockID);
+#endif
 
 #include "pxi_fifo.h"
 BOOL CTRDG_IsExistedAtInit(void);

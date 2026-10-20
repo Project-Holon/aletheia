@@ -12,7 +12,7 @@
  * sdk:      libdsp.TWL.HYB.a dsp_util.o
  *
  * symbols:
- *   data_02732D78  0x02732D78  data twl a2
+ *   DSPi_SoundPriority  0x02732D78  data twl a2
  *   SNDEXi_PostProcessForShutterSound  0x02704940  arm
  *   DSP_FindProcess  0x02705ED0  arm
  *   DSP_WriteProcessPipe  0x02705F28  arm
@@ -25,6 +25,7 @@
  *   data_027344D8                0x027344D8  data
  */
 #include "../types.h"
+#include "../arm9/os_alarm.h"
 
 /* Pipe control block of the DSP data RAM, 10 bytes. */
 typedef struct DspRing {
@@ -50,28 +51,23 @@ typedef struct DspSys {
     u32 soundBusy;
     u32 pad1C;
     u32 pad20;
-    u32 alarm[11];
+    OSAlarm alarm;
 } DspSys;
 
 extern DspSys data_027344D8;
-extern int data_02732D78;
-extern void OS_Terminate(void);
+extern int DSPi_SoundPriority;
+#include "../arm9/os_terminate_processor.h"
 struct DspProc;
-extern struct DspProc *DSP_FindProcess(char *name);
-extern void DSP_WriteProcessPipe(void *process, int port, void *buf, u32 len);
-extern u32 SNDEXi_PreProcessForShutterSound(void);
-extern u32 SNDEXi_PostProcessForShutterSound(void (*cb)(u32), void *userData);
+#include "dsp_process.h"
+#include "sndex.h"
 extern void DSP_SetPipeCallback(int i, DspCb a, void *b);
-extern DspRing *DSP_LoadPipe(DspRing *out, int ch, int dir);
-extern u16 DSP_GetPipeReadableSize(DspRing *r);
-extern void DSP_ReadPipe(struct DspRing *pipe, void *dst, u16 count);
-extern void OS_CreateAlarm(void *alarm);
-extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(void), u32 arg);
-extern void OS_SpinWaitSysCycles(u32);
-extern void OS_Sleep(u32);
+#include "dsp_pipe.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/os_thread.h"
 
-void DSPiShutterPostProcessCallback(u32 mode);
-void sound_handler(void);
+void DSPiShutterPostProcessCallback(u32 mode, void *userData);
+void sound_handler(void *arg);
 void DSPi_PipeCallbackForSound(void *userdata, int port, int dir);
 void DSPi_PlaySoundEx(u8 *data, u32 size, u32 mode, int priority);
 u32 DSPi_PlayShutterSoundCore(u8 *p, u32 len);
@@ -81,7 +77,7 @@ u32 DSPi_IsShutterSoundPlayingCore(void);
 #define SWAP16(x) (((x) >> 16) | ((x) << 16))
 #define RD32(p, o) ((p)[(o)] | ((p)[(o) + 1] << 8) | ((p)[(o) + 2] << 16) | ((p)[(o) + 3] << 24))
 
-void DSPiShutterPostProcessCallback(u32 mode)
+void DSPiShutterPostProcessCallback(u32 mode, void *userData)
 {
     if (mode == 3) {
         OS_Terminate();
@@ -92,7 +88,7 @@ void DSPiShutterPostProcessCallback(u32 mode)
     data_027344D8.shutterBusy = 0;
 }
 
-void sound_handler(void)
+void sound_handler(void *arg)
 {
     data_027344D8.soundBusy = 0;
 }
@@ -114,11 +110,11 @@ void DSPi_PipeCallbackForSound(void *userdata, int port, int peer)
     if ((w[0] & 0xF000) == 0x1000 && (w[0] & 0xF00) == 0x200) {
         u32 z = 0;
         OS_CreateAlarm(&data_027344D8.alarm);
-        OS_SetAlarm(&data_027344D8.alarm, 0x3D5D, sound_handler, z);
-        if (data_02732D78 == 0) {
+        OS_SetAlarm(&data_027344D8.alarm, 0x3D5D, sound_handler, (void *)z);
+        if (DSPi_SoundPriority == 0) {
             (void *)SNDEXi_PostProcessForShutterSound(DSPiShutterPostProcessCallback, (void *)z);
         }
-        data_02732D78 = 0x20;
+        DSPi_SoundPriority = 0x20;
     }
     if ((w[0] & 0xF000) == 0x2000 && (w[0] & 0xF00) == 0x100) {
         data_027344D8.soundReply = w[1];
@@ -133,10 +129,10 @@ void DSPi_PlaySoundEx(u8 *data, u32 size, u32 mode, int priority)
     if (h == 0) {
         return;
     }
-    if (data_02732D78 < priority) {
+    if (DSPi_SoundPriority < priority) {
         return;
     }
-    data_02732D78 = priority;
+    DSPi_SoundPriority = priority;
     DSP_SetPipeCallback(2, DSPi_PipeCallbackForSound, (void *)zero);
     data_027344D8.soundBusy = 1;
     msg[0] = SWAP16(mode | 0x1100);

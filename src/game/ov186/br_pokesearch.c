@@ -61,53 +61,45 @@
  *   gBrPokeSearchGroupStart 0x02200C94 data a4
  */
 #include "br_types.h"
+#include "../arm9/touchpanel.h"
+#include "../ov186/br_util.h"
 
-struct StrBuf;
+struct U16Vec;
 
-extern void BR_RES_LoadBgGraphics(void *unusedCtx, unsigned int kind, unsigned short heapId);
+#include "br_res.h"
 
-extern void BR_RES_ApplyBgSet(void *unusedA, u32 palSet);
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 
 extern u32 TOUCHPANEL_GetPointTrg(unsigned int *x, unsigned int *y);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_use.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void BG_SYS_PushTile(u32 index);
+#include "../arm9/bg_sys.h"
 
-extern void * MI_CpuFill8(void *,u32,u32);
+#include "../arm9/mi_memory.h"
 struct MsgBank;
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
+#include "../arm9/msgdata.h"
 
-extern int BR_RES_GetSprite(struct BrRes *res, unsigned int spriteIndex, void *outSprite);
 
-extern unsigned BR_RES_GetFont(struct BrRes *res);
 
-extern int TOUCHPANEL_HitTrg(const void *hitTable);
 
-extern int BR_RES_GetMsgData(struct BrRes *res);
 
-extern void *GFL_HEAP_Alloc(unsigned int,unsigned int,int,const char *,u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 struct PrintQueue;
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
+#include "../arm9/printsys.h"
 
-extern u16 *BR_MEMBER_COUNT_GetU16Count(unsigned short heapId, unsigned *count);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
+#include "br_btn.h"
 
-extern void BR_UTIL_StartEffect(struct BrTapFx *tapFx, u32 mode, const struct BrPoint *point);
 
 extern void BR_UTIL_MainListMenu(char *p);
 
@@ -115,17 +107,14 @@ extern int BR_UTIL_GetListMenuHitId(char *p);
 
 extern int BR_UTIL_IsEffectDone(char *p);
 
-extern void BR_FADE_Start(void *fade, s32 stepIndex, s32 planeMask, s32 direction);
+#include "br_fade.h"
+#include "br_member_count.h"
 
-extern int BR_FADE_GetResult(struct BrFade *fade);
 
 extern int BR_UTIL_FlushText(unsigned char *p);
 
-extern unsigned PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void *BR_BTN_CreateFromMessage(void *ctx, s32 file, u16 a, s32 b, s32 c, void *d, s32 e, s32 archive, void *config, u16 heap);
 
-extern void BR_BTN_DeleteObject(char *p);
 
 extern void *BR_UTIL_Create(unsigned short plane, unsigned int a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
 
@@ -135,9 +124,7 @@ extern void BR_UTIL_SetTextFromMessage(char *p, void *a, void *b, void *font, un
 
 extern void BR_UTIL_Delete(unsigned char *p);
 
-extern struct BrMenuItem *BMP_MENUWORK_Create(u32 count, u32 heapId);
 
-extern void BMP_MENUWORK_AddStrItem(struct BrMenuItem *item, struct StrBuf *str, u32 value, u32 heapId);
 
 extern struct BrListMenu *BR_UTIL_CreateListMenu(struct BrListMenuConfig *config, u32 heapId);
 
@@ -145,8 +132,9 @@ extern void BR_UTIL_DeleteListMenu(char *p);
 
 extern u32 BMP_MENUWORK_Delete(void *items);
 
-extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *zukan, u16 speciesId);
+#include "../arm9/zukan_save.h"
 
+#include "../arm9/bmp_menuwork.h"
 struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes *res, int uiParamA, int uiParamB, struct BrFade *fade, int listParam, struct BrTapFx *tapFx, unsigned short heapId);
 
 void BR_POKESEARCH_Destroy(struct BrPokeSearch *ps);
@@ -245,10 +233,10 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
             int x,y,held;
             struct BrPoint point;
             ps->touchedGroup=BR_POKESEARCH_PollGroupTouch(ps);
-            held=TOUCHPANEL_GetPointTrg((unsigned int *)(&x),(unsigned int *)(&y));
+            held=TOUCHPANEL_GetPointTrg((u32 *)((unsigned int *)(&x)),(u32 *)((unsigned int *)(&y)));
             if (BR_BTN_HitTestWithSound((unsigned int *)ps->backButton,x,y)&held) {
                 point.x=x; point.y=y;
-                BR_UTIL_StartEffect(ps->tapFx,1,&point);
+                BR_UTIL_StartEffect((char *)ps->tapFx,1,(const BrPair *)&point);
                 ps->state=8; ps->result=1;
             } else if (ps->touchedGroup!=9) {
                 ps->state=4; ps->nextState=3;
@@ -260,10 +248,10 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
             struct BrPoint point;
             BR_UTIL_MainListMenu((char *)ps->listMenu);
             ps->listChoice=BR_UTIL_GetListMenuHitId((char *)ps->listMenu);
-            held=TOUCHPANEL_GetPointTrg((unsigned int *)(&x),(unsigned int *)(&y));
+            held=TOUCHPANEL_GetPointTrg((u32 *)((unsigned int *)(&x)),(u32 *)((unsigned int *)(&y)));
             if (BR_BTN_HitTestWithSound((unsigned int *)ps->backButton,x,y)&held) {
                 point.x=x; point.y=y;
-                BR_UTIL_StartEffect(ps->tapFx,1,&point);
+                BR_UTIL_StartEffect((char *)ps->tapFx,1,(const BrPair *)&point);
                 ps->state=4; ps->nextState=2;
             } else if (ps->listChoice!=-1) {
                 ps->state=8; ps->result=2;
@@ -357,9 +345,9 @@ void BR_POKESEARCH_CreateBackButton(struct BrPokeSearch *ps)
     int msgData = BR_RES_GetMsgData(ps->res);
     MI_CpuFill8(&pos, 0, 8);
     pos.x = 0x50; pos.y = 0xa8; pos.animSeq = 0; pos.drawPriority = 1;
-    if (!BR_RES_GetSprite(ps->res, 6, &sprite))
-        GF_PANIC_Fail(gBrPokeSearchAssertString, 0, gBrPokeSearchAssertString);
-    ps->backButton = BR_BTN_CreateFromMessage((void *)(&pos), 4, 0x60, 1, ps->uiParamA, (void *)ps->uiParamB, font, msgData, &sprite, ps->heapId);
+    if (!BR_RES_GetSprite((struct BrRes *)ps->res, 6, (void *)&sprite))
+        GF_PANIC_Fail((const char *)gBrPokeSearchAssertString, 0, (const char *)gBrPokeSearchAssertString);
+    ps->backButton = BR_BTN_CreateFromMessage((void *)(&pos), 4, 0x60, 1, (void *)ps->uiParamA, (void *)ps->uiParamB, (void *)font, (struct MsgBank *)msgData, (void *)&sprite, ps->heapId);
 }
 
 void BR_POKESEARCH_DestroyBackButton(struct BrPokeSearch *ps)
@@ -431,17 +419,17 @@ void BR_POKESEARCH_DestroyGroupWindows(struct BrPokeSearch *ps)
 void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
 {
     struct BrListMenuConfig cfg;
-    struct StrBuf *str;
+    struct U16Vec *str;
     u32 i;
     ps->listShown=1;
     BR_RES_LoadBgGraphics(ps->res,21,ps->heapId);
     if (ps->menuItems) GF_PANIC_Fail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
     if (ps->listMenu) GF_PANIC_Fail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
-    ps->menuItems=BMP_MENUWORK_Create(ps->seenCount,ps->heapId);
-    str=(struct StrBuf *)STRBUF_Create(11,ps->heapId);
+    ps->menuItems=(struct BrMenuItem *)BMP_MENUWORK_Create(ps->seenCount,ps->heapId);
+    str=(struct U16Vec *)STRBUF_Create(11,ps->heapId);
     for(i=0;i<ps->seenCount;i++) {
         MSGDATA_ReadString(gSpeciesNameBank,ps->seenList[i],(struct Strbuf *)str);
-        BMP_MENUWORK_AddStrItem(ps->menuItems+i,str,ps->seenList[i],ps->heapId);
+        BMP_MENUWORK_AddStrItem((struct BmpMenuWork *)ps->menuItems+i,str,ps->seenList[i],ps->heapId);
     }
     STRBUF_Delete((struct Strbuf *)str);
     cfg=gBrPokeSearchListConfig;
@@ -467,13 +455,13 @@ int BR_POKESEARCH_PollGroupTouch(struct BrPokeSearch *ps)
 {
     int x, y;
     struct BrPoint point;
-    int index = TOUCHPANEL_HitTrg(gBrPokeSearchHitTable);
+    int index = TOUCHPANEL_HitTrg((const TouchHitTable *)gBrPokeSearchHitTable);
     if (index != -1) {
         if (ps->groupHasSeen[index]) {
-            TOUCHPANEL_GetPointTrg((unsigned int *)(&x), (unsigned int *)(&y));
+            TOUCHPANEL_GetPointTrg((u32 *)((unsigned int *)(&x)), (u32 *)((unsigned int *)(&y)));
             point.x = x;
             point.y = y;
-            BR_UTIL_StartEffect(ps->tapFx, 1, &point);
+            BR_UTIL_StartEffect((char *)ps->tapFx, 1, (const BrPair *)&point);
             GFL_USE_PlaySeDefaultVolume(0x703);
             return index;
         }

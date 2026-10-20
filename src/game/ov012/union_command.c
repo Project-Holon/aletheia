@@ -57,61 +57,48 @@ typedef struct UnionAppMessage {
     u8 mac[8];           /* 0x20 */
 } UnionAppMessage;
 
-extern u32 GFL_NET_IsParentAid(void);
+#include "../arm9/net.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, int size);
+#include "../arm9/mi_memory.h"
 
-extern void MI_CpuFill8(void *dst, int value, int size);
 
-extern void OS_GetMacAddress(u8 *macAddress);
+#include "../arm9/os_ownerinfo.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 
-extern int GFL_NET_SendToHandle(GFLNetHandle *handle, u32 command, u32 size, const void *data);
 
-extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 
-extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 index);
 
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+#include "../arm9/mystatus.h"
 
-extern int MYSTATUS_GetSize(void);
+#include "../arm9/config.h"
 
-extern u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 struct CommEntryMenu;
 
-extern void COMM_ENTRY_MENU_AddMember(struct CommEntryMenu *menu, s32 netId, void *myStatus, u32 autoAccept, u8 *mac);
+#include "../ov021/comm_entry_menu.h"
 
-extern int UNION_APP_TryAcceptMember(struct UnionAppWork *app, int netId);
+#include "../ov022/union_app.h"
 
-extern u32 GFL_NET_SendDataMask(GFLNetHandle *handle, u32 sendMask, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 
-extern void UNION_APP_AddQuitRequest(struct UnionAppWork *app, u8 netId);
 
-extern void UNION_APP_SetQuitAccepted(struct UnionAppWork *app);
 
-extern void UNION_APP_AddSettingTarget(struct UnionAppWork *app, u8 netId);
 
-extern void UNION_APP_SetSetting(struct UnionAppWork *app, const void *value);
 struct GFLNetHandle;
 
-extern u32 UNION_APP_GetSettingSize(struct GFLNetHandle *entry);
+struct UnionAppEntry;
+struct UnionRoomWork;
 
-extern void UNION_APP_SetMemberEntry(struct UnionAppWork *app, UnionRoomWork *work, u8 netId, const void *data);
 
-extern void UNION_APP_AddEntryTarget(struct UnionAppWork *app, u8 netId);
 
-extern void UNION_APP_QueueJoinConfirm(struct UnionAppWork *app, int netId);
 
-extern void UNION_APP_OnMemberDropped(struct UnionAppWork *app, s32 netId);
 
-void UNION_COMM_StartConnectSync(UnionRoomWork *work);
+#include "union_comm.h"
 
 u8 *UNION_COMMAND_GetRecvBuffer(int netId, UnionRoomWork *work, int size);
 
@@ -193,7 +180,7 @@ int UNION_COMMAND_SendAppLeaveData(u8 sendMask, const UnionAppData *src);
 
 void UNION_COMMAND_RecvAppNotice(int netId, int size, const u8 *data, UnionRoomWork *work);
 
-void UNION_COMMAND_SendAppNotice(u32 sendMask, u8 value);
+u32 UNION_COMMAND_SendAppNotice(u32 sendMask, u8 value);
 
 extern const char sUnionCmdAssertText[];
 
@@ -469,7 +456,7 @@ void UNION_COMMAND_RecvAppJoinData(int netId, int size, const void *data, UnionR
         GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
-    UNION_APP_SetMemberEntry(work->app, work, netId, data);
+    UNION_APP_SetMemberEntry(work->app, work, (u8)netId, (struct UnionAppEntry *)data);
     UNION_APP_AddEntryTarget(work->app, netId);
 }
 
@@ -488,7 +475,7 @@ void UNION_COMMAND_RecvAppData(int netId, int size, const void *data, UnionRoomW
         GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
-    UNION_APP_SetMemberEntry(work->app, work, netId, data);
+    UNION_APP_SetMemberEntry(work->app, work, (u8)netId, (struct UnionAppEntry *)data);
 }
 
 u32 UNION_COMMAND_SendAppData(u32 sendMask, const UnionAppMessage *message)
@@ -503,7 +490,7 @@ void UNION_COMMAND_RecvAppLeaveData(int netId, int size, const void *data, Union
             GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
             return;
         }
-        UNION_APP_SetMemberEntry(work->app, work, (u8)netId, data);
+        UNION_APP_SetMemberEntry(work->app, work, (u8)netId, (struct UnionAppEntry *)data);
         UNION_APP_QueueJoinConfirm(work->app, (u8)netId);
     }
 }
@@ -528,7 +515,7 @@ void UNION_COMMAND_RecvAppNotice(int netId, int size, const u8 *data, UnionRoomW
     }
 }
 
-void UNION_COMMAND_SendAppNotice(u32 sendMask, u8 value)
+u32 UNION_COMMAND_SendAppNotice(u32 sendMask, u8 value)
 {
-    GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), sendMask, 0x1414, 1, &value, 1, 0, 0);
+    return GFL_NET_SendDataMask(GFL_NET_HANDLE_GetCurrentHandle(), sendMask, 0x1414, 1, &value, 1, 0, 0);
 }

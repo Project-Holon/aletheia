@@ -220,13 +220,8 @@ struct Ctx;
 
 
 
-struct DispConfig {
-    u32 w[4];
-};
+#include "../arm9/bg_sys.h"
 
-struct BgTemplate {
-    u32 w[8];
-};
 
 struct BgTemplatePair {
     struct BgTemplate t[2];
@@ -273,12 +268,6 @@ typedef struct {
 
 
 
-struct Mtx {
-    fx32 _00;
-    fx32 _01;
-    fx32 _10;
-    fx32 _11;
-};
 
 
 
@@ -364,124 +353,52 @@ struct Mtx {
 
 
 
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
-extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
-extern void WIPE_ResetWndMask(void *win);
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern u8 UI_GetInputMode(void);
-extern signed char MSG_SPEED_GetWait(void);
-extern int GFL_NET_GetNegotiationNum(void);
-extern void BG_SYS_Create(u16 heap);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*cb)(void *, ViewerWork *), void *work, u32 priority);
-struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern void VIEWER_TEXT_InitActors(ViewerAnim *a, u32 x);
-extern void VIEWER_TEXT_BuildRowList(void *p, ViewerInfo *info);
-extern void VIEWER_TEXT_CreateActor(ViewerAnim *a);
-extern void VIEWER_TEXT_Init(ViewerWork *p);
-extern void VIEWER_TEXT_NoOp(ViewerWork *p, void *bg, u32 a, void *b);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern u32 WIPE_SYS_EndCheck(void);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void CLACT_DrawSystem(void);
-extern void PMS_DRAW_Main(struct PmsDraw *wk);
-struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-struct GameData;
-extern void *GAME_DATA_GetTrainerCardSign(struct GameData *gd);
-struct TrainerCardSignature;
-extern u32 *TRCARD_SIGN_GetBitmap(struct TrainerCardSignature *card);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern void MYSTATUS_SetTrainerView(struct MyStatus *mystatus, u8 trainer_view);
-extern void TRCARD_SIGN_SetColor(void *p, u32 v);
-extern void TRCARD_SIGN_SetStyle(struct TrainerCardSignature *card, u8 style);
-extern void PMS_DRAW_Delete(struct PmsDraw *wk);
-extern void VIEWER_TEXT_DeleteActors(ViewerAnim *a);
-extern u32 GFL_HEAP_Free(void *p);
-extern void VIEWER_TEXT_Exit(ViewerWork *p);
+#include "../arm9/wipe.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/ui.h"
+#include "../arm9/msg_speed.h"
+#include "../arm9/net.h"
+#include "../arm9/pms_draw.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void UI_SetInputMode(u32 v);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/gfl_use.h"
+struct TcblSystem;
+#include "../arm9/tcbl.h"
+#include "viewer_text.h"
+#include "../arm9/clact.h"
+struct PrintQueue;
+#include "../arm9/printsys.h"
+struct GameData;
+#include "../arm9/game_data.h"
+struct TrainerCardSignature;
+#ifdef __MWERKS__
+#define TRCARD_SIGN_SetColor TRCARD_SIGN_SetColor_hdr
+#endif
+#include "../arm9/trcard_sign.h"
+#ifdef __MWERKS__
+#undef TRCARD_SIGN_SetColor
+void TRCARD_SIGN_SetColor(struct TrainerCardSignature *, u32);
+#endif
+struct MyStatus;
+#include "../arm9/mystatus.h"
+#include "../arm9/gfl_heap_wrap.h"
+struct TcbTask;
+#include "../arm9/tcb_list.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/msgdata.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(u8 idx);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, u32 size, u32 heapID, u16 allocFlags);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
-extern u32 APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetStatusFrameFileId(void);
-extern u32 APP_ICON_GetStatusDataFileId(void);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_PushTile(u32 layer);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_ChangeScrollImmediate(u32 bgId, u32 which, u32 value);
-extern void BG_SYS_FreeLayerBuf(u32 bgId);
-extern void BG_SYS_Delete(void);
-extern void BG_SYS_ClearSlot(u32 i);
-extern void VIEWER_TEXT_Draw(ViewerWork *p, void **bg, ViewerInfo *info);
-extern void VIEWER_TEXT_DrawPage(ViewerWork *p, int scroll, int flush, int idx);
-extern void VIEWER_TEXT_DrawWindow(ViewerWork *p, void *bg, void *info);
-extern void VIEWER_TEXT_FlushWindow(ViewerWork *p, void **bg);
-extern void VIEWER_TEXT_SetActorAnim(ViewerAnim *a, int idx, u8 x, u8 y);
-extern int GAME_DATA_ContainsRecentId(int gd, int id);
-extern void PMS_DRAW_SetDecoVisible(struct PmsDraw *p, u32 i, u32 val);
-extern void PMS_DRAW_SetVisible(struct PmsDraw *o, int i, u32 visible);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern fx32 FX_Inv(fx32 v);
-extern void G2x_SetBGyAffine_(void *reg, struct Mtx *m, u32 a, u32 b, u32 x, u32 y);
-extern int TOUCHPANEL_GetCont(void);
-extern unsigned int KEY_GetCont(void);
-extern u32 KEY_GetTrg(void);
-extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern int TOUCHPANEL_HitCont(const void *p);
-extern int TOUCHPANEL_HitTrg(const void *rect);
-extern int TOUCHPANEL_GetTrg(void);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
-extern struct TrainerCardSignature *TRCARD_SIGN_SetSeenBefore(struct TrainerCardSignature *card);
-extern void VIEWER_TEXT_DrawTable(ViewerWork *p, int v, int a);
-extern void VIEWER_TEXT_DrawList(ViewerWork *p, int v, int a);
-extern void BG_SYS_Update(void);
-extern void CLACT_VBlankSystem(void);
-extern void OS_WaitVBlankIntr(void);
-extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
-extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern u32 BG_SYS_GetBuf(int channel);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void GXS_LoadBGPltt(const void *src, u32 offset, u32 size);
-extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/app_icon.h"
+#include "../arm9/g2.h"
+#include "../arm9/fx_cp.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/key.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/gx_load2d.h"
 int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args);
 void VIEWER_MAIN_InitInfo(ViewerInfo *info);
 void VIEWER_MAIN_PlaySe(ViewerWork *p, int speed);
@@ -637,7 +554,7 @@ int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args)
     p->y = 0;
     VIEWER_MAIN_InitLcdBrightness();
     VIEWER_MAIN_Draw((ViewerWork *)p);
-    p->vblankTask = GFL_USE_AddMainTask(VIEWER_MAIN_VBlank, p, 1);
+    p->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))VIEWER_MAIN_VBlank, (void *)p, 1);
     p->tcbl = TCBL_Create(p->heap, p->heap, 3, 0);
     GFL_NET_RefreshWmIconAtTopRight(1, p->heap);
     WIPE_SYS_Start((void *)1, 3, 3, 0, 6, 1, p->heap);
@@ -1015,7 +932,7 @@ void VIEWER_MAIN_LoadBgResources(ViewerWork *p)
         VIEWER_MAIN_ClearBgSlot((ViewerWork *)p, p->info->rowIndex);
     }
     VIEWER_MAIN_UploadBg((ViewerWork *)p);
-    ARC_UTIL_UploadBgCharFromArchive((void *)0x28, (void *)VIEWER_MAIN_GetBgParamA(p->info->kind), (void *)6, 0, 0, 0, p->heap);
+    ARC_UTIL_UploadBgCharFromArchive((void *)0x28, (void *)(VIEWER_MAIN_GetBgParamA(p->info->kind)), (void *)6, 0, 0, 0, p->heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x28, VIEWER_MAIN_GetBgParamB(p->info->kind), 6, 0, 0, 0, p->heap);
     ARC_UTIL_UploadBgCharFromArchive((void *)0x28, (void *)0x1E, (void *)5, 0, 0, 0, p->heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x28, 0x28, 5, 0, 0, 0, p->heap);
@@ -1023,7 +940,7 @@ void VIEWER_MAIN_LoadBgResources(ViewerWork *p)
     ARC_UTIL_UploadBgPaletteFromArchive(0x28, 0x28, 3, 0, 0, 0, p->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x28, 0xF, 0, 0, 0x20, p->heap);
     VIEWER_MAIN_CopyBg3(p->info->bitmap, p->pix);
-    ARC_UTIL_UploadBgCharFromArchive((void *)APP_ICON_GetArchiveId(), (void *)APP_ICON_GetStatusFrameFileId(), (void *)4, 0, 0, 0, p->heap);
+    ARC_UTIL_UploadBgCharFromArchive((void *)(APP_ICON_GetArchiveId()), (void *)(APP_ICON_GetStatusFrameFileId()), (void *)4, 0, 0, 0, p->heap);
     ARC_UTIL_UploadBgPaletteFromArchive(APP_ICON_GetArchiveId(), APP_ICON_GetStatusDataFileId(), 4, 0, 0, 0, p->heap);
     BG_SYS_FillTileMap(4, 0, 0x15, 0x20, 3, 0xC);
     BG_SYS_PushTile(4);
@@ -1129,7 +1046,7 @@ void VIEWER_MAIN_UpdateRowA(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 6, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x10, 1);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x15) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((struct GameData *)p->args->gameData, 0x15) + 6, 1);
     } else if (p->inputMode == 0) {
         VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0, 1);
@@ -1137,7 +1054,7 @@ void VIEWER_MAIN_UpdateRowA(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, p->info->f4_4 ^ 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->size * 2, p->info->f4_4 ^ 1);
         VIEWER_MAIN_SetRowState((ViewerWork *)p, p->info->f4_4, 1);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x16) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((struct GameData *)p->args->gameData, 0x16) + 6, 1);
     } else {
         VIEWER_TEXT_SetActorAnim(&p->anim, 0, 0xF, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0xE, 1);
@@ -1164,7 +1081,7 @@ void VIEWER_MAIN_UpdateRowB(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 4, 0x12, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 6, 0);
         VIEWER_TEXT_SetActorAnim(&p->anim, 2, 0x10, 1);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x15) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((struct GameData *)p->args->gameData, 0x15) + 6, 1);
     } else {
         VIEWER_TEXT_SetActorAnim(&p->anim, 0, 1, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 1, 0, 1);
@@ -1172,7 +1089,7 @@ void VIEWER_MAIN_UpdateRowB(ViewerWork *p, int flag)
         VIEWER_TEXT_SetActorAnim(&p->anim, 6, 0x16, 1);
         VIEWER_TEXT_SetActorAnim(&p->anim, 5, 8 - p->size * 2, 0);
         VIEWER_MAIN_SetRowState((ViewerWork *)p, p->info->f4_4, 0);
-        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x16) + 6, 1);
+        VIEWER_TEXT_SetActorAnim(&p->anim, 7, GAME_DATA_ContainsRecentId((struct GameData *)p->args->gameData, 0x16) + 6, 1);
     }
 }
 
@@ -1480,14 +1397,14 @@ int VIEWER_MAIN_UpdateWindows(char *p)
 
 void VIEWER_MAIN_InitBrightness(ViewerWork *p)
 {
-    struct Mtx m;
+    MtxFx22 m;
 
     m._00 = FX_Inv(p->scaleX);
     m._01 = 0;
     m._10 = 0;
     m._11 = FX_Inv(p->scaleY);
-    G2x_SetBGyAffine_((void *)0x04001020, &m, p->cx, p->cy, p->x, p->y);
-    G2x_SetBGyAffine_((void *)0x04001030, &m, p->cx, p->cy, p->x, p->y);
+    G2x_SetBGyAffine_(0x04001020, &m, p->cx, p->cy, p->x, p->y);
+    G2x_SetBGyAffine_(0x04001030, &m, p->cx, p->cy, p->x, p->y);
     p->dirty = 0;
 }
 
@@ -1574,11 +1491,11 @@ void VIEWER_MAIN_ToggleFavorite(ViewerWork *p)
 
     GFL_USE_PlaySeDefaultVolume(0x646);
     if (p->decoVisible == 0) {
-        v = GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x15) ^ 1;
+        v = GAME_DATA_ContainsRecentId((struct GameData *)p->args->gameData, 0x15) ^ 1;
         VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
         GAME_DATA_SetRecentId(p->args->gameData, 0x15, v);
     } else {
-        v = GAME_DATA_ContainsRecentId((int)p->args->gameData, 0x16) ^ 1;
+        v = GAME_DATA_ContainsRecentId((struct GameData *)p->args->gameData, 0x16) ^ 1;
         VIEWER_TEXT_SetActorAnim(&p->anim, 7, v + 6, 1);
         GAME_DATA_SetRecentId(p->args->gameData, 0x16, v);
     }
@@ -1780,7 +1697,7 @@ int VIEWER_MAIN_HandleRowKey(ViewerWork *p, int hit)
 
 void VIEWER_MAIN_HandlePageTouch(ViewerWork *p)
 {
-    if (p->decoVisible != 0 && TOUCHPANEL_HitCont(d_021C8544) && p->pageDirty == 1) {
+    if (p->decoVisible != 0 && TOUCHPANEL_HitCont((const TouchHitTable *)d_021C8544) && p->pageDirty == 1) {
         VIEWER_TEXT_DrawPage((ViewerWork *)p, p->scroll, 1, 0);
         p->pageDirty = 0;
         p->pageDirty2 = 0;
@@ -1796,10 +1713,10 @@ void VIEWER_MAIN_HandlePageInput(ViewerWork *p)
     u32 x, y;
     int lim;
 
-    if (!TOUCHPANEL_HitTrg(d_021C8544)) {
+    if (!TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C8544)) {
         p->pageInputArmed = 1;
     }
-    if (p->pageInputArmed != 0 && !TOUCHPANEL_HitCont(d_021C8544)) {
+    if (p->pageInputArmed != 0 && !TOUCHPANEL_HitCont((const TouchHitTable *)d_021C8544)) {
         if (TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg(&x, &y);
             p->grabY = y;
@@ -1833,9 +1750,9 @@ int VIEWER_MAIN_HandleInput(ViewerWork *p)
     int r;
 
     if (p->info->f4_7 == 0) {
-        hit = TOUCHPANEL_HitTrg(d_021C8594);
+        hit = TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C8594);
     } else {
-        hit = TOUCHPANEL_HitTrg(d_021C8554);
+        hit = TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C8554);
     }
     if (p->inputMode == 0) {
         r = VIEWER_MAIN_HandleRowTouch((ViewerWork *)p, hit);
@@ -1956,7 +1873,7 @@ void VIEWER_MAIN_VBlank(void *task, ViewerWork *p)
 
 void VIEWER_MAIN_InitLcdBrightness(void)
 {
-    struct Mtx m;
+    MtxFx22 m;
     fx32 a, d;
 
     a = FX_Inv(0x1000);
@@ -1966,10 +1883,10 @@ void VIEWER_MAIN_InitLcdBrightness(void)
     m._10 = 0;
     m._11 = d;
     OS_WaitVBlankIntr();
-    G2x_SetBGyAffine_((void *)0x04001020, &m, 0x80, 0x60, 0, 0);
-    G2x_SetBGyAffine_((void *)0x04001030, &m, 0x80, 0x60, 0, 0);
+    G2x_SetBGyAffine_(0x04001020, &m, 0x80, 0x60, 0, 0);
+    G2x_SetBGyAffine_(0x04001030, &m, 0x80, 0x60, 0, 0);
     OS_WaitVBlankIntr();
-    G2x_SetBGyAffine_((void *)0x04000030, &m, 0x80, 0, 0, 0);
+    G2x_SetBGyAffine_(0x04000030, &m, 0x80, 0, 0, 0);
 }
 
 
@@ -1979,9 +1896,9 @@ void VIEWER_MAIN_UploadBg(ViewerWork *p)
 {
     ViewerScrnData *s;
 
-    BG_SYS_LoadTileData(7, p->chr->data, p->chr->size, 0);
+    BG_SYS_LoadTileData(7, (const void *)p->chr->data, p->chr->size, 0);
     s = p->scrn;
-    BG_SYS_DrawTileEx(7, 0x15, 2, 10, 11, (u32)s + 0xC, 0x15, 2, s->w >> 3, s->h >> 3);
+    BG_SYS_DrawTileEx(7, 0x15, 2, 10, 11, (const void *)((u32)s + 0xC), 0x15, 2, s->w >> 3, s->h >> 3);
     BG_SYS_PushTile(7);
 }
 
@@ -2118,8 +2035,8 @@ void VIEWER_MAIN_UpdateBrightness(ViewerWork *p)
 
 void VIEWER_MAIN_CheckTouch(ViewerWork *p)
 {
-    if ((p->decoVisible != 0 && p->inputMode == 0 && TOUCHPANEL_HitCont(d_021C8534))
-        || (p->inputMode == 1 && TOUCHPANEL_HitCont(d_021C854C))) {
+    if ((p->decoVisible != 0 && p->inputMode == 0 && TOUCHPANEL_HitCont((const TouchHitTable *)d_021C8534))
+        || (p->inputMode == 1 && TOUCHPANEL_HitCont((const TouchHitTable *)d_021C854C))) {
         p->scrollTouchArmed = 0;
     }
 }
@@ -2134,12 +2051,12 @@ void VIEWER_MAIN_HandleScrollTouch(ViewerWork *p, int side)
     if (p->info->f4_5 || p->info->f4_4 == 1) {
         return;
     }
-    if (TOUCHPANEL_GetPointCont(&x, &y)) {
+    if (TOUCHPANEL_GetPointCont((u32 *)&x, (u32 *)&y)) {
         if (side == 0) {
-            if (!TOUCHPANEL_HitTrg(d_021C852C)) {
+            if (!TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C852C)) {
                 p->scrollTouchArmed = 1;
             }
-            if (p->scrollTouchArmed != 0 && !TOUCHPANEL_HitPoint((struct Ctx *)d_021C852C, x, y)) {
+            if (p->scrollTouchArmed != 0 && !TOUCHPANEL_HitPoint((const TouchHitTable *)d_021C852C, x, y)) {
                 p->raw.x = x;
                 p->raw.y = y;
                 p->raw.size = p->size;
@@ -2153,10 +2070,10 @@ void VIEWER_MAIN_HandleScrollTouch(ViewerWork *p, int side)
                 p->raw.active = 0;
             }
         } else {
-            if (!TOUCHPANEL_HitTrg(d_021C853C)) {
+            if (!TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C853C)) {
                 p->scrollTouchArmed = 1;
             }
-            if (p->scrollTouchArmed != 0 && !TOUCHPANEL_HitPoint((struct Ctx *)d_021C853C, x, y)) {
+            if (p->scrollTouchArmed != 0 && !TOUCHPANEL_HitPoint((const TouchHitTable *)d_021C853C, x, y)) {
                 p->raw.x = ((x - 0x20) + p->pane * 0xC0) / 2 + 0x20;
                 p->raw.y = (y - 0x18) / 2 + 0x58;
                 p->raw.size = p->size;

@@ -109,98 +109,66 @@ struct Proc;
 
 typedef int (*MailEditModeHandler)(struct MailEditProc *proc);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MIi_CpuClearFast(unsigned, void *, unsigned);
-extern void MAIL_SetDesign(struct Mail *mail, u32 value);
-extern u32 GFL_HEAP_Free(void *p);
-extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void PROCSYS_FreeProcWork(struct Proc *v);
-extern void GFL_HEAP_GetHeapHeadChecked(u16 v);
-extern void GFL_HEAP_DeleteChecked(u32 v);
-extern void PMSI_PARAM_Copy(struct PmsData *dst, const struct PmsData *src);
-extern int PMSI_PARAM_IsEnabled(unsigned short *word);
-extern u32 MAIL_GetWriterId(const struct Mail *mail);
-extern struct Strbuf *STRBUF_Create(unsigned, u16);
-extern unsigned short *MAIL_GetWriterName(struct Mail *mail);
-extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern u8 MAIL_GetDesign(const struct Mail *mail);
-extern u8 MAIL_GetLanguage(const struct Mail *mail);
-extern u8 MAIL_GetVersion(const struct Mail *mail);
-extern u16 MAIL_GetMessageId(const struct Mail *mail);
-extern struct PmsData *MAIL_GetMessage(struct Mail *mail, u32 i);
-extern void STRBUF_Delete(struct Strbuf *str);
-extern void MAIL_SetMessage(struct Mail *mail, struct PmsData *msg, u32 i);
-extern void MAIL_SetMessageId(struct Mail *mail, u16 value);
-extern void PMSI_PARAM_InitSentenceId(struct PmsData *msg, u32 type, u32 id);
-extern signed char MSG_SPEED_GetWait(void);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/palanm.h"
+#ifdef __MWERKS__
+#define GFL_HEAP_GetHeapHeadChecked GFL_HEAP_GetHeapHeadChecked_hdr
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_GetHeapHeadChecked
+void * GFL_HEAP_GetHeapHeadChecked(u16);
+#endif
+#include "../arm9/mi_memory.h"
+#include "../arm9/mail.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/pmsi_param.h"
+#ifdef __MWERKS__
+#define STRBUF_Create STRBUF_Create_hdr
+#endif
+#include "../arm9/strbuf.h"
+#ifdef __MWERKS__
+#undef STRBUF_Create
+struct Strbuf * STRBUF_Create(unsigned, u16);
+#endif
+#include "../arm9/msg_speed.h"
+#include "../arm9/gf_font.h"
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void BG_SYS_Create(u16);
-extern void BG_SYS_Delete(void);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
-extern void WIPE_ResetWndMask(void *win);
-extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int priority);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void WIPE_ResetBrightness(u32 a);
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/tcbl.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/wipe.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/g2.h"
 struct TcbList;
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
-extern void PALANM_RequestFade(struct PalAnmSlot *p, int a, int b, int c, int d, int e, int f, u32 g);
-extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSlot *p);
-extern void PMS_DRAW_Main(struct PmsDraw *p);
+#include "../arm9/pms_draw.h"
 struct TaskMenuWin;
-extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
+#include "../arm9/app_taskmenu.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void CLACT_DrawSystem(struct ClactUnit *p);
+#include "../arm9/tcb_list.h"
+#ifdef __MWERKS__
+#define CLACT_DrawSystem CLACT_DrawSystem_hdr
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+#undef CLACT_DrawSystem
+void CLACT_DrawSystem(struct Unit *);
+#endif
 struct TcbSystem;
-extern void TCB_Main(struct TcbSystem *sys);
-extern void TCBL_Main(struct TcblSystem *tcbl);
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern int PMSI_PARAM_IsComplete(const struct PmsData *p, u32 heapId);
-extern void PALANM_BlendChannel(struct PalAnmSlot *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
-extern int TOUCHPANEL_GetCont(void);
-extern unsigned int KEY_GetCont(void);
-extern u32 KEY_GetTrg(void);
-extern int TOUCHPANEL_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int isDecide);
-extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, unsigned int isActive);
-extern int TOUCHPANEL_HitTrg(const void *p);
+#include "../arm9/printsys.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/key.h"
 struct BmpWin;
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
-extern void *BMP_WIN_GetBmp(struct BmpWin *p);
-extern void BMP_Clear(void *buf, u8 value);
-extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
-extern void *PRINTSYS_PrintStream(struct BmpWin *win, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u32 speed, struct Tcbl *tcbl, u32 prio, u16 heapId, u16 colorId);
-extern void BMP_WIN_TransferChars(struct BmpWin *d);
-extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
-extern void BG_SYS_PushTile(u32 index);
-extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/bmp_win.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/msgdata.h"
 struct TextPrinter;
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
-extern void BMP_WIN_ClearScreen(struct BmpWin *d);
 struct MsgBank;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 struct TaskMenuRes;
 struct TaskMenuInitWork;
 struct TaskMenuWork;
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
-extern void APP_TASKMENU_WIN_ClearScreen(struct TaskMenuWin *win);
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
-extern void APP_TASKMENU_WIN_TransChar(struct TaskMenuWin *win);
 
 int MAILSYS_ProcMain(void *a, void *b, void *c, struct MailEditProc *proc);
 int MAILSYS_ProcExit(void *a, void *b, void *c, struct MailEditProc *proc);
@@ -339,12 +307,12 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
             WIPE_ResetBrightness(0);
             G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 0x1C, 4);
             t = (unsigned int)GFL_USE_GetMainTaskList();
-            PALANM_RequestFade(proc->palAnm, 5, 0xFFFF, -1, 0x10, 0, 0, t);
+            PALANM_RequestFade((PaletteFade *)proc->palAnm, 5, 0xFFFF, -1, 0x10, 0, 0, (void *)t);
             (proc->step)++;
         }
         break;
     case 2:
-        if (!PALANM_GetFadeRequestBits(proc->palAnm))
+        if (!PALANM_GetFadeRequestBits((const PaletteFade *)proc->palAnm))
             (proc->step)++;
         PMS_DRAW_Main(proc->pmsDraw);
         break;
@@ -352,7 +320,7 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
         if (data_021C7774[proc->mode](proc) == 1) {
             (proc->step)++;
             t = (unsigned int)GFL_USE_GetMainTaskList();
-            PALANM_RequestFade(proc->palAnm, 5, 0xFFFF, -1, 0, 0x10, 0, t);
+            PALANM_RequestFade((PaletteFade *)proc->palAnm, 5, 0xFFFF, -1, 0, 0x10, 0, (void *)t);
         }
         PMS_DRAW_Main(proc->pmsDraw);
         if (proc->sendButton) {
@@ -361,7 +329,7 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
         }
         break;
     case 4:
-        if (!PALANM_GetFadeRequestBits(proc->palAnm)) {
+        if (!PALANM_GetFadeRequestBits((const PaletteFade *)proc->palAnm)) {
             WIPE_SetBrightnessFadeOut(0, 0);
             WIPE_SetBrightnessFadeOut(1, 0);
             TCB_DeleteTask(proc->vblankTask);
@@ -376,7 +344,11 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
         break;
     }
     if (proc->clactUnit)
+#ifdef __MWERKS__
         CLACT_DrawSystem(proc->clactUnit);
+#else
+        CLACT_DrawSystem();
+#endif
     if (proc->blinkTaskList)
         TCB_Main(proc->blinkTaskList);
     if (proc->tcbl)
@@ -413,7 +385,7 @@ int MAILSYS_IsMessageIncomplete(struct MailEditProc *proc)
 
 void MAILSYS_ResetCursorBlend(struct MailEditProc *proc)
 {
-    PALANM_BlendChannel(proc->palAnm, 0, (u16)(proc->blinkSlot + 0x21), 1, 0, 0x7FFF);
+    PALANM_BlendChannel((PaletteFadeWork *)proc->palAnm, 0, (u16)(proc->blinkSlot + 0x21), 1, 0, 0x7FFF);
     proc->blinkDown = 0;
     proc->blinkWeight = 0;
 }
@@ -533,7 +505,7 @@ int MAILSYS_HandleKeyInput(struct MailEditProc *proc)
 int MAILSYS_HandleTouchInput(struct MailEditProc *proc)
 {
     int n;
-    n = TOUCHPANEL_HitTrg(d_021C7784);
+    n = TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C7784);
     if (n == -1) return 0;
     if (n == 4) {
         GFL_USE_PlaySeDefaultVolume(0x551);
@@ -571,9 +543,9 @@ int MAILSYS_HandleInput(struct MailEditProc *proc)
 void MAILSYS_PrintMessageText(struct MailEditProc *proc, int msgId)
 {
     struct BmpWin *win;
-    BMP_MENUWORK_DrawWindow(proc->win[6], 2, 13, 4);
-    BMP_Clear(BMP_WIN_GetBmp(proc->win[6]), 255);
-    MSGDATA_ReadString(proc->msgData, msgId, proc->msgBuf);
+    BMP_MENUWORK_DrawWindow((struct BmpWin *)proc->win[6], 2, 13, 4);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)proc->win[6]), 255);
+    MSGDATA_ReadString((struct MsgBank *)proc->msgData, msgId, (struct Strbuf *)proc->msgBuf);
     proc->printStream = PRINTSYS_PrintStream(proc->win[6], 0, 0, proc->msgBuf, proc->font, proc->textSpeed, proc->tcbl, 4, (u16)proc->heapId, 15);
     win = proc->win[6];
     BMP_WIN_TransferChars(win);
@@ -637,7 +609,7 @@ void MAILSYS_OpenConfirmMenu(struct MailEditProc *proc)
     t.w = 8;
     t.h = 3;
     proc->dialogMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&t), (struct TaskMenuRes *)proc->taskMenuRes);
-    PALANM_BlendChannel(proc->palAnm, 0, 0, 48, 10, 0);
+    PALANM_BlendChannel((PaletteFadeWork *)proc->palAnm, 0, 0, 48, 10, 0);
     APP_TASKMENU_WIN_ClearScreen((struct TaskMenuWin *)proc->sendButton);
     APP_TASKMENU_WIN_ClearScreen((struct TaskMenuWin *)proc->cancelButton);
 }
@@ -699,7 +671,7 @@ int MAILSYS_StepQuitConfirm(struct MailEditProc *proc)
         }
         proc->dialogActive = 0;
         proc->mode = proc->prevMode;
-        PALANM_BlendChannel(proc->palAnm, 0, 0, 0x30, 0, 0);
+        PALANM_BlendChannel((PaletteFadeWork *)proc->palAnm, 0, 0, 0x30, 0, 0);
         APP_TASKMENU_WIN_TransChar((struct TaskMenuWin *)proc->sendButton);
         APP_TASKMENU_WIN_TransChar((struct TaskMenuWin *)proc->cancelButton);
         return 0;

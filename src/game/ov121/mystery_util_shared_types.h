@@ -35,7 +35,7 @@ typedef struct MysteryUtilMenuDef {
 
 struct Bmp;
 
-struct Ctx;
+struct MysteryUtilCtx;
 
 struct Vec2;
 
@@ -44,7 +44,7 @@ struct Vec2;
 /* 2D position in pixels (MYSTERY_UTIL_AlignText, CLACT actor surface). */
 typedef struct {s16 x,y;} MysteryUtilVec2;
 
-struct Ctx {
+struct MysteryUtilCtx {
     u32 mode;
     u32 reserved04;
     u32 clactUnit;

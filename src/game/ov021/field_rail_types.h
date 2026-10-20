@@ -1,7 +1,7 @@
 #ifndef GAME_OV021_FIELD_RAIL_TYPES_H
 #define GAME_OV021_FIELD_RAIL_TYPES_H
 
-#include "fldmmdl_rail_types.h"
+#include "../ov021/fldmmdl_rail_types.h"
 
 /*
  * Field rail system (field_rail.c). The rails are a graph: points (nodes),

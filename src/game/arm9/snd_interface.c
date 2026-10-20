@@ -77,7 +77,7 @@ void SND_StopSeq(int playerNo)
  */
 void SND_PrepareSeq(int playerNo, const void *base, u32 offset, struct SNDBankData *bank)
 {
-    PushCommand_impl(2, (u32)playerNo, (u32)base, offset, (u32)bank);
+    PushCommand_impl(2, (u32)playerNo, (uptr)base, offset, (uptr)bank);
 }
 
 void SND_StartPreparedSeq(u32 playerNo)
@@ -231,7 +231,7 @@ void SND_SetChannelVolume(u32 chBitMask, int volume, int shift)
  */
 void SND_SetupChannelPcm(int chNo, int format, const void *dataaddr, int loop, int loopStart, int loopLen, int volume, int shift, int timer, int pan)
 {
-    PushCommand_impl(0xe, (u32)(chNo | (timer << 16)), (u32)dataaddr, (u32)((volume << 24) | (shift << 22) | loopLen), (u32)((loop << 26) | (format << 24) | (pan << 16) | loopStart));
+    PushCommand_impl(0xe, (u32)(chNo | (timer << 16)), (uptr)dataaddr, (u32)((volume << 24) | (shift << 22) | loopLen), (u32)((loop << 26) | (format << 24) | (pan << 16) | loopStart));
 }
 
 /*
@@ -239,7 +239,7 @@ void SND_SetupChannelPcm(int chNo, int format, const void *dataaddr, int loop, i
  */
 void SND_InvalidateSeqData(const void *start, const void *end)
 {
-    PushCommand_impl(0x1e, (u32)start, (u32)end, 0, 0);
+    PushCommand_impl(0x1e, (uptr)start, (uptr)end, 0, 0);
 }
 
 /*
@@ -247,7 +247,7 @@ void SND_InvalidateSeqData(const void *start, const void *end)
  */
 void SND_InvalidateBankData(const void *start, const void *end)
 {
-    PushCommand_impl(0x1f, (u32)start, (u32)end, 0, 0);
+    PushCommand_impl(0x1f, (uptr)start, (uptr)end, 0, 0);
 }
 
 /*
@@ -255,7 +255,7 @@ void SND_InvalidateBankData(const void *start, const void *end)
  */
 void SND_InvalidateWaveData(const void *start, const void *end)
 {
-    PushCommand_impl(0x20, (u32)start, (u32)end, 0, 0);
+    PushCommand_impl(0x20, (uptr)start, (uptr)end, 0, 0);
 }
 
 /*
@@ -295,7 +295,7 @@ void SND_ResetMasterPan(void)
  */
 void SND_ReadDriverInfo(struct SNDDriverInfo *info)
 {
-    PushCommand_impl(0x21, (u32)info, 0, 0, 0);
+    PushCommand_impl(0x21, (uptr)info, 0, 0, 0);
 }
 
 /*

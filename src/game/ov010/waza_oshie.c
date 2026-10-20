@@ -28,19 +28,18 @@ typedef struct LearnsetEntry {
 } LearnsetEntry;
 struct PokemonParam;
 
-extern unsigned int POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 
-extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void MI_CpuFill8(void *p, int v, int n);
+#include "../arm9/mi_memory.h"
 
-extern void POKE_PERSONAL_LoadDataDirect(unsigned int a, int b, void *buf);
+#include "../arm9/poke_personal.h"
 
 void *WAZA_OSHIE_Create(u32 heapId);
 
-void WAZA_OSHIE_Delete(void *work, unsigned unused1, unsigned unused2, unsigned unused3);
+u32 WAZA_OSHIE_Delete(void *work);
 
 u16 *WAZA_OSHIE_CreateMoveList(void *pokemon, u32 heapId);
 
@@ -71,9 +70,9 @@ void *WAZA_OSHIE_Create(u32 heapId)
  *   python tools/match.py one --src src/matched/WAZA_OSHIE_Delete.c \
  *       --func WAZA_OSHIE_Delete --addr 0x0216F940 --region ov010 --cc dsi/1.1p1 --thumb
  */
-void WAZA_OSHIE_Delete(void *work, unsigned unused1, unsigned unused2, unsigned unused3)
+u32 WAZA_OSHIE_Delete(void *work)
 {
-    GFL_HEAP_Free(work);
+    return GFL_HEAP_Free(work);
 }
 
 static inline int LearnsetEntry_IsEnd(LearnsetEntry x)

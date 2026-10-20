@@ -51,11 +51,34 @@ typedef struct GPIMessage {
     int start;                        /* 0x14 */
 } GPIMessage;
 
-/* Strings a profile caches (nick, uniquenick, email, ...); only these are used. */
 typedef struct GPIInfoCache {
-    char *nick;                       /* 0x00 */
-    char *uniquenick;                 /* 0x04 */
-    char *email;                      /* 0x08 */
+    char *nick;
+    char *uniquenick;
+    char *email;
+    char *firstname;
+    char *lastname;
+    char *homepage;
+    int icquin;
+    char zipcode[11];
+    char countrycode[3];
+    float longitude;
+    float latitude;
+    char place[128];
+    int birthday;
+    int birthmonth;
+    int birthyear;
+    int sex;
+    int publicmask;
+    char *aimname;
+    int pic;
+    int occupationid;
+    int industryid;
+    int incomeid;
+    int marriedid;
+    int childcount;
+    int interests1;
+    int ownership1;
+    int conntypeid;
 } GPIInfoCache;
 
 typedef struct GPIBuddyStatus {
@@ -173,6 +196,14 @@ typedef struct GPIProfileList {
     int numBlocked;                   /* 0x0C */
 } GPIProfileList;
 
+typedef struct GPICallbackData {
+    GPICallback callback;
+    void *arg;
+    int type;
+    int operationID;
+    struct GPICallbackData *pnext;
+} GPICallbackData;
+
 typedef struct GPIConnection {
     char errorString[256];            /* 0x000 */
     int infoCaching;                  /* 0x100 */
@@ -217,8 +248,8 @@ typedef struct GPIConnection {
     GPIOperation *operationList;      /* 0x5C4 */
     GPIProfileList profileList;       /* 0x5C8 */
     GPIPeer *peerList;                /* 0x5D8 */
-    void *callbackList;               /* 0x5DC */
-    void *lastCallback;               /* 0x5E0 */
+    GPICallbackData *callbackList;    /* 0x5DC */
+    GPICallbackData *lastCallback;    /* 0x5E0 */
     GPIBuffer updateproBuffer;        /* 0x5E4 */
     GPIBuffer updateuiBuffer;         /* 0x5F4 */
     void *transfers;                  /* 0x604 */
@@ -257,6 +288,16 @@ typedef struct GPIFindProfileByUserData {
 } GPIFindProfileByUserData;
 
 /* Callback argument records handed to the game. */
+
+typedef struct GPBuddyStatus {
+    int profile;                      /* 0x000 */
+    int status;                       /* 0x004 */
+    char statusString[256];           /* 0x008 */
+    char locationString[256];         /* 0x108 */
+    unsigned int ip;                  /* 0x208 */
+    int port;                         /* 0x20C */
+    int quietModeFlags;               /* 0x210 */
+} GPBuddyStatus;
 
 typedef struct GPRecvBuddyMessageArg {
     int profile;
@@ -304,6 +345,44 @@ typedef struct GPGetBuddyStatusInfoKeysArg {
     char **values;
     int numKeys;
 } GPGetBuddyStatusInfoKeysArg;
+
+typedef struct GPConnectResponseArg {
+    int result;
+    int profile;
+    char uniquenick[21];
+} GPConnectResponseArg;
+
+typedef struct GPGetInfoResponseArg {
+    int result;
+    int profile;
+    char nick[31];
+    char uniquenick[21];
+    char email[51];
+    char firstname[31];
+    char lastname[31];
+    char homepage[76];
+    int icquin;
+    char zipcode[11];
+    char countrycode[3];
+    float longitude;
+    float latitude;
+    char place[128];
+    int birthday;
+    int birthmonth;
+    int birthyear;
+    int sex;
+    int publicmask;
+    char aimname[51];
+    int pic;
+    int occupationid;
+    int industryid;
+    int incomeid;
+    int marriedid;
+    int childcount;
+    int interests1;
+    int ownership1;
+    int conntypeid;
+} GPGetInfoResponseArg;
 
 typedef struct GPNewProfileResponseArg {
     int result;

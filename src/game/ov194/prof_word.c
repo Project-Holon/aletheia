@@ -26,16 +26,15 @@
  *   GFL_HEAP_Free 0x020307B0 arm
  *   STRBUF_GetEosChar 0x02045A98 arm
  */
-typedef struct { unsigned data[7], size[7]; } Resources;
+typedef struct ProfWordResources { unsigned data[7], size[7]; } Resources;
 
 #include "../types.h"
 
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
-extern int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, unsigned short heapID, unsigned int *out);
-extern void GF_STANDARD_XorCryptEx(void *p, unsigned int size, unsigned int seed);
-extern u32 GFL_HEAP_Free(void *p);
-extern void MI_CpuCopy8(const void *,void *,unsigned);
-extern u16 STRBUF_GetEosChar(void);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/strbuf.h"
 Resources *PROF_WORD_Create(unsigned short heap);
 void PROF_WORD_Delete(u8 *p);
 int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap);
@@ -58,7 +57,7 @@ Resources *PROF_WORD_Create(unsigned short heap)
     i = 0;
     sizes = p->size;
     for (; i < 7; i++) {
-        p->data[i] = ARC_UTIL_LoadMemberWithSize(0xDD, i, 0, heap, &sizes[i]);
+        p->data[i] = (unsigned int)ARC_UTIL_LoadMemberWithSize(0xDD, i, 0, heap, (u32 *)&sizes[i]);
         GF_STANDARD_XorCryptEx((void *)p->data[i], p->size[i], 0x72012891);
     }
     return p;
@@ -94,7 +93,7 @@ int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
     }
     for(i=0;i<7;i++) {
         if(cache==0) {
-            data=ARC_UTIL_LoadMemberWithSize(0xdd,i,0,heap,&size);
+            data=(unsigned int)ARC_UTIL_LoadMemberWithSize(0xdd,i,0,heap,(u32 *)&size);
             GF_STANDARD_XorCryptEx((void *)data,size,0x72012891);
         } else {data=cache[i];size=cache[i+7];}
         { u32 currentHeap=heap; result=PROF_WORD_CompareChunks(buf,i,currentHeap,(const u16 *)data,size); }

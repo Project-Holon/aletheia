@@ -112,64 +112,52 @@ typedef struct GameClearWork {
     int frameCount;                 /* 0x78 */
 } GameClearWork;
 
-extern void SCRIPT_SYS_RunRecoverScript(void *fieldSys, s32 reserved);
+#include "script_sys.h"
 struct GameEvent;
 
 /* game system, game event, game data */
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, EventTaskFn taskFn, unsigned int workSize);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, const void *procData, void *procArg);
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
-extern void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, u32 alwaysNet);
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, const void *procData, void *procArg);
 
-extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
 struct PlayTime;
 
-extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
 
-extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 
 /* game comm, config, misc */
-extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
+#include "../arm9/game_comm.h"
 
-extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 
-extern struct Config *SYSTEM_DATA_GetConfig(void *save);
+#include "../arm9/system_data.h"
 
-extern int CONFIG_GetTextLanguage(struct Config *config);
+#include "../arm9/config.h"
 
-extern int MISC_SetGatePoints(struct MiscSave *miscSave, int value);
+#include "../arm9/beacon.h"
 
-extern u32 GPOWER_GetSpecialPowerId(void);
+#include "../arm9/gpower.h"
 
-extern void GFL_USE_FadeOutBgm(u32 frames);
+#include "../arm9/gfl_use.h"
 
 /* field events and field */
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
+#include "../ov021/event_fieldmap_control.h"
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+#include "../arm9/field_status.h"
 
-extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(struct GameSystem *gameSystem, struct GameEvent *event, int kind, int sub, int flag);
+typedef int Bool;
+#include "event_field_proclink.h"
 
-extern void MOVE_POKEMON_SpawnPendingEntries(struct GameData *gameData);
+#include "move_pokemon.h"
 
 extern u8 ov180_id[];
 
@@ -201,7 +189,7 @@ int EVENT_GAMECLEAR_GetCommExitKind(void);
 
 void EVENT_GAMECLEAR_AdvanceStep(GameClearWork *work, u32 *seq);
 
-int EVENT_GAMECLEAR_SetGatePoints(GameClearWork *work);
+void EVENT_GAMECLEAR_SetGatePoints(GameClearWork *work);
 
 /*
  * Step machine of the game clear event (Hall of Fame, staff roll, save, The End): the step comes from work->seq[*seq]
@@ -404,9 +392,9 @@ void EVENT_GAMECLEAR_AdvanceStep(GameClearWork *work, u32 *seq)
     work->step = work->seq[*seq];
 }
 
-int EVENT_GAMECLEAR_SetGatePoints(GameClearWork *work)
+void EVENT_GAMECLEAR_SetGatePoints(GameClearWork *work)
 {
     struct MiscSave *miscSave = GAME_DATA_GetMiscSave(work->gameData);
 
-    return MISC_SetGatePoints(miscSave, 0x5a0);
+    MISC_SetGatePoints(miscSave, 0x5a0);
 }

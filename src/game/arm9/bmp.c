@@ -36,7 +36,6 @@ enum {
     BMP_STORAGE_VRAM     = 2    /* caller's buffer in VRAM, halfword writes only */
 };
 
-typedef signed short   s16_p07;
 
 #include "gfl_heap_wrap.h"
 
@@ -89,9 +88,9 @@ void BMP_Blit8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX
 
 void BMP_Blit4bppTo8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey, u8 paletteBase);
 
-void BMP_Blit4bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16_p07 dstX, s16_p07 dstY, u16 w, u16 h, u16 colorKey);
+void BMP_Blit4bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16 dstX, s16 dstY, u16 w, u16 h, u16 colorKey);
 
-void BMP_Blit8bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16_p07 dstX, s16_p07 dstY, u16 w, u16 h, u16 colorKey);
+void BMP_Blit8bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16 dstX, s16 dstY, u16 w, u16 h, u16 colorKey);
 
 void BMP_FillRect4bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u32 value);
 
@@ -626,10 +625,10 @@ void BMP_Blit4bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX
         for (row = 0; row < h; row++, srcY++, dstY++)
             for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curDstX++, curSrcX++) {
                 srcTileY = (srcY * 4) & 0x3fe0;
-                srcPtr = (u8 *)((u32)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0)
+                srcPtr = (u8 *)((uptr)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0)
                            + srcTileY * srcRowTiles + ((srcY * 4) & 0x1c));
                 dstTileY = (dstY * 4) & 0x3fe0;
-                dstPtr = (u8 *)((u32)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0)
+                dstPtr = (u8 *)((uptr)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0)
                            + dstTileY * dstRowTiles);
                 dstPtr += (dstY * 4) & 0x1c;
                 shift = (u32)(curDstX << 31) >> 29;
@@ -640,10 +639,10 @@ void BMP_Blit4bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX
         for (row = 0; row < h; row++, srcY++, dstY++)
             for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curSrcX++, curDstX++) {
                 srcKeyedTileY = (srcY * 4) & 0x3fe0;
-                srcPtr = (u8 *)((u32)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0)
+                srcPtr = (u8 *)((uptr)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0)
                            + srcKeyedTileY * srcRowTiles + ((srcY * 4) & 0x1c));
                 dstKeyedTileY = (dstY * 4) & 0x3fe0;
-                dstPtr = (u8 *)((u32)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0)
+                dstPtr = (u8 *)((uptr)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0)
                            + dstKeyedTileY * dstRowTiles);
                 dstPtr += (dstY * 4) & 0x1c;
                 pixel = (*srcPtr >> ((u32)(curSrcX << 31) >> 29)) & 0xf;
@@ -702,20 +701,20 @@ void BMP_Blit8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s32 dstX
         for (row = 0; row < h; row++, srcY++, dstY++)
             for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curDstX++, curSrcX++) {
                 srcTileY = (srcY * 8) & 0x7fc0;
-                pixel = *(u8 *)((u32)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0)
+                pixel = *(u8 *)((uptr)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0)
                             + srcTileY * srcRowTiles + ((srcY * 8) & 0x38));
                 dstTileY = (dstY * 8) & 0x7fc0;
-                *(u8 *)((u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
+                *(u8 *)((uptr)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
                         + dstTileY * dstRowTiles + ((dstY * 8) & 0x38)) = pixel;
             }
     } else {
         for (row = 0; row < h; row++, srcY++, dstY++)
             for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curSrcX++, curDstX++) {
                 srcKeyedTileY = (srcY * 8) & 0x7fc0;
-                srcPtr = (u8 *)((u32)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0)
+                srcPtr = (u8 *)((uptr)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0)
                            + srcKeyedTileY * srcRowTiles + ((srcY * 8) & 0x38));
                 dstKeyedTileY = (dstY * 8) & 0x7fc0;
-                dstPtr = (u8 *)((u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
+                dstPtr = (u8 *)((uptr)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
                            + dstKeyedTileY * dstRowTiles);
                 dstPtr += (dstY * 8) & 0x38;
                 if (*srcPtr != colorKey)
@@ -768,10 +767,10 @@ void BMP_Blit4bppTo8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s3
         for (row = 0; row < h; row++, srcY++, dstY++)
             for (col = 0, curDstX = dstX, curSrcX = srcX; col < w; col++, curDstX++, curSrcX++) {
                 srcTileY = (srcY * 4) & 0x3fe0;
-                srcPtr = (u8 *)((u32)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0)
+                srcPtr = (u8 *)((uptr)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0)
                            + srcTileY * srcRowTiles + ((srcY * 4) & 0x1c));
                 dstTileY = (dstY * 8) & 0x7fc0;
-                dstPtr = (u8 *)((u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
+                dstPtr = (u8 *)((uptr)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
                            + dstTileY * dstRowTiles);
                 dstPtr += (dstY * 8) & 0x38;
                 pixel = (*srcPtr >> ((u32)(curSrcX << 31) >> 29)) & 0xf;
@@ -787,7 +786,7 @@ void BMP_Blit4bppTo8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s3
                 srcX4 = curSrcX * 4;
                 srcPtr = src->pixels + ((curSrcX >> 1) & 3) + (srcX4 & 0x3fe0) + srcKeyedTileY * srcRowTiles
                     + ((srcY * 4) & 0x1c);
-                dstPtr = (u8 *)((u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
+                dstPtr = (u8 *)((uptr)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0)
                            + dstKeyedTileY * dstRowTiles);
                 dstPtr += (dstY * 8) & 0x38;
                 pixel = (*srcPtr >> ((u32)(curSrcX << 31) >> 29)) & 0xf;
@@ -816,12 +815,12 @@ void BMP_Blit4bppTo8bpp(struct Bmp *src, struct Bmp *dst, s32 srcX, s32 srcY, s3
  * (add fp, r5, r2) where the image has add fp, r2, r5; that was the
  * last 4 bytes.
  */
-void BMP_Blit4bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16_p07 dstX, s16_p07 dstY, u16 w, u16 h, u16 colorKey)
+void BMP_Blit4bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16 dstX, s16 dstY, u16 w, u16 h, u16 colorKey)
 {
     s32 srcXEnd, srcYEnd, srcRowTiles, dstRowTiles;
     s32 curSrcY, curSrcX, curDstY, curDstX;
     s32 srcTileY, dstTileY, srcKeyedTileY, dstKeyedTileY;
-    u32 srcAddr, dstAddr;
+    uptr srcAddr, dstAddr;
     s32 dstOdd;
     u32 word;
     u16 highByte, lowByte;
@@ -844,10 +843,10 @@ void BMP_Blit4bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s1
             for (curSrcX = srcX, curDstX = dstX; curSrcX < srcXEnd; curSrcX++, curDstX++)
                 if (curDstX >= 0 && curDstY >= 0) {
                     srcTileY = (curSrcY * 4) & 0x3fe0;
-                    srcAddr = (u32)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0) + srcTileY * srcRowTiles;
+                    srcAddr = (uptr)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0) + srcTileY * srcRowTiles;
                     srcAddr += (curSrcY * 4) & 0x1c;
                     dstTileY = (curDstY * 4) & 0x3fe0;
-                    dstAddr = (u32)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0) + dstTileY * dstRowTiles;
+                    dstAddr = (uptr)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0) + dstTileY * dstRowTiles;
                     dstAddr += (curDstY * 4) & 0x1c;
                     if (dstAddr & 1) {
                         dstAddr -= 1;
@@ -869,10 +868,10 @@ void BMP_Blit4bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s1
             for (curSrcX = srcX, curDstX = dstX; curSrcX < srcXEnd; curSrcX++, curDstX++)
                 if (curDstX >= 0 && curDstY >= 0) {
                     srcKeyedTileY = (curSrcY * 4) & 0x3fe0;
-                    srcAddr = (u32)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0) + srcKeyedTileY * srcRowTiles;
+                    srcAddr = (uptr)src->pixels + ((curSrcX >> 1) & 3) + ((curSrcX * 4) & 0x3fe0) + srcKeyedTileY * srcRowTiles;
                     srcAddr += (curSrcY * 4) & 0x1c;
                     dstKeyedTileY = (curDstY * 4) & 0x3fe0;
-                    dstAddr = (u32)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0) + dstKeyedTileY * dstRowTiles;
+                    dstAddr = (uptr)dst->pixels + ((curDstX >> 1) & 3) + ((curDstX * 4) & 0x3fe0) + dstKeyedTileY * dstRowTiles;
                     dstAddr += (curDstY * 4) & 0x1c;
                     if (dstAddr & 1) {
                         dstAddr -= 1;
@@ -914,12 +913,12 @@ void BMP_Blit4bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s1
  *     xend/yend flips the operands of the conditional add (4 out), and
  *     a fresh t with s32 x/y reshuffles the allocation (167 out).
  */
-void BMP_Blit8bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16_p07 dstX, s16_p07 dstY, u16 w, u16 h, u16 colorKey)
+void BMP_Blit8bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s16 dstX, s16 dstY, u16 w, u16 h, u16 colorKey)
 {
     s32 srcXEnd, srcYEnd, srcRowTiles, dstRowTiles;
     s32 curSrcY, curSrcX, curDstY, curDstX;
     s32 srcTileY, dstTileY, srcKeyedTileY, dstKeyedTileY;
-    u32 srcAddr, dstAddr;
+    uptr srcAddr, dstAddr;
     u16 word;
     s32 dstRoom;
     dstRoom = dst->width - dstX;
@@ -939,10 +938,10 @@ void BMP_Blit8bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s1
             for (curSrcX = srcX, curDstX = dstX; curSrcX < srcXEnd; curSrcX++, curDstX++)
                 if (curDstX >= 0 && curDstY >= 0) {
                     srcTileY = (curSrcY * 8) & 0x7fc0;
-                    srcAddr = (u32)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0) + srcTileY * srcRowTiles;
+                    srcAddr = (uptr)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0) + srcTileY * srcRowTiles;
                     srcAddr += (curSrcY * 8) & 0x38;
                     dstTileY = (curDstY * 8) & 0x7fc0;
-                    dstAddr = (u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0) + dstTileY * dstRowTiles;
+                    dstAddr = (uptr)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0) + dstTileY * dstRowTiles;
                     dstAddr += (curDstY * 8) & 0x38;
                     if (dstAddr & 1) {
                         dstAddr -= 1;
@@ -957,10 +956,10 @@ void BMP_Blit8bppToVram(struct Bmp *src, struct Bmp *dst, u16 srcX, u16 srcY, s1
             for (curSrcX = srcX, curDstX = dstX; curSrcX < srcXEnd; curSrcX++, curDstX++)
                 if (curDstX >= 0 && curDstY >= 0) {
                     srcKeyedTileY = (curSrcY * 8) & 0x7fc0;
-                    srcAddr = (u32)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0) + srcKeyedTileY * srcRowTiles;
+                    srcAddr = (uptr)src->pixels + (curSrcX & 7) + ((curSrcX * 8) & 0x7fc0) + srcKeyedTileY * srcRowTiles;
                     srcAddr += (curSrcY * 8) & 0x38;
                     dstKeyedTileY = (curDstY * 8) & 0x7fc0;
-                    dstAddr = (u32)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0) + dstKeyedTileY * dstRowTiles;
+                    dstAddr = (uptr)dst->pixels + (curDstX & 7) + ((curDstX * 8) & 0x7fc0) + dstKeyedTileY * dstRowTiles;
                     dstAddr += (curDstY * 8) & 0x38;
                     if (dstAddr & 1) {
                         dstAddr -= 1;
@@ -1017,7 +1016,7 @@ void BMP_FillRect4bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u32 value)
             if (col >= 0 && row >= 0) {
                 highNibble = value << 4;
                 tileRowOffset = (row * 4) & 0x3fe0;
-                pixelPtr = (u8 *)((u32)bmp->pixels + ((col >> 1) & 3) + ((col * 4) & 0x3fe0)
+                pixelPtr = (u8 *)((uptr)bmp->pixels + ((col >> 1) & 3) + ((col * 4) & 0x3fe0)
                            + tileRowOffset * tilesWide);
                 pixelPtr += (row * 4) & 0x1c;
                 if (col & 1)
@@ -1063,7 +1062,7 @@ void BMP_FillRect8bpp(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
         for (col = x; col < right; col++)
             if (col >= 0 && row >= 0) {
                 tileRowOffset = (row * 8) & 0x7fc0;
-                *(u8 *)((u32)bmp->pixels + (col & 7) + ((col * 8) & 0x7fc0)
+                *(u8 *)((uptr)bmp->pixels + (col & 7) + ((col * 8) & 0x7fc0)
                         + tileRowOffset * tilesWide + ((row * 8) & 0x38)) = value;
             }
 }
@@ -1095,7 +1094,7 @@ void BMP_FillRect4bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
     s32 bottom;
     s32 tilesWide;
     s32 tileRowOffset;
-    u32 addr;
+    uptr addr;
     s32 addrOdd;
     u32 word;
     u16 highByte, lowByte;
@@ -1113,7 +1112,7 @@ void BMP_FillRect4bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
         for (col = x; col < right; col++)
             if (col >= 0 && row >= 0) {
                 tileRowOffset = (row * 4) & 0x3fe0;
-                addr = (u32)bmp->pixels + ((col >> 1) & 3) + ((col * 4) & 0x3fe0)
+                addr = (uptr)bmp->pixels + ((col >> 1) & 3) + ((col * 4) & 0x3fe0)
                     + tileRowOffset * tilesWide;
                 addr += (row * 4) & 0x1c;
                 if (addr & 1) {
@@ -1151,7 +1150,7 @@ void BMP_FillRect8bppVram(struct Bmp *bmp, s32 x, s32 y, s32 w, u16 h, u8 value)
         for (col = x; col < right; col++)
             if (col >= 0 && row >= 0) {
                 tileRowOffset = (row * 8) & 0x7fc0;
-                *(u8 *)((u32)bmp->pixels + (col & 7) + ((col * 8) & 0x7fc0)
+                *(u8 *)((uptr)bmp->pixels + (col & 7) + ((col * 8) & 0x7fc0)
                         + tileRowOffset * tilesWide + ((row * 8) & 0x38)) = value;
             }
 }

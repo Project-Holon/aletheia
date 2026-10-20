@@ -11,8 +11,9 @@
 typedef struct SOCSockAddr {
     unsigned char len;
     unsigned char family;
-    unsigned char data[6];
-} SOCSockAddr;
+    unsigned short port;
+    unsigned char addr[4];
+} __attribute__((packed)) SOCSockAddr;
 
 typedef enum { key_server, key_player, key_team } qr2_key_type;
 

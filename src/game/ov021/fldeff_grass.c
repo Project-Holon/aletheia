@@ -110,33 +110,19 @@ typedef struct FldeffGrassParam {
     int index;                            /* 0x20 which of the eight images */
 } FldeffGrassParam;
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct FieldMap;
 struct GameSystem;
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldmap);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern int FLDMMDL_GetGridNowX(const Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowZ(const Mmdl *mmdl);
+#include "fieldmap.h"
+#include "../ov010/fldmmdl.h"
 struct ArcHandle;
 struct G3dResource;
-extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
-extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *act, const struct BbActRec *recs, u32 count);
-extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *act, u32 first, u32 count);
-extern struct BbActSys *FIELDMAP_GetGroundBbdAct(struct FieldMap *fieldmap);
-extern u16 FLDMMDL_GetObjId(const Mmdl *mmdl);
-extern u16 FLDMMDL_GetZoneId(const Mmdl *mmdl);
-extern void FLDMMDL_MOVE_GridToVectorPos(int gridX, int gridZ, VecFx32 *out);
+#include "../arm9/g3d_system.h"
+#include "../arm9/billboard_act.h"
+#include "../ov010/fldmmdl_move.h"
 struct Mmdl;
-extern s32 FLDMMDL_GetPosY(const Mmdl *mmdl);
-extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
-extern s32 FLDMMDL_MOVE_GetMapHeight(const Mmdl *mmdl, VecFx32 *pos, int *outHeight);
 struct FieldEffectSys;
-u32 FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys);
-u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
-u8 FIELD_EFFECT_GetModelBaseOffset(FieldEffectSys *sys);
-s32 FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
-void FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-void FIELD_EFFECT_ApplyPaletteTable(FieldEffectSys *sys, void *model);
+#include "field_effect.h"
 FldeffGrass *FLDEFF_GRASS_Create(FieldEffectSys *sys, int heapId);
 void FLDEFF_GRASS_Delete(FieldEffectSys *sys, FldeffGrass *grass);
 void FLDEFF_GRASS_CreateSlots(FldeffGrass *grass);
@@ -159,24 +145,7 @@ typedef struct GrassWork {
 #define GRASS_STATE_HOLD_A 2
 #define GRASS_STATE_HOLD_B 3
 
-extern int FLDMMDL_GetCheckInfo(Mmdl *mmdl, u16 *info);
-extern int FLDMMDL_CheckCheckInfo(Mmdl *mmdl, u16 *info);
-extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
-extern int FLDMMDL_GetGridOldX(Mmdl *mmdl);
-extern int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
-extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *billboards, u16 baseSlot, const struct BbActDesc *desc, u32 count, u32 mode);
-extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *billboards, u16 first, u32 count);
 struct BbActCmd;
-extern void BILLBOARD_ACT_SetEntryCommands(struct BbActSys *sys, s32 entryIndex, struct BbActCmd **cmdLists, u16 listCount);
-extern void BILLBOARD_ACT_SetEntryList(struct BbActSys *billboards, int entry, u32 cursor);
-extern void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *billboards, int entry, u32 enabled);
-extern u32 BILLBOARD_ACT_GetEntryLastCommand(struct BbActSys *billboards, int entry, u16 *lastCommand);
-extern void BILLBOARD_ACT_SetEntryCursor(struct BbActSys *billboards, int entry, u32 cursor);
-extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
-extern void FIELD_EFFECT_UpdateObject(FieldEffectObj *effect);
-extern int FIELD_EFFECT_GetObjectMode(FieldEffectObj *effect);
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
-extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
 void FLDEFF_GRASS_Init(FieldEffectObj *effect, GrassWork *work);
 void FLDEFF_GRASS_Exit(FieldEffectObj *effect, GrassWork *work);
 void FLDEFF_GRASS_Update(FieldEffectObj *effect, GrassWork *work);
@@ -306,7 +275,7 @@ void FLDEFF_GRASS_Init(FieldEffectObj *effect, GrassWork *work)
     u16 entry;
 
     work->param = *param;
-    FLDMMDL_GetCheckInfo(param->mmdl, work->checkInfo);
+    FLDMMDL_GetCheckInfo( (Mmdl *)param->mmdl, (MmdlCheckInfo *)work->checkInfo);
     FIELD_EFFECT_SetObjectPos(effect, &param->pos);
     kind = work->param.index;
     desc.slot = work->param.grass->slotId[kind];
@@ -359,7 +328,7 @@ void FLDEFF_GRASS_Update(FieldEffectObj *effect, GrassWork *work)
     case GRASS_STATE_PLAY:
         if (sGrassEndsOnLeave[work->param.index] == 1) {
             mmdl = work->param.mmdl;
-            if (FLDMMDL_CheckCheckInfo(mmdl, work->checkInfo) == 1 && FLDEFF_GRASS_IsModelOnTile(work) == 0 && FLDMMDL_GetDirMove(mmdl) == 1) {
+            if (FLDMMDL_CheckCheckInfo( (Mmdl *)mmdl, (const MmdlCheckInfo *)work->checkInfo) == 1 && FLDEFF_GRASS_IsModelOnTile(work) == 0 && FLDMMDL_GetDirMove( (Mmdl *)mmdl) == 1) {
                 FIELD_EFFECT_DeleteObject(effect);
                 return;
             }
@@ -368,7 +337,7 @@ void FLDEFF_GRASS_Update(FieldEffectObj *effect, GrassWork *work)
             work->state++;
         break;
     case GRASS_STATE_SETTLE:
-        if (FLDMMDL_CheckCheckInfo(work->param.mmdl, work->checkInfo) == 0) {
+        if (FLDMMDL_CheckCheckInfo( (Mmdl *)work->param.mmdl, (const MmdlCheckInfo *)work->checkInfo) == 0) {
             FIELD_EFFECT_DeleteObject(effect);
             return;
         }
@@ -378,7 +347,7 @@ void FLDEFF_GRASS_Update(FieldEffectObj *effect, GrassWork *work)
     case GRASS_STATE_HOLD_A:
         work->state++;
     case GRASS_STATE_HOLD_B:
-        if (FLDMMDL_CheckCheckInfo(work->param.mmdl, work->checkInfo) == 0) {
+        if (FLDMMDL_CheckCheckInfo( (Mmdl *)work->param.mmdl, (const MmdlCheckInfo *)work->checkInfo) == 0) {
             FIELD_EFFECT_DeleteObject(effect);
             return;
         }

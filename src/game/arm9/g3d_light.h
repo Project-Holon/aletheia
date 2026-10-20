@@ -15,7 +15,7 @@ struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *set, u16
 u32 G3D_LIGHT_DeleteSlots(void *slots);
 void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 void G3D_LIGHT_GetDirection(struct LightSlot *slots, u8 i, struct Rgb555 *out);
-void G3D_LIGHT_SetDirection(struct LightSlot *slots, u32 i, struct Rgb555 *in);
+void G3D_LIGHT_SetDirection(struct LightSlot *slots, u8 i, struct Rgb555 *in);
 void G3D_LIGHT_GetColor(struct LightSlot *slots, u8 i, u16 *out);
 void G3D_LIGHT_SetColor(struct LightSlot *slots, u32 i, u16 *in);
 /* END mkheaders: generated region */

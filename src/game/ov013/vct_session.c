@@ -39,17 +39,17 @@
  */
 #include "vct_types.h"
 
-extern u64 OS_GetTick(void);
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 
-extern int DWC_SendReliable(u8 aid, void *buffer, s32 size);
+#include "../ov009/dwc_transport.h"
 
-extern void *MSL_C_LIB_MemsetPtr(void *, int, unsigned int);
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
 
-extern int VCT_SESSION_FreePeerRecord(VctPeer *peer);
+#include "vct_audio.h"
 
-extern int VCT_SESSION_BuildGroupCommand(void *a, unsigned int b, unsigned char *buf, unsigned int c);
 
-extern int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int command, unsigned char *buf, unsigned int length);
 
 void VCT_SESSION_CheckAnnounceTimeout(void);
 
@@ -312,12 +312,12 @@ int VCT_SESSION_AdvancePhase(VctPeer *peer, VctPacket *packet)
     case -1:
         return next;
     case -2:
-        VCT_SESSION_SendReply((int)peer, 1);
+        VCT_SESSION_SendReply((sptr)peer, 1);
         peer->phase = 0;
         peer->mode = 0;
         return next;
     case -3:
-        VCT_SESSION_SendReply((int)peer, 3);
+        VCT_SESSION_SendReply((sptr)peer, 3);
         peer->phase = 0;
         peer->mode = 0;
         return next;
@@ -361,9 +361,9 @@ int VCT_SESSION_CheckCommandAllowed(VctPeer *peer, const VctPacket *packet)
     if ((int)column < 0)
         return -1;
     if (gVctSession.mode == 1)
-        next = lookup((u32)gVctHostAllowTable, peer->phase, column);
+        next = lookup((uptr)gVctHostAllowTable, peer->phase, column);
     else
-        next = lookup((u32)gVctClientAllowTable, peer->phase, column);
+        next = lookup((uptr)gVctClientAllowTable, peer->phase, column);
     if (next == -1)
         return 1;
     if (next == -2)
@@ -423,7 +423,7 @@ int VCT_SESSION_HandlePairedPacket(VctPacket *packet, VctEvent *event)
     peer = VCT_SESSION_AllocPeer(packet->srcId);
     if (peer == 0) {
         VCT_SESSION_InitPeer(&gVctPeerPool.rejectPeer, packet->srcId);
-        VCT_SESSION_SendReply((int)&gVctPeerPool.rejectPeer, 3);
+        VCT_SESSION_SendReply((sptr)&gVctPeerPool.rejectPeer, 3);
         return 0;
     }
     next = VCT_SESSION_AdvancePhase(peer, packet);
@@ -517,11 +517,11 @@ int VCT_SESSION_HandleUnknownProtocolPacket(VctPacket *packet, VctEvent *event)
         event->code = 2;
         event->peer = peer;
         peer->mode = 0;
-        VCT_SESSION_SendReply((int)peer, 2);
+        VCT_SESSION_SendReply((sptr)peer, 2);
         return 1;
     }
     VCT_SESSION_InitPeer(&gVctPeerPool.rejectPeer, packet->srcId);
-    VCT_SESSION_SendReply((int)&gVctPeerPool.rejectPeer, 2);
+    VCT_SESSION_SendReply((sptr)&gVctPeerPool.rejectPeer, 2);
     return 0;
 }
 

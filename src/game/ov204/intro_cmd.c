@@ -111,137 +111,92 @@ typedef enum { B_FALSE, B_TRUE } Bool;
 
 typedef struct {u16 v[12];} IntroActorPos;
 
-extern void FADE_Start(unsigned,int,int,int);
+#include "../arm9/fade.h"
 
-extern int FADE_IsActive(void);
 
-extern void BRIGHTNESS_Set(u32 brightness, u32 plane, u32 mask);
+#include "../arm9/brightness.h"
 
-extern void BRIGHTNESS_ChangeRequest(unsigned short steps, short from, short to, unsigned int plane, unsigned int mask);
 
-extern int BRIGHTNESS_IsFinished(int a);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
+#include "../arm9/gfl_use.h"
 
-extern int GFL_USE_IsBgmPlaying(void);
 
-extern void GFL_USE_FadeOutBgm(u32 a);
 
-extern void GFL_USE_FadeInBgmFull(u32 a);
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned),GFL_USE_SetSeSlotVolume(int,unsigned),GFL_USE_SetSeSlotParams(int,unsigned,unsigned,unsigned);
 
-extern int GFL_USE_GetSeSlot(unsigned);
 
-extern void GFL_USE_StopSeSlot(int);
 
-extern int TOUCHPANEL_GetTrg(void);
+#include "../arm9/touchpanel.h"
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i);
+#include "intro_g3d.h"
 
-extern void INTRO_G3D_SetSlotMepachi(u8 *p, u8 index, int flag);
 
-extern void INTRO_G3D_SetVanishFlag(u8 *p, int flag, u8 index);
 
-extern void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned int v);
 
-extern unsigned INTRO_G3D_GetSlotAnimFinished(char *,unsigned char);
 
-extern void INTRO_G3D_ClearSlotAnimFinished(u8 *p, u8 index);
 
-extern int INTRO_G3D_MoveSlot(char *p, unsigned int i, int step, int limit);
 
-extern void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha);
 struct SaveControlIntr;
 
-extern void SAVE_CONTROL_INTR_Start(struct SaveControlIntr *intr);
+#include "../ov088/save_control_intr.h"
 
-extern void SAVE_CONTROL_INTR_Pause(struct SaveControlIntr *intr);
 
-extern int SAVE_CONTROL_INTR_IsPausedOrFinished(struct SaveControlIntr *intr);
 
-extern void SAVE_CONTROL_INTR_Resume(struct SaveControlIntr *intr);
 
-extern void SAVE_CONTROL_INTR_NoOp(int);
 
-extern int SAVE_CONTROL_INTR_IsFinished(struct SaveControlIntr *intr);
 
-extern void CONFIG_SetTextLanguage(u16*,u32);
+#include "../arm9/config.h"
 
 extern void MYSTATUS_SetSex(struct IntroGameState*,u32);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32);
 
-extern int  GFL_USE_IsAnySeBusy(void);
 
-extern int PM_VOICE_Start(u32 idx);
+#include "../arm9/pm_voice.h"
 
-extern u32 PM_VOICE_IsSlotActive(u32 i);
 
-extern int INTRO_G3D_MoveSlot1(char *p, int delta, int limit);
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/g2.h"
 
-extern void INTRO_PARTICLE_StartEffect(u32*,u32,u32,u32);
+#include "intro_particle.h"
 
-extern void INTRO_G3D_SetVisible(char *p, int v);
 
-extern void INTRO_G3D_SetAnimFrame(char *p, unsigned value);
 
-extern int INTRO_G3D_UpdateIntro(char*);
 
-extern void INTRO_G3D_SetAnimMode(char *,u32);
 
-extern int INTRO_G3D_UpdateAnimMode(char *);
 
-extern int INTRO_G3D_UpdateAnimFrame(int *p);
 
-extern void BG_SYS_DrawTileSub(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
+#include "../arm9/bg_sys.h"
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void BG_SYS_MarkTileDirty(u32);
 
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 struct MyStatus;
 
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+extern u32 MYSTATUS_GetSex(const struct MyStatus *mystatus);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
+#include "../arm9/clact.h"
 
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern unsigned INTRO_GRAPHIC_GetClactOwner(char *p);
+#include "intro_graphic.h"
 
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern void CLACT_ReleaseCharacter(unsigned);
 
-extern void CLACT_ReleasePalette(unsigned);
 
-extern void CLACT_ReleaseCellAnim(unsigned);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
-extern u32 CLACT_GetActorObjMode(const struct Actor *actor);
 
-extern void WORDSET_SetSlotMyStatus(struct WordSet*,u32,void*);
+#include "../arm9/wordset.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
 int INTRO_CMD_CmdFade(char *p,int *state,int *q);
 
@@ -347,29 +302,19 @@ void INTRO_CMD_ClearCommand(IntroCmdWork *p, u8 i);
 
 IntroCommand *INTRO_CMD_GetScenarioRow(u32 n);
 
-char *INTRO_MSG_Create(u16 heap);
+#include "intro_msg.h"
 
-void INTRO_MSG_Delete(char *p);
 
-void INTRO_MSG_SetMsgBank(char *p, unsigned a, unsigned short b);
 
-void INTRO_MSG_Main(u8*p);
 
-void INTRO_MSG_PrintText(char *p, void *a, int flag);
 
-void INTRO_MSG_DrawWindowBorder(u8*p);
 
-u32 INTRO_MSG_GetPrintState(u8*p);
 
-int INTRO_MSG_UpdatePrint(char *a);
 
-int INTRO_MSG_GetWordSet(u8 *p);
 
-void INTRO_MSG_StartTimeIcon(u8 *p);
 
-void INTRO_MSG_DeleteTimeIcon(u8 *p);
 
-void INTRO_MCSS_AddSlot(char *p, unsigned int a, unsigned int b, unsigned int c, void *d, unsigned char i);
+#include "intro_mcss.h"
 
 extern const char gIntroMcssArg[];
 
@@ -560,7 +505,7 @@ int INTRO_CMD_CmdSaveResume(char *a)
 int INTRO_CMD_CmdSaveNoOp(char *a)
 {
     IntroCmdWork *work = (IntroCmdWork *)a;
-    SAVE_CONTROL_INTR_NoOp((int)work->saveControl);
+    SAVE_CONTROL_INTR_NoOp((void *)((int)work->saveControl));
     return 1;
 }
 
@@ -590,7 +535,7 @@ int INTRO_CMD_CmdSaveTimeIcon(char *p, int *state)
     return 0;
 }
 
-int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;u16*obj=(u16 *)((IntroArgs *)work->args)->appliedFlag;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;CONFIG_SetTextLanguage(obj,flag);return 1;}
+int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;u16*obj=(u16 *)((IntroArgs *)work->args)->appliedFlag;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;CONFIG_SetTextLanguage((struct Config *)obj,flag);return 1;}
 
 /*
  * prototype: 0200854C widened to u32: original has no byte truncation; its u8 prototype added a shift pair.
@@ -716,31 +661,31 @@ int INTRO_CMD_CmdDrawTile(IntroCmdWork *p,u32 *q)
     switch (*q) {
     case 0:
         BG_SYS_SetPlaneVisible(2,1);
-        BG_SYS_DrawTileSub(2,0,8,64,2,(u32)p->data,0,8,64,32);
+        BG_SYS_DrawTileSub(2,0,8,64,2,(const void *)((u32)p->data),0,8,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 1:
-        BG_SYS_DrawTileSub(2,0,7,64,1,(u32)p+0xA8,0,7,64,32);
-        BG_SYS_DrawTileSub(2,0,10,64,1,(u32)p->data,0,10,64,32);
+        BG_SYS_DrawTileSub(2,0,7,64,1,(const void *)((u32)p+0xA8),0,7,64,32);
+        BG_SYS_DrawTileSub(2,0,10,64,1,(const void *)((u32)p->data),0,10,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 2:
-        BG_SYS_DrawTileSub(2,0,6,64,1,(u32)p+0xA8,0,6,64,32);
-        BG_SYS_DrawTileSub(2,0,11,64,1,(u32)p->data,0,11,64,32);
+        BG_SYS_DrawTileSub(2,0,6,64,1,(const void *)((u32)p+0xA8),0,6,64,32);
+        BG_SYS_DrawTileSub(2,0,11,64,1,(const void *)((u32)p->data),0,11,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 3:
-        BG_SYS_DrawTileSub(2,0,5,64,1,(u32)p+0xA8,0,5,64,32);
-        BG_SYS_DrawTileSub(2,0,12,64,1,(u32)p->data,0,12,64,32);
+        BG_SYS_DrawTileSub(2,0,5,64,1,(const void *)((u32)p+0xA8),0,5,64,32);
+        BG_SYS_DrawTileSub(2,0,12,64,1,(const void *)((u32)p->data),0,12,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 4:
-        BG_SYS_DrawTileSub(2,0,4,64,1,(u32)p+0xA8,0,4,64,32);
-        BG_SYS_DrawTileSub(2,0,13,64,1,(u32)p->data,0,13,64,32);
+        BG_SYS_DrawTileSub(2,0,4,64,1,(const void *)((u32)p+0xA8),0,4,64,32);
+        BG_SYS_DrawTileSub(2,0,13,64,1,(const void *)((u32)p->data),0,13,64,32);
         BG_SYS_MarkTileDirty(2);
         *q=0;
         return 1;
@@ -813,7 +758,7 @@ int INTRO_CMD_CreateActors(char *p)
     local=gIntroActorPos;
     for(i=0;i<3;i++){
         row=p+i*4;
-        work->actor[i]=(void *)CLACT_CreateActor((void *)INTRO_GRAPHIC_GetClactOwner(work->display),(unsigned int)work->charHandle[i].ptr,(unsigned int)work->palHandle[i].ptr,(unsigned int)work->cellAnimHandle[i].ptr,(char *)&local+i*8,0,work->heapId);
+        work->actor[i]=(void *)CLACT_CreateActor((void *)INTRO_GRAPHIC_GetClactOwner((char *)work->display),(unsigned int)work->charHandle[i].ptr,(unsigned int)work->palHandle[i].ptr,(unsigned int)work->cellAnimHandle[i].ptr,(const struct ActorInitParam *)((char *)&local+i*8),0,work->heapId);
         CLACT_SetActorDrawEnable(work->actor[i],0);
     }
     return 1;

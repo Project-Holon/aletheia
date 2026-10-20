@@ -31,7 +31,7 @@
  */
 #include "b_plist_types.h"
 
-struct PalAnmSlot;
+struct PaletteFade;
 
 /* One row of the tile-dimension table d_02211A74: x, y, width and height. */
 typedef struct { u8 x, y, w, h; } TileDim;
@@ -39,19 +39,14 @@ typedef struct { u8 x, y, w, h; } TileDim;
 /* One window spec row of d_02211B14: six parameters of BMP_WIN_Create. */
 typedef struct { u8 a, b, c, d, e, f; } WinSpec;
 
-extern void MI_CpuCopy8(const void *,void *,u32);
-extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
-extern u32 B_PLIST_MAIN_IsBattleSlot(u32,u32);
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
-extern void BG_SYS_MarkTileDirty(u32);
-extern int B_PLIST_MAIN_GetSlotState(u8 *p, int i);
-extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern int B_PLIST_MAIN_PopSelectionPair(u8 *,u8 *,u8 *,int);
+#include "../arm9/mi_memory.h"
+#include "b_plist_main.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/palanm.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern void B_PLIST_DRAW_CreateStateWindows(u8 *, unsigned int);
+#include "../arm9/bmp_win.h"
+#include "b_plist_draw.h"
 void B_PLIST_ANM_CopyMonSpriteTiles(char *p,u16 *src);
 void B_PLIST_ANM_CopySubSpriteTiles(char *p,u16 *src);
 void B_PLIST_ANM_BlitTileRect(u16 *dst, u16 *src, int x, int y, u8 width, u8 height);
@@ -322,7 +317,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
 
 void B_PLIST_ANM_CopyPaletteSlot(unsigned char *p, u32 unused)
 {
-    PALANM_CopyToSlot((struct PalAnmSlot *)(((struct B_PlistWork *)p)->palAnm), ((struct B_PlistWork *)p)->palette, 1, 0xc0, 0x20);
+    PALANM_CopyToSlot((struct PaletteFade *)(((struct B_PlistWork *)p)->palAnm), ((struct B_PlistWork *)p)->palette, 1, 0xc0, 0x20);
 }
 
 /*

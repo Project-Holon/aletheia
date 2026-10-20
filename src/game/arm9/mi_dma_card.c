@@ -19,10 +19,9 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 #include "../sdk_os.h"
 
-#define REG_DMA0SAD_ADDR 0x040000B0
-#define REG_DMA0CNT_ADDR 0x040000B8
 #define MI_DMA_ENABLE    0x80000000
 #define MI_DMA_REGADDR(dmaNo, reg) (((dmaNo) * 12) + (reg))
 
@@ -42,12 +41,12 @@ void MIi_CardDmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size)
     vu32 *dmaCntp;
 
     MIi_CheckAnotherAutoDMA(dmaNo, 0xFFFFFFFF);
-    MIi_CheckDma0SourceAddress(dmaNo, (u32)src, size, 0x01000000);
+    MIi_CheckDma0SourceAddress(dmaNo, (uptr)src, size, 0x01000000);
 
     if (size == 0) {
         return;
     }
     dmaCntp = (vu32 *)(REG_DMA0SAD_ADDR + (dmaNo * 3 + 2) * 4);
     MIi_Wait(dmaCntp);
-    MIi_DmaSetParameters(dmaNo, (u32)src, (u32)dest, 0xAF000001, 0);
+    MIi_DmaSetParameters(dmaNo, (uptr)src, (uptr)dest, 0xAF000001, 0);
 }

@@ -37,34 +37,48 @@
 
 struct Strbuf;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern int GAME_BEACON_IsSpecialPokemon(u32 monsNo);
+#ifdef __MWERKS__
+extern int GAME_BEACON_IsSpecialPokemon(u32 monsNo); /* original prototype; the definition differs in argument width */
+#else
+#include "../arm9/game_beacon.h"
+#endif
 
-extern u32 GAME_BEACON_CheckActionPriority(u32 action);
 
-extern void GAME_BEACON_RequestSend(GameBeaconRecord *record);
 
-extern void GAME_BEACON_SetDetailsBattleWildPoke(GameBeaconInfo *info, u32 monsNo);
+#ifdef __MWERKS__
+extern void GAME_BEACON_SetDetailsBattleWildPoke(GameBeaconInfo *info, u32 monsNo); /* original prototype; the definition differs in argument width */
+#else
+#endif
 
-extern void GAME_BEACON_ResetDetails(GameBeaconInfo *info);
 
-extern void GAME_BEACON_SetDetailsBattleSpecialPoke(GameBeaconInfo *info, u32 monsNo);
+#ifdef __MWERKS__
+extern void GAME_BEACON_SetDetailsBattleSpecialPoke(GameBeaconInfo *info, u32 monsNo); /* original prototype; the definition differs in argument width */
+#else
+#endif
 
-extern void GAME_BEACON_SetDetailsBattleTrainer(GameBeaconInfo *info, u32 trainerId);
+#ifdef __MWERKS__
+extern void GAME_BEACON_SetDetailsBattleTrainer(GameBeaconInfo *info, u32 trainerId); /* original prototype; the definition differs in argument width */
+#else
+#endif
 
-extern void GAME_BEACON_SetDetailsBattleLeader(GameBeaconInfo *info, u32 trainerId);
+#ifdef __MWERKS__
+extern void GAME_BEACON_SetDetailsBattleLeader(GameBeaconInfo *info, u32 trainerId); /* original prototype; the definition differs in argument width */
+#else
+#endif
 
-extern void GAME_BEACON_SetDetailsBattleBigFour(GameBeaconInfo *info, u32 trainerId);
+#ifdef __MWERKS__
+extern void GAME_BEACON_SetDetailsBattleBigFour(GameBeaconInfo *info, u32 trainerId); /* original prototype; the definition differs in argument width */
+#else
+#endif
 
-extern void GAME_BEACON_CopyStrbufCodes(const struct Strbuf *str, u16 *dest);
 struct MiscSave;
 
-extern struct MiscSave *MISC_GetBlock(struct SaveControl *saveControl);
+#include "../arm9/beacon.h"
 
-extern const u16 *MISC_GetThanksMessage(struct MiscSave *beacon);
 
-extern void WORDSET_CopyString(const u16 *src, u16 *dest, u32 length);
+#include "../arm9/wordset.h"
 
 extern void STRBUF_ToChars(const struct Strbuf *str, u16 *dest, u32 length);
 

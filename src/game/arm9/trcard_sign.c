@@ -25,15 +25,6 @@
 
 /* ---- Save block 0x21: trainer card signature and badge dates (0x658) ---- */
 
-/* The date a badge was won; the fourth byte is read back with the other three
- * as one word but never written here. */
-struct BadgeDate {
-    u8 year;
-    u8 month;
-    u8 day;
-    u8 reserved;
-};
-
 struct TrainerCardSignature {
     u32 signatureBitmap[384];       /* 0x600 bytes of drawn bitmap */
     u16 signatureColor;

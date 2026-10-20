@@ -165,6 +165,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "irc_screen_types.h"
+#include "../sdk_ioreg_reg.h"
 #include "../ov101/irc_appbar.h"
 
 /* Number of sprite slots the screen reserves (slot 30 stays unused). */
@@ -286,163 +287,72 @@ typedef struct IrcMenuWork {
     u32 flag;                        /* 0x4A0 set while the profile exchange runs */
 } IrcMenuWork;
 
-extern void GFL_HEAP_CreateChildHeap(u32 parentId, u32 heapId, u32 size);
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern void MI_CpuFill8(void *dest, int value, u32 size);
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
 struct GameSystem;
 struct GameComm;
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct BmpWin;
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
-extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
-extern void BG_SYS_ChangeCenter(u32 which, u32 op, u16 value);
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/bg_sys.h"
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern struct SaveControl *SAVE_CONTROL_Get(void);
+#include "../arm9/game_data.h"
+#include "../arm9/save_control.h"
 struct IrcRankSave;
-extern struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys, int value);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned heapId);
-extern void FADE_Start(u32, int, int, int);
-extern int FADE_IsActive(void);
-struct Actor;
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
-extern void BG_SYS_ClearGraphicsMemory(unsigned);
-extern void BG_SYS_SetLcdSwap(unsigned);
-extern void BG_SYS_ResetSubDisplay(void);
+#include "../arm9/irc_ranking.h"
+#include "../arm9/gfl_use.h"
+#include "../ov101/compatible_irc_sys.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/fade.h"
+struct ClactActor;
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/clact.h */
+#ifdef __MWERKS__
+#define CLACT_SetActorAnimSeq CLACT_SetActorAnimSeq_header
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+#undef CLACT_SetActorAnimSeq
+void CLACT_SetActorAnimSeq(struct ClactActor *actor, u32 value);
+#endif
 struct DispVram;
-extern void BG_SYS_SetVramBanks(struct DispVram *banks);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*task)(unsigned, void *), void *work, unsigned priority);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void BG_SYS_Create(u16);
-extern void BMP_WIN_Init(u16);
-extern void BG_SYS_SetGraphicsMode(const void *config);
-extern void BG_SYS_InitBgLayer(u32 bgId, const void *template, u32 type);
-extern void BG_SYS_FreeSlot(u8);
-extern void BG_SYS_SetPlaneVisible(u8, u8);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
-extern void BG_SYS_Init(u32, u32, u32, u32);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_FreeTiles(unsigned, unsigned, unsigned);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern void BG_SYS_Update(void);
+struct TcbTask;
+#include "../arm9/tcb_list.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(void *unit);
-extern void BG_SYS_SetMainPlaneVisible(u32, u32);
-extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
-extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
-extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
-extern void *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleasePalette(unsigned);
-extern void CLACT_ReleaseCharacter(unsigned);
-extern void CLACT_ReleaseCellAnim(unsigned);
-extern u32 CLACT_DeleteUnit(void *unit);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
-extern void GF_FONT_InitTextColor(void);
+#include "../arm9/gf_font.h"
 struct GfFont;
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
+#include "../arm9/printsys.h"
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 struct WordSet;
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned, unsigned, unsigned, unsigned, unsigned, u16);
-extern u32 WORDSET_Delete(struct WordSet *words);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+#include "../arm9/wordset.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_PushTile(u32 bgLayer);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
-extern u32 PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void COMPATIBLE_IRC_SYS_ResetStep(IrcSys *sys);
-extern int COMPATIBLE_IRC_SYS_StepStartSession(IrcSys *sys);
-extern int COMPATIBLE_IRC_SYS_StepConnectChild(IrcSys *sys);
-extern int COMPATIBLE_IRC_SYS_StepSyncTiming(IrcSys *sys);
-extern int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys, int value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct IrcSys;
-extern int COMPATIBLE_IRC_SYS_StepSendProfile(struct IrcSys *sys, s32 resource);
-extern int COMPATIBLE_IRC_SYS_SendProfileRequest(IrcSys *sys, u32 elapsed, u32 choice);
-extern void COMPATIBLE_IRC_SYS_GetPartnerProfile(IrcSys *sys, IrcCompatibleProfile *out);
-extern int COMPATIBLE_IRC_SYS_PollProfileRequest(IrcSys *sys);
-extern int COMPATIBLE_IRC_SYS_SendProfileAck(IrcSys *sys);
-extern int COMPATIBLE_IRC_SYS_PollProfileAck(IrcSys *sys);
-extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
-extern int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void *MET_TRAINERS_GetFromSave(void *saveControl);
+#include "../arm9/met_trainers_savedata.h"
 struct MyStatus;
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 struct MetTrainersSave;
-extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, u32 value);
-extern unsigned long long OS_GetTick(void);
-extern void COMPATIBLE_IRC_SYS_ClearValues(IrcSys *sys);
-extern int COMPATIBLE_IRC_SYS_StepShutdown(IrcSys *sys);
-extern int COMPATIBLE_IRC_SYS_IsPartnerReady(IrcSys *sys);
+#include "../arm9/os_tick.h"
 struct ButtonMan;
-extern struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*callback)(u16, int, struct IrcButtons *), s32 arg, s32 heap);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void GF_FONT_SetTextColor(u32, u32, u32);
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
-extern int BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
-extern void BG_SYS_FillTileMap(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 palette);
-extern void BG_SYS_ChangeScroll(u32 which, u32 op, u32 value);
-extern void CLACT_SetActorAnimSeq(void *actor, int seq);
-extern void CLACT_AddActorSurfacePos(void *actor, const void *delta, u32 which);
-extern u32 GFL_USE_GetRandomBelow(u32 range);
-extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
-extern s32 IRC_RANKING_GetEntryCount(struct IrcRankSave *rank);
-extern u32 IRC_RANKING_GetEntryGender(struct IrcRankSave *rank, u32 index);
+#include "../arm9/button_man.h"
 
 extern u32 IRC_COMPATIBLE_MENU_ButtonRows[];
 extern unsigned IRC_COMPATIBLE_MENU_VramBankConfig[];
-extern u32 IRC_COMPATIBLE_MENU_BgDisplayConfig[], IRC_COMPATIBLE_MENU_BgLayerIds[], IRC_COMPATIBLE_MENU_BgLayerTypes[];
-extern const u32 IRC_COMPATIBLE_MENU_BgTemplates[][8];
+extern struct DispConfig IRC_COMPATIBLE_MENU_BgDisplayConfig;
+extern u32 IRC_COMPATIBLE_MENU_BgLayerIds[], IRC_COMPATIBLE_MENU_BgLayerTypes[];
+extern const struct BgTemplate IRC_COMPATIBLE_MENU_BgTemplates[];
 extern char gClActorInitParam[];
 
 int IRC_COMPATIBLE_MENU_ProcInit(void *proc, int unused, IrcMenuArgs *args);
@@ -453,10 +363,10 @@ void IRC_COMPATIBLE_MENU_ExitDisplay(IrcMenuWork *work);
 void IRC_COMPATIBLE_MENU_DrawSprites(IrcMenuWork *work);
 void *IRC_COMPATIBLE_MENU_GetSprite(IrcMenuWork *work, int index);
 void *IRC_COMPATIBLE_MENU_GetSpriteUnit(IrcMenuWork *work);
-void IRC_COMPATIBLE_MENU_VBlankTask(unsigned taskId, void *work);
+void IRC_COMPATIBLE_MENU_VBlankTask(struct TcbTask *taskId, void *work);
 void IRC_COMPATIBLE_MENU_InitBackgrounds(IrcBgSetup *bg, u16 heapId);
 void IRC_COMPATIBLE_MENU_ExitBackgrounds(IrcBgSetup *bg);
-void IRC_COMPATIBLE_MENU_BackgroundVBlank(unsigned taskId, void *work);
+void IRC_COMPATIBLE_MENU_BackgroundVBlank(struct TcbTask *taskId, void *work);
 void IRC_COMPATIBLE_MENU_InitSprites(IrcMenuSprites *sprites, const void *config, u16 heapId);
 void IRC_COMPATIBLE_MENU_ExitSprites(IrcMenuSprites *sprites);
 void IRC_COMPATIBLE_MENU_DrawSpriteSystem(void);
@@ -610,16 +520,16 @@ int IRC_COMPATIBLE_MENU_ProcMain(void *unused, u32 *state, int unused2, IrcMenuW
 void IRC_COMPATIBLE_MENU_InitDisplay(IrcMenuWork *work, u16 heapId)
 {
     MI_CpuFill8(work, 0, 0x94);
-    REG_BLDCNT_MAIN = 0;
-    REG_BLDCNT_SUB = 0;
-    REG_DISPCNT_MAIN &= ~0xe000;
-    REG_DISPCNT_SUB &= ~0xe000;
+    REG_BLDCNT = 0;
+    REG_DB_BLDCNT = 0;
+    REG_DISPCNT &= ~0xe000;
+    REG_DB_DISPCNT &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetLcdSwap(0);
     BG_SYS_ResetSubDisplay();
     BG_SYS_SetVramBanks((struct DispVram *)IRC_COMPATIBLE_MENU_VramBankConfig);
     IRC_COMPATIBLE_MENU_InitSprites(&work->sprites, IRC_COMPATIBLE_MENU_VramBankConfig, heapId);
-    work->vblankTask = (u32)GFL_USE_AddMainTask(IRC_COMPATIBLE_MENU_VBlankTask, work, 0);
+    work->vblankTask = (uptr)GFL_USE_AddMainTask(IRC_COMPATIBLE_MENU_VBlankTask, work, 0);
 }
 
 void IRC_COMPATIBLE_MENU_ExitDisplay(IrcMenuWork *work)
@@ -642,7 +552,7 @@ void *IRC_COMPATIBLE_MENU_GetSprite(IrcMenuWork *work, int index) { return IRC_C
 
 void *IRC_COMPATIBLE_MENU_GetSpriteUnit(IrcMenuWork *work) { return IRC_COMPATIBLE_MENU_SpriteSetGetUnit(&work->sprites); }
 
-void IRC_COMPATIBLE_MENU_VBlankTask(unsigned taskId, void *work) { IRC_COMPATIBLE_MENU_VBlankSpriteSystem(work); }
+void IRC_COMPATIBLE_MENU_VBlankTask(struct TcbTask *taskId, void *work) { IRC_COMPATIBLE_MENU_VBlankSpriteSystem(work); }
 
 void IRC_COMPATIBLE_MENU_InitBackgrounds(IrcBgSetup *bg, u16 heapId)
 {
@@ -651,10 +561,10 @@ void IRC_COMPATIBLE_MENU_InitBackgrounds(IrcBgSetup *bg, u16 heapId)
     void *arc;
     BG_SYS_Create(heapId);
     BMP_WIN_Init(heapId);
-    BG_SYS_SetGraphicsMode(IRC_COMPATIBLE_MENU_BgDisplayConfig);
+    BG_SYS_SetGraphicsMode(&IRC_COMPATIBLE_MENU_BgDisplayConfig);
     for (i = 0; i < 8; i++) {
         layer = IRC_COMPATIBLE_MENU_BgLayerIds[i];
-        BG_SYS_InitBgLayer((u8)layer, IRC_COMPATIBLE_MENU_BgTemplates[i], (u8)IRC_COMPATIBLE_MENU_BgLayerTypes[i]);
+        BG_SYS_InitBgLayer((u8)layer, &IRC_COMPATIBLE_MENU_BgTemplates[i], (u8)IRC_COMPATIBLE_MENU_BgLayerTypes[i]);
         BG_SYS_FreeSlot(layer);
         BG_SYS_SetPlaneVisible(layer, 1);
     }
@@ -672,7 +582,7 @@ void IRC_COMPATIBLE_MENU_InitBackgrounds(IrcBgSetup *bg, u16 heapId)
     BG_SYS_Init(5, 0, 1, 0);
     bg->charRange = ARC_UTIL_RegisterObjCharFromHandle(arc, 49, 5, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
-    bg->vblankTask = (u32)GFL_USE_AddMainTask(IRC_COMPATIBLE_MENU_BackgroundVBlank, bg, 0);
+    bg->vblankTask = (uptr)GFL_USE_AddMainTask(IRC_COMPATIBLE_MENU_BackgroundVBlank, bg, 0);
 }
 
 /*
@@ -691,7 +601,7 @@ void IRC_COMPATIBLE_MENU_ExitBackgrounds(IrcBgSetup *bg)
     BG_SYS_Delete();
 }
 
-void IRC_COMPATIBLE_MENU_BackgroundVBlank(unsigned taskId, void *work) { BG_SYS_Update(); }
+void IRC_COMPATIBLE_MENU_BackgroundVBlank(struct TcbTask *taskId, void *work) { BG_SYS_Update(); }
 
 /*
  * declaration: 0204ABF0 forwards the live result of int-returning 0204AC18; 0204B294 forwards the pointer result of 0204CFDC. Its fifth word is copied unchanged as 0204CFDC's request pointer.
@@ -702,7 +612,7 @@ void IRC_COMPATIBLE_MENU_InitSprites(IrcMenuSprites *sprites, const void *config
     int i;
     u16 position[4];
     MI_CpuFill8(sprites, 0, 0x90);
-    CLACT_InitSystem((struct SysInit *)gClActorInitParam, (struct DispVramCfg *)config, heapId);
+    CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam, (struct DispVramCfg *)config, heapId);
     sprites->res.unit = CLACT_CreateUnit(128, 0, heapId);
     CLACT_SetUnitDefaultRenderer(sprites->res.unit);
     BG_SYS_SetMainPlaneVisible(16, 1);
@@ -714,7 +624,7 @@ void IRC_COMPATIBLE_MENU_InitSprites(IrcMenuSprites *sprites, const void *config
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(position, 0, 8);
     for (i = 0; i < IRC_MENU_FLOATER_MAX; i++) {
-        sprites->actors[i] = CLACT_CreateActor(sprites->res.unit, sprites->res.characters, sprites->res.palette, sprites->res.cellAnim, position, 1, heapId);
+        sprites->actors[i] = CLACT_CreateActor(sprites->res.unit, sprites->res.characters, sprites->res.palette, sprites->res.cellAnim, (const struct ActorInitParam *)position, 1, heapId);
         CLACT_SetActorDrawEnable(sprites->actors[i], 0);
         CLACT_SetActorBgPriority(sprites->actors[i], 3);
         CLACT_SetActorAutoAnim(sprites->actors[i], 1);
@@ -722,7 +632,7 @@ void IRC_COMPATIBLE_MENU_InitSprites(IrcMenuSprites *sprites, const void *config
     position[0] = 129;
     position[1] = 104;
     position[2] = 15;
-    sprites->actors[IRC_MENU_SPRITE_FIGURE] = CLACT_CreateActor(sprites->res.unit, sprites->res.characters, sprites->res.palette, sprites->res.cellAnim, position, 1, heapId);
+    sprites->actors[IRC_MENU_SPRITE_FIGURE] = CLACT_CreateActor(sprites->res.unit, sprites->res.characters, sprites->res.palette, sprites->res.cellAnim, (const struct ActorInitParam *)position, 1, heapId);
     CLACT_SetActorDrawEnable(sprites->actors[IRC_MENU_SPRITE_FIGURE], 1);
     CLACT_SetActorBgPriority(sprites->actors[IRC_MENU_SPRITE_FIGURE], 2);
     CLACT_SetActorAutoAnim(sprites->actors[IRC_MENU_SPRITE_FIGURE], 0);
@@ -909,7 +819,7 @@ void IRC_COMPATIBLE_MENU_HandleStartTests(IrcMenuWork *work, u16 *state)
     case 3: IRC_COMPATIBLE_MENU_PrintMessage(&work->title, &work->text, 4, 0, 0); *state = 4; break;
     case 4: if (COMPATIBLE_IRC_SYS_StepSyncTiming(work->args->view)) *state = 5; break;
     case 5:
-        if (COMPATIBLE_IRC_SYS_StepSendProfile(work->args->view, (s32)work->args->gameSystem)) {
+        if (COMPATIBLE_IRC_SYS_StepSendProfile(work->args->view, (sptr)work->args->gameSystem)) {
             COMPATIBLE_IRC_SYS_GetPartnerProfile(work->args->view, work->args->profile);
             if (work->args->gameSystem) {
                 saveData = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->args->gameSystem)));
@@ -1077,7 +987,7 @@ void IRC_COMPATIBLE_MENU_InitButtons(IrcButtons *buttons, int bgLayer, const Irc
         buttons->bounds[i * 4 + 3] = (row->x + row->width) * 8 - 1;
     }
     buttons->bounds[i * 4] = 255;
-    buttons->buttonMan = BUTTON_MAN_Create(buttons->bounds, IRC_COMPATIBLE_MENU_ButtonCallback, (s32)buttons, heapId);
+    buttons->buttonMan = BUTTON_MAN_Create(buttons->bounds, (void (*)(s32, s32, s32))IRC_COMPATIBLE_MENU_ButtonCallback, (sptr)buttons, heapId);
     for (i = 0; i < buttons->count; i++) {
         row = rows + i;
         buttons->windows[i] = BMP_WIN_Create(bgLayer, (u8)(row->x + 4), (u8)(row->y + 1), (u8)(row->width - 8), row->height - 2, row->palette, 1);
@@ -1091,7 +1001,7 @@ void IRC_COMPATIBLE_MENU_InitButtons(IrcButtons *buttons, int bgLayer, const Irc
         width = PRINTSYS_MeasureWidestLine(label, IRC_COMPATIBLE_MENU_TextGetFont(text), 0);
         height = PRINTSYS_CountLines(label, IRC_COMPATIBLE_MENU_TextGetFont(text));
         bmp = BMP_WIN_GetBmp(buttons->windows[i]);
-        PRINTSYS_Print(bmp, (row->width - 8) * 4 - (width >> 1), (row->height - 2) * 4 - (height >> 1), label, IRC_COMPATIBLE_MENU_TextGetFont(text));
+        PRINTSYS_Print(bmp, (s16)((row->width - 8) * 4 - (width >> 1)), (row->height - 2) * 4 - (height >> 1), label, IRC_COMPATIBLE_MENU_TextGetFont(text));
         STRBUF_Delete(label);
         BMP_WIN_TransferChars(buttons->windows[i]);
     }
@@ -1239,11 +1149,12 @@ void IRC_COMPATIBLE_MENU_InitFloater(IrcFloater *floater, void *actor, int isSpe
     u16 offset[2];
     MI_CpuFill8(floater, 0, 0x1c);
     floater->actor = actor;
+    /* likely original mismatch: the sequence is passed wide, the ARM9 definition takes u16 */
     CLACT_SetActorAnimSeq(floater->actor, isSpecial != 0 ? 0xd : 0xc);
     IRC_COMPATIBLE_MENU_ResetFloaterPath(floater);
     offset[0] = (u16)floater->startX;
     offset[1] = (u16)floater->startY;
-    CLACT_AddActorSurfacePos(floater->actor, offset, 1);
+    CLACT_AddActorSurfacePos(floater->actor, (const struct ClactVec2 *)offset, 1);
     CLACT_SetActorDrawEnable(floater->actor, 1);
     CLACT_SetActorAnimFrame(floater->actor, GFL_USE_GetRandomBelow(0x2000));
 }
@@ -1272,7 +1183,7 @@ void IRC_COMPATIBLE_MENU_UpdateFloater(IrcFloater *floater)
     signY = diffY / magnitudeY;
     if (diffY < 0) diffY = -diffY;
     position[1] = startY + signY * (((u32)diffY * floater->step) / floater->duration);
-    CLACT_AddActorSurfacePos(floater->actor, position, 1);
+    CLACT_AddActorSurfacePos(floater->actor, (const struct ClactVec2 *)position, 1);
     if ((floater->step)++ > floater->duration) IRC_COMPATIBLE_MENU_ResetFloaterPath(floater);
 }
 

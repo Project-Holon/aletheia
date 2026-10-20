@@ -55,7 +55,11 @@ struct SaveControl;
 
 #include "gfl_heap_wrap.h"
 
-extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
+#ifdef __MWERKS__
+extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *sv, u32 id, u32 heap, void *buf, u32 size); /* original prototype; the definition takes the heap id as u8 and returns u32 */
+#else
+#include "save_control.h"
+#endif
 
 
 
@@ -159,7 +163,7 @@ char *BATTLE_EXAMINATION_GetTrainerSlot(char *base, u32 index)
  */
 void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
 {
-    u32 sv = (u32)GAME_DATA_GetSaveControl(gameData);
+    struct SaveControl *sv = GAME_DATA_GetSaveControl(gameData);
     void *buf = GFL_HEAP_Alloc(heap, 0x1000, 0, data_020A721C, 0x99);
 
     SAVE_CONTROL_LoadExtraSaveWithBuffer(sv, 5, heap, buf, 0x1000);
@@ -171,7 +175,7 @@ void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
         }
         OS_WaitIrq(1, 1);
     }
-    SAVE_CONTROL_DeleteExtraSaveBuffered((struct SaveControl *)sv, 5);
+    SAVE_CONTROL_DeleteExtraSaveBuffered(sv, 5);
     GFL_HEAP_Free(buf);
 }
 

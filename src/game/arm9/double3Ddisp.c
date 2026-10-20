@@ -31,6 +31,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 union OamEntry {
     u32 w[2];
@@ -45,10 +46,6 @@ struct Double3Ddisp {
     union OamEntry oam[12];
 };
 
-typedef int GXVRam;
-typedef int GXVRamBG;
-typedef int GXVRamOBJ;
-typedef int GXVRamTex;
 #include "gx_vramcnt.h"
 
 
@@ -150,7 +147,7 @@ void DOUBLE3DDISP_InitOam(void)
     s32 k;
     union OamEntry *oam;
 
-    REG32(0x04001000) = (REG32(0x04001000) & ~0x60) | 0x20;
+    REG32(REG_DB_DISPCNT_ADDR) = (REG32(REG_DB_DISPCNT_ADDR) & ~0x60) | 0x20;
 
     k = 0;
 
@@ -221,7 +218,7 @@ void DOUBLE3DDISP_SetDrawDone(void)
  */
 void DOUBLE3DDISP_Delete(void)
 {
-    if (*(volatile u16 *)0x04000606 != 0) {
+    if (*(volatile u16 *)REG_VERTEX_RAM_COUNT_ADDR != 0) {
         return;
     }
     if (gDouble3Ddisp->drawDone == 0) {
@@ -252,7 +249,7 @@ void DOUBLE3DDISP_Delete(void)
  */
 void DOUBLE3DDISP_SetupGraphics(void)
 {
-    u16 v = *(volatile u16 *)0x04000304;
+    u16 v = *(volatile u16 *)REG_POWCNT1_ADDR;
 
     *(volatile u16 *)0x04000304 = v | 0x8000;
     GX_ResetBankForSubOBJ();
@@ -285,7 +282,7 @@ void DOUBLE3DDISP_SetupGraphics(void)
  */
 void DOUBLE3DDISP_SetupGraphicsSubObj(void)
 {
-    u16 v = *(volatile u16 *)0x04000304;
+    u16 v = *(volatile u16 *)REG_POWCNT1_ADDR;
 
     *(volatile u16 *)0x04000304 = (u16)(v & ~0x8000);
     GX_ResetBankForSubBG();

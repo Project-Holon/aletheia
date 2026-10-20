@@ -28,18 +28,6 @@ typedef struct FieldGimmickModelsAWork {
 } FieldGimmickModelsAWork;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
-extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
-extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern int ZONEDATA_CheckEventFlag(struct EventWork *eventWork, int flagId);
-extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
-extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
-extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, u16 modelIndex);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
+#include "../ov021/fld_exp_obj.h"
 
 #endif

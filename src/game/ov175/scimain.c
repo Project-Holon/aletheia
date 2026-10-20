@@ -52,11 +52,9 @@ typedef enum SCITeamResult {
     SCITeamResult_BAD = 1
 } SCITeamResult;
 
-extern void gsifree(void *ptr);
-extern void GSMD5Init(GSMD5_CTX *context);
-extern void GSMD5Update(GSMD5_CTX *context, unsigned char *input, unsigned int inputLen);
-extern void GSMD5Final(unsigned char *digest, GSMD5_CTX *context);
-extern int wsLoginCertIsValid(GSLoginCertificate *theCertificate);
+#include "../ov009/gsmemory.h"
+#include "../ov009/md5c.h"
+#include "authservice.h"
 
 /*
  * scInitialize: creates and initialises the interface, stores the game id in

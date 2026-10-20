@@ -55,59 +55,54 @@ struct SaveData;
 
 #include "wifilist_types.h"
 
-extern int GFL_NET_GetGameKind(void);
+#ifdef __MWERKS__
+extern int GFL_NET_GetGameKind(void); /* original prototype; the definition differs in return type */
+#else
+#include "net.h"
+#endif
 
-extern int DWC_IsEqualFriendData(void *friendA, void *friendB);
+#include "dwc_account.h"
 
-extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 
+#ifdef __MWERKS__
 extern u32 GFL_NET_GetWifiUserData(void);
-
 extern u32 GFL_NET_GetFriendList(void);
-
 extern u32 GFL_NET_GetFriendListNum(void);
+#endif
 struct WifiList;
 
-extern struct WifiList *WIFILIST_GetWork(struct WifiList *list);
+#include "wifilist.h"
 
-extern DWCFriendData *WIFILIST_GetDwcFriendData(struct WifiList *list, int index);
 
-extern u32 WIFILIST_CountFriends(struct WifiList *list);
 
-extern int  DWC_CheckFriendKey(struct DWCstAccUserData *userdata, u64 friendKey);
 
-extern void DWC_CreateFriendKeyToken(void *token, u64 friend_key);
 
-extern int  DWC_IsValidFriendData(const void *friendData);
 
-extern void  MI_CpuCopy8(void *dst, const void *src, u32 size);
+#include "mi_memory.h"
 struct Strbuf;
 
-extern struct Strbuf *MYSTATUS_CreateNameStrbuf(unsigned short *name, int heap_id);
+#include "mystatus.h"
 struct MyStatus;
 
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 
-extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
 
-extern void WIFILIST_SetFriendInfoField(struct WifiList *list, unsigned int index, unsigned int field, unsigned int value);
 struct U16Vec;
 
-extern void WIFILIST_StoreFriendNameFromStrbuf(struct WifiList *list, int index, struct U16Vec *dest);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "strbuf.h"
 struct GameData;
 struct FieldState;
 
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
+#include "game_data.h"
 
-extern int WIFILIST_IsFriendDataValid(struct WifiList *list, u32 index);
 
-extern u32 GFL_NET_Main();
+#ifdef __MWERKS__
+extern u32 GFL_NET_Main(); /* original prototype; the DS passes an argument the definition does not take */
+#else
+#define GFL_NET_Main(unused) (GFL_NET_Main)()
+#endif
 
 int GFL_NET_ERR_PollNetState(void);
 

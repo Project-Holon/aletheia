@@ -1,5 +1,5 @@
 /*
- * function: DWCi_TSKlDeleteByIndex
+ * function: DWCi_TSKlDeleteEx
  * address:  0x021D7744
  * packet:   pkt_021D7474
  * region:   ov016
@@ -10,21 +10,21 @@
  * status:   EXACT
  *
  * symbols:
- *   DWCi_TSKlDeleteByIndex   0x021D7744  arm
+ *   DWCi_TSKlDeleteEx   0x021D7744  arm
  *
  * ARM tail-call thunk into func_021D7750.
  * Addresses are Black-image addresses.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/DWCi_TSKlDeleteByIndex.c \
- *       --func DWCi_TSKlDeleteByIndex --addr 0x021D7744 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_TSKlDeleteEx.c \
+ *       --func DWCi_TSKlDeleteEx --addr 0x021D7744 --region ov016 --cc dsi/1.1p1 --arm
  */
 
 typedef unsigned int   u32;
 struct StructR4;
 extern void func_021D7750(u32 idx, struct StructR4 *r4);
 
-void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4)
+void DWCi_TSKlDeleteEx(unsigned int idx, void *r4)
 {
     func_021D7750(idx, r4);
 }

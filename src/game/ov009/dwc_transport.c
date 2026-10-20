@@ -70,6 +70,18 @@
  *   DWCi_ProcessMatchSynPacket  0x0216EC4C arm
  *   gt2GetOutgoingBufferFreeSpace     0x02195E50 arm
  */
+#include "dwc_match.h"
+#ifdef __MWERKS__
+/* The callers read the AID as an unmasked byte, so the original declaration returns a byte;
+   dwc_main.c defines the function with an int return. */
+#define DWCi_GetConnectionAID DWCi_GetConnectionAID_int
+#include "dwc_main.h"
+#undef DWCi_GetConnectionAID
+extern unsigned char DWCi_GetConnectionAID(void *connection);
+#else
+#include "dwc_main.h"
+#endif
+
 #include "../types.h"
 
 typedef struct {
@@ -110,17 +122,17 @@ typedef struct TransInfo {
     unsigned long connKeepAliveTime;
 } TransInfo;
 
-extern int DWCi_IsError(void);
+#include "../arm9/dwc_error.h"
 extern int DWC_IsValidAID(unsigned char aid);
 extern int DWCi_IsValidAID(unsigned char aid);
-extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+#include "../arm9/msl_string_str.h"
+#include "../arm9/mi_memory.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
 extern int DWCi_NodeInfoList_GetCount(void);
-extern unsigned long long OS_GetTick(void);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 extern void DWCi_InitReliableQueue(void);
-extern unsigned char DWCi_GetConnectionAID(void *connection);
 extern int DWC_GetAIDList(unsigned char **aidList);
 extern int DWC_IsServerMyself(void);
 extern int DWCi_IsServerChanging(void);
@@ -129,21 +141,12 @@ extern unsigned char DWC_GetMyAID(void);
 extern int DWCi_CloseConnectionHard(unsigned char aid);
 extern int DWCi_SendServerPolling(int immediate);
 extern unsigned char DWCi_GetServerOrSubServerAID(void);
-extern int DWCi_ProcessReliableQueue(void);
-extern int DWCi_IsReliableQueueFree(void);
-extern void DWCi_CleanupReliableQueue(char *p);
-extern int DWCi_ProcessReliableQueue(void);
-extern int gt2Send(void *connection, unsigned char *buffer, int size, int reliable);
-extern int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size);
-extern void DWCi_SetError(int kind, int code);
+#include "dwc_reliable.h"
+#include "gt2main.h"
 extern void *DWCi_GetGT2Connection(unsigned char aid);
-extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
-extern void *DWC_Alloc(int name, unsigned long size);
-extern void DWC_Free(int name, void *ptr, unsigned int size);
-extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+#include "../arm9/dwc_memfunc.h"
 extern void DWCi_HandleGT2UnreliableMatchCommandMessage(void *data, int len);
 extern void DWCi_ProcessMatchSynPacket(unsigned char aid, unsigned short type, unsigned char *data);
-extern int gt2GetOutgoingBufferFreeSpace(int *p);
 extern TransInfo *gDwcTransInfo;
 extern char gDwcTransHeaderMagic[];
 extern char gDwcTransForwardMagic[];
@@ -605,7 +608,7 @@ void DWCi_SendUnreliable(unsigned char aidFrom, unsigned char aidTo, unsigned ch
         if (DWC_IsServerMyself())
             return;
         connection = DWCi_GetGT2Connection(
-            *(unsigned char *)(DWCi_NodeInfoList_GetNodeInfoForIndex(0) + 0x16));
+            *((unsigned char *)DWCi_NodeInfoList_GetNodeInfoForIndex(0) + 0x16));
         if (connection == 0)
             return;
         bNeedFoward = 1;

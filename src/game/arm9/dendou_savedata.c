@@ -81,19 +81,6 @@ struct PartyRingSave {
     u32 recordCount;          /* +0x1558 saturating total, stops at 9999 */
 };
 
-/* An exported party record: two string buffers and the copied fields. */
-struct RecordTarget {
-    void *nicknameStr;  /* +0x00 */
-    void *otNameStr;    /* +0x04 */
-    u32   pid;          /* +0x08 */
-    u32   experience;   /* +0x0c */
-    u16   species;      /* +0x10 */
-    u8    level;        /* +0x12 */
-    u8    form : 6;     /* +0x13 */
-    u8    gender : 2;
-    u16   traits[4];    /* +0x14 */
-};
-
 /* The date unpacked from a struct DendouRec at +0x168. */
 struct RecordDate {
     u32 year;
@@ -111,6 +98,7 @@ struct Party;
 #include "pokeparty.h"
 
 #include "strbuf.h"
+#include "dendou_savedata.h"
 
 
 
@@ -220,9 +208,9 @@ void DENDOU_SAVEDATA_SetRecord(struct DendouRec *rec, void *party, struct Date *
             e->traits[2] = POKE_TOOL_GetPartyValue(mon, 0x38, 0);
             e->traits[3] = POKE_TOOL_GetPartyValue(mon, 0x39, 0);
             if (buf != 0) {
-                POKE_TOOL_GetPartyValue(mon, 0x73, (u32)buf);
+                POKE_TOOL_GetPartyValue(mon, 0x73, (uptr)buf);
                 STRBUF_ToChars(buf, e->name, 11);
-                POKE_TOOL_GetPartyValue(mon, 0x8d, (u32)buf);
+                POKE_TOOL_GetPartyValue(mon, 0x8d, (uptr)buf);
                 STRBUF_ToChars(buf, e->ot, 8);
             } else {
                 e->name[0] = STRBUF_GetEosChar();
@@ -405,7 +393,7 @@ void DENDOU_SAVEDATA_ExportRingMember(void *ring, u32 index, void *recordIndex, 
 
     if (slot < 0)
         slot += 0xf;
-    DENDOU_SAVEDATA_ExportMember((const struct DendouEntry *)((u8 *)ring + slot * 0x16c), (int)recordIndex, target);
+    DENDOU_SAVEDATA_ExportMember((const struct DendouEntry *)((u8 *)ring + slot * 0x16c), (sptr)recordIndex, target);
 }
 
 /*

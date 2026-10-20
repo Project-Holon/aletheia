@@ -33,6 +33,7 @@
  *   GX_SetBankForClearImage 0x020804E8  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef void (*MIDmaCallback)(void *);
 
@@ -54,10 +55,6 @@ typedef struct {
     u16 szBlk1;
 } GXTexStartAddr;
 
-typedef int GXVRam;
-typedef int GXVRamBG;
-typedef int GXVRamOBJ;
-typedef int GXVRamTex;
 #include "gx_vramcnt.h"
 #include "../twl/mi_ndma.h"
 #include "mi_dma.h"
@@ -84,7 +81,7 @@ extern int g_02150E2C;
 static inline void MI_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size)
 {
     if (dmaNo > 3) {
-        MI_NDmaCopy((int)(dmaNo - 4), (int)src, (int)dest, size);
+        MI_NDmaCopy((int)(dmaNo - 4), (sptr)src, (sptr)dest, size);
     } else {
         MIi_DmaCopy32(dmaNo, src, dest, size, 1);
     }
@@ -93,7 +90,7 @@ static inline void MI_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size
 static inline void MI_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg)
 {
     if (dmaNo > 3) {
-        MI_NDmaCopyAsync(dmaNo - 4, (unsigned int)src, (unsigned int)dest, (unsigned int)size, callback, (unsigned int)arg);
+        MI_NDmaCopyAsync(dmaNo - 4, (uptr)src, (uptr)dest, (unsigned int)size, callback, (uptr)arg);
     } else {
         MIi_DmaCopy32Async(dmaNo, src, dest, size, callback, arg, 1);
     }
@@ -161,7 +158,7 @@ void GX_LoadTex(void *pSrc, u32 destSlotAddr, u32 szByte)
         sz = sClrImg.szTexBlk1 - destSlotAddr;
         pLCDC2 = (void *)sClrImg.texLCDCBlk2;
         GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)(sClrImg.texLCDCBlk1 + destSlotAddr), sz);
-        GXi_DmaCopy32Async(GXi_DmaId, (void *)((u32)pSrc + sz), pLCDC2, szByte - sz, 0, 0);
+        GXi_DmaCopy32Async(GXi_DmaId, (void *)((uptr)pSrc + sz), pLCDC2, szByte - sz, 0, 0);
         return;
     }
     GXi_DmaCopy32Async(GXi_DmaId, pSrc, pLCDC, szByte, 0, 0);
@@ -213,7 +210,7 @@ void GX_BeginLoadClearImage(void)
     switch (fmt) {
     case 2:
     case 3:
-        sClrImg.clrImgLCDCBlk = 0x06800000;
+        sClrImg.clrImgLCDCBlk = HW_LCDC_VRAM;
         break;
     case 8:
     case 12:

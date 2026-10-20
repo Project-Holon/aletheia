@@ -327,7 +327,7 @@ void ISS_DUNGEON_SYS_Deactivate(IssDungeonSys *dungeon)
  */
 void ISS_DUNGEON_SYS_SelectRecord(IssDungeonSys *dungeon, u16 areaId)
 {
-    u32 found = (u32)ISS_DUNGEON_SYS_FindRecord(dungeon->table, areaId);
+    u32 found = (uptr)ISS_DUNGEON_SYS_FindRecord(dungeon->table, areaId);
 
     dungeon->record = (DungeonSoundRecord *)found;
     if (found != 0) {

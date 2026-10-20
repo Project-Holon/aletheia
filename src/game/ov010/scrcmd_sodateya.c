@@ -63,39 +63,32 @@ typedef struct DaycareEventWork {
     u16 *resultVar;             /* 0x10 */
 } DaycareEventWork;
 
-extern void *GAME_DATA_GetMyParty(const struct GameData *);
+#include "../arm9/game_data.h"
 struct Party;
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 struct GameSystem;
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *);
+#include "../arm9/gamesystem.h"
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *);
+#include "../arm9/zukan_save.h"
 
-extern u32 GFL_HEAP_Free(void *);
+#include "../arm9/gfl_heap_wrap.h"
 struct GameEvent;
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+#include "../arm9/field_status.h"
 struct FieldMap;
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
+#include "../ov021/event_fieldmap_control.h"
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+#include "../arm9/game_event.h"
 
-extern void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target);
 
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *);
 
-extern struct GameEvent *GAME_EVENT_Create(void *owner, void *, void *, u32 size);
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *);
 
 int SCRCMD_SODATEYA_RunPartyMenuEvent(void *event, u32 *seq, DaycareEventWork *work);
 

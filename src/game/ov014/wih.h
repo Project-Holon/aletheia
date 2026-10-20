@@ -37,7 +37,7 @@ void DWCi_MOV_WH_StateOutStartChildMP(WMStartMPCallback *arg);
 int WIH_StateInEndChildMP(void);
 int WIH_StateInEndChild(void);
 int WIH_StateInReset(void);
-int DWCi_MOV_WH_StateInSetMPData(u32 data, u32 size, u32 userCallback);
+int DWCi_MOV_WH_StateInSetMPData(u32 data, u16 size, u32 userCallback);
 void WIH_StateOutSetMPData(WihPortSendCallback *arg);
 void DWCi_MOV_WH_PortReceiveCallback(WihPortRecvCallback *arg);
 void WIH_SetGgid(u32 ggid);

@@ -36,9 +36,8 @@ struct FieldSubproc;
 /* ---- field sub-program manager ---- */
 struct TcbList;
 
-struct Tcb;
+struct TcbTask;
 
-typedef void (*TcbFunc)(struct Tcb *tcb, void *work);
 
 typedef void (*FieldSubprocFunc)(struct FieldSubproc *proc, void *fieldSys, void *work);
 
@@ -65,34 +64,28 @@ typedef struct FieldSubprocMgr {
 /* One running sub-program (0x18 bytes); updateTcb zero means the slot is free. */
 typedef struct FieldSubproc {
     FieldSubprocMgr *mgr;                 /* 0x00 */
-    struct Tcb *updateTcb;                /* 0x04 */
-    struct Tcb *drawTcb;                  /* 0x08 */
+    struct TcbTask *updateTcb;                /* 0x04 */
+    struct TcbTask *drawTcb;                  /* 0x08 */
     const FieldSubprocTemplate *tmpl;     /* 0x0C */
     void *work;                           /* 0x10 */
     int overlayId;                        /* 0x14 -1 none */
 } FieldSubproc;
 
-void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *file, unsigned short line);
+#include "../arm9/gfl_heap_wrap.h"
 
-u32 TCB_GetTaskOffset(u32 capacity);
+#include "../arm9/tcb_list.h"
 struct TcbSystem;
 
-struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void TCB_Main(struct TcbSystem *sys);
 
-int GF_OVERLAY_Load(s32 overlayId);
+#include "../arm9/gf_overlay.h"
 struct TcbTask;
 
-struct TcbTask *TCB_AddTask(struct TcbSystem *sys, TcbFunc fn, void *work, u32 priority);
 
-void TCB_DeleteTask(struct TcbTask *task);
 
-void GF_OVERLAY_Unload(int overlayId);
 
-void MI_CpuFill8(void *p, int v, int n);
+#include "../arm9/mi_memory.h"
 
 FieldSubprocMgr *FIELD_SUBPROC_MGR_Create(void *fieldSys, int heapId, int capacity);
 
@@ -102,9 +95,9 @@ void FIELD_SUBPROC_MGR_RunUpdate(FieldSubprocMgr *mgr);
 
 void FIELD_SUBPROC_MGR_RunDraw(FieldSubprocMgr *mgr);
 
-void FIELD_SUBPROC_UpdateTcb(struct Tcb *tcb, FieldSubproc *proc);
+void FIELD_SUBPROC_UpdateTcb(struct TcbTask *tcb, FieldSubproc *proc);
 
-void FIELD_SUBPROC_DrawTcb(struct Tcb *tcb, FieldSubproc *proc);
+void FIELD_SUBPROC_DrawTcb(struct TcbTask *tcb, FieldSubproc *proc);
 
 FieldSubproc *FIELD_SUBPROC_Start(int overlayId, FieldSubprocMgr *mgr, const FieldSubprocTemplate *tmpl);
 
@@ -154,14 +147,14 @@ void FIELD_SUBPROC_MGR_RunDraw(FieldSubprocMgr *mgr)
     TCB_Main((struct TcbSystem *)mgr->drawList);
 }
 
-void FIELD_SUBPROC_UpdateTcb(struct Tcb *tcb, FieldSubproc *proc)
+void FIELD_SUBPROC_UpdateTcb(struct TcbTask *tcb, FieldSubproc *proc)
 {
     if (proc->tmpl->update != 0) {
         proc->tmpl->update(proc, proc->mgr->fieldSys, proc->work);
     }
 }
 
-void FIELD_SUBPROC_DrawTcb(struct Tcb *tcb, FieldSubproc *proc)
+void FIELD_SUBPROC_DrawTcb(struct TcbTask *tcb, FieldSubproc *proc)
 {
     if (proc->tmpl->draw != 0) {
         proc->tmpl->draw(proc, proc->mgr->fieldSys, proc->work);
@@ -181,8 +174,8 @@ FieldSubproc *FIELD_SUBPROC_Start(int overlayId, FieldSubprocMgr *mgr, const Fie
             GF_OVERLAY_Load(overlayId);
         }
         proc->overlayId = overlayId;
-        proc->updateTcb = (struct Tcb *)TCB_AddTask((struct TcbSystem *)mgr->updateList, (TcbFunc)FIELD_SUBPROC_UpdateTcb, proc, tmpl->priority);
-        proc->drawTcb = (struct Tcb *)TCB_AddTask((struct TcbSystem *)mgr->drawList, (TcbFunc)FIELD_SUBPROC_DrawTcb, proc, tmpl->priority);
+        proc->updateTcb = (struct TcbTask *)TCB_AddTask((struct TcbSystem *)mgr->updateList, (TcbFunc)FIELD_SUBPROC_UpdateTcb, proc, tmpl->priority);
+        proc->drawTcb = (struct TcbTask *)TCB_AddTask((struct TcbSystem *)mgr->drawList, (TcbFunc)FIELD_SUBPROC_DrawTcb, proc, tmpl->priority);
         proc->mgr = mgr;
         proc->tmpl = tmpl;
         if (tmpl->workSize != 0) {

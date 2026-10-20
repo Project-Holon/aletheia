@@ -27,7 +27,7 @@
  *   sButtonPositionIndex  0x021da026  data
  *   sButtonPositions  0x021da010  data
  *   DWCi_CELLlGetPosition  0x021d5250  arm  ov016
- *   DWCi_TSKlSetParam  0x021d771c  arm  ov016
+ *   DWCi_TSKlChangeFunc  0x021d771c  arm  ov016
  *   DWCi_Coord2Rect  0x021D600C  arm  ov016
  *   DWCi_TPlCheckTrigger  0x021D696C  arm  ov016
  *   DWCi_CELLlGetObj  0x021D4FE0  arm  ov016
@@ -51,7 +51,7 @@ struct MEMBTN {
 
 typedef _Bool bool;
 
-typedef struct tagCOORD { unsigned short x, y; } COORD;
+#include "dwcutil_types.h"
 
 typedef struct { unsigned short l, t, r, b; } Rect;
 
@@ -61,26 +61,17 @@ typedef struct { unsigned short x, y; } Coord;
 
 typedef struct tagMEMBTN MEMBTN;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+#include "heap.h"
 extern void *DWCi_CEINlSetExCell(s32 lcd, s32 idx, bool head);
-extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
+#include "cell.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void DWCi_TSKlChangeFunc(int prm, void (*fn)(void *));
-extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
-extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
-struct TaskObj;
-extern void DWCi_TSKlSetParam(struct TaskObj *task, unsigned int param);
-extern void DWCi_Coord2Rect(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
-extern int DWCi_TPlCheckTrigger(u16 *a);
+#include "task.h"
+#include "foundation.h"
+#include "input.h"
 struct CellInfo;
 union GXOamAttr;
-extern union GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
-extern void DWCi_CEINlSet(s32 lcd, s32 idx, union GXOamAttr *obj);
-extern void DWCi_TSKlDelete(int kind, void *task);
+#include "cellinfo.h"
 struct CellInfo;
-extern void DWCi_CELLlDelete(struct CellInfo *p);
-extern void DWCi_HEAPlFree_(void **mem);
 void DWCi_BTNlInit(int kind);
 void DWCi_BTNlEnd(void);
 signed char DWCi_BTNlGet(void);
@@ -131,7 +122,7 @@ void DWCi_BTNlInit(int kind)
 void DWCi_BTNlEnd(void)
 {
     MemBtn->ended = 1;
-    DWCi_TSKlChangeFunc(MemBtn->task, DWCi_ButtonTaskEnd);
+    DWCi_TSKlChangeFunc((TCB *)MemBtn->task, (void (*)(void *, void *))DWCi_ButtonTaskEnd);
 }
 
 signed char DWCi_BTNlGet(void)
@@ -203,7 +194,7 @@ static void taskStart(void *task)
     if (y > 168)
         return;
     disp(168);
-    DWCi_TSKlSetParam(task, (unsigned int)taskStart1);
+    DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart1);
 }
 
 /*
@@ -215,7 +206,7 @@ static void taskStart1(void *task)
     gButtonWork->count++;
     if (gButtonWork->count >= 4) {
         gButtonWork->count = 0;
-        DWCi_TSKlSetParam(task, (unsigned int)taskMain);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskMain);
     }
 }
 
@@ -259,7 +250,7 @@ static void DWCi_ButtonTaskEnd(void *task)
     y += 4;
     disp(y);
     if (y >= 192)
-        DWCi_TSKlSetParam(task, (unsigned int)taskEnd1);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd1);
 }
 
 /*

@@ -32,6 +32,7 @@
  *   OSi_AllocateCardBus  0x02084E54  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -263,7 +264,7 @@ s32 OS_TryLockCartridge(u16 lockID)
  */
 void OSi_AllocateCartridgeBus(void)
 {
-    unsigned int v = *(volatile unsigned short *)0x04000204;
+    unsigned int v = *(volatile unsigned short *)REG_EXMEMCNT_ADDR;
 
     v &= ~0x80u;
     *(volatile unsigned short *)0x04000204 = (unsigned short)v;
@@ -307,7 +308,7 @@ s32 OS_TryLockCard(u16 lockID)
  */
 void OSi_AllocateCardBus(void)
 {
-    if (((*(volatile u16 *)0x04004010 & 0xC) >> 2) == 2) {
+    if (((*(volatile u16 *)REG_SCFG_MC_ADDR & 0xC) >> 2) == 2) {
         *(volatile u32 *)0x040001A4 |= 0x20000000;
     }
     *(volatile u16 *)0x04000204 = (u16)(*(volatile u16 *)0x04000204 & ~0x800);

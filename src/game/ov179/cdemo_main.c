@@ -43,25 +43,21 @@ struct Node;
 #include "../types.h"
 
 typedef struct {int m[4];} Mtx;
+union MtxFx22;
 
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern int CDEMO_WIPE_RunScript(char *p);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void GX_SetGraphicsMode(int,int,int);
-extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, unsigned int ang, const void *v1, const void *v2, u8 mode);
-extern void G2x_SetBGyAffine_(void *,const Mtx *,int,int,int,int);
-extern void *GFL_HEAP_Alloc(unsigned int,unsigned int,int,const char *,unsigned short);
-extern void GX_LoadBG2Scr(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GX_LoadBG3Scr(void *pSrc, unsigned int offset, unsigned int szByte);
-extern unsigned int GFL_HEAP_Free(void *p);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern int GFL_USE_AddMainTask(void *, int *, int);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "cdemo_wipe.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/gx.h"
+#include "../arm9/button_man.h"
+#include "../arm9/g2.h"
+#include "../arm9/gx_load2d.h"
+#include "../arm9/gfl_use.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c);
 int CDEMO_MAIN_Update(int a, int b, int c, int d);
 int CDEMO_MAIN_Destroy(void *p);
@@ -113,9 +109,9 @@ void CDEMO_MAIN_SetupScreen(char *unused)
  GX_SetGraphicsMode(1,5,0);
  *(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;
  *(volatile unsigned short *)0x0400000E=(*(volatile unsigned short *)0x0400000E&0x43)|0x4884;
- BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)(&m),0,(void *)0x1000,(void *)0x1000,0);
- G2x_SetBGyAffine_((void *)0x04000020,&m,0,0,0,0);
- G2x_SetBGyAffine_((void *)0x04000030,&m,0,0,0,0);
+ BUTTON_MAN_RotScaleMtx22((union MtxFx22 *)(&m),0,(s32)0x1000,0x1000,0);
+ G2x_SetBGyAffine_(0x04000020,(union MtxFx22 *)(&m),0,0,0,0);
+ G2x_SetBGyAffine_(0x04000030,(union MtxFx22 *)(&m),0,0,0,0);
  p=GFL_HEAP_Alloc(0x807F,0x18000,1,(const char *)d_021B6B00,0x5B);
  GX_LoadBG2Scr(p,0,0x18000);GX_LoadBG3Scr(p,0,0x18000);GFL_HEAP_Free(p);
  BG_SYS_SetMainPlaneVisible(0x13,0);BG_SYS_SetMainPlaneVisible(0xC,1);

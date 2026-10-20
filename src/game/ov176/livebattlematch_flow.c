@@ -136,7 +136,7 @@ struct Party;
 
 struct WordSet;
 
-struct Reg2;
+struct BattleCompetitionSave;
 
 struct Obj;
 
@@ -144,36 +144,31 @@ struct Rec1E;
 
 struct RecBig;
 
-struct Reg;
+struct Regulation;
 
 struct Entry;
 
-struct Link;
+struct GFLNetHandle;
 
 struct L0200ED54;
 
 struct MyStatus;
 
-extern void WIFIBATTLEMATCH_UTIL_InvokeCallback(FlowCallback *cb);
-extern void MI_CpuFill8(void *,int,unsigned);
+#include "../ov177/wifibattlematch_util.h"
+struct WifibattlematchCallback;
+                              
 
-extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
 
-extern void WIFIBATTLEMATCH_UTIL_DeleteCallback(int);
 
-extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **);
 
-extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
+#include "../ov177/wifibattlematch_graphic.h"
 
 #include "../arm9/gf_font.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 
-extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 
 #include "../arm9/gf_panic.h"
 
@@ -182,27 +177,25 @@ extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 #include "../types.h"
 #include "../arm9/battle_rec.h"
 
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+struct SaveControl;
+struct BattleCompetitionSave;
+struct BattleCompetitionSave;
 
-extern void *BATTLE_COMPETITION_GetFromSave(void *);
+#include "../arm9/regulation.h"
 
-extern struct RegulationCard *REGULATION_GetCard(struct RegulationCard *arr, u32 index);
+struct WifibattlematchMenuDesc;
+struct WifibattlematchMenu;
 
-extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(WifibattlematchMenuDesc *,u8,u8,u8,u32,int);
 
-extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(void *);
 
-extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(void *);
 
-extern void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int,int,u32);
+#include "../ov177/wifibattlematch_view.h"
 
-extern void *WORDSET_Create(u32,u32,u32);
+#include "../arm9/wordset.h"
 
-extern void *LIVEBATTLEMATCH_IRC_Create(int,int);
+#include "livebattlematch_irc.h"
 
-extern void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *,void *,u32);
 
-extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **,int);
 
 #include "../arm9/livebattlematch_savedata.h"
 
@@ -212,103 +205,64 @@ extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **,int);
 
 #include "digitalcardcheck.h"
 
-extern void WIFIBATTLEMATCH_VIEW_DeleteActorArray(int *p);
 
-extern void LIVEBATTLEMATCH_IRC_Delete(int *p);
 
-extern unsigned int WORDSET_Delete(struct WordSet *p);
 
-extern void LIVEBATTLEMATCH_IRC_NoOp(int);
 
-extern void WIFIBATTLEMATCH_VIEW_Noop(int);
 
-extern int WIFIBATTLEMATCH_VIEW_UpdatePokeList(unsigned char *, void *);
 
-extern int WIFIBATTLEMATCH_VIEW_UpdateRecordWindow(void *p, void *mgr);
 
-extern int WIFIBATTLEMATCH_VIEW_UpdatePartyWindow(char *p, void *q);
 
-extern s32 REGULATION_Card_GetValue(struct Reg2 *p, unsigned int id);
+struct BattleBoxSave;
 
-extern void * BATTLE_BOX_GetFromSave(void *);
+#include "../arm9/battle_box.h"
 
-extern void WIFIBATTLEMATCH_UTIL_SetRequest(unsigned int,unsigned int);
+struct RegulationParty;
 
-extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, unsigned int index);
 
-extern void REGULATION_Card_SetValue(struct Reg2 *p, unsigned int id, s32 value);
+struct GameData;
 
-extern int GAME_DATA_SaveStart(int);
 
-extern int GAME_DATA_SaveMain(u8 *);
 
-extern void WIFIBATTLEMATCH_UTIL_CommitRequest(unsigned int);
 
-extern unsigned int BATTLE_BOX_IsLocked(struct Obj *p, unsigned int mask);
 
-extern void LIVEBATTLEMATCH_IRC_CreateDelivery(char *,unsigned);
 
-extern int LIVEBATTLEMATCH_IRC_DeliveryMain(char *);
 
-extern int LIVEBATTLEMATCH_IRC_CheckError(u8 *p);
 
 #include "../arm9/key.h"
 
-extern void LIVEBATTLEMATCH_IRC_ClearState(int *);
 
-extern int LIVEBATTLEMATCH_IRC_DeliveryEnd(char *);
 
-extern unsigned int REGULATION_Card_IsCrcValid(struct Reg2 *p);
 
-extern void REGULATION_InitParty(struct Rec1E *p);
 
-extern void REGULATION_SetCard(struct RegulationCard *arr, unsigned int index, const struct RegulationCard *src);
 
-extern void * REGULATION_NoOp(void *);
+struct BoxMonGroup;
 
-extern int POKE_REGULATION_CheckParty(void *,void *,unsigned int *);
+                                    
 
-extern void * BATTLE_BOX_CreateParty(int,int);
 
-extern void BATTLE_BOX_SetLockFlags(struct Obj *p, unsigned int v);
 
-extern void REGULATION_BuildParty(int,int);
 
-extern unsigned int REGULATION_GetRuleValue(struct Reg *p, unsigned int id);
 
-extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
 
 #include "../arm9/gfl_use.h"
 
-extern int LIVEBATTLEMATCH_IRC_InitState(int *);
 
-extern int LIVEBATTLEMATCH_IRC_StartSession(unsigned *);
 
-extern void LIVEBATTLEMATCH_IRC_Exit(unsigned *);
 
-extern int LIVEBATTLEMATCH_IRC_WaitExit(int *);
 
-extern int LIVEBATTLEMATCH_IRC_SendRegulation(int,int);
 
-extern int LIVEBATTLEMATCH_IRC_TakeRegulation(char *,void **);
+struct GFLNetHandle;
 
-extern int POKE_REGULATION_GetDataSize(void);
 
-extern void MI_CpuCopy8(const void *,void *,unsigned int);
 
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
 
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
 
-extern unsigned int LIVEBATTLEMATCH_IRC_SendSyncValue(int unused, int a);
 
-extern int LIVEBATTLEMATCH_IRC_RecvSyncValue(u8 *p, const void *q);
 
-extern int LIVEBATTLEMATCH_IRC_ResetState(int *);
 
-extern int LIVEBATTLEMATCH_IRC_EndSession(int *);
 
 #include "../arm9/bg_sys.h"
 
@@ -316,7 +270,10 @@ extern int LIVEBATTLEMATCH_IRC_EndSession(int *);
 
 #include "../arm9/mystatus.h"
 
-u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u32 heap);
+#include "../arm9/game_data.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/poke_regulation.h"
+u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u16 heap);
 
 void LIVEBATTLEMATCH_FLOW_Delete(int *p);
 
@@ -354,7 +311,7 @@ extern const char d_0217E618[];
  * Note 2026-10-04 (wD2 lane12): byte-correct. Only unresolved relocation: LIVEBATTLEMATCH_SAVE_GetRecord (witness). Filed src/matched/arm9/LIVEBATTLEMATCH_SAVE_GetRecord.c (EXACT) this wave; it needs a manifest/shard so the witness exists, then this file re-verifies as EXACT with no C change.
  *   unsigned char *LIVEBATTLEMATCH_SAVE_GetRecord(unsigned char *p) { return p; }
  */
-u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u32 heap)
+u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u16 heap)
 {
     int size=0x109;
     u8 *p;
@@ -369,11 +326,11 @@ u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u32 heap)
     *(void **)(p+0x20)=MSGDATA_CreateFromArchive(0,2,0x3a,heap);
     *(void **)(p+0x24)=MSGDATA_CreateFromArchive(0,2,0xd2,heap);
     *(void **)(p+0x28)=GF_FONT_Create(0x17,3,0,0,heap);
-    *(int **)p=WIFIBATTLEMATCH_UTIL_CreateCallback((int)p,(int)LIVEBATTLEMATCH_FLOW_SelectPhase,heap);
+    *(int **)p=(s32 *)WIFIBATTLEMATCH_UTIL_CreateCallback((int)p,(int)LIVEBATTLEMATCH_FLOW_SelectPhase,heap);
     *(void **)(p+0xc)=LIVEBATTLEMATCH_IRC_Create(*(int *)(p+0x1b8),heap);
-    *(void ***)(p+0x1c)=WIFIBATTLEMATCH_VIEW_CreateActorArray((void *)WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int **)(p+0x1b4)),*(void **)(p+0x1b0),heap);
-    WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ***)(p+0x1c),0);
-    *(void **)(p+0x38)=REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))),1);
+    *(void ***)(p+0x1c)=WIFIBATTLEMATCH_VIEW_CreateActorArray((void *)WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int **)(p+0x1b4)),(void *)(*(void **)(p+0x1b0)),heap);
+    WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)(*(void ***)(p+0x1c)),0);
+    *(void **)(p+0x38)=REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))))),1);
     *(void **)(p+0x34)=(void *)LIVEBATTLEMATCH_SAVE_GetRecord((int)LIVEBATTLEMATCH_SAVE_GetFromSave(GAME_DATA_GetSaveControl(*(void **)(p+0x1b8))));
     *(void **)(p+0x30)=POKEPARTY_Create(heap);
     if(*(int *)(p+0x1a0)==0)UI_SetSoftResetInhibitGlobal(8);
@@ -388,18 +345,18 @@ void LIVEBATTLEMATCH_FLOW_Delete(int *p)
     DIGITALCARDCHECK_DeleteRecord2(p);
     WIFIBATTLEMATCH_VIEW_DeleteActorArray((int *)p[7]);
     LIVEBATTLEMATCH_IRC_Delete((int *)p[3]);
-    WIFIBATTLEMATCH_UTIL_DeleteCallback((int)((void *)p[0]));
+    WIFIBATTLEMATCH_UTIL_DeleteCallback(((void *)p[0]));
     GF_FONT_Delete((void *)p[10]);
-    MSGDATA_Delete((struct Rec *)p[9]);
-    MSGDATA_Delete((struct Rec *)p[8]);
+    MSGDATA_Delete((struct MsgBank *)p[9]);
+    MSGDATA_Delete((struct MsgBank *)p[8]);
     WORDSET_Delete((struct WordSet *)p[11]);
     GFL_HEAP_Free(p);
 }
 
 void LIVEBATTLEMATCH_FLOW_Release(int *p)
 {
-    WIFIBATTLEMATCH_UTIL_InvokeCallback((FlowCallback *)p[0]);
-    LIVEBATTLEMATCH_IRC_NoOp(p[3]);
+    WIFIBATTLEMATCH_UTIL_InvokeCallback((struct WifibattlematchCallback *)p[0]);
+    LIVEBATTLEMATCH_IRC_NoOp((void *)p[3]);
     WIFIBATTLEMATCH_VIEW_Noop(p[7]);
     if (p[4]) WIFIBATTLEMATCH_VIEW_UpdatePokeList((unsigned char *)p[4], (void *)p[0x6B]);
     if (p[5]) WIFIBATTLEMATCH_VIEW_UpdateRecordWindow((void *)p[5], (void *)p[0x6B]);
@@ -416,18 +373,18 @@ int LIVEBATTLEMATCH_FLOW_GetResult(int *p)
 void LIVEBATTLEMATCH_FLOW_SelectPhase(int p,int *state,char *q)
 {
     switch(((struct LiveBattleMatchWork *)q)->initMode) {
-    case 0: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Main); break;
+    case 0: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((struct WifibattlematchCallback *)p),(int)LIVEBATTLEMATCH_FLOW_Main); break;
     case 1:
-        if(REGULATION_Card_GetValue((struct Reg2 *)(((struct LiveBattleMatchWork *)q)->card),10)==3) WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Sub);
-        else WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Battle);
+        if(REGULATION_Card_GetValue((struct RegulationCard *)((struct BattleCompetitionSave *)(((struct LiveBattleMatchWork *)q)->card)),10)==3) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((struct WifibattlematchCallback *)p),(int)LIVEBATTLEMATCH_FLOW_Sub);
+        else WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)p,(int)LIVEBATTLEMATCH_FLOW_Battle);
         break;
-    case 2: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Card); break;
-    case 3: WIFIBATTLEMATCH_UTIL_SetCallback((int *)p,(int)LIVEBATTLEMATCH_FLOW_Sub); break;
+    case 2: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)p,(int)LIVEBATTLEMATCH_FLOW_Card); break;
+    case 3: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)p,(int)LIVEBATTLEMATCH_FLOW_Sub); break;
     default: GF_PANIC_Fail(d_0217E618,0,d_0217E618); break;
     }
 }
 
-void LIVEBATTLEMATCH_FLOW_End(int p) {WIFIBATTLEMATCH_UTIL_ClearCallback(p);}
+void LIVEBATTLEMATCH_FLOW_End(int p) {WIFIBATTLEMATCH_UTIL_ClearCallback((void *)p);}
 
 void LIVEBATTLEMATCH_FLOW_Main(int *sys,unsigned int *state,u8 *p)
 {
@@ -436,14 +393,14 @@ void LIVEBATTLEMATCH_FLOW_Main(int *sys,unsigned int *state,u8 *p)
         switch(REGULATION_Card_GetValue(((struct LiveBattleMatchWork *)p)->card,10)){
         case 0:case 3:case 4:case 5:
             if(REGULATION_Card_GetValue(((struct LiveBattleMatchWork *)p)->card,2)==0)*state=12;else *state=1;break;
-        case 1:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Confirm);break;
-        case 2:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
+        case 1:WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys,(int)LIVEBATTLEMATCH_FLOW_Confirm);break;
+        case 2:WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
         }break;
     case 1:DIGITALCARDCHECK_CreateRecord(p);DIGITALCARDCHECK_SetRecordMode(p,1);*state=2;break;
     case 2:if(DIGITALCARDCHECK_IsRecordDone(p))*state=3;break;
-    case 3:if(BATTLE_BOX_IsLocked(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)),2))*state=5;else *state=4;break;
-    case 4:DIGITALCARDCHECK_UpdateMenu(p,0,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,6);break;
-    case 5:DIGITALCARDCHECK_UpdateMenu(p,1,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,6);break;
+    case 3:if(BATTLE_BOX_IsLocked((struct BattleBoxSave *)(BATTLE_BOX_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)))),2))*state=5;else *state=4;break;
+    case 4:DIGITALCARDCHECK_UpdateMenu(p,0,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),6);break;
+    case 5:DIGITALCARDCHECK_UpdateMenu(p,1,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),6);break;
     case 6:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=7;break;
     case 7:{
         int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
@@ -453,8 +410,8 @@ void LIVEBATTLEMATCH_FLOW_Main(int *sys,unsigned int *state,u8 *p)
     case 9:DIGITALCARDCHECK_DeleteRecord((int *)p);*state=12;break;
     case 10:if(DIGITALCARDCHECK_IsWorkDone((int *)p))*state=11;break;
     case 11:DIGITALCARDCHECK_DeleteRecord((int *)p);DIGITALCARDCHECK_End(p,1);break;
-    case 12:DIGITALCARDCHECK_UpdateMenu(p,2,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,13);break;
-    case 13:WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj,1);DIGITALCARDCHECK_UpdateMenu(p,32,0);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,14);break;
+    case 12:DIGITALCARDCHECK_UpdateMenu(p,2,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),13);break;
+    case 13:WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj),1);DIGITALCARDCHECK_UpdateMenu(p,32,0);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),14);break;
     case 14:LIVEBATTLEMATCH_IRC_CreateDelivery(*(char * *)&((struct LiveBattleMatchWork *)p)->irc,(unsigned int)(p+0x3c));*state=15;break;
     case 15:{
         int v=LIVEBATTLEMATCH_IRC_DeliveryMain(*(char * *)&((struct LiveBattleMatchWork *)p)->irc);
@@ -463,20 +420,20 @@ void LIVEBATTLEMATCH_FLOW_Main(int *sys,unsigned int *state,u8 *p)
         else if(KEY_GetTrg()&2)*state=16;
         break;
     }
-    case 16:LIVEBATTLEMATCH_IRC_ClearState(*(int * *)&((struct LiveBattleMatchWork *)p)->irc);*state=17;break;
-    case 17:if(LIVEBATTLEMATCH_IRC_DeliveryEnd(*(char * *)&((struct LiveBattleMatchWork *)p)->irc))*state=18;break;
-    case 18:WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj,0);DIGITALCARDCHECK_UpdateMenu(p,21,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,19);break;
+    case 16:LIVEBATTLEMATCH_IRC_ClearState((int *)(*(int * *)&((struct LiveBattleMatchWork *)p)->irc));*state=17;break;
+    case 17:if(LIVEBATTLEMATCH_IRC_DeliveryEnd((char *)(*(char * *)&((struct LiveBattleMatchWork *)p)->irc)))*state=18;break;
+    case 18:WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj),0);DIGITALCARDCHECK_UpdateMenu(p,21,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),19);break;
     case 19:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=20;break;
     case 20:{
         int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
         if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=30;break;case 1:*state=12;break;}}break;
     }
     case 21:
-        if(REGULATION_Card_IsCrcValid((struct Reg2 *)(p+0x3c))){
-            unsigned a=REGULATION_Card_GetValue((struct Reg2 *)(p+0x3c),1);
+        if(REGULATION_Card_IsCrcValid((struct RegulationCard *)((struct BattleCompetitionSave *)(p+0x3c)))){
+            unsigned a=REGULATION_Card_GetValue((struct RegulationCard *)((struct BattleCompetitionSave *)(p+0x3c)),1);
             if(a&PM_VERSION_MASK){
-                unsigned a=REGULATION_Card_GetValue(((struct LiveBattleMatchWork *)p)->card,2);
-                unsigned b=REGULATION_Card_GetValue((struct Reg2 *)(p+0x3c),2);
+                unsigned a=REGULATION_Card_GetValue((struct RegulationCard *)(((struct LiveBattleMatchWork *)p)->card),2);
+                unsigned b=REGULATION_Card_GetValue((struct RegulationCard *)((struct BattleCompetitionSave *)(p+0x3c)),2);
                 if(a==b){
                     switch(REGULATION_Card_GetValue(((struct LiveBattleMatchWork *)p)->card,10)){
                     case 4:*state=27;break;
@@ -487,22 +444,22 @@ void LIVEBATTLEMATCH_FLOW_Main(int *sys,unsigned int *state,u8 *p)
             }else *state=26;
         }else *state=25;
         break;
-    case 22:BATTLE_REC_ClearWork();DIGITALCARDCHECK_UpdateMenu(p,10,2);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,23);break;
+    case 22:BATTLE_REC_ClearWork();DIGITALCARDCHECK_UpdateMenu(p,10,2);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),23);break;
     case 23:{
-        void *base=BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save));
-        void *entry=REGULATION_GetParty(base,1);
-        REGULATION_Card_SetValue((struct Reg2 *)(p+0x3c),10,1);
+        void *base=BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)));
+        void *entry=REGULATION_GetParty((struct BattleCompetitionSave *)base,1);
+        REGULATION_Card_SetValue((struct RegulationCard *)((struct BattleCompetitionSave *)(p+0x3c)),10,1);
         LIVEBATTLEMATCH_SAVE_InitRecord(((struct LiveBattleMatchWork *)p)->saveBlock);
-        REGULATION_InitParty(entry);
-        REGULATION_SetCard(base,1,(const struct RegulationCard *)(p+0x3c));
-        GAME_DATA_SaveStart(*(int *)&((struct LiveBattleMatchWork *)p)->save);*state=24;break;
+        REGULATION_InitParty((struct RegulationParty *)entry);
+        REGULATION_SetCard((struct RegulationCard *)base,1,(const struct RegulationCard *)((const struct BattleCompetitionSave *)(p+0x3c)));
+        GAME_DATA_SaveStart((struct GameData *)(*(int *)&((struct LiveBattleMatchWork *)p)->save));*state=24;break;
     }
-    case 24:if(GAME_DATA_SaveMain(*(u8 * *)&((struct LiveBattleMatchWork *)p)->save)==2)*state=29;break;
-    case 25:DIGITALCARDCHECK_UpdateMenu(p,26,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,30);break;
-    case 26:DIGITALCARDCHECK_UpdateMenu(p,27,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,30);break;
-    case 27:DIGITALCARDCHECK_UpdateMenu(p,3,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,30);break;
-    case 28:DIGITALCARDCHECK_UpdateMenu(p,4,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,30);break;
-    case 29:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Confirm);break;
+    case 24:if(GAME_DATA_SaveMain((struct GameData *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->save))==2)*state=29;break;
+    case 25:DIGITALCARDCHECK_UpdateMenu(p,26,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),30);break;
+    case 26:DIGITALCARDCHECK_UpdateMenu(p,27,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),30);break;
+    case 27:DIGITALCARDCHECK_UpdateMenu(p,3,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),30);break;
+    case 28:DIGITALCARDCHECK_UpdateMenu(p,4,1);*state=31;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),30);break;
+    case 29:WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys,(int)LIVEBATTLEMATCH_FLOW_Confirm);break;
     case 30:DIGITALCARDCHECK_End(p,1);break;
     case 31:if(DIGITALCARDCHECK_GetMenuResult(p))WIFIBATTLEMATCH_UTIL_CommitRequest((unsigned int)sys);break;
     }
@@ -518,13 +475,13 @@ void LIVEBATTLEMATCH_FLOW_Confirm(int *sys,unsigned int *state,u8 *p)
         flag&=DIGITALCARDCHECK_IsRecord3DoneA(p);
         if(flag)*state=2;break;
     }
-    case 2:DIGITALCARDCHECK_UpdateMenu(p,5,1);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,3);break;
+    case 2:DIGITALCARDCHECK_UpdateMenu(p,5,1);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),3);break;
     case 3:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=4;break;
     case 4:{
         int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
         if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=8;break;case 1:*state=5;break;}}break;
     }
-    case 5:DIGITALCARDCHECK_UpdateMenu(p,8,1);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,6);break;
+    case 5:DIGITALCARDCHECK_UpdateMenu(p,8,1);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),6);break;
     case 6:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=7;break;
     case 7:{
         int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
@@ -540,25 +497,25 @@ void LIVEBATTLEMATCH_FLOW_Confirm(int *sys,unsigned int *state,u8 *p)
         else *state=10;
         break;
     }
-    case 10:DIGITALCARDCHECK_UpdateMenu(p,9,1);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,12);break;
-    case 11:DIGITALCARDCHECK_UpdateMenu(p,37,1);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,12);break;
+    case 10:DIGITALCARDCHECK_UpdateMenu(p,9,1);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),12);break;
+    case 11:DIGITALCARDCHECK_UpdateMenu(p,37,1);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),12);break;
     case 12:if(DIGITALCARDCHECK_IsWorkDone((int *)p)){DIGITALCARDCHECK_DeleteRecord((int *)p);*state=20;}break;
     case 13:{
         void *base=GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save);
         void *rules=BATTLE_BOX_GetFromSave(base);
         void *entry=REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(base),1);
-        void *tmp=BATTLE_BOX_CreateParty((int)rules,0x8056);
+        void *tmp=BATTLE_BOX_CreateParty(rules,0x8056);
         BATTLE_BOX_SetLockFlags(rules,2);
         REGULATION_Card_SetValue(((struct LiveBattleMatchWork *)p)->card,10,2);
-        REGULATION_BuildParty((int)entry,(int)tmp);
+        REGULATION_BuildParty(entry,tmp);
         GFL_HEAP_Free(tmp);
         *state=14;break;
     }
-    case 14:DIGITALCARDCHECK_UpdateMenu(p,10,2);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,15);break;
-    case 15:GAME_DATA_SaveStart(*(int *)&((struct LiveBattleMatchWork *)p)->save);*state=16;break;
-    case 16:if(GAME_DATA_SaveMain(*(u8 * *)&((struct LiveBattleMatchWork *)p)->save)==2)*state=17;break;
-    case 17:DIGITALCARDCHECK_SetRecordMode(p,0);DIGITALCARDCHECK_UpdateMenu(p,11,1);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,18);break;
-    case 18:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
+    case 14:DIGITALCARDCHECK_UpdateMenu(p,10,2);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),15);break;
+    case 15:GAME_DATA_SaveStart((struct GameData *)(*(int *)&((struct LiveBattleMatchWork *)p)->save));*state=16;break;
+    case 16:if(GAME_DATA_SaveMain((struct GameData *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->save))==2)*state=17;break;
+    case 17:DIGITALCARDCHECK_SetRecordMode(p,0);DIGITALCARDCHECK_UpdateMenu(p,11,1);*state=21;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),18);break;
+    case 18:WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
     case 19:{
         int flag=1;
         flag&=DIGITALCARDCHECK_IsWorkDone((int *)p);
@@ -576,13 +533,13 @@ void LIVEBATTLEMATCH_FLOW_Battle(int *sys,unsigned int *state,u8 *p)
     case 0:DIGITALCARDCHECK_BuildBattleRecord(*(u8 * *)&((struct LiveBattleMatchWork *)p)->battleData,p);if(*(int *)&((struct LiveBattleMatchWork *)p)->record)*state=4;else{DIGITALCARDCHECK_CreateRecord(p);DIGITALCARDCHECK_SetRecordMode(p,0);*state=1;}break;
     case 1:if(DIGITALCARDCHECK_IsRecordDone(p))*state=2;break;
     case 2:if(((struct LiveMatchState *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->stateObj))->flag)*state=3;else *state=4;break;
-    case 3:DIGITALCARDCHECK_UpdateMenu(p,39,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,4);break;
+    case 3:DIGITALCARDCHECK_UpdateMenu(p,39,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),4);break;
     case 4:{
         void *v=REGULATION_NoOp(((struct LiveBattleMatchWork *)p)->card);
         unsigned sel=LIVEBATTLEMATCH_SAVE_GetCounter(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock,0);
-        if(sel>=REGULATION_GetRuleValue(v,22))WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Sub);else *state=5;break;
+        if(sel>=REGULATION_GetRuleValue((struct Regulation *)v,22))WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((struct WifibattlematchCallback *)sys),(int)LIVEBATTLEMATCH_FLOW_Sub);else *state=5;break;
     }
-    case 5:DIGITALCARDCHECK_UpdateMenu(p,12,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,6);break;
+    case 5:DIGITALCARDCHECK_UpdateMenu(p,12,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),6);break;
     case 6:LIVEBATTLEMATCH_FLOW_DrawMenu(p,1);*state=7;break;
     case 7:{
         int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
@@ -592,28 +549,28 @@ void LIVEBATTLEMATCH_FLOW_Battle(int *sys,unsigned int *state,u8 *p)
             }else switch(v){case 0:*state=23;break;case 1:*state=8;break;}
         }break;
     }
-    case 8:DIGITALCARDCHECK_UpdateMenu(p,17,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,9);break;
+    case 8:DIGITALCARDCHECK_UpdateMenu(p,17,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),9);break;
     case 9:LIVEBATTLEMATCH_FLOW_DrawMenu(p,3);*state=10;break;
     case 10:{
         int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
         if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=11;break;case 1:*state=5;break;}}break;
     }
-    case 11:DIGITALCARDCHECK_UpdateMenu(p,18,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,12);break;
+    case 11:DIGITALCARDCHECK_UpdateMenu(p,18,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),12);break;
     case 12:LIVEBATTLEMATCH_FLOW_DrawMenu(p,3);*state=13;break;
     case 13:{
         int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
         if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){case 0:*state=14;break;case 1:*state=5;break;}}break;
     }
-    case 14:DIGITALCARDCHECK_UpdateMenu(p,10,2);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,15);break;
-    case 15:REGULATION_Card_SetValue(((struct LiveBattleMatchWork *)p)->card,10,4);BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)),2);GAME_DATA_SaveStart(*(int *)&((struct LiveBattleMatchWork *)p)->save);*state=16;break;
-    case 16:switch((unsigned int)GAME_DATA_SaveMain(*(u8 * *)&((struct LiveBattleMatchWork *)p)->save)){case 2:case 3:*state=17;break;case 0:case 1:break;}break;
-    case 17:DIGITALCARDCHECK_SetRecordMode(p,1);DIGITALCARDCHECK_UpdateMenu(p,19,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,18);break;
+    case 14:DIGITALCARDCHECK_UpdateMenu(p,10,2);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),15);break;
+    case 15:REGULATION_Card_SetValue((struct RegulationCard *)(((struct LiveBattleMatchWork *)p)->card),10,4);BATTLE_BOX_ClearLockFlags((struct BattleBoxSave *)(BATTLE_BOX_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)))),2);GAME_DATA_SaveStart((struct GameData *)(*(int *)&((struct LiveBattleMatchWork *)p)->save));*state=16;break;
+    case 16:switch((unsigned int)GAME_DATA_SaveMain((struct GameData *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->save))){case 2:case 3:*state=17;break;case 0:case 1:break;}break;
+    case 17:DIGITALCARDCHECK_SetRecordMode(p,1);DIGITALCARDCHECK_UpdateMenu(p,19,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),18);break;
     case 18:if(DIGITALCARDCHECK_IsWorkDone((int *)p)){DIGITALCARDCHECK_DeleteRecord((int *)p);*state=24;}break;
     case 19:if(BATTLE_REC_IsVersionSupported((u8)(((struct BattleRecord *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->partyData))->version)))*state=20;else *state=21;break;
-    case 20:DIGITALCARDCHECK_UpdateMenu(p,16,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,22);break;
-    case 21:DIGITALCARDCHECK_UpdateMenu(p,34,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,5);break;
+    case 20:DIGITALCARDCHECK_UpdateMenu(p,16,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),22);break;
+    case 21:DIGITALCARDCHECK_UpdateMenu(p,34,1);*state=25;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),5);break;
     case 22:DIGITALCARDCHECK_End(p,4);break;
-    case 23:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Result);break;
+    case 23:WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys,(int)LIVEBATTLEMATCH_FLOW_Result);break;
     case 24:DIGITALCARDCHECK_End(p,1);break;
     case 25:if(DIGITALCARDCHECK_GetMenuResult(p))WIFIBATTLEMATCH_UTIL_CommitRequest((unsigned int)sys);break;
     }
@@ -626,28 +583,28 @@ void LIVEBATTLEMATCH_FLOW_Result(int *sys,unsigned int *state,u8 *p)
 {
     if(LIVEBATTLEMATCH_IRC_CheckError(((struct LiveBattleMatchWork *)p)->irc)==1){
         ((struct LiveMatchState *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->stateObj))->flag=1;
-        WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);
+        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((struct WifibattlematchCallback *)sys),(int)LIVEBATTLEMATCH_FLOW_Battle);
     }
     switch(*state){
-    case 0:DIGITALCARDCHECK_UpdateMenu(p,20,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,1);break;
-    case 1:DIGITALCARDCHECK_UpdateMenu(p,33,0);WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj,1);GFL_USE_PlaySeDefaultVolume(0x80d);((struct LiveBattleMatchWork *)p)->syncFlag=0;((struct LiveBattleMatchWork *)p)->syncValue=0;*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,2);break;
+    case 0:DIGITALCARDCHECK_UpdateMenu(p,20,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),1);break;
+    case 1:DIGITALCARDCHECK_UpdateMenu(p,33,0);WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj),1);GFL_USE_PlaySeDefaultVolume(0x80d);((struct LiveBattleMatchWork *)p)->syncFlag=0;((struct LiveBattleMatchWork *)p)->syncValue=0;*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),2);break;
     case 2:if(LIVEBATTLEMATCH_IRC_InitState(*(int * *)&((struct LiveBattleMatchWork *)p)->irc))*state=3;break;
-    case 3:switch(LIVEBATTLEMATCH_IRC_StartSession(*(unsigned * *)&((struct LiveBattleMatchWork *)p)->irc)){case 1:*state=13;break;case 2:*state=9;break;}if(KEY_GetTrg()&2)*state=4;break;
-    case 4:LIVEBATTLEMATCH_IRC_Exit(*(unsigned * *)&((struct LiveBattleMatchWork *)p)->irc);*state=5;break;
-    case 5:if(LIVEBATTLEMATCH_IRC_WaitExit(*(int * *)&((struct LiveBattleMatchWork *)p)->irc))*state=6;break;
-    case 6:WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj,0);DIGITALCARDCHECK_UpdateMenu(p,21,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,7);break;
+    case 3:switch(LIVEBATTLEMATCH_IRC_StartSession((unsigned *)(*(unsigned * *)&((struct LiveBattleMatchWork *)p)->irc))){case 1:*state=13;break;case 2:*state=9;break;}if(KEY_GetTrg()&2)*state=4;break;
+    case 4:LIVEBATTLEMATCH_IRC_Exit((u32 *)(*(unsigned * *)&((struct LiveBattleMatchWork *)p)->irc));*state=5;break;
+    case 5:if(LIVEBATTLEMATCH_IRC_WaitExit((int *)(*(int * *)&((struct LiveBattleMatchWork *)p)->irc)))*state=6;break;
+    case 6:WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj),0);DIGITALCARDCHECK_UpdateMenu(p,21,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),7);break;
     case 7:LIVEBATTLEMATCH_FLOW_DrawMenu(p,0);*state=8;break;
     case 8:{
         int v=LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
         if(v!=-1){LIVEBATTLEMATCH_FLOW_HideWindow((int *)p);switch(v){
-        case 0:WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj,0);WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
+        case 0:WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj,0);WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
         case 1:*state=1;break;
         }}break;
     }
-    case 9:WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj,0);LIVEBATTLEMATCH_IRC_Exit(*(unsigned * *)&((struct LiveBattleMatchWork *)p)->irc);*state=10;break;
-    case 10:if(LIVEBATTLEMATCH_IRC_WaitExit(*(int * *)&((struct LiveBattleMatchWork *)p)->irc))*state=11;break;
-    case 11:DIGITALCARDCHECK_UpdateMenu(p,28,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,12);break;
-    case 12:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
+    case 9:WIFIBATTLEMATCH_VIEW_SetActorVisible((void **)(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj),0);LIVEBATTLEMATCH_IRC_Exit((u32 *)(*(unsigned * *)&((struct LiveBattleMatchWork *)p)->irc));*state=10;break;
+    case 10:if(LIVEBATTLEMATCH_IRC_WaitExit((int *)(*(int * *)&((struct LiveBattleMatchWork *)p)->irc)))*state=11;break;
+    case 11:DIGITALCARDCHECK_UpdateMenu(p,28,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),12);break;
+    case 12:WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
     case 13:DIGITALCARDCHECK_SetBattleRecordValue(*(int * *)&((struct LiveBattleMatchWork *)p)->battleData,(int *)p);if(LIVEBATTLEMATCH_IRC_SendRegulation(*(int *)&((struct LiveBattleMatchWork *)p)->irc,*(int *)&((struct LiveBattleMatchWork *)p)->battleData))*state=14;break;
     case 14:{
         void *out;
@@ -661,36 +618,36 @@ void LIVEBATTLEMATCH_FLOW_Result(int *sys,unsigned int *state,u8 *p)
             *state=16;
         }else{WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj,0);GFL_USE_StopAllSe();*state=21;}
         break;
-    case 16:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f);*state=17;break;
-    case 17:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f))*state=18;break;
+    case 16:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f);*state=17;break;
+    case 17:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x48,0x1f))*state=18;break;
     case 18:if(LIVEBATTLEMATCH_IRC_SendSyncValue((int)(((struct LiveBattleMatchWork *)p)->irc),(int)((unsigned int *)(p+0x1d4))))*state=19;break;
     case 19:if(LIVEBATTLEMATCH_IRC_RecvSyncValue(((struct LiveBattleMatchWork *)p)->irc,(unsigned int *)(p+0x1d8)))*state=20;break;
     case 20:
         WIFIBATTLEMATCH_VIEW_SetActorVisible(*(void ** *)&((struct LiveBattleMatchWork *)p)->viewObj,0);GFL_USE_StopAllSe();
         if(((struct LiveBattleMatchWork *)p)->syncValue&&((struct LiveBattleMatchWork *)p)->syncFlag){GFL_USE_PlaySeDefaultVolume(0x63a);*state=27;}else *state=24;break;
-    case 21:if(LIVEBATTLEMATCH_IRC_ResetState(*(int * *)&((struct LiveBattleMatchWork *)p)->irc))*state=22;break;
-    case 22:if(LIVEBATTLEMATCH_IRC_EndSession(*(int * *)&((struct LiveBattleMatchWork *)p)->irc))*state=23;break;
-    case 23:DIGITALCARDCHECK_UpdateMenu(p,22,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,39);break;
-    case 24:if(LIVEBATTLEMATCH_IRC_ResetState(*(int * *)&((struct LiveBattleMatchWork *)p)->irc))*state=25;break;
-    case 25:if(LIVEBATTLEMATCH_IRC_EndSession(*(int * *)&((struct LiveBattleMatchWork *)p)->irc))*state=26;break;
-    case 26:DIGITALCARDCHECK_UpdateMenu(p,36,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,39);break;
-    case 27:DIGITALCARDCHECK_UpdateMenu(p,23,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,28);break;
+    case 21:if(LIVEBATTLEMATCH_IRC_ResetState((int *)(*(int * *)&((struct LiveBattleMatchWork *)p)->irc)))*state=22;break;
+    case 22:if(LIVEBATTLEMATCH_IRC_EndSession((int *)(*(int * *)&((struct LiveBattleMatchWork *)p)->irc)))*state=23;break;
+    case 23:DIGITALCARDCHECK_UpdateMenu(p,22,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),39);break;
+    case 24:if(LIVEBATTLEMATCH_IRC_ResetState((int *)(*(int * *)&((struct LiveBattleMatchWork *)p)->irc)))*state=25;break;
+    case 25:if(LIVEBATTLEMATCH_IRC_EndSession((int *)(*(int * *)&((struct LiveBattleMatchWork *)p)->irc)))*state=26;break;
+    case 26:DIGITALCARDCHECK_UpdateMenu(p,36,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),39);break;
+    case 27:DIGITALCARDCHECK_UpdateMenu(p,23,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),28);break;
     case 28:if((((struct LiveBattleMatchWork *)p)->timer)++>120){((struct LiveBattleMatchWork *)p)->timer=0;BG_SYS_SetPlaneVisible(0,0);*state=29;}break;
-    case 29:DIGITALCARDCHECK_CreateRecord2((char *)p,*(int *)&((struct LiveBattleMatchWork *)p)->partyData);*state=30;break;
+    case 29:DIGITALCARDCHECK_CreateRecord2((char *)p,(const WifiBattleMatchViewRecord *)((struct LiveBattleMatchWork *)p)->partyData);*state=30;break;
     case 30:if(DIGITALCARDCHECK_IsRecord2Done(p))*state=31;break;
     case 31:if((((struct LiveBattleMatchWork *)p)->timer)++>300){((struct LiveBattleMatchWork *)p)->timer=0;*state=32;}break;
-    case 32:BG_SYS_SetPlaneVisible(0,1);DIGITALCARDCHECK_UpdateMenu(p,24,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,33);break;
-    case 33:DIGITALCARDCHECK_UpdateMenu(p,35,2);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,34);break;
-    case 34:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f);*state=35;break;
-    case 35:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x47,0x1f))*state=36;break;
-    case 36:BG_SYS_SetPlaneVisible(0,1);DIGITALCARDCHECK_UpdateMenu(p,38,2);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,37);break;
+    case 32:BG_SYS_SetPlaneVisible(0,1);DIGITALCARDCHECK_UpdateMenu(p,24,1);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),33);break;
+    case 33:DIGITALCARDCHECK_UpdateMenu(p,35,2);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),34);break;
+    case 34:GFL_NET_HANDLE_SetTimingSyncRange((GFLNetHandle *)((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle()),0x47,0x1f);*state=35;break;
+    case 35:if(GFL_NET_HANDLE_IsTimingSyncRange((GFLNetHandle *)((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle()),0x47,0x1f))*state=36;break;
+    case 36:BG_SYS_SetPlaneVisible(0,1);DIGITALCARDCHECK_UpdateMenu(p,38,2);*state=40;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),37);break;
     case 37:
         if((((struct LiveBattleMatchWork *)p)->timer)++>60){
             void *v=REGULATION_NoOp(((struct LiveBattleMatchWork *)p)->card);
             ((struct LiveBattleMatchWork *)p)->timer=0;REGULATION_GetRuleValue(v,19);*state=38;
         }break;
     case 38:DIGITALCARDCHECK_End(p,2);break;
-    case 39:WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
+    case 39:WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys,(int)LIVEBATTLEMATCH_FLOW_Battle);break;
     case 40:if(DIGITALCARDCHECK_GetMenuResult(p))WIFIBATTLEMATCH_UTIL_CommitRequest((unsigned int)sys);break;
     }
 }
@@ -699,7 +656,7 @@ void LIVEBATTLEMATCH_FLOW_Card(int *sys,unsigned int *state,u8 *p)
 {
     if(LIVEBATTLEMATCH_IRC_CheckError(((struct LiveBattleMatchWork *)p)->irc)==1){
         ((struct LiveMatchState *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->stateObj))->flag=1;
-        WIFIBATTLEMATCH_UTIL_SetCallback(sys,(int)LIVEBATTLEMATCH_FLOW_Battle);
+        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys,(int)LIVEBATTLEMATCH_FLOW_Battle);
     }
     switch(*state){
     case 0:{
@@ -729,9 +686,9 @@ void LIVEBATTLEMATCH_FLOW_Card(int *sys,unsigned int *state,u8 *p)
         DIGITALCARDCHECK_WaitRecord((int *)p);
         *state=4;break;
     }
-    case 4:DIGITALCARDCHECK_UpdateMenu(p,10,2);*state=8;WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)sys,5);break;
-    case 5:GAME_DATA_SaveStart(*(int *)&((struct LiveBattleMatchWork *)p)->save);*state=6;break;
-    case 6:if(GAME_DATA_SaveMain(*(u8 * *)&((struct LiveBattleMatchWork *)p)->save)==2)*state=7;break;
+    case 4:DIGITALCARDCHECK_UpdateMenu(p,10,2);*state=8;WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)sys),5);break;
+    case 5:GAME_DATA_SaveStart((struct GameData *)(*(int *)&((struct LiveBattleMatchWork *)p)->save));*state=6;break;
+    case 6:if(GAME_DATA_SaveMain((struct GameData *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->save))==2)*state=7;break;
     case 7:DIGITALCARDCHECK_End(p,3);break;
     case 8:if(DIGITALCARDCHECK_GetMenuResult(p))WIFIBATTLEMATCH_UTIL_CommitRequest((unsigned int)sys);break;
     }
@@ -754,22 +711,22 @@ void LIVEBATTLEMATCH_FLOW_Sub(int *a, int *state, u8 *p)
     case 1:
         record = REGULATION_NoOp(((struct LiveBattleMatchWork *)p)->card);
         value = LIVEBATTLEMATCH_SAVE_GetCounter(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock, 0);
-        if (value >= REGULATION_GetRuleValue(record, 0x16)) *state = 2;
+        if (value >= REGULATION_GetRuleValue((struct Regulation *)record, 0x16)) *state = 2;
         else *state = 16;
         break;
-    case 2: DIGITALCARDCHECK_UpdateMenu(p, 10, 2); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)a, 3); break;
+    case 2: DIGITALCARDCHECK_UpdateMenu(p, 10, 2); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)a), 3); break;
     case 3:
         REGULATION_Card_SetValue(((struct LiveBattleMatchWork *)p)->card, 10, 3);
         BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)), 2);
-        GAME_DATA_SaveStart((int)(((struct LiveBattleMatchWork *)p)->save)); *state = 4; break;
+        GAME_DATA_SaveStart((((struct LiveBattleMatchWork *)p)->save)); *state = 4; break;
     case 4:
         switch (GAME_DATA_SaveMain(((struct LiveBattleMatchWork *)p)->save)) {
         case 0: case 1: break;
         case 2: case 3: *state = 5; break;
         }
         break;
-    case 5: DIGITALCARDCHECK_SetRecordMode(p, 1); DIGITALCARDCHECK_UpdateMenu(p, 25, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)a, 6); break;
-    case 6: DIGITALCARDCHECK_UpdateMenu(p, 29, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)a, 7); break;
+    case 5: DIGITALCARDCHECK_SetRecordMode(p, 1); DIGITALCARDCHECK_UpdateMenu(p, 25, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)a), 6); break;
+    case 6: DIGITALCARDCHECK_UpdateMenu(p, 29, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)a), 7); break;
     case 7: LIVEBATTLEMATCH_FLOW_DrawMenu(p, 2); *state = 8; break;
     case 8:
         result = LIVEBATTLEMATCH_FLOW_GetWindowResult((int *)p);
@@ -780,17 +737,17 @@ void LIVEBATTLEMATCH_FLOW_Sub(int *a, int *state, u8 *p)
             } else if (result == 0) *state = 9;
         }
         break;
-    case 9: DIGITALCARDCHECK_UpdateMenu(p, 31, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)a, 10); break;
+    case 9: DIGITALCARDCHECK_UpdateMenu(p, 31, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)a), 10); break;
     case 10: if (DIGITALCARDCHECK_IsWorkDone((int *)p)) { DIGITALCARDCHECK_DeleteRecord((int *)p); *state = 15; } break;
     case 11:
         if (BATTLE_REC_IsVersionSupported((u8)(((struct BattleRecord *)(*(u8 * *)&((struct LiveBattleMatchWork *)p)->partyData))->version))) *state = 12;
         else *state = 13;
         break;
-    case 12: DIGITALCARDCHECK_UpdateMenu(p, 16, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)a, 14); break;
-    case 13: DIGITALCARDCHECK_UpdateMenu(p, 34, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((unsigned int)a, 6); break;
+    case 12: DIGITALCARDCHECK_UpdateMenu(p, 16, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)a), 14); break;
+    case 13: DIGITALCARDCHECK_UpdateMenu(p, 34, 1); *state = 17; WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((unsigned int)a), 6); break;
     case 14: DIGITALCARDCHECK_End(p, 4); break;
     case 15: DIGITALCARDCHECK_End(p, 1); break;
-    case 16: WIFIBATTLEMATCH_UTIL_SetCallback(a, (int)LIVEBATTLEMATCH_FLOW_Battle); break;
+    case 16: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)LIVEBATTLEMATCH_FLOW_Battle); break;
     case 17: if (DIGITALCARDCHECK_GetMenuResult(p)) WIFIBATTLEMATCH_UTIL_CommitRequest((unsigned int)a); break;
     }
 }

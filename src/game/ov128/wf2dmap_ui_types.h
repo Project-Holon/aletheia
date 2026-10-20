@@ -1,6 +1,9 @@
 #ifndef WF2DMAP_UI_TYPES_H
 #define WF2DMAP_UI_TYPES_H
 
+#include "../types.h"
+#include "../arm9/clact.h"
+
 /*
  * Real struct types for the ov128 friend-list UI objects of
  * wf2dmap_friend.c and wf2dmap_touch.c. These replace the address-named
@@ -52,15 +55,15 @@ typedef struct Wf2dmapTouchGfx {
     unsigned char pad_030[4];
     union { void *printWin; unsigned int printWinU32; }; /* 0x034: TOUCHBAR_PrintAligned target */
     void *slotArray[0x40];          /* 0x038: 64-entry window-record list */
-    union { unsigned int actorBank; void *actorBankPtr; };   /* 0x138 */
-    union { unsigned int actorBank2; void *actorBank2Ptr; }; /* 0x13C */
-    union { unsigned int renderer; void *rendererPtr; };     /* 0x140 */
+    struct Unit *actorBank;         /* 0x138 */
+    struct Unit *actorBank2;        /* 0x13C */
+    struct Renderer *renderer;      /* 0x140 */
     unsigned int character[2];      /* 0x144 */
     unsigned int palette[2];        /* 0x14C */
     unsigned int cellAnim[2];       /* 0x154 */
-    void *actorSlot[2];             /* 0x15C */
-    void *actorA;                   /* 0x164: friend-key confirm actor */
-    void *actorB;                   /* 0x168: friend-key cancel actor */
+    struct ClactActor *actorSlot[2]; /* 0x15C */
+    struct ClactActor *actorA;      /* 0x164: friend-key confirm actor */
+    struct ClactActor *actorB;      /* 0x168: friend-key cancel actor */
     void *bmpHandle[2];             /* 0x16C */
     void *bmpDesc[2];               /* 0x174 */
     union { void *palWin; unsigned int palWinU32; };         /* 0x17C */
@@ -130,7 +133,10 @@ typedef struct Wf2dmapTouchEdit {
     Wf2dmapTouchWidget widget[4];      /* 0x0F8: per-entry widget handles */
     Wf2dmapTouchWidget editWindow[2];  /* 0x118 */
     Wf2dmapTouchWidget trainerWindow[10]; /* 0x128 */
-    unsigned int cursorBmp;            /* 0x178: cursor bitmap pointer (DrawCursorBg), also the trainer CLACT actor */
+    union {                            /* 0x178 */
+        struct ClactActor *actor;      /* trainer CLACT actor */
+        unsigned int cursorBmp;        /* cursor bitmap pointer (DrawCursorBg) */
+    };
     unsigned int cgr;                  /* 0x17C: trainer character */
     unsigned int palette;              /* 0x180: trainer palette */
     unsigned int cellAnim;             /* 0x184: trainer cell animation */
@@ -195,8 +201,8 @@ typedef struct Wf2dmapFriendItemScreen {
     void *taskMenu;                    /* 0x194 */
     int menuFlag;                      /* 0x198 */
     int countdown;                     /* 0x19C: close countdown */
-    void *actor;                       /* 0x1A0 */
-    void *actor2;                      /* 0x1A4 */
+    struct ClactActor *actor;          /* 0x1A0 */
+    struct ClactActor *actor2;         /* 0x1A4 */
     unsigned int animFrame;            /* 0x1A8 */
 } Wf2dmapFriendItemScreen;
 
@@ -269,17 +275,6 @@ typedef struct Wf2dmapFriendEntryTable {
     unsigned char pad_004[4];
     unsigned char index[32];           /* 0x08: friendData.entryIndex */
 } Wf2dmapFriendEntryTable;
-
-/*
- * The name-entry args object returned by NAMEIN_SETUP_CreateArgs: the same
- * object the ov010 NameInArgs describes, only the result word and the name
- * string are read here.
- */
-typedef struct Wf2dmapNameEntry {
-    unsigned char pad_000[0x1C];
-    int result;                        /* 0x1C: canceled flag */
-    void *text;                        /* 0x20: name string */
-} Wf2dmapNameEntry;
 
 /* The save control object (GAME_DATA_GetSaveControl result); only the mode word. */
 typedef struct Wf2dmapSaveControl {

@@ -21,7 +21,7 @@
  *   SOC_Connect      0x0215f480 arm
  *   SOC_RecvFrom     0x0215f500 arm
  *   SOC_SendTo                  0x0215F5B4  arm ov009
- *   SOC_Accept       0x0215f714 arm
+ *   SOC_GetSockName 0x0215f714 arm
  *   SOC_InetAtoN  0x0215FAD0  arm  ov009
  *   SOC_Poll  0x0215FBCC  arm  ov009
  *   SOC_Fcntl  0x0215F854  arm  ov009
@@ -44,41 +44,24 @@
  *   SOC_Recv  0x0215F4DC  arm
  *   SOC_Send  0x0215F590  arm
  */
+#include "soc.h"
 #include "../../matched/arm9_sdk/libc/string.h"
-
-typedef struct {
-    int fd;
-    short events;
-    short revents;
-} GSPollFd;
 
 #include "../sdk_soc.h"
 
-extern int SOC_Socket(int pf, int type);
 extern int SOC_Close(int s);
-extern int SOCL_IsReleased(int s);
 extern int CheckRcode(int rcode, int errCode);
 extern int SOC_Shutdown(int s, int how);
-struct SOCSockAddr {
-    unsigned char len;
-    unsigned char family;
-    unsigned short port;
-    unsigned char addr[4];
-} __attribute__((packed));
+#include "qr2_types.h"
 extern int SOC_Bind(int s, void * sockAddr);
 extern int SOC_Connect(int s, void * sockAddr);
 extern int SOC_Recv(int s, void *buf, int len, int flags);
 extern int SOC_RecvFrom(int s, int buf, int len, int flags, unsigned char *sockFrom);
 extern int SOC_Send(int s, void *buf, int len, int flags);
 extern int SOC_SendTo(int s, void *buf, int len, int flags, void *sockTo);
-extern int SOC_Accept(int s, void * sockAddr);
 extern int SOC_InetAtoN(char *cp, unsigned long *inp);
-extern int SOC_Poll(GSPollFd *fds, int nfds, int timeout, int flags);
-extern int SOC_Fcntl(int sock, int cmd, int arg);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern int setsockopt(int s, int level, int optname, void * optval, int optlen);
 extern int GSISocketSelect(int theSocket, int * theReadFlag, int * theWriteFlag, int * theExceptFlag);
-extern unsigned long SOCL_GetHostID(void);
 extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
 /*
  * Stores a negative argument at +0x4 of the module state object and returns the second.
@@ -130,6 +113,9 @@ extern char gGsLocalhostName[];
 
 
 
+#include "socl_close.h"
+#include "gsdebug.h"
+#include "socl_resolve.h"
 int CheckRcode(int rcode, int fallback)
 {
     if (rcode < 0) {
@@ -144,7 +130,7 @@ int CheckRcode(int rcode, int fallback)
 
 int socket(int pf, int type, int protocol)
 {
-    return CheckRcode(SOC_Socket(pf, type), -1);
+    return CheckRcode(SOC_Socket(pf, type, protocol), -1);
 }
 
 
@@ -228,7 +214,7 @@ int recvfrom(int sock, char * buf, int len, int flags, struct SOCSockAddr * addr
     int rcode;
 
     addr->len = (unsigned char)*fromlen;
-    rcode = SOC_RecvFrom((int)sock, (int)buf, len, flags, (unsigned char *)addr);
+    rcode = SOC_RecvFrom((int)sock, (sptr)buf, len, flags, (unsigned char *)addr);
     *fromlen = addr->len;
     return CheckRcode(rcode, -1);
 }
@@ -276,7 +262,7 @@ int getsockname(int sock, struct SOCSockAddr * addr, int * len)
     int rcode;
 
     addr->len = (unsigned char)*len;
-    rcode = SOC_Accept(sock, addr);
+    rcode = SOC_GetSockName((u8 *)sock, (u8 *)addr);
     *len = addr->len;
     return CheckRcode(rcode, -1);
 }
@@ -305,7 +291,7 @@ int GOAGetLastError(int sock)
 
 int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag)
 {
-    GSPollFd pfd;
+    PollFD pfd;
     int result;
 
     pfd.fd = theSocket;
@@ -316,7 +302,7 @@ int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *the
         pfd.events |= 8;
     pfd.revents = 0;
 
-    result = SOC_Poll(&pfd, 1, 0, 0);
+    result = SOC_Poll(&pfd, 1, 0);
     if (result < 0)
         return -1;
 
@@ -357,12 +343,12 @@ int SetSockBlocking(int sock, int isblocking)
     int val;
     int rcode;
 
-    val = SOC_Fcntl(sock, 3, 0);
+    val = SOC_Fcntl((SOCSockFlags *)sock, 3, 0);
     if (isblocking)
         val &= ~4;
     else
         val |= 4;
-    rcode = SOC_Fcntl(sock, 4, val);
+    rcode = SOC_Fcntl((SOCSockFlags *)sock, 4, val);
     if (rcode == 0) {
         gsDebugFormat(12, 0, 0x10, gGsSetSockBlockingFmt, sock, isblocking ? gGsSocketBlockingStr : gGsSocketNonBlockingStr);
         return 1;

@@ -45,16 +45,7 @@ struct Bmp;
 
 #include "../types.h"
 
-typedef struct TexResource {
-    u8 pad00[8];
-    u32 texVramKey;     /* 0x08 */
-    u8 pad0C[2];
-    u16 texDict;        /* 0x0E */
-    u8 pad10[0x2C - 0x10];
-    u32 plttVramKey;    /* 0x2C */
-    u8 pad30[4];
-    u16 plttDict;       /* 0x34 */
-} TexResource;
+#include "../arm9/nns_g3d_anm_calc_types.h"
 
 typedef struct TexFormat {
     u16 formatId;       /* 0x00 */
@@ -81,20 +72,20 @@ typedef struct TexReq {
     u32 plttOfs;        /* 0x10 */
     void *font;         /* 0x14 */
 } TexReq;
+struct G3dResource;
+struct NNSG3dResTex;
 
-extern TexResource *G3D_SYSTEM_GetResourceTex(void *p);
+#include "../arm9/g3d_system.h"
 
-extern int STD_GetStringLength(const char *s);
+#include "../arm9/std_string.h"
 
-extern void *NNS_G3dGetResDataByName(const void *dict, const char *name);
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void *BMP_GetPixels(const struct Bmp *bmp);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 
 int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra, const char *plttName, u32 text, u16 xPos, u16 yPos, u16 color, u16 heapId, TexKey *out);
 
@@ -103,31 +94,22 @@ int TEXT_TEXTURE_GetTexFormatCount(void);
 void TEXT_TEXTURE_ClearBitmap(void *bmp);
 struct Strbuf;
 
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+#include "../arm9/printsys.h"
 
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
-extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern u8 BMP_GetTileBytes(struct Bmp *b);
 
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 
-extern void GX_BeginLoadTex(void);
+#include "../arm9/gx_load3d.h"
 
-extern void DC_FlushRange(void *p, int n);
+#include "../arm9/os_cache.h"
+#include "../arm9/nns_g3d_res.h"
 
-extern void GX_LoadTex(void *pSrc, u32 destSlotAddr, u32 szByte);
 
-extern void GX_EndLoadTex(void);
 
-extern void BMP_Delete(struct Bmp *p);
 
-extern void GX_BeginLoadTexPltt(void);
 
-extern void GX_LoadTexPltt(void *,u32,u32);
 
-extern void GX_EndLoadTexPltt(void);
 
 void TEXT_TEXTURE_PrintToClearedBitmap(void *text, u16 xPos, u16 yPos, u16 color, void *bmp, void *font);
 
@@ -152,7 +134,7 @@ int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra,
     char pn[16];
     TexReq req;
     u16 ofs;
-    TexResource *res;
+    NNSG3dResTex *res;
     u16 *e;
     u32 v;
     u32 fmtT;
@@ -166,14 +148,14 @@ int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra,
     key.texOfs = 0;
     key.plttOfs = 0;
     res = G3D_SYSTEM_GetResourceTex(file);
-    key.texVramKey = res->texVramKey;
-    key.plttVramKey = res->plttVramKey;
-    ofs = res->texDict;
+    key.texVramKey = res->texInfo.vramKey;
+    key.plttVramKey = res->plttInfo.vramKey;
+    ofs = res->texInfo.ofsDict;
     for (i = 0; i < STD_GetStringLength(texName); i++)
         tn[i] = texName[i];
     for (; i < 16; i++)
         tn[i] = 0;
-    e = NNS_G3dGetResDataByName((u8 *)res + ofs, tn);
+    e = NNS_G3dGetResDataByName((const NNSG3dResDict *)((u8 *)res + ofs), (const NNSG3dResName *)tn);
     if (e == 0)
         return 0;
     v = *(u32 *)e;
@@ -192,12 +174,12 @@ int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra,
             break;
         }
     }
-    ofs = res->plttDict;
+    ofs = res->plttInfo.ofsDict;
     for (i = 0; i < STD_GetStringLength(plttName); i++)
         pn[i] = plttName[i];
     for (; i < 16; i++)
         pn[i] = 0;
-    e = NNS_G3dGetResDataByName((u8 *)res + ofs, pn);
+    e = NNS_G3dGetResDataByName((const NNSG3dResDict *)((u8 *)res + ofs), (const NNSG3dResName *)pn);
     if (e == 0)
         return 0;
     if (e[1] == 1)
@@ -247,7 +229,7 @@ void TEXT_TEXTURE_ClearBitmap(void *bmp)
 void TEXT_TEXTURE_PrintToClearedBitmap(void *text, u16 xPos, u16 yPos, u16 color, void *bmp, void *font)
 {
     TEXT_TEXTURE_ClearBitmap(bmp);
-    PRINTSYS_PrintColor(bmp, xPos, yPos, text, font, color);
+    PRINTSYS_PrintColor(bmp, (s16)xPos, yPos, text, font, color);
 }
 
 /*

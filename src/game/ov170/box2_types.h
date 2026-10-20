@@ -12,7 +12,7 @@
 #define OV170_BOX2_TYPES_H
 
 struct Node;
-struct PalAnmSlot;
+struct PaletteFade;
 struct MsgBank;
 struct U16Vec;
 struct WordSet;
@@ -20,7 +20,7 @@ struct PrintSys;
 struct Rec;
 struct Sound;
 struct TaskMenu;
-struct WinMgr;
+struct BgWinFrmWork;
 struct CursorMoveObj; /* the CURSOR_MOVE cursor object */
 struct Sav;
 
@@ -158,12 +158,12 @@ typedef struct BoxWork {
     BoxObjSlot oamSlots[9];
     unsigned int keyRepeatDelay;
     unsigned int keyRepeatInterval;
-    void * vblankTask;
+    struct TcbTask * vblankTask;
     BoxSeq seq;
     int waitFrames;
     void * palAnm;
     void * cursorMove;
-    struct WinMgr * winMgr;
+    struct BgWinFrmWork * winMgr;
     unsigned int font;
     void * fontAlt;
     void * msgBank;
@@ -247,9 +247,9 @@ typedef struct BoxWork {
     int nextState;
 } BoxWork;
 
-typedef struct Entry {
+typedef struct Box2Entry {
     unsigned short idx;
     unsigned short slot;
-} Entry;
+} Box2Entry;
 
 #endif

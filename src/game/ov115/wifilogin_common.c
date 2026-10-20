@@ -23,10 +23,10 @@
 
 #include "../types.h"
 
-extern u32 KEY_GetTrg(void);
-extern int TOUCHPANEL_GetTrg(void);
-extern u32 GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/net_handle.h"
+#include "../arm9/net_system.h"
 int WIFILOGIN_COMMON_IsCancelInput(u8 *p);
 void WIFILOGIN_COMMON_SetStateHandler(u8 *p, u32 handler);
 void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *state, u32 handle);
@@ -40,7 +40,7 @@ void WIFILOGIN_COMMON_SetStateHandler(u8 *p, u32 handler) { ((struct WifiloginWo
 /* Flag the state when this console's aid is not the one the handle reports. */
 void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *state, u32 handle)
 {
-    if (handle == GFL_NET_HANDLE_GetCurrentHandle() && localAid != GFL_NET_SYSTEM_GetCurrentAid()) {
+    if (handle == (u32)GFL_NET_HANDLE_GetCurrentHandle() && localAid != GFL_NET_SYSTEM_GetCurrentAid()) {
         ((struct WifiloginState *)state)->aidMismatch = 1;
     }
 }

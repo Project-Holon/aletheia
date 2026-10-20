@@ -11,12 +11,11 @@ typedef struct IcaAnime IcaAnime;
 
 #include "../arm9/script_vm_types.h"
 #include "../ov021/scrcmd_misc_types.h"
-#include "../ov021/fieldmap_types.h"
+#include "../ov020/event_mapchange_types.h"
 #include "../types.h"
 #include "../sdk_fx.h"
 #include "../ov010/fldmmdl_types.h"
-#include "../ov021/event_comm_error_shared_types.h"
-#include "../ov021/bsubway_scr_types.h"
+#include "../ov010/fld_btl_inst_tool_shared_types.h"
 
 int SCRCMD_CheckWifiListFlags(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_WifiListOperation(ScriptVm *vm, ScrcmdWork *cmdWork);

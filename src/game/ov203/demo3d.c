@@ -90,8 +90,8 @@ struct Demo3dContext { unsigned short heapId, pad; void *view, *model; const Dem
 #define DISP3DCNT (*(volatile unsigned short *)0x04000060)
 struct ProcOwner;
 struct MsgBank;
-struct Cfg;
-struct Ctx;
+struct Demo3dGraphicCfg;
+struct Demo3dEngineCtx;
 struct PrintSys;
 struct Rec;
 struct Proc;
@@ -99,47 +99,31 @@ struct Proc;
 
 #include "../sdk_gx.h"
 
-extern int GF_OVERLAY_Load(int);
-extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void *, int, unsigned);
-extern void *DEMO3D_GRAPHIC_Create(unsigned, void *, unsigned);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+extern struct Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned, void *, unsigned);
+#include "../arm9/msgdata.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
-extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
-extern struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap);
-extern u32 DEMO3D_ENGINE_GetFrameNum(char *p);
-extern void DEMO3D_DATA_GetTextureSize(void *, int, u8 *, u8 *);
-extern void BRIGHTNESS_ChangeReset(u32 mask);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void DEMO3D_ENGINE_Delete(char *ctx);
+#include "../arm9/printsys.h"
+#include "../arm9/bg_sys.h"
+#include "demo3d_engine.h"
+#include "demo3d_data.h"
+#include "../arm9/brightness.h"
 struct Demo3dGraphic;
-extern void DEMO3D_GRAPHIC_Delete(struct Demo3dGraphic *ctx);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern void GF_OVERLAY_Unload(int);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void DEMO3D_GRAPHIC_Draw(struct Demo3dGraphic *p);
-extern int DEMO3D_ENGINE_Update(const struct Demo3dContext *ctx, u32 frames);
-extern int DEMO3D_ENGINE_GetFrame(char *p);
-extern void DEMO3D_ENGINE_SetMode(char *p, int a);
+#include "demo3d_graphic_shared_types.h"
+extern void DEMO3D_GRAPHIC_Delete(Demo3dGraphic *ctx);
+#include "../arm9/gfl_heap_wrap.h"
+extern void DEMO3D_GRAPHIC_Draw(Demo3dGraphic *p);
 extern u32 WIPE_SYS_EndCheck(void);
-extern void WIPE_SetMstBrightColor(unsigned);
-extern int FADE_GetSpeed(void);
-extern void WIPE_SYS_Start(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern unsigned KEY_GetTrg(void);
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_EnableBg0WithPriority(unsigned);
-extern void G3X_SetFog(int, int, int, int);
-extern void G3X_SetClearColor(unsigned short, int, int, int, int);
+extern void WIPE_SetMstBrightColor(u32 color);
+#include "../arm9/fade.h"
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
+#include "../arm9/key.h"
+#include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
+#include "../arm9/g3d_system.h"
 int DEMO3D_Init(void *manager, int unused, Demo3dArg *p);
 int DEMO3D_Exit(void *a, void *b, void *c, Demo3dWork *work);
 int DEMO3D_Main(void *unused, int *state, void *c, Demo3dWork *work);
@@ -178,7 +162,7 @@ int DEMO3D_Init(void *manager, int unused, Demo3dArg *p)
     BG_SYS_SetPlaneVisible(1, 0);
     BG_SYS_SetMainPlaneVisible(0x10, 0);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
-    w->model = DEMO3D_ENGINE_Create(w->view, (struct Cfg *)p, w->heapId);
+    w->model = DEMO3D_ENGINE_Create(w->view, (struct Demo3dGraphicCfg *)p, w->heapId);
     w->ctx = DEMO3D_CreateContext(*(int *)&p->data, w->view, w->model, w->heapId);
     delta = DEMO3D_ENGINE_GetFrameNum(w->model) - p->limit;
     DEMO3D_DATA_GetTextureSize(p->data, 0, &width, &height);
@@ -243,7 +227,7 @@ int DEMO3D_StartWipe(void *ctx, unsigned mode, unsigned heap)
 {
     unsigned char width, height;
     unsigned char factor;
-    int color;
+    u16 color;
     DEMO3D_DATA_GetTextureSize(ctx, (unsigned char)(mode == 0), &width, &height);
     color = 0;
     if (width) color = 32767;

@@ -143,190 +143,138 @@ typedef struct {
     u8 x, y, a, b;
 } Template;
 
-enum Kind { K0,K1 };
+enum WifiloginMessageKind { K0,K1 };
 
-typedef struct { u8 a, b, c, d; u16 e; } Record;
+typedef struct { u8 a, b, c, d; u16 e; } WifiloginMessageRecord;
 
 #include "../types.h"
 
-typedef enum { FALSE, TRUE } Bool;
+typedef enum { FALSE, TRUE } WifiloginMessageBool;
 
-extern u32 WIPE_SYS_EndCheck(void);
+#include "../arm9/bmp_menu.h"
+#include "../arm9/wipe.h"
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
+#include "../arm9/net.h"
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern void GFL_NET_STATE_SetWifiError(void);
+#include "../arm9/net_state.h"
 
-extern void GFL_NET_ERR_ResetState(void);
 
-extern void GFL_NET_STATE_ClearErrorMode(void);
 
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 
-extern void GFL_USE_FadeOutBgm(u32 a);
+#include "../arm9/gfl_use.h"
 
-extern void GF_PANIC_Fail(const char *,u32,const char *);
+#include "../arm9/gf_panic.h"
 
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
+#include "../arm9/gfl_heap.h"
 
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+#include "../arm9/procsys.h"
 
-extern void MI_CpuFill8(void *,int,unsigned);
+#include "../arm9/mi_memory.h"
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 
-extern void PROCSYS_FreeProcWork(struct Proc *p);
 
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void BMP_WIN_Init(u16);
+#include "../arm9/bmp_win.h"
 
-extern void GF_FONT_InitTextColor(void);
+#include "../arm9/gf_font.h"
 struct TcblSystem;
 
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+#include "../arm9/tcbl.h"
 struct PrintQueue;
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+#include "../arm9/printsys.h"
 struct Strbuf;
 
-extern struct Strbuf *STRBUF_Create(u32,u32);
+#include "../arm9/strbuf.h"
 
-extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 struct GFont;
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
+#include "../arm9/app_taskmenu.h"
 
-extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
+#include "../arm9/bmp_menuwork.h"
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
+#include "../arm9/arc_util.h"
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 struct TimeIcon;
 
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
+#include "../arm9/time_icon.h"
 
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
+#include "../arm9/bg_sys.h"
 
-extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 WORDSET_Delete(struct WordSet *p);
+#include "../arm9/wordset.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 struct BmpWin;
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern void BMP_WIN_Exit(void);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 struct Bmp;
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void GF_FONT_SetTextColor(u32, u32, u32);
 
-extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
+#include "../arm9/app_keycursor.h"
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern void BG_SYS_MarkTileDirty(u32);
 struct TcbList;
 
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
-extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 struct TextPrinter;
 struct PrintStreamCtrl;
 
-extern int PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
 
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 struct TaskMenuInitWork;
 struct TaskMenuWork;
 
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
 
-extern void G2x_SetBlendBrightness_(u32, int, int);
+#include "../arm9/g2.h"
 
-extern void APP_TASKMENU_SetCursorPos(struct TaskMenuWork *menu, int pos);
 
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 
-extern u32 BMP_MENU_ProcessYesNo(u8 *);
 
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 
-extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
 
-extern void *BMP_MENU_CreateYesNo(const Record *, u16, u8, u8, u16);
 
-extern void GFL_NET_ClearExitFlag(void);
 
-extern void GFL_NET_IRC_WIRELESS_Exit(void);
 
-extern int GFL_NET_IsSessionNull(void);
 
-extern int GFL_NET_Exit(int exitCallback);
 
 extern void WIFILOGIN_MSG_SetExitFlag(u8 *p);
 
-u8 *WIFILOGIN_DISP_CreateDisplay(u16 heap, u32 mode, int reconnect);
+#include "wifilogin_disp.h"
 
-void WIFILOGIN_DISP_Draw(u8 *p);
 
-void WIFILOGIN_DISP_DeleteDisplay(u8 *p);
 
 u8 *WIFILOGIN_MSG_Create(u32 heap, u32 bank, u32 mode);
 
@@ -406,7 +354,7 @@ extern const char d_021D6628[];
 
 extern const char d_021D663C[];
 
-extern const Record d_021D6544;
+extern const WifiloginMessageRecord d_021D6544;
 
 /*
  * ABI: DD60 and its forwarding chain ignore the live r0 from45088;
@@ -483,9 +431,9 @@ void WIFILOGIN_MSG_DrawWindow(char *p, struct MsgBank *a, int b)
     GF_FONT_SetTextColor(1, 2, 15);
     kind = 2;
     if (*(u32 *)(p + 0x50) == 0) kind = 6;
-    PRINTSYS_CTRL_Init((u8 *)(p + 0x3c), (int)kind);
-    if (*(u32 *)(p + 0x38) != 0) PRINTSYS_PrintStreamDelete(*(struct Rec3 **)(p + 0x38));
-    *(u32 *)(p + 0x38) = PRINTSYS_PrintStream(w, 0, 0, *(u32 *)(p + 0x28), *(u32 *)(p + 0x24), MSG_SPEED_GetWait(), *(u32 *)(p + 0x44), 2, *(u16 *)(p + 0x4c), 15);
+    PRINTSYS_CTRL_Init((PrintStreamCtrl *)((u8 *)(p + 0x3c)), (int)kind);
+    if (*(u32 *)(p + 0x38) != 0) PRINTSYS_PrintStreamDelete((struct TextPrinter *)(*(struct Rec3 **)(p + 0x38)));
+    *(u32 *)(p + 0x38) = (u32)PRINTSYS_PrintStream((struct BmpWin *)w, 0, 0, (struct Strbuf *)*(u32 *)(p + 0x28), (struct GfFont *)*(u32 *)(p + 0x24), MSG_SPEED_GetWait(), (struct Tcbl *)*(u32 *)(p + 0x44), 2, *(u16 *)(p + 0x4c), 15);
     BMP_MENUWORK_DrawWindow((void *)w, 1, (u16)(*(u32 *)p), 12);
     BMP_WIN_TransferChars((struct BmpWin *)w);
     BMP_WIN_MakeScreen((struct BmpWin *)w);
@@ -566,7 +514,7 @@ void *WIFILOGIN_MSG_OpenTask(u8 *p, int mode, int flag, int selected)
 
 void WIFILOGIN_MSG_CloseTask(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case K0: APP_TASKMENU_CloseMenu((struct TaskMenuWork *)(*(struct TaskMenu * *)&((struct WifiloginMsgTask *)p)->taskMenu)); break; case K1: break; } }
 
-void WIFILOGIN_MSG_UpdateTask(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)(*(struct Obj * *)&((struct WifiloginMsgTask *)p)->taskMenu)); break; case 1: ((struct WifiloginMsgTask *)p)->answer=BMP_MENU_ProcessYesNo(*(u8 * *)&((struct WifiloginMsgTask *)p)->yesNo); break; } }
+void WIFILOGIN_MSG_UpdateTask(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)(*(struct ClactActor * *)&((struct WifiloginMsgTask *)p)->taskMenu)); break; case 1: ((struct WifiloginMsgTask *)p)->answer=BMP_MENU_ProcessYesNo((struct BmpMenu *)*(u8 * *)&((struct WifiloginMsgTask *)p)->yesNo); break; } }
 
 int WIFILOGIN_MSG_IsTaskFinish(u8 *p) { switch(((struct WifiloginMsgTask *)p)->kind) { case 0: return APP_TASKMENU_IsFinish(((struct WifiloginMsgTask *)p)->taskMenu); case 1: if(((struct WifiloginMsgTask *)p)->answer!=-1) return 1; else return 0; default: GF_PANIC_Fail(d_021D663C,0,d_021D663C); return 0; } }
 
@@ -597,18 +545,18 @@ u32 WIFILOGIN_MSG_GetFrameIdA(u32 a) { switch(a){case 1:return 1;case 0:return 5
 u32 WIFILOGIN_MSG_GetFrameIdB(u32 a) { switch(a){case 1:return 2;case 0:return 5;default:GF_PANIC_Fail(d_021D663C,0,d_021D663C);return 0;} }
 
 void *WIFILOGIN_MSG_CreateYesNo(u8 *p, int mode, int n) {
-    Record r = d_021D6544;
+    WifiloginMessageRecord r = d_021D6544;
     r.e = ((struct WifiloginMsg *)p)->frameGfx0;
     switch (mode) {
     case 0: r.b = 24; r.c = 13; break;
     case 1: r.b = 24; r.c = 19; break;
     }
-    return BMP_MENU_CreateYesNo(&r, r.e, 12, n, ((struct WifiloginMsg *)p)->heapId);
+    return BMP_MENU_CreateYesNo((const struct WinDat *)&r, r.e, 12, n, ((struct WifiloginMsg *)p)->heapId);
 }
 
 int WIFILOGIN_MSG_CreateWork(void *ctx,int unused,u8 *q) {
     u8 *p;
-    Bool flag;
+    WifiloginMessageBool flag;
     GFL_HEAP_CreateChildHeap(1,121,0x18000);
     p=PROCSYS_AllocProcWork(ctx,32,121);
     MI_CpuFill8(p,0,32);
@@ -666,7 +614,7 @@ void WIFILOGIN_MSG_StepExit(u8 *p) {
         WIFILOGIN_MSG_RunStep(p,WIFILOGIN_MSG_StepMessage2,0x1bf);
         return;
     }
-    if (GFL_NET_Exit((int)WIFILOGIN_MSG_SetExitFlag)) WIFILOGIN_MSG_RunStep(p,WIFILOGIN_MSG_StepWaitExit,0x1c7);
+    if (GFL_NET_Exit((void (*)(u32))((int)WIFILOGIN_MSG_SetExitFlag))) WIFILOGIN_MSG_RunStep(p,WIFILOGIN_MSG_StepWaitExit,0x1c7);
 }
 
 void WIFILOGIN_MSG_StepWaitExit(u8 *p) { if(((struct WifiloginMsgWork *)p)->flag18)WIFILOGIN_MSG_RunStep(p,WIFILOGIN_MSG_StepMessage2,0x1d8); }

@@ -53,28 +53,10 @@
  */
 
 #include "../types.h"
+#include "nns_gfd_vram_load.h"
 
 /* Loader for one VRAM destination: (source, destination offset, byte size). */
 typedef void (*NNSiGfdVramLoadFunc)(u32 pSrc, u32 offset, u32 szByte);
-
-/* One registered transfer task (0x10 bytes): taskType indexes the loader table. */
-typedef struct {
-    u32 taskType;
-    u32 pSrc;
-    u32 offset;
-    u32 szByte;
-} NNSiGfdVramTransferTask;
-
-/* Ring buffer of transfer tasks, with the running byte total of the queued tasks. */
-typedef struct {
-    u32 pTaskArray;
-    u32 numTasks;
-    u16 head;
-    u16 tail;
-    u16 count;
-    u16 pad0E;
-    s32 totalSzByte;
-} NNSiGfdVramTransferTaskQueue;
 
 #include "gx_load2d.h"
 #include "os_cache.h"
@@ -302,7 +284,7 @@ u32 NNSi_GfdPopVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
  */
 void NNS_GfdInitVramTransferTaskQueue(void *pTaskArray, u32 numTasks)
 {
-    g_02146B80_cb.pTaskArray = (u32)pTaskArray;
+    g_02146B80_cb.pTaskArray = (uptr)pTaskArray;
     g_02146B80_cb.numTasks = numTasks;
     NNSi_GfdResetVramTransferTaskQueue(&sVramTransferTaskQueue);
 }

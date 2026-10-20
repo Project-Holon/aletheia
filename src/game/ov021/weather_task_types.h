@@ -5,13 +5,12 @@
 
 #include "../sdk_fx.h"
 
-typedef struct {
-    s16 x;
-    s16 y;
-} WeatherScreenPos;
+#include "../arm9/clact.h"
+
+typedef struct ClactVec2 WeatherScreenPos;
 
 /* Objects the weather task drives. Their layouts belong to the files that own them. */
-struct Actor;
+struct ClactActor;
 struct FieldCamera;
 struct FieldFog;
 struct FieldLight;
@@ -135,7 +134,7 @@ typedef struct WeatherSpawner {
 /* One particle: an actor plus the kind's own data, linked into a ring. */
 typedef struct WeatherParticle {
     struct WeatherTaskSys *owner;  /* 0x00 */
-    struct Actor *actor;           /* 0x04 */
+    struct ClactActor *actor;           /* 0x04 */
     u8 kindWork[0x28];             /* 0x08 */
     struct WeatherParticle *prev;  /* 0x30 */
     struct WeatherParticle *next;  /* 0x34 */

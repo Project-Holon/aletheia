@@ -85,55 +85,35 @@
  */
 #include "ctvt_camera_types.h"
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern u32 GFL_HEAP_Free(void *p);
-extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
-extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned short heapID);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/arc_util.h"
 struct CtvtWork;
 struct ArcHandle;
-extern struct ArcHandle *COMM_TVT_SYS_GetArc(struct CtvtWork *work);
-extern int COMM_TVT_SYS_IsNetIdle(void);
-extern struct Camera *CTVT_CAMERA_Create(int);
-extern void CTVT_CAMERA_SetSize(struct Camera *, int);
-extern void CTVT_CAMERA_SelectCamera(struct Camera *p, u32 v);
-extern void CTVT_CAMERA_AllocFrames(struct Camera *, int, u16);
-extern void CTVT_CAMERA_SetFrameCallback(struct Camera *p, u32 a, u32 b);
-extern void CTVT_CAMERA_StartCapture(struct Camera *camera);
-extern int FX_Inv(int);
-extern void G2x_SetBGyAffine_(void *, int *, int, int, int, int);
-extern void CTVT_CAMERA_Delete(struct Camera *p);
-extern void GFL_HEAP_DeleteChecked(unsigned int);
-extern void CTVT_CAMERA_UpdateShutterSound(struct Camera *p);
-extern int COMM_TVT_SYS_GetLayoutMode(struct CtvtWork *work);
-extern int COMM_TVT_SYS_GetHalfRes(struct CtvtWork *work);
+#include "comm_tvt_sys.h"
+#include "camera_system.h"
+union MtxFx22;
+#include "../arm9/fx_cp.h"
+#include "../arm9/g2.h"
 struct CtvtComm;
-extern struct CtvtComm *COMM_TVT_SYS_GetComm(struct CtvtWork *work);
-extern u8 COMM_TVT_SYS_GetMemberCount(struct CtvtWork *work);
-extern void COMM_TVT_SYS_ClearAndTransferNameWindows(struct CtvtWork *work);
-extern u32 CTVT_COMM_GetSlotConnected(void *unused, char *comm, s32 slot);
-extern u8 CTVT_COMM_GetSlotReady(void *unused, char *base, int i);
-extern void DC_FlushRange(void *p, u32 n);
-extern void GX_LoadBG3Scr(const void *src, u32 off, u32 size);
-extern void *G2_GetBG3ScrPtr(void);
-extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
-extern int APP_ENV_HasParentalControlBits(void);
-extern void CTVT_CAMERA_StopCapture(struct Camera *p);
-extern int CTVT_CAMERA_IsShutterSoundIdle(struct Camera *p);
+#include "ctvt_comm.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/gx_load2d.h"
+#include "../arm9/gx_bgcnt.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/app_env.h"
 struct CtvtCamView;
-extern struct CtvtCamView *COMM_TVT_SYS_GetCamView(struct CtvtWork *work);
-extern unsigned char COMM_TVT_SYS_GetSelfSlot(struct CtvtWork *work);
-extern int COMM_TVT_SYS_GetMessageActive(struct CtvtWork *work);
-extern int COMM_TVT_SYS_GetViewSwapped(struct CtvtWork *work);
-extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *msg);
-extern int COMM_TVT_SYS_GetCameraBusy(struct CtvtWork *work);
-extern void COMM_TVT_SYS_SetCameraBusy(struct CtvtWork *work, int value);
-extern unsigned int CTVT_COMM_IsSlotActive(void *unused, char *comm, s32 slot);
-extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
-extern int OS_IsRunOnTwl();
-extern void CTVT_CAMERA_RequestShutterSound0(struct Camera *p);
-extern void CTVT_CAMERA_RequestShutterSound1(struct Camera *p);
-extern unsigned int CAMERA_I2CEffectExCore(unsigned int camera, unsigned int context, unsigned int effect);
+#include "../arm9/gf_panic.h"
+#include "../arm9/gfl_use.h"
+/* The DS code passes a stale register value to OS_IsRunOnTwl; the host build calls it without an argument. */
+#ifdef __MWERKS__
+extern int OS_IsRunOnTwl(int);
+#define CTVT_IS_RUN_ON_TWL(v) OS_IsRunOnTwl(v)
+#else
+#include "../arm9/os_emulator.h"
+#define CTVT_IS_RUN_ON_TWL(v) OS_IsRunOnTwl()
+#endif
+#include "../twl/camera_api.h"
 extern const char d_021C71E0[];
 extern const char d_021C71F0[];
 extern u32 gCtvtWindowHeightTable[];
@@ -144,18 +124,18 @@ char *CTVT_CAMVIEW_Create(void *work, u16 heapId);
 void CTVT_CAMVIEW_Delete(u8 *unused, CtvtCamView *view);
 void CTVT_CAMVIEW_Update(char *unused, CtvtCamView *view);
 void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view);
-void CTVT_CAMVIEW_StopCapture(void *unused, CtvtCamView *view);
-int CTVT_CAMVIEW_IsShutterIdle(void *unused, CtvtCamView *view);
+void CTVT_CAMVIEW_StopCapture(struct CtvtWork *unused, CtvtCamView *view);
+int CTVT_CAMVIEW_IsShutterIdle(struct CtvtWork *unused, CtvtCamView *view);
 void CTVT_CAMVIEW_OnCameraFrame(char *frame, void *work);
 void CTVT_CAMVIEW_MarkWindowDirty(void *work, CtvtCamView *view, int slot);
 void CTVT_CAMVIEW_ClearWindowDirty(void *work, CtvtCamView *view, int slot);
 void CTVT_CAMVIEW_StartLayoutChange(void *work, CtvtCamView *view, int revealArg, int clearArg);
-u32 CTVT_CAMVIEW_IsLayoutChanging(u8 *unused, CtvtCamView *view);
-u32 CTVT_CAMVIEW_GetWindowHeight(void *work);
-u32 CTVT_CAMVIEW_GetWindowWidth(void *work, char *unused);
+u32 CTVT_CAMVIEW_IsLayoutChanging(struct CtvtWork *unused, CtvtCamView *view);
+u32 CTVT_CAMVIEW_GetWindowHeight(void *work, struct CtvtCamView *unused);
+u32 CTVT_CAMVIEW_GetWindowWidth(void *work, struct CtvtCamView *unused);
 u32 CTVT_CAMVIEW_GetOwnSlotBuffer(void *work, CtvtCamView *view);
 int CTVT_CAMVIEW_GetSlotBuffer(void *work, CtvtCamView *view, int slot);
-u32 CTVT_CAMVIEW_GetSlotBufferStep(void *work, u32 unused);
+u32 CTVT_CAMVIEW_GetSlotBufferStep(void *work, struct CtvtCamView *unused);
 void CTVT_CAMVIEW_SetWindowCurRect(CtvtCamViewWindow *win, u16 x, u16 y, u16 w, u16 h);
 void CTVT_CAMVIEW_SetWindowTargetRect(CtvtCamViewWindow *win, u16 x, u16 y, u16 w, u16 h);
 int CTVT_CAMVIEW_StepWindow(CtvtCamView *view, CtvtCamViewWindow *win);
@@ -163,9 +143,9 @@ int CTVT_CAMVIEW_StepValue(CtvtCamView *view, u16 *value, u16 *limit);
 void CTVT_CAMVIEW_SetWindowLayout(void *work, CtvtCamView *view, int slot);
 void CTVT_CAMVIEW_RequestWindowAnimation(int unused, CtvtCamView *view, int slot);
 u32 CTVT_CAMVIEW_IsWindowMoving(u8 *unused, CtvtCamView *view, int slot);
-void CTVT_CAMVIEW_SetCameraEffect(int unused, int unused2, int effect);
+void CTVT_CAMVIEW_SetCameraEffect(struct CtvtWork *unused, struct CtvtCamView *unused2, int effect);
 void CTVT_CAMVIEW_RequestShutterSound0(int unused, CtvtCamView *view);
-void CTVT_CAMVIEW_RequestShutterSound1(void *unused, CtvtCamView *view);
+void CTVT_CAMVIEW_RequestShutterSound1(struct CtvtWork *unused, CtvtCamView *view);
 
 /* Allocates the view; with the DSi camera present it also opens the camera,
  * three work buffers and the placeholder pictures in a private heap. */
@@ -182,10 +162,10 @@ char *CTVT_CAMVIEW_Create(void *work, u16 heapId)
         view->heapId = 0x6E;
         GFL_HEAP_CreateChildHeap(1, 0x6E, 0x80000);
         view->camera = CTVT_CAMERA_Create(view->heapId);
-        CTVT_CAMERA_SetSize(view->camera, 5);
-        CTVT_CAMERA_SelectCamera(view->camera, 1);
-        CTVT_CAMERA_AllocFrames(view->camera, 2, (u16)((view->heapId & 0x7FFF) | 0x8000));
-        CTVT_CAMERA_SetFrameCallback(view->camera, (u32)((void *)CTVT_CAMVIEW_OnCameraFrame), (u32)work);
+        CTVT_CAMERA_SetSize((Camera *)view->camera, 5);
+        CTVT_CAMERA_SelectCamera((Camera *)view->camera, 1);
+        CTVT_CAMERA_AllocFrames((Camera *)view->camera, 2, (u16)((view->heapId & 0x7FFF) | 0x8000));
+        CTVT_CAMERA_SetFrameCallback((Camera *)view->camera, (void (*)(u32, u32))((u32)((void *)CTVT_CAMVIEW_OnCameraFrame)), (u32)work);
         CTVT_CAMERA_StartCapture(view->camera);
         view->spareBufA = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x76);
         view->spareBufB = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x77);
@@ -228,7 +208,7 @@ void CTVT_CAMVIEW_Delete(u8 *unused, CtvtCamView *view)
     matrix[3] = FX_Inv(4096);
     matrix[1] = 0;
     matrix[2] = 0;
-    G2x_SetBGyAffine_((void *)0x04000030, matrix, 0, 0, 0, 0);
+    G2x_SetBGyAffine_(0x04000030, (union MtxFx22 *)matrix, 0, 0, 0, 0);
     GFL_HEAP_Free(view->screenBuf);
     GFL_HEAP_Free(view->noSignalHalf);
     GFL_HEAP_Free(view->noSignalFull);
@@ -346,7 +326,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                 }
                 m[1] = 0;
                 m[2] = 0;
-                G2x_SetBGyAffine_((void *)0x04000030, m, 0, 0, 0, 0);
+                G2x_SetBGyAffine_(0x04000030, (union MtxFx22 *)m, 0, 0, 0, 0);
                 for (i = 0; i < 4; i++) {
                     if (view->halfRes == 1) {
                         *(u16 *)((u8 *)view + 0x48 + i * 0x1C) = (u32)*(u16 *)((u8 *)view + 0x48 + i * 0x1C) >> 1;
@@ -421,7 +401,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
 }
 
 /* Stops the camera capture when a camera exists. */
-void CTVT_CAMVIEW_StopCapture(void *unused, CtvtCamView *view)
+void CTVT_CAMVIEW_StopCapture(struct CtvtWork *unused, CtvtCamView *view)
 {
     if (COMM_TVT_SYS_IsNetIdle() == 1) {
         CTVT_CAMERA_StopCapture(view->camera);
@@ -429,7 +409,7 @@ void CTVT_CAMVIEW_StopCapture(void *unused, CtvtCamView *view)
 }
 
 /* Returns 1 when no shutter sound plays (or when there is no camera). */
-int CTVT_CAMVIEW_IsShutterIdle(void *unused, CtvtCamView *view)
+int CTVT_CAMVIEW_IsShutterIdle(struct CtvtWork *unused, CtvtCamView *view)
 {
     if (COMM_TVT_SYS_IsNetIdle() == 1) {
         return CTVT_CAMERA_IsShutterSoundIdle(view->camera);
@@ -530,13 +510,13 @@ void CTVT_CAMVIEW_StartLayoutChange(void *work, CtvtCamView *view, int revealArg
     }
 }
 
-u32 CTVT_CAMVIEW_IsLayoutChanging(u8 *unused, CtvtCamView *view)
+u32 CTVT_CAMVIEW_IsLayoutChanging(struct CtvtWork *unused, CtvtCamView *view)
 {
     return view->layoutDirty;
 }
 
 /* Window height from table gCtvtWindowHeightTable; halved for half resolution. */
-u32 CTVT_CAMVIEW_GetWindowHeight(void *work)
+u32 CTVT_CAMVIEW_GetWindowHeight(void *work, struct CtvtCamView *unused)
 {
     u32 i = COMM_TVT_SYS_GetLayoutMode(work);
     if (COMM_TVT_SYS_GetHalfRes(work) == 0)
@@ -545,7 +525,7 @@ u32 CTVT_CAMVIEW_GetWindowHeight(void *work)
 }
 
 /* Window width from table gCtvtWindowWidthTable; halved for half resolution. */
-u32 CTVT_CAMVIEW_GetWindowWidth(void *work, char *unused)
+u32 CTVT_CAMVIEW_GetWindowWidth(void *work, struct CtvtCamView *unused)
 {
     u32 i = COMM_TVT_SYS_GetLayoutMode(work);
     if (COMM_TVT_SYS_GetHalfRes(work) == 0)
@@ -560,14 +540,14 @@ u32 CTVT_CAMVIEW_GetOwnSlotBuffer(void *work, CtvtCamView *view)
 
 int CTVT_CAMVIEW_GetSlotBuffer(void *work, CtvtCamView *view, int slot)
 {
-    int step = (int)((u32 (*)(void *))CTVT_CAMVIEW_GetSlotBufferStep)(work);
+    int step = CTVT_CAMVIEW_GetSlotBufferStep(work, view);
     if (COMM_TVT_SYS_GetLayoutMode(work) == 1 && slot != 0)
         return (int)view->screenBuf + step;
     return (int)view->screenBuf + step * slot;
 }
 
 /* Slot step from table gCtvtSlotStepTable; quartered for half resolution. */
-u32 CTVT_CAMVIEW_GetSlotBufferStep(void *work, u32 unused)
+u32 CTVT_CAMVIEW_GetSlotBufferStep(void *work, struct CtvtCamView *unused)
 {
     u32 i = COMM_TVT_SYS_GetLayoutMode(work);
     if (COMM_TVT_SYS_GetHalfRes(work) == 0) {
@@ -715,13 +695,13 @@ u32 CTVT_CAMVIEW_IsWindowMoving(u8 *unused, CtvtCamView *view, int slot)
 }
 
 /* Sets the camera colour effect (0 normal, 1, 3 and 5 are the key choices). */
-void CTVT_CAMVIEW_SetCameraEffect(int unused, int unused2, int effect)
+void CTVT_CAMVIEW_SetCameraEffect(struct CtvtWork *unused, struct CtvtCamView *unused2, int effect)
 {
     int r = COMM_TVT_SYS_IsNetIdle();
     if (r != 1) {
         return;
     }
-    r = OS_IsRunOnTwl(r);
+    r = CTVT_IS_RUN_ON_TWL(r);
     if (r != 1) {
         return;
     }
@@ -739,7 +719,7 @@ void CTVT_CAMVIEW_RequestShutterSound0(int unused, CtvtCamView *view)
 }
 
 /* Asks the camera for the second shutter sound, once the first was requested. */
-void CTVT_CAMVIEW_RequestShutterSound1(void *unused, CtvtCamView *view)
+void CTVT_CAMVIEW_RequestShutterSound1(struct CtvtWork *unused, CtvtCamView *view)
 {
     if (COMM_TVT_SYS_IsNetIdle() != 1) {
         return;

@@ -24,35 +24,16 @@
 
 #include "../types.h"
 
-typedef struct {
-    u8 type;
-    u8 pad;
-    u16 a;
-    u16 b;
-} ParentBlockHeader;
+#include "../ov107/mb_block_types.h"
 
-struct hdr {
-    u8 type;
-    u8 pad;
-    u16 h2;
-    u8 data[1];
-};
-
-typedef struct {
-    u8 type;
-    u8 pad;
-    u8 piece;
-} ChildBlockHeader;
-
-extern void MI_CpuFill8(void *dst, int val, u32 len);
+#include "../arm9/mi_memory.h"
 int IsGetAllRequestData(int a);
-extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 void MBi_SetChildMPMaxSize(u16 childMaxSize);
 void MBi_SetParentPieceBuffer(void *buf);
 void MBi_ClearParentPieceBuffer(u16 child_aid);
-u8 *MBi_MakeParentSendBuffer(const ParentBlockHeader *hdr, u8 *sendbuf);
-u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, struct hdr *hdr, u16 child_id);
-u8 *MBi_ReceiveRequestDataPiece(ChildBlockHeader *hdr, u16 child);
+u8 *MBi_MakeParentSendBuffer(const MBCommParentBlockHeader *hdr, u8 *sendbuf);
+u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, MBCommChildBlockHeader *hdr, u16 child_id);
+u8 *MBi_ReceiveRequestDataPiece(MBCommChildBlockHeader *hdr, u16 child);
 extern struct piece d_021F7008;
 extern struct piece g_021F7008;
 
@@ -91,7 +72,7 @@ void MBi_ClearParentPieceBuffer(u16 child_aid)
  * notes:    a const header lets both halfwords load before the stores; with
  *           a plain pointer (or u16 locals) r1 and r2 swap.
  */
-u8 *MBi_MakeParentSendBuffer(const ParentBlockHeader *hdr, u8 *sendbuf)
+u8 *MBi_MakeParentSendBuffer(const MBCommParentBlockHeader *hdr, u8 *sendbuf)
 {
     u8 *ptr = sendbuf;
 
@@ -102,10 +83,10 @@ u8 *MBi_MakeParentSendBuffer(const ParentBlockHeader *hdr, u8 *sendbuf)
     case 3:
         break;
     case 4:
-        *ptr++ = (u8)(0x00FF & hdr->a);
-        *ptr++ = (u8)((0xFF00 & hdr->a) >> 8);
-        *ptr++ = (u8)(0x00FF & hdr->b);
-        *ptr++ = (u8)((0xFF00 & hdr->b) >> 8);
+        *ptr++ = (u8)(0x00FF & hdr->fid);
+        *ptr++ = (u8)((0xFF00 & hdr->fid) >> 8);
+        *ptr++ = (u8)(0x00FF & hdr->seqno);
+        *ptr++ = (u8)((0xFF00 & hdr->seqno) >> 8);
         break;
     case 5:
     case 6:
@@ -119,7 +100,7 @@ u8 *MBi_MakeParentSendBuffer(const ParentBlockHeader *hdr, u8 *sendbuf)
 /*
  * sdk:      MBi_SetRecvBufferFromChild (libmb.TWL.HYB.a mb_block.o)
  */
-u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, struct hdr *hdr, u16 child_id)
+u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, MBCommChildBlockHeader *hdr, u16 child_id)
 {
     u8 *ptr;
     u8 type;
@@ -136,17 +117,17 @@ u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, struct hdr *hdr, u16 child_id)
         if (idx > g_021F7008.max)
             return 0;
         MI_CpuCopy8(recvbuf + 2, (u8 *)hdr + 3, g_021F7008.size);
-        ptr = MBi_ReceiveRequestDataPiece((ChildBlockHeader *)hdr, child_id);
+        ptr = MBi_ReceiveRequestDataPiece(hdr, child_id);
         break;
     case 8:
-        hdr->h2 = recvbuf[1];
-        hdr->h2 |= (recvbuf[2] << 8) & 0xFF00;
+        hdr->u.data.req = recvbuf[1];
+        hdr->u.data.req |= (recvbuf[2] << 8) & 0xFF00;
         ptr = recvbuf + 3;
         break;
     case 9:
         ptr = recvbuf + 3;
-        hdr->h2 = recvbuf[1];
-        hdr->h2 |= (recvbuf[2] << 8) & 0xFF00;
+        hdr->u.data.req = recvbuf[1];
+        hdr->u.data.req |= (recvbuf[2] << 8) & 0xFF00;
         MI_CpuCopy8(ptr, (u8 *)hdr + 4, g_021F7008.size);
         ptr += g_021F7008.size;
         break;
@@ -156,13 +137,13 @@ u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, struct hdr *hdr, u16 child_id)
     return ptr;
 }
 
-u8 *MBi_ReceiveRequestDataPiece(ChildBlockHeader *hdr, u16 child)
+u8 *MBi_ReceiveRequestDataPiece(MBCommChildBlockHeader *hdr, u16 child)
 {
     u8 piece;
 
     if (g_021F7008.buf == 0)
         return 0;
-    piece = hdr->piece;
+    piece = hdr->u.raw[0];
     if (piece > g_021F7008.max)
         return 0;
     MI_CpuCopy8((u8 *)hdr + 3,

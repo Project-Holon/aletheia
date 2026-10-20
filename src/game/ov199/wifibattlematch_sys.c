@@ -103,17 +103,17 @@
 #include "../arm9/btl_setup_types.h"
 #include "../ov213/comm_btl_demo_shared_types.h"
 
-struct Big;
+struct GameData;
 struct BigObj;
 struct Party;
 struct Proc;
 struct WifiBattleMatchSysProc;
-struct Rec160;
+struct RegulationCard;
 struct Rec534;
 struct MyStatus;
 struct Entry;
-struct Reg;
-struct Reg2;
+struct Regulation;
+struct RegulationCard;
 struct ZoneData;
 struct Obj;
 struct Link;
@@ -123,7 +123,7 @@ typedef enum { setupValueOffset = 0x24f } SetupValueOffset;
 
 typedef enum { matchValueOffset = 0x2c0 } MatchValueOffset;
 
-struct Sub { u32 a0; u32 a4; u8 pad[1]; };
+struct WifibattlematchSysSub { u32 a0; u32 a4; u8 pad[1]; };
 
 /*
  * Per-side party buffer allocated by WIFIBATTLEMATCH_SYS_AllocPartyBuffers
@@ -300,11 +300,11 @@ typedef struct Flag { u8 bit:1; u8 rest:7; } Flag;
 
 typedef struct PartyCounts { u8 a,b,c; } PartyCounts;
 
-typedef struct Flags { u32 year:7, month:4, day:5, hour:5, minute:6, rest:4, enabled:1; } Flags;
+typedef struct WifibattlematchSysFlags { u32 year:7, month:4, day:5, hour:5, minute:6, rest:4, enabled:1; } WifibattlematchSysFlags;
 
 typedef struct Nibbles { u8 a:4,b:4; } Nibbles;
 
-typedef struct Triple { int a,b,c; } Triple;
+typedef struct WifibattlematchSysTriple { int a,b,c; } WifibattlematchSysTriple;
 
 typedef struct Date { int a,b,c,weekday; } Date;
 
@@ -328,113 +328,61 @@ struct PWk {
     u32 result;
 };
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *, int, unsigned);
-extern void MI_CpuCopy8(const void *, void *, unsigned);
+#include "../arm9/gf_panic.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
 struct GameData;
-extern struct GameData *GAME_DATA_Create(u16);
-extern struct Party *POKEPARTY_Create(u32 heap);
-extern void BATTLE_REC_AllocWork(unsigned);
-extern void *GAME_DATA_GetMyParty(struct GameData *gd);
-extern int POKE_REGULATION_GetDataSize(void);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+#include "../arm9/game_data.h"
+#include "../arm9/pokeparty.h"
+#include "../arm9/battle_rec.h"
+#include "../arm9/poke_regulation.h"
 struct SaveControl;
 struct BattleBoxSave;
-extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
+#include "../arm9/battle_box.h"
 struct BoxMonGroup;
-extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BATTLE_REC_FreeWork(void);
-extern void GAME_DATA_Delete(struct GameData *gameData);
-extern void OS_ResetSystem(u32 parameter);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(u32);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
-extern u16 GFL_USE_GetBgmNo(void);
-extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
-extern void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *p);
-extern int LIVEBATTLEMATCH_SAVE_GetStats2(int);
-extern void POKEPARTY_Init(struct Party *p);
-extern void *POKE_REGULATION_Load(int, int);
-extern void *REGULATION_NoOp(void *);
-extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
-extern void *BATTLE_COMPETITION_GetFromSave(void *);
-extern void POKEPARTY_Copy(struct Party *src, struct Party *dst);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/os_reset.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/net_err.h"
+#include "../arm9/livebattlematch_savedata.h"
+#include "../arm9/regulation.h"
 struct Regulation;
-extern void POKE_REGULATION_AdjustPartyLevels(struct Regulation *reg, struct Party *party);
-extern void *MYSTATUS_GetName(void *);
-extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
-extern void BATTLE_REC_ClearWork(void);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
-extern int GF_OVERLAY_Load(s32 handle);
-extern void GF_OVERLAY_Unload(int);
+#include "../arm9/mystatus.h"
+#include "../arm9/gf_overlay.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void BTL_SETUP_SetupCommSingle(void *, void *, int, int, u32);
-extern void BTL_SETUP_SetupCommDouble(void *, void *, int, int, u32);
-extern void BTL_SETUP_SetupCommTriple(void *, void *, int, int, u32);
-extern void BTL_SETUP_SetupCommRotation(void *, void *, int, int, u32);
-extern u32 REGULATION_GetRuleValue(struct Reg *p, u32 id);
-extern s32 REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
-extern void BTL_SETUP_SetParty(struct BattleSetupParam *param, struct Party *src, int client);
-extern void BTL_SETUP_ApplyRegulation(struct BattleSetupParam *param, struct Regulation *reg, unsigned int level);
-extern void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *param, unsigned int heap);
-extern void BATTLE_REC_LoadToolOverlay(void);
-extern void BATTLE_REC_TOOL_PackSetup(struct BattleSetupParam *setup);
-extern void BATTLE_REC_UnloadToolOverlay(void);
-extern void BTL_SETUP_FreeSlots(struct BattleSetupParam *param);
-extern unsigned BATTLE_REC_IsVersionSupported(unsigned);
-extern void BTL_SETUP_Clear(struct BattleSetupParam *param);
-extern void BTL_SETUP_InitWithSlots(char *, void *, int);
-extern void BATTLE_REC_TOOL_UnpackSetup(struct BattleSetupParam *setup, unsigned int heapId);
-extern void BTL_SETUP_ClearWithSlots(struct BattleSetupParam *param);
-extern u32 MYSTATUS_GetProfileId(const struct MyStatus *obj);
-extern unsigned POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/net_handle.h"
+#include "../ov188/battle_rec_tool.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
-extern unsigned POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
-extern int DWC_GetDateTime(void *date, void *time);
-extern void *PROCSYS_Create(int);
-extern void PROCSYS_Delete(struct Proc *p);
-extern u32 PROCSYS_Main(void *);
-extern void PROCSYS_Push(void *, int, void *, void *);
-extern void GFL_USE_FadeOutBgm(unsigned);
-extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
-extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
-extern int GFL_NET_GetRunState(void);
+#include "../arm9/poke_tool.h"
+#include "../ov009/dwc_nasfunc.h"
+#include "../arm9/net_command.h"
+#include "../arm9/net.h"
 struct GFLNetSession;
-extern struct GFLNetSession *GFL_NET_GetInitParam(void);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern void GFL_NET_ERR_RequestScreen(void);
-extern int DWC_RAPCOMMON_HandleNetError(int, int);
+#include "../ov009/dwc_rapcommon.h"
+#include "../arm9/btl_setup.h"
 int WIFIBATTLEMATCH_SYS_CreateWork(void *a, int unused, u8 *arg);
 int WIFIBATTLEMATCH_SYS_DestroyWork(void *sys, int unused, void *data, char *p);
 int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,char *p);
-int *WIFIBATTLEMATCH_SYS_BuildRuleCommand(void *obj, unsigned heap, char *ctx);
+int *WIFIBATTLEMATCH_SYS_BuildRuleCommand(void *obj, u16 heap, char *ctx);
 int WIFIBATTLEMATCH_SYS_HandleRuleCommand(void *obj, int *command, int *ctx);
-int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, unsigned heap, char *ctx);
+int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, u16 heap, char *ctx);
 int WIFIBATTLEMATCH_SYS_HandleMatchCommand(void *obj, int *command, int *ctx);
-u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, unsigned heap, u8 *p);
+u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, u16 heap, u8 *p);
 int WIFIBATTLEMATCH_SYS_HandlePartyCommand(void *obj, int *command, int *ctx);
-struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u32 heap, struct WifiBattleMatchSysWork *p);
+struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u16 heap, struct WifiBattleMatchSysWork *p);
 int WIFIBATTLEMATCH_SYS_ApplySetup(void *manager, u8 *arg, u8 *p);
-int *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, unsigned heap, char *ctx);
+int *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, u16 heap, char *ctx);
 int WIFIBATTLEMATCH_SYS_HandleStartCommand(char *p, char *q, char *work);
-void *WIFIBATTLEMATCH_SYS_BuildSyncCommand(void *unused, int heap, char *p);
+void *WIFIBATTLEMATCH_SYS_BuildSyncCommand(void *unused, u16 heap, char *p);
 int WIFIBATTLEMATCH_SYS_HandleSyncCommand(char *a, char *work, char *p);
-unsigned *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, unsigned heap, u8 *p);
+unsigned *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, u16 heap, u8 *p);
 int WIFIBATTLEMATCH_SYS_HandleVersionCommand(char *p, char *q, char *work);
-void *WIFIBATTLEMATCH_SYS_BuildRule2Command(void *unused, int heap, char *p);
+void *WIFIBATTLEMATCH_SYS_BuildRule2Command(void *unused, u16 heap, char *p);
 int WIFIBATTLEMATCH_SYS_HandleRule2Command(char *a, void *work, char *p);
-void *WIFIBATTLEMATCH_SYS_BuildSlotCommand(void *unused, int heap, char *p);
+void *WIFIBATTLEMATCH_SYS_BuildSlotCommand(void *unused, u16 heap, char *p);
 int WIFIBATTLEMATCH_SYS_DestroySlotCommand(char *p, char *q);
-void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(char *p, int heap);
+void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(char *p, u16 heap);
 void WIFIBATTLEMATCH_SYS_FreePartyBuffers(u8 *p);
 void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *save,void *reg,int setting,u8 *record,void *other,int mode);
 void WIFIBATTLEMATCH_SYS_CountBoxSpecies(struct WifiBattleMatchSysSetupRecord *box, unsigned char *a, unsigned char *b);
@@ -555,7 +503,7 @@ int WIFIBATTLEMATCH_SYS_WaitTask(int unused,int *state,int unused2,char *p)
  * the live offset variable and preserves the original instruction shape.
  * lever: enum tag 0x24F remains live and becomes offset 0x1B4.
  */
-int *WIFIBATTLEMATCH_SYS_BuildRuleCommand(void *obj, unsigned heap, char *ctx)
+int *WIFIBATTLEMATCH_SYS_BuildRuleCommand(void *obj, u16 heap, char *ctx)
 {
     SetupValueOffset offset = setupValueOffset;
     int *p = GFL_HEAP_Alloc(heap, 0x18, 0, d_02213D04, setupValueOffset);
@@ -599,7 +547,7 @@ int WIFIBATTLEMATCH_SYS_HandleRuleCommand(void *obj, int *command, int *ctx)
  * ABI: EA04 consumes the live return register from E9F4, with no new setup.
  * lever: derive an integer offset before adding the base, then reduce the enum.
  */
-int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, unsigned heap, char *ctx)
+int *WIFIBATTLEMATCH_SYS_BuildMatchCommand(int unused, u16 heap, char *ctx)
 {
     MatchValueOffset offset = matchValueOffset;
     int *p = GFL_HEAP_Alloc(heap, 0x44, 0, d_02213D04, matchValueOffset);
@@ -655,7 +603,7 @@ int WIFIBATTLEMATCH_SYS_HandleMatchCommand(void *obj, int *command, int *ctx)
  * ABI exception: AE14 and 084F4 empty callees preserve live pointer r0;
  * caller consumes it after their BL, despite legacy void(void).
  */
-u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, unsigned heap, u8 *p)
+u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, u16 heap, u8 *p)
 {
     u8 *out;
     u8 *row;
@@ -675,9 +623,9 @@ u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, unsigned heap, u8 *p)
         }
         ((struct WifiBattleMatchSysRegRecord *)out)->card = POKE_REGULATION_Load(id, heap);
     } else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 0) {
-        ((struct WifiBattleMatchSysRegRecord *)out)->card = REGULATION_NoOp(REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct WifiBattleMatchSysWork *)p)->gameData)), 0));
+        ((struct WifiBattleMatchSysRegRecord *)out)->card = REGULATION_NoOp((void *)(REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)(((struct WifiBattleMatchSysWork *)p)->gameData))))), 0)));
     } else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 1) {
-        ((struct WifiBattleMatchSysRegRecord *)out)->card = REGULATION_NoOp(REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct WifiBattleMatchSysWork *)p)->gameData)), 1));
+        ((struct WifiBattleMatchSysRegRecord *)out)->card = REGULATION_NoOp((void *)(REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)(((struct WifiBattleMatchSysWork *)p)->gameData))))), 1)));
     } else {
         GF_PANIC_Fail(d_02213D00, 0, d_02213D00);
     }
@@ -689,7 +637,7 @@ u8 *WIFIBATTLEMATCH_SYS_BuildRegulationRecord(int unused, unsigned heap, u8 *p)
     row = *(u8 * *)&((struct WifiBattleMatchSysWork *)p)->partyBuffer1;
     POKEPARTY_Copy((struct Party *)(row + 0xd4), ((struct WifiBattleMatchSysWork *)p)->partyD);
     POKE_REGULATION_AdjustPartyLevels(((struct WifiBattleMatchSysRegRecord *)out)->card, ((struct WifiBattleMatchSysWork *)p)->partyD);
-    ((struct WifiBattleMatchSysRegRecord *)out)->row = MYSTATUS_GetName(row);
+    ((struct WifiBattleMatchSysRegRecord *)out)->row = (void *)MYSTATUS_GetName((const struct MyStatus *)((struct MyStatus *)row));
     ((struct WifiBattleMatchSysRegRecord *)out)->partyD = ((struct WifiBattleMatchSysWork *)p)->partyD;
     out[0xc] = MYSTATUS_GetSex((const struct MyStatus *)row);
     return out;
@@ -721,7 +669,7 @@ int WIFIBATTLEMATCH_SYS_HandlePartyCommand(void *obj, int *command, int *ctx)
  * matching: a switch default written as its own copy of case 0 leaves the b stub the
  *   original has; explicit copies per index (0 and 1) instead of a helper; y*2+0x21+x add order.
  */
-struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u32 heap, struct WifiBattleMatchSysWork *p)
+struct Out *WIFIBATTLEMATCH_SYS_BuildSetupRecord(int unused, u16 heap, struct WifiBattleMatchSysWork *p)
 {
     struct Out *out;
     void *v;
@@ -849,7 +797,7 @@ int WIFIBATTLEMATCH_SYS_ApplySetup(void *manager, u8 *arg, u8 *p)
     BATTLE_REC_TOOL_PackSetup(((struct WifiBattleMatchSysSetupArg *)arg)->record);
     BATTLE_REC_UnloadToolOverlay();
     if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 0) {
-        rules = REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct WifiBattleMatchSysWork *)p)->gameData)),0);
+        rules = REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)(((struct WifiBattleMatchSysWork *)p)->gameData))))),0);
         reg = REGULATION_NoOp(rules);
         setting = REGULATION_Card_GetValue(rules,2);
         if (state == 0) WIFIBATTLEMATCH_SYS_FillSetupRecord(p + 0x1d0,((struct WifiBattleMatchSysWork *)p)->partyA,((struct WifiBattleMatchSysWork *)p)->partyB,((struct WifiBattleMatchSysWork *)p)->partyBuffer1,reg,setting,record,p + 0x1b4,0);
@@ -877,7 +825,7 @@ int WIFIBATTLEMATCH_SYS_ApplySetup(void *manager, u8 *arg, u8 *p)
     return 1;
 }
 
-int *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, unsigned heap, char *ctx)
+int *WIFIBATTLEMATCH_SYS_BuildStartCommand(int unused, u16 heap, char *ctx)
 {
     int zero = 0;
     int *p = GFL_HEAP_Alloc(heap, 0x28, zero, d_02213D04, 0x588);
@@ -912,7 +860,7 @@ int WIFIBATTLEMATCH_SYS_HandleStartCommand(char *p, char *q, char *work)
     return 1;
 }
 
-void *WIFIBATTLEMATCH_SYS_BuildSyncCommand(void *unused, int heap, char *p)
+void *WIFIBATTLEMATCH_SYS_BuildSyncCommand(void *unused, u16 heap, char *p)
 {
     unsigned int *work = GFL_HEAP_Alloc(heap, 0x1c, 0, d_02213D04, 0x5dc);
     MI_CpuFill8(work, 0, 0x1c);
@@ -950,7 +898,7 @@ int WIFIBATTLEMATCH_SYS_HandleSyncCommand(char *a, char *work, char *p)
 /*
  * ABI exception: empty AE14 preserves its input pointer in r0, consumed here.
  */
-unsigned *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, unsigned heap, u8 *p)
+unsigned *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, u16 heap, u8 *p)
 {
     unsigned *out;
     unsigned index, id, flag;
@@ -968,7 +916,7 @@ unsigned *WIFIBATTLEMATCH_SYS_BuildVersionCommand(int unused, unsigned heap, u8 
         if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 0) index = zero;
         else if (((struct WifiBattleMatchSysWork *)p)->ruleKind == 1) index = 1;
         else GF_PANIC_Fail(d_02213D00, zero, d_02213D00);
-        reg = REGULATION_NoOp(REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((struct WifiBattleMatchSysWork *)p)->gameData)), index));
+        reg = REGULATION_NoOp((void *)(REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)(((struct WifiBattleMatchSysWork *)p)->gameData))))), index)));
         a = REGULATION_GetRuleValue(reg, 0xd);
         b = REGULATION_GetRuleValue(reg, 0x15);
         if (a >= 2) a = 1;
@@ -1006,7 +954,7 @@ int WIFIBATTLEMATCH_SYS_HandleVersionCommand(char *p, char *q, char *work)
     return 1;
 }
 
-void *WIFIBATTLEMATCH_SYS_BuildRule2Command(void *unused, int heap, char *p)
+void *WIFIBATTLEMATCH_SYS_BuildRule2Command(void *unused, u16 heap, char *p)
 {
     unsigned int *work = GFL_HEAP_Alloc(heap, 0x1c, 0, d_02213D04, 0x6b2);
     MI_CpuFill8(work, 0, 0x1c);
@@ -1050,13 +998,13 @@ int WIFIBATTLEMATCH_SYS_HandleRule2Command(char *a, void *work, char *p)
  * void BATTLE_REC_LoadToolOverlay(void) { GF_OVERLAY_Load(ov188_id); }
  * void BATTLE_REC_UnloadToolOverlay(void) { GF_OVERLAY_Unload(ov188_id); }
  */
-void *WIFIBATTLEMATCH_SYS_BuildSlotCommand(void *unused, int heap, char *p)
+void *WIFIBATTLEMATCH_SYS_BuildSlotCommand(void *unused, u16 heap, char *p)
 {
     char *work = GFL_HEAP_Alloc(heap, 0xf0, 0, d_02213D04, 0x6f4);
     MI_CpuFill8(work, 0, 0xf0);
     GF_OVERLAY_Load((s32)ov093_id);
     BTL_SETUP_Clear((struct BattleSetupParam *)work);
-    BTL_SETUP_InitWithSlots(work, *(void **)(p + 4), heap);
+    BTL_SETUP_InitWithSlots((struct BattleSetupParam *)work, *(void **)(p + 4), heap);
     GF_OVERLAY_Unload((s32)ov093_id);
     BATTLE_REC_LoadToolOverlay();
     BATTLE_REC_TOOL_UnpackSetup((struct BattleSetupParam *)work, heap);
@@ -1078,7 +1026,7 @@ int WIFIBATTLEMATCH_SYS_DestroySlotCommand(char *p, char *q)
     return 1;
 }
 
-void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(char *p, int heap)
+void WIFIBATTLEMATCH_SYS_AllocPartyBuffers(char *p, u16 heap)
 {
     int size;
     ((struct WifiBattleMatchSysWork *)p)->partyBuffer0 = GFL_HEAP_Alloc(heap, POKE_REGULATION_GetDataSize() + 0xd4, 0, d_02213D04, 0x72d);
@@ -1104,7 +1052,7 @@ void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *sav
     unsigned zero = 0;
     void *mon;
     Date date;
-    Triple time;
+    WifibattlematchSysTriple time;
     PartyCountPair bytes;
     MI_CpuFill8(p,0,0x50);
     ((struct WifiBattleMatchSysSetupOut *)p)->card=MYSTATUS_GetProfileId((const struct MyStatus *)save);
@@ -1128,18 +1076,18 @@ void WIFIBATTLEMATCH_SYS_FillSetupRecord(u8 *p,void *party1,void *party2,u8 *sav
         }
     }
     if(DWC_GetDateTime(&date,&time)==0) GF_PANIC_Fail(d_02213D00,0,d_02213D00);
-    ((Flags *)(p + 0x44))->year=date.a;
-    ((Flags *)(p + 0x44))->month=date.b;
-    ((Flags *)(p + 0x44))->day=date.c;
-    ((Flags *)(p + 0x44))->hour=time.a;
-    ((Flags *)(p + 0x44))->minute=time.b;
+    ((WifibattlematchSysFlags *)(p + 0x44))->year=date.a;
+    ((WifibattlematchSysFlags *)(p + 0x44))->month=date.b;
+    ((WifibattlematchSysFlags *)(p + 0x44))->day=date.c;
+    ((WifibattlematchSysFlags *)(p + 0x44))->hour=time.a;
+    ((WifibattlematchSysFlags *)(p + 0x44))->minute=time.b;
     ((struct WifiBattleMatchSysSetupOut *)p)->setting=setting;
     p[0x4c]=((struct WifiBattleMatchSysSetupRecord *)record)->netSetupResult;
     WIFIBATTLEMATCH_SYS_CountBoxSpecies((struct WifiBattleMatchSysSetupRecord *)record,&bytes.a,&bytes.b);
     ((Nibbles *)(p + 0x4e))->a=bytes.a;
     ((Nibbles *)(p + 0x4e))->b=bytes.b;
     p[0x4d]=REGULATION_GetRuleValue(reg,0x15);
-    ((Flags *)(p + 0x44))->enabled=REGULATION_GetRuleValue(reg,0xd);
+    ((WifibattlematchSysFlags *)(p + 0x44))->enabled=REGULATION_GetRuleValue(reg,0xd);
 }
 
 void WIFIBATTLEMATCH_SYS_CountBoxSpecies(struct WifiBattleMatchSysSetupRecord *box, unsigned char *a, unsigned char *b)
@@ -1323,7 +1271,7 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
     case 0:
         GFL_USE_CancelChangeAndPlayBgm(*(u16 *)(pw->matchParam + 0x18), 0xffff);
         *(u32 *)(pw->battleParam + 0x44) = 1;
-        PROCSYS_Push(wk->procSys, (int)ov213_id, data_021BB0B0, pw->battleParam);
+        PROCSYS_Push(wk->procSys, (int)ov213_id, (const struct ProcData *)data_021BB0B0, pw->battleParam);
         st = 2;
         *seq = 1;
         break;
@@ -1342,7 +1290,7 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
         if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8, 0x24)) *seq = 4;
         break;
     case 4:
-        PROCSYS_Push(wk->procSys, -1, data_021EFDAC, pw->matchParam);
+        PROCSYS_Push(wk->procSys, -1, (const struct ProcData *)data_021EFDAC, pw->matchParam);
         st = 2;
         *seq = 5;
         break;
@@ -1441,7 +1389,7 @@ int WIFIBATTLEMATCH_SYS_HandleNetState(void *proc, int *seq, struct PWk *pw, str
             }
         }
         if (flag) {
-            PROCSYS_Push(wk->procSys, (int)ov213_id, data_021BB0B0, pw->battleParam);
+            PROCSYS_Push(wk->procSys, (int)ov213_id, (const struct ProcData *)data_021BB0B0, pw->battleParam);
             st = 2;
             *seq = 12;
         }

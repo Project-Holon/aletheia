@@ -147,86 +147,73 @@
 #include "../version.h"
 #include "worldtrade_types.h"
 
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
+#include "../arm9/mi_memory.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 struct BmpWin;
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern void BG_SYS_SetSubVisiblePlanes(u32 a);
+#include "../arm9/bg_sys.h"
 
-struct Ctx;
+struct WorldtradeCtx;
 struct GameSystem;
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void WORLDTRADE_ENTER_RestartNetTimeout(u8 *);
+#include "worldtrade_input.h"
+#include "worldtrade_demo.h"
 
-extern u32 BG_SYS_GetSubVisiblePlanes(void);
 
-extern void BG_SYS_ClearSlot(u32 i);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+#include "../arm9/arc_util.h"
 
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
+#include "../arm9/bmp_menuwork.h"
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern int TOUCHPANEL_GetTrg(void);
+#include "../arm9/touchpanel.h"
 struct WorldTradeData;
 
 
-extern void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon);
 
-extern u32 POKE_TOOL_GetPartyParamSize(void);
+#include "../arm9/poke_tool.h"
 
-extern void WORLDTRADE_AdvanceScreenId(Work *p);
+#include "worldtrade.h"
+#include "../arm9/worldtrade.h"
 struct MyStatus;
 
-extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 
-extern s32 DPW_TR_GetAsyncResult(void);
+#include "../ov114/dpw_tr.h"
 
-extern void WORLDTRADE_CancelSave(Work *p);
 
-extern void WORLDTRADE_DeleteTimeIcon(Work *p);
 
-extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
+#include "../arm9/net_err.h"
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
+#include "../arm9/net.h"
 
-extern void BG_SYS_PushTile(u32 layer);
 
 struct Sub02008C20Obj;
 
@@ -242,324 +229,252 @@ typedef struct {
     u8 y;
     u8 flags;
     u8 tail;
-} Record;
+} WorldtradeServerRecord;
 
-extern void *WORLDTRADE_NoOp(void *);
 
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
+#include "../arm9/wipe.h"
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void WORLDTRADE_SetNextState(Work *p, u32 state, u32 returnState);
 
-extern void WORLDTRADE_SetStateAndReturn(Work *p, u32 nextScreenId, u32 kind);
 
-extern void GFL_USE_PlaySeDefaultVolume(unsigned);
+#include "../arm9/gfl_use.h"
 struct PokemonParam;
 
 
 
 
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
-extern int GXx_GetMasterBrightness_(vu16 *reg);
+#include "../arm9/gx.h"
 
 
-extern int DPW_TR_IsAsyncEnd();
 
-extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 
-extern void GFL_NET_ERR_ResetState(void);
 
-extern void GFL_NET_STATE_SetWifiError(void);
+#include "../arm9/net_state.h"
 
-extern void GFL_NET_STATE_ClearErrorMode(void);
 
-extern void DPW_TR_End(u8 *p);
 
-extern void WORLDTRADE_INPUT_PrintStringPlain(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-extern void WORLDTRADE_CreateTimeIcon(Work *p);
 struct PartyPokemon;
 
-extern void POKE_TOOL_CopyPartyPokemon(struct PartyPokemon *src, struct PartyPokemon *dest);
 
-extern u32 NATION_AREA_SanitizeNation(u32, u32, u32);
+#include "../arm9/bmp_oam.h"
 
-extern u32 NATION_AREA_SanitizeArea(u32, u32, u32);
 struct _NHTTPRapSession;
 
-extern struct _NHTTPRapSession *NHTTP_RAP_Create(unsigned int heapId, unsigned int gameCode, char *source_p);
+#include "../ov114/nhttp_rap.h"
 
-extern void NHTTP_RAP_AllocPostData(struct _NHTTPRapSession *session_p, int alignment, int size, int id);
 
-extern void NHTTP_RAP_AppendPostData(struct _NHTTPRapSession *session_p, void *src_p, int size);
 
-extern int NHTTP_RAP_CreatePostRequest(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_StartConnection(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_GetResultCode(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_PollConnection(struct _NHTTPRapSession *session_p);
 
-extern char *NHTTP_RAP_GetRecvBuffer(struct _NHTTPRapSession *session_p);
 
-extern void NHTTP_RAP_DeleteConnection(struct _NHTTPRapSession *session_p);
 
-extern void NHTTP_RAP_FreePostData(struct _NHTTPRapSession *session_p);
 
-extern void NHTTP_RAP_Destroy(struct _NHTTPRapSession *session_p);
 struct _NHTTPRapRecordList;
 
-extern int NHTTP_RAP_RecordList_GetCount(struct _NHTTPRapRecordList *list_p);
 
-extern u32 NHTTP_RAP_RecordList_GetValue(struct _NHTTPRapRecordList *list_p, unsigned int index);
 struct _NHTTPRapRecord;
 
-extern struct _NHTTPRapRecord *NHTTP_RAP_RecordList_GetRecord(struct _NHTTPRapRecordList *list_p, unsigned int index);
 
-extern void GFL_NET_ERR_RaiseFatal(u32 id);
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
-extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
 
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 
-extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
 
-extern u16 STRBUF_GetEosChar(void);
 
-extern int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
+#include "../ov009/dwc_prof.h"
 
-extern int DWC_CheckProfanityProcess(void);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void DPW_TR_UploadAsync(void *tradeData, void *wantedData, int wantedLen);
 
-extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
+#include "../arm9/record.h"
 
-extern void DPW_TR_GetUploadResultAsync(u8 *p);
 
-extern void DPW_TR_DownloadAsync(u8 *p);
 
-extern u16 WORLDTRADE_GetReturnBox(struct RegB *p);
 
-extern void DPW_TR_UploadFinishAsync(u8 *p);
 
-extern void DPW_TR_TradeAsync(unsigned int uploadFlag, void *tradeData, unsigned char *resultBuf, void *wantedData, unsigned int wantedLen);
 
-extern void DPW_TR_TradeFinishAsync(u8 *p);
 
-extern void DPW_TR_ReturnAsync(u8 *p);
 
-extern u16 WORLDTRADE_GetIsDeposited(struct WorldTradeData *trade);
 
-extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
+#include "../arm9/wordset.h"
 
-extern void WORLDTRADE_SetIsDeposited(struct WorldTradeData *trade, unsigned short isDeposited);
 
-extern void *MET_TRAINERS_GetFromSave(void *);
+#include "../arm9/met_trainers_savedata.h"
 struct MetTrainersSave;
 
-extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, unsigned int value);
 
-extern void *WORLDTRADE_DEMO_CreateMyStatusFromEntry(void *);
 struct SaveControl;
 struct TradeHistory;
 
-extern struct TradeHistory *TRADE_HISTORY_GetFromSave(struct SaveControl *save);
+#include "../arm9/trade_history.h"
 
-extern void TRADE_HISTORY_AddPartner(struct TradeHistory *history, struct MyStatus *status);
 
 extern void *memset(void *, int, u32);
 
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
 struct HistoryEntry;
 struct HistoryOwner;
 
-extern u32 COMM_HISTORY_InsertIfNationSet(struct HistoryOwner *owner, struct HistoryEntry *entry);
+#include "../arm9/comm_history.h"
 
-extern void DPW_TR_CancelAsync(void);
 
-extern void DPW_TR_DeleteAsync(u8 *p);
 
-extern u32 WORLDTRADE_INPUT_PrintStringTop(u8 *p, u32 a, u32 b, u32 c, u32 d);
 
-extern int GAME_DATA_SaveStart(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern u32 GFL_USE_GetRandom(u32 v);
 
-extern int GAME_DATA_SaveMain(struct GameData *gd);
 
-void WORLDTRADE_SUBLCD_UpdateSlotAnims(Work *p);
+#include "worldtrade_sublcd.h"
 
-void WORLDTRADE_SUBLCD_SetSlotActorPositions(Work *p);
 
-void WORLDTRADE_SUBLCD_SetSlotActorPositionsLower(Work *p);
 
-void WORLDTRADE_TITLE_ScrollBg(Work *p, u32 a, u32 b);
+#include "worldtrade_title.h"
 
-void WORLDTRADE_TITLE_ExitBgPlanes(Work *p);
 
-void WORLDTRADE_TITLE_LoadMainBgSwap(Work *p);
 
-void WORLDTRADE_TITLE_LoadSubBgSwap(Work *p);
 
-int WORLDTRADE_SERVER_Init(Work *p);
+int WORLDTRADE_SERVER_Init(WorldtradeWork *p);
 
 void WORLDTRADE_SERVER_CallStateHandler(u8 *p);
 
-int WORLDTRADE_SERVER_Exit(Work *p);
+int WORLDTRADE_SERVER_Exit(WorldtradeWork *p);
 
 void WORLDTRADE_SERVER_SetupBgPlanes(void);
 
 void WORLDTRADE_SERVER_ExitBgPlanes(void);
 
-void WORLDTRADE_SERVER_LoadBgGraphics(Work *p);
+void WORLDTRADE_SERVER_LoadBgGraphics(WorldtradeWork *p);
 
-void WORLDTRADE_SERVER_CreateWindows(Work *p);
+void WORLDTRADE_SERVER_CreateWindows(WorldtradeWork *p);
 
-void WORLDTRADE_SERVER_DeleteWindows(Work *p);
+void WORLDTRADE_SERVER_DeleteWindows(WorldtradeWork *p);
 
-void WORLDTRADE_SERVER_CreateStrings(Work *p);
+void WORLDTRADE_SERVER_CreateStrings(WorldtradeWork *p);
 
-void WORLDTRADE_SERVER_DeleteStrings(Work *p);
+void WORLDTRADE_SERVER_DeleteStrings(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartRequest(Work *p);
+int WORLDTRADE_SERVER_StartRequest(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_SendUploadRequest(Work *p);
+int WORLDTRADE_SERVER_SendUploadRequest(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_PollUploadResponse(Work *p);
+int WORLDTRADE_SERVER_PollUploadResponse(WorldtradeWork *p);
 
 int WORLDTRADE_SERVER_StartNameCheck(u8 *p);
 
 int WORLDTRADE_SERVER_WaitNameCheck(u8 *p);
 
-int WORLDTRADE_SERVER_StartDataTransfer(Work *p);
+int WORLDTRADE_SERVER_StartDataTransfer(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitUploadResult(Work *p);
+int WORLDTRADE_SERVER_WaitUploadResult(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartUploadFinish(Work *p);
+int WORLDTRADE_SERVER_StartUploadFinish(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitUploadFinish(Work *p);
+int WORLDTRADE_SERVER_WaitUploadFinish(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartDownload(Work *p);
+int WORLDTRADE_SERVER_StartDownload(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitDownload(Work *p);
+int WORLDTRADE_SERVER_WaitDownload(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartUploadFinishB(Work *p);
+int WORLDTRADE_SERVER_StartUploadFinishB(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitUploadFinishB(Work *p);
+int WORLDTRADE_SERVER_WaitUploadFinishB(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartTrade(Work *p);
+int WORLDTRADE_SERVER_StartTrade(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitTrade(Work *p);
+int WORLDTRADE_SERVER_WaitTrade(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartTradeFinish(Work *p);
+int WORLDTRADE_SERVER_StartTradeFinish(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitTradeFinish(Work *p);
+int WORLDTRADE_SERVER_WaitTradeFinish(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartReturn(Work *p);
+int WORLDTRADE_SERVER_StartReturn(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitReturn(Work *p);
+int WORLDTRADE_SERVER_WaitReturn(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateShowResultA(Work *p);
+int WORLDTRADE_SERVER_StateShowResultA(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartDownloadB(Work *p);
+int WORLDTRADE_SERVER_StartDownloadB(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitDownloadB(Work *p);
+int WORLDTRADE_SERVER_WaitDownloadB(WorldtradeWork *p);
 
-void WORLDTRADE_SERVER_ShowResultByMode(Work *p);
+void WORLDTRADE_SERVER_ShowResultByMode(WorldtradeWork *p);
 
-void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *r, void *old);
+void WORLDTRADE_SERVER_RecordTradeResult(WorldtradeWork *p, void *mon, WorldtradeEntry *r, void *old);
 
-int WORLDTRADE_SERVER_StartCancel(Work *p);
+int WORLDTRADE_SERVER_StartCancel(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitCancel(Work *p);
+int WORLDTRADE_SERVER_WaitCancel(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateStartWipeOutDisconnect(Work *p);
+int WORLDTRADE_SERVER_StateStartWipeOutDisconnect(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateFinishTrade(Work *p);
+int WORLDTRADE_SERVER_StateFinishTrade(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartDelete(Work *p);
+int WORLDTRADE_SERVER_StartDelete(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitDelete(Work *p);
+int WORLDTRADE_SERVER_WaitDelete(WorldtradeWork *p);
 
 int WORLDTRADE_SERVER_StateIdle(void);
 
-int WORLDTRADE_SERVER_StateSetBusyMessage(Work *p);
+int WORLDTRADE_SERVER_StateSetBusyMessage(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateClearBusyMessage(Work *p);
+int WORLDTRADE_SERVER_StateClearBusyMessage(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StatePrintMessage9(Work *p);
+int WORLDTRADE_SERVER_StatePrintMessage9(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StatePrintMessage10(Work *p);
+int WORLDTRADE_SERVER_StatePrintMessage10(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateStartUploadFinishAsync(Work *p);
+int WORLDTRADE_SERVER_StateStartUploadFinishAsync(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateWaitUploadFinishAsync(Work *p);
+int WORLDTRADE_SERVER_StateWaitUploadFinishAsync(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateShowRetryMessage(Work *p);
+int WORLDTRADE_SERVER_StateShowRetryMessage(WorldtradeWork *p);
 
-u32 WORLDTRADE_SERVER_GetErrorMessageId(Work *p);
+void WORLDTRADE_SERVER_GetErrorMessageId(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateShowErrorMessage(Work *p);
+int WORLDTRADE_SERVER_StateShowErrorMessage(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateCheckAsyncEnd(Work *p);
+int WORLDTRADE_SERVER_StateCheckAsyncEnd(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateShowErrorMessageB(Work *p);
+int WORLDTRADE_SERVER_StateShowErrorMessageB(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateOpenSavePrompt(Work *p);
+int WORLDTRADE_SERVER_StateOpenSavePrompt(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartSave(Work *p);
+int WORLDTRADE_SERVER_StartSave(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateCountdown(Work *p);
+int WORLDTRADE_SERVER_StateCountdown(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitSave(Work *p);
+int WORLDTRADE_SERVER_WaitSave(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateSaveGame(Work *p);
+int WORLDTRADE_SERVER_StateSaveGame(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StartSaveB(Work *p);
+int WORLDTRADE_SERVER_StartSaveB(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_WaitSaveB(Work *p);
+int WORLDTRADE_SERVER_WaitSaveB(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateStartWipeOutRestore(Work *p);
+int WORLDTRADE_SERVER_StateStartWipeOutRestore(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateWaitMessage(Work *p);
+int WORLDTRADE_SERVER_StateWaitMessage(WorldtradeWork *p);
 
-int WORLDTRADE_SERVER_StateWaitMessageOrTouch(Work *p);
+int WORLDTRADE_SERVER_StateWaitMessageOrTouch(WorldtradeWork *p);
 
-void WORLDTRADE_ADAPTER_RemovePartyMon(Work *p, int flag);
+#include "worldtrade_adapter.h"
 
-void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hatch);
 
-void WORLDTRADE_ADAPTER_RegisterReceivedMonB(Work *p,void *mon,void *unused2,void *unused3,u32 index);
 
-void WORLDTRADE_ADAPTER_RegisterLanguageVersion(void *obj,u8 *p);
 
-int WORLDTRADE_ADAPTER_CheckPartyHasOther(Work *p, void *mon);
 
-void WORLDTRADE_ADAPTER_SetPair(Work *p, u16 a, u16 b);
 
-u32 WORLDTRADE_ADAPTER_CanProceed(Work *p);
 
-void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap);
 
-void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 
-u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
-void WORLDTRADE_ADAPTER_DeletePrintStream(struct Obj *p);
 
 extern void (*g_02203E94[])(u8 *);
 
@@ -573,17 +488,17 @@ extern struct BgTemplate g_02203A34;
 
 extern const char str_02203F58[];
 
-int WORLDTRADE_SERVER_Init(Work *p) { WORLDTRADE_SERVER_CreateStrings(p); WORLDTRADE_SERVER_SetupBgPlanes(); WORLDTRADE_TITLE_ScrollBg(p,0,0); if((*(unsigned int *)&p->kind)==11) { BG_SYS_SetPlaneVisible(4,0); BG_SYS_SetPlaneVisible(6,0); } WORLDTRADE_SERVER_LoadBgGraphics(p); WORLDTRADE_SERVER_CreateWindows(p); WORLDTRADE_SUBLCD_SetSlotActorPositions(p); WIPE_SYS_Start((void *)3,1,1,0,6,1,72); WORLDTRADE_ENTER_RestartNetTimeout((u8 *)p); p->state=0; p->keepBgLayers=0; return 1; }
+int WORLDTRADE_SERVER_Init(WorldtradeWork *p) { WORLDTRADE_SERVER_CreateStrings(p); WORLDTRADE_SERVER_SetupBgPlanes(); WORLDTRADE_TITLE_ScrollBg(p,0,0); if((*(unsigned int *)&p->kind)==11) { BG_SYS_SetPlaneVisible(4,0); BG_SYS_SetPlaneVisible(6,0); } WORLDTRADE_SERVER_LoadBgGraphics(p); WORLDTRADE_SERVER_CreateWindows(p); WORLDTRADE_SUBLCD_SetSlotActorPositions(p); WIPE_SYS_Start((void *)3,1,1,0,6,1,72); WORLDTRADE_ENTER_RestartNetTimeout((u8 *)p); p->state=0; p->keepBgLayers=0; return 1; }
 
 /*
- * State-table dispatch through the table at 0x02203E94.
+ * WorldtradeState-table dispatch through the table at 0x02203E94.
  */
 void WORLDTRADE_SERVER_CallStateHandler(u8 *p)
 {
     g_02203E94[*(u32 *)(p + 0x28)](p);
 }
 
-int WORLDTRADE_SERVER_Exit(Work *p) { if(GXx_GetMasterBrightness_((u16 *)0x0400106c)) WORLDTRADE_SUBLCD_SetSlotActorPositionsLower(p); WORLDTRADE_SERVER_DeleteStrings(p); WORLDTRADE_SERVER_DeleteWindows(p); WORLDTRADE_SERVER_ExitBgPlanes(); WORLDTRADE_TITLE_ExitBgPlanes(p); WORLDTRADE_AdvanceScreenId(p); return 0; }
+int WORLDTRADE_SERVER_Exit(WorldtradeWork *p) { if(GXx_GetMasterBrightness_((u16 *)0x0400106c)) WORLDTRADE_SUBLCD_SetSlotActorPositionsLower(p); WORLDTRADE_SERVER_DeleteStrings(p); WORLDTRADE_SERVER_DeleteWindows(p); WORLDTRADE_SERVER_ExitBgPlanes(); WORLDTRADE_TITLE_ExitBgPlanes(p); WORLDTRADE_AdvanceScreenId(p); return 0; }
 
 /*
  * Three-layer bring-up with all three layers 020414EC'd, tilemap clears for
@@ -626,7 +541,7 @@ void WORLDTRADE_SERVER_ExitBgPlanes(void)
     BG_SYS_FreeLayerBuf(0);
 }
 
-void WORLDTRADE_SERVER_LoadBgGraphics(Work *p)
+void WORLDTRADE_SERVER_LoadBgGraphics(WorldtradeWork *p)
 {
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1a0, 0x20, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xe, 0, 0x48);
@@ -645,11 +560,11 @@ void WORLDTRADE_SERVER_LoadBgGraphics(Work *p)
 /*
  * tail: 02200E92..02200E94 two zero alignment bytes.
  */
-void WORLDTRADE_SERVER_CreateWindows(Work *p)
+void WORLDTRADE_SERVER_CreateWindows(WorldtradeWork *p)
 {
-    u32 w;
-    p->frame = (unsigned int)BMP_WIN_Create((unsigned int)0, (unsigned int)2, (unsigned int)0x13, 0x1b, 4, 0xd, 1);
-    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)p->frame)), 0);
+    struct BmpWin *w;
+    p->frame = BMP_WIN_Create((unsigned int)0, (unsigned int)2, (unsigned int)0x13, 0x1b, 4, 0xd, 1);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->frame)), 0);
     w = p->frame;
     BMP_WIN_TransferChars((struct BmpWin *)w);
     BMP_WIN_MakeScreen((struct BmpWin *)w);
@@ -659,58 +574,58 @@ void WORLDTRADE_SERVER_CreateWindows(Work *p)
 /*
  * Tear down the +0xfa0 sub-object, then release the +0xd40 resource.
  */
-void WORLDTRADE_SERVER_DeleteWindows(Work *p)
+void WORLDTRADE_SERVER_DeleteWindows(WorldtradeWork *p)
 {
-    WORLDTRADE_ADAPTER_DeletePrintStream((struct Obj *)((u8 *)p + 0xfa0));
+    WORLDTRADE_ADAPTER_DeletePrintStream((struct WorldtradeObj *)((u8 *)p + 0xfa0));
     BMP_WIN_Delete((struct BmpWin *)p->d40);
 }
 
 /*
  * Claim the 0xb4/0x48 resource and park it at +0xb88.
  */
-void WORLDTRADE_SERVER_CreateStrings(Work *p)
+void WORLDTRADE_SERVER_CreateStrings(WorldtradeWork *p)
 {
-    (*(unsigned int *)&p->str) = (u32)STRBUF_Create(0xb4, 0x48);
+    (*(unsigned int *)&p->str) = (uptr)STRBUF_Create(0xb4, 0x48);
 }
 
 /*
  * Tail call into STRBUF_Delete with the pointer held at +0xb88.
  */
-void WORLDTRADE_SERVER_DeleteStrings(Work *p)
+void WORLDTRADE_SERVER_DeleteStrings(WorldtradeWork *p)
 {
     STRBUF_Delete((struct Strbuf *)((*(unsigned int *)&p->str)));
 }
 
-int WORLDTRADE_SERVER_StartRequest(Work *p)
+int WORLDTRADE_SERVER_StartRequest(WorldtradeWork *p)
 {
     switch (p->kind) {
     case 7:
-        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->bank, 0x18, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x18, 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x29, 2);
         p->done = 0;
         p->next = 6;
         break;
     case 8:
-        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->bank, 0x18, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x18, 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x29, 0xB);
         break;
     case 9:
-        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->bank, 0x18, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x18, 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x29, 2);
         p->done = 0;
         p->next = 0x10;
         break;
     case 10:
-        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->bank, 0x18, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x18, 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x29, 0x16);
         p->eb4 = 1;
         break;
     case 11:
-        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->bank, 0x18, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x18, 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x29, 0x1C);
         break;
     case 12:
-        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->bank, 0x9A, 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x9A, 1, 0xF0F);
         p->state = 0x21;
         p->nextScreenId = 1;
         GFL_NET_RefreshWmIconAtTopRight(1, 0x48);
@@ -723,7 +638,7 @@ int WORLDTRADE_SERVER_StartRequest(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_SendUploadRequest(Work *p)
+int WORLDTRADE_SERVER_SendUploadRequest(WorldtradeWork *p)
 {
     u8 *mon=(u8 *)p+0xE4;
     int ready;
@@ -745,7 +660,7 @@ int WORLDTRADE_SERVER_SendUploadRequest(Work *p)
  * The four ov114 targets 0x021B97F4, 0x021B99F0, 0x021B99F4, 0x021B9A14 were seeded
  * by tree_ov135_4. Every other byte is identical. Labelling 0x0200FB4C makes this EXACT.
  */
-int WORLDTRADE_SERVER_PollUploadResponse(Work *p)
+int WORLDTRADE_SERVER_PollUploadResponse(WorldtradeWork *p)
 {
     int st;
     int r;
@@ -837,19 +752,19 @@ int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
     s=(struct U16Vec *)STRBUF_Create(8,0x48);
     STRBUF_SetStringN((struct Strbuf *)s,(u16 *)(p+0x1F4),8);
     MI_CpuFill8(p+0x1300,0,0x28);
-    ((Work *)p)->reserved1324=0x48;
+    ((WorldtradeWork *)p)->reserved1324=0x48;
     text=STRBUF_GetChars((struct Strbuf *)s);
     for(i=0;i<STRBUF_GetLength((struct Strbuf *)s)+1;i++) {
-        c=*(u16 *)((u32)text+i*2);
-        if(c==STRBUF_GetEosChar()) *(u16 *)((u32)p+i*2+0x1300)=0;
-        else *(u16 *)((u32)p+i*2+0x1300)=c;
+        c=*(u16 *)((uptr)text+i*2);
+        if(c==STRBUF_GetEosChar()) *(u16 *)((uptr)p+i*2+0x1300)=0;
+        else *(u16 *)((uptr)p+i*2+0x1300)=c;
     }
-    ((Work *)p)->profanityWords=(u32)(p+0x1300);
-    ((Work *)p)->badWordCountU=0;
+    ((WorldtradeWork *)p)->profanityWords=(uptr)(p+0x1300);
+    ((WorldtradeWork *)p)->badWordCountU=0;
     DWC_CheckProfanityExAsync((short unsigned int **)(p+0x1318),1,0,0,(char *)(p+0x131C),(int *)(p+0x1320),0x80);
     STRBUF_Delete((struct Strbuf *)s);
-    ((Work *)p)->state=5;
-    ((Work *)p)->timer=0;
+    ((WorldtradeWork *)p)->state=5;
+    ((WorldtradeWork *)p)->timer=0;
     return 2;
 }
 
@@ -863,7 +778,7 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
     u16 *text;
     int i;
     done = DWC_CheckProfanityProcess() == 2;
-    if (done) positive = ((Work *)p)->nameCheckResult > 0;
+    if (done) positive = ((WorldtradeWork *)p)->nameCheckResult > 0;
     if (done) {
         if (positive) {
             dst = (u16 *)(p + 0x1f4);
@@ -875,11 +790,11 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
             dst[i] = STRBUF_GetEosChar();
             STRBUF_Delete(str);
         }
-        ((Work *)p)->state = ((Work *)p)->next;
+        ((WorldtradeWork *)p)->state = ((WorldtradeWork *)p)->next;
     } else {
-        if ((((Work *)p)->timer)++ == 0xe10) {
-            ((Work *)p)->err = -5;
-            ((Work *)p)->state = 0x2b;
+        if ((((WorldtradeWork *)p)->timer)++ == 0xe10) {
+            ((WorldtradeWork *)p)->err = -5;
+            ((WorldtradeWork *)p)->state = 0x2b;
             GFL_NET_ERR_WaitLinkClosed();
             GFL_NET_STATE_SetWifiError();
             GFL_NET_ERR_ResetState();
@@ -892,12 +807,12 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
 /*
  * Move 0x80 bytes between the +0xe4 and +0x10ec sub-objects, latch state 7 and publish the 8/0xa pair.
  */
-int WORLDTRADE_SERVER_StartDataTransfer(Work *p)
+int WORLDTRADE_SERVER_StartDataTransfer(WorldtradeWork *p)
 {
     DPW_TR_UploadAsync((u8 *)p + 0xe4, (u8 *)p + 0x10ec, 0x80);
     p->state = 7;
     p->wait = 0;
-    WORLDTRADE_ADAPTER_SetPair((Work *)p, 8, 0xa);
+    WORLDTRADE_ADAPTER_SetPair((WorldtradeWork *)p, 8, 0xa);
     return 2;
 }
 
@@ -917,22 +832,22 @@ int WORLDTRADE_SERVER_StartDataTransfer(Work *p)
  * they are in asm/overlays/ov114.s -- so the fix is to trace those two
  * entries (layout/function_starts.txt is not this lane's file).
  *
- * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
+ * UNBLOCKED: DPW_TR_IsAsyncEnd(0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
  */
-int WORLDTRADE_SERVER_WaitUploadResult(Work *p)
+int WORLDTRADE_SERVER_WaitUploadResult(WorldtradeWork *p)
 {
     s32 n;
 
-    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd() != 0) {
         n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
         case 15:
-            WORLDTRADE_ADAPTER_RemovePartyMon(p, 1);
-            RECORD_AddOne((struct Sub02008C20Obj *)p->ctx->record, 0x1c);
+            WORLDTRADE_ADAPTER_RemovePartyMon((WorldtradeWork *)p, 1);
+            RECORD_AddOne((struct RecordBlock *)p->ctx->record, 0x1c);
             p->state = 0x22;
             break;
         case 14:
@@ -981,11 +896,11 @@ int WORLDTRADE_SERVER_WaitUploadResult(Work *p)
 }
 
 /*
- * State 9 with the slot cleared and the u16 at +0x32 set.
+ * WorldtradeState 9 with the slot cleared and the u16 at +0x32 set.
  */
-int WORLDTRADE_SERVER_StartUploadFinish(Work *p)
+int WORLDTRADE_SERVER_StartUploadFinish(WorldtradeWork *p)
 {
-    DPW_TR_GetUploadResultAsync((u8 *)p);
+    DPW_TR_GetUploadResultAsync();
     p->state = 9;
     p->timer = 0;
     p->busy = 1;
@@ -1008,16 +923,16 @@ int WORLDTRADE_SERVER_StartUploadFinish(Work *p)
  * they are in asm/overlays/ov114.s -- so the fix is to trace those two
  * entries (layout/function_starts.txt is not this lane's file).
  *
- * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
+ * UNBLOCKED: DPW_TR_IsAsyncEnd(0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
  */
-int WORLDTRADE_SERVER_WaitUploadFinish(Work *p)
+int WORLDTRADE_SERVER_WaitUploadFinish(WorldtradeWork *p)
 {
     s32 n;
 
-    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd() != 0) {
         n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
@@ -1051,9 +966,9 @@ int WORLDTRADE_SERVER_WaitUploadFinish(Work *p)
 }
 
 /*
- * State 0xc, slot cleared, then publish the 0xd/0xf pair.
+ * WorldtradeState 0xc, slot cleared, then publish the 0xd/0xf pair.
  */
-int WORLDTRADE_SERVER_StartDownload(Work *p)
+int WORLDTRADE_SERVER_StartDownload(WorldtradeWork *p)
 {
     DPW_TR_DownloadAsync((u8 *)p + 0xe4);
     p->state = 0xc;
@@ -1072,12 +987,12 @@ int WORLDTRADE_SERVER_StartDownload(Work *p)
  * parked because 0x021C866C / 0x021C86A8 carry no func_ label in any
  * overlay listing (see the wave-5 residue note for the one-line fix).
  */
-int WORLDTRADE_SERVER_WaitDownload(Work *p)
+int WORLDTRADE_SERVER_WaitDownload(WorldtradeWork *p)
 {
     s32 n;
     s32 v;
 
-    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd() != 0) {
         n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
@@ -1086,8 +1001,8 @@ int WORLDTRADE_SERVER_WaitDownload(Work *p)
             if (v != 0) {
                 p->state = 0x1c;
             } else {
-                WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, WORLDTRADE_NoOp(*(void **)((*(unsigned int *)&p->ctx))),
-                              WORLDTRADE_GetReturnBox((struct RegB *)(*(u32 *)((*(unsigned int *)&p->ctx)))), v);
+                WORLDTRADE_ADAPTER_RegisterReceivedMon((WorldtradeWork *)p, (void *)(WORLDTRADE_NoOp(*(void **)((*(unsigned int *)&p->ctx)))),
+                              WORLDTRADE_GetReturnBox((struct WorldTradeData *)((struct RegB *)(*(u32 *)((*(unsigned int *)&p->ctx))))), v);
                 p->state = 0x22;
             }
             break;
@@ -1132,12 +1047,12 @@ int WORLDTRADE_SERVER_WaitDownload(Work *p)
 }
 
 /*
- * State-setter: hand the object to DPW_TR_UploadFinishAsync, latch state 0xe at +0x28,
+ * WorldtradeState-setter: hand the object to DPW_TR_UploadFinishAsync, latch state 0xe at +0x28,
  * clear the word at +0xf8c and report 2.
  */
-int WORLDTRADE_SERVER_StartUploadFinishB(Work *p)
+int WORLDTRADE_SERVER_StartUploadFinishB(WorldtradeWork *p)
 {
-    DPW_TR_UploadFinishAsync((u8 *)p);
+    DPW_TR_UploadFinishAsync();
     p->state = 0xe;
     p->timer = 0;
     return 2;
@@ -1158,16 +1073,16 @@ int WORLDTRADE_SERVER_StartUploadFinishB(Work *p)
  * they are in asm/overlays/ov114.s -- so the fix is to trace those two
  * entries (layout/function_starts.txt is not this lane's file).
  *
- * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
+ * UNBLOCKED: DPW_TR_IsAsyncEnd(0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
  */
-int WORLDTRADE_SERVER_WaitUploadFinishB(Work *p)
+int WORLDTRADE_SERVER_WaitUploadFinishB(WorldtradeWork *p)
 {
     s32 n;
 
-    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd() != 0) {
         n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
@@ -1197,7 +1112,7 @@ int WORLDTRADE_SERVER_WaitUploadFinishB(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_StartTrade(Work *p)
+int WORLDTRADE_SERVER_StartTrade(WorldtradeWork *p)
 {
     DPW_TR_TradeAsync(*(u32 *)((u8 *)p + (*(unsigned int *)&p->cur) * 0x128 + 0x314), (u8 *)p + 0xe4, ((u8 *)p + 0xa24), (u8 *)p + 0x10ec, 0x80);
     WORLDTRADE_ADAPTER_SetPair(p, 0x12, 0x14);
@@ -1206,7 +1121,7 @@ int WORLDTRADE_SERVER_StartTrade(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_WaitTrade(Work *p)
+int WORLDTRADE_SERVER_WaitTrade(WorldtradeWork *p)
 {
     int r;
     if(DPW_TR_IsAsyncEnd()) {
@@ -1215,9 +1130,9 @@ int WORLDTRADE_SERVER_WaitTrade(Work *p)
         switch(r) {
         case 0:
             p->state=0x22;
-            WORLDTRADE_ADAPTER_RemovePartyMon(p,0);
-            WORLDTRADE_ADAPTER_RegisterReceivedMonB(p,(u8 *)p+0xA24,(u8 *)p+0xE4,(u8 *)p+0xA24,p->box);
-            WORLDTRADE_ADAPTER_RegisterLanguageVersion(p->ctx->wifiHistory,(u8 *)p+0xA24);
+            WORLDTRADE_ADAPTER_RemovePartyMon((WorldtradeWork *)p,0);
+            WORLDTRADE_ADAPTER_RegisterReceivedMonB((WorldtradeWork *)p,(void *)((u8 *)p+0xA24),(void *)((u8 *)p+0xE4),(void *)((u8 *)p+0xA24),p->box);
+            WORLDTRADE_ADAPTER_RegisterLanguageVersion((void *)p->ctx->wifiHistory,(WorldtradeEntry *)((u8 *)p+0xA24));
             WORLDTRADE_SERVER_RecordTradeResult(p,(u8 *)p+0xA24,&p->ent[8],(u8 *)p+0xE4);
             break;
         case -5:
@@ -1248,21 +1163,21 @@ int WORLDTRADE_SERVER_WaitTrade(Work *p)
 }
 
 /*
- * State setter: hand over the object, latch the state word at +0x28 and clear the slot.
+ * WorldtradeState setter: hand over the object, latch the state word at +0x28 and clear the slot.
  */
-int WORLDTRADE_SERVER_StartTradeFinish(Work *p)
+int WORLDTRADE_SERVER_StartTradeFinish(WorldtradeWork *p)
 {
-    DPW_TR_TradeFinishAsync((u8 *)p);
+    DPW_TR_TradeFinishAsync();
     p->state = 0x13;
     p->timer = 0x0;
     return 0x2;
 }
 
-int WORLDTRADE_SERVER_WaitTradeFinish(Work *p)
+int WORLDTRADE_SERVER_WaitTradeFinish(WorldtradeWork *p)
 {
     s32 n;
 
-    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd() != 0) {
         n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
@@ -1290,7 +1205,7 @@ int WORLDTRADE_SERVER_WaitTradeFinish(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_StartReturn(Work *p)
+int WORLDTRADE_SERVER_StartReturn(WorldtradeWork *p)
 {
     DPW_TR_ReturnAsync((u8 *)p + 0xe4);
     p->state = 0x1d;
@@ -1298,7 +1213,7 @@ int WORLDTRADE_SERVER_StartReturn(Work *p)
     return 0x2;
 }
 
-int WORLDTRADE_SERVER_WaitReturn(Work *p)
+int WORLDTRADE_SERVER_WaitReturn(WorldtradeWork *p)
 {
     int r;
     void *mon;
@@ -1312,15 +1227,15 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
             break;
         case 1:
             p->busy = 1;
-            switch (WORLDTRADE_ADAPTER_CheckPartyHasOther((Work *)p, p->ent)) {
+            switch (WORLDTRADE_ADAPTER_CheckPartyHasOther((WorldtradeWork *)p, p->ent)) {
             case 1:
                 WORLDTRADE_DeleteTimeIcon(p);
-                WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->bank, 0x23, 1, 0xF0F);
+                WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x23, 1, 0xF0F);
                 WORLDTRADE_SetNextState(p, 0x2A, 0x20);
                 break;
             case 2:
                 WORLDTRADE_DeleteTimeIcon(p);
-                WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)p->bank, 0x29, 1, 0xF0F);
+                WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)p->bank, 0x29, 1, 0xF0F);
                 WORLDTRADE_SetNextState(p, 0x2A, 0x20);
                 break;
             case 0:
@@ -1338,7 +1253,7 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
                 WORDSET_SetSlotMonNickname(p->words, 0, mon);
                 p->mode = 2;
                 p->state_i = 0x26;
-                WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, (void *)mon, WORLDTRADE_GetReturnBox(p->ctx->sys), 0);
+                WORLDTRADE_ADAPTER_RegisterReceivedMon((WorldtradeWork *)p, (void *)mon, WORLDTRADE_GetReturnBox(p->ctx->sys), 0);
                 WORLDTRADE_SetIsDeposited(p->ctx->sys, 0);
                 GFL_HEAP_Free(mon);
             } else {
@@ -1383,14 +1298,14 @@ int WORLDTRADE_SERVER_WaitReturn(Work *p)
 /*
  * Set the mode pair and latch state 0x28.
  */
-int WORLDTRADE_SERVER_StateShowResultA(Work *p)
+int WORLDTRADE_SERVER_StateShowResultA(WorldtradeWork *p)
 {
     WORLDTRADE_SetStateAndReturn(p, 0x1, 0x0);
     p->state = 0x28;
     return 2;
 }
 
-int WORLDTRADE_SERVER_StartDownloadB(Work *p)
+int WORLDTRADE_SERVER_StartDownloadB(WorldtradeWork *p)
 {
     DPW_TR_DownloadAsync((u8 *)p + 0xe4);
     p->state = 0x1f;
@@ -1410,16 +1325,16 @@ int WORLDTRADE_SERVER_StartDownloadB(Work *p)
  * parked because 0x021C866C / 0x021C86A8 carry no func_ label in any
  * overlay listing (see the wave-5 residue note for the one-line fix).
  *
- * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
+ * UNBLOCKED: DPW_TR_IsAsyncEnd(0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
  */
-int WORLDTRADE_SERVER_WaitDownloadB(Work *p)
+int WORLDTRADE_SERVER_WaitDownloadB(WorldtradeWork *p)
 {
     s32 n;
 
-    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd() != 0) {
         n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
@@ -1471,7 +1386,7 @@ int WORLDTRADE_SERVER_WaitDownloadB(Work *p)
 /*
  * Switch on the mode word at +0x18; both arms latch state 0x28.
  */
-void WORLDTRADE_SERVER_ShowResultByMode(Work *p)
+void WORLDTRADE_SERVER_ShowResultByMode(WorldtradeWork *p)
 {
     switch (p->f18_u) {
     case 1:
@@ -1488,10 +1403,10 @@ void WORLDTRADE_SERVER_ShowResultByMode(Work *p)
 /*
  * lever: u16 local joins species branches; byte flags use explicit masked RMW.
  */
-void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *ent, void *old)
+void WORLDTRADE_SERVER_RecordTradeResult(WorldtradeWork *p, void *mon, WorldtradeEntry *ent, void *old)
 {
     void *copy;
-    Record rec;
+    WorldtradeServerRecord rec;
     u16 species;
     RECORD_AddOne(p->ctx->record, 0x10);
     MET_TRAINERS_Insert(MET_TRAINERS_GetFromSave(p->ctx->saveData), ent->trainerId);
@@ -1515,7 +1430,7 @@ void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *ent, void *o
 /*
  * Addresses are Black-image addresses.
  */
-int WORLDTRADE_SERVER_StartCancel(Work *p)
+int WORLDTRADE_SERVER_StartCancel(WorldtradeWork *p)
 {
     p->wait = 0;
     DPW_TR_CancelAsync();
@@ -1532,16 +1447,16 @@ int WORLDTRADE_SERVER_StartCancel(Work *p)
  * parked because 0x021C866C / 0x021C86A8 carry no func_ label in any
  * overlay listing (see the wave-5 residue note for the one-line fix).
  *
- * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
+ * UNBLOCKED: DPW_TR_IsAsyncEnd(0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
  */
-int WORLDTRADE_SERVER_WaitCancel(Work *p)
+int WORLDTRADE_SERVER_WaitCancel(WorldtradeWork *p)
 {
     s32 n;
 
-    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd() != 0) {
         n = DPW_TR_GetAsyncResult();
         switch (n) {
         case -12:
@@ -1575,19 +1490,19 @@ int WORLDTRADE_SERVER_WaitCancel(Work *p)
  *
  * Shape: two hand-overs, then the fixed 6/1/0x48 opener, state 0, return 3.
  */
-int WORLDTRADE_SERVER_StateStartWipeOutDisconnect(Work *p)
+int WORLDTRADE_SERVER_StateStartWipeOutDisconnect(WorldtradeWork *p)
 {
-    DPW_TR_End((u8 *)p);
+    DPW_TR_End();
     WORLDTRADE_DeleteTimeIcon(p);
     WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x48);
     p->state = 0;
     return 3;
 }
 
-int WORLDTRADE_SERVER_StateFinishTrade(Work *p)
+int WORLDTRADE_SERVER_StateFinishTrade(WorldtradeWork *p)
 {
-    WORLDTRADE_ADAPTER_RegisterReceivedMon((Work *)p, (void *)((u8 *)p + 0xe4), WORLDTRADE_GetReturnBox(**(void ** *)(void **)&p->ctx), p->receivedEgg);
-    WORLDTRADE_ADAPTER_RegisterLanguageVersion(p->ctx->wifiHistory, (u8 *)p + 0xe4);
+    WORLDTRADE_ADAPTER_RegisterReceivedMon((WorldtradeWork *)p, (void *)((u8 *)p + 0xe4), WORLDTRADE_GetReturnBox((struct WorldTradeData *)(**(void ** *)(void **)&p->ctx)), p->receivedEgg);
+    WORLDTRADE_ADAPTER_RegisterLanguageVersion((void *)p->ctx->wifiHistory, (WorldtradeEntry *)((u8 *)p + 0xe4));
     WORLDTRADE_SERVER_RecordTradeResult(p, (u8 *)p + 0xe4, &p->ent[0], 0);
     WORLDTRADE_SetIsDeposited(**(void ** *)(void **)&p->ctx, 0);
     p->state = 0x22;
@@ -1595,9 +1510,9 @@ int WORLDTRADE_SERVER_StateFinishTrade(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_StartDelete(Work *p)
+int WORLDTRADE_SERVER_StartDelete(WorldtradeWork *p)
 {
-    DPW_TR_DeleteAsync((u8 *)p);
+    DPW_TR_DeleteAsync();
     p->state = 0x18;
     p->timer = 0x0;
     return 0x2;
@@ -1616,16 +1531,16 @@ int WORLDTRADE_SERVER_StartDelete(Work *p)
  * trace 0x021C866C / 0x021C86A8 in layout/function_starts.txt and this
  * promotes automatically.
  *
- * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
+ * UNBLOCKED: DPW_TR_IsAsyncEnd(0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT*.
  */
-int WORLDTRADE_SERVER_WaitDelete(Work *p)
+int WORLDTRADE_SERVER_WaitDelete(WorldtradeWork *p)
 {
     s32 n;
 
-    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd() != 0) {
         n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
@@ -1668,7 +1583,7 @@ int WORLDTRADE_SERVER_StateIdle(void)
 /*
  * Enter the 201DC0 sub-state: flag the u16 at +0x32, set the two work values and stamp the state.
  */
-int WORLDTRADE_SERVER_StateSetBusyMessage(Work *p)
+int WORLDTRADE_SERVER_StateSetBusyMessage(WorldtradeWork *p)
 {
     p->busy = 1;
     WORLDTRADE_SetStateAndReturn(p, 9, 7);
@@ -1679,7 +1594,7 @@ int WORLDTRADE_SERVER_StateSetBusyMessage(Work *p)
 /*
  * Enter the 201DD8 sub-state: flag the u16 at +0x32, set the two work values and stamp the state.
  */
-int WORLDTRADE_SERVER_StateClearBusyMessage(Work *p)
+int WORLDTRADE_SERVER_StateClearBusyMessage(WorldtradeWork *p)
 {
     p->busy = 0;
     WORLDTRADE_SetStateAndReturn(p, 9, 8);
@@ -1687,14 +1602,14 @@ int WORLDTRADE_SERVER_StateClearBusyMessage(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_StatePrintMessage9(Work *p)
+int WORLDTRADE_SERVER_StatePrintMessage9(WorldtradeWork *p)
 {
     WORLDTRADE_SetStateAndReturn(p, 0x9, 0x9);
     p->state = 0x28;
     return 2;
 }
 
-int WORLDTRADE_SERVER_StatePrintMessage10(Work *p)
+int WORLDTRADE_SERVER_StatePrintMessage10(WorldtradeWork *p)
 {
     p->busy = 0;
     WORLDTRADE_SetStateAndReturn(p, 9, 10);
@@ -1702,9 +1617,9 @@ int WORLDTRADE_SERVER_StatePrintMessage10(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_StateStartUploadFinishAsync(Work *p)
+int WORLDTRADE_SERVER_StateStartUploadFinishAsync(WorldtradeWork *p)
 {
-    DPW_TR_UploadFinishAsync((u8 *)p);
+    DPW_TR_UploadFinishAsync();
     p->state = 0x1b;
     p->timer = 0x0;
     return 0x2;
@@ -1724,16 +1639,16 @@ int WORLDTRADE_SERVER_StateStartUploadFinishAsync(Work *p)
  * trace 0x021C866C / 0x021C86A8 in layout/function_starts.txt and this
  * promotes automatically.
  *
- * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
+ * UNBLOCKED: DPW_TR_IsAsyncEnd(0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
  */
-int WORLDTRADE_SERVER_StateWaitUploadFinishAsync(Work *p)
+int WORLDTRADE_SERVER_StateWaitUploadFinishAsync(WorldtradeWork *p)
 {
     s32 n;
 
-    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd() != 0) {
         n = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (n + 15) {
@@ -1770,9 +1685,9 @@ int WORLDTRADE_SERVER_StateWaitUploadFinishAsync(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_StateShowRetryMessage(Work *p)
+int WORLDTRADE_SERVER_StateShowRetryMessage(WorldtradeWork *p)
 {
-    WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)(p->bank), 0x99, 1, 0xf0f);
+    WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)(p->bank), 0x99, 1, 0xf0f);
     WORLDTRADE_SetNextState(p, 0x2a, 0x28);
     WORLDTRADE_SetStateAndReturn(p, 1, 0);
     WORLDTRADE_DeleteTimeIcon(p);
@@ -1785,7 +1700,7 @@ int WORLDTRADE_SERVER_StateShowRetryMessage(Work *p)
  * descending order, which is the order MWCC lays the bodies out in) and
  * forwards to WORLDTRADE_INPUT_PrintStringTop with p, the +0xb6c word, the code, 1 and 0x0f0f.
  */
-u32 WORLDTRADE_SERVER_GetErrorMessageId(Work *p)
+void WORLDTRADE_SERVER_GetErrorMessageId(WorldtradeWork *p)
 {
     u32 v;
 
@@ -1839,10 +1754,10 @@ u32 WORLDTRADE_SERVER_GetErrorMessageId(Work *p)
         v = 0x9f;
         break;
     }
-    return WORLDTRADE_INPUT_PrintStringTop((u8 *)p, *(u32 *)&p->bank, v, 1, 0x0f0f);
+    WORLDTRADE_INPUT_PrintStringTop((uptr)p, *(u32 *)&p->bank, v, 1, 0x0f0f);
 }
 
-int WORLDTRADE_SERVER_StateShowErrorMessage(Work *p) { WORLDTRADE_SERVER_GetErrorMessageId(p); if(DPW_TR_IsAsyncEnd()) WORLDTRADE_SetNextState(p,41,48); else WORLDTRADE_SetNextState(p,41,46); WORLDTRADE_SetStateAndReturn(p,0,21); WORLDTRADE_DeleteTimeIcon(p); return 2; }
+int WORLDTRADE_SERVER_StateShowErrorMessage(WorldtradeWork *p) { WORLDTRADE_SERVER_GetErrorMessageId(p); if(DPW_TR_IsAsyncEnd()) WORLDTRADE_SetNextState(p,41,48); else WORLDTRADE_SetNextState(p,41,46); WORLDTRADE_SetStateAndReturn(p,0,21); WORLDTRADE_DeleteTimeIcon(p); return 2; }
 
 /*
  * Every concrete byte is reproduced (36 bytes, the last two of them the
@@ -1857,14 +1772,14 @@ int WORLDTRADE_SERVER_StateShowErrorMessage(Work *p) { WORLDTRADE_SERVER_GetErro
  * The shape itself is settled: the callee's result selects state 0x30 or 0x2e,
  * then the 0/0x15 pair is published and 2 is returned.
  *
- * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
+ * UNBLOCKED: DPW_TR_IsAsyncEnd(0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT*.
  */
-int WORLDTRADE_SERVER_StateCheckAsyncEnd(Work *p)
+int WORLDTRADE_SERVER_StateCheckAsyncEnd(WorldtradeWork *p)
 {
-    if (DPW_TR_IsAsyncEnd((u8 *)p) != 0) {
+    if (DPW_TR_IsAsyncEnd() != 0) {
         p->state = 0x30;
     } else {
         p->state = 0x2e;
@@ -1873,12 +1788,12 @@ int WORLDTRADE_SERVER_StateCheckAsyncEnd(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_StateShowErrorMessageB(Work *p) { WORLDTRADE_SERVER_GetErrorMessageId(p); WORLDTRADE_SetNextState(p,41,40); WORLDTRADE_SetStateAndReturn(p,1,0); WORLDTRADE_DeleteTimeIcon(p); if((*(int *)&p->d0)>0) WORLDTRADE_SUBLCD_UpdateSlotAnims(p); return 2; }
+int WORLDTRADE_SERVER_StateShowErrorMessageB(WorldtradeWork *p) { WORLDTRADE_SERVER_GetErrorMessageId(p); WORLDTRADE_SetNextState(p,41,40); WORLDTRADE_SetStateAndReturn(p,1,0); WORLDTRADE_DeleteTimeIcon(p); if((*(int *)&p->d0)>0) WORLDTRADE_SUBLCD_UpdateSlotAnims(p); return 2; }
 
 /*
  * Publish the 0x29/0x22 then the 0x25/0x28 pair and report 2.
  */
-int WORLDTRADE_SERVER_StateOpenSavePrompt(Work *p)
+int WORLDTRADE_SERVER_StateOpenSavePrompt(WorldtradeWork *p)
 {
     WORLDTRADE_SetNextState(p, 0x29, 0x22);
     WORLDTRADE_ADAPTER_SetPair(p, 0x25, 0x28);
@@ -1888,7 +1803,7 @@ int WORLDTRADE_SERVER_StateOpenSavePrompt(Work *p)
 /*
  * Latch state 0x23 and publish the +2 tick of the 0x3c query into +0xdfc.
  */
-int WORLDTRADE_SERVER_StartSave(Work *p)
+int WORLDTRADE_SERVER_StartSave(WorldtradeWork *p)
 {
     GAME_DATA_SaveStart(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
     p->state = 0x23;
@@ -1896,7 +1811,7 @@ int WORLDTRADE_SERVER_StartSave(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_StateCountdown(Work *p)
+int WORLDTRADE_SERVER_StateCountdown(WorldtradeWork *p)
 {
     p->cnt--;
     if (p->cnt == 0) {
@@ -1905,7 +1820,7 @@ int WORLDTRADE_SERVER_StateCountdown(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_WaitSave(Work *p)
+int WORLDTRADE_SERVER_WaitSave(WorldtradeWork *p)
 {
     if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 1) {
         p->state = p->stateAfterSaveWait;
@@ -1916,7 +1831,7 @@ int WORLDTRADE_SERVER_WaitSave(Work *p)
 /*
  * When the mode query answers 2, publish the u16 at +0xe0e and hand the object back.
  */
-int WORLDTRADE_SERVER_StateSaveGame(Work *p)
+int WORLDTRADE_SERVER_StateSaveGame(WorldtradeWork *p)
 {
     if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 2) {
         p->state = p->stateAfterSave;
@@ -1928,19 +1843,19 @@ int WORLDTRADE_SERVER_StateSaveGame(Work *p)
 /*
  * Run the sub-object init, stamp 0x27 and report 2.
  */
-int WORLDTRADE_SERVER_StartSaveB(Work *p)
+int WORLDTRADE_SERVER_StartSaveB(WorldtradeWork *p)
 {
     GAME_DATA_SaveStart(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
     p->state = 0x27;
     return 2;
 }
 
-int WORLDTRADE_SERVER_WaitSaveB(Work *p)
+int WORLDTRADE_SERVER_WaitSaveB(WorldtradeWork *p)
 {
     if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)(p->ctx->gameData))) == 2) {
         WORLDTRADE_SetStateAndReturn(p, 1, 0);
         WORLDTRADE_DeleteTimeIcon(p);
-        WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)(p->bank), (*(unsigned int *)&p->mode), 1, 0xF0F);
+        WORLDTRADE_INPUT_PrintStringPlain((uptr)p, (uptr)(p->bank), (*(unsigned int *)&p->mode), 1, 0xF0F);
         WORLDTRADE_SetNextState(p, 0x2A, 0x20);
     }
     return 2;
@@ -1949,7 +1864,7 @@ int WORLDTRADE_SERVER_WaitSaveB(Work *p)
 /*
  * lever: nested if with equal sentinel arm first preserves the branch hop.
  */
-int WORLDTRADE_SERVER_StateStartWipeOutRestore(Work *p)
+int WORLDTRADE_SERVER_StateStartWipeOutRestore(WorldtradeWork *p)
 {
     WORLDTRADE_DeleteTimeIcon(p);
     if (p->eb4 == 1) {
@@ -1964,7 +1879,7 @@ int WORLDTRADE_SERVER_StateStartWipeOutRestore(Work *p)
     return 3;
 }
 
-int WORLDTRADE_SERVER_StateWaitMessage(Work *p)
+int WORLDTRADE_SERVER_StateWaitMessage(WorldtradeWork *p)
 {
     if (WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)((u8 *)p + 0xfa0)) == 0) {
         p->state = p->returnState;
@@ -1972,4 +1887,4 @@ int WORLDTRADE_SERVER_StateWaitMessage(Work *p)
     return 2;
 }
 
-int WORLDTRADE_SERVER_StateWaitMessageOrTouch(Work *p) { if((WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)((u8 *)p + 0xfa0))==0 && (KEY_GetTrg()&1)) || TOUCHPANEL_GetTrg()) { GFL_USE_PlaySeDefaultVolume(0x547); p->state=p->returnState; } return 2; }
+int WORLDTRADE_SERVER_StateWaitMessageOrTouch(WorldtradeWork *p) { if((WORLDTRADE_ADAPTER_IsStreamBusy((PrintStreamCtx *)((u8 *)p + 0xfa0))==0 && (KEY_GetTrg()&1)) || TOUCHPANEL_GetTrg()) { GFL_USE_PlaySeDefaultVolume(0x547); p->state=p->returnState; } return 2; }

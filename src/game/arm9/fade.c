@@ -20,6 +20,7 @@
  *   g_02146A7C      0x02146A7C  data
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct Fade {
     u32 flags;    /* 0x00 */
@@ -183,14 +184,14 @@ int FADE_IsActive(void)
 void FADE_ApplyBrightness(void)
 {
     if (g_02146A7C->flags & 1)
-        GXx_SetMasterBrightness_((void *)0x0400006c, -g_02146A7C->cur);
+        GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR, -g_02146A7C->cur);
 
     if (g_02146A7C->flags & 2)
-        GXx_SetMasterBrightness_((void *)0x0400106c, -g_02146A7C->cur);
+        GXx_SetMasterBrightness_((void *)REG_DB_MASTER_BRIGHT_ADDR, -g_02146A7C->cur);
 
     if (g_02146A7C->flags & 4)
-        GXx_SetMasterBrightness_((void *)0x0400006c, g_02146A7C->cur);
+        GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR, g_02146A7C->cur);
 
     if (g_02146A7C->flags & 8)
-        GXx_SetMasterBrightness_((void *)0x0400106c, g_02146A7C->cur);
+        GXx_SetMasterBrightness_((void *)REG_DB_MASTER_BRIGHT_ADDR, g_02146A7C->cur);
 }

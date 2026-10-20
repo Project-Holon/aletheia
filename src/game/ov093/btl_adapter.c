@@ -54,11 +54,10 @@ typedef struct BtlAdapter {
     struct BtlAdapterPacket packet; /* 0x10 packet sent to the net layer */
 } BtlAdapter;
 
-extern u32 GFL_HEAP_Free(void *block);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void BTL_NET_ExpectReplies(u32 netId);
 
@@ -98,7 +97,7 @@ void BTL_ADAPTER_SetSendData(BtlAdapter *adapter, u16 command, const void *src, 
 
 int BTL_ADAPTER_Update(BtlAdapter *adapter);
 
-const u8 *BTL_ADAPTER_GetSendBuffer(BtlAdapter *adapter, u32 *outSize);
+const void *BTL_ADAPTER_GetSendBuffer(BtlAdapter *adapter, u32 *outSize);
 
 void BTL_ADAPTER_Cancel(BtlAdapter *adapter);
 
@@ -202,7 +201,7 @@ int BTL_ADAPTER_Update(BtlAdapter *adapter)
     return 0;
 }
 
-const u8 *BTL_ADAPTER_GetSendBuffer(BtlAdapter *adapter, u32 *outSize)
+const void *BTL_ADAPTER_GetSendBuffer(BtlAdapter *adapter, u32 *outSize)
 {
     if (outSize != 0)
         *outSize = adapter->peerSize;

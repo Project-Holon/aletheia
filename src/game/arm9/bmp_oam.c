@@ -51,19 +51,11 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 struct ClactActor;
 
 #include "bmp_shared_types.h"
-
-/* Initial position and flags handed to the actor creator. */
-struct ActorInitParam {
-    s16 x;
-    s16 y;
-    u16 animIndex;
-    u8  drawPriority;
-    u8  bgPriority;
-};
 
 struct OamPos {
     s16 x;
@@ -91,17 +83,6 @@ struct BmpOam {
     u8                rows;
 };
 
-struct BmpOamParam {
-    const struct Bmp *bmp;
-    s16               x;
-    s16               y;
-    u32               animResId;
-    u32               palette;
-    u8                drawPriority;
-    u8                bgPriority;
-    u16               space;
-    u32               engine;
-};
 
 struct ModeEntry {
     u32 size;
@@ -120,6 +101,7 @@ typedef short s16_p07;
 
 
 #include "clact.h"
+#include "bmp_oam.h"
 
 
 
@@ -261,7 +243,7 @@ struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *p
     u8 rows;
     u8 rowIdx;
     u8 colIdx;
-    u32 arcTool;
+    uptr arcTool;
     u8 cols;
     u8 *cellRow;
     struct BmpOam *cell;
@@ -291,7 +273,7 @@ struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *p
     bmpOam->space = param->space;
     bmpOam->engine = param->engine;
 
-    arcTool = (u32)sys->arcTool;
+    arcTool = (uptr)sys->arcTool;
     for (rowIdx = 0; rowIdx < rows; rowIdx++) {
         for (colIdx = 0; colIdx < cols; colIdx++) {
             cellRow = (u8 *)bmpOam + rowIdx * cols * 4;
@@ -302,10 +284,10 @@ struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *p
             actorParam.x = (s16)(param->x + (colIdx << 5));
             actorParam.y = (s16)(param->y + yOffset);
             animResId = param->animResId;
-            actorParam.drawPriority = param->drawPriority;
-            actorParam.bgPriority = param->bgPriority;
+            actorParam.draw_priority = param->drawPriority;
+            actorParam.bg_priority = param->bgPriority;
             {
-                struct ClactActor *actor = CLACT_CreateActor(sys->clact, cell->res[0], animResId, sys->slot[mapMode], (const struct ActorInit *)&actorParam,
+                struct ClactActor *actor = CLACT_CreateActor(sys->clact, cell->res[0], animResId, sys->slot[mapMode], &actorParam,
                                                   param->space, sys->heapId);
                 u32 palette = (u8)param->palette;
                 cell->act[0] = actor;
@@ -412,7 +394,7 @@ void BMP_OAM_UploadChars(struct BmpOam *bmpOam)
                 bytes = 0x80;
             }
             charAddr = (void *)CLACT_GetCharacterVramAddress(bmpOam->res[col + row * bmpOam->cols], bmpOam->engine);
-            dstAddr = (u32)charAddr;
+            dstAddr = (uptr)charAddr;
             loadObj(pixels + srcOff, dstAddr, bytes);
             if (row == bmpOam->rows - 1 && oddRows != 0) {
             } else {
@@ -523,9 +505,9 @@ u32 BMP_OAM_AcquireModeSlot(struct BmpOamSys *sys, u32 engine, void *arcTool)
     u32 mapMode;
 
     if (engine == 0) {
-        dispcnt = (volatile u32 *)0x04000000;
+        dispcnt = (volatile u32 *)REG_DISPCNT_ADDR;
     } else {
-        dispcnt = (volatile u32 *)0x04001000;
+        dispcnt = (volatile u32 *)REG_DB_DISPCNT_ADDR;
     }
 
     switch (*dispcnt & 0x00300010) {

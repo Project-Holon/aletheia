@@ -46,20 +46,12 @@ typedef struct {
     unsigned int wordCount;
 } CategorySource;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct PmsWordSys *PMS_WORD_Create(u32 heapId);
-extern void PMS_WORD_Delete(struct PmsWordSys *);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/pms_word.h"
 struct PmsiParam;
-extern void *PMSI_PARAM_GetSaveWork(struct PmsiParam *obj);
+#include "../arm9/pmsi_param.h"
 struct ZukanSave;
-extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, u16 species);
-extern int PMSI_PARAM_GetEventFlag(struct PmsiParam *obj);
-extern void *PMSI_PARAM_GetWordSave(struct PmsiParam *obj);
-extern u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
-extern int PMS_WORD_CheckFlag(const u32 *p, u32 idx);
-extern int PMSI_PARAM_GetOptionFlag(struct PmsiParam *obj);
-extern void PMS_WORD_GetString(struct PmsWordSys *p, u32 id, void *dest);
+#include "../arm9/zukan_save.h"
 
 extern const char d_021C3B80[];
 extern const CategorySource d_021C1E80[];

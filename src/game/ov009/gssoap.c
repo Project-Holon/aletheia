@@ -20,7 +20,7 @@
  *   gsXmlCreateStreamReader                  0x02181C2C  arm ov009
  *   gsXmlParseBuffer                  0x02181D10  arm ov009
  *   ghttpRequestThink                  0x021C2284  arm
- *   ZUKAN_DETAIL_AREA_ResetBlendAlpha                  0x021C2304  arm
+ *   ghttpNewPost                  0x021C2304  arm
  *   ghttpPostSetAutoFree                  0x021C2310  arm
  *   ghttpPostAddXml                  0x021C2338  arm
  *   ghttpGetExA                  0x021C20A4  arm
@@ -30,15 +30,7 @@
  */
 typedef void (*GSSoapCallback)(int, void *, void *, void *);
 
-typedef struct GSTask {
-    char pad0[0x20];
-    void *obj;
-    void (*execute)(void *);
-    void (*callback)(void *);
-    void (*cancel)(void *);
-    int (*cleanup)(void *);
-    int (*think)(void *);
-} GSTask;
+#include "gscore.h"
 
 typedef struct GSSoapTask {
     void (*callback)(int, void *, void *, void *);
@@ -58,21 +50,11 @@ typedef struct GSSoapTask {
 
 #include "../types.h"
 
-extern void *gsimalloc(unsigned long size);
-extern GSTask *gsiCoreCreateTask(void);
-extern void gsiCoreExecuteTask(GSTask *theTask, unsigned int theTimeoutMs);
-extern void gsifree(void *ptr);
-extern void *gsXmlCreateStreamReader(void);
-extern int gsXmlParseBuffer(void *stream, char *data, int len);
-extern int ghttpRequestThink(int request);
-extern void *ZUKAN_DETAIL_AREA_ResetBlendAlpha();
+#include "gsmemory.h"
+#include "gscore.h"
+#include "gsxml.h"
+#include "../ov114/ghttpmain.h"
 struct GHIPost;
-extern void ghttpPostSetAutoFree(struct GHIPost *post, int autoFree);
-extern int ghttpPostAddXml(struct GHIPost *post, void *xml);
-extern int ghttpGetExA(char *URL, char *headers, char *buffer, int bufferSize, void *post, int throttle, int blocking, void *progressCallback, int (*completedCallback)(int, int, char *, int, void *), void *param);
-extern void ghttpCancelRequest(int request);
-void gsXmlFreeReader(void *stream);
-void ghttpFreePostAndUpdateConnection(int request, struct GHIPost *post);
 void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, void *theUserData);
 GSSoapTask *gsiExecuteSoapWithTimeout(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, unsigned int theTimeoutMs, void *theUserData);
 GSSoapTask *gsiExecuteSoapCustom(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, void (*theCustomFunc)(void *, void *), void *theUserData);
@@ -80,7 +62,7 @@ int gsiSoapTaskHttpCompletedCallback(int request, int result, char *buffer, int 
 int gsiSoapTaskThink(void *theTask);
 void gsiSoapTaskExecute(void *theTask);
 void gsiSoapTaskCancel(void *theTask);
-void gsiSoapTaskCallback(void *theTask);
+void gsiSoapTaskCallback(void *theTask, int theResult);
 int gsiSoapTaskCleanup(void *theTask);
 
 /*
@@ -115,12 +97,12 @@ GSSoapTask *gsiExecuteSoapWithTimeout(char *theURL, char *theService, void *theR
         gsifree(aSoapTask);
         return 0;
     }
-    aCoreTask->callback = gsiSoapTaskCallback;
-    aCoreTask->execute = gsiSoapTaskExecute;
-    aCoreTask->think = gsiSoapTaskThink;
-    aCoreTask->cleanup = gsiSoapTaskCleanup;
-    aCoreTask->cancel = gsiSoapTaskCancel;
-    aCoreTask->obj = aSoapTask;
+    aCoreTask->mCallbackFunc = gsiSoapTaskCallback;
+    aCoreTask->mExecuteFunc = gsiSoapTaskExecute;
+    aCoreTask->mThinkFunc = gsiSoapTaskThink;
+    aCoreTask->mCleanupFunc = gsiSoapTaskCleanup;
+    aCoreTask->mCancelFunc = gsiSoapTaskCancel;
+    aCoreTask->mTaskData = aSoapTask;
     aSoapTask->coreTask = aCoreTask;
     gsiCoreExecuteTask(aCoreTask, theTimeoutMs);
     return aSoapTask;
@@ -147,12 +129,12 @@ GSSoapTask *gsiExecuteSoapCustom(char *theURL, char *theService, void *theReques
     aSoapTask->result = 0;
     aSoapTask->completed = 0;
     aCoreTask = gsiCoreCreateTask();
-    aCoreTask->callback = gsiSoapTaskCallback;
-    aCoreTask->execute = gsiSoapTaskExecute;
-    aCoreTask->think = gsiSoapTaskThink;
-    aCoreTask->cleanup = gsiSoapTaskCleanup;
-    aCoreTask->cancel = gsiSoapTaskCancel;
-    aCoreTask->obj = aSoapTask;
+    aCoreTask->mCallbackFunc = gsiSoapTaskCallback;
+    aCoreTask->mExecuteFunc = gsiSoapTaskExecute;
+    aCoreTask->mThinkFunc = gsiSoapTaskThink;
+    aCoreTask->mCleanupFunc = gsiSoapTaskCleanup;
+    aCoreTask->mCancelFunc = gsiSoapTaskCancel;
+    aCoreTask->mTaskData = aSoapTask;
     aSoapTask->coreTask = aCoreTask;
     gsiCoreExecuteTask(aCoreTask, 0);
     return aSoapTask;
@@ -198,7 +180,7 @@ void gsiSoapTaskExecute(void *theTask)
 {
     GSSoapTask *aSoapTask = (GSSoapTask *)theTask;
 
-    aSoapTask->post = ZUKAN_DETAIL_AREA_ResetBlendAlpha();
+    aSoapTask->post = ghttpNewPost();
     if (aSoapTask->post == 0) {
         aSoapTask->completed = 1;
         aSoapTask->result = 1;
@@ -227,7 +209,7 @@ void gsiSoapTaskCancel(void *theTask)
 /*
  * sdk:      gsiSoapTaskCallback (gssoap.o)
  */
-void gsiSoapTaskCallback(void *theTask)
+void gsiSoapTaskCallback(void *theTask, int theResult)
 {
     GSSoapTask *aSoapTask = (GSSoapTask *)theTask;
     aSoapTask->callback(aSoapTask->result, aSoapTask->request, aSoapTask->stream, aSoapTask->userData);

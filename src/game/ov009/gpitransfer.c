@@ -24,20 +24,13 @@
  *   gGpiTransferKeyXfer  0x021A56B4  data
  *   gGpiTransferIdFmt  0x021A56BC  data
  */
-struct GPIPeer;
-struct GPITransferID {
-    int a;
-    int b;
-    int c;
-};
+#include "gpi_types.h"
 
-extern int gpiPeerStartTransferMessage(void **connection, struct GPIPeer *peer, int type, struct GPITransferID *transferID);
-extern int OS_SPrintf(char *dst, char *fmt, ...);
-struct GPIPeer_s;
-extern int gpiSendOrBufferString(void **connection, struct GPIPeer_s *peer, char *string);
-extern int gpiPeerFinishTransferMessage(void **connection, struct GPIPeer *peer, char *message, int len);
-extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
-extern int STD_TSScanf(char *src, char *fmt, ...);
+#include "gpipeer.h"
+#include "../arm9/os_printf.h"
+#include "gpibuffer.h"
+#include "gpiutility.h"
+#include "../arm9/std_string.h"
 int gpiSendTransferReply(void **connection, struct GPITransferID *transferID, void *peer, int result, char *msg);
 void gpiHandleTransferMessage(void **connection, void *peer, int unused, char *headers, char *buffer, int len);
 extern char gGpiTransferEmptyMsg[];
@@ -80,7 +73,7 @@ void gpiHandleTransferMessage(void **connection, void *peer, int unused, char *h
 
     if (gpiValueForKey(headers, gGpiTransferKeyXfer, value, 64) == 0)
         return;
-    if (STD_TSScanf(value, gGpiTransferIdFmt, &transferID.a, &transferID.b, &transferID.c) != 3)
+    if (STD_TSScanf(value, gGpiTransferIdFmt, &transferID.profileid, &transferID.count, &transferID.time) != 3)
         return;
     gpiSendTransferReply(connection, &transferID, peer, 2, 0);
 }

@@ -14,6 +14,7 @@ values come from the image at run time; nothing generated is committed.
   python tools/datagen.py companions 12 --version white
                                                       the same for White: Black's structure, values
                                                       from extract_white/ (build/datac_white/ov012)
+  python tools/datagen.py companions twl              the DSi block (region twl): tools/twldata.py
 
 Pointers are written as (char *)&name + addend where name is the registry name
 of the target (a defined object of the same file, or an extern from the
@@ -1082,7 +1083,14 @@ def main():
     WHITE = a.version == "white"
     if a.cmd == "companions":
         rc = 0
-        for i in a.ids or [r[2:] for r in (a.region or [])]:
+        for i in a.ids or [r[2:] if r.startswith("ov") else r for r in (a.region or [])]:
+            if i == "twl":
+                # the DSi block: tools/twldata.py (region twl of the registry), build/datac[_white]/twl
+                import twldata
+                res = twldata.build(WHITE)
+                print("twl -> %s %d files, %d bytes" % (os.path.relpath(twldata.out_dir(WHITE), ROOT), len(res),
+                                                       sum(r[1] for r in res)))
+                continue
             rg = i if i.startswith("ov") else "ov%03d" % int(i)
             try:
                 r = companions(rg, a.out if len(a.ids) == 1 else None, a.relink)
@@ -1094,7 +1102,7 @@ def main():
         sys.exit(rc)
     layout = datareg.load_layout()
     reg = load_registry()
-    regions = a.region or list(reg)
+    regions = a.region or [r for r in reg if r != datareg.REG_KEY["twl"]]    # twl: tools/twldata.py
     grand_ok = grand = 0
     for r in regions:
         if a.cmd == "gen":

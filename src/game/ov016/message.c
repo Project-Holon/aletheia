@@ -28,7 +28,7 @@ typedef struct {
 	int a;
 	int b;
 	int c;
-} Info;
+} MessageQueueInfo;
 
 typedef struct MemMsg MemMsg;
 
@@ -37,13 +37,9 @@ typedef struct MsgPrm {
     unsigned char *data;
 } MsgPrm;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
-extern void *DWCi_QUElFormEx(long size, void *data, long dsize);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void *DWCi_QUElPopBack(void *que);
-extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
-extern void DWCi_ARClRelease(void *file);
-extern void DWCi_QUElPushBack(void *queue, void *data);
+#include "heap.h"
+#include "deque.h"
+#include "archive.h"
 void DWCi_MSGlInit(void);
 void DWCi_MSGlEnd(void);
 void *DWCi_MSGlRead(char *file);
@@ -85,11 +81,11 @@ void DWCi_MSGlEnd(void)
 void *DWCi_MSGlRead(char *file)
 {
 	unsigned long size;
-	Info *info;
+	MessageQueueInfo *info;
 	char *msg;
 	int *hdr;
 
-	info = (Info *)DWCi_QUElPopBack(*(void **)(((char *)gMessageWork) + 0x60));
+	info = (MessageQueueInfo *)DWCi_QUElPopBack(*(void **)(((char *)gMessageWork) + 0x60));
 	msg = DWCi_ARClReadEx(file, &size, 4);
 	hdr = (int *)(msg + 0x20);
 	info->c = (int)msg;

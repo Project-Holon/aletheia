@@ -21,15 +21,12 @@
  */
 #include "btlv_core_types.h"
 
-extern u32 OS_GetConsoleType(void);
+#include "../arm9/os_emulator.h"
 
-extern int GF_OVERLAY_Load(s32 handle);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(s32 handle);
 
-extern int GF_OVERLAY_Load(s32 handle);
 
-extern void GF_OVERLAY_Unload(s32 handle);
 
 void BTLV_CORE_LoadDsiOverlay(void);
 

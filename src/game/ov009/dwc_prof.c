@@ -43,7 +43,7 @@
  *   gDwcProfPostLabelWtype     0x021A2800  data ov009
  *   gDwcProfBodyWtype     0x021A2808  data ov009
  *   gDwcProfPostLabelWords     0x021A2810  data ov009
- *   gMslRefToken     0x02150FEC  data
+ *   OSi_ThreadInfo     0x02150FEC  data
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   DWC_AC_GetApType  0x0205BDD0  arm
  *   DWCi_SetError  0x02059F54  arm
@@ -60,16 +60,9 @@
  *   gDwcProfLabelPrWords     0x021A2838  data ov009
  *   DWC_Alloc                    0x0205A16C  arm
  */
+#include "dwc_http_types.h"
+#include "../arm9/os_thread.h"
 #include "../sdk_os.h"
-
-typedef struct DWCHttp {
-    char pad0[0x1020];
-    int error;
-    char pad1024[0xb50];
-    OSThread thread;
-    char mutex[0x18];
-    int abort;
-} DWCHttp;
 
 typedef struct DWCProfWorkarea {
     DWCHttp http;
@@ -88,32 +81,18 @@ typedef struct DWCProfFieldNames {
     char *name[8];
 } DWCProfFieldNames;
 
-extern int wcslen(const unsigned short *s);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
-extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
-extern int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
-extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
-extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int DWC_Http_Add_Body(char *http, char *data);
-extern unsigned short *wcscpy(unsigned short *dst, const unsigned short *src);
-extern int DWC_Http_FinishHeader(char *http);
-extern unsigned long OS_GetThreadPriority(OSThread *thread);
-extern void DWC_Http_StartThread(char *http, unsigned long prio);
-extern void DWC_Http_Destroy(char *http);
-extern int OS_IsThreadTerminated(OSThread *thread);
-extern unsigned char DWC_AC_GetApType(void);
-extern void DWCi_SetError(int error, int errorCode);
-extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
-extern char *DWC_Http_GetResult(char *http, char *label);
-extern int DWC_Auth_SetNasTimeDiff(char *datestr);
-extern int atoi(u32 s);
-extern int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned int buffer_len);
-extern void *DWC_Alloc(int name, unsigned long size);
+#include "../arm9/msl_wchar.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/msl_string_str.h"
+#include "dwc_http.h"
+#include "dwc_cal.h"
+#include "../arm9/os_thread.h"
+#include "../arm9/dwc_ac.h"
+#include "../arm9/dwc_error.h"
+#include "dwc_nastime.h"
+#include "../arm9/msl_strtod.h"
+#include "../arm9/dwc_memfunc.h"
 /* DWC_Free takes a third argument, the allocation size. The callee ignores it. */
-extern void DWC_Free(int name, void *ptr, unsigned long size);
 int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, char *region);
 /*
  * sdk: DWC_CheckProfanityExAsync (dwc_prof.o) * * The region letter default is the byte at 0x02FFFE0F, a literal address * (no relocation in the object).
@@ -137,7 +116,6 @@ extern char gDwcProfPostValueUtf16le[];
 extern char gDwcProfPostLabelWtype[];
 extern char gDwcProfBodyWtype[];
 extern char gDwcProfPostLabelWords[];
-extern OSThreadInfo gMslRefToken;
 extern const DWCProfFieldNames gDwcProfFieldNames;
 extern char gDwcProfLabelDate[];
 extern char gDwcProfLabelHttpResult[];
@@ -201,8 +179,8 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
     httpparam.url = gDwcProfWorkarea->url;
     httpparam.action = 0;
     httpparam.len_recvbuf = 0x400;
-    httpparam.alloc = (void *(*)(unsigned long, long))DWCi_Prof_Alloc;
-    httpparam.free = (void (*)(unsigned long, void *, long))DWCi_Prof_Free;
+    httpparam.alloc = (DWCAuthAlloc)DWCi_Prof_Alloc;
+    httpparam.free = (DWCAuthFree)DWCi_Prof_Free;
     httpparam.ignoreca = 0;
     if (timeout <= 0)
         httpparam.timeout = 10000;
@@ -248,7 +226,7 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
 
     if (DWC_Http_FinishHeader((char *)(&gDwcProfWorkarea->http)) != 0)
         goto error;
-    DWC_Http_StartThread((char *)(&gDwcProfWorkarea->http), OS_GetThreadPriority(gMslRefToken.current) - 1);
+    DWC_Http_StartThread((char *)(&gDwcProfWorkarea->http), OS_GetThreadPriority(OSi_ThreadInfo.current) - 1);
     if (gDwcProfWorkarea->http.thread.id != 0)
         return 1;
 
@@ -355,13 +333,13 @@ int DWCi_Prof_ParseResponse(void)
     strp = DWC_Http_GetResult((char *)DWChttp, gDwcProfLabelHttpResult);
     if (strp == 0)
         goto error;
-    httpretcode = atoi((u32)strp);
+    httpretcode = atoi(strp);
     if (errno == 34 || httpretcode != 200)
         goto error;
 
     if (DWC_Http_GetBase64DecodedResult((char *)DWChttp, gDwcProfLabelReturnCd, retcode, 4) <= 0)
         goto error;
-    httpretcode = atoi((u32)retcode);
+    httpretcode = atoi(retcode);
     if (errno == 34)
         goto error;
     if (httpretcode == 1 || (httpretcode >= 100 && httpretcode != 100)) {

@@ -12,16 +12,12 @@
 struct FieldG3dMap;
 typedef struct ArcFile ArcFile;
 
-typedef struct FieldG3dMapVec {
-    int x;
-    int y;
-    int z;
-} FieldG3dMapVec;
+#include "../sdk_fx.h"
 
 /* 4x3 matrix of the pipeline load and multiply commands: rotation, then translation. */
 typedef struct FieldG3dMapMtx43 {
     int rot[9];
-    FieldG3dMapVec trans;
+    VecFx32 trans;
 } FieldG3dMapMtx43;
 
 /* Result record of the query callbacks: five words per hit. */
@@ -29,7 +25,7 @@ typedef struct FieldG3dMapHit {
     unsigned short kind;
     unsigned short index;
     unsigned short flags;
-    int depth;
+    int attr;
     int height;
 } FieldG3dMapHit;
 
@@ -39,7 +35,7 @@ typedef struct FieldG3dMapHitList {
 } FieldG3dMapHitList;
 
 /* Callback of a block type, called with the loaded data, a position, the grid size and its height. */
-typedef void (*FieldG3dMapQueryFunc)(void *out, void *data, FieldG3dMapVec *localPos, unsigned int gridSize, unsigned int height);
+typedef void (*FieldG3dMapQueryFunc)(void *out, void *data, VecFx32 *localPos, unsigned int gridSize, unsigned int height);
 
 /* Callback of a block type, called once per update with the user parameter of the config. */
 typedef void (*FieldG3dMapUpdateFunc)(struct FieldG3dMap *map, unsigned int userParam);
@@ -83,7 +79,7 @@ typedef struct FieldG3dMapRenderObj {
 /* Placed model entry (0x14 bytes); index -1 marks an unused entry. */
 typedef struct FieldG3dMapPlacement {
     int modelIndex;                       /* 0x00 */
-    FieldG3dMapVec pos;                   /* 0x04 */
+    VecFx32 pos;                   /* 0x04 */
     unsigned short angle;                 /* 0x10 */
     unsigned short pad12;                 /* 0x12 */
 } FieldG3dMapPlacement;
@@ -115,7 +111,7 @@ typedef struct FieldG3dMapConfig {
 typedef struct FieldG3dMap {
     unsigned short visible;               /* 0x00 */
     unsigned short loadSync;              /* 0x02, 1 while a load must finish in one step */
-    FieldG3dMapVec pos;                   /* 0x04 */
+    VecFx32 pos;                   /* 0x04 */
     ArcFile *archive;                     /* 0x10 */
     unsigned int memberIndex;             /* 0x14 */
     unsigned int typeIndex;               /* 0x18, index into typeTable */

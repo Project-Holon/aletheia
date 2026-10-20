@@ -16,7 +16,7 @@
  *   FIELD_GIMMICK_GATE_FindNewsEntry  0x021F3C2C  thumb  ov048
  */
 
-extern unsigned long FIELD_GIMMICK_GATE_FindNewsEntry(void *userdata);
+#include "field_gimmick_gate.h"
 
 int FIELD_GIMMICK_GATE_HasNewsEntry(void *frienddata)
 {

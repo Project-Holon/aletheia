@@ -89,35 +89,20 @@ typedef struct CollisionPlane {
 } CollisionPlane;
 struct FieldG3dMap;
 
-extern u16 *FIELD_G3D_MAP_GetActiveRef(struct FieldG3dMap *map, u16 **out);
-extern void FIELD_G3D_MAP_ResetLoadState(FieldG3dMap *map);
-extern void FIELD_G3D_MAP_GetMemberIndex(FieldG3dMap *map, u32 *out);
-extern void FIELD_G3D_MAP_BeginChunkedLoad(FieldG3dMap *map, u32 member);
-extern int FIELD_G3D_MAP_ReadNextChunk(FieldG3dMap *map);
-extern void FIELD_G3D_MAP_GetBuffer(FieldG3dMap *map, u8 **out);
-extern void FIELD_G3D_MAP_SetModelRes(struct FieldG3dMap *map, u8 *value);
-extern void FIELD_G3D_MAP_BindRenderObj(FieldG3dMap *map);
-extern void *FIELD_G3D_MAP_GetModelRes(FieldG3dMap *map);
-extern void *FIELD_G3D_MAP_GetTextureRes(FieldG3dMap *map);
-extern FieldG3dMapRenderObj *FIELD_G3D_MAP_GetRenderObj(FieldG3dMap *map);
+#include "../ov010/field_g3d_map.h"
 struct FieldG3dMapperSlotRes;
-struct FieldBuildModel;
-extern struct FieldBuildModel *FIELD_G3D_MAPPER_SlotResGetBuildModel(struct FieldG3dMapperSlotRes *res);
-extern int FIELD_G3D_MAPPER_SlotResHasGroundAnime(struct FieldG3dMapperSlotRes *res);
+struct BuildModelMan;
+#include "field_g3d_mapper.h"
 struct FieldGroundAnime;
-extern struct FieldGroundAnime *FIELD_G3D_MAPPER_SlotResGetGroundAnime(struct FieldG3dMapperSlotRes *res);
 struct BuildModelObjectDesc;
 struct BuildModelMan;
-extern int FIELD_BUILDMODEL_RegisterObjects(struct BuildModelMan *man, int mapObject, struct BuildModelObjectDesc *descs, int count);
-extern int FIELD_GROUND_ANIME_BindAnm(unsigned int entry, unsigned int fileRes, unsigned int texRes, unsigned int renderObj);
-extern void FIELD_G3D_MAPPER_GetTilePlane(FieldG3dMapHitList *out, int index, const void *plane, FieldG3dMapVec *localPos, int gridSize, int height);
-extern u32 MI_CpuFill8(void *dst, int value, u32 size);
+#include "field_buildmodel.h"
+#include "field_ground_anime.h"
+#include "field_g3d_tile_plane.h"
+#include "../arm9/mi_memory.h"
 struct FieldG3dMapperSlotRes;
-extern struct FieldWfbc *FIELD_G3D_MAPPER_SlotResGetWfbc(struct FieldG3dMapperSlotRes *res);
-extern int FIELD_G3D_MAPPER_SlotResGetSlotIndex(struct FieldG3dMapperSlotRes *res);
-extern u16 FIELD_G3D_MAPPER_SlotResGetHeapId(struct FieldG3dMapperSlotRes *res);
-extern int FIELD_WFBC_PatchLandData(struct FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId);
-extern u32 FX_Div(u32 dividend, u32 divisor);
+#include "field_wfbc.h"
+#include "../arm9/fx_cp.h"
 
 /*
  * From here on: callbacks of the field 3D map block types (see
@@ -168,9 +153,9 @@ int FIELD_G3D_MAP_BLOCK_UpdateOnePlane(FieldG3dMap *map, struct FieldG3dMapper *
 }
 
 /* Query callback, one plane. */
-void FIELD_G3D_MAP_BLOCK_QueryOnePlane(FieldG3dMapHitList *hitList, const FieldG3dMapBlockHeader *header, FieldG3dMapVec *localPos, int gridSize, int height)
+void FIELD_G3D_MAP_BLOCK_QueryOnePlane(FieldG3dMapHitList *hitList, const FieldG3dMapBlockHeader *header, VecFx32 *localPos, int gridSize, int height)
 {
-    FIELD_G3D_MAPPER_GetTilePlane(hitList, 0, (const u8 *)header + header->sectionOffset[0], localPos, gridSize, height);
+    FIELD_G3D_MAPPER_GetTilePlane( (TileSurface *)hitList, 0, (PackedTileMap *)((const u8 *)header + header->sectionOffset[0]), (VecFx32 *)localPos, gridSize, height);
     hitList->count = 1;
 }
 
@@ -216,24 +201,24 @@ int FIELD_G3D_MAP_BLOCK_UpdateTwoPlane(FieldG3dMap *map, struct FieldG3dMapper *
 }
 
 /* Query callback, two planes. */
-void FIELD_G3D_MAP_BLOCK_QueryTwoPlane(FieldG3dMapHitList *hitList, const FieldG3dMapBlockHeader *header, FieldG3dMapVec *localPos, int gridSize, int height)
+void FIELD_G3D_MAP_BLOCK_QueryTwoPlane(FieldG3dMapHitList *hitList, const FieldG3dMapBlockHeader *header, VecFx32 *localPos, int gridSize, int height)
 {
     FieldG3dMapHitList buf;
 
     MI_CpuFill8(&buf, 0, sizeof(buf));
-    FIELD_G3D_MAPPER_GetTilePlane(&buf, 0, (const u8 *)header + header->sectionOffset[0], localPos, gridSize, height);
-    FIELD_G3D_MAPPER_GetTilePlane(&buf, 1, (const u8 *)header + header->sectionOffset[1], localPos, gridSize, height);
+    FIELD_G3D_MAPPER_GetTilePlane( (TileSurface *)&buf, 0, (PackedTileMap *)((const u8 *)header + header->sectionOffset[0]), (VecFx32 *)localPos, gridSize, height);
+    FIELD_G3D_MAPPER_GetTilePlane( (TileSurface *)&buf, 1, (PackedTileMap *)((const u8 *)header + header->sectionOffset[1]), (VecFx32 *)localPos, gridSize, height);
     *hitList = buf;
     hitList->count = 2;
 }
 
 /* Query callback, one plane (builds the list in a local buffer first). */
-void FIELD_G3D_MAP_BLOCK_QueryOnePlaneBuffered(FieldG3dMapHitList *hitList, const FieldG3dMapBlockHeader *header, FieldG3dMapVec *localPos, int gridSize, int height)
+void FIELD_G3D_MAP_BLOCK_QueryOnePlaneBuffered(FieldG3dMapHitList *hitList, const FieldG3dMapBlockHeader *header, VecFx32 *localPos, int gridSize, int height)
 {
     FieldG3dMapHitList buf;
 
     MI_CpuFill8(&buf, 0, sizeof(buf));
-    FIELD_G3D_MAPPER_GetTilePlane(&buf, 0, (const u8 *)header + header->sectionOffset[0], localPos, gridSize, height);
+    FIELD_G3D_MAPPER_GetTilePlane( (TileSurface *)&buf, 0, (PackedTileMap *)((const u8 *)header + header->sectionOffset[0]), (VecFx32 *)localPos, gridSize, height);
     *hitList = buf;
     hitList->count = 1;
 }
@@ -372,7 +357,7 @@ static inline void PlaneSetNormal(CollisionPlane *plane, int x, int y, int z)
  * Find the collision plane under pos in a map block: pick the tile of the
  * grid, then the triangle of the tile, and compute the plane height at pos.
  */
-void FIELD_G3D_MAP_BLOCK_GetCollisionPlane(CollisionPlane *out, const int *mapData, FieldG3dMapVec *pos, fx32 mapSize, fx32 baseHeight)
+void FIELD_G3D_MAP_BLOCK_GetCollisionPlane(CollisionPlane *out, const int *mapData, VecFx32 *pos, fx32 mapSize, fx32 baseHeight)
 {
     fx32 half = mapSize / 2;
     fx32 z = pos->z + half;

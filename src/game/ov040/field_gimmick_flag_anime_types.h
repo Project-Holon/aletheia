@@ -30,7 +30,7 @@ struct GameData;
 struct GameEvent;
 struct GimmickWork;
 
-typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
+#include "../arm9/game_event.h"
 
 /* The common work of the gimmick on the field map (4 bytes, id 1). */
 typedef struct FieldGimmickFlagAnimeWork {
@@ -45,30 +45,7 @@ typedef struct FieldGimmickFlagAnimeModelPos {
 } FieldGimmickFlagAnimeModelPos;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
-extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
-                                       GameEventFunc func, u32 workSize);
-extern void FLD_EXP_OBJ_AddUnit(FldExpObjCnt *expObj, G3dUtilSetup *setup, u16 unitIndex);
-extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
-extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
-extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, unsigned modelIndex, int animeIndex);
-extern void FLD_EXP_OBJ_SetAnimePaused(FldExpObjAnime *anime, int paused);
-extern void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
-extern int FLD_EXP_OBJ_IsAnimeStopped(FldExpObjAnime *anime);
-extern void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int frame);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
-extern int FLD_EXP_OBJ_GetAnimeLastFrame(FldExpObjAnime *anime);
-extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
+#include "../ov021/fld_exp_obj.h"
 
 int FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime(struct GameEvent *event, int *seq, void *work);
 

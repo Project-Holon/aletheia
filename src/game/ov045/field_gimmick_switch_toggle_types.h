@@ -27,11 +27,5 @@ typedef struct FieldGimmickSwitchToggleWork {
     int switchIndex;  /* switch that the running event animates */
 } FieldGimmickSwitchToggleWork;
 
-/* Fixed-point position of a model. */
-typedef struct Vec3Fx {
-    int x;
-    int y;
-    int z;
-} Vec3Fx;
-
+#include "../sdk_fx.h"
 #endif

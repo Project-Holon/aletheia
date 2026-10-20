@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_NET_QUEUE_H
 #define GAME_ARM9_NET_QUEUE_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of net_queue.c, prototypes copied from their definitions. */
 
 #include "../arm9/net_types.h"
@@ -22,5 +23,6 @@ void GFL_NET_QUEUE_Init(NetQueue *queue, u32 nodeMax, NetRingBuff *ring, u32 hea
 void GFL_NET_QUEUE_Reset(NetQueue *queue);
 void GFL_NET_QUEUE_Exit(NetQueue *queue);
 int GFL_NET_QUEUE_IsCommandQueued(NetQueue *queue, int command);
+/* END mkheaders: generated region */
 
 #endif

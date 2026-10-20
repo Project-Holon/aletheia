@@ -46,48 +46,46 @@
 
 struct Guru2JoinPacket {u8 playerId,memberCount; volatile u8 kind; u8 accepted;};
 
-extern void MI_CpuFill8(void *,int,u32);
+#include "../arm9/mi_memory.h"
 
-extern void *GFL_HEAP_Alloc(u16,u32,int,const char *,u16);
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_Alloc_hdr
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+void * GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
+#endif
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
+#include "../arm9/net_command.h"
 struct GFLNetHandle;
 
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 
-extern void MI_CpuCopy8(const void *,void *,u32);
 
-extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, unsigned int command, unsigned int size, void *data);
+#include "../arm9/net.h"
 
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+#include "../arm9/net_system.h"
 
-extern void GURU2_RECEIPT_SetStateFromParent(char *p, int state, int player);
+#include "guru2_receipt.h"
 struct UnionAppWork;
 
-extern int UNION_APP_GetMemberCount(struct UnionAppWork *app);
+#include "../ov022/union_app.h"
 
-extern unsigned char UNION_APP_GetJoinedBits(struct UnionAppWork *app);
 
-extern unsigned char MATH_CountPopulation(unsigned int x);
+#include "../arm9/math.h"
 struct Guru2Lobby;
 
-extern void GURU2_RECEIPT_SetStateFromChild(struct Guru2Lobby *p, int command, int player);
 
-extern void GURU2_MAIN_StoreSlotAssignment(struct Guru2Game *p, unsigned short *q);
+#include "guru2_main.h"
 
-extern void GURU2_MAIN_SyncPlayerCount(struct Guru2Game *p, int unused);
 
-extern void GURU2_MAIN_SetPlayerInput(struct Guru2Game *p, int a);
 
-extern void GURU2_MAIN_StoreRoundResult(struct Guru2Game *p,void *q);
 
-extern void GURU2_MAIN_StoreAngles(struct Guru2Game *p, u16 *q);
 
-extern void GURU2_MAIN_SetPlayerSelectedSlot(struct Guru2Game *p, int a, int b);
 
-void *GURU2_GetUnionApp(struct Guru2Comm *p);
+#include "guru2.h"
 
 struct Guru2Comm *GURU2_COMM_Create(struct Guru2Session *session,int heap);
 

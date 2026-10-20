@@ -53,61 +53,45 @@
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
 
-extern void *DWC_RAPCOMMON_Alloc(u32 heapId, unsigned long size, int align);
 
-extern void DWC_RAPCOMMON_Free(u32 heapId, void *ptr_p, int size);
 
-extern int NHTTP_Startup(void *(*alloc)(unsigned long, int), void (*free)(void *), unsigned long threadprio);
 
-extern NHTTPConnection *NHTTP_CreateConnection(char *url_p, int method, char *buf_p, u32 len, int (*callback)(NHTTPConnection *, int, void *), void *userParam_p);
 
-extern int NHTTP_SetRootCA(void *handle_p, void *rootCA_p, int rootCALen);
 
-extern int NHTTP_AddHeaderField(NHTTPConnection *connection_p, const char *label_p, const char *value_p);
 
-extern int NHTTP_SetBasicAuthorization(void *handle_p, char *username_p, char *password_p);
 
-extern void GF_PANIC_Fail(const char *,u32,const char *);
+#include "../arm9/gf_panic.h"
 
-extern void MI_CpuFill8(void *,int,unsigned);
+#include "../arm9/mi_memory.h"
 
-extern int STD_TSNPrintf(char *,int,const char *,...);
+#include "../arm9/std_sprintf.h"
 
-extern int NHTTP_StartConnection(void *handle);
 
-extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
+#include "../arm9/net_state.h"
 
-extern int NHTTP_DeleteConnection(NHTTPConnection *connection_p);
 
-extern void NHTTP_Cleanup(void);
 
-extern int NHTTP_GetConnectionError(NHTTPConnection *connection_p);
 
-extern int NHTTP_GetConnectionProgress(void *handle, u32 *received_p, u32 *contentlen_p);
 
-extern int NHTTP_GetHeaderAll(void *handle_p, char **value_pp);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void *GFL_NET_AllocAligned(unsigned int a, unsigned int size, const char *c, unsigned short d);
+#include "../arm9/net.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u32 NHTTP_GetError(void);
 
-extern int NHTTP_AddPostDataRaw(void *handle_p, void *value_p, u32 length);
 
-extern char *STD_CopyString(char *, const char *);
+#include "../arm9/std_string.h"
 
-extern void GFL_NET_FreeAligned(void *);
 
-extern int NHTTP_GetResultCode(void *handle_p);
 
-extern void CRYPTO_SetMemAllocator(void *(*alloc)(int), void (*free)(void *), int arg);
 
-extern int CRYPTO_VerifySignature(void *data_ptr, int data_len, void *sign_ptr, void *mod_ptr);
+#include "crypto_sign.h"
+#include "crypto_util.h"
+#include "d_nhttp.h"
+#include "d_nhttp_private.h"
+#include "../ov009/dwc_rapcommon.h"
 
 void *NHTTP_RAP_Alloc(unsigned long size, int align);
 
@@ -127,7 +111,7 @@ int NHTTP_RAP_PollConnection(NHTTPRapSession *session_p);
 
 char *NHTTP_RAP_GetRecvBuffer(NHTTPRapSession *session_p);
 
-NHTTPRapSession *NHTTP_RAP_Create(u32 heapId, u32 gameCode, char *source_p);
+NHTTPRapSession *NHTTP_RAP_Create(u16 heapId, u32 gameCode, char *source_p);
 
 void NHTTP_RAP_Destroy(NHTTPRapSession *session_p);
 
@@ -151,9 +135,8 @@ NHTTPRapRecord *NHTTP_RAP_RecordList_GetRecord(NHTTPRapRecordList *list_p, u32 i
 
 int NHTTP_RAP_VerifySignature(void *data_p, int elemSize, int count, char *sign_p, u16 heapId);
 
-void *NHTTP_RAP_EvilCheckCryptoAlloc(int size);
+#include "nhttp_rap_evilcheck.h"
 
-void NHTTP_RAP_EvilCheckCryptoFree(void *p);
 
 extern char sNHTTPRapStrings[],sNHTTPRapRootCA[];
 
@@ -267,7 +250,7 @@ int NHTTP_RAP_PollConnection(NHTTPRapSession *session_p)
     if (session_p->connection_p == 0) return 0;
     result = NHTTP_GetConnectionError(session_p->connection_p);
     if (result == 15) {
-        NHTTP_GetConnectionProgress(session_p->connection_p, (u32 *)(&received), (u32 *)(&contentLength));
+        NHTTP_GetConnectionProgress(session_p->connection_p, (unsigned long *)(&received), (unsigned long *)(&contentLength));
     } else {
         int error = NHTTP_GetConnectionError(session_p->connection_p);
         if (error == 0) NHTTP_GetHeaderAll(session_p->connection_p, (char **)(&headerAll));
@@ -280,7 +263,7 @@ int NHTTP_RAP_PollConnection(NHTTPRapSession *session_p)
 
 char *NHTTP_RAP_GetRecvBuffer(NHTTPRapSession *session_p) { if(session_p==0) return 0; return session_p->recvBuf; }
 
-NHTTPRapSession *NHTTP_RAP_Create(u32 heapId, u32 gameCode, char *source_p)
+NHTTPRapSession *NHTTP_RAP_Create(u16 heapId, u32 gameCode, char *source_p)
 {
     NHTTPRapSession *session_p = GFL_HEAP_Alloc(heapId, 0x5a8, 1, (const char *)0x021CE310, 0x1aa);
 
@@ -387,7 +370,7 @@ int NHTTP_RAP_RecordList_GetCount(NHTTPRapRecordList *list_p) { return list_p->c
 
 u32 NHTTP_RAP_RecordList_GetValue(NHTTPRapRecordList *list_p, u32 index)
 {
-    u32 recordsAddr = (u32)list_p + 1;
+    u32 recordsAddr = (uptr)list_p + 1;
 
     return (((NHTTPRapRecord *)recordsAddr)[index].a<<24)|(((NHTTPRapRecord *)recordsAddr)[index].b<<16)|(((NHTTPRapRecord *)recordsAddr)[index].c<<8)|((NHTTPRapRecord *)recordsAddr)[index].d;
 }

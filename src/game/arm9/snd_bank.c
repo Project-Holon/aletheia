@@ -220,7 +220,7 @@ void *SNDi_GetBankWaveArcTable(char *bank)
 void SND_SetWaveDataAddress(SNDWaveArc *waveArc, int index, const SNDWaveData *address)
 {
     SNDi_LockMutex();
-    waveArc->waveOffset[index] = (unsigned long)address;
+    waveArc->waveOffset[index] = (uptr)address;
     DC_StoreRange(&waveArc->waveOffset[index], sizeof(unsigned long));
     SNDi_UnlockMutex();
 }
@@ -230,14 +230,14 @@ void SND_SetWaveDataAddress(SNDWaveArc *waveArc, int index, const SNDWaveData *a
  */
 const SNDWaveData *SND_GetWaveDataAddress(const SNDWaveArc *waveArc, int index)
 {
-    unsigned long offset;
+    uptr offset;
     const SNDWaveData *wave;
 
     SNDi_LockMutex();
     offset = waveArc->waveOffset[index];
     if (offset != 0) {
         if (offset < 0x2000000) {
-            wave = (const SNDWaveData *)((unsigned long)waveArc + offset);
+            wave = (const SNDWaveData *)((uptr)waveArc + offset);
         } else {
             wave = (const SNDWaveData *)offset;
         }

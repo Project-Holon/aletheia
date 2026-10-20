@@ -9433,7 +9433,7 @@ ov010	0x02163BAC	FLDMMDL_MOVE_HitCheckOtherObjects	thumb	86	src/game/ov010/fldmm
 ov010	0x02163C04	FLDMMDL_MOVE_IsGridInObjectRect	thumb	152	src/game/ov010/fldmmdl_move.c	no
 ov010	0x02163C9C	FLDMMDL_MOVE_HitCheckMoveLimit	thumb	102	src/game/ov010/fldmmdl_move.c	no
 ov010	0x02163D04	FLDMMDL_MOVE_HitCheckAttr	thumb	280	src/game/ov010/fldmmdl_move.c	no
-ov010	0x02163E1C	FLDMMDL_MOVE_GetMapAttrInfo	thumb	24	src/game/ov010/fldmmdl_move.c	no
+ov010	0x02163E1C	FLDMMDL_MOVE_GetFieldG3dMapHit	thumb	24	src/game/ov010/fldmmdl_move.c	no
 ov010	0x02163E34	FLDMMDL_MOVE_GetMapAttr	thumb	36	src/game/ov010/fldmmdl_move.c	no
 ov010	0x02163E58	FLDMMDL_MOVE_GetMapHeight	thumb	36	src/game/ov010/fldmmdl_move.c	no
 ov010	0x02163E7C	FLDMMDL_MOVE_UpdateGridPosDir	thumb	148	src/game/ov010/fldmmdl_move.c	no
@@ -12149,9 +12149,9 @@ ov016	0x021D7588	DWCi_TSKlEnd	arm	72	src/game/ov016/task.c	no
 ov016	0x021D75D0	DWCi_TSKlAct	arm	176	src/game/ov016/task.c	no
 ov016	0x021D7680	DWCi_TSKlForm	arm	20	src/game/ov016/task.c	no
 ov016	0x021D7694	formTask	arm	136	src/game/ov016/task.c	yes
-ov016	0x021D771C	DWCi_TSKlSetParam	arm	8	src/game/ov016/task.c	no
+ov016	0x021D771C	DWCi_TSKlChangeFunc	arm	8	src/game/ov016/task.c	no
 ov016	0x021D7724	DWCi_TSKlDelete	arm	32	src/game/ov016/task.c	no
-ov016	0x021D7744	DWCi_TSKlDeleteByIndex	arm	12	src/game/ov016/task.c	no
+ov016	0x021D7744	DWCi_TSKlDeleteEx	arm	12	src/game/ov016/task.c	no
 ov016	0x021D7750	deleteTcb	arm	68	src/game/ov016/task.c	yes
 ov016	0x021D7794	DWCi_TSKlOperate	arm	24	src/game/ov016/task.c	no
 ov017	0x021B6100	ERROR_SCREEN_ShowAndWait	thumb	248	src/game/ov017/error_screen.c	no

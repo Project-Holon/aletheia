@@ -12,7 +12,7 @@
  * the first time the player enters it, and the electric panels.
  */
 
-#include "field_gimmick_d06_ids.h"
+#include "../ov051/field_gimmick_d06_ids.h"
 
 /* Include ov021/fld_exp_obj_types.h first (the compiler resolves includes against the source file directory). */
 
@@ -99,65 +99,16 @@ typedef struct GimmickD06SlideEvent {
     GimmickD06Work *work;       /* 0x0C */
 } GimmickD06SlideEvent;
 
-typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
+#include "../arm9/game_event.h"
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern GimmickD06Save *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
-extern struct FieldEffectSys *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern struct G3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *memory);
-extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *effects, int *effectIds, int count);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
-                                       GameEventFunc func, u32 workSize);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern void MI_CpuFill(void *dst, int data, int size);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 /* Map objects (ov010). */
-extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *mmdlSys, struct Mmdl **mmdlOut, u32 *iterator);
-extern u16 FLDMMDL_GetObjId(struct Mmdl *mmdl);
-extern struct Mmdl *FLDMMDL_SysSearchGridPos(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, u32 flag);
-extern struct Mmdl *FLDMMDL_AddMmdlParam(struct MmdlSys *mmdlSys, short gridX, short gridZ, u16 dir, u16 objId,
-                                  u16 objCode, u16 moveCode, int zoneId);
-extern int FLDMMDL_CheckPossibleAcmd(struct Mmdl *mmdl);
-extern void FLDMMDL_SetAcmd(struct Mmdl *mmdl, int acmd);
-extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
-extern int FLDMMDL_EndAcmd(struct Mmdl *mmdl);
-extern void FLDMMDL_GetPos(const struct Mmdl *mmdl, VecFx32 *pos);
-extern int FLDMMDL_GetGridNowX(const struct Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowY(struct Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowZ(const struct Mmdl *mmdl);
-extern u32 FLDMMDL_GetPosY(struct Mmdl *mmdl);
-extern void FLDMMDL_MOVE_AddDirVector(int dir, VecFx32 *pos, int amount);
-extern void FLDMMDL_MOVE_AddDirGrid(int dir, short *gridX, short *gridZ, short amount);
-extern void FLDMMDL_MOVE_GridToVectorPos(int gridX, int gridZ, VecFx32 *out);
-extern int FLDMMDL_MOVE_HitCheckMoveCurrent(struct Mmdl *mmdl, int x, int y, int z, u32 dir);
-extern int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int acmdBase);
 
 /* Player and map attributes. */
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *outPos);
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern int MAP_ATTR_GetAt(struct G3dMapper *mapper, const VecFx32 *pos);
-extern int MAP_ATTR_GetTerrainId(int attr);
-extern int MAP_ATTR_IsElectricPanel(int terrainId);
 
 /* The d06denki effect (ov021). */
-extern struct FieldEffectObj *FLDEFF_D06DENKI_StartFollow(struct FieldEffectSys *effects, const VecFx32 *pos, struct Mmdl *mmdl);
-extern struct FieldEffectObj *FLDEFF_D06DENKI_StartPulse(struct FieldEffectSys *effects, const VecFx32 *pos);
-extern void FLDEFF_D06DENKI_PulseTrigger(struct FieldEffectObj *effect);
-extern void FLDEFF_D06DENKI_FollowFreezeLoop(struct FieldEffectObj *effect);
-extern void FLDEFF_D06DENKI_FollowStartEnding(struct FieldEffectObj *effect);
-extern int FLDEFF_D06DENKI_FollowIsEnded(struct FieldEffectObj *effect);
 
 /* Defined in unplaced/FIELD_GIMMICK_D06_GetGimmickId.c. */
-extern int FIELD_GIMMICK_D06_GetGimmickId(int zoneId);
 
 #endif

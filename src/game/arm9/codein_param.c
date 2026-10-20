@@ -33,11 +33,14 @@ struct CodeinParam {
     struct Strbuf *text;
 };
 
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
+#ifdef __MWERKS__
 extern void STRBUF_Delete(struct Strbuf *str);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u16 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u16 heapId); /* original prototype; the definition differs in argument width */
+#else
+#include "strbuf.h"
+#endif
 
 
 

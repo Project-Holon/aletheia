@@ -6,12 +6,7 @@ struct Guru2Comm;
 struct BmpMenu;
 
 /* Palette resource as unpacked by NNS_G2dGetUnpackedPaletteData (NitroSystem names). */
-struct NNSG2dPaletteData {
-    unsigned int fmt;
-    int bExtendedPlt;
-    unsigned int szByte;
-    void *pRawData;
-};
+#include "../arm9/nns_g2d_res_types.h"
 
 /* One union room member slot of the lobby: this frame and the previous frame. */
 struct Guru2LobbyMember {

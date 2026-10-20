@@ -27,7 +27,7 @@
  *   DWCi_TSKlForm  0x021D7680  arm  ov016
  *   gScrollBar  0x021DE63C  data
  *   sScrollBarCellIds  0x021DA8B8  data
- *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteEx  0x021D7744  arm  ov016
  *   DWCi_CELLlDelete  0x021D4F60  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   DWCi_SNDlPlay  0x021CFFAC  arm  ov016
@@ -62,35 +62,20 @@ typedef struct {
 } ScrollBar;
 
 #include "../types.h"
+#include "task.h"
 typedef _Bool bool;
 
-typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
+#include "dwcutil_types.h"
 
-typedef struct tagCOORD {
-	unsigned short x;
-	unsigned short y;
-} COORD;
-
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void DWCi_InputCoord(int a, int b, unsigned short *p);
+#include "heap.h"
+#include "foundation.h"
 extern void *DWCi_CEINlSetExCell(s32 lcd, s32 idx, bool head);
-extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
-extern void DWCi_CELLlSetPriority(void *cell, int idx, int prio);
+#include "cell.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
-extern void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, struct TCB *task);
 struct CellInfo;
-extern void DWCi_CELLlDelete(struct CellInfo *p);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void DWCi_SNDlPlay(unsigned int v);
-extern void DWCi_SNDlSetVolume(unsigned int v);
-extern int DWCi_TPlGet(struct tagCOORD *c);
-extern int DWCi_TPlCheck(u16 *a);
-extern void DWCi_SNDlStop();
-extern long FX_DivS32(long a, long b);
-extern void DWCi_SNDlSetPitch(unsigned int a, unsigned int b);
-extern int DWCi_TPlCheckRepeat(u16 *a);
-extern int DWCi_TPlCheckTrigger(u16 *a);
+#include "sound.h"
+#include "input.h"
+#include "../arm9/fx_cp.h"
 void DWCi_SBlInit(int kind, int max, int x, int y, int pos);
 void DWCi_SBlEnd(void);
 u8 DWCi_SBlGet(void);
@@ -126,7 +111,7 @@ void DWCi_SBlInit(int kind, int max, int x, int y, int pos)
 	gScrollBar->cell = DWCi_CEINlSetExCell(0, sScrollBarCellIds[kind], 1);
 	DWCi_CELLlSetPosition(gScrollBar->cell, -1, x, y + pos);
 	DWCi_CELLlSetPriority(gScrollBar->cell, -1, 1);
-	gScrollBar->task = DWCi_TSKlForm(0, (void (*)(void *))taskMain, 0, 0x80);
+	gScrollBar->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskMain, 0, 0x80);
 }
 
 /*
@@ -134,7 +119,7 @@ void DWCi_SBlInit(int kind, int max, int x, int y, int pos)
  */
 void DWCi_SBlEnd(void)
 {
-	DWCi_TSKlDeleteByIndex(0, gScrollBar->task);
+	DWCi_TSKlDeleteEx(0, gScrollBar->task);
 	DWCi_CELLlDelete(gScrollBar->cell);
 	DWCi_HEAPlFree_((void **)0x021DE63C);
 }

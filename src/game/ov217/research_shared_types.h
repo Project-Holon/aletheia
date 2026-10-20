@@ -7,27 +7,27 @@
 struct Ctx;
 struct BigObj;
 struct IcaAnime;
-struct BgTemplate;
-struct DispConfig;
+#include "../arm9/bg_sys_types.h"
+
 struct ArcFile;
 struct Ring;
 struct Obj;
 struct Actor;
 struct GfFont;
 struct MsgBank;
-struct Rec;
+struct ResearchRec;
 struct Config;
 struct Record;
 struct Bank;
 struct Big;
-struct Vec2;
-struct S02021D50;
+struct ResearchVec2;
+struct PaletteFade;
 struct Bmp;
 struct Sys;
 struct Grid;
-struct PalAnmSlot;
+struct PaletteFade;
 struct Node;
-struct PalAnmObj;
+struct PaletteFade;
 struct U16Vec;
 struct Cfg;
 
@@ -35,10 +35,10 @@ struct Cfg;
 typedef struct {
     u32 w[5];
     u32 a;
-} Rec;
+} ResearchRec;
 
-struct Vec2 { signed short x,y; };
-typedef struct PalAnmObj PalAnmObj;
+struct ResearchVec2 { signed short x,y; };
+typedef struct PaletteFade PalAnmObj;
 struct Arg { s16 x,y,z; u8 a,b; };
 
 #endif

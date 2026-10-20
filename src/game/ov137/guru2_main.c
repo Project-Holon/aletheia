@@ -233,95 +233,78 @@
 #include "guru2_comm_shared_types.h"
 #include "guru2_types.h"
 #include "guru2_receipt_shared_types.h"
-extern void G3D_SYSTEM_ApplyLookAt(void);
-extern void G3D_SYSTEM_DrawEnd(void);
-extern void G3D_SYSTEM_DrawStart(void);
+#include "../arm9/g3d_util.h"
+#include "../arm9/nns_g3d_glb.h"
+#include "../arm9/g3d_system.h"
 
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+#include "../arm9/procsys.h"
 
-extern void MI_CpuFill8(void *,int,unsigned);
+#include "../arm9/mi_memory.h"
 
-extern void PROCSYS_FreeProcWork(struct Proc *);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct GameData;
 
-extern void *GAME_DATA_GetMyParty(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern void *GAME_DATA_GetMyItem(struct GameData *gd);
 struct GFLNetHandle;
 
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+#include "../arm9/net_system.h"
 struct UnionAppWork;
 
-extern int UNION_APP_GetMemberCount(struct UnionAppWork *app);
+#include "../ov022/union_app.h"
 
-extern u8 UNION_APP_GetJoinedBits(struct UnionAppWork *app);
 
-extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
+#include "../arm9/gfl_heap.h"
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 
-extern void BG_SYS_Create(u16);
+#include "../arm9/bg_sys.h"
 struct WordSet;
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+#include "../arm9/gf_font.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
-struct Tcb;
-
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(int,void *),void *,u32);
-struct PrintQueue;
-
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-
-extern void ARC_TOOL_DeleteHandle(void *);
-
-extern u32 WIPE_SYS_EndCheck(void);
-
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-
-extern void UNION_APP_RequestReset(struct UnionAppWork *app);
-
-extern u32 UNION_APP_IsResetDone(struct UnionAppWork *app);
-
-extern void CLACT_DrawSystem(void);
-
-extern void GFL_NET_COMMAND_DeleteCommandTable(unsigned);
-
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-
-extern u32 WORDSET_Delete(struct WordSet *p);
-
-extern u32 GF_FONT_Delete(struct GfFont *font);
+#include "../arm9/wipe.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/gfl_use.h"
+struct PrintQueue;
 
-extern void GFL_HEAP_DeleteChecked(u32);
+#include "../arm9/printsys.h"
 
-extern void CLACT_VBlankSystem(void);
+#include "../arm9/net.h"
 
-extern void BG_SYS_Update(void);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *);
+#include "../arm9/net_err.h"
+
+
+
+#include "../arm9/clact.h"
+
+#include "../arm9/net_command.h"
+
+
+
+
+#include "../arm9/wordset.h"
+
+struct TcbTask;
+
+#include "../arm9/tcb_list.h"
+
+
+
+
+
 struct Guru2Comm;
 
-extern int GURU2_COMM_Send(struct Guru2Comm *p, unsigned int id, void *data, unsigned int size);
+#include "guru2_comm.h"
 
 #define DISP3D (*(volatile u16 *)0x04000060)
 
@@ -351,7 +334,7 @@ struct Arg;
 
 struct Mtx33;
 
-struct Actor;
+struct ClactActor;
 
 struct ArcFile;
 
@@ -359,7 +342,7 @@ struct RecDC;
 
 typedef struct { u8 pad[0x90]; void *slots[5]; void *other[5]; } SlotObj;
 
-typedef struct {int a,b;u16 values[5];u16 flag;} Msg;
+typedef struct {int a,b;u16 values[5];u16 flag;} Guru2MainMsg;
 
 typedef struct {u8 pad[28]; int angle;} Selected;
 
@@ -371,15 +354,15 @@ struct RangeU32 { u32 low, high; };
 
 #include "../sdk_gx.h"
 
-typedef struct { u32 x, y, z; } Vec3;
+typedef struct { u32 x, y, z; } Guru2MainVec3;
 
-typedef struct { u32 layer; u8 a,b,c,d; u16 e,pad; } Desc;
+typedef struct { u32 layer; u8 a,b,c,d; u16 e,pad; } Guru2MainDesc;
 
-typedef struct { int x,y,z; } Vec;
+typedef struct { int x,y,z; } Guru2MainVec;
 
 typedef struct { int m[9]; } Mtx;
 
-typedef struct { Vec pos,scale; Mtx rot; } Transform;
+typedef struct { Guru2MainVec pos,scale; Mtx rot; } Transform;
 
 typedef enum { COUNT_ZERO=0, COUNT_NEGATIVE=-1 } Count;
 
@@ -405,7 +388,7 @@ struct Guru2UnitIds {
 
 typedef struct { int active; char rest[0xb0]; } PlayerRecord;
 
-typedef struct { char pad[0x140]; PlayerRecord records[1]; } RecordBlock;
+typedef struct { char pad[0x140]; PlayerRecord records[1]; } Guru2MainRecordBlock;
 
 typedef struct { int active, state, x, y, key; } EntryA;
 
@@ -434,291 +417,190 @@ typedef struct
 
 typedef struct { int a, b; } IntPair;
 
-typedef struct { int a, b, c, d, e; } FiveRecord;
 
 struct RangeU16 { u16 lo, hi; };
 struct RangeList { unsigned count; struct RangeU16 *ranges; };
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 
-extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 
-extern void BG_SYS_ClearSlot(u32);
 
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 struct Strbuf;
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void BG_SYS_FreeLayerBuf(u32);
 
-extern void BG_SYS_Delete(void);
 
-extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
+#include "../arm9/bmp_menuwork.h"
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 
-extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 
-extern void CLACT_ReleaseCharacter(u32);
 
-extern void CLACT_ReleasePalette(u32);
 
-extern void CLACT_ReleaseCellAnim(u32);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void CLACT_ExitSystem(void);
 
-extern struct FrameObj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern void BMP_WIN_Init(u16);
+#include "../arm9/bmp_win.h"
 
-extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
 struct BmpWin;
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern void BG_SYS_PushTile(u32 index);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern void BMP_WIN_Exit(void);
 
-extern void GFL_NET_SetAutoExit(unsigned char autoExit);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-extern void GFL_NET_SetLoginOption(u8 loginOption);
 struct UnionAppEntry;
 
-extern struct UnionAppEntry *UNION_APP_GetMemberEntry(struct UnionAppWork *app, int netId);
-
-extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 
 
-extern void MYSTATUS_NameToStrbuf(unsigned short *name, struct Strbuf *buf);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+
+#include "../arm9/mystatus.h"
+
 struct MyStatus;
 
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
 
-extern void *G3D_UTIL_Create(u16,u16,u16);
 
-extern u32 TCB_GetTaskOffset(u32);
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 struct TcbSystem;
 
-extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
 struct TimeIcon;
 
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
+#include "../arm9/time_icon.h"
 
-extern void TCB_Noop(void *);
 
-extern void G3D_UTIL_Delete(struct Rec *p);
 
-extern void G3D_SYSTEM_Exit(void);
 
-extern void UI_ClearSoftResetInhibitGlobal(u32);
+#include "../arm9/ui.h"
 
-extern void TCB_Main(struct TcbSystem *sys);
 struct TcbList;
 
-extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, unsigned char fillColor, unsigned char waitInterval, unsigned short heapId);
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 
-extern u32 GFL_NET_SendDataMask(struct GFLNetHandle *handle, unsigned int targetMask, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
-extern void *MET_TRAINERS_GetFromSave(void *);
+#include "../arm9/met_trainers_savedata.h"
 struct MetTrainersSave;
 
-extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, unsigned int value);
 
 extern void GURU2_MAIN_BroadcastResult(struct Guru2Game *,int);
 
-extern u32 GFL_USE_GetRandom(u32);
 struct MyItem;
 
-extern u32 MYITEM_SAVEDATA_AddItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
+#include "../arm9/myitem_savedata.h"
 
-extern u32 RECORD_AddOne(struct Sub02008C20Obj *,int);
+#include "../arm9/record.h"
 
-extern void UI_SetSoftResetInhibitGlobal(unsigned char mask);
 struct NetSaveTask;
 
-extern struct NetSaveTask *GFL_NET_SAVE_Create(unsigned, unsigned);
+#include "../arm9/net_save.h"
 
-extern u32 GFL_NET_SAVE_CheckFinished(struct NetSaveTask *task);
 
-extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 
-extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
 
-extern void WIPE_SetBrightnessFadeOut(unsigned, unsigned);
 
-extern void GFL_NET_SAVE_Delete(struct NetSaveTask *task);
 
-extern void PALANM_TransferPalettes(struct S02021D50 *);
 struct G3dCamera;
 
-extern void G3D_CAMERA_SetFar(struct G3dCamera *camera, unsigned int *in);
-
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
+#include "../arm9/g3d_camera.h"
 
 
-extern void NNS_G3dGlbLightVector(int,int,int,int),NNS_G3dGlbLightColor(int,u32),NNS_G3dGlbMaterialColorDiffAmb(u32,u32,u32),NNS_G3dGlbMaterialColorSpecEmi(u32,u32,u32);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern void NNS_G3dGlbLightColor(int,u32);
+extern void NNS_G3dGlbMaterialColorDiffAmb(u32,u32,u32);
+extern void NNS_G3dGlbMaterialColorSpecEmi(u32,u32,u32);
 
-extern void TIME_ICON_Update(struct TimeIcon *icon);
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
-extern void G3X_SetEdgeColorTable(void *src);
+#include "../arm9/g2.h"
 
-extern void G3X_SetClearColor(u16, int, int, int, int);
+#include "../arm9/g3x.h"
 
-extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
 
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 
-extern u32 *G3D_CAMERA_Create(u32, u32, u32, u32, u32, u32, u32, u32, Vec3 *, Vec3 *, Vec3 *, u16);
 
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
-extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
+#include "../arm9/nns_g2d_anim_bank.h"
 
-extern void PALANM_BlendChannelMask(u32,u32,u16,u32,u32);
+#include "../arm9/palanm.h"
 
-extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 
-extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
-extern int NNS_G2dGetUnpackedScreenData(void *,void **);
 
-extern void BG_SYS_DecodeTile(u32,const void *,u32);
+#include "../arm9/nns_g2d_load.h"
 
-extern void *PALANM_Create(u32);
 
-extern void PALANM_SetAutoTransfer(struct PalAnmSlot *,int);
 
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *,u32,u32,u32);
 
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,u32);
 
-extern unsigned int PALANM_Delete(void *ctx);
 
-extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 
-extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
-extern void BG_SYS_MarkTileDirty(u32 bit);
 
-extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 
-extern u32 G3D_CAMERA_Delete(void *ptr);
 
-extern int TOUCHPANEL_HitTrg(const void *);
 
-extern int G3D_UTIL_AddUnit(void *,const void *);
+#include "../arm9/touchpanel.h"
 
-extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 
-extern u32 G3D_UTIL_GetObject(u8 *util, int i);
 
-extern void BUTTON_MAN_MakeRotMtxXYZ(int,int,int,struct Mtx33 *);
+
+#include "../arm9/button_man.h"
 struct G3dObjectStatus;
 struct G3dObject;
 
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
-extern void MTX_Identity33_(Mtx *);
+#include "../arm9/fx_mtx33.h"
 
-extern s16 GF_STANDARD_CosFromDegrees(u32 x);
+#include "../arm9/gf_standard.h"
 
-extern int GF_STANDARD_SinFromDegrees(u32 x);
 
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
 
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*)(void *,void *), void *work, unsigned int priority);
 
-extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
 
-extern u32 CLACT_IsActorAnimActive(struct Actor *);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 struct ArcHandle;
 
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, unsigned int memberIdx);
 
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, unsigned int memberIdx, void *dst);
 
-extern void *GURU2_COMM_GetPartyCopy(struct Guru2Comm *p, int i);
 struct Party;
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
+#include "../arm9/pokeparty.h"
 
-extern void SAVE_EVENT_Write(void *gameData, u32 mode, u32 record, u32 eventId, u16 index);
+#include "../arm9/save_event.h"
 struct PartyPokemon;
 
-extern void POKE_TOOL_CopyPartyPokemon(struct PartyPokemon *src, struct PartyPokemon *dest);
+#include "../arm9/poke_tool.h"
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
 
-extern unsigned POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
-extern void GFL_USE_SetBgmPaused(unsigned int value);
 
-extern int GFL_USE_PushBgm(void);
 
-extern int GFL_USE_IsBgmPlaying(void);
 
-extern int GFL_USE_PopBgm(void);
 
 int GURU2_MAIN_ProcInit(void *obj,int unused,struct Guru2Session *q);
 
@@ -1065,7 +947,7 @@ void *GURU2_MAIN_LoadArcMember(struct Guru2Game *p, u32 member, int flag);
 
 void GURU2_MAIN_SetPlayerInput(struct Guru2Game *p,int a);
 
-void GURU2_MAIN_StoreRoundResult(struct Guru2Game *p, const FiveRecord *q);
+void GURU2_MAIN_StoreRoundResult(struct Guru2Game *p, const Guru2FiveRecord *q);
 
 char *GURU2_MAIN_ClearSendBuffer(struct Guru2Game *p, int n);
 
@@ -1119,21 +1001,21 @@ extern const struct DispVram gGuru2GameVramBanks;
 
 extern const u16 gGuru2ToonTable[];
 
-extern const Vec3 gGuru2CameraTarget;
+extern const Guru2MainVec3 gGuru2CameraTarget;
 
 extern const s16 d_020A1EB8[];
 
-extern Vec3 gGuru2CameraEye, gGuru2CameraUp;
+extern Guru2MainVec3 gGuru2CameraEye, gGuru2CameraUp;
 
 extern const struct DispConfig gGuru2GameDispConfig;
 
 extern const struct BgTemplate gGuru2GameBg1Template,gGuru2GameBg2Template,gGuru2GameBg3Template,gGuru2GameBg6Template,gGuru2GameBg7Template;
 
-extern const Desc *const gGuru2SlotDescTable[];
+extern const Guru2MainDesc *const gGuru2SlotDescTable[];
 
 extern const u8 gGuru2TouchRects[];
 
-extern const Descriptor gGuru2PlayerUnitSetupTable[];
+extern const Guru2ReceiptDescriptor gGuru2PlayerUnitSetupTable[];
 
 extern const int gGuru2PlayerUnitHeightTable[];
 
@@ -1166,7 +1048,7 @@ int GURU2_MAIN_ProcInit(void *obj,int unused,struct Guru2Session *session)
     p->party=GAME_DATA_GetMyParty(p->session->param->gameData);
     p->arcHandle=ARC_TOOL_CreateHandle(183,114);
     GURU2_MAIN_SetupAll(p);
-    p->taskMain=GFL_USE_AddMainTask((void (*)(int,  void *))GURU2_MAIN_VBlank,p,1);
+    p->taskMain=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(int,  void *))GURU2_MAIN_VBlank),(void *)p,1);
     p->g3dUtil=G3D_UTIL_Create(20,11,114);
     GURU2_MAIN_AddBackgroundUnit(p);GURU2_MAIN_AddPlayerUnits(p);GURU2_MAIN_AddCenterUnit(p);
     n=0;
@@ -1433,7 +1315,7 @@ int GURU2_MAIN_StateToPlay(struct Guru2Game *p)
 int GURU2_MAIN_StatePlayRound(struct Guru2Game *p)
 {
     struct Guru2Spinner *s;
-    Msg msg;
+    Guru2MainMsg msg;
     int state,i,rate;
     state=GURU2_MAIN_TickTimeout(p);
     if(state==1 && GURU2_MAIN_GetEntranceEffectActive(p)==0 && p->turnSpeed==0) p->unknown_20=1;
@@ -1662,7 +1544,7 @@ int GURU2_MAIN_StateWaitTimerToEnd(struct Guru2Game *p)
     return 0;
 }
 
-int GURU2_MAIN_StateSaveResult(struct Guru2Game *p) { struct Link *link; link=(struct Link *)GFL_NET_HANDLE_GetCurrentHandle(); RECORD_AddOne(*(struct Sub02008C20Obj * *)&p->session->param->playerInfo,90); GURU2_MAIN_PrintMessage(p,11); GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)link,205,40); p->state=43; UI_SetSoftResetInhibitGlobal(8); return 0; }
+int GURU2_MAIN_StateSaveResult(struct Guru2Game *p) { struct Link *link; link=(struct Link *)GFL_NET_HANDLE_GetCurrentHandle(); RECORD_AddOne((struct RecordBlock *)(*(struct Sub02008C20Obj * *)&p->session->param->playerInfo),90); GURU2_MAIN_PrintMessage(p,11); GFL_NET_HANDLE_SetTimingSyncRange((GFLNetHandle *)link,205,40); p->state=43; UI_SetSoftResetInhibitGlobal(8); return 0; }
 
 int GURU2_MAIN_StateAfterSync4(struct Guru2Game *p)
 {
@@ -1740,7 +1622,7 @@ int GURU2_MAIN_StateWaitWipeOut(struct Guru2Game *p){if(WIPE_SYS_EndCheck()){p->
 
 int GURU2_MAIN_StateFinished(void){return 2;}
 
-void GURU2_MAIN_VBlank(void *arg,struct Guru2Game *p){PALANM_TransferPalettes(*(struct S02021D50 * *)&p->palAnm);CLACT_VBlankSystem();BG_SYS_Update();}
+void GURU2_MAIN_VBlank(void *arg,struct Guru2Game *p){PALANM_TransferPalettes((PaletteFade *)(*(struct S02021D50 * *)&p->palAnm));CLACT_VBlankSystem();BG_SYS_Update();}
 
 void GURU2_MAIN_SetupAll(struct Guru2Game *p){GURU2_MAIN_SetupVram(p);GURU2_MAIN_Setup3dSystem(p);GURU2_MAIN_SetupBg(p);GURU2_MAIN_CreatePaletteAnim(p);GURU2_MAIN_InitActorSystem(p);GURU2_MAIN_LoadBgPalette(p);GURU2_MAIN_CreateWindows(p);GURU2_MAIN_LoadActorResources(p);GURU2_MAIN_ShowPlanes(p);}
 
@@ -1875,12 +1757,12 @@ void GURU2_MAIN_Setup3dState(void)
 void GURU2_MAIN_Setup3dSystem(struct Guru2Game *p)
 {
     u8 *section;
-    Vec3 position;
+    Guru2MainVec3 position;
     section = (u8 *)p + 3392;
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, 114, GURU2_MAIN_Setup3dState);
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
     position = gGuru2CameraTarget;
-    *(void **)(section + 0x14) = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 4096, 0x400000, 0, &gGuru2CameraEye, &position, &gGuru2CameraUp, 114);
+    *(void **)(section + 0x14) = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 4096, 0x400000, 0, (VecFx32 *)&gGuru2CameraEye, (VecFx32 *)&position, (VecFx32 *)&gGuru2CameraUp, 114);
     G3D_CAMERA_Reset(*(void **)(section + 0x14));
 }
 
@@ -1909,9 +1791,9 @@ void GURU2_MAIN_LoadBgPalette(struct Guru2Game *p)
     GFL_HEAP_Free(buf);
     buf=GURU2_MAIN_LoadArcMember(p,20,0);
     NNS_G2dGetUnpackedPaletteData(buf,&p->res64);
-    PALANM_CopyToSlot(p->palAnm,((struct NNSG2dPaletteData *)p->res64)->pRawData,1,0,64);
-    GFL_HEAP_Free(buf);
-    PALANM_BlendChannelMask((u32)p->palAnm,1,65535,8,0);
+    PALANM_CopyToSlot((struct PalAnmSlot *)p->palAnm,(const void *)(((struct NNSG2dPaletteData *)p->res64)->pRawData),1,0,64);
+    GFL_HEAP_Free((void *)buf);
+    PALANM_BlendChannelMask((PaletteFadeWork *)((u32)p->palAnm),1,65535,8,0);
     buf=GURU2_MAIN_LoadArcMember(p,16,0);
     NNS_G2dGetUnpackedCharacterData(buf,&p->res60);
     data=(u8 *)p->res60;
@@ -1978,14 +1860,14 @@ void GURU2_MAIN_LoadScreen25(struct Guru2Game *p) { GURU2_MAIN_LoadScreen(p,25);
 
 void GURU2_MAIN_CreatePaletteAnim(struct Guru2Game *p){p->palAnm=PALANM_Create(114);PALANM_SetAutoTransfer(p->palAnm,1);PALANM_AllocSlotBuffers(p->palAnm,0,512,114);PALANM_AllocSlotBuffers(p->palAnm,1,512,114);}
 
-void GURU2_MAIN_DeletePaletteAnim(struct Guru2Game *p){PALANM_FreeSlotBuffers(p->palAnm,0);PALANM_FreeSlotBuffers(p->palAnm,1);PALANM_Delete(p->palAnm);}
+void GURU2_MAIN_DeletePaletteAnim(struct Guru2Game *p){PALANM_FreeSlotBuffers((struct PalAnmSlot *)p->palAnm,0);PALANM_FreeSlotBuffers((struct PalAnmSlot *)p->palAnm,1);PALANM_Delete((void *)p->palAnm);}
 
-void GURU2_MAIN_BlendPalette(struct Guru2Game *p,int level){PALANM_BlendChannelMask((u32)p->palAnm,1,65535,(u8)level,0);}
+void GURU2_MAIN_BlendPalette(struct Guru2Game *p,int level){PALANM_BlendChannelMask((PaletteFadeWork *)((u32)p->palAnm),1,65535,(u8)level,0);}
 
 /*
  * blocking: ABS32 data gClActorInitParam at +0x20 has no witness outside 021DFF44..021DFF70; ROM pool at021DFF64 is020A1448. Alignment-only data a4 hint already used; one recheck and tu --suggest-split remain MATCH with zero witnesses. Both ARM9 callees resolve matched.
  */
-void GURU2_MAIN_InitActorSystem(struct Guru2Game *p){CLACT_InitSystem((struct SysInit *)(&gClActorInitParam),(struct DispVramCfg *)0x021E1EA4,114);p->clactUnit=CLACT_CreateUnit(30,1,114);}
+void GURU2_MAIN_InitActorSystem(struct Guru2Game *p){CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)(&gClActorInitParam)),(const struct DispVramCfg *)((struct DispVramCfg *)0x021E1EA4),114);p->clactUnit=CLACT_CreateUnit(30,1,114);}
 
 void GURU2_MAIN_LoadActorResources(struct Guru2Game *p)
 {
@@ -2104,7 +1986,7 @@ void GURU2_MAIN_PrintMessageWithNumber(struct Guru2Game *p,int message,unsigned 
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
 }
 
-void GURU2_MAIN_ClearMessageWindow(struct Guru2Game *p){struct Descriptor *w=(struct Descriptor *)p->windows.mainWindow;BMP_MENUWORK_DrawWindowBorder((struct BmpWin *)w,0);BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)w),0);BMP_WIN_TransferChars((struct BmpWin *)w);BMP_WIN_MakeScreen((struct BmpWin *)w);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)w));}
+void GURU2_MAIN_ClearMessageWindow(struct Guru2Game *p){struct Guru2ReceiptDescriptor *w=(struct Guru2ReceiptDescriptor *)p->windows.mainWindow;BMP_MENUWORK_DrawWindowBorder((struct BmpWin *)w,0);BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)w),0);BMP_WIN_TransferChars((struct BmpWin *)w);BMP_WIN_MakeScreen((struct BmpWin *)w);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)w));}
 
 /*
  * lever: Store the call result directly into its slot, then reuse that slot; declare counter before section base.
@@ -2113,24 +1995,24 @@ void GURU2_MAIN_CreateNameWindows(struct Guru2Game *p,int count)
 {
     int i;
     u8 *s=(u8 *)&p->windows;
-    const Desc *table;
+    const Guru2MainDesc *table;
     u32 obj;
     u32 *slot;
-    const Desc *entry;
+    const Guru2MainDesc *entry;
     i=0;
     table=gGuru2SlotDescTable[count];
     ((struct Guru2Windows *)s)->count=count;
     for(;i<count;i++) {
         entry=&table[i];
         slot=(u32 *)(s+i*4);
-        slot[5]=BMP_WIN_Create((u8)entry->layer,entry->a,entry->b,entry->c,entry->d,entry->e,1);
+        slot[5]=(u32)BMP_WIN_Create((u8)entry->layer,entry->a,entry->b,entry->c,entry->d,entry->e,1);
         obj=slot[5];
         *(u32 *)(s+48+i*8)=obj;
         *(u8 *)(s+52+i*8)=0;
     }
 }
 
-void GURU2_MAIN_DeleteNameWindows(struct Guru2Game *p){int i;struct Guru2Windows *s=&p->windows;for(i=0;i<s->count;i++){struct Descriptor *w=(struct Descriptor *)s->window[i];BMP_WIN_ClearScreen((struct BmpWin *)w);BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)w));BMP_WIN_Delete((struct BmpWin *)s->window[i]);}}
+void GURU2_MAIN_DeleteNameWindows(struct Guru2Game *p){int i;struct Guru2Windows *s=&p->windows;for(i=0;i<s->count;i++){struct Guru2ReceiptDescriptor *w=(struct Guru2ReceiptDescriptor *)s->window[i];BMP_WIN_ClearScreen((struct BmpWin *)w);BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)w));BMP_WIN_Delete((struct BmpWin *)s->window[i]);}}
 
 void GURU2_MAIN_PrintNameWindow(struct Guru2Game *p,void *text,int index,int color)
 {
@@ -2150,11 +2032,11 @@ void GURU2_MAIN_PrintNameWindow(struct Guru2Game *p,void *text,int index,int col
 
 void GURU2_MAIN_PrintPlayerName(struct Guru2Game *p,void *text,int index,int aid){int color=0x440;if(aid==GFL_NET_SYSTEM_GetCurrentAid())color=0xc80;GURU2_MAIN_PrintNameWindow(p,text,index,color);}
 
-void GURU2_MAIN_ClearNameWindow(struct Guru2Game *p,u32 index){struct Descriptor *w=(struct Descriptor *)p->windows.window[index];BMP_MENUWORK_DrawWindowBorder((struct BmpWin *)w,0);BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)w),0);BMP_WIN_TransferChars((struct BmpWin *)w);BMP_WIN_MakeScreen((struct BmpWin *)w);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)w));}
+void GURU2_MAIN_ClearNameWindow(struct Guru2Game *p,u32 index){struct Guru2ReceiptDescriptor *w=(struct Guru2ReceiptDescriptor *)p->windows.window[index];BMP_MENUWORK_DrawWindowBorder((struct BmpWin *)w,0);BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)w),0);BMP_WIN_TransferChars((struct BmpWin *)w);BMP_WIN_MakeScreen((struct BmpWin *)w);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)w));}
 
-void GURU2_MAIN_DeleteCamera(struct Guru2Game *p){G3D_CAMERA_Delete(p->light);}
+void GURU2_MAIN_DeleteCamera(struct Guru2Game *p){G3D_CAMERA_Delete((void *)p->light);}
 
-int GURU2_MAIN_IsTouched(struct Guru2Game *p){if(TOUCHPANEL_HitTrg(gGuru2TouchRects)!=-1)return 1;return 0;}
+int GURU2_MAIN_IsTouched(struct Guru2Game *p){if(TOUCHPANEL_HitTrg((const TouchHitTable *)gGuru2TouchRects)!=-1)return 1;return 0;}
 
 /*
  * lever: Enum zero preserves its early definition; halfword stores use literal zero to avoid truncation.
@@ -2166,7 +2048,7 @@ void GURU2_MAIN_AddCenterUnit(struct Guru2Game *p)
     struct Guru2Spinner *s;
     index=p->session->playerCount;
     s=&p->spinner;
-    s->g3dUnit=G3D_UTIL_AddUnit(p->g3dUtil,&gGuru2PlayerUnitSetupTable[index-2]);
+    s->g3dUnit=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)&gGuru2PlayerUnitSetupTable[index-2]);
     zero=0;
     s->speedDelta=gGuru2PlayerUnitHeightTable[index];
     s->scale.x=4096;
@@ -2198,7 +2080,7 @@ void GURU2_MAIN_UpdateCenterTransform(struct Guru2Game *p)
     s->pos.z=s->anchor.z+s->offset.z+s->shakeOffset.z;
 }
 
-static inline void VecSet(Vec *v,int x,int y,int z)
+static inline void VecSet(Guru2MainVec *v,int x,int y,int z)
 {
     v->x=x; v->y=y; v->z=z;
 }
@@ -2212,13 +2094,13 @@ void GURU2_MAIN_DrawCenterUnit(struct Guru2Game *p)
     object=(void *)G3D_UTIL_GetObject(p->g3dUtil,(u16)(s->g3dUnit));
     VecSet(&t.pos,s->pos.x,s->pos.y,s->pos.z);
     VecSet(&t.scale,s->scale.x,s->scale.y,s->scale.z);
-    BUTTON_MAN_MakeRotMtxXYZ(s->rotX,(u16)(s->rotY*182),s->rotZ,(struct Mtx33 *)&t.rot);
+    BUTTON_MAN_MakeRotMtxXYZ(s->rotX,(u16)(s->rotY*182),s->rotZ,(MtxFx33 *)&t.rot);
     G3D_SYSTEM_DrawObject(object,(struct G3dObjectStatus *)(&t));
 }
 
 void GURU2_MAIN_AddAngle(struct Guru2Spinner *s,int amount){GURU2_MAIN_AddAngleWrapped(&s->angle,amount);}
 
-void GURU2_MAIN_AddBackgroundUnit(struct Guru2Game *p){p->skyUnit=G3D_UTIL_AddUnit(p->g3dUtil,&gGuru2BackgroundUnitSetup);G3X_SetClearColor(0,0,32767,0,0);}
+void GURU2_MAIN_AddBackgroundUnit(struct Guru2Game *p){p->skyUnit=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)&gGuru2BackgroundUnitSetup);G3X_SetClearColor(0,0,32767,0,0);}
 
 /*
  * note: original narrows the second call argument with lsls/lsrs #16 at 021E0682/021E0686, so this caller's extern uses u16.
@@ -2235,7 +2117,7 @@ void GURU2_MAIN_DrawBackgroundUnit(struct Guru2Game *p)
     object = (void *)G3D_UTIL_GetObject(p->g3dUtil,(u16)(p->skyUnit));
     VecSet(&t.pos,0,0,0);
     VecSet(&t.scale,4096,4096,4096);
-    BUTTON_MAN_MakeRotMtxXYZ(0,0,0,(struct Mtx33 *)&t.rot);
+    BUTTON_MAN_MakeRotMtxXYZ(0,0,0,(MtxFx33 *)&t.rot);
     G3D_SYSTEM_DrawObject(object,(struct G3dObjectStatus *)(&t));
 }
 
@@ -2243,9 +2125,9 @@ void GURU2_MAIN_AddPlayerUnits(struct Guru2Game *p)
 {
     int i;
     u8 *q=(u8 *)p+0x1a0;
-    *(int *)(q+0x938)=G3D_UTIL_AddUnit(p->g3dUtil,gGuru2MarkerUnitSetupA);
-    *(int *)(q+0x93C)=G3D_UTIL_AddUnit(p->g3dUtil,gGuru2MarkerUnitSetupB);
-    for (i=0;i<5;i++) *(int *)(q+0x940+i*4)=G3D_UTIL_AddUnit(p->g3dUtil,gGuru2CardUnitSetupTable+i*16);
+    *(int *)(q+0x938)=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)gGuru2MarkerUnitSetupA);
+    *(int *)(q+0x93C)=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)gGuru2MarkerUnitSetupB);
+    for (i=0;i<5;i++) *(int *)(q+0x940+i*4)=G3D_UTIL_AddUnit(p->g3dUtil,(const G3dUtilSetup *)(gGuru2CardUnitSetupTable+i*16));
 }
 
 void GURU2_MAIN_RemovePlayerUnits(struct Guru2Game *p)
@@ -2288,7 +2170,7 @@ void GURU2_MAIN_DrawPlayerRecords(struct Guru2Game *p)
             void *object=(void *)G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->shadowUnit));
             VecSet(&t.pos,((struct Guru2Player *)first)->pos.x,((struct Guru2Player *)first)->pos.y,((struct Guru2Player *)first)->pos.z);
             VecSet(&t.scale,((struct Guru2Player *)first)->scale.x,((struct Guru2Player *)first)->scale.y,((struct Guru2Player *)first)->scale.z);
-            BUTTON_MAN_MakeRotMtxXYZ(((struct Guru2Player *)first)->rotX,((struct Guru2Player *)first)->rotY,((struct Guru2Player *)first)->rotZ,(struct Mtx33 *)&t.rot);
+            BUTTON_MAN_MakeRotMtxXYZ(((struct Guru2Player *)first)->rotX,((struct Guru2Player *)first)->rotY,((struct Guru2Player *)first)->rotZ,(MtxFx33 *)&t.rot);
             G3D_SYSTEM_DrawObject(object,(struct G3dObjectStatus *)(&t));
         }
         if(((struct Guru2Shadow *)second)->active) {
@@ -2296,7 +2178,7 @@ void GURU2_MAIN_DrawPlayerRecords(struct Guru2Game *p)
             void *object=(void *)G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->markerUnit));
             VecSet(&t.pos,((struct Guru2Shadow *)second)->pos.x,((struct Guru2Shadow *)second)->pos.y,((struct Guru2Shadow *)second)->pos.z);
             VecSet(&t.scale,((struct Guru2Shadow *)second)->scale.x,((struct Guru2Shadow *)second)->scale.y,((struct Guru2Shadow *)second)->scale.z);
-            BUTTON_MAN_MakeRotMtxXYZ(((struct Guru2Shadow *)second)->rotX,((struct Guru2Shadow *)second)->rotY,((struct Guru2Shadow *)second)->rotZ,(struct Mtx33 *)&t.rot);
+            BUTTON_MAN_MakeRotMtxXYZ(((struct Guru2Shadow *)second)->rotX,((struct Guru2Shadow *)second)->rotY,((struct Guru2Shadow *)second)->rotZ,(MtxFx33 *)&t.rot);
             G3D_SYSTEM_DrawObject(object,(struct G3dObjectStatus *)(&t));
         }
         if(((struct Guru2Marker *)third)->active) {
@@ -2304,7 +2186,7 @@ void GURU2_MAIN_DrawPlayerRecords(struct Guru2Game *p)
             void *object=(void *)G3D_UTIL_GetObject(((struct Guru2Game *)p)->g3dUtil,(u16)(((struct Guru2UnitIds *)(base+0x938))->playerUnit[i]));
             VecSet(&t.pos,((struct Guru2Marker *)third)->pos.x,((struct Guru2Marker *)third)->pos.y,((struct Guru2Marker *)third)->pos.z);
             VecSet(&t.scale,4096,4096,4096);
-            MTX_Identity33_(&t.rot);
+            MTX_Identity33_((MtxFx33 *)&t.rot);
             G3D_SYSTEM_DrawObject(object,(struct G3dObjectStatus *)(&t));
         }
         first+=0xb4;second+=0x7c;third+=0x68;
@@ -2436,7 +2318,7 @@ void GURU2_MAIN_StartDropEffect(struct Guru2Game *p,int aid,int slot,int order,i
     MI_CpuFill8(dropEffect,0,24);
     dropEffect[5]=(int)p;
     dropEffect[4]=(int)player;
-    TCB_AddTask(p->taskMgr,(void (*)(void *, void *))GURU2_MAIN_DropEffectTask,dropEffect,0);
+    TCB_AddTask((struct TcbSystem *)p->taskMgr,(TcbFunc)((void (*)(void *, void *))GURU2_MAIN_DropEffectTask),(void *)dropEffect,0);
 }
 
 extern int (*const gGuru2DropEffectStateTable[])(char *);
@@ -2508,7 +2390,7 @@ void GURU2_MAIN_UpdateBounceEffect(struct Guru2Game *p,int *effect)
 
 void GURU2_MAIN_BounceEffectTask(void *unused,struct Guru2Game *p) { int i; int *effect; effect=(int *)p->fx0; for(i=0;i<5;i++,effect+=8) if(*effect!=0) GURU2_MAIN_UpdateBounceEffect(p,effect); }
 
-void GURU2_MAIN_CreateBounceEffectTask(struct Guru2Game *p) { MI_CpuFill8(p->fx0,0,160); p->taskFx0=TCB_AddTask(p->taskMgr, (void ( *)(void *,void *))((u32)GURU2_MAIN_BounceEffectTask), (void *)p, 256); }
+void GURU2_MAIN_CreateBounceEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx0,0,160); p->taskFx0=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((u32)GURU2_MAIN_BounceEffectTask)), (void *)p, 256); }
 
 void GURU2_MAIN_DeleteBounceEffectTask(struct Guru2Game *p)
 {
@@ -2519,7 +2401,7 @@ void GURU2_MAIN_AddBounceEffect(struct Guru2Game *p,int value) { int i; int *q; 
 
 void GURU2_MAIN_AddBounceEffectsForActivePlayers(struct Guru2Game *p)
 {
-    RecordBlock *base=(RecordBlock *)((char *)p+0x1a0);
+    Guru2MainRecordBlock *base=(Guru2MainRecordBlock *)((char *)p+0x1a0);
     int count=((struct Guru2Game *)p)->playerCount;
     int i;
     i=0;
@@ -2563,7 +2445,7 @@ void GURU2_MAIN_UpdateSettleEffect(int *p)
 
 void GURU2_MAIN_SettleEffectTask(void *unused,struct Guru2Game *p) { int i; int *effect; effect=(int *)p->fx1; for(i=0;i<5;i++,effect+=5) if(*effect!=0) GURU2_MAIN_UpdateSettleEffect(effect); }
 
-void GURU2_MAIN_CreateSettleEffectTask(struct Guru2Game *p) { MI_CpuFill8(p->fx1,0,100); p->taskFx1=TCB_AddTask(p->taskMgr, (void ( *)(void *,void *))((u32)GURU2_MAIN_SettleEffectTask), (void *)p, 257); }
+void GURU2_MAIN_CreateSettleEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx1,0,100); p->taskFx1=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((u32)GURU2_MAIN_SettleEffectTask)), (void *)p, 257); }
 
 void GURU2_MAIN_DeleteSettleEffectTask(struct Guru2Game *p)
 {
@@ -2630,7 +2512,7 @@ void GURU2_MAIN_UpdateWobbleEffect(int *p)
 
 void GURU2_MAIN_WobbleEffectTask(void *unused,struct Guru2Game *p) { int i; int *effect; effect=(int *)p->fx2; for(i=0;i<5;i++,effect+=6) if(*effect!=0) GURU2_MAIN_UpdateWobbleEffect(effect); }
 
-void GURU2_MAIN_CreateWobbleEffectTask(struct Guru2Game *p) { MI_CpuFill8(p->fx2,0,120); p->taskFx2=TCB_AddTask(p->taskMgr, (void ( *)(void *,void *))((u32)GURU2_MAIN_WobbleEffectTask), (void *)p, 258); }
+void GURU2_MAIN_CreateWobbleEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx2,0,120); p->taskFx2=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((u32)GURU2_MAIN_WobbleEffectTask)), (void *)p, 258); }
 
 void GURU2_MAIN_DeleteWobbleEffectTask(struct Guru2Game *p)
 {
@@ -2703,8 +2585,8 @@ void GURU2_MAIN_EntranceEffectTask(void *unused,u8 *p)
 
 void GURU2_MAIN_CreateEntranceEffectTask(struct Guru2Game *p)
 {
-    MI_CpuFill8(p->fx3, 0, 20);
-    p->taskFx3 = (void *)TCB_AddTask(p->taskMgr, (void ( *)(void *,void *))GURU2_MAIN_EntranceEffectTask, p, 255);
+    MI_CpuFill8((void *)p->fx3, 0, 20);
+    p->taskFx3 = (void *)TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_EntranceEffectTask), (void *)p, 255);
 }
 
 void GURU2_MAIN_DeleteEntranceEffectTask(struct Guru2Game *p)
@@ -2742,11 +2624,11 @@ void GURU2_MAIN_CenterActorTask(void *task, int *p)
                 p[3]++;
             }
         }
-        CLACT_AddActorAnimFrame((struct Actor *)p[5], 0x1800);
-        if (CLACT_IsActorAnimActive((struct Actor *)p[5]) == 0) p[0]++;
+        CLACT_AddActorAnimFrame((struct ClactActor *)p[5], 0x1800);
+        if (CLACT_IsActorAnimActive((struct ClactActor *)p[5]) == 0) p[0]++;
         break;
     case 1:
-        CLACT_DeleteActor((struct Actor *)p[5]);
+        CLACT_DeleteActor((struct ClactActor *)p[5]);
         GFL_HEAP_Free(p);
         TCB_DeleteTask(task);
         break;
@@ -2763,10 +2645,10 @@ void GURU2_MAIN_CreateCenterActorTask(char *p)
     pos.z = 0;
     pos.b = 0;
     pos.a = 0;
-    q[5] = (int)(struct Obj *)CLACT_CreateActor((void *)((struct Guru2Game *)p)->clactUnit, ((struct Guru2Game *)p)->clactChar, ((struct Guru2Game *)p)->clactPal, ((struct Guru2Game *)p)->clactCell, &pos, 0, 114);
-    CLACT_AddActorAnimFrame((struct Actor *)q[5], 4096);
+    q[5] = (int)(struct Guru2ReceiptObj *)CLACT_CreateActor((struct Unit *)((void *)((struct Guru2Game *)p)->clactUnit), ((struct Guru2Game *)p)->clactChar, ((struct Guru2Game *)p)->clactPal, ((struct Guru2Game *)p)->clactCell, (const struct ActorInitParam *)&pos, 0, 114);
+    CLACT_AddActorAnimFrame((struct ClactActor *)q[5], 4096);
     q[4] = (int)p;
-    TCB_AddTask(((struct Guru2Game *)p)->taskMgr, (void ( *)(void *,void *))GURU2_MAIN_CenterActorTask, q, 0);
+    TCB_AddTask((struct TcbSystem *)(((struct Guru2Game *)p)->taskMgr), (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_CenterActorTask), (void *)q, 0);
 }
 
 void GURU2_MAIN_UpdateScreenFlash(void *task, ModeState *p)
@@ -2816,9 +2698,9 @@ void GURU2_MAIN_ScreenFlashTask(void *unused, char *p)
 void GURU2_MAIN_CreateScreenFlashTask(struct Guru2Game *p)
 {
     unsigned n = 8;
-    MI_CpuFill8(&p->fx4State, 0, n);
+    MI_CpuFill8((void *)&p->fx4State, 0, n);
     n += 251;
-    p->taskFx4 = (void *)TCB_AddTask(p->taskMgr, (void ( *)(void *,void *))GURU2_MAIN_ScreenFlashTask, p, n);
+    p->taskFx4 = (void *)TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_ScreenFlashTask), (void *)p, n);
 }
 
 void GURU2_MAIN_DeleteScreenFlashTask(struct Guru2Game *p)
@@ -2870,9 +2752,9 @@ void GURU2_MAIN_PulseEffectTask(void *unused, char *p)
 void GURU2_MAIN_CreatePulseEffectTask(struct Guru2Game *p)
 {
     unsigned n = 80;
-    MI_CpuFill8(p->fx5, 0, n);
+    MI_CpuFill8((void *)p->fx5, 0, n);
     n += 180;
-    p->taskFx5 = (void *)TCB_AddTask(p->taskMgr, (void ( *)(void *,void *))GURU2_MAIN_PulseEffectTask, p, n);
+    p->taskFx5 = (void *)TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_PulseEffectTask), (void *)p, n);
 }
 
 void GURU2_MAIN_DeletePulseEffectTask(struct Guru2Game *p)
@@ -2934,7 +2816,7 @@ void GURU2_MAIN_StartBlendFade(struct Guru2Game *p, int flag)
     q[0] = (int)p;
     q[1] = flag;
     q[2] = ((int *)&values)[flag];
-    TCB_AddTask(p->taskMgr, (void ( *)(void *,void *))GURU2_MAIN_BlendFadeTask, q, 0);
+    TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_BlendFadeTask), (void *)q, 0);
 }
 
 void GURU2_MAIN_AddAngleWrapped(int *angle, int amount)
@@ -2978,10 +2860,10 @@ void *GURU2_MAIN_LoadArcMember(struct Guru2Game *p, u32 member, int flag)
 
 void GURU2_MAIN_SetPlayerInput(struct Guru2Game *p,int input) { if(input!=0) p->unknown_34=input; }
 
-void GURU2_MAIN_StoreRoundResult(struct Guru2Game *p, const FiveRecord *result)
+void GURU2_MAIN_StoreRoundResult(struct Guru2Game *p, const Guru2FiveRecord *result)
 {
     p->unknown_3C = 1;
-    *(FiveRecord *)&p->turnAngle = *result;
+    *(Guru2FiveRecord *)&p->turnAngle = *result;
 }
 
 char *GURU2_MAIN_ClearSendBuffer(struct Guru2Game *p, int unused)
@@ -3062,9 +2944,9 @@ void GURU2_MAIN_CopyMemberPokemon(struct Guru2Game *p, int member)
     other = GURU2_COMM_GetPartyCopy(p->comm, member);
     slot = p->partySlot[member];
     ownPokemon = POKEPARTY_GetMember(party, p->session->selectedSlot);
-    otherPokemon = POKEPARTY_GetMember(other, slot);
+    otherPokemon = POKEPARTY_GetMember((struct Party *)other, slot);
     unionApp = GURU2_MAIN_GetUnionApp(p);
-    SAVE_EVENT_Write(otherPokemon, (int)6, (u32)UNION_APP_GetMemberEntry(unionApp, (u8)GFL_NET_SYSTEM_GetCurrentAid()), (int)30002, (int)114);
+    SAVE_EVENT_Write((void *)otherPokemon, (int)6, (const struct MyStatus *)((u32)UNION_APP_GetMemberEntry((UnionAppWork *)unionApp, (u8)GFL_NET_SYSTEM_GetCurrentAid())), (int)30002, (int)114);
     POKE_TOOL_CopyPartyPokemon(otherPokemon, ownPokemon);
 }
 

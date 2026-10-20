@@ -56,37 +56,20 @@ struct GSIResolveHostnameInfo {
     unsigned long ip;
 };
 
-struct tm {
-    int tm_sec;
-    int tm_min;
-    int tm_hour;
-    int tm_mday;
-    int tm_mon;
-    int tm_year;
-    int tm_wday;
-    int tm_yday;
-    int tm_isdst;
-};
-
 #include "../types.h"
 
-typedef struct {
-    char *data;
-    int len;
-    int mode;
-} B64StreamData;
-
-extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern struct SOCHostEnt *SOC_GetHostByName(char *name);
-extern void gsifree(void *p);
+#include "gsplatformutil.h"
+#include "../arm9/os_printf.h"
+#include "gsdebug.h"
+#include "soc.h"
+#include "gsmemory.h"
 extern int strlen(char *s);
-extern void *gsimalloc(unsigned long size);
-extern void *memcpy(void *dst, void *src, unsigned long n);
-extern unsigned long long OS_GetTick(void);
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 extern unsigned long long _ll_udiv(unsigned long long a, unsigned long long b);
-extern void OS_Sleep(unsigned int msec);
-extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
+#include "../arm9/os_thread.h"
 void gsiInt64ToString(char *theNumberStr, long long theNumber);
 int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle);
 void gsiCancelResolvingHostname(void *p);
@@ -109,7 +92,7 @@ void TripToQuart(const char *src, u8 *dst, int n);
 void B64Decode(const char *input, char *output, int inlen, int *outlen, int encodingType);
 void B64Encode(const char *input, char *output, int inlen, int encodingType);
 int B64DecodeLen(char *input, int encodingType);
-void B64InitEncodeStream(int *stream, int input, int inputLength, int position);
+void B64InitEncodeStream(B64StreamData *data, unsigned char *input, int len, int type);
 int B64EncodeStream(B64StreamData *data, char *output);
 extern char gGsInt64Format[];
 extern char gGsResolveDebugFmt[];
@@ -626,11 +609,11 @@ int B64DecodeLen(char *input, int encodingType)
     return (len / 4) * 3;
 }
 
-void B64InitEncodeStream(int *stream, int input, int inputLength, int position)
+void B64InitEncodeStream(B64StreamData *data, unsigned char *input, int len, int type)
 {
-    stream[0] = input;
-    stream[1] = inputLength;
-    stream[2] = position;
+    data->data = (char *)input;
+    data->len = len;
+    data->mode = type;
 }
 
 int B64EncodeStream(B64StreamData *data, char *output)

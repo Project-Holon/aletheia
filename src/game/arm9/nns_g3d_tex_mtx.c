@@ -47,9 +47,12 @@ typedef struct {
 
 typedef void (*NNSiG3dTexMtxFunc)(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
 
+#ifdef __MWERKS__
 extern void FX_DivAsync(s32 numer, s32 denom);
-
-extern s32  FX_GetDivResult(void);
+extern s32  FX_GetDivResult(void); /* original prototype; the definition differs in return type */
+#else
+#include "fx_cp.h"
+#endif
 
 #include "nns_g3d_ge.h"
 

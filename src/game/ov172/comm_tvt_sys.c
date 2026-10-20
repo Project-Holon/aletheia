@@ -104,7 +104,7 @@ struct SaveRecord;
 struct PeerObj;
 
 typedef struct CtvtMenuItem {
-    struct StrBuf *label;
+    struct Strbuf *label;
     u16 value;              /* text color word */
     u16 pad;                /* alignment before the next word */
     u32 reserved;
@@ -132,56 +132,39 @@ typedef struct CtvtMarkerPlace {
     CtvtByte4 xTable;
 } CtvtMarkerPlace;
 
-extern u32 CTVT_COMM_GetSlotConnected(void *unused, char *comm, s32 slot);
-extern u32 CTVT_COMM_IsSlotActive(void *unused, char *comm, s32 slot);
-extern char *CTVT_COMM_GetSlotParam(int unused, char *comm, int slot);
-extern int CTVT_TALK_GetMic(int unused, int *p);
-extern void CTVT_COMM_SendSlotHit(void *work, unsigned int *comm, unsigned int value);
+#include "ctvt_comm.h"
+#include "ctvt_talk.h"
 struct Bmp;
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/bmp_win.h"
 struct Strbuf;
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 struct MsgBank;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern unsigned int GFL_HEAP_Free(void *p);
-struct Actor;
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_RestartActorAnim(struct Actor *actor);
-extern void CLACT_AddActorSurfacePos(struct ClActor *actor, const void *delta, u32 space);
+#include "../arm9/msgdata.h"
+#include "../arm9/gfl_heap_wrap.h"
+struct ClactActor;
 struct MyStatus;
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
-extern struct Strbuf *MYSTATUS_CreateNameStrbuf(unsigned short *name, int heap_id);
+#include "../arm9/mystatus.h"
 struct GfFont;
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
+#include "../arm9/printsys.h"
+#include "../arm9/time_icon.h"
 struct TcblList;
-extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
-extern u32 APP_ENV_IsRunOnTwl(void);
-extern int APP_ENV_HasParentalControlBits(void);
+#include "../arm9/app_env.h"
 struct TaskMenuRes;
 struct TaskMenuInitWork;
 struct TaskMenuWork;
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *data);
-extern void *MET_TRAINERS_GetFromSave(void *saveData);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/game_data.h"
+#include "../arm9/met_trainers_savedata.h"
+#include "../arm9/clact.h"
 struct MetTrainersSave;
-extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, unsigned int value);
-extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern struct GameData *GAME_DATA_Create(u16 heapId);
-extern unsigned int KEY_GetCont(void);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern void GFL_NET_ERR_RequestScreen(void);
-extern void CTVT_CALL_WorkInit(char *self);
-extern void CTVT_CALL_WorkDelete(unsigned char *p);
-extern int CTVT_CALL_WorkMain(char *ctx);
+#include "../arm9/procsys.h"
+#include "../arm9/key.h"
+#include "../arm9/net_err.h"
+#include "ctvt_call.h"
 
 void COMM_TVT_SYS_DeleteTimeIcon(CtvtWork *work);
 
@@ -205,7 +188,7 @@ int COMM_TVT_SYS_GetTalkStatus(CtvtWork *work)
     return CTVT_TALK_GetMic((int)work, (int *)work->talk);
 }
 
-struct CtvtSprites *COMM_TVT_SYS_GetSprites(CtvtWork *work)
+struct DrawCanvas *COMM_TVT_SYS_GetSprites(CtvtWork *work)
 {
     return work->sprites;
 }
@@ -230,7 +213,7 @@ u32 COMM_TVT_SYS_GetResId(CtvtWork *work, int index)
     return work->resId[index];
 }
 
-struct ClActUnit *COMM_TVT_SYS_GetClactUnit(CtvtWork *work)
+struct Unit *COMM_TVT_SYS_GetClactUnit(CtvtWork *work)
 {
     return work->clactUnit;
 }
@@ -250,12 +233,12 @@ u32 COMM_TVT_SYS_GetFont(CtvtWork *work)
     return work->font;
 }
 
-struct MsgData *COMM_TVT_SYS_GetMsgData(CtvtWork *work)
+struct MsgBank *COMM_TVT_SYS_GetMsgData(CtvtWork *work)
 {
     return work->msgData;
 }
 
-struct PrintQue *COMM_TVT_SYS_GetPrintQue(CtvtWork *work)
+struct PrintQueue *COMM_TVT_SYS_GetPrintQue(CtvtWork *work)
 {
     return work->printQue;
 }
@@ -417,8 +400,8 @@ struct TaskMenu *COMM_TVT_SYS_OpenConfirmMenu(CtvtWork *work)
     CtvtMenuTemplate menu = {0};
     CtvtMenuItem items[2] = {0};
     struct TaskMenu *result;
-    items[0].label = (struct StrBuf *)MSGDATA_AllocString((struct MsgBank *)work->msgData, 34);
-    items[1].label = (struct StrBuf *)MSGDATA_AllocString((struct MsgBank *)work->msgData, 35);
+    items[0].label = (struct Strbuf *)MSGDATA_AllocString((struct MsgBank *)work->msgData, 34);
+    items[1].label = (struct Strbuf *)MSGDATA_AllocString((struct MsgBank *)work->msgData, 35);
     items[0].value = 14819;
     items[1].value = 14819;
     items[0].reserved = 0;
@@ -471,7 +454,7 @@ void COMM_TVT_SYS_ClearAndTransferNameWindows(CtvtWork *work)
 void COMM_TVT_SYS_PlaceSlotMarker(CtvtWork *work, u8 idx)
 {
     CtvtMarkerPlace place;
-    struct StrBuf *name;
+    struct Strbuf *name;
     u32 nameWidth;
     int mode;
     u32 markerIndex;
@@ -483,19 +466,19 @@ void COMM_TVT_SYS_PlaceSlotMarker(CtvtWork *work, u8 idx)
     if (CTVT_COMM_GetSlotConnected(work, (char *)work->comm, idx) != 1) return;
     place.xTable = d_021C704C;
     place.yTable = d_021C7048;
-    name = (struct StrBuf *)MYSTATUS_CreateNameStrbuf((unsigned short *)CTVT_COMM_GetSlotParam((int)work, (char *)work->comm, idx), work->heapId);
+    name = (struct Strbuf *)MYSTATUS_CreateNameStrbuf((unsigned short *)CTVT_COMM_GetSlotParam((int)work, (char *)work->comm, idx), work->heapId);
     nameWidth = (u8)PRINTSYS_MeasureWidestLine((struct Strbuf *)name, (struct GfFont *)work->font, 0);
     STRBUF_Delete((struct Strbuf *)name);
     { u32 baseX = place.xTable.b[markerIndex]; place.x = baseX + (nameWidth >> 1); }
     place.y = place.yTable.b[markerIndex];
-    CLACT_AddActorSurfacePos(work->marker, &place, 0);
-    CLACT_SetActorDrawEnable((struct Actor *)work->marker, 1);
-    CLACT_RestartActorAnim((struct Actor *)work->marker);
+    CLACT_AddActorSurfacePos(work->marker, (const struct ClactVec2 *)&place, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->marker, 1);
+    CLACT_RestartActorAnim((struct ClactActor *)work->marker);
 }
 
 void COMM_TVT_SYS_HideSlotMarker(CtvtWork *work)
 {
-    CLACT_SetActorDrawEnable((struct Actor *)work->marker, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->marker, 0);
 }
 
 /* Stores the peer record value in the save data. */

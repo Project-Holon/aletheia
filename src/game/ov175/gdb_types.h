@@ -10,19 +10,10 @@
 #ifndef GDB_TYPES_H
 #define GDB_TYPES_H
 
-#include "sake_types.h"
+#include "../ov175/sake_types.h"
 
 /* Account data that the wrapper reads the GameSpy profile id from. */
-typedef struct DWCstAccUserData {
-    int size;
-    unsigned int pseudo[3];
-    unsigned int authentic[3];
-    int gs_profile_id;
-    int flag;
-    unsigned int gamecode;
-    int reserved[5];
-    unsigned int crc32;
-} DWCstAccUserData;
+#include "../arm9/dwc_account.h"
 
 /* State of the wrapper (DWCiGdbEntity.state). */
 typedef enum DWCGdbState {

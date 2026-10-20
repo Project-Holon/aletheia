@@ -48,7 +48,7 @@
 
 struct GameData;
 struct SoundSys;
-struct StrBuf;
+struct Strbuf;
 
 #include "../types.h"
 
@@ -85,7 +85,7 @@ typedef struct BrLaunchParam {
 typedef struct BrMainWork {
     BrSceneManager sceneManager;        /* 0x0000 */
     u8 sceneData[0x1758];               /* 0x0028 */
-    struct StrBuf *slotNames[4];        /* 0x1780 */
+    struct Strbuf *slotNames[4];        /* 0x1780 */
     u8 unknown1790[0x34];               /* 0x1790 */
     u32 hasRecords;                     /* 0x17C4 */
     u8 unknown17C8[0x1C];               /* 0x17C8 */
@@ -102,64 +102,50 @@ typedef struct BrListSceneWork {
     BrLaunchParam *launch;
 } BrListSceneWork;
 
-extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
+#include "../arm9/gfl_heap.h"
 struct Proc;
 
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
+#include "../arm9/procsys.h"
 
-extern void *MI_CpuFill8(void *, int, unsigned);
+#include "../arm9/mi_memory.h"
 
-extern void BATTLE_REC_AllocWork(unsigned);
+#include "../arm9/battle_rec.h"
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void BATTLE_REC_FreeWork(void);
 
-extern void *PROCSYS_Create(int heapId);
 
-extern void PROCSYS_Push(void *, int, const void *, void *);
 
-extern unsigned int PROCSYS_Main(void *p);
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern void PROCSYS_Delete(void *procSys);
+struct BattleSetupParam;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void BTL_SETUP_InitWithSlots(struct BattleSetupParam *, struct GameData *, u32 heapId);
+#include "../arm9/btl_setup.h"
 
-extern void BATTLE_REC_LoadToolOverlay(void);
 
-extern void BATTLE_REC_UnloadToolOverlay(void);
 
-extern void BATTLE_REC_TOOL_UnpackSetup(struct BattleSetupParam *, u32);
+#include "../ov188/battle_rec_tool.h"
 
-extern void GFL_USE_SetBgmPaused(unsigned int value);
+#include "../arm9/gfl_use.h"
 
-extern int GFL_USE_PushBgm(void);
 
 extern void BR_MAIN_SanitizeBgmIds(u16 *,u16 *);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
 
-extern unsigned int GAME_DATA_GetBgmInfo(const struct GameData *);
+#include "../arm9/game_data.h"
 
-extern int GFL_USE_PopBgm(void);
 
-extern void GFL_USE_FadeInBgmFull(u32);
 struct FieldSoundSystem;
 
-extern void FIELD_SOUND_SYSTEM_FadeVolume(struct FieldSoundSystem *s, unsigned char level, unsigned short frames);
+#include "../arm9/field_sound_system.h"
 
-extern void BTL_SETUP_ClearWithSlots(struct BattleSetupParam *p);
 
 int BR_MAIN_Init(void *proc, unsigned unused, BrLaunchParam *launch);
 
@@ -179,7 +165,7 @@ BrListSceneWork *BR_MAIN_CreateListScene(unsigned short heapId, BrMainWork *work
 
 void BR_MAIN_DeleteListScene(BrListSceneWork *listWork, BrMainWork *work);
 
-void *BR_MAIN_CreateReplayScene(u32 heapId, BrMainWork *work);
+void *BR_MAIN_CreateReplayScene(u16 heapId, BrMainWork *work);
 
 void BR_MAIN_DeleteReplayScene(struct BattleSetupParam *setup, BrMainWork *work);
 
@@ -206,7 +192,7 @@ int BR_MAIN_Exit(int a, int b, int c, BrMainWork *work)
     int i;
     if (work->hasRecords != 0) {
         for (i = 0; i < 4; i++) {
-            struct StrBuf *name = work->slotNames[i];
+            struct Strbuf *name = work->slotNames[i];
             if (name != 0)
                 STRBUF_Delete((struct Strbuf *)name);
         }
@@ -308,7 +294,7 @@ void BR_MAIN_DeleteListScene(BrListSceneWork *listWork, BrMainWork *work)
     GFL_HEAP_Free(listWork);
 }
 
-void *BR_MAIN_CreateReplayScene(u32 heapId, BrMainWork *work)
+void *BR_MAIN_CreateReplayScene(u16 heapId, BrMainWork *work)
 {
     struct BattleSetupParam *setup = GFL_HEAP_Alloc(heapId, sizeof(struct BattleSetupParam), 0, d_0220B2E4, 542);
     MI_CpuFill8(setup, 0, sizeof(struct BattleSetupParam));

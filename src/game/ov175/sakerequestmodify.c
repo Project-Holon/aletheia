@@ -49,17 +49,8 @@
  */
 #include "sake_types.h"
 
-extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
-extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
-extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
-extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
-extern int gsXmlWriteInt64Element(void *stream, char *namespaceName, char *tag, long long value);
-extern int gsXmlWriteFloatElement(void *stream, char *namespaceName, char *tag, float value);
-extern int gsXmlWriteUnicodeStringElement(void *stream, char *namespaceName, char *tag, unsigned short *value);
-extern int gsXmlWriteDateTimeElement(void *stream, char *namespaceName, char *tag, long value);
-extern int gsXmlWriteBase64BinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
-extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
-extern int sakeiStartRequest(SAKERequestInternal *request, SAKERequestInfo *info);
+#include "../ov009/gsxml.h"
+#include "sakerequest.h"
 int sakeiValidateRequestFields(SAKEField *fields, int numFields);
 void sakeiFillSoapRequestFieldValues(SAKERequestInternal *request, SAKEField *fields, int numFields);
 int sakeiCreateRecordValidateInput(SAKERequestInternal *request);

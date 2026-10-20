@@ -77,96 +77,65 @@
  *   WIH_SetBeaconGameInfo 0x021795D4 thumb ov014
  */
 #include "../arm9/net_whpipe_types.h"
+#include "../arm9/net.h"
+#include "wih.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern int WIH_GetSysState(void);
 
-#define OFFSETOF(type, field) ((u32)&((type *)0)->field)
+#define OFFSETOF(type, field) ((uptr)&((type *)0)->field)
 
 #include "../types.h"
 
-int DWCi_MOV_WH_GetLastError(void);
 
-extern void *GFL_NET_GetInitParam(void);
 
-extern u16 WM_GetNextTgid(void);
+#include "../arm9/wm_sync.h"
 
-extern int WIH_Initialize(u32 heap, int a, int b);
 
-extern void WIH_SetGgid(u32 v);
 
-u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
+#include "../arm9/gf_standard.h"
 
-s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 size);
 
-void MI_CpuCopy8(const void *src, void *dst, int size);
+#include "../arm9/mi_memory.h"
 
-extern void MI_CpuFill8(void *, u32, u32);
 
-extern void DWCi_MOV_WH_SetReceiver(void *cb);
 
-extern int DWCi_MOV_WH_StartScan(u32 a, u16 *b, u32 c);
 
-extern int WIH_Finalize(void);
 
-extern void DWCi_MOV_WH_StateInEndKeyShare(void);
 
-extern int GFL_NET_GetRunState(void);
 
-extern void OS_Terminate(void);
+#include "../arm9/os_terminate_processor.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-unsigned short WIH_GetOwnAid(void);
 
-int WIH_End(void (*cb)(int));
 
-void GFL_NET_CallErrorStateFunc(u32 a);
 
-void GFL_NET_CallStateChangeFunc(u32 a);
 
-void WIH_SetScanTimerPaused(unsigned char v);
 
-void WIH_UpdateScanTimer(void);
 
-extern u16 WIH_GetBitmap(void);
 
 /* wih.c: the WH work's beaconSendCount. */
-extern unsigned long WIH_GetBeaconSendCount(void *unused);
 
-void DC_FlushRange(void *p, u32 n);
+#include "../arm9/os_cache.h"
 
-void DWCi_MOV_WH_SetUserGameInfo(void *userGameInfo, u16 length);
 
-u32 GFL_USE_GetRandom(u32 n);
+#include "../arm9/gfl_use.h"
 
 /* The bssid argument is const: that lets the ldrh of b[1] schedule above the strh of b[2] (docs/idioms/const-pointer-lets-a-field-load-survive-a-store.md). */
-int DWCi_MOV_WH_ChildConnectAuto(u32 a, const u16 *b, u32 c);
 
-void WIH_SetScanTarget(u16 value, void *src);
 
-int DWCi_MOV_WH_EndScan(void);
 
-int WIH_StartMeasureChannel(void);
 
-u16 WIH_FinishMeasureChannel(void);
 
-void WIH_FreeWork(void);
 
-BOOL WIH_ParentConnect(int mode, u16 tgid, int channel, u16 maxEntry);
 
-void WIH_SetJudgeAcceptFunc(void *v);
 
 /* Guard wrapper: forwards to DWCi_MOV_WH_StateInSetMPData when WIH_GetOwnAid is nonzero or one of bits 1-7 of WIH_GetBitmap is set, else returns 0. */
-BOOL DWCi_MOV_WH_SendData(int a, u16 b, int c);
 
-void WIH_SetJudgeScanFunc(unsigned v);
 
 /* When the state word of the WH work block is 4 or 5, forwards to the arm9 function at 0x02090CD4 (WM_SetGameInfo shape) with (0, a, b, c, d, 1), the halfword arguments truncated. */
-void WIH_SetBeaconGameInfo(int a, int b, int c, int d);
 
 void NET_WHPIPE_SetTask(WhPipeWork *work, WhPipeTask task);
 
@@ -311,7 +280,7 @@ void NET_WHPIPE_SetTask(WhPipeWork *work, WhPipeTask task)
 
 int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening)
 {
-    WhPipeNetInit *init;
+    GFLNetSession *init;
     WhPipeWork *work;
 
     GFL_NET_GetInitParam();
@@ -323,7 +292,7 @@ int NET_WHPIPE_Create(int heapId, int wmParam, u32 userData, int forListening)
     work->channel = 0xff;
     if (WIH_Initialize(heapId, wmParam, forListening) == 0)
         return 0;
-    WIH_SetGgid(init->ggid);
+    WIH_SetGgid(init->init.ggid);
     work->userData = userData;
     work->shutdownRequest = 0;
     work->startedFlag = 0;
@@ -340,15 +309,15 @@ void NET_WHPIPE_SetEventCallback(int (*callback)(int a, int b, int c))
 int NET_WHPIPE_IsBeaconAcceptable(WhPipeEntry *entry)
 {
     WhPipeWork *work = g_pWhPipeWork;
-    WhPipeNetInit *init = GFL_NET_GetInitParam();
+    GFLNetSession *init = GFL_NET_GetInitParam();
     WhPipeBeacon *beacon;
     int gameKind;
     u16 ggid;
     WhPipeBeaconCompareFunc compare;
     WhPipeNotifyFunc notify;
 
-    gameKind = init->gameKind;
-    ggid = init->ggid;
+    gameKind = init->init.gameKind;
+    ggid = init->init.ggid;
     beacon = &entry->beacon;
     if (beacon->status != 0)
         return 0;
@@ -361,14 +330,14 @@ int NET_WHPIPE_IsBeaconAcceptable(WhPipeEntry *entry)
     notify = g_pWhPipeWork->notifyFn;
     if (notify != 0)
         notify(g_pWhPipeWork->notifyArg, entry, beacon->kind, beacon->connectedNum);
-    compare = init->compareBeacon;
+    compare = init->init.compareBeaconFunc;
     if (compare != 0) {
         if (compare(gameKind, beacon->kind, work->userData) == 0)
             return 0;
     } else if (gameKind != beacon->kind) {
         return 0;
     }
-    if (gameKind != 0x14 && beacon->connectedNum >= init->maxConnectNum && init->maxConnectNum > 1)
+    if (gameKind != 0x14 && beacon->connectedNum >= init->init.maxConnectNum && init->init.maxConnectNum > 1)
         return 0;
     return 1;
 }
@@ -405,9 +374,9 @@ int NET_WHPIPE_StoreScannedEntry(WhPipeEntry *entry)
 int NET_WHPIPE_CheckBeaconFlags(WhPipeEntry *entry, u32 flags)
 {
     WhPipeWork *work = g_pWhPipeWork;
-    WhPipeNetInit *init = GFL_NET_GetInitParam();
-    int gameKind = init->gameKind;
-    u16 ggid = init->ggid;
+    GFLNetSession *init = GFL_NET_GetInitParam();
+    int gameKind = init->init.gameKind;
+    u16 ggid = init->init.ggid;
     WhPipeBeacon *beacon = &entry->beacon;
     WhPipeBeaconCompareFunc compare;
 
@@ -420,7 +389,7 @@ int NET_WHPIPE_CheckBeaconFlags(WhPipeEntry *entry, u32 flags)
     if ((flags & WHPIPE_CHECK_GGID) && beacon->ggid != ggid)
         return 0;
     if (flags & WHPIPE_CHECK_KIND) {
-        compare = init->compareBeacon;
+        compare = init->init.compareBeaconFunc;
         if (compare != 0) {
             if (compare(gameKind, beacon->kind, work->userData) == 0)
                 return 0;
@@ -428,7 +397,7 @@ int NET_WHPIPE_CheckBeaconFlags(WhPipeEntry *entry, u32 flags)
             return 0;
         }
     }
-    if ((flags & WHPIPE_CHECK_MEMBERS) && beacon->connectedNum >= init->maxConnectNum)
+    if ((flags & WHPIPE_CHECK_MEMBERS) && beacon->connectedNum >= init->init.maxConnectNum)
         return 0;
     return 1;
 }
@@ -475,7 +444,7 @@ int NET_WHPIPE_StartScan(int clearEntries)
         NET_WHPIPE_ClearEntries();
     DWCi_MOV_WH_SetReceiver(NET_WHPIPE_ForwardEvent);
     work->running = 1;
-    if (WIH_GetSysState() == 1 && DWCi_MOV_WH_StartScan((u32)NET_WHPIPE_StoreScannedEntry, 0, 0) != 0)
+    if (WIH_GetSysState() == 1 && DWCi_MOV_WH_StartScan((uptr)NET_WHPIPE_StoreScannedEntry, 0, 0) != 0)
         return 1;
     return 0;
 }
@@ -570,29 +539,29 @@ void NET_WHPIPE_TickEntryAges(void)
 void NET_WHPIPE_PublishBeacon(void)
 {
     WhPipeBeacon *beacon;
-    WhPipeNetInit *init;
+    GFLNetSession *init;
     WhPipeWork *work;
-    WhPipeBeaconSizeFunc getSize;
+    void *(*getSize)(void *);
     int size;
 
     if (GFL_NET_GetRunState() == 0)
         return;
     work = g_pWhPipeWork;
     init = GFL_NET_GetInitParam();
-    getSize = init->getBeaconSize;
+    getSize = init->init.getBeaconSizeFunc;
     if (getSize == 0)
         return;
-    size = getSize(work->userData);
+    size = (sptr)getSize((void *)work->userData);
     if (size >= WHPIPE_BEACON_DATA_SIZE) {
         OS_Terminate();
         return;
     }
     beacon = &work->beacon;
-    beacon->kind = init->gameKind;
-    beacon->ggid = init->ggid;
+    beacon->kind = init->init.gameKind;
+    beacon->ggid = init->init.ggid;
     beacon->reserved = 0;
     beacon->status = work->beaconStatus;
-    MI_CpuCopy8((void *)init->getBeaconData(work->userData), beacon->data, size);
+    MI_CpuCopy8((void *)init->init.getBeaconDataFunc((void *)work->userData), beacon->data, size);
     NET_WHPIPE_SetBeaconGameInfo((u8 *)&work->beacon, 0x70);
 }
 
@@ -601,15 +570,15 @@ void NET_WHPIPE_RefreshBeacon(void)
 {
     WhPipeWork *work = g_pWhPipeWork;
     WhPipeBeacon *beacon = &work->beacon;
-    WhPipeNetInit *init = GFL_NET_GetInitParam();
-    WhPipeBeaconSizeFunc getSize = init->getBeaconSize;
+    GFLNetSession *init = GFL_NET_GetInitParam();
+    void *(*getSize)(void *) = init->init.getBeaconSizeFunc;
     int size;
 
     if (getSize != 0) {
-        size = getSize(work->userData);
+        size = (sptr)getSize((void *)work->userData);
         if (size > WHPIPE_BEACON_DATA_SIZE)
             GF_PANIC_Fail((const char *)sEmptyString, 0, (const char *)sEmptyString);
-        MI_CpuCopy8((void *)init->getBeaconData(work->userData), beacon->data, size);
+        MI_CpuCopy8((void *)init->init.getBeaconDataFunc((void *)work->userData), beacon->data, size);
     }
     if (beacon->connectedNum != NET_WHPIPE_GetConnectedNum()) {
         work->beaconRefreshCountdown = 0;
@@ -753,7 +722,7 @@ void NET_WHPIPE_SetWatchDisconnect(u8 watch)
  * lever: integer address sum preserves base+0x58 and the final pointer+8;
  * plain pointer additions fold these into base+0x60 (r1 DIFF, r2 EXACT).
  */
-u8 *NET_WHPIPE_GetEntryBeaconData(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && g_pWhPipeWork->entryAge[index] != 0) return (u8 *)((unsigned int)(base + 0x58) + index * 0xC0) + 8; return 0; }
+u8 *NET_WHPIPE_GetEntryBeaconData(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && g_pWhPipeWork->entryAge[index] != 0) return (u8 *)((uptr)(base + 0x58) + index * 0xC0) + 8; return 0; }
 
 u8 *NET_WHPIPE_GetEntryBssid(int index) { u8 *base = (u8 *)g_pWhPipeWork; if (base != 0 && *(u16 *)(base + OFFSETOF(WhPipeWork, entryAge) + index * 2) != 0) return base + 0xC + index * 0xC0; return 0; }
 
@@ -819,7 +788,7 @@ u8 *NET_WHPIPE_GetEntryBeacon(WhPipeEntry *entry, u8 *outKind)
  */
 int NET_WHPIPE_HasBeaconBeenSent(void *unused)
 {
-    if (WIH_GetBeaconSendCount(unused))
+    if (WIH_GetBeaconSendCount())
         return 1;
     return 0;
 }
@@ -846,7 +815,7 @@ int NET_WHPIPE_GetOwnAid(void) { return WIH_GetOwnAid(); }
 void NET_WHPIPE_TaskConnectParent(WhPipeWork *work)
 {
     u16 connectModeTable[2];
-    WhPipeNetInit *net;
+    GFLNetSession *net;
     int channel;
 
     int state = WIH_GetSysState();
@@ -864,10 +833,10 @@ void NET_WHPIPE_TaskConnectParent(WhPipeWork *work)
             work->channel = channel;
         else
             channel = work->channel;
-        if (net->bRenewTgid != 0)
+        if (net->init.bRenewTgid != 0)
             work->tgid = WM_GetNextTgid();
         NET_WHPIPE_PublishBeacon();
-        WIH_ParentConnect(connectModeTable[net->bMPMode], work->tgid, channel, net->maxConnectNum - 1);
+        WIH_ParentConnect(connectModeTable[net->init.bMPMode], work->tgid, channel, net->init.maxConnectNum - 1);
         NET_WHPIPE_SetTask(g_pWhPipeWork, 0);
     }
 }
@@ -890,7 +859,7 @@ int NET_WHPIPE_StartParent(int autoChannel)
 void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
 {
     WhPipeWork *work = g_pWhPipeWork;
-    WhPipeNetInit *net = GFL_NET_GetInitParam();
+    GFLNetSession *net = GFL_NET_GetInitParam();
     if (work != 0 && net != 0) {
         ((WhPipeBeacon *)buf)->checksum = GF_STANDARD_CalcCrc16(buf + 2, len - 2);
         DC_FlushRange(buf, len);
@@ -898,19 +867,19 @@ void NET_WHPIPE_SetBeaconGameInfo(u8 *buf, u32 len)
             DWCi_MOV_WH_SetUserGameInfo(buf, (u16)len);
             return;
         }
-        WIH_SetBeaconGameInfo((int)buf, len, net->ggid, work->tgid);
+        WIH_SetBeaconGameInfo((sptr)buf, len, net->init.ggid, work->tgid);
     }
 }
 
 void NET_WHPIPE_TaskConnectChild(WhPipeWork *work)
 {
-    WhPipeNetInit *net = GFL_NET_GetInitParam();
+    GFLNetSession *net = GFL_NET_GetInitParam();
     u16 connectModeTable[2];
     connectModeTable[0] = g_ChildConnectModes[0];
     connectModeTable[1] = g_ChildConnectModes[1];
     if (WIH_GetSysState() == 1 || WIH_GetSysState() == 2) {
-        DWCi_MOV_WH_ChildConnectAuto(connectModeTable[net->bMPMode], (const u16 *)g_pWhPipeWork->targetBssid, 0);
-        WIH_SetJudgeScanFunc((unsigned int)NET_WHPIPE_NotifyEntryAcceptable);
+        DWCi_MOV_WH_ChildConnectAuto(connectModeTable[net->init.bMPMode], (const u16 *)g_pWhPipeWork->targetBssid, 0);
+        WIH_SetJudgeScanFunc((uptr)NET_WHPIPE_NotifyEntryAcceptable);
         DWCi_MOV_WH_SetReceiver(NET_WHPIPE_ForwardEvent);
         g_pWhPipeWork->running = 1;
         NET_WHPIPE_SetTask(g_pWhPipeWork, 0);
@@ -983,7 +952,7 @@ void NET_WHPIPE_TaskChildScanWait(WhPipeWork *work) { work->searchTimer--; if (w
 void NET_WHPIPE_TaskChildScanStart(WhPipeWork *work)
 {
     if (WIH_GetSysState() == 1) {
-        if (DWCi_MOV_WH_StartScan((u32)NET_WHPIPE_StoreScannedEntry, 0, 0) != 0) {
+        if (DWCi_MOV_WH_StartScan((uptr)NET_WHPIPE_StoreScannedEntry, 0, 0) != 0) {
             work->searchTimer = GFL_USE_GetRandom(0x28) + 0x3C;
             NET_WHPIPE_SetTask(g_pWhPipeWork, NET_WHPIPE_TaskChildScanWait);
         }

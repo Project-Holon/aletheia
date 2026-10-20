@@ -220,7 +220,7 @@ void NNS_G2dUpdateCellTransferStateManager(void)
                     const void *src = (t == VRAM_TYPE_3DMAIN) ? s->pSrcNCBR : s->pSrcNCGR;
                     if ((*sCellTransferStateManager.pFuncTransfer)(gfdType,
                                                     NNSi_G2dSrtcGetTable((const s32 *)(&s->dstVramLocation), t),
-                                                    (void *)((u32)src + s->srcOffset),
+                                                    (void *)((uptr)src + s->srcOffset),
                                                     s->szByte))
                         s->bTransferRequested &= ~(1 << t);
                 }

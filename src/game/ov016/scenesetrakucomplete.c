@@ -48,16 +48,16 @@
  *   DWCi_SetParam_                   0x021C0E50  arm
  *   GX_LoadBG2Scr                    0x0207EB78  arm
  *   endScene1                        0x021CB21C  arm
- *   procScene                        0x021C3C94  arm
  *   sceneoptmovdisco_str_20611       0x021DB390  data
  *   DWCi_SetParam2_  0x021C0E8C  arm
  *   DWCi_SceneSetTestConfirm  0x021CD80C  arm
  */
-#define reg_G2S_DB_BG0CNT (*(volatile unsigned short *)0x04001008)
-#define reg_G2S_DB_BG1CNT (*(volatile unsigned short *)0x0400100A)
-#define reg_G2_BG1CNT     (*(volatile unsigned short *)0x0400000A)
-#define reg_G2_BG2CNT     (*(volatile unsigned short *)0x0400000C)
+#define reg_G2S_DB_BG0CNT (*(volatile unsigned short *)REG_DB_BG0CNT_ADDR)
+#define reg_G2S_DB_BG1CNT (*(volatile unsigned short *)REG_DB_BG1CNT_ADDR)
+#define reg_G2_BG1CNT     (*(volatile unsigned short *)REG_BG1CNT_ADDR)
+#define reg_G2_BG2CNT     (*(volatile unsigned short *)REG_BG2CNT_ADDR)
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct {
     u16 priority : 2;
@@ -66,23 +66,20 @@ typedef struct {
 
 typedef _Bool bool;
 
-extern void DWCi_HLlLoadSet(void);
-extern void DWCi_CMNlMsgDraw(int msgId);
-extern void DWCi_SNDlPlay(u32 v);
-extern void DWCi_ChangeScene(u32 v);
+#include "headline.h"
+#include "common.h"
+#include "sound.h"
+#include "dwcutil_main.h"
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
-extern void DWCi_GXlVisible(int lcd, int plane);
+#include "graphics.h"
 extern bool DWCi_EFFlCheck(int lcd);
-extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern void GX_LoadBG2Scr(void *src, unsigned long offset, unsigned long size);
-extern void DWCi_GXlInvisible(int lcd, int plane);
-extern int DWCi_MOVlIsEnd(void);
-extern void DWCi_FNTlDeleteBgLcd(int lcd);
-extern int DWCi_COMMENTlDelete(void);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SceneOptMenu(void);
-extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
-extern void DWCi_SceneSetTestConfirm(void);
+#include "../arm9/gx_load2d.h"
+#include "move.h"
+typedef int bool_0;
+#include "font.h"
+#include "comment.h"
+#include "sceneoptmenu.h"
+#include "scenesettestconfirm.h"
 void DWCi_SceneSetRakuComplete(void);
 void DWCi_SceneSetRakuComplete_procScene(void);
 void DWCi_SceneSetRakuComplete_draw(void);
@@ -104,30 +101,30 @@ void DWCi_SceneSetRakuComplete(void)
     DWCi_HLlLoadSet();
     DWCi_CMNlMsgDraw(0x26);
     DWCi_SNDlPlay(0x10);
-    DWCi_ChangeScene((u32)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB66C, (void *)0x0207EB78);
-    ((BgCnt *)0x04001008)->priority = 3;
-    ((BgCnt *)0x0400100A)->priority = 3;
-    ((BgCnt *)0x04000008)->priority = 3;
-    ((BgCnt *)0x0400000A)->priority = 3;
-    ((BgCnt *)0x0400000C)->priority = 3;
+    ((BgCnt *)REG_DB_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_DB_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG2CNT_ADDR)->priority = 3;
 }
 
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
-        DWCi_ChangeScene((u32)DWCi_SceneSetRakuComplete_procScene);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetRakuComplete_procScene);
 }
 
 /*
@@ -148,13 +145,12 @@ void DWCi_SceneSetRakuComplete_draw(void)
 {
 }
 
-static void procScene(void);
 
 static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((u32)endScene1);
+    DWCi_ChangeScene((uptr)endScene1);
 }
 
 static void endScene1(void)
@@ -169,11 +165,11 @@ static void endScene1(void)
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 0);
     DWCi_SetParam2_(0, 1);
-    DWCi_ChangeScene((u32)DWCi_SceneSetTestConfirm);
+    DWCi_ChangeScene((uptr)DWCi_SceneSetTestConfirm);
 }
 
 static void wait(void)
 {
     if (++Count >= 120)
-        DWCi_ChangeScene((u32)endScene);
+        DWCi_ChangeScene((uptr)endScene);
 }

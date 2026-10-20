@@ -22,7 +22,7 @@ u32 GFL_HEAP_FreeMemory(void *mem);
 u32 GFL_HEAP_InitAllocator(void *allocator, u32 heapIdAndDirection, s32 alignment);
 u32 GFL_HEAP_ResizeMemory(void *mem, u32 newSize);
 void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
-void *GFL_HEAP_GetAllocatableSize(u32 heapId);
+u32 GFL_HEAP_GetAllocatableSize(u32 heapId);
 u32 GFL_HEAP_GetHeapSize(u32 heapId);
 void *GFL_HEAP_GetHeapHandle(u32 heapId);
 u16 GFL_HEAP_GetAllocCountById(u32 heapId);

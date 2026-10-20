@@ -242,7 +242,7 @@
 #include "p_status_types.h"
 
 struct Mon;
-struct Tcb;
+struct TcbTask;
 struct ClactObj;
 struct McssSys;
 struct PrintSys;
@@ -254,7 +254,7 @@ struct BgTemplate;
 struct GfFont;
 struct MsgBank;
 struct PokePara;
-struct StrBuf;
+struct Strbuf;
 struct BmpWin;
 struct WordSet;
 struct StrObj;
@@ -272,7 +272,7 @@ struct BgSetup { u32 data[8]; };
 struct ClactSysSetup { u32 setup[4]; u16 limits[6]; };
 
 /* Camera position, target and up vector (_CameraVecs). */
-struct Vec3 { u32 x, y, z; };
+struct PStatusVec3 { u32 x, y, z; };
 
 #include "../sdk_gx.h"
 
@@ -308,177 +308,69 @@ typedef struct { u16 move[5]; } DebugMoves;
 #define HW_VBLANK_COUNT_BUF 0x02FFFC3C
 static inline u32 OS_GetVBlankCount(void) { return *(volatile u32 *)HW_VBLANK_COUNT_BUF; }
 
-extern u8 UI_GetInputMode(void);
+#include "../arm9/ui.h"
 struct PokemonParam;
-extern struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, unsigned short heapId);
-extern void *GFL_USE_AddMainTask(u32,u32,u32);
-extern void MIi_CpuCopy16(const void *,void *,u32);
-extern int GAME_DATA_ContainsRecentId(int gd, int id);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
+#include "../arm9/poke_tool.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/game_data.h"
+#include "../arm9/net.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 struct GameData;
-extern void GAME_DATA_SetRecentId(struct GameData *gd, unsigned int id, unsigned int on);
-extern void UI_SetInputMode(u8);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
-extern u32 WIPE_SYS_EndCheck(void);
-struct Actor;
-extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/wipe.h"
+#include "../arm9/clact.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void CLACT_DrawSystem(void);
-extern void MCSS_Main(struct McssSys *sys);
-extern void G3D_SYSTEM_DrawStart(void);
-extern void G3D_SYSTEM_ApplyLookAt(void);
-extern void MCSS_Draw(struct McssSys *sys);
-extern void G3D_SYSTEM_DrawEnd(void);
-extern void BG_SYS_ChangeScroll(u32,u32,u32);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
-extern void CLACT_VBlankSystem(void);
+#include "../arm9/printsys.h"
+#include "../arm9/mcss.h"
+#include "../arm9/bg_sys.h"
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
-extern void WIPE_SetBrightnessFadeOut(u32,u32);
-extern void WIPE_ResetWndMask(void *);
-extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-extern void BG_SYS_SetPlaneVisible(unsigned int which, unsigned char enable);
-extern void G2x_SetBlendAlpha_(u32 *,u32,u32,u32,u32);
+#include "../arm9/g2.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u16,void (*)(void));
-extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u16);
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_InitArm9Proto
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
+/* The original callers declared heapId as u16; the definition takes s16. */
+extern void G3D_SYSTEM_Init(int, int, int, int, u16, u16, void (*)(void));
+#endif
+#include "../arm9/g3d_camera.h"
 struct G3dCamera;
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
-extern void G3X_SetEdgeColorTable(const void *);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32),BG_SYS_EnableBg0WithPriority(u32);
-extern struct McssSys *MCSS_Init(unsigned int maxCount, unsigned int heapId);
-extern void MCSS_SetTextureTransAdrs(struct McssSys *sys, unsigned int adrs);
-extern void MCSS_SetGlobalScale(struct McssSys *sys, unsigned int scale);
-extern void NNS_GfdResetVramTransferTaskQueue(void);
-extern void MCSS_Exit(struct McssSys *sys);
-extern unsigned int G3D_CAMERA_Delete(void *ptr);
-extern void G3D_SYSTEM_Exit(void);
-extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
-extern void CLACT_ExitSystem(void);
-extern void BG_SYS_FreeLayerBuf(unsigned int);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(u32);
-extern void BG_SYS_PushTile(u32);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
-extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
-extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
-extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern u32 APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetTouchBarFileId(void);
-extern u32 APP_ICON_GetStatusAnimFileId(void);
-extern u32 APP_ICON_GetStatusFrameFileId(void);
-extern u32 APP_ICON_GetStatusDataFileId(void);
-extern u32 APP_ICON_GetTypePaletteFileId(u32);
-extern u32 APP_ICON_GetTypeAnimFileId(u32);
-extern u32 APP_ICON_GetTypeCellFileId(u32);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern u32 APP_ICON_GetStatusCellFileId(u32);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32);
-extern int APP_ICON_GetGearDataFileId(void);
-extern int APP_ICON_GetGearExtraFileId(int);
-extern int APP_ICON_GetGearFrameFileId(int);
-extern int APP_ICON_GetGearAnim2FileId(int);
-extern u32 APP_ICON_GetSealCellFileId(void);
-extern u32 APP_ICON_GetSealPaletteFileId(void);
-extern u32 APP_ICON_GetSealAnimFileId(u32);
-extern u32 APP_ICON_GetSealFrameFileId(u32);
-extern int APP_ICON_GetBallThrowCellFileId(int);
-extern int APP_ICON_GetBallThrowAnimFileId(int);
-extern int APP_ICON_GetBallOpenCellFileId(int,int);
-extern int APP_ICON_GetBallOpenPaletteFileId(int,int);
-extern int APP_ICON_GetBallOpenAnimFileId(void);
-extern int APP_ICON_GetEffectCellFileId(int);
-extern int APP_ICON_GetEffectPaletteFileId(int);
-extern int APP_ICON_GetEffectAnimFileId(int);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern struct ClactObj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
-extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16,u32);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern unsigned int MSGDATA_Delete(struct MsgBank *rec);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern int TOUCHPANEL_HitTrg(const void *key);
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern unsigned int KEY_GetRepeat(void);
-extern u32 KEY_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
-extern void POKE_TOOL_ClearPartyParam(struct PokemonParam *pp);
+#include "../arm9/g3x.h"
+#include "../arm9/nns_gfd_vram_load.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/app_icon.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/key.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
 struct BoxPokemon;
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int arg);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
-extern void PM_VOICE_StopSlot(u32);
+#include "../arm9/pm_voice.h"
 struct SaveBlock;
-extern void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out);
-extern u32 PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, void **recordedVoice);
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
-extern u32 POKE_TOOL_GetBoxParamSize(void);
-extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *pp);
-extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, unsigned int didDecode);
-extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
-extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, unsigned int didDecode);
+#include "../arm9/pokeparty.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 struct Bmp;
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *p);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
+#include "../arm9/wordset.h"
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void *,int,int);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 KEY_GetCont(void);
-extern struct Party *POKEPARTY_Create(u32 heap);
-extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
-extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
-extern void POKE_TOOL_ClearBoxParam(struct BoxPokemon *box);
-extern u32 GFL_USE_GetRandomBelow(u32 range);
-extern void POKE_TOOL_SetupBoxParam(struct BoxPokemon *box, unsigned short species, unsigned short level, unsigned long long otId);
-extern void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int value);
-extern struct GameData *GAME_DATA_Create(u16);
-extern void GAME_DATA_Delete(struct GameData *gameData);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
+#include "../arm9/procsys.h"
 int P_STATUS_InitWork(PStatusWork *wk);
 int P_STATUS_ExitWork(PStatusWork *wk);
 int P_STATUS_MainSeq(PStatusWork *wk);
 void P_STATUS_VBlankTask(void);
 void P_STATUS_InitGraphics(PStatusWork *wk);
 void P_STATUS_ExitGraphics(PStatusWork *wk);
-void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode);
+void P_STATUS_InitBgLayer(struct BgSetup *cfg,u8 bg,u32 mode);
 void P_STATUS_LoadObjResource(PStatusWork *wk);
 void P_STATUS_DeleteObjResource(PStatusWork *wk);
 void P_STATUS_CreateButtonActors(PStatusWork *wk);
@@ -507,65 +399,21 @@ void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int 
 void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color);
 int P_STATUS_CanUseButtons(PStatusWork *wk);
 int P_STATUS_HasRibbon(PStatusWork *wk, void *pp);
-int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk);
-int P_STATUS_ProcExit(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk);
-int P_STATUS_ProcMain(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk);
+int P_STATUS_ProcInit(void *proc,int *seq,PStatusProcParam *pwk,PStatusWork *mywk);
+int P_STATUS_ProcExit(void *proc, int *seq, PStatusProcParam *pwk, PStatusWork *mywk);
+int P_STATUS_ProcMain(void *proc, int *seq, PStatusProcParam *pwk, PStatusWork *mywk);
 struct PStatusWork;
-void *P_STA_SUB_Create(PStatusWork *wk);
-void P_STA_SUB_Delete(PStatusWork *wk, PStaSubWork *pageWork);
-void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *pageWork);
+#include "p_sta_sub.h"
 struct PStaSubWork;
-void P_STA_SUB_LoadArcGraphics(struct PStatusWork *wk, struct PStaSubWork *unused, void *arc);
-void P_STA_SUB_Exit(PStatusWork *wk, PStaSubWork *pageWork);
-void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *pageWork);
-void P_STA_SUB_DeleteObjects(PStatusWork *wk, PStaSubWork *pageWork);
-void P_STA_SUB_InitWindows(PStatusWork *wk, PStaSubWork *pageWork);
-void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *pageWork);
-void P_STA_SUB_FreeWindows(PStatusWork *wk, PStaSubWork *pageWork);
-void P_STA_SUB_HideSprite(PStatusWork *wk, PStaSubWork *pageWork);
-PStaInfoWork *P_STA_INFO_AllocWork(PStatusWork *wk);
-void P_STA_INFO_FreeWork(PStatusWork *wk, PStaInfoWork *pageWork);
-void P_STA_INFO_Main(PStatusWork *wk, PStaInfoWork *pageWork);
-void P_STA_INFO_LoadResources(PStatusWork *wk, PStaInfoWork *pageWork, void *arc);
-void P_STA_INFO_FreeResources(PStatusWork *wk, PStaInfoWork *pageWork);
-void P_STA_INFO_Setup(PStatusWork *wk, PStaInfoWork *pageWork);
-void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *pageWork);
-void P_STA_INFO_DeleteWindows(PStatusWork *wk, PStaInfoWork *pageWork);
-void P_STA_INFO_HidePage(PStatusWork *wk, PStaInfoWork *pageWork);
-void *P_STA_RIBBON_Create(PStatusWork *wk);
-void P_STA_RIBBON_Delete(PStatusWork *wk, PStaRibbonWork *pageWork);
-void P_STA_RIBBON_Main(PStatusWork *wk, PStaRibbonWork *pageWork);
-void P_STA_RIBBON_LoadArcGraphics(PStatusWork *wk, PStaRibbonWork *pageWork, void *arc);
-void P_STA_RIBBON_FreeArcGraphics(PStatusWork *wk, PStaRibbonWork *pageWork);
-void P_STA_RIBBON_CreateObjects(PStatusWork *wk, PStaRibbonWork *pageWork);
-void P_STA_RIBBON_DeleteObjects(PStatusWork *wk, PStaRibbonWork *pageWork);
-void P_STA_RIBBON_Init(PStatusWork *wk, PStaRibbonWork *pageWork);
-void P_STA_RIBBON_Show(PStatusWork *wk, PStaRibbonWork *pageWork);
-void P_STA_RIBBON_Deactivate(PStatusWork *wk, PStaRibbonWork *pageWork);
-void P_STA_RIBBON_Hide(PStatusWork *wk, PStaRibbonWork *pageWork);
-void P_STA_RIBBON_CollectOwned(PStatusWork *wk, PStaRibbonWork *pageWork);
-void P_STA_RIBBON_Noop(PStatusWork *wk, PStaRibbonWork *pageWork);
-PStaSkillWork *P_STA_SKILL_Create(PStatusWork *wk);
-void P_STA_SKILL_Delete(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_LoadArcGraphics(PStatusWork *wk, PStaSkillWork *pageWork, void *arc);
-void P_STA_SKILL_Exit(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_CreateObjects(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_DeleteObjects(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_InitStatsPage(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_ShowStatsPage(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_FreeStatsPage(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_HideStatsPage(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_InitMovesPage(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_ShowMovesPage(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_FreeMovesPage(PStatusWork *wk, PStaSkillWork *pageWork);
-void P_STA_SKILL_HideMovesPage(PStatusWork *wk, PStaSkillWork *pageWork);
-u32 P_STA_RIBBON_GetRibbonInfo(u32 ribbonNo, u32 field);
+#include "p_sta_info.h"
+#include "p_sta_ribbon.h"
+#include "p_sta_skill.h"
+#include "p_sta_oam.h"
 extern const struct DispVram _VramBankConfig;
 extern struct DispConfig _DispConfig;
 extern struct BgSetup _BgSetups[7];
 extern struct ClactSysSetup ClactSysDefaultSetup;
-extern struct Vec3 _CameraVecs[3];
+extern struct PStatusVec3 _CameraVecs[3];
 extern u16 _EdgeColorTable[8];
 extern struct ButtonBytes _ButtonPlacement[3];
 extern const struct TpHitTable _TouchHitRects;
@@ -610,7 +458,7 @@ int P_STATUS_InitWork(PStatusWork *wk)
     P_STATUS_LoadObjResource(wk);
     P_STATUS_InitMessage(wk);
     P_STATUS_CreateButtonActors(wk);
-    wk->vblankTask=GFL_USE_AddMainTask((u32)P_STATUS_VBlankTask,(u32)wk,8);
+    wk->vblankTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)P_STATUS_VBlankTask),(void *)((uptr)wk),8);
     wk->blinkAngle=0;
     MIi_CpuCopy16((void *)(HW_PLTT_MAIN_OBJ + 0x6c),wk->savedCursorPal,12);
     MIi_CpuCopy16((void *)(HW_PLTT_MAIN_OBJ + 0x160),wk->glowPalBase,64);
@@ -625,7 +473,7 @@ int P_STATUS_InitWork(PStatusWork *wk)
     } else {
         wk->page=wk->param->page;
         if (wk->page<3) {
-            for(i=0;i<3;i++) wk->pageToggle[i]=GAME_DATA_ContainsRecentId((int)(wk->param->config),i+7);
+            for(i=0;i<3;i++) wk->pageToggle[i]=GAME_DATA_ContainsRecentId(wk->param->config,i+7);
         }
         P_STA_SUB_InitWindows(wk,wk->subWork);
         P_STA_RIBBON_CollectOwned(wk,wk->ribbonWork);
@@ -794,14 +642,14 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     BG_SYS_SetPlaneVisible(0,1);
     P_STATUS_InitBgLayer(&_BgSetups[1],4,0);P_STATUS_InitBgLayer(&_BgSetups[2],5,0);P_STATUS_InitBgLayer(&_BgSetups[3],6,0);P_STATUS_InitBgLayer(&_BgSetups[5],7,0);
     G2x_SetBlendAlpha_((u32 *)HW_REG_BLDCNT,4,30,13,16);
-    G2x_SetBlendAlpha_((u32 *)HW_REG_BLDCNT_SUB,4,8,13,16);
+    G2x_SetBlendAlpha_((unsigned int *)HW_REG_BLDCNT_SUB,4,8,13,16);
     setup=ClactSysDefaultSetup;setup.limits[0]=110;
-    CLACT_InitSystem((struct SysInit *)(&setup),(struct DispVramCfg *)((&_VramBankConfig)),wk->heapId);
+    CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)(&setup)),(const struct DispVramCfg *)((struct DispVramCfg *)((&_VramBankConfig))),wk->heapId);
     wk->clunit=CLACT_CreateUnit(96,0,wk->heapId);
     CLACT_SetUnitDefaultRenderer(wk->clunit);
     BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);
     G3D_SYSTEM_Init(0,2,0,1,0,wk->heapId,0);
-    wk->camera=G3D_CAMERA_Create(2,0xc0000,0,0,0x100000,0x80000,0x200000,0,&_CameraVecs[0],&_CameraVecs[2],&_CameraVecs[1],wk->heapId);
+    wk->camera=G3D_CAMERA_Create(2,0xc0000,0,0,0x100000,0x80000,0x200000,0,(VecFx32 *)&_CameraVecs[0],(VecFx32 *)&_CameraVecs[2],(VecFx32 *)&_CameraVecs[1],wk->heapId);
     G3D_CAMERA_Reset(wk->camera);
     G3X_SetEdgeColorTable(_EdgeColorTable);
     *(volatile u16 *)HW_REG_DISP3DCNT &= ~0x3020;
@@ -835,7 +683,7 @@ void P_STATUS_ExitGraphics(PStatusWork *wk)
     BG_SYS_Delete();
 }
 
-void P_STATUS_InitBgLayer(struct BgSetup *cfg,u32 bg,u32 mode)
+void P_STATUS_InitBgLayer(struct BgSetup *cfg,u8 bg,u32 mode)
 {
     BG_SYS_InitBgLayer(bg,(const struct BgTemplate *)cfg,mode);
     BG_SYS_SetPlaneVisible(bg,1);
@@ -951,19 +799,19 @@ void P_STATUS_CreateButtonActors(PStatusWork *wk)
 {
     struct ButtonBytes anmSeq=_ButtonPlacement[2];
     struct ButtonBytes posX=_ButtonPlacement[0];
-    StaOamActorPos init;
+    struct ActorInitParam init;
     u8 i,j;
     u32 chrRes,cellRes;
-    init.drawPriority=10;init.bgPriority=0;
+    init.draw_priority=10;init.bg_priority=0;
     for(i=0;i<8;i++){
         if(i<=2){chrRes=wk->objRes[PSTATUS_RES_CHR_START + 0];cellRes=wk->objRes[PSTATUS_RES_CELL_START + 0];}
         else{chrRes=wk->objRes[PSTATUS_RES_CHR_START + 1];cellRes=wk->objRes[PSTATUS_RES_CELL_START + 1];}
-        init.x=posX.v[i];init.y=(i==3)?172:168;init.animSeq=anmSeq.v[i];
+        init.x=posX.v[i];init.y=(i==3)?172:168;init.anim_seq=anmSeq.v[i];
         wk->buttonActor[i]=CLACT_CreateActor(wk->clunit,chrRes,wk->objRes[PSTATUS_RES_PLTT_START + 0],cellRes,&init,0,wk->heapId);
         CLACT_SetActorAutoAnim(wk->buttonActor[i],1);
         CLACT_SetActorDrawEnable(wk->buttonActor[i],1);
     }
-    init.x=0;init.y=0;init.animSeq=0;
+    init.x=0;init.y=0;init.anim_seq=0;
     wk->typeIconActor[0]=CLACT_CreateActor(wk->clunit,wk->typeChrRes[0],wk->objRes[PSTATUS_RES_PLTT_START + 3],wk->objRes[PSTATUS_RES_CELL_START + 4],&init,0,wk->heapId);
     wk->typeIconActor[1]=CLACT_CreateActor(wk->clunit,wk->typeChrRes[0],wk->objRes[PSTATUS_RES_PLTT_START + 3],wk->objRes[PSTATUS_RES_CELL_START + 4],&init,0,wk->heapId);
     for(j=0;j<2;j++)CLACT_SetActorDrawEnable(wk->typeIconActor[j],0);
@@ -1010,7 +858,7 @@ void P_STATUS_ExitMessage(PStatusWork *wk)
 void P_STATUS_UpdateTouch(PStatusWork *wk)
 {
     struct TpHitTable hitRects = _TouchHitRects;
-    wk->tpHit = TOUCHPANEL_HitTrg(&hitRects);
+    wk->tpHit = TOUCHPANEL_HitTrg((const TouchHitTable *)&hitRects);
 }
 
 void P_STATUS_UpdateInput(PStatusWork *wk)
@@ -1229,7 +1077,7 @@ s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
         if (b_1 > 31) b_1 = 31;
         wk->cursorPal[n_1] = (b_1 << 10) | ((g_1 << 5) | r_1);
     }
-    NNS_GfdRegisterNewVramTransferTask((void *)14, 0x6c, (u32)wk->cursorPal, 8);
+    NNS_GfdRegisterNewVramTransferTask((void *)14, 0x6c, (uptr)wk->cursorPal, 8);
 
     for (n_1 = 0; n_1 < 16; n_1++) {
         ca_2 = wk->glowPalBase[n_1];
@@ -1248,7 +1096,7 @@ s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
         if (b_2 > 31) b_2 = 31;
         wk->glowPal[n_1] = (b_2 << 10) | ((g_2 << 5) | r_2);
     }
-    NNS_GfdRegisterNewVramTransferTask((void *)14, 0x180, (u32)wk->glowPal, 0x20);
+    NNS_GfdRegisterNewVramTransferTask((void *)14, 0x180, (uptr)wk->glowPal, 0x20);
 
     for (n_1 = 12; n_1 <= 14; n_1++) {
         ca_3 = wk->markPalBase[n_1];
@@ -1275,7 +1123,7 @@ s32 P_STATUS_UpdatePaletteAnime(PStatusWork *wk)
         if (b_3 > 31) b_3 = 31;
         wk->markPal[n_1] = (b_3 << 10) | ((g_3 << 5) | r_3);
     }
-    return NNS_GfdRegisterNewVramTransferTask((void *)14, 0x1a0, (u32)wk->markPal, 0x20);
+    return NNS_GfdRegisterNewVramTransferTask((void *)14, 0x1a0, (uptr)wk->markPal, 0x20);
 }
 
 void P_STATUS_SetInputEnable(PStatusWork *wk,int enable)
@@ -1502,14 +1350,14 @@ void *P_STATUS_GetPokePara(PStatusWork *wk)
 
 int P_STATUS_GetPokeParaSource(PStatusWork *wk)
 {
-    PStatusParam *param = wk->param;
+    PStatusProcParam *param = wk->param;
     switch (param->ppt) {
     case 0:
-        return (int)param->ppd;
+        return (sptr)param->ppd;
     case 1:
-        return (int)POKEPARTY_GetMember(param->ppd, wk->pos);
+        return (sptr)POKEPARTY_GetMember(param->ppd, wk->pos);
     case 2:
-        return (int)wk->tempPP;
+        return (sptr)wk->tempPP;
     default:
         return 0;
     }
@@ -1544,7 +1392,7 @@ void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short
 
 void P_STATUS_PrintMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, int msgId, int x, unsigned short y, unsigned short color)
 {
- P_STATUS_PrintMsg(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),msgId,x,y,color);
+ P_STATUS_PrintMsg(wk,(sptr)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),msgId,x,y,color);
 }
 
 void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
@@ -1559,7 +1407,7 @@ void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId
 
 void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color)
 {
- P_STATUS_PrintWordSetMsg(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
+ P_STATUS_PrintWordSetMsg(wk,(sptr)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
 }
 
 void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
@@ -1576,7 +1424,7 @@ void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int 
 
 void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color)
 {
- P_STATUS_PrintWordSetMsgRight(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
+ P_STATUS_PrintWordSetMsgRight(wk,(sptr)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
 }
 
 int P_STATUS_CanUseButtons(PStatusWork *wk)
@@ -1595,15 +1443,15 @@ int P_STATUS_HasRibbon(PStatusWork *wk, void *pp)
     return 0;
 }
 
-static inline void SetPartyMoves(void *pokePara, DebugMoves moves) { POKE_TOOL_SetPartyValue(pokePara,0x8e,(u32)(&moves)); }
+static inline void SetPartyMoves(void *pokePara, DebugMoves moves) { POKE_TOOL_SetPartyValue(pokePara,0x8e,(uptr)(&moves)); }
 
-static inline void SetArrayMoves(void *pokePara, DebugMoves moves) { POKE_TOOL_SetBoxValue(pokePara,0x8e,(u32)(&moves)); }
+static inline void SetArrayMoves(void *pokePara, DebugMoves moves) { POKE_TOOL_SetBoxValue(pokePara,0x8e,(uptr)(&moves)); }
 
-int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
+int P_STATUS_ProcInit(void *proc,int *seq,PStatusProcParam *pwk,PStatusWork *mywk)
 {
     switch(*seq) {
     case 0: {
-        PStatusParam *param=pwk;
+        PStatusProcParam *param=pwk;
         PStatusWork *wk;
         u8 i;
         GFL_HEAP_CreateChildHeap(1,0x42,0x50000);
@@ -1619,7 +1467,7 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
                 party=POKEPARTY_Create(1);
                 POKEPARTY_InitEx(party,6);
                 for(i=0;i<5;i++) {
-                    pokePara=POKE_TOOL_Create(i+3,10,-1,0,1);
+                    pokePara=POKE_TOOL_Create(i+3,10,0xFFFFFFFFULL,1);
                     SetPartyMoves(pokePara,_DebugMovesParty);
                     POKE_TOOL_SetPartyValue(pokePara,0x9a,0);
                     POKEPARTY_Add(party,pokePara);
@@ -1679,7 +1527,7 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
     return 0;
 }
 
-int P_STATUS_ProcExit(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk)
+int P_STATUS_ProcExit(void *proc, int *seq, PStatusProcParam *pwk, PStatusWork *mywk)
 {
     if (!P_STATUS_ExitWork(mywk)) return 0;
     if (!pwk) {
@@ -1692,7 +1540,7 @@ int P_STATUS_ProcExit(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk
     return 1;
 }
 
-int P_STATUS_ProcMain(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk)
+int P_STATUS_ProcMain(void *proc, int *seq, PStatusProcParam *pwk, PStatusWork *mywk)
 {
     int ret = P_STATUS_MainSeq(mywk);
     if (ret == 1)

@@ -1,6 +1,13 @@
 #ifndef GAME_ARM9_NNS_G2D_OAM_MANAGER_H
 #define GAME_ARM9_NNS_G2D_OAM_MANAGER_H
 
+typedef struct NNSG2dOamManagerInstance NNSG2dOamManagerInstance;
+typedef struct VramResourceSel VramResourceSel;
+typedef struct VramHandleSel VramHandleSel;
+typedef struct VramResourceList VramResourceList;
+typedef struct VramResourceIndices VramResourceIndices;
+typedef struct VramHandleList VramHandleList;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_g2d_oam_manager.c, prototypes copied from their definitions. */
 
@@ -48,12 +55,5 @@ void NNSi_G2dSetupVramResource(struct VramResource *r, u32 dst, int mode, struct
 void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 offset, int sel, VramHandleSel *out);
 void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *list, u32 base, int sel, VramHandleList *out);
 /* END mkheaders: generated region */
-
-typedef struct NNSG2dOamManagerInstance NNSG2dOamManagerInstance;
-typedef struct VramResourceSel VramResourceSel;
-typedef struct VramHandleSel VramHandleSel;
-typedef struct VramResourceList VramResourceList;
-typedef struct VramResourceIndices VramResourceIndices;
-typedef struct VramHandleList VramHandleList;
 
 #endif

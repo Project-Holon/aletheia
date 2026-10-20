@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_WM_SYNC_H
 #define GAME_ARM9_WM_SYNC_H
 
+typedef struct WMMpRecvData WMMpRecvData;
+typedef struct WMMpRecvHeader WMMpRecvHeader;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wm_sync.c, prototypes copied from their definitions. */
 
@@ -26,8 +29,5 @@ u16 WM_GetDispersionScanPeriod(void);
 WMOtherElements WM_GetOtherElements(WMBssDesc *bssDesc);
 u16 WM_GetNextTgid(void);
 /* END mkheaders: generated region */
-
-typedef struct WMMpRecvData WMMpRecvData;
-typedef struct WMMpRecvHeader WMMpRecvHeader;
 
 #endif

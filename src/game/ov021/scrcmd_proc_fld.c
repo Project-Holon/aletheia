@@ -242,7 +242,7 @@ struct S02031140;
 
 struct Sub0204A9D0;
 
-struct Bank;
+struct Unit;
 
 struct CharBuf;
 
@@ -301,72 +301,60 @@ typedef struct Ov170EventHandoff {
 struct ScrcmdWork;
 struct ScriptWork;
 
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+#include "../ov010/scrcmd_work.h"
 
-extern void *SCRIPT_WORK_GetUserWorkPtr(struct ScriptWork *work);
+#include "../arm9/gamesystem.h"
+#include "../ov010/script_sys.h"
+#include "../ov010/script_work.h"
+#include "fieldmap.h"
 struct GameSystem;
 
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 struct FieldMap;
 struct FieldCamera;
 
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
 
-extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
+#include "field_camera.h"
 
-extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
 struct ShopTask;
 
-extern void SCRCMD_SHOP_PrepareFieldCamera(struct ShopTask *task, struct FieldMap *fieldMap, void *fieldCamera);
+#include "scrcmd_shop.h"
 
-extern int FIELD_CAMERA_IsMoving(struct FieldCamera *camera);
 
-extern void FIELD_MSGBG_SetBlendThunk(u32 a);
+#include "field_msgbg.h"
 struct FieldCameraMoveChannels;
 
-extern void FIELD_CAMERA_StartMoveToSaved(struct FieldCamera *camera, struct FieldCameraMoveChannels *channels, unsigned short frames);
 
-extern void FIELD_CAMERA_ResumeTargetTrace(struct FieldCamera *camera);
 
-extern void FIELD_CAMERA_SetAreasEnabled(struct FieldCamera *camera, unsigned int enabled);
 
-extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
 
-extern void FIELD_CAMERA_PopState(struct FieldCamera *camera);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct GameData;
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 struct GameData;
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
 struct MiscSave;
 
-extern u32 MISC_CountBadges(struct MiscSave *beacon);
+#include "../arm9/beacon.h"
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 
-extern u32 MISC_GetMoney(struct MiscSave *beacon);
 struct BsubwayScoreData;
 
-extern u16 BSUBWAY_SCOREDATA_GetBattlePoints(struct BsubwayScoreData *p);
+#include "../arm9/gds_profile.h"
 struct MyItem;
 
-extern u32 MYITEM_SAVEDATA_GetItemQuantity(struct MyItem *bag, unsigned short itemId, unsigned short heapId);
+#include "../arm9/myitem_savedata.h"
 
-extern u32 MYITEM_SAVEDATA_CanAddItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
 
-extern u32 MYITEM_SAVEDATA_GetMaxStack(u32 a);
 struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+#include "../arm9/printsys.h"
 struct BmpWin;
 
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
@@ -375,38 +363,30 @@ extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern void BG_SYS_PushTile(u32 index);
+#include "../arm9/bg_sys.h"
 struct BmpMenuList;
 
 extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
 struct TextPrinter;
 
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
 
-extern unsigned int KEY_GetCont(void);
+#include "../arm9/key.h"
 
-extern u32 KEY_GetTrg(void);
 
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/gfl_use.h"
 
-extern u32 MISC_SubMoney(struct MiscSave *beacon, unsigned int sub);
 
-extern void BSUBWAY_SCOREDATA_SubBattlePoints(struct BsubwayScoreData *p, unsigned short v);
 
 extern u32 RECORD_AddCounter(struct Sub02008C20Obj *obj, int i, u32 delta);
 
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
-struct Actor;
+struct ClactActor;
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int value);
 
-extern void BG_SYS_MarkTileDirty(u32 a);
 
 extern void BMP_MENULIST_Redraw(struct BmpMenuList *menu);
 
@@ -414,74 +394,58 @@ extern u32 BMP_MENU_CreateYesNo(const void *a, u32 b, u32 c, u32 d, u32 e);
 
 extern u32 BMP_MENU_ProcessYesNo(u8 *p);
 
-extern u32 MYITEM_SAVEDATA_AddItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 struct TcblSystem;
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
+#include "../arm9/tcbl.h"
 
 extern u32 FILE_UTIL_IsMachineItem(u32 id);
 
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/wordset.h"
 
 extern int FILE_UTIL_GetMachineMove(u32 a);
 
-extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
 extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
 
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern void *BMP_MENUWORK_Create(int, int);
 
 extern u32 FILE_UTIL_GetItemParam(unsigned int item, unsigned int sel, unsigned int heap);
 
-extern u32 GPOWER_ApplyShopPrice(u32 v);
+#include "../arm9/gpower.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 struct WfbcListEntry;
 struct WfbcData;
 
-extern void FIELD_WFBC_DATA_LOCAL_FillPeopleListEntries(struct WfbcData *data, struct WfbcListEntry *entries, unsigned short *entryCount, int page, unsigned short heapId);
+#include "../ov020/field_wfbc_data_local.h"
 
 extern u32 BMP_MENUWORK_Delete(void *p);
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+#include "../arm9/gf_font.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+#include "../arm9/arc_util.h"
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-extern void BG_SYS_ClearSlot(u32 i);
 
-extern void BG_SYS_SetPriority(int idx, unsigned short val);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -491,9 +455,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern unsigned FILE_UTIL_Get(unsigned a, unsigned b);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
 struct PaletteData;
 extern void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
@@ -502,11 +464,11 @@ extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, unsigned int enable);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void CLACT_SetUnitDrawEnable(struct Bank *bank, u32 mode);
+extern void CLACT_SetUnitDrawEnable(struct Unit *bank, u32 mode);
 
 extern void CLACT_ReleaseCellAnim(u32 i);
 
@@ -514,22 +476,19 @@ extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleasePalette(u32 i);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Unit *bank);
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct GfFont;
 
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
 extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 
@@ -538,15 +497,11 @@ struct MenuTemplate;
 
 extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, unsigned short scroll, unsigned short row, unsigned int heap);
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
 extern u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
-extern u32 MYITEM_SAVEDATA_HasItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
 
 extern void BMP_MENULIST_GetPos(struct BmpMenuList *menu, unsigned short *outScroll, unsigned short *outRow);
 
@@ -554,128 +509,100 @@ extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u3
 
 extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, unsigned short *outScroll, unsigned short *outRow);
 
-extern void WORDSET_SetSlotFromBank(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
 
-extern void WORDSET_SetSlotFromMsg37(struct WordSet *p, u32 i, u32 v);
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 win, s16 x, s16 y, u32 str, u32 font, s32 wait, u32 tcbl, u32 priority, u32 heap, u16 fillColor, u32 a10);
 
-extern unsigned int KEY_GetRepeat(void);
 
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
 struct ScriptVm;
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+#include "../ov010/script_work_cmd.h"
 struct GameComm;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
-extern int FIELDMAP_GetCommKind(struct GameComm *gameComm);
 struct WifiList;
 
-extern u32 WIFILIST_IsProfileValid(struct WifiList *list);
+#include "../arm9/wifilist.h"
 struct FieldState;
 
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
 
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
 
-extern u32 WIFILIST_CountFriends(struct WifiList *list);
 
-extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 struct GameEvent;
 
 extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, unsigned int overlayId, u32 (*fn)(void *, u32), void *arg);
 
-extern int EVENT_WIFICLUB_Entry(int x, struct Pair *p);
+#include "../ov006/event_wificlub.h"
 
-extern int EVENT_WORLDTRADE_Entry(int x, struct Pair *p);
+#include "../ov004/event_worldtrade.h"
 
-extern void *EVENT_GTSNEGO_Entry(void *p, int a);
+#include "../ov001/event_gtsnego.h"
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 struct BattleBoxSave;
 
-extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
+#include "../arm9/battle_box.h"
 struct Party;
 struct BoxMonGroup;
 
-extern void BATTLE_BOX_StoreParty(struct BoxMonGroup *box, struct Party *party);
 
-extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *p);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
 
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 
-extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
+#include "../arm9/system_data.h"
 
-extern u32 GAME_DATA_GetBoxManager(struct GameData *gd);
 
-extern void *GAME_DATA_GetMyParty(struct GameData *gd);
 
-extern void *GAME_DATA_GetMyItem(struct GameData *gd);
 
-extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap);
 
-extern u32 BATTLE_BOX_IsLocked(struct BattleBoxSave *box, unsigned int flags);
 
 extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int callback, int callbackWork);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *parentEvent, unsigned int mode, unsigned short *resultVar);
+#include "event_namein.h"
 
-extern struct GameEvent *EVENT_GAMECLEAR_Create(struct GameSystem *gameSystem, int mode);
+#include "../ov010/event_gameclear.h"
 
-extern void SCRIPT_SYS_SetNextEventFromWork(void *scriptWork, void *nextEvent);
 
-extern struct ScriptVm *VM_End(struct ScriptVm *vm);
+#include "../arm9/vm.h"
 struct CgearSaveBlock;
 
-extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *sys);
+#include "../arm9/block20_savedata.h"
 struct CGearSave;
 
-extern void CGEAR_SAVE_SetObtained(struct CGearSave *save, unsigned char isObtained);
+#include "../arm9/cgear_save.h"
 
-extern struct GameEvent *FLD_BTL_INST_TOOL_CreateCommResetEvent(struct GameSystem *gameSystem, int restoreAutoComm);
+#include "../ov010/fld_btl_inst_tool.h"
 
 extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, unsigned int overlayId, void *procData, void *procWork);
 
-extern void *SCRCMD_CreateSubProcEvent(void *gameSystem, unsigned int procId, unsigned short *result);
+#include "scrcmd_sub_proc_events.h"
 
-extern struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, unsigned short *resultOut);
+#include "event_game_manual.h"
 
-extern void *SCRIPT_WORK_GetGameSystem(struct ScriptWork *work);
 struct ScriptFieldParam;
 
-extern struct ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(struct ScriptWork *work);
 struct FieldEncount;
 
-extern struct FieldEncount *FIELDMAP_GetEncount(struct FieldMap *fieldMap);
 
 extern u32 FIELD_ENCOUNT_StartScriptedWild(u32 a, u32 b, u32 c, u32 d);
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
+#include "event_fieldmap_control.h"
 
-extern u32 GAME_DATA_GetLastBattleResult(struct GameData *gd);
 
-extern u8 EVENT_BATTLE_GetResultFlag(int i);
+#include "../ov010/event_battle.h"
 
-extern void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, void *fieldMap, u32 heapId);
 
-extern u16 EFFECT_ENCOUNT_GetItemId(struct FieldEncount *encount);
+#include "effect_encount.h"
 
-extern void *MOVE_POKEMON_SAVE_GetBlock(void *sys);
+#include "../arm9/move_pokemon_save.h"
 struct MovePokemonSave;
 
-extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct MovePokemonSave *pSave, unsigned int slot);
 
-extern void MOVE_POKEMON_SpawnEntry(struct GameData *gameData, unsigned char slot);
+#include "../ov010/move_pokemon.h"
 
 int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
@@ -1121,7 +1048,7 @@ int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 sh
     case SHOP_STATE_QUANTITY_ENTER:
         SCRCMD_PROC_FLD_PrintOwnedWindow(shop, shop->itemId);
         SCRCMD_PROC_FLD_PrintQuantityWindow(shop, shop->quantity, shop->price);
-        CLACT_SetActorDrawEnable((struct Actor *)shop->quantityArrowActor, 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)shop->quantityArrowActor, 1);
         shop->state = SHOP_STATE_QUANTITY_STEP;
         break;
     case SHOP_STATE_QUANTITY_STEP:
@@ -1132,14 +1059,14 @@ int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 sh
         BMP_WIN_MakeScreen((struct BmpWin *)(shop->windows[SHOP_WIN_LIST]));
         BMP_WIN_MakeScreen((struct BmpWin *)(shop->windows[SHOP_WIN_DESCRIPTION]));
         BG_SYS_MarkTileDirty(1);
-        CLACT_SetActorDrawEnable((struct Actor *)shop->quantityArrowActor, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)shop->quantityArrowActor, 0);
         BMP_MENULIST_Redraw((struct BmpMenuList *)(shop->listMenu));
         shop->state = SHOP_STATE_LIST_POLL;
         break;
     case SHOP_STATE_YESNO_OPEN:
         SCRCMD_PROC_FLD_SetQuantityMask(1);
         BMP_WIN_MakeScreen((struct BmpWin *)(shop->windows[SHOP_WIN_LIST]));
-        CLACT_SetActorDrawEnable((struct Actor *)shop->quantityArrowActor, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)shop->quantityArrowActor, 0);
         shop->yesNoMenu = BMP_MENU_CreateYesNo(d_021D9440, 1, 9, 0, shop->heapId);
         if (shop->isTmShop != 1) {
             SCRCMD_PROC_FLD_PrintOwnedWindow(shop, shop->itemId);
@@ -1149,7 +1076,7 @@ int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 sh
     case SHOP_STATE_YESNO_OPEN_NOICON:
         SCRCMD_PROC_FLD_SetQuantityMask(1);
         BMP_WIN_MakeScreen((struct BmpWin *)(shop->windows[SHOP_WIN_LIST]));
-        CLACT_SetActorDrawEnable((struct Actor *)shop->quantityArrowActor, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)shop->quantityArrowActor, 0);
         shop->yesNoMenu = BMP_MENU_CreateYesNo(d_021D9440, 1, 9, 0, shop->heapId);
         shop->state = SHOP_STATE_YESNO_POLL;
         break;
@@ -1400,9 +1327,9 @@ void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *shop, u32 itemId)
         CLACT_TransferCharacter(shop->iconPlttRes, (struct Sub0204A9D0 *)plttData);
         GFL_HEAP_Free((void *)charBuf);
         GFL_HEAP_Free((void *)plttBuf);
-        CLACT_SetActorDrawEnable((struct Actor *)shop->iconActor, 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)shop->iconActor, 1);
     } else {
-        CLACT_SetActorDrawEnable((struct Actor *)shop->iconActor, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)shop->iconActor, 0);
     }
 }
 
@@ -1416,18 +1343,18 @@ void SCRCMD_PROC_FLD_CreateShopActors(ShopWork *shop)
                                         shop->arrowCellRes, &d_021D96F0, 0, shop->heapId);
     shop->quantityArrowActor = (int)CLACT_CreateActor((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
                                         shop->arrowCellRes, &d_021D96F8, 0, shop->heapId);
-    CLACT_SetActorAutoAnim((struct Actor *)shop->quantityArrowActor, 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)shop->quantityArrowActor, 1);
     shop->iconActor = (int)CLACT_CreateActor((void *)shop->cellSystem, shop->iconPlttRes, shop->iconCharRes,
                                         shop->iconCellRes, &d_021D9700, 0, shop->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)shop->arrowUpActor, 0);
-    CLACT_SetActorDrawEnable((struct Actor *)shop->arrowDownActor, 0);
-    CLACT_SetActorDrawEnable((struct Actor *)shop->quantityArrowActor, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)shop->arrowUpActor, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)shop->arrowDownActor, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)shop->quantityArrowActor, 0);
 }
 
 void SCRCMD_PROC_FLD_InitShopCells(ShopWork *shop)
 {
     shop->cellSystem = CLACT_CreateUnit(5, 1, shop->heapId);
-    CLACT_SetUnitDrawEnable((struct Bank *)(shop->cellSystem), 1);
+    CLACT_SetUnitDrawEnable((struct Unit *)(shop->cellSystem), 1);
     SCRCMD_PROC_FLD_LoadCursorResources(shop);
     shop->iconArchive = ARC_TOOL_CreateHandle(0x19, shop->heapId);
     SCRCMD_PROC_FLD_LoadIconResources(shop);
@@ -1641,7 +1568,7 @@ void SCRCMD_PROC_FLD_CreateItemListMenu(ShopWork *shop)
 void SCRCMD_PROC_FLD_PrintListText(void *printSys, u32 bitmap, int x, int y, u32 text, u32 fontInfo, u16 colorBits)
 {
     if (y <= 8) {
-        PRINTSYS_PrintColor((void *)bitmap, x, y, (void *)text, (void *)fontInfo, colorBits);
+        PRINTSYS_PrintColor((void *)bitmap, (s16)x, y, (void *)text, (void *)fontInfo, colorBits);
     } else {
         PRINTSYS_PrintQueColor(printSys, (struct Bmp *)bitmap, (s16)x, (s16)y, (struct Strbuf *)text, (struct GfFont *)fontInfo, (u32)colorBits);
     }
@@ -1757,10 +1684,10 @@ void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, 
     messageText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), messageId);
     WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
     STRBUF_Delete((struct Strbuf *)messageText);
-    shop->messagePrinter = PRINTSYS_PrintStreamCallBack(shop->windows[SHOP_WIN_MESSAGE], 0, 0, (u32)shop->textBuffer,
-                                        shop->fontInfo, MSG_SPEED_GetWait(),
-                                        (u32)shop->tcbList, 0, shop->heapId, 0xffff,
-                                        (u32)SCRCMD_PROC_FLD_ReturnZero);
+    shop->messagePrinter = PRINTSYS_PrintStreamCallBack((struct BmpWin *)shop->windows[SHOP_WIN_MESSAGE], 0, 0, (struct Strbuf *)shop->textBuffer,
+                                        (struct GfFont *)shop->fontInfo, MSG_SPEED_GetWait(),
+                                        (struct Tcbl *)shop->tcbList, 0, shop->heapId, 0xffff,
+                                        (u8 (*)(u32))SCRCMD_PROC_FLD_ReturnZero);
     window = shop->windows[SHOP_WIN_MESSAGE];
     BMP_WIN_TransferChars((struct BmpWin *)window);
     BMP_WIN_MakeScreen((struct BmpWin *)window);
@@ -1803,8 +1730,8 @@ void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId)
     messageText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), messageId);
     WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
     STRBUF_Delete((struct Strbuf *)messageText);
-    shop->messagePrinter = PRINTSYS_PrintStreamCallBack(shop->windows[SHOP_WIN_MESSAGE], 0, 0, (u32)shop->textBuffer,
-                                        shop->fontInfo, MSG_SPEED_GetWait(), (u32)shop->tcbList, 0,
+    shop->messagePrinter = PRINTSYS_PrintStreamCallBack((struct BmpWin *)shop->windows[SHOP_WIN_MESSAGE], 0, 0, (struct Strbuf *)shop->textBuffer,
+                                        (struct GfFont *)shop->fontInfo, MSG_SPEED_GetWait(), (struct Tcbl *)shop->tcbList, 0,
                                         shop->heapId, 0xFFFF, 0);
     window = shop->windows[SHOP_WIN_MESSAGE];
     BMP_WIN_TransferChars((struct BmpWin *)window);

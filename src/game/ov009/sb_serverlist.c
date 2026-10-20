@@ -95,9 +95,12 @@
  *   recv  0x0217EC4C  arm  ov009
  *   recvfrom  0x0217EC60  arm  ov009
  */
+#include "sb_serverlist.h"
+#include "hashtable.h"
+#include "sb_server.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sb_server_types.h"
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+#include "../arm9/msl_string_mem.h"
 
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
 #define LIST_CHALLENGE_LEN 8
@@ -135,16 +138,7 @@ struct Ref { char *str; int refcount; };
 
 #include "../sdk_soc.h"
 
-typedef enum {
-    sbe_noerror,
-    sbe_socketerror,
-    sbe_dnserror,
-    sbe_connecterror,
-    sbe_dataerror,
-    sbe_allocerror,
-    sbe_paramerror,
-    sbe_duplicateupdateerror
-} SBError;
+#include "sb_server_types.h"
 
 struct KeyEnt { char *keyName; int keyType; };
 
@@ -162,60 +156,32 @@ typedef void (*SBMapLoopCallback)(SBServerList *slist, void *server, long change
 extern int SBServerGetIntValueA(SBServer *server, char *key, int idefault);
 extern double SBServerGetFloatValueA(SBServer *server, char *key, double fdefault);
 extern char *SBServerGetStringValueA(SBServer *server, char *keyname, char *def);
-extern int strcmp_nocase(unsigned char *s1, unsigned char *s2);
-extern void ArraySort(int *p, int b);
-extern void ArrayAppend(void *array, void *newElem);
-extern int ArrayLength(int *array);
+#include "../arm9/msl_fdlibm.h"
+#include "darray.h"
 struct DArrayImplementation;
-extern void *ArrayNth(struct DArrayImplementation *array, int n);
 struct SBServer;
-extern unsigned int SBServerGetPublicInetAddress(struct SBServer *server);
-extern unsigned short SBServerGetPublicQueryPortNBO(struct SBServer *server);
 extern void SBServerSetNext(struct SBServer *server, struct SBServer *next);
-extern void ArrayDeleteAt(int a, int b);
-extern struct SBServer *SBServerGetNext(struct SBServer *server);
 extern void SBServerFree(void *elem);
-extern void ArrayClear(struct DArrayImplementation *array);
-extern struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void *SBRefStrHash(void *l);
-extern struct Ref *TableLookup(void *t, void *k);
-extern char *goastrdup(char *s);
-extern void TableEnter(void *t, void *e);
-extern int TableRemove(void *t, void *k);
-extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
-extern unsigned int current_time(void);
+#include "gsplatformutil.h"
+#include "gsstringutil.h"
 extern void srand(unsigned int seed);
-extern void SocketStartUp(void);
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
 static int StringHash(char *s, int numbuckets);
-extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern int inet_addr(char *addrString);
-extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern int socket(int pf, int type, int protocol);
+#include "../arm9/os_printf.h"
+#include "gsplatformsocket.h"
+#include "soc.h"
 struct SOCSockAddr;
-extern int connect(int sock, struct SOCSockAddr *addr, int len);
-extern int closesocket(int sock);
-extern void *memcpy(void *dest, const void *src, size_t n);
 extern int rand(void);
-extern int send(int sock, char *buf, int len, int flags);
-extern void *gsimalloc(unsigned long size);
-extern void ArrayFree(struct DArrayImplementation *array);
-extern void gsifree(void *p);
-extern void SBRefStrHashCleanup(SBServerList *slist);
-extern void GOACryptInit(struct GOACryptState *state, unsigned char *key, unsigned char keysize);
+#include "gsmemory.h"
+#include "sb_crypt.h"
 extern void SBServerSetFlags(SBServer *server, unsigned char flags);
 extern void SBServerSetPrivateAddr(char *p, int v, unsigned short w);
 extern void SBServerSetICMPIP(SBServer *server, unsigned int ip);
 extern void SBServerAddIntKeyValue(SBServer *server, char *keyname, int value);
 extern void SBServerAddKeyValue(SBServer *server, char *keyname, char *value);
-extern unsigned char SBServerGetState(SBServer *server);
 extern void SBServerSetState(SBServer *server, unsigned char state);
 extern SBServer *SBAllocServer(struct SBServerList *unused, u32 publicip, u16 publicport);
 extern int SBIsNullServer(int v);
-extern void GOADecrypt(struct GOACryptState *state, unsigned char *bp, int len);
-extern int CanReceiveOnSocket(int sock);
-extern int recv(int sock, char *buf, int len, int flags);
-extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
 int prevKeyCompare(SBServer *server1, SBServer *server2);
 int IntKeyCompare(void *entry1, void *entry2);
 int FloatKeyCompare(void *entry1, void *entry2);
@@ -227,7 +193,7 @@ int SBServerListFindServer(SBServerList *slist, void *findserver);
 int SBServerListFindServerByIP(SBServerList *slist, unsigned int ip, unsigned short port);
 void AddServerToDeadlist(SBServerList *slist, SBServer *server);
 void SBServerListRemoveAt(SBServerList *slist, int index);
-void SBServerListCount(void *list);
+int SBServerListCount(void *list);
 SBServer *SBServerListNth(SBServerList *slist, int index);
 void SBFreeDeadList(SBServerList *slist);
 void SBServerListClear(SBServerList *slist);
@@ -269,7 +235,6 @@ int ProcessIncomingData(SBServerList *slist);
 int SBSendMessageToServer(SBServerList *slist, unsigned int ip, unsigned short port, char *data, int len);
 int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned short port, int cookie);
 int ProcessLanData(SBServerList *slist);
-int SBListThink(int *slist);
 extern struct SBSortContext gSBSortContext;
 extern char gSBEmptyString[];
 extern int gGsAvailabilityState;
@@ -281,7 +246,6 @@ extern char gSBNatNegMagic[];
 
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern int strcmp(const char *a, const char *b);
-extern void *memmove(void *dst, const void *src, unsigned int n);
 /*
  * sdk:      prevKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
@@ -439,7 +403,7 @@ void SBServerListSort(SBServerList *slist, int ascending, SBSortInfo sortinfo)
     slist->currsortinfo = sortinfo;
     slist->sortascending = ascending;
     gSBSortContext.slist = slist;
-    ArraySort(slist->servers, (int)comparator);
+    ArraySort(slist->servers, (int (*)(const void *, const void *))comparator);
 }
 
 /*
@@ -501,13 +465,13 @@ void SBServerListRemoveAt(SBServerList *slist, int index)
 	SBServer *server;
 	server = *(SBServer **)ArrayNth(slist->servers, index);
 	slist->ListCallback(slist, 2, server, slist->instance);
-	ArrayDeleteAt((int)slist->servers, index);
+	ArrayDeleteAt(slist->servers, index);
 	AddServerToDeadlist((SBServerList *)slist, (SBServer *)server);
 }
 
-void SBServerListCount(void *list)
+int SBServerListCount(void *list)
 {
-    ArrayLength(*(void **)((char *)list + 4));
+    return ArrayLength(*(void **)((char *)list + 4));
 }
 
 /*
@@ -1180,7 +1144,7 @@ int IncomingListParseServer(SBServerList *slist, char *buf, int len)
         return -1;
     ParseServerIPPort((SBServerList *)slist, (unsigned char *)buf, len, &ip, &port);
     server = SBAllocServer(slist, ip, port);
-    if (SBIsNullServer((int)server))
+    if (SBIsNullServer((sptr)server))
         return -2;
     ret = ParseServer(slist, server, buf, len, 1);
     SBServerListAppendServer(slist, server);
@@ -1489,7 +1453,7 @@ int ProcessPushServer(SBServerList *slist, char *buf, int len)
 	foundexisting = SBServerListFindServerByIP(slist, ip, port);
 	if (foundexisting == -1) {
 		server = SBAllocServer(slist, ip, port);
-		if (SBIsNullServer((int)server))
+		if (SBIsNullServer((sptr)server))
 			return 5;
 	} else {
 		server = SBServerListNth(slist, foundexisting);
@@ -1657,7 +1621,7 @@ int ProcessLanData(SBServerList *slist)
         if (foundexisting != -1)
             continue;
         server = SBAllocServer(slist, saddr.addr, saddr.port);
-        if (SBIsNullServer((int)server))
+        if (SBIsNullServer((sptr)server))
             return 5;
         SBServerSetFlags(server, 0x11);
         SBServerListAppendServer(slist, server);
@@ -1671,15 +1635,15 @@ int ProcessLanData(SBServerList *slist)
     return 0;
 }
 
-int SBListThink(int *slist)
+int SBListThink(SBServerList *slist)
 {
-    SBFreeDeadList((SBServerList *)slist);
-    switch (slist[0]) {
+    SBFreeDeadList(slist);
+    switch (slist->state) {
     case 2:
     case 3:
-        return ProcessIncomingData((SBServerList *)slist);
+        return ProcessIncomingData(slist);
     case 0:
-        return ProcessLanData((SBServerList *)slist);
+        return ProcessLanData(slist);
     case 1:
     default:
         return 0;

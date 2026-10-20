@@ -1,17 +1,33 @@
 #ifndef GAME_ARM9_DWC_ACCOUNT_H
 #define GAME_ARM9_DWC_ACCOUNT_H
 
-/* Public functions of dwc_account.c, prototypes copied from their definitions. */
-
-struct DWCstAccFriendKeyData;
-struct DWCstAccGsProfileIdData;
-
 typedef struct DWCstAccLoginId
 {
     unsigned long id_data;
     unsigned long userid_lo32;
     unsigned long playerid;
 } DWCstAccLoginId;
+
+typedef struct DWCstAccFriendKeyData
+{
+    int pad;
+    unsigned long keyLow;
+    unsigned long keyHigh;
+} DWCstAccFriendKeyData;
+
+typedef struct DWCstAccGsProfileIdData
+{
+    int pad;
+    int gsProfileId;
+} DWCstAccGsProfileIdData;
+
+/* A friend list entry: login id, friend key or gs profile id record (0xc bytes). */
+typedef union DWCstAccFriendData
+{
+    DWCstAccLoginId loginId;
+    DWCstAccFriendKeyData friendKey;
+    DWCstAccGsProfileIdData gsProfileId;
+} DWCstAccFriendData;
 
 typedef struct DWCstAccUserData
 {
@@ -24,6 +40,14 @@ typedef struct DWCstAccUserData
     unsigned long reserved[5];
     unsigned long crc32;
 } DWCstAccUserData;
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
+/* Public functions of dwc_account.c, prototypes copied from their definitions. */
+
+struct DWCstAccLoginId;
+struct DWCstAccFriendKeyData;
+struct DWCstAccGsProfileIdData;
+struct DWCstAccUserData;
 
 #include "../types.h"
 
@@ -44,6 +68,7 @@ int DWCi_IsBuddyMsgAlreadySent(void *frienddata);
 unsigned long DWCi_Acc_GetFlagDataTypeThunk(void *userdata);
 void DWCi_Acc_SetFlags(void *userdata, unsigned long flags);
 void DWCi_Acc_SetFlag_DataType(void *userdata, int type);
+void DWCi_SetBuddyFriendData(DWCstAccFriendData *frienddata);
 void DWCi_SetReverseBuddyFlag(void *frienddata, int setflag);
 void DWCi_SetExpIsBuddyFriendFlag(void *frienddata, int setflag);
 void DWCi_SetSentBuddyReqFlag(void *frienddata, int setflag);
@@ -77,5 +102,6 @@ void DWC_CreateExchangeToken(struct DWCstAccUserData *userdata, void *token);
 void DWC_SetGsProfileId(void *frienddata, int gs_profile_id);
 void DWC_LoginIdToUserName(struct DWCstAccUserData *userdata, void *frienddata, char *username);
 int DWC_IsEqualFriendData(void *frienddata1, void *frienddata2);
+/* END mkheaders: generated region */
 
 #endif

@@ -18,14 +18,14 @@
  */
 #include "../types.h"
 
-extern void *ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, int memberId, u32 *out);
+#include "../arm9/arc_util.h"
 
 /* Load the group table member (id 0x62, index 5) and report its u16 count. */
-u16 *BR_MEMBER_COUNT_GetU16Count(void *member, unsigned *countOut)
+u16 *BR_MEMBER_COUNT_GetU16Count(u16 heapId, unsigned *countOut)
 {
     u32 byteSize;
     u16 *base;
-    base = ARC_UTIL_LoadMemberWithSize(0x62, 5, 0, (int)member, &byteSize);
+    base = ARC_UTIL_LoadMemberWithSize(0x62, 5, 0, heapId, &byteSize);
     *countOut = byteSize >> 1;
     return base;
 }

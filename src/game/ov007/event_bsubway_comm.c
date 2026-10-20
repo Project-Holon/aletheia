@@ -45,24 +45,16 @@ typedef struct BsubwayProcArgs {
 } BsubwayProcArgs;
 
 #include "../types.h"
+#include "../arm9/ica_anime_shared_types.h"
 
 struct GameData;
 
-struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *eventFileName, void *eventMain, u32 workSize);
-struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-u32 GAME_COMM_GetKind(struct GameComm *comm);
-void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_event.h"
+#include "../arm9/game_comm.h"
 struct FieldMap;
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
+#include "../arm9/field_status.h"
+#include "../ov021/event_fieldmap_control.h"
 int EVENT_BSUBWAY_COMM_Start(int gameSystem, BsubwayProcArgs *args);
 void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr);
 u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work);
@@ -71,7 +63,7 @@ extern char d_021D83A4[];
 
 int EVENT_BSUBWAY_COMM_Start(int gameSystem, BsubwayProcArgs *args)
 {
-    return (int)EVENT_BSUBWAY_COMM_CreateEvent((void *)gameSystem, args->value, (int)args->resultPtr);
+    return (sptr)EVENT_BSUBWAY_COMM_CreateEvent((void *)gameSystem, args->value, (sptr)args->resultPtr);
 }
 
 void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr)
@@ -80,10 +72,10 @@ void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr)
     int *work;
 
     GAMESYSTEM_GetGameData(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, EVENT_BSUBWAY_COMM_EventMain, 0x10);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_BSUBWAY_COMM_EventMain, 0x10);
     work = GAME_EVENT_GetWork(event);
     work[0] = value;
-    work[1] = (int)gameSystem;
+    work[1] = (sptr)gameSystem;
     work[3] = resultPtr;
     if (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(gameSystem)))
         GAME_COMM_RequestExitNoCallback((struct GameComm *)GAMESYSTEM_GetGameComm(gameSystem));
@@ -92,12 +84,12 @@ void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr)
 
 u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work)
 {
-    u32 gameSystem = work[1];
+    uptr gameSystem = work[1];
     void *fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
 
     switch (*stage) {
     case 0:
-        if (GAME_COMM_GetKind((void *)((int)GAMESYSTEM_GetGameComm((const struct GameSystem *)gameSystem))) == 0)
+        if (GAME_COMM_GetKind((void *)((sptr)GAMESYSTEM_GetGameComm((const struct GameSystem *)gameSystem))) == 0)
             (*stage)++;
         break;
     case 1:
@@ -109,7 +101,7 @@ u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work)
         (*stage)++;
         break;
     case 3:
-        GAMESYSTEM_CallProc((struct GameSystem *)gameSystem, (u32)ov116_id, d_021D83A4, work);
+        GAMESYSTEM_CallProc((struct GameSystem *)gameSystem, (uptr)ov116_id, d_021D83A4, work);
         (*stage)++;
         break;
     case 4:

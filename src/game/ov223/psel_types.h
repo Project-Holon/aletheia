@@ -19,7 +19,7 @@ typedef struct {
     u16 state;
     u16 step;
     u8 pad[0x30];
-} Fade;
+} PselFade;
 
 /*
  * The psel work object: one 2168-byte record allocated by psel.c PSEL_Init.
@@ -53,7 +53,7 @@ struct PselWork {
     u32 animFrame;                    /* 0x50 */
     u8 pad54[0x20];                   /* 0x54..0x74 */
     union {
-        Fade slots[3];                /* 0x74..0x230 */
+        PselFade slots[3];                /* 0x74..0x230 */
         struct {
             u8 pad[0x19C];
             int fadeAlpha;            /* 0x210: fade-unit alpha counter */

@@ -23,12 +23,13 @@
  */
 #define OSi_IrqCallbackInfo g_02150F38
 #define OS_IRQTable g_02FE0020
-#define reg_OS_IME (*(vu16 *)0x04000208)
-#define reg_OS_IE  (*(vu32 *)0x04000210)
-#define reg_OS_IF  (*(vu32 *)0x04000214)
-#define OSi_IRQ_STACK_TOP ((u32)SDK_AUTOLOAD_DTCM_START + 0x3F80)
+#define reg_OS_IME (*(vu16 *)REG_IME_ADDR)
+#define reg_OS_IE  (*(vu32 *)REG_IE_ADDR)
+#define reg_OS_IF  (*(vu32 *)REG_IF_ADDR)
+#define OSi_IRQ_STACK_TOP ((uptr)SDK_AUTOLOAD_DTCM_START + 0x3F80)
 #define GAME_TYPES_U32_LONG
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef u32 OSIrqMask;
 
@@ -124,7 +125,7 @@ void OSi_EnterDmaCallback(u32 dmaNo, void (*callback)(void *), void *arg)
 
 void OSi_EnterNDmaCallback(u32 dmaNo, void (*callback)(void *), void *arg)
 {
-    OSi_EnterNDmaCallback_ltdmain(dmaNo, (u32)callback, (u32)arg);
+    OSi_EnterNDmaCallback_ltdmain(dmaNo, (uptr)callback, (uptr)arg);
 }
 
 void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void *), void *arg)
@@ -188,5 +189,5 @@ OSIrqMask OS_ResetRequestIrqMask(OSIrqMask intr)
 void OS_SetIrqStackChecker(void)
 {
     *(u32 *)(OSi_IRQ_STACK_TOP - sizeof(u32)) = 0xFDDB597D;
-    *(u32 *)(OSi_IRQ_STACK_TOP - (u32)SDK_IRQ_STACKSIZE) = 0x7BF9DD5B;
+    *(u32 *)(OSi_IRQ_STACK_TOP - (uptr)SDK_IRQ_STACKSIZE) = 0x7BF9DD5B;
 }

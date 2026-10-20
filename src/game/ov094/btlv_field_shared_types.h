@@ -1,8 +1,8 @@
 #ifndef BTLV_FIELD_SHARED_TYPES_H
 #define BTLV_FIELD_SHARED_TYPES_H
 
-#include "btlv_effvm_types.h"
-#include "btlv_stage_shared_types.h"
+#include "../ov094/btlv_effvm_types.h"
+#include "../ov094/btlv_stage_shared_types.h"
 
 /* The battle field: one background model with its animations (0x70 bytes). */
 typedef struct BtlvField {

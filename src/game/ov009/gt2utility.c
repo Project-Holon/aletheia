@@ -34,14 +34,13 @@
 
 #include "../types.h"
 
-extern char *SOC_InetNtoA(SOCInAddr in);
-extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern unsigned char *strchr(unsigned char *s, int c);
-extern void *memcpy(void *dest, void *src, unsigned int n);
-extern int atoi(unsigned int s);
-extern int inet_addr(char *addrString);
-extern SOCHostEnt *SOC_GetHostByName();
-extern int strlen(u8 *s);
+#include "soc.h"
+#include "../arm9/os_printf.h"
+#include "../arm9/msl_string_str.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../arm9/msl_strtod.h"
+#include "gsplatformsocket.h"
 char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 int gt2StringToAddress(char *string, u32 *ip, u16 *port);
 void gti2MessageCheck(unsigned char **message, int *len);
@@ -133,7 +132,7 @@ int gt2StringToAddress(char *string, u32 *ip, u16 *port)
                     return 0;
             }
 
-            temp = atoi((unsigned int)(colon + 1));
+            temp = atoi((colon + 1));
             if (temp < 0 || temp > 0xFFFF)
                 return 0;
             srcPort = (u16)temp;

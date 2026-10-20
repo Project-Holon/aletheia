@@ -146,9 +146,18 @@
  *   GFL_USE_ClearVBlankHook  0x0200566C  thumb  arm9
  *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../types.h"
+struct TcbTask;
+union TouchHitTable;
+struct ActorInitParam;
+struct ClactActor;
+struct Unit;
+#include "../arm9/game_data.h"
+#include "../arm9/arc_tool.h"
+#include "research_common.h"
 #include "research_shared_types.h"
 
-struct DispVram;
+#include "../arm9/bg_sys_types.h"
 
 struct Proc;
 
@@ -170,9 +179,9 @@ struct ArcMember { u8 pad0[12]; void *data; };
 
 struct CharAnimMember { u8 pad0[0x10]; u32 size; void *data; };
 
-struct ActorSpawnPos { short x, y, z; unsigned char a, b; };
+struct ResearchTopActorSpawnPos { short x, y, z; unsigned char a, b; };
 
-struct ActorSpawnTemplate { struct ActorSpawnPos pos; u32 firstSource, secondSource, thirdSource, fourthSource; u16 arg, pad; };
+struct ActorSpawnTemplate { struct ResearchTopActorSpawnPos pos; u32 firstSource, secondSource, thirdSource, fourthSource; u16 arg, pad; };
 
 struct PaletteAnimeBinding { u32 palette, source; u8 mode; u8 pad[11]; };
 
@@ -237,13 +246,11 @@ extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 struct FieldState;
 
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
 
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void RESEARCH_COMMON_SetScreen(struct ResearchCommon *common, unsigned int screen);
 
-extern int RESEARCH_COMMON_Create(int heapId, int ctx);
 
 extern u32 RESEARCH_COMMON_Destroy(struct ResearchCommon *common);
 
@@ -264,11 +271,10 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern u32 BG_SYS_Delete();
 
-extern u32 BG_SYS_FreeLayerBuf(u32 i);
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void *ARC_TOOL_CreateHandle(unsigned int id, u32 heap);
 
-extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *, u32, u32);
 
 extern int NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *, void **);
 
@@ -303,7 +309,7 @@ extern void CLACT_DrawSystem();
 
 extern u32 KEY_GetTrg(void);
 
-extern int TOUCHPANEL_HitTrg(const void *);
+extern int TOUCHPANEL_HitTrg(const union TouchHitTable *);
 
 extern void * RESEARCH_COMMON_GetTouchRects(struct ResearchCommon *common);
 
@@ -336,13 +342,13 @@ extern void BgTextLabel_SetPalette(struct BgTextLabel *label, unsigned char pale
 extern void RESEARCH_COMMON_StartPaletteAnime(struct ResearchCommon *common, unsigned int index);
 struct Actor;
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int value);
 
 extern u32 CLACT_SetActorAnimFrame();
 
-extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *p, unsigned int v);
 
-extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
+extern void CLACT_SetActorAutoAnimSpeed(struct ClactActor *a, u32 v);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 struct PaletteAnime;
@@ -355,7 +361,6 @@ extern void PALETTE_ANIME_Update(struct PaletteAnime *anime);
 
 extern unsigned RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common);
 
-extern void *GAME_DATA_GetEventWork(struct GameData *gd);
 struct EventWork;
 
 extern unsigned ZONEDATA_CheckEventFlag(struct EventWork *ev, int flagId);
@@ -403,19 +408,19 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern void CLACT_ReleaseCharacter(u32 i);
 
-extern u32 CLACT_ReleasePalette(u32 i);
+extern void CLACT_ReleasePalette(u32 i);
 
 extern u32 CLACT_ReleaseCellAnim();
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Unit *bank);
 
-extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
+extern struct ClactActor *CLACT_CreateActor(struct Unit *,unsigned int,unsigned int,unsigned int,const struct ActorInitParam *,u16,u16);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
+extern void CLACT_DeleteActor(struct ClactActor *actor);
 
 extern u32 PALETTE_ANIME_Create(u32 heapId);
 
@@ -427,7 +432,7 @@ extern int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
 
 extern void CLACT_VBlankSystem(void);
 
-extern int GFL_USE_SetVBlankHook(int a, int b);
+extern u32 GFL_USE_SetVBlankHook(void (*)(struct TcbTask *, void *), void *);
 
 extern void GFL_USE_ClearVBlankHook(void);
 
@@ -661,7 +666,7 @@ void RESEARCH_TOP_BindPaletteAnime(char *obj);
 
 void RESEARCH_TOP_RestorePaletteAnime(char *obj);
 
-void RESEARCH_TOP_UpdateVBlank(void);
+void RESEARCH_TOP_UpdateVBlank(struct TcbTask *unused, void *unused2);
 
 void RESEARCH_TOP_RegisterVBlank(void *obj);
 
@@ -916,7 +921,7 @@ void RESEARCH_TOP_ResetProc(void *proc, u32 appResource)
 
 void RESEARCH_TOP_CreateCommon(u32 proc)
 {
-    ((struct ResearchProc *)proc)->common = RESEARCH_COMMON_Create(((struct ResearchProc *)proc)->heapId, ((struct ResearchProc *)proc)->appResourceU);
+    ((struct ResearchProc *)proc)->common = (u32)RESEARCH_COMMON_Create((u32)(((struct ResearchProc *)proc)->heapId), (struct Ctx *)(((struct ResearchProc *)proc)->appResourceU));
 }
 
 /*
@@ -981,20 +986,20 @@ void RESEARCH_TOP_LoadSubAssets(u32 heap)
     struct ArcFile *arc;
     void *buffer;
     arc = ARC_TOOL_CreateHandle(192, heap);
-    buffer = ARC_TOOL_LoadHandleMember(arc, 9, heap);
+    buffer = ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc, 9, heap);
     NNS_G2dGetUnpackedPaletteData(buffer, &palette);
     BG_SYS_LoadPltt(4, ((struct ArcMember *)palette)->data, 512, 0);
     GFL_HEAP_Free(buffer);
-    buffer = ARC_TOOL_LoadHandleMember(arc, 10, heap);
+    buffer = ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc, 10, heap);
     NNS_G2dGetUnpackedCharacterDataEx(buffer, &character);
     BG_SYS_LoadTileData(4, ((struct CharAnimMember *)character)->data, ((struct CharAnimMember *)character)->size, 0);
     GFL_HEAP_Free(buffer);
-    buffer = ARC_TOOL_LoadHandleMember(arc, 11, heap);
+    buffer = ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc, 11, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen);
     BG_SYS_DrawTile(4, ((char *)screen + 12), 0, 0, 32, 24);
     BG_SYS_PushTile(4);
     GFL_HEAP_Free(buffer);
-    buffer = ARC_TOOL_LoadHandleMember(arc, 12, heap);
+    buffer = ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc, 12, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen2);
     BG_SYS_DrawTile(5, ((char *)screen2 + 12), 0, 0, 32, 24);
     BG_SYS_PushTile(5);
@@ -1018,15 +1023,15 @@ void RESEARCH_TOP_LoadTopAssets(u32 heap)
     struct ArcFile *arc;
     void *buffer;
     arc = ARC_TOOL_CreateHandle(192, (u16)((heap & 0x7fff) | 0x8000));
-    buffer = ARC_TOOL_LoadHandleMember(arc, 0, heap);
+    buffer = ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc, 0, heap);
     NNS_G2dGetUnpackedPaletteData(buffer, &palette);
     BG_SYS_LoadPltt(1, ((struct ArcMember *)palette)->data, 512, 0);
     GFL_HEAP_Free(buffer);
-    buffer = ARC_TOOL_LoadHandleMember(arc, 1, heap);
+    buffer = ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc, 1, heap);
     NNS_G2dGetUnpackedCharacterDataEx(buffer, &character);
     BG_SYS_LoadTileData(1, ((struct CharAnimMember *)character)->data, ((struct CharAnimMember *)character)->size, 0);
     GFL_HEAP_Free(buffer);
-    buffer = ARC_TOOL_LoadHandleMember(arc, 2, heap);
+    buffer = ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc, 2, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen);
     BG_SYS_DrawTile(1, ((char *)screen + 12), 0, 0, 32, 24);
     BG_SYS_PushTile(1);
@@ -1110,7 +1115,7 @@ void RESEARCH_TOP_InitListObject(char *obj)
 void RESEARCH_TOP_HandleListInput(char *obj)
 {
     u32 keys=KEY_GetTrg();
-    int choice=TOUCHPANEL_HitTrg(obj+44);
+    int choice=TOUCHPANEL_HitTrg((union TouchHitTable *)(obj+44));
     int other=TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjC *)obj)->owner));
     if(RESEARCH_TOP_GetInputFlag(obj)!=0 || other==0) {
         RESEARCH_TOP_SetEntryHandled((u8 *)obj,1);RESEARCH_TOP_SetMode(obj,2);RESEARCH_TOP_StartPaletteAnime((u8 *)obj);GFL_USE_PlaySeDefaultVolume(1361);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);return;
@@ -1135,7 +1140,7 @@ void RESEARCH_TOP_HandleListInput(char *obj)
 void RESEARCH_TOP_HandleListInputAlt(char *obj)
 {
     u32 keys=KEY_GetTrg();
-    int choice=TOUCHPANEL_HitTrg(obj+44);
+    int choice=TOUCHPANEL_HitTrg((union TouchHitTable *)(obj+44));
     int other=TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjC *)obj)->owner));
     if(RESEARCH_TOP_GetInputFlag(obj)!=0 || other==0) {
         RESEARCH_TOP_SetEntryHandled((u8 *)obj,1);RESEARCH_TOP_SetMode(obj,2);RESEARCH_TOP_StartPaletteAnime((u8 *)obj);GFL_USE_PlaySeDefaultVolume(1361);RESEARCH_TOP_SetStateTimer(obj,15);RESEARCH_TOP_SetCommandReady(obj);RESEARCH_TOP_PushCommand((u8 *)obj,3);RESEARCH_TOP_PushCommand((u8 *)obj,4);RESEARCH_TOP_PushCommand((u8 *)obj,5);return;
@@ -1376,9 +1381,9 @@ void RESEARCH_TOP_StartPaletteAnime(u8 *obj)
 u32 RESEARCH_TOP_ShowEntryActor(u32 obj)
 {
     u32 actor = RESEARCH_TOP_GetEntryIconSource((void *)obj, 0);
-    CLACT_SetActorDrawEnable((struct Actor *)actor, 1);
-    CLACT_SetActorAutoAnim((struct Obj *)actor, 1);
-    CLACT_SetActorAutoAnimSpeed((struct Actor *)actor, 4096);
+    CLACT_SetActorDrawEnable((struct ClactActor *)actor, 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)actor, 1);
+    CLACT_SetActorAutoAnimSpeed((struct ClactActor *)actor, 4096);
     return CLACT_SetActorAnimFrame(actor, 0);
 }
 
@@ -1679,7 +1684,7 @@ void RESEARCH_TOP_ExitOverlayBackgrounds(u32 obj)
 
 void RESEARCH_TOP_LoadBackground6(char *obj)
 {
-    struct ArcFile *arc=ARC_TOOL_CreateHandle(192,((struct ResearchObjC *)obj)->heapId);
+    struct ArcHandle *arc=ARC_TOOL_CreateHandle(192,((struct ResearchObjC *)obj)->heapId);
     void *file=ARC_TOOL_LoadHandleMember(arc,13,((struct ResearchObjC *)obj)->heapId);
     void *data;
     NNS_G2dGetUnpackedScreenData(file,&data);
@@ -1704,7 +1709,7 @@ void RESEARCH_TOP_ShowBackground7(u32 obj)
 
 void RESEARCH_TOP_LoadBackground2(char *obj)
 {
-    struct ArcFile *arc=ARC_TOOL_CreateHandle(192,((struct ResearchObjC *)obj)->heapId);
+    struct ArcHandle *arc=ARC_TOOL_CreateHandle(192,((struct ResearchObjC *)obj)->heapId);
     void *file=ARC_TOOL_LoadHandleMember(arc,4,((struct ResearchObjC *)obj)->heapId);
     void *data;
     NNS_G2dGetUnpackedScreenData(file,&data);
@@ -1833,7 +1838,7 @@ void RESEARCH_TOP_DeleteUnits(int *obj)
 {
     int i;
     for (i = 0; i < 2; i++)
-        CLACT_DeleteUnit((struct Bank *)obj[i + 0x1D]);
+        CLACT_DeleteUnit((struct Unit *)obj[i + 0x1D]);
 }
 
 /*
@@ -1851,7 +1856,7 @@ void RESEARCH_TOP_ClearActor(void *obj)
  */
 void RESEARCH_TOP_CreateActor(char *obj)
 {
-    struct ActorSpawnPos pos;
+    struct ResearchTopActorSpawnPos pos;
     unsigned labelSource,actorSourceA,actorSourceB,actorSourceC;
     pos.x=d_021C2EFC.pos.x;pos.y=d_021C2EFC.pos.y;pos.z=d_021C2EFC.pos.z;
     pos.a=d_021C2EFC.pos.a;pos.b=d_021C2EFC.pos.b;
@@ -1859,13 +1864,13 @@ void RESEARCH_TOP_CreateActor(char *obj)
     actorSourceA=RESEARCH_TOP_GetEntryActorSource(obj,d_021C2EFC.secondSource);
     actorSourceB=RESEARCH_TOP_GetEntryActorSource(obj,d_021C2EFC.thirdSource);
     actorSourceC=RESEARCH_TOP_GetEntryActorSource(obj,d_021C2EFC.fourthSource);
-    *(unsigned *)&((struct ResearchObjC *)obj)->actor=(unsigned)CLACT_CreateActor((void *)labelSource,actorSourceA,actorSourceB,actorSourceC,&pos,d_021C2EFC.arg,((struct ResearchObjC *)obj)->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ResearchObjC *)obj)->actor),0);
+    *(unsigned *)&((struct ResearchObjC *)obj)->actor=(unsigned)CLACT_CreateActor((void *)labelSource,actorSourceA,actorSourceB,actorSourceC,(struct ActorInitParam *)(&pos),d_021C2EFC.arg,((struct ResearchObjC *)obj)->heapId);
+    CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct Obj * *)&((struct ResearchObjC *)obj)->actor),0);
 }
 
 void RESEARCH_TOP_DeleteActor(u8 *obj)
 {
-    CLACT_DeleteActor((struct Actor *)((u32)(((struct ResearchObjC *)obj)->actor)));
+    CLACT_DeleteActor((struct ClactActor *)((u32)(((struct ResearchObjC *)obj)->actor)));
 }
 
 /*
@@ -1914,14 +1919,14 @@ void RESEARCH_TOP_RestorePaletteAnime(char *obj)
  * Tail-call thunk: ldr r3,[pc,#0]; bx r3; .word 0x0204A648.  Blocker target
  * for RESEARCH_TOP_RegisterVBlank (pkt_021B9850).
  */
-void RESEARCH_TOP_UpdateVBlank(void)
+void RESEARCH_TOP_UpdateVBlank(struct TcbTask *unused, void *unused2)
 {
     CLACT_VBlankSystem();
 }
 
 void RESEARCH_TOP_RegisterVBlank(void *obj)
 {
-    GFL_USE_SetVBlankHook((int)RESEARCH_TOP_UpdateVBlank, 0);
+    GFL_USE_SetVBlankHook(RESEARCH_TOP_UpdateVBlank, 0);
 }
 
 /*

@@ -113,69 +113,54 @@
  *   MAILSYS_OnKeyModeNoOp 0x021C4534 thumb ov136
  *   MAILVIEW_SetVramBanks 0x021C4DD4 thumb ov136
  */
+#include "../types.h"
+#include "../arm9/clact.h"
+#include "../arm9/palanm.h"
 #include "mail_types.h"
 #include "mailview_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void STRBUF_Delete(struct Strbuf *vec);
+#include "../arm9/strbuf.h"
 
-extern void BG_SYS_SetMainPlaneVisible(u32, u32);
+#include "../arm9/bg_sys.h"
 
-extern void PALANM_BlendChannel(struct PalAnmSlot *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 
-extern void BG_SYS_ClearMainPlanes(void);
 
-extern void BG_SYS_ClearSubPlanes(void);
 
-extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 
-extern void PALANM_TransferPalettes(struct PalAnmSlot *p);
 
 extern void CLACT_VBlankSystem(void);
 
-extern void BG_SYS_Update(void);
 struct MsgBank;
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 struct PrintQueue;
 struct GFont;
 struct TaskMenuRes;
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(unsigned short bgFrame, unsigned short palNo, struct GFont *font, struct PrintQueue *printQue, unsigned short heapId);
+#include "../arm9/app_taskmenu.h"
 
-extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
 
-extern u32 TCB_GetTaskOffset(u32 idx);
+#include "../arm9/tcb_list.h"
 struct TcbSystem;
 
-extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
 struct TcbTask;
 
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*task)(void *, struct MailEditProc *), void *work, unsigned int priority);
 
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
+#include "../arm9/printsys.h"
 
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 struct PmsDraw;
 
-extern struct PmsDraw *PMS_DRAW_Create(unsigned int clunit, unsigned int drawType, unsigned int printQue, unsigned int font, unsigned char plttOffset, unsigned char elemMax, unsigned short heapId);
+#include "../arm9/pms_draw.h"
 
-extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
-extern void PMS_DRAW_Delete(struct PmsDraw *p);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 extern u32 SDK_AUTOLOAD_MAIN_TWL_START[];
 
@@ -210,7 +195,7 @@ void MAILVIEW_HideAllPlanes(void)
 
 void MAILVIEW_VBlankTask(void *task, struct MailEditProc *proc)
 {
-    if (proc->palAnm) PALANM_TransferPalettes(proc->palAnm);
+    if (proc->palAnm) PALANM_TransferPalettes((PaletteFade *)proc->palAnm);
     CLACT_VBlankSystem();
     BG_SYS_Update();
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3FF8) |= 1;
@@ -229,7 +214,7 @@ void MAILVIEW_CursorBlendTask(void *unused, struct MailEditProc *proc)
         MAILSYS_ResetCursorBlend(proc);
         proc->blinkSlot = proc->highlightSlot;
     }
-    PALANM_BlendChannel(proc->palAnm, 0, (u16)(proc->highlightSlot + 33), 1, proc->blinkWeight >> 1, 0x7FFF);
+    PALANM_BlendChannel((PaletteFadeWork *)proc->palAnm, 0, (u16)(proc->highlightSlot + 33), 1, proc->blinkWeight >> 1, 0x7FFF);
     direction = proc->blinkDown;
     old = proc->blinkWeight;
     if (direction != 0) {
@@ -275,15 +260,15 @@ int MAILVIEW_SetupStep(struct MailEditProc *proc)
 void MAILVIEW_StartCursorBlendTask(struct MailEditProc *proc)
 {
     void *mem;
-    PALANM_BlendChannel(proc->palAnm, 0, 0, 112, 16, 0);
-    PALANM_SetAutoTransfer(proc->palAnm, 1);
-    PALANM_TransferPalettes(proc->palAnm);
+    PALANM_BlendChannel((PaletteFadeWork *)proc->palAnm, 0, 0, 112, 16, 0);
+    PALANM_SetAutoTransfer((PaletteFade *)proc->palAnm, 1);
+    PALANM_TransferPalettes((PaletteFade *)proc->palAnm);
     proc->blinkWeight = 0;
     proc->blinkDown = 0;
     mem = GFL_HEAP_Alloc((u16)proc->heapId, TCB_GetTaskOffset(3), 0, d_021C7EF8, 0x4F3);
     proc->blinkTaskMem = mem;
-    proc->blinkTaskList = TCB_Init(3, mem);
-    proc->blinkTask = TCB_AddTask(proc->blinkTaskList, MAILVIEW_CursorBlendTask, proc, 0);
+    proc->blinkTaskList = TCB_Init(3, (struct TcbSystem *)mem);
+    proc->blinkTask = TCB_AddTask((struct TcbSystem *)proc->blinkTaskList, (TcbFunc)MAILVIEW_CursorBlendTask, (void *)proc, 0);
 }
 
 int MAILVIEW_Teardown(struct MailEditProc *proc)
@@ -312,7 +297,7 @@ void MAILVIEW_DeletePmsDraw(struct MailEditProc *proc)
     PMS_DRAW_Delete(proc->pmsDraw);
     PRINTSYS_QUE_Delete((struct PrintQueue *)proc->pmsPrintQue);
     proc->pmsPrintQue = 0;
-    CLACT_DeleteUnit(proc->pmsClactUnit);
+    CLACT_DeleteUnit((struct Unit *)proc->pmsClactUnit);
 }
 
 void MAILVIEW_SetVramBanks(void)
@@ -320,111 +305,74 @@ void MAILVIEW_SetVramBanks(void)
     BG_SYS_SetVramBanks(&d_021C77C4);
 }
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern int PMSI_PARAM_IsEnabled(unsigned short *word);
+#include "../arm9/pmsi_param.h"
 
-extern void TCB_DeleteTask(void *task);
 
 struct BgSet { struct BgTemplate t[5]; };
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *d);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 
-extern void BG_SYS_PushTile(u32 v);
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *d);
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 
-extern void BG_SYS_SetLcdSwap(u32);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void BG_SYS_ClearSlot(u32);
 
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void BG_SYS_FreeLayerBuf(u32 bgId);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
+#include "../arm9/bmp_menuwork.h"
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+#include "../arm9/arc_util.h"
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void *PALANM_Create(u32 heap);
+#include "../arm9/palanm.h"
 
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
-extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 
-extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 
-extern u8 BMP_MENUWORK_GetPlttFileId(int i);
 
-extern void GF_FONT_SetDefaultTextColor(void);
+#include "../arm9/gf_font.h"
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
 
-extern void BG_SYS_MarkTileDirty(u32);
 
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
-extern u32 PALANM_Delete(void *ctx);
 
-extern void TCB_Noop(void *);
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/g2.h"
 
-extern void BMP_WIN_Init(u16);
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 struct TaskMenuItem;
 struct TaskMenuWin;
 
-extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, unsigned short charPosX, unsigned short charPosY, unsigned char width, unsigned short heapId);
 
-extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *d);
 
-extern void BMP_WIN_Exit(void);
 
-extern void PMS_DRAW_Print(unsigned int wk, unsigned int bmpWin, unsigned int pms, unsigned int id);
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
+#include "../arm9/net.h"
 
 extern void CLACT_ExitSystem(void);
 
-int MAILSYS_OnTouchMode(struct MailEditProc *proc);
+#include "mailsys.h"
 
-int MAILSYS_OnKeyModeNoOp(void);
 
 
 extern const struct DispConfig g_77F4;
@@ -607,7 +555,7 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
     struct BmpWin *w;
     for (i = 0; i < 3; i++) {
         if (PMSI_PARAM_IsEnabled((unsigned short *)(&proc->draft->message[i]))) {
-            PMS_DRAW_Print((unsigned int)proc->pmsDraw, (unsigned int)(proc->win[i + 1]), (unsigned int)(&proc->draft->message[i]), (u8)i);
+            PMS_DRAW_Print((unsigned int)proc->pmsDraw, (unsigned int)(proc->win[i + 1]), (struct BeaconDetailGraQuad *)((unsigned int)(&proc->draft->message[i])), (u8)i);
         }
     }
     draft = proc->draft;
@@ -615,7 +563,7 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
         proc->closingWord.sentenceType = 6;
         proc->closingWord.sentenceId = 0;
         proc->closingWord.word[0] = draft->messageId;
-        PMS_DRAW_Print((unsigned int)proc->pmsDraw, (unsigned int)proc->win[4], (unsigned int)(&proc->closingWord), (u8)3);
+        PMS_DRAW_Print((unsigned int)proc->pmsDraw, (unsigned int)proc->win[4], (struct BeaconDetailGraQuad *)((unsigned int)(&proc->closingWord)), (u8)3);
     }
     if (proc->mode == 0) {
         struct PrintQue *queue = proc->printQue;
@@ -630,9 +578,9 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
 
 void MAILVIEW_InitActorSystem(struct MailEditProc *proc)
 {
-    CLACT_InitSystem((struct SysInit *)gClActorInitParam, (struct DispVramCfg *)(&d_021C77C4), (u16)(proc->heapId));
+    CLACT_InitSystem((const struct ClactSysInit *)(struct SysInit *)gClActorInitParam, (struct DispVramCfg *)(&d_021C77C4), (u16)(proc->heapId));
     proc->clactUnit = CLACT_CreateUnit(4, (int)0, (u16)(proc->heapId));
-    CLACT_SetUnitDefaultRenderer(proc->clactUnit);
+    CLACT_SetUnitDefaultRenderer((struct Unit *)proc->clactUnit);
     BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
     GFL_NET_RefreshWmIconAtTopRight((int)0, (u16)(proc->heapId));
@@ -640,6 +588,6 @@ void MAILVIEW_InitActorSystem(struct MailEditProc *proc)
 
 void MAILVIEW_ExitActorSystem(struct MailEditProc *proc)
 {
-    CLACT_DeleteUnit(proc->clactUnit);
+    CLACT_DeleteUnit((struct Unit *)proc->clactUnit);
     CLACT_ExitSystem();
 }

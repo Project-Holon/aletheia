@@ -116,10 +116,6 @@ typedef short s16_p07;
 
 
 
-typedef int GXVRam;
-typedef int GXVRamBG;
-typedef int GXVRamOBJ;
-typedef int GXVRamTex;
 #include "gx_vramcnt.h"
 
 
@@ -153,7 +149,7 @@ struct NitroFileHeader;
 
 
 
-extern void PROCSYS_PushGlobal(u32 ovl, u32 proc, u32 arg);
+#include "procsys.h"
 
 void APP_POWER_ClearCallback(void);
 
@@ -314,7 +310,7 @@ void APP_POWER_LoadShutdownScreen(void)
     u32 *screen;
     u32 *palette;
     u32 *paletteHeader;
-    u32 res;
+    void *res;
     u32 charSize;
     u32 screenSize;
 
@@ -324,20 +320,20 @@ void APP_POWER_LoadShutdownScreen(void)
         DC_FlushRange((void *)(chars[5]), chars[4]);
         MIi_CpuCopy16((const void *)(chars[5]), (void *)G2_GetBG1CharPtr(), charSize = chars[4]);
     }
-    GFL_HEAP_Free((void *)res);
+    GFL_HEAP_Free(res);
     res = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
-    if (NNS_G2dGetUnpackedScreenData((void *)res, (void **)(&screen)) != 0) {
+    if (NNS_G2dGetUnpackedScreenData(res, (void **)(&screen)) != 0) {
         DC_FlushRange((void *)((u32)screen + 0xc), screen[2]);
         MIi_CpuCopy16((const void *)((u32)screen + 0xc), (void *)G2_GetBG1ScrPtr(), screenSize = screen[2]);
     }
-    GFL_HEAP_Free((void *)res);
+    GFL_HEAP_Free(res);
     res = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
     NNS_G2dGetUnpackedPaletteCompressInfo((struct NitroFileHeader *)res, (void **)(&paletteHeader));
     if (NNS_G2dGetUnpackedPaletteData((struct NitroFileHeader *)res, (void **)(&palette)) != 0) {
         DC_FlushRange((void *)(palette[3]), 0x20);
         MIi_CpuCopy16((const void *)(palette[3]), (void *)0x05000000, 0x20);
     }
-    GFL_HEAP_Free((void *)res);
+    GFL_HEAP_Free(res);
 }
 
 /*
@@ -414,7 +410,7 @@ int OVERLAY_LAUNCH_Driver(void *unused, u32 *state)
 {
     switch (*state) {
     case 0:
-        PROCSYS_PushGlobal((u32)ov088_id, (u32)d_021BD8E8, (u32)&sOverlayLaunchWork.mode);
+        PROCSYS_PushGlobal((u32)ov088_id, (const ProcData *)d_021BD8E8, (void *)&sOverlayLaunchWork.mode);
         *state = 1;
         break;
     case 1:
@@ -422,14 +418,14 @@ int OVERLAY_LAUNCH_Driver(void *unused, u32 *state)
         sOverlayLaunchWork.stage = 0;
         sOverlayLaunchWork.enabled = 1;
         sOverlayLaunchWork.aborted = 0;
-        PROCSYS_PushGlobal((u32)ov179_id, (u32)d_021B68D8, (u32)sOverlayLaunchWorkArg);
+        PROCSYS_PushGlobal((u32)ov179_id, (const ProcData *)d_021B68D8, (void *)sOverlayLaunchWorkArg);
         *state = 2;
         break;
     case 2:
         if (sOverlayLaunchWork.aborted == 0) {
             sOverlayLaunchWork.stage = 1;
             sOverlayLaunchWork.aborted = 0;
-            PROCSYS_PushGlobal((u32)ov179_id, (u32)d_021B68D8, (u32)sOverlayLaunchWorkArg);
+            PROCSYS_PushGlobal((u32)ov179_id, (const ProcData *)d_021B68D8, (void *)sOverlayLaunchWorkArg);
             *state = 3;
             break;
         }
@@ -438,11 +434,11 @@ int OVERLAY_LAUNCH_Driver(void *unused, u32 *state)
     case 3:
         sOverlayLaunchWork.stage = 2;
         sOverlayLaunchWork.aborted = 0;
-        PROCSYS_PushGlobal((u32)ov179_id, (u32)d_021B68D8, (u32)sOverlayLaunchWorkArg);
+        PROCSYS_PushGlobal((u32)ov179_id, (const ProcData *)d_021B68D8, (void *)sOverlayLaunchWorkArg);
         *state = 4;
         break;
     case 4:
-        PROCSYS_PushGlobal((u32)ov088_id, (u32)d_021BD574, 0);
+        PROCSYS_PushGlobal((u32)ov088_id, (const ProcData *)d_021BD574, 0);
         *state = 0;
         break;
     }

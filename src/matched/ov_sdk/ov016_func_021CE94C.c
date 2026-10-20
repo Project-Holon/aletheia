@@ -12,7 +12,7 @@
  * sdk:      DWCi_SBlEnd (libdwcutil.TWL.HYB.a(scrollbar.o))
  *
  * symbols:
- *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteEx  0x021D7744  arm  ov016
  *   DWCi_CELLlDelete  0x021D4F60  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   gScrollBar  0x021DE63C  data
@@ -25,14 +25,14 @@ typedef struct {
 } SB;
 
 typedef unsigned char  u8;
-extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
+extern void DWCi_TSKlDeleteEx(unsigned int idx, void *r4);
 extern void DWCi_CELLlDelete(u8 *p);
 extern void DWCi_HEAPlFree_(void **mem);
 extern SB *gScrollBar;
 
 void DWCi_SBlEnd(void)
 {
-	DWCi_TSKlDeleteByIndex(0, gScrollBar->task);
+	DWCi_TSKlDeleteEx(0, gScrollBar->task);
 	DWCi_CELLlDelete(gScrollBar->cell);
 	DWCi_HEAPlFree_((void **)0x021DE63C);
 }

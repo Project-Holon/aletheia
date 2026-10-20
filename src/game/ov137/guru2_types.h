@@ -11,7 +11,7 @@
  * bytes) is struct Guru2Lobby in ov137_types.h.
  */
 
-#include "guru2_shared_types.h"
+#include "../ov137/guru2_shared_types.h"
 
 struct Guru2Session;
 
@@ -296,5 +296,7 @@ typedef char Guru2MarkerSizeCheck[(sizeof(struct Guru2Marker) == 0x68) ? 1 : -1]
 typedef char Guru2SeatInitSizeCheck[(sizeof(struct Guru2SeatInit) == 0x20) ? 1 : -1];
 typedef char Guru2WindowsSizeCheck[(sizeof(struct Guru2Windows) == 0x60) ? 1 : -1];
 typedef char Guru2GameSizeCheck[(sizeof(struct Guru2Game) == 0xDAC) ? 1 : -1];
+
+typedef struct Guru2FiveRecord { int a, b, c, d, e; } Guru2FiveRecord;
 
 #endif

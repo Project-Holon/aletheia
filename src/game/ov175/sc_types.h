@@ -63,7 +63,7 @@
 #ifndef SC_TYPES_H
 #define SC_TYPES_H
 
-#include "auth_types.h"
+#include "../ov175/auth_types.h"
 
 /* Result codes of the stats library (SCResult). */
 typedef enum SCResult {

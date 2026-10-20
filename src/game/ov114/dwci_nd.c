@@ -120,56 +120,26 @@ typedef struct NdApString {
     char b[13];
 } NdApString;
 
-typedef struct NdApInfo {
-    int type;
-    int idx;
-    int pad;
-    char bssid[9];
-} NdApInfo;
 
-typedef struct NdWiFiInfo {
-    unsigned long long macid;
-    int pad[3];
-} NdWiFiInfo;
 
-extern int DWCi_Ndi_intToStrFigure(char *buffer, unsigned long long value, int figure);
-extern int strlen(unsigned char *s);
-extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+#include "dwci_nd_2.h"
+#include "../arm9/msl_string_str.h"
+#include "../arm9/mi_memory.h"
 void DWCi_Ndi_memcpy(void *dst, void *src, u32 size);
-extern int NHTTP_Startup(void *alloc, void *free, int a);
-extern void NHTTP_CleanupAsync(void (*callback)(void));
 struct _NHTTPConnection;
-extern int NHTTP_GetConnectionStatus(struct _NHTTPConnection *handle_p);
-extern int NHTTP_DeleteConnection(struct _NHTTPConnection *handle_p);
-extern void DWCi_SetError(int error, int errorCode);
-extern int DWC_NdGetProgress(unsigned long *received, unsigned long *contentlen);
-extern int NHTTP_CancelConnection(void *handle);
-extern int DWC_GetApInfo(NdApInfo *apinfo);
-extern void DWCi_BM_GetWiFiInfo(NdWiFiInfo *buf);
-extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
-extern void *NHTTP_GetUserParam(void *handle);
-extern int NHTTP_GetConnectionError(struct _NHTTPConnection *handle_p);
-extern int NHTTP_GetHeaderField(void *handle, char *label_p, char **value_pp);
-extern int NHTTP_GetBodyBuffer(void *handle, char **value_pp, unsigned long *size_p);
-extern struct _NHTTPConnection *NHTTP_CreateConnection(char *url_p, int method, char *buf_p, unsigned long len, int (*callback)(void *, int, void *), void *userParam_p);
-extern int NHTTP_SetRootCA(void *handle_p, void *rootCA_p, int rootCALen);
-extern int NHTTP_SetVerifyOption(void *handle, unsigned long verifyOption);
-extern int NHTTP_AddHeaderField(void *handle, char *label_p, char *value_p);
-extern int NHTTP_AddPostDataAscii(void *handle, char *label_p, char *value_p);
-extern int NHTTP_StartConnection(void *handle);
-extern int NHTTP_GetConnectionProgress(void *handle, unsigned long *received_p, unsigned long *contentlen_p);
+#include "../arm9/dwc_error.h"
+#include "dwc_nd.h"
+#include "d_nhttp.h"
+#include "d_nhttp_private.h"
+#include "nhttp_stdlib_ntr.h"
+#include "../arm9/dwc_backup.h"
+#include "../arm9/dwc_connectinet.h"
+#include "../arm9/os_printf.h"
 #include "../sdk_os.h"
 
-extern void OS_InitMutex(struct OSMutex *mutex);
-extern void OS_LockMutex(struct OSMutex *mutex);
-extern void OS_UnlockMutex(struct OSMutex *mutex);
-extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
-extern void OS_GetMacAddress(unsigned char *macAddress);
-extern int DWCi_Ndi_hexToStrFigure(char *p, unsigned long n, int figure);
-extern int NHTTPi_strToInt(char *s, int len);
-extern int NHTTPi_intToStr(char *p_p, unsigned long n);
+#include "../arm9/os_mutex.h"
+#include "../arm9/os_message.h"
+#include "../arm9/os_ownerinfo.h"
 
 void DWCi_Ndi_freeAttr(void);
 int setAttr(int id, char *attr);
@@ -190,7 +160,7 @@ int DWCi_NdCancelAsync(void);
 int DWCi_Ndi_getApInfo(char *apinfo);
 int DWCi_Ndi_getDSdesc(char *gamecode, char *userid);
 void DWCi_Ndi_getUserAgent(char *buffer);
-int req_callback(void *res, int event, void *arg);
+int req_callback(NHTTPConnection *res, int event, void *arg);
 void freeHttpParam(tagDWCi_Ndi_HTTPREQ *hrq);
 void freeHttp(tagDWCi_Ndi_HTTPREQ *hrq, void *req);
 int runHttp(tagDWCi_Ndi_HTTPREQ *hrq, void *req);
@@ -224,7 +194,7 @@ extern char gDwciNdGameCodeEncoded[];
 extern char gDwciNdPasswordEncoded[];
 extern char gDwciNdApInfoEncoded[];
 extern NdApString sDwciNdEmptyMacAddress;
-extern NdApInfo gDwciNdApInfo;
+extern DWCApInfo gDwciNdApInfo;
 extern char sDwciNdHttpstatuscode[];
 extern char sDwciNdReturncd[];
 extern char gDwciNdDsGameCodeEncoded[9];
@@ -643,14 +613,14 @@ int DWCi_Ndi_getApInfo(char *apinfo)
 {
     NdApString strAp = sDwciNdEmptyMacAddress;
     if (DWC_GetApInfo(&gDwciNdApInfo)) {
-        if (gDwciNdApInfo.type >= 0 && gDwciNdApInfo.type < 10)
-            strAp.b[1] = gDwciNdApInfo.type + '0';
-        else if (gDwciNdApInfo.type >= 10 && gDwciNdApInfo.type < 100)
-            DWCi_Ndi_intToStr(strAp.b, gDwciNdApInfo.type);
-        if (gDwciNdApInfo.type == 4 || gDwciNdApInfo.type == 8) {
-            if (gDwciNdApInfo.idx >= 0 && gDwciNdApInfo.idx < 10)
-                strAp.b[3] = gDwciNdApInfo.idx + '0';
-            DWCi_Ndi_memcpy(&strAp.b[4], gDwciNdApInfo.bssid, 9);
+        if (gDwciNdApInfo.aptype >= 0 && gDwciNdApInfo.aptype < 10)
+            strAp.b[1] = gDwciNdApInfo.aptype + '0';
+        else if (gDwciNdApInfo.aptype >= 10 && gDwciNdApInfo.aptype < 100)
+            DWCi_Ndi_intToStr(strAp.b, gDwciNdApInfo.aptype);
+        if (gDwciNdApInfo.aptype == 4 || gDwciNdApInfo.aptype == 8) {
+            if (gDwciNdApInfo.area >= 0 && gDwciNdApInfo.area < 10)
+                strAp.b[3] = gDwciNdApInfo.area + '0';
+            DWCi_Ndi_memcpy(&strAp.b[4], gDwciNdApInfo.spotinfo, 9);
         }
         DWCi_Ndi_encodeBASE64(apinfo, strAp.b, 13);
         return 1;
@@ -663,13 +633,13 @@ int DWCi_Ndi_getApInfo(char *apinfo)
  */
 int DWCi_Ndi_getDSdesc(char *gamecode, char *userid)
 {
-    NdWiFiInfo wifiinfo;
+    DWCWiFiInfo wifiinfo;
     char strId[13];
     DWCi_Ndi_memclr(&wifiinfo, 20);
     DWCi_BM_GetWiFiInfo(&wifiinfo);
-    if (wifiinfo.macid == 0)
+    if (wifiinfo.attestedUserId == 0)
         return 0;
-    if (DWCi_Ndi_intToStrFigure(strId, wifiinfo.macid, 13) < 0)
+    if (DWCi_Ndi_intToStrFigure(strId, wifiinfo.attestedUserId, 13) < 0)
         return 0;
     DWCi_Ndi_encodeBASE64(userid, strId, 13);
     DWCi_Ndi_encodeBASE64(gamecode, ROM_HEADER_GAME_CODE, 4);
@@ -684,7 +654,7 @@ void DWCi_Ndi_getUserAgent(char *buffer)
     OS_SNPrintf(buffer, 0x21, sDwciNdUserAgentFormat, 5, 3);
 }
 
-int req_callback(void *res, int event, void *arg)
+int req_callback(NHTTPConnection *res, int event, void *arg)
 {
     tagDWCi_Ndi_HTTPREQ *hrq;
     int reason;
@@ -934,9 +904,9 @@ int runHttp(tagDWCi_Ndi_HTTPREQ *hrq, void *req)
     err = NHTTP_StartConnection(req);
     if (err) {
         req = 0;
-        DWCi_NdSetError(3, (int)req);
+        DWCi_NdSetError(3, (sptr)req);
         DWCi_Ndi_unlockGlobal();
-        return (int)req;
+        return (sptr)req;
     }
     gDwciNdStatics.handle = req;
     DWCi_Ndi_unlockGlobal();
@@ -1317,7 +1287,7 @@ void DWCi_Ndi_memcpy(void *dst, void *src, u32 size)
  */
 int DWCi_Ndi_strToInt(char *s, int len)
 {
-    return NHTTPi_strToInt(s, len);
+    return NHTTPi_strToInt((signed char *)s, len);
 }
 
 /*

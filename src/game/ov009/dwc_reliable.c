@@ -35,10 +35,9 @@ typedef struct QueueInfo {
     int total;
 } QueueInfo;
 
-extern void DWC_Free(int name, void *ptr, unsigned int size);
-extern int gt2Send(void *connection, unsigned char *message, int len, int reliable);
-extern void *DWC_Alloc(int name, unsigned int size);
-extern void MIi_CpuCopy32(void *src, void *dst, int size);
+#include "../arm9/dwc_memfunc.h"
+#include "gt2main.h"
+#include "../arm9/mi_memory.h"
 static void DWCi_InitReliableQueue(void);
 void DWCi_CleanupReliableQueue(char *p);
 int DWCi_IsReliableQueueFree(void);

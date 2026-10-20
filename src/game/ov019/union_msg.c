@@ -161,80 +161,68 @@ typedef struct UnionTilePos {
     s16 z;
 } UnionTilePos;
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
+#include "../arm9/gfl_heap_wrap.h"
 struct GameData;
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern u32 GFL_HEAP_Free(void *p);
-void GF_PANIC_Fail(char *file, unsigned int line, char *expr);
-extern void MI_CpuCopy8(const void *a, void *b, int c);
+#include "../arm9/game_data.h"
+#include "../arm9/gf_panic.h"
+#include "../arm9/mi_memory.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 struct FieldMap;
 struct FieldPlayer;
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-const void *MYSTATUS_GetName(const void *p);
-void WORDSET_SetSlotMyStatus(struct WordSet *words, unsigned int slot, void *source);
-extern u32 GFL_USE_GetRandom(u32 v);
+#include "../ov021/fieldmap.h"
+#include "../arm9/wordset.h"
+#include "../arm9/gfl_use.h"
 struct MyStatus;
-extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetArea(struct MyStatus *mystatus);
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_SetString(struct Strbuf *strbuf, unsigned short *srcChars);
-extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
-extern void WORDSET_SetSlotFromMsgE7(struct WordSet *words, unsigned int slot, unsigned int entryIndex);
-extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *words, unsigned int slot, unsigned int key, unsigned int entryIndex);
+#include "../arm9/strbuf.h"
+#include "../arm9/msgdata.h"
 struct WinPanel020071CCCtrl;
-extern void *PMS_WORD_GetSaveData(struct WinPanel020071CCCtrl *ctrl);
-extern void PMS_WORD_SetFlag(int *p, int bit);
-extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern u32 WORDSET_Delete(struct WordSet *words);
+#include "../arm9/pms_word.h"
 struct FieldMsgBg;
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-struct MsgData;
-extern struct MsgData *FIELD_MSGBG_CreateMsgData(struct FieldMsgBg *msgBg, unsigned int fileId);
+struct MsgBank;
+extern struct MsgBank *FIELD_MSGBG_CreateMsgData(struct FieldMsgBg *msgBg, unsigned int fileId);
 struct FieldPlainWin;
-extern struct FieldPlainWin *FIELD_MSGBG_CreatePlainWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, unsigned int winType, unsigned short x, unsigned short y, unsigned short width, unsigned short height);
+extern struct FieldPlainWin *FIELD_MSGBG_CreatePlainWin(struct FieldMsgBg *msgBg, struct MsgBank *msgData, unsigned int winType, unsigned short x, unsigned short y, unsigned short width, unsigned short height);
 extern void FIELD_MSGBG_ClearPlainWin(struct FieldPlainWin *plainWin);
 extern void FIELD_MSGBG_OpenPlainWin(struct FieldPlainWin *plainWin);
 extern int FIELD_MSGBG_DeletePlainWin(struct FieldPlainWin *plainWin);
-extern u32 FIELD_MSGBG_DeleteMsgData(struct MsgData *msgData);
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+extern u32 FIELD_MSGBG_DeleteMsgData(struct MsgBank *msgData);
 extern void FIELD_MSGBG_PlainWinPrintStream(struct FieldPlainWin *plainWin, unsigned int x, unsigned short y, struct Strbuf *str);
 extern u32 FIELD_MSGBG_PlainWinMain(struct FieldPlainWin *plainWin);
 struct FieldMenuFunc;
 extern struct FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(struct FieldMsgBg *msgBg, unsigned int cursorPos);
 extern int FIELD_MSGBG_DeleteMenuFunc(struct FieldMenuFunc *menu);
 extern int FIELD_MSGBG_YesNoMenuMain(struct FieldMenuFunc *menu);
-extern u32 FIELD_MSGBG_CreateMenuItemsFromTable(const void *arr, int n, u32 c, u16 d);
-extern struct Handle *FIELD_MSGBG_CreateMenuFuncWork(void *a, const void *b, u32 c, u32 d, u32 x, u16 y, u16 z, u32 w);
+struct FieldMenuItemData;
+struct BmpMenuWork;
+extern struct BmpMenuWork *FIELD_MSGBG_CreateMenuItemsFromTable(struct FieldMenuItemData *itemData, s32 count, struct MsgBank *msgData, u16 heapId);
+struct FieldMenuHeader;
+extern struct FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncWork(struct FieldMsgBg *msgBg, struct FieldMenuHeader *header, struct BmpMenuWork *items, u32 moveCallback, u32 work, u16 listPos, u16 cursorPos, u32 cancelable);
 extern int FIELD_MSGBG_IsPrintQueFinished(struct FieldMsgBg *msgBg);
 extern int FIELD_MSGBG_MenuFuncMain(struct FieldMenuFunc *menu);
 extern void FIELD_MSGBG_PlainWinPrintMsg(struct FieldPlainWin *plainWin, int x, int y, unsigned int msgId);
 struct Regulation;
 struct RegulationText;
-extern struct RegulationText *POKE_REGULATION_CreateText(struct Regulation *reg, struct WordSet *wordSet, unsigned short heapId, unsigned int battleMode);
-extern void *REGULATION_CreateCupName(struct Regulation *rule, unsigned int heapId);
+#include "../arm9/poke_regulation.h"
+#include "../arm9/regulation.h"
 extern void FIELD_MSGBG_PlainWinPrintStr(struct FieldPlainWin *plainWin, int x, int y, struct Strbuf *str);
-extern void  FIELD_MSGBG_PlainWinPrintStrColor(void *a, int b, u16 c, u32 d, int e);
+#ifdef __MWERKS__
+extern void FIELD_MSGBG_PlainWinPrintStrColor(struct FieldPlainWin *plainWin, s32 x, u16 y, struct Strbuf *str, int color); /* original prototype; the definition differs in argument width */
+#else
+extern void FIELD_MSGBG_PlainWinPrintStrColor(struct FieldPlainWin*, s32, s32, struct Strbuf*, u16);
+#endif
 struct PrintQue;
 extern struct PrintQue *FIELD_MSGBG_GetPrintQue(struct FieldMsgBg *msgBg);
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern void POKE_REGULATION_DeleteText(struct RegulationText *text);
+#include "../arm9/printsys.h"
 struct GameSystem;
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 struct PlayerWork;
-extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
-extern u16 GAME_DATA_GetPlayerDirection(struct PlayerWork *player);
+#include "../arm9/gamesystem.h"
+#include "../ov021/field_player.h"
 struct WifiList;
-extern int WIFILIST_FindFriendByStatusAndOutfit(struct WifiList *list, void *name, unsigned int id, unsigned int outfitVariant, unsigned int *outSlot);
+#include "../arm9/wifilist.h"
 u16 UNION_MSG_GetNoReplyMsg(void ***ctx);
 u16 UNION_MSG_GetTalkParentGreetingMsg(int i);
 u16 UNION_MSG_GetTalkParentCancelMsg(int i);
@@ -279,24 +267,24 @@ void UNION_MSG_CreateWordSet(UnionRoomWork *unisys);
 void UNION_MSG_DeleteWordSet(UnionRoomWork *unisys);
 int UNION_MSG_GetCategoryTableValue(int i);
 void UNION_MSG_CloseAllWindows(UnionRoomWork *unisys);
-void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, u8 *fieldmap);
+void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, void *fieldmap);
 void UNION_MSG_DeleteTalkWindow(UnionRoomWork *unisys);
 void UNION_MSG_PrintTalkMsg(UnionRoomWork *unisys, u32 msgId);
 u32 UNION_MSG_CheckTalkPrintEnd(UnionRoomWork *unisys);
-void UNION_MSG_SetupPrintTalkMsg(UnionRoomWork *unisys, u8 *fieldmap, u32 msgId);
+void UNION_MSG_SetupPrintTalkMsg(UnionRoomWork *unisys, void *fieldmap, u32 msgId);
 void UNION_MSG_SetupYesNo(UnionRoomWork *unisys, void *fieldmap);
 void UNION_MSG_DeleteYesNo(UnionRoomWork *unisys);
 int UNION_MSG_SelectYesNo(UnionRoomWork *unisys, u32 *isYes);
-void UNION_MSG_SetupMenu(UnionRoomWork *unisys, u32 fieldmap, u32 listData, u32 listCount, u32 menuHeader);
+void UNION_MSG_SetupMenu(UnionRoomWork *unisys, void *fieldmap, u32 listData, u32 listCount, u32 menuHeader);
 void UNION_MSG_DeleteMenu(UnionRoomWork *unisys);
-int UNION_MSG_SelectMenu(UnionRoomWork *unisys, u32 fieldmap);
-void UNION_MSG_SetupMainMenu(UnionRoomWork *unisys, u32 fieldmap);
+int UNION_MSG_SelectMenu(UnionRoomWork *unisys, void *fieldmap);
+void UNION_MSG_SetupMainMenu(UnionRoomWork *unisys, void *fieldmap);
 void UNION_MSG_DeleteMainMenu(UnionRoomWork *unisys);
-int UNION_MSG_SelectMainMenu(UnionRoomWork *unisys, int fieldmap);
-void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, int fieldmap, int kind, u8 *arg);
+int UNION_MSG_SelectMainMenu(UnionRoomWork *unisys, void *fieldmap);
+void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, void *fieldmap, int kind, u8 *arg);
 void UNION_MSG_DeleteSubMenu(UnionRoomWork *unisys);
-int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, u32 fieldmap);
-void UNION_MSG_SetupTitleWindow(UnionRoomWork *unisys, u32 fieldmap);
+int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, void *fieldmap);
+void UNION_MSG_SetupTitleWindow(UnionRoomWork *unisys, void *fieldmap);
 void UNION_MSG_DeleteTitleWindow(UnionRoomWork *unisys);
 void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, void *fieldmap, u32 failMask, int mode, int titleKind);
 u32 UNION_MSG_CheckRegulationPrintEnd(UnionRoomWork *unisys, void *fieldmap);
@@ -742,7 +730,7 @@ void UNION_MSG_CloseAllWindows(UnionRoomWork *unisys)
 }
 
 
-void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, u8 *fieldmap)
+void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, void *fieldmap)
 {
     int fieldMsgBg;
 
@@ -754,7 +742,7 @@ void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, u8 *fieldmap)
         unisys->msgWork.strTemp = (struct Strbuf *)STRBUF_Create(0x100, UNION_HEAP_ID);
         unisys->msgWork.strExpand = (struct Strbuf *)STRBUF_Create(0x100, UNION_HEAP_ID);
         UNION_MSG_CreateWordSet(unisys);
-        unisys->msgWork.talkWin = FIELD_MSGBG_CreatePlainWin((void *)fieldMsgBg, (struct MsgData *)unisys->msgWork.msgData, 0, 1, 0x13, 0x1e, 4);
+        unisys->msgWork.talkWin = FIELD_MSGBG_CreatePlainWin((void *)fieldMsgBg, (struct MsgBank *)unisys->msgWork.msgData, 0, 1, 0x13, 0x1e, 4);
     } else {
         FIELD_MSGBG_ClearPlainWin(unisys->msgWork.talkWin);
     }
@@ -775,7 +763,7 @@ void UNION_MSG_DeleteTalkWindow(UnionRoomWork *unisys)
     }
     if (unisys->msgWork.msgData != 0) {
         UNION_MSG_DeleteWordSet(unisys);
-        FIELD_MSGBG_DeleteMsgData((struct MsgData *)unisys->msgWork.msgData);
+        FIELD_MSGBG_DeleteMsgData((struct MsgBank *)unisys->msgWork.msgData);
         unisys->msgWork.msgData = 0;
     }
 }
@@ -801,7 +789,7 @@ u32 UNION_MSG_CheckTalkPrintEnd(UnionRoomWork *unisys)
 }
 
 
-void UNION_MSG_SetupPrintTalkMsg(UnionRoomWork *unisys, u8 *fieldmap, u32 msgId)
+void UNION_MSG_SetupPrintTalkMsg(UnionRoomWork *unisys, void *fieldmap, u32 msgId)
 {
     UNION_MSG_SetupTalkWindow(unisys, fieldmap);
     UNION_MSG_RegisterPartnerWords(unisys);
@@ -842,13 +830,13 @@ int UNION_MSG_SelectYesNo(UnionRoomWork *unisys, u32 *isYes)
 }
 
 
-void UNION_MSG_SetupMenu(UnionRoomWork *unisys, u32 fieldmap, u32 listData, u32 listCount, u32 menuHeader)
+void UNION_MSG_SetupMenu(UnionRoomWork *unisys, void *fieldmap, u32 listData, u32 listCount, u32 menuHeader)
 {
     u32 fieldMsgBg = (unsigned int)FIELDMAP_GetMsgBg((struct FieldMap *)fieldmap);
 
     if (unisys->msgWork.menu == 0) {
-        u32 menuList = FIELD_MSGBG_CreateMenuItemsFromTable((const UnionMenuItem *)listData, listCount, (u32)unisys->msgWork.msgData, UNION_HEAP_ID);
-        unisys->msgWork.menu = FIELD_MSGBG_CreateMenuFuncWork((u16 *)fieldMsgBg, (const u8 *)menuHeader, menuList, 0, 0, 0, 0, 1);
+        u32 menuList = (u32)FIELD_MSGBG_CreateMenuItemsFromTable((struct FieldMenuItemData *)listData, listCount, (struct MsgBank *)unisys->msgWork.msgData, UNION_HEAP_ID);
+        unisys->msgWork.menu = FIELD_MSGBG_CreateMenuFuncWork((struct FieldMsgBg *)fieldMsgBg, (struct FieldMenuHeader *)menuHeader, (struct BmpMenuWork *)menuList, 0, 0, 0, 0, 1);
     }
 }
 
@@ -862,7 +850,7 @@ void UNION_MSG_DeleteMenu(UnionRoomWork *unisys)
 }
 
 
-int UNION_MSG_SelectMenu(UnionRoomWork *unisys, u32 fieldmap)
+int UNION_MSG_SelectMenu(UnionRoomWork *unisys, void *fieldmap)
 {
     u32 fieldMsgBg = (unsigned int)FIELDMAP_GetMsgBg((struct FieldMap *)fieldmap);
 
@@ -879,7 +867,7 @@ int UNION_MSG_SelectMenu(UnionRoomWork *unisys, u32 fieldmap)
 }
 
 
-void UNION_MSG_SetupMainMenu(UnionRoomWork *unisys, u32 fieldmap)
+void UNION_MSG_SetupMainMenu(UnionRoomWork *unisys, void *fieldmap)
 {
     UNION_MSG_SetupMenu(unisys, fieldmap, (u32)d_021804DC, 6, (u32)d_0218042C);
 }
@@ -895,13 +883,13 @@ void UNION_MSG_DeleteMainMenu(UnionRoomWork *unisys)
  * Unlabelled tail-call thunk (ldr r3 / bx r3, no push); called from
  * UNION_ONESELF_TalkParentMain.
  */
-int UNION_MSG_SelectMainMenu(UnionRoomWork *unisys, int fieldmap)
+int UNION_MSG_SelectMainMenu(UnionRoomWork *unisys, void *fieldmap)
 {
     return UNION_MSG_SelectMenu(unisys, fieldmap);
 }
 
 
-void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, int fieldmap, int kind, u8 *arg)
+void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, void *fieldmap, int kind, u8 *arg)
 {
     FieldMenuHeader t;
     u8 v;
@@ -958,7 +946,7 @@ void UNION_MSG_DeleteSubMenu(UnionRoomWork *unisys)
  *   for the pair-pointer load (indexed) and the count byte (+4). Struct-index forms and the
  *   un-pragma'd forms propagate the address into each use (two pool words) or hoist the pool load.
  */
-int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, u32 fieldmap)
+int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, void *fieldmap)
 {
     u32 key;
     u32 i;
@@ -1048,10 +1036,10 @@ int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *hit, u8 *st, int *flag, 
 #pragma opt_propagation reset
 
 
-void UNION_MSG_SetupTitleWindow(UnionRoomWork *unisys, u32 fieldmap)
+void UNION_MSG_SetupTitleWindow(UnionRoomWork *unisys, void *fieldmap)
 {
     if (unisys->msgWork.infoWin == 0) {
-        u32 infoWin = (u32)FIELD_MSGBG_CreatePlainWin((void *)FIELDMAP_GetMsgBg((struct FieldMap *)fieldmap), (struct MsgData *)unisys->msgWork.msgData, 0, 1, 1, 0x1e, 2);
+        u32 infoWin = (u32)FIELD_MSGBG_CreatePlainWin((void *)FIELDMAP_GetMsgBg((struct FieldMap *)fieldmap), (struct MsgBank *)unisys->msgWork.msgData, 0, 1, 1, 0x1e, 2);
         unisys->msgWork.infoWin = (void *)infoWin;
         FIELD_MSGBG_PlainWinPrintMsg((void *)infoWin, 0, 0, 0x103);
     }
@@ -1092,7 +1080,7 @@ void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, void *fieldmap, u32 
     flag = 1;
     if (mode != 1)
         flag = 0;
-    unisys->msgWork.infoWin = FIELD_MSGBG_CreatePlainWin((void *)fieldMsgBg, (struct MsgData *)unisys->msgWork.msgData, 0, 1, 1, 0x1a, 0x10);
+    unisys->msgWork.infoWin = FIELD_MSGBG_CreatePlainWin((void *)fieldMsgBg, (struct MsgBank *)unisys->msgWork.msgData, 0, 1, 1, 0x1a, 0x10);
     unisys->regulationText = (UnionRegulationText *)POKE_REGULATION_CreateText(unisys->regulation, unisys->msgWork.wordSet, UNION_HEAP_ID, flag);
     UNION_MSG_RegisterPartnerWords(unisys);
 
@@ -1111,8 +1099,8 @@ void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, void *fieldmap, u32 
         } else {
             pal = 0x440;
         }
-        FIELD_MSGBG_PlainWinPrintStrColor(unisys->msgWork.infoWin, 0, (i * 2 + 4) * 8, (u32)unisys->regulationText->label[i], pal);
-        FIELD_MSGBG_PlainWinPrintStrColor(unisys->msgWork.infoWin, 0x70, (i * 2 + 4) * 8, (u32)unisys->regulationText->value[i], pal);
+        FIELD_MSGBG_PlainWinPrintStrColor(unisys->msgWork.infoWin, 0, (i * 2 + 4) * 8, unisys->regulationText->label[i], pal);
+        FIELD_MSGBG_PlainWinPrintStrColor(unisys->msgWork.infoWin, 0x70, (i * 2 + 4) * 8, unisys->regulationText->value[i], pal);
     }
 }
 

@@ -1,12 +1,22 @@
 #ifndef GAME_ARM9_NNS_G2D_FONT_H
 #define GAME_ARM9_NNS_G2D_FONT_H
 
+typedef struct NNSG2dFont NNSG2dFont;
+typedef struct NNSG2dCharWidths NNSG2dCharWidths;
+typedef struct NNSG2dTextRect NNSG2dTextRect;
+typedef struct LC_INFO LC_INFO;
+typedef struct NNSG2dCharCanvas NNSG2dCharCanvas;
+typedef struct NNSG2dGlyph NNSG2dGlyph;
+typedef struct CharCursor CharCursor;
+typedef struct TaggedNode TaggedNode;
+
+#include "../arm9/nns_g2d_font_types.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_g2d_font.c, prototypes copied from their definitions. */
 
 struct FontCMap;
 struct NNSG2dFont;
-struct NNSG2dCharWidths;
 struct NNSG2dTextRect;
 struct LC_INFO;
 struct NNSG2dCharCanvas;
@@ -20,7 +30,6 @@ struct BitReader;
 struct CharCursor;
 struct TaggedNode;
 typedef struct NNSG2dFont NNSG2dFont;
-typedef struct NNSG2dCharWidths NNSG2dCharWidths;
 typedef struct NNSG2dTextRect NNSG2dTextRect;
 typedef struct LC_INFO LC_INFO;
 typedef struct NNSG2dCharCanvas NNSG2dCharCanvas;
@@ -29,6 +38,7 @@ typedef struct CharCursor CharCursor;
 typedef struct TaggedNode TaggedNode;
 
 #include "../types.h"
+#include "../arm9/nns_g2d_font_types.h"
 #include "../sdk_gx.h"
 
 u16 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u16 charCode);
@@ -60,14 +70,5 @@ u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits);
 u16 NNSi_G2dReadCharUTF16(CharCursor *cursor);
 u32 GetTaggedPayloadSize(const u8 *tag, const TaggedNode *node);
 /* END mkheaders: generated region */
-
-typedef struct NNSG2dFont NNSG2dFont;
-typedef struct NNSG2dCharWidths NNSG2dCharWidths;
-typedef struct NNSG2dTextRect NNSG2dTextRect;
-typedef struct LC_INFO LC_INFO;
-typedef struct NNSG2dCharCanvas NNSG2dCharCanvas;
-typedef struct NNSG2dGlyph NNSG2dGlyph;
-typedef struct CharCursor CharCursor;
-typedef struct TaggedNode TaggedNode;
 
 #endif

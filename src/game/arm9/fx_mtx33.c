@@ -67,7 +67,7 @@ asm void MTX_Copy33To44_(const MtxFx33 *pSrc, MtxFx44 *pDst)
 #pragma thumb on
 
 /* hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction */
-asm void MTX_Scale33_(void)
+asm void MTX_Scale33_(MtxFx33 *pDst, fx32 x, fx32 y, fx32 z)
 {
     stmia r0!, {r1}
     mov r1, #0

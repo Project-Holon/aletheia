@@ -341,17 +341,9 @@ typedef struct MBUser {
 } MBUser;
 
 /* Net session request copied from ROM data and patched with the heap id (112 bytes). */
-typedef struct Request {
-    u32 settings[21];
-    u16 heapId;
-    u8 moreSettings[26];
-} Request;
 
 /* Message sent on channel 0x400. */
-typedef struct MbCommMsg {
-    u32 value;
-    u8 kind;
-} MbCommMsg;
+#include "../ov107/mb_comm_shared_types.h"
 
 /* Start of the mon receive buffer. */
 typedef struct MbMonList {
@@ -361,257 +353,86 @@ typedef struct MbMonList {
 } MbMonList;
 
 /* Record passed to the MB parent callback. */
-typedef struct MbChildEvent {
-    u16 errorCode;
-    u8 unused02[8];
-    u8 mac[6];
-} MbChildEvent;
 struct MbMsgWork;
 
-extern struct MbMsgWork *MB_UTIL_MSG_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e);
+#include "mb_util_msg.h"
 struct GameData;
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct MiscSave;
-extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
-extern void MISC_SetRank(struct MiscSave *beacon, u32 rank);
-extern void *GFL_USE_AddMainTask(u32,u32,u32);
-extern int GFL_USE_SetVBlankHook(int,int);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
-extern void UI_SetKeepAwakeFlagsGlobal(u8 flags);
-extern void UI_ClearKeepAwakeFlagsGlobal(u8 v);
+#include "../arm9/beacon.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/ui.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void GFL_USE_ClearVBlankHook(void);
-extern void GFL_NET_WM_ICON_EasyEnd(void);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+#include "../arm9/tcb_list.h"
+#include "../arm9/wm_icon.h"
 struct EventWork;
-extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
-extern u32 GFL_HEAP_Free(void *p);
-extern void MB_UTIL_MSG_Delete(struct MbMsgWork *p);
-extern u8 GAME_DATA_IsSaving(struct GameData *gd);
-extern void GAME_DATA_SaveCancel(struct GameData *gd);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern u32 WIPE_SYS_EndCheck(void);
-extern void APP_ENV_IsWirelessAvailable(void);
-extern signed char MSG_SPEED_GetWait(void);
-extern void GFL_USE_FadeOutBgm(u32);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
-extern void MB_UTIL_MSG_SetWindowLayout(struct MbMsgWork *work, s32 layout);
-extern void MB_UTIL_MSG_PrintStream(struct MbMsgWork *work, s32 msgId, s32 speed);
-extern void MB_UTIL_MSG_PrintStreamSystemMsg(struct MbMsgWork *p, int a);
-extern void MB_UTIL_MSG_SetKeyWaitFlag(struct MbMsgWork *work, s32 flag);
-extern int MB_UTIL_MSG_IsStreamIdle(struct MbMsgWork *work);
-extern int MB_UTIL_MSG_ProcessYesNoMenu(struct MbMsgWork *work);
+#include "../arm9/zonedata.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/wipe.h"
+#include "../arm9/app_env.h"
+#include "../arm9/msg_speed.h"
+#include "../arm9/net.h"
 struct MbYesNoMsgWork;
-extern void MB_UTIL_MSG_OpenYesNoMenu(struct MbYesNoMsgWork *work);
-extern void MB_UTIL_MSG_ClearWindow(struct MbMsgWork *work);
-extern void MB_UTIL_MSG_ClearYesNoMenu(struct MbMsgWork *p);
-extern u8 MSGDATA_GetLanguage(void);
-extern u32 MISC_GetBestScore(struct MiscSave *beacon);
-extern void *GFL_USE_GetArcPath(u32);
-extern void FS_InitFile(File *);
-extern int FS_OpenFile(File *,const char *);
-extern int FS_CloseFile(File *);
-extern int FS_SeekFile(void *file, long offset, int origin);
-extern s32 FS_ReadFile(void *file, void *buffer, s32 length);
-extern u32 FS_GetLength(void *file);
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
-extern u32 GAME_DATA_GetBoxManager(struct GameData *gd);
-extern u32 RECORD_AddOne(void *obj, int i);
-extern int BOX_SAVEDATA_CountFreeSlots(struct GameData *gameData);
-extern void MB_UTIL_MSG_Main(struct MbMsgWork *work);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
-extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
-extern void WIPE_SetBrightnessFadeOut(u32,u32);
-extern void WIPE_ResetWndMask(void *);
-extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void BG_SYS_Create(u16);
-extern void BMP_WIN_Init(u16);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-extern void BG_SYS_SetPlaneVisible(u8 which, u8 enable);
+#include "../arm9/msgdata.h"
+#include "../arm9/fs_file.h"
+#include "../arm9/gf_panic.h"
+#include "../arm9/record.h"
+#include "../arm9/box_savedata.h"
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/bmp_win.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern void *CLACT_CreateUnit(int,u8,u32);
-extern void CLACT_SetUnitDefaultRenderer(void *);
-extern void BG_SYS_SetMainPlaneVisible(u32,u32);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 struct Actor;
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 CLACT_DeleteUnit(void *bank);
-extern void CLACT_ExitSystem(void);
-extern void BG_SYS_FreeLayerBuf(unsigned);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(u8 idx);
-extern void BG_SYS_PushTile(u32);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void *CLACT_CreateActor(void *owner,unsigned int i,unsigned int j,unsigned int k,const void *position,unsigned short space,unsigned short heap);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern u32 APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern u32 APP_ICON_GetStatusAnimFileId(void);
-extern u32 APP_ICON_GetStatusFrameFileId(void);
-extern u32 APP_ICON_GetStatusDataFileId(void);
-extern u32 APP_ICON_GetStatusCellFileId(u32);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32);
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/app_icon.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct GfFont;
-extern struct GfFont *MB_UTIL_MSG_GetFont(struct MbMsgWork *work);
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/printsys.h"
+#include "../arm9/strbuf.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern void MB_UTIL_MSG_CreateWordSet(struct MbMsgWork *work);
-extern u16 MYSTATUS_GetIdLow16(struct MyStatus *mystatus);
-extern void MB_UTIL_MSG_SetNumberZeroPad(struct MbMsgWork *a, int b, int c, int d);
-extern struct MsgBank *MB_UTIL_MSG_GetMsgData(struct MbMsgWork *work);
+#include "../arm9/mystatus.h"
 struct WordSet;
-extern struct WordSet *MB_UTIL_MSG_GetWordSet(struct MbMsgWork *work);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
-extern void MIi_CpuCopy16(const void *, void *, int);
-extern int GF_OVERLAY_Load(s32 handle);
-extern void CARD_SetPulledOutCallback(int (*callback)(void));
-extern void GF_OVERLAY_Unload(int);
-extern int WIH_GetSysState(void);
-extern int WIH_StartMeasureChannel(void);
-extern int WIH_Finalize(void);
-extern void WIH_FreeWork(void);
-extern int WIH_Initialize(u32,int,int);
-extern void GFL_NET_WM_ICON_EasyStart(u32,u32,u32,u32);
-extern void GFL_NET_WM_ICON_EasySetScreen(u32,u32);
-extern void UI_SetIntrDataGlobal(u32 a, u32 b);
-extern void MB_UTIL_MSG_DeleteWordSet(struct MbMsgWork *work);
-extern void MB_UTIL_MSG_PrintQueued(struct MbMsgWork *work, s32 msgId);
-extern void MB_UTIL_MSG_SetTimeIconPending(struct MbMsgWork *work, s32 pending);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern int WIH_End(void (*cb)(int));
-extern int WM_GetLinkLevel(void);
-extern u32 GFL_NET_WM_ICON_EasySetLevel(u32);
-extern void GFL_NET_WM_ICON_EasyMain(void);
-extern u16 WIH_FinishMeasureChannel(void);
-extern void MI_CpuCopy8(const void *,void *,unsigned);
-extern int TOUCHPANEL_HitTrg(const void *);
-extern int MB_UTIL_MSG_GetTaskMenuResult(struct MbMsgWork *a);
-extern u32 KEY_GetTrg(void);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void MB_UTIL_MSG_OpenYesNoTaskMenu(struct MbMsgWork *p, int kind);
-extern void MB_UTIL_MSG_CloseTaskMenu(struct MbMsgWork *a);
-extern u8 MISC_GetRank(struct MiscSave *beacon);
-extern void OS_WaitIrq(int clear, u32 irqFlags);
-extern void MISC_SetBestScore(struct MiscSave *beacon, u32 score);
-void *ZUKAN_SAVE_GetFromGameData(void *);
-u32 RECORD_AddCounter(void *obj, int i, u32 delta);
+#include "../arm9/wordset.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_overlay.h"
+#include "../arm9/card_pullout.h"
+#include "../ov014/wih.h"
+#include "../arm9/wm_sync.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/key.h"
+#include "../arm9/os_irqhandler.h"
+#include "../arm9/zukan_save.h"
 struct SaveData;
-void SAVE_EVENT_StoreTodayDate(struct SaveData *save);
+#include "../arm9/save_event.h"
 struct BoxPokemon;
-int BOX_SAVEDATA_AddPokemon(struct GameData *gameData, struct BoxPokemon *mon);
 struct PokemonParam;
-struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, u16 heapId);
+#include "../arm9/poke_tool.h"
 struct ZukanSave;
-void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *pZukan, void *pMon);
-extern int MB_UTIL_MSG_IsPrintQueFinished(struct MbMsgWork *work);
-extern u32 GFL_USE_GetRandom(u32);
-extern int GAME_DATA_SaveStart(struct GameData *gd);
-extern int GAME_DATA_SaveMain(struct GameData *gd);
-void MB_UTIL_MSG_SetNumberLeft(struct MbMsgWork *work, s32 index, s32 value, s32 digits);
-void *GAME_DATA_GetMyItem(struct GameData *gd);
-void *GAME_DATA_GetMiscSave(struct GameData *gd);
-int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *, int, void *);
-void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *, int, void *);
+#include "../ov010/field_g3d_map_scr.h"
 struct MyItem;
-u32 MYITEM_SAVEDATA_AddItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
-extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
-extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern int GFL_NET_IsSessionNull(void);
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
+#include "../arm9/myitem_savedata.h"
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern unsigned int KEY_GetCont(void);
-extern struct GameData *GAME_DATA_Create(u16);
-extern void GAME_DATA_Delete(struct GameData *gameData);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(u32);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern u32 GFL_NET_ERR_WaitLinkClosed(void);
-extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
-extern void GFL_NET_ERR_ShowSimpleScreen(void);
-extern void UI_SoftReset(u32 resetParam);
-extern void GFL_NET_ERR_RequestScreen(void);
+#include "../arm9/procsys.h"
+#include "../arm9/net_err.h"
 struct OSOwnerInfoEx;
-extern void OS_GetOwnerInfoEx(struct OSOwnerInfoEx *info);
-extern void *GFL_NET_AllocAligned(u32,u32,const char *,u16);
-extern int MB_Init(void *,MBUser *,int,int,u16);
-extern int MB_SetParentCommParam(u16,u16);
+#include "../arm9/os_ownerinfoex.h"
+#include "mb_wm_base.h"
 extern void MB_CommSetParentStateCallback(void (*)(u16,u32,MbChildEvent *));
-extern int MB_StartParentFromIdle(int);
-extern u32 MB_GetSegmentLength(void *);
-extern int MB_ReadSegment(void *,void *,u32);
-extern int MB_RegisterFile(void *,void *);
-extern int MB_CommResponseRequest(u16,int);
-extern void MB_DisconnectChild(u16);
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32);
-extern int MB_CommIsBootable(u16);
-extern void MB_EndToIdle(void);
-extern void *MB_CommGetChildUser(u16);
-extern void GFL_NET_FreeAligned(void *);
-extern u32 POKE_TOOL_GetBoxParamSize(void);
-extern void GFL_NET_LOWER_DATA_Exit(void);
-extern int GFL_NET_HANDLE_CheckNegotiation(void);
+#include "mb_fileinfo.h"
+#include "mb_parent.h"
+#include "../arm9/os_system.h"
+#include "../arm9/net_lower_data.h"
+#include "../arm9/net_handle.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_HANDLE_IsNegotiationDone(struct GFLNetHandle *handle);
-extern u32 GFL_NET_IsHandleReady(struct GFLNetHandle *handle);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern void GFL_NET_SetLoginOption(u8 loginOption);
-extern void GFL_NET_StartSession(void *req, u32 transportArg, u32 userArg);
-extern void GFL_NET_LOWER_DATA_Init(int,int);
-extern int GFL_NET_Exit(int);
-extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_StartByNetType(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern void GFL_NET_LOWER_DATA_SetSendData(int,int,int,int);
-void POKE_TOOL_ClearBoxParam(struct BoxPokemon *box);
-u32 GFL_NET_IsParentAid(void);
-struct GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
-u32 GFL_NET_SendData(struct GFLNetHandle *handle, unsigned int sendId, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
-extern int GFL_NET_GetNegotiationNum(void);
 
 extern MbParentUi gMbParentUi;
 extern const char d_021F6E08[], d_021F6E0C[];
@@ -628,53 +449,12 @@ extern MbParentSys gMbParentSys;
 extern const char d_021F6E1C[], d_021F6E24[];
 extern u8 gMbChildEntries[], d_021F6EDE[], d_021F6EDF[], d_021F6EE0[], d_021F6EE1[], d_021F6EE2[], d_021F6EE3[], d_021F6EE4[];
 extern const char d_021F6E28[];
-extern const Request sMbCommSessionRequest;
+extern const MbCommRequest sMbCommSessionRequest;
 extern int d_021F6EE8[];
 
-void MB_COMM_SYS_Init(MbCommSysWork *p);
-void MB_COMM_SYS_Exit(MbCommSysWork *p);
-int MB_COMM_SYS_Main(MbCommSysWork *p);
-void MB_COMM_SYS_VBlank(void);
-void MB_COMM_SYS_VBlankRefreshBg(void);
-void MB_COMM_SYS_VBlankRefreshBgStandalone(void);
-void MB_COMM_SYS_InitDisplay(MbCommSysWork *p);
-void MB_COMM_SYS_ExitDisplay(MbCommSysWork *p);
-void MB_COMM_SYS_InitBgLayer(const void *bgTemplate, u32 layer, u32 mode);
-void MB_COMM_SYS_LoadGraphics(MbCommSysWork *p);
-void MB_COMM_SYS_DrawTitle(MbCommSysWork *p);
-void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p);
-void MB_COMM_SYS_FreeGameStrings(MbCommSysWork *p);
-int MB_COMM_SYS_MainWireless(MbCommSysWork *p);
-void MB_COMM_SYS_StartParent(MbCommSysWork *p);
-void MB_COMM_SYS_MainRecruit(MbCommSysWork *p);
-int MB_COMM_SYS_WmEndCallback(void);
-void MB_COMM_SYS_UpdateSaveState(MbCommSysWork *p, int mode);
-void MB_COMM_SYS_ResetHook(MbCommSysWork *p);
-void MB_COMM_SYS_FinishReceive(MbCommSysWork *p);
-void MB_COMM_SYS_RegisterReceivedMons(MbCommSysWork *p);
-void MB_COMM_SYS_NoOp(MbCommSysWork *p);
-void MB_COMM_SYS_MainSave(MbCommSysWork *p);
-void MB_COMM_SYS_MainChildFlow(MbCommSysWork *p);
-int MB_COMM_SYS_ShowTextPlane(void);
-int MB_COMM_SYS_ProcInit(void *task, void *arg, MbParentArg *argument);
-int MB_COMM_SYS_ProcExit(void *task, int unused, int keep, MbCommSysWork *p);
-int MB_COMM_SYS_ProcMain(int a, int b, int c, MbCommSysWork *p);
-void MB_PARENT_SYS_Init(int a, int b);
-void MB_PARENT_SYS_Register(MbRegistryBlock *registry, int channel);
-int MB_PARENT_SYS_LoadFileImage(MbRegistryBlock *registry);
+#include "mb_parent_sys.h"
+#include "mbp.h"
 void MB_PARENT_SYS_CheckRequest(u16 aid);
-void MB_PARENT_SYS_RejectRequest(u16 aid);
-void MB_PARENT_SYS_StartSending(u16 aid);
-int MB_PARENT_SYS_AllBootable(void);
-void MB_PARENT_SYS_StartBoot(void);
-void MB_PARENT_SYS_Cancel(void);
-void MB_PARENT_SYS_EndIfAllBootable(void);
-void MB_PARENT_SYS_EventCallback(u16 aid, u32 event, MbChildEvent *info);
-void MB_PARENT_SYS_SetState(u16 state);
-u16 MB_PARENT_SYS_GetState(void);
-int MB_PARENT_SYS_GetChildStage(u16 aid);
-void MB_PARENT_SYS_FreeBuffers(void);
-u32 MB_PARENT_SYS_IsRegistered(void);
 MbNetState *MB_COMM_SYS_CreateNetState(u16 heapId);
 void MB_COMM_SYS_DeleteNetState(MbNetState *net);
 void MB_COMM_SYS_UpdateNetState(MbNetState *net);
@@ -797,10 +577,10 @@ void MB_COMM_SYS_UpdateNetState(MbNetState *net)
 /* Starts the net session and resets every message flag of the link state. */
 void MB_COMM_SYS_StartNetSession(MbNetState *net)
 {
-    Request request = sMbCommSessionRequest;
+    MbCommRequest request = sMbCommSessionRequest;
 
     request.heapId = net->heapId;
-    GFL_NET_StartSession(&request, 0, (u32)net);
+    GFL_NET_StartSession((GFLNetInitializeStruct *)&request, 0, (u32)net);
     net->offer = 0;
     net->flagsA.bits.headerReceived = 0;
     net->childSaveCount = 0;

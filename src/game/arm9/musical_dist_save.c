@@ -72,13 +72,18 @@ struct SaveControl;
 
 #include "gfl_heap_wrap.h"
 
-extern u32   SAVE_CONTROL_LoadExtraSaveWithBuffer(void *save_ctrl, u32 block_id, u32 heap_id, void *buf, u32 size);
-
+#ifdef __MWERKS__
+extern u32   SAVE_CONTROL_LoadExtraSaveWithBuffer(void *save_ctrl, u32 block_id, u32 heap_id, void *buf, u32 size); /* original prototype; the definition differs in argument width, pointer type */
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 slot, u32 recordId);
+#else
+#include "save_control.h"
+#endif
 
 #include "mi_memory.h"
 
+#ifdef __MWERKS__
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
+#endif
 
 
 

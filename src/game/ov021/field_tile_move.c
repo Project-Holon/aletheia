@@ -59,7 +59,6 @@ typedef struct FieldPlayer FieldPlayer;
 typedef struct FieldEffectSys FieldEffectCtrl;
 
 /* Update function of a game event: (event, state, work), returns 1 when finished. */
-typedef int (*GameEventFunc)();
 
 /* Spin tile table entry: the player keeps turning on tiles with this attribute. */
 typedef struct TileSpinEntry {
@@ -108,36 +107,21 @@ typedef struct TileSlideWork {
     int slideSeSlot;            /* 0x24, SE slot of 0x769 (slide loop) */
 } TileSlideWork;
 
-extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
-extern int GFL_USE_GetSeSlot(u32 seId);
-extern void GFL_USE_StopSeSlot(int seSlot);
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventFunc func, u32 workSize);
-extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+#include "../ov010/fldmmdl.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/game_event.h"
+#include "fieldmap.h"
 extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 extern void FIELD_PLAYER_GetPos(FieldPlayer *player, VecFx32 *outPos);
 struct FieldG3dMapper;
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
-extern int MAP_ATTR_GetAt(void *g3dMapper, void *pos);
-extern u16 MAP_ATTR_GetTerrainId(u32 attr);
-extern void FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 acmd);
-extern int GFL_USE_IsSeSlotBusy(u32 slot);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern u32 FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u16 dir);
+#include "map_attr.h"
+#include "../ov010/fldmmdl_move.h"
 extern u32 FIELD_PLAYER_GetRideEffect(FieldPlayer *player);
 extern u32 FLDEFF_NAMIPOKE_SetWakeEnabled(u32 namipoke, int visible);
 struct FieldEffectCont;
-extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
 struct FieldEffectSys;
-extern int FIELD_EFFECT_IsResourceLoaded(struct FieldEffectSys *sys, s32 id);
-extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *sys, s32 *ids, s32 count);
+#include "field_effect.h"
 extern void FLDEFF_NAMIPOKE_SPLASH_StartAtPos(struct FieldEffectSys *fieldEffect, s32 type, VecFx32 *pos);
-extern int GFL_USE_IsLoaderBusy(void);
-extern void GFL_USE_PlaySeInSlot(u32 seId, int seSlot);
 
 TileSpinEntry *FIELD_TILE_MOVE_FindSpinEntry(u16 attr);
 int FIELD_TILE_MOVE_HasSpinEntry(u16 attr);
@@ -227,7 +211,7 @@ int FIELD_TILE_MOVE_SpinTaskMain(GameEvent *event, int *state, TileSpinWork *wor
 /* Creates the spin task with a 0x1C byte work area and fills it from the field map. */
 GameEvent *FIELD_TILE_MOVE_StartSpinTask(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, FIELD_TILE_MOVE_SpinTaskMain, 0x1C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)FIELD_TILE_MOVE_SpinTaskMain, 0x1C);
     TileSpinWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -396,7 +380,7 @@ int FIELD_TILE_MOVE_SlideTaskMain(GameEvent *event, int *state, TileSlideWork *w
 GameEvent *FIELD_TILE_MOVE_StartSlideTask(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
     FieldPlayer *player = FIELDMAP_GetFieldPlayer(fieldMap);
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, FIELD_TILE_MOVE_SlideTaskMain, 0x28);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)FIELD_TILE_MOVE_SlideTaskMain, 0x28);
     TileSlideWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;

@@ -157,25 +157,7 @@ struct FieldMenu;
 struct FieldMsgWindow;
 struct AnimeTask;
 
-/*
- * Field menu header (0x20 bytes) for the ov021 field menu list: a copy of
- * the template sScrcmdMenuHeader is completed by FIELD_MSGBG_SetMenuHeaderRect.
- */
-typedef struct FieldMenuHeader {
-    int itemCount;                  /* 0x00 */
-    int maxLines;                   /* 0x04 */
-    u16 frameId;                    /* 0x08 */
-    u16 cursorMargin : 3;           /* 0x0A, added to the text width */
-    u16 lineSpacing : 4;            /* 0x0A, added to the font height */
-    int frameFlags;                 /* 0x0C */
-    u16 fontId;                     /* 0x10 */
-    u16 fontHeight;                 /* 0x12 */
-    u16 posX;                       /* 0x14 */
-    u16 posY;                       /* 0x16 */
-    u16 width;                      /* 0x18, in characters */
-    u16 height;                     /* 0x1A, in characters */
-    int reserved;                   /* 0x1C */
-} FieldMenuHeader;
+#include "../ov021/field_msgbg_types.h"
 
 /* Script menu state (0xA0 bytes, inside ScrcmdCommonWork at +0x34). */
 typedef struct ScrcmdMenu {
@@ -203,7 +185,7 @@ typedef struct ScrcmdCommonWork {
     struct AnimeTask *animeTasks[8]; /* 0x014 */
     ScrcmdMenu menu;                /* 0x034 */
     u8 wordSetWork[0x28];           /* 0x0D4 */
-    struct FieldMsgWindow *msgWindow; /* 0x0FC */
+    void *msgWindow; /* 0x0FC */
     void *timeIcon;                 /* 0x100 */
     u8 windowState;                 /* 0x104 */
     u8 windowKind;                  /* 0x105 */
@@ -239,12 +221,7 @@ typedef struct OwnerInfo {
 } OwnerInfo;
 
 /* Calendar date as the RTC driver returns it (layout as in time_icon.c). */
-typedef struct RtcDate {
-    int year;
-    int month;
-    int day;
-    int weekday;
-} RtcDate;
+#include "../arm9/gf_standard_types.h"
 
 struct ZukanSave;
 struct MiscSave;
@@ -255,33 +232,23 @@ struct EventData;
 struct MapMatrix;
 
                    
-extern void *SCRIPT_WORK_GetGameSystem(struct ScriptWork *scriptWork);
-extern int *SCRIPT_WORK_ResetFieldParam(struct ScriptWork *scriptWork);
-extern void *SCRIPT_WORK_GetCmdWork(struct ScriptWork *scriptWork);
-extern void *SCRIPT_WORK_BackupLocalWork(struct ScriptWork *scriptWork);
-extern void SCRIPT_WORK_RestoreLocalWork(struct ScriptWork *scriptWork, void *localWork);
-extern int SCRIPT_WORK_CheckFlag(int);
-extern void SCRIPT_SYS_SetNextEventFromWork(void *scriptWork, void *nextEvent);
-u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, ScrcmdWork *work);
-unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, ScrcmdWork *work);
-extern struct ScriptVm *VM_End(struct ScriptVm *vm);
+#include "script_work.h"
+struct ScriptFieldParam;
+#include "script_sys.h"
+#include "script_work_cmd.h"
+#include "../arm9/vm.h"
 
 /* map_matrix.c, map_replace.c, warp table */
-int MAP_MATRIX_Load(struct MapMatrix *mapMatrix, int matrixId, u16 zoneId, int heapId);
-void MAP_MATRIX_ApplyReplace(struct MapMatrix *matrix, s32 gameSystem, s32 heapId);
+#include "map_matrix.h"
 /* extent: two bytes of zero alignment padding at 0x02159F52. */
-void MAP_REPLACE_SetFlag(int gameData, int flagNo, int set);
-int MAP_REPLACE_CheckFlag(s32 gameData, s32 flagNo);
-int MAP_REPLACE_IsValidWarpId(int warpId);
+#include "map_replace.h"
 
 /* event_poke_status.c (event work flag offsets) */
 /* interface: original narrows r1 by shift pairs; u16 extern preserves this. */
-unsigned EVENT_TRAINER_CheckDefeatedFlag(void *flagSet, unsigned int flagOffset);
-void EVENT_TRAINER_SetDefeatedFlag(char *flagSet, unsigned int flagOffset);
-void EVENT_TRAINER_ClearDefeatedFlag(char *flagSet, unsigned int flagOffset);
+#include "event_trainer.h"
 
 /* game system and game data */
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 extern void *GAME_DATA_GetOccupyInfo(struct GameData *gameData);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
@@ -289,7 +256,11 @@ extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
 extern u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *playerWork);
 extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *playerWork);
 extern void GAME_DATA_SetSpecialLocation(struct GameData *gameData, const struct Location *location);
-extern void GAME_DATA_SetWarpId(struct GameData *gameData, int warpId);
+#ifdef __MWERKS__
+extern void GAME_DATA_SetWarpId(struct GameData *gameData, int warpId); /* original prototype; the definition differs in argument width */
+#else
+extern void GAME_DATA_SetWarpId(struct GameData*, u16);
+#endif
 extern unsigned int GAME_DATA_GetFieldWork(struct GameData *gameData);
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
@@ -299,99 +270,84 @@ extern void *GAME_DATA_GetTrainerCardSign(struct GameData *gameData);
 extern void *GAME_DATA_GetEventData(struct GameData *gameData);
 extern u32 GAME_DATA_GetLastBattleResult(struct GameData *gameData);
 extern u32 ZONEDATA_GetMatrixId(u32 zoneId);
-extern void ZONEDATA_SetDirectLocation(struct Location *location, int zoneId, int direction, int x, int y, int z);
+#ifdef __MWERKS__
+extern void ZONEDATA_SetDirectLocation(struct Location *location, int zoneId, int direction, int x, int y, int z); /* original prototype; the definition differs in argument sign, argument width */
+#else
+extern void ZONEDATA_SetDirectLocation(struct Location*, u16, s16, u32, u32, u32);
+#endif
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
 
 /* save data */
-extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
-extern int CONFIG_GetTextLanguage(struct Config *config);
-extern int CONFIG_SetTextLanguage(struct Config *config, int flag);
-extern int CONFIG_GetButtonMode(struct Config *config);
-extern u8 MYSTATUS_GetSex(const struct MyStatus *status);
-extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *status);
-extern unsigned char SAVE_CONTROL_HasFlashSave(const struct SaveControl *saveControl);
-extern u8 SAVE_CONTROL_IsNewGame(const struct SaveControl *saveControl);
-extern void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, unsigned *used, unsigned *total);
-extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u8 heapId);
-extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 index);
-extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 id);
-extern void BOX_SAVEDATA_SetFlags(struct GameData *gameData, unsigned int bits);
-extern u32 DENDOU_SAVEDATA_GetRecordCount(char *ring);
+#include "../arm9/system_data.h"
+#include "../arm9/config.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/save_control.h"
+#include "../arm9/box_savedata.h"
+#include "../arm9/dendou_savedata.h"
 struct TrainerCardSignature;
-extern struct TrainerCardSignature *TRCARD_SIGN_GetFromSave(struct SaveControl *saveControl);
-extern u8 TRCARD_SIGN_GetSeenBefore(struct TrainerCardSignature *card);
-extern struct TrainerCardSignature *TRCARD_SIGN_SetSeenBefore(struct TrainerCardSignature *card);
-extern void TRCARD_SIGN_SetBadgeDate(struct TrainerCardSignature *card, unsigned int badge, unsigned int year, unsigned int month, unsigned int day);
-extern u32 MISC_GetBadge(struct MiscSave *misc, u32 flagId);
-extern void MISC_SetBadge(struct MiscSave *misc, u32 flagId);
-extern u32 MISC_CountBadges(struct MiscSave *misc);
-extern u8 MISC_GetSlotState(struct MiscSave *misc, u32 index);
-extern void MISC_SetSlotState(struct MiscSave *misc, u32 index, u8 value);
+#include "../arm9/trcard_sign.h"
+#include "../arm9/beacon.h"
 extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
 extern struct ZukanSave *ZUKAN_SAVE_EnableNationalDex(struct ZukanSave *zukan);
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *zukan);
 extern struct ZukanSave *ZUKAN_SAVE_SetDexObtained(struct ZukanSave *zukan);
 extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *zukan, void *pokemon);
-extern int ZUKAN_SAVE_IsSeen(struct ZukanSave *zukan, int species);
-extern int ZUKAN_SAVE_IsCaught(struct ZukanSave *zukan, int species);
+#ifdef __MWERKS__
+extern int ZUKAN_SAVE_IsSeen(struct ZukanSave *zukan, int species); /* original prototype; the definition differs in return type, argument width */
+#else
+extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave*, u16);
+#endif
+#ifdef __MWERKS__
+extern int ZUKAN_SAVE_IsCaught(struct ZukanSave *zukan, int species); /* original prototype; the definition differs in return type, argument width */
+#else
+extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave*, u16);
+#endif
 extern u16 ZUKAN_SAVE_CountSeenNational(struct ZukanSave *zukan);
 extern u16 ZUKAN_SAVE_CountCaughtNational(struct ZukanSave *zukan);
-extern int TRCARD_SYS_CountStars(void *save);
-extern int FIELD_CLOCK_GetTimeZone(struct GameData *gameData);
-extern int FIELD_CLOCK_GetWeek(struct GameData *gameData);
-extern int FIELD_CLOCK_GetMonth(struct GameData *gameData);
-extern int FIELD_CLOCK_GetDay(struct GameData *gameData);
-extern int FIELD_CLOCK_GetHour(struct GameData *gameData);
-extern int FIELD_CLOCK_GetMinute(struct GameData *gameData);
-
-/* event data, battle, network */
-extern int EVENTDATA_SYSTEM_SetBgEventGridPos(struct EventData *eventData, int eventId, u16 x, u16 y, u16 z);
+struct EventDataSystem;
+extern void EVENTDATA_SYSTEM_SetBgEventGridPos(struct EventDataSystem *system, u32 index, u32 gridX, u32 height, u16 gridZ);
 struct EventDataSystem;
 extern void EVENTDATA_SYSTEM_SetConnectGridPos(struct EventDataSystem *system, unsigned int index, unsigned short gridX, unsigned int height, unsigned short gridZ);
-extern int EVENTDATA_SYSTEM_SetNpcGridPos(struct EventData *eventData, int eventId, int direction, u16 x, int y, u16 z);
-extern int EVENT_BATTLE_IsResultSilent(int outcome, int mode);
+#ifdef __MWERKS__
+extern void EVENTDATA_SYSTEM_SetNpcGridPos(struct EventData *eventData, int eventId, int direction, u16 x, int y, u16 z); /* original prototype; the definition differs in pointer type, argument sign, argument width */
+#else
+extern void EVENTDATA_SYSTEM_SetNpcGridPos(struct EventDataSystem*, u32, u16, u16, u32, u16);
+#endif
+#include "event_battle.h"
 struct GameEvent;
-extern struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
+typedef int Bool;
+#include "scrcmd_network.h"
 
 /* system */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern void MIi_CpuClear32(int value, void *dest, int size);
-extern void MI_CpuFill8(void *dest, int value, int size);
-extern u32 KEY_GetTrg(void);
-extern u32 GFL_USE_GetRandom(u32 range);
-extern u32 CURSOR_MOVE_GetTableGroup(u32 x);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/key.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/cursor_move.h"
 struct OSOwnerInfoEx;
-extern void OS_GetOwnerInfoEx(struct OSOwnerInfoEx *info);
-extern void GF_STANDARD_GetCachedDate(RtcDate *date);
-extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heapId);
+#include "../arm9/os_ownerinfoex.h"
+#include "../arm9/gf_standard.h"
+#ifdef __MWERKS__
+extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heapId); /* original prototype; the definition differs in return type, argument width */
+#else
+#include "../arm9/poke_tool.h"
+#endif
 
 /* message data, strings, menus */
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern unsigned int MSGDATA_Delete(struct MsgBank *msgData);
-extern void MSGDATA_ReadString(struct MsgBank *msgData, unsigned int index, struct Strbuf *dest);
-extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
-extern void STRBUF_Delete(struct Strbuf *str);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern unsigned int BMP_MENUWORK_CountItems(struct BmpMenuWork *items);
-extern unsigned int BMP_MENULIST_GetUserData(struct BmpMenuList *list);
-extern void BMP_MENULIST_GetListIndex(struct BmpMenuList *list, u16 *out);
-extern struct BmpMenuWork *FIELD_MSGBG_CreateMenuItems(int count, int heapId);
-extern int FIELD_MSGBG_AddMenuItemStr(struct BmpMenuWork *items, struct Strbuf *str, u32 param, u32 heapId);
-extern u32 FIELD_MSGBG_GetMenuItemsWidthChars(int *heap, struct BmpMenuWork *items, u32 fontId, u32 margin);
-extern unsigned FIELD_MSGBG_GetMenuItemCount(struct BmpMenuWork *items);
-extern unsigned FIELD_MSGBG_GetMenuHeightChars(unsigned lines, unsigned fontHeight, unsigned lineSpacing, int scrolls);
-extern struct FieldMenuHeader *FIELD_MSGBG_SetMenuHeaderRect(struct FieldMenuHeader *header, unsigned short itemCount, unsigned short x, unsigned short y, unsigned short width, unsigned short height);
-extern struct FieldMenu *FIELD_MSGBG_CreateMenuFuncWork(int *heap, const FieldMenuHeader *header, struct BmpMenuWork *items, void (*callback)(struct BmpMenuList *), ScrcmdWork *work, u16 unused, u16 cursorPos, u32 cancelable);
+#include "../arm9/msgdata.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/bmp_menulist.h"
+#include "../ov021/field_msgbg.h"
+struct FieldMsgBg;
 struct FieldMenuFunc;
-extern int FIELD_MSGBG_DeleteMenuFunc(struct FieldMenuFunc *menu);
-extern int FIELD_MSGBG_MenuFuncMain(struct FieldMenuFunc *menu);
+struct FieldMenuFunc;
 struct FieldSysWin;
-extern void FIELD_MSGBG_ClearInfoSysWin(struct FieldSysWin *sysWin);
-extern void FIELD_MSGBG_InfoSysWinPrintStrNow(struct FieldSysWin *sysWin, unsigned int x, int y, struct Strbuf *str);
-extern int FLDMMDL_ACMD_ListCheckEnd(void *tcb);
-extern void FLDMMDL_ACMD_ListDelete(void *tcb);
+#include "../ov021/fldmmdl_acmd.h"
+#include "trcard_sys.h"
+#include "field_clock.h"
 
 extern const char sScrcmdWorkFileName[];
 extern FieldMenuHeader gScrcmdMenuHeader;
@@ -486,7 +442,7 @@ struct ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *work)
 
 int SCRCMD_WORK_GetMenuHeap(ScrcmdWork *work)
 {
-    return *SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work));
+    return *(s32 *)SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work));
 }
 
 struct MsgBank *SCRCMD_WORK_GetMsgData(ScrcmdWork *work)
@@ -499,12 +455,12 @@ u16 SCRCMD_WORK_GetMsgDataId(ScrcmdWork *work)
     return work->msgDataId;
 }
 
-void SCRCMD_WORK_SetMsgWindow(ScrcmdWork *work, struct FieldMsgWindow *window)
+void SCRCMD_WORK_SetMsgWindow(ScrcmdWork *work, void *window)
 {
     work->common->msgWindow = window;
 }
 
-struct FieldMsgWindow *SCRCMD_WORK_GetMsgWindow(ScrcmdWork *work)
+void *SCRCMD_WORK_GetMsgWindow(ScrcmdWork *work)
 {
     return work->common->msgWindow;
 }
@@ -692,7 +648,7 @@ void SCRCMD_WORK_StartMenu(ScrcmdWork *work)
     int *heap = (int *)SCRCMD_WORK_GetMenuHeap(work);
     unsigned lines;
     unsigned count;
-    width = FIELD_MSGBG_GetMenuItemsWidthChars(heap, menu->items, header.fontId, header.cursorMargin);
+    width = FIELD_MSGBG_GetMenuItemsWidthChars((void *)heap, menu->items, header.fontId, header.cursorMargin);
     if (menu->alignRight == 1) {
         menu->x = menu->x - (unsigned short)width;
     }
@@ -703,7 +659,7 @@ void SCRCMD_WORK_StartMenu(ScrcmdWork *work)
     }
     height = FIELD_MSGBG_GetMenuHeightChars(lines, header.fontHeight, header.lineSpacing, count > 6);
     FIELD_MSGBG_SetMenuHeaderRect(&header, (unsigned short)FIELD_MSGBG_GetMenuItemCount(menu->items), (unsigned short)menu->x, (unsigned short)menu->y, (unsigned short)width, (unsigned short)height);
-    menu->fieldMenu = FIELD_MSGBG_CreateMenuFuncWork(heap, &header, menu->items, SCRCMD_WORK_MenuCursorCallback, work, 0, menu->cursorPos, menu->cancelable);
+    menu->fieldMenu = (struct FieldMenu *)FIELD_MSGBG_CreateMenuFuncWork((void *)heap, &header, menu->items, (u32)SCRCMD_WORK_MenuCursorCallback, (u32)work, 0, menu->cursorPos, menu->cancelable);
 }
 
 void SCRCMD_WORK_DeleteMenu(ScrcmdMenu *menu)
@@ -762,7 +718,7 @@ void SCRCMD_WORK_MenuCursorCallback(struct BmpMenuList *list)
     BMP_MENULIST_GetListIndex(list, &index);
     if (menu->itemHelp[index] != NULL) {
         if (SCRIPT_WORK_CheckFlag(1) != 0) {
-            struct FieldMsgWindow *window = SCRCMD_WORK_GetMsgWindow(work);
+            void *window = SCRCMD_WORK_GetMsgWindow(work);
             FIELD_MSGBG_ClearInfoSysWin((struct FieldSysWin *)window);
             FIELD_MSGBG_InfoSysWinPrintStrNow((struct FieldSysWin *)window, 0, 0, menu->itemHelp[index]);
         } else if (SCRIPT_WORK_CheckFlag(2) == 0) {
@@ -920,7 +876,7 @@ int SCRCMD_WORK_CmdCheckBadge(struct ScriptVm *vm, ScrcmdWork *work)
 
 int SCRCMD_WORK_CmdSetBadge(struct ScriptVm *vm, ScrcmdWork *work)
 {
-    RtcDate date;
+    struct RtcDate date;
     int flagId = SCRIPT_WORK_ReadWorkValue(vm, work);
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     MISC_SetBadge(GAME_DATA_GetMiscSave(gameData), flagId);
@@ -1240,7 +1196,7 @@ int SCRCMD_WORK_CmdSetBgEventGridPos(struct ScriptVm *vm, ScrcmdWork *work)
     s16 x = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
     s16 y = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
     s16 z = (s16)SCRIPT_WORK_ReadWorkValue(vm, work);
-    EVENTDATA_SYSTEM_SetBgEventGridPos(GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData(work)), eventId, x, y, z);
+    EVENTDATA_SYSTEM_SetBgEventGridPos((void *)(GAME_DATA_GetEventData(SCRCMD_WORK_GetGameData(work))), (s32)eventId, (u16)x, (u16)y, z);
     return 0;
 }
 

@@ -45,40 +45,44 @@
  *   GAME_EVENT_GetGameSystem  0x020124E4  thumb
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  */
+#include "../arm9/game_data.h"
 #include "field_gimmick_time_effect_types.h"
 
 struct GameData;
 struct FieldSave;
 
-extern void *FIELDMAP_GetGameSystem(void *fieldMap);
-extern void *GAMESYSTEM_GetGameData(void *gameSystem);
-extern struct FieldSave *GAME_DATA_GetFieldSave(void *gameData);
-extern FieldGimmickTimeEffectSave *GIMMICK_WORK_GetWork(struct FieldSave *fieldSave, u32 blockId);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+struct GameSystem;
+#include "../arm9/g3d_system_types.h"
+#include "../types.h"
+struct GimmickWork;
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern FieldGimmickTimeEffectSave *GIMMICK_WORK_GetWork(struct GimmickWork *fieldSave, u32 blockId);
 struct FieldMap;
 struct FldExpObjCnt;
 extern struct FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, s32 id, s32 heapId, s32 size);
-extern FieldGimmickTimeEffectWork *FIELDMAP_GetCommonWork(void *fieldMap, int id);
-extern u8 GAME_DATA_GetSeason(struct GameData *gd);
-extern u32 TIMEZONE_GetNowTimeZone(u32 season);
+extern FieldGimmickTimeEffectWork *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
+extern u8 GAME_DATA_GetSeason(const struct GameData *gd);
+#include "../arm9/timezone.h"
 struct G3dUtilSetup;
 extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, int unit, u16 model);
-extern void FLD_EXP_OBJ_SetModelCullDraw(void *expObj, int unit, int model, int visible);
-extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
+extern void FLD_EXP_OBJ_SetModelCullDraw(struct FldExpObjCnt *expObj, int unit, int model, int visible);
+extern void FLD_EXP_OBJ_SetModelHidden(struct FldExpObjCnt *expObj, int unit, int model, int hidden);
 struct FldExpObjAnime;
 extern struct FldExpObjAnime *FLD_EXP_OBJ_GetAnime(struct FldExpObjCnt *cnt, s32 unitIdx, u32 modelIdx, s32 animeIdx);
 extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, s32 loop);
 extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, s32 paused);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, u16 model, u16 animeIdx, int enabled);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObjCnt *expObj, int unit, u16 model, u16 animeIdx, int enabled);
 extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, u16 unitIdx);
 extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, s32 id);
 extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
 extern int FLD_EXP_OBJ_GetAnimeFrame(struct FldExpObjCnt *cnt, int unitIdx, int modelIdx, int animeIdx);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_use.h"
 extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpObjAnime *anime);
-extern void *GAME_EVENT_Create(void *owner, void *a, void *eventFunc, u32 size);
+#include "../arm9/game_event.h"
 extern int FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain(void *event);
 void FIELD_GIMMICK_TIME_EFFECT_Init(void *fieldMap);
 void FIELD_GIMMICK_TIME_EFFECT_Exit(unsigned char *fieldMap);
@@ -88,8 +92,7 @@ void *FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent(void *gameSystem);
 extern char sTimeEffectUnitDescNight[];
 extern char sTimeEffectUnitDescDay[];
 extern VecFx32 sTimeEffectEffectPosition;
-extern void *GAME_EVENT_GetGameSystem(void *event);
-extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 
 void FIELD_GIMMICK_TIME_EFFECT_Init(void *fieldMap)
 {
@@ -101,7 +104,7 @@ void FIELD_GIMMICK_TIME_EFFECT_Init(void *fieldMap)
     void *expObj;
 
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK);
+    save = GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickTimeEffectWork));
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
@@ -148,7 +151,7 @@ void FIELD_GIMMICK_TIME_EFFECT_Update(int fieldMap)
         if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime((void *)expObj, 0, 0, 0)) != 0) {
             FLD_EXP_OBJ_SetModelHidden((void *)expObj, 0, 0, 1);
             work->isPlaying = 0;
-            GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)fieldMap))), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK)->isEffectPending = 0;
+            GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem((void *)fieldMap))), FIELD_GIMMICK_TIME_EFFECT_SAVE_BLOCK)->isEffectPending = 0;
         }
     }
 }

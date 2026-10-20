@@ -41,38 +41,31 @@ typedef struct MusicalDressupWork {
     MusicalDressupParam *param;         /* 0x0C */
 } MusicalDressupWork;
 
-extern int GF_OVERLAY_Load(s32 overlayId);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(s32 overlayId);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+#include "../arm9/gfl_heap.h"
 
-extern int STA_NET_GetRole(s32 *p);
+#include "../ov132/sta_net.h"
 
-extern void GFL_HEAP_DeleteChecked(u32 heapId);
 struct SaveControl;
 struct MusicalSave;
 
-extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
+#include "../arm9/musical_save.h"
 struct Proc;
 
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
+#include "../arm9/procsys.h"
 
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
-extern u8 *DUP_FITTING_Create(u8 *parent, s32 heap);
+#include "../ov133/dup_fitting.h"
 struct DupFittingWork;
 
-extern int DUP_FITTING_Main(struct DupFittingWork *work);
 
-extern void DUP_FITTING_Delete(char *work);
 struct StaNetWork;
 
-extern void STA_NET_BeginTransfer(struct StaNetWork *work);
 
 extern char ov133_id[];
 

@@ -51,6 +51,7 @@ struct Wf2dmapActor;
 #include "wf2dmap_obj_types.h"
 
 #include "../types.h"
+#include "wf2dmap_objdraw.h"
 
 /* 12-byte animation sequence of one 2D map object. */
 typedef struct Wf2dmapAnimSeq {
@@ -88,44 +89,22 @@ typedef struct Wf2dmapU16Point {
     u16 x, y;
 } Wf2dmapU16Point;
 
-/* Signed 16-bit pair passed by value. */
-typedef struct Wf2dmapPair {
-    s16 x;
-    s16 y;
-} Wf2dmapPair;
 
-extern Wf2dmapU16Point WF2DMAP_OBJ_GetPos(void *);
-extern void *GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
+#include "wf2dmap_obj.h"
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_Alloc_hdr
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+void * GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
+#endif
 struct Wifi2dcharContext;
-extern struct Wifi2dcharContext *WIFI_2DCHAR_Create(void *, void *, u32, u32);
-extern void WIFI_2DCHAR_SetupBmpCell(u8 *p, int a, int b, int c, int d);
-extern void WIFI_2DCHAR_RegisterBmp(u8 *p, int a, int b, int c);
-extern void WIFI_2DCHAR_ReleaseBmp(u8 *p);
-extern void WIFI_2DCHAR_Delete(u8 *p);
-extern u32 GFL_HEAP_Free(void *p);
-extern void WIFI_2DCHAR_ReleaseCells(u8 *p);
-extern void WIFI_2DCHAR_SetupCells(u8 *p, int a, int b, int c, int d);
-extern int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i);
-extern u32 *WIFI_2DCHAR_SpawnActor(struct Wifi2dcharContext *ctx, s16 *pos, s32 idx, u32 heap);
-extern void WIFI_2DCHAR_DeleteActor(u8 *p);
-extern void MI_CpuFill8(void *, int, int);
-extern void WIFI_2DCHAR_SetActorPos(u8 *p, int x, int y);
-extern void WIFI_2DCHAR_SetActorDrawPriority(u8 *p, u32 v);
-extern void WIFI_2DCHAR_StepActorAnim(u8 *p);
-extern int WIFI_2DCHAR_GetActorDrawEnable(char *p);
-extern void WIFI_2DCHAR_SetActorDrawEnable(char *p, int a);
-extern void WIFI_2DCHAR_SetSubActorDrawEnable(char *p, int a);
-extern int WIFI_2DCHAR_GetActorDrawPriority(u8 *p);
-extern void WIFI_2DCHAR_SetSubActorPos(char *p, int x, int y);
-extern int WIFI_2DCHAR_GetActorCellArgB(char *);
-extern Wf2dmapPos WF2DMAP_OBJ_GetCurrentPos(char *);
-extern int WIFI_2DCHAR_GetActorAnimSeqCount(char *p);
-extern u32 WIFI_2DCHAR_GetActorAnimId(char *p);
+#include "wifi_2dchar.h"
+#include "../arm9/mi_memory.h"
 struct Wifi2dcharActor;
-extern void WIFI_2DCHAR_SetActorAnim(struct Wifi2dcharActor *p, s32 idx, s32 a);
-extern void WIFI_2DCHAR_SetActorAnimIndex(char *p, u32 a);
 struct Wf2dmapPoint;
-extern void WF2DMAP_SCRDRAW_SetPoint(struct Wf2dmapPoint *p, s16 y, s16 x);
+#include "wf2dmap_scrdraw.h"
 void WF2DMAP_OBJDRAW_FillSpawnDesc(u8 *out,void *p,int kind,int index,int value);
 Wf2dmapAnimSeq *WF2DMAP_OBJDRAW_CreateAnimSeq(void *srcA, void *srcB, u32 count, void *palette, int animData, u32 mode, u32 heap);
 void WF2DMAP_OBJDRAW_DeleteAnimSeq(u8 *p);
@@ -158,7 +137,7 @@ extern const char sWf2dmapObjdrawFileName[];
 extern unsigned char sWf2dmapSlotValues[];
 extern u8 sWf2dmapSlotFlags[];
 
-void WF2DMAP_OBJDRAW_FillSpawnDesc(u8 *out,void *p,int kind,int index,int value) { *(Wf2dmapU16Point *)out=WF2DMAP_OBJ_GetPos(p); ((Wf2dmapSpawnDesc *)out)->kind=kind; out[7]=index; out[6]=value; }
+void WF2DMAP_OBJDRAW_FillSpawnDesc(u8 *out,void *p,int kind,int index,int value) { *(Wf2dmapPos *)out=WF2DMAP_OBJ_GetPos(p); ((Wf2dmapSpawnDesc *)out)->kind=kind; out[7]=index; out[6]=value; }
 
 Wf2dmapAnimSeq *WF2DMAP_OBJDRAW_CreateAnimSeq(void *srcA, void *srcB, u32 count, void *palette, int animData, u32 mode, u32 heap)
 {
@@ -350,7 +329,7 @@ char *WF2DMAP_OBJDRAW_AllocActor(u8 *seq) { int i,offset; for(i=0;i<((Wf2dmapAni
 
 int WF2DMAP_OBJDRAW_GetFrameValue(char *p, int b)
 {
-    if (WIFI_2DCHAR_GetActorCellArgB(p) == 2)
+    if (WIFI_2DCHAR_GetActorCellArgB((u8 *)p) == 2)
         return 0;
     return sWf2dmapSlotValues[b];
 }

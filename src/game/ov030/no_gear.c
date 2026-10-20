@@ -50,22 +50,7 @@ struct MyStatus;
 struct ArchiveHandle;
 
 /* Background setup record handed to the BG system (one per screen layer). */
-struct BgTemplate {
-    u32 scrollX;
-    u32 scrollY;
-    u32 bufSize;
-    u32 baseTile;
-    u8  screenSize;
-    u8  colorMode;
-    u8  screenBase;
-    u8  charBase;
-    u32 extPaletteSlot;
-    u8  priority;
-    u8  areaOver;
-    u8  dummy;
-    u8  mosaicFlag;
-    u32 mosaic;
-};
+#include "../arm9/bg_sys.h"
 
 /* Panel shown on the lower screen when the save has no C-Gear (0x20 bytes). */
 typedef struct NoGearWork {
@@ -79,27 +64,15 @@ typedef struct NoGearWork {
     u32 pad1C;
 } NoGearWork;
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u8 MYSTATUS_GetSex(const struct MyStatus *player);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern void BG_SYS_SetSubPlaneVisible(u32 planeMask, u32 enable);
-extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char visible);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
-extern void BG_SYS_SetPriority(int bgId, unsigned short priority);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern void BG_SYS_PushTile(u32 bgId);
-extern void BG_SYS_FreeTileRun(u32 bgId, u32 offset, u32 size);
-extern void BG_SYS_FreeLayerBuf(u32 bgId);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/arc_tool.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/net.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct FieldState;
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
-extern u32 WIH_DWC_PollStatus(void *key);
+#include "../arm9/wih_dwc.h"
 void NO_GEAR_StoreStepFunc(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *));
 void NO_GEAR_SetStepFunc(NoGearWork *work, void (*stepFunc)(NoGearWork *), int line);
 void NO_GEAR_LoadGraphics(NoGearWork *work);
@@ -118,7 +91,6 @@ extern struct BgTemplate gNoGearBgTemplateBack;
 extern char str_021F01C0[];
 #include "../types.h"
 struct NoGearWork;
-extern u32 GFL_HEAP_Free(void *block);
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 
 void NO_GEAR_StoreStepFunc(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *))

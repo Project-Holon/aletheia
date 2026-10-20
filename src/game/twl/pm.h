@@ -1,6 +1,10 @@
 #ifndef GAME_TWL_PM_H
 #define GAME_TWL_PM_H
 
+#include "../arm9/pm.h"
+
+void PMi_InsertPostExitCallbackEx(struct PMiGenCallbackInfo *info, int priority);
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of pm.c, prototypes copied from their definitions. */
 

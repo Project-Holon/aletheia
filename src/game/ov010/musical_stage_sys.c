@@ -50,36 +50,27 @@ typedef struct MusicalStageWork {
     u32 unused;
 } MusicalStageWork;
 
-extern int GF_OVERLAY_Load(s32 overlayId);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(s32 overlayId);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+#include "../arm9/gfl_heap.h"
 
-extern void *MUSICAL_MCSS_AllocDistSave(u32 heapId);
+#include "../ov112/musical_system.h"
 
-extern void MUSICAL_MCSS_LoadDistSave(unsigned char *p, unsigned int unused, void *sys, unsigned char kind, unsigned short heap);
 
-extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern void MUSICAL_MCSS_FreeDistSave(char *p);
 struct Proc;
 
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
+#include "../arm9/procsys.h"
 
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
-extern unsigned char *STA_ACTING_Create(unsigned char *input, int heap);
+#include "../ov132/sta_acting.h"
 
-extern int STA_ACTING_Update(unsigned char *p);
 
-extern void STA_ACTING_Delete(char *p);
 
-extern char *MUSICAL_MCSS_AllocMon(u16 monsNo, u8 form, u8 c, u8 d, u32 personality, u16 heapId);
 
 extern u8 ov112_id[];
 
@@ -103,11 +94,9 @@ int MUSICAL_STAGE_SYS_SetRemotePerformer(MusicalStage *stage, int slot, MusicalP
 
 void MUSICAL_STAGE_SYS_SetPerformerProp(MusicalStage *stage, u8 slot, u8 bodySlot, u16 propId, s16 offset, u8 order);
 
-MusicalShowProgram *MUSICAL_PROGRAM_Create(u32 heapId, MusicalSystemHead *musicalSystem, u16 maxLevel);
+#include "musical_program.h"
 
-int MUSICAL_PROGRAM_Delete(MusicalShowProgram *program);
 
-void MUSICAL_PROGRAM_SplitBonus(u32 heapId, MusicalShowProgram *program, MusicalStage *stage);
 
 /*
  * Init of the stage proc: builds the stage (four NPC performers with their

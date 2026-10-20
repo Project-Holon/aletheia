@@ -37,7 +37,8 @@ struct Actor;
 struct ZukanSave;
 #include "../types.h"
 
-typedef struct { int x,y,z; } MovedPos;
+#include "fldmmdl_types.h"
+typedef VecFx32 MovedPos;
 
 typedef struct
 {
@@ -45,39 +46,21 @@ typedef struct
     unsigned int movedPosTable;
 } ObjContext;
 
-typedef struct {
-    u16 x;
-    u16 y;
-    int z;
-} Pos;
 
-typedef struct {
-    u8 pad00[0x18];
-    int state;
-    Pos pos;
-} PosRecord;
-
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
+#include "../arm9/mi_memory.h"
 struct Mmdl;
-extern u16 FLDMMDL_GetObjCode(struct Mmdl *mmdl);
-extern u16 FLDMMDL_GetZoneId(struct Mmdl *mmdl);
-extern u16 FLDMMDL_GetObjId(struct Mmdl *mmdl);
-extern void *FLDMMDL_GetMmdlSys(void *);
-struct MmdlVec;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+#include "fldmmdl.h"
+struct MmdlSys;
+struct VecFx32;
 int FLDMMDL_HasMovedPos();
 int FLDMMDL_GetMovedPos(void *mmdl, MovedPos *out);
 void FLDMMDL_StoreMovedPos(void *a);
 struct MmdlSys;
-extern struct Mmdl *FLDMMDL_SysSearchGridPosHeight(struct MmdlSys *sys, u32 gridX, u32 gridZ, s32 posY, s32 range, u32 flag);
-extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+#include "../arm9/zukan_save.h"
 struct PokemonParam;
-extern unsigned int POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *p, void *m);
+#include "../arm9/poke_tool.h"
 int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos);
 int FLDMMDL_IsMovedPosObjCode(u16 id);
-void FLDMMDL_InitPosRecord(PosRecord *rec, u16 x, u16 y, int z);
 void FLDMMDL_ApplyBurmyFormForPlace(void *saveData, void *mon, int placeId);
 u32 FLDMMDL_GetMovedPosSaveSize(void);
 void FLDMMDL_InitMovedPosSave(void *block);
@@ -155,7 +138,7 @@ int unused;
 
     slot = FLDMMDL_GetMovedPosSlot((int)mmdl);
     if (slot != 30) {
-        ctx = FLDMMDL_GetMmdlSys(mmdl);
+        ctx = (void *)FLDMMDL_GetMmdlSys(mmdl);
         return FLDMMDL_IsMovedPosSet((const MovedPos *)(ctx->movedPosTable + slot * 12));
     }
     return 0;
@@ -169,7 +152,7 @@ int FLDMMDL_GetMovedPos(void *mmdl, MovedPos *out)
 
     slot = FLDMMDL_GetMovedPosSlot((int)mmdl);
     if (slot != 30) {
-        ctx = FLDMMDL_GetMmdlSys(mmdl);
+        ctx = (void *)FLDMMDL_GetMmdlSys(mmdl);
         entry = (MovedPos *)(ctx->movedPosTable + slot * 12);
         if (FLDMMDL_IsMovedPosSet(entry)) {
             *out = *entry;
@@ -196,9 +179,9 @@ void FLDMMDL_StoreMovedPos(void *mmdl)
     slot = FLDMMDL_GetMovedPosSlot((int)mmdl);
     if (slot != 30)
     {
-        ctx = FLDMMDL_GetMmdlSys(mmdl);
+        ctx = (void *)FLDMMDL_GetMmdlSys(mmdl);
         entry = (MovedPos *) (ctx->movedPosTable + (slot * 12));
-        FLDMMDL_GetPos(mmdl, (struct MmdlVec *)&curPos);
+        FLDMMDL_GetPos(mmdl, (struct VecFx32 *)&curPos);
         *entry = curPos;
     }
 }
@@ -230,17 +213,17 @@ int FLDMMDL_IsMovedPosObjCode(u16 objCode)
 
 /*
  * Unlabelled leaf (sole blocker of ov018 INTRUDE_FIELD_InitMmdlCopyAnime): clears the word
- * at +0x18 and fills the {u16, u16, int} record at +0x1C.
+ * at +0x18 (posType) and fills the grid position at +0x1C of a field model header.
  */
-void FLDMMDL_InitPosRecord(PosRecord *rec, u16 x, u16 y, int z)
+void FLDMMDL_InitPosRecord(MmdlHeader *header, u16 gridX, u16 gridZ, int posY)
 {
-    Pos *pos;
+    MmdlHeaderGridPos *pos;
 
-    rec->state = 0;
-    pos = &rec->pos;
-    pos->x = x;
-    pos->y = y;
-    pos->z = z;
+    header->posType = 0;
+    pos = (MmdlHeaderGridPos *)header->pos;
+    pos->gridX = gridX;
+    pos->gridZ = gridZ;
+    pos->posY = posY;
 }
 
 void FLDMMDL_ApplyBurmyFormForPlace(void *saveData, void *mon, int placeId)

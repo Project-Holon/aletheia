@@ -125,9 +125,9 @@
 
 struct GameComm;
 
-struct ScriptCtl;
+struct ScrcmdWork;
 
-struct ScriptWork;
+struct ScrcmdWork;
 
 struct MusicalEvent;
 
@@ -135,26 +135,18 @@ struct MusicalSave;
 
 struct WordSet;
 
-struct MsgData;
+struct MsgBank;
 
 struct Strbuf;
 
 struct BgmInfo;
 
-struct WifiList;
+struct CgearSaveBlock;
 
 typedef void (*SubProcCallback)(void *callbackArg);
 
 /* Musical save block 0x2A (0x2A4 bytes), layout from mystery_data.c. */
-typedef struct MusicalOutfit {
-    u8 pokeSlot;                          /* 10: none */
-    u8 props[5];
-} MusicalOutfit;
-
-typedef struct MusicalProgram {
-    u8 state;                             /* 4: initial */
-    u8 data[3];
-} MusicalProgram;
+#include "../arm9/musical_save_types.h"
 
 /* The first word of the musical save block (what MUSICAL_SAVE_NoOp points at). */
 typedef struct MusicalHeadBits {
@@ -163,36 +155,18 @@ typedef struct MusicalHeadBits {
     u32 showcaseFlags : 11;
 } MusicalHeadBits;
 
-/* script command 0x0215D7D4 reads a program slot as {state, rank, score}. */
-typedef struct MusicalProgramView {
-    u8 state;
-    u8 rank;
-    u16 score;
-} MusicalProgramView;
-
-/* Link work hung on the game data external-work slot (0x38 bytes). */
-typedef struct MusicalLinkWork {
-    struct MusicalEvent *musicalEvent;    /* 0x00 */
-    void *session;                        /* 0x04: ov132 comm session */
-    u32 entryMenu;                        /* 0x08: comm entry menu handle */
-    struct GameData *gameData;            /* 0x0C */
-    u8 pad10[0x28 - 0x10];
-    u32 procMode;                         /* 0x28: 9 or 10 for the ov100 proc */
-    u32 procWork;                         /* 0x2C */
-    u16 *resultOut;                       /* 0x30: script variable receiving the result */
-    u16 memberCount;                      /* 0x34 */
-} MusicalLinkWork;
+#include "musical_link_types.h"
 
 /* Wait context for the ov100 proc callback. */
 typedef struct MusicalLinkWait {
-    struct ScriptWork *scriptWork;
-    MusicalLinkWork *link;
+    struct ScrcmdWork *scriptWork;
+    MusicalLink *link;
 } MusicalLinkWait;
 
 /* Task work of StartMusical. */
 typedef struct MusicalStartTask {
     struct GameEvent *musicalSeq;         /* 0x00: musical link sequence event */
-    MusicalLinkWork *link;                /* 0x04 */
+    MusicalLink *link;                /* 0x04 */
     u32 mode;                             /* 0x08 */
 } MusicalStartTask;
 
@@ -217,245 +191,207 @@ typedef struct MusicalSystemArgs {
 typedef struct MusicalSystemTask {
     MusicalSystemArgs *args;
 } MusicalSystemTask;
-
-/* script work (ov010) */
-extern struct ScriptCtl *SCRCMD_WORK_GetScriptWork(struct ScriptWork *scriptWork);
-
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScriptWork *scriptWork);
-
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScriptWork *scriptWork);
+struct ScrcmdWork;
+struct ScrcmdWork;
 struct ScrcmdWork;
 
-extern u16 SCRCMD_WORK_GetHeapId(struct ScrcmdWork *work);
+                         
+struct GameSystem;
 
-extern int SCRIPT_WORK_ResetFieldParam(struct ScriptCtl *scriptCtl);
+struct GameData;
 
-extern struct WordSet *SCRIPT_WORK_GetWordSet(struct ScriptCtl *scriptCtl);
+struct ScrcmdWork;
 
-extern void SCRIPT_SYS_CallEvent(struct ScriptCtl *scriptCtl, struct GameEvent *task);
+struct ScriptFieldParam;
 
-extern void SCRIPT_SYS_SetNextEventFromWork(struct ScriptCtl *scriptCtl, struct GameEvent *task);
 
-extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, struct ScriptWork *scriptWork);
+struct ScriptVm;
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScriptWork *scriptWork);
+                       
 
-extern void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(s32 gameSystem, s32 retDecided, s32 retSlot);
+
+#ifdef __MWERKS__
+extern unsigned short SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, struct ScrcmdWork *scriptWork); /* original prototype; the definition differs in return type */
+#else
+extern unsigned short SCRIPT_WORK_ReadWorkValue(struct ScriptVm*, struct ScrcmdWork*);
+#endif
+struct ScriptVm;
+
+
+#include "event_poke_status.h"
 
 /* game system, game event, game data */
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSys);
+#include "../arm9/gamesystem.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSys);
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSys);
 
-extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSys, u32 state);
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSys, u32 procId, void *procData, void *procArg);
 
-extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSys);
 
-extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSys);
 
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSys, void *parent, EventTaskFn taskFn, u32 workSize);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *task);
 
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *task);
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *task, struct GameEvent *callee);
 
-extern ScriptVm *VM_End(ScriptVm *vm);
 
 /* the wait callback receives the user work of the script command */
-typedef int (*ScriptWorkWaitFn)(ScriptVm *vm, struct ScriptWork *scriptWork);
+typedef int (*ScriptWorkWaitFn)(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-extern void VM_SetWait(ScriptVm *vm, ScriptWorkWaitFn waitFn);
 
-extern void *GAME_DATA_GetExternalWork(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern void GAME_DATA_SetExternalWork(struct GameData *gameData, void *externalWork);
 
-extern struct MusicalSave *GAME_DATA_GetSaveBlock2A(struct GameData *gameData);
 
-extern struct PokeParty *GAME_DATA_GetMyParty(struct GameData *gameData);
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
-extern struct BgmInfo *GAME_DATA_GetBgmInfo(struct GameData *gameData);
 
-extern void *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSys, struct FieldMap *fieldMap, u32 overlayId, const void *procData, void *procArg, SubProcCallback callback, void *callbackArg);
+#include "../arm9/field_status.h"
 
 /* overlay loading, heap, string helpers */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern int GF_OVERLAY_Load(s32 overlayId);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(s32 overlayId);
 
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 struct MsgBank;
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 slot, const struct Strbuf *str, u32 grammar, u32 form, u32 count);
+#include "../arm9/wordset.h"
 
-extern void WORDSET_SetSlotFromMsg118(struct WordSet *wordSet, u32 slot, u32 value);
 
 /* musical save block */
-extern struct MusicalOutfit *MUSICAL_SAVE_GetOutfits(struct MusicalSave *musical);
+#include "../arm9/musical_save.h"
 
-extern MusicalHeadBits *MUSICAL_SAVE_NoOp(struct MusicalSave *musical);
 
-extern u32 MUSICAL_SAVE_IsPropOwned(struct MusicalSave *musical, u8 prop);
 
-extern void MUSICAL_SAVE_AddProp(struct MusicalSave *musical, u32 prop);
 
-extern MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *musical, u32 index);
 
-extern u16 MUSICAL_SAVE_GetShowCount(struct MusicalSave *musical);
 
-extern u16 MUSICAL_SAVE_GetTopRankCount(struct MusicalSave *musical);
 
-extern u8 MUSICAL_SAVE_GetEquippedProp(struct MusicalSave *musical, u32 index);
 
-extern u8 MUSICAL_SAVE_GetSelectedProgram(struct MusicalSave *musical);
 
-extern u8 MUSICAL_SAVE_GetScriptSetting(struct MusicalSave *musical);
 
-extern void MUSICAL_SAVE_SetScriptSetting(struct MusicalSave *musical, u8 value);
 
-extern u8 MUSICAL_SAVE_GetHasDistData(struct MusicalSave *musical);
 
-extern u8 *MUSICAL_SAVE_GetStageData(struct MusicalSave *musical);
+struct MusicalLink;
 
 /* musical event (ov010 musical_dressup_sys.c) */
-extern struct GameEvent *MUSICAL_EVENT_Create(struct GameSystem *gameSys, struct GameData *gameData, u8 arg, u32 mode, MusicalLinkWork *link);
+#include "musical_event.h"
 struct MusicalEventWork;
 
-extern u8 MUSICAL_EVENT_GetLocalSlot(struct MusicalEventWork *work);
 
-extern u16 MUSICAL_EVENT_GetMaxScore(struct MusicalEventWork *work);
 
-extern u16 MUSICAL_EVENT_GetMinScore(struct MusicalEventWork *work);
 
-extern u8 MUSICAL_EVENT_GetScoreCapped(struct MusicalEventWork *work, u8 slot);
 
-extern u8 MUSICAL_EVENT_GetPlayerOfSlot(struct MusicalEventWork *work, u8 slot);
 
-extern u8 MUSICAL_EVENT_GetProgramBestCategory(struct MusicalEventWork *work);
 
-extern u8 MUSICAL_EVENT_GetSlotOfRank(struct MusicalEventWork *work, u8 rank);
 
-extern u8 MUSICAL_EVENT_GetBestAppealCategory(struct MusicalEventWork *work, u8 slot);
 
-extern u8 MUSICAL_EVENT_GetPortraitClass(struct MusicalEventWork *work, u8 slot);
 
-extern void *MUSICAL_EVENT_AllocTitleString(struct MusicalEventWork *work, s32 heapId);
 
-extern void MUSICAL_EVENT_SetPlayerNameWord(struct MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex);
 
-extern void MUSICAL_EVENT_SetPokemonNameWord(struct MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex);
 
-extern void MUSICAL_EVENT_CheckNetError(struct MusicalEventWork *work);
 
-extern u32 MUSICAL_EVENT_IsAborted(struct MusicalEventWork *work);
 struct Party;
 
 /* party and musical system */
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
+struct PokemonParam;
 
-extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 
-extern int MUSICAL_MCSS_GetMonValue(struct Pokemon *mon);
+#include "../ov112/musical_mcss.h"
 
-extern u32 MUSICAL_MCSS_CreateMon(struct Pokemon *mon, int mode);
+#include "../ov112/musical_system.h"
+struct FieldMap;
+struct CommEntryMenu;
 
-/* ov132 comm session, ov021 comm entry menu */
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+                                               
+                            
 
-extern u32 COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+#include "../ov021/comm_entry_menu.h"
 
-extern void MUS_COMM_FUNC_SetTimingSync(int session, int memberCount);
+                                   
 
-extern unsigned char *STA_SLOT_GetRecordTable(struct GameData *gameData);
+                              
 
-extern void MUS_COMM_FUNC_Create(int mode, void *procArg, void *comm, int arg);
 
-extern int MUS_COMM_FUNC_Delete(void *session);
 
-extern u32 GAME_COMM_GetKind(struct GameComm *comm);
+                              
 
-extern u32 GAME_COMM_GetWork(struct GameComm *comm);
 
-extern int GFL_NET_IsSessionNull(void);
+                        
 
-extern int MUS_COMM_FUNC_InitCommandTable();
 
-extern int COMM_ENTRY_MENU_Main();
 
-extern int MUS_COMM_FUNC_SetHostFlag();
 
-extern int COMM_ENTRY_MENU_Delete();
+struct GameSyncData;
 
-extern int MUS_COMM_FUNC_CheckTimingSync();
 
-extern int STA_NET_GetSlot3Done();
+                             
 
-extern int STA_NET_GetRecordsReceived();
 
-/* wifilist and ov021 postman service */
-extern struct WifiList *GAME_SYNC_GetBlock(void *saveBlock);
+                                        
+#include "../arm9/game_sync.h"
+struct CgearSaveBlock;
+struct CgearSaveBlock;
 
-extern u32 BLOCK20_SAVEDATA_CountEntries(const struct WifiList *wifiList);
+#include "../arm9/block20_savedata.h"
+struct CgearSaveBlock;
 
-extern int PDW_POSTMAN_CountUnreceivable(struct GameData *gameData, int key, struct WifiList *wifiList);
+#include "../ov021/pdw_postman.h"
+#include "../ov132/mus_comm_func.h"
+#include "../ov132/sta_slot.h"
+#include "../arm9/net_err.h"
+#include "../arm9/game_comm.h"
+#include "../arm9/net.h"
+#include "../ov132/sta_net.h"
+#include "scrcmd_work.h"
+#include "script_work.h"
+#include "../arm9/vm.h"
+#ifndef __MWERKS__
+#include "script_sys.h"
+#endif
+extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-extern void *PDW_POSTMAN_CreateListEvent(struct GameSystem *gameSys);
 
-extern void PDW_POSTMAN_ReceiveItems(struct GameData *gameData, int key, int wifiList);
 
-extern void *PDW_POSTMAN_GetUnreceivableItem(struct GameData *gameData, int key, struct WifiList *wifiList, int index);
 
-int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_MUSICAL_GetProgramInfo(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_GetProgramInfo(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_MUSICAL_AddOwnedProp(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_AddOwnedProp(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_MUSICAL_ResetProgramRank(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_ResetProgramRank(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_MUSICAL_SelectPartyMon(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_SelectPartyMon(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
-void SCRCMD_MUSICAL_CreateLinkWork(struct ScriptCtl *unused, struct GameData *gameData);
+void SCRCMD_MUSICAL_CreateLinkWork(struct ScriptWork *unused, struct GameData *gameData);
 
-void SCRCMD_MUSICAL_DeleteLinkWork(MusicalLinkWork *link, struct GameData *gameData);
+void SCRCMD_MUSICAL_DeleteLinkWork(MusicalLink *link, struct GameData *gameData);
 
 void SCRCMD_MUSICAL_BeginCommSession(int link, struct GameSystem *gameSys, struct GameComm *gameComm, int arg);
 
-void SCRCMD_MUSICAL_CloseCommSession(MusicalLinkWork *link);
+void SCRCMD_MUSICAL_CloseCommSession(MusicalLink *link);
 
 int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *work);
 
@@ -465,21 +401,21 @@ void SCRCMD_MUSICAL_FreeProcArgs(void *callbackArg);
 
 void SCRCMD_MUSICAL_LinkProcCallback(void *callbackArg);
 
-int SCRCMD_MUSICAL_WaitEntryMenuParent(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_WaitEntryMenuParent(ScriptVm *vm, void *scriptWork);
 
-int SCRCMD_MUSICAL_WaitEntryMenuChild(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_WaitEntryMenuChild(ScriptVm *vm, void *scriptWork);
 
-int SCRCMD_MUSICAL_WaitSetMemberCount(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_WaitSetMemberCount(ScriptVm *vm, void *scriptWork);
 
-int SCRCMD_MUSICAL_WaitSessionReady(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_WaitSessionReady(ScriptVm *vm, void *scriptWork);
 
-int SCRCMD_MUSICAL_WaitCommAttach(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_WaitCommAttach(ScriptVm *vm, void *scriptWork);
 
-int SCRCMD_MUSICAL_WaitCommIdle(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_WaitCommIdle(ScriptVm *vm, void *scriptWork);
 
-int SCRCMD_MUSICAL_WaitSessionFinish(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_WaitSessionFinish(ScriptVm *vm, void *scriptWork);
 
-int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScriptWork *scriptWork);
+int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScrcmdWork *scriptWork);
 
 extern u8 ov112_id[];
 
@@ -507,9 +443,9 @@ extern const char MUSICAL_DRESSUP_SYS_ProcTable[];
  * SCRIPT_WORK_ResetFieldParam returns a+0x18 (result ignored); GAME_DATA_GetSaveBlock2A is void in its
  * own file, but this caller uses its result as the musical save pointer.
  */
-int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct ScriptCtl *scriptCtl;
+    struct ScriptWork *scriptCtl;
     struct GameSystem *gameSys;
     struct GameData *gameData;
     struct FieldMap *fieldMap;
@@ -520,12 +456,12 @@ int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScriptWork *scriptWork)
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSys);
-    SCRIPT_WORK_ResetFieldParam(scriptCtl);
+    (s32)SCRIPT_WORK_ResetFieldParam(scriptCtl);
     arg = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     mode = *vm->pc;
     vm->pc++;
     if (mode <= 1) {
-        MusicalLinkWork *link = GAME_DATA_GetExternalWork(gameData);
+        MusicalLink *link = GAME_DATA_GetExternalWork(gameData);
         u32 startMode;
         struct GameEvent *task;
         MusicalStartTask *startTask;
@@ -534,23 +470,23 @@ int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScriptWork *scriptWork)
         task = GAME_EVENT_Create(gameSys, 0, SCRCMD_MUSICAL_TaskStartMusical, sizeof(MusicalStartTask));
         startTask = GAME_EVENT_GetWork(task);
         MI_CpuFill8(startTask, 0, sizeof(MusicalStartTask));
-        startTask->musicalSeq = MUSICAL_EVENT_Create(gameSys, gameData, arg, startMode, link);
+        startTask->musicalSeq = MUSICAL_EVENT_Create((void *)gameSys, (void *)gameData, arg, startMode, link);
         startTask->link = link;
         startTask->mode = startMode;
-        SCRIPT_SYS_SetNextEventFromWork(scriptCtl, task);
-        GAME_DATA_GetBgmInfo(gameData);
+        SCRIPT_SYS_SetNextEventFromWork((void *)scriptCtl, task);
+        (struct BgmInfo *)GAME_DATA_GetBgmInfo(gameData);
         VM_End(vm);
         return 1;
     } else {
-        struct MusicalSave *musical = GAME_DATA_GetSaveBlock2A(gameData);
+        struct MusicalSave *musical = (struct MusicalSave *)GAME_DATA_GetSaveBlock2A(gameData);
         MusicalProcBox *box;
 
         box = GFL_HEAP_Alloc(4, sizeof(MusicalProcBox), 1, d_02172914, 0xA9);
         box->args = GFL_HEAP_Alloc(4, 0x14, 1, d_02172914, 0xAA);
         box->args->startMode = 0;
-        box->args->saveBits = MUSICAL_SAVE_NoOp(musical);
+        box->args->saveBits = (MusicalHeadBits *)MUSICAL_SAVE_NoOp(musical);
         box->args->isOffline = 1;
-        SCRIPT_SYS_CallEvent(scriptCtl, FIELD_STATUS_CreateSubProcCallbackEvent(gameSys, fieldMap, (u32)ov112_id, d_021F8360, box->args, SCRCMD_MUSICAL_FreeProcArgs, box));
+        SCRIPT_SYS_CallEvent((void *)scriptCtl, FIELD_STATUS_CreateSubProcCallbackEvent(gameSys, fieldMap, (u32)ov112_id, d_021F8360, box->args, SCRCMD_MUSICAL_FreeProcArgs, box));
         return 1;
     }
 }
@@ -560,9 +496,9 @@ int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScriptWork *scriptWork)
  * creates the musical system for that member and runs the proc MUSICAL_DRESSUP_SYS_ProcTable
  * on it from a task (SCRCMD_MUSICAL_TaskShowMusicalProc), which frees the work when done.
  */
-int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct ScriptCtl *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
+    struct ScriptWork *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
     struct GameSystem *gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     struct GameData *gameData = SCRCMD_WORK_GetGameData(scriptWork);
     int partyIndex;
@@ -572,8 +508,8 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScriptWork *scriptWo
 
     GAMESYSTEM_GetFieldMap(gameSys);
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
-    musicalSave = (u32)GAME_DATA_GetSaveBlock2A(gameData);
-    musicalSystem = MUSICAL_MCSS_CreateMon(POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex), 4);
+    musicalSave = (u32)(struct MusicalSave *)GAME_DATA_GetSaveBlock2A(gameData);
+    musicalSystem = (u32)MUSICAL_MCSS_CreateMon((void *)(struct Pokemon *)POKEPARTY_GetMember((void *)(struct PokeParty *)GAME_DATA_GetMyParty(gameData), partyIndex), 4);
     task = GAME_EVENT_Create(gameSys, 0, SCRCMD_MUSICAL_TaskShowMusicalProc, 4);
     systemTask = GAME_EVENT_GetWork(task);
     MI_CpuFill8(systemTask, 0, 4);
@@ -581,7 +517,7 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScriptWork *scriptWo
     systemTask->args->musicalSystem = musicalSystem;
     systemTask->args->musicalSave = musicalSave;
     systemTask->args->startMode = 0;
-    SCRIPT_SYS_CallEvent(scriptCtl, task);
+    SCRIPT_SYS_CallEvent((void *)scriptCtl, task);
     return 1;
 }
 
@@ -594,7 +530,7 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScriptWork *scriptWo
  * order with op declared last (sets the stack slots), max initialised before
  * best, case 10 loops over its own block-local slot, case 7 tests == 0 first.
  */
-int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     u32 arg;
     u16 *resultVar;
@@ -618,7 +554,7 @@ int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScriptWork *scriptWork)
     arg = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
-    musical = GAME_DATA_GetSaveBlock2A(gameData);
+    musical = (struct MusicalSave *)GAME_DATA_GetSaveBlock2A(gameData);
     musicalEvent = 0;
     if (op >= 30) {
         struct MusicalEvent **linkEvent = GAME_DATA_GetExternalWork(gameData);
@@ -671,7 +607,7 @@ int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScriptWork *scriptWork)
         }
         break;
     case 7:
-        if (MUSICAL_SAVE_NoOp(musical)->shotState == 0)
+        if (((MusicalHeadBits *)MUSICAL_SAVE_NoOp(musical))->shotState == 0)
             *resultVar = 0;
         else
             *resultVar = 1;
@@ -739,25 +675,25 @@ int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScriptWork *scriptWork)
         u8 count = 0;
         u8 partyCount;
 
-        party = GAME_DATA_GetMyParty(gameData);
+        party = (struct PokeParty *)GAME_DATA_GetMyParty(gameData);
         partyCount = POKEPARTY_GetCount((struct Party *)party);
 
         for (i = 0; i < partyCount; i++) {
-            if ((u32)MUSICAL_MCSS_GetMonValue(POKEPARTY_GetMember(party, (int)i)) == 1)
+            if ((u32)MUSICAL_MCSS_GetMonValue((struct Pokemon *)POKEPARTY_GetMember((void *)party, (int)i)) == 1)
                 count++;
         }
         *resultVar = count;
         break;
     }
     case 12:
-        if ((u32)MUSICAL_MCSS_GetMonValue(POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (int)arg)) == 1)
+        if ((u32)MUSICAL_MCSS_GetMonValue((struct Pokemon *)POKEPARTY_GetMember((void *)(struct PokeParty *)GAME_DATA_GetMyParty(gameData), (int)arg)) == 1)
             *resultVar = 1;
         else
             *resultVar = 0;
         break;
     case 13: {
         /* any outfit slot in use */
-        struct MusicalOutfit *outfits = MUSICAL_SAVE_GetOutfits(musical);
+        MusicalOutfit *outfits = MUSICAL_SAVE_GetOutfits(musical);
 
         *resultVar = 0;
         for (i = 0; i < 8; i++) {
@@ -813,18 +749,18 @@ int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScriptWork *scriptWork)
  * Script command: read a query kind and a program slot, store a derived
  * value of that musical program into a script variable.
  */
-int SCRCMD_MUSICAL_GetProgramInfo(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_GetProgramInfo(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     int slot;
     u32 kind;
     u16 *resultVar;
-    MusicalProgramView *program;
+    MusicalProgram *program;
 
     slot = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     kind = *vm->pc;
     vm->pc++;
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    program = (MusicalProgramView *)MUSICAL_SAVE_GetProgram(GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(scriptWork)), (u8)slot);
+    program = MUSICAL_SAVE_GetProgram((struct MusicalSave *)GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(scriptWork)), (u8)slot);
     switch (kind) {
     case 0:
         switch (program->state) {
@@ -853,11 +789,11 @@ int SCRCMD_MUSICAL_GetProgramInfo(ScriptVm *vm, struct ScriptWork *scriptWork)
 }
 
 /* Script command: mark a musical prop as owned. The id is truncated to a byte before the arm9 call. */
-int SCRCMD_MUSICAL_AddOwnedProp(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_AddOwnedProp(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     int prop = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
 
-    MUSICAL_SAVE_AddProp(GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(scriptWork)), (u8)prop);
+    MUSICAL_SAVE_AddProp((struct MusicalSave *)GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(scriptWork)), (u8)prop);
 
     return 0;
 }
@@ -868,16 +804,16 @@ int SCRCMD_MUSICAL_AddOwnedProp(ScriptVm *vm, struct ScriptWork *scriptWork)
  * slot (stage name, message-bank entries, link member names, or the three
  * placement labels of a four-way ranking).
  */
-int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct ScriptCtl *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
+    struct ScriptWork *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
     struct GameData *gameData = SCRCMD_WORK_GetGameData(scriptWork);
-    u32 heapId = SCRCMD_WORK_GetHeapId((struct ScrcmdWork *)scriptWork);
-    struct WordSet *wordSet = SCRIPT_WORK_GetWordSet(scriptCtl);
+    u32 heapId = SCRCMD_WORK_GetHeapId(scriptWork);
+    struct WordSet *wordSet = (struct WordSet *)SCRIPT_WORK_GetWordSet(scriptCtl);
     u8 kind;
     u8 slot;
     u32 arg;
-    struct MsgData *msgData;
+    struct MsgBank *msgData;
     struct Strbuf *str;
 
     kind = *vm->pc;
@@ -888,7 +824,7 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
 
     switch (kind) {
     case 0: {
-        struct MusicalSave *musical = GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(scriptWork));
+        struct MusicalSave *musical = (struct MusicalSave *)GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(scriptWork));
 
         str = STRBUF_Create(0x26, heapId);
         STRBUF_SetStringN(str, (const u16 *)MUSICAL_SAVE_GetStageData(musical), 0x26);
@@ -899,9 +835,9 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
     case 1:
     case 8:
         if (kind == 1)
-            msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x4F, heapId);
+            msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4F, heapId);
         else
-            msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x11A, heapId);
+            msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x11A, heapId);
         str = MSGDATA_AllocString((struct MsgBank *)msgData, arg + 3);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
@@ -913,14 +849,14 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
         STRBUF_Delete(str);
         break;
     case 3:
-        msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
         str = MSGDATA_AllocString((struct MsgBank *)msgData, arg);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         MSGDATA_Delete((struct MsgBank *)msgData);
         break;
     case 4:
-        msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
         str = MSGDATA_AllocString((struct MsgBank *)msgData, arg + 4);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
@@ -933,7 +869,7 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
         MUSICAL_EVENT_SetPokemonNameWord(*((void **)GAME_DATA_GetExternalWork(gameData)), arg, wordSet, slot);
         break;
     case 7: {
-        struct MusicalSave *musical = GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(scriptWork));
+        struct MusicalSave *musical = (struct MusicalSave *)GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(scriptWork));
         u16 labelIds[3];
         u8 slotOrder[4];
         u8 slotValue[4];
@@ -976,7 +912,7 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
             labelIds[2] = slotOrder[2] + 4;
         else
             labelIds[2] = slotOrder[3] + 4;
-        msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
         for (i = 0; i < 3; i++) {
             str = MSGDATA_AllocString((struct MsgBank *)msgData, labelIds[i]);
             WORDSET_SetSlotTag(wordSet, i, str, 0, 1, 2);
@@ -990,23 +926,23 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
 }
 
 /* Script command: clear the rank byte of a musical program slot. */
-int SCRCMD_MUSICAL_ResetProgramRank(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_ResetProgramRank(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     int slot = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
-    MusicalProgramView *program = (MusicalProgramView *)MUSICAL_SAVE_GetProgram(GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(scriptWork)), (u8)slot);
+    MusicalProgram *program = MUSICAL_SAVE_GetProgram((struct MusicalSave *)GAME_DATA_GetSaveBlock2A(SCRCMD_WORK_GetGameData(scriptWork)), (u8)slot);
 
     program->rank = 0;
     return 0;
 }
 
 /* Script command: open the party selection screen; the two script variables receive the choice. */
-int SCRCMD_MUSICAL_SelectPartyMon(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_SelectPartyMon(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     u16 *partyIndexVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    struct ScriptCtl *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
+    struct ScriptWork *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
 
-    SCRIPT_SYS_CallEvent(scriptCtl, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent((s32)(SCRCMD_WORK_GetGameSystem(scriptWork)), (s32)partyIndexVar, (s32)resultVar));
+    SCRIPT_SYS_CallEvent((void *)scriptCtl, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent((s32)(SCRCMD_WORK_GetGameSystem(scriptWork)), (s32)partyIndexVar, (s32)resultVar));
     return 1;
 }
 
@@ -1019,9 +955,9 @@ int SCRCMD_MUSICAL_SelectPartyMon(ScriptVm *vm, struct ScriptWork *scriptWork)
  * The empty `case 100: break;` is what leaves the lone `cmp r6, #0x64`.
  * ov100_id is the overlay id of the ov100 proc (the symbol value is 0x64).
  */
-int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
-    struct ScriptCtl *scriptCtl;
+    struct ScriptWork *scriptCtl;
     struct GameSystem *gameSys;
     struct GameData *gameData;
     struct FieldMap *fieldMap;
@@ -1029,7 +965,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
     u16 arg;
     u16 *resultVar;
     int busy;
-    MusicalLinkWork *link;
+    MusicalLink *link;
 
     scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
@@ -1043,9 +979,9 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
     link = 0;
     if (cmd != 0 && cmd != 0x15) {
         link = GAME_DATA_GetExternalWork(gameData);
-        if (link->musicalEvent != 0) {
-            MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->musicalEvent);
-            if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->musicalEvent) == 1)
+        if (link->owner != 0) {
+            MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->owner);
+            if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->owner) == 1)
                 busy = 1;
         }
     }
@@ -1065,12 +1001,12 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
         return 1;
     case 12:
         link->resultOut = resultVar;
-        link->entryMenu = COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(gameData), fieldMap, 2, 4, 4, 0, 1, 0);
+        link->entryMenu = (u32)COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(gameData), fieldMap, 2, 4, 4, 0, 1, 0);
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitEntryMenuParent);
         return 1;
     case 13:
         link->resultOut = resultVar;
-        link->entryMenu = COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(gameData), fieldMap, 2, 4, 4, 1, 1, 0);
+        link->entryMenu = (u32)COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(gameData), fieldMap, 2, 4, 4, 1, 1, 0);
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitEntryMenuChild);
         return 1;
     case 14:
@@ -1102,7 +1038,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
         link->gameData = gameData;
         link->procWork = (u32)STA_SLOT_GetRecordTable(gameData);
         link->procMode = arg == 0 ? 9 : 10;
-        SCRIPT_SYS_CallEvent(scriptCtl, FIELD_STATUS_CreateSubProcCallbackEvent(gameSys, fieldMap, (u32)ov100_id, d_021BB6A4, &link->gameData, SCRCMD_MUSICAL_LinkProcCallback, wait));
+        SCRIPT_SYS_CallEvent((void *)scriptCtl, FIELD_STATUS_CreateSubProcCallbackEvent(gameSys, fieldMap, (u32)ov100_id, d_021BB6A4, &link->gameData, SCRCMD_MUSICAL_LinkProcCallback, wait));
         return 1;
     }
     case 19:
@@ -1135,11 +1071,11 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
  * Allocate the 0x38-byte link work, clear its first two words, attach it to
  * the game data external-work slot and load overlays 132 and 112.
  */
-void SCRCMD_MUSICAL_CreateLinkWork(struct ScriptCtl *unused, struct GameData *gameData)
+void SCRCMD_MUSICAL_CreateLinkWork(struct ScriptWork *unused, struct GameData *gameData)
 {
-    MusicalLinkWork *link = GFL_HEAP_Alloc(4, 0x38, 1, d_02172914, 0x413);
+    MusicalLink *link = GFL_HEAP_Alloc(4, 0x38, 1, d_02172914, 0x413);
 
-    link->musicalEvent = 0;
+    link->owner = 0;
     link->session = 0;
     GAME_DATA_SetExternalWork(gameData, link);
     GF_OVERLAY_Load((u32)ov132_id);
@@ -1147,7 +1083,7 @@ void SCRCMD_MUSICAL_CreateLinkWork(struct ScriptCtl *unused, struct GameData *ga
 }
 
 /* Unload overlays 112 and 132, free the link work and detach it. */
-void SCRCMD_MUSICAL_DeleteLinkWork(MusicalLinkWork *link, struct GameData *gameData)
+void SCRCMD_MUSICAL_DeleteLinkWork(MusicalLink *link, struct GameData *gameData)
 {
     GF_OVERLAY_Unload((u32)ov112_id);
     GF_OVERLAY_Unload((u32)ov132_id);
@@ -1167,7 +1103,7 @@ void SCRCMD_MUSICAL_BeginCommSession(int link, struct GameSystem *gameSys, struc
 }
 
 /* Close the comm session of the link work, if any. */
-void SCRCMD_MUSICAL_CloseCommSession(MusicalLinkWork *link)
+void SCRCMD_MUSICAL_CloseCommSession(MusicalLink *link)
 {
     if (link->session != 0) {
         MUS_COMM_FUNC_Delete(link->session);
@@ -1193,7 +1129,7 @@ int SCRCMD_MUSICAL_TaskStartMusical(struct GameEvent *task, u32 *state, void *wo
         (*state)++;
         break;
     case 1:
-        GAME_DATA_GetBgmInfo(gameData);
+        (struct BgmInfo *)GAME_DATA_GetBgmInfo(gameData);
         SCRCMD_MUSICAL_CloseCommSession(startTask->link);
         (*state)++;
         break;
@@ -1280,7 +1216,7 @@ void SCRCMD_MUSICAL_LinkProcCallback(void *callbackArg)
     MusicalLinkWait *wait = callbackArg;
     struct GameSystem *gameSys;
     struct GameData *gameData;
-    MusicalLinkWork *link;
+    MusicalLink *link;
 
     gameSys = SCRCMD_WORK_GetGameSystem(wait->scriptWork);
     gameData = SCRCMD_WORK_GetGameData(wait->scriptWork);
@@ -1295,15 +1231,15 @@ void SCRCMD_MUSICAL_LinkProcCallback(void *callbackArg)
 }
 
 /* Wait: entry menu opened as parent. Result 0 = accepted, 1 = declined, 2 = cancelled. */
-int SCRCMD_MUSICAL_WaitEntryMenuParent(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_WaitEntryMenuParent(ScriptVm *vm, void *scriptWork)
 {
-    MusicalLinkWork *link;
+    MusicalLink *link;
     int done;
     int status;
 
     SCRCMD_WORK_GetScriptWork(scriptWork);
     link = GAME_DATA_GetExternalWork(SCRCMD_WORK_GetGameData(scriptWork));
-    status = COMM_ENTRY_MENU_Main(link->entryMenu);
+    status = (s32)COMM_ENTRY_MENU_Main((struct CommEntryMenu *)link->entryMenu);
     done = 0;
     switch (status) {
     case 1:
@@ -1321,23 +1257,23 @@ int SCRCMD_MUSICAL_WaitEntryMenuParent(ScriptVm *vm, struct ScriptWork *scriptWo
         break;
     }
     if (done == 1) {
-        COMM_ENTRY_MENU_Delete(link->entryMenu);
+        (s32)COMM_ENTRY_MENU_Delete((struct CommEntryMenu *)link->entryMenu);
         link->entryMenu = 0;
     }
     return done;
 }
 
 /* Wait: entry menu opened as child. Result 3 = accepted, 4 = declined, 2 = cancelled. */
-int SCRCMD_MUSICAL_WaitEntryMenuChild(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_WaitEntryMenuChild(ScriptVm *vm, void *scriptWork)
 {
-    MusicalLinkWork *link;
+    MusicalLink *link;
     int done;
     int result;
 
     SCRCMD_WORK_GetScriptWork(scriptWork);
     link = GAME_DATA_GetExternalWork(SCRCMD_WORK_GetGameData(scriptWork));
     done = 0;
-    switch (COMM_ENTRY_MENU_Main(link->entryMenu)) {
+    switch ((s32)COMM_ENTRY_MENU_Main((struct CommEntryMenu *)link->entryMenu)) {
     case 1:
         *link->resultOut = 3;
         MUS_COMM_FUNC_SetHostFlag(link->session);
@@ -1355,22 +1291,22 @@ int SCRCMD_MUSICAL_WaitEntryMenuChild(ScriptVm *vm, struct ScriptWork *scriptWor
         break;
     }
     if (done == 1) {
-        COMM_ENTRY_MENU_Delete(link->entryMenu);
+        (s32)COMM_ENTRY_MENU_Delete((struct CommEntryMenu *)link->entryMenu);
         link->entryMenu = 0;
     }
     return done;
 }
 
 /* Wait: member count set on the session (command 14). */
-int SCRCMD_MUSICAL_WaitSetMemberCount(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_WaitSetMemberCount(ScriptVm *vm, void *scriptWork)
 {
-    MusicalLinkWork *link;
+    MusicalLink *link;
 
     SCRCMD_WORK_GetScriptWork(scriptWork);
     link = GAME_DATA_GetExternalWork(SCRCMD_WORK_GetGameData(scriptWork));
-    if (link->musicalEvent != 0) {
-        MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->musicalEvent);
-        if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->musicalEvent) == 1)
+    if (link->owner != 0) {
+        MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->owner);
+        if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->owner) == 1)
             return 1;
     }
     if (MUS_COMM_FUNC_CheckTimingSync(link->session, (u8)link->memberCount) == 1)
@@ -1379,14 +1315,14 @@ int SCRCMD_MUSICAL_WaitSetMemberCount(ScriptVm *vm, struct ScriptWork *scriptWor
 }
 
 /* Wait: session ready (command 15). */
-int SCRCMD_MUSICAL_WaitSessionReady(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_WaitSessionReady(ScriptVm *vm, void *scriptWork)
 {
-    MusicalLinkWork *link;
+    MusicalLink *link;
 
     SCRCMD_WORK_GetScriptWork(scriptWork);
     link = GAME_DATA_GetExternalWork(SCRCMD_WORK_GetGameData(scriptWork));
-    MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->musicalEvent);
-    if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->musicalEvent) == 1)
+    MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->owner);
+    if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->owner) == 1)
         return 1;
     if (STA_NET_GetSlot3Done(link->session) == 1)
         return 1;
@@ -1394,12 +1330,12 @@ int SCRCMD_MUSICAL_WaitSessionReady(ScriptVm *vm, struct ScriptWork *scriptWork)
 }
 
 /* Wait: attach the link work to the comm session once the comm kind is 4 (command 16). */
-int SCRCMD_MUSICAL_WaitCommAttach(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_WaitCommAttach(ScriptVm *vm, void *scriptWork)
 {
     struct GameSystem *gameSys;
     struct GameData *gameData;
     struct GameComm *gameComm;
-    MusicalLinkWork *link;
+    MusicalLink *link;
 
     SCRCMD_WORK_GetScriptWork(scriptWork);
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
@@ -1414,21 +1350,21 @@ int SCRCMD_MUSICAL_WaitCommAttach(ScriptVm *vm, struct ScriptWork *scriptWork)
 }
 
 /* Wait: the comm is gone and the musical event is idle (command 11). */
-int SCRCMD_MUSICAL_WaitCommIdle(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_WaitCommIdle(ScriptVm *vm, void *scriptWork)
 {
     struct GameComm *gameComm;
     struct GameSystem *gameSys;
     struct GameData *gameData;
-    MusicalLinkWork *link;
+    MusicalLink *link;
 
     SCRCMD_WORK_GetScriptWork(scriptWork);
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
     gameComm = GAMESYSTEM_GetGameComm(gameSys);
     link = GAME_DATA_GetExternalWork(gameData);
-    if (link->musicalEvent != 0) {
-        MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->musicalEvent);
-        if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->musicalEvent) == 1) {
+    if (link->owner != 0) {
+        MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->owner);
+        if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->owner) == 1) {
             return 1;
         }
     }
@@ -1439,14 +1375,14 @@ int SCRCMD_MUSICAL_WaitCommIdle(ScriptVm *vm, struct ScriptWork *scriptWork)
 }
 
 /* Wait: session finished (command 17). */
-int SCRCMD_MUSICAL_WaitSessionFinish(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_WaitSessionFinish(ScriptVm *vm, void *scriptWork)
 {
-    MusicalLinkWork *link;
+    MusicalLink *link;
 
     SCRCMD_WORK_GetScriptWork(scriptWork);
     link = GAME_DATA_GetExternalWork(SCRCMD_WORK_GetGameData(scriptWork));
-    MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->musicalEvent);
-    if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->musicalEvent) == 1)
+    MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->owner);
+    if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->owner) == 1)
         return 1;
     if (STA_NET_GetRecordsReceived(link->session) == 1)
         return 1;
@@ -1459,24 +1395,24 @@ int SCRCMD_MUSICAL_WaitSessionFinish(ScriptVm *vm, struct ScriptWork *scriptWork
  * sub-commands 0, 1 and 4 write a halfword result through the result
  * variable, 5 formats a value into the word set.
  */
-int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScriptWork *scriptWork)
+int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     u32 cmd;
     u16 *resultVar;
     u16 key;
     struct GameSystem *gameSys;
     struct GameData *gameData;
-    struct WifiList *wifiList;
+    struct CgearSaveBlock *wifiList;
     u32 limit;
     void *postEvent;
     struct WordSet *wordSet;
 
     cmd = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    key = SCRCMD_WORK_GetHeapId((struct ScrcmdWork *)scriptWork);
+    key = SCRCMD_WORK_GetHeapId(scriptWork);
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
-    wifiList = GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
+    wifiList = (struct CgearSaveBlock *)GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
     limit = (int)BLOCK20_SAVEDATA_CountEntries(wifiList);
     if (GAMESYSTEM_GetFieldMap(gameSys) == 0 && cmd != 0) {
         return 0;
@@ -1486,25 +1422,25 @@ int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScriptWork *scriptWork)
         *resultVar = (int)BLOCK20_SAVEDATA_CountEntries(wifiList) > 0 ? 1 : 0;
         break;
     case 1:
-        if (PDW_POSTMAN_CountUnreceivable(gameData, key, wifiList) < limit) {
+        if (PDW_POSTMAN_CountUnreceivable(gameData, key, (struct PdwPostmanSave *)wifiList) < limit) {
             *resultVar = 1;
         } else {
             *resultVar = 0;
         }
         break;
     case 2:
-        postEvent = PDW_POSTMAN_CreateListEvent(gameSys);
-        SCRIPT_SYS_CallEvent(SCRCMD_WORK_GetScriptWork(scriptWork), postEvent);
+        postEvent = (void *)PDW_POSTMAN_CreateListEvent(gameSys);
+        SCRIPT_SYS_CallEvent((void *)SCRCMD_WORK_GetScriptWork(scriptWork), postEvent);
         return 1;
     case 3:
-        PDW_POSTMAN_ReceiveItems(gameData, key, (int)wifiList);
+        PDW_POSTMAN_ReceiveItems(gameData, key, (struct PdwPostmanSave *)wifiList);
         break;
     case 5:
-        wordSet = SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(scriptWork));
-        WORDSET_SetSlotFromMsg118(wordSet, 0, (u32)PDW_POSTMAN_GetUnreceivableItem(gameData, key, wifiList, *resultVar));
+        wordSet = (struct WordSet *)SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(scriptWork));
+        WORDSET_SetSlotFromMsg118(wordSet, 0, (u32)(void *)PDW_POSTMAN_GetUnreceivableItem(gameData, key, (void *)wifiList, *resultVar));
         break;
     case 4:
-        *resultVar = PDW_POSTMAN_CountUnreceivable(gameData, key, wifiList);
+        *resultVar = PDW_POSTMAN_CountUnreceivable(gameData, key, (struct PdwPostmanSave *)wifiList);
         break;
     }
     return 0;

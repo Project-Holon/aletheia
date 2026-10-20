@@ -75,31 +75,20 @@ typedef struct NameInEvent {
     u32 mode;                       /* 0x4C */
 } NameInEvent;
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct Strbuf *vec);
-extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "../arm9/strbuf.h"
+#include "../arm9/game_event.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct MiscSave;
-extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern u32 GAME_DATA_GetItemUseWork(const struct GameData *p);
-extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
-extern u16 *MISC_GetGreetMessage(struct MiscSave *beacon);
-extern u16 *MISC_GetThanksMessage(struct MiscSave *beacon);
-extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
+#include "../arm9/beacon.h"
+#include "../arm9/mystatus.h"
 struct FieldMap;
-extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-struct StrBuf;
-extern void MISC_SetGreetMessage(struct MiscSave *beacon, struct StrBuf *message);
-extern void GAME_BEACON_UpdateGreeting(void);
-extern void MISC_SetThanksMessage(struct MiscSave *beacon, struct StrBuf *message);
+#include "../arm9/field_status.h"
+struct Strbuf;
+#include "../arm9/game_beacon.h"
 struct BeaconStatus;
-extern struct StrBuf *BEACON_STATUS_GetMessage(struct BeaconStatus *bs);
-extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
-extern void GAME_BEACON_SEARCH_SetFreeText(struct Strbuf *text);
+#include "../arm9/beacon_status.h"
+#include "../ov010/game_beacon_set.h"
 
 struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *parentEvent, u32 mode, u16 *resultVar);
 int EVENT_NAMEIN_Main(struct GameEvent *event, int *seq, NameInEvent *work);
@@ -119,7 +108,7 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
     struct GameEvent *event;
     NameInEvent *work;
 
-    event = GAME_EVENT_Create(gameSystem, parentEvent, EVENT_NAMEIN_Main, 0x50);
+    event = GAME_EVENT_Create(gameSystem, parentEvent, (GameEventFunc)EVENT_NAMEIN_Main, 0x50);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
@@ -185,11 +174,11 @@ void EVENT_NAMEIN_StoreResult(NameInEvent *work, NameInParam *param)
         return;
     switch (work->mode) {
     case 5:
-        MISC_SetGreetMessage((struct MiscSave *)work->nameSave, (struct StrBuf *)param->name);
+        MISC_SetGreetMessage((struct MiscSave *)work->nameSave, (struct Strbuf *)param->name);
         GAME_BEACON_UpdateGreeting();
         return;
     case 6:
-        MISC_SetThanksMessage((struct MiscSave *)work->nameSave, (struct StrBuf *)param->name);
+        MISC_SetThanksMessage((struct MiscSave *)work->nameSave, (struct Strbuf *)param->name);
         return;
     case 7:
         STRBUF_Copy((struct Strbuf *)BEACON_STATUS_GetMessage(work->beaconSave), (struct Strbuf *)work->param.name);

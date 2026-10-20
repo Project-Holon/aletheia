@@ -46,32 +46,28 @@ struct ManualMenuTable {
     u32 offsets1;   /* 0x0C entry offset array */
 };
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *, int, int, u32, u32 *);
+#include "../arm9/arc_util.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct GameData;
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct CgearSaveBlock;
 
-extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *);
+#include "../arm9/block20_savedata.h"
 struct CGearSave;
 
-extern u8 CGEAR_SAVE_GetObtained(struct CGearSave *save);
+#include "../arm9/cgear_save.h"
 
-extern void *GAME_DATA_GetEventWork(struct GameData *gd);
 struct EventWork;
 
-extern unsigned ZONEDATA_CheckEventFlag(struct EventWork *ev, int flagId);
+#include "../arm9/zonedata.h"
 
-extern void *MET_TRAINERS_GetFromSave(void *p);
+#include "../arm9/met_trainers_savedata.h"
 
-extern int MET_TRAINERS_TestBit(char *obj, int i);
 
-extern void MET_TRAINERS_SetBit(char *obj, int i);
 
 void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap);
 

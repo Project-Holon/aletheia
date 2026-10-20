@@ -1,6 +1,11 @@
 #ifndef GAME_ARM9_IRC_RANKING_H
 #define GAME_ARM9_IRC_RANKING_H
 
+struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
+struct IrcRankEntry *IRC_RANKING_GetEntry(struct IrcRankSave *rank, u32 index);
+struct IrcRankEntry *IRC_RANKING_FindEntryByTrainerId(struct IrcRankEntry *list, int count, int trainerId);
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of irc_ranking.c, prototypes copied from their definitions. */
 
 struct IrcRankSave;
@@ -31,5 +36,6 @@ int IRC_RANKING_HasEntryByTrainerId(struct IrcRankEntry *list, int count, struct
 void IRC_RANKING_InitEntry(struct IrcRankEntry *entry, const void *name, u32 score, u32 meetCount, u8 gender, u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag);
 struct IrcRankEntry *IRC_RANKING_FindEntryByTrainerId(struct IrcRankEntry *list, int count, int trainerId);
 void IRC_RANKING_UpdateEntryMeetCount(struct IrcRankEntry *list, int total, struct IrcRankEntry *entry);
+/* END mkheaders: generated region */
 
 #endif

@@ -97,27 +97,23 @@ typedef char CircleGraphSizeCheck[(sizeof(struct CircleGraph) == 4044) ? 1 : -1]
 typedef char CircleGraphEntrySizeCheck[(sizeof(struct CircleGraphEntry) == 20) ? 1 : -1];
 typedef char CircleGraphVertexSizeCheck[(sizeof(struct CircleGraphVertex) == 10) ? 1 : -1];
 
-extern u32 GFL_HEAP_Free(void *mem);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
 /* SDK: G3i_LookAt_ */
-extern void G3i_LookAt_(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, int flag, int unused);
+#include "../arm9/g3_util.h"
 /* SDK: G3i_OrthoW_ */
-extern void G3i_OrthoW_(int top, int bottom, int left, int right, int near, int far, int scaleW, int flag, int unused);
 /* SDK: NNS_G3dGlbInit */
-extern void NNS_G3dGlbInit(void);
+#include "../arm9/nns_g3d_glb.h"
 /* SDK: MTX_LookAt */
-extern void MTX_LookAt(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, void *out);
+#include "../arm9/fx_mtx43.h"
 /* SDK: MTX_OrthoW */
-extern void MTX_OrthoW(int top, int bottom, int left, int right, int near, int far, int scaleW, void *out);
+#include "../arm9/fx_mtx44.h"
 /* SDK: NNS_G3dGlbFlush */
-extern void NNS_G3dGlbFlush(void);
 /* SDK: VEC_Fx16Add */
-extern void VEC_Fx16Add(const s16 *a, const s16 *b, s16 *out);
-extern double cos(double);
-extern double sin(double);
+#include "../arm9/fx_vec.h"
+#include "../arm9/msl_fdlibm.h"
                                   
-extern s32 NNS_G3dWorldPosToScrPos(const VecFx32 *pos, s32 *px, s32 *py);
+#include "../arm9/nns_g3d_util.h"
 
 extern const char d_021C4064[];
 extern VecFx32 d_02148D8C;              /* camera eye */
@@ -427,9 +423,9 @@ void CircleGraph_SetupCamera(struct CircleGraph *graph)
     d_02148D8C = eye;
     d_02148D98 = up;
     d_02148DA4 = target;
-    MTX_LookAt(&eye, &up, &target, &d_02148B98);
+    MTX_LookAt((const VecFx32 *)&eye, (const VecFx32 *)&up, (const VecFx32 *)&target, (MtxFx43 *)&d_02148B98);
     d_02148BCC.flag &= ~0xE8;
-    MTX_OrthoW(0x1000, -0x1000, -0x1554, 0x1554, 0x19A, 0x5000, 0x1000, &d_02148B54);
+    MTX_OrthoW(0x1000, -0x1000, -0x1554, 0x1554, 0x19A, 0x5000, 0x1000, (MtxFx44 *)&d_02148B54);
     d_02148BCC.flag &= ~0x50;
     NNS_G3dGlbFlush();
 }
@@ -699,10 +695,10 @@ void CircleGraph_BuildVertices(struct CircleGraph *graph)
             at->vertices[0].z = arc.z;
             at->vertices[0].polygonId = i;
             at->vertices[1].color = rimColor;
-            VEC_Fx16Add((s16 *)&arc.x, &graph->circle[j].x, &graph->vertices[k + 1].x);
+            VEC_Fx16Add((const VecFx16 *)&arc.x, (const VecFx16 *)&graph->circle[j].x, (VecFx16 *)&graph->vertices[k + 1].x);
             at->vertices[1].polygonId = i;
             at->vertices[2].color = rimColor;
-            VEC_Fx16Add((s16 *)&arc.x, &graph->circle[(j + 1) % 100].x, &graph->vertices[k + 2].x);
+            VEC_Fx16Add((const VecFx16 *)&arc.x, (const VecFx16 *)&graph->circle[(j + 1) % 100].x, (VecFx16 *)&graph->vertices[k + 2].x);
             at->vertices[2].polygonId = i;
             k += 3;
         }

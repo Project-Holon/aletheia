@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_BATTLE_REC_H
 #define GAME_ARM9_BATTLE_REC_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of battle_rec.c, prototypes copied from their definitions. */
 
 struct BattleRecSave;
@@ -43,5 +44,6 @@ u32 BATTLE_REC_IsVersionSupported(u32 version);
 void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body);
 void BATTLE_REC_LoadToolOverlay(void);
 void BATTLE_REC_UnloadToolOverlay(void);
+/* END mkheaders: generated region */
 
 #endif

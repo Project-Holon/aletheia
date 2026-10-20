@@ -88,45 +88,38 @@ struct PaletteAnimeBindData {
     u8 colorCount;
 };
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern u32 GFL_HEAP_Free(void *mem);
-extern void ARC_TOOL_DeleteHandle(void *arc);
+#include "../arm9/arc_tool.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct Actor;
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+struct ClactActor;
+struct Unit;
+struct ClactSysInit;
+struct DispVramCfg;
+struct ActorInitParam;
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
 extern s32 CLACT_RegisterCharacter(void *arc, u32 id, u32 compressed, u32 vramType, u16 heapId);
 extern s32 CLACT_RegisterCellAnim(void *arc, u32 cellId, u32 animId, u32 heapId);
 extern void CLACT_ReleaseCharacter(u32 resId);
 extern u32 CLACT_ReleaseCellAnim();
 extern s32 CLACT_RegisterPaletteEx(void *arc, u32 id, u32 type, u32 offset, u16 palCount, u16 slot, u16 heapId);
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void *PALANM_Create(u32 heapId);
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 slot, u32 size, u32 heapId);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 slot, u32 offset, u32 size);
-extern u32 PALANM_Delete(void *palAnm);
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 slot);
+extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern u32 CLACT_DeleteUnit(struct Unit *unit);
+extern void CLACT_DeleteActor(struct ClactActor *actor);
+#include "../arm9/palanm.h"
 extern void CLACT_ReleasePalette(u32 resId);
-extern void MI_CpuFill8(void *dst, int val, u32 n);
-extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/mi_memory.h"
 struct GameSystem;
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
+extern void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
 extern u32 CLACT_ExitSystem(u32 a);
-extern struct ClactActor *CLACT_CreateActor(void *unit, unsigned int charId, unsigned int palId, unsigned int cellId, const struct ActorHeader *header, unsigned short priority, unsigned short heapId);
+extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
 
 /* palette_anime.c */
-extern u32 PALETTE_ANIME_Create(u32 heapId);
+#include "palette_anime.h"
 struct PaletteAnime;
-extern u32 PALETTE_ANIME_Destroy(struct PaletteAnime *anime);
-extern void PALETTE_ANIME_Bind(struct PaletteAnime *anime, unsigned short *palette, unsigned short *original, int colorCount);
-extern void PALETTE_ANIME_Update(struct PaletteAnime *anime);
-extern void PALETTE_ANIME_Start(struct PaletteAnime *anime, unsigned int mode, unsigned short color);
-extern void PALETTE_ANIME_Stop(struct PaletteAnime *anime);
-extern int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
 
 struct ResearchCommon *RESEARCH_COMMON_Create(u32 heapId, const struct Ctx *ctx);
 u32 RESEARCH_COMMON_Destroy(struct ResearchCommon *common);
@@ -350,7 +343,7 @@ u32 RESEARCH_COMMON_Exit(struct ResearchCommon *common)
  */
 void RESEARCH_COMMON_InitClact(struct ResearchCommon *common)
 {
-    CLACT_InitSystem((struct SysInit *)d_021C3F64, (struct DispVramCfg *)d_021C3F9C, common->heapId);
+    CLACT_InitSystem((const struct ClactSysInit *)d_021C3F64, (const struct DispVramCfg *)d_021C3F9C, common->heapId);
 }
 
 /* Veneer: shuts the CLACT system down. */
@@ -398,13 +391,13 @@ void RESEARCH_COMMON_ClearClactUnit(struct ResearchCommon *common)
 /* Creates the CLACT unit, one actor wide. */
 void RESEARCH_COMMON_CreateClactUnit(struct ResearchCommon *common)
 {
-    common->clactUnits[0] = CLACT_CreateUnit(1, 2, common->heapId);
+    common->clactUnits[0] = (struct ClactUnit *)CLACT_CreateUnit(1, 2, common->heapId);
 }
 
 /* Deletes the CLACT unit. */
 void RESEARCH_COMMON_DeleteClactUnit(struct ResearchCommon *common)
 {
-    CLACT_DeleteUnit(common->clactUnits[0]);
+    CLACT_DeleteUnit((struct Unit *)common->clactUnits[0]);
 }
 
 /* Clears the actor slot. */
@@ -427,14 +420,14 @@ void RESEARCH_COMMON_CreateActor(struct ResearchCommon *common)
     charId = RESEARCH_COMMON_GetResourceId(common, d_021C3F80.charIndex);
     paletteId = RESEARCH_COMMON_GetResourceId(common, d_021C3F80.paletteIndex);
     cellAnimId = RESEARCH_COMMON_GetResourceId(common, d_021C3F80.cellAnimIndex);
-    common->actor = CLACT_CreateActor((void *)unit, charId, paletteId, cellAnimId, &header, d_021C3F80.priority, common->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)common->actor, 1);
+    common->actor = CLACT_CreateActor((struct Unit *)unit, charId, paletteId, cellAnimId, (const struct ActorInitParam *)&header, d_021C3F80.priority, common->heapId);
+    CLACT_SetActorDrawEnable((struct ClactActor *)common->actor, 1);
 }
 
 /* Deletes the shared actor. */
 void RESEARCH_COMMON_DeleteActor(struct ResearchCommon *common)
 {
-    CLACT_DeleteActor((struct Actor *)common->actor);
+    CLACT_DeleteActor((struct ClactActor *)common->actor);
 }
 
 /* Clears the palette-animation system slot. */
@@ -458,7 +451,7 @@ void RESEARCH_COMMON_DeletePalAnm(struct ResearchCommon *common)
 /* Allocates four 512-byte palette slot buffers and fills them from the hardware palettes. */
 void RESEARCH_COMMON_AllocSlotBuffers(struct ResearchCommon *common)
 {
-    struct PalAnmSlot *slots = common->palAnm;
+    struct PaletteFade *slots = common->palAnm;
     PALANM_AllocSlotBuffers(slots, 0, 512, common->heapId);
     PALANM_AllocSlotBuffers(slots, 2, 512, common->heapId);
     PALANM_AllocSlotBuffers(slots, 1, 512, common->heapId);
@@ -472,7 +465,7 @@ void RESEARCH_COMMON_AllocSlotBuffers(struct ResearchCommon *common)
 /* Frees the four palette slot buffers. */
 void RESEARCH_COMMON_FreeSlotBuffers(struct ResearchCommon *common)
 {
-    struct PalAnmSlot *slots = common->palAnm;
+    struct PaletteFade *slots = common->palAnm;
     PALANM_FreeSlotBuffers(slots, 0);
     PALANM_FreeSlotBuffers(slots, 2);
     PALANM_FreeSlotBuffers(slots, 1);

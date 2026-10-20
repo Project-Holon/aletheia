@@ -103,6 +103,7 @@ typedef struct AOSS_BSS {
 } AOSS_BSS;
 
 #include "../sdk_soc.h"
+#include "../ov009/soc.h"
 
 typedef struct {
     int       s_sFd;
@@ -195,47 +196,7 @@ typedef struct SEND_INFO {
     unsigned long  MyIp_addr;
 } SEND_INFO;
 
-typedef struct wlla_ssid {
-    unsigned long Len;
-    unsigned char Ssid[32];
-} WLLA_SSID;
-
-typedef struct wlla_key {
-    unsigned long Len;
-    unsigned char Key[13];
-} WLLA_KEY;
-
-typedef struct wlla_connect_param {
-    WLLA_SSID     Ssid;
-    unsigned long AuthAlgo;
-    WLLA_KEY      Key;
-} WLLA_CONNECT_PARAM;
-
-typedef struct wlla_rateset {
-    unsigned long Num;
-    unsigned char Rates[14];
-} WLLA_RATESET;
-
-typedef struct wlla_bss_info {
-    WLLA_SSID     Ssid;
-    unsigned long Channel;
-    unsigned long Noise;
-    unsigned long Signal;
-    unsigned char Bssid[6];
-    WLLA_RATESET  SupportRates;
-    unsigned long BeaconPeriod;
-    unsigned long Capability;
-} WLLA_BSS_INFO;
-
-typedef struct wlla_bss_list {
-    unsigned long Num;
-    WLLA_BSS_INFO BssInfo[1];
-} WLLA_BSS_LIST;
-
-typedef struct wlla_link_stat {
-    unsigned long LinkStat;
-    WLLA_BSS_INFO BssInfo;
-} WLLA_LINK_STAT;
+#include "wlla_types.h"
 
 typedef struct {
     int   fd;
@@ -355,27 +316,16 @@ typedef struct {
 
 void *AOSS_MALLOC(int size);
 void AOSS_FREE(void *mem);
-extern int AOSSi_WLANGetBSSList(WLLA_BSS_LIST **bssList);
-extern void AOSSi_Sleep(u32 msec);
-extern int AOSSi_WLANConnect(WLLA_CONNECT_PARAM *conParam, WLLA_LINK_STAT *linkStat);
+#include "aosslink.h"
 void AOSS_Memcpy(void *dest, void *src, int n);
 int AOSS_Strlen(char *s);
-extern int AOSSi_Status(int stat);
 int AOSS_Sendto(int s, void *msg, int len, int flags, void *to, int tolen);
-extern int SOC_Startup(SOCConfig *config);
-extern void OS_Sleep(unsigned long msec);
-extern int SOC_Cleanup(void);
-extern int AOSSi_Disconnect(void);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern int SOC_RecvFrom(int s, int buf, int len, int flags, unsigned char *sockFrom);
+#include "../arm9/os_thread.h"
+#include "../arm9/mi_memory.h"
 struct PollFD;
 extern int SOC_Poll(struct PollFD *fds, unsigned int nfds, long long timeout);
-extern int SOC_SendTo(int, void *, int, int, void *);
-extern int SOC_Socket(int domain, int type, int protocol);
-extern int SOC_Bind(int s, void *addr, int addrlen);
-extern int SOC_Close(int fd);
-extern int RTC_GetTime(RTCTime *time);
+typedef int RTCResult;
+#include "../arm9/external.h"
 int AOSSi_Init(struct aoss_info *aossInfo);
 int AOSS_Init_old(struct aoss_info *aossInfo);
 unsigned long aoss_IP_sta(unsigned long ipAp, unsigned long nMask);
@@ -1921,7 +1871,7 @@ void Rotate(unsigned char *mac, int maclen, char *wBuff)
 static int Alloc(int a, int b)
 {
     if (b > 0)
-        return (int)AOSSi_Alloc(b);
+        return (sptr)AOSSi_Alloc(b);
     return 0;
 }
 
@@ -1933,7 +1883,7 @@ static int Alloc(int a, int b)
  *   python tools/match.py one --src src/matched/Free.c \
  *       --func Free --addr 0x021B8184 --region ov016 --cc dsi/1.1p1 --thumb
  */
-static void Free(int a, int b)
+static void Free(int a, sptr b)
 {
     AOSSi_Free((void *)b);
 }
@@ -1983,7 +1933,7 @@ void AOSS_Memset(void *s, int c, int n)
 int AOSS_Recvfrom(int s, void *buf, int len, int flags, void *from, int *fromlen)
 {
     *(unsigned char *)from = (unsigned char)*fromlen;
-    return SOC_RecvFrom((int)s, (int)buf, len, flags, from);
+    return SOC_RecvFrom((int)s, (sptr)buf, len, flags, from);
 }
 
 int AOSS_Select(int nfds, SOCPollFD *readfds, void *writefds, void *exceptfds, struct timeval *timeout)
@@ -2041,7 +1991,7 @@ int AOSS_Socket(int domain, int type, int protocol)
 int AOSS_Bind(int s, void *addr, int addrlen)
 {
     *(unsigned char *)addr = addrlen;
-    return SOC_Bind(s, addr, addrlen);
+    return SOC_Bind(s, addr);
 }
 
 int AOSS_Close(int fd)

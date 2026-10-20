@@ -50,20 +50,23 @@ static u32 data_02735AE8 = 0;      /* bytes left in data_02735B00 */
 static u32 data_02735AE4 = 0;
 static u8 data_02735AEC[0x10] = {0};
 static u8 data_02735B00[0x20] __attribute__((aligned(32))) = {0};
-extern void OS_SignalEvent(OSEventLike *ev, u32 mask);
-extern void OS_InitEvent(OSEventLike *ev);
-extern u32 OS_WaitEventEx(struct OSEvent *event, unsigned int pattern, int mode, unsigned int clearBit);
-extern void OS_InitTick(void);
-extern void OS_GetLowEntropyData(u32 *out);
-extern void MATH_CalcSHA1(void *digest, const void *data, u32 size);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern int MI_CpuComp8(const void *a, const void *b, u32 size);
-extern u32 AESi_SeedRand(u32 *seed);
-extern u32 AESi_RandUnit(u8 *buf, ...);
-extern int AESi_CalcMac(void *p, u32 a, u32 b, void *buf, void (*cb)(u32, OSEventLike *), OSEventLike *ev);
+#include "../arm9/os_event.h"
+#include "../arm9/os_tick.h"
+#include "../arm9/os_entropy.h"
+#include "../arm9/dgt_sha1.h"
+#include "../arm9/mi_memory.h"
+#include "aes_core.h"
+#ifdef __MWERKS__
 extern void AESi_PxiSendFirst(int tag, u32 a, u32 b);
+#else
+#include "aes_fifo.h"
+#endif
+#ifdef __MWERKS__
 extern void AESi_Lock(void);
 extern void AESi_Unlock(void);
+#else
+#include "aes_lock.h"
+#endif
 
 static void CallbackForJpeg(u32 mask, OSEventLike *ev)
 {

@@ -24,7 +24,7 @@
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
  *   OS_WakeupThreadDirect  0x02085868  arm
- *   data_02150FEC  0x02150FEC  data
+ *   OSi_ThreadInfo  0x02150FEC  data
  *   OS_SleepThread  0x020857B0  arm
  *   OSi_EnterNDmaCallback  0x020848EC  arm
  *   MIi_GetControlData  0x0272F804  arm twl
@@ -34,65 +34,7 @@
  *   data_0272EB9C                0x0272EB9C  data
  */
 #include "../types.h"
-
-typedef struct Node {
-    struct Node *next;
-    u32 key;
-    u32 offset;
-    u32 data;
-    u32 buffer;
-} Node;
-
-typedef struct Node16 {
-    struct Node16 *next;
-    int key;
-    u32 offset;
-    u32 data;
-} Node16;
-
-/* ROM header fields read by CARD_InitRomHashContext */
-typedef struct {
-    char pad0[0x1e0];
-    u32 ntrAreaOffset, ntrAreaLength, ltdAreaOffset, ltdAreaLength, sectorHashOffset, sectorHashLength, blockHashOffset, blockHashLength, sectorSize, blockSectorCount;
-    char pad1[0x328 - 0x208];
-    u32 digest[5];
-} RomHdr;
-
-typedef struct {
-    u32 ntrAreaOffset;
-    u32 ntrAreaLength;
-    u32 ltdAreaOffset;
-    u32 ltdAreaLength;
-    u32 sectorHashOffset;
-    u32 sectorHashLength;
-    u32 blockHashOffset;
-    u32 blockHashLength;
-    u32 sectorSize;
-    u32 blockSectorCount;
-    u32 blockCacheCount;
-    u32 sectorCacheCount;
-    u32 userData;
-    int (*readCallback)(u32, void *, u32, u32);
-    int (*asyncReadCallback)(u32, void *, u32, u32);
-    u32 id;
-    Node *cur;
-    Node *free_a;
-    Node *used_a;
-    Node *cache_a;
-    Node *free_b;
-    Node *used_b;
-    Node *cache_b;
-    u8 *hash;
-    u8 *l0;
-    u8 *l1;
-    Node16 *l2;
-    Node *l3;
-} CardHash;
-
-typedef struct {
-    u32 pad0;
-    u32 id;
-} IdSrc;
+#include "card_hash.h"
 
 typedef struct {
     char pad[0x1fc];
@@ -101,39 +43,32 @@ typedef struct {
     u32 a;
 } SizeHdr;
 
-extern IdSrc data_02150FEC;
 extern u32 data_02732E98[], data_02732E34[];
 extern u8 data_0272EB9C[];
-extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern void MIi_CpuClear32(u32 v, void *dst, u32 n);
-extern void MSL_C_LIB_TwlCall3(u32 ctx, u32 data, u32 len);
-extern void MSL_C_LIB_TwlCall2(unsigned int ctx, unsigned int digest);
-extern void MSL_C_LIB_TwlCall1(unsigned int ctx);
-extern unsigned short OS_GetBootType(void);
-extern void *CARD_IsPulledOut(void);
-extern void MI_CpuFill(void *p, int v, u32 n);
-extern void OS_Terminate(void);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32);
-extern void OS_WakeupThreadDirect(u32);
-extern void OS_SleepThread(int);
+#include "../arm9/mi_memory.h"
+#include "../arm9/msl_crt.h"
+#include "../arm9/os_systemwork.h"
+#include "../arm9/card_pullout.h"
+#include "../arm9/os_terminate_processor.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
 
-u32 CARD_CalcRomHashBufferLength(void *p);
+u32 CARD_CalcRomHashBufferLength(const void *p);
 void CARDi_CompareHash(const u32 *expect, void *data, u32 len);
 void CARDi_StartLoading(CardHash *p);
-void CARD_NotifyRomHashReadAsync(CardHash *p);
+void CARD_NotifyRomHashReadAsync(void *arg);
 Node *CARDi_TouchRomHashBlock(CardHash *obj, u32 a);
 u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr);
 void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 size,
-                   int (*cb34)(u32, void *, u32, u32),
-                   int (*cb38)(u32, void *, u32, u32), u32 arg30);
+                   int (*cb34)(void *, void *, u32, u32),
+                   int (*cb38)(void *, void *, u32, u32), void *arg30);
 void CARDi_ReadRomHashImageDirect(CardHash *obj, u8 *buf, u32 off, u32 len);
 void CARDi_ReadRomHashImageCaching(CardHash *obj, u8 *buf, u32 off, u32 len);
 void CARD_ReadRomHashImage(CardHash *obj, u8 *buf, u32 off, u32 len);
 
-u32 CARD_CalcRomHashBufferLength(void *romHeader)
+u32 CARD_CalcRomHashBufferLength(const void *romHeader)
 {
-    SizeHdr *hdr = romHeader;
+    const SizeHdr *hdr = romHeader;
     u32 per = hdr->a * 0x14;
     u8 *start = 0;
     u8 *q = start;
@@ -207,8 +142,9 @@ void CARDi_StartLoading(CardHash *obj)
     }
 }
 
-void CARD_NotifyRomHashReadAsync(CardHash *obj)
+void CARD_NotifyRomHashReadAsync(void *arg)
 {
+    CardHash *obj = arg;
     u32 irq = OS_DisableInterrupts();
     Node *n = obj->free_a;
 
@@ -224,7 +160,7 @@ void CARD_NotifyRomHashReadAsync(CardHash *obj)
     }
     obj->cur = 0;
     OS_RestoreInterrupts(irq);
-    OS_WakeupThreadDirect(obj->id);
+    OS_WakeupThreadDirect(obj->thread);
     CARDi_StartLoading(obj);
 }
 
@@ -342,8 +278,8 @@ u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr)
 
 #pragma opt_common_subs off
 void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 size,
-                   int (*cb34)(u32, void *, u32, u32),
-                   int (*cb38)(u32, void *, u32, u32), u32 arg30)
+                   int (*cb34)(void *, void *, u32, u32),
+                   int (*cb38)(void *, void *, u32, u32), void *arg30)
 {
     u8 ipad[0x40];
     u8 opad[0x40];
@@ -547,7 +483,7 @@ void CARD_ReadRomHashImage(CardHash *obj, u8 *buf, u32 off, u32 len)
     u32 head;
     u32 bulk;
 
-    obj->id = data_02150FEC.id;
+    obj->thread = OSi_ThreadInfo.current;
     obj->cur = 0;
     if (len >= obj->sectorSize << 4 && OS_GetBootType() != 1) {
         mask = obj->sectorSize - 1;

@@ -115,62 +115,34 @@ typedef struct {
     u32 partyMon;          /* 0x08 the mon */
 } EventPdcReturnArgs;
 
-extern void *GFL_HEAP_Alloc(u32 heap,u32 size,int clear,const char *site,u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *PROCSYS_Create(int heapId);
-extern void PROCSYS_Delete(struct ProcSys *p);
-extern void STRBUF_Delete(struct Strbuf *p);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern unsigned int PROCSYS_Main(void *p);
-extern u32 PROCSYS_Push(u32 a, u32 b, u32 c, void *d);
-extern void *GAME_DATA_GetMyParty(const struct GameData *p);
+#include "../arm9/procsys.h"
+#include "../arm9/strbuf.h"
+extern void PROCSYS_Delete(ProcSys *sys);
+extern unsigned int PROCSYS_Main(ProcSys *sys);
+extern void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
+#include "../arm9/game_data.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern u32 GAME_DATA_GetBoxManager(const struct GameData *p);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
-extern u32 RECORD_AddOne(struct TrainerRecord *obj, int i);
-extern void MYSTATUS_NameToStrbuf(u16 *name, struct Strbuf *buf);
+#include "../arm9/zukan_save.h"
+#include "../arm9/record.h"
+#include "../arm9/mystatus.h"
 struct PokemonParam;
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
-extern u32 POKEPARTY_GetCount(struct Party *party);
-extern u32 POKEPARTY_GetCapacity(struct Party *party);
-extern u32 BOX_SAVEDATA_GetCurrentBox(struct GameData *gameData);
-extern int BOX_SAVEDATA_FindFreeSlot(struct GameData *gameData, s32 *pBox, s32 *pSlot);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *GAME_DATA_GetEventWork(const struct GameData *p);
+#include "../arm9/poke_tool.h"
+#include "../arm9/pokeparty.h"
+#include "../arm9/box_savedata.h"
+#include "../arm9/msgdata.h"
 struct EventWork;
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
-extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
-extern u32 ZONEDATA_GetPlaceNameId(u32 a);
-extern void SAVE_EVENT_Write(void *gameData, u32 mode, u32 record, u32 eventId, u16 index);
+#include "../arm9/zonedata.h"
+#include "../arm9/save_event.h"
 struct ZukanSave;
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, u16 species);
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
-extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *pZukan, void *pMon);
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *p);
 struct MiscSave;
-extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
+#include "../arm9/beacon.h"
 struct NameInArgs;
-extern struct NameInArgs *NAMEIN_SETUP_CreateCaptureArgs(u16 heapId, void *mon, s32 maxLen, struct Strbuf *initialName, struct Strbuf *boxName, void *boxManager, s32 boxIndex, void *pokedex);
-extern int NAMEIN_SETUP_IsCanceled(struct NameInArgs *args);
-extern void NAMEIN_SETUP_CopyName(struct NameInArgs *args, struct Strbuf *dest);
-extern void NAMEIN_SETUP_FreeArgs(struct NameInArgs *args);
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+#include "../ov010/namein_setup.h"
 struct BoxPokemon;
-extern int BOX_SAVEDATA_AddPokemon(struct GameData *gameData, struct BoxPokemon *mon);
 void *EVENT_PDC_RETURN_CreateArgs(u32 a, int b, u32 c, u32 heap);
 void EVENT_PDC_RETURN_DeleteArgs(void *p);
 int EVENT_PDC_RETURN_Init(struct ProcSys *procSys);
@@ -218,8 +190,8 @@ u32 EVENT_PDC_RETURN_Step(u32 task, u32 *state, EventPdcReturnArgs *args, EventP
         boxManager = GAME_DATA_GetBoxManager((const struct GameData *)args->gameData);
         if (args->mode == 1) {
             trainerRecord = (u32)GAME_DATA_GetTrainerRecord((struct GameData *)args->gameData);
-            RECORD_AddOne((struct TrainerRecord *)trainerRecord, (u32)7);
-            RECORD_AddOne((struct TrainerRecord *)trainerRecord, (u32)0x54);
+            RECORD_AddOne((struct RecordBlock *)trainerRecord, (u32)7);
+            RECORD_AddOne((struct RecordBlock *)trainerRecord, (u32)0x54);
             MYSTATUS_NameToStrbuf((void *)playerStatus, (void *)work->strbuf);
             POKE_TOOL_SetPartyValue((void *)args->partyMon, 0x8d, work->strbuf);
             partyCount = (int)POKEPARTY_GetCount((void *)party);
@@ -234,7 +206,7 @@ u32 EVENT_PDC_RETURN_Step(u32 task, u32 *state, EventPdcReturnArgs *args, EventP
                 MSGDATA_Delete((struct MsgBank *)msgBank);
             }
             placeNameId = ZONEDATA_GetPlaceNameId((u32)GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct GameData *)args->gameData)));
-            SAVE_EVENT_Write((void *)args->partyMon, 0, playerStatus, placeNameId, (u32)work->heapId);
+            SAVE_EVENT_Write((void *)args->partyMon, 0, (const struct MyStatus *)playerStatus, placeNameId, (u32)work->heapId);
             isNew = 0;
             nationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)tmp);
             if (ZUKAN_SAVE_IsCaught((struct ZukanSave *)tmp, (u16)POKE_TOOL_GetPartyValue((void *)args->partyMon, 5, 0)) == 0) {
@@ -253,7 +225,7 @@ u32 EVENT_PDC_RETURN_Step(u32 task, u32 *state, EventPdcReturnArgs *args, EventP
             } else {
                 work->resultFlag = 1;
             }
-            PROCSYS_Push(work->procSys, (u32)ov207_id, 0x0220BAB0, &work->resultFlag);
+            PROCSYS_Push((ProcSys *)work->procSys, (u32)ov207_id, (const ProcData *)(0x0220BAB0), (void *)&work->resultFlag);
             (*state)++;
             break;
         }
@@ -271,7 +243,7 @@ u32 EVENT_PDC_RETURN_Step(u32 task, u32 *state, EventPdcReturnArgs *args, EventP
         }
         if (nameConfirmed) {
             work->nameArgs = (u32)NAMEIN_SETUP_CreateCaptureArgs((u32)work->heapId, (void *)args->partyMon, (u32)0xa, (struct Strbuf *)0, (struct Strbuf *)work->partyFullMessage, (void *)tmp, (u32)work->boxSlotCandidate, (void *)MISC_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)args->gameData)));
-            PROCSYS_Push(work->procSys, (u32)ov194_id, 0x021F5580, (void *)work->nameArgs);
+            PROCSYS_Push((ProcSys *)work->procSys, (u32)ov194_id, (const ProcData *)(0x021F5580), (void *)work->nameArgs);
             (*state)++;
             break;
         }

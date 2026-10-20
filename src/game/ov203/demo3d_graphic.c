@@ -72,13 +72,9 @@
  */
 #include "demo3d_graphic_shared_types.h"
 
-struct DispVram;
+#include "../arm9/bg_sys.h"
 
 struct Rgb555;
-
-struct BgTemplate;
-
-struct DispConfig;
 
 struct Bank;
 
@@ -95,15 +91,23 @@ typedef struct Demo3dGraphicG3d { int tag; struct LightSlot *lightSlots; } Demo3
 
 #include "../types.h"
 
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
+struct TcbTask;
+struct LightSlot;
+struct ClactSysInit;
+struct DispVramCfg;
+struct Unit;
+struct LightSlotValue;
+struct LightSetDesc;
+#include "../arm9/tcb_list.h"
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *, unsigned, unsigned);
 
-extern void BG_SYS_ClearGraphicsMemory(unsigned);
+extern void BG_SYS_ClearGraphicsMemory(u32 keepBanks);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void BG_SYS_SetLcdSwap(unsigned);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 
 extern void BG_SYS_ResetSubDisplay(void);
 
@@ -113,7 +117,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 
 extern void GF_FONT_InitTextColor(void);
 
-extern void *GFL_USE_AddMainTask(unsigned, unsigned, unsigned);
+extern struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority);
 struct TcbTask;
 
 extern void TCB_DeleteTask(struct TcbTask *task);
@@ -122,29 +126,29 @@ extern void GF_FONT_SetDefaultTextColor(void);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void G3D_LIGHT_SetColor(struct LightSlot *,unsigned,unsigned short *);
+extern void G3D_LIGHT_SetColor(struct LightSlot *slots, u32 i, u16 *in);
 
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *);
 
-extern void VEC_Fx16Normalize(int, void *);
+extern void VEC_Fx16Normalize(const VecFx16 *pSrc, VecFx16 *pDst);
 
 extern void G3D_LIGHT_SetDirection(struct LightSlot *slots, u32 i, struct Rgb555 *in);
 
-extern void BG_SYS_Create(unsigned);
+extern void BG_SYS_Create(u16 heapId);
 
-extern void BMP_WIN_Init(unsigned);
+extern void BMP_WIN_Init(u16 heapId);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void BG_SYS_FreeSlot(unsigned char);
+extern void BG_SYS_FreeSlot(u8 idx);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 
-extern void BG_SYS_Init(unsigned, unsigned, unsigned, unsigned);
+extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-extern void BG_SYS_FreeTiles(unsigned, unsigned, unsigned);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -156,17 +160,17 @@ extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
+extern void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
+extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Unit *unit);
 
 extern void CLACT_ExitSystem(int);
 
@@ -174,16 +178,15 @@ extern void CLACT_DrawSystem(void);
 
 extern void CLACT_VBlankSystem(void);
 
-extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
-                          u16 fifoSize, s16 heap, void (*setup)(void));
+extern void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttManSize, u16 geBufSize, s16 heapId, void (*setUpFunc)(void));
 struct LightSetDesc;
 struct LightSlotValue;
 
-extern struct LightSlotValue *G3D_LIGHT_CreateSlots(struct LightSetDesc *set, unsigned short heapID);
+extern struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *set, u16 heapID);
 
 extern void DEMO3D_SetupGx(void);
 
-extern int G3D_LIGHT_DeleteSlots(int);
+extern u32 G3D_LIGHT_DeleteSlots(void *slots);
 
 extern void G3D_SYSTEM_Exit(int);
 
@@ -217,7 +220,7 @@ void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, int b);
 
 void DEMO3D_GRAPHIC_VBlank(u32 a, Demo3dGraphic *p);
 
-void DEMO3D_GRAPHIC_InitBg(Demo3dGraphic *ctx, unsigned heap);
+void DEMO3D_GRAPHIC_InitBg(Demo3dGraphic *ctx, u16 heap);
 
 void DEMO3D_GRAPHIC_DeleteBg(Demo3dGraphic *ctx);
 
@@ -281,7 +284,7 @@ Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap)
     if (ctx->engineOn == 0) {
         DEMO3D_GRAPHIC_InitBg(ctx, heap);
         DEMO3D_GRAPHIC_InitClact((Demo3dGraphicClact *)&ctx->clact, (int)d_021BFBC4, heap);
-        ctx->proc = GFL_USE_AddMainTask((unsigned)DEMO3D_GRAPHIC_VBlank, (unsigned)ctx, 0);
+        ctx->proc = GFL_USE_AddMainTask((TcbFunc)((unsigned)DEMO3D_GRAPHIC_VBlank), (void *)((unsigned)ctx), 0);
     }
     DEMO3D_GRAPHIC_InitG3d((Demo3dGraphicG3d *)&ctx->g3dTag, heap);
     return ctx;
@@ -336,7 +339,7 @@ void DEMO3D_GRAPHIC_SetLightSlot(Demo3dGraphic *p,unsigned i,unsigned short val)
 void DEMO3D_GRAPHIC_SetLightVector(Demo3dGraphic *p, int a, int b)
 {
     int buf[2];
-    VEC_Fx16Normalize(b, buf);
+    VEC_Fx16Normalize((const VecFx16 *)b, (VecFx16 *)buf);
     G3D_LIGHT_SetDirection(p->lightSlots, a, (struct Rgb555 *)buf);
 }
 
@@ -348,7 +351,7 @@ void DEMO3D_GRAPHIC_VBlank(u32 unused, Demo3dGraphic *p)
     }
 }
 
-void DEMO3D_GRAPHIC_InitBg(Demo3dGraphic *ctx, unsigned heap)
+void DEMO3D_GRAPHIC_InitBg(Demo3dGraphic *ctx, u16 heap)
 {
     unsigned i = 0;
     const Demo3dBgLayer *descriptor;
@@ -389,16 +392,16 @@ void DEMO3D_GRAPHIC_UpdateBg(void *unused){BG_SYS_Update();}
 void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((struct SysInit *)0x021BFB60, (struct DispVramCfg *)a, b);
-    p->unit = CLACT_CreateUnit(0x20, 0, b);
-    CLACT_SetUnitDefaultRenderer(p->unit);
+    CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)0x021BFB60), (const struct DispVramCfg *)a, b);
+    p->unit = (struct Bank *)CLACT_CreateUnit(0x20, 0, b);
+    CLACT_SetUnitDefaultRenderer((struct Unit *)p->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 void DEMO3D_GRAPHIC_DeleteClact(Demo3dGraphicClact *p)
 {
-    CLACT_ExitSystem(CLACT_DeleteUnit(p->unit));
+    CLACT_ExitSystem(CLACT_DeleteUnit((struct Unit *)p->unit));
     MI_CpuFill8(p, 0, 4);
 }
 
@@ -421,7 +424,7 @@ void DEMO3D_GRAPHIC_InitG3d(Demo3dGraphicG3d *p, u8 heap)
 
 void DEMO3D_GRAPHIC_DeleteG3d(Demo3dGraphicG3d *p)
 {
-    G3D_SYSTEM_Exit(G3D_LIGHT_DeleteSlots((int)p->lightSlots));
+    G3D_SYSTEM_Exit(G3D_LIGHT_DeleteSlots((void *)((int)p->lightSlots)));
 }
 
 void DEMO3D_GRAPHIC_ApplyLookAt(void *a)

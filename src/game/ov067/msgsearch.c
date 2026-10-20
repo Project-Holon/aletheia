@@ -29,21 +29,15 @@
 
 #include "msgsearch_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 GFL_HEAP_Free(void *block);
-extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
-extern void MIi_CpuClear32(u32 value, void *dest, u32 size);
-extern u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
+#include "../arm9/msgdata.h"
 MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId);
 void MSGSEARCH_Delete(MsgSearch *search);
-u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *prefix, MsgSearchHit *hits, u32 maxHits);
-int MSGSEARCH_PrefixMatches(struct StrBuf *prefix, struct StrBuf *text, u32 length);
+u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct Strbuf *prefix, MsgSearchHit *hits, u32 maxHits);
+int MSGSEARCH_PrefixMatches(struct Strbuf *prefix, struct Strbuf *text, u32 length);
 extern const char d_021B9558[];
 
 MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId)
@@ -60,7 +54,7 @@ MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId)
     for (i = 0; i < bankCount; i++) {
         search->bank[i] = banks[i];
     }
-    search->scratch = (struct StrBuf *)STRBUF_Create(0x80, heapId);
+    search->scratch = (struct Strbuf *)STRBUF_Create(0x80, heapId);
     return search;
 }
 
@@ -75,7 +69,7 @@ void MSGSEARCH_Delete(MsgSearch *search)
  * maxHits matches (unused entries are set to -1) and returns how many
  * messages matched in all. Messages are compared with MSGSEARCH_PrefixMatches.
  */
-u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *prefix, MsgSearchHit *hits, u32 maxHits)
+u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct Strbuf *prefix, MsgSearchHit *hits, u32 maxHits)
 {
     u32 matchCount;
     u32 messageCount;
@@ -108,7 +102,7 @@ u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf
 }
 
 /* Returns 1 when both strings are at least length characters long and their first length characters are equal. */
-int MSGSEARCH_PrefixMatches(struct StrBuf *prefix, struct StrBuf *text, u32 length)
+int MSGSEARCH_PrefixMatches(struct Strbuf *prefix, struct Strbuf *text, u32 length)
 {
     u16 *prefixChars;
     u16 *textChars;

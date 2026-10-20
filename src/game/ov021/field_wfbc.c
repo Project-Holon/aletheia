@@ -71,46 +71,37 @@ struct LandDataPatch;
 
 #include "field_wfbc_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern void FLDMMDL_SysSetDrawEnable(struct MmdlSys *mmdlSys, int flag);
-extern unsigned int *LAND_DATA_PATCH_Create(u32 blockId, u32 heapId);
-extern void LAND_DATA_PATCH_OverwriteAttr(unsigned int patch, unsigned char *mapAttr, unsigned int srcX, unsigned int srcY, unsigned int dstX, unsigned int dstY, unsigned int width, unsigned int height);
-extern unsigned int LAND_DATA_PATCH_AddBuildModels(unsigned int patch, unsigned int bmodelMan, unsigned int mapIndex, unsigned int firstIndex, int offsetX, int offsetZ);
-extern void LAND_DATA_PATCH_Delete(void **patch);
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 member);
-extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
-extern void EVENTDATA_SYSTEM_DisableConnect(struct EventDataSystem *eventData, u16 index);
-extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../ov010/fldmmdl.h"
+#include "land_data_patch.h"
+#ifdef __MWERKS__
+/* The original declares the heap id of the member loader as u16, so each call truncates it. */
+struct ArcHandle;
+void *ARC_TOOL_CreateHandle(u32 archiveID, unsigned int heapID);
+void ARC_TOOL_DeleteHandle(void *handle);
+void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
+void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
+u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
+#else
+#include "../arm9/arc_tool.h"
+#endif
+#include "../ov010/eventdata_system.h"
+#include "../arm9/arc_util.h"
 struct FieldCamera;
-extern void FIELD_CAMERA_SetSetting(struct FieldCamera *camera, u32 settingId);
-extern void FIELD_WFBC_DATA_LOCAL_ApplyGiftMoodBonus(WfbcPerson *person);
-extern void *MYSTATUS_Create(int heapId);
-extern void MYSTATUS_Init(struct MyStatus *myStatus);
-extern void MYSTATUS_CopyName(u16 *dest, u16 *src);
-extern void MYSTATUS_SetId(struct MyStatus *myStatus, u32 id);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
-extern void FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag(WfbcPerson *person);
-extern int FIELD_WFBC_DATA_LOCAL_HasArrivalFlag(WfbcPerson *person);
-extern struct WfbcNpcData *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int type, int heapId);
-extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heapId);
+#include "field_camera.h"
+#include "../ov020/field_wfbc_data_local.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/wordset.h"
 struct WfbcPosition;
-extern struct WfbcPosition *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(struct WfbcNpcData *npcData, int cityType, unsigned int heapId);
-extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(struct WfbcPosition *positions);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(struct WfbcNpcData *npcData);
-extern u32 MI_CpuFill8(void *dst, int value, int size);
-extern int FIELD_WFBC_DATA_LOCAL_IsDataComplete(WfbcData *data);
-extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(const WfbcPerson *person);
-extern void FIELD_WFBC_DATA_LOCAL_LoadNpcData(struct WfbcNpcData *npcData, u32 npcId);
-extern u8 *FIELD_WFBC_DATA_LOCAL_GetPositionPair(u8 *posTable, int index);
-extern WfbcNpcRecord *FIELD_WFBC_DATA_LOCAL_GetNpcRecord(struct WfbcNpcData *npcData);
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 member, void *dst);
-extern void FIELD_WFBC_DATA_LOCAL_ClearPeopleList(WfbcData *data);
-extern void FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList(WfbcData *data);
-extern int FIELD_WFBC_DATA_LOCAL_GetNpcId(const WfbcPerson *person);
-extern void MI_CpuCopy8(const void *src, void *dst, int size);
-extern int FIELD_WFBC_DATA_LOCAL_CountPeople(const WfbcData *data, int which);
+#include "../arm9/mi_memory.h"
+#include "../ov010/event_field_proclink_return.h"
+#include "../ov010/event_field_proclink_types.h"
+
+/* The resident records have the layout of the proc link entries: the proc link function of ov010 serves both. */
+static inline int WFBC_IsReturnEntryValid(const WfbcPerson *person)
+{
+    return EVENT_FIELD_PROCLINK_IsReturnEntryValid((ProcLinkEntry *)person);
+}
 FieldWfbc *FIELD_WFBC_Create(u32 heapId);
 u32 FIELD_WFBC_Delete(FieldWfbc *wfbc);
 int FIELD_WFBC_GetPeopleNum(FieldWfbc *wfbc);
@@ -141,7 +132,7 @@ void FIELD_WFBC_StoreSaveData(FieldWfbc *wfbc);
 FieldWfbcPeople *FIELD_WFBC_FindPeople(FieldWfbc *wfbc, u32 npcId);
 FieldWfbcPeople *FIELD_WFBC_FindPeopleByNpcId(FieldWfbc *wfbc, u32 npcId);
 void FIELD_WFBC_PEOPLE_Clear(FieldWfbcPeople *people);
-void FIELD_WFBC_PEOPLE_SetUp(FieldWfbcPeople *people, const WfbcPerson *person, u8 *gridPos, const WfbcNpcRecord *npcRecord);
+void FIELD_WFBC_PEOPLE_SetUp(FieldWfbcPeople *people, const WfbcPerson *person, const WfbcPosition *gridPos, const WfbcNpcRecord *npcRecord);
 void FIELD_WFBC_PEOPLE_LoadPerson(FieldWfbcPeople *people, const WfbcPerson *src);
 void FIELD_WFBC_PEOPLE_StorePerson(FieldWfbcPeople *people, WfbcPerson *dst);
 void FIELD_WFBC_BLOCK_ClearGrid(FieldWfbcBlock (*blocks)[8]);
@@ -358,7 +349,7 @@ void FIELD_WFBC_LoadResources(FieldWfbc *wfbc, int heapId)
         }
         wfbc->arcHandle = ARC_TOOL_CreateHandle(0x9a, heapId);
         wfbc->blockTable = GFL_HEAP_Alloc(heapId, sizeof(FieldWfbcBlockTable), 1, sFieldWfbcFileName, 0x3ab);
-        wfbc->mmdlPosTable = (unsigned char *)FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(wfbc->npcData, wfbc->cityType, heapId);
+        wfbc->mmdlPosTable = FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(wfbc->npcData, wfbc->cityType, heapId);
     }
 }
 
@@ -416,21 +407,21 @@ int FIELD_WFBC_CountPeople(FieldWfbc *wfbc)
 void FIELD_WFBC_SetUpPeople(FieldWfbc *wfbc, WfbcData *saveData, int isBackPeople)
 {
     int i;
-    u8 *gridPos;
+    const WfbcPosition *gridPos;
     FIELD_WFBC_DATA_LOCAL_IsDataComplete(saveData);
     FIELD_WFBC_Clear(wfbc);
     wfbc->cityType = saveData->cityType;
     wfbc->isBackPeople = isBackPeople;
     for (i = 0; i < 10; i++) {
         if (isBackPeople == 0) {
-            if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&saveData->people[i])) {
+            if (WFBC_IsReturnEntryValid(&saveData->people[i])) {
                 FIELD_WFBC_DATA_LOCAL_LoadNpcData(wfbc->npcData, saveData->people[i].npcId);
                 FIELD_WFBC_PEOPLE_SetUp(&wfbc->people[i], &saveData->people[i],
                               FIELD_WFBC_DATA_LOCAL_GetPositionPair(wfbc->mmdlPosTable, i),
                               FIELD_WFBC_DATA_LOCAL_GetNpcRecord(wfbc->npcData));
             }
         } else {
-            if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&saveData->backPeople[i])) {
+            if (WFBC_IsReturnEntryValid(&saveData->backPeople[i])) {
                 FIELD_WFBC_DATA_LOCAL_LoadNpcData(wfbc->npcData, saveData->backPeople[i].npcId);
                 gridPos = FIELD_WFBC_DATA_LOCAL_GetPositionPair(wfbc->mmdlPosTable, i);
                 FIELD_WFBC_DATA_LOCAL_GetNpcRecord(wfbc->npcData);
@@ -511,14 +502,14 @@ void FIELD_WFBC_PEOPLE_Clear(FieldWfbcPeople *people)
     people->isActive = 0;
 }
 
-void FIELD_WFBC_PEOPLE_SetUp(FieldWfbcPeople *people, const WfbcPerson *person, u8 *gridPos, const WfbcNpcRecord *npcRecord)
+void FIELD_WFBC_PEOPLE_SetUp(FieldWfbcPeople *people, const WfbcPerson *person, const WfbcPosition *gridPos, const WfbcNpcRecord *npcRecord)
 {
-    EVENT_FIELD_PROCLINK_IsReturnEntryValid(person);
+    WFBC_IsReturnEntryValid(person);
     people->isActive = 1;
     MI_CpuCopy8(person, &people->person, sizeof(WfbcPerson));
     MI_CpuCopy8(npcRecord, &people->npcRecord, sizeof(WfbcNpcRecord));
-    people->gridX = gridPos[0];
-    people->gridZ = gridPos[1];
+    people->gridX = gridPos->x;
+    people->gridZ = gridPos->z;
 }
 
 void FIELD_WFBC_PEOPLE_LoadPerson(FieldWfbcPeople *people, const WfbcPerson *src)
@@ -594,7 +585,7 @@ void FIELD_WFBC_BLOCK_InitRand(FieldWfbcBlockRand *blockRand, WfbcData *data, st
     recordSum = 0;
     npcIdSum = 0;
     for (i = 0; i < 10; i++) {
-        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&data->people[i]) != 0) {
+        if (WFBC_IsReturnEntryValid(&data->people[i]) != 0) {
             FIELD_WFBC_DATA_LOCAL_LoadNpcData(npcData, data->people[i].npcId);
             recordSum += *(u16 *)((u8 *)FIELD_WFBC_DATA_LOCAL_GetNpcRecord(npcData) + 0x2E);
             npcIdSum += data->people[i].npcId;

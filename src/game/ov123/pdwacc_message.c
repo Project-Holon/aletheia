@@ -79,128 +79,94 @@
 typedef struct { u16 chars[32]; } AccountCodeCharTable;
 struct TimeIcon;
 
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
+#include "../arm9/time_icon.h"
 struct BmpWin;
 struct TcblList;
 
-extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct Strbuf;
 struct MsgBank;
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+#include "../arm9/msgdata.h"
 
-extern void GF_FONT_SetDefaultTextColor(void);
+#include "../arm9/gf_font.h"
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
+#include "../arm9/bmp_menuwork.h"
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
+#include "../arm9/arc_util.h"
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 
-extern void *BMP_WIN_GetBmp(void *p);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 struct GfFont;
 struct Bmp;
 
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
+#include "../arm9/printsys.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 struct ButtonMan;
 
-extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
+#include "../arm9/button_man.h"
 
-extern void BG_SYS_MarkTileDirty(u32 bit);
+#include "../arm9/bg_sys.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 struct TaskMenuRes;
 struct TaskMenuInitWork;
 struct TaskMenuWork;
 
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
+#include "../arm9/app_taskmenu.h"
 struct TextPrinter;
 
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int textSpeed, void *tcbl, int, u16 heapId, int);
 
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 
-extern void BMP_WIN_Init(u16);
 
-extern void GF_FONT_InitTextColor(void);
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 struct TcblSystem;
 
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+#include "../arm9/tcbl.h"
 struct PrintQueue;
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 struct GFont;
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
-extern void BMP_WIN_Exit(void);
 struct WordSet;
 
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 
-extern u32 WORDSET_Delete(struct WordSet *p);
+#include "../arm9/wordset.h"
 
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
+#include "../arm9/g2.h"
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
+#include "../arm9/gf_standard.h"
 
-extern void STRBUF_Clear(struct Strbuf *strbuf);
 
-extern void STRBUF_AppendChar(struct Strbuf *strbuf, u16 ch);
 
-extern void PRINTSYS_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, u16 *params);
 
 extern const char d_021DABA8[];
 
@@ -358,26 +324,26 @@ void PDWACC_MESSAGE_ClearStream(PdwaccMessageWork *work)
 /* Opens the Yes/No task menu; layout 0 and 1 place it at different heights. Returns the menu handle. */
 void *PDWACC_MESSAGE_OpenYesNoMenu(PdwaccMessageWork *work, int layout)
 {
-    TaskMenuTmpl tmpl;
+    TaskMenuInitWork tmpl;
     void *result;
     tmpl.heapId = work->heap;
     tmpl.itemNum = 2;
-    tmpl.items = work->menuItems;
+    tmpl.itemWork = work->menuItems;
     switch (layout) {
     case 0: tmpl.charPosX = 32; tmpl.charPosY = 14; tmpl.posType = 1; break;
     case 1: tmpl.charPosX = 32; tmpl.charPosY = 24; tmpl.posType = 1; break;
     }
     tmpl.width = 13;
     tmpl.height = 3;
-    work->menuItems[0].text = STRBUF_Create(100, work->heap);
-    MSGDATA_ReadString(work->msgData, 4, work->menuItems[0].text);
-    work->menuItems[0].color = 0x39e0;
-    work->menuItems[1].text = STRBUF_Create(100, work->heap);
-    MSGDATA_ReadString(work->msgData, 5, work->menuItems[1].text);
-    work->menuItems[1].color = 0x39e0;
+    work->menuItems[0].str = STRBUF_Create(100, work->heap);
+    MSGDATA_ReadString(work->msgData, 4, work->menuItems[0].str);
+    work->menuItems[0].msgColor = 0x39e0;
+    work->menuItems[1].str = STRBUF_Create(100, work->heap);
+    MSGDATA_ReadString(work->msgData, 5, work->menuItems[1].str);
+    work->menuItems[1].msgColor = 0x39e0;
     result = APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&tmpl), work->taskMenuRes);
-    STRBUF_Delete(work->menuItems[0].text);
-    STRBUF_Delete(work->menuItems[1].text);
+    STRBUF_Delete(work->menuItems[0].str);
+    STRBUF_Delete(work->menuItems[1].str);
     G2x_SetBlendBrightness_(0x04001050, 17, -8);
     return result;
 }

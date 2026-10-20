@@ -307,85 +307,75 @@ typedef struct GroundAnimeWork {
 
 #define SE_GROUND_ANIME_DOOR 0x559
 
-extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, u32 one, char *file, u32 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, unsigned short heapID);
 extern unsigned char *NNS_G3dGetAnmByIdx(unsigned char *pFile, unsigned int resIdx);
 struct G3dResource;
 extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *res);
 extern s32 NNS_G3dGetMdlSet(s32 pFile);
 extern TexRes *G3D_SYSTEM_GetResourceTex(void *resource);
-extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 pResMdl, u32 pResTex);
-extern void NNS_G3dRenderObjAddAnmObj(void *renderObj, NNSG3dAnmObj *anmObj);
 extern unsigned int G3D_SYSTEM_GetResourceSize(void);
 extern void G3D_SYSTEM_InitResourceByFile(void *out, void *file);
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern int NNS_G3dGetResDictIdxByName(const Dict *dict, const void *name);
-extern void *FLDMMDL_FreeAcmd(char *p);
+#include "../ov010/fldmmdl.h"
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
-extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
+#include "../arm9/game_event.h"
 struct GameEvent;
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 struct GameData;
-extern u32 GAME_DATA_GetBgmInfo(struct GameData *gd);
 struct FieldMap;
 extern void *ENTRANCE_CAMERA_Create(struct FieldMap *fieldMap);
-extern int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int a);
 struct FieldCamera;
 
 extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
 struct FieldTaskManager;
 extern struct FieldTaskManager *FIELDMAP_GetTaskManager(struct FieldMap *fieldMap);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern void EVENT_MAPCHANGE_SetPlayerVanish(struct FieldMap *fieldMap, u32 vanish);
-extern int FIELD_CAMERA_HasDelay(struct FieldCamera *camera);
-extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
-extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
 extern void ENTRANCE_CAMERA_Setup(void *entrance, int *param);
-extern void FIELD_SOUND_SYSTEM_PostFadeIn(void *bgmInfo, void *gameData);
+#include "../arm9/field_sound_system.h"
 struct GameSystem;
-extern struct GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(struct GameSystem *gameSystem, void *source);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+typedef int Bool;
+#include "../ov010/event_field_proclink.h"
 struct EntranceCamera;
 extern int ENTRANCE_CAMERA_IsActive(struct EntranceCamera *work);
 extern int ENTRANCE_CAMERA_IsInstant(struct EntranceCamera *work);
 extern void ENTRANCE_CAMERA_Start(struct EntranceCamera *work);
-extern int FIELD_TASK_MANAGER_IsEmpty(struct FieldTaskManager *manager);
 extern void ENTRANCE_CAMERA_Restore(struct EntranceCamera *work);
-extern int FIELD_CAMERA_ReloadSetting(struct FieldCamera *camera);
 extern void ENTRANCE_CAMERA_Delete(struct EntranceCamera *work);
 struct FieldSoundSystem;
-extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(struct FieldSoundSystem *fieldSound, struct GameData *gameData, u16 zoneId, u8 season);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 struct FieldPlayer;
 extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
 extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
 extern void FIELD_PLAYER_GetMoveOffsetInDir(struct FieldPlayer *player, s32 dir, s32 *out);
-extern void VEC_MultAdd(int scale, VecFx32 *from, VecFx32 *to, VecFx32 *out);
 struct Mmdl;
-extern s32 FLDMMDL_MOVE_GetMapHeight(struct Mmdl *mmdl, VecFx32 *pos, s32 *outHeight);
 struct FieldNogridMapper;
 extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(struct FieldMap *fieldMap);
 struct RailManager;
-extern struct RailManager *FIELD_NOGRID_MAPPER_GetRailMan(struct FieldNogridMapper *mapper);
 extern int FIELD_PLAYER_GetNogridLocationByDir(struct FieldPlayer *player, u32 a, void *b);
 extern void FIELD_RAIL_GetLocationPos(void *rail, int *in, VecFx32 *out);
 struct FieldG3dMapper;
 extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
-struct FieldBuildModel;
-extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+struct BuildModelMan;
 struct BuildModelMan;
 struct BuildModelNode;
-extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(struct BuildModelMan *man, s32 kind, s32 *pos);
-extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
-extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(struct BuildModelNode *node);
-extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, s32 slot, s32 mode);
-extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(struct BuildModelNode *node, s32 out);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
+#include "field_buildmodel.h"
+extern u32 GFL_HEAP_Free(void *p);
+extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, u32 one, char *file, u32 line);
+#include "../arm9/arc_util.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/nns_g3d_tex.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
+#include "../arm9/game_data.h"
+#include "../ov010/event_field_proclink_return.h"
+#include "../ov020/event_mapchange.h"
+#include "field_camera.h"
+#include "field_task_manager.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/fx_vec.h"
+#include "../ov010/fldmmdl_move.h"
+#include "field_nogrid_mapper.h"
+#include "field_g3d_mapper.h"
+#include "event_fieldmap_control.h"
 int FIELD_GROUND_ANIME_MainA(void *task, int *state, GroundAnimeWork *work);
 void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args);
 void FIELD_GROUND_ANIME_SetupStepsB(GroundAnimeWork *work);
@@ -440,7 +430,7 @@ u32 FIELD_GROUND_ANIME_KeyTableGetDuration(GroundKeyTable *table);
 u16 FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame(GroundKeyTable *table, int group);
 void FIELD_GROUND_ANIME_KeyTableUnpack(u32 *keyFile, GroundKeyTable *out);
 void FIELD_GROUND_ANIME_GetEntryPos(void *fieldMap, VecFx32 *out);
-int FIELD_GROUND_ANIME_FreePlayerAcmd(void *a);
+void FIELD_GROUND_ANIME_FreePlayerAcmd(void *a);
 void *FIELD_GROUND_ANIME_CreateA(GroundAnimeArgs *args);
 void FIELD_GROUND_ANIME_SetupStepsA(GroundAnimeWork *w);
 extern char _FieldGroundAnimeFileName;
@@ -940,9 +930,9 @@ void FIELD_GROUND_ANIME_GetEntryPos(void *fieldMap, VecFx32 *out)
     FIELD_GROUND_ANIME_GetEntryPosByMapKind(fieldMap, out);
 }
 
-int FIELD_GROUND_ANIME_FreePlayerAcmd(void *a)
+void FIELD_GROUND_ANIME_FreePlayerAcmd(void *a)
 {
-    return (int)FLDMMDL_FreeAcmd(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a)));
+    FLDMMDL_FreeAcmd(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(a)));
 }
 
 void *FIELD_GROUND_ANIME_CreateA(GroundAnimeArgs *args)
@@ -950,7 +940,7 @@ void *FIELD_GROUND_ANIME_CreateA(GroundAnimeArgs *args)
     void *task;
     GroundAnimeWork *w;
 
-    task = GAME_EVENT_Create(args->gameSystem, 0, FIELD_GROUND_ANIME_MainA, 0x3C);
+    task = GAME_EVENT_Create(args->gameSystem, 0, (GameEventFunc)FIELD_GROUND_ANIME_MainA, 0x3C);
     w = GAME_EVENT_GetWork(task);
     w->args = args;
     w->bgmInfo = (void *)GAME_DATA_GetBgmInfo(args->gameData);
@@ -1148,7 +1138,7 @@ void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args)
     void *task;
     GroundAnimeWork *work;
 
-    task = GAME_EVENT_Create(args->gameSystem, 0, FIELD_GROUND_ANIME_MainB, 0x3C);
+    task = GAME_EVENT_Create(args->gameSystem, 0, (GameEventFunc)FIELD_GROUND_ANIME_MainB, 0x3C);
     work = GAME_EVENT_GetWork(task);
     work->args = args;
     work->bgmInfo = (void *)GAME_DATA_GetBgmInfo(args->gameData);
@@ -1385,7 +1375,7 @@ void FIELD_GROUND_ANIME_AdvanceStep(GroundAnimeWork *work)
 /* Creates the build model (door or ground object) at the entry position. */
 void FIELD_GROUND_ANIME_CreateBuildModel(GroundAnimeWork *work)
 {
-    work->buildModel = FIELD_BUILDMODEL_CreateNodeNearPos((struct BuildModelMan *)FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->args->fieldMap)), 1, (s32 *)(&work->entryPos));
+    work->buildModel = FIELD_BUILDMODEL_CreateNodeNearPos((struct BuildModelMan *)FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->args->fieldMap)), 1, (const struct VecFx32 *)(&work->entryPos));
 }
 
 void FIELD_GROUND_ANIME_DeleteBuildModel(GroundAnimeWork *work)

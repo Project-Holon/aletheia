@@ -20,14 +20,12 @@
  */
 #include "../types.h"
 
-extern u32 NWMi_CheckEnableFlag(void);
-extern u32 NWMi_CheckState(u32 n, ...);
-extern u32 NWMi_GetSystemWork(void);
+#include "nwm_init.h"
+#include "nwm_system.h"
 extern void DC_InvalidateRange(u32, u32);
-extern void NWMi_SetCallbackTable(u32, u32);
-extern u32 NWMi_SendCommand(unsigned short apiid, unsigned short argc, ...);
+#include "nwm_cmd.h"
 
-u32 NWM_Open(u32 callback) {
+u32 NWM_Open(void *callback) {
     u32 r;
     u32 base;
     u32 busy;
@@ -52,7 +50,7 @@ u32 NWM_Open(u32 callback) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(5, callback);
+    NWMi_SetCallbackTable(5, (u32)callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(5, 0);
     if (r == 0 || r == 2) {

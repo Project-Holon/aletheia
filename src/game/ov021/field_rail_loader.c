@@ -28,33 +28,13 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../types.h"
-
-/* Counts and tables of the loaded rail data, and the rail system limits.
- * Sits at offset 8 of FieldRailLoader (0x30 bytes). */
-typedef struct {
-    u16 pointCount;
-    u16 lineCount;
-    u16 railCount;
-    u16 cameraCount;
-    u16 maxWalkers;       /* 0x14 */
-    u16 maxLayers;        /* 3 */
-    u16 maxViews;         /* 3 */
-    u16 reserved;
-    void *points;         /* 0x70 byte entries */
-    void *lines;          /* 0x48 byte entries */
-    void *rails;          /* 0x24 byte entries */
-    void *cameras;        /* 0x24 byte entries */
-    const void *cameraFuncs;   /* three function pointers */
-    const void *pointFuncs;
-    const void *lineFuncs;
-} FieldRailSetting;
+#include "field_rail_types.h"
 
 /* The rail data loader (0x38 bytes). */
-typedef struct {
+typedef struct FieldRailLoader {
     u32 *data;            /* the loaded rail data file */
     u32 dataSize;
     FieldRailSetting setting;
-    u32 entryInfo;        /* word the data header points at */
 } FieldRailLoader;
 
 /* Layout of the loaded rail data: offsets of its sections from its start. */
@@ -67,14 +47,12 @@ typedef struct {
 
 #define _RAIL_DATA_ARCHIVE  0x4f
 
-extern u32 GFL_HEAP_Free(void *mem);
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void *FLDMMDL_SetMoveBit(void *mmdl, u32 bits);
-extern int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, unsigned short heapID, unsigned int *out);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../ov010/fldmmdl.h"
+#include "../arm9/arc_util.h"
 struct GameEvent;
 extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, unsigned short scriptId, void *target, int reserved);
-extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
 void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting);
 FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId);
 void FIELD_RAIL_LOADER_Delete(FieldRailLoader *loader);
@@ -82,7 +60,7 @@ void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 member, u32 heapId);
 void FIELD_RAIL_LOADER_Unload(FieldRailLoader *loader);
 FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader);
 int FLDMMDL_CreateTalkScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id);
-int FLDMMDL_MOVE_VanishProc(void *a, u32 b, u32 c, u32 d);
+void FLDMMDL_MOVE_VanishProc(void *a, u32 b, u32 c, u32 d);
 void FIELD_RAIL_LOADER_EmptyProc0(void);
 void FIELD_RAIL_LOADER_EmptyProc1(void);
 void FIELD_RAIL_LOADER_EmptyProc2(void);
@@ -96,12 +74,12 @@ extern char d_021DDE08[];    /* __FILE__ */
 void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting)
 {
     MI_CpuFill8(setting, 0, 0x30);
-    setting->maxWalkers = 0x14;
-    setting->maxLayers = 3;
-    setting->maxViews = 3;
-    setting->cameraFuncs = d_021DDDB8;
-    setting->pointFuncs = d_021DDDA0;
-    setting->lineFuncs = d_021DDDAC;
+    setting->cameraFuncCount = 0x14;
+    setting->linePosFuncCount = 3;
+    setting->lineFuncCount = 3;
+    setting->cameraFuncs = (RailCameraFunc *)d_021DDDB8;
+    setting->linePosFuncs = (RailLinePosFunc *)d_021DDDA0;
+    setting->lineFuncs = (RailLineFunc *)d_021DDDAC;
 }
 
 FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId)
@@ -123,15 +101,15 @@ void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 member, u32 heapId)
     u32 size;
     loader->data = (u32 *)ARC_UTIL_LoadMemberWithSize(_RAIL_DATA_ARCHIVE, member, 0, (u16)heapId, &size);
     loader->dataSize = size;
-    loader->setting.points = (u8 *)loader->data + loader->data[_SECTION_POINTS];
+    loader->setting.points = (RailPoint *)((u8 *)loader->data + loader->data[_SECTION_POINTS]);
     loader->setting.pointCount = (loader->data[_SECTION_LINES] - loader->data[_SECTION_POINTS]) / 0x70;
-    loader->setting.lines = (u8 *)loader->data + loader->data[_SECTION_LINES];
+    loader->setting.lines = (RailLine *)((u8 *)loader->data + loader->data[_SECTION_LINES]);
     loader->setting.lineCount = (loader->data[_SECTION_RAILS] - loader->data[_SECTION_LINES]) / 0x48;
-    loader->setting.rails = (u8 *)loader->data + loader->data[_SECTION_RAILS];
-    loader->setting.railCount = (loader->data[_SECTION_CAMERAS] - loader->data[_SECTION_RAILS]) / 0x24;
-    loader->setting.cameras = (u8 *)loader->data + loader->data[_SECTION_CAMERAS];
-    loader->setting.cameraCount = (loader->data[_SECTION_END] - loader->data[_SECTION_CAMERAS]) / 0x24;
-    loader->entryInfo = *(u32 *)((u8 *)loader->data + loader->data[_SECTION_ENTRY_INFO]);
+    loader->setting.cameras = (RailCamera *)((u8 *)loader->data + loader->data[_SECTION_RAILS]);
+    loader->setting.cameraCount = (loader->data[_SECTION_CAMERAS] - loader->data[_SECTION_RAILS]) / 0x24;
+    loader->setting.linePoses = (RailLinePos *)((u8 *)loader->data + loader->data[_SECTION_CAMERAS]);
+    loader->setting.linePosCount = (loader->data[_SECTION_END] - loader->data[_SECTION_CAMERAS]) / 0x24;
+    loader->setting.unitScale = *(u32 *)((u8 *)loader->data + loader->data[_SECTION_ENTRY_INFO]);
 }
 
 /* Free the loaded data and reset the setting. */
@@ -156,10 +134,10 @@ int FLDMMDL_CreateTalkScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
 return (int)SCRIPT_SYS_CreateScriptEventSimple((void *)a, ((c << 16) >> 16), (void *)e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
 }
 
-int FLDMMDL_MOVE_VanishProc(void *mmdl, u32 unused1, u32 unused2, u32 unused3)
+void FLDMMDL_MOVE_VanishProc(void *mmdl, u32 unused1, u32 unused2, u32 unused3)
 {
-FLDMMDL_SetStatusBitVanish((unsigned int *)mmdl, 1);
-return (int)FLDMMDL_SetMoveBit(mmdl, (1 << 15));
+FLDMMDL_SetStatusBitVanish((struct Mmdl *)mmdl, 1);
+FLDMMDL_SetMoveBit(mmdl, (1 << 15));
 }
 
 void FIELD_RAIL_LOADER_EmptyProc0(void)

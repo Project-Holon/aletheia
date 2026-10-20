@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_WIPE_SUB_H
 #define GAME_ARM9_WIPE_SUB_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wipe_sub.c, prototypes copied from their definitions. */
 
 struct WipeSys;
@@ -94,5 +95,6 @@ void WIPE_SUB_WindowVisibleTask(void *task, struct WindowVisibleRequest *request
 void WIPE_SUB_WindowInsideTask(void *task, struct WindowInsideRequest *request);
 void WIPE_SUB_WindowOutsideTask(void *task, struct WindowOutsideRequest *request);
 void WIPE_SUB_WindowRectTask(void *task, struct WindowRectRequest *request);
+/* END mkheaders: generated region */
 
 #endif

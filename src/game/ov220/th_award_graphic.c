@@ -51,13 +51,13 @@
  *   CLACT_DrawSystem 0x0204A600 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  */
-struct DispVram;
 struct Node;
-struct DispConfig;
-struct BgTemplate;
 struct Bank;
 struct Cfg;
 #include "../types.h"
+
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys_types.h"
 
 struct ClactCtx {
     struct Bank *unit;     /* +0x00 CLACT unit from CLACT_CreateUnit */
@@ -79,7 +79,7 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void *GFL_USE_AddMainTask(void *,void *,int);
+extern struct TcbTask *GFL_USE_AddMainTask(void *,void *,int);
 struct TcbTask;
 extern void TCB_DeleteTask(struct TcbTask *task);
 extern void GF_FONT_SetDefaultTextColor(void);
@@ -97,15 +97,8 @@ extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
 void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap);
 void TH_AWARD_GRAPHIC_Delete(unsigned char *p);
 void TH_AWARD_GRAPHIC_Update(char *p);
@@ -142,7 +135,7 @@ void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
     GF_FONT_InitTextColor();
     TH_AWARD_GRAPHIC_SetupBg(p,heap);
     TH_AWARD_GRAPHIC_SetupClact(p+4,(int)&d_021BA428,heap);
-    ((struct ThAwardGraphic *)p)->proc=GFL_USE_AddMainTask((void *)TH_AWARD_GRAPHIC_Task,p,0);
+    ((struct ThAwardGraphic *)p)->proc=(struct Node *)GFL_USE_AddMainTask((void *)TH_AWARD_GRAPHIC_Task,p,0);
     return p;
 }
 
@@ -200,16 +193,16 @@ void TH_AWARD_GRAPHIC_DrawObjects(void *p){BG_SYS_Update();}
 void TH_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((struct SysInit *)0x021BA40C, (struct DispVramCfg *)a, b);
-    ((struct ClactCtx *)p)->unit = CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer(((struct ClactCtx *)p)->unit);
+    CLACT_InitSystem((struct ClactSysInit *)0x021BA40C, (struct DispVramCfg *)a, b);
+    ((struct ClactCtx *)p)->unit = (struct Bank *)CLACT_CreateUnit(0x80, 0, b);
+    CLACT_SetUnitDefaultRenderer((struct Unit *)(((struct ClactCtx *)p)->unit));
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
 void TH_AWARD_GRAPHIC_DeleteClact(char *p)
 {
-    CLACT_DeleteUnit(((struct ClactCtx *)p)->unit);
+    CLACT_DeleteUnit((struct Unit *)(((struct ClactCtx *)p)->unit));
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }

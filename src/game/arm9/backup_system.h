@@ -1,6 +1,10 @@
 #ifndef GAME_ARM9_BACKUP_SYSTEM_H
 #define GAME_ARM9_BACKUP_SYSTEM_H
 
+typedef struct BackupSaveData BackupSaveData;
+typedef struct SaveDataParam SaveDataParam;
+typedef struct SaveFooter SaveFooter;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of backup_system.c, prototypes copied from their definitions. */
 
@@ -66,9 +70,5 @@ int BACKUP_SYSTEM_CheckFlashAsync(u16 lock_id, u32 *success);
 int BACKUP_SYSTEM_ReadFlash(u32 flash_addr, u32 dst, u32 size);
 int BACKUP_SYSTEM_ReadRecordFromFlash(BackupSaveData *sv, u32 id, u32 area_index, u32 dst, u32 size);
 /* END mkheaders: generated region */
-
-typedef struct BackupSaveData BackupSaveData;
-typedef struct SaveDataParam SaveDataParam;
-typedef struct SaveFooter SaveFooter;
 
 #endif

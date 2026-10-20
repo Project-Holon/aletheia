@@ -67,16 +67,17 @@
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
 
-struct DispVram;
 struct Node;
-struct DispConfig;
-struct BgTemplate;
 struct Cfg;
 struct Bank;
 struct Light;
 #include "../types.h"
 
-typedef struct {u32 x,y,z;} Vec3;
+struct VecFx32;
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys_types.h"
+
+typedef struct {u32 x,y,z;} CommBtlDemoGraphicVec3;
 
 struct CommBtlDemoGraphic {
     u8 bgData[4];
@@ -99,7 +100,7 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void *GFL_USE_AddMainTask(void *callback,void *ctx,int priority);
+extern struct TcbTask *GFL_USE_AddMainTask(void *callback,void *ctx,int priority);
 struct TcbTask;
 extern void TCB_DeleteTask(struct TcbTask *task);
 extern void GF_FONT_SetDefaultTextColor(void);
@@ -116,18 +117,11 @@ extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
 extern void COMM_BTL_DEMO_MAIN_Init3dSystem(void);
 extern void G3D_SYSTEM_Init(u32 a,u32 b,u32 c,u32 d,u16 fifo,unsigned heap,void (*setup)(void));
-extern u32 *G3D_CAMERA_Create(u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h,Vec3 *i,Vec3 *j,Vec3 *k,unsigned heap);
+extern struct G3dCamera *G3D_CAMERA_Create(u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h,struct VecFx32 *i,struct VecFx32 *j,struct VecFx32 *k,unsigned heap);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
 extern void G3D_SYSTEM_DrawStart(void);
@@ -160,8 +154,8 @@ extern const struct DispVram d_021BB1C8;
 extern const unsigned d_021BB1F8[][11];
 extern struct DispConfig d_021BB17C;
 extern int d_021BB18C;
-extern const Vec3 d_021BB158;
-extern Vec3 d_021BB164,d_021BB170;
+extern const CommBtlDemoGraphicVec3 d_021BB158;
+extern CommBtlDemoGraphicVec3 d_021BB164,d_021BB170;
 extern const unsigned char d_020A1EB8[];
 
 void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap)
@@ -245,7 +239,7 @@ void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *work){BG_SYS_Update();}
 void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b)
 {
     MI_CpuFill8(out, 0, 4);
-    CLACT_InitSystem((struct SysInit *)(&d_021BB18C), (struct DispVramCfg *)a, b);
+    CLACT_InitSystem((struct ClactSysInit *)(&d_021BB18C), (struct DispVramCfg *)a, b);
     *out = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(*out);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -255,7 +249,7 @@ void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b)
 /*
  * Tail: two zero alignment bytes at 021BADB2.
  */
-void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p){CLACT_DeleteUnit(((struct CommBtlDemoClact *)p)->bank);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
+void COMM_BTL_DEMO_GRAPHIC_DeleteClact(void *p){CLACT_DeleteUnit((struct Unit *)(((struct CommBtlDemoClact *)p)->bank));CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
 
 void COMM_BTL_DEMO_GRAPHIC_DrawClact(void *work){CLACT_DrawSystem();}
 
@@ -269,10 +263,10 @@ void *COMM_BTL_DEMO_GRAPHIC_GetClactBank(void **p){return *p;}
  */
 void COMM_BTL_DEMO_GRAPHIC_InitG3d(u32 **p,unsigned heap)
 {
-    Vec3 copy;
+    CommBtlDemoGraphicVec3 copy;
     G3D_SYSTEM_Init(0,1,0,1,0,heap,COMM_BTL_DEMO_MAIN_Init3dSystem);
     copy=d_021BB158;
-    *p=G3D_CAMERA_Create(0,*(const short *)(d_020A1EB8+12),*(const short *)(d_020A1EB8+14),0x1555,0,0x1000,0x400000,0,&d_021BB170,&copy,&d_021BB164,heap);
+    *p=(u32 *)G3D_CAMERA_Create(0,*(const short *)(d_020A1EB8+12),*(const short *)(d_020A1EB8+14),0x1555,0,0x1000,0x400000,0,(struct VecFx32 *)(&d_021BB170),(struct VecFx32 *)(&copy),(struct VecFx32 *)(&d_021BB164),heap);
 }
 
 void COMM_BTL_DEMO_GRAPHIC_DeleteG3d(int *p)

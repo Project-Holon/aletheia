@@ -7,6 +7,7 @@
  * animation, and the player can hop across (GIMMICK46 hop event). */
 
 #include "../types.h"
+#include "../sdk_fx.h"
 
 #define FIELD_GIMMICK_ROTATING_ROOM_SAVE_BLOCK_ID 10
 #define FIELD_GIMMICK_ROTATING_ROOM_MODELS_PER_UNIT 5
@@ -31,18 +32,12 @@
 #define FIELD_GIMMICK_ROTATING_ROOM_HOP_STEPS 8
 #define FIELD_GIMMICK_ROTATING_ROOM_HOP_SPEED 0x2000
 
-/* Fixed-point position. */
-typedef struct Vec3Fx {
-    int x;
-    int y;
-    int z;
-} Vec3Fx;
-
+#include "../sdk_fx.h"
 /* Position, scale and rotation of an expansion-object model. */
 typedef struct FldExpModel {
-    Vec3Fx pos;
-    Vec3Fx scale;
-    int rotation[9];  /* 3x3 fixed-point matrix */
+    VecFx32 pos;
+    VecFx32 scale;
+    MtxFx33 rotation;  /* 3x3 fixed-point matrix */
 } FldExpModel;
 
 /* Event data: play one animation on a model and wait until it stops. */

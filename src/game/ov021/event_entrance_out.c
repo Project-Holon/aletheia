@@ -37,23 +37,20 @@
 
 struct BgmInfo;
 
-extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EntranceOutEventFunc func, u32 workSize);
-extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
-extern struct BgmInfo *GAME_DATA_GetBgmInfo(const GameData *gameData);
+#include "fieldmap.h"
+#include "../arm9/game_event.h"
+#include "../arm9/game_data.h"
 struct GroundAnimeArgs;
-extern void *FIELD_GROUND_ANIME_CreateA(struct GroundAnimeArgs *args);
+#include "field_ground_anime.h"
 struct GameSystem;
 struct GameEvent;
-extern GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(struct GameSystem *gameSystem, void *source);
+typedef int Bool;
+#include "../ov010/event_field_proclink.h"
 struct FieldMap;
-extern GameEvent *EVENT_APPEAR_CreateDescendingSpin(struct GameEvent *parent, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int effectId, int wait, int initScreen, u8 fromSeason, u8 toSeason);
-extern u32 FIELD_SOUND_SYSTEM_PostFadeIn(struct BgmInfo *bgmInfo, GameData *gameData);
-extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeInTask(GameSystem *gameSystem, u32 frames);
-extern struct FieldPlaceName *FIELDMAP_GetPlaceName(FieldMap *fieldMap);
-void FIELD_PLACE_NAME_OnZoneChange(struct FieldPlaceName *placeName, int zoneId);
+#include "event_appear.h"
+#include "event_fieldmap_control.h"
+#include "../arm9/field_sound_system.h"
+#include "field_place_name.h"
 GameEvent *EVENT_ENTRANCE_OUT_Create(EntranceParam *param);
 u32 EVENT_ENTRANCE_OUT_RunPlain(GameEvent *event, int *seq, EntranceOutWork *work);
 u32 EVENT_ENTRANCE_OUT_RunGroundAnime(GameEvent *event, int *seq, EntranceOutWork *work);
@@ -61,7 +58,7 @@ u32 EVENT_ENTRANCE_OUT_RunObjectAnime(GameEvent *event, int *seq, EntranceOutWor
 u32 EVENT_ENTRANCE_OUT_RunAppear(GameEvent *event, int *seq, EntranceOutWork *work);
 u32 EVENT_ENTRANCE_OUT_RunCamera(GameEvent *event, int *seq, EntranceOutWork *work);
 u32 EVENT_ENTRANCE_OUT_RunFadeSe(GameEvent *event, int *seq, EntranceOutWork *work);
-int EVENT_ENTRANCE_OUT_PostBgmFadeIn(EntranceOutWork *work);
+void EVENT_ENTRANCE_OUT_PostBgmFadeIn(EntranceOutWork *work);
 void EVENT_ENTRANCE_OUT_StartBgmFadeIn(EntranceOutWork *work, GameEvent *event);
 void EVENT_ENTRANCE_OUT_CallFadeIn(EntranceOutWork *work, GameEvent *event);
 void EVENT_ENTRANCE_OUT_ShowPlaceName(EntranceOutWork *work);
@@ -100,7 +97,7 @@ GameEvent *EVENT_ENTRANCE_OUT_Create(EntranceParam *param)
         eventKind = ENTRANCE_EVENT_CAMERA;
         break;
     }
-    event = GAME_EVENT_Create(param->gameSystem, param->event, table.func[eventKind], sizeof(EntranceOutWork));
+    event = GAME_EVENT_Create(param->gameSystem, param->event, (GameEventFunc)table.func[eventKind], sizeof(EntranceOutWork));
     ((EntranceOutWork *)GAME_EVENT_GetWork(event))->param = param;
     return event;
 }
@@ -233,9 +230,9 @@ u32 EVENT_ENTRANCE_OUT_RunFadeSe(GameEvent *event, int *seq, EntranceOutWork *wo
 }
 
 /* Posts the fade in of the zone music replaced by the "in" event. */
-int EVENT_ENTRANCE_OUT_PostBgmFadeIn(EntranceOutWork *work)
+void EVENT_ENTRANCE_OUT_PostBgmFadeIn(EntranceOutWork *work)
 {
-    return FIELD_SOUND_SYSTEM_PostFadeIn(GAME_DATA_GetBgmInfo(work->param->gameData), work->param->gameData);
+    FIELD_SOUND_SYSTEM_PostFadeIn((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(work->param->gameData), work->param->gameData);
 }
 
 /* Starts the music fade in. */

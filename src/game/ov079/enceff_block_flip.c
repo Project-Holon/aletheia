@@ -22,6 +22,8 @@
  *   ENCEFF_DrawCellGrid 0x021F582C thumb ov077
  *   ENCEFF_StartCellGrid  0x021F5620  thumb  ov077
  */
+struct GameEvent;
+struct VecFx32;
 #include "../ov077/enceff_base_types.h"
 #include "../ov077/enceff_grid_types.h"
 
@@ -29,7 +31,7 @@ struct GameSystem;
 struct FieldMap;
 extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern void ENCEFF_LoadOverlays4B4D(struct EncEffWork *eff);
-extern void *ENCEFF_StartScreenTexEffectFlash(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
+extern struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, const struct VecFx32 *cameraPos, void *build, void *draw);
 extern void ENCEFF_DrawCellGrid(EncEffGridWork *work);
 extern void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
 void *ENCEFF_BuildBlockFlip(void *gameSystem, struct FieldMap *fieldMap);

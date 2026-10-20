@@ -15,17 +15,12 @@
  * symbols:
  *   _ll_udiv           0x0209C00C  arm
  */
-#define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-#define va_end(v)
-#define __va_size(t) ((sizeof(t) + 3) & ~3)
-#define va_arg(ap, t) (*(t *)((ap += __va_size(t)) - __va_size(t)))
+#include "../sdk_stdarg.h"
 struct dst_string_tag {
     unsigned long len;
     char *cur;
     char *base;
 };
-
-typedef char *va_list;
 
 #include "../types.h"
 

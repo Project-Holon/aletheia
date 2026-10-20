@@ -210,7 +210,7 @@ BOOL FS_LoadOverlayInfo(FSOverlayInfo *p_ovi, u32 target, u32 id)
     const u32 pos = id * 32;
     FSOverlaySource *const src = (target == 0) ? &FSiOverlayContext.source[0] : &FSiOverlayContext.source[1];
 
-    if ((id < (u32)SDK_OVERLAY_NUMBER) || OS_IsRunOnTwl())
+    if ((id < (uptr)SDK_OVERLAY_NUMBER) || OS_IsRunOnTwl())
     {
         if (src->buffer)
         {
@@ -304,7 +304,7 @@ BOOL FSi_CompareDigest(const u8 *spec_digest, void *src, int len, BOOL table_mod
     MI_CpuCopy8(FSiOverlayContext.digest_key, tmp, FSiOverlayContext.digest_key_len);
 
     if (table_mode == 0 && OS_IsRunOnTwl() != 0) {
-        MSL_C_LIB_TwlCall5((u32)buf, (u32)src, (u32)len, (u32)tmp, FSiOverlayContext.digest_key_len);
+        MSL_C_LIB_TwlCall5((uptr)buf, (uptr)src, (u32)len, (uptr)tmp, FSiOverlayContext.digest_key_len);
     } else {
         handle = 0;
         if (table_mode != 0) {
@@ -335,8 +335,8 @@ void FS_StartOverlay(FSOverlayInfo *p_ovi)
 {
     u32 rare_size = FSi_GetOverlayBinarySize(p_ovi);
 
-    if (((u32)p_ovi->header.ram_address >= (u32)SDK_LTDAUTOLOAD_LTDMAIN_START) &&
-        ((u32)p_ovi->header.ram_address < (u32)SDK_LTDAUTOLOAD_LTDMAIN_BSS_END) && OS_IsRunOnTwl())
+    if (((uptr)p_ovi->header.ram_address >= (uptr)SDK_LTDAUTOLOAD_LTDMAIN_START) &&
+        ((uptr)p_ovi->header.ram_address < (uptr)SDK_LTDAUTOLOAD_LTDMAIN_BSS_END) && OS_IsRunOnTwl())
     {
         if (!once_slot)
         {
@@ -429,7 +429,7 @@ void FS_EndOverlay(FSOverlayInfo *p_ovi)
 
         head = 0;
         tail = 0;
-        lo = (u32)p_ovi->header.ram_address;
+        lo = (uptr)p_ovi->header.ram_address;
         hi = lo + (p_ovi->header.ram_size + p_ovi->header.bss_size);
 
         e = OS_DisableInterrupts();
@@ -438,9 +438,9 @@ void FS_EndOverlay(FSOverlayInfo *p_ovi)
         prev = 0;
         cur = list;
         while (cur != 0) {
-            arg = (u32)cur->arg;
+            arg = (uptr)cur->arg;
             next = cur->next;
-            fnAddr = (u32)cur->callback;
+            fnAddr = (uptr)cur->callback;
             if ((arg == 0 && fnAddr >= lo && fnAddr < hi) || (arg >= lo && arg < hi)) {
                 if (tail != 0) {
                     tail->next = cur;

@@ -45,23 +45,13 @@
  *   G3D_SYSTEM_DrawObjectCulling  0x02047AC8  arm
  */
 #include "../ov010/fldmmdl_types.h"
+#include "../arm9/g3d_system_types.h"
 #include "field_effect_types.h"
 
 /* Opaque types of other files. */
 #include "../sdk_fx.h"
 
 typedef struct ArcHandle ArcHandle;
-typedef struct G3dResource G3dResource;                 /* layouts in arm9/g3d_system_types.h */
-typedef struct G3dRender G3dRender;
-typedef struct G3dAnime G3dAnime;
-typedef struct G3dObject G3dObject;
-
-/* Position, scale and rotation an object is drawn with. */
-typedef struct G3dObjectStatus {
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
-} G3dObjectStatus;
 
 /* Id of the Battle Subway train resources in the field effect system. */
 #define FLDEFF_ID_BTRAIN 14
@@ -101,37 +91,17 @@ typedef struct BtrainWork {
     G3dAnime *anime[BTRAIN_ANIME_COUNT];            /* 0x10 */
 } BtrainWork;
 
-extern void MTX_Identity33_(MtxFx33 *mtx);
-extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
-extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/fx_mtx33.h"
+#include "field_effect.h"
+#include "../arm9/g3d_system.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct FieldEffectSys;
-extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
-extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
-extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
-extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
-extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
-extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
-extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern s32 G3D_SYSTEM_ResetObjectAnimeFrame(G3dObject *obj, u16 anmIdx);
-extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
-extern int G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 anmIdx);
-extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
-extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
-extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
-extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
 
 BtrainRes *FLDEFF_BTRAIN_Create(FieldEffectSys *fieldEffect, u32 heapId);
 void FLDEFF_BTRAIN_Delete(FieldEffectSys *fieldEffect, BtrainRes *res);
 void FLDEFF_BTRAIN_LoadResources(BtrainRes *res, int modelIndex);
 void FLDEFF_BTRAIN_FreeResources(BtrainRes *res);
-void FLDEFF_BTRAIN_Start(FieldEffectSys *fieldEffect, u32 modelIndex, const VecFx32 *pos);
+FieldEffectObj *FLDEFF_BTRAIN_Start(FieldEffectSys *fieldEffect, u32 modelIndex, const VecFx32 *pos);
 void FLDEFF_BTRAIN_SetAnime(FieldEffectObj *effect, u32 animeIndex);
 void FLDEFF_BTRAIN_SetHidden(FieldEffectObj *effect, u32 hidden);
 void FLDEFF_BTRAIN_Init(FieldEffectObj *effect, BtrainWork *work);
@@ -206,14 +176,14 @@ void FLDEFF_BTRAIN_FreeResources(BtrainRes *res)
 }
 
 /* Starts the train effect of one train kind at pos. */
-void FLDEFF_BTRAIN_Start(FieldEffectSys *fieldEffect, u32 modelIndex, const VecFx32 *pos)
+FieldEffectObj *FLDEFF_BTRAIN_Start(FieldEffectSys *fieldEffect, u32 modelIndex, const VecFx32 *pos)
 {
     BtrainStartParam param;
 
     param.res = (struct BtrainRes *)FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_BTRAIN);
     param.modelIndex = modelIndex;
     FLDEFF_BTRAIN_LoadResources(param.res, modelIndex);
-    FIELD_EFFECT_AddObject(fieldEffect, &sBtrainFuncs, pos, 0, &param, 0);
+    return FIELD_EFFECT_AddObject(fieldEffect, &sBtrainFuncs, pos, 0, &param, 0);
 }
 
 /*

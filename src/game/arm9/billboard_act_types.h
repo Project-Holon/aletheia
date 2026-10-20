@@ -10,6 +10,9 @@
 
 struct BbActSys;
 
+typedef struct BbActRec BbActRec;
+typedef struct BbActDesc BbActDesc;
+
 typedef void (*BbActEntryHook)(struct BbActSys *sys, int entryIndex, u32 arg);
 
 /* Request record for one image slot (creation of slots). */

@@ -81,78 +81,44 @@
 #include "../types.h"
 
 /* Heap, sound and memory helpers. */
-extern u32 GFL_HEAP_Free(void *block);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int a, const char *file, u16 line);
-void GFL_USE_PlaySeDefaultVolume(u32 seId);
-void MI_CpuFill8(void *dst, int value, int size);
-int GFL_USE_GetSeSlot(u32 seId);
-void GFL_USE_StopSeSlot(int slot);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/mi_memory.h"
 
 /* Field model (ov010). */
-void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
-extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
-extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
+#ifdef __MWERKS__
+#define FLDMMDL_SetAcmd FLDMMDL_SetAcmd_header
+#include "../ov010/fldmmdl.h"
+#undef FLDMMDL_SetAcmd
+#else
+#include "../ov010/fldmmdl.h"
+#endif
 struct Mmdl;
-extern void FLDMMDL_FreeAcmd(Mmdl *mmdl);
-void FLDMMDL_SetAcmd(Mmdl *mmdl, int acmdCode);
-void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 value);
-u32 FLDMMDL_GetNowAttr(Mmdl *mmdl);
-void FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bits);
-extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bits); /* its third parameter is a scratch it never reads */
-extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
 struct MmdlHeader;
-extern void FLDMMDL_ChangeHeader(struct Mmdl *mmdl, struct MmdlHeader *header);
-extern u16 FLDMMDL_MOVE_GetDirTableValue(int dir);
-extern void FLDMMDL_SetDirAll(Mmdl *mmdl, int dir);
-extern void FLDMMDL_SetDirDisp(Mmdl *mmdl, int dir);
-int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int baseCode);
+#include "../ov010/fldmmdl_move.h"
+#include "fldmmdl_acmd.h"
 
 /* Field model on rails (ov021). */
-extern void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *outLocation);
-extern int FLDMMDL_RAIL_GetLocationByDir(Mmdl *mmdl, u32 dir, RailLocation *outLocation);
-extern struct RailWork *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl);
-extern void FLDMMDL_RAIL_SetLocation(Mmdl *mmdl, RailLocation *location);
-extern int FLDMMDL_RAIL_GetHitBitsDir(struct Mmdl *mmdl, u32 dir, u32 *outAttr);
-extern int FLDMMDL_RAIL_MOVE_GetLocationAttr(Mmdl *mmdl, RailLocation *location);
-extern void FIELD_RAIL_WORK_GetPos(struct RailWork *railWork, void *outPos);
+#include "fldmmdl_rail.h"
+#include "fldmmdl_rail_move.h"
+#include "field_rail.h"
 
 /* Tile attributes. */
-u16 MAP_ATTR_GetTerrainId(u32 attr);
-extern u16 MAP_ATTR_GetFlags(u32);
-extern int MAP_ATTR_IsLedgeNorth(u16);
-extern int MAP_ATTR_IsLedgeSouth(u16);
-extern int MAP_ATTR_IsLedgeWest(u16);
-extern int MAP_ATTR_IsLedgeEast(u16);
-int MAP_ATTR_IsForcedSlide(u32 attr);
-extern int RAIL_ATTR_IsForceMoveUp(int attr);
-extern int RAIL_ATTR_IsForceMoveDown(int attr);
-extern int RAIL_ATTR_IsForceMoveLeft(int attr);
-extern int RAIL_ATTR_IsForceMoveRight(int attr);
-extern int RAIL_ATTR_IsForceMoveStop(int attr);
-extern int RAIL_ATTR_IsSlipDown(int attr);
+#include "map_attr.h"
+#include "rail_attr.h"
 struct GameSystem;
 struct GameData;
 
                                  
-struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct FieldMap;
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern void *GAME_DATA_GetEventData(struct GameData *gameData);
+#include "fieldmap.h"
+#include "../arm9/game_data.h"
 struct EventDataSystem;
-extern int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(struct EventDataSystem *system, RailLocation *location);
+#include "../ov010/eventdata_system.h"
 
 /* Player core (field_player_core.c). */
-struct FieldMap *FIELD_PLAYER_CORE_GetFieldMap(struct FieldPlayerCore *core);
-Mmdl *FIELD_PLAYER_CORE_GetMmdl(struct FieldPlayerCore *core);
-void FIELD_PLAYER_CORE_SetStepKind(struct FieldPlayerCore *core, u32 state);
-u32 FIELD_PLAYER_CORE_GetFormCode(struct FieldPlayerCore *core);
-u16 FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(struct FieldPlayerCore *core, u32 keyCont);
-void FIELD_PLAYER_CORE_RememberKeyDirs(struct FieldPlayerCore *core, u32 keyCont);
-struct FieldPlayerCore *FIELD_PLAYER_CORE_StartFormChange(struct FieldPlayerCore *core, u32 flags);
-int FIELD_PLAYER_CORE_StepFormChange(struct FieldPlayerCore *core);
-void FIELD_PLAYER_CORE_FinishFormChange(struct FieldPlayerCore *core);
+#include "field_player_core.h"
 
 /* This file. */
 FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(struct FieldPlayerCore *core, int heapId);

@@ -20,6 +20,7 @@
  *   OS_WaitIrq                  0x0208459C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -113,7 +114,7 @@ asm void OS_SpinWaitCpuCycles(u32 cycle)
     bx	lr
 }
 
-#define reg_SCFG_CLK (*(vu16 *)0x04004004)
+#define reg_SCFG_CLK (*(vu16 *)REG_SCFG_CLK_ADDR)
 
 void OS_SpinWaitSysCycles(u32 cycle)
 {
@@ -124,9 +125,9 @@ void OS_SpinWaitSysCycles(u32 cycle)
 }
 
 /* HW_INTR_CHECK_BUF: the IRQ check word at DTCM + 0x3FF8. */
-#define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
+#define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((uptr)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
 
-#define reg_OS_IME (*(volatile u16 *)0x04000208)
+#define reg_OS_IME (*(volatile u16 *)REG_IME_ADDR)
 
 static inline BOOL OS_EnableIrq(void)
 {

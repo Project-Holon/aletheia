@@ -505,9 +505,9 @@ void APP_TASKMENU_UpdateCursorColor(u16 *colorPhase, u16 *color, u32 bgFrame, u3
     g = (u8)(((wave * 15) >> 12) + 0xa);
     *color = (u16)(r | (g << 5) | (b << 10));
     if (bgFrame <= 3) {
-        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0xf, (u32)(palNo * 32 + 0xc), (u32)color, 2);
+        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0xf, (u32)(palNo * 32 + 0xc), (uptr)color, 2);
     } else {
-        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0x1f, (u32)(palNo * 32 + 0xc), (u32)color, 2);
+        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0x1f, (u32)(palNo * 32 + 0xc), (uptr)color, 2);
     }
 }
 
@@ -543,9 +543,9 @@ void APP_TASKMENU_UpdateCursorColorBlend(u16 *colorPhase, u16 *color, u16 bgFram
     g = (u8)(g0 + ((wave * (g1 - g0)) >> 12));
     *color = (u16)(r | (g << 5) | (b << 10));
     if (bgFrame <= 3) {
-        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0xf, (u32)(palNo * 32 + 0xc), (u32)color, 2);
+        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0xf, (u32)(palNo * 32 + 0xc), (uptr)color, 2);
     } else {
-        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0x1f, (u32)(palNo * 32 + 0xc), (u32)color, 2);
+        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0x1f, (u32)(palNo * 32 + 0xc), (uptr)color, 2);
     }
 }
 
@@ -934,10 +934,10 @@ void APP_TASKMENU_DrawWinFrame(struct BmpWin *win, TaskMenuRes *res, u32 frameSt
     u8  y;
     u8  x;
     u32 cellOfs;
-    u32 charBuf;
+    uptr charBuf;
     u32 styleTileL;
     u32 styleTileR;
-    u32 src;
+    uptr src;
     u32 style;
 
     y = 0;
@@ -953,30 +953,30 @@ void APP_TASKMENU_DrawWinFrame(struct BmpWin *win, TaskMenuRes *res, u32 frameSt
             goto nextrow;
         }
         for (;;) {
-        charBuf = (u32)BMP_GetPixels(BMP_WIN_GetBmp(win));
+        charBuf = (uptr)BMP_GetPixels(BMP_WIN_GetBmp(win));
         cellOfs = (x + y * BMP_WIN_GetWidth(win)) << 5;
         if (y == 0 && x == 0) {
-            src = (u32)res->chrData->pRawData;
+            src = (uptr)res->chrData->pRawData;
         } else if (y == 0 && x == BMP_WIN_GetWidth(win) - 1) {
-            src = (u32)res->chrData->pRawData + 0x40;
+            src = (uptr)res->chrData->pRawData + 0x40;
         } else if (y == 0) {
-            src = (u32)res->chrData->pRawData + 0x20;
+            src = (uptr)res->chrData->pRawData + 0x20;
         } else if (y == BMP_WIN_GetHeight(win) - 1 && x == 0) {
-            src = (u32)res->chrData->pRawData + 0xc0;
+            src = (uptr)res->chrData->pRawData + 0xc0;
         } else if (y == BMP_WIN_GetHeight(win) - 1 && x == BMP_WIN_GetWidth(win) - 1) {
-            src = (u32)res->chrData->pRawData + (1 << 8);
+            src = (uptr)res->chrData->pRawData + (1 << 8);
         } else if (y == BMP_WIN_GetHeight(win) - 1) {
-            src = (u32)res->chrData->pRawData + 0xe0;
+            src = (uptr)res->chrData->pRawData + 0xe0;
         } else if (frameStyle != 0 && x == BMP_WIN_GetWidth(win) - 3) {
-            src = (u32)res->chrData->pRawData + styleTileL;
+            src = (uptr)res->chrData->pRawData + styleTileL;
         } else if (frameStyle != 0 && x == BMP_WIN_GetWidth(win) - 2) {
-            src = (u32)res->chrData->pRawData + styleTileR;
+            src = (uptr)res->chrData->pRawData + styleTileR;
         } else if (x == 0) {
-            src = (u32)res->chrData->pRawData + 0x60;
+            src = (uptr)res->chrData->pRawData + 0x60;
         } else if (x == BMP_WIN_GetWidth(win) - 1) {
-            src = (u32)res->chrData->pRawData + 0xa0;
+            src = (uptr)res->chrData->pRawData + 0xa0;
         } else {
-            src = (u32)res->chrData->pRawData + 0x80;
+            src = (uptr)res->chrData->pRawData + 0x80;
         }
         MIi_CpuCopy32((const void *)src, (void *)(charBuf + cellOfs), 0x20);
             x++;

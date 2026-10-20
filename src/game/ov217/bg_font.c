@@ -83,25 +83,28 @@ struct Strbuf;
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 struct GfFont;
 struct Bmp;
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+#include "../arm9/strbuf_types.h"
+#include "../ov094/btlv_input_shared_types.h"
+#include "../ov099/wifi_club_work.h"
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(unsigned int bgLayerBit);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 palette);
 extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
-extern void BG_SYS_FillTileMap(u32 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 palette);
+extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
 struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, u32 font, u32 msgBank, u32 heapId);
 void BgTextLabel_Destroy(struct BgTextLabel *label);
@@ -191,7 +194,7 @@ void BgTextLabel_SetVisible(struct BgTextLabel *label, int visible)
 /* Sets the window palette and re-applies it to the background layer. */
 void BgTextLabel_SetPalette(struct BgTextLabel *label, u8 palette)
 {
-    u32 bgLayer;
+    u8 bgLayer;
     u8 x, y, width, height;
     BMP_WIN_SetPalette(label->window, palette);
     bgLayer = BMP_WIN_GetBgLayer(label->window);

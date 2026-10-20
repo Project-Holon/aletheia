@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_NNS_SND_STRM_H
 #define GAME_ARM9_NNS_SND_STRM_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_snd_strm.c, prototypes copied from their definitions. */
 
 #include "../arm9/nns_snd_types.h"
@@ -18,5 +19,6 @@ void NNSi_SndStrmReleaseTimer(SndStrm *strm);
 void NNSi_SndStrmTimerCallback(SndStrm *strm);
 void NNSi_SndStrmUpdate(SndStrm *strm, u32 isTimerCall);
 void NNSi_SndStrmAlarmHandler(SndStrm *strm);
+/* END mkheaders: generated region */
 
 #endif

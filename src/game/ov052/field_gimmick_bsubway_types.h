@@ -86,19 +86,6 @@ typedef struct BsubwayZoneHandlers {
 } BsubwayZoneHandlers;
 
 /* Functions of overlay 21 and arm9 that the gimmick uses. */
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern BsubwayZoneGimmick *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 slotId);
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern struct FieldEffectSys *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
-extern struct FieldEffectObj *FLDEFF_BTRAIN_Start(struct FieldEffectSys *fieldEffect, u32 modelIndex, const VecFx32 *pos);
-extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *fieldEffect, const int *effectIds, int count);
-extern void FIELD_G3D_MAPPER_SetOriginOffset(struct FieldG3dMapper *mapper, VecFx32 *offset);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
 
 void FIELD_GIMMICK_BSUBWAY_FindZoneEntry(int zoneId, int *slotId, int *handlerIndex);
 

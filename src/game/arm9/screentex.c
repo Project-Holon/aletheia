@@ -81,10 +81,6 @@ struct G3dResource;
 
 #include "nns_g3d_tex.h"
 
-typedef int GXVRam;
-typedef int GXVRamBG;
-typedef int GXVRamOBJ;
-typedef int GXVRamTex;
 #include "gx_vramcnt.h"
 
 

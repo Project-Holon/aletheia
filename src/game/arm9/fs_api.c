@@ -20,9 +20,10 @@
  */
 #include "fs_proc_rom.h"
 #include "fs_overlay.h"
+#include "fx_mtx22.h"
 void FS_Init(unsigned long default_dma_no);
 int FS_IsAvailable(void);
-asm void MTX_Identity22_(void);
+asm void MTX_Identity22_(MtxFx22 *pDst);
 
 static int is_init = 0;
 
@@ -58,7 +59,7 @@ int FS_IsAvailable(void)
  * void MTX_Identity22_(MtxFx22 *pDst)
  * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
-asm void MTX_Identity22_(void)
+asm void MTX_Identity22_(MtxFx22 *pDst)
 {
     mov r1, #0
     mov r2, #0x1000

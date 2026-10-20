@@ -26,7 +26,7 @@
 #define FIELD_FOG_TABLE_MAX 32
 
 /* Linear fade of the fog offset and slope over a fixed number of frames. */
-typedef struct {
+typedef struct FieldFogFade {
     u16 frame;
     u16 frameMax;
     u32 startOffset;
@@ -36,7 +36,7 @@ typedef struct {
 } FieldFogFade;
 
 /* Fog state of the field map (0x44 bytes); written to the 3D engine in FIELD_FOG_Reflect. */
-typedef struct {
+typedef struct FieldFog {
     u8 flag;
     u8 blendMode;
     u8 slope;
@@ -49,10 +49,10 @@ typedef struct {
     u32 changed;
 } FieldFog;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern void G3X_SetFog(int enable, int fogMode, int fogSlope, int fogOffset);
-extern void G3X_SetFogTable(void *src);
+#include "../arm9/gfl_heap_wrap.h"
+typedef int GXFogBlend;
+typedef int GXFogSlope;
+#include "../arm9/g3x.h"
 void FIELD_FOG_InitFogTable(FieldFog *fog);
 int FIELD_FOG_FadeIsRunning(FieldFogFade *fade);
 void FIELD_FOG_FadeStart(FieldFogFade *fade, u32 startOffset, u32 endOffset, u16 startSlope, u16 endSlope, u16 frames);

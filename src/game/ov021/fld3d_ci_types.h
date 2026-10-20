@@ -11,6 +11,8 @@
 
 #include "../arm9/g3d_system_types.h"
 
+#include "../arm9/g3d_util_types.h"
+
 struct Fld3dCi;
 
 /* Particle system of the field map (FLD_PARTICLE_Create). */
@@ -19,28 +21,11 @@ typedef struct FldParticle {
     u16 heapId;
     u16 pad06;
     void *workBuffer;      /* 0x4800-byte particle work area */
-    void *effect;          /* effect instance, 0 when none */
+    struct ParticleSys *effect;         /* effect instance, 0 when none */
 } FldParticle;
 
-/* One resource of a cut-in sequence: kind 0x73 is a particle resource. */
-typedef struct Fld3dCiResource {
-    u32 kind;
-    u16 id;
-    u32 value;
-} Fld3dCiResource;
 
-typedef struct Fld3dCiAnimRef {
-    u16 index;
-    u16 zero;
-} Fld3dCiAnimRef;
 
-typedef struct Fld3dCiAnimTrack {
-    u16 index;
-    u16 zero;
-    u16 trackIndex;
-    Fld3dCiAnimRef *refs;
-    u16 refCount;
-} Fld3dCiAnimTrack;
 
 /* Cut-in sequence data in archive 0x75, one record per sequence id. */
 typedef struct Fld3dCiSeqFile {
@@ -55,15 +40,11 @@ typedef struct Fld3dCiSeqFile {
 
 /* Sequence data built from a Fld3dCiSeqFile (FLD3D_CI_LoadSequence). */
 typedef struct Fld3dCiSeq {
-    Fld3dCiResource *resources;     /* total entries */
-    Fld3dCiAnimTrack *tracks;       /* trackACount entries */
-    Fld3dCiAnimRef *refsB;          /* trackBCount entries */
-    Fld3dCiAnimRef *refsC;          /* trackCCount entries */
-    Fld3dCiResource *resourceTable;
-    u16 resourceCount;
-    Fld3dCiAnimTrack *trackTable;
-    u16 trackTableCount;
-    u16 pad1E;
+    G3dUtilResSetup *resources;     /* total entries */
+    G3dUtilObjSetup *tracks;        /* trackACount entries */
+    G3dUtilAnimeSetup *refsB;       /* trackBCount entries */
+    G3dUtilAnimeSetup *refsC;       /* trackCCount entries */
+    G3dUtilSetup setup;
     u16 startDelay[2];
     u16 waitDelay[2];
     u32 effectResId;
@@ -112,12 +93,12 @@ typedef int (*Fld3dCiFinishFunc)(void *event, struct Fld3dCi *ci);
 /* The cut-in work (0x138 bytes), FieldMap.fld3dCi. */
 typedef struct Fld3dCi {
     FldParticle *particle;
-    void *cameraPersp;
-    void *cameraOrtho;
+    struct G3dCamera *cameraPersp;
+    struct G3dCamera *cameraOrtho;
     u32 cameraSelect;           /* 0 draws with cameraPersp, else cameraOrtho */
     u16 heapId;
     u16 pad12;
-    void *gfxUnits;
+    struct G3dUtil *gfxUnits;
     int effectUnit;             /* -1 when none */
     G3dObjectStatus status;     /* drawn with G3D_SYSTEM_DrawObject */
     void *effect;

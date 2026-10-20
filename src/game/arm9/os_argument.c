@@ -141,11 +141,11 @@ int OS_DecodeDeliverArg(void)
     if (state[2] == 0)
         return -1;
 
-    ((void (*)(u32 src, u32 dest, u32 size))MI_CpuCopy8)(0x02000000, state[2], 0x300);
+    MI_CpuCopy8((void *)0x02000000, (void *)state[2], 0x300);
 
     oldCrc = *(u16 *)(state[2] + 0x10);
     *(u16 *)(state[2] + 0x10) = 0;
-    *(u16 *)(state[2] + 0x10) = ((u32 (*)(u32 start, u32 data, u32 size))SVC_GetCRC16)(0xffff, state[2], 0x300);
+    *(u16 *)(state[2] + 0x10) = SVC_GetCRC16(0xffff, (void *)state[2], 0x300);
 
     if (oldCrc != *(u16 *)(state[2] + 0x10)) {
         MI_CpuFill8((void *)state[2], 0, 0x300);

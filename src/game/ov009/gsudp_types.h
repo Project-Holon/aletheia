@@ -45,21 +45,10 @@ typedef struct GSUdpEngineObject {
     unsigned short mLocalPort;            /* 0x38 */
 } GSUdpEngineObject;
 
-typedef struct GT2ConnectionCallbacks {
-    void (*connected)(void *, int, unsigned char *, int);
-    void (*received)(void *, unsigned char *, int, int);
-    void (*closed)(void *, int);
-    void (*ping)(void *, int);
-} GT2ConnectionCallbacks;
+#include "../ov009/gt2main_types.h"
 
 /* shared callees, named by address */
-extern GSUdpEngineObject *gsUdpEngineContext(void);
-extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
-extern void ArrayFree(void *array);
-extern int ArrayLength(void *array);
-extern void *ArrayNth(void *array, int n);
-extern int ArraySearch(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern void ArrayAppend(void *array, void *newElem);
+#include "../ov009/darray.h"
 extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 
 extern char g_021A3B9C[];

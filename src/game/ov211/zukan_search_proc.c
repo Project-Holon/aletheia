@@ -24,11 +24,10 @@
 
 struct ProcSystem;
 struct Proc;
-extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void *,int,int);
-extern void PROCSYS_FreeProcWork(struct Proc *);
-extern void GFL_HEAP_DeleteChecked(unsigned int);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_heap_wrap.h"
 int ZUKAN_SEARCH_PROC_Create(struct ProcSystem *obj,int unused,struct ZukanSearchOwner *owner);
 int ZUKAN_SEARCH_PROC_IsDone(int unused1,int unused2,int unused3,struct ZukanSearchWork *work);
 int ZUKAN_SEARCH_PROC_Delete(struct Proc *obj);

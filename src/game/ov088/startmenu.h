@@ -1,0 +1,148 @@
+#ifndef GAME_OV088_STARTMENU_H
+#define GAME_OV088_STARTMENU_H
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
+/* Public functions of startmenu.c, prototypes copied from their definitions. */
+
+struct Proc;
+struct MyStatus;
+struct Strbuf;
+
+#include "../ov088/startmenu_types.h"
+#include "../types.h"
+
+int STARTMENU_TitleDemoInit(struct Proc *allocator);
+void STARTMENU_TitleDemoUpdateTimer(TitleDemoWork *work);
+void STARTMENU_TitleDemoCheckInput(TitleDemoWork *work);
+int STARTMENU_TitleDemoMain(int unusedArg0, int unusedArg1, int unusedArg2, TitleDemoWork *work);
+int STARTMENU_TitleDemoExit(int procCtx, int unusedArg1, int unusedArg2, int *procArgs);
+void STARTMENU_ResetDisplayState(void);
+void STARTMENU_SetupDisplayBanks(void);
+void STARTMENU_TitleDemoUpdateParts(TitleDemoWork *work);
+void STARTMENU_CaptureVblankTask(void *task, TitleDemoCapture *capture);
+void STARTMENU_CaptureInit(TitleDemoCapture *capture, int heap);
+void STARTMENU_CaptureRunTasks(TitleDemoCapture *capture, int unused);
+void STARTMENU_CaptureDelete(TitleDemoCapture *capture);
+void STARTMENU_CaptureSetBlend(TitleDemoCapture *capture, unsigned short a, unsigned short b);
+void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap);
+void STARTMENU_LogoUpdate(TitleDemoLogo *logo, int unused);
+void STARTMENU_LogoDelete(TitleDemoLogo *logo);
+void STARTMENU_Demo3dInit(TitleDemo3d *demo3d, u32 heap);
+void STARTMENU_Demo3dUpdate(TitleDemo3d *demo3d, int unused);
+void STARTMENU_Demo3dDelete(TitleDemo3d *demo3d);
+void STARTMENU_Demo3dSetFrame(TitleDemo3d *demo3d, int frame);
+void STARTMENU_SpritesInit(TitleDemoSprites *sprites, int heap);
+void STARTMENU_SpritesUpdate(TitleDemoSprites *sprites, int unused);
+void STARTMENU_SpritesDelete(TitleDemoSprites *sprites);
+int STARTMENU_MenuInit(struct Proc *allocator);
+int STARTMENU_MenuMain(int unusedArg0, int unusedArg1, int unusedArg2, StartMenuWork *work);
+int STARTMENU_MenuExit(int procCtx, int unusedArg1, int unusedArg2, StartMenuWork *work);
+int STARTMENU_StateSetup(StartMenuWork *work);
+int STARTMENU_StateWaitStart(StartMenuWork *work);
+int STARTMENU_StateWaitFade(StartMenuWork *work);
+int STARTMENU_StateSelectAnim(StartMenuWork *work);
+int STARTMENU_StateWaitPrint(StartMenuWork *work);
+int STARTMENU_StateSelectRow(StartMenuWork *work);
+int STARTMENU_StateScroll(StartMenuWork *work);
+int STARTMENU_StateConnectPrompt(StartMenuWork *work);
+int STARTMENU_StateConfirmPrompt(StartMenuWork *work);
+int STARTMENU_StateInfoMessage(StartMenuWork *work);
+int STARTMENU_StateUnlockNotices(StartMenuWork *work);
+int STARTMENU_StateBeginFadeIn(StartMenuWork *work);
+void STARTMENU_VblankTask(void);
+void STARTMENU_AddVblankTask(StartMenuWork *work);
+void STARTMENU_RemoveVblankTask(StartMenuWork *work);
+void STARTMENU_ClearGraphics(void);
+void STARTMENU_SetupBackgrounds(void);
+void STARTMENU_TeardownBackgrounds(void);
+void STARTMENU_LoadGraphics(void);
+void STARTMENU_CreateBlinkPalette(StartMenuWork *work);
+void STARTMENU_DeleteBlinkPalette(StartMenuWork *work);
+void STARTMENU_CreateTextSystem(StartMenuWork *work);
+void STARTMENU_DeleteTextSystem(StartMenuWork *work);
+void STARTMENU_CreateRowWindows(StartMenuWork *work);
+void STARTMENU_DeleteRowWindows(StartMenuWork *work);
+void STARTMENU_CreateActors(StartMenuWork *work);
+void STARTMENU_DeleteActors(StartMenuWork *work);
+void STARTMENU_CreateFrameManager(StartMenuWork *work);
+void STARTMENU_DeleteFrameManager(StartMenuWork *work);
+void STARTMENU_StartBrightnessEffect(void);
+void STARTMENU_BuildRowList(StartMenuWork *work);
+void STARTMENU_LoadRowBuffers(StartMenuWork *work);
+void STARTMENU_FreeRowBuffers(StartMenuWork *work);
+void STARTMENU_SetRowActorY(StartMenuWork *work, u32 actorIndex, s16 y);
+void STARTMENU_LayoutRows(StartMenuWork *work);
+void STARTMENU_DrawRowFrame(StartMenuWork *work, u32 rowId, u32 tileY);
+void STARTMENU_PaintRowPalette(StartMenuWork *work, u8 row, int tileY, int palette);
+int STARTMENU_RowTileY(StartMenuWork *work, int y);
+void STARTMENU_ScrollRowActors(StartMenuWork *work, int deltaY);
+int STARTMENU_MoveCursor(StartMenuWork *work, int d);
+void STARTMENU_ShowRowActors(StartMenuWork *work, int flag);
+void STARTMENU_DrawFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bgLayer);
+void STARTMENU_ClearFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bg);
+void STARTMENU_OpenConfirmWindow(StartMenuWork *work);
+void STARTMENU_CloseDescWindow(StartMenuWork *work, int mode);
+void STARTMENU_OpenInfoWindow(StartMenuWork *work);
+void STARTMENU_CloseInfoWindow(StartMenuWork *work);
+void STARTMENU_OpenNoticeWindow(StartMenuWork *work);
+void STARTMENU_StartMessage(StartMenuWork *work, u32 msgId);
+void STARTMENU_HideMessageWindow(StartMenuWork *work);
+int STARTMENU_UpdateMessage(StartMenuWork *work);
+void STARTMENU_OpenYesNoMenu(StartMenuWork *work);
+int STARTMENU_BeginFadeOut(StartMenuWork *work, int v);
+int STARTMENU_BeginFadeIn(StartMenuWork *work, int v);
+int STARTMENU_BeginSelectAnim(StartMenuWork *work, int v);
+int STARTMENU_RefreshSaveStatus(StartMenuWork *work);
+void STARTMENU_ChangeToIntroProc(void);
+void STARTMENU_ReplaceWithBattleFlagProcWithSave(void);
+void STARTMENU_ReplaceWithBattleFlagProcNoSave(void);
+int STARTMENU_NewGameIntroInit(struct Proc *proc);
+int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntroWork *work);
+int STARTMENU_NewGameIntroEnd(struct Proc *proc, int *seq, void *procWork, NewGameIntroWork *work);
+int STARTMENU_BattleFlagProcInit(struct Proc *proc);
+int STARTMENU_BattleFlagProcMain(void *proc, int *seq, int mode, NewGameIntroWork *work);
+int STARTMENU_BattleFlagProcEnd(struct Proc *proc, int seq, int mode, NewGameIntroWork *work);
+void STARTMENU_SetNewPlayerNameAndGender(struct MyStatus *myStatus, struct Strbuf *name, int gender);
+int STARTMENU_ConfigPromptInit(struct Proc *proc, int seq, int *procWork);
+int STARTMENU_ConfigPromptEnd(int proc, int seq, int procWork, ConfigPromptWork *work);
+int STARTMENU_ConfigPromptMain(int proc, int seq, NewGameStartArg *startArg, ConfigPromptWork *work);
+void STARTMENU_ConfigPromptSetupGraphics(ConfigPromptWork *work);
+void STARTMENU_InitBgLayer(const void *bgTemplate, int bgId);
+void STARTMENU_ConfigPromptDrawQuestion(ConfigPromptWork *work);
+void STARTMENU_ConfigPromptDeleteWindows(ConfigPromptWork *work);
+void STARTMENU_ConfigPromptHighlightChoice(ConfigPromptWork *work);
+int STARTMENU_ConfigPromptReadInput(ConfigPromptWork *work);
+s32 STARTMENU_ConfigPromptPulseColor(ConfigPromptWork *work);
+int STARTMENU_LogoScreenInit(struct Proc *proc);
+int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *work);
+int STARTMENU_LogoScreenEnd(int proc);
+int STARTMENU_SaveEraseInit(struct Proc *proc);
+int STARTMENU_SaveEraseMain(int proc, int *seq, int procWork, SaveEraseWork *work);
+int STARTMENU_SaveEraseEnd(int proc);
+void STARTMENU_SaveEraseStepSetup(SaveEraseWork *work, int *seq);
+void STARTMENU_SaveEraseStepShowPrompt(SaveEraseWork *work, int *seq);
+void STARTMENU_SaveEraseStepOpenFirstYesNo(SaveEraseWork *work, int *seq);
+void STARTMENU_SaveEraseStepFirstConfirm(SaveEraseWork *work, int *seq);
+void STARTMENU_SaveEraseStepOpenSecondYesNo(SaveEraseWork *work, int *seq);
+void STARTMENU_SaveEraseStepSecondConfirm(SaveEraseWork *work, int *seq);
+void STARTMENU_SaveEraseUpdateTimeIcon(void);
+void STARTMENU_SaveEraseStepErase(SaveEraseWork *work, int *seq);
+void STARTMENU_SaveEraseStepTeardown(SaveEraseWork *work, int *seq);
+void STARTMENU_SaveEraseClearVram(void);
+void STARTMENU_SaveEraseSetupGraphics(void);
+void STARTMENU_SaveEraseExitGraphics(void);
+void STARTMENU_SaveEraseAllocResources(SaveEraseWork *work);
+void STARTMENU_SaveEraseFreeResources(SaveEraseWork *work);
+void STARTMENU_SaveEraseCreateWindow(SaveEraseWork *work);
+void STARTMENU_SaveEraseDeleteWindow(SaveEraseWork *work);
+void STARTMENU_SaveEraseVblankTask(void);
+void STARTMENU_SaveEraseStartVblankTask(SaveEraseWork *work);
+void STARTMENU_SaveEraseStopVblankTask(SaveEraseWork *work);
+void STARTMENU_SaveEraseStartMessage(SaveEraseWork *work, u32 messageId);
+int STARTMENU_SaveEraseUpdateMessage(SaveEraseWork *work);
+void STARTMENU_SaveEraseOpenYesNo(SaveEraseWork *work);
+void STARTMENU_SaveEraseStartFadeIn(void);
+void STARTMENU_SaveEraseStartFadeOut(void);
+/* END mkheaders: generated region */
+
+#endif

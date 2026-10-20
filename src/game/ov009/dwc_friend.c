@@ -79,28 +79,14 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 extern int strcmp(const char *s1, const char *s2);
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+#include "../arm9/msl_string_mem.h"
 
 #include "../types.h"
 
-typedef struct {
-    int profile;
-    int status;
-    char statusString[256];
-    char locationString[256];
-    unsigned int ip;
-    int port;
-    int quietModeFlags;
-} GPBuddyStatus;
+#include "gpi_types.h"
+#include "dwc_friend.h"
 
-typedef struct DWCstAccFriendData {
-    char data[0xc];
-} DWCstAccFriendData;
-
-typedef struct DWCstAccUserData {
-    char pad[0x24];
-    unsigned int gamecode;
-} DWCstAccUserData;
+#include "../arm9/dwc_account.h"
 
 /* the GP connection object behind a `void **` handle */
 typedef struct GPConnObj {
@@ -143,17 +129,6 @@ typedef struct FriendCnt {
     int *reversePids;                                       /* 0x5c */
 } FriendCnt;
 
-typedef struct GPProfileSearchMatch {
-    int profileID;
-    char pad[0xb0 - 4];
-} GPProfileSearchMatch;
-
-typedef struct GPProfileSearchResponseArg {
-    int result;
-    int numMatches;
-    int more;
-    GPProfileSearchMatch *matches;
-} GPProfileSearchResponseArg;
 
 typedef struct GpBuddyRequestArg {
     int result;
@@ -173,71 +148,45 @@ typedef struct GpGetInfoResponseArg {
     char lastname[31];
 } GpGetInfoResponseArg;
 
-typedef struct GPUniqueMatch {
-    int profile;
-    u8 rest[0x18];
-} GPUniqueMatch;
-
-typedef struct GPGetReverseBuddiesListResponseArg {
-    int result;
-    int numOfUniqueMatchs;
-    GPUniqueMatch *matches;
-} GPGetReverseBuddiesListResponseArg;
-
 typedef struct RecvArg {
     int profile;
     unsigned char pad[4];
     int index;
 } RecvArg;
 
-extern int DWC_GetCommonValueString(char *key, char *value, char *string, char separator);
-extern unsigned long strtoul(unsigned int s, unsigned int *endptr, unsigned int base);
-extern unsigned char DWCi_IsLockedBuddyStatus(char *buddyStatus);
-extern int DWC_Base64Decode(const char *src, u32 srclen, char *dst, u32 dstlen);
+#include "dwc_common.h"
+#include "../arm9/msl_strtod.h"
+#include "dwc_match.h"
+#include "../arm9/dwc_base64.h"
 extern int DWCi_CheckLogin(void);
-extern int DWC_Base64Encode(const char *src, u32 srclen, char *dst, u32 dstlen);
 extern char gDwcFriendMaxEntryKey[];
 extern char gDwcFriendNumEntryKey[];
 extern char gDwcFriendGetInfoFlags[];
 extern char gDwcFriendKeyFormat[];
-extern void DWCi_SetSentBuddyReqFlag(void *frienddata, int setflag);
-extern int DWCi_IsError(void);
-extern int IsStatsConnected(void);
-extern int PersistThink(void);
-extern void CloseStatsConnection(void);
-extern unsigned int DWCi_Acc_GetFlagDataTypeThunk(void *userdata);
-extern void *DWC_Alloc(int name, unsigned long size);
+#include "../arm9/dwc_error.h"
+#include "gstats.h"
+#include "../arm9/dwc_memfunc.h"
 extern DWCstAccUserData *DWCi_GetUserData(void);
-extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 extern int gpGetReversBuddiesList(void **connection, int *targets, int numOfTargets, int blocking, void (*callback)(void **, void *, void *), void *param);
-extern void DWCi_SetError(int error, int errorCode);
-extern void DWC_Free(int name, void *ptr, unsigned long size);
 extern int gpGetInfo(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int gpIsBuddy(void **connection, int profile);
 extern int gpDeleteBuddy(void **connection, int profile);
 extern int gpGetBuddyStatus(void **connection, int index, GPBuddyStatus *status);
-extern u64 OS_GetTick(void);
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 extern int gpSetStatusA(void **connection, int status, const char *statusString, const char *locationString);
 extern int gpProcess(void **connection);
 extern int gpGetNumBuddies(void **connection, int *numBuddies);
-extern int DWCi_IsBuddyFriendData(void *frienddata);
-extern void DWC_SetGsProfileId(void *frienddata, int gs_profile_id);
 extern void DWCi_SetBuddyFriendData(DWCstAccFriendData *frienddata);
-extern int DWC_IsBuddyFriendData(void *frienddata);
-extern void DWCi_SetExpIsBuddyFriendFlag(void *frienddata, int setflag);
-extern int DWCi_IsBuddyMsgAlreadySent(void *frienddata);
 extern int gpGetBuddyIndex(void **connection, int profile, int *index);
-extern void DWC_LoginIdToUserName(struct DWCstAccUserData *userdata, void *frienddata, char *username);
 extern int gpProfileSearchA(void **connection, char *nick, char *uniquenick, char *email,
                             char *firstname, char *lastname, int icquin, int blocking,
                             void (*callback)(void **, void *, void *), void *param);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
+#include "../arm9/mi_memory.h"
 extern int gpSendBuddyRequestA(void **connection, int profile, char *reason);
-extern void DWCi_SetReverseBuddyFlag(void *frienddata, int setflag);
 extern int gpAuthBuddyRequest(void **connection, int profile);
 extern int gpDenyBuddyRequest(void **connection, int profile);
-extern int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
-extern int DWCi_IsReverseBuddyFriendData(void *frienddata);
+#include "../arm9/os_printf.h"
 
 /* dwc_friend.o local data: one .bss block at 0x021AA860 */
 static FriendCnt *stpFriendCnt = 0;
@@ -252,10 +201,10 @@ unsigned char DWC_GetFriendStatusData(void *p, int a, u8 *b);
 unsigned char DWC_GetFriendStatusDataSC(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusData, int *size);
 int DWC_SetOwnStatusData(char *statusData, unsigned long size);
 int DWC_SetBuddyFriendCallback(void (*callback)(int, void *), void *param);
-void DWCi_FriendInit(FriendCnt *p, int pGpObj, int userData, int friendList, int n);
+void DWCi_FriendInit(FriendCnt *friendCnt, void **pGpObj, unsigned short *playerName, DWCstAccFriendData *friendList, int friendListLen);
 void DWCi_FriendProcess(void);
 int DWCi_IsServerUpdating(void);
-void DWCi_UpdateServersAsync(int authToken, int partnerChallenge, void (*a2)(int, u8, int), int finishParam, void (*a4)(int, u8, char *, void *), void *statusParam, void (*a6)(int, int, int), int deleteParam);
+void DWCi_UpdateServersAsync(char *authToken, char *partnerChallenge, void (*a2)(int, u8, int), int finishParam, void (*a4)(int, u8, char *, void *), void *statusParam, void (*a6)(int, int, int), int deleteParam);
 void DWCi_StopFriendProcess(int error, int errorCode);
 void DWCi_GPRecvBuddyRequestCallback(void **connection, int *arg);
 int DWCi_GPRecvBuddyAuthCallback(void **connection, int *arg);
@@ -287,7 +236,7 @@ void DWCi_GetReverseBuddiesCallback(void **connection, void *argv, void *param);
 /*
  * Tail call with the last argument moved to the fourth slot.
  */
-u8 DWC_GetFriendStatus(int a, int b)
+u8 DWC_GetFriendStatus(sptr a, sptr b)
 {
     return DWC_GetFriendStatusSC((void *)a, 0, 0, (char *)b);
 }
@@ -307,14 +256,14 @@ u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *sta
             if (maxEntry) {
                 len = DWC_GetCommonValueString(gDwcFriendMaxEntryKey, valueStr, status.statusString, '/');
                 if (len > 0)
-                    *maxEntry = strtoul((unsigned int)valueStr, 0, 10);
+                    *maxEntry = strtoul(valueStr, 0, 10);
                 else
                     *maxEntry = 0;
             }
             if (numEntry) {
                 len = DWC_GetCommonValueString(gDwcFriendNumEntryKey, valueStr, status.statusString, '/');
                 if (len > 0)
-                    *numEntry = strtoul((unsigned int)valueStr, 0, 10);
+                    *numEntry = strtoul(valueStr, 0, 10);
                 else
                     *numEntry = 0;
             }
@@ -399,26 +348,26 @@ int DWC_SetBuddyFriendCallback(void (*callback)(int, void *), void *param)
     return 1;
 }
 
-void DWCi_FriendInit(FriendCnt *friendCnt, int pGpObj, int userData, int friendList, int friendListLen)
+void DWCi_FriendInit(FriendCnt *friendCnt, void **pGpObj, unsigned short *playerName, DWCstAccFriendData *friendList, int friendListLen)
 {
     int i;
     FriendCnt *q;
 
     stpFriendCnt = friendCnt;
     friendCnt->state = 0;
-    stpFriendCnt->connection = (void **)pGpObj;
+    stpFriendCnt->connection = pGpObj;
     stpFriendCnt->pollCount = 0;
     q = stpFriendCnt;
     q->lastTick = 0;
     q->friendListLen = friendListLen;
-    stpFriendCnt->friendList = (DWCstAccFriendData *)friendList;
+    stpFriendCnt->friendList = friendList;
     stpFriendCnt->sendIdx = 0;
     stpFriendCnt->changed = 0;
     stpFriendCnt->phase = 0;
     stpFriendCnt->stage = 0;
     stpFriendCnt->persCallbackLevel = 0;
     stpFriendCnt->reserved24 = 0;
-    stpFriendCnt->reserved28 = userData;
+    stpFriendCnt->reserved28 = (sptr)playerName;
     stpFriendCnt->finishCb = 0;
     stpFriendCnt->finishParam = 0;
     stpFriendCnt->statusCb = 0;
@@ -546,7 +495,7 @@ int DWCi_IsServerUpdating(void)
  * word is set to 1, and the +0x1f counter is bumped twice -- once only when
  * the +0x18 word is zero.
  */
-void DWCi_UpdateServersAsync(int authToken, int partnerChallenge, void (*finishCallback)(int, u8, int), int finishParam, void (*statusCallback)(int, u8, char *, void *), void *statusParam, void (*deleteCallback)(int, int, int), int deleteParam)
+void DWCi_UpdateServersAsync(char *authToken, char *partnerChallenge, void (*finishCallback)(int, u8, int), int finishParam, void (*statusCallback)(int, u8, char *, void *), void *statusParam, void (*deleteCallback)(int, int, int), int deleteParam)
 {
     stpFriendCnt->finishCb = finishCallback;
     stpFriendCnt->finishParam = finishParam;
@@ -697,7 +646,7 @@ void DWCi_CallBuddyFriendCallback(int index)
 		stpFriendCnt->buddyCb(index, stpFriendCnt->buddyParam);
 	if (stpFriendCnt->statusCb == 0)
 		return;
-	st = DWC_GetFriendStatus((int)(&stpFriendCnt->friendList[index]), (int)status.s);
+	st = DWC_GetFriendStatus((sptr)(&stpFriendCnt->friendList[index]), (sptr)status.s);
 	stpFriendCnt->statusCb(index, st, status.s, stpFriendCnt->statusParam);
 }
 
@@ -947,7 +896,7 @@ void DWCi_GPProfileSearchCallback(void **connection, void *argv, void *param)
     GPProfileSearchResponseArg *arg = argv;
     int i;
     int idx;
-    int match_index = (int)param;
+    int match_index = (sptr)param;
 
     if (arg->result != 0 || arg->numMatches == 0)
         goto err;
@@ -957,7 +906,7 @@ void DWCi_GPProfileSearchCallback(void **connection, void *argv, void *param)
         return;
 
     for (i = 0; i < arg->numMatches; i++) {
-        if (DWCi_RefreshFriendListForth(stpFriendCnt->friendList, match_index, arg->matches[i].profileID) != 0) {
+        if (DWCi_RefreshFriendListForth(stpFriendCnt->friendList, match_index, arg->matches[i].profile) != 0) {
             stpFriendCnt->sendIdx++;
             stpFriendCnt->phase = 1;
             arg->more = 0x601;
@@ -966,12 +915,12 @@ void DWCi_GPProfileSearchCallback(void **connection, void *argv, void *param)
     }
 
     for (i = 0; i < arg->numMatches; i++) {
-        DWCi_HandleGPError(gpGetBuddyIndex(connection, arg->matches[i].profileID, &idx));
+        DWCi_HandleGPError(gpGetBuddyIndex(connection, arg->matches[i].profile, &idx));
         if (idx == -1) {
-            DWCi_GPSendBuddyRequest(arg->matches[i].profileID);
+            DWCi_GPSendBuddyRequest(arg->matches[i].profile);
             DWCi_SetSentBuddyReqFlag(&stpFriendCnt->friendList[match_index], 1);
         } else {
-            DWC_SetGsProfileId(&stpFriendCnt->friendList[match_index], arg->matches[0].profileID);
+            DWC_SetGsProfileId(&stpFriendCnt->friendList[match_index], arg->matches[0].profile);
             DWCi_SetBuddyFriendData(&stpFriendCnt->friendList[match_index]);
             DWCi_SetReverseBuddyFlag(&stpFriendCnt->friendList[match_index], 1);
             if (DWC_IsBuddyFriendData(&stpFriendCnt->friendList[match_index]) != 0)

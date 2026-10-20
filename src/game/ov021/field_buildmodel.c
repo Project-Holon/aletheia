@@ -67,6 +67,7 @@
  *   FIELD_G3D_MAPPER_TintTexture  0x0218D0D8  thumb  ov021
  *   FIELD_G3D_MAPPER_GetOriginOffset  0x0218DC5C  thumb  ov021
  */
+#include "../sdk_fx.h"
 #include "../types.h"
 
 struct Sub020140BCObj;
@@ -103,13 +104,6 @@ typedef struct BuildModelSeason {
     unsigned char dateKey;
 } BuildModelSeason;
 
-/* Vector in 20.12 fixed point units. */
-typedef struct BuildModelVec {
-    int x;
-    int y;
-    int z;
-} BuildModelVec;
-
 /* Placement record in the model archive (map units are whole tiles). */
 typedef struct BuildModelPlacement {
     int unused;
@@ -132,7 +126,7 @@ typedef struct BuildModelObjectDesc {
 /* Arguments for BuildModel entry creation. */
 typedef struct BuildModelEntryArgs {
     int modelIndex;
-    BuildModelVec pos;
+    struct VecFx32 pos;
     unsigned short rotation;
 } BuildModelEntryArgs;
 
@@ -148,7 +142,7 @@ typedef struct BuildModelEntryArgsFlat {
 /* Map object data of one placed model (read from the map object record). */
 typedef struct BuildModelInstance {
     unsigned int modelId;
-    BuildModelVec pos;
+    struct VecFx32 pos;
     unsigned short facing;
 } BuildModelInstance;
 
@@ -225,11 +219,11 @@ typedef struct BuildModelNode {
     unsigned int slot;
     BuildModelEntry *entry;
     BuildModelAnimSet animSet;
-    BuildModelVec pos;
+    struct VecFx32 pos;
     int scaleX;
     int scaleY;
     int scaleZ;
-    u32 matrix[9];
+    union MtxFx33 matrix;
 } BuildModelNode;
 
 /* The build model manager, 0x13F8 bytes. */
@@ -252,58 +246,27 @@ typedef struct BuildModelMan {
     BuildModelEntry entries[BUILDMODEL_ENTRY_COUNT];
 } BuildModelMan;
 
-extern u32 MI_CpuFill8(void *, int, u32);
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
-extern u32 GFL_HEAP_Free(void *);
-extern u32 ZONEDATA_GetAreaId(u32 id);
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/zonedata.h"
 struct AreaData;
-extern u8 ZONEDATA_GetAreaInnerOuter(struct AreaData *areaData);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern u16 ARC_TOOL_GetHandleFileCount(void *obj);
+#include "../arm9/arc_tool.h"
 struct ArcHandle;
-extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
-extern void ARC_TOOL_DeleteHandle(void *);
 struct G3dResource;
-struct G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
-s32 G3D_SYSTEM_TransVramTextureAndCut(struct G3dResource *res);
-int G3D_SYSTEM_FreeVramTexture(struct G3dResource *res);
-void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
-u32 TIMEZONE_GetNowTimeZone(u32 row);
-extern unsigned int G3D_SYSTEM_GetResourceSize(void);
+#include "../arm9/g3d_system.h"
+#include "../arm9/timezone.h"
 extern void G3D_SYSTEM_InitResourceByFile(struct S02046CE0 *out, u32 *tag);
 struct G3dRender;
-extern struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *mdlRes, u32 mdlIdx, struct G3dResource *texRes);
 struct G3dAnime;
-extern struct G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
 struct G3dObject;
-extern struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **anmTbl, s32 anmCount);
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
-extern s32 G3D_SYSTEM_ResetObjectAnimeFrame(struct G3dObject *obj, u16 anmIdx);
-extern u16 G3D_SYSTEM_GetObjectAnimeCount(struct G3dObject *obj);
-extern int G3D_SYSTEM_GetObjectAnime(int *p, int i);
-extern void G3D_SYSTEM_DeleteAnime(struct G3dAnime *anime);
-extern struct G3dRender *G3D_SYSTEM_GetObjectRender(struct G3dObject *obj);
-extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
-extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, s32 anmIdx, s32 step);
-extern int G3D_SYSTEM_IncObjectAnimeFrame(struct G3dObject *obj, s32 anmIdx, s32 step);
-extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
-extern int G3D_SYSTEM_GetAnimeObj(int p);
-int G3D_SYSTEM_DisableObjectAnime(struct G3dObject *obj, u32 anmIdx);
-s32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, s32 *frame);
 struct FieldG3dMapPlacement;
 struct FieldG3dMap;
-extern void FIELD_G3D_MAP_SetPlacement(struct FieldG3dMap *map, struct FieldG3dMapPlacement *src, u32 index);
-extern struct FieldG3dMapPlacement *FIELD_G3D_MAP_GetPlacement(struct FieldG3dMap *map, u32 index);
-extern void FIELD_G3D_MAP_ClearPlacement(struct FieldG3dMap *map, u32 index);
-struct FieldG3dMapVec;
-extern void FIELD_G3D_MAP_GetPos(struct FieldG3dMap *map, struct FieldG3dMapVec *dst);
-extern void VEC_Add(void *, void *, void *);
-extern void MTX_RotY33_(void *m, int a, int b);
+#include "../ov010/field_g3d_map.h"
+struct VecFx32;
+#include "../arm9/fx_vec.h"
+#include "../arm9/fx_mtx33.h"
 struct G3dObjectStatus;
-void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
-int GFL_USE_GetSeSlot(u32 seqNo);
-int GFL_USE_IsSeSlotBusy(u32 slot);
+#include "../arm9/gfl_use.h"
 BuildModelMan *FIELD_BUILDMODEL_Create(u16 heapId, void *fieldMap, u16 dateKey);
 void FIELD_BUILDMODEL_Delete(BuildModelMan *man);
 void FIELD_BUILDMODEL_UpdateSeason(BuildModelMan *man);
@@ -311,7 +274,7 @@ void FIELD_BUILDMODEL_DrawNodes(BuildModelMan *man);
 void FIELD_BUILDMODEL_LoadArea(BuildModelMan *man, int areaId, int mapHeader, int extraResource);
 int FIELD_BUILDMODEL_GetPlacementByTableId(BuildModelMan *man, u32 modelId);
 u8 *FIELD_BUILDMODEL_GetModelDef(BuildModelMan *man, u32 index);
-int FIELD_BUILDMODEL_GetPlacementPosition(BuildModelMan *man, int modelId, BuildModelVec *pos, int *modelIndex);
+int FIELD_BUILDMODEL_GetPlacementPosition(BuildModelMan *man, int modelId, struct VecFx32 *pos, int *modelIndex);
 int FIELD_BUILDMODEL_RegisterObjects(BuildModelMan *man, int mapObject, const BuildModelObjectDesc *descs, int count);
 void FIELD_BUILDMODEL_UnregisterObject(BuildModelMan *man, void *object);
 void FIELD_BUILDMODEL_RegisterObject(BuildModelMan *man, int mapObject, const BuildModelObjectDesc *desc, int index);
@@ -372,13 +335,13 @@ void FIELD_BUILDMODEL_SwapEntryModelId(BuildModelEntry *entry, int restore);
 void FIELD_BUILDMODEL_GetModelIndexOut(BuildModelMan *man, BuildModelSearchArgs *args, int tableId);
 BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(BuildModelMan *man, BuildModelRect *rect, int kind, int *count);
 BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryInRect(BuildModelMan *man, int kind, BuildModelRect *rect);
-BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(BuildModelMan *man, int kind, int *pos);
+BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(BuildModelMan *man, int kind, const struct VecFx32 *pos);
 int FIELD_BUILDMODEL_GetEntryAnimKind(BuildModelMan *man, BuildModelEntry *entry);
 void FIELD_BUILDMODEL_PlayEntryAnim(BuildModelMan *man, BuildModelEntry *entry, int slot, int mode);
 void FIELD_BUILDMODEL_GetEntryWorldPos(BuildModelEntry *entry, void *out);
 int FIELD_BUILDMODEL_GetEntrySlotFrame(BuildModelMan *man, BuildModelEntry *entry, int id);
 BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(BuildModelMan *man, BuildModelEntry *entry);
-BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(BuildModelMan *man, int kind, int *pos);
+BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(BuildModelMan *man, int kind, const struct VecFx32 *pos);
 BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromBlock(BuildModelMan *man, u32 tableId, BuildModelBlock *src);
 void FIELD_BUILDMODEL_DeleteNode(BuildModelNode *node);
 void FIELD_BUILDMODEL_PlayNodeSlot(BuildModelNode *node, int slot, int mode);
@@ -392,9 +355,8 @@ void FIELD_BUILDMODEL_DrawNode(BuildModelNode *node);
 int FIELD_BUILDMODEL_GetNodeKindTableEntry(BuildModelNode *node, u32 column, u16 *out);
 int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(BuildModelNode *node, int out);
 int FIELD_BUILDMODEL_IsNodeSeBusy(BuildModelNode *node);
-void FIELD_BUILDMODEL_MakeSearchRect(BuildModelRect *out, int *__restrict pos);
-int FIELD_G3D_MAPPER_TintTexture(struct G3dResource *res, u8 *tintTable);
-void FIELD_G3D_MAPPER_GetOriginOffset(void *fieldMap, BuildModelVec *offset);
+void FIELD_BUILDMODEL_MakeSearchRect(BuildModelRect *out, const struct VecFx32 *__restrict pos);
+#include "field_g3d_mapper.h"
 extern const char gBuildModelFileName[];
 extern const BuildModelKindTable gBuildModelAnimKindTable;
 extern unsigned char gBuildModelSeasonAnimSlot[];
@@ -511,20 +473,20 @@ u8 *FIELD_BUILDMODEL_GetModelDef(BuildModelMan *man, u32 index)
     return (u8 *)FIELD_BUILDMODEL_GetOffsetTarget((u32)man->archive, index);
 }
 
-static inline void BuildModelVec_Set(BuildModelVec *v, int x, int y, int z)
+static inline void VEC_Set_(struct VecFx32 *v, int x, int y, int z)
 {
     v->x = x;
     v->y = y;
     v->z = z;
 }
 
-int FIELD_BUILDMODEL_GetPlacementPosition(BuildModelMan *man, int tableId, BuildModelVec *pos, int *modelIndex)
+int FIELD_BUILDMODEL_GetPlacementPosition(BuildModelMan *man, int tableId, struct VecFx32 *pos, int *modelIndex)
 {
     BuildModelPlacement *placement = (BuildModelPlacement *)FIELD_BUILDMODEL_GetPlacementByTableId(man, tableId);
     if (placement->modelId == 0xFFFF)
         return 0;
     *modelIndex = FIELD_BUILDMODEL_GetModelIndex(man, placement->modelId);
-    BuildModelVec_Set(pos, placement->tileX << 12, placement->tileY << 12, placement->tileZ << 12);
+    VEC_Set_(pos, placement->tileX << 12, placement->tileY << 12, placement->tileZ << 12);
     return 1;
 }
 
@@ -1091,7 +1053,7 @@ void FIELD_BUILDMODEL_StartGroupClosing(BuildModelAnimSet *set, int group)
     int frame;
     for (i = 0; i < anims[2]; i++) {
         G3D_SYSTEM_EnableObjectAnime(set->anim, (u16)(base + i));
-        frame = *(u16 *)(*(u8 **)(G3D_SYSTEM_GetAnimeObj((int)G3D_SYSTEM_GetObjectAnime(set->anim, (u16)(base + i))) + 8) + 4) << 12;
+        frame = *(u16 *)(*(u8 **)((u8 *)G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(set->anim, (u16)(base + i))) + 8) + 4) << 12;
         G3D_SYSTEM_SetObjectAnimeFrame(set->anim, base + i, &frame);
         set->slotState[base + i] = BUILDMODEL_SLOT_CLOSING;
     }
@@ -1286,7 +1248,7 @@ BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(BuildModelMan *man, Buil
 {
     BuildModelEntry **list;
     BuildModelEntry *entry;
-    BuildModelVec pos;
+    struct VecFx32 pos;
     int n = 0;
     u32 i;
     list = GFL_HEAP_Alloc(man->heapId, 0x80, 1, (char *)gBuildModelFileName, 0x749);
@@ -1296,7 +1258,7 @@ BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(BuildModelMan *man, Buil
             continue;
         if (kind != 0 && kind != FIELD_BUILDMODEL_GetEntryAnimKind(man, entry))
             continue;
-        FIELD_G3D_MAP_GetPos((struct FieldG3dMap *)entry->object, (struct FieldG3dMapVec *)(&pos));
+        FIELD_G3D_MAP_GetPos((struct FieldG3dMap *)entry->object, &pos);
         VEC_Add(&entry->instance->pos, &pos, &pos);
         if (BuildModelRect_Contains(rect, pos.x, pos.z) == 1) {
             list[n] = entry;
@@ -1316,10 +1278,10 @@ BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryInRect(BuildModelMan *man, int ki
     return first;
 }
 
-BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(BuildModelMan *man, int kind, int *pos)
+BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(BuildModelMan *man, int kind, const struct VecFx32 *pos)
 {
     BuildModelRect rect;
-    FIELD_BUILDMODEL_MakeSearchRect(&rect, (int *__restrict)pos);
+    FIELD_BUILDMODEL_MakeSearchRect(&rect, pos);
     return FIELD_BUILDMODEL_GetFirstEntryInRect(man, kind, &rect);
 }
 
@@ -1341,8 +1303,8 @@ void FIELD_BUILDMODEL_PlayEntryAnim(BuildModelMan *man, BuildModelEntry *entry, 
 
 void FIELD_BUILDMODEL_GetEntryWorldPos(BuildModelEntry *entry, void *out)
 {
-    BuildModelVec pos;
-    FIELD_G3D_MAP_GetPos((struct FieldG3dMap *)entry->object, (struct FieldG3dMapVec *)(&pos));
+    struct VecFx32 pos;
+    FIELD_G3D_MAP_GetPos((struct FieldG3dMap *)entry->object, &pos);
     VEC_Add(&entry->instance->pos, &pos, out);
 }
 
@@ -1361,15 +1323,15 @@ BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(BuildModelMan *man, BuildMo
 {
     BuildModelInstance *instance = entry->instance;
     BuildModelNode *node;
-    BuildModelVec fieldOffset;
+    struct VecFx32 fieldOffset;
     int facing;
     node = GFL_HEAP_Alloc(man->heapId, 0x60, 0, (char *)gBuildModelFileName, 0x7E9);
     node->man = man;
     node->entry = entry;
     node->slot = 0xFFFF;
     facing = instance->facing >> 4;
-    MTX_RotY33_(node->matrix, FX_SinCosTable_[facing * 2], FX_SinCosTable_[facing * 2 + 1]);
-    FIELD_G3D_MAP_GetPos((struct FieldG3dMap *)entry->object, (struct FieldG3dMapVec *)(&node->pos));
+    MTX_RotY33_(&node->matrix, FX_SinCosTable_[facing * 2], FX_SinCosTable_[facing * 2 + 1]);
+    FIELD_G3D_MAP_GetPos((struct FieldG3dMap *)entry->object, &node->pos);
     VEC_Add(&node->pos, &instance->pos, &node->pos);
     FIELD_G3D_MAPPER_GetOriginOffset(man->fieldMap, &fieldOffset);
     VEC_Add(&node->pos, &fieldOffset, &node->pos);
@@ -1382,7 +1344,7 @@ BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(BuildModelMan *man, BuildMo
     return node;
 }
 
-BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(BuildModelMan *man, int kind, int *pos)
+BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(BuildModelMan *man, int kind, const struct VecFx32 *pos)
 {
     BuildModelEntry *entry = FIELD_BUILDMODEL_GetFirstEntryNearPos(man, kind, pos);
     if (entry == 0)
@@ -1522,10 +1484,10 @@ int FIELD_BUILDMODEL_IsNodeSeBusy(BuildModelNode *node)
  * out->zMin/out->zMax stores and sink the out->zMin store past the pos[0] load
  * (see docs/idioms/a-restrict-position-parameter-sinks-a-store-past-the-next-load.md).
  */
-void FIELD_BUILDMODEL_MakeSearchRect(BuildModelRect *out, int *__restrict pos)
+void FIELD_BUILDMODEL_MakeSearchRect(BuildModelRect *out, const struct VecFx32 *__restrict pos)
 {
-    out->zMin = pos[2] - 0x30000;
-    out->zMax = pos[2] + 0x30000;
-    out->xMin = pos[0] - 0x20000;
-    out->xMax = pos[0] + 0x20000;
+    out->zMin = pos->z - 0x30000;
+    out->zMax = pos->z + 0x30000;
+    out->xMin = pos->x - 0x20000;
+    out->xMax = pos->x + 0x20000;
 }

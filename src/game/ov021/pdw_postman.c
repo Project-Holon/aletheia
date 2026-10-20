@@ -123,28 +123,19 @@ typedef struct PdwPostmanEventWork {
 #define PDW_POSTMAN_LINE_HEIGHT  14
 #define PDW_POSTMAN_MYSTERY_SLOTS 12
 
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 MSGDATA_Delete(struct MsgBank *msgData);
+#include "fieldmap.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/msgdata.h"
 struct Strbuf;
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 bufId, u32 number, u32 digits, u32 dispType, u32 code);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+#include "../arm9/wordset.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
+#include "../arm9/strbuf.h"
+#include "../arm9/bmp_win.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
-extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
-extern void BG_SYS_PushTile(u32 bgFrame);
-struct MsgData;
-extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, unsigned short x, unsigned short y, unsigned short width, unsigned short height);
+#include "../arm9/bg_sys.h"
+struct MsgBank;
+extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgBank *msgData, unsigned short x, unsigned short y, unsigned short width, unsigned short height);
 extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *msgWin);
 extern void FIELD_MSGBG_MsgWinPrintStr(struct FieldMsgWin *msgWin, int x, u16 y, struct StrBuf *str);
 extern int FIELD_MSGBG_IsMsgWinTransDone(struct FieldMsgWin *msgWin);
@@ -153,26 +144,20 @@ extern struct BmpWin *FIELD_MSGBG_GetMsgWinBmpWin(struct FieldMsgWin *msgWin);
 extern struct FieldMsgCursor *FIELD_MSGBG_CreateCursor(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_DeleteCursor(struct FieldMsgCursor *cursor);
 extern void FIELD_MSGBG_AnimateCursor(struct FieldMsgCursor *cursor, struct Bmp *bmp, u32 color);
-extern u32 KEY_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern void *GAME_DATA_GetMyItem(const struct GameData *gameData);
+#include "../arm9/key.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/game_data.h"
 struct CgearSaveBlock;
-extern u16 BLOCK20_SAVEDATA_GetEntryId(struct CgearSaveBlock *block, int index);
-extern u8 BLOCK20_SAVEDATA_GetEntryValue(struct CgearSaveBlock *block, int index);
-extern void BLOCK20_SAVEDATA_ClearEntry(struct CgearSaveBlock *block, int index);
+#include "../arm9/block20_savedata.h"
 extern int MYITEM_SAVEDATA_CanAddItem(struct MyItem *bag, u32 itemId, u32 count, u32 heapId);
 extern int MYITEM_SAVEDATA_AddItem(struct MyItem *bag, int itemId, int count, int heapId);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 struct GameSyncData;
-extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *save);
+#include "../arm9/game_sync.h"
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern u32 MYSTERY_DATA_IsCardExist(struct MysteryData *data, u32 slot);
-extern int MYSTERY_DATA_IsCardReceived(struct MysteryData *data, unsigned int slot);
-extern int MYSTERY_DATA_GetCard(struct MysteryData *data, u32 slot, void *out);
-extern void MYSTERY_DATA_SetCardReceived(struct MysteryData *data, u32 slot);
+#include "../arm9/mystery_data.h"
 
 PdwPostmanListWin *PDW_POSTMAN_CreateListWin(struct FieldMap *fieldMap, PdwPostmanItem *items, int itemCount);
 int PDW_POSTMAN_DeleteListWin(PdwPostmanListWin *listWin);
@@ -207,7 +192,7 @@ PdwPostmanListWin *PDW_POSTMAN_CreateListWin(struct FieldMap *fieldMap, PdwPostm
     listWin->strBuf = (struct StrBuf *)STRBUF_Create(0x80, heapId);
     listWin->expandBuf = (struct StrBuf *)STRBUF_Create(0x80, heapId);
     height = (itemCount * PDW_POSTMAN_LINE_HEIGHT + 7) & ~7;
-    listWin->msgWin = FIELD_MSGBG_CreateMsgWin(FIELDMAP_GetMsgBg(fieldMap), (struct MsgData *)listWin->msgData, 1, 1, 0x15, (u16)(height / 8));
+    listWin->msgWin = FIELD_MSGBG_CreateMsgWin(FIELDMAP_GetMsgBg(fieldMap), (struct MsgBank *)listWin->msgData, 1, 1, 0x15, (u16)(height / 8));
     return listWin;
 }
 
@@ -401,7 +386,7 @@ struct GameEvent *PDW_POSTMAN_CreateListEvent(struct GameSystem *gameSystem)
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     save = (struct PdwPostmanSave *)GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
-    event = GAME_EVENT_Create(gameSystem, 0, PDW_POSTMAN_ListEvent, sizeof(PdwPostmanEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)PDW_POSTMAN_ListEvent, sizeof(PdwPostmanEventWork));
     work = GAME_EVENT_GetWork(event);
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->pageTop = 0;

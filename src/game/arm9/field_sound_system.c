@@ -176,7 +176,7 @@ void FIELD_SOUND_SYSTEM_Delete(FieldSoundSystem *s);
 
 extern s32 FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(FieldSoundSystem *fieldSound);
 
-extern void *FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *fieldSound);
+extern u32 FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *fieldSound);
 
 extern u32 FIELD_SOUND_SYSTEM_IsStateActive(FieldSoundSystem *fieldSound);
 
@@ -352,26 +352,26 @@ int FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(FieldSoundSystem *s)
  * compiler hoists the load out of the loop (the divide helper call in the
  * loop is not treated as a memory barrier) and the function is 8 bytes shorter.
  */
-void *FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *s)
+u32 FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *s)
 {
-    void *value;
+    u32 value;
     int depth;
     int i;
     int cursor;
     FieldSoundRequest *req;
-    void *stack[1];
+    u32 stack[1];
 
-    value = (void *)s->currentValue;
+    value = s->currentValue;
     if (s->requestedValue != 0) {
-        value = (void *)s->requestedValue;
+        value = s->requestedValue;
     }
     if (s->loadingValue != 0) {
-        value = (void *)s->loadingValue;
+        value = s->loadingValue;
     }
     depth = s->stackDepth;
     cursor = s->readIndex;
     for (i = 0; i < depth; i++) {
-        stack[i] = (void *)s->valueStack[i];
+        stack[i] = s->valueStack[i];
     }
     while (cursor != *(volatile u8 *)&s->writeIndex) {
         req = &s->queue[cursor];
@@ -381,7 +381,7 @@ void *FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *s)
             depth--;
             value = stack[depth];
         } else if (req->kind - 5 <= 2) {
-            value = (void *)req->value;
+            value = req->value;
         }
         cursor = (cursor + 1) % 10;
     }
@@ -1278,7 +1278,7 @@ void FIELD_SOUND_SYSTEM_PostZoneBgmChange(FieldSoundSystem *fieldSound, struct G
 
 void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(FieldSoundSystem *fieldSound, struct GameData *gameData, u16 zoneId, u8 season);
 
-void FIELD_SOUND_SYSTEM_PostFadeIn(FieldSoundSystem *fieldSound);
+void FIELD_SOUND_SYSTEM_PostFadeIn(FieldSoundSystem *fieldSound, struct GameData *gameData);
 
 void FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade(FieldSoundSystem *fieldSound, struct GameData *gameData, u32 zoneId);
 
@@ -1288,7 +1288,7 @@ void FIELD_SOUND_SYSTEM_RestoreVolume(FieldSoundSystem *fieldSound, struct IssSy
 
 unsigned int FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(struct GameData *gameData, unsigned int zoneId, unsigned int season);
 
-void *FIELD_SOUND_SYSTEM_GetFinalBgm(const struct GameData *gameData);
+u32 FIELD_SOUND_SYSTEM_GetFinalBgm(const struct GameData *gameData);
 
 int FIELD_SOUND_SYSTEM_HasZoneBgmOverride(struct GameData *gameData, u32 zoneId);
 
@@ -2177,7 +2177,7 @@ void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(FieldSoundSystem *fieldSound, struct 
 }
 
 /* Posts a fade in request with no fade. */
-void FIELD_SOUND_SYSTEM_PostFadeIn(FieldSoundSystem *fieldSound)
+void FIELD_SOUND_SYSTEM_PostFadeIn(FieldSoundSystem *fieldSound, struct GameData *gameData)
 {
     FIELD_SOUND_SYSTEM_PostRequest(fieldSound, FIELD_SOUND_REQUEST_FADE_IN, 0, 0, 0);
 }
@@ -2216,7 +2216,7 @@ unsigned int FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(struct GameData *gameData, 
 }
 
 /* The BGM the sound system of the game data will end up with once its queue is done. */
-void *FIELD_SOUND_SYSTEM_GetFinalBgm(const struct GameData *gameData)
+u32 FIELD_SOUND_SYSTEM_GetFinalBgm(const struct GameData *gameData)
 {
     return FIELD_SOUND_SYSTEM_GetFinalValue((FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData));
 }

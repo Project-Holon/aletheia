@@ -71,21 +71,15 @@
  *   strncpy                      0x02094860  arm
  */
 #define GAME_TYPES_U32_LONG
+#include "dwc_transport.h"
+#include "dwc_match.h"
+#include "dwc_friend.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_cnt_types.h"
 
 struct GTI2Connection;
 
-typedef struct GPBuddyStatus_
-{
-    int profile;                                    /* +0x00 */
-    int status;                                     /* +0x04 */
-    char statusString[256];                         /* +0x08 */
-    char locationString[256];                       /* +0x108 */
-    unsigned int ip;                                /* +0x208 */
-    int port;                                       /* +0x20c */
-    int quietModeFlags;                             /* +0x210 */
-} GPBuddyStatus;
+#include "gpi_types.h"
 
 typedef struct {
     int result;
@@ -93,34 +87,20 @@ typedef struct {
     int fatal;
 } GPErrorArg;
 
-typedef struct {
-    int profile;
-    int pad4;
-    char *message;
-} GPRecvBuddyMessageArg;
 
-extern void *DWC_Alloc(int name, unsigned long size);
-extern void MI_CpuFill8(void *dstp, u8 data, unsigned long size);
-extern void DWC_ClearError(void);
+#include "../arm9/dwc_memfunc.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/dwc_error.h"
 extern void DWCi_LoginInit(DWCstLoginControl *logcnt, DWCstAccUserData *userdata,
                            void **pGpObj, int productID, u32 gamecode,
                            u16 *playerName,
                            void (*callback)(int, int, void *), void *param);
-extern void DWCi_FriendInit(void *friendcnt, void **pGpObj,
-                            u16 *playerName, void *friendList,
-                            int friendListLen);
-extern void DWCi_MatchInit(DWCstMatchControl *matchcnt, void **pGpObj, void **pGt2Socket,
-                           DWCstGt2Callbacks *gt2Callbacks, char *gameName, char *secretKey,
-                           void *friendList, int friendListLen);
-extern void DWCi_InitTransport(void *info);
 extern unsigned long strlen(const char *s);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
-extern void qr2_shutdown(qr2_implementation_s *qrec);
+#include "qr2.h"
 struct ServerBrowser;
-extern void ServerBrowserFree(struct ServerBrowser *sb);
+#include "sb_serverbrowsing.h"
 extern void DWCi_BeginCloseStatsConnection(void);
-extern void CloseStatsConnection(void);
+#include "gstats.h"
 extern void DWCi_EndCloseStatsConnection(void);
 extern int gpProcess(void **conn);
 extern void gpDestroy(int **p);
@@ -128,10 +108,9 @@ extern void DWCi_ShutdownLogin(void);
 extern void DWCi_ShutdownFriend(void);
 extern void DWCi_ShutdownMatch(void);
 extern void DWCi_ShutdownTransport(void);
-extern void gt2CloseSocket(void *socket);
-extern int DWC_UpdateConnection(void);
-extern int DWCi_IsError(void);
-extern int GSIAvailableCheckThink(void);
+#include "gt2main.h"
+#include "../arm9/dwc_connectinet.h"
+#include "gsavailable.h"
 extern int gpInitialize(void **connection, int productID, int namespaceID, int partnerID);
 extern int gpSetCallback(void **connection, int func, void (*callback)(void **, void *, void *), void *param);
 extern int DWCi_LoginAsync(void);
@@ -142,24 +121,15 @@ extern void DWCi_MatchProcess(int fullSpec);
 extern void DWCi_TransportProcess(void);
 
 extern void DWCi_GPErrorCallback(void **, void *, void *);
-extern void DWCi_GPRecvBuddyAuthCallback(void **, void *, void *);
-extern void DWCi_GPRecvBuddyRequestCallback(void **, void *, void *);
-extern void DWCi_GPRecvBuddyStatusCallback(void **, void *, void *);
-extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern int DWCi_WStrLen(unsigned short *p);
-extern void MIi_CpuCopy16(void *srcp, void *destp, u32 size);
-extern int DWC_GetInetStatus(void);
-extern void GSIStartAvailableCheckA(char *gamename);
+#include "dwc_common.h"
 extern int DWCi_IsServerUpdating(void);
-extern void DWCi_UpdateServersAsync(char *authToken, char *partnerChallenge, void (*callback)(int, int), int finishParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam);
 extern void DWCi_SetupGameServer(int topology, unsigned char numEntry, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
 extern int DWCi_GetProfileIDFromList(int index);
 extern int gpIsBuddy(void **connection, int profile);
 extern int gpGetBuddyIndex(void **connection, int profile, int *index);
 extern int gpGetBuddyStatus(void **connection, int index, GPBuddyStatus *status);
 extern unsigned char DWCi_IsLockedBuddyStatus(char *buddyStatus);
-extern int DWC_GetCommonValueString(char *key, char *value, char *string, char separator);
-extern unsigned long strtoul(unsigned int s, unsigned int *endptr, unsigned int base);
+#include "../arm9/msl_strtod.h"
 extern void DWCi_CustomCommonInit(u8 matchType);
 extern void DWCi_ConnectToGameServerAsync(int topology, int serverPid, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
 extern int DWCi_GPSetServerStatus(int matchType);
@@ -170,21 +140,15 @@ extern void DWCi_ClearQR2Key(void);
 extern void DWCi_NodeInfoList_Clear(void);
 extern void DWCi_SetMatchStatus(int state);
 extern void DWCi_CloseMatch(void);
-extern void gt2CloseAllConnectionsHard(int *p);
 extern DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForProfileID(int pid);
-extern unsigned long DWCi_GetMathRand32(unsigned long max);
-extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
-extern int gt2CreateSocket(void **socket, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void *callback);
+#include "gt2utility.h"
 struct GTI2Socket;
-extern void gt2Listen(struct GTI2Socket *socket, void *connectAttemptCallback);
-extern void gt2SetUnrecognizedMessageCallback(struct GTI2Socket *socket, void *callback);
 extern void DWCi_GT2SocketErrorCallback(void *socket);
 extern void DWCi_GT2ConnectAttemptCallback(void *userdata, void *connection, unsigned int ip, unsigned short port, int latency, unsigned char *message, int len);
 extern int DWCi_GT2UnrecognizedMessageCallback(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len);
 extern int DWCi_NodeInfoList_RemoveAID(unsigned char aid);
 extern void DWCi_StopMatch(int error, int errorCode);
 extern void DWCi_StopFriendProcess(int error, int errorCode);
-extern void gt2CloseConnectionHard(int a);
 extern void DWCi_InitGPProcessCount(void);
 extern void DWCi_ClearQR2Key(void);
 extern int memcmp(const void *a, const void *b, unsigned long n);
@@ -193,7 +157,6 @@ extern char *strncpy(char *d, const char *s, unsigned long n);
 extern void DWCi_MatchGPRecvBuddyMsgCallback(int unused, int profileID, char *message);
 extern void DWCi_RecvCallback(void *connection, unsigned char *message, int size, int reliable);
 extern int DWCi_IsShutdownMatch(void);
-extern DWCstConnectionInfo *gt2GetConnectionData(void *connection);
 extern DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForAID(unsigned char aid);
 extern void DWCi_ClearTransConnection(int i);
 extern DWCstNodeInfo *DWCi_NodeInfoList_GetServerNodeInfo(void);
@@ -203,16 +166,12 @@ extern DWCstNodeInfo *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 extern int DWCi_GetFriendListIndex(int profileID);
 extern int DWCi_IsFullMesh(void);
 extern void DWCi_ProcessMatchSCClosing(int clientPid);
-extern int DWCi_ProcessMatchClosing(int error, int errorCode, int profileID);
-extern void qr2_send_statechanged(void *qrec);
 extern int DWCi_StopMeshMaking(void);
 
 extern int DWCi_IsServerChangeEnabled(void);
 extern void DWCi_PingCallback(void *connection, int latency);
 struct GTI2Socket;
-extern int gt2GetSocketSOCKET(struct GTI2Socket *socket);
-extern int GOAGetLastError(int sock);
-extern void DWCi_SetError(int error, int errorCode);
+#include "gsplatformsocket.h"
 extern void DWCi_ConnectToAnybodyAsync(int topology, unsigned char numEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, unsigned char *connectionUserData, void *attemptParam);
 
 void DWC_InitFriendsMatch(DWCstAccUserData *userdata, int productID, char *secretKey, int sendBufSize, int recvBufSize, void *friendList, int friendListLen);
@@ -298,7 +257,7 @@ void DWC_InitFriendsMatch(DWCstAccUserData *userdata, int productID,
                    gDwcGlobalState.st->playerName,
                    DWCi_LoginCallback, 0);
 
-    DWCi_FriendInit(gDwcGlobalState.st->friendCnt,
+    DWCi_FriendInit((FriendCnt *)(gDwcGlobalState.st->friendCnt),
                     &gDwcGlobalState.st->gp,
                     gDwcGlobalState.st->playerName,
                     friendList, friendListLen);
@@ -306,9 +265,9 @@ void DWC_InitFriendsMatch(DWCstAccUserData *userdata, int productID,
     DWCi_MatchInit(&gDwcGlobalState.st->match,
                    &gDwcGlobalState.st->gp, &gDwcGlobalState.st->gt2Socket,
                    &gDwcGlobalState.st->gt2Callbacks, gcd_gamename,
-                   gcd_secret_key, friendList, friendListLen);
+                   gcd_secret_key, (sptr)(friendList), friendListLen);
 
-    DWCi_InitTransport(gDwcGlobalState.st->transInfo);
+    DWCi_InitTransport((TransInfo *)gDwcGlobalState.st->transInfo);
 
     if (strlen(secretKey) >= 0x100)
         len = 0xff;
@@ -387,13 +346,13 @@ void DWC_ProcessFriendsMatch(void)
                     3, (void (*)(void **, void *, void *))DWCi_GPRecvBuddyMessageCallback, 0)))
                 return;
             if (DWCi_HandleGPError(gpSetCallback(&gDwcGlobalState.st->gp,
-                    7, DWCi_GPRecvBuddyAuthCallback, 0)))
+                    7, (void (*)(void **, void *, void *))(DWCi_GPRecvBuddyAuthCallback), 0)))
                 return;
             if (DWCi_HandleGPError(gpSetCallback(&gDwcGlobalState.st->gp,
-                    1, DWCi_GPRecvBuddyRequestCallback, 0)))
+                    1, (void (*)(void **, void *, void *))(DWCi_GPRecvBuddyRequestCallback), 0)))
                 return;
             if (DWCi_HandleGPError(gpSetCallback(&gDwcGlobalState.st->gp,
-                    2, DWCi_GPRecvBuddyStatusCallback, 0)))
+                    2, (void (*)(void **, void *, void *))(DWCi_GPRecvBuddyStatusCallback), 0)))
                 return;
             DWCi_SetState(2);
             if (DWCi_LoginAsync() == 0)
@@ -486,7 +445,7 @@ int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, 
 		return 0;
 	gDwcGlobalState.st->updateCallback = updateCallback;
 	gDwcGlobalState.st->updateParam = updateParam;
-	DWCi_UpdateServersAsync(gDwcGlobalState.st->login.authToken, gDwcGlobalState.st->login.partnerChallenge, DWCi_UpdateServersCallback, 0, statusCallback, statusParam, deleteCallback, deleteParam);
+	DWCi_UpdateServersAsync(gDwcGlobalState.st->login.authToken, gDwcGlobalState.st->login.partnerChallenge, (void (*)(int, u8, int))(DWCi_UpdateServersCallback), 0, statusCallback, statusParam, deleteCallback, (sptr)deleteParam);
 	return 1;
 }
 
@@ -578,9 +537,9 @@ int DWC_ConnectToGameServerAsync(
     }
 
     DWC_GetCommonValueString(gDwcPrefixScm, valueStr, status.statusString, 0x2f);
-    maxEntry = (unsigned char)strtoul((unsigned int)valueStr, 0, 10);
+    maxEntry = (unsigned char)strtoul(valueStr, 0, 10);
     DWC_GetCommonValueString(gDwcPrefixScn, valueStr, status.statusString, 0x2f);
-    numEntry = (unsigned char)strtoul((unsigned int)valueStr, 0, 10);
+    numEntry = (unsigned char)strtoul(valueStr, 0, 10);
     if (numEntry == maxEntry)
     {
         dwcError = 0xc;
@@ -658,7 +617,7 @@ int DWC_CloseAllConnectionsHard(void)
         return 1;
     }
     gDwcGlobalState.st->closeAllHard = 1;
-    gt2CloseAllConnectionsHard((int *)gDwcGlobalState.st->gt2Socket);
+    gt2CloseAllConnectionsHard(gDwcGlobalState.st->gt2Socket);
     while (DWCi_NodeInfoList_GetCount() > 1) {
         for (i = 0; i < DWCi_NodeInfoList_GetCount(); i++) {
             pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i);
@@ -853,7 +812,7 @@ void *DWCi_GetGT2Connection(unsigned char aid)
         return 0;
     }
     for (i = 0; i < 0x20; i++) {
-        if (gDwcConnectionArray[i] != 0 && aid == gt2GetConnectionData(gDwcConnectionArray[i])->aid) {
+        if (gDwcConnectionArray[i] != 0 && aid == ((DWCstConnectionInfo *)gt2GetConnectionData(gDwcConnectionArray[i]))->aid) {
             return gDwcConnectionArray[i];
         }
     }
@@ -867,7 +826,7 @@ void *DWCi_GetGT2Connection(unsigned char aid)
  */
 int DWCi_GetConnectionAID(void *connection)
 {
-    DWCstConnectionInfo *info = gt2GetConnectionData(connection);
+    DWCstConnectionInfo *info = (DWCstConnectionInfo *)gt2GetConnectionData(connection);
 
     return info ? info->aid : 0xff;
 }
@@ -911,7 +870,7 @@ void **DWCi_GetGT2ConnectionByProfileID(int pid, int flag)
     int i;
 
     for (i = 0; i < 0x20; i++) {
-        if (gDwcConnectionArray[i] != 0 && pid == gt2GetConnectionData(gDwcConnectionArray[i])->profileID) {
+        if (gDwcConnectionArray[i] != 0 && pid == ((DWCstConnectionInfo *)gt2GetConnectionData(gDwcConnectionArray[i]))->profileID) {
             return DWCi_GetGT2ConnectionByIdx(i);
         }
     }
@@ -937,7 +896,7 @@ int DWCi_IsValidAID(unsigned char aid)
 
 	for (i = 0; i < 0x20; i++) {
 		if (gDwcConnectionArray[i] != 0) {
-			if (aid == gt2GetConnectionData(gDwcConnectionArray[i])->aid)
+			if (aid == ((DWCstConnectionInfo *)gt2GetConnectionData(gDwcConnectionArray[i]))->aid)
 				return 1;
 		}
 	}
@@ -1104,7 +1063,7 @@ int DWCi_CloseConnectionHard(unsigned char aid)
         DWCi_GT2ClosedProcess(0, 0, 1, node->aid);
         return 0;
     }
-    gt2CloseConnectionHard((int)conn);
+    gt2CloseConnectionHard((sptr)conn);
     return 0;
 }
 
@@ -1191,7 +1150,7 @@ void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *
     strncpy(version, message, len);
     if (len > 10)
         return;
-    if (strtoul((unsigned int)version, 0, 10) != 90)
+    if (strtoul(version, 0, 10) != 90)
         return;
     message += len + 1;
     if (memcmp(message, gDwcPrefixMat, strlen(gDwcPrefixMat)) != 0)
@@ -1203,7 +1162,7 @@ void DWCi_GPRecvBuddyMessageCallback(void **pconnection, GPRecvBuddyMessageArg *
         if (*(volatile u8 *)&gDwcGlobalState.st->match.qr2MatchType != 2 && *(volatile u8 *)&gDwcGlobalState.st->match.qr2MatchType != 3)
             return;
     }
-    DWCi_MatchGPRecvBuddyMsgCallback((int)pconnection, arg->profile, message + strlen(gDwcPrefixMat));
+    DWCi_MatchGPRecvBuddyMsgCallback((sptr)pconnection, arg->profile, message + strlen(gDwcPrefixMat));
 }
 
 
@@ -1263,7 +1222,7 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
 
     if (dwcError == 0) {
         if (!isPseudClose) {
-            conninfo = gt2GetConnectionData(connection);
+            conninfo = (DWCstConnectionInfo *)gt2GetConnectionData(connection);
             if (conninfo == 0)
                 return;
             aid = conninfo->aid;
@@ -1292,7 +1251,7 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
         i = 0;
 
         if (profileID == 0)
-            profileID = gt2GetConnectionData(DWCi_GetGT2Connection(aid))->profileID;
+            profileID = ((DWCstConnectionInfo *)gt2GetConnectionData(DWCi_GetGT2Connection(aid)))->profileID;
 
         if (!isPseudClose)
             gDwcConnectionArray[conninfo->index] = 0;

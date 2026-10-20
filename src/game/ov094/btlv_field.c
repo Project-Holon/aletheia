@@ -39,43 +39,29 @@
 #include "btlv_stage_shared_types.h"
 #include "btlv_field_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern G3dResource *G3D_SYSTEM_CreateResourceArc(u32, u32);
+#include "../arm9/g3d_system.h"
 
-extern int G3D_SYSTEM_TransVramTexture(G3dResource *);
 
-extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *, u32, G3dResource *);
 
-extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *, const G3dResource *, u32);
 
-extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *, G3dAnime **, int);
 
-extern int G3D_SYSTEM_EnableObjectAnime(G3dObject *, u32 idx);
 
-extern void MTX_Identity33_(int *rotate);
+#include "../arm9/fx_mtx33.h"
 
-extern void *G3D_SYSTEM_GetResourceFile(G3dResource *);
 
-extern NNSG3dResTex *NNS_G3dGetTex(void *file);
+#include "../arm9/nns_g3d_res.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void G3D_SYSTEM_DeleteAnime(G3dAnime *);
 
-extern void G3D_SYSTEM_DeleteResource(G3dResource *);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void G3D_SYSTEM_DeleteObject(G3dObject *);
 
-extern void G3D_SYSTEM_DeleteRender(G3dRender *);
 
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *, int idx, int amount);
 
-extern void G3D_SYSTEM_DrawObject(G3dObject *, G3dObjectStatus *);
 
 BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap);
 
@@ -91,7 +77,7 @@ int BTLV_FIELD_IsTintActive(BtlvField *field);
 
 void BTLV_FIELD_SetHidden(BtlvField *field, u32 hide);
 
-void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade);
+#include "btlv_effect.h"
 
 extern const char gBtlvFieldFileName[];
 
@@ -142,8 +128,8 @@ BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap)
     field->status.scale.x = 0x1000;
     field->status.scale.y = 0x1000;
     field->status.scale.z = 0x1000;
-    MTX_Identity33_(field->status.rotate);
-    bytes = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(field->resource))->plttInfo.sizePltt * 8;
+    MTX_Identity33_(&field->status.rotate);
+    bytes = ((NNSG3dResTex *)NNS_G3dGetTex((unsigned char *)G3D_SYSTEM_GetResourceFile(field->resource)))->plttInfo.sizePltt * 8;
     field->palFade.resources = GFL_HEAP_Alloc(field->heap, 4, 0, gBtlvFieldFileName, 0xaa);
     field->palFade.palettes = GFL_HEAP_Alloc(field->heap, 4, 0, gBtlvFieldFileName, 0xab);
     *field->palFade.resources = field->resource;

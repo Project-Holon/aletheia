@@ -56,17 +56,12 @@ struct bucketset_s {
 
 #include "../types.h"
 
-extern char *goastrdup(char *src);
-extern void TableEnter(struct HashImplementation *table, void *newElem);
+#include "gsplatformutil.h"
+#include "hashtable.h"
 extern struct bucket_s *DoFind(struct bucketset_s *set, char *name);
 extern void *DoSet(struct bucket_s *pbucket, void *value);
-extern int strlen(const u8 *s);
-extern void *gsimalloc(unsigned long size);
-extern char *strcpy(char *dst, const char *src);
-extern u8 *strcat(u8 *dest, const u8 *src);
-extern void gsifree(void *ptr);
-extern void gsifree(void *ptr);
-extern void *TableLookup(struct HashImplementation *table, void *elemKey);
+#include "../arm9/msl_string_str.h"
+#include "gsmemory.h"
 void *BucketNew(struct bucketset_s *set, char *name, int type, void *initialvalue);
 void *BucketSet(struct bucketset_s *set, char *name, void *value);
 void *BucketAdd(struct bucketset_s *set, char *name, void *value);

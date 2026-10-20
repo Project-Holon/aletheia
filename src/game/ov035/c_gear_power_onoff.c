@@ -105,22 +105,7 @@ struct Task;
 struct BmpWin;
 #include "../types.h"
 
-struct BgTemplate {
-    u32 x;                  /* 0x00 */
-    u32 y;                  /* 0x04 */
-    u32 bufSize;            /* 0x08 */
-    u32 baseTile;           /* 0x0C */
-    u8 screenSize;          /* 0x10 */
-    u8 colorMode;           /* 0x11 */
-    u8 screenBase;          /* 0x12 */
-    u8 charBase;            /* 0x13 */
-    u32 extPaletteSlot;     /* 0x14 */
-    u8 priority;            /* 0x18 */
-    u8 areaOver;            /* 0x19 */
-    u8 dummy;               /* 0x1A */
-    u8 mosaic;              /* 0x1B */
-    u32 bgType;             /* 0x1C */
-};
+#include "../arm9/bg_sys.h"
 
 /*
  * Static data of the panel: the three scene step functions, followed by the
@@ -136,102 +121,55 @@ typedef struct CGearPowerOnOffTable {
     struct Strbuf *noLabel;
 } CGearPowerOnOffTable;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 struct GameSystem;
 struct GameComm;
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
-extern int APP_ENV_IsWirelessAvailable(void);
-extern u32 GAMESYSTEM_IsAlwaysNetFlagSet(struct GameSystem *gameSystem);
-extern u32 GFL_HEAP_Free(void *p);
-extern void FIELD_SUBSCREEN_SetPanelResult(FieldSubscreen *subscreen, int mode);
+#include "../arm9/gamesystem.h"
+#include "../arm9/app_env.h"
+#include "../ov021/field_subscreen.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, unsigned int heapId);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heapId);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern void FIELD_SUBSCREEN_LoadBackdrop(FieldSubscreen *subscreen, u32 heapId);
-extern void FIELD_SUBSCREEN_ResumeField(FieldSubscreen *subscreen, u32 heapId);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_PushTile(u32 layer);
-extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u8 MYSTATUS_GetSex(const struct MyStatus *myStatus);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *arc, u32 fileId, u32 bgId, u32 offset, u32 compressed, u32 heapId);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 size, u32 heap);
-extern void ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArcHandle *arc, u32 fileId, u32 layer, u32 ofs, u32 chrOfs, u32 size, u32 heapID,
-    u32 heap);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_FreeLayerBuf(u32 i);
+#include "../arm9/printsys.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/net.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/game_data.h"
+#include "../arm9/mystatus.h"
 struct GFont;
 struct TaskMenuRes;
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(int, int, int, int, int, int);
-extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, unsigned int palSlot, unsigned int frameId, unsigned int heapId);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern void BMP_WIN_SetDispHeight(struct BmpWin *window, u8 v);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/bmp_win.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void BMP_WIN_TransferChars(struct BmpWin *window);
-extern void BMP_WIN_MakeScreen(struct BmpWin *window);
-extern void *TCBL_Create(int, int, int, int);
-extern void *APP_KEYCURSOR_CreateDefault(int, int, int, int);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void STRBUF_Delete(struct Strbuf *text);
+#include "../arm9/strbuf.h"
 struct KeyCursor;
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 struct TcblSystem;
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern u32 BMP_WIN_Delete(struct BmpWin *window);
-extern void BMP_MENUWORK_FreeTileRun(int, unsigned int);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-extern void BMP_MENUWORK_DrawWindowEx(struct BmpWin *desc, u32 commitMode, u32 tileBase, u32 palette);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *window, u32 kind);
 struct TaskMenuInitWork;
 struct TaskMenuWork;
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenuFastDecide(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
-extern void APP_TASKMENU_SetDisableKey(struct TaskMenuWork *menu, int isDisable);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 struct TaskMenuWork;
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
-extern u32 WIPE_SYS_EndCheck(void);
-extern int TOUCHPANEL_GetTrg(void);
-extern u32 GAMESYSTEM_IsNetOffBySleep(struct GameSystem *gameSystem);
-extern u32 GAME_COMM_GetKind(struct GameComm *comm);
-extern void GAME_COMM_RequestExitNoCallback(struct GameComm *comm);
-extern void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, u32 on);
-extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
-extern void BMP_WIN_ClearScreen(struct BmpWin *window);
-extern void BMP_WIN_SetPosY(struct BmpWin *window, u8 posY);
+#include "../arm9/wipe.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/game_comm.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/tcbl.h"
+#include "../arm9/app_keycursor.h"
 CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(FieldSubscreen *subscreen, void *gameSystem, u16 heapId);
 void C_GEAR_POWER_ONOFF_Delete(CGearPowerOnOffWork *work);
 void C_GEAR_POWER_ONOFF_Update(CGearPowerOnOffWork *work, int isInitialUpdate);
 void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId);
 void C_GEAR_POWER_ONOFF_ExitScreen(CGearPowerOnOffWork *work);
-void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId);
+void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u16 heapId);
 void C_GEAR_POWER_ONOFF_ExitBgs(CGearPowerOnOffWork *work);
 void C_GEAR_POWER_ONOFF_CreateTaskMenuRes(CGearPowerOnOffWork *work, u16 heapId);
 void C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(CGearPowerOnOffWork *work);
-void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId);
+void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, u16 heapId);
 void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work);
 void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int msgId);
 void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int msgId, int height);
-void C_GEAR_POWER_ONOFF_OpenYesNoMenu(CGearPowerOnOffWork *work, int heapId);
+void C_GEAR_POWER_ONOFF_OpenYesNoMenu(CGearPowerOnOffWork *work, u16 heapId);
 void C_GEAR_POWER_ONOFF_CloseMenu(CGearPowerOnOffWork *work);
 void C_GEAR_POWER_ONOFF_UpdateMenu(CGearPowerOnOffWork *work);
 u8 C_GEAR_POWER_ONOFF_GetMenuResult(CGearPowerOnOffWork *work);
@@ -284,7 +222,7 @@ void C_GEAR_POWER_ONOFF_InitScreen(CGearPowerOnOffWork *work, u16 heapId)
 
 void C_GEAR_POWER_ONOFF_ExitScreen(CGearPowerOnOffWork *work) { FIELD_SUBSCREEN_ResumeField(work->subscreen,work->heapId); C_GEAR_POWER_ONOFF_ExitWindows(work); C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(work); C_GEAR_POWER_ONOFF_ExitBgs(work); PRINTSYS_QUE_Clear((struct PrintQueue *)work->printQue); PRINTSYS_QUE_Delete((struct PrintQueue *)work->printQue); MSGDATA_Delete(work->msgBank); GF_FONT_Delete(work->font); }
 
-void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u32 heapId)
+void C_GEAR_POWER_ONOFF_InitBgs(CGearPowerOnOffWork *work, u16 heapId)
 {
     int i;
     struct ArcHandle *arc;
@@ -335,7 +273,7 @@ void C_GEAR_POWER_ONOFF_DeleteTaskMenuRes(CGearPowerOnOffWork *work)
     APP_TASKMENU_RES_Delete(work->taskMenuRes);
 }
 
-void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, int heapId)
+void C_GEAR_POWER_ONOFF_InitWindows(CGearPowerOnOffWork *work, u16 heapId)
 {
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x20, 0x20, heapId);
     work->bmpMenuWork = BMP_MENUWORK_LoadFrameGfx(5, 2, 0, heapId);
@@ -370,14 +308,14 @@ void C_GEAR_POWER_ONOFF_ExitWindows(CGearPowerOnOffWork *work)
     TCBL_Destroy(work->tcbl);
     BMP_WIN_Delete(work->menuWindow);
     BMP_WIN_Delete(work->messageWindow);
-    BMP_MENUWORK_FreeTileRun(5, (unsigned int)work->bmpMenuWork);
+    BMP_MENUWORK_FreeTileRun(5, (uptr)work->bmpMenuWork);
 }
 
 void C_GEAR_POWER_ONOFF_PrintMessage(CGearPowerOnOffWork *work, struct BmpWin *window, int msgId)
 {
     struct Strbuf *msg = MSGDATA_AllocString(work->msgBank, msgId);
     PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, msg, work->font);
-    BMP_MENUWORK_DrawWindowEx(window, (u32)0, (u32)work->bmpMenuWork, 2);
+    BMP_MENUWORK_DrawWindowEx(window, (u32)0, (uptr)work->bmpMenuWork, 2);
     BMP_WIN_TransferChars(window);
     STRBUF_Delete(msg);
 }
@@ -391,12 +329,12 @@ void C_GEAR_POWER_ONOFF_ResetAndPrintMessage(CGearPowerOnOffWork *work, struct B
     BMP_MENUWORK_DrawWindowBorder(window, 2);
     BMP_WIN_MakeScreen(window);
     PRINTSYS_Print(BMP_WIN_GetBmp(window), 0, 0, msg, work->font);
-    BMP_MENUWORK_DrawWindowEx(window, (u32)0, (u32)work->bmpMenuWork, 2);
+    BMP_MENUWORK_DrawWindowEx(window, (u32)0, (uptr)work->bmpMenuWork, 2);
     BMP_WIN_TransferChars(window);
     STRBUF_Delete(msg);
 }
 
-void C_GEAR_POWER_ONOFF_OpenYesNoMenu(CGearPowerOnOffWork *work, int heapId)
+void C_GEAR_POWER_ONOFF_OpenYesNoMenu(CGearPowerOnOffWork *work, u16 heapId)
 {
     CGearPowerOnOffTable *table = &sPowerOnOffTable;
 

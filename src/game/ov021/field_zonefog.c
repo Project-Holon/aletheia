@@ -33,7 +33,7 @@ typedef struct {
 } ZoneFogData;
 
 /* Zone fog and light ids of the current zone (0x10 bytes). */
-typedef struct {
+typedef struct FieldZoneFog {
     u8 loadRequest;
     s8 loadWait;
     u16 fogId;
@@ -42,11 +42,9 @@ typedef struct {
     void *arcHandle;
 } FieldZoneFog;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_TOOL_DeleteHandle(void *arcHandle);
-extern void *ARC_UTIL_LoadHandleMember(void *arcHandle, u32 dataId, u32 heapLow, u32 heapId);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
 void FIELD_ZONEFOG_Clear(FieldZoneFog *zoneFog);
 extern char d_021DDE28[];
 
@@ -66,7 +64,7 @@ int FIELD_ZONEFOG_Delete(FieldZoneFog *zoneFog)
 }
 
 /* Loads the requested fog record once the wait count reaches zero. */
-void FIELD_ZONEFOG_Main(FieldZoneFog *zoneFog, u32 heapId)
+void FIELD_ZONEFOG_Main(FieldZoneFog *zoneFog, u16 heapId)
 {
     if (zoneFog->loadRequest == 1) {
         zoneFog->loadWait--;

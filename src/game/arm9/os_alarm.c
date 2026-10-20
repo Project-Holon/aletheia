@@ -27,6 +27,7 @@
  *   SDK_AUTOLOAD_DTCM_START  0x02FE0000  data
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -60,9 +61,9 @@ void OSi_ArrangeTimer(void);
 extern OsAlarmBss g_02151340;
 extern char SDK_AUTOLOAD_DTCM_START[];
 
-#define reg_OS_TM1CNT_L (*(vu16 *)0x04000104)
+#define reg_OS_TM1CNT_L (*(vu16 *)REG_TM1CNT_L_ADDR)
 
-#define reg_OS_TM1CNT_H (*(vu16 *)0x04000106)
+#define reg_OS_TM1CNT_H (*(vu16 *)REG_TM1CNT_H_ADDR)
 
 void OSi_SetTimer(OSAlarm *alarm)
 {
@@ -227,7 +228,7 @@ asm void OSi_AlarmHandler(void *arg)
     bx	lr
 }
 
-#define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
+#define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((uptr)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
 
 /*
  * sdk:      OSi_ArrangeTimer (os_alarm.o)

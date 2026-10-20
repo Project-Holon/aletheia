@@ -25,6 +25,7 @@
  *   FADE_Start  0x0204E720  arm
  *   FADE_IsActive  0x0204E804  arm
  */
+#include "../arm9/gamesystem.h"
 #include "../ov021/fieldmap_types.h"
 
 struct GameSystem;
@@ -49,18 +50,14 @@ typedef struct EncEffNameCutInWork {
 
 typedef int (*GameEventMainFunc)(struct GameEvent *event, int *state);
 
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+#include "../arm9/game_event.h"
 extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern struct Fld3dCi *FIELDMAP_GetFld3dCi(struct FieldMap *fieldMap);
 extern void *ENCEFF_AllocWork(struct EncEff *eff, u32 size, u32 heapId);
 struct EncEffWork;
 extern void *ENCEFF_GetWork(struct EncEffWork *eff);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventMainFunc main, u32 workSize);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern void *FLD3D_CI_StartNameSequence(void *gameSystem, struct Fld3dCi *ci, s32 tableIndex, s32 fadeVariant);
-extern void FADE_Start(u32 flags, s32 start, s32 end, s32 step);
-extern int FADE_IsActive(void);
+#include "../ov021/fld3d_ci.h"
+#include "../arm9/fade.h"
 struct GameEvent *ENCEFF_BuildNameCutInKind10(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
 struct GameEvent *ENCEFF_BuildNameCutInKind11(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
 struct GameEvent *ENCEFF_BuildNameCutInKind12(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
@@ -256,7 +253,7 @@ struct GameEvent *ENCEFF_StartNameCutIn(struct GameSystem *gameSystem, struct Fi
     work->flashCount = 0;
     work->tableIndex = tableIndex;
     work->fadeVariant = fadeVariant;
-    return GAME_EVENT_Create(gameSystem, 0, ENCEFF_NameCutInEventMain, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)ENCEFF_NameCutInEventMain, 0);
 }
 
 /*
@@ -293,9 +290,9 @@ int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state)
             } else {
                 child = FLD3D_CI_StartNameSequence(gameSystem, FIELDMAP_GetFld3dCi(fieldMap), work->tableIndex, work->fadeVariant);
                 if (child != 0) {
-                    GAME_EVENT_CallEvent(event, child);
+                    GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)child);
                 } else {
-                    child = GAME_EVENT_Create(gameSystem, event, ENCEFF_NameCutInFadeOutEventMain, 0);
+                    child = GAME_EVENT_Create((struct GameSystem *)gameSystem, (struct GameEvent *)event, (GameEventFunc)ENCEFF_NameCutInFadeOutEventMain, 0);
                     GAME_EVENT_CallEvent(event, child);
                 }
                 *state = *state + 1;

@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_NNS_G3D_TEX_MTX_H
 #define GAME_ARM9_NNS_G3D_TEX_MTX_H
 
+typedef struct TexMtxObj TexMtxObj;
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_g3d_tex_mtx.c, prototypes copied from their definitions. */
 
 struct DST;
@@ -16,5 +19,6 @@ void NNSi_G3dTexMtxRot_Max(struct DST *d, struct SRC *s);
 void NNSi_G3dTexMtxScale_Max(struct DST *d, struct SRC *s);
 void NNSi_G3dTexMtxIdentity_Max(struct DST *d);
 void NNSi_G3dSendTexMtx_Max(TexMtxObj *o);
+/* END mkheaders: generated region */
 
 #endif

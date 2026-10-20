@@ -74,18 +74,11 @@
 #define NULL ((void *)0)
 #define GET_RUN(c, cnt, sCryptoBnNumBitsWordBits)     c = *sCryptoBnNumBitsWordBits++;     cnt = *sCryptoBnNumBitsWordBits++;     if (cnt == 0xff && c == 0) {         for (c = *sCryptoBnNumBitsWordBits++; *sCryptoBnNumBitsWordBits == 0xff && c == 0; c = *sCryptoBnNumBitsWordBits++) {             cnt += 0x100;             sCryptoBnNumBitsWordBits++;         }         cnt += *sCryptoBnNumBitsWordBits++ + 1;     }
 
-extern void CRYPTOi_MyFree(void *);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void *CRYPTOi_MyAlloc(unsigned long);
-extern void MI_CpuCopy8(void *, void *, unsigned long);
-extern BN_ULONG CRYPTOi__bn_add_words(BN_ULONG *rp, const BN_ULONG *ap, const BN_ULONG *bp, int num);
-extern unsigned long CRYPTOi__bn_mul_words(unsigned long *rp, unsigned long *ap, int num, unsigned long w);
-extern unsigned long CRYPTOi__bn_mul_add_words(unsigned long *rp, unsigned long *ap, int num, unsigned long w);
-extern BN_ULONG CRYPTOi__bn_div_words(BN_ULONG h, BN_ULONG l, BN_ULONG d);
+#include "crypto_util.h"
+#include "../arm9/mi_memory.h"
+#include "crypto_bobj2.h"
 int CRYPTOi__BN_mod_exp_mont(BIGNUM *rr_in, BIGNUM *a_in, BIGNUM *p,
                              BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *in_mont);
-extern void CRYPTOi__bn_sqr_words(unsigned long *r, unsigned long *a, int n);
-extern BN_ULONG CRYPTOi__bn_sub_words(BN_ULONG *rp, const BN_ULONG *ap, const BN_ULONG *bp, int num);
 extern int CRYPTOi__BN_set_word(BIGNUM *, BN_ULONG);
 extern BIGNUM *CRYPTOi__BN_copy(BIGNUM *, const BIGNUM *);
 extern BN_MONT_CTX *CRYPTOi__BN_MONT_CTX_new(void);

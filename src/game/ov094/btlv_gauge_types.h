@@ -1,7 +1,8 @@
 #ifndef BTLV_GAUGE_TYPES_H
 #define BTLV_GAUGE_TYPES_H
 
-#include "btlv_b_gauge_types.h"
+#include "../ov094/btlv_b_gauge_types.h"
+#include "../sdk_ioreg.h"
 
 /* Values of BTL_POKEPARAM read through BTL_POKEPARAM_GetValue. */
 #define BTLV_GAUGE_BPP_HP 13
@@ -32,7 +33,7 @@
 
 /* Base of the sub-engine-independent OBJ VRAM that actor images are copied to. */
 typedef enum BtlvGaugeVramBase {
-    BTLV_GAUGE_OBJ_VRAM = 0x06400000
+    BTLV_GAUGE_OBJ_VRAM = HW_OBJ_VRAM
 } BtlvGaugeVramBase;
 
 /* Loop index type of BTLV_B_GAUGE_SetSideVisible (an enum keeps the entry guard of the loop). */
@@ -41,15 +42,15 @@ typedef enum BtlvGaugeSlotIndex {
 } BtlvGaugeSlotIndex;
 
 typedef struct BtlvGaugePointPair {
-    BtlvGaugePoint p[2];
+    struct ClactVec2 p[2];
 } BtlvGaugePointPair;
 
 typedef struct BtlvGaugePointSix {
-    BtlvGaugePoint p[6];
+    struct ClactVec2 p[6];
 } BtlvGaugePointSix;
 
 typedef struct BtlvGaugePointEight {
-    BtlvGaugePoint p[8];
+    struct ClactVec2 p[8];
 } BtlvGaugePointEight;
 
 /* Image record filled by CLACT_GetActorImageProxy (36 bytes). */
@@ -80,12 +81,12 @@ typedef struct BtlvGaugeSlotFlags {
 
 /* One HP/EXP gauge (0x80 bytes). */
 typedef struct BtlvGaugeSlot {
-    struct ClActor *frameActor;     /* 0x00: plate that carries nickname, gender, level and caught icon */
-    struct ClActor *hpNumberActor;  /* 0x04: "current/max" numbers, player side only */
-    struct ClActor *hpBarActor;     /* 0x08 */
-    struct ClActor *hpLossActor;    /* 0x0c: marks the HP that was just lost */
-    struct ClActor *expBarActor;    /* 0x10: player side only */
-    struct ClActor *statusActor;    /* 0x14: status condition icon */
+    struct ClactActor *frameActor;     /* 0x00: plate that carries nickname, gender, level and caught icon */
+    struct ClactActor *hpNumberActor;  /* 0x04: "current/max" numbers, player side only */
+    struct ClactActor *hpBarActor;     /* 0x08 */
+    struct ClactActor *hpLossActor;    /* 0x0c: marks the HP that was just lost */
+    struct ClactActor *expBarActor;    /* 0x10: player side only */
+    struct ClactActor *statusActor;    /* 0x14: status condition icon */
     int frameCharRes;               /* 0x18: resource ids of the actors above */
     int frameCellRes;               /* 0x1c */
     int numberCharRes;              /* 0x20 */
@@ -132,7 +133,7 @@ typedef struct BtlvGaugeWorkFlags {
 
 /* The battle HP/EXP gauge set: eight slots and the shared resources. */
 typedef struct BtlvGaugeWork {
-    struct ClUnit *unit;            /* 0x00: actor unit of all gauge actors */
+    struct Unit *unit;            /* 0x00: actor unit of all gauge actors */
     void *arcHandle;                /* 0x04: archive of the gauge graphics */
     void *font;                     /* 0x08 */
     void *flashTask;                /* 0x0c: palette flash task */

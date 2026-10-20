@@ -69,32 +69,34 @@ typedef struct { u32 hour, minute, second; } RTCTimeFields;
 struct ScrcmdWork;
 struct ScriptWork;
 
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+#include "scrcmd_work.h"
 struct GameData;
 
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
 extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
 struct ScriptVm;
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+#include "script_work_cmd.h"
 
 extern u8 MISC_GetResearchRank(struct MiscSave *beacon);
 
-extern int MISC_SetResearchRank();
+#ifdef __MWERKS__
+extern void MISC_SetResearchRank(); /* original prototype; the definition differs in no prototype */
+#else
+extern void MISC_SetResearchRank(struct MiscSave*, u8);
+#endif
 
-extern void GAME_BEACON_SetResearchTeamRank(u32 rank);
+#include "../arm9/game_beacon.h"
 
 extern u8 MISC_GetResearchMissionIndex(struct MiscSave *beacon);
 
-extern int MISC_GetRecentId(struct MiscSave *beacon, u32 index);
+extern int MISC_GetRecentId(struct MiscSave *beacon, u8 index);
 
-extern void *SYMBOL_SAVE_GetBitBlock(void *saveControl);
+#include "../arm9/symbol_save.h"
 
-extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 extern void MISC_SetResearchMissionIndex(struct MiscSave *beacon, u8 missionIndex);
 
@@ -102,39 +104,32 @@ extern void MISC_SetRecentId(struct MiscSave *beacon, u8 slot, u8 targetId);
 
 extern void MISC_SetRecentValue(struct MiscSave *beacon, u32 slot, int value);
 
-extern u64 GF_STANDARD_GetRtcTimestamp();
+#include "../arm9/gf_standard.h"
 
 extern void MISC_SetLastTime(struct MiscSave *beacon, u32 lo, u32 hi);
 
-extern int MISC_SAVEDATA_GetScoreValue(int tally, int category, int entry);
+#include "../arm9/misc_savedata.h"
 
-extern u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 category, u32 entry);
 struct SymbolBitSave;
 
-extern u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save);
 
-extern void SYMBOL_SAVE_WriteBitField(u8 *answers, int questionId, u32 answer);
 
-extern void GAME_BEACON_SetQuestionnaire(u8 *answers);
 struct GameSystem;
 
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
-extern void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem);
+#include "event_research_radar.h"
 
-extern void SCRIPT_SYS_CallEvent(void *scriptSystem, void *event);
+#include "script_sys.h"
 
 extern struct MiscSave *MISC_GetFromSave(struct SaveControl *save);
 
-extern u16 MISC_SAVEDATA_GetHalfword(const u16 *tally, int id);
 
-extern u32 MISC_SAVEDATA_GetTallyWord(u8 *tally, int id);
 
 extern u16 MISC_GetRecentValue(struct MiscSave *beacon, u32 slot);
 
 extern unsigned long long MISC_GetLastTime(struct MiscSave *beacon);
 
-extern void RTC_ConvertSecondToDateTime(struct RTCDate *date, struct RTCTime *time, long long sec);
+#include "../arm9/convert.h"
 
 extern u8 sTallyCategoryEntryCount[];
 
@@ -181,7 +176,7 @@ int SCRCMD_RESEARCH_GetMissionGoal(int missionIndex);
 int SCRCMD_RESEARCH_GetMissionTimeLimitHours(int missionIndex);
 
 /* Script command: writes the research team rank to a work variable. */
-int SCRCMD_RESEARCH_CmdGetResearchRank(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdGetResearchRank(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     struct GameData *gameData;
     void *saveControl;
@@ -198,7 +193,7 @@ int SCRCMD_RESEARCH_CmdGetResearchRank(struct ScriptContext *ctx, struct ScrCmdW
 }
 
 /* Script command: raises the research team rank by one (up to 5). */
-int SCRCMD_RESEARCH_CmdRaiseResearchRank(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdRaiseResearchRank(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     struct GameData *gameData;
     struct MiscSave *beacon;
@@ -216,7 +211,7 @@ int SCRCMD_RESEARCH_CmdRaiseResearchRank(struct ScriptContext *ctx, struct ScrCm
 }
 
 /* Script command: writes the current mission index to a work variable. */
-int SCRCMD_RESEARCH_CmdGetMissionIndex(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdGetMissionIndex(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     struct GameData *gameData;
     void *saveControl;
@@ -233,7 +228,7 @@ int SCRCMD_RESEARCH_CmdGetMissionIndex(struct ScriptContext *ctx, struct ScrCmdW
 }
 
 /* Script command: writes the three mission target ids to three work variables. */
-int SCRCMD_RESEARCH_CmdGetMissionTargets(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdGetMissionTargets(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     struct MiscSave *beacon;
     u16 *dst0;
@@ -252,7 +247,7 @@ int SCRCMD_RESEARCH_CmdGetMissionTargets(struct ScriptContext *ctx, struct ScrCm
 }
 
 /* Script command: writes the hours elapsed since the mission started (at most 24). */
-int SCRCMD_RESEARCH_CmdGetMissionElapsedHours(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdGetMissionElapsedHours(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     struct GameData *gameData;
     void *saveControl;
@@ -267,7 +262,7 @@ int SCRCMD_RESEARCH_CmdGetMissionElapsedHours(struct ScriptContext *ctx, struct 
 }
 
 /* Script command: starts a mission (index and three target ids), zeroes the progress and stamps the time. */
-int SCRCMD_RESEARCH_CmdStartMission(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdStartMission(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     struct MiscSave *beacon;
     u16 targetId[3];
@@ -297,7 +292,7 @@ int SCRCMD_RESEARCH_CmdStartMission(struct ScriptContext *ctx, struct ScrCmdWork
 }
 
 /* Script command: clears the mission (index 0, target ids 0xFF). */
-int SCRCMD_RESEARCH_CmdClearMission(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdClearMission(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     void *saveControl;
     struct MiscSave *beacon;
@@ -314,7 +309,7 @@ int SCRCMD_RESEARCH_CmdClearMission(struct ScriptContext *ctx, struct ScrCmdWork
 }
 
 /* Script command: writes the id of the entry with the highest tally (both counters summed) in a category. */
-int SCRCMD_RESEARCH_CmdGetTopTallyEntry(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdGetTopTallyEntry(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     int i;
     int category;
@@ -344,7 +339,7 @@ int SCRCMD_RESEARCH_CmdGetTopTallyEntry(struct ScriptContext *ctx, struct ScrCmd
 }
 
 /* Script command: stores one answer of the survey. */
-int SCRCMD_RESEARCH_CmdSetSurveyAnswer(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdSetSurveyAnswer(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     void *answers;
     int questionId;
@@ -360,7 +355,7 @@ int SCRCMD_RESEARCH_CmdSetSurveyAnswer(struct ScriptContext *ctx, struct ScrCmdW
 }
 
 /* Script command: starts the research report event. */
-int SCRCMD_RESEARCH_CmdStartResearchReport(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdStartResearchReport(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     void *scriptSystem;
     void *gameSystem;
@@ -374,7 +369,7 @@ int SCRCMD_RESEARCH_CmdStartResearchReport(struct ScriptContext *ctx, struct Scr
 }
 
 /* Script command: writes the status of a mission (current one or another by index). */
-int SCRCMD_RESEARCH_CmdGetMissionStatus(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdGetMissionStatus(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     void *saveControl;
     void *beacon;
@@ -394,7 +389,7 @@ int SCRCMD_RESEARCH_CmdGetMissionStatus(struct ScriptContext *ctx, struct ScrCmd
 }
 
 /* Script command: writes the progress of the current mission (shortfall or hours left, by kind). */
-int SCRCMD_RESEARCH_CmdGetMissionProgress(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_RESEARCH_CmdGetMissionProgress(struct ScriptContext *ctx, struct ScrcmdWork *scrWork)
 {
     u16 *dst;
     void *saveControl;

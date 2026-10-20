@@ -9,7 +9,7 @@ struct Cfg;
 
 struct CharBuf;
 
-struct Descriptor;
+struct CtvtDescriptor;
 
 struct TaskMenu;
 

@@ -40,34 +40,20 @@
  *   GXS_LoadOBJ 0x0207E804 arm
  *   P_STA_RIBBON_InfoTable 0x021DC2F8 data a4
  */
+#include "../arm9/gx_load2d.h"
 #include "p_status_types.h"
 
 #define REG_DISPCNT_MAIN 0x04000000
 #define REG_DISPCNT_SUB  0x04001000
 #include "../types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern int CLACT_RegisterCharacter(void *arc, u32 fileId, u32 a, u32 screen, u16 heapId);
-extern int CLACT_RegisterCellAnim(void *arc, u32 fileId, u32 a, u32 heapId);
-extern void ARC_TOOL_DeleteHandle(void *arc);
-extern void CLACT_ReleaseCharacter(u32 charRes);
-extern void CLACT_ReleaseCellAnim(u32 cellRes);
-extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 animSeq, u32 flag);
-extern void CLACT_AddActorSurfacePos(struct Actor *actor, const struct StaOamPoint *delta, u32 space);
-extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
-extern u16 BMP_GetHeight(const struct Bmp *bmp);
-extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void DC_FlushRange(void *dst, int size);
-extern int CLACT_GetCharacterVramAddress(u32 charRes, u32 screen);
-extern void GX_LoadOBJ(void *dst, void *src, u32 size);
-extern void GXS_LoadOBJ(void *dst, void *src, u32 size);
-struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, void *clunit);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/clact.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/os_cache.h"
+struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, struct Unit *clunit);
 void P_STA_OAM_DeleteManager(struct StaOamManager *mgr);
 struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mgr, const struct StaOamBitmapDesc *desc);
 void P_STA_OAM_DeleteBitmapActors(struct StaOamBitmapActors *grid);
@@ -82,7 +68,7 @@ unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo);
 extern const char P_STA_OAM_FileName[];
 extern const struct StaRibbonInfo P_STA_RIBBON_InfoTable[];
 
-struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, void *clunit) {
+struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, struct Unit *clunit) {
     struct StaOamManager *mgr = GFL_HEAP_Alloc(heapId, 0x14, 1, P_STA_OAM_FileName, 0x5d);
     int i;
     mgr->heapId = heapId;
@@ -102,7 +88,7 @@ void P_STA_OAM_DeleteManager(struct StaOamManager *mgr)
  */
 struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mgr, const struct StaOamBitmapDesc *desc)
 {
-    struct StaOamActorPos pos = {0};
+    struct ActorInitParam pos = {0};
     struct StaOamBitmapActors *grid;
     u8 cols, rows, i, j;
     void *arc;
@@ -122,14 +108,14 @@ struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mg
     arc = ARC_TOOL_CreateHandle(0x4e, mgr->heapId);
     for (i = 0; i < rows; i++) {
         for (j = 0; j < cols; j++) {
-            mode = P_STA_OAM_GetCellResMode(mgr, desc->screen, (u32)arc);
+            mode = P_STA_OAM_GetCellResMode(mgr, desc->screen, (uptr)arc);
             grid->charRes[i * cols + j] = CLACT_RegisterCharacter(arc, 7, 0, desc->screen, mgr->heapId);
             pos.x = desc->x + (j << 6);
             pos.y = desc->y + (i << 5);
-            pos.drawPriority = desc->drawPriority;
-            pos.bgPriority = desc->bgPriority;
+            pos.draw_priority = desc->drawPriority;
+            pos.bg_priority = desc->bgPriority;
             grid->actor[i * cols + j] = CLACT_CreateActor(mgr->clunit, (u32)grid->charRes[i * cols + j], desc->plttRes, mgr->cellRes[mode], &pos, desc->space, mgr->heapId);
-            CLACT_SetActorPaletteOffset(grid->actor[j], (u8)desc->animSeq, 0);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)grid->actor[j], (u8)desc->animSeq, 0);
         }
     }
     ARC_TOOL_DeleteHandle(arc);
@@ -142,7 +128,7 @@ void P_STA_OAM_DeleteBitmapActors(struct StaOamBitmapActors *grid)
     for (i = 0; i < grid->rows; i++) {
         for (j = 0; j < grid->cols; j++) {
             CLACT_ReleaseCharacter((u32)grid->charRes[j + i * grid->cols]);
-            CLACT_DeleteActor(grid->actor[j + i * grid->cols]);
+            CLACT_DeleteActor((struct ClactActor *)grid->actor[j + i * grid->cols]);
         }
     }
     GFL_HEAP_Free(grid);
@@ -153,7 +139,7 @@ void P_STA_OAM_SetBitmapActorsEnabled(struct StaOamBitmapActors *grid, int enabl
     u8 i, j;
     for (i = 0; i < grid->rows; i++) {
         for (j = 0; j < grid->cols; j++) {
-            CLACT_SetActorDrawEnable(grid->actor[j + i * grid->cols], enable);
+            CLACT_SetActorDrawEnable((struct ClactActor *)grid->actor[j + i * grid->cols], enable);
         }
     }
 }
@@ -167,7 +153,7 @@ void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
     u32 wt;
     u8 *src;
     u8 k;
-    void (*copy)(void *, void *, u32);
+    void (*copy)(const void *, u32, u32);
     dst0 = BMP_GetPixels(grid->bmp);
     DC_FlushRange(dst0, BMP_GetByteSize(grid->bmp));
     if (grid->screen == 0) copy = GX_LoadOBJ; else copy = GXS_LoadOBJ;
@@ -183,7 +169,7 @@ void P_STA_OAM_TransferBitmap(struct StaOamBitmapActors *grid)
             src = (u8 *)CLACT_GetCharacterVramAddress((u32)grid->charRes[c + r * grid->cols], grid->screen);
             for (k = 0; k < 4; k++) {
                 if (r == grid->rows - 1 && rem != 0 && k >= rem) continue;
-                copy(dst0 + (off + k * (wt * 32)), src, seg);
+                copy(dst0 + (off + k * (wt * 32)), (uptr)src, seg);
                 src += 256;
             }
             off += seg;
@@ -200,7 +186,7 @@ void P_STA_OAM_SetBitmapActorsPos(struct StaOamBitmapActors *grid, s16 x, s16 y)
         for (j = 0; j < grid->cols; j++) {
             pt.x = (s16)(x + (j << 6));
             pt.y = (s16)(y + (i << 5));
-            CLACT_AddActorSurfacePos(grid->actor[j + i * grid->cols], &pt, grid->space);
+            CLACT_AddActorSurfacePos((struct ClactActor *)grid->actor[j + i * grid->cols], (const struct ClactVec2 *)&pt, grid->space);
         }
     }
 }

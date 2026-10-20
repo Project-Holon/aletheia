@@ -37,6 +37,7 @@ struct GameEvent;
 struct GameData;
 struct GameComm;
 #include "../types.h"
+#include "../arm9/ica_anime_shared_types.h"
 
 /* Parameter block read by the arm9 menu proc this event launches. */
 typedef struct MenuProcParam {
@@ -55,22 +56,12 @@ typedef struct MenuProcEventWork {
 
 typedef struct { unsigned fieldMap; unsigned procKind; } LaunchRequest;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern u32 GAME_COMM_GetKind(struct GameComm *comm);
-extern u16 GFL_USE_GetBgmNo(void);
-extern void GFL_USE_FadeOutBgm(u32 frames);
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_comm.h"
+#include "../arm9/gfl_use.h"
 struct FieldMap;
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
-extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
-extern void GFL_USE_FadeInBgmFull(u32 frames);
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
-void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
-void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void *GAME_EVENT_GetWork(struct GameEvent *event);
+#include "../arm9/field_status.h"
+#include "../arm9/game_event.h"
 u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *work);
 void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind);
 void *EVENT_MENUPROC_Entry(void *gameSystem, LaunchRequest *request);
@@ -121,7 +112,7 @@ u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *wo
  */
 void *EVENT_MENUPROC_Create(void *gameSystem, int fieldMap, int procKind)
 {
-    void *event = GAME_EVENT_Create(gameSystem, 0, EVENT_MENUPROC_Main, 0x1C);
+    void *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_MENUPROC_Main, 0x1C);
     MenuProcEventWork *work;
 
     if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)))

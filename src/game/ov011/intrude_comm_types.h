@@ -12,19 +12,11 @@ struct GameComm;
 struct CommPlayerWork;
 struct STRBUF;
 
-/* Position package of one player (same layout as CommPlayerPackage in comm_player.c). */
-typedef struct IntrudePosition {
-    s32 x;
-    s32 y;
-    s32 z;
-} IntrudePosition;
+#include "../sdk_fx.h"
+#include "../ov010/comm_player_types.h"
 
-typedef struct IntrudePlayerPackage {
-    u32 vanish;             /* 0x00 */
-    IntrudePosition pos;    /* 0x04 */
-    u16 zoneId;             /* 0x10 */
-    u8 dir;                 /* 0x12 */
-} IntrudePlayerPackage;
+/* Position package of one player: the CommPlayerPackage of comm_player.c. */
+typedef struct CommPlayerPackage IntrudePlayerPackage;
 
 /* Status of one player in the visit, 0x1C bytes. It is sent over the net as command 0x205. */
 typedef struct IntrudePeer {
@@ -346,7 +338,7 @@ typedef struct IntrudeSaveSlot {
 /* Work block of the link proc (INTRUDE_LINK_ProcExit frees the two owned objects). */
 typedef struct IntrudeLinkProc {
     u8 procHead[0xF4];      /* 0x00: not read here */
-    void *subProcSys;       /* 0xF4: sub proc system, deleted on exit */
+    struct ProcSys *subProcSys;       /* 0xF4: sub proc system, deleted on exit */
     void *partyList;        /* 0xF8: party list, freed on exit */
 } IntrudeLinkProc;
 

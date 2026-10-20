@@ -74,41 +74,26 @@ typedef struct PartyCheckTaskWork {
 } PartyCheckTaskWork;
 struct ScriptWork;
 
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
-extern void *SCRIPT_WORK_GetWordSet(struct ScriptWork *work);
+#include "../ov010/scrcmd_work.h"
+#include "../ov010/script_work.h"
 struct ScriptVm;
-extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern u16 SCRCMD_WORK_GetHeapId(struct ScrcmdWork *work);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
-extern void *POKE_REGULATION_Load(int a, int b);
-extern u32 GFL_HEAP_Free(void *p);
-extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
-extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
-extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *p, u16 id);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
-extern void *GAME_DATA_GetMyParty(const struct GameData *p);
+#include "../ov010/script_work_cmd.h"
+#include "../arm9/poke_regulation.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../ov010/script_sys.h"
+#include "../arm9/wordset.h"
+#include "../arm9/zukan_save.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *p);
 struct Party;
 struct Regulation;
-extern int POKE_REGULATION_CheckPartyUsable(struct Regulation *reg, struct Party *party);
-extern int POKE_REGULATION_CheckParty(struct Regulation *reg, struct Party *party, u32 *flags);
 struct BattleBoxSave;
-extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
+#include "../arm9/battle_box.h"
 struct BoxMonGroup;
-extern u32 BATTLE_BOX_HasMon(struct BoxMonGroup *box);
-extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap);
-extern struct FieldTask *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
+#include "../arm9/game_event.h"
 struct GameEvent;
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern struct PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *secondParty, u32 sideFlagFirst, u32 sideFlagSecond, u16 heapId);
-extern int PARTY_SELECT_LIST_Main(struct PartySelectList *p);
-extern u32 PARTY_SELECT_LIST_Delete(struct PartySelectList *p, u32 *out);
+#include "party_select_list.h"
 int SCRCMD_FLD_BATTLE_RegisterAllowedSpecies(struct ScriptVm *vm, struct ScrcmdWork *work);
 int SCRCMD_FLD_BATTLE_CheckPartyRegulation(struct ScriptVm *vm, struct ScrcmdWork *work);
 u16 SCRCMD_FLD_BATTLE_StoreAllowedSpeciesNames(void *gameData, void *wordSet, u32 regulationNo, int heapId);
@@ -277,7 +262,7 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules
         *result = 3;
         return 0;
     }
-    task = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_FLD_BATTLE_PartyCheckTaskMain, 0x1c);
+    task = (struct FieldTask *)GAME_EVENT_Create( (struct GameSystem *)gameSystem, 0, (void *)SCRCMD_FLD_BATTLE_PartyCheckTaskMain, 0x1c);
     playerFlag = 0;
     taskWork = GAME_EVENT_GetWork((struct GameEvent *)task);
     taskWork->gameSystem = gameSystem;

@@ -43,7 +43,7 @@
  *   CLACT_AddActorAnimFrame 0x0204B8D4 arm
  */
 
-struct Actor;
+struct ClactActor;
 struct Node;
 #include "../types.h"
 
@@ -96,31 +96,26 @@ typedef struct Wifi2dcharPoint { u16 x, y; } Wifi2dcharPoint;
 /* 6-byte actor position passed to CLACT_CreateActor. */
 typedef struct Wifi2dcharActorPos { s16 x, y, z; u8 a, b; } Wifi2dcharActorPos;
 
-extern void *GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, u16 heap);
-extern int WF2DMAP_MAP_IsEmpty(char *p);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
-extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
-extern void CLACT_SetActorAnimIndex(struct Actor *actor, unsigned int anim_idx);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void MI_CpuFill8(void *, int, int);
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_Alloc_hdr
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+void * GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
+#endif
+#ifdef __MWERKS__
+#define ARC_TOOL_CreateHandle ARC_TOOL_CreateHandle_hdr
+#endif
+#include "../arm9/arc_tool.h"
+#ifdef __MWERKS__
+#undef ARC_TOOL_CreateHandle
+void * ARC_TOOL_CreateHandle(unsigned int, u16);
+#endif
+#include "wf2dmap_map.h"
+#include "../arm9/clact.h"
+#include "../arm9/mi_memory.h"
 struct Pt16;
-extern void CLACT_SetActorPos(struct Actor *actor, struct Pt16 *pos);
-extern void CLACT_SetActorDrawPriority(struct Actor *actor, unsigned int priority);
-extern int CLACT_GetActorDrawPriority(struct Actor *actor);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
-extern u16 CLACT_GetActorAnimSeqCount(struct Actor *actor);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void CLACT_ReleaseCellAnim(u32);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern void CLACT_ReleaseCharacter(u32);
-extern void CLACT_ReleasePalette(u32);
-extern void CLACT_ChangeActorAnimSeq(struct Actor *actor, unsigned short anim_seq);
-extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
 Wifi2dcharContext *WIFI_2DCHAR_Create(void *a, void *b, u32 count, u32 heap);
 void WIFI_2DCHAR_Delete(u8 *p);
 void WIFI_2DCHAR_SetupBmpCell(u8 *p, int a, int b, int c, int d);
@@ -137,7 +132,7 @@ int WIFI_2DCHAR_GetActorDrawPriority(u8 *p);
 void WIFI_2DCHAR_SetActorDrawEnable(char *p, int a);
 void WIFI_2DCHAR_SetSubActorDrawEnable(char *p, int a);
 int WIFI_2DCHAR_GetActorDrawEnable(char *p);
-void *WIFI_2DCHAR_GetActorCellArgB(u8 *p);
+u32 WIFI_2DCHAR_GetActorCellArgB(u8 *p);
 u32 WIFI_2DCHAR_GetActorAnimId(char *p);
 void WIFI_2DCHAR_SetActorAnimIndex(char *p,u32 a);
 int WIFI_2DCHAR_GetActorAnimSeqCount(char *p);
@@ -272,13 +267,13 @@ u32 *WIFI_2DCHAR_SpawnActor(Wifi2dcharContext *ctx, const s16 *pos, int idx, u32
     l.z = 0;
     l.a = ta;
     l.b = pos[3];
-    e[1] = (u32)CLACT_CreateActor((void *)ctx->ownerA, ctx->cells[idx].handle, ctx->cells[idx].owner,
-                         ctx->cellAnims[idx].mode, &l, 0, (u16)heap);
-    CLACT_SetActorBgPriority((struct Actor *)e[1], (u8)pos[3]);
+    e[1] = (u32)CLACT_CreateActor((struct Unit *)ctx->ownerA, ctx->cells[idx].handle, ctx->cells[idx].owner,
+                         ctx->cellAnims[idx].mode, (const struct ActorInitParam *)&l, 0, (u16)heap);
+    CLACT_SetActorBgPriority((struct ClactActor *)e[1], (u8)pos[3]);
     if (ctx->cells[idx].argB == 1)
-        CLACT_SetActorAnimIndex((struct Actor *)e[1], 6);
+        CLACT_SetActorAnimIndex((struct ClactActor *)e[1], 6);
     else
-        CLACT_SetActorAnimIndex((struct Actor *)e[1], 1);
+        CLACT_SetActorAnimIndex((struct ClactActor *)e[1], 1);
     e[3] = 9;
     *(u16 *)(e + 5) = 0;
     e[4] = 1;
@@ -290,9 +285,9 @@ u32 *WIFI_2DCHAR_SpawnActor(Wifi2dcharContext *ctx, const s16 *pos, int idx, u32
         l.z = 0;
         l.a = *(u32 *)((u8 *)ctx + off + 0x10);
         l.b = 0;
-        e[2] = (u32)CLACT_CreateActor((void *)ctx->ownerA, *(u32 *)((u8 *)ctx + off), *(u32 *)((u8 *)ctx + off + 4),
-                             *(u32 *)((u8 *)ctx + off + 8), &l, 0, (u16)heap);
-        CLACT_SetActorBgPriority((struct Actor *)e[2], (u8)pos[3]);
+        e[2] = (u32)CLACT_CreateActor((struct Unit *)ctx->ownerA, *(u32 *)((u8 *)ctx + off), *(u32 *)((u8 *)ctx + off + 4),
+                             *(u32 *)((u8 *)ctx + off + 8), (const struct ActorInitParam *)&l, 0, (u16)heap);
+        CLACT_SetActorBgPriority((struct ClactActor *)e[2], (u8)pos[3]);
     } else {
         e[2] = 0;
     }
@@ -310,11 +305,11 @@ void WIFI_2DCHAR_SetActorPos(u8 *p,int x,int y)
 {
     Wifi2dcharPoint pos;
     pos.x=x; pos.y=y;
-    CLACT_SetActorPos(*(struct Actor * *)&((Wifi2dcharActor *)p)->actor, (struct Pt16 *)&pos);
+    CLACT_SetActorPos((struct ClactActor *)(*(struct ClactActor * *)&((Wifi2dcharActor *)p)->actor), (const struct Pt16 *)&pos);
     if (((Wifi2dcharActor *)p)->subActor != 0) {
         pos.x=(s16)pos.x+8;
         pos.y=(s16)pos.y+14;
-        CLACT_SetActorPos(*(struct Actor * *)&((Wifi2dcharActor *)p)->subActor, (struct Pt16 *)&pos);
+        CLACT_SetActorPos((struct ClactActor *)(*(struct ClactActor * *)&((Wifi2dcharActor *)p)->subActor), (const struct Pt16 *)&pos);
     }
 }
 
@@ -353,9 +348,9 @@ int WIFI_2DCHAR_GetActorDrawEnable(char *p)
     return CLACT_GetActorDrawEnable(((Wifi2dcharActor *)p)->actor);
 }
 
-void *WIFI_2DCHAR_GetActorCellArgB(u8 *p)
+u32 WIFI_2DCHAR_GetActorCellArgB(u8 *p)
 {
-    return (void *)((Wifi2dcharActor *)p)->rec->argB;
+    return ((Wifi2dcharActor *)p)->rec->argB;
 }
 
 u32 WIFI_2DCHAR_GetActorAnimId(char *p) { return ((Wifi2dcharActor *)p)->animId; }

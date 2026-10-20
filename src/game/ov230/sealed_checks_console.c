@@ -36,8 +36,7 @@ typedef struct OvOwnerInfo {
     u16 commentLength;
 } OvOwnerInfo;
 
-extern void OS_GetMacAddress(u8 *mac);
-extern void OS_GetOwnerInfo(OvOwnerInfo *info);
+#include "../arm9/os_ownerinfo.h"
 /* the complemented MAC address sits in the overlay's tail data, which the data registry names g_0218996C */
 #define OV230_MAC_MASK ((const u8 *)0x0218996C)
 
@@ -62,7 +61,7 @@ u32 OV230_CheckConsoleIdentity0(void)
         a++;
         b++;
     } while (i < 6);
-    OS_GetOwnerInfo(&info);
+    OS_GetOwnerInfo((OSOwnerInfo *)&info);
     if (i == 6 && info.birthdayMonth == 1 && info.birthdayDay == 1 && info.nicknameLength == 0) {
         tag = 0xFB;
     } else {
@@ -101,7 +100,7 @@ u32 OV230_CheckConsoleIdentity1(void)
         a++;
         b++;
     } while (i < 6);
-    OS_GetOwnerInfo(&info);
+    OS_GetOwnerInfo((OSOwnerInfo *)&info);
     if (i == 6 && info.birthdayMonth == 1 && info.birthdayDay == 1 && info.nicknameLength == 0) {
         tag = 0xF1;
     } else {

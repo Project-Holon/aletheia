@@ -17,6 +17,7 @@
  *   gMslExitHook  0x02153FB0  data
  */
 #include "msl_crt_shared_types.h"
+#include "msl_stdlib.h"
 
 #define table_ptr(i) (((char *)table_base) + (member_size * ((i) - 1)))
 
@@ -42,8 +43,6 @@ void qsort(void *table_base, size_t num_members, size_t member_size, _compare_fu
 u32 rand(void);
 
 void srand(u32 v);
-
-int MSL_C_LIB_StrReadProc(u32 *state, u32 ch, u32 mode);
 
 void MSL_C_LIB_CallExitHook(u32 a, u32 b, u32 c);
 
@@ -137,28 +136,28 @@ void srand(u32 v)
     MslRandSeed = v;
 }
 
-int MSL_C_LIB_StrReadProc(u32 *state, u32 ch, u32 mode)
+int MSL_C_LIB_StrReadProc(MslStringScan *state, u32 ch, u32 mode)
 {
     switch (mode) {
     case 0: {
-        u8 *q = (u8 *)*state;
+        const u8 *q = (const u8 *)state->cur;
         u8 c = *q;
 
         if (c == 0) {
-            state[1] = 1;
+            state->eof = 1;
             return -1;
         }
-        *state = (u32)(q + 1);
+        state->cur = (const char *)(q + 1);
         return c;
     }
     case 1:
-        if (state[1] == 0)
-            state[0] = state[0] - 1;
+        if (state->eof == 0)
+            state->cur = state->cur - 1;
         else
-            state[1] = 0;
+            state->eof = 0;
         return (int)ch;
     case 2:
-        return (int)state[1];
+        return (int)state->eof;
     default:
         return 0;
     }

@@ -22,11 +22,10 @@
 
 #include "../sdk_mb.h"
 
-extern void MI_CpuFill8(void *dst, int val, u32 len);
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32 state);
-extern void OS_Terminate(void);
-extern void MI_CpuCopy8(void *src, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/os_terminate_processor.h"
 void MBi_InitCache(void *pl);
 void MBi_AttachCacheBuffer(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state);
 int MBi_ReadFromCache(MBiCacheList *pl, u32 src, void *dst, u32 len);

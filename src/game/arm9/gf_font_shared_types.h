@@ -8,7 +8,7 @@ struct WordSet;
 struct WordTag;
 
 #include "../types.h"
-#include "strbuf_types.h"
+#include "../arm9/strbuf_types.h"
 
 
 struct WordTag {

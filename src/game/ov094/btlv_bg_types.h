@@ -1,7 +1,7 @@
 #ifndef BTLV_BG_TYPES_H
 #define BTLV_BG_TYPES_H
 
-#include "btlv_effvm_types.h"
+#include "../ov094/btlv_effvm_types.h"
 
 /* Battle background: scroll state of BG layer 3 (0x0c bytes). */
 typedef struct BtlvBg {

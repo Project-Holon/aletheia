@@ -21,8 +21,7 @@
  */
 #include "fld_scenearea_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 extern char gFldSceneAreaFileName[];
 
 FldSceneArea *FLD_SCENEAREA_Create(int heapId, void *camera, void *fieldMap);

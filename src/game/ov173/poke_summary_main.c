@@ -180,10 +180,10 @@ struct TaskMenuState;
 struct U16Vec;
 struct Node;
 struct DispVram;
-struct Descriptor;
+struct PokeSummaryMainDescriptor;
 struct CharBuf;
 struct WordSet;
-struct Rec;
+struct TextPrinter;
 struct Sound;
 struct Ctx;
 struct Rec3;
@@ -200,178 +200,78 @@ typedef struct {u32 id,value;} Row;
 
 typedef enum { FLAGS_OFFSET=0x3ff8, OFFSET_FORCE_UNSIGNED=0xffffffffu } SharedOffset;
 
-struct DispConfig {u32 unk_00,unk_04,unk_08,unk_0c;};
+#include "../arm9/bg_sys.h"
 
-struct BgTemplate {u32 unk_00,unk_04,bufSize,unk_0c;u8 unk_10,unk_11,unk_12,unk_13;u32 unk_14;u8 unk_18,unk_19,unk_1a,unk_1b;u32 unk_1c;};
 
-typedef struct { u32 a,b,c,d,e,f,g; } Entry;
+typedef struct { u32 a,b,c,d,e,f,g; } PokeSummaryMainEntry;
 
-typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 a,b,c,d; } Descriptor;
+typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 a,b,c,d; } PokeSummaryMainDescriptor;
 
 typedef int (*Callback)(u8 *);
 
-typedef struct { Callback a,b; } Pair;
+typedef struct { Callback a,b; } PokeSummaryMainPair;
 
 struct ScanOwner { u8 pad[16]; u16 *table; };
 
 struct ScanContext { struct ScanOwner *owner; };
 
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void *,int,u32);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_font.h"
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void POKE_SUMMARY_ACTOR_PositionMonActor(unsigned char *p, u32 idx, int unused);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern int POKE_SUMMARY_ACTOR_StartWipe(u8 *p);
-extern int POKE_SUMMARY_ACTOR_StartProc(char *p);
-extern int POKE_SUMMARY_ACTOR_StartNetRestart(void *);
-extern int POKE_SUMMARY_ACTOR_WaitDecide(u8 *p);
-extern int POKE_SUMMARY_ACTOR_ShowTextKind2(char *p);
-extern int POKE_SUMMARY_ACTOR_ShowTextKind1Or4(char *p);
-extern void CLACT_DrawSystem(void);
-extern void TCBL_Main(struct TcblSystem *tcbl);
+#include "../arm9/tcbl.h"
+#include "poke_summary_actor.h"
+#include "../arm9/net.h"
+#include "../arm9/clact.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+#include "../arm9/printsys.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct GFont;
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(unsigned short bgFrame, unsigned short palNo, struct GFont *font, struct PrintQueue *printQue, unsigned short heapId);
+#include "../arm9/app_taskmenu.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *p, int flag);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+#include "../arm9/msgdata.h"
+#include "../arm9/strbuf.h"
 struct TaskMenuWin;
-extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
-extern void BG_SYS_SetLcdSwap(u32 swap);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*cb)(void), void *work, unsigned int priority);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void POKE_SUMMARY_ACTOR_CreateActors(char *p, void *arg);
-extern void POKE_SUMMARY_ACTOR_CreateSound(u8 *p);
-extern void POKE_SUMMARY_ACTOR_SetIdleAnim(u8 *p);
-extern int POKE_SUMMARY_ACTOR_UpdateSound(int *);
-extern void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *p);
+#include "../arm9/arc_tool.h"
+#include "../arm9/wipe.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void POKE_SUMMARY_ACTOR_FlushPendingTransfers(char *);
-extern void BG_SYS_Update(void);
-extern void CLACT_VBlankSystem(void);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_Create(u16);
-extern void BMP_WIN_Init(u16);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
-extern void BG_SYS_ClearSlot(u32);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_FreeLayerBuf(unsigned int);
-extern void BG_SYS_Delete(void);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *p, u32 a, u32 b, void **out, u16 d);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_use.h"
+struct TcbTask;
+#include "../arm9/tcb_list.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/bmp_menuwork.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern void *BMP_WIN_GetBmp(struct Descriptor *);
 struct Bmp;
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct KeyCursor;
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(unsigned int id, unsigned int isLive, unsigned int isFlip, unsigned short heapId);
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void BMP_WIN_Exit(void);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 WIPE_SYS_EndCheck(void);
+#include "../arm9/app_keycursor.h"
+#include "../arm9/wordset.h"
 struct Cursor;
-extern u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
-extern int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
-extern int TOUCHPANEL_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(unsigned);
-extern int POKE_SUMMARY_ACTOR_IsTaskMenuOpen(char *);
-extern int POKE_SUMMARY_ACTOR_ConfirmDecideById(char *,u16);
-extern int POKE_SUMMARY_ACTOR_OpenDecideWin(char *,u16);
-extern int POKE_SUMMARY_ACTOR_ConfirmDecide(u8 *p, u16 n);
-extern void POKE_SUMMARY_ACTOR_UpdateScrollArrows(char *);
-extern void POKE_SUMMARY_ACTOR_SetScrollAnim(u8 *,int);
+#include "../arm9/cursor_move.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/bmp_win.h"
 struct TextPrinter;
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
-extern u32 KEY_GetCont(void);
-extern u32 KEY_GetTrg(void);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
+#include "../arm9/key.h"
 struct TaskMenuInitWork;
 struct TaskMenuWork;
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
-extern void POKE_SUMMARY_ACTOR_SetSubBrightness(int);
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 struct PokemonParam;
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
-extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
-extern void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u32 PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
+#include "../arm9/poke_tool.h"
+/* The DS code was built against a prototype with a halfword move id; the host build uses the header. */
+#ifdef __MWERKS__
+#define WAZA_TOOL_GetParam WAZA_TOOL_GetParam_header
+#endif
+#include "../arm9/waza_tool.h"
+#ifdef __MWERKS__
+#undef WAZA_TOOL_GetParam
+extern u32 WAZA_TOOL_GetParam(u16 move, u32 param);
+#endif
 struct BoxPokemon;
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int arg);
 struct Actor;
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *p, u16 id, u16 i);
-extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
-extern void *BMP_MENUWORK_Create(u32, u32);
-extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern u32 BMP_MENUWORK_Delete(void *p);
-extern u32 WAZA_TOOL_GetParam(u16,u32);
-extern u32 WAZA_TOOL_IsAlwaysHit(u16);
-extern void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *p, u16 id);
-extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-extern unsigned int POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
-extern signed char MSG_SPEED_GetWait(void);
-extern struct Rec *PRINTSYS_PrintStreamCallBack(u32 win, s16 x, s16 y, u32 str, u32 font, s32 wait, u32 tcbl, u32 priority, u32 heap, u16 fillColor, u32 a10);
-extern void BG_SYS_PushTile(u32);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
-extern int GFL_USE_IsAnySeBusy(void);
-extern void GFL_USE_SetBgmPaused(unsigned int value);
-extern int GFL_USE_PushBgm(void);
-extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int, unsigned int);
-extern int GFL_USE_IsBgmPlaying(void);
-extern int GFL_USE_PopBgm(void);
+struct BmpMenuWork;
+#include "../arm9/msg_speed.h"
 int POKE_SUMMARY_MAIN_Create(struct ProcOwner *obj, int unused, u8 *input);
 int POKE_SUMMARY_MAIN_Update(void *unused0,u32 *state,void *unused2,u8 *p);
 int POKE_SUMMARY_MAIN_Delete(void *p,u32 a,u32 b,char *ctx);
@@ -380,7 +280,7 @@ void POKE_SUMMARY_MAIN_DeleteTaskMenu(u8 *p);
 void POKE_SUMMARY_MAIN_UpdateTaskMenu(int *p);
 void POKE_SUMMARY_MAIN_InitScreen(u8 *p);
 void POKE_SUMMARY_MAIN_ExitScreen(char *p);
-void POKE_SUMMARY_MAIN_VBlankCallback(void *unused,char *p);
+void POKE_SUMMARY_MAIN_VBlankCallback(struct TcbTask *unused, void *p);
 void POKE_SUMMARY_MAIN_SetVramBanks(void);
 void POKE_SUMMARY_MAIN_InitDisplay(void);
 void POKE_SUMMARY_MAIN_ExitDisplay(void);
@@ -400,7 +300,7 @@ int POKE_SUMMARY_MAIN_ShowTextKind6(int *p);
 int POKE_SUMMARY_MAIN_ShowMoveText(char *p);
 int POKE_SUMMARY_MAIN_StartWipe(char *p);
 void POKE_SUMMARY_MAIN_RefreshMoveList(char *p);
-u32 POKE_SUMMARY_MAIN_PrintAligned(char *p, int index, u32 font, u16 w, int align, u8 y);
+void POKE_SUMMARY_MAIN_PrintAligned(char *p, int index, u32 font, u16 w, int align, u8 y);
 void POKE_SUMMARY_MAIN_PrintValue(char *p,u32 idx,u32 a,u32 b,u8 c);
 void POKE_SUMMARY_MAIN_DrawMovesPage(char *p);
 u32 POKE_SUMMARY_MAIN_CountMoves(struct ScanContext *p);
@@ -424,8 +324,8 @@ extern const Row d_021B81FC[];
 extern u8 d_02FE0000[];
 extern const struct DispConfig d_021B8280;
 extern const struct BgTemplate d_021B82F0,d_021B8330,d_021B8290,d_021B82B0,d_021B82D0,d_021B8310;
-extern const Entry d_021B8420[];
-extern Pair d_021B8228[];
+extern const PokeSummaryMainEntry d_021B8420[];
+extern PokeSummaryMainPair d_021B8228[];
 extern const u32 d_021B8350[][11];
 
 int POKE_SUMMARY_MAIN_Create(struct ProcOwner *obj, int unused, u8 *input)
@@ -541,7 +441,7 @@ void POKE_SUMMARY_MAIN_InitScreen(u8 *work)
     POKE_SUMMARY_ACTOR_SetIdleAnim(work);
     WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x4f);
     BG_SYS_SetLcdSwap(1);
-    ((struct PokeSummaryWork *)work)->vblankTask = (void *)GFL_USE_AddMainTask((void (*)(void))POKE_SUMMARY_MAIN_VBlankCallback, work, 0x10);
+    ((struct PokeSummaryWork *)work)->vblankTask = GFL_USE_AddMainTask(POKE_SUMMARY_MAIN_VBlankCallback, work, 0x10);
     ARC_TOOL_DeleteHandle(q);
     POKE_SUMMARY_MAIN_CreateTaskMenu(work);
 }
@@ -550,7 +450,7 @@ void POKE_SUMMARY_MAIN_ExitScreen(char *work) { POKE_SUMMARY_MAIN_DeleteTaskMenu
 
 static inline void setShared(u32 base,SharedOffset off) { *(u32 *)(base+off)|=1; }
 
-void POKE_SUMMARY_MAIN_VBlankCallback(void *unused,char *work) { POKE_SUMMARY_ACTOR_FlushPendingTransfers(work); BG_SYS_Update(); CLACT_VBlankSystem(); setShared((u32)d_02FE0000,FLAGS_OFFSET); }
+void POKE_SUMMARY_MAIN_VBlankCallback(struct TcbTask *unused, void *workArg) { char * work = workArg; POKE_SUMMARY_ACTOR_FlushPendingTransfers(work); BG_SYS_Update(); CLACT_VBlankSystem(); setShared((u32)d_02FE0000,FLAGS_OFFSET); }
 
 void POKE_SUMMARY_MAIN_SetVramBanks(void)
 {
@@ -622,7 +522,7 @@ void POKE_SUMMARY_MAIN_CreateBmpWindows(u8 *work)
     u32 h;
     for (i=0;i<16;i++) {
         ((struct PokeSummaryWork *)work)->bmpWindows[i]=(void *)BMP_WIN_Create((u8)d_021B8420[i].a,(u8)d_021B8420[i].b,(u8)d_021B8420[i].c,(u8)d_021B8420[i].d,d_021B8420[i].e,d_021B8420[i].f,(int)1);
-        BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct PokeSummaryWork *)work)->bmpWindows[i])),0);
+        BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)(struct PokeSummaryMainDescriptor *)((struct PokeSummaryWork *)work)->bmpWindows[i])),0);
     }
     h=(u32)((struct PokeSummaryWork *)work)->bmpWindows[9];
     BMP_WIN_ClearScreen((struct BmpWin *)h);
@@ -714,7 +614,7 @@ int POKE_SUMMARY_MAIN_UpdateText(char *work)
 
 int POKE_SUMMARY_MAIN_OpenMenu(u8 *work)
 {
-    Descriptor x;
+    PokeSummaryMainDescriptor x;
     x.heap = 79;
     x.count = 2;
     x.items = &((struct PokeSummaryWork *)work)->moveEntries[2];
@@ -793,7 +693,7 @@ void POKE_SUMMARY_MAIN_RefreshMoveList(char *work) { int n; n=POKE_SUMMARY_MAIN_
  * extent: 138 bytes code; +0x8A 00 00 alignment padding, next labelled
  *   function 021B6C84 at +0x8C. No follower or unit.
  */
-u32 POKE_SUMMARY_MAIN_PrintAligned(char *work, int index, u32 font, u16 color, int align, u8 y)
+void POKE_SUMMARY_MAIN_PrintAligned(char *work, int index, u32 font, u16 color, int align, u8 y)
 {
     u8 x;
     u8 width;
@@ -808,7 +708,7 @@ u32 POKE_SUMMARY_MAIN_PrintAligned(char *work, int index, u32 font, u16 color, i
         x = (u8)(((int)(u8)(BMP_WIN_GetWidth(((struct PokeSummaryWork *)work)->bmpWindows[index]) * 8) - width) / 2);
         break;
     }
-    return PRINTSYS_PrintColor(BMP_WIN_GetBmp(((struct PokeSummaryWork *)work)->bmpWindows[index]), x, y, ((struct PokeSummaryWork *)work)->strBufA, (void *)font, color);
+    PRINTSYS_PrintColor((struct Bmp *)(BMP_WIN_GetBmp(((struct PokeSummaryWork *)work)->bmpWindows[index])), x, y, (struct Strbuf *)(((struct PokeSummaryWork *)work)->strBufA), (struct GfFont *)((void *)font), color);
 }
 
 void POKE_SUMMARY_MAIN_PrintValue(char *work,u32 idx,u32 number,u32 digits,u8 padding) { void *s; s=MSGDATA_AllocString(((struct PokeSummaryWork *)work)->msgBank,idx); WORDSET_SetSlotNumber(((struct PokeSummaryWork *)work)->wordSet,0,number,digits,padding,1); WORDSET_CopyTaggedText(((struct PokeSummaryWork *)work)->wordSet,((struct PokeSummaryWork *)work)->strBufA,s); STRBUF_Delete(s); }
@@ -999,9 +899,9 @@ void POKE_SUMMARY_MAIN_BuildMoveList(char *work)
     for (; i < ((struct PokeSummaryWork *)work)->moveCount; i++) {
         move = ((u16 *)((struct PokeSummaryWork *)work)->mon->moveList)[i];
         if (move != 0xffff) {
-            BMP_MENUWORK_AddMsgItem(((struct PokeSummaryWork *)work)->menuWork, (u32)bank, move, move, 0x4f);
+            BMP_MENUWORK_AddMsgItem(((struct PokeSummaryWork *)work)->menuWork, bank, move, move, 0x4f);
         } else {
-            BMP_MENUWORK_AddMsgItem(((struct PokeSummaryWork *)work)->menuWork, *(u32 *)&((struct PokeSummaryWork *)work)->msgBank, 0x20, -2, 0x4f);
+            BMP_MENUWORK_AddMsgItem(((struct PokeSummaryWork *)work)->menuWork, (struct MsgBank *)(*(u32 *)&((struct PokeSummaryWork *)work)->msgBank), 0x20, -2, 0x4f);
             break;
         }
     }
@@ -1176,10 +1076,10 @@ void POKE_SUMMARY_MAIN_StartTextStream(char *work, u32 kind)
     void *q;
     BMP_Clear(BMP_WIN_GetBmp(((struct PokeSummaryWork *)work)->bmpWindows[7]), 15);
     zero = 0;
-    BMP_MENUWORK_DrawWindow(((struct PokeSummaryWork *)work)->bmpWindows[7], 0, 1, 13);
-    POKE_SUMMARY_MAIN_SetTextByKind(work, kind);
+    BMP_MENUWORK_DrawWindow((struct BmpWin *)(((struct PokeSummaryWork *)work)->bmpWindows[7]), 0, 1, 13);
+    POKE_SUMMARY_MAIN_SetTextByKind((char *)work, kind);
     speed = MSG_SPEED_GetWait();
-    ((struct PokeSummaryWork *)work)->printStream = PRINTSYS_PrintStreamCallBack(*(u32 *)&((struct PokeSummaryWork *)work)->bmpWindows[7], 0, 0, (u32)((struct PokeSummaryWork *)work)->strBufA, (u32)((struct PokeSummaryWork *)work)->font, speed, (u32)((struct PokeSummaryWork *)work)->tcbl, zero, 0x4f, 0xffff, (u32)POKE_SUMMARY_MAIN_SoundStateCallback);
+    ((struct PokeSummaryWork *)work)->printStream = PRINTSYS_PrintStreamCallBack((struct BmpWin *)(*(u32 *)&((struct PokeSummaryWork *)work)->bmpWindows[7]), 0, 0, (struct Strbuf *)((u32)((struct PokeSummaryWork *)work)->strBufA), (struct GfFont *)((u32)((struct PokeSummaryWork *)work)->font), speed, (struct Tcbl *)((u32)((struct PokeSummaryWork *)work)->tcbl), zero, 0x4f, 0xffff, (u8 (*)(u32 arg))((u32)POKE_SUMMARY_MAIN_SoundStateCallback));
     q = ((struct PokeSummaryWork *)work)->bmpWindows[7];
     BMP_WIN_TransferChars(q);
     BMP_WIN_MakeScreen(q);

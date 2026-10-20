@@ -292,7 +292,7 @@
 
 struct Big;
 
-struct Obj;
+struct ClactActor;
 
 struct Descriptor;
 
@@ -344,11 +344,11 @@ struct CharBuf;
 
 struct U16Vec;
 
-struct Actor;
+struct ClactActor;
 
 typedef struct { u32 x, y, z; } VecU;
 
-typedef struct { u32 words[2]; u8 a,b,c,d; u32 field; u16 dims[6]; } Config;
+typedef struct { u32 words[2]; u8 a,b,c,d; u32 field; u16 dims[6]; } DupFittingConfig;
 
 typedef enum { DISP_SUB_MAIN=0, DISP_MAIN_SUB=1 } DispSelect;
 
@@ -364,248 +364,192 @@ typedef enum { I_ZERO = 0, I_LIMIT = 9 } Index;
 
 typedef struct { short s; short c; } SC;
 
-typedef struct { short x; short y; } Pt;
+typedef struct { short x; short y; } DupFittingPt;
 
 typedef struct { u8 bytes[12]; } Rects;
 
-typedef struct {short x,y;} Pos;
-
 typedef struct {short x,y;} DupFittingPos;
 
+
 struct BmpWin;
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_Init_hdr
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
+void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
+#endif
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_USE_AddMainTask(void *,void *,int);
+#include "../arm9/gfl_use.h"
 
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
+#include "../arm9/wipe.h"
 struct MusicalSave;
 
-extern u32 MUSICAL_SAVE_GetFittingSetting(struct MusicalSave *musical);
+#include "../arm9/musical_save.h"
 
-extern void MUSICAL_SAVE_SetFittingSetting(struct MusicalSave *musical, unsigned char value);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
+#include "../arm9/net.h"
 
-extern void UI_SetInputMode(u8);
+#include "../arm9/ui.h"
 
-extern void MUSICAL_SAVE_ClearNewProps(struct MusicalSave *musical);
 
-extern void GFL_USE_CancelChangeAndStopBgm(void);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
+#include "../arm9/clact.h"
 
-extern void CLACT_ReleasePalette(u32);
 
-extern void CLACT_ReleaseCharacter(u32);
 
-extern void CLACT_ReleaseCellAnim(u32);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void CLACT_ExitSystem(void);
 
-extern void MUSICAL_MCSS_FreeRenderObj(int,int);
+#include "../ov112/mus_poke_draw.h"
 
-extern void MUSICAL_MCSS_DeleteRenderObj(int a);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void BILLBOARD_Delete(void *);
+#include "../arm9/billboard.h"
 
-extern u32 G3D_CAMERA_Delete(void *ptr);
+#include "../arm9/g3d_camera.h"
 
 extern void G3D_SYSTEM_Exit(void);
 
-extern void BG_SYS_FreeLayerBuf(u32);
+#ifdef __MWERKS__
+#define BG_SYS_SetPlaneVisible BG_SYS_SetPlaneVisible_hdr
+#define BG_SYS_FreeSlot BG_SYS_FreeSlot_hdr
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_SetPlaneVisible
+#undef BG_SYS_FreeSlot
+void BG_SYS_SetPlaneVisible(unsigned int, unsigned int);
+void BG_SYS_FreeSlot(unsigned int);
+#endif
 
-extern void BMP_WIN_Exit(void);
 
-extern void BG_SYS_Delete(void);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32);
 
-extern u32 WIPE_SYS_EndCheck(void);
 
-extern int GFL_USE_IsBgmFading(void);
 
-extern void GFL_USE_FadeOutBgm(u32);
 
-extern void MUS_COMM_FUNC_SetTimingSync(int,int);
+#include "../ov132/mus_comm_func.h"
 
-extern int MUS_COMM_FUNC_CheckTimingSync(char *p, int id);
 
-extern int STA_NET_IsTransferDone(char *p);
+#include "../ov132/sta_net.h"
 
-extern void MUSICAL_MCSS_TickAnim(u8 *);
 
-extern void MUSICAL_MCSS_DrawRenderObj(void **p);
 struct McssActorPool;
 
-extern void MUSICAL_MCSS_UpdateObject(struct McssActorPool *p);
+#include "../ov112/mus_item_draw.h"
 
-extern void CLACT_DrawSystem(void),G3D_SYSTEM_DrawStart(void),G3D_SYSTEM_ApplyLookAt(void),G3D_SYSTEM_DrawEnd(void);
+extern void CLACT_DrawSystem(void);
+extern void G3D_SYSTEM_DrawStart(void);
+extern void G3D_SYSTEM_ApplyLookAt(void);
+extern void G3D_SYSTEM_DrawEnd(void);
 struct LightSlot;
 struct G3dCamera;
 
-extern void BILLBOARD_Draw(struct BbBoard *board, struct G3dCamera *camera, struct LightSlot *lights);
 
-extern void BG_SYS_ChangeScroll(u32,u32,u32);
 
-extern void BG_SYS_ClearLayer(int,u16);
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
-extern void BG_SYS_SetPriority(int,u16),ARC_UTIL_UploadBgPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16),BG_SYS_MarkTileDirty(u32);
+extern void BG_SYS_SetPriority(int,u16);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
+extern void BG_SYS_MarkTileDirty(u32);
 struct PrintQueue;
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+#include "../arm9/printsys.h"
 
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern u32 MUSICAL_MCSS_GetActorPoolResource(u8 *);
 
-extern u8 *MUSICAL_MCSS_GetElemPtr(u8 *, int);
+#include "../ov112/mus_item_data.h"
 
-extern int MUSICAL_MCSS_GetElemSizeFlags(int *);
 
-extern void MUSICAL_MCSS_FreeElemImage(u8 *, u8 *, int, u16);
 
-extern void MUSICAL_MCSS_NoOp3(void *);
 
-extern void BILLBOARD_GetImagePlttKey(struct BbBoard *board, int imageIndex, unsigned int *outPlttKey);
 
-extern void BILLBOARD_GetImageTexKey(struct BbBoard *board, int index, unsigned int *outTexVramKey);
 
-extern void BILLBOARD_SetImageTexAddr(struct BbBoard *board, int imageIndex, unsigned int texKey);
 
-extern void BILLBOARD_GetImageSizeFromFlags(int, u16 *, u16 *);
 
-extern int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texVramKey, int plttVramKey, int formatIndex, unsigned int sizeCode, unsigned char columns, unsigned char rows);
 
-extern void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index);
 
-extern void CLACT_VBlankSystem(void);
 
-extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
 
-extern void WIPE_SetBrightnessFadeOut(u32,u32);
 
-extern void WIPE_ResetWndMask(void *);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 
-extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,VecU *,VecU *,VecU *,u16);
 struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
-extern void G3X_SetEdgeColorTable(void *);
+#include "../arm9/g3x.h"
 
-extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
+extern void BG_SYS_Create(u16);
+extern void BMP_WIN_Init(u16);
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void BG_SYS_EnableBg0WithPriority(u32);
 
-extern void BG_SYS_SetPlaneVisible(unsigned int, unsigned int);
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/g2.h"
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
-extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
+extern void BG_SYS_SetMainPlaneVisible(u32,u32);
+extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void *BILLBOARD_Create(u8 *,void *);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+#include "../arm9/arc_util.h"
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void BG_SYS_PushTile(u32);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void BG_SYS_FreeSlot(unsigned int);
 
-extern void *MUSICAL_MCSS_CreateRenderObj(u32 heap);
 
-extern void MUSICAL_MCSS_SetRenderCellVramBase(void **p, int b);
 
-extern void MUSICAL_MCSS_SetRenderAnimVramBase(u8 *, int);
 
-extern u8 *MUSICAL_MCSS_SetupRenderObj(u8 *, void *, int);
 
-extern u8 *MUSICAL_MCSS_GetRenderFlags(u8 *p);
 
-extern void MUSICAL_MCSS_SetRenderPos(int *p, int *q);
 
-extern u32 MUSICAL_SAVE_IsPropOwned(struct MusicalSave *musical, unsigned char prop);
 
-extern u32 MUSICAL_SAVE_IsPropNew(struct MusicalSave *musical, unsigned char prop);
 struct MusicalOutfit;
 
-extern struct MusicalOutfit *MUSICAL_SAVE_GetOutfits(struct MusicalSave *musical);
 
-extern struct McssActorPool *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
 
-extern void *MUSICAL_MCSS_CreateResourceArc(int type);
 
-extern void MUSICAL_MCSS_FreeResourceArc(struct Tagged *resourceArc);
 struct McssActorElem;
 
-extern void MUSICAL_MCSS_SetElemFlag(u8 *unused, struct McssActorElem *s, s32 flag);
 
-extern struct McssActorElem *MUSICAL_MCSS_AddImageNoVram(struct McssActorPool *pool, int type, unsigned int id, int *v);
 
-extern void MUSICAL_MCSS_SetElemVisible(u8 *, u8 *, u32);
 
-extern void MUSICAL_MCSS_SetElemRotZ(void *unused, u8 *elem, short a, short b);
 
-extern void MUSICAL_MCSS_TransferVram(char *p, char *e, void *unused);
 struct G3dResource;
 
 extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
@@ -618,138 +562,86 @@ extern void *G3D_SYSTEM_GetPlttDataAddr(struct G3dResource *res);
 
 extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *res);
 
-extern void *G3D_SYSTEM_GetResourceTex(void *);
 
-extern void NNS_G3dPlttSetPlttKey(int *p, int v);
+#include "../arm9/nns_g3d_tex.h"
 
-extern void NNS_G3dPlttLoad(void *, u32);
 
-extern void DC_FlushRange(void *, u32);
+#include "../arm9/os_cache.h"
 
-extern u32 BILLBOARD_AddImageFromArchive(struct BbBoard *board, unsigned int arcId, unsigned int dataId, unsigned int formatIndex, unsigned int sizeCode, unsigned char columns, unsigned char rows);
 
-extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 
-extern void BILLBOARD_SetElemVisible(struct BbBoard *board, unsigned int elemIndex, unsigned int *visible);
 
-extern u32 GFL_USE_GetRandomBelow(u32 range);
 
-extern void BILLBOARD_FreeElem(void *,unsigned int),BILLBOARD_DeleteImage(u8 *,int);
 
-extern void MUSICAL_MCSS_FreeElem(u8 *p, u8 *e);
 
-extern void MUSICAL_MCSS_DeleteActorPool(u8 *);
 
-extern void MUSICAL_MCSS_SetElemPos(void *unused, struct McssActorElem *p, s32 *q);
 
-extern void MUSICAL_MCSS_SetElemField(void *unused, u8 *elem, u16 v);
 
-extern void BILLBOARD_SetElemPos(u8 *board, int i, struct Trip *src);
 
-extern void BILLBOARD_SetElemScale(struct BbBoard *board, int elemIndex, short *scaleX, short *scaleY);
 
-extern int TOUCHPANEL_GetTrg(void);
+#include "../arm9/touchpanel.h"
 
-extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 
-extern int GF_STANDARD_CalcAngle(int,int,int,int,int,int,int);
+#include "../arm9/gf_standard.h"
 
-extern u8 *MUSICAL_MCSS_GetRenderElem(u8 *,int);
 
-extern int MUSICAL_MCSS_ElemHasAltDepth(u8 *);
 
-extern void MUSICAL_MCSS_SetElemRot(void *unused, u8 *elem, short *a, short *b);
 
-extern void MUSICAL_MCSS_SetElemScale(u32 unused, u32 p, u32 q);
 
-extern int MUSICAL_MCSS_GetIndex(unsigned int);
 struct McssOffset;
 
-extern void MUSICAL_MCSS_GetElemOffset(unsigned char *elem, struct McssOffset *out);
 
-extern int MUSICAL_MCSS_IsElemModeSupportedA(u8 *p, int index);
 
-extern void MUSICAL_MCSS_CopyElem(void *unused, u8 *s, u8 *d);
 
-extern int MUSICAL_MCSS_IsElemModeSupportedC(u8 *p, int index, int mode);
 
-extern int MUSICAL_MCSS_IsElemModeSupportedB(u8 *p, int index, int mode);
 
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-extern int FX_Sqrt(int);
+#include "../arm9/fx_cp.h"
 
-extern int TOUCHPANEL_HitTrg(const void *);
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+#include "../arm9/gf_font.h"
 
-extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
+#include "../arm9/wordset.h"
 
-extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern unsigned int DUP_FITTING_ITEM_ElemHitDistance(u8 *, int, int);
+#include "dup_fitting_item.h"
 
-extern u16 FX_Atan2Idx(long,long);
+#include "../arm9/fx_atanidx.h"
 
-extern void MUSICAL_SAVE_InitOutfits(struct MusicalSave *musical);
 
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u16);
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 
-extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
-extern unsigned int GF_FONT_Delete(struct GfFont *font);
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
-extern u8 MUSICAL_MCSS_GetElemC(void *, int);
 
-extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
-extern u8 BG_SYS_GetPriority(u32);
 
-extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
 
-extern u32 GF_STANDARD_Rand(void);
 
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
 
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-extern void CLACT_RestartActorAnim(struct Actor*);
 
 u8 *DUP_FITTING_Create(u8 *parent, int heap);
 
@@ -865,65 +757,35 @@ void DUP_FITTING_UpdateActorTimers(u8 *p);
 
 void DUP_FITTING_ResetActorPose(u8*p);
 
-void DUP_FITTING_ITEM_NoOp(u8 *p, u8 n);
 
-u8 *DUP_FITTING_ITEM_CreateList(u16 heap, int n);
 
-void DUP_FITTING_ITEM_DeleteList(void *p);
 
-void DUP_FITTING_ITEM_InsertElem(u8*p,u8*q);
 
-void DUP_FITTING_ITEM_InsertElemTail(u8*p,u8*q);
 
-void DUP_FITTING_ITEM_RemoveElem(u8*p,u8*q);
 
-void *DUP_FITTING_ITEM_ListGetHead(char *p);
 
-unsigned short DUP_FITTING_ITEM_ListGetCount(char *p);
 
-int DUP_FITTING_ITEM_ListIsFull(char *p);
 
-u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object*q, u8*r, int*v);
 
-void DUP_FITTING_ITEM_DeleteElem(u8*p,u8*q);
 
-void DUP_FITTING_ITEM_FreeElemImage(u8*p,u8*q,u8*r);
 
-u32 DUP_FITTING_ITEM_ElemGetNext(u8 *p);
 
-u32 DUP_FITTING_ITEM_ElemGetData(u8 *p);
 
-void DUP_FITTING_ITEM_ElemSetSprite(u8 *p, u32 value);
 
-u32 DUP_FITTING_ITEM_ElemGetSprite(u8 *p);
 
-u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *p);
 
-void DUP_FITTING_ITEM_ElemSetPos(u8 *p, const u8 *src);
 
-u8 * DUP_FITTING_ITEM_ElemGetPos(u8 *p);
 
-void DUP_FITTING_ITEM_ElemSetBasePos(u8 *p, const u8 *src);
 
-u8 * DUP_FITTING_ITEM_ElemGetBasePos(u8 *p);
 
-void DUP_FITTING_ITEM_ElemSetStartScale(u8 *p, u32 value);
 
-u32 DUP_FITTING_ITEM_ElemGetStartScale(u8 *p);
 
-void DUP_FITTING_ITEM_ElemSetScale(u8 *p, u32 value);
 
-int DUP_FITTING_ITEM_ElemGetScale(char *p);
 
-void DUP_FITTING_ITEM_ElemSetAnimFrames(char *p, u32 v);
 
-u16 DUP_FITTING_ITEM_ElemGetAnimFrames(char *p);
 
-void DUP_FITTING_ITEM_ElemSetFrameIndex(char *p, int v);
 
-u32 DUP_FITTING_ITEM_ElemGetFrameIndex(char *p);
 
-int DUP_FITTING_ITEM_ElemHitTest(u8 *p, int x, int y);
 
 extern const char d_021BA600[];
 
@@ -931,7 +793,7 @@ extern u8 d_021BA518[],d_021BA418[],d_021BA428[],d_021BA438[],d_021BA458[],d_021
 
 extern VecU d_021BA3F4,d_021BA40C,d_021BA400;
 
-extern Config gClActorInitParam,d_021BA5C4;
+extern DupFittingConfig gClActorInitParam,d_021BA5C4;
 
 extern u32 d_021BA3E0[];
 
@@ -939,17 +801,17 @@ extern const short FX_SinCosTable_[];
 
 extern u8 d_021BA3E4[], d_021BA3E8[];
 
-extern const Vec d_021BA5A0;
+extern const DupFittingVec d_021BA5A0;
 
-extern const Vec d_021BA5B8;
+extern const DupFittingVec d_021BA5B8;
 
-extern const Vec d_021BA588;
+extern const DupFittingVec d_021BA588;
 
 extern const DupFittingPair d_021BA568;
 
-extern const Vec d_021BA570;
+extern const DupFittingVec d_021BA570;
 
-extern const Vec d_021BA57C,d_021BA5AC;
+extern const DupFittingVec d_021BA57C,d_021BA5AC;
 
 extern const Rects d_021BA594;
 
@@ -1033,14 +895,14 @@ void DUP_FITTING_Delete(char *work)
     GFL_USE_CancelChangeAndStopBgm();
     DUP_FITTING_DeleteText((unsigned char *)work);
     DUP_FITTING_DeleteActors((unsigned char *)work);
-    CLACT_DeleteActor((struct Actor *)(*(struct Obj * *)&((struct DupFittingWork *)work)->actorA));
-    CLACT_DeleteActor((struct Actor *)(*(struct Obj * *)&((struct DupFittingWork *)work)->actorB));
-    CLACT_DeleteActor((struct Actor *)(*(struct Obj * *)&((struct DupFittingWork *)work)->actorC));
+    CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(*(struct ClactActor * *)&((struct DupFittingWork *)work)->actorA)));
+    CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(*(struct ClactActor * *)&((struct DupFittingWork *)work)->actorB)));
+    CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(*(struct ClactActor * *)&((struct DupFittingWork *)work)->actorC)));
     for(i=0;i<=2;i++) CLACT_ReleasePalette(*(u32 *)(work+0x1858+i*4));
     for(i=3;i<=5;i++) CLACT_ReleaseCharacter(*(u32 *)(work+0x1858+i*4));
     for(i=6;i<=8;i++) CLACT_ReleaseCellAnim(*(u32 *)(work+0x1858+i*4));
     if(*(struct Descriptor * *)&((struct DupFittingWork *)work)->window) BMP_WIN_Delete((struct BmpWin *)(*(struct Descriptor * *)&((struct DupFittingWork *)work)->window));
-    CLACT_DeleteUnit(*(struct Bank * *)&((struct DupFittingWork *)work)->clactUnit);
+    CLACT_DeleteUnit((struct Unit *)(*(struct Bank * *)&((struct DupFittingWork *)work)->clactUnit));
     CLACT_ExitSystem();
     DUP_FITTING_FreeElements((u8 *)work);
     MUSICAL_MCSS_FreeRenderObj(*(int *)&((struct DupFittingWork *)work)->renderObj,((struct DupFittingWork *)work)->renderParam);
@@ -1092,7 +954,7 @@ int DUP_FITTING_Main(struct DupFittingWork *work)
         if((int)W(0x10)<0) { W(0x10)=0; W(0x0c)=1; }
         DUP_FITTING_DrawFrames((u8 *)work); break;
     case 3:
-        if(DUP_FITTING_HandleTouch((u8 *)work)==2) { W(0x0c)=10; B(0x18c0)=0; CLACT_SetActorDrawEnable((struct Actor *)P(0x18b0),1); }
+        if(DUP_FITTING_HandleTouch((u8 *)work)==2) { W(0x0c)=10; B(0x18c0)=0; CLACT_SetActorDrawEnable((struct ClactActor *)P(0x18b0),1); }
         break;
     case 10:
         B(0x18c0)++; DUP_FITTING_DrawBackActors((u8 *)work);
@@ -1225,7 +1087,7 @@ static inline void select_display(DispSelect sel)
 
 void DUP_FITTING_InitDisplay(u8 *work)
 {
-    Config cfg, board;
+    DupFittingConfig cfg, board;
     BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     visible_main(0);
     visible_sub(0);
@@ -1237,7 +1099,7 @@ void DUP_FITTING_InitDisplay(u8 *work)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BA518);
     G3D_SYSTEM_Init(0,2,0,1,0,*(u16 *)work,0);
     G3D_SYSTEM_SetSwapBuffersMode(0,1);
-    *(u32 **)(work+0x1888) = G3D_CAMERA_Create(2,0xc000,0,0,0x10000,0x1000,0x3e8000,0,&d_021BA3F4,&d_021BA40C,&d_021BA400,*(u16 *)work);
+    *(void **)(work+0x1888) = G3D_CAMERA_Create(2,0xc000,0,0,0x10000,0x1000,0x3e8000,0,(VecFx32 *)&d_021BA3F4,(VecFx32 *)&d_021BA40C,(VecFx32 *)&d_021BA400,*(u16 *)work);
     G3D_CAMERA_Reset(*(void **)(work+0x1888));
     G3X_SetEdgeColorTable(d_021BA418);
     *(volatile u16 *)0x04000060 &= 0xcfdf;
@@ -1251,7 +1113,7 @@ void DUP_FITTING_InitDisplay(u8 *work)
     G2x_SetBlendAlpha_((void *)0x04001050,0,15,4,16);
     cfg = gClActorInitParam;
     cfg.a = 16; cfg.b = 112;
-    CLACT_InitSystem((struct SysInit *)(&cfg),(struct DispVramCfg *)d_021BA518,*(u16 *)work);
+    CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)(&cfg)),(const struct DispVramCfg *)d_021BA518,*(u16 *)work);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
     *(void **)(work+0x1848) = CLACT_CreateUnit(24,0,*(u16 *)work);
     CLACT_SetUnitDefaultRenderer(*(void **)(work+0x1848));
@@ -1302,24 +1164,24 @@ void DUP_FITTING_InitModels(u8 *work)
     ARC_UTIL_UploadBgPaletteFromHandle(g, 0xd, 7, 0, 0, 0, H);
     BG_SYS_ChangeScroll(6, 0, 128);
     BG_SYS_ChangeScroll(5, 0, -128);
-    *(struct Obj **)(work + 0x1858) = (struct Obj *)CLACT_RegisterPalette(g, 2, 0, 0, H);
-    *(struct Obj **)(work + 0x1864) = (struct Obj *)CLACT_RegisterCharacter(g, 8, 0, 0, H);
-    *(struct Obj **)(work + 0x1870) = (struct Obj *)CLACT_RegisterCellAnim(g, 0x14, 0x18, H);
-    *(struct Obj **)(work + 0x1860) = (struct Obj *)CLACT_RegisterPalette(g, 1, 1, 0, H);
-    *(struct Obj **)(work + 0x186c) = (struct Obj *)CLACT_RegisterCharacter(g, 6, 0, 1, H);
-    *(struct Obj **)(work + 0x1878) = (struct Obj *)CLACT_RegisterCellAnim(g, 0x13, 0x17, H);
-    *(struct Obj **)(work + 0x185c) = (struct Obj *)CLACT_RegisterPalette(g, 0, 0, 0x40, H);
-    *(struct Obj **)(work + 0x1868) = (struct Obj *)CLACT_RegisterCharacter(g, 5, 0, 0, H);
-    *(struct Obj **)(work + 0x1874) = (struct Obj *)CLACT_RegisterCellAnim(g, 0x11, 0x15, H);
+    *(struct ClactActor **)(work + 0x1858) = (struct ClactActor *)CLACT_RegisterPalette(g, 2, 0, 0, H);
+    *(struct ClactActor **)(work + 0x1864) = (struct ClactActor *)CLACT_RegisterCharacter(g, 8, 0, 0, H);
+    *(struct ClactActor **)(work + 0x1870) = (struct ClactActor *)CLACT_RegisterCellAnim(g, 0x14, 0x18, H);
+    *(struct ClactActor **)(work + 0x1860) = (struct ClactActor *)CLACT_RegisterPalette(g, 1, 1, 0, H);
+    *(struct ClactActor **)(work + 0x186c) = (struct ClactActor *)CLACT_RegisterCharacter(g, 6, 0, 1, H);
+    *(struct ClactActor **)(work + 0x1878) = (struct ClactActor *)CLACT_RegisterCellAnim(g, 0x13, 0x17, H);
+    *(struct ClactActor **)(work + 0x185c) = (struct ClactActor *)CLACT_RegisterPalette(g, 0, 0, 0x40, H);
+    *(struct ClactActor **)(work + 0x1868) = (struct ClactActor *)CLACT_RegisterCharacter(g, 5, 0, 0, H);
+    *(struct ClactActor **)(work + 0x1874) = (struct ClactActor *)CLACT_RegisterCellAnim(g, 0x11, 0x15, H);
     cfg.x = 32; cfg.y = 224; cfg.index = 0; cfg.a = 0; cfg.b = 2;
-    *(struct Obj **)(work + 0x184c) = CLACT_CreateActor((void *)W(0x1848), W(0x1864), W(0x1858), W(0x1870), &cfg, 0, H);
+    *(struct ClactActor **)(work + 0x184c) = CLACT_CreateActor((void *)W(0x1848), W(0x1864), W(0x1858), W(0x1870), (const struct ActorInitParam *)&cfg, 0, H);
     cfg.x = 224; cfg.y = 224; cfg.index = 1;
-    *(struct Obj **)(work + 0x1850) = CLACT_CreateActor((void *)W(0x1848), W(0x1864), W(0x1858), W(0x1870), &cfg, 0, H);
+    *(struct ClactActor **)(work + 0x1850) = CLACT_CreateActor((void *)W(0x1848), W(0x1864), W(0x1858), W(0x1870), (const struct ActorInitParam *)&cfg, 0, H);
     cfg.x = 128; cfg.y = 96; cfg.index = 2; cfg.a = 0; cfg.b = 0;
-    *(struct Obj **)(work + 0x1854) = CLACT_CreateActor((void *)W(0x1848), W(0x1864), W(0x1858), W(0x1870), &cfg, 0, H);
-    CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj **)(work + 0x184c)), 1);
-    CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj **)(work + 0x1850)), 1);
-    CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj **)(work + 0x1854)), 0);
+    *(struct ClactActor **)(work + 0x1854) = CLACT_CreateActor((void *)W(0x1848), W(0x1864), W(0x1858), W(0x1870), (const struct ActorInitParam *)&cfg, 0, H);
+    CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct ClactActor **)(work + 0x184c)), 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct ClactActor **)(work + 0x1850)), 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct ClactActor **)(work + 0x1854)), 0);
     ARC_TOOL_DeleteHandle(g);
     BG_SYS_PushTile(3);
     BG_SYS_PushTile(2);
@@ -1335,7 +1197,7 @@ void DUP_FITTING_InitRenderObj(u8 *work)
     *(u8 * *)&((struct DupFittingWork *)work)->renderObj = MUSICAL_MCSS_CreateRenderObj(((struct DupFittingWork *)work)->heapId);
     MUSICAL_MCSS_SetRenderCellVramBase((void **)(*(u8 * *)&((struct DupFittingWork *)work)->renderObj), 0x50000);
     MUSICAL_MCSS_SetRenderAnimVramBase(*(u8 * *)&((struct DupFittingWork *)work)->renderObj, 0x3fe0);
-    *(u8 * *)&((struct DupFittingWork *)work)->renderParam = MUSICAL_MCSS_SetupRenderObj(*(u8 * *)&((struct DupFittingWork *)work)->renderObj, (*(void ***)(work + 4))[1], 0);
+    *(u8 * *)&((struct DupFittingWork *)work)->renderParam = MUSICAL_MCSS_SetupRenderObj((MusPokeDrawScene *)(*(u8 * *)&((struct DupFittingWork *)work)->renderObj), (*(void ***)(work + 4))[1], 0);
     MUSICAL_MCSS_TickAnim(*(u8 * *)&((struct DupFittingWork *)work)->renderObj);
     MUSICAL_MCSS_DrawRenderObj((void **)(*(u8 * *)&((struct DupFittingWork *)work)->renderObj));
     q = (int *)MUSICAL_MCSS_GetRenderFlags(*(u8 * *)&((struct DupFittingWork *)work)->renderParam);
@@ -1425,14 +1287,14 @@ void DUP_FITTING_InitFrames(u8 *work)
     *(u8 **)(work + 0x1828) = DUP_FITTING_ITEM_CreateList(*(u16 *)work, 4);
 
     for (i = 0; i < 14; i++) {
-        Vec v = {0, 0, 0};
+        DupFittingVec v = {0, 0, 0};
         e = DUP_FITTING_ITEM_CreateElem(*(u16 *)work, *(void **)(work + 0x1884), work + 0xac + i * 0x14, (int *)(&v));
         DUP_FITTING_ITEM_InsertElem(*(void **)(work + 0x181c), e);
         MUSICAL_MCSS_SetElemFlag(*(u8 **)(work + 0x1884), (struct McssActorElem *)DUP_FITTING_ITEM_ElemGetRenderElem(e), 0);
     }
 
     {
-    Vec imageOffset = {0, 0, 0};
+    DupFittingVec imageOffset = {0, 0, 0};
     *(u16 *)(work + 0x50) = 0;
     flags = MUSICAL_MCSS_GetElemSizeFlags((int *)MUSICAL_MCSS_GetElemPtr(table, *(u16 *)(work + 0x50)));
     BILLBOARD_GetImageSizeFromFlags(flags, &dims[1], &dims[0]);
@@ -1449,8 +1311,8 @@ void DUP_FITTING_InitFrames(u8 *work)
 
     *(u32 *)(work + 0x58) = BILLBOARD_AddImageFromArchive(*(void **)(work + 0x188c), 0x2e, 0x19, 2, 0x22, 0x20, 0x20);
     for (k = 0; k < 14; k++) {
-        Vec elemOffset = {0, 0, 0};
-        n = BILLBOARD_AddElem(*(void **)(work + 0x188c), *(u32 *)(work + 0x58), 0x1000, 0x1000, (struct Vec3 *)(&elemOffset), 0x1f, 0, 0);
+        DupFittingVec elemOffset = {0, 0, 0};
+        n = BILLBOARD_AddElem((struct BbBoard *)(*(void **)(work + 0x188c)), *(u32 *)(work + 0x58), 0x1000, 0x1000, (VecFx32 *)((struct Vec3 *)(&elemOffset)), 0x1f, 0, 0);
         *(u32 *)(work + k * 4 + 0x5c) = n;
         BILLBOARD_SetElemVisible(*(void **)(work + 0x188c), n, d_021BA3E0);
     }
@@ -1469,7 +1331,7 @@ void DUP_FITTING_InitFrames(u8 *work)
 void DUP_FITTING_AddFitElemById(u8 *work,u16 id)
 {
     DupFittingPairU32 pos;
-    Vec scale;
+    DupFittingVec scale;
     u8 *e,*q;
     u8 i;
     e=0;
@@ -1512,14 +1374,14 @@ void DUP_FITTING_FreeElements(u8 *work)
     e=DUP_FITTING_ITEM_ListGetHead(((struct DupFittingWork *)work)->listB);
     while(e){next=(u8 *)DUP_FITTING_ITEM_ElemGetNext(e);DUP_FITTING_ITEM_DeleteElem(e,((struct DupFittingWork *)work)->elemSet);e=next;}
     e=DUP_FITTING_ITEM_ListGetHead(((struct DupFittingWork *)work)->listC);
-    while(e){next=(u8 *)DUP_FITTING_ITEM_ElemGetNext(e);DUP_FITTING_ITEM_DeleteElem(e,((struct DupFittingWork *)work)->elemSet);e=next;}
-    for(i=0;i<14;i++)BILLBOARD_FreeElem(((struct DupFittingWork *)work)->billboard,*(unsigned int *)(work+i*4+0x5c));
-    BILLBOARD_DeleteImage(*(u8 * *)&((struct DupFittingWork *)work)->billboard,((struct DupFittingWork *)work)->bmpKeyB);
+    while(e){next=(u8 *)DUP_FITTING_ITEM_ElemGetNext((u8 *)e);DUP_FITTING_ITEM_DeleteElem((u8 *)e,(u8 *)(((struct DupFittingWork *)work)->elemSet));e=next;}
+    for(i=0;i<14;i++)BILLBOARD_FreeElem((struct BbBoard *)(((struct DupFittingWork *)work)->billboard),*(unsigned int *)(work+i*4+0x5c));
+    BILLBOARD_DeleteImage((struct BbBoard *)(*(u8 * *)&((struct DupFittingWork *)work)->billboard),((struct DupFittingWork *)work)->bmpKeyB);
     MUSICAL_MCSS_FreeElem((u8 *)(*(int *)&((struct DupFittingWork *)work)->elemSet),(u8 *)(((struct DupFittingWork *)work)->elemPool));
-    BILLBOARD_DeleteImage(*(u8 * *)&((struct DupFittingWork *)work)->billboard,((struct DupFittingWork *)work)->bmpKeyA);
+    BILLBOARD_DeleteImage((struct BbBoard *)(*(u8 * *)&((struct DupFittingWork *)work)->billboard),((struct DupFittingWork *)work)->bmpKeyA);
     for(i=0;i<((struct DupFittingWork *)work)->frameCount;i++){
-        BILLBOARD_DeleteImage(*(u8 **)(work+0x188c),*(int *)(work+i*20+0xb0));
-        BILLBOARD_DeleteImage(*(u8 **)(work+0x188c),*(int *)(work+i*20+0xb4));
+        BILLBOARD_DeleteImage((struct BbBoard *)(*(u8 **)(work+0x188c)),*(int *)(work+i*20+0xb0));
+        BILLBOARD_DeleteImage((struct BbBoard *)(*(u8 **)(work+0x188c)),*(int *)(work+i*20+0xb4));
     }
     DUP_FITTING_ITEM_DeleteList(((struct DupFittingWork *)work)->itemList);DUP_FITTING_ITEM_DeleteList(((struct DupFittingWork *)work)->listA);
     DUP_FITTING_ITEM_DeleteList(((struct DupFittingWork *)work)->listB);DUP_FITTING_ITEM_DeleteList(((struct DupFittingWork *)work)->listC);
@@ -1792,8 +1654,8 @@ static inline int GetTimer(u8 *work) { return *(u16 *)(work + 0x94); }
  */
 void *DUP_FITTING_SetModelTransform(u8 *work, u16 base, short speed, u16 rx, u16 ry)
 {
-    Vec v;
-    Vec w;
+    DupFittingVec v;
+    DupFittingVec w;
     DupFittingPair pos;
     short sc;
     int idx;
@@ -1890,7 +1752,7 @@ void *DUP_FITTING_SetModelTransform(u8 *work, u16 base, short speed, u16 rx, u16
             w.x = v.x / 16;
             w.y = (sh - (v.y + 0x8000)) / 16;
             w.z = v.z + (sh >> 9);
-            BILLBOARD_SetElemPos((u8 *)(*(int *)(work + 0x188C)), *(int *)(work + idx * 4 + 0x5C), (struct Trip *)(&w));
+            BILLBOARD_SetElemPos((struct BbBoard *)((u8 *)(*(int *)(work + 0x188C))), *(int *)(work + idx * 4 + 0x5C), (VecFx32 *)((struct Trip *)(&w)));
             BILLBOARD_SetElemScale((struct BbBoard *)(*(int *)(work + 0x188C)), *(int *)(work + idx * 4 + 0x5C), &sc, &sc);
             BILLBOARD_SetElemVisible((void *)(*(int *)(work + 0x188C)), *(int *)(work + idx * 4 + 0x5C), (u32 *)d_021BA3E8);
         } else {
@@ -2036,7 +1898,7 @@ int DUP_FITTING_PickElem(u8 *work, void *list, u32 kind)
 
 void DUP_FITTING_AttachElem(u8 *work,int sound)
 {
-    Vec v;
+    DupFittingVec v;
     DupFittingPair pos,relative;
     DupFittingScaleLimit scale;
     int old,index;
@@ -2074,7 +1936,7 @@ void DUP_FITTING_AttachElem(u8 *work,int sound)
 
 void DUP_FITTING_CreateFitElem(u8 *work)
 {
-    Vec scale=d_021BA5B8;
+    DupFittingVec scale=d_021BA5B8;
     DupFittingPairU32 pos;
     DupFittingScaleXY old;
     u8 *q,*data,*s,*t;
@@ -2102,7 +1964,7 @@ void DUP_FITTING_CreateFitElem(u8 *work)
 
 void DUP_FITTING_ReleaseElem(u8 *work)
 {
-    Vec v;
+    DupFittingVec v;
     u8 *e, *s;
     int z = 0xa000;
     s = (u8 *)DUP_FITTING_ITEM_ElemGetRenderElem(*(u8 * *)&((struct DupFittingWork *)work)->heldElem);
@@ -2125,7 +1987,7 @@ void DUP_FITTING_ReleaseElem(u8 *work)
  */
 void DUP_FITTING_ReturnElem(u8 *work, int unused)
 {
-    Vec v;
+    DupFittingVec v;
     DupFittingPair pos;
     DupFittingPair fallback;
     u8 *sprite, *data, *entry, *found;
@@ -2172,7 +2034,7 @@ void DUP_FITTING_ReturnElem(u8 *work, int unused)
  */
 void DUP_FITTING_MoveElem(u8 *work)
 {
-    Vec v, first, second;
+    DupFittingVec v, first, second;
     DupFittingPair pos, offset;
     u8 *sprite,*entry,*s;
     DupFittingPair *old;
@@ -2241,7 +2103,7 @@ void DUP_FITTING_MoveElem(u8 *work)
  */
 void DUP_FITTING_UpdateHeldElem(u8 *work)
 {
-    Vec a,b,c;
+    DupFittingVec a,b,c;
     DupFittingPair posA,currentB,posB,posC;
     unsigned int state;
     u8 *sprite,*record;
@@ -2431,9 +2293,9 @@ int DUP_FITTING_FindNearestFrame(u8 *work, void *manager, const int *pos, u16 *l
 
 void DUP_FITTING_DrawElems(struct DupFittingWork *work)
 {
-    Vec flyPos;
-    Vec slidePos;
-    Vec restPos;
+    DupFittingVec flyPos;
+    DupFittingVec slidePos;
+    DupFittingVec restPos;
     u32 cnt0;
     u8 *cur;
     int *A;
@@ -2617,7 +2479,7 @@ u16 DUP_FITTING_FrameWeight(u8 *work, u8 *frame, int kind)
 void DUP_FITTING_DrawFrames(u8 *work)
 {
     u8 *e;
-    Pt r;
+    DupFittingPt r;
     DUP_FITTING_SetModelTransform(work, *(u16 *)(work + 0x182C), 0, (u16)(*(int *)(work + 0x10) + 0x48), (u16)(48.0f + (float)*(int *)(work + 0x10) * 0.6666667f));
     e = DUP_FITTING_ITEM_ListGetHead((char *)(*(u8 **)(work + 0x1820)));
     while (e) {
@@ -2650,22 +2512,22 @@ void DUP_FITTING_DrawFrames(u8 *work)
         if (t >= 0x40) t = 0x40;
         r.y = t + 0xA0;
     }
-    CLACT_AddActorSurfacePos((struct Obj *)(*(u8 **)(work + 0x184C)), (const struct Vec2 *)(&r), 0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)(*(u8 **)(work + 0x184C)), (const struct ClactVec2 *)((const struct Vec2 *)(&r)), 0);
     r.x = 0xE0;
     {
         int t = 0xC0 - *(int *)(work + 0x10);
         if (t >= 0x40) t = 0x40;
         r.y = t + 0xA0;
     }
-    CLACT_AddActorSurfacePos((struct Obj *)(*(u8 **)(work + 0x1850)), (const struct Vec2 *)(&r), 0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)(*(u8 **)(work + 0x1850)), (const struct ClactVec2 *)((const struct Vec2 *)(&r)), 0);
 }
 
 int DUP_FITTING_HandleTouch(u8 *work)
 {
     Rects rects = d_021BA594;
     void *obj;
-    TOUCHPANEL_GetPointCont((unsigned int *)(work + 0x1c), (unsigned int *)(work + 0x20));
-    switch (TOUCHPANEL_HitTrg(&rects)) {
+    TOUCHPANEL_GetPointCont((u32 *)((unsigned int *)(work + 0x1c)), (u32 *)((unsigned int *)(work + 0x20)));
+    switch (TOUCHPANEL_HitTrg((const TouchHitTable *)&rects)) {
     case 0:
         DUP_FITTING_SaveOutfits((char *)work);
         GFL_USE_PlaySeDefaultVolume(1358);
@@ -2799,16 +2661,16 @@ void DUP_FITTING_SaveOutfits(char *work)
 
 void DUP_FITTING_DrawBackActors(u8 *work)
 {
-    Pos pos;
+    DupFittingPos pos;
     u8 pal;
     pos.x=32;
     pos.y=work[0x18c0]*2+160;
     if(pos.y>=224) pos.y=224;
-    CLACT_AddActorSurfacePos(((struct DupFittingWork *)work)->actorA,(const struct Vec2 *)(&pos),0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)(((struct DupFittingWork *)work)->actorA),(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);
     pos.x=224;
     pos.y=work[0x18c0]*2+160;
     if(pos.y>=224) pos.y=224;
-    CLACT_AddActorSurfacePos(((struct DupFittingWork *)work)->actorB,(const struct Vec2 *)(&pos),0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)(((struct DupFittingWork *)work)->actorB),(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);
     pal=work[0x18c0]*24/60+4;
     if(pal>=11) pal=3;
     BG_SYS_FillTileMap(2,10,44,12,12,pal);
@@ -2851,7 +2713,7 @@ void DUP_FITTING_UpdatePose(u8 *work)
     case 9: DUP_FITTING_ExitPoseMode(work); return;
     }
     pos.x=((struct DupFittingWork *)work)->cursorX; pos.y=((struct DupFittingWork *)work)->cursorY;
-    CLACT_AddActorSurfacePos(((struct DupFittingWork *)work)->actorC,(const struct Vec2 *)(&pos),0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)(((struct DupFittingWork *)work)->actorC),(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);
     DUP_FITTING_UpdateIdle(work);
 }
 
@@ -2988,7 +2850,7 @@ void DUP_FITTING_CreateActors(u8 *work)
     h=0x18b8;
     do {
         configs[1].x=0;configs[1].y=0;configs[1].index=0;configs[1].a=0;configs[1].b=0;
-        *(void **)(work+(unsigned)i*4+d)=CLACT_CreateActor((void *)((struct DupFittingWork *)work)->clactUnit,*(u32 *)(work+a),*(u32 *)(work+b),*(u32 *)(work+c),&configs[1],1,((struct DupFittingWork *)work)->heapId);
+        *(void **)(work+(unsigned)i*4+d)=CLACT_CreateActor((void *)((struct DupFittingWork *)work)->clactUnit,*(u32 *)(work+a),*(u32 *)(work+b),*(u32 *)(work+c),(const struct ActorInitParam *)&configs[1],1,((struct DupFittingWork *)work)->heapId);
         CLACT_SetActorDrawEnable(*(void **)(work+(unsigned)i*4+e),1);
         CLACT_SetActorAutoAnim(*(void **)(work+(unsigned)i*4+f),1);
         CLACT_SetActorObjMode(*(void **)(work+(unsigned)i*4+g),0);
@@ -2996,11 +2858,11 @@ void DUP_FITTING_CreateActors(u8 *work)
         ++i;
     } while(i<8);
     configs[0].x=128;configs[0].y=96;configs[0].index=0;configs[0].a=0;configs[0].b=0;
-    ((struct DupFittingWork *)work)->actorX=CLACT_CreateActor((void *)((struct DupFittingWork *)work)->clactUnit,((struct DupFittingWork *)work)->clactRes[1],((struct DupFittingWork *)work)->clactRes[4],((struct DupFittingWork *)work)->clactRes[7],&configs[0],0,((struct DupFittingWork *)work)->heapId);
+    ((struct DupFittingWork *)work)->actorX=CLACT_CreateActor((void *)((struct DupFittingWork *)work)->clactUnit,((struct DupFittingWork *)work)->clactRes[1],((struct DupFittingWork *)work)->clactRes[4],((struct DupFittingWork *)work)->clactRes[7],(const struct ActorInitParam *)&configs[0],0,((struct DupFittingWork *)work)->heapId);
     CLACT_SetActorDrawEnable(((struct DupFittingWork *)work)->actorX,0);
     CLACT_SetActorAutoAnim(((struct DupFittingWork *)work)->actorX,1);
     configs[0].index=2;
-    ((struct DupFittingWork *)work)->actorY=CLACT_CreateActor((void *)((struct DupFittingWork *)work)->clactUnit,((struct DupFittingWork *)work)->clactRes[1],((struct DupFittingWork *)work)->clactRes[4],((struct DupFittingWork *)work)->clactRes[7],&configs[0],0,((struct DupFittingWork *)work)->heapId);
+    ((struct DupFittingWork *)work)->actorY=CLACT_CreateActor((void *)((struct DupFittingWork *)work)->clactUnit,((struct DupFittingWork *)work)->clactRes[1],((struct DupFittingWork *)work)->clactRes[4],((struct DupFittingWork *)work)->clactRes[7],(const struct ActorInitParam *)&configs[0],0,((struct DupFittingWork *)work)->heapId);
     CLACT_SetActorDrawEnable(((struct DupFittingWork *)work)->actorY,0);
     CLACT_SetActorAutoAnim(((struct DupFittingWork *)work)->actorY,1);
 }
@@ -3036,7 +2898,7 @@ void DUP_FITTING_UpdateActorTimers(u8 *work)
             pos.x = ((u64)GF_STANDARD_Rand() * 56) >> 32;
             if ((u32)(((u64)GF_STANDARD_Rand() * 2) >> 32) == 1) pos.x = 256 - pos.x;
             pos.y = ((u64)GF_STANDARD_Rand() * 192) >> 32;
-            CLACT_AddActorSurfacePos(((struct DupFittingWork *)q)->actors[0], (const struct Vec2 *)(&pos), 1);
+            CLACT_AddActorSurfacePos((struct ClactActor *)(((struct DupFittingWork *)q)->actors[0]), (const struct ClactVec2 *)((const struct Vec2 *)(&pos)), 1);
             if (pos.y > 90) CLACT_SetActorAnimSeq(((struct DupFittingWork *)q)->actors[0], ((u64)GF_STANDARD_Rand() * 2) >> 32);
             else CLACT_SetActorAnimSeq(((struct DupFittingWork *)q)->actors[0], (((u64)GF_STANDARD_Rand() * 2) >> 32) + 2);
             t[c] = (((u64)GF_STANDARD_Rand() * 200) >> 32) + delay;
@@ -3049,4 +2911,4 @@ void DUP_FITTING_UpdateActorTimers(u8 *work)
     }
 }
 
-void DUP_FITTING_ResetActorPose(u8*work){DupFittingPos pos;pos.x=((struct DupFittingWork *)work)->cursorX;pos.y=*(int *)&((struct DupFittingWork *)work)->cursorY;CLACT_RestartActorAnim(*(struct Actor* *)&((struct DupFittingWork *)work)->actorY);CLACT_SetActorDrawEnable(*(void* *)&((struct DupFittingWork *)work)->actorY,1);CLACT_AddActorSurfacePos(*(void* *)&((struct DupFittingWork *)work)->actorY,(const struct Vec2 *)(&pos),0);}
+void DUP_FITTING_ResetActorPose(u8*work){DupFittingPos pos;pos.x=((struct DupFittingWork *)work)->cursorX;pos.y=*(int *)&((struct DupFittingWork *)work)->cursorY;CLACT_RestartActorAnim((struct ClactActor *)(*(struct ClactActor* *)&((struct DupFittingWork *)work)->actorY));CLACT_SetActorDrawEnable((struct ClactActor *)(*(void* *)&((struct DupFittingWork *)work)->actorY),1);CLACT_AddActorSurfacePos((struct ClactActor *)(*(void* *)&((struct DupFittingWork *)work)->actorY),(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);}

@@ -84,66 +84,54 @@ typedef struct OtCountTask {
     OtIdList list;      /* 0x0C */
 } OtCountTask;
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+#include "../arm9/game_event.h"
 
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
+#include "../ov010/scrcmd_work.h"
 
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *cmdWork);
 
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+#include "../ov010/script_work_cmd.h"
 
-extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
+#include "../ov010/script_sys.h"
 
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
 
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
-extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
 
-extern u32 GAME_DATA_GetBoxManager(struct GameData *gameData);
 
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 struct Party;
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 dataId, u32 arg);
+#include "../arm9/poke_tool.h"
 
-extern int BOX_SAVEDATA_GetPokemonValue(struct GameData *gameData, unsigned int box, unsigned int slot, int field, int arg);
+#include "../arm9/box_savedata.h"
 
-extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *saveControl);
+#include "../arm9/battle_box.h"
 struct BoxMonGroup;
 struct BoxMon;
 
-extern struct BoxMon *BATTLE_BOX_GetMon(struct BoxMonGroup *groups, u32 group, u32 index);
 struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
 struct FieldSubprocTemplate;
 struct FieldSubprocMgr;
 struct FieldSubproc;
 
-extern struct FieldSubproc *FIELD_SUBPROC_Start(int overlayId, struct FieldSubprocMgr *mgr, struct FieldSubprocTemplate *tmpl);
+#include "fieldmap_func.h"
 struct FieldmapFunc;
 
-extern struct FieldmapFunc *FIELDMAP_GetMapFunc(struct FieldMap *fieldMap);
+#include "fieldmap.h"
 struct PlayerLocationData;
 
-extern struct PlayerLocationData *PLAYER_LOCATION_GetData(void *save);
+#include "../arm9/player_location.h"
 
-extern u16 PLAYER_LOCATION_GetStepMessageCount(struct PlayerLocationData *location_data);
 
 extern char abs_id_39[];
 
@@ -182,7 +170,7 @@ int SCRCMD_StartCountOtherOtIdsTask(struct ScriptVm *vm, struct ScrcmdWork *cmdW
     struct MyStatus *myStatus;
     OtCountTask *task;
 
-    taskEvent = GAME_EVENT_Create(gameSystem, 0, SCRCMD_CountOtherOtIdsTaskMain, 0xd8);
+    taskEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_CountOtherOtIdsTaskMain, 0xd8);
     myStatus = GAME_DATA_GetMyStatus(gameData);
     task = GAME_EVENT_GetWork(taskEvent);
     task->playerId = MYSTATUS_GetId(myStatus);

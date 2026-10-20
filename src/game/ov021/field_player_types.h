@@ -1,7 +1,8 @@
 #ifndef ALETHEIA_OV021_FIELD_PLAYER_TYPES_H
 #define ALETHEIA_OV021_FIELD_PLAYER_TYPES_H
 
-#include "fieldmap_types.h"
+struct FieldEffectObj;
+#include "../ov021/fieldmap_types.h"
 #include "../ov010/fldmmdl_types.h"
 
 /*
@@ -80,7 +81,7 @@ struct FieldPlayerCore {
     unsigned short lastHorzDir;         /* 0x20: 9 for none */
     unsigned short lastVertDir;         /* 0x22: 9 for none */
     unsigned int formChangeMask;        /* 0x24: one bit per form slot to change to */
-    unsigned int rideEffect;            /* 0x28: surf or dive effect handle, 0 for none */
+    struct FieldEffectObj *rideEffect;           /* 0x28: surf or dive effect handle, 0 for none */
     unsigned short animeWait;           /* 0x2C */
     unsigned short formChangeCount;     /* 0x2E: slots changed so far */
     short formChangeStep;               /* 0x30: step of the running form sequence */

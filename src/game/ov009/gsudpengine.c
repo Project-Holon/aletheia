@@ -76,40 +76,22 @@
  *   gt2GetOutgoingBufferFreeSpace                  0x02195E50  arm ov009
  */
 #include "gsudp_types.h"
+#include "gsdebug.h"
+#include "gsstringutil.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+#include "../arm9/msl_string_mem.h"
 struct GTI2Connection;
-extern unsigned int gt2GetRemoteIP(struct GTI2Connection *connection);
-extern unsigned short gt2GetRemotePort(struct GTI2Connection *connection);
-extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
-extern void ArrayDeleteAt(int a, int b);
+#include "gt2main.h"
+#include "gt2utility.h"
 extern int gsUdpRemotePeerCompare2(void *theFirstPeer, void *theSecondPeer);
 struct GT2ConnectionCallbacks;
-extern int gt2Accept(struct GTI2Connection *connection, struct GT2ConnectionCallbacks *callbacks);
-extern void gt2Reject(struct GTI2Connection *connection, unsigned char *message, int len);
 struct DArrayImplementation;
 extern void ArrayRemoveAt(struct DArrayImplementation *array, int n);
-extern int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback);
 extern struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 struct GTI2Socket;
-extern void gt2SetUnrecognizedMessageCallback(struct GTI2Socket *socket, void *callback);
-extern void gt2Listen(struct GTI2Socket *socket, void *connectAttemptCallback);
-extern unsigned int gt2GetLocalIP(struct GTI2Socket *socket);
-extern unsigned short gt2GetLocalPort(struct GTI2Socket *socket);
-extern int gt2GetConnectionState(const int *p);
-extern int gt2Connect(void *socket, struct GTI2Connection **connection, char *remoteAddress, unsigned char *message, int len, int timeout, void *callbacks, int blocking);
-extern int gt2GetOutgoingBufferSize(struct GTI2Connection *connection);
-extern void *gsimalloc(unsigned long size);
-extern int gt2Send(void *connection, unsigned char *message, int len, int reliable);
-extern void gsifree(void *ptr);
+#include "gsmemory.h"
 struct GTI2Socket;
-extern void gt2Think(struct GTI2Socket *socket);
-extern void gt2CloseSocket(void *socket);
-extern int ArraySearch(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern void *memcpy(void *dst, const void *src, unsigned long n);
-extern int ArrayLength(void *array);
-extern int gt2GetOutgoingBufferFreeSpace(const int *p);
 void gsUdpMsgHandlerFree(GSUdpMsgHandler *theHandler);
 int gsUdpMsgHandlerCompare(void *theFirst, void *theSecond);
 int gsUdpMsgHandlerCompare2(void *theFirst, void *theSecond);
@@ -263,7 +245,7 @@ void gsUdpClosedRoutingCB(void *theConnection, int reason)
     index = ArraySearch(aUdp->mRemotePeers, &aRemotePeer, gsUdpRemotePeerCompare2, 0, 0);
     if (index == -1)
         return;
-    ArrayDeleteAt((int)aUdp->mRemotePeers, index);
+    ArrayDeleteAt(aUdp->mRemotePeers, index);
 }
 
 
@@ -307,7 +289,7 @@ void gsUdpConnectedRoutingCB(void *theConnection, int theResult)
         if (aRemotePeerIdx != -1) {
             gsDebugFormat(12, 0, 16, g_021A393C,
                 gt2AddressToString(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection), anAddr));
-            ArrayDeleteAt((int)aUdp->mRemotePeers, aRemotePeerIdx);
+            ArrayDeleteAt(aUdp->mRemotePeers, aRemotePeerIdx);
         }
     }
 
@@ -327,7 +309,7 @@ void gsUdpConnectedRoutingCB(void *theConnection, int theResult)
                 aTempHandler->mConnected(gt2GetRemoteIP(theConnection), gt2GetRemotePort(theConnection),
                     aCode, (theResult == 2) ? 1 : 0, aTempHandler->mUserData);
             }
-            ArrayDeleteAt((int)aTempHandler->mPendingConnections, aRemotePeerIdx);
+            ArrayDeleteAt(aTempHandler->mPendingConnections, aRemotePeerIdx);
             return;
         }
     }
@@ -457,10 +439,10 @@ void gsUdpConnAttemptCB(void *socket, void *connection, unsigned int ip, unsigne
         ArrayAppend(aUdp->mRemotePeers, &aRemotePeer);
         index = ArraySearch(aUdp->mMsgHandlers, &aHandler, gsUdpMsgHandlerCompare, 0, 0);
         if (index != -1) {
-            aCallbacks.closed = (void (*)(void *, int))gsUdpClosedRoutingCB;
-            aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
-            aCallbacks.ping = (void (*)(void *, int))gsUdpPingRoutingCB;
-            aCallbacks.received = (void (*)(void *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
+            aCallbacks.closed = (void (*)(GTI2Connection *, int))gsUdpClosedRoutingCB;
+            aCallbacks.connected = (void (*)(GTI2Connection *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
+            aCallbacks.ping = (void (*)(GTI2Connection *, int))gsUdpPingRoutingCB;
+            aCallbacks.received = (void (*)(GTI2Connection *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
             gt2Accept(aRemotePeer.mConnection, &aCallbacks);
             gsDebugFormat(12, 0, 16, g_021A3AB8);
             return;
@@ -621,10 +603,10 @@ int gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, ch
         GSUdpRemotePeer *aRemotePeerPtr;
 
         gt2AddressToString(theIp, thePort, anAddr);
-        aCallbacks.closed = (void (*)(void *, int))gsUdpClosedRoutingCB;
-        aCallbacks.connected = (void (*)(void *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
-        aCallbacks.ping = (void (*)(void *, int))gsUdpPingRoutingCB;
-        aCallbacks.received = (void (*)(void *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
+        aCallbacks.closed = (void (*)(GTI2Connection *, int))gsUdpClosedRoutingCB;
+        aCallbacks.connected = (void (*)(GTI2Connection *, int, unsigned char *, int))gsUdpConnectedRoutingCB;
+        aCallbacks.ping = (void (*)(GTI2Connection *, int))gsUdpPingRoutingCB;
+        aCallbacks.received = (void (*)(GTI2Connection *, unsigned char *, int, int))gsUdpReceivedRoutingCB;
         gt2Connect(aUdp->mSocket, (struct GTI2Connection **)(&aRemotePeer.mConnection), anAddr, (unsigned char *)theInitMsg, 16, timeOut, &aCallbacks, 0);
         ArrayAppend(aUdp->mRemotePeers, &aRemotePeer);
         *(GSUdpHdr *)aHandler.mInitialMsg = *(GSUdpHdr *)theInitMsg;
@@ -797,7 +779,7 @@ int gsUdpEngineRemoveMsgHandler(char *theHeader)
     *(GSUdpHdr *)aHandler.mHeader = *(GSUdpHdr *)theHeader;
     index = ArraySearch(aUdp->mMsgHandlers, &aHandler, gsUdpMsgHandlerCompare2, 0, 0);
     if (index != -1)
-        ArrayDeleteAt((int)aUdp->mMsgHandlers, index);
+        ArrayDeleteAt(aUdp->mMsgHandlers, index);
     return 0;
 }
 

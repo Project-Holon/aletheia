@@ -62,22 +62,19 @@ struct MatrixFile {
 
 struct MapReplace;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MIi_CpuClear32(int, void *, int);
-extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#ifdef __MWERKS__
+extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap); /* original prototype; the definition differs in argument width */
+#else
+#include "../arm9/arc_tool.h"
+#endif
 void MAP_MATRIX_SetupFromFile(struct MapMatrix *matrix, const struct MatrixFile *file, u32 matrixId, u16 zoneId);
-extern u32 GFL_HEAP_Free(void *p);
 extern int MAP_MATRIX_PosToBlock(int pos);
 u16 MAP_MATRIX_GetZoneId(const struct MapMatrix *matrix, u32 x, u32 z);
 int MAP_MATRIX_Load(struct MapMatrix *matrix, int matrixId, u16 zoneId, int heapId);
 int MAP_MATRIX_IsInRange(const struct MapMatrix *matrix, int x, int z);
-extern void MIi_CpuClear16(u32 value, void *dst, u32 size);
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-struct MapReplace *MAP_REPLACE_Create(int heapId, int gameSystem);
-u32 MAP_REPLACE_GetRecordCount(struct MapReplace *replace);
-u32 MAP_REPLACE_LoadRecord(struct MapReplace *replace, int index);
-int MAP_REPLACE_Delete(struct MapReplace *replace);
-int MAP_REPLACE_CheckRecord(struct MapReplace *replace, u32 *oldId, u32 *newId);
+#include "map_replace.h"
 void MAP_MATRIX_ApplyReplaceRecord(struct MapMatrix *matrix, struct MapReplace *replace, int heapId);
 extern const char d_021728AC[];
 

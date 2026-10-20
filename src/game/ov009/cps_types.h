@@ -12,8 +12,10 @@
 #include "../types.h"
 
 #include "../sdk_os.h"
+#include "../arm9/os_thread.h"
 
-struct _CPSSoc;
+struct CPSSoc;
+struct CPSSslConnection;
 
 typedef struct CPSSocBuf {
     u32 size;
@@ -26,13 +28,13 @@ typedef struct CPSSocRcvBuf {
     u32 order;
 } CPSSocRcvBuf;
 
-struct _CPSSoc {
+struct CPSSoc {
     struct _OSThread *thread;       /* 0x00 */
     u32 block_type;                 /* 0x04 */
     u8 state;                       /* 0x08 */
     u8 ssl;                         /* 0x09 */
     u16 local_port;                 /* 0x0A */
-    void *con;                      /* 0x0C */
+    struct CPSSslConnection *con;  /* 0x0C */
     u32 when;                       /* 0x10 */
     u32 local_ip_real;              /* 0x14 */
     u16 remote_port;                /* 0x18 */
@@ -50,7 +52,7 @@ struct _CPSSoc {
     u16 remote_mss;                 /* 0x3A */
     u32 remote_ackno;               /* 0x3C */
     u32 ackrcvd;                    /* 0x40 */
-    int (*udpread_callback)(u8 *buf, u32 len, struct _CPSSoc *soc); /* 0x44 */
+    int (*udpread_callback)(u8 *buf, u32 len, struct CPSSoc *soc); /* 0x44 */
     CPSSocBuf rcvbuf;               /* 0x48 */
     u32 rcvbufp;                    /* 0x50 */
     CPSSocBuf sndbuf;               /* 0x54 */
@@ -59,7 +61,23 @@ struct _CPSSoc {
     u32 outbufp;                    /* 0x6C */
     CPSSocRcvBuf chunks[4];         /* 0x70 */
 };
-typedef struct _CPSSoc CPSSoc;
+typedef struct CPSSoc CPSSoc;
+
+typedef struct CPSConfig {
+    u32 mode;
+    void *(*alloc)(u32);
+    void (*free)(void *);
+    void (*dhcp_callback)(void);
+    int (*link_is_on)(void);
+    u64 random_seed;
+    u8 *lan_buf;
+    u32 lan_buflen;
+    u32 mymss;
+    u32 requested_ip;
+    u32 yield_wait;
+} CPSConfig;
+
+extern CPSConfig SOCLiCPSConfig;
 
 struct CPSNetVars {
     u8 wfailed;                     /* 0x00 */
@@ -120,6 +138,5 @@ extern struct CPSFragTable gCpsFragTable[8];
 extern struct _OSThread gCpsDackTimerThread;
 extern struct _OSThread gCpsScavengerThread;
 extern struct _OSThread gCpsTcpipThread;
-extern struct OSThreadInfo gMslRefToken;
 
 #endif

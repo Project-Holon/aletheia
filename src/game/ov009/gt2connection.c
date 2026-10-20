@@ -41,91 +41,20 @@
  *   gsifree  0x0217EAE0  arm  ov009
  *   ArrayFree  0x021841B0  arm  ov009
  */
-struct GTI2Socket;
-struct DArrayImplementation;
-struct GTI2Connection;
-struct HashImplementation;
-struct GT2ConnectionCallbacks {
-    void *connected;
-    void *received;
-    void *closed;
-    void *ping;
-};
+#include "gt2main_types.h"
+#include "darray.h"
 
-struct GTI2Connection {
-    unsigned int ip;                              /* +0x00 */
-    unsigned short port;                          /* +0x04 */
-    char pad06[2];
-    struct GTI2Socket *socket;                    /* +0x08 */
-    int state;                                    /* +0x0c */
-    int initiated;                                /* +0x10 */
-    int freeAtAcceptReject;                                 /* +0x14 */
-    char pad18[4];
-    unsigned int startTime;                       /* +0x1c */
-    unsigned int timeout;                         /* +0x20 */
-    char pad24[4];
-    struct GT2ConnectionCallbacks callbacks;      /* +0x28 */
-    void *msg;                                    /* +0x38 */
-    int msgLen;                                   /* +0x3c */
-    char pad40[4];
-    void *buf44;                                  /* +0x44 */
-    char pad48[8];
-    void *buf50;                                  /* +0x50 */
-    char pad54[8];
-    void *arr5c;                                  /* +0x5c */
-    struct DArrayImplementation *outgoingBuffers; /* +0x60 */
-    char pad64[4];
-    unsigned char response[0x20];                 /* +0x68 */
-    unsigned int sendTime;                        /* +0x88 */
-    int pad8c;
-    int pendingAck;                               /* +0x90 */
-    unsigned int lastAck;                         /* +0x94 */
-    void *arr98;                                  /* +0x98 */
-    void *arr9c;                                  /* +0x9c */
-};
-
-struct GTI2OutgoingBufferMessage {
-    char pad00[0xc];
-    unsigned int sendTime;
-};
-
-struct GTI2Socket {
-    char pad00[0xc];
-    struct HashImplementation *connections;
-    struct DArrayImplementation *closedConnections;
-};
-
-extern int gti2NewSocketConnection(struct GTI2Socket *socket,
-                                   struct GTI2Connection **connection,
-                                   unsigned int ip, unsigned short port);
-extern void gti2MessageCheck(unsigned char **msg, int *len);
-extern void *gsimalloc(unsigned long size);
-extern void *memcpy(void *dst, const void *src, unsigned long n);
-extern unsigned char *gti2GetChallenge(unsigned char *buf);
-extern unsigned char *gti2GetResponse(unsigned char *buf, unsigned char *challenge);
-extern int gti2SendClientChallenge(struct GTI2Connection *c, char *challenge);
-extern int gti2SendAccept(struct GTI2Connection *connection);
-extern void gti2MessageCheck(unsigned char **message, int *len);
-extern int gti2SendReject(struct GTI2Connection *connection,
-                          unsigned char *message, int len);
-extern int gti2SocketSend(struct GTI2Socket *socket, unsigned int ip,
-                          unsigned short port, unsigned char *message, int len);
-extern unsigned int current_time(void);
-extern int gti2SendClosed(int *p);
-extern int gti2ConnectedCallback(struct GTI2Connection *c, int result, unsigned char *msg, int len);
-extern int ArrayLength(int *array);
-extern void *ArrayNth(struct DArrayImplementation *array, int n);
-extern int gti2ResendMessage(struct GTI2Connection *connection,
-                             struct GTI2OutgoingBufferMessage *message);
-extern int gti2SendAck(struct GTI2Connection *connection);
-extern int gti2SendKeepAlive(struct GTI2Connection *connection);
-extern int gti2ClosedCallback(struct GTI2Connection *connection, int reason);
-extern void gti2FreeSocketConnection(struct GTI2Connection *connection);
-extern int gti2SendClose(struct GTI2Connection *connection);
-extern int TableRemove(struct HashImplementation *table, void *delElem);
-extern void ArrayAppend(void *p, void *a);
-extern void gsifree(void *ptr);
-extern void ArrayFree(struct DArrayImplementation *array);
+#include "gt2socket.h"
+#include "gt2utility.h"
+#include "gsmemory.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "gt2auth.h"
+#include "gt2message.h"
+#include "gsplatformutil.h"
+#include "gt2callback.h"
+#include "darray.h"
+#include "hashtable.h"
 int gti2NewOutgoingConnection(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip, unsigned short port);
 int gti2NewIncomingConnection(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip, unsigned short port);
 int gti2StartConnectionAttempt(struct GTI2Connection *c, unsigned char *message, int len, struct GT2ConnectionCallbacks *callbacks);
@@ -188,11 +117,11 @@ int gti2StartConnectionAttempt(struct GTI2Connection *c, unsigned char *message,
 
 	gti2MessageCheck(&message, &len);
 	if (len > 0) {
-		c->msg = gsimalloc(len);
-		if (!c->msg)
+		c->initialMessage = gsimalloc(len);
+		if (!c->initialMessage)
 			return 1;
-		memcpy(c->msg, message, len);
-		c->msgLen = len;
+		memcpy(c->initialMessage, message, len);
+		c->initialMessageLen = len;
 	}
 	if (callbacks)
 		c->callbacks = *callbacks;
@@ -253,7 +182,7 @@ int gti2ConnectionSendData(struct GTI2Connection *connection,
     if (gti2SocketSend(connection->socket, connection->ip, connection->port,
                        message, len) == 0)
         return 0;
-    connection->sendTime = current_time();
+    connection->lastSend = current_time();
     return 1;
 }
 
@@ -299,11 +228,11 @@ static int gti2SendRetries(struct GTI2Connection *connection, unsigned int now)
     int i;
     int len;
 
-    len = ArrayLength((int *)connection->outgoingBuffers);
+    len = ArrayLength((struct DArrayImplementation *)connection->outgoingBufferMessages);
     for (i = 0; i < len; i++)
     {
         struct GTI2OutgoingBufferMessage *message =
-            ArrayNth(connection->outgoingBuffers, i);
+            ArrayNth(connection->outgoingBufferMessages, i);
 
         if ((now - message->sendTime) > 1000)
         {
@@ -323,7 +252,7 @@ static int gti2CheckPendingAck(struct GTI2Connection *connection,
 {
     if (!connection->pendingAck)
         return 1;
-    if ((now - connection->lastAck) > 100)
+    if ((now - connection->pendingAckTime) > 100)
     {
         if (gti2SendAck(connection) == 0)
             return 0;
@@ -338,7 +267,7 @@ static int gti2CheckPendingAck(struct GTI2Connection *connection,
 static int gti2CheckKeepAlive(struct GTI2Connection *connection,
                               unsigned int now)
 {
-    if ((now - connection->sendTime) > 30000)
+    if ((now - connection->lastSend) > 30000)
     {
         if (gti2SendKeepAlive(connection) == 0)
             return 0;
@@ -399,19 +328,19 @@ void gti2ConnectionClosed(struct GTI2Connection *connection)
  */
 void gti2ConnectionCleanup(struct GTI2Connection *c)
 {
-	if (c->msg)
-		gsifree(c->msg);
-	if (c->buf44)
-		gsifree(c->buf44);
-	if (c->buf50)
-		gsifree(c->buf50);
-	if (c->arr5c)
-		ArrayFree(c->arr5c);
-	if (c->outgoingBuffers)
-		ArrayFree(c->outgoingBuffers);
-	if (c->arr98)
-		ArrayFree(c->arr98);
-	if (c->arr9c)
-		ArrayFree(c->arr9c);
+	if (c->initialMessage)
+		gsifree(c->initialMessage);
+	if (c->incomingBuffer.buffer)
+		gsifree(c->incomingBuffer.buffer);
+	if (c->outgoingBuffer.buffer)
+		gsifree(c->outgoingBuffer.buffer);
+	if (c->incomingBufferMessages)
+		ArrayFree(c->incomingBufferMessages);
+	if (c->outgoingBufferMessages)
+		ArrayFree(c->outgoingBufferMessages);
+	if (c->sendFilters)
+		ArrayFree(c->sendFilters);
+	if (c->receiveFilters)
+		ArrayFree(c->receiveFilters);
 	gsifree(c);
 }

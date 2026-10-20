@@ -42,26 +42,20 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 
-typedef struct tagCOORD { unsigned short x, y; } COORD;
+#include "dwcutil_types.h"
 
 extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
-extern unsigned char DWCi_Language(void);
-extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
-extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
-extern void DWCi_ARClRelease(void *file);
-extern void DWCi_STEPlBegin(int step);
-extern void DWCi_STEPlChange(int step);
-extern void DWCi_GetParam_(void **outStepParam, void **outButtonParam);
-extern void DWCi_BTNlInit(int kind);
-extern void *DWCi_FNTlFormBgEx(int lcd, int font);
-extern unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx);
+#include "dwcutil_main.h"
+#include "archive.h"
+#include "../arm9/os_cache.h"
+#include "step.h"
+#include "button.h"
+typedef int bool_0;
+#include "font.h"
+#include "message.h"
 int DWCi_CMNlFontFlag(void);
-extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color,
-                              unsigned long flag, unsigned short *txt);
-extern void DWCi_FNTlRenewBg(int x);
-extern void DWCi_FNTlDraw(void *canvas, int x, int y, int color, unsigned long flag, unsigned short *txt);
 unsigned char *DWCi_Char(unsigned char *name);
-void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
+void DWCi_CMNlLoadResource(char *file, void (*func)(const void *, u32, u32));
 void DWCi_CMNlStep(int step);
 void DWCi_CMNlButton(int kind);
 void DWCi_CMNlMsgDraw(int msgId);
@@ -89,7 +83,7 @@ unsigned char *DWCi_Char(unsigned char *name)
 }
 
 
-void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long))
+void DWCi_CMNlLoadResource(char *file, void (*func)(const void *, u32, u32))
 {
     char *n;
     unsigned long size;
@@ -132,7 +126,7 @@ void DWCi_CMNlMsgDraw(int msgId)
     unsigned long flag = DWCi_CMNlFontFlag();
 
     DWCi_FNTlDrawRect(canvas, 0xd, 0x28, 0xe6, 0x70, 2, flag, msg);
-    DWCi_FNTlRenewBg((int)canvas);
+    DWCi_FNTlRenewBg((sptr)canvas);
 }
 
 
@@ -148,7 +142,7 @@ void DWCi_CMNlMsgNameDraw(unsigned short *name, int msgId)
     msg = (short unsigned int *)DWCi_MSGlGet((void *)gCommentWork, msgId);
     DWCi_FNTlDrawRect(canvas, 13, 60, 230, 94, 2, DWCi_CMNlFontFlag(), msg);
     DWCi_FNTlDraw(canvas, sCommonNamePosByLanguage[DWCi_Language()].x, sCommonNamePosByLanguage[DWCi_Language()].y, 2, 13 + 508, name);
-    DWCi_FNTlRenewBg((int)canvas);
+    DWCi_FNTlRenewBg((sptr)canvas);
 }
 
 

@@ -38,11 +38,9 @@ typedef struct ZoneAreaEntry {
     u16 areaZoneId;
 } ZoneAreaEntry;
 
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern int FLDMMDL_GetGridNowX(struct Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
+#include "fieldmap.h"
+#include "field_player.h"
+#include "../ov010/fldmmdl.h"
 
 u32 FIELD_GetAreaZoneId(u32 zoneId, int gridX, int gridZ);
 int FIELD_GetPlayerAreaZoneId(struct FieldMap *fieldMap, u16 *zoneIdOut);

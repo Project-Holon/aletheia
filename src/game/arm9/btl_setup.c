@@ -62,71 +62,68 @@
 #include "ica_anime_shared_types.h"
 #include "game_data_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
 struct Regulation;
 
-struct StrBuf;
+struct Strbuf;
 
 struct NetHandle;
 
 #include "game_data.h"
 
-extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *save);
+#include "system_data.h"
 
-extern void MI_CpuFill8(void *dst, int c, u32 n);
+#include "mi_memory.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
+#ifdef __MWERKS__
 extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
+extern struct Party *POKEPARTY_Create(u16 heap);
+extern u32  POKEPARTY_GetCount(struct Party *party);
+extern u32 POKEPARTY_GetCapacity(struct Party *party); /* original prototypes; the definitions differ in argument width and const */
+#else
+#include "pokeparty.h"
+#endif
 
 extern u32 REGULATION_GetRuleValue(struct Regulation *reg, u32 id);
 
-extern void REGULATION_GetShooterSettings(struct Regulation *reg, u8 *rules);
+#include "regulation.h"
 
-extern void POKE_REGULATION_AdjustPartyLevels(struct Regulation *reg, struct Party *party);
+#include "poke_regulation.h"
 
-extern void POKE_REGULATION_ResetPartyNicknames(struct Regulation *reg, struct Party *party, u32 level);
 
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "strbuf.h"
 
-extern void STRBUF_Delete(struct StrBuf *str);
 
-extern void  PMSI_PARAM_ClearSentence(void *word);
+#include "pmsi_param.h"
 
-extern struct Party *POKEPARTY_Create(u16 heap);
 
-extern void TR_TOOL_LoadTrainerInfo(u32 trainerId, struct BattleTrainerData *tr, u16 heap);
 
-extern void TR_TOOL_BuildParty(u32 trainerId, struct Party *party, u16 heap);
+#include "tr_tool.h"
 
-extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gd, struct Party *party, u32 season);
+#include "../ov010/formchange_season.h"
 
-extern u8 TPOKE_DATA_GetTrainerKind(u32 trainerType);
+#include "tpoke_data.h"
 
-extern struct MiscSave *MISC_GetFromSave(struct SaveControl *save);
+#include "beacon.h"
 
-extern u32 MISC_CountBadges(struct MiscSave *misc);
 
-extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gd);
+#include "zukan_save.h"
 
-extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
+#include "zonedata.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
-extern u32  POKEPARTY_GetCount(struct Party *party);
 
-extern u32 POKEPARTY_GetCapacity(struct Party *party);
 
-extern int BOX_SAVEDATA_FindFreeSlot(u32 boxManager, u32 *tray, u32 *pos);
+#include "box_savedata.h"
 
-extern void *MYSTATUS_Create(u16 heap);
+#include "mystatus.h"
 
-extern u8 GFL_NET_GetHandleNetID(struct NetHandle *net);
+#include "net.h"
 
-extern struct Config *CONFIG_Create(u16 heap);
+#include "config.h"
 
-extern void CONFIG_Copy(struct Config *src, struct Config *dest);
 
 extern const char sBtlSetupFileName[];
 
@@ -356,7 +353,7 @@ void BTL_SETUP_ApplyRegulation(struct BattleSetupParam *param, struct Regulation
     int i;
     param->limitTimeCommand = (u16)(sec * REGULATION_GetRuleValue(reg, 0x10));
     param->limitTimeGame = (u16)(sec * REGULATION_GetRuleValue(reg, 0xf));
-    REGULATION_GetShooterSettings(reg, param->regulationRules);
+    REGULATION_GetShooterSettings(reg, (struct ShooterSettings *)param->regulationRules);
     switch (REGULATION_GetRuleValue(reg, 0x12)) {
     case 0:
         break;
@@ -412,8 +409,8 @@ struct BattleTrainerData *BTL_SETUP_CreateTrainerData(u16 heap)
     tr = GFL_HEAP_Alloc(heap, 0x28, 1, sBtlSetupFileName, 0xef);
     tr->name = STRBUF_Create(0x10, heap);
     tr->trainerId = 0;
-    PMSI_PARAM_ClearSentence(tr->winWord);
-    PMSI_PARAM_ClearSentence(tr->loseWord);
+    PMSI_PARAM_ClearSentence((struct PmsData *)tr->winWord);
+    PMSI_PARAM_ClearSentence((struct PmsData *)tr->loseWord);
     return tr;
 }
 
@@ -489,7 +486,7 @@ void BTL_SETUP_SetTrainer(struct BattleSetupParam *param, struct GameData *gd, u
     if (trainerId == 0) {
         return;
     }
-    TR_TOOL_LoadTrainerInfo(trainerId, *(struct BattleTrainerData **)(slots + off), heap);
+    TR_TOOL_LoadTrainerInfo(trainerId, *(TrTrainerInfo **)(slots + off), heap);
     TR_TOOL_BuildParty(trainerId, *party, heap);
     FORMCHANGE_UpdateSeasonForms(gd, *party, GAME_DATA_GetSeason(gd));
     switch (TPOKE_DATA_GetTrainerKind((*(struct BattleTrainerData **)(slots + off))->trainerType)) {
@@ -585,7 +582,7 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
     MI_CpuCopy8(sit, &param->fieldSituation, 0x10);
     param->bgmBattle = 0x468;
     param->bgmWin = 0x468 + 0x14;
-    param->moneyRate = 1;
+    param->outcome = 1;
     if (ZONEDATA_CheckEventFlag(GAME_DATA_GetEventWork(gd), 0x96d) != 0) {
         BTL_SETUP_SetStatusFlag(param, 2);
     }
@@ -637,8 +634,8 @@ void BTL_SETUP_InitCommon(struct BattleSetupParam *param, struct GameData *gd, c
  */
 void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, struct Party *wildParty, const struct FieldSituation *sit, u32 rule, u16 heap)
 {
-    u32 tray;
-    u32 pos;
+    s32 tray;
+    s32 pos;
     struct Party *enemy;
     u32 count;
     u32 box;
@@ -659,7 +656,7 @@ void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, st
     box = GAME_DATA_GetBoxManager(gd);
     tray = 0;
     pos = 0;
-    if (BOX_SAVEDATA_FindFreeSlot(box, &tray, &pos) == 0) {
+    if (BOX_SAVEDATA_FindFreeSlot((struct GameData *)box, &tray, &pos) == 0) {
         BTL_SETUP_SetStatusFlag(param, 0x40);
     }
 }
@@ -904,7 +901,7 @@ void BTL_SETUP_SetupTrainerMulti(struct BattleSetupParam *param, struct GameData
  */
 void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
 {
-    u8 netId = GFL_NET_GetHandleNetID((struct NetHandle *)netHandle);
+    u8 netId = GFL_NET_GetHandleNetID((struct GFLNetHandle *)netHandle);
     BTL_SETUP_SetupComm(param, gd, 0, 0, netHandle, commPos, netId, heap);
 }
 
@@ -918,7 +915,7 @@ void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *
  */
 void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
 {
-    u8 netId = GFL_NET_GetHandleNetID((struct NetHandle *)netHandle);
+    u8 netId = GFL_NET_GetHandleNetID((struct GFLNetHandle *)netHandle);
     BTL_SETUP_SetupComm(param, gd, 1, 0, netHandle, commPos, netId, heap);
 }
 
@@ -986,7 +983,7 @@ void BTL_SETUP_SetupCommAiMulti(struct BattleSetupParam *param, struct GameData 
  */
 void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
 {
-    u8 netId = GFL_NET_GetHandleNetID((struct NetHandle *)netHandle);
+    u8 netId = GFL_NET_GetHandleNetID((struct GFLNetHandle *)netHandle);
     BTL_SETUP_SetupComm(param, gd, 2, 0, netHandle, commPos, netId, heap);
 }
 
@@ -1000,7 +997,7 @@ void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *
  */
 void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap)
 {
-    u8 netId = GFL_NET_GetHandleNetID((struct NetHandle *)netHandle);
+    u8 netId = GFL_NET_GetHandleNetID((struct GFLNetHandle *)netHandle);
     BTL_SETUP_SetupComm(param, gd, 3, 0, netHandle, commPos, netId, heap);
 }
 

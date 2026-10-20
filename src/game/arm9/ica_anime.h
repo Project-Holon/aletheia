@@ -1,6 +1,12 @@
 #ifndef GAME_ARM9_ICA_ANIME_H
 #define GAME_ARM9_ICA_ANIME_H
 
+struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize);
+struct IcaAnime *ICA_ANIME_CreateWithStreamBuffer(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum, void *buffer, u32 bufferSize);
+struct IcaAnime *ICA_ANIME_CreateFull(u32 heapId, u32 arcId, u32 dataId);
+struct IcaAnime *ICA_ANIME_CreateStream(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of ica_anime.c, prototypes copied from their definitions. */
 
 struct IcaAnime;
@@ -30,5 +36,6 @@ void ICA_ANIME_LoadFrames(struct IcaAnime *anime, s32 frame);
 void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime);
 void ICA_ANIME_SetCameraPos(void *camera, struct IcaAnime *anime);
 void ICA_ANIME_SetCameraTarget(void *camera, struct IcaAnime *anime);
+/* END mkheaders: generated region */
 
 #endif

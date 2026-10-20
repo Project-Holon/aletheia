@@ -40,13 +40,7 @@
 
 #include "../sdk_wm.h"
 
-typedef struct {
-	unsigned char ssid[32];
-	unsigned char bssid[6];
-	unsigned short level;
-	unsigned char wep;
-	unsigned char pad;
-} tagAPINFO;
+#include "dwcutil_types.h"
 
 typedef struct {
 	void *buf;
@@ -64,7 +58,7 @@ typedef struct {
 typedef struct {
 	unsigned char wmBuf[0xf00];
 	unsigned char scanBuf[0x400];
-	tagAPINFO info[20];
+	APINFO info[20];
 	SCANPRM scan;
 	WMSTAT status;
 	unsigned char flag;
@@ -78,26 +72,18 @@ typedef struct {
     u8 *body;
 } WMOtherElement;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern unsigned short WM_GetAllowedChannel(void);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void MIi_CpuClear16(unsigned short data, void *destp, unsigned long size);
-extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
-extern int WM_ReadStatus(struct WMStatus *statusBuf);
-extern unsigned short WM_GetDispersionScanPeriod(void);
-extern int WM_StartScanEx(void (*callback)(void *), struct WMScanExParam *param);
-extern int WM_Reset(void (*callback)(void *));
-extern int WM_End(void (*callback)(void *));
+#include "heap.h"
+#include "../arm9/wm_sync.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/wm_standard.h"
 extern int memcmp(const void *a, const void *b, unsigned long n);
-extern void OS_Terminate(void);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
-extern WMOtherElements WM_GetOtherElements(WMBssDesc *bssDesc);
+#include "../arm9/os_terminate_processor.h"
+#include "../arm9/os_cache.h"
 void DWCi_SEARCHlInit(void);
 void DWCi_SEARCHlEnd(void);
 int DWCi_SEARCHlBegin(void);
 int DWCi_SEARCHlStop(void);
-int DWCi_SEARCHlGetApInfo(tagAPINFO **info);
+int DWCi_SEARCHlGetApInfo(APINFO **info);
 extern tagMEMSEARCH *gSearchWork;
 extern tagMEMSEARCH *gMemSearch;
 extern SCANPRM sSearchScanParam;
@@ -186,11 +172,11 @@ int DWCi_SEARCHlStop(void)
 /*
  * sdk:      DWCi_SEARCHlGetApInfo (libdwcutil.TWL.HYB.a(search.o))
  */
-int DWCi_SEARCHlGetApInfo(tagAPINFO **info)
+int DWCi_SEARCHlGetApInfo(APINFO **info)
 {
 	int num;
 	int i;
-	tagAPINFO *ap;
+	APINFO *ap;
 
 	num = 0;
 	ap = gSearchWork->info;
@@ -230,7 +216,7 @@ static void callback(void *arg)
  */
 static void renewInfo(WMStartScanExCallback *prm)
 {
-    tagAPINFO *info;
+    APINFO *info;
     WMBssDesc *desc;
     WMOtherElements elems;
     int i;

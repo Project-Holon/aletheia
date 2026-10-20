@@ -12,13 +12,16 @@
  */
 
 #include "../arm9/btl_setup_types.h"
+#include "../ov093/btl_calc_types.h"
+#include "../arm9/pms_types.h"
+#include "../ov093/btl_field_types.h"
+#include "../ov093/btl_rec_types.h"
 
 #include "../types.h"
 
 struct BtlvCore;
 struct BtlClient;
 struct BtlServer;
-struct BtlField;
 struct PerapVoice;
 struct BtlMain;
 struct BtlPokeParam;
@@ -45,12 +48,6 @@ struct BtlRuleExchange {
     u8 reserved : 4;
 };
 
-/* Up to four client ids, 4 meaning an empty entry. */
-struct BtlClientSet {
-    u32 count;
-    u8 ids[4];
-};
-
 /*
  * Trainer slot of the main object (0x28 bytes). Slot 0 holds the player
  * (handle is the status object, trainerType is a gender flag); the other
@@ -63,8 +60,8 @@ struct BtlTrainerSlot {
     u16 trainerId;
     int aiFlags;
     u16 itemIds[4];
-    u8 winWord[8];
-    u8 loseWord[8];
+    PmsData winWord;
+    PmsData loseWord;
 };
 
 /* Trainer record that a link partner relays to the other machine (0x6C bytes). */
@@ -74,8 +71,8 @@ struct BtlTrainerPacket {
     u32 aiFlags;
     u16 itemIds[4];
     u32 namePtrUnused;
-    u8 winWord[8];
-    u8 loseWord[8];
+    PmsData winWord;
+    PmsData loseWord;
     u16 nameChars[32];
     int nameLength;
 };
@@ -119,18 +116,18 @@ struct BtlMain {
     struct BtlServer *subServer;        /* 0x00C */
     struct BtlClient *clients[4];       /* 0x010 */
     struct BtlTrainerSlot trainers[4];  /* 0x020 */
-    void *playerStatus;                 /* 0x0C0 */
+    struct MyStatus *playerStatus;      /* 0x0C0 */
     u8 clientReady[4];                  /* 0x0C4 set when the client has built its state */
     struct BtlSide sides[2];            /* 0x0C8 */
     struct Party *battleParties[4];     /* 0x298 */
     struct Party *savedParties[4];      /* 0x2A8 */
     struct Party *tempParty;            /* 0x2B8 */
-    struct BtlField *field;             /* 0x2BC */
+    BtlFieldState *field;               /* 0x2BC */
     void *tempBuffer;                   /* 0x2C0 */
     void *netBuffer;                    /* 0x2C4 */
-    u8 recordReader[0x118];             /* 0x2C8 */
+    BtlRecReader recordReader;          /* 0x2C8 */
     struct PerapVoice *voices[4];       /* 0x3E0 */
-    struct BattleRngState rng;          /* 0x3F0 */
+    BtlRngState rng;               /* 0x3F0 */
     struct BtlRuleExchange ruleExchange; /* 0x408 */
     u8 slotClientIds[6];                /* 0x428 */
     u8 pad42E[2];
@@ -159,6 +156,15 @@ struct BtlMain {
     u8 multiState;                      /* 0x471 */
     u8 exchangeSlot;                    /* 0x472 setup slot of the current round (1 or 3) */
     struct BtlMainFlagBits flags;       /* 0x473 */
+};
+
+/* A list of battle positions in the position tables: how many positions the first and the
+   second group hold, then the positions. secondCount is volatile: the loops that read it
+   test it from memory on every pass. */
+struct BtlPosTable {
+    u16 firstCount;
+    volatile u16 secondCount;
+    u8 positions[6];
 };
 
 /*

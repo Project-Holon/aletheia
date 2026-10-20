@@ -192,9 +192,8 @@ typedef struct TrialHouseSaveTaskWork {
     FieldSaveAnime *saveAnime;             /* 0x0C */
 } TrialHouseSaveTaskWork;
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 #include "../arm9/key.h"
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/game_event.h"
 struct GameSystem;
@@ -216,16 +215,9 @@ extern void BATTLE_EXAMINATION_RefreshMarker(void *delivery);
 #include "../arm9/trial_house_savedata.h"
 #include "../arm9/record.h"
 #include "../arm9/gfl_use.h"
-extern int FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerIndex, int count, u16 *exclSpecies, u16 *exclItems, BtlInstDraw *draw, u16 heapId);
-extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 trainerType);
-extern GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlInstTrainer *trainers, int index, int mmdlId);
+#include "../ov010/fld_btl_inst_tool.h"
 struct DeliveryBeaconParam;
-extern DeliveryBeacon *DELIVERY_BEACON_Create(struct DeliveryBeaconParam *param);
-extern int DELIVERY_BEACON_Start(DeliveryBeacon *beacon);
-extern void DELIVERY_BEACON_RunStep(DeliveryBeacon *beacon);
-extern int DELIVERY_BEACON_HasAnyPiece(DeliveryBeacon *beacon);
-extern int DELIVERY_BEACON_TryComplete(DeliveryBeacon *beacon);
-extern int DELIVERY_BEACON_Delete(DeliveryBeacon *beacon);
+#include "../ov010/delivery_beacon.h"
 #include "../arm9/net.h"
 #include "field_saveanime.h"
 
@@ -433,7 +425,7 @@ GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork
     GameEvent *event;
     TrialHouseDeliveryTaskWork *task;
 
-    event = GAME_EVENT_Create(gameSystem, 0, TRIAL_HOUSE_DeliveryTaskMain, sizeof(TrialHouseDeliveryTaskWork));
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)TRIAL_HOUSE_DeliveryTaskMain, sizeof(TrialHouseDeliveryTaskWork));
     task = GAME_EVENT_GetWork(event);
     task->gameSystem = gameSystem;
     task->result = result;
@@ -663,7 +655,7 @@ GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, struct TrialHouseW
     TrialHouseSaveTaskWork *task;
     FieldSaveAnime *saveAnime;
 
-    event = GAME_EVENT_Create(gameSystem, 0, TRIAL_HOUSE_SaveTaskMain, sizeof(TrialHouseSaveTaskWork));
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)TRIAL_HOUSE_SaveTaskMain, sizeof(TrialHouseSaveTaskWork));
     task = GAME_EVENT_GetWork(event);
     task->gameSystem = gameSystem;
     task->buffer = 0;

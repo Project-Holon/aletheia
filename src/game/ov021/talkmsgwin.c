@@ -87,57 +87,24 @@
 #define reg_G3_BEGIN_VTXS      (*(volatile u32 *)0x04000500)
 #define reg_G3_END_VTXS        (*(volatile u32 *)0x04000504)
 
-extern s32 FX_Div(s32 numerator, s32 denominator);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/fx_cp.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern void NNS_G3dGeFlushBuffer(void);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern s32 NNS_G3dWorldPosToScrPos(const VecFx32 *worldPos, int *screenX, int *screenY);
+#include "../arm9/tcbl.h"
+#include "../arm9/nns_g3d_ge.h"
+#include "../arm9/nns_g3d_util.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *bmpWin, u32 x, u32 y, struct Strbuf *str, struct GfFont *font,
-                                         u32 wait, struct Tcbl *tcbl, u32 tcblPri, u32 heapId, u32 clearColor);
-extern void BG_SYS_PushTile(u32 bgLayer);
-extern u32 BMP_WIN_Delete(struct BmpWin *bmpWin);
-extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
-extern void BMP_Clear(struct Bmp *bmp, u8 color);
-extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
-extern int NNS_G3dScrPosToWorldLine(s32 px, s32 py, VecFx32 *pNear, VecFx32 *pFar);
-extern u8 BMP_WIN_GetPosX(struct BmpWin *bmpWin);
-extern u8 BMP_WIN_GetPosY(struct BmpWin *bmpWin);
-extern u8 BMP_WIN_GetDispWidth(struct BmpWin *bmpWin);
-extern u8 BMP_WIN_GetDispHeight(struct BmpWin *bmpWin);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
-extern u32 BG_SYS_GetScrollY(u32 bgLayer);
-extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern int VEC_Mag(const VecFx32 *v);
-extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, const VecFx32 *eye);
-extern void G3D_CAMERA_SetCamUp(struct G3dCamera *camera, const VecFx32 *vec);
-extern void G3D_CAMERA_SetCamTarget(struct G3dCamera *camera, const VecFx32 *vec);
-extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, u32 *in);
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
-extern void G3i_LookAt_(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, int a, int b);
-extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
-extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
-extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
-extern void G3D_CAMERA_GetNear(struct G3dCamera *camera, u32 *out);
-extern void BG_SYS_ClearSlot(u32 bgLayer);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u16 heapId);
-extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, unsigned int size, unsigned int heapID, unsigned short allocFlags);
-extern void GX_BeginLoadTex(void);
-extern void DC_FlushRange(void *p, u32 size);
-extern void GX_LoadTex(void *src, u32 offset, u32 size);
-extern void GX_EndLoadTex(void);
-extern void GX_BeginLoadTexPltt(void);
-extern void GX_LoadTexPltt(void *src, u32 offset, u32 size);
-extern void GX_EndLoadTexPltt(void);
-extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern void BMP_WIN_ClearScreen(struct BmpWin *bmpWin);
+#include "../arm9/printsys.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/bmp_win.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/fx_vec.h"
+#include "../arm9/g3d_camera.h"
+#include "../arm9/g3_util.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/gx_load3d.h"
+#include "../arm9/os_cache.h"
 
 TalkMsgWinSys *TALKMSGWIN_Create(const TalkMsgWinParam *param);
 void TALKMSGWIN_LoadTexture(TalkMsgWinSys *sys);
@@ -158,7 +125,7 @@ void TALKMSGWIN_Open(TalkMsgWinSys *sys, int index);
 void TALKMSGWIN_Close(TalkMsgWinSys *sys, int index);
 u32 TALKMSGWIN_IsFree(TalkMsgWinSys *sys, u32 index);
 int TALKMSGWIN_IsShown(TalkMsgWinSys *sys, int index);
-struct PrintStream *TALKMSGWIN_GetPrintStream(TalkMsgWinSys *sys, u32 index);
+struct TextPrinter *TALKMSGWIN_GetPrintStream(TalkMsgWinSys *sys, u32 index);
 struct BmpWin *TALKMSGWIN_GetBmpWin(TalkMsgWinSys *sys, u32 index);
 void TALKMSGWIN_Reprint(TalkMsgWinSys *sys, int index, struct Strbuf *str, u32 wait);
 struct BmpWin *TALKMSGWIN_AddFrameWindow(TalkMsgWinSys *sys, u8 x, u8 y, u8 width, u8 height, u32 frameType);
@@ -168,7 +135,7 @@ void TALKMSGWIN_DeleteFrameWindow(TalkMsgWinSys *sys, struct BmpWin *bmpWin);
 TalkMsgWin *TALKMSGWIN_InitEntry(TalkMsgWin *win);
 int TALKMSGWIN_IsEntryFree(TalkMsgWin *win);
 int TALKMSGWIN_IsEntryShown(TalkMsgWin *win);
-struct BmpWin *TALKMSGWIN_AddBmpWin(TalkMsgWinSys *sys, u8 x, u8 y, int width, u8 height);
+struct BmpWin *TALKMSGWIN_AddBmpWin(TalkMsgWinSys *sys, u8 x, u8 y, u8 width, u8 height);
 void TALKMSGWIN_SetupEntry(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *pos, struct Strbuf *str, const TalkMsgWinConfig *config);
 void TALKMSGWIN_ReleaseEntry(TalkMsgWinSys *sys, TalkMsgWin *win);
 void TALKMSGWIN_RequestOpen(TalkMsgWin *win);
@@ -375,7 +342,7 @@ int TALKMSGWIN_IsShown(TalkMsgWinSys *sys, int index)
     return TALKMSGWIN_IsEntryShown(&sys->windows[index]);
 }
 
-struct PrintStream *TALKMSGWIN_GetPrintStream(TalkMsgWinSys *sys, u32 index)
+struct TextPrinter *TALKMSGWIN_GetPrintStream(TalkMsgWinSys *sys, u32 index)
 {
     return sys->windows[index].printStream;
 }
@@ -461,7 +428,7 @@ int TALKMSGWIN_IsEntryShown(TalkMsgWin *win)
 }
 
 /* Creates the BG window of a balloon, cleared to color 15. */
-struct BmpWin *TALKMSGWIN_AddBmpWin(TalkMsgWinSys *sys, u8 x, u8 y, int width, u8 height)
+struct BmpWin *TALKMSGWIN_AddBmpWin(TalkMsgWinSys *sys, u8 x, u8 y, u8 width, u8 height)
 {
     struct BmpWin *bmpWin;
 
@@ -473,7 +440,7 @@ struct BmpWin *TALKMSGWIN_AddBmpWin(TalkMsgWinSys *sys, u8 x, u8 y, int width, u
 
 void TALKMSGWIN_SetupEntry(TalkMsgWinSys *sys, TalkMsgWin *win, const VecFx32 *pos, struct Strbuf *str, const TalkMsgWinConfig *config)
 {
-    int width;
+    u8 width;
     u8 height;
     int y;
     u8 x;

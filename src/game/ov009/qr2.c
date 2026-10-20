@@ -124,7 +124,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "qr2_types.h"
-extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, unsigned long n);
+#include "../arm9/msl_string_mem.h"
 
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | \
                    (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
@@ -146,38 +146,22 @@ typedef struct key4_t {
     char b[4];
 } key4_t;
 
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern void gsDebugBinary(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
-extern void *gsimalloc(unsigned long size);
-extern void gsifree(void *ptr);
-extern int closesocket(int sock);
-extern int recvfrom(int sock, char *buf, int len, int flags, SOCSockAddr *addr, int *fromlen);
-extern int inet_addr(char *addrString);
-extern int GOAGetLastError(int sock);
-extern int CanReceiveOnSocket(int sock);
-extern SOCHostEnt *getlocalhost(void);
-extern void SocketShutDown(void);
-extern unsigned int current_time(void);
-extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
-extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern char *SOC_InetNtoA(SOCInAddr in);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
+#include "gsdebug.h"
+#include "gsmemory.h"
+#include "gsplatformsocket.h"
+#include "gsplatformutil.h"
+#include "gsstringutil.h"
+#include "soc.h"
+#include "../arm9/os_printf.h"
 extern int rand(void);
 extern void srand(unsigned int seed);
 extern int strcmp(const char *a, const char *b);
-extern void NNFreeNegotiateList(void);
-extern void NNThink(void);
+#include "natneg.h"
 extern void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len, SOCSockAddr *sender);
 static unsigned char encode_ct(unsigned char c);
-extern int sendto(int sock, char *buf, int len, int flags, SOCSockAddr *addr, int tolen);
 extern int STD_TSScanf(char *src, char *fmt, ...);
 extern void gs_encode(unsigned char *ins, int size, unsigned char *result);
 extern void gs_encrypt(unsigned char *key, int key_len, unsigned char *buffer_ptr, int buffer_len);
-extern int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
-                                        void (*progresscallback)(int, void *),
-                                        void (*completedcallback)(int, int, SOCSockAddrIn *, void *), void *userdata);
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
-extern void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr);
 int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, char *gamename, char *secret_key, int ispublic, int natnegotiate, void (*server_key_callback)(int, qr2_buffer_s *, void *), void (*player_key_callback)(int, int, qr2_buffer_s *, void *), void (*team_key_callback)(int, int, qr2_buffer_s *, void *), void (*key_list_callback)(qr2_key_type, qr2_keybuffer_s *, void *), int (*playerteam_count_callback)(qr2_key_type, void *), void (*adderror_callback)(int, char *, void *), void *userdata);
 void qr2_register_natneg_callback(qr2_implementation_s *qrec, void (*nncallback)(int, void *));
 void qr2_register_clientmessage_callback(qr2_implementation_s *qrec, void (*cmcallback)(char *, int, void *));

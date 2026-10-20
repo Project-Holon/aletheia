@@ -17,7 +17,7 @@
  */
 
 #include "../types.h"
-extern u8 *WF2DMAP_OBJ_FindAtPos(u8 *p, void *list, int n);
+#include "wf2dmap_obj.h"
 
 int WF2DMAP_ACTOR_FIND_HasMatch(void *target, void *list, int index)
 {

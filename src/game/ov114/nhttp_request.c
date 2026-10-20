@@ -48,28 +48,12 @@
  */
 #include "nhttp_types.h"
 
-extern void *NHTTPi_alloc(unsigned long size, int align);
-extern void NHTTPi_SetError(NHTTPBgnEndInfo *bgnEndInfo_p, int error);
-extern void NHTTPi_memclr(void *p_p, int size);
-extern int NHTTPi_strnlen(char *p_p, int size);
-extern void NHTTPi_memcpy(void *dst, void *src, u32 size);
-extern int NHTTPi_strnicmp(char *p1_p, char *p2_p, int size);
-extern int NHTTPi_strToHex(char *p_p, int len);
-extern int NHTTPi_strtonum(char *p_p, int size);
-extern void NHTTPi_free(void *ptr_p);
-NHTTPMutexInfo *NHTTPi_GetMutexInfoP(NHTTPSysInfo *sysInfo_p);
-NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
-extern NHTTPBgnEndInfo *NHTTPi_GetBgnEndInfoP(NHTTPSysInfo *sysInfo_p);
-extern NHTTPThreadInfo *NHTTPi_GetThreadInfoP(NHTTPSysInfo *sysInfo_p);
-extern NHTTPListInfo *NHTTPi_GetListInfoP(NHTTPSysInfo *sysInfo_p);
-extern void NHTTPi_lockReqList(NHTTPMutexInfo *mutexInfo_p);
-extern int NHTTPi_setReqQueue(NHTTPListInfo *listInfo_p, NHTTPReq *req_p);
-extern void NHTTPi_kickCommThread(NHTTPThreadInfo *threadInfo_p);
-extern void NHTTPi_unlockReqList(NHTTPMutexInfo *mutexInfo_p);
-extern NHTTPReqInfo *NHTTPi_GetReqInfoP(NHTTPSysInfo *sysInfo_p);
-extern void NHTTPi_SocCancel(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
-extern int NHTTPi_freeReqQueue(NHTTPListInfo *listInfo_p, NHTTPMutexInfo *mutexInfo_p, int id);
-extern void NHTTPi_allFreeReqQueue(NHTTPListInfo *listInfo_p, NHTTPMutexInfo *mutexInfo_p);
+#include "nhttp_bgnend.h"
+#include "nhttp_stdlib_ntr.h"
+#include "d_nhttp_common.h"
+#include "nhttp_list.h"
+#include "nhttp_os_ntr.h"
+#include "nhttp_socket_ntr.h"
 void NHTTPi_InitRequestInfo(NHTTPReqInfo *reqInfo_p);
 NHTTPReq *NHTTPi_CreateRequest(NHTTPBgnEndInfo *bgnEndInfo_p, char *url_p, int method, char *buf_p, unsigned long len, void *param_p, NHTTPBufFullFn bufFull, NHTTPFreeBufFn freeBuf);
 void NHTTPi_DestroyRequest(NHTTPSysInfo *sysInfo_p, NHTTPReq *req_p);

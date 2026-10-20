@@ -23,7 +23,7 @@
  *   gDwcNonportMachineInfo  0x021AA828  data
  *   g_021AA828_b  0x021AA828  data
  */
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
+#include "../arm9/mi_memory.h"
 long long DWCi_Np_GetConsoleId(void);
 void *DWCi_Np_GetConsoleIdPrefix(void);
 char *DWCi_Np_GetAppGameName(void);

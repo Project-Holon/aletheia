@@ -70,8 +70,7 @@
  */
 #include "sc_types.h"
 
-#define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-typedef char *va_list;
+#include "../sdk_stdarg.h"
 
 /* Which DWC_Sc call an error came from (first argument of DWCi_ScGetRequestErrorCode). */
 typedef enum DWCScErrorSource {
@@ -97,23 +96,15 @@ typedef struct DWCScControl {
     DWCScCallback submitReportCallback;
 } DWCScControl;
 
-extern void gsCoreInitialize(void);
-extern void gsCoreThink(unsigned int theMS);
-extern void gsCoreShutdown(void);
-extern int gsCoreIsShutdown(void);
-extern int DWCi_GetAuthInfo(char **authToken, char **partnerChallenge);
-extern void DWCi_SetError(int error, int errorCode);
-extern void OS_Sleep(unsigned long msec);
-extern int DWC_GetLastError(int *errorCode);
-extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern int OS_VSNPrintf(char *dst, unsigned int len, char *format, void *vlist);
-extern int DWC_GHTTPSetRootCAList(const char *url);
-extern int DWC_GHTTPCleanupRootCAList(const char *url);
-extern int DWCi_HandleGHTTPError(int result);
-extern void *memcpy(void *dst, void *src, unsigned long n);
-extern char *wsGetServiceUrl(void);
-extern int wsLoginRemoteAuth(int partnerCode, int namespaceId, char *authtoken, char *partnerChallenge,
-                         WSLoginCallback userCallback, void *userData);
+#include "../ov009/gscore.h"
+#include "../ov009/dwc_login.h"
+#include "../arm9/dwc_error.h"
+#include "../arm9/os_thread.h"
+#include "../arm9/os_printf.h"
+#include "../ov114/dwc_ghttp.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "authservice.h"
 
 int DWC_ScInitialize(int theGameId, int sslType);
 int DWC_ScShutdown(void);

@@ -16,39 +16,7 @@ struct GameSystem;
 struct GameData;
 struct GameEvent;
 struct GimmickWork;
-struct G3dUtil;
-
-/*
- * Setup tables of the 3D utility (g3d_util.c): the resources to load and
- * the objects built from them. A unit is one such setup.
- */
-typedef struct G3dUtilAnimeSetup {
-    u16 anmResIdx;
-    u16 anmDatIdx;
-} G3dUtilAnimeSetup;
-
-typedef struct G3dUtilObjSetup {
-    u16                mdlResIdx;
-    u16                mdlDatIdx;
-    u16                texResIdx;
-    u16                pad06;
-    G3dUtilAnimeSetup *anmTbl;
-    u16                anmCount;
-} G3dUtilObjSetup;
-
-typedef struct G3dUtilResSetup {
-    u32 arc;        /* archive id, read when the unit comes from an archive */
-    u16 dat;
-    u16 pad06;
-    u32 type;
-} G3dUtilResSetup;
-
-typedef struct G3dUtilSetup {
-    G3dUtilResSetup *resTbl;
-    u16              resCount;
-    G3dUtilObjSetup *objTbl;
-    u16              objCount;
-} G3dUtilSetup;
+#include "../arm9/g3d_util_types.h"
 
 #define FLD_EXP_OBJ_UNIT_MAX 4
 

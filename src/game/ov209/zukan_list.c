@@ -222,13 +222,9 @@ struct Proc;
 
 struct Node;
 
-struct S02021D50;
+struct PaletteFade;
 
-struct DispVram;
-
-struct DispConfig;
-
-struct PalAnmSlot;
+struct PaletteFade;
 
 struct GfFont;
 
@@ -260,11 +256,12 @@ struct Bank;
 
 struct Personal;
 
+#include "../arm9/game_data.h"
 #include "../types.h"
 
-struct DispConfig {u32 w[4];};
-
-struct BgTemplate {u32 w[8];};
+struct TouchBarWindow;
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
 
 /*
  * Create parameters of the ov067 frame list, owned by
@@ -334,7 +331,7 @@ struct DtcmIrqFlag { u8 pad[0x3FF8]; unsigned flag; };
 
 typedef struct WordSet WordSet;
 
-typedef struct PtS {s16 x,y;} PtS;
+typedef struct ZukanListPtS {s16 x,y;} ZukanListPtS;
 
 /* Config passed to CLACT_InitSystem (seven full words). */
 struct ClactInit { u32 words[7]; };
@@ -350,283 +347,222 @@ struct ClactPartData { u8 pad[20]; void *part; };
 
 enum Position { POSITION_ZERO=0 };
 
-extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
+#include "../arm9/gfl_heap.h"
 
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
+#include "../arm9/procsys.h"
 
-extern void MI_CpuFill8(void *,int,int);
+#include "../arm9/mi_memory.h"
 
-extern void PROCSYS_FreeProcWork(struct Proc *p);
 
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *),void *,unsigned);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
 extern void BG_SYS_Update(void),CLACT_VBlankSystem(void);
 
-extern void PALANM_TransferPalettes(struct S02021D50 *);
+extern void PALANM_TransferPalettes(struct PaletteFade *);
 
-extern void *GFL_USE_AddHBlankTask(unsigned,unsigned,unsigned);
+struct ZukanSave;
+#include "../arm9/net_types.h"
+#include "../arm9/touchpanel_shared_types.h"
+#include "../ov067/frame_list_types.h"
+#include "../ov218/un_select.h"
+#include "../types.h"
+extern struct TcbTask *GFL_USE_AddHBlankTask(TcbFunc callback, void *work, u32 priority);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *);
 
-extern void BG_SYS_Create(u16);
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 
-extern void BG_SYS_ClearSlot(u32);
 
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void BG_SYS_MarkTileDirty(u32);
 
-extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 
-extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void BG_SYS_Delete(void);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
+#include "../arm9/arc_util.h"
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern u32 APP_ICON_GetArchiveId(void);
+#include "../arm9/app_icon.h"
 
-extern u32 APP_ICON_GetStatusFrameFileId(void);
 
-extern u32 APP_ICON_GetStatusAnimFileId(void);
 
-extern u32 APP_ICON_GetStatusDataFileId(void);
 
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *,u32,u32,u32,u32,u16);
 
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
-extern void *PALANM_Create(u32);
+#include "../arm9/palanm.h"
 
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,unsigned);
 
-extern unsigned int PALANM_Delete(void *ctx);
 struct TcbList;
 
 extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
-extern int PALANM_RequestFade(void *, u16, u16, short, u8, u8, u16, void *);
+extern int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/g2.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 struct PrintQueue;
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+#include "../arm9/printsys.h"
 struct Strbuf;
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern unsigned int WORDSET_Delete(struct WordSet *);
+#include "../arm9/wordset.h"
 
-extern unsigned int GF_FONT_Delete(struct GfFont *font);
 
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
-extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
+#include "../arm9/poke_personal.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_ChangeScroll(u32, u32, u32);
 struct ZukanSave;
 
 extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct ZukanSave *pZukan);
 
-extern struct FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heap);
+extern FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId);
 
-extern void FRAME_LIST_CopyMapToBuffer(struct FrameList *list, void *source, unsigned int fileIndex, unsigned int memberIndex, unsigned int mapSlot);
+extern void FRAME_LIST_CopyMapToBuffer(FrameList *list, void *source, u32 fileIndex, u32 memberIndex, u32 mapSlot);
 
-extern void FRAME_LIST_LoadPalettes(struct FrameList *list, unsigned char *palettes, unsigned int firstSlot, unsigned int srcSlot, unsigned int slotCount);
+extern void FRAME_LIST_LoadPalettes(FrameList *list, u8 *palettes, u32 firstSlot, u32 srcSlot, u32 slotCount);
 
-extern void FRAME_LIST_AddItem(struct FrameList *list, unsigned int mapIndex, unsigned int value);
+extern void FRAME_LIST_AddItem(FrameList *list, unsigned mapIndex, unsigned value);
 
-extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, unsigned short species);
+extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, u16 species);
 
-extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, unsigned short species);
+extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, u16 species);
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
 
-extern void FRAME_LIST_Delete(struct FrameList *);
+extern void FRAME_LIST_Delete(FrameList *list);
 
-extern u32 FRAME_LIST_GetItemValue(struct FrameList *list, int index);
+extern u32 FRAME_LIST_GetItemValue(FrameList *list, int index);
 
-extern int FRAME_LIST_GetScrollPos(struct FrameList *list);
+extern int FRAME_LIST_GetScrollPos(FrameList *list);
 
-extern int FRAME_LIST_GetCursor(struct FrameList *list);
+extern int FRAME_LIST_GetCursor(FrameList *list);
 
 extern void ZUKAN_LIST_UpdateActors(struct ZukanList *),ZUKAN_LIST_FlushWindows(struct ZukanList *),ZUKAN_TickCounter(u32,u32,u8 *);
 
-extern void BG_SYS_SetMainVisiblePlanes(u32);
 
-extern void BG_SYS_SetSubVisiblePlanes(u32);
 
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
+#include "../arm9/gx.h"
 
-extern int GF_OVERLAY_Load(int);
+#include "../arm9/gf_overlay.h"
 
-extern void BG_SYS_SetLcdSwap(u32);
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
+#include "../arm9/net.h"
 
-extern u32 PALANM_GetFadeRequestBits(const char *);
+extern u32 PALANM_GetFadeRequestBits(const PaletteFade *ptr);
 
-extern void GF_OVERLAY_Unload(int);
 
-extern int FRAME_LIST_UpdateInit(struct FrameList *p);
+struct GameData;
+struct ClactActor;
+struct ClactVec2;
+struct ClactSysInit;
+struct DispVramCfg;
+struct ZknSearchActorTemplate;
+struct Unit;
+#include "../arm9/touchpanel_shared_types.h"
+#include "../types.h"
+extern int FRAME_LIST_UpdateInit(FrameList *list);
 
-extern int FRAME_LIST_Update(struct FrameList *p);
+extern int FRAME_LIST_Update(FrameList *list);
 
 extern int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p);
 
-extern int FRAME_LIST_GetSelectedIndex(struct FrameList *list);
+extern int FRAME_LIST_GetSelectedIndex(FrameList *list);
 
-extern void FRAME_LIST_SetCursor(struct FrameList *s, int v);
+extern void FRAME_LIST_SetCursor(FrameList *list, int row);
 
-extern u8 UI_GetInputMode(void);
+#include "../arm9/ui.h"
 
-extern void UI_SetInputMode(u8);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 extern u32 ZUKAN_SAVE_GetViewMode(struct ZukanSave *pZukan);
 
-extern void ZUKAN_SAVE_SetViewMode(struct ZukanSave *pZukan, unsigned int value);
+extern void ZUKAN_SAVE_SetViewMode(struct ZukanSave *pZukan, u32 value);
 
-extern void FRAME_LIST_SetRowPalette(struct FrameList *list, int row, unsigned int pltt);
+extern void FRAME_LIST_SetRowPalette(FrameList *list, int row, u32 pltt);
 
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, unsigned, unsigned, unsigned);
 
-extern void ZUKAN_SAVE_SetLastViewedSpecies(void *,u16);
+extern void ZUKAN_SAVE_SetLastViewedSpecies(struct ZukanSave *,u16);
 
-extern int GAME_DATA_ContainsRecentId(int, int);
 
-extern void GAME_DATA_SetRecentId(void *, unsigned, unsigned);
+extern void GAME_DATA_SetRecentId(struct GameData *gd, u32 id, u32 on);
 
-extern void BMP_WIN_Init(unsigned short);
+#include "../arm9/bmp_win.h"
 struct BmpWin;
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern void BMP_WIN_Exit(void);
 
-extern unsigned PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+extern void TOUCHBAR_PrintAligned(struct TouchBarWindow *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 
-extern void *BMP_GetPixels(const struct Bmp *bmp);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
 extern u16 ZUKAN_SAVE_CountSeenNational(struct ZukanSave *pZukan);
 
 extern u16 ZUKAN_SAVE_CountCaughtNational(struct ZukanSave *pZukan);
 
-extern u16 ZUKAN_SAVE_CountSeenRegional(struct ZukanSave *pZukan, unsigned int heap);
+extern u16 ZUKAN_SAVE_CountSeenRegional(struct ZukanSave *pZukan, u32 heap);
 
-extern u16 ZUKAN_SAVE_CountCaughtRegional(struct ZukanSave *pZukan, unsigned int heap);
+extern u16 ZUKAN_SAVE_CountCaughtRegional(struct ZukanSave *pZukan, u32 heap);
 
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-extern struct PrintSys *FRAME_LIST_GetPrinter(struct FrameList *list);
+extern struct PrintSys *FRAME_LIST_GetPrinter(FrameList *list);
 
-extern void CLACT_ExitSystem(void);
 
-extern u32 CLACT_GetActorAutoAnim(struct Actor *);
 
-extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
 
-extern void CLACT_DrawSystem(void);
 
-extern void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
 
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
 
-extern u32 CLACT_IsActorAnimActive(struct Actor *);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
 
-extern void CLACT_SetActorObjMode(struct Actor *,u32);
 
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-extern void CLACT_GetActorSurfacePos(struct Actor *,PtS *,unsigned int);
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
-extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
 
@@ -640,71 +576,48 @@ extern int POKE_TOOL_GetIconCellEntryId(void);
 
 extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 
-extern u32 APP_ICON_GetStatusCellFileId(u32);
 
-extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 
-extern void CLACT_ReleaseCharacter(unsigned);
 
-extern void CLACT_ReleasePalette(unsigned);
 
-extern void CLACT_ReleaseCellAnim(unsigned);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 struct ZknSearchActorTemplate;
 
-extern struct Obj *ZUKAN_CreateActor(void *bank, struct ZknSearchActorTemplate *t, u16 heap);
+extern struct Obj *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap);
 
-extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 
 extern u32 ZUKAN_SAVE_GetDexObtained(struct ZukanSave *pZukan);
 
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_DeleteUnit(struct Bank *);
 
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern void ZUKAN_SAVE_GetViewGenderAndForm(struct ZukanSave *pZukan, unsigned short species, unsigned int *outGender, unsigned int *outShiny, unsigned int *outForm, unsigned short language);
+extern void ZUKAN_SAVE_GetViewGenderAndForm(struct ZukanSave *pZukan, u16 species, u32 *outGender, u32 *outShiny, u32 *outForm, u16 language);
 
-extern void *POKEGRA_OpenHandle(unsigned int heapId);
+#include "../arm9/pokegra.h"
 
-extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct ZukanSave *pZukan, unsigned int which);
+extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct ZukanSave *pZukan, u32 which);
 
-extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 
-extern int POKEGRA_RegisterPalette(int,int,int,int,int,int,int,int,u16,u16);
 
-extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 struct PersonalData;
 
-extern struct PersonalData *POKE_PERSONAL_Create(u32,int,u32);
 
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, unsigned int field);
 
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
 
-extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-extern u16 CLACT_GetActorCharacterIndex(struct Actor *actor);
 
-extern void CLACT_TransferCharacterPart(int,void *,unsigned,int,int);
 
-extern unsigned POKE_TOOL_CalcIconPalette(unsigned,unsigned,unsigned,unsigned);
+extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 female, u32 isEgg);
 
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
 
-extern int FRAME_LIST_ClampToScrollBar(struct FrameList *s, unsigned int v);
+extern int FRAME_LIST_ClampToScrollBar(FrameList *list, unsigned int touchY);
 
-extern int FRAME_LIST_CanScrollDown(struct FrameList *list);
+extern int FRAME_LIST_CanScrollDown(FrameList *list);
 
 int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg);
 
@@ -716,7 +629,7 @@ void ZUKAN_LIST_StartVBlankTask(struct ZukanList *p);
 
 void ZUKAN_LIST_StopVBlankTask(struct ZukanList *p);
 
-void ZUKAN_LIST_VBlankTask(void *unused,struct ZukanList *p);
+void ZUKAN_LIST_VBlankTask(struct TcbTask *unused, void *p);
 
 void ZUKAN_LIST_StartHBlankTask(struct ZukanList *p);
 
@@ -920,7 +833,7 @@ int ZUKAN_LIST_ProcExit(void *p)
     return 1;
 }
 
-void ZUKAN_LIST_StartVBlankTask(struct ZukanList *p){p->vblankTask=GFL_USE_AddMainTask((unsigned)ZUKAN_LIST_VBlankTask,(unsigned)p,0);}
+void ZUKAN_LIST_StartVBlankTask(struct ZukanList *p){p->vblankTask=GFL_USE_AddMainTask(ZUKAN_LIST_VBlankTask, p,0);}
 
 void ZUKAN_LIST_StopVBlankTask(struct ZukanList *p){TCB_DeleteTask((struct TcbTask *)p->vblankTask);}
 
@@ -928,9 +841,9 @@ void ZUKAN_LIST_StopVBlankTask(struct ZukanList *p){TCB_DeleteTask((struct TcbTa
  * lever: enum-typed DTCM base preserves the base-first two-pool address; constant addition folds and enum offset reverses pool/register roles.
  * volatile: hardware interrupt check flag at 02FE3FF8 read and written by 021BC2D4/021BC2D8.
  */
-void ZUKAN_LIST_VBlankTask(void *unused,struct ZukanList *p){enum Base { DTCM_BASE=0x02fe0000 } base;BG_SYS_Update();CLACT_VBlankSystem();PALANM_TransferPalettes((struct S02021D50 *)p->palAnm);base=DTCM_BASE;*(volatile unsigned *)&((struct DtcmIrqFlag *)base)->flag|=1;}
+void ZUKAN_LIST_VBlankTask(struct TcbTask *unused, void *work_){ struct ZukanList * p = work_;enum Base { DTCM_BASE=0x02fe0000 } base;BG_SYS_Update();CLACT_VBlankSystem();PALANM_TransferPalettes((struct PaletteFade *)p->palAnm);base=DTCM_BASE;*(volatile unsigned *)&((struct DtcmIrqFlag *)base)->flag|=1;}
 
-void ZUKAN_LIST_StartHBlankTask(struct ZukanList *p){p->hblankTask=GFL_USE_AddHBlankTask((unsigned)ZUKAN_LIST_HBlankTask,(unsigned)p,0);}
+void ZUKAN_LIST_StartHBlankTask(struct ZukanList *p){p->hblankTask=GFL_USE_AddHBlankTask((TcbFunc)((unsigned)ZUKAN_LIST_HBlankTask),(void *)((unsigned)p),0);}
 
 void ZUKAN_LIST_StopHBlankTask(struct ZukanList *p)
 {
@@ -1040,7 +953,7 @@ void ZUKAN_LIST_InitPaletteAnim(struct ZukanList *p)
     PALANM_AllocSlotBuffers(p->palAnm, 3, 0x200, 0x6B);
 }
 
-void ZUKAN_LIST_ExitPaletteAnim(struct ZukanList *p){PALANM_FreeSlotBuffers((struct PalAnmSlot *)p->palAnm,0);PALANM_FreeSlotBuffers((struct PalAnmSlot *)p->palAnm,1);PALANM_FreeSlotBuffers((struct PalAnmSlot *)p->palAnm,2);PALANM_FreeSlotBuffers((struct PalAnmSlot *)p->palAnm,3);PALANM_Delete((struct PalAnmSlot *)p->palAnm);}
+void ZUKAN_LIST_ExitPaletteAnim(struct ZukanList *p){PALANM_FreeSlotBuffers(p->palAnm,0);PALANM_FreeSlotBuffers(p->palAnm,1);PALANM_FreeSlotBuffers(p->palAnm,2);PALANM_FreeSlotBuffers(p->palAnm,3);PALANM_Delete((void *)p->palAnm);}
 
 void ZUKAN_LIST_RequestFade(struct ZukanList *p, u8 fadeFrom, u8 fadeTo)
 {
@@ -1437,10 +1350,10 @@ int ZUKAN_LIST_StateFadeOut(struct ZukanList *p) { ZUKAN_LIST_RequestFade(p,0,16
 
 void ZUKAN_LIST_ResetPaletteSlots(struct ZukanList *p)
 {
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)p->palAnm, 0, 0, 512);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)p->palAnm, 1, 0, 512);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)p->palAnm, 2, 0, 512);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)p->palAnm, 3, 0, 512);
+    PALANM_CopyHwPaletteToSlot(p->palAnm, 0, 0, 512);
+    PALANM_CopyHwPaletteToSlot(p->palAnm, 1, 0, 512);
+    PALANM_CopyHwPaletteToSlot(p->palAnm, 2, 0, 512);
+    PALANM_CopyHwPaletteToSlot(p->palAnm, 3, 0, 512);
     ZUKAN_LIST_RequestFade(p, 16, 16);
 }
 
@@ -1448,7 +1361,7 @@ int ZUKAN_LIST_StartButtonAnim(struct ZukanList *p,int actorIndex,int animValue,
 
 int ZUKAN_LIST_IsSpeciesEntryValid(struct ZukanList *p,int speciesIndex) { if((FRAME_LIST_GetItemValue(p->frameList,speciesIndex)&0xf0000000u)>>28)return 1;return 0; }
 
-void ZUKAN_LIST_StoreLastViewedSpecies(struct ZukanList *p,int speciesIndex) { if(ZUKAN_LIST_IsSpeciesEntryValid(p,speciesIndex)==1)ZUKAN_SAVE_SetLastViewedSpecies(p->args->save,FRAME_LIST_GetItemValue(p->frameList,speciesIndex)); }
+void ZUKAN_LIST_StoreLastViewedSpecies(struct ZukanList *p,int speciesIndex) { if(ZUKAN_LIST_IsSpeciesEntryValid(p,speciesIndex)==1)ZUKAN_SAVE_SetLastViewedSpecies((struct ZukanSave *)p->args->save,FRAME_LIST_GetItemValue(p->frameList,speciesIndex)); }
 
 int ZUKAN_LIST_StateSelectSpecies(struct ZukanList *p, int speciesIndex)
 {
@@ -1462,7 +1375,7 @@ int ZUKAN_LIST_StateSelectSpecies(struct ZukanList *p, int speciesIndex)
  */
 void ZUKAN_LIST_ToggleSaveFlag15(struct ZukanList *p)
 {
-    if (GAME_DATA_ContainsRecentId(*(int *)p->args, 15) == 1) {
+    if (GAME_DATA_ContainsRecentId((struct GameData *)(*(int *)p->args), 15) == 1) {
         GAME_DATA_SetRecentId(*(void **)p->args, 15, 0);
         ZUKAN_LIST_StartActorAnim(p, 5, 6);
     } else {
@@ -1510,7 +1423,7 @@ void ZUKAN_LIST_PrintTouchbarLabel(struct ZukanList *p, unsigned index, unsigned
 {
     void *text;
     text = MSGDATA_AllocString((struct MsgBank *)p->msgBank, msg);
-    TOUCHBAR_PrintAligned((unsigned char *)&p->windows[index], (void *)(p->printer), x, y, (unsigned)text, *(unsigned *)&p->font, color, mode);
+    TOUCHBAR_PrintAligned((struct TouchBarWindow *)&p->windows[index], (void *)(p->printer), x, y, (unsigned)text, *(unsigned *)&p->font, color, mode);
     STRBUF_Delete(text);
 }
 
@@ -1522,7 +1435,7 @@ void ZUKAN_LIST_PrintTouchbarLabelClone(struct ZukanList *p, unsigned index, uns
     void *text;
     text = MSGDATA_AllocString((struct MsgBank *)p->msgBank, msg);
     WORDSET_CopyTaggedText((struct WordSet *)p->wordSet, (struct Strbuf *)p->textBuf, text);
-    TOUCHBAR_PrintAligned((unsigned char *)&p->windows[index], (void *)(p->printer), x, y, *(unsigned *)&p->textBuf, *(unsigned *)&p->font, color, mode);
+    TOUCHBAR_PrintAligned((struct TouchBarWindow *)&p->windows[index], (void *)(p->printer), x, y, *(unsigned *)&p->textBuf, *(unsigned *)&p->font, color, mode);
     STRBUF_Delete(text);
 }
 
@@ -1625,8 +1538,8 @@ void ZUKAN_LIST_PrintListRow(struct ZukanList *p, unsigned char *dest, unsigned 
     WORDSET_SetSlotNumber((struct WordSet *)p->wordSet, 0, index, 3, 2, 1);
     WORDSET_CopyTaggedText((struct WordSet *)p->wordSet, (struct Strbuf *)p->textBuf, text);
     STRBUF_Delete(text);
-    TOUCHBAR_PrintAligned(dest, (void *)printer, 0, 4, *(unsigned *)&p->textBuf, (unsigned)p->font, 0x39e0, 0);
-    TOUCHBAR_PrintAligned(dest, (void *)printer, 28, 4, text0, (unsigned)p->font, 0x39e0, 0);
+    TOUCHBAR_PrintAligned((struct TouchBarWindow *)dest, (void *)printer, 0, 4, *(unsigned *)&p->textBuf, (unsigned)p->font, 0x39e0, 0);
+    TOUCHBAR_PrintAligned((struct TouchBarWindow *)dest, (void *)printer, 28, 4, text0, (unsigned)p->font, 0x39e0, 0);
 }
 
 void ZUKAN_LIST_InitActors(struct ZukanList *p) {ZUKAN_LIST_InitActorSystem(p);ZUKAN_LIST_LoadActorResources(p);ZUKAN_LIST_CreateActors(p);ZUKAN_LIST_UpdateSpeciesActors(p);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
@@ -1638,7 +1551,7 @@ void ZUKAN_LIST_ExitActors(struct ZukanList *list)
     CLACT_ExitSystem();
 }
 
-void ZUKAN_LIST_UpdateActors(struct ZukanList *p) {u32 actorIndex;for(actorIndex=0;actorIndex<60;actorIndex++) {if(p->actors[actorIndex]) {if(CLACT_GetActorAutoAnim((struct Actor *)p->actors[actorIndex])!=1) CLACT_AddActorAnimFrame((struct Actor *)p->actors[actorIndex],0x1000);}}CLACT_DrawSystem();}
+void ZUKAN_LIST_UpdateActors(struct ZukanList *p) {u32 actorIndex;for(actorIndex=0;actorIndex<60;actorIndex++) {if(p->actors[actorIndex]) {if(CLACT_GetActorAutoAnim((struct ClactActor *)p->actors[actorIndex])!=1) CLACT_AddActorAnimFrame((struct ClactActor *)p->actors[actorIndex],0x1000);}}CLACT_DrawSystem();}
 
 void ZUKAN_LIST_SetActorAnim(struct ZukanList *p, int actorIndex, int animValue)
 {
@@ -1646,35 +1559,35 @@ void ZUKAN_LIST_SetActorAnim(struct ZukanList *p, int actorIndex, int animValue)
     CLACT_SetActorAnimSeq(*(void **)((char *)p + 0xa74 + actorIndex * 4), (unsigned short)animValue);
 }
 
-void ZUKAN_LIST_StartActorAnim(struct ZukanList *p,int actorIndex,int value) {ZUKAN_LIST_SetActorAnim(p,actorIndex,value);CLACT_SetActorAutoAnim((struct Actor *)(struct Actor *)p->actors[actorIndex],1);}
+void ZUKAN_LIST_StartActorAnim(struct ZukanList *p,int actorIndex,int value) {ZUKAN_LIST_SetActorAnim(p,actorIndex,value);CLACT_SetActorAutoAnim((struct ClactActor *)((struct Actor *)(struct Actor *)p->actors[actorIndex]),1);}
 
 int ZUKAN_LIST_GetActorAnimSeq(struct ZukanList *p, int actorIndex)
 {
-    return CLACT_GetActorAnimSeq((struct Actor *)(int)p->actors[actorIndex]);
+    return CLACT_GetActorAnimSeq((struct ClactActor *)((struct Actor *)(int)p->actors[actorIndex]));
 }
 
-u32 ZUKAN_LIST_IsActorAnimActive(struct ZukanList *p,u32 actorIndex) {return CLACT_IsActorAnimActive((struct Actor *)p->actors[actorIndex]);}
+u32 ZUKAN_LIST_IsActorAnimActive(struct ZukanList *p,u32 actorIndex) {return CLACT_IsActorAnimActive((struct ClactActor *)p->actors[actorIndex]);}
 
-void ZUKAN_LIST_SetActorVisible(struct ZukanList *p,u32 actorIndex,u32 value) {struct Obj *actor;actor=p->actors[actorIndex];if(actor) CLACT_SetActorDrawEnable((struct Actor *)actor,value);}
+void ZUKAN_LIST_SetActorVisible(struct ZukanList *p,u32 actorIndex,u32 value) {struct Obj *actor;actor=p->actors[actorIndex];if(actor) CLACT_SetActorDrawEnable((struct ClactActor *)actor,value);}
 
-u32 ZUKAN_LIST_GetActorVisible(struct ZukanList *p,u32 actorIndex) {return CLACT_GetActorDrawEnable((struct Actor *)p->actors[actorIndex]);}
+u32 ZUKAN_LIST_GetActorVisible(struct ZukanList *p,u32 actorIndex) {return CLACT_GetActorDrawEnable((struct ClactActor *)p->actors[actorIndex]);}
 
-void ZUKAN_LIST_SetActorObjMode(struct ZukanList *p,u32 actorIndex,u32 flag) {if(flag==1) CLACT_SetActorObjMode((struct Actor *)p->actors[actorIndex],1);else CLACT_SetActorObjMode((struct Actor *)p->actors[actorIndex],0);}
+void ZUKAN_LIST_SetActorObjMode(struct ZukanList *p,u32 actorIndex,u32 flag) {if(flag==1) CLACT_SetActorObjMode((struct ClactActor *)p->actors[actorIndex],1);else CLACT_SetActorObjMode((struct ClactActor *)p->actors[actorIndex],0);}
 
 void ZUKAN_LIST_AddActorPos(struct ZukanList *p, int actorIndex, short x, short y, unsigned short surface)
 {
     unsigned short buf[2];
     buf[0] = x;
     buf[1] = y;
-    CLACT_AddActorSurfacePos((void *)p->actors[actorIndex], (const struct Vec2 *)buf, surface);
+    CLACT_AddActorSurfacePos((struct ClactActor *)p->actors[actorIndex], (const struct ClactVec2 *)buf, surface);
 }
 
 /*
  * prototype: outgoing space argument is loaded by ldrh at 021BD966; callee extern uses u16 for the observed bits.
  */
-void ZUKAN_LIST_GetActorPos(struct ZukanList *p,u32 actorIndex,s16 *x,s16 *y,u16 space) {PtS point;CLACT_GetActorSurfacePos((struct Actor *)p->actors[actorIndex],&point,space);*x=point.x;*y=point.y;}
+void ZUKAN_LIST_GetActorPos(struct ZukanList *p,u32 actorIndex,s16 *x,s16 *y,u16 space) {ZukanListPtS point;CLACT_GetActorSurfacePos((struct ClactActor *)p->actors[actorIndex],(struct ClactVec2 *)&point,space);*x=point.x;*y=point.y;}
 
-void ZUKAN_LIST_InitActorSystem(struct ZukanList *p) {struct ClactInit init;init=gZukanListClactInit;CLACT_InitSystem((struct SysInit *)&init,ZUKAN_LIST_GetVramBankConfig(),107);}
+void ZUKAN_LIST_InitActorSystem(struct ZukanList *p) {struct ClactInit init;init=gZukanListClactInit;CLACT_InitSystem((const struct ClactSysInit *)&init,(const struct DispVramCfg *)ZUKAN_LIST_GetVramBankConfig(),107);}
 
 void ZUKAN_LIST_LoadActorResources(struct ZukanList *p)
 {
@@ -1736,7 +1649,7 @@ void ZUKAN_LIST_CreateActors(struct ZukanList *p)
 {
     unsigned actorIndex;
     struct ClactActorDesc desc;
-    p->clactUnit = CLACT_CreateUnit(60, 0, 0x6b);
+    p->clactUnit = (struct Bank *)CLACT_CreateUnit(60, 0, 0x6b);
     for (actorIndex = 0; actorIndex < 60; actorIndex++)
         p->actors[actorIndex] = 0;
     for (actorIndex = 0; actorIndex <= 9; actorIndex++) {
@@ -1758,13 +1671,13 @@ void ZUKAN_LIST_CreateActors(struct ZukanList *p)
     if (p->args->mode == 1) {
         ZUKAN_LIST_SetActorVisible(p, 8, 0);
         ZUKAN_LIST_SetActorVisible(p, 5, 0);
-    } else if (GAME_DATA_ContainsRecentId(*(int *)p->args, 15) == 1)
+    } else if (GAME_DATA_ContainsRecentId((struct GameData *)(*(int *)p->args), 15) == 1)
         ZUKAN_LIST_StartActorAnim(p, 5, 7);
 }
 
-void ZUKAN_LIST_DeleteActor(struct ZukanList *p,u32 actorIndex) {char *actorTable;u32 actorOffset;actorOffset=actorIndex*4;actorTable=(char *)p+0xa74;if(*(struct Obj **)(actorTable+actorOffset)) {CLACT_DeleteActor((struct Actor *)(*(struct Obj **)(actorTable+actorOffset)));*(struct Obj **)(actorTable+actorOffset)=0;}}
+void ZUKAN_LIST_DeleteActor(struct ZukanList *p,u32 actorIndex) {char *actorTable;u32 actorOffset;actorOffset=actorIndex*4;actorTable=(char *)p+0xa74;if(*(struct Obj **)(actorTable+actorOffset)) {CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct Obj **)(actorTable+actorOffset))));*(struct Obj **)(actorTable+actorOffset)=0;}}
 
-void ZUKAN_LIST_DeleteActorUnit(struct ZukanList *p) {u32 actorIndex;for(actorIndex=0;actorIndex<60;actorIndex++) ZUKAN_LIST_DeleteActor(p,actorIndex);CLACT_DeleteUnit((struct Bank *)p->clactUnit);}
+void ZUKAN_LIST_DeleteActorUnit(struct ZukanList *p) {u32 actorIndex;for(actorIndex=0;actorIndex<60;actorIndex++) ZUKAN_LIST_DeleteActor(p,actorIndex);CLACT_DeleteUnit((struct Unit *)p->clactUnit);}
 
 void ZUKAN_LIST_LoadSpeciesIcon(struct ZukanList *p,u16 species)
 {
@@ -1837,8 +1750,8 @@ void ZUKAN_LIST_UpdateSpeciesActors(struct ZukanList *p) {
     for (rowUpper = 0; rowUpper < 16; rowUpper++) {
         desc.posY = rowUpper * 0x18 + 8;
         desc.charHandle = *(u32 *)((char *)p + rowUpper * 4 + 0xB64);
-        *(u32 *)((char *)p + rowUpper * 4 + 0xA9C) = (u32)ZUKAN_CreateActor((void *)(*(u32 *)((char *)p + 0xA70)), (struct ZknSearchActorTemplate *)(&desc), 0x6b);
-        CLACT_SetActorVisible((struct Actor *)(*(u32 *)((char *)p + rowUpper * 4 + 0xA9C)), 0);
+        *(u32 *)((char *)p + rowUpper * 4 + 0xA9C) = (u32)ZUKAN_CreateActor((void *)(*(u32 *)((char *)p + 0xA70)), (const struct ZknSearchActorTemplate *)((struct ZknSearchActorTemplate *)(&desc)), 0x6b);
+        CLACT_SetActorVisible((struct ClactActor *)((struct Actor *)(*(u32 *)((char *)p + rowUpper * 4 + 0xA9C))), 0);
     }
     desc = proto;
     desc.palHandle = *(u32 *)((char *)p + 0xBF8);
@@ -1847,13 +1760,13 @@ void ZUKAN_LIST_UpdateSpeciesActors(struct ZukanList *p) {
         desc.posY = rowLower * 0x18 + 0x20;
         desc.charHandle = *(u32 *)((char *)p + rowLower * 4 + 0xBA4);
         desc.flags = 1;
-        *(u32 *)((char *)p + rowLower * 4 + 0xADC) = (u32)ZUKAN_CreateActor((void *)(*(u32 *)((char *)p + 0xA70)), (struct ZknSearchActorTemplate *)(&desc), 0x6b);
-        CLACT_SetActorVisible((struct Actor *)(*(u32 *)((char *)p + rowLower * 4 + 0xADC)), 0);
+        *(u32 *)((char *)p + rowLower * 4 + 0xADC) = (u32)ZUKAN_CreateActor((void *)(*(u32 *)((char *)p + 0xA70)), (const struct ZknSearchActorTemplate *)((struct ZknSearchActorTemplate *)(&desc)), 0x6b);
+        CLACT_SetActorVisible((struct ClactActor *)((struct Actor *)(*(u32 *)((char *)p + rowLower * 4 + 0xADC))), 0);
         ZUKAN_LIST_SetActorObjMode(p, rowLower + 0x1a, 1);
         unitPtr = (u32 *)((char *)p + 0xA70);
-        *(u32 *)((char *)p + rowLower * 4 + 0xB1C) = (u32)ZUKAN_CreateActor((void *)(*unitPtr), (struct ZknSearchActorTemplate *)(&desc), 0x6b);
-        CLACT_SetActorVisible((struct Actor *)(*(u32 *)((char *)p + rowLower * 4 + 0xB1C)), 0);
-        CLACT_SetActorObjMode((struct Actor *)(*(u32 *)((char *)p + rowLower * 4 + 0xB1C)), 2);
+        *(u32 *)((char *)p + rowLower * 4 + 0xB1C) = (u32)ZUKAN_CreateActor((void *)(*unitPtr), (const struct ZknSearchActorTemplate *)((struct ZknSearchActorTemplate *)(&desc)), 0x6b);
+        CLACT_SetActorVisible((struct ClactActor *)((struct Actor *)(*(u32 *)((char *)p + rowLower * 4 + 0xB1C))), 0);
+        CLACT_SetActorObjMode((struct ClactActor *)(*(u32 *)((char *)p + rowLower * 4 + 0xB1C)), 2);
     }
     for (rowHide = 0; rowHide < 16; rowHide++) ZUKAN_LIST_SetActorVisible(p, rowHide + 0xa, 0);
     for (rowUpper = 0; rowUpper < 16; rowUpper++) {
@@ -1874,14 +1787,14 @@ void ZUKAN_LIST_TransferSpeciesGraphics(struct ZukanList *p, int actorIndex, uns
     data=ARC_UTIL_LoadScreenDataFromHandle((void *)((unsigned)owner),POKE_TOOL_CalcGraphicIndex(species,form,charHalfSaved,0),0,&out,0x806b);
     if (mode==1) {
         slot=&p->actors[actorIndex];
-        CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((struct Actor *)*slot),out->part,1024,0,0);
+        CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((struct ClactActor *)*slot),(void *)out->part,1024,0,0);
     } else {
         slot=&p->actors[actorIndex];
-        CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((struct Actor *)*slot),out->part,1024,0,1);
+        CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((struct ClactActor *)*slot),(void *)out->part,1024,0,1);
     }
-    GFL_HEAP_Free(data);
-    ARC_TOOL_DeleteHandle(owner);
-    CLACT_SetActorPaletteOffset((struct Actor *)(*slot),POKE_TOOL_CalcIconPalette(species,form,charHalfSaved,0),1);
+    GFL_HEAP_Free((void *)data);
+    ARC_TOOL_DeleteHandle((void *)owner);
+    CLACT_SetActorPaletteOffset((struct ClactActor *)((struct Actor *)(*slot)),POKE_TOOL_CalcIconPalette(species,form,charHalfSaved,0),1);
 }
 
 int ZUKAN_LIST_FindHiddenSpeciesActor(struct ZukanList *list, int group)
@@ -2016,13 +1929,13 @@ void ZUKAN_LIST_UpdateArrowActors(struct ZukanList *p,int flag)
     }
 }
 
-extern int TOUCHPANEL_HitTrg(const void *p);
+#include "../arm9/touchpanel.h"
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern void FRAME_LIST_HideCursor(struct FrameList *list);
+extern void FRAME_LIST_HideCursor(FrameList *list);
 
-extern void FRAME_LIST_ShowCursor(struct FrameList *list);
+extern void FRAME_LIST_ShowCursor(FrameList *list);
 
 int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
 {

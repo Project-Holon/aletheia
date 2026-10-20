@@ -50,7 +50,7 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 struct TaskMenuState;
-struct Obj;
+struct ClactActor;
 #include "irc_appbar.h"
 
 typedef enum { SIDE_ZERO, SIDE_ONE } Side;
@@ -61,46 +61,35 @@ typedef struct { void *str; u16 color,pad; u32 flag; } MsgDesc;
 
 typedef struct { unsigned data; u16 tag,pad; unsigned flag; } LabelDesc;
 
-typedef struct { u16 x,y,z; u8 pad,n; } ActorTemplate;
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
-extern void MI_CpuFill8(void *,int,u32);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
 struct PrintQueue;
 struct GFont;
 struct TaskMenuRes;
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern u8 BG_SYS_GetPriority(u32);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/msgdata.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 struct TaskMenuItem;
 struct TaskMenuWin;
-extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u16 heapId);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
-extern u32 GFL_HEAP_Free(void *);
+#include "../arm9/strbuf.h"
 extern void IRC_APPBAR_DeleteActors(void *);
-extern unsigned int APP_TASKMENU_WIN_IsTouch(struct TaskMenuWin *win);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int isDecide);
-extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, u32 isActive);
-extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern int CLACT_RegisterPaletteEx(void *,unsigned,unsigned,u16,u16,u16,unsigned);
-extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,unsigned);
-extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void CLACT_ReleaseCellAnim(unsigned);
-extern void CLACT_ReleaseCharacter(unsigned);
-extern void CLACT_ReleasePalette(unsigned);
-extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-struct Actor;
-extern void CLACT_DeleteActor(struct Actor *actor);
+#include "../arm9/gfl_use.h"
+#include "../arm9/arc_tool.h"
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/clact.h */
+#ifdef __MWERKS__
+#define CLACT_RegisterCharacter CLACT_RegisterCharacter_header
+#define CLACT_RegisterPaletteEx CLACT_RegisterPaletteEx_header
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+#undef CLACT_RegisterCharacter
+s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u32 heap_id);
+#undef CLACT_RegisterPaletteEx
+s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u16 vram_offset, u16 first_color, u16 color_count, u32 heap_id);
+#endif
+struct ClactActor;
 
 /*
  * lever: distinct enum first/choice values preserve branch-local setup and saved-register allocation.
@@ -137,7 +126,7 @@ IrcAppBar *IRC_APPBAR_Create(u32 unusedArg,void *clactUnit,u16 layer,u16 x,u8 pa
     else { first=0; choice=0; }
     IRC_APPBAR_LoadResources(bar,first,choice,unusedExtra,x,paletteSlot,heapId);
     bar->taskMenuRes=(struct TaskMenuState *)APP_TASKMENU_RES_Create(layer,x,(struct GFont *)font,(struct PrintQueue *)printQueue,heapId);
-    IRC_APPBAR_CreateActor(bar,(unsigned)clactUnit,unusedArg,side,BG_SYS_GetPriority(layer),heapId);
+    IRC_APPBAR_CreateActor(bar,(uptr)clactUnit,unusedArg,side,BG_SYS_GetPriority(layer),heapId);
     bank=MSGDATA_CreateFromArchive(0,2,49,heapId);
     MI_CpuFill8(&desc,0,12);
     desc.color=0x39e3;
@@ -220,14 +209,14 @@ void IRC_APPBAR_SetActive(IrcAppBar *bar,int enable) {
  * MSGDATA_Delete 0x02045C04 arm
  */
 void IRC_APPBAR_SetLabel(IrcAppBar *bar,unsigned labelIndex) {
- unsigned bank;
+ uptr bank;
  LabelDesc desc;
  if(labelIndex==bar->labelIndex) return;
  APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)bar->taskMenuWin);
- bank=(unsigned int)MSGDATA_CreateFromArchive(0,2,0x31,bar->heapId);
+ bank=(uptr)MSGDATA_CreateFromArchive(0,2,0x31,bar->heapId);
  MI_CpuFill8(&desc,0,12);
  desc.tag=0x39e3;
- desc.data=(unsigned int)MSGDATA_AllocString((struct MsgBank *)bank,labelIndex+8);
+ desc.data=(uptr)MSGDATA_AllocString((struct MsgBank *)bank,labelIndex+8);
  desc.flag=1;
  bar->taskMenuWin=(u8 *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)bar->taskMenuRes,(struct TaskMenuItem *)(&desc),0x13,0x15,0xd,bar->heapId);
  STRBUF_Delete((struct Strbuf *)desc.data);
@@ -242,6 +231,7 @@ void IRC_APPBAR_SetLabel(IrcAppBar *bar,unsigned labelIndex) {
  * CLACT_RegisterCellAnim 0x0204AF28 arm
  * ARC_TOOL_DeleteHandle 0x02049238 arm
  */
+/* The two register calls pass the heap id unmasked (likely original mismatch, narrow-arg in docs/DEBT.tsv). */
 void IRC_APPBAR_LoadResources(IrcAppBar *bar,unsigned charOffset,int unusedChoice,int unusedExtra,int unusedX,u8 paletteSlot,unsigned heapId) {
  void *arc;
  arc=ARC_TOOL_CreateHandle(0x5e,heapId);
@@ -254,9 +244,9 @@ void IRC_APPBAR_LoadResources(IrcAppBar *bar,unsigned charOffset,int unusedChoic
 void IRC_APPBAR_ReleaseResources(IrcAppBar *bar) { CLACT_ReleaseCellAnim(bar->cellAnimId); CLACT_ReleaseCharacter(bar->charId); CLACT_ReleasePalette(bar->paletteId); }
 
 void IRC_APPBAR_CreateActor(IrcAppBar *bar,unsigned clactUnit,int unusedArg,unsigned anim,u8 priority,u16 heapId) {
- ActorTemplate tmpl;
+ struct ActorInitParam tmpl;
  MI_CpuFill8(&tmpl,0,8);
- tmpl.x=128; tmpl.y=96; tmpl.z=0; tmpl.n=priority+1;
+ tmpl.x=128; tmpl.y=96; tmpl.anim_seq=0; tmpl.bg_priority=priority+1;
  bar->actors[0]=CLACT_CreateActor((void *)clactUnit,bar->charId,bar->paletteId,bar->cellAnimId,&tmpl,anim,heapId);
 }
 

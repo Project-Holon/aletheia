@@ -41,54 +41,41 @@
 #include "battle_rec_tool_types.h"
 
 struct Party;
-struct StrBuf;
+struct Strbuf;
 struct MyStatus;
 struct Config;
 
 #include "../types.h"
 
-extern void MI_CpuFill8(void *,int,u32);
+#include "../arm9/mi_memory.h"
 
-extern void POKE_CRYPTO_XorBlock(u16 *,u32,u32);
+#include "../arm9/poke_tool.h"
 
-extern void *POKE_TOOL_GetBoxSubstruct(struct BoxPokemon *,u32,u32);
 
-extern u16 POKE_CRYPTO_Checksum(const u16 *,u32);
 
 extern int BATTLE_REC_TOOL_UnpackBattleRules(struct BattleSetupParam *setup, const struct BattleRecData *rec);
 
-extern u32 POKEPARTY_GetCapacity(struct Party *p);
+#include "../arm9/pokeparty.h"
 
-extern u32 POKEPARTY_GetCount(struct Party *);
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *p, u32 idx);
 
-extern u32 POKE_TOOL_GetPartyParamSize(void);
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
 
-extern u32 POKEPARTY_Add(struct Party *p, const struct PokemonParam *src);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+#include "../arm9/mystatus.h"
 struct Strbuf;
 
-extern void STRBUF_ToChars(struct Strbuf *strbuf, unsigned short *out, unsigned int maxChars);
+#include "../arm9/strbuf.h"
 
-extern void STRBUF_SetString(struct Strbuf *strbuf, unsigned short *srcChars);
 
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 
-extern u16 STRBUF_GetEosChar(void);
 
-extern void MI_CpuCopy8(void *, void *, int);
 
-extern void CONFIG_Copy(void *a, void *b);
+#include "../arm9/config.h"
 
 void BATTLE_REC_TOOL_PackMon(struct PokemonParam *mon, struct BattleRecMon *rec);
 
@@ -436,7 +423,7 @@ int BATTLE_REC_TOOL_PackBattleRules(struct BattleSetupParam *setup, struct Battl
     rec->resultCount = setup->resultCount;
     rec->netId = setup->netId;
     rec->recordEnabled = (setup->recordEnabled != 0);
-    CONFIG_Copy(setup->config, rec->config);
+    CONFIG_Copy((struct Config *)setup->config, (struct Config *)rec->config);
     return 1;
 }
 

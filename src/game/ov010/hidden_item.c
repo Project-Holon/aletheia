@@ -42,11 +42,10 @@ typedef struct HiddenItemEntry {
     u16 gridZ;
 } HiddenItemEntry;
 
-extern u8 ZONEDATA_PopTimeFlagsCleared(struct EventWork *eventWork);
+#include "../arm9/zonedata.h"
 
-extern u32 GFL_USE_GetRandom(u32 range);
+#include "../arm9/gfl_use.h"
 
-extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
 
 extern const HiddenItemEntry HiddenItemTable[];
 

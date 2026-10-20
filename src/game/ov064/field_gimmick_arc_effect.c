@@ -49,38 +49,30 @@
 
 struct GameEvent;
 
-extern void *FIELDMAP_GetExpObj(void *fieldMap);
+#include "../ov021/fieldmap.h"
 struct FieldMap;
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, s32 id, s32 heapId, s32 size);
-extern u32 GPOWER_GetSpecialPowerId(void);
+#include "../arm9/gpower.h"
 struct G3dUtilSetup;
 struct FldExpObjCnt;
 extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
-extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
+extern void FLD_EXP_OBJ_SetModelHidden(struct FldExpObjCnt *expObj, int unit, int model, int hidden);
 struct FldExpObjAnime;
 extern struct FldExpObjAnime *FLD_EXP_OBJ_GetAnime(struct FldExpObjCnt *cnt, s32 unitIdx, u32 modelIdx, s32 animeIdx);
 extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, s32 loop);
 extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, s32 paused);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, int model, u16 animeIdx, int enabled);
-extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, s32 id);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObjCnt *expObj, int unit, int model, u16 animeIdx, int enabled);
 extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, u16 unitIdx);
 extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
-extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
-extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
-extern void FIELD_PLAYER_GetPos(void *player, VecFx32 *out);
+#include "../arm9/gamesystem.h"
+#include "../ov021/field_player.h"
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, int model);
-extern void FLD_EXP_OBJ_SetAnimeFrame(void *expObj, int unit, int model, u16 animeIdx, int frame);
+extern void FLD_EXP_OBJ_SetAnimeFrame(struct FldExpObjCnt *expObj, int unit, int model, u16 animeIdx, int frame);
 struct GameSystem;
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*eventFunc)(void *event, int *seq), u32 workSize);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, s32 id);
+#include "../arm9/game_event.h"
 extern int FLD_EXP_OBJ_GetAnimeFrame(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 animeIdx);
 extern int FLD_EXP_OBJ_GetAnimeLastFrame(struct FldExpObjAnime *anime);
-extern void GFL_USE_StopAllSe(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void FADE_Start(u32 screen, s32 from, s32 to, s32 wait);
-extern int FADE_IsActive(void);
+#include "../arm9/gfl_use.h"
+#include "../arm9/fade.h"
 extern int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(void *event, int *unusedSeq);
 void FIELD_GIMMICK_ARC_EFFECT_Init(void *fieldMap);
 void FIELD_GIMMICK_ARC_EFFECT_Exit(void *fieldMap);
@@ -161,7 +153,7 @@ struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(void *gameSystem)
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, animeIdx, 1);
         FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, animeIdx, 0);
     }
-    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent, 0);
 }
 
 /* Event of the player effect: plays sounds at frames of the first anime and fades the screen out and in
@@ -247,7 +239,7 @@ void FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *st
     work->arcFrameCount = frameCount;
     work->arcFrame = 0;
     work->arcHeight = arcHeight;
-    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent, 0);
+    GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent, 0);
 }
 
 /* Shows the arc model at pos and plays its animes. */
@@ -271,14 +263,14 @@ void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *gameSystem, VecFx32 *pos)
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *gameSystem)
 {
     GAMESYSTEM_GetFieldMap(gameSystem);
-    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached, 0);
 }
 
 /* Creates an event that ends once the arc model anime has stopped. */
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *gameSystem)
 {
     GAMESYSTEM_GetFieldMap(gameSystem);
-    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped, 0);
 }
 
 /* Event of the arc effect: moves the arc model one frame along the line from start to end with the extra arc height. */

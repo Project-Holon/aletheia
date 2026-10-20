@@ -6,7 +6,10 @@
 
 #include "../types.h"
 
-typedef struct { short x, y; } TilePos;
+#include "../ov127/wf2dmap_obj_types.h"
+
+typedef Wf2dmapPos TilePos;
+
 typedef struct { u16 w, h; } MapSize;
 
 /* Palette file loaded for the cursor blink. */

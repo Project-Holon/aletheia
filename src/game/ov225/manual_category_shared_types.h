@@ -4,22 +4,7 @@
 struct Node;
 
 #include "../types.h"
-
-/* The manual data object built by MANUAL_COMMON_CreateData (was State_021B9B3C / Obj views). */
-struct ManualData {
-    void *owner;        /* 0x00 save/state object */
-    u16 heap;           /* 0x04 */
-    u16 pad06;
-    void *screen;       /* 0x08 */
-    void *font;         /* 0x0C */
-    void *printQue[3];  /* 0x10 */
-    void *bank[2];      /* 0x1C */
-    void *arc[2];       /* 0x24 */
-    void *assets;       /* 0x2C */
-    u16 id;             /* 0x30 */
-    u16 pad32;
-    void *group;        /* 0x34 */
-};
+#include "manual_common_shared_types.h"
 
 /* One 8-byte selection table row. */
 struct ManualListEntry { u16 item; u16 count; u32 flag; };

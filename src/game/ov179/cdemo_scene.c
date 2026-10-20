@@ -64,37 +64,17 @@ typedef struct {
     int destOffset;
 } CdemoScriptStep;
 
-extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
-extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void BG_SYS_SetLcdSwap(u32 swap);
-extern void CDEMO_MAIN_SetupVram(void);
-extern void CDEMO_MAIN_SetupScreen(char *);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void CDEMO_MAIN_SetScript(char *);
-extern void CDEMO_MAIN_StartTask(int *);
-extern void CDEMO_WIPE_StartFadeOut(char *,unsigned,unsigned,unsigned);
-extern u32 WIPE_SYS_EndCheck(void);
-extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void CDEMO_MAIN_StopTask(char *);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void CDEMO_MAIN_Noop(char *);
-extern void CDEMO_MAIN_HidePlane(void);
-extern u64 OS_GetTick(void);
-extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned short heapID);
+#include "../arm9/bg_sys.h"
+#include "cdemo_main.h"
+#include "../arm9/arc_tool.h"
+#include "cdemo_wipe.h"
+#include "../arm9/wipe.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/os_tick.h"
+#include "../arm9/arc_util.h"
 extern void DC_FlushRange(int, int);
-extern void GX_LoadBG2Scr(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GX_LoadBG3Scr(void *pSrc, unsigned int offset, unsigned int szByte);
-extern u32 GFL_HEAP_Free(void *p);
-extern void CDEMO_WIPE_StartFadeIn(char *p, u32 a, u32 b, u32 c);
-extern void CDEMO_WIPE_StartFadeOutWhite(char *p, u32 a, u32 b, u32 c);
-extern void CDEMO_WIPE_StartFadeInWhite(char *p, u32 a, u32 b, u32 c);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void CDEMO_WIPE_LoadPalette(void *,int,int);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void GFL_USE_PlayFanfare(unsigned int seqNo);
+#include "../arm9/gx_load2d.h"
+#include "../arm9/gfl_heap_wrap.h"
 int CDEMO_SCENE_Create(char *p);
 int CDEMO_SCENE_Destroy(char *p);
 u32 CDEMO_SCENE_GetResult(char *p);

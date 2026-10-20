@@ -23,70 +23,53 @@
  *   OS_GetProcMode  0x020879EC  arm  arm9
  *   DAT_02734420                 0x02734420  data
  *   DAT_02734428                 0x02734428  data
- *   data_02150FEC                0x02150FEC  data
+ *   OSi_ThreadInfo                0x02150FEC  data
  *   data_027343E0                0x027343E0  data
  *   data_0273442C                0x0273442C  data
  */
 #include "../types.h"
+#include "fatfs_request.h"
 
 typedef struct FsWait {
     struct FsWait *next;
     u32 key;
-    struct Big *slot;
+    struct FATFSCommandBuffer *slot;
 } FsWait;
-
-/* One command buffer.  qnext (0x0C) links it into the list that
- * FATFSi_WaitForRequest waits on; next (0x808) links the busy list. */
-typedef struct Big {
-    u32 arg;
-    u32 state;
-    u32 mode;
-    struct Big *qnext;
-    u8 buf[0x7F0];
-    u32 key;
-    u32 pad804;
-    u32 pad808;
-    struct Big *next;
-} Big;
 
 typedef struct FsRoot {
     u32 pad00;
     FsWait *waiters;
     u32 pad08[6];
-    Big *busy;
+    FATFSCommandBuffer *busy;
     u32 pad24[16];
-    Big *spare;
-    Big *cur;
+    FATFSCommandBuffer *spare;
+    FATFSCommandBuffer *cur;
 } FsRoot;
 
-extern void DC_FlushRange(u32, u32);
-extern int PXI_SendWordByFifo(int fifotag, unsigned int data, int err);
-extern u32 OS_GetProcMode(void);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32 enable);
+#include "../arm9/os_cache.h"
+#include "../arm9/pxi_fifo.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
 #include "../sdk_os.h"
 
-extern void OS_LockMutex(struct OSMutex *mutex);
-extern void OS_UnlockMutex(struct OSMutex *mutex);
-extern void PXIi_HandlerRecvFifoNotEmpty(void);
-extern void SVC_WaitByLoop(u32);
-extern void OS_SleepThread(u32 *);
-extern u32 data_02150FEC[];
+#include "../arm9/os_mutex.h"
+#include "../arm9/svc_wait_by_loop.h"
+#include "../arm9/os_thread.h"
 extern FsRoot data_027343E0;
-extern u32 data_0273442C[];
-extern Big *DAT_02734428;
-extern u32 DAT_02734420[];
+extern OSMutex data_0273442C;
+extern FATFSCommandBuffer *DAT_02734428;
+extern OSThreadQueue DAT_02734420;
 
-void FATFSi_SendToPXI(Big *command);
+void FATFSi_SendToPXI(FATFSCommandBuffer *command);
 u32 FATFSi_GetThreadHandle(void);
-Big *FATFSi_AllocateCommandBuffer(u32 arg);
-Big *FATFSi_AllocateEmergencyCommandBuffer(u32 arg);
-void FATFSi_FreeCommandBuffer(Big *command);
-void FATFSi_PostRequest(Big *request);
-void FATFSi_WaitForRequest(Big *request);
+FATFSCommandBuffer *FATFSi_AllocateCommandBuffer(u32 arg);
+FATFSCommandBuffer *FATFSi_AllocateEmergencyCommandBuffer(u32 arg);
+void FATFSi_FreeCommandBuffer(FATFSCommandBuffer *command);
+void FATFSi_PostRequest(FATFSCommandBuffer *request);
+void FATFSi_WaitForRequest(FATFSCommandBuffer *request);
 
-void FATFSi_SendToPXI(Big *command) {
-    DC_FlushRange((u32)command, 0x800);
+void FATFSi_SendToPXI(FATFSCommandBuffer *command) {
+    DC_FlushRange(command, 0x800);
     while (PXI_SendWordByFifo(0x14, (u32)command >> 5, 0) < 0) {
     }
 }
@@ -101,14 +84,14 @@ u32 FATFSi_GetThreadHandle(void) {
     if (OS_GetProcMode() == 0x12) {
         return 0x80000000u;
     }
-    return data_02150FEC[1];
+    return (u32)OSi_ThreadInfo.current;
 }
 
-Big *FATFSi_AllocateCommandBuffer(u32 arg) {
-    Big *e = 0;
+FATFSCommandBuffer *FATFSi_AllocateCommandBuffer(u32 arg) {
+    FATFSCommandBuffer *e = 0;
     u32 ime = OS_DisableInterrupts();
     u32 key = FATFSi_GetThreadHandle();
-    Big *p;
+    FATFSCommandBuffer *p;
     for (p = data_027343E0.busy; (p != 0) ? 1 : 0; p = p->next) {
         if (p->key == key) {
             p->key = 0;
@@ -119,7 +102,7 @@ Big *FATFSi_AllocateCommandBuffer(u32 arg) {
     }
     OS_RestoreInterrupts(ime);
     if (e == 0) {
-        OS_LockMutex((struct OSMutex *)data_0273442C);
+        OS_LockMutex(&data_0273442C);
         e = data_027343E0.spare;
         e->mode = 0;
     }
@@ -141,11 +124,11 @@ Big *FATFSi_AllocateCommandBuffer(u32 arg) {
     return e;
 }
 
-Big *FATFSi_AllocateEmergencyCommandBuffer(u32 arg) {
+FATFSCommandBuffer *FATFSi_AllocateEmergencyCommandBuffer(u32 arg) {
     if (OS_GetProcMode() != 0x12) {
         return FATFSi_AllocateCommandBuffer(arg);
     } else {
-        Big *e = data_027343E0.cur;
+        FATFSCommandBuffer *e = data_027343E0.cur;
         e->arg = arg;
         e->state = 2;
         e->qnext = 0;
@@ -154,24 +137,24 @@ Big *FATFSi_AllocateEmergencyCommandBuffer(u32 arg) {
     }
 }
 
-void FATFSi_FreeCommandBuffer(Big *command) {
+void FATFSi_FreeCommandBuffer(FATFSCommandBuffer *command) {
     if (command == data_027343E0.spare) {
-        OS_UnlockMutex((struct OSMutex *)data_0273442C);
+        OS_UnlockMutex(&data_0273442C);
     }
 }
 
-void FATFSi_PostRequest(Big *request)
+void FATFSi_PostRequest(FATFSCommandBuffer *request)
 {
     FATFSi_SendToPXI(request);
 }
 
-void FATFSi_WaitForRequest(Big *request) {
+void FATFSi_WaitForRequest(FATFSCommandBuffer *request) {
     u32 busy = 1;
     while ((busy != 0) ? 1 : 0) {
         u32 ime = OS_DisableInterrupts();
         /* the list is shared: every access rereads it */
-        Big * volatile *pp = &DAT_02734428;
-        Big *p;
+        FATFSCommandBuffer * volatile *pp = &DAT_02734428;
+        FATFSCommandBuffer *p;
         while (((p = *pp) != 0) ? 1 : 0) {
             if (*pp == request) {
                 busy = 0;
@@ -186,7 +169,7 @@ void FATFSi_WaitForRequest(Big *request) {
                 PXIi_HandlerRecvFifoNotEmpty();
                 SVC_WaitByLoop(10000);
             } else {
-                OS_SleepThread(DAT_02734420);
+                OS_SleepThread(&DAT_02734420);
             }
         }
         OS_RestoreInterrupts(ime);

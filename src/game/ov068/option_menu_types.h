@@ -19,7 +19,7 @@ struct PrintSys;
 struct PrintStream;
 struct BmpWindow;
 struct Bitmap;
-struct StringBuf;
+struct Strbuf;
 struct TaskList;
 struct Task;
 struct TaskMenu;
@@ -100,25 +100,24 @@ typedef struct OptionMenuArgs {
 } OptionMenuArgs;
 
 /* One background layer setup row (table gOptionMenuBgLayers). */
-typedef struct BgTemplate {
-    u32 words[8];
-} BgTemplate;
+#include "../arm9/bg_sys_types.h"
+#include "../arm9/app_taskmenu.h"
 
 typedef struct OptionMenuBgLayer {
     u32 layerId;
-    BgTemplate layout;
+    struct BgTemplate layout;
     u32 mapType;
 } OptionMenuBgLayer;
 
-typedef struct ScreenData {
+typedef struct OptionMenuScreenData {
     u8 header[0x14];
     u8 *charData;
-} ScreenData;
+} OptionMenuScreenData;
 
-typedef struct PaletteResource {
+typedef struct OptionMenuPaletteResource {
     u8 header[0xC];
     u8 *colors;
-} PaletteResource;
+} OptionMenuPaletteResource;
 
 /* Window label table (gOptionMenuLabels). */
 typedef struct OptionMenuLabel {
@@ -182,7 +181,7 @@ typedef struct OptionMenuGfx {
     u16 blinkColor;                                  /* 0x50 */
     u16 pad52;                                       /* 0x52 alignment before the pointer */
     void *screenBuffer;                              /* 0x54 */
-    ScreenData *screenData;                          /* 0x58 */
+    OptionMenuScreenData *screenData;                          /* 0x58 */
     u16 palette[16];                                 /* 0x5C */
 } OptionMenuGfx;
 
@@ -238,23 +237,6 @@ typedef struct OptionSettings {
     struct Config *config;          /* 0x08 */
 } OptionSettings;
 
-typedef struct TaskMenuItem {
-    struct StringBuf *label;        /* 0x00 */
-    u16 color;                      /* 0x04 */
-    u32 value;                      /* 0x08 */
-} TaskMenuItem;
-
-typedef struct TaskMenuTemplate {
-    u32 heapId;                     /* 0x00 */
-    u8 itemCount;                   /* 0x04 */
-    TaskMenuItem *items;            /* 0x08 */
-    u32 cursorType;                 /* 0x0C */
-    u8 tileOffset;                  /* 0x10 */
-    u8 cursorPalette;               /* 0x11 */
-    u8 windowPalette;               /* 0x12 */
-    u8 textColor;                   /* 0x13 */
-} TaskMenuTemplate;
-
 /* The two touch bar buttons (return and toggle), copied to the stack when the bar is created (gOptionMenuReturnButtonCells). */
 typedef struct ReturnButtonCells {
     TouchBarButtonDef def[2];
@@ -301,7 +283,7 @@ typedef struct OptionMenuTextBox {
     struct PrintStream *stream;     /* 0x08 */
     struct TaskList *taskList;      /* 0x0C */
     struct BmpWindow *window;       /* 0x10 */
-    struct StringBuf *buffer;       /* 0x14 */
+    struct Strbuf *buffer;       /* 0x14 */
     u16 fillColor;                  /* 0x18 */
     u16 heapId;                     /* 0x1A */
     struct BmpWindow *printWindow;  /* 0x1C */
@@ -319,7 +301,7 @@ typedef struct OptionMenuMessageBox {
     TaskMenuItem items[2];          /* 0x3C */
     u16 answer;                     /* 0x54 */
     u16 phase;                      /* 0x56 */
-    TaskMenuTemplate menuTemplate;  /* 0x58 */
+    TaskMenuInitWork menuTemplate;  /* 0x58 */
     struct TaskMenuRes *menuRes;    /* 0x6C */
 } OptionMenuMessageBox;
 

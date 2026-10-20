@@ -45,24 +45,11 @@
  */
 #include "dwc_account.h"
 
-struct DWCstAccFriendKeyData {
-    int pad;
-    unsigned long keyLow;
-    unsigned long keyHigh;
-};
-
-struct DWCstAccGsProfileIdData {
-    int pad;
-    int gsProfileId;
-};
-
 typedef struct {
     unsigned int raw;
 } DWCstAccFlag;
 
 #include "../types.h"
-
-typedef union DWCstAccFriendData DWCstAccFriendData;
 
 #include "../sdk_math.h"
 

@@ -15,71 +15,63 @@
  * symbols:
  */
 #include "btlv_core_types.h"
+#include "btl_pokeparam_types.h"
 
-/*
- * One packed battle slot word.  Bits 0..2 hold the kind (1..4); the rest of
- * the word depends on the kind, so each accessor reads the variant it needs.
- * The constructors below zero the word and fill one variant.
- */
-typedef union BtlvSlot {
-    s32 word;
-    struct { u32 kind : 3; u32 lo : 6; u32 hi : 6; u32 extra : 17; } pos;
-    struct { u32 kind : 3; u32 index : 6; u32 value : 16; u32 extra : 7; } param;
-    struct { u32 kind : 3; u32 skip : 12; u32 value : 16; u32 extra : 1; } wideParam;
-    struct { u32 kind : 3; u32 skip : 22; u32 flag : 1; u32 extra : 6; } flagMid;
-    struct { u32 kind : 3; u32 skip : 28; u32 flag : 1; } flagHigh;
-    struct { u32 kind : 3; u32 index : 6; u32 extra : 23; } indexOnly;
-} BtlvSlot;
+union SickCont BTL_SICKCONT_MakeNone(void);
 
-u32 BTL_SICKCONT_MakeNone(void);
+int BTL_SICKCONT_IsNone(union SickCont slot);
 
-int BTL_SICKCONT_IsNone(BtlvSlot slot);
+union SickCont BTL_SICKCONT_MakeKind2Index(u32 index);
 
-int BTL_SICKCONT_MakeKind2Index(u32 index);
+union SickCont BTL_SICKCONT_MakeKind2(u32 index, u32 value);
 
-int BTL_SICKCONT_MakeKind2(u32 index, u32 value);
+union SickCont BTL_SICKCONT_MakeKind3(u32 index);
 
-int BTL_SICKCONT_MakeKind3(u32 index);
+union SickCont BTL_SICKCONT_MakeKind1Empty(void);
 
-int BTL_SICKCONT_MakeKind1Empty(void);
+union SickCont BTL_SICKCONT_MakeKind1Value(u32 value);
 
-int BTL_SICKCONT_MakeKind1Value(u32 value);
+union SickCont BTL_SICKCONT_MakeKind1(u32 index, u32 value);
 
-int BTL_SICKCONT_MakeKind1(u32 index, u32 value);
+union SickCont BTL_SICKCONT_MakeKind4(u32 hi, u32 lo);
 
-int BTL_SICKCONT_MakeKind4(u32 hi, u32 lo);
+union SickCont BTL_SICKCONT_MakeKind1Index15(void);
 
-int BTL_SICKCONT_MakeKind1Index15(void);
+int BTL_SICKCONT_IsKind1Index15(union SickCont slot);
 
-int BTL_SICKCONT_IsKind1Index15(BtlvSlot slot);
+u8 BTL_SICKCONT_GetPosition(union SickCont slot);
 
-u8 BTL_SICKCONT_GetPosition(BtlvSlot slot);
+void BTL_SICKCONT_SetPosition(union SickCont *slot, u8 pos);
 
-void BTL_SICKCONT_SetPosition(BtlvSlot *slot, u8 pos);
+u8 BTL_SICKCONT_GetLow(union SickCont slot);
 
-u8 BTL_SICKCONT_GetLow(BtlvSlot slot);
+void BTL_SICKCONT_SetValue(union SickCont *slot, u16 value);
 
-void BTL_SICKCONT_SetValue(BtlvSlot *slot, u16 value);
+u16 BTL_SICKCONT_GetValue(union SickCont slot);
 
-u16 BTL_SICKCONT_GetValue(BtlvSlot slot);
+void BTL_SICKCONT_SetFlag(union SickCont *slot, int flag);
 
-void BTL_SICKCONT_SetFlag(BtlvSlot *slot, int flag);
+u32 BTL_SICKCONT_GetFlag(union SickCont slot);
 
-u32 BTL_SICKCONT_GetFlag(BtlvSlot slot);
+void BTL_SICKCONT_AddIndex(union SickCont *slot, u32 delta);
 
-void BTL_SICKCONT_AddIndex(BtlvSlot *slot, u32 delta);
-
-void BTL_SICKCONT_SetIndex(BtlvSlot *slot, int count);
+void BTL_SICKCONT_SetIndex(union SickCont *slot, int count);
 
 /*
  * Returns 0 with a 4-byte frame that nothing ever stores to.  Taking the address of a local array forces the slot, and the optimizer then removes both the store and the reload (nothing outside can alias it), so the frame and the register-resident value both survive.  A scalar `u32 v = 0; v &= ~7u;` folds to 4 bytes, which is why O28's residue could not reach this; the address-taken local is the missing form.
  * stand-in: the word is reached through a cast of the byte array; a u32 array, a union or an address-taken u32 each change the bytes.
  */
-u32 BTL_SICKCONT_MakeNone(void) { u8 bytes[4]; *(u32 *)bytes = 0; return *(u32 *)bytes & ~7u; }
-
-int BTL_SICKCONT_IsNone(BtlvSlot slot)
+union SickCont BTL_SICKCONT_MakeNone(void)
 {
-    if (slot.pos.kind == 0)
+    union SickCont slot = {0};
+
+    slot.byPart.kind = 0;
+    return slot;
+}
+
+int BTL_SICKCONT_IsNone(union SickCont slot)
+{
+    if (slot.byPart.kind == 0)
         return 1;
     return 0;
 }
@@ -89,24 +81,24 @@ int BTL_SICKCONT_IsNone(BtlvSlot slot)
  * 0x000001FF. It is the value:16 clear mask of the BTL_SICKCONT_MakeKind2 slot, so this is
  * BTL_SICKCONT_MakeKind2 with value = 0 and extra left zero from the initialiser.
  */
-int BTL_SICKCONT_MakeKind2Index(u32 index)
+union SickCont BTL_SICKCONT_MakeKind2Index(u32 index)
 {
-    BtlvSlot slot = {0};
+    union SickCont slot = {0};
 
-    slot.param.kind = 2;
-    slot.param.index = index & 0x3f;
-    slot.param.value = 0;
-    return slot.word;
+    slot.byValue.kind = 2;
+    slot.byValue.index = index & 0x3f;
+    slot.byValue.value = 0;
+    return slot;
 }
 
-int BTL_SICKCONT_MakeKind2(u32 index, u32 value)
+union SickCont BTL_SICKCONT_MakeKind2(u32 index, u32 value)
 {
-    BtlvSlot slot = {0};
+    union SickCont slot = {0};
 
-    slot.param.kind = 2;
-    slot.param.index = index & 0x3f;
-    slot.param.value = value;
-    return slot.word;
+    slot.byValue.kind = 2;
+    slot.byValue.index = index & 0x3f;
+    slot.byValue.value = value;
+    return slot;
 }
 
 /*
@@ -119,29 +111,29 @@ int BTL_SICKCONT_MakeKind2(u32 index, u32 value)
  *
  * Addresses are Black-image addresses.
  */
-int BTL_SICKCONT_MakeKind3(u32 index)
+union SickCont BTL_SICKCONT_MakeKind3(u32 index)
 {
-    BtlvSlot slot = {0};
+    union SickCont slot = {0};
 
     slot.indexOnly.kind = 3;
     slot.indexOnly.index = index & 0x3f;
-    return slot.word;
+    return slot;
 }
 
-int BTL_SICKCONT_MakeKind1Empty(void)
+union SickCont BTL_SICKCONT_MakeKind1Empty(void)
 {
-    BtlvSlot slot = {0};
+    union SickCont slot = {0};
 
     slot.indexOnly.kind = 1;
-    return slot.word;
+    return slot;
 }
 
-int BTL_SICKCONT_MakeKind1Value(u32 value)
+union SickCont BTL_SICKCONT_MakeKind1Value(u32 value)
 {
-    BtlvSlot slot = {0};
-    slot.param.kind = 1;
-    slot.param.value = value;
-    return slot.word;
+    union SickCont slot = {0};
+    slot.byValue.kind = 1;
+    slot.byValue.value = value;
+    return slot;
 }
 
 /*
@@ -149,83 +141,83 @@ int BTL_SICKCONT_MakeKind1Value(u32 value)
  * kind switch).  Sibling of BTL_SICKCONT_MakeKind3: packs kind 1, a 6-bit field and a
  * 16-bit field into a one-word bitfield.
  */
-int BTL_SICKCONT_MakeKind1(u32 index, u32 value)
+union SickCont BTL_SICKCONT_MakeKind1(u32 index, u32 value)
 {
-    BtlvSlot slot = {0};
-    slot.param.kind = 1;
-    slot.param.index = index & 0x3f;
-    slot.param.value = value;
-    return slot.word;
+    union SickCont slot = {0};
+    slot.byValue.kind = 1;
+    slot.byValue.index = index & 0x3f;
+    slot.byValue.value = value;
+    return slot;
 }
 
-int BTL_SICKCONT_MakeKind4(u32 hi, u32 lo)
+union SickCont BTL_SICKCONT_MakeKind4(u32 hi, u32 lo)
 {
-    BtlvSlot slot = {0};
+    union SickCont slot = {0};
 
-    slot.pos.kind = 4;
-    slot.pos.lo = lo & 0x3f;
-    slot.pos.hi = hi & 0x3f;
-    return slot.word;
+    slot.byPart.kind = 4;
+    slot.byPart.paramLow = lo & 0x3f;
+    slot.byPart.paramHigh = hi & 0x3f;
+    return slot;
 }
 
-int BTL_SICKCONT_MakeKind1Index15(void)
+union SickCont BTL_SICKCONT_MakeKind1Index15(void)
 {
-    BtlvSlot slot = {0};
+    union SickCont slot = {0};
 
     slot.indexOnly.kind = 1;
     slot.indexOnly.index = 0xf;
-    return slot.word;
+    return slot;
 }
 
-int BTL_SICKCONT_IsKind1Index15(BtlvSlot slot)
+int BTL_SICKCONT_IsKind1Index15(union SickCont slot)
 {
-    if (slot.pos.kind == 1 && slot.pos.lo == 0xf)
+    if (slot.byPart.kind == 1 && slot.byPart.paramLow == 0xf)
         return 1;
     return 0;
 }
 
-u8 BTL_SICKCONT_GetPosition(BtlvSlot slot)
+u8 BTL_SICKCONT_GetPosition(union SickCont slot)
 {
-    if (slot.pos.kind == 3)
-        return slot.pos.lo;
-    if (slot.pos.kind == 4)
-        return slot.pos.hi;
+    if (slot.byPart.kind == 3)
+        return slot.byPart.paramLow;
+    if (slot.byPart.kind == 4)
+        return slot.byPart.paramHigh;
     return 0x1f;
 }
 
-void BTL_SICKCONT_SetPosition(BtlvSlot *slot, u8 pos)
+void BTL_SICKCONT_SetPosition(union SickCont *slot, u8 pos)
 {
-    if (slot->pos.kind == 3)
-        slot->pos.lo = pos;
-    else if (slot->pos.kind == 4)
-        slot->pos.hi = pos;
+    if (slot->byPart.kind == 3)
+        slot->byPart.paramLow = pos;
+    else if (slot->byPart.kind == 4)
+        slot->byPart.paramHigh = pos;
 }
 
-u8 BTL_SICKCONT_GetLow(BtlvSlot slot)
+u8 BTL_SICKCONT_GetLow(union SickCont slot)
 {
-    if (slot.pos.kind == 2) return slot.pos.lo;
-    if (slot.pos.kind == 4) return slot.pos.lo;
+    if (slot.byPart.kind == 2) return slot.byPart.paramLow;
+    if (slot.byPart.kind == 4) return slot.byPart.paramLow;
     return 0;
 }
 
-void BTL_SICKCONT_SetValue(BtlvSlot *slot, u16 value)
+void BTL_SICKCONT_SetValue(union SickCont *slot, u16 value)
 {
-    if (slot->param.kind == 1) slot->param.value = value;
-    else if (slot->param.kind == 3) slot->param.value = value;
-    else if (slot->param.kind == 4) slot->wideParam.value = value;
-    else if (slot->param.kind == 2) slot->param.value = value;
+    if (slot->byValue.kind == 1) slot->byValue.value = value;
+    else if (slot->byValue.kind == 3) slot->byValue.value = value;
+    else if (slot->byValue.kind == 4) slot->wideParam.value = value;
+    else if (slot->byValue.kind == 2) slot->byValue.value = value;
 }
 
-u16 BTL_SICKCONT_GetValue(BtlvSlot slot)
+u16 BTL_SICKCONT_GetValue(union SickCont slot)
 {
-    if (slot.param.kind == 1) return slot.param.value;
-    if (slot.param.kind == 3) return slot.param.value;
-    if (slot.param.kind == 4) return slot.wideParam.value;
-    if (slot.param.kind == 2) return slot.param.value;
+    if (slot.byValue.kind == 1) return slot.byValue.value;
+    if (slot.byValue.kind == 3) return slot.byValue.value;
+    if (slot.byValue.kind == 4) return slot.wideParam.value;
+    if (slot.byValue.kind == 2) return slot.byValue.value;
     return 0;
 }
 
-void BTL_SICKCONT_SetFlag(BtlvSlot *slot, int flag)
+void BTL_SICKCONT_SetFlag(union SickCont *slot, int flag)
 {
     if (slot->flagMid.kind == 1) slot->flagMid.flag = flag;
     else if (slot->flagMid.kind == 3) slot->flagMid.flag = flag;
@@ -233,7 +225,7 @@ void BTL_SICKCONT_SetFlag(BtlvSlot *slot, int flag)
     else if (slot->flagMid.kind == 2) slot->flagMid.flag = flag;
 }
 
-u32 BTL_SICKCONT_GetFlag(BtlvSlot slot)
+u32 BTL_SICKCONT_GetFlag(union SickCont slot)
 {
     if (slot.flagMid.kind == 1) return slot.flagMid.flag;
     if (slot.flagMid.kind == 3) return slot.flagMid.flag;
@@ -242,13 +234,13 @@ u32 BTL_SICKCONT_GetFlag(BtlvSlot slot)
     return 0;
 }
 
-void BTL_SICKCONT_AddIndex(BtlvSlot *slot, u32 delta)
+void BTL_SICKCONT_AddIndex(union SickCont *slot, u32 delta)
 {
     if (slot->indexOnly.kind == 2 && slot->indexOnly.index < 8) slot->indexOnly.index = slot->indexOnly.index + delta;
     if (slot->indexOnly.kind == 4 && slot->indexOnly.index < 8) slot->indexOnly.index = slot->indexOnly.index + delta;
 }
 
-void BTL_SICKCONT_SetIndex(BtlvSlot *slot, int count)
+void BTL_SICKCONT_SetIndex(union SickCont *slot, int count)
 {
     if (slot->indexOnly.kind == 2 && slot->indexOnly.index < 8) slot->indexOnly.index = count;
     if (slot->indexOnly.kind == 4 && slot->indexOnly.index < 8) slot->indexOnly.index = count;

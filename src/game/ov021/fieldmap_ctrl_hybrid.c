@@ -122,76 +122,28 @@ typedef struct FieldMapCtrlHybridModeTable {
     FieldMapCtrlHybridModelParam modelParam;                                /* 0x08 */
 } FieldMapCtrlHybridModeTable;
 
-extern u32 GFL_HEAP_Free(void *memory);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u32 KEY_GetTrg(void);
-extern unsigned int KEY_GetCont(void);
-extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern void FIELDMAP_SetCtrlWork(FieldMap *fieldMap, void *ctrlWork);
-extern void *FIELDMAP_GetCtrlWork(FieldMap *fieldMap);
-extern void FIELDMAP_SetTargetPos(FieldMap *fieldMap, VecFx32 *targetPos);
-extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/key.h"
+#include "field_player.h"
+#include "fieldmap.h"
 struct FieldMap;
 struct GameSystem;
-extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct PlayerWork;
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
-extern struct RailLocationWords *GAME_DATA_GetPlayerRail(struct PlayerWork *player);
-extern u8 GAME_DATA_GetPlayerMoveForm(struct PlayerWork *player);
-extern u8 ZONEDATA_DirToRailKey(int dir);
-extern void FLDMMDL_MOVE_AddDirVector(int dir, VecFx32 *vec, int amount);
-extern VecFx32 *FLDMMDL_GetPosPtr(struct Mmdl *mmdl);
-struct MmdlVec;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern int FLDMMDL_CheckPossibleAcmd(struct Mmdl *mmdl);
-extern void FLDMMDL_FreeAcmd(struct Mmdl *mmdl);
-extern u16 FLDMMDL_GetObjCode(struct Mmdl *mmdl);
-extern u16 FLDMMDL_GetDirDisp(struct Mmdl *mmdl);
-extern void FLDMMDL_SetDirDispCheckPause(struct Mmdl *mmdl, int dir);
-extern int FLDMMDL_SetDirMove(struct Mmdl *mmdl, u16 dir);
-extern u16 FLDMMDL_GetDirMove(struct Mmdl *mmdl);
-extern int FLDMMDL_CheckMoveBitAcmd(struct Mmdl *mmdl);
-extern void FLDMMDL_InitGridPosition(struct Mmdl *mmdl, unsigned int gridX, unsigned int gridY, unsigned int gridZ, u16 dir);
+#include "../arm9/game_data.h"
+#include "../arm9/zonedata.h"
+#include "../ov010/fldmmdl_move.h"
+#include "../ov010/fldmmdl.h"
+struct VecFx32;
 struct MmdlHeader;
-extern void FLDMMDL_ChangeHeader(struct Mmdl *mmdl, struct MmdlHeader *header);
-extern void FIELD_CAMERA_SetMode(struct FieldCamera *camera, u32 mode);
-extern void FIELD_CAMERA_ResumeTargetTrace(struct FieldCamera *camera);
-extern int FIELD_CAMERA_ReloadSetting(struct FieldCamera *camera);
-extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
-extern void FLDMMDL_DRAW_GetBlactAnime(struct Mmdl *mmdl, u16 *outAnime, u16 *outFrame);
-extern void FLDMMDL_DRAW_SetBlactAnime(struct Mmdl *mmdl, u32 anime, u32 frame);
-extern int MAP_ATTR_GetAt(void *g3dMapper, void *pos);
-extern int MAP_ATTR_IsBlocked(u32 attr);
-extern u16 MAP_ATTR_GetTerrainId(u32 attr);
-extern int FIELD_RAIL_FindSegmentLocation(struct RailManager *manager, VecFx32 *startPos, VecFx32 *endPos, RailLocation *outLocation, VecFx32 *outPos);
-extern int FIELD_RAIL_TryStepLocation(struct RailManager *manager, RailLocation *location, u8 key, RailLocation *outLocation);
-extern int RAIL_ATTR_IsJumpStart(int attr);
+#include "field_camera.h"
+#include "fldmmdl_draw.h"
+#include "map_attr.h"
+#include "field_rail.h"
+#include "rail_attr.h"
 struct RailWork;
-extern void FIELD_NOGRID_MAPPER_BindCameraWork(struct FieldNogridMapper *mapper, struct RailWork *work);
-extern void FIELD_NOGRID_MAPPER_UnbindCameraWork(struct FieldNogridMapper *mapper);
-extern struct RailManager *FIELD_NOGRID_MAPPER_GetRailMan(struct FieldNogridMapper *mapper);
-extern u16 FIELD_PLAYER_ChooseMoveDirFromKeys(struct FieldPlayer *player, u32 keyCont);
-extern u32 FIELD_PLAYER_CheckMoveBusy(struct FieldPlayer *player);
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *outPos);
-extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, VecFx32 *pos);
-extern void FIELD_PLAYER_SetDirDisp(struct FieldPlayer *player, int dir);
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *player);
-extern u32 FIELD_PLAYER_GetFrontAttribute(struct FieldPlayer *player, u32 dir);
-extern int FIELD_PLAYER_CheckMoveRestrictFlag(struct FieldPlayer *player);
-extern void FIELD_PLAYER_CreateGrid(struct FieldPlayer *player, u32 heapId);
-extern void FIELD_PLAYER_MoveGrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont, u32 flags);
-extern void FIELD_PLAYER_CreateNogrid(struct FieldPlayer *player, u32 heapId);
-extern void FIELD_PLAYER_UpdateNogrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont);
-extern void FIELD_PLAYER_AttachNogridMmdl(struct FieldPlayer *player, int a);
-extern void FIELD_PLAYER_ResetNogrid(struct FieldPlayer *player);
-extern u32 FIELD_PLAYER_IsNogridForcedMove(struct FieldPlayer *player);
-extern u32 FIELD_PLAYER_GetNogridRailWork(struct FieldPlayer *player);
+#include "field_nogrid_mapper.h"
 extern char gFieldMapCtrlHybridFileName;
 extern FieldMapCtrlHybridModeTable gFieldMapCtrlHybridModeTable;
 
@@ -496,7 +448,7 @@ void FIELDMAP_CTRL_HYBRID_SetMode(FieldMap *fieldMap, FieldMapCtrlHybridWork *wo
         FIELD_PLAYER_ResetNogrid(work->player);
         FLDMMDL_ChangeHeader(mmdl, (struct MmdlHeader *)(&gFieldMapCtrlHybridModeTable.modelParam));
         FLDMMDL_InitGridPosition(mmdl, (s16)((pos.x >> 12) / 16), (s16)((pos.y >> 12) / 16), (s16)((pos.z >> 12) / 16), dir);
-        FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
+        FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&pos));
         FIELD_PLAYER_SetPos(work->player, &pos);
         FIELD_NOGRID_MAPPER_UnbindCameraWork(nogridMapper);
         FIELD_CAMERA_SetMode(camera, 0);

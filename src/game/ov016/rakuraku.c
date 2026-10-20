@@ -28,12 +28,11 @@
  *   DWCi_HEAPlFree2  0x021D647C  arm  ov016
  */
 #include "../arm9/os_terminate_processor.h"
+#include "atermset.h"
 #include "../types.h"
 #include "../arm9/os_thread.h"
 extern void DWCi_RAKUl_memFree(void *ptr);
-extern int ATERMi_ApConfigEnd(void);
 #include "heap.h"
-extern int DWCi_RakurakuATERMi_ApConfigGetResult(int a);
 #include "setting.h"
 void DWCi_RAKUlInit(void);
 void DWCi_RAKUlEnd(void);
@@ -45,7 +44,6 @@ typedef struct {
     int info0;
     int info1;
 } RakuStatus;
-extern int DWCi_RakurakuATERMi_ApConfigStart(int priority, int maxAps, void (*notify)(RakuStatus *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize);
 void cbConfig(RakuStatus *status);
 extern RakuStatus *gRakuStatus;
 
@@ -57,7 +55,7 @@ static void *memAlloc(unsigned long size);
 void DWCi_RAKUlInit(void)
 {
 	gRakuStatus = DWCi_HEAPlAllocEx(sizeof(RakuStatus), -4);
-	if (DWCi_RakurakuATERMi_ApConfigStart(0xf, 0x40, cbConfig, memAlloc, DWCi_RAKUl_memFree, 0x800) != 1)
+	if (DWCi_RakurakuATERMi_ApConfigStart(0xf, 0x40, (void (*)(struct _ATERMApConfigState *))cbConfig, memAlloc, DWCi_RAKUl_memFree, 0x800) != 1)
 		OS_Terminate();
 	OS_Sleep(10);
 }
@@ -91,7 +89,7 @@ int DWCi_RAKUlGetState(void)
 	case 4:
 		return 2;
 	case 6:
-		if (DWCi_RakurakuATERMi_ApConfigGetResult((int)aossResult) != 1)
+		if (DWCi_RakurakuATERMi_ApConfigGetResult((sptr)aossResult) != 1)
 			OS_Terminate();
 		if (aossResult[8] >= 0 && aossResult[8] <= 3 && aossResult[9] == 1)
 			return 3;
@@ -99,7 +97,10 @@ int DWCi_RAKUlGetState(void)
 	case 7:
 		return 4;
 	}
-	/* states above 7 skip every case and leave r0 as the caller had it; a `return 0;` here changes the bytes (docs/DEBT.tsv, missing-return) */
+	/* states above 7 skip every case and leave r0 as the caller had it; a `return 0;` here changes the bytes */
+#ifndef __MWERKS__
+	return 0;
+#endif
 }
 
 /*
@@ -109,7 +110,7 @@ void DWCi_RAKUlSetResult(void)
 {
 	char aossResult[0xe8];
 
-	if (DWCi_RakurakuATERMi_ApConfigGetResult((int)aossResult) != 1)
+	if (DWCi_RakurakuATERMi_ApConfigGetResult((sptr)aossResult) != 1)
 		OS_Terminate();
 	DWCi_SETTINGlSetRaku(aossResult);
 }

@@ -2,7 +2,7 @@
 #define OV026_WEATHER_RAIN_THUNDERSTORM_STORM_TYPES_H
 
 #include "../ov021/weather_task_types.h"
-#include "weather_lightning_types.h"
+#include "../ov026/weather_lightning_types.h"
 
 /* Weather kinds loaded as overlay 26: a light rain, a thunderstorm and a
  * windy storm. Each kind fills one WeatherKindDef with eight stage
@@ -10,7 +10,7 @@
  * work buffer (task->workBuffer) and in the 0x28 byte kind area of every
  * particle (particle->kindWork). */
 
-typedef struct Actor Actor;
+typedef struct ClactActor Actor;
 
 /* Rain: the work buffer is one counter. */
 typedef struct WeatherRainWork {
@@ -107,52 +107,7 @@ typedef struct WeatherStormGustSample {
 } WeatherStormGustSample;
 
 /* Weather task services (overlay 21, weather_task.c). */
-extern void *WEATHER_TASK_GetWorkBuffer(WeatherTaskSys *task);
-extern void WEATHER_TASK_SetupSpawner(WeatherTaskSys *task, int count, int interval, int targetCount, int targetInterval, int intervalStep, int stepsPerCountChange, int countStep, WeatherSpawnFunc spawn);
-extern void WEATHER_TASK_InitFog(WeatherTaskSys *task, int slope, int offset, int phase);
-extern void WEATHER_TASK_SaveCameraPos(WeatherTaskSys *task);
-extern int WEATHER_TASK_StepSpawner(WeatherTaskSys *task, int arg);
-extern void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, u8 slope, int offset, int frames, int mode);
-extern int WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId);
-extern void WEATHER_TASK_PlaySe(WeatherTaskSys *task, u16 seId);
-extern int WEATHER_TASK_IsFogIdle(WeatherTaskSys *task);
-extern void WEATHER_TASK_GetCameraScroll(WeatherTaskSys *task, s32 *outX, s32 *outY);
-extern void WEATHER_TASK_ShiftParticles(WeatherTaskSys *task, int dx, int dy);
-extern void WEATHER_TASK_PrewarmParticles(WeatherTaskSys *task, WeatherSpawnFunc spawn, int iterations, int growEvery, int growBy, u16 heapId);
-extern int WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, u32 memberId);
-extern int WEATHER_TASK_StepSpawnTimer(WeatherTaskSys *task, int arg);
-extern void WEATHER_TASK_RetargetSpawner(WeatherTaskSys *task, int targetCount, int targetInterval, int intervalStep, int countStep);
-extern void WEATHER_TASK_StopSe(WeatherTaskSys *task);
-extern void WEATHER_TASK_ChangeFogOffset(WeatherTaskSys *task, int endOffset, int frames, int mode);
-extern int WEATHER_TASK_GetParticleCount(WeatherTaskSys *task);
-extern void WEATHER_TASK_DisableFog(WeatherTaskSys *task, int phase);
-extern void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
-extern u8 *WEATHER_TASK_GetParticleWork(WeatherParticle *particle);
-extern Actor *WEATHER_TASK_GetParticleActor(WeatherParticle *particle);
-extern void WEATHER_TASK_GetParticlePos(WeatherParticle *particle, WeatherScreenPos *out);
-extern int WEATHER_TASK_SetParticlePos(WeatherParticle *particle, const WeatherScreenPos *pos);
-extern void WEATHER_TASK_RemoveParticle(WeatherParticle *particle);
-extern WeatherParticle *WEATHER_TASK_AddParticle(WeatherTaskSys *task, int reserved);
-extern void WEATHER_TASK_SetLightColor(WeatherTaskSys *task, unsigned int color, unsigned int frames);
-extern void WEATHER_TASK_FlashLight(WeatherTaskSys *task, unsigned int color, unsigned int frames, unsigned int returnFrames);
-extern void WEATHER_TASK_PlaySeDirect(WeatherTaskSys *task, int seId);
-extern void WEATHER_TASK_PlaySeWithVoice(WeatherTaskSys *task, int seId, int who);
-extern int WEATHER_TASK_IsLightFlashing(WeatherTaskSys *task);
-extern void WEATHER_TASK_SetBillboardVisible(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardScaleX(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardScaleY(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardTexOffsetX(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardTexOffsetY(WeatherTaskSys *task, unsigned int value, int layer);
 
 /* Arm9 services. */
-extern u16 ZONEDATA_GetLightTableMember(u32 i);
-extern u32 GFL_USE_GetRandom(u32 range);
-extern void CLACT_SetActorAnimIndex(Actor *actor, int index);
-extern void CLACT_SetActorAnimSeq(Actor *actor, u16 value);
-extern void CLACT_SetActorAutoAnim(Actor *actor, unsigned int enabled);
-extern void CLACT_SetActorAutoAnimSpeed(Actor *actor, u32 speed);
-extern int GFL_USE_GetSeSlot(u32 seId);
-extern int GFL_USE_IsSeSlotBusy(u32 handle);
-extern void MI_CpuFill8(void *dst, int value, u32 size);
 
 #endif

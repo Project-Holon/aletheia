@@ -43,31 +43,19 @@ typedef struct GPIKey {
     char *keyValue;
 } GPIKey;
 
-typedef struct GPIConnection {
-    char pad0[0x3b4];
-    void *extendedInfoKeys;
-} GPIConnection;
-
 #include "../types.h"
 
-extern void gsifree(void *ptr);
+#include "gpi_types.h"
+
+#include "gsmemory.h"
 struct DArrayImplementation;
-extern struct DArrayImplementation *ArrayNew(int elemSize, int numElems, void (*freeFn)(void *));
-extern void gpiSetErrorString(int *p, int b);
+#include "darray.h"
+#include "gpiutility.h"
 struct DArrayImplementation;
-extern void ArrayFree(struct DArrayImplementation *array);
-extern int strcmp(const char *s1, const char *s2);
-extern char *goastrdup(char *src);
-extern void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
-extern int ArraySearch(struct DArrayImplementation *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern void *ArrayNth(struct DArrayImplementation *array, int n);
-extern int ArrayLength(const int *p);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern int strlen(const u8 *s);
-extern void *gsimalloc(unsigned long size);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern u8 *strcat(u8 *dest, const u8 *src);
-extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
+#include "../arm9/msl_string_str.h"
+#include "gsplatformutil.h"
+#include "../arm9/os_printf.h"
+#include "gsdebug.h"
 /*
  * sdk: gpiStatusInfoKeyFree (libdwcgsgp.TWL.HYB.a(gpikeys.o))
  */
@@ -123,7 +111,7 @@ int gpiStatusInfoKeysInit(void **connection)
     iconnection->extendedInfoKeys = ArrayNew(8, result, gpiStatusInfoKeyFree);
     if (iconnection->extendedInfoKeys != 0)
         return 0;
-    gpiSetErrorString((int *)connection, (int)gGpiKeysErrorOutOfMemory);
+    gpiSetErrorString(connection, gGpiKeysErrorOutOfMemory);
     return result;
 }
 
@@ -153,11 +141,11 @@ int gpiStatusInfoAddKey(void **connection, void *keys, char *theKeyName, char *t
     struct GPIKey aKey;
 
     if (theKeyName == 0) {
-        gpiSetErrorString((int *)connection, (int)gGpiKeysErrorInvalidName);
+        gpiSetErrorString(connection, gGpiKeysErrorInvalidName);
         return 2;
     }
     if (theKeyValue == 0) {
-        gpiSetErrorString((int *)connection, (int)gGpiKeysErrorInvalidValue);
+        gpiSetErrorString(connection, gGpiKeysErrorInvalidValue);
         return 2;
     }
     aKey.keyName = goastrdup(theKeyName);
@@ -176,7 +164,7 @@ int gpiStatusInfoSetKey(void **connection, void *keys, char *keyName, char *newK
     int anIndex;
 
     if (keyName == 0) {
-        gpiSetErrorString((int *)connection, (int)gGpiKeysErrorInvalidName);
+        gpiSetErrorString(connection, gGpiKeysErrorInvalidName);
         return 2;
     }
     aKey.keyName = goastrdup(keyName);
@@ -201,7 +189,7 @@ int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **k
     int anIndex;
 
     if (keyName == 0) {
-        gpiSetErrorString((int *)connection, (int)gGpiKeysErrorInvalidName);
+        gpiSetErrorString(connection, gGpiKeysErrorInvalidName);
         return 2;
     }
     aKey.keyName = goastrdup(keyName);
@@ -266,7 +254,7 @@ int gpiSaveKeysToBuffer(void **connection, char **buffer)
     *buffer = (char *)gsimalloc((unsigned long)strlen((const u8 *)keysHeader) + sizeKeys + 1);
     if (*buffer == 0) {
         gsDebugFormat((int)1, (int)2, 1, gGpiKeysDebugSaveOom);
-        gpiSetErrorString((int *)connection, (int)gGpiKeysErrorOutOfMemory);
+        gpiSetErrorString(connection, gGpiKeysErrorOutOfMemory);
         return 1;
     }
 

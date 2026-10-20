@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_POKERUS_H
 #define GAME_ARM9_POKERUS_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of pokerus.c, prototypes copied from their definitions. */
 
 struct Party;
@@ -17,5 +18,6 @@ u32 POKERUS_IsInfected(struct PokemonParam *pp);
 u32 POKERUS_IsBoxInfected(struct BoxPokemon *box);
 u32 POKERUS_IsCured(struct PokemonParam *pp);
 u32 POKERUS_IsBoxCured(struct BoxPokemon *box);
+/* END mkheaders: generated region */
 
 #endif

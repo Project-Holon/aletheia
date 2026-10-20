@@ -47,9 +47,8 @@
 #define DWC_INIT_WORK_SIZE 0x1000
 #include "../types.h"
 
-typedef void *(*DWCAllocEx)(int name, u32 size, int align);
-
-typedef void (*DWCFreeEx)(int name, void *ptr, u32 size);
+#include "dwc_memfunc.h"
+#include "dwc_init.h"
 
 typedef struct {
     u32 gameCode;   /* aliases dwci_gamecode */
@@ -57,26 +56,16 @@ typedef struct {
 } DWCInitState;
 
 extern void OSi_ReferSymbol(const void *symbol);
-extern int  DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
-extern void  DWCi_SetMemFunc(DWCAllocEx alloc, DWCFreeEx free);
+extern int  DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCiMemAlloc alloc, DWCiMemFree free);
 extern void  OS_InitTick(void);
 extern void  OS_InitAlarm(void);
 extern void  RTC_Init(void);
-extern void *DWC_Alloc(int name, u32 size);
 extern int   DWC_BM_Init(void *work);
 extern int   DWC_Auth_CheckWiFiIDNeedCreate(void);
 extern int   DWCi_AUTH_MakeWiFiID(void *work);
-extern void  DWC_Free(int name, void *ptr, u32 size);
 extern int   DWCi_Auth_InitInterface(int auth_server);
-extern void  gsiMemoryCallbacksSet(void *(*p_malloc)(u32), void (*p_free)(void *),
-                                   void *(*p_realloc)(void *, u32), void *(*p_memalign)(u32, u32));
-extern void *DWCi_GsMalloc(u32 size);
-extern void  DWCi_GsFree(void *ptr);
-extern void *DWCi_GsRealloc(void *ptr, u32 size);
-extern void *DWCi_GsMemalign(u32 boundary, u32 size);
-int DWC_InitForProduction(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
-void *DWCi_GetGamecode(void);
-void DWCi_Np_SetInitFlag(int initialized);
+extern void  gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void *),
+                                   void *(*p_realloc)(void *, unsigned long), void *(*p_memalign)(unsigned long, unsigned long));
 extern char id_string_production[68];
 extern u32  dwci_gamecode;
 extern char gcd_gamename[];
@@ -86,7 +75,7 @@ extern void *s_data_02146AAC;
 /*
  * sdk:      DWC_InitForProduction (libdwccommon.TWL.HYB.a dwc_init.o)
  */
-int DWC_InitForProduction(const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
+int DWC_InitForProduction(const char *gameName, u32 gameCode, DWCiMemAlloc alloc, DWCiMemFree free)
 {
     OSi_ReferSymbol(id_string_production);
     return DWCi_Init(DWC_AUTHSERVER_PRODUCTION, gameName, gameCode, alloc, free);
@@ -97,7 +86,7 @@ int DWC_InitForProduction(const char *gameName, u32 gameCode, DWCAllocEx alloc, 
 /*
  * sdk:      DWCi_Init (dwc_init.o)
  */
-int DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
+int DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCiMemAlloc alloc, DWCiMemFree free)
 {
     int ret;
     int result;

@@ -19,6 +19,7 @@
  *   g_02151244  0x02151244  data
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -78,7 +79,7 @@ int OS_IsRunOnEmulator(void)
 int OS_IsRunOnTwl(void)
 {
     if (!g_02151244.isChecked) {
-        unsigned char rom9 = *(volatile unsigned char *)0x04004000;
+        unsigned char rom9 = *(volatile unsigned char *)REG_SCFG_ROM_ADDR;
         g_02151244.isTwl = ((rom9 & 3) == 1) ? 1 : 0;
         g_02151244.isChecked = 1;
     }

@@ -157,6 +157,7 @@
  *   STD_GetStringLength  0x0208CC78  arm  arm9
  */
 #include "fld3d_ci_types.h"
+#include "../ov074/fld3d_ci_name_types.h"
 
 #include "../types.h"
 
@@ -164,94 +165,79 @@ typedef struct Bmp Bmp;
 
 struct Bmp;
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void *G3D_UTIL_Create(int a, int b, int heap);
+#ifdef __MWERKS__
+#define G3D_UTIL_Create G3D_UTIL_Create_header
+#define G3D_CAMERA_Create G3D_CAMERA_Create_header
+#endif
+#include "../arm9/g3d_util.h"
+#include "../arm9/g3d_camera.h"
+#ifdef __MWERKS__
+#undef G3D_UTIL_Create
+#undef G3D_CAMERA_Create
+/* original prototypes: the definitions take u16 counts and heap id */
+struct G3dUtil *G3D_UTIL_Create(int resCount, int objCount, int heapId);
+struct G3dCamera *G3D_CAMERA_Create(int mode, int nearClip, int farClip, int fieldOfView, int aspectRatio, int scale, int roll, int flags, VecFx32 *eye, VecFx32 *target, VecFx32 *up, int heapId);
+#endif
 
-extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
 
-extern u32 G3D_CAMERA_Delete(void *camera);
 
-extern void G3D_UTIL_Delete(void *gfxUnits);
 
-extern u32 G3D_UTIL_AddUnit(u32, u32);
 
 extern u32 MTX_Identity33_(u32);
 struct G3dCamera;
 
-void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
-u32 G3D_UTIL_GetUnitObjIdx(void *gfxUnits, int index);
 
-u32 G3D_UTIL_GetUnitObjCount(void *gfxUnits, int index);
 
-u32 G3D_UTIL_GetObject(void *gfxUnits, int index);
 struct G3dObjectStatus;
 struct G3dObject;
 
-void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
+#include "../arm9/g3d_system.h"
 
-u32 GFL_HEAP_GetAllocatableSize(int a);
+#include "../arm9/gfl_heap.h"
 
-extern void *GAME_EVENT_Create(void *gameSystem, void *parent, void *func, u32 workSize);
+#include "../arm9/game_event.h"
 struct GameEvent;
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 struct GameSystem;
 struct GameData;
 
-struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-void *GAME_DATA_GetMyParty(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct Party;
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+#include "../arm9/pokeparty.h"
 
-u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 
-u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
 
-int GF_OVERLAY_Load(signed int id);
+#include "../arm9/gf_overlay.h"
 
-void GF_OVERLAY_Unload(int id);
 
-/* One row of ov074's name cut-in table (ov074/fld3d_ci_name.c). */
-typedef struct Fld3dCiNameRow {
-    u32 sequenceId;
-    u32 chrFile;
-    u32 plttFile;
-    u32 nameMsgId;
-    u32 nameLayout;
-} Fld3dCiNameRow;
+#include "../ov074/fld3d_ci_name.h"
 
-const Fld3dCiNameRow *FLD3D_CI_GetNameRow(int index);
 
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 struct FieldMap;
 struct MmdlSys;
 
 extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
-extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
+#include "../ov010/fldmmdl.h"
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 struct FieldPlayer;
 
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 struct Mmdl;
 
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+#include "field_player.h"
 
-extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
 
-extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *sys, u32 objId);
 
-extern void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
 
 extern void FIELDMAP_SetUpdateStopped(struct FieldMap *fieldMap, s32 stopped);
 
@@ -259,9 +245,9 @@ extern void BG_SYS_SetPriority(int idx, unsigned short val);
 
 extern void BG_SYS_SetGraphicsMode(void *dispConfig);
 
-extern void GX_SetBankForBG(int a);
+#include "../arm9/gx_vramcnt.h"
 
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/g2.h"
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
@@ -269,15 +255,13 @@ extern u32 FIELDMAP_GetFog(u8 *p);
 
 extern int FIELD_FOG_SetFlag(u32 a, u32 b);
 
-extern void *GFL_HEAP_GetHeapHead(u32 heapId);
 
 extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, s32 drawMode);
 
 extern int GFL_USE_IsLoaderBusy(void);
 
-extern void FLDMMDL_SetDirDispCheckPause(struct Mmdl *mmdl, s32 dir);
 
-extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
+#include "../arm9/g3x.h"
 
 extern u32 FIELDMAP_GetLight(u8 *p);
 
@@ -291,34 +275,27 @@ struct FieldPlaceName;
 
 extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
 
-extern void FIELD_MSGBG_ReloadBg(struct FieldMsgBg *msgBg);
+#include "field_msgbg.h"
 
-extern void FIELD_PLACE_NAME_RestoreWindow(struct FieldPlaceName *placeName);
+#include "field_place_name.h"
 
-extern void FIELD_MSGBG_RequestSysFrame(struct FieldMsgBg *msgBg);
 
 extern void BG_SYS_FreeSlot(u8 idx);
 
-extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
 
-u16 G3D_SYSTEM_GetObjectAnimeCount(G3dObject *object);
 
-int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *object, int animIndex, int amount);
 
-s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *object, u32 animIndex);
 
 u16 PARTICLE_RESOURCE_GetType(void *res);
 
-extern void G3D_UTIL_RemoveUnit(void *gfxUnits, u32 index);
 
 int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 
-extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
+#include "../arm9/arc_tool.h"
 
-extern void GX_SetBankForLCDC(s32 lcdc);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
 extern u8 BG_SYS_GetPriority(u32 layer);
 
@@ -326,127 +303,94 @@ u32 BG_SYS_GetMainVisiblePlanes(void);
 
 extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 
-extern struct GameEvent *GAME_EVENT_GetParent(struct GameEvent *event);
 
-void BMP_Delete(struct Bmp *bmp);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct SaveBlock;
 
-void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out);
+#include "../arm9/pm_voice.h"
 
-unsigned int PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, void **recordedVoice);
 
-int PM_VOICE_IsAnyActive(void);
 
-s8 PM_VOICE_GetVolume(u32 i);
 
-void PM_VOICE_AddVolume(u32 idx, int delta);
 
-void PM_VOICE_StopAll(void);
 
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
-extern u32 G3D_UTIL_GetResource(void *gfxUnits, int index);
 struct G3dResource;
 
-extern u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *res);
 
-extern u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *res);
 
-extern int POKEGRA_GetArcID(void);
+#include "../arm9/pokegra.h"
 
-extern s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
+#include "../arm9/arc_util.h"
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
-extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
-extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
+#include "../arm9/nns_gfd_vram_transfer.h"
 
-void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+#include "../arm9/fade.h"
 
-int FADE_IsActive(void);
 
-extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *res);
 
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
 extern int NNS_G3dGetResDataByName(void *dict, Fld3dCiNameKey *key);
 
-extern int STD_GetStringLength(const char *s);
+#include "../arm9/std_string.h"
 struct MsgBank;
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 struct WordSet;
 
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
+#include "../arm9/gf_font.h"
 
 extern void *STRBUF_Create(u32 size, u16 heap);
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
+#include "../arm9/wordset.h"
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern u32 WORDSET_Delete(struct WordSet *words);
 
-extern void WORDSET_AppendUnpackedString(struct Strbuf *dst, struct Strbuf *src);
 struct GfFont;
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
+#include "../arm9/printsys.h"
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 struct TexKey;
 
-extern int TEXT_TEXTURE_LoadTexPlttByName(void *file, char *texName, void *extra, char *plttName, unsigned int text, unsigned short xPos, unsigned short yPos, unsigned short color, unsigned short heap, struct TexKey *out);
+#include "../ov010/text_texture.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern int GX_ResetBankForBG(void);
 
-extern void MI_CpuFill8(void *, unsigned, unsigned);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-void *FLD_PARTICLE_CreateEffect(FldParticle *particle);
+#include "fld_particle.h"
 
-void FLD_PARTICLE_DeleteEffect(FldParticle *particle);
 
-void *FLD_PARTICLE_LoadResource(FldParticle *particle, int kind, int resourceId);
 
-int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 applyNow, u32 taskMgr);
 
-int FLD_PARTICLE_IsEffectFinished(FldParticle *particle);
 
 Fld3dCi *FLD3D_CI_Create(u32 heapId, FldParticle *particle);
 
 void FLD3D_CI_Delete(Fld3dCi *ci);
 
-int FLD3D_CI_SetupEffectUnit(Fld3dCi *ci, Fld3dCiResource **resourceTable);
+int FLD3D_CI_SetupEffectUnit(Fld3dCi *ci, G3dUtilSetup *setup);
 
 void FLD3D_CI_DrawEffect(Fld3dCi *ci);
 
@@ -623,9 +567,9 @@ void FLD3D_CI_Delete(Fld3dCi *ci)
 }
 
 /* Adds the sequence's resource table as a graphics unit and resets the draw status. */
-int FLD3D_CI_SetupEffectUnit(Fld3dCi *ci, Fld3dCiResource **resourceTable)
+int FLD3D_CI_SetupEffectUnit(Fld3dCi *ci, G3dUtilSetup *setup)
 {
-    ci->effectUnit = G3D_UTIL_AddUnit((u32)ci->gfxUnits, (u32)resourceTable);
+    ci->effectUnit = G3D_UTIL_AddUnit(ci->gfxUnits, setup);
     ci->status.scale.x = (1 << 12);
     ci->status.scale.y = (1 << 12);
     ci->status.scale.z = (1 << 12);
@@ -673,7 +617,7 @@ void *FLD3D_CI_StartSequence(void *gameSystem, Fld3dCi *ci, int sequenceId)
     ci->extraTask = 0;
     ci->finishStep = 0;
     ci->cameraSelect = 0;
-    event = GAME_EVENT_Create(gameSystem, 0, FLD3D_CI_EventMain, 0x40);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD3D_CI_EventMain, 0x40);
     FLD3D_CI_InitEventWork(ci, GAME_EVENT_GetWork(event));
     return event;
 }
@@ -782,7 +726,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         FLD3D_CI_SaveLayerPriorities(ci);
         FLD3D_CI_SaveVisiblePlanes(ci);
         if (FLD3D_CI_IsAltFadeSequence(ci->sequenceId) == 0)
-            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, event, FLD3D_CI_FadeOutTask, 0));
+            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, event, (GameEventFunc)FLD3D_CI_FadeOutTask, 0));
         (*state)++;
         break;
     case 1:
@@ -828,9 +772,9 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         break;
     case 5:
         if (FLD3D_CI_IsAltFadeSequence(ci->sequenceId))
-            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, event, FLD3D_CI_FadeInAltTask, 0));
+            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, event, (GameEventFunc)FLD3D_CI_FadeInAltTask, 0));
         else
-            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, event, FLD3D_CI_FadeInTask, 0));
+            GAME_EVENT_CallEvent(event, GAME_EVENT_Create(gameSystem, event, (GameEventFunc)FLD3D_CI_FadeInTask, 0));
         (*state)++;
         break;
     case 6:
@@ -992,10 +936,10 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
 
     ci->effect = FLD_PARTICLE_CreateEffect(ci->particle);
     FLD3D_CI_LoadSequence(seq, sequenceId, ci->heapId);
-    FLD3D_CI_SetupEffectUnit(ci, &seq->resourceTable);
+    FLD3D_CI_SetupEffectUnit(ci, &seq->setup);
     if (seq->effectResId != 0xFFFF) {
         effectRes = (int)FLD_PARTICLE_LoadResource(ci->particle, 0x73, seq->effectResId);
-        FLD_PARTICLE_StartEmitter(ci->particle, effectRes, 1, 0);
+        FLD_PARTICLE_StartEmitter(ci->particle, (void *)effectRes, 1, 0);
     } else {
         effectRes = 0;
     }
@@ -1132,37 +1076,37 @@ void FLD3D_CI_LoadSequence(Fld3dCiSeq *seq, u32 sequenceId, u32 heapId)
     n = 0;
     for (j = 0; j < 8; j++) {
         if (ids[j] != 0xFFFF) {
-            seq->resources[n].kind = 0x73;
-            seq->resources[n].id = ids[j];
-            seq->resources[n].value = 0;
+            seq->resources[n].arc = 0x73;
+            seq->resources[n].dat = ids[j];
+            seq->resources[n].type = 0;
             n++;
         }
     }
     for (i = 0; i < trackBCount; i++) {
-        seq->refsB[i].index = baseB + i;
-        seq->refsB[i].zero = 0;
+        seq->refsB[i].anmResIdx = baseB + i;
+        seq->refsB[i].anmDatIdx = 0;
     }
     for (i = 0; i < trackCCount; i++) {
-        seq->refsC[i].index = baseC + i;
-        seq->refsC[i].zero = 0;
+        seq->refsC[i].anmResIdx = baseC + i;
+        seq->refsC[i].anmDatIdx = 0;
     }
     for (i = 0; i < trackACount; i++) {
-        seq->tracks[i].index = 0 + i;
-        seq->tracks[i].zero = 0;
-        seq->tracks[i].trackIndex = 0 + i;
+        seq->tracks[i].mdlResIdx = 0 + i;
+        seq->tracks[i].mdlDatIdx = 0;
+        seq->tracks[i].texResIdx = 0 + i;
     }
     if (trackACount >= 1) {
-        seq->tracks[0].refs = seq->refsB;
-        seq->tracks[0].refCount = trackBCount;
+        seq->tracks[0].anmTbl = seq->refsB;
+        seq->tracks[0].anmCount = trackBCount;
     }
     if (trackACount >= 2) {
-        seq->tracks[1].refs = seq->refsC;
-        seq->tracks[1].refCount = trackCCount;
+        seq->tracks[1].anmTbl = seq->refsC;
+        seq->tracks[1].anmCount = trackCCount;
     }
-    seq->resourceTable = seq->resources;
-    seq->resourceCount = total;
-    seq->trackTableCount = trackACount;
-    seq->trackTable = seq->tracks;
+    seq->setup.resTbl = seq->resources;
+    seq->setup.resCount = total;
+    seq->setup.objCount = trackACount;
+    seq->setup.objTbl = seq->tracks;
     seq->effectResId = file.effectResId;
     seq->darkenScreen = file.darkenScreen;
 }

@@ -18,7 +18,7 @@
 /* Script VM context: program counter and the local variable array. */
 #include "../arm9/script_vm_types.h"
 
-extern u32 VM_GetU32(ScriptVm *vm);
+#include "../arm9/vm.h"
 
 static inline u8 ScriptVm_ReadU8(ScriptVm *vm)
 {

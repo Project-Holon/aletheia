@@ -5,6 +5,7 @@
 #include "../types.h"
 
 #include "../arm9/net_types.h"
+#include "../arm9/dwc_connectinet_types.h"
 
 typedef void (*DwcRapRecvFunc)(u32 aid, u8 *data, u16 size);
 
@@ -18,7 +19,7 @@ typedef struct DwcRapWork {
     u8 *friendList;                     /* 0x100 DWCFriendData[], 12 bytes each; NULL when not used */
     u8 pad104[4];
     void *userData;                     /* 0x108 DWC account user data */
-    u8 inetWork[0x174 - 0x10C];         /* 0x10C work area of the DWC internet connect call */
+    DWCstInetControl inetWork;          /* 0x10C work area of the DWC internet connect call */
     void *recvBuffer[2];                /* 0x174 reliable receive buffer per peer (0x1000 bytes) */
     int deletedFriendIndex[32];         /* 0x17C queued by the friend-delete callback, -1 when free */
     int deletedFriendSrcIndex[32];      /* 0x1FC */
@@ -111,7 +112,6 @@ enum {
     DWC_RAP_RESULT_DISCONNECT_ERROR = 0x3F1
 };
 
-extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
 
 /* Heap object that _pRapHeap points to (the DWC allocator of this module). */
 typedef struct DwcRapHeap {

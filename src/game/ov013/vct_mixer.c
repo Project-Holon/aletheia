@@ -59,49 +59,36 @@
 /* A second name for MIi_CpuClearFast (no source records it): see VCT_MIXER_MixVoices. */
 extern void MIi_CpuClearFastAlias(int value, void *dst, u32 size);
 
-extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern u64 OS_GetTick(void);
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 
-extern u16 OS_GetTickLo(void);
 
-extern void VCT_DSP_InitVoiceGateDefaults(void);
+#include "vct_dsp.h"
 
-extern void VCT_AUDIO_ClearReadyQueue(u32 index);
+#include "vct_audio.h"
 struct VctReceiveSource;
 
-extern void VCT_AUDIO_InitReceiveSource(struct VctReceiveSource *source, unsigned int queueIndex, int peerAid);
 
-extern void VCT_AUDIO_ResetPendingList(void);
 
-extern void VCT_DSP_InitEchoState(void);
 
-extern int VCT_AUDIO_GetReadyCount(u32 index);
 
-extern VctRxPacket *VCT_AUDIO_PeekReadyPacket(unsigned int index);
 
-extern void VCT_POOL_FreeFrame(VctRxPacket *packet);
+#include "vct_pool.h"
 
-extern int VCT_AUDIO_SetLastPacket(VctReceiveSource *channel, VctRxPacket *packet);
 
-extern void VCT_AUDIO_DetachReceiveSource(VctReceiveSource *channel);
 
-extern void VCT_AUDIO_FlushReadyQueue(u32 index);
 
-extern void VCT_AUDIO_FlushPendingSlot(u32 index);
 
-extern void VCT_DSP_ResetVoiceGate(void);
 
-extern void VCT_DSP_MixSaturated(s16 *input, s16 *other, s16 *output, u32 length);
 
-extern void VCT_DSP_SetEchoReference(void *samples, u32 length);
 
 extern void VCT_MIXER_SetSendEnabled(int enabled);
 
 extern void VCT_MIXER_SetFilterEnabled(int enabled);
 
 /* Two names for 0x02082AC0: see VCT_MIXER_MixVoices. */
-extern void MIi_CpuClearFast(int value, void *dst, u32 size);
 
 int VCT_MIXER_Init(void);
 
@@ -388,7 +375,7 @@ int VCT_MIXER_ReadChannel(void *dst, u32 size, u32 channelIndex, u32 *sourceMask
             }
             if (nowTick > packet->playTick + 0x8B4C) {
                 channel->lastPlayedSeq = packet->seq;
-                queuedCount = VCT_AUDIO_SetLastPacket(channel, packet);
+                queuedCount = (sptr)VCT_AUDIO_SetLastPacket(channel, packet);
                 VCT_AUDIO_PeekReadyPacket(channelIndex);
                 isFirstTry = 0;
                 continue;
@@ -400,7 +387,7 @@ int VCT_MIXER_ReadChannel(void *dst, u32 size, u32 channelIndex, u32 *sourceMask
             }
             channel->lastPlayedSeq = packet->seq;
             if (isFirstTry != 0 && channel->pendingSkips != 0) {
-                queuedCount = VCT_AUDIO_SetLastPacket(channel, packet);
+                queuedCount = (sptr)VCT_AUDIO_SetLastPacket(channel, packet);
                 VCT_AUDIO_PeekReadyPacket(channelIndex);
                 channel->pendingSkips--;
                 continue;

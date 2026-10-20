@@ -661,11 +661,9 @@
 
 #include "btl_server_cmd_types.h"
 
-typedef char *va_list;
-#define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-#define va_arg(ap, t) (*(t *)((ap += 4) - 4))
+#include "../sdk_stdarg.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 extern char gBtlEmptyString[];
 extern const u8 gBtlServerCmdLayouts[];
 extern s32 gBtlServerCmdArgBuffer[];

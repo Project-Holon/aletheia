@@ -22,11 +22,13 @@
  *   FifoRecvCallbackTable          0x021513A8  data
  *   PXIi_HandlerRecvFifoNotEmpty   0x02088688  arm
  */
-#define reg_PXI_SUBP_FIFO_CNT (*(vu16 *)0x04000184)
-#define reg_PXI_SEND_FIFO     (*(vu32 *)0x04000188)
+#define reg_PXI_SUBP_FIFO_CNT (*(vu16 *)REG_SUBPFIFO_CNT_ADDR)
+#define reg_PXI_SEND_FIFO     (*(vu32 *)REG_SUBPFIFO_SEND_ADDR)
 #define reg_PXI_RECV_FIFO     (*(vu32 *)0x04100000)
-#define reg_PXI_SUBPINTF (*(vu16 *)0x04000180)
+#define reg_PXI_SUBPINTF (*(vu16 *)REG_SUBPINTF_ADDR)
 #include "../types.h"
+#include "pxi_fifo.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -38,8 +40,6 @@ typedef union PXIFifoMessage {
     } e;
     u32 raw;
 } PXIFifoMessage;
-
-typedef void (*PXIFifoCallback)(int tag, u32 data, BOOL err);
 
 #include "os_system_work_types.h"
 

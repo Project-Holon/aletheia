@@ -78,39 +78,18 @@ typedef struct { s16 x, y, z; } VecS16;
 
 typedef void (*FieldCameraEnterFunc)(FieldCamera *camera);
 
-extern u32 MI_CpuFill8(void *, int, u32);
-extern void *GFL_HEAP_Alloc(u16, u32, u32, const void *, u32);
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_tool.h"
 extern u32 GFL_HEAP_Free(void *);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void VEC_Add(VecFx32 *, VecFx32 *, VecFx32 *);
-extern int G3D_CAMERA_GetMode(struct G3dCamera *camera);
-extern void G3D_CAMERA_GetFovyCos(struct G3dCamera *camera, unsigned int *out);
-extern u16 FX_AcosIdx(int a);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
-extern void G3D_CAMERA_SetFovySin(struct G3dCamera *camera, u32 v);
-extern void G3D_CAMERA_SetFovyCos(struct G3dCamera *camera, u32 v);
+extern void *GFL_HEAP_Alloc(u16, u32, u32, const void *, u32);
+#include "../arm9/fx_vec.h"
+#include "../arm9/g3d_camera.h"
+#include "../arm9/fx_asinacosidx.h"
+#include "../arm9/g3d_system.h"
+#include "../arm9/fx_atanidx.h"
 struct ArcHandle;
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
-extern void VEC_Normalize(VecFx32 *, VecFx32 *);
-extern void VEC_MultAdd(int scale, VecFx32 *dir, VecFx32 *base, VecFx32 *out);
-extern void G3D_CAMERA_SetCamTarget(struct G3dCamera *camera, const VecFx32 *in);
-extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, const VecFx32 *in);
-extern int VEC_Mag(VecFx32 *pSrc);
-extern u16 FX_Atan2Idx(int a, int b);
-extern void VEC_Subtract(VecFx32 *, VecFx32 *, VecFx32 *);
-extern int VEC_DotProduct(VecFx32 *a, VecFx32 *b);
-extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, const u32 *in);
-extern void G3D_CAMERA_SetFar(struct G3dCamera *camera, const u32 *in);
-extern void G3D_CAMERA_SetCamUp(struct G3dCamera *camera, const VecFx32 *in);
-extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
-extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
-extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
-extern void MI_CpuCopy8(void *, void *, int);
-extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
-extern int FX_Modf(int x, int *ip);
-extern void VEC_CrossProduct(VecFx32 *a, VecFx32 *b, VecFx32 *o);
+#include "../arm9/arc_util.h"
+#include "../arm9/fx.h"
 FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dCamera, VecFx32 *targetSrc, u16 heapId);
 void FIELD_CAMERA_Delete(FieldCamera *camera);
 void FIELD_CAMERA_Main(FieldCamera *camera, u32 arg);

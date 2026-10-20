@@ -25,7 +25,8 @@ struct Slot {
     u32 arg;
 };
 
-extern u32 OS_EnableIrqMask(u32);
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
 extern struct Slot data_02150F68[];
 
 void OSi_EnterNDmaCallback_ltdmain(u32 ndmaNo, u32 callback, u32 arg)

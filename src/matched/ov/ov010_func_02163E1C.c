@@ -1,5 +1,5 @@
 /*
- * function: FLDMMDL_MOVE_GetMapAttrInfo
+ * function: FLDMMDL_MOVE_GetFieldG3dMapHit
  * address: 0x02163E1C
  * packet: pkt_ov010_02163E1C
  * region: ov010
@@ -19,4 +19,4 @@ extern void *FLDMMDL_GetMmdlSys(void *);
 typedef unsigned int   u32;
 extern u32 FLDMMDL_SysGetG3dMapper(void *p);
 extern int FIELD_G3D_MAPPER_QueryNearestHit(char *, char *, E *);
-int FLDMMDL_MOVE_GetMapAttrInfo(void *a, char *b, E *c) { return FIELD_G3D_MAPPER_QueryNearestHit((char *)FLDMMDL_SysGetG3dMapper(FLDMMDL_GetMmdlSys(a)),b,c); }
+int FLDMMDL_MOVE_GetFieldG3dMapHit(void *a, char *b, E *c) { return FIELD_G3D_MAPPER_QueryNearestHit((char *)FLDMMDL_SysGetG3dMapper(FLDMMDL_GetMmdlSys(a)),b,c); }

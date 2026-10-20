@@ -26,16 +26,8 @@
  */
 #include "crypto_types.h"
 
-extern BN_CTX *CRYPTOi__BN_CTX_new(void);
-extern void CRYPTOi__BN_init(BIGNUM *a);
-extern BIGNUM *CRYPTOi__BN_bin2bn(const unsigned char *s, unsigned int len, BIGNUM *ret);
-extern int CRYPTOi__BN_set_word(BIGNUM *a, unsigned long w);
-extern int CRYPTOi__BN_mod_exp(BIGNUM *r, const BIGNUM *a, const BIGNUM *p, const BIGNUM *m, BN_CTX *ctx);
-extern int CRYPTOi__BN_num_bits(const BIGNUM *a);
-extern int CRYPTOi__BN_bn2bin(const BIGNUM *a, unsigned char *to);
-extern void CRYPTOi__BN_free(BIGNUM *a);
-extern void CRYPTOi__BN_CTX_free(BN_CTX *ctx);
-extern void MATH_CalcSHA1(void *digest, void *data, unsigned long dataLength);
+#include "crypto_bobj1.h"
+#include "../arm9/dgt_sha1.h"
 int CRYPTOi_RSA(void *dst_ptr, int dst_len, void *src_ptr, int src_len, void *mod_ptr, int mod_len, unsigned long exp_num);
 int ASN1Skip(unsigned char **datap, unsigned int *dlenp, unsigned char type, unsigned int *lenp);
 int SkipPadding(unsigned char *psrc_adrs, unsigned int nsrc_size, unsigned char **ppsign_adrs, unsigned int *psign_size);

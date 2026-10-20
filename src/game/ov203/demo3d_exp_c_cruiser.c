@@ -37,7 +37,8 @@
 struct Obj;
 #include "../types.h"
 
-struct Vec2 { short x, y; };
+struct ActorGfxSet;
+struct Demo3dExpCCruiserVec2 { short x, y; };
 
 typedef struct Demo3dCruiserActorGfx { int id; int resource; int palette; int frame; } Demo3dCruiserActorGfx;
 
@@ -70,31 +71,25 @@ typedef struct Demo3dCruiserGfx {
     struct Obj *actor;
 } Demo3dCruiserGfx;
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, unsigned, unsigned, unsigned, unsigned, unsigned short);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned short);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
-extern int DEMO3D_ENGINE_GetFrame(char *p);
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "demo3d_engine.h"
 struct Demo3dGraphic;
-extern int DEMO3D_GRAPHIC_GetUnit(struct Demo3dGraphic *p);
-extern void UI_SCENE_LoadActorGfx(Demo3dCruiserActorGfx *, Demo3dCruiserActorConfig *, int, unsigned short);
-extern int UI_SCENE_CreateActor(Demo3dCruiserActorGfx *, int, unsigned char, unsigned char, unsigned char, unsigned short);
+#include "demo3d_graphic.h"
+#include "../ov067/ui_scene_types.h"
+extern void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys, u16 heapId);
+extern struct Actor *UI_SCENE_CreateActor(struct ActorGfxSet *, void *, unsigned char, unsigned char, unsigned char, unsigned short);
 struct Actor;
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
-extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2 *, unsigned);
-extern void UI_SCENE_FreeActorGfx(void *);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
+extern void UI_SCENE_FreeActorGfx(ActorGfxSet *gfx);
 void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap);
 void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p);
 void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p);
 void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *work);
 extern const char d_021C3D5C[];
-extern const struct Vec2 d_021C3BD0[];
+extern const struct Demo3dExpCCruiserVec2 d_021C3BD0[];
 
 void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap)
 {
@@ -106,7 +101,7 @@ void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap)
 }
 
 /*
- * note: 2026-10-05 wave P13 lane B1: closed from the 6 B DIFF draft (movs r7,#0 sat after movs r1,#0x14 instead of before str r1,[sp,#0x1c]). The store `config.f4 = 0;` moves to between f10 and f14; the other constant stores keep the listing order. 4 compiles. Callee shapes follow the matched ov203 siblings (021BF9D0, 021BDF30, 021BE620, 021BFAE4). The d_021C3BD2 pool word is the .y field of d_021C3BD0 (struct Vec2 array), folded by the compiler. The volatile read at 021BFA50 rereads the byte just stored at 021BFA4E, the same form as matched sibling 021BFAE4 (volatile: 021BFB12). No constant locals. EXACT in c99 and c.
+ * note: 2026-10-05 wave P13 lane B1: closed from the 6 B DIFF draft (movs r7,#0 sat after movs r1,#0x14 instead of before str r1,[sp,#0x1c]). The store `config.f4 = 0;` moves to between f10 and f14; the other constant stores keep the listing order. 4 compiles. Callee shapes follow the matched ov203 siblings (021BF9D0, 021BDF30, 021BE620, 021BFAE4). The d_021C3BD2 pool word is the .y field of d_021C3BD0 (struct Demo3dExpCCruiserVec2 array), folded by the compiler. The volatile read at 021BFA50 rereads the byte just stored at 021BFA4E, the same form as matched sibling 021BFAE4 (volatile: 021BFB12). No constant locals. EXACT in c99 and c.
  */
 void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
 {
@@ -129,10 +124,10 @@ void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
     config.alpha = 0;
     config.flip = 0;
     config.visible = 1;
-    UI_SCENE_LoadActorGfx(&a->actorGfx, &config, resource, p->heapId);
-    a->actor = (struct Obj *)UI_SCENE_CreateActor(&a->actorGfx, resource, d_021C3BD0[a->step].x, d_021C3BD0[a->step].y, 0, p->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)a->actor, 1);
-    CLACT_SetActorAutoAnim((struct Actor *)a->actor, 1);
+    UI_SCENE_LoadActorGfx((ActorGfxSet *)&a->actorGfx, (ActorGfxDesc *)&config, (void *)resource, p->heapId);
+    a->actor = (struct Obj *)UI_SCENE_CreateActor((struct ActorGfxSet *)(&a->actorGfx), (void *)resource, d_021C3BD0[a->step].x, d_021C3BD0[a->step].y, 0, p->heapId);
+    CLACT_SetActorDrawEnable((struct ClactActor *)a->actor, 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)a->actor, 1);
     BG_SYS_SetPlaneVisible(6, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
@@ -142,10 +137,10 @@ void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p)
     Demo3dCruiserGfx *a = p->gfx;
     int progress = DEMO3D_ENGINE_GetFrame(p->model) >> 12;
     if (a->step < 54 && a->step * 100 <= progress) {
-        CLACT_AddActorSurfacePos(a->actor, d_021C3BD0 + a->step, 1);
+        CLACT_AddActorSurfacePos((struct ClactActor *)a->actor, (const struct ClactVec2 *)(d_021C3BD0 + a->step), 1);
         ++a->step;
         if (*(volatile unsigned char *)&a->step == 54)
-            CLACT_SetActorDrawEnable((struct Actor *)a->actor, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)a->actor, 0);
     }
 }
 
@@ -155,6 +150,6 @@ void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p)
 
 void DEMO3D_EXP_C_CRUISER_DeleteActorGfx(Demo3dCruiserWork *work)
 {
-    UI_SCENE_FreeActorGfx(&((Demo3dCruiserGfx *)work->gfx)->actorGfx);
+    UI_SCENE_FreeActorGfx((ActorGfxSet *)(&((Demo3dCruiserGfx *)work->gfx)->actorGfx));
     GFL_HEAP_Free(work->gfx);
 }

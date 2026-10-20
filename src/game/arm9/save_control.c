@@ -388,6 +388,9 @@ int SAVE_CONTROL_StartSave(struct SaveControl *saveControl)
     saveControl->wasActiveBeforeSave = wasActive;
     SYSTEM_DATA_ClearActive(saveControl);
     BACKUP_SYSTEM_StartSave(saveControl->mainSave);
+#ifndef __MWERKS__
+    return 0; /* the DS returns whatever BACKUP_SYSTEM_StartSave leaves in r0 */
+#endif
 }
 
 /*
@@ -543,9 +546,9 @@ void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, u32 *diffSize, u3
  *   python tools/match.py one --src src/matched/SAVE_CONTROL_ReadRecordFromFlash.c \
  *       --func SAVE_CONTROL_ReadRecordFromFlash --addr 0x02007248 --cc 1.1p1 --thumb
  */
-int SAVE_CONTROL_ReadRecordFromFlash(struct SaveControl *saveControl, u32 recordId, u32 areaIndex, u32 dest, u32 size)
+int SAVE_CONTROL_ReadRecordFromFlash(struct SaveControl *saveControl, u32 recordId, u32 areaIndex, void *dest, u32 size)
 {
-    return BACKUP_SYSTEM_ReadRecordFromFlash(saveControl->mainSave, recordId, areaIndex, dest, size);
+    return BACKUP_SYSTEM_ReadRecordFromFlash(saveControl->mainSave, recordId, areaIndex, (u32)dest, size);
 }
 
 /*

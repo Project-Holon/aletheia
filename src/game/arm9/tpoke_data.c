@@ -42,12 +42,7 @@ struct Rec;
 struct U16Vec;
 #include "../types.h"
 
-typedef struct {
-    int   handle;
-    void *buf;
-    void *buf4;
-    u32   count;
-} Tpoke;
+#include "tpoke_data_types.h"
 
 /* One 8-byte entry of the container's entry table.  TPOKE_DATA_FindEntryIndex matches
  * key/type/subtype and returns the entry index; the u16 at +6 indexes the

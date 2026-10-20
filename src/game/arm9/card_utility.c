@@ -83,7 +83,7 @@ void CARDi_DCInvalidateSmart(void *buffer, u32 length, u32 threshold)
     }
     else
     {
-        u32 mod = (u32)buffer & 31;
+        u32 mod = (uptr)buffer & 31;
 
         if (mod)
         {

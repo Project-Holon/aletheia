@@ -118,7 +118,7 @@
 
 #include "../ov012/union_comm_types.h"
 #include "union_subdisp_types.h"
-extern u32 KEY_GetRepeat(void);
+#include "../arm9/key.h"
 
 #define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
 #define REG_WINOUT_SUB     (*(volatile u16 *)0x0400104A)
@@ -128,73 +128,34 @@ extern u32 KEY_GetRepeat(void);
 
 struct BgTemplate;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_TOOL_DeleteHandle(void *archive);
+#include "../arm9/gamesystem.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_tool.h"
 struct PmsDraw;
-extern struct PmsDraw *PMS_DRAW_Create(u32 clunit, u32 drawType, u32 printQue, u32 font, u8 plttOffset, u8 elemMax, u16 heapId);
-extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *pmsDraw, u8 v);
-extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
-extern u8 UNION_MAIN_GetAppealNo(UnionRoomWork *work);
-struct Actor;
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
-extern void PMS_DRAW_Delete(struct PmsDraw *pmsDraw);
-extern u32 GFL_HEAP_Free(void *p);
-extern void GFL_NET_WM_ICON_EasyObjWindowOff(void);
-extern void G2x_SetBlendBrightness_(u32 addr, s32 plane, s32 brightness);
+#include "../arm9/pms_draw.h"
+#include "../arm9/game_comm.h"
+#include "../ov012/union_main.h"
+struct ClactActor;
+#include "../arm9/clact.h"
+#include "../arm9/net.h"
+#include "../arm9/wm_icon.h"
+#include "../arm9/g2.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void PMS_DRAW_Main(struct PmsDraw *pmsDraw);
+#include "../arm9/printsys.h"
 struct BmpWin;
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
+#include "../arm9/bmp_win.h"
 struct UnionBeaconPc;
 struct UnionRoomWork;
-extern void UNION_CHAT_LOG_Add(struct UnionRoomWork *work, struct UnionBeaconPc *beaconPc, u16 *chatPms, u8 chatType);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void UNION_COMM_SetChatType(UnionRoomWork *work, int chatType);
-extern void UNION_MAIN_SetAppealNo(UnionRoomWork *work, int appealNo);
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern unsigned int MSGDATA_Delete(struct MsgBank *msgData);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern u32 BG_SYS_GetBuf(int channel);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *archive, u32 a, u32 b, void **out, u16 heapId);
-extern void MI_CpuCopy8(void *src, void *dst, int n);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_FreeLayerBuf(unsigned int);
-extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
-extern void BG_SYS_FreeTileRun(u32, u32, u32);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern s32 CLACT_RegisterPaletteEx(void *archive, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *archive, u32 first, u32 second, u32 mode);
-extern void CLACT_ReleasePalette(u32 idx);
-extern void CLACT_ReleaseCharacter(u32 idx);
-extern void CLACT_ReleaseCellAnim(u32 idx);
-extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *, struct ClactRes *, struct ClactRes *, struct ClactRes *, const UnionSubdispActorParam *, unsigned short, unsigned short);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, UnionSubdispPos *out, u16 space);
-extern void GFL_USE_PlaySeDefaultVolume(u32 se);
+#include "../ov021/union_chat_log.h"
+#include "../ov012/union_comm.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/gfl_use.h"
 UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem);
 void UNION_SUBDISP_Delete(UnionSubdispWork *work);
 void UNION_SUBDISP_Draw(UnionSubdispWork *work, int mode);
@@ -218,7 +179,7 @@ extern u8 sUnionSubdispAppealNo[];
 extern const u8 sUnionSubdispBgTemplate5[];
 extern const u8 sUnionSubdispBgTemplate6[];
 extern const u8 sUnionSubdispBgTemplate7[];
-extern const UnionSubdispActorParam sUnionSubdispButtonActorParam;
+extern const struct ActorInitParam sUnionSubdispButtonActorParam;
 
 /*
  * The chat log part of the union room sub screen: the last three lines of
@@ -277,29 +238,12 @@ enum {
     UNION_SUBDISP_MSG_KNOWN = 5
 };
 
-extern u32 PMS_DRAW_IsPrintEnd(struct PmsDraw *pmsDraw);
 struct UnionChatRing;
 struct UnionChatLine;
-extern struct UnionChatLine *UNION_CHAT_LOG_GetLine(struct UnionChatRing *ring, u32 index);
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern u32 PMS_DRAW_IsActive(const struct PmsDraw *pmsDraw, u32 id);
-extern void PMS_DRAW_Clear(struct PmsDraw *pmsDraw, int id, u32 isTrans);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void PMS_DRAW_PrintOffset(struct PmsDraw *wk, void *bmpWin, void *pms, u32 id, void *offset);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *msgData, u32 index);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void STRBUF_Delete(struct Strbuf *str);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_SetString(struct Strbuf *str, const u16 *src);
-extern void PMS_DRAW_Copy(struct PmsDraw *pmsDraw, u32 srcId, u32 dstId);
-extern void BMP_CopyPixels(struct Bmp *src, struct Bmp *dst);
-extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
-extern int TOUCHPANEL_GetTrg(void);
-extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const UnionSubdispPos *pos, u32 which);
+#include "../arm9/gf_panic.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/strbuf.h"
 
 void UNION_SUBDISP_UpdateChatLines(UnionSubdispWork *work, UnionChatLog *log);
 void UNION_SUBDISP_DrawChatLine(UnionSubdispWork *work, const UnionChatEntry *entry, u8 lineNo);
@@ -364,7 +308,7 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
     UNION_SUBDISP_CreateActors(work, archive);
     UNION_SUBDISP_LoadFrameBg(work);
     ARC_TOOL_DeleteHandle(archive);
-    work->pmsDraw = PMS_DRAW_Create((u32)work->clactUnit, (u32)1, (u32)work->printSys, (u32)work->font, 9, 3, UNION_SUBDISP_HEAP_ID);
+    work->pmsDraw = PMS_DRAW_Create((uptr)work->clactUnit, (u32)1, (uptr)work->printSys, (uptr)work->font, 9, 3, UNION_SUBDISP_HEAP_ID);
     PMS_DRAW_SetNullColorPalette(work->pmsDraw, 0);
     unionWork = GAME_COMM_GetWork(gameComm);
     if (unionWork != 0) {
@@ -380,7 +324,7 @@ UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem)
                  * shorter).
                  */
                 if (sUnionSubdispAppealNo[i] == *((u8 *)work + 0x30)) {
-                    CLACT_SetActorPaletteOffset((struct Actor *)work->actor[i], 1, 1);
+                    CLACT_SetActorPaletteOffset((struct ClactActor *)work->actor[i], 1, 1);
                     break;
                 }
             }
@@ -425,7 +369,7 @@ void UNION_SUBDISP_Draw(UnionSubdispWork *work, int mode)
     if (mode == 1)
         REG_DB_BLDCNT_SUB = 0;
     else
-        G2x_SetBlendBrightness_((u32)(&REG_DB_BLDCNT_SUB), 0x3F, -8);
+        G2x_SetBlendBrightness_((uptr)(&REG_DB_BLDCNT_SUB), 0x3F, -8);
     PRINTSYS_QUE_Main((struct PrintQueue *)work->printSys);
     PMS_DRAW_Main(work->pmsDraw);
     for (i = 0; i < UNION_SUBDISP_LINE_COUNT; i++) {
@@ -459,7 +403,7 @@ void UNION_SUBDISP_Update(UnionSubdispWork *work, int mode)
         }
         UNION_SUBDISP_UpdateChatLines(work, &unionWork->chatLog);
         if (unionWork->chatLog.newestIndex >= 3)
-            CLACT_SetActorDrawEnable((struct Actor *)work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], 1);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], 1);
     }
     if (mode == 1) {
         touched = UNION_SUBDISP_CheckTouch(work, unionWork);
@@ -620,9 +564,9 @@ void UNION_SUBDISP_DeleteLineWindows(UnionSubdispWork *work)
 
 void UNION_SUBDISP_LoadActorRes(UnionSubdispWork *work, void *archive)
 {
-    work->palRes = (struct ClactRes *)CLACT_RegisterPaletteEx(archive, 0x13, 1, 0, 0, 3, UNION_SUBDISP_HEAP_ID);
-    work->charRes = (struct ClactRes *)CLACT_RegisterCharacter(archive, 0xE, 0, 1, UNION_SUBDISP_HEAP_ID);
-    work->cellRes = (struct ClactRes *)CLACT_RegisterCellAnim(archive, 0xC, 0xD, UNION_SUBDISP_HEAP_ID);
+    work->palRes = CLACT_RegisterPaletteEx(archive, 0x13, 1, 0, 0, 3, UNION_SUBDISP_HEAP_ID);
+    work->charRes = CLACT_RegisterCharacter(archive, 0xE, 0, 1, UNION_SUBDISP_HEAP_ID);
+    work->cellRes = CLACT_RegisterCellAnim(archive, 0xC, 0xD, UNION_SUBDISP_HEAP_ID);
 }
 
 void UNION_SUBDISP_DeleteActorRes(UnionSubdispWork *work)
@@ -634,20 +578,20 @@ void UNION_SUBDISP_DeleteActorRes(UnionSubdispWork *work)
 
 void UNION_SUBDISP_CreateActors(UnionSubdispWork *work, void *archive)
 {
-    UnionSubdispActorParam param;
+    struct ActorInitParam param;
     int i;
 
     param = sUnionSubdispButtonActorParam;
     for (i = 0; i <= 4; i++) {
         param.x = i * 0x30 + 0x20;
-        param.anim = i;
+        param.anim_seq = i;
         work->actor[i] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 1, UNION_SUBDISP_HEAP_ID);
     }
-    param.anim = 5;
+    param.anim_seq = 5;
     param.x = 0xF4;
     param.y = 0x9C;
     work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 1, UNION_SUBDISP_HEAP_ID);
-    CLACT_SetActorDrawEnable((struct Actor *)work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->actor[UNION_SUBDISP_ACTOR_SCROLL_KNOB], 0);
 }
 
 void UNION_SUBDISP_DeleteActors(UnionSubdispWork *work)
@@ -655,14 +599,14 @@ void UNION_SUBDISP_DeleteActors(UnionSubdispWork *work)
     int i;
 
     for (i = 0; i < UNION_SUBDISP_ACTOR_COUNT; i++)
-        CLACT_DeleteActor((struct Actor *)work->actor[i]);
+        CLACT_DeleteActor((struct ClactActor *)work->actor[i]);
 }
 
 int UNION_SUBDISP_CheckTouch(UnionSubdispWork *work, UnionRoomWork *unionWork)
 {
     u32 touchX;
     u32 touchY;
-    UnionSubdispPos pos;
+    struct ClactVec2 pos;
     int i;
     s16 left;
     s16 right;
@@ -707,9 +651,9 @@ void UNION_SUBDISP_SelectAppeal(UnionSubdispWork *work, int sel)
         work->appealNo = appealNo;
     for (i = 0; (i <= 4) ? 1 : 0; i++) {
         if (i == sel && work->appealNo != 0)
-            CLACT_SetActorPaletteOffset((struct Actor *)work->actor[i], 1, 1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)work->actor[i], 1, 1);
         else
-            CLACT_SetActorPaletteOffset((struct Actor *)work->actor[i], 0, 1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)work->actor[i], 0, 1);
     }
 }
 
@@ -871,8 +815,8 @@ void UNION_SUBDISP_MoveChatLine(UnionSubdispWork *work, u8 srcLine, u8 dstLine, 
     destOffset <<= 1;
     sourceOffset = srcLine * UNION_SUBDISP_LINE_COPY_STRIDE;
     sourceOffset <<= 1;
-    dst = (u16 *)((u32)screen + destOffset);
-    src = (u16 *)((u32)screen + sourceOffset);
+    dst = (u16 *)((uptr)screen + destOffset);
+    src = (u16 *)((uptr)screen + sourceOffset);
     MI_CpuCopy8(src, dst, UNION_SUBDISP_LINE_COPY_SIZE);
     BG_SYS_MarkTileDirty(UNION_SUBDISP_BG_CHAT);
     if (work->lineKind[srcLine] == UNION_SUBDISP_LINE_PMS && work->lineKind[dstLine] == UNION_SUBDISP_LINE_PMS) {
@@ -928,7 +872,7 @@ void UNION_SUBDISP_ScrollChatLines(UnionSubdispWork *work, UnionChatLog *log, in
  */
 int UNION_SUBDISP_UpdateKnobDrag(UnionSubdispWork *work)
 {
-    UnionSubdispPos pos;
+    struct ClactVec2 pos;
     u32 x;
     u32 y;
     int touched;
@@ -971,7 +915,7 @@ void UNION_SUBDISP_SyncKnobAndScroll(UnionRoomWork *room, UnionSubdispWork *work
  */
 void UNION_SUBDISP_SetScrollFromKnob(UnionSubdispWork *work, UnionChatLog *log)
 {
-    UnionSubdispPos pos;
+    struct ClactVec2 pos;
     int range;
     int knobY;
     int step;
@@ -1005,7 +949,7 @@ void UNION_SUBDISP_SetScrollFromKnob(UnionSubdispWork *work, UnionChatLog *log)
 /* Moves the knob to the place of the scroll position. */
 void UNION_SUBDISP_SetKnobFromScroll(UnionSubdispWork *work, UnionChatLog *log)
 {
-    UnionSubdispPos pos;
+    struct ClactVec2 pos;
     int range;
     int step;
 
@@ -1045,7 +989,7 @@ u32 UNION_SUBDISP_GetKnobStep(void *unused, u32 range)
 /* A new touch on the scroll bar moves the knob there. Returns 1 when it did. */
 int UNION_SUBDISP_CheckTrackTouch(UnionSubdispWork *work)
 {
-    UnionSubdispPos pos;
+    struct ClactVec2 pos;
     u32 x;
     u32 y;
 

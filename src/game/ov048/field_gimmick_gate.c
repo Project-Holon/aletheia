@@ -72,71 +72,43 @@
  *   GIMMICK_WORK_GetWork  0x0200B3A4  thumb  arm9
  *   GIMMICK_WORK_GetId  0x0200B3AC  thumb  arm9
  */
+/* Original prototype (docs/ORIGINAL_BUGS.tsv): the DS caller passes the heap id of SAVE_CONTROL_LoadExtraSave as a full integer */
+#ifdef __MWERKS__
+#define SAVE_CONTROL_LoadExtraSave SAVE_CONTROL_LoadExtraSave_header
+#endif
 #include "field_gimmick_gate_types.h"
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern FldExpObjCnt *FIELDMAP_GetExpObj(FieldMap *fieldMap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
-extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(FieldMap *fieldMap, int id, int heapId, int size);
-extern void FIELDMAP_FreeCommonWork(FieldMap *fieldMap, int id);
-extern void *FIELDMAP_GetCommonWork(FieldMap *fieldMap, int id);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct SaveControl *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
-extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
-extern void *GAME_DATA_GetSaveBlock42(struct GameData *gameData);
-extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
-extern s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmickWork);
-extern struct ConfigSave *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
-extern int CONFIG_GetTextLanguage(struct ConfigSave *config);
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../arm9/gimmick.h"
 struct MiscSave;
-extern struct MiscSave *MISC_GetFromSave(struct SaveControl *saveControl);
-extern u16 MISC_GetGatePoints(struct MiscSave *miscSave);
-extern struct MiscSave *MISC_GetBlock(struct SaveControl *saveControl);
-extern void MISC_SetGatePoints(struct MiscSave *miscSave, u16 value);
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
-extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
-extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u32 heapId);
-extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 value);
-extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 id);
-extern u32 DENDOU_SAVEDATA_GetRecordCount(char *ring);
-extern int DENDOU_SAVEDATA_GetRingMemberCount(char *o, int idx);
-extern void DENDOU_SAVEDATA_ExportRingMember(void *ring, unsigned int index, void *recordIndex, void *target);
-extern int DENDOU_SAVEDATA_GetMemberCount(char *records);
-extern void DENDOU_SAVEDATA_ExportMember(void *saveBlock, int index, GateListEntry *entry);
+#include "../arm9/beacon.h"
+#include "../arm9/zonedata.h"
+#include "../arm9/dendou_savedata.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *memory);
-extern u32 ARC_TOOL_GetArchiveFileCount(u32 archiveId);
-extern u32 GPOWER_GetSpecialPowerId(void);
-extern void MI_CpuFill8(void *dst, int value, int size);
-extern void BUTTON_MAN_MakeRotMtxXYZ(int angleX, int angleY, int angleZ, MtxFx33 *dst);
+#include "../arm9/strbuf.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/gpower.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/button_man.h"
 struct G3dUtilSetup;
 struct FldExpObjCnt;
-extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, unsigned short unitIdx);
-extern G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *expObj, u32 unitIndex, int modelIndex);
-extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
-extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
+#include "../ov021/fld_exp_obj.h"
 struct ElboardConfig;
 struct GimmickObjElboard;
 
 /* The board object (gimmick_obj_elboard.c). */
-extern struct GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(struct ElboardConfig *config);
-extern void GIMMICK_OBJ_ELBOARD_Delete(struct GimmickObjElboard *board);
-extern void GIMMICK_OBJ_ELBOARD_Advance(struct GimmickObjElboard *board, int scrollStep);
-extern int GIMMICK_OBJ_ELBOARD_GetScroll(struct GimmickObjElboard *board);
-extern void GIMMICK_OBJ_ELBOARD_SetScroll(struct GimmickObjElboard *board, int scrollPos);
-extern void GIMMICK_OBJ_ELBOARD_FillMessages(GateWork *work);
-extern int GIMMICK_OBJ_ELBOARD_ReadGateInfo(void *dst, unsigned int archiveId, unsigned int memberIndex);
-extern int GIMMICK_OBJ_ELBOARD_ReadGateEntry(void *dst, u32 archiveId, u32 memberIndex);
-extern int GIMMICK_OBJ_ELBOARD_CheckEntryZone(GateNewsEntry *entry, int zoneId);
-extern int GIMMICK_OBJ_ELBOARD_CheckEntryGPower(GateNewsEntry *entry);
+#include "gimmick_obj_elboard.h"
+#include "../arm9/system_data.h"
+#include "../arm9/config.h"
+#include "../arm9/save_control.h"
+#ifdef __MWERKS__
+#undef SAVE_CONTROL_LoadExtraSave
+u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u32 heapId);
+#endif
 
 void FIELD_GIMMICK_GATE_Init(FieldMap *fieldMap);
 void FIELD_GIMMICK_GATE_Exit(FieldMap *fieldMap);
@@ -463,7 +435,7 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, i
     int i;
     struct SaveControl *saveControl;
     struct ExtraSaveRecord *record;
-    GateListEntry entry;
+    struct RecordTarget entry;
 
     i = 0;
     *count = 0;
@@ -473,12 +445,12 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, i
         if (DENDOU_SAVEDATA_GetRecordCount((char *)record) != 0) {
             *count = DENDOU_SAVEDATA_GetRingMemberCount((char *)record, i);
             for (; i < *count; i++) {
-                entry.nameStr = (struct StrBuf *)STRBUF_Create(0x40, work->heapId);
-                entry.placeStr = (struct StrBuf *)STRBUF_Create(0x40, work->heapId);
+                entry.nicknameStr = (struct Strbuf *)STRBUF_Create(0x40, work->heapId);
+                entry.otNameStr = (struct Strbuf *)STRBUF_Create(0x40, work->heapId);
                 DENDOU_SAVEDATA_ExportRingMember((void *)record, 0, (void *)i, &entry);
-                values[i] = entry.entryId;
-                STRBUF_Delete((struct Strbuf *)entry.nameStr);
-                STRBUF_Delete((struct Strbuf *)entry.placeStr);
+                values[i] = entry.species;
+                STRBUF_Delete((struct Strbuf *)entry.nicknameStr);
+                STRBUF_Delete((struct Strbuf *)entry.otNameStr);
             }
         }
     }
@@ -490,17 +462,17 @@ void FIELD_GIMMICK_GATE_ReadSaveBlockValues(GateWork *work, u32 *values, int *co
 {
     void *saveBlock;
     int i;
-    GateListEntry entry;
+    struct RecordTarget entry;
 
     saveBlock = GAME_DATA_GetSaveBlock42(work->gameData);
     *count = DENDOU_SAVEDATA_GetMemberCount(saveBlock);
     for (i = 0; i < *count; i++) {
-        entry.nameStr = (struct StrBuf *)STRBUF_Create(0x40, work->heapId);
-        entry.placeStr = (struct StrBuf *)STRBUF_Create(0x40, work->heapId);
+        entry.nicknameStr = (struct Strbuf *)STRBUF_Create(0x40, work->heapId);
+        entry.otNameStr = (struct Strbuf *)STRBUF_Create(0x40, work->heapId);
         DENDOU_SAVEDATA_ExportMember(saveBlock, i, &entry);
-        values[i] = entry.entryId;
-        STRBUF_Delete((struct Strbuf *)entry.nameStr);
-        STRBUF_Delete((struct Strbuf *)entry.placeStr);
+        values[i] = entry.species;
+        STRBUF_Delete((struct Strbuf *)entry.nicknameStr);
+        STRBUF_Delete((struct Strbuf *)entry.otNameStr);
     }
 }
 

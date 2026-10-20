@@ -2,7 +2,7 @@
 #define ALETHEIA_OV021_FIELD_G3D_MAPPER_TYPES_H
 
 #include "../ov010/field_g3d_map_types.h"
-#include "fieldmap_types.h"
+#include "../ov021/fieldmap_types.h"
 
 /*
  * Field 3D mapper (field_g3d_mapper.c). The mapper keeps a window of
@@ -13,7 +13,7 @@
  * Each slot owns one FieldG3dMap (ov010 field_g3d_map.c).
  */
 
-struct FieldBuildModel;
+struct BuildModelMan;
 struct FieldGroundAnime;
 struct FieldWfbc;
 struct HeightEx;
@@ -41,7 +41,7 @@ typedef struct FieldG3dMapperCell {
 /* Resource handle record of one slot (0x14 bytes), filled by FIELD_G3D_MAPPER_InitSlotRes. */
 typedef struct FieldG3dMapperSlotRes {
     struct FieldGroundAnime *groundAnimeSlot; /* 0x00, handle from FIELD_GROUND_ANIME_Setup7404 */
-    struct FieldBuildModel *buildModel;       /* 0x04 */
+    struct BuildModelMan *buildModel;       /* 0x04 */
     struct FieldWfbc *wfbc;                   /* 0x08 */
     int slotIndex;                            /* 0x0C */
     unsigned short heapId;                    /* 0x10 */
@@ -133,7 +133,7 @@ typedef struct FieldG3dMapper {
     unsigned int frameStamp;              /* 0x50 */
     VecFx32 originOffset;                 /* 0x54 */
     G3dResource *textureRes;              /* 0x60, shared texture set or 0 */
-    struct FieldBuildModel *buildModel;   /* 0x64 */
+    struct BuildModelMan *buildModel;   /* 0x64 */
     struct FieldGroundAnime *groundAnime; /* 0x68 */
     struct FieldWfbc *wfbc;               /* 0x6C */
     struct HeightEx *heightEx;            /* 0x70 */

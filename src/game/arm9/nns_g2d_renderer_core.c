@@ -85,8 +85,8 @@
  *   NNSi_G2dGetVramHandleEx 0x02063800  arm
  *   NNSi_G2dGetCellTransferState 0x02066878  arm
  */
-#define reg_G3_TEXIMAGE_PARAM (*(volatile u32 *)0x040004A8)
-#define reg_G3_TEXPLTT_BASE   (*(volatile u32 *)0x040004AC)
+#define reg_G3_TEXIMAGE_PARAM (*(volatile u32 *)REG_TEXIMAGE_PARAM_ADDR)
+#define reg_G3_TEXPLTT_BASE   (*(volatile u32 *)REG_TEXPLTT_BASE_ADDR)
 #define GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, s, t, repeat, flip, pltt0, addr) \
     ((u32)(((addr) >> 3) | \
            ((texFmt) << 26) | \
@@ -96,12 +96,12 @@
            ((repeat) << 16) | \
            ((flip) << 18) | \
            ((pltt0) << 29)))
-#define reg_G3_MTX_SCALE   (*(volatile u32 *)0x0400046C)
-#define reg_G3_MTX_TRANS   (*(volatile u32 *)0x04000470)
-#define reg_G3_TEXCOORD    (*(volatile u32 *)0x04000488)
-#define reg_G3_VTX_10      (*(volatile u32 *)0x04000490)
-#define reg_G3_BEGIN_VTXS  (*(volatile u32 *)0x04000500)
-#define reg_G3_END_VTXS    (*(volatile u32 *)0x04000504)
+#define reg_G3_MTX_SCALE   (*(volatile u32 *)REG_MTX_SCALE_ADDR)
+#define reg_G3_MTX_TRANS   (*(volatile u32 *)REG_MTX_TRANS_ADDR)
+#define reg_G3_TEXCOORD    (*(volatile u32 *)REG_TEXCOORD_ADDR)
+#define reg_G3_VTX_10      (*(volatile u32 *)REG_VTX_10_ADDR)
+#define reg_G3_BEGIN_VTXS  (*(volatile u32 *)REG_BEGIN_VTXS_ADDR)
+#define reg_G3_END_VTXS    (*(volatile u32 *)REG_END_VTXS_ADDR)
 #define GX_FX16ST(x)  ((s16)((x) >> 8))
 #define GX_ST(s, t)   ((u32)((u16)GX_FX16ST(s) | ((u16)GX_FX16ST(t) << 16)))
 #define GX_VECVTX10(x, y, z) \
@@ -111,6 +111,7 @@
 struct NNSG2dRndCoreInstance;
 #define GAME_TYPES_S32_LONG
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef enum { GX_OAM_SHAPE_8x8 = 0 } GXOamShape;
 
@@ -947,9 +948,9 @@ void NNSi_G2dDrawOam3D(GXOamAttr *oam)
         oam->attr01 |= hf << 28;
         oam->attr01 &= ~0x20000000;
         oam->attr01 |= vf << 29;
-        NNSi_G2dDrawSoftEmuSprite(x, y, -1, oam, (u32)&sRndCoreInstance->pImgProxy->attr, sRndCoreInstance->baseTexAddr3D, sRndCoreInstance->basePltAddr3D);
+        NNSi_G2dDrawSoftEmuSprite(x, y, -1, oam, (uptr)&sRndCoreInstance->pImgProxy->attr, sRndCoreInstance->baseTexAddr3D, sRndCoreInstance->basePltAddr3D);
     } else {
-        NNSi_G2dDrawSoftEmuSprite(OamX(oam), OamY(oam), -1, oam, (u32)&sRndCoreInstance->pImgProxy->attr, sRndCoreInstance->baseTexAddr3D, sRndCoreInstance->basePltAddr3D);
+        NNSi_G2dDrawSoftEmuSprite(OamX(oam), OamY(oam), -1, oam, (uptr)&sRndCoreInstance->pImgProxy->attr, sRndCoreInstance->baseTexAddr3D, sRndCoreInstance->basePltAddr3D);
     }
 }
 
@@ -1163,7 +1164,7 @@ void NNS_G2dSetRndCoreFlipMode(NNSG2dRndCoreInstance *pRnd, BOOL bFlipH, BOOL bF
 
 void NNS_G2dRndCoreBeginRendering(NNSG2dRndCoreInstance *pRnd)
 {
-    volatile u32 *reg = (volatile u32 *)0x04000440;
+    volatile u32 *reg = (volatile u32 *)REG_MTX_MODE_ADDR;
     NNSG2dRndCoreInstance *p = pRnd;
     int type;
 
@@ -1211,7 +1212,7 @@ void NNS_G2dRndCoreEndRendering(void)
     NNSG2dRndCoreInstance *pRnd = sRndCoreInstance;
 
     if (pRnd->pCurrentTargetSurface->type == 0) {
-        volatile u32 *reg = (volatile u32 *)0x04000440;
+        volatile u32 *reg = (volatile u32 *)REG_MTX_MODE_ADDR;
         reg[0] = 0;
         reg[2] = 1;
         reg[0] = 1;

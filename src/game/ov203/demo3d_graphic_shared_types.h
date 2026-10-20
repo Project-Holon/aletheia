@@ -7,7 +7,7 @@ struct LightSlot;
 
 struct Bank;
 
-struct Cfg;
+struct Demo3dGraphicCfg;
 
 #include "../types.h"
 
@@ -25,7 +25,7 @@ typedef struct Demo3dGraphic {
     int               engineOn;   /* 0x14 DEMO3D_DATA_IsDouble3dDisplay result */
 } Demo3dGraphic;
 
-struct Cfg {
+struct Demo3dGraphicCfg {
     u32 f0, f4, f8;
     u8 fc, fd, fe;
     u8 sec : 7, bit7 : 1;

@@ -220,46 +220,32 @@ typedef struct LearnsetEntry {
 } LearnsetEntry;
 struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 struct DaycareSave;
 extern u32 DAYCARE_IsSlotInUse(struct DaycareSave *daycare, u32 slot);
 extern void DAYCARE_SwapSlots(struct DaycareSave *daycare, s32 slotA, s32 slotB);
-extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 groupField);
 extern int DAYCARE_GetInUseCount(void *dayCare);
-extern u32 GFL_USE_GetRandomBelow(u32 range);
-extern struct FieldMap *FIELDMAP_GetGameSystem(struct FieldMap *p);
-extern void *GAMESYSTEM_GetGameData(const void *p);
+#include "../arm9/gfl_use.h"
+#include "../arm9/game_data.h"
+#include "fieldmap.h"
+#include "../arm9/gamesystem.h"
 struct GameData;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 struct PokeParam;
 extern struct PokeParam *DAYCARE_GetSlotMon(struct DaycareSave *daycare, s32 slot);
-extern u32 PERAPVOICE_ClearIfNoChatot(void *p, void *party);
-extern void *GAME_DATA_GetPerapVoiceSave(void *p);
-extern u32 MI_CpuFill8(void *dst, u32 value, u32 size);
+#include "../arm9/perapvoice.h"
+#include "../arm9/mi_memory.h"
 struct PersonalData;
-extern struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
-extern u32 MYSTATUS_GetId(const struct MyStatus *status);
-extern u32 POKE_TOOL_IsShinyOtIdPersonality(u32 otId, u32 personalRnd);
-extern void POKE_PERSONAL_LoadDataDirect(unsigned int species, int form, void *dest);
+#include "../arm9/poke_personal.h"
+#include "../arm9/mystatus.h"
 extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heapId);
-extern u32 GFL_HEAP_Free(void *p);
-extern u16 FILE_UTIL_GetMachineMove(u16 item);
-extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/file_util.h"
 struct BoxPokemon;
-extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
 struct Strbuf;
-extern struct Strbuf *MYSTATUS_CreateNameStrbuf(u16 *name, s32 heap_id);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void SAVE_EVENT_Write(struct Pokemon *mon, u32 mode, struct MyStatus *status, u32 place, u16 heapId);
-extern void POKE_TOOL_RecoverAllPP(struct PokemonParam *pp);
-extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
-extern void POKE_TOOL_HealFull(struct PokemonParam *pp);
-extern u32 FILE_UTIL_IsMachineItem(u32 item);
-extern u32 FILE_UTIL_GetId(u32 item);
+#include "../arm9/strbuf.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/save_event.h"
+#include "../arm9/poke_tool_ext.h"
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
 extern void *gSpeciesNameBank;
 
@@ -269,7 +255,7 @@ int SODATEYA_CalcCompatibility(struct Pokemon *monA, struct Pokemon *monB);
 int SODATEYA_CalcCompatibilityScore(struct Pokemon *monA, struct Pokemon *monB);
 int SODATEYA_UpdateStepCounter(SodateyaWork *work);
 void SODATEYA_CreateEggMon(SodateyaWork *work, struct Pokemon *eggMon);
-int SODATEYA_SyncPartyAfterDeposit(struct FieldMap *fieldMap, void *party);
+void SODATEYA_SyncPartyAfterDeposit(struct FieldMap *fieldMap, void *party);
 void SODATEYA_BuildEgg(u16 heapId, struct MyStatus *myStatus, u32 metPlace, struct Pokemon *father, struct Pokemon *mother, struct Pokemon *eggMon);
 void SODATEYA_SortParentsByGender(struct Pokemon **parents);
 void SODATEYA_PutDittoSecond(struct Pokemon **parents);
@@ -317,38 +303,22 @@ extern MoveSlotIdTable sSodateyaEggMoveSlotIds;
 extern const MoveSlotIdTable sSodateyaSharedMoveSlotIds;
 extern MoveSlotIdTable sSodateyaTmMoveSlotIds;
 extern const StatTable sSodateyaEggIvIds;
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-void *GAME_DATA_GetMyParty(struct GameData *gd);
 struct Party;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+#include "../arm9/pokeparty.h"
 extern void DAYCARE_SetSlotMon(struct DaycareSave *daycare, s32 slot, struct PokeParam *mon);
-extern u32 POKEPARTY_RemoveMember(struct Party *party, s32 pos);
-extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
 extern u32 DAYCARE_GetSlotSteps(struct DaycareSave *daycare, u32 slot);
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 extern void DAYCARE_ClearSlot(struct DaycareSave *daycare, s32 slot);
-extern void *ZUKAN_SAVE_GetFromGameData(void *p);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
-extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, u16 species);
-extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *pZukan, void *pMon);
-extern struct PokemonParam *POKE_TOOL_Create(u16 species, u16 level, unsigned long long id, u16 heap);
 extern u32 DAYCARE_GetEggReady(struct DaycareSave *daycare);
-extern void GAME_BEACON_SEARCH_SetSymbolMapEnter(void);
+#include "../ov010/game_beacon_set.h"
 extern void DAYCARE_ClearEggReady(struct DaycareSave *daycare);
-extern u8 GAME_DATA_GetSeason(struct GameData *gd);
-extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, struct Party *party, s32 season);
+#include "../ov010/formchange_season.h"
 struct DaycareSlot;
 extern void DAYCARE_AddSteps(struct DaycareSlot *slots, u32 steps);
 extern void DAYCARE_SetEggReady(struct DaycareSave *daycare);
-extern void *GAME_DATA_GetEventWork(struct GameData *gd);
-extern u32 POKEPARTY_GetCount(struct Party *party);
-extern u32 POKEPARTY_GetCapacity(struct Party *party);
 struct EventWork;
-extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
-extern u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp);
-extern u32 POKE_TOOL_GetExpForLevel(u16 a, u16 b, u16 c);
-extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, u16 move, u32 slot);
-extern void POKE_TOOL_PushMove(struct PokemonParam *pp, u16 move);
+#include "../arm9/zonedata.h"
 SodateyaWork *SODATEYA_Create(u32 heapId, void *fieldMap, void *dayCare);
 void SODATEYA_Delete(void *work);
 void SODATEYA_DepositPokemon(SodateyaWork *work, void *party, u32 partyPos);
@@ -793,9 +763,9 @@ void SODATEYA_CreateEggMon(SodateyaWork *work, struct Pokemon *eggMon)
 /*
  * Runs a field-map accessor chain on the party after a Pokemon was left in the day care.
  */
-int SODATEYA_SyncPartyAfterDeposit(struct FieldMap *fieldMap, void *party)
+void SODATEYA_SyncPartyAfterDeposit(struct FieldMap *fieldMap, void *party)
 {
-    return PERAPVOICE_ClearIfNoChatot(GAME_DATA_GetPerapVoiceSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), party);
+    PERAPVOICE_ClearIfNoChatot(GAME_DATA_GetPerapVoiceSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), party);
 }
 
 /*

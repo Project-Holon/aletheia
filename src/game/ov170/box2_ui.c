@@ -105,23 +105,22 @@
  */
 #include "box2_types.h"
 
-struct WinMgr;
-struct Grid;
+struct BgWinFrmWork;
+struct BmpOam;
 struct BmpOam;
 struct Personal;
 struct Sav;
 struct Sub020079BCEntry;
 struct Bmp;
-struct Sys;
+struct BmpOamSys;
 struct Bmp;
 struct CursorMoveObj;
 struct Sound;
-struct Ctx;
-typedef struct { short x, y; int b, c, d, e; short f, g; } Desc;
+struct TouchHitTable;
+typedef struct { short x, y; int b, c, d, e; short f, g; } Box2UiDesc;
 
 #include "../types.h"
 
-struct Param {void *bmp; short x,y; u32 f8,fc; u8 f10,f11; u16 f12;u32 f14;};
 
 typedef struct { unsigned a, b; } U32Pair;
 
@@ -141,91 +140,47 @@ typedef struct {
 
 typedef struct { unsigned char a,b,c,d; } Bytes;
 
-typedef struct { Bytes first, second; } Object;
+typedef struct { Bytes first, second; } Box2UiObject;
 
-extern void *BOX2_SEQ_CreateActorFromDesc(char *w, Desc *s);
-extern void BOX2_SEQ_SetActorDrawEnable(char *work, int i, int v);
+extern void *BOX2_SEQ_CreateActorFromDesc(char *w, Box2UiDesc *s);
+#include "box2_seq.h"
 struct BgWinFrmWork;
-extern void BGWINFRM_GetPos(struct BgWinFrmWork *wk, u32 idx, s8 *x, s8 *y);
-extern void BOX2_SEQ_AddActorSurfacePos(char *work, int i, int a, int b, unsigned short c);
-extern void BOX2_SEQ_GetActorSurfacePos(char *work, int i, short *a, short *b, unsigned short space);
-extern void BMP_OAM_GetPos(struct BmpOam *p, s16 *out_x, s16 *out_y);
-extern void BMP_OAM_SetPos(struct BmpOam *bmpOam, short x, short y);
-extern unsigned char BOX2_MAIN_WrapOffset(unsigned char *p, int a);
-extern void BOX2_SEQ_DrawMonName(char **, unsigned, int);
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void MI_CpuCopy8(const void *, void *, unsigned);
-extern u32 GFL_HEAP_Free(void *p);
-extern int BOX2_MAIN_GetBoxWallpaper(BoxTask *p, int box);
-struct Actor;
-extern u16 CLACT_GetActorCharacterIndex(struct Actor *actor);
-extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
+#include "../arm9/bgwinfrm.h"
+#include "box2_main.h"
+#include "../arm9/arc_util.h"
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define MIi_CpuClear16 MIi_CpuClear16_header
+#endif
+#include "../arm9/mi_memory.h"
+#ifdef __MWERKS__
+#undef MIi_CpuClear16
+extern void MIi_CpuClear16(u32, void *, u32);
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+struct ClactActor;
+struct ClactActor;
+#include "../arm9/clact.h"
 struct GameData;
 struct BoxPokemon;
-extern struct BoxPokemon *BOX_SAVEDATA_GetPokemon(struct GameData *gameData, unsigned int box, unsigned int slot);
-extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int arg);
+#include "../arm9/box_savedata.h"
+#include "../arm9/poke_tool.h"
 struct PersonalData;
-extern struct PersonalData *POKE_PERSONAL_Create(u32 a, int b, u32 c);
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, unsigned int field);
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
-extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, unsigned int didDecode);
-extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
-extern u32 BOX2_SEQ_GetActorDrawEnable(char *work, int i);
-extern void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, unsigned int enabled);
-extern void BOX2_SEQ_DrawOffsetName(unsigned char *p, int i);
-extern void BOX2_SEQ_SetActorAutoAnim(char *work, int i, int v);
+#include "../arm9/poke_personal.h"
 struct BmpOamSys;
-extern struct BmpOamSys *BMP_OAM_CreateSys(u32,void *);
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
-extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
-extern void BMP_Delete(struct Bmp *p);
-extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
-extern int BMP_OAM_GetEnabled(struct BmpOam *bmpOam);
-extern u8 UI_GetInputMode(void);
+typedef short s16_p07;
+#include "../arm9/bmp_oam.h"
+#include "../arm9/bmp.h"
+#include "../arm9/ui.h"
 struct CursorVtbl;
 struct CursorEntry;
 struct Cursor;
-extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, unsigned int ctx, unsigned int state, unsigned char start, unsigned short heapId);
-extern void CURSOR_MOVE_EnableInput(struct Cursor *obj);
-extern void BOX2_SEQ_SetCursorDraw(char **, int);
-extern u32 CURSOR_MOVE_GetState(struct Cursor *obj);
-extern u32 CURSOR_MOVE_Delete(void *cursor);
-extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, unsigned int idx);
-extern void BOX2_SEQ_RefreshHandSlot(BoxTask *p);
-extern void BOX2_MAIN_SetSeqParam(BoxWork *p, int v);
-extern int BOX2_MAIN_SceneApplyScroll(BoxTask *p);
-extern void CURSOR_MOVE_SetCurrent(struct Cursor *obj, unsigned char sel);
-extern u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
-extern int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
-extern u32 KEY_GetTrg(void);
-extern void UI_SetInputMode(u8 v);
-extern unsigned int KEY_GetRepeat(void);
-extern void BOX2_MAIN_ActivateKeyCursor(BoxTask *p);
-extern unsigned BOX2_MAIN_GetPartyValueAt(void ***task, unsigned short a, unsigned short box, unsigned int id, unsigned int v);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int TOUCHPANEL_HitTrg(const void *);
-extern int TOUCHPANEL_HitCont(const void *);
-extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
-extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
+#include "../arm9/cursor_move.h"
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
 struct BgWinFrmWork;
-extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
-extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, unsigned int idx, unsigned int bgFrame, unsigned int sizeX, unsigned int sizeY);
-extern void BOX2_SEQ_AddTextFrame(BoxWork *);
-extern void BOX2_SEQ_AddMsgFrame(unsigned char *p);
 struct BoxTask;
-extern void BOX2_SEQ_AddNameFrame(struct BoxTask *task);
-extern void BOX2_SEQ_PutNameFrame(char *);
-extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
-extern void BGWINFRM_SetFrameDataArc(struct BgWinFrmWork *wk, unsigned int idx, unsigned int arcId, unsigned int datId, unsigned int compressed);
-extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
-extern void BGWINFRM_StartMove(struct BgWinFrmWork *wk, u32 idx, s8 moveX, s8 moveY, u8 count);
-extern u32 BGWINFRM_UpdateMove(struct BgWinFrmWork *wk, u32 idx);
-extern void BOX2_SEQ_MoveActorToWindow(BoxTask *p);
-extern void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, unsigned int idx);
-extern u32 BG_SYS_GetBuf(int channel);
-extern void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, unsigned int idx, void *src);
+#include "../arm9/bg_sys.h"
 void BOX2_UI_CreatePartyActors(BoxWork *p);
 void BOX2_UI_ToggleSlotPair(BoxWork *p, int a);
 void BOX2_UI_LayoutPartySlots(BoxTask *p);
@@ -322,39 +277,39 @@ int BOX2_UI_GetPageButtonHit(void);
 int BOX2_UI_GetPageButtonHit2(void);
 void BOX2_UI_InitWindowFrames(BoxTask *p);
 void BOX2_UI_DeleteWindowFrames(BoxWork *p);
-void BOX2_UI_SetFrameData(struct WinMgr *mgr, int frameIndex, int dataId);
-void BOX2_UI_PutTopBarOpen(struct WinMgr *mgr);
-void BOX2_UI_PutTopBarClosed(struct WinMgr *mgr);
-void BOX2_UI_PutBottomBarOpen(struct WinMgr *mgr);
-void BOX2_UI_PutBottomBarClosed(struct WinMgr *mgr);
-void BOX2_UI_CloseBar(struct WinMgr *mgr);
-void BOX2_UI_OpenBar(struct WinMgr *mgr);
-void BOX2_UI_SlideBarIn(struct WinMgr *mgr);
-void BOX2_UI_SlideBarOut(struct WinMgr *mgr);
+void BOX2_UI_SetFrameData(struct BgWinFrmWork *mgr, int frameIndex, int dataId);
+void BOX2_UI_PutTopBarOpen(struct BgWinFrmWork *mgr);
+void BOX2_UI_PutTopBarClosed(struct BgWinFrmWork *mgr);
+void BOX2_UI_PutBottomBarOpen(struct BgWinFrmWork *mgr);
+void BOX2_UI_PutBottomBarClosed(struct BgWinFrmWork *mgr);
+void BOX2_UI_CloseBar(struct BgWinFrmWork *mgr);
+void BOX2_UI_OpenBar(struct BgWinFrmWork *mgr);
+void BOX2_UI_SlideBarIn(struct BgWinFrmWork *mgr);
+void BOX2_UI_SlideBarOut(struct BgWinFrmWork *mgr);
 int BOX2_UI_UpdateBarMove(BoxTask *p);
-int BOX2_UI_IsTopBarOpen(struct WinMgr *mgr);
-int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr);
-int BOX2_UI_IsTopBarMid(struct WinMgr *mgr);
-void BOX2_UI_PutSlotFrames(struct WinMgr *mgr);
-void BOX2_UI_PutListFrames(struct WinMgr *mgr);
-void BOX2_UI_ResetSlotFrames(struct WinMgr *mgr);
-void BOX2_UI_CloseListPack(struct WinMgr *mgr);
-void BOX2_UI_OpenListPack(struct WinMgr *mgr);
-int BOX2_UI_UpdateListPacks(struct WinMgr *mgr);
-int BOX2_UI_IsListOpen(struct WinMgr *mgr);
-int BOX2_UI_IsListClosed(struct WinMgr *mgr);
+int BOX2_UI_IsTopBarOpen(struct BgWinFrmWork *mgr);
+int BOX2_UI_IsTopBarClosed(struct BgWinFrmWork *mgr);
+int BOX2_UI_IsTopBarMid(struct BgWinFrmWork *mgr);
+void BOX2_UI_PutSlotFrames(struct BgWinFrmWork *mgr);
+void BOX2_UI_PutListFrames(struct BgWinFrmWork *mgr);
+void BOX2_UI_ResetSlotFrames(struct BgWinFrmWork *mgr);
+void BOX2_UI_CloseListPack(struct BgWinFrmWork *mgr);
+void BOX2_UI_OpenListPack(struct BgWinFrmWork *mgr);
+int BOX2_UI_UpdateListPacks(struct BgWinFrmWork *mgr);
+int BOX2_UI_IsListOpen(struct BgWinFrmWork *mgr);
+int BOX2_UI_IsListClosed(struct BgWinFrmWork *mgr);
 void BOX2_UI_AddFadeFrame(BoxTask *p);
-void BOX2_UI_PutFadeFrame(struct WinMgr *mgr);
+void BOX2_UI_PutFadeFrame(struct BgWinFrmWork *mgr);
 void BOX2_UI_ShowWindowA(BoxWork *p);
 void BOX2_UI_HideWindowA(BoxWork *p);
 void BOX2_UI_ShowWindowB(BoxWork *p);
 void BOX2_UI_HideWindowB(BoxWork *p);
-void BOX2_UI_PutTopBarThenClose(struct WinMgr *mgr);
-void BOX2_UI_RepenTopBar(struct WinMgr *mgr);
+void BOX2_UI_PutTopBarThenClose(struct BgWinFrmWork *mgr);
+void BOX2_UI_RepenTopBar(struct BgWinFrmWork *mgr);
 unsigned BOX2_UI_UpdateTopBarMove(BoxTask *p);
-void BOX2_UI_PutInfoBar(struct WinMgr *mgr);
-void BOX2_UI_CloseInfoBar(struct WinMgr *mgr);
-extern const Desc d_021EFD1C;
+void BOX2_UI_PutInfoBar(struct BgWinFrmWork *mgr);
+void BOX2_UI_CloseInfoBar(struct BgWinFrmWork *mgr);
+extern const Box2UiDesc d_021EFD1C;
 extern const unsigned char g_021EFCEC[];
 extern const short d_021EFCD8[];
 extern const U32Pair d_021F02F0[];
@@ -372,8 +327,8 @@ extern const unsigned char d_021F0F58[];
 
 void BOX2_UI_CreatePartyActors(BoxWork *work)
 {
-    Desc t;
-    Desc base = d_021EFD1C;
+    Box2UiDesc t;
+    Box2UiDesc base = d_021EFD1C;
     unsigned i;
     for (i = 0; i < 6; i++) {
         t = base;
@@ -441,8 +396,8 @@ void BOX2_UI_SetCloseButtonPos(BoxWork *a)
 
 void BOX2_UI_RefreshBoxHeader(BoxTask *task)
 {
-    Desc t;
-    Desc base = d_021EFD1C;
+    Box2UiDesc t;
+    Box2UiDesc base = d_021EFD1C;
     short i;
     int a, y;
     for (i = 0; i < 6; i++) {
@@ -523,7 +478,7 @@ void BOX2_UI_DrawSlotByName(char *task, int a)
 void BOX2_UI_UploadSlotChar(BoxTask *task, int a, int i)
 {
     int q = (int)task->work;
-    int x = CLACT_GetActorCharacterIndex((struct Actor *)(*(int *)(q + i * 4 + 0x9E74)));
+    int x = CLACT_GetActorCharacterIndex((struct ClactActor *)(*(int *)(q + i * 4 + 0x9E74)));
     CLACT_TransferCharacterPart(x, (void *)(q + 0x3E70 + a * 0x400), 0x400, 0, 0);
 }
 
@@ -729,23 +684,23 @@ void BOX2_UI_HideSlots678(BoxTask *task)
 
 void BOX2_UI_CreateBmpOam(BoxWork *work)
 {
-    struct Param s;
+    struct BmpOamParam s;
     u32 i;
     work->oamSys=BMP_OAM_CreateSys(76,(*(void * *)&work->clactUnit));
     work->oamSlots[0].aux=BMP_Create(12,2,32,76);
     s.bmp=work->oamSlots[0].aux;s.x=0;s.y=0;
-    s.f8=work->iconFlags;s.fc=0;
-    s.f10=4;s.f11=1;s.f12=65535;s.f14=0;
+    s.animResId=work->iconFlags;s.palette=0;
+    s.drawPriority=4;s.bgPriority=1;s.space=65535;s.engine=0;
     work->oamSlots[0].obj=BMP_OAM_Create(work->oamSys,&s);
     BMP_OAM_SetEnabled(work->oamSlots[0].obj,0);
     for (i=7;i<=8;i++) {
         ((void **)((char *)work+4))[i*2+1]=BMP_Create(12,2,32,76);
-        s.bmp=((void **)((char *)work+4))[i*2+1];s.x=36;s.y=20;s.f11=3;
+        s.bmp=((void **)((char *)work+4))[i*2+1];s.x=36;s.y=20;s.bgPriority=3;
         ((void **)((char *)work+4))[i*2]=BMP_OAM_Create(work->oamSys,&s);
     }
     for (i=0;i<6;i++) {
         ((void **)((char *)work+4))[(i+1)*2+1]=BMP_Create(2,1,32,76);
-        s.bmp=((void **)((char *)work+4))[(i+1)*2+1];s.x=316;s.y=i*34+2;s.f11=1;
+        s.bmp=((void **)((char *)work+4))[(i+1)*2+1];s.x=316;s.y=i*34+2;s.bgPriority=1;
         ((void **)((char *)work+4))[(i+1)*2]=BMP_OAM_Create(work->oamSys,&s);
     }
 }
@@ -1524,36 +1479,36 @@ void BOX2_UI_PlaceCursorBetween(BoxWork *work, unsigned char x, unsigned char y,
 
 int BOX2_UI_HitTableTrg(const char *table, unsigned n)
 {
-    Object obj;
+    Box2UiObject obj;
     unsigned i;
     obj.second=d_021F0020;
     for(i=0;i<n;i++) {
         obj.first=*(Bytes *)(table+i*12+8);
-        if(TOUCHPANEL_HitTrg(&obj)!=-1) return i;
+        if(TOUCHPANEL_HitTrg((const TouchHitTable *)&obj)!=-1) return i;
     }
     return -1;
 }
 
 int BOX2_UI_HitTableCont(const char *table, unsigned n)
 {
-    Object obj;
+    Box2UiObject obj;
     unsigned i;
     obj.second=d_021F0020;
     for(i=0;i<n;i++) {
         obj.first=*(Bytes *)(table+i*12+8);
-        if(TOUCHPANEL_HitCont(&obj)!=-1) return i;
+        if(TOUCHPANEL_HitCont((const TouchHitTable *)&obj)!=-1) return i;
     }
     return -1;
 }
 
 int BOX2_UI_HitTablePoint(const char *table, unsigned n, int a, int b)
 {
-    Object obj;
+    Box2UiObject obj;
     unsigned i;
     obj.second=d_021F0020;
     for(i=0;i<n;i++) {
         obj.first=*(Bytes *)(table+i*12+8);
-        if(TOUCHPANEL_HitPoint((struct Ctx *)(&obj),a,b)!=-1) return i;
+        if(TOUCHPANEL_HitPoint((const TouchHitTable *)((struct TouchHitTable *)(&obj)),a,b)!=-1) return i;
     }
     return -1;
 }
@@ -1632,7 +1587,7 @@ int BOX2_UI_GetPageButtonHit2(void)
 void BOX2_UI_InitWindowFrames(BoxTask *task)
 {
     BoxWork *w=task->work;
-    (w->winMgr)=(struct WinMgr *)BGWINFRM_Create(2,12,0x4c);
+    (w->winMgr)=(struct BgWinFrmWork *)BGWINFRM_Create(2,12,0x4c);
     BOX2_SEQ_AddTextFrame(w);
     BOX2_UI_AddFadeFrame((BoxTask *)task);
     BOX2_SEQ_AddMsgFrame((unsigned char *)task);
@@ -1653,13 +1608,13 @@ void BOX2_UI_InitWindowFrames(BoxTask *task)
  */
 void BOX2_UI_DeleteWindowFrames(BoxWork *work)
 {
-    BGWINFRM_Delete((struct BgWinFrmWork *)(*(struct WinMgr * *)&work->winMgr));
+    BGWINFRM_Delete((struct BgWinFrmWork *)(*(struct BgWinFrmWork * *)&work->winMgr));
 }
 
 /*
  * Forward the three arguments with a literal third argument, in place of the fourth.
  */
-void BOX2_UI_SetFrameData(struct WinMgr *mgr, int frameIndex, int dataId)
+void BOX2_UI_SetFrameData(struct BgWinFrmWork *mgr, int frameIndex, int dataId)
 {
     BGWINFRM_SetFrameDataArc((struct BgWinFrmWork *)mgr, frameIndex, 0x74, dataId, 1);
 }
@@ -1667,22 +1622,22 @@ void BOX2_UI_SetFrameData(struct WinMgr *mgr, int frameIndex, int dataId)
 /*
  * Forward a plus constants to BGWINFRM_PutFrame.
  */
-void BOX2_UI_PutTopBarOpen(struct WinMgr *mgr)
+void BOX2_UI_PutTopBarOpen(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 8, 2, 6);
 }
 
-void BOX2_UI_PutTopBarClosed(struct WinMgr *mgr)
+void BOX2_UI_PutTopBarClosed(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 8, 0x15, 6);
 }
 
-void BOX2_UI_PutBottomBarOpen(struct WinMgr *mgr)
+void BOX2_UI_PutBottomBarOpen(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 8, 2, 0x18);
 }
 
-void BOX2_UI_PutBottomBarClosed(struct WinMgr *mgr)
+void BOX2_UI_PutBottomBarClosed(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 8, 0x15, 0x18);
 }
@@ -1691,7 +1646,7 @@ void BOX2_UI_PutBottomBarClosed(struct WinMgr *mgr)
  * Probe the 8-byte tag; unless the tag byte is 6, patch the row
  *   with (tag - 6) through channel 8.
  */
-void BOX2_UI_CloseBar(struct WinMgr *mgr)
+void BOX2_UI_CloseBar(struct BgWinFrmWork *mgr)
 {
     s8 buf[4];
     BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 8, buf + 1, buf);
@@ -1703,7 +1658,7 @@ void BOX2_UI_CloseBar(struct WinMgr *mgr)
  * Probe the 8-byte tag; unless the tag byte is 0x18, patch the row
  *   with (0x18 - tag) as a flagged close.
  */
-void BOX2_UI_OpenBar(struct WinMgr *mgr)
+void BOX2_UI_OpenBar(struct BgWinFrmWork *mgr)
 {
     s8 buf[4];
     BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 8, buf + 1, buf);
@@ -1714,12 +1669,12 @@ void BOX2_UI_OpenBar(struct WinMgr *mgr)
 /*
  * Forward a plus constants to BGWINFRM_StartMove.
  */
-void BOX2_UI_SlideBarIn(struct WinMgr *mgr)
+void BOX2_UI_SlideBarIn(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 8, 1, 0, 0x13);
 }
 
-void BOX2_UI_SlideBarOut(struct WinMgr *mgr)
+void BOX2_UI_SlideBarOut(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 8, -1, 0, 0x13);
 }
@@ -1746,7 +1701,7 @@ int BOX2_UI_UpdateBarMove(BoxTask *task)
  * Read the 8-byte tag at the top of the frame; 1 when byte 1 is
  *   0x15 and byte 0 is 6.
  */
-int BOX2_UI_IsTopBarOpen(struct WinMgr *mgr)
+int BOX2_UI_IsTopBarOpen(struct BgWinFrmWork *mgr)
 {
     s8 buf[4];
     BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 8, buf + 1, buf);
@@ -1756,7 +1711,7 @@ int BOX2_UI_IsTopBarOpen(struct WinMgr *mgr)
 /*
  * Same probe as BOX2_UI_IsTopBarOpen with tag byte 1 compared to 2.
  */
-int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr)
+int BOX2_UI_IsTopBarClosed(struct BgWinFrmWork *mgr)
 {
     s8 buf[4];
     BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 8, buf + 1, buf);
@@ -1767,7 +1722,7 @@ int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr)
  * Probe the 8-byte tag at the top of the frame; 1 when its first
  *   byte is 6.
  */
-int BOX2_UI_IsTopBarMid(struct WinMgr *mgr)
+int BOX2_UI_IsTopBarMid(struct BgWinFrmWork *mgr)
 {
     s8 buf[4];
     BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 8, buf + 1, buf);
@@ -1778,21 +1733,21 @@ int BOX2_UI_IsTopBarMid(struct WinMgr *mgr)
  * Push tag rows 0x20 for six entries; element (i*3+2) is a
  *   signed char.  The counter is UNSIGNED or the image's blo becomes blt.
  */
-void BOX2_UI_PutSlotFrames(struct WinMgr *mgr)
+void BOX2_UI_PutSlotFrames(struct BgWinFrmWork *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
         BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, i, 0x20, (signed char)(i * 3 + 2));
 }
 
-void BOX2_UI_PutListFrames(struct WinMgr *mgr)
+void BOX2_UI_PutListFrames(struct BgWinFrmWork *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
         BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, i, 0x15, (signed char)(i * 3 + 2));
 }
 
-void BOX2_UI_ResetSlotFrames(struct WinMgr *mgr)
+void BOX2_UI_ResetSlotFrames(struct BgWinFrmWork *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++) {
@@ -1801,7 +1756,7 @@ void BOX2_UI_ResetSlotFrames(struct WinMgr *mgr)
     }
 }
 
-void BOX2_UI_CloseListPack(struct WinMgr *mgr)
+void BOX2_UI_CloseListPack(struct BgWinFrmWork *mgr)
 {
     signed char buf[2];
     unsigned short i = 0;
@@ -1812,7 +1767,7 @@ void BOX2_UI_CloseListPack(struct WinMgr *mgr)
         BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, i, -1, 0, buf[1] - 0x15);
 }
 
-void BOX2_UI_OpenListPack(struct WinMgr *mgr)
+void BOX2_UI_OpenListPack(struct BgWinFrmWork *mgr)
 {
     signed char buf[2];
     unsigned short i = 0;
@@ -1826,7 +1781,7 @@ void BOX2_UI_OpenListPack(struct WinMgr *mgr)
 /*
  * 1 when probe 1..6 reports 1.
  */
-int BOX2_UI_UpdateListPacks(struct WinMgr *mgr)
+int BOX2_UI_UpdateListPacks(struct BgWinFrmWork *mgr)
 {
     unsigned i;
     int found = 0;
@@ -1837,7 +1792,7 @@ int BOX2_UI_UpdateListPacks(struct WinMgr *mgr)
     return found;
 }
 
-int BOX2_UI_IsListOpen(struct WinMgr *mgr)
+int BOX2_UI_IsListOpen(struct BgWinFrmWork *mgr)
 {
     s8 buf[4];
     BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 0, buf + 1, buf);
@@ -1847,7 +1802,7 @@ int BOX2_UI_IsListOpen(struct WinMgr *mgr)
 /*
  * 1 when the tag's byte 1 is 0x15.
  */
-int BOX2_UI_IsListClosed(struct WinMgr *mgr)
+int BOX2_UI_IsListClosed(struct BgWinFrmWork *mgr)
 {
     s8 buf[4];
     BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 0, buf + 1, buf);
@@ -1865,7 +1820,7 @@ void BOX2_UI_AddFadeFrame(BoxTask *task)
     BGWINFRM_SetFrameData((struct BgWinFrmWork *)task->work->winMgr, 6, (void *)(x + 0x540));
 }
 
-void BOX2_UI_PutFadeFrame(struct WinMgr *mgr)
+void BOX2_UI_PutFadeFrame(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 6, 0, 0x15);
 }
@@ -1875,7 +1830,7 @@ void BOX2_UI_PutFadeFrame(struct WinMgr *mgr)
  */
 void BOX2_UI_ShowWindowA(BoxWork *work)
 {
-    BGWINFRM_PutFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&work->winMgr), 0xa, 0, 0x15);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)(*(struct BgWinFrmWork * *)&work->winMgr), 0xa, 0, 0x15);
 }
 
 /*
@@ -1883,12 +1838,12 @@ void BOX2_UI_ShowWindowA(BoxWork *work)
  */
 void BOX2_UI_HideWindowA(BoxWork *work)
 {
-    BGWINFRM_HideFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&work->winMgr), 0xa);
+    BGWINFRM_HideFrame((struct BgWinFrmWork *)(*(struct BgWinFrmWork * *)&work->winMgr), 0xa);
 }
 
 void BOX2_UI_ShowWindowB(BoxWork *work)
 {
-    BGWINFRM_PutFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&work->winMgr), 0xb, 0, 0x15);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)(*(struct BgWinFrmWork * *)&work->winMgr), 0xb, 0, 0x15);
 }
 
 /*
@@ -1896,16 +1851,16 @@ void BOX2_UI_ShowWindowB(BoxWork *work)
  */
 void BOX2_UI_HideWindowB(BoxWork *work)
 {
-    BGWINFRM_HideFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&work->winMgr), 0xb);
+    BGWINFRM_HideFrame((struct BgWinFrmWork *)(*(struct BgWinFrmWork * *)&work->winMgr), 0xb);
 }
 
-void BOX2_UI_PutTopBarThenClose(struct WinMgr *mgr)
+void BOX2_UI_PutTopBarThenClose(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 7, 0x15, 0x18);
     BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 7, 0, -1, 0x13);
 }
 
-void BOX2_UI_RepenTopBar(struct WinMgr *mgr)
+void BOX2_UI_RepenTopBar(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 7, 0, 1, 0x13);
 }
@@ -1927,18 +1882,18 @@ unsigned BOX2_UI_UpdateTopBarMove(BoxTask *task)
 /*
  * Stage row 0x20 at channel 9 then patch with -1.
  */
-void BOX2_UI_PutInfoBar(struct WinMgr *mgr)
+void BOX2_UI_PutInfoBar(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 9, 0x20, 0);
     BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 9, -1, 0, 0xb);
 }
 
-void BOX2_UI_CloseInfoBar(struct WinMgr *mgr)
+void BOX2_UI_CloseInfoBar(struct BgWinFrmWork *mgr)
 {
     BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 9, 1, 0, 0xb);
 }
 
-int BOX2_UI_IsInfoBarOpen(struct WinMgr *mgr)
+int BOX2_UI_IsInfoBarOpen(struct BgWinFrmWork *mgr)
 {
     s8 buf[2];
     BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 9, &buf[1], &buf[0]);

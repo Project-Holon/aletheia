@@ -30,7 +30,7 @@ struct Entry;
 struct Link;
 #include "../types.h"
 
-struct Rec {
+struct StaNetRec {
     u8 pad00[4];
     int state;
     u8 pad08[0x0A];
@@ -40,9 +40,9 @@ struct Rec {
     u8 pad20[0x10];
 };
 
-struct Ctx {
+struct StaNetCtx {
     u8 pad00[0x60];
-    struct Rec rec[4];
+    struct StaNetRec rec[4];
 };
 
 typedef struct StaNetWork {
@@ -54,17 +54,13 @@ typedef struct StaNetWork {
     int transferState;
 } StaNetWork;
 
-extern u32 MUS_COMM_FUNC_SendCommandWait(int unused, int kind, u32 value, u32 id);
+#include "mus_comm_func.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
-extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, unsigned int sendId, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
-extern void STA_SLOT_Noop(int buffer, int size, int kind);
-extern u32 GF_STANDARD_Rand(void);
-extern void MUS_COMM_FUNC_SendCommand(char *unused, s32 kind, u32 value, u32 id);
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
-extern void MUS_COMM_FUNC_SetTimingSync(int,int);
-u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key);
+#include "../arm9/net_handle.h"
+#include "../arm9/net.h"
+#include "sta_slot.h"
+#include "../arm9/gf_standard.h"
+u32 STA_NET_FindRecValueByKey(struct StaNetCtx *p, u8 key);
 void STA_NET_BeginTransfer(StaNetWork *s);
 void STA_NET_UpdateTransferState(char *p);
 int STA_NET_SendChunk(char *p,u32 i);
@@ -86,7 +82,7 @@ u32 STA_NET_GetSlot3Value(void *a, u8 *p);
 u32 STA_NET_GetSlot1Done(char *p);
 int STA_NET_GetSlot3Done(int *p);
 int STA_NET_SendRandomOrder(u8 *p);
-void STA_NET_SendKindA(char *p, int a);
+u32 STA_NET_SendKindA(char *p, int a);
 u32 STA_NET_GetCurrentSlotValue(char *p);
 u8 STA_NET_GetSlotValueByIndex(char *p, int index);
 u32 STA_NET_GetSlotWordByIndex(char *p,u32 index);
@@ -104,7 +100,7 @@ u32 STA_NET_GetPairB(char *p);
  * four 48-byte records at +0x60 for one whose id byte (+0x12) equals the key
  * and whose state word (+4) is 1; returns its word at +0x1C, else 0.
  */
-u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key)
+u32 STA_NET_FindRecValueByKey(struct StaNetCtx *p, u8 key)
 {
     u8 i;
 
@@ -324,9 +320,9 @@ int STA_NET_SendRandomOrder(u8 *p)
     return MUS_COMM_FUNC_SendCommandWait((int)p, 1, result, 255);
 }
 
-void STA_NET_SendKindA(char *p, int value)
+u32 STA_NET_SendKindA(char *p, int value)
 {
-    MUS_COMM_FUNC_SendCommand(p, 0xa, value, 0xff);
+    return MUS_COMM_FUNC_SendCommand(p, 0xa, value, 0xff);
 }
 
 u32 STA_NET_GetCurrentSlotValue(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}

@@ -65,7 +65,7 @@ typedef struct WmSystemBss {
 
 #include "../sdk_os_thread.h"
 
-typedef char *va_list;
+#include "../sdk_stdarg.h"
 
 struct WMSystemWork {
     void *reserved;
@@ -258,14 +258,6 @@ u32 *WmGetCommandBuffer4Arm7(void)
     return 0;
 }
 
-#define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-
-#define __va_size(t) ((sizeof(t) + 3) & ~3u)
-
-#define va_arg(ap, t) (*(t *)((ap += __va_size(t)) - __va_size(t)))
-
-#define va_end(v)
-
 WMErrCode WMi_SendCommand(WMApiid id, u16 paramNum, ...)
 {
     va_list vlist;
@@ -350,14 +342,6 @@ WMErrCode WMi_CheckIdle(void)
     }
     return WM_ERRCODE_SUCCESS;
 }
-
-#define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-
-#define __va_size(t) ((sizeof(t) + 3) & ~3u)
-
-#define va_arg(ap, t) (*(t *)((ap += __va_size(t)) - __va_size(t)))
-
-#define va_end(v)
 
 WMErrCode WMi_CheckStateEx(s32 paramNum, ...)
 {

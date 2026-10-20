@@ -20,7 +20,7 @@ struct Strbuf;
 struct WordSet;
 struct GfFont;
 struct Tcbl;
-struct PdcMenu;
+struct BtlvInput;
 struct PdcSys;
 struct Proc;
 
@@ -121,7 +121,7 @@ struct PdcSys {
     struct PokemonParam *mon;
     struct GfFont *font;
     struct GfFont *msgFont;
-    struct PdcMenu *menu;
+    struct BtlvInput *menu;
     struct PdcMsg *msg;
     struct Tcbl *tcbl;
     struct PdcItemSelect select;

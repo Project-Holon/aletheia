@@ -58,6 +58,7 @@
  *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  */
 #include "../arm9/billboard_act_types.h"
+#include "../arm9/g3d_system_types.h"
 #include "../ov010/fldmmdl_types.h"
 
 #include "../sdk_fx.h"
@@ -68,18 +69,7 @@ typedef struct FieldMap FieldMap;                       /* field map (fieldmap.c
 typedef struct FieldEffectSys FieldEffectSys;           /* field effect system (field_effect.c) */
 typedef struct FieldEffectObj FieldEffectObj;           /* one running effect (field_effect.c) */
 typedef struct FieldEffectObjFuncs FieldEffectObjFuncs; /* callback table: work size, init, exit, update, draw */
-typedef struct G3dResource G3dResource;                 /* layouts in arm9/g3d_system_types.h */
-typedef struct G3dRender G3dRender;
-typedef struct G3dAnime G3dAnime;
-typedef struct G3dObject G3dObject;
 typedef struct SoundSys SoundSys;
-
-/* Position, scale and rotation a field 3D object is drawn with. */
-typedef struct G3dObjectStatus {
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
-} G3dObjectStatus;
 
 /* Partial view of the encounter system (effect_encount.c): only the field the sound call reads. */
 typedef struct EncountSys {
@@ -142,44 +132,18 @@ typedef struct EncountWork {
     EncountSys *encount;     /* 0x34 */
 } EncountWork;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 FIELD_EFFECT_GetFieldMap(FieldEffectSys *fieldEffect);
-extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
-extern u8 FIELD_EFFECT_GetModelBaseOffset(FieldEffectSys *fieldEffect);
-extern u8 FIELD_EFFECT_GetModelBaseOffsetAlt(FieldEffectSys *fieldEffect);
-extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
-extern FieldEffectObj *FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-extern void FIELD_EFFECT_UpdateObject(FieldEffectObj *effect);
-extern int FIELD_EFFECT_GetObjectMode(FieldEffectObj *effect);
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
-extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
-extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
-extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
-extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
-extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
-extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
-extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
-extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
-extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
-extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
-extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
+#include "../arm9/gfl_heap_wrap.h"
+#include "field_effect.h"
+#include "../arm9/g3d_system.h"
+#include "fieldmap.h"
 struct MmdlSys;
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
-extern int FIELDMAP_IsReady(FieldMap *fieldMap);
-extern void *MI_CpuFill8(void *dst, u8 value, unsigned size);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, int step);
-extern s32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 anmIdx, s32 *frame);
+#include "../arm9/mi_memory.h"
 struct FieldEncount;
-extern int EFFECT_ENCOUNT_GetSpotDistance(struct FieldEncount *encount, s16 *out);
+#include "effect_encount.h"
 struct GameData;
-extern u32 GAME_DATA_GetBgmInfo(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct FieldSoundSystem;
-extern void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(struct FieldSoundSystem *s, u32 soundId, u32 owner);
+#include "../arm9/field_sound_system.h"
 
 EncountModelSet *FLDEFF_ENCOUNT_CreateKind0(FieldEffectSys *fieldEffect, int heapId);
 EncountModelSet *FLDEFF_ENCOUNT_CreateKind1(FieldEffectSys *fieldEffect, int heapId);
@@ -207,8 +171,7 @@ extern EncountModelDesc sEncountModelDescs[];               /* models and animat
 extern u8 sEncountResourceIndex[];                             /* effect resource index of each start selector */
 extern const FieldEffectObjFuncs sEncountFuncs;        /* rustling-spot effect callbacks */
 extern u8 sEncountVolumes[];                             /* sound volume of each strength step */
-extern void MTX_Identity33_(MtxFx33 *mtx);
-extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
+#include "../arm9/fx_mtx33.h"
 extern G3dObjectStatus sEncounterDrawSlotStatus;                     /* draw status template of the slot object */
 
 EncountModelSet *FLDEFF_ENCOUNT_CreateKind0(FieldEffectSys *fieldEffect, int heapId)

@@ -110,6 +110,7 @@
  *   WORDSET_SetSlotNumber  0x0201EFA4  thumb  arm9
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
+#include "../sdk_gx.h"
 #include "musical_shot_sys_shared_types.h"
 #include "mus_shot_photo_shared_types.h"
 #include "musical_shot_types.h"
@@ -133,57 +134,79 @@ typedef struct
   int x;
   int y;
   int z;
-} Vec;
+} MusShotPhotoVec;
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadPaletteFromHandle ARC_UTIL_UploadPaletteFromHandle_hdr
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_UploadPaletteFromHandle
+u32 ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
+#endif
+#ifdef __MWERKS__
+#define BG_SYS_FreeSlot BG_SYS_FreeSlot_hdr
+#define BG_SYS_SetPlaneVisible BG_SYS_SetPlaneVisible_hdr
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_FreeSlot
+#undef BG_SYS_SetPlaneVisible
+void BG_SYS_FreeSlot(u32);
+void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
+#endif
+#include "../arm9/g3d_camera.h"
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_Init_hdr
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
+void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
+#endif
+#include "sta_act_light.h"
+#include "sta_act_poke.h"
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/g2.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern char *MUSICAL_MCSS_AllocMon(u16 a, u8 b, u8 c, u8 d, u32 e, u16 heap);
+#include "musical_system.h"
 
 extern void MUSICAL_SHOT_SYS_DrawCaption(u8 *p);
 
-extern u8 *STA_ACT_LIGHT_AllocElem(u32 heap, u32 v);
+#include "sta_act_bg.h"
 
-extern void STA_ACT_LIGHT_CreateModel(void *a, u8 b);
 
 extern void STA_ACT_LIGHT_SetElemFrame(u8 *p, u16 v);
 
-extern void STA_ACT_LIGHT_SetModelFrame(u8 *p, u16 v);
 
 extern void STA_ACT_LIGHT_DeleteUnit(char *p);
 
-extern void STA_ACT_LIGHT_DeleteModel(u8 *p);
 
 extern void STA_ACT_LIGHT_DeleteBillboardImage(char *p);
 
-extern void MUSICAL_MCSS_DeleteRenderObj(int a);
+#include "mus_poke_draw.h"
 
-extern void MUSICAL_MCSS_DeleteActorPool(u8 *);
+#include "mus_item_draw.h"
 struct BmpWin;
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct GfFont;
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
+#include "../arm9/gf_font.h"
 
 extern void STA_ACT_LIGHT_UpdateBillboard(u8 *p);
 
-extern void MUSICAL_MCSS_TickAnim(u8 *);
 
 extern void STA_ACT_LIGHT_UpdateElemActors(char *p);
 
-extern void STA_ACT_LIGHT_NoOp(u32);
 
 extern void STA_ACT_LIGHT_UpdateElem(u8 *p);
 
-extern void MUSICAL_MCSS_DrawRenderObj(void **p);
 
 extern void STA_ACT_LIGHT_UpdateSprite(char *p);
 
-extern void STA_ACT_LIGHT_DrawModel(u8 *p);
 
 extern void MUSICAL_SHOT_SYS_NoOp(u8 *);
 
@@ -194,32 +217,27 @@ struct LightSlot;
 struct BbBoard;
 struct G3dCamera;
 
-extern void BILLBOARD_Draw(struct BbBoard *board, struct G3dCamera *camera, struct LightSlot *lights);
+#include "../arm9/billboard.h"
 
 extern void G3D_SYSTEM_DrawEnd(void);
 
-extern void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
 
 extern void BG_SYS_EnableBg0WithPriority(u32 mode);
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
-extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, const void *, const void *, const void *, int);
 struct G3dCamera;
 
 extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
-extern void G3X_SetEdgeColorTable(const void *a);
+#include "../arm9/g3x.h"
 
-extern void *BILLBOARD_Create(u8 *src, void *heap);
 
-extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 
 extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern u32 ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -227,38 +245,27 @@ extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void ARC_TOOL_DeleteHandle(void *h);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
 
-extern void BG_SYS_FreeSlot(u32);
 
 extern void BG_SYS_FreeLayerBuf(u32);
 
-extern void BILLBOARD_Delete(void *);
 
 extern u32 G3D_CAMERA_Delete(void *ptr);
 
 extern void G3D_SYSTEM_Exit(void);
 
-extern void *MUSICAL_MCSS_CreateRenderObj(u32);
 struct McssActorPool;
 
-extern struct McssActorPool *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
 
 extern u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e);
 
-extern void *STA_ACT_LIGHT_AddPokemonElem(u8 *, u8 *);
 
-extern void MUSICAL_MCSS_SetRenderCellVramBase(void **p, int b);
 
-extern void STA_ACT_LIGHT_ResetRenderAnim(int, int);
 
-extern int STA_ACT_LIGHT_SetElemValue(int, int *, int);
 
-extern void *STA_ACT_LIGHT_CreateUnit(u16, void *);
 
 extern u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v);
 
@@ -304,11 +311,11 @@ extern const char d_021F81D4[];
 
 extern const char d_021F81F4[];
 
-extern const Vec d_021F8240;
+extern const MusShotPhotoVec d_021F8240;
 
-extern const Vec d_021F8234;
+extern const MusShotPhotoVec d_021F8234;
 
-extern const Vec d_021F824C;
+extern const MusShotPhotoVec d_021F824C;
 
 u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap)
 {
@@ -369,7 +376,7 @@ void MUSICAL_SHOT_SYS_DrawScene(u8 *scene)
     STA_ACT_LIGHT_UpdateElemActors((char *)((ShotScene *)scene)->unit);
     G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
-    STA_ACT_LIGHT_NoOp((u32)((ShotScene *)scene)->unit);
+    STA_ACT_LIGHT_NoOp(((ShotScene *)scene)->unit);
     STA_ACT_LIGHT_UpdateElem((u8 *)((ShotScene *)scene)->sprite);
     MUSICAL_MCSS_DrawRenderObj((void **)((ShotScene *)scene)->renderObj);
     STA_ACT_LIGHT_UpdateSprite((char *)((ShotScene *)scene)->sprite);
@@ -422,7 +429,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     BG_SYS_EnableBg0WithPriority(3);
     G3D_SYSTEM_SetSwapBuffersMode(0, 1);
     cam = G3D_CAMERA_Create(2, 0xC000, 0, 0, 0x10000, 0x1000, 0x3E8000, 0,
-                        d_021F81AC, d_021F81B8, d_021F81A0, *(u16 *)p);
+                        (VecFx32 *)d_021F81AC, (VecFx32 *)d_021F81B8, (VecFx32 *)d_021F81A0, *(u16 *)p);
     *(void **)(p + 0x18) = cam;
     G3D_CAMERA_Reset(cam);
     G3X_SetEdgeColorTable(d_021F81C4);
@@ -468,11 +475,11 @@ void MUSICAL_SHOT_SYS_Exit3D(u8 *scene) { BG_SYS_FreeLayerBuf(3); BG_SYS_FreeLay
 void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
 {
   u32 offset;
-  Vec pos = d_021F8240;
-  Vec scale = d_021F8234;
+  MusShotPhotoVec pos = d_021F8240;
+  MusShotPhotoVec scale = d_021F8234;
   int z[4];
-  Vec temp;
-  Vec base;
+  MusShotPhotoVec temp;
+  MusShotPhotoVec base;
   u8 i;
   u8 mask;
   u8 j;
@@ -497,8 +504,8 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
     if (1)
     {
       *((void **) (row + 0x30)) = q;
-      STA_ACT_LIGHT_ResetRenderAnim((int)p->sprite, (int)q);
-      STA_ACT_LIGHT_SetElemValue((int) p->sprite, *((int **) (row + 0x30)), 1);
+      STA_ACT_LIGHT_ResetRenderAnim(p->sprite, (StaActPokeElem *)q);
+      STA_ACT_LIGHT_SetElemValue(p->sprite, *((int **) (row + 0x30)), 1);
     }
   }
 
@@ -566,42 +573,31 @@ struct Strbuf;
 
 typedef struct { u32 words[4]; } Quad;
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/wordset.h"
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+#include "../arm9/printsys.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
 extern void BG_SYS_PushTile(u32);
 

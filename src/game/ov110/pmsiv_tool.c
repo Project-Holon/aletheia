@@ -31,20 +31,17 @@
 #include "pms_input_view_shared_types.h"
 #include "pmsiv_edit_shared_types.h"
 
-extern void TCB_DeleteTask(struct Node *n);
+#include "../arm9/tcb_list.h"
 
-extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
+#include "../arm9/bg_sys.h"
 
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-
-extern unsigned int BG_SYS_GetChannelScrollX(u8 channel);
-
-extern u32 BG_SYS_GetChannelScrollY(u8 channel);
-
-extern void *PMS_INPUT_VIEW_AddVBlankTask(void (*fn)(void *, void *), void *arg, int priority);
+#include "../arm9/g2.h"
 
 
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
+
+#include "pms_input_view.h"
+
+
 
 void PMSIV_BGSCROLL_Start(struct PmsivBgScroll *scroll, int layer, int axis, int step, int frames);
 

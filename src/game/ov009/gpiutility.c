@@ -34,27 +34,17 @@
  *   B64Encode  0x0217FA90  arm  ov009
  *   strncpy  0x02094860  arm  arm9
  */
+#include "gpiutility.h"
 #include "../types.h"
 
-extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
-extern int strncmp(const unsigned char *s1, const unsigned char *s2, unsigned int n);
-extern int atoi(u32 s);
-extern u8 *strstr(const u8 *s1, const u8 *s2);
-extern int gpiCallErrorCallback(void **connection, int result, int fatal);
-extern int strlen(const u8 *s);
-extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern void Util_RandSeed(unsigned int v);
-extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
-extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
-void strzcpy(char *p, int b, int n);
-int gpiCheckForError(int *connection, const char *input, int fatal);
+#include "../arm9/msl_string_str.h"
+#include "../arm9/msl_strtod.h"
+#include "gpicallback.h"
+#include "gsplatformsocket.h"
+#include "gsdebug.h"
+#include "gsplatformutil.h"
 int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, int len);
 int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
-int gpiCheckSocketConnect(int *connection, int sock, int *state);
-int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *key, char *value);
-void gpiSetError(int *connection, int result, int errorString);
-void gpiSetErrorString(int *p, int b);
 void gpiEncodeString(const char *plaintext, char *encoded);
 extern char gGpiUtilityKeyError[];
 extern char gGpiUtilityKeyErr[];
@@ -69,9 +59,9 @@ extern char gGpiUtilityMsgParseError[];
 /*
  * Clears the byte one before the sum of the block and the count.
  */
-void strzcpy(char *p, int b, int n)
+void strzcpy(char *p, const char *src, int n)
 {
-    strncpy((u8 *)p, (const u8 *)b, n);
+    strncpy((u8 *)p, (const u8 *)src, n);
     *(char *)(p + n - 1) = 0;
 }
 
@@ -96,7 +86,7 @@ void strzcpy(char *p, int b, int n)
  * connection's error string at +0 (and clear byte 0 if absent); on a fatal
  * request check for "\fatal\" and raise callback type 4 through gpiCallErrorCallback.
  */
-int gpiCheckForError(int *connection, const char *input, int fatal)
+int gpiCheckForError(void **connection, const char *input, int fatal)
 {
     char value[0x10];
     int *ic = (int *)*connection;
@@ -104,12 +94,12 @@ int gpiCheckForError(int *connection, const char *input, int fatal)
     if (strncmp((const unsigned char *)input, (const unsigned char *)gGpiUtilityKeyError, 7) != 0)
         goto fail;
     if (gpiValueForKey(input, gGpiUtilityKeyErr, value, 0x10))
-        ic[0x5b8 / 4] = atoi((u32)value);
+        ic[0x5b8 / 4] = atoi(value);
     if (!gpiValueForKey(input, gGpiUtilityKeyErrMsg, (char *)ic, 0x100))
         *(char *)ic = 0;
     if (fatal != 0) {
         int b = strstr((const u8 *)input, (const u8 *)gGpiUtilityKeyFatal) != 0;
-        gpiCallErrorCallback((void **)connection, 4, b != 0);
+        gpiCallErrorCallback(connection, 4, b != 0);
     }
     return 1;
 fail:
@@ -176,7 +166,7 @@ int gpiValueForKey(const char *command, const char *key, char *value, int valueL
  * the two out-parameters decide between accepted (state 4) and rejected
  * (state 3).
  */
-int gpiCheckSocketConnect(int *connection, int sock, int *state)
+int gpiCheckSocketConnect(void **connection, int sock, int *state)
 {
     int e[2];
     int r;
@@ -185,20 +175,20 @@ int gpiCheckSocketConnect(int *connection, int sock, int *state)
     e[0] = 0;
     r = GSISocketSelect(sock, 0, &e[1], &e[0]);
     if (r == -1) {
-        gsDebugFormat(1, 0, 1, (char *)((int)gGpiUtilityMsgErrorConnecting));
-        gpiSetError(connection, 5, (int)gGpiUtilityMsgErrorChecking);
-        gpiCallErrorCallback((void **)connection, 3, 1);
+        gsDebugFormat(1, 0, 1, (char *)(gGpiUtilityMsgErrorConnecting));
+        gpiSetError(connection, 5, gGpiUtilityMsgErrorChecking);
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     if (r <= 0)
         goto zero;
     if (e[0] != 0) {
-        gsDebugFormat(1, 0, 1, (char *)((int)gGpiUtilityMsgConnectionRejected));
+        gsDebugFormat(1, 0, 1, (char *)(gGpiUtilityMsgConnectionRejected));
         *state = 4;
         return 0;
     }
     if (e[1] != 0) {
-        gsDebugFormat(1, 0, 8, (char *)((int)gGpiUtilityMsgConnectionAccepted));
+        gsDebugFormat(1, 0, 8, (char *)(gGpiUtilityMsgConnectionAccepted));
         *state = 3;
         return 0;
     }
@@ -219,7 +209,7 @@ zero:
  * public running-pointer form reproduces the original allocation (start in
  * lr, buffer/cursor in r1, c in r5 then r3, i in r6 then r5, value in ip).
  */
-int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *key, char *value)
+int gpiReadKeyAndValue(void **connection, const char *buffer, int *index, char *key, char *value)
 {
     int c;
     int i;
@@ -229,20 +219,20 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
     start = (char *)buffer;
 
     if (*buffer++ != '\\') {
-        gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
-        gpiCallErrorCallback((void **)connection, 3, 1);
+        gpiSetError(connection, 1, gGpiUtilityMsgParseError);
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
 
     for (i = 0; (c = *buffer++) != '\\'; i++) {
         if (c == 0) {
-            gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
-            gpiCallErrorCallback((void **)connection, 3, 1);
+            gpiSetError(connection, 1, gGpiUtilityMsgParseError);
+            gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         if (i == 0x1ff) {
-            gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
-            gpiCallErrorCallback((void **)connection, 3, 1);
+            gpiSetError(connection, 1, gGpiUtilityMsgParseError);
+            gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         *key++ = (char)c;
@@ -251,8 +241,8 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
 
     for (i = 0; ((c = *buffer++) != '\\') && (c != 0); i++) {
         if (i == 0x1ff) {
-            gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
-            gpiCallErrorCallback((void **)connection, 3, 1);
+            gpiSetError(connection, 1, gGpiUtilityMsgParseError);
+            gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         *value++ = (char)c;
@@ -267,7 +257,7 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
  * gpiSetError: copy the error string into the connection-owned buffer at
  * the head of the connection object and record the result word at +0x5b8.
  */
-void gpiSetError(int *connection, int result, int errorString)
+void gpiSetError(void **connection, int result, char *errorString)
 {
     char *iconnection = *(char **)connection;
 
@@ -278,9 +268,9 @@ void gpiSetError(int *connection, int result, int errorString)
 /*
  * Tail call on the word the pointer holds, with the constant third argument 0x100.
  */
-void gpiSetErrorString(int *p, int b)
+void gpiSetErrorString(void **connection, char *errorString)
 {
-    strzcpy((char *)(*p), b, 0x100);
+    strzcpy((char *)(*connection), errorString, 0x100);
 }
 
 /*

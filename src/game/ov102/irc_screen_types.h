@@ -6,12 +6,13 @@
  * Both overlays build the same objects with the same helper code.
  */
 #include "../ov101/compatible_irc_sys_types.h"
+#include "../sdk_ioreg_reg.h"
 
-/* Hardware registers: display control (main, sub), blend control (main, sub). */
-#define REG_DISPCNT_MAIN (*(volatile u32 *)0x04000000)
-#define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
-#define REG_BLDCNT_MAIN (*(volatile u16 *)0x04000050)
-#define REG_BLDCNT_SUB (*(volatile u16 *)0x04001050)
+/* Old names of the SDK registers, kept until ov103 uses the SDK names (tools/ioregnames.py removes them). */
+#define REG_DISPCNT_MAIN REG_DISPCNT
+#define REG_DISPCNT_SUB REG_DB_DISPCNT
+#define REG_BLDCNT_MAIN REG_BLDCNT
+#define REG_BLDCNT_SUB REG_DB_BLDCNT
 
 #include "../types.h"
 
@@ -23,13 +24,7 @@ typedef struct IrcSpriteResources {
     int cellAnim;                    /* 0x0C cell animation handle */
 } IrcSpriteResources;
 
-/* Font, message data, print queue and word set of a screen (16 bytes). */
-typedef struct IrcTextSystem {
-    void *font;                      /* 0x00 */
-    void *msgData;                   /* 0x04 */
-    void *printQueue;                /* 0x08 */
-    void *wordSet;                   /* 0x0C */
-} IrcTextSystem;
+#include "../ov102/irc_text_system_types.h"
 
 /* Text window: a BMP window, its string buffer and a pending-print flag (20 bytes). */
 typedef struct IrcWindow {

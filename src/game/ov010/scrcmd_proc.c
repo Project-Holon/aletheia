@@ -181,7 +181,6 @@ struct BoxPokemonParam;
 
 struct MiscSave;
 
-struct PlayerProfile;
 
 #include "../types.h"
 
@@ -240,30 +239,12 @@ typedef struct RelearnCallbackData {
     u16 *resultVar;
 } RelearnCallbackData;
 
-typedef struct IntrudeMemberEntry {
-    u16 chars[20];
-} PlayerName;
-
-typedef struct PlayerProfile {
-    u32 words[4];
-} PlayerProfile;
-
-typedef struct PlayerRecord {
-    u8 data[0x28];
-} PlayerRecord;
-
-typedef struct IntrudeCommSys {
-    u8 pad00[0x86];
-    u16 localPlayerId : 3;  /* 0x086 */
-    u16 reserved : 13;
-    u8 pad88[0x1AC - 0x88];
-    PlayerRecord records[1];    /* 0x1AC */
-} CommState;
+#include "../ov011/intrude_comm_types.h"
 
 typedef struct ProfileProcWork {
     void *gameSystem;   /* 0x00 */
-    PlayerName name;    /* 0x04 */
-    PlayerProfile profile;  /* 0x2C */
+    IntrudeMemberEntry name;    /* 0x04 */
+    IntrudeRemoteRecord profile;  /* 0x2C */
     u8 playerIndex;     /* 0x3C */
     u8 isRemote;        /* 0x3D */
     u8 pad3E[2];
@@ -289,54 +270,44 @@ typedef struct WifiBattleMatchParam {
 
 typedef struct MenuProcParam { u32 fieldMap; u32 mode; } MenuProcParam;
 
-extern u16 SCRIPT_WORK_ReadWorkValue(void *, void *);
+#ifdef __MWERKS__
+extern unsigned short SCRIPT_WORK_ReadWorkValue(void *, void *); /* original prototype; the definition differs in pointer type, return type */
+#else
+extern unsigned short SCRIPT_WORK_ReadWorkValue(struct ScriptVm*, struct ScrcmdWork*);
+#endif
 struct ScrcmdWork;
 
 extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 struct GameData;
 
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
+#include "scrcmd_work.h"
 
-extern void *GAME_DATA_GetMyParty(const struct GameData *);
+#include "../arm9/game_data.h"
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern void POKE_TOOL_HealParty(struct Party *party);
+#include "../arm9/poke_tool_ext.h"
 
-extern u16 VM_ReadU16(struct ScriptVm *);
 
 extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 
-extern u32 POKEPARTY_FindFirstBattleReady(struct Party *party);
 
-extern u32 POKEPARTY_FindFirstNonEgg(struct Party *party);
 
-extern u32 POKEPARTY_GetCapacity(struct Party *party);
 
-extern u32 POKEPARTY_GetNonEggCount(struct Party *party);
 
-extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 
-extern u32 POKEPARTY_GetEggCount(struct Party *party);
 
-extern u32 POKEPARTY_GetBadEggCount(struct Party *party);
 
-extern u32 GAME_DATA_GetBoxManager(const struct GameData *);
 
-extern int BOX_SAVEDATA_CountPokemon(struct GameData *gameData);
+#include "../arm9/box_savedata.h"
 
-extern int BOX_SAVEDATA_CountNonEggPokemon(struct GameData *gameData);
 struct GameSystem;
 
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
-extern u16 SCRCMD_WORK_GetHeapId(struct ScrcmdWork *work);
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *);
 
@@ -346,198 +317,155 @@ extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, u16 move, u32 slot);
 
 extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *, u32);
 
-extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
+#include "../arm9/mystatus.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern void MYSTATUS_NameToStrbuf(u16 *name, struct Strbuf *buf);
 
-extern int STRBUF_IsEqual(struct Strbuf *, struct Strbuf *);
 
-extern void STRBUF_Delete(struct Strbuf *vec);
 
-extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
 
-extern void *SCRCMD_WORK_GetScriptWork(void *);
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *);
+#include "../arm9/gamesystem.h"
 
 extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *);
+#include "../arm9/zukan_save.h"
 
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *, void *);
 
 extern u32 POKE_TOOL_SetRotomFormMove(struct PokemonParam *pp, u32 formIndex, u32 fallbackSlot);
 
-extern u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap);
 
-extern int WAZA_OSHIE_IsListEntryValid(u16 *);
 
-extern u32 GFL_HEAP_Free(void *);
+#include "../arm9/gfl_heap_wrap.h"
 
 extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 
-extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heap);
+#ifdef __MWERKS__
+extern struct PokemonParam *POKE_TOOL_Create(u32 species, u32 level, u64 otId, u32 heapId); /* original prototype; the definition differs in argument width */
+#else
+extern struct PokemonParam*POKE_TOOL_Create(u16, u16, u64, u16);
+#endif
 
-extern struct Strbuf *MYSTATUS_CreateNameStrbuf(u16 *name, s32 heap_id);
 
-extern struct PersonalData *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
+#include "../arm9/poke_personal.h"
 
-extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *, u32 field);
 
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 
-extern void SAVE_EVENT_Write(void *mon, u32, void *, u32, u32 heap);
+#ifdef __MWERKS__
+extern void SAVE_EVENT_Write(void *gameData, u32 mode, struct MyStatus *record, u32 eventId, u32 index); /* original prototype; the definition differs in argument width */
+#else
+#include "../arm9/save_event.h"
+#endif
 
-extern u32 POKEPARTY_Add(struct Party *, const struct PokemonParam *src);
 
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
 
 extern struct PokemonParam *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
 
-extern int FILE_UTIL_GetItemParam(u16, u32, u16);
+#include "../arm9/file_util.h"
 
-extern unsigned short PALANM_GetPairedCodeForFirst(int);
+#include "../arm9/palanm.h"
 
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *);
 
-extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *);
 
-extern u32 ZONEDATA_GetPlaceNameId(u32 id);
+#include "../arm9/zonedata.h"
 struct BoxPokemon;
 
 extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
-extern int BOX_SAVEDATA_AddPokemon(struct GameData *gameData, struct BoxPokemon *mon);
 
-extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *, void *);
 
-extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
 
-extern u32 MISC_AddMoney(struct MiscSave *, u32);
+#include "../arm9/beacon.h"
 
-extern u32 MISC_SubMoney(struct MiscSave *, u32);
 
-extern u32 MISC_GetMoney(struct MiscSave *);
 struct GameEvent;
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern void SCRIPT_SYS_CallEvent(void *, void *);
+#include "script_sys.h"
 
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *);
 struct FieldMap;
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 struct ScriptWork;
 
-extern void *SCRIPT_WORK_GetUserWorkPtr(struct ScriptWork *work);
+#include "script_work.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *, u32 id, void *, void *);
 
-extern void VM_SetWait(char *, int val);
+#include "../arm9/vm.h"
 
-extern void *SCRIPT_WORK_GetUserWork(struct ScriptWork *work);
 
-extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *);
 
-extern int SCRIPT_WORK_FreeUserWork();
 struct BigObj;
 
-extern void *BAG_PARAM_Create(struct BigObj *gameData, u8 *itemCheck, s32 mode, s32 heapId);
+#include "../arm9/bag_param.h"
 
-extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *, int, int, int, int, int, int);
 
-extern int WAZA_OSHIE_Delete();
+#include "waza_oshie.h"
+#include "../arm9/field_status.h"
 
-extern void *WAZA_OSHIE_Create(u32 heap);
 
-extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *, int, int, int, int, int, int);
 struct GameComm;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *);
 struct IntrudeCommSys;
 
-extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
+#include "intrude_comm_query.h"
 
-extern u8 GAME_DATA_GetOwnNetId(const struct GameData *);
 
-extern u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
 struct IntrudeMemberName;
 
-extern int INTRUDE_COMM_GetMemberNameNetId(struct IntrudeMemberName *name);
+#include "../ov011/intrude_comm.h"
 struct IntrudeMemberEntry;
 
-extern struct IntrudeMemberEntry *INTRUDE_COMM_GetMemberEntry(struct IntrudeCommSys *work, s32 index);
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *);
 struct IntrudeSave;
 
-extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save);
+#include "../arm9/intrude.h"
 struct IntrudeProfileData;
 
-extern void INTRUDE_COMM_BuildLocalProfile(void *saveData, struct IntrudeProfileData *profile);
 
-extern void *SCRIPT_WORK_GetEvent(struct ScriptWork *work);
 
-extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(struct GameSystem *gameSystem, struct GameEvent *parent, s32 kind, s32 sub, s32 useRealTime);
+#include "event_field_proclink.h"
 
-extern void GAME_BEACON_SEARCH_SetScriptEvent(void);
+#include "game_beacon_set.h"
 
-extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, unsigned int overlayId, u32 (*fn)(void *, u32), void *arg);
+#include "../arm9/game_event.h"
 
-extern void EVENT_WIFIBATTLEMATCH_Entry(s32, s32 *);
+#include "../ov002/event_wifibattlematch.h"
 
-extern void EVENT_MENUPROC_Entry(void);
+extern void*EVENT_MENUPROC_Entry(void*, struct LaunchRequest*);
 
-extern int GF_OVERLAY_Load(s32 handle);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(s32 handle);
 
-extern void GIMMICK_INIT_SetCartLanesFlags(void *gameSystem, s32 setFirst, s32 setSecond);
+#include "../ov037/gimmick_init_helpers.h"
 
-extern void GIMMICK_INIT_SetFlagAnimeFlag(struct GameSystem *gameSystem, s32 enable);
 
-extern void GIMMICK_INIT_SetButtonStatesFlags(void *gameSystem, s32 buttonMask);
 
-extern void GIMMICK_INIT_RestorePlateDoorsState(void *gameSystem, u16 **foundVars);
 
-extern void GIMMICK_INIT_ResetRotatingRoomPanels(void *gameSystem);
 struct Sodateya;
 
-extern struct Sodateya *FIELDMAP_GetSodateya(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
-extern int SODATEYA_HasEgg(void *);
+#include "../ov021/sodateya.h"
 struct SodateyaWork;
 
-extern void SODATEYA_ReceiveEgg(struct SodateyaWork *work, void *party);
 
-extern void SODATEYA_DeclineEgg(struct SodateyaWork *work);
 struct DaycareSave;
 
-extern struct DaycareSave *DAYCARE_GetFromSave(struct SaveControl *save);
+#include "../arm9/daycare.h"
 
-extern void SODATEYA_DepositPokemon(struct SodateyaWork *work, void *party, u32 partyPos);
 
-extern void SODATEYA_WithdrawPokemon(struct SodateyaWork *work, u32 slot, void *party);
 
-extern int SODATEYA_GetPokemonCount(struct SodateyaWork *work);
 
-extern u8 SODATEYA_GetCompatibility(struct SodateyaWork *work);
 
-extern void *SODATEYA_GetPokemon(struct SodateyaWork *work, u32 slot);
 
-extern int SODATEYA_GetCurrentLevel(struct SodateyaWork *work, u32 slot);
 
-extern int SODATEYA_GetLevelsGained(struct SodateyaWork *work, s32 slot);
 
-extern int SODATEYA_GetWithdrawCost(struct SodateyaWork *work, s32 slot);
 
 int SCRCMD_PROC_LookupTableValue(int, int);
 
@@ -627,7 +555,7 @@ int SCRCMD_PROC_CallFieldOpenEvent(void *, void *);
 
 int SCRCMD_PROC_CallFieldCloseEvent(int, int);
 
-void SCRCMD_PROC_StartOverlayProc(void *, void *, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData);
+void SCRCMD_PROC_StartOverlayProc(struct ScriptVm *, void *, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData);
 
 int SCRCMD_PROC_WaitOverlayProc(int, int);
 
@@ -703,7 +631,7 @@ int SCRCMD_PROC_GetDaycareMonGenderKindIfFirst(void *, void *);
 
 int SCRCMD_PROC_GetDaycareGenderKind(void *);
 
-void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar);
+#include "scrcmd_sodateya.h"
 
 extern const u16 sScrcmdLookupTable[];
 
@@ -1887,7 +1815,7 @@ void *SCRCMD_PROC_CreateMonFromSpec(void *gameData, PokemonSpec *spec)
     trainerIdOrMon = POKE_TOOL_CreateEx(spec->species, spec->level, (u32)trainerIdOrMon, -1, personalRnd, spec->heapId);
     POKE_TOOL_SetPartyValue(trainerIdOrMon, 0x6F, spec->form);
     POKE_TOOL_SetPartyValue(trainerIdOrMon, 6, spec->heldItem);
-    if (FILE_UTIL_GetItemParam(spec->ballItem, 0xF, spec->heapId) == 4)
+    if ((s32)FILE_UTIL_GetItemParam((u16)spec->ballItem, 0xF, spec->heapId) == 4)
         POKE_TOOL_SetPartyValue(trainerIdOrMon, 0x98, (u32)PALANM_GetPairedCodeForFirst((u16)spec->ballItem));
     SAVE_EVENT_Write(trainerIdOrMon, 0, (void *)myStatus, ZONEDATA_GetPlaceNameId(GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData))), spec->heapId);
     POKE_TOOL_RecalcParam(trainerIdOrMon);
@@ -1995,7 +1923,7 @@ callArg0 = 1;
  * launches the process over the work with GAMESYSTEM_CallProc, parks the record in the
  * script's slot and waits on SCRCMD_PROC_WaitOverlayProc.
  */
-void SCRCMD_PROC_StartOverlayProc(void *vm, void *cmdWork, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData)
+void SCRCMD_PROC_StartOverlayProc(struct ScriptVm *vm, void *cmdWork, u32 overlayId, const void *procData, void *procWork, u32 onFinish, u32 userData)
 {
     void *gameSystem;
     void **handoffSlot;
@@ -2009,7 +1937,7 @@ void SCRCMD_PROC_StartOverlayProc(void *vm, void *cmdWork, u32 overlayId, const 
     handoff->onFinish = onFinish;
     GAMESYSTEM_CallProc(gameSystem, overlayId, (void *)procData, procWork);
     *handoffSlot = handoff;
-    VM_SetWait(vm, (int)SCRCMD_PROC_WaitOverlayProc);
+    VM_SetWait(vm, (ScriptWaitFn)SCRCMD_PROC_WaitOverlayProc);
 }
 
 int SCRCMD_PROC_WaitOverlayProc(int callArg0, int callArg1)
@@ -2046,7 +1974,7 @@ callArg0 = (int)((ScriptProcHandoff *)handoff)->userData;
     GFL_HEAP_Free((void *)callArg0);
 clearSlot:
 callArg0 = cmdWorkOrSlot + 0;
-    callArg0 = SCRIPT_WORK_FreeUserWork(callArg0);
+    SCRIPT_WORK_FreeUserWork((struct ScriptWork *)callArg0);
 callArg0 = 1;
     return callArg0;}
 
@@ -2056,7 +1984,7 @@ int SCRCMD_PROC_FreeScriptUserWork(int callArg0, int callArg1)
 
 callArg0 = callArg1 + 0;
     eventSlot = SCRCMD_WORK_GetScriptWork((void *)callArg0);
-    callArg0 = SCRIPT_WORK_FreeUserWork(eventSlot);
+    SCRIPT_WORK_FreeUserWork(eventSlot);
 callArg0 = 1;
     return callArg0;}
 
@@ -2155,7 +2083,7 @@ int SCRCMD_PROC_CallGtsNegotiation(void *vm, void *cmdWork)
     gtsParam[0] = (u32)gameData;
     callbackData[0] = (u32)gtsParam;
     callbackData[1] = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, (int)fieldMap, (u32)ov136_id, (int)gMbSeqProcData, (int)gtsParam, (int)((void *)SCRCMD_PROC_OnGtsNegotiationDone), (int)callbackData));
+    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, fieldMap, (u32)ov136_id, (void *)gMbSeqProcData, gtsParam, (void (*)(void *))SCRCMD_PROC_OnGtsNegotiationDone, callbackData));
     return 1;
 }
 
@@ -2180,7 +2108,7 @@ callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
 callArg0 = (int)((MoveRelearnParam *)callArg0)->relearnMoves;
     callArg0 = (int)GFL_HEAP_Free((void *)callArg0);
 callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
-    callArg0 = WAZA_OSHIE_Delete(callArg0);
+    callArg0 = WAZA_OSHIE_Delete((void *)callArg0);
     return callArg0;}
 
 static inline void MoveRelearnParam_Init(MoveRelearnParam *param, void *mon, void *myStatus, void *gameSystem, void *moves)
@@ -2227,7 +2155,7 @@ int SCRCMD_PROC_CallMoveRelearn(void *vm, void *cmdWork)
     callbackData = GFL_HEAP_Alloc(4, 8, 0, sAllocSiteScrcmdProc, 0x19B);
     callbackData[0] = (u32)relearnParam;
     callbackData[1] = resultVar;
-    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcCallbackEvent(gameSystem, (int)fieldMap, (u32)ov173_id, (int)gMoveRelearnProcData, (int)relearnParam, (int)((void *)SCRCMD_PROC_OnMoveRelearnDone), (int)callbackData));
+    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcCallbackEvent(gameSystem, fieldMap, (u32)ov173_id, (void *)gMoveRelearnProcData, relearnParam, (void (*)(void *))SCRCMD_PROC_OnMoveRelearnDone, callbackData));
     return 1;
 }
 
@@ -2253,21 +2181,21 @@ int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
     void *gameComm;
     void *gameData;
     ProfileProcWork *work;
-    CommState *commState;
+    IntrudeCommSys *commState;
     u8 playerIndex;
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameComm = (void *)GAMESYSTEM_GetGameComm(gameSystem);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     SCRCMD_WORK_GetScriptWork(cmdWork);
-    commState = (CommState *)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)gameComm);
+    commState = (IntrudeCommSys *)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)gameComm);
     work = GFL_HEAP_Alloc(4, sizeof(ProfileProcWork), 1, sAllocSiteScrcmdProc, 0x1BC);
-    if (commState != 0 && commState->localPlayerId != GAME_DATA_GetOwnNetId(gameData)
-        && INTRUDE_COMM_GetMemberNameNetId((struct IntrudeMemberName *)(&commState->records[GAME_DATA_GetIntrudeIdByte(gameData)])) == 1
+    if (commState != 0 && commState->localPeer.intrudeId != GAME_DATA_GetOwnNetId(gameData)
+        && INTRUDE_COMM_GetMemberNameNetId((struct IntrudeMemberName *)(&commState->session.members[GAME_DATA_GetIntrudeIdByte(gameData)])) == 1
         && ((u8 *)commState)[0x922] == 1) {
         playerIndex = GAME_DATA_GetIntrudeIdByte(gameData);
         work->name = *INTRUDE_COMM_GetMemberEntry(commState, playerIndex);
-        work->profile = *(PlayerProfile *)((u8 *)commState + 0x914);
+        work->profile = *(IntrudeRemoteRecord *)((u8 *)commState + 0x914);
         work->isRemote = 1;
     } else {
         INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData));

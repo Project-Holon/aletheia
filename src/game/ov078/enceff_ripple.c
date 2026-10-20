@@ -36,6 +36,8 @@
  *   gRippleTranslate     0x021F5BB0  data  a4
  *   gRippleScale     0x021F5BD4  data  a4
  */
+#include "../arm9/gamesystem.h"
+#include "../ov021/fieldmap.h"
 #include "../ov077/enceff_base_types.h"
 #include "../ov077/enceff_g3_inline.h"
 #include "enceff_ripple_types.h"
@@ -45,21 +47,17 @@ struct GameEvent;
 struct EncEffWork;
 struct FieldMap;
 struct Desc;
-extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern void ENCEFF_LoadOverlay4B(struct EncEffWork *eff);
-extern void *ENCEFF_StartScreenTexEffectFlash(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
-extern void *ENCEFF_StartScreenTexEffect(void *gameSystem, const VecFx32 *cameraPos, void *build, void *draw);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+#include "../ov075/enceff_screen_tex.h"
 extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
-extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
+#include "../arm9/game_event.h"
 extern void *ENCEFF_GetWork(struct EncEffWork *eff);
-extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
-extern int FADE_IsActive(void);
+#include "../arm9/fade.h"
 extern struct GameEvent *ENCEFF_GetEffect(struct EncEffWork *eff);
-extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, int clearImage);
+typedef int GXFogBlend;
+typedef int GXFogSlope;
+#include "../arm9/g3x.h"
 struct EncEffScreenTexWork;
-extern void ENCEFF_DrawScreenTexEffect(struct EncEffScreenTexWork *work);
 void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap);
 void *ENCEFF_BuildRippleKind36(void *gameSystem, struct FieldMap *fieldMap);
 void *ENCEFF_StartRipple(void *gameSystem);
@@ -78,8 +76,8 @@ extern const VecFx32 gRippleScale;
 
 void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap) {
     VecFx32 cameraPos = gRippleCameraPos;
-    ENCEFF_LoadOverlay4B(FIELDMAP_GetEncEff(fieldMap));
-    return ENCEFF_StartScreenTexEffectFlash(gameSystem, &cameraPos, ENCEFF_StartRipple, ENCEFF_DrawRipple);
+    ENCEFF_LoadOverlay4B((struct EncEffWork *)FIELDMAP_GetEncEff(fieldMap));
+    return ENCEFF_StartScreenTexEffectFlash((struct GameSystem *)gameSystem, (VecFx32 *)&cameraPos, (EncEffScreenTexStartFunc)ENCEFF_StartRipple, (EncEffScreenTexDrawFunc)ENCEFF_DrawRipple);
 }
 
 
@@ -91,8 +89,8 @@ void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap) {
  */
 void *ENCEFF_BuildRippleKind36(void *gameSystem, struct FieldMap *fieldMap) {
     VecFx32 cameraPos = gRippleBurstCameraPos;
-    ENCEFF_LoadOverlay4B(FIELDMAP_GetEncEff(fieldMap));
-    return ENCEFF_StartScreenTexEffect(gameSystem, &cameraPos, ENCEFF_StartRippleBurst, ENCEFF_DrawRipple);
+    ENCEFF_LoadOverlay4B((struct EncEffWork *)FIELDMAP_GetEncEff(fieldMap));
+    return ENCEFF_StartScreenTexEffect((struct GameSystem *)gameSystem, (VecFx32 *)&cameraPos, (EncEffScreenTexStartFunc)ENCEFF_StartRippleBurst, (EncEffScreenTexDrawFunc)ENCEFF_DrawRipple);
 }
 
 
@@ -108,8 +106,8 @@ void *ENCEFF_StartRipple(void *gameSystem)
     void *event;
     int i;
 
-    ripple = ENCEFF_AllocWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffRipple), 0x50);
-    event = GAME_EVENT_Create(gameSystem, 0, ENCEFF_RippleEventMain, 0);
+    ripple = ENCEFF_AllocWork((struct EncEffWork *)FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffRipple), 0x50);
+    event = GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)ENCEFF_RippleEventMain, 0);
     ripple->count = 7;
     ripple->wait = 0;
     ripple->period = 8;
@@ -136,7 +134,7 @@ int ENCEFF_RippleEventMain(struct GameEvent *event, int *state)
 {
     EncEffRipple *ripple;
 
-    ripple = ENCEFF_GetWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event))));
+    ripple = ENCEFF_GetWork((struct EncEffWork *)FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event))));
     switch (*state) {
     case 0:
         if (ripple->startDelay != 0) {
@@ -317,8 +315,8 @@ void *ENCEFF_StartRippleBurst(void *gameSystem)
     void *event;
     int i;
 
-    ripple = ENCEFF_AllocWork(FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffRipple), 0x50);
-    event = GAME_EVENT_Create(gameSystem, 0, ENCEFF_RippleEventMain, 0);
+    ripple = ENCEFF_AllocWork((struct EncEffWork *)FIELDMAP_GetEncEff(GAMESYSTEM_GetFieldMap(gameSystem)), sizeof(EncEffRipple), 0x50);
+    event = GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)ENCEFF_RippleEventMain, 0);
     ripple->count = 7;
     ripple->wait = 0;
     ripple->period = 2;

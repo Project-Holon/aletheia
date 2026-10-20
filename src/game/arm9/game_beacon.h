@@ -6,6 +6,7 @@
 
 struct GameData;
 struct Strbuf;
+struct TcbTask;
 
 #include "../types.h"
 #include "../arm9/game_beacon_types.h"
@@ -57,7 +58,7 @@ void GAME_BEACON_ResetDetails(GameBeaconInfo *info);
 void GAME_BEACON_WritePms(GameBeaconInfo *info, const GameBeaconPms *pms);
 void GAME_BEACON_SetMyPms(const GameBeaconPms *pms);
 void GAME_BEACON_RegisterClearCallback(void);
-void GAME_BEACON_ClearFlags(void);
+void GAME_BEACON_ClearFlags(struct TcbTask *task, void *work);
 /* END mkheaders: generated region */
 
 #endif

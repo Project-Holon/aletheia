@@ -85,102 +85,100 @@ typedef struct { int a,b,c,d; } BgSysGraphicsMode;
 /* One BG_SYS_InitBgLayer descriptor in d_021DF634. */
 typedef struct { u32 id; u32 config[8]; u32 a; u32 b; } BgLayerEntry;
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_Init_hdr
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
+void G3D_SYSTEM_Init(int, int, int, int, int, u32, void (*)(void));
+#endif
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *, int, u32);
+#include "../arm9/mi_memory.h"
 
-extern void BG_SYS_ClearGraphicsMemory(u32 keep);
+#ifdef __MWERKS__
+#define BG_SYS_Create BG_SYS_Create_hdr
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_Create
+void BG_SYS_Create(u32);
+#endif
 
-extern void BG_SYS_SetVramBanks(struct DispVram *banks);
 
-extern void BG_SYS_SetLcdSwap(u32 swap);
 
-extern void BG_SYS_ResetSubDisplay(void);
 
-extern void BG_SYS_ClearMainPlanes(void);
 
-extern void BG_SYS_ClearSubPlanes(void);
 
-extern void GF_FONT_InitTextColor(void);
-struct Tcb;
-
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *,u8 *), void *work, u32 priority);
+#include "../arm9/gf_font.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/gfl_use.h"
+struct TcbTask;
 
-extern void GF_FONT_SetDefaultTextColor(void);
+#include "../arm9/tcb_list.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void BG_SYS_SetGraphicsMode(const void *cfg);
 
-extern void PARTICLE_InitManager(u32 heap);
 
-extern void PARTICLE_ExitManager(void);
+#include "../arm9/particle.h"
 
-extern void BG_SYS_Create(u32);
 
-extern void BMP_WIN_Init(u32);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const void *tmpl, u32 type);
+#ifdef __MWERKS__
+#define BMP_WIN_Init BMP_WIN_Init_hdr
+#endif
+#include "../arm9/bmp_win.h"
+#ifdef __MWERKS__
+#undef BMP_WIN_Init
+void BMP_WIN_Init(u32);
+#endif
 
-extern void BG_SYS_FreeSlot(u8);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void BMP_WIN_Exit(void);
 
-extern void BG_SYS_Delete(void);
 
-extern void BG_SYS_Update(void);
+
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
+#include "../arm9/clact.h"
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 struct SurfaceInit;
 struct Renderer;
 
-extern struct Renderer *CLACT_CreateRenderer(struct SurfaceInit *inits, u32 count, u32 heap_id);
 
-extern void CLACT_SetUnitRenderer(void *bank, void *p);
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern void CLACT_DeleteRenderer(struct Renderer *renderer);
 
-extern u32 CLACT_DeleteUnit(void *bank);
 
-extern void CLACT_ExitSystem(void);
 
-extern void CLACT_DrawSystem(void);
 
-extern void CLACT_VBlankSystem(void);
 
-extern void MYSTERY_SetupDisplay3d(void);
+#include "mystery.h"
 
-extern void G3D_SYSTEM_Init(int, int, int, int, int, u32, void (*)(void));
 
-extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, const void *, const void *, const void *, u32);
+#ifdef __MWERKS__
+#define G3D_CAMERA_Create G3D_CAMERA_Create_hdr
+#endif
+#include "../arm9/g3d_camera.h"
+#ifdef __MWERKS__
+#undef G3D_CAMERA_Create
+void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, const void *, const void *, const void *, u32);
+#endif
 
-extern u32 G3D_CAMERA_Delete(void *ptr);
 
 extern void G3D_SYSTEM_Exit(void);
 
 extern void G3D_SYSTEM_DrawStart(void);
 struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
-extern void PARTICLE_Main(void);
 
 extern void G3D_SYSTEM_DrawEnd(void);
 
@@ -268,7 +266,7 @@ u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
     GF_FONT_InitTextColor();
     MYSTERY_GRAPHIC_InitBg(p,heap);
     MYSTERY_GRAPHIC_InitClact((void **)(p+4),(u32)d_021DF604,heap);
-    ((MysteryGraphicWork *)p)->updateTask=GFL_USE_AddMainTask(MYSTERY_GRAPHIC_VBlank,p,0);
+    ((MysteryGraphicWork *)p)->updateTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))MYSTERY_GRAPHIC_VBlank,(void *)p,0);
     return p;
 }
 
@@ -310,12 +308,12 @@ void MYSTERY_GRAPHIC_StartRender(u8 *p)
     BG_SYS_SetPlaneVisible(0,0);
     c=d_021DF598;
     c.d=1;
-    BG_SYS_SetGraphicsMode((const struct DispConfig *)(&c));
+    BG_SYS_SetGraphicsMode((struct DispConfig *)(&c));
     MYSTERY_GRAPHIC_InitCamera((u32 *)(p+12),((MysteryGraphicWork *)p)->heapId);
     PARTICLE_InitManager(((MysteryGraphicWork *)p)->heapId);
 }
 
-void MYSTERY_GRAPHIC_StopRender(char *p) { BG_SYS_SetPlaneVisible(0,0);PARTICLE_ExitManager();MYSTERY_GRAPHIC_ExitCamera(p+12);BG_SYS_SetGraphicsMode((const struct DispConfig *)&d_021DF598); }
+void MYSTERY_GRAPHIC_StopRender(char *p) { BG_SYS_SetPlaneVisible(0,0);PARTICLE_ExitManager();MYSTERY_GRAPHIC_ExitCamera(p+12);BG_SYS_SetGraphicsMode((struct DispConfig *)&d_021DF598); }
 
 void MYSTERY_GRAPHIC_VBlank(void *a, u8 *q)
 {
@@ -332,7 +330,7 @@ void MYSTERY_GRAPHIC_InitBg(void *p, u32 a)
     MI_CpuFill8(p, 0, 4);
     BG_SYS_Create(a);
     BMP_WIN_Init(a);
-    BG_SYS_SetGraphicsMode((const struct DispConfig *)&d_021DF598);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)&d_021DF598);
     do {
         e = &d_021DF634[i];
         id = e->id;
@@ -365,7 +363,7 @@ void MYSTERY_GRAPHIC_InitClact(void **p, u32 a, u32 heap)
 {
     void *q;
     MI_CpuFill8(p, 0, 8);
-    CLACT_InitSystem((struct SysInit *)d_021DF5A8, (struct DispVramCfg *)a, heap);
+    CLACT_InitSystem((const struct ClactSysInit *)d_021DF5A8, (const struct DispVramCfg *)a, heap);
     p[0] = CLACT_CreateUnit(128, 0, heap);
     q = CLACT_CreateRenderer((struct SurfaceInit *)d_021DF5C4, 2, heap);
     p[1] = q;
@@ -394,7 +392,7 @@ void MYSTERY_GRAPHIC_InitCamera(u32 *p, u32 heap)
 {
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, MYSTERY_SetupDisplay3d);
     p[0] = (u32)G3D_CAMERA_Create(2, 0x18000, -0x18000, -0x20000, 0x20000, 0x1000, 0x400000, 0,
-                         d_021DF574, d_021DF58C, d_021DF580, heap);
+                         (VecFx32 *)d_021DF574, (VecFx32 *)d_021DF58C, (VecFx32 *)d_021DF580, heap);
     p[1] = 1;
 }
 

@@ -41,45 +41,38 @@
 #include "btlv_camera_shared_types.h"
 #include "btlv_bg_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 BG_SYS_GetScrollX(u32 layer);
+#include "../arm9/bg_sys.h"
 
-extern u32 BG_SYS_GetScrollY(u32 layer);
 
-extern void BTLV_EFFECT_RegisterTask(void *task, void (*onDelete)(void *), int arg);
+#include "btlv_effect.h"
 
-extern void BTLV_EFFECT_DeleteTask(void *task);
 
 /* One scroll animation job (0x4c bytes). Mode 4 adds mover.end to pos every frame (a per-frame step) and ends when mover.count runs out; the other modes run the mover. */
 typedef struct BtlvBgScrollJob {
     BtlvBg *bg;                     /* 0x00 */
-    BtlvVec3 pos;                   /* 0x04: current scroll offset, 20.12 fixed */
+    VecFx32 pos;                   /* 0x04: current scroll offset, 20.12 fixed */
     BtlvMover mover;                /* 0x10 */
 } BtlvBgScrollJob;
 
 /* Two arguments carried to the deferred scroll apply task. */
 typedef struct { int scrollX, scrollY; } BtlvBgScrollArgs;
 
-extern u32 GFL_HEAP_Free(void *block);
 struct TcbSystem;
 struct TcbTask;
 
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*)(void *, void *), void *work, u32 priority);
-struct Tcb;
+struct TcbTask;
 
-extern struct Tcb *GFL_USE_AddMainTask(void (*callback)(void *), void *work, u32 priority);
+#include "../arm9/gfl_use.h"
 
-extern u32 FX_Div(u32 value, u32 divisor);
+#include "../arm9/fx_cp.h"
 
-extern void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *outDelta, int frames);
 
-extern int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *outPos);
 struct TcblSystem;
 
-extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
+#include "../arm9/tcbl.h"
 
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 param, u32 value);
 
 BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId);
 
@@ -91,13 +84,13 @@ void BTLV_BG_StartScroll(BtlvBg *bg, int flipFlags, u32 mode, int x, int y, int 
 
 unsigned int BTLV_BG_IsScrolling(BtlvBg *bg);
 
-void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, BtlvVec3 *origin, BtlvVec3 *amount, int frames, int phaseFrames, int cycleFrames, void (*onTick)(void *, void *));
+void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, VecFx32 *origin, VecFx32 *amount, int frames, int phaseFrames, int cycleFrames, void (*onTick)(struct TcbTask *, void *));
 
-void BTLV_BG_ScrollTask(void *task, void *arg);
+void BTLV_BG_ScrollTask(struct TcbTask *task, void *arg);
 
 void BTLV_BG_OnScrollJobEnd(void *task);
 
-void BTLV_BG_ApplyScrollTask(void *task);
+void BTLV_BG_ApplyScrollTask(struct TcbTask *task, void *work);
 
 extern char sBtlvBgSiteName[];
 
@@ -126,8 +119,8 @@ void BTLV_BG_SetScroll(BtlvBg *bg, u32 scrollX, u32 scrollY)
 
 void BTLV_BG_StartScroll(BtlvBg *bg, int flipFlags, u32 mode, int x, int y, int frames, int phaseFrames, int cycleFrames)
 {
-    BtlvVec3 origin;
-    BtlvVec3 amount;
+    VecFx32 origin;
+    VecFx32 amount;
 
     amount.x = x << 12;
     amount.y = y << 12;
@@ -161,8 +154,8 @@ static inline int BTLV_BG_ToFixedRounded(int value)
  * lever: matched twin 02201E04 with its unused idx slot removed; this
  *   caller registers fixed callback 02209A40, not a ninth parameter.
  */
-void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, BtlvVec3 *origin, BtlvVec3 *amount, int frames, int phaseFrames, int cycleFrames,
-                   void (*onTick)(void *, void *))
+void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, VecFx32 *origin, VecFx32 *amount, int frames, int phaseFrames, int cycleFrames,
+                   void (*onTick)(struct TcbTask *, void *))
 {
     BtlvBgScrollJob *job;
     job = GFL_HEAP_Alloc(bg->heapId, 0x4c, 0, sBtlvBgSiteName, 0xb8);
@@ -201,7 +194,7 @@ void BTLV_BG_StartScrollJob(BtlvBg *bg, u32 mode, BtlvVec3 *origin, BtlvVec3 *am
     BTLV_EFFECT_RegisterTask(TCB_AddTask(bg->taskSystem, onTick, job, 0), BTLV_BG_OnScrollJobEnd, 0);
 }
 
-void BTLV_BG_ScrollTask(void *task, void *arg)
+void BTLV_BG_ScrollTask(struct TcbTask *task, void *arg)
 {
     BtlvBgScrollJob *job = (BtlvBgScrollJob *)arg;
     BtlvBg *bg = job->bg;
@@ -235,9 +228,9 @@ void BTLV_BG_OnScrollJobEnd(void *task)
  * caller: its pool word 0x02209A55 names this unlabelled Thumb function).
  * Applies the queued scroll values to BG layer 3, then ends the task.
  */
-void BTLV_BG_ApplyScrollTask(void *task)
+void BTLV_BG_ApplyScrollTask(struct TcbTask *task, void *work)
 {
-    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_IsDeletePending(task);
+    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_IsDeletePending((struct TcblSystem *)task);
 
     BG_SYS_ChangeScrollImmediate(3, 0, args->scrollX);
     BG_SYS_ChangeScrollImmediate(3, 3, args->scrollY);

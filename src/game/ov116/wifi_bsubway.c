@@ -165,111 +165,79 @@ struct Param;
 
 typedef struct { u8 a : 1, b : 1, c : 6; } Bits;
 
-struct Record { unsigned short id:11; unsigned short rest:5; };
+struct WifiBsubwayRecord { unsigned short id:11; unsigned short rest:5; };
 
-extern int GF_OVERLAY_Load(int handle);
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern void MI_CpuFill8(void *,int,unsigned);
+#include "../ov009/dwc_rap.h"
+#ifdef __MWERKS__
+#define NHTTP_RAP_Create NHTTP_RAP_Create_hdr
+#endif
+#include "../ov114/nhttp_rap.h"
+#ifdef __MWERKS__
+#undef NHTTP_RAP_Create
+struct _NHTTPRapSession *NHTTP_RAP_Create(unsigned int heapId, unsigned int gameCode, char *source_p);
+#endif
+#include "wifi_bsubway_graphic.h"
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
 struct GameSystem;
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct ConsoleStamp;
-extern struct ConsoleStamp *CONSOLE_STAMP_GetFromSave(struct SaveControl *control);
+#include "../arm9/console_stamp.h"
 struct FieldState;
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern void *GAME_DATA_GetSaveBlock3B(struct GameData *gd);
-extern void *GAME_DATA_GetSaveBlock3A(struct GameData *gd);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPaused(u32 value);
-extern int GFL_USE_PushBgm(void);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
-extern void GFL_USE_FadeInBgmFull(unsigned);
-extern void GFL_USE_FadeOutBgm(u32 a);
+#include "../arm9/net_err.h"
+#include "../arm9/gfl_use.h"
 struct WifiBsubwayWork;
 extern void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(struct WifiBsubwayWork *p);
 struct WifiBsubwayGraphic;
 extern void WIFI_BSUBWAY_GRAPHIC_CreateWindow(struct WifiBsubwayGraphic *p, s16 heap);
-extern void FADE_Start(u32 a, int b, int c, int d);
+#include "../arm9/fade.h"
 extern void WIFI_BSUBWAY_GRAPHIC_InitBt(struct WifiBsubwayWork *p);
-extern int WIFI_BSUBWAY_GRAPHIC_GetSaveState(u8 *),FADE_IsActive(void),WIFI_BSUBWAY_GRAPHIC_PollBt(u8 *),WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(void *);
+extern int FADE_IsActive(void);
 extern void WIFI_BSUBWAY_GRAPHIC_PrintMessage(struct WifiBsubwayGraphic *p, u32 a);
-extern void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(u8 *p);
-extern int WIFI_BSUBWAY_StatusCheckMessage(u8 *,unsigned),WIFI_BSUBWAY_FinishProfileUpload(u8 *,u8 *),WIFI_BSUBWAY_GRAPHIC_DispatchTable(u8 *,int),WIFI_BSUBWAY_GRAPHIC_EndBt(u8 *);
-extern void WIFI_BSUBWAY_StartProfileUpload(u8 *,void *,u8 *),WIFI_BSUBWAY_GRAPHIC_CancelBt(u8 *),WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *),WIFI_BSUBWAY_GRAPHIC_StartRetryProc(u8 *);
-extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
+extern int WIFI_BSUBWAY_StatusCheckMessage(u8 *,unsigned);
+extern int WIFI_BSUBWAY_FinishProfileUpload(u8 *,u8 *);
+extern void WIFI_BSUBWAY_StartProfileUpload(u8 *,void *,u8 *);
 extern int WIFI_BSUBWAY_GRAPHIC_CheckNetError(struct WifiBsubwayWork *p);
 extern int WIFI_BSUBWAY_GRAPHIC_IsPrintDone(struct WifiBsubwayWork *p);
-extern void WIFI_BSUBWAY_AbortHttpRequest(u8 *),DPW_BT_Main(void),WIFI_BSUBWAY_GRAPHIC_UpdateText(u8 *);
+extern void WIFI_BSUBWAY_AbortHttpRequest(u8 *);
+extern void DPW_BT_Main(void);
 extern void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(struct WifiBsubwayWork *p);
 extern void WIFI_BSUBWAY_GRAPHIC_Noop(void *);
 extern void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *);
-extern void WIFI_BSUBWAY_GRAPHIC_DeleteWindow(u8 *p);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(unsigned int);
-extern void GF_OVERLAY_Unload(int handle);
-extern int GFL_USE_PopBgm(void);
-extern int FADE_IsActive(void);
-extern void DPW_BT_GetRoomNumAsync(unsigned x);
-extern void DPW_BT_DownloadPlayerAsync(u32 rank, u32 roomNo, u8 *resultBuf);
-extern u32 NATION_AREA_SanitizeNation(u32,u32,u32);
-extern u32 NATION_AREA_SanitizeArea(u32,u32,u32);
-extern u32 CURSOR_MOVE_FindTableGroupIndex(u32);
-extern u32 CURSOR_MOVE_GetTableGroup(u32);
-extern int DWC_GetDateTime(void *, void *);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../ov114/dpw_bt.h"
+#include "../arm9/bmp_oam.h"
+#include "../arm9/cursor_move.h"
+#include "../ov009/dwc_nasfunc.h"
 struct BsubwaySave;
-extern void BSUBWAY_SAVEDATA_SetTrainers(struct BsubwaySave *save, void *src, u8 tagA, u8 tagB);
-extern void BSUBWAY_WIFIDATA_SetTrainerBit(u8 *p, u8 a, u8 b, u32 *q);
-extern void BSUBWAY_SAVEDATA_SetHistory(struct BsubwaySave *save, void *src, u8 tagA, u8 tagB);
-extern void *MYSTATUS_Create(int);
-extern u32 GFL_HEAP_Free(void *p);
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+typedef unsigned short StatRow;
+#include "../arm9/bsubway_savedata.h"
+#include "../arm9/gds_profile.h"
+#include "../arm9/mystatus.h"
 struct Strbuf;
-extern struct Strbuf *MYSTATUS_CreateNameStrbuf(unsigned short *name, int heap_id);
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 struct Strbuf;
-extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
-extern u16 STRBUF_GetEosChar(void);
-extern int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char *reserved, int timeout, char *result, int *badwordsnum, int region);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern int DWC_CheckProfanityProcess(void);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void MYSTATUS_NameFromStrbuf(u16 *out, struct Strbuf *buf);
+#include "../ov009/dwc_prof.h"
+#include "../arm9/msgdata.h"
 struct MYSTATUS;
 struct _NHTTPRapTrainerInfo;
-extern void NHTTP_RAP_InitTrainerInfo(struct _NHTTPRapTrainerInfo *info_p, struct MYSTATUS *mystatus_p);
-extern void DPW_BT_SetProfileAsync(u8 *profile, u8 *resultBuf);
+#include "../ov114/nhttp_rap_evilcheck.h"
 struct WifiHistory;
-extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
-extern void *GREETING_SAVEDATA_GetFromSave(u32);
-extern const void *MYSTATUS_GetName(const void *p);
-extern void MI_CpuCopy8(const void *, void *, u32);
+#include "../arm9/wifi_history.h"
+#include "../arm9/greeting_savedata.h"
 struct MyStatus;
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetArea(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
 struct QuadRecord;
-extern void GREETING_SAVEDATA_GetSentence(struct QuadRecord *src, int idx, struct QuadRecord *dst);
 struct BsubwayScoreData;
-extern u16 BSUBWAY_SCOREDATA_GetRecordScore(struct BsubwayScoreData *p);
 struct BsubwayScoreData;
-extern void BSUBWAY_SCOREDATA_GetRecordBlob(struct BsubwayScoreData *p, u32 which, void *dest);
 struct _NHTTPRapSession;
 extern void NHTTP_RAP_DeleteConnection(struct _NHTTPRapSession *session_p);
-extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
-extern struct _NHTTPRapSession *NHTTP_RAP_Create(unsigned int heapId, unsigned int gameCode, char *source_p);
-extern void DWC_RAP_SetErrorCallback(int errorFunc, int errorArg);
 extern void NHTTP_RAP_AllocPostData(struct _NHTTPRapSession *session_p, int alignment, int size, int id);
-extern void NHTTP_RAP_AppendPostData(struct _NHTTPRapSession *session_p, void *src_p, int size);
 extern int NHTTP_RAP_CreatePostRequest(struct _NHTTPRapSession *session_p);
 extern int NHTTP_RAP_StartConnection(struct _NHTTPRapSession *session_p);
 extern int NHTTP_RAP_GetResultCode(struct _NHTTPRapSession *session_p);
@@ -277,23 +245,13 @@ extern int NHTTP_RAP_PollConnection(struct _NHTTPRapSession *session_p);
 extern void NHTTP_RAP_FreePostData(struct _NHTTPRapSession *session_p);
 extern void NHTTP_RAP_Destroy(struct _NHTTPRapSession *session_p);
 extern char *NHTTP_RAP_GetRecvBuffer(struct _NHTTPRapSession *session_p);
-struct _NHTTPRapRecordList;
 extern int NHTTP_RAP_RecordList_GetCount(struct _NHTTPRapRecordList *list_p);
-struct _NHTTPRapRecord;
 extern struct _NHTTPRapRecord *NHTTP_RAP_RecordList_GetRecord(struct _NHTTPRapRecordList *list_p, u32 index);
 extern u32 NHTTP_RAP_RecordList_GetValue(struct _NHTTPRapRecordList *list_p, u32 index);
-extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
-extern u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct BsubwaySave *save);
-extern u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct BsubwaySave *save);
-extern u8 BSUBWAY_SCOREDATA_GetRecordScoreTier(struct BsubwayScoreData *p);
-extern void DPW_BT_UploadPlayerAsync(u32 a, u32 b, u32 c, const void *p, const void *q, u32 v);
-extern int DPW_BT_IsAsyncEnd(void);
-extern int DPW_BT_GetAsyncResult(void);
-extern void DPW_BT_CancelAsync(void);
-extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
+struct _NHTTPRapRecordList;
+struct _NHTTPRapRecord;
 struct CodeinParam;
-extern struct CodeinParam *CODEIN_PARAM_Create(u32 heap, u32 mode, u32 initialPage, u32 maxLength, u32 *src);
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+#include "../arm9/codein_param.h"
 int WIFI_BSUBWAY_Create(void *ctx,int unused,u8 *q);
 int WIFI_BSUBWAY_Step(void *a,int *state,int b,u8 *p);
 int WIFI_BSUBWAY_Delete(void *p, int a, int b, u8 *q);
@@ -374,20 +332,20 @@ int WIFI_BSUBWAY_Step(void *unusedA,int *state,int unusedB,u8 *work)
     case 0: GFL_USE_FadeOutBgm(6); ++*state; break;
     case 1: if(GFL_USE_IsBgmFading()==0) { GFL_USE_SetBgmPaused((u32)1); GFL_USE_PushBgm(); GFL_USE_CancelChangeAndPlayBgm(1153,65535); GFL_USE_FadeInBgmFull(6); ++*state; } break;
     case 2: WIFI_BSUBWAY_GRAPHIC_StartSaveProc((struct WifiBsubwayWork *)work); ++*state; break;
-    case 3: if(WIFI_BSUBWAY_GRAPHIC_GetSaveState(work)==0) ++*state; else { ((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->state=2; *state=17; } break;
+    case 3: if(WIFI_BSUBWAY_GRAPHIC_GetSaveState((struct WifiBsubwayWork *)work)==0) ++*state; else { ((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->state=2; *state=17; } break;
     case 4: WIFI_BSUBWAY_GRAPHIC_CreateWindow((struct WifiBsubwayGraphic *)(work+4),125); FADE_Start(3,16,0,1); ++*state; break;
     case 5: if(FADE_IsActive()==0) ++*state; break;
-    case 6: WIFI_BSUBWAY_GRAPHIC_InitBt((struct WifiBsubwayWork *)work); WIFI_BSUBWAY_GRAPHIC_PrintMessage((struct WifiBsubwayGraphic *)(work+4),26); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(work+4); ++*state; break;
-    case 7: if(WIFI_BSUBWAY_GRAPHIC_PollBt(work)!=0) ++*state; break;
-    case 8: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(work+4)!=0) ++*state; break;
+    case 6: WIFI_BSUBWAY_GRAPHIC_InitBt((struct WifiBsubwayWork *)work); WIFI_BSUBWAY_GRAPHIC_PrintMessage((struct WifiBsubwayGraphic *)(work+4),26); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon((struct WifiBsubwayGraphic *)(work+4)); ++*state; break;
+    case 7: if(WIFI_BSUBWAY_GRAPHIC_PollBt((struct WifiBsubwayWork *)work)!=0) ++*state; break;
+    case 8: if(WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream((struct WifiBsubwayGraphic *)(work+4))!=0) ++*state; break;
     case 9: WIFI_BSUBWAY_StatusSetMessage(work+0x1610,((struct WifiBsubwayWork *)work)->saveControl,125); ++*state; break;
     case 10: if(WIFI_BSUBWAY_StatusCheckMessage(work+0x1610,125)!=0) ++*state; break;
     case 11: WIFI_BSUBWAY_StartProfileUpload(work+0x1610,((struct WifiBsubwayWork *)work)->saveControl,work+0x182c); ++*state; break;
     case 12: if(WIFI_BSUBWAY_FinishProfileUpload(work+0x1610,work+0x182c)!=0) ++*state; break;
-    case 13: result=WIFI_BSUBWAY_GRAPHIC_DispatchTable(work,125); if(result==1) { ((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->state=0; ++*state; } else if(result==2) { ((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->state=2; ++*state; } break;
-    case 14: WIFI_BSUBWAY_GRAPHIC_CancelBt(work); FADE_Start(3,0,16,1); ++*state; break;
-    case 15: if(WIFI_BSUBWAY_GRAPHIC_EndBt(work)!=0 && FADE_IsActive()==0) { WIFI_BSUBWAY_GRAPHIC_DeleteWindow(work+4); ++*state; } break;
-    case 16: if(GFL_NET_ERR_ShowScreen(0)==0) WIFI_BSUBWAY_GRAPHIC_StartRetryProc(work); ++*state; break;
+    case 13: result=WIFI_BSUBWAY_GRAPHIC_DispatchTable((int **)work,125); if(result==1) { ((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->state=0; ++*state; } else if(result==2) { ((struct WifiBsubwayParent *)(*(u8 * *)&((struct WifiBsubwayWork *)work)->parent))->state=2; ++*state; } break;
+    case 14: WIFI_BSUBWAY_GRAPHIC_CancelBt((struct WifiBsubwayWork *)work); FADE_Start(3,0,16,1); ++*state; break;
+    case 15: if(WIFI_BSUBWAY_GRAPHIC_EndBt((struct WifiBsubwayWork *)work)!=0 && FADE_IsActive()==0) { WIFI_BSUBWAY_GRAPHIC_DeleteWindow((struct WifiBsubwayGraphic *)(work+4)); ++*state; } break;
+    case 16: if(GFL_NET_ERR_ShowScreen(0)==0) WIFI_BSUBWAY_GRAPHIC_StartRetryProc((struct WifiBsubwayWork *)work); ++*state; break;
     case 17: GFL_USE_FadeOutBgm(6); ++*state; break;
     case 18: if(GFL_USE_IsBgmFading()==0) ++*state; break;
     case 19: return 1;
@@ -395,7 +353,7 @@ int WIFI_BSUBWAY_Step(void *unusedA,int *state,int unusedB,u8 *work)
     case 21: if(WIFI_BSUBWAY_GRAPHIC_IsPrintDone((struct WifiBsubwayWork *)work)!=0) *state=14; break;
     }
     if(((struct WifiBsubwayWork *)work)->dpwActive!=0) DPW_BT_Main();
-    WIFI_BSUBWAY_GRAPHIC_UpdateText(work+4);
+    WIFI_BSUBWAY_GRAPHIC_UpdateText((struct WifiBsubwayGraphic *)(work+4));
     return 0;
 }
 
@@ -404,7 +362,7 @@ int WIFI_BSUBWAY_Delete(void *unusedA, int unusedB, int unusedC, u8 *work) {
     WIFI_BSUBWAY_GRAPHIC_Noop(work);
     WIFI_BSUBWAY_GRAPHIC_NoopRetry(work);
     WIFI_BSUBWAY_StatusDelete(work + 0x1610);
-    WIFI_BSUBWAY_GRAPHIC_DeleteWindow(work + 4);
+    WIFI_BSUBWAY_GRAPHIC_DeleteWindow((struct WifiBsubwayGraphic *)(work + 4));
     PROCSYS_FreeProcWork(unusedA);
     GFL_HEAP_DeleteChecked(125);
     GF_OVERLAY_Unload((int)ov_id);
@@ -536,7 +494,7 @@ void WIFI_BSUBWAY_StartProfileUpload(u8 *status,void *saveControl,u8 *async) {
     saveBlockB = (int)GAME_DATA_GetSaveBlock3B(saveControl);
     saveBlockA = (int)GAME_DATA_GetSaveBlock3A(saveControl);
     recordCount = *(int *)(status+0x218);
-    NHTTP_RAP_InitTrainerInfo((struct _NHTTPRapTrainerInfo *)(status+4),(struct MYSTATUS *)recordCount);
+    NHTTP_RAP_InitTrainerInfo((struct _NHTTPRapTrainerInfo *)(status+4),(const struct MyStatus *)recordCount);
     DPW_BT_SetProfileAsync((u8 *)(status+4),(status+0x68));
     WIFI_BSUBWAY_AsyncReset(async);
     WIFI_BSUBWAY_BuildProfile(status+0x70,saveControl,(void *)recordCount);
@@ -590,7 +548,7 @@ void WIFI_BSUBWAY_OnHttpError(unsigned char *status) { if(((struct WifiBsubwaySt
 
 void WIFI_BSUBWAY_StartHttpRequest(u8 *status, u8 *async, u8 *unusedA, int heapId) {
     *(u8 * *)&((struct WifiBsubwayStatus *)status)->http=(unsigned char *)NHTTP_RAP_Create(heapId,MYSTATUS_GetProfileId(((struct WifiBsubwayStatus *)status)->mystatus),(char *)unusedA);
-    DWC_RAP_SetErrorCallback((int)WIFI_BSUBWAY_OnHttpError,(int)status);
+    DWC_RAP_SetErrorCallback((int (*)(u32, u32, u32, int))WIFI_BSUBWAY_OnHttpError,(u32)status);
     NHTTP_RAP_AllocPostData((struct _NHTTPRapSession *)(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http),heapId,180,4);
     NHTTP_RAP_AppendPostData((struct _NHTTPRapSession *)(*(u8 * *)&((struct WifiBsubwayStatus *)status)->http),(status+0x70),180);
     ((struct WifiBsubwayStatus *)status)->recordCount=3;
@@ -652,7 +610,7 @@ int WIFI_BSUBWAY_PollHttpRequest(u8 *status, u8 *async, int quiet)
     return result;
 }
 
-void WIFI_BSUBWAY_ReadRecordUnits(unsigned int status,unsigned int index) { unsigned int record; record=status+0x70+index*0x3c; MSGDATA_ReadUnits((struct MsgBank *)gSpeciesNameBank,((struct Record *)record)->id,(unsigned short *)(record+0x22),11); }
+void WIFI_BSUBWAY_ReadRecordUnits(unsigned int status,unsigned int index) { unsigned int record; record=status+0x70+index*0x3c; MSGDATA_ReadUnits((struct MsgBank *)gSpeciesNameBank,((struct WifiBsubwayRecord *)record)->id,(unsigned short *)(record+0x22),11); }
 
 void WIFI_BSUBWAY_AbortHttpRequest(u8 *status)
 {

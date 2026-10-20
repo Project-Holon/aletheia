@@ -27,11 +27,8 @@
 #include "../types.h"
 #define NHTTPi_TOLOWER(c) ((((c) >= 'A') & ((c) <= 'Z')) ? (c) + 0x20 : (c))
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern int STD_GetStringLength(const char *s);
-extern int STD_GetStringNLength(const char *s, int maxLen);
-extern int STD_CompareString(const char *s1, const char *s2);
-extern void MI_CpuFill8(void *dst_p, int data, u32 size);
+#include "../arm9/mi_memory.h"
+#include "../arm9/std_string.h"
 void NHTTPi_memcpy(void *dst, void *src, u32 size);
 int NHTTPi_strlen(const char *s);
 int NHTTPi_strnlen(const char *s, int maxLen);

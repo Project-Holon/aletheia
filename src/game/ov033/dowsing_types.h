@@ -40,11 +40,11 @@
 #define DOWSING_PART_FOUND_MARK 3
 #define DOWSING_PART_COUNT 4
 
-struct ClactUnit;
+struct Unit;
 struct ClactActor;
 struct TaskSys;
 struct Task;
-struct PalAnmSlot;
+struct PaletteFade;
 
 /* Hidden item row (10 bytes) of the table that overlay 10 returns. */
 typedef struct DowsingHiddenItem {
@@ -94,7 +94,7 @@ typedef struct DowsingWork {
     u16 ownerHeapId;       /* heap of the field sub-screen */
     FieldSubscreen *subscreen;
     void *fieldMap;
-    struct ClactUnit *clactUnit;
+    struct Unit *clactUnit;
     u32 bgCharRegion7;     /* packed offset and size of the BG 7 tiles */
     u32 bgCharRegion4;     /* same for BG 4 (close button panel) */
     s32 buttonPalRes;
@@ -123,9 +123,9 @@ typedef struct DowsingWork {
     u8 tick;               /* counts 1..4 while the machine is on */
     u8 padAD[3];
     s32 isOn;
-    struct TaskSys *fadeTaskSys;
+    struct TcbSystem *fadeTaskSys;
     void *fadeTaskMem;
-    struct PalAnmSlot *palAnm;
+    struct PaletteFade *palAnm;
     s32 fadeRequest;       /* DOWSING_FADE_* */
     s32 fadeState;         /* 0 shown, 1 faded out */
     s32 needReset;         /* search cursor must be rewound */
@@ -158,24 +158,5 @@ typedef struct DowsingBgSetup {
     u32 visible;
 } DowsingBgSetup;
 
-/* Parameters for creating an actor. */
-typedef struct ClactSetup {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 priority;
-    u8 palOffset;
-} ClactSetup;
-
-typedef struct ScreenPos {
-    u16 x;
-    u16 y;
-} ScreenPos;
-
-/* Layout of a screen data file: header, then the tile map. */
-typedef struct ScreenData {
-    u8 header[0xC];
-    u16 tiles[0x300];
-} ScreenData;
-
+#include "../arm9/clact.h"
 #endif

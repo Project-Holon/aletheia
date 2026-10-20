@@ -84,7 +84,7 @@ u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct BsubwaySave *save);
 
 u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct BsubwaySave *save);
 
-void BSUBWAY_SAVEDATA_ExportTrainer(struct BsubwaySave *save, struct TrainerExport *out, int index);
+void BSUBWAY_SAVEDATA_ExportTrainer(struct BsubwaySave *save, struct TrainerExport *out, int index, u32 heapId);
 
 void BSUBWAY_SAVEDATA_SetHistory(struct BsubwaySave *save, const void *src, u8 tagA, u8 tagB);
 
@@ -100,7 +100,7 @@ u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct HistoryEntry *entry);
 
 void BSUBWAY_SAVEDATA_InitStats(void *stats);
 
-u16 BSUBWAY_SAVEDATA_GetStat(StatRow *stats, int row, int col);
+u32 BSUBWAY_SAVEDATA_GetStat(StatRow *stats, u32 row, u32 col);
 
 void BSUBWAY_SAVEDATA_SetStat(StatRow *stats, int row, int col, int value);
 
@@ -160,7 +160,7 @@ u8 BSUBWAY_SAVEDATA_GetTrainersTagB(struct BsubwaySave *save)
     return save->trainersTagB;
 }
 
-void BSUBWAY_SAVEDATA_ExportTrainer(struct BsubwaySave *save, struct TrainerExport *out, int index)
+void BSUBWAY_SAVEDATA_ExportTrainer(struct BsubwaySave *save, struct TrainerExport *out, int index, u32 heapId)
 {
     struct TrainerEntry *trainer = &save->trainers[index];
 
@@ -265,7 +265,7 @@ void BSUBWAY_SAVEDATA_InitStats(void *stats)
  * compares, so the value is an int). Seeded from ov175 (0x021D62E8,
  * 0x021D6502, 0x021D9DA2 and their siblings).
  */
-u16 BSUBWAY_SAVEDATA_GetStat(StatRow *stats, int row, int col)
+u32 BSUBWAY_SAVEDATA_GetStat(StatRow *stats, u32 row, u32 col)
 {
     return stats[row][col];
 }

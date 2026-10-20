@@ -111,38 +111,23 @@ typedef struct IrcStepEntry {
 
 struct DateBytes { unsigned year, month, day, weekday; };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern void MI_CpuFill8(void *dst, int value, u32 size);
-extern u32 GFL_HEAP_Free(void *mem);
-extern u32 GFL_NET_IsParentAid(void);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/net.h"
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern void GFL_USE_SetBgmPaused(u32 value);
-extern int GFL_USE_PushBgm(void);
-extern int GFL_USE_PopBgm(void);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(u32 heapId);
-extern int GFL_USE_IsBgmFading(void);
-extern void *PROCSYS_Create(int heapId);
-extern unsigned int PROCSYS_Main(void *queue);
-extern void PROCSYS_Delete(void *queue);
-extern void PROCSYS_Push(void *queue, int taskProc, int priority, void *args);
+#include "../arm9/gamesystem.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/gfl_use.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct IrcRankSave;
-extern struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
+#include "../arm9/irc_ranking.h"
 struct MyStatus;
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 struct IrcRankEntry;
-extern int IRC_RANKING_HasEntry(struct IrcRankEntry *entries, u32 trainerId);
-extern void *MYSTATUS_GetName(void *myStatus);
-extern u16 STRBUF_GetEosChar(void);
-extern unsigned char IRC_RANKING_GetDateScore(unsigned month, unsigned day, struct DateBytes *date);
-void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
-void COMPATIBLE_IRC_SYS_Delete(void *view);
-void COMPATIBLE_IRC_SYS_BuildProfile(void *gameSystem, IrcCompatibleProfile *out);
+#include "../arm9/strbuf.h"
+#include "compatible_irc_sys.h"
 int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *param);
 int IRC_COMPATIBLE_ProcExit(struct Proc *proc, int seq, int pwk, IrcCompatibleWork *work);
 int IRC_COMPATIBLE_ProcMain(void *proc, u32 *seq, void *pwk, IrcCompatibleWork *work);
@@ -168,7 +153,7 @@ void IRC_COMPATIBLE_ResultStepDestroyArgs(void *args, IrcCompatibleWork *work);
 void *IRC_COMPATIBLE_HelpStepCreateArgs(u32 heapId, IrcCompatibleWork *work);
 void IRC_COMPATIBLE_HelpStepDestroyArgs(void *args, IrcCompatibleWork *work);
 int IRC_COMPATIBLE_CalcCompatibility(u32 firstScore, u32 secondScore, int firstPenalty, int secondPenalty, IrcCompatibleProfile *ownProfile, IrcCompatibleProfile *partnerProfile, int hasBonus, u32 packedDate, int heapId);
-u32 IRC_COMPATIBLE_CalcNameSimilarity(u16 *nameA, u16 *nameB);
+u32 IRC_COMPATIBLE_CalcNameSimilarity(const u16 *nameA, const u16 *nameB);
 unsigned IRC_COMPATIBLE_FindHighestSetBit(unsigned bits, unsigned width);
 unsigned char IRC_COMPATIBLE_CalcBirthdayScore(IrcCompatibleProfile *profile, unsigned packedDate);
 extern const char IRC_COMPATIBLE_SourceFileName[];
@@ -194,7 +179,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
     work->partnerProfile = GFL_HEAP_Alloc(IRC_COMPATIBLE_HEAP_ID, 44, 0, IRC_COMPATIBLE_SourceFileName, 0x119);
     MI_CpuFill8(work->partnerProfile, 0, 44);
     IRC_COMPATIBLE_StepRunnerInit(&work->runner, IRC_COMPATIBLE_HEAP_ID);
-    if (work->param->gameSystem) gameData = (int)GAMESYSTEM_GetGameData(work->param->gameSystem);
+    if (work->param->gameSystem) gameData = (sptr)GAMESYSTEM_GetGameData(work->param->gameSystem);
     work->view = COMPATIBLE_IRC_SYS_Create(-1, gameData, IRC_COMPATIBLE_HEAP_ID, 0);
     work->isFirstRun = 1;
     IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleEntry);
@@ -374,7 +359,7 @@ void IRC_COMPATIBLE_StepRunnerInit(IrcStepRunner *runner, int heapId) { MI_CpuFi
 
 
 
-unsigned int IRC_COMPATIBLE_StepRunnerIsBusy(IrcStepRunner *runner) { return PROCSYS_Main(runner->queue); }
+unsigned int IRC_COMPATIBLE_StepRunnerIsBusy(IrcStepRunner *runner) { return PROCSYS_Main((struct ProcSys *)runner->queue); }
 
 
 
@@ -382,7 +367,7 @@ unsigned int IRC_COMPATIBLE_StepRunnerIsBusy(IrcStepRunner *runner) { return PRO
 
 
 
-void IRC_COMPATIBLE_StepRunnerExit(IrcStepRunner *runner) { PROCSYS_Delete(runner->queue); MI_CpuFill8(runner, 0, 12); }
+void IRC_COMPATIBLE_StepRunnerExit(IrcStepRunner *runner) { PROCSYS_Delete((struct ProcSys *)runner->queue); MI_CpuFill8(runner, 0, 12); }
 
 
 
@@ -401,7 +386,7 @@ int IRC_COMPATIBLE_StepRunnerRun(IrcStepRunner *runner, int stepIndex, int heapI
         runner->phase=1;
         break;
     case 1:
-        PROCSYS_Push(runner->queue,IRC_COMPATIBLE_StepTable[stepIndex].taskProc,IRC_COMPATIBLE_StepTable[stepIndex].priority,runner->stepArgs);
+        PROCSYS_Push((struct ProcSys *)runner->queue,IRC_COMPATIBLE_StepTable[stepIndex].taskProc,(const struct ProcData *)IRC_COMPATIBLE_StepTable[stepIndex].priority,runner->stepArgs);
         runner->phase=2;
         break;
     case 2:
@@ -573,14 +558,14 @@ int IRC_COMPATIBLE_CalcCompatibility(u32 firstScore, u32 secondScore, int firstP
 {
     int baseScore, nameRate, compatibility;
     u32 nameSimilarity;
-    u16 *ownName;
+    const u16 *ownName;
     float rateFixed;
     baseScore = ((((u32)IRC_COMPATIBLE_CalcBirthdayScore(ownProfile, packedDate) + (u32)IRC_COMPATIBLE_CalcBirthdayScore(partnerProfile, packedDate)) >> 1) * 10) / 100;
     firstScore = firstScore * 50 / 100;
     secondScore = secondScore * 40 / 100;
     baseScore += firstScore + secondScore;
-    ownName = MYSTATUS_GetName(ownProfile->myStatus);
-    nameSimilarity = IRC_COMPATIBLE_CalcNameSimilarity(ownName, MYSTATUS_GetName(partnerProfile->myStatus));
+    ownName = MYSTATUS_GetName((const struct MyStatus *)ownProfile->myStatus);
+    nameSimilarity = IRC_COMPATIBLE_CalcNameSimilarity(ownName, MYSTATUS_GetName((const struct MyStatus *)partnerProfile->myStatus));
     if (nameSimilarity) rateFixed = 0.5f + (float)(nameSimilarity << 12);
     else rateFixed = (float)(nameSimilarity << 12) - 0.5f;
     nameRate = (int)rateFixed / 150;
@@ -606,7 +591,7 @@ int IRC_COMPATIBLE_CalcCompatibility(u32 firstScore, u32 secondScore, int firstP
  * output bytes do not change. Older text in this header that asks for the
  * double assignment is superseded.
  */
-u32 IRC_COMPATIBLE_CalcNameSimilarity(u16 *nameA, u16 *nameB)
+u32 IRC_COMPATIBLE_CalcNameSimilarity(const u16 *nameA, const u16 *nameB)
 {
     u32 charA, charB, bitIndexA, bitIndexB;
     u32 equalBits, totalBits, katakanaStartA, katakanaStartB;
@@ -648,4 +633,4 @@ unsigned IRC_COMPATIBLE_FindHighestSetBit(unsigned bits, unsigned width) { unsig
 
 
 
-unsigned char IRC_COMPATIBLE_CalcBirthdayScore(IrcCompatibleProfile *profile, unsigned packedDate) { struct DateBytes date; date.year=(unsigned char)(packedDate>>24); date.month=(unsigned char)(packedDate>>16); date.day=(unsigned char)(packedDate>>8); date.weekday=(unsigned char)packedDate; return IRC_RANKING_GetDateScore(profile->birthMonth,profile->birthDay,&date); }
+unsigned char IRC_COMPATIBLE_CalcBirthdayScore(IrcCompatibleProfile *profile, unsigned packedDate) { struct DateBytes date; date.year=(unsigned char)(packedDate>>24); date.month=(unsigned char)(packedDate>>16); date.day=(unsigned char)(packedDate>>8); date.weekday=(unsigned char)packedDate; return IRC_RANKING_GetDateScore(profile->birthMonth,profile->birthDay,(struct RTCDate *)&date); }

@@ -88,69 +88,55 @@ struct ManualOptionOwner {
 
 typedef struct { u8 v[9]; } ManualSlotRecord;
 
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+#include "../arm9/gfl_use.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void MANUAL_COMMON_SetTouchbarState(char *, unsigned);
+#include "manual_touchbar.h"
 
-extern void MANUAL_COMMON_SetTouchbarSelection(char *, unsigned, unsigned);
 
-extern int MANUAL_COMMON_GetDefaultId(void *);
+#include "manual_data.h"
 
-extern void MANUAL_COMMON_SetScreenId(char *,u32);
+#include "manual_common.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void MANUAL_COMMON_UpdateTouchbar(char *);
 
-extern unsigned MANUAL_COMMON_GetTouchbarPressed(char *p);
 
-extern unsigned MANUAL_COMMON_GetTouchbarSelected(char *p);
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+#include "../arm9/arc_util.h"
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
-extern void BG_SYS_MarkTileDirty(u32);
+#include "../arm9/bg_sys.h"
 struct BmpWin;
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+#include "../arm9/bmp_win.h"
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 struct Bmp;
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *p,u32 index);
+#include "../arm9/msgdata.h"
 struct GfFont;
 struct PrintQueue;
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+#include "../arm9/printsys.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 struct PrintQueue;
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 char *MANUAL_CATEGORY_CreateOption(char *p, char *data);
 
@@ -193,7 +179,7 @@ char *MANUAL_CATEGORY_CreateOption(char *p, char *data)
     MANUAL_CATEGORY_LoadOptionAssets(q);
     MANUAL_CATEGORY_SetOptionBgMode(q);
     MANUAL_CATEGORY_CreateOptionSlots((u8 *)q);
-    ((struct ManualOptionWork *)q)->task = GFL_USE_AddMainTask((unsigned)MANUAL_CATEGORY_OptionTaskNoop, (unsigned)q, 1);
+    ((struct ManualOptionWork *)q)->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MANUAL_CATEGORY_OptionTaskNoop), (void *)((uptr)q), 1);
     ((struct ManualOptionWork *)q)->state = 0;
     q[0x3c] = -1;
     MANUAL_COMMON_SetTouchbarState(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)q)->data))->group, 3);
@@ -287,17 +273,17 @@ void MANUAL_CATEGORY_CreateOptionSlots(u8 *p)
     for(index=0;index<3;index++) {
         record=&gManualCategorySlotRecords[index];
         slot=p+index*4;
-        *(u32 *)&((struct ManualOptionWork *)slot)->bg=(u32)BMP_WIN_Create(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
+        *(u32 *)&((struct ManualOptionWork *)slot)->bg=(uptr)BMP_WIN_Create(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
         BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg)),0);
         BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg));
         ((struct ManualOptionWork *)slot)->flag[0]=0;
     }
     owner=*(u8 * *)&((struct ManualOptionWork *)p)->data;
-    ((struct ManualOptionWork *)p)->que[0]=((struct ManualData *)owner)->printQue[0];
+    ((struct ManualOptionWork *)p)->que[0]=(struct PrintSys *)((struct ManualData *)owner)->printQue[0];
     *(u32 *)&((struct ManualOptionWork *)p)->que[1]=(u32)((struct ManualData *)owner)->printQue[0];
-    ((struct ManualOptionWork *)p)->que[2]=((struct ManualData *)owner)->printQue[1];
+    ((struct ManualOptionWork *)p)->que[2]=(struct PrintSys *)((struct ManualData *)owner)->printQue[1];
     string=(struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)owner)->bank[1],((struct ManualOptionOwner *)(*(u8 * *)&((struct ManualOptionWork *)p)->owner))->selectedId);
-    PRINTSYS_PrintQueColor((struct PrintQueue *)(((struct ManualOptionWork *)p)->que[1]),BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)p)->bg[1])),0,1,(struct Strbuf *)string,((struct ManualData *)(*(u8 * *)&((struct ManualOptionWork *)p)->data))->font,0x3C40);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)(((struct ManualOptionWork *)p)->que[1]),BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)p)->bg[1])),0,1,(struct Strbuf *)string,(struct GfFont *)((struct ManualData *)(*(u8 * *)&((struct ManualOptionWork *)p)->data))->font,0x3C40);
     STRBUF_Delete((struct Strbuf *)string);
     ((struct ManualOptionWork *)p)->flag[1]=1;
     MANUAL_CATEGORY_UpdateOptionSlots(p);
@@ -333,7 +319,7 @@ void MANUAL_CATEGORY_DrawOption(char *p)
     r = MSGDATA_AllocString(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->bank[1],
                       *(u16 *)(*(char * *)&((struct ManualOptionWork *)p)->owner + (((struct ManualOptionWork *)p)->cursor << 2) + 6));
     PRINTSYS_PrintQueColor((struct PrintQueue *)(((struct ManualOptionWork *)p)->que[2]), BMP_WIN_GetBmp(((struct ManualOptionWork *)p)->bg[2]),
-                  4, 6, r, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->font, 0x440);
+                  4, 6, r, (struct GfFont *)((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->font, 0x440);
     STRBUF_Delete(r);
     ((struct ManualOptionWork *)p)->flag[2] = 1;
     MANUAL_CATEGORY_UpdateOptionSlots((u8 *)p);

@@ -43,7 +43,7 @@ extern OSIrqCallbackInfo OSi_IrqCallbackInfo[];
 extern u16 OSi_IrqCallbackInfoIndex[];
 
 /* HW_INTR_CHECK_BUF: the IRQ check word at DTCM + 0x3FF8. */
-#define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
+#define OSi_IRQ_CHECK_FLAG (*(volatile u32 *)((uptr)SDK_AUTOLOAD_DTCM_START + 0x3FF8))
 
 /*
  * sdk:      OSi_IrqCallback (os_irqtable.o)

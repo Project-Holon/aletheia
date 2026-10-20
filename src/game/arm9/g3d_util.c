@@ -41,6 +41,7 @@
  *   ARC_TOOL_LoadMemberFromPath 0x02048F9C arm arm9
  */
 #include "g3d_util_shared_types.h"
+#include "g3d_util_types.h"
 
 struct G3dNodeInit;
 
@@ -95,55 +96,14 @@ struct G3dAnim {
     const struct G3dRenderObj *renderObj;
 };
 
-typedef struct {
-    u16 resIdx;
-    u16 resCount;
-    u16 objIdx;
-    u16 objCount;
-} Unit;
-
-typedef struct {
-    void **res;
-    u8    *resStat;
-    u16    resCount;
-    void **obj;
-    u8    *objStat;
-    u16    objCount;
-    Unit   unit[0x40];
-    u16    heapID;
-} Util;
-
-typedef struct {
-    u16 anmResIdx;
-    u16 anmDatIdx;
-} AnmSetup;
-
-typedef struct {
-    u16       mdlResIdx;
-    u16       mdlDatIdx;
-    u16       texResIdx;
-    u16       pad_06;
-    AnmSetup *anmTbl;
-    u16       anmCount;
-} ObjSetup;
-
-typedef struct {
-    u32 arc;
-    u16 dat;
-    u16 pad_06;
-    u32 type;
-} ResSetup;
-
-typedef struct {
-    ResSetup *resTbl;
-    u16       resCount;
-    ObjSetup *objTbl;
-    u16       objCount;
-} Setup;
 
 /* Kept local: the heap id is a u16 here (gfl_heap_wrap.h takes u32). */
-extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, int line);
+#ifdef __MWERKS__
+extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, int line); /* original prototype; the definition differs in argument width */
 extern u32 GFL_HEAP_Free(void *p);
+#else
+#include "gfl_heap_wrap.h"
+#endif
 
 
 #include "nns_g3d_anm_calc_types.h"
@@ -152,7 +112,14 @@ extern u32 GFL_HEAP_Free(void *p);
 #include "../sdk_nnsfnd.h"
 #include "g3d_system.h"
 
-void G3D_SYSTEM_InitResourceByFile(struct G3dNodeInit *out, u32 *tag);
+#ifdef __MWERKS__
+void G3D_SYSTEM_InitResourceByFile(struct G3dNodeInit *out, u32 *tag); /* original prototype; the definition differs in pointer type */
+#else
+struct G3dResource;
+struct NNSG3dResFileHeader;
+void G3D_SYSTEM_InitResourceByFile(struct G3dResource *res, struct NNSG3dResFileHeader *file);
+#define G3D_SYSTEM_InitResourceByFile(out, file) (G3D_SYSTEM_InitResourceByFile)((struct G3dResource *)(out), (struct NNSG3dResFileHeader *)(file))
+#endif
 struct G3dResource;
 
 struct ArcHandle;
@@ -178,37 +145,37 @@ struct G3dObject;
 
 
 
-Util *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID);
+G3dUtil *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID);
 
-void G3D_UTIL_Delete(Util *util);
+void G3D_UTIL_Delete(G3dUtil *util);
 
-u16 G3D_UTIL_AddUnit(Util *util, const Setup *setup);
+u16 G3D_UTIL_AddUnit(G3dUtil *util, const G3dUtilSetup *setup);
 
-u16 G3D_UTIL_AddUnitLoaded(Util *util, const Setup *setup);
+u16 G3D_UTIL_AddUnitLoaded(G3dUtil *util, const G3dUtilSetup *setup);
 
-u16 G3D_UTIL_AddUnitFromArchive(Util *util, const Setup *setup, struct ArcHandle *extra);
+u16 G3D_UTIL_AddUnitFromArchive(G3dUtil *util, const G3dUtilSetup *setup, struct ArcHandle *extra);
 
-void G3D_UTIL_RemoveUnit(Util *util, u32 i);
+void G3D_UTIL_RemoveUnit(G3dUtil *util, u32 i);
 
-void G3D_UTIL_LoadUnitResources(Util *util, u16 index, const Setup *setup, u16 heapID);
+void G3D_UTIL_LoadUnitResources(G3dUtil *util, u16 index, const G3dUtilSetup *setup, u16 heapID);
 
-void G3D_UTIL_LoadUnitResourcesFromArchive(Util *util, u16 index, const Setup *setup, u32 heapID, struct ArcHandle *arc);
+void G3D_UTIL_LoadUnitResourcesFromArchive(G3dUtil *util, u16 index, const G3dUtilSetup *setup, u32 heapID, struct ArcHandle *arc);
 
-void G3D_UTIL_FreeUnitResources(Util *util, u32 index);
+void G3D_UTIL_FreeUnitResources(G3dUtil *util, u32 index);
 
-void G3D_UTIL_BuildUnitObjects(Util *util, u16 unitIdx, const Setup *setup, u16 heapID);
+void G3D_UTIL_BuildUnitObjects(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *setup, u16 heapID);
 
-void G3D_UTIL_BuildUnitObjectsLoaded(Util *util, u16 unitIdx, const Setup *setup, u16 heapID);
+void G3D_UTIL_BuildUnitObjectsLoaded(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *setup, u16 heapID);
 
-void G3D_UTIL_FreeUnitObjects(Util *util, u32 unitIdx);
+void G3D_UTIL_FreeUnitObjects(G3dUtil *util, u32 unitIdx);
 
-u32 G3D_UTIL_GetUnitObjIdx(Util *util, int i);
+u32 G3D_UTIL_GetUnitObjIdx(G3dUtil *util, int i);
 
-u32 G3D_UTIL_GetUnitObjCount(Util *util, int i);
+u32 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int i);
 
-u32 G3D_UTIL_GetResource(Util *util, int i);
+u32 G3D_UTIL_GetResource(G3dUtil *util, int i);
 
-u32 G3D_UTIL_GetObject(Util *util, int i);
+u32 G3D_UTIL_GetObject(G3dUtil *util, int i);
 
 #include "arc_tool.h"
 
@@ -232,12 +199,12 @@ extern const char g3d_util_file[];
  * Verified with:
  *   python tools/match.py one --src src/matched/G3D_UTIL_Create.c --func G3D_UTIL_Create --addr 0x02047CFC --cc 1.1p1 --arm
  */
-Util *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID)
+G3dUtil *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID)
 {
-    Util *util;
+    G3dUtil *util;
     int i;
 
-    util = GFL_HEAP_Alloc(heapID, sizeof(Util), 1, g3d_util_file, 92);
+    util = GFL_HEAP_Alloc(heapID, sizeof(G3dUtil), 1, g3d_util_file, 92);
     util->heapID = heapID;
 
     util->res = GFL_HEAP_Alloc(heapID, resCount * 4, 1, g3d_util_file, 97);
@@ -270,7 +237,7 @@ Util *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID)
  *   python tools/match.py one --src src/matched/G3D_UTIL_Delete.c \
  *       --func G3D_UTIL_Delete --addr 0x02047E54 --cc 1.1p1 --arm
  */
-void G3D_UTIL_Delete(Util *util)
+void G3D_UTIL_Delete(G3dUtil *util)
 {
     GFL_HEAP_Free(util->objStat);
     GFL_HEAP_Free(util->obj);
@@ -298,7 +265,7 @@ void G3D_UTIL_Delete(Util *util)
  * Verified with:
  *   python tools/match.py one --src src/matched/G3D_UTIL_AddUnit.c --func G3D_UTIL_AddUnit --addr 0x02047E88 --cc 1.1p1 --arm
  */
-u16 G3D_UTIL_AddUnit(Util *util, const Setup *setup)
+u16 G3D_UTIL_AddUnit(G3dUtil *util, const G3dUtilSetup *setup)
 {
     u16 resIdx = 0;
     u16 objIdx = 0;
@@ -334,7 +301,7 @@ u16 G3D_UTIL_AddUnit(Util *util, const Setup *setup)
  * Verified with:
  *   python tools/match.py one --src src/matched/G3D_UTIL_AddUnitLoaded.c --func G3D_UTIL_AddUnitLoaded --addr 0x02047F4C --cc 1.1p1 --arm
  */
-u16 G3D_UTIL_AddUnitLoaded(Util *util, const Setup *setup)
+u16 G3D_UTIL_AddUnitLoaded(G3dUtil *util, const G3dUtilSetup *setup)
 {
     u16 resIdx = 0;
     u16 objIdx = 0;
@@ -370,7 +337,7 @@ u16 G3D_UTIL_AddUnitLoaded(Util *util, const Setup *setup)
  * Verified with:
  *   python tools/match.py one --src src/matched/G3D_UTIL_AddUnitFromArchive.c --func G3D_UTIL_AddUnitFromArchive --addr 0x02048010 --cc 1.1p1 --arm
  */
-u16 G3D_UTIL_AddUnitFromArchive(Util *util, const Setup *setup, struct ArcHandle *archive)
+u16 G3D_UTIL_AddUnitFromArchive(G3dUtil *util, const G3dUtilSetup *setup, struct ArcHandle *archive)
 {
     u16 resIdx = 0;
     u16 objIdx = 0;
@@ -413,7 +380,7 @@ u16 G3D_UTIL_AddUnitFromArchive(Util *util, const Setup *setup, struct ArcHandle
  *   python tools/match.py one --src src/pending/G3D_UTIL_RemoveUnit.c \
  *       --func G3D_UTIL_RemoveUnit --addr 0x020480E4 --cc 1.1p1 --arm
  */
-void G3D_UTIL_RemoveUnit(Util *util, u32 unitIdx)
+void G3D_UTIL_RemoveUnit(G3dUtil *util, u32 unitIdx)
 {
     G3D_UTIL_FreeUnitObjects(util, unitIdx);
     G3D_UTIL_FreeUnitResources(util, unitIdx);
@@ -458,14 +425,14 @@ void G3D_UTIL_RemoveUnit(Util *util, u32 unitIdx)
  *   python tools/match.py one --src src/matched/G3D_UTIL_LoadUnitResources.c \
  *       --func G3D_UTIL_LoadUnitResources --addr 0x02048120 --cc 1.1p1 --arm
  */
-void G3D_UTIL_LoadUnitResources(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+void G3D_UTIL_LoadUnitResources(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *setup, u16 heapID)
 {
     int count = util->unit[unitIdx].resCount;
     u32 base = util->unit[unitIdx].resIdx;
     u32 slotno;
     u32 *out;
     int i;
-    const ResSetup *rec;
+    const G3dUtilResSetup *rec;
     void *node;
 
     for (i = 0; i < count; i++) {
@@ -516,7 +483,7 @@ void G3D_UTIL_LoadUnitResources(Util *util, u16 unitIdx, const Setup *setup, u16
  *   python tools/match.py one --src src/matched/G3D_UTIL_LoadUnitResourcesFromArchive.c \
  *       --func G3D_UTIL_LoadUnitResourcesFromArchive --addr 0x02048258 --cc 1.1p1 --arm
  */
-void G3D_UTIL_LoadUnitResourcesFromArchive(Util *util, u16 unitIdx, const Setup *setup, u32 heapID,
+void G3D_UTIL_LoadUnitResourcesFromArchive(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *setup, u32 heapID,
                    struct ArcHandle *arc)
 {
     u16 count = util->unit[unitIdx].resCount;
@@ -543,7 +510,7 @@ void G3D_UTIL_LoadUnitResourcesFromArchive(Util *util, u16 unitIdx, const Setup 
  *   python tools/match.py one --src src/matched/G3D_UTIL_FreeUnitResources.c \
  *       --func G3D_UTIL_FreeUnitResources --addr 0x020482B4 --cc 1.1p1 --arm
  */
-void G3D_UTIL_FreeUnitResources(Util *util, u32 unitIdx)
+void G3D_UTIL_FreeUnitResources(G3dUtil *util, u32 unitIdx)
 {
     u16 count = util->unit[unitIdx].resCount;
     u16 base = util->unit[unitIdx].resIdx;
@@ -563,7 +530,7 @@ void G3D_UTIL_FreeUnitResources(Util *util, u32 unitIdx)
     }
 }
 
-static inline void createRes(Util *util, const ResSetup *rs, void **out)
+static inline void createRes(G3dUtil *util, const G3dUtilResSetup *rs, void **out)
 {
     switch (rs->type) {
     case 0:
@@ -583,7 +550,7 @@ static inline void createRes(Util *util, const ResSetup *rs, void **out)
     }
 }
 
-static inline int getRes(Util *util, u16 resIdx, u16 idx, const Setup *setup, void **out)
+static inline int getRes(G3dUtil *util, u16 resIdx, u16 idx, const G3dUtilSetup *setup, void **out)
 {
     if (util->resStat[resIdx + idx] == 1) {
         createRes(util, &setup->resTbl[idx], out);
@@ -624,7 +591,7 @@ static inline int getRes(Util *util, u16 resIdx, u16 idx, const Setup *setup, vo
  * Verified with:
  *   python tools/match.py one --src src/matched/G3D_UTIL_BuildUnitObjects.c --func G3D_UTIL_BuildUnitObjects --addr 0x02048330 --cc 1.1p1 --arm
  */
-void G3D_UTIL_BuildUnitObjects(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+void G3D_UTIL_BuildUnitObjects(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *setup, u16 heapID)
 {
     u16 resIdx = util->unit[unitIdx].resIdx;
     u16 objIdx = util->unit[unitIdx].objIdx;
@@ -633,7 +600,7 @@ void G3D_UTIL_BuildUnitObjects(Util *util, u16 unitIdx, const Setup *setup, u16 
     void *texture;
     void *renderObj;
     void **anims;
-    const ObjSetup *objSetup;
+    const G3dUtilObjSetup *objSetup;
     void *anim;
     int i, j;
 
@@ -672,12 +639,12 @@ void G3D_UTIL_BuildUnitObjects(Util *util, u16 unitIdx, const Setup *setup, u16 
     }
 }
 
-static inline void *getResSlot(Util *util, u16 resIdx, u16 idx)
+static inline void *getResSlot(G3dUtil *util, u16 resIdx, u16 idx)
 {
     return util->res[resIdx + idx];
 }
 
-static inline void *useRes(Util *util, u16 resIdx, u16 idx)
+static inline void *useRes(G3dUtil *util, u16 resIdx, u16 idx)
 {
     util->resStat[resIdx + idx] = 1;
     return util->res[resIdx + idx];
@@ -703,7 +670,7 @@ static inline void *useRes(Util *util, u16 resIdx, u16 idx)
  * EXACT; `(int)((char *)i + 1)`, `(int)((u8 *)0 + (i + 1))` and
  * `(int)&((u8 *)0)[i + 1]` stay at 18 (wave 21, lane D4).
  */
-void G3D_UTIL_BuildUnitObjectsLoaded(Util *util, u16 unitIdx, const Setup *setup, u16 heapID)
+void G3D_UTIL_BuildUnitObjectsLoaded(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *setup, u16 heapID)
 {
     u16 resIdx = util->unit[unitIdx].resIdx;
     u16 objIdx = util->unit[unitIdx].objIdx;
@@ -712,7 +679,7 @@ void G3D_UTIL_BuildUnitObjectsLoaded(Util *util, u16 unitIdx, const Setup *setup
     void *texture;
     void *renderObj;
     void **anims;
-    const ObjSetup *objSetup;
+    const G3dUtilObjSetup *objSetup;
     void *anim;
     int i, j;
 
@@ -767,7 +734,7 @@ void G3D_UTIL_BuildUnitObjectsLoaded(Util *util, u16 unitIdx, const Setup *setup
  * Verified with:
  *   python tools/match.py one --src src/matched/G3D_UTIL_FreeUnitObjects.c --func G3D_UTIL_FreeUnitObjects --addr 0x02048918 --cc 1.1p1 --arm
  */
-void G3D_UTIL_FreeUnitObjects(Util *util, u32 unitIdx)
+void G3D_UTIL_FreeUnitObjects(G3dUtil *util, u32 unitIdx)
 {
     u16 objIdx = util->unit[unitIdx].objIdx;
     u16 objCount = util->unit[unitIdx].objCount;
@@ -812,22 +779,22 @@ void G3D_UTIL_FreeUnitObjects(Util *util, u32 unitIdx)
  * `add r0, r0, r1, lsl #3` is the record stride of 8 folded into the add, and
  * the halfword offset rides in the load.
  */
-u32 G3D_UTIL_GetUnitObjIdx(Util *util, int unitIdx)
+u32 G3D_UTIL_GetUnitObjIdx(G3dUtil *util, int unitIdx)
 {
     return util->unit[unitIdx].objIdx;
 }
 
-u32 G3D_UTIL_GetUnitObjCount(Util *util, int unitIdx)
+u32 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int unitIdx)
 {
     return util->unit[unitIdx].objCount;
 }
 
-u32 G3D_UTIL_GetResource(Util *util, int resIdx)
+u32 G3D_UTIL_GetResource(G3dUtil *util, int resIdx)
 {
     return *(u32 *)((u8 *)util->res + resIdx * 4);
 }
 
-u32 G3D_UTIL_GetObject(Util *util, int objIdx)
+u32 G3D_UTIL_GetObject(G3dUtil *util, int objIdx)
 {
     return *(u32 *)((u8 *)util->obj + objIdx * 4);
 }

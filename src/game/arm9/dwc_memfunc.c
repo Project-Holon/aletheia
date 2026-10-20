@@ -15,32 +15,17 @@
  * symbols:
  *   s_mem  0x02146AB4  data  a4
  */
+#include "dwc_memfunc.h"
+#include "mi_memory.h"
+
 typedef struct {
     unsigned long magic;
     unsigned long size;
     unsigned char pad[24];
 } _tagDWCiAllocHeader;
 
-typedef void *(*DWCiMemAlloc)(int, unsigned long, int);
-
-typedef void (*DWCiMemFree)(int, void *, unsigned long);
-
 typedef struct { DWCiMemFree free; DWCiMemAlloc alloc; } DWCiMemFunc;
 
-extern void *DWC_AllocEx(int name, unsigned long size, int tag);
-
-#include "mi_memory.h"
-void *DWCi_GetAllocateHeader(char *p);
-void *DWCi_SetAllocateHeader(void *ptr, unsigned long size);
-void DWCi_SetMemFunc(DWCiMemAlloc alloc, DWCiMemFree free);
-void *DWC_Alloc(int name, unsigned long size);
-void DWC_Free(int name, void *ptr, unsigned long size);
-void *DWC_Realloc(int name, void *ptr, unsigned long oldsize, unsigned long newsize);
-void *DWC_ReallocEx(int name, void *ptr, unsigned long oldsize, unsigned long newsize, int align);
-void *DWCi_GsMalloc(unsigned long size);
-void *DWCi_GsRealloc(void *ptr, unsigned long size);
-void DWCi_GsFree(void *ptr);
-void *DWCi_GsMemalign(unsigned long boundary, unsigned long size);
 static DWCiMemFunc s_mem;
 
 void *DWCi_GetAllocateHeader(char *p)

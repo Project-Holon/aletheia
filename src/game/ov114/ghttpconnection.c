@@ -47,6 +47,7 @@
  *   sGhttpHttp              0x021CE66C  data
  *   sGhttpServerAddressTerminators              0x021CE674  data
  */
+#include "../ov009/gsmemory.h"
 #include "ghttp_types.h"
 
 typedef struct {
@@ -56,26 +57,17 @@ typedef struct {
     GHIConnection **connections;
 } GHIGlobals;
 
-extern void *gsirealloc(void *ptr, unsigned long size);
-extern void *gsimalloc(unsigned long size);
-extern void gsifree(void *ptr);
-extern void ghiLock(void);
-extern void ghiUnlock(void);
-extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
-extern int ghiInitBuffer(GHIConnection *connection, GHIBuffer *buffer, int initialSize, int sizeIncrement);
+#include "ghttpcallbacks.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "ghttpbuffer.h"
 extern int ghiFreeConnection(GHIConnection *connection);
-extern void gsiCancelResolvingHostname(void *host);
-extern int shutdown(int sock, int how);
-extern int closesocketsure(int sock, int *notInCloseSocket);
-extern void ghiFreeBuffer(GHIBuffer *buffer);
-extern void ghiPostCleanupState(GHIConnection *connection);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern int shutdown(int, int);
-extern int closesocketsure(int, int *);
-extern void gsifree(void *);
-extern void ghiResetBuffer(GHIBuffer *);
-extern int strcspn(u8 *s, u8 *reject);
-extern char *goastrdup(char *src);
+#include "../ov009/gsplatformutil.h"
+#include "../ov009/gsplatformsocket.h"
+typedef int GHIPostingResult;
+#include "ghttppost.h"
+#include "../ov009/gsdebug.h"
+#include "../arm9/msl_string_str.h"
 int ghiFindFreeSlot(void);
 GHIConnection *ghiNewConnection(void);
 int ghiCloseConnection(GHIConnection *connection);
@@ -96,7 +88,6 @@ extern char sGhttpServerAddressTerminators[];
 
 
 
-extern int strncmp(u8 *s1, u8 *s2, u32 n);
 int ghiFindFreeSlot(void)
 {
     int newLen;

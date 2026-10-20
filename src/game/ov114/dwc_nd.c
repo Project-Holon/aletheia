@@ -47,42 +47,23 @@
  *   @16277         0x021CF348  data
  *   @16278         0x021CF35C  data
  */
+#include "../arm9/os_thread.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_nd_types.h"
+#include "dwci_nd.h"
 
 struct DWCNdFileInfo;
 
-extern void *DWC_AllocEx(int name, unsigned long size, int align);
-extern void DWC_Free(int name, void *ptr, unsigned long size);
-void OS_JoinThread(void *thread);
+#include "../arm9/dwc_memfunc.h"
 #include "../sdk_os.h"
 
-void OS_LockMutex(struct OSMutex *mutex);
-void OS_UnlockMutex(struct OSMutex *mutex);
-extern int DWC_SVLProcess(void);
-extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
-extern int DWC_Base64Encode(char *src, u32 srclen, char *dst, u32 dstlen);
-extern int DWCi_NdStartup(void *(*alloc)(unsigned long, int), void (*free)(void *), char *url,
-                         char *token, char *gameCode, char *password,
-                         void (*callback)(int, int, int));
-extern int DWC_GetLastError(int *errorCode);
-extern void DWCi_SetError(int error, int errorCode);
-extern void OS_Sleep(u32 msec);
-extern void DWCi_NdSetError(int error, int serverError);
-extern int DWCi_IsError(void);
-extern void OS_InitMutex(struct OSMutex *mutex);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
+#include "../arm9/os_mutex.h"
+#include "../ov009/dwc_nasfunc.h"
+#include "../arm9/os_printf.h"
+#include "../arm9/dwc_base64.h"
+#include "../arm9/dwc_error.h"
+#include "../arm9/mi_memory.h"
 extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
-extern int DWC_SVLGetTokenAsync(char *svl, void *result);
-extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack,
-                          unsigned long stackSize, unsigned long prio);
-extern void OS_WakeupThreadDirect(void *thread);
-extern void DWCi_NdCleanupAsync(void (*callback)(void));
-extern int DWCi_NdSetAttr(char *attr1, char *attr2, char *attr3);
-extern int DWCi_NdGetFileListAsync(struct DWCNdFileInfo *filelist, int offset, int num);
-extern int DWCi_NdGetFileAsync(struct DWCNdFileInfo *fileInfo, char *buffer, unsigned int bufferSize, char *opt);
-extern int DWCi_NdCancelAsync(void);
-extern int DWCi_NdGetProgress(unsigned long *received, unsigned long *contentLength);
 void *DWCi_NdAlloc(unsigned long size, int align);
 void DWCi_NdFree(void *ptr);
 void DWCi_NdCleanupCallback(void);
@@ -119,7 +100,7 @@ void DWCi_NdFree(void *ptr)
  */
 void DWCi_NdCleanupCallback(void)
 {
-    OS_JoinThread(gDwcNdState.param->thread);
+    OS_JoinThread(&gDwcNdState.param->thread);
     DWCi_NdFree(gDwcNdState.param);
     gDwcNdState.param = 0;
     OS_LockMutex((struct OSMutex *)gDwcNdMutex);
@@ -226,9 +207,9 @@ int DWC_NdInitAsync(DWCNdCallback callback, char *gameCode, char *password)
         gDwcNdState.param = 0;
         return 0;
     }
-    OS_CreateThread(gDwcNdState.param->thread, DWCi_SVLTokenWaitThread, 0,
+    OS_CreateThread(&gDwcNdState.param->thread, DWCi_SVLTokenWaitThread, 0,
                   gDwcNdState.param->stack + sizeof(gDwcNdState.param->stack), 0x800, 0x10);
-    OS_WakeupThreadDirect(gDwcNdState.param->thread);
+    OS_WakeupThreadDirect(&gDwcNdState.param->thread);
     return 1;
 }
 

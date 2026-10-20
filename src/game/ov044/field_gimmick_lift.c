@@ -53,40 +53,21 @@ struct GameEvent;
 struct FieldMap;
 struct FldExpObjCnt;
 
-extern struct FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
-extern u16 FIELDMAP_GetHeapId(u8 *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(unsigned char *fieldMap, int id, int a, int size);
-extern void  FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
-extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, int model);
-extern void FLD_EXP_OBJ_SetModelCullDraw(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 cullDraw);
+#include "../ov021/fieldmap.h"
 struct FldExpObjAnime;
-extern struct FldExpObjAnime *FLD_EXP_OBJ_GetAnime(struct FldExpObjCnt *cnt, s32 unitIdx, u32 modelIdx, s32 animeIdx);
-extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, s32 loop);
-extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, s32 paused);
-extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, s32 id);
-extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, s32 id);
-extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, u16 unitIdx);
-extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
+#include "../ov021/fld_exp_obj.h"
+struct FldExpObjAnime;
 struct GameSystem;
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
-extern void  FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 animeIdx, s32 enable);
-extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *eventFunc, u32 size);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
+#include "../arm9/gamesystem.h"
 struct FieldCamera;
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
-extern u32 FIELD_CAMERA_GetTraceTarget(u8 *camera);
-extern void FIELD_CAMERA_StopTargetTrace(u8 *camera);
-extern void FIELD_CAMERA_SetTraceTarget(u8 *camera, int target);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpObjAnime *anime);
-extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
-extern void FIELD_PLAYER_GetPos(unsigned char *player, VecFx32 *out);
-extern void FIELD_PLAYER_SetPos(u8 *player, VecFx32 *pos);
-extern void FLD_EXP_OBJ_SetAnimeFrame(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 animeIdx, s32 frame);
+#include "../ov021/field_camera.h"
+#include "../arm9/gfl_use.h"
+#include "../ov021/field_player.h"
+#include "../arm9/game_event.h"
 void FIELD_GIMMICK_LIFT_Init(void *fieldMap);
 void FIELD_GIMMICK_LIFT_Exit(u8 *fieldMap);
 void FIELD_GIMMICK_LIFT_Update(void *fieldMap);
-void FIELD_GIMMICK_LIFT_CallEvent(void *gameSystem, int isDescending);
+struct GameEvent *FIELD_GIMMICK_LIFT_CallEvent(struct GameSystem *gameSystem, int isDescending);
 int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq);
 int FIELD_GIMMICK_LIFT_IsLiftArrived(FieldGimmickLiftWork *work);
 void FIELD_GIMMICK_LIFT_ShowIdleAnime(void *expObj);
@@ -102,8 +83,8 @@ void FIELD_GIMMICK_LIFT_Init(void *fieldMap)
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickLiftWork));
-    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &sLiftExpObjUnitDesc, 0);
-    modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0);
+    FLD_EXP_OBJ_AddUnitFromArchive(expObj, (const struct G3dUtilSetup *)&sLiftExpObjUnitDesc, 0);
+    modelPos = ((VecFx32 *)FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0));
     *modelPos = sLiftLiftStartPos;
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, 0, 1);
     for (animeIdx = 0; animeIdx < 2; animeIdx++) {
@@ -129,7 +110,7 @@ void FIELD_GIMMICK_LIFT_Update(void *fieldMap)
 }
 
 
-void FIELD_GIMMICK_LIFT_CallEvent(void *gameSystem, int isDescending)
+struct GameEvent *FIELD_GIMMICK_LIFT_CallEvent(struct GameSystem *gameSystem, int isDescending)
 {
     void *fieldMap;
     FieldGimmickLiftWork *work;
@@ -156,7 +137,7 @@ void FIELD_GIMMICK_LIFT_CallEvent(void *gameSystem, int isDescending)
         step = 0x2000;
     }
     work->stepY = step;
-    GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_LIFT_LiftEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_LIFT_LiftEventMain, 0);
 }
 
 
@@ -169,14 +150,14 @@ int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq)
     void *fieldMap;
     void *expObj;
     FieldGimmickLiftWork *work;
-    u8 *camera;
+    struct FieldCamera *camera;
     void *player;
     VecFx32 pos;
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    camera = (u8 *)FIELDMAP_GetCamera(fieldMap);
+    camera = (struct FieldCamera *)FIELDMAP_GetCamera(fieldMap);
     switch (*seq) {
     case 0:
         if (work->isDescending != 0) {
@@ -195,7 +176,7 @@ int FIELD_GIMMICK_LIFT_LiftEventMain(void *event, int *seq)
             }
             (*seq)++;
         }
-        FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->y = work->curY;
+        ((VecFx32 *)FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0))->y = work->curY;
         player = FIELDMAP_GetFieldPlayer(fieldMap);
         FIELD_PLAYER_GetPos(player, &pos);
         pos.y = work->curY;
@@ -257,17 +238,17 @@ void FIELD_GIMMICK_LIFT_SnapLiftToBottom(void *gameSystem)
     void *fieldMap;
     void *expObj;
     FieldGimmickLiftWork *work;
-    u8 *camera;
+    struct FieldCamera *camera;
     void *player;
     VecFx32 pos;
 
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    camera = (u8 *)FIELDMAP_GetCamera(fieldMap);
+    camera = (struct FieldCamera *)FIELDMAP_GetCamera(fieldMap);
     work->savedCameraTarget = FIELD_CAMERA_GetTraceTarget(camera);
     FIELD_CAMERA_StopTargetTrace(camera);
-    FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->y = -0x50000;
+    ((VecFx32 *)FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0))->y = -0x50000;
     player = FIELDMAP_GetFieldPlayer(fieldMap);
     FIELD_PLAYER_GetPos(player, &pos);
     pos.y = -0x50000;

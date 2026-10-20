@@ -1,13 +1,13 @@
 #ifndef BTLV_TIMER_SHARED_TYPES_H
 #define BTLV_TIMER_SHARED_TYPES_H
 
-#include "btlv_effvm_types.h"
+#include "../ov094/btlv_effvm_types.h"
 
 #include "../types.h"
 
 struct ClactActor;
 
-struct ClactUnit;
+struct Unit;
 
 struct Task;
 
@@ -29,7 +29,7 @@ typedef struct {
 
 /* Two-sided battle timer (0x78 bytes): one clock per side of the field. */
 typedef struct BtlvTimer {
-    struct ClactUnit *unit[2];      /* 0x00 */
+    struct Unit *unit[2];      /* 0x00 */
     BtlvTimerSide side[2];          /* 0x08 */
     s32 charResId;                  /* 0x40 */
     s32 cellResId;                  /* 0x44 */

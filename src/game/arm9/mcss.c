@@ -154,24 +154,6 @@ struct McssTransTask;
 
 struct AnimBank;
 
-/*
- * What to load for one sprite: the archive and the member ids of its
- * resources.  Built by the MCSS_TOOL_MakeAddWork functions, stored in the
- * work at +0x150 so the resources can be reloaded.  heapMode 1 puts the
- * resources into the 0x8000 heap bank.
- */
-typedef struct McssAddWork {
-    u32 arcId;                          /* 0x00 */
-    u32 textureMember;                  /* 0x04 */
-    u32 paletteMember;                  /* 0x08 */
-    u32 cellMember;                     /* 0x0C */
-    u32 cellAnimMember;                 /* 0x10 */
-    u32 multiCellMember;                /* 0x14 */
-    u32 multiCellAnimMember;            /* 0x18 */
-    u32 cellHeaderMember;               /* 0x1C */
-    u32 heapMode;                       /* 0x20 */
-} McssAddWork;
-
 /* Called after a sprite's resources are loaded; returns 1 to unhook itself. */
 typedef u32 (*McssLoadHook)(const McssAddWork *addWork, struct McssTransTask *task, u32 hookWork);
 
@@ -419,7 +401,7 @@ extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
 
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
-extern void *GFL_USE_AddMainTask(void *fn, void *work, u32 priority);
+#include "gfl_use.h"
 
 extern void MCSS_CloseHandle(McssSys *sys);
 struct TcblSystem;
@@ -437,7 +419,6 @@ struct MultiCellAnim;
 extern void MCSS_RestartAnime(McssWork *work);
 
 extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-
 extern void  ARC_TOOL_DeleteHandle(void *arcHandle);
 
 extern void MCSS_FreeResource(McssWork *work);
@@ -473,36 +454,24 @@ struct AnimSequenceData;
 #include "nns_g2d_anim_bank.h"
 
 
-extern void *TCB_AddTask(void *taskSys, void *callback, void *work, int priority);
 
 extern void  PALANM_BlendColors(void *src, void *dst, u16 count, int fadeLevel, u16 fadeColor);
 
 
 
 extern void *ARC_UTIL_LoadCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
-
 extern void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
-
 extern void *ARC_UTIL_LoadAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
-
 extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
-
 extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-
-
 extern void *ARC_UTIL_LoadCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
-
 extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
-
 extern void *ARC_UTIL_LoadAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
-
 extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 struct ArcHandle;
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
-
 extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 struct VramHandle;
 struct VramResource;
@@ -684,9 +653,9 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork);
 
 void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork);
 
-void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task);
+void MCSS_TransTextureTask(struct TcbTask *taskHandle, void *taskWork);
 
-void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task);
+void MCSS_TransPaletteTask(struct TcbTask *taskHandle, void *taskWork);
 
 void MCSS_InitAnimCtrl(McssWork *work, int kind);
 
@@ -767,7 +736,7 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
     task->plttProxyOut = &sys->shadowPltt;
     task->plttDest = 0x1100;
     task->plttBuf = ARC_UTIL_LoadPaletteBlockFromArchive((u32)0xb, (u32)0x58, (&task->plttData), (u16)subHeapId);
-    sys->shadowPlttTask = GFL_USE_AddMainTask((void *)MCSS_TransTextureTask, task, 0);
+    sys->shadowPlttTask = GFL_USE_AddMainTask(MCSS_TransTextureTask, task, 0);
     return sys;
 }
 
@@ -1998,6 +1967,9 @@ u8 MCSS_GetStopCellFlags(McssWork *work)
 int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg)
 {
     NNS_G2dSetCellAnimationParam((struct CellAnim *)&work->animCtrl, 1, callback, callbackWork);
+#ifndef __MWERKS__
+    return 0; /* the DS returns whatever NNS_G2dSetCellAnimationParam leaves in r0 */
+#endif
 }
 
 void MCSS_SetCellCallback(McssWork *work, unsigned flags, void *callback)
@@ -2290,8 +2262,7 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
 
     if (work->flags.bits.paletteFadeFlag == 0) {
         if (sys->taskSys != 0) {
-            work->paletteTask = TCB_AddTask(sys->taskSys,
-                                             MCSS_TransPaletteTask, task, 0);
+            work->paletteTask = TCB_AddTask(sys->taskSys, MCSS_TransPaletteTask, task, 0);
         } else {
             work->paletteTask = GFL_USE_AddMainTask(MCSS_TransPaletteTask, task, 0);
         }
@@ -2584,8 +2555,10 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     }
 }
 
-void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task)
+void MCSS_TransTextureTask(struct TcbTask *taskHandle, void *taskWork)
 {
+    McssTransTask *task = taskWork;
+
     if (task->hasTaskSys == 0) {
         u32 scanline = *(volatile u16 *)0x04000006;
 
@@ -2614,8 +2587,10 @@ void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task)
     TCB_DeleteTask(taskHandle);
 }
 
-void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task)
+void MCSS_TransPaletteTask(struct TcbTask *taskHandle, void *taskWork)
 {
+    McssTransTask *task = taskWork;
+
     if (task->hasTaskSys == 0) {
         u32 scanline = *(volatile u16 *)0x04000006;
 

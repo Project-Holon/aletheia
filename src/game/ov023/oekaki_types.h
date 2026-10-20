@@ -111,25 +111,7 @@ typedef struct MemberSlot {
     UnionAppEntry *previous;  /* 0x04 */
 } MemberSlot;
 
-/* One item of the yes/no menu. */
-typedef struct MenuItem {
-    StrBuf *text;        /* 0x00 */
-    u16 color;           /* 0x04 */
-    u32 result;          /* 0x08 value the menu returns for this item */
-} MenuItem;
-
-/* Template of the yes/no menu. */
-typedef struct MenuTemplate {
-    u32 heapId;          /* 0x00 */
-    u8  itemCount;       /* 0x04 */
-    u8  pad05[3];
-    MenuItem *items;     /* 0x08 */
-    u32 flags;           /* 0x0C */
-    u8  x;               /* 0x10 */
-    u8  y;               /* 0x11 */
-    u8  width;           /* 0x12 */
-    u8  height;          /* 0x13 */
-} MenuTemplate;
+#include "../arm9/app_taskmenu.h"
 
 /* Resources of one sprite set: character, palette and cell data. */
 typedef struct SpriteResSet {
@@ -141,7 +123,7 @@ typedef struct SpriteResSet {
 typedef struct OekakiWork {
     u8  pad00[4];
     OekakiParam *param;              /* 0x004 */
-    void *vblankTask;                /* 0x008 task that runs every vertical blank */
+    struct TcbTask *vblankTask;                /* 0x008 task that runs every vertical blank */
     void *font;                      /* 0x00C GfFont */
     struct WordSet *wordSet;         /* 0x010 */
     struct MsgBank *msgBank;         /* 0x014 */
@@ -166,13 +148,13 @@ typedef struct OekakiWork {
     struct BmpWin *messageWindow;    /* 0x11C */
     u8  pad120[0xC];
     PrintJob printJob[7];            /* 0x12C 0..4 name plates, 6 message window */
-    TextPrinter *namePrinter;        /* 0x164 */
-    TextPrinter *messagePrinter;     /* 0x168 */
+    struct PrintQueue *namePrinter;        /* 0x164 */
+    struct PrintQueue *messagePrinter;     /* 0x168 */
     void *messageStream;             /* 0x16C running message print, 0 if none */
-    TcbList *taskList;               /* 0x170 */
+    struct TcblSystem *taskList;               /* 0x170 */
     TaskMenuRes *menuRes;            /* 0x174 */
     TaskMenu *menu;                  /* 0x178 yes/no menu, 0 if closed */
-    MenuItem menuItem[2];            /* 0x17C */
+    TaskMenuItem menuItem[2];            /* 0x17C */
     int state;                       /* 0x194 state of the main step */
     int scene;                       /* 0x198 current step (index of the step table) */
     int nextScene;                   /* 0x19C */

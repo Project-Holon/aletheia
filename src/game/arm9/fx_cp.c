@@ -18,23 +18,24 @@
  *   FX_GetSqrtResult   0x0207C904  arm
  *   FX_SqrtAsync           0x0207C8D0  arm
  */
-#define reg_CP_SQRTCNT      (*(volatile u16 *)0x040002B0)
-#define reg_CP_SQRT_RESULT  (*(volatile u32 *)0x040002B4)
-#define reg_CP_SQRT_PARAM   (*(volatile u64 *)0x040002B8)
-#define reg_CP_DIVCNT       (*(volatile u16 *)0x04000280)
-#define reg_CP_DIV_NUMER    (*(volatile u64 *)0x04000290)
-#define reg_CP_DIV_DENOM    (*(volatile u64 *)0x04000298)
-#define reg_CP_DIV_RESULT   (*(volatile u64 *)0x040002A0)
-#define reg_CP_DIV_NUMER32  (*(volatile u32 *)0x04000290)
-#define reg_CP_DIV_REM32    (*(volatile u32 *)0x040002A8)
-#define reg_CP_SQRT_PARAM_PLAIN   (*(u64 *)0x040002B8)
-#define REG_DIVCNT      (*(volatile u16 *)0x04000280)
-#define REG_DIV_NUMER   (*(volatile s32 *)0x04000290)
-#define REG_DIV_DENOM   (*(volatile u64 *)0x04000298)
-#define REG_DIV_RESULT  (*(volatile s32 *)0x040002A0)
+#define reg_CP_SQRTCNT      (*(volatile u16 *)REG_SQRTCNT_ADDR)
+#define reg_CP_SQRT_RESULT  (*(volatile u32 *)REG_SQRT_RESULT_ADDR)
+#define reg_CP_SQRT_PARAM   (*(volatile u64 *)REG_SQRT_PARAM_ADDR)
+#define reg_CP_DIVCNT       (*(volatile u16 *)REG_DIVCNT_ADDR)
+#define reg_CP_DIV_NUMER    (*(volatile u64 *)REG_DIV_NUMER_ADDR)
+#define reg_CP_DIV_DENOM    (*(volatile u64 *)REG_DIV_DENOM_ADDR)
+#define reg_CP_DIV_RESULT   (*(volatile u64 *)REG_DIV_RESULT_ADDR)
+#define reg_CP_DIV_NUMER32  (*(volatile u32 *)REG_DIV_NUMER_ADDR)
+#define reg_CP_DIV_REM32    (*(volatile u32 *)REG_DIVREM_RESULT_ADDR)
+#define reg_CP_SQRT_PARAM_PLAIN   (*(u64 *)REG_SQRT_PARAM_ADDR)
+#define REG_DIVCNT      (*(volatile u16 *)REG_DIVCNT_ADDR)
+#define REG_DIV_NUMER   (*(volatile s32 *)REG_DIV_NUMER_ADDR)
+#define REG_DIV_DENOM   (*(volatile u64 *)REG_DIV_DENOM_ADDR)
+#define REG_DIV_RESULT  (*(volatile s32 *)REG_DIV_RESULT_ADDR)
 #define DIVCNT_MODE_32_32 0x0000
 #define DIVCNT_BUSY       0x8000
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_fx.h"
 
@@ -119,7 +120,7 @@ fx64 FX_InvFx64c(fx32 denom)
 {
     FX_InvAsync(denom);
     CP_WaitDiv();
-    return *(fx64 *)0x040002A0;
+    return *(fx64 *)REG_DIV_RESULT_ADDR;
 }
 
 /*
@@ -155,9 +156,9 @@ fx32 FX_InvSqrt(fx32 x)
 
 u64 FX_GetDivResultFx64c(void)
 {
-    while (*(volatile u16 *)0x04000280 & 0x8000)
+    while (*(volatile u16 *)REG_DIVCNT_ADDR & 0x8000)
         ;
-    return *(u64 *)0x040002A0;
+    return *(u64 *)REG_DIV_RESULT_ADDR;
 }
 
 /*
@@ -169,10 +170,10 @@ u32 FX_GetDivResult(void)
 {
     u64 v;
 
-    while (*(vu16 *)0x04000280 & 0x8000) {
+    while (*(vu16 *)REG_DIVCNT_ADDR & 0x8000) {
         /* wait for the divider */
     }
-    v = *(u64 *)0x040002A0;
+    v = *(u64 *)REG_DIV_RESULT_ADDR;
     return (u32)((v + 0x80000) >> 20);
 }
 
@@ -223,7 +224,7 @@ fx32 FX_GetSqrtResult(void)
  */
 void FX_DivAsync(s32 numer, s32 denom)
 {
-    vu32 *base = (vu32 *)0x04000280;
+    vu32 *base = (vu32 *)REG_DIVCNT_ADDR;
 
     *(vu16 *)base = 1;
     base[4] = 0;

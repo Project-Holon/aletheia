@@ -80,7 +80,7 @@ typedef struct FieldCommActorCtrl {
 /* Move procedure work of an actor model (0x10 bytes): pointers into the comm player entry. */
 typedef struct FieldCommActorMoveWork {
     const u16 *dir;
-    const MmdlVec *pos;
+    const VecFx32 *pos;
     const int *vanish;
     FieldCommActor *actor;
 } FieldCommActorMoveWork;
@@ -94,15 +94,14 @@ typedef struct SubscreenChangeEventWork {
     u8 seq;
 } SubscreenChangeEventWork;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 MI_CpuFill8(void *dst, int value, int size);
-extern int FLDMMDL_GetGridNowY(Mmdl *mmdl);
-extern int FLDMMDL_MOVE_IsGridInObjectRect(Mmdl *mmdl, int gridX, int gridZ, int flag);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+extern short FLDMMDL_GetGridNowY(Mmdl *mmdl);
+#include "../ov010/fldmmdl_move.h"
 struct Mmdl;
 extern void FLDMMDL_DeleteMmdl(Mmdl *mmdl);
 extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
-extern void FLDMMDL_InitPosition(Mmdl *mmdl, const MmdlVec *pos, int dir);
+extern void FLDMMDL_InitPosition(Mmdl *mmdl, const VecFx32 *pos, int dir);
 extern void FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
 extern void FLDMMDL_SetStatusBitAttrGetOff(Mmdl *mmdl, int flag);
 extern void FLDMMDL_SetStatusBitZoneDeleteOff(Mmdl *mmdl, int flag);
@@ -112,35 +111,30 @@ extern void FLDMMDL_SetMoveBitAttrEffectOff(Mmdl *mmdl, int flag);
 extern void *FLDMMDL_InitMoveProcWork(Mmdl *mmdl, int size);
 extern void *FLDMMDL_GetMoveProcWork(Mmdl *mmdl);
 extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, MmdlVec *out);
+extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
 extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, int status);
 extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, int flag);
-extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*callback)(struct GameEvent *, int *, void *), u32 workSize);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern int FIELD_SUBSCREEN_IsIdle(struct FieldSubscreen *subscreen);
-extern MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "fieldmap.h"
+#include "../arm9/game_event.h"
+#include "field_subscreen.h"
+#include "../arm9/gamesystem.h"
 extern void FLDMMDL_SysPauseMove(MmdlSys *mmdlSys);
-extern void GAME_DATA_SetFieldMenuCursor(struct GameData *gameData, u8 flag);
-extern int FIELD_SUBSCREEN_RequestMode(struct FieldSubscreen *subscreen, u32 mode);
-extern void GAME_DATA_SetSubscreenType(struct GameData *gameData, u32 mode);
+#include "../arm9/game_data.h"
 extern void FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
 FieldCommActorCtrl *FIELD_COMM_ACTOR_CTRL_Create(int actorMax, MmdlSys *mmdlSys, int heapId, int useRunAnime);
 void FIELD_COMM_ACTOR_CTRL_Delete(FieldCommActorCtrl *ctrl);
-void FIELD_COMM_ACTOR_CTRL_AddActor(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish);
+void FIELD_COMM_ACTOR_CTRL_AddActor(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir, const VecFx32 *pos, const int *vanish);
 void FIELD_COMM_ACTOR_CTRL_DeleteActor(FieldCommActorCtrl *ctrl, u32 id);
 int FIELD_COMM_ACTOR_CTRL_SearchGridPos(FieldCommActorCtrl *ctrl, s16 gridX, int gridY, s16 gridZ, int *outId, unsigned *index);
 Mmdl *FIELD_COMM_ACTOR_CTRL_GetMmdl(FieldCommActorCtrl *ctrl, u32 id);
-int FIELD_COMM_ACTOR_DeleteActor(FieldCommActor *actor);
-Mmdl *FIELD_COMM_ACTOR_AddMmdl(FieldCommActorCtrl *ctrl, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor);
+void FIELD_COMM_ACTOR_DeleteActor(FieldCommActor *actor);
+Mmdl *FIELD_COMM_ACTOR_AddMmdl(FieldCommActorCtrl *ctrl, int objCode, const u16 *dir, const VecFx32 *pos, const int *vanish, FieldCommActor *actor);
 void FIELD_COMM_ACTOR_MoveInit(Mmdl *mmdl);
 void FIELD_COMM_ACTOR_MoveDelete(Mmdl *mmdl);
 void FIELD_COMM_ACTOR_Move(Mmdl *mmdl);
-void FIELD_COMM_ACTOR_SetMoveWork(Mmdl *mmdl, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor);
+void FIELD_COMM_ACTOR_SetMoveWork(Mmdl *mmdl, const u16 *dir, const VecFx32 *pos, const int *vanish, FieldCommActor *actor);
 int FIELD_COMM_ACTOR_ConvertDir(int dir);
 struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 mode);
 int FIELD_COMM_ACTOR_SubscreenChangeMain(struct GameEvent *event, int *seq, void *work);
@@ -176,7 +170,7 @@ void FIELD_COMM_ACTOR_CTRL_Delete(FieldCommActorCtrl *ctrl)
     GFL_HEAP_Free(ctrl);
 }
 
-void FIELD_COMM_ACTOR_CTRL_AddActor(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish)
+void FIELD_COMM_ACTOR_CTRL_AddActor(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir, const VecFx32 *pos, const int *vanish)
 {
     u16 i;
     FieldCommActor *actor = ctrl->actors;
@@ -251,15 +245,15 @@ Mmdl *FIELD_COMM_ACTOR_CTRL_GetMmdl(FieldCommActorCtrl *ctrl, u32 id)
     return 0;
 }
 
-int FIELD_COMM_ACTOR_DeleteActor(FieldCommActor *actor)
+void FIELD_COMM_ACTOR_DeleteActor(FieldCommActor *actor)
 {
     if (actor->isMmdlDeleted == 0) {
         FLDMMDL_DeleteMmdl(actor->mmdl);
     }
-    return MI_CpuFill8(actor, 0, sizeof(FieldCommActor));
+    MI_CpuFill8(actor, 0, sizeof(FieldCommActor));
 }
 
-Mmdl *FIELD_COMM_ACTOR_AddMmdl(FieldCommActorCtrl *ctrl, int objCode, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor)
+Mmdl *FIELD_COMM_ACTOR_AddMmdl(FieldCommActorCtrl *ctrl, int objCode, const u16 *dir, const VecFx32 *pos, const int *vanish, FieldCommActor *actor)
 {
     MmdlSys *mmdlSys = ctrl->mmdlSys;
     MmdlHeader header = sCommActorMmdlHeader;
@@ -289,10 +283,10 @@ void FIELD_COMM_ACTOR_MoveDelete(Mmdl *mmdl)
 
 void FIELD_COMM_ACTOR_Move(Mmdl *mmdl)
 {
-    MmdlVec nowPos;
+    VecFx32 nowPos;
     FieldCommActorMoveWork *work;
     int drawStatus;
-    const MmdlVec *pos;
+    const VecFx32 *pos;
     int objCode;
     int diff;
     work = FLDMMDL_GetMoveProcWork(mmdl);
@@ -331,7 +325,7 @@ void FIELD_COMM_ACTOR_Move(Mmdl *mmdl)
     }
 }
 
-void FIELD_COMM_ACTOR_SetMoveWork(Mmdl *mmdl, const u16 *dir, const MmdlVec *pos, const int *vanish, FieldCommActor *actor)
+void FIELD_COMM_ACTOR_SetMoveWork(Mmdl *mmdl, const u16 *dir, const VecFx32 *pos, const int *vanish, FieldCommActor *actor)
 {
     FieldCommActorMoveWork *work;
     work = FLDMMDL_GetMoveProcWork(mmdl);
@@ -352,7 +346,7 @@ struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem 
     struct GameEvent *event;
     SubscreenChangeEventWork *work;
     FIELDMAP_GetSubscreen(fieldMap);
-    event = GAME_EVENT_Create(gameSystem, 0, FIELD_COMM_ACTOR_SubscreenChangeMain, sizeof(SubscreenChangeEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_COMM_ACTOR_SubscreenChangeMain, sizeof(SubscreenChangeEventWork));
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, sizeof(SubscreenChangeEventWork));
     work->gameSystem = gameSystem;

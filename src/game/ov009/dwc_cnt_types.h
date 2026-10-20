@@ -8,8 +8,8 @@
  * (TransInfo, dwc_transport.c, 0x728 bytes).
  */
 
-#include "dwc_login_types.h"
-#include "dwc_match_ctl_types.h"
+#include "../ov009/dwc_login_types.h"
+#include "../ov009/dwc_match_ctl_types.h"
 
 /* gDwcGlobalState: the DWC global, one per process. */
 struct DWCstDwcCnt;

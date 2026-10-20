@@ -33,19 +33,11 @@
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "../types.h"
 
-typedef struct gsLargeInt_s {
-    u32 mLength;
-    u32 mData[64];
-} gsLargeInt_t;
+#include "../ov175/auth_types.h"
 
-typedef struct {
-    gsLargeInt_t modulus;
-    gsLargeInt_t exponent;
-} gsCryptRSAKey;
-
-extern int gsLargeIntReverseBytes(char *p);
-extern int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p, gsLargeInt_t *m, gsLargeInt_t *dest);
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+typedef int gsi_bool;
+#include "gslargeint.h"
+#include "../arm9/msl_string_mem.h"
 
 int gsCryptRSAVerifySignedHash(const gsCryptRSAKey *publicKey, const u8 *hash, u32 hashLen, const u8 *sig, u32 sigLen)
 {

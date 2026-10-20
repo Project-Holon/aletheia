@@ -58,23 +58,19 @@ typedef struct {
     u8 mac[6];
     unsigned char state;      /* 0x116 */
     unsigned char area[1];    /* 0x117 */
-} Work;
+} LibAossWork;
 
 typedef struct AossCtl AossCtl;
 
-extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
-extern void OS_GetMacAddress(u8 *mac);
-extern int AOSSi_InitLocal(void *(*alloc)(u32), void (*free)(void *));
-extern void OS_Terminate(void);
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_ownerinfo.h"
+#include "aosslink.h"
+#include "../arm9/os_terminate_processor.h"
 extern void aossFree(void *ptr);
-extern int AOSSi_EndLocal();
-extern void DWCi_SETTINGlSetAoss(void *area);
-extern void DWCi_HEAPlFree_(void **mem);
+#include "setting.h"
+#include "heap.h"
 struct aoss_info;
-extern int AOSSi_Init(struct aoss_info *aossInfo);
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void DWCi_HEAPlFree2(void *mem);
+#include "aoss.h"
 void DWCi_AOSSlInit(void);
 void DWCi_AOSSlEnd(int a);
 int DWCi_AOSSlStart(void);
@@ -98,14 +94,14 @@ void DWCi_AOSSlInit(void)
     pi.version = 0x50;
     pi.len = 12;
     MI_CpuCopy8(sLibAossDefaultName, pi.name, 12);
-    ((Work *)gLibaossBlock1.work)->kind = 3;
-    ((Work *)gLibaossBlock1.work)->pi = pi;
-    ((Work *)gLibaossBlock1.work)->reserved106 = 1;
-    ((Work *)gLibaossBlock1.work)->reserved108 = -1;
-    ((Work *)gLibaossBlock1.work)->reserved10a = 1;
-    ((Work *)gLibaossBlock1.work)->reserved10c = -1;
-    ((Work *)gLibaossBlock1.work)->reserved10e = -1;
-    OS_GetMacAddress(((Work *)gLibaossBlock1.work)->mac);
+    ((LibAossWork *)gLibaossBlock1.work)->kind = 3;
+    ((LibAossWork *)gLibaossBlock1.work)->pi = pi;
+    ((LibAossWork *)gLibaossBlock1.work)->reserved106 = 1;
+    ((LibAossWork *)gLibaossBlock1.work)->reserved108 = -1;
+    ((LibAossWork *)gLibaossBlock1.work)->reserved10a = 1;
+    ((LibAossWork *)gLibaossBlock1.work)->reserved10c = -1;
+    ((LibAossWork *)gLibaossBlock1.work)->reserved10e = -1;
+    OS_GetMacAddress(((LibAossWork *)gLibaossBlock1.work)->mac);
     if (AOSSi_InitLocal(aossAlloc, aossFree))
         OS_Terminate();
 }
@@ -114,8 +110,8 @@ void DWCi_AOSSlEnd(int a)
 {
     AOSSi_EndLocal();
     if (a) {
-        if (((Work *)gLibaossBlock1.work)->state == 0 && gLibaossBlock1.status == 1)
-            DWCi_SETTINGlSetAoss(((Work *)gLibaossBlock1.work)->area);
+        if (((LibAossWork *)gLibaossBlock1.work)->state == 0 && gLibaossBlock1.status == 1)
+            DWCi_SETTINGlSetAoss(((LibAossWork *)gLibaossBlock1.work)->area);
     }
     DWCi_HEAPlFree_(&gLibaossBlock2);
 }
@@ -126,7 +122,7 @@ int DWCi_AOSSlStart(void)
         gLibaossBlock1.status = 1;
         return 1;
     }
-    if (((Work *)gLibaossBlock1.work)->state == 1 || (unsigned char)(((Work *)gLibaossBlock1.work)->state + 0xFD) <= 2)
+    if (((LibAossWork *)gLibaossBlock1.work)->state == 1 || (unsigned char)(((LibAossWork *)gLibaossBlock1.work)->state + 0xFD) <= 2)
         return 0;
     return 2;
 }

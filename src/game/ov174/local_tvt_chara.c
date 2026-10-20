@@ -65,7 +65,7 @@
  */
 
 #include "local_tvt_sys_shared_types.h"
-extern void BG_SYS_PushTile(u32 index);
+#include "../arm9/bg_sys.h"
 
 /* Opaque CLACT sprite actor, shared with the actor library. */
 struct ClactActor;
@@ -120,100 +120,73 @@ typedef struct {
     u16 id;         /* 0x04 actor selector: 0 or 1 */
     u8 mode;        /* 0x06 */
     u8 space;       /* 0x07 */
-} Request;
+} LocalTvtCharaRequest;
 
 /* Compile-time check of the allocation size used in LOCAL_TVT_CHARA_Create. */
 typedef char LocalTvtChara_size_check[(sizeof(struct LocalTvtChara)==0x3C)?1:-1];
-struct Actor;
+struct ClactActor;
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_ReleasePalette(u32 i);
 
-extern void CLACT_ReleaseCharacter(u32 i);
 
-extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern unsigned int GFL_USE_GetRandomBelow(unsigned int range);
+#include "../arm9/gfl_use.h"
 struct GameData;
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
 
-extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern struct ClactActor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern void CLACT_RestartActorAnim(struct Actor *actor);
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 
-extern unsigned int WORDSET_Delete(struct WordSet *p);
+#include "../arm9/wordset.h"
 
-extern unsigned int BMP_WIN_Delete(struct BmpWin *d);
+#include "../arm9/bmp_win.h"
 
-extern void BG_SYS_MarkTileDirty(unsigned);
 
-extern void BMP_Clear(struct Bmp *buf, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *d);
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+#include "../arm9/gf_font.h"
 
-extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+#include "../arm9/printsys.h"
 
-extern unsigned GFL_USE_GetRandom(unsigned);
 
-extern void CLACT_StartActorAnim(struct Actor *actor);
 
-extern void CLACT_StopActorAnim(struct Actor *actor);
 
-extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 
-extern u16 CLACT_GetActorAnimSeqCount(struct Actor *actor);
 
-extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
+#include "../arm9/arc_util.h"
 
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
+#include "../arm9/clact.h"
 extern void MIi_CpuCopy32(int, int, int);
 struct GfFont;
 
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
 char *LOCAL_TVT_CHARA_Create(char *p,int index);
 
@@ -275,7 +248,7 @@ char *LOCAL_TVT_CHARA_Create(char *p,int index)
     return q;
 }
 
-void LOCAL_TVT_CHARA_Delete(unsigned char *unused,char *p) {CLACT_DeleteActor((struct Actor *)(((struct LocalTvtChara *)p)->actorA));CLACT_DeleteActor((struct Actor *)(((struct LocalTvtChara *)p)->actorB));CLACT_ReleasePalette(((struct LocalTvtChara *)p)->paletteHandle);CLACT_ReleaseCharacter(((struct LocalTvtChara *)p)->charHandle);CLACT_ReleaseCellAnim(((struct LocalTvtChara *)p)->cellHandle);BMP_WIN_Delete(((struct LocalTvtChara *)p)->window);if(((struct LocalTvtChara *)p)->gfx.handlePtr)GFL_HEAP_Free(((struct LocalTvtChara *)p)->gfx.handlePtr);GFL_HEAP_Free(p);}
+void LOCAL_TVT_CHARA_Delete(unsigned char *unused,char *p) {CLACT_DeleteActor((struct ClactActor *)(((struct LocalTvtChara *)p)->actorA));CLACT_DeleteActor((struct ClactActor *)(((struct LocalTvtChara *)p)->actorB));CLACT_ReleasePalette(((struct LocalTvtChara *)p)->paletteHandle);CLACT_ReleaseCharacter(((struct LocalTvtChara *)p)->charHandle);CLACT_ReleaseCellAnim(((struct LocalTvtChara *)p)->cellHandle);BMP_WIN_Delete(((struct LocalTvtChara *)p)->window);if(((struct LocalTvtChara *)p)->gfx.handlePtr)GFL_HEAP_Free(((struct LocalTvtChara *)p)->gfx.handlePtr);GFL_HEAP_Free(p);}
 
 void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
 {
@@ -332,15 +305,15 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
     }
     ((struct LocalTvtChara *)q)->animTimer+=(u16)(GFL_USE_GetRandom(2)+1);
     if(((struct LocalTvtChara *)q)->animTimer>=150) {
-        CLACT_StartActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorA));
-        CLACT_RestartActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorA));
+        CLACT_StartActorAnim((struct ClactActor *)(((struct LocalTvtChara *)q)->actorA));
+        CLACT_RestartActorAnim((struct ClactActor *)(((struct LocalTvtChara *)q)->actorA));
         ((struct LocalTvtChara *)q)->animTimer=0;
     }
     if(((struct LocalTvtChara *)q)->active==1 || ((struct LocalTvtChara *)q)->counter!=0) {
-        if(CLACT_IsActorAnimActive((struct Actor *)(((struct LocalTvtChara *)q)->actorB))==0) CLACT_StartActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorB));
+        if(CLACT_IsActorAnimActive((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB))==0) CLACT_StartActorAnim((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB));
     } else {
-        if(CLACT_IsActorAnimActive((struct Actor *)(((struct LocalTvtChara *)q)->actorB))==1 && CLACT_GetActorAnimSeqCount((struct Actor *)(((struct LocalTvtChara *)q)->actorB))==0)
-            CLACT_StopActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorB));
+        if(CLACT_IsActorAnimActive((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB))==1 && CLACT_GetActorAnimSeqCount((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB))==0)
+            CLACT_StopActorAnim((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB));
     }
     if(((struct LocalTvtChara *)q)->counter!=0) (((struct LocalTvtChara *)q)->counter)--;
 }
@@ -378,7 +351,7 @@ void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q)
 {
     int step;
     int base;
-    Request req;
+    LocalTvtCharaRequest req;
     if (((struct LocalTvtSys *)p)->charaCount == 2) { step = 0x6000; base = 0; }
     else { step = 0x3000; base = 0x1c00; }
     LOCAL_TVT_CHARA_LoadPalette((char *)p, (char *)q, (d_021B7481 + 4)[((struct LocalTvtChara *)q)->charId * 3]);
@@ -395,15 +368,15 @@ void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q)
     req.y = (((struct LocalTvtChara *)q)->index / 2) * 96 + 48;
     if (((struct LocalTvtSys *)p)->charaCount == 2) req.y += 56;
     req.id = 0;
-    ((struct LocalTvtChara *)q)->actorA = CLACT_CreateActor(((struct LocalTvtSys *)p)->unit.ptr, ((struct LocalTvtChara *)q)->charHandle, ((struct LocalTvtChara *)q)->paletteHandle, ((struct LocalTvtChara *)q)->cellHandle, &req, 0, ((struct LocalTvtSys *)p)->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)(((struct LocalTvtChara *)q)->actorA), 1);
-    CLACT_SetActorAutoAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorA), 1);
-    CLACT_StopActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorA));
+    ((struct LocalTvtChara *)q)->actorA = CLACT_CreateActor(((struct LocalTvtSys *)p)->unit.ptr, ((struct LocalTvtChara *)q)->charHandle, ((struct LocalTvtChara *)q)->paletteHandle, ((struct LocalTvtChara *)q)->cellHandle, (const struct ActorInitParam *)&req, 0, ((struct LocalTvtSys *)p)->heapId);
+    CLACT_SetActorDrawEnable((struct ClactActor *)(((struct LocalTvtChara *)q)->actorA), 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)(((struct LocalTvtChara *)q)->actorA), 1);
+    CLACT_StopActorAnim((struct ClactActor *)(((struct LocalTvtChara *)q)->actorA));
     req.id = 1;
-    ((struct LocalTvtChara *)q)->actorB = CLACT_CreateActor(((struct LocalTvtSys *)p)->unit.ptr, ((struct LocalTvtChara *)q)->charHandle, ((struct LocalTvtChara *)q)->paletteHandle, ((struct LocalTvtChara *)q)->cellHandle, &req, 0, ((struct LocalTvtSys *)p)->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)(((struct LocalTvtChara *)q)->actorB), 1);
-    CLACT_SetActorAutoAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorB), 1);
-    CLACT_StopActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorB));
+    ((struct LocalTvtChara *)q)->actorB = CLACT_CreateActor(((struct LocalTvtSys *)p)->unit.ptr, ((struct LocalTvtChara *)q)->charHandle, ((struct LocalTvtChara *)q)->paletteHandle, ((struct LocalTvtChara *)q)->cellHandle, (const struct ActorInitParam *)&req, 0, ((struct LocalTvtSys *)p)->heapId);
+    CLACT_SetActorDrawEnable((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB), 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB), 1);
+    CLACT_StopActorAnim((struct ClactActor *)(((struct LocalTvtChara *)q)->actorB));
 }
 
 void LOCAL_TVT_CHARA_LoadPalette(char *p, char *q, int id) {((struct LocalTvtChara *)q)->gfx.handlePtr=ARC_UTIL_LoadBgCharDataFromHandle((void *)(((struct LocalTvtSys *)p)->arcHandle),(unsigned int)id,(unsigned int)0,(&((struct LocalTvtChara *)q)->tileSrc),((struct LocalTvtSys *)p)->heapId);}

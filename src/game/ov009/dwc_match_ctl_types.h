@@ -7,13 +7,7 @@
  * dwc_match_1, dwc_match_3 and dwc_match_13.
  */
 
-#if !defined(OV009_DWC_BASIC_TYPES) && !defined(ALETHEIA_OV009_DWC_LOGIN_TYPES_H)
-#define OV009_DWC_BASIC_TYPES
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long long u64;
-#endif
+#include "../types.h"
 
 #include "../ov009/qr2_types.h"
 

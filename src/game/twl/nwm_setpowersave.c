@@ -25,13 +25,11 @@ typedef struct TwlWork {
     u8 *busy;
 } TwlWork;
 
-extern u32 NWMi_CheckState(u32 n, ...);
-extern unsigned int NWMi_GetSystemWork(void);
-extern void DC_InvalidateRange(u8 *, u32);
-extern void NWMi_SetCallbackTable(u32, u32);
-extern u32 NWMi_SendCommand(unsigned short apiid, unsigned short argc, ...);
+#include "nwm_system.h"
+#include "../arm9/os_cache.h"
+#include "nwm_cmd.h"
 
-u32 NWM_SetPowerSaveMode(u32 callback, u32 powerSave) {
+u32 NWM_SetPowerSaveMode(void *callback, u32 powerSave) {
     u32 r;
     u32 busy;
     TwlWork *w;
@@ -50,7 +48,7 @@ u32 NWM_SetPowerSaveMode(u32 callback, u32 powerSave) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(14, callback);
+    NWMi_SetCallbackTable(14, (u32)callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(14, 1, powerSave);
     if (r == 0 || r == 2) {

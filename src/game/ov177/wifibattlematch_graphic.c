@@ -61,89 +61,66 @@ struct BgTemplate;
 
 struct DispConfig;
 
-struct Bank;
+struct Unit;
 
 typedef struct { unsigned id; unsigned template[8]; unsigned type; unsigned enable; } WifibattlematchBgEntry;
 
 struct WifibattlematchGraphic {
     u8 bgData[4];
-    struct Bank *clactUnit;
+    struct Unit *clactUnit;
     u8 pad8[4];
     u32 vblankHandle;
 };
 
 /* offset-0 view of the clact slot: the clact helpers receive work + 4 */
 struct WifibattlematchClact {
-    struct Bank *bank;
+    struct Unit *bank;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *, u8, u32);
+#include "../arm9/mi_memory.h"
 
-extern void BG_SYS_ClearGraphicsMemory(unsigned);
+#include "../arm9/bg_sys.h"
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void BG_SYS_SetLcdSwap(unsigned);
 
-extern void BG_SYS_ResetSubDisplay(void);
 
-extern void BG_SYS_ClearMainPlanes(void);
 
-extern void BG_SYS_ClearSubPlanes(void);
 
-extern void GF_FONT_InitTextColor(void);
-struct Tcb;
-
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(int, int *), void *work, unsigned int priority);
+#include "../arm9/gf_font.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+extern struct TcbTask *GFL_USE_AddMainTask(void (*)(int, int *), void *work, unsigned int priority);
+struct TcbTask;
 
-extern void GF_FONT_SetDefaultTextColor(void);
+#include "../arm9/tcb_list.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_Create(unsigned short);
 
-extern void BMP_WIN_Init(unsigned short);
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
+#include "../arm9/bmp_win.h"
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void BG_SYS_FreeSlot(unsigned char);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void BMP_WIN_Exit(void);
 
-extern void BG_SYS_Delete(void);
 
-extern void BG_SYS_Update(void);
+
 struct DispVramCfg;
-struct SysInit;
+struct ClactSysInit;
+struct ClactSysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
+#include "../arm9/clact.h"
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void CLACT_ExitSystem(void);
 
-extern void CLACT_DrawSystem(void);
 
-extern void CLACT_VBlankSystem(void);
 
 int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap);
 
@@ -285,7 +262,7 @@ void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *unused)
 void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, int b, int c)
 {
     MI_CpuFill8((void *)((int)p), 0, 4);
-    CLACT_InitSystem((struct SysInit *)d_021E8B10, (struct DispVramCfg *)b, c);
+    CLACT_InitSystem((struct ClactSysInit *)d_021E8B10, (struct DispVramCfg *)b, c);
     p[0] = (int)CLACT_CreateUnit(0x80, 0, c);
     CLACT_SetUnitDefaultRenderer((void *)p[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

@@ -27,9 +27,8 @@
 #include "field_task_types.h"
 #include "field_flash_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
 enum FlashState {
     FLASH_STATE_OFF = 0,
@@ -38,11 +37,11 @@ enum FlashState {
     FLASH_STATE_EXPANDED = 3
 };
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_use.h"
 
-extern void MI_CpuFill8(void *dst, int value, int size);
+#include "../arm9/mi_memory.h"
 
-extern u32 FX_Div(u32 a, u32 b);
+#include "../arm9/fx_cp.h"
 
 extern char gFieldFlashFileName[];
 
@@ -84,11 +83,9 @@ void FIELD_FLASH_ShowExpanded(FieldFlash *flash);
 
 void FIELD_FLASH_HideMask(FieldFlash *flash);
 
-FldWipe3dObj *FLD_WIPE_3DOBJ_Create(u32 heapId);
+#include "fld_wipe_3dobj.h"
 
-int FLD_WIPE_3DOBJ_Delete(FldWipe3dObj *obj);
 
-void FLD_WIPE_3DOBJ_Draw(FldWipe3dObj *obj, int size, int alpha);
 
 FieldFlash *FIELD_FLASH_Create(u32 heapId)
 {

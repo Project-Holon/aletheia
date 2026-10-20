@@ -1,7 +1,7 @@
 /*
  * file:     fldmmdl_move.c
  * unit:     yes
- * function: FLDMMDL_MOVE_SetupMove, FLDMMDL_MOVE_UpdateMove, FLDMMDL_MOVE_IsMoveProcAllowed, FLDMMDL_MOVE_UpdateHeightIfRequested, FLDMMDL_MOVE_UpdateAttrIfRequested, FLDMMDL_MOVE_ProcMoveStartFirst, FLDMMDL_MOVE_ProcMoveStartSecond, FLDMMDL_MOVE_ProcMoveEnd, FLDMMDL_MOVE_InitAttrInfo, FLDMMDL_MOVE_AttrProcMoveStartFirst, FLDMMDL_MOVE_AttrProcMoveStartSecond, FLDMMDL_MOVE_AttrProcJumpStart, FLDMMDL_MOVE_AttrProcMoveEnd, FLDMMDL_MOVE_AttrProcJumpEnd, FLDMMDL_MOVE_AttrSetDrawOffset, FLDMMDL_MOVE_GetFootMarkKind, FLDMMDL_MOVE_AttrEffectFootMark, FLDMMDL_MOVE_AttrEffectFootMarkIfFlag, FLDMMDL_MOVE_AttrEffectFootMarkIfNoFlag, FLDMMDL_MOVE_AttrEffectFootMarkJump, FLDMMDL_MOVE_AttrEffectGround, FLDMMDL_MOVE_AttrEffectReflect, FLDMMDL_MOVE_AttrEffectReflectOrBridge, FLDMMDL_MOVE_AttrEffectReflectOff, FLDMMDL_MOVE_CanShowShadow, FLDMMDL_MOVE_IsShadowAttr, FLDMMDL_MOVE_AttrEffectShadowStart, FLDMMDL_MOVE_AttrEffectShadowUpdate, FLDMMDL_MOVE_AttrEffectDust, FLDMMDL_MOVE_AttrEffectSplashOldPos, FLDMMDL_MOVE_AttrEffectSplashNowPos, FLDMMDL_MOVE_AttrEffectLongGrassStart, FLDMMDL_MOVE_AttrEffectLongGrassEnd, FLDMMDL_MOVE_AttrEffectSpecial, FLDMMDL_MOVE_AttrEffectNone, FLDMMDL_MOVE_HitCheckMove, FLDMMDL_MOVE_HitCheckMoveCurrent, FLDMMDL_MOVE_HitCheckMoveDir, FLDMMDL_MOVE_GetGridRect, FLDMMDL_MOVE_IsRectOverlap, FLDMMDL_MOVE_HitCheckObjectRect, FLDMMDL_MOVE_HitCheckOtherObjects, FLDMMDL_MOVE_IsGridInObjectRect, FLDMMDL_MOVE_HitCheckMoveLimit, FLDMMDL_MOVE_HitCheckAttr, FLDMMDL_MOVE_GetMapAttrInfo, FLDMMDL_MOVE_GetMapAttr, FLDMMDL_MOVE_GetMapHeight, FLDMMDL_MOVE_UpdateGridPosDir, FLDMMDL_MOVE_UpdateOldGridPos, FLDMMDL_MOVE_GetDirMapAttr, FLDMMDL_MOVE_AddVectorPos, FLDMMDL_MOVE_AddDirVectorPos, FLDMMDL_MOVE_UpdateHeight, FLDMMDL_MOVE_UpdateMapAttr, FLDMMDL_MOVE_IsNearPlayer, FLDMMDL_MOVE_StopAcmdWalkCodes, FLDMMDL_MOVE_GetDirAddGridX, FLDMMDL_MOVE_GetDirAddGridZ, FLDMMDL_MOVE_AddDirVector, FLDMMDL_MOVE_AddDirGrid, FLDMMDL_MOVE_GridToVectorPos, FLDMMDL_MOVE_GridToVector, FLDMMDL_MOVE_GetDirTableValue, FLDMMDL_MOVE_GetDirFromPoints, FLDMMDL_MOVE_GetRelativeDirCode, FLDMMDL_MOVE_SetStatusPauseDraw, FLDMMDL_MOVE_RequestRailMove, FLDMMDL_MOVE_SetRailMoveRequest, FLDMMDL_MOVE_GetRailMoveRequest
+ * function: FLDMMDL_MOVE_SetupMove, FLDMMDL_MOVE_UpdateMove, FLDMMDL_MOVE_IsMoveProcAllowed, FLDMMDL_MOVE_UpdateHeightIfRequested, FLDMMDL_MOVE_UpdateAttrIfRequested, FLDMMDL_MOVE_ProcMoveStartFirst, FLDMMDL_MOVE_ProcMoveStartSecond, FLDMMDL_MOVE_ProcMoveEnd, FLDMMDL_MOVE_InitAttrInfo, FLDMMDL_MOVE_AttrProcMoveStartFirst, FLDMMDL_MOVE_AttrProcMoveStartSecond, FLDMMDL_MOVE_AttrProcJumpStart, FLDMMDL_MOVE_AttrProcMoveEnd, FLDMMDL_MOVE_AttrProcJumpEnd, FLDMMDL_MOVE_AttrSetDrawOffset, FLDMMDL_MOVE_GetFootMarkKind, FLDMMDL_MOVE_AttrEffectFootMark, FLDMMDL_MOVE_AttrEffectFootMarkIfFlag, FLDMMDL_MOVE_AttrEffectFootMarkIfNoFlag, FLDMMDL_MOVE_AttrEffectFootMarkJump, FLDMMDL_MOVE_AttrEffectGround, FLDMMDL_MOVE_AttrEffectReflect, FLDMMDL_MOVE_AttrEffectReflectOrBridge, FLDMMDL_MOVE_AttrEffectReflectOff, FLDMMDL_MOVE_CanShowShadow, FLDMMDL_MOVE_IsShadowAttr, FLDMMDL_MOVE_AttrEffectShadowStart, FLDMMDL_MOVE_AttrEffectShadowUpdate, FLDMMDL_MOVE_AttrEffectDust, FLDMMDL_MOVE_AttrEffectSplashOldPos, FLDMMDL_MOVE_AttrEffectSplashNowPos, FLDMMDL_MOVE_AttrEffectLongGrassStart, FLDMMDL_MOVE_AttrEffectLongGrassEnd, FLDMMDL_MOVE_AttrEffectSpecial, FLDMMDL_MOVE_AttrEffectNone, FLDMMDL_MOVE_HitCheckMove, FLDMMDL_MOVE_HitCheckMoveCurrent, FLDMMDL_MOVE_HitCheckMoveDir, FLDMMDL_MOVE_GetGridRect, FLDMMDL_MOVE_IsRectOverlap, FLDMMDL_MOVE_HitCheckObjectRect, FLDMMDL_MOVE_HitCheckOtherObjects, FLDMMDL_MOVE_IsGridInObjectRect, FLDMMDL_MOVE_HitCheckMoveLimit, FLDMMDL_MOVE_HitCheckAttr, FLDMMDL_MOVE_GetFieldG3dMapHit, FLDMMDL_MOVE_GetMapAttr, FLDMMDL_MOVE_GetMapHeight, FLDMMDL_MOVE_UpdateGridPosDir, FLDMMDL_MOVE_UpdateOldGridPos, FLDMMDL_MOVE_GetDirMapAttr, FLDMMDL_MOVE_AddVectorPos, FLDMMDL_MOVE_AddDirVectorPos, FLDMMDL_MOVE_UpdateHeight, FLDMMDL_MOVE_UpdateMapAttr, FLDMMDL_MOVE_IsNearPlayer, FLDMMDL_MOVE_StopAcmdWalkCodes, FLDMMDL_MOVE_GetDirAddGridX, FLDMMDL_MOVE_GetDirAddGridZ, FLDMMDL_MOVE_AddDirVector, FLDMMDL_MOVE_AddDirGrid, FLDMMDL_MOVE_GridToVectorPos, FLDMMDL_MOVE_GridToVector, FLDMMDL_MOVE_GetDirTableValue, FLDMMDL_MOVE_GetDirFromPoints, FLDMMDL_MOVE_GetRelativeDirCode, FLDMMDL_MOVE_SetStatusPauseDraw, FLDMMDL_MOVE_RequestRailMove, FLDMMDL_MOVE_SetRailMoveRequest, FLDMMDL_MOVE_GetRailMoveRequest
  * address:  0x02163010
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -128,6 +128,7 @@ struct MapGrid;
 
 #include "../ov021/fldmmdl_rail_types.h"
 #include "fldmmdl_types.h"
+#include "field_g3d_map_types.h"
 
 #include "../types.h"
 
@@ -177,7 +178,7 @@ typedef struct EventInfo {
     u16 nowAttrFlag;                /* 0x0C */
     u16 oldAttrFlag;                /* 0x0E */
     MmdlObjCodeParam *objCodeParam; /* 0x10 */
-    int effectCtrl;                 /* 0x14 */
+    struct FieldEffectSys *effectCtrl; /* 0x14 */
     u8 effectMode;                  /* 0x18: 0 and 3 checked */
 } EventInfo;
 
@@ -185,12 +186,6 @@ typedef struct { s16 x0, y0, x1, y1; } Rect;
 
 typedef int (*AttrTest)(u16 attr);
 
-/* Map attribute and height under a position (FIELD_G3D_MAPPER_QueryNearestHit). */
-typedef struct FieldG3dMapHit {
-    u16 reserved[4];    /* 0x00: not read here */
-    int attr;           /* 0x08 */
-    int height;         /* 0x0C */
-} MapAttrInfo;
 
 /* A 4-byte entry of the direction table d_021714C0 (FLDMMDL_MOVE_GetRelativeDirCode reads the second byte). */
 typedef struct DirLookupEntry {
@@ -200,16 +195,14 @@ typedef struct DirLookupEntry {
     u8 entry3;          /* 0x03 */
 } DirLookupEntry;
 
-extern u8 ZONEDATA_DirToRailKey(int m);
+#include "../arm9/zonedata.h"
 extern void FLDMMDL_CallMoveInitProc(Mmdl *mmdl);
-extern int FLDMMDL_MOVECODE_InitEventTypeProcThunk(int a);
-extern u32 *FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 v);
+#include "../ov021/fldmmdl_movecode.h"
 struct Mmdl;
 extern u32 FLDMMDL_CheckSysStatusBit(Mmdl *mmdl, unsigned int v);
 extern unsigned int FLDMMDL_CheckMoveBit(Mmdl *mmdl, unsigned int v);
-extern void FLDMMDL_ACMD_RunCmds(struct Mmdl *mmdl);
+#include "../ov021/fldmmdl_acmd.h"
 extern int FLDMMDL_CheckMoveBitMovePause(Mmdl *mmdl);
-extern int FLDMMDL_MOVECODE_UpdateEventTypeProc(struct Mmdl *mmdl);
 extern void FLDMMDL_CallMoveProc(Mmdl *mmdl);
 extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
 extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
@@ -218,7 +211,7 @@ extern int FLDMMDL_CheckStatusBitHeightGetOff(Mmdl *mmdl);
 extern int FLDMMDL_CheckStatusBitAttrGetOff(Mmdl *mmdl);
 extern void FLDMMDL_OnMoveBitMoveStart(Mmdl *mmdl);
 extern void FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 v);
-extern void MI_CpuFill();
+#include "../arm9/mi_memory.h"
 extern u32 FLDMMDL_GetOldAttr(Mmdl *mmdl);
 extern u32 FLDMMDL_GetNowAttr(Mmdl *mmdl);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
@@ -229,14 +222,13 @@ struct MmdlSys;
 extern void *FLDMMDL_SysGetFieldMap(MmdlSys *mmdlSys);
 struct FieldMap;
 struct FieldEffectCont;
-extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct FieldEffectSys;
-extern u8 FIELD_EFFECT_GetModelBaseOffset(struct FieldEffectSys *sys);
+#include "../ov021/field_effect.h"
 extern int FLDMMDL_CheckDrawInitComp(Mmdl *mmdl);
 extern int FLDMMDL_CheckStatusBitAttrOffsetOff(Mmdl *mmdl);
 extern int MAP_ATTR_IsSand(unsigned short);
-struct MmdlVec;
-extern void FLDMMDL_SetAttrOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
+struct VecFx32;
 extern int MAP_ATTR_IsGrassSingleC(u16 terrainId);
 extern int MAP_ATTR_IsGrassDoubleC(u16 terrainId);
 extern int MAP_ATTR_IsGrassDoubleB(u16 terrainId);
@@ -244,70 +236,102 @@ extern int MAP_ATTR_IsGrassSingleB(u16 terrainId);
 extern int MAP_ATTR_IsGrassDouble(u16 terrainId);
 extern int MAP_ATTR_IsTallGrassSingle(u16 terrainId);
 extern int MAP_ATTR_IsTallGrassDouble(u16 terrainId);
-extern void FLDEFF_GRASS_Start(struct FieldEffectSys *sys, struct Mmdl *mmdl, u32 mode, s32 index);
+#include "../ov021/fldeff_grass.h"
 extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
 extern int MAP_ATTR_IsPuddle(s32 terrainId);
 extern int MAP_ATTR_IsMud(u16 terrainId);
 extern int MAP_ATTR_IsSnowTile(u16 terrainId);
 extern int MAP_ATTR_IsDeepSnow(s32 terrainId);
-extern void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, s32 fieldEffectCtrl, s32 type);
+#include "../ov021/fldeff_footmark.h"
 extern int MAP_ATTR_IsSplashWater(u16 terrainId);
 extern int FLDMMDL_CheckMoveBitSplash(Mmdl *mmdl);
-extern int FLDEFF_SPLASH_AddModel();
-extern int FLDMMDL_SetMoveBitSplash();
-extern int MAP_ATTR_IsSplashWaterB();
-extern int FLDEFF_SPLASH_AddBoard();
 extern int FLDMMDL_SysIsDrawEnable(MmdlSys *mmdlSys);
-extern void FLDEFF_SHADOW_Start(struct Mmdl *mmdl, struct FieldEffectSys *sys);
+#include "../ov021/fldeff_shadow.h"
 extern void FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 v);
 extern int FLDMMDL_CheckMoveBitShadowVanish(Mmdl *mmdl);
-extern void FLDEFF_KEMURI_Start(struct Mmdl *mmdl, struct FieldEffectSys *sys);
+#include "../ov021/fldeff_kemuri.h"
 extern int MAP_ATTR_IsRippleWater(s32 terrainId);
 extern int FLDMMDL_GetGridOldX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
 extern s32 FLDMMDL_GetPosY(Mmdl *mmdl);
-extern void FLDEFF_RIPPLE_Start(struct FieldEffectSys *fieldEffect, s32 gridX, s32 gridZ, s32 height);
-extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
+#include "../ov021/fldeff_ripple.h"
+#ifdef __MWERKS__
+extern int FLDMMDL_GetGridNowX(Mmdl *mmdl); /* original prototype; the definition returns short */
 extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
+#else
+extern short FLDMMDL_GetGridNowX(Mmdl *mmdl);
+extern short FLDMMDL_GetGridNowZ(Mmdl *mmdl);
+#endif
 extern int FLDMMDL_CheckMoveBitReflect(Mmdl *mmdl);
 extern void FLDMMDL_SetMoveBitReflect(Mmdl *mmdl, int flag);
-extern int MAP_ATTR_IsMirrorFloor();
 extern int MAP_ATTR_IsIce(int x);
-extern void FLDEFF_REFLECT_SetMMdl(u32 a, u32 b, u32 c, u32 d);
+#include "../ov021/fldeff_reflect.h"
 extern int MAP_ATTR_IsElectricFloor(u16 id);
-extern void FLDEFF_D06DENKI_StartSpark(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffect);
+#include "../ov021/fldeff_d06denki.h"
 extern void *FLDMMDL_SysGetG3dMapper(MmdlSys *mmdlSys);
 struct FieldG3dMapper;
-extern int FIELD_G3D_MAPPER_IsOutsideGrid(struct FieldG3dMapper *mapper, VecFx32 *pos);
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern s16 FLDMMDL_GetGridNowY(Mmdl *mmdl);
+#include "../ov021/field_g3d_mapper.h"
 extern u8 FLDMMDL_GetSizeWidth(Mmdl *mmdl);
 extern u8 FLDMMDL_GetSizeDepth(Mmdl *mmdl);
 extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
 extern int FLDMMDL_GetGridOldY(Mmdl *mmdl);
-extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **out, u32 *iter);
 extern int FLDMMDL_GetGridInitX(Mmdl *mmdl);
 extern int FLDMMDL_GetMoveLimitX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridInitZ(Mmdl *mmdl);
 extern int FLDMMDL_GetMoveLimitZ(Mmdl *mmdl);
 extern int MAP_ATTR_IsBlocked(u32 attr);
-struct FieldG3dMapHit;
-extern int FIELD_G3D_MAPPER_QueryNearestHit(struct FieldG3dMapper *mapper, VecFx32 *pos, struct FieldG3dMapHit *outHit);
-extern int FLDMMDL_SetGridOldX(Mmdl *mmdl, int b);
 extern void FLDMMDL_SetGridOldY(struct Mmdl *mmdl, s16 y);
-extern int FLDMMDL_SetGridOldZ(Mmdl *mmdl, int b);
-extern void FLDMMDL_AddGridNowX(Mmdl *mmdl, int b);
-extern void FLDMMDL_AddGridNowZ(Mmdl *mmdl, int b);
+extern void FLDMMDL_SetAttrOffset(struct Mmdl *mmdl, struct VecFx32 *offset);
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct VecFx32 *out);
+extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct VecFx32 *pos);
+#ifdef __MWERKS__
+extern short FLDMMDL_GetGridNowY(Mmdl *mmdl); /* original prototype; the definition differs in return type */
+#else
+extern short FLDMMDL_GetGridNowY(struct Mmdl*);
+#endif
+extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **out, u32 *iter);
+#ifdef __MWERKS__
+extern void FLDMMDL_SetGridOldX(Mmdl *mmdl, int b); /* original prototype; the definition differs in argument width */
+#else
+extern void FLDMMDL_SetGridOldX(struct Mmdl*, s16);
+#endif
+#ifdef __MWERKS__
+extern void FLDMMDL_SetGridOldZ(Mmdl *mmdl, int b); /* original prototype; the definition differs in argument width */
+#else
+extern void FLDMMDL_SetGridOldZ(struct Mmdl*, s16);
+#endif
+#ifdef __MWERKS__
+extern void FLDMMDL_AddGridNowX(Mmdl *mmdl, int b); /* original prototype; the definition differs in argument width */
+#else
+extern void FLDMMDL_AddGridNowX(struct Mmdl*, s16);
+#endif
+extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
+extern void FLDMMDL_SetMoveBitSplash(Mmdl *mmdl, u32 flag);
+#ifdef __MWERKS__
+extern void FLDMMDL_AddGridNowZ(Mmdl *mmdl, int b); /* original prototype; the definition differs in argument width */
+#else
+extern void FLDMMDL_AddGridNowZ(struct Mmdl*, s16);
+#endif
 extern void FLDMMDL_SetGridNowY(Mmdl *mmdl, int v);
-extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
 extern void FLDMMDL_SetOldAttr(Mmdl *mmdl, u32 v);
 extern void FLDMMDL_SetNowAttr(Mmdl *mmdl, u32 v);
 extern Mmdl *FLDMMDL_SysSearchPlayer(MmdlSys *mmdlSys);
 extern u32 FLDMMDL_SysCheckStatusBit(struct MmdlSys *sys, u32 bit);
-extern void FLDMMDL_RAIL_SetLocation(struct Mmdl *mmdl, RailLocation *loc);
+#include "../ov021/fldmmdl_rail.h"
+#include "../ov021/fldeff_splash.h"
+#ifdef __MWERKS__
+extern int MAP_ATTR_IsSplashWaterB(u32 attr); /* original prototype: the definition takes u16 */
+#ifdef __MWERKS__
+extern int MAP_ATTR_IsMirrorFloor(u32 attr); /* original prototype; the definition differs in argument width */
+#else
+extern s32 MAP_ATTR_IsMirrorFloor(u16);
+#endif
+#else
+#include "../ov021/map_attr.h"
+#endif
 extern void *FLDMMDL_InitMoveProcWork(Mmdl *mmdl, int b);
 extern void *FLDMMDL_GetMoveProcWork(Mmdl *mmdl);
-u32 *FLDMMDL_MOVE_SetupMove(Mmdl *mmdl);
+void FLDMMDL_MOVE_SetupMove(Mmdl *mmdl);
 void FLDMMDL_MOVE_UpdateMove(Mmdl *mmdl);
 int FLDMMDL_MOVE_IsMoveProcAllowed(Mmdl *mmdl);
 int FLDMMDL_MOVE_UpdateHeightIfRequested(Mmdl *mmdl);
@@ -328,8 +352,8 @@ void FLDMMDL_MOVE_AttrEffectFootMarkIfFlag(Mmdl *mmdl, EventInfo *info);
 void FLDMMDL_MOVE_AttrEffectFootMarkIfNoFlag(Mmdl *mmdl, EventInfo *info);
 void FLDMMDL_MOVE_AttrEffectFootMarkJump(Mmdl *mmdl, EventInfo *info);
 void FLDMMDL_MOVE_AttrEffectGround(Mmdl *mmdl, EventInfo *info);
-int FLDMMDL_MOVE_AttrEffectReflect(Mmdl *mmdl, EventInfo *info);
-int FLDMMDL_MOVE_AttrEffectReflectOrBridge(Mmdl *mmdl, EventInfo *info);
+void FLDMMDL_MOVE_AttrEffectReflect(Mmdl *mmdl, EventInfo *info);
+void FLDMMDL_MOVE_AttrEffectReflectOrBridge(Mmdl *mmdl, EventInfo *info);
 void FLDMMDL_MOVE_AttrEffectReflectOff(Mmdl *mmdl, EventInfo *info);
 int FLDMMDL_MOVE_CanShowShadow(Mmdl *mmdl, EventInfo *info);
 int FLDMMDL_MOVE_IsShadowAttr(EventInfo *info);
@@ -344,7 +368,7 @@ void FLDMMDL_MOVE_AttrEffectSpecial(Mmdl *mmdl, EventInfo *info);
 void FLDMMDL_MOVE_AttrEffectNone(Mmdl *mmdl, EventInfo *info);
 u32 FLDMMDL_MOVE_HitCheckMove(Mmdl *mmdl, VecFx32 *currentPos, s16 gridX, s16 height, int gridZ, u16 kind);
 u32 FLDMMDL_MOVE_HitCheckMoveCurrent(Mmdl *mmdl, s16 gridX, s16 height, int gridZ, u16 kind);
-void FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u16 dir);
+u32 FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u16 dir);
 void FLDMMDL_MOVE_GetGridRect(Mmdl *mmdl, int gridX, int gridZ, Rect *out);
 int FLDMMDL_MOVE_IsRectOverlap(Rect *rectA, Rect *rectB);
 int FLDMMDL_MOVE_HitCheckObjectRect(Mmdl *mmdl, Mmdl *other, int gridX, int height, s16 gridZ, int checkNext);
@@ -352,7 +376,7 @@ int FLDMMDL_MOVE_HitCheckOtherObjects(Mmdl *mmdl, int gridX, int height, s16 gri
 int FLDMMDL_MOVE_IsGridInObjectRect(Mmdl *mmdl, int gridX, int gridZ, int checkNext);
 int FLDMMDL_MOVE_HitCheckMoveLimit(Mmdl *mmdl, int gridX, int gridZ);
 int FLDMMDL_MOVE_HitCheckAttr(Mmdl *mmdl, u32 kind, VecFx32 topLeft);
-int FLDMMDL_MOVE_GetMapAttrInfo(Mmdl *mmdl, VecFx32 *pos, MapAttrInfo *info);
+int FLDMMDL_MOVE_GetFieldG3dMapHit(Mmdl *mmdl, VecFx32 *pos, FieldG3dMapHit *info);
 int FLDMMDL_MOVE_GetMapAttr(Mmdl *mmdl, VecFx32 *pos, u32 *outAttr);
 int FLDMMDL_MOVE_GetMapHeight(Mmdl *mmdl, VecFx32 *pos, int *outHeight);
 void FLDMMDL_MOVE_UpdateGridPosDir(Mmdl *mmdl, int dir);
@@ -364,8 +388,8 @@ int FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
 int FLDMMDL_MOVE_UpdateMapAttr(Mmdl *mmdl);
 int FLDMMDL_MOVE_IsNearPlayer(Mmdl *mmdl);
 void FLDMMDL_MOVE_StopAcmdWalkCodes(Mmdl *mmdl);
-int FLDMMDL_MOVE_GetDirAddGridX(int dir);
-int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
+s16 FLDMMDL_MOVE_GetDirAddGridX(int dir);
+s16 FLDMMDL_MOVE_GetDirAddGridZ(int dir);
 void FLDMMDL_MOVE_AddDirVector(int dir, VecFx32 *pos, int amount);
 void FLDMMDL_MOVE_AddDirGrid(int dir, s16 *x, s16 *z, s16 amount);
 void FLDMMDL_MOVE_GridToVectorPos(int gridX, int gridZ, VecFx32 *pos);
@@ -392,11 +416,11 @@ extern DirLookupEntry d_021714C0[];
  * 0x0219B414, a labelless Thumb tail-call thunk in ov021 now matched in
  * src/matched/FLDMMDL_MOVECODE_InitEventTypeProcThunk.c, so the site attests as `matched`.
  */
-u32 *FLDMMDL_MOVE_SetupMove(Mmdl *mmdl)
+void FLDMMDL_MOVE_SetupMove(Mmdl *mmdl)
 {
     FLDMMDL_CallMoveInitProc(mmdl);
-    FLDMMDL_MOVECODE_InitEventTypeProcThunk((int)mmdl);
-    return FLDMMDL_SetStatusBit(mmdl, 2);
+    FLDMMDL_MOVECODE_InitEventTypeProcThunk(mmdl);
+    FLDMMDL_SetStatusBit(mmdl, 2);
 }
 
 void FLDMMDL_MOVE_UpdateMove(Mmdl *mmdl)
@@ -489,7 +513,7 @@ void FLDMMDL_MOVE_ProcMoveEnd(Mmdl *mmdl)
 void FLDMMDL_MOVE_InitAttrInfo(Mmdl *mmdl, EventInfo *info)
 {
     int oldAttr;
-    u32 effectCtrl;
+    struct FieldEffectSys *effectCtrl;
 
     MI_CpuFill(info, 0, 0x1c);
     info->nowAttr = FLDMMDL_GetOldAttr(mmdl);
@@ -504,7 +528,7 @@ void FLDMMDL_MOVE_InitAttrInfo(Mmdl *mmdl, EventInfo *info)
         info->nowAttrFlag = MAP_ATTR_GetFlags(info->nowAttr);
     }
     info->objCodeParam = FLDMMDL_GetObjCodeParam(mmdl);
-    effectCtrl = (u32)FIELDMAP_GetEffect((struct FieldMap *)FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
+    effectCtrl = (struct FieldEffectSys *)FIELDMAP_GetEffect((struct FieldMap *)FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
     info->effectCtrl = effectCtrl;
     info->effectMode = FIELD_EFFECT_GetModelBaseOffset((struct FieldEffectSys *)effectCtrl);
 }
@@ -605,14 +629,14 @@ void FLDMMDL_MOVE_AttrSetDrawOffset(Mmdl *mmdl, EventInfo *info)
     VecFx32 offset;
     if (FLDMMDL_CheckStatusBitAttrOffsetOff(mmdl) == 0 && MAP_ATTR_IsSand(info->oldAttrValue) != 0) {
         offset = d_021714D0;
-        FLDMMDL_SetAttrOffset((struct Mmdl *)mmdl, (struct MmdlVec *)(&offset));
+        FLDMMDL_SetAttrOffset((struct Mmdl *)mmdl, (struct VecFx32 *)(&offset));
         return;
     }
     {
         unsigned char zeroBuf[12];
         VecFx32 *zero = (VecFx32 *)zeroBuf;
         vzero(zero);
-        FLDMMDL_SetAttrOffset((struct Mmdl *)mmdl, (struct MmdlVec *)zero);
+        FLDMMDL_SetAttrOffset((struct Mmdl *)mmdl, (struct VecFx32 *)zero);
     }
 }
 
@@ -721,38 +745,42 @@ void FLDMMDL_MOVE_AttrEffectGround(Mmdl *mmdl, EventInfo *info)
                 kind = 1;
         }
         if (kind != 5)
-            FLDEFF_FOOTMARK_SetMMdl(mmdl, info->effectCtrl, kind);
+            FLDEFF_FOOTMARK_SetMMdl(mmdl, (int)info->effectCtrl, kind);
     }
 }
 
-int FLDMMDL_MOVE_AttrEffectReflect(Mmdl *mmdl, EventInfo *info)
+void FLDMMDL_MOVE_AttrEffectReflect(Mmdl *mmdl, EventInfo *info)
 {
     int ret;
 
     if (MAP_ATTR_IsSplashWater(info->oldAttrValue) == 1) {
         ret = FLDMMDL_CheckMoveBitSplash(mmdl);
         if (ret != 0)
-            return ret;
+            return;
         FLDEFF_SPLASH_AddModel(info->effectCtrl, mmdl);
-        return FLDMMDL_SetMoveBitSplash(mmdl, 1);
+        FLDMMDL_SetMoveBitSplash(mmdl, 1);
+        return;
     }
-    return FLDMMDL_SetMoveBitSplash(mmdl, 0);
+    FLDMMDL_SetMoveBitSplash(mmdl, 0);
 }
 
-int FLDMMDL_MOVE_AttrEffectReflectOrBridge(Mmdl *mmdl, EventInfo *info)
+void FLDMMDL_MOVE_AttrEffectReflectOrBridge(Mmdl *mmdl, EventInfo *info)
 {
     int ret;
 
     if (MAP_ATTR_IsSplashWater(info->oldAttrValue) == 1) {
         ret = FLDMMDL_CheckMoveBitSplash(mmdl);
         if (ret != 0)
-            return ret;
+            return;
         FLDEFF_SPLASH_AddModel(info->effectCtrl, mmdl);
-        return FLDMMDL_SetMoveBitSplash(mmdl, 1);
+        FLDMMDL_SetMoveBitSplash(mmdl, 1);
+        return;
     }
-    if (MAP_ATTR_IsSplashWaterB(info->oldAttrValue) == 1)
-        return FLDEFF_SPLASH_AddBoard(info->effectCtrl, mmdl);
-    return FLDMMDL_SetMoveBitSplash(mmdl, 0);
+    if (MAP_ATTR_IsSplashWaterB(info->oldAttrValue) == 1) {
+        FLDEFF_SPLASH_AddBoard(info->effectCtrl, mmdl);
+        return;
+    }
+    FLDMMDL_SetMoveBitSplash(mmdl, 0);
 }
 
 void FLDMMDL_MOVE_AttrEffectReflectOff(Mmdl *mmdl, EventInfo *info)
@@ -855,7 +883,7 @@ void FLDMMDL_MOVE_AttrEffectLongGrassStart(Mmdl *mmdl, EventInfo *info)
     if (MAP_ATTR_IsMirrorFloor(reflectAttr) == 1 || MAP_ATTR_IsIce(reflectAttr) == 1) {
         attrOrKind = 2;
     }
-    FLDEFF_REFLECT_SetMMdl(mmdlSys, (u32)mmdl, info->effectCtrl, attrOrKind);
+    FLDEFF_REFLECT_SetMMdl((u32)mmdlSys, (u32)mmdl, (u32)info->effectCtrl, attrOrKind);
     FLDMMDL_SetMoveBitReflect(mmdl, 1);
 }
 
@@ -938,18 +966,18 @@ u32 FLDMMDL_MOVE_HitCheckMove(Mmdl *mmdl, VecFx32 *currentPos, s16 gridX, s16 he
 u32 FLDMMDL_MOVE_HitCheckMoveCurrent(Mmdl *mmdl, s16 gridX, s16 height, int gridZ, u16 kind)
 {
     VecFx32 currentPos;
-    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&currentPos));
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&currentPos));
     return FLDMMDL_MOVE_HitCheckMove(mmdl, &currentPos, gridX, height, gridZ, kind);
 }
 
-void FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u16 dir)
+u32 FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u16 dir)
 {
     s16 gridX, height, gridZ;
 
     gridX = FLDMMDL_GetGridNowX(mmdl) + FLDMMDL_MOVE_GetDirAddGridX(dir);
     height = FLDMMDL_GetGridNowY(mmdl);
     gridZ = FLDMMDL_GetGridNowZ(mmdl) + FLDMMDL_MOVE_GetDirAddGridZ(dir);
-    FLDMMDL_MOVE_HitCheckMoveCurrent(mmdl, gridX, height, gridZ, dir);
+    return FLDMMDL_MOVE_HitCheckMoveCurrent(mmdl, gridX, height, gridZ, dir);
 }
 
 /*
@@ -1151,14 +1179,14 @@ int FLDMMDL_MOVE_HitCheckAttr(Mmdl *mmdl, u32 kind, VecFx32 topLeft)
     return 1;
 }
 
-int FLDMMDL_MOVE_GetMapAttrInfo(Mmdl *mmdl, VecFx32 *pos, MapAttrInfo *info) { return FIELD_G3D_MAPPER_QueryNearestHit(FLDMMDL_SysGetG3dMapper(FLDMMDL_GetMmdlSys(mmdl)),pos,info); }
+int FLDMMDL_MOVE_GetFieldG3dMapHit(Mmdl *mmdl, VecFx32 *pos, FieldG3dMapHit *info) { return FIELD_G3D_MAPPER_QueryNearestHit(FLDMMDL_SysGetG3dMapper(FLDMMDL_GetMmdlSys(mmdl)),pos,info); }
 
 int FLDMMDL_MOVE_GetMapAttr(Mmdl *mmdl, VecFx32 *pos, u32 *outAttr)
 {
-    MapAttrInfo info;
+    FieldG3dMapHit info;
 
     *outAttr = 0;
-    if (FLDMMDL_MOVE_GetMapAttrInfo(mmdl, pos, &info) == 1) {
+    if (FLDMMDL_MOVE_GetFieldG3dMapHit(mmdl, pos, &info) == 1) {
         *outAttr = info.attr;
         return 1;
     }
@@ -1167,10 +1195,10 @@ int FLDMMDL_MOVE_GetMapAttr(Mmdl *mmdl, VecFx32 *pos, u32 *outAttr)
 
 int FLDMMDL_MOVE_GetMapHeight(Mmdl *mmdl, VecFx32 *pos, int *outHeight)
 {
-    MapAttrInfo info;
+    FieldG3dMapHit info;
 
     *outHeight = 0;
-    if (FLDMMDL_MOVE_GetMapAttrInfo(mmdl, pos, &info) == 1) {
+    if (FLDMMDL_MOVE_GetFieldG3dMapHit(mmdl, pos, &info) == 1) {
         *outHeight = info.height;
         return 1;
     }
@@ -1218,13 +1246,13 @@ int FLDMMDL_MOVE_GetDirMapAttr(Mmdl *mmdl, int dir)
  * contract: matched FLDMMDL_GetPos copies all three Actor.pos words to v;
  * no uninitialized local component is read. Additions wrap as unsigned32.
  */
-void FLDMMDL_MOVE_AddVectorPos(Mmdl *mmdl, const VecFx32 *delta) { VecFx32 pos; FLDMMDL_GetPos(mmdl,(struct MmdlVec *)(&pos)); pos.x=(int)((unsigned)pos.x+(unsigned)delta->x); pos.y=(int)((unsigned)pos.y+(unsigned)delta->y); pos.z=(int)((unsigned)pos.z+(unsigned)delta->z); FLDMMDL_SetPos(mmdl,(struct MmdlVec *)(&pos)); }
+void FLDMMDL_MOVE_AddVectorPos(Mmdl *mmdl, const VecFx32 *delta) { VecFx32 pos; FLDMMDL_GetPos(mmdl,(struct VecFx32 *)(&pos)); pos.x=(int)((unsigned)pos.x+(unsigned)delta->x); pos.y=(int)((unsigned)pos.y+(unsigned)delta->y); pos.z=(int)((unsigned)pos.z+(unsigned)delta->z); FLDMMDL_SetPos(mmdl,(struct VecFx32 *)(&pos)); }
 
 void FLDMMDL_MOVE_AddDirVectorPos(Mmdl *mmdl, int dir, int amount)
 {
     VecFx32 pos;
 
-    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&pos));
     switch (dir) {
     case 0:
         pos.z -= amount;
@@ -1239,7 +1267,7 @@ void FLDMMDL_MOVE_AddDirVectorPos(Mmdl *mmdl, int dir, int amount)
         pos.x += amount;
         break;
     }
-    FLDMMDL_SetPos(mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_SetPos(mmdl, (struct VecFx32 *)(&pos));
 }
 
 int FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl)
@@ -1249,7 +1277,7 @@ int FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl)
     int groundHeight;
     int found;
 
-    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&curPos));
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&curPos));
     probePos = curPos;
     if (FLDMMDL_CheckStatusBit(mmdl, 0x2000) != 0)
         return 0;
@@ -1260,7 +1288,7 @@ int FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl)
     found = FLDMMDL_MOVE_GetMapHeight(mmdl, &probePos, &groundHeight);
     if (found == 1) {
         curPos.y = groundHeight;
-        FLDMMDL_SetPos(mmdl, (struct MmdlVec *)(&curPos));
+        FLDMMDL_SetPos(mmdl, (struct VecFx32 *)(&curPos));
         FLDMMDL_SetGridOldY(mmdl, FLDMMDL_GetGridNowY(mmdl));
         FLDMMDL_SetGridNowY(mmdl, (s16)((groundHeight >> 4) / 4096));
         FLDMMDL_ClearMoveBit(mmdl, 0x1000);
@@ -1344,13 +1372,13 @@ void FLDMMDL_MOVE_StopAcmdWalkCodes(Mmdl *mmdl) { if ((u16)(FLDMMDL_GetMoveCode(
  * contract: ROM table at 0x02171480 holds {0,0,-1,1}. No caller
  * bounds assumption: unsigned32 address arithmetic preserves the image load.
  */
-int FLDMMDL_MOVE_GetDirAddGridX(int dir) { return (short)*(const int *)((unsigned)d_02171480+((unsigned)dir<<2)); }
+s16 FLDMMDL_MOVE_GetDirAddGridX(int dir) { return (short)*(const int *)((unsigned)d_02171480+((unsigned)dir<<2)); }
 
 /*
  * contract: ROM table at 0x02171470 holds {-1,1,0,0}. No caller
  * bounds assumption: unsigned32 address arithmetic preserves the image load.
  */
-int FLDMMDL_MOVE_GetDirAddGridZ(int dir) { return (short)*(const int *)((unsigned)d_02171470+((unsigned)dir<<2)); }
+s16 FLDMMDL_MOVE_GetDirAddGridZ(int dir) { return (short)*(const int *)((unsigned)d_02171470+((unsigned)dir<<2)); }
 
 void FLDMMDL_MOVE_AddDirVector(int dir, VecFx32 *pos, int amount)
 {

@@ -74,11 +74,7 @@ struct FontCMapRange {
 
 /* NitroSystem g2d font resource (NNSG2dFontInformation, the FINF block) and
  * the runtime font handle.  Offsets pinned by this file's own loads. */
-typedef struct NNSG2dCharWidths {
-    s8 left;            /* +0 */
-    u8 glyphWidth;      /* +1 */
-    s8 charWidth;       /* +2  ldrsb */
-} NNSG2dCharWidths;
+#include "nns_g2d_font_types.h"
 
 typedef struct NNSG2dFontWidth {
     u16 indexBegin;                     /* +0 */
@@ -206,11 +202,6 @@ typedef union {
 } Param;
 
 #include "../sdk_gx.h"
-
-typedef struct {
-    signed char dx;
-    signed char dy;
-} Step;
 
 typedef u16 (*NextFn)(const void **cursor);
 
@@ -2076,19 +2067,19 @@ void NNSi_G2dFontFixupSections(NftrFileHeader *base)
     do {
         switch (s->signature) {
         case 0x46494e46:
-            s->pGlyph = s->pGlyph + (u32)base;
+            s->pGlyph = s->pGlyph + (uptr)base;
             v = s->pWidth;
-            if (v != 0) s->pWidth = v + (u32)base;
+            if (v != 0) s->pWidth = v + (uptr)base;
             v = s->pMap;
-            if (v != 0) s->pMap = v + (u32)base;
+            if (v != 0) s->pMap = v + (uptr)base;
             break;
         case 0x43574448:
             v = s->pNextWidth;
-            if (v != 0) s->pNextWidth = v + (u32)base;
+            if (v != 0) s->pNextWidth = v + (uptr)base;
             break;
         case 0x434d4150:
             v = s->pGlyph;
-            if (v != 0) s->pGlyph = v + (u32)base;
+            if (v != 0) s->pGlyph = v + (uptr)base;
             break;
         case 0x43474c50:
             break;

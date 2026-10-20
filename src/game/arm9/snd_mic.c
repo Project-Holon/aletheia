@@ -206,5 +206,5 @@ void SND_MIC_StoreRecording(struct PerapVoice *perapVoice)
  */
 void *SND_MIC_GetBufferAligned(void)
 {
-    return (void *)(((u32)_SndMic->sampleBuffer + 0x1F) & ~0x1Fu);
+    return (void *)(((uptr)_SndMic->sampleBuffer + 0x1F) & ~0x1Fu);
 }

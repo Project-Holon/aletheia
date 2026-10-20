@@ -43,9 +43,7 @@
 #include "msl_printf_shared_types.h"
 extern void *__memcpy(void *dest, const void *src, unsigned long n);
 
-#define __va_size(t) ((sizeof(t) + 3) & ~3)
-
-#define va_arg(ap, t) (*(t *)((ap += __va_size(t)) - __va_size(t)))
+#include "../sdk_stdarg.h"
 
 typedef unsigned char uchar;
 
@@ -58,8 +56,6 @@ typedef struct {
     u32 capacity;
     u32 length;
 } MslStringBuf;
-
-typedef uchar *va_list;
 
 typedef struct {
     unsigned char justification_options;
@@ -85,7 +81,6 @@ typedef struct {
 
 #include "msl_string_mem.h"
 
-
 const uchar *parse_format(const uchar *format_string, va_list *arg, print_format *format);
 
 unsigned char *long2str(long num, unsigned char *buff, print_format format);
@@ -102,14 +97,13 @@ int __pformatter(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteP
 
 u32 MSL_C_LIB_SprintfWriteProc(u8 *sb, const void *src, u32 n);
 
-u32 vsnprintf(u8 *dst, u32 n, const u8 *format, u8 *ap);
+u32 vsnprintf(u8 *dst, u32 n, const u8 *format, va_list ap);
 
 u32 sprintf(char *dst, char *fmt, ...);
 
 #include "msl_stdlib.h"
 
 #include "msl_string_str.h"
-
 
 #include "msl_ansi_fp.h"
 
@@ -1299,12 +1293,12 @@ u32 MSL_C_LIB_SprintfWriteProc(u8 *sb, const void *src, u32 n)
  *           would attest it.  The other site (MSL_C_LIB_SprintfWriteProc) resolved as
  *           `matched` once this packet's own shard was written.
  */
-u32 vsnprintf(u8 *dst, u32 n, const u8 *format, u8 *ap)
+u32 vsnprintf(u8 *dst, u32 n, const u8 *format, va_list ap)
 {
     u32 state[3];
     u32 len;
 
-    state[0] = (u32)dst;
+    state[0] = (uptr)dst;
     state[1] = n;
     state[2] = 0;
     len = __pformatter((void *(*)(void *, const uchar *, size_t))MSL_C_LIB_SprintfWriteProc, state, format, ap, 0);
@@ -1333,7 +1327,8 @@ u32 vsnprintf(u8 *dst, u32 n, const u8 *format, u8 *ap)
  */
 u32 sprintf(char *dst, char *fmt, ...)
 {
-    u32 *p = (u32 *)((u32)&fmt & ~3u);
+    va_list ap;
 
-    return vsnprintf((u8 *)dst, 0xFFFFFFFFu, (const u8 *)fmt, (u8 *)(p + 1));
+    va_start(ap, fmt);
+    return vsnprintf((u8 *)dst, 0xFFFFFFFFu, (const u8 *)fmt, ap);
 }

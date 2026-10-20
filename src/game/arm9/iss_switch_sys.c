@@ -437,12 +437,12 @@ u32 ISS_SWITCH_SYS_GetSetCount(void *sys)
 
 u32 ISS_SWITCH_SYS_GetSet(struct IssSwitchSys *sys, u32 idx)
 {
-    return (u32)sys->sets[idx];
+    return (uptr)sys->sets[idx];
 }
 
 u32 ISS_SWITCH_SYS_GetActiveSet(struct IssSwitchSys *sys)
 {
-    return (u32)sys->activeSet;
+    return (uptr)sys->activeSet;
 }
 
 /*

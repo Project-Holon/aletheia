@@ -180,7 +180,7 @@ struct BmpWin;
 #include "bmp_win.h"
 
 
-struct ActorInit;
+struct ActorInitParam;
 struct ClactActor;
 struct ClactVec2;
 struct Pt16;
@@ -191,7 +191,7 @@ extern u32 CLACT_RegisterPaletteEx(void *h, u32 file_idx, u32 engine, u32 vram_o
 void CLACT_ReleasePalette(u32 idx);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 void CLACT_ReleaseCellAnim(u32 idx);
-struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
+struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
 void CLACT_DeleteActor(struct ClactActor *actor);
 void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
 void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u32 which);
@@ -702,7 +702,7 @@ void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId)
     void *actor;
     u32 one;
 
-    actor = CLACT_CreateActor((void *)res->clunit, res->cgrIndex, res->plttIndex, res->cellAnmIndex, (const struct ActorInit *)&init, (u16)res->drawType, heapId);
+    actor = CLACT_CreateActor((void *)res->clunit, res->cgrIndex, res->plttIndex, res->cellAnmIndex, (const struct ActorInitParam *)&init, (u16)res->drawType, heapId);
     CLACT_SetActorDrawEnable(actor, 0);
     one = 1;
     CLACT_SetActorAutoAnim(actor, 1);

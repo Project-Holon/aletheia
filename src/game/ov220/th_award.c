@@ -111,7 +111,6 @@
  *   MSGDATA_Delete 0x02045C04 arm
  *   PRINTSYS_QUE_IsExistTarget  0x0201C6C4  thumb
  */
-struct BgTemplate;
 struct GfFont;
 struct Obj;
 struct Proc;
@@ -127,8 +126,10 @@ struct StrObj;
 struct Strbuf;
 struct U16Vec;
 struct WordSet;
-struct Rec;
+struct ThAwardRec;
 #include "../types.h"
+
+#include "../arm9/bg_sys.h"
 
 typedef enum { LOOP_ZERO=0 } Loop;
 
@@ -136,7 +137,7 @@ struct Row {u32 id;u8 body[32];u32 kind,on;};
 
 struct Resources {u32 a,b,c;};
 
-typedef struct {unsigned first;char pad[40];} Entry;
+typedef struct {unsigned first;char pad[40];} ThAwardEntry;
 
 /* Actor position passed to CLACT_CreateActor (8 bytes); the tail word is reserved. */
 struct ThAwardActorPos
@@ -189,92 +190,61 @@ struct ThAwardWork {
     u32 bgmIndex;                /* +0xB0 selected bgm index */
 };
 
-struct Rec { u32 msg; u16 a; u16 level; u32 b; };
+struct ThAwardRec { u32 msg; u16 a; u16 level; u32 b; };
 
-extern int CLACT_RegisterPaletteEx(void *archive, u32 fileIdx, u32 vramMode, u32 vramOffset, u16 firstColor, u16 colorCount, u16 heapId);
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void*,u32,u32);
-extern void * TH_AWARD_GRAPHIC_Create(u32,u32);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+struct ClactActor;
+struct Unit;
+struct ActorInitParam;
+extern s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+extern void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap);
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern void BG_SYS_SetPriority(int,u16);
-extern void *GFL_USE_AddMainTask(u32,u32,u32);
+#include "../arm9/printsys.h"
+extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *),void *,u32);
 extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),GXS_SetGraphicsMode(int);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(u8);
-extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32),BG_SYS_PushTile(u32),GFL_NET_RefreshWmIconAtTopRight(u32,u32),GFL_USE_FadeOutBgm(u32);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void*,u32,u32,u32,u32,u16);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void*,u32,u32,u32,u32,u32,u16);
-extern void ARC_TOOL_DeleteHandle(void*);
-extern void FADE_Start(u32,int,int,int);
-extern void BG_SYS_FreeLayerBuf(u32 i);
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/fade.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
+#include "../arm9/tcb_list.h"
+#include "../arm9/gfl_heap_wrap.h"
 extern void TH_AWARD_GRAPHIC_Delete(unsigned char *p);
 extern int GFL_USE_IsBgmFading(void),GFL_USE_PushBgm(void),GFL_USE_PopBgm(void),GFL_USE_IsBgmPlaying(void),FADE_IsActive(void);
 extern void GFL_USE_SetBgmPaused(void*),GFL_USE_CancelChangeAndPlayBgm(u32,u16),GFL_USE_FadeInBgmFull(u32);
-extern u32 KEY_GetTrg(void);
-extern u32 TOUCHPANEL_GetPointTrg(u32*,u32*);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void UI_SetInputMode(u8);
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/ui.h"
 struct BmpWin;
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 extern void TH_AWARD_GRAPHIC_Update(char*);
 extern void ARC_TOOL_DeleteHandle(void *),BG_SYS_PushTile(unsigned);
 extern int CLACT_RegisterPaletteCompressed(void *, u32, u32, u32, u16);
-extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
-extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
+extern s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
+extern s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
 extern u32 TH_AWARD_GRAPHIC_GetActor(u8 *p);
-extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
 struct Actor;
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
-extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern int POKE_TOOL_GetIconCellArcId(void);
-extern int POKE_TOOL_GetIconCellEntryId(void);
-extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
-extern u32 POKE_TOOL_CalcIconPalette(u32, u32, u32, u32);
-extern void CLACT_DeleteActor(struct Actor *actor);
+extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
+extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 pltt_op);
+#include "../arm9/poke_tool_ext.h"
+extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern void CLACT_ReleaseCellAnim(unsigned),CLACT_ReleaseCharacter(unsigned),CLACT_ReleasePalette(unsigned);
-extern void CLACT_ReleaseCellAnim(unsigned);
-extern void CLACT_ReleaseCharacter(unsigned);
-extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern void CLACT_ReleaseCellAnim(u32 idx);
+extern void CLACT_ReleaseCharacter(u32 idx);
+#include "../arm9/msgdata.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
 int TH_AWARD_Init(void *host,void *unused,void *args);
 int TH_AWARD_Exit(void *state,int unused1,int unused2,char *p);
 int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p);
-void TH_AWARD_TaskNoop(void);
+void TH_AWARD_TaskNoop(struct TcbTask *unused, void *unused2);
 void TH_AWARD_LoadBgAssets(struct ThAwardWork *p);
 void TH_AWARD_Noop(void *work);
 void TH_AWARD_CreateSpeciesActors(char *p);
@@ -287,14 +257,14 @@ void TH_AWARD_UploadWindows(struct ThAwardWork *o);
 unsigned char TH_AWARD_GetLevelIndex(unsigned value);
 extern const struct Row bgtable[];
 extern struct Resources resources[];
-extern const Entry d_021BA370[];
+extern const ThAwardEntry d_021BA370[];
 extern const u32 sounds[];
 extern const u8 coords3[];
 extern const u8 coords4[];
 extern const u8 table[],coords[];
 extern const u8 d_021BA354[];
 extern u8 d_021BA314[];
-extern const struct Rec d_021BA3A8[];
+extern const struct ThAwardRec d_021BA3A8[];
 
 int TH_AWARD_Init(void *host,void *unused,void *args)
 {
@@ -313,7 +283,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     p->font=GF_FONT_Create(23,0,0,0,p->heap);
     p->printQue=(void *)PRINTSYS_QUE_Create((unsigned int)(u32)p->heap);
     BG_SYS_SetPriority(1,2);BG_SYS_SetPriority(2,1);BG_SYS_SetPriority(3,0);
-    p->task=GFL_USE_AddMainTask((u32)TH_AWARD_TaskNoop,(u32)p,1);
+    p->task=GFL_USE_AddMainTask(TH_AWARD_TaskNoop, p,1);
     if (p->args->hasExtra) desc=(char *)p->args->base+0x14;
     else desc=(char *)p->args->base;
     if (!*(u8 *)desc) p->bgmIndex=7;
@@ -418,7 +388,7 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
     return 0;
 }
 
-void TH_AWARD_TaskNoop(void) {}
+void TH_AWARD_TaskNoop(struct TcbTask *unused, void *unused2) {}
 
 void TH_AWARD_LoadBgAssets(struct ThAwardWork *p)
 {
@@ -520,7 +490,7 @@ void TH_AWARD_CreateBgActors(struct ThAwardWork *p)
             for(;i<p->bgSlotCount;i++){
                 param.x=*(const s16*)((u32)coords+(u32)i*4);
                 param.y=*(const s16*)((u32)coords+(u32)i*4+2);
-                p->bgActors[i]=CLACT_CreateActor((void *)TH_AWARD_GRAPHIC_GetActor(p->graphic),p->charId,p->paletteId,p->cellAnimId,&param,0,p->heap);
+                p->bgActors[i]=CLACT_CreateActor((struct Unit *)TH_AWARD_GRAPHIC_GetActor(p->graphic),p->charId,p->paletteId,p->cellAnimId,(const struct ActorInitParam *)&param,0,p->heap);
                 CLACT_SetActorAnimSeq(p->bgActors[i],0);
                 CLACT_SetActorAutoAnim(p->bgActors[i],1);
             }
@@ -532,7 +502,7 @@ void TH_AWARD_DeleteBgActors(struct ThAwardWork *p)
 {
     unsigned char i;
     if(p->bgSlotCount) {
-        for(i=0;i<p->bgSlotCount;i++) CLACT_DeleteActor((struct Actor *)p->bgActors[i]);
+        for(i=0;i<p->bgSlotCount;i++) CLACT_DeleteActor((struct ClactActor *)p->bgActors[i]);
         CLACT_ReleaseCellAnim(p->cellAnimId);
         CLACT_ReleaseCharacter(p->charId);
         CLACT_ReleasePalette(p->paletteId);

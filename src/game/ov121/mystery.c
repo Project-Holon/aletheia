@@ -215,6 +215,7 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   WORDSET_Delete  0x0201ED04  thumb  arm9
  */
+#include "../arm9/app_env.h"
 #include "../version.h"
 
 #define PALETTE ((void *)0x050003C0)
@@ -248,9 +249,8 @@ typedef struct {int y,m,d,week;} MysteryRtcDate;
 
 typedef struct {u8 bit:1;} MysteryPacketFlag;
 
-typedef struct { u32 w[12]; } MysteryAlbumDesc;
+#include "mystery_album_types.h"
 
-typedef struct { u32 w[9]; } MysteryNetAlbumDesc;
 
 typedef struct { int f0, f4, f8, fc, f10, f14, f18; u16 f1c, f1e, f20, f22; } MysterySaveDesc;
 
@@ -408,175 +408,145 @@ typedef char MysteryScroll_size_check[(sizeof(MysteryScroll) == 0x128) ? 1 : -1]
 typedef char MysteryClactActor_size_check[(sizeof(MysteryClactActor) == 0x9C) ? 1 : -1];
 typedef char MysteryPacket_size_check[(sizeof(MysteryPacket) == 0x2D0) ? 1 : -1];
 
-extern int GF_OVERLAY_Load(int id);
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *, int, int);
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadBgPaletteFromArchive ARC_UTIL_UploadBgPaletteFromArchive_hdr
+#define ARC_UTIL_LoadPaletteBlockFromArchive ARC_UTIL_LoadPaletteBlockFromArchive_hdr
+#define ARC_UTIL_UploadBgCharFromHandle ARC_UTIL_UploadBgCharFromHandle_hdr
+#define ARC_UTIL_UploadPaletteFromHandleWhole ARC_UTIL_UploadPaletteFromHandleWhole_hdr
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_UploadBgPaletteFromArchive
+#undef ARC_UTIL_LoadPaletteBlockFromArchive
+#undef ARC_UTIL_UploadBgCharFromHandle
+#undef ARC_UTIL_UploadPaletteFromHandleWhole
+void ARC_UTIL_UploadBgPaletteFromArchive(int, int, int, int, int, int, int);
+void * ARC_UTIL_LoadPaletteBlockFromArchive(u32, u32, void *, u32);
+void ARC_UTIL_UploadBgCharFromHandle();
+void ARC_UTIL_UploadPaletteFromHandleWhole();
+#endif
+#ifdef __MWERKS__
+#define POKE_TOOL_Create POKE_TOOL_Create_hdr
+#endif
+#ifdef __MWERKS__
+#define POKE_TOOL_PushMove POKE_TOOL_PushMove_hdr
+#define POKE_TOOL_AddMove POKE_TOOL_AddMove_hdr
+#endif
+#include "../arm9/poke_tool.h"
+#ifdef __MWERKS__
+#undef POKE_TOOL_PushMove
+#undef POKE_TOOL_AddMove
+void POKE_TOOL_PushMove(struct PokemonParam *, int);
+u32 POKE_TOOL_AddMove(struct PokemonParam *, u32);
+#endif
+#ifdef __MWERKS__
+#undef POKE_TOOL_Create
+void * POKE_TOOL_Create(u16, u16, u32, u32, u32);
+#endif
+#ifdef __MWERKS__
+#define POKEGRA_ConvertCharTo2D POKEGRA_ConvertCharTo2D_hdr
+#endif
+#include "../arm9/pokegra.h"
+#ifdef __MWERKS__
+#undef POKEGRA_ConvertCharTo2D
+void POKEGRA_ConvertCharTo2D(void *, u16);
+#endif
+#ifdef __MWERKS__
+#define MYSTERY_UTIL_CreateWindowList MYSTERY_UTIL_CreateWindowList_hdr
+#endif
+#ifdef __MWERKS__
+#define MYSTERY_UTIL_CreateMenu MYSTERY_UTIL_CreateMenu_hdr
+#define MYSTERY_UTIL_CreateDetailWindow MYSTERY_UTIL_CreateDetailWindow_hdr
+#endif
+#include "mystery_util.h"
+#ifdef __MWERKS__
+#undef MYSTERY_UTIL_CreateMenu
+#undef MYSTERY_UTIL_CreateDetailWindow
+void * MYSTERY_UTIL_CreateMenu(const u8 *, int);
+struct MysteryUtilDetailWindow * MYSTERY_UTIL_CreateDetailWindow(const struct MysteryUtilDetailDef *, int);
+#endif
+#ifdef __MWERKS__
+#undef MYSTERY_UTIL_CreateWindowList
+void * MYSTERY_UTIL_CreateWindowList(void *, const char *, int, int, int, u32, struct MsgBank *, int, int);
+#endif
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
 struct GameData;
-extern struct GameData *GAME_DATA_Create(u16 id);
+#include "../arm9/game_data.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 struct MysteryData;
-extern struct MysteryData *MYSTERY_DATA_Create(struct SaveControl *save, s32 mode, u32 heapId);
-extern u8 *MYSTERY_GRAPHIC_Create(int arg, u16 heap);
-extern unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/mystery_data.h"
+#include "mystery_graphic.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
+#include "../arm9/printsys.h"
+#include "../arm9/msgdata.h"
 extern void *MYSTERY_UTIL_CreateTask(void *, void *, u16);
 extern void *MYSTERY_UTIL_CreateMenuWindow(int a, u8 b, void *c, void *d, u16 heap);
 extern void MYSTERY_UTIL_DrawMenuWindow(u8 *p, int a, int b);
-extern void *MYSTERY_NET_Create(void *arg, int heap);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
-extern void MYSTERY_NET_Delete(u8 *p);
+#include "mystery_net.h"
+#include "../arm9/gfl_use.h"
 extern void MYSTERY_UTIL_DeleteMenuWindow(u8 *p);
 extern void MYSTERY_UTIL_DeleteTask(void *);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void MYSTERY_GRAPHIC_Delete(u8 *p);
-extern void MYSTERY_DATA_Delete(struct MysteryData *data);
-extern void GAME_DATA_Delete(struct GameData *gameData);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(unsigned int);
-extern void OS_ResetSystem(u32 parameter);
-extern void GF_OVERLAY_Unload(int);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void MYSTERY_NET_Step(char *p);
+#include "../arm9/wordset.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/os_reset.h"
 extern void MYSTERY_UTIL_DispatchTask(char *p);
-extern void MYSTERY_GRAPHIC_Draw(u8 *p);
-extern void MYSTERY_GRAPHIC_DrawScene(char *p);
-extern void MYSTERY_GRAPHIC_DrawEnd(char *p);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void MYSTERY_UTIL_UpdateMenuWindow(u8 *p);
 extern int MYSTERY_UTIL_IsWindowListDone(u8 *p);
 extern int MYSTERY_UTIL_Update(void **);
 extern int MYSTERY_UTIL_IsTaskDone(u32 *p);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+#include "../arm9/bg_sys.h"
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole();
-extern void ARC_UTIL_UploadBgCharFromHandle();
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
-extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
-extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/clact.h"
 extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
-extern void MI_CpuCopy8(const void *,void *,int);
-extern u32 GFL_HEAP_Free(void *p);
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern u32 GFL_USE_GetRandomBelow(u32 range);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
 struct PaletteData;
-extern void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
 extern s32 MYSTERY_UTIL_BlendPalette(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct ParticleSys;
-extern struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
-extern void *PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
-extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr);
-extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
+#include "../arm9/particle.h"
 extern void MYSTERY_UTIL_SetMenuMessage(u8 *,int,int,int);
 extern void MYSTERY_UTIL_SetTaskHandler(u32 *p, u32 a);
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern int FADE_IsActive(void);
-extern void GFL_USE_FadeOutBgm(u32 a);
-extern void MYSTERY_NET_SetAction(char *,unsigned);
-extern int MYSTERY_NET_GetAction(void *);
-extern int MYSTERY_NET_GetReceivedData(u8 *p, void *a, u32 b);
-extern int MYSTERY_NET_ImportRecords(char *,void *,u16);
-extern int MYSTERY_NET_UpdateWifiError(void *);
-extern void MYSTERY_NET_Exit(char *p);
+#include "../arm9/fade.h"
 extern void MYSTERY_UTIL_SetTaskArg(u32 *p, u32 a);
 extern void MYSTERY_UTIL_GetTaskArg(u32 *p);
 extern int MYSTERY_UTIL_UpdateMenu(char *);
 extern unsigned MYSTERY_UTIL_GetMenuState(u8 *p);
-extern u32 KEY_GetTrg(void);
-extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
-extern int MYSTERY_DATA_IsEventFlag(struct MysteryData *data, u32 flag);
-extern int MYSTERY_DATA_AddCard(struct MysteryData *data, void *card);
-extern void MYSTERY_DATA_SetEventFlag(struct MysteryData *data, u32 flag);
-extern u32 MYSTERY_DATA_HasCardSpace(struct MysteryData *data);
-extern u32 MYSTERY_DATA_GetCardSlotNum(struct MysteryData *data);
-extern int MYSTERY_DATA_IsCardReceived(struct MysteryData *data, u32 slot);
-extern int MYSTERY_DATA_IsMainSave(struct MysteryData *data);
+#include "../arm9/key.h"
+#include "../arm9/gf_standard.h"
 extern int APP_ENV_IsWirelessAvailable(void);
-extern void *MYSTERY_NET_GetResult(char *p);
 extern void MYSTERY_UTIL_SetListValue(u8 *p, u32 i, u32 value);
-extern void MYSTERY_GRAPHIC_StartRender(u8 *p);
-extern void MYSTERY_DATA_SaveStart(struct MysteryData *data, struct GameData *gameData);
-extern int MYSTERY_DATA_SaveMain(struct MysteryData *data, struct GameData *gameData);
-extern void MYSTERY_GRAPHIC_StopRender(char *p);
-extern void *MYSTERY_ALBUM_CreateSlotWork(MysteryAlbumDesc *,u16);
+#include "mystery_album.h"
 struct CtxB;
 struct MysteryAlbumCard;
 struct MysteryAlbumView;
-extern struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(struct MysteryAlbumCard *card, struct CtxB *slotWork, void *gameData, u16 heap);
 struct MysteryAlbum;
-extern void MYSTERY_ALBUM_RequestSetup(struct MysteryAlbum *album, u32 mode);
-extern void MYSTERY_ALBUM_StepIntro(struct MysteryAlbum *album);
-extern void MYSTERY_ALBUM_StartIntro(struct MysteryAlbum *album);
-extern int MYSTERY_ALBUM_IsIntroIdle(struct MysteryAlbum *album);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void *MYSTERY_ALBUM_Create(MysteryNetAlbumDesc *,int);
+#include "../arm9/g2.h"
 struct MysteryAlbumWorkVolatile;
-extern void MYSTERY_ALBUM_Update(struct MysteryAlbumWorkVolatile *obj);
-extern int MYSTERY_ALBUM_GetWindowState(char *p);
 struct MysteryAlbumWork;
-extern void MYSTERY_ALBUM_DeleteWork(struct MysteryAlbumWork *obj);
-extern void MYSTERY_ALBUM_UpdateWindows(char *p);
-extern void PROCSYS_PushGlobal(u32,u32,u32);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
-extern void MYSTERY_ALBUM_Delete(struct MysteryAlbum *album);
-extern void MYSTERY_ALBUM_DeleteSlotWork(void **);
+#include "../arm9/net.h"
 extern void MYSTERY_UTIL_MarkTaskDone(u32 *p);
-extern void *MYSTERY_UTIL_CreateMenu(MysterySaveDesc *, int);
 extern void MYSTERY_UTIL_DeleteMenu(u8 *p);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(int,int,int,int,int,int,int);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_PushTile(u32 index);
-extern void *MYSTERY_UTIL_CreateDetailWindow(MysteryMessageDesc *,int);
-extern void BG_SYS_ClearSlot(unsigned);
+#include "../arm9/strbuf.h"
 extern void MYSTERY_UTIL_DeleteDetailWindow(u8 *p);
 extern int MYSTERY_UTIL_SetVoice(unsigned char *);
-extern void *MYSTERY_UTIL_CreateWindowList(int,MysteryPartyDesc *,int,int,int,void *,struct MsgBank *,void *,int);
 extern void MYSTERY_UTIL_ClearWindowList(u8 *p);
 extern void MYSTERY_UTIL_DeleteWindowList(u8 *p);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
-extern u32 GFL_USE_GetRandom(u32);
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
-extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
+#include "../arm9/mystatus.h"
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
 struct PokemonParam;
 extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
 extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 extern u32 POKE_TOOL_SetDefaultMoves(struct PokemonParam *pp);
-extern u32 POKE_TOOL_AddMove(void *,u32);
-extern void POKE_TOOL_PushMove(void *p, int move);
 struct BoxPokemon;
 extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
-extern u16 STRBUF_GetEosChar(void);
-extern const void *MYSTATUS_GetName(const void *p);
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 struct SaveData;
-extern void SAVE_EVENT_WriteWithDate(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day);
+#include "../arm9/save_event.h"
 extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 extern void *POKEGRA_OpenHandle(u32 heapId);
@@ -584,38 +554,23 @@ extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
 extern u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
-extern u32 FILE_UTIL_Get(u32 item, u32 which);
-extern void MIi_CpuClear16(u32,void *,u32);
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+#include "../arm9/file_util.h"
 extern void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const u16 *first, const u16 *last);
-extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 struct Pt16;
-extern void CLACT_GetActorPos(struct Actor *actor, struct Pt16 *out);
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
-extern void CLACT_SetActorPos(struct Actor *actor, struct Pt16 *pos);
-extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 struct BmpOamSys;
-extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
+#include "../arm9/bmp_oam.h"
 extern void *MYSTERY_UTIL_CreateTaskEx(const char *p, u16 a, u16 b, int c, u8 d, int e, void *f, void *g, u16 heap);
 extern void MYSTERY_UTIL_SetActorPairColor(u8 *p, int a);
 extern void MYSTERY_UTIL_SetVec(u32 *p, u32 a, u32 b, u32 c);
 extern void MYSTERY_UTIL_SetActorPairText(char *p, int a, int b, int c);
 extern void MYSTERY_UTIL_UpdateActorPair(char *p);
 extern void MYSTERY_UTIL_DeleteActorPair(unsigned char *p);
-extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 extern int MYSTERY_UTIL_IsMenuFinished(u8 *p);
 extern void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId);
-extern void POKEGRA_ConvertCharTo2D(void *,u16);
 struct MysteryGiftPacket;
-extern int MYSTERY_DATA_CheckPacketCrc(struct MysteryGiftPacket *packet);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void G3X_SetFog(int,int,int,int);
-extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
+#include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
+#include "../arm9/g3d_system.h"
 int MYSTERY_Create(void *a, u32 b, u32 c);
 int MYSTERY_Delete(void *a, int b, int c, char *p);
 int MYSTERY_Main(int a, int b, int c, char *p);
@@ -841,7 +796,7 @@ void MYSTERY_CreateClact(char *p, void *owner, u16 heap)
     GFL_HEAP_Free(allocation);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&point,0,8);
-    ((MysteryClactActor *)p)->actors[0]=CLACT_CreateActor((void *)owner,((MysteryClactActor *)p)->character.val,((MysteryClactActor *)p)->palette.val,((MysteryClactActor *)p)->cellAnim.val,&point,0,heap);
+    ((MysteryClactActor *)p)->actors[0]=CLACT_CreateActor((struct Unit *)owner,((MysteryClactActor *)p)->character.val,((MysteryClactActor *)p)->palette.val,((MysteryClactActor *)p)->cellAnim.val,(const struct ActorInitParam *)&point,0,heap);
     CLACT_SetActorDrawEnable(((MysteryClactActor *)p)->actors[0],0);
     bound=256;
     bound+=16;
@@ -850,7 +805,7 @@ void MYSTERY_CreateClact(char *p, void *owner, u16 heap)
         point.y=GFL_USE_GetRandomBelow(256)-bound;
         point.b=3;
         point.z=GFL_USE_GetRandomBelow(6)+3;
-        *(void **)(p+i*4+16)=CLACT_CreateActor((void *)owner,((MysteryClactActor *)p)->character.val,((MysteryClactActor *)p)->palette.val,((MysteryClactActor *)p)->cellAnim.val,&point,0,heap);
+        *(void **)(p+i*4+16)=CLACT_CreateActor((struct Unit *)owner,((MysteryClactActor *)p)->character.val,((MysteryClactActor *)p)->palette.val,((MysteryClactActor *)p)->cellAnim.val,(const struct ActorInitParam *)&point,0,heap);
         CLACT_SetActorDrawEnable(*(void **)(p+i*4+16),0);
     }
     point.x=128;
@@ -858,7 +813,7 @@ void MYSTERY_CreateClact(char *p, void *owner, u16 heap)
     point.b=0;
     point.a=1;
     point.z=9;
-    ((MysteryClactActor *)p)->actors[34]=CLACT_CreateActor((void *)owner,((MysteryClactActor *)p)->character.val,((MysteryClactActor *)p)->palette.val,((MysteryClactActor *)p)->cellAnim.val,&point,0,heap);
+    ((MysteryClactActor *)p)->actors[34]=CLACT_CreateActor((struct Unit *)owner,((MysteryClactActor *)p)->character.val,((MysteryClactActor *)p)->palette.val,((MysteryClactActor *)p)->cellAnim.val,(const struct ActorInitParam *)&point,0,heap);
     CLACT_SetActorDrawEnable(((MysteryClactActor *)p)->actors[34],0);
 }
 
@@ -881,7 +836,7 @@ void MYSTERY_TransferPalette(u8 *p,int heap)
 {
     void *out;
     void *raw;
-    raw=ARC_UTIL_LoadPaletteBlockFromArchive(34,8,(u32)(&out),heap);
+    raw=ARC_UTIL_LoadPaletteBlockFromArchive(34,8,&out,heap);
     CLACT_TransferPalette((u32)(((MysteryClactActor *)p)->palette.ptr),out,7);
     GFL_HEAP_Free(raw);
 }
@@ -1351,7 +1306,7 @@ void MYSTERY_TaskAlbum(void *task,u32 *state,u8 *p)
 
 void MYSTERY_TaskAlbumView(void *task,u32 *state,u8 *p)
 {
-    MysteryNetAlbumDesc d;
+    MysteryAlbumCreateInput d;
     switch(*state) {
     case 0:
         FADE_Start(3,0,16,-1);
@@ -1418,7 +1373,7 @@ void MYSTERY_TaskAlbumView(void *task,u32 *state,u8 *p)
 
 void MYSTERY_TaskNetAlbum(void *task,u32 *state,u8 *p)
 {
-    MysteryNetAlbumDesc d;
+    MysteryAlbumCreateInput d;
     switch(*state) {
     case 0:
         FADE_Start(3,0,16,-1);
@@ -1439,7 +1394,7 @@ void MYSTERY_TaskNetAlbum(void *task,u32 *state,u8 *p)
         d.w[6]=((MysteryWork *)p)->wordSet.val;
         d.w[7]=((MysteryWork *)p)->msgBank.val;
         d.w[8]=((MysteryWork *)p)->gameData.val;
-        ((MysteryWork *)p)->netAlbum=MYSTERY_ALBUM_Create((MysteryNetAlbumDesc *)&d, 29);
+        ((MysteryWork *)p)->netAlbum=MYSTERY_ALBUM_Create(&d, 29);
         *state=2;
         break;
     case 2:
@@ -1523,9 +1478,9 @@ void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p)
         ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->reserved10=0;
         ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->reserved18=0;
         ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->mode=9;
-        if(!MYSTERY_DATA_IsMainSave(((MysteryWork *)p)->mysteryData.ptr)) ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->saveType=2;
+        if(!MYSTERY_DATA_IsMainSave((struct MysteryData *)(((MysteryWork *)p)->mysteryData.ptr))) ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->saveType=2;
         else ((MysteryNetSaveParam *)(*(u8 * *)&((MysteryWork *)p)->saveParam))->saveType=0;
-        PROCSYS_PushGlobal((u32)ov115_id,(u32)gNetSaveMainProc,(u32)((MysteryWork *)p)->saveParam);
+        PROCSYS_PushGlobal((u32)ov115_id,(const ProcData *)((u32)gNetSaveMainProc),(void *)((u32)((MysteryWork *)p)->saveParam));
         *state=5; return;
     case 5:
         ((MysteryWork *)p)->graphic=MYSTERY_GRAPHIC_Create(1,29);
@@ -1586,7 +1541,7 @@ void MYSTERY_CreateSaveMenu(u8 *p, int unused, int heap)
         c.f1e = 15;
         c.f20 = 14;
         c.f22 = 1;
-        ((MysteryWork *)p)->saveMenu = MYSTERY_UTIL_CreateMenu(&c, heap);
+        ((MysteryWork *)p)->saveMenu = MYSTERY_UTIL_CreateMenu((const u8 *)&c, heap);
     }
 }
 
@@ -1651,7 +1606,7 @@ void MYSTERY_CreateCardMenu(u8 *p,u32 which,int heap)
     BG_SYS_FillTileMap(2,0,0,32,24,4);
     BG_SYS_PushTile(2);
     BG_SYS_SetPlaneVisible(2,1);
-    ((MysteryWork *)p)->msgDialog=MYSTERY_UTIL_CreateDetailWindow(&d,heap);
+    ((MysteryWork *)p)->msgDialog=MYSTERY_UTIL_CreateDetailWindow((const struct MysteryUtilDetailDef *)&d,heap);
     if(!d.w[0]) {
         for(i=0;i<4;i++) {
             if(d.w[4+i]) STRBUF_Delete((void *)d.w[4+i]);
@@ -1691,7 +1646,7 @@ void MYSTERY_CreatePartyMenu(u8 *p,int heap)
         STRBUF_SetStringN((struct Strbuf *)c.w[2],(const unsigned short *)(p+1068),37);
         c.w[8]=(int)STRBUF_Create(253,heap);
         STRBUF_SetStringN((struct Strbuf *)c.w[8],(const unsigned short *)(p+1180),253);
-        ((MysteryWork *)p)->menuB=MYSTERY_UTIL_CreateWindowList(0,&c,2,4,15,((MysteryWork *)p)->printQueue.ptr,((MysteryWork *)p)->msgBank.ptr,((MysteryWork *)p)->font.ptr,heap);
+        ((MysteryWork *)p)->menuB=MYSTERY_UTIL_CreateWindowList(0,(const char *)&c,2,4,15,(u32)((MysteryWork *)p)->printQueue.ptr,(struct MsgBank *)((MysteryWork *)p)->msgBank.ptr,(int)((MysteryWork *)p)->font.ptr,heap);
         STRBUF_Delete((void *)c.w[2]);
         STRBUF_Delete((void *)c.w[8]);
         MYSTERY_SetupBg((u16 *)(p+912),1);
@@ -1812,7 +1767,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
     O(40)=(u32)scroll;O(36)=(u32)bgHeap;OH(0)=heap;O(276)=(u32)desc;OH(296)=0;OH(298)=0;
     if(desc[714]) palette=3;
     else palette=d_021DF4F2[desc[179]];
-    buf=ARC_UTIL_LoadPaletteBlockFromArchive(34,2,(u32)&work.resdesc,heap);
+    buf=ARC_UTIL_LoadPaletteBlockFromArchive(34,2,&work.resdesc,heap);
     base=*(u8 **)((u8 *)work.resdesc+12);
     MI_CpuCopy8(base,out+146,32);
     MI_CpuCopy8(base+palette*32,out+114,32);
@@ -1832,7 +1787,11 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         if(gender==255) gender=2;
         for(i=0;i<6;i++) if(work.iv[i]==255) work.iv[i]=GFL_USE_GetRandom(32);
         id=otId;
+#ifdef __MWERKS__
         allocated=POKE_TOOL_Create(species,level,otId,0,tag);
+#else
+        allocated=POKE_TOOL_Create(species,level,otId,tag);
+#endif
         packed=(work.iv[0]&31)|((u32)work.iv[1]<<27>>22)|((u32)work.iv[2]<<27>>17)|
                ((u32)work.iv[3]<<27>>12)|((u32)work.iv[4]<<27>>7)|((u32)work.iv[5]<<27>>2);
         if(ability==4) ability=(u8)GFL_USE_GetRandom(3);
@@ -1930,7 +1889,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
     }
     MI_CpuFill8(&work.point,0,8);
     work.point.x=*(s16 *)(out+298)+128;work.point.y=-96;work.point.b=2;
-    O(4)=(u32)CLACT_CreateActor((void *)((u32)owner),O(16),O(12),O(20),&work.point,0,heap);
+    O(4)=(u32)CLACT_CreateActor((struct Unit *)((void *)((u32)owner)),O(16),O(12),O(20),(const struct ActorInitParam *)&work.point,0,heap);
     CLACT_SetActorDrawEnable((void *)O(4),0);
     if(desc[714]) CLACT_SetActorObjMode((void *)O(4),1);
 }
@@ -2137,7 +2096,7 @@ void MYSTERY_CardViewAnimReveal(u8 *p)
     case 4:
         pos.x=128;
         pos.y=118-((MysteryCardView *)p)->value;
-        CLACT_AddActorSurfacePos(((MysteryCardView *)p)->actor,(const struct Vec2 *)(&pos),0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((MysteryCardView *)p)->actor),(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);
         CLACT_SetActorDrawEnable(((MysteryCardView *)p)->actor,1);
         ((MysteryCardView *)p)->step2=0;
         ((MysteryCardView *)p)->state=5;

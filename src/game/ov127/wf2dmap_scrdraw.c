@@ -72,17 +72,23 @@ typedef struct Wf2dmapSurface {
     u16 tileY;              /* 0x1A: last drawn tile row */
 } Wf2dmapSurface;
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern u32 GFL_HEAP_Free(void *p);
-extern void CLACT_SetSurfacePos(void *,int,void *);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BG_SYS_InitBgLayer(u8,void *,int);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
-extern void BG_SYS_SetTileEntry(u8,int,int,int,u8,u8,u8);
-extern void BG_SYS_DrawTileEx(u8, u8, u8, u8, u8, void *, u8, u8, u32, u32);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+#define BG_SYS_InitBgLayer BG_SYS_InitBgLayer_hdr
+#define BG_SYS_SetTileEntry BG_SYS_SetTileEntry_hdr
+#define BG_SYS_DrawTileEx BG_SYS_DrawTileEx_hdr
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_InitBgLayer
+#undef BG_SYS_SetTileEntry
+#undef BG_SYS_DrawTileEx
+void BG_SYS_InitBgLayer(u8, const struct BgTemplate *, int);
+void BG_SYS_SetTileEntry(u8, int, int, int, u8, u8, u8);
+void BG_SYS_DrawTileEx(u8, u8, u8, u8, u8, const void *, u8, u8, u32, u32);
+#endif
 void WF2DMAP_SCRDRAW_SetPoint(Wf2dmapPoint *p, s16 y, s16 x);
 int WF2DMAP_SCRDRAW_GetPointY(const Wf2dmapPoint *p);
 int WF2DMAP_SCRDRAW_GetPointX(const Wf2dmapPoint *p);
@@ -140,8 +146,8 @@ void WF2DMAP_SCRDRAW_UpdatePosition(char *surface,void *point)
     x=WF2DMAP_SCRDRAW_GetPointX(point);
     pos.x=x;
     pos.y=y;
-    if(((Wf2dmapSurface *)surface)->flag==0) CLACT_SetSurfacePos(((Wf2dmapSurface *)surface)->owner,0,&pos);
-    else { pos.y+=192; CLACT_SetSurfacePos(((Wf2dmapSurface *)surface)->owner,1,&pos); }
+    if(((Wf2dmapSurface *)surface)->flag==0) CLACT_SetSurfacePos((struct Renderer *)(((Wf2dmapSurface *)surface)->owner),0,(struct ClactVec2 *)&pos);
+    else { pos.y+=192; CLACT_SetSurfacePos((struct Renderer *)(((Wf2dmapSurface *)surface)->owner),1,(struct ClactVec2 *)&pos); }
     WF2DMAP_SCRDRAW_SetScroll(surface,x,y);
 }
 
@@ -152,7 +158,7 @@ void WF2DMAP_SCRDRAW_LoadPalette(void *unused, u32 id, u8 *res)
     desc.bytes[1]=res[2]; desc.bytes[2]=res[3]; desc.bytes[3]=res[4];
     desc.bytes[8]=res[5]; desc.bytes[9]=res[6]; desc.bytes[10]=0; desc.tail=res[7];
     BG_SYS_FreeLayerBuf((u8)id);
-    BG_SYS_InitBgLayer(id,&desc,0);
+    BG_SYS_InitBgLayer(id,(const struct BgTemplate *)&desc,0);
     BG_SYS_SetPlaneVisible(id,1);
 }
 

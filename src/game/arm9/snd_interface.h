@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_SND_INTERFACE_H
 #define GAME_ARM9_SND_INTERFACE_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of snd_interface.c, prototypes copied from their definitions. */
 
 struct SNDBankData;
@@ -41,5 +42,6 @@ void SND_ReadDriverInfo(struct SNDDriverInfo *info);
 void SNDi_SetPlayerParam(int playerNo, u32 offset, u32 data, int size);
 void SNDi_SetTrackParam(int playerNo, u32 trackBitMask, u32 offset, u32 data, int size);
 void PushCommand_impl(int id, u32 value0, u32 value1, u32 value2, u32 value3);
+/* END mkheaders: generated region */
 
 #endif

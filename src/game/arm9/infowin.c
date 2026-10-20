@@ -122,7 +122,6 @@ struct InfoWinDrawBuffer {
 struct TcbSystem;
 struct TcbTask;
 
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, PaletteFade *), void *work, unsigned int priority);
 struct TcbTask;
 #include "tcb_list.h"
 #include "gfl_heap_wrap.h"

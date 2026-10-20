@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_WM_DS_H
 #define GAME_ARM9_WM_DS_H
 
+typedef struct WMDataSharingInfo WMDataSharingInfo;
+typedef struct WMDataSet WMDataSet;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wm_ds.c, prototypes copied from their definitions. */
 
@@ -22,8 +25,5 @@ void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, BOOL delayed);
 u16 *WM_GetSharedDataAddress(WMDataSharingInfo *dsInfo, WMDataSet *receiveData, u16 aid);
 u16 *WmGetSharedDataAddress(WMDataSharingInfo *dsInfo, u32 aidBitmap, u16 *receiveBuf, u32 aid);
 /* END mkheaders: generated region */
-
-typedef struct WMDataSharingInfo WMDataSharingInfo;
-typedef struct WMDataSet WMDataSet;
 
 #endif

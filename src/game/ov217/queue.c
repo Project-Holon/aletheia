@@ -27,8 +27,7 @@
 
 #include "ring_queue.h"
 
-extern u32 GFL_HEAP_Free(void *mem);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
 int RingQueue_Create(int capacity, int heapId);
 void RingQueue_Destroy(struct RingQueue *queue);

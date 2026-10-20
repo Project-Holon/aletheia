@@ -52,18 +52,11 @@ typedef struct FieldBbdColor {
     FieldBbdColorData data;
 } FieldBbdColor;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern u32 GFL_HEAP_Free(void *p);
-extern void ARC_TOOL_DeleteHandle(void *h);
+#include "../arm9/gfl_heap_wrap.h"
 struct ArcHandle;
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
-extern void VEC_Fx16Normalize(u16 *a, u16 *b);
-extern void BILLBOARD_SetFixedNormal(u8 *board, short *normal);
-extern void BILLBOARD_SetDiffuse(u8 *dst, u16 *src);
-extern void BILLBOARD_SetAmbient(u8 *dst, u16 *src);
-extern void BILLBOARD_SetSpecular(u8 *dst, u16 *src);
-extern void BILLBOARD_SetEmission(u8 *dst, u16 *src);
+#include "../arm9/fx_vec.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/billboard.h"
 
 FieldBbdColor *FIELD_BBD_COLOR_Create(u32 heapId);
 int FIELD_BBD_COLOR_Delete(FieldBbdColor *bbdColor);
@@ -100,7 +93,7 @@ void FIELD_BBD_COLOR_Apply(FieldBbdColor *bbdColor, void *bbdSys)
     lightVector[0] = bbdColor->data.lightVector[0];
     lightVector[1] = bbdColor->data.lightVector[1];
     lightVector[2] = bbdColor->data.lightVector[2];
-    VEC_Fx16Normalize(lightVector, lightVector);
+    VEC_Fx16Normalize( (const VecFx16 *)lightVector, (VecFx16 *)lightVector);
     BILLBOARD_SetFixedNormal(bbdSys, (short int *)lightVector);
     color[3] = bbdColor->data.diffuse.r | (bbdColor->data.diffuse.g << 5) | (bbdColor->data.diffuse.b << 10);
     BILLBOARD_SetDiffuse(bbdSys, &color[3]);

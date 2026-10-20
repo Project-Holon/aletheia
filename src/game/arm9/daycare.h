@@ -1,6 +1,15 @@
 #ifndef GAME_ARM9_DAYCARE_H
 #define GAME_ARM9_DAYCARE_H
 
+#include "../types.h"
+
+struct PokeParam;
+struct DaycareSave;
+struct SaveControl;
+
+struct PokeParam *DAYCARE_GetSlotMon(struct DaycareSave *daycare, s32 slot);
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of daycare.c, prototypes copied from their definitions. */
 
 struct DaycareSave;
@@ -24,5 +33,6 @@ void DAYCARE_AddSteps(struct DaycareSlot *slots, u32 steps);
 u32 DAYCARE_GetSize(void);
 void DAYCARE_Init(struct DaycareSave *daycare);
 struct DaycareSave *DAYCARE_GetFromSave(struct SaveControl *save);
+/* END mkheaders: generated region */
 
 #endif

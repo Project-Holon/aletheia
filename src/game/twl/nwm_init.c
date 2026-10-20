@@ -50,30 +50,24 @@ typedef struct CamBuf {
     u16 dmaNo;
 } CamBuf;
 
-extern u32 OS_DisableInterrupts(void);
-extern u32 WMi_CheckInitializedAfterMeasure(void);
-extern void OS_RestoreInterrupts(u32);
-extern void PXI_Init(void);
-extern int PXI_IsCallbackReady(int fifotag, int proc);
-extern void DC_InvalidateRange(void *, u32);
-extern void MIi_DmaFill32(unsigned int dmaNo, void *dest, unsigned int data, unsigned int size, int dmaEnable);
-extern void DC_StoreRange(void *, u32);
-extern void NWMi_ClearFifoRecvFlag(void);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/wm_etc.h"
+#include "../arm9/pxi_fifo.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/mi_dma.h"
+#include "nwm_system.h"
 #include "../sdk_os.h"
 
-extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, int msgCount);
-extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
-extern void PXI_SetFifoRecvCallback(int fifotag, void (*)(void));
-extern void NWMi_ReceiveFifo9(void);
-extern void MI_CpuFill8(void *, u32, u32);
+#include "../arm9/os_message.h"
+#include "../arm9/mi_memory.h"
 u32 NWM_Init(CamBuf *buf, u32 size, u32 mode);
 u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode);
 u32 NWMi_CheckInitialized(void);
 u32 NWMi_CheckEnableFlag(void);
 extern CamBuf *NWMi_SysWorkPtr;
 extern u8 data_027341A0[];
-extern int OS_IsAvailableWireless(void);
-extern int OS_IsForceDisableWireless(void);
+#include "../arm9/os_ownerinfoex.h"
 
 u32 NWM_Init(CamBuf *buf, u32 size, u32 mode) {
     if (NWMi_CheckEnableFlag() == 0) {
@@ -125,7 +119,7 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
         DC_StoreRange(NWMi_SysWorkPtr->lines[i], 2);
         OS_SendMessage((struct OSMessageQueue *)NWMi_SysWorkPtr->ctlA, NWMi_SysWorkPtr->lines[i], 1);
     }
-    PXI_SetFifoRecvCallback(0x16, NWMi_ReceiveFifo9);
+    PXI_SetFifoRecvCallback(0x16, (PXIFifoCallback)NWMi_ReceiveFifo9);
     MI_CpuFill8(NWMi_SysWorkPtr->state, 0, 0x154);
     data_027341A0[0] = 1;
     NWMi_SysWorkPtr->ring->ready = 1;

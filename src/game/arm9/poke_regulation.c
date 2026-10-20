@@ -81,7 +81,11 @@ extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
 extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 
-extern void *ARC_TOOL_LoadMember(unsigned int archiveId, unsigned int memberId, unsigned int heapId);
+#ifdef __MWERKS__
+extern void *ARC_TOOL_LoadMember(unsigned int archiveId, unsigned int memberId, unsigned int heapId); /* original prototype; the definition differs in argument width */
+#else
+#include "arc_tool.h"
+#endif
 
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 number, u32 digits, u32 padMode, u32 flags);
 

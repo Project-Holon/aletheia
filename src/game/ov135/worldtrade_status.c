@@ -31,44 +31,38 @@
  */
 #include "worldtrade_types.h"
 
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
+#include "../arm9/mi_memory.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct GameSystem;
 struct GameData;
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void WORLDTRADE_ExitPlanes(Work *);
-
-extern void WORLDTRADE_ClearAndShowPlanes(Work *p);
-
-extern void WORLDTRADE_AdvanceScreenId(Work *p);
+#include "worldtrade.h"
 
 
-extern void WORLDTRADE_SetStateAndReturn(Work *p, u32 nextScreenId, u32 kind);
 
-extern int WORLDTRADE_BOX_IsPartyBox(int);
 
-extern u32 WORLDTRADE_BOX_GetMonCount(u8 *p, u32 b, u32 c);
 
-extern void *WORLDTRADE_BOX_GetPartyMon(void *,void *,int,int);
+#include "worldtrade_box.h"
 
-extern void PROCSYS_Push(void *,u32,const void *,void *);
 
-void WORLDTRADE_STATUS_Open(Work *p);
 
-u32 WORLDTRADE_STATUS_WaitIdle(Work *p);
+#include "../arm9/procsys.h"
 
-u32 WORLDTRADE_STATUS_Close(Work *p);
+void WORLDTRADE_STATUS_Open(WorldtradeWork *p);
+
+u32 WORLDTRADE_STATUS_WaitIdle(WorldtradeWork *p);
+
+u32 WORLDTRADE_STATUS_Close(WorldtradeWork *p);
 
 extern const char str_02203E30[], ov131_id[];
 
-extern const u32 gPokeStatusProcData[];
+extern const struct ProcData gPokeStatusProcData;
 
-void WORLDTRADE_STATUS_Open(Work *p)
+void WORLDTRADE_STATUS_Open(WorldtradeWork *p)
 {
     PokeStatusRequest *r;
     WORLDTRADE_ExitPlanes(p);
@@ -93,14 +87,14 @@ void WORLDTRADE_STATUS_Open(Work *p)
         r->mon=WORLDTRADE_BOX_GetPartyMon(p->ctx->party,p->ctx->save,p->box,0);
         r->type=2;
     }
-    PROCSYS_Push(p->procSys,(u32)ov131_id,gPokeStatusProcData,r);
+    PROCSYS_Push(p->procSys,(uptr)ov131_id,&gPokeStatusProcData,r);
     p->subLcdRefresh=1;
 }
 
 /*
  * Answer 2, or set the 5/mode pair and answer 3 when the +0x12f4 word is clear.
  */
-u32 WORLDTRADE_STATUS_WaitIdle(Work *p)
+u32 WORLDTRADE_STATUS_WaitIdle(WorldtradeWork *p)
 {
     u32 r = 2;
 
@@ -111,7 +105,7 @@ u32 WORLDTRADE_STATUS_WaitIdle(Work *p)
     return r;
 }
 
-u32 WORLDTRADE_STATUS_Close(Work *p)
+u32 WORLDTRADE_STATUS_Close(WorldtradeWork *p)
 {
     PokeStatusRequest *q = p->statusReq;
 

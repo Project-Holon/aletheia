@@ -16,7 +16,7 @@
  *   DWCi_SceneSetAossButton_draw  0x021C4C14  arm  ov016
  *   func_021C4C18  0x021C4C18  arm  ov016
  *   DWCi_AOSSlStart  0x021C0900  arm  ov016
- *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteEx  0x021D7744  arm  ov016
  *   DWCi_ChangeScene  0x021C0E40  arm  ov016
  *   DWCi_SNDlStop  0x021D0014  arm  ov016
  *   DWCi_WINlInitEx  0x021D1208  arm  ov016
@@ -38,7 +38,7 @@ extern void func_021C4BDC();
 extern void DWCi_SceneSetAossButton_draw();
 extern void func_021C4C18();
 extern int DWCi_AOSSlStart();
-extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
+extern void DWCi_TSKlDeleteEx(unsigned int idx, void *r4);
 extern void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_SNDlStop();
 extern void DWCi_WINlInitEx(int msg, int type, unsigned char dark, int n, int num);
@@ -60,7 +60,7 @@ void procScene(void)
         if (gSceneSetAossButtonWork.Task == 0)
             return;
         gSceneSetAossButtonWork.Choose = 1;
-        DWCi_TSKlDeleteByIndex(1, gSceneSetAossButtonWork.Task);
+        DWCi_TSKlDeleteEx(1, gSceneSetAossButtonWork.Task);
         gSceneSetAossButtonWork.Task = 0;
         DWCi_ChangeScene((unsigned int)func_021C4E4C);
         return;
@@ -71,7 +71,7 @@ void procScene(void)
         DWCi_WINlInitEx(0xC, 1, 1, -1, 0);
         DWCi_SNDlPlay(9);
         DWCi_BTNlDisable();
-        DWCi_TSKlDeleteByIndex(1, gSceneSetAossButtonWork.Task);
+        DWCi_TSKlDeleteEx(1, gSceneSetAossButtonWork.Task);
         gSceneSetAossButtonWork.Task = 0;
         DWCi_ChangeScene((unsigned int)func_021C4E00);
         return;

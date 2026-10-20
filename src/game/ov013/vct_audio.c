@@ -63,49 +63,37 @@
 
 #define reg_SQRT_PARAM  (*(volatile u32 *)0x040002B8)
 
-extern int VCT_DSP_HighPassFilter(short *samples, u32 byteCount);
+#include "vct_dsp.h"
 
-extern void VCT_DSP_SuppressEchoWithReference(short *samples, u32 byteCount, u32 rms);
 
-extern u32 VCT_DSP_UpdateVoiceGate(u32 energy, u32 rms, u8 *outFlag);
 
-extern void VCT_ADPCM_EncodePacket(AdpcmHeader *header, void *dst, int sampleCount, AdpcmState *state, int mode);
+#include "vct_adpcm.h"
 
-extern u8 MATH_CountPopulation(u32 mask);
+#include "../arm9/math.h"
 
-extern VctRxPacket *VCT_POOL_AllocFrame(void);
+#include "vct_pool.h"
 
-extern void VCT_POOL_FreeFrame(VctRxPacket *packet);
 
-extern void MI_CpuCopy8(void *src, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void VCT_ADPCM_DecodePacket(AdpcmState *state, void *dst, int sampleCount, int mode);
 
-extern OSIntrMode OS_DisableInterrupts(void);
+#include "../arm9/os_system.h"
 
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 
-extern int DWC_SendUnreliable(unsigned char aid, void *buffer, int size);
+#include "../ov009/dwc_transport.h"
 
-extern void MI_CpuFill8(void *dst, int value, int size);
 
-extern unsigned long long OS_GetTick(void);
+#include "../arm9/os_tick.h"
 
-extern VctPeer *VCT_SESSION_AllocPeer(unsigned int index);
+#include "vct_session.h"
 struct VctPacket;
 struct VctPeer;
 
-extern s32 VCT_SESSION_InitPacketHeader(struct VctPeer *peer, struct VctPacket *packet, s32 command);
 
-extern int VCT_SESSION_CheckCommandAllowed(struct VctPeer *peer, struct VctPacket *packet);
 
-extern int VCT_SESSION_HasNoOtherTalker(VctPeer *peer);
 
-extern int VCT_SESSION_SendCommand(int peer, int type);
 
-extern int VCT_SESSION_SendReply(int peer, int type);
 
-extern VctPeer *VCT_SESSION_FindPeer(int aid);
 
 VctAudioFrame *VCT_AUDIO_EncodeSendFrame(void);
 
@@ -157,7 +145,7 @@ void VCT_AUDIO_InitReceiveSource(VctReceiveSource *source, u32 queueIndex, int p
 
 void VCT_AUDIO_DetachReceiveSource(VctReceiveSource *source);
 
-void VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet);
+VctRxPacket *VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet);
 
 void VCT_AUDIO_InitSequence(VctReceiveSource *source, u16 seq);
 
@@ -837,12 +825,12 @@ void VCT_AUDIO_DetachReceiveSource(VctReceiveSource *source)
     source->peerAid = -1;
 }
 
-void VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet)
+VctRxPacket *VCT_AUDIO_SetLastPacket(VctReceiveSource *source, VctRxPacket *packet)
 {
     if (source->lastPacket)
         VCT_POOL_FreeFrame(source->lastPacket);
     source->lastPacket = packet;
-    VCT_AUDIO_PopReadyPacket(source->queueIndex);
+    return VCT_AUDIO_PopReadyPacket(source->queueIndex);
 }
 
 void VCT_AUDIO_InitSequence(VctReceiveSource *source, u16 seq)

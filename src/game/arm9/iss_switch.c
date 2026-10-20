@@ -200,7 +200,7 @@ u32 ISS_SWITCH_SetParam(struct IssSwitch *sw, u16 fadeFrames, u16 trackBits)
 {
     sw->fadeFrames = fadeFrames;
     sw->trackBits = trackBits;
-    return (u32)sw;
+    return (uptr)sw;
 }
 
 void ISS_SWITCH_CountUpFade(struct IssSwitch *sw)
@@ -251,7 +251,7 @@ u32 ISS_SWITCH_UpdateFadeIn(void *sw)
 
     ISS_SWITCH_CountUpFade(sw);
     if ((r = ISS_SWITCH_IsFadeEnd(sw)) == 1) {
-        r = (u32)ISS_SWITCH_SetState(sw, 0);
+        r = (uptr)ISS_SWITCH_SetState(sw, 0);
     }
     return r;
 }
@@ -262,7 +262,7 @@ u32 ISS_SWITCH_UpdateFadeOut(void *sw)
 
     ISS_SWITCH_CountUpFade(sw);
     if ((r = ISS_SWITCH_IsFadeEnd(sw)) == 1) {
-        r = (u32)ISS_SWITCH_SetState(sw, 1);
+        r = (uptr)ISS_SWITCH_SetState(sw, 1);
     }
     return r;
 }
@@ -273,7 +273,7 @@ u32 ISS_SWITCH_StartFadeIn(void *sw)
 
     r = ISS_SWITCH_IsOnState(sw);
     if (r != 1) {
-        r = (u32)ISS_SWITCH_SetState(sw, 2);
+        r = (uptr)ISS_SWITCH_SetState(sw, 2);
     }
     return r;
 }
@@ -284,7 +284,7 @@ u32 ISS_SWITCH_StartFadeOut(void *sw)
 
     r = ISS_SWITCH_IsOffState(sw);
     if (r != 1) {
-        r = (u32)ISS_SWITCH_SetState(sw, 3);
+        r = (uptr)ISS_SWITCH_SetState(sw, 3);
     }
     return r;
 }
@@ -308,12 +308,12 @@ u32 ISS_SWITCH_StartFadeOut(void *sw)
  */
 u32 ISS_SWITCH_SetOnState(void *sw)
 {
-    return (u32)ISS_SWITCH_SetState(sw, 0);
+    return (uptr)ISS_SWITCH_SetState(sw, 0);
 }
 
 u32 ISS_SWITCH_SetOffState(void *sw)
 {
-    return (u32)ISS_SWITCH_SetState(sw, 1);
+    return (uptr)ISS_SWITCH_SetState(sw, 1);
 }
 
 u32 ISS_SWITCH_GetState(struct IssSwitch *sw)

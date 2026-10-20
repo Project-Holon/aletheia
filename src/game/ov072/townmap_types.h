@@ -25,10 +25,10 @@ typedef struct TownMapPoint {
 } TownMapPoint;
 
 /* A screen position. */
-typedef struct ScreenPos {
+typedef struct TownmapScreenPos {
     s16 x;
     s16 y;
-} ScreenPos;
+} TownmapScreenPos;
 
 /* Initial position and animation of a sprite. */
 typedef struct SpriteInit {
@@ -100,11 +100,11 @@ typedef struct TownMapCursor {
 
 /* Opaque library objects used by the graphics file. */
 struct BmpWin;
-struct StrBuf;
+struct Strbuf;
 struct MsgBank;
 struct ClactActor;
 struct ClactUnit;
-struct DispVram;
+#include "../arm9/bg_sys_types.h"
 
 /* Fixed point (fx32) vector. */
 typedef struct TownMapVec {
@@ -134,7 +134,7 @@ typedef struct TownMapScroll {
 /* Text window with a string buffer, 0x10 bytes. */
 typedef struct TownMapTextBox {
     struct BmpWin *win;
-    struct StrBuf *text;
+    struct Strbuf *text;
     void *font;
     struct MsgBank *msg;
 } TownMapTextBox;

@@ -6,7 +6,7 @@
  * Needs u8, u16 and u32 to be defined before it is included.
  */
 
-#include "ui_scene_types.h"
+#include "../ov067/ui_scene_types.h"
 
 struct TextWindow;
 struct PrintSys;

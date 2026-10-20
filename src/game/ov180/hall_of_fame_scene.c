@@ -175,6 +175,7 @@
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  */
 #include "hall_of_fame.h"
+#include "../arm9/g3d_util.h"
 
 #define REG(a) (*(volatile u16 *)(a))
 
@@ -183,7 +184,7 @@ struct Mtx22;
 struct GfFont;
 struct MsgBank;
 struct WordSet;
-struct Rec;
+struct Util;
 struct U16Vec;
 struct Sub02005A98Hdr;
 struct Sav;
@@ -194,9 +195,9 @@ struct Stats;
 struct Sub150;
 struct Cfg;
 struct Bank;
-struct Vec2;
-struct Actor;
-struct PtS;
+struct ClactVec2;
+struct ClactActor;
+struct ClactVec2;
 
 /* Background setup block handed to the background init call (32 bytes). */
 typedef struct HofBgSetup {
@@ -233,140 +234,54 @@ typedef struct HofMcssParams {
 typedef struct HofClactConfig {
     unsigned words[7];
 } HofClactConfig;
+union MtxFx22;
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
-extern void G2x_SetBGyAffine_(void *,HofMtx *,u32,u32,u32,u32);
-extern void BG_SYS_ChangeScroll(u32,u32,u32);
-extern void BG_SYS_ChangeCenter(u32,u32,u16);
-extern void BG_SYS_SetMainPlaneVisible(u32,u32);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void BG_SYS_LoadPlttEntry(u32,u32);
-extern void BG_SYS_FreeLayerBuf(u32);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+#include "../arm9/nns_g3d_anm_calc_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
+#include "../sdk_nnsfnd.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/button_man.h"
+#include "../arm9/g2.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/gf_font.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(unsigned,unsigned);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
 struct SndWaveSetHeader;
-extern struct SndWaveSetHeader *GFL_USE_LoadWaveArcSet(const u32 *,u32);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32,u32);
-extern void GFL_USE_ReleaseWaveArcSet(struct SndWaveSetHeader *header);
+#include "../arm9/gfl_use.h"
 struct Party;
-extern unsigned POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
-extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *pp);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
-extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, unsigned int didDecode);
+#include "../arm9/poke_tool.h"
 struct SaveBlock;
-extern void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out);
-extern int PM_VOICE_Prepare(int species, int form, int pan, int dual, int volumeBiasB, int frequencyOffsetB, int reverse, void **recordedVoice);
-extern void G3X_SetFog(int,int,int,int);
-extern void G3X_SetClearColor(u16,int,int,int,int);
+#include "../arm9/pm_voice.h"
+#include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
-extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
-extern struct Util *G3D_UTIL_Create(u16,u16,u16);
-extern void G3D_UTIL_Delete(struct Rec *p);
-extern void G3D_SYSTEM_Exit(void);
-extern void G3D_SYSTEM_DrawStart(void);
-extern void G3D_SYSTEM_ApplyLookAt(void);
-extern void MCSS_Main(struct McssSys *sys);
-extern void MCSS_Draw(struct McssSys *);
-extern void G3D_SYSTEM_DrawEnd(void);
-extern unsigned DOUBLE3DDISP_GetMode(void);
-extern void PARTICLE_Main(void);
-extern void DOUBLE3DDISP_SetDrawDone(void);
-extern void DOUBLE3DDISP_Init(u32 heap);
-extern int DOUBLE3DDISP_Exit(void);
-extern void PARTICLE_InitManager(u32);
-extern void PARTICLE_ExitManager(void);
+#include "../arm9/g3d_system.h"
+#include "../arm9/mcss.h"
+#include "../arm9/double3Ddisp.h"
 struct ParticleSys;
-extern struct ParticleSys *PARTICLE_CreateSystemDefault(unsigned int workBuf, unsigned int workSize, unsigned int withCamera, unsigned int heapId);
-extern void *PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
-extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, unsigned int applyNow, unsigned int taskMgr);
-extern void PARTICLE_DeleteSystem(struct ParticleSys *sys);
-extern int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg);
-extern int PARTICLE_ReleaseCamera(struct ParticleSys *sys);
-extern void PARTICLE_InitCamera(void *,HofParticleCamera *,unsigned short,void *,void *,void *,unsigned);
-extern struct McssSys *MCSS_Init(unsigned int maxCount, unsigned int heapId);
-extern void MCSS_SetTextureTransAdrs(struct McssSys *sys, unsigned int adrs);
-extern void MCSS_SetOrthoMode(struct McssSys *sys);
-extern void *G3D_CAMERA_Create(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,void *,void *,void *,unsigned short);
+struct VecFx32;
 struct G3dCamera;
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
-extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void MCSS_Exit(struct McssSys *sys);
+#include "../arm9/g3d_camera.h"
+struct G3dCamera;
 struct McssAddWork;
-extern void MCSS_TOOL_MakeAddWorkFromPP(void *pp, struct McssAddWork *out, unsigned int direction);
 struct McssWork;
-extern struct McssWork *MCSS_Add(struct McssSys *sys, int x, int y, int z, struct McssAddWork *addWork);
-extern void MCSS_SetScale(struct McssWork *work, unsigned int *src);
-extern void MCSS_SetAnmStopFlag(struct McssWork *work);
-extern void MCSS_Del(struct McssSys *sys, struct McssWork *work);
-extern void MCSS_GetPosition(struct McssWork *work, unsigned int *out);
-extern void MCSS_SetPosition(struct McssWork *work, unsigned int *src);
-extern int MCSS_SetAnimCallback(struct McssWork *work, unsigned int callback, unsigned int callbackWork, unsigned int unusedArg);
-extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
-extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern unsigned WIPE_SYS_EndCheck(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern int GFL_USE_IsSeqPlaying(u32);
-extern int PM_VOICE_Start(u32);
-extern u32 PM_VOICE_IsSlotActive(u32 i);
-extern void BG_SYS_SetLcdSwap(u32 swap);
-extern u32 KEY_GetTrg(void);
-extern int TOUCHPANEL_GetTrg(void);
-extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void GFL_USE_FadeOutBgm(u32);
-extern void MCSS_ResetAnmStopFlag(struct McssWork *work);
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
-extern unsigned GFL_USE_GetRandom(unsigned);
-extern void BG_SYS_ChangeRotation(u32 which, u32 op, u16 value);
+#include "../arm9/gx.h"
+#include "../arm9/wipe.h"
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
 struct DispVramCfg;
-struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+struct ClactSysInit;
+#include "../arm9/clact.h"
 struct BmpOamSys;
-extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
-extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern u32 CLACT_GetActorAutoAnim(struct Actor *actor);
-extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_SetActorAnimFrame(struct Obj *,u32),CLACT_SetActorAnimSeq(struct Obj *,u16),CLACT_SetActorAutoAnim(struct Obj *,u32);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void CLACT_ReleaseCharacter(u32);
-extern void CLACT_ReleasePalette(u32);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void *POKEGRA_OpenHandle(unsigned int heapId);
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+#include "../arm9/bmp_oam.h"
+#include "../arm9/particle.h"
+extern void CLACT_SetActorAnimFrame(struct ClactActor *,u32),CLACT_SetActorAnimSeq(struct ClactActor *,u16),CLACT_SetActorAutoAnim(struct ClactActor *,u32);
+#include "../arm9/pokegra.h"
 struct BoxPokemon;
-extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
-extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, unsigned int didDecode);
-extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
-extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
-extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
 extern int (*gHallOfFameStateTable[])(HallOfFameWork *);
 extern const HofBgSetup gHallOfFameBgSetup;
 extern const u32 gHallOfFameWaveArcIds[];
@@ -386,9 +301,9 @@ void HALL_OF_FAME_InitBackgrounds(void)
     HofMtx mtx;
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)&bg, 2);
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)&bg, 2);
-    BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)&mtx, 0, (void *)4096, (void *)4096, 0);
-    G2x_SetBGyAffine_((void *)0x04000030, &mtx, 0, 0, 0, 0);
-    G2x_SetBGyAffine_((void *)0x04001030, &mtx, 0, 0, 0, 0);
+    BUTTON_MAN_RotScaleMtx22((union MtxFx22 *)&mtx, 0, (s32)4096, 4096, 0);
+    G2x_SetBGyAffine_(0x04000030, (union MtxFx22 *)(&mtx), 0, 0, 0, 0);
+    G2x_SetBGyAffine_(0x04001030, (union MtxFx22 *)(&mtx), 0, 0, 0, 0);
     BG_SYS_ChangeScroll(3, 0, 160);
     BG_SYS_ChangeScroll(3, 3, 112);
     BG_SYS_ChangeScroll(7, 0, 160);
@@ -631,7 +546,7 @@ void HALL_OF_FAME_SetParticleCamera(HallOfFameWork *work, void *particle, int mo
         cam.reserved10 = 0;
         cam.reserved1C = 0;
         PARTICLE_ReleaseCamera(particle);
-        PARTICLE_InitCamera(particle, &cam, 0x2000, 0, 0, 0, HOF_HEAP_ID);
+        PARTICLE_InitCamera(particle, (struct ParticleCameraParams *)&cam, 0x2000, 0, 0, 0, HOF_HEAP_ID);
     }
 }
 
@@ -640,7 +555,7 @@ void HALL_OF_FAME_InitMcss(HallOfFameWork *work)
     work->mcss = MCSS_Init((unsigned int)1, (unsigned int)HOF_HEAP_ID);
     MCSS_SetTextureTransAdrs(work->mcss, 0);
     MCSS_SetOrthoMode(work->mcss);
-    work->camera = G3D_CAMERA_Create(2, 0x60000, 0xFFFA0000, 0xFFF80000, 0x80000, 0x1000, 0x400000, 0, gHallOfFameCameraPos, gHallOfFameCameraTarget, gHallOfFameCameraUp, HOF_HEAP_ID);
+    work->camera = G3D_CAMERA_Create(2, 0x60000, 0xFFFA0000, 0xFFF80000, 0x80000, 0x1000, 0x400000, 0, (struct VecFx32 *)gHallOfFameCameraPos, (struct VecFx32 *)gHallOfFameCameraTarget, (struct VecFx32 *)gHallOfFameCameraUp, HOF_HEAP_ID);
     G3D_CAMERA_Reset(work->camera);
 }
 
@@ -1154,10 +1069,10 @@ void HALL_OF_FAME_InitActorSystem(HallOfFameWork *work, int subScreen)
 {
     if (subScreen == 0) {
         HofClactConfig cfg = gHallOfFameClactConfigMain;
-        CLACT_InitSystem((struct SysInit *)&cfg, (struct DispVramCfg *)(HALL_OF_FAME_GetVramBanksAddr(subScreen)), HOF_HEAP_ID);
+        CLACT_InitSystem((struct ClactSysInit *)&cfg, (struct DispVramCfg *)(HALL_OF_FAME_GetVramBanksAddr(subScreen)), HOF_HEAP_ID);
     } else {
         HofClactConfig cfg = gHallOfFameClactConfigSub;
-        CLACT_InitSystem((struct SysInit *)&cfg, (struct DispVramCfg *)(HALL_OF_FAME_GetVramBanksAddr(subScreen)), HOF_HEAP_ID);
+        CLACT_InitSystem((struct ClactSysInit *)&cfg, (struct DispVramCfg *)(HALL_OF_FAME_GetVramBanksAddr(subScreen)), HOF_HEAP_ID);
     }
     work->clactUnit = CLACT_CreateUnit(249, 0, HOF_HEAP_ID);
     work->oamSys = BMP_OAM_CreateSys(HOF_HEAP_ID, work->clactUnit);
@@ -1177,8 +1092,8 @@ void HALL_OF_FAME_UpdateActors(HallOfFameWork *work)
 {
     u32 i;
     for (i = 0; i < HOF_ACTOR_COUNT; i++) {
-        if (work->actors[i] && CLACT_GetActorAutoAnim((struct Actor *)work->actors[i]) != 1)
-            CLACT_AddActorAnimFrame((struct Actor *)work->actors[i], 4096);
+        if (work->actors[i] && CLACT_GetActorAutoAnim((struct ClactActor *)work->actors[i]) != 1)
+            CLACT_AddActorAnimFrame((struct ClactActor *)work->actors[i], 4096);
     }
     CLACT_DrawSystem();
 }
@@ -1190,7 +1105,7 @@ void HALL_OF_FAME_MoveActorBy(HallOfFameWork *work, int actor, short x, short y)
     } delta;
     delta.x = x;
     delta.y = y;
-    CLACT_AddActorSurfacePos(work->actors[actor], (const struct Vec2 *)&delta, 0);
+    CLACT_AddActorSurfacePos(work->actors[actor], (const struct ClactVec2 *)&delta, 0);
 }
 
 void HALL_OF_FAME_GetActorPos(HallOfFameWork *work, int actor, short *x, short *y)
@@ -1198,7 +1113,7 @@ void HALL_OF_FAME_GetActorPos(HallOfFameWork *work, int actor, short *x, short *
     struct {
         short x, y;
     } pos;
-    CLACT_GetActorSurfacePos((struct Actor *)work->actors[actor], (struct PtS *)&pos, 0);
+    CLACT_GetActorSurfacePos((struct ClactActor *)work->actors[actor], (struct ClactVec2 *)&pos, 0);
     *x = pos.x;
     *y = pos.y;
 }
@@ -1216,9 +1131,9 @@ void HALL_OF_FAME_MoveActorRelative(HallOfFameWork *work, int actor, int dx, int
 
 void HALL_OF_FAME_SetActorVisible(HallOfFameWork *work, int actor, int visible)
 {
-    struct Obj *obj = work->actors[actor];
+    struct ClactActor *obj = work->actors[actor];
     if (obj)
-        CLACT_SetActorDrawEnable((struct Actor *)obj, visible);
+        CLACT_SetActorDrawEnable((struct ClactActor *)obj, visible);
 }
 
 void HALL_OF_FAME_PlayActorAnim(HallOfFameWork *work, int actor, int seq)
@@ -1230,7 +1145,7 @@ void HALL_OF_FAME_PlayActorAnim(HallOfFameWork *work, int actor, int seq)
 
 int HALL_OF_FAME_IsActorAnimActive(HallOfFameWork *work, int actor)
 {
-    return CLACT_IsActorAnimActive((struct Actor *)work->actors[actor]);
+    return CLACT_IsActorAnimActive((struct ClactActor *)work->actors[actor]);
 }
 
 void HALL_OF_FAME_ResetResourceIds(HallOfFameWork *work)
@@ -1282,7 +1197,7 @@ void HALL_OF_FAME_ReleaseAllResources(HallOfFameWork *work)
         HALL_OF_FAME_ReleaseCellAnim(work, i);
 }
 
-struct Obj *HALL_OF_FAME_CreateActorFromTemplate(HallOfFameWork *work, const HallOfFameActorTemplate *tmpl)
+struct ClactActor *HALL_OF_FAME_CreateActorFromTemplate(HallOfFameWork *work, const HallOfFameActorTemplate *tmpl)
 {
     return CLACT_CreateActor(work->clactUnit, work->charIds[tmpl->charIndex], work->paletteIds[tmpl->paletteIndex], work->cellAnimIds[tmpl->cellAnimIndex], (void *)tmpl, tmpl->priority, HOF_HEAP_ID);
 }
@@ -1290,7 +1205,7 @@ struct Obj *HALL_OF_FAME_CreateActorFromTemplate(HallOfFameWork *work, const Hal
 void HALL_OF_FAME_DeleteActor(HallOfFameWork *work, int actor)
 {
     if (work->actors[actor] != 0) {
-        CLACT_DeleteActor((struct Actor *)work->actors[actor]);
+        CLACT_DeleteActor((struct ClactActor *)work->actors[actor]);
         work->actors[actor] = 0;
     }
 }
@@ -1324,10 +1239,10 @@ void HALL_OF_FAME_LoadMonActors(HallOfFameWork *work)
     lock = POKE_TOOL_DecodeBoxParam(mon);
     work->charIds[0] = POKEGRA_RegisterCgrPP(bank, mon, 0, 0, HOF_HEAP_ID);
     work->paletteIds[0] = POKEGRA_RegisterPalettePP(bank, mon, 0, 0, 96, HOF_HEAP_ID);
-    work->cellAnimIds[0] = POKEGRA_RegisterCellAnimPP((u32)mon, 0, 2, 0, HOF_HEAP_ID);
+    work->cellAnimIds[0] = POKEGRA_RegisterCellAnimPP(mon, 0, 2, 0, HOF_HEAP_ID);
     work->charIds[1] = POKEGRA_RegisterCgrPP(bank, mon, 1, 0, HOF_HEAP_ID);
     work->paletteIds[1] = POKEGRA_RegisterPalettePP(bank, mon, 1, 0, 128, HOF_HEAP_ID);
-    work->cellAnimIds[1] = POKEGRA_RegisterCellAnimPP((u32)mon, 1, 2, 0, HOF_HEAP_ID);
+    work->cellAnimIds[1] = POKEGRA_RegisterCellAnimPP(mon, 1, 2, 0, HOF_HEAP_ID);
     POKE_TOOL_EncodeBoxParam(mon, lock);
     ARC_TOOL_DeleteHandle((u8 *)bank);
     work->actors[HOF_ACTOR_MON_TOP] = HALL_OF_FAME_CreateActorFromTemplate(work, &gHallOfFameMonTopTemplate);

@@ -51,9 +51,8 @@ struct PaletteAnime {
     u32 frame;
 };
 
-extern u32 GFL_HEAP_Free(void *mem);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/palanm.h"
 extern int MI_CpuCopy8(int src, int dst, int size);
 extern void MI_CpuFill8(void *dst, int val, int size);
 extern const short FX_SinCosTable_[];

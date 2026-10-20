@@ -9,7 +9,7 @@ struct IcaAnime;
 
 /*
  * Light-record view returned by DEMO3D_ENGINE_GetCameraRecord and stored at
- * struct Ctx.cam.  The same object is viewed as struct Record in
+ * struct Demo3dEngineCtx.cam.  The same object is viewed as struct Record in
  * demo3d_engine.c: its flag halfword at 0x06 carries bit 0 "doubled" (a
  * size or value doubling selector) and bit 1 "count".  The int fields at
  * 0x08.. are the camera clip parameters.  Only the two flag bits and the
@@ -24,7 +24,7 @@ struct Cam {
     int f8, fc, f10, f14, f18, f1c;
 };
 
-/* Processed demo config embedded in struct Ctx at 0x78. */
+/* Processed demo config embedded in struct Demo3dEngineCtx at 0x78. */
 typedef struct Demo3dCfg {
     u32 id;       /* 0x00 */
     u32 frame;    /* 0x04 */
@@ -41,7 +41,7 @@ typedef struct Demo3dCfg {
  * with GFL_HEAP_Alloc(heap, 0x88, 1, ...)).  DEMO3D_ENGINE_Update also views the 0x30
  * block as its G3D draw arguments.
  */
-struct Ctx {
+struct Demo3dEngineCtx {
     void *graphic;      /* 0x00 owner graphic context */
     u32 id;             /* 0x04 animation id */
     u32 cmdMode;        /* 0x08 command update mode */
@@ -62,6 +62,6 @@ struct Ctx {
     Demo3dCfg data;     /* 0x78 */
 };
 
-typedef char Ctx_SizeCheck[(sizeof(struct Ctx) == 0x88) ? 1 : -1];
+typedef char Ctx_SizeCheck[(sizeof(struct Demo3dEngineCtx) == 0x88) ? 1 : -1];
 
 #endif

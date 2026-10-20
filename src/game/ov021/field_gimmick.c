@@ -35,12 +35,11 @@ struct GameData;
 struct GimmickWork;
 typedef struct FieldMap FieldMap;
 
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern unsigned char *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmick);
-extern int GF_OVERLAY_Load(int overlayId);
-extern void GF_OVERLAY_Unload(int overlayId);
+#include "fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../arm9/gimmick.h"
+#include "../arm9/gf_overlay.h"
 
 void FIELD_GIMMICK_Setup(FieldMap *fieldMap);
 void FIELD_GIMMICK_Exit(FieldMap *fieldMap);

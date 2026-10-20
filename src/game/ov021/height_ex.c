@@ -22,8 +22,7 @@
 
 #include "../types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, unsigned short line);
-extern u32 GFL_HEAP_Free(void *block);
+#include "../arm9/gfl_heap_wrap.h"
 
 int HEIGHT_EX_IsPointInArea(int x, int z, const HeightExArea *area, int areaIndex);
 HeightExTable *HEIGHT_EX_CreateTable(u32 count, u32 heapId);

@@ -8,7 +8,9 @@
  * p_sta_oam.c). Each sub-screen work struct is defined in its own file.
  */
 
-struct Actor;
+#include "../types.h"
+#include "../arm9/clact.h"
+
 struct Bmp;
 
 /* Work of each sub-screen; the layout is private to the file named. */
@@ -36,7 +38,7 @@ typedef struct StaOamPoint {
 
 /* Manager of the cell resources and the cell actor unit that the bitmap actors use (0x14 bytes). */
 typedef struct StaOamManager {
-    void *clunit;                       /* 0x00 */
+    struct Unit *clunit;                       /* 0x00 */
     unsigned short heapId;              /* 0x04 */
     unsigned char pad_6[2];
     int cellRes[3];                     /* 0x08: cell resource id per OBJ tile mapping mode, -1 = not loaded */
@@ -58,20 +60,13 @@ typedef struct StaOamBitmapDesc {
 /* Actors that show one bitmap: the bitmap is cut into cells of 64 by 32 pixels, one actor each (at most 3). */
 typedef struct StaOamBitmapActors {
     struct Bmp *bmp;                    /* 0x00 */
-    struct Actor *actor[3];             /* 0x04: row by row */
+    struct ClactActor *actor[3];             /* 0x04: row by row */
     unsigned int screen;                /* 0x10 */
     int charRes[3];                     /* 0x14 */
     unsigned short space;               /* 0x20 */
     unsigned char cols;                 /* 0x22 */
     unsigned char rows;                 /* 0x23 */
 } StaOamBitmapActors;
-
-/* Position record read by the cell actor creator CLACT_CreateActor. */
-typedef struct StaOamActorPos {
-    short x, y;
-    unsigned short animSeq;
-    unsigned char drawPriority, bgPriority;
-} StaOamActorPos;
 
 /* Touch hit rectangle in pixels. */
 typedef struct StaTouchRect {
@@ -90,7 +85,7 @@ typedef struct StaRibbonInfo {
 } StaRibbonInfo;
 
 /* What the caller passes in (0x28 bytes, see P_STATUS_ProcInit). */
-typedef struct PStatusParam {
+typedef struct PStatusProcParam {
     void *ppd;                  /* 0x00: one Pokemon, a party, or a Pokemon array (ppt) */
     void *callerData;           /* 0x04: kept for the caller (the field link stores the mail box here); the status screen does not read it */
     void *config;               /* 0x08: option flags; ids 7..9 hold the per-page toggles */
@@ -108,7 +103,7 @@ typedef struct PStatusParam {
     unsigned char pad_1C[4];
     int canUseButtons;          /* 0x20: X and Y buttons are available */
     int forceExit;              /* 0x24: 1 = caller asks the screen to close */
-} PStatusParam;
+} PStatusProcParam;
 
 /* Index ranges of PStatusWork.objRes; P_STATUS_DeleteObjResource frees each range with its own call. */
 enum {
@@ -127,7 +122,7 @@ typedef struct PStatusWork {
     unsigned short heapId;              /* 0x000 */
     unsigned char pad_2[2];
     void *vblankTask;                   /* 0x004 */
-    PStatusParam *param;                /* 0x008 */
+    PStatusProcParam *param;                /* 0x008 */
     int refreshReq;                     /* 0x00C: 1 = redraw the page and Pokemon */
     int playCryReq;                     /* 0x010 */
     int restoreModeAll;                 /* 0x014: param mode was 3, turned into 2 until exit */
@@ -166,7 +161,7 @@ typedef struct PStatusWork {
     PStaRibbonWork *ribbonWork;         /* 0x094: page 2 */
     unsigned int objRes[PSTATUS_RES_MAX];       /* 0x098 */
     unsigned int typeChrRes[PSTATUS_TYPE_MAX];  /* 0x130 */
-    void *clunit;                       /* 0x174 */
+    struct Unit *clunit;                       /* 0x174 */
     void *buttonActor[8];               /* 0x178: page tabs 0..2, Y 3, up 4, down 5, X 6, B 7 */
     void *typeIconActor[2];             /* 0x198 */
     void *pushedButton;                 /* 0x1A0: button whose press animation ends the screen */

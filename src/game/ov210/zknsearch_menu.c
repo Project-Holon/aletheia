@@ -21,18 +21,14 @@
 #include "zknsearch_types.h"
 typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; unsigned short offset; unsigned words[2]; void *ctx; } Template;
 extern const Template d_021C0C20;
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 struct FrameList;
 struct Tmpl;
 struct FrameListParams;
-extern struct FrameList *FRAME_LIST_Create(struct FrameListParams *params, unsigned int heapId);
-extern void FRAME_LIST_CopyMapToBuffer(struct FrameList *list, void *source, unsigned int fileIndex, unsigned int memberIndex, unsigned int mapSlot);
+#include "../ov067/frame_list.h"
 struct MsgBank;
-extern void FRAME_LIST_LoadPalettes(struct FrameList *list, unsigned char *palettes, unsigned int firstSlot, unsigned int srcSlot, unsigned int slotCount);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void FRAME_LIST_AddItem(struct FrameList *list, unsigned int mapIndex, unsigned int value);
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 void ZKNSEARCH_MENU_InitFrameList(char *ctx)
 {
     void *archive = ARC_TOOL_CreateHandle(159, 0x807b);

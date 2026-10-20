@@ -2,15 +2,19 @@
 #define OV099_WIFI_CLUB_WORK_H
 /* Work object of the Wi-Fi club proc (size 0x1360). It is allocated in WIFICLUB_ProcInit with
  * PROCSYS_AllocProcWork(obj, 0x1360, 0x21) and handed to every state handler. */
-#include "wifi_club_actor_types.h"
+#include "../ov099/wifi_club_actor_types.h"
+
+struct TcbTask;
+struct BmpMenu;
+struct TouchBar;
+struct TextPrinter;
+struct MsgBank;
 
 /* Opaque handle types (never dereferenced here). */
 typedef struct BmpWin BmpWin;
 typedef struct PrintQue PrintQue;
-typedef struct PrintStream PrintStream;
-typedef struct StrBuf StrBuf;
+typedef struct Strbuf StrBuf;
 typedef struct WordSet WordSet;
-typedef struct MsgData MsgData;
 
 /* Values of WifiClubWork.state: index into the handler table gWifiClubStateHandlers (0xAE entries).
  * Each name follows the handler that runs in that state. */
@@ -192,26 +196,7 @@ typedef enum WifiClubState {
     WIFICLUB_STATE_COUNT = 0xAE
 } WifiClubState;
 
-/* Session record the work object points to (WifiClubWork.session). */
-typedef struct WifiClubSession {
-    struct WifiClubPlayerStatus *localStatus;  /* 0x00 */
-    void *gameData;                /* 0x04 */
-    void *saveData;                /* 0x08 */
-    int isFriendMatch;             /* 0x0C: nonzero when the visit started from a friend match */
-    int targetFriendIndex;         /* 0x10: friend picked by the network layer when the visit ends */
-    void *seatParty[2];            /* 0x14: party snapshot sent for the parent and child seat */
-    void *regulation;              /* 0x1C: regulation data copied out when the visit ends */
-    u8 ruleOption;                 /* 0x20: option picked in the rule menu (stored as 1 - choice) */
-    u8 ruleKind;                   /* 0x21: rule kind picked in the rule menu */
-    u8 ruleLevel;                  /* 0x22: rule level picked in the rule menu */
-    u8 pad23;
-    u8 memberChangeCount[32];      /* 0x24: changeCount last seen for each member slot */
-    u8 voiceChat[2];               /* 0x44: voice chat flag per seat (index 0 = local console) */
-    u8 ownSeat;                    /* 0x46: seat index of this console (0 or 1) */
-    u8 visitedSeat;                /* 0x47: seat copied into WifiClubWork.selectedPlusOne on return */
-    u8 regulationId;               /* 0x48: rule set shown in the violation list */
-    u8 connectionMode;             /* 0x49 */
-} WifiClubSession;
+#include "../ov099/wifi_club_session_types.h"
 
 /* Map and sprite resources the club screen loads (lives at WifiClubWork.bgLoad). */
 typedef struct WifiClubBgLoad {
@@ -299,12 +284,12 @@ typedef struct WifiClubWork {
     u8 padD0[8];
     /* 0x0D8 */ void *myStatus;              /* SYSTEM_DATA_GetConfig(saveData) */
     /* 0x0DC */ WordSet *wordSet;
-    /* 0x0E0 */ MsgData *msgBank; MsgData *msgBankAlt;
+    /* 0x0E0 */ struct MsgBank *msgBank; struct MsgBank *msgBankAlt;
     /* 0x0E8 */ void *textFont; void *nameFont;
     /* 0x0F0 */ StrBuf *rawText; StrBuf *printText; StrBuf *shortText; StrBuf *extraText; /* F0,F4,F8(0xB4 bytes),FC; created in WIFICLUB_CreateTextBuffers */
     /* 0x100 */ u8 *timeIcon;
     u8 pad104[4];
-    /* 0x108 */ void *yesNoMenu;
+    /* 0x108 */ struct BmpMenu *yesNoMenu;
     u8 pad10C[4];
     /* 0x110 */ void *clactUnit; void *clactRenderer;
     /* 0x118 */ s32 partyIconChar[12];
@@ -313,7 +298,7 @@ typedef struct WifiClubWork {
     /* 0x180 */ void *trainerActor; s32 trainerChar; s32 trainerPalette; s32 trainerCellAnim;
     /* 0x190 */ BmpWin *talkWin, *playerInfoWin, *headerWin, *noticeWin, *partyWin, *menuWin, *extraWin;
     /* 0x1AC */ WifiClubMenuPending menuPending;
-    /* 0x1B4 */ PrintQue *menuPrintQueue; PrintQue *msgPrintQueue; PrintStream *printStream; void *tcbl;
+    /* 0x1B4 */ PrintQue *menuPrintQueue; PrintQue *msgPrintQueue; struct TextPrinter *printStream; void *tcbl;
     /* 0x1C4 */ int idleTimer;               /* reset to 0xE10 */
     /* 0x1C8 */ int waitFrames;              /* counts up; > 0xE10 raises net error 0x3F1 */
     /* 0x1CC */ int state;                   /* index into handler table gWifiClubStateHandlers (0xAE entries) */
@@ -349,7 +334,7 @@ typedef struct WifiClubWork {
     /* 0x958 */ BmpWin *nameWin; BmpWin *statWin;
     u8 pad960[0x48];
     /* 0x9A8 */ int fileIndex;
-    /* 0x9AC */ void *touchBar; void *keyCursor; u32 touchBarOn;
+    /* 0x9AC */ struct TouchBar *touchBar; void *keyCursor; u32 touchBarOn;
     u8 pad9B8[0x1328 - 0x9B8];
     /* 0x1328 */ u16 ready; u16 mapIndexPlusOne; u16 menuAction; u8 pad132E[2];
     /* 0x1330 */ u32 menuFrameBase; u32 windowFrameBase;

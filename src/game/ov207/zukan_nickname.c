@@ -116,12 +116,14 @@ struct Node;
 struct Rec3;
 struct S02031140;
 struct Cfg;
-struct S02021D50;
-struct PalAnmSlot;
-struct PalAnmSlot;
+struct PaletteFade;
+struct PaletteFade;
+struct PaletteFade;
 struct Obj;
+#include "../arm9/bmp_menuwork.h"
 #include "../types.h"
 
+#include "../arm9/printsys.h"
 typedef struct Obj Obj;
 
 typedef struct {
@@ -130,70 +132,36 @@ typedef struct {
     int enabled;
 } S3;
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
-extern void MI_CpuFill8(void *,int,int);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *,u32,void *);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/wordset.h"
+#include "../arm9/msgdata.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *,u32);
-extern struct Strbuf *STRBUF_Create(u32,u32);
-extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 WORDSET_Delete(struct WordSet *p);
+#include "../arm9/strbuf.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *,u8);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32);
+#include "../arm9/bmp_win.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/bg_sys.h"
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void GF_FONT_SetTextColor(u32,u32,u32);
+#include "../arm9/tcbl.h"
 extern signed char MSG_SPEED_GetWait(void);
-extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
-extern void *BMP_MENUWORK_LoadFrameGfx(void *,u32,u32,u32);
-extern u8 UI_GetInputMode(void);
-extern void *GFL_USE_AddMainTask(u32,u32,u32);
+#include "../arm9/ui.h"
+#include "../arm9/gfl_use.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern u32 GFL_HEAP_Free(void *p);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern u32 KEY_GetCont(void);
-extern void UI_SetInputMode(int a);
-extern int TOUCHPANEL_GetCont(void);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
-extern u32 KEY_GetTrg(void);
-extern int TOUCHPANEL_GetTrg(void);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *,u32,void *);
-extern void WORDSET_SetSlotBoxName(struct WordSet *words, unsigned int slot, void *save, unsigned int boxIndex);
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
 extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void PALANM_TransferPalettes(struct S02021D50 *p);
-extern int GF_OVERLAY_Load(int);
-extern void *PALANM_Create(unsigned);
-extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void PALANM_TransferPalettes(struct PaletteFade *p);
+#include "../arm9/gf_overlay.h"
+#include "../arm9/palanm.h"
+extern void PALANM_SetAutoTransfer(struct PaletteFade *o, int v);
 struct BtlvInput;
-extern struct BtlvInput *BTLV_INPUT_CreateDefault(int a, int b, int c, int d, int e, u16 k);
-extern void BTLV_INPUT_Delete(struct BtlvInput *input);
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,unsigned);
-extern unsigned int PALANM_Delete(void *ctx);
-extern void GF_OVERLAY_Unload(int);
-extern void BTLV_INPUT_ChangeScreen(struct BtlvInput *input, int mode, void *arg);
-extern int  BTLV_INPUT_ProcessTouchInput(int *p, void *a, void *b);
-extern void BTLV_INPUT_UpdateInfoWindow(struct BtlvInput *input);
+#include "../ov094/btlv_input.h"
 char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h);
 void ZUKAN_NICKNAME_Delete(ZukanNicknameWork *p);
 int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p);
@@ -243,20 +211,20 @@ char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u
     MSGDATA_Delete((struct MsgBank *)bank);
     WORDSET_Delete(ws);
     p->bmpWin2=(void *)BMP_WIN_Create(3,0,0,1,1,9,0);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&p->bmpWin2),0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&p->bmpWin2)),0);
     BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor * *)&p->bmpWin2));
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)(*(struct Descriptor * *)&p->bmpWin2)));
     p->tcbl=TCBL_Create(p->heapId,p->heapId,1,0);
     p->bmpWin=(void *)BMP_WIN_Create(3,1,19,30,4,9,1);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&p->bmpWin),15);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&p->bmpWin)),15);
     GF_FONT_SetTextColor(1,2,15);
-    *(u32 *)&p->printStream=PRINTSYS_PrintStream((u32)p->bmpWin,0,0,(u32)p->strbuf,p->font,MSG_SPEED_GetWait(),(u32)p->tcbl,2,p->heapId,15);
-    p->lineBuf=BMP_MENUWORK_LoadFrameGfx((void *)3,8,0,p->heapId);
+    *(u32 *)&p->printStream=(u32)PRINTSYS_PrintStream(p->bmpWin,0,0,p->strbuf,(struct GfFont *)p->font,MSG_SPEED_GetWait(),p->tcbl,(u32)2,p->heapId,15);
+    p->lineBuf=BMP_MENUWORK_LoadFrameGfx(3,8,0,p->heapId);
     enabled=1;
     if(UI_GetInputMode()!=0) enabled=0;
     p->soundEnabled=enabled;
     ZUKAN_NICKNAME_InitKeyboard(p);
-    p->task=GFL_USE_AddMainTask((u32)ZUKAN_NICKNAME_TransferPalette,(u32)p,1);
+    p->task=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((u32)ZUKAN_NICKNAME_TransferPalette),(void *)((u32)p),1);
     return (char *)p;
 }
 
@@ -309,7 +277,7 @@ int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p)
         if(p->mode==2) break;
         if(p->mode==0) {
             if(*(u32 *)&p->nameStr==0) {p->state=5;break;}
-            BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&p->bmpWin),15);
+            BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&p->bmpWin)),15);
             PRINTSYS_PrintStreamDelete(p->printStream);
             STRBUF_Delete((struct Strbuf *)(*(struct U16Vec * *)&p->strbuf));
             ws=WORDSET_CreateDefault(p->heapId);
@@ -318,7 +286,7 @@ int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p)
             p->strbuf=STRBUF_Create(64,p->heapId);
             WORDSET_CopyTaggedText(ws,p->strbuf,p->nameStr);
             WORDSET_Delete(ws);
-            *(u32 *)&p->printStream=PRINTSYS_PrintStream((u32)p->bmpWin,0,0,(u32)p->strbuf,p->font,MSG_SPEED_GetWait(),(u32)p->tcbl,2,p->heapId,15);
+            *(u32 *)&p->printStream=(u32)PRINTSYS_PrintStream(p->bmpWin,0,0,p->strbuf,(struct GfFont *)p->font,MSG_SPEED_GetWait(),p->tcbl,(u32)2,p->heapId,15);
             p->state=3;
         } else p->state=5;
         break;
@@ -377,7 +345,7 @@ void ZUKAN_NICKNAME_InitKeyboard(ZukanNicknameWork *p)
 /*
  * lever: pooled FS overlay ID is the overlay94 linker symbol address, as in matched ov207 0220B048; literal 94 compiles as movs.
  */
-void ZUKAN_NICKNAME_DeleteKeyboard(ZukanNicknameWork *p){BTLV_INPUT_Delete((struct BtlvInput *)(*(Obj * *)&p->input));PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&p->palAnm,1);PALANM_FreeSlotBuffers(*(struct PalAnmSlot * *)&p->palAnm,3);PALANM_Delete(*(struct PalAnmSlot * *)&p->palAnm);*(unsigned *)&p->palAnm=0;GF_OVERLAY_Unload((int)overlay94);}
+void ZUKAN_NICKNAME_DeleteKeyboard(ZukanNicknameWork *p){BTLV_INPUT_Delete((struct BtlvInput *)(*(Obj * *)&p->input));PALANM_FreeSlotBuffers(*(struct PaletteFade * *)&p->palAnm,1);PALANM_FreeSlotBuffers(*(struct PaletteFade * *)&p->palAnm,3);PALANM_Delete(*(struct PaletteFade * *)&p->palAnm);*(unsigned *)&p->palAnm=0;GF_OVERLAY_Unload((int)overlay94);}
 
 void ZUKAN_NICKNAME_UpdateInfoWindow(ZukanNicknameWork *a)
 {
@@ -403,7 +371,7 @@ void ZUKAN_NICKNAME_UpdateInfoWindow(ZukanNicknameWork *a)
         break;
     case 2:
         {
-            int r5 = BTLV_INPUT_ProcessTouchInput((int *)a->input, d_0220BBEC, d_0220BBF8);
+            int r5 = BTLV_INPUT_ProcessTouchInput((struct BtlvInput *)a->input, (struct BtlvInputTouchTable *)d_0220BBEC, (int)d_0220BBF8);
             if (r5 == -1)
                 break;
             BTLV_INPUT_ChangeScreen((struct BtlvInput *)a->input, 0, 0);

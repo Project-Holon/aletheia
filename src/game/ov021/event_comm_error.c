@@ -67,55 +67,42 @@ enum {
     COMM_EXIT_STEP_SET_SEARCH_DELAY
 };
 
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventFunc handler, u32 workSize);
+#include "../arm9/game_event.h"
 
-extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
 struct GameSystem;
 
-extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(GameSystem *gameSystem);
 
-extern struct GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 
-extern void GAMESYSTEM_SetFieldMapState(GameSystem *gameSystem, u32 state);
 
-extern u32 GAMESYSTEM_TryStartAutoComm(GameSystem *gameSystem);
 
-extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 
-extern int GAME_DATA_GetIntrudeCount(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern u32 GAME_COMM_GetLastKind(struct GameComm *gameComm);
+#include "../arm9/game_comm.h"
 
-extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
 
-extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 
-extern int GFL_NET_GetRunState(void);
+#include "../arm9/net.h"
 
-extern int GFL_NET_Exit(int exitCallback);
 
-extern int GFL_NET_IsSessionNull(void);
 
-extern void GFL_NET_ERR_RequestScreen(void);
+#include "../arm9/net_err.h"
 
-extern void GFL_NET_ERR_ResetState(void);
 struct FieldMap;
 struct GameEvent;
 
-extern GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
+#include "../arm9/field_status.h"
 struct GameBeaconSearchWork;
 
-extern void GAME_BEACON_SEARCH_SetStartDelay(struct GameBeaconSearchWork *work);
+#include "../ov010/game_beacon_search.h"
 
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
+#include "fieldmap.h"
 
-extern int FIELDMAP_IsReady(FieldMap *fieldMap);
 
-extern void FLDMMDL_SysPauseMove(struct MmdlSys *mmdlSys);
+#include "../ov010/fldmmdl.h"
 
-extern void FLDMMDL_SysResumeMove(struct MmdlSys *mmdlSys);
 
 extern u8 ov021_id[];
 
@@ -138,7 +125,7 @@ int EVENT_COMM_ERROR_SubProcEnd(void *proc, int *seq, void *procWork, void *myWo
  */
 GameEvent *EVENT_COMM_ERROR_Create(GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    return GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_ERROR_Run, 0);
+    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_COMM_ERROR_Run, 0);
 }
 
 /*
@@ -160,7 +147,7 @@ int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work)
                 GFL_NET_ERR_RequestScreen();
                 child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (u32)ov021_id, (void *)(&sCommErrorSubProcData), gameSystem);
             } else {
-                child = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_ERROR_RunCommExit, 0);
+                child = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_COMM_ERROR_RunCommExit, 0);
             }
         } else {
             GFL_NET_ERR_RequestScreen();

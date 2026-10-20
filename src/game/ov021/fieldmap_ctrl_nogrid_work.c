@@ -56,34 +56,17 @@ typedef struct FieldMapCtrlNogridWork {
     u32 reserved;                   /* 0x04: cleared by the allocation, never used */
 } FieldMapCtrlNogridWork;
 
-extern u32 GFL_HEAP_Free(void *memory);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u32 KEY_GetTrg(void);
-extern unsigned int KEY_GetCont(void);
-extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern void FIELDMAP_SetCtrlWork(FieldMap *fieldMap, void *ctrlWork);
-extern void *FIELDMAP_GetCtrlWork(FieldMap *fieldMap);
-extern void FIELDMAP_SetTargetPos(FieldMap *fieldMap, VecFx32 *targetPos);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/key.h"
+#include "../ov010/fldmmdl.h"
+#include "field_player.h"
+#include "fieldmap.h"
 struct FieldMap;
 struct FieldCamera;
-extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
-extern void *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
-extern VecFx32 *FLDMMDL_GetPosPtr(struct Mmdl *mmdl);
-extern void *GAMESYSTEM_GetGameData(void *gameSystem);
-extern void *GAME_DATA_GetMyPlayerWork(void *gameData);
-extern RailLocation *GAME_DATA_GetPlayerRail(void *saveRecord);
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct RailWork;
-extern void FIELD_NOGRID_MAPPER_BindCameraWork(struct FieldNogridMapper *mapper, struct RailWork *work);
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, VecFx32 *pos);
-extern void FIELD_PLAYER_SetDirDisp(struct FieldPlayer *player, int dir);
-extern void FIELD_PLAYER_CreateNogrid(struct FieldPlayer *player, u32 heapId);
-extern void FIELD_PLAYER_UpdateNogrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont);
-extern u32 FIELD_PLAYER_GetNogridRailWork(struct FieldPlayer *player);
-extern void FIELD_PLAYER_SetNogridRailLocation(struct FieldPlayer *player, RailLocation *location);
-extern void FIELD_PLAYER_GetNogridRailPos(struct FieldPlayer *player, void *outPos);
+#include "field_nogrid_mapper.h"
 extern const char gFieldMapCtrlNogridWorkFileName[];
 
 void FIELDMAP_CTRL_NOGRID_WORK_Create(FieldMap *fieldMap, VecFx32 *pos, u32 dir);

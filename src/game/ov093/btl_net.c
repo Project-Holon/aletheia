@@ -41,7 +41,7 @@
 #include "btl_net_types.h"
 
 struct NetHandle;
-struct StrBuf;
+struct Strbuf;
 
 /*
  * Battle setup exchange over the wireless link, before the first turn.
@@ -78,11 +78,6 @@ struct StrBuf;
 
 /* Heap id with the flag the allocator uses for a block at the heap tail. */
 #define BTL_NET_TAIL_HEAP(heapId) ((u16)(((heapId) & 0x7fff) | 0x8000))
-
-/* The 32-byte battle setup the leader broadcasts. */
-typedef struct {
-    int words[8];
-} BtlNetSetup;
 
 /*
  * One message buffer: the received bytes, then the number of bytes that
@@ -150,7 +145,7 @@ struct BtlNetTrainerData {
     u32 trainerType;
     u32 aiFlags;
     u16 itemIds[4];
-    struct StrBuf *name;
+    struct Strbuf *name;
     u8 winWord[8];
     u8 loseWord[8];
 };
@@ -162,32 +157,22 @@ struct BtlNetTrainerPacket {
     u32 nameLength;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 struct GFLNetHandle;
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
-extern int GFL_NET_GetNegotiationNum(void);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, unsigned int command, unsigned int size, void *data);
-extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, unsigned int sendId, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
-extern int POKE_REGULATION_GetDataSize(void);
+#include "../arm9/net.h"
+#include "../arm9/net_err.h"
+#include "../arm9/poke_regulation.h"
 struct PerapVoice;
-extern unsigned int PERAPVOICE_IsRecorded(struct PerapVoice *voice);
-extern u32 PERAPVOICE_GetSize(void);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+#include "../arm9/perapvoice.h"
+#include "../arm9/mi_memory.h"
 struct Party;
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
-extern int MYSTATUS_GetSize(void);
-extern u16 STRBUF_GetEosChar(void);
-extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
+#include "../arm9/config.h"
+#include "../arm9/strbuf.h"
 struct Strbuf;
-extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
-extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
-extern void GFL_NET_HANDLE_SetUserInfo(struct GFLNetHandle *handle, int timingLow, int timingHigh, int netID);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
+#include "../arm9/wordset.h"
+#include "../arm9/net_handle.h"
 
 void BTL_NET_Init(void *netHandle, u16 memberMask, u16 heapId);
 int BTL_NET_IsInitialSyncDone(void);

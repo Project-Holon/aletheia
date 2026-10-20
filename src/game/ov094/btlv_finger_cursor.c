@@ -47,41 +47,32 @@
 #include "btlv_effvm_types.h"
 #include "btlv_clact_shared_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+#include "../arm9/clact.h"
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern s32 CLACT_RegisterCharacter(void *archive, u32 fileIdx, u32 compressed, u32 vramMode, u16 heapId);
 
-extern s32 CLACT_RegisterCellAnim(void *archive, u32 cellFileIdx, u32 animFileIdx, u32 heapId);
 
-extern int CLACT_GetPaletteVramAddress(u32 paletteId, u32 alternate);
 
-extern void CLACT_ReleaseCharacter(u32 charId);
 
-extern void CLACT_ReleasePalette(u32 paletteId);
 
-extern void CLACT_ReleaseCellAnim(u32 cellId);
 
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 offset, u32 size);
+#include "../arm9/palanm.h"
 
-extern s32 CLACT_RegisterPaletteEx(void *archive, u32 fileIdx, u32 vramMode, u32 vramOffset, u16 a, u16 b, u16 heapId);
 
-extern void *BTLV_EFFECT_GetOwner(void);
+#include "btlv_effect.h"
 
-struct ClactAnimCommand;
 
 /* Pointing-hand cursor shown over a battle menu entry (0x30 bytes). */
 typedef struct BtlvFingerCursor {
     struct Unit *clactUnit;         /* 0x00 */
-    struct Actor *actor;       /* 0x04, null while hidden or deleted */
+    struct ClactActor *actor;       /* 0x04, null while hidden or deleted */
     void *task;                     /* 0x08, delayed-hide task */
     s32 charResId;                  /* 0x0c */
     s32 palResId;                   /* 0x10 */
@@ -94,42 +85,24 @@ typedef struct BtlvFingerCursor {
     u16 heapId;                     /* 0x2c */
 } BtlvFingerCursor;
 
-/* Animation command, same layout as struct Cmd in arm9/clact.c. */
-typedef struct ClactAnimCommand {
-    u16 kind;           /* 0 start callback, 1 press loop, 2 release */
-    u16 param;          /* loop count of kind 1 */
-    void *userData;
-    void *callback;
-} ClactAnimCommand;
-
-extern void ARC_TOOL_DeleteHandle(void *archive);
 struct TcbSystem;
 
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, void *), void *work, u32 priority);
 
-extern void BTLV_FINGER_CURSOR_TaskHideAfterDelay(void *task, void *work);
+extern void BTLV_FINGER_CURSOR_TaskHideAfterDelay(struct TcbTask *task, void *work);
 
-extern u32 CLACT_DeleteUnit(struct Unit *bank);
 
-extern struct Actor *CLACT_CreateAffineActor(struct Unit *unit, u32 charIdx, u32 palIdx, u32 cellIdx, const BtlvClactActorInit *init, u16 space, u16 heapId);
 
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 seq);
 
-extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 
-extern void CLACT_ApplyActorAnimCommand(struct Actor *actor, const struct ClactAnimCommand *cmd);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
 BtlvFingerCursor *BTLV_FINGER_CURSOR_Create(void *palAnmSlots, u32 palSlot, u16 heapId);
 
 void BTLV_FINGER_CURSOR_Delete(BtlvFingerCursor *cursor);
 
-int BTLV_FINGER_CURSOR_Start(BtlvFingerCursor *cursor, u16 x, u16 y, u32 startDelay, u32 loopCount, u32 hideTimer);
+int BTLV_FINGER_CURSOR_Start(BtlvFingerCursor *cursor, int x, int y, u32 startDelay, u32 loopCount, u32 hideTimer);
 
 void BTLV_FINGER_CURSOR_DeleteActor(BtlvFingerCursor *cursor);
 
@@ -139,7 +112,7 @@ void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor);
 
 extern char d_0220AEFC[];
 
-extern const BtlvClactActorInit gBtlvFingerCursorActorInit;
+extern const struct ActorInit gBtlvFingerCursorActorInit;
 
 BtlvFingerCursor *BTLV_FINGER_CURSOR_Create(void *palAnmSlots, u32 palSlot, u16 heapId)
 {
@@ -174,10 +147,10 @@ void BTLV_FINGER_CURSOR_Delete(BtlvFingerCursor *cursor)
  * The hideTimer store is written out in both arms (the cross-jumped-tail idiom):
  * then-arm `str` is cross-jumped onto the else-arm copy, giving beq/b/movs.
  */
-int BTLV_FINGER_CURSOR_Start(BtlvFingerCursor *cursor, u16 x, u16 y, u32 startDelay, u32 loopCount, u32 hideTimer)
+int BTLV_FINGER_CURSOR_Start(BtlvFingerCursor *cursor, int x, int y, u32 startDelay, u32 loopCount, u32 hideTimer)
 {
-    BtlvClactActorInit setup = gBtlvFingerCursorActorInit;
-    ClactAnimCommand command;
+    struct ActorInit setup = gBtlvFingerCursorActorInit;
+    struct ClactAnimCommand command;
 
     if (cursor->isActive != 0)
         return 0;
@@ -185,8 +158,8 @@ int BTLV_FINGER_CURSOR_Start(BtlvFingerCursor *cursor, u16 x, u16 y, u32 startDe
         BTLV_FINGER_CURSOR_DeleteActor(cursor);
         cursor->actor = 0;
     }
-    setup.x = x;
-    setup.y = y;
+    setup.param.x = x;
+    setup.param.y = y;
     cursor->actor = CLACT_CreateAffineActor(cursor->clactUnit, cursor->charResId, cursor->palResId, cursor->cellResId, &setup, 1, cursor->heapId);
     CLACT_SetActorAnimSeq(cursor->actor, 0);
     CLACT_SetActorAnimFrame(cursor->actor, 0);
@@ -203,10 +176,10 @@ int BTLV_FINGER_CURSOR_Start(BtlvFingerCursor *cursor, u16 x, u16 y, u32 startDe
     cursor->state = 0;
     cursor->loopCount = loopCount;
     cursor->isActive = 0;
-    command.userData = cursor;
-    command.kind = 0;
-    command.param = 0;
-    command.callback = (void *)BTLV_FINGER_CURSOR_AnimCallback;
+    command.param = (uptr)cursor;
+    command.op = 0;
+    command.tag = 0;
+    command.func = (uptr)BTLV_FINGER_CURSOR_AnimCallback;
     CLACT_ApplyActorAnimCommand(cursor->actor, &command);
     return 1;
 }
@@ -233,18 +206,18 @@ int BTLV_FINGER_CURSOR_IsActive(BtlvFingerCursor *cursor)
 void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor)
 {
     volatile BtlvFingerCursor *live = cursor;
-    ClactAnimCommand pressCommand;
-    ClactAnimCommand releaseCommand;
+    struct ClactAnimCommand pressCommand;
+    struct ClactAnimCommand releaseCommand;
 
     switch (live->state) {
     case 0:
         if (--cursor->startDelay == 0) {
             CLACT_SetActorAnimSeq(cursor->actor, 1);
             live->state++;
-            pressCommand.userData = cursor;
-            pressCommand.kind = 1;
-            pressCommand.param = cursor->loopCount;
-            pressCommand.callback = (void *)BTLV_FINGER_CURSOR_AnimCallback;
+            pressCommand.param = (uptr)cursor;
+            pressCommand.op = 1;
+            pressCommand.tag = cursor->loopCount;
+            pressCommand.func = (uptr)BTLV_FINGER_CURSOR_AnimCallback;
             CLACT_ApplyActorAnimCommand(cursor->actor, &pressCommand);
             return;
         }
@@ -252,10 +225,10 @@ void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor)
     case 1:
         live->isActive = 1;
         live->state++;
-        releaseCommand.userData = cursor;
-        releaseCommand.kind = 2;
-        releaseCommand.param = 0;
-        releaseCommand.callback = (void *)BTLV_FINGER_CURSOR_AnimCallback;
+        releaseCommand.param = (uptr)cursor;
+        releaseCommand.op = 2;
+        releaseCommand.tag = 0;
+        releaseCommand.func = (uptr)BTLV_FINGER_CURSOR_AnimCallback;
         CLACT_ApplyActorAnimCommand(cursor->actor, &releaseCommand);
         return;
     case 2:
@@ -269,7 +242,7 @@ void BTLV_FINGER_CURSOR_AnimCallback(BtlvFingerCursor *cursor)
 }
 
 /* Task callback: hides the cursor when the hide timer runs out. */
-void BTLV_FINGER_CURSOR_TaskHideAfterDelay(void *task, void *work)
+void BTLV_FINGER_CURSOR_TaskHideAfterDelay(struct TcbTask *task, void *work)
 {
     BtlvFingerCursor *cursor = work;
 

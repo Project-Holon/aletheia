@@ -88,41 +88,16 @@
  */
 #include "gdb_types.h"
 
-#define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-typedef char *va_list;
+#include "../sdk_stdarg.h"
 
-extern int DWCi_GetLoginTicket(char *loginTicket);
-extern void DWCi_SetError(int error, int errorCode);
-extern int DWCi_IsError(void);
-extern int DWC_GetLastError(int *errorCode);
-extern void gsCoreInitialize(void);
-extern void gsCoreThink(unsigned int theMS);
-extern void gsCoreShutdown(void);
-extern int gsCoreIsShutdown(void);
-extern int DWC_InitGHTTP(void *theParam);
-extern int DWC_ShutdownGHTTP(void);
-extern int DWC_ProcessGHTTP(void);
-extern int DWC_GHTTPSetRootCAList(const char *url);
-extern int DWC_GHTTPCleanupRootCAList(const char *url);
-extern int ghttpGetState(int request);
-extern void ghttpCancelRequest(int request);
-extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern int OS_VSNPrintf(char *dst, unsigned int len, char *format, void *vlist);
+#include "../ov009/dwc_login.h"
+#include "../arm9/dwc_error.h"
+#include "../ov009/gscore.h"
+#include "../ov114/dwc_ghttp.h"
+#include "../ov114/ghttpmain.h"
+#include "../arm9/os_printf.h"
 
-extern int sakeStartup(SAKEInternal **sakePtr);
-extern void sakeShutdown(SAKEInternal *sake);
-extern void sakeSetGame(SAKEInternal *sake, const char *gameName, int gameId, const char *secretKey);
-extern void sakeSetProfile(SAKEInternal *sake, int profileId, const char *loginTicket);
-extern int sakeGetStartRequestResult(SAKEInternal *sake);
-extern SAKERequestInternal *sakeCreateRecord(SAKEInternal *sake, void *input, SAKERequestCallback callback, void *userData);
-extern SAKERequestInternal *sakeUpdateRecord(SAKEInternal *sake, void *input, SAKERequestCallback callback, void *userData);
-extern SAKERequestInternal *sakeGetMyRecords(SAKEInternal *sake, void *input, SAKERequestCallback callback, void *userData);
-extern SAKERequestInternal *sakeGetSpecificRecords(SAKEInternal *sake, void *input, SAKERequestCallback callback, void *userData);
-extern int sakeSetFileDownloadURL(SAKEInternal *sake, const char *url);
-extern int sakeGetFileDownloadURL(SAKEInternal *sake, int fileId, char *url);
-extern int sakeSetFileUploadURL(SAKEInternal *sake, const char *url);
-extern int sakeGetFileUploadURL(SAKEInternal *sake, char *url);
-extern int sakeCancelRequest(SAKEInternal *sake, SAKERequestInternal *request);
+#include "sakemain.h"
 
 int DWC_GdbInitialize(int game_id, DWCstAccUserData *userdata, int ssl_type);
 int DWC_GdbCancelRequest(void);

@@ -78,12 +78,10 @@ typedef struct DrawBrush {
     u8 mask[32][32];
 } DrawBrush;
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_NET_AllocAligned(u32, u32, const char *, u16);
-extern void GFL_NET_FreeAligned(void *p);
-extern void MI_CpuCopy8(void *a, void *b, int c);
-extern void *G2_GetBG2ScrPtr(void);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/net.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gx_bgcnt.h"
 extern const char d_021C71D0[];
 extern const DrawBrush gDrawBrushes[];
 

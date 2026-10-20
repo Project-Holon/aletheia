@@ -29,10 +29,8 @@ typedef struct {
 
 extern SysLockLike g_02735B20;
 extern ThreadInfoLike gMslRefToken;
-extern int OS_DisableInterrupts(void);
-extern int OS_RestoreInterrupts(int);
-extern void OS_SleepThread(void *queue);
-extern void OS_WakeupThread(void *queue);
+#include "../arm9/os_system.h"
+#include "../arm9/os_thread.h"
 
 void AESi_InitLock(void);
 int AESi_TryLock(void);

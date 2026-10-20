@@ -68,7 +68,7 @@ struct WordSet;
 
 struct InfoWindow;
 
-struct StrBuf;
+struct Strbuf;
 
 struct ReportBlock;
 
@@ -97,96 +97,72 @@ typedef struct ResearchReportWork {
     struct WordSet *wordSet;        /* 0x1C */
 } ResearchReportWork;
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern struct GameTask *GAME_EVENT_Create(void *parent, void *reserved, void *mainFunc, u32 workSize);
 struct GameEvent;
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern u32 GFL_HEAP_Free(void *block);
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+#include "../arm9/field_status.h"
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTable, void *param);
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
+#include "../ov021/event_fieldmap_control.h"
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 struct FieldMsgWin;
 
-extern int FIELD_MSGBG_IsMsgWinTransDone(struct FieldMsgWin *msgWin);
+#include "../ov021/field_msgbg.h"
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct FieldMsgBg;
 
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-struct MsgData;
+struct MsgBank;
 
-extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
 
-extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *msgWin);
 
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
+#include "../arm9/gf_font.h"
 
-extern u32 WORDSET_Delete(struct WordSet *words);
+#include "../arm9/wordset.h"
 struct Strbuf;
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, void *myStatus);
 
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void WORDSET_ClearAllSlots(struct WordSet *wordSet);
 
-extern void FIELD_MSGBG_MsgWinPrintStr(struct FieldMsgWin *msgWin, int x, int y, struct Strbuf *str);
 struct BmpWin;
 
-extern struct BmpWin *FIELD_MSGBG_GetMsgWinBmpWin(struct FieldMsgWin *msgWin);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 
-extern void BG_SYS_PushTile(u32 index);
+#include "../arm9/bg_sys.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void FIELD_MSGBG_ClearMsgWin(struct FieldMsgWin *msgWin);
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
 struct MiscSave;
 
-extern struct MiscSave *MISC_GetFromSave(struct SaveControl *save);
+#include "../arm9/beacon.h"
+#include "../arm9/game_event.h"
 
-extern u8 MISC_GetResearchRank(struct MiscSave *beacon);
 
-extern u32 MISC_GetThanksCount(struct MiscSave *beacon);
 
-extern u32 MISC_GetGreetCount(struct MiscSave *beacon);
 
 int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork *work);
 
@@ -269,7 +245,7 @@ void *EVENT_RESEARCH_RADAR_CreateTopTask(void *gameSystem, void *transitionArg) 
     struct GameTask *task;
     ResearchTopTaskWork *work;
     ResearchTopParam *param;
-    task = GAME_EVENT_Create(gameSystem, 0, EVENT_RESEARCH_RADAR_TopTaskMain, 12);
+    task = (struct GameTask *)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_RESEARCH_RADAR_TopTaskMain, 12);
     work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSystem = gameSystem;
     work->transitionArg = (int)transitionArg;
@@ -313,7 +289,7 @@ int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWo
 
 void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem) {
     struct GameTask *task;
-    task = GAME_EVENT_Create(gameSystem, 0, EVENT_RESEARCH_RADAR_ReportTaskMain, 32);
+    task = (struct GameTask *)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_RESEARCH_RADAR_ReportTaskMain, 32);
     EVENT_RESEARCH_RADAR_InitReportWork(GAME_EVENT_GetWork((struct GameEvent *)task), gameSystem);
     return task;
 }
@@ -371,7 +347,7 @@ void EVENT_RESEARCH_RADAR_CreateInfoWindow(ResearchReportWork *work)
         height = 8;
         break;
     }
-    work->window = (struct InfoWindow *)FIELD_MSGBG_CreateMsgWin(work->fx, (struct MsgData *)work->msgBank, x, x, width, height);
+    work->window = (struct InfoWindow *)FIELD_MSGBG_CreateMsgWin(work->fx, (struct MsgBank *)work->msgBank, x, x, width, height);
 }
 
 int EVENT_RESEARCH_RADAR_DeleteInfoWindow(ResearchReportWork *work)
@@ -400,13 +376,13 @@ int EVENT_RESEARCH_RADAR_DeleteWordSet(ResearchReportWork *work)
 /* Formats the report text (player name and two numbers) and prints it in the info window. */
 void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
 {
-    struct StrBuf *rawText;
-    struct StrBuf *formattedText;
+    struct Strbuf *rawText;
+    struct Strbuf *formattedText;
     int messageId;
     int numberA;
     int numberB;
-    rawText = (struct StrBuf *)STRBUF_Create(0x100, work->heapId);
-    formattedText = (struct StrBuf *)STRBUF_Create(0x100, work->heapId);
+    rawText = (struct Strbuf *)STRBUF_Create(0x100, work->heapId);
+    formattedText = (struct Strbuf *)STRBUF_Create(0x100, work->heapId);
     messageId = EVENT_RESEARCH_RADAR_GetReportKind(work);
     numberA = EVENT_RESEARCH_RADAR_GetReportNumberA(work);
     numberB = EVENT_RESEARCH_RADAR_GetReportNumberB(work);

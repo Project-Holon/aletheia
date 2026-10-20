@@ -62,7 +62,7 @@ WMErrCode WM_StartDCF(WMCallbackFunc callback, struct WMDcfRecvBuf *recvBuf, u16
     DC_StoreRange(recvBuf, recvBufSize);
 
     WMi_SetCallbackTable(17, callback);
-    result = WMi_SendCommand(17, 2, (u32)recvBuf, (u32)recvBufSize);
+    result = WMi_SendCommand(17, 2, (uptr)recvBuf, (u32)recvBufSize);
     if (result != WM_ERRCODE_SUCCESS) {
         return result;
     }
@@ -97,7 +97,7 @@ WMErrCode WM_SetDCFData(WMCallbackFunc callback, const u8 *destAdr, const u16 *s
 
     WMi_SetCallbackTable(18, callback);
     MI_CpuCopy8(destAdr, wMac, 6);
-    result = WMi_SendCommand(18, 4, wMac[0], wMac[1], (u32)sendData, (u32)sendDataSize);
+    result = WMi_SendCommand(18, 4, wMac[0], wMac[1], (uptr)sendData, (u32)sendDataSize);
     if (result != WM_ERRCODE_SUCCESS) {
         return result;
     }

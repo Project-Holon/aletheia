@@ -101,25 +101,22 @@ enum hex_scan_states {
 
 #include "msl_stdlib.h"
 
-double __strtold(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *overflow);
+#include "msl_strtod.h"
 
-u64 strtod(u32 s, u32 *endptr);
+/* Scan state of strtod, strtol and strtoll: the string reader state, then the results of the scan. */
+typedef struct MslStrtoState {
+    MslStringScan scan;
+    int overflow;
+    int negative;
+    int length;
+} MslStrtoState;
 
-int atof(char *s);
-
-u32 __strtoul(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
-
-u32 strtoul(u32 s, u32 *endptr, u32 base);
-
-int strtol(u32 s, u32 *endptr, u32 base);
-
-u64 __strtoull(int base, int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *negative, int *overflow);
-
-s64 strtoll(u32 s, u32 *endptr, u32 base);
-
-int atoi(u32 s);
-
-long long atoll(u32 s);
+/* Scan state of strtod: the string reader state, the overflow flag and the scanned length. */
+typedef struct MslStrtodState {
+    MslStringScan scan;
+    int overflow;
+    int length;
+} MslStrtodState;
 
 #include "msl_ansi_fp.h"
 
@@ -711,18 +708,18 @@ double __strtold(int max_width, int (*ReadProc)(void *, int, int), void *ReadPro
  * func_ label and is not producible from C, so the inferred extent runs long
  * over it.  No byte inside the compared range differs.
  */
-u64 strtod(u32 s, u32 *endptr)
+double strtod(const char *s, char **endptr)
 {
-    u32 buf[4];
-    u64 r;
+    MslStrtodState st;
+    double r;
 
-    buf[1] = 0;
-    buf[0] = s;
-    r = ((u64 (*)(u32, u32, u32 *, u32 *, u32 *))__strtold)(0x7FFFFFFFu, (u32)MSL_C_LIB_StrReadProc, buf, &buf[3], &buf[2]);
+    st.scan.eof = 0;
+    st.scan.cur = s;
+    r = __strtold(0x7FFFFFFF, (int (*)(void *, int, int))MSL_C_LIB_StrReadProc, &st, &st.length, &st.overflow);
     if (endptr != 0)
-        *endptr = s + buf[3];
-    ((void (*)(u32, u32))fabs)((u32)r, (u32)(r >> 32));
-    if (buf[2] != 0)
+        *endptr = (char *)s + st.length;
+    fabs(r);
+    if (st.overflow != 0)
         errno = 0x22;
     return r;
 }
@@ -730,9 +727,9 @@ u64 strtod(u32 s, u32 *endptr)
 /*
  * sdk:      FATFS_FormatDrive (libfatfs.TWL.HYB.a fatfs_api.o)
  */
-int atof(char *s)
+double atof(const char *s)
 {
-    return strtod((u32)s, 0);
+    return strtod(s, 0);
 }
 
 #undef isdigit
@@ -903,19 +900,19 @@ u32 __strtoul(int base, int max_width, int (*ReadProc)(void *, int, int),
  *       --func strtoul --addr 0x02095EAC --cc 1.1p1 --arm
  *   EXACT, 148 bytes, 3 relocation sites, all resolved.
  */
-u32 strtoul(u32 s, u32 *endptr, u32 base)
+u32 strtoul(const char *s, char **endptr, int base)
 {
     u32 len;
     u32 sign;
     u32 err;
-    u32 buf[2];
+    MslStringScan scan;
     u32 r;
 
-    buf[0] = s;
-    buf[1] = 0;
-    r = __strtoul(base, 0x7FFFFFFFu, (int (*)(void *, int,  int))((u32)MSL_C_LIB_StrReadProc), buf, (int *)(&len), (int *)(&sign), (int *)(&err));
+    scan.cur = s;
+    scan.eof = 0;
+    r = __strtoul(base, 0x7FFFFFFFu, (int (*)(void *, int, int))MSL_C_LIB_StrReadProc, &scan, (int *)(&len), (int *)(&sign), (int *)(&err));
     if (endptr != 0)
-        *endptr = s + len;
+        *endptr = (char *)s + len;
     if (err != 0) {
         r = 0xFFFFFFFFu;
         errno = 0x22;
@@ -953,26 +950,26 @@ u32 strtoul(u32 s, u32 *endptr, u32 base)
  *       --func strtol --addr 0x02095F40 --cc 1.1p1 --arm
  *   EXACT, 196 bytes, 3 relocation sites, all resolved.
  */
-int strtol(u32 s, u32 *endptr, u32 base)
+int strtol(const char *s, char **endptr, int base)
 {
-    u32 buf[5];
+    MslStrtoState st;
     int r;
     int v;
 
-    buf[0] = s;
-    buf[1] = 0;
-    r = (int)__strtoul(base, 0x7FFFFFFFu, (int (*)(void *, int,  int))MSL_C_LIB_StrReadProc, buf,
-                           (int *)(&buf[4]), (int *)(&buf[3]), (int *)(&buf[2]));
+    st.scan.cur = s;
+    st.scan.eof = 0;
+    r = (int)__strtoul(base, 0x7FFFFFFFu, (int (*)(void *, int, int))MSL_C_LIB_StrReadProc, &st,
+                           &st.length, &st.negative, &st.overflow);
     if (endptr != 0)
-        *endptr = s + buf[4];
-    if (buf[2] != 0 ||
-        (buf[3] == 0 && (u32)r > 0x7FFFFFFFu) ||
-        (buf[3] != 0 && (u32)r > 0x80000000u)) {
-        v = (buf[3] != 0) ? (int)0x80000000 : (int)0x7FFFFFFF;
+        *endptr = (char *)s + st.length;
+    if (st.overflow != 0 ||
+        (st.negative == 0 && (u32)r > 0x7FFFFFFFu) ||
+        (st.negative != 0 && (u32)r > 0x80000000u)) {
+        v = (st.negative != 0) ? (int)0x80000000 : (int)0x7FFFFFFF;
         errno = 0x22;
         return v;
     }
-    if (buf[3] != 0)
+    if (st.negative != 0)
         r = -r;
     return r;
 }
@@ -1139,27 +1136,27 @@ u64 __strtoull(int base, int max_width, int (*ReadProc)(void *, int, int),
  *   MATCH* with no concrete byte differing; EXACT* once the symbols above
  *   are declared and the two thunk addresses are labelled.
  */
-s64 strtoll(u32 s, u32 *endptr, u32 base)
+s64 strtoll(const char *s, char **endptr, int base)
 {
-    u32 buf[5];
+    MslStrtoState st;
     s64 r;
     s64 v;
 
-    buf[0] = s;
-    buf[1] = 0;
-    r = (s64)__strtoull(base, 0x7FFFFFFFu, (int (*)(void *, int,  int))MSL_C_LIB_StrReadProc, buf,
-                           (int *)(&buf[4]), (int *)(&buf[3]), (int *)(&buf[2]));
+    st.scan.cur = s;
+    st.scan.eof = 0;
+    r = (s64)__strtoull(base, 0x7FFFFFFFu, (int (*)(void *, int, int))MSL_C_LIB_StrReadProc, &st,
+                           &st.length, &st.negative, &st.overflow);
     if (endptr != 0)
-        *endptr = s + buf[4];
-    if (buf[2] != 0 ||
-        (buf[3] == 0 && (u64)r > 0x7FFFFFFFFFFFFFFFULL) ||
-        (buf[3] != 0 && (u64)r > 0x8000000000000000ULL)) {
-        v = (buf[3] != 0) ? (s64)0x8000000000000000ULL
+        *endptr = (char *)s + st.length;
+    if (st.overflow != 0 ||
+        (st.negative == 0 && (u64)r > 0x7FFFFFFFFFFFFFFFULL) ||
+        (st.negative != 0 && (u64)r > 0x8000000000000000ULL)) {
+        v = (st.negative != 0) ? (s64)0x8000000000000000ULL
                           : (s64)0x7FFFFFFFFFFFFFFFULL;
         errno = 0x22;
         return v;
     }
-    if (buf[3] != 0)
+    if (st.negative != 0)
         r = -r;
     return r;
 }
@@ -1170,7 +1167,7 @@ s64 strtoll(u32 s, u32 *endptr, u32 base)
  * error parser uses.  Reproducible from C as an ordinary tail call; the
  * previous note that claimed otherwise was wrong.
  */
-int atoi(u32 s)
+int atoi(const char *s)
 {
     return strtol(s, 0, 10);
 }
@@ -1180,7 +1177,7 @@ int atoi(u32 s)
  * a null out-pointer and radix 10.  Reproducible from C as an ordinary tail
  * call; the previous note that claimed otherwise was wrong.
  */
-long long atoll(u32 s)
+long long atoll(const char *s)
 {
     return strtoll(s, 0, 10);
 }

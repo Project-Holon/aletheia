@@ -132,8 +132,6 @@ struct PrintQueue {
     u8  data[4];
 };
 
-typedef u8 (*PrintCallback)(u32 arg);
-
 union TextPrinterFlags {
     u8 raw;
     struct {
@@ -208,12 +206,11 @@ u32 PRINTSYS_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16
 
 #include "bmp_win.h"
 
-extern struct TcblNode *TCBL_AddTask(struct Tcbl *tcbl, void *func, u32 workSize, u32 priority);
 struct TcblTask;
 
 #include "tcbl.h"
 
-void PRINTSYS_Task(void *task, struct TextPrinter *printer);
+void PRINTSYS_Task(struct TcblTask *task, void *work);
 
 
 #include "msg_speed.h"
@@ -244,9 +241,9 @@ void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s1
 
 void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
 
-void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
+void PRINTSYS_Print(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
 
-void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
 void PRINTSYS_SetupJob(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y);
 
@@ -264,7 +261,7 @@ u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor);
 
 u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor);
 
-void PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
+struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
 
 struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor, PrintCallback callback);
 
@@ -622,7 +619,7 @@ void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct S
  * register and copies it into r0 at each site, byte-exact under the
  * default compiler.
  */
-void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font)
+void PRINTSYS_Print(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font)
 {
     u32 jobAddr;
 
@@ -648,7 +645,7 @@ void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct Gf
  * image does, and the stacked u16 read keeps the 1.1p1 base.  This retires
  * the ../2.0/sp2 near miss (2 out) the notes carried.
  */
-void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color)
+void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color)
 {
     u32 jobAddr;
 
@@ -1107,10 +1104,10 @@ u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor)
  *   python tools/match.py one --src src/matched/PRINTSYS_PrintStream.c \
  *       --func PRINTSYS_PrintStream --addr 0x0201CCE4 --cc 1.1p1 --thumb
  */
-void PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl,
+struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl,
                    u32 priority, u16 heap, u16 fillColor)
 {
-    PRINTSYS_PrintStreamCallBack(win, x, y, str, font, wait, tcbl, priority, heap, fillColor, 0);
+    return PRINTSYS_PrintStreamCallBack(win, x, y, str, font, wait, tcbl, priority, heap, fillColor, 0);
 }
 
 /*
@@ -1142,7 +1139,7 @@ struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 
     u8 speed[2];
 
     bmp = BMP_WIN_GetBmp(win);
-    task = TCBL_AddTask(tcbl, (void *)PRINTSYS_Task, 0x50, priority);
+    task = (struct TcblNode *)TCBL_AddTask((struct TcblSystem *)tcbl, PRINTSYS_Task, 0x50, priority);
     printer = TCBL_GetWork((struct TcblTask *)task);
 
     printer->task = task;
@@ -1410,8 +1407,9 @@ static inline u32 TagGroupOrNone(u16 code, const u16 *tag)
  * `ctx = (struct PrintCtx *)p; ctx = &p->ctx;`. The single
  * `ctx = &p->ctx;` is EXACT in --lang c99 and --lang c.
  */
-void PRINTSYS_Task(void *task, struct TextPrinter *printer)
+void PRINTSYS_Task(struct TcblTask *task, void *work)
 {
+    struct TextPrinter *printer = work;
     s32 glyphsThisTick;
     s32 glyphIndex;
     u32 width;

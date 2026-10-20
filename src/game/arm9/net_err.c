@@ -283,17 +283,22 @@ struct Strbuf;
 
 #include "mi_memory.h"
 
-extern u32 GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clearFlag, const void *file, u8 line);
+#ifdef __MWERKS__
+extern u32 GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clearFlag, const void *file, u8 line); /* original prototype; the definition differs in argument sign, argument width, pointer type, return type */
+#else
+#include "gfl_heap_wrap.h"
+#endif
 
 
 
 #include "net_system.h"
 
-extern u32  GFL_NET_STATE_GetErrorMode(void);
-
-
-
-extern NetErrInfo *GFL_NET_STATE_GetError(void);
+#ifdef __MWERKS__
+extern NetErrInfo *GFL_NET_STATE_GetError(void); /* original prototype; the definition returns the address as u32 */
+#else
+#include "net_state.h"
+#define GFL_NET_STATE_GetError() ((NetErrInfo *)(uptr)(GFL_NET_STATE_GetError)())
+#endif
 
 
 
@@ -309,13 +314,14 @@ extern NetErrInfo *GFL_NET_STATE_GetError(void);
 
 
 
-extern void UI_ClearSoftResetInhibitGlobal(u32 mode);
+#include "ui.h"
 
 
 
+#ifdef __MWERKS__
 extern u32 GFL_HEAP_Free(void *block);
-
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
+#endif
 
 
 
@@ -328,9 +334,6 @@ extern void GFL_NET_ERR_DrawWindow(u32 screenIndex, u32 isWifiLink);
 
 
 
-typedef int GXVRamBG;
-typedef int GXVRamOBJ;
-typedef int GXVRamTex;
 #include "gx_vramcnt.h"
 
 

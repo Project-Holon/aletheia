@@ -36,7 +36,7 @@ struct MsgData;         /* opened message bank */
 /* 0xB10 bytes, allocated with the beacon_status.c __FILE__ string. */
 typedef struct BeaconStatus {
     u8 log[0xB08];              /* +0x000 beacon log area (handed out whole) */
-    struct StrBuf *message;     /* +0xB08 9-character string from message 0x11 */
+    struct Strbuf *message;     /* +0xB08 9-character string from message 0x11 */
     u16 viewFlags;              /* +0xB0C handed out by address */
     u8 viewTop;                 /* +0xB0E top row of the beacon log view */
     u8 pad_B0F;
@@ -68,7 +68,7 @@ u8 BEACON_STATUS_GetViewTop(BeaconStatus *bs);
 
 void BEACON_STATUS_SetViewTop(BeaconStatus *bs, int top);
 
-struct StrBuf *BEACON_STATUS_GetMessage(BeaconStatus *bs);
+struct Strbuf *BEACON_STATUS_GetMessage(BeaconStatus *bs);
 
 u16 *BEACON_STATUS_GetViewFlags(BeaconStatus *bs);
 
@@ -90,13 +90,13 @@ BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId)
 {
     BeaconStatus *bs;
     struct MsgData *msgData;
-    struct StrBuf *str;
+    struct Strbuf *str;
     u16 code[10];
 
     bs = GFL_HEAP_Alloc(heapId, sizeof(BeaconStatus), 1, beacon_status_File, 42);
-    bs->message = (struct StrBuf *)STRBUF_Create(9, heapId);
+    bs->message = (struct Strbuf *)STRBUF_Create(9, heapId);
     msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 8, msgHeapId);
-    str = (struct StrBuf *)MSGDATA_AllocString((struct MsgBank *)msgData, 0x11);
+    str = (struct Strbuf *)MSGDATA_AllocString((struct MsgBank *)msgData, 0x11);
     STRBUF_ToChars((struct Strbuf *)str, code, 9);
     STRBUF_SetString((struct Strbuf *)bs->message, code);
     STRBUF_Delete((struct Strbuf *)str);
@@ -126,7 +126,7 @@ void BEACON_STATUS_SetViewTop(BeaconStatus *bs, int top)
     bs->viewTop = top;
 }
 
-struct StrBuf *BEACON_STATUS_GetMessage(BeaconStatus *bs)
+struct Strbuf *BEACON_STATUS_GetMessage(BeaconStatus *bs)
 {
     return bs->message;
 }

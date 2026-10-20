@@ -110,8 +110,9 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../types.h"
+#include "../arm9/gf_standard_types.h"
 
-#include "poke_tool_param.h"
+#include "../arm9/poke_tool_param.h"
 
 #include "field_encount_types.h"
 #include "../arm9/btl_setup_types.h"
@@ -125,7 +126,7 @@ struct MyStatus;
 struct Party;
 struct PokemonParam;
 struct PersonalData;
-struct TrainerRecord;
+struct RecordBlock;
 struct FieldPlayer;
 struct WeatherSys;
 struct FieldG3dMapper;
@@ -200,90 +201,34 @@ typedef struct EncountStepWork {
     u32 stepCount;
 } EncountStepWork;
 
-struct RtcTime { u32 hour; u32 minute; u32 second; };
 
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
-extern void *MYSTATUS_GetName(void *mystatus);
-extern u8 MYSTATUS_GetSex(const struct MyStatus *myStatus);
-extern u32 GFL_HEAP_Free(void *memory);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u32 MYSTATUS_GetId(const struct MyStatus *myStatus);
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
-extern u8 POKE_TOOL_GetNature(struct PokemonParam *pp);
-extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
+#include "../arm9/zonedata.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/game_data.h"
+#include "../arm9/move_pokemon_save.h"
+#include "../arm9/pokeparty.h"
+#include "../arm9/poke_tool.h"
 struct MovePokemonSave;
-extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct MovePokemonSave *pSave);
-extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
-extern u32 POKEPARTY_FindFirstBattleReady(struct Party *party);
-extern u32 GPOWER_ApplyEncountRate(u32 rate);
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct MovePokemonSave *pSave, u32 slot);
+#include "../arm9/gpower.h"
+#include "../arm9/mi_memory.h"
 struct MovePokemonEntry;
-extern struct MovePokemonEntry *MOVE_POKEMON_SAVE_GetEntry(struct MovePokemonSave *pSave, u32 slot);
-extern u32 MOVE_POKEMON_SAVE_GetEntryField(struct MovePokemonEntry *pEntry, u32 field);
-extern u32 GFL_USE_GetRandomBelow(u32 range);
-extern struct FieldWfbcPeople *FIELD_WFBC_GetPeople(struct FieldWfbc *wfbc, u32 npcId);
-extern u8 *FIELD_WFBC_PEOPLE_GetNpcRecord(struct FieldWfbcPeople *people);
-extern u32 GFL_USE_GetRandom(u32 range);
-extern struct PersonalData *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heapId);
-extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, unsigned long long otId, u32 ivs, unsigned long long personality);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
+#include "../arm9/gfl_use.h"
+#include "field_wfbc.h"
+#include "../arm9/poke_personal.h"
 struct BoxPokemon;
-extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
-extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
-extern void POKE_PERSONAL_Delete(struct PersonalData *personal);
-extern u8 MOVE_POKEMON_SAVE_GetStartLocation(struct MovePokemonSave *pSave);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
-extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 field);
-extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *personal, u32 field);
-extern u32 POKE_PERSONAL_IsFixedGender(u32 genderRatio);
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void *GAME_DATA_GetEventData(const struct GameData *gameData);
-extern u32 EVENTDATA_SYSTEM_GetEncountData(u32 systemAddr);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int fromTop, const char *file, u16 line);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern u32 GAME_DATA_GetFieldGimmick(const struct GameData *gameData);
-extern struct WeatherSys *FIELDMAP_GetWeather(struct FieldMap *fieldMap);
-extern u16 WEATHER_GetWeatherId(struct WeatherSys *weatherSys);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
-extern u32 RECORD_AddOne(struct TrainerRecord *record, int recordId);
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern struct BattleSetupParam *BTL_SETUP_Create(u32 heapId);
-extern int EVENT_BATTLE_CreateScriptedBattle(s32 gameSystem, s32 battleSrc, s32 btlSetup, s32 returnImmediately, s32 effectId);
-extern void BTL_SETUP_SetStatusFlag(struct BattleSetupParam *btlSetup, int flag);
-extern u8 FIELD_WFBC_IsBackPeople(struct FieldWfbc *wfbc);
-extern u8 ZONEDATA_GetFieldEffectSetId(u32 zoneId);
-extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *player);
-extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
-extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
-extern int FIELD_WFBC_GetPeopleNum(struct FieldWfbc *wfbc);
-extern fx32 FX_Sqrt(fx32 x);
-extern struct Party *POKEPARTY_Create(u32 heapId);
-extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *pp);
-extern void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, struct Party *wildParty, const struct FieldSituation *sit, u32 rule, u16 heap);
-extern void BTL_SETUP_Clear(struct BattleSetupParam *param);
-extern u32 TPOKE_DATA_GetRecordField(void *a, unsigned int idx);
-extern u32 TPOKE_DATA_GetTrainerGroup(u32 trainerType);
-extern void BTL_SETUP_SetupTrainerMulti(struct BattleSetupParam *param, struct GameData *gd, struct FieldSituation *sit, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heap);
-extern void BTL_SETUP_SetupTrainerTag(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId1, u32 trainerId2, u16 heap);
-extern void BTL_SETUP_SetupTrainerDouble(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
-extern void BTL_SETUP_SetupTrainerSingle(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
-extern void BTL_SETUP_SetupTrainerTriple(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
-extern void BTL_SETUP_SetupTrainerRotation(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern int FLDMMDL_GetGridNowX(struct Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowY(struct Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
+#include "fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../ov010/eventdata_system.h"
+#include "weather.h"
+#include "../arm9/record.h"
+#include "../arm9/btl_setup.h"
+#include "../ov010/event_battle.h"
+#include "field_player.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/fx_cp.h"
+#include "../arm9/tpoke_data.h"
+#include "../ov010/fldmmdl.h"
 void FIELD_ENCOUNT_SetupParam(FieldEncountParam *param, struct GameData *gameData, int encountType, int triggerMode, u16 weather);
 u32 FIELD_ENCOUNT_CalcEncountRate(FieldEncountParam *param, struct GameData *gameData, u32 baseRate);
 int FIELD_ENCOUNT_CreateWildMons(FieldEncountParam *param, EncountSlot *slots, EncountMon *mons);
@@ -328,16 +273,8 @@ u32 FIELD_ENCOUNT_RandRatePercent(void);
 void FIELD_ENCOUNT_ResetStepWork(EncountStepWork *stepWork, struct FieldPlayer *player);
 void FIELD_ENCOUNT_UpdateStepWork(EncountStepWork *stepWork, struct FieldPlayer *player);
 u32 FIELD_ENCOUNT_GetStepCount(EncountStepWork *stepWork);
-struct EffectEncount *EFFECT_ENCOUNT_Create(int heapId);
-int EFFECT_ENCOUNT_Delete(struct EffectEncount *effectEncount);
-void EFFECT_ENCOUNT_Init(FieldEncount *encount, struct EffectEncount *effectEncount);
-void EFFECT_ENCOUNT_Exit(FieldEncount *encount, struct EffectEncount *effectEncount);
-u16 MAP_ATTR_GetTerrainId(u32 attr);
-u16 MAP_ATTR_GetFlags(u32 attr);
-BOOL MAP_ATTR_IsPresent(u32 attr);
-int MAP_ATTR_IsTallGrass(int attrValue);
-BOOL MAP_ATTR_IsAnyDoubleGrass(u16 attrValue);
-u8 MAP_ATTR_GetBattleBackground(u16 attrValue);
+#include "effect_encount.h"
+#include "map_attr.h"
 extern const SwarmEntry sSwarmTable[];
 extern const u8 sHeldItemWeights[];
 extern const char sFieldEncountFileName[];
@@ -465,8 +402,7 @@ struct Roamer *FIELD_ENCOUNT_PickRoamer(EncountData *encountData, FieldEncountPa
 /*
  * White Forest: every resident brings one species per table (grass, dark
  * grass, water). The resident record (WfbcNpcRecord) holds the species at
- * 0x08, the levels at 0x10 and the weights at 0x14; the shared record type
- * names those bytes otherwise, so they are read by offset here.
+ * 0x08, the levels at 0x10 and the weights at 0x14.
  */
 u32 FIELD_ENCOUNT_PickWfbcMon(struct FieldWfbc *wfbc, FieldEncountParam *param, EncountMon *mon)
 {
@@ -474,7 +410,7 @@ u32 FIELD_ENCOUNT_PickWfbcMon(struct FieldWfbc *wfbc, FieldEncountParam *param, 
     u32 totalWeight;
     u32 roll;
     int i;
-    u8 *record;
+    WfbcNpcRecord *record;
     struct FieldWfbcPeople *people;
 
     switch (param->encountType) {
@@ -494,7 +430,7 @@ u32 FIELD_ENCOUNT_PickWfbcMon(struct FieldWfbc *wfbc, FieldEncountParam *param, 
     for (i = 0; i < 30; i++) {
         people = FIELD_WFBC_GetPeople(wfbc, i);
         if (people) {
-            totalWeight += FIELD_WFBC_PEOPLE_GetNpcRecord(people)[column + 0x14];
+            totalWeight += FIELD_WFBC_PEOPLE_GetNpcRecord(people)->weights[column];
         }
     }
     roll = GFL_USE_GetRandom(totalWeight);
@@ -503,11 +439,11 @@ u32 FIELD_ENCOUNT_PickWfbcMon(struct FieldWfbc *wfbc, FieldEncountParam *param, 
         people = FIELD_WFBC_GetPeople(wfbc, i);
         if (people) {
             record = FIELD_WFBC_PEOPLE_GetNpcRecord(people);
-            totalWeight += record[column + 0x14];
+            totalWeight += record->weights[column];
             if (roll < totalWeight) {
                 MI_CpuFill8(mon, 0, 0x14);
-                mon->species = ((u16 *)(record + 8))[column];
-                mon->level = (record + column)[0x10];
+                mon->species = record->speciesIds[column];
+                mon->level = record->levels[column];
                 return 1;
             }
         }

@@ -19,49 +19,13 @@
  *   gsifree  0x0217EAE0  arm   ov009
  *   gpiDeleteBuddy  0x021890E0  arm   ov009
  */
-typedef struct GPICallback {
-    void (*callback)(void **, void *, void *);
-    void *param;
-} GPICallback;
-
-typedef struct GPICallbackData {
-    GPICallback callback;
-    void *arg;
-    int type;
-    int operationID;
-    struct GPICallbackData *pnext;
-} GPICallbackData;
-
-typedef struct GPIConnection {
-    unsigned char pad0[0x1A8];
-    GPICallback callback;
-    unsigned char pad1B0[0x5B8 - 0x1B0];
-    int errorCode;
-    int fatalError;
-    unsigned char pad5C0[0x5DC - 0x5C0];
-    GPICallbackData *callbackList;
-    GPICallbackData *lastCallback;
-} GPIConnection;
+#include "gpi_types.h"
 
 typedef struct GPErrorArg {
     int result;
     int errorCode;
     char *errorString;
 } GPErrorArg;
-
-typedef struct GPGetUserNicksResponseArg {
-    char pad0[0x38];
-    int numNicks;
-    char **nicks;
-    char **uniquenicks;
-} GPGetUserNicksResponseArg;
-
-typedef struct GPFindPlayersResponseArg {
-    int result;
-    int numMatches;
-    int more;
-    void *matches;
-} GPFindPlayersResponseArg;
 
 typedef struct GPTransferCallbackArg {
     int transfer;
@@ -71,31 +35,6 @@ typedef struct GPTransferCallbackArg {
     char *message;
 } GPTransferCallbackArg;
 
-typedef struct GPGetReverseBuddiesResponseArg {
-    int result;
-    int numProfiles;
-    void *profiles;
-} GPGetReverseBuddiesResponseArg;
-
-typedef struct GPSuggestUniqueNickResponseArg {
-    int result;
-    int numSuggestedNicks;
-    char **suggestedNicks;
-} GPSuggestUniqueNickResponseArg;
-
-typedef struct GPGetReverseBuddiesListResponseArg {
-    int result;
-    int numOfUniqueMatchs;
-    void *matches;
-} GPGetReverseBuddiesListResponseArg;
-
-typedef struct GPGetBuddyStatusInfoKeysArg {
-    int profile;
-    char **keys;
-    char **values;
-    int numKeys;
-} GPGetBuddyStatusInfoKeysArg;
-
 typedef struct GPGetProfileBuddyListArg {
     int result;
     int profile;
@@ -104,12 +43,11 @@ typedef struct GPGetProfileBuddyListArg {
     void *profiles;
 } GPGetProfileBuddyListArg;
 
-extern void *gsimalloc(int size);
-extern void gpiSetErrorString(int *p, int b);
-extern void gsifree(void *ptr);
-extern int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest);
+#include "gsmemory.h"
+#include "gpiutility.h"
+#include "gpibuddy.h"
 int gpiCallErrorCallback(void **connection, int result, int fatal);
-int gpiAddCallback(void **connection, GPICallback callback, void *arg, int *operation, int type);
+int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
 void gpiCallCallback(void **connection, GPICallbackData *data);
 int gpiProcessCallbacks(void **connection, int blockingOperationID);
 extern char gGpiCallbackErrorOutOfMemory[];
@@ -135,16 +73,16 @@ int gpiCallErrorCallback(void **connection, int result, int fatal)
 
     if (fatal == 1)
         ic->fatalError = 1;
-    cb.callback = ic->callback.callback;
-    cb.param = ic->callback.param;
+    cb.callback = ic->callbacks[0].callback;
+    cb.param = ic->callbacks[0].param;
     if (cb.callback == 0)
-        return (int)cb.param;
+        return (sptr)cb.param;
     data = (int *)gsimalloc(0x10);
     if (data != 0) {
         data[0] = result;
         data[3] = fatal;
         data[1] = ic->errorCode;
-        data[2] = (int)ic;
+        data[2] = (sptr)ic;
     }
     return gpiAddCallback(connection, cb, data, 0, 1);
 }
@@ -161,20 +99,20 @@ int gpiCallErrorCallback(void **connection, int result, int fatal)
  * why the prologue homes all four argument registers (push {r0-r3}) and the
  * epilogue is `pop {r4,r5,r6,lr}; add sp,#0x10; bx lr`.
  */
-int gpiAddCallback(void **connection, GPICallback callback, void *arg, int *operation, int type)
+int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type)
 {
     GPIConnection *ic = (GPIConnection *)*connection;
     GPICallbackData *data;
 
     data = (GPICallbackData *)gsimalloc(0x18);
     if (data == 0) {
-        gpiSetErrorString((int *)connection, (int)gGpiCallbackErrorOutOfMemory);
+        gpiSetErrorString(connection, gGpiCallbackErrorOutOfMemory);
         return 1;
     }
     data->callback = callback;
     data->arg = arg;
     if (operation != 0)
-        data->operationID = *(int *)((char *)operation + 0x18);
+        data->operationID = operation->id;
     else
         data->operationID = 0;
     data->type = type;

@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_WM_ETC_H
 #define GAME_ARM9_WM_ETC_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wm_etc.c, prototypes copied from their definitions. */
 
 #include "../sdk_wm.h"
@@ -12,6 +13,7 @@ WMErrCode WM_SetGameInfo(WMCallbackFunc callback, const u16 *userGameInfo, u16 u
 WMErrCode WM_SetBeaconIndication(WMCallbackFunc callback, u16 flag);
 WMErrCode WM_SetLifeTime(WMCallbackFunc callback, u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime);
 WMErrCode WM_MeasureChannel(WMCallbackFunc callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime);
-void WMi_CheckInitializedAfterMeasure(void);
+u32 WMi_CheckInitializedAfterMeasure(void);
+/* END mkheaders: generated region */
 
 #endif

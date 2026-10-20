@@ -60,77 +60,51 @@
 #include "btlv_effvm_shared_types.h"
 #include "btlv_clact_shared_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 FX_Div(u32 a, u32 b);
+#include "../arm9/fx_cp.h"
 struct TcbSystem;
 struct TcbTask;
 
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, void *), void *work, u32 priority);
+#include "../arm9/tcb_list.h"
 
-extern int PALANM_RequestFade(struct PalAnmSlot *palanm, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *owner);
 struct TcblSystem;
 
-extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
+#include "../arm9/tcbl.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+#include "../arm9/clact.h"
 
-extern unsigned int CLACT_DeleteUnit(struct Unit *unit);
 
-void CLACT_DrawSystem(void);
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern s32 CLACT_RegisterCharacter(void *archive, u32 fileIdx, u32 compressed, u32 vramMode, u16 heap);
 
-extern int CLACT_RegisterPaletteCompressed(void *archive, u32 fileIdx, u32 vramMode, u32 vramOffset, u16 heap);
 
-extern s32 CLACT_RegisterCellAnim(void *archive, u32 cellFileIdx, u32 animFileIdx, u32 heap);
 
-extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 
-extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 heap, u32 slotIdx, u32 byteSize, u16 dstOffset);
+#include "../arm9/palanm.h"
 
-extern struct Actor *CLACT_CreateActor(struct Unit *unit, u32 charIdx, u32 palIdx, u32 cellIdx, const BtlvClactActorInit *init, u16 space, u16 heap);
 
-extern struct Actor *CLACT_CreateAffineActor(struct Unit *unit, u32 charIdx, u32 palIdx, u32 cellIdx, const BtlvClactActorInit *init, u16 space, u16 heap);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void CLACT_ReleaseCharacter(u32 idx);
 
-extern void CLACT_ReleasePalette(u32 idx);
 
-extern void CLACT_ReleaseCellAnim(u32 idx);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, s16 *out, u16 space);
 
-extern u32 CLACT_SetActorAnimSeq(struct Actor *actor, u16 seq);
 
-extern void CLACT_AddActorSurfacePos(struct Actor *actor, const s16 *delta, u32 which);
 
-extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 struct Pair32;
 
-extern void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src);
 
-void *BTLV_EFFECT_GetOwner(void);
+#include "btlv_effect.h"
 
-struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
 
-void BTLV_EFFECT_RegisterTask(void *task, void (*cb)(void *), int arg);
 
-void BTLV_EFFECT_DeleteTask(void *task);
 
-void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *stepOut, fx32 frames);
 
-int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *out);
 
 BtlvClact *BTLV_CLACT_Create(void *owner, u16 heap);
 
@@ -146,26 +120,26 @@ void BTLV_CLACT_ReleaseActor(BtlvClact *clact, int slot);
 
 void BTLV_CLACT_StartPosTween(BtlvClact *clact, int slot, int mode, s16 *offset, int frames, int waitTicks, int repeats);
 
-void BTLV_CLACT_StartScaleTween(BtlvClact *clact, int slot, int mode, BtlvVec3 *scaleEnd, int frames, int waitTicks, int repeats);
+void BTLV_CLACT_StartScaleTween(BtlvClact *clact, int slot, int mode, VecFx32 *scaleEnd, int frames, int waitTicks, int repeats);
 
-u32 BTLV_CLACT_SetActorAnimSeq(BtlvClact *clact, int slot, int seq);
+void BTLV_CLACT_SetActorAnimSeq(BtlvClact *clact, int slot, int seq);
 
 void BTLV_CLACT_RequestPaletteFade(BtlvClact *clact, int slot, u8 b, u8 c, s8 step, u16 d);
 
-void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, BtlvVec3 *start, BtlvVec3 *end, int frames, int waitTicks, int repeats,
-                   void (*taskMain)(void *, void *), void (*taskEnd)(void *));
+void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, VecFx32 *start, VecFx32 *end, int frames, int waitTicks, int repeats,
+                   void (*taskMain)(struct TcbTask *, void *), void (*taskEnd)(void *));
 
-void BTLV_CLACT_MoveTaskMain(void *task, void *work);
+void BTLV_CLACT_MoveTaskMain(struct TcbTask *task, void *work);
 
 void BTLV_CLACT_MoveTaskEnd(void *task);
 
-void BTLV_CLACT_MoveTaskMainWide(void *task, void *work);
+void BTLV_CLACT_MoveTaskMainWide(struct TcbTask *task, void *work);
 
 void BTLV_CLACT_MoveTaskEndWide(void *task);
 
 extern const char gBtlvClactFileName[];
 
-extern const BtlvClactActorInit gBtlvClactDefaultActorInit;
+extern const struct ActorInit gBtlvClactDefaultActorInit;
 
 BtlvClact *BTLV_CLACT_Create(void *owner, u16 heap)
 {
@@ -199,10 +173,10 @@ int BTLV_CLACT_LoadActorSimple(BtlvClact *clact, int archiveId, int firstFile, s
 
 int BTLV_CLACT_LoadActor(BtlvClact *clact, u32 archiveId, int charFile, u32 palFile, int cellFile, int animFile, s16 x, s16 y, u32 scaleX, u32 scaleY)
 {
-    BtlvClactActorInit init = gBtlvClactDefaultActorInit;
+    struct ActorInit init = gBtlvClactDefaultActorInit;
     void *archive = ARC_TOOL_CreateHandle(archiveId, (u16)((clact->heap & 0x7fff) | 0x8000));
     int i;
-    struct PalAnmSlot *palanm;
+    PaletteFade *palanm;
     u32 vramAddr;
     for (i = 0; i < 7; i++) {
         if (clact->slot[i].actor == 0) break;
@@ -213,13 +187,13 @@ int BTLV_CLACT_LoadActor(BtlvClact *clact, u32 archiveId, int charFile, u32 palF
     palanm = BTLV_EFFECT_GetPalanm();
     vramAddr = CLACT_GetPaletteVramAddress(clact->slot[i].paletteId, 0);
     PALANM_LoadArcPaletteToSlot(palanm, archiveId, palFile, clact->heap, 2, 32, (vramAddr & 0x3ff) >> 1);
-    init.x = x;
-    init.y = y;
+    init.param.x = x;
+    init.param.y = y;
     if (scaleX == 0 && scaleY == 0) {
-        clact->slot[i].actor = CLACT_CreateActor(clact->unit, clact->slot[i].charId, clact->slot[i].paletteId, clact->slot[i].cellId, &init, 0, clact->heap);
+        clact->slot[i].actor = CLACT_CreateActor(clact->unit, clact->slot[i].charId, clact->slot[i].paletteId, clact->slot[i].cellId, &init.param, 0, clact->heap);
     } else {
-        init.scaleX = scaleX;
-        init.scaleY = scaleY;
+        init.scale_x = scaleX;
+        init.scale_y = scaleY;
         clact->slot[i].actor = CLACT_CreateAffineActor(clact->unit, clact->slot[i].charId, clact->slot[i].paletteId, clact->slot[i].cellId, &init, 0, clact->heap);
     }
     CLACT_SetActorAutoAnim(clact->slot[i].actor, 1);
@@ -238,16 +212,16 @@ void BTLV_CLACT_ReleaseActor(BtlvClact *clact, int slot)
 
 void BTLV_CLACT_StartPosTween(BtlvClact *clact, int slot, int mode, s16 *offset, int frames, int waitTicks, int repeats)
 {
-    BtlvVec3 current;
-    BtlvVec3 end;
-    s16 pos[2];
+    VecFx32 current;
+    VecFx32 end;
+    struct ClactVec2 pos;
 
     end.x = offset[0] << 12;
     end.y = offset[1] << 12;
     end.z = 0;
-    CLACT_GetActorSurfacePos(clact->slot[slot].actor, pos, 0);
-    current.x = pos[0] << 12;
-    current.y = pos[1] << 12;
+    CLACT_GetActorSurfacePos(clact->slot[slot].actor, &pos, 0);
+    current.x = pos.x << 12;
+    current.y = pos.y << 12;
     current.z = 0;
     if (mode == 1) {
         end.x += current.x;
@@ -259,11 +233,11 @@ void BTLV_CLACT_StartPosTween(BtlvClact *clact, int slot, int mode, s16 *offset,
 }
 
 /*
- * lever: a brace-initialised BtlvVec3 local compiles to an @N rodata template; three field stores do not.
+ * lever: a brace-initialised VecFx32 local compiles to an @N rodata template; three field stores do not.
  */
-void BTLV_CLACT_StartScaleTween(BtlvClact *clact, int slot, int mode, BtlvVec3 *scaleEnd, int frames, int waitTicks, int repeats)
+void BTLV_CLACT_StartScaleTween(BtlvClact *clact, int slot, int mode, VecFx32 *scaleEnd, int frames, int waitTicks, int repeats)
 {
-    BtlvVec3 scaleStart;
+    VecFx32 scaleStart;
 
     scaleStart.x = 0x1000;
     scaleStart.y = 0x1000;
@@ -273,15 +247,15 @@ void BTLV_CLACT_StartScaleTween(BtlvClact *clact, int slot, int mode, BtlvVec3 *
     clact->scaleMask |= 1 << slot;
 }
 
-u32 BTLV_CLACT_SetActorAnimSeq(BtlvClact *clact, int slot, int seq)
+void BTLV_CLACT_SetActorAnimSeq(BtlvClact *clact, int slot, int seq)
 {
-    return CLACT_SetActorAnimSeq(clact->slot[slot].actor, (u16)seq);
+    CLACT_SetActorAnimSeq(clact->slot[slot].actor, (u16)seq);
 }
 
 void BTLV_CLACT_RequestPaletteFade(BtlvClact *clact, int slot, u8 startLevel, u8 targetLevel, s8 step, u16 color)
 {
     u16 mask = 1 << (((u32)CLACT_GetPaletteVramAddress(clact->slot[slot].paletteId, (int)0) & 0x3FF) >> 5);
-    struct PalAnmSlot *palanm = BTLV_EFFECT_GetPalanm();
+    PaletteFade *palanm = BTLV_EFFECT_GetPalanm();
 
     PALANM_RequestFade(palanm, 4, mask, step, startLevel, targetLevel, color, BTLV_EFFECT_GetOwner());
 }
@@ -292,8 +266,8 @@ static inline int FxFromInt(int x)
     else return (int)((float)(x << 12) - 0.5f);
 }
 
-void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, BtlvVec3 *start, BtlvVec3 *end, int frames, int waitTicks, int repeats,
-                   void (*taskMain)(void *, void *), void (*taskEnd)(void *))
+void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, VecFx32 *start, VecFx32 *end, int frames, int waitTicks, int repeats,
+                   void (*taskMain)(struct TcbTask *, void *), void (*taskEnd)(void *))
 {
     BtlvClactMoveTask *job;
     job = GFL_HEAP_Alloc((u16)((clact->heap & 0x7fff) | 0x8000), 0x50, 0, gBtlvClactFileName, 0x197);
@@ -333,16 +307,16 @@ void BTLV_CLACT_StartMoveTask(BtlvClact *clact, int slot, u32 mode, BtlvVec3 *st
     BTLV_EFFECT_RegisterTask(TCB_AddTask(clact->owner, taskMain, job, 0), taskEnd, 0);
 }
 
-void BTLV_CLACT_MoveTaskMain(void *task, void *work)
+void BTLV_CLACT_MoveTaskMain(struct TcbTask *task, void *work)
 {
     BtlvClactMoveTask *job = (BtlvClactMoveTask *)work;
     BtlvClact *clact = job->clact;
     int done = BTLV_EFFECT_StepMover(&job->mover, &job->pos);
-    s16 delta[2];
+    struct ClactVec2 delta;
 
-    delta[0] = job->pos.x >> 12;
-    delta[1] = job->pos.y >> 12;
-    CLACT_AddActorSurfacePos(clact->slot[job->slot].actor, delta, 0);
+    delta.x = job->pos.x >> 12;
+    delta.y = job->pos.y >> 12;
+    CLACT_AddActorSurfacePos(clact->slot[job->slot].actor, &delta, 0);
     if (done == 1)
         BTLV_EFFECT_DeleteTask(task);
 }
@@ -353,7 +327,7 @@ void BTLV_CLACT_MoveTaskEnd(void *task)
     job->clact->moveMask &= (1 << job->slot) ^ -1;
 }
 
-void BTLV_CLACT_MoveTaskMainWide(void *task, void *work)
+void BTLV_CLACT_MoveTaskMainWide(struct TcbTask *task, void *work)
 {
     BtlvClactMoveTask *job = (BtlvClactMoveTask *)work;
     BtlvClact *clact = job->clact;

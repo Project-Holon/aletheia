@@ -52,67 +52,54 @@
  *   strcpy  0x02094798  arm
  *   SBServerListSort  0x0219F50C  arm  ov009
  */
+#include "sb_server.h"
+#include "sb_queryengine.h"
+#include "sb_serverlist.h"
 #include "sb_server_types.h"
 
-typedef void (*BrowserCB)(ServerBrowser *, int, SBServer *, void *);
-
-struct SortInfo {
-    char sortkey[255];
-    int comparemode;
-};
 
 extern void SBQueryEngineUpdateServer(SBQueryEngine *engine, SBServer *server, int addfront, unsigned int querytype, int usequerychallenge);
 extern void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine, SBServer *server);
 extern void SBServerListDisconnect(SBServerList *slist);
-extern int ArrayLength(const int *p);
+#include "darray.h"
 struct SBQueryEngine;
 extern void SBQueryEngineSetPublicIP(struct SBQueryEngine *engine, unsigned int publicip);
-extern void *gsimalloc(unsigned long size);
-extern void SBServerListInit(void *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
-                          int queryFromVersion, int lanBrowse, void *callback, void *instance);
-extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, int lanBrowse,
-                          void *callback, void *instance);
+#include "gsmemory.h"
 extern void SBServerListCleanup(SBServerList *slist);
 struct SBQueryEngine;
 extern void SBEngineCleanup(struct SBQueryEngine *engine);
-extern void NNFreeNegotiateList(void);
-extern void gsifree(void *ptr);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern int strlen(unsigned char *s);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
+#include "natneg.h"
+#include "gsdebug.h"
+#include "../arm9/msl_string_str.h"
+#include "../arm9/os_printf.h"
 extern void SBQueryEngineAddQueryKey(struct SBQueryEngine *engine, unsigned char key);
-extern int SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
-extern void msleep(unsigned int msec);
-extern int inet_addr(char *addrString);
+#include "gsplatformutil.h"
+#include "gsplatformsocket.h"
 struct SBServerList;
 extern int SBSendMessageToServer(struct SBServerList *slist, unsigned int ip, unsigned short port, char *data, int len);
 extern int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned short port, int cookie);
 extern int SBServerListFindServer(SBServerList *slist, void *findserver);
 extern void SBServerListRemoveAt(SBServerList *slist, int index);
-extern void NNThink(void);
 extern void SBQueryEngineThink(struct SBQueryEngine *engine);
-extern int SBListThink(int *p);
 extern void SBEngineHaltUpdates(struct SBQueryEngine *engine);
 extern void SBServerListClear(SBServerList *slist);
 extern SBServer *SBServerListNth(SBServerList *slist, int index);
-extern void SBServerListCount(void *list);
-extern char *strcpy(char *dst, const char *src);
-extern void SBServerListSort(void *slist, int ascending, struct SortInfo sortinfo);
+extern int SBServerListCount(void *list);
 static void ListCallback(SBServerList *serverlist, int reason, SBServer *server, void *instance);
 void EngineCallback(int unused, unsigned int reason, SBServer *server, void *inst);
-ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, BrowserCB callback, void *instance);
+ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, SBBrowserCB callback, void *instance);
 void ServerBrowserFree(ServerBrowser *sb);
 int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int updateOptions, int maxServers);
 int ServerBrowserLimitUpdateA(ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
 int ServerBrowserSendMessageToServerA(ServerBrowser *sb, char *ip, unsigned short port, char *data, int len);
 int ServerBrowserSendNatNegotiateCookieToServerA(ServerBrowser *sb, char *ip, unsigned short port, int cookie);
 void ServerBrowserRemoveServer(ServerBrowser *sb, SBServer *server);
-int ServerBrowserThink(char *p);
-void ServerBrowserHalt(char *p);
-void ServerBrowserClear(char *p);
-int ServerBrowserState(char *p);
+int ServerBrowserThink(ServerBrowser *sb);
+void ServerBrowserHalt(ServerBrowser *sb);
+void ServerBrowserClear(ServerBrowser *sb);
+int ServerBrowserState(ServerBrowser *sb);
 SBServer *ServerBrowserGetServer(ServerBrowser *sb, int index);
-void ServerBrowserCount(char *p);
+int ServerBrowserCount(ServerBrowser *sb);
 void ServerBrowserSortA(ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 unsigned int ServerBrowserGetMyPublicIPAddr(const ServerBrowser *browser);
 extern int gGsAvailabilityState;
@@ -222,7 +209,7 @@ void EngineCallback(int unused, unsigned int reason, SBServer *server, void *ins
  */
 ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                                     int queryFromVersion, int maxConcUpdates, int queryVersion,
-                                    int lanBrowse, BrowserCB callback, void *instance)
+                                    int lanBrowse, SBBrowserCB callback, void *instance)
 {
     ServerBrowser *sb;
 
@@ -237,7 +224,7 @@ ServerBrowser *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename
     sb->dontUpdateList = 0;
     SBServerListInit(&sb->list, queryForGamename, queryFromGamename, queryFromKey, queryFromVersion,
                   lanBrowse, ListCallback, sb);
-    SBQueryEngineInit(sb, maxConcUpdates, queryVersion, lanBrowse, EngineCallback, sb);
+    SBQueryEngineInit(&sb->engine, maxConcUpdates, queryVersion, lanBrowse, (SBEngineCB)(EngineCallback), sb);
     return sb;
 }
 
@@ -293,7 +280,7 @@ int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComp
         return err;
     while (sb->list.state == 3 || (sb->engine.querylist.count > 0 && err == 0)) {
         msleep(10);
-        err = ServerBrowserThink((char *)sb);
+        err = ServerBrowserThink(sb);
     }
     return err;
 }
@@ -356,11 +343,11 @@ void ServerBrowserRemoveServer(ServerBrowser *sb, SBServer *server)
 /*
  * Releases the object and the block 0x60 bytes in.
  */
-int ServerBrowserThink(char *p)
+int ServerBrowserThink(ServerBrowser *sb)
 {
     NNThink();
-    SBQueryEngineThink((struct SBQueryEngine *)p);
-    return SBListThink((int *)(p + 0x60));
+    SBQueryEngineThink(&sb->engine);
+    return SBListThink(&sb->list);
 }
 
 
@@ -369,10 +356,10 @@ int ServerBrowserThink(char *p)
 /*
  * Prepares the block 0x60 bytes in and then the object itself.
  */
-void ServerBrowserHalt(char *p)
+void ServerBrowserHalt(ServerBrowser *sb)
 {
-    SBServerListDisconnect((SBServerList *)(p + 0x60));
-    SBEngineHaltUpdates((struct SBQueryEngine *)p);
+    SBServerListDisconnect(&sb->list);
+    SBEngineHaltUpdates(&sb->engine);
 }
 
 
@@ -381,10 +368,10 @@ void ServerBrowserHalt(char *p)
 /*
  * Calls the two block helpers sixty bytes apart.
  */
-void ServerBrowserClear(char *p)
+void ServerBrowserClear(ServerBrowser *sb)
 {
-    ServerBrowserHalt(p);
-    SBServerListClear((SBServerList *)(p + 0x60));
+    ServerBrowserHalt(sb);
+    SBServerListClear(&sb->list);
 }
 
 
@@ -392,12 +379,12 @@ void ServerBrowserClear(char *p)
 /*
  * Maps the +0x10 sign and the +0x60 state word to a small mode code.
  */
-int ServerBrowserState(char *p)
+int ServerBrowserState(ServerBrowser *sb)
 {
     int v;
 
-    if (*(int *)(p + 0x10) > 0) return 2;
-    v = *(int *)(p + 0x60);
+    if (sb->engine.querylist.count > 0) return 2;
+    v = sb->list.state;
     if (v == 3 || v == 0) return 1;
     if (v == 1) return 0;
     return 3;
@@ -421,9 +408,9 @@ SBServer *ServerBrowserGetServer(ServerBrowser *sb, int index)
  *   neither `label` nor `sole-ref/code` can attest the ABS32 site.  Witness
  *   class: label / sole-ref/code.
  */
-void ServerBrowserCount(char *p)
+int ServerBrowserCount(ServerBrowser *sb)
 {
-    SBServerListCount(p + 0x60);
+    return SBServerListCount(&sb->list);
 }
 
 
@@ -434,7 +421,7 @@ void ServerBrowserCount(char *p)
  */
 void ServerBrowserSortA(ServerBrowser *sb, int ascending, char *sortkey, int comparemode)
 {
-    struct SortInfo info;
+    SBSortInfo info;
 
     info.comparemode = comparemode;
     strcpy(info.sortkey, sortkey);

@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_MOVE_POKEMON_SAVE_H
 #define GAME_ARM9_MOVE_POKEMON_SAVE_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of move_pokemon_save.c, prototypes copied from their definitions. */
 
 struct MovePokemonSave;
@@ -26,5 +27,6 @@ void MOVE_POKEMON_SAVE_SetEntryField(struct MovePokemonEntry *pEntry, u32 field,
 void MOVE_POKEMON_SAVE_SetCooldown(struct MovePokemonSave *pSave, u8 cooldown);
 u32 MOVE_POKEMON_SAVE_TickCooldown(struct MovePokemonSave *pSave);
 u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct MovePokemonSave *pSave);
+/* END mkheaders: generated region */
 
 #endif

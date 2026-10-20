@@ -84,6 +84,7 @@
  *   OS_WakeupThread                  0x02085800 arm
  *   WCMi_CpsifUnlockMutexInIRQ       0x02166594 arm
  */
+#include "../arm9/wm_standard.h"
 #include "wcm_types.h"
 
 #include "../sdk_wm.h"
@@ -132,50 +133,20 @@ typedef struct WCMCpsifWork {
     unsigned short padding2;
 } WCMCpsifWork;
 
-extern WCMWork *WCMi_GetSystemWork(void);
-extern void WCMi_SetPhase(unsigned char phase);
-extern void WCMi_Notify(short result, void *para0, void *para1, long para2);
-extern long WM_Init(void *wmSysBuf, unsigned short dmaNo);
-extern long WM_SetIndCallback(void (*callback)(void *));
-extern void OS_GetMacAddress(unsigned char *macAddress);
-extern void WCMi_CpsifSetMacAddress(void *mac);
-extern int WM_Enable(char *path);
-extern int WM_PowerOff(void (*callback)(void *));
-extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
-extern long WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
-extern long WM_SetLifeTime(void (*callback)(void *), unsigned short tableNumber, unsigned short camLifeTime, unsigned short frameLifeTime, unsigned short mpLifeTime);
-extern int WM_EndDCF(void (*callback)(void *));
-extern WMStatus *WMi_GetStatusAddress(void);
-extern long WM_Finish(void);
-extern long WM_Disable(void (*callback)(void *));
-extern long WM_Reset(void (*callback)(void *));
-extern void *WCMi_GetCpsifWork(void);
-extern long WM_SetDCFData(void (*callback)(void *), unsigned char *destAdr, unsigned short *sendData, unsigned short sendDataSize);
-extern void OS_SleepThread(void *queue);
-extern unsigned short WM_GetAllowedChannel(void);
-extern long WM_PowerOn(void (*callback)(void *));
-extern long WM_SetBeaconIndication(void (*callback)(void *), unsigned short flag);
-extern long WM_SetWEPKeyEx(void (*callback)(void *), unsigned short wepmode,
-                           unsigned short wepkeyid, unsigned char *wepkey);
-extern long WM_StartConnectEx(void (*callback)(void *), void *pInfo,
-                              unsigned char *ssid, int powerSave, unsigned short authMode);
-extern void WCMi_EntryApList(struct WMBssDesc *bssDesc, unsigned short linkLevel);
-extern void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long para2);
-extern unsigned char MATH_CountPopulation(unsigned long x);
+#include "wcm_system.h"
+#include "../arm9/wm_system.h"
+#include "../arm9/wm_sync.h"
+#include "../arm9/os_ownerinfo.h"
+#include "wcm_cpsif.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/wm_etc.h"
+#include "../arm9/wm_dcf.h"
+#include "../arm9/os_thread.h"
+#include "wcm_aplist.h"
+#include "../arm9/math.h"
 extern void _u32_div_f(void);
-extern unsigned short WCMi_GetNextScanChannel(unsigned short channel);
-extern void DC_StoreRange(void *startAddr, unsigned long nBytes);
-extern long WM_EndScan(void (*callback)(void *));
-extern long WM_StartDCF(void (*callback)(void *), struct WMDcfRecvBuf *recvBuf, unsigned short recvBufSize);
-extern void WCMi_ShelterRssi(unsigned char rssi);
-extern void WCMi_CpsifRecvCallback(unsigned char *srcAdrs, unsigned char *destAdrs, unsigned char *data, long length);
-extern long WM_Disconnect(void (*callback)(void *), unsigned short aid);
-extern unsigned long WCM_UpdateOption(unsigned long option);
-extern unsigned short WM_GetDispersionScanPeriod(void);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern void WCMi_ResetKeepAliveAlarm(void);
-extern void OS_WakeupThread(void *queue);
-extern void WCMi_CpsifUnlockMutexInIRQ(OSMutex *mutex);
+#include "wcm_util.h"
+#include "../arm9/mi_memory.h"
 extern unsigned char gWcmWmifBssidAny[];
 extern unsigned char gWcmWmifSsidAny[];
 
@@ -234,7 +205,7 @@ long WCMi_WmifStartupAsync(void)
     }
     OS_GetMacAddress(macAddress);
     WCMi_CpsifSetMacAddress(macAddress);
-    wmResult = WM_Enable((char *)WcmWmcbCommon);
+    wmResult = WM_Enable((WMCallbackFunc)((char *)WcmWmcbCommon));
     switch (wmResult) {
     case 2:
         WCMi_SetPhase(2);
@@ -548,7 +519,7 @@ static void WcmWmcbCommon(void *arg)
                                       wcmw->privacyDesc.u.keyId, wcmw->privacyDesc.key);
             break;
         case 0x27:
-            wmResult = WM_StartConnectEx(WcmWmcbConnect, wcmw->bssDesc, 0,
+            wmResult = WM_StartConnectEx(WcmWmcbConnect, (WMBssDesc *)(wcmw->bssDesc), 0,
                                          (wcmw->option & 0x30000) == 0x30000 ? 0 : 1,
                                          (wcmw->option & 0xc0000) == 0xc0000 ? 1 : 0);
             break;
@@ -931,7 +902,7 @@ static void WcmWmcbReset(void *arg)
             wcmw->wlStatus = 0;
             if (wlStatus == 0x12 && (*(unsigned short *)(wcmw->bssDesc + 0x30) & 0x24) != 0x24) {
                 *(unsigned short *)(wcmw->bssDesc + 0x30) |= 0x24;
-                wmResult = WM_StartConnectEx(WcmWmcbConnect, wcmw->bssDesc, 0,
+                wmResult = WM_StartConnectEx(WcmWmcbConnect, (WMBssDesc *)(wcmw->bssDesc), 0,
                                              (wcmw->option & 0x30000) == 0x30000 ? 0 : 1,
                                              (wcmw->option & 0xc0000) == 0xc0000 ? 1 : 0);
                 switch (wmResult) {

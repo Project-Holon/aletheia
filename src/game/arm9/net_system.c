@@ -978,7 +978,7 @@ void GFL_NET_SYSTEM_SendParentData(void)
     if (_NetPhase[1] != 0)
         return;
     if (GFL_NET_SYSTEM_GetCurrentAid() != 0) {
-        result = session->ops->sendData((u32)_pNetSys->sendPacketBuf, childSendSize, 0, GFL_NET_SYSTEM_SendCallback);
+        result = session->ops->sendData((uptr)_pNetSys->sendPacketBuf, childSendSize, 0, GFL_NET_SYSTEM_SendCallback);
         if (result == 0)
             return;
         _NetPhase[1] = 2;
@@ -1014,7 +1014,7 @@ void GFL_NET_SYSTEM_SendWireless(void)
     if (_pNetSys->sendReady != 0)
         GFL_NET_SYSTEM_PackSendData(1);
 
-    if (session->ops->stepDataSharing((u32)_pNetSys->sendPacketBuf) != 1)
+    if (session->ops->stepDataSharing((uptr)_pNetSys->sendPacketBuf) != 1)
         goto fail;
 
     _NetPhase[1] = 4;
@@ -1065,7 +1065,7 @@ void GFL_NET_SYSTEM_SendWifi(void)
     if (GFL_NET_QUEUE_IsEmpty(&_pNetSys->sendQueue) != 0)
         GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x10, 0, 0);
 
-    value = (u32)session->ops->resetLink;
+    value = (uptr)session->ops->resetLink;
     if (value != 0)
         ((void (*)(void))value)();
     if (session->ops->isActive() != 1)
@@ -1077,7 +1077,7 @@ void GFL_NET_SYSTEM_SendWifi(void)
     if (GFL_NET_SYSTEM_PackSendData(0) == 0)
         return;
 
-    GFL_NET_SYSTEM_RecvParentCallback((u32)_pNetSys->sendPacketBuf, value);
+    GFL_NET_SYSTEM_RecvParentCallback((uptr)_pNetSys->sendPacketBuf, value);
     _NetPhase[1] = 4;
 }
 
@@ -1207,7 +1207,7 @@ void GFL_NET_SYSTEM_SendIrc(void)
 
     if (_pNetSys->ircRecvPending != 1)
         return;
-    if (session->ops->sendData((u32)_pNetSys->sendPacketBuf, childSendSize,
+    if (session->ops->sendData((uptr)_pNetSys->sendPacketBuf, childSendSize,
                                                     0, 0) == 0)
         return;
     _pNetSys->ircRecvPending = 0;
@@ -1259,7 +1259,7 @@ void GFL_NET_SYSTEM_SendMPParent(void)
             if (session->ops->isConnected() != 0) {
                 u32 size = GFL_NET_SYSTEM_GetSendSize();
                 if (session->ops->sendData(
-                        (u32)_pNetSys->mpParentPacketBuf, size, 0, GFL_NET_SYSTEM_SendEndCallback) != 0)
+                        (uptr)_pNetSys->mpParentPacketBuf, size, 0, GFL_NET_SYSTEM_SendEndCallback) != 0)
                     goto tail;
                 GFL_NET_SYSTEM_SetDebugByte(1, 0x46a + 4);
                 goto tail;
@@ -1275,7 +1275,7 @@ void GFL_NET_SYSTEM_SendMPParent(void)
             {
                 u32 size = GFL_NET_GetChildSendSize();
                 session->ops->sendData(
-                    (u32)_pNetSys->mpParentPacketBuf, size, 0x64, 0);
+                    (uptr)_pNetSys->mpParentPacketBuf, size, 0x64, 0);
             }
         }
     }
@@ -1347,7 +1347,7 @@ void GFL_NET_SYSTEM_UpdateMPParent(void)
         {
             u32 size = GFL_NET_SYSTEM_GetSendSize();
             if (session->ops->sendData(
-                    (u32)_pNetSys->mpParentPacketBuf, size, 0, 0) == 0)
+                    (uptr)_pNetSys->mpParentPacketBuf, size, 0, 0) == 0)
                 return;
         }
         GFL_NET_SYSTEM_SetDebugByte(4, 0x4e1);
@@ -1448,7 +1448,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length
     s32 dataSize;
     int checksum;
 
-    (int)GFL_NET_GetInitParam();
+    (sptr)GFL_NET_GetInitParam();
     GFL_NET_GetChildSendSize();
     work = _pNetSys;
     work->parentRecvPending = work->parentRecvPending - 1;
@@ -1682,11 +1682,11 @@ void GFL_NET_SYSTEM_DispatchRecv(int command, u32 size, u32 data, struct NetRecv
     u32 handle;
 
     GFL_NET_GetInitParam();
-    handle = (u32)GFL_NET_HANDLE_GetNetHandle(GFL_NET_SYSTEM_GetCurrentAid());
+    handle = (uptr)GFL_NET_HANDLE_GetNetHandle(GFL_NET_SYSTEM_GetCurrentAid());
     GFL_NET_COMMAND_CallCommand(cursor->senderID, cursor->commandOption, command, size, data, handle);
 
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
-        handle = (u32)GFL_NET_HANDLE_GetNetHandle(0xFF);
+        handle = (uptr)GFL_NET_HANDLE_GetNetHandle(0xFF);
         if (command < 0x11)
             GFL_NET_COMMAND_CallCommand(cursor->senderID, cursor->commandOption, command, size, data, handle);
     }
@@ -1775,7 +1775,7 @@ void GFL_NET_SYSTEM_ProcessRecvRing(NetRingBuff *ring, s32 senderID, u8 *buf, st
         }
         cursor->copied += copyCount;
         if (cursor->remaining == 0) {
-            GFL_NET_SYSTEM_DispatchRecv(command, cursor->totalSize, (u32)cursor->dest, cursor);
+            GFL_NET_SYSTEM_DispatchRecv(command, cursor->totalSize, (uptr)cursor->dest, cursor);
             continue;
         }
         if (!GFL_NET_COMMAND_IsCommandValid(command))
@@ -1848,7 +1848,7 @@ void GFL_NET_SYSTEM_ProcessChildRecv(void)
             if (GFL_NET_RING_BUFF_GetDataSize(&_pNetSys->recvRing[i]) > 0)
                 GFL_NET_SYSTEM_ProcessRecvRing(&_pNetSys->recvRing[i], i,
                               _pNetSys->recvScratchBuf,
-                              &_pNetSys->recvCursor[i], (u32)sendSize);
+                              &_pNetSys->recvCursor[i], (uptr)sendSize);
         }
     }
 }

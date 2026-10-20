@@ -31,6 +31,7 @@
  *   MIi_DMAFastCallback            0x02082A1C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -67,7 +68,7 @@ void MIi_FIFOCallback(void);
 void MI_SendGXCommandAsyncFast(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg);
 extern MIiGXDmaParams MIi_GXDmaParams;
 
-#define reg_G3X_GXSTAT (*(vu32 *)0x04000600)
+#define reg_G3X_GXSTAT (*(vu32 *)REG_GXSTAT_ADDR)
 
 void (*OS_GetIrqFunction(u32 intrBit))(void);
 
@@ -110,12 +111,12 @@ void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaC
 
     MIi_GXDmaParams.isBusy = 1;
     MIi_GXDmaParams.dmaNo = dmaNo;
-    MIi_GXDmaParams.src = (u32)src;
+    MIi_GXDmaParams.src = (uptr)src;
     MIi_GXDmaParams.length = commandLength;
     MIi_GXDmaParams.callback = callback;
     MIi_GXDmaParams.arg = arg;
 
-    MIi_CheckDma0SourceAddress(dmaNo, (u32)src, commandLength, 0);
+    MIi_CheckDma0SourceAddress(dmaNo, (uptr)src, commandLength, 0);
     MI_WaitDma(dmaNo);
     {
         OSIntrMode enabled = OS_DisableInterrupts();
@@ -133,7 +134,6 @@ void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaC
     }
 }
 
-#define REG_GXFIFO_ADDR 0x04000400
 
 /*
  * sdk:      MIi_FIFOCallback (libmi.TWL.HYB.a mi_dma_gxcommand.o)
@@ -163,7 +163,7 @@ void MIi_FIFOCallback(void)
     }
 }
 
-#define reg_G3X_GXSTAT (*(vu32 *)0x04000600)
+#define reg_G3X_GXSTAT (*(vu32 *)REG_GXSTAT_ADDR)
 
 /*
  * sdk:      MIi_DMACallback (libmi.TWL.HYB.a mi_dma_gxcommand.o)
@@ -179,7 +179,6 @@ void MIi_DMACallback(void *arg)
     MIi_CallCallback(MIi_GXDmaParams.callback, MIi_GXDmaParams.arg);
 }
 
-#define REG_GXFIFO_ADDR 0x04000400
 
 /*
  * sdk:      MI_SendGXCommandAsyncFast (libmi.TWL.HYB.a mi_dma_gxcommand.o)
@@ -200,11 +199,11 @@ void MI_SendGXCommandAsyncFast(u32 dmaNo, const void *src, u32 commandLength, MI
     MIi_GXDmaParams.arg = arg;
 
     MIi_CheckAnotherAutoDMA(dmaNo, 0x38000000);
-    MIi_CheckDma0SourceAddress(dmaNo, (u32)src, commandLength, 0);
+    MIi_CheckDma0SourceAddress(dmaNo, (uptr)src, commandLength, 0);
     MI_WaitDma(dmaNo);
 
     OSi_EnterDmaCallback(dmaNo, MIi_DMAFastCallback, 0);
-    MIi_DmaSetParameters(dmaNo, (u32)src, REG_GXFIFO_ADDR, 0xFC400000 | (commandLength / 4), 0);
+    MIi_DmaSetParameters(dmaNo, (uptr)src, REG_GXFIFO_ADDR, 0xFC400000 | (commandLength / 4), 0);
 }
 
 /*

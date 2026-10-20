@@ -1,7 +1,7 @@
 #ifndef LOCAL_TVT_SYS_SHARED_TYPES_H
 #define LOCAL_TVT_SYS_SHARED_TYPES_H
 
-struct Obj;
+struct LocalTvtSysObj;
 
 struct Cfg;
 
@@ -25,9 +25,9 @@ struct CharBuf;
 
 typedef struct { u8 x, y; } LocalTvtTilePos;
 
-typedef struct Obj Obj;
+typedef struct LocalTvtSysObj LocalTvtSysObj;
 
-struct Obj {
+struct LocalTvtSysObj {
     unsigned char pad00[0x0C];
     unsigned char state;
     unsigned char pad0D[0x34 - 0x0D];

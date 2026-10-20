@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_NNS_G2D_RENDERER_H
 #define GAME_ARM9_NNS_G2D_RENDERER_H
 
+typedef struct NNSG2dMultiCellInstance NNSG2dMultiCellInstance;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_g2d_renderer.c, prototypes copied from their definitions. */
 
@@ -41,7 +43,5 @@ int NNSi_G2dGetCurrentInstanceVramHandle(int *p);
 void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy);
 void NNSi_G2dMtxConcat32(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
 /* END mkheaders: generated region */
-
-typedef struct NNSG2dMultiCellInstance NNSG2dMultiCellInstance;
 
 #endif

@@ -134,6 +134,9 @@
  *   gpiProcess  0x02186E9C  arm
  *   gpiAddOperation  0x0218E114  arm
  */
+#include "gpicallback.h"
+#include "gpiutility.h"
+#include "gpibuffer.h"
 #include "gpi_types.h"
 #include "qr2_types.h"
 extern void *__builtin__clear(void *dest, unsigned long size);
@@ -187,42 +190,23 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 #define freeclear(mem) \
     { gsifree(mem); (mem) = 0; }
 extern void *gsimalloc(unsigned long size);
-extern void gpiSetErrorString(void **connection, char *string);
-extern int socket(int pf, int type, int protocol);
-extern void gpiSetError(void **connection, int code, char *string);
+#include "gsplatformsocket.h"
 extern int gpiCallErrorCallback(void **connection, int result, int fatal);
-extern int SetSockBlocking(int sock, int isblocking);
-extern SOCHostEnt *SOC_GetHostByName(char *name);
+#include "soc.h"
 struct SOCSockAddr;
-extern int connect(int sock, struct SOCSockAddr *addr, int len);
-extern int GOAGetLastError(int sock);
-extern unsigned int current_time(void);
-extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
-extern int gpiAddOperation(void **connection, int type, void *data, GPIOperation **operation, int blocking, GPCallback callback, void *param);
-extern int gpiProcess(void **connection, int operationID);
-extern void strzcpy(char *dest, char *src, int len);
-extern char *_strlwr(char *s);
-extern GPResult gpiSendFromBuffer(GPConnection *connection, int sock, GPIBuffer *buffer,
-                              GPIBool *connClosed, GPIBool flag, char *tag);
-extern GPResult gpiCheckSocketConnect(GPConnection *connection, int sock, int *state);
-extern int gpiAppendStringToBuffer(void **connection, GPIBuffer *buffer, const char *string);
-extern int gpiAppendIntToBuffer(void **connection, GPIBuffer *buffer, int value);
-extern int gpiAppendCharToBuffer(int *connection, int *buffer, int c);
+#include "gsplatformutil.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "gpioperation.h"
+#include "gpi.h"
 extern void gpiEncodeString(const char *plaintext, char *encoded);
-struct GPIBuffer;
-extern GPResult gpiRecvToBuffer(int *connection, int sock, struct GPIBuffer *inputBuffer, int *bytesRead, int *connClosed, char *id);
-extern int gpiCheckForError(void **connection, char *input, int flag);
-extern int gpiReadKeyAndValue(void **connection, char *buffer, int *index, char *key, char *value);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
-extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
-extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
-extern void msleep(u32 ms);
+#include "gsstringutil.h"
 extern void *gsirealloc(void *ptr, unsigned int size);
 extern void gsifree(void *ptr);
 extern int strcmp(const char *s1, const char *s2);
 extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
 extern int atoi(const char *s);
-extern void gpiRemoveOperation(void **connection, GPIOperation *operation);
 int gpiStartProfileSearch(void **connection, GPIOperation *operation);
 int gpiInitSearchData(void **connection, GPISearchData **out, int type);
 int gpiStartSearch(void **connection, GPISearchData *data, int blocking, GPCallback callback, void *param);
@@ -568,7 +552,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
     GPICallback callback;
     GPIConnection *iconnection = (GPIConnection *)*connection;
     int len;
-    GPIBool connClosed;
+    int connClosed;
     GPResult result;
     void *tempPtr;
     GPIBool doneParsingMatch;
@@ -668,7 +652,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
                         for (i = 0; i < data->numNamespaces; i++)
                         {
                             if (i > 0)
-                                gpiAppendCharToBuffer((int *)connection, (int *)(&data->outputBuffer), ',');
+                                gpiAppendCharToBuffer(connection, (&data->outputBuffer), ',');
                             gpiAppendIntToBuffer(connection, &data->outputBuffer, data->namespaceIDs[i]);
                         }
                     }
@@ -813,7 +797,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
         }
         else if (operation->state == GPI_WAITING)
         {
-            result = gpiRecvToBuffer((int *)connection, data->sock, &data->inputBuffer, (int *)(&len), (int *)(&connClosed), g_0219184C);
+            result = gpiRecvToBuffer(connection, data->sock, &data->inputBuffer, (&len), (&connClosed), g_0219184C);
             if (result != GP_NO_ERROR)
             {
                 if (result == GP_NETWORK_ERROR)

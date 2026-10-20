@@ -6,6 +6,7 @@
 #include "dwc_svl_types.h"
 
 #include "../types.h"
+#include "../sdk_os.h"
 
 /* Heap block of one nd session: credentials, SVL result and the token wait thread with its stack. */
 typedef struct NdParam {
@@ -14,7 +15,7 @@ typedef struct NdParam {
     int status;                 /* +0x040, 1 once the download server is started */
     DWCSvlResult svl;           /* +0x044 */
     u8 stack[0x800];            /* +0x1b8 */
-    u8 thread[0xc0];            /* +0x9b8, OSThread */
+    OSThread thread;            /* +0x9b8 */
 } NdParam;
 
 /* File statics of dwc_nd.o. */

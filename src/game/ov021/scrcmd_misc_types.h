@@ -19,7 +19,7 @@ struct FieldPlayer;
 struct PerapVoice;
 struct PokemonParam;
 struct FieldMsgBg;
-struct MsgData;
+struct MsgBank;
 struct FieldSysWin;
 struct FieldMenuFunc;
 struct WordSet;
@@ -27,7 +27,7 @@ struct Strbuf;
 struct BmpWin;
 struct TimeIcon;
 struct Unit;
-struct Actor;
+struct ClactActor;
 
 /* Script-driven ICA animation on a field object (0x1A0 bytes, FIELD_SUBPROC work). */
 typedef struct MmdlIcaWork {
@@ -56,7 +56,7 @@ typedef struct PerapRecordWork {
     struct FieldMap *fieldMap;     /* 0x0C */
     struct FieldPlayer *fieldPlayer; /* 0x10 */
     struct PokemonParam *partyMon; /* 0x14 */
-    struct MsgData *msgData;       /* 0x18 */
+    struct MsgBank *msgData;       /* 0x18 */
     struct FieldMsgBg *msgBg;      /* 0x1C */
     struct FieldSysWin *sysWin;    /* 0x20 */
     struct FieldMenuFunc *yesNoMenu; /* 0x24 */
@@ -65,7 +65,7 @@ typedef struct PerapRecordWork {
     struct BmpWin *bmpWin;         /* 0x30 */
     struct TimeIcon *timeIcon;     /* 0x34 */
     struct Unit *clactUnit;        /* 0x38 */
-    struct Actor *clactActor;      /* 0x3C */
+    struct ClactActor *clactActor;      /* 0x3C */
     u32 charRes;              /* 0x40 */
     u32 palRes;               /* 0x44 */
     u32 cellRes;              /* 0x48 */
@@ -81,7 +81,7 @@ typedef struct PerapRecordWork {
 typedef struct PokeIconWork {
     struct BmpWin *bmpWin;    /* 0x00 */
     struct Unit *clactUnit;   /* 0x04 */
-    struct Actor *clactActor; /* 0x08 */
+    struct ClactActor *clactActor; /* 0x08 */
     u32 charRes;              /* 0x0C */
     u32 palRes;               /* 0x10 */
     u32 cellRes;              /* 0x14 */

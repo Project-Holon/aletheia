@@ -64,10 +64,10 @@
  *   CARDiOwnSignature  0x0215086C  data
  *   CARDi_WaitAsync  0x02076050  arm
  */
-#define reg_MI_MCCNT0 (*(vu16 *)0x040001A0)
-#define reg_MI_MCCNT1 (*(vu32 *)0x040001A4)
-#define reg_MI_MCCMD0 (*(vu32 *)0x040001A8)
-#define reg_MI_MCCMD1 (*(vu32 *)0x040001AC)
+#define reg_MI_MCCNT0 (*(vu16 *)REG_MCCNT0_ADDR)
+#define reg_MI_MCCNT1 (*(vu32 *)REG_MCCNT1_ADDR)
+#define reg_MI_MCCMD0 (*(vu32 *)REG_MCCMD0_ADDR)
+#define reg_MI_MCCMD1 (*(vu32 *)REG_MCCMD1_ADDR)
 #define MI_HToBE32(x) ((((x) & 0xFF000000) >> 24) | (((x) & 0x00FF0000) >> 8) | (((x) & 0x0000FF00) << 8) | ((x) << 24))
 #define CARDi_romctrl (*(vu32 *)0x02FFFAE0)
 #define reg_MI_MCD1 (*(vu32 *)0x04100010)
@@ -81,6 +81,7 @@
 #define MI_DMA_NOT_USE         ((u32)-1)
 #define MI_DMA_MAX_NUM         3
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -284,7 +285,7 @@ BOOL CARDi_ReadRomWithCPU(void *userdata, void *buffer, u32 offset, u32 length)
         }
         else
         {
-            if ((pos != offset) || (((u32)buffer & 3) != 0) || (length < n))
+            if ((pos != offset) || (((uptr)buffer & 3) != 0) || (length < n))
             {
                 ptr = cacheBuffer;
                 cachedPage = pos;
@@ -390,17 +391,17 @@ void CARDi_DmaReadDone(void *arg)
 
 static inline BOOL CARDi_IsNotITCM(const void *dst, u32 len)
 {
-    return ((u32)dst + len <= 0x01FF8000) || ((u32)dst >= 0x02000000);
+    return ((uptr)dst + len <= 0x01FF8000) || ((uptr)dst >= 0x02000000);
 }
 
 static inline BOOL CARDi_IsNotDTCM(const void *dst, u32 len)
 {
-    return ((u32)dst + len <= (u32)OS_GetDTCMAddress()) || ((u32)dst >= (u32)OS_GetDTCMAddress() + 0x4000);
+    return ((uptr)dst + len <= (u32)OS_GetDTCMAddress()) || ((uptr)dst >= (u32)OS_GetDTCMAddress() + 0x4000);
 }
 
 static inline BOOL CARDi_IsDmaTarget(u32 dma, const void *dst, u32 len)
 {
-    return (dma <= 3) && (len > 0) && (((u32)dst & 31) == 0) && CARDi_IsNotITCM(dst, len);
+    return (dma <= 3) && (len > 0) && (((uptr)dst & 31) == 0) && CARDi_IsNotITCM(dst, len);
 }
 
 static inline BOOL CARDi_IsDmaDestination(u32 dma, const void *dst, u32 len)
@@ -444,8 +445,8 @@ void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len, MIDmaCallback c
         c->DmaCall->Stop(c->dma);
     }
 
-    c->src = (u32)src + cardi_rom_base.rom_base;
-    c->dst = (u32)dst;
+    c->src = (uptr)src + cardi_rom_base.rom_base;
+    c->dst = (uptr)dst;
     c->len = len;
 
     cardi_rom_base.dmaReadInfo.callback = CARDi_DmaReadDone;

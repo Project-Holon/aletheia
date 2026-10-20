@@ -42,37 +42,32 @@
 #include "../sdk_fx.h"
 
 #include "../ov012/union_comm_types.h"
+/* Original prototype (docs/ORIGINAL_BUGS.tsv): the DS caller passes trainerView and sex as 32-bit values. */
+#ifdef __MWERKS__
+#define UNION_COMM_AddMember UNION_COMM_AddMember_header
+#endif
+#include "../ov012/union_comm.h"
+#ifdef __MWERKS__
+#undef UNION_COMM_AddMember
+int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u32 trainerView, u32 sex);
+#endif
+#include "../ov012/union_command.h"
 #include "union_app_types.h"
 
 struct Entry;
 struct Link;
 struct Sub0200852CObj;
-extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *file, unsigned short line);
-extern u32 GFL_NET_IsParentAid(void);
-extern void MI_CpuFill8(void *p, int v, int n);
-extern void OS_GetMacAddress(u8 *macAddress);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/net.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_ownerinfo.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
-extern u32 GFL_HEAP_Free(void *p);
-extern u8 MATH_CountPopulation(u32 a);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern void UNION_COMM_RequestShutdown(UnionRoomWork *work);
-extern int UNION_COMM_IsResetting(UnionRoomWork *work);
-extern u32 GFL_NET_IsConnectMember(u32 index);
-extern int UNION_COMMAND_SendAppNotice(u32 sendMask, u8 value);
-extern u32 UNION_COMMAND_SendAppSetting(void *p, u32 a);
-extern u32 UNION_COMMAND_SendAppQuitAccept(u32 a);
+#include "../arm9/net_handle.h"
+#include "../arm9/math.h"
+#include "../arm9/net_err.h"
 struct UnionAppMessage;
-extern u32 UNION_COMMAND_SendAppData(u32 sendMask, struct UnionAppMessage *message);
-extern void UNION_COMM_RemoveMember(UnionConnectInfo *connect, const u8 *mac);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 len);
 struct MyStatus;
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
-extern int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u32 trainerView, u32 sex);
-extern void GFL_NET_SetAcceptConnection(void *unusedArg, void *eventArg);
-extern int GFL_NET_GetRunState(void);
+#include "../arm9/mystatus.h"
 UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, UnionAppStatusCopy *myStatus);
 void UNION_APP_Delete(UnionAppWork *app);
 int UNION_APP_TryAcceptMember(UnionAppWork *app, int netId);
@@ -126,7 +121,7 @@ UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, 
     MI_CpuFill8(&entry, 0, sizeof(UnionAppEntry));
     entry.status = *myStatus;
     OS_GetMacAddress(entry.mac);
-    UNION_APP_SetMemberEntry(app, work, GFL_NET_GetHandleNetID((struct GFLNetHandle *)((u32)GFL_NET_HANDLE_GetCurrentHandle())), &entry);
+    UNION_APP_SetMemberEntry(app, work, GFL_NET_GetHandleNetID((struct GFLNetHandle *)((uptr)GFL_NET_HANDLE_GetCurrentHandle())), &entry);
     UNION_APP_Close(app);
     UNION_APP_SetReady(app);
     return app;
@@ -454,7 +449,7 @@ unsigned int UNION_APP_GetSettingSize(struct GFLNetHandle *entry)
 
 void UNION_APP_AddSelfToJoined(UnionAppWork *app)
 {
-    app->joinedBits = app->joinedBits | (u8)(1 << GFL_NET_GetHandleNetID((struct GFLNetHandle *)((u32)GFL_NET_HANDLE_GetCurrentHandle())));
+    app->joinedBits = app->joinedBits | (u8)(1 << GFL_NET_GetHandleNetID((struct GFLNetHandle *)((uptr)GFL_NET_HANDLE_GetCurrentHandle())));
 }
 
 /*

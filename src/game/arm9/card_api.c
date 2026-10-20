@@ -68,17 +68,23 @@ typedef struct CARDiRomState
 
 #include "os_event.h"
 #include "os_valarm.h"
+#ifdef __MWERKS__
 extern BOOL OS_TryLockCard(u16 lockID);
+#else
+#include "os_spinlock.h"
+#endif
 #include "os_systemwork.h"
 #include "mi_memory.h"
 #include "os_thread.h"
 #include "card_rom.h"
 extern void CARD_Enable(BOOL enable);
 #include "card_pullout.h"
-extern void CARDi_OldTypeTaskThread(void *arg);
+#include "card_task.h"
 #include "os_terminate_processor.h"
 extern void CARDi_PeekEventListener(void *arg);
-extern int OS_UnlockCard(unsigned int id);
+#ifdef __MWERKS__
+extern int OS_UnlockCard(unsigned int id); /* original prototype; the definition differs in argument width */
+#endif
 #include "card_backup.h"
 BOOL CARDi_LockBusCondition(void *userdata);
 void CARD_Init(void);

@@ -9,6 +9,7 @@ struct SOCLCaInfo;
 #include "../ov009/cps_ssl_types.h"
 #include "../ov009/cps_ssl_types.h"
 #include "../types.h"
+#include "../ov009/cps_types.h"
 
 unsigned long date2sec(void);
 unsigned long CPS_GetSslHandshakePriority(void);

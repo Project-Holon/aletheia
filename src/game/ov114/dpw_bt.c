@@ -39,6 +39,7 @@
  *   gDpwBtPathGetServerState 0x021CF770 data a4
  *   gDpwBtPathSetProfile 0x021CF78C data a4
  */
+#include "dwc_encsession_2.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 
 #include "../types.h"
@@ -98,16 +99,9 @@ typedef struct DpwBtPacket {
     u32 rankScore;                      /* 0x180 */
 } DpwBtPacket;
 
-extern int DWCi_EncSessionProcess(void);
-extern void DWCi_EncSessionShutdown(void);
-extern u32 DWCi_EncSessionGetResponse(u32 *len);
-extern int DWC_GetLastErrorEx(int *code, int *type);
-extern void DWCi_EncSessionInitialize(int server, char *initdata);
-extern int DWCi_EncSessionGetAsync(void *, unsigned, void *, unsigned, unsigned);
-extern void DWCi_EncSessionCancel(void);
-extern void OS_GetMacAddress(u8 *macAddress);
-extern int DWC_UpdateConnection(void);
-extern void DWC_ClearError(void);
+#include "../arm9/dwc_error.h"
+#include "../arm9/os_ownerinfo.h"
+#include "../arm9/dwc_connectinet.h"
 
 int DPW_BT_ConvertDwcError(unsigned dwcErrorType);
 
@@ -115,13 +109,13 @@ extern DpwBtWork gDpwBtWork;
 extern int gDpwBtServerIndex;
 extern DpwBtPacket gDpwBtRequestPacket;
 extern DpwBtPacket gDpwBtUploadStaging;
-extern unsigned gDpwBtBaseUrl[], gDpwBtPathGetRoomNum[];
-extern unsigned gDpwBtBaseUrl[], gDpwBtPathDownloadPlayer[];
+extern char gDpwBtBaseUrl[], gDpwBtPathGetRoomNum[];
+extern char gDpwBtBaseUrl[], gDpwBtPathDownloadPlayer[];
 extern u32 gDpwBtUploadPairKey[], gDpwBtUploadLeaderData[];
 extern u32 gDpwBtPairKeyInit[];
-extern unsigned gDpwBtBaseUrl[], gDpwBtPathUploadPlayer[];
-extern unsigned gDpwBtBaseUrl[], gDpwBtPathGetServerState[];
-extern unsigned gDpwBtBaseUrl[], gDpwBtPathSetProfile[];
+extern char gDpwBtBaseUrl[], gDpwBtPathUploadPlayer[];
+extern char gDpwBtBaseUrl[], gDpwBtPathGetServerState[];
+extern char gDpwBtBaseUrl[], gDpwBtPathSetProfile[];
 
 /* Starts a session for the player profile; serverType selects the server (0, 1 or 2). */
 void DPW_BT_Init(unsigned profileId, unsigned friendKeyLo, unsigned friendKeyHi, unsigned serverType)
@@ -305,7 +299,7 @@ int DPW_BT_GetAsyncResult(void)
 void DPW_BT_GetRoomNumAsync(unsigned rank)
 {
     gDpwBtWork.rank = rank - 1;
-    DWCi_EncSessionInitialize(gDpwBtServerIndex, (char *)gDpwBtBaseUrl);
+    DWCi_EncSessionInitialize(gDpwBtServerIndex, gDpwBtBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwBtPathGetRoomNum, gDpwBtWork.profileId, ((unsigned *)&gDpwBtRequestPacket), 1, 0) == 0) {
         gDpwBtWork.state = DPW_BT_STATE_GET_ROOM_NUM;
         return;
@@ -321,7 +315,7 @@ void DPW_BT_DownloadPlayerAsync(unsigned rank, unsigned roomNo, u8 *resultBuf)
     gDpwBtWork.resultBuf = (unsigned char *)resultBuf;
     gDpwBtWork.rank = rank - 1;
     gDpwBtWork.roomNo = roomNo - 1;
-    DWCi_EncSessionInitialize(gDpwBtServerIndex, (char *)gDpwBtBaseUrl);
+    DWCi_EncSessionInitialize(gDpwBtServerIndex, gDpwBtBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwBtPathDownloadPlayer, gDpwBtWork.profileId, ((unsigned *)&gDpwBtRequestPacket), 2, 0) == 0) {
         gDpwBtWork.state = DPW_BT_STATE_DOWNLOAD_PLAYER;
         return;
@@ -342,7 +336,7 @@ void DPW_BT_UploadPlayerAsync(u32 rank, u32 roomNo, u32 section, const void *pla
     memcpy(gDpwBtUploadLeaderData, leaderData, 128);
     gDpwBtUploadStaging.rankScore = resultBuf;
     gDpwBtRequestPacket = gDpwBtUploadStaging;
-    DWCi_EncSessionInitialize(gDpwBtServerIndex, (char *)gDpwBtBaseUrl);
+    DWCi_EncSessionInitialize(gDpwBtServerIndex, gDpwBtBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwBtPathUploadPlayer, gDpwBtWork.profileId, &gDpwBtRequestPacket, 388, 0) == 0) {
         gDpwBtWork.state = DPW_BT_STATE_UPLOAD_PLAYER;
         return;
@@ -367,7 +361,7 @@ void DPW_BT_CancelAsync(void)
 /* Request: query the server state. */
 void DPW_BT_GetServerStateAsync(void)
 {
-    DWCi_EncSessionInitialize(gDpwBtServerIndex, (char *)gDpwBtBaseUrl);
+    DWCi_EncSessionInitialize(gDpwBtServerIndex, gDpwBtBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwBtPathGetServerState, gDpwBtWork.profileId, ((unsigned *)&gDpwBtRequestPacket), 0, 0) == 0) {
         gDpwBtWork.state = DPW_BT_STATE_GET_SERVER_STATE;
         return;
@@ -383,7 +377,7 @@ void DPW_BT_SetProfileAsync(unsigned char *profile, u8 *resultBuf)
     OS_GetMacAddress(profile + 0x1c);
     memcpy(((unsigned *)&gDpwBtRequestPacket), profile, 100);
     gDpwBtWork.resultBuf = (unsigned char *)resultBuf;
-    DWCi_EncSessionInitialize(gDpwBtServerIndex, (char *)gDpwBtBaseUrl);
+    DWCi_EncSessionInitialize(gDpwBtServerIndex, gDpwBtBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwBtPathSetProfile, gDpwBtWork.profileId, ((unsigned *)&gDpwBtRequestPacket), 100, 0) == 0) {
         gDpwBtWork.state = DPW_BT_STATE_SET_PROFILE;
         return;

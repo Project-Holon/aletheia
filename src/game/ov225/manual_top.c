@@ -50,7 +50,7 @@
 #include "manual_common_shared_types.h"
 #include "manual_touchbar_shared_types.h"
 #include "manual_list_shared_types.h"
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
 struct ManualListBuffer;
 
@@ -73,72 +73,56 @@ struct ManualListBuffer {
     u32 choice;     /* 0x04 */
 };
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct PrintQueue;
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+#include "../arm9/printsys.h"
 
-extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
 extern void PRINTSYS_QUE_Clear(struct PrintQueue *),BMP_WIN_Delete(struct Descriptor *);
 struct MsgBank;
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *,unsigned);
+#include "../arm9/msgdata.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 
-extern u32 KEY_GetRepeat(void);
 
-extern void UI_SetInputMode(u8);
+#include "../arm9/ui.h"
 
-extern void GFL_USE_PlaySeDefaultVolume(u32);
 struct TaskMenuWin;
 
-extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
+#include "../arm9/app_taskmenu.h"
 
-extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
+#include "../arm9/arc_util.h"
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *,u32,u32,u32,u32,u32,u32,u16);
 struct PrintQueue;
 struct GFont;
 struct TaskMenuRes;
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
 
-extern u8 UI_GetInputMode(void);
 
-extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, u32 isActive);
 
-extern void BG_SYS_MarkTileDirty(u32);
+#include "../arm9/bg_sys.h"
 
-extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
 
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
-extern int TOUCHPANEL_HitTrg(const void *);
+#include "../arm9/touchpanel.h"
 
-extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, s32 isDecide);
 struct TaskMenuItem;
 
-extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u16 heapId);
 
-void MANUAL_COMMON_UpdateTouchbar(char *p);
+#include "manual_touchbar.h"
 
-void MANUAL_COMMON_SetTouchbarState(char *p,unsigned state);
 
-unsigned MANUAL_COMMON_GetTouchbarSelected(char *p);
 
-unsigned MANUAL_COMMON_GetTouchbarPressed(char *p);
 
 char *MANUAL_COMMON_CreateDialog(char *p, char *data);
 
@@ -173,7 +157,7 @@ char *MANUAL_COMMON_CreateDialog(char *owner, char *data)
     *(char * *)&((struct ManualDialog *)dialog)->data = data;
     MANUAL_COMMON_LoadDialogAssets(dialog);
     MANUAL_COMMON_SetDialogBgMode(dialog);
-    ((struct ManualDialog *)dialog)->task = GFL_USE_AddMainTask((unsigned)MANUAL_COMMON_DialogTaskNoop, (unsigned)dialog, 1);
+    ((struct ManualDialog *)dialog)->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MANUAL_COMMON_DialogTaskNoop), (void *)((uptr)dialog), 1);
     ((struct ManualDialog *)dialog)->state = 0;
     dialog[0x1c] = -1;
     MANUAL_COMMON_SetTouchbarState(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->group, 0);
@@ -245,9 +229,9 @@ void MANUAL_COMMON_DialogTaskNoop(void *unused)
  */
 void MANUAL_COMMON_LoadDialogAssets(char *dialog)
 {
-    ARC_UTIL_UploadPaletteFromHandleWhole((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 0, 4, 0, 64, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
-    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 2, 4, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
-    ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc0), 4, 4, 0, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc[0]), 0, 4, 0, 64, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    ARC_UTIL_UploadBgCharFromHandle((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc[0]), 2, 4, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    ARC_UTIL_UploadBgPaletteAddFromHandleExt((void *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->arc[0]), 4, 4, 0, 0, 0, 0, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
     MANUAL_COMMON_CreateDialogWindows(dialog);
 }
 
@@ -255,15 +239,15 @@ void MANUAL_COMMON_CreateDialogWindows(char *dialog)
 {
     struct ManualTaskEntry entries[2];
     u8 i;
-    *(struct ManualRes * *)&((struct ManualDialog *)dialog)->resource = (struct ManualRes *)APP_TASKMENU_RES_Create(5, 4, (struct GFont *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->font), (struct PrintQueue *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1), ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
-    entries[0].resource = MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank0, 0);
+    *(struct ManualRes * *)&((struct ManualDialog *)dialog)->resource = (struct ManualRes *)APP_TASKMENU_RES_Create(5, 4, (struct GFont *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->font), (struct PrintQueue *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue[1]), ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    entries[0].resource = MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank[0], 0);
     entries[0].tag = 0x39e3;
     entries[0].flags = 0;
-    entries[1].resource = MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank0, 1);
+    entries[1].resource = MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank[0], 1);
     entries[1].tag = 0x39e3;
     entries[1].flags = 0;
     for (i = 0; i < 2; i++) {
-        *(unsigned *)(dialog + i * 4 + 0xc) = (u32)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)(*(unsigned *)&((struct ManualDialog *)dialog)->resource), (struct TaskMenuItem *)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+        *(unsigned *)(dialog + i * 4 + 0xc) = (uptr)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)(*(unsigned *)&((struct ManualDialog *)dialog)->resource), (struct TaskMenuItem *)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
         STRBUF_Delete(entries[i].resource);
     }
     if (UI_GetInputMode() == 0) APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct Obj **)(dialog + *(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner * 4 + 0xc)), 1);
@@ -273,14 +257,14 @@ void MANUAL_COMMON_SetDialogBgMode(char *dialog) { BG_SYS_MarkTileDirty(4); }
 
 void MANUAL_COMMON_DeleteDialogStep(char *dialog) { MANUAL_COMMON_DeleteDialogWindows(dialog); }
 
-void MANUAL_COMMON_DeleteDialogWindows(char *dialog) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)(*(u8 **)(dialog+i*4+12))); APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(*(struct TaskMenuState * *)&((struct ManualDialog *)dialog)->resource)); BG_SYS_MarkTileDirty(5); }
+void MANUAL_COMMON_DeleteDialogWindows(char *dialog) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue[1]); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)(*(u8 **)(dialog+i*4+12))); APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(*(struct TaskMenuState * *)&((struct ManualDialog *)dialog)->resource)); BG_SYS_MarkTileDirty(5); }
 
 /*
  * Lever: unhinted BF9C data uses this function's own overlay region.
  */
 int MANUAL_COMMON_UpdateDialogInput(char *dialog)
 {
-    int hit=TOUCHPANEL_HitTrg(gManualCommonDialogHitRects);
+    int hit=TOUCHPANEL_HitTrg((const TouchHitTable *)gManualCommonDialogHitRects);
     if(UI_GetInputMode()==0) {
         if(hit>=0 && hit<=1) {
             UI_SetInputMode(1);

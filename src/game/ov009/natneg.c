@@ -124,6 +124,7 @@
  *   gNatNegNoNegotiatorFmt               0x021A657C  data
  *   gNatNegPacketTooSmallFmt               0x021A65BC  data
  */
+#include "soc.h"
 #include "ov009_globals.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 
@@ -133,18 +134,16 @@
 #define NN_NTOHL(x) NN_SWAP32(x)
 #define NN_NTOHS(x) ((unsigned short)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
 struct DArrayImplementation;
-struct _NAT;
+#include "natneg_types.h"
+
+/* the u32 address words of this module passed as the SOCInAddr struct */
+#define INADDR(x) (*(struct SOCInAddr *)&(x))
 struct SOCSockAddr;
 typedef struct DArrayImplementation *DArray;
 
-typedef enum { NAT_MAPPING_UNKNOWN } NatMappingScheme;
-
 #include "../types.h"
 
-struct DArrayImplementation
-{
-    int count;
-};
+#include "darray.h"
 
 #include "../sdk_soc.h"
 
@@ -216,13 +215,6 @@ typedef struct NatNegPacket
     } u;
 } NatNegPacket;
 
-typedef struct NAT {
-    char pad0[0x8C];
-    int natType;
-    int mappingScheme;
-    char pad1[0x44];
-} NAT;
-
 typedef struct NatnegGlobals {
     void *negotiateList;                             /* 0x00 */
     char *natneg3Override;                           /* 0x04 */
@@ -253,37 +245,18 @@ typedef enum NegotiateState {
     ns_finished, ns_canceled, ns_reportsent, ns_reportack
 } NegotiateState;
 
-extern unsigned int current_time(void);
-extern void Util_RandSeed(unsigned long seed);
-extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
-extern int ArrayLength(int *array);
-extern void *ArrayNth(struct DArrayImplementation *array, int n);
-extern struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void ArrayAppend(void *array, void *newElem);
-extern void ArrayRemoveAt(struct DArrayImplementation *array, int n);
+#include "gsplatformutil.h"
+#include "darray.h"
 extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern void ArrayFree(struct DArrayImplementation *array);
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
-extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
-extern SOCHostEnt *getlocalhost(void);
-extern int IsPrivateIP(SOCInAddr *addr);
-extern int getsockname(int sock, struct SOCSockAddr *addr, int *len);
+#include "../arm9/msl_string_mem.h"
+#include "gsplatformsocket.h"
 extern int GetClientUniqueID();
-extern char *SOC_InetNtoA(unsigned int in);
 static void SendPacket(int sock, unsigned int toaddr, unsigned short toport, void *data, int len);
 extern char *strcpy(char *dst, const char *src);
 extern void NNCancel(int cookie);
-extern int NatifyThink(int sock, void *nat);
-extern int DetermineNatType();
-extern int closesocket(int sock);
-extern int inet_addr(char *addrString);
-extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern int socket(int pf, int type, int protocol);
+#include "natify.h"
+#include "../arm9/os_printf.h"
 extern NATNegotiator *FindNegotiatorForCookie(int cookie);
-extern int CanReceiveOnSocket(int sock);
-extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
-extern int GOAGetLastError(int sock);
 NATNegotiator *AddNegotiator(void);
 void RemoveNegotiator(NATNegotiator *neg);
 void NNFreeNegotiateList(void);
@@ -388,7 +361,7 @@ int ClientUniqueID = 0;
 
 static unsigned int natifyStartTime = 0;
 
-void (*natifyCallback)(int, struct _NAT) = 0;
+void (*natifyCallback)(int, NAT) = 0;
 
 static NatMappingScheme natMappingScheme = 0;
 
@@ -415,7 +388,7 @@ NATNegotiator *FindNegotiatorForCookie(int cookie)
 
     if (!negotiateList)
         return 0;
-    for (i = 0; i < ArrayLength((int *)negotiateList); i++) {
+    for (i = 0; i < ArrayLength((struct DArrayImplementation *)negotiateList); i++) {
         neg = (NATNegotiator *)ArrayNth(negotiateList, i);
         if (neg->cookie == cookie)
             return neg;
@@ -433,7 +406,7 @@ NATNegotiator *AddNegotiator(void)
     if (!negotiateList)
         negotiateList = ArrayNew(sizeof(NATNegotiator), 4, 0);
     ArrayAppend(negotiateList, &_neg);
-    return (NATNegotiator *)ArrayNth(negotiateList, ArrayLength((int *)negotiateList) - 1);
+    return (NATNegotiator *)ArrayNth(negotiateList, ArrayLength((struct DArrayImplementation *)negotiateList) - 1);
 }
 
 /*
@@ -443,7 +416,7 @@ void RemoveNegotiator(NATNegotiator *neg)
 {
     int i;
 
-    for (i = 0; i < ArrayLength((int *)negotiateList); i++) {
+    for (i = 0; i < ArrayLength((struct DArrayImplementation *)negotiateList); i++) {
         if (neg == ArrayNth(negotiateList, i)) {
             ArrayRemoveAt(negotiateList, i);
             return;
@@ -455,7 +428,7 @@ void NNFreeNegotiateList(void)
 {
     if (negotiateList == 0)
         return;
-    gsDebugFormat(7, 3, 8, gNatNegFreeFmt, ArrayLength((int *)negotiateList));
+    gsDebugFormat(7, 3, 8, gNatNegFreeFmt, ArrayLength((struct DArrayImplementation *)negotiateList));
     ArrayFree(negotiateList);
     negotiateList = 0;
 }
@@ -543,7 +516,7 @@ void SendReportPacket(NATNegotiator *neg)
     p.u.report.mappingScheme = gNatnegGlobals.natMappingScheme;
     if (strlen(gGsAvailabilityGameName))
         memcpy(p.u.report.gamename, gGsAvailabilityGameName, 0x32);
-    gsDebugFormat(7, 0, 8, gNatNegSendReportFmt, neg->cookie, SOC_InetNtoA(gNatNegServer1IP), 27901, p.u.report.negResult);
+    gsDebugFormat(7, 0, 8, gNatNegSendReportFmt, neg->cookie, SOC_InetNtoA(INADDR(gNatNegServer1IP)), 27901, p.u.report.negResult);
     SendPacket(neg->negotiateSock, gNatnegGlobals.natneg1IP, 27901, &p, 0x49);
 }
 
@@ -591,7 +564,7 @@ void SendPreinitPacket(NATNegotiator *neg)
     p.cookie = NN_SWAP32((u32)neg->cookie);
     p.u.preinit.clientindex = (u8)neg->clientIndex;
     p.u.preinit.clientUniqueID = GetClientUniqueID();
-    gsDebugFormat(7, 0, 8, gNatNegPreinitFmt, SOC_InetNtoA(gNatNegServer1IP), 27901);
+    gsDebugFormat(7, 0, 8, gNatNegPreinitFmt, SOC_InetNtoA(INADDR(gNatNegServer1IP)), 27901);
     SendPacket(neg->negotiateSock, gNatnegGlobals.natneg1IP, 27901, &p, 0x12);
     if (neg->state == 1)
     {
@@ -643,13 +616,13 @@ void SendInitPackets(NATNegotiator *neg)
 
     if (p->u.init.usegameport && !neg->initAckRecv[0]) {
         p->u.init.porttype = 0;
-        gsDebugFormat(7, 0, 8, gNatNegInitGpFmt, SOC_InetNtoA(gNatNegServer1IP), 27901);
+        gsDebugFormat(7, 0, 8, gNatNegInitGpFmt, SOC_InetNtoA(INADDR(gNatNegServer1IP)), 27901);
         SendPacket(neg->gameSock, gNatnegGlobals.natneg1IP, 27901, p, packetlen);
     }
 
     if (!neg->initAckRecv[1]) {
         p->u.init.porttype = 1;
-        gsDebugFormat(7, 0, 8, gNatNegInitNn1Fmt, neg->cookie, SOC_InetNtoA(gNatNegServer1IP), 27901);
+        gsDebugFormat(7, 0, 8, gNatNegInitNn1Fmt, neg->cookie, SOC_InetNtoA(INADDR(gNatNegServer1IP)), 27901);
         SendPacket(neg->negotiateSock, gNatnegGlobals.natneg1IP, 27901, p, packetlen);
     }
 
@@ -659,13 +632,13 @@ void SendInitPackets(NATNegotiator *neg)
 
     if (!neg->initAckRecv[2]) {
         p->u.init.porttype = 2;
-        gsDebugFormat(7, 0, 8, gNatNegInitNn2Fmt, neg->cookie, SOC_InetNtoA(gNatNegServer2IP), 27901);
+        gsDebugFormat(7, 0, 8, gNatNegInitNn2Fmt, neg->cookie, SOC_InetNtoA(INADDR(gNatNegServer2IP)), 27901);
         SendPacket(neg->negotiateSock, gNatnegGlobals.natneg2IP, 27901, p, packetlen);
     }
 
     if (!neg->initAckRecv[3]) {
         p->u.init.porttype = 3;
-        gsDebugFormat(7, 0, 8, gNatNegInitNn3Fmt, neg->cookie, SOC_InetNtoA(gNatNegServer3IP), 27901);
+        gsDebugFormat(7, 0, 8, gNatNegInitNn3Fmt, neg->cookie, SOC_InetNtoA(INADDR(gNatNegServer3IP)), 27901);
         SendPacket(neg->negotiateSock, gNatnegGlobals.natneg3IP, 27901, p, packetlen);
     }
 
@@ -698,7 +671,7 @@ void SendPingPacket(NATNegotiator *neg)
     p.u.connect.port = NN_SWAP16(neg->guessedPort);
     p.u.connect.gotyourdata = neg->gotRemoteData;
     p.u.connect.finished = (neg->gotRemoteData && neg->sendGotRemoteData) ? 1 : 0;
-    gsDebugFormat(7, 0, 8, gNatNegSendPingFmt, neg->cookie, SOC_InetNtoA(neg->guessedIP), neg->guessedPort, neg->gotRemoteData);
+    gsDebugFormat(7, 0, 8, gNatNegSendPingFmt, neg->cookie, SOC_InetNtoA(INADDR(neg->guessedIP)), neg->guessedPort, neg->gotRemoteData);
     SendPacket(neg->gameSock == -1 ? neg->negotiateSock : neg->gameSock, neg->guessedIP, neg->guessedPort, &p, 0x14);
     neg->retryTime = current_time() + 700;
     neg->maxRetryCount = 7;
@@ -1029,7 +1002,7 @@ void ProcessConnectPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fr
 {
     int errcode;
 
-    gsDebugFormat(7, 0, 8, gNatNegConnectPacketFmt, neg->cookie, p->u.connect.finished, SOC_InetNtoA(p->u.connect.ipaddr), NN_NTOHS(p->u.connect.port));
+    gsDebugFormat(7, 0, 8, gNatNegConnectPacketFmt, neg->cookie, p->u.connect.finished, SOC_InetNtoA(INADDR(p->u.connect.ipaddr)), NN_NTOHS(p->u.connect.port));
 
     if (p->u.connect.finished == 0)
         SendConnectAck((NATNegotiator *)neg, fromaddr);
@@ -1065,7 +1038,7 @@ void ProcessConnectPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fr
  */
 void ProcessPingPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr)
 {
-    gsDebugFormat(7, 0, 8, gNatNegPingPacketFmt, neg->cookie, SOC_InetNtoA(fromaddr->addr),
+    gsDebugFormat(7, 0, 8, gNatNegPingPacketFmt, neg->cookie, SOC_InetNtoA(INADDR(fromaddr->addr)),
                   NN_NTOHS(fromaddr->port), p->u.connect.gotyourdata, p->u.connect.finished);
 
     if (neg->state < 4) {
@@ -1073,7 +1046,7 @@ void ProcessPingPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *froma
         return;
     }
 
-    gsDebugFormat(7, 0, 8, gNatNegGotPingFmt, SOC_InetNtoA(fromaddr->addr), NN_NTOHS(fromaddr->port),
+    gsDebugFormat(7, 0, 8, gNatNegGotPingFmt, SOC_InetNtoA(INADDR(fromaddr->addr)), NN_NTOHS(fromaddr->port),
                   p->u.connect.gotyourdata, p->u.connect.finished);
 
     neg->guessedIP = fromaddr->addr;
@@ -1158,7 +1131,7 @@ void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr)
     }
 
     ptype = ((NatNegPacket *)data)->packettype;
-    gsDebugFormat(7, 0, 8, gNatNegPacketFmt, ptype, len, SOC_InetNtoA(fromaddr->addr), NN_NTOHS(fromaddr->port));
+    gsDebugFormat(7, 0, 8, gNatNegPacketFmt, ptype, len, SOC_InetNtoA(INADDR(fromaddr->addr)), NN_NTOHS(fromaddr->port));
 
     if (ptype == 5 || ptype == 7) {
         if (len < 20) {

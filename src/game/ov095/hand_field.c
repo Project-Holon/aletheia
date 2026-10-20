@@ -28,7 +28,15 @@
  *   gHandFieldWonderRoomHandlers 0x0689D618 data a4
  *   gHandFieldMagicRoomHandlers 0x0689D608 data a4
  */
+#ifdef __MWERKS__
+/* The original callers pass the owner id as a full word and the key as a halfword; the header declares narrower types. */
+#define BTL_EVENT_AddFactor BTL_EVENT_AddFactorHeader
+#endif
 #include "hand_field_types.h"
+#ifdef __MWERKS__
+#undef BTL_EVENT_AddFactor
+extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u16 key, int priority, u32 subPriority, u32 ownerId, u32 handlers, u16 handlerCount);
+#endif
 
 struct BtlEventFactor *HAND_FIELD_AddFactor(int effectId, int ownerId);
 void HAND_FIELD_RemoveFactor(struct BtlEventFactor *factor);

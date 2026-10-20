@@ -17,7 +17,7 @@
  *   MIi_CpuCopyFast  0x02082B0C  arm
  *   DWCi_TSKlForm  0x021D7680  arm  ov016
  *   gScreenWork  0x021DE630  data
- *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteEx  0x021D7744  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   MIi_CpuCopy16  0x02082A60  arm
  *   DC_FlushRange  0x020862F0  arm
@@ -29,16 +29,13 @@ typedef struct { void *task; unsigned char buf[0x600]; unsigned char dirty; } Me
 /* screen.o .bss: MemScr, then Pltt (src, dst), addressed section-relative from one symbol */
 typedef struct { MemScr *scr; void *src; void *dst; } ScreenBss;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
+#include "heap.h"
+#include "../sdk_ioreg.h"
+#include "task.h"
+#include "../arm9/mi_memory.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
-extern void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, struct TCB *task);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
-extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
-extern void GX_LoadBG2Scr(void *pSrc, unsigned long offset, unsigned long szByte);
-extern void DWCi_TSKlDelete(int kind, void *task);
+#include "../arm9/os_cache.h"
+#include "../arm9/gx_load2d.h"
 void DWCi_SCREENlInit(void *scr);
 void DWCi_SCREENlEnd(void);
 void DWCi_SCREENlRenew(void);
@@ -59,7 +56,7 @@ void DWCi_SCREENlInit(void *scr)
 {
 	gScreenWork.scr = (MemScr *)DWCi_HEAPlAllocEx(0x608, 4);
 	MIi_CpuCopyFast(scr, gScreenWork.scr->buf, 0x600);
-	gScreenWork.scr->task = DWCi_TSKlForm(1, (void (*)(void *))taskLoad, 0, 0x78);
+	gScreenWork.scr->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskLoad, 0, 0x78);
 }
 
 
@@ -71,7 +68,7 @@ void DWCi_SCREENlInit(void *scr)
  */
 void DWCi_SCREENlEnd(void)
 {
-    DWCi_TSKlDeleteByIndex(1, gScreenWork.scr->task);
+    DWCi_TSKlDeleteEx(1, gScreenWork.scr->task);
     DWCi_HEAPlFree_((void **)0x021DE630);
 }
 
@@ -120,8 +117,8 @@ static void taskLoad(void)
 void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor)
 {
     gScreenWork.src = (unsigned char *)src + sColor * 32;
-    gScreenWork.dst = (unsigned char *)0x05000000 + dColor * 32;
-    DWCi_TSKlForm(1, taskCopyPltt, 0, 0x78);
+    gScreenWork.dst = (unsigned char *)HW_BG_PLTT + dColor * 32;
+    DWCi_TSKlForm(1, (void (*)(void *, void *))taskCopyPltt, 0, 0x78);
 }
 
 
@@ -150,7 +147,7 @@ void DWCi_SCREENlSetPalette(unsigned int v)
 {
     char *g = (char *)0x021DE630;
     *(unsigned int *)(g + 4) = v;
-    DWCi_TSKlForm(1, taskSetPltt, 0, 0x78);
+    DWCi_TSKlForm(1, (void (*)(void *, void *))taskSetPltt, 0, 0x78);
 }
 
 
@@ -162,6 +159,6 @@ void DWCi_SCREENlSetPalette(unsigned int v)
  */
 static void taskSetPltt(void *task)
 {
-    MIi_CpuCopy16(gScreenWork.src, (void *)0x05000000, 0x200);
+    MIi_CpuCopy16(gScreenWork.src, (void *)HW_BG_PLTT, 0x200);
     DWCi_TSKlDelete(1, task);
 }

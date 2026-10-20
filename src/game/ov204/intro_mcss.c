@@ -31,6 +31,8 @@
  *   MCSS_SetAnimCallback  0x02015F2C  thumb  arm9
  *   MCSS_SetTextureTransAdrs  0x02016020  thumb  arm9
  */
+#include "../types.h"
+#include "../arm9/mcss.h"
 #include "intro_types.h"
 
 /* Opaque MCSS system (defined in arm9 mcss.c). */
@@ -39,35 +41,23 @@ struct McssSys;
 /* Opaque source row for MCSS_Add. */
 struct Sub150;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern struct McssSys *MCSS_Init(unsigned int maxCount, unsigned int heapId);
 
-extern void MCSS_SetTextureTransAdrs(struct McssSys *sys, unsigned int adrs);
 
-extern void MCSS_SetPaletteTransAdrs(struct McssSys *sys, unsigned int adrs);
 
-extern void MCSS_SetOrthoMode(struct McssSys *sys);
 struct McssWork;
 
-extern void MCSS_Del(struct McssSys *sys, struct McssWork *work);
 
-extern void MCSS_Exit(struct McssSys *sys);
 
-extern void MCSS_Main(struct McssSys *sys);
 
-extern void MCSS_Draw(struct McssSys *);
 struct McssAddWork;
 
-extern struct McssWork *MCSS_Add(struct McssSys *sys, int x, int y, int z, struct McssAddWork *addWork);
 
-extern void MCSS_SetScale(struct McssWork *work, unsigned int *src);
 
-extern void INTRO_G3D_OnAnimEnd(u8 *p);
+#include "intro_g3d.h"
 
-extern void MCSS_SetAnimCallback(void *, void *, void (*)(void *, void *), int);
 
 void *INTRO_MCSS_Create(unsigned int heap, int kind);
 
@@ -122,5 +112,5 @@ void INTRO_MCSS_AddSlot(char *p, unsigned int a, unsigned int b, unsigned int c,
     zero = Zero;
     work->slots[i].animFinished = zero;
     work->slots[i].loopAnim = 1;
-    MCSS_SetAnimCallback(work->slots[i].object, &work->slots[i], (void (*)(void *, void *))INTRO_G3D_OnAnimEnd, 0);
+    MCSS_SetAnimCallback(work->slots[i].object, (u32)(&work->slots[i]), (u32)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
 }

@@ -5,6 +5,19 @@
    Allocated by the constructor at the start of btl_client.c. The including file
    defines u8, s8, u16, u32 and u64 first. */
 
+#include "../ov093/btl_calc_types.h"
+#include "../ov093/btlv_core_types.h"
+#include "../ov093/btl_field_types.h"
+#include "../ov093/btl_rec_types.h"
+#include "../ov095/btl_pick_list_types.h"
+
+struct BtlMain;
+struct BtlSide;
+struct BtlSideSlot;
+struct BtlPokeParam;
+struct BtlvCore;
+struct BtlServer;
+
 struct BtlClient;
 typedef struct BtlClient BtlClient;
 
@@ -13,19 +26,8 @@ typedef struct BtlClient BtlClient;
 typedef int (*BtlClientStepFn)(BtlClient *, int *);
 /* Sequence function: arguments are the client, the sequence state and the cursor buffer. */
 typedef int (*BtlClientSeqFn)(BtlClient *, int *, int *);
-typedef void (*BtlClientTickFn)(BtlClient *);
+typedef int (*BtlClientTickFn)(BtlClient *);
 typedef u32 (*BtlClientSubFn)(BtlClient *, u32 *);
-
-typedef struct { u8 data[0x24]; } BtlClientMessage;
-
-typedef struct { u32 x; u32 y; } BtlClientPoint;
-
-/* Random number generator state: 64 bit seed, multiplier and increment. */
-typedef struct {
-    u64 seed;
-    u64 mul;
-    u64 add;
-} BtlClientRng;
 
 /* State bits of the client, byte 0x1B2. */
 typedef struct {
@@ -64,23 +66,23 @@ typedef struct {
 } BtlClientCounter;
 
 struct BtlClient {
-    void *main; /* 0x000 battle main object */
-    void *side; /* 0x004 battle side data */
-    void *activeMon; /* 0x008 party member the client is acting for */
-    u8 *actionCursor; /* 0x00C cursor into the chosen action record */
-    void *timeLimitTimer; /* 0x010 time limit timer object */
-    void *remoteLink; /* 0x014 link to the remote player */
+    struct BtlMain *main; /* 0x000 battle main object */
+    struct BtlSide *side; /* 0x004 battle side data */
+    struct BtlPokeParam *activeMon; /* 0x008 party member the client is acting for */
+    union BtlAction *actionCursor; /* 0x00C cursor into the chosen action record */
+    BtlRecBuffer *recBuffer; /* 0x010 buffer that records the battle packets, or 0 */
+    BtlRecReader *recReader; /* 0x014 reader of the recording that a replay client plays */
     BtlClientCounter counter; /* 0x018 replay position counter */
     u8 pad026[2];
     BtlClientTickFn tickFn; /* 0x028 per-frame function */
-    BtlClientPoint cursor; /* 0x02C cursor position */
-    void *battleField; /* 0x034 field state */
-    u8 actionResult[0x18]; /* 0x038 result record of the chosen action */
+    struct BtlClientSet defeatedClients; /* 0x02C clients defeated, sent by the remote */
+    BtlFieldState *battleField; /* 0x034 field state */
+    BtlRngState rngSave; /* 0x038 scratch copy of the random number state, written by the target preview */
     void *netChannel; /* 0x050 network channel */
-    void *view; /* 0x054 battle view the client draws to */
-    BtlClientMessage messageA; /* 0x058 message parameters, first set */
-    BtlClientMessage messageB; /* 0x07C message parameters, second set */
-    int requestParam; /* 0x0A0 parameter of the pending request */
+    struct BtlvCore *view; /* 0x054 battle view the client draws to */
+    struct BtlvMessage messageA; /* 0x058 message parameters, first set */
+    struct BtlvMessage messageB; /* 0x07C message parameters, second set */
+    struct BtlServer *requestParam; /* 0x0A0 parameter of the pending request */
     u8 recvEntry[0x18]; /* 0x0A4 entry received from the remote */
     u32 recordKey; /* 0x0BC key of the record being played */
     u32 actionKey; /* 0x0C0 key of the action being sent */
@@ -97,11 +99,11 @@ struct BtlClient {
     u16 timeElapsed; /* 0x0E6 time elapsed */
     u16 trainerItems[4]; /* 0x0E8 items the trainer can use in battle, 0 for an empty entry */
     void *recorder; /* 0x0F0 battle recorder */
-    BtlClientRng rng; /* 0x0F4 random number generator state */
+    BtlRngState rng; /* 0x0F4 random number generator state */
     s8 slotOrder[6]; /* 0x10C order of the slots */
     u8 chosenSlots[4]; /* 0x112 slots chosen this turn */
     u8 pad116[0x2];
-    void *sideData; /* 0x118 side data of this client */
+    struct BtlSideSlot *sideData; /* 0x118 side data of this client */
     u8 slotCount; /* 0x11C number of slots */
     u8 slotIndex; /* 0x11D slot being handled */
     s8 prevSlotIndex; /* 0x11E slot handled before */
@@ -109,7 +111,7 @@ struct BtlClient {
     u8 redrawRequest; /* 0x120 redraw request */
     u8 clientIdCopy; /* 0x121 copy of the client id */
     u8 pad122[0x2];
-    u32 actions[3]; /* 0x124 action word per slot */
+    union BtlAction actions[3]; /* 0x124 action word per slot */
     u8 slotFlags[3]; /* 0x130 flag byte per slot */
     u8 pad133;
     void *workBuffer; /* 0x134 work buffer (0xBC0 bytes) */
@@ -117,8 +119,9 @@ struct BtlClient {
     int seqCode; /* 0x178 code of the running sequence */
     BtlClientSeqFn seqFn; /* 0x17C function of the running sequence */
     int seqState; /* 0x180 state of the running sequence */
-    u8 slotChoices[0xC]; /* 0x184 choice record per slot, filled by the choice builder and passed to the view */
-    u8 choiceFlags[0xA]; /* 0x190 flag bytes per choice, filled with slotChoices */
+    BtlSlotChoices slotChoices; /* 0x184 choice record per slot, filled by the choice builder and passed to the view */
+    BtlPickList choiceFlags; /* 0x190 slots picked so far, filled with slotChoices */
+    u8 pad199;
     u16 heapId; /* 0x19A heap the client allocates from */
     u16 lastMonValue; /* 0x19C last value of party member parameter 13, compared on later turns */
     u16 receivedCode; /* 0x19E command code read from the remote */

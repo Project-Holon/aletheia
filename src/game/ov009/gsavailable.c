@@ -53,23 +53,17 @@ typedef struct {
 
 struct SOCSockAddr;
 
-extern int inet_addr(char *addrString);
-extern struct SOCHostEnt *SOC_GetHostByName(char *name);
-extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
-extern unsigned int current_time(void);
-extern int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
-extern void SocketStartUp(void);
-extern int OS_SPrintf(char *dst, char *fmt, ...);
+#include "gsplatformsocket.h"
+#include "soc.h"
+#include "gsplatformutil.h"
+#include "gsstringutil.h"
+#include "../arm9/os_printf.h"
 static int get_sockaddrin(char *hostname, int port, struct SOCSockAddrIn *saddr);
-extern int socket(int pf, int type, int protocol);
-extern int strlen(const u8 *s);
-extern void *memcpy(void *dst, const void *src, unsigned long n);
+#include "../arm9/msl_string_str.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
 static void SendPacket(void);
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
-extern int CanReceiveOnSocket(int sock);
-extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
 extern int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
-extern int closesocket(int sock);
 extern char gGsAvailabilityGameName[];
 extern char gGsAvailableOverrideHost[];
 extern char gGsAvailableHostFmt[];

@@ -210,343 +210,247 @@ struct Sub020075B0Entry;
 
 struct BigObj;
 
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
+#include "../arm9/wipe.h"
 
-extern int GFL_NET_GetRunState(void);
+#include "../arm9/net.h"
 struct TaskMenuWork;
 
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
+#include "../arm9/app_taskmenu.h"
 
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 
-extern void MI_CpuCopy8(const void *, void *, u32);
+#include "../arm9/mi_memory.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 WIPE_SYS_EndCheck(void);
 
-extern int TOUCHPANEL_GetTrg(void);
+#include "../arm9/touchpanel.h"
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/gfl_use.h"
 struct GameData;
 
-extern int GAME_DATA_SaveMain(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern int GAME_DATA_SaveStart(struct GameData *gd);
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
+#include "../arm9/gfl_heap.h"
 
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+#include "../arm9/procsys.h"
 
-extern void MI_CpuFill8(void *,u8,u32);
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 
-extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
-extern void PROCSYS_FreeProcWork(struct Proc *p);
 
-extern void GFL_HEAP_DeleteChecked(unsigned int);
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern void DWC_RAP_SetErrorHookCallback(int a, int b);
+#include "../ov009/dwc_rap.h"
 
-extern int GF_OVERLAY_Load(int);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(int);
 
-extern u32 GFL_USE_GetRandom(u32 range);
 
-extern u32 POKE_TOOL_NormalizeForm(unsigned short species, unsigned short form);
+#ifdef __MWERKS__
+#define POKE_TOOL_GetPersonalParam POKE_TOOL_GetPersonalParam_hdr
+#endif
+#include "../arm9/poke_tool.h"
+#ifdef __MWERKS__
+#undef POKE_TOOL_GetPersonalParam
+int POKE_TOOL_GetPersonalParam(u16, int, int);
+#endif
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern void GAME_DATA_SaveCancel(struct GameData *gd);
 struct _NHTTPRapSession;
 
-extern void NHTTP_RAP_DeleteConnection(struct _NHTTPRapSession *session_p);
+#include "../ov114/nhttp_rap.h"
 
-extern int GFL_USE_PopBgm(void);
 
-extern void GFL_USE_SetBgmPaused(unsigned int value);
 
-extern void GFL_USE_FadeInBgmFull(u32 v);
 
-extern int GFL_USE_PushBgm(void);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
 struct GameSyncData;
 
-extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
+#include "../arm9/game_sync.h"
 
-extern int BOX_SAVEDATA_FindFreeSlot(struct GameData *gameData, int *pBox, int *pSlot);
+#include "../arm9/box_savedata.h"
 
-extern u32 POKE_TOOL_GetPartyParamSize(void);
 struct CgearSaveBlock;
 
-extern u8 *BLOCK20_SAVEDATA_GetPokemon(struct CgearSaveBlock *block);
+#include "../arm9/block20_savedata.h"
 struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
-extern void POKE_TOOL_SetLevelAndRecalc(struct PokemonParam *mon, unsigned int level);
 struct BoxPokemon;
 
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
-extern int BOX_SAVEDATA_AddPokemon(struct GameData *gameData, struct BoxPokemon *mon);
 
-extern void BLOCK20_SAVEDATA_SetActive(struct CgearSaveBlock *block, unsigned char value);
 
-extern void BLOCK20_SAVEDATA_SetSavedValue(struct CgearSaveBlock *block, int value);
 
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 
-extern int NHTTP_RAP_GetResultCode(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_PollConnection(struct _NHTTPRapSession *session_p);
 
-extern char *NHTTP_RAP_GetRecvBuffer(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_CreateRequest(int index, struct _NHTTPRapSession *session_p);
 struct _NHTTPConnection;
 
-extern struct _NHTTPConnection *NHTTP_RAP_GetConnection(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_StartConnection(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length);
+#include "../ov114/d_nhttp.h"
 
-extern void BLOCK20_SAVEDATA_SetMode(struct CgearSaveBlock *block, unsigned char value);
 
-extern void BLOCK20_SAVEDATA_SetEntry(struct CgearSaveBlock *block, int index, unsigned short id, unsigned char value);
 
-extern int GAME_DATA_PartSaveMain(struct GameData *gd, int blockId);
 
-extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, unsigned int slot);
+#ifdef __MWERKS__
+#define SAVE_CONTROL_LoadExtraSaveWithBuffer SAVE_CONTROL_LoadExtraSaveWithBuffer_hdr
+#endif
+#include "../arm9/save_control.h"
+#ifdef __MWERKS__
+#undef SAVE_CONTROL_LoadExtraSaveWithBuffer
+int SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *, int, u16, void *, int);
+#endif
 
-extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *sys);
 struct CGearSave;
 
-extern void CGEAR_SAVE_SetGsyncState(struct CGearSave *save, unsigned char gsyncState);
+#include "../arm9/cgear_save.h"
 
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
+#include "../arm9/gf_standard.h"
 
-extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(int,int,u16,int,int);
 
-extern void ZUKAN_SKIN_SAVE_SetValidFlag(void *obj, u32 value);
+#include "../arm9/zukan_skin_savedata.h"
 
-extern void GAME_DATA_PartSaveStart(struct GameData *gd, unsigned int blockId);
 
-extern void CGEAR_SAVE_SetGsyncId(struct CGearSave *save, unsigned short gsyncId);
 
-extern u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *p);
+#include "../arm9/musical_dist_save.h"
 
-extern struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *sys, const void *src, u32 size, u32 heap);
 
-extern u32 MUSICAL_DIST_SAVE_GetBlockSize(void);
 
-extern u32 ZUKAN_SKIN_SAVE_GetSize(void);
 struct CgearSaveRecord;
 
-extern struct CgearSaveRecord *BLOCK20_SAVEDATA_GetRecord(struct CgearSaveBlock *block, int index);
 
-extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 struct CgearSaveBlock;
 
-extern void BLOCK20_SAVEDATA_SetRecord(struct CgearSaveBlock *block, s32 index, void *src);
 
-extern void BLOCK20_SAVEDATA_SetProgress(struct CgearSaveBlock *block, s32 value);
 
-extern void *TPOKE_DATA_Create(int);
 
-extern int POKE_TOOL_GetPersonalParam(u16, int, int);
 
-extern int POKE_TOOL_FilterSpecies(u16, int);
 
-extern int TPOKE_DATA_IsRecordKindTwo(u32, void *, u16, u16, int);
+#ifdef __MWERKS__
+#define TPOKE_DATA_IsRecordKindTwo TPOKE_DATA_IsRecordKindTwo_hdr
+#endif
+#include "../arm9/tpoke_data.h"
+#ifdef __MWERKS__
+#undef TPOKE_DATA_IsRecordKindTwo
+int TPOKE_DATA_IsRecordKindTwo(u32, struct Container *, u16, u16, int);
+#endif
 
-extern void *SYMBOL_SAVE_GetBlock(void *);
+#ifdef __MWERKS__
+#define SYMBOL_SAVE_WriteRecord SYMBOL_SAVE_WriteRecord_hdr
+#endif
+#include "../arm9/symbol_save.h"
+#ifdef __MWERKS__
+#undef SYMBOL_SAVE_WriteRecord
+void SYMBOL_SAVE_WriteRecord(struct SymbolSave *, u16, u16, u8, int, u8, u32);
+#endif
 
-extern void SYMBOL_SAVE_WriteRecord(void *, u16, u16, u8, int, u8, u32);
 
-extern void TPOKE_Delete(void *);
 
-extern s32 BLOCK20_SAVEDATA_GetSavedValue(struct CgearSaveBlock *block);
 
-extern u32 BLOCK20_SAVEDATA_CountEntries(struct CgearSaveBlock *block);
 
-extern void BLOCK20_SAVEDATA_SetPending(struct CgearSaveBlock *block, unsigned char value);
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 
-extern void *SAVE_CONTROL_GetWorkArea(struct SaveControl *saveControl, unsigned int *size);
 struct DailyClock;
 
-extern struct DailyClock *CONSOLE_STAMP_GetDailyClock(struct SaveControl *control);
+#include "../arm9/console_stamp.h"
 
-extern int DAILY_CLOCK_HasAllowance(struct DailyClock *clock);
 
-extern u32 BLOCK20_SAVEDATA_GetDateStamp(struct CgearSaveBlock *block);
 struct RtcDate;
 
-extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 struct RtcDateSigned;
 
-extern int GF_STANDARD_GetDayOfYear(struct RtcDateSigned *d);
 
-extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
+#include "../arm9/net_state.h"
 
-extern u32 GFL_NET_STATE_SetErrorMode(u8 mode);
 
-extern void BLOCK20_SAVEDATA_SetDateStamp(struct CgearSaveBlock *block, unsigned int value);
 
-extern u32 BLOCK20_SAVEDATA_GetProgress(struct CgearSaveBlock *block);
 
-extern void BLOCK20_SAVEDATA_SetFlag(struct CgearSaveBlock *block, int value);
 
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 
-extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
+#include "../arm9/record.h"
 
-extern struct BoxPokemon *BOX_SAVEDATA_GetPokemon(struct GameData *gameData, unsigned int box, unsigned int slot);
 
-extern struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, unsigned short heapId);
 
-extern void BLOCK20_SAVEDATA_SetPokemon(struct CgearSaveBlock *block, void *src);
 
-extern void BOX_SAVEDATA_ClearPokemon(struct GameData *gameData, unsigned int box, unsigned int slot);
 
-extern void NHTTP_RAP_Destroy(struct _NHTTPRapSession *session_p);
 
-extern u32 BLOCK20_SAVEDATA_GetBlockSize(void);
 
-extern int BOX_SAVEDATA_SetPokemon(struct GameData *gameData, unsigned int box, unsigned int slot, struct BoxPokemon *mon);
 
-extern void POKE_TOOL_ClearPartyParam(struct PokemonParam *pp);
 
-extern u32 GAME_DATA_GetBoxManager(struct GameData *gd);
 
-extern u8 BLOCK20_SAVEDATA_GetPending(struct CgearSaveBlock *block);
 
-extern struct _NHTTPRapSession *NHTTP_RAP_Create(unsigned int heapId, unsigned int gameCode, char *source_p);
 
-extern void DWC_RAP_SetErrorCallback(int,int);
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern void GFL_NET_ERR_HaltWithMessage(u32 value);
 
-extern int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError);
+#include "../ov009/dwc_rapcommon.h"
 
-GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank);
+#include "gsync_message.h"
 
-void GSYNC_MESSAGE_UpdateSystem(GsyncMessageWork *work);
 
-void GSYNC_MESSAGE_ExitSystem(GsyncMessageWork *work);
 
-void GSYNC_MESSAGE_PrintStream(GsyncMessageWork *work, int instant);
 
-void GSYNC_MESSAGE_PrintStreamId(GsyncMessageWork *work, int msgId);
 
-void GSYNC_MESSAGE_SetMonName(GsyncMessageWork *work, int msgId, int digits, void *mon);
 
-int GSYNC_MESSAGE_UpdateStream(GsyncMessageWork *work);
 
-void GSYNC_MESSAGE_ClearStream(GsyncMessageWork *work);
 
-int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout);
 
-int GSYNC_MESSAGE_PrintId(GsyncMessageWork *work, int msgId);
 
-void GSYNC_MESSAGE_PrintInWindow(GsyncMessageWork *work, int top, int height);
 
-void GSYNC_MESSAGE_PrintInSubWindow(GsyncMessageWork *work);
 
-void GSYNC_MESSAGE_ClearWindow(GsyncMessageWork *work);
 
-void GSYNC_MESSAGE_RestartTimeIcon(GsyncMessageWork *work);
 
-void GSYNC_MESSAGE_PrintDefault(GsyncMessageWork *work, int value);
 
-GsyncDownloadWork *GSYNC_DOWNLOAD_AllocWork(int heap, int fileBufferSize);
+#include "gsync_download.h"
 
-void GSYNC_DOWNLOAD_FreeWork(GsyncDownloadWork *work);
 
-void *GSYNC_DOWNLOAD_GetFileBuffer(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_InitAsync(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_ClearResult(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_Reset(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_SetAttr(GsyncDownloadWork *work,void *arg,int value);
 
-void GSYNC_DOWNLOAD_IsBusy(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_GetFileListAsync(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_GetFileAsync(GsyncDownloadWork *work);
 
-int GSYNC_DOWNLOAD_CleanupOnce(GsyncDownloadWork *work);
 
-void GSYNC_DOWNLOAD_Process(GsyncDownloadWork *work);
 struct GsyncDownloadWork;
 
-unsigned int GSYNC_DOWNLOAD_GetFileSize(struct GsyncDownloadWork *work);
 
-u8 *GSYNC_DISP_Init(u32 heap);
+#include "gsync_disp.h"
 
-void GSYNC_DISP_Draw(GsyncDispWork *disp);
 
-void GSYNC_DISP_Exit(GsyncDispWork *disp);
 
-void GSYNC_DISP_CreateEffectActorDefault(GsyncDispWork *disp);
 
-void GSYNC_DISP_CreateSlotActor(GsyncDispWork *disp,unsigned int slotIndex);
 
-void GSYNC_DISP_SetSlotAnimSeq(GsyncDispWork *disp, int slotIndex, u32 animSeq);
 
-void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, int command);
 
-void GSYNC_DISP_DeleteSlotActor(GsyncDispWork *disp, int slotIndex);
 
-void GSYNC_DISP_SetMainActorAnimSeq(GsyncDispWork *disp);
 
-void GSYNC_DISP_CreateMonIconActor(GsyncDispWork *disp, void *mon, int slotIndex);
 
-void GSYNC_DISP_EnableActorAutoAnim(GsyncDispWork *disp);
 
-void GSYNC_DISP_RestartActorAnim(GsyncDispWork *disp);
 
-void GSYNC_DISP_StartPaletteWave(GsyncDispWork *disp);
 struct GsyncDispWork;
 
-void GSYNC_DISP_SetFadeDirection(struct GsyncDispWork *disp, int flag);
 
-void GSYNC_DISP_UpdateProgressPosition(GsyncDispWork *disp, int progress);
 
-void GSYNC_DISP_UpdateParticles(GsyncDispWork *disp);
 
-void GSYNC_DISP_SetIconRecord(GsyncDispWork *disp,int slotIndex,int species,int form,int gender);
 
-void GSYNC_DISP_SetIconRecordSpecies(GsyncDispWork *disp, int slotIndex, u16 species);
 
-void GSYNC_DISP_LoadIconResources(GsyncDispWork *disp);
 
 int GSYNC_STATE_HandleHttpError(GsyncStateWork *state,int resultCode);
 
@@ -1056,7 +960,7 @@ void GSYNC_STATE_StateExtraSaveLoadStart(int state)
     ((GsyncStateWork *)state)->netDone=1;
     buffer=(int)GFL_HEAP_Alloc(((GsyncStateWork *)state)->heapId,0x3000,0,gGsyncStateAllocSource,0x34a);
     (*(int *)&((GsyncStateWork *)state)->iconBuffer)=buffer;
-    SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,4,((GsyncStateWork *)state)->heapId,buffer,0x3000);
+    SAVE_CONTROL_LoadExtraSaveWithBuffer((struct SaveControl *)saveControl,4,((GsyncStateWork *)state)->heapId,(void *)buffer,0x3000);
     MI_CpuCopy8(downloadData,(void *)buffer,0x2600);
     CGEAR_SAVE_SetGsyncId((struct CGearSave *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),checksum);
     GAME_DATA_PartSaveStart((struct GameData *)((GsyncStateWork *)state)->saveData,4);
@@ -1084,7 +988,7 @@ void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state)
     ((GsyncStateWork *)state)->netDone=1;
     buffer=(int)GFL_HEAP_Alloc(((GsyncStateWork *)state)->heapId,0x6800,0,gGsyncStateAllocSource,0x37d);
     *(int *)&((GsyncStateWork *)state)->extraSaveBuffer=buffer;
-    SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,7,((GsyncStateWork *)state)->heapId,*(int *)&((GsyncStateWork *)state)->extraSaveBuffer,0x6800);
+    SAVE_CONTROL_LoadExtraSaveWithBuffer((struct SaveControl *)saveControl,7,((GsyncStateWork *)state)->heapId,(void *)(*(int *)&((GsyncStateWork *)state)->extraSaveBuffer),0x6800);
     MI_CpuCopy8(downloadData,((GsyncStateWork *)state)->extraSaveBuffer,0x6200);
     ZUKAN_SKIN_SAVE_SetValidFlag((void *)(*(int *)&((GsyncStateWork *)state)->extraSaveBuffer),1);
     GAME_DATA_PartSaveStart((struct GameData *)((GsyncStateWork *)state)->saveData,7);
@@ -2061,8 +1965,8 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
             break;
         }
         if (*(int *)&connection->state!=4) {
-            state->httpConnection=NHTTP_RAP_Create(98,profileValue,((char *)connection+0x54));
-            DWC_RAP_SetErrorCallback((int)GSYNC_STATE_DestroyHttpConnection,(int)state);
+            state->httpConnection=NHTTP_RAP_Create(98,profileValue,(char *)(((char *)connection+0x54)));
+            DWC_RAP_SetErrorCallback((int (*)(u32, u32, u32, int))((int)GSYNC_STATE_DestroyHttpConnection),(int)state);
         }
     }
     state->displayWork=GSYNC_DISP_Init(state->heapId);

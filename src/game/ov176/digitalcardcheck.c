@@ -91,23 +91,32 @@
  */
 #include "livebattlematch_shared_types.h"
 
-struct Big;
-struct Reg2;
-struct Rec1E;
-struct RecBig;
+struct GameData;
+struct RegulationCard;
+struct RegulationParty;
+struct BattleCompetitionSave;
 struct Reg;
 struct MyStatus;
 struct Rec0200E6FC;
 struct MsgBank;
-struct Rec;
+struct DigitalcardcheckRec;
 struct WordSet;
-struct Rec160;
+struct RegulationCard;
 struct Obj;
 #include "../types.h"
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define WORDSET_Create WORDSET_Create_header
+#endif
+#include "../arm9/wordset.h"
+#ifdef __MWERKS__
+#undef WORDSET_Create
+extern struct WordSet * WORDSET_Create(int, int, int);
+#endif
 
-typedef struct { u8 image[0x94]; u32 f94, f98; int f9c; u16 fa0, fa2, fa4, fa6, fa8, faa; } Record;
+typedef struct { u8 image[0x94]; u32 f94, f98; int f9c; u16 fa0, fa2, fa4, fa6, fa8, faa; } DigitalcardcheckRecord;
 
-typedef struct Work Work;
+typedef struct WifibattlematchViewWork Work;
 
 typedef u16 Row[3];
 
@@ -117,90 +126,39 @@ typedef struct {
     u16 count0, count1;
     union { u32 total; struct { u16 count2, ruleValue22; } h; } v;
     u16 cardValueDate, cardValueStatus;
-} Rec;
+} DigitalcardcheckRec;
 struct WifibattlematchUtilWork;
 
-extern void WIFIBATTLEMATCH_UTIL_PrintMessage(struct WifibattlematchUtilWork *p, void *msgBank, s32 msgIndex, s32 mode);
-extern int WIFIBATTLEMATCH_UTIL_GetBusy(struct WifibattlematchUtilWork *p);
+#include "../ov177/wifibattlematch_util.h"
 struct WifibattlematchCallback;
-extern void WIFIBATTLEMATCH_UTIL_SetCallback(struct WifibattlematchCallback *p, s32 callback);
-extern void LIVEBATTLEMATCH_FLOW_End(int);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *BATTLE_BOX_GetFromSave(void *);
-extern int REGULATION_NoOp(void *);
-extern void *BATTLE_COMPETITION_GetFromSave(void *);
-extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, u32 index);
+#include "livebattlematch_flow.h"
+#include "../arm9/battle_box.h"
+#include "../arm9/regulation.h"
 struct GameData;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *);
-extern void MI_CpuFill8(void *, int, u32);
-extern u8 LIVEBATTLEMATCH_SAVE_GetCounter(const u8 *, u32);
+#include "../ov177/wifibattlematch_graphic.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/livebattlematch_savedata.h"
 struct Regulation;
-extern u32 REGULATION_GetRuleValue(struct Regulation *rule, unsigned int id);
-extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *obj);
-extern u8 *REGULATION_Card_GetCupName(struct Reg2 *p);
-extern void MI_CpuCopy8(void *, const void *, u32);
+#include "../arm9/mystatus.h"
 struct RegulationCard;
-extern s32 REGULATION_Card_GetValue(struct RegulationCard *card, unsigned int id);
-extern char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, void *table, int b, void *c, void *d, void *e, void *record, int mode, u16 heap);
-extern void WIFIBATTLEMATCH_VIEW_DeleteDateWindow(void *p);
-extern int WIFIBATTLEMATCH_VIEW_StepMainWindow(Work *w);
-extern int WIFIBATTLEMATCH_VIEW_StepMainWindowIdle(Work *);
-extern void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *,int,void *,void *,int,u32);
-extern int WIFIBATTLEMATCH_VIEW_CreateRecordWindow(int,int,int,int,int,int,int,int,int,int,unsigned short);
-extern void WIFIBATTLEMATCH_VIEW_DeleteRecordWindow(char *);
-extern int WIFIBATTLEMATCH_VIEW_StepRecordWindow(void *);
-extern int WIFIBATTLEMATCH_VIEW_CreatePartyWindow(int,int,int,int,int,int,unsigned short);
-extern void WIFIBATTLEMATCH_VIEW_DeletePartyWindow(char *);
-extern int WIFIBATTLEMATCH_VIEW_StepPartyWindow(void *);
-extern int WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(void *);
+#include "../ov177/wifibattlematch_view.h"
 struct BoxMonGroup;
 struct Party;
-extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap);
-extern int POKE_REGULATION_GetDataSize(void);
-extern u32 GFL_HEAP_Free(void *p);
-extern int MYSTATUS_GetSize(void);
-extern void OS_GetMacAddress(unsigned char *macAddress);
-extern void *GREETING_SAVEDATA_GetFromSaveThunk(u32 a);
+#include "../arm9/poke_regulation.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/config.h"
+#include "../arm9/os_ownerinfo.h"
+#include "../arm9/greeting_savedata.h"
 struct QuadRecord;
-extern void GREETING_SAVEDATA_GetSentence(struct QuadRecord *src, int idx, struct QuadRecord *dst);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int unused, int mode, unsigned color);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern int WORDSET_Create(int,int,int);
-extern struct WifibattlematchCallback *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
-extern void WIFIBATTLEMATCH_UTIL_DeleteCallback(void *p);
+#include "../arm9/msgdata.h"
 extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void WIFIBATTLEMATCH_UTIL_InvokeCallback(struct WifibattlematchCallback *p);
-extern int WIFIBATTLEMATCH_VIEW_UpdatePokeList(unsigned char *, void *);
-extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **p);
-extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
-extern void LIVEBATTLEMATCH_IRC_ShowMenu(int *, int);
-extern u32 KEY_GetTrg(void);
-extern void LIVEBATTLEMATCH_IRC_DeleteMenuRecord(int *);
-extern int LIVEBATTLEMATCH_IRC_ToggleSe(int, int);
-extern void LIVEBATTLEMATCH_IRC_SetMenuValue(int *, int, int);
-extern int LIVEBATTLEMATCH_IRC_GetMenuValue(int *);
-extern void LIVEBATTLEMATCH_IRC_CreateWindow(char *, int);
-extern int LIVEBATTLEMATCH_IRC_PollWindowResult(int *);
-extern void LIVEBATTLEMATCH_IRC_DeleteWindow(int *);
-extern void WIFIBATTLEMATCH_UTIL_SetRequest(s32 *record, u32 request);
-extern void WIFIBATTLEMATCH_UTIL_CommitRequest(u32);
+#include "livebattlematch_irc.h"
+#include "../arm9/key.h"
 struct BattleBoxSave;
-extern void BATTLE_BOX_ClearLockFlags(struct BattleBoxSave *box, int flags);
-extern void REGULATION_Card_SetValue(struct RegulationCard *card, unsigned int id, int value);
-extern int GAME_DATA_SaveStart(struct GameData *gd);
-extern int GAME_DATA_SaveMain(struct GameData *gd);
-extern void WIFIBATTLEMATCH_UTIL_ClearCallback(void *record);
-extern void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *);
-extern int LIVEBATTLEMATCH_SAVE_GetStats(int p);
-extern u16 BSUBWAY_SAVEDATA_GetStat(Row *, int, int);
-extern char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *owner, void *table, int c, void *d, void *e, void *f, void *record, int mode, u16 heap);
-extern int LIVEBATTLEMATCH_SAVE_GetRecord(int p);
-extern void WIFIBATTLEMATCH_VIEW_DeleteStatusWindow(void *p);
-extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_PushTile(u32 index);
+typedef unsigned short StatRow;
+#include "../arm9/bsubway_savedata.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/game_data.h"
 void DIGITALCARDCHECK_UpdateMenu(void *obj, int a, int b);
 int DIGITALCARDCHECK_GetMenuResult(u8 *p);
 void DIGITALCARDCHECK_End(u8 *p,int v);
@@ -210,7 +168,7 @@ void DIGITALCARDCHECK_DeleteRecord(int *p);
 int DIGITALCARDCHECK_IsRecordDone(u8 *p);
 int DIGITALCARDCHECK_IsWorkDone(int *p);
 void DIGITALCARDCHECK_SetRecordMode(u8 *p,int mode);
-void DIGITALCARDCHECK_CreateRecord2(char *p, int value);
+void DIGITALCARDCHECK_CreateRecord2(char *p, const WifiBattleMatchViewRecord *value);
 void DIGITALCARDCHECK_DeleteRecord2(int *p);
 int DIGITALCARDCHECK_IsRecord2Done(u8 *p);
 void DIGITALCARDCHECK_CreateRecord3(char *p);
@@ -220,7 +178,7 @@ int DIGITALCARDCHECK_IsRecord3DoneB(u8 *p);
 void DIGITALCARDCHECK_CopyRegulation(u8 *p,const void *q);
 void DIGITALCARDCHECK_BuildBattleRecord(u8 *p, u8 *q);
 void DIGITALCARDCHECK_SetBattleRecordValue(int *p, int *q);
-Request *DIGITALCARDCHECK_Create(RequestConfig *p, int heap);
+LivebattlematchRequest *DIGITALCARDCHECK_Create(RequestConfig *p, int heap);
 void DIGITALCARDCHECK_Delete(int *p);
 void DIGITALCARDCHECK_DeleteAlt(int *p);
 int DIGITALCARDCHECK_GetProcResult(int *p);
@@ -253,13 +211,13 @@ void DIGITALCARDCHECK_End(u8 *p,int v){((struct LiveBattleMatchWork *)p)->flowRe
  */
 void DIGITALCARDCHECK_CreateRecord(u8 *p)
 {
-    Record rec;
+    DigitalcardcheckRecord rec;
     void *base;
     int box, aux, x, table, a, b, c, d;
     if (*(int *)&((struct LiveBattleMatchWork *)p)->record) return;
     base = GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save);
-    BATTLE_BOX_GetFromSave(base);
-    box = REGULATION_NoOp(((struct LiveBattleMatchWork *)p)->card);
+    BATTLE_BOX_GetFromSave((struct SaveControl *)base);
+    box = (int)REGULATION_NoOp((void *)(((struct LiveBattleMatchWork *)p)->card));
     aux = (int)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(base), 1);
     x = (int)GAME_DATA_GetMyStatus(((struct LiveBattleMatchWork *)p)->save);
     table = WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int * *)&((struct LiveBattleMatchWork *)p)->graphic);
@@ -316,15 +274,15 @@ void DIGITALCARDCHECK_SetRecordMode(u8 *p,int mode) {WIFIBATTLEMATCH_VIEW_DrawDa
 /*
  * extent: two bytes of zero alignment padding follow.
  */
-void DIGITALCARDCHECK_CreateRecord2(char *p, int value)
+void DIGITALCARDCHECK_CreateRecord2(char *p, const WifiBattleMatchViewRecord *value)
 {
     int a;
     int b;
     if (((struct LiveBattleMatchWork *)p)->record2 == 0) {
         a = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(((struct LiveBattleMatchWork *)p)->graphic));
         b = REGULATION_Card_GetValue((struct RegulationCard *)(((struct LiveBattleMatchWork *)p)->card), 11);
-        ((struct LiveBattleMatchWork *)p)->record2 = (void *)WIFIBATTLEMATCH_VIEW_CreateRecordWindow(value, a, ((struct LiveBattleMatchWork *)p)->view, ((struct LiveBattleMatchWork *)p)->font,
-            (int)((struct LiveBattleMatchWork *)p)->printQue, (int)((struct LiveBattleMatchWork *)p)->mgr, ((struct LiveBattleMatchWork *)p)->arg2C, 1, 0, b, ((struct LiveBattleMatchWork *)p)->heap);
+        ((struct LiveBattleMatchWork *)p)->record2 = (void *)WIFIBATTLEMATCH_VIEW_CreateRecordWindow(value, (void *)a, ((struct LiveBattleMatchWork *)p)->view, (void *)((struct LiveBattleMatchWork *)p)->font,
+            ((struct LiveBattleMatchWork *)p)->printQue, ((struct LiveBattleMatchWork *)p)->mgr, ((struct LiveBattleMatchWork *)p)->arg2C, 1, 0, b, ((struct LiveBattleMatchWork *)p)->heap);
     }
 }
 
@@ -337,8 +295,8 @@ void DIGITALCARDCHECK_CreateRecord3(char *p)
     int a;
     if (((struct LiveBattleMatchWork *)p)->record3 == 0) {
         a = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(*(int *)&((struct LiveBattleMatchWork *)p)->graphic));
-        ((struct LiveBattleMatchWork *)p)->record3 = (void *)WIFIBATTLEMATCH_VIEW_CreatePartyWindow((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)(*(int *)&((struct LiveBattleMatchWork *)p)->save))), a,
-            ((struct LiveBattleMatchWork *)p)->view, ((struct LiveBattleMatchWork *)p)->partyFont, *(int *)&((struct LiveBattleMatchWork *)p)->printQue, *(int *)&((struct LiveBattleMatchWork *)p)->mgr, ((struct LiveBattleMatchWork *)p)->heap);
+        ((struct LiveBattleMatchWork *)p)->record3 = (void *)WIFIBATTLEMATCH_VIEW_CreatePartyWindow(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)(*(int *)&((struct LiveBattleMatchWork *)p)->save))), (void *)a,
+            ((struct LiveBattleMatchWork *)p)->view, ((struct LiveBattleMatchWork *)p)->partyFont, ((struct LiveBattleMatchWork *)p)->printQue, ((struct LiveBattleMatchWork *)p)->mgr, ((struct LiveBattleMatchWork *)p)->heap);
     }
 }
 
@@ -348,7 +306,7 @@ int DIGITALCARDCHECK_IsRecord3DoneA(u8 *p){return WIFIBATTLEMATCH_VIEW_StepParty
 
 int DIGITALCARDCHECK_IsRecord3DoneB(u8 *p){return WIFIBATTLEMATCH_VIEW_StepPartyWindowAlt(((struct LiveBattleMatchWork *)p)->record3);}
 
-void DIGITALCARDCHECK_CopyRegulation(u8 *p,const void *q) {void *v;v=BATTLE_BOX_CreateParty(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)),((struct LiveBattleMatchWork *)p)->heap);MI_CpuCopy8(v,q,POKE_REGULATION_GetDataSize());GFL_HEAP_Free(v);}
+void DIGITALCARDCHECK_CopyRegulation(u8 *p,const void *q) {void *v;v=BATTLE_BOX_CreateParty((struct BoxMonGroup *)(BATTLE_BOX_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save)))),((struct LiveBattleMatchWork *)p)->heap);MI_CpuCopy8((const void *)v,(void *)q,POKE_REGULATION_GetDataSize());GFL_HEAP_Free((void *)v);}
 
 /*
  *           have no witness outside this range. Both are unlabelled Thumb
@@ -366,10 +324,10 @@ void DIGITALCARDCHECK_BuildBattleRecord(u8 *p, u8 *q)
 
     ((struct BattleRecord *)p)->version = 0x64;
     x = (u32)GAME_DATA_GetMyStatus((struct GameData *)r);
-    MI_CpuCopy8((void *)x, p, MYSTATUS_GetSize());
+    MI_CpuCopy8((const void *)((void *)x), (void *)p, MYSTATUS_GetSize());
     OS_GetMacAddress(p + 0x20);
-    GREETING_SAVEDATA_GetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSaveThunk((u32)GAME_DATA_GetSaveControl((struct Big *)r))), 0, (struct QuadRecord *)(p + 0x38));
-    a = (u32)BATTLE_BOX_CreateParty(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)r)), 0x8056);
+    GREETING_SAVEDATA_GetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSaveThunk((u32)GAME_DATA_GetSaveControl((struct GameData *)r))), 0, (struct QuadRecord *)(p + 0x38));
+    a = (u32)BATTLE_BOX_CreateParty((struct BoxMonGroup *)(BATTLE_BOX_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)r)))), 0x8056);
     MI_CpuCopy8((void *)a, p + 0xd4, POKE_REGULATION_GetDataSize());
     GFL_HEAP_Free((void *)a);
     ((struct BattleRecord *)p)->stat1 = LIVEBATTLEMATCH_SAVE_GetCounter((const u8 *)(((struct LiveBattleMatchWork *)q)->saveBlock), 1);
@@ -383,9 +341,9 @@ void DIGITALCARDCHECK_SetBattleRecordValue(int *p, int *q)
     ((struct BattleRecord *)p)->cardValue = REGULATION_Card_GetValue((struct RegulationCard *)(((struct LiveBattleMatchWork *)q)->card), 2);
 }
 
-Request *DIGITALCARDCHECK_Create(RequestConfig *p, int heap)
+LivebattlematchRequest *DIGITALCARDCHECK_Create(RequestConfig *p, int heap)
 {
-    Request *r;
+    LivebattlematchRequest *r;
     r = GFL_HEAP_Alloc(heap, 0x38, 0, d_0217E61C, 0x9A);
     MI_CpuFill8(r, 0, 0x38);
     r->config = *p;
@@ -408,9 +366,9 @@ void DIGITALCARDCHECK_Delete(int *p) {WIFIBATTLEMATCH_UTIL_DeleteCallback((void 
  */
 void DIGITALCARDCHECK_DeleteAlt(int *p)
 {
-    WIFIBATTLEMATCH_UTIL_InvokeCallback((struct WifibattlematchCallback *)(((Request *)p)->callback));
-    if (((Request *)p)->record)
-        WIFIBATTLEMATCH_VIEW_UpdatePokeList((unsigned char *)((Request *)p)->record, (void *)((Request *)p)->config.mgr);
+    WIFIBATTLEMATCH_UTIL_InvokeCallback((struct WifibattlematchCallback *)(((LivebattlematchRequest *)p)->callback));
+    if (((LivebattlematchRequest *)p)->record)
+        WIFIBATTLEMATCH_VIEW_UpdatePokeList((unsigned char *)((LivebattlematchRequest *)p)->record, (void *)((LivebattlematchRequest *)p)->config.mgr);
 }
 
 int DIGITALCARDCHECK_GetProcResult(int *p) {return WIFIBATTLEMATCH_UTIL_IsCallbackNull((int **)p[4]);}
@@ -420,7 +378,7 @@ void DIGITALCARDCHECK_SelectPhase(int a, int unused, char *p)
     void *m;
     unsigned x;
     unsigned y;
-    m = REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl(((Request *)p)->config.save)), ((Request *)p)->config.slot);
+    m = REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl(((LivebattlematchRequest *)p)->config.save)))), ((LivebattlematchRequest *)p)->config.slot);
     x = REGULATION_Card_GetValue(m, 2);
     y = REGULATION_Card_GetValue(m, 10);
     if (x && y == 1) {
@@ -477,7 +435,7 @@ void DIGITALCARDCHECK_Phase1(int *a, int *state, int *p)
     case 12: LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x6B, 2); *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest(a, 13); break;
     case 13:
         base = GAME_DATA_GetSaveControl((void *)p[12]);
-        record = REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(base), p[5]);
+        record = REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)base)), p[5]);
         base = BATTLE_BOX_GetFromSave(base);
         BATTLE_BOX_ClearLockFlags(base, p[5] == 0 ? 1 : 2);
         REGULATION_Card_SetValue(record, 10, 4); *state = 14; break;
@@ -525,7 +483,7 @@ void DIGITALCARDCHECK_Phase2(int *a, int *state, int *p)
     case 12: LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x6B, 2); *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest(a, 13); break;
     case 13:
         base = GAME_DATA_GetSaveControl((void *)p[12]);
-        record = REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(base), p[5]);
+        record = REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave((struct SaveControl *)base)), p[5]);
         base = BATTLE_BOX_GetFromSave(base);
         BATTLE_BOX_ClearLockFlags(base, p[5] == 0 ? 1 : 2);
         REGULATION_Card_SetValue(record, 10, 4); *state = 14; break;
@@ -640,31 +598,31 @@ void DIGITALCARDCHECK_EndPhase(int a) { WIFIBATTLEMATCH_UTIL_ClearCallback((void
 void DIGITALCARDCHECK_InitRecord(int *p)
 {
     void *save, *stats;
-    struct Rec160 *base;
-    struct Reg2 *obj;
-    struct Rec1E *sub;
+    struct RegulationCard *base;
+    struct RegulationCard *obj;
+    struct RegulationParty *sub;
     struct Reg *reg;
     u8 *win;
     int flag;
     if (p[2] == 0) {
-        save = GAME_DATA_GetSaveControl((struct Big *)p[12]);
-        base = BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)p[12]));
-        obj = (struct Reg2 *)REGULATION_GetCard(base, p[5]);
-        sub = REGULATION_GetParty((struct RecBig *)base, p[5]);
+        save = GAME_DATA_GetSaveControl((struct GameData *)p[12]);
+        base = (struct RegulationCard *)BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)p[12])));
+        obj = (struct RegulationCard *)REGULATION_GetCard(base, p[5]);
+        sub = REGULATION_GetParty((struct BattleCompetitionSave *)base, p[5]);
         reg = (struct Reg *)REGULATION_NoOp(obj);
         stats = LIVEBATTLEMATCH_SAVE_GetFromSave(save);
         win = (unsigned char *)GAME_DATA_GetMyStatus((void *)p[12]);
         flag = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)p[11]);
         if (p[5] == 0) {
-            Rec rec;
+            DigitalcardcheckRec rec;
             Row *table;
             int total, a, b, c, d;
-            MI_CpuFill8(&rec, 0, 0xac);
-            MI_CpuCopy8(REGULATION_Card_GetCupName(obj), &rec, 0x92);
+            MI_CpuFill8((void *)&rec, 0, 0xac);
+            MI_CpuCopy8((const void *)(REGULATION_Card_GetCupName((struct RegulationCard *)obj)), (void *)&rec, 0x92);
             table = (u16 (*)[3])LIVEBATTLEMATCH_SAVE_GetStats((int)stats);
-            rec.count0 = BSUBWAY_SAVEDATA_GetStat(table, 10, 0);
-            total = BSUBWAY_SAVEDATA_GetStat(table, 10, 1);
-            rec.v.total = total + BSUBWAY_SAVEDATA_GetStat(table, 10, 2);
+            rec.count0 = BSUBWAY_SAVEDATA_GetStat((StatRow *)table, 10, 0);
+            total = BSUBWAY_SAVEDATA_GetStat((StatRow *)table, 10, 1);
+            rec.v.total = total + BSUBWAY_SAVEDATA_GetStat((StatRow *)table, 10, 2);
             rec.user = (u8 *)MYSTATUS_GetTrainerView((const struct MyStatus *)win);
             a = REGULATION_Card_GetValue((struct RegulationCard *)obj, 6); b = REGULATION_Card_GetValue((struct RegulationCard *)obj, 5); c = REGULATION_Card_GetValue((struct RegulationCard *)obj, 4);
             rec.color0 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
@@ -673,7 +631,7 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             rec.cardValueStatus = REGULATION_Card_GetValue((struct RegulationCard *)obj, 11);
             p[2] = (int)WIFIBATTLEMATCH_VIEW_CreateStatusWindow((char *)(&rec), 0, win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         } else {
-            Rec rec;
+            DigitalcardcheckRec rec;
             const u8 *table;
             int a, b, c, d;
             MI_CpuFill8(&rec, 0, 0xac);

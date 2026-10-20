@@ -21,6 +21,7 @@
  *   OSi_CpuClear32     0x01FF852C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 /* hand-written in the original: Thumb hash loop with hand register use, one SDK line-table row per instruction */
 asm BOOL OSi_VerifyStaticSegmentHash(const u8 *src, u32 len, const void *digest)
@@ -215,7 +216,6 @@ void OSi_DoResetSystem(void)
 
 #define HW_DTCM_SYSRV_OFS_INTR_VECTOR 0x3c
 
-#define REG_SUBPINTF_ADDR             0x04000180
 
 #define HW_EXCP_VECTOR_MAIN           0x02FFFD9C
 
@@ -468,10 +468,10 @@ asm void OSi_ReloadRomData(BOOL ontwl)
 
 void OSi_ReadCardRom32(u32 src, void *dst, int len)
 {
-    vu8  *const reg_CARD_MASTERCNT = (vu8 *)(0x04000000 + 0x1a1);
-    vu8  *const reg_CARD_CMD = (vu8 *)(0x04000000 + 0x1a8);
-    vu32 *const reg_CARD_CNT = (vu32 *)(0x04000000 + 0x1a4);
-    vu32 *const reg_CARD_DATA = (vu32 *)(0x04000000 + 0x100010);
+    vu8  *const reg_CARD_MASTERCNT = (vu8 *)(REG_DISPCNT_ADDR + 0x1a1);
+    vu8  *const reg_CARD_CMD = (vu8 *)(REG_DISPCNT_ADDR + 0x1a8);
+    vu32 *const reg_CARD_CNT = (vu32 *)(REG_DISPCNT_ADDR + 0x1a4);
+    vu32 *const reg_CARD_DATA = (vu32 *)(REG_DISPCNT_ADDR + 0x100010);
     vu32 *const hdr_GAME_BUF = (vu32 *)(0x02FFFE00 + 0x60);
 
     const u32 ctrl_start = (u32)((*hdr_GAME_BUF & ~0x07000000)
@@ -507,7 +507,7 @@ void OSi_ReadCardRom32(u32 src, void *dst, int len)
 
                 if ((pos >= 0) && (pos < len))
                 {
-                    *(u32 *)((u32)dst + pos) = data;
+                    *(u32 *)((uptr)dst + pos) = data;
                 }
 
                 pos += sizeof(u32);

@@ -99,12 +99,16 @@ struct Proc;
 struct Node;
 struct PrintSys;
 struct Proc;
-struct DispVram;
 struct Bank;
-struct BgTemplate;
-struct DispConfig;
 struct Cfg;
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/ui.h"
 #include "../types.h"
+
+struct ClactSysInit;
+struct Unit;
+#include "../arm9/bg_sys_types.h"
 
 /* The zukan-toroku graphic proc work (0x34 bytes). */
 typedef struct ZukanTorokuWork {
@@ -138,7 +142,7 @@ typedef enum OverlayId { OVERLAY_ZERO=0 } OverlayId;
 /* One bg layer row of d_0220BB18. */
 typedef struct ZukanTorokuBgEntry {
     unsigned bgId;          /* 0x00 */
-    char bgTemplate[32];    /* 0x04, BgTemplate image */
+    char bgTemplate[32];    /* 0x04, struct BgTemplate image */
     unsigned type;          /* 0x24 */
     unsigned enable;        /* 0x28 */
 } ZukanTorokuBgEntry;
@@ -157,7 +161,7 @@ extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 extern void *ZUKAN_INFO_CreateFromMon(u16,void *,u32,u32,u32,u32,u8,u32,u32,u32,u32,u32,u32);
 extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
-extern void *GFL_USE_AddMainTask(u32,u32,u32);
+extern struct TcbTask *GFL_USE_AddMainTask(u32,u32,u32);
 extern void FADE_Start(u32,int,int,int);
 struct TcbTask;
 extern void TCB_DeleteTask(struct TcbTask *task);
@@ -176,7 +180,6 @@ extern int FADE_IsActive(void);
 extern void ZUKAN_INFO_Start(char *);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
-extern void UI_SetInputMode(u8);
 extern void ZUKAN_INFO_NotifyMoveDone(char *);
 extern int ZUKAN_INFO_IsMoving(char *);
 extern int ZUKAN_INFO_IsDone(char *);
@@ -188,8 +191,6 @@ extern int ZUKAN_NICKNAME_GetResult(struct ZukanNicknameWork *p);
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -217,9 +218,9 @@ extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
+extern void CLACT_InitSystem(struct ClactSysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
+extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern void CLACT_SetUnitDefaultRenderer(struct Unit *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
@@ -474,9 +475,9 @@ void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display){BG_SYS_Updat
 void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Bank **actors, int a, int b)
 {
     MI_CpuFill8(actors, 0, 4);
-    CLACT_InitSystem((struct SysInit *)0x0220BACC, (struct DispVramCfg *)a, b);
-    *actors = CLACT_CreateUnit(0x80, 0, b);
-    CLACT_SetUnitDefaultRenderer(*actors);
+    CLACT_InitSystem((struct ClactSysInit *)0x0220BACC, (struct DispVramCfg *)a, b);
+    *actors = (struct Bank *)CLACT_CreateUnit(0x80, 0, b);
+    CLACT_SetUnitDefaultRenderer((struct Unit *)(*actors));
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }

@@ -85,44 +85,27 @@ typedef struct {
 	Socket *socket;
 } Cmd;
 
-extern int SOCL_SocketIsInTrash(void *b);
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
+#include "socl_list.h"
+#include "../arm9/os_system.h"
 struct SOCLSocket;
-extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 struct SOCLiCommandPacket;
-extern int SOCLi_SendCommandPacket(int queue, struct SOCLiCommandPacket *packet);
-extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, int flag);
-extern void SOCLi_SendCommandPacketToCtrlPipe(int a, int b);
-extern void OS_JoinThread(void *thread);
-extern void CPS_TcpShutdown(void);
-extern void CPS_TcpClose(void);
-extern void CPS_SocRelease(void);
-extern void CPS_SocUnRegister(void);
-extern void SOCLi_SocketUnregister(int a);
-extern void SOCLi_SocketRegisterTrash(int a);
+#include "socl_command.h"
+#include "cps_network.h"
 /* * sdk: SOCL_IsClosed (libsoc.TWL.HYB.a(socl_close.o)) */ int SOCL_IsClosed(int s);
 int SOCL_IsReleased(int s);
 /* * sdk: SOCL_Close (libsoc.TWL.HYB.a(socl_close.o)) */ int SOCL_Close(int s);
 int SOCLi_CloseCallBack(void *arg);
 extern SoclResource SOCLi_Resource;
-extern SoclConfig *gSoclConfig;
+extern SOCLConfig *gSoclConfig;
 extern Socket *SOCLiTrashList;
 typedef struct {
 	unsigned long pad0[2];
 	void *reply;
 } Command;
 extern void SOCLi_FreeCommandPipe(unsigned char *pipe);
-extern void OS_WakeupThread(void *queue);
-extern void SOCLi_SocketUnregisterTrash(int a);
-extern unsigned long OS_DisableScheduler(void);
 #include "../sdk_os.h"
 
-extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, int flags);
-extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
-extern void SOCLi_FreeCommandPacket(void *ptr);
-extern unsigned long OS_EnableScheduler(void);
-extern void OS_RescheduleThread(void);
+#include "../arm9/os_message.h"
 void SOCLi_CleanupSocket(Socket *socket);
 void SOCLi_TrashSocket(void);
 
@@ -217,13 +200,13 @@ int SOCL_Close(int s)
 		if (mode == 0) {
 			SOCLi_Resource.datagramCount--;
 		} else {
-			SOCLi_SendCommandPacket((int)socket->send_pipe, 0);
+			SOCLi_SendCommandPacket((sptr)socket->send_pipe, 0);
 			SOCLi_Resource.streamCount--;
 		}
 	}
 	command = (struct SOCLCommand *)SOCLi_CreateCommandPacket(SOCLi_CloseCallBack, (struct SOCLSocket *)socket, 1);
 	command->response_queue = result;
-	SOCLi_SendCommandPacketToCtrlPipe((int)socket, (int)command);
+	SOCLi_SendCommandPacketToCtrlPipe((sptr)socket, (sptr)command);
 	return result;
 }
 
@@ -248,17 +231,17 @@ int SOCLi_CloseCallBack(void *arg)
 
 	socket = ((Cmd *)arg)->socket;
 	if (IsStream(socket)) {
-		OS_JoinThread(socket->send_pipe + 0x20);
+		OS_JoinThread((OSThread *)((char *)socket->send_pipe + 0x20));
 		CPS_TcpShutdown();
 		CPS_TcpClose();
 		CPS_SocRelease();
 	}
 	CPS_SocUnRegister();
 	socket->state &= ~6;
-	SOCLi_SendCommandPacket((int)(socket->flag_mode == 2 ? socket->send_pipe : (unsigned char *)socket->recv_pipe), 0);
+	SOCLi_SendCommandPacket((sptr)(socket->flag_mode == 2 ? socket->send_pipe : (unsigned char *)socket->recv_pipe), 0);
 	enable = OS_DisableInterrupts();
-	SOCLi_SocketUnregister((int)socket);
-	SOCLi_SocketRegisterTrash((int)socket);
+	SOCLi_SocketUnregister((sptr)socket);
+	SOCLi_SocketRegisterTrash((sptr)socket);
 	OS_RestoreInterrupts(enable);
 	socket->state |= 0x20;
 	return 0;
@@ -291,14 +274,14 @@ void SOCLi_CleanupSocket(Socket *socket)
 		socket->recv_pipe->udpdata.size = 0;
 		socket->recv_pipe->udpdata.a = 0;
 		socket->recv_pipe->udpdata.head = 0;
-		OS_WakeupThread(socket->recv_pipe->udpdata.queue);
+		OS_WakeupThread((OSThreadQueue *)socket->recv_pipe->udpdata.queue);
 		SOCLi_FreeCommandPipe((unsigned char *)socket->recv_pipe);
 	} else if (socket->flag_mode == 2) {
 		SOCLi_FreeCommandPipe(socket->send_pipe);
 	}
 	enable = OS_DisableInterrupts();
-	SOCLi_SocketUnregister((int)socket);
-	SOCLi_SocketUnregisterTrash((int)socket);
+	SOCLi_SocketUnregister((sptr)socket);
+	SOCLi_SocketUnregisterTrash((sptr)socket);
 	gSoclConfig->free(socket);
 	OS_RestoreInterrupts(enable);
 }
@@ -315,7 +298,7 @@ void SOCLi_FreeCommandPipe(unsigned char *pipe)
 	if (pipe == 0) {
 		return;
 	}
-	OS_JoinThread(pipe + 0x20);
+	OS_JoinThread((OSThread *)((char *)pipe + 0x20));
 	enable = OS_DisableInterrupts();
 	OS_DisableScheduler();
 	while (OS_ReceiveMessage((struct OSMessageQueue *)pipe, (void **)&command, 0)) {

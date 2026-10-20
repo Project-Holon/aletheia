@@ -132,117 +132,40 @@ struct GameData;
 struct FieldG3dMapper;
 struct FieldNogridMapper;
 
-extern u32 GFL_HEAP_Free(void *work);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
-struct MmdlVec;
+#include "../arm9/gfl_heap_wrap.h"
+struct VecFx32;
 struct Mmdl;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+#include "../ov010/fldmmdl.h"
 struct PlayerPosition;
 struct PlayerWork;
-extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *player, struct PlayerPosition *pos);
-extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
-extern void GAME_DATA_SetPlayerDirectionType(struct PlayerWork *playerWork, int dir);
-extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
-extern void GAME_DATA_SetPlayerMoveForm(struct PlayerWork *playerWork, u8 moveForm);
-extern void FLDMMDL_RAIL_GetNextLocation(const Mmdl *mmdl, void *railLocation);
+#include "../arm9/game_data.h"
+#include "fieldmap.h"
+#include "fldmmdl_rail.h"
 struct RailLocationWords;
-extern void GAME_DATA_SetPlayerRail(struct PlayerWork *player, struct RailLocationWords *rail);
 struct FieldPlayer;
-extern int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(struct FieldPlayer *player, s32 unused, s32 keyDir, s32 flags);
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
-extern int MAP_ATTR_GetAt(void *g3dMapper, void *pos);
-extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
-extern u32 FIELD_NOGRID_MAPPER_GetAttribute(struct FieldNogridMapper *mapper, void *railLocation);
-extern int FLDMMDL_RAIL_GetLocationByDir(const Mmdl *mmdl, u32 dir, void *railLocation);
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
-extern struct Mmdl *FLDMMDL_SysSearchGridPos(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, u32 mask);
-extern void FLDMMDL_RAIL_GetFrontLocation(const Mmdl *mmdl, void *railLocation);
-extern u32 FLDMMDL_RAIL_SearchMmdlByLocation(struct MmdlSys *mmdlSys, void *railLocation, u32 flag);
-extern struct Mmdl *FLDMMDL_SysSearchGridPosHeight(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, s32 posY, s32 limit, u32 mask);
-extern s32 FLDMMDL_GetGridNowX(const Mmdl *mmdl);
-extern s32 FLDMMDL_GetGridNowY(const Mmdl *mmdl);
-extern s32 FLDMMDL_GetGridNowZ(const Mmdl *mmdl);
-extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
-extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
-extern void FLDMMDL_MOVE_GridToVectorPos(int gridX, int gridZ, int *vecPos);
+#include "field_player_grid_event.h"
+#include "map_attr.h"
+#include "field_nogrid_mapper.h"
+#include "../ov010/fldmmdl_move.h"
 struct RailManager;
-extern struct RailManager *FIELD_NOGRID_MAPPER_GetRailMan(struct FieldNogridMapper *mapper);
-extern void FIELD_RAIL_GetLocationPos(void *railMan, s16 *railLocation, int *pos);
-extern void FLDMMDL_RAIL_GetDrawOffsetByDir(const Mmdl *mmdl, u32 dir, s16 *offset);
-extern int FIELD_RAIL_GetUnitScale(struct RailManager *manager);
-extern void VEC_Normalize();
-extern int MAP_ATTR_IsHopTransition(unsigned long a, unsigned long b);
-extern int MAP_ATTR_IsBlocked(u32 attr);
-extern u16 MAP_ATTR_GetTerrainId(u32 attr);
-extern int MAP_ATTR_IsWaterfall(u16 id);
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
+#include "field_rail.h"
+#include "../arm9/fx_vec.h"
+#include "../arm9/gamesystem.h"
 struct EventWork;
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
+#include "../arm9/zonedata.h"
 
-extern FieldPlayerCore *FIELD_PLAYER_CORE_Create(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, u32 sex, u16 heapId);
-extern void FIELD_PLAYER_CORE_Delete(FieldPlayerCore *core);
-extern void FIELD_PLAYER_CORE_UpdateStepPhase(FieldPlayerCore *core);
-extern void FIELD_PLAYER_CORE_GetPos(FieldPlayerCore *core, VecFx32 *out);
-extern void FIELD_PLAYER_CORE_SetPos(FieldPlayerCore *core, VecFx32 *pos);
-extern u16 FIELD_PLAYER_CORE_GetDirDisp(FieldPlayerCore *core);
-extern void FIELD_PLAYER_CORE_SetDirDisp(FieldPlayerCore *core, int dir);
-extern int FIELD_PLAYER_CORE_SetObjCode(FieldPlayerCore *core, u32 objCode);
-extern void FIELD_PLAYER_CORE_ClearRememberedObjCode(FieldPlayerCore *core);
-extern FieldMap *FIELD_PLAYER_CORE_GetFieldMap(FieldPlayerCore *core);
-extern Mmdl *FIELD_PLAYER_CORE_GetMmdl(FieldPlayerCore *core);
-extern u32 FIELD_PLAYER_CORE_GetStepKind(FieldPlayerCore *core);
-extern void FIELD_PLAYER_CORE_SetStepPhase(FieldPlayerCore *core, u32 stepPhase);
-extern u32 FIELD_PLAYER_CORE_GetStepPhase(FieldPlayerCore *core);
-extern u32 FIELD_PLAYER_CORE_GetFormCode(FieldPlayerCore *core);
-extern void FIELD_PLAYER_CORE_SetFormCode(FieldPlayerCore *core, u32 formCode);
-extern u32 FIELD_PLAYER_CORE_GetSex(FieldPlayerCore *core);
-extern struct GameSystem *FIELD_PLAYER_CORE_GetGameSystem(FieldPlayerCore *core);
-extern struct PlayerWork *FIELD_PLAYER_CORE_GetPlayerWork(FieldPlayerCore *core);
-extern int FIELD_PLAYER_CORE_WaitModelReady(FieldPlayerCore *core);
-extern int FIELD_PLAYER_CORE_GetFormSlot(FieldPlayerCore *core);
-extern int FIELD_PLAYER_CORE_CheckFormModel(FieldPlayerCore *core);
-extern int FIELD_PLAYER_CORE_CheckAnimePaused(FieldPlayerCore *core);
-extern u16 FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(FieldPlayerCore *core, u32 keys);
-extern void FIELD_PLAYER_CORE_SetRideEffect(FieldPlayerCore *core, u32 rideEffect);
-extern u32 FIELD_PLAYER_CORE_GetRideEffect(FieldPlayerCore *core);
-extern FieldPlayerCore *FIELD_PLAYER_CORE_StartFormChange(FieldPlayerCore *core, u32 mask);
-extern int FIELD_PLAYER_CORE_StepFormChange(FieldPlayerCore *core);
-extern void FIELD_PLAYER_CORE_FinishFormChange(FieldPlayerCore *core);
+#include "field_player_core.h"
 
-extern FieldPlayerGrid *FIELD_PLAYER_GRID_Create(FieldPlayerCore *core, u32 heapId);
-extern void FIELD_PLAYER_GRID_Delete(FieldPlayerGrid *grid);
-extern void FIELD_PLAYER_GRID_Move(FieldPlayerGrid *grid, u32 a, u32 b, u32 c);
-extern void FIELD_PLAYER_GRID_ResetBlockedPose(FieldPlayerGrid *grid);
-extern int FIELD_PLAYER_GRID_IsOnForcedMoveTile(FieldPlayerGrid *grid);
-extern int FIELD_PLAYER_GRID_IsHopping(FieldPlayerGrid *grid);
-extern void FIELD_PLAYER_GRID_FinishHop(FieldPlayerGrid *grid);
-extern void FIELD_PLAYER_GRID_ResetHold(FieldPlayerGrid *grid, int a);
-extern void FIELD_PLAYER_GRID_StopForcedMove(FieldPlayerGrid *grid);
-extern u32 FIELD_PLAYER_GRID_GetHopLanded(FieldPlayerGrid *grid);
-extern int FIELD_PLAYER_GRID_SetHopLanded(FieldPlayerGrid *grid, u32 a);
-extern int FIELD_PLAYER_GRID_IsBlocked(FieldPlayerGrid *grid);
+#include "field_player_grid.h"
 
-extern FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(FieldPlayerCore *core, int heapId);
-extern void FIELD_PLAYER_NOGRID_Delete(FieldPlayerNogrid *nogrid);
-extern void FIELD_PLAYER_NOGRID_AttachMmdl(FieldPlayerNogrid *nogrid, int a);
-extern void FIELD_PLAYER_NOGRID_ClearRailWork(FieldPlayerNogrid *nogrid);
-extern void FIELD_PLAYER_NOGRID_Update(FieldPlayerNogrid *nogrid, u32 a, u32 b);
-extern int FIELD_PLAYER_NOGRID_IsBlocked(FieldPlayerNogrid *nogrid);
-extern u32 FIELD_PLAYER_NOGRID_IsForcedMove(FieldPlayerNogrid *nogrid);
-extern void FIELD_PLAYER_NOGRID_SetRailLocation(FieldPlayerNogrid *nogrid, void *a);
-extern void FIELD_PLAYER_NOGRID_GetNextRailLocation(FieldPlayerNogrid *nogrid, void *a);
-extern int FIELD_PLAYER_NOGRID_GetRailLocationByDir(FieldPlayerNogrid *nogrid, u32 a, void *b);
-extern void FIELD_PLAYER_NOGRID_GetRailPos(FieldPlayerNogrid *nogrid, void *outPos);
+#include "field_player_nogrid.h"
 struct FieldPlayerNogrid;
 struct RailWork;
-extern struct RailWork *FIELD_PLAYER_NOGRID_GetRailWork(FieldPlayerNogrid *nogrid);
-extern void FIELD_PLAYER_NOGRID_EndBlockedWalk(FieldPlayerNogrid *nogrid);
 
 void FIELD_PLAYER_GetPos(FieldPlayer *player, VecFx32 *out);
 Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
 u32 FIELD_PLAYER_GetFormCode(FieldPlayer *player);
-void FIELD_PLAYER_GetPosInDir(FieldPlayer *player, int dir, int *out);
+void FIELD_PLAYER_GetPosInDir(FieldPlayer *player, int dir, VecFx32 *out);
 void FIELD_PLAYER_GetFrontGridPos(FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ);
 
 extern int gFieldPlayerFileName;
@@ -279,15 +202,15 @@ void FIELD_PLAYER_SaveToPlayerWork(FieldPlayer *player)
     struct PlayerWork *playerWork = FIELD_PLAYER_CORE_GetPlayerWork(player->core);
     Mmdl *mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
 
-    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)gridPos);
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)gridPos);
     GAME_DATA_SetPlayerPosition(playerWork, (struct PlayerPosition *)gridPos);
     GAME_DATA_SetPlayerDirectionType(playerWork, FLDMMDL_GetDirDisp(mmdl));
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
-        GAME_DATA_SetPlayerMoveForm(playerWork, 0);
+        GAME_DATA_SetPlayerMoveForm( (struct PlayerWork *)playerWork, 0);
         return;
     }
-    FLDMMDL_RAIL_GetNextLocation(mmdl, railLocation);
-    GAME_DATA_SetPlayerRail(playerWork, (struct RailLocationWords *)railLocation);
+    FLDMMDL_RAIL_GetNextLocation( (Mmdl *)mmdl, (RailLocation *)railLocation);
+    GAME_DATA_SetPlayerRail( (struct PlayerWork *)playerWork, (const struct RailLocation *)((struct RailLocationWords *)railLocation));
     GAME_DATA_SetPlayerMoveForm(playerWork, 1);
 }
 
@@ -323,12 +246,12 @@ void FIELD_PLAYER_ResetMoveWork(FieldPlayer *player)
         FIELD_PLAYER_NOGRID_EndBlockedWalk(player->nogrid);
 }
 
-void FIELD_PLAYER_SetRideEffect(FieldPlayer *player, u32 rideEffect)
+void FIELD_PLAYER_SetRideEffect(FieldPlayer *player, struct FieldEffectObj *rideEffect)
 {
     FIELD_PLAYER_CORE_SetRideEffect(player->core, rideEffect);
 }
 
-u32 FIELD_PLAYER_GetRideEffect(FieldPlayer *player)
+struct FieldEffectObj *FIELD_PLAYER_GetRideEffect(FieldPlayer *player)
 {
     return FIELD_PLAYER_CORE_GetRideEffect(player->core);
 }
@@ -441,14 +364,14 @@ u32 FIELD_PLAYER_GetNowAttribute(FieldPlayer *player)
         struct FieldG3dMapper *g3dMapper = FIELDMAP_GetG3dMapper(player->fieldMap);
 
         FIELD_PLAYER_GetPos(player, (VecFx32 *)&pos);
-        attr = MAP_ATTR_GetAt(g3dMapper, &pos);
+        attr = MAP_ATTR_GetAt(g3dMapper, (const struct VecFx32 *)&pos);
     } else if (FIELDMAP_GetMoveKind(player->fieldMap) == 1) {
         FieldPlayerRailLocation location;
         Mmdl *mmdl = FIELD_PLAYER_GetMmdl(player);
         struct FieldNogridMapper *mapper = FIELDMAP_GetNogridMapper(player->fieldMap);
 
-        FLDMMDL_RAIL_GetNextLocation(mmdl, &location);
-        attr = FIELD_NOGRID_MAPPER_GetAttribute(mapper, &location);
+        FLDMMDL_RAIL_GetNextLocation( (Mmdl *)mmdl, (RailLocation *)&location);
+        attr = FIELD_NOGRID_MAPPER_GetAttribute( (FieldNogridMapper *)mapper, (const RailLocation *)&location);
     }
     return attr;
 }
@@ -456,20 +379,20 @@ u32 FIELD_PLAYER_GetNowAttribute(FieldPlayer *player)
 u32 FIELD_PLAYER_GetFrontAttribute(FieldPlayer *player, u32 dir)
 {
     u32 attr;
-    u8 frontPos[12];
+    VecFx32 frontPos;
     u8 railLocation[8];
 
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
         struct FieldG3dMapper *g3dMapper = FIELDMAP_GetG3dMapper(player->fieldMap);
 
-        FIELD_PLAYER_GetPosInDir(player, dir, (int *)frontPos);
-        attr = MAP_ATTR_GetAt(g3dMapper, (FieldPlayerLocationPos *)frontPos);
+        FIELD_PLAYER_GetPosInDir(player, dir, &frontPos);
+        attr = MAP_ATTR_GetAt(g3dMapper, &frontPos);
     } else if (FIELDMAP_GetMoveKind(player->fieldMap) == 1) {
         Mmdl *mmdl = FIELD_PLAYER_GetMmdl(player);
         struct FieldNogridMapper *mapper = FIELDMAP_GetNogridMapper(player->fieldMap);
 
-        FLDMMDL_RAIL_GetLocationByDir(mmdl, dir, railLocation);
-        attr = FIELD_NOGRID_MAPPER_GetAttribute(mapper, railLocation);
+        FLDMMDL_RAIL_GetLocationByDir( (Mmdl *)mmdl, dir, (RailLocation *)railLocation);
+        attr = FIELD_NOGRID_MAPPER_GetAttribute( (FieldNogridMapper *)mapper, (const RailLocation *)railLocation);
     }
     return attr;
 }
@@ -549,18 +472,17 @@ int FIELD_PLAYER_CheckAnimePaused(FieldPlayer *player)
  * arguments; the fourth is the literal 0 whose register the compiler also
  * uses as the v[0] index.
  */
-void FIELD_PLAYER_SearchFrontMmdl(FieldPlayer *player)
+struct Mmdl *FIELD_PLAYER_SearchFrontMmdl(FieldPlayer *player)
 {
     s16 v[8];
     struct MmdlSys *mmdlSys = FIELDMAP_GetMmdlSys(player->fieldMap);
 
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
         FIELD_PLAYER_GetFrontGridPos(player, &v[2], &v[1], &v[0]);
-        FLDMMDL_SysSearchGridPos(mmdlSys, v[2], v[0], 0);
-        return;
+        return FLDMMDL_SysSearchGridPos(mmdlSys, v[2], v[0], 0);
     }
-    FLDMMDL_RAIL_GetFrontLocation(FIELD_PLAYER_CORE_GetMmdl(player->core), &v[3]);
-    FLDMMDL_RAIL_SearchMmdlByLocation(mmdlSys, &v[3], 0);
+    FLDMMDL_RAIL_GetFrontLocation( (Mmdl *)(FIELD_PLAYER_CORE_GetMmdl( (FieldPlayerCore *)player->core)), (RailLocation *)&v[3]);
+    return FLDMMDL_RAIL_SearchMmdlByLocation( (MmdlSys *)mmdlSys, (RailLocation *)&v[3], 0);
 }
 
 void FIELD_PLAYER_SearchFrontMmdlHeight(FieldPlayer *player, u32 limit)
@@ -573,8 +495,8 @@ void FIELD_PLAYER_SearchFrontMmdlHeight(FieldPlayer *player, u32 limit)
         FLDMMDL_SysSearchGridPosHeight(mmdlSys, v[2], v[0], v[1] << 16, limit, 0);
         return;
     }
-    FLDMMDL_RAIL_GetFrontLocation(FIELD_PLAYER_CORE_GetMmdl(player->core), &v[3]);
-    FLDMMDL_RAIL_SearchMmdlByLocation(mmdlSys, &v[3], 0);
+    FLDMMDL_RAIL_GetFrontLocation( (Mmdl *)(FIELD_PLAYER_CORE_GetMmdl( (FieldPlayerCore *)player->core)), (RailLocation *)&v[3]);
+    FLDMMDL_RAIL_SearchMmdlByLocation( (MmdlSys *)mmdlSys, (RailLocation *)&v[3], 0);
 }
 
 void FIELD_PLAYER_GetGridPosInDir(FieldPlayer *player, u32 dir, s16 *gridX, s16 *gridY, s16 *gridZ)
@@ -590,7 +512,7 @@ void FIELD_PLAYER_GetGridPosInDir(FieldPlayer *player, u32 dir, s16 *gridX, s16 
     }
 }
 
-void FIELD_PLAYER_GetPosInDir(FieldPlayer *player, int dir, int *out)
+void FIELD_PLAYER_GetPosInDir(FieldPlayer *player, int dir, VecFx32 *out)
 {
     int railPos[3];
     s16 drawOffset[3];
@@ -602,21 +524,21 @@ void FIELD_PLAYER_GetPosInDir(FieldPlayer *player, int dir, int *out)
     void *railMan;
     int unitScale;
 
-    mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
+    mmdl = FIELD_PLAYER_CORE_GetMmdl( (FieldPlayerCore *)player->core);
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
         FIELD_PLAYER_GetGridPosInDir(player, dir, &gridX, &gridY, &gridZ);
         FLDMMDL_MOVE_GridToVectorPos(gridX, gridZ, out);
-        out[1] = gridY << 16;
+        out->y = gridY << 16;
         return;
     }
-    railMan = FIELD_NOGRID_MAPPER_GetRailMan(FIELDMAP_GetNogridMapper(player->fieldMap));
-    FLDMMDL_RAIL_GetNextLocation(mmdl, location);
-    FIELD_RAIL_GetLocationPos(railMan, location, railPos);
+    railMan = FIELD_NOGRID_MAPPER_GetRailMan( (FieldNogridMapper *)(FIELDMAP_GetNogridMapper(player->fieldMap)));
+    FLDMMDL_RAIL_GetNextLocation( (Mmdl *)mmdl, (RailLocation *)location);
+    FIELD_RAIL_GetLocationPos( (RailManager *)railMan, (RailLocation *)location, (VecFx32 *)railPos);
     FLDMMDL_RAIL_GetDrawOffsetByDir(mmdl, dir, drawOffset);
     unitScale = FIELD_RAIL_GetUnitScale(railMan);
-    out[0] = railPos[0] + (int)(((long long)drawOffset[0] * unitScale + 0x800) >> 12);
-    out[1] = railPos[1] + (int)(((long long)drawOffset[1] * unitScale + 0x800) >> 12);
-    out[2] = railPos[2] + (int)(((long long)drawOffset[2] * unitScale + 0x800) >> 12);
+    out->x = railPos[0] + (int)(((long long)drawOffset[0] * unitScale + 0x800) >> 12);
+    out->y = railPos[1] + (int)(((long long)drawOffset[1] * unitScale + 0x800) >> 12);
+    out->z = railPos[2] + (int)(((long long)drawOffset[2] * unitScale + 0x800) >> 12);
 }
 
 void FIELD_PLAYER_GetFrontGridPos(FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ)
@@ -640,7 +562,7 @@ void FIELD_PLAYER_GetMoveOffsetInDir(FieldPlayer *player, int dir, s32 *out)
         dz = FLDMMDL_MOVE_GetDirAddGridZ(dir);
         out[0] = out[0] << 16;
         out[2] = dz << 16;
-        VEC_Normalize(out, out);
+        VEC_Normalize( (const VecFx32 *)out, (VecFx32 *)out);
         return;
     }
     FLDMMDL_RAIL_GetDrawOffsetByDir(mmdl, dir, offset);
@@ -760,7 +682,7 @@ void FIELD_PLAYER_UpdateNogrid(FieldPlayer *player, u32 a, u32 b)
 
 void FIELD_PLAYER_AttachNogridMmdl(FieldPlayer *player, int a)
 {
-    FIELD_PLAYER_NOGRID_AttachMmdl(player->nogrid, a);
+    FIELD_PLAYER_NOGRID_AttachMmdl( (FieldPlayerNogrid *)player->nogrid, (RailLocation *)a);
 }
 
 void FIELD_PLAYER_ResetNogrid(FieldPlayer *player)

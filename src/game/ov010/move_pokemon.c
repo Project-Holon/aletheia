@@ -121,6 +121,23 @@ struct MovePokemonSave;
 struct MovePokemonEntry;
 
 #include "../types.h"
+#include "../arm9/game_data.h"
+#ifdef __MWERKS__
+/* The original declares the save function without a prototype: its caller passes the int unchanged. */
+extern void MOVE_POKEMON_SAVE_SetCommonArea();
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
+extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct MovePokemonSave *block, u32 index);
+extern struct MovePokemonEntry *MOVE_POKEMON_SAVE_GetEntry(struct MovePokemonSave *block, u32 index);
+extern u8 MOVE_POKEMON_SAVE_GetEntryLocation(struct MovePokemonSave *block, u32 index);
+extern void MOVE_POKEMON_SAVE_SetEntryField(struct MovePokemonEntry *entry, u32 field, u32 value);
+extern void MOVE_POKEMON_SAVE_SetEntryState(struct MovePokemonSave *block, u32 index, u32 state);
+extern u8 MOVE_POKEMON_SAVE_GetEntryState(struct MovePokemonSave *block, u32 index);
+extern void MOVE_POKEMON_SAVE_InitEntry(struct MovePokemonEntry *entry);
+extern void MOVE_POKEMON_SAVE_SetEntryLocation(struct MovePokemonSave *block, u32 index, u8 location);
+extern u32 MOVE_POKEMON_SAVE_GetEntryField(const struct MovePokemonEntry *entry, u32 field);
+#else
+#include "../arm9/move_pokemon_save.h"
+#endif
 
 typedef enum { FALSE, TRUE } Bool;
 
@@ -149,147 +166,106 @@ typedef struct BattleResultWork {
 
 typedef struct SkillEventWork {
     u32 magic;                            /* 0x19740205 */
-    struct MapObject *playerObj;          /* 0x04 */
+    struct Mmdl *playerObj;          /* 0x04 */
     struct GameSystem *gameSys;           /* 0x08 */
     SkillTarget target;                   /* 0x0C */
 } SkillEventWork;
 
-extern void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, s32 reserved);
 struct ScriptWork;
 
-extern int SCRIPT_WORK_SetParams(struct ScriptWork *work, s32 param0, s32 param1, s32 param2, u16 param3);
+#include "script_work.h"
+extern void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, s32 reserved);
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, void *func, u32 workSize);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
-extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 struct PlayerWork;
 
-extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
 
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
-extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
 
-extern struct FieldStatus *GAME_DATA_GetMoveModelSys(struct GameData *gameData);
 
-extern int GAME_DATA_GetIntrudeCount(struct GameData *gameData);
 
-extern u32 TIMEZONE_GetNowTimeZone(u32 season);
+#include "../arm9/timezone.h"
 
-extern u16 FIELD_STATUS_GetMapEffectMask(struct FieldStatus *fieldStatus);
+#include "../arm9/field_status.h"
 
 /* overlay loading, heap, string helpers */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern u32 GFL_USE_GetRandomBelow(u32 range);
+#include "../arm9/gfl_use.h"
 struct Party;
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+#include "../arm9/pokeparty.h"
 
-extern u32 MYSTATUS_GetId(struct MyStatus *myStatus);
+#include "../arm9/mystatus.h"
 
 /* move_pokemon: roaming legendary save (arm9 unit_0200C7C0.c) */
-extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
 
-extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct MovePokemonSave *block, u32 index);
 
-extern struct MovePokemonEntry *MOVE_POKEMON_SAVE_GetEntry(struct MovePokemonSave *block, u32 index);
 
-extern u8 MOVE_POKEMON_SAVE_GetEntryLocation(struct MovePokemonSave *block, u32 index);
 
-extern int MOVE_POKEMON_SAVE_SetCommonArea();
 
-extern void MOVE_POKEMON_SAVE_SetEntryField(struct MovePokemonEntry *entry, u32 field, u32 value);
 
-extern u32 POKE_TOOL_GetPartyParamSize(void);
+#include "../arm9/poke_tool.h"
 
-extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, unsigned short species, unsigned short level, unsigned long long otId, unsigned int ivs, unsigned long long personality);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern void *ZUKAN_SAVE_GetBlock(void *saveControl);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
 
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
 
-extern void MOVE_POKEMON_SAVE_SetEntryState(struct MovePokemonSave *block, u32 index, u32 state);
 
-extern u8 MOVE_POKEMON_SAVE_GetEntryState(struct MovePokemonSave *block, u32 index);
 
-extern void MOVE_POKEMON_SAVE_InitEntry(struct MovePokemonEntry *entry);
 
-extern void MOVE_POKEMON_SAVE_SetEntryLocation(struct MovePokemonSave *block, u32 index, u8 location);
 
-extern u32 MOVE_POKEMON_SAVE_GetEntryField(const struct MovePokemonEntry *entry, u32 field);
 struct BattleSetupParam;
 
-extern void *BTL_SETUP_GetParty(struct BattleSetupParam *param, s32 client);
+#include "../arm9/btl_setup.h"
 
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
+#include "../ov021/field_player.h"
 
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 struct MmdlSys;
 
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
-extern u32 FIELD_PLAYER_GetFormCode(struct FieldPlayer *player);
 
-extern struct MapObject *FIELD_PLAYER_SearchFrontMmdl(struct FieldPlayer *player);
 
-extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
 
-extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *player);
 
-extern u32 FIELD_PLAYER_GetFrontAttribute(struct FieldPlayer *player, u32 index);
 
-extern int FIELD_PLAYER_CheckSurfStartAttr(struct FieldPlayer *player, int a, int b);
 
-extern int FIELD_PLAYER_CheckWaterfallClimbAttr(struct FieldPlayer *player, int a, int b);
 
-extern void FIELD_PLAYER_GetNowGridPos(struct FieldPlayer *player, u16 *x, u16 *y, u16 *z);
 struct Mmdl;
 
-extern u16 FLDMMDL_GetObjCode(struct Mmdl *mmdl);
-struct MmdlVec;
+#include "fldmmdl.h"
+struct VecFx32;
 
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 
-extern int FLDMMDL_IsMovedPosObjCode(u16 kind);
+#include "fldmmdl_poslog.h"
 
-extern int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos);
 
 int MOVE_POKEMON_IsInSkillArea(const Area *a, u16 x, u16 z, u32 flag, void *field);
 
-extern u32 ZONEDATA_IsFlyEnabled(u32 zoneId);
+#include "../arm9/zonedata.h"
 
-extern u32 ZONEDATA_IsWeatherEnabled(u32 zoneId);
 
-extern int FIELD_GetPlayerAreaZoneId(struct FieldMap *fieldMap, u16 *out);
+#include "../ov021/field_area_zone.h"
 
-extern u32 ZONEDATA_IsZoneInTableDFB8(u32 zoneId);
 
-extern u32 ZONEDATA_IsRawZoneF6(u32 zoneId);
 
-extern u32 ZONEDATA_IsRawZoneF7(u32 zoneId);
 
-extern u32 ZONEDATA_IsNormalFieldZone(u32 zoneId);
 
-extern void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx);
+#include "../ov021/event_sweet_scent.h"
 
 struct FieldStatus;
 
@@ -705,7 +681,7 @@ void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, FieldSkillInfo *out)
     u16 tileY;
     u16 tileZ;
     struct FieldPlayer *player;
-    struct MapObject *playerObj;
+    struct Mmdl *playerObj;
     void *map;
     u16 objKind;
     u32 playerA;
@@ -721,9 +697,9 @@ void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, FieldSkillInfo *out)
     playerObj = FIELD_PLAYER_SearchFrontMmdl(player);
     out->playerObj = playerObj;
     if (playerObj != 0) {
-        objKind = FLDMMDL_GetObjCode((struct Mmdl *)playerObj);
+        objKind = FLDMMDL_GetObjCode(playerObj);
         map = FIELDMAP_GetMmdlSys(fieldMap);
-        FLDMMDL_GetPos((struct Mmdl *)playerObj, (struct MmdlVec *)(&pos));
+        FLDMMDL_GetPos(playerObj, (struct VecFx32 *)(&pos));
         if (FLDMMDL_IsMovedPosObjCode(objKind) && FLDMMDL_CheckMovedPosAtMapPos(map, &pos) == 0)
             out->usableMask |= 8;
         if (objKind == 0x6C)
@@ -936,41 +912,36 @@ void *MOVE_POKEMON_CreateDiveEvent(SkillTarget *target, FieldSkillInfo *info)
     return SWEET_SCENT_CreateEvent(info->gameSys, info->fieldMap, target->id);
 }
 
-extern int GAME_BEACON_SEARCH_SetCountValue(u32 seId);
+#include "game_beacon_set.h"
 
-extern struct GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(struct GameSystem *gameSystem, s32 unused, s32 zoneId);
+#include "../ov021/fld_wipe_3dobj.h"
 
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 struct FieldSkillMapEff;
 
-extern struct FieldSkillMapEff *FIELDMAP_GetMapEff(struct FieldMap *fieldMap);
 struct FieldFlash;
 
-extern struct FieldFlash *FIELDSKILL_MAPEFF_GetFlash(struct FieldSkillMapEff *mapEff);
+#include "../ov021/fieldskill_mapeff.h"
 
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+#ifdef __MWERKS__
+extern void *SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u32 msgId, u32 b, u32 c, u32 d); /* original prototype; the definition differs in pointer type, pointer as integer, argument width */
+#else
+extern void*SCRIPT_SYS_CallScriptEvent(void*, u16, void*, void*, u16);
+#endif
 
-extern void *SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u32 msgId, u32 b, u32 c, u32 d);
 
-extern u8 FIELD_STATUS_IsFlashActive(struct FieldStatus *fieldStatus);
 
-extern void FIELD_STATUS_SetFlashActive(struct FieldStatus *fieldStatus, u8 on);
 
-extern void FIELD_FLASH_SetPendingCommand(void *mapEffect, u16 mode);
 
-extern void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fieldStatus, u32 mask);
+#include "../ov021/field_flash.h"
 
-extern u16 FIELD_FLASH_GetState(struct FieldFlash *flash);
 
-extern struct GameEvent *EVENT_MAPCHANGE_CreateEscapeRopeEvent(struct GameSystem *gameSystem);
 
-extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *next);
+#include "../ov020/event_mapchange.h"
 
-extern struct GameEvent *EVENT_MAPCHANGE_CreateSituationWarpEvent(struct GameSystem *gameSystem);
 
-extern struct GameEvent *EVENT_PERAP_RECORD_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 partySlot);
 
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
+#include "../ov021/scrcmd_misc.h"
+
 
 int MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused);
 

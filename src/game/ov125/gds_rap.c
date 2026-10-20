@@ -120,75 +120,28 @@
 struct MyStatus;
 struct SaveControl;
 
-extern int GF_OVERLAY_Load(s32 overlayId);
-extern void GF_OVERLAY_Unload(s32 overlayId);
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *message);
-extern void MI_CpuFill8(void *dst, int value, u32 size);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gf_panic.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
+#include "../arm9/msgdata.h"
 struct WordSet;
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
+#include "../arm9/gf_font.h"
+#include "../arm9/wordset.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u32 MYSTATUS_GetProfileId(const struct MyStatus *status);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
-extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
-extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 heapId);
-extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *save, u32 id, u32 arg);
-extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *save, u32 id);
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
+#include "../arm9/strbuf.h"
+#include "../arm9/game_data.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/save_control.h"
+#include "../arm9/gf_standard.h"
 
-extern void BATTLE_REC_GetModeLayout(u16 mode, s32 *sides, s32 *members);
-extern struct BattleRecSave *BATTLE_REC_GetWork(void);
-extern struct BattleRecBody *BATTLE_REC_GetBody(void);
-extern void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body);
-extern void BATTLE_REC_DecodeWork(void);
-extern void BATTLE_REC_EncodeWork(void);
-extern void BATTLE_REC_Encode(void *data, u32 size, u32 code);
-extern u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32 id, u16 *seq, u16 heap);
-extern void BATTLE_REC_Clear(struct BattleRecSave *rec);
+#include "../arm9/battle_rec.h"
 
-extern int NHTTP_RAP_StartConnection(NHTTPRapSession *session);
-extern void NHTTP_RAP_DeleteConnection(NHTTPRapSession *session);
-extern int NHTTP_RAP_PollConnection(NHTTPRapSession *session);
-extern char *NHTTP_RAP_GetRecvBuffer(NHTTPRapSession *session);
-extern NHTTPRapSession *NHTTP_RAP_Create(u32 heapId, u32 gameCode, char *source);
-extern void NHTTP_RAP_Destroy(NHTTPRapSession *session);
-extern void NHTTP_RAP_AllocPostData(NHTTPRapSession *session, int alignment, int size, int id);
-extern void NHTTP_RAP_AppendPostData(NHTTPRapSession *session, const void *src, int size);
-extern int NHTTP_RAP_CreatePostRequest(NHTTPRapSession *session);
-extern void NHTTP_RAP_FreePostData(NHTTPRapSession *session);
-extern int NHTTP_RAP_GetResultCode(NHTTPRapSession *session);
-extern int NHTTP_RAP_RecordList_GetCount(NHTTPRapRecordList *list);
-extern u32 NHTTP_RAP_RecordList_GetValue(NHTTPRapRecordList *list, u32 index);
-extern NHTTPRapRecord *NHTTP_RAP_RecordList_GetRecord(NHTTPRapRecordList *list, u32 index);
+#include "../ov114/nhttp_rap.h"
 
 /* ARM half of this file and gds_socket.c */
-extern int GDS_SOCKET_Begin(GdsClientInfo *client, const char *host, int port);
-extern void GDS_SOCKET_Shutdown(void);
-extern unsigned GDS_SOCKET_GetState(void);
-extern int GDS_SOCKET_GetError(void);
-extern void *GDS_SOCKET_GetReply(void);
-extern int GDS_SOCKET_GetReplySize(void);
-extern int GDS_SOCKET_GetMaxReplySize(int requestId);
-extern int GDS_SOCKET_SendUploadEntry(const GdsEntryBlocks *entry, void *replyBuffer);
-extern int GDS_SOCKET_SendDownloadEntries(int key, void *replyBuffer);
-extern int GDS_SOCKET_SendUploadVideo(const struct BattleRecSave *video, const void *ticket, int ticketLength, void *replyBuffer);
-extern int GDS_SOCKET_SendSearchByCondition(GdsSearchParams *params, void *replyBuffer);
-extern int GDS_SOCKET_SendSearchKind1(int limit, void *replyBuffer);
-extern int GDS_SOCKET_SendSearchKind3(int limit, void *replyBuffer);
-extern int GDS_SOCKET_SendSearchKind2(int limit, void *replyBuffer);
-extern int GDS_SOCKET_SendGetVideo(u32 dataNumberLo, u32 dataNumberHi, u32 version, void *replyBuffer);
-extern int GDS_SOCKET_SendMarkVideo(u32 dataNumberLo, u32 dataNumberHi, void *replyBuffer);
+#include "gds_socket.h"
 
 int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params);
 void GDS_RAP_Exit(GdsRapWork *work);
@@ -256,7 +209,7 @@ int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
     MI_CpuFill8(work->replyBuffer, 0, GDS_SOCKET_GetMaxReplySize(-1));
     work->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0xE8, params->heapId);
     work->wordSet = WORDSET_CreateDefault(params->heapId);
-    work->strBuf = (struct StrBuf *)STRBUF_Create(0x100, params->heapId);
+    work->strBuf = (struct Strbuf *)STRBUF_Create(0x100, params->heapId);
     work->client.profileId = params->profileId;
     work->client.packetType = PM_VERSION_ID;
     work->client.protocolVersion = 2;

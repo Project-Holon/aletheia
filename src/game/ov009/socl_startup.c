@@ -49,51 +49,16 @@ typedef struct SoclSocketParam {
     unsigned long word[16];
 } SoclSocketParam;
 
-#include "../types.h"
+#include "cps_network.h"
+#include "cps_types.h"
 
-typedef struct
-{
-    u32 mode;
-    void *(*alloc)(u32);
-    void (*free)(void *);
-    void (*dhcp_callback)(void);
-    int (*link_is_on)(void);
-    u64 random_seed;
-    u8 *lan_buf;
-    u32 lan_buflen;
-    u32 mymss;
-    u32 requested_ip;
-    u32 yield_wait;
-} CPSConfig;
-
-typedef struct
-{
-    u32 addr;
-    u32 mask;
-    u32 gateway;
-    u32 dns;
-    u32 dns2;
-} SOCLHostIp;
-
-typedef struct
-{
-    int use_dhcp;
-    SOCLHostIp host_ip;
-    void *(*alloc)(u32);
-    void (*free)(void *);
-    u32 cmd_packet_max;
-    u32 lan_buffer_size;
-    void *lan_buffer;
-    long cps_thread_prio;
-    long mtu;
-    long rwin;
-} SOCLConfig;
+#include "socl_command_types.h"
 
 static u32 SOCLiDefaultLanBufferSize = 0x4000;
 #pragma explicit_zero_data on
 static SOCLConfig *SOCLiConfigPtr = 0;
 #pragma explicit_zero_data reset
-static CPSConfig SOCLiCPSConfig = { 0 };
+CPSConfig SOCLiCPSConfig = { 0 };
 static u32 SOCLiDhcpState = 0;
 static u32 SOCLiRequestedIP = 0;
 static void *SOCLiUDPSendSocket = 0;
@@ -102,24 +67,19 @@ static u32 SOCLiYieldWait = 0;
 extern SoclSocketParam SOCLSocketParamTCP;
 extern u32 gCpsMyIp;
 
-void MI_CpuFill8(void *dstp, u8 data, u32 size);
-void CPS_SetThreadPriority(u32 new_prio);
+#include "../arm9/mi_memory.h"
 void WCM_SetRecvDCFCallback(void (*callback)(u8 *, u8 *, u8 *, long));
-void CPS_SetScavengerCallback(void (*f)(void));
-void CPS_SetCheckNConfigCallback(int (*f)(void));
 void CPS_Startup(CPSConfig *config);
 int SOCL_LinkIsOn(void);
 void SOCLi_SetMyIP(void);
 void SOCLi_DhcpTimeout(void);
-void CPSi_RecvCallbackFunc(u8 *, u8 *, u8 *, long);
-void SOCLi_TrashSocket(void);
-int SOCLi_CheckNConfig(void);
-extern void OSi_ReferSymbol(const void *symbol);
-extern void SOCLi_InitResource(void);
-extern void SOCLi_CleanupCPS(void);
-extern int SOCLi_StartupCommandPacketQueue(long cp_max_count);
+#include "socl_close.h"
+#include "socl_misc.h"
+#include "../arm9/crt0.h"
+#include "socl_cleanup.h"
+#include "socl_command.h"
 struct SOCLSocketParam;
-extern int SOCL_CreateSocket(struct SOCLSocketParam *param);
+#include "socl_create.h"
 extern unsigned char *WCM_GetApMacAddress(void);
 extern char gSoclStartupSdkRef[42];
 extern int gSoclUdpSendSocketParam;
@@ -214,9 +174,9 @@ static void SOCLi_StartupCPS(void)
         cps_config->dhcp_callback = SOCLi_SetMyIP;
     }
     CPS_SetThreadPriority(socl_config->cps_thread_prio == 0 ? 0xB : socl_config->cps_thread_prio);
-    WCM_SetRecvDCFCallback(CPSi_RecvCallbackFunc);
+    WCM_SetRecvDCFCallback((void (*)(unsigned char *, unsigned char *, unsigned char *, long))CPSi_RecvCallbackFunc);
     CPS_SetScavengerCallback(SOCLi_TrashSocket);
-    CPS_SetCheckNConfigCallback(SOCLi_CheckNConfig);
+    CPS_SetCheckNConfigCallback((void *)SOCLi_CheckNConfig);
     CPS_Startup(cps_config);
 }
 

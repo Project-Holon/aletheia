@@ -76,17 +76,6 @@ typedef struct {
     u8 pad[3];
 } MBCommRequestData;
 
-typedef struct {
-    u8 type;
-    u8 pad1[1];
-    union {
-        struct {
-            u16 req;
-            u8 reserved[14];
-        } data;
-        u8 raw[16];
-    } u;
-} MBCommChildBlockHeader;
 
 typedef struct {
     char pad[0x1e0];
@@ -106,41 +95,26 @@ struct bitmap {
     u16 mem_full;
 };
 
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32 enabled);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void MBi_ClearParentPieceBuffer(u16 child_aid);
-extern void MB_UpdateGameInfoMember(unsigned char *gameInfop, void *member, unsigned short nowPlayerFlag, unsigned short changePlayerFlag);
-extern u32 MBi_GetGgid(void);
-extern u16 MBi_GetTgid(void);
-extern u8 MBi_GetAttribute(void);
-extern void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u8 attribute);
-extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
-struct hdr;
-extern u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, struct hdr *hdr, u16 child_id);
+#include "../arm9/os_system.h"
+#include "../arm9/mi_memory.h"
+#include "mb_block.h"
+#include "mb_gameinfo.h"
+#include "mb_wm_base.h"
 extern void MBi_CommChangeParentState(u16 child, int state, void *arg);
-extern struct WMMpRecvData *WM_ReadMPData(const struct WMMpRecvHeader *header, u16 aid);
+#include "../arm9/wm_sync.h"
 static void MBi_CommParentRecvDataPerChild(void *arg, unsigned short child);
 static int MBi_CommParentSendData(void);
-extern u8 *MBi_MakeParentSendBuffer(MBCommParentBlockHeader *hdr, u8 *sendbuf);
-extern int MBi_BlockHeaderEnd(int body_len, u16 pollbmp, u32 *sendbuf);
-extern struct FSArchive *FS_FindArchive(const char *name, int name_len);
-extern int OS_IsRunOnTwl(void);
-extern void *CARD_GetOwnRomHeaderTWL(void);
-extern void FS_InitFile(void *file);
-extern int FS_OpenFileDirect(void *file, void *arc, u32 top, u32 bottom, u32 id);
-extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
-extern int FS_CloseFile(void *file);
+#include "mb_common.h"
+#include "../arm9/fs_archive.h"
+#include "../arm9/os_emulator.h"
+#include "../arm9/card_api.h"
+#include "../arm9/fs_file.h"
 extern void MBi_calc_sendblock(u8 file_id);
-extern int MBi_get_blockinfo(MB_BlockInfo *bi, MB_BlockInfoTable *table,
-                             u32 block, MbDownloadFileInfoHeader *mdfi);
-extern int MBi_ReadFromCache(MBiCacheList *pl, u32 src, void *dst, u32 len);
-extern int MBi_IsTaskBusy(MBiTaskInfo *pt);
-extern void OS_Terminate(void);
-struct MBiTaskInfo_tag;
-extern void MBi_SetTask(struct MBiTaskInfo_tag *pt, void (*task)(MBiTaskInfo *), void (*callback)(MBiTaskInfo *), u32 priority);
-extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
+#include "mb_fileinfo.h"
+#include "mb_cache.h"
+#include "mb_task.h"
+#include "../arm9/os_terminate_processor.h"
+struct MBiTaskInfo;
 void MB_CommSetParentStateCallback(MBParentStateCallback callback);
 void *MB_CommGetChildUser(unsigned short child_aid);
 int MB_CommIsBootable(unsigned short child_aid);
@@ -477,7 +451,7 @@ static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
     if (child == 0 || child > 15)
         return;
 
-    p_data = MBi_SetRecvBufferFromChild((u8 *)arg + 0xa, (struct hdr *)(&hd), child);
+    p_data = MBi_SetRecvBufferFromChild((u8 *)arg + 0xa, &hd, child);
 
     state = pPwork->p_comm_state[child - 1];
 
@@ -694,7 +668,7 @@ void MBi_ReloadCache(MBiTaskInfo *p_task)
         arc = p_list->arc_pointer;
     }
     if (OS_IsRunOnTwl() && arc == FS_FindArchive(g_021F6E4C, 3)) {
-        header = CARD_GetOwnRomHeaderTWL();
+        header = (RomHeader *)CARD_GetOwnRomHeaderTWL();
         boundary_ntr = header->ntr_off + header->ntr_len;
         boundary_ltd = header->ltd_off + header->ltd_len;
         if (p_info->src < boundary_ntr && p_info->src + length > boundary_ntr) {
@@ -703,12 +677,12 @@ void MBi_ReloadCache(MBiTaskInfo *p_task)
             length = boundary_ltd - p_info->src;
         }
     }
-    FS_InitFile(file);
-    if (FS_OpenFileDirect(file, arc, p_info->src, p_info->src + length, 0xffffffff)) {
+    FS_InitFile((FSFile *)file);
+    if (FS_OpenFileDirect((FSFile *)file, (FSArchive *)arc, p_info->src, p_info->src + length, 0xffffffff)) {
         if (length == FS_ReadFile((struct FSFile *)file, p_info->ptr, length)) {
             p_info->state = 2;
         }
-        FS_CloseFile(file);
+        FS_CloseFile((FSFile *)file);
     }
     if (p_info->state != 2) {
         p_info->src = 0;
@@ -779,7 +753,7 @@ int MBi_CommParentSendBlock(void)
 					trg->src = (card_addr & ~31);
 					p_task->param[0] = (u32)trg;
 					p_task->param[1] = (u32)pl;
-					MBi_SetTask((struct MBiTaskInfo_tag *)p_task, MBi_ReloadCache, 0, 4);
+					MBi_SetTask((struct MBiTaskInfo *)p_task, MBi_ReloadCache, 0, 4);
 				}
 			}
 			return 0x15;

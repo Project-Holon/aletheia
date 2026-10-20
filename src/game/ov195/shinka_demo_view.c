@@ -143,7 +143,7 @@
 
 #define H(n) (*(s16 *)(p+(n)))
 
-#define V(n) (*(Vec *)(q+(n)))
+#define V(n) (*(ShinkaDemoViewVec *)(q+(n)))
 
 #define REG_MTX_SCALE      (*(vu32 *)0x0400046C)
 
@@ -167,7 +167,7 @@ struct Bmp;
 
 #include "../types.h"
 
-typedef struct Cell {
+typedef struct ShinkaDemoViewCell {
     u32 life;
     fx32 s0, s1, t0, t1;
     u8 visible;
@@ -179,16 +179,16 @@ typedef struct Cell {
     s32 velX, velY, velZ, angle, radius, height, targetX, targetY, targetZ, progress;
     VecFx32 cur;
     VecFx32 org;
-} Cell;
+} ShinkaDemoViewCell;
 
 typedef struct Row {
-    Cell cell[0x12];
+    ShinkaDemoViewCell cell[0x12];
 } Row;
 
-typedef struct CharData {
+typedef struct ShinkaDemoViewCharData {
     u8 pad00[0x14];
     u8 *raw;
-} CharData;
+} ShinkaDemoViewCharData;
 
 typedef struct PlttData {
     u8 pad00[0xc];
@@ -196,7 +196,7 @@ typedef struct PlttData {
 } PlttData;
 
 typedef struct Grid {
-    CharData *chr;
+    ShinkaDemoViewCharData *chr;
     PlttData *pltt;
     void *chrRes;
     void *plttRes;
@@ -233,12 +233,12 @@ typedef struct Quad {
     u8 rowCount;
 } Quad;
 
-typedef struct Work {
+typedef struct ShinkaDemoViewWork {
     u32 phase;
     void *camera;
     Grid *grid[2];
     Quad *quad;
-} Work;
+} ShinkaDemoViewWork;
 
 typedef struct Owner {
     u16 heap;
@@ -265,7 +265,7 @@ typedef struct Owner {
     u8 pad49[3];
     void *sys;
     void *obj[2];
-    Work *work;
+    ShinkaDemoViewWork *work;
     u32 useMcss;
 } Owner;
 
@@ -278,146 +278,104 @@ typedef struct GlbState {
 
 typedef struct SC {s16 s;s16 c;} SC;
 
-typedef struct {fx32 x,y,z;} Vec;
+typedef struct {fx32 x,y,z;} ShinkaDemoViewVec;
 
 typedef struct {fx32 a[12];} Matrix;
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/nns_g3d_anm_calc_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
+#include "../sdk_nnsfnd.h"
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, void *);
+#include "../arm9/g3d_camera.h"
 
-extern u32 G3D_CAMERA_Delete(void *ptr);
 struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
-extern void G3D_SYSTEM_ApplyLookAt(void);
+#include "../arm9/g3d_system.h"
 
-extern u32 POKE_TOOL_GetPartyParamSize(void);
+#include "../arm9/poke_tool.h"
 struct PartyPokemon;
 
-extern void POKE_TOOL_CopyPartyPokemon(struct PartyPokemon *src, struct PartyPokemon *dest);
 struct PokemonParam;
 
-extern void POKE_TOOL_ChangeSpecies(struct PokemonParam *pp, unsigned int species);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
-extern u32 PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, void **recordedVoice);
+#include "../arm9/pm_voice.h"
 
-extern int PM_VOICE_IsAnyActive(void);
 struct McssWork;
 
-extern void MCSS_SetPaletteFade(struct McssWork *work, unsigned int start, unsigned int end, int wait, unsigned int color);
+#include "../arm9/mcss.h"
 
-extern void MCSS_SetAnmStopFlag(struct McssWork *work);
 
-extern int MCSS_CheckPaletteFade(struct McssWork *work);
 
-extern void *MCSS_GetAnimCtrl(struct McssWork *work);
 struct MultiCellAnim;
 
-extern void NNS_G2dRestartMCAnimation(struct MultiCellAnim *pMCAnim);
+#include "../arm9/nns_g2d_multi_cell_animation.h"
 
-extern void MCSS_ResetVanishFlag(struct McssWork *work);
 
-extern void MCSS_SetVanishFlag(struct McssWork *work);
 
-extern void MCSS_ResetAnmStopFlag(struct McssWork *work);
 
-extern void MCSS_Main(struct McssSys *sys);
 
-extern void MCSS_Draw(struct McssSys *sys);
 
-extern struct McssSys *MCSS_Init(unsigned int maxCount, unsigned int heapId);
 
-extern void MCSS_SetTextureTransAdrs(struct McssSys *sys, unsigned int adrs);
 
-extern void MCSS_SetOrthoMode(struct McssSys *sys);
 
-extern void MCSS_Exit(struct McssSys *sys);
 
-extern struct McssWork *MCSS_TOOL_AddPokeMcss(struct McssSys *sys, void *pp, unsigned int direction, int x, int y, int z);
 
-extern void MCSS_SetShadowVanishFlag(struct McssWork *work, int flag);
 
-extern int MCSS_TOOL_SetAnimeStopCallback(struct McssWork *work);
 
-extern void MCSS_SetScale(struct McssWork *work, unsigned int *src);
 
-extern void MCSS_Del(struct McssSys *sys, struct McssWork *work);
 
-extern u16 MCSS_GetSizeY(struct McssWork *work);
 
-extern s16 MCSS_GetOfsY(struct McssWork *work);
 
-extern s16 MCSS_GetOfsX(struct McssWork *work);
 
-extern void MCSS_SetOfsPosition(struct McssWork *work, unsigned int *src);
 
-extern void MCSS_GetPosition(struct McssWork *work, unsigned int *out);
 
-extern void MCSS_SetPosition(struct McssWork *work, unsigned int *src);
 
-extern u8 POKE_TOOL_GetGender(struct PokemonParam *pp);
 
-extern u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
 struct G3dProjection;
 
-extern void G3D_SYSTEM_GetProjection(struct G3dProjection *proj);
 struct G3dLookAt;
 
-extern void G3D_SYSTEM_GetLookAt(struct G3dLookAt *lookAt);
 
-extern void MTX_Identity33_(MtxFx33 *m);
+#include "../arm9/fx_mtx33.h"
 
-extern void NNS_G3dGlbBaseTrans(const VecFx32 *trans);
+#include "../arm9/nns_g3d_glb.h"
 
-extern void MI_Copy36B(const MtxFx33 *src, MtxFx33 *dst);
+#include "../arm9/mi_memory.h"
 
-extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
 
-extern void NNS_G3dGeFlushBuffer(void);
+#include "../arm9/nns_g3d_ge.h"
 
-extern void G3D_SYSTEM_SetProjection(struct G3dProjection *proj);
 
-extern void G3D_SYSTEM_SetLookAt(struct G3dLookAt *lookAt);
 
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern int POKEGRA_GetArcID(void);
+#include "../arm9/pokegra.h"
 
-extern s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
+#include "../arm9/arc_util.h"
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
-extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
 
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
-extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
+#include "../arm9/nns_gfd_vram_transfer.h"
 
-extern void BMP_Delete(struct Bmp *bmp);
 
-extern int FX_Sqrt(int);
+#include "../arm9/fx_cp.h"
 
-extern u32 FX_Div(u32 a, u32 b);
 
-extern void MTX_RotY43_(Matrix *,fx32,fx32);
+#include "../arm9/fx_mtx43.h"
+union MtxFx43;
+struct VecFx32;
 
-extern void MTX_MultVec43(const Vec *,const Matrix *,Vec *);
 
-extern fx32 FX_InvSqrt(fx32);
 
 Owner *SHINKA_DEMO_VIEW_Create(u16 heap, u32 mode, void *res0, u16 evolvedSpecies);
 
@@ -946,7 +904,7 @@ static inline fx32 FX_CosIdx(int idx)
 
 void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
 {
-    Work *w = GFL_HEAP_Alloc(o->heap, sizeof(Work), 1, d_02208F68, 0x54c);
+    ShinkaDemoViewWork *w = GFL_HEAP_Alloc(o->heap, sizeof(ShinkaDemoViewWork), 1, d_02208F68, 0x54c);
     Grid *g;
     u32 a, b, c;
     u8 j, k;
@@ -994,7 +952,7 @@ void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
         VecFx32 cameraTarget = d_02208E80;
         VecFx32 cameraUp = {0, 0, 0};
 
-        w->camera = (void *)G3D_CAMERA_Create(0, FX_SinIdx(0xe3), FX_CosIdx(0xe3), 0x1555, 0, 0x1000, 0x400000, 0, &cameraPos, &cameraTarget, &cameraUp, (void *)o->heap);
+        w->camera = (void *)G3D_CAMERA_Create(0, FX_SinIdx(0xe3), FX_CosIdx(0xe3), 0x1555, 0, 0x1000, 0x400000, 0, (VecFx32 *)&cameraPos, (VecFx32 *)&cameraTarget, (VecFx32 *)&cameraUp, o->heap);
     }
 }
 
@@ -1005,11 +963,11 @@ void SHINKA_DEMO_VIEW_CreateWork(Owner *o)
 #define FX_F32_TO_FX32(x) \
     ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
-void SHINKA_DEMO_VIEW_DeleteWork(char *owner){char *q;u8 i;q=*(char * *)&((Owner *)owner)->work;G3D_CAMERA_Delete((void *)(((Work *)q)->camera));if(((Work *)q)->quad)SHINKA_DEMO_VIEW_FreeQuad(((Work *)q)->quad,((Owner *)owner)->heap);for(i=0;i<2;i++){if(*(char **)(q+i*4+8))SHINKA_DEMO_VIEW_DeleteGrid(*(char **)(q+i*4+8),((Owner *)owner)->heap);}GFL_HEAP_Free(q);}
+void SHINKA_DEMO_VIEW_DeleteWork(char *owner){char *q;u8 i;q=*(char * *)&((Owner *)owner)->work;G3D_CAMERA_Delete((void *)(((ShinkaDemoViewWork *)q)->camera));if(((ShinkaDemoViewWork *)q)->quad)SHINKA_DEMO_VIEW_FreeQuad(((ShinkaDemoViewWork *)q)->quad,((Owner *)owner)->heap);for(i=0;i<2;i++){if(*(char **)(q+i*4+8))SHINKA_DEMO_VIEW_DeleteGrid(*(char **)(q+i*4+8),((Owner *)owner)->heap);}GFL_HEAP_Free(q);}
 
 void SHINKA_DEMO_VIEW_Update(Owner *o)
 {
-    Work *w = o->work;
+    ShinkaDemoViewWork *w = o->work;
     u16 heap = o->heap;
     u8 i;
     Grid *g;
@@ -1038,7 +996,7 @@ void SHINKA_DEMO_VIEW_Draw3d(Owner *o)
 {
     u8 save0[0x20];
     u8 save1[0x24];
-    Work *w = o->work;
+    ShinkaDemoViewWork *w = o->work;
     u8 i;
 
     G3D_SYSTEM_GetProjection((struct G3dProjection *)save0);
@@ -1079,7 +1037,7 @@ void SHINKA_DEMO_VIEW_Draw3d(Owner *o)
  */
 void SHINKA_DEMO_VIEW_BeginIntro(Owner *o)
 {
-    Work *w = o->work;
+    ShinkaDemoViewWork *w = o->work;
 
     if (w->phase == 0)
         w->phase = 1;
@@ -1095,7 +1053,7 @@ int SHINKA_DEMO_VIEW_IsMenuReady(int *owner)
 void SHINKA_DEMO_VIEW_ShowMenu(int *owner)
 {
     char *q = *(char * *)&((Owner *)owner)->work;
-    int *r = *(int * *)&((Work *)q)->grid[0];
+    int *r = *(int * *)&((ShinkaDemoViewWork *)q)->grid[0];
     int v = r[0x28 / 4];
 
     if (v == 1) return;
@@ -1113,8 +1071,8 @@ void SHINKA_DEMO_VIEW_SetModelsPos(char *owner, u32 x, u32 y, u32 z)
         if (*(void **)(t + i * 4 + 8) != 0)
             SHINKA_DEMO_VIEW_SetModelOffset(*(void **)(t + i * 4 + 8), ((Owner *)owner)->heap, x, y, z);
     }
-    if (((Work *)t)->quad != 0)
-        SHINKA_DEMO_VIEW_SetQuadOffset((char *)((Work *)t)->quad, ((Owner *)owner)->heap, x, y, z);
+    if (((ShinkaDemoViewWork *)t)->quad != 0)
+        SHINKA_DEMO_VIEW_SetQuadOffset((char *)((ShinkaDemoViewWork *)t)->quad, ((Owner *)owner)->heap, x, y, z);
 }
 
 void SHINKA_DEMO_VIEW_SetModelOffset(char *grid, int unused, int c, int d, int e)
@@ -1127,7 +1085,7 @@ void SHINKA_DEMO_VIEW_SetModelOffset(char *grid, int unused, int c, int d, int e
 void SHINKA_DEMO_VIEW_StartFadeOut(Owner *o)
 {
     int heap = o->heap;
-    Work *w = o->work;
+    ShinkaDemoViewWork *w = o->work;
     u8 i;
     Grid *g;
 
@@ -1256,9 +1214,9 @@ void SHINKA_DEMO_VIEW_InitGrid(Grid *grid, u16 heap)
     int m;
     float s, t;
     int l2;
-    Cell *e;
+    ShinkaDemoViewCell *e;
     int dx, dy, dz, l1;
-    Cell *row;
+    ShinkaDemoViewCell *row;
     long long lx, ly, lz;
 
     SHINKA_DEMO_VIEW_SetupGridCells((Grid *)grid, heap);
@@ -1349,7 +1307,7 @@ void SHINKA_DEMO_VIEW_SetupGridCells(Grid *p, u16 heap)
     float originX, originY, c, d;
     int q, r;
     float A, z, k;
-    Cell *e;
+    ShinkaDemoViewCell *e;
 
     p->v.x = 0;
     p->v.y = 0;
@@ -1417,7 +1375,7 @@ void SHINKA_DEMO_VIEW_DrawGrid(Grid *w, u16 heap)
 {
     int j;
     int i;
-    Cell *c;
+    ShinkaDemoViewCell *c;
 
     REG_TEXIMAGE_PARAM = (w->tex >> 3) | 0x6E430000;
     REG_TEXPLTT_BASE = w->plttAddr >> 4;
@@ -1455,7 +1413,7 @@ void SHINKA_DEMO_VIEW_DrawGrid(Grid *w, u16 heap)
 
 void SHINKA_DEMO_VIEW_DrawGridRotated(Owner *o)
 {
-    Work *w = o->work;
+    ShinkaDemoViewWork *w = o->work;
     u16 heap = o->heap;
     Grid *s;
     Grid *d;
@@ -1557,15 +1515,15 @@ void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p,u16 heap)
 {
     int first,second,done;
     int angle,dx,dy,dz,horiz,vert,inv,vx,vy,vz,smallH,smallV;
-    Vec goal;
+    ShinkaDemoViewVec goal;
     Matrix m1;
-    Vec source1;
+    ShinkaDemoViewVec source1;
     Matrix m2;
-    Vec source2;
+    ShinkaDemoViewVec source2;
     Matrix m3;
-    Vec source3;
+    ShinkaDemoViewVec source3;
     Matrix m4;
-    Vec source4;
+    ShinkaDemoViewVec source4;
     int first3,second3,done3;
     int horiz1,horiz2,vert1,vert2;
     int nx,ny,nz;
@@ -1584,9 +1542,9 @@ void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p,u16 heap)
         for(i=0;i<18;i++)for(j=0;j<18;j++){
             char *q=p+0x74+i*0x900+j*0x80;
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
-            MTX_RotY43_(&m1,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+            MTX_RotY43_((union MtxFx43 *)&m1,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
             source1.x=Q(0x50);source1.y=0;source1.z=0;
-            MTX_MultVec43(&source1,&m1,&goal);goal.y=Q(0x54);
+            MTX_MultVec43((struct VecFx32 *)(&source1),(union MtxFx43 *)(&m1),(struct VecFx32 *)(&goal));goal.y=Q(0x54);
             if(Q(0x64)==0){
                 if(first||second){Q(0x30)=0;Q(0x64)=1;if(first)first=0;else second=0;}
                 done=0;
@@ -1623,9 +1581,9 @@ void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p,u16 heap)
         for(i=0;i<18;i++)for(j=0;j<18;j++){
             char *q=p+0x74+i*0x900+j*0x80;
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
-            MTX_RotY43_(&m2,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+            MTX_RotY43_((union MtxFx43 *)&m2,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
             source2.x=Q(0x50);source2.y=0;source2.z=0;
-            MTX_MultVec43(&source2,&m2,&V(0x68));Q(0x6c)=Q(0x54);
+            MTX_MultVec43((struct VecFx32 *)(&source2),(union MtxFx43 *)(&m2),(struct VecFx32 *)(&V(0x68)));Q(0x6c)=Q(0x54);
         }
         if(SHINKA_DEMO_VIEW_IsGridState3(p,heap)&&G(0x70)>=30){
             j=H(0x5a);i=H(0x5c);
@@ -1649,16 +1607,16 @@ void SHINKA_DEMO_VIEW_InitGridFromPokemon(char *p,u16 heap)
             if(Q(0x64)==2){
                 if(first3||second3){Q(0x30)=0;Q(0x64)=3;if(first3)first3=0;else second3=0;}
                 else{
-                    MTX_RotY43_(&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+                    MTX_RotY43_((union MtxFx43 *)&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
                     source3.x=Q(0x50);source3.y=0;source3.z=0;
-                    MTX_MultVec43(&source3,&m3,&V(0x68));Q(0x6c)=Q(0x54);
+                    MTX_MultVec43((struct VecFx32 *)(&source3),(union MtxFx43 *)(&m3),(struct VecFx32 *)(&V(0x68)));Q(0x6c)=Q(0x54);
                 }
                 done3=0;
             }else if(Q(0x64)==3){
                 if(Q(0x30)==0){
-                    MTX_RotY43_(&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+                    MTX_RotY43_((union MtxFx43 *)&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
                     source4.x=Q(0x50);source4.y=0;source4.z=0;
-                    MTX_MultVec43(&source4,&m4,&V(0x68));Q(0x6c)=Q(0x54);
+                    MTX_MultVec43((struct VecFx32 *)(&source4),(union MtxFx43 *)(&m4),(struct VecFx32 *)(&V(0x68)));Q(0x6c)=Q(0x54);
                     vx=sub(Q(0x68),Q(0x74));vy=sub(Q(0x6c),Q(0x78));vz=sub(Q(0x70),Q(0x7c));
                     horiz1=mul(vx,vx)+mul(vz,vz);vert1=(int)(((long long)vy*vy+2048)>>12);
                     if(horiz1>4096){inv=FX_InvSqrt(horiz1);nx=mul(vx,inv);nz=mul(vz,inv);}

@@ -32,10 +32,9 @@
 
 extern int strncmp(u8 *s1, u8 *s2, u32 n);
 extern u8 *strncpy(u8 *dest, u8 *src, u32 n);
-extern void *DWC_Alloc(int name, u32 size);
-extern void DWC_Free(int name, void *ptr, u32 size);
-extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
-extern void MATH_CalcSHA1(void *digest, void *data, u32 len);
+#include "../arm9/dwc_memfunc.h"
+#include "../ov009/gsplatformutil.h"
+#include "../arm9/dgt_sha1.h"
 
 unsigned long b64size(unsigned long len);
 void my_randinit(u32 seed);

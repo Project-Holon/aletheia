@@ -22,22 +22,17 @@
  *   DC_FlushRange  0x020862F0  arm
  *   GX_LoadOAM  0x0207E684  arm
  *   GXS_LoadOAM  0x0207E708  arm
- *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteEx  0x021D7744  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   DWCi_QUElPushBack  0x021D546C  arm  ov016
  */
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
-extern void MIi_CpuClearFast(unsigned long data, void *dst, unsigned long size);
-extern void *DWCi_QUElFormEx(long size, void *data, long dsize);
+#include "heap.h"
+#include "../arm9/mi_memory.h"
+#include "deque.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void DC_FlushRange(void *start, unsigned long n);
-extern void GX_LoadOAM(void *src, unsigned long off, unsigned long sz);
-extern void GXS_LoadOAM(void *src, unsigned long off, unsigned long sz);
-extern void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, struct TCB *task);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void *DWCi_QUElPopBack(void *queue);
-extern void DWCi_QUElPushBack(void *que, void *elem);
+#include "task.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/gx_load2d.h"
 void DWCi_OBJlInit(void);
 void DWCi_OBJlEnd(void);
 union GXOamAttr *DWCi_OBJlFormGx(unsigned int i);
@@ -76,7 +71,7 @@ static void taskTransfer(void)
  */
 void DWCi_OBJlEnd(void)
 {
-	DWCi_TSKlDeleteByIndex(1, *(void **)(gObjWork + 0x808));
+	DWCi_TSKlDeleteEx(1, *(void **)(gObjWork + 0x808));
 	DWCi_HEAPlFree_((void *)0x021DE6A8);
 }
 

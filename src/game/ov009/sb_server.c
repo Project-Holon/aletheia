@@ -82,34 +82,26 @@ typedef struct {
 } InvalidKeyList;
 
 extern int strcmp_nocase(char *s1, char *s2);
-extern void gsifree(void *ptr);
-extern struct HashImplementation *TableNew2(int elemSize, int nBuckets,
-    int nChains, int (*hashFn)(void *, int), int (*compFn)(void *, void *),
-    void (*freeFn)(void *));
-extern int TableCount(struct HashImplementation *table);
-extern void TableFree(struct HashImplementation *table);
-extern char *SBRefStr(void *slist, char *str);
-extern void TableEnter(struct HashImplementation *table, void *newElem);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern void *TableLookup(struct HashImplementation *table, void *elemKey);
+#include "gsmemory.h"
+#include "hashtable.h"
+#include "sb_server_types.h"
+#include "sb_serverlist.h"
+#include "gsdebug.h"
+#include "../arm9/os_printf.h"
 extern char *SBServerGetStringValueA(SBServer *server, char *keyname,
                                      char *def);
 extern double atof(char *s);
-extern int qr2_internal_is_master_only_key(char *keyname);
-extern int NTSLengthSB(char *buf, int len);
+#include "qr2regkeys.h"
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
-extern void SBReleaseStr(void *slist, char *str);
 extern int strcmp_nocase(char *a, char *b);
-extern void *gsimalloc(unsigned long size);
 static int KeyValCompareKey(void *a, void *b);
 static void KeyValFree(void *elem);
 extern int KeyValHashKey(void *elem, int numbuckets);
 int RefStringHash(void *elem, int numbuckets);
 int RefStringCompare(void *entry1, void *entry2);
 void RefStringFree(void *elem);
-struct HashImplementation *SBRefStrHash(void);
-void SBRefStrHashCleanup(void);
+struct HashImplementation *SBRefStrHash(struct SBServerList *slist);
+void SBRefStrHashCleanup(struct SBServerList *slist);
 void SBServerFree(void *elem);
 void SBServerAddKeyValue(SBServer *server, char *keyname, char *value);
 void SBServerAddIntKeyValue(SBServer *server, char *keyname, int value);
@@ -153,7 +145,7 @@ extern char g_021A81AC[];
 extern unsigned char __lower_mapC[];
 
 extern int strcmp(const char *a, const char *b);
-extern int atoi(u32 s);
+extern int atoi(const char *s);
 extern int strnicmp(unsigned char *s1, unsigned char *s2, int n);
 int RefStringHash(void *elem, int numbuckets)
 {
@@ -170,7 +162,7 @@ void RefStringFree(void *elem)
     gsifree(*(void **)elem);
 }
 
-struct HashImplementation *SBRefStrHash(void)
+struct HashImplementation *SBRefStrHash(struct SBServerList *slist)
 {
     if (g_021AEAF8[1] != 0)
         return g_021AEAF8[1];
@@ -179,7 +171,7 @@ struct HashImplementation *SBRefStrHash(void)
     return g_021AEAF8[1];
 }
 
-void SBRefStrHashCleanup(void)
+void SBRefStrHashCleanup(struct SBServerList *slist)
 {
     if (g_021AEAF8[1] == 0)
         return;
@@ -255,7 +247,7 @@ int SBServerGetIntValueA(SBServer *server, char *key, int idefault)
         return idefault;
     if (!isdigit(*(unsigned char *)(*s != 0x2d ? s : s + 1)))
         return idefault;
-    return atoi((u32)s);
+    return atoi(s);
 }
 
 double SBServerGetFloatValueA(SBServer *server, char *key,
@@ -655,5 +647,5 @@ unsigned char SBServerGetState(const SBServer *server)
 
 int SBIsNullServer(int v)
 {
-    return v == (int)g_021AEAF8[2];
+    return v == (sptr)g_021AEAF8[2];
 }

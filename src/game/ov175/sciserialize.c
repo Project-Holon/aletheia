@@ -23,7 +23,7 @@
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sc_types.h"
 
-extern int STD_TSScanf(const char *src, const char *fmt, ...);
+#include "../arm9/std_string.h"
 
 extern char sSciGuidFormatInt32[];
 extern char sSciGuidFormatInt16[];

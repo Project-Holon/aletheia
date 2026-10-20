@@ -52,39 +52,29 @@
  */
 #include "br_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
+#include "../arm9/clact.h"
 
-extern void * MI_CpuFill8(void *,u32,u32);
+#include "../arm9/mi_memory.h"
 
-extern void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId);
+#include "br_res.h"
 
-extern int BR_RES_GetSprite(struct BrRes *res, unsigned int spriteIndex, void *outSprite);
 
-extern void BR_RES_ReleaseSprite(struct BrRes *res, unsigned spriteIndex);
 
-extern void GF_PANIC_Fail(const char *,u32,const char *);
+#include "../arm9/gf_panic.h"
 
-extern struct Actor *CLACT_CreateActor(struct Bank *unit, u32 charId, u32 paletteId, u32 cellAnimId, const struct BrActorPos *pos, u16 space, u16 heapId);
+struct ClactActor;
 
-extern void CLACT_SetActorAffineMode(struct Actor *,u32);
 
-extern void CLACT_SetActorScaleAxis(struct Actor *actor, u32 scale, u32 axis);
 
-extern void CLACT_SetActorObjMode(struct Actor *,u32);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *,u32);
 
-extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 
-extern s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis);
 
-extern s16 GF_STANDARD_SinFromDegreesWrapped(u16);
+#include "../arm9/gf_standard.h"
 
-extern u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which);
 
 extern const char gBrSidebarSourceFile[];
 
@@ -92,7 +82,7 @@ extern const struct BrSidebarConfig gBrSidebarConfigTable[BR_SIDEBAR_SLOT_COUNT]
 
 extern const char gBrSidebarAssertString[];
 
-struct BrSidebar *BR_SIDEBAR_Create(struct Bank *unit, int unused, struct BrRes *res, u16 heapId);
+struct BrSidebar *BR_SIDEBAR_Create(struct Unit *unit, int unused, struct BrRes *res, u16 heapId);
 
 void BR_SIDEBAR_Destroy(struct BrSidebar *sidebar, struct BrRes *res);
 
@@ -108,7 +98,7 @@ void BR_SIDEBAR_ResetPositions(struct BrSidebar *sidebar);
 
 void BR_SIDEBAR_SetVisibleBySpace(struct BrSidebar *sidebar, int space, u32 visible);
 
-void BR_SIDEBAR_InitSlot(struct BrSidebarSlot *slot, struct Bank *unit, struct BrRes *res, const struct BrSidebarConfig *config, u16 heapId);
+void BR_SIDEBAR_InitSlot(struct BrSidebarSlot *slot, struct Unit *unit, struct BrRes *res, const struct BrSidebarConfig *config, u16 heapId);
 
 void BR_SIDEBAR_DestroySlot(struct BrSidebarSlot *slot);
 
@@ -131,7 +121,7 @@ void BR_SIDEBAR_UpdateSlide(struct BrSidebarSlot *slot);
 typedef char BrSidebarCheckSlot[sizeof(struct BrSidebarSlot) == 0x4C ? 1 : -1];
 typedef char BrSidebarCheckConfig[sizeof(struct BrSidebarConfig) == 24 ? 1 : -1];
 
-struct BrSidebar *BR_SIDEBAR_Create(struct Bank *unit, int unused, struct BrRes *res, u16 heapId)
+struct BrSidebar *BR_SIDEBAR_Create(struct Unit *unit, int unused, struct BrRes *res, u16 heapId)
 {
     struct BrSidebar *sidebar = GFL_HEAP_Alloc(heapId, sizeof(struct BrSidebar), 0, gBrSidebarSourceFile, 0x132);
     int i;
@@ -222,7 +212,7 @@ static inline int toFixed12(int x)
 /*
  * ABI: CLACT_CreateActor returns the allocated object pointer in r0.
  */
-void BR_SIDEBAR_InitSlot(struct BrSidebarSlot *slot, struct Bank *unit, struct BrRes *res, const struct BrSidebarConfig *config, u16 heapId)
+void BR_SIDEBAR_InitSlot(struct BrSidebarSlot *slot, struct Unit *unit, struct BrRes *res, const struct BrSidebarConfig *config, u16 heapId)
 {
     struct BrResSprite sprite;
     struct BrActorPos pos;
@@ -239,17 +229,17 @@ void BR_SIDEBAR_InitSlot(struct BrSidebarSlot *slot, struct Bank *unit, struct B
     slot->baseX=toFixed12(pos.x);
     slot->baseY=toFixed12(pos.y);
     slot->scale=config->scale;
-    slot->actor=CLACT_CreateActor(unit,sprite.charId,sprite.paletteId,sprite.cellAnimId,&pos,slot->config.space,heapId);
-    CLACT_SetActorAffineMode(slot->actor,2);
-    CLACT_SetActorScaleAxis(slot->actor,slot->scale,0);
-    CLACT_SetActorObjMode(slot->actor,0);
-    CLACT_SetActorDrawEnable(slot->actor,0);
+    slot->actor=(struct Actor *)CLACT_CreateActor((struct Unit *)unit,sprite.charId,sprite.paletteId,sprite.cellAnimId,(const struct ActorInitParam *)&pos,slot->config.space,heapId);
+    CLACT_SetActorAffineMode((struct ClactActor *)slot->actor,2);
+    CLACT_SetActorScaleAxis((struct ClactActor *)slot->actor,slot->scale,0);
+    CLACT_SetActorObjMode((struct ClactActor *)slot->actor,0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)slot->actor,0);
     slot->active=1;
 }
 
 void BR_SIDEBAR_DestroySlot(struct BrSidebarSlot *slot)
 {
-    CLACT_DeleteActor(slot->actor);
+    CLACT_DeleteActor((struct ClactActor *)slot->actor);
     MI_CpuFill8(slot,0,76);
 }
 
@@ -267,7 +257,7 @@ int BR_SIDEBAR_IsSlotActive(struct BrSidebarSlot *slot)
 
 void BR_SIDEBAR_SetSlotVisible(struct BrSidebarSlot *slot, u32 visible)
 {
-    CLACT_SetActorDrawEnable(slot->actor,visible);
+    CLACT_SetActorDrawEnable((struct ClactActor *)slot->actor,visible);
 }
 
 void BR_SIDEBAR_SetSlotMode(struct BrSidebarSlot *slot, u32 mode)
@@ -285,8 +275,8 @@ void BR_SIDEBAR_SetSlotMode(struct BrSidebarSlot *slot, u32 mode)
 void BR_SIDEBAR_ResetSlot(struct BrSidebarSlot *slot)
 {
     slot->scale=410;
-    CLACT_SetActorSurfacePosAxis(slot->actor,slot->config.restX,(u16)(slot->config.space),0);
-    CLACT_SetActorScaleAxis(slot->actor,slot->scale,0);
+    CLACT_SetActorSurfacePosAxis((struct ClactActor *)slot->actor,slot->config.restX,(u16)(slot->config.space),0);
+    CLACT_SetActorScaleAxis((struct ClactActor *)slot->actor,slot->scale,0);
 }
 
 void BR_SIDEBAR_UpdateBounce(struct BrSidebarSlot *slot)
@@ -298,7 +288,7 @@ void BR_SIDEBAR_UpdateBounce(struct BrSidebarSlot *slot)
     if(slot->tick!=0)return;
     switch(slot->state){
     case 0:
-        CLACT_SetActorDrawEnable(slot->actor,1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)slot->actor,1);
         slot->counter=0;
         slot->scale=slot->config.scale;
         slot->state=1;
@@ -306,10 +296,10 @@ void BR_SIDEBAR_UpdateBounce(struct BrSidebarSlot *slot)
     case 1:
         if(slot->counter==3){
             slot->state=2;
-            if(CLACT_GetActorSurfacePosAxis(slot->actor,(u16)(slot->config.space),0)>0)
-                value=0.5f+(float)(CLACT_GetActorSurfacePosAxis(slot->actor,(u16)(slot->config.space),0)<<12);
+            if(CLACT_GetActorSurfacePosAxis((struct ClactActor *)slot->actor,(u16)(slot->config.space),0)>0)
+                value=0.5f+(float)(CLACT_GetActorSurfacePosAxis((struct ClactActor *)slot->actor,(u16)(slot->config.space),0)<<12);
             else
-                value=(float)(CLACT_GetActorSurfacePosAxis(slot->actor,(u16)(slot->config.space),0)<<12)-0.5f;
+                value=(float)(CLACT_GetActorSurfacePosAxis((struct ClactActor *)slot->actor,(u16)(slot->config.space),0)<<12)-0.5f;
             slot->posFixed=(int)value;
             slot->counter=0;
         }else (slot->counter)++;
@@ -325,12 +315,12 @@ void BR_SIDEBAR_UpdateBounce(struct BrSidebarSlot *slot)
             slot->posFixed+=-direction*GF_STANDARD_SinFromDegreesWrapped(slot->angle*65535/360);
             slot->angle+=32;
             slot->angle%=360;
-            CLACT_SetActorSurfacePosAxis(slot->actor,slot->posFixed>>12,(u16)(slot->config.space),0);
+            CLACT_SetActorSurfacePosAxis((struct ClactActor *)slot->actor,slot->posFixed>>12,(u16)(slot->config.space),0);
             (slot->counter)++;
         }
         break;
     case 3:
-        x=CLACT_GetActorSurfacePosAxis(slot->actor,(u16)(slot->config.space),0);
+        x=CLACT_GetActorSurfacePosAxis((struct ClactActor *)slot->actor,(u16)(slot->config.space),0);
         if(slot->counter==0){
             slot->stepPos=slot->config.restX-x;
             slot->stepPos/=slot->config.duration;
@@ -342,14 +332,14 @@ void BR_SIDEBAR_UpdateBounce(struct BrSidebarSlot *slot)
             x+=(s16)slot->stepPos;
             (slot->counter)++;
         }
-        CLACT_SetActorSurfacePosAxis(slot->actor,x,(u16)(slot->config.space),0);
+        CLACT_SetActorSurfacePosAxis((struct ClactActor *)slot->actor,x,(u16)(slot->config.space),0);
         break;
     case 4:BR_SIDEBAR_SetSlotMode(slot,2);break;
     }
     if(slot->state==3){
         if(slot->scale>410){
             slot->scale-=410;
-            CLACT_SetActorScaleAxis(slot->actor,slot->scale,0);
+            CLACT_SetActorScaleAxis((struct ClactActor *)slot->actor,slot->scale,0);
         }
     }
 }
@@ -367,8 +357,8 @@ void BR_SIDEBAR_UpdateWobble(struct BrSidebarSlot *slot)
     if(slot->tick!=0)return;
     switch(slot->state){
     case 0:
-        CLACT_SetActorDrawEnable(slot->actor,1);
-        CLACT_SetActorSurfacePosAxis(slot->actor,slot->config.restX,(u16)(slot->config.space),0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)slot->actor,1);
+        CLACT_SetActorSurfacePosAxis((struct ClactActor *)slot->actor,slot->config.restX,(u16)(slot->config.space),0);
         if(slot->config.restX>0)value=0.5f+(float)(slot->config.restX<<12);
         else value=(float)(slot->config.restX<<12)-0.5f;
         slot->posFixed=(int)value;
@@ -381,12 +371,12 @@ void BR_SIDEBAR_UpdateWobble(struct BrSidebarSlot *slot)
         position=slot->posFixed+-(signed char)direction*(GF_STANDARD_SinFromDegreesWrapped((u16)(slot->angle*65535/360))*3);
         slot->angle+=slot->config.phaseStep;
         slot->angle%=360;
-        CLACT_SetActorSurfacePosAxis(slot->actor,position>>12,(u16)(slot->config.space),0);
+        CLACT_SetActorSurfacePosAxis((struct ClactActor *)slot->actor,position>>12,(u16)(slot->config.space),0);
         break;
     }
     if(slot->scale>410){
         slot->scale-=410;
-        CLACT_SetActorScaleAxis(slot->actor,slot->scale,0);
+        CLACT_SetActorScaleAxis((struct ClactActor *)slot->actor,slot->scale,0);
     }
 }
 
@@ -406,13 +396,13 @@ void BR_SIDEBAR_UpdateSlide(struct BrSidebarSlot *slot)
     if(slot->tick!=0)return;
     switch(slot->state){
     case 0:
-        CLACT_SetActorDrawEnable(slot->actor,1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)slot->actor,1);
         slot->counter=0;
         slot->state=1;
         break;
     case 1:
-        x=CLACT_GetActorSurfacePosAxis(slot->actor,(u16)(slot->config.space),0);
-        y=CLACT_GetActorScaleAxis(slot->actor,0);
+        x=CLACT_GetActorSurfacePosAxis((struct ClactActor *)slot->actor,(u16)(slot->config.space),0);
+        y=CLACT_GetActorScaleAxis((struct ClactActor *)slot->actor,0);
         if(slot->counter==0){
             slot->stepPos=slot->config.x-x;
             slot->stepPos/=slot->config.duration;
@@ -428,8 +418,8 @@ void BR_SIDEBAR_UpdateSlide(struct BrSidebarSlot *slot)
             y+=slot->stepScale;
             (slot->counter)++;
         }
-        CLACT_SetActorSurfacePosAxis(slot->actor,x,(u16)(slot->config.space),0);
-        CLACT_SetActorScaleAxis(slot->actor,y,0);
+        CLACT_SetActorSurfacePosAxis((struct ClactActor *)slot->actor,x,(u16)(slot->config.space),0);
+        CLACT_SetActorScaleAxis((struct ClactActor *)slot->actor,y,0);
         break;
     case 2:BR_SIDEBAR_SetSlotMode(slot,0);break;
     }

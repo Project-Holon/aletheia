@@ -51,6 +51,7 @@
  *   NNS_G3dGlb                   0x02148B4C  data
  */
 #include "nns_g3d_sbc_types.h"
+#include "../sdk_ioreg.h"
 
 typedef void (*NNSG3dSbcFunc)(NNSG3dRS *pRS, u32 opt);
 

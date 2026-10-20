@@ -215,4 +215,52 @@ typedef struct MbCommSysWork {
     MbRegistryBlock registry;           /* 0x80 */
 } MbCommSysWork;
 
+#include "../types.h"
+#include "../ov107/mb_comm_shared_types.h"
+MbNetState *MB_COMM_SYS_CreateNetState(u16 heapId);
+void MB_COMM_SYS_DeleteNetState(MbNetState *net);
+void MB_COMM_SYS_UpdateNetState(MbNetState *net);
+void MB_COMM_SYS_StartNetSession(MbNetState *net);
+void MB_COMM_SYS_StopNetSession(MbNetState *net);
+int MB_COMM_SYS_GetNetRunState(MbNetState *net);
+int MB_COMM_SYS_IsNetSessionNull(MbNetState *net);
+void MB_COMM_SYS_StartNet(MbNetState *net);
+void MB_COMM_SYS_SetSyncRange(MbNetState *net);
+int MB_COMM_SYS_IsSyncDone(MbNetState *net);
+int MB_COMM_SYS_IsLoginDone(MbNetState *net);
+int MB_COMM_SYS_GetCommStage(MbNetState *net);
+void MB_COMM_SYS_ClearRoundFlags(MbNetState *net);
+int MB_COMM_SYS_HasKind11(MbNetState *net);
+int MB_COMM_SYS_HasKind12(MbNetState *net);
+int MB_COMM_SYS_HasKind12Again(MbNetState *net);
+int MB_COMM_SYS_HasKind14(MbNetState *net);
+int MB_COMM_SYS_HasKind1(MbNetState *net);
+int MB_COMM_SYS_HasKind2(MbNetState *net);
+int MB_COMM_SYS_HasKind4(MbNetState *net);
+int MB_COMM_SYS_GetCount(MbNetState *net);
+int MB_COMM_SYS_HasKind19(MbNetState *net);
+unsigned short MB_COMM_SYS_GetOfferCount(MbNetState *net);
+unsigned short MB_COMM_SYS_GetOfferExtra(MbNetState *net);
+int MB_COMM_SYS_GetOfferFlagA(MbNetState *net);
+int MB_COMM_SYS_GetOfferFlagB(MbNetState *net);
+int MB_COMM_SYS_HasKind20(MbNetState *net);
+int MB_COMM_SYS_HasKind21(MbNetState *net);
+int MB_COMM_SYS_GetKind21Value(MbNetState *net);
+void MB_COMM_SYS_QueuePayload(int a, int payload, int payloadSize);
+void MB_COMM_SYS_ClearMonBuffer(MbNetState *net);
+int MB_COMM_SYS_HasMonsReceived(MbNetState *net);
+u8 MB_COMM_SYS_GetMonCount(MbNetState *net);
+void *MB_COMM_SYS_GetMon(MbNetState *net, int i);
+int MB_COMM_SYS_GetMaxSeen(MbNetState *net);
+int MB_COMM_SYS_HasKind0(MbNetState *net);
+int MB_COMM_SYS_SendMessage(void *net, unsigned char kind, unsigned int value);
+void MB_COMM_SYS_OnMessage(int a, int b, MbCommMsg *msg, MbNetState *net);
+int MB_COMM_SYS_SendHeader(void *net, MbPayloadHeader *header);
+void MB_COMM_SYS_OnHeaderReceived(int a, int b, int c, MbNetState *net);
+void *MB_COMM_SYS_GetHeaderBuffer(void *a, MbNetState *net);
+void MB_COMM_SYS_OnMonsReceived(int a, int b, int c, MbNetState *net);
+void *MB_COMM_SYS_GetMonBuffer(int a, MbNetState *net);
+int *MB_COMM_SYS_GetChildDataPtr(void);
+int MB_COMM_SYS_GetMemberCount(void);
+
 #endif

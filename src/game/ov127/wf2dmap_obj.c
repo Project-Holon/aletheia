@@ -44,13 +44,19 @@ typedef struct Wf2dmapCmdDesc {
     u8 value;               /* 0x06 */
 } Wf2dmapCmdDesc;
 
-extern void *GFL_HEAP_Alloc(u16,u32,int,const char *,u16);
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_Alloc_hdr
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+void * GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
+#endif
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void WF2DMAP_OBJCMD_Update(u8 *p);
+#include "wf2dmap_objcmd.h"
 
-extern void MI_CpuFill8(void *,int,int);
+#include "../arm9/mi_memory.h"
 
 Wf2dmapObjList *WF2DMAP_OBJ_CreateList(u32 count, u32 heap);
 
@@ -62,7 +68,7 @@ void WF2DMAP_OBJ_UpdateList(u8 *p);
 
 u32 WF2DMAP_OBJ_GetCount(u8 *p);
 
-void WF2DMAP_OBJ_Create(void *a,u16 *s);
+Wf2dmapObj *WF2DMAP_OBJ_Create(void *a,u16 *s);
 
 void WF2DMAP_OBJ_Clear(void *p);
 
@@ -131,7 +137,7 @@ void WF2DMAP_OBJ_UpdateList(u8 *p) { u32 i,n; char *q; n=WF2DMAP_OBJ_GetCount(p)
 
 u32 WF2DMAP_OBJ_GetCount(u8 *p) { return ((Wf2dmapObjList *)p)->count; }
 
-void WF2DMAP_OBJ_Create(void *a,u16 *s) { u8 *p; s16 x,y;p=(u8 *)WF2DMAP_OBJ_AllocSlot((unsigned *)a);x=(s16)s[0];y=(s16)s[1];((Wf2dmapObj *)p)->posX=x;((Wf2dmapObj *)p)->posY=y;((Wf2dmapObj *)p)->destX=x;((Wf2dmapObj *)p)->destY=y;((Wf2dmapObj *)p)->id=s[2];p[21]=s[3];p[20]=s[4];((Wf2dmapObj *)p)->kind=s[5];((Wf2dmapObj *)p)->active=1; }
+Wf2dmapObj *WF2DMAP_OBJ_Create(void *a,u16 *s) { u8 *p; s16 x,y;p=(u8 *)WF2DMAP_OBJ_AllocSlot((unsigned *)a);x=(s16)s[0];y=(s16)s[1];((Wf2dmapObj *)p)->posX=x;((Wf2dmapObj *)p)->posY=y;((Wf2dmapObj *)p)->destX=x;((Wf2dmapObj *)p)->destY=y;((Wf2dmapObj *)p)->id=s[2];p[21]=s[3];p[20]=s[4];((Wf2dmapObj *)p)->kind=s[5];((Wf2dmapObj *)p)->active=1; return (Wf2dmapObj *)p; }
 
 void WF2DMAP_OBJ_Clear(void *p) { MI_CpuFill8(p,0,24); }
 

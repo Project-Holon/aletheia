@@ -212,56 +212,23 @@ typedef struct WihWork {
 } WihWork;
 
 /* SDK and arm9 functions (names resolved by the SDK rename table) */
-void DC_FlushRange(void *p, u32 n);
-void MI_CpuCopy8(void *dst, void *src, u32 n);
-extern int WM_SetParentParameter(void *callback, void *parentParam);
-int WM_StartParent(void *callback);
-u32 GFL_NET_GetUserArg(void);
-extern int WM_Disconnect(void *callback, u16 aid);
-void GFL_NET_HANDLE_RemoveHandle(u32 aid);
-void GFL_NET_HANDLE_RequestNegotiation(int aid);
-extern int WM_GetMPSendBufferSize(void);
-extern int WM_GetMPReceiveBufferSize(void);
-extern int WM_StartMP(void (*cb)(void *), unsigned short *recvBuf, unsigned short recvBufSize, unsigned short *sendBuf, unsigned short sendBufSize, unsigned short mpFreq);
-extern void GFL_NET_FreeAligned(void *p);
-extern void *GFL_NET_AllocAligned(u32 heapId, u32 size, const char *file, u16 line);
-extern u32 GFL_NET_GetGameKind(void);
-u32 GFL_NET_GetChildSendSize(void);
-u32 GFL_NET_GetMaxConnectNum(void);
-int WM_StartDataSharing(void *dataSharingInfo, u32 aidCount, u32 aidBitmap, u16 myAid, u32 isParent);
-extern int WM_EndMP(void *callback);
-extern int WM_EndParent(void *callback);
-void MI_CpuFill8(void *p, u32 value, u32 n);
-extern u16 WM_GetAllowedChannel(void);
-extern u16 WM_GetDispersionScanPeriod(void);
-extern int WM_StartScanEx(void (*cb)(void *), struct WMScanExParam *param);
-extern void WIH_DWC_RequestAlertLevel(u32 linkLevel);
-extern void WIH_DWC_Dummy(void);
-extern void DC_InvalidateRange(void *p, u32 size);
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-int OS_DisableInterrupts(void);
-void OS_RestoreInterrupts(int irqState);
-extern int WM_EndScan(void *callback);
-int WM_StartConnectEx(void *callback, void *bssDesc, void *ssid, int powerSave, int authMode);
-extern int WM_Reset(void *callback);
-int WM_SetMPDataToPortEx(void *callback, u32 userCallback, u32 data, u32 size, u32 destBitmap, u32 port, u32 priority);
-void OS_GetMacAddress(u8 *macAddress);
-extern int WM_MeasureChannel(void *callback, unsigned short ccaMode, unsigned short edThreshold, unsigned short channel, unsigned short measureTime);
-extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
-extern int WM_InitializeForListening(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo, int blink);
-extern int WM_SetIndCallback(void (*callback)(void));
-extern int WM_SetLifeTime(void (*callback)(void), unsigned short tableNumber, unsigned short camLifeTime, unsigned short frameLifeTime, unsigned short mpLifeTime);
-extern u16 WM_GetDispersionBeaconPeriod(void);
-extern u32 GFL_NET_GetParentSendSize(void);
-extern int WM_SetPortCallback(int port, void *callback, void *arg);
-extern unsigned short *WM_GetSharedDataAddress(struct WMDataSharingInfo *dsInfo, struct WMDataSet *receiveData, unsigned short aid);
-extern int WM_StepDataSharing(struct WMDataSharingInfo *dsInfo, const u16 *sendData, struct WMDataSet *receiveData);
-extern int WM_EndDataSharing(struct WMDataSharingInfo *dsInfo);
-extern int WM_End(void *callback);
-extern void WM_SetGameInfo(int callback, int userGameInfo, u16 size, int ggid, u16 tgid, int attr);
+#include "../arm9/os_cache.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/wm_ds.h"
+#include "../arm9/wm_etc.h"
+#include "../arm9/wm_mp.h"
+#include "../arm9/wm_standard.h"
+#include "../arm9/wm_sync.h"
+#include "../arm9/net.h"
+#include "../arm9/net_handle.h"
+#include "../arm9/wih_dwc.h"
+#include "../arm9/gf_panic.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/os_ownerinfo.h"
 
 /* functions of this file (and its ov014 neighbours) */
-void NET_WHPIPE_OnChildDisconnected(void);
+#include "net_whpipe.h"
 void WIH_ChangeSysState(int state);
 void WIH_SetError(int error);
 int WIH_StateInSetParentParam(void);
@@ -311,7 +278,7 @@ int WIH_StateInEndChild(void);
 static void DWCi_MOV_WH_StateOutEndChild(void *arg);
 int WIH_StateInReset(void);
 void WIH_StateOutReset(WihCallback *arg);
-int DWCi_MOV_WH_StateInSetMPData(u32 data, u32 size, u32 userCallback);
+int DWCi_MOV_WH_StateInSetMPData(u32 data, u16 size, u32 userCallback);
 /* extent: two zero alignment bytes at 02178D9A precede labelled 02178D9C. */
 void WIH_StateOutSetMPData(WihPortSendCallback *arg);
 void DWCi_MOV_WH_PortReceiveCallback(WihPortRecvCallback *arg);
@@ -425,7 +392,7 @@ int WIH_StateInSetParentParam(void)
 {
     int result;
     WIH_ChangeSysState(3);
-    result = WM_SetParentParameter(WIH_StateOutSetParentParam, gWihWork);
+    result = WM_SetParentParameter((WMCallbackFunc)WIH_StateOutSetParentParam, (WMParentParam *)gWihWork);
     if (result != 2) {
         WIH_SetError(result);
         WIH_ChangeSysState(9);
@@ -452,7 +419,7 @@ int WIH_StateInStartParent(void)
 
     if ((u32)(gWihWork->sysState - 4) <= 1)
         return 1;
-    result = WM_StartParent(WIH_StateOutStartParent);
+    result = WM_StartParent((WMCallbackFunc)WIH_StateOutStartParent);
     if (result != 2) {
         WIH_SetError(result);
         return 0;
@@ -576,7 +543,7 @@ void WIH_StateOutStartParentMP(WMStartMPCallback *arg)
             isParent = 1;
             if (GFL_NET_GetGameKind() == 2)
                 isParent = 0;
-            result = WM_StartDataSharing(gWihWork->dataSharingInfo, 13, aidBitmap, myAid, isParent);
+            result = WM_StartDataSharing((WMDataSharingInfo *)gWihWork->dataSharingInfo, 13, aidBitmap, myAid, isParent);
             if (result != 0) {
                 WIH_SetError(result);
                 WIH_ChangeSysState(9);
@@ -598,7 +565,7 @@ int WIH_StateInEndParentMP(void)
 {
     int result;
     WIH_ChangeSysState(3);
-    result = WM_EndMP(WIH_StateOutEndParentMP);
+    result = WM_EndMP((WMCallbackFunc)WIH_StateOutEndParentMP);
     if (result != 2) {
         WIH_SetError(result);
         return 0;
@@ -968,7 +935,7 @@ BOOL DWCi_MOV_WH_StateInStartChildMP(void)
 void DWCi_MOV_WH_StateOutStartChildMP(WMStartMPCallback *arg)
 {
     u32 errcode = arg->errcode;
-    u32 aidBitmap;
+    u16 aidBitmap;
     u32 myAid;
     int isParent;
 
@@ -990,7 +957,7 @@ void DWCi_MOV_WH_StateOutStartChildMP(WMStartMPCallback *arg)
             isParent = 1;
             if (GFL_NET_GetGameKind() == 2)
                 isParent = 0;
-            result = WM_StartDataSharing(gWihWork->dataSharingInfo, 0xD, aidBitmap, (u16)myAid, isParent);
+            result = WM_StartDataSharing((WMDataSharingInfo *)gWihWork->dataSharingInfo, 0xD, aidBitmap, (u16)myAid, isParent);
             if (result != 0) {
                 WIH_SetError(result);
                 WIH_Finalize();
@@ -1012,7 +979,7 @@ int WIH_StateInEndChildMP(void)
 {
     int result;
     WIH_ChangeSysState(3);
-    result = WM_EndMP(WIH_StateOutEndChildMP);
+    result = WM_EndMP((WMCallbackFunc)WIH_StateOutEndChildMP);
     if (result != 2) {
         WIH_SetError(result);
         return 0;
@@ -1060,7 +1027,7 @@ int WIH_StateInReset(void)
 {
     int result;
     WIH_ChangeSysState(3);
-    result = WM_Reset(WIH_StateOutReset);
+    result = WM_Reset((WMCallbackFunc)WIH_StateOutReset);
     if (result != 2) {
         WIH_SetError(result);
         return 0;
@@ -1078,10 +1045,10 @@ void WIH_StateOutReset(WihCallback *arg)
     }
 }
 
-int DWCi_MOV_WH_StateInSetMPData(u32 data, u32 size, u32 userCallback)
+int DWCi_MOV_WH_StateInSetMPData(u32 data, u16 size, u32 userCallback)
 {
     DC_FlushRange(gWihWork->sendBuf, gWihWork->sendBufSize);
-    if (WM_SetMPDataToPortEx((void *)WIH_StateOutSetMPData, userCallback, data, size, 0xFFFF, 0xE, 2) == 2)
+    if (WM_SetMPDataToPortEx((WMCallbackFunc)WIH_StateOutSetMPData, (void *)userCallback, (u16 *)data, size, 0xFFFF, 0xE, 2) == 2)
         return 1;
     return 0;
 }
@@ -1358,7 +1325,7 @@ void WIH_StateOutInitialize(WihCallback *arg)
             callback(0);
         return;
     }
-    result = WM_SetIndCallback((void (*)(void))WIH_IndicateHandler);
+    result = WM_SetIndCallback((WMCallbackFunc)WIH_IndicateHandler);
     if (result != 0) {
         WIH_SetError(result);
         WIH_ChangeSysState(10);
@@ -1368,7 +1335,7 @@ void WIH_StateOutInitialize(WihCallback *arg)
         return;
     }
     WIH_ChangeSysState(1);
-    WM_SetLifeTime(DWCi_MOV_WH_StateOutSetLifeTime, 0xFFFF, 0x28, 5, 0x28);
+    WM_SetLifeTime((WMCallbackFunc)DWCi_MOV_WH_StateOutSetLifeTime, 0xFFFF, 0x28, 5, 0x28);
     callback = gWihWork->initCallback;
     if (callback != 0)
         callback(1);
@@ -1406,7 +1373,7 @@ void WIH_SetJudgeAcceptFunc(void *judgeAcceptFunc)
 void DWCi_MOV_WH_SetReceiver(void *recvCallback)
 {
     gWihWork->recvCallback = (WihRecvCallback)recvCallback;
-    if (WM_SetPortCallback(14, DWCi_MOV_WH_PortReceiveCallback, 0) != 0)
+    if (WM_SetPortCallback(14, (WMCallbackFunc)DWCi_MOV_WH_PortReceiveCallback, 0) != 0)
         WIH_ChangeSysState(9);
 }
 
@@ -1419,7 +1386,7 @@ BOOL DWCi_MOV_WH_SendData(int data, u16 size, int userCallback)
 
 int WIH_GetSharedDataAdr(u16 aid)
 {
-    return (int)WM_GetSharedDataAddress((struct WMDataSharingInfo *)gWihWork->dataSharingInfo, (struct WMDataSet *)gWihWork->dataSet, aid);
+    return (sptr)WM_GetSharedDataAddress((struct WMDataSharingInfo *)gWihWork->dataSharingInfo, (struct WMDataSet *)gWihWork->dataSet, aid);
 }
 
 BOOL WIH_StepDS(int sendData)
@@ -1447,7 +1414,7 @@ void WIH_UpdateScanTimer(void)
                 if (DWCi_MOV_WH_StateInStartScan() == 0)
                     WIH_ChangeSysState(9);
             } else {
-                *(s16 *)((unsigned int)gWihWork + 0x1EBE) = 1;
+                *(s16 *)((uptr)gWihWork + 0x1EBE) = 1;
             }
         }
     }
@@ -1519,7 +1486,7 @@ int WIH_End(void (*callback)(int))
 {
     gWihWork->initCallback = callback;
     WIH_ChangeSysState(3);
-    if (WM_End(WIH_StateOutEnd) != 2) {
+    if (WM_End((WMCallbackFunc)WIH_StateOutEnd) != 2) {
         WIH_ChangeSysState(9);
         return 0;
     }
@@ -1541,7 +1508,7 @@ void WIH_SetJudgeScanFunc(unsigned judgeScanFunc)
 void WIH_SetBeaconGameInfo(int userGameInfo, int size, int ggid, int tgid)
 {
     if (gWihWork != 0 && (unsigned)(gWihWork->sysState - 4) <= 1)
-        WM_SetGameInfo(0, userGameInfo, (u16)size, ggid, (u16)tgid, 1);
+        WM_SetGameInfo(0, (const u16 *)userGameInfo, (u16)size, ggid, (u16)tgid, 1);
 }
 
 unsigned short WIH_GetBeaconSendCount(void)

@@ -29,25 +29,24 @@
  *   GX_LoadBG2Scr                    0x0207EB78  arm
  *   sceneoptmovdisco_str_20611       0x021DB390  data
  */
-#define reg_G2S_DB_BG0CNT (*(volatile unsigned short *)0x04001008)
-#define reg_G2S_DB_BG1CNT (*(volatile unsigned short *)0x0400100A)
-#define reg_G2_BG1CNT     (*(volatile unsigned short *)0x0400000A)
-#define reg_G2_BG2CNT     (*(volatile unsigned short *)0x0400000C)
+#include "../arm9/gx_load2d.h"
+#include "../sdk_ioreg.h"
+#include "common.h"
+#define reg_G2S_DB_BG0CNT (*(volatile unsigned short *)REG_DB_BG0CNT_ADDR)
+#define reg_G2S_DB_BG1CNT (*(volatile unsigned short *)REG_DB_BG1CNT_ADDR)
+#define reg_G2_BG1CNT     (*(volatile unsigned short *)REG_BG1CNT_ADDR)
+#define reg_G2_BG2CNT     (*(volatile unsigned short *)REG_BG2CNT_ADDR)
 typedef _Bool bool;
 
-extern void DWCi_CMNlMsgDraw(int);
-extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern void GX_LoadBG2Scr(void *src, unsigned long offset, unsigned long size);
 extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
-extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_ChangeScene(unsigned int v);
-extern int DWCi_MOVlIsEnd(void);
-extern void DWCi_FNTlDeleteBgLcd(int lcd);
-extern int DWCi_COMMENTlDelete(void);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SceneOptMenu(void);
+#include "graphics.h"
+#include "dwcutil_main.h"
+#include "move.h"
+typedef int bool_0;
+#include "font.h"
+#include "comment.h"
+#include "sceneoptmenu.h"
 void DWCi_SceneOptMovDisconnect(void);
 void DWCi_SceneOptMovDisconnect_procScene(void);
 void DWCi_SceneOptMovDisconnect_draw(void);
@@ -69,7 +68,7 @@ void DWCi_SceneOptMovDisconnect(void)
     *(unsigned char *)0x021DE5BC = 0;
     initGraphics();
     DWCi_CMNlMsgDraw(0x21);
-    DWCi_ChangeScene((unsigned int)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 
@@ -89,7 +88,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((unsigned int)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
 
@@ -99,7 +98,7 @@ static void procInit1(void)
         return;
     if (!DWCi_MOVlIsEnd())
         return;
-    DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovDisconnect_procScene);
+    DWCi_ChangeScene((uptr)DWCi_SceneOptMovDisconnect_procScene);
 }
 
 
@@ -135,7 +134,7 @@ static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((unsigned int)endScene1);
+    DWCi_ChangeScene((uptr)endScene1);
 }
 
 
@@ -150,12 +149,12 @@ static void endScene1(void)
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 1);
-    DWCi_ChangeScene((unsigned int)DWCi_SceneOptMenu);
+    DWCi_ChangeScene((uptr)DWCi_SceneOptMenu);
 }
 
 
 static void wait(void)
 {
     if (++Count >= 120)
-        DWCi_ChangeScene((unsigned int)endScene);
+        DWCi_ChangeScene((uptr)endScene);
 }

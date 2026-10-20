@@ -16,7 +16,7 @@ struct ActorHeader {
 };
 
 /* Surface position passed to CLACT_AddActorSurfacePos. */
-struct SurfacePos {
+struct ResearchClactSurfacePos {
     s16 x;
     s16 y;
 };

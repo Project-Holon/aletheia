@@ -64,26 +64,19 @@ typedef struct {
     u8 command;
 } State;
 
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32);
-extern void PXI_Init(void);
-extern s32 PXI_IsCallbackReady(s32 fifotag, s32 proc);
-extern void SVC_WaitByLoop(u32);
-extern void PXI_SetFifoRecvCallback(s32 fifotag, void (*)(u32, u32, u32));
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/pxi_fifo.h"
+#include "../arm9/svc_wait_by_loop.h"
 struct PMiGenCallbackInfo;
 
 extern void PMi_InsertPostExitCallbackEx(struct PMiGenCallbackInfo *info, s32 priority);
-extern void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, s32 priority);
-extern s32 OS_IsRunOnTwl(void);
-extern s32 OSi_IsCodecTwlMode(void);
-extern void OS_SpinWaitSysCycles(u32);
+#include "../arm9/pm.h"
+#include "../arm9/os_emulator.h"
+#include "../arm9/os_systemwork.h"
 #include "../sdk_os.h"
 
-extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
-extern s32 OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
-extern s32 OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
-extern int PXI_SendWordByFifo(s32 fifotag, u32 data, s32 err);
-extern void PXIi_HandlerRecvFifoNotEmpty(void);
+#include "../arm9/os_message.h"
 extern State SNDEXi_Work;
 extern u32 SNDEXi_PostExitInfo[];
 extern u32 SNDEXi_PreSleepInfo[];
@@ -121,7 +114,7 @@ void SNDEXi_Init(void) {
     while (PXI_IsCallbackReady(0x18, 1) == 0) {
         SVC_WaitByLoop(10);
     }
-    PXI_SetFifoRecvCallback(0x18, (void (*)(u32, u32, u32))CommonCallback);
+    PXI_SetFifoRecvCallback(0x18, (PXIFifoCallback)CommonCallback);
     SNDEXi_Work.postExitCallback = SndexSleepAndExitCallback;
     SNDEXi_Work.postExitArg = 0;
     PMi_InsertPostExitCallbackEx((struct PMiGenCallbackInfo *)SNDEXi_PostExitInfo, 0xfffd);

@@ -12,7 +12,7 @@ struct FieldMap;
 struct FldMmdl;
 struct WordSet;
 struct Strbuf;
-struct MsgData;
+struct MsgBank;
 struct FieldMsgBg;
 struct FieldMsgWin;
 struct FieldSysWin;
@@ -23,9 +23,9 @@ typedef struct EventCommMsgBox {
     struct WordSet *wordSet;    /* 0x00: WORDSET with the player name in slot 0 */
     struct Strbuf *text;        /* 0x04: STRBUF that receives the expanded message */
     struct Strbuf *templateText;/* 0x08: STRBUF that receives the raw message */
-    struct MsgData *msgData;    /* 0x0C: message bank of the event (archive member 0x44) */
-    struct MsgData *msgDataB;   /* 0x10: message bank, member 0x42 */
-    struct MsgData *msgDataC;   /* 0x14: message bank, member 0x43 */
+    struct MsgBank *msgData;    /* 0x0C: message bank of the event (archive member 0x44) */
+    struct MsgBank *msgDataB;   /* 0x10: message bank, member 0x42 */
+    struct MsgBank *msgDataC;   /* 0x14: message bank, member 0x43 */
     struct FieldSysWin *printer;/* 0x18: running print of the message background, 0 = none */
     struct FieldMsgWin *listWindow;  /* 0x1C */
     struct FieldMsgWin *listWindowB; /* 0x20 */

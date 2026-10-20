@@ -28,20 +28,18 @@ typedef struct RecordHead24 {
 } RecordHead24;
 struct EventWork;
 
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
+#include "../arm9/zonedata.h"
 
-extern void ZONEDATA_SetEventFlag(struct EventWork *ev, s32 flagId);
 
-extern void ZONEDATA_ResetEventFlag(struct EventWork *ev, s32 flagId);
 struct GameEvent;
 
 extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 struct ScriptWork;
 struct ScriptTrainerEntry;
 
-extern struct ScriptTrainerEntry *SCRIPT_WORK_GetTrainerEntry(struct ScriptWork *work, s32 index);
+#include "script_work.h"
 
-extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
+#include "../arm9/tpoke_data.h"
 
 void EVENT_TRAINER_SetScriptTrainerEntry(int scrcmdWork, int index, RecordHead24 *src)
 {

@@ -41,16 +41,15 @@
 #include "pleasure_boat_types.h"
 #include "fld_wipe_3dobj_shared_types.h"
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_use.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern int GF_OVERLAY_Load(s32 overlayId);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(int overlayId);
 struct DailyLayoutWork;
 
-extern void DAILY_LAYOUT_Generate(struct DailyLayoutWork *work);
+#include "../ov036/daily_layout.h"
 
 extern int PLEASURE_BOAT_GetTimeEvent(PleasureBoatWork *work);
 struct GameEvent;
@@ -195,26 +194,24 @@ typedef struct GameData GameData;
 
 extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrCmdWork *scrCmdWork);
 
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
+#include "../arm9/vm.h"
+#include "../ov010/symbol_map.h"
+#include "fieldmap.h"
 
-extern GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 
-extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 
 extern PleasureBoatHolder *GAME_DATA_GetEventState(GameData *gameData);
 struct SymbolMapOwner;
 
-extern void SYMBOL_MAP_DeleteLinkRecord(struct SymbolMapOwner *owner);
 
 extern void *SCRCMD_WORK_GetScriptWork(ScrCmdWork *scrCmdWork);
 
-extern u16 VM_ReadU16(ScriptVm *vm);
 struct ScrcmdWork;
 struct ScriptVm;
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+#include "../ov010/script_work_cmd.h"
 
-extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 u32 PLEASURE_BOAT_GetPassengerParam(PleasureBoatWork *work, u32 index);
 

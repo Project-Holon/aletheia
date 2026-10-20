@@ -32,7 +32,7 @@ void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
 void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 u32 GF_STANDARD_GetSecondsOfDay(void);
-void GF_STANDARD_GetRtcTimestamp(void);
+s64 GF_STANDARD_GetRtcTimestamp(void);
 s32 GF_STANDARD_GetDayOfYear(struct RtcDateSigned *d);
 int GF_STANDARD_SinFromDegrees(u32 x);
 short GF_STANDARD_CosFromDegrees(u32 x);

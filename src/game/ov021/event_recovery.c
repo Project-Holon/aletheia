@@ -53,15 +53,10 @@ struct BuildModelEntry;
 
 struct BuildModelNode;
 
-/* A model placement for the build model manager: position, scale, rotation. */
-typedef struct Mtx33 {
-    int m[9];
-} Mtx33;
-
 typedef struct RecoveryBallPlacement {
     VecFx32 pos;            /* 0x00 */
     VecFx32 scale;          /* 0x0C */
-    Mtx33 rotation;         /* 0x18 */
+    MtxFx33 rotation;         /* 0x18 */
 } RecoveryBallPlacement;
 
 /* Search rectangle for build model entries, in 20.12 fixed point. */
@@ -152,66 +147,51 @@ enum {
     PARTY_RECOVERY_STEP_END
 };
 
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventFunc handler, u32 workSize);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(GameEvent *event);
 struct GameSystem;
 
-extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 
-extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 
-extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
+#include "../arm9/game_data.h"
 struct Party;
 
-extern u32 POKEPARTY_GetNonEggCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 
-extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
+#include "fieldmap.h"
 
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
 
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 
-extern GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
-struct FieldBuildModel;
+#include "field_player.h"
+struct BuildModelMan;
 
-extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+#include "field_g3d_mapper.h"
 struct BuildModelRect;
 
-extern struct BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(struct BuildModelMan *man, struct BuildModelRect *rect, int kind, int *count);
+#include "field_buildmodel.h"
 
-extern void FIELD_BUILDMODEL_GetEntryWorldPos(struct BuildModelEntry *entry, void *out);
 
-extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(struct BuildModelMan *man, struct BuildModelEntry *entry);
 struct BuildModelBlock;
 
-extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromBlock(struct BuildModelMan *man, u32 tableId, struct BuildModelBlock *src);
 
-extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMan *man, struct BuildModelEntry *entry, int slot, int mode);
 
-extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
 
-extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot, int mode);
 
-extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(struct BuildModelNode *node);
 
-extern int FIELD_BUILDMODEL_IsNodeSlotIdle(struct BuildModelNode *node, int slot);
 
-extern GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(GameSystem *gameSystem, u32 bgmId);
+#include "../arm9/field_sound_system.h"
 
-extern GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(GameSystem *gameSystem, u32 a, u32 fadeFrames);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_use.h"
 
-extern u32 GFL_HEAP_Free(void *block);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void BUTTON_MAN_MakeRotMtxXYZ(int angleX, int angleY, int angleZ, Mtx33 *out);
+#include "../arm9/button_man.h"
 
-extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+#include "../arm9/fx_vec.h"
 
 extern const VecFx32 sRecoveryBallOffsets[RECOVERY_BALL_MAX];
 
@@ -256,7 +236,7 @@ u32 EVENT_RECOVERY_GetPartyBallCount(GameSystem *gameSystem);
  */
 GameEvent *EVENT_RECOVERY_CreateBallsEvent(GameSystem *gameSystem, GameEvent *parent, u32 count)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_RECOVERY_RunBalls, sizeof(RecoveryBallsWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_RECOVERY_RunBalls, sizeof(RecoveryBallsWork));
     RecoveryBallsWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_RECOVERY_InitBalls(work, gameSystem, count);
@@ -429,7 +409,7 @@ int EVENT_RECOVERY_AreBallsIdle(RecoveryBallsWork *work)
  */
 GameEvent *EVENT_RECOVERY_CreatePartyEvent(GameSystem *gameSystem, GameEvent *parent)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_RECOVERY_RunParty, sizeof(PartyRecoveryWork));
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_RECOVERY_RunParty, sizeof(PartyRecoveryWork));
     PartyRecoveryWork *work = GAME_EVENT_GetWork(event);
 
     EVENT_RECOVERY_InitParty(work, gameSystem);

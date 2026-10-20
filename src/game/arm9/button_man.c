@@ -52,25 +52,7 @@
 #include "../types.h"
 
 #include "../sdk_fx.h"
-
-/* Segment p0 -> dir with a capsule radius. */
-typedef struct {
-    VecFx32 p0;
-    VecFx32 dir;
-    s32  radius;
-} ButtonSegment;
-
-typedef struct {
-    VecFx32 c;
-    s32  r;
-} Sphere;
-
-/* Result block of the segment-versus-sphere test. */
-typedef struct {
-    u32  hit;
-    VecFx32 n;
-    s32  d;
-} HitInfo;
+#include "button_man.h"
 
 struct ButtonSlot {
     u8  kind;               /* index into g_020A15E8: 0 idle, 1 pressed */
@@ -87,8 +69,12 @@ struct ButtonMan {
 };
 
 /* Kept local: the heap id is a u16 here (gfl_heap_wrap.h takes u32). */
-extern void *GFL_HEAP_Alloc(u16 id, u32 size, u32 flags, void *file, u32 line);
+#ifdef __MWERKS__
+extern void *GFL_HEAP_Alloc(u16 id, u32 size, u32 flags, void *file, u32 line); /* original prototype; the definition differs in argument sign, argument width, pointer type */
 extern u32 GFL_HEAP_Free(void *p);
+#else
+#include "gfl_heap_wrap.h"
+#endif
 #include "touchpanel.h"
 #include "fx_mtx22.h"
 extern void MTX_ScaleApply22(const MtxFx22 *src, MtxFx22 *dst, s32 x, s32 y);
@@ -105,8 +91,8 @@ int BUTTON_MAN_SlotHandlerIdle(struct ButtonSlot *p, int a, int b);
 int BUTTON_MAN_SlotHandlerPressed(struct ButtonSlot *p, u32 x);
 void BUTTON_MAN_SlotSetKind(struct ButtonSlot *p, int a);
 void BUTTON_MAN_RotScaleMtx22(MtxFx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode);
-void BUTTON_MAN_InitSphere(Sphere *dst, VecFx32 *src, unsigned radius);
-u32 BUTTON_MAN_SegmentSphereTest(ButtonSegment *seg, Sphere *b, HitInfo *out);
+void BUTTON_MAN_InitSphere(ButtonSphere *dst, VecFx32 *src, unsigned radius);
+u32 BUTTON_MAN_SegmentSphereTest(ButtonSegment *seg, ButtonSphere *b, ButtonHitInfo *out);
 void BUTTON_MAN_InitSegment(ButtonSegment *p, VecFx32 *q, VecFx32 *r, u32 v);
 void BUTTON_MAN_ScaleVec(const VecFx32 *v, int s, VecFx32 *dst);
 void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, MtxFx33 *dst);
@@ -300,7 +286,7 @@ void BUTTON_MAN_RotScaleMtx22(MtxFx22 *mtx, u32 ang, long scaleX, long scaleY, u
     MTX_ScaleApply22(mtx, mtx, FX_Inv(scaleX), FX_Inv(scaleY));
 }
 
-void BUTTON_MAN_InitSphere(Sphere *dst, VecFx32 *src, unsigned radius)
+void BUTTON_MAN_InitSphere(ButtonSphere *dst, VecFx32 *src, unsigned radius)
 {
     dst->c = *src;
     dst->r = radius;
@@ -319,9 +305,9 @@ void BUTTON_MAN_InitSphere(Sphere *dst, VecFx32 *src, unsigned radius)
  * AFTER the limit is loaded (`d = VEC_Mag(..); lim = ..; res.d = d;`).
  * Comparing res.d itself reloads it from the stack at the join.
  */
-u32 BUTTON_MAN_SegmentSphereTest(ButtonSegment *seg, Sphere *b, HitInfo *out)
+u32 BUTTON_MAN_SegmentSphereTest(ButtonSegment *seg, ButtonSphere *b, ButtonHitInfo *out)
 {
-    HitInfo      res;    /* sp+0x24: res.hit, n, d -- copied out as one block */
+    ButtonHitInfo      res;    /* sp+0x24: res.hit, n, d -- copied out as one block */
     VecFx32 sd;     /* sp+0x18 */
     VecFx32 bc;     /* sp+0x0c */
     VecFx32 tmp;    /* sp+0x00 */

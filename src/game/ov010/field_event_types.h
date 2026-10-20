@@ -81,7 +81,7 @@ typedef struct ReportEventWork {
     struct SaveControl *saveControl;       /* 0x00 */
     struct GameSystem *gameSystem;         /* 0x04 */
     struct FieldMap *fieldMap;             /* 0x08 */
-    struct FieldMsgContext *msgContext;    /* 0x0C */
+    struct FieldMsgBg *msgContext;         /* 0x0C */
     unsigned short heapId;                     /* 0x10 */
     unsigned char pad12[2];
     unsigned int *resultOut;                 /* 0x14 */

@@ -61,6 +61,21 @@
  */
 #include "../ov021/weather_task_types.h"
 #include "weather_snow_blizzard_downpour_diamond_dust_types.h"
+/* Original prototype (docs/ORIGINAL_BUGS.tsv): the DS caller passes slope and heapId as full ints */
+#ifdef __MWERKS__
+#define WEATHER_TASK_ChangeFog WEATHER_TASK_ChangeFog_header
+#define WEATHER_TASK_PrewarmParticles WEATHER_TASK_PrewarmParticles_header
+#endif
+#include "../ov021/weather_task.h"
+#ifdef __MWERKS__
+#undef WEATHER_TASK_ChangeFog
+#undef WEATHER_TASK_PrewarmParticles
+void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, int slope, int offset, int frames, int mode);
+void WEATHER_TASK_PrewarmParticles(WeatherTaskSys *task, WeatherSpawnFunc spawn, int iterations, int growEvery, int growBy, int heapId);
+#endif
+#include "../arm9/clact.h"
+extern u16 ZONEDATA_GetLightTableMember(u32 i);
+extern u32 GFL_USE_GetRandom(u32 range);
 
 extern const s8 gSnowWobbleOffsetX[];
 extern const int gBlizzardWindSpeedX[];
@@ -222,7 +237,7 @@ void WEATHER_SNOW_UpdateParticle(WeatherParticle *particle)
         pos.y = pos.y + 1;
         flake->fallAccum = flake->fallAccum % flake->fallThreshold;
     }
-    WEATHER_TASK_SetParticlePosWrapped(particle, &pos);
+    WEATHER_TASK_SetParticlePosWrapped(particle, (u16 *)&pos);
     flake->fallAccum = flake->fallAccum + 8;
     flake->wobbleIndex = (unsigned)(flake->wobbleIndex + 1) % 337u;
     if ((pos.y < -284 && pos.y > -296) || (pos.y > 212 && pos.y < 232)) {
@@ -256,15 +271,15 @@ void WEATHER_SNOW_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId)
         flake->dyingFrames = (int)GFL_USE_GetRandom(0) % 30 + 2;
         flake->fallThreshold = GFL_USE_GetRandom(8) + 12;
         /* stand-in: the int round trip keeps the address arithmetic in the hoisting order of the original */
-        flake->staggerSpawn = (int *)(int)&work->staggerSpawn;
-        flake->ending = (int *)(int)&work->ending;
+        flake->staggerSpawn = (int *)(sptr)&work->staggerSpawn;
+        flake->ending = (int *)(sptr)&work->ending;
         pos.x = GFL_USE_GetRandom(0x19E) - 0x20;
         if (work->staggerSpawn == 1 && i >= count / 2) {
             pos.y = -8 - 0x20 - GFL_USE_GetRandom(0x14);
         } else {
             pos.y = -8 - GFL_USE_GetRandom(0x14);
         }
-        WEATHER_TASK_SetParticlePosWrapped(particle, &pos);
+        WEATHER_TASK_SetParticlePosWrapped(particle, (u16 *)&pos);
     }
 }
 
@@ -645,7 +660,7 @@ void WEATHER_DOWNPOUR_UpdateParticle(WeatherParticle *particle)
         }
         pos.x = pos.x + (s16)drop->speedX;
         pos.y = pos.y + (s16)drop->speedY;
-        WEATHER_TASK_SetParticlePosWrapped(particle, &pos);
+        WEATHER_TASK_SetParticlePosWrapped(particle, (u16 *)&pos);
         break;
     case WEATHER_DOWNPOUR_DROP_SPLASHING:
         pos.x = pos.x + (s16)drop->speedX;
@@ -718,7 +733,7 @@ void WEATHER_DOWNPOUR_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapId
         drop->fallFrames = (random & 3) + 1;
         pos.x = random % 270 + (sizeClass * 15 - 0x40);
         pos.y = (random & 0xF) - 8;
-        WEATHER_TASK_SetParticlePosWrapped(particle, &pos);
+        WEATHER_TASK_SetParticlePosWrapped(particle, (u16 *)&pos);
         drop->splashSeed = random;
     }
 }
@@ -892,7 +907,7 @@ void WEATHER_DIAMOND_DUST_SpawnParticles(WeatherTaskSys *task, s32 count, u32 he
         animIndex = random % 20;
         pos.x = random % 384 - 64;
         pos.y = random2 % 256 - 8;
-        WEATHER_TASK_SetParticlePosWrapped(particle, &pos);
+        WEATHER_TASK_SetParticlePosWrapped(particle, (u16 *)&pos);
         stripTop = 50 - pos.x / 3;
         stripSpan = 206 - pos.x / 3;
         if (stripSpan < 0) {

@@ -110,6 +110,7 @@
  *   _fsub                        0x0209CB8C  arm
  */
 #include "symbol_map_shared_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../types.h"
 
@@ -120,23 +121,6 @@ struct SymbolMapSave;
 struct SymbolMapSaveEntry;
 
 struct Pokemon;
-
-/* One list entry of the link record: an 11-bit id and 21 bits of payload. */
-typedef struct SymbolMapEntry {
-    u32 id : 11;
-    u32 payload : 21;
-} SymbolMapEntry;
-
-/* The 0x54-byte record two players exchange over the link. */
-typedef struct SymbolMapLinkRecord {
-    SymbolMapEntry entries[20];   /* 0x00 */
-    u32 entryCount : 6;           /* 0x50 */
-    u32 symbolIndex : 4;          /* 0..6, low part of the grid table index */
-    u32 symbolGroup : 4;          /* multiplied by 7 in the grid table index */
-    u32 state : 4;                /* 4 = local record */
-    u32 page : 6;
-    u32 reserved : 8;
-} SymbolMapLinkRecord;
 
 /* Holder of the link record pointer (first field of the owner struct). */
 typedef struct SymbolMapOwner {
@@ -230,181 +214,160 @@ typedef struct PmsInputWords {
     u16 second;
 } PmsInputWords;
 
-typedef struct PmsInputSentence {
-    u16 header[2];
-    u16 first;
-    u16 second;
-} PmsInputSentence;
+#include "../arm9/pms_types.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern void *SYMBOL_SAVE_GetBlock(void *saveControl);
+#include "../arm9/symbol_save.h"
 struct GameComm;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
-extern u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
+#include "../ov011/intrude_comm.h"
 
-extern u8 SYMBOL_MAP_GetSymbolIndex(u8 *saveData);
+#include "comm_player.h"
 
-extern u8 SYMBOL_MAP_GetGroup(u8 *saveData);
 struct IntrudeCommSys;
 
-extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
+#include "intrude_comm_query.h"
 
-extern u8 *INTRUDE_COMM_GetPartnerSymbolPage(struct IntrudeCommSys *linkState);
 
-extern int GAME_DATA_GetSymbolMapFlag(struct GameData *gd);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 struct Entry32;
 
-extern u16 SYMBOL_MAP_GetEntryPage(struct Entry32 *list, struct Entry32 *out, u32 cap, s32 page, u8 *n);
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern struct GameTask *GAME_EVENT_Create(void *parent, void *reserved, void *mainFunc, u32 workSize);
 struct GameEvent;
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 struct CommProcParam;
 
-extern void EVENT_FIELD_PROCLINK_StartCommProc(struct CommProcParam *param, struct GameSystem *gameSystem, u8 kind, u8 sub);
+typedef int Bool;
+#include "event_field_proclink.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 
-extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
 struct ScrcmdWork;
 struct ScriptWork;
 
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+#include "scrcmd_work.h"
 
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
-extern u8 *GAME_DATA_GetEventState(struct GameData *gameData);
 
-extern u16 SCRIPT_WORK_ReadWorkValue(void *vm, void *work);
+#ifdef __MWERKS__
+extern unsigned short SCRIPT_WORK_ReadWorkValue(void *vm, void *work); /* original prototype; the definition differs in pointer type, return type */
+#else
+extern unsigned short SCRIPT_WORK_ReadWorkValue(struct ScriptVm*, struct ScrcmdWork*);
+#endif
 
-extern u16 VM_ReadU16(struct ScriptVm *vm);
+#include "../arm9/vm.h"
 
 extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 struct PleasureBoatWork;
 
-extern u32 PLEASURE_BOAT_GetPassengerParam(struct PleasureBoatWork *work, u32 index);
+#include "../ov021/pleasure_boat.h"
 
-extern u32 PLEASURE_BOAT_GetPassengerType(struct PleasureBoatWork *work, u32 index);
 
-extern u32 PLEASURE_BOAT_GetPassengerExtra(struct PleasureBoatWork *work, u32 index, u32 wordIndex);
 
-extern u32 PLEASURE_BOAT_GetPassengerOccupied(struct PleasureBoatWork *work, u32 index);
 
-extern void SCRIPT_SYS_CallEvent(void *scriptSystem, void *task);
+#include "script_sys.h"
 struct WifiHistory;
 
-extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
+#include "../arm9/wifi_history.h"
 
-extern u32 WIFI_HISTORY_IsCountryVisited(struct WifiHistory *history, u32 country);
 
-extern u8 WIFI_HISTORY_GetFirstFreeEntry(struct WifiHistory *history);
 struct HistoryEntry;
 
-extern struct HistoryEntry *WIFI_HISTORY_GetEntry(struct WifiHistory *history, s32 index);
 struct MyStatus;
 
-extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 
-extern u8 *GAME_DATA_GetSaveSyncBlock(struct GameData *gameData);
 
-extern void MTX_Scale22_(void *dst, int scaleX, int scaleY);
 
-extern void G2x_SetBGyAffine_(void *reg, void *matrix, int centerX, int centerY, int unusedA, int unusedB);
+#include "../arm9/g2.h"
 
-extern int GFL_USE_SetVBlankHook(int callback, int param);
 
-extern void MTX_Identity22_(void *matrix);
+#include "../arm9/fx_mtx22.h"
+extern void MTX_Identity22_(MtxFx22 *matrix);
 
-extern void GFL_USE_ClearVBlankHook(void);
 struct PokemonParam;
 
-extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 struct FieldMap;
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+#include "../arm9/field_status.h"
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTable, void *param);
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
+#include "../ov021/event_fieldmap_control.h"
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
 
-extern void  GAME_BEACON_SEARCH_SetSymbolMapPoke(u16 species);
+#ifdef __MWERKS__
+extern void GAME_BEACON_SEARCH_SetSymbolMapPoke(u16 species); /* original prototype; the definition differs in argument width */
+#else
+#include "game_beacon_set.h"
+#endif
+struct Location;
 
-extern u32 ZONEDATA_GetParentZoneId(u32 zoneId);
+                             
 
-extern SpecialLocation *GAME_DATA_GetSpecialLocation(void *gameData);
 
-extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 
-extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *status, s32 flag);
 struct EventWork;
 
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 
-extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *miscSave, int keyId, void *myStatus);
+#include "field_g3d_map_scr.h"
 
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
 
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 struct PmsiParam;
 
-extern struct PmsiParam *PMSI_PARAM_Create(u32 mode, u32 unused, void *src, u32 flag, void *saveControl, u32 hh);
 
-extern void *GREETING_SAVEDATA_GetFromSave(u32 saveControl);
+#include "../arm9/greeting_savedata.h"
+#include "../arm9/game_event.h"
+#include "../ov021/fieldmap.h"
+#include "../arm9/zone_weather.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/pmsi_param.h"
+#ifndef __MWERKS__
+#include "../arm9/zonedata.h"
+#endif
 struct QuadRecord;
+struct PmsData;
 
-extern void GREETING_SAVEDATA_GetSentence(struct QuadRecord *src, s32 idx, struct QuadRecord *dst);
 
-extern void PMSI_PARAM_SetSentence(u16 *pmsParam, const u16 *sentence);
 
-extern int PMSI_PARAM_CheckCanceled(struct PmsiParam *obj);
 
-extern void  PMSI_PARAM_GetWords(void *pmsParam, PmsInputWords *out);
 
-extern unsigned int PMSI_PARAM_GetWord(struct PmsiParam *obj);
 
-extern void PMSI_PARAM_GetSentence(char *pmsParam, void *out);
 
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 
-extern void GREETING_SAVEDATA_SetSentence(struct QuadRecord *dst, s32 idx, struct QuadRecord *src);
 
-extern void  PMSI_PARAM_Delete(void *pmsParam);
 
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 struct WeatherSys;
 
-extern struct WeatherSys *FIELDMAP_GetWeather(struct FieldMap *fieldMap);
+                              
 
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 
-extern u32 WEATHER_GetZoneWeatherId(void *gameSystem, u32 zoneId);
+                                 
+                               
+                             
 
-extern void WEATHER_RequestChangeNoFade(int a, int b);
+#ifdef __MWERKS__
+extern void WEATHER_RequestChangeNoFade(struct WeatherSys *sys, int weatherId); /* original prototype; the definition differs in return type, argument width */
+#else
+#include "../ov021/weather.h"
+#endif
 
-extern void WEATHER_RequestChange(int a, int b);
+#ifdef __MWERKS__
+extern void WEATHER_RequestChange(struct WeatherSys *sys, int weatherId); /* original prototype; the definition differs in argument width */
+#else
+#endif
 
-extern void GAME_DATA_SetWeatherId(struct GameData *gameData, u8 mode);
 
 u8 SYMBOL_MAP_FindGridIndex();
 
@@ -458,7 +421,7 @@ int SYMBOL_MAP_ScrCmdGetSyncBlockHeader(void *vm, void *work);
 
 int SYMBOL_MAP_ScrCmdStartPicker(void *vm, void *work);
 
-void SYMBOL_MAP_UpdateBg2Scale(void);
+void SYMBOL_MAP_UpdateBg2Scale(void *unused);
 
 void SYMBOL_MAP_StartBg2Scale(void);
 
@@ -776,9 +739,9 @@ u32 SYMBOL_MAP_GetEventStateEntryValue(void *entries, u32 index)
  * progress record and the completion flag, and copies the last result.
  */
 void *SYMBOL_MAP_CreateRecordTask(void *gameSystem, void *progress, void *outCompleted) {
-    struct GameTask *task;
+    struct GameEvent *task;
     SymbolMapRecordWork *work;
-    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_RecordTaskMain, 32);
+    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SYMBOL_MAP_RecordTaskMain, 32);
     work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->progress = progress;
     work->outCompleted = outCompleted;
@@ -944,14 +907,14 @@ int SYMBOL_MAP_GetSyncBlockHeader(SaveSyncBlock *block, int sel)
  */
 void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 outValue, u32 outPicked)
 {
-    struct GameTask *task;
+    struct GameEvent *task;
     SymbolMapPickerWork *work;
     struct SymbolMapSave *save;
     int i;
     int count;
     int flagIndex;
 
-    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PickerTaskMain, 0x128);
+    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SYMBOL_MAP_PickerTaskMain, 0x128);
     work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->mode = mode;
     work->outPicked = (u16 *)outPicked;
@@ -1070,14 +1033,14 @@ int SYMBOL_MAP_ScrCmdStartPicker(void *vm, void *work)
 }
 
 /* Per-frame callback: during VBlank, grows the BG2 scale and rewrites the BG2 matrix. */
-void SYMBOL_MAP_UpdateBg2Scale(void)
+void SYMBOL_MAP_UpdateBg2Scale(void *unused)
 {
     int fixedScale;
-    int matrix[4];
+    MtxFx22 matrix;
     float scale;
     float rounded;
     float zero = 0.0f;
-    if (*(volatile u16 *)0x04000004 & 1) {
+    if (*(volatile u16 *)REG_DISPSTAT_ADDR & 1) {
         scale = g_Bg2ScaleState[0] + g_Bg2ScaleStep;
         g_Bg2ScaleState[0] = scale;
         if (1.0f / scale > zero)
@@ -1085,8 +1048,8 @@ void SYMBOL_MAP_UpdateBg2Scale(void)
         else
             rounded = 4096.0f * (1.0f / scale) - 0.5f;
         fixedScale = (int)rounded;
-        MTX_Scale22_(matrix, fixedScale, fixedScale);
-        G2x_SetBGyAffine_((void *)0x04000020, matrix, 0x80, 0x5c, 0, 0);
+        MTX_Scale22_(&matrix, fixedScale, fixedScale);
+        G2x_SetBGyAffine_(REG_BG2PA_ADDR, &matrix, 0x80, 0x5c, 0, 0);
     }
 }
 
@@ -1098,14 +1061,14 @@ void SYMBOL_MAP_StartBg2Scale(void)
 {
     g_Bg2ScaleState[0] = 1.0f;
     g_Bg2ScaleState[1] = 0.0f;
-    GFL_USE_SetVBlankHook((int)SYMBOL_MAP_UpdateBg2Scale, 0);
+    GFL_USE_SetVBlankHook(SYMBOL_MAP_UpdateBg2Scale, 0);
 }
 
 /* Resets the BG2 matrix to identity and stops the per-frame callback. */
 void SYMBOL_MAP_StopBg2Scale(void) {
-    int matrix[4];
-    MTX_Identity22_(matrix);
-    G2x_SetBGyAffine_((void *)0x04000020, matrix, 128, 92, 0, 0);
+    MtxFx22 matrix;
+    MTX_Identity22_(&matrix);
+    G2x_SetBGyAffine_(REG_BG2PA_ADDR, &matrix, 128, 92, 0, 0);
     GFL_USE_ClearVBlankHook();
 }
 
@@ -1163,9 +1126,9 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
 
 /* Creates the ov215 task (see SYMBOL_MAP_PokeEventTaskMain). */
 void *SYMBOL_MAP_CreatePokeEventTask(void *gameSystem, void *transitionArg, void *poke) {
-    struct GameTask *task;
+    struct GameEvent *task;
     PokeEventWork *work;
-    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PokeEventTaskMain, 24);
+    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SYMBOL_MAP_PokeEventTaskMain, 24);
     work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSystem = gameSystem;
     work->transitionArg = (u32)transitionArg;
@@ -1247,7 +1210,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     void *gameData;
     void *scriptSystem;
     PmsInputWork *inputWork;
-    struct GameTask *task;
+    struct GameEvent *task;
     u16 kind;
     u32 mode;
 
@@ -1259,7 +1222,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     outWord1 = SCRIPT_WORK_ReadWorkPointer(vm, work);
     outResult = SCRIPT_WORK_ReadWorkPointer(vm, work);
     mode = 0;
-    task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PmsInputTaskMain, sizeof(PmsInputWork));
+    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SYMBOL_MAP_PmsInputTaskMain, sizeof(PmsInputWork));
     inputWork = GAME_EVENT_GetWork((struct GameEvent *)task);
     MI_CpuFill8(inputWork, 0, sizeof(PmsInputWork));
     inputWork->kind = kind;
@@ -1303,7 +1266,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     inputWork->pmsParam = PMSI_PARAM_Create(mode, 0, 0, 0, GAME_DATA_GetSaveControl(gameData), 1);
     if (inputWork->hasSentence) {
         GREETING_SAVEDATA_GetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSave((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)))), inputWork->sentenceId, (struct QuadRecord *)sentenceBuf);
-        PMSI_PARAM_SetSentence(inputWork->pmsParam, (const u16 *)sentenceBuf);
+        PMSI_PARAM_SetSentence(inputWork->pmsParam, (struct PmsData *)sentenceBuf);
     }
     SCRIPT_SYS_CallEvent(scriptSystem, task);
     return 1;
@@ -1335,7 +1298,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
     PmsInputWork *work = GAME_EVENT_GetWork(task);
     void *pmsParam = work->pmsParam;
     PmsInputWords words;
-    PmsInputSentence sentence;
+    PmsData sentence;
     u16 second;
     u16 result;
 
@@ -1352,7 +1315,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
             result = 0;
         } else {
             if (work->kind == 5) {
-                PMSI_PARAM_GetWords(pmsParam, &words);
+                PMSI_PARAM_GetWords(pmsParam, (u16 *)&words);
                 *work->outWord0 = words.first;
                 second = words.second;
             } else if (work->kind == 4) {
@@ -1363,8 +1326,8 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
                 if (work->hasSentence != 0) {
                     GREETING_SAVEDATA_SetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSave((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task))))), work->sentenceId, (struct QuadRecord *)((&sentence)));
                 }
-                *work->outWord0 = sentence.first;
-                second = sentence.second;
+                *work->outWord0 = sentence.word[0];
+                second = sentence.word[1];
             }
             *work->outWord1 = second;
             result = 1;
@@ -1398,9 +1361,9 @@ int SYMBOL_MAP_ScrCmdSetSubscreenMode(void *vm, void *work)
     if (modeId == 0xFFFF)
         modeId = WEATHER_GetZoneWeatherId(gameSystem, FIELDMAP_GetZoneId(fieldMap));
     if (enable != 0)
-        WEATHER_RequestChangeNoFade(fieldState, modeId);
+        WEATHER_RequestChangeNoFade((struct WeatherSys *)fieldState, modeId);
     else
-        WEATHER_RequestChange(fieldState, modeId);
+        WEATHER_RequestChange((struct WeatherSys *)fieldState, modeId);
     GAME_DATA_SetWeatherId(gameData, modeId & 0xff);
     return 0;
 }

@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_NET_RING_BUFF_H
 #define GAME_ARM9_NET_RING_BUFF_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of net_ring_buff.c, prototypes copied from their definitions. */
 
 #include "../arm9/net_types.h"
@@ -17,5 +18,6 @@ int GFL_NET_RING_BUFF_GetFreeSize(NetRingBuff *ring);
 int GFL_NET_RING_BUFF_WrapPos(const NetRingBuff *ring, int pos);
 int GFL_NET_RING_BUFF_GetWritableSize(NetRingBuff *ring);
 void GFL_NET_RING_BUFF_EndChange(NetRingBuff *ring);
+/* END mkheaders: generated region */
 
 #endif

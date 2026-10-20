@@ -1,11 +1,21 @@
 #ifndef GAME_ARM9_NNS_GFD_LNK_VRAM_MAN_H
 #define GAME_ARM9_NNS_GFD_LNK_VRAM_MAN_H
 
+#include "../types.h"
+
+typedef struct NNSiGfdLnkBlock {
+    u32 addr;
+    u32 size;
+    struct NNSiGfdLnkBlock *prev;
+    struct NNSiGfdLnkBlock *next;
+} NNSiGfdLnkBlock;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_gfd_lnk_vram_man.c, prototypes copied from their definitions. */
 
 #include "../types.h"
 
+BOOL NNSi_GfdAllocLnkVram(NNSiGfdLnkBlock **list, NNSiGfdLnkBlock **pool, u32 *pRet, u32 size, u32 alignment);
 void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg);
 int NNSi_GfdFreeLnkVram(void *headp, void *freep, int addr, int szByte);
 int NNSi_GfdSizeToGranuleTex(int v);

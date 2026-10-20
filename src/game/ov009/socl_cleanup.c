@@ -34,6 +34,7 @@
  *   SOCLi_TrashSocket  0x0215EBB4  arm  ov009
  *   CPS_CalmDown  0x021575DC  arm  ov009
  */
+#include "cps_types.h"
 #include "socl_command_types.h"
 
 /* SOCLiCPSConfig: the CPS configuration object (only bufSize and the field at
@@ -49,27 +50,20 @@ typedef struct SoclSocket {
 	void *next;
 } SoclSocket;
 
-extern void OS_Sleep(unsigned long msec);
-extern int SOCLi_CleanupCommandPacketQueue(void);
-extern void SOCLi_InitResource(void);
-extern void CPS_Cleanup(void);
-extern void CPS_SetScavengerCallback(int v);
-extern void CPS_SetCheckNConfigCallback(void *callback);
-extern void WCM_SetRecvDCFCallback(void (*callback)(unsigned char *, unsigned char *, unsigned char *, long));
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern int SOCL_Close(int s);
-extern int SOCL_IsClosed(int s);
-extern void SOCLi_TrashSocket(void);
-extern int CPS_CalmDown(void);
+#include "../arm9/os_thread.h"
+#include "socl_command.h"
+#include "socl_misc.h"
+#include "cps_network.h"
+#include "wcm_cpsif.h"
+#include "../arm9/os_system.h"
+#include "socl_close.h"
 int SOCL_Cleanup(void);
 void SOCLi_CleanupCPS(void);
 int SOCL_CloseAll(void);
 int SOCL_CalmDown(void);
 extern unsigned long SOCLiRequestedIP;
 extern unsigned long gCpsMyIp;
-extern SoclConfig *gSoclConfig;
-extern CpsConfig SOCLiCPSConfig;
+extern SOCLConfig *gSoclConfig;
 extern SoclSocket *SOCLiUDPSendSocket;
 extern SoclSocket *SOCLiSocketList;
 extern SoclSocket *SOCLiTrashList;
@@ -93,7 +87,7 @@ int SOCL_Cleanup(void)
 	result = SOCLi_CleanupCommandPacketQueue();
 	if (result >= 0) {
 		SOCLi_CleanupCPS();
-		if (gSoclConfig->lanBuffer == 0) {
+		if (gSoclConfig->lan_buffer == 0) {
 			gSoclConfig->free((void *)SOCLiCPSConfig.lan_buf);
 		}
 		gSoclConfig = 0;
@@ -134,7 +128,7 @@ int SOCL_CloseAll(void)
 		if (socket == 0) {
 			break;
 		}
-		SOCL_Close((int)socket);
+		SOCL_Close((sptr)socket);
 	}
 	if (((SoclSocket *)SOCLiSocketList) == 0 || (((SoclSocket *)SOCLiSocketList) == ((SoclSocket *)SOCLiUDPSendSocket) && SOCLiSocketList->next == 0)) {
 		if (((SoclSocket *)SOCLiTrashList) == 0) {

@@ -154,29 +154,24 @@
  *   BGWINFRM_PutBmpWin  0x0202CEBC  thumb
  *   BGWINFRM_ShowFrame  0x0202CC58  thumb
  */
+#include "../arm9/arc_util.h"
+#include "../arm9/pmsi_param.h"
 #include "bsubway_record_list_types.h"
 
 struct BsubwayWifiData;
 struct BsubwayWifiRecordList;
 struct Proc;
-struct DispVram;
+#include "../arm9/bg_sys_types.h"
+
 struct ActorSystemConfig;
 
 typedef struct {
     int x;
     int y;
-} Pos;
+} BsubwayRecordListPos;
 
 /* Display configuration, four words. */
-struct DispConfig {
-    u32 word[4];
-};
-
 /* Background template, eight words. */
-struct BgTemplate {
-    u32 word[8];
-};
-
 struct BgTemplateSet {
     struct BgTemplate bg[5];
 };
@@ -197,7 +192,6 @@ extern int BSUBWAY_RECORD_LIST_RunInputState(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_UpdateText(BsubwayRecordListWork *work);
 struct BgWinFrmWork;
 extern void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
-extern void CLACT_DrawSystem(void);
 extern int BSUBWAY_RECORD_LIST_DeleteCursor(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_DeleteWindows(BsubwayRecordListWork *work);
@@ -205,15 +199,15 @@ extern void BSUBWAY_RECORD_LIST_DeleteActors(BsubwayRecordListWork *work);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 struct Strbuf;
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u16 *STRBUF_GetChars(struct Strbuf *vec);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*fn)(void), void *arg, u32 priority);
+struct TcbTask;
+extern struct TcbTask *GFL_USE_AddMainTask(void (*fn)(void), void *arg, u32 priority);
 extern void *GAME_DATA_GetSaveBlock3B(struct GameData *gameData);
 struct BsubwaySave;
 struct HistoryBuf;
@@ -226,7 +220,6 @@ extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 struct TcbTask;
 extern void TCB_DeleteTask(struct TcbTask *task);
-extern void ARC_TOOL_DeleteHandle(void *p);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
@@ -242,7 +235,6 @@ extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 APP_ICON_GetStatusDataFileId(void);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -254,19 +246,12 @@ extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
 extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern u32 APP_ICON_GetStatusCellFileId(u32);
 extern u32 APP_ICON_GetStatusPaletteFileId(u32);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_Update(void);
 int BSUBWAY_RECORD_LIST_Init(void *proc, u32 unusedSeq, BsubwayRecordListArgs *args);
 int BSUBWAY_RECORD_LIST_Main(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRecordListWork *work);
@@ -284,7 +269,7 @@ extern const struct DispVram sRecordListVramBanks;
 extern const struct DispConfig sRecordListDispConfig;
 extern const struct BgTemplateSet sRecordListBgTemplates;
 extern const u32 sRecordListBgIds[];
-extern const Pos sRecordListFramePositions[];
+extern const BsubwayRecordListPos sRecordListFramePositions[];
 extern const struct ActorSystemConfig gClActorInitParam;
 
 #define SE_CURSOR_MOVE 0x548
@@ -301,6 +286,9 @@ struct Vec2;
 
 #include "../types.h"
 
+union TouchHitTable;
+#include "../arm9/clact.h"
+#include "../arm9/printsys.h"
 /* Sprite template: position and the resource indexes (into spriteRes). */
 typedef struct ActorTemplate {
     int x;
@@ -336,13 +324,6 @@ typedef struct CursorPos {
 
 typedef int (*InputStateFunc)(BsubwayRecordListWork *work);
 
-extern struct Actor *CLACT_CreateActor(struct Bank *bank, unsigned int charRes, unsigned int palRes, unsigned int cellRes, const ActorSetup *setup, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enabled);
-extern void CLACT_ReleaseCharacter(u32 res);
-extern void CLACT_ReleasePalette(u32 res);
-extern void CLACT_ReleaseCellAnim(u32 res);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Init(u16 heapId);
 struct BmpWin;
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
@@ -356,35 +337,24 @@ extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BMP_WIN_Exit(void);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 struct Cursor;
 extern int CURSOR_MOVE_PollInput(struct Cursor *obj);
-extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 struct CursorVtbl;
 struct CursorEntry;
 extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId);
 extern u32 CURSOR_MOVE_Delete(void *cursor);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, u32 idx);
-extern void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32 which);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *wordSet, u32 index, u32 trainerClass);
 extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *wordSet, u32 index, u32 trainerClass, u32 trainerIndex);
 extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern void STRBUF_SetStringN(struct Strbuf *dst, const u16 *src, u32 len);
-extern struct Strbuf *PMSI_PARAM_ToString(const BsubwayPmsData *pms, unsigned int heap);
 extern void BG_SYS_MarkTileDirty(u32);
-extern int TOUCHPANEL_HitTrg(const void *rects);
+extern int TOUCHPANEL_HitTrg(const union TouchHitTable *rects);
 extern unsigned KEY_GetTrg(void);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animIndex);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int enabled);
 extern u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
 extern void BSUBWAY_RECORD_LIST_DrawRowName(BsubwayRecordListWork *work, int row, struct Strbuf *name, int isFemale);
 extern void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, u32 idx);
@@ -412,7 +382,6 @@ extern const char sTouchRects[];
 
 struct GfFont;
 
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, u32 idx, void *bmpWin);
 extern void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, u32 idx);
 
@@ -576,9 +545,9 @@ void BSUBWAY_RECORD_LIST_SetupActors(BsubwayRecordListWork *work)
     u32 cellAnimId;
 
     spriteArc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), 0x80);
-    CLACT_InitSystem((struct SysInit *)(&gClActorInitParam), (struct DispVramCfg *)(&sRecordListVramBanks), 0x80);
-    work->actorBank = CLACT_CreateUnit(4, 1, 0x80);
-    work->subActorBank = CLACT_CreateUnit(2, 1, 0x80);
+    CLACT_InitSystem((struct ClactSysInit *)(&gClActorInitParam), (struct DispVramCfg *)(&sRecordListVramBanks), 0x80);
+    work->actorBank = (struct Bank *)CLACT_CreateUnit(4, 1, 0x80);
+    work->subActorBank = (struct Bank *)CLACT_CreateUnit(2, 1, 0x80);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     work->spriteRes[1] = CLACT_RegisterCharacter(work->arcHandle, 7, 1, 2, 0x80);
@@ -609,8 +578,8 @@ void BSUBWAY_RECORD_LIST_CreateActors(BsubwayRecordListWork *work)
         setup.z = sActorTemplates[i].z;
         setup.bgPriority = 0;
         setup.animIndex = 0;
-        work->actors[i] = CLACT_CreateActor(work->actorBank, work->spriteRes[sActorTemplates[i].charRes], work->spriteRes[sActorTemplates[i].palRes], work->spriteRes[sActorTemplates[i].cellRes], &setup, 0, 0x80);
-        CLACT_SetActorAutoAnim(work->actors[i], 1);
+        work->actors[i] = (struct Actor *)CLACT_CreateActor((struct Unit *)work->actorBank, work->spriteRes[sActorTemplates[i].charRes], work->spriteRes[sActorTemplates[i].palRes], work->spriteRes[sActorTemplates[i].cellRes], (struct ActorInitParam *)(&setup), 0, 0x80);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->actors[i], 1);
     }
 }
 
@@ -622,8 +591,8 @@ void BSUBWAY_RECORD_LIST_DeleteActors(BsubwayRecordListWork *work)
     CLACT_ReleaseCharacter(work->spriteRes[1]);
     CLACT_ReleasePalette(work->spriteRes[0]);
     CLACT_ReleaseCellAnim(work->spriteRes[2]);
-    CLACT_DeleteUnit(work->subActorBank);
-    CLACT_DeleteUnit(work->actorBank);
+    CLACT_DeleteUnit((struct Unit *)work->subActorBank);
+    CLACT_DeleteUnit((struct Unit *)work->actorBank);
     CLACT_ExitSystem();
 }
 
@@ -728,7 +697,7 @@ int BSUBWAY_RECORD_LIST_StateInput(BsubwayRecordListWork *work)
     return 1;
 }
 
-int BSUBWAY_RECORD_LIST_StateBackAnim(BsubwayRecordListWork *work) { if (CLACT_IsActorAnimActive(work->actors[BSUBWAY_RECORD_LIST_ACTOR_BACK])==0) work->state = BSUBWAY_RECORD_LIST_STATE_FADE_OUT_START; return 1; }
+int BSUBWAY_RECORD_LIST_StateBackAnim(BsubwayRecordListWork *work) { if (CLACT_IsActorAnimActive((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_BACK])==0) work->state = BSUBWAY_RECORD_LIST_STATE_FADE_OUT_START; return 1; }
 
 int BSUBWAY_RECORD_LIST_StateFadeOutStart(BsubwayRecordListWork *work) { WIPE_SYS_Start(0,0,0,0,16,1,128); work->state = BSUBWAY_RECORD_LIST_STATE_FADE_OUT_WAIT; return 1; }
 
@@ -788,7 +757,7 @@ void BSUBWAY_RECORD_LIST_PlaceCursorActor(BsubwayRecordListWork *work, int row)
     entry = (u8 *)CURSOR_MOVE_GetEntry((struct Cursor *)work->cursorMove, row);
     pos.x = entry[0];
     pos.y = entry[1];
-    CLACT_AddActorSurfacePos(work->actors[BSUBWAY_RECORD_LIST_ACTOR_CURSOR], (const struct Vec2 *)(&pos), 0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_CURSOR], (const struct ClactVec2 *)(&pos), 0);
 }
 
 void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayWifiRecord *records, int index)
@@ -842,7 +811,7 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayW
         printSys = work->printSys;
         PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0x10, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].isPending = 1;
-        greetingStr = PMSI_PARAM_ToString(greeting, 0x80);
+        greetingStr = PMSI_PARAM_ToString((struct PmsData *)greeting, 0x80);
         printSys = work->printSys;
         PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_GREETING].window), 0, 0, greetingStr, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_GREETING].isPending = 1;
@@ -862,7 +831,7 @@ int BSUBWAY_RECORD_LIST_PollTouchAndCancel(BsubwayRecordListWork *work)
 {
     int touched;
 
-    touched = TOUCHPANEL_HitTrg(sTouchRects);
+    touched = TOUCHPANEL_HitTrg((union TouchHitTable *)sTouchRects);
     if (KEY_GetTrg() & KEY_B_BUTTON) {
         GFL_USE_PlaySeDefaultVolume(SE_CANCEL);
         touched = 2;
@@ -877,20 +846,20 @@ void BSUBWAY_RECORD_LIST_HandleAction(BsubwayRecordListWork *work, int action)
     case 0:
         if (BSUBWAY_RECORD_LIST_ChangePage(work, action) != 0) {
             GFL_USE_PlaySeDefaultVolume(SE_CURSOR_MOVE);
-            CLACT_SetActorAnimSeq(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], ARROW_ANIM_PREV);
+            CLACT_SetActorAnimSeq((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], ARROW_ANIM_PREV);
             BSUBWAY_RECORD_LIST_ShowPage(work, work->page);
         }
         break;
     case 1:
         if (BSUBWAY_RECORD_LIST_ChangePage(work, action) != 0) {
             GFL_USE_PlaySeDefaultVolume(SE_CURSOR_MOVE);
-            CLACT_SetActorAnimSeq(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], ARROW_ANIM_NEXT);
+            CLACT_SetActorAnimSeq((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], ARROW_ANIM_NEXT);
             BSUBWAY_RECORD_LIST_ShowPage(work, work->page);
         }
         break;
     case 2:
         work->state = BSUBWAY_RECORD_LIST_STATE_BACK_ANIM;
-        CLACT_SetActorAnimSeq(work->actors[BSUBWAY_RECORD_LIST_ACTOR_BACK], BACK_ANIM_PRESS);
+        CLACT_SetActorAnimSeq((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_BACK], BACK_ANIM_PRESS);
         break;
     }
 }
@@ -906,17 +875,17 @@ void BSUBWAY_RECORD_LIST_InitPageCount(BsubwayRecordListWork *work)
 void BSUBWAY_RECORD_LIST_UpdateArrowVisibility(BsubwayRecordListWork *work, int page, int pageCount)
 {
     if (pageCount == 1) {
-        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 0);
-        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 0);
     } else if (page == 0) {
-        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 0);
-        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 1);
     } else if (page != 0 && page < pageCount - 1) {
-        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 1);
-        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 1);
     } else if (page == pageCount - 1) {
-        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 1);
-        CLACT_SetActorDrawEnable(work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_PREV_ARROW], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[BSUBWAY_RECORD_LIST_ACTOR_NEXT_ARROW], 0);
     }
 }
 

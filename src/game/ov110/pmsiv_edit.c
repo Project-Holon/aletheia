@@ -133,11 +133,8 @@ enum {
 
 #define PMSIV_EDIT_CHAR_END 0xffff
 
-typedef struct { short x, y; } ScreenPos;
+typedef struct { short x, y; } PmsivEditScreenPos;
 
-struct ActorSetup {
-    int words[3];
-};
 
 /* Unpacked palette resource: the raw colors sit at +0xC. */
 struct PaletteData {
@@ -160,12 +157,12 @@ struct PmsivEdit {
     struct PmsInputState *input;
     void *param;
     struct BmpWin *windows[PMSIV_EDIT_SCREEN_COUNT];
-    struct Actor *cursors[PMSIV_EDIT_SCREEN_COUNT];
-    struct Actor *wordIcons[PMSIV_EDIT_SLOT_COUNT][PMSIV_EDIT_SCREEN_COUNT];
+    struct ClactActor *cursors[PMSIV_EDIT_SCREEN_COUNT];
+    struct ClactActor *wordIcons[PMSIV_EDIT_SLOT_COUNT][PMSIV_EDIT_SCREEN_COUNT];
     struct MsgBank *messageBank;
     struct U16Vec *text;
     void *bmpCursor;
-    ScreenPos slotPos[PMSIV_EDIT_SLOT_COUNT];
+    PmsivEditScreenPos slotPos[PMSIV_EDIT_SLOT_COUNT];
     u16 slotWordId[PMSIV_EDIT_SLOT_COUNT];
     int slotCount;
     struct PmsivTextParser parser;
@@ -187,149 +184,122 @@ struct PmsivEdit {
 
 struct WinMgr;
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct PmsInput;
 
-extern unsigned int *PMS_INPUT_GetUiInputModePtr(struct PmsInput *input);
+#include "pms_input.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+#include "../arm9/arc_util.h"
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 struct BmpWin;
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct Bmp;
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 struct BmpWin;
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern void BG_SYS_MarkTileDirty(unsigned);
+#include "../arm9/bg_sys.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-struct Actor;
+struct ClactActor;
 
-extern void CLACT_DeleteActor(struct Actor *actor);
+#ifdef __MWERKS__
+#define CLACT_GetActorSurfacePosAxis CLACT_GetActorSurfacePosAxis_hdr
+#define CLACT_SetActorSurfacePosAxis CLACT_SetActorSurfacePosAxis_hdr
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+#undef CLACT_GetActorSurfacePosAxis
+#undef CLACT_SetActorSurfacePosAxis
+short CLACT_GetActorSurfacePosAxis(struct ClactActor *, u16, unsigned);
+void CLACT_SetActorSurfacePosAxis(struct ClactActor *, short, u16, unsigned);
+#endif
 
-extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 
-extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 struct GfFont;
 
-extern struct GfFont *PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
+#include "pms_input_view.h"
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
+#ifdef __MWERKS__
+#define PRINTSYS_Print PRINTSYS_Print_hdr
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_Print
+void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
+#endif
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void PMS_INPUT_VIEW_GetUiRes(struct PmsInputView *, struct ActorSetup *, int, int);
 struct MenuCursor;
 
-extern struct MenuCursor *BMP_CURSOR_Create(unsigned);
+#include "../arm9/bmp_cursor.h"
 struct BgWinFrmWork;
 
-extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
+#include "../arm9/bgwinfrm.h"
 
-extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
 
-extern void BMP_CURSOR_Delete(struct MenuCursor *cursor);
 
-extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY);
 
-extern void BGWINFRM_SetFrameDataArcHandle(struct BgWinFrmWork *wk, u32 idx, void *arcHandle, u32 datId, u32 compressed);
 
-extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
 
-extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, u32 idx, void *bmpWin);
 
-extern void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, u32 idx);
 
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 
-extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
+#include "../arm9/gfl_use.h"
 
-extern void *GFL_USE_AddMainTask(void *, void *, unsigned);
 
-extern short CLACT_GetActorSurfacePosAxis(struct Actor *, u16 surface, unsigned axis);
 
-extern void CLACT_SetActorSurfacePosAxis(struct Actor *, short pos, u16 surface, unsigned axis);
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
-extern void MIi_CpuCopy16(const void *, void *, int);
+#include "../arm9/mi_memory.h"
 
-extern void DC_FlushRange(void *, unsigned);
+#include "../arm9/os_cache.h"
 struct PmsInput;
 
-extern unsigned PMS_INPUT_GetInputMode(struct PmsInput *input);
 
-extern int PMS_INPUT_GetSentenceType(struct PmsInput *input);
 
-extern void GX_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
+#include "../arm9/gx_load2d.h"
 
-extern void GXS_LoadBGPltt(void *pSrc, unsigned int offset, unsigned int szByte);
 
-extern void PMS_INPUT_VIEW_GetCursorRes(struct PmsInputView *view, struct ActorSetup *out, int i);
 
-extern void *PMS_INPUT_VIEW_CreateActor(struct PmsInputView *view, struct ActorSetup *setup, int x, int y, int a, int mode);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 
-extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
 
-extern void CLACT_SetActorBgPriority(struct Actor *, int);
 
-extern u32 PMS_INPUT_GetWord(struct PmsInput *input, u32 i);
 
-extern void *PMS_INPUT_GetSentenceString(struct PmsInput *input, u32 heapId);
 
-extern void GF_FONT_SetTextColor(u32, u32, u32);
+#include "../arm9/gf_font.h"
 
-extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
 
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 
-extern void STRBUF_SetStringN(struct Strbuf *strbuf, u16 *srcChars, u32 charCount);
 
-extern u32 PRINTSYS_GetTagParam(const u16 *, u32);
 
-extern u16 *PRINTSYS_SkipTag(u16 *);
 
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 
-extern u32 PMSI_PARAM_IsDecoWord(u32);
+#include "../arm9/pmsi_param.h"
 
-extern u32 PMSI_PARAM_GetDecoId(u32);
 
-extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 
-extern void CLACT_AddActorSurfacePos(struct Actor *p, const ScreenPos *delta, u32 which);
 
-extern u8 BG_SYS_GetPriority(u32);
 
-extern void PMS_WORD_LoadString(unsigned int id, void *dest, unsigned short heap);
+#include "../arm9/pms_word.h"
 
 struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputState *input, void *param);
 
@@ -378,8 +348,8 @@ void PMSIV_EDIT_Delete(struct PmsivEdit *p)
     if (p->frameTask) TCB_DeleteTask(p->frameTask);
     if (p->scrollTask) TCB_DeleteTask(p->scrollTask);
     if (p->bmpCursor) BMP_CURSOR_Delete(p->bmpCursor);
-    if (p->cursors[0]) CLACT_DeleteActor((struct Actor *)p->cursors[0]);
-    if (p->cursors[1]) CLACT_DeleteActor((struct Actor *)p->cursors[1]);
+    if (p->cursors[0]) CLACT_DeleteActor((struct ClactActor *)p->cursors[0]);
+    if (p->cursors[1]) CLACT_DeleteActor((struct ClactActor *)p->cursors[1]);
     if (p->messageBank) MSGDATA_Delete(p->messageBank);
     if (p->text) STRBUF_Delete((struct Strbuf *)p->text);
     BMP_WIN_Delete((struct BmpWin *)p->windows[0]);
@@ -442,9 +412,9 @@ void PMSIV_EDIT_SlotPosToBoxOrigin(const short *pos, short *boxOrigin);
 
 void PMSIV_EDIT_BoxOriginToSlotPos(const short *boxOrigin, short *pos);
 
-void PMSIV_EDIT_ClearSlotBox(struct BmpWin *window, const ScreenPos *pos);
+void PMSIV_EDIT_ClearSlotBox(struct BmpWin *window, const PmsivEditScreenPos *pos);
 
-void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct BmpWin *window, const ScreenPos *pos, u32 wordId, struct Actor *icon);
+void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct BmpWin *window, const PmsivEditScreenPos *pos, u32 wordId, struct ClactActor *icon);
 
 void PMSIV_EDIT_SetCursorPressed(struct PmsivEdit *p, int pressed);
 
@@ -483,11 +453,11 @@ void PMSIV_EDIT_StartPanelScroll(struct PmsivEdit *p, u8 closing)
     p->scrollStep = 0;
     p->scrollClosing = closing;
     if (p->scrollTask) TCB_DeleteTask(p->scrollTask);
-    p->scrollTask = GFL_USE_AddHBlankTask((u32)GX_GetVCount, (u32)p, 1);
+    p->scrollTask = GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((u32)GX_GetVCount), (void *)((u32)p), 1);
     p->unusedWord1A8 = 0;
     p->unusedWord1AC = 0;
     if (p->frameTask) TCB_DeleteTask(p->frameTask);
-    p->frameTask = GFL_USE_AddMainTask(PMSIV_EDIT_UpdateFramePosition, p, 1);
+    p->frameTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))PMSIV_EDIT_UpdateFramePosition, (void *)p, 1);
 }
 
 /*
@@ -560,10 +530,10 @@ void PMSIV_EDIT_InitSlotPositions(struct PmsivEdit *p)
 
 void PMSIV_EDIT_CreateWordIcons(struct PmsivEdit *p)
 {
-    struct ActorSetup setup;
+    struct PmsInputViewSpriteRes setup;
     int i, j;
     for (i = 0; i < PMSIV_EDIT_SCREEN_COUNT; i++) {
-        PMS_INPUT_VIEW_GetCursorRes(p->view, &setup, i);
+        PMS_INPUT_VIEW_GetCursorRes((struct PmsInputView *)p->view, (struct PmsInputViewSpriteRes *)&setup, i);
         for (j = 0; j < PMSIV_EDIT_SLOT_COUNT; j++) {
             p->wordIcons[j][i] = PMS_INPUT_VIEW_CreateActor(p->view, &setup, (int)0, (int)0, (int)2, i + 1);
             CLACT_SetActorDrawEnable(p->wordIcons[j][i], 0);
@@ -578,8 +548,8 @@ void PMSIV_EDIT_CreateWordIcons(struct PmsivEdit *p)
  */
 void PMSIV_EDIT_CreateCursors(struct PmsivEdit *p)
 {
-    struct ActorSetup setup;
-    ScreenPos pos;
+    struct PmsInputViewSpriteRes setup;
+    PmsivEditScreenPos pos;
     if (p->slotCount) PMSIV_EDIT_BoxOriginToSlotPos((short *)&p->slotPos[0], (short *)&pos);
     else { pos.x = 128; pos.y = 24; }
     PMS_INPUT_VIEW_GetUiRes(p->view, &setup, 1, 0);
@@ -743,17 +713,17 @@ void PMSIV_EDIT_BoxOriginToSlotPos(const short *boxOrigin, short *pos)
     pos[1] = boxOrigin[1] + 8;
 }
 
-void PMSIV_EDIT_ClearSlotBox(struct BmpWin *window, const ScreenPos *pos)
+void PMSIV_EDIT_ClearSlotBox(struct BmpWin *window, const PmsivEditScreenPos *pos)
 {
-    ScreenPos origin;
+    PmsivEditScreenPos origin;
     PMSIV_EDIT_SlotPosToBoxOrigin((const short *)pos, (short *)&origin);
     BMP_FillRect(BMP_WIN_GetBmp((struct BmpWin *)window), origin.x, origin.y, 0x60, 16, 14);
 }
 
-void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct BmpWin *window, const ScreenPos *pos, u32 wordId, struct Actor *icon)
+void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct BmpWin *window, const PmsivEditScreenPos *pos, u32 wordId, struct ClactActor *icon)
 {
-    ScreenPos origin;
-    ScreenPos iconPos;
+    PmsivEditScreenPos origin;
+    PmsivEditScreenPos iconPos;
     u32 font;
     u32 decoIndex;
     u32 surface;
@@ -767,7 +737,7 @@ void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct BmpWin *window, const S
         iconPos.y = origin.y + BMP_WIN_GetPosY((struct BmpWin *)window) * 8;
         if (surface == 1) iconPos.y += 192;
         CLACT_SetActorAnimSeq(icon, decoIndex);
-        CLACT_AddActorSurfacePos(icon, &iconPos, (u16)surface);
+        CLACT_AddActorSurfacePos(icon, (const struct ClactVec2 *)&iconPos, (u16)surface);
         CLACT_SetActorDrawEnable(icon, 1);
         CLACT_SetActorBgPriority(icon, (int)(BG_SYS_GetPriority(BMP_WIN_GetBgLayer((struct BmpWin *)window))));
     } else {
@@ -844,8 +814,8 @@ void PMSIV_EDIT_PlaceCursorAtSlot(struct PmsivEdit *p, int slot)
         t.x = 0x80;
         t.y = 0x18;
     }
-    CLACT_AddActorSurfacePos(p->cursors[0], (const ScreenPos *)&t.x, 0);
+    CLACT_AddActorSurfacePos(p->cursors[0], (const struct ClactVec2 *)&t.x, 0);
     t.y += 0xC0;
-    CLACT_AddActorSurfacePos(p->cursors[1], (const ScreenPos *)&t.x, 1);
+    CLACT_AddActorSurfacePos(p->cursors[1], (const struct ClactVec2 *)&t.x, 1);
     PMSIV_EDIT_SetCursorPressed(p, 1);
 }

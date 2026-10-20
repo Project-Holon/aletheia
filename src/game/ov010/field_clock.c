@@ -52,7 +52,7 @@ typedef struct PartySave PartySave;
 /* ---- Field clock ---- */
 #include "../sdk_rtc.h"
 
-/* Clock checkpoint kept in the save (reached through the save control). */
+/* Clock checkpoint kept in the save (reached through the save control). A view of the same block as struct DailyClock (console_stamp.c); the tail is read as a stored timestamp here, so callers cast. */
 typedef struct FieldClock {
     int valid;                  /* 0x00 */
     RTCDate date;               /* 0x04 */
@@ -63,72 +63,61 @@ typedef struct FieldClock {
 } FieldClock;
 struct GameData;
 
-extern void *GAME_DATA_GetMyParty(GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 
-extern FieldClock *CONSOLE_STAMP_GetDailyClock(SaveControl *saveControl);
 
-extern void GF_STANDARD_CopyCachedRtc(RTCDate *date, RTCTime *time);
 struct DailyClock;
 
-extern void DAILY_CLOCK_Spend(struct DailyClock *clock, u32 minutes);
 
-extern long long RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time);
+#include "../arm9/convert.h"
+#include "../arm9/console_stamp.h"
+#include "../arm9/gf_standard.h"
 
-extern int RTC_ConvertDateToDay(RTCDate *date);
 
-extern void *GAME_DATA_GetEventWork(GameData *gameData);
 struct EventWork;
 
-extern void ZONEDATA_ClearTimeFlags(struct EventWork *ev);
+#include "../arm9/zonedata.h"
 
-extern void MOVE_POKEMON_SAVE_RollStartLocation(void *saveControl);
+#include "../arm9/move_pokemon_save.h"
 
-extern void POKERUS_DecreaseDays(Party *party, int days);
+#include "../arm9/pokerus.h"
 
-extern void *GAME_DATA_GetTrainerRecord(GameData *gameData);
 
-extern void RECORD_FoldPairs(void *trainerRecord);
+#include "../arm9/record.h"
 struct SaveControl;
 struct WifiHistory;
 
-extern struct WifiHistory *WIFI_HISTORY_GetBlock(SaveControl *saveControl);
+#include "../arm9/wifi_history.h"
 
-extern void WIFI_HISTORY_PromoteVisitedStates(struct WifiHistory *history);
 
-extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(struct GameData *gameData, int days, unsigned int heapSeed);
+#include "../ov020/field_wfbc_data_local.h"
 
-extern void *SYMBOL_SAVE_GetBitBlock(void *saveData);
+#include "../arm9/symbol_save.h"
 struct Tally;
 
-extern void MISC_SAVEDATA_FoldTally(struct Tally *tally);
+#include "../arm9/misc_savedata.h"
 struct SaveControl;
 struct IrcRankSave;
 
-extern struct IrcRankSave *IRC_RANKING_GetFromSave(SaveControl *saveControl);
+#include "../arm9/irc_ranking.h"
 struct IrcRankEntry;
 
-extern void IRC_RANKING_ClearNewFlags(struct IrcRankEntry *entries);
 struct Party;
 
-extern struct Party *POKEPARTY_GetSaveData(SaveControl *saveControl);
+#include "../arm9/pokeparty.h"
 
-extern u8 GAME_DATA_GetSeason(GameData *gameData);
 struct MiscSave;
 
-extern struct MiscSave *MISC_GetBlock(SaveControl *saveControl);
+#include "../arm9/beacon.h"
 
-extern void MISC_SubGatePoints(struct MiscSave *beacon, unsigned short sub);
 
-extern int TIMEZONE_GetTimeZoneOfHour(int season, int hour);
+#include "../arm9/timezone.h"
 
-extern u64 GF_STANDARD_GetRtcTimestamp(void);
 
-extern int DAILY_CLOCK_HasAllowance(struct DailyClock *clock);
 struct TimeOfDay;
 
-int FORMCHANGE_RevertShayminIfTimeOfDayChanged(struct GameData *gameData, struct Party *party, int elapsedMinutes, struct TimeOfDay *time, int season);
+#include "formchange_shaymin.h"
 
 void FIELD_CLOCK_Update(GameData *gameData);
 
@@ -167,10 +156,10 @@ void FIELD_CLOCK_Update(GameData *gameData)
     RTCTime time;
     int days;
     int minutes;
-    FieldClock *clock = CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData));
+    FieldClock *clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData));
     if (clock->valid == 0)
         return;
-    GF_STANDARD_CopyCachedRtc(&date, &time);
+    GF_STANDARD_CopyCachedRtc((struct RtcDate *)&date, (struct RtcTime *)&time);
     if (FIELD_CLOCK_CalcElapsed(clock, &date, &time, &days, &minutes) == 0)
         return;
     if (minutes == 0 && days != 0)
@@ -261,7 +250,7 @@ RTCDate *FIELD_CLOCK_GetDate(GameData *gameData)
     FieldClock *clock;
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
+    clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(saveControl);
     return &clock->date;
 }
 
@@ -274,7 +263,7 @@ int FIELD_CLOCK_GetTimeZone(GameData *gameData)
     FieldClock *clock;
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
+    clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(saveControl);
     return TIMEZONE_GetTimeZoneOfHour(GAME_DATA_GetSeason(gameData), clock->time.hour);
 }
 
@@ -284,7 +273,7 @@ int FIELD_CLOCK_GetMonth(GameData *gameData)
     FieldClock *clock;
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
+    clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->date.month;
 }
 
@@ -294,7 +283,7 @@ int FIELD_CLOCK_GetDay(GameData *gameData)
     FieldClock *clock;
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
+    clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->date.day;
 }
 
@@ -304,7 +293,7 @@ int FIELD_CLOCK_GetWeek(GameData *gameData)
     FieldClock *clock;
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
+    clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->date.week;
 }
 
@@ -314,7 +303,7 @@ int FIELD_CLOCK_GetHour(GameData *gameData)
     FieldClock *clock;
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
+    clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->time.hour;
 }
 
@@ -324,11 +313,11 @@ int FIELD_CLOCK_GetMinute(GameData *gameData)
     FieldClock *clock;
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
+    clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(saveControl);
     return clock->time.minute;
 }
 
-void FIELD_CLOCK_SaveTimestamp(GameData *gameData) { FieldClock *clock = CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData)); *(u64 *)(clock->timestamp) = GF_STANDARD_GetRtcTimestamp(); }
+void FIELD_CLOCK_SaveTimestamp(GameData *gameData) { FieldClock *clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData)); *(u64 *)(clock->timestamp) = GF_STANDARD_GetRtcTimestamp(); }
 
 int FIELD_CLOCK_GetCounter(GameData *gameData)
 {
@@ -336,6 +325,6 @@ int FIELD_CLOCK_GetCounter(GameData *gameData)
     FieldClock *clock;
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    clock = CONSOLE_STAMP_GetDailyClock(saveControl);
+    clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(saveControl);
     return DAILY_CLOCK_HasAllowance((struct DailyClock *)clock);
 }

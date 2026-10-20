@@ -91,75 +91,30 @@ typedef struct FieldFog FieldFog;
 typedef struct FieldLight FieldLight;
 typedef struct FieldSoundSystem FieldSoundSystem;
 typedef struct FieldZoneFog FieldZoneFog;
-typedef struct Actor Actor;
+typedef struct ClactActor Actor;
 
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int flag, const char *file, u16 line);
-extern int FIELD_FOG_FADE_IsFade(FieldFog *fog);
+#include "../arm9/gfl_heap_wrap.h"
+#include "field_fog.h"
+#include "field_zonefog.h"
 extern u32 FIELD_LIGHT_ChangeTable(FieldLight *light, u32 arcId, u32 memberId, u32 frames);
 void FIELD_LIGHT_ReloadZoneTable(FieldLight *light);
 extern void FIELD_LIGHT_StartColorFade(FieldLight *light, u32 color, u32 frames, u32 returnFrames);
 extern int FIELD_LIGHT_IsColorFading(FieldLight *light);
-int FIELD_CAMERA_GetSettingId(FieldCamera *camera);
+#include "field_camera.h"
 extern void FIELD_LIGHT_StartColorFadeHold(FieldLight *light, u32 color, u32 frames);
-extern void FIELD_3DBG_SetBillboardVisible(Field3dbgBillboard *billboard, u32 value);
+#include "field_3dbg.h"
 struct Field3dbgBillboard;
-extern void FIELD_3DBG_SetBillboardScaleX(struct Field3dbgBillboard *billboard, int scaleX);
-extern void FIELD_3DBG_SetBillboardScaleY(struct Field3dbgBillboard *billboard, int scaleY);
-extern void FIELD_3DBG_SetBillboardTexOffsetX(struct Field3dbgBillboard *billboard, int texOffsetX);
-extern void FIELD_3DBG_SetBillboardTexOffsetY(struct Field3dbgBillboard *billboard, int texOffsetY);
-void FIELD_FOG_SetBlendMode(FieldFog *fog, u32 blendMode);
-void FIELD_FOG_SetColorA(FieldFog *fog, u32 alpha);
-void FIELD_FOG_SetSlope(FieldFog *fog, u32 slope);
-void FIELD_FOG_SetOffset(FieldFog *fog, u32 offset);
-void FIELD_FOG_InitFogTable(FieldFog *fog);
-void FIELD_FOG_SetFlag(FieldFog *fog, u32 flag);
-extern void FIELD_FOG_FADE_Init(FieldFog *fog, u32 endOffset, u32 endSlope, u32 frames);
-extern u32 FIELD_FOG_GetSlope(FieldFog *fog);
-u8 FIELD_ZONEFOG_IsLoadRequest(FieldZoneFog *zoneFog);
-int FIELD_ZONEFOG_IsFog(FieldZoneFog *zoneFog);
-int FIELD_ZONEFOG_IsLight(FieldZoneFog *zoneFog);
-int FIELD_ZONEFOG_GetFogOffset(FieldZoneFog *zoneFog);
-int FIELD_ZONEFOG_GetFogSlope(FieldZoneFog *zoneFog);
-int FIELD_ZONEFOG_GetLightId(FieldZoneFog *zoneFog);
 struct G3dCamera;
-struct G3dCamera *FIELD_CAMERA_GetG3dCamera(FieldCamera *camera);
-void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
-extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
-extern fx32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
-extern u32 FX_Div(u32 a, u32 b);
+#include "../arm9/g3d_camera.h"
+#include "../arm9/fx_vec.h"
+#include "../arm9/fx_cp.h"
 struct Pt16;
-void CLACT_GetActorPos(struct Actor *actor, struct Pt16 *out);
-void CLACT_SetActorPos(struct Actor *actor, struct Pt16 *pos);
-int GFL_USE_IsLoaderBusy(void);
-void FIELD_SOUND_SYSTEM_ClaimSlot(FieldSoundSystem *soundSys, u32 seId);
-void GFL_USE_PlaySeDefaultVolume(u32 seId);
-void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(FieldSoundSystem *soundSys, u32 seId, u32 who);
-void GFL_USE_PlaySeWithVolume(u32 seId, u32 who);
-extern void CLACT_GetActorSurfacePos(Actor *actor, WeatherScreenPos *out, u16 space);
-u32 CLACT_AddActorSurfacePos(Actor *actor, const WeatherScreenPos *pos, u32 space);
-void MI_CpuFill8(void *p, int value, int size);
-void CLACT_SetActorDrawEnable(Actor *actor, unsigned int enabled);
-void *ARC_TOOL_CreateHandle(unsigned int archiveId, unsigned int heapId);
-extern void ARC_TOOL_DeleteHandle(void *archive);
-int CLACT_RegisterCharacter(void *archive, int a, int b, int c, int heapId);
-int CLACT_RegisterPaletteEx(void *archive, int a, int b, int c, int d, int e, int heapId);
-s32 CLACT_RegisterCellAnim(void *archive, u32 cell, u32 cellAnim, u32 heapId);
-void CLACT_ReleaseCharacter(u32 id);
-void CLACT_ReleasePalette(u32 id);
-void CLACT_ReleaseCellAnim(u32 id);
-void MI_CpuCopy8(const void *src, void *dst, int size);
+#include "../arm9/clact.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/field_sound_system.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_tool.h"
 struct Field3dbgTextureDesc;
-int FIELD_3DBG_LoadBillboardTexture(struct Field3dbgBillboard *billboard, void *archive, struct Field3dbgTextureDesc *desc, unsigned int heapId);
-void FIELD_3DBG_SetBillboardPolygonId(Field3dbgBillboard *billboard, u8 polygonId);
-void FIELD_3DBG_FreeBillboardTexture(Field3dbgBillboard *billboard);
-extern Actor *CLACT_CreateActor(void *textureBank, unsigned int charResId, unsigned int paletteResId, unsigned int cellResId, const void *position, unsigned short space, unsigned short heapId);
-void CLACT_SetActorVisible(Actor *actor, u32 value);
-extern void CLACT_DeleteActor(Actor *actor);
-void FIELD_SOUND_SYSTEM_ReleaseSlot(FieldSoundSystem *soundSys, int seId);
-int GFL_USE_GetSeSlot(u32 seId);
-void GFL_USE_StopSeSlot(int handle);
-void FIELD_FOG_FADE_InitEx(FieldFog *fog, u32 startOffset, u32 endOffset, u32 startSlope, u32 endSlope, u16 frames);
 
 
 WeatherTaskSys *WEATHER_TASK_Create(void *textureBank, FieldCamera *camera, FieldLight *light, FieldFog *fog, FieldZoneFog *zoneFog, WeatherSys *sys, FieldSoundSystem *soundSys, u16 zoneId, u16 heapId);
@@ -212,7 +167,7 @@ u8 *WEATHER_TASK_GetParticleWork(WeatherParticle *particle);
 Actor *WEATHER_TASK_GetParticleActor(WeatherParticle *particle);
 void WEATHER_TASK_GetParticlePos(WeatherParticle *particle, WeatherScreenPos *out);
 void WEATHER_TASK_SetParticlePosWrapped(WeatherParticle *particle, u16 *src);
-int WEATHER_TASK_SetParticlePos(WeatherParticle *particle, const WeatherScreenPos *pos);
+void WEATHER_TASK_SetParticlePos(WeatherParticle *particle, const WeatherScreenPos *pos);
 void WEATHER_TASK_Reset(WeatherTaskSys *task);
 int WEATHER_TASK_CallStageFunc(WeatherTaskSys *task, WeatherKindStageFunc stageFunc, int heapId);
 u8 WEATHER_TASK_GetStagePhase(WeatherTaskSys *task);
@@ -220,7 +175,7 @@ WeatherParticle *WEATHER_TASK_FindFreeParticle(WeatherTaskSys *task);
 void WEATHER_TASK_LinkParticle(WeatherTaskSys *task, WeatherParticle *particle);
 void WEATHER_TASK_UnlinkParticle(WeatherTaskSys *task, WeatherParticle *particle);
 void WEATHER_TASK_UpdateParticles(WeatherTaskSys *task);
-void WEATHER_TASK_LoadResources(WeatherTaskSys *task, int heapId);
+void WEATHER_TASK_LoadResources(WeatherTaskSys *task, u16 heapId);
 void WEATHER_TASK_UnloadResources(WeatherTaskSys *task);
 void WEATHER_TASK_InitBillboards(WeatherTaskSys *task, u16 heapId);
 void WEATHER_TASK_FreeBillboards(WeatherTaskSys *task);
@@ -230,7 +185,7 @@ void WEATHER_TASK_MarkStarted(WeatherTaskSys *task);
 u8 WEATHER_TASK_IsStarted(WeatherTaskSys *task);
 void WEATHER_TASK_LoadArchive(WeatherResourceSet *resources, const WeatherKindDef *kind, u32 heapId);
 void WEATHER_TASK_FreeArchive(WeatherResourceSet *resources);
-void WEATHER_TASK_LoadSpriteResources(WeatherResourceSet *resources, const WeatherKindDef *kind, int heapId);
+void WEATHER_TASK_LoadSpriteResources(WeatherResourceSet *resources, const WeatherKindDef *kind, u16 heapId);
 void WEATHER_TASK_FreeSpriteResources(WeatherResourceSet *resources);
 void WEATHER_TASK_InitBillboard(WeatherResourceSet *resources, int index, Field3dbgBillboard *billboard, const WeatherBillboardInit *init, unsigned short heapId);
 void WEATHER_TASK_FreeBillboard(WeatherResourceSet *resources, int index, Field3dbgBillboard *billboard);
@@ -258,7 +213,7 @@ extern WeatherViewScale g_DefaultProjectionMtx;
 extern const u8 gWeatherStagePhase[];
 extern unsigned char gWeatherBillboardTextureDesc[12];
 extern unsigned char d_021EE710b[12];
-extern u32 gWeatherParticlePosition[];
+extern const struct ActorInitParam gWeatherParticlePosition;
 
 
 /* Constructor: allocates the task and stores the objects it drives. */
@@ -885,13 +840,13 @@ void WEATHER_TASK_SetParticlePosWrapped(WeatherParticle *particle, u16 *src)
     } else if (pos[1] < -64) {
         pos[1] = pos[1] + 256;
     }
-    CLACT_AddActorSurfacePos(WEATHER_TASK_GetParticleActorPtr(particle), (const WeatherScreenPos *)pos, 0);
+    CLACT_AddActorSurfacePos(WEATHER_TASK_GetParticleActorPtr(particle), (const struct ClactVec2 *)pos, 0);
 }
 
 
-int WEATHER_TASK_SetParticlePos(WeatherParticle *particle, const WeatherScreenPos *pos)
+void WEATHER_TASK_SetParticlePos(WeatherParticle *particle, const WeatherScreenPos *pos)
 {
-    return CLACT_AddActorSurfacePos(WEATHER_TASK_GetParticleActorPtr(particle), pos, 0);
+    CLACT_AddActorSurfacePos(WEATHER_TASK_GetParticleActorPtr(particle), pos, 0);
 }
 
 
@@ -1010,7 +965,7 @@ void WEATHER_TASK_UpdateParticles(WeatherTaskSys *task)
 }
 
 
-void WEATHER_TASK_LoadResources(WeatherTaskSys *task, int heapId)
+void WEATHER_TASK_LoadResources(WeatherTaskSys *task, u16 heapId)
 {
     WEATHER_TASK_LoadArchive(&task->resources, task->kind, heapId);
     WEATHER_TASK_LoadSpriteResources(&task->resources, task->kind, heapId);
@@ -1104,7 +1059,7 @@ void WEATHER_TASK_FreeArchive(WeatherResourceSet *resources)
 }
 
 
-void WEATHER_TASK_LoadSpriteResources(WeatherResourceSet *resources, const WeatherKindDef *kind, int heapId)
+void WEATHER_TASK_LoadSpriteResources(WeatherResourceSet *resources, const WeatherKindDef *kind, u16 heapId)
 {
     if (kind->hasSprites != 0) {
         resources->charResId = CLACT_RegisterCharacter(resources->archive, kind->charArg, 0, 0, heapId);
@@ -1255,7 +1210,7 @@ int WEATHER_TASK_IsParticleLinked(WeatherParticle *particle)
 void WEATHER_TASK_CreateParticleActor(WeatherParticle *particle, WeatherTaskSys *owner, const WeatherResourceSet *resources, void *textureBank, u16 heapId)
 {
     particle->owner = owner;
-    particle->actor = CLACT_CreateActor(textureBank, resources->charResId, resources->paletteResId, resources->cellResId, gWeatherParticlePosition, 0, heapId);
+    particle->actor = CLACT_CreateActor(textureBank, resources->charResId, resources->paletteResId, resources->cellResId, &gWeatherParticlePosition, 0, heapId);
     CLACT_SetActorDrawEnable(particle->actor, 0);
     CLACT_SetActorVisible(particle->actor, 0);
 }

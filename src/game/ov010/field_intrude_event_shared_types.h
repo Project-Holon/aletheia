@@ -5,6 +5,7 @@ struct GameSystem;
 
 #include "../types.h"
 
-typedef struct { int x, y, z; } FxVec3;
+#include "../sdk_fx.h"
+typedef VecFx32 FxVec3;
 
 #endif

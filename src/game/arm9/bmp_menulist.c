@@ -130,7 +130,6 @@ typedef short s16_p07;
 
 
 extern void PRINTSYS_PrintQueColor(void *printer, struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
-
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
 
 

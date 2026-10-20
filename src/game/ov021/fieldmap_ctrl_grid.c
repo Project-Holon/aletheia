@@ -47,21 +47,11 @@ typedef struct FieldMapCtrlGridWork {
     u32 busy;               /* 0x0C: set from outside (union room) to stop the player update */
 } FieldMapCtrlGridWork;
 
-extern u32 GFL_HEAP_Free(void *memory);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u32 KEY_GetTrg(void);
-extern unsigned int KEY_GetCont(void);
-extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern void FIELDMAP_SetCtrlWork(FieldMap *fieldMap, void *ctrlWork);
-extern void *FIELDMAP_GetCtrlWork(FieldMap *fieldMap);
-extern void FIELDMAP_SetTargetPos(FieldMap *fieldMap, VecFx32 *targetPos);
-extern void FLDMMDL_SetDirDispCheckPause(struct Mmdl *mmdl, int dir);
-extern VecFx32 *FLDMMDL_GetPosPtr(struct Mmdl *mmdl);
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern int FIELD_PLAYER_CheckMoveRestrictFlag(struct FieldPlayer *player);
-extern void FIELD_PLAYER_CreateGrid(struct FieldPlayer *player, u32 heapId);
-extern void FIELD_PLAYER_MoveGrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont, u32 flags);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/key.h"
+#include "../ov010/fldmmdl.h"
+#include "field_player.h"
+#include "fieldmap.h"
 extern int gFieldMapCtrlGridFileName;
 
 void FIELDMAP_CTRL_GRID_Create(FieldMap *fieldMap, VecFx32 *pos, int dir);

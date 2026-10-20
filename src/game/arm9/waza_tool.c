@@ -77,11 +77,11 @@ union WazaSickCont {
 #include "gfl_heap_wrap.h"
 
 
-u32 WAZA_TOOL_GetParam(u16 move, u32 param);
+u32 WAZA_TOOL_GetParam(u32 move, u32 param);
 
 u32 WAZA_TOOL_GetDataParam(const struct WazaData *data, u32 param);
 
-u32 WAZA_TOOL_GetFlag(u16 move, u32 flag);
+u32 WAZA_TOOL_GetFlag(u32 move, u32 flag);
 
 u32 WAZA_TOOL_GetDataFlag(const struct WazaData *data, u32 flag);
 
@@ -166,7 +166,7 @@ extern const char waza_tool_File[];
  *   python tools/match.py tu --src src/matched/unit_0201BD28.c \
  *       --addr 0x0201BD28 --thumb
  */
-u32 WAZA_TOOL_GetParam(u16 move, u32 param)
+u32 WAZA_TOOL_GetParam(u32 move, u32 param)
 {
     struct WazaData *data;
     s32 i;
@@ -258,7 +258,7 @@ u32 WAZA_TOOL_GetDataParam(const struct WazaData *data, u32 param)
     return 0;
 }
 
-u32 WAZA_TOOL_GetFlag(u16 move, u32 flag)
+u32 WAZA_TOOL_GetFlag(u32 move, u32 flag)
 {
     struct WazaData *data;
     s32 i;

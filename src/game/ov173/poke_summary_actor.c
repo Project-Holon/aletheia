@@ -90,16 +90,16 @@
 
 #include "poke_summary_types.h"
 struct Cfg;
-struct Bank;
-struct Obj;
+struct Unit;
+struct ClactActor;
 struct Sav;
-struct Sub0204A9D0;
-struct Vec2;
+struct NNSG2dCharacterData;
+struct ClactVec2;
 struct Ctx;
 struct IcaAnime;
 struct CursorMove;
 struct Sound;
-struct Actor;
+struct ClactActor;
 #include "../types.h"
 
 typedef enum { OFFSET=14 } Offset;
@@ -108,85 +108,40 @@ typedef struct {short x,y;u16 unused,z;u32 a,b,c,d,e,f,g,h,i;} Row;
 
 typedef struct {short x,y;u16 z;u8 a,b;} Position;
 struct DispVramCfg;
-struct SysInit;
+struct ClactSysInit;
+struct ClactSysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern struct Bank *CLACT_CreateUnit(int,u8,u32);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
-extern void BG_SYS_SetMainPlaneVisible(u32,u32);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern u32 APP_ICON_GetArchiveId(void);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
-extern u32 APP_ICON_GetTypeCellFileId(u32);
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
-extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
-extern u32 APP_ICON_GetTouchBarFileId(void);
-extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
-extern u32 APP_ICON_GetStatusCellFileId(u32);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32);
-extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
-extern u32 APP_ICON_GetTypePaletteFileId(u32);
-extern u32 APP_ICON_GetTypeAnimFileId(u32);
-extern void *POKEGRA_OpenHandle(unsigned int heapId);
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
+struct ClactActor;
+#include "../arm9/app_icon.h"
+#include "../arm9/pokegra.h"
 struct PokemonParam;
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+#include "../arm9/poke_tool.h"
 struct BoxPokemon;
-extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
-extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
-extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
-extern u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
-extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, unsigned int didDecode);
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void CLACT_TransferCharacter(int,struct Sub0204A9D0 *);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/arc_util.h"
+struct NNSG2dCharacterData;
+#include "../arm9/gfl_heap_wrap.h"
 /* The original forwards the full entry r1 without halfword truncation. */
-extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
-extern u8 APP_ICON_GetTypePaletteOffset(int i);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
-extern void POKE_SUMMARY_MAIN_ExitScreen(char *);
-extern u16 POKE_SUMMARY_MAIN_GetRecordWord(char **);
+struct ClactVec2;
+#include "../arm9/wipe.h"
+#include "poke_summary_main.h"
 struct GameSystem;
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, unsigned int overlayId, void *procData, void *param);
-extern void POKE_SUMMARY_MAIN_InitScreen(u8 *p);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
+#include "../arm9/gamesystem.h"
+#include "../arm9/net.h"
 struct CursorVtbl;
 struct CursorEntry;
 struct Cursor;
-extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, unsigned int ctx, unsigned int state, unsigned char start, unsigned short heapId);
-extern void CURSOR_MOVE_ClearSkipBit(struct Cursor *obj, unsigned int idx);
-extern u32 CURSOR_MOVE_Delete(void *cursor);
-extern void POKE_SUMMARY_MAIN_DrawMoveDetail(char *,int);
-extern void GFL_USE_PlaySeDefaultVolume(unsigned);
-extern void POKE_SUMMARY_MAIN_RedrawMoveList(char *);
-extern void CURSOR_MOVE_SetCurrent(struct Cursor *obj, unsigned char sel);
+#include "../arm9/cursor_move.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/waza_tool.h"
 struct TaskMenuItem;
 struct TaskMenuRes;
 struct TaskMenuWin;
-extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, unsigned short charPosX, unsigned short charPosY, unsigned char width, unsigned short heapId);
-extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
-extern void CURSOR_MOVE_SetSkipBit(struct Cursor *obj, unsigned int idx);
-extern void BG_SYS_PushTile(u32);
-extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int isDecide);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
-extern void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 v);
-extern u8 POKE_SUMMARY_MAIN_CountFreeMoves(void ***p);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/g2.h"
 void POKE_SUMMARY_ACTOR_InitSystem(u8 *p, void *archiveHandle);
 void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *p);
 void POKE_SUMMARY_ACTOR_RegisterResources(char *p,void *other);
@@ -225,9 +180,9 @@ extern char k_83[];
 extern u8 d_021B81DC[];
 extern const u8 d_021B83A8[];
 
-void POKE_SUMMARY_ACTOR_InitSystem(u8 *work, void *archiveHandle) {Offset off;struct Bank *b;CLACT_InitSystem((struct SysInit *)(&d_021B820C),(struct DispVramCfg *)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(work+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
+void POKE_SUMMARY_ACTOR_InitSystem(u8 *work, void *archiveHandle) {Offset off;struct Unit *b;CLACT_InitSystem((struct ClactSysInit *)(&d_021B820C),(struct DispVramCfg *)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Unit **)(work+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
 
-void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *work) {u32 i;for(i=0;i<14;i++)CLACT_DeleteActor(((struct PokeSummaryWork *)work)->actors[i]);CLACT_DeleteUnit(*(struct Bank * *)&((struct PokeSummaryWork *)work)->unit);CLACT_ExitSystem();ARC_TOOL_DeleteHandle(((struct PokeSummaryWork *)work)->resourceHandle);}
+void POKE_SUMMARY_ACTOR_DeleteSystem(u8 *work) {u32 i;for(i=0;i<14;i++)CLACT_DeleteActor(((struct PokeSummaryWork *)work)->actors[i]);CLACT_DeleteUnit(*(struct Unit * *)&((struct PokeSummaryWork *)work)->unit);CLACT_ExitSystem();ARC_TOOL_DeleteHandle(((struct PokeSummaryWork *)work)->resourceHandle);}
 
 void POKE_SUMMARY_ACTOR_RegisterResources(char *work,void *archiveHandle)
 {
@@ -265,9 +220,9 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *work,void *archiveHandle)
     ARC_TOOL_DeleteHandle((void *)second);
 }
 
-void POKE_SUMMARY_ACTOR_TransferCharacter(u32 archiveHandle,int charId,u32 memberIdx,u32 heapID,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=ARC_UTIL_LoadScreenDataFromHandle((void *)archiveHandle,memberIdx,heapID,(&out),heap);CLACT_TransferCharacter(charId,out);GFL_HEAP_Free(raw);}
+void POKE_SUMMARY_ACTOR_TransferCharacter(u32 archiveHandle,int charId,u32 memberIdx,u32 heapID,u16 heap) {void *raw;struct NNSG2dCharacterData *out;raw=ARC_UTIL_LoadScreenDataFromHandle((void *)archiveHandle,memberIdx,heapID,(&out),heap);CLACT_TransferCharacter(charId,out);GFL_HEAP_Free(raw);}
 
-void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *work, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);((struct PokeSummaryWork *)work)->transfers[i].param=n;((struct PokeSummaryWork *)work)->transfers[i].flag=1;CLACT_SetActorPaletteOffset((struct Actor *)(*(struct Obj **)(work+(i+8)*4+260)),APP_ICON_GetTypePaletteOffset((u8)n),1);}
+void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *work, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);((struct PokeSummaryWork *)work)->transfers[i].param=n;((struct PokeSummaryWork *)work)->transfers[i].flag=1;CLACT_SetActorPaletteOffset((struct ClactActor *)(*(struct ClactActor **)(work+(i+8)*4+260)),APP_ICON_GetTypePaletteOffset((u8)n),1);}
 
 void POKE_SUMMARY_ACTOR_FlushPendingTransfers(char *work)
 {
@@ -290,7 +245,7 @@ void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *work)
     for (i = 0; i < 4; i++) {
         rect[0] = 0x2f;
         rect[1] = i * 24 + 0x50;
-        CLACT_AddActorSurfacePos(((struct PokeSummaryWork *)work)->actors[4+i], (const struct Vec2 *)rect, 1);
+        CLACT_AddActorSurfacePos(((struct PokeSummaryWork *)work)->actors[4+i], (struct ClactVec2 *)rect, 1);
         if (((struct PokeSummaryWork *)work)->mon->scrollIndex + i >= *(u8 *)(work + off)) {
             CLACT_SetActorDrawEnable(((struct PokeSummaryWork *)work)->actors[4+i], 0);
         } else {
@@ -301,7 +256,7 @@ void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *work)
     }
 }
 
-void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *work, u16 id) {CLACT_SetActorAnimSeq((struct Actor *)(*(struct Obj * *)&((struct PokeSummaryWork *)work)->actors[3]),WAZA_TOOL_GetParam(id,2));}
+void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *work, u16 id) {CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct ClactActor * *)&((struct PokeSummaryWork *)work)->actors[3]),WAZA_TOOL_GetParam(id,2));}
 
 /*
  * abi: B294 returns the Obj pointer stored and used by this caller.
@@ -319,7 +274,7 @@ void POKE_SUMMARY_ACTOR_CreateActors(char *work,void *archiveHandle)
         pos.z=d_021B85E0[i].z;
         pos.a=d_021B85E0[i].a;
         pos.b=d_021B85E0[i].h;
-        ((struct PokeSummaryWork *)work)->actors[i]=CLACT_CreateActor((void *)((struct PokeSummaryWork *)work)->unit,((struct PokeSummaryWork *)work)->reg.named.charHandles[d_021B85E0[i].d],((struct PokeSummaryWork *)work)->reg.named.paletteHandles[d_021B85E0[i].e],((struct PokeSummaryWork *)work)->reg.named.cellAnimHandles[d_021B85E0[i].f],&pos,d_021B85E0[i].c,79);
+        ((struct PokeSummaryWork *)work)->actors[i]=CLACT_CreateActor((struct Unit *)((void *)((struct PokeSummaryWork *)work)->unit),((struct PokeSummaryWork *)work)->reg.named.charHandles[d_021B85E0[i].d],((struct PokeSummaryWork *)work)->reg.named.paletteHandles[d_021B85E0[i].e],((struct PokeSummaryWork *)work)->reg.named.cellAnimHandles[d_021B85E0[i].f],(const struct ActorInitParam *)&pos,d_021B85E0[i].c,79);
         CLACT_SetActorAutoAnim(((struct PokeSummaryWork *)work)->actors[i],0);
     }
     CLACT_SetActorAutoAnim(((struct PokeSummaryWork *)work)->actors[13],1);
@@ -335,18 +290,18 @@ void POKE_SUMMARY_ACTOR_PositionMonActor(unsigned char *work, u32 idx, int unuse
     if (idx < 4) {
         local[0] = 0x82;
         local[1] = idx * 0x18 + 0x54;
-        CLACT_AddActorSurfacePos((struct Obj *)(((struct PokeSummaryWork *)work)->actors[2]), (const struct Vec2 *)local, 1);
-        CLACT_SetActorAnimFrame((struct Actor *)(((struct PokeSummaryWork *)work)->actors[2]), 0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((struct PokeSummaryWork *)work)->actors[2]), (struct ClactVec2 *)local, 1);
+        CLACT_SetActorAnimFrame((struct ClactActor *)(((struct PokeSummaryWork *)work)->actors[2]), 0);
     } else if (idx < 6) {
         local[0] = (idx - 4) * 0x28;
         local[1] = 0xa8;
-        CLACT_AddActorSurfacePos((struct Obj *)(((struct PokeSummaryWork *)work)->actors[2]), (const struct Vec2 *)local, 1);
-        CLACT_SetActorAnimFrame((struct Actor *)(((struct PokeSummaryWork *)work)->actors[2]), 1);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((struct PokeSummaryWork *)work)->actors[2]), (struct ClactVec2 *)local, 1);
+        CLACT_SetActorAnimFrame((struct ClactActor *)(((struct PokeSummaryWork *)work)->actors[2]), 1);
     } else {
         local[0] = 0xc0;
         local[1] = 0xa0;
-        CLACT_AddActorSurfacePos((struct Obj *)(((struct PokeSummaryWork *)work)->actors[2]), (const struct Vec2 *)local, 1);
-        CLACT_SetActorAnimFrame((struct Actor *)(((struct PokeSummaryWork *)work)->actors[2]), 2);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((struct PokeSummaryWork *)work)->actors[2]), (struct ClactVec2 *)local, 1);
+        CLACT_SetActorAnimFrame((struct ClactActor *)(((struct PokeSummaryWork *)work)->actors[2]), 2);
     }
 }
 
@@ -593,7 +548,7 @@ int POKE_SUMMARY_ACTOR_OpenDecideWin(char *work, u16 result)
     ((struct PokeSummaryDecide *)q)->active = 0;
     ((struct PokeSummaryDecide *)q)->windowIndex = 0xd;
     ((struct PokeSummaryDecide *)q)->result = result;
-    CLACT_SetActorAnimSeq((struct Actor *)(((struct PokeSummaryWork *)work)->actors[13]), 9);
+    CLACT_SetActorAnimSeq((struct ClactActor *)(((struct PokeSummaryWork *)work)->actors[13]), 9);
     return 0xd;
 }
 

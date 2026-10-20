@@ -39,7 +39,7 @@ struct FieldPlayer;
 struct IcaAnime;
 struct Mmdl;
 
-typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
+#include "../arm9/ica_anime_shared_types.h"
 
 #define FIELD_GIMMICK_CANNONS_CANNON_COUNT 10
 #define FIELD_GIMMICK_CANNONS_DIRECTION_COUNT 4

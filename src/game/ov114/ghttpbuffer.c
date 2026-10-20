@@ -30,18 +30,17 @@
  *   GOAGetLastError  0x0217ed54  arm  ov009
  *   ghiDoSend    0x021c0684  arm  ov114
  */
+#include "../ov009/gsmemory.h"
 #include "ghttp_types.h"
 
 
-extern void *gsirealloc(void *ptr, unsigned long size);
-extern void gsifree(void *ptr);
-extern void *memcpy(void *, const void *, unsigned int);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../ov009/gsdebug.h"
 extern int ghiAppendDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
-extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern int GSISocketSelect(int, int *, int *, int *);
-extern int GOAGetLastError(int);
-extern int ghiDoSend(GHIConnection *, char *, int);
+#include "../arm9/os_printf.h"
+#include "../ov009/gsplatformsocket.h"
+#include "ghttpcommon.h"
 int ghiResizeBuffer(GHIBuffer *buffer, int sizeIncrement);
 int ghiInitBuffer(GHIConnection *connection, GHIBuffer *buffer, int initialSize, int sizeIncrement);
 int ghiInitFixedBuffer(GHIConnection *connection, GHIBuffer *buffer, char *data, int size);
@@ -58,8 +57,7 @@ extern char sGhttpLineEndBuffer[];
 extern char sGhttpIntFormatBuffer[];
 
 
-extern int strlen(unsigned char *s);
-extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
+#include "../arm9/msl_string_str.h"
 int ghiResizeBuffer(GHIBuffer *buffer, int sizeIncrement)
 {
     int newSize;

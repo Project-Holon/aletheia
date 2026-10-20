@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_SND_MIC_H
 #define GAME_ARM9_SND_MIC_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of snd_mic.c, prototypes copied from their definitions. */
 
 struct MICAutoParam;
@@ -17,5 +18,6 @@ u32 SND_MIC_StartSampling(const struct MICAutoParam *param);
 u32 SND_MIC_StartRecording(MICCallback callback, void *arg);
 void SND_MIC_StoreRecording(struct PerapVoice *perapVoice);
 void *SND_MIC_GetBufferAligned(void);
+/* END mkheaders: generated region */
 
 #endif

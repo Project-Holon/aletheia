@@ -40,23 +40,16 @@
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_lane_trains_types.h"
 
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
-extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
-extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
-extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *pos);
-extern u32 GAME_DATA_GetBgmInfo(struct GameData *gameData);
-extern u32 GFL_USE_GetRandom(u32 range);
-extern int GFL_USE_GetSeSlot(u32 seId);
-extern int GFL_USE_IsSeSlotBusy(u32 slot);
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+
+#include "../ov021/fld_exp_obj.h"
+#include "../ov021/field_player.h"
+#include "../arm9/gfl_use.h"
 struct FieldSoundSystem;
-extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct FieldSoundSystem *s, u32 soundId);
-extern void FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(FieldGimmickLaneTrainsWork *work, struct FieldMap *fieldMap, int leadModel, int trailModel);
+#include "../arm9/field_sound_system.h"
+#include "field_gimmick_lane_trains.h"
 
 void FIELD_GIMMICK_LANE_TRAINS_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_LANE_TRAINS_Exit(struct FieldMap *fieldMap);

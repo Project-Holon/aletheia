@@ -82,8 +82,7 @@ struct SpecialWordTable {
     u16 words[12];
 };
 
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 #include "mi_memory.h"
 struct SaveControl;
 #include "save_control.h"
@@ -94,11 +93,14 @@ struct EventWork;
 #include "gf_font.h"
 #include "wordset.h"
 struct Strbuf;
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "strbuf.h"
+#ifdef __MWERKS__
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern struct MsgBank *MSGDATA_CreateFromArchive(int resident, int arcId, u32 fileId, u16 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(int resident, int arcId, u32 fileId, u16 heapId); /* original prototype; the definition differs in argument sign, argument width */
+#else
+#include "msgdata.h"
+#endif
 #include "printsys.h"
 struct PmsiParam *PMSI_PARAM_Create(u32 inputMode, u32 unused, void *initialSentence, u32 optionFlag, void *saveControl, u32 heapId);
 void PMSI_PARAM_Delete(void *obj);

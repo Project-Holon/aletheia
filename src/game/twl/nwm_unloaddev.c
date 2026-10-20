@@ -22,18 +22,16 @@
  */
 #include "../types.h"
 
-extern u32 NWMi_CheckState(u32, ...);
-extern u32 NWMi_GetSystemWork(void);
+#include "nwm_system.h"
 extern void DC_InvalidateRange(u32, u32);
-extern void NWMi_SetCallbackTable(u32, u32);
-extern u32 NWMi_SendCommand(unsigned short apiid, unsigned short argc, ...);
-extern u32 PM_GetExitFactor(void);
-extern void OS_SpinWaitSysCycles(u32);
-extern void PXIi_HandlerRecvFifoNotEmpty(void);
-extern u32 NWM_GetState(void);
+#include "nwm_cmd.h"
+#include "pm.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/pxi_fifo.h"
 static void NWMi_ForceUnloadDeviceCallback(void);
 extern u8 d_027341C8;
-u32 NWM_UnloadDevice(u32 callback);
+u32 NWM_UnloadDevice(void *callback);
 u32 NWMi_ForceUnloadDevice(u32 callback);
 void NWMi_ForceExit(void);
 
@@ -46,7 +44,7 @@ static inline u32 flag_set(u32 n) {
     return 0;
 }
 
-u32 NWM_UnloadDevice(u32 callback) {
+u32 NWM_UnloadDevice(void *callback) {
     u32 r = NWMi_CheckState(1, 2);
     u32 base;
     u32 busy;
@@ -67,7 +65,7 @@ u32 NWM_UnloadDevice(u32 callback) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(4, callback);
+    NWMi_SetCallbackTable(4, (u32)callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(4, 1, 0);
     if (r == 0 || r == 2) {
@@ -97,7 +95,7 @@ u32 NWMi_ForceUnloadDevice(u32 callback) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(4, callback);
+    NWMi_SetCallbackTable(4, (u32)callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(4, 1, 1);
     if (r == 0 || r == 2) {

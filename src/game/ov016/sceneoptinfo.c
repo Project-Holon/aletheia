@@ -62,6 +62,7 @@
  *   DWCi_SceneOptMenu   0x021C2A3C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 typedef _Bool bool;
 
 typedef struct {
@@ -69,52 +70,38 @@ typedef struct {
     u16 rest : 14;
 } BgCnt;
 
-struct tagDWCWiFiInfo {
-    unsigned long long id;
-    unsigned char pad[12];
-};
+#include "../sdk_dwc.h"
 
-void DWCi_HLlLoad(int idx);
-int DWCi_COMMENTlDispEx(int messageId, int n, int num);
-void DWCi_ChangeScene(u32 v);
-void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-void *DWCi_FNTlFormBgEx(int lcd, int font);
-void OS_GetMacAddress(unsigned char *macAddress);
-int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
-int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, unsigned char *src, int len);
-void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
-void DWCi_BM_GetWiFiInfo(struct tagDWCWiFiInfo *buf);
-void DWCi_FNTlRenewBg(int x);
+#include "headline.h"
+#include "comment.h"
+#include "dwcutil_main.h"
+#include "common.h"
+typedef int bool_0;
+#include "font.h"
+#include "../arm9/os_ownerinfo.h"
+#include "../arm9/os_printf.h"
+#include "str.h"
+#include "../arm9/dwc_backup.h"
 bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
-void DWCi_GXlVisible(int lcd, int plane);
+#include "graphics.h"
 bool DWCi_EFFlCheck(int lcd);
-void DWCi_CMNlButton(int kind);
-s8 DWCi_BTNlGet(void);
-void DWCi_BTNlEnable(void);
+#include "button.h"
 void DWCi_SceneOptInfo_procScene(void);
-extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern void DWCi_BTNlSet(signed char v);
-void DWCi_SNDlPlay(u32 v);
-void DWCi_BTNlDisable(void);
+#include "input.h"
+#include "sound.h"
 bool DWCi_EFFlWait(int frame);
-void DWCi_BTNlEnd(void);
-int DWCi_BTNlIsEnd(void);
-void DWCi_FNTlDeleteBgLcd(int lcd);
-int DWCi_COMMENTlDelete(void);
-void DWCi_GXlInvisible(int lcd, int plane);
-void DWCi_SetParam_(unsigned int stepParam, unsigned int buttonParam);
-void DWCi_SceneOptMenu(void);
+#include "sceneoptmenu.h"
 void DWCi_SceneOptInfo(void);
-void drawInfo(void);
-void procInit(void);
-void procInit1(void);
-void procInit2(void);
+static void drawInfo(void);
+static void procInit(void);
+static void procInit1(void);
+static void procInit2(void);
 void DWCi_SceneOptInfo_procScene(void);
 void DWCi_SceneOptInfo_draw(void);
-void button(void);
-void endScene(void);
-void endScene1(void);
-void endScene2(void);
+static void button(void);
+static void endScene(void);
+static void endScene1(void);
+static void endScene2(void);
 extern char sSceneOptInfoTable1[];
 extern char sSceneOptInfoTable2[];
 extern char sSceneOptInfoTable3[];
@@ -128,22 +115,22 @@ void DWCi_SceneOptInfo(void)
     DWCi_HLlLoad(0x11);
     DWCi_COMMENTlDispEx(0x3a, -1, 0);
     drawInfo();
-    DWCi_ChangeScene((u32)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB2DC, (void *)0x0207EB78);
-    ((BgCnt *)0x04001008)->priority = 3;
-    ((BgCnt *)0x0400100A)->priority = 3;
-    ((BgCnt *)0x04000008)->priority = 3;
-    ((BgCnt *)0x0400000A)->priority = 3;
-    ((BgCnt *)0x0400000C)->priority = 3;
+    ((BgCnt *)REG_DB_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_DB_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG2CNT_ADDR)->priority = 3;
 }
 
-void drawInfo(void)
+static void drawInfo(void)
 {
-    struct tagDWCWiFiInfo info;
+    DWCWiFiInfo info;
     unsigned long long id;
     int tmp[4];
     int i;
@@ -158,7 +145,7 @@ void drawInfo(void)
     DWCi_STRlConvertStringAsciiToUnicode(buf, (unsigned char *)tmpbuf, 20);
     DWCi_FNTlDrawRect(canvas, 8, 0x40, 0xf0, 0x1c, 2, 0x480, buf);
     DWCi_BM_GetWiFiInfo(&info);
-    id = info.id;
+    id = info.attestedUserId;
     if (id != 0) {
         tmp[3] = (int)((id % 10) * 1000);
         id /= 10;
@@ -173,31 +160,31 @@ void drawInfo(void)
         DWCi_STRlConvertStringAsciiToUnicode(buf, (unsigned char *)tmpbuf, 20);
     }
     DWCi_FNTlDrawRect(canvas, 8, 0x78, 0xf0, 0x1c, 2, 0x480, buf);
-    DWCi_FNTlRenewBg((int)canvas);
+    DWCi_FNTlRenewBg((sptr)canvas);
 }
 
-void procInit(void)
+static void procInit(void)
 {
     DWCi_EFFlFade(2, 1, 1, 8);
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
-void procInit1(void)
+static void procInit1(void)
 {
     if (DWCi_EFFlCheck(1)) return;
     if (DWCi_EFFlCheck(0)) return;
     DWCi_CMNlButton(2);
-    DWCi_ChangeScene((u32)procInit2);
+    DWCi_ChangeScene((uptr)procInit2);
 }
 
-void procInit2(void)
+static void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2) return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((u32)DWCi_SceneOptInfo_procScene);
+    DWCi_ChangeScene((uptr)DWCi_SceneOptInfo_procScene);
 }
 
 void DWCi_SceneOptInfo_procScene(void)
@@ -217,30 +204,30 @@ void DWCi_SceneOptInfo_draw(void)
 {
 }
 
-void button(void)
+static void button(void)
 {
     if (DWCi_BTNlGet() != 0) return;
     DWCi_SNDlPlay(7);
-    DWCi_ChangeScene((u32)endScene);
+    DWCi_ChangeScene((uptr)endScene);
 }
 
-void endScene(void)
+static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((u32)endScene1);
+    DWCi_ChangeScene((uptr)endScene1);
 }
 
-void endScene1(void)
+static void endScene1(void)
 {
     if (DWCi_EFFlCheck(1)) return;
     DWCi_BTNlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((u32)endScene2);
+    DWCi_ChangeScene((uptr)endScene2);
 }
 
-void endScene2(void)
+static void endScene2(void)
 {
     if (DWCi_EFFlCheck(1)) return;
     if (DWCi_EFFlCheck(0)) return;
@@ -250,5 +237,5 @@ void endScene2(void)
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 1);
-    DWCi_ChangeScene((u32)DWCi_SceneOptMenu);
+    DWCi_ChangeScene((uptr)DWCi_SceneOptMenu);
 }

@@ -12,11 +12,11 @@
 #define IRC_RESULT_ACTOR_EFFECT 37    /* full screen effect sprite */
 
 typedef struct IrcResultActorSystem {
-    struct Bank *unit;
+    struct Unit *unit;
     int paletteId;
     int characterId;
     int cellAnimId;
-    struct Obj *actors[IRC_RESULT_ACTOR_COUNT];
+    struct ClactActor *actors[IRC_RESULT_ACTOR_COUNT];
 } IrcResultActorSystem;
 
 typedef struct IrcResultScreen {
@@ -27,7 +27,7 @@ typedef struct IrcResultScreen {
 
 /* The three score digits. */
 typedef struct IrcResultScoreDisplay {
-    struct Obj *digitActors[3];   /* hundreds, tens, ones */
+    struct ClactActor *digitActors[3];   /* hundreds, tens, ones */
     u16 animFrame[3];
     u16 animLength[3];
     int animStep[3];

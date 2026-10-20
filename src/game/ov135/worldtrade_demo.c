@@ -61,102 +61,76 @@
  */
 #include "worldtrade_types.h"
 
-typedef struct {
-    u8 pad0[0x10];
-    u32 trainerId;
-    u32 profileId;
-} TradePartnerInfo;
+#include "../arm9/gf_overlay.h"
 
-extern int GF_OVERLAY_Load(s32 handle);
+#include "../arm9/mi_memory.h"
 
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
+#include "worldtrade_adapter.h"
 
-extern void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void GF_OVERLAY_Unload(s32 handle);
+#include "../arm9/gf_panic.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-
-struct Ctx;
+struct WorldtradeCtx;
 struct GameSystem;
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct Party;
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
+#include "../arm9/pokeparty.h"
 struct BoxPokemon;
 
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
+#include "../arm9/poke_tool.h"
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
-extern void *WORLDTRADE_NoOp(void *sys);
+#include "../arm9/worldtrade.h"
 struct WorldTradeData;
 
-extern void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon);
 struct PartyPokemon;
 
-extern void POKE_TOOL_CopyPartyPokemon(struct PartyPokemon *src, struct PartyPokemon *dest);
 
-extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
+#include "../arm9/procsys.h"
 
-extern u8 GAME_DATA_GetSeason(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, unsigned int mode, unsigned int arg, unsigned char timezone, unsigned int *methodOut, unsigned short heap);
+#include "../arm9/shinka_check.h"
 
-extern struct Party *POKEPARTY_Create(u32 heap);
 
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 
-extern void *MYSTATUS_Create(int heap_id);
+#include "../arm9/mystatus.h"
 struct MyStatus;
 
-extern void MYSTATUS_Init(struct MyStatus *mystatus);
 
-extern void MYSTATUS_CopyName(unsigned short *dest, unsigned short *src);
 
-extern void MYSTATUS_SetRomCode(struct MyStatus *mystatus, unsigned char rom_code);
 
-extern void MYSTATUS_SetLanguage(struct MyStatus *mystatus, unsigned char language);
 
-extern void MYSTATUS_SetSex(struct MyStatus *mystatus, unsigned char sex);
 
-extern void MYSTATUS_SetTrainerView(struct MyStatus *mystatus, unsigned char trainer_view);
 
-extern void MYSTATUS_SetNationAndArea(struct MyStatus *mystatus, unsigned char nation, unsigned char area);
 
-extern void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b);
 
-extern void BOX_SAVEDATA_ClearPokemon(struct GameData *gameData, unsigned int box, unsigned int slot);
+#include "../arm9/box_savedata.h"
 
-extern int BOX_SAVEDATA_FindFreeSlot(struct GameData *gameData, int *pBox, int *pSlot);
 
-extern int BOX_SAVEDATA_AddPokemonToBox(struct GameData *gameData, unsigned int box, struct BoxPokemon *mon);
 
-void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b);
+#include "worldtrade.h"
 
-void WORLDTRADE_AdvanceScreenId(Work *p);
 
-void WORLDTRADE_ClearAndShowPlanes(Work *p);
 
-void WORLDTRADE_ExitPlanes(Work *p);
 
-int WORLDTRADE_DEMO_Init(Work *p);
+int WORLDTRADE_DEMO_Init(WorldtradeWork *p);
 
-int WORLDTRADE_DEMO_EvolveStep(Work *p);
+int WORLDTRADE_DEMO_EvolveStep(WorldtradeWork *p);
 
-int WORLDTRADE_DEMO_Exit(Work *p);
+int WORLDTRADE_DEMO_Exit(WorldtradeWork *p);
 
-TradePartnerInfo *WORLDTRADE_DEMO_CreateMyStatusFromEntry(Entry *e);
+TradePartnerInfo *WORLDTRADE_DEMO_CreateMyStatusFromEntry(WorldtradeEntry *e);
 
-Entry *WORLDTRADE_DEMO_GetSlotRecord(Work *p, int kind);
+WorldtradeEntry *WORLDTRADE_DEMO_GetSlotRecord(WorldtradeWork *p, int kind);
 
-void WORLDTRADE_DEMO_InitSlotRecord(Work *p);
+void WORLDTRADE_DEMO_InitSlotRecord(WorldtradeWork *p);
 
 extern u8 ov067_id[];
 
@@ -174,9 +148,9 @@ extern u8 d_02208C40[];
 
 extern u8 ov195_id[];
 
-int WORLDTRADE_DEMO_Init(Work *p)
+int WORLDTRADE_DEMO_Init(WorldtradeWork *p)
 {
-    Req *d;
+    WorldtradeReq *d;
     void *tmpl;
 
     WORLDTRADE_ExitPlanes(p);
@@ -224,25 +198,25 @@ int WORLDTRADE_DEMO_Init(Work *p)
         GF_PANIC_Fail((void *)0x02203B80, 0, (void *)0x02203B80);
         break;
     }
-    PROCSYS_Push(p->procSys, (u32)ov119_id, tmpl, p->req);
+    PROCSYS_Push(p->procSys, (uptr)ov119_id, tmpl, p->req);
     p->subLcdRefresh = 1;
     p->keepBgLayers = 0;
     return 1;
 }
 
 /*
- * Two-state step. State 0, once the +0x12F4 busy word clears: for kind 9
+ * Two-state step. WorldtradeState 0, once the +0x12F4 busy word clears: for kind 9
  * (or kinds 8/10 when the stored entry differs from the one rebuilt from
  * the save data by WORLDTRADE_ADAPTER_AllocHeapBuf/WORLDTRADE_CopyPokemon) build a 0x14-byte request
  * (SHINKA_CHECK_CheckEvolution result, list holding the entry, out byte) at +0x10DC,
  * load overlay 67 and start the overlay-195 task (d_02208C40, hinted to
  * ov195 because this function names ov195_id), then go to state 1; any
- * failure calls WORLDTRADE_SetStateAndReturn(p, 1, 0) and returns 3. State 1 copies the
+ * failure calls WORLDTRADE_SetStateAndReturn(p, 1, 0) and returns 3. WorldtradeState 1 copies the
  * result back into the entry, frees the request, refreshes the record
  * (WORLDTRADE_DEMO_InitSlotRecord), clears the DISPCNT window bits, unloads overlay 67 and
  * calls WORLDTRADE_SetStateAndReturn(p, 7, 0xC). Returns 2 while waiting, else 3.
  */
-int WORLDTRADE_DEMO_EvolveStep(Work *p)
+int WORLDTRADE_DEMO_EvolveStep(WorldtradeWork *p)
 {
     int ret = 2;
 
@@ -252,14 +226,14 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
             break;
         }
         if (p->kind == 9) {
-            void *e = (void *)WORLDTRADE_DEMO_GetSlotRecord((Work *)p, p->kind);
+            void *e = (void *)WORLDTRADE_DEMO_GetSlotRecord((WorldtradeWork *)p, p->kind);
             u32 out;
             u32 r;
 
             POKE_TOOL_GetPartyValue(e, 6, 0);
-            r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)p->monCopy, GAME_DATA_GetSeason(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData)), &out, 0x48);
+            r = SHINKA_CHECK_CheckEvolution(0, e, 1, (uptr)p->monCopy, GAME_DATA_GetSeason(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData)), &out, 0x48);
             if (r != 0) {
-                Req *w;
+                WorldtradeReq *w;
 
                 if (p->req != 0) {
                     GFL_HEAP_Free(p->req);
@@ -276,15 +250,15 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 w->evoCondition = out;
                 w->evoFlag = 1;
                 w->evoResult = 0;
-                GF_OVERLAY_Unload((u32)ov067_id);
-                PROCSYS_Push(p->procSys, (u32)ov195_id, d_02208C40, p->req);
+                GF_OVERLAY_Unload((uptr)ov067_id);
+                PROCSYS_Push(p->procSys, (uptr)ov195_id, (const struct ProcData *)d_02208C40, p->req);
                 p->state_i = 1;
             } else {
                 WORLDTRADE_SetStateAndReturn(p, 1, 0);
                 ret = 3;
             }
         } else if (p->kind == 8 || p->kind == 10) {
-            void *e = (void *)WORLDTRADE_DEMO_GetSlotRecord((Work *)p, p->kind);
+            void *e = (void *)WORLDTRADE_DEMO_GetSlotRecord((WorldtradeWork *)p, p->kind);
             void *mon = WORLDTRADE_ADAPTER_AllocHeapBuf(0x48);
             u32 out;
             u32 r;
@@ -296,10 +270,10 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 r = 0;
                 if (p->checkEvolution != 0) {
                     p->checkEvolution = 0;
-                    r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)mon, GAME_DATA_GetSeason(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData)), &out, 0x48);
+                    r = SHINKA_CHECK_CheckEvolution(0, e, 1, (uptr)mon, GAME_DATA_GetSeason(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData)), &out, 0x48);
                 }
                 if (r != 0) {
-                    Req *w;
+                    WorldtradeReq *w;
 
                     if (p->req != 0) {
                         GFL_HEAP_Free(p->req);
@@ -316,8 +290,8 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                     w->evoCondition = out;
                     w->evoFlag = 1;
                     w->evoResult = 0;
-                    GF_OVERLAY_Unload((u32)ov067_id);
-                    PROCSYS_Push(p->procSys, (u32)ov195_id, d_02208C40, p->req);
+                    GF_OVERLAY_Unload((uptr)ov067_id);
+                    PROCSYS_Push(p->procSys, (uptr)ov195_id, (const struct ProcData *)d_02208C40, p->req);
                     p->state_i = 1;
                 } else {
                     WORLDTRADE_SetStateAndReturn(p, 1, 0);
@@ -338,17 +312,17 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
             break;
         }
         if (p->req != 0) {
-            Req *w = p->req;
-            void *e = (void *)WORLDTRADE_DEMO_GetSlotRecord((Work *)p, p->kind);
+            WorldtradeReq *w = p->req;
+            void *e = (void *)WORLDTRADE_DEMO_GetSlotRecord((WorldtradeWork *)p, p->kind);
 
             POKE_TOOL_CopyPartyPokemon((struct PartyPokemon *)POKEPARTY_GetMember(w->list, 0), e);
             GFL_HEAP_Free(w->list);
             GFL_HEAP_Free(p->req);
             p->req = 0;
         }
-        WORLDTRADE_DEMO_InitSlotRecord((Work *)p);
+        WORLDTRADE_DEMO_InitSlotRecord((WorldtradeWork *)p);
         *(volatile u32 *)0x04000000 &= ~0xE000;
-        GF_OVERLAY_Load((u32)ov067_id);
+        GF_OVERLAY_Load((uptr)ov067_id);
         WORLDTRADE_SetStateAndReturn(p, 7, 0xC);
         ret = 3;
         break;
@@ -359,7 +333,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
 /*
  * volatile: 0x021F72AC writes hardware halfword 0x04000050.
  */
-int WORLDTRADE_DEMO_Exit(Work *p)
+int WORLDTRADE_DEMO_Exit(WorldtradeWork *p)
 {
     if (p->info) {
         GFL_HEAP_Free(p->info);
@@ -371,13 +345,13 @@ int WORLDTRADE_DEMO_Exit(Work *p)
         p->req = 0;
     }
     p->checkEvolution = 0;
-    WORLDTRADE_ClearAndShowPlanes((Work *)p);
+    WORLDTRADE_ClearAndShowPlanes((WorldtradeWork *)p);
     WORLDTRADE_AdvanceScreenId(p);
     *(volatile unsigned short *)0x04000050 = 0;
     return 0;
 }
 
-TradePartnerInfo *WORLDTRADE_DEMO_CreateMyStatusFromEntry(Entry *ent)
+TradePartnerInfo *WORLDTRADE_DEMO_CreateMyStatusFromEntry(WorldtradeEntry *ent)
 {
     TradePartnerInfo *info;
 
@@ -400,7 +374,7 @@ TradePartnerInfo *WORLDTRADE_DEMO_CreateMyStatusFromEntry(Entry *ent)
  * record at +0xE4. Any other kind reports through GF_PANIC_Fail (raw
  * address 0x02203B80, a plain constant as in WORLDTRADE_ADAPTER_QueueMessagePrint) and yields 0.
  */
-Entry *WORLDTRADE_DEMO_GetSlotRecord(Work *p, int kind)
+WorldtradeEntry *WORLDTRADE_DEMO_GetSlotRecord(WorldtradeWork *p, int kind)
 {
     if (kind == 9) {
         return &p->arr_entry1[p->cur];
@@ -419,12 +393,12 @@ Entry *WORLDTRADE_DEMO_GetSlotRecord(Work *p, int kind)
  * box/slot pair (+0xDC, +0xE0) is looked up in the storage at +0xC of
  * the context and the found entry is written into the record.
  */
-void WORLDTRADE_DEMO_InitSlotRecord(Work *p)
+void WORLDTRADE_DEMO_InitSlotRecord(WorldtradeWork *p)
 {
-    u32 e = (u32)WORLDTRADE_DEMO_GetSlotRecord(p, p->kind);
+    u32 e = (uptr)WORLDTRADE_DEMO_GetSlotRecord(p, p->kind);
 
     if (p->box_u == 0xff) {
-        WORLDTRADE_ADAPTER_CopyMon(e, (u32)POKEPARTY_GetMember(p->ctx->party, p->pos));
+        WORLDTRADE_ADAPTER_CopyMon(e, (uptr)POKEPARTY_GetMember(p->ctx->party, p->pos));
     } else {
         u32 a;
         u32 b;
@@ -433,6 +407,6 @@ void WORLDTRADE_DEMO_InitSlotRecord(Work *p)
         b = 0;
         BOX_SAVEDATA_ClearPokemon((void *)p->ctx->box, p->box_u, p->pos);
         BOX_SAVEDATA_FindFreeSlot((void *)p->ctx->box, (int *)(&a), (int *)(&b));
-        BOX_SAVEDATA_AddPokemonToBox((struct GameData *)p->ctx->box, a, (struct BoxPokemon *)((u32)POKE_TOOL_GetBoxParam((void *)e)));
+        BOX_SAVEDATA_AddPokemonToBox((struct GameData *)p->ctx->box, a, (struct BoxPokemon *)((uptr)POKE_TOOL_GetBoxParam((void *)e)));
     }
 }

@@ -4,7 +4,7 @@
 
 #include "../types.h"
 
-typedef void *(*NdAlloc)(unsigned int size, int align);
+typedef void *(*NdAlloc)(unsigned long size, int align);
 
 typedef void (*NdFree)(void *p);
 

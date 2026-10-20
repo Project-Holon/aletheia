@@ -16403,5 +16403,36 @@
 {"addr": "0x02212560", "size": 32, "kind": "zero", "name": "g_02212560", "ev": "tail"}
 ],
 "externs": [
+]},
+"twl_data": {"base": "0x02700000", "range": ["0x02707CB4", "0x02732DA0"],
+"ranges": [["0x02707CB4", "0x0272E9E8"], ["0x027301E0", "0x02730210"], ["0x02732D54", "0x02732D7C"], ["0x02732D81", "0x02732DA0"]],
+"objects": [
+{"addr": "0x02707CB4", "size": 159028, "kind": "raw", "name": "DSPi_StaticComponentG711", "owner": "dsp_g711"},
+{"addr": "0x027301E0", "size": 12, "kind": "pointer_table", "name": "MIi_GetWramBankMasterFuncs", "count": 3, "targets": ["0x0273034C", "0x02730360", "0x02730374"], "owner": "mi_sharedWram"},
+{"addr": "0x027301EC", "size": 12, "kind": "pointer_table", "name": "MIi_GetWramMapStartFuncs", "count": 3, "targets": ["0x027303A4", "0x027303C4", "0x027303EC"], "owner": "mi_sharedWram"},
+{"addr": "0x027301F8", "size": 12, "kind": "pointer_table", "name": "MIi_SetWramBankEnableFuncs", "count": 3, "targets": ["0x027302B4", "0x027302DC", "0x02730304"], "owner": "mi_sharedWram"},
+{"addr": "0x02730204", "size": 12, "kind": "pointer_table", "name": "MIi_SetWramBankMasterFuncs", "count": 3, "targets": ["0x02730240", "0x0273025C", "0x02730278"], "owner": "mi_sharedWram"},
+{"addr": "0x02732D54", "size": 16, "kind": "string", "name": "DSPi_ProcessNameFlagged", "owner": "dsp_process"},
+{"addr": "0x02732D64", "size": 4, "kind": "string", "name": "DSPi_SegNameDataA", "owner": "dsp_process"},
+{"addr": "0x02732D68", "size": 4, "kind": "string", "name": "DSPi_SegNameDataAHigh", "owner": "dsp_process"},
+{"addr": "0x02732D6C", "size": 4, "kind": "string", "name": "DSPi_SegNameDataB", "owner": "dsp_process"},
+{"addr": "0x02732D70", "size": 4, "kind": "string", "name": "DSPi_SegNameDataBHigh", "owner": "dsp_process"},
+{"addr": "0x02732D74", "size": 4, "kind": "zero", "name": "DSPi_DefaultProcessName", "owner": "dsp_process"},
+{"addr": "0x02732D78", "size": 4, "kind": "numeric", "name": "DSPi_SoundPriority", "elem": "u32", "count": 1, "owner": "dsp_util"},
+{"addr": "0x02732D81", "size": 31, "kind": "zero", "name": "twl_pad_02732D81"}
+],
+"externs": [
+{"addr": "0x02730240", "name": "MIi_SetWramBankMaster_A", "kind": "func"},
+{"addr": "0x0273025C", "name": "MIi_SetWramBankMaster_B", "kind": "func"},
+{"addr": "0x02730278", "name": "MIi_SetWramBankMaster_C", "kind": "func"},
+{"addr": "0x027302B4", "name": "MIi_SetWramBankEnable_A", "kind": "func"},
+{"addr": "0x027302DC", "name": "MIi_SetWramBankEnable_B", "kind": "func"},
+{"addr": "0x02730304", "name": "MIi_SetWramBankEnable_C", "kind": "func"},
+{"addr": "0x0273034C", "name": "MI_GetWramBankMaster_A", "kind": "func"},
+{"addr": "0x02730360", "name": "MI_GetWramBankMaster_B", "kind": "func"},
+{"addr": "0x02730374", "name": "MI_GetWramBankMaster_C", "kind": "func"},
+{"addr": "0x027303A4", "name": "MI_GetWramMapStart_A", "kind": "func"},
+{"addr": "0x027303C4", "name": "MI_GetWramMapStart_B", "kind": "func"},
+{"addr": "0x027303EC", "name": "MI_GetWramMapStart_C", "kind": "func"}
 ]}
 }}

@@ -37,31 +37,24 @@
 #include "gsync_download_types.h"
 #include "gsync_common_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void GFL_NET_ERR_Halt(void);
+#include "../arm9/net_err.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern void DWC_RAP_SetErrorHookCallback(int a, int b);
+#include "../ov009/dwc_rap.h"
 
-extern int DWC_NdCleanupAsync(void);
+#include "../ov114/dwc_nd.h"
 
-extern int DWC_NdInitAsync(void (*callback)(void *, u32, int), char *gamecd, char *passwd);
 
-extern int STD_TSNPrintf(char *,int,const char *,...);
+#include "../arm9/std_sprintf.h"
 
-extern int DWC_NdSetAttr(char *attr1, char *attr2, char *attr3);
 
-extern int DWC_NdCancelAsync(void);
 
-extern int DWC_NdGetFileListAsync(void *filelist, unsigned int offset, unsigned int num);
 
-extern int DWC_NdGetFileAsync(void *fileinfo, char *buf, unsigned int size);
 
-extern void DWC_NdProcess(void);
 
 void GSYNC_DOWNLOAD_SetRequestMode(void *unused, u32 err, int serverError);
 
@@ -181,9 +174,9 @@ int GSYNC_DOWNLOAD_CleanupAsync(GsyncDownloadWork *work)
 int GSYNC_DOWNLOAD_InitAsync(GsyncDownloadWork *work)
 {
     work->requestDone = 0;
-    if (!DWC_NdInitAsync(GSYNC_DOWNLOAD_SetRequestMode, sGsyncDownloadGameCode, sGsyncDownloadPassword))
+    if (!DWC_NdInitAsync((DWCNdCallback)((DWCNdCallback)GSYNC_DOWNLOAD_SetRequestMode), (char *)sGsyncDownloadGameCode, (char *)sGsyncDownloadPassword))
         return 0;
-    DWC_RAP_SetErrorHookCallback((int)GSYNC_DOWNLOAD_CleanupAsync, (int)work);
+    DWC_RAP_SetErrorHookCallback((int (*)(u32, u32, u32, int))((int)GSYNC_DOWNLOAD_CleanupAsync), (int)work);
     return 1;
 }
 

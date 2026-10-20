@@ -50,58 +50,47 @@ struct RecordBlock;
 typedef struct TrialHouseWork TrialHouseWork;
 
 /* ScriptWork, ScrcmdWork and game structure accessors. */
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
+#include "scrcmd_work.h"
 
-extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
 
-extern u32 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
+#include "script_work_cmd.h"
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
 
-extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
+#include "script_sys.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern unsigned int *GAME_DATA_GetListCursor(struct GameData *gameData);
 
 /* Trial house (ov021 trial_house.c and ov010 fld_btl_inst_tool.c). */
-extern TrialHouseWork *TRIAL_HOUSE_CreateWork(struct GameSystem *gameSystem);
+#include "../ov021/trial_house.h"
 
-extern void TRIAL_HOUSE_DeleteWork(struct GameSystem *gameSystem, TrialHouseWork **slot);
 
-extern void TRIAL_HOUSE_SetBattleMode(TrialHouseWork *work, u32 mode);
 
-extern void TRIAL_HOUSE_SetUseDeliveredTrainers(TrialHouseWork *work, int value);
 
-extern u16 TRIAL_HOUSE_LoadTrainer(struct GameSystem *gameSystem, struct TrialHouseWork *work, u32 index);
 
-extern struct GameEvent *TRIAL_HOUSE_CreateTrainerMsgEvent(struct GameSystem *gameSystem, TrialHouseWork *work, u32 index, u32 mmdlId);
 
-extern struct GameEvent *TRIAL_HOUSE_CreateDeliveryTask(struct GameSystem *gameSystem, TrialHouseWork *work, u16 *outValue);
 
-extern void TRIAL_HOUSE_ComputeScoreAndRank(struct GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u16 *outScore);
 
-extern int TRIAL_HOUSE_GetDeliveryState(struct GameSystem *unused, struct TrialHouseWork *work);
 
-extern struct GameEvent *TRIAL_HOUSE_CreateSaveTask(struct GameSystem *gameSystem, struct TrialHouseWork *unused, int mode);
 
-extern int TRIAL_HOUSE_GetRecordSlotsState(struct GameSystem *gameSystem);
 
 extern struct RecordBlock *RECORD_GetFromSave(struct SaveControl *saveControl);
 
-extern void RECORD_SetTrialRank(struct RecordBlock *record, u8 rank);
+#ifdef __MWERKS__
+extern void RECORD_SetTrialRank(struct RecordBlock *record, u8 rank); /* original prototype; the definition differs in argument width */
+#else
+extern void RECORD_SetTrialRank(struct RecordBlock*, u32);
+#endif
 
 extern u8 RECORD_GetTrialRank(struct RecordBlock *record);
 struct BtlInstBattleRequest;
 
-extern struct GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(struct GameSystem *gameSystem, struct BtlInstBattleRequest *request, int regulationId, int useTempParty, unsigned short *resultOk);
+#include "fld_btl_inst_tool.h"
 struct BtlInstBattleRequest;
 
-extern struct GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(struct GameSystem *gameSystem, struct BtlInstBattleRequest *request);
 
-extern struct GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(struct GameSystem *gameSystem, int hasSecondEntry, int fadeOutBgm);
 
 int SCRCMD_TRIALHOUSE_CreateWork(ScriptVm *vm, ScrcmdWork *cmdWork);
 

@@ -86,14 +86,14 @@
 #include "br_download_types.h"
 
 struct Proc;
-struct Big;
-struct PrintSys;
+struct GameData;
+struct PrintQueue;
 struct Proc;
 #include "../types.h"
 
-typedef struct Cfg {int a,b;} Cfg;
+typedef struct BrDownloadCfg {int a,b;} BrDownloadCfg;
 
-typedef struct Pair {int x,y;} Pair;
+typedef struct BrDownloadPair {int x,y;} BrDownloadPair;
 
 typedef struct
 {
@@ -102,66 +102,26 @@ typedef struct
   u16 index;
   unsigned char flag;
   unsigned char pad;
-} Config;
+} BrDownloadConfig;
 
-extern int GF_OVERLAY_Load(s32 handle);
-extern unsigned BR_PROC_SYS_GetSlotId(void *p);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *,int,unsigned);
-extern u32 PRINTSYS_QUE_Create(void *);
-extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
-extern void *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
-extern char *BR_UTIL_CreateHandles(unsigned owner, char *resources, int index, int heap);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MUSICAL_SAVE_GetFromSave(void *sys);
-extern int MUSICAL_SAVE_NoOp(int);
-extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
-extern void BR_UTIL_DeleteTask(void *p);
-extern void BR_UTIL_DeleteHandles(char *);
-extern void BR_UTIL_DeleteTextWin(void *,int);
-extern void BMP_OAM_DeleteSys(void *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void PROCSYS_FreeProcWork(struct Proc *);
-extern void GF_OVERLAY_Unload(int);
-extern int BR_NET_HandleNetError(char *);
-extern void BR_PROC_SYS_FlushWindows(char *);
-extern void BR_UTIL_RunTask(u8 *p);
-extern int BR_UTIL_IsTaskIdle(int *);
-extern void BR_UTIL_RunHandles(char *);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void BR_UTIL_FlushWindow(void *p);
-extern void MUSICAL_SHOT_SYS_DrawScene(u8 *p);
-extern int BR_FADE_Start(int, int, int, int);
-extern int BR_FADE_GetResult(int);
-extern int * BR_UTIL_SetTaskStep(int, void *);
-extern int BR_UTIL_ClearTaskStep(int);
-extern void BR_PROC_SYS_PopEntry(int);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
-extern void BR_UTIL_StartEffect(int,int,int *);
-extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
-extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
-extern void BR_NET_StartRequest(char *p, int kind, const int *values);
-extern int BR_NET_IsIdle(char *);
-extern int BR_NET_PollErrorMessage(char *,int *);
-extern int TOUCHPANEL_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void BR_SIDEBAR_SetVisibleBySpace(char *p, int mode, u32 value);
-extern void BR_RES_ApplyBgSet(int a, unsigned mode);
-extern void BR_RES_ReleaseUiPalette(int *p, int i);
-extern void BR_GRAPHIC_Begin3d(u32 a, u16 b);
-extern u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap);
-extern void MUSICAL_SHOT_SYS_DeleteScene(u8 *p);
-extern void BR_GRAPHIC_End3d(u32 a, u16 b);
-extern void BR_RES_LoadUiPalette(char *p, unsigned i, unsigned heap);
-extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
-extern void BR_RES_LoadSprite(char *, u32, u32);
-extern unsigned BR_RES_GetFont(char *p);
-extern int BR_RES_GetMsgData(char *);
-extern int BR_RES_GetSprite(char *, unsigned, void *);
-extern int BR_BTN_CreateFromMessage(Config *, u16, int, int, void *, int, int, int, void *, u16);
-extern void BR_RES_ReleaseSprite(int, int);
-extern void BR_BTN_DeleteObject(int);
+#include "../arm9/gf_overlay.h"
+#include "../ov186/br_proc_sys.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/printsys.h"
+#include "../ov186/br_graphic.h"
+#include "../arm9/bmp_oam.h"
+#include "../ov186/br_util.h"
+#include "../arm9/musical_save.h"
+#include "../ov112/mus_shot_photo.h"
+#include "../ov186/br_fade.h"
+#include "../arm9/touchpanel.h"
+#include "../ov186/br_btn.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/game_data.h"
+#include "../ov186/br_net.h"
+#include "../ov186/br_sidebar.h"
+#include "../ov186/br_res.h"
 int BR_DOWNLOAD_Create(void *obj,int b,char *q);
 int BR_DOWNLOAD_Delete(int obj,int b,char *q,char *p);
 int BR_DOWNLOAD_Main(int a,int b,int c,char *p);
@@ -183,13 +143,13 @@ int BR_DOWNLOAD_Create(void *obj,int b,char *q)
     GF_OVERLAY_Load((int)ov112_id);
     p=PROCSYS_AllocProcWork(obj,0x34,BR_PROC_SYS_GetSlotId(((struct BrDownloadOwner *)q)->proc.proc));
     MI_CpuFill8(p,0,0x34);
-    ((struct BrDownloadWork *)p)->heapId=BR_PROC_SYS_GetSlotId(((struct BrDownloadOwner *)q)->proc.proc);
+    ((struct BrDownloadWork *)p)->heapId=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(((struct BrDownloadOwner *)q)->proc.proc));
     ((struct BrDownloadWork *)p)->owner.owner=q;
-    ((struct BrDownloadWork *)p)->printQue.printQue=PRINTSYS_QUE_Create((void *)(unsigned int)((struct BrDownloadWork *)p)->heapId);
-    v=(void *)BR_GRAPHIC_GetActorUnit(((struct BrDownloadOwner *)q)->graphic.graphic);
+    ((struct BrDownloadWork *)p)->printQue.printQue=(unsigned int)PRINTSYS_QUE_Create((unsigned int)((struct BrDownloadWork *)p)->heapId);
+    v=(void *)BR_GRAPHIC_GetActorUnit((struct BrGraphic *)(((struct BrDownloadOwner *)q)->graphic.graphic));
     ((struct BrDownloadWork *)p)->oamSys.oamSys=BMP_OAM_CreateSys(((struct BrDownloadWork *)p)->heapId,v);
-    for (i=0;i<2;i++) ((struct BrDownloadWork *)p)->handles[i]=BR_UTIL_CreateHandles((unsigned int)v,(char *)(((struct BrDownloadOwner *)q)->res.res),i,((struct BrDownloadWork *)p)->heapId);
-    ((struct BrDownloadWork *)p)->saveData.saveValue=MUSICAL_SAVE_NoOp((int)MUSICAL_SAVE_GetFromSave((void *)GAME_DATA_GetSaveControl((struct Big *)((struct BrDownloadOwner *)q)->zukanSource)));
+    for (i=0;i<2;i++) ((struct BrDownloadWork *)p)->handles[i]=BR_UTIL_CreateHandles((void *)((unsigned int)v),(char *)(((struct BrDownloadOwner *)q)->res.res),i,((struct BrDownloadWork *)p)->heapId);
+    ((struct BrDownloadWork *)p)->saveData.saveValue=(int)MUSICAL_SAVE_NoOp((struct MusicalSave *)((int)MUSICAL_SAVE_GetFromSave((struct SaveControl *)((void *)GAME_DATA_GetSaveControl((struct GameData *)((struct BrDownloadOwner *)q)->zukanSource)))));
     BR_DOWNLOAD_Begin3d(p,q);
     BR_DOWNLOAD_CreateButtons(p,q);
     ((struct BrDownloadWork *)p)->task.task=BR_UTIL_CreateTask((int)p,(int)BR_DOWNLOAD_StepFadeIn,((struct BrDownloadWork *)p)->heapId);
@@ -208,7 +168,7 @@ int BR_DOWNLOAD_Delete(int obj,int b,char *q,char *p)
         ((struct BrDownloadWork *)p)->textWin=0;
     }
     BMP_OAM_DeleteSys((void *)(((struct BrDownloadWork *)p)->oamSys.oamSys));
-    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BrDownloadWork *)p)->printQue.printQue));
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((struct BrDownloadWork *)p)->printQue.printQue));
     PROCSYS_FreeProcWork((struct Proc *)obj);
     GF_OVERLAY_Unload((int)ov112_id);
     return 1;
@@ -217,14 +177,14 @@ int BR_DOWNLOAD_Delete(int obj,int b,char *q,char *p)
 int BR_DOWNLOAD_Main(int a,int b,int c,char *p)
 {
     int i;
-    if (BR_NET_HandleNetError((char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->net)==2) {
-        BR_PROC_SYS_FlushWindows((char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->proc.proc);
+    if (BR_NET_HandleNetError((struct BrNet *)(char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->net)==2) {
+        BR_PROC_SYS_FlushWindows((struct Context *)((char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->proc.proc));
         return 1;
     }
     BR_UTIL_RunTask((u8 *)((struct BrDownloadWork *)p)->task.task);
     if (BR_UTIL_IsTaskIdle((int *)((struct BrDownloadWork *)p)->task.task)) return 1;
     for (i=0;i<2;i++) BR_UTIL_RunHandles((char *)((struct BrDownloadWork *)p)->handles[i]);
-    PRINTSYS_QUE_Main((struct PrintSys *)((struct BrDownloadWork *)p)->printQue.printQue);
+    PRINTSYS_QUE_Main((struct PrintQueue *)((struct BrDownloadWork *)p)->printQue.printQue);
     if (((struct BrDownloadWork *)p)->textWin) BR_UTIL_FlushWindow(((struct BrDownloadWork *)p)->textWin);
     if (((struct BrDownloadWork *)p)->scene.scene) MUSICAL_SHOT_SYS_DrawScene((u8 *)((struct BrDownloadWork *)p)->scene.scene);
     return 0;
@@ -242,15 +202,15 @@ void BR_DOWNLOAD_StepFadeIn(int a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        BR_FADE_Start(*(int *)((struct BrDownloadWork *)p)->owner.ownerHandle, 4, 3, 0);
+        BR_FADE_Start((void *)(*(int *)((struct BrDownloadWork *)p)->owner.ownerHandle), 4, 3, 0);
         *state = 1;
         break;
     case 1:
-        if (BR_FADE_GetResult(*(int *)((struct BrDownloadWork *)p)->owner.ownerHandle))
+        if (BR_FADE_GetResult((struct BrFade *)(*(int *)((struct BrDownloadWork *)p)->owner.ownerHandle)))
             *state = 2;
         break;
     case 2:
-        BR_UTIL_SetTaskStep(a, BR_DOWNLOAD_HandleTouch);
+        BR_UTIL_SetTaskStep((int *)a, (int)BR_DOWNLOAD_HandleTouch);
         break;
     }
 }
@@ -266,16 +226,16 @@ void BR_DOWNLOAD_StepClose(int a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        BR_FADE_Start(*(int *)((struct BrDownloadWork *)p)->owner.ownerHandle, 4, 3, 1);
+        BR_FADE_Start((void *)(*(int *)((struct BrDownloadWork *)p)->owner.ownerHandle), 4, 3, 1);
         *state = 1;
         break;
     case 1:
-        if (BR_FADE_GetResult(*(int *)((struct BrDownloadWork *)p)->owner.ownerHandle))
+        if (BR_FADE_GetResult((struct BrFade *)(*(int *)((struct BrDownloadWork *)p)->owner.ownerHandle)))
             *state = 2;
         break;
     case 2:
-        BR_UTIL_ClearTaskStep(((struct BrDownloadWork *)p)->task.taskHandle);
-        BR_PROC_SYS_PopEntry(*(int *)(((struct BrDownloadWork *)p)->owner.ownerHandle + 0x10));
+        BR_UTIL_ClearTaskStep((int *)(((struct BrDownloadWork *)p)->task.taskHandle));
+        BR_PROC_SYS_PopEntry((unsigned *)(*(int *)(((struct BrDownloadWork *)p)->owner.ownerHandle + 0x10)));
         break;
     }
 }
@@ -287,63 +247,63 @@ void BR_DOWNLOAD_HandleTouch(int a,int b,char *p)
         if (BR_BTN_HitTestWithSound((unsigned int *)((struct BrDownloadWork *)p)->buttons[0],x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;
-            BR_UTIL_StartEffect((int)((struct BrDownloadWork *)p)->handles[1],1,pair);
+            BR_UTIL_StartEffect((char *)((int)((struct BrDownloadWork *)p)->handles[1]),1,(const BrPair *)pair);
             ((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->downloadMode=0;
-            BR_UTIL_SetTaskStep((int)((int *)a), (void *)((int)BR_DOWNLOAD_StepClose));
+            BR_UTIL_SetTaskStep((int *)((int)((int *)a)), (int)BR_DOWNLOAD_StepClose);
         }
         if (BR_BTN_HitTestWithSound((unsigned int *)((struct BrDownloadWork *)p)->buttons[1],x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;
-            BR_UTIL_StartEffect((int)((struct BrDownloadWork *)p)->handles[1],1,pair);
+            BR_UTIL_StartEffect((char *)((int)((struct BrDownloadWork *)p)->handles[1]),1,(const BrPair *)pair);
             ((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->downloadMode=1;
-            BR_UTIL_SetTaskStep((int)((int *)a), (void *)((int)BR_DOWNLOAD_DownloadTask));
+            BR_UTIL_SetTaskStep((int *)((int)((int *)a)), (int)BR_DOWNLOAD_DownloadTask);
         }
     }
 }
 
 void BR_DOWNLOAD_DownloadTask(int *task,unsigned *state,char *p)
 {
-    Pair initial;
-    Cfg cfg;
+    BrDownloadPair initial;
+    BrDownloadCfg cfg;
     int out,x,y;
-    Pair pair;
+    BrDownloadPair pair;
     switch(*state) {
-    case 0:BR_FADE_Start(*(int *)((struct BrDownloadWork *)p)->owner.owner,4,3,1);*state=1;break;
-    case 1:if(BR_FADE_GetResult(*(int *)((struct BrDownloadWork *)p)->owner.owner)) *state=2;break;
+    case 0:BR_FADE_Start((void *)(*(int *)((struct BrDownloadWork *)p)->owner.owner),4,3,1);*state=1;break;
+    case 1:if(BR_FADE_GetResult((struct BrFade *)(*(int *)((struct BrDownloadWork *)p)->owner.owner))) *state=2;break;
     case 2:
         BR_DOWNLOAD_ResetSlots((int *)p,(char *)((struct BrDownloadWork *)p)->owner.owner);
         BR_DOWNLOAD_End3d(p,(char *)((struct BrDownloadWork *)p)->owner.owner);
-        ((struct BrDownloadWork *)p)->textWin=BR_UTIL_CreateTextWin(((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->res.resHandle,(void *)((struct BrDownloadWork *)p)->printQue.printQue,((struct BrDownloadWork *)p)->heapId);
+        ((struct BrDownloadWork *)p)->textWin=BR_UTIL_CreateTextWin((void *)(((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->res.resHandle),(void *)((struct BrDownloadWork *)p)->printQue.printQue,((struct BrDownloadWork *)p)->heapId);
         BR_UTIL_SetWindowText((char *)((struct BrDownloadWork *)p)->textWin,(char *)(((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->res.res),(void *)0x145);
         initial.x=0x80;initial.y=0x60;
-        BR_UTIL_StartEffect((int)((struct BrDownloadWork *)p)->handles[0], 4, (int *)&initial);
+        BR_UTIL_StartEffect((char *)((int)((struct BrDownloadWork *)p)->handles[0]), 4, (const BrPair *)((int *)&initial));
         *state=3;break;
-    case 3:BR_FADE_Start(*(int *)((struct BrDownloadWork *)p)->owner.owner,4,3,0);*state=4;break;
-    case 4:if(BR_FADE_GetResult(*(int *)((struct BrDownloadWork *)p)->owner.owner)) *state=5;break;
+    case 3:BR_FADE_Start((void *)(*(int *)((struct BrDownloadWork *)p)->owner.owner),4,3,0);*state=4;break;
+    case 4:if(BR_FADE_GetResult((struct BrFade *)(*(int *)((struct BrDownloadWork *)p)->owner.owner))) *state=5;break;
     case 5:
         MI_CpuFill8(&cfg,0,8);
         cfg.a=((struct BrDownloadWork *)p)->saveData.saveValue;
-        BR_NET_StartRequest((char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->net,0,(const int *)(&cfg));
+        BR_NET_StartRequest((struct BrNet *)(char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->net,0,(const union BrNetRequest *)(const int *)(&cfg));
         ((struct BrDownloadWork *)p)->counter=0;
         *state=6;break;
     case 6:
         ((struct BrDownloadWork *)p)->counter=((struct BrDownloadWork *)p)->counter+1;
-        if(BR_NET_IsIdle((char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->net) && ((struct BrDownloadWork *)p)->counter>0x60) {
-            BR_UTIL_StartEffect((int)((struct BrDownloadWork *)p)->handles[0], 0, (int *)0);*state=7;
+        if(BR_NET_IsIdle((struct BrNet *)(char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->net) && ((struct BrDownloadWork *)p)->counter>0x60) {
+            BR_UTIL_StartEffect((char *)((int)((struct BrDownloadWork *)p)->handles[0]), 0, (const BrPair *)((int *)0));*state=7;
         }break;
     case 7:
-        if(!BR_NET_PollErrorMessage((char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->net,&out)) *state=9;
+        if(!BR_NET_PollErrorMessage((struct BrNet *)(char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->net,&out)) *state=9;
         else {BR_UTIL_SetWindowText((char *)((struct BrDownloadWork *)p)->textWin,(char *)(((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->res.res),(void *)out);*state=8;}
         break;
     case 8:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
-            BR_UTIL_StartEffect((int)((struct BrDownloadWork *)p)->handles[1], 1, (int *)&pair);
+            BR_UTIL_StartEffect((char *)((int)((struct BrDownloadWork *)p)->handles[1]), 1, (const BrPair *)((int *)&pair));
             GFL_USE_PlaySeDefaultVolume(0x703);*state=9;
         }break;
-    case 9:BR_FADE_Start(*(int *)((struct BrDownloadWork *)p)->owner.owner,2,3,1);*state=10;break;
-    case 10:if(BR_FADE_GetResult(*(int *)((struct BrDownloadWork *)p)->owner.owner)) *state=11;break;
-    case 11:BR_UTIL_ClearTaskStep((int)task);BR_PROC_SYS_PopEntry((int)((unsigned int *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->proc.procHandle));break;
+    case 9:BR_FADE_Start((void *)(*(int *)((struct BrDownloadWork *)p)->owner.owner),2,3,1);*state=10;break;
+    case 10:if(BR_FADE_GetResult((struct BrFade *)(*(int *)((struct BrDownloadWork *)p)->owner.owner))) *state=11;break;
+    case 11:BR_UTIL_ClearTaskStep((int *)((int)task));BR_PROC_SYS_PopEntry((unsigned *)((int)((unsigned int *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->proc.procHandle)));break;
     }
 }
 
@@ -351,10 +311,10 @@ void BR_DOWNLOAD_Begin3d(char *p, char *q)
 {
     if (((struct BrDownloadWork *)p)->scene.sceneHandle != 0)
         return;
-    BR_SIDEBAR_SetVisibleBySpace((char *)((struct BrDownloadOwner *)q)->sidebar, 0, 0);
-    BR_RES_ApplyBgSet(((struct BrDownloadOwner *)q)->res.resHandle, 0);
-    BR_RES_ReleaseUiPalette((int *)((struct BrDownloadOwner *)q)->res.resHandle, 0);
-    BR_GRAPHIC_Begin3d(((struct BrDownloadOwner *)q)->graphic.graphicHandle, ((struct BrDownloadWork *)p)->heapId);
+    BR_SIDEBAR_SetVisibleBySpace((struct BrSidebar *)(char *)((struct BrDownloadOwner *)q)->sidebar, 0, 0);
+    BR_RES_ApplyBgSet((void *)(((struct BrDownloadOwner *)q)->res.resHandle), 0);
+    BR_RES_ReleaseUiPalette((struct BrRes *)((int *)((struct BrDownloadOwner *)q)->res.resHandle), 0);
+    BR_GRAPHIC_Begin3d((void *)((struct BrDownloadOwner *)q)->graphic.graphicHandle, ((struct BrDownloadWork *)p)->heapId);
     ((struct BrDownloadWork *)p)->scene.sceneHandle = (unsigned int)MUSICAL_SHOT_SYS_CreateScene((u8 *)((struct BrDownloadWork *)p)->saveData.saveData, ((struct BrDownloadWork *)p)->heapId);
 }
 
@@ -364,10 +324,10 @@ void BR_DOWNLOAD_End3d(char *p, char *q)
         return;
     MUSICAL_SHOT_SYS_DeleteScene(((struct BrDownloadWork *)p)->scene.scene);
     *(u32 *)&((struct BrDownloadWork *)p)->scene.scene = 0;
-    BR_GRAPHIC_End3d(((struct BrDownloadOwner *)q)->graphic.graphicHandle, ((struct BrDownloadWork *)p)->heapId);
-    BR_RES_LoadUiPalette((char *)(*(u32 *)&((struct BrDownloadOwner *)q)->res.res), 0, ((struct BrDownloadWork *)p)->heapId);
+    BR_GRAPHIC_End3d((void *)((struct BrDownloadOwner *)q)->graphic.graphicHandle, ((struct BrDownloadWork *)p)->heapId);
+    BR_RES_LoadUiPalette((struct BrRes *)((char *)(*(u32 *)&((struct BrDownloadOwner *)q)->res.res)), 0, ((struct BrDownloadWork *)p)->heapId);
     BR_RES_LoadBgGraphics((void *)(*(u32 *)&((struct BrDownloadOwner *)q)->res.res), 0, ((struct BrDownloadWork *)p)->heapId);
-    BR_SIDEBAR_SetVisibleBySpace((char *)((struct BrDownloadOwner *)q)->sidebar, 0, 1);
+    BR_SIDEBAR_SetVisibleBySpace((struct BrSidebar *)(char *)((struct BrDownloadOwner *)q)->sidebar, 0, 1);
 }
 
 /*
@@ -377,11 +337,11 @@ void BR_DOWNLOAD_End3d(char *p, char *q)
  */
 void BR_DOWNLOAD_CreateButtons(char *p, const char *q)
 {
-  Config cfg;
+  BrDownloadConfig cfg;
   int resources[3];
   void *actorUnit;
-  int font;
-  int msgData;
+  void *font;
+  struct MsgBank *msgData;
   int i;
   int kind;
   int oamHandle;
@@ -391,14 +351,14 @@ void BR_DOWNLOAD_CreateButtons(char *p, const char *q)
     return;
   resHandlePtr = (char **) &((struct BrDownloadOwner *)q)->res.res;
   BR_RES_LoadBgGraphics((void *)(*(u32 *) resHandlePtr), 23, ((struct BrDownloadWork *)p)->heapId);
-  BR_RES_LoadSprite(*resHandlePtr, 6, ((struct BrDownloadWork *)p)->heapId);
-  font = BR_RES_GetFont(*resHandlePtr);
-  msgData = BR_RES_GetMsgData(*resHandlePtr);
+  BR_RES_LoadSprite((struct BrRes *)(*resHandlePtr), 6, ((struct BrDownloadWork *)p)->heapId);
+  font = (void *)BR_RES_GetFont((struct BrRes *)(*resHandlePtr));
+  msgData = (struct MsgBank *)BR_RES_GetMsgData((struct BrRes *)(*resHandlePtr));
   MI_CpuFill8(&cfg, 0, 8);
   cfg.y = 168;
   cfg.flag = 1;
-  actorUnit = (void *)BR_GRAPHIC_GetActorUnit(((struct BrDownloadOwner *)q)->graphic.graphic);
-  BR_RES_GetSprite(*resHandlePtr, 6, resources);
+  actorUnit = (void *)BR_GRAPHIC_GetActorUnit((struct BrGraphic *)(((struct BrDownloadOwner *)q)->graphic.graphic));
+  BR_RES_GetSprite((struct BrRes *)(*resHandlePtr), 6, (void *)resources);
   for (i = 0; i < 2; i++)
   {
     if (i == 0)
@@ -414,7 +374,7 @@ void BR_DOWNLOAD_CreateButtons(char *p, const char *q)
       cfg.index = 4;
     }
     oamHandle = ((struct BrDownloadWork *)p)->oamSys.oamHandle;
-    ((struct BrDownloadWork *)p)->buttons[i] = BR_BTN_CreateFromMessage(&cfg, kind, 96, 1, actorUnit, oamHandle, font, msgData, resources, ((struct BrDownloadWork *)p)->heapId);
+    ((struct BrDownloadWork *)p)->buttons[i] = (int)BR_BTN_CreateFromMessage((void *)&cfg, kind, 96, 1, actorUnit, (void *)oamHandle, font, msgData, (void *)resources, ((struct BrDownloadWork *)p)->heapId);
   }
 }
 
@@ -422,10 +382,10 @@ void BR_DOWNLOAD_ResetSlots(int *slots, char *p)
 {
     int i;
     if (slots[1] != 0) {
-        BR_RES_ReleaseSprite(((struct BrDownloadOwner *)p)->res.resHandle, 6);
-        BR_RES_ApplyBgSet(((struct BrDownloadOwner *)p)->res.resHandle, 0x17);
+        BR_RES_ReleaseSprite((struct BrRes *)(((struct BrDownloadOwner *)p)->res.resHandle), 6);
+        BR_RES_ApplyBgSet((void *)(((struct BrDownloadOwner *)p)->res.resHandle), 0x17);
         for (i = 0; i < 2; i++) {
-            BR_BTN_DeleteObject(slots[i + 1]);
+            BR_BTN_DeleteObject((char *)(slots[i + 1]));
             slots[i + 1] = 0;
         }
     }

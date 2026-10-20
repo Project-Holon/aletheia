@@ -43,92 +43,24 @@
  *   G3D_SYSTEM_DeleteRender  0x02047504  arm
  */
 #include "../types.h"
+#include "../arm9/g3d_system_types.h"
+#include "field_g3dobj_types.h"
 
 #include "../sdk_fx.h"
 
 /* Opaque 3D system objects (layouts in arm9/g3d_system_types.h). */
-typedef struct G3dResource G3dResource;
 
-typedef struct G3dRender G3dRender;
 
-typedef struct G3dAnime G3dAnime;
 
-typedef struct G3dObject G3dObject;
 
-/* Field 3D object control (field_g3dobj.c, 021C63AC..021C6AFC)        */
-#define FIELD_G3DOBJ_ANIME_MAX 8
 
-/* FieldG3dObjRes.state */
-#define FIELD_G3DOBJ_RES_FREE    0   /* being rebuilt or released */
+#include "../arm9/gfl_heap_wrap.h"
 
-#define FIELD_G3DOBJ_RES_READY   1   /* textures are in VRAM */
 
-#define FIELD_G3DOBJ_RES_PENDING 2   /* textures are sent to VRAM on the next update */
+#include "../arm9/mi_memory.h"
 
-/* FieldG3dObj.kind */
-#define FIELD_G3DOBJ_FREE    0
 
-#define FIELD_G3DOBJ_ACTIVE  1   /* g3dObject and anime are created */
-
-#define FIELD_G3DOBJ_PENDING 2   /* waits for the resource textures; created by the next update */
-
-/* Files of one resource: a model, a texture file and up to eight animations (0x24 bytes). */
-typedef struct FieldG3dObjResDesc {
-    u32 modelArc;                          /* archive handle of the model file */
-    u32 texArc;                            /* archive handle of the texture file, 0 = none */
-    u32 anmArc;                            /* archive handle of the animation files */
-    u16 modelFile;
-    u16 texFile;
-    u16 anmFile[FIELD_G3DOBJ_ANIME_MAX];
-    u8  anmCount;
-} FieldG3dObjResDesc;
-
-/* One loaded model with its texture and animations (0x2C bytes). */
-typedef struct FieldG3dObjRes {
-    G3dResource *model;
-    G3dResource *texture;
-    G3dResource *anime[FIELD_G3DOBJ_ANIME_MAX];
-    u8 animeCount;
-    u8 state;                              /* FIELD_G3DOBJ_RES_* */
-} FieldG3dObjRes;
-
-/* One placed object (0x68 bytes). */
-typedef struct FieldG3dObj {
-    u32 kind : 2;                          /* FIELD_G3DOBJ_* */
-    u32 culling : 1;                       /* draw with the view box test */
-    u32 hidden : 1;
-    u32 manualDraw : 1;                    /* skipped by the batch draw */
-    u32 redrawFlag : 1;                    /* cleared by the batch draw */
-    u32 reserved : 26;
-    u16 resIdx;                            /* index in FieldG3dObjCtrl.resTbl */
-    u16 modelIdx;                          /* model inside the resource */
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
-    G3dObject *object;
-    G3dAnime *anime[FIELD_G3DOBJ_ANIME_MAX];
-} FieldG3dObj;
-
-/* The control: a table of resources and a table of objects (0x14 bytes). */
-typedef struct FieldG3dObjCtrl {
-    u16 heapId;
-    u16 ready;                             /* 0 while a table is being changed */
-    u16 resCount;
-    u16 objCount;
-    FieldG3dObjRes *resTbl;
-    FieldG3dObj *objTbl;
-    const u8 *palTable;                    /* palette conversion table, 0 = none */
-} FieldG3dObjCtrl;
-
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-
-extern u32 GFL_HEAP_Free(void *p);
-
-extern void MI_CpuFill(void *p, int v, int n);
-
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-
-extern void MTX_Identity33_(MtxFx33 *m);
+#include "../arm9/fx_mtx33.h"
 
 /* Palette block of a texture resource (NNSG3dResTex, only what is read here). */
 typedef struct ResTexPltt {
@@ -138,51 +70,32 @@ typedef struct ResTexPltt {
     u32 ofsPlttData;
 } ResTexPltt;
 
-extern void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
+#include "../arm9/palanm.h"
 
-extern u8 *NNS_G3dGetTex(u8 *pFile);
+#include "../arm9/nns_g3d_res.h"
 struct G3dObjectStatus;
 
-extern s32 G3D_SYSTEM_DrawObjectCulling(struct G3dObject *obj, struct G3dObjectStatus *status);
+#include "../arm9/g3d_system.h"
 
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
-extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int idx, int amount);
 
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int idx, int amount);
 
-extern s32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 idx, s32 *frame);
 
-extern s32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 idx, s32 *frame);
 
-extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
 struct ArcHandle;
 
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 
-extern u32 G3D_SYSTEM_CheckResourceType(G3dResource *res, u32 kind);
 
-extern void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
 
-extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 
-extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 
-extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *model, u32 modelIdx, G3dResource *texture);
 
-extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
 
-extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anime, int count);
 
-extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 idx);
 
-extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
 
-extern G3dRender *G3D_SYSTEM_GetObjectRender(G3dObject *obj);
 
-extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
 
-extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
 
 extern char gFieldG3dobjFileName[];   /* source file name used as allocation site */
 

@@ -79,28 +79,28 @@ void OS_InitArena(void)
     mainArenaId = 0;
     g_02151264.isInitialized = 1;
 
-    OS_SetArenaHi(mainArenaId, (u32)(OS_GetInitArenaHi((int)(mainArenaId))));
-    OS_SetArenaLo(mainArenaId, (u32)(OS_GetInitArenaLo((int)(mainArenaId))));
+    OS_SetArenaHi(mainArenaId, (uptr)(OS_GetInitArenaHi((int)(mainArenaId))));
+    OS_SetArenaLo(mainArenaId, (uptr)(OS_GetInitArenaLo((int)(mainArenaId))));
 
     arenaId = 2;
     OS_SetArenaLo(arenaId, mainArenaId);
     OS_SetArenaHi(arenaId, mainArenaId);
 
     arenaId = 3;
-    OS_SetArenaHi(arenaId, (u32)(OS_GetInitArenaHi((int)(arenaId))));
-    OS_SetArenaLo(arenaId, (u32)(OS_GetInitArenaLo((int)(arenaId))));
+    OS_SetArenaHi(arenaId, (uptr)(OS_GetInitArenaHi((int)(arenaId))));
+    OS_SetArenaLo(arenaId, (uptr)(OS_GetInitArenaLo((int)(arenaId))));
 
     arenaId = 4;
-    OS_SetArenaHi(arenaId, (u32)(OS_GetInitArenaHi((int)(arenaId))));
-    OS_SetArenaLo(arenaId, (u32)(OS_GetInitArenaLo((int)(arenaId))));
+    OS_SetArenaHi(arenaId, (uptr)(OS_GetInitArenaHi((int)(arenaId))));
+    OS_SetArenaLo(arenaId, (uptr)(OS_GetInitArenaLo((int)(arenaId))));
 
     arenaId = 5;
-    OS_SetArenaHi(arenaId, (u32)(OS_GetInitArenaHi((int)(arenaId))));
-    OS_SetArenaLo(arenaId, (u32)(OS_GetInitArenaLo((int)(arenaId))));
+    OS_SetArenaHi(arenaId, (uptr)(OS_GetInitArenaHi((int)(arenaId))));
+    OS_SetArenaLo(arenaId, (uptr)(OS_GetInitArenaLo((int)(arenaId))));
 
     arenaId = 6;
-    OS_SetArenaHi(arenaId, (u32)(OS_GetInitArenaHi((int)(arenaId))));
-    OS_SetArenaLo(arenaId, (u32)(OS_GetInitArenaLo((int)(arenaId))));
+    OS_SetArenaHi(arenaId, (uptr)(OS_GetInitArenaHi((int)(arenaId))));
+    OS_SetArenaLo(arenaId, (uptr)(OS_GetInitArenaLo((int)(arenaId))));
 }
 
 #define OSi_ROUND(n, a)     (((u32)(n) + (a) - 1) & ~((a) - 1))
@@ -114,8 +114,8 @@ void OS_InitArenaEx(void)
 {
     (void)OS_GetConsoleType();
 
-    OS_SetArenaHi(OS_ARENA_MAINEX, (u32)OS_GetInitArenaHi(OS_ARENA_MAINEX));
-    OS_SetArenaLo(OS_ARENA_MAINEX, (u32)OS_GetInitArenaLo(OS_ARENA_MAINEX));
+    OS_SetArenaHi(OS_ARENA_MAINEX, (uptr)OS_GetInitArenaHi(OS_ARENA_MAINEX));
+    OS_SetArenaLo(OS_ARENA_MAINEX, (uptr)OS_GetInitArenaLo(OS_ARENA_MAINEX));
 
     if (!OS_IsRunOnTwl()) {
         OS_SetProtectionRegionEx(1, 0x02000000, 0x2A);
@@ -166,21 +166,21 @@ void *OS_GetInitArenaHi(int arenaId)
         return (void *)0x02000000;
     case OS_ARENA_DTCM:
         {
-            u32 start = (u32)SDK_AUTOLOAD_DTCM_START;
+            u32 start = (uptr)SDK_AUTOLOAD_DTCM_START;
             u32 end = start + 0x3F80;
-            u32 top = end - (u32)SDK_IRQ_STACKSIZE;
-            s32 sysStack = (s32)SDK_SYS_STACKSIZE;
+            u32 top = end - (uptr)SDK_IRQ_STACKSIZE;
+            s32 sysStack = (sptr)SDK_SYS_STACKSIZE;
 
             if (sysStack == 0) {
-                u32 arena = start;
+                uptr arena = start;
 
-                if (arena < (u32)SDK_SECTION_ARENA_DTCM_START) {
-                    arena = (u32)SDK_SECTION_ARENA_DTCM_START;
+                if (arena < (uptr)SDK_SECTION_ARENA_DTCM_START) {
+                    arena = (uptr)SDK_SECTION_ARENA_DTCM_START;
                 }
                 return (void *)arena;
             }
             if (sysStack < 0) {
-                return (void *)((u32)SDK_SECTION_ARENA_DTCM_START - sysStack);
+                return (void *)((uptr)SDK_SECTION_ARENA_DTCM_START - sysStack);
             }
             return (void *)(top - sysStack);
         }

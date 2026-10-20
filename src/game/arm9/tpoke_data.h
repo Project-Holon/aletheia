@@ -6,8 +6,11 @@
 
 struct Container;
 
+#include "../arm9/tpoke_data_types.h"
 #include "../types.h"
 
+Tpoke *TPOKE_DATA_Create(u16 heap);
+void TPOKE_Delete(Tpoke *tpoke);
 u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtype);
 int TPOKE_DATA_IsRecordKindTwo(u32 unused, struct Container *c, u32 type, u32 subtype, u16 e);
 u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 type, u32 subtype);

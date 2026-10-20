@@ -89,6 +89,7 @@
 #include "field_gimmick_cannons_types.h"
 
 #include "../types.h"
+#include "../arm9/ica_anime_shared_types.h"
 
 /*
  * Same layout as FieldCameraView, FieldCameraMoveChannels and
@@ -106,7 +107,7 @@ typedef struct FieldGimmickCannonsCameraView {
     u16 reserved;
 } FieldGimmickCannonsCameraView;
 
-typedef struct FieldCameraMoveChannels {
+typedef struct FieldGimmickCannonsCameraChannels {
     u32 shift;
     u32 pitch;
     u32 yaw;
@@ -129,64 +130,22 @@ typedef struct FieldGimmickCannonsDirTable {
     u8 direction[FIELD_GIMMICK_CANNONS_DIRECTION_COUNT];
 } FieldGimmickCannonsDirTable;
 
-extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
-extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmick, u32 id);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
-                                       GameEventFunc func, u32 workSize);
-extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
-extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
-extern void FLD_EXP_OBJ_SetModelCullDraw(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, int cullDraw);
-extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
-extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, unsigned modelIndex, int animeIndex);
-extern void FLD_EXP_OBJ_SetAnimePaused(FldExpObjAnime *anime, int paused);
-extern void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
-extern void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex, int frame);
-extern int FLD_EXP_OBJ_GetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
-extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
-extern void MTX_RotY33_(void *matrix, int sin, int cos);
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
-extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, const VecFx32 *pos);
-extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, int flag);
-extern void FLDMMDL_SetStatusBit(struct Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_SetMoveBit(struct Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_ClearStatusBit(struct Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_ClearMoveBit(struct Mmdl *mmdl, u32 bit);
-extern u32 FLDMMDL_CheckMoveBit(struct Mmdl *mmdl, u32 bit);
-extern void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize);
-extern u32 ICA_ANIME_GetFrameNum(struct IcaAnime *anime);
-extern void ICA_ANIME_Delete(struct IcaAnime *anime);
-extern u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *anime, VecFx32 *out, u32 frame);
-extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
-extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
-extern void FIELD_CAMERA_PushState(struct FieldCamera *camera);
-extern void FIELD_CAMERA_PopState(struct FieldCamera *camera);
-extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../arm9/gimmick.h"
+#include "../arm9/game_event.h"
+#include "../ov021/fld_exp_obj.h"
+#include "../arm9/fx_mtx33.h"
+#include "../ov021/field_player.h"
+#include "../ov010/fldmmdl.h"
+#include "../ov010/script_sys.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/ica_anime.h"
+#include "../ov021/field_camera.h"
 struct FieldCameraMoveRequest;
-extern void FIELD_CAMERA_StartMove(struct FieldCamera *camera, struct FieldCameraMoveRequest *request, u16 frames);
-extern int FIELD_CAMERA_IsMoving(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetMode(struct FieldCamera *camera, u32 mode);
-extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
-extern void FIELD_CAMERA_ResumeTargetTrace(struct FieldCamera *camera);
 struct FieldCameraMoveChannels;
-extern void FIELD_CAMERA_StartFreeMove(struct FieldCamera *camera, VecFx32 *eyeGoal, VecFx32 *targetGoal, struct FieldCameraMoveChannels *channels, u16 frames);
-extern FieldGimmickCannonsCameraView *FIELD_CAMERA_GetMoveGoal(struct FieldCamera *camera);
 struct FieldCameraMoveChannels;
-extern void FIELD_CAMERA_StartMoveToSaved(struct FieldCamera *camera, struct FieldCameraMoveChannels *channels, u16 frames);
 
 void FIELD_GIMMICK_CANNONS_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_CANNONS_Exit(struct FieldMap *fieldMap);
@@ -296,7 +255,7 @@ struct GameEvent *FIELD_GIMMICK_CANNONS_CreateLaunchEvent(struct GameSystem *gam
     if (cannonIndex >= FIELD_GIMMICK_CANNONS_CANNON_COUNT) {
         return 0;
     }
-    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_CANNONS_EventLaunch, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_CANNONS_EventLaunch, 0);
     work->cannonIndex = cannonIndex;
     work->facing = facing;
     return event;
@@ -501,7 +460,7 @@ int FIELD_GIMMICK_CANNONS_EventLaunch(struct GameEvent *event, int *seq, void *e
                 channels.pitch = 0;
                 channels.yaw = 0;
                 channels.distance = 0;
-                FIELD_CAMERA_StartFreeMove(camera, &eyePos, &playerPos, &channels, work->cameraFollowEndFrame - work->frame);
+                FIELD_CAMERA_StartFreeMove(camera, &eyePos, &playerPos, (struct FieldCameraMoveChannels *)&channels, work->cameraFollowEndFrame - work->frame);
                 work->bounce.cameraMoveStarted = 1;
             } else {
                 FIELD_CAMERA_GetMoveGoal(camera)->target = playerPos;

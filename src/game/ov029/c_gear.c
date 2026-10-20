@@ -202,6 +202,7 @@
 #include "../types.h"
 
 #include "c_gear_types.h"
+#include "../arm9/clact.h"
 
 #define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
 #define REG_DB_BLDCNT (*(volatile u16 *)0x04001050)
@@ -218,184 +219,73 @@ struct CustomBgBuffer;
 struct SoundSys;
 struct BeaconLog;
 
-struct BgTemplate {
-    u32 x;
-    u32 y;
-    u32 bufSize;
-    u32 baseTile;
-    u8 screenSize;
-    u8 colorMode;
-    u8 screenBase;
-    u8 charBase;
-    u32 areaOver;
-    u8 bgMode;
-    u8 priority;
-    u8 mosaic;
-    u8 padding;
-    u32 reserved;
-};
+#include "../arm9/bg_sys.h"
 
-typedef struct {
-    u32 hour;
-    u32 minute;
-    u32 second;
-} RtcTime;
+#include "../arm9/gf_standard_types.h"
 
-extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
-extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
-extern struct Actor *CLACT_CreateActor(struct ActorSystem *system, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
-extern void CLACT_SetActorAutoAnim(struct Actor *p, u32 v);
-extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
-extern u16 CLACT_GetActorAnimSeqCount(struct Actor *p);
-extern u32 CLACT_GetActorAnimFrame(struct Actor *p);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 struct GameSystem;
 struct GameComm;
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
+#include "../arm9/gamesystem.h"
 struct FieldState;
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
-extern u32 WIH_DWC_PollStatus(void *key);
+#include "../arm9/game_data.h"
+#include "../arm9/wih_dwc.h"
 struct GameComm;
-extern int INTRUDE_COMM_GetRequestState(struct GameComm *comm);
-extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern void MI_CpuFill8(void *, int, int);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_PushTile(unsigned int index);
-extern unsigned int WIPE_SYS_EndCheck(void);
-extern int GXx_GetMasterBrightness_(volatile u16 *reg);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
+#include "../ov010/intrude_comm_query.h"
+#include "../arm9/palanm.h"
+extern void PALANM_ForceStopFade(struct PaletteFade *o);
+#include "../arm9/mi_memory.h"
+#include "../arm9/wipe.h"
+#include "../arm9/gx.h"
 struct FieldMap;
-extern int FIELDMAP_GetSubscreenBusy(struct FieldMap *fieldMap);
-extern int PALANM_GetDefaultWork(char *p, int i);
-extern int PALANM_GetTransWork(char *p, int i);
-extern void PALANM_BlendColors(unsigned short *src, unsigned short *dst, unsigned int count, int weight, unsigned short color);
-extern void MI_CpuCopy8(void *src, void *dst, int n);
-extern int PALANM_RequestFade(struct PalAnmSlot *palAnm, u16 mask, u16 color, s16 step, u8 startLevel, u8 endLevel, u16 tint, struct FadeCtx *fadeCtx);
-extern void PALANM_ForceStopFade(struct PalAnmSlot *o);
-extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSlot *palAnm);
-extern u32 BG_SYS_GetBuf(int channel);
+#include "../ov021/fieldmap.h"
+#include "../arm9/palanm.h"
 struct CGearSave;
-extern void BLOCK20_SAVEDATA_SetPanelMark(struct CGearSave *save, int row, int col, int kind, int marked, int flagged);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
-extern void DC_FlushRange(void *a, u32 b);
-extern void GXS_LoadBGPltt(void *a, u32 b, u32 c);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 BG_SYS_CreateRun(u32 a, u32 b, u32 c);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
-extern s32 CLACT_RegisterPalette(void *a, unsigned int b, unsigned int c, unsigned int d, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int vram_mode, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
-extern void GFL_NET_RefreshWmIconAt(u32 a, u32 b);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
-extern void UI_SetInputMode(u8 v);
-extern u32 TOUCHPANEL_GetPointCont(unsigned int *x, unsigned int *y);
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+#include "../arm9/block20_savedata.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/gx_load2d.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/net.h"
+#include "../arm9/g2.h"
+#include "../arm9/ui.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/gfl_use.h"
 extern int C_GEAR_IsAnyIndicatorShown(CGearWork *work);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void CGEAR_SAVE_SetPowerSetting(struct CGearSave *save, unsigned char powerSetting);
-extern void CLACT_SetActorAnimIndex(struct Actor *actor, unsigned int anim_idx);
-extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern int OS_IsRunOnTwl(void);
-extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
-extern void CLACT_DeleteActor(struct Actor *p);
-extern u32 GAME_BEACON_GetReceiveCount(void);
-extern int GAME_BEACON_GetNextNewLogIndex(int *p);
+#include "../arm9/cgear_save.h"
+#include "../arm9/os_emulator.h"
+#include "../arm9/game_beacon.h"
 struct GameBeaconRecord;
-extern struct GameBeaconRecord *GAME_BEACON_GetLogByReceiveNo(int n);
 struct GameBeaconInfo;
-extern u8 GAME_BEACON_ACCESSOR_GetFavoriteColorIndex(struct GameBeaconInfo *info);
+#include "../ov010/game_beacon_accessor.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern unsigned char MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern unsigned char CGEAR_SAVE_GetPowerSetting(struct CGearSave *save);
-extern struct ActorSystem *CLACT_CreateUnit(int count, unsigned char flag, u32 heapId);
+#include "../arm9/mystatus.h"
 struct SurfaceInit;
 struct Renderer;
-extern struct Renderer *CLACT_CreateRenderer(struct SurfaceInit *inits, unsigned int count, unsigned int heap_id);
-extern void CLACT_SetUnitRenderer(struct ActorSystem *system, struct ActorResources *resources);
 struct ButtonMan;
-extern struct ButtonMan *BUTTON_MAN_Create(unsigned char *rects, void (*callback)(int, int, CGearWork *), int arg, int heap);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
-extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
-extern void CLACT_DeleteRenderer(struct Renderer *renderer);
-extern u32 CLACT_DeleteUnit(struct ActorSystem *bank);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern int UI_GetPowerState(void);
-extern void GF_STANDARD_GetCachedTime(RtcTime *time);
-extern void CLACT_AddActorSurfacePos(struct Actor *actor, const CGearPos *delta, u32 which);
-extern void CLACT_SetActorDrawPriority(struct Actor *node, u32 val);
-extern s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
+#include "../arm9/button_man.h"
+#include "../arm9/gf_standard.h"
 extern void C_GEAR_TickIndicators(CGearWork *work);
 extern void C_GEAR_TickTabFrame(CGearWork *work);
-extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int flag, const char *file, u16 line);
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, unsigned int slot, unsigned char heapId, void *work, unsigned int workSize);
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
+#include "../arm9/save_control.h"
 struct CgearSaveBlock;
-extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *saveSys);
-extern u16 CGEAR_SAVE_GetGsyncId(struct CGearSave *save);
 struct BlockImage;
-extern u32 MUSICAL_DIST_SAVE_IsFooterSet(struct BlockImage *image);
-extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
-extern void BG_SYS_LoadPltt(u32 a, void *src, u32 size, u32 ofs);
-extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
-extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, unsigned int slot);
+#include "../arm9/musical_dist_save.h"
 struct TcbSystem;
-extern void TCB_Main(struct TcbSystem *sys);
-extern void PALANM_TransferPalettes(struct PalAnmSlot *p);
-extern u32 GAMESYSTEM_IsAlwaysNetFlagSet(const struct GameSystem *p);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern u32 TCB_GetTaskOffset(u32 n);
-extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
-extern u8 CGEAR_SAVE_GetGsyncState(struct CGearSave *save);
-extern void *PALANM_Create(u32 heapId);
-extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*callback)(void *, CGearWork *), void *work, unsigned int priority);
-extern void UI_SetSleepHookGlobal(void (*callback)(CGearWork *), void *b);
-extern void UI_SetWakeHookGlobal(void (*callback)(CGearWork *), void *b);
+#include "../arm9/tcb_list.h"
+#include "../arm9/arc_tool.h"
+struct TcbTask;
 extern void C_GEAR_CreateFadeFx(CGearWork *work, CGearFadeFx *fx);
-extern int GAMESYSTEM_IsEventActive(const struct GameSystem *gameSystem);
 extern void C_GEAR_SetPowerState(CGearWork *work, int powerOn);
 extern void C_GEAR_ApplyIndicators(CGearWork *work);
-extern int INTRUDE_COMM_GetVisitProgress(struct GameComm *comm);
-extern void INTRUDE_COMM_SetCompleted(struct GameComm *comm);
 extern void C_GEAR_DeleteFadeFx(CGearFadeFx *fx);
-extern void GFL_NET_RefreshWmIconAtOrigin(void);
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-extern u32 PALANM_Delete(struct PalAnmSlot *palAnm);
-extern void TCB_Noop(struct FadeCtx *ctx);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern unsigned int GAME_DATA_GetBgmInfo(struct GameData *gd);
 struct FieldSoundSystem;
-extern void FIELD_SOUND_SYSTEM_StopRingtone(struct FieldSoundSystem *s);
-extern void ARC_TOOL_DeleteHandle(void *archive);
-extern u32 GFL_USE_GetRandom(u32 range);
-extern void FIELD_SOUND_SYSTEM_StartRingtone(struct FieldSoundSystem *s);
-extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
-extern void WIPE_ResetBrightness(u32 which);
+#include "../arm9/field_sound_system.h"
 extern void C_GEAR_StartSelectedRipple(CGearWork *work);
 extern void C_GEAR_StepWaitSlots(CGearWork *work);
 extern struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind);
 void C_GEAR_NoOp(CGearWork *work);
-extern u32 CGEAR_SAVE_GetPanelValue(struct CGearSave *save, int row, int col);
-extern int CGEAR_SAVE_GetPanelFlag(struct CGearSave *save, int row, int col);
-extern u32 BLOCK20_SAVEDATA_TestPanelMark(struct CGearSave *save, int row, int col, int kind);
 int C_GEAR_IsColumnRowValid(int col, int row);
 void C_GEAR_SetStepFunc(CGearWork *work, CGearStepFunc stepFunc);
 void C_GEAR_ChangeStep(CGearWork *work, CGearStepFunc stepFunc, int line);
@@ -546,18 +436,14 @@ extern char d_021F3272[];
 extern const u8 d_021F3520[];
 extern const char d_021F3554[];
 typedef struct GameEvent *(*GameEventCreatorFn)(struct GameSystem *gameSystem, void *arg);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, void *handler, u32 workSize);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, GameEventCreatorFn creator, void *arg);
-extern struct GameEvent *EVENT_GSYNC_Entry(struct GameSystem *gameSystem, void *arg);
-extern struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, void *unused, struct GameEvent *event, s32 create);
-extern struct GameEvent *EVENT_WIFI_PROC_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct GameEvent *event, int createNew);
-extern void *EVENT_RESEARCH_RADAR_CreateTopTask(void *gameSystem, void *transitionArg);
-extern struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, unsigned int mode);
-extern struct GameEvent *FIELD_STATUS_CreateSubProcCallbackEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, unsigned int overlayId, void *procData, void *procWork, void (*callback)(void *), void *callbackWork);
-extern struct GameEvent *FIELD_SUBSCREEN_CreateAnimTask(struct GameSystem *gameSystem);
-extern void GAME_EVENT_ChangeEvent(struct GameEvent *now, struct GameEvent *next);
-extern int GFL_NET_GetRunState(void);
+#include "../arm9/game_event.h"
+#include "../ov000/event_gsync.h"
+#include "../ov010/event_ircbattle.h"
+#include "../ov010/event_wifi_proc.h"
+#include "../ov010/event_research_radar.h"
+#include "../ov021/field_comm_actor.h"
+#include "../arm9/field_status.h"
+#include "../ov021/scrcmd_misc.h"
 int C_GEAR_StepIconAnim(CGearWork *work);
 int C_GEAR_StepFadeIcon(CGearWork *work);
 void C_GEAR_ShowOffIndicator(CGearWork *work);
@@ -578,10 +464,7 @@ struct ArcFile;
 struct HexMap;
 void C_GEAR_LoadSkinMember(struct HexMap *hexMap, struct ArcFile *arc, int skinIndex, int heapId);
 int CTRDG_IsAgbCartridge(CGearWork *work);
-extern int TOUCHPANEL_GetTrg(void);
-extern void *BLOCK20_SAVEDATA_InitPanelMarks(void *cgearSave);
 struct ArcHandle;
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, unsigned int memberIdx, void *dst);
 
 int C_GEAR_IsColumnRowValid(int col, int row)
 {
@@ -652,7 +535,7 @@ void C_GEAR_GetHexNeighbors(int col, int row, int *outCols, int *outRows)
 
 void C_GEAR_SpawnRippleActor(CGearWork *work, int col, int row)
 {
-    CGearActorDesc desc;
+    struct ActorInitParam desc;
     int screenX;
     int screenY;
     CGearActorSlot *slot;
@@ -660,12 +543,12 @@ void C_GEAR_SpawnRippleActor(CGearWork *work, int col, int row)
     C_GEAR_TileToScreen(col, row, &screenX, &screenY);
     desc.x = screenX * 8 + 16;
     desc.y = screenY * 8 + 16;
-    desc.animIndex = work->rippleKind + 10;
-    desc.palOffset = 0;
-    desc.surface = 2;
+    desc.anim_seq = work->rippleKind + 10;
+    desc.draw_priority = 0;
+    desc.bg_priority = 2;
     slot = C_GEAR_AcquireActorSlot(work);
     if (slot->actor != 0) {
-        CLACT_SetActorAnimSeq(slot->actor, desc.animIndex);
+        CLACT_SetActorAnimSeq(slot->actor, desc.anim_seq);
         CLACT_RestartActorAnim(slot->actor);
         CLACT_SetActorSurfacePosAxis(slot->actor, desc.x, 0, 0);
         CLACT_SetActorSurfacePosAxis(slot->actor, desc.y, 0, 1);
@@ -1835,19 +1718,19 @@ void C_GEAR_CreateHudActors(CGearWork *work)
 {
     int i;
     int j;
-    CGearActorDesc desc;
+    struct ActorInitParam desc;
 
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     j = 0;
     for (i = 0; i < 11; i++) {
         desc.x = d_021F3531[i];
         desc.y = d_021F353C[i];
-        desc.animIndex = d_021F3526[i];
-        if (desc.animIndex == 6 && OS_IsRunOnTwl()) {
-            desc.animIndex = 7;
+        desc.anim_seq = d_021F3526[i];
+        if (desc.anim_seq == 6 && OS_IsRunOnTwl()) {
+            desc.anim_seq = 7;
         }
-        desc.palOffset = 0;
-        desc.surface = 2;
+        desc.draw_priority = 0;
+        desc.bg_priority = 2;
         work->hudActors[i] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                 work->spriteAnimRes, &desc, 0, work->heapId);
         CLACT_SetActorDrawEnable(work->hudActors[i], 0);
@@ -1857,9 +1740,9 @@ void C_GEAR_CreateHudActors(CGearWork *work)
     for (j = 0; j < 3; j++) {
         desc.x = 8;
         desc.y = 8;
-        desc.animIndex = d_021F3548[j];
-        desc.palOffset = 0;
-        desc.surface = 2;
+        desc.anim_seq = d_021F3548[j];
+        desc.draw_priority = 0;
+        desc.bg_priority = 2;
         work->tileMarkerActors[j] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                 work->spriteAnimRes, &desc, 0, work->heapId);
         CLACT_SetActorDrawEnable(work->tileMarkerActors[j], 0);
@@ -1925,14 +1808,14 @@ void C_GEAR_SetSplashActorsVisible(CGearWork *work, int visible)
 void C_GEAR_CreateSplashActors(CGearWork *work)
 {
     int i;
-    CGearActorDesc desc;
+    struct ActorInitParam desc;
 
     for (i = 0; i < 18; i++) {
         desc.x = 0x80;
         desc.y = 0x60;
-        desc.animIndex = i + 0x12;
-        desc.palOffset = 0;
-        desc.surface = 2;
+        desc.anim_seq = i + 0x12;
+        desc.draw_priority = 0;
+        desc.bg_priority = 2;
         work->splashActors[i] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                 work->spriteAnimRes, &desc, 0, work->heapId);
         CLACT_SetActorDrawEnable(work->splashActors[i], 0);
@@ -1965,13 +1848,13 @@ int C_GEAR_IsSplashDone(CGearWork *work)
 
 void C_GEAR_CreateBarActors(CGearWork *work)
 {
-    CGearActorDesc desc;
+    struct ActorInitParam desc;
 
     desc.x = 0x68;
     desc.y = 0xaa;
-    desc.animIndex = 0x28;
-    desc.palOffset = 0;
-    desc.surface = 2;
+    desc.anim_seq = 0x28;
+    desc.draw_priority = 0;
+    desc.bg_priority = 2;
     work->barActors[0] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                         work->spriteAnimRes, &desc, 0, work->heapId);
     CLACT_SetActorDrawEnable(work->barActors[0], 0);
@@ -1979,9 +1862,9 @@ void C_GEAR_CreateBarActors(CGearWork *work)
 
     desc.x = 0x68;
     desc.y = 0xaa;
-    desc.animIndex = 0x27;
-    desc.palOffset = 0x14;
-    desc.surface = 2;
+    desc.anim_seq = 0x27;
+    desc.draw_priority = 0x14;
+    desc.bg_priority = 2;
     work->barActors[1] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                         work->spriteAnimRes, &desc, 0, work->heapId);
     CLACT_SetActorDrawEnable(work->barActors[1], 0);
@@ -1989,9 +1872,9 @@ void C_GEAR_CreateBarActors(CGearWork *work)
 
     desc.x = 0x22;
     desc.y = 0xaa;
-    desc.animIndex = 0x10;
-    desc.palOffset = 0;
-    desc.surface = 2;
+    desc.anim_seq = 0x10;
+    desc.draw_priority = 0;
+    desc.bg_priority = 2;
     work->barActors[2] = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                                         work->spriteAnimRes, &desc, 0, work->heapId);
     CLACT_SetActorDrawEnable(work->barActors[2], 0);
@@ -2068,7 +1951,7 @@ void C_GEAR_LoadGraphics(CGearWork *work, int introMode)
     C_GEAR_LoadSpriteResources(work, work->colorTheme);
     C_GEAR_CreateHudActors(work);
     C_GEAR_CreateBarActors(work);
-    work->buttonTask = (struct ButtonTask *)BUTTON_MAN_Create((unsigned char *)d_021F3272, C_GEAR_OnButtonEvent, (int)work, work->heapId);
+    work->buttonTask = (struct ButtonTask *)BUTTON_MAN_Create((unsigned char *)d_021F3272, (void (*)(s32, s32, s32))C_GEAR_OnButtonEvent, (sptr)work, work->heapId);
     if (introMode) {
         C_GEAR_DrawEmptyBoard(work);
         C_GEAR_SetAllActorsVisible(work, z);
@@ -2131,7 +2014,7 @@ u8 C_GEAR_GetBatteryFrame(void)
     return d_021F3520[UI_GetPowerState()];
 }
 
-static inline void SetActorAnimFrame(struct Actor *actor, int frame)
+static inline void SetActorAnimFrame(struct ClactActor *actor, int frame)
 {
     if (frame != CLACT_GetActorAnimSeqCount(actor)) {
         CLACT_SetActorAnimIndex(actor, (u16)frame);
@@ -2140,8 +2023,8 @@ static inline void SetActorAnimFrame(struct Actor *actor, int frame)
 
 void C_GEAR_UpdateClock(CGearWork *work)
 {
-    RtcTime time;
-    struct Actor *actor;
+    struct RtcTime time;
+    struct ClactActor *actor;
     int digit;
 
     GF_STANDARD_GetCachedTime(&time);
@@ -2182,7 +2065,7 @@ void C_GEAR_UpdateTileMarkers(CGearWork *work)
     int i;
     int pixelX;
     int pixelY;
-    CGearPos pos;
+    struct ClactVec2 pos;
 
     for (i = 0; i < 3; i++) {
         if (C_GEAR_FindCellOfKind(work, i + 1, &pixelX, &pixelY)) {
@@ -2481,9 +2364,9 @@ void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct 
     PALANM_CopyHwPaletteToSlot(work->palAnm, 1, 0, 0x1C0);
     C_GEAR_TintPalettes(work, work->commEnabled);
     PALANM_TransferPalettes(work->palAnm);
-    work->palTransferTask = (struct VBlankTask *)GFL_USE_AddMainTask(C_GEAR_TransferPalettesTask, work, 1);
-    UI_SetSleepHookGlobal(C_GEAR_OnCommDisconnect, work);
-    UI_SetWakeHookGlobal(C_GEAR_OnCommEvent, work);
+    work->palTransferTask = (struct VBlankTask *)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))C_GEAR_TransferPalettesTask, work, 1);
+    UI_SetSleepHookGlobal((void (*)(void *))C_GEAR_OnCommDisconnect, work);
+    UI_SetWakeHookGlobal((void (*)(void *))C_GEAR_OnCommEvent, work);
     C_GEAR_CreateFadeFx(work, &work->fadeFx);
     C_GEAR_UpdateBeaconColors(work);
     C_GEAR_UpdateClock(work);
@@ -2518,7 +2401,7 @@ void C_GEAR_Cleanup(CGearWork *work)
     PALANM_FreeSlotBuffers(work->palAnm, 3);
     PALANM_FreeSlotBuffers(work->palAnm, 1);
     PALANM_Delete(work->palAnm);
-    TCB_Noop(work->fadeCtx);
+    TCB_Noop((struct TcbSystem *)work->fadeCtx);
     GFL_HEAP_Free(work->fadeMem);
     TCB_DeleteTask((struct TcbTask *)work->palTransferTask);
     if (work->lastCommand != 5) {
@@ -2903,19 +2786,13 @@ void C_GEAR_TickTabFrame(CGearWork *work)
 
 void C_GEAR_CreateFadeFx(CGearWork *work, CGearFadeFx *fx)
 {
-    struct {
-        unsigned short a;
-        unsigned short b;
-        unsigned short c;
-        unsigned char d;
-        unsigned char e;
-    } header;
+    struct ActorInitParam header;
 
-    header.a = 0;
-    header.b = 0;
-    header.c = 0x25;
-    header.d = 0;
-    header.e = 2;
+    header.x = 0;
+    header.y = 0;
+    header.anim_seq = 0x25;
+    header.draw_priority = 0;
+    header.bg_priority = 2;
     fx->actor = CLACT_CreateActor(work->spriteSystem, work->spriteCharRes, work->spritePlttRes,
                               work->spriteAnimRes, &header, 0, work->heapId);
     CLACT_SetActorDrawEnable(fx->actor, 0);
@@ -2953,7 +2830,7 @@ int C_GEAR_StepFadeFx(CGearFadeFx *fx)
 
 struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind)
 {
-    struct GameEvent *event = GAME_EVENT_Create(work->gameSystem, 0, C_GEAR_PanelEventMain, 8);
+    struct GameEvent *event = GAME_EVENT_Create(work->gameSystem, 0, (GameEventFunc)C_GEAR_PanelEventMain, 8);
     CGearEventWork *req = GAME_EVENT_GetWork(event);
 
     req->work = work;
@@ -3011,7 +2888,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
 
     switch (req->kind) {
     case 6:
-        next = GAME_EVENT_CreateOverlayEvent(work->gameSystem, (u32)abs_id_0, EVENT_GSYNC_Entry, fieldMap);
+        next = GAME_EVENT_CreateOverlayEvent(work->gameSystem, (uptr)abs_id_0, (GameEventCreatorFn)EVENT_GSYNC_Entry, fieldMap);
         break;
     case 1:
         next = IRC_BATTLE_ENTRY_Create((void *)work->gameSystem, fieldMap, 0, 1);
@@ -3029,7 +2906,7 @@ int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req
         args = GFL_HEAP_Alloc(4, 8, 1, d_021F3554, 0x14B7);
         args->playerData = (u8 *)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(work->gameSystem));
         args->gameSystem = work->gameSystem;
-        next = FIELD_STATUS_CreateSubProcCallbackEvent(work->gameSystem, fieldMap, (u32)abs_id_124, (void *)d_021D4D40, args, 0, args);
+        next = FIELD_STATUS_CreateSubProcCallbackEvent(work->gameSystem, fieldMap, (uptr)abs_id_124, (void *)d_021D4D40, args, 0, args);
         break;
     case 13:
         next = FIELD_SUBSCREEN_CreateAnimTask(work->gameSystem);

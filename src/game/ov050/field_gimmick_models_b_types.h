@@ -20,19 +20,7 @@ typedef struct FieldGimmickModelsBWork {
 } FieldGimmickModelsBWork;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
-extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
-extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
-extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
-extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
-extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, u16 modelIndex);
-extern void FLD_EXP_OBJ_SetModelHidden(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int hidden);
+#include "../ov021/fld_exp_obj.h"
 /* The model and animation indices are u16: the callers truncate them. */
-extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex);
-extern void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
-extern int FLD_EXP_OBJ_IsAnimeStopped(FldExpObjAnime *anime);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex, int enable);
 
 #endif

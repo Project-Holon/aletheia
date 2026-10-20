@@ -106,7 +106,11 @@ struct WarpLocation {
 
 #include "os_ownerinfo.h"
 
+#ifdef __MWERKS__
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#else
+#include "game_data.h"
+#endif
 
 #include "mystatus.h"
 
@@ -116,77 +120,101 @@ extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
 #include "net.h"
 
+#ifdef __MWERKS__
 extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
+#endif
 
 #include "playtime.h"
 
 
 #include "../ov014/net_whpipe.h"
 
+#ifdef __MWERKS__
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#endif
 
+#ifdef __MWERKS__
 extern void *SYMBOL_SAVE_GetBitBlock(void *saveData);
+#else
+#include "symbol_save.h"
+#endif
 
-extern int   MISC_SAVEDATA_GetStatusByte(struct QuestionnaireSave *questionnaire, int slot);
+#ifdef __MWERKS__
+extern int   MISC_SAVEDATA_GetStatusByte(struct QuestionnaireSave *questionnaire, int slot); /* original prototype; the definition differs in pointer or integer, pointer type */
+#else
+#include "misc_savedata.h"
+#endif
 
-extern u32   QUESTIONNAIRE_GetAnswerMax(u8 questionId);
+#ifdef __MWERKS__
+extern u32   QUESTIONNAIRE_GetAnswerMax(u8 questionId); /* original prototype; the definition differs in argument width, return type */
+#else
+#include "../ov010/comm_player.h"
+#endif
 
-extern u32   SYMBOL_SAVE_ReadBitField(const u8 *answers, u8 questionId);
-
+#ifdef __MWERKS__
+extern u32   SYMBOL_SAVE_ReadBitField(const u8 *answers, u8 questionId); /* original prototype; the definition differs in argument width */
 extern u32 MISC_SAVEDATA_IsTallyFull(u8 *tally, u32 fieldId, u32 index);
-
-extern void MISC_SAVEDATA_AddHalfwordClamped(s8 *tally, s32 index, s32 delta);
-
+extern void MISC_SAVEDATA_AddHalfwordClamped(s8 *tally, s32 index, s32 delta); /* original prototype; the definition differs in pointer or integer, pointer type */
 extern void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, s32 delta);
+#endif
 struct SymbolBitSave;
 
+#ifdef __MWERKS__
 extern const u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save);
+#endif
 
-extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
+#include "beacon.h"
 
-extern int MISC_GetRecentId(struct MiscSave *misc, u8 slot);
 
-extern void MISC_AddRecentValue(struct MiscSave *misc, u8 slot, int value);
 
-extern u8 MISC_GetResearchRank(struct MiscSave *misc);
 
-extern u32 MISC_GetGreetCount(struct MiscSave *misc);
 
-extern u32 MISC_GetThanksCount(struct MiscSave *misc);
 
-extern u16 *MISC_GetGreetMessage(struct MiscSave *misc);
 
 #include "greeting_savedata.h"
 struct QuadRecord;
 
 
+#ifdef __MWERKS__
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
-
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
+#endif
 
-extern u32 ZONEDATA_IsUnionRoom(u16 zoneId);
+#ifdef __MWERKS__
+extern u32 ZONEDATA_IsUnionRoom(u16 zoneId); /* original prototype; the definition differs in argument width */
+extern u32 ZONEDATA_IsZone96Pair(u16 zoneId); /* original prototype; the definition differs in argument width */
+#else
+#include "zonedata.h"
+#endif
 
-extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
-
+#ifdef __MWERKS__
 extern struct WarpLocation *GAME_DATA_GetSpecialLocation(const struct GameData *gameData);
+#endif
 
-extern u32 SYMBOL_MAP_ResolveZoneId();
+#ifdef __MWERKS__
+extern u32 SYMBOL_MAP_ResolveZoneId(); /* original prototype; the definition differs in argument list */
+#else
+#include "../ov010/symbol_map.h"
+#endif
 
 
 
 
 
 
+#ifdef __MWERKS__
 extern u16   STRBUF_GetEosChar(void);
-
 extern void STRBUF_ToChars(const struct Strbuf *str, u16 *codes, u32 count);
+#else
+#include "strbuf.h"
+#endif
 
 #include "gf_overlay.h"
 
 #include "../ov231/card_spi.h"
 
 
-extern void *GFL_USE_AddHBlankTask(void (*func)(void), u32 arg, u32 priority);
+#include "gfl_use.h"
 
 void GAME_BEACON_Create(u32 heapId);
 
@@ -282,7 +310,8 @@ void GAME_BEACON_SetMyPms(const GameBeaconPms *pms);
 
 void GAME_BEACON_RegisterClearCallback(void);
 
-void GAME_BEACON_ClearFlags(void);
+struct TcbTask;
+void GAME_BEACON_ClearFlags(struct TcbTask *task, void *work);
 
 extern GameBeaconWork *GAME_BEACON_Work;
 
@@ -1082,7 +1111,12 @@ void GAME_BEACON_SetZone(u32 zoneId, u32 zoneSource)
 void GAME_BEACON_SetInfoZone(GameBeaconInfo *info, u32 zoneId, u32 zoneSource)
 {
     info->zoneId = zoneId;
+#ifdef __MWERKS__
     info->townmapRootZoneId = SYMBOL_MAP_ResolveZoneId(zoneSource);
+#else
+    /* the DS call passes only zoneSource; r1 still holds zoneId */
+    info->townmapRootZoneId = SYMBOL_MAP_ResolveZoneId((void *)(uptr)zoneSource, zoneId);
+#endif
     info->detailsPms.word = (info->detailsPms.word & ~0xff) | 5;
     GAME_BEACON_ResetDetails(info);
 }
@@ -1201,7 +1235,7 @@ void GAME_BEACON_RegisterClearCallback(void)
     }
 }
 
-void GAME_BEACON_ClearFlags(void)
+void GAME_BEACON_ClearFlags(struct TcbTask *task, void *work)
 {
     if (GAME_BEACON_Work != 0) {
         GAME_BEACON_Work->newMask = 0;

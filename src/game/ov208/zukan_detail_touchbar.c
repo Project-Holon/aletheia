@@ -89,65 +89,53 @@
  *   ZKND_TBAR_GetButtonActor 0x021BD3C0 thumb ov208
  *   ZKND_TBAR_GetButtonActorRaw 0x021BD3F8 thumb ov208
  */
+#include "../types.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/clact.h"
 #include "zukan_detail_types.h"
 #include "zukan_detail_shared_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void ARC_TOOL_DeleteHandle(void *h);
+#include "../arm9/arc_tool.h"
 
-extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
+#include "../arm9/bg_sys.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
-
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,unsigned short);
-
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
-
-extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
-
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-
-extern int CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-
-extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-
-extern void CLACT_ReleaseCellAnim(u32 i);
-
-extern void CLACT_ReleaseCharacter(u32 i);
-
-extern void CLACT_ReleasePalette(u32 i);
-
-extern u32 KEY_GetTrg(void);
-
-extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
-
-extern void BG_SYS_SetPriority(int,u16);
+#include "../arm9/tcb_list.h"
 
 
-extern u32 BG_SYS_GetScrollY(u32 layer);
+#include "../arm9/mi_memory.h"
 
-extern void ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft(struct Ov208Scene *p);
-struct Actor;
 
-extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
+
+struct Unit;
+struct ClactActor;
 struct Pt16;
 
 
 
 
-extern void CLACT_GetActorPos(struct Actor *actor, struct Pt16 *out);
 
-extern void CLACT_SetActorPos(struct Actor *actor, struct Pt16 *pos);
+
+
+
+
+#include "../arm9/key.h"
+
+
+
+
+
+extern void ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft(struct Ov208Scene *p);
+struct Actor;
+
+struct Pt16;
+
+
+
+
+
 
 extern struct Ov208Mgr *ZKND_TBAR_CreateButtonList(struct Ov208ActList *list, u16 heap);
 
@@ -155,15 +143,12 @@ extern void ZKND_TBAR_AddButtonPos(struct Ov208Mgr *mgr, int key, u16 *pos);
 
 
 
-extern u32 KEY_GetRepeat(void);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
+#include "../arm9/arc_util.h"
 
-extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
 
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
+#include "../arm9/nns_gfd_vram_transfer.h"
 
 void ZKND_TBAR_DeleteButtonList(struct Ov208Mgr *m);
 
@@ -233,7 +218,7 @@ int ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot(char *p);
 
 void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(char *p, unsigned char v);
 
-void ZUKAN_DETAIL_TOUCHBAR_FlushBar(int unused, char *p);
+void ZUKAN_DETAIL_TOUCHBAR_FlushBar(struct TcbTask *unused, void *p);
 
 void ZUKAN_DETAIL_TOUCHBAR_LoadResources(struct Ov208Scene *p);
 
@@ -299,12 +284,12 @@ char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned dexFlags)
     p->prevKind=1;p->kind=0;p->arrowKind=0;p->scrollIdx=0;
     BG_SYS_ChangeScrollImmediate(1,3,-24);BG_SYS_SetPriority(1,0);
     p->bgPriority=0;p->bgDirty=0;
-    p->clactUnit=CLACT_CreateUnit(16,0,p->heap);
-    CLACT_SetUnitDefaultRenderer(p->clactUnit);
+    p->clactUnit=(struct Bank *)CLACT_CreateUnit(16,0,p->heap);
+    CLACT_SetUnitDefaultRenderer((struct Unit *)p->clactUnit);
     p->mgr=0;ZUKAN_DETAIL_TOUCHBAR_LoadResources(p);
     ZKND_TBAR_SetTouchEnable(p->mgr,0);
     p->pos=24;ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos((char *)p,p->pos);
-    p->task=GFL_USE_AddMainTask((unsigned)ZUKAN_DETAIL_TOUCHBAR_FlushBar,(unsigned)p,1);
+    p->task=(struct Node *)GFL_USE_AddMainTask(ZUKAN_DETAIL_TOUCHBAR_FlushBar, p,1);
     return (char *)p;
 }
 
@@ -315,7 +300,7 @@ void ZUKAN_DETAIL_TOUCHBAR_Delete(struct Ov208Scene *m)
 {
     TCB_DeleteTask((struct TcbTask *)m->task);
     ZUKAN_DETAIL_TOUCHBAR_ReleaseResources((char *)m);
-    CLACT_DeleteUnit(m->clactUnit);
+    CLACT_DeleteUnit((struct Unit *)m->clactUnit);
     GFL_HEAP_Free(m);
 }
 
@@ -550,13 +535,13 @@ void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(char *p, unsigned char priority)
     ((struct Ov208Scene *)p)->bgPriority = priority;
     ((struct Ov208Scene *)p)->bgDirty = 1;
     for (i = 0; i < ((struct Ov208Scene *)p)->count; i++)
-        CLACT_SetActorBgPriority((struct Actor *)(((struct Ov208Scene *)p)->slots[i].obj), priority);
+        CLACT_SetActorBgPriority((struct ClactActor *)((struct Actor *)(((struct Ov208Scene *)p)->slots[i].obj)), priority);
 }
 
 /*
  * BLOCKED.  MATCH: the call at +0x10 targets 0204047C, an ARM address with no label and no pool witness outside the compared range, so the site stays wildcarded.
  */
-void ZUKAN_DETAIL_TOUCHBAR_FlushBar(int unused, char *p)
+void ZUKAN_DETAIL_TOUCHBAR_FlushBar(struct TcbTask *unused, void *p)
 {
     if (((struct Ov208Scene *)p)->bgDirty != 0) {
         BG_SYS_SetPriority(1, ((struct Ov208Scene *)p)->bgPriority);
@@ -598,12 +583,12 @@ void ZUKAN_DETAIL_TOUCHBAR_ReleaseResources(char *p)
 void ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos(char *p,short offset)
 {
     unsigned char i;
-    struct Pt pt;
+    struct ZukanDetailPt pt;
     for(i=0;i<((struct Ov208Scene *)p)->count;i++) {
-        CLACT_GetActorPos((struct Actor *)((struct Ov208Scene *)p)->slots[i].obj,(struct Pt16 *)(&pt));
+        CLACT_GetActorPos((const struct ClactActor *)((struct Actor *)((struct Ov208Scene *)p)->slots[i].obj),(struct Pt16 *)(&pt));
         pt.y=*(short *)((char *)((struct Ov208Scene *)p)->slots[i].src + 6);
         pt.y=(short)pt.y+offset;
-        CLACT_SetActorPos((struct Actor *)((struct Ov208Scene *)p)->slots[i].obj,(struct Pt16 *)(&pt));
+        CLACT_SetActorPos((struct ClactActor *)((struct Actor *)((struct Ov208Scene *)p)->slots[i].obj),(const struct Pt16 *)((struct Pt16 *)(&pt)));
     }
 }
 
@@ -820,7 +805,7 @@ void ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteLeft(struct Ov208Scene *p)
         break;
     }
     if (idx != 9)
-        CLACT_SetActorPaletteOffset((struct Actor *)ZKND_TBAR_GetButtonActor(p->mgr, p->slots[idx].src->id), 2, 0);
+        CLACT_SetActorPaletteOffset((struct ClactActor *)ZKND_TBAR_GetButtonActor(p->mgr, p->slots[idx].src->id), 2, 0);
 }
 
 void ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight(struct Ov208Scene *p)
@@ -842,7 +827,7 @@ void ZUKAN_DETAIL_TOUCHBAR_ApplyPaletteRight(struct Ov208Scene *p)
         break;
     }
     if (slot != 9) {
-        CLACT_SetActorPaletteOffset((struct Actor *)ZKND_TBAR_GetButtonActor(p->mgr, p->slots[slot].src->id), 0, 0);
+        CLACT_SetActorPaletteOffset((struct ClactActor *)ZKND_TBAR_GetButtonActor(p->mgr, p->slots[slot].src->id), 0, 0);
         p->arrowKind = 4;
     }
 }

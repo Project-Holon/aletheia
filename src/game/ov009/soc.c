@@ -54,34 +54,10 @@ struct SOCLSocketParam {
 #include "../sdk_soc.h"
 
 #include "../types.h"
+#include "soc.h"
 
-typedef struct {
-	char *name;
-	char **aliases;
-	short addrType;
-	short length;
-	unsigned char **addrList;
-} HostEnt;
 
-typedef struct {
-	unsigned char pad[0xae];
-	signed char flag;
-} Sock;
-
-typedef struct SOCLConfig {
-    int use_dhcp;
-    u32 my_ip;
-    u32 net_mask;
-    u32 gateway_ip;
-    u32 dns_ip0;
-    u32 dns_ip1;
-    void *(*alloc)(u32);
-    void (*free)(void *);
-    u32 cmd_packet_max;
-    u32 pad24[3];
-    long mtu;
-    long rwin;
-} SOCLConfig;
+#include "socl_command_types.h"
 
 typedef struct SOCStatics {
     u32 hostip;
@@ -99,37 +75,21 @@ typedef struct SOCStatics {
     SOCLConfig soclConfig;
 } SOCStatics;
 
-typedef struct {
-	int fd;
-	short events;
-	short revents;
-} PollFD;
-
-extern int SOCL_CreateSocket(struct SOCLSocketParam *param);
-extern int SOCL_Bind(int s, unsigned short local_port);
-extern int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip);
-extern int SOCL_ReadFrom(int s, void *buffer, int buffer_len,
-                         unsigned short *remote_port, unsigned long *remote_ip,
-                         int flags);
-extern int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_port, unsigned long *remote_ip, int flags);
-extern int SOCL_WriteTo(int s, void *buffer, int buffer_len,
-                        unsigned short remote_port, unsigned long remote_ip,
-                        int flags);
-extern int SOCL_Shutdown(int s);
-extern int SOCL_Close(int s);
-extern unsigned long SOCL_Resolve(char *hostname);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int STD_CopyLString(char *destp, const char *srcp, int siz);
-extern unsigned long SOCL_GetHostID(void);
-extern int SOCL_SetResolver(unsigned long dns1, unsigned long dns2);
-extern int SOCL_Startup(SOCLConfig *socl_config);
-extern unsigned long SOCL_InetAtoH(char *hostname);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
-extern int SOCL_GetStatus(int s);
-extern void OS_Sleep(unsigned long msec);
-extern int SOCL_Cleanup(void);
-int SOC_Socket(int unused, int type);
+#include "socl_create.h"
+#include "socl_bind.h"
+#include "socl_read.h"
+#include "socl_write.h"
+#include "socl_shutdown.h"
+#include "socl_close.h"
+#include "socl_resolve.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/std_string.h"
+#include "socl_startup.h"
+#include "../arm9/os_printf.h"
+#include "socl_poll.h"
+#include "../arm9/os_thread.h"
+#include "socl_cleanup.h"
+int SOC_Socket(int pf, int type, int protocol);
 int SOC_Bind(int s, void *sockAddr);
 int SOC_Connect(int s, void * sockAddr);
 int SOC_Recv(int s, void *buf, int len, int flags);
@@ -138,30 +98,28 @@ int SOC_Send(int s, void *buf, int len, int flags);
 int SOC_SendTo(int s, void * buf, int len, int flags, void * sockTo);
 int SOC_Shutdown(int s, int how);
 int SOC_Close(int s);
-HostEnt *SOC_GetHostByName(const char *name);
+SOCHostEnt *SOC_GetHostByName(const char *name);
 int SOC_GetSockName(u8 *sock, u8 *sockAddr);
 long SOC_GetHostID(void);
 int SOC_SetResolver(unsigned long *dns1, unsigned long *dns2);
-int SOC_Fcntl(Sock *s, int cmd, int flags);
 int SOC_Startup(const SOCConfig *config);
 int SOC_Cleanup(void);
 char *SOC_InetNtoA(struct SOCInAddr in);
 int SOC_InetAtoN(char *cp, unsigned long *inp);
 char *SOC_InetNtoP(int af, void *src, char *dst, unsigned int len);
 void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
-int SOC_Poll(PollFD *fds, unsigned int nfds, long long timeout);
 extern struct SOCLSocketParam SOCLSocketParamTCP;
 extern struct SOCLSocketParam SOCLSocketParamUDP;
 extern SOCStatics gSocStatics;
 extern u32 g_021AA4BC_ip;
 extern unsigned char *gSocHostAddrList[2];
-extern HostEnt gSocHostEnt;
+extern SOCHostEnt gSocHostEnt;
 extern char gSocHostName[0x101];
 extern SOCLConfig gSoclStartupConfig;
 extern char _ZZ12SOC_InetNtoA9SOCInAddrE6buffer[16];
 extern char gSoclIpv4Format[];
 
-int SOC_Socket(int unused, int type)
+int SOC_Socket(int pf, int type, int protocol)
 {
     if (type == 1)
         return SOCL_CreateSocket(&SOCLSocketParamTCP);
@@ -261,7 +219,7 @@ int SOC_Close(int s)
 /*
  * sdk:      SOC_GetHostByName (libsoc.TWL.HYB.a(soc.o))
  */
-HostEnt *SOC_GetHostByName(const char *name)
+SOCHostEnt *SOC_GetHostByName(const char *name)
 {
 	unsigned long ipAddr;
 
@@ -326,7 +284,7 @@ int SOC_SetResolver(unsigned long *dns1, unsigned long *dns2)
 /*
  * sdk:      SOC_Fcntl (libsoc.TWL.HYB.a(soc.o))
  */
-int SOC_Fcntl(Sock *s, int cmd, int flags)
+int SOC_Fcntl(SOCSockFlags *s, int cmd, int flags)
 {
 	if (s == 0) {
 		return -1;
@@ -381,11 +339,11 @@ static void FreeFunc_SOCL(void *ptr)
 int SOC_Startup(const SOCConfig *config)
 {
     gSocStatics.soclConfig.use_dhcp = (config->flag == 1);
-    gSocStatics.soclConfig.my_ip = SWAP32(config->addr.addr);
-    gSocStatics.soclConfig.net_mask = SWAP32(config->netmask.addr);
-    gSocStatics.soclConfig.gateway_ip = SWAP32(config->router.addr);
-    gSocStatics.soclConfig.dns_ip0 = SWAP32(config->dns1.addr);
-    gSocStatics.soclConfig.dns_ip1 = SWAP32(config->dns2.addr);
+    gSocStatics.soclConfig.host_ip.addr = SWAP32(config->addr.addr);
+    gSocStatics.soclConfig.host_ip.mask = SWAP32(config->netmask.addr);
+    gSocStatics.soclConfig.host_ip.gateway = SWAP32(config->router.addr);
+    gSocStatics.soclConfig.host_ip.dns = SWAP32(config->dns1.addr);
+    gSocStatics.soclConfig.host_ip.dns2 = SWAP32(config->dns2.addr);
     gSocStatics.soclConfig.alloc = AllocFunc_SOCL;
     gSocStatics.soclConfig.free = FreeFunc_SOCL;
     gSocStatics.AllocFunc_SOC = config->alloc;

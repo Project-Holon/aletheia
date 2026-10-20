@@ -39,32 +39,24 @@ struct ManualListOwner {
     u16 pad0A;
 };
 
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+#include "../arm9/gfl_use.h"
 
-extern u16 MANUAL_COMMON_GetGroupCount(const char *p);
+#include "manual_data.h"
 
-extern u16 MANUAL_COMMON_GetGroupValue1(char *,int);
 
-extern u16 MANUAL_COMMON_GetGroupValue2(char *,int,int);
 
-extern u16 MANUAL_COMMON_GetEntryValue1(char *,int);
 
-extern int MANUAL_COMMON_CheckUnlocked(void *,int,void *);
 
-extern u16 MANUAL_COMMON_GetGroupValue0(char *,int);
 
-extern void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data);
+#include "manual_list.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void MANUAL_COMMON_DeleteListWork(char *);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern int MANUAL_COMMON_UpdateListWork(char *p);
 
 char *MANUAL_CATEGORY_CreateList(char *p,char *data);
 
@@ -109,7 +101,7 @@ char *MANUAL_CATEGORY_CreateList(char *p,char *data)
     ((struct ManualMenuList *)q)->savedA=*(u16 *)*(char * *)&((struct ManualMenuList *)q)->owner;
     ((struct ManualMenuList *)q)->savedB=((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)q)->owner))->originY;
     *(char * *)&((struct ManualMenuList *)q)->widget=MANUAL_COMMON_CreateListWork(q+8,(struct ManualData *)data);
-    ((struct ManualMenuList *)q)->task=GFL_USE_AddMainTask((unsigned)MANUAL_CATEGORY_TaskNoop,(unsigned)q,1);
+    ((struct ManualMenuList *)q)->task=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MANUAL_CATEGORY_TaskNoop),(void *)((uptr)q),1);
     return q;
 }
 

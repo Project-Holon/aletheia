@@ -155,7 +155,7 @@ u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_erro
     CARD_LockBackup((u16)lock_id);
 
     _AccessBusy = 1;
-    if (CARDi_RequestStreamCommand(0, (u32)&probe, FLASH_PROBE_LEN, 0, 0, 0, 6, 1, 0) == 0) {
+    if (CARDi_RequestStreamCommand(0, (uptr)&probe, FLASH_PROBE_LEN, 0, 0, 0, 6, 1, 0) == 0) {
         FLASH_ACCESS_EndAccess((u16)lock_id, 1, on_error);
     }
 

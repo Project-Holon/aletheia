@@ -25,9 +25,8 @@ enum {
     FIELD_TASK_STATE_FINISHED = 2,
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
 extern char d_021DE4D4[];
 

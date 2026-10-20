@@ -1,14 +1,6 @@
 #ifndef GAME_ARM9_MCSS_H
 #define GAME_ARM9_MCSS_H
 
-/* Public functions of mcss.c, prototypes copied from their definitions. */
-
-struct McssSys;
-struct McssWork;
-struct McssAddWork;
-struct McssPose;
-struct McssPlttProxy;
-struct McssTransTask;
 typedef struct McssSys McssSys;
 typedef struct McssWork McssWork;
 typedef struct McssAddWork McssAddWork;
@@ -16,7 +8,23 @@ typedef struct McssPose McssPose;
 typedef struct McssPlttProxy McssPlttProxy;
 typedef struct McssTransTask McssTransTask;
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
+/* Public functions of mcss.c, prototypes copied from their definitions. */
+
+struct McssSys;
+struct McssWork;
+struct McssPose;
+struct McssPlttProxy;
+struct TcbTask;
+struct McssTransTask;
+typedef struct McssSys McssSys;
+typedef struct McssWork McssWork;
+typedef struct McssPose McssPose;
+typedef struct McssPlttProxy McssPlttProxy;
+typedef struct McssTransTask McssTransTask;
+
 #include "../types.h"
+#include "../arm9/mcss_types.h"
 #include "../sdk_fx.h"
 #include "../sdk_fx.h"
 #include "../sdk_fx.h"
@@ -98,8 +106,8 @@ void MCSS_SetDepthStep(McssSys *sys, int depthStep);
 void MCSS_SetNearDepthRange(McssSys *sys, int flag);
 void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork);
 void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork);
-void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task);
-void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task);
+void MCSS_TransTextureTask(struct TcbTask *taskHandle, void *taskWork);
+void MCSS_TransPaletteTask(struct TcbTask *taskHandle, void *taskWork);
 void MCSS_InitAnimCtrl(McssWork *work, int kind);
 void MCSS_InitEdgeColor(void);
 void MCSS_UpdatePaletteFade(McssSys *sys, McssWork *work);
@@ -118,5 +126,6 @@ u32 MCSS_TOOL_SpindaSpotHook(const McssAddWork *addWork, McssTransTask *task, u3
 void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality);
 int MCSS_TOOL_SetAnimeStopCallback(McssWork *work);
 void MCSS_TOOL_AnimeStopCallback(McssWork *work);
+/* END mkheaders: generated region */
 
 #endif

@@ -74,40 +74,28 @@ typedef struct FieldG3dMapGlbState {
     u32 flag;               /* 0x7C */
 } FieldG3dMapGlbState;
 
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 G3D_SYSTEM_GetResourceSize(void);
-extern ArcFile *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heapId);
-extern void ARC_TOOL_DeleteHandle(void *handle);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/g3d_system.h"
+#include "../arm9/arc_tool.h"
 struct ArcHandle;
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 struct G3dResource;
-extern void G3D_SYSTEM_InitResourceByKind(struct G3dResource *res, u32 kind, void *file);
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
 struct ArcHandleRaw;
-extern void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst);
-extern void NNS_G3dGlbBaseTrans(void *p);
-extern void MI_Copy36B(void *a, void *b);
-extern void NNS_G3dGlbBaseScale(void *p);
-extern void NNS_G3dGlbFlush(void);
-extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
-extern void G3D_SYSTEM_DrawRenderObj(FieldG3dMapRenderObj *renderObj);
+struct VecFx32;
+#include "../arm9/nns_g3d_glb.h"
+#include "../arm9/mi_memory.h"
+struct NNSG3dRenderObj;
+#include "../arm9/nns_g3d_ge.h"
 struct G3dObject;
 struct G3dRender;
-extern struct G3dRender *G3D_SYSTEM_GetObjectRender(struct G3dObject *obj);
-extern FieldG3dMapRenderObj *G3D_SYSTEM_GetRenderObj(void *res);
-extern void VEC_Add(const FieldG3dMapVec *a, const FieldG3dMapVec *b, FieldG3dMapVec *dst);
+#include "../arm9/fx_vec.h"
 extern void MTX_RotY33_(void *m, short sinv, short cosv);
-extern void VEC_Subtract(const FieldG3dMapVec *pos, const FieldG3dMapVec *origin, FieldG3dMapVec *out);
-extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *res);
-extern int NNS_G3dGetMdlSet(int pFile);
-extern unsigned char *NNS_G3dGetTex(unsigned char *p);
-extern void NNS_G3dBindMdlTex(void *a, void *b);
-extern void NNS_G3dBindMdlPltt(void *a, void *b);
-extern void NNS_G3dRenderObjInit(void *a, void *b);
-extern void NNS_G3dGeFlushBuffer(void);
-extern int G3X_GetBoxTestResult(int *result);
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
+#include "../arm9/nns_g3d_res.h"
+struct NNSG3dResTex;
+struct NNSG3dResMdl;
+typedef int GXFogBlend;
+typedef int GXFogSlope;
+#include "../arm9/g3x.h"
+#include "../arm9/nns_g3d_tex.h"
 FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId);
 void FIELD_G3D_MAP_Destroy(FieldG3dMap *map);
 void FIELD_G3D_MAP_Update(FieldG3dMap *map);
@@ -126,8 +114,8 @@ void FIELD_G3D_MAP_StartLoad(FieldG3dMap *map, u32 memberIndex);
 void FIELD_G3D_MAP_Unload(FieldG3dMap *map);
 void FIELD_G3D_MAP_SetVisible(FieldG3dMap *map, u16 visible);
 u16 FIELD_G3D_MAP_IsVisible(FieldG3dMap *map);
-void FIELD_G3D_MAP_SetPos(FieldG3dMap *map, const FieldG3dMapVec *pos);
-void FIELD_G3D_MAP_GetPos(FieldG3dMap *map, FieldG3dMapVec *dst);
+void FIELD_G3D_MAP_SetPos(FieldG3dMap *map, const VecFx32 *pos);
+void FIELD_G3D_MAP_GetPos(FieldG3dMap *map, VecFx32 *dst);
 u16 *FIELD_G3D_MAP_GetActiveRef(FieldG3dMap *map, u16 **out);
 void FIELD_G3D_MAP_GetBuffer(FieldG3dMap *map, u8 **out);
 void FIELD_G3D_MAP_GetMemberIndex(FieldG3dMap *map, u32 *out);
@@ -145,8 +133,8 @@ int FIELD_G3D_MAP_ReadNextChunk(FieldG3dMap *map);
 int FIELD_G3D_MAP_Draw(FieldG3dMap *map);
 void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, int unused);
 int FIELD_G3D_MAP_CanQueryHits(FieldG3dMap *map);
-void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize);
-void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize);
+void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize);
+void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize);
 void FIELD_G3D_MAP_ClearPlacements(FieldG3dMap *map);
 void FIELD_G3D_MAP_Reset(FieldG3dMap *map);
 void FIELD_G3D_MAP_InitRenderObj(FieldG3dMapRenderObj *renderObj, void *modelRes, void *textureRes);
@@ -432,7 +420,7 @@ u16 FIELD_G3D_MAP_IsVisible(FieldG3dMap *map)
     return map->visible;
 }
 
-void FIELD_G3D_MAP_SetPos(FieldG3dMap *map, const FieldG3dMapVec *pos)
+void FIELD_G3D_MAP_SetPos(FieldG3dMap *map, const VecFx32 *pos)
 {
     map->pos = *pos;
 }
@@ -440,7 +428,7 @@ void FIELD_G3D_MAP_SetPos(FieldG3dMap *map, const FieldG3dMapVec *pos)
 /*
  * Unlabelled leaf (blocker of ov021 FIELD_BUILDMODEL_CreateNodeFromEntry).  Copies the position to dst.
  */
-void FIELD_G3D_MAP_GetPos(FieldG3dMap *map, FieldG3dMapVec *dst)
+void FIELD_G3D_MAP_GetPos(FieldG3dMap *map, VecFx32 *dst)
 {
     *dst = map->pos;
 }
@@ -583,16 +571,16 @@ int FIELD_G3D_MAP_Draw(FieldG3dMap *map)
 
     drawn = 0;
     if (map->visible != 0 && map->renderObjRef->model != 0) {
-        NNS_G3dGlbBaseTrans(d_0217216C);
+        NNS_G3dGlbBaseTrans((struct VecFx32 *)d_0217216C);
         MI_Copy36B(d_02172178, d_02148C08);
         d_02148BCC.flag &= ~0xa4;
-        NNS_G3dGlbBaseScale(d_02172160);
+        NNS_G3dGlbBaseScale((struct VecFx32 *)d_02172160);
         NNS_G3dGlbFlush();
         NNS_G3dGeBufferOP_N(0x15, 0, 0);
         NNS_G3dGeBufferOP_N(0x17, gG3dBaseMtx43, 0xc);
         NNS_G3dGeBufferOP_N(0x1c, &map->pos, 3);
         if (FIELD_G3D_MAP_TestModelBox(map->renderObjRef->model) == 1) {
-            G3D_SYSTEM_DrawRenderObj(map->renderObjRef);
+            G3D_SYSTEM_DrawRenderObj((struct NNSG3dRenderObj *)map->renderObjRef);
             drawn = 1;
         }
     }
@@ -627,7 +615,7 @@ void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, int unused)
         if (modelIndex == (u32)-1 || modelIndex >= count) {
             continue;
         }
-        renderObj = G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(modelRes[modelIndex].modelData));
+        renderObj = (struct FieldG3dMapRenderObj *)(struct FieldG3dMapRenderObj *)G3D_SYSTEM_GetRenderObj(G3D_SYSTEM_GetObjectRender(modelRes[modelIndex].modelData));
         model = renderObj->model;
         if (model == 0) {
             continue;
@@ -636,11 +624,11 @@ void FIELD_G3D_MAP_DrawPlacedModels(FieldG3dMap *map, int unused)
         sinAngle = FX_SinCosTable_[angleIndex * 2];
         cosAngle = FX_SinCosTable_[angleIndex * 2 + 1];
         NNS_G3dGeBufferOP_N(0x17, gG3dBaseMtx43, 12);
-        VEC_Add(&map->pos, &map->placementsA[i].pos, &mtx.trans);
+        VEC_Add((void *)(&map->pos), (void *)(&map->placementsA[i].pos), &mtx.trans);
         MTX_RotY33_(&mtx, sinAngle, cosAngle);
         NNS_G3dGeBufferOP_N(0x19, &mtx, 12);
         if (FIELD_G3D_MAP_TestModelBox(model) == 1) {
-            G3D_SYSTEM_DrawRenderObj(renderObj);
+            G3D_SYSTEM_DrawRenderObj((struct NNSG3dRenderObj *)renderObj);
         }
     }
 }
@@ -659,16 +647,16 @@ int FIELD_G3D_MAP_CanQueryHits(FieldG3dMap *map)
 }
 
 /* Query the hits of the block type at `pos` (relative to the map position). */
-void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize)
+void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize)
 {
-    FieldG3dMapVec localPos;
+    VecFx32 localPos;
     u32 height;
     FieldG3dMapQueryFunc query;
 
     out->count = 0;
     if (map->dataReady != 0) {
         height = map->pos.y;
-        VEC_Subtract(pos, &map->pos, &localPos);
+        VEC_Subtract((void *)pos, (void *)(&map->pos), &localPos);
         query = map->typeTable[map->typeIndex].queryHits;
         if (query != 0)
             query(out, map->buffer, &localPos, gridSize, height);
@@ -681,12 +669,12 @@ void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const Fi
  * output proof: VEC_Subtract stores localPos at 0207CA20/0207CA28; the
  * callback receives that initialized three-word vector, with original arity.
  */
-void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const FieldG3dMapVec *pos, u32 gridSize)
+void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize)
 {
-    FieldG3dMapVec localPos;
+    VecFx32 localPos;
     FieldG3dMapQueryFunc query;
 
-    VEC_Subtract(pos, &map->pos, &localPos);
+    VEC_Subtract((void *)pos, (void *)(&map->pos), &localPos);
     query = map->typeTable[map->typeIndex].queryPlane;
     query(plane, map->buffer, &localPos, gridSize, map->pos.y);
 }
@@ -761,10 +749,10 @@ void FIELD_G3D_MAP_InitRenderObj(FieldG3dMapRenderObj *renderObj, void *modelRes
     if (textureFile != 0)
         texture = NNS_G3dGetTex(textureFile);
     if (texture != 0) {
-        NNS_G3dBindMdlTex(model, texture);
-        NNS_G3dBindMdlPltt(model, texture);
+        NNS_G3dBindMdlTex((struct NNSG3dResMdl *)model, (struct NNSG3dResTex *)texture);
+        NNS_G3dBindMdlPltt((struct NNSG3dResMdl *)model, (struct NNSG3dResTex *)texture);
     }
-    NNS_G3dRenderObjInit(renderObj, model);
+    NNS_G3dRenderObjInit((struct NNSG3dRenderObj *)renderObj, (u32)model);
 }
 
 /* Clear the model of the render object; returns the render object. */

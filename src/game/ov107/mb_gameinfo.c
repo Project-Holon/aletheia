@@ -96,19 +96,11 @@ typedef struct {
     u8 beaconNo;
 } MbSendStatus;
 
-extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
-extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
-extern void FS_InitFile(FSFile *file);
-extern int FS_OpenFileEx(FSFile *file, const char *path, u32 mode);
-extern u32 FS_GetFileLength(FSFile *file);
-extern int FS_CloseFile(FSFile *file);
-extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
-extern u32 MBi_GetGgid(void);
-extern u16 MBi_GetTgid(void);
+#include "../arm9/mi_memory.h"
+#include "../arm9/fs_file.h"
+#include "mb_wm_base.h"
 #include "mb_common.h"
-extern int WM_SetGameInfo(void (*callback)(void *), u16 *userGameInfo,
-                          u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr);
+#include "../arm9/wm_etc.h"
 
 void MBi_MakeGameInfo(u8 *gameInfop, const u8 *mbGameRegp, const u8 *parent);
 int MBi_ReadIconInfo(char *filePathp, unsigned char *iconp, int char_flag);

@@ -45,26 +45,22 @@
  *   DWCi_SNDlPlay                    0x021CFFAC  arm
  *   DWCi_SceneOptErase1              0x021C231C  arm
  *   endScene2                        0x021C2528  arm
- *   endScene1                        0x021C3794  arm
+ *   closeFadeStep                        0x021C3794  arm
  */
 #include "../types.h"
 
 typedef _Bool bool;
 
-extern void DWCi_CMNlMsgDraw(int msgId);
-extern void DWCi_ChangeScene(u32 v);
+#include "common.h"
+#include "dwcutil_main.h"
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
-extern void DWCi_GXlVisible(int lcd, int plane);
+#include "graphics.h"
 extern bool DWCi_EFFlCheck(int lcd);
-extern void DWCi_CMNlButton(int kind);
-extern s8 DWCi_BTNlGet(void);
-extern void DWCi_BTNlEnable(void);
-extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern void DWCi_BTNlSet(signed char v);
-extern void DWCi_SETTINGlEraseAll(void);
+#include "button.h"
+#include "input.h"
+#include "setting.h"
 extern bool DWCi_EFFlWait(int frame);
-extern void DWCi_BTNlDisable(void);
-extern void DWCi_SNDlPlay(u32 v);
+#include "sound.h"
 void DWCi_SceneOptMovConfirm(void);
 void DWCi_SceneOptMovConfirm_procScene(void);
 void DWCi_SceneOptMovConfirm_draw(void);
@@ -81,7 +77,7 @@ void DWCi_SceneOptMovConfirm(void)
 {
     initGraphics();
     DWCi_CMNlMsgDraw(0x1a);
-    DWCi_ChangeScene((u32)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 /*
@@ -100,7 +96,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
 static void procInit1(void)
@@ -110,7 +106,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(4);
-    DWCi_ChangeScene((u32)procInit2);
+    DWCi_ChangeScene((uptr)procInit2);
 }
 
 
@@ -119,7 +115,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((u32)DWCi_SceneOptMovConfirm_procScene);
+    DWCi_ChangeScene((uptr)DWCi_SceneOptMovConfirm_procScene);
 }
 
 void DWCi_SceneOptMovConfirm_procScene(void)
@@ -139,7 +135,7 @@ void DWCi_SceneOptMovConfirm_draw(void)
 {
 }
 
-static void endScene1(void);
+static void closeFadeStep(void);
 
 static void endScene2(void);
 
@@ -148,12 +144,12 @@ static void button(void)
     if (DWCi_BTNlGet() != 0)
         return;
     DWCi_SNDlPlay(6);
-    DWCi_ChangeScene((u32)endScene);
+    DWCi_ChangeScene((uptr)endScene);
 }
 
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((u32)endScene1);
+    DWCi_ChangeScene((uptr)closeFadeStep);
 }

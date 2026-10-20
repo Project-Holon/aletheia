@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_SND_WORK_H
 #define GAME_ARM9_SND_WORK_H
 
+typedef struct SNDDriverInfo SNDDriverInfo;
+typedef struct SNDTrackInfo SNDTrackInfo;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of snd_work.c, prototypes copied from their definitions. */
 
@@ -18,8 +21,5 @@ BOOL SND_ReadTrackInfo(SNDDriverInfo *driverInfo, int playerNo, int trackNo, SND
 unsigned long SNDi_GetFinishedCommandTag(void);
 void SNDi_InitSharedWork(SNDSharedWork *work);
 /* END mkheaders: generated region */
-
-typedef struct SNDDriverInfo SNDDriverInfo;
-typedef struct SNDTrackInfo SNDTrackInfo;
 
 #endif

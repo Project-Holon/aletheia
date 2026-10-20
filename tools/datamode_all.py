@@ -10,6 +10,10 @@ Nothing is written to src/ or to tracked files.
 
 --version white: companions with Black's structure and White's values (build/datac_white/ovNNN),
 linked with `gamelink.py N --data --version white`; the table is build/datamode_all_white.tsv.
+
+The DSi block is a region too (id `twl`, last in the table; with no ids it runs after the overlays):
+`twldata.py --check` writes its data as C (build/datac/twl) and links src/game/twl with it, and
+PASS needs no gap between the files.
 """
 import argparse
 import os
@@ -30,7 +34,21 @@ def code_overlays():
     return out
 
 
+def one_twl(white=False):
+    """The DSi block: tools/twldata.py --check writes the companions and links src/game/twl."""
+    g = subprocess.run([sys.executable, "tools/twldata.py", "--check"] + (["--version", "white"] if white else []),
+                       cwd=ROOT, capture_output=True, text=True)
+    text = g.stdout + g.stderr
+    if g.returncode == 0 and "twl PASS" in text:
+        return "twl", "PASS", ""
+    why = re.search(r"'why': (?:'([^']*)'|\"([^\"]*)\")", text)
+    lines = text.strip().splitlines()
+    return "twl", "FAIL", ((why.group(1) or why.group(2)) if why else (lines[-1] if lines else "no output"))[:300]
+
+
 def one(n, white=False):
+    if n == "twl":
+        return one_twl(white)
     py = sys.executable
     ver = ["--version", "white"] if white else []
     c = subprocess.run([py, "tools/datagen.py", "companions", str(n)] + ver, cwd=ROOT,
@@ -52,21 +70,21 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs", type=int, default=6)
     ap.add_argument("--version", choices=("black", "white"), default="black")
-    ap.add_argument("ids", nargs="*", type=int)
+    ap.add_argument("ids", nargs="*", help="overlay ids, or twl (the DSi block); none: every overlay and twl")
     a = ap.parse_args()
     white = a.version == "white"
-    ids = a.ids or code_overlays()
+    ids = [x if x == "twl" else int(x) for x in a.ids] or code_overlays() + ["twl"]
     with ThreadPoolExecutor(a.jobs) as ex:
-        res = sorted(ex.map(lambda n: one(n, white), ids))
+        res = sorted(ex.map(lambda n: one(n, white), ids), key=lambda r: (r[0] == "twl", r[0]))
     os.makedirs(os.path.join(ROOT, "build"), exist_ok=True)
     with open(os.path.join(ROOT, "build", "datamode_all_white.tsv" if white else "datamode_all.tsv"), "w") as fh:
         for n, st, why in res:
-            fh.write("ov%03d\t%s\t%s\n" % (n, st, why))
+            fh.write("%s\t%s\t%s\n" % (n if n == "twl" else "ov%03d" % n, st, why))
     ok = [n for n, st, _ in res if st == "PASS"]
-    print("data mode: %d of %d overlays PASS" % (len(ok), len(res)))
+    print("data mode: %d of %d regions PASS" % (len(ok), len(res)))
     for n, st, why in res:
         if st != "PASS":
-            print("  ov%03d FAIL %s" % (n, why))
+            print("  %s FAIL %s" % (n if n == "twl" else "ov%03d" % n, why))
 
 
 if __name__ == "__main__":

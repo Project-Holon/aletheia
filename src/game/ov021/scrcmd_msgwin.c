@@ -164,9 +164,9 @@ typedef struct G3dCamera G3dCamera;
 typedef struct GameEvent GameEvent;
 typedef struct ScrcmdWork ScrcmdWork;
 typedef struct WordSet WordSet;
-typedef struct MsgData MsgData;
 typedef struct Strbuf Strbuf;
 typedef struct TimeIcon TimeIcon;
+typedef struct MsgBank MsgBank;
 typedef struct Mmdl Mmdl;
 typedef struct MmdlSys MmdlSys;
 typedef struct MoneyData MoneyData;
@@ -232,144 +232,53 @@ typedef struct BalloonWinWork {
     VecFx32 offset;                 /* 0x1C, offset from the object to the balloon */
 } BalloonWinWork;
 
-extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *fieldPlayer);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
-extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
-extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *scriptWork);
-extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
-extern u16 SCRCMD_WORK_GetHeapId(ScrcmdWork *cmdWork);
-extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
-extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
-extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
-extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
-extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+#include "field_player.h"
+#include "../ov010/fldmmdl.h"
+#include "../arm9/gamesystem.h"
+#ifdef __MWERKS__
+#define SCRCMD_WORK_InitMenu SCRCMD_WORK_InitMenu_header
+#include "../ov010/scrcmd_work.h"
+#include "../ov021/field_msgbg.h"
+#undef SCRCMD_WORK_InitMenu
+void SCRCMD_WORK_InitMenu(ScrcmdWork *cmdWork, u32 x, u32 y, u32 cursorPos, u32 cancelable, u32 alignRight, u16 *result, WordSet *wordSet, MsgBank *msgData); /* original prototype: the definition takes u16 coordinates */
+#else
+#include "../ov010/scrcmd_work.h"
+#include "../ov021/field_msgbg.h"
+#endif
+#include "../ov010/script_work.h"
+#include "../ov010/script_work_cmd.h"
+#include "../ov010/script_sys.h"
 extern u16 VM_ReadU16(ScriptVm *vm);
-extern void SCRIPT_WORK_SetCheckFlag(int checkFlag);
 extern void VM_SetWait(ScriptVm *vm, ScrcmdWaitFn waitFn);
-extern void SCRIPT_WORK_ResetCheckFlag(int checkFlag);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventProc proc, unsigned int workSize);
-extern void *GAME_EVENT_GetWork(GameEvent *event);
+#include "../arm9/gfl_use.h"
+#include "../arm9/game_event.h"
 struct ScriptWork;
-extern void *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
-extern void WORDSET_SetSlotNumber(WordSet *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
-extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern void SCRCMD_WORK_SetWaitCount(ScrcmdWork *cmdWork, unsigned short count);
-extern int SCRCMD_WORK_CountDownWait(ScrcmdWork *cmdWork);
-extern FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
-extern FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);
-extern int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);
-extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
-extern void SCRCMD_WORK_StartMenu(ScrcmdWork *cmdWork);
-extern int SCRCMD_WORK_WaitMenuOrCancel(ScrcmdWork *cmdWork);
-extern int SCRCMD_WORK_WaitMenu(ScrcmdWork *cmdWork);
-extern u16 *SCRIPT_WORK_GetWorkPtr(struct ScriptWork *work, void *gameData, u32 id);
-extern u32 SCRCMD_WORK_InitMenu(ScrcmdWork *cmdWork, u32 x, u32 y, u32 cursorPos, u32 cancelable, u32 alignRight, u16 *result, WordSet *wordSet, MsgData *msgData);
-extern MsgData *SCRCMD_WORK_GetMsgData(ScrcmdWork *cmdWork);
-extern Strbuf *SCRIPT_WORK_GetMsgBuffer(ScriptWork *scriptWork);
-extern void *SCRIPT_WORK_GetTempBuffer(ScriptWork *scriptWork);
-extern void SCRCMD_WORK_AddMenuItem(ScrcmdWork *cmdWork, int msgId, int helpMsgId, int itemValue, Strbuf *str, Strbuf *tmp);
-extern int SCRIPT_WORK_CheckFlag(int checkFlag);
+#include "../arm9/wordset.h"
+#include "fieldmap.h"
 struct FieldMsgWindow;
-extern struct FieldMsgWindow *SCRCMD_WORK_GetMsgWindow(ScrcmdWork *cmdWork);
-extern void FIELD_MSGBG_ClearInfoSysWin(FieldSysWin *sysWin);
-extern u32 SCRCMD_WORK_GetWindowState(ScrcmdWork *cmdWork);
-extern FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(FieldMsgBg *msgBg, MsgData *msgData, u32 y);
-extern void SCRCMD_WORK_SetWindowState(ScrcmdWork *cmdWork, u32 windowState);
-extern u32 SCRCMD_WORK_SetMsgWindow(ScrcmdWork *cmdWork, void *msgWin);
-extern int FIELD_MSGBG_DeleteInfoSysWin(FieldSysWin *sysWin);
-extern void *SCRCMD_WORK_GetTimeIcon(ScrcmdWork *cmdWork);
 extern void TIME_ICON_Delete(TimeIcon *timeIcon);
-extern void SCRCMD_WORK_SetTimeIcon(struct ScrcmdWork *work, void *window);
-extern u32 FIELD_MSGBG_InfoSysWinMain(FieldSysWin *sysWin);
-extern void FIELD_MSGBG_InfoSysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, Strbuf *str);
 struct MsgBank;
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dest, Strbuf *src);
-extern void FIELD_MSGBG_InfoSysWinPrintStrNow(FieldSysWin *sysWin, u32 x, int y, Strbuf *str);
-extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern BmpWin *FIELD_MSGBG_GetInfoSysWinBmpWin(FieldSysWin *sysWin);
+#include "../arm9/msgdata.h"
 struct TcbList;
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
 extern TimeIcon *TIME_ICON_Create(MainTaskList *taskList, BmpWin *bmpWin, u32 x, u32 y, u32 heapId);
-extern PlayerWork *GAME_DATA_GetMyPlayerWork(GameData *gameData);
-extern FieldMsgWin *FIELDMAP_GetInfoWindow(FieldMap *fieldMap);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *GAME_DATA_GetMiscSave(GameData *gameData);
+#include "../arm9/game_data.h"
+#include "../arm9/strbuf.h"
 struct MiscSave;
-extern u32 MISC_GetMoney(struct MiscSave *beacon);
-extern int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin);
-extern FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
-extern void FIELDMAP_SetInfoWindow(FieldMap *fieldMap, FieldMsgWin *msgWin);
-extern void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, Strbuf *str);
-extern void STRBUF_Delete(Strbuf *str);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void FIELD_MSGBG_ClearMsgWin(FieldMsgWin *msgWin);
-extern void G3D_CAMERA_Reset(G3dCamera *camera);
-extern void G3D_CAMERA_GetCamTarget(G3dCamera *camera, VecFx32 *out);
-extern void G3D_CAMERA_GetEye(G3dCamera *camera, VecFx32 *out);
-extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void VEC_Normalize(const VecFx32 *vec, VecFx32 *out);
-extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+#include "../arm9/beacon.h"
+#include "../arm9/g3d_camera.h"
+#include "../arm9/fx_vec.h"
 extern void NNS_G3dWorldPosToScrPos(VecFx32 *pos, u32 *x, u32 *z);
-extern void G3D_CAMERA_GetCamUp(G3dCamera *camera, VecFx32 *out);
-extern void MTX_LookAt(VecFx32 *eye, VecFx32 *up, VecFx32 *target, MtxFx43 *out);
-extern void MI_Copy36B(MtxFx43 *src, MtxFx33 *dest);
-extern void MTX_Inverse33(MtxFx33 *src, MtxFx33 *dest);
-extern void MTX_MultVec33(VecFx32 *vec, MtxFx33 *mtx, VecFx32 *out);
-struct MmdlVec;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+#include "../arm9/fx_mtx43.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/fx_mtx33.h"
+struct VecFx32;
 struct FieldTalkWin;
-extern s32 FIELD_MSGBG_WaitTalkWinClose(FieldTalkWin *talkWin);
-extern int FIELD_MSGBG_DeleteTalkWin(FieldTalkWin *talkWin);
-extern int FIELD_MSGBG_ClearTalkWin(FieldTalkWin *talkWin);
-extern FieldTalkWin *FIELD_MSGBG_AddTalkWin(FieldMsgBg *msgBg, int index, VecFx32 *pos, Strbuf *str, u32 winType, u32 tailType);
 struct OccupyInfo;
-extern struct OccupyInfo *SCRCMD_WORK_GetOccupyInfo(ScrcmdWork *cmdWork);
-extern u8 *SCRCMD_WORK_GetWordSetWork(ScrcmdWork *cmdWork);
-extern Mmdl *FLDMMDL_SysSearchObjId(MmdlSys *mmdlSys, u32 objId);
-extern FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern G3dCamera *FIELD_CAMERA_GetG3dCamera(FieldCamera *fieldCamera);
-extern u8 SCRCMD_WORK_GetWindowKind(ScrcmdWork *cmdWork);
-extern u32 FIELD_MSGBG_TalkWinPrintStr(FieldTalkWin *talkWin, Strbuf *str);
-extern void MI_CpuFill8(void *dest, int value, int size);
-extern void SCRCMD_WORK_SetWindowKind(ScrcmdWork *cmdWork, u8 windowKind);
-extern u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin);
-extern void *SCRIPT_WORK_GetTargetObj(ScriptWork *scriptWork);
-extern u8 MYSTATUS_GetSex(const MyStatus *myStatus);
-extern void TPOKE_DATA_ReadRecordString(s32 key, s32 want, void *dest, u32 heap);
-extern u32 FIELD_MSGBG_PlainWinMain(FieldPlainWin *plainWin);
-extern void FIELD_MSGBG_ClearPlainWin(FieldPlainWin *plainWin);
-extern FieldPlainWin *FIELD_MSGBG_CreatePlainWin(FieldMsgBg *msgBg, MsgData *msgData, u32 winType, u16 x, u16 y, u16 width, u16 height);
-extern void FIELD_MSGBG_PlainWinPrintStream(FieldPlainWin *plainWin, u32 x, u16 y, Strbuf *str);
-extern int FIELD_MSGBG_DeletePlainWin(FieldPlainWin *plainWin);
-extern void FIELD_MSGBG_GetStrSizeChars(FieldMsgBg *msgBg, Strbuf *str, u8 *width, u8 *height);
-extern void FIELD_MSGBG_AddSubMsgWinStr(FieldMsgBg *msgBg, Strbuf *str, u32 id, u8 x, u8 y, u8 width, u8 height);
-extern void FIELD_MSGBG_DeleteSubMsgWin(FieldMsgBg *msgBg, u32 id);
-extern int FIELD_MSGBG_ExistsSubMsgWin(FieldMsgBg *msgBg);
-extern void FIELD_MSGBG_DeleteAllSubMsgWin(FieldMsgBg *msgBg);
-extern u32 FIELD_MSGBG_BgWinMain(FieldBgWin *bgWin, Strbuf *str);
-extern void FIELD_MSGBG_DeleteBgWin(FieldBgWin *bgWin);
-extern void *SCRIPT_WORK_GetMsgData(ScriptWork *scriptWork);
-extern void SCRIPT_WORK_SetMsgData(struct ScriptWork *work, void *msgData);
-extern u32 GF_FONT_Delete(GfFont *font);
-extern FieldBgWin *FIELD_MSGBG_CreateBgWin(FieldMsgBg *msgBg, int winType);
-extern GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern FieldBgWin *FIELD_MSGBG_CreateBgWinFont(FieldMsgBg *msgBg, u32 winType, GfFont *font);
-extern void FIELD_MSGBG_DeleteSpWin(FieldSpWin *spWin);
-extern int FIELD_MSGBG_SpWinWaitKey(FieldSpWin *spWin);
-extern u32 FIELD_MSGBG_GetStrWidthChars(FieldMsgBg *msgBg, Strbuf *str, int margin);
-extern u32 FIELD_MSGBG_GetStrHeightChars(FieldMsgBg *msgBg, Strbuf *str, u32 margin);
-extern FieldSpWin *FIELD_MSGBG_CreateSpWin(FieldMsgBg *msgBg, u32 frameType, u32 x, u16 y, u16 width, u16 height);
-extern void FIELD_MSGBG_SpWinPrintStr(FieldSpWin *spWin, u16 x, u16 y, Strbuf *str);
-u32 KEY_GetTrg(void);
-void FIELD_MSGBG_SysWinDrawCursor(FieldSysWin *sysWin);
-void FIELD_MSGBG_PlainWinDrawCursor(FieldPlainWin *plainWin);
-void FIELD_MSGBG_TalkWinDrawCursor(FieldTalkWin *talkWin);
-extern void FIELD_MSGBG_SetAutoMode(FieldMsgBg *msgBg, u8 autoMode);
+#include "field_camera.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/tpoke_data.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/key.h"
 int SCRCMD_MSGWIN_YesNoEventMain(GameEvent *event, int *seq, void *work);
 GameEvent *SCRCMD_MSGWIN_CreateYesNoEvent(GameSystem *gameSystem, ScrcmdWork *cmdWork, u16 *result);
 int SCRCMD_MSGWIN_CmdYesNoWin(ScriptVm *vm, ScrcmdWork *cmdWork);
@@ -495,7 +404,7 @@ GameEvent *SCRCMD_MSGWIN_CreateYesNoEvent(GameSystem *gameSystem, ScrcmdWork *cm
     GameEvent *event;
     YesNoEventWork *yesNo;
 
-    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_MSGWIN_YesNoEventMain, 0xc);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_MSGWIN_YesNoEventMain, 0xc);
     yesNo = GAME_EVENT_GetWork(event);
     yesNo->cmdWork = cmdWork;
     yesNo->result = result;
@@ -546,7 +455,7 @@ GameEvent *SCRCMD_MSGWIN_CreateMenuEvent(GameSystem *gameSystem, ScrcmdWork *cmd
     GameEvent *event;
     MenuEventWork *menu;
 
-    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_MSGWIN_MenuEventMain, 8);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_MSGWIN_MenuEventMain, 8);
     menu = GAME_EVENT_GetWork(event);
     menu->cmdWork = cmdWork;
     menu->allowCancel = allowCancel;
@@ -658,7 +567,7 @@ return 1;
 
 void SCRCMD_MSGWIN_OpenInfoSysWin(ScrcmdWork *cmdWork, u32 windowKind)
 {
-    MsgData *msgData;
+    MsgBank *msgData;
     u32 windowState, winY;
     ScriptFieldParam *fieldParam;
     FieldSysWin *sysWin;
@@ -753,7 +662,7 @@ int SCRCMD_MSGWIN_CmdInfoSysWinMsgNow(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 msgId;
     Strbuf *str;
-    MsgData *msgData;
+    MsgBank *msgData;
     WordSet *wordSet;
     Strbuf *tempBuffer;
     ScriptWork *scriptWork;
@@ -829,7 +738,7 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet;
     Strbuf *tempBuffer;
     u32 heapId;
-    MsgData *msgData;
+    MsgBank *msgData;
     FieldMsgWin *moneyWin;
     Strbuf *str;
     u32 money;
@@ -846,7 +755,7 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     heapId = FIELDMAP_GetHeapId(fieldMap);
-    msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
+    msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
     money = MISC_GetMoney(GAME_DATA_GetMiscSave(gameData));
     if (oldWin != 0)
@@ -873,7 +782,7 @@ int SCRCMD_MSGWIN_CmdUpdateMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     WordSet *wordSet;
     Strbuf *tempBuffer;
     u32 heapId;
-    MsgData *msgData;
+    MsgBank *msgData;
     Strbuf *str;
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -885,7 +794,7 @@ int SCRCMD_MSGWIN_CmdUpdateMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     heapId = FIELDMAP_GetHeapId(fieldMap);
-    msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
+    msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
     WORDSET_SetSlotNumber(wordSet, 2, MISC_GetMoney(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
     MSGDATA_ReadString((struct MsgBank *)msgData, 1, tempBuffer);
@@ -1056,7 +965,7 @@ int SCRCMD_MSGWIN_GetBalloonSide(Mmdl *playerMmdl, const VecFx32 *targetPos)
     VecFx32 playerPos;
     int placement = 2;
 
-    FLDMMDL_GetPos(playerMmdl, (struct MmdlVec *)(&playerPos));
+    FLDMMDL_GetPos(playerMmdl, (struct VecFx32 *)(&playerPos));
     if (targetPos->z < playerPos.z)
         placement = 1;
     return placement;
@@ -1120,7 +1029,7 @@ void SCRCMD_MSGWIN_UpdateBalloonPos(ScrcmdWork *cmdWork, int forceUpdate)
     VecFx32 mmdlPos;
     if (mmdl != 0) {
         FLDMMDL_GetDirDisp(mmdl);
-        FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&mmdlPos));
+        FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&mmdlPos));
         if (forceUpdate == 1 || mmdlPos.x != balloon->mmdlPos.x || mmdlPos.y != balloon->mmdlPos.y || mmdlPos.z != balloon->mmdlPos.z) {
             FieldCamera *fieldCamera;
             G3dCamera *g3dCamera;
@@ -1138,7 +1047,7 @@ void SCRCMD_MSGWIN_UpdateBalloonPos(ScrcmdWork *cmdWork, int forceUpdate)
 
 int SCRCMD_MSGWIN_OpenBalloonWinMsg(ScrcmdWork *cmdWork, u16 objId, u16 msgFileId, u16 msgId, u16 windowKind, int winType)
 {
-    MsgData *scriptMsgData;
+    MsgBank *scriptMsgData;
     ScriptWork *scriptWork;
     ScriptFieldParam *fieldParam;
     MmdlSys *mmdlSys;
@@ -1146,7 +1055,7 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(ScrcmdWork *cmdWork, u16 objId, u16 msgFileI
     Strbuf *msgBuffer;
     WordSet *wordSet;
     Strbuf *tempBuffer;
-    MsgData *fileMsgData;
+    MsgBank *fileMsgData;
     int windowState;
     BalloonWinWork *balloon;
     VecFx32 targetPos;
@@ -1168,7 +1077,7 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(ScrcmdWork *cmdWork, u16 objId, u16 msgFileI
     if (msgFileId == 0x400) {
         MSGDATA_ReadString((struct MsgBank *)scriptMsgData, msgId, tempBuffer);
     } else {
-        fileMsgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, msgFileId, SCRCMD_WORK_GetHeapId(cmdWork));
+        fileMsgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 3, msgFileId, SCRCMD_WORK_GetHeapId(cmdWork));
         MSGDATA_ReadString((struct MsgBank *)fileMsgData, msgId, tempBuffer);
         MSGDATA_Delete((struct MsgBank *)fileMsgData);
     }
@@ -1181,7 +1090,7 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(ScrcmdWork *cmdWork, u16 objId, u16 msgFileI
         balloon->objId = objId;
         if (windowKind == 0) {
             SCRCMD_WORK_GetWindowState(cmdWork);
-            FLDMMDL_GetPos(targetMmdl, (struct MmdlVec *)(&targetPos));
+            FLDMMDL_GetPos(targetMmdl, (struct VecFx32 *)(&targetPos));
             windowState = SCRCMD_MSGWIN_GetBalloonSide(playerMmdl, &targetPos);
         }
         SCRCMD_MSGWIN_GetBalloonTailParams(windowState, &talkIndex, &tailType);
@@ -1344,7 +1253,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(ScriptVm *vm, ScrcmdWork *cmdWork)
     fieldPlayer = FIELDMAP_GetFieldPlayer(fieldParam->fieldSystem);
     mmdlSys = (struct MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork);
     playerMmdl = FIELD_PLAYER_GetMmdl(fieldPlayer);
-    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(mmdlSys, balloon->objId), (struct MmdlVec *)(&targetPos));
+    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(mmdlSys, balloon->objId), (struct VecFx32 *)(&targetPos));
     placement = SCRCMD_MSGWIN_GetBalloonSide(playerMmdl, &targetPos);
     if (placement != 1) {
         talkIndex = 1;
@@ -1437,7 +1346,7 @@ int SCRCMD_MSGWIN_CleanupPlainWin(ScriptCheckTask *task, int *state)
 int SCRCMD_MSGWIN_CmdAddSubWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     Strbuf *str;
-    MsgData *msgData;
+    MsgBank *msgData;
     WordSet *wordSet;
     Strbuf *tempBuffer;
     ScriptWork *scriptWork;
@@ -1540,7 +1449,7 @@ int SCRCMD_MSGWIN_CmdBgWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
     ScriptWork *scriptWork;
     int msgId, winType;
     ScriptFieldParam *fieldParam;
-    MsgData *msgData;
+    MsgBank *msgData;
     Strbuf *msgBuffer;
     WordSet *wordSet;
     Strbuf *tempBuffer;
@@ -1566,7 +1475,7 @@ int SCRCMD_MSGWIN_CmdBgWinMsgFont(ScriptVm *vm, ScrcmdWork *cmdWork)
     ScriptWork *scriptWork;
     ScriptFieldParam *fieldParam, *fontFieldParam;
     int msgId, winType, heapId;
-    MsgData *msgData;
+    MsgBank *msgData;
     GfFont *font;
     Strbuf *msgBuffer;
     WordSet *wordSet;
@@ -1754,7 +1663,7 @@ int SCRCMD_MSGWIN_CleanupAutoMode(ScriptCheckTask *task, int *state)
 
 Strbuf *SCRCMD_MSGWIN_ExpandMessage(ScrcmdWork *cmdWork, ScriptWork *scriptWork, u32 msgId)
 {
-    MsgData *msgData;
+    MsgBank *msgData;
     Strbuf *msgBuffer;
     WordSet *wordSet;
     Strbuf *tempBuffer;

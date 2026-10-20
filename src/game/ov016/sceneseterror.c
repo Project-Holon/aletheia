@@ -84,61 +84,40 @@
  *   DWCi_SceneSetList                0x021c82fc arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct {
     u16 priority : 2;
     u16 rest : 14;
 } BgCnt;
 
-struct tagCOORD {
-    unsigned short x;
-    unsigned short y;
-};
+#include "dwcutil_types.h"
 
 typedef _Bool bool;
 
-extern void DWCi_ChangeScene(u32 v);
-void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
-extern unsigned char DWCi_Language(void);
-extern void *DWCi_FNTlFormBgEx(int lcd, int font);
-extern unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx);
-extern int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
-extern int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, unsigned char *src, int len);
-extern void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval,
-                                  u16 *txt, int font);
-extern int DWCi_CMNlFontFlag(void);
-extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color,
-                              unsigned long flag, u16 *txt);
-extern void DWCi_FNTlRenewBg(int x);
+#include "dwcutil_main.h"
+#include "common.h"
+typedef int bool_0;
+#include "font.h"
+#include "message.h"
+#include "../arm9/os_printf.h"
+#include "str.h"
 extern bool DWCi_EFFlCheck(int lcd);
-extern void DWCi_CMNlButton(int kind);
-extern s8 DWCi_BTNlGet(void);
-extern void DWCi_BTNlEnable(void);
-extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern void DWCi_BTNlSet(signed char v);
-extern void DWCi_CMNlMsgDraw(int msgId);
-extern void DWCi_SETTINGlEraseAll(void);
+#include "button.h"
+#include "input.h"
+#include "scenesetlist.h"
+#include "setting.h"
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
-extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_BTNlDisable(void);
-extern void DWCi_SNDlPlay(u32 v);
-void DWCi_BTNlEnd(void);
-extern int DWCi_BTNlIsEnd(void);
-extern void DWCi_FNTlDeleteBgLcd(int lcd);
-extern int DWCi_COMMENTlDelete(void);
-extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
-extern void DWCi_SetListReturn(u8 v);
+#include "graphics.h"
+#include "sound.h"
+#include "comment.h"
 void DWCi_SceneSetError(void);
 void DWCi_SceneSetError_procScene(void);
 void DWCi_SceneSetError_draw(void);
 void DWCi_SetErrorCode(unsigned int v);
 extern unsigned int DWCiMsgCmn;
 extern int DWCi_SceneSetSelectAp;
-extern int DWCi_SceneSetList;
 
 static void initGraphics(void);
 static void drawMessage(void);
@@ -155,17 +134,17 @@ void DWCi_SceneSetError(void)
 {
 	initGraphics();
 	drawMessage();
-	DWCi_ChangeScene((u32)procInit);
+	DWCi_ChangeScene((uptr)procInit);
 }
 
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB568, (void *)0x0207EB78);
-    ((BgCnt *)0x04001008)->priority = 3;
-    ((BgCnt *)0x0400100A)->priority = 3;
-    ((BgCnt *)0x04000008)->priority = 3;
-    ((BgCnt *)0x0400000A)->priority = 3;
-    ((BgCnt *)0x0400000C)->priority = 3;
+    ((BgCnt *)REG_DB_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_DB_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG2CNT_ADDR)->priority = 3;
 }
 
 static int ErrorCode = 0;
@@ -177,7 +156,7 @@ static const unsigned char FONT_TBL[7] = { 0, 1, 1, 1, 1, 1, 0 };
  * reads it: the DWCi_FNTlDrawRect call below uses the same values as
  * constants. The vendor symbol list does not name it.
  */
-static const struct tagRECT { unsigned short x, y, w, h; } R_MSG = { 0xd, 0x3c, 0xe6, 0x5e };
+static const AREA R_MSG = { 0xd, 0x3c, 0xe6, 0x5e };
 
 static const struct tagCOORD C_CODE[7] = {
     { 0x62, 0x22 }, { 0x62, 0x22 }, { 0x3d, 0x22 }, { 0x65, 0x22 },
@@ -283,7 +262,7 @@ static void drawMessage(void)
     DWCi_STRlConvertStringAsciiToUnicode(buf, (unsigned char *)tmpbuf, 8);
     drawStr(canv, C_CODE[DWCi_Language()].x, C_CODE[DWCi_Language()].y, 2, 10, buf, 0);
     DWCi_FNTlDrawRect(canv, 0xd, 0x3c, 0xe6, 0x5e, 2, DWCi_CMNlFontFlag(), msg);
-    DWCi_FNTlRenewBg((int)canv);
+    DWCi_FNTlRenewBg((sptr)canv);
 }
 
 /*
@@ -293,7 +272,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
 static void procInit1(void)
@@ -303,7 +282,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(4);
-    DWCi_ChangeScene((u32)procInit2);
+    DWCi_ChangeScene((uptr)procInit2);
 }
 
 
@@ -312,7 +291,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((u32)DWCi_SceneSetError_procScene);
+    DWCi_ChangeScene((uptr)DWCi_SceneSetError_procScene);
 }
 
 void DWCi_SceneSetError_procScene(void)
@@ -337,14 +316,14 @@ static void button(void)
     if (DWCi_BTNlGet() != 0)
         return;
     DWCi_SNDlPlay(6);
-    DWCi_ChangeScene((u32)endScene);
+    DWCi_ChangeScene((uptr)endScene);
 }
 
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((u32)endScene1);
+    DWCi_ChangeScene((uptr)endScene1);
 }
 
 static void endScene1(void)
@@ -353,7 +332,7 @@ static void endScene1(void)
     DWCi_BTNlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((u32)endScene2);
+    DWCi_ChangeScene((uptr)endScene2);
 }
 
 static void endScene2(void)
@@ -373,12 +352,12 @@ static void endScene2(void)
     DWCi_GetParam2_((unsigned int *)0, (unsigned int *)(&prm));
     if (prm != 0) {
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene((u32)((void (*)())&DWCi_SceneSetSelectAp));
+        DWCi_ChangeScene((uptr)((void (*)())&DWCi_SceneSetSelectAp));
     } else {
         DWCi_SetParam_(2, 0);
         DWCi_SetParam2_(0, 0);
         DWCi_SetListReturn(0);
-        DWCi_ChangeScene((u32)((void (*)())&DWCi_SceneSetList));
+        DWCi_ChangeScene((uptr)DWCi_SceneSetList);
     }
 }
 

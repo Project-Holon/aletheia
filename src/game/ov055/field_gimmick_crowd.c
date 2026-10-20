@@ -84,7 +84,7 @@
 
 struct FieldSubproc;
 struct FieldPlayer;
-struct MsgData;
+struct MsgBank;
 struct ArcFile;
 
 #include "../types.h"
@@ -179,7 +179,7 @@ typedef struct CrowdChatter {
     s16 timer;                   /* 0x00 */
     s16 interval;                /* 0x02 frames until the next window opens */
     u32 nextSlot;                /* 0x04 */
-    struct MsgData *msgData;     /* 0x08 */
+    struct MsgBank *msgData;     /* 0x08 */
     struct FieldMsgBg *msgBg;    /* 0x0C */
     CrowdChatterSlot slots[CROWD_CHATTER_SLOT_MAX]; /* 0x10 */
 } CrowdChatter;
@@ -193,60 +193,31 @@ typedef struct CrowdWork {
     CrowdChatter chatter;        /* 0x348 */
 } CrowdWork;
 
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
-extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
-extern int FIELD_CLOCK_GetTimeZone(struct GameData *gameData);
-extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern void FIELDMAP_SetZoneEffectWork(FieldMap *fieldMap, void *zoneEffectWork);
-extern int FIELDMAP_GetTimeZone(FieldMap *fieldMap);
-extern int FIELDMAP_IsEventActive(FieldMap *fieldMap);
-extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
-extern u32 GFL_USE_GetRandom(u32);
-extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
-extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, int flag);
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../ov010/field_clock.h"
+#include "../ov010/fldmmdl.h"
+#include "../arm9/gfl_use.h"
 struct Mmdl;
-extern void FLDMMDL_SetMoveBitAttrEffectOff(Mmdl *mmdl, int flag);
-struct MmdlVec;
-extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
-extern void FLDMMDL_DeleteMmdl(Mmdl *mmdl);
-extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
-extern void FLDMMDL_InitPosRecord(MmdlHeader *header, int x, int z, int y);
-extern void FLDMMDL_ChangeHeader(Mmdl *mmdl, MmdlHeader *header);
-extern u32 FLDMMDL_GetEventId(Mmdl *mmdl);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern u16 FLDMMDL_MOVE_GetDirTableValue(int dir);
-extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
-extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
-extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 walkCmd);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, u16 heap);
+struct VecFx32;
+#include "../ov010/fldmmdl_move.h"
 struct ArcHandle;
-extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
-extern u32 GFL_HEAP_Free(void *p);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
-extern void FLDMMDL_SetStatusBitAttrGetOff(Mmdl *mmdl, int flag);
-extern void FLDMMDL_SetStatusBitFellowHit(Mmdl *mmdl, int flag);
-extern void FLDMMDL_SetEventId(Mmdl *mmdl, u16 eventId);
-extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
-extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **out, u32 *iter);
-extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
-extern int FLDMMDL_CheckStatusBitVanish(Mmdl *mmdl);
-extern int FLDMMDL_GetGridOldX(Mmdl *mmdl);
-extern int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../ov021/field_player.h"
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void CROWD_CloseChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void FIELD_MSGBG_AddSubMsgWinMsg(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId, u32 windowId, u8 x, u8 y, u8 width, u8 height);
-extern void FIELD_MSGBG_DeleteSubMsgWin(struct FieldMsgBg *msgBg, u32 windowId);
+#include "../arm9/msgdata.h"
+#include "../ov021/field_msgbg.h"
+#include "../ov010/fldmmdl_poslog.h"
+/* Original prototype (docs/ORIGINAL_BUGS.tsv): the DS caller passes the heap id of ARC_TOOL_CreateHandle as u16 */
+#ifdef __MWERKS__
+#define ARC_TOOL_CreateHandle ARC_TOOL_CreateHandle_header
+#endif
+#include "../arm9/arc_tool.h"
+#ifdef __MWERKS__
+#undef ARC_TOOL_CreateHandle
+void *ARC_TOOL_CreateHandle(u32 archiveId, u16 heapId);
+#endif
+#include "field_gimmick_crowd.h"
 void CROWD_Init(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
 void CROWD_Exit(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
 void CROWD_Update(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
@@ -278,7 +249,7 @@ void CROWD_ExitChatter(CrowdChatter *chatter);
 void CROWD_CloseAllChatterSlots(CrowdChatter *chatter);
 void CROWD_UpdateChatter(CrowdChatter *chatter, const CrowdConfig *config, FieldMap *fieldMap);
 void CROWD_InitChatterSlot(CrowdChatterSlot *slot, int index);
-void CROWD_OpenChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgFirst, u32 msgCount);
+void CROWD_OpenChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, struct MsgBank *msgData, u32 msgFirst, u32 msgCount);
 void CROWD_UpdateChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg);
 void CROWD_ClearChatterSlot(CrowdChatterSlot *slot);
 /*
@@ -456,7 +427,7 @@ void CROWD_CreatePerson(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const
     {
         int drawOffset[3] = {0, 0, 0};
         drawOffset[0] = GFL_USE_GetRandom(0x8000) - 0x4000;
-        FLDMMDL_SetDrawOffset(person->mmdl, (struct MmdlVec *)drawOffset);
+        FLDMMDL_SetDrawOffset(person->mmdl, (struct VecFx32 *)drawOffset);
     }
 }
 
@@ -840,7 +811,7 @@ void CROWD_InitChatter(CrowdChatter *chatter, struct FieldMsgBg *msgBg, const Cr
     interval = config->intervalByTimeZone[timeZone];
     chatter->timer = i;
     chatter->interval = 0x10 + rand % interval;
-    chatter->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x9f, heapId);
+    chatter->msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 3, 0x9f, heapId);
     chatter->msgBg = msgBg;
     chatter->nextSlot = rand & 0xf;
     for (i = 0; i < CROWD_CHATTER_SLOT_MAX; i++) {
@@ -895,7 +866,7 @@ void CROWD_InitChatterSlot(CrowdChatterSlot *slot, int index)
 }
 
 /* Open the speech window of a slot with a random message. */
-void CROWD_OpenChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgFirst, u32 msgCount)
+void CROWD_OpenChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg, struct MsgBank *msgData, u32 msgFirst, u32 msgCount)
 {
     u32 rand = GFL_USE_GetRandom(0);
     slot->isOpen = 1;

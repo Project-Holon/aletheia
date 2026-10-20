@@ -77,32 +77,22 @@ typedef struct { u8 v[2]; } PositionRemap2;
 
 typedef struct { u8 v[4]; } PositionRemap4;
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern void POKE_TOOL_SetLevelAndRecalc(struct PokemonParam *mon, u32 level);
+#include "../arm9/poke_tool.h"
 struct SaveControl;
 struct BattleBoxSave;
-extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
+#include "../arm9/battle_box.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct BoxMonGroup;
-extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, s32 heap);
-extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
-extern u32 GFL_HEAP_Free(void *memory);
-extern void POKE_TOOL_HealParty(struct Party *party);
-extern u32 POKEPARTY_RemoveMember(struct Party *party, s32 index);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/poke_tool_ext.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
-extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 playerIndex);
+#include "../arm9/net_handle.h"
+#include "../arm9/net.h"
 struct FieldState;
-extern struct FieldState *GAME_DATA_GetWifiList(const struct GameData *gameData);
-extern int WIFILIST_FindFriendByStatus(struct WifiList *wifiList, struct MyStatus *playerStatus, u32 *outFriendSlot);
-extern void WIFILIST_AddFriendBattleRecord(struct WifiList *wifiList, int friendSlot, int wins, int losses, int trades);
-extern void WIFILIST_SetFriendLastSeen(struct WifiList *wifiList, int friendSlot);
+#include "../arm9/wifilist.h"
 void MUSICAL_EVENT_SetPartyLevel50(void *party);
 void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work);
 void MUSICAL_EVENT_TrimPartyToThree(void *party);

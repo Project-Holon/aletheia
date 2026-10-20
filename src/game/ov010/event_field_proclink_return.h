@@ -5,16 +5,15 @@
 /* Public functions of event_field_proclink_return.c, prototypes copied from their definitions. */
 
 struct ProcLinkSys;
-struct ProcLinkEntry;
 struct ProcLinkRequest;
 struct EventSlots;
 struct EventSlot;
 typedef struct ProcLinkSys ProcLinkSys;
-typedef struct ProcLinkEntry ProcLinkEntry;
 typedef struct ProcLinkRequest ProcLinkRequest;
 typedef struct EventSlots EventSlots;
 typedef struct EventSlot EventSlot;
 
+#include "../ov010/event_field_proclink_types.h"
 #include "../types.h"
 
 void EVENT_FIELD_PROCLINK_CompactReturnList(ProcLinkSys *procLink, int listIndex);

@@ -77,130 +77,101 @@
 struct Blk;
 struct TimeIcon;
 
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
+#include "../arm9/time_icon.h"
 struct BmpWin;
 struct TcblList;
 
-extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 
-extern int MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+#ifdef __MWERKS__
+#define MSGDATA_ReadString MSGDATA_ReadString_hdr
+#endif
+#include "../arm9/msgdata.h"
+#ifdef __MWERKS__
+#undef MSGDATA_ReadString
+int MSGDATA_ReadString(struct MsgBank *, u32, struct Strbuf *);
+#endif
 
-extern void GF_FONT_SetDefaultTextColor(void);
+#include "../arm9/gf_font.h"
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
+#include "../arm9/bmp_menuwork.h"
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
+#include "../arm9/arc_util.h"
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 
-extern void *BMP_WIN_GetBmp(void *p);
 struct Bmp;
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 
-extern void PRINTSYS_Print(void *x, short y, short z, void *s, void *w);
+#include "../arm9/printsys.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 struct ButtonMan;
 
-extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
+#include "../arm9/button_man.h"
 
-extern void BG_SYS_MarkTileDirty(u32 bit);
+#include "../arm9/bg_sys.h"
 struct Strbuf;
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 struct TaskMenuRes;
 struct TaskMenuInitWork;
 struct TaskMenuWork;
 
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
+#include "../arm9/app_taskmenu.h"
 struct TextPrinter;
 struct KeyCursor;
 
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
+#include "../arm9/app_keycursor.h"
 
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, void *, void *, int, u16, int);
 
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
 
-extern void BMP_WIN_Init(u16);
 
-extern void GF_FONT_InitTextColor(void);
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 struct TcblSystem;
 
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+#include "../arm9/tcbl.h"
 
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
 struct PrintQueue;
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 struct GFont;
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
-extern void BMP_WIN_Exit(void);
 struct WordSet;
 
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 
-extern u32 WORDSET_Delete(struct WordSet *p);
+#include "../arm9/wordset.h"
 
-extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
 
-extern void WORDSET_SetSlotMonNickname(struct WordSet *,u32,void *);
 
-extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 struct PrintStreamCtrl;
 
-extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
 
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
+#include "../arm9/g2.h"
 
 void GSYNC_MESSAGE_DeleteButtonManager(GsyncMessageWork *work);
 
@@ -234,7 +205,7 @@ void GSYNC_MESSAGE_RestartTimeIcon(GsyncMessageWork *work);
 
 void GSYNC_MESSAGE_PrintDefault(GsyncMessageWork *work, int value);
 
-void PDWACC_MESSAGE_FormatNumber(int value, void *buf);
+#include "pdwacc_message.h"
 
 extern const char d_021DAA30[];
 
@@ -323,8 +294,8 @@ void GSYNC_MESSAGE_PrintStream(GsyncMessageWork *work, int instant)
     if (instant) {
         PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
     } else {
-        work->printStream = PRINTSYS_PrintStream(win, (int)0, (int)0, work->msgBuf, work->font, (void *)((int)MSG_SPEED_GetWait()), work->tcbl, (int)2, work->heap, 15);
-        PRINTSYS_CTRL_Init(work->streamWait, (int)6);
+        work->printStream = PRINTSYS_PrintStream(win, (int)0, (int)0, work->msgBuf, work->font, (s32)(void *)((int)MSG_SPEED_GetWait()), work->tcbl, (int)2, work->heap, 15);
+        PRINTSYS_CTRL_Init((PrintStreamCtrl *)work->streamWait, (int)6);
     }
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg5Frame), 12);
     BMP_WIN_TransferChars(win);
@@ -379,33 +350,38 @@ void GSYNC_MESSAGE_ClearStream(GsyncMessageWork *work)
 
 int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout)
 {
-    TaskMenuTmpl tmpl;
+    TaskMenuInitWork tmpl;
     int result;
     tmpl.heapId = work->heap;
     tmpl.itemNum = 2;
-    tmpl.items = work->menuItems;
+    tmpl.itemWork = work->menuItems;
     switch (layout) {
     case 0: tmpl.charPosX = 32; tmpl.charPosY = 12; tmpl.posType = 1; break;
     case 1: tmpl.charPosX = 32; tmpl.charPosY = 24; tmpl.posType = 1; break;
     }
     tmpl.width = 13;
     tmpl.height = 3;
-    work->menuItems[0].text = STRBUF_Create(100, work->heap);
-    MSGDATA_ReadString(work->msgData, 4, work->menuItems[0].text);
-    work->menuItems[0].color = 0x39e0;
-    work->menuItems[1].text = STRBUF_Create(100, work->heap);
-    MSGDATA_ReadString(work->msgData, 5, work->menuItems[1].text);
-    work->menuItems[1].color = 0x39e0;
+    work->menuItems[0].str = STRBUF_Create(100, work->heap);
+    MSGDATA_ReadString(work->msgData, 4, work->menuItems[0].str);
+    work->menuItems[0].msgColor = 0x39e0;
+    work->menuItems[1].str = STRBUF_Create(100, work->heap);
+    MSGDATA_ReadString(work->msgData, 5, work->menuItems[1].str);
+    work->menuItems[1].msgColor = 0x39e0;
     result = (int)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&tmpl), work->taskMenuRes);
-    STRBUF_Delete(work->menuItems[0].text);
-    STRBUF_Delete(work->menuItems[1].text);
+    STRBUF_Delete(work->menuItems[0].str);
+    STRBUF_Delete(work->menuItems[1].str);
     G2x_SetBlendBrightness_(0x04001050, 9, -8);
     return result;
 }
 
 int GSYNC_MESSAGE_PrintId(GsyncMessageWork *work, int msgId)
 {
+#ifdef __MWERKS__
     return MSGDATA_ReadString((struct MsgBank *)(work->msgData), msgId, work->msgBuf);
+#else
+    MSGDATA_ReadString((struct MsgBank *)(work->msgData), msgId, work->msgBuf);
+    return 0; /* the DS returns what r0 holds after MSGDATA_ReadString */
+#endif
 }
 
 /* Prints msgBuf in a sub-screen window at row top, height rows high. */

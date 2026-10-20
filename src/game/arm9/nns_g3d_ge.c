@@ -28,6 +28,7 @@
  *   G3X_GetVectorMtx    0x0207DCC8  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 struct NNSiG3dGeCmdList { u32 count; u32 cmds[1]; };
 
@@ -115,7 +116,7 @@ void NNS_G3dGeFlushBuffer(void)
     if (gNnsG3dGeState.busy != 0)
         NNS_G3dGeWaitSendDL();
     if (gNnsG3dGeState.list != 0 && gNnsG3dGeState.list->count != 0) {
-        MIi_CpuSend32(gNnsG3dGeState.list->cmds, (void *)0x04000400, gNnsG3dGeState.list->count * 4);
+        MIi_CpuSend32(gNnsG3dGeState.list->cmds, (void *)REG_GXFIFO_ADDR, gNnsG3dGeState.list->count * 4);
         gNnsG3dGeState.list->count = 0;
     }
 }
@@ -180,7 +181,7 @@ void NNS_G3dGeSendDL(const u32 *src, u32 sz)
             u32 id = GXi_DmaId;
             u32 dma = id > 3 ? (u32)-1 : id;
             if (dma == (u32)-1)
-                MI_SendNDmaGXCommandAsyncFast((unsigned int)(id > 3 ? id - 4 : (u32)-1), (unsigned int)src, (unsigned int)sz, (void (*)(u32))NNSi_G3dGeSendDLDone, (unsigned int)&gNnsG3dGeState.busy);
+                MI_SendNDmaGXCommandAsyncFast((unsigned int)(id > 3 ? id - 4 : (u32)-1), (uptr)src, (unsigned int)sz, (void (*)(u32))NNSi_G3dGeSendDLDone, (uptr)&gNnsG3dGeState.busy);
             else
                 MI_SendGXCommandAsyncFast(dma, src, sz, NNSi_G3dGeSendDLDone, (void *)&gNnsG3dGeState.busy);
         } else {
@@ -191,7 +192,7 @@ void NNS_G3dGeSendDL(const u32 *src, u32 sz)
             u32 id = GXi_DmaId;
             u32 dma = id > 3 ? (u32)-1 : id;
             if (dma == (u32)-1)
-                MI_SendNDmaGXCommandAsync((unsigned int)(id > 3 ? id - 4 : (u32)-1), (unsigned int)src, (unsigned int)sz, (void (*)(u32))NNSi_G3dGeSendDLDone, (unsigned int)&gNnsG3dGeState.busy);
+                MI_SendNDmaGXCommandAsync((unsigned int)(id > 3 ? id - 4 : (u32)-1), (uptr)src, (unsigned int)sz, (void (*)(u32))NNSi_G3dGeSendDLDone, (uptr)&gNnsG3dGeState.busy);
             else
                 MI_SendGXCommandAsync(dma, src, sz, NNSi_G3dGeSendDLDone, (void *)&gNnsG3dGeState.busy);
         } else {
@@ -239,7 +240,7 @@ void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n)
         NNS_G3dGeWaitSendDL();
     }
     *(u32 *)0x04000400 = cmd;
-    MIi_CpuSend32(params, (void *)0x04000400, n * 4);
+    MIi_CpuSend32(params, (void *)REG_GXFIFO_ADDR, n * 4);
 }
 
 /*

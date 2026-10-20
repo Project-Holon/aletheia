@@ -2,8 +2,8 @@
 #ifndef PDWACC_MESSAGE_TYPES_H
 #define PDWACC_MESSAGE_TYPES_H
 
-#include "gsync_common_types.h"
-#include "gsync_menu_types.h"
+#include "../ov123/gsync_common_types.h"
+#include "../ov123/gsync_menu_types.h"
 
 struct WordSet;
 

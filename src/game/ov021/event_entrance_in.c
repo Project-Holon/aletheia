@@ -52,37 +52,27 @@ struct IssSystem;
 struct IssDungeonSys;
 struct BgmInfo;
 
-extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EntranceInEventFunc func, u32 workSize);
-extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "fieldmap.h"
+#include "../arm9/game_event.h"
+#include "../arm9/gfl_use.h"
 struct GroundAnimeArgs;
-extern void *FIELD_GROUND_ANIME_CreateB(struct GroundAnimeArgs *args);
-extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
-extern int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject);
-extern int EVENT_FIELD_PROCLINK_IsHopAnimDone(int animHandle);
+#include "field_ground_anime.h"
+typedef int Bool;
+#include "../ov010/event_field_proclink.h"
 struct FieldMap;
 struct GameSystem;
 struct GameEvent;
-extern GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(struct GameEvent *parent, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern int FIELD_CAMERA_HasDelay(struct FieldCamera *camera);
-extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
-extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
-extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
-extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int effectId, int wait);
-extern int FIELD_SOUND_SYSTEM_HasZoneBgmOverride(GameData *gameData, int zoneId);
-extern int FIELD_SOUND_SYSTEM_GetFinalBgm(const GameData *gameData);
-extern void *GAMESYSTEM_GetIssSystem(GameSystem *gameSystem);
-extern struct IssDungeonSys *ISS_SYS_GetDungeonSys(struct IssSystem *issSystem);
-extern u32 ISS_DUNGEON_SYS_IsActive(struct IssDungeonSys *dungeon);
-extern u32 ISS_DUNGEON_SYS_HasRecord(struct IssDungeonSys *dungeon, u16 areaId);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern u32 FIELD_PLAYER_GetFormCode(struct FieldPlayer *player);
+#include "event_disappear.h"
+#include "field_camera.h"
+#include "event_fieldmap_control.h"
+#include "../arm9/field_sound_system.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/iss_sys.h"
+#include "../arm9/iss_dungeon_sys.h"
+#include "field_player.h"
 struct GameData;
-extern u32 GAME_DATA_GetBgmInfo(const GameData *gameData);
+#include "../arm9/game_data.h"
 struct FieldSoundSystem;
-extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(struct FieldSoundSystem *fieldSound, struct GameData *gameData, u16 zoneId, u8 season);
-extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutTask(GameSystem *gameSystem, u32 frames);
 GameEvent *EVENT_ENTRANCE_IN_Create(EntranceParam *param);
 u32 EVENT_ENTRANCE_IN_RunPlain(GameEvent *event, int *seq, EntranceInWork *work);
 u32 EVENT_ENTRANCE_IN_RunGroundAnime(GameEvent *event, int *seq, EntranceInWork *work);
@@ -132,7 +122,7 @@ GameEvent *EVENT_ENTRANCE_IN_Create(EntranceParam *param)
         eventKind = ENTRANCE_EVENT_CAMERA;
         break;
     }
-    event = GAME_EVENT_Create(param->gameSystem, param->event, table.func[eventKind], sizeof(EntranceInWork));
+    event = GAME_EVENT_Create(param->gameSystem, param->event, (GameEventFunc)table.func[eventKind], sizeof(EntranceInWork));
     work = GAME_EVENT_GetWork(event);
     work->animHandle = 0;
     work->param = param;

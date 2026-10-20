@@ -2,8 +2,8 @@
 #ifndef PDWACC_DISP_TYPES_H
 #define PDWACC_DISP_TYPES_H
 
-#include "gsync_common_types.h"
-#include "pdwacc_message_types.h"
+#include "../ov123/gsync_common_types.h"
+#include "../ov123/pdwacc_message_types.h"
 
 #define PDWACC_BG_PALETTE_COUNT 15      /* palettes of the animated layer */
 #define PDWACC_BG_PALETTE_FRAMES 60     /* 15 palettes, 4 blend steps each */
@@ -43,7 +43,7 @@ typedef struct PdwaccDispWork {
     void *unusedTask;                   /* 0x984, deleted on exit if set, never set here */
     void *clactResources[PDWACC_RESOURCE_COUNT];        /* 0x988 */
     u8 unused_9AC[4];                   /* never accessed */
-    struct ClActor *actors[PDWACC_ACTOR_COUNT];         /* 0x9B0 */
+    struct ClactActor *actors[PDWACC_ACTOR_COUNT];         /* 0x9B0 */
     u16 heap;                           /* 0x9E4 */
     u8 unused_9E6[0x18A];               /* never accessed, allocation is 0xB70 bytes */
 } PdwaccDispWork;

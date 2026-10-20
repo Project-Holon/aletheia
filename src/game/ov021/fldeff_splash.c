@@ -66,14 +66,15 @@
 struct BbActDesc;
 struct BbActSys;
 struct BbActRec;
+#include "../arm9/billboard_act_types.h"
 struct FieldEffectSys;
-struct Actor;
+struct ClactActor;
 struct IcaAnime;
 struct Rec12;
 struct Mtx33;
 struct Big;
 struct BgTemplate;
-struct Bank;
+struct Unit;
 struct GfFont;
 struct MsgBank;
 struct Obj;
@@ -90,7 +91,7 @@ struct Desc;
 struct Evt;
 struct BigObj;
 struct Ctx;
-struct Sub02008C20Obj;
+struct RecordBlock;
 struct Self;
 struct S0201235C;
 
@@ -103,30 +104,6 @@ typedef struct FldEffBbRes {
     struct BbActSys *actSys;              /* 0x04 */
     u16 imageIdx;                         /* 0x08 */
 } FldEffBbRes;
-
-/* Entry template for BILLBOARD_ACT_CreateEntries (0x24 bytes). */
-typedef struct BbActDesc {
-    u16 imageIdx;
-    u16 scaleX;
-    u16 scaleY;
-    u8 alpha;
-    u8 pad07;
-    u32 visible;
-    u32 animEnable;
-    VecFx32 pos;
-    void (*onEnd)(void);
-    void *userData;
-} BbActDesc;
-
-/* Image record for BILLBOARD_ACT_CreateSlots. */
-typedef struct BbActRec {
-    void *resource;
-    u8 type;
-    u8 imageId;
-    u8 cellWidth;
-    u8 cellHeight;
-    u32 count;
-} BbActRec;
 
 /* Splash, billboard kind: record made by FLDEFF_SPLASH_CreateBoardRes (0xC bytes). */
 typedef struct SplashBoardRes {
@@ -163,56 +140,23 @@ typedef struct SplashModelWork {
     u16 objIdx;
 } SplashModelWork;
 
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *obj);
-extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *obj, VecFx32 *pos);
-extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
-extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
+#include "field_effect.h"
+#include "../arm9/billboard_act.h"
 struct BbActCmd;
-extern void BILLBOARD_ACT_SetEntryCommands(struct BbActSys *sys, s32 entryIndex, struct BbActCmd **cmdLists, u16 listCount);
-extern void BILLBOARD_ACT_SetEntryList(struct BbActSys *sys, s32 entryIndex, u32 listIndex);
-extern void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *sys, s32 entryIndex, u32 enabled);
-extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *o, u16 first, u32 count);
-extern u32 BILLBOARD_ACT_GetEntryLastCommand(struct BbActSys *sys, s32 entryIndex, u16 *lastCommand);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 FIELD_EFFECT_GetFieldMap(struct FieldEffectSys *sys);
+#include "../arm9/gfl_heap_wrap.h"
 struct FieldMap;
-extern struct BbActSys *FIELDMAP_GetGroundBbdAct(struct FieldMap *fieldMap);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 FIELD_EFFECT_GetArcHandle(struct FieldEffectSys *sys);
+#include "fieldmap.h"
 struct ArcHandle;
 struct G3dResource;
-extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
-extern void FIELD_EFFECT_ApplyPaletteTable(struct FieldEffectSys *x, void *b);
-extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *o, const struct BbActRec *recs, u32 n);
-extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *o, u32 first, u32 count);
-extern int FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
+#include "../arm9/g3d_system.h"
 struct FieldEffectObjFuncs;
-extern void FIELD_EFFECT_AddObject(struct FieldEffectSys *sys, struct FieldEffectObjFuncs *funcs, VecFx32 *pos, u32 mode, void *param, u32 priority);
-struct MmdlVec;
+struct VecFx32;
 struct Mmdl;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern u32 FIELD_EFFECT_GetFieldMapData(struct FieldEffectSys *sys);
+#include "../ov010/fldmmdl.h"
 struct FieldG3dObjResDesc;
-extern void FIELD_G3DOBJ_InitResDesc(struct FieldG3dObjResDesc *desc);
-extern void FIELD_G3DOBJ_SetResDescModel(struct FieldG3dObjResDesc *desc, u32 arc, u32 file);
-extern void FIELD_G3DOBJ_SetResDescAnimeArc(struct FieldG3dObjResDesc *desc, u32 arc);
-extern void FIELD_G3DOBJ_AddResDescAnimeFile(struct FieldG3dObjResDesc *desc, u16 file);
+#include "field_g3dobj.h"
 struct FieldG3dObjCtrl;
-extern int FIELD_G3DOBJ_AddResourceDefaultPal(struct FieldG3dObjCtrl *ctrl, struct FieldG3dObjResDesc *desc, s32 mode);
-extern u16 FIELD_G3DOBJ_AddObject(struct FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecFx32 *pos);
-extern void FIELD_G3DOBJ_SetObjectManualDraw(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 manualDraw);
-extern void FIELD_G3DOBJ_DeleteObject(struct FieldG3dObjCtrl *ctrl, s32 objIdx);
-extern void FIELD_G3DOBJ_DeleteResource(struct FieldG3dObjCtrl *ctrl, s32 resIdx);
 struct MmdlCheckInfo;
-extern void FLDMMDL_GetCheckInfo(struct Mmdl *mmdl, struct MmdlCheckInfo *info);
-extern int FLDMMDL_CheckCheckInfo(struct Mmdl *mmdl, struct MmdlCheckInfo *info);
-extern int FLDMMDL_CheckMoveBitSplash(Mmdl *mmdl);
-extern VecFx32 *FIELD_G3DOBJ_GetObjectTrans(struct FieldG3dObjCtrl *ctrl, s32 objIdx);
-extern int FIELD_G3DOBJ_GetObjectRedrawFlag(struct FieldG3dObjCtrl *ctrl, s32 objIdx);
-extern int FIELD_G3DOBJ_LoopAnimeFrame(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 speed);
-extern void FIELD_G3DOBJ_SetObjectRedrawFlag(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 redrawFlag);
-extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *obj, VecFx32 *out);
-extern void FIELD_G3DOBJ_DrawObject(struct FieldG3dObjCtrl *ctrl, s32 objIdx);
 /* Retain the mode used to store f59 for the helper's second argument. */
 SplashBoardRes *FLDEFF_SPLASH_CreateBoardRes(FieldEffectSys *sys, u32 heapId);
 void FLDEFF_SPLASH_DeleteBoardRes(u32 unused, SplashBoardRes *res);
@@ -263,13 +207,13 @@ void FLDEFF_SPLASH_LoadBoardImage(SplashBoardRes *res)
     BbActRec rec;
     u32 arcHandle = FIELD_EFFECT_GetArcHandle((struct FieldEffectSys *)res->sys);
 
-    rec.type = 2;
-    rec.imageId = 0x13;
-    rec.cellWidth = 0x10;
-    rec.cellHeight = 0x10;
-    rec.count = 1;
-    rec.resource = G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)arcHandle, 0x2d);
-    FIELD_EFFECT_ApplyPaletteTable((struct FieldEffectSys *)res->sys, rec.resource);
+    rec.format = 2;
+    rec.sizeS = 0x13;
+    rec.sizeT = 0x10;
+    rec.paletteId = 0x10;
+    rec.kind = 1;
+    rec.resource = (u32)G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)arcHandle, 0x2d);
+    FIELD_EFFECT_ApplyPaletteTable((struct FieldEffectSys *)res->sys, (void *)rec.resource);
     res->imageIdx = BILLBOARD_ACT_CreateSlots(res->actSys, &rec, 1);
 }
 
@@ -299,20 +243,20 @@ void FLDEFF_SPLASH_InitBoardObj(FieldEffectObj *obj, SplashBoardWork *work)
     BbActDesc desc;
 
     work->param = *param;
-    FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(work->param.mmdl, (struct VecFx32 *)(&pos));
     bbRes = (FldEffBbRes *)work->param.res;
     actSys = (u32)bbRes->actSys;
     pos.y -= 0xE000;
     pos.z -= 0xA000;
-    desc.imageIdx = bbRes->imageIdx;
-    desc.scaleX = 0x1000;
-    desc.scaleY = 0x1000;
-    desc.alpha = 0x1f;
-    desc.visible = 1;
-    desc.animEnable = 1;
+    desc.slot = bbRes->imageIdx;
+    desc.width = 0x1000;
+    desc.height = 0x1000;
+    desc.layer = 0x1f;
+    desc.flags = 1;
+    desc.color = 1;
     desc.pos = pos;
-    desc.onEnd = 0;
-    desc.userData = work;
+    desc.hook = 0;
+    desc.hookArg = (u32)work;
     work->entryId = BILLBOARD_ACT_CreateEntries((struct BbActSys *)actSys, 0, &desc, 1, 3);
     if (work->entryId == 0xFFFF) {
         FIELD_EFFECT_DeleteObject(obj);
@@ -366,25 +310,25 @@ void FLDEFF_SPLASH_DeleteModelRes(u32 unused, SplashModelRes *res)
 void FLDEFF_SPLASH_LoadModel(SplashModelRes *res)
 {
     u32 resDesc[9];
-    u32 g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((struct FieldEffectSys *)res->sys);
+    struct FieldG3dObjCtrl *g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((struct FieldEffectSys *)res->sys);
     u32 arcHandle = FIELD_EFFECT_GetArcHandle((struct FieldEffectSys *)res->sys);
 
     FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)resDesc);
     FIELD_G3DOBJ_SetResDescModel((struct FieldG3dObjResDesc *)resDesc, arcHandle, 0x5f);
     FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)resDesc, arcHandle);
     FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)resDesc, 0x6a);
-    res->resIdx = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjCtrl, (struct FieldG3dObjResDesc *)resDesc, 0);
-    res->objIdx = FIELD_G3DOBJ_AddObject((struct FieldG3dObjCtrl *)g3dObjCtrl, res->resIdx, 0, 0);
-    FIELD_G3DOBJ_SetObjectManualDraw((struct FieldG3dObjCtrl *)g3dObjCtrl, res->objIdx, 1);
+    res->resIdx = FIELD_G3DOBJ_AddResourceDefaultPal(g3dObjCtrl, (struct FieldG3dObjResDesc *)resDesc, 0);
+    res->objIdx = FIELD_G3DOBJ_AddObject(g3dObjCtrl, res->resIdx, 0, 0);
+    FIELD_G3DOBJ_SetObjectManualDraw(g3dObjCtrl, res->objIdx, 1);
 }
 
 /* Deletes the model object and its resource. */
 void FLDEFF_SPLASH_UnloadModel(SplashModelRes *res)
 {
-    u32 g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((struct FieldEffectSys *)res->sys);
+    struct FieldG3dObjCtrl *g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((struct FieldEffectSys *)res->sys);
 
-    FIELD_G3DOBJ_DeleteObject((struct FieldG3dObjCtrl *)g3dObjCtrl, res->objIdx);
-    FIELD_G3DOBJ_DeleteResource((struct FieldG3dObjCtrl *)g3dObjCtrl, res->resIdx);
+    FIELD_G3DOBJ_DeleteObject(g3dObjCtrl, res->objIdx);
+    FIELD_G3DOBJ_DeleteResource(g3dObjCtrl, res->resIdx);
 }
 
 /* Adds one splash model object for the model mmdl. */
@@ -405,7 +349,7 @@ void FLDEFF_SPLASH_InitModelObj(FieldEffectObj *obj, SplashModelWork *work)
 
     work->param = *param;
     FLDMMDL_GetCheckInfo(work->param.mmdl, (struct MmdlCheckInfo *)work->checkInfo);
-    FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(work->param.mmdl, (struct VecFx32 *)(&pos));
     pos.z += 0x8000;
     FIELD_EFFECT_SetObjectPos(obj, &pos);
     work->objIdx = work->param.res->objIdx;
@@ -419,7 +363,7 @@ void FLDEFF_SPLASH_UpdateModelObj(FieldEffectObj *obj, SplashModelWork *work)
 {
     VecFx32 pos;
     int objIdx;
-    int g3dObjCtrl;
+    struct FieldG3dObjCtrl *g3dObjCtrl;
 
     if (FLDMMDL_CheckCheckInfo(work->param.mmdl, (struct MmdlCheckInfo *)work->checkInfo) == 0) {
         FIELD_EFFECT_DeleteObject(obj);
@@ -431,12 +375,12 @@ void FLDEFF_SPLASH_UpdateModelObj(FieldEffectObj *obj, SplashModelWork *work)
     }
     objIdx = work->objIdx;
     g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((struct FieldEffectSys *)work->param.res->sys);
-    FIELD_G3DOBJ_GetObjectTrans((struct FieldG3dObjCtrl *)g3dObjCtrl, objIdx);
-    if ((struct FieldG3dObjCtrl *)FIELD_G3DOBJ_GetObjectRedrawFlag((struct FieldG3dObjCtrl *)g3dObjCtrl, objIdx) == 0) {
-        FIELD_G3DOBJ_LoopAnimeFrame((struct FieldG3dObjCtrl *)g3dObjCtrl, objIdx, 0x1000);
-        FIELD_G3DOBJ_SetObjectRedrawFlag((struct FieldG3dObjCtrl *)g3dObjCtrl, objIdx, 1);
+    FIELD_G3DOBJ_GetObjectTrans(g3dObjCtrl, objIdx);
+    if (FIELD_G3DOBJ_GetObjectRedrawFlag(g3dObjCtrl, objIdx) == 0) {
+        FIELD_G3DOBJ_LoopAnimeFrame(g3dObjCtrl, objIdx, 0x1000);
+        FIELD_G3DOBJ_SetObjectRedrawFlag(g3dObjCtrl, objIdx, 1);
     }
-    FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(work->param.mmdl, (struct VecFx32 *)(&pos));
     pos.z += 0x8000;
     FIELD_EFFECT_SetObjectPos(obj, &pos);
 }
@@ -445,11 +389,11 @@ void FLDEFF_SPLASH_UpdateModelObj(FieldEffectObj *obj, SplashModelWork *work)
 void FLDEFF_SPLASH_DrawModelObj(FieldEffectObj *obj, SplashModelWork *work)
 {
     u16 objIdx = work->objIdx;
-    u32 g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((struct FieldEffectSys *)work->param.res->sys);
-    VecFx32 *dst = (VecFx32 *)FIELD_G3DOBJ_GetObjectTrans((struct FieldG3dObjCtrl *)g3dObjCtrl, objIdx);
+    struct FieldG3dObjCtrl *g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((struct FieldEffectSys *)work->param.res->sys);
+    VecFx32 *dst = (VecFx32 *)FIELD_G3DOBJ_GetObjectTrans(g3dObjCtrl, objIdx);
     VecFx32 pos;
 
     FIELD_EFFECT_GetObjectPos(obj, &pos);
     *dst = pos;
-    FIELD_G3DOBJ_DrawObject((struct FieldG3dObjCtrl *)g3dObjCtrl, objIdx);
+    FIELD_G3DOBJ_DrawObject(g3dObjCtrl, objIdx);
 }

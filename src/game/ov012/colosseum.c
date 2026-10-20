@@ -59,29 +59,23 @@
 #include "../arm9/net_types.h"
 #include "../ov006/event_wificlub_types.h"
 
-extern u32 GFL_NET_IsParentAid(void);
+#include "../arm9/net.h"
 
-extern int GFL_NET_GetNegotiationNum(void);
 
-extern void MI_CpuFill8(void *dst, int value, int size);
+#include "../arm9/mi_memory.h"
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 
-extern int GFL_NET_SendToHandle(GFLNetHandle *handle, u32 command, u32 size, const void *data);
 
-extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 
-extern u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 
-extern struct Party *POKEPARTY_Create(u32 heapId);
+#include "../arm9/pokeparty.h"
 
-extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 
-extern void POKEPARTY_Init(struct Party *party);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
+#include "../arm9/net_command.h"
 
 void COLOSSEUM_AddCommandTable(UnionRoomWork *unionRoom);
 
@@ -90,7 +84,7 @@ extern u32 gColosseumCommandTable[];
 /* Registers the colosseum network commands (base id 0x1500, 14 entries). */
 void COLOSSEUM_AddCommandTable(UnionRoomWork *unionRoom)
 {
-    GFL_NET_COMMAND_AddCommandTable((u32)0x1500, (u32)gColosseumCommandTable, (u32)14, (u32)unionRoom);
+    GFL_NET_COMMAND_AddCommandTable((u32)0x1500, (uptr)gColosseumCommandTable, (u32)14, (uptr)unionRoom);
 }
 
 /* Net command ids of the colosseum. The receive callbacks sit in the union
@@ -145,36 +139,32 @@ typedef struct ColosseumBattleInfo {
     void *trainerRecord;                                /* 0x54 */
 } ColosseumBattleInfo;
 
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *msg);
+#include "../arm9/gf_panic.h"
 
-extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 
-extern int POKE_REGULATION_GetDataSize(void);
+#include "../arm9/poke_regulation.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *COMM_PLAYER_Create(int playerMax, void *gameSystem, u16 heapId, int sysOption);
+#include "../ov010/comm_player.h"
 struct GameData;
 
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+#include "../arm9/game_data.h"
 struct MyStatus;
 
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+#include "../arm9/mystatus.h"
 
-extern void OS_GetMacAddress(u8 *macAddress);
+#include "../arm9/os_ownerinfo.h"
 struct TrainerCardProfile;
 
-extern void TRCARD_SYS_BuildProfile(struct TrainerCardProfile *out, void *save, s32 mode, s32 flag, u16 heap);
+#include "../ov010/trcard_sys.h"
 struct CommPlayerWork;
 
-extern void COMM_PLAYER_Delete(void *gameSystem, struct CommPlayerWork *work);
 
 void COLOSSEUM_SetupBattleMember(ColosseumWork *colosseum, ColosseumBattleMember *member, u8 playerIndex, int heapId);
 struct GameSystem;
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void *GAME_DATA_GetTrainerRecord(const struct GameData *gameData);
 
 u8 *COLOSSEUM_GetRecvBuffer(int netId, u8 *buffer, int size);
 

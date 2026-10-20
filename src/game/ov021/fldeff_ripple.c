@@ -39,11 +39,11 @@
  *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  */
 #include "../arm9/billboard_act_types.h"
+#include "../arm9/g3d_system_types.h"
 #include "field_effect_types.h"
 
 typedef struct ArcHandle ArcHandle;
 
-typedef struct G3dResource G3dResource;                 /* layouts in arm9/g3d_system_types.h */
 
 /* Resources of the ripple effect (allocated 0xC bytes by FLDEFF_RIPPLE_Create). */
 typedef struct RippleWork {
@@ -58,31 +58,25 @@ typedef struct RippleStartParam {
     VecFx32 pos;
 } RippleStartParam;
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct FieldEffectSys;
 
-extern u32 FIELD_EFFECT_GetFieldMap(FieldEffectSys *fieldEffect);
+#include "field_effect.h"
 
-extern struct BbActSys *FIELDMAP_GetGroundBbdAct(struct FieldMap *fieldMap);
+#include "fieldmap.h"
 
-extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
+#include "../arm9/g3d_system.h"
 
-extern void FIELD_EFFECT_ApplyPaletteTable(struct FieldEffectSys *sys, void *model);
 
-extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec *recs, u32 count);
+#include "../arm9/billboard_act.h"
 
-extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count);
 
-extern void FLDMMDL_MOVE_GridToVectorPos(int x, int y, int *p);
+#include "../ov010/fldmmdl_move.h"
 
-extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
 struct FieldEffectObjFuncs;
 
-extern void FIELD_EFFECT_AddObject(struct FieldEffectSys *sys, struct FieldEffectObjFuncs *funcs, VecFx32 *pos, u32 mode, void *param, u32 priority);
 
 RippleWork *FLDEFF_RIPPLE_Create(FieldEffectSys *fieldEffect, u32 heapId);
 
@@ -104,24 +98,15 @@ typedef struct RippleObjWork {
     u16 entryId;
 } RippleObjWork;
 
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *obj);
 
-extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *obj, VecFx32 *pos);
 
-extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
 
-extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
 struct BbActCmd;
 
-extern void BILLBOARD_ACT_SetEntryCommands(struct BbActSys *sys, s32 entryIndex, struct BbActCmd **cmdLists, u16 listCount);
 
-extern void BILLBOARD_ACT_SetEntryList(struct BbActSys *sys, s32 entryIndex, u32 listIndex);
 
-extern void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *sys, s32 entryIndex, u32 enabled);
 
-extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *o, u16 first, u32 count);
 
-extern u32 BILLBOARD_ACT_GetEntryLastCommand(struct BbActSys *p, int i, u16 *out);
 
 void FLDEFF_RIPPLE_InitObj(FieldEffectObj *obj, RippleObjWork *work);
 
@@ -182,7 +167,7 @@ void FLDEFF_RIPPLE_Start(FieldEffectSys *fieldEffect, int gridX, int gridZ, fx32
     VecFx32 pos;
     RippleStartParam param;
 
-    FLDMMDL_MOVE_GridToVectorPos(gridX, gridZ, (int *)(&pos));
+    FLDMMDL_MOVE_GridToVectorPos(gridX, gridZ, (VecFx32 *)((int *)(&pos)));
     pos.y = height - 0x8000;
     pos.z -= 0x5000;
     param.work = (struct RippleWork *)FIELD_EFFECT_GetResource(fieldEffect, 7);

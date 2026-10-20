@@ -41,6 +41,7 @@
  *   _fsub                        0x0209CB8C  arm
  */
 #include "../types.h"
+#include "../arm9/bmp_oam.h"
 
 #include "field_place_name_types.h"
 
@@ -50,43 +51,18 @@ typedef struct Bmp Bmp;
 typedef struct BmpOamSys BmpOamSys;
 typedef struct BmpOam BmpOam;
 
-/* Same layout as struct BmpOamParam in arm9/bmp_oam.c. */
-typedef struct BmpOamParam {
-    const Bmp *bmp;                     /* 0x00 */
-    s16 x;                              /* 0x04 */
-    s16 y;                              /* 0x06 */
-    u32 animResId;                      /* 0x08 */
-    u32 palette;                        /* 0x0C */
-    u8 drawPriority;                    /* 0x10 */
-    u8 bgPriority;                      /* 0x11 */
-    u16 space;                          /* 0x12 */
-    u32 engine;                         /* 0x14 */
-} BmpOamParam;
-
 /* Bitmap size of one letter in 8x8 tiles. */
 #define PLACE_NAME_LETTER_TILES_WIDE 2
 #define PLACE_NAME_LETTER_TILES_HIGH 2
 #define PLACE_NAME_LETTER_BMP_DEPTH 0x20
 #define PLACE_NAME_LETTER_PRINT_COLOR 0x440
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BMP_Clear(Bmp *bmp, u8 value);
-extern void STRBUF_Delete(Strbuf *strbuf);
-extern void MI_CpuFill8(void *dst, int value, int size);
-extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern u16 STRBUF_GetEosChar(void);
-extern Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
-extern void BMP_Delete(Bmp *bmp);
-extern BmpOam *BMP_OAM_Create(BmpOamSys *sys, const BmpOamParam *param);
-extern void BMP_OAM_Delete(BmpOam *bmpOam);
-extern void STRBUF_SetStringN(Strbuf *strbuf, const u16 *chars, u32 count);
-extern void PRINTSYS_PrintColor(Bmp *bmp, s16 x, s16 y, Strbuf *strbuf, GfFont *font, u16 color);
-extern void BMP_OAM_UploadChars(BmpOam *bmpOam);
-extern void BMP_OAM_SetPos(BmpOam *bmpOam, int x, int y);
-extern void BMP_OAM_SetEnabled(BmpOam *bmpOam, unsigned int visible);
-extern u32 PRINTSYS_MeasureWidestLine(Strbuf *strbuf, GfFont *font, u32 spacing);
-extern u32 PRINTSYS_CountLines(Strbuf *strbuf, GfFont *font);
+#include "../arm9/gfl_heap_wrap.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/printsys.h"
 PlaceNameLetter *PLACE_NAME_LETTER_Create(u32 heapId, BmpOamSys *bmpOamSys, u16 space, int paletteId);
 void PLACE_NAME_LETTER_Delete(PlaceNameLetter *letter);
 void PLACE_NAME_LETTER_Setup(PlaceNameLetter *letter, const PlaceNameLetterParam *param);
@@ -246,7 +222,7 @@ void PLACE_NAME_LETTER_DeleteBmp(PlaceNameLetter *letter)
 
 void PLACE_NAME_LETTER_CreateBmpOam(PlaceNameLetter *letter, BmpOamSys *bmpOamSys, u16 space, int paletteId)
 {
-    BmpOamParam param;
+    struct BmpOamParam param;
     param.bmp = letter->bmp;
     param.x = 0;
     param.y = 0;
@@ -505,7 +481,8 @@ void PLACE_NAME_LETTER_UpdateOamPos(PlaceNameLetter *letter)
     PlaceNameLetterMotion *motion = PLACE_NAME_LETTER_GetMotion(letter);
     int x = (int)motion->x;
     int y = (int)motion->y;
-    BMP_OAM_SetPos(letter->bmpOam, x, y);
+    /* The definition takes s16 coordinates; the original caller passed ints (likely original mismatch). */
+    ((void (*)(BmpOam *, int, int))BMP_OAM_SetPos)(letter->bmpOam, x, y);
 }
 
 void PLACE_NAME_LETTER_SetVisibleRaw(PlaceNameLetter *letter, unsigned int visible)

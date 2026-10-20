@@ -46,6 +46,8 @@
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  */
 #include "../types.h"
+#include "zukan_types.h"
+#include "../ov211/zukan_search_types.h"
 
 struct Proc;
 
@@ -84,14 +86,6 @@ struct ZukanWork {
     void *subWork;            /* 0x28 argument object of the running sub proc */
 };
 
-/* Argument object of the ov211 search proc (12 bytes). Layout matches the
- * ZukanSearchOwner record in ov211/zukan_search_types.h. */
-struct ZukanSearchOwner {
-    void *gameData;   /* 0x00 */
-    void *context;    /* 0x04 trainer status */
-    u32 state;        /* 0x08 result the search writes back */
-};
-
 /* Argument object of the ov209 list proc (20 bytes). Layout matches the
  * ZukanListArgs record in ov209/zukan_list.c. */
 struct ZukanListArgs {
@@ -123,57 +117,35 @@ struct ZukanDetailArgs {
     int step;         /* 0x10 result the detail screen writes back */
 };
 
-/* Descriptor ZUKAN_CreateActor builds one CLACT actor from. Layout matches
- * ZknSearchActorTemplate in ov210/zknsearch_main.c. */
-struct ZknSearchActorTemplate {
-    int kind;      /* 0x00 */
-    u16 id;        /* 0x04 */
-    u16 flags;     /* 0x06 */
-    int charIdx;   /* 0x08 character resource index */
-    int palIdx;    /* 0x0C palette resource index */
-    int cellIdx;   /* 0x10 cell resource index */
-    u16 x;         /* 0x14 */
-    u16 y;         /* 0x16 */
-};
+#include "../arm9/gfl_heap.h"
 
-extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
+#include "../arm9/procsys.h"
 
-extern void *PROCSYS_AllocProcWork(struct Proc *,unsigned,unsigned);
+#include "../arm9/mi_memory.h"
 
-extern void MI_CpuFill8(void *,unsigned char,unsigned);
 
-extern void *PROCSYS_Create(int);
+extern unsigned int PROCSYS_Main(ProcSys *sys);
 
-extern unsigned PROCSYS_Main(void *);
+extern void PROCSYS_Delete(ProcSys *sys);
 
-extern void PROCSYS_Delete(struct S020314B8 *);
 
-extern void PROCSYS_FreeProcWork(struct Proc *);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void GFL_HEAP_DeleteChecked(u32 heap);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
+extern void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
 
-extern void PROCSYS_Push(struct ProcSys *,unsigned,unsigned,unsigned);
-
-extern void *ZUKAN_SAVE_GetFromGameData(void *);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
 
-extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct ZukanSave *pZukan);
 
-extern void ZUKAN_SAVE_SetLastViewedSpecies(struct ZukanSave *pZukan, unsigned int value);
 
-extern unsigned ZUKAN_SAVE_GetViewMode(struct ZukanSave *pZukan);
 
-extern unsigned ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, unsigned short species);
 
-extern unsigned ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, unsigned short species);
 
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
+#include "../arm9/wipe.h"
 
-extern void BG_SYS_ChangeScroll(u32,u32,u32);
+#include "../arm9/bg_sys.h"
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
@@ -205,7 +177,7 @@ void ZUKAN_StartProc208(struct ZukanWork *p);
 
 int ZUKAN_ResumeProc208(struct ZukanWork *p);
 
-u16 ZUKAN_LoadListAndSelection(struct Blk37 *save,u16 **out,unsigned heap);
+u16 ZUKAN_LoadListAndSelection(struct Blk37 *save,u16 **out,u16 heap);
 
 void ZUKAN_FixLastViewedSpecies(void *p,u16 *ids,unsigned count);
 
@@ -221,7 +193,7 @@ void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
 
 struct Obj *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap);
 
-u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,int heap,u16 **out);
+#include "zukan_search_engine.h"
 
 extern unsigned char d_021C9944[];
 
@@ -310,7 +282,7 @@ void ZUKAN_StartProc211(struct ZukanWork *p)
     p->subWork=q;
     q->gameData=p->ctx->gameData;
     q->context=p->ctx->myStatus;
-    PROCSYS_Push(p->proc,(unsigned)ov211_id,(unsigned)d_021BC8BC,(unsigned)p->subWork);
+    PROCSYS_Push((ProcSys *)p->proc,(unsigned)ov211_id,(const ProcData *)((unsigned)d_021BC8BC),(void *)((unsigned)p->subWork));
     ZUKAN_SetResumeState(p,2);
 }
 
@@ -349,7 +321,7 @@ void ZUKAN_StartProc209(struct ZukanWork *p)
         q->ids=p->idList;
         q->count=p->count;
     }
-    PROCSYS_Push(p->proc,(unsigned)ov209_id,(unsigned)d_021BE794,(unsigned)p->subWork);
+    PROCSYS_Push((ProcSys *)p->proc,(unsigned)ov209_id,(const ProcData *)((unsigned)d_021BE794),(void *)((unsigned)p->subWork));
     ZUKAN_SetResumeState(p,4);
 }
 
@@ -404,7 +376,7 @@ void ZUKAN_StartProc210(struct ZukanWork *p)
     q->query=p->query;
     q->idList=0;
     q->count=0;
-    PROCSYS_Push(p->proc,(unsigned)ov210_id,(unsigned)d_021C0714,(unsigned)p->subWork);
+    PROCSYS_Push((ProcSys *)p->proc,(unsigned)ov210_id,(const ProcData *)((unsigned)d_021C0714),(void *)((unsigned)p->subWork));
     ZUKAN_SetResumeState(p,8);
 }
 
@@ -456,7 +428,7 @@ void ZUKAN_StartProc208(struct ZukanWork *p)
     for(i=0;i<q->count;i++){
         if(q->idList[i]==selected){q->index=i;break;}
     }
-    PROCSYS_Push(p->proc,(unsigned)ov208_id,(unsigned)d_021C8108,(unsigned)q);
+    PROCSYS_Push((ProcSys *)p->proc,(unsigned)ov208_id,(const ProcData *)((unsigned)d_021C8108),(void *)((unsigned)q));
     p->subWork=q;
     ZUKAN_SetResumeState(p,6);
 }
@@ -487,7 +459,7 @@ int ZUKAN_ResumeProc208(struct ZukanWork *p)
  * lever: branch-local calls retain the original boolean polarity and hoist
  * the shared output-address setup; initializing selected follows the call.
  */
-u16 ZUKAN_LoadListAndSelection(struct Blk37 *save,u16 **out,unsigned heap)
+u16 ZUKAN_LoadListAndSelection(struct Blk37 *save,u16 **out,u16 heap)
 {
     u16 *list;
     unsigned count,i;

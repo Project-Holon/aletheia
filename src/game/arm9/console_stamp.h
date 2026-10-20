@@ -1,6 +1,10 @@
 #ifndef GAME_ARM9_CONSOLE_STAMP_H
 #define GAME_ARM9_CONSOLE_STAMP_H
 
+struct ConsoleStamp *CONSOLE_STAMP_GetFromSave(struct SaveControl *control);
+struct DailyClock *CONSOLE_STAMP_GetDailyClock(struct SaveControl *control);
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of console_stamp.c, prototypes copied from their definitions. */
 
 struct ConsoleStamp;
@@ -22,5 +26,6 @@ void DAILY_CLOCK_Init(struct DailyClock *clock);
 int DAILY_CLOCK_HasAllowance(const struct DailyClock *clock);
 void DAILY_CLOCK_Spend(struct DailyClock *clock, u32 minutes);
 void DAILY_CLOCK_Refill(struct DailyClock *clock);
+/* END mkheaders: generated region */
 
 #endif

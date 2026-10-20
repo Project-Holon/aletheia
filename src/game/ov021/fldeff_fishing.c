@@ -50,23 +50,13 @@
  *   _fflt                        0x0209BDBC  arm
  */
 #include "../ov010/fldmmdl_types.h"
+#include "../arm9/g3d_system_types.h"
 #include "field_effect_types.h"
 
 /* Opaque types of other files. */
 #include "../sdk_fx.h"
 
 typedef struct ArcHandle ArcHandle;
-typedef struct G3dResource G3dResource;                 /* layouts in arm9/g3d_system_types.h */
-typedef struct G3dRender G3dRender;
-typedef struct G3dAnime G3dAnime;
-typedef struct G3dObject G3dObject;
-
-/* Position, scale and rotation an object is drawn with. */
-typedef struct G3dObjectStatus {
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
-} G3dObjectStatus;
 
 /* Converts a float constant to 20.12 fixed point, rounding away from zero. */
 #define FX_F32_TO_FX32(x) \
@@ -116,35 +106,16 @@ typedef struct GridPos {
 
 typedef int (*TrainerEyeSightFunc)(int range, const GridPos *trainerPos, const GridPos *targetPos);
 
-extern void MTX_Identity33_(MtxFx33 *mtx);
-extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
-extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/fx_mtx33.h"
+#include "field_effect.h"
+#include "../arm9/g3d_system.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct FieldEffectSys;
-extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
-extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
-extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
-extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
-extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
-extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
-extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
-extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
-extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
-extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
-extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
-extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
 FishingRodRes *FLDEFF_FISHING_Create(FieldEffectSys *fieldEffect, u32 heapId);
 void FLDEFF_FISHING_Delete(FieldEffectSys *fieldEffect, FishingRodRes *res);
 void FLDEFF_FISHING_LoadResources(FishingRodRes *res);
 void FLDEFF_FISHING_FreeResources(FishingRodRes *res);
-void FLDEFF_FISHING_Start(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 rodKind, u32 side);
+FieldEffectObj *FLDEFF_FISHING_Start(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 rodKind, u32 side);
 void FLDEFF_FISHING_SetAnimeSpeed(FieldEffectObj *effect, u16 animeSpeed);
 void FLDEFF_FISHING_Init(FieldEffectObj *effect, FishingRodWork *work);
 void FLDEFF_FISHING_Exit(void);
@@ -195,7 +166,7 @@ void FLDEFF_FISHING_FreeResources(FishingRodRes *res)
 }
 
 /* Starts the rod effect; the depth depends on the rod kind and the side of the cast. */
-void FLDEFF_FISHING_Start(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 rodKind, u32 side)
+FieldEffectObj *FLDEFF_FISHING_Start(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 rodKind, u32 side)
 {
     FishingRodOffsets offsets = sFishingRodOffsets;
     FishingRodStartParam param;
@@ -211,7 +182,7 @@ void FLDEFF_FISHING_Start(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 r
         fixed = ((float)(offset << 12) - 0.5f);
     }
     param.pos.z += (int)fixed;
-    FIELD_EFFECT_AddObject(fieldEffect, &sFishingFuncs, 0, 0, &param, 0);
+    return FIELD_EFFECT_AddObject(fieldEffect, &sFishingFuncs, 0, 0, &param, 0);
 }
 
 /* Sets the animation speed level of the rod effect (1 when a fish bites). */

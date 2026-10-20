@@ -17,7 +17,7 @@
  */
 #include "../ov093/btl_records_types.h"
 
-extern void MI_CpuFill8(void *, int, u32);
+#include "../arm9/mi_memory.h"
 void BTL_WAZAREC_Init(BtlWazaRec *p);
 void BTL_WAZAREC_Add(BtlWazaRec *p, u32 wazaId, u32 turn, u32 pokeId);
 void BTL_WAZAREC_SetEffectiveLast(BtlWazaRec *p);

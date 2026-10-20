@@ -21,10 +21,11 @@
  *   key_File                         0x020A799C  data
  */
 #include "touchpanel_shared_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../types.h"
 
-#define REG_KEYINPUT        0x04000130
+#define REG_KEYINPUT        REG_KEYINPUT_ADDR
 
 #define PAD_ALL_MASK        0x2FFF
 

@@ -94,51 +94,40 @@ typedef struct FieldSaveAnime {
 #define _SAVEANIME_BG_FRAME 3
 #define _SAVEANIME_STEP_NUM 4
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_FreeSlot(u8 idx);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/bg_sys.h"
 extern void *GFL_USE_AddMainTask(void *, void *, int);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/tcb_list.h"
+#include "../arm9/arc_tool.h"
+#include "fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
+#include "../arm9/mystatus.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "field_camera.h"
 extern void ARC_UTIL_UploadPaletteFromHandle(void *h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u32 heap);
-extern void ARC_TOOL_DeleteHandle(void *h);
-extern void BMP_Delete(struct Bmp *p);
 struct FieldPlayer;
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 struct FieldCamera;
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
 struct G3dCamera;
-extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
+#include "field_player.h"
 extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3D_CAMERA_GetCamTarget(u32 l, V *out);
 extern void G3D_CAMERA_GetEye(u32 l, V *out);
 extern void VEC_Subtract(const V *a, const V *b, V *c);
 extern void VEC_Normalize(const V *a, V *b);
 extern void VEC_CrossProduct(const V *a, const V *b, V *c);
-extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void NNS_G3dWorldPosToScrPos(V *a, int *x, int *y);
 struct BmpWin;
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern u32 BG_SYS_SetPlaneVisible(u32 which, u32 enable);
-extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
 extern u16 BMP_WIN_GetCharOffset(struct BmpWin *win);
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
-extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern char d_021DE684[];
 extern const u32 d_021DB97C[];
 extern const V d_021DB984;
@@ -151,8 +140,8 @@ void FIELD_SAVEANIME_LoadResource(FieldSaveAnime *work, u32 heapId);
 u32 FIELD_SAVEANIME_DeleteResource(FieldSaveAnime *work);
 void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work);
 u32 FIELD_SAVEANIME_DeleteWindow(FieldSaveAnime *work);
-int FIELD_SAVEANIME_ShowWindow(FieldSaveAnime *work);
-int FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work);
+void FIELD_SAVEANIME_ShowWindow(FieldSaveAnime *work);
+void FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work);
 void FIELD_SAVEANIME_DrawFrame(FieldSaveAnime *work, u32 frame);
 void FIELD_SAVEANIME_AnimTask(void *tcb, FieldSaveAnime *work);
 
@@ -276,18 +265,18 @@ u32 FIELD_SAVEANIME_DeleteWindow(FieldSaveAnime *work)
     return 0;
 }
 
-int FIELD_SAVEANIME_ShowWindow(FieldSaveAnime *work)
+void FIELD_SAVEANIME_ShowWindow(FieldSaveAnime *work)
 {
     BMP_WIN_MakeScreen((struct Cfg *)work->bmpWin);
     BG_SYS_MarkTileDirty(_SAVEANIME_BG_FRAME);
-    return BG_SYS_SetPlaneVisible(_SAVEANIME_BG_FRAME, 1);
+    BG_SYS_SetPlaneVisible(_SAVEANIME_BG_FRAME, 1);
 }
 
-int FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work)
+void FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work)
 {
     BMP_WIN_ClearScreen(work->bmpWin);
     BG_SYS_MarkTileDirty(_SAVEANIME_BG_FRAME);
-    return BG_SYS_SetPlaneVisible(_SAVEANIME_BG_FRAME, 0);
+    BG_SYS_SetPlaneVisible(_SAVEANIME_BG_FRAME, 0);
 }
 
 /* Copies icon frame `frame` into the window and transfers its characters. */

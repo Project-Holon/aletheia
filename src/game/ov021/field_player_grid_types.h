@@ -1,7 +1,7 @@
 #ifndef ALETHEIA_OV021_FIELD_PLAYER_GRID_TYPES_H
 #define ALETHEIA_OV021_FIELD_PLAYER_GRID_TYPES_H
 
-#include "field_player_types.h"
+#include "../ov021/field_player_types.h"
 
 /*
  * The grid part of the field player (field_player_grid.c, 0x20 bytes). It

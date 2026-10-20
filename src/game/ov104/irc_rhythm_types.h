@@ -33,7 +33,7 @@ typedef struct IrcActorPlacement {
 /* Sprite system: one actor unit, three registered resource sets and the
  * actors created from them. */
 typedef struct IrcActorSystem {
-    struct Bank *unit;
+    struct Unit *unit;
     int particlePalette;
     int particleCharacter;
     int particleCellAnim;
@@ -43,7 +43,7 @@ typedef struct IrcActorSystem {
     int countdownPalette;
     int countdownCharacter;
     int countdownCellAnim;
-    struct Obj *actors[IRC_ACTOR_SYSTEM_ACTOR_COUNT];
+    struct ClactActor *actors[IRC_ACTOR_SYSTEM_ACTOR_COUNT];
 } IrcActorSystem;
 
 /* Background and sprite state of one game screen. */
@@ -53,13 +53,7 @@ typedef struct IrcScreen {
     void *vblankTask;
 } IrcScreen;
 
-/* Font, message bank, print queue and word set of a game. */
-typedef struct IrcTextSystem {
-    void *font;
-    void *messages;
-    void *printQueue;
-    void *wordSet;
-} IrcTextSystem;
+#include "../ov102/irc_text_system_types.h"
 
 /* A text window: the window, the bitmap it prints into, the print state and
  * the string buffer. */
@@ -101,7 +95,7 @@ typedef struct IrcRhythmNetSync {
 } IrcRhythmNetSync;
 
 typedef struct IrcRhythmParticle {
-    struct Obj *actor;
+    struct ClactActor *actor;
     u32 surface;
     u32 active;
     VecFx32 start;
@@ -121,7 +115,7 @@ typedef struct IrcRhythmParticles {
 
 /* The 3, 2, 1 countdown sprite. */
 typedef struct IrcRhythmCountdown {
-    struct Obj *actor;
+    struct ClactActor *actor;
     u32 reserved4[2];
     u32 frames;
     u32 step;

@@ -128,7 +128,7 @@ struct ScriptContext;
 struct ScrCmdWork;
 struct ScriptWork;
 struct EncounterState;
-struct ElboardText;
+struct ElLamp;
 
 typedef struct GimmickObjElboard GimmickObjElboard;
 
@@ -148,12 +148,7 @@ typedef struct ElboardRecordParams {
 #define ELBOARD_RECORD_PARAMS(record) ((ElboardRecordParams *)(record)->elboardParams)
 
 /* Date as the RTC call returns it. */
-typedef struct RtcDate {
-    int year;
-    int month;
-    int day;
-    int week;
-} RtcDate;
+#include "../sdk_rtc.h"
 
 #define ELBOARD_NO_PLACE 0x1AB  /* empty place slot */
 
@@ -193,7 +188,7 @@ typedef struct ElboardLine {
     u8 lineIndex;                   /* 0x00 */
     int isPlaying;                  /* 0x04 */
     int nextStarted;                /* 0x08: the next line was told to start */
-    struct ElboardText *text;       /* 0x0C */
+    struct ElLamp *text;       /* 0x0C */
     G3dObject *render;              /* 0x10 */
     u16 animIndex;                  /* 0x14 */
     fx32 elapsed;                   /* 0x18 */
@@ -237,91 +232,58 @@ typedef struct GateCameraEventWork {
     VecFx32 savedTarget;
 } GateCameraEventWork;
 
-extern void FIELD_GIMMICK_GATE_LogMessage(GateWork *work, int kind, int param);
+#include "field_gimmick_gate.h"
 struct GameData;
-extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
-extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
-extern int FIELD_GIMMICK_GATE_HasMessagesToShow(GateWork *work);
-extern int FIELD_GIMMICK_GATE_HasNewsEntry(void *frienddata);
-extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern int RTC_GetDate(RtcDate *date);
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 keta, u32 dispType, u32 codeType);
-extern void WORDSET_SetSlotMonth(struct WordSet *wordSet, u32 index, u32 month);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern struct WordSet *WORDSET_Create(u32 wordMax, u32 bufLen, u16 heapId);
+#include "../arm9/game_data.h"
+#include "../arm9/zonedata.h"
+#include "field_gimmick_gate_news.h"
+typedef int RTCResult;
+#include "../arm9/external.h"
+#include "../arm9/wordset.h"
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 ZONEDATA_GetPlaceNameId(u32 placeId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *str, u32 sex, u32 singular, u32 lang);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void STRBUF_Delete(struct Strbuf *str);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u16 FIELD_ENCOUNT_GetSwarmZoneId(struct GameData *gameData);
-extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
-extern int FIELD_GIMMICK_GATE_IsExtraSaveListOn(GateWork *work);
-extern void FIELD_GIMMICK_GATE_ReadExtraSaveValues(GateWork *work, u32 *outIds, int *outCount);
-extern void FIELD_GIMMICK_GATE_ReadSaveBlockValues(GateWork *work, u32 *outIds, int *outCount);
-extern void WORDSET_SetSlotSpeciesName(struct WordSet *wordSet, u32 index, u16 value);
+#include "../arm9/msgdata.h"
+#include "../arm9/strbuf.h"
+#include "../ov021/field_encount.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, void *myStatus);
-extern GateNewsEntry *FIELD_GIMMICK_GATE_FindNewsEntry(GateWork *work);
-extern GateNewsEntry *FIELD_GIMMICK_GATE_FindListNewsEntry(GateWork *work);
-extern int FIELDMAP_GetZoneWeatherId(struct FieldMap *fieldMap, int placeId);
+#include "../ov021/fieldmap.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
 struct MovePokemonSave;
-extern int MOVE_POKEMON_HasActiveEntry(struct MovePokemonSave *block);
-extern u32 GPOWER_GetSpecialPowerId(void);
-extern u32 MOVE_POKEMON_GetEntryZoneId(struct MovePokemonSave *block, u32 slot);
+#include "../ov010/move_pokemon.h"
+#include "../arm9/gpower.h"
 struct ScrcmdWork;
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+#include "../ov010/scrcmd_work.h"
 struct ScriptVm;
-extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../ov010/script_work_cmd.h"
+#include "../arm9/gfl_use.h"
+#include "../ov010/script_sys.h"
+#include "../arm9/gfl_heap_wrap.h"
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern unsigned int GF_FONT_Delete(struct GfFont *font);
-extern u32 GFL_HEAP_Free(void *p);
 struct G3dObject;
-extern s32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 animIndex, s32 *frame);
-extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 animIndex);
-extern int G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 animIndex);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 spacing);
-extern G3dRender *G3D_SYSTEM_GetObjectRender(G3dObject *obj);
-extern G3dResource *G3D_SYSTEM_GetRenderTexRes(G3dRender *render);
-extern struct ElboardText *EL_SCOREBOARD_CreateLamp(G3dResource *texRes, const char *textureName, const char *paletteName, struct Strbuf *str, u16 width, u16 flag, u16 heapId);
-extern G3dAnime *G3D_SYSTEM_GetObjectAnime(G3dObject *obj, int animIndex);
-extern NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(G3dAnime *anime);
-extern s32 G3D_SYSTEM_ResetObjectAnimeFrame(G3dObject *obj, u16 animIndex);
+#include "../arm9/printsys.h"
 struct ElLamp;
-extern void EL_SCOREBOARD_DeleteLamp(struct ElLamp *lamp);
-extern void EL_SCOREBOARD_TickLamp(struct ElLamp *lamp);
-extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int animIndex, int step);
-extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveId, u32 memberIndex, u32 mode, u32 size);
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
-extern struct FieldTaskManager *FIELDMAP_GetTaskManager(struct FieldMap *fieldMap);
-extern u16 FIELD_CAMERA_GetPitch(struct FieldCamera *camera);
-extern u16 FIELD_CAMERA_GetYaw(struct FieldCamera *camera);
-extern u32 FIELD_CAMERA_GetDistance(struct FieldCamera *camera);
-extern void FIELD_CAMERA_GetTargetShift(struct FieldCamera *camera, VecFx32 *outTarget);
-extern u8 FIELD_GIMMICK_GATE_GetBoardFacing(struct FieldMap *fieldMap);
-extern struct FieldTask *FIELD_TASK_CreateCameraDistanceTween(struct FieldMap *fieldMap, u16 frames, s32 targetDistance);
-extern struct FieldTask *FIELD_TASK_CreateCameraPitchTween(struct FieldMap *fieldMap, u16 frames, u16 pitch);
-extern struct FieldTask *FIELD_TASK_CreateCameraYawTween(struct FieldMap *fieldMap, u16 frames, u16 yaw);
-extern struct FieldTask *FIELD_TASK_CreateCameraTargetTween(struct FieldMap *fieldMap, u32 frames, VecFx32 *to);
-extern void FIELD_TASK_MANAGER_AddTask(struct FieldTaskManager *manager, struct FieldTask *task, struct FieldTask *prerequisite);
-extern int FIELD_TASK_MANAGER_IsEmpty(struct FieldTaskManager *taskManager);
-extern u32 KEY_GetTrg(void);
-typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
+#include "../arm9/arc_tool.h"
+#include "../ov021/field_camera.h"
+#include "../arm9/key.h"
+#include "../arm9/ica_anime_shared_types.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/move_pokemon_save.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/g3d_system.h"
+#include "../ov020/el_scoreboard.h"
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS caller passes the frame counts as u16 */
+#ifdef __MWERKS__
+#define FIELD_TASK_CreateCameraPitchTween FIELD_TASK_CreateCameraPitchTween_header
+#define FIELD_TASK_CreateCameraYawTween FIELD_TASK_CreateCameraYawTween_header
+#endif
+#include "../ov021/field_task_manager.h"
+#ifdef __MWERKS__
+#undef FIELD_TASK_CreateCameraPitchTween
+#undef FIELD_TASK_CreateCameraYawTween
+struct FieldTask *FIELD_TASK_CreateCameraPitchTween(struct FieldMap *fieldMap, u16 frames, u16 value);
+struct FieldTask *FIELD_TASK_CreateCameraYawTween(struct FieldMap *fieldMap, u16 frames, u16 value);
+#endif
+#include "../arm9/game_event.h"
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 void GIMMICK_OBJ_ELBOARD_AddMessage(GateWork *work, ElboardMessage *msg, int kind, GateNewsEntry *entry);
 void GIMMICK_OBJ_ELBOARD_FillMessages(GateWork *work);
 void GIMMICK_OBJ_ELBOARD_FillDefaultMessages(GateWork *work);
@@ -349,7 +311,7 @@ void GIMMICK_OBJ_ELBOARD_AddLine(GimmickObjElboard *board, const ElboardMessage 
 void GIMMICK_OBJ_ELBOARD_Delete(GimmickObjElboard *board);
 void GIMMICK_OBJ_ELBOARD_Advance(GimmickObjElboard *board, int step);
 int GIMMICK_OBJ_ELBOARD_GetScroll(GimmickObjElboard *board);
-int GIMMICK_OBJ_ELBOARD_GetHeapId(GimmickObjElboard *board);
+u16 GIMMICK_OBJ_ELBOARD_GetHeapId(GimmickObjElboard *board);
 int GIMMICK_OBJ_ELBOARD_GetLineCount(GimmickObjElboard *board);
 void GIMMICK_OBJ_ELBOARD_SetScroll(GimmickObjElboard *board, int scroll);
 ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const ElboardMessage *msg, int lineIndex);
@@ -455,7 +417,7 @@ void GIMMICK_OBJ_ELBOARD_FillNoticeMessages(GateWork *work)
 
 void GIMMICK_OBJ_ELBOARD_AddDateMessage(GateWork *work)
 {
-    struct { RtcDate date; ElboardMessage msg; } locals;
+    struct { RTCDate date; ElboardMessage msg; } locals;
     struct WordSet *wordSet;
 
     wordSet = WORDSET_CreateDefault(work->heapId);
@@ -593,7 +555,7 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
 void GIMMICK_OBJ_ELBOARD_AddDailyMessage1(GateWork *work)
 {
     ElboardMessage msg;
-    RtcDate date;
+    RTCDate date;
 
     RTC_GetDate(&date);
     switch (date.week) {
@@ -618,7 +580,7 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage1(GateWork *work)
 void GIMMICK_OBJ_ELBOARD_AddDailyMessage2(GateWork *work)
 {
     ElboardMessage msg;
-    RtcDate date;
+    RTCDate date;
 
     RTC_GetDate(&date);
     switch (date.week) {
@@ -643,7 +605,7 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage2(GateWork *work)
 void GIMMICK_OBJ_ELBOARD_AddDailyMessage3(GateWork *work)
 {
     ElboardMessage msg;
-    RtcDate date;
+    RTCDate date;
 
     RTC_GetDate(&date);
     switch (date.week) {
@@ -668,7 +630,7 @@ void GIMMICK_OBJ_ELBOARD_AddDailyMessage3(GateWork *work)
 void GIMMICK_OBJ_ELBOARD_AddWeekdayMessage(GateWork *work)
 {
     ElboardMessage msg;
-    RtcDate date;
+    RTCDate date;
 
     RTC_GetDate(&date);
     switch (date.week) {
@@ -992,7 +954,7 @@ int GIMMICK_OBJ_ELBOARD_GetScroll(GimmickObjElboard *board)
     return board->scroll;
 }
 
-int GIMMICK_OBJ_ELBOARD_GetHeapId(GimmickObjElboard *board)
+u16 GIMMICK_OBJ_ELBOARD_GetHeapId(GimmickObjElboard *board)
 {
     return board->heapId;
 }
@@ -1124,7 +1086,7 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
 
 void GIMMICK_OBJ_ELBOARD_DeleteLine(ElboardLine *line)
 {
-    EL_SCOREBOARD_DeleteLamp((struct ElLamp *)line->text);
+    EL_SCOREBOARD_DeleteLamp(line->text);
     GFL_HEAP_Free(line);
 }
 
@@ -1145,7 +1107,7 @@ void GIMMICK_OBJ_ELBOARD_UpdateLine(GimmickObjElboard *board, ElboardLine *line,
     int newElapsed;
 
     if (line->isPlaying == 1) {
-        EL_SCOREBOARD_TickLamp((struct ElLamp *)line->text);
+        EL_SCOREBOARD_TickLamp(line->text);
         G3D_SYSTEM_IncObjectAnimeFrame(line->render, line->animIndex, step);
         newElapsed = line->elapsed + step;
         line->elapsed = newElapsed;
@@ -1289,7 +1251,7 @@ struct GameEvent *GIMMICK_OBJ_ELBOARD_CreateCameraEvent(struct GameSystem *gameS
     struct GameEvent *event;
     GateCameraEventWork *work;
 
-    event = GAME_EVENT_Create(gameSystem, 0, GIMMICK_OBJ_ELBOARD_CameraEventMain, 0x20);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)GIMMICK_OBJ_ELBOARD_CameraEventMain, 0x20);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;

@@ -27,20 +27,13 @@
  *   CPS_SocBind  0x0215AAB0  arm  ov009
  *   CPS_TcpConnect  0x0215AC60  arm  ov009
  */
-/* One view of the SOCL socket; the three old views differed only in
-   how many of the trailing fields they named. */
-struct SOCLSocket {
-    unsigned char pad0[0xa8];
-    int result;                    /* 0xa8 */
-    volatile short state;          /* 0xac */
-    signed char flag_block;        /* 0xae */
-    signed char flag_mode;         /* 0xaf */
-    unsigned short local_port;     /* 0xb0 */
-    unsigned short remote_port;    /* 0xb2 */
-    unsigned long remote_ip;       /* 0xb4 */
-};
+#include "socl_types.h"
+#include "socl_command.h"
 
-struct SOCLiCommandPacket {
+/* the original reads and writes the state word as volatile */
+#define SOCKET_STATE(s) (*(volatile short *)&(s)->state)
+
+struct SOCLiCommandBind {
     int (*handler)(void *);
     struct SOCLSocket *socket;
     long response_queue;
@@ -76,21 +69,16 @@ typedef struct {
 	unsigned long remote_ip;
 } CmdBind;
 
-extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
+#include "socl_list.h"
 static int SOCLi_ExecBindCommand(struct SOCLSocket *socket);
 extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
                                                             struct SOCLSocket *socket,
                                                             long flag);
-extern int SOCLi_ExecCommandPacketInRecvPipe(struct SOCLSocket *socket,
-                                             struct SOCLiCommandPacket *command);
 extern int SOCLi_BindCallBack(void *arg);
 #include "../sdk_os.h"
 
-extern void OS_LockMutex(struct OSMutex *mutex);
-extern void OS_UnlockMutex(struct OSMutex *mutex);
-extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
-extern unsigned long CPS_TcpConnect(void);
+#include "../arm9/os_mutex.h"
+#include "cps_network.h"
 int SOCL_Bind(int s, unsigned short local_port);
 int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip);
 int SOCLi_BindCallBack(void *arg);
@@ -99,7 +87,7 @@ extern unsigned long gCpsNetMask;
 extern int gSoclBindConst;
 
 
-int SOCL_Bind(int s, unsigned short local_port)
+int SOCL_Bind(sptr s, unsigned short local_port)
 {
     struct SOCLSocket *socket = (struct SOCLSocket *)s;
 
@@ -109,11 +97,11 @@ int SOCL_Bind(int s, unsigned short local_port)
         int flag = 0;
 
         if (socket != 0)
-            flag = (socket->state & 1) != 0;
+            flag = (SOCKET_STATE(socket) & 1) != 0;
         if (flag == 0)
             return -0x27;
     }
-    if (socket->state & 2)
+    if (SOCKET_STATE(socket) & 2)
         return -7;
     socket->local_port = local_port;
     if (socket->flag_mode != 1)
@@ -132,13 +120,13 @@ int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip)
 {
 	struct SOCLSocket *socket = (struct SOCLSocket *)s;
 
-	if (SOCL_SocketIsInvalid(socket) != 0 || (socket->state & 8))
+	if (SOCL_SocketIsInvalid(socket) != 0 || (SOCKET_STATE(socket) & 8))
 		return -0x1c;
 	{
 		int flag = 0;
 
 		if (socket != 0)
-			flag = (socket->state & 1) != 0;
+			flag = (SOCKET_STATE(socket) & 1) != 0;
 		if (flag == 0)
 			return -0x27;
 	}
@@ -160,13 +148,13 @@ int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip)
 invalid:
 			return -0x1c;
 		}
-		if (socket->state & 4) {
+		if (SOCKET_STATE(socket) & 4) {
 			if (socket->flag_block == 1)
 				return -0x1e;
 			return 0;
 		}
-		if (socket->state & 2) {
-			if (socket->state & 0x40)
+		if (SOCKET_STATE(socket) & 2) {
+			if (SOCKET_STATE(socket) & 0x40)
 				return socket->result;
 			return gSoclBindConst;
 		}
@@ -191,16 +179,16 @@ invalid:
 
 static int SOCLi_ExecBindCommand(struct SOCLSocket *socket)
 {
-    struct SOCLiCommandPacket *command
-        = SOCLi_CreateCommandPacket(SOCLi_BindCallBack, socket, socket->flag_block);
+    struct SOCLiCommandBind *command
+        = (struct SOCLiCommandBind *)SOCLi_CreateCommandPacket(SOCLi_BindCallBack, socket, socket->flag_block);
 
     if (command == 0)
         return -0x21;
     command->local_port = socket->local_port;
     command->remote_port = socket->remote_port;
     command->remote_ip = socket->remote_ip;
-    socket->state |= 2;
-    return SOCLi_ExecCommandPacketInRecvPipe(socket, command);
+    SOCKET_STATE(socket) |= 2;
+    return SOCLi_ExecCommandPacketInRecvPipe(socket, (struct SOCLiCommandPacket *)command);
 }
 
 

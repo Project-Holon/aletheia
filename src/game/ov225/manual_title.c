@@ -46,36 +46,26 @@ struct ManualDetailOwner {
 
 typedef enum { FLAG_FALSE, FLAG_TRUE } Flag;
 
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+#include "../arm9/gfl_use.h"
 
-extern u16 MANUAL_COMMON_GetGroupValue1(char *,int);
+#include "manual_data.h"
 
-extern u16 MANUAL_COMMON_GetGroupValue2(char *,int,int);
 
-extern u16 MANUAL_COMMON_GetEntryValue1(char *,int);
 
-extern int MANUAL_COMMON_CheckUnlocked(void *,int,void *);
 
-extern void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data);
+#include "manual_list.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void MANUAL_COMMON_DeleteListWork(char *);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern int MANUAL_COMMON_UpdateListWork(char *p);
 
-extern u16 MANUAL_COMMON_GetEntryCount(const char *p);
 
-extern u16 MANUAL_COMMON_GetEntryValue2(char *, int);
 
-extern int MANUAL_COMMON_GetSaveValue(void *unused, int id, void *save);
 
-extern u16 MANUAL_COMMON_GetEntryValue0(char *, int);
 
 struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner *p, struct ManualData *data);
 
@@ -154,7 +144,7 @@ struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner
         q->savedB = *(u16 *)((char *)q->owner + 8);
     }
     q->widget = MANUAL_COMMON_CreateListWork((char *)q + 8, data);
-    q->task = GFL_USE_AddMainTask((unsigned)MANUAL_CATEGORY_DetailTaskNoop, (unsigned)q, 1);
+    q->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MANUAL_CATEGORY_DetailTaskNoop), (void *)((uptr)q), 1);
     return q;
 }
 

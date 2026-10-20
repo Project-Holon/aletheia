@@ -131,7 +131,7 @@ typedef struct NetPartyListProc {
 typedef struct NetPartyWork {
     u32 state;              /* 0x00: step of the exchange sequence */
     NetPartyParam list;     /* 0x04: party list parameter block */
-    PStatusParam status;    /* 0x9C: status screen parameter block */
+    PStatusProcParam status;    /* 0x9C: status screen parameter block */
     u8 elapsedAccum;        /* 0xC4: accumulated frames of the current step */
     u8 pad_C5[3];
     u32 lastFrame;          /* 0xC8: frame of the last update */
@@ -142,52 +142,35 @@ typedef struct NetPartyWork {
 } NetPartyWork;
 struct GFLNetHandle;
 
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
+#include "../arm9/net_handle.h"
+#include "../arm9/net.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void *dst, int value, u32 size);
-extern void *PROCSYS_Create(int kind);
-extern void GFL_NET_COMMAND_AddCommandTable(unsigned int groupKey, unsigned int commandList, unsigned int listNum, unsigned int userData);
-extern void PLIST_COMM_End(void *work);
-extern void GF_OVERLAY_Unload(int overlayId);
-extern void PROCSYS_Delete(void *handle);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/net_command.h"
+#include "../ov090/plist_comm.h"
+#include "../arm9/gf_overlay.h"
 struct PartyListCommWork;
-extern void PLIST_COMM_Update(struct PartyListCommWork *work);
-extern int GF_OVERLAY_Load(int overlayId);
-extern void PROCSYS_Push(void *handle, int a, const void *procData, void *work);
-extern u32 PROCSYS_Main(void *handle);
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
-extern int POKE_REGULATION_GetDataSize(void);
-extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, unsigned int sendId, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern int GFL_NET_GetRunState(void);
-extern int DWC_RAPCOMMON_HandleNetError(int a, int b);
+#include "../arm9/pokeparty.h"
+#include "../arm9/poke_regulation.h"
+#include "../arm9/net_err.h"
+#include "../ov009/dwc_rapcommon.h"
 struct GameData;
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct Regulation;
-extern void POKE_REGULATION_AdjustPartyLevels(struct Regulation *reg, struct Party *party);
-extern void *SYSTEM_DATA_GetConfig(void *sys);
-extern void PLIST_COMM_Start(struct PartyListCommWork *work);
+#include "../arm9/system_data.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern void *ZUKAN_SAVE_GetFromGameData(void *sys);
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 int NET_PARTY_COMMAND_GetEntry(int index, NetPartyEntryTable *table);
 void NET_PARTY_COMMAND_IsHandleFor(u32 value, u32 a, u32 b, u32 c, void *expected);
 int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args);
 int NET_PARTY_COMMAND_Exit(void *proc, u32 a, u32 b, char *work);
 int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work);
 void NET_PARTY_COMMAND_BuildPartyList(NetPartyArgs *args, void *unused, NetPartyParam *param);
-void NET_PARTY_COMMAND_BuildStatusParam(NetPartyArgs *args, void *unused, PStatusParam *statusParam);
+void NET_PARTY_COMMAND_BuildStatusParam(NetPartyArgs *args, void *unused, PStatusProcParam *statusParam);
 extern const u32 sNetPartyCommandTable[];
 extern u32 g_02FFFC3C;
 extern const char ov90_id[];
@@ -219,7 +202,7 @@ int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args)
     ((NetPartyWork *)work)->procHandle = PROCSYS_Create(((NetPartyWork *)work)->kind);
     GFL_NET_COMMAND_AddCommandTable((unsigned int)0x2f00, (unsigned int)sNetPartyCommandTable, (unsigned int)1, (unsigned int)work);
     NET_PARTY_COMMAND_BuildPartyList((NetPartyArgs *)args, work, (NetPartyParam *)(work + 4));
-    NET_PARTY_COMMAND_BuildStatusParam((NetPartyArgs *)args, work, (PStatusParam *)(work + 0x9c));
+    NET_PARTY_COMMAND_BuildStatusParam((NetPartyArgs *)args, work, (PStatusProcParam *)(work + 0x9c));
     work[0xc4] = 0;
     ((NetPartyWork *)work)->lastFrame = g_02FFFC3C;
     ((NetPartyWork *)work)->state = 0;
@@ -256,7 +239,7 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
     switch (((NetPartyWork *)work)->state) {
     case 0:
         GF_OVERLAY_Load((int)ov91_id);
-        PROCSYS_Push(((NetPartyWork *)work)->procHandle, -1, gPartyListProcData, work + 4);
+        PROCSYS_Push((ProcSys *)(((NetPartyWork *)work)->procHandle), -1, (const ProcData *)gPartyListProcData, (void *)(work + 4));
         ((NetPartyWork *)work)->state = 1;
         break;
     case 1:
@@ -295,7 +278,7 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
         break;
     case 3:
         GF_OVERLAY_Load((int)ov131_id);
-        PROCSYS_Push(((NetPartyWork *)work)->procHandle, -1, gPokeStatusProcData, work + 156);
+        PROCSYS_Push((ProcSys *)(((NetPartyWork *)work)->procHandle), -1, (const ProcData *)gPokeStatusProcData, (void *)(work + 156));
         ((NetPartyWork *)work)->state = 4;
         break;
     case 4:
@@ -381,7 +364,7 @@ void NET_PARTY_COMMAND_BuildPartyList(NetPartyArgs *args, void *unused, NetParty
     PLIST_COMM_Start((struct PartyListCommWork *)param);
 }
 
-void NET_PARTY_COMMAND_BuildStatusParam(NetPartyArgs *args, void *unused, PStatusParam *statusParam)
+void NET_PARTY_COMMAND_BuildStatusParam(NetPartyArgs *args, void *unused, PStatusProcParam *statusParam)
 {
     void *save;
     void *zukan;

@@ -48,17 +48,18 @@
  *   G3D_SYSTEM_IncObjectAnimeFrame  0x020478B8  arm
  */
 #include "shinka_demo_graphic_shared_types.h"
+#include "../arm9/g3d_util.h"
 #include "shinka_demo_view_shared_types.h"
 
 struct Ptc;
 
 struct Anim;
 
-struct Dst648;
+struct ParticleSys;
 
-struct Src648;
+struct ParticleCameraParams;
 
-struct Rec;
+struct Util;
 
 struct Transform;
 
@@ -68,7 +69,7 @@ struct G3dSys;
 
 struct AnmCtl;
 
-struct Ctx;
+struct Util;
 
 typedef struct EffectNode EffectNode;
 
@@ -140,62 +141,44 @@ typedef struct EffectParticle {
 
 typedef struct EffectNode {u16 id;u16 pad02;fx32 tx,ty,tz,sx,sy,sz;u8 mtx[0x24];u32 visible;} EffectNode;
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/nns_g3d_anm_calc_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
+#include "../sdk_nnsfnd.h"
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void MTX_Identity33_(MtxFx33 *m);
+#include "../arm9/fx_mtx33.h"
 
 extern int SHINKA_DEMO_EFFECT_AnimIsState0(EffectModel *p);
 
-extern void PARTICLE_InitManager(u32 heap);
+#include "../arm9/particle.h"
 struct ParticleSys;
 
-extern struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heap);
 
-extern int PARTICLE_ReleaseCamera(struct ParticleSys *sys);
 
-extern void PARTICLE_InitCamera(struct Dst648 *this, struct Src648 *src, u16 angle, int *pos, int *target, int *up, u32 heapId);
 
-extern void *PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 
-extern u16 PARTICLE_RESOURCE_GetType(void *res);
 
-extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, unsigned int applyNow, unsigned int taskMgr);
 
-extern void PARTICLE_ExitManager(void);
 
-extern int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg);
 
-extern void PARTICLE_KillAllEffects(struct ParticleSys *sys);
 
-extern void PARTICLE_Main(void);
 
-extern int G3D_UTIL_Create(int, int, int);
 
-extern void G3D_UTIL_Delete(struct Rec *);
 
-extern u32 G3D_UTIL_GetObject(u8 *util, int i);
 struct G3dObjectStatus;
 struct G3dObject;
 
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
+#include "../arm9/g3d_system.h"
 
-extern u16 G3D_UTIL_AddUnit(void *res, void *name);
 
-extern u32 G3D_UTIL_GetUnitObjIdx(u8 *util, int i);
 
-extern int G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, unsigned int anmIdx);
 
-extern int G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, unsigned short anmIdx, int *frame);
 
-extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
 
-extern int G3D_SYSTEM_IncObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
 
-Node *SHINKA_DEMO_EFFECT_CreateNodes(u16 heap, u16 n);
+ShinkaDemoGraphicNode *SHINKA_DEMO_EFFECT_CreateNodes(u16 heap, u16 n);
 
 void SHINKA_DEMO_EFFECT_FreeNode(void *p);
 
@@ -263,9 +246,9 @@ extern const u32 d_02208E9C[2];
 
 extern char d_02208EC0[];
 
-Node *SHINKA_DEMO_EFFECT_CreateNodes(u16 heap, u16 n)
+ShinkaDemoGraphicNode *SHINKA_DEMO_EFFECT_CreateNodes(u16 heap, u16 n)
 {
-    Node *p = GFL_HEAP_Alloc(heap, n * sizeof(Node), 1, d_02208F7C, 0xe8);
+    ShinkaDemoGraphicNode *p = GFL_HEAP_Alloc(heap, n * sizeof(ShinkaDemoGraphicNode), 1, d_02208F7C, 0xe8);
     u16 i;
 
     for (i = 0; i < n; i++) {
@@ -434,8 +417,8 @@ Ptc *SHINKA_DEMO_EFFECT_CreateParticle(u16 heap, u16 cueCount, void *cueTable)
     p->timer = -1;
     PARTICLE_InitManager(heap);
     p->spl = PARTICLE_CreateSystem((u32)p->work, sizeof(p->work), 1, 5, 6, 0x3b, heap);
-    PARTICLE_ReleaseCamera(p->spl);
-    PARTICLE_InitCamera(p->spl, (struct Src648 *)(&prm), 0x2000, (int *)(&cameraPos), (int *)(&cameraTarget), (int *)(&cameraUp), heap);
+    PARTICLE_ReleaseCamera((struct ParticleSys *)p->spl);
+    PARTICLE_InitCamera((struct ParticleSys *)p->spl, (struct ParticleCameraParams *)(&prm), 0x2000, (Vec3 *)((int *)(&cameraPos)), (Vec3 *)((int *)(&cameraTarget)), (Vec3 *)((int *)(&cameraUp)), heap);
     res = (unsigned int)PARTICLE_LoadArchiveMember((unsigned int)d_02208E9C[0], (unsigned int)d_02208E9C[1], (unsigned int)heap);
     p->res = PARTICLE_RESOURCE_GetType((void *)res);
     PARTICLE_SetupSystem(p->spl, (void *)res, 1, 0);
@@ -482,11 +465,11 @@ void SHINKA_DEMO_EFFECT_SetParticleTimerRaw(EffectParticle *particle, s32 timer)
 
 void SHINKA_DEMO_EFFECT_InitUnit(char *model)
 {
-    *(int *)&((EffectModel *)model)->res = G3D_UTIL_Create(4, 1, ((EffectModel *)model)->heap);
+    *(int *)&((EffectModel *)model)->res = (int)G3D_UTIL_Create(4, 1, ((EffectModel *)model)->heap);
     ((EffectModel *)model)->count = 0;
 }
 
-void SHINKA_DEMO_EFFECT_DeleteUnit(char *model) { G3D_UTIL_Delete(*(struct Rec * *)&((EffectModel *)model)->res); }
+void SHINKA_DEMO_EFFECT_DeleteUnit(char *model) { G3D_UTIL_Delete((G3dUtil *)(*(struct Util * *)&((EffectModel *)model)->res)); }
 
 void SHINKA_DEMO_EFFECT_DrawNodes(EffectModel *model) { u16 i; EffectNode *n; for(i=0;i<model->count;i++) { n=model->nodes+i; if(n->visible) G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(model->res,n->id),(struct G3dObjectStatus *)((struct Transform *)&n->tx)); } }
 
@@ -504,7 +487,7 @@ void SHINKA_DEMO_EFFECT_SetupNode(EffectModel *model)
     EffectNode *n;
     u16 id;
 
-    model->unitIdx = G3D_UTIL_AddUnit(model->res, d_02208EC0);
+    model->unitIdx = G3D_UTIL_AddUnit((G3dUtil *)model->res, (const G3dUtilSetup *)d_02208EC0);
     model->count = 1;
     model->nodes = (EffectNode *)SHINKA_DEMO_EFFECT_CreateNodes(model->heap, model->count);
     id = G3D_UTIL_GetUnitObjIdx(model->res, model->unitIdx);
@@ -529,7 +512,7 @@ void SHINKA_DEMO_EFFECT_SetupNode(EffectModel *model)
 
 void SHINKA_DEMO_EFFECT_RemoveUnit(char *model)
 {
-    G3D_UTIL_RemoveUnit((struct Ctx *)(*(int *)&((EffectModel *)model)->res), ((EffectModel *)model)->unitIdx);
+    G3D_UTIL_RemoveUnit((G3dUtil *)((struct Util *)(*(int *)&((EffectModel *)model)->res)), ((EffectModel *)model)->unitIdx);
     SHINKA_DEMO_EFFECT_FreeNode((void *)(((EffectModel *)model)->nodes));
     ((EffectModel *)model)->count = 0;
 }
@@ -549,12 +532,12 @@ void SHINKA_DEMO_EFFECT_UpdateAnime(char *model)
 
     for (i = 0; i < ((EffectModel *)model)->count; i++) {
         unsigned short v = *(unsigned short *)((u8 *)((EffectModel *)model)->nodes + i * 0x44);
-        int x = G3D_UTIL_GetObject((u8 *)(((EffectModel *)model)->res), v);
+        int x = G3D_UTIL_GetObject((G3dUtil *)((u8 *)(((EffectModel *)model)->res)), v);
 
         G3D_SYSTEM_LoopObjectAnimeFrame((void *)x, j, 0x1000);
     }
     ((EffectModel *)model)->updateCount = ((EffectModel *)model)->updateCount + 1;
-    object = G3D_UTIL_GetObject((u8 *)(((EffectModel *)model)->res),
+    object = G3D_UTIL_GetObject((G3dUtil *)((u8 *)(((EffectModel *)model)->res)),
                        *(unsigned short *)((u8 *)((EffectModel *)model)->nodes +
                                            ((EffectModel *)model)->mainNode * 0x44));
     if (((EffectModel *)model)->animeState == 1) {

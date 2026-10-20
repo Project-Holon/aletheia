@@ -45,37 +45,29 @@
 #include "ov132_types.h"
 #include "sta_acting_shared_types.h"
 
-extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
+#include "../ov112/sta_act_poke.h"
 
 
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u16 STA_ACTING_GetCameraPos(void *p);
+#include "sta_acting.h"
 
-extern unsigned GFL_USE_GetRandomBelow(unsigned);
+#include "../arm9/gfl_use.h"
 struct MusicalShowProgram;
 
-extern u8 MUSICAL_PROGRAM_GetCategoryBonus(struct MusicalShowProgram *program, int index);
+#include "../ov010/musical_program.h"
 
-extern u16 STA_ACTING_GetCameraScrollX(u8 *p);
 
-extern void *STA_ACTING_GetActorSystem(char *p);
 
-extern void *STA_ACTING_GetActor(char *p, u32 i);
 
-extern void *STA_ACTING_GetCharSystem(void *);
 
-extern void *STA_ACTING_GetCharSlot(void *,u8);
 
-extern void STA_ACT_LIGHT_GetElemPos(void *,char *,Vec *);
+#include "../ov112/sta_act_light.h"
 
-extern void BG_SYS_SetTileEntry(u32,u16,u8,u8,u8,u8,u8);
+#include "../arm9/bg_sys.h"
 
-extern void BG_SYS_MarkTileDirty(u32);
 
-extern void BG_SYS_ChangeScrollImmediate(unsigned, unsigned, unsigned);
 
 char *STA_ACT_AUDIENCE_Create(unsigned heap, void *a, unsigned b);
 
@@ -249,7 +241,7 @@ void STA_ACT_AUDIENCE_UpdateRecords(char *p)
 
 void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
 {
-    Vec v;
+    StaActingVec v;
     void *a,*b;
     u16 x;
     short delta;
@@ -268,8 +260,8 @@ void STA_ACT_AUDIENCE_UpdateRecord(char *p,u8 *rec)
                 a=STA_ACTING_GetActorSystem(((struct ActAudience *)p)->scene);
                 STA_ACT_LIGHT_CopyActorPos(a,STA_ACTING_GetActor(((struct ActAudience *)p)->scene,rec[0]),(u32 *)(&v));
             } else {
-                b=STA_ACTING_GetCharSystem(((struct ActAudience *)p)->scene);
-                STA_ACT_LIGHT_GetElemPos(b,(char *)STA_ACTING_GetCharSlot(((struct ActAudience *)p)->scene,((struct ActAudience *)p)->highlight),&v);
+                b=STA_ACTING_GetCharSystem((void *)(((struct ActAudience *)p)->scene));
+                STA_ACT_LIGHT_GetElemPos((void *)b,(char *)STA_ACTING_GetCharSlot((void *)(((struct ActAudience *)p)->scene),((struct ActAudience *)p)->highlight),(StaActLightVec3 *)&v);
             }
             delta=(float)v.x/4096.f-(float)(u32)x;
             if(delta < -64) STA_ACT_AUDIENCE_DrawRecord(p,rec,0);

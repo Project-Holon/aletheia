@@ -92,78 +92,57 @@
 #include "pokemontrade_demo_types.h"
 #include "pokemontrade_demo_up_shared_types.h"
 
-extern void POKETRADE_MCSS_SlideUpdate(void *p, void *eventArg);
 
-extern void POKETRADE_2D_ScheduleMainPlaneVisible(void *p, int a);
+#include "../ov119/pokemontrade_2d.h"
 
-extern void POKETRADE_2D_ScheduleSubPlaneVisible(void *p, int a);
 
-extern int POKETRADE_PROC_IsHostSide(void *);
+#include "../ov119/pokemontrade_proc.h"
 
-extern void *POKETRADE_PROC_GetSideMon(void *, int);
 struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/clact.h"
+#include "../arm9/particle.h"
+#include "../ov119/pokemontrade_mcss.h"
+#include "../arm9/poke_tool.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct McssWork;
 
-extern void MCSS_GetPosition(struct McssWork *work, u32 *out);
+#include "../arm9/mcss.h"
 
-extern void POKETRADE_SAVE_FreeIfSet(u32 *p);
+#include "../ov119/pokemontrade_save.h"
 
-extern void POKETRADE_3D_AddPokemonMcssPlain(void *p, int a, int b, void *mon, int c);
+#include "../ov119/pokemontrade_3d.h"
 
-extern void MCSS_SetAnmStopFlag(struct McssWork *work);
 
-extern void MCSS_SetVanishFlag(struct McssWork *work);
 
-extern void POKETRADE_PROC_SetStep(void *p, int next);
 
-extern void MCSS_SetPosition(struct McssWork *work, u32 *src);
 
-extern void MCSS_ResetVanishFlag(struct McssWork *work);
 
-extern void MCSS_ResetAnmStopFlag(struct McssWork *work);
 
-extern void POKETRADE_PROC_DeleteAllResources(char *p);
 
 extern void CLACT_ExitSystem(void);
 
-extern void POKETRADE_2D_InitClactSystemMain(char *p);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void POKETRADE_2D_SetupSummaryBgs(char *p, int mode);
 
-extern void POKETRADE_3D_AddUnitAndInit(void *p, int a);
 struct ParticleManager;
 
-extern void POKETRADE_3D_InitParticleSystems(struct ParticleManager *p);
 
-extern void POKETRADE_3D_SetupParticleSystemsLow(struct ParticleManager *p);
 
-extern void POKETRADE_3D_CreateIcaStreamsForMode(struct ParticleManager *p, u32 mode);
 
-extern void POKETRADE_3D_SetupParticleSystemsHigh(struct ParticleManager *p);
 
-extern void POKETRADE_3D_RemoveCurrentUnit(void *p);
 
-extern void MCSS_SetPaletteFade(struct McssWork *work, u32 start, u32 end, s32 wait, u32 color);
 
-extern void MCSS_GetScale(struct McssWork *work, u32 *out);
 
-extern void MCSS_SetScale(struct McssWork *work, u32 *src);
 
-extern int PARTICLE_StartEffectWithCallback(u32, int, void *, void *);
 
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
+#include "../arm9/wipe.h"
 
 extern void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, u32 heapId);
 
-extern void POKETRADE_NEGO_PlaySeByKeyA(u32 key);
+#include "../ov119/pokemontrade_nego.h"
 struct McssSlide;
 
 extern void POKETRADE_MCSS_SlideBegin(struct McssSlide *slide, void *frameCount, void *targetPos);
@@ -173,25 +152,19 @@ struct Entry;
 struct Link;
 struct PersonalData;
 
-extern struct PersonalData *POKE_PERSONAL_Create(u32 a, int b, u32 heap);
+#include "../arm9/poke_personal.h"
 
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
 
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
 struct MyStatus;
 
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-struct Actor;
+struct ClactActor;
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 
-extern void CLACT_RestartActorAnim(struct Actor *a);
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
@@ -199,9 +172,7 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern void CLACT_ReleaseCharacter(u32 i);
 
@@ -209,40 +180,27 @@ extern void CLACT_ReleasePalette(u32 i);
 
 extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
+#include "../arm9/bg_sys.h"
 
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
+#include "../arm9/g2.h"
 
-extern void POKETRADE_3D_FadeTexturePalette(char *p);
 
-extern int POKETRADE_PROC_IsNetSession(void *p);
 struct GFLNetHandle;
 
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
-void POKETRADE_DEMO_UP_CreateUnitActor(void *p);
+#include "pokemontrade_demo_up.h"
 
-void POKETRADE_DEMO_UP_LoadUnitResources(void *p);
 
-int POKETRADE_DEMO_UP_PassThrough(int a);
 
-void POKETRADE_DEMO_UP_SetFrame(u8 *p, u32 v);
 
-void POKETRADE_DEMO_UP_StepReleaseUnit(void *p);
 
-void POKETRADE_DEMO_UP_DeleteSlide(u8 *p, int idx);
 
-void POKETRADE_DEMO_UP_SetMonSlide(u8 *p, int idx);
 
-void POKETRADE_DEMO_UP_ResetMonSlide(u8 *p, int idx);
 
-void POKETRADE_DEMO_UP_SetupEmitterC(void *p);
 
-void POKETRADE_DEMO_UP_SetupEmitterD(void *p);
 
 void POKETRADE_DEMO_DOWN_StepSetup(u8 *p);
 
@@ -272,7 +230,7 @@ void POKETRADE_DEMO_DOWN_StepStartPlayback(u8 *p);
 
 void POKETRADE_DEMO_DOWN_StepWaitSync(u8 *p);
 
-void POKETRADE_DEMO_COMMON_StepBeginPlayback(u8 *p);
+#include "pokemontrade_demo_common.h"
 
 extern const char d_021D82A4[];
 
@@ -328,7 +286,7 @@ void POKETRADE_DEMO_DOWN_StepPlaySe(u8 *work)
 
 void POKETRADE_DEMO_DOWN_UpdateScene(u8 *work)
 {
-    Vec ownVec, peerVec, slideBeginVec, swapVec, leftMonVec, rightMonVec, exitVec, copyPosVec;
+    PokemontradeDemoVec ownVec, peerVec, slideBeginVec, swapVec, leftMonVec, rightMonVec, exitVec, copyPosVec;
 
     POKETRADE_NEGO_PlaySeByKeyA(FRAME);
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(1)) {
@@ -349,31 +307,31 @@ void POKETRADE_DEMO_DOWN_UpdateScene(u8 *work)
         MCSS_SetVanishFlag(OBJ(0));
     }
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(0x356)) {
-        PARTICLE_StartEffectWithCallback(WORK[0], 10, 0, work);
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[0], 10, 0, (int)work);
     }
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(0x65)) {
-        PARTICLE_StartEffectWithCallback(WORK[1], 1, 0, work);
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[1], 1, 0, (int)work);
     }
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(0x9A)) {
-        PARTICLE_StartEffectWithCallback(WORK[2], 2, 0, work);
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[2], 2, 0, (int)work);
     }
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(0x356)) {
-        PARTICLE_StartEffectWithCallback(WORK[8], 2, 0, work);
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[8], 2, 0, (int)work);
     }
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(0xE)) {
-        PARTICLE_StartEffectWithCallback(WORK[3], 3, 0, work);
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[3], 3, 0, (int)work);
     }
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(0x483)) {
-        PARTICLE_StartEffectWithCallback(WORK[7], 3, 0, work);
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[7], 3, 0, (int)work);
     }
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(0x9A)) {
-        PARTICLE_StartEffectWithCallback(WORK[4], 4, POKETRADE_DEMO_UP_SetupEmitterC, work);
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[4], 4, POKETRADE_DEMO_UP_SetupEmitterC, (int)work);
     }
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(0x152)) {
-        PARTICLE_StartEffectWithCallback(WORK[5], 5, 0, work);
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[5], 5, 0, (int)work);
     }
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(0x2BC)) {
-        PARTICLE_StartEffectWithCallback(WORK[6], 6, POKETRADE_DEMO_UP_SetupEmitterD, work);
+        PARTICLE_StartEffectWithCallback((struct ParticleSys *)WORK[6], 6, POKETRADE_DEMO_UP_SetupEmitterD, (int)work);
     }
     if (FRAME == POKETRADE_DEMO_UP_PassThrough(0x47F)) {
         POKETRADE_DEMO_UP_LoadUnitResources(work);
@@ -549,10 +507,10 @@ void POKETRADE_DEMO_DOWN_UpdateScene(u8 *work)
         POKETRADE_3D_RemoveCurrentUnit(work);
         POKETRADE_PROC_SetStep(work, (int)POKETRADE_DEMO_UP_StepReleaseUnit);
     }
-    POKETRADE_MCSS_SlideUpdate(SLOT0, work);
-    POKETRADE_MCSS_SlideUpdate(SLOT1, work);
-    POKETRADE_MCSS_SlideUpdate(((PokeTradeDemoWork *)work)->slideExtra, work);
-    POKETRADE_MCSS_SlideUpdate(((PokeTradeDemoWork *)work)->slidePtr, work);
+    POKETRADE_MCSS_SlideUpdate(SLOT0, (int)work);
+    POKETRADE_MCSS_SlideUpdate(SLOT1, (int)work);
+    POKETRADE_MCSS_SlideUpdate(((PokeTradeDemoWork *)work)->slideExtra, (int)work);
+    POKETRADE_MCSS_SlideUpdate(((PokeTradeDemoWork *)work)->slidePtr, (int)work);
 }
 
 void POKETRADE_DEMO_DOWN_StepFade(s8 *fade)
@@ -634,11 +592,11 @@ void POKETRADE_DEMO_DOWN_CreateUnitActor(void *work)
                           ((PokeTradeDemoWork *)work)->characterHandle,
                           ((PokeTradeDemoWork *)work)->paletteHandle,
                           ((PokeTradeDemoWork *)work)->cellAnimHandle,
-                          &s, 0, ((PokeTradeDemoWork *)work)->heapId);
-        CLACT_SetActorAutoAnim((struct Actor *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)work)->animWork)->actor, 1);
-        CLACT_SetActorDrawEnable((struct Actor *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)work)->animWork)->actor, 1);
+                          (const struct ActorInitParam *)&s, 0, ((PokeTradeDemoWork *)work)->heapId);
+        CLACT_SetActorAutoAnim((struct ClactActor *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)work)->animWork)->actor, 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)work)->animWork)->actor, 1);
     } else {
-        CLACT_RestartActorAnim((struct Actor *)v);
+        CLACT_RestartActorAnim((struct ClactActor *)v);
     }
 }
 

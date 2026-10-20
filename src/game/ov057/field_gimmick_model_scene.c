@@ -40,28 +40,14 @@
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_model_scene_types.h"
 
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../ov021/fieldmap.h"
+#include "../arm9/arc_tool.h"
 struct ArcHandle;
 struct G3dResource;
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
-extern u32 G3D_SYSTEM_CheckResourceType(G3dResource *resource, u32 kind);
-extern int G3D_SYSTEM_TransVramTexture(G3dResource *resource);
-extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *model, u32 modelIndex, G3dResource *texture);
+#include "../arm9/g3d_system.h"
 struct G3dRender;
 struct G3dAnime;
-extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
-extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **animeTable, int animeCount);
 struct G3dObject;
-extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *object, u32 animeIndex);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32 sortMode, u32 bufferMode);
-extern void ARC_TOOL_DeleteHandle(void *archiveHandle);
-extern void G3D_SYSTEM_DeleteObject(G3dObject *object);
-extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
-extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
-extern int G3D_SYSTEM_FreeVramTexture(G3dResource *resource);
-extern void G3D_SYSTEM_DeleteResource(G3dResource *resource);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *object, int animeIndex, int amount);
 
 void FIELD_GIMMICK_MODEL_SCENE_Load(void *unused, struct FieldMap *fieldMap, ModelScene *scene);
 void FIELD_GIMMICK_MODEL_SCENE_DeleteModelScene(void *unused, struct FieldMap *fieldMap, ModelScene *scene);

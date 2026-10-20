@@ -70,43 +70,18 @@ struct Proc;
 struct GameData;
 struct MailBox;
 
-extern struct MailBox *MAIL_GetBox(struct GameData *gameData);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MIi_CpuClearFast(unsigned, void *, unsigned);
+#include "../arm9/mail.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern struct Mail *MAIL_Create(int heapId);
-extern void MAIL_Init(struct Mail *mail);
-extern void MAIL_InitForPlayer(struct Mail *mail, unsigned char design, unsigned int unused, struct GameData *gameData);
+#include "../arm9/game_data.h"
 struct PokemonParam;
-extern unsigned POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
-extern void MAIL_SetDesign(struct Mail *mail, u32 value);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
-extern u32 GFL_HEAP_Free(void *p);
-extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void *PROCSYS_Create(int heapId);
-extern u32 PROCSYS_Main(void *p);
-extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
-extern int GF_OVERLAY_Load(int handle);
-extern void GF_OVERLAY_Unload(int handle);
-extern int PMSI_PARAM_CheckCanceled(struct PmsiParam *p);
-extern void PMSI_PARAM_GetSentence(struct PmsiParam *a, struct PmsData *b);
-extern unsigned int PMSI_PARAM_GetWord(struct PmsiParam *p);
-extern void PMSI_PARAM_Delete(void *obj);
-extern struct Sub02008C20Obj *RECORD_GetFromSave(struct SaveControl *sys);
-extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
-extern void PROCSYS_Delete(void *v);
-extern void PROCSYS_FreeProcWork(struct Proc *v);
-extern void *GFL_HEAP_GetHeapHeadChecked(unsigned int heapId);
-extern void GFL_HEAP_DeleteChecked(u32 v);
-extern void PMSI_PARAM_ClearSentence(struct PmsData *p);
-extern struct PmsiParam *PMSI_PARAM_Create(unsigned int inputMode, unsigned int unused, void *initialSentence, unsigned int optionFlag, void *saveControl, unsigned int heapId);
-extern void PMSI_PARAM_SetWord(struct PmsiParam *p, u16 v);
-extern void PMSI_PARAM_Copy(struct PmsData *dst, const struct PmsData *src);
-extern int PMSI_PARAM_IsEnabled(unsigned short *word);
-extern void PMSI_PARAM_InitSentence(struct PmsData *obj, u32 id);
-extern void PMSI_PARAM_SetSentence(struct PmsiParam *dst, const struct PmsData *src);
+#include "../arm9/poke_tool.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/gf_overlay.h"
+#include "../arm9/pmsi_param.h"
+#include "../arm9/record.h"
 
 void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap);
@@ -218,7 +193,7 @@ int MAILTOOL_ProcMain(int unused, u32 *state, struct MailArgs *args, struct Mail
     switch (*state) {
     case 0:
         proc->draft->result = args->mode;
-        PROCSYS_Push(proc->procSys, (u32)-1, D_021C7750, proc->draft);
+        PROCSYS_Push((ProcSys *)proc->procSys, (u32)-1, (const ProcData *)D_021C7750, (void *)proc->draft);
         *state = 1;
         break;
     case 1: {
@@ -256,7 +231,7 @@ int MAILTOOL_ProcMain(int unused, u32 *state, struct MailArgs *args, struct Mail
     case 3:
         GF_OVERLAY_Load((int)ov110_id);
         MAILTOOL_StartWordInput(proc, args);
-        PROCSYS_Push(proc->procSys, (u32)-1, D_021C775C, proc->pmsiParam);
+        PROCSYS_Push((ProcSys *)proc->procSys, (u32)-1, (const ProcData *)D_021C775C, (void *)proc->pmsiParam);
         *state = 4;
         break;
     case 4:

@@ -121,48 +121,14 @@
  */
 #include "../types.h"
 
-/* Replay buffer of one battle: records are appended after the 8 byte head
- * until 0xC00 bytes are used, then the overflow flag is set. */
-typedef struct {
-    u16 writeOffset;
-    u8 overflowed;
-    u8 reserved[5];
-    u8 data[0xC00];
-} BtlRecBuffer;
+#include "btl_rec_types.h"
 
-/* Read side of a recording: four channels (one per client) walk the same
- * byte stream; each channel keeps its own position and its last record. */
-typedef struct {
-    u8 *bytes;
-    u32 size : 31;
-    u32 failed : 1;
-    u32 readPos[4];
-    u32 lastRecord[4][16];
-} BtlRecReader;
-
-/* Write side: one packet of at most 60 bytes. data[0] is the packet id,
- * data[1] the header byte (bits 0-3 count, 4-6 type, 7 flag), then the
- * sub-records (channel in bits 5-7 and size in words in bits 0-4, followed
- * by the words). */
-typedef struct {
-    u8 used;
-    u8 channelMask;
-    u8 recordCount;
-    u8 type : 6;
-    u8 flag : 1;
-    u8 full : 1;
-    u8 data[60];
-} BtlRecPacket;
-
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-void BTL_ACTION_SetRecordError(u32 *record);
-void BTL_ACTION_SetRecordReset(u32 *record);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "btl_action_word.h"
 extern char gBtlRecFileName[];
 
-void *BTL_REC_CreateBuffer(u32 heapId)
+BtlRecBuffer *BTL_REC_CreateBuffer(u32 heapId)
 {
     return GFL_HEAP_Alloc(heapId, 0xC08, 1, gBtlRecFileName, 0x6b);
 }
@@ -170,7 +136,7 @@ void *BTL_REC_CreateBuffer(u32 heapId)
 /*
  * tail-call thunk to GFL_HEAP_Free
  */
-void BTL_REC_DeleteBuffer(void *buffer)
+void BTL_REC_DeleteBuffer(BtlRecBuffer *buffer)
 {
     GFL_HEAP_Free(buffer);
 }
@@ -198,17 +164,17 @@ void BTL_REC_AppendPacket(BtlRecBuffer *buffer, const u8 *src, int size)
  */
 u8 BTL_REC_GetPacketId(u8 *src) { return *src; }
 
-unsigned short *BTL_REC_ReadEntry(unsigned short *entry, unsigned int *outValue)
+u8 *BTL_REC_ReadEntry(BtlRecBuffer *buffer, u32 *outSize)
 {
-    *outValue = *entry;
-    return entry + 4;
+    *outSize = buffer->writeOffset;
+    return buffer->data;
 }
 
-void BTL_REC_InitReader(BtlRecReader *reader, u32 bytesAddr, u32 size)
+void BTL_REC_InitReader(BtlRecReader *reader, u8 *bytes, u32 size)
 {
     u32 channel;
 
-    reader->bytes = (u8 *)bytesAddr;
+    reader->bytes = bytes;
     reader->size = size;
     reader->failed = 0;
     for (channel = 0; channel < 4; channel++)

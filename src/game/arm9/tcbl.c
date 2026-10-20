@@ -108,7 +108,7 @@ u32 TCBL_IsDeletePending(struct TcblSystem *tcbl)
  */
 struct TcblTask *TCBL_GetTaskSlot(struct TcblSystem *tcbl, u32 index)
 {
-    return (struct TcblTask *)(index * (tcbl->workSize + 0x18) + (u32)tcbl->taskTable);
+    return (struct TcblTask *)(index * (tcbl->workSize + 0x18) + (uptr)tcbl->taskTable);
 }
 
 struct TcblTask *TCBL_PopFreeTask(struct TcblSystem *tcbl)

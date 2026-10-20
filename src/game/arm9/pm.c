@@ -56,14 +56,13 @@
  *   PMi_PostSleepCallbackList      0x0215301C  data
  *   g_02153020                     0x02153020  data
  */
-#define reg_OS_IME (*(vu16 *)0x04000208)
-#define reg_MI_MCCNT1 (*(vu32 *)0x040001A4)
-#define REG_DISPCNT     (*(volatile u32 *)0x04000000)
-#define REG_DB_DISPCNT  (*(volatile u32 *)0x04001000)
-#define REG_IME         (*(volatile u16 *)0x04000208)
-#define REG_IF          (*(volatile u32 *)0x04000214)
-#define reg_GX_POWCNT (*(vu16 *)0x04000304)
+#define reg_OS_IME (*(vu16 *)REG_IME_ADDR)
+#define reg_MI_MCCNT1 (*(vu32 *)REG_MCCNT1_ADDR)
+#define REG_IME         (*(volatile u16 *)REG_IME_ADDR)
+#define REG_IF          (*(volatile u32 *)REG_IF_ADDR)
+#define reg_GX_POWCNT (*(vu16 *)REG_POWCNT1_ADDR)
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 
 #include "pm.h"
 #include "../twl/pm.h"
@@ -612,7 +611,7 @@ void PMi_PreSleepForDma(void)
     u32 i;
 
     for (i = 0; i <= 3; i++) {
-        vu32 *dmaCntp = (vu32 *)(0x040000B8 + i * 12);
+        vu32 *dmaCntp = (vu32 *)(REG_DMA0CNT_ADDR + i * 12);
 
         g_02153020[i] = *dmaCntp;
 
@@ -821,7 +820,7 @@ BOOL PM_SetLCDPower(int sw)
  */
 int PM_GetLCDPower(void)
 {
-    return (*(volatile unsigned short *)0x04000304 & 1) ? 1 : 0;
+    return (*(volatile unsigned short *)REG_POWCNT1_ADDR & 1) ? 1 : 0;
 }
 
 /*

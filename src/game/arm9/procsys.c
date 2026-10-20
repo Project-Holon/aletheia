@@ -26,40 +26,7 @@
 
 #include "../types.h"
 
-struct Proc;
-
-typedef u32 (*ProcFunc)(struct Proc *proc, u32 *subSeq, void *procWork, void *work);
-
-typedef struct {
-    ProcFunc init;
-    ProcFunc main;
-    ProcFunc end;
-} ProcData;
-
-/* One running process; a stack of these is linked through prev/next. */
-typedef struct Proc {
-    const ProcData *data;
-    u32 overlayId;      /* -1: no overlay to load */
-    u32 seq;            /* 0 load overlay, 1 init, 2 main, 3 end */
-    u32 subSeq;
-    void *procWork;     /* argument given by the caller */
-    void *work;         /* buffer owned by the process (PROCSYS_AllocProcWork) */
-    struct Proc *prev;  /* parent */
-    struct Proc *next;  /* child */
-} Proc;
-
-/* The process manager object (0x20 bytes). */
-typedef struct {
-    u16 heapId;
-    u16 padding02;
-    u32 unused04;       /* initialised to -1, never read here */
-    Proc *current;      /* process on top of the stack */
-    u32 pushPending;    /* a child process is queued */
-    u32 replacePending; /* the current process is to be replaced */
-    u32 nextOverlayId;  /* queued process: overlay, data, argument */
-    const ProcData *nextData;
-    void *nextProcWork;
-} ProcSys;
+#include "procsys.h"
 
 #include "gfl_heap_wrap.h"
 #include "os_terminate_processor.h"
@@ -160,7 +127,7 @@ void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procW
  */
 ProcSys *PROCSYS_CreateInternal(int heapId)
 {
-    ProcSys *sys = GFL_HEAP_Alloc(heapId, 0x20, 0, (const char *)((int)ProcSys_AllocSiteName), 0xc5);
+    ProcSys *sys = GFL_HEAP_Alloc(heapId, 0x20, 0, (const char *)((sptr)ProcSys_AllocSiteName), 0xc5);
 
     sys->heapId = heapId;
     sys->unused04 = -1;

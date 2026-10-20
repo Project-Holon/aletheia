@@ -233,13 +233,11 @@ struct Struct36;
 struct DispVram;
 struct Light;
 struct DispConfig;
-struct Obj;
-struct Vec2;
-struct Cfg;
-struct Descriptor;
+struct ClactVec2;
+struct PokemontradeCfg;
+struct PokemontradeDescriptor;
 struct MsgBank;
-struct Actor;
-struct PtS;
+struct ClactVec2;
 struct BezierCurve;
 struct Bmp;
 struct Bmp;
@@ -254,53 +252,32 @@ typedef struct { unsigned int w[2]; } Tbl2;
 typedef struct {
     char pad00[0x24];
     u16 v[0x300];       /* 0x024 */
-} Buf;
+} Pokemontrade2dBuf;
 
-typedef struct { u16 x, y, prio; u8 pal, mode; } ObjTmpl;
 
-typedef struct { u16 id; u8 b2, b3; } Ent;
+typedef struct { u16 id; u8 b2, b3; } Pokemontrade2dEnt;
 
 typedef struct { short x, y; } PointS16;
 
-typedef struct { int a, b, c, d[6]; } Info;
+typedef struct { int a, b, c, d[6]; } Pokemontrade2dInfo;
 
-typedef struct Object {u8 pad[0xac0];void *actors[12][5];} Object;
+typedef struct Pokemontrade2dObject {u8 pad[0xac0];void *actors[12][5];} Pokemontrade2dObject;
 
-typedef struct BgTemplate { u32 a,b,bufSize,d; u8 e,f,g,h; u32 i; u8 j,k,l,m; u32 n; } BgTemplate;
+#include "../arm9/bg_sys.h"
 
-typedef enum { SHADING_TOON, SHADING_HIGHLIGHT } Shading;
 
-typedef struct { int x,y,z; } Vec;
-
-typedef struct { u16 x, y, z; u8 a, b; } Sprite;
 
 typedef struct { u16 x, y; } PointU16;
 
 typedef struct { u32 x, y; } PointU32;
 
 /* Actor graphics descriptor passed to UI_SCENE_LoadActorGfx. */
-typedef struct { int f0; u32 f4; int f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } ActorGfxDesc;
+#include "../ov067/ui_scene_types.h"
 
-typedef struct { int v[8]; } Coords;
+typedef struct { int v[8]; } Pokemontrade2dCoords;
 
 typedef struct { int v[8][2]; } States;
 
-typedef struct { short x,y,z; u8 a,b; } Create;
-
-typedef struct {
-    char pad0[0x5f4];
-    u16 heap;
-    char pad1[0x884-0x5f6];
-    int g884;
-    char pad2[0x898-0x888];
-    int g898;
-    char pad3[0x8b4-0x89c];
-    int g8b4;
-    char pad4[0x9c4-0x8b8];
-    int g9c4;
-    char pad5[0x10ac-0x9c8];
-    int slot[8];
-} Work;
 
 typedef struct { PointS16 pos[6]; } PointTable6;
 
@@ -310,182 +287,67 @@ typedef struct { u8 v[8]; } ByteTable8;
 
 typedef struct { u32 f0, f4, size; u16 data[1]; } Pal;
 
-typedef struct { short v; void *p; void (*fn)(void *); } Callback;
+typedef struct { short v; void *p; void (*fn)(void *); } Pokemontrade2dCallback;
 
-typedef struct { void *a, *b; u32 size, c, d; } Slot;
-
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+#include "../arm9/clact.h"
 struct GameData;
 struct BoxPokemon;
-extern struct BoxPokemon *BOX_SAVEDATA_GetPokemon(struct GameData *gameData, u32 box, u32 slot);
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
-extern u8 UI_GetInputMode(void);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern int POKE_TOOL_GetIconCellArcIdSub(void);
-extern int POKE_TOOL_GetIconCellEntryId(void);
-extern void ARC_TOOL_DeleteHandle(void *);
+#include "../arm9/box_savedata.h"
+#include "../arm9/poke_tool.h"
+#include "../arm9/ui.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/poke_tool_ext.h"
 struct BmpWin;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
+#include "../arm9/bmp_win.h"
+#include "../arm9/arc_util.h"
 struct Strbuf;
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern int POKETRADE_PROC_GetBoxIndexForSlot(int,char *);
-extern int POKETRADE_PROC_GetSlotIndexInBox(int,int);
-extern int POKETRADE_PROC_IsHostSide(void *);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern void MI_CpuCopy8(const void *,void *,unsigned);
-extern void *BMP_MENUWORK_LoadFrameGfx(unsigned int layer, unsigned int palSlot, unsigned int frameId, unsigned short heapId);
+#include "../arm9/msgdata.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "pokemontrade_proc.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/bmp_menuwork.h"
 struct Party;
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 APP_ICON_GetArchiveId(void);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void GF_FONT_SetTextColor(u32,u32,u32);
+#include "../arm9/app_icon.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/gf_font.h"
 struct GfFont;
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/printsys.h"
 struct PersonalData;
-extern struct PersonalData *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
-extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
-extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, u32 didDecode);
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+#include "../arm9/poke_personal.h"
 struct DispVramCfg;
-struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
-extern u32 APP_ICON_GetStatusCellFileId(u32 a);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_SetupTileScreen(u32 idx, u32 x, u32 y, u16 value);
-extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
-extern void BOX_SAVEDATA_GetBoxName(struct GameData *gameData, u32 box, struct Strbuf *dest);
-extern void BMP_WIN_SetPosY(struct BmpWin *win, u8 posY);
-extern void BMP_WIN_SetPosX(struct BmpWin *win, u8 posX);
-extern int CLACT_RegisterPaletteCompressed(void *archive, unsigned int file_idx, unsigned int vram_mode, unsigned int vram_offset, u16 heap_id);
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern void *POKETRADE_PROC_LoadSlotMonAlt(void *a, int b, int c, char *p);
-extern char *POKETRADE_PROC_GetSlotMonPtr(int, int, char *);
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+struct ClactSysInit;
 struct ImageProxy;
-extern void CLACT_GetActorImageProxy(char *actor_base, struct ImageProxy *dst);
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
-extern u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
-extern void CLACT_SetActorDrawPriority(int, u8);
-extern unsigned int POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
-extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void BG_SYS_InitBgLayer(u32,const BgTemplate *,u32);
-extern void BG_SYS_Init(u32,u32,u32,u32);
-extern void BG_SYS_PushTile(u32);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-int POKETRADE_NEGO_IsMonOwnOffer(char *p,int a,int b);
-int POKETRADE_NEGO_IsMonPeerSelected(char *p, int a, int b);
-void POKETRADE_SAVE_DeleteOfferStatusIcons(char *p);
-extern void BG_SYS_EnableBg0WithPriority(u32);
-extern void BG_SYS_SetPriority(int,u16);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void G3X_SetFog(int,int,int,int);
-extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
-struct G3dLight;
-extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_Init(int,int,int,int,u16,u16,void (*)(void));
-extern int G3D_CAMERA_Create(int,int,int,int,int,int,int,int,const Vec *,const Vec *,const Vec *,u16);
+#include "../arm9/nns_gfd_vram_transfer.h"
+#include "pokemontrade_nego.h"
+#include "pokemontrade_save.h"
+#include "../arm9/g3x.h"
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_InitArm9Proto
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
+/* The original callers declared heapId as u16; the definition takes s16. */
+extern void G3D_SYSTEM_Init(int, int, int, int, u16, u16, void (*)(void));
+#endif
+#include "../arm9/g3d_camera.h"
 struct G3dCamera;
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void *POKETRADE_PROC_GetSideMon(void *p, int a);
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern u32 FILE_UTIL_IsMailItem(u16);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern u32 APP_ICON_GetItemCellFileId(void);
-extern u32 APP_ICON_GetItemPaletteFileId(void);
-extern u32 APP_ICON_GetItemAnimFileId(u32);
-extern u32 APP_ICON_GetItemFrameFileId(u32);
-extern void UI_SCENE_LoadActorGfx(void *,ActorGfxDesc *,int,u16);
-extern int UI_SCENE_CreateActor(void *,int,u8,u8,u8,u16);
-extern void UI_SCENE_FreeActorGfx(unsigned int *p);
-extern u32 POKERUS_IsInfected(struct PokemonParam *pp);
-extern u32 APP_ICON_GetSealCellFileId(void);
-extern u32 APP_ICON_GetSealPaletteFileId(void);
-extern u32 APP_ICON_GetSealAnimFileId(u32);
-extern u32 APP_ICON_GetSealFrameFileId(u32);
-extern unsigned int POKERUS_IsCured(struct PokemonParam *pp);
-extern int APP_ICON_GetBallOpenAnimFileId(void);
-extern int APP_ICON_GetEffectCellFileId(int);
-extern int APP_ICON_GetEffectPaletteFileId(int);
-extern int APP_ICON_GetEffectAnimFileId(int);
-extern u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
-extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
-extern int FX_Sqrt(int);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern void BMP_Delete(struct Bmp *p);
-extern int CLACT_GetCharacterVramAddress(unsigned int idx, unsigned int flag);
-extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void DC_FlushRange(void *,int);
-extern void GXS_LoadOBJ(void *pSrc, u32 offset, u32 szByte);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
-extern void BG_SYS_DrawTile(u32 index, void *src, u8 dx, u8 dy, u8 cw, u8 ch);
-extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
-extern void *PALANM_Create(u32 heap);
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
-extern int PALANM_GetTransWork(char *,int);
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-extern u32 PALANM_Delete(void *ctx);
-extern void GXS_LoadOBJPltt(void *,u32,u32);
-extern void GXS_LoadBGPltt(void *,u32,u32);
-extern void GX_LoadOBJPltt(void *,u32,u32);
-extern void GX_LoadBGPltt(void *,u32,u32);
+#include "../arm9/file_util.h"
+#include "../ov067/ui_scene.h"
+#include "../arm9/pokerus.h"
+#include "../arm9/fx_cp.h"
+#include "../arm9/g2.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/gx_load2d.h"
+#include "../arm9/palanm.h"
 struct TcbList;
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
+#include "../arm9/gfl_use.h"
 struct TcbSystem;
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*)(void), void *work, u32 priority);
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern u32 FX_Div(u32 a, u32 b);
+#include "../arm9/tcb_list.h"
 unsigned char POKETRADE_2D_GetMonMarkingIcon(void *mon, unsigned int heap);
 void POKETRADE_2D_BuildBoxMarkingTable(char *p, int box, unsigned char *out);
 void POKETRADE_2D_BuildPartyMarkingTable(char *p, void *party, unsigned char *out);
@@ -570,7 +432,7 @@ void POKETRADE_2D_CreateMarkerActor(char *p, int i);
 void POKETRADE_2D_SetMarkerActorVisible(void *p, int i, int a);
 void POKETRADE_2D_DeleteMarkerActor(void *p, int i);
 void POKETRADE_2D_SetMarkerActorAnim(void *p, int i);
-void POKETRADE_2D_CreateMarkerButtonActor(Work *p, int z, int i);
+void POKETRADE_2D_CreateMarkerButtonActor(TradeWork *p, int z, int i);
 void POKETRADE_2D_DeleteMarkerButtonPair(int p, int n);
 void POKETRADE_2D_MovePickedIconActor(void *p, int i);
 void POKETRADE_2D_DeletePickedIconActor(char *p);
@@ -600,20 +462,20 @@ extern int gClactConfigSub;
 extern const Tbl2 gSummaryBgTable;
 extern const unsigned char gBoxIconFilter[];
 extern char gBoxIconAllocTag[];
-extern const BgTemplate gSummaryBgTemplate6,gSummaryBgTemplate7;
-extern const BgTemplate gMainBgTemplateC,gMainBgTemplateB,gMainBgTemplateA;
+extern const struct BgTemplate gSummaryBgTemplate6,gSummaryBgTemplate7;
+extern const struct BgTemplate gMainBgTemplateC,gMainBgTemplateB,gMainBgTemplateA;
 extern char gRenderLightTable[];
-extern Vec gCameraTargetC, gCameraTargetB, gCameraTargetA;
+extern VecFx32 gCameraTargetC, gCameraTargetB, gCameraTargetA;
 extern const s16 gCameraParams[];
-extern const BgTemplate gSubBgTemplate4,gSubBgTemplate5,gSubBgTemplate7,gSubBgTemplate6;
+extern const struct BgTemplate gSubBgTemplate4,gSubBgTemplate5,gSubBgTemplate7,gSubBgTemplate6;
 extern const char gDisplayConfig[];
 extern PointU32 gSubScreenWindowPos[26];
-extern const Coords gSummaryIconCoords;
+extern const Pokemontrade2dCoords gSummaryIconCoords;
 extern const States gSummaryIconStates;
 extern const int gOfferIconPosA[6][2];
 extern const int gOfferIconPosB[6][2];
 extern const PointTable6 gPickedIconPath;
-extern const BgTemplate gCursorBgTemplate;
+extern const struct BgTemplate gCursorBgTemplate;
 extern const PointTable8 gOfferWindowPos;
 extern const ByteTable8 gOfferWindowActorTable;
 
@@ -686,7 +548,7 @@ int POKETRADE_2D_BuildMarkingTablesFrom(char *p, int i)
  */
 void POKETRADE_2D_InitClactSystemMain(char *p)
 {
-    CLACT_InitSystem((struct SysInit *)gClactConfigMain, (struct DispVramCfg *)gClactInitData, ((TradeWork *)p)->heapId);
+    CLACT_InitSystem((struct ClactSysInit *)gClactConfigMain, (struct DispVramCfg *)gClactInitData, ((TradeWork *)p)->heapId);
 }
 
 /*
@@ -697,7 +559,7 @@ void POKETRADE_2D_InitClactSystemMain(char *p)
  */
 void POKETRADE_2D_InitClactSystemSub(void *p)
 {
-    CLACT_InitSystem((struct SysInit *)(&gClactConfigSub), (struct DispVramCfg *)(&gClactInitData), ((TradeWork *)p)->heapId);
+    CLACT_InitSystem((struct ClactSysInit *)(&gClactConfigSub), (struct DispVramCfg *)(&gClactInitData), ((TradeWork *)p)->heapId);
 }
 
 void POKETRADE_2D_LoadBackgroundGfx(char *p)
@@ -751,7 +613,7 @@ void POKETRADE_2D_LoadMainGfxAndMessageWindow(char *p)
     (*(void * *)&((TradeWork *)p)->boxBgHandle) = (void *)ARC_UTIL_RegisterObjCharFromHandle(v, 0xD, 7, 0, 0, ((TradeWork *)p)->heapId);
     (*(void * *)&((TradeWork *)p)->mainBgHandle) = (void *)ARC_UTIL_RegisterObjCharFromHandle(v, 0xD, 5, 0, 0, ((TradeWork *)p)->heapId);
     ARC_TOOL_DeleteHandle(v);
-    POKETRADE_2D_LoadBoxScreenData(p, (int)((*(void * *)&((TradeWork *)p)->boxBgHandle)));
+    POKETRADE_2D_LoadBoxScreenData(p, (sptr)((*(void * *)&((TradeWork *)p)->boxBgHandle)));
 }
 
 void POKETRADE_2D_CreateFontResource(char *p)
@@ -801,7 +663,7 @@ void POKETRADE_2D_LoadSummaryBackground(char *p, int shiftScroll, int bgIndex)
     } else {
         BG_SYS_ChangeScrollImmediate(4, 0, 0);
     }
-    CLACT_SetActorDrawEnable((struct Actor *)((TradeWork *)p)->cursorActor, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)((TradeWork *)p)->cursorActor, 0);
     ARC_TOOL_DeleteHandle(v);
     BG_SYS_SetPlaneVisible(4, 1);
 }
@@ -884,16 +746,16 @@ void POKETRADE_2D_LoadBoxScreenData(char *p, int d)
     int i;
     u16 e;
 
-    *(Buf * *)&((TradeWork *)p)->tilemapE = ARC_TOOL_LoadMember(0x66, 0xE, ((TradeWork *)p)->heapId);
-    *(Buf * *)&((TradeWork *)p)->tilemapF = ARC_TOOL_LoadMember(0x66, 0xF, ((TradeWork *)p)->heapId);
-    *(Buf * *)&((TradeWork *)p)->tilemap19 = ARC_TOOL_LoadMember(0x66, 0x19, ((TradeWork *)p)->heapId);
-    *(Buf * *)&((TradeWork *)p)->tilemap1A = ARC_TOOL_LoadMember(0x66, 0x1A, ((TradeWork *)p)->heapId);
+    *(Pokemontrade2dBuf * *)&((TradeWork *)p)->tilemapE = ARC_TOOL_LoadMember(0x66, 0xE, ((TradeWork *)p)->heapId);
+    *(Pokemontrade2dBuf * *)&((TradeWork *)p)->tilemapF = ARC_TOOL_LoadMember(0x66, 0xF, ((TradeWork *)p)->heapId);
+    *(Pokemontrade2dBuf * *)&((TradeWork *)p)->tilemap19 = ARC_TOOL_LoadMember(0x66, 0x19, ((TradeWork *)p)->heapId);
+    *(Pokemontrade2dBuf * *)&((TradeWork *)p)->tilemap1A = ARC_TOOL_LoadMember(0x66, 0x1A, ((TradeWork *)p)->heapId);
     e = d;
     for (i = 0; i < 0x300; i++) {
-        (*(Buf * *)&((TradeWork *)p)->tilemapE)->v[i] += (int)e;
-        (*(Buf **)(p + 0x1178))->v[i] += (int)e;
-        (*(Buf **)(p + 0x117C))->v[i] += (int)e;
-        (*(Buf **)(p + 0x1180))->v[i] += (int)e;
+        (*(Pokemontrade2dBuf * *)&((TradeWork *)p)->tilemapE)->v[i] += (int)e;
+        (*(Pokemontrade2dBuf **)(p + 0x1178))->v[i] += (int)e;
+        (*(Pokemontrade2dBuf **)(p + 0x117C))->v[i] += (int)e;
+        (*(Pokemontrade2dBuf **)(p + 0x1180))->v[i] += (int)e;
     }
     (*(unsigned short *)&((TradeWork *)p)->scrollX) = (*(unsigned int *)&((TradeWork *)p)->gridOriginX) - 0x50;
     POKETRADE_2D_DrawBoxGridScreen(p);
@@ -948,7 +810,7 @@ void POKETRADE_2D_CreateBoxWindows(char *p)
         do {
             q = (char *)((u32 *)p+i);
             if (*(u32 *)(q+h) == 0)
-                *(u32 *)(q+off1) = (u32)BMP_WIN_Create(5,0,0,15,2,14,0);
+                *(u32 *)(q+off1) = (uptr)BMP_WIN_Create(5,0,0,15,2,14,0);
             if (i == *(int *)(p+off))
                 MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank),16,*(void **)(p+off2));
             else BOX_SAVEDATA_GetBoxName((*(void * *)&((TradeWork *)p)->boxManager),i,*(void **)(p+off3));
@@ -1009,7 +871,7 @@ void POKETRADE_2D_DrawBoxNames(char *p)
             else pos = (int)(0u-(u32)scroll);
         } else pos = (int)((u32)idx*20u+12u-(u32)scroll);
         if (pos >= -10 && pos <= 33) {
-            q = (char *)((u32)p+(u32)idx*4u);
+            q = (char *)((uptr)p+(u32)idx*4u);
             BMP_WIN_SetPosX(*(void **)(q + off1), pos + 1);
             BMP_WIN_MakeScreen(*(void **)(q + off2));
         }
@@ -1022,7 +884,7 @@ void POKETRADE_2D_CreateBoxIconActors(char *p)
     int i, j, z;
     void *arc;
     char *q;
-    ObjTmpl t;
+    struct ActorInitParam t;
     arc = ARC_TOOL_CreateHandle(7, ((TradeWork *)p)->heapId);
     ((TradeWork *)p)->iconPalette = (void *)CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0x60, ((TradeWork *)p)->heapId);
     ((TradeWork *)p)->cellAnimC = (void *)CLACT_RegisterCellAnim(arc, POKE_TOOL_GetIconCellArcIdSub(), POKE_TOOL_GetIconCellEntryId(), ((TradeWork *)p)->heapId);
@@ -1031,17 +893,17 @@ void POKETRADE_2D_CreateBoxIconActors(char *p)
             z = 0;
             t.x = z;
             t.y = z;
-            t.prio = 1;
-            t.pal = 0x10;
-            t.mode = 3;
+            t.anim_seq = 1;
+            t.draw_priority = 0x10;
+            t.bg_priority = 3;
             q = p + i * 20 + j * 4;
             ((TradeWork *)q)->charE = (void *)CLACT_RegisterCharacter(arc, 0x51b, z, 1, ((TradeWork *)p)->heapId);
-            ((TradeWork *)q)->boxIconActor = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (unsigned int)((TradeWork *)q)->charE,
-                (unsigned int)((TradeWork *)p)->iconPalette, (unsigned int)((TradeWork *)p)->cellAnimC, &t, 1, ((TradeWork *)p)->heapId);
-            t.prio = z;
-            t.pal = 0xf;
-            ((TradeWork *)q)->boxIconActorAlt = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (unsigned int)(*(void * *)&((TradeWork *)p)->actorChar),
-                (unsigned int)(*(void * *)&((TradeWork *)p)->actorPalette), (unsigned int)(*(void * *)&((TradeWork *)p)->actorCellAnim), &t, 1, ((TradeWork *)p)->heapId);
+            ((TradeWork *)q)->boxIconActor = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (uptr)((TradeWork *)q)->charE,
+                (uptr)((TradeWork *)p)->iconPalette, (uptr)((TradeWork *)p)->cellAnimC, &t, 1, ((TradeWork *)p)->heapId);
+            t.anim_seq = z;
+            t.draw_priority = 0xf;
+            ((TradeWork *)q)->boxIconActorAlt = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (uptr)(*(void * *)&((TradeWork *)p)->actorChar),
+                (uptr)(*(void * *)&((TradeWork *)p)->actorPalette), (uptr)(*(void * *)&((TradeWork *)p)->actorCellAnim), &t, 1, ((TradeWork *)p)->heapId);
             CLACT_SetActorAutoAnim(((TradeWork *)q)->boxIconActor, z);
             CLACT_SetActorDrawEnable(((TradeWork *)q)->boxIconActor, z);
             CLACT_SetActorDrawEnable(((TradeWork *)q)->boxIconActorAlt, z);
@@ -1059,11 +921,11 @@ void POKETRADE_2D_DeleteBoxIconRow(char *p, int n)
     int i;
     for (i = 0; i < 5; i++) {
         if (*(int *)(p + n * 20 + i * 4 + 0xac0)) {
-            CLACT_DeleteActor((struct Actor *)(*(int *)(p + n * 20 + i * 4 + 0xac0)));
+            CLACT_DeleteActor((struct ClactActor *)(*(int *)(p + n * 20 + i * 4 + 0xac0)));
             *(int *)(p + n * 20 + i * 4 + 0xac0) = 0;
         }
         if (*(int *)(p + n * 20 + i * 4 + 0xbb0)) {
-            CLACT_DeleteActor((struct Actor *)(*(int *)(p + n * 20 + i * 4 + 0xbb0)));
+            CLACT_DeleteActor((struct ClactActor *)(*(int *)(p + n * 20 + i * 4 + 0xbb0)));
             *(int *)(p + n * 20 + i * 4 + 0xbb0) = 0;
         }
         if (*(int *)(p + n * 20 + i * 4 + 0x9cc)) {
@@ -1097,7 +959,7 @@ void POKETRADE_2D_DeleteOfferIcons(char *p)
     POKETRADE_SAVE_DeleteOfferStatusIcons(p);
     for (i = 0; i < 10; i++) {
         if (*(int *)(p + i * 4 + 0xefc)) {
-            CLACT_DeleteActor((struct Actor *)(*(int *)(p + i * 4 + 0xefc)));
+            CLACT_DeleteActor((struct ClactActor *)(*(int *)(p + i * 4 + 0xefc)));
             *(int *)(p + i * 4 + 0xefc) = 0;
         }
     }
@@ -1134,11 +996,11 @@ int POKETRADE_2D_ResolveGridCell(int v, int a, int b, char *p, int *out)
         n = POKETRADE_PROC_GetBoxIndexForSlot(a, p);
         m = POKETRADE_PROC_GetSlotIndexInBox(a, b);
         *out = 0;
-        return (int)POKETRADE_PROC_LoadSlotMonAlt((void *)v, n, m, p);
+        return (sptr)POKETRADE_PROC_LoadSlotMonAlt((void *)v, n, m, p);
     }
     if (b < 3) {
         *out = 1;
-        return (int)POKETRADE_PROC_LoadSlotMonAlt((void *)v, ((TradeWork *)p)->partyBoxId, a + b * 2, p);
+        return (sptr)POKETRADE_PROC_LoadSlotMonAlt((void *)v, ((TradeWork *)p)->partyBoxId, a + b * 2, p);
     }
     return 0;
 }
@@ -1164,8 +1026,8 @@ void POKETRADE_2D_PlaceBoxIconActors(char *p)
         q = p + i * 4;
         for (j = 0; j < 12; j++) {
             r = q + j * 20;
-            if (CLACT_GetActorDrawEnable((struct Actor *)((*(int *)&((TradeWork *)r)->boxIconActorAlt)))) {
-                CLACT_GetActorSurfacePos((struct Actor *)(*(int *)&((TradeWork *)r)->boxIconActorAlt), (struct PtS *)xy, 1);
+            if (CLACT_GetActorDrawEnable((struct ClactActor *)(((TradeWork *)r)->boxIconActorAlt))) {
+                CLACT_GetActorSurfacePos((struct ClactActor *)((TradeWork *)r)->boxIconActorAlt, (struct ClactVec2 *)xy, 1);
                 ((TradeWork *)p)->iconPosX = xy[0];
                 ((TradeWork *)p)->iconPosY = xy[1];
             }
@@ -1195,7 +1057,7 @@ int POKETRADE_2D_IsBoxIconMatch(int i, int x)
  */
 void POKETRADE_2D_SetIconObjMode(int unused, int actor, int enable)
 {
-    CLACT_SetActorObjMode((struct Actor *)actor, enable != 0);
+    CLACT_SetActorObjMode((struct ClactActor *)actor, enable != 0);
 }
 
 void POKETRADE_2D_UpdateIconObjMode(char *p, int gridSlot, int column, int recordId, int cellKind, int row)
@@ -1204,14 +1066,14 @@ void POKETRADE_2D_UpdateIconObjMode(char *p, int gridSlot, int column, int recor
     if (POKETRADE_NEGO_IsMonOwnOffer(p, gridSlot, column)) {
         flag = 1;
     }
-    POKETRADE_2D_SetIconObjMode((int)p, ((int (*)[5])(p + 0xAC0))[row][column], flag);
+    POKETRADE_2D_SetIconObjMode((sptr)p, ((int (*)[5])(p + 0xAC0))[row][column], flag);
 }
 
 void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
 {
-    int j, rec, id, b2, b3, idx, n;
-    Ent *e;
-    Info info;
+    int j; sptr rec; int id, b2, b3, idx, n;
+    Pokemontrade2dEnt *e;
+    Pokemontrade2dInfo info;
     int kind;
     u16 pos[2];
     PointS16 pt;
@@ -1221,7 +1083,7 @@ void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
     }
     for (j = 0; j < 5; j++) {
         rec = POKETRADE_2D_ResolveGridCell(v, a, j, p, &kind);
-        e = (Ent *)POKETRADE_2D_GetGridCellMon(a, j, p);
+        e = (Pokemontrade2dEnt *)POKETRADE_2D_GetGridCellMon(a, j, p);
         if (e == 0) {
             *(u8 *)(p + row * 5 + j + 0xd90) = 0xff;
             continue;
@@ -1249,7 +1111,7 @@ void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
             n = POKETRADE_PROC_GetBoxIndexForSlot(a, p);
             idx = POKETRADE_PROC_GetSlotIndexInBox(a, j);
             idx += n * 30;
-            CLACT_GetActorSurfacePos((struct Actor *)*(void **)(p + row * 20 + j * 4 + 0xac0), (struct PtS *)&pt, 1);
+            CLACT_GetActorSurfacePos((struct ClactActor *)*(void **)(p + row * 20 + j * 4 + 0xac0), (struct ClactVec2 *)&pt, 1);
             if (flag == 1 && pt.x >= -16 && pt.x <= 0x110) {
                 if (NNS_GfdRegisterNewVramTransferTask((void *)0x23, info.c, *(int *)(p + 0x1184) + idx * 0x200, 0x200) == 0) {
                     vram = VRAM_BASE;
@@ -1323,12 +1185,12 @@ void POKETRADE_2D_UpdateVisibleColumns(int a, char *p, int b)
         ((TradeWork *)p)->cursorRow = n;
         for (i = 0; i < 12; i++) {
             for (j = 0; j < 5; j++) {
-                CLACT_SetActorDrawEnable((struct Actor *)*(int *)(p + i * 20 + j * 4 + 0xbb0), 0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)(p + i * 20 + j * 4 + 0xbb0), 0);
                 *(unsigned char *)(p + i * 5 + j + 0xebc) = 0;
             }
         }
         ((TradeWork *)p)->drawColumn = n;
-        POKETRADE_2D_HideAllBoxIcons((int)p);
+        POKETRADE_2D_HideAllBoxIcons((sptr)p);
         for (i = 0; i < 12; i++) {
             POKETRADE_2D_CreateBoxIcon(p, a, n, POKETRADE_2D_WrapIndex12(((TradeWork *)p)->cursorRow + i), b);
             n++;
@@ -1369,17 +1231,22 @@ void POKETRADE_2D_UpdateBoxIconPositions(char *p)
             if (POKETRADE_NEGO_IsMonPeerSelected(p, y, j) && UI_GetInputMode() == 1) {
                 b.y -= 8;
                 q = p + row * 20 + j * 4;
-                CLACT_SetActorDrawPriority((*(int *)&((TradeWork *)q)->boxIconActor), 11);
+                CLACT_SetActorDrawPriority( ((TradeWork *)q)->boxIconActor, 11);
             } else {
                 q = p + row * 20 + j * 4;
-                CLACT_SetActorDrawPriority((*(int *)&((TradeWork *)q)->boxIconActor), 0x1c - i);
+#ifdef __MWERKS__
+                /* The original caller declared the priority as u8 and the actor as int. */
+                ((void (*)(int, u8))CLACT_SetActorDrawPriority)((*(int *)&((TradeWork *)q)->boxIconActor), 0x1c - i);
+#else
+                CLACT_SetActorDrawPriority(((TradeWork *)q)->boxIconActor, 0x1c - i);
+#endif
             }
-            CLACT_AddActorSurfacePos((struct Obj *)((*(int *)&((TradeWork *)q)->boxIconActor)), (const struct Vec2 *)(&b), 1);
+            CLACT_AddActorSurfacePos(((TradeWork *)q)->boxIconActor, (const struct ClactVec2 *)(&b), 1);
             if (*(u8 *)(p + row * 5 + j + 0xebc)) {
                 *(PointS16 *)(q + 0xdcc) = a;
             }
             b.y = ty + 3;
-            CLACT_AddActorSurfacePos((struct Obj *)((*(int *)&((TradeWork *)q)->boxIconActorAlt)), (const struct Vec2 *)(&b), 1);
+            CLACT_AddActorSurfacePos(((TradeWork *)q)->boxIconActorAlt, (const struct ClactVec2 *)(&b), 1);
         }
         y++;
     }
@@ -1390,9 +1257,9 @@ void POKETRADE_2D_UpdateBoxIconPositions(char *p)
  */
 void POKETRADE_2D_LoadBoxIconGfx(char *p, int b)
 {
-    int i, n, x, t, out;
+    int i, n; sptr x, t, out;
     void *a;
-    if (b == 0) *(int *)&((TradeWork *)p)->vramBuf = (int)GFL_HEAP_Alloc(((TradeWork *)p)->heapId, 0x5ac00, 0, gBoxIconAllocTag, 0x50b);
+    if (b == 0) *(int *)&((TradeWork *)p)->vramBuf = (sptr)GFL_HEAP_Alloc(((TradeWork *)p)->heapId, 0x5ac00, 0, gBoxIconAllocTag, 0x50b);
     a = ARC_TOOL_CreateHandle(7, ((TradeWork *)p)->heapId);
     goto check;
 body:
@@ -1400,10 +1267,10 @@ body:
         n = b * 30;
         for (i = 0; i < 30; i++) {
             if (b == 24 && i == 6) break;
-            x = (int)POKETRADE_PROC_LoadSlotMonAlt((void *)(((TradeWork *)p)->boxManager), b, i, p);
+            x = (sptr)POKETRADE_PROC_LoadSlotMonAlt((void *)(((TradeWork *)p)->boxManager), b, i, p);
             if (x) x = POKE_TOOL_GetGraphicIndex((void *)x);
             else x = POKE_TOOL_CalcGraphicIndex(0, 0, 0, 0);
-            t = (int)ARC_UTIL_LoadBgCharDataFromHandle((void *)a, x, 0, (&out), ((TradeWork *)p)->heapId);
+            t = (sptr)ARC_UTIL_LoadBgCharDataFromHandle((void *)a, x, 0, (&out), ((TradeWork *)p)->heapId);
             MI_CpuCopy8(((struct GfxLoadResult *)out)->data, (void *)(*(int *)&((TradeWork *)p)->vramBuf + n * 512), 512);
             n++;
             GFL_HEAP_Free((void *)t);
@@ -1433,7 +1300,7 @@ void POKETRADE_2D_HideAllBoxIcons(int p)
     int i, j;
     for (i = 0; i < 12; i++)
         for (j = 0; j < 5; j++)
-            CLACT_SetActorDrawEnable((struct Actor *)*(int *)(p + i * 20 + j * 4 + 0xac0), 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)(p + i * 20 + j * 4 + 0xac0), 0);
 }
 
 /*
@@ -1450,10 +1317,10 @@ int POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *ou
 {
  PointS16 pos;
  int column,slot,row;
- Object *tmp;
+ Pokemontrade2dObject *tmp;
  for(row=0;row<12;row++) {
   for(column=0;column<5;column++) {
-   CLACT_GetActorSurfacePos((struct Actor *)((Object *)p)->actors[row][column],(struct PtS *)&pos,1);
+   CLACT_GetActorSurfacePos((struct ClactActor *)((Pokemontrade2dObject *)p)->actors[row][column],(struct ClactVec2 *)&pos,1);
    if(pos.x<=x && x<pos.x+24 && pos.y<=y && y<pos.y+24) {
     if(outA) {
      slot=*(u8 *)(p+0xd90+row*5+column);
@@ -1464,8 +1331,8 @@ int POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *ou
      } else return 0;
     }
     if(outSlot) {*outSlot=slot;*outColumn=column;*outRow=row;}
-    tmp=(Object *)p;
-    return (int)tmp->actors[row][column];
+    tmp=(Pokemontrade2dObject *)p;
+    return (sptr)tmp->actors[row][column];
    }
   }
  }
@@ -1479,7 +1346,7 @@ int POKETRADE_2D_HitTestBoxIcons(char *p,int x,int y,int *outA,int *outB,int *ou
  */
 void POKETRADE_2D_SetupSummaryBgs(char *p,int mode)
 {
- BgTemplate a,b;
+ struct BgTemplate a,b;
  void *v;
  POKETRADE_2D_SetDisplayConfig(1);p[0x11ec]=1;
  a=gSummaryBgTemplate6;BG_SYS_InitBgLayer(6,&a,0);BG_SYS_Init(6,0,1,0);BG_SYS_SetTileEntry(6,0,0,0,32,24,17);BG_SYS_PushTile(6);
@@ -1487,14 +1354,14 @@ void POKETRADE_2D_SetupSummaryBgs(char *p,int mode)
  if(mode==0) {
   v=ARC_TOOL_CreateHandle(0x67,((TradeWork *)p)->heapId);
   ARC_UTIL_UploadPaletteFromHandleWhole(v,5,6,0x6000,0,((TradeWork *)p)->heapId);
-  ARC_UTIL_UploadBgCharFromHandle((void *)((u32)v),4,7,0,0,0,((TradeWork *)p)->heapId);
-  ARC_UTIL_UploadBgPaletteFromHandle((void *)((u32)v),6,7,0,0,0,((TradeWork *)p)->heapId);
+  ARC_UTIL_UploadBgCharFromHandle((void *)((uptr)v),4,7,0,0,0,((TradeWork *)p)->heapId);
+  ARC_UTIL_UploadBgPaletteFromHandle((void *)((uptr)v),6,7,0,0,0,((TradeWork *)p)->heapId);
   BG_SYS_ChangeScrollImmediate(7,0,0);ARC_TOOL_DeleteHandle(v);
  } else {
   v=ARC_TOOL_CreateHandle(0x68,((TradeWork *)p)->heapId);
   ARC_UTIL_UploadPaletteFromHandleWhole(v,1,6,0x6000,0,((TradeWork *)p)->heapId);
-  ARC_UTIL_UploadBgCharFromHandle((void *)((u32)v),0,7,0,0,0,((TradeWork *)p)->heapId);
-  ARC_UTIL_UploadBgPaletteFromHandle((void *)((u32)v),2,7,0,0,0,((TradeWork *)p)->heapId);
+  ARC_UTIL_UploadBgCharFromHandle((void *)((uptr)v),0,7,0,0,0,((TradeWork *)p)->heapId);
+  ARC_UTIL_UploadBgPaletteFromHandle((void *)((uptr)v),2,7,0,0,0,((TradeWork *)p)->heapId);
   BG_SYS_ChangeScrollImmediate(7,0,0);ARC_TOOL_DeleteHandle(v);
  }
 }
@@ -1512,7 +1379,7 @@ void POKETRADE_2D_ExitSummaryBgs(int p)
 void POKETRADE_2D_InitDisplayAndClact(char *p)
 {
     BG_SYS_SetVramBanks((const struct DispVram *)gClactInitData);
-    CLACT_InitSystem((struct SysInit *)(&gClactConfigSub), (struct DispVramCfg *)gClactInitData, ((TradeWork *)p)->heapId);
+    CLACT_InitSystem((struct ClactSysInit *)(&gClactConfigSub), (struct DispVramCfg *)gClactInitData, ((TradeWork *)p)->heapId);
     POKETRADE_2D_SetDisplayConfig(0);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
@@ -1520,7 +1387,7 @@ void POKETRADE_2D_InitDisplayAndClact(char *p)
 
 void POKETRADE_2D_SetupMainBgs(void *unused)
 {
- BgTemplate a,b,c;
+ struct BgTemplate a,b,c;
  a=gMainBgTemplateC;
  BG_SYS_InitBgLayer(3,&a,0);BG_SYS_Init(3,0,1,0);
  BG_SYS_SetTileEntry(3,0,0,0,32,24,17);BG_SYS_PushTile(3);
@@ -1533,7 +1400,7 @@ void POKETRADE_2D_SetupMainBgs(void *unused)
  BG_SYS_EnableBg0WithPriority(0);BG_SYS_SetPlaneVisible(0,1);BG_SYS_SetPriority(0,0);
 }
 
-static inline void shading(Shading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }
+static inline void shading(PokemontradeShading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }
 
 static inline void antialias(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x10); else *(volatile u16 *)0x04000060 &= (u16)~0x3010; }
 
@@ -1563,7 +1430,7 @@ void POKETRADE_2D_Setup3DRenderState(void)
 void POKETRADE_2D_InitG3DSystem(char *p)
 {
     u16 heap;
-    Vec v;
+    VecFx32 v;
     G3D_SYSTEM_Init(0,2,0,1,0,(((TradeWork *)p)->heapId&0x7fff)|0x8000,POKETRADE_2D_Setup3DRenderState);
     heap = (((TradeWork *)p)->heapId&0x7fff)|0x8000;
     v = gCameraTargetC;
@@ -1575,7 +1442,7 @@ void POKETRADE_2D_InitG3DSystem(char *p)
 
 void POKETRADE_2D_SetupSubBgs(char *p)
 {
- BgTemplate a,b,c,d;
+ struct BgTemplate a,b,c,d;
  a=gSubBgTemplate4;BG_SYS_InitBgLayer(4,&a,0);BG_SYS_SetTileEntry(4,0,0,0,32,24,17);
  b=gSubBgTemplate5;BG_SYS_InitBgLayer(5,&b,0);BG_SYS_Init(5,0,1,0);BG_SYS_SetTileEntry(5,0,0,0,32,24,17);BG_SYS_PushTile(5);
  c=gSubBgTemplate7;BG_SYS_InitBgLayer(7,&c,0);BG_SYS_SetTileEntry(7,0,0,0,64,24,17);BG_SYS_PushTile(7);
@@ -1628,16 +1495,16 @@ void POKETRADE_2D_ReleaseMarkerResources(char *p)
 void POKETRADE_2D_RegisterIconSpriteResources(char *p)
 {
     void *a;
-    Sprite s;
+    struct ActorInitParam s;
     a = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
     ((TradeWork *)p)->actorChar = CLACT_RegisterCharacter(a, 0x18, 0, 1, ((TradeWork *)p)->heapId);
     ((TradeWork *)p)->actorPalette = CLACT_RegisterPaletteEx(a, 0x12, 1, 0xc0, 0, 6, ((TradeWork *)p)->heapId);
     ((TradeWork *)p)->actorCellAnim = CLACT_RegisterCellAnim(a, 0x17, 0x16, ((TradeWork *)p)->heapId);
     ARC_TOOL_DeleteHandle(a);
-    s.x = 0x80; s.y = 0xb4; s.z = 2; s.a = 0xe; s.b = 0;
+    s.x = 0x80; s.y = 0xb4; s.anim_seq = 2; s.draw_priority = 0xe; s.bg_priority = 0;
     ((TradeWork *)p)->cursorActor = CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem, ((TradeWork *)p)->actorChar, ((TradeWork *)p)->actorPalette, ((TradeWork *)p)->actorCellAnim, &s, 1, ((TradeWork *)p)->heapId);
-    CLACT_SetActorAutoAnim((struct Actor *)((TradeWork *)p)->cursorActor, 0);
-    CLACT_SetActorDrawEnable((struct Actor *)((TradeWork *)p)->cursorActor, 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)((TradeWork *)p)->cursorActor, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)((TradeWork *)p)->cursorActor, 1);
 }
 
 void POKETRADE_2D_LoadMainPalette(char *p)
@@ -1652,23 +1519,23 @@ void POKETRADE_2D_CreateTouchbarActors(char *p)
     void *arc;
     void *a, *b;
     int z;
-    ObjTmpl u, t;
+    struct ActorInitParam u, t;
     u.x = 0x80;
     u.y = 0x10;
-    u.prio = 0x13;
-    u.pal = 0xe;
-    u.mode = 1;
-    ((TradeWork *)p)->actorF08 = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (unsigned int)(*(void * *)&((TradeWork *)p)->actorChar), (unsigned int)(*(void * *)&((TradeWork *)p)->actorPalette),
-        (unsigned int)(*(void * *)&((TradeWork *)p)->actorCellAnim), &u, 1, ((TradeWork *)p)->heapId);
+    u.anim_seq = 0x13;
+    u.draw_priority = 0xe;
+    u.bg_priority = 1;
+    ((TradeWork *)p)->actorF08 = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (uptr)(*(void * *)&((TradeWork *)p)->actorChar), (uptr)(*(void * *)&((TradeWork *)p)->actorPalette),
+        (uptr)(*(void * *)&((TradeWork *)p)->actorCellAnim), &u, 1, ((TradeWork *)p)->heapId);
     CLACT_SetActorAutoAnim(((TradeWork *)p)->actorF08, 1);
     CLACT_SetActorDrawEnable(((TradeWork *)p)->actorF08, 1);
     u.x = 0x60;
     u.y = 0x10;
-    u.prio = 0;
-    u.pal = 0xb;
-    u.mode = 1;
-    (*(void * *)&((TradeWork *)p)->actorF0C) = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (unsigned int)(*(void * *)&((TradeWork *)p)->actorChar), (unsigned int)(*(void * *)&((TradeWork *)p)->actorPalette),
-        (unsigned int)(*(void * *)&((TradeWork *)p)->actorCellAnim), &u, 1, ((TradeWork *)p)->heapId);
+    u.anim_seq = 0;
+    u.draw_priority = 0xb;
+    u.bg_priority = 1;
+    (*(void * *)&((TradeWork *)p)->actorF0C) = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (uptr)(*(void * *)&((TradeWork *)p)->actorChar), (uptr)(*(void * *)&((TradeWork *)p)->actorPalette),
+        (uptr)(*(void * *)&((TradeWork *)p)->actorCellAnim), &u, 1, ((TradeWork *)p)->heapId);
     CLACT_SetActorAutoAnim((*(void * *)&((TradeWork *)p)->actorF0C), 1);
     if (UI_GetInputMode()) {
         CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->actorF0C), 0);
@@ -1681,17 +1548,17 @@ void POKETRADE_2D_CreateTouchbarActors(char *p)
     (*(void * *)&((TradeWork *)p)->charC) = (void *)CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(b), z, 1, ((TradeWork *)p)->heapId);
     t.x = 0x60;
     t.y = 0xc;
-    t.prio = z;
-    t.pal = 0xc;
-    t.mode = 1;
-    (*(void * *)&((TradeWork *)p)->iconActorA) = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (unsigned int)(*(void * *)&((TradeWork *)p)->charB), (unsigned int)((TradeWork *)p)->iconPalette,
-        (unsigned int)((TradeWork *)p)->cellAnimC, &t, 1, ((TradeWork *)p)->heapId);
+    t.anim_seq = z;
+    t.draw_priority = 0xc;
+    t.bg_priority = 1;
+    (*(void * *)&((TradeWork *)p)->iconActorA) = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (uptr)(*(void * *)&((TradeWork *)p)->charB), (uptr)((TradeWork *)p)->iconPalette,
+        (uptr)((TradeWork *)p)->cellAnimC, &t, 1, ((TradeWork *)p)->heapId);
     CLACT_SetActorAutoAnim((*(void * *)&((TradeWork *)p)->iconActorA), 0);
     CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->iconActorA), 1);
     CLACT_SetActorPaletteOffset((*(void * *)&((TradeWork *)p)->iconActorA), POKE_TOOL_GetIconPalette(a), 1);
     t.x = 0xa0;
-    (*(void * *)&((TradeWork *)p)->iconActorB) = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (unsigned int)(*(void * *)&((TradeWork *)p)->charC), (unsigned int)((TradeWork *)p)->iconPalette,
-        (unsigned int)((TradeWork *)p)->cellAnimC, &t, 1, ((TradeWork *)p)->heapId);
+    (*(void * *)&((TradeWork *)p)->iconActorB) = CLACT_CreateActor((*(void * *)&((TradeWork *)p)->clactSystem), (uptr)(*(void * *)&((TradeWork *)p)->charC), (uptr)((TradeWork *)p)->iconPalette,
+        (uptr)((TradeWork *)p)->cellAnimC, &t, 1, ((TradeWork *)p)->heapId);
     CLACT_SetActorAutoAnim((*(void * *)&((TradeWork *)p)->iconActorB), 0);
     CLACT_SetActorDrawEnable((*(void * *)&((TradeWork *)p)->iconActorB), 1);
     CLACT_SetActorPaletteOffset((*(void * *)&((TradeWork *)p)->iconActorB), POKE_TOOL_GetIconPalette(b), 1);
@@ -1706,28 +1573,28 @@ void POKETRADE_2D_PlaceTouchbarActors(char *p, int b, int c)
     PointU16 pos;
     if (c) {
         pos.x = 96; pos.y = 12;
-        CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->iconActorA), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((TradeWork *)p)->iconActorA), (const struct ClactVec2 *)(&pos), 1);
         pos.x = 160; pos.y = 12;
-        CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->iconActorB), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((TradeWork *)p)->iconActorB), (const struct ClactVec2 *)(&pos), 1);
     } else {
         pos.x = 96; pos.y = b == 0 ? 8 : 12;
-        CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->iconActorA), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((TradeWork *)p)->iconActorA), (const struct ClactVec2 *)(&pos), 1);
         pos.x = 160; pos.y = b ? 8 : 12;
-        CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->iconActorB), (const struct Vec2 *)(&pos), 1);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((TradeWork *)p)->iconActorB), (const struct ClactVec2 *)(&pos), 1);
     }
 }
 
 void POKETRADE_2D_DeleteTouchbarActors(void *a)
 {
-    if ((*(int *)&((TradeWork *)a)->actorF08) != 0)
-        CLACT_DeleteActor((struct Actor *)((*(int *)&((TradeWork *)a)->actorF08)));
+    if (((TradeWork *)a)->actorF08 != 0)
+        CLACT_DeleteActor((struct ClactActor *)(((TradeWork *)a)->actorF08));
     if (((TradeWork *)a)->actorF0C != 0)
-        CLACT_DeleteActor((struct Actor *)(((TradeWork *)a)->actorF0C));
+        CLACT_DeleteActor((struct ClactActor *)(((TradeWork *)a)->actorF0C));
     if (((TradeWork *)a)->iconActorA != 0)
-        CLACT_DeleteActor((struct Actor *)(((TradeWork *)a)->iconActorA));
+        CLACT_DeleteActor((struct ClactActor *)(((TradeWork *)a)->iconActorA));
     if (((TradeWork *)a)->iconActorB != 0)
-        CLACT_DeleteActor((struct Actor *)(((TradeWork *)a)->iconActorB));
-    (*(int *)&((TradeWork *)a)->actorF08) = 0;
+        CLACT_DeleteActor((struct ClactActor *)(((TradeWork *)a)->iconActorB));
+    ((TradeWork *)a)->actorF08 = 0;
     ((TradeWork *)a)->actorF0C = 0;
     ((TradeWork *)a)->iconActorA = 0;
     ((TradeWork *)a)->iconActorB = 0;
@@ -1773,8 +1640,8 @@ void POKETRADE_2D_ClearSubScreen(char *p)
     BG_SYS_SetPlaneVisible(4, 0);
     BG_SYS_ChangeScrollImmediate(4, 0, 0);
     BG_SYS_ChangeScrollImmediate(6, 0, 0);
-    if (((TradeWork *)p)->cursorActor) CLACT_SetActorDrawEnable((struct Actor *)((TradeWork *)p)->cursorActor, 1);
-    if (((TradeWork *)p)->actorF18) CLACT_SetActorDrawEnable((struct Actor *)((TradeWork *)p)->actorF18, 1);
+    if (((TradeWork *)p)->cursorActor) CLACT_SetActorDrawEnable((struct ClactActor *)((TradeWork *)p)->cursorActor, 1);
+    if (((TradeWork *)p)->actorF18) CLACT_SetActorDrawEnable((struct ClactActor *)((TradeWork *)p)->actorF18, 1);
     for (i = 0; i < 26; i++) {
         if (*(int *)(p + i * 4 + 0x750)) {
             BMP_WIN_ClearScreen((struct BmpWin *)(*(int *)(p + i * 4 + 0x750)));
@@ -1804,11 +1671,11 @@ void POKETRADE_2D_CreateMarkingIcon(char *p, int side, void *mon)
     int flag = 0;
     u32 species = POKE_TOOL_GetPartyValue(mon,6,0);
     if (FILE_UTIL_IsMailItem(species)) flag = 1;
-    if (((struct UiScene *)q)->actor) {
-        if (!species) CLACT_SetActorDrawEnable((struct Actor *)((struct UiScene *)q)->actor,0);
+    if (((struct PokemontradeUiScene *)q)->actor) {
+        if (!species) CLACT_SetActorDrawEnable((struct ClactActor *)((struct PokemontradeUiScene *)q)->actor,0);
         else {
-            CLACT_SetActorAnimSeq((struct Actor *)(((struct UiScene *)q)->actor),flag);
-            CLACT_SetActorDrawEnable((struct Actor *)((struct UiScene *)q)->actor,1);
+            CLACT_SetActorAnimSeq((struct ClactActor *)(((struct PokemontradeUiScene *)q)->actor),flag);
+            CLACT_SetActorDrawEnable((struct ClactActor *)((struct PokemontradeUiScene *)q)->actor,1);
         }
         return;
     }
@@ -1816,30 +1683,30 @@ void POKETRADE_2D_CreateMarkingIcon(char *p, int side, void *mon)
     switch (side) {
     case 0: case 1:
         x = side*128+16; y = 132;
-        in.f0 = 1; in.b1c = 12;
+        in.screen = 1; in.plttSlot = 12;
         break;
     case 2:
         x = 32; y = 172;
-        in.f0 = 0; in.b1c = 6;
+        in.screen = 0; in.plttSlot = 6;
         break;
     }
-    in.f4 = 0;
-    in.f8 = APP_ICON_GetArchiveId();
-    in.fC = APP_ICON_GetItemCellFileId();
-    in.f10 = APP_ICON_GetItemPaletteFileId();
-    in.f14 = APP_ICON_GetItemAnimFileId(2);
-    in.f18 = APP_ICON_GetItemFrameFileId(2);
-    in.b1d = 0; in.b1e = 1;
-    UI_SCENE_LoadActorGfx(q, (ActorGfxDesc *)&in, ((TradeWork *)p)->clactSystem, ((TradeWork *)p)->heapId);
-    ((struct UiScene *)q)->actor = (void *)UI_SCENE_CreateActor(q,((TradeWork *)p)->clactSystem,x,y,flag,((TradeWork *)p)->heapId);
+    in.flags = 0;
+    in.arcId = APP_ICON_GetArchiveId();
+    in.charId = APP_ICON_GetItemCellFileId();
+    in.plttId = APP_ICON_GetItemPaletteFileId();
+    in.cellId = APP_ICON_GetItemAnimFileId(2);
+    in.animId = APP_ICON_GetItemFrameFileId(2);
+    in.charBase = 0; in.charSize = 1;
+    UI_SCENE_LoadActorGfx((ActorGfxSet *)q, (ActorGfxDesc *)&in, (void *)(((TradeWork *)p)->clactSystem), ((TradeWork *)p)->heapId);
+    ((struct PokemontradeUiScene *)q)->actor = (void *)UI_SCENE_CreateActor( (ActorGfxSet *)q, (void *)(((TradeWork *)p)->clactSystem), (u8)x, (u8)y,flag,((TradeWork *)p)->heapId);
 }
 
 void POKETRADE_2D_DeleteMarkingIcon(void *p)
 {
-    if (((struct UiScene *)p)->actor) {
-        CLACT_DeleteActor((struct Actor *)(((struct UiScene *)p)->actor));
+    if (((struct PokemontradeUiScene *)p)->actor) {
+        CLACT_DeleteActor((struct ClactActor *)(((struct PokemontradeUiScene *)p)->actor));
         UI_SCENE_FreeActorGfx(p);
-        ((struct UiScene *)p)->actor = 0;
+        ((struct PokemontradeUiScene *)p)->actor = 0;
     }
 }
 
@@ -1853,27 +1720,27 @@ void POKETRADE_2D_CreatePokerusIcon(char *p, int side, int flag, void *mon)
     char *q = p + 0x964;
     ActorGfxDesc in;
     u32 a = POKERUS_IsInfected(mon);
-    if (((struct UiScene *)q)->actor) {
-        if (!a) CLACT_SetActorDrawEnable((struct Actor *)((struct UiScene *)q)->actor,0);
-        else CLACT_SetActorDrawEnable((struct Actor *)((struct UiScene *)q)->actor,1);
+    if (((struct PokemontradeUiScene *)q)->actor) {
+        if (!a) CLACT_SetActorDrawEnable((struct ClactActor *)((struct PokemontradeUiScene *)q)->actor,0);
+        else CLACT_SetActorDrawEnable((struct ClactActor *)((struct PokemontradeUiScene *)q)->actor,1);
         return;
     }
     if (!a) {
         if (!flag) POKETRADE_2D_CreateCuredPokerusIcon(p,side,(void *)mon);
         return;
     }
-    if (flag) { in.f0 = 0; in.b1c = 0; }
-    else { in.f0 = 1; in.b1c = 11; }
-    in.f4 = 0;
-    in.f8 = APP_ICON_GetArchiveId();
-    in.fC = APP_ICON_GetSealCellFileId();
-    in.f10 = APP_ICON_GetSealPaletteFileId();
-    in.f14 = APP_ICON_GetSealAnimFileId(2);
-    in.f18 = APP_ICON_GetSealFrameFileId(2);
-    in.b1d = 0; in.b1e = 1;
-    UI_SCENE_LoadActorGfx(q, (ActorGfxDesc *)&in, ((TradeWork *)p)->clactSystem, ((TradeWork *)p)->heapId);
-    if (flag) ((struct UiScene *)q)->actor = (void *)UI_SCENE_CreateActor(q,((TradeWork *)p)->clactSystem,244,104,0,((TradeWork *)p)->heapId);
-    else ((struct UiScene *)q)->actor = (void *)UI_SCENE_CreateActor(q,((TradeWork *)p)->clactSystem,side*128+108,24,0,((TradeWork *)p)->heapId);
+    if (flag) { in.screen = 0; in.plttSlot = 0; }
+    else { in.screen = 1; in.plttSlot = 11; }
+    in.flags = 0;
+    in.arcId = APP_ICON_GetArchiveId();
+    in.charId = APP_ICON_GetSealCellFileId();
+    in.plttId = APP_ICON_GetSealPaletteFileId();
+    in.cellId = APP_ICON_GetSealAnimFileId(2);
+    in.animId = APP_ICON_GetSealFrameFileId(2);
+    in.charBase = 0; in.charSize = 1;
+    UI_SCENE_LoadActorGfx((ActorGfxSet *)q, (ActorGfxDesc *)&in, (void *)(((TradeWork *)p)->clactSystem), ((TradeWork *)p)->heapId);
+    if (flag) ((struct PokemontradeUiScene *)q)->actor = (void *)UI_SCENE_CreateActor( (ActorGfxSet *)q, (void *)(((TradeWork *)p)->clactSystem),244,104,0,((TradeWork *)p)->heapId);
+    else ((struct PokemontradeUiScene *)q)->actor = (void *)UI_SCENE_CreateActor( (ActorGfxSet *)q, (void *)(((TradeWork *)p)->clactSystem), (u8)(side*128+108),24,0,((TradeWork *)p)->heapId);
 }
 
 /*
@@ -1885,20 +1752,20 @@ void POKETRADE_2D_CreateCuredPokerusIcon(char *p, int b, void *c)
     ActorGfxDesc in;
     int a = POKERUS_IsCured(c);
     if (a == 0) return;
-    if (((struct UiScene *)q)->actor) {
-        if (a == 0) CLACT_SetActorDrawEnable((struct Actor *)((struct UiScene *)q)->actor, 0);
-        else CLACT_SetActorDrawEnable((struct Actor *)((struct UiScene *)q)->actor, 1);
+    if (((struct PokemontradeUiScene *)q)->actor) {
+        if (a == 0) CLACT_SetActorDrawEnable((struct ClactActor *)((struct PokemontradeUiScene *)q)->actor, 0);
+        else CLACT_SetActorDrawEnable((struct ClactActor *)((struct PokemontradeUiScene *)q)->actor, 1);
         return;
     }
-    in.f0 = 1; in.b1c = 14; in.f4 = 0;
-    in.f8 = APP_ICON_GetArchiveId();
-    in.fC = APP_ICON_GetBallOpenAnimFileId();
-    in.f10 = APP_ICON_GetEffectCellFileId(2);
-    in.f14 = APP_ICON_GetEffectPaletteFileId(2);
-    in.f18 = APP_ICON_GetEffectAnimFileId(2);
-    in.b1d = 0; in.b1e = 1;
-    UI_SCENE_LoadActorGfx(q, (ActorGfxDesc *)&in, ((TradeWork *)p)->clactSystem, ((TradeWork *)p)->heapId);
-    ((struct UiScene *)q)->actor = (void *)UI_SCENE_CreateActor(q, ((TradeWork *)p)->clactSystem, 108 + b * 128, 20, 13, ((TradeWork *)p)->heapId);
+    in.screen = 1; in.plttSlot = 14; in.flags = 0;
+    in.arcId = APP_ICON_GetArchiveId();
+    in.charId = APP_ICON_GetBallOpenAnimFileId();
+    in.plttId = APP_ICON_GetEffectCellFileId(2);
+    in.cellId = APP_ICON_GetEffectPaletteFileId(2);
+    in.animId = APP_ICON_GetEffectAnimFileId(2);
+    in.charBase = 0; in.charSize = 1;
+    UI_SCENE_LoadActorGfx((ActorGfxSet *)q, (ActorGfxDesc *)&in, (void *)(((TradeWork *)p)->clactSystem), ((TradeWork *)p)->heapId);
+    ((struct PokemontradeUiScene *)q)->actor = (void *)UI_SCENE_CreateActor( (ActorGfxSet *)q, (void *)(((TradeWork *)p)->clactSystem), (u8)(108 + b * 128), 20, 13, ((TradeWork *)p)->heapId);
 }
 
 /*
@@ -1916,27 +1783,27 @@ void POKETRADE_2D_CreateCuredPokerusIcon(char *p, int b, void *c)
 void POKETRADE_2D_CreateSummaryIcons(char *p,void *mon,int flag)
 {
     ActorGfxDesc in;
-    Coords coords;
+    Pokemontrade2dCoords coords;
     States states;
     int offOwner,offStore,offLoad,offSprite;
     u32 bits;
     long i;
-    int state,sprite;
+    int state; sptr sprite;
     int *row;
     bits=POKE_TOOL_GetPartyValue(mon,11,0);
     coords=gSummaryIconCoords;
     states=gSummaryIconStates;
-    in.f0=0; in.f4=0;
-    in.f8=APP_ICON_GetArchiveId();
-    in.fC=APP_ICON_GetBallOpenAnimFileId();
-    in.f10=APP_ICON_GetEffectCellFileId(2);
-    in.f14=APP_ICON_GetEffectPaletteFileId(2);
-    in.f18=APP_ICON_GetEffectAnimFileId(2);
-    in.b1c=13; in.b1d=0; in.b1e=1;
+    in.screen=0; in.flags=0;
+    in.arcId=APP_ICON_GetArchiveId();
+    in.charId=APP_ICON_GetBallOpenAnimFileId();
+    in.plttId=APP_ICON_GetEffectCellFileId(2);
+    in.cellId=APP_ICON_GetEffectPaletteFileId(2);
+    in.animId=APP_ICON_GetEffectAnimFileId(2);
+    in.plttSlot=13; in.charBase=0; in.charSize=1;
     if (!flag && POKE_TOOL_IsShiny(mon)) bits|=64;
-    if (POKERUS_IsCured(mon)) bits|=128;
+    if (POKERUS_IsCured((struct PokemonParam *)mon)) bits|=128;
     if (!((TradeWork *)p)->subScreenActive) {
-        UI_SCENE_LoadActorGfx((void *)(p+0x98c), (ActorGfxDesc *)&in, ((TradeWork *)p)->clactSystem, ((TradeWork *)p)->heapId);
+        UI_SCENE_LoadActorGfx((ActorGfxSet *)((void *)(p+0x98c)), (ActorGfxDesc *)&in, (void *)(((TradeWork *)p)->clactSystem), ((TradeWork *)p)->heapId);
         ((TradeWork *)p)->subScreenActive=1;
     }
     offOwner=0x98c+0x38;
@@ -1948,14 +1815,14 @@ void POKETRADE_2D_CreateSummaryIcons(char *p,void *mon,int flag)
         if (bits&(1<<i)) { row=states.v[(unsigned)i]; state=states.v[i][0]; }
         else { row=states.v[i]; state=row[1]; }
         if (sprite) {
-            if (state==-1) CLACT_SetActorDrawEnable((struct Actor *)sprite,0);
-            else if (flag && i==6) CLACT_SetActorDrawEnable((struct Actor *)sprite,0);
-            else { CLACT_SetActorAnimSeq((struct Actor *)sprite,state); CLACT_SetActorDrawEnable((struct Actor *)sprite,1); }
+            if (state==-1) CLACT_SetActorDrawEnable((struct ClactActor *)sprite,0);
+            else if (flag && i==6) CLACT_SetActorDrawEnable((struct ClactActor *)sprite,0);
+            else { CLACT_SetActorAnimSeq((struct ClactActor *)sprite,state); CLACT_SetActorDrawEnable((struct ClactActor *)sprite,1); }
         } else {
-            *(int *)(p+(unsigned long)i*4+offStore)=UI_SCENE_CreateActor((void *)(p+0x98c),*(int *)(p+offOwner),coords.v[(unsigned long)i]*8,101,state==-1?row[0]:state,((TradeWork *)p)->heapId);
+            *(void **)(p+(unsigned long)i*4+offStore)=UI_SCENE_CreateActor((ActorGfxSet *)(p+0x98c),(void *)*(int *)(p+offOwner),(u8)(coords.v[(unsigned long)i]*8),101,state==-1?row[0]:state,((TradeWork *)p)->heapId);
             sprite=*(int *)(p+(unsigned long)i*4+offLoad);
-            if (state==-1) CLACT_SetActorDrawEnable((struct Actor *)sprite,0);
-            else if (flag && i==6) CLACT_SetActorDrawEnable((struct Actor *)sprite,0);
+            if (state==-1) CLACT_SetActorDrawEnable((struct ClactActor *)sprite,0);
+            else if (flag && i==6) CLACT_SetActorDrawEnable((struct ClactActor *)sprite,0);
         }
     }
 }
@@ -1966,13 +1833,13 @@ void POKETRADE_2D_DeleteSummaryIcons(void *p)
     int i;
     for (i = 0; i < 8; i++) {
         if (*(int *)(q + i * 4 + 0x14)) {
-            CLACT_DeleteActor((struct Actor *)(*(int *)(q + i * 4 + 0x14)));
+            CLACT_DeleteActor((struct ClactActor *)(*(int *)(q + i * 4 + 0x14)));
             *(int *)(q + i * 4 + 0x14) = 0;
         }
     }
-    if (((struct UiScene *)q)->actor) {
-        UI_SCENE_FreeActorGfx((unsigned int *)q);
-        ((struct UiScene *)q)->actor = 0;
+    if (((struct PokemontradeUiScene *)q)->actor) {
+        UI_SCENE_FreeActorGfx((ActorGfxSet *)q);
+        ((struct PokemontradeUiScene *)q)->actor = 0;
     }
 }
 
@@ -1985,7 +1852,7 @@ void POKETRADE_2D_UploadWindowPalette(char *p, int n, u32 x) {
 void POKETRADE_2D_DeleteOfferIconActor(TradeWork *p, int a, int b)
 {
     if (p->offerIconActor[a][b]) {
-        CLACT_DeleteActor((struct Actor *)p->offerIconActor[a][b]);
+        CLACT_DeleteActor((struct ClactActor *)p->offerIconActor[a][b]);
         p->offerIconActor[a][b] = 0;
         CLACT_ReleaseCharacter(p->offerIconCharRes[a][b]);
     }
@@ -1996,7 +1863,7 @@ void POKETRADE_2D_SetOfferIconsVisible(TradeWork *p, int a, int v)
     int i;
     for (i = 0; i < 3; i++) {
         if (p->offerIconActor[a][i])
-            CLACT_SetActorDrawEnable((struct Actor *)p->offerIconActor[a][i], v);
+            CLACT_SetActorDrawEnable((struct ClactActor *)p->offerIconActor[a][i], v);
     }
 }
 
@@ -2008,7 +1875,7 @@ void POKETRADE_2D_SetOfferIconsVisible(TradeWork *p, int a, int v)
  */
 void POKETRADE_2D_CreateOfferIconActor(char *p,int i,int j,void *mon,int selected,u32 visible)
 {
-    Create c;
+    struct ActorInitParam c;
     void *q = POKE_TOOL_CastToBoxParam(mon);
     void *h = ARC_TOOL_CreateHandle(7,((TradeWork *)p)->heapId);
     int n;
@@ -2018,13 +1885,13 @@ void POKETRADE_2D_CreateOfferIconActor(char *p,int i,int j,void *mon,int selecte
     } else {
         c.x=gOfferIconPosB[i*3+j][0]; c.y=gOfferIconPosB[i*3+j][1]; n=1;
     }
-    c.z=1; c.a=16; c.b=1;
-    *(int *)(p+0x1020+i*12+j*4) = CLACT_RegisterCharacter((void *)((u32)h),POKE_TOOL_GetGraphicIndex(q),0,n,((TradeWork *)p)->heapId);
-    *(int *)(p+0x1008+i*12+j*4) = (int)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,*(int *)(p+0x1020+i*12+j*4),*(int *)&((TradeWork *)p)->iconPaletteComp,*(int *)&((TradeWork *)p)->cellAnimF,&c,n,((TradeWork *)p)->heapId);
-    CLACT_SetActorPaletteOffset((struct Actor *)(*(int *)(p+0x1008+i*12+j*4)),POKE_TOOL_GetIconPalette(q),1);
-    CLACT_SetActorAutoAnim((struct Actor *)*(int *)(p+0x1008+i*12+j*4),0);
-    CLACT_SetActorDrawEnable((struct Actor *)*(int *)(p+0x1008+i*12+j*4),visible);
-    ARC_TOOL_DeleteHandle((void *)((int)h));
+    c.anim_seq=1; c.draw_priority=16; c.bg_priority=1;
+    *(int *)(p+0x1020+i*12+j*4) = CLACT_RegisterCharacter((void *)((uptr)h),POKE_TOOL_GetGraphicIndex(q),0,n,((TradeWork *)p)->heapId);
+    *(int *)(p+0x1008+i*12+j*4) = (sptr)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,*(int *)(p+0x1020+i*12+j*4),*(int *)&((TradeWork *)p)->iconPaletteComp,*(int *)&((TradeWork *)p)->cellAnimF,&c,n,((TradeWork *)p)->heapId);
+    CLACT_SetActorPaletteOffset((struct ClactActor *)(*(int *)(p+0x1008+i*12+j*4)),POKE_TOOL_GetIconPalette(q),1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)*(int *)(p+0x1008+i*12+j*4),0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)(p+0x1008+i*12+j*4),visible);
+    ARC_TOOL_DeleteHandle((void *)((sptr)h));
 }
 
 void POKETRADE_2D_UpdateOfferIconHighlight(void *p, int a, int b) {
@@ -2035,7 +1902,7 @@ void POKETRADE_2D_UpdateOfferIconHighlight(void *p, int a, int b) {
             if (((TradeWork *)p)->offerIconActor[i][j]) {
                 pos.x=gOfferIconPosB[i*3+j][0]; pos.y=gOfferIconPosB[i*3+j][1];
                 if (i==a && j==b) pos.y-=4;
-                CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->offerIconActor[i][j]),(const struct Vec2 *)(&pos),1);
+                CLACT_AddActorSurfacePos((struct ClactActor *)(((TradeWork *)p)->offerIconActor[i][j]),(const struct ClactVec2 *)(&pos),1);
             }
         }
     }
@@ -2051,10 +1918,10 @@ void POKETRADE_2D_DeleteAllOfferIconActors(void *p)
 }
 
 void POKETRADE_2D_CreateFloatingIconActor(int p, int i, int j, int x, int y, void *q) {
-    Create c;
-    c.x=x; c.y=y; c.z=1; c.a=0; c.b=0;
-    ((TradeWork *)p)->iconActorC=(int)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,*(int *)(p+i*20+j*4+0x9cc),(*(int *)&((TradeWork *)p)->iconPalette),(*(int *)&((TradeWork *)p)->cellAnimC),&c,1,((TradeWork *)p)->heapId);
-    CLACT_SetActorPaletteOffset((struct Actor *)(((TradeWork *)p)->iconActorC),POKE_TOOL_GetIconPalette(q),1);
+    struct ActorInitParam c;
+    c.x=x; c.y=y; c.anim_seq=1; c.draw_priority=0; c.bg_priority=0;
+    ((TradeWork *)p)->iconActorC=(sptr)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,*(int *)(p+i*20+j*4+0x9cc),(*(int *)&((TradeWork *)p)->iconPalette),(*(int *)&((TradeWork *)p)->cellAnimC),&c,1,((TradeWork *)p)->heapId);
+    CLACT_SetActorPaletteOffset((struct ClactActor *)(((TradeWork *)p)->iconActorC),POKE_TOOL_GetIconPalette(q),1);
 }
 
 static inline int mul(int a,int b) { return (int)(((s64)a*b+0x800LL)>>12); }
@@ -2068,7 +1935,7 @@ void POKETRADE_2D_StartIconFlight(char *p)
     VecFx32 end,third,second,first;
     PointS16 pos;
     int x,y,dx,dy,speed;
-    CLACT_GetActorSurfacePos((struct Actor *)(*(void * *)&((TradeWork *)p)->iconActorC),(struct PtS *)&pos,1);
+    CLACT_GetActorSurfacePos((struct ClactActor *)(*(void * *)&((TradeWork *)p)->iconActorC),(struct ClactVec2 *)&pos,1);
     dx=(pos.x-((TradeWork *)p)->originX)*4096;
     dy=(pos.y-((TradeWork *)p)->originY)*4096;
     first.x=pos.x*4096; first.y=pos.y*4096; first.z=0;
@@ -2087,14 +1954,14 @@ int POKETRADE_2D_UpdateIconFlight(char *p) {
     if (((TradeWork *)p)->flightTimer) {
         --((TradeWork *)p)->flightTimer;
         if (!((TradeWork *)p)->flightTimer) return 1;
-        CLACT_GetActorSurfacePos((struct Actor *)((TradeWork *)p)->iconActorC,(struct PtS *)&pos,1);
+        CLACT_GetActorSurfacePos((struct ClactActor *)((TradeWork *)p)->iconActorC,(struct ClactVec2 *)&pos,1);
         if (pos.y<0) ((TradeWork *)p)->flightTimer=1;
         if (((TradeWork *)p)->flightTimer==1) POKETRADE_2D_DeleteFloatingIconActor(p);
         else {
             POKETRADE_2D_StepBezierCurve(&((TradeWork *)p)->bezierCurve);
             pos.x=((TradeWork *)p)->bezierCurve.out.x/4096;
             pos.y=((TradeWork *)p)->bezierCurve.out.y/4096;
-            CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->iconActorC),(const struct Vec2 *)(&pos),1);
+            CLACT_AddActorSurfacePos((struct ClactActor *)(((TradeWork *)p)->iconActorC),(const struct ClactVec2 *)(&pos),1);
         }
     }
     return 0;
@@ -2103,7 +1970,7 @@ int POKETRADE_2D_UpdateIconFlight(char *p) {
 void POKETRADE_2D_DeleteFloatingIconActor(void *p)
 {
     if (((TradeWork *)p)->iconActorC) {
-        CLACT_DeleteActor((struct Actor *)(((TradeWork *)p)->iconActorC));
+        CLACT_DeleteActor((struct ClactActor *)(((TradeWork *)p)->iconActorC));
         ((TradeWork *)p)->iconActorC = 0;
     }
 }
@@ -2114,56 +1981,56 @@ void POKETRADE_2D_SetupSubBlend(void *p)
 }
 
 void POKETRADE_2D_CreateMarkerActor(char *p, int i) {
-    Create c;
+    struct ActorInitParam c;
     if (!*(int *)(p+0x10bc+i*4)) {
-        c.x=i*24+8; c.y=144; c.z=i+11; c.a=50; c.b=1;
-        *(int *)(p+0x10bc+i*4)=(int)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,((TradeWork *)p)->actorChar,((TradeWork *)p)->actorPalette,((TradeWork *)p)->actorCellAnim,&c,1,((TradeWork *)p)->heapId);
+        c.x=i*24+8; c.y=144; c.anim_seq=i+11; c.draw_priority=50; c.bg_priority=1;
+        *(int *)(p+0x10bc+i*4)=(sptr)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,((TradeWork *)p)->actorChar,((TradeWork *)p)->actorPalette,((TradeWork *)p)->actorCellAnim,&c,1,((TradeWork *)p)->heapId);
     }
-    CLACT_SetActorAutoAnim((struct Actor *)*(int *)(p+0x10bc+i*4),1);
-    CLACT_SetActorDrawEnable((struct Actor *)*(int *)(p+0x10bc+i*4),1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)*(int *)(p+0x10bc+i*4),1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)(p+0x10bc+i*4),1);
 }
 
 void POKETRADE_2D_SetMarkerActorVisible(void *p, int i, int a)
 {
-    CLACT_SetActorDrawEnable((struct Actor *)*(int *)((char *)p + i * 4 + 0x10bc), a);
+    CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)((char *)p + i * 4 + 0x10bc), a);
 }
 
 void POKETRADE_2D_DeleteMarkerActor(void *p, int i)
 {
     if (*(int *)((char *)p + 0x10bc + i * 4)) {
-        CLACT_DeleteActor((struct Actor *)(*(int *)((char *)p + 0x10bc + i * 4)));
+        CLACT_DeleteActor((struct ClactActor *)(*(int *)((char *)p + 0x10bc + i * 4)));
         *(int *)((char *)p + 0x10bc + i * 4) = 0;
     }
 }
 
 void POKETRADE_2D_SetMarkerActorAnim(void *p, int i)
 {
-    CLACT_SetActorAnimSeq((struct Actor *)(*(int *)((char *)p + i * 4 + 0x10bc)), (u16)(i + 15));
+    CLACT_SetActorAnimSeq((struct ClactActor *)(*(int *)((char *)p + i * 4 + 0x10bc)), (u16)(i + 15));
 }
 
-void POKETRADE_2D_CreateMarkerButtonActor(Work *p, int z, int i) {
-    Create c;
-    c.x=i*206+8; c.y=160; c.z=4; c.a=1; c.b=0;
-    if (!p->slot[i*2]) {
-        p->slot[i*2]=(int)CLACT_CreateActor((void *)p->g9c4,p->g898,p->g884,p->g8b4,&c,0,p->heap);
-        CLACT_SetActorAutoAnim((struct Actor *)p->slot[i*2],1);
-        CLACT_SetActorDrawEnable((struct Actor *)p->slot[i*2],1);
+void POKETRADE_2D_CreateMarkerButtonActor(TradeWork *p, int z, int i) {
+    struct ActorInitParam c;
+    c.x=i*206+8; c.y=160; c.anim_seq=4; c.draw_priority=1; c.bg_priority=0;
+    if (!p->markerActor[i*2]) {
+        p->markerActor[i*2]=CLACT_CreateActor((void *)p->clactSystem,p->charA,p->paletteB,p->cellAnimD,&c,0,p->heapId);
+        CLACT_SetActorAutoAnim(p->markerActor[i*2],1);
+        CLACT_SetActorDrawEnable(p->markerActor[i*2],1);
     } else {
-        CLACT_SetActorDrawEnable((struct Actor *)p->slot[i*2],1);
+        CLACT_SetActorDrawEnable(p->markerActor[i*2],1);
     }
-    if (!p->slot[i*2+1]) {
-        c.a=0; c.z=z;
-        p->slot[i*2+1]=(int)CLACT_CreateActor((void *)p->g9c4,p->g898,p->g884,p->g8b4,&c,0,p->heap);
-        CLACT_SetActorAutoAnim((struct Actor *)p->slot[i*2+1],1);
-        CLACT_SetActorDrawEnable((struct Actor *)p->slot[i*2+1],1);
+    if (!p->markerActor[i*2+1]) {
+        c.draw_priority=0; c.anim_seq=z;
+        p->markerActor[i*2+1]=CLACT_CreateActor((void *)p->clactSystem,p->charA,p->paletteB,p->cellAnimD,&c,0,p->heapId);
+        CLACT_SetActorAutoAnim(p->markerActor[i*2+1],1);
+        CLACT_SetActorDrawEnable(p->markerActor[i*2+1],1);
     } else {
-        CLACT_SetActorAnimSeq((struct Actor *)p->slot[i*2+1],z);
+        CLACT_SetActorAnimSeq(p->markerActor[i*2+1],z);
     }
 }
 
 static inline void clear(int p, int i) {
     if (*(int *)(p+i*4+0x10ac)) {
-        CLACT_DeleteActor((struct Actor *)(*(int *)(p+i*4+0x10ac)));
+        CLACT_DeleteActor((struct ClactActor *)(*(int *)(p+i*4+0x10ac)));
         *(int *)(p+(unsigned int)i*4+0x10ac)=0;
     }
 }
@@ -2179,24 +2046,24 @@ void POKETRADE_2D_DeleteMarkerButtonPair(int p, int n) {
 
 void POKETRADE_2D_MovePickedIconActor(void *p, int i) {
     PointTable6 t=gPickedIconPath;
-    Create c;
+    struct ActorInitParam c;
     if(i==-1) {
-        if(((TradeWork *)p)->pickedIconActor) CLACT_SetActorDrawEnable((struct Actor *)((TradeWork *)p)->pickedIconActor,0);
+        if(((TradeWork *)p)->pickedIconActor) CLACT_SetActorDrawEnable((struct ClactActor *)((TradeWork *)p)->pickedIconActor,0);
     } else {
         if(!((TradeWork *)p)->pickedIconActor) {
-            c.x=64;c.y=48;c.z=23;c.a=0;c.b=1;
+            c.x=64;c.y=48;c.anim_seq=23;c.draw_priority=0;c.bg_priority=1;
             ((TradeWork *)p)->pickedIconActor=CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,((TradeWork *)p)->actorChar,((TradeWork *)p)->actorPalette,((TradeWork *)p)->actorCellAnim,&c,1,((TradeWork *)p)->heapId);
         }
-        CLACT_SetActorAutoAnim((struct Actor *)((TradeWork *)p)->pickedIconActor,1);
-        CLACT_SetActorDrawEnable((struct Actor *)((TradeWork *)p)->pickedIconActor,1);
-        CLACT_AddActorSurfacePos((struct Obj *)(((TradeWork *)p)->pickedIconActor),(const struct Vec2 *)(&t.pos[i]),1);
+        CLACT_SetActorAutoAnim((struct ClactActor *)((TradeWork *)p)->pickedIconActor,1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)((TradeWork *)p)->pickedIconActor,1);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((TradeWork *)p)->pickedIconActor),(const struct ClactVec2 *)(&t.pos[i]),1);
     }
 }
 
 void POKETRADE_2D_DeletePickedIconActor(char *p)
 {
     if (((TradeWork *)p)->pickedIconActor) {
-        CLACT_DeleteActor((struct Actor *)(((TradeWork *)p)->pickedIconActor));
+        CLACT_DeleteActor((struct ClactActor *)(((TradeWork *)p)->pickedIconActor));
         ((TradeWork *)p)->pickedIconActor = 0;
     }
 }
@@ -2213,22 +2080,22 @@ int POKETRADE_2D_StepCursorSlide(char *p)
     if(((TradeWork *)p)->fadeLevel<128) ((TradeWork *)p)->fadeLevel+=4;
     else return 1;
     for(i=0;i<8;i++) {
-        CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x10cc),(struct PtS *)&a,1);
+        CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x10cc),(struct ClactVec2 *)&a,1);
         if(i/4) a.x+=4; else a.x-=4;
-        CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
+        CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x10cc),(const struct ClactVec2 *)(&a),1);
     }
     for(i=0;i<3;i++) {
         if(((TradeWork *)p)->offerIconActor[0][i]) {
-            CLACT_GetActorSurfacePos(((TradeWork *)p)->offerIconActor[0][i],(struct PtS *)&b,1);
+            CLACT_GetActorSurfacePos(((TradeWork *)p)->offerIconActor[0][i],(struct ClactVec2 *)&b,1);
             b.x-=4;
-            CLACT_AddActorSurfacePos(((TradeWork *)p)->offerIconActor[0][i],(const struct Vec2 *)(&b),1);
+            CLACT_AddActorSurfacePos(((TradeWork *)p)->offerIconActor[0][i],(const struct ClactVec2 *)(&b),1);
         }
     }
     for(i=0;i<3;i++) {
         if(((TradeWork *)p)->offerIconActor[1][i]) {
-            CLACT_GetActorSurfacePos(((TradeWork *)p)->offerIconActor[1][i],(struct PtS *)&c,1);
+            CLACT_GetActorSurfacePos(((TradeWork *)p)->offerIconActor[1][i],(struct ClactVec2 *)&c,1);
             c.x+=4;
-            CLACT_AddActorSurfacePos(((TradeWork *)p)->offerIconActor[1][i],(const struct Vec2 *)(&c),1);
+            CLACT_AddActorSurfacePos(((TradeWork *)p)->offerIconActor[1][i],(const struct ClactVec2 *)(&c),1);
         }
     }
     BG_SYS_ChangeScrollImmediate(5,0,-((TradeWork *)p)->fadeLevel);
@@ -2250,27 +2117,27 @@ void POKETRADE_2D_SetCursorSlidePositions(const char *p)
     for(i=0;i<8;i++) {
         actorSlot=p+i*4;
         actorSlot=actorSlot+0x10cc;
-        CLACT_GetActorSurfacePos(*(void **)actorSlot,(struct PtS *)&a,1);
+        CLACT_GetActorSurfacePos(*(void **)actorSlot,(struct ClactVec2 *)&a,1);
         if(i/4) {
             a.x-=128;
             CLACT_SetActorBgPriority(*(void **)(p+i*4+0x10cc),3);
         } else a.x+=128;
-        CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x10cc),(const struct Vec2 *)(&a),1);
+        CLACT_AddActorSurfacePos(*(void **)(p+i*4+0x10cc),(const struct ClactVec2 *)(&a),1);
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1008)) {
-            CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x1008),(struct PtS *)&b,1);
+            CLACT_GetActorSurfacePos(*(void **)(p+i*4+0x1008),(struct ClactVec2 *)&b,1);
             b.x+=128;
             tmp=i;
             tmp=tmp*4;
-            CLACT_AddActorSurfacePos(*(void **)(p+tmp+0x1008),(const struct Vec2 *)(&b),1);
+            CLACT_AddActorSurfacePos(*(void **)(p+tmp+0x1008),(const struct ClactVec2 *)(&b),1);
         }
     }
     for(j=0;j<3;j++) {
         if(*(void **)(p+j*4+0x1014)) {
-            CLACT_GetActorSurfacePos(*(void **)(p+j*4+0x1014),(struct PtS *)&c,1);
+            CLACT_GetActorSurfacePos(*(void **)(p+j*4+0x1014),(struct ClactVec2 *)&c,1);
             c.x-=128;
-            CLACT_AddActorSurfacePos(*(void **)(p+j*4+0x1014),(const struct Vec2 *)(&c),1);
+            CLACT_AddActorSurfacePos(*(void **)(p+j*4+0x1014),(const struct ClactVec2 *)(&c),1);
             CLACT_SetActorBgPriority(*(void **)(p+j*4+0x1014),3);
         }
     }
@@ -2281,7 +2148,7 @@ void POKETRADE_2D_SetCursorSlidePositions(const char *p)
 void POKETRADE_2D_SetupCursorBg(char *p)
 {
     void *h;
-    BgTemplate t;
+    struct BgTemplate t;
     (*(void * *)&((TradeWork *)p)->fontBgHandle) = BMP_MENUWORK_LoadFrameGfx((unsigned int)6, 15, 0, ((TradeWork *)p)->heapId);
     h = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
     ((TradeWork *)p)->mainBgHandle = ARC_UTIL_RegisterObjCharFromHandle(h, 13, 5, 0, 0, ((TradeWork *)p)->heapId);
@@ -2290,7 +2157,12 @@ void POKETRADE_2D_SetupCursorBg(char *p)
     t = gCursorBgTemplate;
     BG_SYS_FreeLayerBuf(7);
     BG_SYS_InitBgLayer(7, &t, 0);
+#ifdef __MWERKS__
+    /* The original prototype returned void. */
+    ((void (*)(void *, u32, u32, u32, u32, u32, u32, u16))ARC_UTIL_UploadBgPaletteAddFromHandle)(h, 8, 7, 0, (u16)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
+#else
     ARC_UTIL_UploadBgPaletteAddFromHandle(h, 8, 7, 0, (u16)((TradeWork *)p)->mainBgHandle, 0, 0, ((TradeWork *)p)->heapId);
+#endif
     BG_SYS_ChangeScrollImmediate(4, 0, -0x80);
     BG_SYS_ChangeScrollImmediate(7, 0, 0);
     BG_SYS_SetPriority(4, 3);
@@ -2305,7 +2177,7 @@ void POKETRADE_2D_CreateOfferWindows(char *p)
 {
     PointTable8 t = gOfferWindowPos;
     void *h = ARC_TOOL_CreateHandle(0x66, ((TradeWork *)p)->heapId);
-    Create c;
+    struct ActorInitParam c;
     int i;
     (*(unsigned int *)&((TradeWork *)p)->paletteE) = CLACT_RegisterPaletteEx(h, 0, 1, 0x1c0, 0, 1, ((TradeWork *)p)->heapId);
     ((TradeWork *)p)->cellAnimG = CLACT_RegisterCellAnim(h, 2, 1, ((TradeWork *)p)->heapId);
@@ -2314,9 +2186,9 @@ void POKETRADE_2D_CreateOfferWindows(char *p)
         *(u32 *)(p + i * 4 + 0x1114) = CLACT_RegisterCharacter(h, 3, 0, 1, ((TradeWork *)p)->heapId);
     }
     for (i = 0; i < 8; i++) {
-        c.x = *(short *)((char *)&t + i * 4); c.y = *(short *)((char *)&t + i * 4 + 2); c.z = 0; c.a = 0; c.b = 1;
-        *(int *)(p + i * 4 + 0x10cc) = (int)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem, *(int *)(p + i * 4 + 0x1114), *(int *)(p + 0x10ec), *(int *)(p + 0x10f0), &c, 1, ((TradeWork *)p)->heapId);
-        CLACT_SetActorDrawEnable((struct Actor *)*(int *)(p + i * 4 + 0x10cc), 1);
+        c.x = *(short *)((char *)&t + i * 4); c.y = *(short *)((char *)&t + i * 4 + 2); c.anim_seq = 0; c.draw_priority = 0; c.bg_priority = 1;
+        *(int *)(p + i * 4 + 0x10cc) = (sptr)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem, *(int *)(p + i * 4 + 0x1114), *(int *)(p + 0x10ec), *(int *)(p + 0x10f0), &c, 1, ((TradeWork *)p)->heapId);
+        CLACT_SetActorDrawEnable((struct ClactActor *)*(int *)(p + i * 4 + 0x10cc), 1);
     }
     ARC_TOOL_DeleteHandle(h);
 }
@@ -2325,7 +2197,7 @@ void POKETRADE_2D_DeleteOfferWindowActors(char *p) {
     int i;
     for (i=0;i<8;i++) {
         if (*(int *)(p+i*4+0x10cc)) {
-            CLACT_DeleteActor((struct Actor *)(*(int *)(p+i*4+0x10cc)));
+            CLACT_DeleteActor((struct ClactActor *)(*(int *)(p+i*4+0x10cc)));
             *(int *)(p+i*4+0x10cc)=0;
             BMP_Delete(*(void **)(p+i*4+0x10f4));
             *(int *)(p+i*4+0x10f4)=0;
@@ -2345,7 +2217,7 @@ void POKETRADE_2D_UpdateOfferWindowActors(char *p) {
         dest=(char *)CLACT_GetCharacterVramAddress(*(int *)(p+i*4+0x1114),1);
         source=BMP_GetPixels((const struct Bmp *)(*(int *)(p+i*4+0x10f4)));
         DC_FlushRange(source,BMP_GetByteSize((const struct Bmp *)(*(int *)(p+i*4+0x10f4))));
-        for(j=0;j<8;j++) {GXS_LoadOBJ(source+t.v[j]*256,(u32)dest,256);dest+=256;}
+        for(j=0;j<8;j++) {GXS_LoadOBJ(source+t.v[j]*256,(uptr)dest,256);dest+=256;}
     }
 }
 
@@ -2379,22 +2251,22 @@ void POKETRADE_2D_LoadMonPalette(char *p, int side, void *mon)
 void POKETRADE_2D_OnCursorAnimDone(char *p) { p[0x11f5]=1; }
 
 void POKETRADE_2D_CreateCursorActor(char *p, int x, int y) {
-    Callback cb;
-    Create c;
-    c.x=x+12;c.y=y+12;c.z=24;c.a=0;c.b=0;
+    Pokemontrade2dCallback cb;
+    struct ActorInitParam c;
+    c.x=x+12;c.y=y+12;c.anim_seq=24;c.draw_priority=0;c.bg_priority=0;
     POKETRADE_2D_DeleteCursorActor(p);
-    ((TradeWork *)p)->iconActorD=(int)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,((TradeWork *)p)->actorChar,((TradeWork *)p)->actorPalette,((TradeWork *)p)->actorCellAnim,&c,1,((TradeWork *)p)->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)((TradeWork *)p)->iconActorD,1);
-    CLACT_SetActorAutoAnim((struct Actor *)((TradeWork *)p)->iconActorD,1);
+    ((TradeWork *)p)->iconActorD=(sptr)CLACT_CreateActor((void *)((TradeWork *)p)->clactSystem,((TradeWork *)p)->actorChar,((TradeWork *)p)->actorPalette,((TradeWork *)p)->actorCellAnim,&c,1,((TradeWork *)p)->heapId);
+    CLACT_SetActorDrawEnable((struct ClactActor *)((TradeWork *)p)->iconActorD,1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)((TradeWork *)p)->iconActorD,1);
     p[0x11f5]=0;
     cb.v=0;cb.p=p;cb.fn=(void (*)(void *))POKETRADE_2D_OnCursorAnimDone;
-    CLACT_ApplyActorAnimCommand((struct Actor *)(((TradeWork *)p)->iconActorD),(const struct Cmd *)(&cb));
+    CLACT_ApplyActorAnimCommand((struct ClactActor *)(((TradeWork *)p)->iconActorD),(const struct ClactAnimCommand *)(&cb));
 }
 
 void POKETRADE_2D_DeleteCursorActor(void *p)
 {
     if (((TradeWork *)p)->iconActorD) {
-        CLACT_DeleteActor((struct Actor *)(((TradeWork *)p)->iconActorD));
+        CLACT_DeleteActor((struct ClactActor *)(((TradeWork *)p)->iconActorD));
         ((TradeWork *)p)->iconActorD = 0;
         *((char *)p + 0x11f5) = 0;
     }
@@ -2414,14 +2286,14 @@ int POKETRADE_2D_ClearCursorIfDisabled(void *p)
  */
 void POKETRADE_2D_FadePaletteBank(char *p, int bank, int mask)
 {
-    Slot *s;
+    PaletteFade *s;
     char *buf;
     int i;
     int off;
     s=PALANM_Create(((TradeWork *)p)->heapId);
-    PALANM_AllocSlotBuffers((struct PalAnmSlot *)s,bank,0x200,((TradeWork *)p)->heapId);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)s,bank,0,0x200);
-    PALANM_BlendChannel((struct Chan02021FD8 *)s,bank,0,0x100,6,0);
+    PALANM_AllocSlotBuffers(s,bank,0x200,((TradeWork *)p)->heapId);
+    PALANM_CopyHwPaletteToSlot(s,bank,0,0x200);
+    PALANM_BlendChannel((PaletteFadeWork *)s,bank,0,0x100,6,0);
     buf=(char *)PALANM_GetTransWork((char *)s,bank);
     for(i=0;i<16;i++) {
         if(mask & (1<<i)) {
@@ -2435,7 +2307,7 @@ void POKETRADE_2D_FadePaletteBank(char *p, int bank, int mask)
             }
         }
     }
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)s,bank);
+    PALANM_FreeSlotBuffers(s,bank);
     PALANM_Delete(s);
 }
 
@@ -2475,12 +2347,12 @@ void POKETRADE_2D_FadePaletteAll(void *p, int a)
  */
 void POKETRADE_2D_ScheduleMainPlaneVisible(void *p, int a)
 {
-    TCB_AddTask((struct TcbSystem *)GFL_USE_GetMainTaskList(), (void (*)(void))POKETRADE_2D_TaskSetMainPlaneVisible, (void *)a, 0xa);
+    TCB_AddTask((struct TcbSystem *)GFL_USE_GetMainTaskList(), (TcbFunc)((void (*)(void))POKETRADE_2D_TaskSetMainPlaneVisible), (void *)a, 0xa);
 }
 
 void POKETRADE_2D_ScheduleSubPlaneVisible(void *p, int a)
 {
-    TCB_AddTask((struct TcbSystem *)GFL_USE_GetMainTaskList(), (void (*)(void))POKETRADE_2D_TaskSetSubPlaneVisible, (void *)a, 0xa);
+    TCB_AddTask((struct TcbSystem *)GFL_USE_GetMainTaskList(), (TcbFunc)((void (*)(void))POKETRADE_2D_TaskSetSubPlaneVisible), (void *)a, 0xa);
 }
 
 void POKETRADE_2D_TaskSetMainPlaneVisible(void *p, int a)

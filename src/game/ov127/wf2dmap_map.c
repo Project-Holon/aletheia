@@ -34,11 +34,17 @@ typedef union Wf2dmapCell {
     struct { u32 flag:1; u32 value:31; } bits;
 } Wf2dmapCell;
 
-extern void *GFL_HEAP_Alloc(u16,u32,int,const char *,u16);
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_Alloc_hdr
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+void * GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
+#endif
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void MI_CpuCopy8(void *,const void *,u32);
+#include "../arm9/mi_memory.h"
 
 int WF2DMAP_MAP_IsEmpty(char *p);
 

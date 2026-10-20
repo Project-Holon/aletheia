@@ -9,11 +9,13 @@ struct Bmp;
 struct Strbuf;
 struct GfFont;
 struct PrintCtx;
+struct TextPrinter;
 struct BmpWin;
 struct Tcbl;
-struct TextPrinter;
+struct TcblTask;
 
 #include "../types.h"
+#include "../arm9/printsys_shared_types.h"
 
 void PRINTSYS_Init(u32 heap);
 struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
@@ -28,8 +30,8 @@ void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
 void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
-void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+void PRINTSYS_Print(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
+void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 void PRINTSYS_SetupJob(struct PrintCtx *job, struct GfFont *font, struct Bmp *bmp, u32 x, s16 y);
 void PRINTSYS_SetJobColor(struct PrintCtx *job, u16 color);
 void PRINTSYS_RunJob(struct PrintCtx *job, struct Strbuf *str);
@@ -38,7 +40,8 @@ void PRINTSYS_PutGlyph4bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u
 void PRINTSYS_PutGlyph8bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo);
 u16 *PRINTSYS_ProcGeneralTag(struct PrintCtx *job, u16 *cursor);
 u16 *PRINTSYS_ProcColorTag(struct PrintCtx *job, u16 *cursor);
-void PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
+struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
+struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor, PrintCallback callback);
 void PRINTSYS_SplitWait(int wait, u8 *speed);
 void PRINTSYS_PrintStreamStop(struct TextPrinter *printer);
 void PRINTSYS_PrintStreamRun(struct TextPrinter *printer);
@@ -50,7 +53,7 @@ void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
 void PRINTSYS_PrintStreamSetSpeed(struct TextPrinter *printer, s32 wait);
 void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer);
 u32 PRINTSYS_PrintStreamIsOverrideSpeed(const struct TextPrinter *printer);
-void PRINTSYS_Task(void *task, struct TextPrinter *printer);
+void PRINTSYS_Task(struct TcblTask *task, void *work);
 void PRINTSYS_Apply(struct TextPrinter *printer);
 u32 PRINTSYS_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next);
 u32 PRINTSYS_CountLine(struct Strbuf *text);

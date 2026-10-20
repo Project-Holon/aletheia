@@ -27,7 +27,7 @@
 #define GAME_TYPES_U32_LONG
 #include "../types.h"
 
-extern void MI_CpuCopy(void *src, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 extern short GetAPP1(unsigned char *src, unsigned long src_size, unsigned long cur, long *soi_addr, int option);
 unsigned short GetWord(unsigned char *src, unsigned long cur, short Endian);
 unsigned long GetLong(unsigned char *src, unsigned long cur, short Endian);

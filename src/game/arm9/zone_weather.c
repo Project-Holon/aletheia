@@ -113,7 +113,7 @@ extern struct ZoneWeatherPair gTbl_0209FFF4[];
  */
 u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId)
 {
-    u32 ctx = (u32)GAMESYSTEM_GetGameData(fieldSys);
+    u32 ctx = (uptr)GAMESYSTEM_GetGameData(fieldSys);
     u32 saved = GAME_DATA_GetMusicalWork((struct GameData *)ctx);
     u32 r;
 
@@ -204,12 +204,12 @@ void WEATHER_RefreshStoredWeatherId(u8 *gameData, int zoneId)
  */
 s32 WEATHER_GetAreaOwnerWeather(void *fieldSys, u32 gameData, u32 zoneId)
 {
-    u32 eventWork;
-    u32 areaOwner;
+    uptr eventWork;
+    uptr areaOwner;
     u32 i;
 
-    eventWork = (u32)GAME_DATA_GetEventWork((struct GameData *)gameData);
-    areaOwner = (u32)GAMESYSTEM_GetGameComm(fieldSys);
+    eventWork = (uptr)GAME_DATA_GetEventWork((struct GameData *)gameData);
+    areaOwner = (uptr)GAMESYSTEM_GetGameComm(fieldSys);
     if (ZONEDATA_IsZoneGroup118To13C((u16)zoneId) == 0 || areaOwner == 0) {
         goto done;
     }
@@ -229,7 +229,7 @@ done:
 
 s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, u32 gameData, u32 zoneId)
 {
-    u32 eventWork = (u32)GAME_DATA_GetEventWork((struct GameData *)gameData);
+    u32 eventWork = (uptr)GAME_DATA_GetEventWork((struct GameData *)gameData);
 
     if (zoneId == 0x151) {
         if (ZONEDATA_CheckEventFlag((void *)eventWork, 0x96f) != 0) {

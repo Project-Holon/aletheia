@@ -20,6 +20,7 @@
  *   FX_GetDivResult                0x0207C86C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef long long fx64c;
 
@@ -182,9 +183,9 @@ void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab)
 
 #define FX32_ONE 4096
 
-#define REG_DIV_NUMER (*(u64 *)0x04000290)
+#define REG_DIV_NUMER (*(u64 *)REG_DIV_NUMER_ADDR)
 
-#define REG_DIV_DENOM (*(u64 *)0x04000298)
+#define REG_DIV_DENOM (*(u64 *)REG_DIV_DENOM_ADDR)
 
 static inline void FX_InvAsyncImm(fx32 denom)
 {

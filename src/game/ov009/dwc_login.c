@@ -59,7 +59,10 @@
  *   @16552  0x021A201C  data
  *   gpGetLoginTicket  0x02186618  arm  ov009
  */
+#include "../sdk_dwc.h"
 #include "dwc_login_types.h"
+#include "dwc_auth_interface.h"
+#include "../arm9/dwc_memfunc.h"
 
 void DWCi_LoginInit(DWCstLoginControl *logcnt, DWCstAccUserData *userdata, void **pGpObj, int productID, u32 gamecode, u16 *playerName, void (*callback)(int, int, void *), void *param);
 int DWCi_LoginAsync(void);
@@ -387,7 +390,7 @@ int DWCi_RemoteLogin(void)
         DWCi_Acc_LoginIdToUserName(&gDwcLoginControl->loginId, gDwcLoginControl->gamecode, gDwcLoginControl->username);
         userid = 0;
     }
-    return DWCi_Auth_StartAuthentication(gDwcLoginControl->playerName, gDwcLoginControl->gsbrcd, userid, DWC_Alloc, DWC_Free);
+    return DWCi_Auth_StartAuthentication(gDwcLoginControl->playerName, gDwcLoginControl->gsbrcd, userid, (DWCAuthAlloc)DWC_Alloc, (DWCAuthFree)DWC_Free);
 }
 
 
@@ -433,7 +436,7 @@ void DWCi_GPGetInfoCallback(void **pconnection, void *argp, void *unused)
     if (arg->result != 0)
         return;
     if (gDwcLoginControl->state == 3) {
-        if (arg->nick[0] == 0) {
+        if (arg->lastname[0] == 0) {
             DWCi_Acc_LoginIdToUserName(&gDwcLoginControl->userdata->pseudo, gDwcLoginControl->gamecode, pseudo_name2);
             gpResult = gpSetInfosA(pconnection, 0x705, pseudo_name2);
             if (DWCi_HandleGPError(gpResult))
@@ -448,7 +451,7 @@ void DWCi_GPGetInfoCallback(void **pconnection, void *argp, void *unused)
         }
     } else if (gDwcLoginControl->state == 4) {
         DWCi_Acc_LoginIdToUserName(&gDwcLoginControl->userdata->pseudo, gDwcLoginControl->gamecode, pseudo_name);
-        if (strcmp(arg->nick, pseudo_name) == 0) {
+        if (strcmp(arg->lastname, pseudo_name) == 0) {
             DWCi_Acc_LoginIdToUserName(&gDwcLoginControl->loginId, gDwcLoginControl->gamecode, username);
             DWCi_Acc_SetLoginIdToUserData(gDwcLoginControl->userdata, &gDwcLoginControl->loginId, arg->profile);
             gpDisconnect(pconnection);

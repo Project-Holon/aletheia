@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_NNS_G3D_ANM_CALC_H
 #define GAME_ARM9_NNS_G3D_ANM_CALC_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_g3d_anm_calc.c, prototypes copied from their definitions. */
 
 #include "../arm9/nns_g3d_anm_types.h"
@@ -51,5 +52,6 @@ void NNSi_G3dSendTexMtx4x4(NNSG3dMatAnmResult *pResult);
 void NNSi_G3dSendJointSRTSi3d(NNSG3dJntAnmResult *pResult);
 void NNSi_G3dGetJointScaleSi3d(NNSG3dJntAnmResult *pResult, const fx32 *pScale, const NNSG3dSbcNodeDesc *pCmd, u32 flag);
 void NNSi_G3dSendTexMtx4x3(NNSG3dMatAnmResult *pResult);
+/* END mkheaders: generated region */
 
 #endif

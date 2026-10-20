@@ -19,7 +19,7 @@
 
 #include "../types.h"
 
-extern void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 kind);
+#include "poke_summary_main.h"
 int POKE_SUMMARY_ANIM_ShowTextKind7(int *p);
 int POKE_SUMMARY_ANIM_ShowTextKind8(int *p);
 int POKE_SUMMARY_ANIM_ShowTextKind4(int *p);

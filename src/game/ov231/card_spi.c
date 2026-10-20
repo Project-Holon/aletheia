@@ -44,11 +44,10 @@ typedef struct {
     u8 *rxCursor;
 } CardSpiTransfer;
 
-extern u64 OS_GetTick(void);
-extern void CARD_LockBackup(int owner);
-extern int OS_LockCard(unsigned short lockID);
-extern void OS_UnLockCard(u16 a);
-extern void CARD_UnlockBackup(u16 a);
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
+#include "../arm9/card_api.h"
+#include "../arm9/os_spinlock.h"
 extern u64 _ull_mul(u64 a, u64 b);
 int CARD_SPI_RunCommand(void);
 void CARD_SPI_WaitNotBusy(void);

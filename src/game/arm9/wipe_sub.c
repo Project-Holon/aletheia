@@ -41,14 +41,12 @@
  *   WIPE_SetBrightnessFadeOut  0x0202223C  thumb
  */
 /* Hardware registers (display engine A, engine B and the double-buffer aliases). */
-#define REG_VCOUNT  (*(volatile u16 *)0x04000006)
-#define REG_DISPSTAT  (*(volatile u16 *)0x04000004)
-#define REG_WININ     (*(volatile u16 *)0x04000048)
-#define REG_WINOUT    (*(volatile u16 *)0x0400004A)
-#define REG_DB_WININ  (*(volatile u16 *)0x04001048)
-#define REG_DB_WINOUT (*(volatile u16 *)0x0400104A)
-#define REG_DISPCNT     (*(volatile u32 *)0x04000000)
-#define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
+#define REG_VCOUNT  (*(volatile u16 *)REG_VCOUNT_ADDR)
+#define REG_DISPSTAT  (*(volatile u16 *)REG_DISPSTAT_ADDR)
+#define REG_WININ     (*(volatile u16 *)REG_WININ_ADDR)
+#define REG_WINOUT    (*(volatile u16 *)REG_WINOUT_ADDR)
+#define REG_DB_WININ  (*(volatile u16 *)REG_DB_WININ_ADDR)
+#define REG_DB_WINOUT (*(volatile u16 *)REG_DB_WINOUT_ADDR)
 
 /*
  * The per-line window handler reaches WIN0H/WIN0V/WIN1H/WIN1V of engine A
@@ -56,13 +54,13 @@
  * register (that is what the original code compiles to), and the same four
  * registers of engine B through their own base pointers.
  */
-#define DISPSTAT_BASE            ((volatile u16 *)0x04000004)
-#define WIN0H_OFFSET             ((0x04000040 - 0x04000004) / 2)
-#define WIN1H_OFFSET             ((0x04000042 - 0x04000004) / 2)
-#define WIN0V_OFFSET             ((0x04000044 - 0x04000004) / 2)
-#define WIN1V_OFFSET             ((0x04000046 - 0x04000004) / 2)
-#define REG_DB_WIN0H_PTR         ((volatile u16 *)0x04001040)
-#define REG_DB_WIN1H_PTR         ((volatile u16 *)0x04001042)
+#define DISPSTAT_BASE            ((volatile u16 *)REG_DISPSTAT_ADDR)
+#define WIN0H_OFFSET             ((REG_WIN0H_ADDR - REG_DISPSTAT_ADDR) / 2)
+#define WIN1H_OFFSET             ((REG_WIN1H_ADDR - REG_DISPSTAT_ADDR) / 2)
+#define WIN0V_OFFSET             ((REG_WIN0V_ADDR - REG_DISPSTAT_ADDR) / 2)
+#define WIN1V_OFFSET             ((REG_WIN1V_ADDR - REG_DISPSTAT_ADDR) / 2)
+#define REG_DB_WIN0H_PTR         ((volatile u16 *)REG_DB_WIN0H_ADDR)
+#define REG_DB_WIN1H_PTR         ((volatile u16 *)REG_DB_WIN1H_ADDR)
 
 /* Update one window-control halfword during HBlank only (DISPSTAT bit 1). */
 #define UPDATE_WINDOW_REG(reg, keepMask, bits, effectBit) \
@@ -89,6 +87,7 @@
 
 struct Node;
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 
 #include "wipe_types.h"
 
@@ -1279,12 +1278,12 @@ void WIPE_SUB_InitLineMask(struct LineMask *mask, u32 screen, u32 halfCount, u32
 
 void *WIPE_SUB_RequestLineMaskFlip(struct LineMask *mask)
 {
-    return GFL_USE_AddMainTask((void (*)(struct Tcb *, void *))WIPE_SUB_FlipLineMaskTask, mask, 0x3FF);
+    return GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_FlipLineMaskTask, mask, 0x3FF);
 }
 
 void WIPE_SUB_RequestLineMaskHBlank(u32 hblank, struct LineMask *mask, u32 heapId)
 {
-    WIPE_RequestSetHBlankSlot(hblank, (u32)mask, (u32)WIPE_SUB_LineMaskHBlank, mask->screen, heapId);
+    WIPE_RequestSetHBlankSlot(hblank, (uptr)mask, (uptr)WIPE_SUB_LineMaskHBlank, mask->screen, heapId);
 }
 
 void WIPE_SUB_RequestLineMaskHBlankEnd(u32 hblank, struct LineMask *mask, u32 heapId)
@@ -1612,7 +1611,7 @@ void WIPE_SUB_CircleInit(struct CircleWork *circle, const struct CircleParam *pa
     circle->heapId = heapId;
     circle->closing = param->closing;
     WIPE_SUB_CalcCircleLines(circle);
-    GFL_USE_AddMainTask((void (*)(struct Tcb *, void *))WIPE_SUB_FlipLineBuffersTask, circle, 0x3ff);
+    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_FlipLineBuffersTask, circle, 0x3ff);
     buffer = WIPE_SUB_GetLineBuffer(&circle->lines, 0);
     leftEdge = buffer->stagedLeft[0];
     rightEdge = buffer->stagedRight[0];
@@ -1623,7 +1622,7 @@ void WIPE_SUB_CircleInit(struct CircleWork *circle, const struct CircleParam *pa
     } else {
         WIPE_SUB_SetWindowVisibleMode(windowRequests, 2, screen, circle->closing);
     }
-    WIPE_RequestSetHBlankSlot(circle->hblank, (u32)circle, (u32)WIPE_SUB_WindowRectHBlank, screen, heapId);
+    WIPE_RequestSetHBlankSlot(circle->hblank, (uptr)circle, (uptr)WIPE_SUB_WindowRectHBlank, screen, heapId);
 }
 
 /*
@@ -2042,7 +2041,7 @@ void WIPE_SUB_SetWindowVisible(u32 value, u32 screen)
     if (screen == 0) {
         REG_DISPCNT = (REG_DISPCNT & 0xffff1fff) | (value << 13);
     } else {
-        REG_DISPCNT_SUB = (REG_DISPCNT_SUB & 0xffff1fff) | (value << 13);
+        REG_DB_DISPCNT = (REG_DB_DISPCNT & 0xffff1fff) | (value << 13);
     }
 }
 
@@ -2132,21 +2131,21 @@ void WIPE_SUB_SetWindowRect(u32 left, u32 top, u32 right, u32 bottom, int window
 {
     if (window == 0) {
         if (screen == 0) {
-            u16 *reg = (u16 *)0x04000040;
+            u16 *reg = (u16 *)REG_WIN0H_ADDR;
             reg[0] = (left << 8 & 0xff00) | (right & 0xff);
             reg[2] = (top << 8 & 0xff00) | (bottom & 0xff);
         } else {
-            u16 *reg = (u16 *)0x04001040;
+            u16 *reg = (u16 *)REG_DB_WIN0H_ADDR;
             reg[0] = (left << 8 & 0xff00) | (right & 0xff);
             reg[2] = (top << 8 & 0xff00) | (bottom & 0xff);
         }
     } else {
         if (screen == 0) {
-            u16 *reg = (u16 *)0x04000042;
+            u16 *reg = (u16 *)REG_WIN1H_ADDR;
             reg[0] = (left << 8 & 0xff00) | (right & 0xff);
             reg[2] = (top << 8 & 0xff00) | (bottom & 0xff);
         } else {
-            u16 *reg = (u16 *)0x04001042;
+            u16 *reg = (u16 *)REG_DB_WIN1H_ADDR;
             reg[0] = (left << 8 & 0xff00) | (right & 0xff);
             reg[2] = (top << 8 & 0xff00) | (bottom & 0xff);
         }
@@ -2159,7 +2158,7 @@ void WIPE_SUB_RequestWindowVisible(struct WindowRequests *requests, u32 value, u
 
     request->value = value;
     request->screen = screen;
-    GFL_USE_AddMainTask((void (*)(struct Tcb *, void *))WIPE_SUB_WindowVisibleTask, request, 1);
+    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_WindowVisibleTask, request, 1);
 }
 
 void WIPE_SUB_RequestWindowInside(struct WindowRequests *requests, u32 planes, u32 effect, u32 window, u32 screen)
@@ -2170,7 +2169,7 @@ void WIPE_SUB_RequestWindowInside(struct WindowRequests *requests, u32 planes, u
     request->effect = effect;
     request->window = window;
     request->screen = screen;
-    GFL_USE_AddMainTask((void (*)(struct Tcb *, void *))WIPE_SUB_WindowInsideTask, request, 1);
+    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_WindowInsideTask, request, 1);
 }
 
 void WIPE_SUB_RequestWindowOutside(struct WindowRequests *requests, u32 planes, u32 effect, u32 screen)
@@ -2180,7 +2179,7 @@ void WIPE_SUB_RequestWindowOutside(struct WindowRequests *requests, u32 planes, 
     request->planes = planes;
     request->effect = effect;
     request->screen = screen;
-    GFL_USE_AddMainTask((void (*)(struct Tcb *, void *))WIPE_SUB_WindowOutsideTask, request, 1);
+    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_WindowOutsideTask, request, 1);
 }
 
 void WIPE_SUB_RequestWindowRect(struct WindowRequests *requests, u32 left, u32 top, u32 right, u32 bottom, u32 window, u32 screen)
@@ -2193,7 +2192,7 @@ void WIPE_SUB_RequestWindowRect(struct WindowRequests *requests, u32 left, u32 t
     request->bottom = (u16)bottom;
     request->window = window;
     request->screen = screen;
-    GFL_USE_AddMainTask((void (*)(struct Tcb *, void *))WIPE_SUB_WindowRectTask, request, 1);
+    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIPE_SUB_WindowRectTask, request, 1);
 }
 
 /*

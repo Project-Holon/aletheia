@@ -7,8 +7,8 @@ struct Object;
 
 #include "../types.h"
 
-struct Vec { int x, y, z; };
+struct StaActingVec { int x, y, z; };
 
-typedef struct { int x, y, z; } Vec;
+typedef struct { int x, y, z; } StaActingVec;
 
 #endif

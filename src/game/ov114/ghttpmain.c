@@ -62,47 +62,20 @@
  *   ghiEncyptorSetRootCAList  0x021C1184  arm  ov114
  *   ghiEncryptorCleanupRootCAList  0x021C1210  arm  ov114
  */
+#include "../ov009/gsplatformutil.h"
 #include "ghttp_types.h"
 
-extern void ghiDoSocketInit(GHIConnection *connection);
-extern void ghiDoHostLookup(GHIConnection *connection);
-extern void ghiDoLookupPending(GHIConnection *connection);
-extern void ghiDoConnecting(GHIConnection *connection);
-extern void ghiDoSecuringSession(GHIConnection *connection);
-extern void ghiDoSendingRequest(GHIConnection *connection);
-extern void ghiDoPosting(GHIConnection *connection);
-extern void ghiDoWaiting(GHIConnection *connection);
-extern void ghiDoReceivingStatus(GHIConnection *connection);
-extern void ghiDoReceivingHeaders(GHIConnection *connection);
-extern void ghiDoReceivingFile(GHIConnection *connection);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern void ghiRedirectConnection(GHIConnection *connection);
-extern int CanReceiveOnSocket(int sock);
-extern int ghiCloseConnection(GHIConnection *connection);
-extern void ghiCallCompletedCallback(GHIConnection *connection);
-extern int ghiFreeConnectionData(GHIConnection *connection);
-extern void ghiLock(void);
-extern void ghiInitLock(void);
-extern void ghiUnlock(void);
-extern void ghiCleanupConnections(void);
-extern void gsifree(void *ptr);
-extern void ghiFreeLock(void);
-extern GHIConnection *ghiNewConnection(void);
-extern char *goastrdup(const char *src);
-extern int ghiFreeConnection(GHIConnection *connection);
-extern int ghiInitFixedBuffer(GHIConnection *connection, GHIBuffer *buffer, char *data, int size);
-extern int ghiInitBuffer(GHIConnection *connection, GHIBuffer *buffer, int initialSize, int sizeIncrement);
-extern int ghiPostInitState(GHIConnection *connection);
-extern void msleep(unsigned int msec);
-extern void ghiEnumConnections(int (*callback)(GHIConnection *));
-extern GHIConnection *ghiRequestToConnection(int request);
+#include "ghttpprocess.h"
+#include "../ov009/gsdebug.h"
+#include "ghttpconnection.h"
+#include "../ov009/gsplatformsocket.h"
+#include "ghttpcallbacks.h"
+#include "../ov009/gsmemory.h"
+#include "ghttpbuffer.h"
+typedef int GHIPostingResult;
+#include "ghttppost.h"
 extern int ghiProcessConnection(GHIConnection *connection);
-extern GHIPost *ghiNewPost(void);
-extern void ghiPostSetAutoFree(GHIPost *post, GHTTPBool autoFree);
-extern void ghiFreePostAndUpdateConnection(int request, GHIPost *post);
-extern int ghiPostAddXml(GHIPost *post, void *xml);
-extern int ghiEncyptorSetRootCAList(char *url, void *theRootCAList);
-extern int ghiEncryptorCleanupRootCAList(char *url);
+#include "ghttpEncryption.h"
 void ghiHandleStatus(GHIConnection *connection);
 void ghttpStartup(void);
 void ghttpCleanup(void);
@@ -301,13 +274,13 @@ int ghttpGetExA(const char *URL, const char *headers, char *buffer, int bufferSi
         return -1;
 
     connection->type = 0;
-    connection->URL = goastrdup(URL);
+    connection->URL = goastrdup((char *)URL);
     if (!connection->URL) {
         ghiFreeConnection(connection);
         return -1;
     }
     if (headers && *headers) {
-        connection->sendHeaders = goastrdup(headers);
+        connection->sendHeaders = goastrdup((char *)headers);
         if (!connection->sendHeaders) {
             ghiFreeConnection(connection);
             return -1;

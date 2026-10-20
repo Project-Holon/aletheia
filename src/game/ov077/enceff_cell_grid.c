@@ -45,22 +45,25 @@
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   d_021F5A58 0x021F5A58 data a4
  */
+struct GameEvent;
+struct GameSystem;
 #include "enceff_base_types.h"
 #include "enceff_grid_types.h"
 #include "enceff_g3_inline.h"
 
 struct Desc;
-extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *owner, struct GameEvent *a, void *b, u32 size);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
-extern int FADE_IsActive(void);
+#include "../arm9/fade.h"
 extern struct GameEvent *ENCEFF_GetEffect(struct EncEffWork *eff);
-extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, int clearImage);
+typedef int GXFogBlend;
+typedef int GXFogSlope;
+#include "../arm9/g3x.h"
 struct EncEffScreenTexWork;
-extern void ENCEFF_DrawScreenTexEffect(struct EncEffScreenTexWork *work);
-extern void MTX_RotY33_(Mtx33 *mtx, int sinValue, int cosValue);
-extern void MTX_RotZ33_(Mtx33 *mtx, int sinValue, int cosValue);
-extern void G3_MultMtx33(void *m);
+#include "../ov075/enceff_screen_tex.h"
+extern void MTX_RotY33_(EnceffBaseMtx33 *mtx, int sinValue, int cosValue);
+extern void MTX_RotZ33_(EnceffBaseMtx33 *mtx, int sinValue, int cosValue);
+#include "../arm9/g3imm.h"
 void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
 int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state);
 int ENCEFF_StepCellGrid(EncEffGridWork *work);
@@ -207,7 +210,7 @@ void ENCEFF_DrawCellGrid(EncEffGridWork *work)
     {
         VecFx32 pos = {0, 0, 0};
         VecFx32 scale = {0x1000, 0x1000, 0x1000};
-        Mtx33 mtx;
+        EnceffBaseMtx33 mtx;
         int px, py, farX, farY;
         int cols, rows, cellCount, pixelWidth, pixelHeight, i, angleIndex, col, row;
         rows = work->rows;

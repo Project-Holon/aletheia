@@ -90,6 +90,8 @@
  *   gSceneSetSelectWayPushPalette     0x021DA7D4  data
  */
 #include "../../matched/include/G_FocusState.h"
+#include "../sdk_ioreg.h"
+#include "../arm9/gx_load2d.h"
 #include "../../matched/include/G_SCENEMENU_BSS.h"
 
 typedef _Bool bool;
@@ -130,46 +132,27 @@ typedef struct { signed char last; signed char cur; unsigned char flag; void *sc
 
 typedef struct { unsigned char b[4]; } Palette4;
 
-extern char *DWCi_SETTIGNlGet(void);
-extern unsigned char DWCi_Language(void);
-extern void DWCi_HLlLoadSet(void);
-extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
-extern void DWCi_CMNlStep(int step);
-extern s32 DWCi_Flag(unsigned long flag);
-extern void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
-extern void DWCi_ChangeScene(u32 v);
-extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern unsigned char *DWCi_Char(unsigned char *name);
-extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
+#include "setting.h"
+#include "dwcutil_main.h"
+#include "headline.h"
+#include "comment.h"
+#include "common.h"
+#include "focus.h"
+#include "archive.h"
 extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
-extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_CMNlButton(int kind);
-extern s8 DWCi_BTNlGet(void);
-extern void DWCi_BTNlEnable(void);
-extern void DWCi_BTNlDisable(void);
-extern void DWCi_BTNlSet(s8 v);
-extern void DWCi_SNDlPlay(unsigned int v);
-extern int DWCi_TPlCheckTrigger(unsigned short *a);
-extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern int DWCi_IPTlCheckRepeat(unsigned int f);
-extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
-extern void DWCi_SceneEnd(void);
-extern void DWCi_BTNlEnd(void);
-extern int DWCi_BTNlIsEnd(void);
-extern void DWCi_FOCUSlDelete(void);
-extern int DWCi_COMMENTlDelete(void);
-extern void DWCi_ARClRelease(void *file);
-extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
-extern void DWCi_SetListReturn(u8 v);
-extern void DWCi_SceneSetSelectAp(void);
-extern void DWCi_SceneSetSearch(void);
-extern void DWCi_SceneSetAossButton(void);
-extern void DWCi_SceneSetRakuReady(void);
-extern void DWCi_SceneSetList(void);
+#include "graphics.h"
+#include "button.h"
+#include "sound.h"
+#include "input.h"
+#include "screen.h"
+#include "sceneend.h"
+#include "scenesetlist.h"
+#include "scenesetselectap.h"
+#include "scenesetsearch.h"
+#include "scenesetaossbutton.h"
+#include "scenesetrakuready.h"
 void DWCi_SceneSetSelectWay(void);
 void DWCi_SceneSetSelectWay_procScene(void);
 void DWCi_SceneSetSelectWay_draw(void);
@@ -178,11 +161,8 @@ extern s8 gSceneSetSelectWayCommentIds[7];
 extern Rect gSceneSetSelectWayFocusRects[4][4];
 extern T22 gSceneSetSelectWayScreenName;
 extern unsigned char gSceneSetSelectWayPathChar[];
-extern unsigned char GX_LoadBG2Char[];
 extern unsigned char gSceneSetSelectWayPathPltt[];
-extern unsigned char GX_LoadBGPltt[];
 extern unsigned char gSceneSetSelectWayPathScr[];
-extern unsigned char GX_LoadBG2Scr[];
 extern struct SCENEMENU_BSS scenemenu_bss;
 extern const SCENEMENU_RODATA scenemenu_rodata;
 extern const PALETTE_INIT scenemenu_init_20658;
@@ -224,7 +204,7 @@ void DWCi_SceneSetSelectWay(void)
                      gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].right,
                      gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].top,
                      gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].bottom);
-    DWCi_ChangeScene((u32)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 /*
@@ -244,15 +224,15 @@ static void initGraphics(void)
     u16 *p;
 
     buf = gSceneSetSelectWayScreenName;
-    DWCi_CMNlLoadResource((char *)((int)gSceneSetSelectWayPathChar), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
-    DWCi_CMNlLoadResource((char *)((int)gSceneSetSelectWayPathPltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
-    DWCi_CMNlLoadResource((char *)((int)gSceneSetSelectWayPathScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
-    gSceneSetSelectWayFocus.screen = DWCi_ARClReadEx((char *)((int)DWCi_Char((unsigned char *)(&buf))), 0, 4);
+    DWCi_CMNlLoadResource((char *)((sptr)gSceneSetSelectWayPathChar), GX_LoadBG2Char);
+    DWCi_CMNlLoadResource((char *)((sptr)gSceneSetSelectWayPathPltt), GX_LoadBGPltt);
+    DWCi_CMNlLoadResource((char *)((sptr)gSceneSetSelectWayPathScr), GX_LoadBG2Scr);
+    gSceneSetSelectWayFocus.screen = DWCi_ARClReadEx((char *)((sptr)DWCi_Char((unsigned char *)(&buf))), 0, 4);
 
-    p = (u16 *)0x04001008;
+    p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;
-    p = (u16 *)0x0400000A;
+    p = (u16 *)REG_BG1CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;
 }
@@ -266,7 +246,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x14, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x14);
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
 static void procInit1(void)
@@ -276,7 +256,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(0);
-    DWCi_ChangeScene((u32)procInit2);
+    DWCi_ChangeScene((uptr)procInit2);
 }
 
 static void procInit2(void)
@@ -284,7 +264,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((u32)DWCi_SceneSetSelectWay_procScene);
+    DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay_procScene);
 }
 
 void DWCi_SceneSetSelectWay_procScene(void)
@@ -357,7 +337,7 @@ static void button(void)
     default:
         return;
     }
-    DWCi_ChangeScene((u32)endScene);
+    DWCi_ChangeScene((uptr)endScene);
 }
 
 /*
@@ -370,7 +350,7 @@ static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((u32)endScene1);
+    DWCi_ChangeScene((uptr)endScene1);
 }
 
 /*
@@ -387,7 +367,7 @@ static void endScene1(void)
         DWCi_BTNlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 20, 8);
-    DWCi_ChangeScene((u32)endScene2);
+    DWCi_ChangeScene((uptr)endScene2);
 }
 
 static void endScene2(void)
@@ -405,27 +385,27 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 0x14);
     if (gSceneSetSelectWayFocus.flag == 0) {
         DWCi_SetParam_(2, 0);
-        DWCi_ChangeScene((u32)DWCi_SceneSetSelectAp);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetSelectAp);
         return;
     }
     switch (gSceneSetSelectWayFocus.cur) {
     case 0:
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene((u32)DWCi_SceneSetSearch);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetSearch);
         break;
     case 1:
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene((u32)DWCi_SceneSetAossButton);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetAossButton);
         break;
     case 2:
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene((u32)DWCi_SceneSetRakuReady);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetRakuReady);
         break;
     case 3:
         DWCi_SetParam_(2, 0);
         DWCi_SetParam2_(0, 0);
         DWCi_SetListReturn(1);
-        DWCi_ChangeScene((u32)DWCi_SceneSetList);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetList);
         break;
     }
 }

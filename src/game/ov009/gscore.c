@@ -38,6 +38,7 @@
  *   gsiDeleteCriticalSection  0x0217F120  arm
  */
 #include "../types.h"
+#include "gscore.h"
 
 typedef struct {
     unsigned int mRefCount;
@@ -48,45 +49,16 @@ typedef struct {
     void *mTaskArray;
 } GSCoreMgr;
 
-typedef struct GSTask {
-    int mId;
-    unsigned int mTimeout;
-    unsigned int mStartTime;
-    int mAutoThink;
-    int mIsStarted;
-    int mIsRunning;
-    int mIsCanceled;
-    int mIsCallbackPending;
-    void *mTaskData;
-    void (*mExecuteFunc)(void *);
-    void (*mCallbackFunc)(void *, int);
-    void (*mCancelFunc)(void *);
-    int (*mCleanupFunc)(void *);
-    int (*mThinkFunc)(void *);
-} GSTask;
-
-extern void gsiDeleteCriticalSection(void *p);
-extern void msleep(unsigned int msec);
-extern unsigned int gsiInterlockedIncrement(unsigned int *value);
-extern void gsiInitializeCriticalSection(void *mutex);
-extern u32 MSL_C_LIB_LockRegisterDestructor(u32 arg);
-extern void gsiEnterCriticalSection(void *mutex);
-extern void gsiLeaveCriticalSection(void *mutex);
+#include "gsplatformthread.h"
+#include "gsplatformutil.h"
+#include "../arm9/msl_crt.h"
 struct DArrayImplementation;
-extern struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
-extern void ghttpStartup(void);
-extern unsigned int current_time(void);
-extern int ArrayLength(const int *p);
-extern void *ArrayNth(struct DArrayImplementation *array, int n);
-extern void ArrayRemoveAt(struct DArrayImplementation *array, int n);
-extern void gsifree(void *ptr);
-extern void ghttpCleanup(void);
+#include "darray.h"
+#include "../ov114/ghttpmain.h"
+#include "gsmemory.h"
 struct DArrayImplementation;
-extern void ArrayFree(struct DArrayImplementation *array);
-extern unsigned int gsiInterlockedDecrement(unsigned int *value);
-extern void ArrayAppend(void *array, void *elem);
-extern void *gsimalloc(unsigned long size);
-extern void *MSL_C_LIB_MemsetPtr(void *p, int c, unsigned long n);
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
 void *gsiCoreGetManager(void);
 void gsiCoreAtExitShutdown(void);
 void gsCoreInitialize(void);
@@ -122,7 +94,7 @@ void gsCoreInitialize(void)
     if (gsiInterlockedIncrement(&aCore->mRefCount) == 1) {
         if (!aCore->mIsStaticInitComplete) {
             gsiInitializeCriticalSection(aCore->mQueueCrit);
-            MSL_C_LIB_LockRegisterDestructor((u32)gsiCoreAtExitShutdown);
+            MSL_C_LIB_LockRegisterDestructor((uptr)gsiCoreAtExitShutdown);
             aCore->mIsStaticInitComplete = 1;
         }
         gsiEnterCriticalSection(aCore->mQueueCrit);

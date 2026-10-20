@@ -18,16 +18,9 @@ struct BtlPokeParam;
 #define BTL_EVENT_TYPE_FIELD_EFFECT 3
 
 /* Battle server flow and poke parameter services used by the position effect handlers. */
-extern struct BtlPokeParam *BTL_SERVER_FLOW_GetPokeParam(struct BtlServerFlow *flow, int pokeId);
-extern int BTL_SERVER_FLOW_GetPokeIdAtFieldIndex(struct BtlServerFlow *flow, int position);
-extern u32 BTL_SERVER_FLOW_GetTurnCount(struct BtlServerFlow *flow);
-extern int BTL_SERVER_FLOW_CheckShowdownThunk(struct BtlServerFlow *flow);
-extern void *BTL_SERVER_FLOW_AllocCmdRecord(struct BtlServerFlow *flow, int kind, int pokeId);
-extern void BTL_SERVER_FLOW_CommitCmdRecord(struct BtlServerFlow *flow, void *cmd);
-extern void BTL_SERVER_FLOW_InitMsgRecord(void *message, int kind, int messageId);
-extern void BTL_SERVER_FLOW_AppendMsgRecordArg(void *message, u32 arg);
-extern int BTL_POKEPARAM_IsHpFull(struct BtlPokeParam *bpp);
-extern u16 BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *bpp, int divisor);
+#include "../ov093/btl_server_flow.h"
+#include "../ov093/btl_pokeparam.h"
+#include "../ov093/btl_calc.h"
 
 #endif
 
@@ -115,14 +108,8 @@ enum BtlSideEffect {
 enum {
     BTL_EFFECT_CONT_TIMED = 2 /* ends after turnLimit turns */
 };
-typedef union {
-    u32 raw;
-    struct {
-        u32 kind : 3;
-        u32 turnLimit : 6;
-        u32 rest : 23;
-    } bits;
-} BtlEffectCont;
+/* The duration word is a sick-continuation word: byPart.kind is how it ends, byPart.paramLow the turn limit. */
+typedef union SickCont BtlEffectCont;
 
 /* One row of a factor table: effect id and the function that returns its handler list. */
 typedef struct {
@@ -206,10 +193,6 @@ struct HandExPosHealNotice {
 };
 
 /* Services used by several files. */
-extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u16 key, int priority, u32 subPriority, u32 ownerId, u32 handlers, u16 handlerCount);
-extern void BTL_EVENT_RemoveFactor(struct BtlEventFactor *factor);
-extern int BTL_EVENT_GetVar(int key);
-extern int BTL_EVENT_OverwriteVar(int key, u32 value);
-extern void BTL_EVENT_MultiplyVar(int key, s32 ratio);
+#include "../ov093/btl_event.h"
 
 #endif

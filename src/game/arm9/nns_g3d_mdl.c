@@ -81,7 +81,7 @@ void NNS_G3dMdlSetMdlPolygonIDAll(ResMdl *pMdl, u32 polygonId);
 void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator){ return NNS_FndAllocFromAllocator((NNSiFndObject *)pAllocator, 0x54); }
 
 /* NNS_G3dFreeRenderObj */
-void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){ NNS_FndFreeToAllocator((struct NNSiFndObject *)pAllocator, (u32)pRenderObj); }
+void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){ NNS_FndFreeToAllocator((struct NNSiFndObject *)pAllocator, (uptr)pRenderObj); }
 
 /*
  * NNS_G3dAllocAnmObj: forwards the two tail arguments through GetTaggedPayloadSize and hands the result,
@@ -98,7 +98,7 @@ void *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const u8 *pAnm, con
 }
 
 /* NNS_G3dFreeAnmObj */
-void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj){ NNS_FndFreeToAllocator((struct NNSiFndObject *)pAllocator, (u32)pAnmObj); }
+void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj){ NNS_FndFreeToAllocator((struct NNSiFndObject *)pAllocator, (uptr)pAnmObj); }
 
 /*
  * A family of five near-identical bitfield setters over the same inlined
@@ -141,7 +141,7 @@ void NNS_G3dMdlSetMdlLightEnableFlag(ResMdl *pMdl, u32 matIdx, u32 lightMask)
     pDict = (u8 *)pMat + 4;
     if (pDict == 0) goto nullent;
     if (matIdx >= pMat->numEntry) goto nullent;
-    matIdx = (u32)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
+    matIdx = (uptr)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
     goto have;
 nullent:
     matIdx = 0;
@@ -166,7 +166,7 @@ void NNS_G3dMdlSetMdlPolygonMode(ResMdl *pMdl, u32 matIdx, u32 polygonMode)
     pDict = (u8 *)pMat + 4;
     if (pDict == 0) goto nullent;
     if (matIdx >= pMat->numEntry) goto nullent;
-    matIdx = (u32)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
+    matIdx = (uptr)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
     goto have;
 nullent:
     matIdx = 0;
@@ -191,7 +191,7 @@ void NNS_G3dMdlSetMdlCullMode(ResMdl *pMdl, u32 matIdx, u32 cullMode)
     pDict = (u8 *)pMat + 4;
     if (pDict == 0) goto nullent;
     if (matIdx >= pMat->numEntry) goto nullent;
-    matIdx = (u32)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
+    matIdx = (uptr)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
     goto have;
 nullent:
     matIdx = 0;
@@ -216,7 +216,7 @@ void NNS_G3dMdlSetMdlPolygonID(ResMdl *pMdl, u32 matIdx, u32 polygonId)
     pDict = (u8 *)pMat + 4;
     if (pDict == 0) goto nullent;
     if (matIdx >= pMat->numEntry) goto nullent;
-    matIdx = (u32)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
+    matIdx = (uptr)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
     goto have;
 nullent:
     matIdx = 0;
@@ -241,7 +241,7 @@ void NNS_G3dMdlSetMdlAlpha(ResMdl *pMdl, u32 matIdx, u32 alpha)
     pDict = (u8 *)pMat + 4;
     if (pDict == 0) goto nullent;
     if (matIdx >= pMat->numEntry) goto nullent;
-    matIdx = (u32)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
+    matIdx = (uptr)(pDict + pMat->ofsEntry + 4 + (*(u16 *)(pDict + pMat->ofsEntry)) * matIdx);
     goto have;
 nullent:
     matIdx = 0;

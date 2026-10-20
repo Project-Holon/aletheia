@@ -4,7 +4,7 @@
 #include "hall_of_fame_types.h"
 
 struct Proc;
-struct Obj;
+struct ClactActor;
 
 /* hall_of_fame_proc.c */
 int HALL_OF_FAME_ProcInit(struct Proc *proc, void *unused, u32 args);
@@ -87,7 +87,7 @@ void HALL_OF_FAME_ReleaseCharacter(HallOfFameWork *work, int index);
 void HALL_OF_FAME_ReleasePalette(HallOfFameWork *work, int index);
 void HALL_OF_FAME_ReleaseCellAnim(HallOfFameWork *work, int index);
 void HALL_OF_FAME_ReleaseAllResources(HallOfFameWork *work);
-struct Obj *HALL_OF_FAME_CreateActorFromTemplate(HallOfFameWork *work, const HallOfFameActorTemplate *tmpl);
+struct ClactActor *HALL_OF_FAME_CreateActorFromTemplate(HallOfFameWork *work, const HallOfFameActorTemplate *tmpl);
 void HALL_OF_FAME_DeleteActor(HallOfFameWork *work, int actor);
 void HALL_OF_FAME_DeleteAllActors(HallOfFameWork *work);
 void HALL_OF_FAME_LoadMonActors(HallOfFameWork *work);

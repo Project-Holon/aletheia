@@ -49,20 +49,16 @@ typedef struct ApCmd {
     u8 mac[6];
 } ApCmd;
 
-extern u32 NWMi_CheckState(u32, ...);
-extern u32 NWMi_GetSystemWork(void);
+#include "nwm_system.h"
 extern void DC_InvalidateRange(u32, u32);
-extern void MI_CpuFill8(void *, u32, u32);
+#include "../arm9/mi_memory.h"
 extern void DC_StoreRange(void *, u32);
-extern void NWMi_SetCallbackTable(u32, u32);
-extern void MI_CpuCopy8(const void *, void *, u32);
-extern u32 NWMi_SendCommandDirect(unsigned int command, unsigned int length);
-extern int MI_CpuComp8(void *, void *, u32);
-u32 NWM_StartScanEx(u32 callback, const ApInfo *param);
+#include "nwm_cmd.h"
+u32 NWM_StartScanEx(void *callback, const ApInfo *param);
 u8 *NWM_GetInfoElements(u8 *bssDesc, u8 elementId);
 u8 *NWM_GetVenderInfoElements(u8 *bssDesc, u32 elementId, void *oui);
 
-u32 NWM_StartScanEx(u32 callback, const ApInfo *param) {
+u32 NWM_StartScanEx(void *callback, const ApInfo *param) {
     ApCmd cmd;
     u32 r = NWMi_CheckState(1, 3);
     u32 base;
@@ -99,7 +95,7 @@ u32 NWM_StartScanEx(u32 callback, const ApInfo *param) {
     MI_CpuFill8(param->buf, 0, (param->bufLen + 3) & ~3);
     DC_StoreRange(param->buf, (param->bufLen + 3) & ~3);
     r = 7;
-    NWMi_SetCallbackTable(r, callback);
+    NWMi_SetCallbackTable(r, (u32)callback);
     cmd.cmd = r;
     cmd.channelList = param->channelList;
     cmd.bufLen = param->bufLen;

@@ -130,85 +130,38 @@ typedef struct PokeVoiceWork {
     ScrcmdWork *cmdWork;     /* 0x08: receives the voice handle */
 } PokeVoiceWork;
 
-extern u32 EVENT_TRAINER_GetTrainerIdFromScriptId(u32 scriptId);
-extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
-extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
-extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
-extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
-extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
-extern u16 SCRCMD_WORK_GetHeapId(ScrcmdWork *cmdWork);
-extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
-extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *scriptWork);
-extern u16 SCRIPT_WORK_GetScriptId(ScriptWork *scriptWork);
+#include "../ov010/event_trainer.h"
+#include "../arm9/gamesystem.h"
+#include "../ov010/scrcmd_work.h"
+#include "../arm9/iss_sys.h"
+#include "../ov010/script_work_cmd.h"
+#include "../ov010/script_work.h"
 struct ScriptWork;
 struct ScriptTrainerEntry;
-extern struct ScriptTrainerEntry *SCRIPT_WORK_GetTrainerEntry(ScriptWork *scriptWork, int index);
-extern void *SCRIPT_WORK_GetGameSystem(ScriptWork *scriptWork);
-extern u32 *SCRIPT_WORK_GetTrainerParam(ScriptWork *scriptWork);
-extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
-extern void SCRIPT_WORK_SetCheckFlag(int checkFlag);
-extern void SCRIPT_WORK_ResetCheckFlag(int checkFlag);
-extern TrainerEyeWork *EVENT_TRAINER_EYE_Create(u32 heapId, FieldMap *fieldMap, TrainerEyeHit *hit, int recordIndex);
+#include "../ov010/script_sys.h"
+#include "event_trainer_eye.h"
 struct TrainerEyeWork;
-extern GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(void *owner, struct TrainerEyeWork *first, struct TrainerEyeWork *second);
-extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
-extern int EVENT_TRAINER_GetBattleType(int trainerId);
-extern int EVENT_TRAINER_IsDoubleBattle(int trainerId);
-extern s32 EVENT_TRAINER_IsSecondaryScriptId(u32 scriptId);
-extern s32 EVENT_BATTLE_CreateEncounterTask(s32 gameSystem, s32 battleSrc, s32 battleMode, s32 battleFlags, s32 battleKind, s32 fieldEffect, s32 options);
-extern void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u32 battleMode, u32 battleFlags, u32 battleKind, u32 fieldEffect, u32 options, u32 entryIndex);
-extern u32 TPOKE_DATA_GetRecordField(void *a, unsigned int idx);
-extern u16 FIELD_SOUND_SYSTEM_GetTrainerClassBgm(u32 trainerClass);
-extern GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(GameSystem *gameSystem, u32 bgmNo);
-extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg, u8 seasonShown, u8 seasonTarget);
-extern void *GAME_DATA_GetTrainerRecord(GameData *gameData);
-extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
-extern u32 ZONEDATA_IsZoneInTableDFD2(u32 zoneId);
+#include "../ov010/fldmmdl.h"
+#include "../ov010/event_battle.h"
+#include "../arm9/tpoke_data.h"
+#include "../arm9/field_sound_system.h"
+#include "event_fieldmap_control.h"
+#include "../arm9/game_data.h"
+#include "fieldmap.h"
+#include "../arm9/zonedata.h"
 extern u32 RECORD_AddOne(TrainerRecord *record, int index);
-extern u16 VM_ReadU16(ScriptVm *vm);
-extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(GameSystem *gameSystem, u32 bgmNo);
-extern u32 GAME_DATA_GetBgmInfo(GameData *gameData);
-extern void FIELD_SOUND_SYSTEM_PauseSlots(FieldSoundSystem *soundSystem, u32 slotMask);
-extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(GameSystem *gameSystem, u32 bgmNo, u16 fadeFrames);
-extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(GameSystem *gameSystem, u16 bgmNo);
-extern int GFL_USE_IsBgmPlaying(void);
-extern void VM_SetWait(ScriptVm *vm, ScriptWaitFn waitFn);
-extern void FIELD_SOUND_SYSTEM_FadeVolume(FieldSoundSystem *soundSystem, u8 level, u16 frames);
-extern u8 GAME_DATA_GetSeason(GameData *gameData);
-extern u32 FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(GameData *gameData, u32 zoneId, u32 season);
-extern GameEvent *FIELD_SOUND_SYSTEM_StartChangeTask(GameSystem *gameSystem, u32 bgmNo, u32 fadeOutFrames, u32 fadeInFrames);
-extern void FIELD_SOUND_SYSTEM_ResumeSlots(FieldSoundSystem *soundSystem, u32 slotMask);
-extern GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(GameSystem *gameSystem, u32 a, u32 b);
-extern GameEvent *FIELD_SOUND_SYSTEM_StartPushTask(GameSystem *gameSystem, u32 bgmNo);
-extern GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(GameSystem *gameSystem, u32 bgmNo);
-extern int GFL_USE_IsSeSlotBusy(u32 slot);
-extern int GFL_USE_GetSeSlot(u32 seNo);
-extern void GFL_USE_StopSeSlot(int slot);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern u32 FIELD_SOUND_SYSTEM_IsBusy(FieldSoundSystem *soundSystem);
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, void *func, unsigned int workSize);
-extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern u32 PM_VOICE_IsSlotActive(u32 handle);
-extern s32 SCRCMD_WORK_GetFadeParam(ScrcmdWork *cmdWork);
-extern void *GAMESYSTEM_GetIssSystem(GameSystem *gameSystem);
-extern IssSwitchSys *ISS_SYS_GetSwitchSys(IssSystem *issSystem);
-extern void ISS_SWITCH_SYS_SwitchOn(u8 *sys, u32 switchIdx);
-extern void ISS_SWITCH_SYS_SwitchOff(u8 *sys, u32 switchIdx);
-extern u32 ISS_SWITCH_SYS_IsSwitchOn(struct IssSwitchSys *sys, u32 switchIdx);
-extern int GFL_USE_IsLoaderBusy(void);
+#include "../arm9/vm.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/game_event.h"
+#include "../arm9/pm_voice.h"
+#include "../arm9/iss_switch_sys.h"
 struct SaveBlock;
-extern void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out);
-extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
-extern void SCRCMD_WORK_SetFadeParam(struct ScrcmdWork *work, s32 param);
-extern void *GAME_DATA_GetMyItem(GameData *gameData);
 extern u16 MYITEM_SAVEDATA_AddItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
 extern u16 MYITEM_SAVEDATA_RemoveItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
 extern u16 MYITEM_SAVEDATA_CanAddItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
 extern u16 MYITEM_SAVEDATA_HasItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
 extern u16 MYITEM_SAVEDATA_GetItemQuantity(MyItem *myItem, u32 itemNo, u32 heapId);
-extern u32 FILE_UTIL_GetItemParam(u32 itemNo, u32 selector, u32 heapId);
-extern u32 FILE_UTIL_IsMachineItem(u32 itemNo);
+#include "../arm9/file_util.h"
 
 int SCRCMD_CreateTrainerEye(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_CallTrainerEyePairEvent(ScriptVm *vm, ScrcmdWork *cmdWork);
@@ -945,7 +898,7 @@ int SCRCMD_PlayPokeVoice(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     form = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_PokeVoiceEvent, 12);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_PokeVoiceEvent, 12);
     voiceWork = GAME_EVENT_GetWork(event);
     voiceWork->species = species;
     voiceWork->form = form;
@@ -968,7 +921,7 @@ int SCRCMD_PlayPerapVoice(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     species = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     form = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    event = GAME_EVENT_Create(gameSystem, 0, SCRCMD_PokeVoiceEvent, 12);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_PokeVoiceEvent, 12);
     voiceWork = GAME_EVENT_GetWork(event);
     voiceWork->species = species;
     voiceWork->form = form;

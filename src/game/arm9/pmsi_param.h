@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_PMSI_PARAM_H
 #define GAME_ARM9_PMSI_PARAM_H
 
+/* Kept by hand: mkheaders cannot read __restrict, and the definition needs it for the load/store order. */
+void PMSI_PARAM_GetWords(const struct PmsiParam *obj, unsigned short *__restrict outWords);
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of pmsi_param.c, prototypes copied from their definitions. */
 

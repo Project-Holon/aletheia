@@ -6,8 +6,8 @@
  * The camera is moved by a field camera anime (FIELD_CAMERA_ANIME_*).
  */
 
-#include "fieldmap_types.h"
-#include "field_camera_types.h"
+#include "../ov021/fieldmap_types.h"
+#include "../ov021/field_camera_types.h"
 
 struct FieldCamera;
 struct FieldCameraAnime;

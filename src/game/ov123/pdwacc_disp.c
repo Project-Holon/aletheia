@@ -68,100 +68,76 @@
  */
 #include "pdwacc_disp_types.h"
 
-extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
+#include "../arm9/bg_sys.h"
 
-extern void BG_SYS_PushTile(u32);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void BG_SYS_Init(u32, u32, u32, u32);
 
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
+#include "../arm9/arc_util.h"
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
-extern void MI_CpuCopy8(const void *, void *, u32);
+#include "../arm9/mi_memory.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void DC_FlushRange(void *, int);
+#include "../arm9/os_cache.h"
 
-extern void GXS_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
+#include "../arm9/gx_load2d.h"
 
-extern void CLACT_VBlankSystem(void);
+#include "../arm9/clact.h"
 
-extern void MI_CpuFill8(void *,u8,u32);
 
-extern void BG_SYS_SetLcdSwap(u32 swap);
 
-extern void GX_DispOn(void);
+#include "../arm9/gx.h"
 
-extern void BG_SYS_Create(u16 heapId);
 struct DispVram;
 
-extern void BG_SYS_SetVramBanks(struct DispVram *banks);
 
-extern void BG_SYS_SetGraphicsMode(const void *cfg);
 
-extern void BG_SYS_SetMainVisiblePlanes(u32);
 
-extern void BG_SYS_SetSubVisiblePlanes(u32);
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 
-extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void *GFL_USE_AddMainTask(void *,void *,int);
+#include "../arm9/gfl_use.h"
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/g2.h"
 
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
-extern void CLACT_DrawSystem(void);
-struct Actor;
+struct ClactActor;
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_ReleasePalette(u32 i);
 
-extern void CLACT_ReleaseCharacter(u32 i);
 
-extern void CLACT_ReleaseCellAnim(u32 i);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern u32 CLACT_DeleteUnit(void *bank);
 
-extern void CLACT_ExitSystem(void);
 
-extern void BG_SYS_Delete(void);
 
-extern int GF_OVERLAY_Load(int);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(int);
 
-extern void GX_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
-extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
+#ifdef __MWERKS__
+#define PALANM_BlendColors PALANM_BlendColors_hdr
+#endif
+#include "../arm9/palanm.h"
+#ifdef __MWERKS__
+#undef PALANM_BlendColors
+void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
+#endif
 
 PdwaccDispWork *PDWACC_DISP_Init(int heap);
 
@@ -209,13 +185,13 @@ PdwaccDispWork *PDWACC_DISP_Init(int heap)
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
     BG_SYS_Create(disp->heap);
-    CLACT_InitSystem((struct SysInit *)gGsyncClactConfig,(struct DispVramCfg *)d_021DABCC,disp->heap);
+    CLACT_InitSystem((const struct ClactSysInit *)gGsyncClactConfig,(const struct DispVramCfg *)d_021DABCC,disp->heap);
     disp->clactUnit=CLACT_CreateUnit(40,0,disp->heap);
-    BG_SYS_SetVramBanks((struct DispVram *)d_021DABCC);
-    BG_SYS_SetGraphicsMode(d_021DABBC);
+    BG_SYS_SetVramBanks((const struct DispVram *)d_021DABCC);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)d_021DABBC);
     PDWACC_DISP_InitBgLayers(disp);
     PDWACC_DISP_LoadResources(disp);
-    disp->vblankTask=GFL_USE_AddMainTask(PDWACC_DISP_VBlankTask,disp,0);
+    disp->vblankTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))PDWACC_DISP_VBlankTask,(void *)disp,0);
     BG_SYS_SetSubVisiblePlanes(31);
     BG_SYS_SetMainVisiblePlanes(27);
     return disp;
@@ -405,4 +381,4 @@ void PDWACC_DISP_PaletteTask(void *unused, PdwaccPaletteAnim *palette)
 /*
  * lever: A named unsigned cursor q preserves counter r4 and cursor r5.
  */
-void PDWACC_DISP_DeleteActors(PdwaccDispWork *disp) { int slotIndex; unsigned int actorCursor; for(slotIndex=0;slotIndex<PDWACC_ACTOR_COUNT;slotIndex++) { actorCursor=(unsigned int)disp+(unsigned)slotIndex*4; if(((PdwaccDispWork *)actorCursor)->actors[0]) { CLACT_DeleteActor((struct Actor *)(((PdwaccDispWork *)actorCursor)->actors[0])); ((PdwaccDispWork *)actorCursor)->actors[0]=0; } } }
+void PDWACC_DISP_DeleteActors(PdwaccDispWork *disp) { int slotIndex; unsigned int actorCursor; for(slotIndex=0;slotIndex<PDWACC_ACTOR_COUNT;slotIndex++) { actorCursor=(unsigned int)disp+(unsigned)slotIndex*4; if(((PdwaccDispWork *)actorCursor)->actors[0]) { CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(((PdwaccDispWork *)actorCursor)->actors[0]))); ((PdwaccDispWork *)actorCursor)->actors[0]=0; } } }

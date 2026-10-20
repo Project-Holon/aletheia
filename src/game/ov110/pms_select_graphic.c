@@ -189,174 +189,81 @@ struct Proc;
 /* State numbers of the main step. */
 #define PMS_SELECT_GRAPHIC_STATE_FINISHED 16
 
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern u32 KEY_GetTrg(void);
-extern u32 KEY_GetRepeat(void);
+#include "../arm9/procsys.h"
+#include "../arm9/key.h"
 extern char ov067_id[];
 extern const u8 overlay_id[];
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(unsigned heapId, unsigned size, int zero, const char *file, u16 line);
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern void MI_CpuFill8(void *dst, int value, unsigned size);
-extern int GF_OVERLAY_Load(int handle);
-extern void GF_OVERLAY_Unload(int handle);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
-extern void *PROCSYS_Create(int heapId);
-extern u32 PROCSYS_Main(void *procList);
-extern void PROCSYS_Delete(void *procList);
-extern void PROCSYS_Push(void *procList, int, void *procData, void *param);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*task)(int, void *), void *work, unsigned priority);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gx.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/net.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+struct TcbTask;
+#include "../arm9/tcb_list.h"
 struct BmpWin;
 
                             
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+#include "../arm9/bmp_win.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 struct Bmp;
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BMP_WIN_Init(u16 heapId);
-extern void BMP_WIN_Exit(void);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct GfFont;
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern u32 GF_FONT_Delete(struct GfFont *font);
+#include "../arm9/gf_font.h"
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
+#include "../arm9/strbuf.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+#include "../arm9/printsys.h"
 struct DispVramCfg;
 struct SysInit;
 
 /* Actors and the display. */
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern void CLACT_ExitSystem(void);
-extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern u32 CLACT_DeleteUnit(void *unit);
-extern void CLACT_SetUnitDefaultRenderer(void *unit);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
-extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern short CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis);
-extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
-extern void BG_SYS_Create(u16 heapId);
-extern void BG_SYS_Delete(void);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_SetGraphicsMode(const void *config);
-extern void BG_SYS_InitBgLayer(u32 bgId, const void *bgTemplate, u32 type);
-extern void BG_SYS_FreeLayerBuf(u32 bgId);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
-extern void BG_SYS_FreeSlot(u8 bgId);
-extern void BG_SYS_SetPlaneVisible(u8 bgId, u8 value);
-extern void BG_SYS_ClearLayerEx(int, u16);
-extern void BG_SYS_MarkTileDirty(u32 bgLayer);
-extern void BG_SYS_Update(void);
-extern void BG_SYS_ClearGraphicsMemory(unsigned);
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
 struct DispVram;
-extern void BG_SYS_SetVramBanks(struct DispVram *banks);
-extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
-extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
-extern void BG_SYS_ResetSubDisplay(void);
-extern void BG_SYS_SetLcdSwap(unsigned);
-extern void GF_FONT_InitTextColor(void);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern void BRIGHTNESS_Set(u32, u32, u32);
-extern void FADE_Start(u32, int, int, int);
-extern int FADE_IsActive(void);
-extern u8 UI_GetInputMode(void);
-extern void UI_SetInputMode(u8 isTouch);
-extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
+#include "../arm9/brightness.h"
+#include "../arm9/fade.h"
+#include "../arm9/ui.h"
+#include "../arm9/touchpanel.h"
 extern short FX_SinCosTable_[];
 
 /* Archive and palette helpers. */
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
-extern int NNS_GfdRegisterNewVramTransferTask(void *, u32, u32, int);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u16);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
 
 /* Overlay 67: scene actors and touch bar. */
-extern void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys, u16 heapId);
-extern void UI_SCENE_FreeActorGfx(ActorGfxSet *gfx);
-extern struct Actor *UI_SCENE_CreateActor(ActorGfxSet *gfx, void *actorSys, u16 x, u16 y, u8 animIndex, u16 heapId);
-extern TouchBar *TOUCHBAR_Create(TouchBarParams *params, int heapId);
-extern void TOUCHBAR_SetButtonBgPriority(TouchBar *bar, unsigned int buttonId, unsigned int bgPriority);
-extern void TOUCHBAR_Delete(TouchBar *bar);
-extern void TOUCHBAR_Update(TouchBar *bar);
-extern void TOUCHBAR_SetAllButtonsVisible(TouchBar *bar, u32 visible);
-extern int TOUCHBAR_GetPressedButtonIdIfPressing(TouchBar *bar);
-extern int TOUCHBAR_GetPressedButtonIdIfDone(TouchBar *bar);
+#include "../ov067/ui_scene.h"
+#ifdef __MWERKS__
+#define TOUCHBAR_Create TOUCHBAR_Create_hdr
+#endif
+#include "../ov067/touchbar.h"
+#ifdef __MWERKS__
+#undef TOUCHBAR_Create
+TouchBar * TOUCHBAR_Create(TouchBarParams *, int);
+#endif
 struct GFont;
 struct TaskMenuRes;
 
                                                       
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
+#include "../arm9/app_taskmenu.h"
 struct TaskMenuInitWork;
 struct TaskMenuWork;
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 struct PmsDraw;
-extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
-extern void PMS_DRAW_Delete(struct PmsDraw *wk);
-extern void PMS_DRAW_Main(struct PmsDraw *wk);
-extern void PMS_DRAW_Clear(struct PmsDraw *wk, int id, unsigned int isTrans);
-extern u32 PMS_DRAW_IsPrintEnd(struct PmsDraw *wk);
-extern void PMS_DRAW_SetPrintColor(struct PmsDraw *wk, u16 color);
-extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *wk, u8 palette);
+#include "../arm9/pms_draw.h"
 struct BeaconDetailGraQuad;
-extern void PMS_DRAW_Print(u32 wk, u32 bmpWin, struct BeaconDetailGraQuad *pms, u32 id);
-extern u32 PMS_DRAW_IsActive(struct PmsDraw *wk, u32 id);
 struct WinPanel020071CCCtrl;
 
 /* Easy chat data. */
-extern void *PMS_WORD_GetSaveData(struct WinPanel020071CCCtrl *ctrl);
-extern void *PMS_WORD_GetSaveEntry(char *p, int idx);
+#include "../arm9/pms_word.h"
 struct PmsWord;
-extern void PMS_WORD_SetSaveEntry(struct PmsWord *p, int idx, void *src);
-extern int PMSI_PARAM_GetSentenceType(const struct PmsData *entry);
-extern int PMSI_PARAM_IsComplete(const struct PmsData *entry, u32 heapId);
+#include "../arm9/pmsi_param.h"
 struct PmsiParam;
-extern struct PmsiParam *PMSI_PARAM_Create(u32 kind, u32 unused, void *src, u32 flag, void *sys, u32 heapId);
-extern void PMSI_PARAM_SetSentence(void *param, const struct PmsData *sentence);
-extern int PMSI_PARAM_CheckModified(struct PmsiParam *obj);
-extern void PMSI_PARAM_GetSentence(void *param, struct PmsData *out);
-extern void PMSI_PARAM_Delete(void *param);
 
 extern void *PMS_SELECT_GRAPHIC_ReadPointer(void **p);
 
@@ -1113,7 +1020,7 @@ void PMS_SELECT_GRAPHIC_DrawSavedRow(struct PmsSelectGraphic *p, u8 row, u8 whic
         PMS_DRAW_SetPrintColor(p->pmsDraw, 0x44d);
         PMS_DRAW_SetNullColorPalette(p->pmsDraw, 13);
     }
-    if (PMSI_PARAM_IsComplete(item, p->heapId) == 1) {
+    if (PMSI_PARAM_IsComplete((struct PmsData *)item, p->heapId) == 1) {
         PMS_DRAW_Print((u32)p->pmsDraw, (u32)p->rowWindows[row], (struct BeaconDetailGraQuad *)item, row);
         p->rowPending[row] = 1;
     }
@@ -1288,7 +1195,7 @@ struct PmsSelectGraphicScene *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 h
     GF_FONT_InitTextColor();
     PMS_SELECT_GRAPHIC_InitSceneBgs(scene, heap);
     PMS_SELECT_GRAPHIC_InitSceneActors(&scene->actorUnit, (unsigned)gPmsSelectGraphicVramBanks, heap);
-    scene->drawTask = GFL_USE_AddMainTask(PMS_SELECT_GRAPHIC_SceneTask, scene, 0);
+    scene->drawTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))PMS_SELECT_GRAPHIC_SceneTask, (void *)scene, 0);
     return scene;
 }
 
@@ -1330,11 +1237,11 @@ void PMS_SELECT_GRAPHIC_InitSceneBgs(struct PmsSelectGraphicScene *scene, u16 he
     MI_CpuFill8(scene, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
-    BG_SYS_SetGraphicsMode(gPmsSelectGraphicDispConfig);
+    BG_SYS_SetGraphicsMode((struct DispConfig *)gPmsSelectGraphicDispConfig);
     for (i = 0; i < 6; i++) {
         row = &gPmsSelectGraphicBgRows[i];
         id = row->id;
-        BG_SYS_InitBgLayer((u8)id, row->bg, (u8)row->pal);
+        BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)row->bg, (u8)row->pal);
         BG_SYS_FreeSlot(id);
         BG_SYS_SetPlaneVisible(id, row->value);
     }
@@ -1365,7 +1272,7 @@ void PMS_SELECT_GRAPHIC_TransferSceneBgs(struct PmsSelectGraphicScene *scene)
 void PMS_SELECT_GRAPHIC_InitSceneActors(void **unitOut, unsigned vram, unsigned heap)
 {
     MI_CpuFill8(unitOut, 0, 4);
-    CLACT_InitSystem((struct SysInit *)gPmsSelectGraphicActorInit, (struct DispVramCfg *)vram, heap);
+    CLACT_InitSystem((const struct ClactSysInit *)gPmsSelectGraphicActorInit, (const struct DispVramCfg *)vram, heap);
     *unitOut = CLACT_CreateUnit(128, 0, heap);
     CLACT_SetUnitDefaultRenderer(*unitOut);
     BG_SYS_SetMainPlaneVisible(16, 1);

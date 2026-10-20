@@ -30,21 +30,18 @@ typedef struct TimeOfDay {
     int minute;
 } TimeOfDay;
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
 
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
 
 /* Party and Pokemon. */
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 
-extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
 
-extern u8 TIMEZONE_GetLight(int season, int timeZone);
+#include "../arm9/timezone.h"
 
 void FORMCHANGE_RevertShaymin(struct GameData *gameData, struct Party *party);
 

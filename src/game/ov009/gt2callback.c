@@ -17,58 +17,14 @@
  *   gti2CloseSocket  0x02197FDC  arm  ov009
  *   ArrayNth  0x02184208  arm  ov009
  */
-struct GTI2Connection;
-struct GTI2Socket;
-typedef struct GTI2Socket GTI2Socket;
-
-typedef struct GTI2Connection GTI2Connection;
-
-typedef void (*DumpCb)(GTI2Socket *, GTI2Connection *, unsigned int, unsigned short, int, unsigned char *, int);
-
-typedef struct GT2ConnectionCallbacks {
-	int (*connected)(GTI2Connection *, int, unsigned char *, int);
-	int (*received)(GTI2Connection *, unsigned char *, int, int);
-	void (*closed)(GTI2Connection *, int);
-	void (*ping)(GTI2Connection *, int);
-} GT2ConnectionCallbacks;
-
-struct GTI2Socket {
-	int socket;                                      /* 0x00 */
-	unsigned int ip;                                 /* 0x04 */
-	unsigned short port;                             /* 0x08 */
-	struct HashImplementation *connections;          /* 0x0C */
-	struct DArrayImplementation *closedConnections;  /* 0x10 */
-	int close;                                       /* 0x14 */
-	int error;                                       /* 0x18 */
-	int callbackLevel;                               /* 0x1C */
-	DumpCb connectAttemptCallback;                   /* 0x20 */
-	void (*socketErrorCallback)(GTI2Socket *);       /* 0x24 */
-	DumpCb sendDump;                                 /* 0x28 */
-	DumpCb recvDump;                                 /* 0x2C */
-};
-
-struct GTI2Connection {
-	unsigned int ip;                                 /* 0x00 */
-	unsigned short port;                             /* 0x04 */
-	GTI2Socket *socket;                              /* 0x08 */
-	int state;                                       /* 0x0C */
-	unsigned char pad10[8];                          /* 0x10 */
-	int result;                                      /* 0x18 */
-	unsigned char pad1C[8];                          /* 0x1C */
-	int callbackLevel;                               /* 0x24 */
-	GT2ConnectionCallbacks callbacks;                /* 0x28 */
-	unsigned char pad38[0x60];                       /* 0x38 */
-	void *sendFilters;                               /* 0x98 */
-	void *receiveFilters;                            /* 0x9C */
-};
+#include "gt2main_types.h"
 
 typedef int (*FilterCb)(GTI2Connection *, int, unsigned char *, int, int);
 
 typedef int (*Hook)(char *p, int a1, int a2, int a3, int a4);
 
-extern void gti2CloseSocket(GTI2Socket *socket);
-extern void gti2CloseSocket(GTI2Socket *sock);
-extern void *ArrayNth(struct DArrayImplementation *array, int n);
+#include "gt2socket.h"
+#include "darray.h"
 int gti2SocketErrorCallback(GTI2Socket *socket);
 int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len);
 int gti2ConnectedCallback(GTI2Connection *c, int result, unsigned char *msg, int len);
@@ -146,7 +102,7 @@ int gti2ConnectedCallback(GTI2Connection *c, int result, unsigned char *msg, int
 {
 	if (!c)
 		return 1;
-	c->result = result;
+	c->connectionResult = result;
 	if (!c->callbacks.connected)
 		return 1;
 	c->callbackLevel++;
@@ -313,14 +269,14 @@ int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned char *ms
  */
 int gti2DumpCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int reset, unsigned char *msg, int len, int send)
 {
-	DumpCb callback;
+	GT2DumpCallback callback;
 
 	if (!sock)
 		return 1;
 	if (send)
-		callback = sock->sendDump;
+		callback = sock->sendDumpCallback;
 	else
-		callback = sock->recvDump;
+		callback = sock->receiveDumpCallback;
 	if (!callback)
 		return 1;
 	if (!len || !msg) {

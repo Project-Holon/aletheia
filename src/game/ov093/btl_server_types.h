@@ -3,23 +3,19 @@
 /* ov093 battle server: types shared by every part of btl_server.c. */
 
 #include "../types.h"
-
-/* One word describing an action; the two views share the first three fields. */
-typedef union {
-    struct { u32 type:4, select:3, move:16, arg:8, rest:1; } full;
-    struct { u32 type:4, select:3, move:3, z:1, rest:21; } small;
-    u32 w;
-} Action;
+#include "../ov093/btl_pokeparam_types.h"
+#include "../ov093/btl_calc_types.h"
+#include "../ov093/btl_rec_types.h"
 
 typedef struct {
-    u8 *pokeParam;  /* 0x0: BTL_POKEPARAM of the acting poke */
-    Action action;  /* 0x4 */
+    struct BtlPokeParam *pokeParam;  /* 0x0: BTL_POKEPARAM of the acting poke */
+    union BtlAction action;  /* 0x4 */
     u32 orderKey;   /* 0x8: bits 0-12 speed, 13-15 speed order, 16-21 move priority, 22-24 action class */
     u8 clientId;    /* 0xc */
     u8 done;        /* 0xd */
     u8 flag;        /* 0xe: pursuit mark while ProcPursuitBeforeSwitch runs */
     u8 pad;         /* 0xf */
-} Entry;
+} BtlServerEntry;
 
 /* A flag word passed by value to the entry checks. */
 typedef union {
@@ -27,14 +23,8 @@ typedef union {
     struct { u32 a:1; u32 b:1; u32 rest:30; } bits;
 } CallFlags;
 
-/* A one-word status value passed by value; the views overlap. */
-union Slot {
-    u32 raw;
-    struct { u32 kind:3; u32 rest:29; } k;
-};
 
 /* Types shared by several parts. */
-typedef struct { u16 v; } BtlSickContWord;
 
 typedef struct {
     u32 wpos;
@@ -45,7 +35,7 @@ typedef struct { unsigned low:10, size:9, high:13; } QueueA;
 typedef struct { unsigned low:13, size:10, high:9; } QueueB;
 typedef struct { unsigned low:28, a:1, b:1, c:1, d:1; } BtlHandExScopeWord;
 
-typedef enum { FALSE = 0, TRUE = 1 } Bool;
+typedef enum { FALSE = 0, TRUE = 1 } BtlBool;
 
 struct Copy24 { int x[6]; };
 
@@ -59,9 +49,21 @@ struct Unk021BD1E0 {
     u8 rest : 6;
 };
 
-/* The current move parameter, viewed as a small record: a halfword at 0x0 and a
-   word at 0x8 read by the accuracy checks. */
-struct BtlMoveParam { u16 h0; u8 pad[6]; u32 w8; };
+/* The parameters of the move being used (0x14 bytes): filled by BTL_SERVER_FLOW_GetMoveParam
+   from the move data and the event handlers, then read by every step of the move. */
+struct BtlMoveParam {
+    u16 moveId;         /* 0x00 */
+    u16 origMoveId;     /* 0x02: the move as chosen, before a handler replaced it */
+    u16 typePair;       /* 0x04: types of the user */
+    u8 type;            /* 0x06: type of the move after the type events */
+    u8 pad07;           /* 0x07 */
+    u32 damageType;     /* 0x08: physical, special or status */
+    u32 range;          /* 0x0C: target range kind of the move */
+    union {
+        u32 flags;      /* 0x10: bit 0 deferred use, bit 2 replaced move */
+        struct { u32 deferred : 1; u32 rest : 31; } bits;
+    } u;
+};
 
 struct Lock { u32 a:10; u32 b:9; u32 c:9; u32 d:1; u32 e:1; u32 f:1; u32 g:1; };
 
@@ -71,11 +73,10 @@ typedef struct { u16 v; u16 idx:5, b:4, pad:4, c:1, pad2:1, flag:1; } Rec_td;
 
 typedef struct { u8 pad0[2]; u8 n; u8 pad3[1]; Rec_td r[1]; } List_td;
 
-struct Unk021D62A8 { u8 pad[0x1c]; union Slot e[6]; };
+struct Unk021D62A8 { u8 pad[0x1c]; union SickCont e[6]; };
 
-struct Msg { u16 a; union { struct { u16 kind:8; u16 n:7; u16 flag:1; }; u16 kindWord; }; u8 data[0x1c]; u32 w20; };
 
-enum Kind { K0, K1, K10 = 10 };
+enum BtlServerStatKind { K0, K1, K10 = 10 };
 
 typedef struct {
     u32 pad : 8; u32 idx : 5; u32 mid : 10; u32 fl : 1; u32 top : 8;
@@ -101,16 +102,10 @@ typedef struct {
 
 /* ---- BtlServer: the battle server object (lane L189a) ---- */
 
-/*
- * Random number generator state: the same 24 bytes as BtlRngState in
- * btl_calc_types.h, as plain words so that files which do not include that
- * header still build.
- */
-typedef struct {
-    s32 word[6];
-} BtlServerRngState;
 
 struct BtlMain;
+struct BtlClientSet;
+struct BtlSideSlot;
 struct BtlServer;
 typedef struct BtlServer BtlServer;
 
@@ -120,22 +115,12 @@ typedef int (*BtlServerHandler)(BtlServer *server, int *step);
 /* One network client slot of the server: up to four per battle. */
 typedef struct {
     void *adapter;          /* 0x0: command link to the client */
-    void *party;            /* 0x4 */
+    struct BtlSideSlot *party;  /* 0x4 */
     u8 partyCount;          /* 0x8 */
     u8 battleSlots;         /* 0x9 */
     u8 adapterBorrowed;     /* 0xA: the adapter belongs to the caller, not to the server */
     u8 clientId;            /* 0xB: 0xFF when the slot is unused */
 } BtlServerClient;
-
-/* One reply word; the copy loops need the struct wrapper to match. */
-typedef struct {
-    u32 value;
-} BtlServerWord;
-
-/* Reply words of one client. */
-typedef struct {
-    BtlServerWord word[3];
-} BtlServerReply;
 
 /* Result message sent to the clients at the end of the battle. */
 typedef struct {
@@ -143,10 +128,11 @@ typedef struct {
     u16 result;
 } BtlServerResult;
 
+/* The actions each client sent for the turn (up to three each) and how many it sent. */
 typedef struct {
-    u32 first;
-    u32 second;
-} BtlWordPair;
+    union BtlAction action[4][3];   /* 0x0 */
+    u8 count[4];                    /* 0x30 */
+} BtlServerActionTable;
 
 struct BtlServer {
     BtlServerHandler handler;       /* 0x0 */
@@ -158,13 +144,12 @@ struct BtlServer {
     void *flow;                     /* 0x44 */
     int flowResult;                 /* 0x48 */
     int flowParam;                  /* 0x4C */
-    BtlServerRngState rngState;     /* 0x50 */
-    u8 recorder[0x40];              /* 0x68 */
+    BtlRngState rngState;     /* 0x50 */
+    BtlRecPacket recorder;          /* 0x68 */
     BtlServerResult result;         /* 0xA8 */
     void *nameBuf;                  /* 0xAC */
-    BtlWordPair *finalData;           /* 0xB0 */
-    BtlServerReply reply[4];        /* 0xB4 */
-    u8 replyCount[4];               /* 0xE4 */
+    struct BtlClientSet *finalData;  /* 0xB0: clients that escaped, from the flow */
+    BtlServerActionTable replies;   /* 0xB4 */
     u8 padE8[4];                    /* 0xE8 */
     u8 shiftPromptMon;              /* 0xEC */
     u8 quitState;                   /* 0xED */
@@ -178,12 +163,6 @@ struct BtlServer {
     u16 heapId;                     /* 0xCC0 */
     u8 padCC2[2];                   /* 0xCC2 */
 };
-
-/* Four action words per client followed by one byte per client; the home of this table is unknown. */
-typedef struct {
-    Action action[4][3];            /* 0x0 */
-    u8 value[4];                    /* 0x30 */
-} BtlServerActionTable;
 
 /* One row of gEffortValueStatTable (ov093 0x021EFDC0): the personal parameter
    and the party parameter of one effort value, and the item that boosts it.

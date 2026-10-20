@@ -117,6 +117,17 @@ typedef struct {
 #include "../types.h"
 
 #include "../sdk_wm.h"
+#include "../arm9/wm_common.h"
+#include "../arm9/wm_dcf.h"
+#include "../arm9/wm_ds.h"
+#include "../arm9/wm_etc.h"
+#include "../arm9/wm_icon.h"
+#include "../arm9/wm_icon_arc.h"
+#include "../arm9/wm_ks.h"
+#include "../arm9/wm_mp.h"
+#include "../arm9/wm_standard.h"
+#include "../arm9/wm_sync.h"
+#include "../arm9/wm_system.h"
 
 typedef struct {
     u32 reserved00;
@@ -135,38 +146,22 @@ typedef struct {
 struct WMParentParam;
 struct WMDataSharingInfo;
 struct WMDataSet;
-extern int WM_SetParentParameter(void (*)(void), struct WMParentParam *);
 void DWCi_MOV_WH_SetError(unsigned int v);
-extern int WM_SetWEPKey(void (*callback)(void *), unsigned short wepmode, unsigned short *wepkey);
-extern int WM_StartParent(void (*callback)(void *));
-extern int WM_Disconnect(void (*callback)(void *), unsigned short aid);
-extern int WM_StartMP(void (*callback)(void *), unsigned short *recvBuf, unsigned short recvBufSize,
-                      unsigned short *sendBuf, unsigned short sendBufSize, unsigned short mpFreq);
+#include "../arm9/wm_etc.h"
+#include "../arm9/wm_mp.h"
 int DWCi_MOV_WH_StateInStartParentKeyShare(void);
 struct WMDataSharingInfo;
-extern int WM_StartDataSharing(struct WMDataSharingInfo *dsInfo, unsigned short port, unsigned short aidBitmap, unsigned short dataLength, int doubleMode);
-extern int WM_StartKeySharing(void *dsInfo, unsigned short port);
-extern int WM_EndKeySharing(void *dsInfo);
-extern int WM_EndMP(void (*callback)(void *));
-extern int WM_EndParent(void (*callback)(void *));
-extern int WM_Reset(void (*callback)(void *));
-extern void OS_GetMacAddress(unsigned char *macAddress);
-extern unsigned short WM_GetAllowedChannel(void);
-extern int WM_MeasureChannel(void (*callback)(void *), unsigned short ccaMode, unsigned short edThreshold,
-                             unsigned short channel, unsigned short measureTime);
-extern void OS_Terminate(void);
+#include "../arm9/wm_ds.h"
+#include "../arm9/wm_ks.h"
+#include "../arm9/os_ownerinfo.h"
+#include "../arm9/wm_sync.h"
+#include "../arm9/os_terminate_processor.h"
 int DWCi_MOV_WH_StateInInitialize(void);
-extern int WM_Initialize(void *, void (*)(void), unsigned short);
-extern int WM_SetIndCallback(void (*callback)(void *));
-extern unsigned short WM_GetDispersionBeaconPeriod(void);
 int DWCi_MOV_WH_StateInSetParentParam(void);
-extern u16 *WM_GetSharedDataAddress(struct WMDataSharingInfo *, struct WMDataSet *, u16);
 struct WMDataSet;
 struct WMDataSharingInfo;
-extern int WM_StepDataSharing(struct WMDataSharingInfo *dsInfo, u16 *sendData, struct WMDataSet *receiveData);
 int DWCi_MOV_WH_StateInEndChildKeyShare(void);
 int DWCi_MOV_WH_StateInEndParentKeyShare(void);
-extern int WM_End(void (*)(void));
 void DWCi_MOV_WH_MemInit(void *mw);
 void DWCi_MOV_WH_SetGgid(unsigned int v);
 unsigned short DWCi_MOV_WH_GetBitmap(void);
@@ -270,7 +265,7 @@ int DWCi_MOV_WH_StateInSetParentParam(void)
     int rs;
 
     DWCi_MOV_WH_ChangeSysState(3);
-    rs = WM_SetParentParameter((void (*)(void))0x021D2AA8, (struct WMParentParam *)g[1]);
+    rs = WM_SetParentParameter((WMCallbackFunc)0x021D2AA8, (struct WMParentParam *)g[1]);
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -922,7 +917,7 @@ int DWCi_MOV_WH_StateInInitialize(void)
     int rs;
 
     DWCi_MOV_WH_ChangeSysState(3);
-    rs = WM_Initialize((void *)(g[1] + 0x80), (void (*)(void))0x021D371C, 2);
+    rs = WM_Initialize((void *)(g[1] + 0x80), (WMCallbackFunc)0x021D371C, 2);
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -1088,7 +1083,7 @@ int DWCi_MOV_WH_End(void)
     if (*(int *)(g[1] + 0x40) != 1)
         OS_Terminate();
     DWCi_MOV_WH_ChangeSysState(3);
-    if (WM_End((void (*)(void))0x021D3200) == 2)
+    if (WM_End((WMCallbackFunc)0x021D3200) == 2)
         return 1;
     DWCi_MOV_WH_ChangeSysState(9);
     return 0;

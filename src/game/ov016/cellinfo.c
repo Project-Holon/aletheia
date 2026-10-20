@@ -34,17 +34,13 @@ typedef struct tagOAMATTR { u16 attr0; u16 attr1; u16 attr2; } OAMATTR;
 
 typedef struct tagSELLINFO { u16 num; u16 attr; u32 offset; } SELLINFO;
 
-extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
-extern void DWCi_ARClRelease(void *file);
-extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
-extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
-extern void MIi_CpuCopy32(void *srcp, void *destp, unsigned long size);
-GXOamAttr *DWCi_OBJlFormGx(unsigned int i);
+#include "archive.h"
+#include "../arm9/mi_memory.h"
+#include "obj.h"
 void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
-extern void *DWCi_CELLlForm(int lcd, int num, int head);
+#include "cell.h"
 struct CellInfo;
 union GXOamAttr;
-extern union GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
 void DWCi_CEINlRead(int lcd, char *file);
 void DWCi_CEINlRelease(int lcd);
 GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);

@@ -73,9 +73,9 @@ typedef struct DspIoState {
 /* The file I/O task: thread, message queue and the eight open files. */
 typedef struct DspFileTask {
     int started;
-    u8 thread[0xC0];
+    OSThread thread;
     void *msgbuf[1];
-    u8 queue[0x20];
+    OSMessageQueue queue;
     u32 pending;
     FSFile files[8];
     u8 stack[0x1000];
@@ -83,38 +83,33 @@ typedef struct DspFileTask {
 
 extern DspFileTask data_02734614;
 extern DspIoState data_02734528;
-extern u32 data_0273452C;
+extern OSThreadQueue data_0273452C;
 extern DspCb data_02734534[8];
 extern void *data_02734554[8];
 extern DspRing data_02734574[8][2];
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32);
-extern BOOL OS_IsRunOnTwl(void);
-extern void OS_SleepThread(void *);
-extern void OS_WakeupThread(void *);
-extern void FS_InitFile(FSFile *file);
+#include "../arm9/os_system.h"
+#include "../arm9/os_emulator.h"
+#include "../arm9/os_thread.h"
+#include "../arm9/fs_file.h"
 #include "../sdk_os.h"
 
-extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
-extern void OS_CreateThread(void *, void (*)(void *), void *, void *, u32, u32);
-extern void OS_WakeupThreadDirect(void *);
-extern BOOL OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
-extern BOOL OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
-extern BOOL FS_OpenFileEx(FSFile *file, const char *path, u32 mode);
-extern s32 FS_CloseFile(FSFile *file);
-extern u32 FS_GetFileLength(FSFile *file);
-extern u32 FS_GetFilePosition(FSFile *file);
-extern BOOL FS_SeekFile(FSFile *file, long offset, int origin);
-extern s32 FS_ReadFile(FSFile *file, void *dst, s32 len);
-extern s32 FS_WriteFile(FSFile *file, const void *src, s32 len);
-extern BOOL FS_CreateFileFromMemory(FSFile *file, void *buf, u32 size);
+#include "../arm9/os_message.h"
+#include "../arm9/fs_proc_mem.h"
+#ifdef __MWERKS__
 extern void DSP_SendDataCore(u32, u32);
 extern u16 DSP_GetSemaphoreCore(void);
 extern u32 DSP_RecvDataIsReadyCore(u32 ch);
 extern u16 DSP_RecvDataCore(u32 ch);
 extern void DSP_ClearSemaphoreCore(u16 v);
+#else
+#include "dsp_if.h"
+#endif
+#ifdef __MWERKS__
 extern void DSP_StoreData(u32, u8 *, u32);
 extern void DSP_LoadData(u32, u8 *, u32);
+#else
+#include "dsp_byteaccess.h"
+#endif
 
 void DSPi_FileIOProc(void *arg);
 void DSPi_NotifyFileIOUpdation(u32 ch);
@@ -168,7 +163,7 @@ void DSPi_FileIOProc(void *arg)
             if (index < 8) {
                 break;
             }
-            OS_ReceiveMessage((struct OSMessageQueue *)p->queue, (void **)msg, 1);
+            OS_ReceiveMessage(&p->queue, (void **)msg, 1);
         }
         p->pending &= ~(1 << index);
         OS_RestoreInterrupts(state);
@@ -258,14 +253,14 @@ void DSPi_NotifyFileIOUpdation(u32 ch)
         for (i = 0; i < 8; i++) {
             FS_InitFile(&t->files[i]);
         }
-        OS_InitMessageQueue((struct OSMessageQueue *)t->queue, t->msgbuf, 1);
+        OS_InitMessageQueue(&t->queue, t->msgbuf, 1);
         t->pending = 0;
         t->started = 1;
-        OS_CreateThread(t->thread, DSPi_FileIOProc, t, t->stack + 0x1000, 0x1000, 13);
-        OS_WakeupThreadDirect(t->thread);
+        OS_CreateThread(&t->thread, DSPi_FileIOProc, t, t->stack + 0x1000, 0x1000, 13);
+        OS_WakeupThreadDirect(&t->thread);
     }
     t->pending |= 1 << ch;
-    OS_SendMessage((struct OSMessageQueue *)t->queue, (void *)ch, 0);
+    OS_SendMessage(&t->queue, (void *)ch, 0);
     OS_RestoreInterrupts(ints);
 }
 

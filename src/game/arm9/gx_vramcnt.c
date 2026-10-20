@@ -24,51 +24,28 @@
  *   GXi_VRamLockId    0x02150E0E  data
  *   disableBankForX_   0x02080A18  arm
  */
-#define reg_GX_VRAMCNT_A (*(vu8 *)0x04000240)
-#define reg_GX_VRAMCNT_B (*(vu8 *)0x04000241)
-#define reg_GX_VRAMCNT_C (*(vu8 *)0x04000242)
-#define reg_GX_VRAMCNT_D (*(vu8 *)0x04000243)
-#define reg_GX_VRAMCNT_E (*(vu8 *)0x04000244)
-#define reg_GX_VRAMCNT_F (*(vu8 *)0x04000245)
-#define reg_GX_VRAMCNT_G (*(vu8 *)0x04000246)
-#define reg_GX_VRAMCNT_H (*(vu8 *)0x04000248)
-#define reg_GX_VRAMCNT_I (*(vu8 *)0x04000249)
+#define reg_GX_VRAMCNT_A (*(vu8 *)REG_VRAMCNT_A_ADDR)
+#define reg_GX_VRAMCNT_B (*(vu8 *)REG_VRAMCNT_B_ADDR)
+#define reg_GX_VRAMCNT_C (*(vu8 *)REG_VRAMCNT_C_ADDR)
+#define reg_GX_VRAMCNT_D (*(vu8 *)REG_VRAMCNT_D_ADDR)
+#define reg_GX_VRAMCNT_E (*(vu8 *)REG_VRAMCNT_E_ADDR)
+#define reg_GX_VRAMCNT_F (*(vu8 *)REG_VRAMCNT_F_ADDR)
+#define reg_GX_VRAMCNT_G (*(vu8 *)REG_VRAMCNT_G_ADDR)
+#define reg_GX_VRAMCNT_H (*(vu8 *)REG_VRAMCNT_H_ADDR)
+#define reg_GX_VRAMCNT_I (*(vu8 *)REG_VRAMCNT_I_ADDR)
 #define VRAMCNT_LCDC 0x80
 #define VRAMCNT_BG(ofs) (0x80 | 1 | ((ofs) << 3))
 #define VRAMCNT_OBJ(ofs) (0x80 | 2 | ((ofs) << 3))
-#define reg_GX_DISPCNT     (*(vu32 *)0x04000000)
-#define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
-#define reg_G3X_DISP3DCNT (*(vu16 *)0x04000060)
+#define reg_GX_DISPCNT     (*(vu32 *)REG_DISPCNT_ADDR)
+#define reg_GXS_DB_DISPCNT (*(vu32 *)REG_DB_DISPCNT_ADDR)
+#define reg_G3X_DISP3DCNT (*(vu16 *)REG_DISP3DCNT_ADDR)
 #define REG_G3X_DISP3DCNT_TME_MASK 0x0001
 #define REG_G3X_DISP3DCNT_RO_MASK  0x3000
 #define VRAMCNT_TEX(ofs) (0x80 | 3 | ((ofs) << 3))
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
-typedef enum {
-    GX_VRAM_BG_NONE = 0x00,
-    GX_VRAM_BG_16_F = 0x20,
-    GX_VRAM_BG_16_G = 0x40,
-    GX_VRAM_BG_32_FG = 0x60,
-    GX_VRAM_BG_64_E = 0x10,
-    GX_VRAM_BG_80_EF = 0x30,
-    GX_VRAM_BG_80_EG = 0x50,
-    GX_VRAM_BG_96_EFG = 0x70,
-    GX_VRAM_BG_128_A = 0x01,
-    GX_VRAM_BG_128_B = 0x02,
-    GX_VRAM_BG_128_C = 0x04,
-    GX_VRAM_BG_128_D = 0x08,
-    GX_VRAM_BG_256_AB = 0x03,
-    GX_VRAM_BG_256_BC = 0x06,
-    GX_VRAM_BG_256_CD = 0x0c,
-    GX_VRAM_BG_384_ABC = 0x07,
-    GX_VRAM_BG_384_BCD = 0x0e,
-    GX_VRAM_BG_512_ABCD = 0x0f,
-    GX_VRAM_BG_256_AC = 0x05,
-    GX_VRAM_BG_256_AD = 0x09,
-    GX_VRAM_BG_256_BD = 0x0a,
-    GX_VRAM_BG_384_ABD = 0x0b,
-    GX_VRAM_BG_384_ACD = 0x0d
-} GXVRamBG;
+#include "gx_vramcnt_types.h"
 
 typedef struct {
     u16 lcdc;
@@ -86,42 +63,9 @@ typedef struct {
     u16 sub_objExtPltt;
 } GX_VRAMCnt;
 
-typedef enum {
-    GX_VRAM_OBJ_NONE = 0x00,
-    GX_VRAM_OBJ_16_F = 0x20,
-    GX_VRAM_OBJ_16_G = 0x40,
-    GX_VRAM_OBJ_32_FG = 0x60,
-    GX_VRAM_OBJ_64_E = 0x10,
-    GX_VRAM_OBJ_80_EF = 0x30,
-    GX_VRAM_OBJ_80_EG = 0x50,
-    GX_VRAM_OBJ_96_EFG = 0x70,
-    GX_VRAM_OBJ_128_A = 0x01,
-    GX_VRAM_OBJ_128_B = 0x02,
-    GX_VRAM_OBJ_256_AB = 0x03
-} GXVRamOBJ;
-
 #include "../sdk_fx.h"
 
 #include "../sdk_gx.h"
-
-typedef enum {
-    GX_VRAM_TEX_NONE = 0x00,
-    GX_VRAM_TEX_0_A = 0x01,
-    GX_VRAM_TEX_0_B = 0x02,
-    GX_VRAM_TEX_0_C = 0x04,
-    GX_VRAM_TEX_0_D = 0x08,
-    GX_VRAM_TEX_01_AB = 0x03,
-    GX_VRAM_TEX_012_ABC = 0x07,
-    GX_VRAM_TEX_0123_ABCD = 0x0f,
-    GX_VRAM_TEX_01_BC = 0x06,
-    GX_VRAM_TEX_012_BCD = 0x0e,
-    GX_VRAM_TEX_01_CD = 0x0c,
-    GX_VRAM_TEX_01_AC = 0x05,
-    GX_VRAM_TEX_01_AD = 0x09,
-    GX_VRAM_TEX_01_BD = 0x0a,
-    GX_VRAM_TEX_012_ABD = 0x0b,
-    GX_VRAM_TEX_012_ACD = 0x0d
-} GXVRamTex;
 
 #include "os_vramexclusive.h"
 extern int disableBankForX_(u16 *g3bit);
@@ -158,9 +102,9 @@ GXVRam GX_DisableBankForTex(void);
 GXVRam GX_DisableBankForTexPltt(void);
 GXVRam GX_DisableBankForClearImage(void);
 GXVRam GX_DisableBankForARM7(void);
-void GX_DisableBankForLCDC(void);
-void GX_DisableBankForSubBG(void);
-void GX_DisableBankForSubOBJ(void);
+GXVRam GX_DisableBankForLCDC(void);
+GXVRam GX_DisableBankForSubBG(void);
+GXVRam GX_DisableBankForSubOBJ(void);
 GXVRam GX_DisableBankForSubBGExtPltt(void);
 GXVRam GX_DisableBankForSubOBJExtPltt(void);
 u16 GX_GetBankForOBJ(void);
@@ -798,11 +742,11 @@ GXVRam GX_DisableBankForARM7(void)
     return (GXVRam)disableBankForX_(&gGXState.vramCnt.arm7);
 }
 
-void GX_DisableBankForLCDC(void){ disableBankForX_((void *)0x02150E4C); }
+GXVRam GX_DisableBankForLCDC(void){ return (GXVRam)disableBankForX_((void *)0x02150E4C); }
 
-void GX_DisableBankForSubBG(void){ disableBankForX_((u16 *)((int)0x2150E5E)); }
+GXVRam GX_DisableBankForSubBG(void){ return (GXVRam)disableBankForX_((u16 *)((int)0x2150E5E)); }
 
-void GX_DisableBankForSubOBJ(void){ disableBankForX_((u16 *)((int)0x2150E60)); }
+GXVRam GX_DisableBankForSubOBJ(void){ return (GXVRam)disableBankForX_((u16 *)((int)0x2150E60)); }
 
 /*
  * sdk:      GX_ResetBankForSubBGExtPltt (libgx.TWL.HYB.a gx_vramcnt.o)

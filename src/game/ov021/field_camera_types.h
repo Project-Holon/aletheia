@@ -14,7 +14,7 @@
  * constraint areas have pushed them.
  */
 
-#include "fieldmap_types.h"
+#include "../ov021/fieldmap_types.h"
 
 struct ArcFile;
 struct G3dCamera;

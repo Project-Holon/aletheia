@@ -42,30 +42,22 @@ struct Situation;
 
 #include "../types.h"
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
+#include "../arm9/game_data.h"
+#include "../arm9/move_pokemon_save.h"
 struct FieldMap;
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct MovePokemonSave;
-extern void MOVE_POKEMON_SetCommonArea(struct MovePokemonSave *block, int value);
-extern void MOVE_POKEMON_MoveActiveEntriesChecked(struct GameData *gameData);
-extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
+#include "move_pokemon.h"
 struct EventWork;
-extern void ZONEDATA_ResetEventFlag(struct EventWork *ev, int flagId);
-extern int FIELD_ENCOUNT_ST_GetEffectEncount(struct FieldMap *fieldMap);
-extern void *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
-extern u32 ZONEDATA_GetFieldSkillMapEffect(u32 id);
+#include "../arm9/zonedata.h"
+#include "field_encount_st.h"
 struct FieldStatus;
-extern void FIELD_STATUS_SetFlashActive(struct FieldStatus *fs, u8 flashActive);
-extern void MOVE_POKEMON_MoveActiveEntries(struct GameData *gameData);
+#include "../arm9/field_status.h"
 struct EventWork;
-extern void  HIDDEN_ITEM_Respawn(struct EventWork *eventWork);
-extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
+#include "hidden_item.h"
 struct PlayerLocationData;
-extern struct PlayerLocationData *PLAYER_LOCATION_GetData(void *save);
-extern void PLAYER_LOCATION_SetStepMessageCount(struct PlayerLocationData *location_data, u16 value);
+#include "../arm9/player_location.h"
 struct FieldGimmickWork;
-extern struct FieldGimmickWork *FIELD_ENCOUNT_ST_ResetGimmickState(struct GameData *gameData);
 void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader);
 void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId);
 int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused);

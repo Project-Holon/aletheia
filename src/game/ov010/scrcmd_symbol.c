@@ -112,16 +112,7 @@ typedef struct SymbolKey {
     u32 pad1 : 3;
 } SymbolKey;
 
-/* The 0x54-byte record two players exchange over the link (same layout as symbol_map.c). */
-typedef struct SymbolMapLinkRecord {
-    u32 entries[20];      /* 0x00 */
-    u32 entryCount : 6;   /* 0x50 */
-    u32 symbolIndex : 4;
-    u32 symbolGroup : 4;
-    u32 state : 4;
-    u32 page : 6;
-    u32 reserved : 8;
-} SymbolMapLinkRecord;
+#include "symbol_map_shared_types.h"
 
 /* Scene description filled in by the field effect code (ov021). */
 typedef struct SceneInfo {
@@ -150,150 +141,120 @@ typedef struct SymbolViewWork {
 } SymbolViewWork;
 
 /* ScriptWork, ScrcmdWork and game structure accessors. */
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
+#include "scrcmd_work.h"
 
-extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
 
-extern struct GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
 
-extern u16 SCRCMD_WORK_GetHeapId(ScrcmdWork *cmdWork);
 
-extern u32 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
+#include "script_work_cmd.h"
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
 
-extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
+#include "script_sys.h"
 struct ScriptWork;
 
-extern u32 SCRIPT_WORK_GetWorkValue(struct ScriptWork *work, void *gameData, u32 id);
+#include "script_work.h"
 
-extern void *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern int GAME_DATA_GetSymbolMapFlag(struct GameData *gameData);
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern void *GAME_DATA_GetMyItem(struct GameData *gameData);
 
-extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
+#include "../arm9/system_data.h"
 
-extern void *ZUKAN_SAVE_GetBlock(void *saveControl);
+#include "../arm9/zukan_save.h"
 
 /* Game events. */
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
 
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(struct GameSystem *gameSystem, u32 bgmId);
+#include "../arm9/field_sound_system.h"
 
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(struct GameSystem *gameSystem);
 
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(struct GameSystem *gameSystem);
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+#include "../arm9/field_status.h"
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 
-extern u32 POKE_TOOL_GetPartyParamSize(void);
 
-extern u16 GF_STANDARD_CalcCrc16(u8 *src, u32 len);
+#include "../arm9/gf_standard.h"
 
-extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *words, u32 slot, void *mon);
+#include "../arm9/wordset.h"
 
-extern void MI_CpuFill8(void *dst, int value, int size);
+#include "../arm9/mi_memory.h"
 
-extern unsigned int GFL_HEAP_Free(void *block);
+#include "../arm9/gfl_heap_wrap.h"
 
 /* Field models and the field map. */
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *outPos);
+#include "../ov021/field_player.h"
 struct FieldSituation;
 
-extern void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap);
+#include "../ov021/field_encount.h"
 struct EncEff;
 
-extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 struct EncEffWork;
 
-extern void ENCEFF_Start(struct EncEffWork *eff, struct GameEvent *parentEvent, int kind);
+#include "../ov021/enceff.h"
 
-extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *mmdlSys, u32 objId);
+#include "fldmmdl.h"
 
-extern struct GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(struct GameSystem *gameSystem, int unused, int zoneId, VecFx32 *pos, u16 dir, int seasonFadeAllowed);
+#include "../ov020/event_mapchange.h"
 
                                        
-extern void *SYMBOL_SAVE_GetBlock(void *saveData);
+#include "../arm9/symbol_save.h"
 
-extern void SYMBOL_SAVE_RemoveSlotAndCommit(struct SymbolSave *save, u32 index);
 
-extern u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 matchMode);
 
-extern SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(unsigned short heapId, void *gameSystem, unsigned int *outStart);
+#include "symbol_map.h"
 
-extern int SYMBOL_MAP_MoveRecordToPairedBand(u32 *save, u32 recordIndex);
+#include "symbol_map_pair_band.h"
 
-extern int SYMBOL_MAP_IsHomeCell(int symbolMapFlag);
 
-extern int SYMBOL_MAP_IsBlankCell(int symbolMapFlag);
 
-extern int SYMBOL_MAP_GetSelectedNeighborCell(void *gameSystem, int cellId, int dir);
 
-extern struct GameEvent *FIELD_INTRUDE_EVENT_StartSymbolEntry(struct GameSystem *gameSystem, int direction, int cell);
+#include "field_intrude_event.h"
 
-extern void INTRUDE_FIELD_GetMmdlParamPair(unsigned int *out, struct Mmdl *mmdl);
+#include "../ov018/intrude_field.h"
 
-extern int INTRUDE_FIELD_GetMmdlParam0(struct Mmdl *mmdl);
 struct SymbolMonEntry;
 
-extern void *INTRUDE_FIELD_CreateSymbolMon(int heapId, struct GameData *gameData, struct SymbolMonEntry *entry);
 
-extern void INTRUDE_FIELD_SpawnSymbolMons(struct FieldMap *fieldMap, int objIdBase, struct SymbolMonEntry *entries, int unused, int cellKind);
 
-extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
+#include "intrude_comm_query.h"
 
-extern void INTRUDE_COMM_SetPendingAreaNotice(struct IntrudeCommSys *linkState, int value);
+#ifdef __MWERKS__
+extern void INTRUDE_COMM_SetPendingAreaNotice(struct IntrudeCommSys *linkState, int value); /* original prototype; the definition differs in argument width */
+#else
+#include "../ov011/intrude_comm.h"
+#endif
 
-extern u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
 
 extern void INTRUDE_COMM_GetMarkerPosForPartner(struct GameComm *comm, struct GameData *gameData, VecFx32 *outPos);
 
 /* Overlay screens of the symbol Pokemon viewing event. */
-extern void *PDC_CreateArgs(struct GameData *gameData, struct PokemonParam *mon, SceneInfo *scene, struct MyStatus *myStatus,
-                           struct MyItem *myItem, struct Config *config, struct PokedexSave *pokedex, u16 heapId);
+#include "../ov098/pdc.h"
 struct PdcArgs;
 
-extern int PDC_GetResult(struct PdcArgs *args);
 
-extern void *EVENT_PDC_RETURN_CreateArgs(unsigned int a, int b, unsigned int c, unsigned int heap);
+#include "../ov227/event_pdc_return.h"
 
-extern void EVENT_PDC_RETURN_DeleteArgs(void *screen);
 
-extern u32 MYITEM_SAVEDATA_AddItem(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
+#include "../arm9/myitem_savedata.h"
 
-extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
 
-extern int GF_OVERLAY_Load(int handle);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(int handle);
 
 extern u8 gPdcProcData[];
 
@@ -524,7 +485,7 @@ int SCRCMD_SYMBOL_StartEntryEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
         FIELD_PLAYER_GetPos(player, &playerPos);
         INTRUDE_COMM_GetMarkerPosForPartner(comm, gameData, &markerPos);
         markerPos.x = markerPos.x + (playerPos.x - SYMBOL_MARKER_OFFSET_X);
-        event = EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, (int)fieldMap, SYMBOL_MARKER_EFFECT_ID, &markerPos, 1, 0);
+        event = EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, fieldMap, SYMBOL_MARKER_EFFECT_ID, &markerPos, 1, 0);
     } else {
         if (direction != 9)
             cell = SYMBOL_MAP_GetSelectedNeighborCell(gameSystem, GAME_DATA_GetSymbolMapFlag(gameData), direction);

@@ -65,15 +65,21 @@
 #define VOLATILE_JNTANM(p) ((volatile NNSG3dJntAnmResult *)(p))
 
 #include "mi_memory.h"
-extern void VEC_Normalize(const int *src, int *dst);
+#include "fx_vec.h"
 #include "nns_g3d_res.h"
-extern u32 FX_Div(u32 numer, u32 denom);
+#ifdef __MWERKS__
+extern u32 FX_Div(u32 numer, u32 denom); /* original prototype; the definition differs in argument sign, return type */
+#else
+#include "fx_cp.h"
+#endif
 #include "nns_g3d_anm_texpat.h"
 #include "nns_g3d_ge.h"
+#ifdef __MWERKS__
 extern void FX_DivAsync(s32 num, s32 den);
-extern s32  FX_GetDivResult(void);
+extern s32  FX_GetDivResult(void); /* original prototype; the definition differs in argument sign, return type */
 extern void FX_DivAsync(fx32 numer, fx32 denom);
-extern fx32 FX_GetDivResult(void);
+extern fx32 FX_GetDivResult(void); /* original prototype; the definition differs in argument sign, return type */
+#endif
 void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, const NNSG3dResJntAnm *pJntAnm, const NNSG3dResMdl *pMdl);
 void NNSi_G3dAnmCalcNsBca(NNSG3dJntAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx);
 void NNSi_G3dGetNodeTransFromMdl(NNSG3dJntAnmResult *pResult);
@@ -1067,13 +1073,13 @@ void NNSi_G3dAnmGetRotData(fx32 (*pRot)[3], int frame, const NNSG3dJntAnmRInfo *
                     pRot[1][0] = rotA[3] + pRot[1][0] * 3;
                     pRot[1][1] = rotA[4] + pRot[1][1] * 3;
                     pRot[1][2] = rotA[5] + pRot[1][2] * 3;
-                    VEC_Normalize(pRot[0], pRot[0]);
-                    VEC_Normalize(pRot[1], pRot[1]);
+                    VEC_Normalize((VecFx32 *)pRot[0], (VecFx32 *)pRot[0]);
+                    VEC_Normalize((VecFx32 *)pRot[1], (VecFx32 *)pRot[1]);
                     if (needCross3 == 0) {
                         pRot[2][0] = rotA[6] + pRot[2][0] * 3;
                         pRot[2][1] = rotA[7] + pRot[2][1] * 3;
                         pRot[2][2] = rotA[8] + pRot[2][2] * 3;
-                        VEC_Normalize(pRot[2], pRot[2]);
+                        VEC_Normalize((VecFx32 *)pRot[2], (VecFx32 *)pRot[2]);
                     } else {
                         int cross0, cross1, cross2;
                         cross0 = (pRot[0][1] * pRot[1][2] - pRot[0][2] * pRot[1][1]) >> 12;
@@ -1103,13 +1109,13 @@ two:
     pRot[1][0] = pRot[1][0] + rotB[3];
     pRot[1][1] = pRot[1][1] + rotB[4];
     pRot[1][2] = pRot[1][2] + rotB[5];
-    VEC_Normalize(pRot[0], pRot[0]);
-    VEC_Normalize(pRot[1], pRot[1]);
+    VEC_Normalize((VecFx32 *)pRot[0], (VecFx32 *)pRot[0]);
+    VEC_Normalize((VecFx32 *)pRot[1], (VecFx32 *)pRot[1]);
     if (needCross == 0) {
         pRot[2][0] = pRot[2][0] + rotB[6];
         pRot[2][1] = pRot[2][1] + rotB[7];
         pRot[2][2] = pRot[2][2] + rotB[8];
-        VEC_Normalize(pRot[2], pRot[2]);
+        VEC_Normalize((VecFx32 *)pRot[2], (VecFx32 *)pRot[2]);
     } else {
         int cross0, cross1, cross2;
         cross0 = (pRot[0][1] * pRot[1][2] - pRot[0][2] * pRot[1][1]) >> 12;
@@ -1131,7 +1137,7 @@ plain:
         pRot[2][1] = cross1;
         pRot[2][2] = cross2;
     } else {
-        VEC_Normalize(pRot[2], pRot[2]);
+        VEC_Normalize((VecFx32 *)pRot[2], (VecFx32 *)pRot[2]);
     }
 }
 
@@ -1194,7 +1200,7 @@ void NNSi_G3dAnmGetRotDataEx(fx32 (*pRot)[3], int frame, const NNSG3dJntAnmRInfo
             pRot[2][2] = cross2;
         }
     } else {
-        VEC_Normalize(pRot[2], pRot[2]);
+        VEC_Normalize((VecFx32 *)pRot[2], (VecFx32 *)pRot[2]);
     }
     return;
 
@@ -1241,13 +1247,13 @@ lerp:
     pRot[1][0] = rotA[3] * (int)mul + (((rotB[3] - rotA[3]) * frac) >> 12);
     pRot[1][1] = rotA[4] * (int)mul + (((rotB[4] - rotA[4]) * frac) >> 12);
     pRot[1][2] = rotA[5] * (int)mul + (((rotB[5] - rotA[5]) * frac) >> 12);
-    VEC_Normalize(pRot[0], pRot[0]);
-    VEC_Normalize(pRot[1], pRot[1]);
+    VEC_Normalize((VecFx32 *)pRot[0], (VecFx32 *)pRot[0]);
+    VEC_Normalize((VecFx32 *)pRot[1], (VecFx32 *)pRot[1]);
     if (needCross == 0) {
         pRot[2][0] = rotA[6] * (int)mul + (((rotB[6] - rotA[6]) * frac) >> 12);
         pRot[2][1] = rotA[7] * (int)mul + (((rotB[7] - rotA[7]) * frac) >> 12);
         pRot[2][2] = rotA[8] * (int)mul + (((rotB[8] - rotA[8]) * frac) >> 12);
-        VEC_Normalize(pRot[2], pRot[2]);
+        VEC_Normalize((VecFx32 *)pRot[2], (VecFx32 *)pRot[2]);
     } else {
             int cross0, cross1, cross2;
             cross0 = (pRot[0][1] * pRot[1][2] - pRot[0][2] * pRot[1][1]) >> 12;

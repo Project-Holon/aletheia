@@ -201,16 +201,21 @@
  *   MYSTATUS_GetId  0x02008530  thumb  arm9
  */
 #include "../types.h"
+/* The DS code passes the net handle to GFL_NET_ResetSendQueue (docs/ORIGINAL_BUGS.tsv). */
+#ifdef __MWERKS__
+#define GFL_NET_ResetSendQueue GFL_NET_ResetSendQueue_header
+#endif
+struct Tcbl;
 
 #include "../ov022/union_app_types.h"
-typedef struct StrBuf StrBuf;
-typedef struct ClActor ClActor;
-typedef struct TextPrinter TextPrinter;
-typedef struct TcbList TcbList;
+struct TcbTask;
+typedef struct Strbuf StrBuf;
+typedef struct ClactActor ClActor;
+struct Tcbl;
 typedef struct TaskMenuRes TaskMenuRes;
-typedef struct TaskMenu TaskMenu;
-typedef struct NetHandle NetHandle;
-typedef struct MetList MetList;
+typedef struct TaskMenuWork TaskMenu;
+typedef struct GFLNetHandle NetHandle;
+typedef struct MetTrainersSave MetList;
 struct BmpWin;
 struct WordSet;
 struct MsgBank;
@@ -226,91 +231,45 @@ struct MsgBank;
 struct WordSet;
 struct Proc;
 struct DispVram;
-typedef struct DispConfig { u32 word[4]; } DispConfig;
-
-typedef struct BgTemplate { u32 word[8]; } BgTemplate;
-
-extern void GFL_NET_COMMAND_AddCommandTable(u32 firstCommand, const void *commandTable, u32 commandCount, void *work);
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
+#include "../arm9/bg_sys.h"
+#include "../arm9/net.h"
+#include "../arm9/net_system.h"
+#include "../arm9/net_handle.h"
+#include "../arm9/net_command.h"
+#include "../arm9/mi_memory.h"
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *window);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *window);
-extern void BG_SYS_PushTile(u32 layer);
-extern void MIi_CpuClearFast(int value, void *dst, u32 size);
-extern int UNION_APP_GetMemberCount(UnionAppWork *app);
-extern unsigned char UNION_APP_GetJoinedBits(UnionAppWork *app);
-extern u32 MATH_CountPopulation(u32 x);
-extern void UNION_APP_Open(UnionAppWork *app);
-extern NetHandle *GFL_NET_HANDLE_GetNetHandle(s32 netId);
-extern u32 GFL_NET_COMMAND_SetSendSlot(NetHandle *dest, u32 targetBits, u32 commandId, u32 size, const void *data);
-extern void UNION_APP_OpenLimited(UnionAppWork *app, int maxCount);
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 heapId, u32 size);
-extern void *PROCSYS_AllocProcWork(void *task, u32 size, u32 heapId);
-extern void MI_CpuFill8(void *dst, int value, int size);
-extern void BG_SYS_Create(u16 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
+#include "../ov022/union_app.h"
+#include "../arm9/math.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/gf_font.h"
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
-extern void *GFL_USE_AddMainTask(void (*callback)(void), void *context, int priority);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 heapId);
-extern void ARC_TOOL_DeleteHandle(void *archive);
-extern u32 WIPE_SYS_EndCheck(void);
-extern void UNION_APP_SetCallbacks(UnionAppWork *app, UnionAppMemberCallback joinCallback, UnionAppMemberCallback leaveCallback, void *callbackArg);
-extern void GFL_NET_COMMAND_DeleteCommandTable(u32 firstCommand);
-extern void UNION_APP_RequestReset(UnionAppWork *app);
-extern u32 UNION_APP_IsResetDone(UnionAppWork *app);
-extern void CLACT_DrawSystem(void);
-extern void TCBL_Main(TcbList *taskList);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern void TCB_DeleteTask(void *task);
-extern void CLACT_ReleaseCharacter(u32);
-extern void CLACT_ReleasePalette(u32);
-extern void CLACT_ReleaseCellAnim(u32);
-extern u32 CLACT_DeleteUnit(void *clactSys);
-extern void CLACT_ExitSystem(void);
+#include "../arm9/wipe.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/net_err.h"
+#include "../arm9/tcb_list.h"
+#include "../arm9/tcbl.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/bmp.h"
+#include "../arm9/printsys.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/wordset.h"
+#include "../arm9/gfl_use.h"
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern u32 GF_FONT_Delete(void *font);
-extern void PROCSYS_FreeProcWork(struct Proc *task);
-extern void GFL_HEAP_DeleteChecked(u32 heapId);
+#include "../arm9/gfl_heap_wrap.h"
 void CLACT_VBlankSystem(void);
-void BG_SYS_Update(void);
-extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void BG_SYS_SetGraphicsMode(const DispConfig *config);
-extern void BG_SYS_InitBgLayer(unsigned int bgId, const BgTemplate *tmpl, unsigned int type);
-extern void BG_SYS_ClearSlot(u32 bgId);
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, StrBuf *dest);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
 extern void STRBUF_Delete(StrBuf *vec);
-void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-void BG_SYS_FreeLayerBuf(u32 layer);
-void BG_SYS_Delete(void);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 heapId);
-extern u32 APP_ICON_GetArchiveId(void);
-extern void CLACT_InitSystem(const void *config, const struct DispVram *vram, u32 heapId);
-extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern s32 CLACT_RegisterCharacter(void *archive, u32 b, u32 c, u32 d, u16 heapId);
-extern s32 CLACT_RegisterPalette(void *archive, u32 b, u32 c, u32 d, u16 heapId);
-extern s32 CLACT_RegisterCellAnim(void *archive, u32 first, u32 second, u32 heapId);
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern u32 APP_ICON_GetStatusCellFileId(u32);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32);
-extern s32 CLACT_RegisterPaletteEx(void *archive, u32 b, u32 c, u32 d, u16 e, u16 f, u16 heapId);
+#include "../arm9/gx.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/app_icon.h"
 void OEKAKI_RegisterNetCommands(OekakiWork *work);
 void OEKAKI_RecvCanvasChunk(int netId, int size, CanvasChunk *chunk, OekakiWork *work, int netHandle);
 void OEKAKI_RecvStroke(int netId, int size, const StrokeRec *stroke, OekakiWork *work);
@@ -326,7 +285,7 @@ void OEKAKI_OpenGroup(OekakiWork *work, int maxCount);
 int OEKAKI_Init(void *task, int *state, OekakiParam *param);
 int OEKAKI_Main(void *task, int *state, int unused, OekakiWork *work);
 int OEKAKI_Exit(struct Proc *task, int *seq, void *unused, OekakiWork *work);
-void OEKAKI_VBlankTask(void);
+void OEKAKI_VBlankTask(struct TcbTask *task, void *work);
 void OEKAKI_OnMemberJoined(int netId, UnionAppEntry *entry, void *work);
 void OEKAKI_OnMemberLeft(int netId, UnionAppEntry *entry, void *work);
 void OEKAKI_SetVramBanks(void);
@@ -339,14 +298,14 @@ void OEKAKI_LoadSpriteResources(OekakiWork *work, void *archive);
 extern char gOekakiCommandTable[];
 extern OekakiSceneStep gOekakiSceneTable[];
 extern const struct DispVram gOekakiVramBanks;
-extern const DispConfig gOekakiDispConfig;
-extern const BgTemplate gOekakiBgTemplate0;
-extern const BgTemplate gOekakiBgTemplate1;
-extern const BgTemplate gOekakiBgTemplate2;
-extern const BgTemplate gOekakiBgTemplate4;
-extern const BgTemplate gOekakiBgTemplate5;
+extern const struct DispConfig gOekakiDispConfig;
+extern const struct BgTemplate gOekakiBgTemplate0;
+extern const struct BgTemplate gOekakiBgTemplate1;
+extern const struct BgTemplate gOekakiBgTemplate2;
+extern const struct BgTemplate gOekakiBgTemplate4;
+extern const struct BgTemplate gOekakiBgTemplate5;
 extern char gOekakiFileName[];
-extern u8 gClActorInitParam[];
+extern const struct ClactSysInit gClActorInitParam;
 
 /* A stroke record copied bytewise (the copy order of the original differs from the member copy). */
 typedef struct StrokeBytes {
@@ -359,14 +318,8 @@ typedef struct StrokeBytesGroup {
     StrokeBytes r[5];
 } StrokeBytesGroup;
 
-/* Position of a sprite when it is created. */
-typedef struct ClActorPos {
-    s16 x;
-    s16 y;
-    s16 z;
-    u8 drawType;
-    u8 visible;
-} ClActorPos;
+#include "../arm9/clact.h"
+typedef struct ActorInitParam ClActorPos;
 
 /* Screen position and animation of one touch button. */
 typedef struct ButtonLayout {
@@ -386,74 +339,26 @@ typedef struct MenuItemInit {
     u32 result;
 } MenuItemInit;
 
-extern ClActor *CLACT_CreateActor(void *clactSys, unsigned int charRes, unsigned int plttRes, unsigned int cellRes, const ClActorPos *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorAutoAnim(ClActor *p, u32 v);
-extern void CLACT_SetActorAnimSeq(ClActor *p, u16 value);
-extern void CLACT_SetActorDrawEnable(ClActor *p, unsigned int v);
-extern void CLACT_SetActorBgPriority(ClActor *actor, int priority);
-extern void CLACT_SetActorDrawPriority(ClActor *node, u32 val);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BMP_WIN_Init(u16 heapId);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 x, u32 y, u32 width, u8 height, u8 paletteNo, u8 tileBase);
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
-extern TcbList *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern TextPrinter *PRINTSYS_QUE_Create(u32 heapId);
-extern void TCBL_DeleteAllTasks(TcbList *p);
-extern void TCBL_Destroy(TcbList *p);
-extern void PRINTSYS_QUE_Clear(TextPrinter *p);
-extern void PRINTSYS_QUE_Delete(TextPrinter *p);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void BMP_WIN_Exit(void);
-extern void CLACT_SetActorPos(ClActor *actor, const Point16 *position);
-extern int  TOUCHPANEL_HitTrg(const void *p);
-extern int  TOUCHPANEL_HitCont(const void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int  TOUCHPANEL_GetCont(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void APP_TASKMENU_TransWinAfterPrint(TaskMenu *menu);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *window, u32 kind);
-extern NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern int GFL_NET_SendToHandle(NetHandle *a, u32 b, u32 c, u32 d);
-extern int UNION_APP_Close(UnionAppWork *app);
-extern UnionAppEntry *UNION_APP_GetMemberEntry(UnionAppWork *app, int netId);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, UnionAppEntry *entry);
-extern void GFL_NET_HANDLE_SetUserInfo(NetHandle *handle, int a, int b, int c);
-extern u32 GFL_NET_IsConnectMember(u32 index);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(NetHandle *h, u32 a, u32 b);
-extern struct Bmp *BMP_CreateFromBuffer(const void *pixels, u32 width, u32 height, u32 depth, u16 heap);
-extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int srcX, int srcY, u32 width, u32 height, u32 key);
+#include "../arm9/g2.h"
+#include "../arm9/app_taskmenu.h"
 extern void BMP_Delete(struct Bmp *p);
-extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
-extern void GX_LoadOBJPltt(void *src, unsigned long offset, unsigned long size);
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 color);
-extern void MYSTATUS_NameToStrbuf(UnionAppEntry *entry, StrBuf *dst);
-extern void PRINTSYS_PrintQueColor(TextPrinter *printer, struct Bmp *bmp, u32 x, u32 y, StrBuf *text, void *font, u16 color);
-extern int  GFL_NET_ResetSendQueue(void *h);
+#include "../arm9/gf_standard.h"
+#include "../arm9/gx_load2d.h"
+#include "../arm9/mystatus.h"
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, StrBuf *dst, StrBuf *src);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *window, int a, int b, int c);
-extern void PRINTSYS_PrintStreamDelete(void *stream);
 extern signed char MSG_SPEED_GetWait(void);
-extern void *PRINTSYS_PrintStream(struct BmpWin *window, u32 x, u32 y, StrBuf *text, void *font, u32 speed, TcbList *taskList, u32 a, u16 heap, u32 color);
-extern u32 PRINTSYS_PrintStreamGetState(void *stream);
-extern u32 KEY_GetTrg(void);
-extern void PRINTSYS_PrintStreamReleasePause(void *h);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, void *font, TextPrinter *printer, u16 heap);
+#include "../arm9/key.h"
 extern StrBuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern TaskMenu *APP_TASKMENU_OpenMenu(MenuTemplate *tmpl, TaskMenuRes *res);
-extern void APP_TASKMENU_UpdateMenu(TaskMenu *menu);
-extern u32 APP_TASKMENU_IsFinish(TaskMenu *);
-extern u8 APP_TASKMENU_GetCursorPos(TaskMenu *menu);
-extern void APP_TASKMENU_CloseMenu(TaskMenu *);
-extern u32 APP_TASKMENU_RES_Delete(TaskMenuRes *s);
-extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern MetList *MET_TRAINERS_GetFromSave(void *p);
-extern u32 MYSTATUS_GetId(const UnionAppEntry *obj);
-extern void MET_TRAINERS_Insert(MetList *l, u32 val);
-extern u32 PRINTSYS_QUE_Main(TextPrinter *ps);
-extern u32 PRINTSYS_QUE_IsExistTarget(TextPrinter *p, void *v);
+
+#include "../arm9/game_data.h"
+#include "../arm9/met_trainers_savedata.h"
 extern const ButtonLayout gOekakiButtonLayout[];
 extern char gOekakiButtonHitTable[];
 extern char gOekakiCanvasHitTable[];
@@ -544,7 +449,7 @@ void OEKAKI_FillSendGroup(StrokeGroup *sendGroup, StrokeQueue *queue);
  */
 void OEKAKI_RegisterNetCommands(OekakiWork *work)
 {
-    GFL_NET_COMMAND_AddCommandTable(OEKAKI_CMD_CANVAS_CHUNK, gOekakiCommandTable, 8, work);
+    GFL_NET_COMMAND_AddCommandTable(OEKAKI_CMD_CANVAS_CHUNK, (uptr)gOekakiCommandTable, 8, (uptr)work);
 }
 
 /*
@@ -746,7 +651,7 @@ u32 OEKAKI_SendCanvasChunk(OekakiWork *work, int chunkIndex, int unused)
     work->sendChunk.checksum = sum;
     work->sendChunk.index = chunkIndex;
     joinedBits = (u32)UNION_APP_GetJoinedBits(work->param->app);
-    return GFL_NET_COMMAND_SetSendSlot(GFL_NET_HANDLE_GetNetHandle(0xff), joinedBits, OEKAKI_CMD_CANVAS_CHUNK, 0x3f0, &work->sendChunk);
+    return GFL_NET_COMMAND_SetSendSlot((uptr)GFL_NET_HANDLE_GetNetHandle(0xff), joinedBits, OEKAKI_CMD_CANVAS_CHUNK, 0x3f0, (uptr)&work->sendChunk);
 }
 
 CanvasChunk *OEKAKI_GetRecvChunk(int netId, OekakiWork *work)
@@ -933,7 +838,7 @@ int OEKAKI_Exit(struct Proc *task, int *seq, void *unused, OekakiWork *work)
 /*
  * Task that runs every vertical blank.
  */
-void OEKAKI_VBlankTask(void)
+void OEKAKI_VBlankTask(struct TcbTask *task, void *work)
 {
     CLACT_VBlankSystem();
     BG_SYS_Update();
@@ -973,12 +878,12 @@ void OEKAKI_SetVramBanks(void)
 
 void OEKAKI_SetupBgs(void)
 {
-    DispConfig dispConfig;
-    BgTemplate bg0;
-    BgTemplate bg1;
-    BgTemplate bg2;
-    BgTemplate bg4;
-    BgTemplate bg5;
+    struct DispConfig dispConfig;
+    struct BgTemplate bg0;
+    struct BgTemplate bg1;
+    struct BgTemplate bg2;
+    struct BgTemplate bg4;
+    struct BgTemplate bg5;
 
     dispConfig = gOekakiDispConfig;
     BG_SYS_SetGraphicsMode(&dispConfig);
@@ -1013,7 +918,7 @@ void OEKAKI_SetupBgs(void)
 void OEKAKI_InitWork(OekakiWork *work)
 {
     int i = 0;
-    int zero = i;
+    sptr zero = i;
 
     for (; i < OEKAKI_MEMBER_MAX; i++) {
         work->playerName[i] = STRBUF_Create(8, OEKAKI_HEAP_ID);
@@ -1085,7 +990,7 @@ void OEKAKI_LoadSpriteResources(OekakiWork *work, void *archive)
     u32 plttIndex;
 
     uiArchive = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), OEKAKI_HEAP_ID);
-    CLACT_InitSystem(gClActorInitParam, &gOekakiVramBanks, OEKAKI_HEAP_ID);
+    CLACT_InitSystem(&gClActorInitParam, (const struct DispVramCfg *)&gOekakiVramBanks, OEKAKI_HEAP_ID);
     work->clactSys = CLACT_CreateUnit(0x35, 1, OEKAKI_HEAP_ID);
     work->cursorRes.charRes = CLACT_RegisterCharacter(archive, 3, 0, 0, OEKAKI_HEAP_ID);
     work->cursorRes.plttRes = CLACT_RegisterPalette(archive, 0, 0, 0, OEKAKI_HEAP_ID);
@@ -1108,9 +1013,9 @@ void OEKAKI_CreateActors(OekakiWork *p)
 
     pos.x = 0;
     pos.y = 0;
-    pos.z = 0;
-    pos.drawType = 1;
-    pos.visible = 1;
+    pos.anim_seq = 0;
+    pos.draw_priority = 1;
+    pos.bg_priority = 1;
     for (i = 0; i < 5; i++) {
         pos.x = i * 0x28 + 0x18;
         pos.y = 0x40;
@@ -1202,7 +1107,7 @@ void OEKAKI_SetCursorPosition(ClActor *actor, int x, int y)
 
     pt.x = x;
     pt.y = y - 8;
-    CLACT_SetActorPos(actor, &pt);
+    CLACT_SetActorPos(actor, (const struct Pt16 *)&pt);
 }
 
 void OEKAKI_MakeEmptyStroke(StrokeRec *stroke, int color, int size)
@@ -1243,7 +1148,7 @@ void OEKAKI_HandleTouch(OekakiWork *p)
     int i;
 
     pressed = 0;
-    hit = TOUCHPANEL_HitTrg(gOekakiButtonHitTable);
+    hit = TOUCHPANEL_HitTrg((const void *)gOekakiButtonHitTable);
     if (hit != -1) {
         switch (hit) {
         case 0:
@@ -1294,7 +1199,7 @@ void OEKAKI_HandleTouch(OekakiWork *p)
             break;
         }
     }
-    hit = TOUCHPANEL_HitCont(gOekakiCanvasHitTable);
+    hit = TOUCHPANEL_HitCont((const void *)gOekakiCanvasHitTable);
     CLACT_SetActorDrawEnable(p->cursorActor[GFL_NET_SYSTEM_GetCurrentAid()], 0);
     if (hit != -1) {
         TOUCHPANEL_GetPointCont((u32 *)&touchX, (u32 *)&touchY);
@@ -1471,7 +1376,7 @@ int OEKAKI_StepSendQuitRequest(OekakiWork *p, int procState)
     MI_CpuFill8(&msg, 0, 4);
     msg.kind = OEKAKI_SYNC_CHECK;
     msg.netId = GFL_NET_SYSTEM_GetCurrentAid();
-    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2905, 4, (u32)&msg))
+    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2905, 4, &msg))
         OEKAKI_SetNextScene(p, 7);
     OEKAKI_ApplyRemoteStrokes(p);
     return procState;
@@ -1504,7 +1409,7 @@ int OEKAKI_StepSendQuitConfirm(OekakiWork *p, int procState)
     MI_CpuFill8(&msg, 0, 4);
     msg.kind = OEKAKI_SYNC_STATUS;
     msg.netId = GFL_NET_SYSTEM_GetCurrentAid();
-    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2905, 4, (u32)&msg))
+    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2905, 4, &msg))
         OEKAKI_SetNextScene(p, 12);
     OEKAKI_ApplyRemoteStrokes(p);
     return procState;
@@ -1797,7 +1702,7 @@ void OEKAKI_BlitBrush(struct BmpWin *canvas, const u8 *brushPixels, int x, int y
         srcY = 0;
         height -= cut;
     }
-    brushBmp = BMP_CreateFromBuffer(brushPixels, 8, 8, 0x20, 0x28);
+    brushBmp = BMP_CreateFromBuffer((void *)brushPixels, 8, 8, 0x20, 0x28);
     BMP_Blit(brushBmp, BMP_WIN_GetBmp(canvas), x, y, srcX, srcY, width, height, 0);
     BMP_Delete(brushBmp);
 }
@@ -1919,7 +1824,7 @@ void OEKAKI_DrawStrokes(struct BmpWin *canvas, StrokeRec *strokes, LastPoint *la
  * element address is recomputed (muls) at each use. A local pointer, or a
  * `char *` parameter with the same cast, CSEs the element pointer instead.
  */
-#define REMOTE_STROKES(p) ((StrokeRec *)((char *)(p) + ((int)&((OekakiWork *)0)->remoteStroke)))
+#define REMOTE_STROKES(p) ((StrokeRec *)((char *)(p) + ((sptr)&((OekakiWork *)0)->remoteStroke)))
 void OEKAKI_UpdateRemoteCursors(OekakiWork *p)
 {
     int i;
@@ -1970,7 +1875,7 @@ void OEKAKI_RefreshNamePlates(struct BmpWin **windows, u16 color, OekakiWork *p)
     int selfId;
     int i;
     struct BmpWin *window;
-    TextPrinter *printer;
+    struct PrintQueue *printer;
 
     selfId = GFL_NET_SYSTEM_GetCurrentAid();
     if (!OEKAKI_UpdateMemberSlots(p))
@@ -1986,7 +1891,7 @@ void OEKAKI_RefreshNamePlates(struct BmpWin **windows, u16 color, OekakiWork *p)
         BMP_FillRect(BMP_WIN_GetBmp(windows[i]), 0, 0, 0x50, 0x10, 0);
     for (i = 0; i < 5; i++) {
         if (p->memberSlot[i].current != 0) {
-            MYSTATUS_NameToStrbuf(p->memberSlot[i].current, p->playerName[i]);
+            MYSTATUS_NameToStrbuf((const u16 *)p->memberSlot[i].current, p->playerName[i]);
             if (selfId == i) {
                 printer = p->namePrinter;
                 PRINTSYS_PrintQueColor(printer, BMP_WIN_GetBmp(p->printJob[i].window), 0, 0, p->playerName[i], p->font, 0xc80);
@@ -2004,24 +1909,32 @@ void OEKAKI_RefreshNamePlates(struct BmpWin **windows, u16 color, OekakiWork *p)
     }
 }
 
+#ifdef __MWERKS__
+#undef GFL_NET_ResetSendQueue
+int GFL_NET_ResetSendQueue(struct GFLNetHandle *handle);
+#define OEKAKI_ResetSendQueue(handle) GFL_NET_ResetSendQueue(handle)
+#else
+#define OEKAKI_ResetSendQueue(handle) GFL_NET_ResetSendQueue()
+#endif
+
 void OEKAKI_SendStrokes(OekakiWork *p)
 {
     NetHandle *handle;
 
     if (GFL_NET_SYSTEM_GetCurrentAid() == 0) {
         handle = GFL_NET_HANDLE_GetCurrentHandle();
-        if (GFL_NET_ResetSendQueue(handle) == 0)
+        if (OEKAKI_ResetSendQueue(handle) == 0)
             return;
         OEKAKI_FillSendGroup(&p->sendPacket, &p->strokeQueue);
         p->sendPacket.rec[0].syncMode = p->syncMode;
-        if (GFL_NET_SendToHandle(handle, 0x2902, 0x1e, (u32)&p->sendPacket) == 1)
+        if (GFL_NET_SendToHandle(handle, 0x2902, 0x1e, &p->sendPacket) == 1)
             OEKAKI_PopStrokeGroup(&p->strokeQueue);
     } else {
         handle = GFL_NET_HANDLE_GetCurrentHandle();
         OEKAKI_PeekStroke(&p->localStroke, &p->strokeQueue);
-        if (GFL_NET_ResetSendQueue(handle) == 0)
+        if (OEKAKI_ResetSendQueue(handle) == 0)
             return;
-        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2901, 6, (u32)&p->localStroke) == 1)
+        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), 0x2901, 6, &p->localStroke) == 1)
             OEKAKI_PopStrokeGroup(&p->strokeQueue);
     }
 }
@@ -2058,7 +1971,7 @@ int OEKAKI_UpdateMemberSlots(OekakiWork *p)
 void OEKAKI_PrintMessage(OekakiWork *p, u32 msgId, int mode)
 {
     StrBuf *text;
-    TextPrinter *printer;
+    struct PrintQueue *printer;
     struct BmpWin *window;
 
     text = STRBUF_Create(0x50, 0x28);
@@ -2078,7 +1991,7 @@ void OEKAKI_PrintMessage(OekakiWork *p, u32 msgId, int mode)
     } else {
         p->messageStream = PRINTSYS_PrintStream(p->messageWindow, 0, 0, p->messageText,
                                          p->font, MSG_SPEED_GetWait(),
-                                         p->taskList, 1, 0x28, 0xF0F);
+                                         (struct Tcbl *)p->taskList, 1, 0x28, 0xF0F);
     }
     window = p->messageWindow;
     BMP_WIN_TransferChars(window);
@@ -2213,7 +2126,7 @@ void OEKAKI_CloseMenuIfOpen(OekakiWork *p)
 
 int OEKAKI_IsQuitTouched(OekakiWork *p)
 {
-    if (TOUCHPANEL_HitTrg(gOekakiQuitHitTable) != -1)
+    if (TOUCHPANEL_HitTrg((const void *)gOekakiQuitHitTable) != -1)
         return 1;
     return 0;
 }
@@ -2277,21 +2190,21 @@ TaskMenu *OEKAKI_OpenYesNoMenu(OekakiWork *p)
     int i;
     TaskMenu *menu;
     const MenuItemInit *init;
-    MenuTemplate tmpl;
+    TaskMenuInitWork tmpl;
 
     p->menuRes = APP_TASKMENU_RES_Create(0, 2, p->font, p->messagePrinter, 0x28);
     for (i = 0; i < 2; i++) {
         init = &gOekakiMenuItemInit[i];
-        p->menuItem[i].text = MSGDATA_AllocString(p->msgBank, gOekakiMenuItemInit[i].msgId);
-        p->menuItem[i].color = 0x39E3;
-        p->menuItem[i].result = init->result;
+        p->menuItem[i].str = MSGDATA_AllocString(p->msgBank, gOekakiMenuItemInit[i].msgId);
+        p->menuItem[i].msgColor = 0x39E3;
+        p->menuItem[i].type = init->result;
     }
     tmpl.heapId = 0x28;
-    tmpl.itemCount = 2;
-    tmpl.items = p->menuItem;
-    tmpl.flags = 0;
-    tmpl.x = 0x15;
-    tmpl.y = 7;
+    tmpl.itemNum = 2;
+    tmpl.itemWork = p->menuItem;
+    tmpl.posType = 0;
+    tmpl.charPosX = 0x15;
+    tmpl.charPosY = 7;
     tmpl.width = 10;
     tmpl.height = 3;
     menu = APP_TASKMENU_OpenMenu(&tmpl, p->menuRes);
@@ -2323,8 +2236,8 @@ int OEKAKI_PollYesNoMenu(OekakiWork *p)
 void OEKAKI_CloseYesNoMenu(OekakiWork *p)
 {
     APP_TASKMENU_CloseMenu(p->menu);
-    STRBUF_Delete(p->menuItem[1].text);
-    STRBUF_Delete(p->menuItem[0].text);
+    STRBUF_Delete(p->menuItem[1].str);
+    STRBUF_Delete(p->menuItem[0].str);
     APP_TASKMENU_RES_Delete(p->menuRes);
     p->menu = 0;
 }
@@ -2340,7 +2253,7 @@ void OEKAKI_RegisterMetPlayers(OekakiWork *p)
         entry = UNION_APP_GetMemberEntry(p->param->app, (u8)i);
         if (entry != 0) {
             if (i != GFL_NET_SYSTEM_GetCurrentAid()) {
-                MET_TRAINERS_Insert(list, MYSTATUS_GetId(entry));
+                MET_TRAINERS_Insert(list, MYSTATUS_GetId((const struct MyStatus *)entry));
             }
         }
     }
@@ -2349,7 +2262,7 @@ void OEKAKI_RegisterMetPlayers(OekakiWork *p)
 void OEKAKI_UpdatePrintJobs(OekakiWork *p)
 {
     int i;
-    TextPrinter *printer;
+    struct PrintQueue *printer;
 
     PRINTSYS_QUE_Main(p->namePrinter);
     PRINTSYS_QUE_Main(p->messagePrinter);
@@ -2376,7 +2289,7 @@ void OEKAKI_SendPendingCommand(OekakiWork *p)
 {
     switch (p->pendingCommand) {
     case 0x2903:
-        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetNetHandle(0xFF), 0x2903, 1, (u32)&p->pendingArg) != 0) {
+        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetNetHandle(0xFF), 0x2903, 1, &p->pendingArg) != 0) {
             p->pendingCommand = 0;
         }
         break;
@@ -2386,7 +2299,7 @@ void OEKAKI_SendPendingCommand(OekakiWork *p)
         }
         break;
     case 0x2905:
-        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetNetHandle(0xFF), 0x2905, 4, (u32)&p->stateMsg) != 0) {
+        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetNetHandle(0xFF), 0x2905, 4, &p->stateMsg) != 0) {
             p->pendingCommand = 0;
         }
         break;

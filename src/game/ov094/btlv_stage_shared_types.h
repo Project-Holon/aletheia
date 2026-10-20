@@ -1,23 +1,13 @@
 #ifndef BTLV_STAGE_SHARED_TYPES_H
 #define BTLV_STAGE_SHARED_TYPES_H
 
-#include "btlv_effvm_types.h"
-#include "btlv_camera_shared_types.h"
+#include "../ov094/btlv_effvm_types.h"
+#include "../ov094/btlv_camera_shared_types.h"
 
-/* 3D system objects, see arm9/g3d_system_types.h */
-typedef struct G3dResource G3dResource;
-typedef struct G3dRender G3dRender;
-typedef struct G3dAnime G3dAnime;
-typedef struct G3dObject G3dObject;
-
-/* Position, scale and rotation an object is drawn with (arm9/g3d_system_types.h). */
-typedef struct G3dObjectStatus {
-    BtlvVec3 trans;
-    BtlvVec3 scale;
-    int rotate[9];
-} G3dObjectStatus;
-
+#include "../sdk_fx.h"
+#include "../sdk_nnsfnd.h"
 #include "../arm9/nns_g3d_anm_calc_types.h"
+#include "../arm9/g3d_system_types.h"
 
 /* Palette block of a texture resource (NSBTX), as in arm9/g3d_system.c. */
 /* Texture resource, up to the palette block (0x40 bytes before the dictionary). */

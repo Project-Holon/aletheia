@@ -50,24 +50,18 @@ typedef struct {
 extern S2153 d_02153000;
 #define G2153 (&d_02153000)
 
-extern int PM_SendUtilityCommand(u32 cmd, u32 a, u16 *buf);
-extern void MI_WaitNDma(int ch);
-extern void MI_StopNDma(int ch);
-extern void PMi_ExecuteList(PMiGenCallbackInfo *listp);
-extern void PMi_DeleteList(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info);
+#include "../arm9/pm.h"
+#include "mi_ndma.h"
 extern u32 d_020A8724[];
 extern PMiGenCallbackInfo *d_02732FA4;
 extern PMiGenCallbackInfo *PMi_PostExitCallbackList;
 extern u32 PMi_ResetLocked;
-extern void OSi_SyncWithOtherProc(int direction, volatile u8 *p);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32 state);
-extern void PMi_InsertList(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info, int priority, int method);
-extern void GX_DispOff(void);
-extern void OS_SpinWaitSysCycles(u32 n);
-extern void MI_StopAllDma(void);
-extern void MI_StopAllNDma(void);
-extern void OSi_DisableInterruptsAndHalt(void);
+#include "../arm9/os_spinlock.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/gx.h"
+#include "../arm9/mi_dma.h"
+#include "../arm9/os_terminate_processor.h"
 
 void PM_ReadyToExit(void);
 void PMi_FinalizeDebugger(void);

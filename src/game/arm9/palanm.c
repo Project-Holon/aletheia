@@ -51,22 +51,15 @@
  *   2  0x05000200  main OBJ
  *   3  0x05000600  sub OBJ
  */
-struct PalAnmSlot;
 #include "../types.h"
+#include "../sdk_ioreg.h"
+#include "palanm.h"
 
 struct PalAnmTimer {
     u32 active;
     u64 lastTick;
     u64 doneUnits;
     u64 baseTick;
-};
-
-struct PalAnmSlot {
-    u16 *rawBuf;
-    u16 *workBuf;
-    u32 size;
-    u32 spare0;
-    u32 spare1;
 };
 
 struct PalAnmRes {
@@ -92,15 +85,15 @@ void PALANM_StartTimer(void);
 void PALANM_UpdateTimer(u8 *target);
 void *PALANM_Create(u32 heapId);
 u32 PALANM_Delete(void *ctx);
-void PALANM_SetSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, void *rawBuf, void *workBuf, u32 size);
-void PALANM_AllocSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, u32 size, u32 heapId);
-void PALANM_FreeSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx);
-void PALANM_CopyToSlot(struct PalAnmSlot *palSlots, const void *src, u32 slotIdx, u32 dstOffset, u16 size);
-void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *palSlots, u32 arcId, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset);
-void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *palSlots, u32 arcId, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset);
-void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *palSlots, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset);
-void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *palSlots, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset);
-void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palSlots, u32 bank, u32 dstOffset, u32 size);
+void PALANM_SetSlotBuffers(PaletteFade *fade, u32 slotIdx, void *rawBuf, void *workBuf, u32 size);
+void PALANM_AllocSlotBuffers(PaletteFade *fade, u32 slotIdx, u32 size, u32 heapId);
+void PALANM_FreeSlotBuffers(PaletteFade *fade, u32 slotIdx);
+void PALANM_CopyToSlot(PaletteFade *fade, const void *src, u32 slotIdx, u32 dstOffset, u16 size);
+void PALANM_LoadArcPaletteToSlotAt(PaletteFade *fade, u32 arcId, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset);
+void PALANM_LoadArcPaletteToSlot(PaletteFade *fade, u32 arcId, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset);
+void PALANM_LoadHandlePaletteToSlotAt(PaletteFade *fade, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset);
+void PALANM_LoadHandlePaletteToSlot(PaletteFade *fade, void *arcHandle, u32 fileId, u32 heapId, u32 slotIdx, u32 byteSize, u16 dstOffset);
+void PALANM_CopyHwPaletteToSlot(PaletteFade *fade, u32 bank, u32 dstOffset, u32 size);
 extern u16 sItemBerryTable[];
 extern u16 sPalAnmCodePairTable[][2];
 extern struct PalAnmTimer sPalAnmTimer;
@@ -109,7 +102,7 @@ extern const char sPalAnmFileName[];
 
 struct Node;
 
-typedef struct {
+struct PaletteFadeParam {
     u16 paletteBits;
     u16 wait     : 6;
     u16 current    : 5;
@@ -119,16 +112,16 @@ typedef struct {
     u16 speed   : 5;
     u16 waitCount   : 6;
     u16 pad    : 5;
-} PaletteFadeParam;
+};
 
-typedef struct {
+struct PaletteFadeWork {
     u16 *defaultWork;
     u16 *transWork;
     u32 size;
     PaletteFadeParam param;
-} PaletteFadeWork;
+};
 
-typedef struct {
+struct PaletteFade {
     PaletteFadeWork work[14];
     u16 requestFlag : 2;
     u16 requestBits  : 14;
@@ -136,10 +129,9 @@ typedef struct {
     u16 taskActive  : 1;
     u16 autoTrans : 1;
     u8  forceStop;
-} PaletteFade;
+};
 struct TcbSystem;
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, PaletteFade *), void *work, unsigned int priority);
 
 struct Rgb555 {
     u16 r : 5;
@@ -390,12 +382,12 @@ u32 PALANM_Delete(void *ctx)
  *   python tools/match.py one --src src/matched/PALANM_SetSlotBuffers.c \
  *       --func PALANM_SetSlotBuffers --addr 0x02021548 --cc 1.1p1 --thumb
  */
-void PALANM_SetSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, void *rawBuf,
+void PALANM_SetSlotBuffers(PaletteFade *fade, u32 slotIdx, void *rawBuf,
                    void *workBuf, u32 size)
 {
-    palSlots[slotIdx].rawBuf = rawBuf;
-    palSlots[slotIdx].workBuf = workBuf;
-    palSlots[slotIdx].size = size;
+    fade->work[slotIdx].defaultWork = rawBuf;
+    fade->work[slotIdx].transWork = workBuf;
+    fade->work[slotIdx].size = size;
 }
 
 /*
@@ -411,11 +403,11 @@ void PALANM_SetSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, void *rawBu
  *   python tools/match.py one --src src/matched/PALANM_AllocSlotBuffers.c \
  *       --func PALANM_AllocSlotBuffers --addr 0x0202155C --cc 1.1p1 --thumb
  */
-void PALANM_AllocSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, u32 size, u32 heapId)
+void PALANM_AllocSlotBuffers(PaletteFade *fade, u32 slotIdx, u32 size, u32 heapId)
 {
     void *rawBuf = GFL_HEAP_Alloc(heapId, size, 0, sPalAnmFileName, 142);
     void *workBuf = GFL_HEAP_Alloc(heapId, size, 0, sPalAnmFileName, 143);
-    PALANM_SetSlotBuffers((struct PalAnmSlot *)palSlots, slotIdx, rawBuf, workBuf, size);
+    PALANM_SetSlotBuffers(fade, slotIdx, rawBuf, workBuf, size);
 }
 
 /*
@@ -430,10 +422,10 @@ void PALANM_AllocSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx, u32 size,
  *   python tools/match.py one --src src/matched/PALANM_FreeSlotBuffers.c \
  *       --func PALANM_FreeSlotBuffers --addr 0x020215A0 --cc 1.1p1 --thumb
  */
-void PALANM_FreeSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx)
+void PALANM_FreeSlotBuffers(PaletteFade *fade, u32 slotIdx)
 {
-    GFL_HEAP_Free(palSlots[slotIdx].rawBuf);
-    GFL_HEAP_Free(palSlots[slotIdx].workBuf);
+    GFL_HEAP_Free(fade->work[slotIdx].defaultWork);
+    GFL_HEAP_Free(fade->work[slotIdx].transWork);
 }
 
 /*
@@ -451,11 +443,11 @@ void PALANM_FreeSlotBuffers(struct PalAnmSlot *palSlots, u32 slotIdx)
  *   python tools/match.py one --src src/matched/PALANM_CopyToSlot.c \
  *       --func PALANM_CopyToSlot --addr 0x020215BC --cc 1.1p1 --thumb
  */
-void PALANM_CopyToSlot(struct PalAnmSlot *palSlots, const void *src, u32 slotIdx,
+void PALANM_CopyToSlot(PaletteFade *fade, const void *src, u32 slotIdx,
                    u32 dstOffset, u16 size)
 {
-    MIi_CpuCopy16(src, palSlots[slotIdx].rawBuf + dstOffset, size);
-    MIi_CpuCopy16(src, palSlots[slotIdx].workBuf + dstOffset, size);
+    MIi_CpuCopy16(src, fade->work[slotIdx].defaultWork + dstOffset, size);
+    MIi_CpuCopy16(src, fade->work[slotIdx].transWork + dstOffset, size);
 }
 
 /*
@@ -477,7 +469,7 @@ void PALANM_CopyToSlot(struct PalAnmSlot *palSlots, const void *src, u32 slotIdx
  *   python tools/match.py one --src src/matched/PALANM_LoadArcPaletteToSlotAt.c \
  *       --func PALANM_LoadArcPaletteToSlotAt --addr 0x020215EC --cc 1.1p1 --thumb
  */
-void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *palSlots, u32 arcId, u32 fileId, u32 heapId,
+void PALANM_LoadArcPaletteToSlotAt(PaletteFade *fade, u32 arcId, u32 fileId, u32 heapId,
                    u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset)
 {
     struct PalAnmRes *res;
@@ -487,7 +479,7 @@ void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *palSlots, u32 arcId, u32 f
     if (byteSize == 0) {
         byteSize = res->byteSize;
     }
-    PALANM_CopyToSlot((struct PalAnmSlot *)palSlots, res->data + srcOffset, slotIdx, dstOffset, (u16)byteSize);
+    PALANM_CopyToSlot(fade, res->data + srcOffset, slotIdx, dstOffset, (u16)byteSize);
     GFL_HEAP_Free(block);
 }
 
@@ -504,10 +496,10 @@ void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *palSlots, u32 arcId, u32 f
  *   python tools/match.py one --src src/matched/PALANM_LoadArcPaletteToSlot.c \
  *       --func PALANM_LoadArcPaletteToSlot --addr 0x02021640 --cc 1.1p1 --thumb
  */
-void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *palSlots, u32 arcId, u32 fileId, u32 heapId,
+void PALANM_LoadArcPaletteToSlot(PaletteFade *fade, u32 arcId, u32 fileId, u32 heapId,
                    u32 slotIdx, u32 byteSize, u16 dstOffset)
 {
-    PALANM_LoadArcPaletteToSlotAt((struct PalAnmSlot *)palSlots, arcId, fileId, heapId, slotIdx, byteSize, dstOffset, 0);
+    PALANM_LoadArcPaletteToSlotAt(fade, arcId, fileId, heapId, slotIdx, byteSize, dstOffset, 0);
 }
 
 /*
@@ -529,7 +521,7 @@ void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *palSlots, u32 arcId, u32 fil
  *   python tools/match.py one --src src/matched/PALANM_LoadHandlePaletteToSlotAt.c \
  *       --func PALANM_LoadHandlePaletteToSlotAt --addr 0x02021660 --cc 1.1p1 --thumb
  */
-void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *palSlots, void *arcHandle, u32 fileId, u32 heapId,
+void PALANM_LoadHandlePaletteToSlotAt(PaletteFade *fade, void *arcHandle, u32 fileId, u32 heapId,
                    u32 slotIdx, u32 byteSize, u16 dstOffset, u16 srcOffset)
 {
     struct PalAnmRes *res;
@@ -539,7 +531,7 @@ void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *palSlots, void *arcHand
     if (byteSize == 0) {
         byteSize = res->byteSize;
     }
-    PALANM_CopyToSlot((struct PalAnmSlot *)palSlots, res->data + srcOffset, slotIdx, dstOffset, (u16)byteSize);
+    PALANM_CopyToSlot(fade, res->data + srcOffset, slotIdx, dstOffset, (u16)byteSize);
     GFL_HEAP_Free(block);
 }
 
@@ -556,10 +548,10 @@ void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *palSlots, void *arcHand
  *   python tools/match.py one --src src/matched/PALANM_LoadHandlePaletteToSlot.c \
  *       --func PALANM_LoadHandlePaletteToSlot --addr 0x020216B4 --cc 1.1p1 --thumb
  */
-void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *palSlots, void *arcHandle, u32 fileId, u32 heapId,
+void PALANM_LoadHandlePaletteToSlot(PaletteFade *fade, void *arcHandle, u32 fileId, u32 heapId,
                    u32 slotIdx, u32 byteSize, u16 dstOffset)
 {
-    PALANM_LoadHandlePaletteToSlotAt((struct PalAnmSlot *)palSlots, arcHandle, fileId, heapId, slotIdx, byteSize, dstOffset, 0);
+    PALANM_LoadHandlePaletteToSlotAt(fade, arcHandle, fileId, heapId, slotIdx, byteSize, dstOffset, 0);
 }
 
 /*
@@ -586,28 +578,28 @@ void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *palSlots, void *arcHandle
  *   python tools/match.py one --src src/matched/PALANM_CopyHwPaletteToSlot.c \
  *       --func PALANM_CopyHwPaletteToSlot --addr 0x020216D4 --cc 1.1p1 --thumb
  */
-void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palSlots, u32 bank, u32 dstOffset, u32 size)
+void PALANM_CopyHwPaletteToSlot(PaletteFade *fade, u32 bank, u32 dstOffset, u32 size)
 {
     u16 *palBase;
 
     switch (bank) {
     case 0:
-        palBase = (u16 *)0x05000000;
+        palBase = (u16 *)HW_BG_PLTT;
         break;
     case 1:
-        palBase = (u16 *)0x05000400;
+        palBase = (u16 *)HW_DB_BG_PLTT;
         break;
     case 2:
-        palBase = (u16 *)0x05000200;
+        palBase = (u16 *)HW_OBJ_PLTT;
         break;
     case 3:
-        palBase = (u16 *)0x05000600;
+        palBase = (u16 *)HW_DB_OBJ_PLTT;
         break;
     default:
         return;
     }
 
-    PALANM_CopyToSlot((struct PalAnmSlot *)palSlots, palBase + dstOffset, bank, dstOffset, (u16)size);
+    PALANM_CopyToSlot(fade, palBase + dstOffset, bank, dstOffset, (u16)size);
 }
 
 int PALANM_GetDefaultWork(char *p, int i)
@@ -677,7 +669,7 @@ int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, 
             p->taskActive = 1;
             p->requestFlag = 1;
             p->forceStop = 0;
-            TCB_AddTask(ctx, (void (*)(void *, PaletteFade *))PALANM_FadeTask, p, -2);
+            TCB_AddTask(ctx, (TcbFunc)PALANM_FadeTask, p, -2);
         }
     }
     return ret;
@@ -733,7 +725,7 @@ int PALANM_RequestFadeOverwrite(PaletteFade *p, u16 mask, u16 col, s16 step, u8 
             p->taskActive = 1;
             p->requestFlag = 1;
             p->forceStop = 0;
-            TCB_AddTask(ctx, (void (*)(void *, PaletteFade *))PALANM_FadeTask, p, -2);
+            TCB_AddTask(ctx, (TcbFunc)PALANM_FadeTask, p, -2);
         }
     }
     return ret;

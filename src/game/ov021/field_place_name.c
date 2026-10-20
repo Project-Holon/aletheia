@@ -113,13 +113,11 @@ typedef struct GameSystem GameSystem;
 typedef struct GameData GameData;
 typedef struct WordSet WordSet;
 typedef struct ArcFile ArcFile;
-typedef struct MsgData MsgData;
 typedef struct GfFont GfFont;
 typedef struct Strbuf Strbuf;
 typedef struct BmpWin BmpWin;
 typedef struct Bmp Bmp;
 typedef struct BmpOamSys BmpOamSys;
-typedef struct ClactUnit ClactUnit;
 typedef struct ClactRenderer ClactRenderer;
 typedef struct NitroFileHeader NitroFileHeader;
 struct BgTemplate;
@@ -137,84 +135,38 @@ struct FieldMsgContext;
 #define FIELD_PLACE_NAME_LETTER_INTERVAL 3
 #define FIELD_PLACE_NAME_HOLD_FRAMES 30
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct FieldMsgBg;
-extern GfFont *FIELD_MSGBG_GetFont(struct FieldMsgBg *msgBg);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeLayerBuf(u32 bgId);
-extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
-extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
-extern unsigned char BMP_WIN_GetBgLayer(BmpWin *bmpWin);
-extern void BG_SYS_PushTile(unsigned int bgLayer);
-extern void BG_SYS_SetPriority(int bgId, unsigned short priority);
-extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char enable);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void BG_SYS_FreeSlot(u8 idx);
+#include "field_msgbg.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/g2.h"
 struct ArcHandle;
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
-extern s32 NNS_G2dGetUnpackedPaletteData(NitroFileHeader *file, void **out);
-extern void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset);
-extern u32 BG_SYS_CreateRun(u32 bgId, u32 size, u32 top);
-extern void BG_SYS_FreeTileRun(u32 bgId, u32 offset, u32 size);
-extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
-extern void BMP_Clear(Bmp *bmp, u8 value);
+#include "../arm9/arc_tool.h"
+#include "../arm9/nns_g2d_anim_bank.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct SurfaceInit;
 struct Renderer;
-extern struct Renderer *CLACT_CreateRenderer(struct SurfaceInit *inits, u32 count, u32 heap_id);
-extern void CLACT_DeleteRenderer(struct Renderer *renderer);
-extern s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
-extern void CLACT_ReleasePalette(u32 paletteId);
-extern ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDrawEnable(ClactUnit *unit, u32 mode);
-extern u32 CLACT_DeleteUnit(ClactUnit *unit);
-extern void CLACT_SetUnitRenderer(ClactUnit *unit, ClactRenderer *renderer);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void STRBUF_ToChars(Strbuf *strbuf, u16 *out, u32 count);
-extern u32 GF_FONT_GetCharWidth(GfFont *font, u16 ch);
-extern BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact);
-extern void BMP_OAM_DeleteSys(BmpOamSys *sys);
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
-extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
+#include "../arm9/clact.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/bmp_oam.h"
+#include "../arm9/zonedata.h"
 struct GameComm;
-extern struct GameComm *GAMESYSTEM_GetGameComm(const GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct IntrudeCommSys;
-extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
-extern u8 GAME_DATA_GetIntrudeIdByte(GameData *gameData);
+#include "../ov010/intrude_comm_query.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, u32 netId);
 struct MsgBank;
-extern Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 index, void *myStatus);
-extern void WORDSET_SetSlotFromMsg59(WordSet *wordSet, u32 index, u32 value);
-extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dst, Strbuf *src);
-extern void STRBUF_Delete(Strbuf *strbuf);
-extern u16 STRBUF_GetLength(Strbuf *strbuf);
-extern void *GAME_DATA_GetMoveModelSys(const GameData *gameData);
-extern u8 GAME_DATA_GetOwnNetId(const GameData *gameData);
+#include "../arm9/msgdata.h"
+#include "../arm9/wordset.h"
+#include "../arm9/game_data.h"
 struct FieldStatus;
-extern unsigned int FIELD_STATUS_GetMapMode(struct FieldStatus *fs);
-extern u32 ZONEDATA_IsEntralink(u32 zoneId);
-extern void BG_SYS_InitSlot(u8 idx);
-extern void BG_SYS_ClearSlot(u32 bgId);
-extern void MI_CpuFill8(void *dst, int value, int size);
-extern void *GAMESYSTEM_GetGameData(const GameSystem *gameSystem);
-extern WordSet *WORDSET_CreateDefault(u16 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern u32 WORDSET_Delete(WordSet *wordSet);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 BMP_WIN_Delete(BmpWin *bmpWin);
-extern void *GAME_DATA_GetSaveControl(GameData *gameData);
-extern void *PLAYER_LOCATION_GetData(void *saveControl);
+#include "../arm9/field_status.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/player_location.h"
 struct PlayerLocationData;
-extern u16 PLAYER_LOCATION_GetZoneId(struct PlayerLocationData *location_data);
-extern u32 PLAYER_LOCATION_SetZoneId(u32 location, u32 zoneId);
-extern u32 ZONEDATA_GetPlaceNameWindow(u32 zoneId);
 extern const u8 gFieldPlaceNameRendererParam[16];
 extern const PlaceNameLetterParam gPlaceNameLetterDefaultParam;
 extern u8 gFieldPlaceNameFileName[20];
@@ -307,24 +259,14 @@ u8 FIELD_PLACE_NAME_GetStep(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_ResetStep(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_IncrementStep(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_LoadZoneFromSave(FieldPlaceName *placeName);
-int FIELD_PLACE_NAME_SaveZoneToSave(FieldPlaceName *placeName);
+void FIELD_PLACE_NAME_SaveZoneToSave(FieldPlaceName *placeName);
 u16 FIELD_PLACE_NAME_GetZoneId(FieldPlaceName *placeName);
 void FIELD_PLACE_NAME_SetZoneId(FieldPlaceName *placeName, u16 zoneId);
 Strbuf *FIELD_PLACE_NAME_GetMessage(FieldPlaceName *placeName);
 u8 FIELD_PLACE_NAME_GetMessageLength(FieldPlaceName *placeName);
 u32 FIELD_PLACE_NAME_HasWindow(u32 zoneId);
-PlaceNameLetter *PLACE_NAME_LETTER_Create(u32 heapId, BmpOamSys *bmpOamSys, u16 space, int paletteId);
-void PLACE_NAME_LETTER_Delete(PlaceNameLetter *letter);
-void PLACE_NAME_LETTER_Setup(PlaceNameLetter *letter, const PlaceNameLetterParam *param);
-void PLACE_NAME_LETTER_Update(PlaceNameLetter *letter);
-void PLACE_NAME_LETTER_Start(PlaceNameLetter *letter);
+#include "place_name_letter.h"
 Bmp *PLACE_NAME_LETTER_GetBmp(PlaceNameLetter *letter);
-void PLACE_NAME_LETTER_SetVisible(PlaceNameLetter *letter, unsigned int visible);
-int PLACE_NAME_LETTER_GetWidth(PlaceNameLetter *letter);
-int PLACE_NAME_LETTER_GetHeight(PlaceNameLetter *letter);
-u32 PLACE_NAME_LETTER_GetX(PlaceNameLetter *letter);
-u32 PLACE_NAME_LETTER_GetY(PlaceNameLetter *letter);
-unsigned int PLACE_NAME_LETTER_IsActive(PlaceNameLetter *letter);
 
 /* Creates the banner work and every part of it; msgContext supplies the font. */
 FieldPlaceName *FIELD_PLACE_NAME_Create(GameSystem *gameSystem, u32 heapId, struct FieldMsgContext *msgContext)
@@ -1136,7 +1078,7 @@ void FIELD_PLACE_NAME_CreateWordSet(FieldPlaceName *placeName)
 
 void FIELD_PLACE_NAME_CreateMsgData(FieldPlaceName *placeName)
 {
-    placeName->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x59, FIELD_PLACE_NAME_GetHeapId(placeName));
+    placeName->msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x59, FIELD_PLACE_NAME_GetHeapId(placeName));
 }
 
 void FIELD_PLACE_NAME_CreateMessage(FieldPlaceName *placeName)
@@ -1160,7 +1102,7 @@ void FIELD_PLACE_NAME_DeleteWordSet(FieldPlaceName *placeName)
 
 void FIELD_PLACE_NAME_DeleteMsgData(FieldPlaceName *placeName)
 {
-    MsgData *msgData = placeName->msgData;
+    struct MsgBank *msgData = placeName->msgData;
     if (msgData != 0) {
         MSGDATA_Delete((struct MsgBank *)msgData);
         placeName->msgData = 0;
@@ -1246,9 +1188,9 @@ void FIELD_PLACE_NAME_LoadZoneFromSave(FieldPlaceName *placeName)
 }
 
 /* Writes the banner's current zone back to the save data. */
-int FIELD_PLACE_NAME_SaveZoneToSave(FieldPlaceName *placeName)
+void FIELD_PLACE_NAME_SaveZoneToSave(FieldPlaceName *placeName)
 {
-    return PLAYER_LOCATION_SetZoneId((u32)PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(placeName->gameSystem))), placeName->zoneId);
+    PLAYER_LOCATION_SetZoneId(PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(placeName->gameSystem))), placeName->zoneId);
 }
 
 u16 FIELD_PLACE_NAME_GetZoneId(FieldPlaceName *placeName)

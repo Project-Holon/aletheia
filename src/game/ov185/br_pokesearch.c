@@ -93,102 +93,50 @@
 #include "br_pokesearch_types.h"
 
 struct PrintSys;
-struct Pair;
+struct BrPokesearchPair;
 #include "../types.h"
 
-typedef struct Cfg {u16 heap;unsigned char rest[6];} Cfg;
+typedef struct BrPokesearchCfg {u16 heap;unsigned char rest[6];} BrPokesearchCfg;
 
-typedef struct Pair {int x,y;} Pair;
+typedef struct BrPokesearchPair {int x,y;} BrPokesearchPair;
 
-typedef struct Config {u16 x,y,z; unsigned char a,b;} Config;
+typedef struct BrPokesearchConfig {u16 x,y,z; unsigned char a,b;} BrPokesearchConfig;
 
-typedef struct Triple {int a,b,c;} Triple;
+typedef struct BrPokesearchTriple {int a,b,c;} BrPokesearchTriple;
 
-extern int GF_OVERLAY_Load(s32 handle);
+#include "../arm9/gf_overlay.h"
 struct BrProcQuery;
-extern unsigned BR_PROC_SYS_GetSlotId(struct BrProcQuery *p);
+#include "../ov186/br_proc_sys.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void *,int,unsigned);
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+#include "../arm9/printsys.h"
 struct BrGraphic;
-extern u32 BR_GRAPHIC_GetActorUnit(struct BrGraphic *gfx);
+#include "../ov186/br_graphic.h"
 struct BmpOamSys;
-extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
-extern char *BR_UTIL_CreateHandles(void *owner, char *resources, s32 index, s32 heap);
+#include "../arm9/bmp_oam.h"
+#include "../ov186/br_util.h"
 struct BrRes;
-extern void BR_RES_LoadSprite(struct BrRes *res, unsigned int spriteIndex, unsigned int heapId);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
-extern void BR_UTIL_DeleteTask(void *p);
-extern void BR_RES_ReleaseSprite(struct BrRes *res, unsigned int spriteIndex);
-extern void BR_UTIL_DeleteHandles(char *);
-extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GF_OVERLAY_Unload(int);
+#include "../arm9/bg_sys.h"
 struct BrNet;
-extern int BR_NET_HandleNetError(struct BrNet *net);
-extern void BR_PROC_SYS_FlushWindows(char *);
-extern void BR_UTIL_RunTask(u8 *p);
-extern int BR_UTIL_IsTaskIdle(int *);
-extern void BR_UTIL_RunHandles(char *);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern int BR_UTIL_FlushText(u8 *p);
-extern int BR_UTIL_MainProfileScreen(u8 *p);
-extern void BR_UTIL_FlushWindow(void *p);
-extern void MUSICAL_SHOT_SYS_DrawScene(u8 *p);
+#include "../ov186/br_net.h"
+#include "../ov112/mus_shot_photo.h"
 struct BrPokeSearch;
-extern unsigned BR_POKESEARCH_UpdatePrint(struct BrPokeSearch *ps);
-extern void BR_FADE_Start(int a, int b, int c, int d);
+#include "../ov186/br_pokesearch.h"
+#include "../ov186/br_fade.h"
 struct BrFade;
-extern int BR_FADE_GetResult(struct BrFade *fade);
-extern int *BR_UTIL_SetTaskStep(int *p, int v);
-extern int BR_UTIL_ClearTaskStep(int *a);
-extern void BR_PROC_SYS_PopEntry(unsigned *ctx);
-extern int BR_POKESEARCH_Main(struct BrPokeSearch *ps);
-extern int BR_POKESEARCH_GetResult(struct BrPokeSearch *ps, unsigned short *speciesOut);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
-extern void BR_UTIL_StartEffect(int,int,int *);
+#include "../arm9/touchpanel.h"
+#include "../ov186/br_btn.h"
 extern int BR_POKESEARCH_HitNext(char *p, unsigned x, unsigned y);
 union BrNetRequest;
-extern void BR_NET_StartRequest(struct BrNet *net, int kind, union BrNetRequest *request);
-extern int BR_NET_IsIdle(char *),BR_NET_PollErrorMessage(char *,int *),BR_NET_GetDownloadEntries(char *,int,int,int *);
-extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
-extern int TOUCHPANEL_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern unsigned BR_RES_GetFont(struct BrRes *res);
-extern int BR_RES_GetMsgData(struct BrRes *res);
-extern void BR_UTIL_SetTextFromMessage(char *,void *,void *,void *,unsigned short);
-extern void BR_SIDEBAR_SetVisibleBySpace(int, int, int);
-extern void BR_RES_ApplyBgSet(int unusedA, unsigned int palSet);
-extern void BR_RES_ReleaseUiPalette(struct BrRes *res, int screen);
-extern int BR_GRAPHIC_Begin3d(u8 *p, int unusedB);
-extern int MUSICAL_SHOT_SYS_CreateScene(int, int);
-extern void MUSICAL_SHOT_SYS_DeleteScene(u8 *);
-extern void BR_GRAPHIC_End3d(void *,unsigned);
-extern void BR_RES_LoadUiPalette(char *,unsigned,unsigned);
-extern void BR_RES_LoadBgGraphics(void *,unsigned,u16);
-extern int BR_RES_GetSprite(struct BrRes *res, unsigned int spriteIndex, void *outSprite);
-extern void GF_PANIC_Fail(const char *,unsigned,const char *);
-extern void *BR_BTN_CreateFromMessage(void *ctx, s32 file, u16 a, s32 b, s32 c, void *d, s32 e, s32 archive, void *config, u16 heap);
-extern void *BR_UTIL_Create(u16,unsigned,u16,u16,unsigned char,unsigned char,void *,u16);
-extern void BR_BTN_DeleteObject(char *p);
-extern void BR_UTIL_Delete(u8 *p);
-extern char *BR_UTIL_CreateProfileScreen(void *prof, char *q, void *unit, void *printQue, int mode, u16 heap);
-extern void BR_UTIL_DeleteProfileScreen(int *p);
-extern void *BR_UTIL_CreateTextWin(void *a, void *owner, u16 heap);
-extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+#include "../arm9/gfl_use.h"
+#include "../arm9/gf_panic.h"
+#include "../arm9/zukan_save.h"
+#include "../ov186/br_res.h"
+#include "../ov186/br_sidebar.h"
 struct BrTapFx;
 struct ZukanSave;
-extern struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes *res, int uiParamA, int uiParamB, struct BrFade *fade, int listParam, struct BrTapFx *tapFx, unsigned short heapId);
-extern void BR_POKESEARCH_Open(struct BrPokeSearch *ps);
-extern void BR_POKESEARCH_Close(struct BrPokeSearch *ps);
-extern void BR_POKESEARCH_Destroy(struct BrPokeSearch *ps);
-extern void BG_SYS_PushTile(unsigned);
-extern void BR_UTIL_DeleteTextWin(void *,int);
 int BR_POKESEARCH_CreateWork(void *obj,int b,char *q);
 int BR_POKESEARCH_DestroyWork(int obj,int b,char *q,char *p);
 int BR_POKESEARCH_Update(int a,int b,int c,char *p);
@@ -261,7 +209,7 @@ int BR_POKESEARCH_Update(int task,int unused,int unused2,char *work)
 {
     int handleIndex;
     if (BR_NET_HandleNetError((struct BrNet *)(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->net))==2) {
-        BR_PROC_SYS_FlushWindows(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->proc.proc);
+        BR_PROC_SYS_FlushWindows((struct Context *)(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->proc.proc));
         return 1;
     }
     BR_UTIL_RunTask((u8 *)(*(char * *)&((struct BrPokeSearchWork *)work)->task.task));
@@ -278,7 +226,7 @@ int BR_POKESEARCH_Update(int task,int unused,int unused2,char *work)
 void BR_POKESEARCH_OpenTask(int task,int *state,char *work)
 {
     switch (*state) {
-    case 0: if (BR_POKESEARCH_UpdatePrint((struct BrPokeSearch *)(((struct BrPokeSearchWork *)work)->search.searchHandle))) { BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,2,3,0); *state=1; } break;
+    case 0: if (BR_POKESEARCH_UpdatePrint((struct BrPokeSearch *)(((struct BrPokeSearchWork *)work)->search.searchHandle))) { BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),2,3,0); *state=1; } break;
     case 1: if (BR_FADE_GetResult((struct BrFade *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=2; break;
     case 2: BR_UTIL_SetTaskStep((int *)task,(int)BR_POKESEARCH_MainTask); break;
     }
@@ -287,7 +235,7 @@ void BR_POKESEARCH_OpenTask(int task,int *state,char *work)
 void BR_POKESEARCH_CloseTask(int task,int *state,char *work)
 {
     switch (*state) {
-    case 0: BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,2,3,1); *state=1; break;
+    case 0: BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),2,3,1); *state=1; break;
     case 1: if (BR_FADE_GetResult((struct BrFade *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=2; break;
     case 2: BR_UTIL_ClearTaskStep((int *)(((struct BrPokeSearchWork *)work)->task.taskHandle)); BR_PROC_SYS_PopEntry((unsigned int *)(((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->proc.procHandle)); break;
     }
@@ -316,7 +264,7 @@ void BR_POKESEARCH_HandleTouch(int task,int unused,char *work)
         if (BR_BTN_HitTestWithSound((unsigned int *)(((struct BrPokeSearchWork *)work)->backButton.backButtonHandle),touchX,touchY)) {
             int point[2];
             point[0]=touchX; point[1]=touchY;
-            BR_UTIL_StartEffect(((struct BrPokeSearchWork *)work)->tapFx.tapFxHandle,1,point);
+            BR_UTIL_StartEffect((char *)(((struct BrPokeSearchWork *)work)->tapFx.tapFxHandle),1,(const BrPair *)point);
             BR_UTIL_SetTaskStep((int *)task,(int)BR_POKESEARCH_ExitTask);
         }
         if (BR_POKESEARCH_HitTab((int)work,touchX,touchY)) BR_UTIL_SetTaskStep((int *)task,(int)BR_POKESEARCH_ChangeCategoryTask);
@@ -336,9 +284,9 @@ void BR_POKESEARCH_HandleTouch(int task,int unused,char *work)
 
 void BR_POKESEARCH_NetworkTask(int *task,unsigned *state,char *work)
 {
-    Cfg request;
+    BrPokesearchCfg request;
     int errorCode,touchX,touchY;
-    Pair point;
+    BrPokesearchPair point;
     switch(*state) {
     case 0:
         MI_CpuFill8(&request,0,8);
@@ -348,14 +296,14 @@ void BR_POKESEARCH_NetworkTask(int *task,unsigned *state,char *work)
         *state=1; break;
     case 1:
         ((struct BrPokeSearchWork *)work)->netRetry=((struct BrPokeSearchWork *)work)->netRetry+1;
-        if(BR_NET_IsIdle(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->net) && ((struct BrPokeSearchWork *)work)->netRetry>0x60) {
-            BR_UTIL_StartEffect(((struct BrPokeSearchWork *)work)->listParam.listParam, 0, (int *)0);
+        if(BR_NET_IsIdle((struct BrNet *)(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->net)) && ((struct BrPokeSearchWork *)work)->netRetry>0x60) {
+            BR_UTIL_StartEffect((char *)(((struct BrPokeSearchWork *)work)->listParam.listParam), 0, (const BrPair *)((int *)0));
             *state=2;
         }
         break;
     case 2:
-        if(!BR_NET_PollErrorMessage(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->net,&errorCode)) {
-            if(BR_NET_GetDownloadEntries(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->net,(int)((struct BrPokeSearchWork *)work)->table,5,(int *)&((struct BrPokeSearchWork *)work)->count) && ((struct BrPokeSearchWork *)work)->count) {
+        if(!BR_NET_PollErrorMessage((struct BrNet *)(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->net),(int *)&errorCode)) {
+            if(BR_NET_GetDownloadEntries((struct BrNet *)(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->net),(void **)((int)((struct BrPokeSearchWork *)work)->table),5,(int *)&((struct BrPokeSearchWork *)work)->count) && ((struct BrPokeSearchWork *)work)->count) {
                 ((struct BrPokeSearchWork *)work)->listIndex=0;
                 BR_UTIL_SetTaskStep(task,(int)BR_POKESEARCH_DownloadDoneTask);
                 break;
@@ -371,7 +319,7 @@ void BR_POKESEARCH_NetworkTask(int *task,unsigned *state,char *work)
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg((u32 *)(&touchX),(u32 *)(&touchY));
             point.x=touchX;point.y=touchY;
-            BR_UTIL_StartEffect(((struct BrPokeSearchWork *)work)->tapFx.tapFxHandle, 1, (int *)&point);
+            BR_UTIL_StartEffect((char *)(((struct BrPokeSearchWork *)work)->tapFx.tapFxHandle), 1, (const BrPair *)((int *)&point));
             GFL_USE_PlaySeDefaultVolume(0x703);
             BR_UTIL_SetTaskStep(task,(int)BR_POKESEARCH_RefreshTask);
         }
@@ -382,10 +330,10 @@ void BR_POKESEARCH_NetworkTask(int *task,unsigned *state,char *work)
 void BR_POKESEARCH_DownloadDoneTask(int task,int *state,char *work)
 {
     switch (*state) {
-    case 0: BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,4,3,1); *state=1; break;
+    case 0: BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),4,3,1); *state=1; break;
     case 1: if (BR_FADE_GetResult((struct BrFade *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=2; break;
     case 2: BR_POKESEARCH_DestroyMsgbox(work,*(char * *)&((struct BrPokeSearchWork *)work)->owner); BR_POKESEARCH_CreateSidebar(work,*(int * *)&((struct BrPokeSearchWork *)work)->owner); BR_POKESEARCH_CreateDetail(work,*(char * *)&((struct BrPokeSearchWork *)work)->owner); *state=3; break;
-    case 3: BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,4,3,0); *state=4; break;
+    case 3: BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),4,3,0); *state=4; break;
     case 4: if (BR_FADE_GetResult((struct BrFade *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=5; break;
     case 5: ((struct BrPokeSearchWork *)work)->sidebarShown=1; BR_UTIL_SetTaskStep((int *)task,(int)BR_POKESEARCH_HandleTouch); break;
     }
@@ -395,8 +343,8 @@ void BR_POKESEARCH_ExitTask(int *task,int *state,char *work)
 {
     switch(*state) {
     case 0:
-        if(((struct BrPokeSearchWork *)work)->sidebarShown) BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,4,3,1);
-        else BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,2,3,1);
+        if(((struct BrPokeSearchWork *)work)->sidebarShown) BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),4,3,1);
+        else BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),2,3,1);
         *state=1; break;
     case 1: if(BR_FADE_GetResult((struct BrFade *)(*(int **)*(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=2; break;
     case 2:
@@ -406,8 +354,8 @@ void BR_POKESEARCH_ExitTask(int *task,int *state,char *work)
         BR_POKESEARCH_CreateSearch(work,*(int * *)&((struct BrPokeSearchWork *)work)->owner);
         *state=3; break;
     case 3:
-        if(((struct BrPokeSearchWork *)work)->sidebarShown) BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,4,3,0);
-        else BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,2,3,0);
+        if(((struct BrPokeSearchWork *)work)->sidebarShown) BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),4,3,0);
+        else BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),2,3,0);
         *state=4; break;
     case 4: if(BR_FADE_GetResult((struct BrFade *)(*(int **)*(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=5; break;
     case 5: BR_UTIL_SetTaskStep(task,(int)BR_POKESEARCH_MainTask); break;
@@ -417,10 +365,10 @@ void BR_POKESEARCH_ExitTask(int *task,int *state,char *work)
 void BR_POKESEARCH_RefreshTask(int *task,int *state,char *work)
 {
     switch(*state) {
-    case 0: BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,2,3,1); *state=1; break;
+    case 0: BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),2,3,1); *state=1; break;
     case 1: if(BR_FADE_GetResult((struct BrFade *)(*(int **)*(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=2; break;
     case 2: BR_POKESEARCH_DestroyMsgbox(work,(char *)(*(int * *)&((struct BrPokeSearchWork *)work)->owner)); BR_POKESEARCH_CreateSearch(work,*(int * *)&((struct BrPokeSearchWork *)work)->owner); *state=3; break;
-    case 3: if(BR_POKESEARCH_UpdatePrint((struct BrPokeSearch *)(*(int *)&((struct BrPokeSearchWork *)work)->search.search))) {BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,2,3,0); *state=4;} break;
+    case 3: if(BR_POKESEARCH_UpdatePrint((struct BrPokeSearch *)(*(int *)&((struct BrPokeSearchWork *)work)->search.search))) {BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),2,3,0); *state=4;} break;
     case 4: if(BR_FADE_GetResult((struct BrFade *)(*(int **)*(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=5; break;
     case 5: BR_UTIL_SetTaskStep(task,(int)BR_POKESEARCH_MainTask); break;
     }
@@ -430,14 +378,14 @@ void BR_POKESEARCH_EnterListTask(int *task,int *state,char *work)
 {
     int point[2];
     switch(*state) {
-    case 0: BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,2,3,1); *state=1; break;
+    case 0: BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),2,3,1); *state=1; break;
     case 1: if(BR_FADE_GetResult((struct BrFade *)(*(int **)*(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=2; break;
     case 2:
         BR_POKESEARCH_DestroySearch(work,(char *)(*(int * *)&((struct BrPokeSearchWork *)work)->owner));
         BR_POKESEARCH_CreateMsgbox(work,*(int * *)&((struct BrPokeSearchWork *)work)->owner);
         point[0]=0x80;point[1]=0x60;
-        BR_UTIL_StartEffect((int)(((struct BrPokeSearchWork *)work)->listParam.listParamPtr), 4, point); *state=3; break;
-    case 3: BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,2,3,0); *state=4; break;
+        BR_UTIL_StartEffect((char *)((int)(((struct BrPokeSearchWork *)work)->listParam.listParamPtr)), 4, (const BrPair *)point); *state=3; break;
+    case 3: BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),2,3,0); *state=4; break;
     case 4: if(BR_FADE_GetResult((struct BrFade *)(*(int **)*(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=5; break;
     case 5: BR_UTIL_SetTaskStep(task,(int)BR_POKESEARCH_NetworkTask); break;
     }
@@ -450,8 +398,8 @@ void BR_POKESEARCH_ChangePageTask(int *task,int *state,char *work)
 {
     switch (*state) {
     case 0:
-        if (((struct BrPokeSearchWork *)work)->sidebarShown) BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,1,1,1);
-        else BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,2,1,1);
+        if (((struct BrPokeSearchWork *)work)->sidebarShown) BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),1,1,1);
+        else BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),2,1,1);
         *state=1;break;
     case 1: if (BR_FADE_GetResult((struct BrFade *)(*(int **)*(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=2;break;
     case 2:
@@ -466,8 +414,8 @@ void BR_POKESEARCH_ChangePageTask(int *task,int *state,char *work)
         }
         *state=3;break;
     case 3:
-        if (((struct BrPokeSearchWork *)work)->sidebarShown) BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,1,1,0);
-        else BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,2,1,0);
+        if (((struct BrPokeSearchWork *)work)->sidebarShown) BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),1,1,0);
+        else BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),2,1,0);
         *state=4;break;
     case 4: if (BR_FADE_GetResult((struct BrFade *)(*(int **)*(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=5;break;
     case 5: BR_UTIL_SetTaskStep(task,(int)BR_POKESEARCH_HandleTouch);break;
@@ -481,7 +429,7 @@ void BR_POKESEARCH_ChangeCategoryTask(int *task,int *state,char *work)
 {
     int hasSidebar,font,msgData,msgId;
     switch (*state) {
-    case 0: BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,1,1,1);*state=1;break;
+    case 0: BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),1,1,1);*state=1;break;
     case 1: if(BR_FADE_GetResult((struct BrFade *)(*(int **)*(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=2;break;
     case 2:
         hasSidebar=1;
@@ -499,7 +447,7 @@ void BR_POKESEARCH_ChangeCategoryTask(int *task,int *state,char *work)
         else {((struct BrPokeSearchWork *)work)->sidebarShown=1;msgId=0x71;}
         BR_UTIL_SetTextFromMessage(*(char * *)&((struct BrPokeSearchWork *)work)->detailWin,(void *)msgData,(void *)msgId,(void *)font,0x3da0);
         *state=3;break;
-    case 3: BR_FADE_Start(**(int * *)&((struct BrPokeSearchWork *)work)->owner,1,1,0);*state=4;break;
+    case 3: BR_FADE_Start((void *)(**(int * *)&((struct BrPokeSearchWork *)work)->owner),1,1,0);*state=4;break;
     case 4: if(BR_FADE_GetResult((struct BrFade *)(*(int **)*(int * *)&((struct BrPokeSearchWork *)work)->owner))) *state=5;break;
     case 5: BR_UTIL_SetTaskStep(task,(int)BR_POKESEARCH_HandleTouch);break;
     }
@@ -512,40 +460,40 @@ void BR_POKESEARCH_ChangeCategoryTask(int *task,int *state,char *work)
 void BR_POKESEARCH_CreateSidebar(char *work, int *owner)
 {
     if (((struct BrPokeSearchWork *)work)->scene.sceneHandle == 0) {
-        BR_SIDEBAR_SetVisibleBySpace(((struct BrDownloadOwner *)owner)->sidebar, 0, 0);
-        BR_RES_ApplyBgSet(((struct BrDownloadOwner *)owner)->res.resHandle, 0);
+        BR_SIDEBAR_SetVisibleBySpace((struct BrSidebar *)((struct BrDownloadOwner *)owner)->sidebar, 0, 0);
+        BR_RES_ApplyBgSet((void *)((struct BrDownloadOwner *)owner)->res.resHandle, 0);
         BR_RES_ReleaseUiPalette((struct BrRes *)(((struct BrDownloadOwner *)owner)->res.resHandle), 0);
-        BR_GRAPHIC_Begin3d((u8 *)(((struct BrDownloadOwner *)owner)->graphic.graphic), ((struct BrPokeSearchWork *)work)->heapId);
+        BR_GRAPHIC_Begin3d(((struct BrDownloadOwner *)owner)->graphic.graphic, ((struct BrPokeSearchWork *)work)->heapId);
         ((struct BrPokeSearchWork *)work)->scene.sceneHandle = MUSICAL_SHOT_SYS_CreateScene(
-            (int)((struct BrPokeSearchWork *)work)->table[((struct BrPokeSearchWork *)work)->listIndex] + 0x80,
+            (u8 *)((int)((struct BrPokeSearchWork *)work)->table[((struct BrPokeSearchWork *)work)->listIndex] + 0x80),
             ((struct BrPokeSearchWork *)work)->heapId);
     }
 }
 
-void BR_POKESEARCH_ShowBg(char *work,char *owner) { if(((struct BrPokeSearchWork *)work)->scene.scene){MUSICAL_SHOT_SYS_DeleteScene(((struct BrPokeSearchWork *)work)->scene.scene);((struct BrPokeSearchWork *)work)->scene.scene=0;BR_GRAPHIC_End3d(((struct BrDownloadOwner *)owner)->graphic.graphic,((struct BrPokeSearchWork *)work)->heapId);BR_RES_LoadUiPalette(*(char * *)&((struct BrDownloadOwner *)owner)->res.res,0,((struct BrPokeSearchWork *)work)->heapId);BR_RES_LoadBgGraphics(((struct BrDownloadOwner *)owner)->res.res,0,((struct BrPokeSearchWork *)work)->heapId);BR_SIDEBAR_SetVisibleBySpace((int)((char *)(((struct BrDownloadOwner *)owner)->sidebar)), 0, 1);} }
+void BR_POKESEARCH_ShowBg(char *work,char *owner) { if(((struct BrPokeSearchWork *)work)->scene.scene){MUSICAL_SHOT_SYS_DeleteScene((u8 *)(((struct BrPokeSearchWork *)work)->scene.scene));((struct BrPokeSearchWork *)work)->scene.scene=0;BR_GRAPHIC_End3d(((struct BrDownloadOwner *)owner)->graphic.graphic,((struct BrPokeSearchWork *)work)->heapId);BR_RES_LoadUiPalette((struct BrRes *)*(char * *)&((struct BrDownloadOwner *)owner)->res.res,0,((struct BrPokeSearchWork *)work)->heapId);BR_RES_LoadBgGraphics((void *)(((struct BrDownloadOwner *)owner)->res.res),0,((struct BrPokeSearchWork *)work)->heapId);BR_SIDEBAR_SetVisibleBySpace((struct BrSidebar *)(int)((char *)(((struct BrDownloadOwner *)owner)->sidebar)), 0, 1);} }
 
 void BR_POKESEARCH_CreateDetail(char *work,char *owner)
 {
     int font,msgData;
     void *graphic;
-    Config pos;
-    Triple sprite;
+    BrPokesearchConfig pos;
+    BrPokesearchTriple sprite;
     if (!*(int *)&((struct BrPokeSearchWork *)work)->detailWin) {
         font=BR_RES_GetFont((struct BrRes *)(*(char * *)&((struct BrDownloadOwner *)owner)->res.res));
         msgData=BR_RES_GetMsgData((struct BrRes *)(*(char * *)&((struct BrDownloadOwner *)owner)->res.res));
         BR_GRAPHIC_GetActorUnit(((struct BrDownloadOwner *)owner)->graphic.graphic);
         MI_CpuFill8(&pos,0,8);
         pos.x=0x50;pos.y=0xa8;pos.z=0;pos.a=1;
-        graphic=(void *)BR_GRAPHIC_GetActorUnit(((struct BrDownloadOwner *)owner)->graphic.graphic);
-        if (!BR_RES_GetSprite(((struct BrDownloadOwner *)owner)->res.res,6,&sprite)) GF_PANIC_Fail("",0,"");
-        ((struct BrPokeSearchWork *)work)->backButton.backButton=BR_BTN_CreateFromMessage((void *)(&pos),4,0x60,1,(int)graphic,(void *)(((struct BrPokeSearchWork *)work)->oamData.oamHandle),font,msgData,&sprite,((struct BrPokeSearchWork *)work)->heapId);
+        graphic=(void *)BR_GRAPHIC_GetActorUnit((struct BrGraphic *)(((struct BrDownloadOwner *)owner)->graphic.graphic));
+        if (!BR_RES_GetSprite((struct BrRes *)(((struct BrDownloadOwner *)owner)->res.res),6,(void *)&sprite)) GF_PANIC_Fail((const char *)(""),0,(const char *)(""));
+        ((struct BrPokeSearchWork *)work)->backButton.backButton=BR_BTN_CreateFromMessage((void *)(&pos),4,0x60,1,(void *)((int)graphic),(void *)(((struct BrPokeSearchWork *)work)->oamData.oamHandle),(void *)font,(struct MsgBank *)msgData,(void *)&sprite,((struct BrPokeSearchWork *)work)->heapId);
         ((struct BrPokeSearchWork *)work)->detailWin=BR_UTIL_Create(4,8,3,0x10,2,0xe,((struct BrPokeSearchWork *)work)->printQue.printQuePtr,((struct BrPokeSearchWork *)work)->heapId);
         BR_UTIL_SetTextFromMessage(*(char * *)&((struct BrPokeSearchWork *)work)->detailWin,(void *)msgData,(void *)0x71,(void *)font,0x3da0);
         BR_RES_LoadBgGraphics((void *)(*(int *)&((struct BrDownloadOwner *)owner)->res.res),0x16,((struct BrPokeSearchWork *)work)->heapId);
     }
 }
 
-void BR_POKESEARCH_DestroyDetail(char *work,char *owner) { if(((struct BrPokeSearchWork *)work)->detailWin){BR_RES_ApplyBgSet(*(int *)&((struct BrDownloadOwner *)owner)->res.res,22);BR_BTN_DeleteObject(((struct BrPokeSearchWork *)work)->backButton.backButton);((struct BrPokeSearchWork *)work)->backButton.backButton=0;BR_UTIL_Delete(((struct BrPokeSearchWork *)work)->detailWin);((struct BrPokeSearchWork *)work)->detailWin=0;BR_RES_ApplyBgSet(*(int *)&((struct BrDownloadOwner *)owner)->res.res,22);} }
+void BR_POKESEARCH_DestroyDetail(char *work,char *owner) { if(((struct BrPokeSearchWork *)work)->detailWin){BR_RES_ApplyBgSet((void *)*(int *)&((struct BrDownloadOwner *)owner)->res.res,22);BR_BTN_DeleteObject(((struct BrPokeSearchWork *)work)->backButton.backButton);((struct BrPokeSearchWork *)work)->backButton.backButton=0;BR_UTIL_Delete(((struct BrPokeSearchWork *)work)->detailWin);((struct BrPokeSearchWork *)work)->detailWin=0;BR_RES_ApplyBgSet((void *)*(int *)&((struct BrDownloadOwner *)owner)->res.res,22);} }
 
 /*
  * note: 2026-10-04 (D2-13): body is byte-correct. Callee BR_UTIL_CreateProfileScreen (ov186, 0x021FD1C4) is a 1148-byte function in pengy's ov186 split with no witness (its listing extent shows 64 bytes, a wrong label gap); the relocation cannot resolve until it is filed. No change possible here.
@@ -611,7 +559,7 @@ int BR_POKESEARCH_HitTab(int work, int touchX, int touchY)
         int point[2];
         point[0] = touchX;
         point[1] = touchY;
-        BR_UTIL_StartEffect(((struct BrPokeSearchWork *)work)->tapFx.tapFxHandle, 1, point);
+        BR_UTIL_StartEffect((char *)(((struct BrPokeSearchWork *)work)->tapFx.tapFxHandle), 1, (const BrPair *)point);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return inside;
@@ -624,7 +572,7 @@ int BR_POKESEARCH_HitPrev(int a, int b, int c)
         int buf[2];
         buf[0] = b;
         buf[1] = c;
-        BR_UTIL_StartEffect(((struct BrPokeSearchWork *)a)->tapFx.tapFxHandle, 1, buf);
+        BR_UTIL_StartEffect((char *)(((struct BrPokeSearchWork *)a)->tapFx.tapFxHandle), 1, (const BrPair *)buf);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -637,7 +585,7 @@ int BR_POKESEARCH_HitNext(char *p,unsigned x,unsigned y)
         int pair[2];
         pair[0]=x;
         pair[1]=y;
-        BR_UTIL_StartEffect((int)((struct BrPokeSearchWork *)p)->tapFx.tapFxPtr,1,pair);
+        BR_UTIL_StartEffect((char *)((int)((struct BrPokeSearchWork *)p)->tapFx.tapFxPtr),1,(const BrPair *)pair);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return inside;

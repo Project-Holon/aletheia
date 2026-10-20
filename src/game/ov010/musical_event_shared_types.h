@@ -1,7 +1,7 @@
 #ifndef MUSICAL_EVENT_SHARED_TYPES_H
 #define MUSICAL_EVENT_SHARED_TYPES_H
 
-#include "event_ircbattle_shared_types.h"
+#include "../ov010/event_ircbattle_shared_types.h"
 
 #include "../types.h"
 

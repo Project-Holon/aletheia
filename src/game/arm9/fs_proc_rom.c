@@ -140,7 +140,7 @@ static void FSi_OnRomReadDone(void *arg)
 /*
  * sdk:      FSi_ReadRomCallback (fs_proc_rom.o)
  */
-static FSResult FSi_ReadRomCallback(FSArchive *p_arc, void *dst, u32 src, u32 len)
+static FSResult FSi_ReadRomCallback(FSArchive *p_arc, void *dst, uptr src, u32 len)
 {
     CARDi_ReadRom(fsi_default_dma_no.default_dma_no, (const void *)src, dst, len, FSi_OnRomReadDone, p_arc, 1);
     return FS_RESULT_PROC_ASYNC;
@@ -223,7 +223,7 @@ void FSi_InitRomArchive(u32 default_dma_no)
         const CARDRomRegion *const fnt = CARD_GetRomRegionFNT();
         const CARDRomRegion *const fat = CARD_GetRomRegionFAT();
 
-        FS_SetArchiveProc(&fsi_arc_rom, (u32)FSi_RomArchiveProc, 0x682);
+        FS_SetArchiveProc(&fsi_arc_rom, (uptr)FSi_RomArchiveProc, 0x682);
         if ((fnt->offset != 0xFFFFFFFF) && (fnt->offset != 0) &&
             (fat->offset != 0xFFFFFFFF) && (fat->offset != 0))
         {
@@ -237,7 +237,7 @@ void FSi_InitRomArchive(u32 default_dma_no)
     }
     if (!FS_IsArchiveLoaded(&fsi_arc_rom))
     {
-        FS_SetArchiveProc(&fsi_arc_rom, (u32)FSi_EmptyArchiveProc, 0xFFFFFFFF);
+        FS_SetArchiveProc(&fsi_arc_rom, (uptr)FSi_EmptyArchiveProc, 0xFFFFFFFF);
         (void)FS_LoadArchive(&fsi_arc_rom, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
     }
     (void)FS_SetCurrentDirectory(fsi_str_root);

@@ -1,7 +1,7 @@
 #ifndef HAND_WAZA_021E0518_TYPES_H
 #define HAND_WAZA_021E0518_TYPES_H
-#include "hand_common_types.h"
-#include "hand_common_protos.h"
+#include "../ov093/hand_common_types.h"
+#include "../ov093/hand_common_protos.h"
 /*
  * ov093 move effect handlers (HAND_WAZA_), first part: the handlers of
  * Camouflage, Trick Room, Gravity, Water Sport, Mud Sport, Defog, Brick
@@ -14,12 +14,12 @@
  * Pokemon uses the move; the handlers then answer battle events and queue
  * command records on the battle flow.
  */
-#include "btl_event_types.h"
-#include "btl_action_word_types.h"
-#include "hand_tokusei_types.h"
-#include "btl_pokeparam_types.h"
-#include "hand_item_021dd588_types.h"
-#include "btl_calc_types.h"
+#include "../ov093/btl_event_types.h"
+#include "../ov093/btl_action_word_types.h"
+#include "../ov093/hand_tokusei_types.h"
+#include "../ov093/btl_pokeparam_types.h"
+#include "../ov093/hand_item_021dd588_types.h"
+#include "../ov093/btl_calc_types.h"
 
 /* Event variable keys that these handlers read or write (more are in btl_action_word_types.h). */
 
@@ -123,13 +123,6 @@
 
 #define BTL_ABILITY_INSOMNIA 0xf
 
-/* Kind 0x14: replace the type pair of a Pokemon (both bytes equal means a single type). */
-typedef struct {
-    u32 header;
-    u16 typePair;
-    u8 pokeId;
-} BtlChangeTypeCmd;
-
 /* Kind 0xe: change a stat stage; volume is signed (the stage count, negative lowers). */
 typedef struct {
     u32 header;
@@ -212,33 +205,26 @@ typedef struct {
     u8 value;
 } BtlByteCmd;
 
-extern int BTL_SERVER_FLOW_GetFieldSituationType(struct BtlServerFlow *flow);
+#include "../ov093/btl_server_flow.h"
 
-extern int BTL_FIELD_IsStaticSlotInUse(int fieldEffectId);
+#include "../ov093/btl_field.h"
 
-extern u16 BTL_POKEPARAM_GetTypePair(struct BtlPokeParam *bpp);
 
-extern u32 BTL_POKEPARAM_HasSubstitute(struct BtlPokeParam *poke);
+#include "../ov093/btl_pokeparam.h"
 
-extern int BTL_POKEPARAM_IsTransformed(struct BtlPokeParam *bpp);
 
-extern int BTL_POKEPARAM_HasMove(struct BtlPokeParam *bpp, int moveId);
 
-extern u16 BTL_POKEPARAM_GetLastSelectedMoveId(struct BtlPokeParam *bpp);
 
-extern int BTL_CALC_GetCurseTargetKind(struct BtlPokeParam *bpp);
+#include "../ov093/btl_calc.h"
 
-extern u32 BTL_CALC_MakeSickContPoke(int pokeId);
 
-extern void BTL_EVENT_ClearFactorSkipCheck(struct BtlEventFactor *factor);
+#include "../ov093/btl_event.h"
 
-extern unsigned int BTL_SERVER_FLOW_TestStateFlagBit0(struct BtlServerFlow *flow);
 
-extern int BTL_SERVER_FLOW_CheckAllyMoveAutoHitById(struct BtlServerFlow *flow, int attackerId, int pokeId, int moveId);
 
-extern int HAND_SIDE_IsActive(int side, int hazardKind);
+#include "../ov095/hand_side.h"
 
-extern int BTL_ID_IsMimicExcludedMove(int moveId);
+#include "../ov095/btl_id_sets.h"
 
 /* Services of the battle flow and the Pokemon that these handlers use. */
 
@@ -340,35 +326,20 @@ struct BtlServerFlow;
 #define HANDEX_FLAG_AFTER_SUCCESS (1u << 24)
 
 /* Kind 0x2b: make a Pokemon flinch with a chance in percent. */
-struct HandExFlinch {
-    u32 header;
-    u8 pokeId;
-    u8 percent;
-};
-
 /* Services of the event variable stack. */
 
 /* Services of the calculation code. */
-extern u32 BTL_CALC_Random(u32 range);
 
-extern void BTL_CALC_MakeSickContFromKind(int sickKind, struct BtlPokeParam *poke, union SickCont *out);
 
-extern u32 BTL_CALC_MulRatio(u32 value, u32 ratio);
 
 /* Services of the battle server flow. */
-extern int BTL_SERVER_FLOW_QueryPokeClientFlag(struct BtlServerFlow *flow, int pokeId);
 
-extern int BTL_SERVER_FLOW_GetPosTableEntryForPoke(struct BtlServerFlow *flow, int pos);
 
-extern int WAZA_TOOL_GetDamageType(int moveId);
+#include "../arm9/waza_tool.h"
 
-extern void *BTL_POKEPARAM_GetMon(struct BtlPokeParam *poke);
 
-extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *bpp);
 
-extern u16 BTL_POKEPARAM_GetMoveId(struct BtlPokeParam *poke, int index);
 
-extern u32 BTL_POKEPARAM_GetMoveUsedFlag(struct BtlPokeParam *poke, u32 index);
 
 /* Services of the Pokemon parameter code. */
 
@@ -560,13 +531,6 @@ enum {
 /* Header flag of a record (guess: the record is shown as an item event). */
 #define HANDEX_FLAG_ITEM_EVENT (1u << 24)
 
-/* HANDEX_KIND_ITEM_MESSAGE: consume the item flag, then show a string (the string is not used by Natural Gift). */
-typedef struct {
-    u32 header;
-    u32 consumeItem;
-    BtlStrParam message;
-} HandExItemMessage;
-
 /* HANDEX_KIND_SWAP_ITEM: three messages for an item change between two Pokemon. */
 typedef struct {
     u32 header;
@@ -718,15 +682,6 @@ struct HandExTurnFlag {
     u8 pokeId;
 };
 
-/* Kind 0x1a: remove a side effect (layout guessed from the one writer). */
-struct HandExRemoveSideEffect {
-    u32 header;
-    u8 mode;                 /* 0x04: 3 */
-    u8 pad5;
-    u8 flags;                /* 0x06: bits 1 and 2 set when mode is above 2 */
-    u8 side;                 /* 0x07 */
-};
-
 /* Kind 0x21: refresh the HP gauge of a Pokemon (mode 1 after a loss or exchange, 3 after a recovery). */
 struct HandExRefreshHpGauge {
     u32 header;
@@ -753,44 +708,32 @@ struct FeintWork {
     s32 guardBroken;         /* a Quick Guard or Wide Guard was removed by this move */
 };
 
-extern int BTL_SERVER_FLOW_CheckSideEffectActive(struct BtlServerFlow *flow, int side, int sideEffect);
 
-extern int HAND_COMMON_IsLastToAct(struct BtlServerFlow *flow, int pokeId);
+#include "../ov093/hand_common.h"
 
-extern u8 BTL_MAIN_IsZero(u32 value);
+#include "../ov093/btl_main.h"
 
-extern int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *bpp, int stageId, int direction);
 
-extern int BTL_POKEPARAM_GetStatStageRoom(struct BtlPokeParam *bpp, int stageId);
 
-extern int BTL_POKEPARAM_IsHpFull(struct BtlPokeParam *poke);
 
-extern int BTL_POKEPARAM_GetHitCount(struct BtlPokeParam *bpp, u32 turnAgo);
 
-extern u16 BTL_POKEPARAM_GetConsumedItem(struct BtlPokeParam *bpp);
 
-extern u8 BTL_POKEPARAM_GetLastTargetPos(struct BtlPokeParam *bpp);
 
-extern int BTL_POKEPARAM_GetMovePPById(struct BtlPokeParam *bpp, int moveId);
 
-extern u32 BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickKind);
 
-extern u8 BTL_CALC_ListResistingTypes(int attackType, u8 *out);
 
-extern union SickCont BTL_SICKCONT_MakeKind1Value(unsigned int value);
+#include "../ov093/btl_sickcont.h"
 
-extern union SickCont BTL_SICKCONT_MakeKind1Index15(void);
 
-extern int BTL_SICKCONT_IsKind1Index15(int sickCont);
 
-extern int BTL_ID_IsEncoreFailMove(int moveId);                                             /* nonzero: the move cannot be Encored */
+                                             /* nonzero: the move cannot be Encored */
 
-extern void MI_CpuCopy8(u8 *src, u8 *dst, u32 size);                            /* byte move */
+#include "../arm9/mi_memory.h"
+                            /* byte move */
 
 /* Raises the Protect streak counter of a Pokemon by one (defined with the Protect handlers). */
 
 
-extern union SickCont BTL_CALC_MakeSickContTurns(int turns);
 
 struct BtlParty;
 
@@ -943,23 +886,17 @@ struct HandExAddFieldEffect {
 };
 
 /* Services of the event variable stack and the battle flow. */
-extern struct BtlParty *BTL_SERVER_FLOW_GetPartyOfPokeIfClientUsed(struct BtlServerFlow *flow, int pokeId);
 
-extern u32 BTL_SERVER_FLOW_NextSerialNumberThunk(struct BtlServerFlow *flow);
 
-extern int BTL_POKEPARAM_GetStatRaw(struct BtlPokeParam *bpp, int valueId);
 
-extern union SickCont BTL_SICKCONT_MakeKind4(u32 pokeId, u32 turns);
 
 #ifndef HAND_WAZA_DEFINES_ADD_SIDE_EFFECT
 
 /* Queues an AddSideEffect record: side, effect kind, duration record and message id (defined with the Wide Guard handler). */
-extern void HAND_WAZA_AddSideEffect(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work,
-                          u8 side, int effectKind, union SickCont cont, u16 messageId);
+#include "../ov093/hand_waza.h"
 
 #endif
 
-extern u8 BTL_MAIN_IsPokeIdInFirstPair(u32 pokeId);
 
 /* Side of the field of a Pokemon id, and the opposite side. */
 
@@ -1149,15 +1086,10 @@ struct HandExAddSickAnnounce {
 
 #define WAZAVAR_SKIP_FLAG 0x51
 
-/* An opaque message parameter block that the string setters fill in. */
-struct HandWazaMessage {
-    u32 words[1];
-};
-
 /* Kind 4: show a message. */
 struct HandWazaMessageRecord {
     u32 header;
-    struct HandWazaMessage message;
+    BtlStrParam message;
 };
 
 /* Kinds 0x17 and 0x15: set a per-Pokemon state value (charge-turn flag, visibility). */
@@ -1186,7 +1118,7 @@ struct HandWazaConsumeItemRecord {
     u8 pokeId;
     u8 pad07;
     u8 pad08[4];
-    struct HandWazaMessage message;
+    BtlStrParam message;
 };
 
 /* Kind 0x22: apply the effect of a held item. */
@@ -1203,7 +1135,7 @@ struct HandWazaKillRecord {
     u8 pokeId;
     u8 flag;
     u8 pad06[2];
-    struct HandWazaMessage message;
+    BtlStrParam message;
 };
 
 /* Kind 10: change the PP of a move slot. */
@@ -1213,7 +1145,7 @@ struct HandWazaPpRecord {
     u8 pokeId;
     u8 slot;
     u8 flags;
-    struct HandWazaMessage message;
+    BtlStrParam message;
 };
 
 /* Kind 0x37: play a move animation. */
@@ -1491,14 +1423,6 @@ struct HandExSwapPositions {
     BtlMessageParam message;
 };
 
-/* Kind 0x37: play a battle effect between two positions. */
-struct HandExPlayEffect {
-    u32 header;
-    u16 effectId;
-    u8 fromPos;
-    u8 toPos;
-};
-
 /* One row of the Pledge combination table: two moves and the combination they make. */
 struct PledgeCombo {
     u16 firstMove;
@@ -1514,40 +1438,6 @@ struct PledgeWork {
 };
 
 /* Services used by the handlers of these files. */
-extern int BTL_EVENT_GetVar(int key);
-extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
-extern void BTL_EVENT_MultiplyVar(int key, int ratio);
-extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
-extern void BTL_SERVER_FLOW_CommitCmdRecord(struct BtlServerFlow *flow, void *record);
-extern void BTL_SERVER_FLOW_SetCurTurnStateFlag(struct BtlServerFlow *flow, int flag);
-extern u8 BTL_MAIN_IsPokeIdInSecondPair(u32 pokeId);
-extern int BTL_MAIN_IsPokeSamePair(unsigned int pokeIdA, unsigned int pokeIdB);
-extern unsigned char BTL_POKEPARAM_GetCounter(struct BtlPokeParam *bpp, int counterId);
-extern union SickCont BTL_SICKCONT_MakeKind2Index(int turns);
-extern void HAND_WAZA_AddSideEffect(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work,
-                                    u8 side, int effectKind, union SickCont cont, u16 messageId);
-extern void HAND_WAZA_ProtectIncrementStreak(struct BtlServerFlow *flow, int pokeId, int silent);
-extern void *BTL_SERVER_FLOW_AllocCmdRecord(struct BtlServerFlow *flow, int kind, int pokeId);
-extern struct BtlPokeParam *BTL_SERVER_FLOW_GetPokeParam(struct BtlServerFlow *flow, int pokeId);
-extern int BTL_EVENT_OverwriteVar(int key, u32 value);
-extern int BTL_POKEPARAM_GetStoredPokeMove(struct BtlPokeParam *bpp, u8 *pokeId, u16 *moveId);
-extern struct BtlTurnRecord *BTL_SERVER_FLOW_GetTurnRecord(struct BtlServerFlow *flow);
-extern u16 BTL_SERVER_FLOW_GetTurnCount(struct BtlServerFlow *flow);
-extern int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(struct BtlServerFlow *flow);
-extern int BTL_SERVER_FLOW_GetRule(struct BtlServerFlow *flow);
-extern u32 BTL_SERVER_FLOW_GetClientIdBySide(struct BtlServerFlow *flow, u8 clientId);
-extern int BTL_SERVER_FLOW_GetPokeIdAtPos(struct BtlServerFlow *flow, int pos);
-extern int BTL_SERVER_FLOW_IsPokeInPosTable(struct BtlServerFlow *flow, u8 pokeId);
-extern int BTL_SERVER_FLOW_ProcMoveReflectOrAbsorbById(struct BtlServerFlow *flow, int attackerId, int targetId, int *reflected);
-extern void BTL_SERVER_FLOW_ReleaseBindingTargetById(struct BtlServerFlow *flow, int pokeId);
-extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 pokeId);
-extern u8 BTL_MAIN_GetOwnLanePos(u32 viewPos, u32 lane);
-extern u32 BTL_MAIN_IsBackRowPos(u32 viewPos);
-extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int type);
-extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
-extern void HAND_COMMON_EventScaleDamage(int ratio);
-extern void BTL_SICKCONT_SetValue(union SickCont *slot, u16 value);
-extern u32 BTL_WAZAREC_GetUsedWazaCount(struct BtlTurnRecord *record, int moveId, int turnCount);
-extern int BTL_WAZAREC_GetEffectiveWaza(struct BtlTurnRecord *record, int turnCount);
+#include "../ov095/btl_wazarec.h"
 
 #endif

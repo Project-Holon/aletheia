@@ -56,42 +56,7 @@
 
 #include "../sdk_mb.h"
 
-typedef struct {
-    char *romFilePathp;
-    u16 *gameNamep;
-    u16 *gameIntroductionp;
-    char *iconCharPathp;
-    char *iconPalettePathp;
-    u32 ggid;
-    u8 language;
-} MovData;
-
-typedef struct Wk {
-    u8 sSendBuf[256];
-    u8 sRecvBuf[256];
-    u16 data_seq_num;
-    u16 send_data_kind;
-    u32 parent_step_data_share_error_cnt;
-    int sRecvFlag[16];
-    u8 parent_recvd_userinfo_buf[1024];
-    u16 moveid_tgid;
-    u16 moveid_sChannel;
-    u8 dummy_userinfo[0x400];
-    u8 dummy_gShareData[0x44];
-    u8 mov_stt;
-    u8 mov_stt_old;
-    u8 language;
-    u8 language_send_f;
-    u32 data_send_cnt;
-    u32 start_wait_child_cnt;
-    u32 cnt;
-    void *sChildInfo[1];
-    void *p_user_info;
-    void *p_mov_data;
-    u8 reset_kind;
-    void *sShareDataPtr;
-    MBGameRegistry game_registry;
-} Wk;
+#include "dwc_moveid_types.h"
 
 #include "../sdk_wm.h"
 
@@ -100,41 +65,20 @@ typedef struct {
     u8 data[0x42];
 } GShareData;
 
-extern void DWCi_MOV_MBP_MemInit(int x);
-extern unsigned long long OS_GetTick(void);
-extern int DWCi_BACKUPlRead(void *mem);
-extern char *DWCi_SETTINGlGetMemMap(void);
-extern void MB_EndToIdle(void);
-extern void DWCi_MOV_WH_SetGgid(u32 ggid);
-extern u16 WM_GetNextTgid(void);
-extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
-extern int DWCi_MOV_WH_Initialize(void);
-extern void DWCi_MOV_MBP_StartDownloadAll(void);
-extern int DWCi_MOV_WH_End(void);
-extern void DWCi_MOV_WH_Finalize(void);
+typedef int ChildState;
+#include "dwc_mov_mbp.h"
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
+#include "../arm9/dwc_backup.h"
+#include "setting.h"
+#include "../ov107/mb_wm_base.h"
+#include "dwc_mov_wh.h"
+#include "../arm9/wm_sync.h"
+#include "../arm9/mi_memory.h"
 extern void DWCi_DwcMoveidMB_EndToIdle(void);
-extern void *MB_CommGetChildUser(unsigned short aid);
-extern u32 DWCi_MOV_WH_GetSystemState(void);
-extern int DWCi_MOV_WH_StartMeasureChannel(void);
-extern u16 DWCi_MOV_WH_GetMeasureChannel(void);
-extern void DWCi_MOV_WH_Reset(void);
-extern void OS_Terminate(void);
-extern void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid);
-extern u16 DWCi_MOV_MBP_GetState(void);
-extern void DWCi_MOV_MBP_Start(MBGameRegistry *gameInfo, u16 channel);
-extern u16 DWCi_MOV_MBP_GetChildBmp(int bmpType);
-extern int DWCi_MOV_MBP_IsBootableAll(void);
-extern void DWCi_MOV_MBP_StartRebootAll(void);
-extern void DWCi_MOV_MBP_Cancel(void);
-extern void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v);
-extern int DWCi_MOV_WH_ParentConnect(int mode, u16 tgid, u16 channel);
+#include "../ov107/mb_parent.h"
+#include "../arm9/os_terminate_processor.h"
 struct DWCi_MOV_MBPChildInfo;
-extern struct DWCi_MOV_MBPChildInfo *DWCi_MOV_MBP_GetChildInfo(u16 child_aid);
-extern u16 DWCi_MOV_MBP_GetPlayerNo(u8 *macAddress);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern int DWCi_MOV_WH_StepDS(void *data);
-extern u16 DWCi_MOV_WH_GetBitmap(void);
-extern u16 *DWCi_MOV_WH_GetSharedDataAdr(u16 aid);
 void DWCi_MOVInit(Wk *wm, MovData *md);
 int DWCi_MOVFinalize(void);
 int DWCi_MOVStartAdmitChild(void);
@@ -164,7 +108,7 @@ static void Parent_data_receive_progress(void);
 void DWCi_MOVInit(Wk *wm, MovData *md)
 {
     gDwcMoveidWork = wm;
-    DWCi_MOV_MBP_MemInit((int)wm + 0xb00);
+    DWCi_MOV_MBP_MemInit((sptr)wm + 0xb00);
     gDwcMoveidWork->moveid_tgid = 0;
     gDwcMoveidWork->moveid_sChannel = 0;
     gDwcMoveidWork->mov_stt = 1;
@@ -513,7 +457,7 @@ static void _DWCi_MOV_WaitandDownloadandBoot_Child(void)
 static void _DWCi_MOV_ReadyMovUserID(void)
 {
     Parent_InitDataShare();
-    DWCi_MOV_WH_SetJudgeAcceptFunc((unsigned int)((void *)0x021D45A4));
+    DWCi_MOV_WH_SetJudgeAcceptFunc((uptr)((void *)0x021D45A4));
     *(unsigned char *)(*(char **)0x021DE668 + 0xa90) = 8;
 }
 

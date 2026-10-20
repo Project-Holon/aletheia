@@ -174,10 +174,9 @@ u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active);
 int C_GEAR_HandleCommand();
 struct GameSystem;
 struct PlayerWork;
-extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
-extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct GameData;
-extern void *GAME_DATA_GetEventWork(struct GameData *gd);
 struct FieldSubscreen;
 struct NoGearWork;
 extern struct NoGearWork *NO_GEAR_Create(void *cgearSave, struct FieldSubscreen *subscreen, struct GameSystem *gameSystem);
@@ -185,43 +184,24 @@ struct NoGearWork;
 extern void NO_GEAR_Destroy(struct NoGearWork *work);
 extern void NO_GEAR_Hook(void *noGear);
 extern void NO_GEAR_Update(struct NoGearWork *work);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
-extern void BG_SYS_SetPlaneVisible(u8 bgId, u8 visible);
-extern void BG_SYS_FreeSlot(u8 idx);
-extern void BG_SYS_ClearLayer(int bgId, u16 value);
-extern void BG_SYS_SetSubPlaneVisible(u32 planeMask, u32 enable);
-extern struct FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fieldMap, s32 slideIn);
-extern u32 FIELD_MENU_GetLayoutType(void *gameData, void *eventWork, u32 zoneId);
+#include "../arm9/bg_sys.h"
+#include "field_menu.h"
 extern void INFOWIN_Init(u8 bgId, u8 paletteId, void *gameData, u16 heapId);
-extern void FIELD_MENU_LoadFrameBg(int heapId, int slideIn);
 extern int INFOWIN_Exit(void);
-extern void FIELD_MENU_Delete(struct FieldMenu *menu);
-extern void BG_SYS_FreeLayerBuf(u32 bgId);
-extern u32 FIELD_MENU_Update(struct FieldMenu *menu);
 extern void INFOWIN_Update(u32 value);
-extern void FIELD_MENU_ApplyBgScroll(struct FieldMenu *menu);
 extern u32 FIELD_SUBSCREEN_GetMode(FieldSubscreen *work);
-extern s32 FIELD_MENU_GetSelectedButtonId(struct FieldMenu *menu);
-extern void FIELD_MENU_SelectButton(struct FieldMenu *menu, u32 buttonId);
-extern struct ArchiveHandle *ARC_TOOL_CreateHandle(unsigned int archiveId, unsigned int heapId);
 extern void ARC_UTIL_UploadPaletteFromHandle(struct ArchiveHandle *handle, u32 fileId, u32 type, u32 offset, u32 srcOffset, u32 size, u32 heapId);
 extern void ARC_UTIL_UploadBgCharFromHandle(struct ArchiveHandle *handle, u32 fileId, u32 bgId, u32 offset, u32 size, u32 mode, u32 heapId);
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArchiveHandle *handle, u32 fileId, u32 bgId, u32 x, u32 y, u32 width, u32 height, u32 heapId);
-extern void ARC_TOOL_DeleteHandle(void *handle);
 struct FldVReq;
-extern void FLD_VREQ_SetBgVisible(struct FldVReq *vreq, s32 frame, u8 visible);
+#include "fld_vreq.h"
+#include "../arm9/arc_tool.h"
+#include "../ov031/union_subdisp.h"
 struct UnionSubdispWork;
-extern struct UnionSubdispWork *UNION_SUBDISP_Create(struct GameSystem *gameSystem);
-extern void UNION_SUBDISP_Delete(struct UnionSubdispWork *work);
-extern int UNION_MAIN_IsIdle(struct GameSystem *gameSystem);
-extern void UNION_SUBDISP_Draw(struct UnionSubdispWork *work, s32 mode);
-extern void UNION_SUBDISP_Update(struct UnionSubdispWork *work, s32 mode);
+#include "../ov012/union_main.h"
+#include "../ov018/intrude_subdisp.h"
 struct IntrudeSubdispWork;
-extern struct IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem);
-extern void INTRUDE_SUBDISP_Exit(struct IntrudeSubdispWork *work);
-extern void INTRUDE_SUBDISP_Update(struct IntrudeSubdispWork *work, s32 mode);
-extern void INTRUDE_SUBDISP_Draw(struct IntrudeSubdispWork *work);
-extern void *INTRUDE_SUBDISP_EventCheck(struct IntrudeSubdispWork *work, s32 touched, s32 param);
+#include "../ov032/beacon_view.h"
 extern const struct BgTemplate d_021D8708;
 void FIELD_SUBSCREEN_InitNoGear(FieldSubscreen *work);
 void FIELD_SUBSCREEN_ExitNoGear(FieldSubscreen *work);
@@ -245,32 +225,14 @@ void FIELD_SUBSCREEN_UpdateIntrude(FieldSubscreen *work, int isFieldIdle);
 void FIELD_SUBSCREEN_DrawIntrude(FieldSubscreen *work);
 void *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode);
 struct BeaconViewWork;
-extern struct BeaconViewWork *BEACON_VIEW_Create(u32 fieldSystem, u32 initArg);
-extern void BEACON_VIEW_Delete(struct BeaconViewWork *work);
-extern void BEACON_VIEW_Update(struct BeaconViewWork *work, s32 request);
-extern u32 BEACON_VIEW_MainPrintQueue(struct BeaconViewWork *work);
-extern void *BEACON_VIEW_CreateLeaveEvent(struct BeaconViewWork *work, s32 go);
+#include "../ov033/dowsing.h"
 struct FieldSubscreen;
 struct DowsingWork;
-extern struct DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, struct FieldSubscreen *subscreen, void *fieldMap);
-extern void DOWSING_Delete(struct DowsingWork *work);
-extern void DOWSING_Update(struct DowsingWork *work, s32 isOn);
-extern void DOWSING_UpdateDisplay(struct DowsingWork *work, s32 draw);
+#include "../ov034/report.h"
 struct ReportWork;
-extern struct ReportWork *REPORT_Create(void *gameSystem, s32 heapId);
-extern void REPORT_Delete(struct ReportWork *work);
-extern void REPORT_ShowPartyIcons(struct ReportWork *work);
-extern void REPORT_UpdateWindows(struct ReportWork *work);
-extern int REPORT_IsReady(struct ReportWork *work);
-extern void REPORT_PrepareSave(struct ReportWork *work);
-extern void REPORT_StartSaveAnim(struct ReportWork *work);
-extern int REPORT_IsSaveAnimDone(struct ReportWork *work);
-extern void REPORT_StopSaveAnim(struct ReportWork *work);
-extern unsigned REPORT_CheckSaveCounter(struct ReportWork *work);
+#include "../ov035/c_gear_power_onoff.h"
 struct CGearPowerOnOffWork;
-extern struct CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(struct FieldSubscreen *subscreen, void *gameSystem, u16 heapId);
-extern void C_GEAR_POWER_ONOFF_Update(struct CGearPowerOnOffWork *work, s32 isInitialUpdate);
-extern void C_GEAR_POWER_ONOFF_Delete(struct CGearPowerOnOffWork *work);
+#include "../arm9/gfl_heap_wrap.h"
 void FIELD_SUBSCREEN_InitBeaconView(FieldSubscreen *work);
 void FIELD_SUBSCREEN_ExitBeaconView(FieldSubscreen *work);
 void FIELD_SUBSCREEN_UpdateBeaconView(FieldSubscreen *work, s32 isFieldIdle);
@@ -297,39 +259,23 @@ extern unsigned char abs_id_20[];
 extern unsigned char abs_id_21[];
 extern unsigned char abs_id_22[];
 extern unsigned char abs_id_23[];
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
+#include "fieldmap.h"
 struct FieldMap;
-extern int FIELDMAP_IsEventActive(struct FieldMap *fieldMap);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern u32 WIPE_SYS_EndCheck(void);
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/wipe.h"
+#include "../arm9/cgear_save.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 struct CgearSaveBlock;
 extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *cgearSaveBase);
 struct CGearSave;
-extern u8 CGEAR_SAVE_GetObtained(struct CGearSave *save);
-extern u32 ZONEDATA_IsZone34(u32 id);
-extern u32 ZONEDATA_IsZone4BPair(u32);
-extern struct FldVReq *FIELDMAP_GetVReq(struct FieldMap *fieldMap);
-extern void FLD_VREQ_SetMainBlendBrightnessExt(struct FldVReq *vreq, s32 plane1, s32 plane2, s32 ev1, s32 ev2, s32 brightness);
-extern void FIELD_MSGBG_SetBlendThunk(u32);
-extern void BG_SYS_ClearSlot(u32 i);
-extern void FIELD_MSGBG_LoadWindowGraphics(u32, u32);
+#include "../arm9/zonedata.h"
+#include "field_msgbg.h"
+#include "../arm9/gf_overlay.h"
 extern u8 BLOCK20_SAVEDATA_GetPanelState(struct CGearSave *save);
 extern void BLOCK20_SAVEDATA_SetPanelState(void *cgearSave, u32 commState);
-extern u32 GAMESYSTEM_IsAlwaysNetFlagSet(const struct GameSystem *gameSystem);
-extern u32 GAMESYSTEM_IsNetOffBySleep(struct GameSystem *gameSystem);
-extern void GAMESYSTEM_ClearNetOffBySleep(struct GameSystem *gameSystem);
-extern int GF_OVERLAY_Load(int);
 struct HexMap;
 extern struct CGearWork *C_GEAR_Create(struct HexMap *hexMap, s32 parentWork, struct GameSystem *gameSystem, s32 introMode);
 extern struct CGearWork *C_GEAR_Open(struct HexMap *hexMap, s32 parentWork, struct GameSystem *gameSystem, void (*callback)(int), s32 callbackArg, s32 introMode);
 extern void C_GEAR_Destroy(struct CGearWork *work);
-extern void GF_OVERLAY_Unload(int);
 void FIELD_SUBSCREEN_SetPanelResult(FieldSubscreen *work, int result);
 void FIELD_SUBSCREEN_InitCGear(FieldSubscreen *work);
 void FIELD_SUBSCREEN_InitCGearWithCallback(FieldSubscreen *work);
@@ -509,7 +455,7 @@ void FIELD_SUBSCREEN_ClearPanelResult(FieldSubscreen *work)
     FIELD_SUBSCREEN_SetPanelResult(work, 0);
 }
 
-void FIELD_SUBSCREEN_ResumeField(FieldSubscreen *work, u32 heapId)
+void FIELD_SUBSCREEN_ResumeField(FieldSubscreen *work, u16 heapId)
 {
     FLD_VREQ_SetMainBlendBrightnessExt(FIELDMAP_GetVReq(work->fieldMap), 1, 0, 0, 0, 0);
     FIELD_MSGBG_SetBlendThunk(0);

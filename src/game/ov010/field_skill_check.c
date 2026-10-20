@@ -47,27 +47,18 @@
 #include "../ov021/fldmmdl_rail_types.h"
 #include "field_skill_check_shared_types.h"
 
-/* Field skill use flags (0x18 bytes): bit i of usableMask set when field
- * skill i can be used now (FIELD_SKILL_CHECK_CallHandler). FIELD_SKILL_USE_FLAGS_SetSkill
- * ORs the bit into the word at +0x14 and FIELD_SKILL_USE_FLAGS_IsSkillUsable tests it there. */
-typedef struct FieldSkillUseFlags {
-    u32 reserved00;     /* 0x00: cleared, never read here */
-    u32 playerObjCode;  /* 0x04 */
-    u8 reserved08[0xC]; /* 0x08: cleared, never read here */
-    u32 usableMask;     /* 0x14 */
-} FieldSkillUseFlags;
+#include "../arm9/app_keycursor_types.h"
 
 typedef int (*SkillCheckHandler)(struct GameData *gameData, void *fieldMap, struct PlayerWork *player);
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void FIELD_SKILL_USE_FLAGS_SetSkill(FieldSkillUseFlags *flags, int skillIndex, int usable);
+#include "../arm9/app_keycursor.h"
 
-extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
 
 void FIELD_SKILL_CHECK_FillUseFlags(FieldSkillUseFlags *flags, struct GameSystem *gameSystem, void *fieldMap);
 
@@ -122,55 +113,42 @@ typedef struct LinkEnterWork {
     struct GameSystem *gameSystem;
     u32 frameCount;
 } LinkEnterWork;
+struct VecFx32;
 
-extern unsigned short GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
-extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *fieldPlayer);
+#include "../ov021/field_player.h"
 
-extern unsigned short MAP_ATTR_GetTerrainId(unsigned int attr);
+#include "../ov021/map_attr.h"
 
-extern int MAP_ATTR_IsRoughGround(int terrainId);
 
-extern u32 ZONEDATA_IsBikeEnabled(u32 zoneId);
+#include "../arm9/zonedata.h"
 
-extern u32 ZONEDATA_IsNormalFieldZone(u32 zoneId);
 
-extern u32 ZONEDATA_IsWeatherEnabled(u32 zoneId);
 
-extern int FISHING_CheckFacingWater(struct GameData *gameData, struct FieldMap *fieldMap, u32 *out);
+#include "../ov021/event_fishing.h"
 
-extern u32 ZONEDATA_IsZone34(u32 zoneId);
 
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 struct GameComm;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
-extern int INTRUDE_COMM_IsSessionEndPending(struct GameComm *comm, int unused);
+#include "intrude_comm_query.h"
 struct MmdlSys;
 
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
-extern u32 FIELDMAP_ApplyPlayerFormRequest(struct FieldMap *fieldMap);
 
-extern int FIELD_PLAYER_StepFormChange(struct FieldPlayer *fieldPlayer);
 
-extern int FIELD_PLAYER_WaitModelReady(struct FieldPlayer *fieldPlayer);
 
-extern struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *parent, void *func, u32 size);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern void EVENT_MAPCHANGE_CreateIntrudeWarpEvent(struct GameSystem *gameSystem, int id, const void *position, int flags);
+#include "../ov020/event_mapchange.h"
 struct FieldSubscreen;
 
-extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
 
-extern u32 FIELD_SUBSCREEN_GetMode(struct FieldSubscreen *work);
+#include "../ov021/field_subscreen.h"
 
-extern int FIELD_SUBSCREEN_RequestMode(struct FieldSubscreen *work, u32 mode);
 
 extern FieldLinkEventEntry FieldLinkEventTable[];
 
@@ -266,7 +244,7 @@ int FIELD_SKILL_CHECK_FrontTile(struct GameData *gameData, struct FieldMap *fiel
     if (ZONEDATA_IsNormalFieldZone(GAME_DATA_GetPlayerZoneId(player)) == 0) {
         return 0;
     }
-    return FISHING_CheckFacingWater(gameData, fieldMap, 0);
+    return FISHING_CheckFacingWater((u32)gameData, fieldMap, 0);
 }
 
 /* Field skill check: normal field zone, except the zone of ZONEDATA_IsZone34. */
@@ -334,11 +312,7 @@ struct GameEvent *FIELD_LINK_EVENT_CreateEnterEvent(struct FieldMap *fieldMap, s
  */
 void FIELD_LINK_EVENT_CreateIntrudeWarpEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem)
 {
-    struct {
-        int x;
-        int y;
-        int z;
-    } position;
+    VecFx32 position;
 
     position.x = 0x200000;
     position.y = 32;

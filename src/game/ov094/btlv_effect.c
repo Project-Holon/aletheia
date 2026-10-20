@@ -179,12 +179,13 @@
  *   _ull_mul                     0x0209C054  arm
  */
 #include "btlv_effvm_types.h"
+#include "../sdk_ioreg.h"
 #include "btlv_stage_shared_types.h"
 #include "btlv_field_shared_types.h"
 #include "btlv_camera_shared_types.h"
 #include "btlv_effect_shared_types.h"
 
-#define REG_04000604 (*(volatile u16 *)0x04000604)
+#define REG_04000604 (*(volatile u16 *)REG_RAM_COUNT_ADDR)
 
 struct BtlMain;
 
@@ -231,7 +232,7 @@ typedef struct BtlvEffDamageTintTask {
 typedef struct BtlvEffHitTask {
     int pos;                        /* 0x00: sprite position */
     int step;                       /* 0x04 */
-    BtlvMcssAddWork addWork;        /* 0x08: sprite resources to restore */
+    McssAddWork addWork;        /* 0x08: sprite resources to restore */
 } BtlvEffHitTask;
 
 /* Task record of the sprite transition (0x10 bytes). */
@@ -242,220 +243,146 @@ typedef struct BtlvEffSpriteTransitionTask {
     int playSound;                  /* 0x0C */
 } BtlvEffSpriteTransitionTask;
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
+#include "../arm9/g3d_system.h"
 
-extern NNSG3dResTex *NNS_G3dGetTex(void *file);
+#include "../arm9/nns_g3d_res.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 FX_Div(u32 a, u32 b);
+#include "../arm9/fx_cp.h"
 
-extern int BTL_MAIN_IsMultiMode(struct BtlMain *main);
+#include "../ov093/btl_main.h"
 
-extern u8 BTL_MAIN_IsOwnClientSecondTeam(struct BtlMain *main);
 
-extern u8 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
 
-extern u8 BTL_MAIN_GetOwnPartnerClient(struct BtlMain *main);
 
-extern u16 BTL_MAIN_GetTrainerType(struct BtlMain *main, s32 slot);
 
-extern u8 BTL_MAIN_GetOwnOpponentClient(struct BtlMain *main, s32 nth);
 
-extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
 
-extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
 struct FieldSituation;
 
-extern struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
 
-extern unsigned TCB_GetTaskOffset(unsigned);
+#include "../arm9/tcb_list.h"
 struct TcbSystem;
 
-extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
 
-extern void *PALANM_Create(u32 heap);
+#include "../arm9/palanm.h"
+#include "btlv_effect.h"
 
-extern void PALANM_SetAutoTransfer(struct PalAnmSlot *palanm, int v);
 
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
-extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, s32 mask);
 
-extern void ZONEDATA_GetTimeLightColors(u32 id, u32 hour, u32 minute, u32 lightTableId, u32 b0, u16 *b1, u16 heap);
+#include "../arm9/zone_light.h"
 struct G3dLight;
 
-extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 
-BtlvTimer *BTLV_TIMER_Create(u16 heapId);
+#include "btlv_timer.h"
 
-BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId);
+#include "btlv_bg.h"
 
-extern void PARTICLE_InitManager(u32);
-struct Tcb;
-
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *, void *), void *work, u32 priority);
-
-extern void PM_VOICE_AllocBuffers(int n, u32 heap);
-
-extern void PM_VOICE_FreeBuffers(void);
-
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-
-extern u32 PALANM_Delete(void *ctx);
-
-void BTLV_TIMER_Delete(BtlvTimer *timer);
-
-void BTLV_BG_Delete(BtlvBg *bg);
-
-extern void PARTICLE_ExitManager(void);
-
-extern void TCB_DeleteTask(struct Node *n);
-
-extern void TCB_Noop(void *);
-
-extern void TCB_Main(struct TcbSystem *sys);
-
-extern void G3D_SYSTEM_DrawStart(void);
-
-extern void G3D_SYSTEM_ApplyLookAt(void);
-
-extern void PARTICLE_Main(void);
-
-extern void G3D_SYSTEM_DrawEnd(void);
+#include "../arm9/particle.h"
 struct TcbTask;
 
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, void *), void *work, u32 priority);
+#include "../arm9/gfl_use.h"
 
-extern int WAZA_TOOL_GetDamageType(int);
+#include "../arm9/pm_voice.h"
 
-void BTLV_GAUGE_StartHpChangeAnimated(BtlvGaugeWork *work, int slotIdx, int newHp);
 
-void BTLV_GAUGE_StartHpChangeInstant(BtlvGaugeWork *work, int slotIdx, int newHp);
 
-void BTLV_GAUGE_StartExpGain(BtlvGaugeWork *work, int slotIdx, int gain);
 
-void BTLV_GAUGE_RefreshForLevelUp(BtlvGaugeWork *work, struct BtlPokeParam *pp, int slotIdx);
 
-void BTLV_GAUGE_RequestStop(BtlvGaugeWork *work);
 
-int BTLV_GAUGE_IsAnimating(BtlvGaugeWork *work);
 
-void BTLV_GAUGE_SetSideVisible(BtlvGaugeWork *work, int visible, int side);
 
-void BTLV_GAUGE_SetSlotVisible(BtlvGaugeWork *work, int visible, int slotIdx);
 
-void BTLV_GAUGE_SetStatusIcon(BtlvGaugeWork *work, int status, int slotIdx);
 
-void BTLV_GAUGE_SelectSlot(BtlvGaugeWork *work, int selectedSlot);
 
-int BTLV_GAUGE_IsSlotOccupied(BtlvGaugeWork *work, int slotIdx);
 
-int BTLV_GAUGE_GetSlotHealthInfo(BtlvGaugeWork *work, int slotIdx, int *hpState, int *statusAnim);
 
-BtlvPartyBallBar *BTLV_B_GAUGE_CreatePartyBallBar(const BtlvPartyBallBarParam *param, u32 heapId);
+struct TcbTask;
 
-void BTLV_B_GAUGE_DeletePartyBallBar(BtlvPartyBallBar *bar);
 
-int BTLV_B_GAUGE_IsPartyBallBarActive(BtlvPartyBallBar *bar);
+/* Likely original mismatch: the caller passes the move id without narrowing, the ARM9 definition takes u16. */
+/* Original prototype: the move is passed as a word (docs/ORIGINAL_BUGS.tsv, kind B). */
+extern int WAZA_TOOL_GetDamageType(int move);
 
-extern int PALANM_RequestFade(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
+#include "btlv_gauge.h"
 
-extern u32 PALANM_GetFadeRequestBits(const char *ptr);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy);
 
-void BTLV_TIMER_SetVisible(BtlvTimer *timer, int side, int visible, int restart);
 
-int BTLV_TIMER_IsExpired(BtlvTimer *timer, int side);
 
-unsigned int BTLV_GAUGE_IsLowHpBgmPlaying(BtlvGaugeWork *work);
 
-void BTLV_GAUGE_SetLowHpBgmPlaying(BtlvGaugeWork *work, int playing);
 
-void BTLV_GAUGE_SetLowHpBgmSuppressed(BtlvGaugeWork *work, int suppressed);
 
-extern int GFL_USE_PopBgm(void);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 
-void BTLV_GAUGE_SetSavedBgmNo(BtlvGaugeWork *work, int bgmNo);
 
-void BTLV_GAUGE_SetBgmReplaced(BtlvGaugeWork *work, int replaced);
+#include "btlv_b_gauge.h"
 
-extern int BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main);
 
-extern int BTL_MAIN_IsRecordAllowed(struct BtlMain *main);
+
+
+
+#include "../arm9/bg_sys.h"
+
+
+
+
+
+
+
+
+
+
+
+
 struct TcblSystem;
 
-extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
-
-extern void TCB_DeleteTask(struct Node *n);
-
-extern void CLACT_VBlankSystem(void);
-
-extern void PALANM_TransferPalettes(struct PalAnmSlot *palanm);
+#include "../arm9/tcbl.h"
 
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/clact.h"
 
-extern int TOUCHPANEL_GetTrg(void);
 
-extern u32 GF_STANDARD_Rand(void);
 
-extern u32 FX_Div(u32 a, u32 b);
+#include "../arm9/key.h"
 
-extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
+#include "../arm9/touchpanel.h"
 
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
+#include "../arm9/gf_standard.h"
 
-BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap);
 
-void BTLV_STAGE_Delete(BtlvStage *stage);
 
-void BTLV_STAGE_UpdateLayerAnims(BtlvStage *stage);
+#include "../arm9/nns_gfd_vram_transfer.h"
 
-void BTLV_STAGE_DrawLayers(BtlvStage *stage);
+#include "btlv_stage.h"
 
-void BTLV_STAGE_StartTint(BtlvStage *stage, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color);
 
-int BTLV_STAGE_IsTintActive(BtlvStage *stage);
 
-void BTLV_STAGE_SetLayerHidden(BtlvStage *stage, u32 side, u32 hide);
 
-int BTLV_STAGE_IsAnyLayerArmed(BtlvStage *stage);
 
-BtlvField *BTLV_FIELD_Create(int unused, int group, u8 variant, u16 heap);
 
-void BTLV_FIELD_Delete(BtlvField *field);
 
-void BTLV_FIELD_UpdateAnims(BtlvField *field);
 
-void BTLV_FIELD_Draw(BtlvField *field);
+#include "btlv_field.h"
 
-void BTLV_FIELD_StartTint(BtlvField *field, unsigned char startLevel, unsigned char targetLevel, unsigned char interval, unsigned short color);
 
-int BTLV_FIELD_IsTintActive(BtlvField *field);
 
-void BTLV_FIELD_SetHidden(BtlvField *field, u32 hide);
 
-BtlvCamera *BTLV_CAMERA_Create(void *owner, u16 heap);
 
-void BTLV_CAMERA_Delete(BtlvCamera *camera);
 
-void BTLV_CAMERA_UpdateMove(BtlvCamera *camera);
 
-void BTLV_CAMERA_SetEyeAndTarget(BtlvCamera *camera, const BtlvVec3 *eye, const BtlvVec3 *target);
+#include "btlv_camera.h"
 
-void BTLV_CAMERA_StartMove(BtlvCamera *camera, const BtlvVec3 *eyeDest, const BtlvVec3 *targetDest, int frames, int delay, int easeCount);
+
+
+
 
 BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, const BtlvEffFieldSituation *situation, int isMultiMode, const u16 *trainerTypes, void *battle, int param, u16 heap);
 
@@ -569,7 +496,7 @@ int BTLV_EFFECT_GetPokeSpriteState(int a);
 
 void BTLV_EFFECT_StartCameraMove(u32 flags, int kind, int n, int s, int t);
 
-void BTLV_EFFECT_GetPokeSpriteCameraTarget(u32 slot, BtlvVec3 *eyeOut, BtlvVec3 *basePos);
+void BTLV_EFFECT_GetPokeSpriteCameraTarget(u32 slot, VecFx32 *eyeOut, VecFx32 *basePos);
 
 void *BTLV_EFFECT_GetWorkPtr(void);
 
@@ -585,7 +512,7 @@ BtlvEffVmWork *BTLV_EFFECT_GetEffvm(void);
 
 void *BTLV_EFFECT_GetOwner(void);
 
-struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
+PaletteFade *BTLV_EFFECT_GetPalanm(void);
 
 BtlvClact *BTLV_EFFECT_GetClact(void);
 
@@ -603,7 +530,7 @@ void *BTLV_EFFECT_GetBattleMain(void);
 
 int BTLV_EFFECT_GetSceneUnit(void);
 
-void BTLV_EFFECT_PollLowHpBgm(void);
+int BTLV_EFFECT_PollLowHpBgm(void);
 
 void BTLV_EFFECT_StopLowHpBgm(u32 a);
 
@@ -655,21 +582,21 @@ int BTLV_EFFECT_FindFreeTaskSlot(void);
 
 void BTLV_EFFECT_DeleteAllTasks(void);
 
-void BTLV_EFFECT_VBlankTask(void *h, void *arg);
+void BTLV_EFFECT_VBlankTask(struct TcbTask *h, void *arg);
 
-void BTLV_EFFECT_DamageTintTaskMain(void *h, void *arg);
+void BTLV_EFFECT_DamageTintTaskMain(struct TcbTask *h, void *arg);
 
 void BTLV_EFFECT_ClearTaskMaskM0(void *h);
 
-void BTLV_EFFECT_SequenceTaskMain(void *h, void *arg);
+void BTLV_EFFECT_SequenceTaskMain(struct TcbTask *h, void *arg);
 
 void BTLV_EFFECT_ClearTaskMaskM1(void *h);
 
-void BTLV_EFFECT_PokeSpriteTransitionTaskMain(void *h, void *p);
+void BTLV_EFFECT_PokeSpriteTransitionTaskMain(struct TcbTask *h, void *p);
 
 void BTLV_EFFECT_ClearTaskMaskM2(void *h);
 
-void BTLV_EFFECT_DelayedStartEffectTaskMain(void *h, void *arg);
+void BTLV_EFFECT_DelayedStartEffectTaskMain(struct TcbTask *h, void *arg);
 
 void BTLV_EFFECT_FreeTaskArg(void *h);
 
@@ -677,109 +604,66 @@ void BTLV_EFFECT_UpdateIntroInput(void);
 
 void BTLV_EFFECT_ComputeScalarStep(fx32 from, fx32 to, fx32 *stepOut, fx32 frames);
 
-void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *stepOut, fx32 frames);
+void BTLV_EFFECT_ComputeVectorStep(const VecFx32 *from, const VecFx32 *to, VecFx32 *stepOut, fx32 frames);
 
 void BTLV_EFFECT_StepScalarWithLimit(fx32 *value, fx32 *step, fx32 *limit, int *notDone);
 
-int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *out);
+int BTLV_EFFECT_StepMover(BtlvMover *mover, VecFx32 *out);
 
 int BTLV_EFFECT_GetBitMask(int x);
 
 void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade);
 struct ScriptVm;
 
-struct ScriptVm *BTLV_EFFVM_Create(void *owner, u32 heapId);
+#include "btlv_effvm.h"
 
-int BTLV_EFFVM_Main(void *vm);
 
-void BTLV_EFFVM_Destroy(BtlvEffVmWork *vm);
 struct BtlvEffVmParams;
 
-void BTLV_EFFVM_StartScript(void *vm, u32 attackerPos, u32 defenderPos, u16 effectId, struct BtlvEffVmParams *params);
 
-void BTLV_EFFVM_StopScript(void *vm);
 
-void BTLV_EFFVM_ClearBlockedFlag(void *vm);
 
-void BTLV_EFFVM_InitParams(BtlvEffVmParams *p);
 
-void BTLV_EFFVM_StartSePlayTask(void *vm, u32 seId, s32 slot, u32 pan, s32 pitch, u32 volume, s32 modDepth, s32 modSpeed, s32 delay);
 
-void BTLV_EFFVM_StartSeVolumeTask(void *vm, u32 slot, s32 mode, s32 param, s32 from, s32 to, s32 startDelay, s32 stepCount, s32 framesPerStep, s32 duration);
 
-void BTLV_EFFVM_StopLiveSounds(void *vm);
 
-void BTLV_EFFVM_ClearLastEffect(void *vm);
 
-BtlvMcssWork *BTLV_MCSS_Create(int rule, void *taskOwner, u16 heapId);
+#include "btlv_mcss.h"
 
-void BTLV_MCSS_Delete(BtlvMcssWork *w);
 
-void BTLV_MCSS_Update(BtlvMcssWork *w);
 
-void BTLV_MCSS_Draw(BtlvMcssWork *w);
 
-void BTLV_MCSS_AddPoke(BtlvMcssWork *w, void *pp, int pos);
 
-void BTLV_MCSS_AddTrainer(BtlvMcssWork *w, void *trainer, int pos);
 
-void BTLV_MCSS_RemoveSprite(BtlvMcssWork *w, int pos);
 
-void BTLV_MCSS_SetPosition(BtlvMcssWork *w, int pos, int x, int y, int z);
 
-void BTLV_MCSS_EnableOrthoMode(BtlvMcssWork *w);
 
-int BTLV_MCSS_IsVanished(BtlvMcssWork *w, int pos);
 
-void BTLV_MCSS_SetVanishMode(BtlvMcssWork *w, int pos, int mode);
 
-void BTLV_MCSS_GetSlotPosition(BtlvMcssWork *w, BtlvMcssVec *out, int pos);
 
-void BTLV_MCSS_SwapSprites(BtlvMcssWork *w, int posA, int posB);
 
-void BTLV_MCSS_StartAlphaTween(BtlvMcssWork *w, int pos, int kind, int alpha, int frames, int waitFrames, int repeat);
 
-void BTLV_MCSS_StartMosaicTween(BtlvMcssWork *w, int pos, int kind, int mosaic, int frames, int waitFrames, int repeat);
 
-int BTLV_MCSS_IsSpriteBusy(BtlvMcssWork *w, int pos);
 
-int BTLV_MCSS_IsAnySpriteBusy(BtlvMcssWork *w);
 
-int BTLV_MCSS_IsSpriteLoaded(BtlvMcssWork *w, int pos);
 
-void BTLV_MCSS_SetPaletteFade(BtlvMcssWork *w, int pos, u8 cur, u8 target, u8 step, u32 color);
 
-void BTLV_MCSS_RefreshSpriteFromParty(BtlvMcssWork *w, int pos, void *pp);
 
-int BTLV_MCSS_GetSpriteAttrFlags(BtlvMcssWork *w, int pos);
 
-void BTLV_MCSS_ReloadSpriteResource(BtlvMcssWork *w, int pos, BtlvMcssAddWork *addWork);
 
-void BTLV_MCSS_StartRotation(BtlvMcssWork *w, int side, int dir, int playSound);
 
-void BTLV_MCSS_MakeAddWorkFromPoke(BtlvMcssWork *w, void *pp, BtlvMcssAddWork *out, int pos);
 
-void BTLV_MCSS_SetSpriteWorkFlagForRule(BtlvMcssWork *w, int pos, int mode);
 
-void BTLV_MCSS_SaveVanishStates(BtlvMcssWork *w);
 
-BtlvClact *BTLV_CLACT_Create(void *owner, u16 heap);
+#include "btlv_clact.h"
 
-void BTLV_CLACT_Delete(BtlvClact *clact);
 
-void BTLV_CLACT_Draw(void *unused);
 
-BtlvGaugeWork *BTLV_GAUGE_Create(void *font, u16 heapId);
 
-void BTLV_GAUGE_Delete(BtlvGaugeWork *work);
 
-void BTLV_GAUGE_FlashTaskMain(BtlvGaugeWork *work);
 
-void BTLV_GAUGE_InitSlotFromBattlePoke(BtlvGaugeWork *work, struct BtlMain *battleMain, struct BtlPokeParam *battlePoke, int layout, int slotIdx);
 
-void BTLV_GAUGE_InitSlotFromPartyPoke(BtlvGaugeWork *work, struct ZukanSave *zukanSave, void *partyPoke, int layout, int slotIdx);
 
-void BTLV_GAUGE_DeleteSlotTask(BtlvGaugeWork *work, int slotIdx);
 
 extern const char gBtlvEffectFileName[];
 
@@ -1124,7 +1008,7 @@ void BTLV_EFFECT_StartHitTask(void *poke, int pos)
 
 void BTLV_EFFECT_ResetPokeSprite(void *poke, int pos)
 {
-    BtlvMcssAddWork buf;
+    McssAddWork buf;
 
     BTLV_MCSS_RefreshSpriteFromParty(gBtlvEff->mcss, pos, poke);
     BTLV_MCSS_MakeAddWorkFromPoke(gBtlvEff->mcss, poke, &buf, pos);
@@ -1395,7 +1279,7 @@ int BTLV_EFFECT_IsStageFieldBusy(u32 scope)
     if (scope == 1 || scope == 2 || scope == 4)
         y = BTLV_FIELD_IsTintActive(gBtlvEff->field);
     if (scope - 3 <= 1) {
-        z = PALANM_GetFadeRequestBits((const char *)gBtlvEff->palanm) != 0;
+        z = PALANM_GetFadeRequestBits(gBtlvEff->palanm) != 0;
     }
     if (x == 1 || y == 1 || z == 1)
         return 1;
@@ -1482,8 +1366,8 @@ int BTLV_EFFECT_GetPokeSpriteState(int pos)
 
 void BTLV_EFFECT_StartCameraMove(u32 flags, int kind, int frames, int delay, int easeCount)
 {
-    BtlvVec3 a;
-    BtlvVec3 b;
+    VecFx32 a;
+    VecFx32 b;
 
     if (flags & 1) {
         BTLV_EFFECT_GetPokeSpriteCameraTarget(flags, &a, &b);
@@ -1523,7 +1407,7 @@ void BTLV_EFFECT_StartCameraMove(u32 flags, int kind, int frames, int delay, int
     }
 }
 
-void BTLV_EFFECT_GetPokeSpriteCameraTarget(u32 slot, BtlvVec3 *eyeOut, BtlvVec3 *basePos)
+void BTLV_EFFECT_GetPokeSpriteCameraTarget(u32 slot, VecFx32 *eyeOut, VecFx32 *basePos)
 {
     BTLV_MCSS_GetSlotPosition(gBtlvEff->mcss, basePos, slot);
     eyeOut->x = basePos->x + 0x4B33;
@@ -1576,7 +1460,7 @@ void *BTLV_EFFECT_GetOwner(void)
 /*
  * Returns the word at 0x18c of the global work block.
  */
-struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void)
+PaletteFade *BTLV_EFFECT_GetPalanm(void)
 {
     return gBtlvEff->palanm;
 }
@@ -1645,9 +1529,9 @@ int BTLV_EFFECT_GetSceneUnit(void)
 /*
  * Tail call to BTLV_GAUGE_IsLowHpBgmPlaying with the handle at 0x1a4 of the global work block.
  */
-void BTLV_EFFECT_PollLowHpBgm(void)
+int BTLV_EFFECT_PollLowHpBgm(void)
 {
-    BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->gauge);
+    return BTLV_GAUGE_IsLowHpBgmPlaying(gBtlvEff->gauge);
 }
 
 void BTLV_EFFECT_StopLowHpBgm(u32 bgmNo)
@@ -1892,13 +1776,13 @@ void BTLV_EFFECT_DeleteAllTasks(void)
 /*
  * Calls CLACT_VBlankSystem, then PALANM_TransferPalettes on the handle at 0x18c of the global work block.
  */
-void BTLV_EFFECT_VBlankTask(void *task, void *arg)
+void BTLV_EFFECT_VBlankTask(struct TcbTask *task, void *arg)
 {
     CLACT_VBlankSystem();
     PALANM_TransferPalettes(gBtlvEff->palanm);
 }
 
-void BTLV_EFFECT_DamageTintTaskMain(void *task, void *arg)
+void BTLV_EFFECT_DamageTintTaskMain(struct TcbTask *task, void *arg)
 {
     BtlvEffDamageTintTask *p = arg;
 
@@ -1942,7 +1826,7 @@ void BTLV_EFFECT_ClearTaskMaskM0(void *tcb)
     gBtlvEff->damageTintTaskMask &= m ^ 0xffffffff;
 }
 
-void BTLV_EFFECT_SequenceTaskMain(void *task, void *arg)
+void BTLV_EFFECT_SequenceTaskMain(struct TcbTask *task, void *arg)
 {
     BtlvEffHitTask *p = arg;
 
@@ -2015,7 +1899,7 @@ void BTLV_EFFECT_ClearTaskMaskM1(void *tcb)
     gBtlvEff->hitTaskMask &= m ^ 0xffffffff;
 }
 
-void BTLV_EFFECT_PokeSpriteTransitionTaskMain(void *task, void *arg)
+void BTLV_EFFECT_PokeSpriteTransitionTaskMain(struct TcbTask *task, void *arg)
 {
     BtlvEffSpriteTransitionTask *s = arg;
     int st;
@@ -2049,7 +1933,7 @@ void BTLV_EFFECT_ClearTaskMaskM2(void *tcb)
     gBtlvEff->spriteTransitionTaskMask &= m ^ 0xffffffff;
 }
 
-void BTLV_EFFECT_DelayedStartEffectTaskMain(void *task, void *arg)
+void BTLV_EFFECT_DelayedStartEffectTaskMain(struct TcbTask *task, void *arg)
 {
     BtlvEffQueuedScript *p = arg;
 
@@ -2138,7 +2022,7 @@ void BTLV_EFFECT_ComputeScalarStep(fx32 from, fx32 to, fx32 *stepOut, fx32 frame
     }
 }
 
-void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *stepOut, fx32 frames)
+void BTLV_EFFECT_ComputeVectorStep(const VecFx32 *from, const VecFx32 *to, VecFx32 *stepOut, fx32 frames)
 {
     stepOut->x = 0;
     stepOut->y = 0;
@@ -2192,7 +2076,7 @@ void BTLV_EFFECT_StepScalarWithLimit(fx32 *value, fx32 *step, fx32 *limit, int *
     }
 }
 
-int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *out)
+int BTLV_EFFECT_StepMover(BtlvMover *mover, VecFx32 *out)
 {
     int ret = 1;
 
@@ -2261,11 +2145,11 @@ void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade)
         if (fade->wait == 0) {
             fade->wait = fade->interval;
             for (i = 0; i < fade->count; i++) {
-                tex = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(fade->resources[i]));
+                tex = (NNSG3dResTex *)NNS_G3dGetTex((unsigned char *)G3D_SYSTEM_GetResourceFile(fade->resources[i]));
                 size = tex->plttInfo.sizePltt << 3;
                 vramOffset = (u16)tex->plttInfo.vramKey << 3;
                 PALANM_BlendColors((u16 *)((char *)tex + tex->plttInfo.ofsPlttData), fade->palettes[i], (u16)(size >> 1), fade->current, fade->color);
-                NNS_GfdRegisterNewVramTransferTask((void *)1, vramOffset, (u32)fade->palettes[i], size);
+                NNS_GfdRegisterNewVramTransferTask((void *)1, vramOffset, (uptr)fade->palettes[i], size);
             }
             if (fade->current == fade->target) {
                 fade->enabled = 0;

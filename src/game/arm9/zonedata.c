@@ -266,7 +266,7 @@ u32 ZONEDATA_IsRawZone176Or17A(u32 id);
 
 u8 ZONEDATA_GetMapSubType(u32 id);
 
-u32 ZONEDATA_IsParentZoneD6(u32 id);
+u32 ZONEDATA_IsParentZoneD6(u16 id);
 
 void *ZONEDATA_CreateAreaData(u16 heapId, u16 areaId, u32 season);
 
@@ -505,6 +505,10 @@ u16 ZONEDATA_GetChangedZoneId(u32 key)
         if (mgr->changeEnabled[i] != 0 && key == _ZoneChangeTable[i].fromZoneId)
             return _ZoneChangeTable[i].toZoneId;
     }
+#ifndef __MWERKS__
+    /* The DS code falls off the end here; r0 still holds the key. */
+    return key;
+#endif
 }
 
 /*
@@ -1276,7 +1280,7 @@ u8 ZONEDATA_GetMapSubType(u32 id)
     return r->mapSubType;
 }
 
-u32 ZONEDATA_IsParentZoneD6(u32 id)
+u32 ZONEDATA_IsParentZoneD6(u16 id)
 {
     return ZONEDATA_GetParentZoneId(id) == 0xD6;
 }

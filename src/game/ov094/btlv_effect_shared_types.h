@@ -1,16 +1,16 @@
 #ifndef BTLV_EFFECT_SHARED_TYPES_H
 #define BTLV_EFFECT_SHARED_TYPES_H
 
-#include "btlv_effvm_types.h"
-#include "btlv_camera_shared_types.h"
-#include "btlv_stage_shared_types.h"
-#include "btlv_field_shared_types.h"
-#include "btlv_clact_shared_types.h"
-#include "btlv_bg_types.h"
-#include "btlv_timer_shared_types.h"
-#include "btlv_b_gauge_types.h"
-#include "btlv_mcss_shared_types.h"
-#include "btlv_gauge_types.h"
+#include "../ov094/btlv_effvm_types.h"
+#include "../ov094/btlv_camera_shared_types.h"
+#include "../ov094/btlv_stage_shared_types.h"
+#include "../ov094/btlv_field_shared_types.h"
+#include "../ov094/btlv_clact_shared_types.h"
+#include "../ov094/btlv_bg_types.h"
+#include "../ov094/btlv_timer_shared_types.h"
+#include "../ov094/btlv_b_gauge_types.h"
+#include "../ov094/btlv_mcss_shared_types.h"
+#include "../ov094/btlv_gauge_types.h"
 
 struct Ctx;
 
@@ -18,7 +18,7 @@ struct Node;
 
 struct S02030EE8;
 
-struct PalAnmSlot;
+#include "../arm9/palanm.h"
 
 typedef enum { SLOT_ZERO, SLOT_LAST = 14 } BtlvSlotIndex;
 
@@ -70,7 +70,7 @@ typedef struct BtlvEff {
     void (*taskCallback[BTLV_EFFECT_TASK_MAX])(void *); /* 0x088 */
     int taskArg[BTLV_EFFECT_TASK_MAX];                  /* 0x108 */
     BtlvEffVmWork *effvm;                                /* 0x188 */
-    struct PalAnmSlot *palanm;                          /* 0x18C */
+    PaletteFade *palanm;                                 /* 0x18C */
     BtlvMcssWork *mcss;                                  /* 0x190 */
     BtlvStage *stage;                                   /* 0x194 */
     BtlvField *field;                                   /* 0x198 */

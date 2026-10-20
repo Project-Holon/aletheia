@@ -52,13 +52,14 @@
 #include "dwc_rap_types.h"
 
 #include "../types.h"
+#include "../arm9/net.h"
 #include "../arm9/gfl_heap_wrap.h"
 
 extern u32 GFL_NET_GetWifiUserData(void);
 
 extern u32 GFL_NET_GetFriendList(void);
 
-extern int DWC_GetAIDBitmap(void);
+#include "dwc_main.h"
 
 extern int DWC_GetLinkLevel(void);
 
@@ -139,7 +140,7 @@ int GFL_NET_DEVWIFI_Setup(int heapId, int param)
 
     if (_pSetupParam != 0)
         return 0;
-    netInit = GFL_NET_GetInitParam();
+    netInit = &GFL_NET_GetInitParam()->init;
     DWC_RAPCOMMON_CreateHeap(netInit->wifiHeapId, netInit->heapSize);
     _pSetupParam = GFL_HEAP_Alloc(heapId, 8, 1, _sNetDevwifiFile, 0xba);
     *_pSetupParam = param;
@@ -176,7 +177,7 @@ int GFL_NET_DEVWIFI_UpdateDisconnect(void *requestClose)
         DWC_RAP_ResetToIdle();
         return 1;
     }
-    DWC_RAP_RunStateMachine((int)requestClose);
+    DWC_RAP_RunStateMachine((sptr)requestClose);
     return 1;
 }
 

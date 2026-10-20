@@ -199,8 +199,9 @@ void BLOCK20_SAVEDATA_SetPanelMark(struct CGearSave *save, int row, int col, int
     save->panel[row][col] = value;
 }
 
-void BLOCK20_SAVEDATA_InitPanelMarks(void)
+void *BLOCK20_SAVEDATA_InitPanelMarks(void *save)
 {
+    return save;
 }
 
 void BLOCK20_SAVEDATA_SetPanelState(struct CGearSave *save, u8 value)

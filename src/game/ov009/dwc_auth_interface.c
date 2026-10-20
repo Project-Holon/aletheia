@@ -47,21 +47,16 @@
 
 #include "../sdk_dwc.h"
 
-extern void DWC_Auth_SetCustomNas(char *v);
-extern void MI_CpuFill8(void *dst, int data, unsigned long size);
-extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
-extern unsigned long long OS_GetTick(void);
+#include "dwc_auth.h"
+#include "../arm9/mi_memory.h"
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 struct DWCHttp;
-extern int DWC_Auth_Create(DWCAuthParam *param, struct DWCHttp *http);
-extern void DWC_Auth_Abort(void);
-extern void DWC_Auth_Destroy(void);
-extern int DWC_Auth_GetError(void);
-extern void DWC_Auth_GetResult(int *result);
-extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
-extern void DWC_Auth_GetId(struct DWCAuthWiFiId *id);
+#include "../arm9/msl_string_str.h"
+#include "../arm9/util_wifiidtool.h"
 int DWCi_Auth_InitInterface(int auth_server);
 void DWCi_Auth_InitAdapterParam(void);
-int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, void *(*allocator)(unsigned long, long), void (*deallocator)(unsigned long, void *, long));
+int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, DWCAuthAlloc allocator, DWCAuthFree deallocator);
 void DWCi_Auth_AbortAuthentication(void);
 void DWCi_Auth_ProcessAuthentication(void);
 int DWCi_Auth_IsFinished(void);
@@ -114,7 +109,7 @@ void DWCi_Auth_InitAdapterParam(void)
 /*
  * sdk:      DWCi_Auth_StartAuthentication (libdwcauth.TWL.HYB.a(dwc_auth_interfa))
  */
-int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, void *(*allocator)(unsigned long, long), void (*deallocator)(unsigned long, void *, long))
+int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, DWCAuthAlloc allocator, DWCAuthFree deallocator)
 {
 	DWCi_Auth_InitAdapterParam();
 	MI_CpuCopy8(ingamesn, &gDwcAuthParam, 0x34);

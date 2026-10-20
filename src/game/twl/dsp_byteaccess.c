@@ -19,14 +19,14 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
-#define DSP_CTRL (*(volatile u16 *)0x04004308)
+#define DSP_CTRL (*(volatile u16 *)REG_AES_WRFIFO_ADDR)
 
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32);
-extern BOOL OS_IsRunOnTwl(void);
-extern void DSP_SendFifoExCore(u32, u16, u16 *, s32, u16);
-extern void DSP_RecvFifoExCore(u32, u16 *, u16, s32, u16);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/os_emulator.h"
+#include "dsp_if.h"
 
 void DSP_LoadData(u32 addr, u8 *dst, u32 len)
 {
@@ -53,7 +53,7 @@ void DSP_LoadData(u32 addr, u8 *dst, u32 len)
         addr++;
         len--;
     }
-    if (((u32)dst & 1) == 0) {
+    if (((uptr)dst & 1) == 0) {
         n = len & ~1;
         if (n != 0) {
             ints = OS_DisableInterrupts();
@@ -144,7 +144,7 @@ void DSP_StoreData(u32 addr, u8 *src, u32 len)
         addr++;
         len--;
     }
-    if (((u32)src & 1) == 0) {
+    if (((uptr)src & 1) == 0) {
         n = len & ~1;
         if (n != 0) {
             ints = OS_DisableInterrupts();

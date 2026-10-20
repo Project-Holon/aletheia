@@ -136,7 +136,8 @@ struct Vec2;
 struct Rec;
 #include "../types.h"
 
-struct Pt { s16 x; s16 y; };
+struct ClactVec2;
+struct ZukanInfoPt { s16 x; s16 y; };
 
 struct Tab16 { u8 b[16]; };
 
@@ -149,7 +150,7 @@ typedef enum { B_FALSE, B_TRUE } Bool;
 typedef struct {
     unsigned short a, b, c;
     unsigned char d, e;
-} ActorRect;
+} ZukanInfoActorRect;
 
 typedef struct {
     short x, y;
@@ -166,7 +167,7 @@ typedef struct {
 
 typedef struct {
     short x, y;
-} Pos;
+} ZukanInfoPos;
 
 typedef struct {
     unsigned char a, b;
@@ -280,105 +281,68 @@ struct UnpackedPalette {
 };
 struct PokemonParam;
 
-extern unsigned POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
-extern u8 POKE_TOOL_GetGender(struct PokemonParam *pp);
-extern unsigned POKE_TOOL_IsShiny(struct PokemonParam *pp);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuFill8(void *p, int v, int n);
+#include "../arm9/poke_tool.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern void BG_SYS_SetPriority(int idx, unsigned short val);
+#include "../arm9/printsys.h"
+#include "../arm9/bg_sys.h"
 struct PersonalData;
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, unsigned int field);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+#include "../arm9/poke_personal.h"
+#include "../arm9/arc_util.h"
 struct ArcHandle;
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, unsigned int memberIdx);
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, unsigned int memberIdx, void *dst);
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
-extern u32 GFL_HEAP_Free(void *p);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*cb)(int, char *), void *work, unsigned int priority);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
-extern void BG_SYS_PushTile(u32 layer);
+#include "../arm9/arc_tool.h"
+#include "../arm9/nns_g2d_anim_bank.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, void **recordedVoice);
+#include "../arm9/gfl_use.h"
+#include "../arm9/g2.h"
+struct TcbTask;
+#include "../arm9/tcb_list.h"
+#include "../arm9/pm_voice.h"
 struct Pt16;
-extern void CLACT_GetActorPos(struct Actor *actor, struct Pt16 *out);
-extern void CLACT_SetActorPos(struct Actor *actor, struct Pt16 *pos);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern struct PersonalData *POKE_PERSONAL_Create(u32 a, int b, u32 c);
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u32 c, u32 d, u32 slot);
+struct ClactActor;
+struct BmpWin;
+struct Unit;
+struct ActorInitParam;
+#include "../ov099/wifi_club_work.h"
+extern void CLACT_GetActorPos(const struct ClactActor *actor, struct Pt16 *out);
+extern void CLACT_SetActorPos(struct ClactActor *actor, const struct Pt16 *pos);
+extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u32 c, u32 d, u32 slot);
 struct BmpWin;
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
 struct GfFont;
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern unsigned int PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+#include "../arm9/msgdata.h"
+#include "../arm9/gf_font.h"
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32 bit);
 extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void BMP_Delete(struct Bmp *p);
-extern unsigned int POKEGRA_RegisterCgr(unsigned int handle, unsigned int monsNo, unsigned int formNo, unsigned int sex, unsigned int rare, unsigned int dir, unsigned int egg, unsigned int personality, unsigned int drawType, unsigned short heapId);
-extern int POKEGRA_RegisterPalette(int,int,int,int,int,int,int,int,unsigned short,unsigned short);
-extern unsigned int POKEGRA_RegisterCellAnim(unsigned int monsNo, unsigned int formNo, unsigned int sex, unsigned int rare, unsigned int dir, unsigned int egg, unsigned int mapping, unsigned int unusedArg, unsigned short heapId);
+#include "../arm9/pokegra.h"
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
-extern void CLACT_SetActorDrawPriority(struct Actor *actor, unsigned int priority);
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern u32 APP_ICON_GetTouchBarFileId(void);
-extern u8 APP_ICON_GetTypePaletteOffset(int i);
-extern u32 APP_ICON_GetTypeCellFileId(u32 a);
-extern u32 APP_ICON_GetTypePaletteFileId(u32 a);
-extern u32 APP_ICON_GetTypeAnimFileId(u32 a);
+extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
+extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority);
+extern void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
+extern void CLACT_SetActorFlip(struct ClactActor *actor, u32 which, u32 set);
+extern void CLACT_DeleteActor(struct ClactActor *actor);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
+#include "../arm9/app_icon.h"
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
-extern void CLACT_AddActorSurfacePos(void *, ActorSurfacePos *, unsigned short);
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, unsigned int memberIdx, unsigned int heapID, unsigned int unpackedOut, unsigned short flags);
-extern void CLACT_TransferCharacterPart(int a, void *b, unsigned int c, int d, int e);
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
-extern u32 APP_ICON_GetArchiveId(void);
-extern void *POKEGRA_OpenHandle(unsigned int heapId);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void ARC_TOOL_DeleteHandle(void *);
+extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 pltt_op);
+extern void CLACT_AddActorSurfacePos(struct ClactActor *, struct ClactVec2 *, unsigned short);
+extern void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int target);
+#include "../arm9/nns_gfd_vram_transfer.h"
 void *ZUKAN_INFO_CreateFromMon(u16 heap,void *mon,unsigned formTableNeeded,unsigned showCurrent,unsigned mode,unsigned femaleFlag,u8 bgLayerBase,unsigned clactUnit,unsigned font,unsigned unused,unsigned a10,unsigned a11,unsigned a12);
 void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u32 personalParam, u32 formTableNeeded, u32 showCurrent, u32 mode, u32 femaleFlag, u8 a10, u32 a11, u32 a12, u32 a13, u32 a14, u32 a15, u32 a16);
 void ZUKAN_INFO_Delete(char *p);
@@ -591,7 +555,7 @@ void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u
     GFL_HEAP_Free(buf);
     ZUKAN_INFO_CreateBgBmp((struct ZukanInfo *)p);
     ZUKAN_INFO_FlushMainWindow(p);
-    ((struct ZukanInfo *)p)->task = GFL_USE_AddMainTask(ZUKAN_INFO_Task, p, 1);
+    ((struct ZukanInfo *)p)->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))ZUKAN_INFO_Task, (void *)p, 1);
     ZUKAN_INFO_CreateIconActors((struct ZukanInfo *)p);
     ZUKAN_INFO_InitFormGfx((struct ZukanInfo *)p);
     if (((struct ZukanInfo *)p)->mode == 0 || ((struct ZukanInfo *)p)->mode == 2) {
@@ -684,7 +648,7 @@ void ZUKAN_INFO_Update(char *p)
         if (((struct ZukanInfo *)p)->animParam58 != 0) ((struct ZukanInfo *)p)->animState = 4;
         break;
     case 4: {
-        struct Pt pt;
+        struct ZukanInfoPt pt;
         int fx = 0;
         int fy = 0;
         void *obj = ((struct ZukanInfo *)p)->actors[((struct ZukanInfo *)p)->selected];
@@ -1183,10 +1147,10 @@ void ZUKAN_INFO_CreateActor(char *p,int x,int y,int index)
     MI_CpuFill8(&pos,0,8);
     pos.x=x;
     pos.y=y;
-    *(int *)(p+0xac+index*4)=(int)CLACT_CreateActor((void *)((struct ZukanInfo *)p)->clactUnit,(u32)((struct ZukanInfo *)p)->charRes[index],(u32)((struct ZukanInfo *)p)->palRes[index],(u32)((struct ZukanInfo *)p)->cellRes[index],&pos,flag,((struct ZukanInfo *)p)->heap);
-    CLACT_SetActorDrawPriority((struct Actor *)(*(int *)(p+0xac+index*4)),0);
-    if(((struct ZukanInfo *)p)->mode==2) CLACT_SetActorObjMode((struct Actor *)(*(int *)(p+0xac+index*4)),1);
-    if(POKE_PERSONAL_GetParam((struct PersonalData *)(((struct ZukanInfo *)p)->x),34)==0) CLACT_SetActorFlip((struct Actor *)(*(int *)(p+0xac+index*4)),1,1);
+    *(int *)(p+0xac+index*4)=(int)CLACT_CreateActor((struct Unit *)((void *)((struct ZukanInfo *)p)->clactUnit),(u32)((struct ZukanInfo *)p)->charRes[index],(u32)((struct ZukanInfo *)p)->palRes[index],(u32)((struct ZukanInfo *)p)->cellRes[index],(const struct ActorInitParam *)&pos,flag,((struct ZukanInfo *)p)->heap);
+    CLACT_SetActorDrawPriority((struct ClactActor *)((struct Actor *)(*(int *)(p+0xac+index*4))),0);
+    if(((struct ZukanInfo *)p)->mode==2) CLACT_SetActorObjMode((struct ClactActor *)((struct Actor *)(*(int *)(p+0xac+index*4))),1);
+    if(POKE_PERSONAL_GetParam((struct PersonalData *)(((struct ZukanInfo *)p)->x),34)==0) CLACT_SetActorFlip((struct ClactActor *)((struct Actor *)(*(int *)(p+0xac+index*4))),1,1);
 }
 
 void ZUKAN_INFO_DeleteActor(char *p, int i)
@@ -1211,7 +1175,7 @@ void ZUKAN_INFO_CreateIconActors(struct ZukanInfo *p)
     int sh;
     void *u;
     void *arc;
-    ActorRect r;
+    ZukanInfoActorRect r;
 
     u = (void *)p->femaleFlag;
     flag = (int)u == 0 ? B_FALSE : B_TRUE;
@@ -1233,7 +1197,7 @@ void ZUKAN_INFO_CreateIconActors(struct ZukanInfo *p)
         p->shownFormB = 0x11;
         for (i = 0; i < 0x11; i++) {
             p->iconChars[i] = (void *)CLACT_RegisterCharacter(arc, APP_ICON_GetTypeCellFileId(i), 0, flag, p->heap);
-            p->iconActors[i] = CLACT_CreateActor((void *)p->clactUnit, (unsigned int)p->iconChars[i], p->paletteHandle, p->cellAnimHandle, &r, sh, p->heap);
+            p->iconActors[i] = CLACT_CreateActor((struct Unit *)p->clactUnit, (unsigned int)p->iconChars[i], p->paletteHandle, p->cellAnimHandle, (const struct ActorInitParam *)&r, sh, p->heap);
             CLACT_SetActorPaletteOffset(p->iconActors[i], APP_ICON_GetTypePaletteOffset(i), 1);
             CLACT_SetActorDrawPriority(p->iconActors[i], 2);
             CLACT_SetActorObjMode(p->iconActors[i], 1);
@@ -1250,7 +1214,7 @@ void ZUKAN_INFO_DeleteIconActors(char *p)
     for(i=0;i<2;i++) ZUKAN_INFO_DeleteRow(p,i);
     if(((struct ZukanInfo *)p)->iconVisible) {
         for(i=0;i<17;i++) {
-            CLACT_DeleteActor((struct Actor *)((struct ZukanInfo *)p)->iconActors[i]);
+            CLACT_DeleteActor((struct ClactActor *)((struct Actor *)((struct ZukanInfo *)p)->iconActors[i]));
             CLACT_ReleaseCharacter((u32)((struct ZukanInfo *)p)->iconChars[i]);
         }
         ((struct ZukanInfo *)p)->iconVisible=0;
@@ -1296,7 +1260,7 @@ void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int 
                 p->shownFormA = 0x11;
             } else {
                 if (p->shownFormA == y) {
-                    CLACT_AddActorSurfacePos(p->iconActors[p->shownFormA], (ActorSurfacePos *)(&pos[1]), ifv);
+                    CLACT_AddActorSurfacePos(p->iconActors[p->shownFormA], (struct ClactVec2 *)(&pos[1]), ifv);
                 }
                 CLACT_SetActorDrawEnable(p->iconActors[p->shownFormA], 1);
             }
@@ -1307,7 +1271,7 @@ void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int 
                 p->shownFormB = 0x11;
             } else {
                 if (p->shownFormB == x) {
-                    CLACT_AddActorSurfacePos(p->iconActors[p->shownFormB], (ActorSurfacePos *)(&pos[0]), ifv);
+                    CLACT_AddActorSurfacePos(p->iconActors[p->shownFormB], (struct ClactVec2 *)(&pos[0]), ifv);
                 }
                 CLACT_SetActorDrawEnable(p->iconActors[p->shownFormB], 1);
             }
@@ -1315,12 +1279,12 @@ void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int 
         if (x != 0x11) {
             p->shownFormA = x;
             CLACT_SetActorDrawEnable(p->iconActors[p->shownFormA], 1);
-            CLACT_AddActorSurfacePos(p->iconActors[p->shownFormA], (ActorSurfacePos *)(&pos[0]), ifv);
+            CLACT_AddActorSurfacePos(p->iconActors[p->shownFormA], (struct ClactVec2 *)(&pos[0]), ifv);
         }
         if (y != 0x11) {
             p->shownFormB = y;
             CLACT_SetActorDrawEnable(p->iconActors[p->shownFormB], 1);
-            CLACT_AddActorSurfacePos(p->iconActors[p->shownFormB], (ActorSurfacePos *)(&pos[1]), ifv);
+            CLACT_AddActorSurfacePos(p->iconActors[p->shownFormB], (struct ClactVec2 *)(&pos[1]), ifv);
         }
     } else {
         zp = (short *)rr;
@@ -1351,7 +1315,7 @@ void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int 
         }
         for (j = 0; j < 2; j++) {
             if (p->charIds[row][j] != -1) {
-                p->actorSlots[row][j] = CLACT_CreateActor((void *)p->clactUnit, p->charIds[row][j], p->paletteHandle, p->cellAnimHandle, &rr[j], (unsigned short)tern, p->heap);
+                p->actorSlots[row][j] = CLACT_CreateActor((struct Unit *)p->clactUnit, p->charIds[row][j], p->paletteHandle, p->cellAnimHandle, (const struct ActorInitParam *)&rr[j], (unsigned short)tern, p->heap);
                 CLACT_SetActorPaletteOffset(p->actorSlots[row][j], APP_ICON_GetTypePaletteOffset(sel[j]), 1);
                 CLACT_SetActorDrawPriority(p->actorSlots[row][j], 2);
                 CLACT_SetActorObjMode(p->actorSlots[row][j], 1);
@@ -1363,7 +1327,7 @@ void ZUKAN_INFO_LayoutFormPair(struct ZukanInfo *p, unsigned x, unsigned y, int 
 void ZUKAN_INFO_LayoutFormPairEx(struct ZukanInfo *p, unsigned x, unsigned y, int z, int row)
 {
     ShortRect4 rr[2];
-    Pos pos[2];
+    ZukanInfoPos pos[2];
     unsigned char sel[2];
     void *arc;
     void *handle;
@@ -1398,7 +1362,7 @@ void ZUKAN_INFO_LayoutFormPairEx(struct ZukanInfo *p, unsigned x, unsigned y, in
     rr[1].x = 0xd0;
     rr[1].y = v;
     arc = p->w[3];
-    handle = ARC_UTIL_LoadBgCharDataFromHandle(p->w[0], d_021BC128[z], 0, (unsigned int)(&blob), p->heap);
+    handle = ARC_UTIL_LoadBgCharDataFromHandle((void *)p->w[0], d_021BC128[z], 0, (void *)((unsigned int)(&blob)), p->heap);
     data = blob->pRawData;
     for (j = 0; j < 2; j++) {
         p->charIds[row][j] = -1;
@@ -1414,7 +1378,7 @@ void ZUKAN_INFO_LayoutFormPairEx(struct ZukanInfo *p, unsigned x, unsigned y, in
     GFL_HEAP_Free(handle);
     for (j = 0; j < 2; j++) {
         if (p->charIds[row][j] != -1) {
-            p->actorSlots[row][j] = CLACT_CreateActor((void *)p->clactUnit, (u32)p->charIds[row][j], p->paletteHandle, p->cellAnimHandle, &rr[j], (unsigned short)tern, p->heap);
+            p->actorSlots[row][j] = CLACT_CreateActor((struct Unit *)p->clactUnit, (u32)p->charIds[row][j], p->paletteHandle, p->cellAnimHandle, (const struct ActorInitParam *)&rr[j], (unsigned short)tern, p->heap);
             CLACT_SetActorPaletteOffset(p->actorSlots[row][j], APP_ICON_GetTypePaletteOffset(sel[j]), 1);
             CLACT_SetActorDrawPriority(p->actorSlots[row][j], 2);
             CLACT_SetActorObjMode(p->actorSlots[row][j], 1);
@@ -1428,7 +1392,7 @@ void ZUKAN_INFO_DeleteRow(char *p, int index)
     if (((struct ZukanInfo *)p)->iconVisible == 0) {
         for (i = 0; i < 2; i++) {
             if (((struct ZukanInfo *)p)->charIds[index][i] != -1)
-                CLACT_DeleteActor((struct Actor *)(((struct ZukanInfo *)p)->actorSlots[index][i]));
+                CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(((struct ZukanInfo *)p)->actorSlots[index][i])));
         }
         for (i = 0; i < 2; i++) {
             if (((struct ZukanInfo *)p)->charIds[index][i] != -1) {
@@ -1510,9 +1474,9 @@ void ZUKAN_INFO_CreateSpeciesActor(struct ZukanInfo *p, u32 a, u32 b, u32 idx)
     pt.drawPriority = 1;
     pt.bgPriority = 0;
     if (a <= 0x1ED && v != 0xFFFF)
-        p->formActor[idx] = CLACT_CreateActor((void *)p->clactUnit, p->formChar[idx], p->paletteHandleA, p->cellAnimA, &pt, flag2, p->heap);
+        p->formActor[idx] = CLACT_CreateActor((struct Unit *)p->clactUnit, p->formChar[idx], p->paletteHandleA, p->cellAnimA, (const struct ActorInitParam *)&pt, flag2, p->heap);
     else
-        p->formActor[idx] = CLACT_CreateActor((void *)p->clactUnit, p->formChar[idx], p->paletteHandleA, p->cellAnimB, &pt, flag2, p->heap);
+        p->formActor[idx] = CLACT_CreateActor((struct Unit *)p->clactUnit, p->formChar[idx], p->paletteHandleA, p->cellAnimB, (const struct ActorInitParam *)&pt, flag2, p->heap);
     CLACT_SetActorDrawPriority(p->formActor[idx], 1);
     CLACT_SetActorObjMode(p->formActor[idx], 1);
     ZUKAN_INFO_DisableUnselected(p);

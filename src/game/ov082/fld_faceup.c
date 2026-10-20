@@ -100,55 +100,32 @@ typedef struct UnpackedPaletteData {
 
 #include "../sdk_gx.h"
 
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern void **FIELDMAP_GetFaceUpWorkPtr(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct Config *SYSTEM_DATA_GetConfig(void *save);
-extern unsigned int CONFIG_GetTextSpeed(struct Config *config);
-extern struct GameEvent *GAME_EVENT_Create(const struct GameSystem *gameSystem, struct GameEvent *parent,
-                                       int (*proc)(struct GameEvent *event, int *seq), u32 size);
+#include "../arm9/gamesystem.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../ov021/fieldmap.h"
+#include "../arm9/game_data.h"
+#include "../arm9/system_data.h"
+#include "../arm9/config.h"
+#include "../arm9/game_event.h"
 struct TcblSys;
-extern struct TcblSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
 struct TcbSystem;
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*proc)(void *tcb, FaceupWork *work), void *work, u32 priority);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*proc)(void *tcb, FaceupWork *work), void *work, u32 priority);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern void FADE_Start(u32 screens, s32 start, s32 end, s32 speed);
-extern int FADE_IsActive(void);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-extern int FIELD_MSGBG_ReleaseSysFrame(struct FieldMsgBg *msgBg);
-extern void FIELD_MSGBG_RequestSysFrame(struct FieldMsgBg *msgBg);
-extern void BG_SYS_FreeLayerBuf(u32 bgId);
-extern void BG_SYS_InitBgLayer(u32 bgId, const FaceupBgTemplate *bgTemplate, u32 type);
-extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
+struct TcbTask;
+#include "../arm9/gfl_use.h"
+#include "../arm9/fade.h"
+#include "../arm9/g2.h"
+#include "../ov021/field_msgbg.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/arc_tool.h"
 struct NitroFileHeader;
-extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
-extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
-extern void BG_SYS_LoadTileData(int bgId, const void *src, u32 size, u32 tileOffset);
-extern void BG_SYS_PushTileSource(u32 bgId, const void *src, u32 size, u32 mapOffset);
-extern void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset);
-extern u32 GFL_HEAP_Free(void *work);
-extern void BG_SYS_SetPriority(int bgId, unsigned short priority);
-extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char enable);
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
-extern void BG_SYS_FreeSlot(u8 idx);
-extern void FIELD_PLACE_NAME_RestoreWindow(struct FieldPlaceName *placeName);
-extern u8 BG_SYS_GetPriority(u32 bgId);
-u32 BG_SYS_GetMainVisiblePlanes(void);
-void BG_SYS_SetMainVisiblePlanes(u32 planes);
-extern int SCRIPT_WORK_CheckFlag(int flagId);
+#include "../arm9/nns_g2d_anim_bank.h"
+#include "../arm9/nns_g2d_load.h"
+#include "../arm9/tcb_list.h"
+#include "../ov021/field_place_name.h"
+#include "../ov010/script_work.h"
 struct ScrcmdWork;
-extern struct FieldMsgWindow *SCRCMD_WORK_GetMsgWindow(struct ScrcmdWork *work);
+#include "../ov010/scrcmd_work.h"
 struct FieldPlainWin;
-extern int FIELD_MSGBG_GetPlainWinStreamState(struct FieldPlainWin *plainWin);
-extern u32 GFL_USE_GetRandom(u32 range);
 struct GameEvent *FLD_FACEUP_Create(int faceType, int unusedVariant, int fadeBothScreens, struct GameSystem *gameSystem, void *scrcmdWork);
 int FLD_FACEUP_OpenEventMain(struct GameEvent *event, int *seq);
 void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap);
@@ -201,9 +178,9 @@ struct GameEvent *FLD_FACEUP_Create(int faceType, int unusedVariant, int fadeBot
     else
         work->mouth.delayReload = 1;
     work->blink.delayReload = 2;
-    event = GAME_EVENT_Create(gameSystem, 0, FLD_FACEUP_OpenEventMain, 0);
-    work->updateTask = TCB_AddTask((struct TcbSystem *)FIELDMAP_GetTcblSys(fieldMap), FLD_FACEUP_UpdateTaskMain, work, 0);
-    work->vblankTask = GFL_USE_AddMainTask(FLD_FACEUP_VBlankUpload, work, 1);
+    event = GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)((GameEventFunc)((GameEventFunc)FLD_FACEUP_OpenEventMain)), 0);
+    work->updateTask = TCB_AddTask((struct TcbSystem *)FIELDMAP_GetTcblSys(fieldMap), (TcbFunc)((TcbFunc)FLD_FACEUP_UpdateTaskMain), (void *)work, 0);
+    work->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))FLD_FACEUP_VBlankUpload, (void *)work, 1);
     work->lipSyncStopped = 0;
     work->waitingForText = 1;
     return event;
@@ -290,7 +267,7 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
     else
         BG_SYS_FreeLayerBuf(2);
     bgTemplate = gFldFaceupBgTemplate;
-    BG_SYS_InitBgLayer(2, &bgTemplate, 0);
+    BG_SYS_InitBgLayer(2, (const struct BgTemplate *)&bgTemplate, 0);
     if (work->faceType == 0) {
         faceCharIndex = 4;
         faceScreenIndex = 8;
@@ -342,7 +319,7 @@ struct GameEvent *FLD_FACEUP_StartClose(struct GameSystem *gameSystem)
 
     if (*FIELDMAP_GetFaceUpWorkPtr(fieldMap) == 0)
         return 0;
-    return GAME_EVENT_Create(gameSystem, 0, FLD_FACEUP_CloseEventMain, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FLD_FACEUP_CloseEventMain, 0);
 }
 
 

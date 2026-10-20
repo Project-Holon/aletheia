@@ -26,7 +26,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sc_types.h"
-extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, unsigned long n);
+#include "../arm9/msl_string_mem.h"
 
 #define SCI_ROSTER_ROW_SIZE 20 /* connection id (16 bytes) and team index */
 #define SCI_ROSTER_TEAM_OFFSET 16
@@ -36,8 +36,7 @@ extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, unsigned long n);
                                 (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000)))
 #define BS16(x) ((unsigned short)((((x) >> 8) & 0xff) | (((x) << 8) & 0xff00)))
 
-extern void *gsimalloc(unsigned long size);
-extern void gsifree(void *ptr);
+#include "../ov009/gsmemory.h"
 
 /*
  * sciCreateReport: allocates the report and its buffer and writes the start of

@@ -8,6 +8,7 @@ struct TrainerCardSignature;
 struct SaveControl;
 
 #include "../types.h"
+#include "../arm9/trcard_sign_shared_types.h"
 
 u32 TRCARD_SIGN_GetSize(void);
 void TRCARD_SIGN_Init(struct TrainerCardSignature *card);
@@ -22,6 +23,7 @@ void TRCARD_SIGN_SetStyle(struct TrainerCardSignature *card, u8 style);
 u8 TRCARD_SIGN_GetStyle(const struct TrainerCardSignature *card);
 void TRCARD_SIGN_SetLastBadgeTime(struct TrainerCardSignature *card, u32 lo, u32 hi);
 u64 TRCARD_SIGN_GetLastBadgeTime(const struct TrainerCardSignature *card);
+struct BadgeDate TRCARD_SIGN_GetBadgeDate(struct TrainerCardSignature *card, int badge);
 void TRCARD_SIGN_SetBadgeDate(struct TrainerCardSignature *card, u32 badge, u32 year, u32 month, u32 day);
 u16 TRCARD_SIGN_GetBadgeTimer(const struct TrainerCardSignature *card, u32 badge);
 void TRCARD_SIGN_SetBadgeTimer(struct TrainerCardSignature *card, int badge, int timer);

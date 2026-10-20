@@ -120,10 +120,10 @@
 
 #include "egg_demo_types.h"
 extern void EGG_DEMO_MENU_Draw(void *unused, char *work);
-extern void EGG_DEMO_VIEW_ResetAnimState(char *work);
+#include "egg_demo_view.h"
 
 struct Proc;
-struct S020314B8;
+struct ProcSys;
 struct Proc;
 struct SaveBlock;
 struct Rec44;
@@ -138,29 +138,27 @@ struct Obj;
 struct Actor;
 #include "../types.h"
 
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *,u32,u32);
-extern void FADE_Start(u32,int,int,int);
-extern void *PROCSYS_Create(int heapId);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
-extern void PROCSYS_Delete(struct S020314B8 *),PROCSYS_FreeProcWork(struct Proc *),GFL_HEAP_DeleteChecked(u32);
-extern u32 KEY_GetTrg(void),PROCSYS_Main(void *);
-extern int FADE_IsActive(void);
-extern void EGG_DEMO_VIEW_SetActive(char *);
-extern int EGG_DEMO_VIEW_GetActive(char *);
+#include "../arm9/gfl_use.h"
+#include "../arm9/clact.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/fade.h"
+#include "../arm9/net.h"
+extern void GFL_HEAP_DeleteChecked(u32);
+#include "../arm9/procsys.h"
+extern u32 KEY_GetTrg(void);
 struct GameData;
 struct PlayerWork;
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 struct MyStatus;
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
-extern u32 ZONEDATA_GetPlaceNameId(u32);
+#include "../arm9/zonedata.h"
 struct PokemonParam;
 extern void POKE_TOOL_HatchEgg(struct PokemonParam *pp, unsigned int trainer, unsigned int location, unsigned int arg);
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 extern void ZUKAN_SAVE_RegisterSeen(struct Blk37 *,void *),ZUKAN_SAVE_RegisterCaught(struct Blk37 *,void *);
-extern void EGG_DEMO_VIEW_SetSpecies(char *work, void *species);
 extern int EGG_DEMO_VIEW_IsFadeDone(char *),EGG_DEMO_VIEW_IsFinished(char *);
 extern void EGG_DEMO_MENU_SetText(char *,char *,u32);
 extern int EGG_DEMO_MENU_WaitText(void *,char *),EGG_DEMO_MAIN_IsBgm2Loading(void *,char *),EGG_DEMO_MENU_CreateDialog(int,char *),EGG_DEMO_MENU_GetDialogResult(int,char *);
@@ -169,70 +167,32 @@ extern void *GAME_DATA_GetSaveControl(struct Big *),*MISC_GetBlock(void *);
 struct Strbuf;
 struct NameInArgs;
 extern struct NameInArgs *NAMEIN_SETUP_CreateMonArgs(unsigned short heapId, void *mon, int maxLen, struct Strbuf *initialName, void *pokedex);
-extern void PROCSYS_Push(void *,u32,u32,u32);
 extern int NAMEIN_SETUP_IsCanceled(struct NameInArgs *args);
 extern struct Strbuf *STRBUF_Create(u32,u32);
 extern void NAMEIN_SETUP_CopyName(int *,int),POKE_TOOL_SetPartyValue(void *,u32,u32),STRBUF_Delete(struct U16Vec *);
 extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
-extern u32 RECORD_AddOne(struct Sub02008C20Obj *,int);
+#include "../arm9/record.h"
 extern void NAMEIN_SETUP_FreeArgs(struct NameInArgs *args);
 extern void EGG_DEMO_MENU_FadeInBgm(u32 *,u32 *),EGG_DEMO_MAIN_UpdateBgm(u8 *,u8 *),EGG_DEMO_MENU_Main(void *,char *),EGG_DEMO_MENU_ProcessDialog(void *,char *);
-extern void EGG_DEMO_VIEW_Update(char *);
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+#include "../arm9/printsys.h"
 extern void EGG_DEMO_GRAPHIC_Draw(char *),EGG_DEMO_GRAPHIC_Draw3d(char *),EGG_DEMO_VIEW_Draw(char *),EGG_DEMO_GRAPHIC_DrawEnd(char *);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern char *EGG_DEMO_GRAPHIC_Create(u32,u16);
-extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern void *GFL_USE_AddMainTask(u32,u32,u32);
+#include "../arm9/bg_sys.h"
+#include "egg_demo_graphic.h"
+#include "../arm9/gf_font.h"
 extern void EGG_DEMO_MENU_Create(int,char *);
 extern void EGG_DEMO_MENU_InitDialog(int,u8 *);
-extern void BG_SYS_SetPriority(int,u16);
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
-extern void BG_SYS_LoadPlttEntry(u32,u32);
-extern char *EGG_DEMO_VIEW_Create(u32,void *);
-extern void EGG_DEMO_VIEW_Delete(char *p);
+#include "../arm9/g2.h"
 extern void EGG_DEMO_MENU_Noop(int args, char *work);
 extern void EGG_DEMO_MENU_Delete(void *unused, char *p);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void EGG_DEMO_GRAPHIC_Delete(char *p);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
-extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void BG_SYS_PushTile(u32 index);
-extern int CLACT_RegisterPaletteEx(void *, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short, unsigned short);
-extern int CLACT_RegisterCharacter(void *, unsigned int, unsigned int, unsigned int, unsigned short);
-extern int CLACT_RegisterCellAnim(void *, unsigned int, unsigned int, unsigned int);
-extern int EGG_DEMO_GRAPHIC_GetClactBank2(char *p);
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleaseCellAnim(unsigned);
-extern void CLACT_ReleaseCharacter(unsigned);
-extern void CLACT_ReleasePalette(unsigned);
-extern void CLACT_SetActorAnimIndex(struct Actor *actor, unsigned int anim_idx);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void GFL_USE_FadeOutBgm(u32 a);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern void GFL_USE_SetBgmPaused(unsigned int value);
-extern int  GFL_USE_IsBgmFading(void);
-extern int GFL_USE_PushBgm(void);
-extern int  GFL_USE_IsBgmPlaying(void);
-extern u32 GFL_USE_StepBgmLoad(unsigned int bgmNo, unsigned int *step, unsigned int abort);
-extern void GFL_USE_CancelChangeAndPlayBgm(unsigned, unsigned);
-extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_FadeInBgmFull(u32 a);
+#include "../arm9/tcb_list.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
 int EGG_DEMO_MAIN_Create(void *a,int unused,u32 c);
 int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 a,char *p);
 int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *a,u32 *p);
-void EGG_DEMO_MAIN_OnVBlank(void *unused, char *p);
+void EGG_DEMO_MAIN_OnVBlank(struct TcbTask *unused, void *p);
 void EGG_DEMO_MAIN_Init(int a,char *p);
 void EGG_DEMO_MAIN_DeleteResources(u32 a,char *p);
 void EGG_DEMO_MAIN_LoadGraphics(int unused, char *p);
@@ -281,7 +241,7 @@ int EGG_DEMO_MAIN_Create(void *owner,int unused,u32 args)
     return 1;
 }
 
-int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 args,char *work) { PROCSYS_Delete(*(struct S020314B8 * *)&((struct EggDemoWork *)work)->proc);EGG_DEMO_MAIN_NoopB(args,work);if(((struct EggDemoWork *)work)->state!=17)EGG_DEMO_MAIN_DeleteResources(args,work);PROCSYS_FreeProcWork(task);GFL_HEAP_DeleteChecked(143);return 1; }
+int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 args,char *work) { PROCSYS_Delete(*(struct ProcSys * *)&((struct EggDemoWork *)work)->proc);EGG_DEMO_MAIN_NoopB(args,work);if(((struct EggDemoWork *)work)->state!=17)EGG_DEMO_MAIN_DeleteResources(args,work);PROCSYS_FreeProcWork(task);GFL_HEAP_DeleteChecked(143);return 1; }
 
 /*
  * prototypes: owning ARM9 units and ov215 sources; live r3 from C028 is
@@ -334,7 +294,7 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
             block=MISC_GetBlock(GAME_DATA_GetSaveControl((struct Big *)args[0]));
             EGG_DEMO_MAIN_DeleteResources((u32)args,(char *)work);((struct EggDemoWork *)work)->state=15;
             child=(int *)NAMEIN_SETUP_CreateMonArgs(((struct EggDemoWork *)work)->heapId,(void *)args[1],10,0,block);((struct EggDemoWork *)work)->nameChild=child;
-            PROCSYS_Push((void *)((struct EggDemoWork *)work)->proc,(u32)&abs_id_C2,(u32)&gNameInProcData,(u32)child);
+            PROCSYS_Push((struct ProcSys *)((struct EggDemoWork *)work)->proc,(u32)&abs_id_C2,(const struct ProcData *)&gNameInProcData,(void *)child);
         }break;
     case 15:
         if(active!=1){
@@ -359,7 +319,7 @@ int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work)
     return 0;
 }
 
-void EGG_DEMO_MAIN_OnVBlank(void *unused, char *work)
+void EGG_DEMO_MAIN_OnVBlank(struct TcbTask *unused, void *work)
 {
     if (((struct EggDemoWork *)work)->vblankFlag) {
         BG_SYS_SetPlaneVisible(1, 1);
@@ -374,7 +334,7 @@ void EGG_DEMO_MAIN_Init(int args,char *work)
     ((struct EggDemoWork *)work)->graphic=EGG_DEMO_GRAPHIC_Create(1,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->font=GF_FONT_Create(23,0,0,0,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->printQue=(unsigned int)PRINTSYS_QUE_Create((unsigned int)(u32)((struct EggDemoWork *)work)->heapId);
-    ((struct EggDemoWork *)work)->vblankTask=GFL_USE_AddMainTask((u32)EGG_DEMO_MAIN_OnVBlank,(u32)work,1);
+    ((struct EggDemoWork *)work)->vblankTask=GFL_USE_AddMainTask(EGG_DEMO_MAIN_OnVBlank, work,1);
     EGG_DEMO_MAIN_LoadGraphics(args,work);
     EGG_DEMO_MAIN_InitActors(args,(struct EggDemoWork *)work);
     EGG_DEMO_MENU_Create(args,work);
@@ -450,7 +410,7 @@ void EGG_DEMO_MAIN_InitActors(int unused, struct EggDemoWork *work)
         actorTemplate = (unsigned int)table[i];
         o = (unsigned int)CLACT_CreateActor((void *)EGG_DEMO_GRAPHIC_GetClactBank2((char *)work->graphic), work->charId, work->paletteId, work->cellAnimId, (const void *)actorTemplate, 0, work->heapId);
         out->actors[0] = (void *)o;
-        CLACT_SetActorAutoAnim((struct Actor *)o, 0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)o, 0);
     }
 }
 

@@ -34,18 +34,10 @@
 #define BTL_STR_TYPE_STD 2
 
 /* Services of the battle viewer slots and poke parameters that only this file uses. */
-extern union SickCont BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickKind);
-extern int BTL_POKEPARAM_GetSickTurn(struct BtlPokeParam *bpp, int sickKind);
-extern int BTL_POKEPARAM_IsHpFull(struct BtlPokeParam *bpp);
-extern int BTL_POKEPARAM_GetMovePPById(struct BtlPokeParam *bpp, int moveId);
-extern int BTL_SICKCONT_GetLow(union SickCont slot);
-extern int BTL_SICKCONT_GetValue(union SickCont slot);
-extern int BTL_SICKCONT_GetFlag(union SickCont slot);
-extern int BTL_SERVER_FLOW_GetPosTableEntryForPoke(struct BtlServerFlow *flow, int pokeId);
-extern int BTL_CALC_RandRange(int min, int max);
-extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
-extern int BTL_SICKCONT_IsKind1Index15(union SickCont slot);
-extern void BTL_SERVER_FLOW_ClearMsgRecord(void *message);
+#include "../ov093/btl_pokeparam.h"
+#include "../ov093/btl_sickcont.h"
+#include "../ov093/btl_server_flow.h"
+#include "../ov093/btl_calc.h"
 
 /* Command record kind 6: recover HP of one Pokemon, then show a message. */
 typedef struct BtlCmdRecoverHp {
@@ -81,27 +73,6 @@ typedef struct BtlCmdSetSickState {
 #define BTL_CMD_ACTIVE_NONE 0x1f
 
 /* The sick code of overlay 095 (names are mapped in rename_map.tsv). */
-extern int BTL_SICK_BuildDamageMessage(BtlStrParam *message, struct BtlPokeParam *bpp, int sickKind);
-extern int BTL_SICK_GetDamageStringId(int sickKind);
-extern void BTL_SICK_TickPerishSong(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-extern void BTL_SICK_ApplyLeechSeed(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-extern void BTL_SICK_RecoverHpIngrain(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-extern void BTL_SICK_ApplyBindDamage(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-extern void BTL_SICK_RecoverHpAquaRing(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-extern void BTL_SICK_EndEncoreWhenPpEmpty(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-extern void BTL_SICK_OnAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId, int sickKind, union SickCont cont);
-extern void BTL_SICK_StartYawnSleep(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-extern void BTL_SICK_ApplyPerishFaint(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-extern void BTL_SICK_ShowPerishCount(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, u8 count);
-extern void BTL_SICK_OnHealBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-extern void BTL_SICK_OnItemBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-extern int BTL_SICK_GetCureStringId(unsigned int sickKind, union SickCont cont);
-extern void BTL_SICK_BuildCureMessage(int sickKind, union SickCont cont, struct BtlPokeParam *bpp, BtlStrParam *message);
-extern int BTL_SICK_GetAddStringId(u32 sickKind, int hasArg);
-extern int BTL_SICK_BuildAddMessage(int sickKind, union SickCont cont, struct BtlPokeParam *bpp, u8 argValue, BtlStrParam *message);
-extern void BTL_SICK_OverrideGroundImmunity(struct BtlEventFactor *factor, struct BtlPokeParam *bpp);
-extern void BTL_SICK_ForceGroundedByTrap(struct BtlEventFactor *factor, struct BtlPokeParam *bpp);
-extern void BTL_SICK_ForceGroundedOrFloating(struct BtlEventFactor *factor, struct BtlPokeParam *bpp);
-extern void BTL_SICK_ShowIngrainRoots(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
+#include "btl_sick.h"
 
 #endif

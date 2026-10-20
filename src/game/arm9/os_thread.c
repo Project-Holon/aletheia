@@ -361,10 +361,10 @@ void OS_InitThread(void)
     gOsThreadBss.OSi_ThreadInfo.list = &OSi_LauncherThread;
     gOsThreadBss.OSi_ThreadInfo.current = &OSi_LauncherThread;
 
-    stackTop = ((s32)SDK_SYS_STACKSIZE <= 0)
-        ? (u32)SDK_SECTION_ARENA_DTCM_START - (s32)SDK_SYS_STACKSIZE
-        : (u32)SDK_AUTOLOAD_DTCM_START + 0x3F80 - (u32)SDK_IRQ_STACKSIZE - (s32)SDK_SYS_STACKSIZE;
-    stackBottom = (u32)SDK_AUTOLOAD_DTCM_START + 0x3F80 - (u32)SDK_IRQ_STACKSIZE;
+    stackTop = ((sptr)SDK_SYS_STACKSIZE <= 0)
+        ? (uptr)SDK_SECTION_ARENA_DTCM_START - (sptr)SDK_SYS_STACKSIZE
+        : (uptr)SDK_AUTOLOAD_DTCM_START + 0x3F80 - (uptr)SDK_IRQ_STACKSIZE - (sptr)SDK_SYS_STACKSIZE;
+    stackBottom = (uptr)SDK_AUTOLOAD_DTCM_START + 0x3F80 - (uptr)SDK_IRQ_STACKSIZE;
 
     OSi_LauncherThread.stackBottom = stackBottom;
     OSi_LauncherThread.stackTop = stackTop;
@@ -414,8 +414,8 @@ void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *st
     thread->profiler = 0;
     OSi_InsertThreadToList(thread);
 
-    thread->stackBottom = (u32)stack;
-    thread->stackTop = (u32)stack - stackSize;
+    thread->stackBottom = (uptr)stack;
+    thread->stackTop = (uptr)stack - stackSize;
     thread->stackWarningOffset = 0;
 
     *(u32 *)(thread->stackBottom - sizeof(u32) * 2) = 0xFDDB597D;
@@ -423,11 +423,11 @@ void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *st
 
     thread->joinQueue.head = thread->joinQueue.tail = 0;
 
-    OS_InitContext(&thread->context, (u32)func, (u32)stack - sizeof(u32) * 2);
-    thread->context.r[0] = (u32)arg;
-    thread->context.lr = (u32)OS_ExitThread;
+    OS_InitContext(&thread->context, (uptr)func, (uptr)stack - sizeof(u32) * 2);
+    thread->context.r[0] = (uptr)arg;
+    thread->context.lr = (uptr)OS_ExitThread;
 
-    MIi_CpuClear32(0, (void *)((u32)stack - stackSize + sizeof(u32)), stackSize - sizeof(u32) * 3);
+    MIi_CpuClear32(0, (void *)((uptr)stack - stackSize + sizeof(u32)), stackSize - sizeof(u32) * 3);
 
     thread->mutex = 0;
     thread->mutexQueue.head = 0;
@@ -456,8 +456,8 @@ void OS_ExitThread(void)
 void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg)
 {
     if (gOsThreadBss.OSi_StackForDestructor) {
-        OS_InitContext(&thread->context, (u32)OSi_ExitThread, gOsThreadBss.OSi_StackForDestructor);
-        thread->context.r[0] = (u32)arg;
+        OS_InitContext(&thread->context, (uptr)OSi_ExitThread, gOsThreadBss.OSi_StackForDestructor);
+        thread->context.r[0] = (uptr)arg;
         thread->context.cpsr |= 0x80;
         thread->state = OS_THREAD_STATE_READY;
         OS_LoadContext(&thread->context);
@@ -550,10 +550,10 @@ void OS_KillThreadWithPriority(OSThread *thread, void *arg, u32 prio)
 
     OSi_CancelThreadAlarmForSleep(thread);
 
-    OS_InitContext(&thread->context, (u32)OSi_ExitThread,
+    OS_InitContext(&thread->context, (uptr)OSi_ExitThread,
                    gOsThreadBss.OSi_StackForDestructor ? gOsThreadBss.OSi_StackForDestructor
                                                      : thread->stackBottom - 8);
-    thread->context.r[0] = (u32)arg;
+    thread->context.r[0] = (uptr)arg;
     thread->context.cpsr |= 0x80;
     thread->state = OS_THREAD_STATE_READY;
 

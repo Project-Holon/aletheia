@@ -14,7 +14,7 @@
  * symbols:
  *   DWCi_CELLlGetPosition  0x021D5250  arm  ov016
  *   func_021D1868  0x021D1868  arm  ov016
- *   DWCi_TSKlSetParam  0x021D771C  arm  ov016
+ *   DWCi_TSKlChangeFunc  0x021D771C  arm  ov016
  *   func_021D1C04  0x021D1C04  arm  ov016
  *   func_021D1C5C  0x021D1C5C  arm  ov016
  *   gWindowWork     0x021DE658  data
@@ -41,7 +41,7 @@ typedef struct {
 
 extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void func_021D1868(int y);
-extern void DWCi_TSKlSetParam(char *p, unsigned int v);
+extern void DWCi_TSKlChangeFunc(char *p, unsigned int v);
 extern void func_021D1C04(void *task);
 extern void func_021D1C5C(void *task);
 extern struct MemWinT *gWindowWork;
@@ -57,7 +57,7 @@ void taskEnd1(void *task)
     if (y < 192)
         return;
     if (gWindowWork->dark != 0)
-        DWCi_TSKlSetParam(task, (unsigned int)func_021D1C04);
+        DWCi_TSKlChangeFunc(task, (unsigned int)func_021D1C04);
     else
-        DWCi_TSKlSetParam(task, (unsigned int)func_021D1C5C);
+        DWCi_TSKlChangeFunc(task, (unsigned int)func_021D1C5C);
 }

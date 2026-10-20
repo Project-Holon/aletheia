@@ -78,7 +78,7 @@ struct PokeParty;
 struct Pokemon;
 struct SaveControl;
 struct GPowerSave;
-struct MsgData;
+struct MsgBank;
 struct Strbuf;
 struct InfoMsgWin;
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
@@ -92,56 +92,35 @@ extern unsigned int GPOWER_GetPowerType(struct GPowerData *table, s32 powerId);
 extern void GPOWER_Activate(s32 powerId, struct GPowerData *table, s32 select);
 extern int SCRIPT_WORK_SetParams(struct ScriptWork *scriptWork, u16 powerId, u16 powerType, u16 payWithItems, u16 unused);
 extern void *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
-extern u16   GPOWER_GetPowerCost(struct GPowerTable *table, int powerId);
-extern void *GAME_DATA_GetMyItem(const struct GameData *gameData);
-extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *myItem, u16 itemId, u16 count, u16 heapId);
+extern u16   GPOWER_GetPowerCost(struct GPowerData *table, int powerId);
+#include "../arm9/game_data.h"
+#include "../arm9/myitem_savedata.h"
 extern void GAME_BEACON_SEARCH_SetVersionAction(u32 version);
 extern void  GAME_BEACON_SEARCH_SetHalfwordValue(int powerId);
 extern void  GPOWER_FreePowerTable(struct GPowerData *table);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct MmdlSys;
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
-extern void STRBUF_Delete(struct Strbuf *str);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern int  FADE_IsActive(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+#include "../arm9/msgdata.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/strbuf.h"
+#include "../ov010/fldmmdl.h"
+#include "../arm9/wordset.h"
+#include "../arm9/fade.h"
+#include "../arm9/gfl_use.h"
 struct Party;
-extern u32   POKEPARTY_FindFirstBattleReady(struct Party *party);
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *words, u32 slot, void *mon);
 extern u32   GPOWER_UseHpRestore(void *party);
 extern u32   GPOWER_UsePpRestore(void *party);
 struct FieldSysWin;
-extern struct FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId);
-extern void FIELD_MSGBG_InfoSysWinPrintMsg(struct FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
-extern u32 FIELD_MSGBG_InfoSysWinMain(struct FieldSysWin *sysWin);
-extern int FIELD_MSGBG_DeleteInfoSysWin(struct FieldSysWin *sysWin);
+#include "../ov021/field_msgbg.h"
 struct FieldMsgWin;
-extern struct FieldMsgWin *FIELD_MSGBG_CreateInfoMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 b, u32 c, u16 d, u16 e);
-extern void FIELD_MSGBG_ClearInfoMsgWin(struct FieldMsgWin *msgWin);
-extern int FIELD_MSGBG_DeleteInfoMsgWin(struct FieldMsgWin *msgWin);
-extern u32 KEY_GetTrg(void);
-extern void WORDSET_SetSlotFromMsgA0(struct WordSet *wordSet, u32 index, s32 value);
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padding, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void FIELD_MSGBG_InfoMsgWinPrintStr(struct FieldMsgWin *msgWin, s32 x, s32 y, struct Strbuf *str);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/key.h"
 struct IntrudeSave;
-extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *saveControl);
-extern u8 INTRUDE_GetMonolithLevel(struct IntrudeSave *intrude);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+#include "../arm9/intrude.h"
 extern u8 GPOWER_GetActiveIdByType(int type);
 extern u32 GPOWER_GetMinutesLeftByType(u32 type);
 struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, GPowerActivateParam *param);
@@ -184,7 +163,7 @@ struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem
     }
     GPOWER_EVENT_RestoreParty(gameSystem, SCRIPT_WORK_GetWordSet(scriptWork), powerType);
     if (param->payWithItems != 0) {
-        cost = GPOWER_GetPowerCost(table, powerId);
+        cost = GPOWER_GetPowerCost((struct GPowerData *)table, powerId);
         MYITEM_SAVEDATA_RemoveItem(GAME_DATA_GetMyItem(gameData), GPOWER_COST_ITEM_ID, cost, GPOWER_EVENT_HEAP_ID_BACK);
         GAME_BEACON_SEARCH_SetVersionAction(powerId);
     } else {
@@ -228,7 +207,7 @@ void GPOWER_EVENT_InitListWork(GPowerListWork *work, struct GameSystem *gameSyst
     work->msgBg = FIELDMAP_GetMsgBg(work->fieldMap);
     work->mmdlSys = (struct FldMmdlSys *)FIELDMAP_GetMmdlSys(work->fieldMap);
     work->powerTable = (struct GPowerTable *)GPOWER_LoadPowerTable(work->heapId);
-    work->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x108, work->heapId);
+    work->msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 3, 0x108, work->heapId);
     work->wordSet = WORDSET_CreateDefault(work->heapId);
     work->templateStr = STRBUF_Create(0x81, work->heapId);
     work->lineStr = STRBUF_Create(0x81, work->heapId);
@@ -240,7 +219,7 @@ void GPOWER_EVENT_FreeListWork(GPowerListWork *work)
     STRBUF_Delete(work->lineStr);
     STRBUF_Delete(work->templateStr);
     WORDSET_Delete(work->wordSet);
-    MSGDATA_Delete((struct MsgBank *)work->msgData);
+    MSGDATA_Delete(work->msgData);
     GPOWER_FreePowerTable((struct GPowerData *)work->powerTable);
     FLDMMDL_SysResumeMove((struct MmdlSys *)work->mmdlSys);
 }
@@ -340,16 +319,16 @@ void GPOWER_EVENT_PrintPowerList(GPowerListWork *work)
     u8 swapTmp;
 
     gpowerSave = (struct GPowerSave *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(work->gameData));
-    MSGDATA_ReadString((struct MsgBank *)work->msgData, 4, work->templateStr);
+    MSGDATA_ReadString(work->msgData, 4, work->templateStr);
     FIELD_MSGBG_InfoMsgWinPrintStr((struct FieldMsgWin *)work->infoMsgWin, 0, 0, work->templateStr);
-    MSGDATA_ReadString((struct MsgBank *)work->msgData, 6, work->templateStr);
+    MSGDATA_ReadString(work->msgData, 6, work->templateStr);
     powerId = (int)INTRUDE_GetMonolithLevel((struct IntrudeSave *)gpowerSave);
     if (powerId != GPOWER_ID_NONE) {
         GPOWER_EVENT_PrintPowerRow(work, work->templateStr, powerId, 0, 1);
     }
-    MSGDATA_ReadString((struct MsgBank *)work->msgData, 5, work->templateStr);
+    MSGDATA_ReadString(work->msgData, 5, work->templateStr);
     FIELD_MSGBG_InfoMsgWinPrintStr((struct FieldMsgWin *)work->infoMsgWin, 0, 0x30, work->templateStr);
-    MSGDATA_ReadString((struct MsgBank *)work->msgData, 7, work->templateStr);
+    MSGDATA_ReadString(work->msgData, 7, work->templateStr);
 
     /* The `for (i = 0, count = 0; ...)` form (not `count = 0;` before the loop) keeps the constant zero in r4 across the calls and seeds i from it. */
     for (i = 0, count = 0; i < 13; i++) {

@@ -45,6 +45,8 @@
  *   PMi_SendLEDPatternCommand  0x0208C6A4  arm
  */
 #include "../../matched/include/G_VRAMBANK.h"
+#include "../sdk_ioreg.h"
+#include "../arm9/gx_vramcnt.h"
 
 typedef struct {
 	int bg;
@@ -62,35 +64,8 @@ typedef struct {
 	int lcdc;
 } VRAMBANK;
 
-extern int GX_DisableBankForBG(void);
-extern int GX_DisableBankForOBJ(void);
-extern int GX_DisableBankForBGExtPltt(void);
-extern int GX_DisableBankForOBJExtPltt(void);
-extern int GX_DisableBankForTex(void);
-extern int GX_DisableBankForTexPltt(void);
-extern int GX_DisableBankForClearImage(void);
-extern int GX_DisableBankForSubBG(void);
-extern int GX_DisableBankForSubOBJ(void);
-extern int GX_DisableBankForSubBGExtPltt(void);
-extern int GX_DisableBankForSubOBJExtPltt(void);
-extern int GX_DisableBankForARM7(void);
-extern int GX_DisableBankForLCDC(void);
-extern void GX_SetBankForARM7(int arm7);
-extern void GX_SetBankForBG(int bg);
-extern void GX_SetBankForOBJ(int obj);
-extern void GX_SetBankForBGExtPltt(int bgExtPltt);
-extern void GX_SetBankForOBJExtPltt(int objExtPltt);
-extern void GX_SetBankForTex(int tex);
-extern void GX_SetBankForTexPltt(int texPltt);
-extern void GX_SetBankForClearImage(int clrImg);
-extern void GX_SetBankForSubBG(int sub_bg);
-extern void GX_SetBankForSubOBJ(int sub_obj);
-extern void GX_SetBankForSubBGExtPltt(int sub_bgExtPltt);
-extern void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
-extern void GX_SetBankForLCDC(int lcdc);
-extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
-extern unsigned long PM_GetLEDPattern(int *patternBuf);
-extern unsigned long PMi_SendLEDPatternCommand(unsigned int pattern);
+#include "../arm9/mi_memory.h"
+#include "../arm9/pm.h"
 void DWCi_ClearVram(void);
 void DWCi_RepairVram(void);
 void DWCi_SetLedWireless(void);
@@ -161,13 +136,13 @@ void DWCi_RepairVram(void)
 static void clearVram(void)
 {
 	GX_SetBankForLCDC(0x1f3);
-	MIi_CpuClearFast(0, (void *)0x06800000, 0x40000);
+	MIi_CpuClearFast(0, (void *)HW_LCDC_VRAM, 0x40000);
 	MIi_CpuClearFast(0, (void *)0x06880000, 0x24000);
 	GX_DisableBankForLCDC();
-	MIi_CpuClearFast(0x200, (void *)0x07000000, 0x400);
-	MIi_CpuClearFast(0, (void *)0x05000000, 0x400);
-	MIi_CpuClearFast(0x200, (void *)0x07000400, 0x400);
-	MIi_CpuClearFast(0, (void *)0x05000400, 0x400);
+	MIi_CpuClearFast(0x200, (void *)HW_OAM, 0x400);
+	MIi_CpuClearFast(0, (void *)HW_BG_PLTT, 0x400);
+	MIi_CpuClearFast(0x200, (void *)HW_DB_OAM, 0x400);
+	MIi_CpuClearFast(0, (void *)HW_DB_BG_PLTT, 0x400);
 }
 
 

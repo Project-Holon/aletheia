@@ -27,7 +27,7 @@ u32 MI_GetWramMapStart_C(void);
 u32 MI_GetWramMapStart(u32 type);
 u32 MIi_GetAddress_A(u32 bank);
 void MIi_InitWramManager(void);
-void MIi_CallbackForPxi(u32 tag, u32 data, int err);
+void MIi_CallbackForPxi(int tag, u32 data, BOOL err);
 u32 MIi_DoAllocWram(u32 ch, int num, u32 proc);
 u32 MI_AllocWramSlot(u32 ch, int start, int num, u32 proc);
 u32 MIi_DoAllocWramSlot(u32 ch, int start, int num, u32 proc);

@@ -89,17 +89,20 @@ typedef struct GiftMon {
     u8 formatVersion;       /* 0xB3: must be 1 */
 } GiftMon;
 
-extern u32 GFL_USE_GetRandom(u32 range);
+#include "../arm9/gfl_use.h"
 
-extern u32 GFL_HEAP_Free(void *block);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern u32 MYSTATUS_GetId(const struct MyStatus *status);
+#include "../arm9/mystatus.h"
 
-extern const void *MYSTATUS_GetName(void *mystatus);
 
-extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heap);
+#ifdef __MWERKS__
+extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heap); /* original prototype; the definition differs in return type, argument width */
+#else
+extern struct PokemonParam*POKE_TOOL_Create(u16, u16, u64, u16);
+#endif
 
 extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
 
@@ -118,22 +121,20 @@ struct BoxPokemon;
 
 extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
 
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+extern struct BoxPokemon *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 
 extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 struct SaveData;
 
-extern void SAVE_EVENT_WriteWithDate(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day);
+#include "../arm9/save_event.h"
 
-extern u16 STRBUF_GetEosChar(void);
+#include "../arm9/strbuf.h"
 struct MsgBank;
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern u8 MYSTATUS_GetSex(const struct MyStatus *status);
 
 struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, struct GameData *gameData);
 
@@ -229,7 +230,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
     }
 
     otId64 = otId;
-    mon = POKE_TOOL_Create(species, level, otId64, heapId);
+    mon = (void *)POKE_TOOL_Create(species, level, otId64, heapId);
     packedIvs = (ivValues[0] & 0x1F) | ((ivValues[1] & 0x1F) << 5) | ((ivValues[2] & 0x1F) << 10)
         | ((ivValues[3] & 0x1F) << 15) | ((ivValues[4] & 0x1F) << 20) | ((ivValues[5] & 0x1F) << 25);
 

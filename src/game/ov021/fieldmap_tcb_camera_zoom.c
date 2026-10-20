@@ -48,22 +48,18 @@ typedef struct CameraZoomWork {
 } CameraZoomWork;
 struct FieldMap;
 
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+#include "fieldmap.h"
 struct FieldCamera;
 
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
-struct TcblSys;
+struct TcbSystem;
 
-extern struct TcblSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
 
-extern u32 FIELD_CAMERA_GetDistance(struct FieldCamera *camera);
+#include "field_camera.h"
 
-extern void FIELD_CAMERA_SetDistance(struct FieldCamera *camera, u32 distance);
 
-extern void TCB_AddTask(u32 priority, void *cb, void *arg, int z);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
 extern char gFieldmapTcbCameraZoomFileName[];   /* source file name used as allocation site */
 
@@ -75,9 +71,8 @@ void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, CameraZoomWork *w);
 
 void FIELDMAP_TCB_CAMERA_ZOOM_Step(CameraZoomWork *w);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
 void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta)
 {
@@ -92,7 +87,7 @@ void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta)
     w->startZoom = FIELD_CAMERA_GetDistance(camera);
     w->endZoom = zoomDelta + FIELD_CAMERA_GetDistance(camera);
     w->fieldMap = fieldMap;
-    TCB_AddTask(priority, FIELDMAP_TCB_CAMERA_ZOOM_Main, w, 0);
+    TCB_AddTask( (struct TcbSystem *)priority, (TcbFunc)FIELDMAP_TCB_CAMERA_ZOOM_Main, (void *)w, 0);
 }
 
 void FIELDMAP_TCB_CAMERA_ZOOM_Main(void *task, CameraZoomWork *w)

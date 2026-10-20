@@ -57,15 +57,11 @@ typedef struct FldVReq {
 
 typedef void (*FldVReqBlendFunc)(void *params, int isMain);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_SetPlaneVisible(u8 which, u8 enable);
-extern void MI_CpuFill8(void *p, int v, int n);
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void G2x_SetBlendBrightnessExt_(u32 reg, int a, int b, int c, int d, int e);
-extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gx.h"
+#include "../arm9/g2.h"
 FldVReq *FLD_VREQ_Create(u32 heapId);
 void FLD_VREQ_Delete(FldVReq *vreq);
 void FLD_VREQ_VBlank(FldVReq *vreq);

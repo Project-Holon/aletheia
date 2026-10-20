@@ -73,12 +73,12 @@
 #include "mus_item_draw_shared_types.h"
 #include "mus_poke_draw_shared_types.h"
 
-extern void *GFL_USE_AddMainTask(u32,u32,u32);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
 #define REG(a) (*(volatile u32 *)(a))
 
@@ -115,7 +115,7 @@ typedef struct {
     int x;
     int z;
     u32 rotation;
-} Part;
+} MusicalMcssPart;
 
 typedef struct {
     u16 reserved00;
@@ -140,7 +140,7 @@ typedef struct { int m[12]; } Mtx43;
 
 typedef struct { int m[16]; } Mtx44;
 
-typedef struct { int m[9]; } Mtx33;
+typedef struct { int m[9]; } MusicalMcssMtx33;
 
 typedef struct { u16 id; u16 pad; s16 dx; s16 dz; } PoseSrc;
 
@@ -151,7 +151,7 @@ typedef struct { u32 addr; u32 f04; u32 f08; u32 s; u32 t; u32 fmt; u32 f18; u32
 /* The sprite set reached as obj+0x6C; its Tab table sits at 0x4. */
 struct McssSpriteSet { int p0; Tab *tbl; };
 
-typedef struct { u32 a:1,b:1,c:1,rest:29; } Flags;
+typedef struct { u32 a:1,b:1,c:1,rest:29; } MusicalMcssFlags;
 
 /*
  * The render pool (allocated 28 bytes by MUSICAL_MCSS_AllocRenderPool). Holds
@@ -190,7 +190,7 @@ typedef struct McssMcAnim {
     void *multiAnimBank;    /* 0x18 */
     void *animSequenceBank; /* 0x1C */
     void *cellTable;        /* 0x20 */
-    void *partTable;         /* 0x24 table+4+56*count, Part records */
+    void *partTable;         /* 0x24 table+4+56*count, MusicalMcssPart records */
     u8 pad_28[0x64];        /* 0x28 embedded NNS MC animation */
     void *workArea;         /* 0x8C NNS MC work area */
     u8 pad_90[0x38];        /* 0x90 */
@@ -229,81 +229,63 @@ typedef struct McssSpindaRes {
     void *spots;            /* 0x14 */
 } McssSpindaRes;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 struct MultiCellAnim;
 
-extern void NNS_G2dTickMCAnimation(struct MultiCellAnim *pMCAnim, int frames);
+#include "../arm9/nns_g2d_multi_cell_animation.h"
 
-extern void G3i_LookAt_(const struct Vec3 *a, const struct Vec3 *b, const struct Vec3 *c, int d, void *e);
+#include "../arm9/g3_util.h"
 
-extern void MTX_Inverse43(const Mtx43 *a, Mtx43 *m);
+#include "../arm9/fx_mtx43.h"
 
-extern void MI_Copy36B(Mtx43 *a, Mtx33 *b);
+#include "../arm9/mi_memory.h"
 
-extern void MTX_Copy33To44_(Mtx33 *a, Mtx44 *b);
+#include "../arm9/fx_mtx33.h"
 
-extern void MTX_Copy43To44_(const Mtx43 *src, Mtx44 *dst);
 
-extern void MTX_Concat44(const Mtx44 *a, const Mtx44 *b, Mtx44 *ab);
+#include "../arm9/fx_mtx44.h"
 
-extern u32 FX_Div(u32 a, u32 b);
+#include "../arm9/fx_cp.h"
 
-extern void G3_MultMtx44(void *m);
+#include "../arm9/g3imm.h"
 
-extern void G3_RotZ(int s, int c);
 
-extern void MTX_RotZ33_(Mtx33 *m, int s, int c);
 
-extern void MTX_MultVec33(void *v, Mtx33 *m, void *out);
 
-extern void VEC_Subtract(void *a, void *b, void *c);
+#include "../arm9/fx_vec.h"
 
-extern void G3i_OrthoW_(int a, int b, int c, int d, int e, int f, int g, int h, int i);
 struct AnimSequenceData;
 
-extern struct AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
+#include "../arm9/nns_g2d_anim_bank.h"
 struct MultiCellAnim;
 
-extern void NNS_G2dSetAnimSequenceToMCAnimation(struct MultiCellAnim *pMCAnim, struct AnimSequenceData *pAnimSeq);
 
-extern void NNSi_G2dInitVramHandle(u32 *);
+#include "../arm9/nns_g2d_oam_manager.h"
 
-extern void NNSi_G2dInitVramHandleEx(u32 *);
 
-extern void *ARC_UTIL_LoadCellBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u8 *unpackedOut, u16 flags);
+#include "../arm9/arc_util.h"
 
-extern void *ARC_UTIL_LoadMultiCellBankFromArchive(u32,u32,u32,u32,u16);
 
-extern void *ARC_UTIL_LoadAnimBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u8 *unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32,u32,u32,u32,u16);
 
-extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
-extern void MCSS_TOOL_DrawSpindaSpots(u8 *,u32);
+#include "../arm9/mcss.h"
 struct VramHandle;
 struct VramResource;
 
-extern void NNSi_G2dLoadVramResourceSub(struct VramResource *r, unsigned int dst, int mode, struct VramHandle *out);
 struct VramHandleSel;
 struct VramResourceSel;
 
-extern void NNSi_G2dLoadVramResourceBySel(struct VramResourceSel *self, unsigned int offset, int sel, struct VramHandleSel *out);
 struct MultiCellBank;
 
-extern int NNS_G2dGetMCWorkAreaSize(struct MultiCellBank *pBank, u32 kind);
 struct CellDataBank;
 
-extern void NNS_G2dInitMCAnimation(struct MultiCellAnim *pMCAnim, void *pBuf, struct AnimBank *pAnimBank, struct CellDataBank *pCellDataBank, struct MultiCellBank *pBank, int kind);
 struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 
 void *MUSICAL_MCSS_AllocRenderPool(int count, u32 heap);
 
@@ -311,7 +293,7 @@ void MUSICAL_MCSS_FreeRenderPool(char *p);
 
 void MUSICAL_MCSS_TickMCAnim(char *p);
 
-void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *));
+void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPokeDrawBig *));
 
 void MUSICAL_MCSS_DrawSprite(char *p, int offsetX, int offsetY, int width, int height, int texU, int texV, Pose *s, u16 *pa, int entIndex, int flag, int *pz, u8 mode);
 
@@ -347,7 +329,7 @@ void MUSICAL_MCSS_HideMCAnim(char *p);
 
 void MUSICAL_MCSS_ShowMCAnim(char *p);
 
-void MUSICAL_MCSS_CopyField(Object *a,Object *b);
+void MUSICAL_MCSS_CopyField(MusPokeDrawObject *a,MusPokeDrawObject *b);
 
 void MUSICAL_MCSS_LoadCellBank(u8 *a,int index,u32 *res,u32 mode);
 
@@ -367,17 +349,17 @@ extern const char d_021F83D4[];
 
 extern u32 d_02FFFC3C;
 
-extern const struct Vec3 d_02148D8C;
+extern const struct MusItemDrawVec3 d_02148D8C;
 
-extern const struct Vec3 d_02148D98;
+extern const struct MusItemDrawVec3 d_02148D98;
 
-extern const struct Vec3 d_02148DA4;
+extern const struct MusItemDrawVec3 d_02148DA4;
 
-extern const struct Vec3 d_021F8310;
+extern const struct MusItemDrawVec3 d_021F8310;
 
-extern const struct Vec3 d_021F831C;
+extern const struct MusItemDrawVec3 d_021F831C;
 
-extern const struct Vec3 d_021F8304;
+extern const struct MusItemDrawVec3 d_021F8304;
 
 extern const Mtx43 d_02148B98;
 
@@ -460,7 +442,7 @@ static inline void G3_TexImageParam(GXTexFmt texFmt, GXTexGen texGen, GXTexSizeS
                                   (t << 23) | (repeat << 16) | (flip << 18) | (pltt0 << 29));
 }
 
-static inline void VEC_Set(struct Vec3 *a, int x, int y, int z)
+static inline void VEC_Set(struct MusItemDrawVec3 *a, int x, int y, int z)
 {
     a->x = x;
     a->y = y;
@@ -582,7 +564,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   Still open: frame 0x250 + push r3 vs 0x254. The original spills attr (obj+0x90) to sp+0x5C and
  *   keeps &pos in r7 across the two MUSICAL_MCSS_CalcMatrix calls; ours keeps attr in r5 and rematerialises
  *   &pos.  Tried without effect: attr declaration position, block scope, a struct type, a PolyAttr
- *   inline, a Persp inline and a `Vec *pp` local for the 660C calls.  A separate `int w` local (not
+ *   inline, a Persp inline and a `MusPokeDrawVec *pp` local for the 660C calls.  A separate `int w` local (not
  *   cb.w) gives the 0x254 frame but puts w at sp+0xB0, not 0xB4, so it is not the answer.  The k-loop
  *   head schedules the fx/fz loads before `ang` (original: ang first); `ent->parts[k]` inline instead
  *   of `b` is worse.  `j = 0` sits after the first scale product in the original; only an unnatural
@@ -793,7 +775,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   j*8 web; without SR on j, j*8 is numbered at the j-loop head, before the k-top pr.  The original order
  *   (flag, pr, j*8, cos) needs one of the two moved, and no source form found does that.
  * note (pass 5 2026-10-06 P5L02): residue unchanged at 5 bytes; the body is unchanged.  41 real compiles.
- *   New forms, none better: `int b` reused as the Part byte offset (`b *= sizeof(Part)`) with the cos stored in the
+ *   New forms, none better: `int b` reused as the MusicalMcssPart byte offset (`b *= sizeof(MusicalMcssPart)`) with the cos stored in the
  *   first-rotation c (or s, fx): instructions identical, 7 B, j*8 and pr right but b*0x14 30 above the c web 2C (both
  *   are second webs and rank by def position, so b*0x14 at the k top always ranks above the cos); declaration order
  *   of b and c in that form: same or 593/684 B.  A local struct {int s, c} for s2/cos: 14 B (promoted, cos 3C above
@@ -945,7 +927,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   Still open: frame 0x250 + push r3 vs 0x254. The original spills attr (obj+0x90) to sp+0x5C and
  *   keeps &pos in r7 across the two MUSICAL_MCSS_CalcMatrix calls; ours keeps attr in r5 and rematerialises
  *   &pos.  Tried without effect: attr declaration position, block scope, a struct type, a PolyAttr
- *   inline, a Persp inline and a `Vec *pp` local for the 660C calls.  A separate `int w` local (not
+ *   inline, a Persp inline and a `MusPokeDrawVec *pp` local for the 660C calls.  A separate `int w` local (not
  *   cb.w) gives the 0x254 frame but puts w at sp+0xB0, not 0xB4, so it is not the answer.  The k-loop
  *   head schedules the fx/fz loads before `ang` (original: ang first); `ent->parts[k]` inline instead
  *   of `b` is worse.  `j = 0` sits after the first scale product in the original; only an unnatural
@@ -1156,7 +1138,7 @@ static inline void G3_Scale(int x, int y, int z)
  *   j*8 web; without SR on j, j*8 is numbered at the j-loop head, before the k-top pr.  The original order
  *   (flag, pr, j*8, cos) needs one of the two moved, and no source form found does that.
  * note (pass 5 2026-10-06 P5L02): residue unchanged at 5 bytes; the body is unchanged.  41 real compiles.
- *   New forms, none better: `int b` reused as the Part byte offset (`b *= sizeof(Part)`) with the cos stored in the
+ *   New forms, none better: `int b` reused as the MusicalMcssPart byte offset (`b *= sizeof(MusicalMcssPart)`) with the cos stored in the
  *   first-rotation c (or s, fx): instructions identical, 7 B, j*8 and pr right but b*0x14 30 above the c web 2C (both
  *   are second webs and rank by def position, so b*0x14 at the k top always ranks above the cos); declaration order
  *   of b and c in that form: same or 593/684 B.  A local struct {int s, c} for s2/cos: 14 B (promoted, cos 3C above
@@ -1207,17 +1189,17 @@ static inline void G3_Scale(int x, int y, int z)
  *   (3) C89-style function-scope declarations: the k-loop ints (ang, fx, ... rz) before `u8 flag`, then `int pr`.
  *   With int pr and the u8 flag named, declaration order places ang/fx/X, flag, pr in the original order.
  */
-void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *))
+void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPokeDrawBig *))
 {
     Pose pose;
     Pose sub;
-    struct Vec3 pos;
+    struct MusItemDrawVec3 pos;
     Mtx44 m3;
     Mtx43 m1;
-    Mtx33 m2;
+    MusicalMcssMtx33 m2;
     Mtx44 m4;
     Mtx44 proj;
-    Mtx33 m5;
+    MusicalMcssMtx33 m5;
     CB cb;
     Ent *ent;
     TexInfo *attr;
@@ -1239,12 +1221,12 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *)
     REG(0x04000454) = 0;
     REG(0x04000440) = 2;
     if ((((McssRenderPool *)p)->bits.cameraBack) == 0)
-        G3i_LookAt_(&d_02148D8C, &d_02148D98, &d_02148DA4, 1, 0);
+        G3i_LookAt_((const VecFx32 *)&d_02148D8C, (const VecFx32 *)&d_02148D98, (const VecFx32 *)&d_02148DA4, 1, 0);
     else
-        G3i_LookAt_(&d_021F8310, &d_021F831C, &d_021F8304, 1, 0);
-    MTX_Inverse43(&d_02148B98, &m1);
+        G3i_LookAt_((const VecFx32 *)&d_021F8310, (const VecFx32 *)&d_021F831C, (const VecFx32 *)&d_021F8304, 1, 0);
+    MTX_Inverse43((const MtxFx43 *)&d_02148B98, (MtxFx43 *)&m1);
     MI_Copy36B(&m1, &m2);
-    MTX_Copy33To44_(&m2, &m3);
+    MTX_Copy33To44_((const MtxFx33 *)&m2, (MtxFx44 *)&m3);
 
     for (i = 0; i < p[0]; i++) {
         if (((char **)p[1])[i] == 0 || ((McssMcAnim *)((char **)p[1])[i])->bits.stopped)
@@ -1279,8 +1261,8 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *)
             proj.m[13] = 0;
             proj.m[14] = 0;
             proj.m[15] = (int)0xFFFFF000;
-            MTX_Copy43To44_(&d_02148B98, &m4);
-            MTX_Concat44(&m4, &d_02148B54, &m4);
+            MTX_Copy43To44_((const MtxFx43 *)&d_02148B98, (MtxFx44 *)&m4);
+            MTX_Concat44((const MtxFx44 *)&m4, (const MtxFx44 *)&d_02148B54, (MtxFx44 *)&m4);
             MUSICAL_MCSS_CalcMatrix((const int *)(&pos), (const int *)(&m4), (u32 *)(&pos), (u32 *)(&cb.w));
             pos.x = FX_Div(pos.x, cb.w);
             pos.y = FX_Div(pos.y, cb.w);
@@ -1308,9 +1290,9 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *)
         }
         {
             u16 a = *(u16 *)(obj + 0xFC);
-            MTX_RotZ33_(&m5, -FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
-            MTX_MultVec33(obj + 0x100, &m5, obj + 0x10C);
-            VEC_Subtract(obj + 0x100, obj + 0x10C, obj + 0x10C);
+            MTX_RotZ33_((MtxFx33 *)&m5, -FX_SinCosTable_[(a >> 4) * 2], FX_SinCosTable_[(a >> 4) * 2 + 1]);
+            MTX_MultVec33((const VecFx32 *)(obj + 0x100), (const MtxFx33 *)&m5, (VecFx32 *)(obj + 0x10C));
+            VEC_Subtract((const VecFx32 *)(obj + 0x100), (const VecFx32 *)(obj + 0x10C), (VecFx32 *)(obj + 0x10C));
             *(int *)(obj + 0x10C) = FX_Div(*(int *)(obj + 0x10C), *(int *)(obj + 0xD4));
             *(int *)(obj + 0x110) = FX_Div(*(int *)(obj + 0x110), *(int *)(obj + 0xD8));
         }
@@ -1342,8 +1324,8 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *)
                     break;
                 pr = pose.rot;
                 ang = (u16)(pr + sub.rot);
-                fx = (*(Part **)(obj + 0x24))[b].x;
-                fz = (*(Part **)(obj + 0x24))[b].z;
+                fx = (*(MusicalMcssPart **)(obj + 0x24))[b].x;
+                fz = (*(MusicalMcssPart **)(obj + 0x24))[b].z;
                 s = FX_SinCosTable_[(ang >> 4) * 2];
                 c = FX_SinCosTable_[(ang >> 4) * 2 + 1];
                 psx = pose.sx;
@@ -1364,13 +1346,13 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *)
                 cb.in.b.x = FxMul(rx, *(int *)(obj + 0xD4) / 16);
                 cb.in.b.y = FxMul(rz, *(int *)(obj + 0xD8) / 16);
                 cb.in.b.z = cb.z;
-                cb.in.d = *(struct Vec3 *)(obj + 0x100);
+                cb.in.d = *(struct MusItemDrawVec3 *)(obj + 0x100);
                 cb.in.e = *(u16 *)(obj + 0xFC);
-                cb.in.c = *(struct Vec3 *)(obj + 0xD4);
-                cb.in.f = (u16)(ang + ((*(Part **)(obj + 0x24))[b].rotation << 11));
-                arg((u8)(*(Part **)(obj + 0x24))[b].kind, &cb.in, *(Big **)(obj + 0xF8));
-                if ((*(Part **)(obj + 0x24))[b].kind == 5) {
-                    VEC_Set((struct Vec3 *)(obj + 0x100), cb.in.b.x, cb.in.b.y, 0);
+                cb.in.c = *(struct MusItemDrawVec3 *)(obj + 0xD4);
+                cb.in.f = (u16)(ang + ((*(MusicalMcssPart **)(obj + 0x24))[b].rotation << 11));
+                arg((u8)(*(MusicalMcssPart **)(obj + 0x24))[b].kind, &cb.in, *(MusPokeDrawBig **)(obj + 0xF8));
+                if ((*(MusicalMcssPart **)(obj + 0x24))[b].kind == 5) {
+                    VEC_Set((struct MusItemDrawVec3 *)(obj + 0x100), cb.in.b.x, cb.in.b.y, 0);
                 }
             }
         }
@@ -1538,15 +1520,15 @@ void MUSICAL_MCSS_SetMCAnimFrame(char *mcAnim, unsigned short v)
     ((McssMcAnim *)mcAnim)->frame = v;
 }
 
-void MUSICAL_MCSS_EnableDrawOffset(u8 *p) { ((Flags *)(p+236))->a=1; }
+void MUSICAL_MCSS_EnableDrawOffset(u8 *p) { ((MusicalMcssFlags *)(p+236))->a=1; }
 
-void MUSICAL_MCSS_DisableDrawOffset(u8 *p) { ((Flags *)(p+236))->a=0; }
+void MUSICAL_MCSS_DisableDrawOffset(u8 *p) { ((MusicalMcssFlags *)(p+236))->a=0; }
 
-void MUSICAL_MCSS_PauseMCAnim(u8 *p) { ((Flags *)(p+236))->b=1; }
+void MUSICAL_MCSS_PauseMCAnim(u8 *p) { ((MusicalMcssFlags *)(p+236))->b=1; }
 
 void MUSICAL_MCSS_ResumeMCAnim(char *mcAnim) {((McssMcAnim *)mcAnim)->flags&=~2u;}
 
-void MUSICAL_MCSS_SetMCAnim(char *mcAnim,u32 n) {void *a; a=NNS_G2dGetAnimSequenceByIdx(((McssMcAnim *)mcAnim)->animSequenceBank,n);MUSICAL_MCSS_InitMCAnim(mcAnim,1);NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)(mcAnim+40),a);}
+void MUSICAL_MCSS_SetMCAnim(char *mcAnim,u32 n) {const AnimSequenceData *a; a=NNS_G2dGetAnimSequenceByIdx(((McssMcAnim *)mcAnim)->animSequenceBank,n);MUSICAL_MCSS_InitMCAnim(mcAnim,1);NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)(mcAnim+40),a);}
 
 u32 MUSICAL_MCSS_IsMCAnimHidden(u8 *mcAnim) { return (((McssMcAnim *)mcAnim)->flags << 29) >> 31; }
 
@@ -1554,7 +1536,7 @@ void MUSICAL_MCSS_HideMCAnim(char *mcAnim) {((McssMcAnim *)mcAnim)->flags|=4u;}
 
 void MUSICAL_MCSS_ShowMCAnim(char *mcAnim) {((McssMcAnim *)mcAnim)->flags&=~4u;}
 
-void MUSICAL_MCSS_CopyField(Object *a,Object *b)
+void MUSICAL_MCSS_CopyField(MusPokeDrawObject *a,MusPokeDrawObject *b)
 {
     b->a=a->a; b->b=a->b; b->c=a->c;
     b->b0=a->b0; b->b1=a->b1; b->b2=a->b2;
@@ -1594,7 +1576,7 @@ void MUSICAL_MCSS_LoadCellBank(u8 *renderPool,int index,u32 *res,u32 mode)
     job[4]=ARC_UTIL_LoadBgCharDataFromArchive(res[0],res[1],1,job,((McssMcAnim *)q)->heapTag);
     job[5]=ARC_UTIL_LoadPaletteBlockFromArchive(res[0],res[2],(job+1),(u16)(((McssMcAnim *)q)->heapTag));
     if(res[7]==6548) MCSS_TOOL_DrawSpindaSpots(*(u8 * *)&((McssSpindaRes *)((u8 *)job[0]))->spots,res[8]);
-    if(mode==1) GFL_USE_AddMainTask((u32)MUSICAL_MCSS_FreeCellBank,(u32)job,0);
+    if(mode==1) GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((u32)MUSICAL_MCSS_FreeCellBank),(void *)((u32)job),0);
     else MUSICAL_MCSS_FreeCellBank(0,job);
 }
 

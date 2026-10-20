@@ -228,79 +228,70 @@
 #include "../ov012/union_comm_types.h"
 #include "union_chara_types.h"
 
-void GF_PANIC_Fail(char *file, unsigned int line, char *expr);
+#include "../arm9/gf_panic.h"
 struct GameData;
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct FieldMap;
 struct FieldPlayer;
 
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct UnionRoomWork;
 
 extern void UNION_COMM_SetSituationParam(struct UnionRoomWork *work, unsigned int id, unsigned int value);
 struct GameSystem;
 struct GameComm;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void *GAME_COMM_GetWork(struct GameComm *comm);
+#include "../arm9/game_comm.h"
 struct UnionRoomWork;
 
-extern void *UNION_SCENE_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work);
+#include "../ov012/union_scene.h"
 struct BattleBoxSave;
 
-extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
+#include "../arm9/battle_box.h"
 struct BoxMonGroup;
 
-extern u32 BATTLE_BOX_HasMon(struct BoxMonGroup *box);
 struct Party;
 
-extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap);
 
-extern u32 GFL_HEAP_Free(void *block);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void POKE_REGULATION_LoadInto(int memberId, void *dst);
+#include "../arm9/poke_regulation.h"
 
-extern void REGULATION_SetRuleValue(struct Regulation *regulation, u32 id, s32 value);
+#include "../arm9/regulation.h"
 
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 
-extern int POKE_REGULATION_CheckParty(struct Regulation *reg, struct Party *party, unsigned int *flags);
 
-extern void FIELDMAP_CTRL_GRID_SetBusy(struct FieldMap *fieldMap, unsigned int busy);
+#include "../ov021/fieldmap_ctrl_grid.h"
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 struct UnionConnectInfo;
 
 void UNION_COMM_InitConnectInfo(struct UnionRoomWork *work, struct UnionConnectInfo *connect);
 
-void UNION_MSG_CloseAllWindows(UnionRoomWork *unisys);
+#include "union_msg.h"
 struct MmdlSys;
 
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
-extern void FIELD_PLAYER_GetFrontGridPos(struct FieldPlayer *player, short *gridX, short *gridY, short *gridZ);
+#include "../ov021/field_player.h"
 
 extern void UNION_COMM_RequestRestart(struct UnionRoomWork *work);
 
 extern int UNION_COMM_IsResetting(struct UnionRoomWork *work);
 struct Mmdl;
 
-extern u16   FLDMMDL_GetObjId(struct Mmdl *mmdl);
+#include "../ov010/fldmmdl.h"
 
-extern struct Mmdl *FLDMMDL_SysSearchGridPos(struct MmdlSys *sys, unsigned int gridX, unsigned int gridZ, unsigned int flag);
 
-extern int   GFL_NET_GetNegotiationNum(void);
+#include "../arm9/net.h"
 
-extern u32   KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern int UNION_ONESELF_IsPlayerAtReceptionSpot(u32 fieldMap);
 
-u32 UNION_MSG_CheckTalkPrintEnd(UnionRoomWork *unisys);
 
-extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSystem, u32 state);
 
 void UNION_COMM_RequestShutdown(struct UnionRoomWork *work);
 
@@ -308,13 +299,11 @@ extern void UNION_COMM_ReleaseWorks(UnionRoomWork *work);
 
 extern void UNION_COMM_RequestStart(struct UnionRoomWork *work);
 
-BOOL UNION_CHARA_IsChildObjId(u16 objId);
+typedef int Bool;
+#include "union_chara.h"
 
-u16 UNION_CHARA_GetBeaconIndex(u32);
 
-int UNION_CHARA_IsUnionObjId(u16 objId);
 
-int UNION_CHARA_CheckTalkable(UnionRoomWork *work, u16 objId);
 
 int UNION_ONESELF_TryStartSubEvent(struct GameSystem *gameSystem, void *fieldMap);
 
@@ -640,7 +629,7 @@ int UNION_ONESELF_IdleMain(UnionRoomWork *work, UnionMySituation *situation, voi
         UNION_ONESELF_SetNextPlayCategory(work, 4);
         return 1;
     }
-    if (UNION_ONESELF_IsPlayerAtReceptionSpot((u32)fieldMap) == 1) {
+    if (UNION_ONESELF_IsPlayerAtReceptionSpot(fieldMap) == 1) {
         if (work->fieldRequestArmed == 1) {
             UNION_ONESELF_SetFieldBusy(work, fieldMap, 1);
             UNION_ONESELF_SetNextPlayCategory(work, 3);
@@ -781,34 +770,26 @@ typedef struct UnionSceneFourParam {
 } UnionSceneFourParam;
 
 /* Draw parameters of G3D_SYSTEM_DrawObjectCulling (0x3C bytes). */
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_use.h"
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 
-extern void UNION_SCENE_RequestScene(UnionRoomWork *unisys, int sceneId, int param);
 
-extern int UNION_SCENE_IsScenePending(UnionRoomWork *unisys);
 
-extern void UNION_COMM_SetChatPms(UnionRoomWork *unisys, UnionPmsData *pms);
 
-extern int  UNION_COMMAND_SendPartnerMode(int expected);
 
-extern void GFL_NET_SetChangeoverModeWrapper(unsigned int mode, unsigned int flags, unsigned char *macAddr);
+#include "../ov012/union_command.h"
 
-extern u32 GFL_NET_IsConnectMember(u32 index);
 
-extern void GFL_NET_SetAcceptConnection(u32 unused, void *value);
 
-extern void GFL_NET_SetLoginOption(u8 enable);
 
-extern int  GFL_NET_SYSTEM_GetConnectNum(void);
+
+#include "../arm9/net_system.h"
 struct GFLNetHandle;
 
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 
-extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
+#include "../arm9/gf_standard.h"
 
-int UNION_COMMAND_SendMyMac(void);
 struct UnionConnectInfo;
 
 extern void UNION_COMM_ClearPartnerSelects(struct UnionConnectInfo *connect);
@@ -817,294 +798,184 @@ struct UnionBeaconPc;
 extern int UNION_COMM_AddMemberFromBeaconPc(struct UnionConnectInfo *connect, struct UnionBeaconPc *pc);
 struct GFLNetHandle;
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 
-extern int UNION_COMMAND_SendMyStatus(struct UnionRoomWork *work);
 
-extern u8 MATH_CountPopulation(u32 x);
+#include "../arm9/math.h"
 
-struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 struct Party;
 
-u32 POKEPARTY_GetNonEggCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 
-u32 POKEPARTY_GetBadEggCount(struct Party *party);
 
-u32 POKEPARTY_GetEggCount(struct Party *party);
 
-int UNION_COMMAND_SendPartnerSelectA(s32 select);
 
-int UNION_COMMAND_SendPartnerSelectB(s32 select);
 
-int UNION_CHARA_GetSexByObjId(struct UnionRoomWork *work, u16 objId);
 struct TrainerCardProfile;
 
-extern void TRCARD_SYS_BuildProfile(struct TrainerCardProfile *out, void *save, int mode, int flag, unsigned short heap);
+#include "../ov010/trcard_sys.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, int size);
+#include "../arm9/mi_memory.h"
 
-extern u32 UNION_COMMAND_SendTrainerCard(struct UnionRoomWork *work);
 struct EditWork;
 
-extern struct EditWork *TRCARD_SYS_CreateEditWork(void *cardData, u8 *profile, u32 heapId);
 
-extern u32 GFL_NET_IsParentAid(void);
 
-extern void *MET_TRAINERS_GetFromSave(void *saveData);
+                                          
 
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, unsigned int playerId);
 
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 struct MetTrainersSave;
 
-extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, unsigned int value);
 
-extern struct Party *POKEPARTY_Create(u32 heap);
 
 extern void UNION_COMM_SetGameKindByStatus(unsigned int category);
 
 extern void UNION_COMM_StartConnectSync(struct UnionRoomWork *work);
 
-extern int GFL_NET_IsSessionNull(void);
 
 extern void UNION_COMM_RemoveMemberOfBeaconPc(struct UnionConnectInfo *connect, struct UnionBeaconPc *pc);
 
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 
-extern u32 UNION_COMMAND_SendAppEntry(struct UnionRoomWork *work);
 struct MyStatus;
 struct ColosseumWork;
 
-extern ColosseumWork *COLOSSEUM_Create(struct GameData *gameData, void *gameSystem, struct MyStatus *myStatus, u32 modeFlag);
+#include "../ov012/colosseum.h"
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern int UNION_COMMAND_SendColosseumCancel(void);
 struct CommEntryMenu;
 
-extern struct CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, unsigned int minMembers, unsigned int maxMembers, unsigned int heapId, unsigned int menuMode, unsigned int isChild, unsigned char *mac);
+#include "../ov021/comm_entry_menu.h"
 struct CommEntryMenu;
 
-extern u32 COMM_ENTRY_MENU_Delete(struct CommEntryMenu *menu);
 
-extern void COMM_ENTRY_MENU_SetCallbacks(void *entryMenu, void *work, void *onAdd, void *onRemove);
 
-extern u32 COMM_ENTRY_MENU_Main(struct CommEntryMenu *menu);
 
-extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
 
-extern int MYSTATUS_GetSex(const void *myStatus);
 
-extern void UNION_COMM_AddMember(void *self, const u8 *mac, int gender, int trainerView);
+#ifdef __MWERKS__
+extern int UNION_COMM_AddMember(struct UnionConnectInfo *connect, const u8 *mac, int trainerView, int sex); /* original prototype: the definition takes u8 trainerView and sex */
+#else
+extern int UNION_COMM_AddMember(struct UnionConnectInfo *connect, const u8 *mac, u8 trainerView, u8 sex);
+#endif
 
 extern void UNION_COMM_RemoveMember(struct UnionConnectInfo *connect, u8 *mac);
 
-extern void COLOSSEUM_AddCommandTable(UnionRoomWork *unisys);
 
-extern u32 COLOSSEUM_SendPlayerEntry(void *player, u32 flags);
 
-extern int COLOSSEUM_SendTrainerCard(void *trainerCard);
 
-extern void COLOSSEUM_SetStartFlag(struct ColosseumWork *work, s32 flag);
 
-extern void COLOSSEUM_SetMyChoice(ColosseumWork *colosseum, int value);
 struct CommPlayerWork;
 
-extern int COMM_PLAYER_SearchGridPos(struct CommPlayerWork *work, int gridX, int gridY, int gridZ, int outId, int searchIndex);
+#include "../ov010/comm_player.h"
 
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 
-extern u32 COLOSSEUM_SendChoiceRequest(struct ColosseumWork *work);
 
-extern u8 COLOSSEUM_GetMyChoiceReply(struct ColosseumWork *work);
 
-extern int FLDMMDL_CheckPossibleAcmd(struct Mmdl *mmdl);
 
-extern void FLDMMDL_SetAcmd(struct Mmdl *mmdl, unsigned short code);
 
-extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
 struct Mmdl;
 
-extern int FLDMMDL_EndAcmd(struct Mmdl *mmdl);
 struct PartySelectList;
 
-extern struct PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *secondParty, u32 sideFlagFirst, u32 sideFlagSecond, u16 heapId);
+                                       
 
-extern int PARTY_SELECT_LIST_Main(struct PartySelectList *list);
 
-extern u32 PARTY_SELECT_LIST_Delete(struct PartySelectList *list, u32 *outFlag);
 
-u32 COLOSSEUM_SendReady(void);
 
-u32 COLOSSEUM_SendReadyCancel(void);
 
-void COLOSSEUM_ResetParties(struct ColosseumWork *work, s32 keepOwn);
 
-void COLOSSEUM_ClearConfirmCount(struct ColosseumWork *work);
 
-int COLOSSEUM_AllPartiesReceived(struct ColosseumWork *work);
 
-u32 COLOSSEUM_SendParty(void *party);
 
-int COLOSSEUM_SendBattlePositions(void *positions);
 
-void POKEPARTY_Copy(struct Party *src, struct Party *dst);
 
-void POKE_REGULATION_AdjustPartyLevels(struct Regulation *reg, struct Party *party);
 
-void *GAME_DATA_GetMyItem(struct GameData *gd);
 
-void *SYSTEM_DATA_GetConfig(void *sys);
+                                
 
-const void *MYSTATUS_GetName(const void *player);
 
-void UNION_CHARA_ClearTable(struct UnionRoomWork *work);
 
-int COLOSSEUM_SendFinish(void);
 
 void UNION_COMM_ClearBeaconPcs(struct UnionRoomWork *work);
 
-void COLOSSEUM_Delete(struct ColosseumWork *work, void *gameSystem);
 
-u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
-u8 MYSTATUS_GetRomCode(struct MyStatus *mystatus);
 struct WordSet;
 
-void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
+#include "../arm9/wordset.h"
+#include "../arm9/met_trainers_savedata.h"
+#include "../arm9/system_data.h"
 
-u16 UNION_MSG_GetNoReplyMsg(void ***ctx);
+#include "../ov021/party_select_list.h"
 
-u16 UNION_MSG_GetTalkParentGreetingMsg(int sex);
 
-u16 UNION_MSG_GetTalkParentCancelMsg(int sex);
 
-u16 UNION_MSG_GetTalkChildBusyMsg(int sex);
 
-u16 UNION_MSG_GetTalkParentAcceptMsg(int category, int sex);
 
-u16 UNION_MSG_GetTalkParentRefuseMsg(int category, int sex);
 
-u16 UNION_MSG_GetTalkChildOfferMsg(int category);
 
-u16 UNION_MSG_GetTalkChildDeclineMsg(int category);
 
-u16 UNION_MSG_GetTalkMenuPromptMsg(int sex);
 
-u16 UNION_MSG_GetColosseumStartMsg(int sex);
 
-u16 UNION_MSG_GetNotEnoughPokemonMsg(int sex);
 
-u16 UNION_MSG_GetNoEggInPartyMsg(int sex);
 
-u16 UNION_MSG_GetBadEggInPartyMsg(void ***ctx);
 
-u16 UNION_MSG_GetBadEggNoticeMsg(void ***ctx);
 
-u16 UNION_MSG_GetBattleChatMsg(int sex);
 
-u16 UNION_MSG_GetPartnerBusyMsg(int sex);
 
-u16 UNION_MSG_GetTrainerCardChatMsg(int sex);
 
-u16 UNION_MSG_GetDrawChatMsg(int sex);
 
-u16 UNION_MSG_GetTradeChatMsg(int sex);
 
-u16 UNION_MSG_GetSpinTradeChatMsg(int sex);
 
-u16 UNION_MSG_GetMultiBattleInviteMsg(int sex);
 
-u16 UNION_MSG_GetSpinTradeInviteMsg(int sex);
 
-u16 UNION_MSG_GetDrawInviteMsg(int sex);
 
-u16 UNION_MSG_GetMultiBattleInviteDeclinedMsg(int sex);
 
-u16 UNION_MSG_GetSpinTradeInviteDeclinedMsg(int sex);
 
-u16 UNION_MSG_GetDrawInviteDeclinedMsg(int sex);
 
-u16 UNION_MSG_GetSpinTradeNoEggMsg(int sex);
 
-u16 UNION_MSG_GetSpinTradeBadEggMsg(int sex);
 
-u16 UNION_MSG_GetSpinTradeWaitMsg(int sex);
 
-u16 UNION_MSG_GetSpinTradeStartMsg(int sex);
 
-u16 UNION_MSG_GetSpinTradeBusyMsg(int sex);
 
-u16 UNION_MSG_GetDrawWaitMsg(int sex);
 
-u16 UNION_MSG_GetDrawStartMsg(int sex);
 
-u16 UNION_MSG_GetDrawBusyMsg(int sex);
 
-u16 UNION_MSG_GetMultiBattleWaitMsg(int sex);
 
-u16 UNION_MSG_GetMultiBattleStartMsg(int sex);
 
-u16 UNION_MSG_GetMultiBattleBusyMsg(int sex);
 
-int UNION_MSG_CheckLanguageVersion(UnionRoomWork *unisys, int nation, int area);
 
-int UNION_MSG_GetCategoryTableValue(int category);
 
-void UNION_MSG_SetupTalkWindow(UnionRoomWork *unisys, u8 *fieldMap);
 
-void UNION_MSG_PrintTalkMsg(UnionRoomWork *unisys, u32 messageId);
 
-void UNION_MSG_SetupPrintTalkMsg(UnionRoomWork *unisys, u8 *fieldMap, u32 messageId);
 
-void UNION_MSG_SetupYesNo(UnionRoomWork *unisys, u32 fieldMap);
 
-void UNION_MSG_DeleteYesNo(UnionRoomWork *unisys);
 
-int UNION_MSG_SelectYesNo(UnionRoomWork *unisys, u32 *out);
 
-void UNION_MSG_SetupMainMenu(UnionRoomWork *unisys, u32 fieldMap);
 
-void UNION_MSG_DeleteMainMenu(UnionRoomWork *unisys);
 
-int UNION_MSG_SelectMainMenu(UnionRoomWork *unisys, int fieldMap);
 
-void UNION_MSG_SetupSubMenu(UnionRoomWork *unisys, int fieldMap, int menuId, u8 *outArg);
 
-void UNION_MSG_DeleteSubMenu(UnionRoomWork *unisys);
 
-int UNION_MSG_SelectSubMenu(UnionRoomWork *unisys, int *enteredSubmenu, u8 *arg, int *showHelp, u32 fieldMap);
 
-void UNION_MSG_SetupTitleWindow(UnionRoomWork *unisys, u32 fieldMap);
 
-void UNION_MSG_DeleteTitleWindow(UnionRoomWork *unisys);
 
-void UNION_MSG_SetupRegulationWindow(UnionRoomWork *unisys, u32 fieldMap, u32 failMask, int ruleId, int stage);
 
-u32 UNION_MSG_CheckRegulationPrintEnd(UnionRoomWork *unisys, u32 fieldMap);
 
-void UNION_MSG_DeleteRegulationWindow(UnionRoomWork *unisys);
 
-int COLOSSEUM_CheckAllEntered(ColosseumWork *colosseum);
 
-int COLOSSEUM_CheckAllTrainerCardsReceived(ColosseumWork *colosseum);
+#include "colosseum_tool.h"
+extern void UNION_COMM_SetChatPms(UnionRoomWork *unisys, const UnionPmsData *pms);
 
-int COLOSSEUM_IsPositionsReceived(ColosseumWork *colosseum);
 
-void COLOSSEUM_ClearPositionsReceived(ColosseumWork *colosseum);
 
-int COLOSSEUM_IsOnStandPos(int a, int mode, unsigned int *out);
 
-int COLOSSEUM_CheckAllFinished(ColosseumWork *colosseum);
 
-int COLOSSEUM_IsAnyFinished(ColosseumWork *colosseum);
 
-int COLOSSEUM_IsOnCounterPos(void *a);
+
 
 extern int d_021807E8[];
 
@@ -1261,7 +1132,7 @@ int UNION_ONESELF_ConnectParentMain(UnionRoomWork *unisys, UnionMySituation *sit
                 *seq = 4;
             } else {
                 GFL_NET_SetLoginOption(1);
-                GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+                GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 0);
                 *seq = 2;
             }
         } else {
@@ -1476,12 +1347,12 @@ int UNION_ONESELF_TalkParentMain(UnionRoomWork *unisys, UnionMySituation *situat
             (*seq)++;
         break;
     case 2:
-        UNION_MSG_SetupMainMenu(unisys, (u32)fieldMap);
+        UNION_MSG_SetupMainMenu(unisys, fieldMap);
         (*seq)++;
         break;
     case 3:
         party = GAME_DATA_GetMyParty(unisys->parent->gameData);
-        menuResult = UNION_MSG_SelectMainMenu(unisys, (int)fieldMap);
+        menuResult = UNION_MSG_SelectMainMenu(unisys, fieldMap);
         if (menuResult == -1)
             break;
         UNION_MSG_DeleteMainMenu(unisys);
@@ -1624,7 +1495,7 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
             UNION_MSG_SetupPrintTalkMsg(unisys, fieldMap, UNION_MSG_GetTalkChildOfferMsg(situation->connect.partnerSelectA));
             if (UNION_ONESELF_IsBattleStatus(situation->connect.partnerSelectA) == 1) {
                 UNION_ONESELF_LoadRegulation(unisys, situation->connect.partnerSelectA);
-                UNION_MSG_SetupRegulationWindow(unisys, (u32)fieldMap, 0, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 0);
+                UNION_MSG_SetupRegulationWindow(unisys, fieldMap, 0, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 0);
                 *seq = 2;
             } else {
                 *seq = 3;
@@ -1636,12 +1507,12 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
         }
         break;
     case 2:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1)
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, fieldMap) == 1)
             *seq = 3;
         break;
     case 3:
         UNION_MSG_DeleteRegulationWindow(unisys);
-        UNION_MSG_SetupYesNo(unisys, (u32)fieldMap);
+        UNION_MSG_SetupYesNo(unisys, fieldMap);
         (*seq)++;
         break;
     case 4:
@@ -1680,11 +1551,11 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
         }
         break;
     case 6:
-        UNION_MSG_SetupRegulationWindow(unisys, (u32)fieldMap, situation->partyFailMask, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 1);
+        UNION_MSG_SetupRegulationWindow(unisys, fieldMap, situation->partyFailMask, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 1);
         (*seq)++;
         break;
     case 7:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             if (situation->teamFailMask == -1)
                 *seq = 10;
@@ -1693,11 +1564,11 @@ int UNION_ONESELF_TalkChildMain(UnionRoomWork *unisys, UnionMySituation *situati
         }
         break;
     case 8:
-        UNION_MSG_SetupRegulationWindow(unisys, (u32)fieldMap, situation->partyFailMask, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 2);
+        UNION_MSG_SetupRegulationWindow(unisys, fieldMap, situation->partyFailMask, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 2);
         (*seq)++;
         break;
     case 9:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             *seq = 10;
         }
@@ -1747,14 +1618,14 @@ int UNION_ONESELF_BattleMenuMain(UnionRoomWork *unisys, UnionMySituation *situat
         break;
     case 1:
         if (situation->subState == 5)
-            UNION_MSG_SetupTitleWindow(unisys, (u32)fieldMap);
+            UNION_MSG_SetupTitleWindow(unisys, fieldMap);
         else if (situation->subState == 0)
             UNION_MSG_DeleteTitleWindow(unisys);
-        UNION_MSG_SetupSubMenu(unisys, (int)fieldMap, situation->subState, (u8 *)(&situation->subMenuArg));
+        UNION_MSG_SetupSubMenu(unisys, fieldMap, situation->subState, (u8 *)(&situation->subMenuArg));
         (*seq)++;
         break;
     case 2:
-        choice = UNION_MSG_SelectSubMenu(unisys, &enteredSubmenu, (u8 *)(&situation->subMenuArg), &showHelp, (u32)fieldMap);
+        choice = UNION_MSG_SelectSubMenu(unisys, &enteredSubmenu, (u8 *)(&situation->subMenuArg), &showHelp, fieldMap);
         if (enteredSubmenu == 1) {
             situation->subState = choice;
             UNION_MSG_DeleteSubMenu(unisys);
@@ -1789,21 +1660,21 @@ int UNION_ONESELF_BattleMenuMain(UnionRoomWork *unisys, UnionMySituation *situat
         }
         break;
     case 3:
-        UNION_MSG_SetupRegulationWindow(unisys, (u32)fieldMap, 0, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 0);
+        UNION_MSG_SetupRegulationWindow(unisys, fieldMap, 0, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 0);
         (*seq)++;
         break;
     case 4:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             *seq = 1;
         }
         break;
     case 5:
-        UNION_MSG_SetupRegulationWindow(unisys, (u32)fieldMap, situation->partyFailMask, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 1);
+        UNION_MSG_SetupRegulationWindow(unisys, fieldMap, situation->partyFailMask, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 1);
         (*seq)++;
         break;
     case 6:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             if (situation->teamFailMask == -1)
                 *seq = 9;
@@ -1812,11 +1683,11 @@ int UNION_ONESELF_BattleMenuMain(UnionRoomWork *unisys, UnionMySituation *situat
         }
         break;
     case 7:
-        UNION_MSG_SetupRegulationWindow(unisys, (u32)fieldMap, situation->partyFailMask, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 2);
+        UNION_MSG_SetupRegulationWindow(unisys, fieldMap, situation->partyFailMask, UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA), 2);
         (*seq)++;
         break;
     case 8:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             *seq = 9;
         }
@@ -1849,7 +1720,7 @@ int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situa
             if ((int)unisys->beaconPc[beaconIndex].beacon.connectNum < UNION_MSG_GetCategoryTableValue(partnerStatus)) {
                 UNION_MSG_SetupPrintTalkMsg(unisys,fieldMap,UNION_MSG_GetMultiBattleInviteMsg(situation->connect.talkParam->sex));
                 UNION_ONESELF_LoadRegulation(unisys,partnerStatus);
-                UNION_MSG_SetupRegulationWindow(unisys,(int)fieldMap,(int)0,UNION_ONESELF_GetRegulationFlag(partnerStatus),0);
+                UNION_MSG_SetupRegulationWindow(unisys,fieldMap,(int)0,UNION_ONESELF_GetRegulationFlag(partnerStatus),0);
                 *seq = 3;
                 goto done;
             }
@@ -1881,11 +1752,11 @@ int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situa
         if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1) return 1;
         break;
     case 3:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys,(u32)fieldMap) == 1) *seq = 4;
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys,fieldMap) == 1) *seq = 4;
         break;
     case 4:
         if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1) {
-            UNION_MSG_DeleteRegulationWindow(unisys); UNION_MSG_SetupYesNo(unisys,(u32)fieldMap); (*seq)++;
+            UNION_MSG_DeleteRegulationWindow(unisys); UNION_MSG_SetupYesNo(unisys,fieldMap); (*seq)++;
         }
         break;
     case 5:
@@ -1904,25 +1775,25 @@ int UNION_ONESELF_TalkPlayingMain(UnionRoomWork *unisys, UnionMySituation *situa
         break;
     case 6:
         if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1) return 1;
-        UNION_MSG_SetupRegulationWindow(unisys,(int)fieldMap,(int)situation->partyFailMask,UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA),1); (*seq)++;
+        UNION_MSG_SetupRegulationWindow(unisys,fieldMap,(int)situation->partyFailMask,UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA),1); (*seq)++;
         break;
     case 7:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys,(u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys,fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys);
             if (situation->teamFailMask == -1) *seq = 1; else (*seq)++;
         }
         break;
     case 8:
-        UNION_MSG_SetupRegulationWindow(unisys,(int)fieldMap,(int)situation->partyFailMask,UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA),2); (*seq)++;
+        UNION_MSG_SetupRegulationWindow(unisys,fieldMap,(int)situation->partyFailMask,UNION_ONESELF_GetRegulationFlag(situation->connect.partnerSelectA),2); (*seq)++;
         break;
     case 9:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys,(u32)fieldMap) == 1 && (KEY_GetTrg() & 3)) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys,fieldMap) == 1 && (KEY_GetTrg() & 3)) {
             UNION_MSG_DeleteRegulationWindow(unisys); *seq = 1;
         }
         break;
     case 10:
         if (UNION_MSG_CheckTalkPrintEnd(unisys) == 1) {
-            UNION_MSG_SetupYesNo(unisys,(u32)fieldMap); (*seq)++;
+            UNION_MSG_SetupYesNo(unisys,fieldMap); (*seq)++;
         }
         break;
     case 11:
@@ -2490,7 +2361,7 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
             colosseum->entryMenu = COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(unisys->parent->gameData), fieldMap,
                                     UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA),
                                     UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), 0x41, 0, 0, 0);
-            COMM_ENTRY_MENU_SetCallbacks(colosseum->entryMenu, unisys, UNION_ONESELF_EntryMenuAddMember, UNION_ONESELF_EntryMenuRemoveMember);
+            COMM_ENTRY_MENU_SetCallbacks(colosseum->entryMenu, unisys, (CommEntryMemberFunc)UNION_ONESELF_EntryMenuAddMember, (CommEntryMemberFunc)UNION_ONESELF_EntryMenuRemoveMember);
         } else if (situation->connect.serviceFlag == 0) {
             colosseum->entryMenu = COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(unisys->parent->gameData), fieldMap,
                                     UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA),
@@ -2509,7 +2380,7 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
     case 1:
         if (situation->connect.serviceFlag == 0) {
             if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xc, 0x14) == 1) {
-                GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+                GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
                 (*seq)++;
             }
         } else {
@@ -2574,7 +2445,7 @@ int UNION_ONESELF_ColosseumEntryMain(UnionRoomWork *unisys, UnionMySituation *si
 void UNION_ONESELF_EntryMenuAddMember(UnionRoomWork *unisys, const void *myStatus, const u8 *mac)
 {
     int gender = MYSTATUS_GetTrainerView((struct MyStatus *)myStatus);
-    int trainerView = MYSTATUS_GetSex(myStatus);
+    int trainerView = MYSTATUS_GetSex((struct MyStatus *)myStatus);
     UNION_COMM_AddMember(&unisys->mySituation.connect, mac, gender, (u8)trainerView);
 }
 
@@ -2630,7 +2501,7 @@ int UNION_ONESELF_ColosseumSetupMain(UnionRoomWork *unisys, UnionMySituation *si
                 if (colosseum->player[playerIndex].isEntered == 1) {
                     gender = MYSTATUS_GetTrainerView((struct MyStatus *)(&colosseum->player[playerIndex]));
                     UNION_COMM_AddMember(&situation->connect, colosseum->player[playerIndex].statusExtra, gender,
-                                  (u8)MYSTATUS_GetSex(&colosseum->player[playerIndex]));
+                                  (u8)MYSTATUS_GetSex((struct MyStatus *)&colosseum->player[playerIndex]));
                 }
             }
             (*seq)++;
@@ -2679,7 +2550,7 @@ int UNION_ONESELF_ColosseumFreeMoveMain(UnionRoomWork *unisys, UnionMySituation 
     void *fieldCtrl;
     int talkPlayer;
     unsigned sideFlags;
-    int found;
+    u32 found;
     s16 position[3];
 
     fieldCtrl = FIELDMAP_GetFieldPlayer((void *)fieldMap);
@@ -2689,7 +2560,7 @@ int UNION_ONESELF_ColosseumFreeMoveMain(UnionRoomWork *unisys, UnionMySituation 
     }
 
     if (*seq == 0) {
-        if (COLOSSEUM_IsOnStandPos((int)fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags) == 1) {
+        if (COLOSSEUM_IsOnStandPos(fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags) == 1) {
             COLOSSEUM_SetMyChoice(colosseum, sideFlags);
             UNION_ONESELF_SetNextPlayCategory(unisys, 0x2b);
             UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
@@ -2708,7 +2579,7 @@ int UNION_ONESELF_ColosseumFreeMoveMain(UnionRoomWork *unisys, UnionMySituation 
         if (KEY_GetTrg() & 1) {
             found = 0;
             FIELD_PLAYER_GetFrontGridPos(fieldCtrl, (short *)((&position[2])), (short *)((&position[1])), (&position[0]));
-            if (COMM_PLAYER_SearchGridPos((void *)(colosseum->commPlayer), position[2], position[1], position[0], (int)(&talkPlayer), (int)(&found)) == 1) {
+            if (COMM_PLAYER_SearchGridPos((void *)(colosseum->commPlayer), position[2], position[1], position[0], &talkPlayer, &found) == 1) {
                 colosseum->talkPlayer = talkPlayer;
                 UNION_ONESELF_SetNextPlayCategory(unisys, 0x33);
                 UNION_ONESELF_SetFieldBusy(unisys, fieldMap, 1);
@@ -2753,7 +2624,7 @@ int UNION_ONESELF_ColosseumStandPosMain(UnionRoomWork *unisys, UnionMySituation 
     case 3:
         transition = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((void *)fieldMap));
         if (FLDMMDL_CheckPossibleAcmd(transition) == 1) {
-            COLOSSEUM_IsOnStandPos((int)fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags);
+            COLOSSEUM_IsOnStandPos(fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags);
             FLDMMDL_SetAcmd(transition, (sideFlags & 1) ? 2 : 3);
             (*seq)++;
         }
@@ -2801,7 +2672,7 @@ int UNION_ONESELF_ColosseumLeavePosMain(UnionRoomWork *unisys, UnionMySituation 
         break;
     case 4:
         if (FLDMMDL_CheckPossibleAcmd(transition) == 1) {
-            COLOSSEUM_IsOnStandPos((int)fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags);
+            COLOSSEUM_IsOnStandPos(fieldMap, UNION_MSG_GetCategoryTableValue(situation->connect.partnerSelectA), &sideFlags);
             FLDMMDL_SetAcmd(transition, (sideFlags & 1) ? 0xb : 0xa);
             (*seq)++;
         }
@@ -2888,7 +2759,7 @@ int UNION_ONESELF_ColosseumPartySelectMain(UnionRoomWork *unisys, UnionMySituati
         }
         if (failMask != 0) {
             UNION_MSG_SetupTalkWindow(unisys, fieldMap);
-            UNION_MSG_SetupRegulationWindow(unisys, (u32)fieldMap, failMask, UNION_ONESELF_GetRegulationFlag(situation->status), modeFlag);
+            UNION_MSG_SetupRegulationWindow(unisys, fieldMap, failMask, UNION_ONESELF_GetRegulationFlag(situation->status), modeFlag);
             *seq = 5;
         } else {
             UNION_ONESELF_SetNextPlayCategory(unisys, 0x2e);
@@ -2896,7 +2767,7 @@ int UNION_ONESELF_ColosseumPartySelectMain(UnionRoomWork *unisys, UnionMySituati
         }
         break;
     case 5:
-        if (UNION_MSG_CheckRegulationPrintEnd(unisys, (u32)fieldMap) == 1) {
+        if (UNION_MSG_CheckRegulationPrintEnd(unisys, fieldMap) == 1) {
             UNION_MSG_SetupPrintTalkMsg(unisys, (u8 *)fieldMap, 0x115);
             (*seq)++;
         }
@@ -3110,8 +2981,8 @@ int UNION_ONESELF_ColosseumBattleMain(UnionRoomWork *unisys, UnionMySituation *s
             else
                 opponentSlot = ++opponentCount;
             battle->opponent[opponentSlot].party = colosseum->party[playerIndex];
-            battle->opponent[opponentSlot].myStatus = MYSTATUS_GetName(&colosseum->player[playerIndex]);
-            battle->opponent[opponentSlot].trainerView = MYSTATUS_GetSex(&colosseum->player[playerIndex]);
+            battle->opponent[opponentSlot].myStatus = MYSTATUS_GetName((struct MyStatus *)&colosseum->player[playerIndex]);
+            battle->opponent[opponentSlot].trainerView = MYSTATUS_GetSex((struct MyStatus *)&colosseum->player[playerIndex]);
         }
         switch (situation->connect.partnerSelectA) {
         case 20:
@@ -3160,7 +3031,7 @@ int UNION_ONESELF_ColosseumLeaveConfirmMain(UnionRoomWork *unisys, UnionMySituat
         break;
     case 1:
         if (UNION_MSG_CheckTalkPrintEnd(unisys) != 0) {
-            UNION_MSG_SetupYesNo(unisys, (u32)fieldMap);
+            UNION_MSG_SetupYesNo(unisys, fieldMap);
             (*seq)++;
         }
         break;

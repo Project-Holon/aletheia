@@ -181,8 +181,16 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  *   NAMEIN_GRAPHIC_LoadIconMember 0x021F51E4 thumb ov194
  */
-extern int NAMEIN_GRAPHIC_IsFieldDrawDone(unsigned char *p);
-extern int NAMEIN_GRAPHIC_IsFieldFull(char *p);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define NAMEIN_GRAPHIC_DrawCellTips NAMEIN_GRAPHIC_DrawCellTips_header
+#endif
+#include "namein_graphic_shared_types.h"
+#include "namein_graphic_field.h"
+#ifdef __MWERKS__
+#undef NAMEIN_GRAPHIC_DrawCellTips
+extern void NAMEIN_GRAPHIC_DrawCellTips(char *, char *, void *, void *, u32);
+#endif
 
 #define OBJ(p) (*(char **)((p) + 0x2C4))
 
@@ -190,7 +198,7 @@ struct Descriptor;
 
 struct Cfg;
 
-struct Rect;
+struct NameinGraphicMainRect;
 
 struct PrintSys;
 
@@ -210,17 +218,17 @@ struct Bmp;
 
 struct Grid;
 
-struct Obj;
+struct ClactActor;
 
-struct Param;
+struct BmpOamParam;
 
-struct Sys;
+struct BmpOamSys;
 
-struct Actor;
+struct ClactActor;
 
-struct PtS;
+struct ClactVec2;
 
-struct Vec2;
+struct ClactVec2;
 
 struct Buf;
 
@@ -238,19 +246,18 @@ struct Node;
 
 struct DispConfig;
 
-struct Bank;
+struct Unit;
 
-typedef struct {int x,y;} Pair;
 
-typedef struct {int x,y,z,w;} Box;
 
-typedef struct {int left,top,right,bottom;} Rect;
+typedef struct {int left,top,right,bottom;} NameinGraphicRect;
 
 #include "../types.h"
+#include "../ov194/namein_graphic_field.h"
 
 typedef struct {u16 w;u16 h;u32 pad;} Dim8;
 
-typedef struct {short x,y;} Vec2;
+typedef struct {short x,y;} NameinGraphicVec2;
 
 typedef void (*NameinGraphicCallbackFn)(u8 *, u8 *, u32);
 
@@ -258,7 +265,7 @@ typedef struct {unsigned words[4];} Disp;
 
 typedef struct {unsigned words[8];} Bg;
 
-typedef struct {unsigned id;Bg config;unsigned type,enabled;} Entry;
+typedef struct {unsigned id;Bg config;unsigned type,enabled;} NameinGraphicEntry;
 
 /* The caller's parameter block reached from the work at 0x2C4. */
 typedef struct NameinGraphicConfig {
@@ -398,336 +405,270 @@ typedef struct NameinGraphicWork {
     struct U16Vec *nameStrbuf;       /* 0x2D0 */
 } NameinGraphicWork;
 
-extern void MI_CpuFill8(void *,unsigned,unsigned);
+#include "../arm9/mi_memory.h"
 
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32,u32,u32,u32,u32);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define ARC_UTIL_LoadPaletteDataFromArchive ARC_UTIL_LoadPaletteDataFromArchive_header
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_LoadPaletteDataFromArchive
+extern void * ARC_UTIL_LoadPaletteDataFromArchive(u32, u32, u32, void *, u32);
+#endif
 
-extern void BG_SYS_DecodeTile(u32,const void *,u32);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define BG_SYS_InitBgLayer BG_SYS_InitBgLayer_header
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_InitBgLayer
+extern void BG_SYS_InitBgLayer(unsigned char, const struct BgTemplate *, unsigned char);
+#endif
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void BG_SYS_PushTile(u32);
 
-extern void NAMEIN_GRAPHIC_InitCursor(u8 *,void *,void *,u32);
+#include "namein_graphic_main.h"
 
-extern void NAMEIN_GRAPHIC_InitPicker(char *,unsigned,int,void *,u32);
 struct BmpWin;
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+#include "../arm9/bmp_win.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern void NAMEIN_GRAPHIC_DrawCellTips(char *,char *,void *,void *,u32);
 
-extern u8 UI_GetInputMode(void);
+#include "../arm9/ui.h"
 
-extern int NAMEIN_GRAPHIC_PickerGetBox(char *,Pair *,Box *);
+struct NameinGraphicMainRect;
 
-extern void NAMEIN_GRAPHIC_SetupCursor(char *p, int mode, const struct Rect *rect, int flag, int selected);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void NAMEIN_GRAPHIC_ClearPicker(void *);
 
-extern void NAMEIN_GRAPHIC_ClearCursor(void *);
 
-extern int NAMEIN_GRAPHIC_FindCellByValue(const char *,int,Pair *);
 
-extern void NAMEIN_GRAPHIC_UpdateCursor(char *p, int sel, const void *rect);
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define PRINTSYS_PrintQueColor PRINTSYS_PrintQueColor_header
+#define PRINTSYS_PrintStream PRINTSYS_PrintStream_header
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_PrintQueColor
+#undef PRINTSYS_PrintStream
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *, struct Bmp *, s16, u32, struct Strbuf *, struct GfFont *, u32);
+extern struct TextPrinter * PRINTSYS_PrintStream(struct BmpWin *, u32, u32, struct Strbuf *, struct GfFont *, u32, struct Tcbl *, u32, u32, u16);
+#endif
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/g2.h"
 
-extern u32 BG_SYS_GetScrollY(u32 layer);
 
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void NAMEIN_GRAPHIC_ConvertCellMode(Pair *,int,int);
 
-extern void NAMEIN_GRAPHIC_LoadGrid(s32 *a, s32 b, void *c);
 
-extern unsigned KEY_GetRepeat(void);
+#include "../arm9/key.h"
 
-extern unsigned KEY_GetTrg(void);
 
-extern void UI_SetInputMode(u8);
 
-extern void GFL_USE_PlaySeDefaultVolume(unsigned);
+#include "../arm9/gfl_use.h"
 
-extern void NAMEIN_GRAPHIC_PickerMove(char *,int,int);
 
-extern unsigned TOUCHPANEL_GetPointTrg(unsigned *,unsigned *);
+#include "../arm9/touchpanel.h"
 
-extern int NAMEIN_GRAPHIC_FindCellAtPoint(const char *,int *,Pair *);
 
-extern unsigned NAMEIN_GRAPHIC_PickerToChar(char *,int *,unsigned short *);
 
-extern struct Strbuf *STRBUF_Create(unsigned int capacity, unsigned int heapId);
+#include "../arm9/strbuf.h"
 
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
+#include "../arm9/bmp_menuwork.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
+#include "../arm9/msgdata.h"
 struct GfFont;
 
-extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font);
 
 /* Callee species is u16; this caller passes r2 without truncation. */
-extern void *POKE_TOOL_Create(u32,u16,u64,u16);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define POKE_TOOL_Create POKE_TOOL_Create_header
+#endif
+#include "../arm9/poke_tool.h"
+#ifdef __MWERKS__
+#undef POKE_TOOL_Create
+extern struct PokemonParam * POKE_TOOL_Create(u32, u16, u64, u16);
+#endif
 struct PokemonParam;
 
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
 
-extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
+#include "../arm9/wordset.h"
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern void *TCBL_Create(int, int, int, int);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define TCBL_Create TCBL_Create_header
+#endif
+#include "../arm9/tcbl.h"
+#ifdef __MWERKS__
+#undef TCBL_Create
+extern struct TcblSystem * TCBL_Create(int, int, int, int);
+#endif
 struct TextPrinter;
 
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 struct TcblSystem;
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define WORDSET_CreateDefault WORDSET_CreateDefault_header
+#endif
+#include "../arm9/gf_font.h"
+#ifdef __MWERKS__
+#undef WORDSET_CreateDefault
+extern struct WordSet * WORDSET_CreateDefault(u32);
+#endif
 struct NameInArgs;
 
-extern int NAMEIN_SETUP_IsCanceled(struct NameInArgs *args);
+#include "../ov010/namein_setup.h"
 
-extern void NAMEIN_SETUP_CopyName(struct NameInArgs *args, struct Strbuf *dest);
 
-extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 
-extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
 
-extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
 
-extern void WORDSET_SetSlotBoxName(struct WordSet *words, unsigned int slot, void *save, unsigned int boxIndex);
 
-extern void STRBUF_Clear(struct U16Vec *vec);
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
 /* The caller consumes R0 returned by the legacy void forwarding wrapper. */
-extern int PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 
-extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern u32  APP_ICON_GetArchiveId(void);
+#include "../arm9/app_icon.h"
 
-extern u32  APP_ICON_GetItemDataFileId(void);
 
-extern u32  APP_ICON_GetItemExtraFileId(void);
 
-extern u32  APP_ICON_GetItemAnim2FileId(u32 a);
 
-extern u32  APP_ICON_GetItemFrame2FileId(u32 a);
 
-extern int POKE_TOOL_GetIconPaletteArcId(void);
+#include "../arm9/poke_tool_ext.h"
 
-extern u32  POKE_TOOL_CalcGraphicIndex(u32 a, u32 b, u32 c, u32 d);
 
-extern int POKE_TOOL_GetIconCellArcId(void);
 
-extern int POKE_TOOL_GetIconCellEntryId(void);
 
-extern u32  POKE_TOOL_CalcIconPalette(u32 a, u32 b, u32 c, u32 d);
 
-extern void *ARC_TOOL_CreateHandle(unsigned,u16);
+#include "../arm9/arc_tool.h"
 
-extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
+#include "../arm9/clact.h"
 
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
-extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+struct ClactActor;
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
-
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-
-extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
-
-extern void PRINTSYS_PrintQueColor(u32 a, void *b, s16 c, u32 d, void *e, u32 f, u32 g);
-
-extern void CLACT_ReleasePalette(u32 i);
+struct BmpOamParam;
+struct BmpOamSys;
 struct BmpOam;
 
-extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
 
-extern void BMP_Delete(struct Bmp *p);
+#include "../arm9/bmp_oam.h"
 
-extern void CLACT_ReleaseCharacter(u32 i);
 
-extern void CLACT_ReleaseCellAnim(u32 i);
+struct BmpOam;
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
-extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
 
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
+struct ClactVec2;
 
-extern void NAMEIN_GRAPHIC_CopyToStrbuf(char *,struct Strbuf *);
 
-extern int STRBUF_IsEqual(struct Strbuf *lhs, struct Strbuf *rhs);
 
-extern int NAMEIN_GRAPHIC_HasNonSpace(u8 *p);
 
-extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
 
-extern u32 NAMEIN_GRAPHIC_GetLength(const u8 *p);
 
-extern u32 NAMEIN_GRAPHIC_GetSecondaryLength(const u8 *p);
 
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
-extern int FADE_IsActive(void);
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 
-extern unsigned int KEY_GetCont(void);
+#include "../arm9/fade.h"
 
-extern int TOUCHPANEL_GetCont(void);
 
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
 
-extern void UI_SetInputMode(unsigned char);
 
-extern int TOUCHPANEL_GetTrg(void);
 
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 
-extern int NAMEIN_GRAPHIC_AppendChar(char *,u16);
 
-extern int NAMEIN_GRAPHIC_AppendCandidate(unsigned char *p, unsigned short a, u32 b);
 
-extern int NAMEIN_GRAPHIC_ApplyConversion(unsigned char *a, int b);
 
-extern int NAMEIN_GRAPHIC_RevertChar(char *);
 
-extern int NAMEIN_GRAPHIC_Backspace(unsigned char *p);
 
-extern void NAMEIN_GRAPHIC_ClearSecondary(char *);
 
-extern void NAMEIN_GRAPHIC_CommitSecondary(char *);
 
-extern void NAMEIN_GRAPHIC_ClearPrimary(unsigned char *p);
 
-extern void NAMEIN_GRAPHIC_AppendString(char *p, const u16 *q);
 
-extern int PROF_WORD_FindMatch(const u32 *cache, const void *input, u16 heap);
 
-extern int PROF_WORD_CheckDigitCount(void *,int,int);
 
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 
-extern int NAMEIN_GRAPHIC_RefreshInputField(u8 *p);
+
+#include "prof_word.h"
+
+
+
 struct MiscSave;
 
-extern void MISC_SetInputFlag(struct MiscSave *beacon, unsigned int index, unsigned char value);
+#include "../arm9/beacon.h"
 struct SaveControlIntr;
 
-extern void SAVE_CONTROL_INTR_Pause(struct SaveControlIntr *intr);
+#include "../ov088/save_control_intr.h"
 
-extern int SAVE_CONTROL_INTR_IsPausedOrFinished(struct SaveControlIntr *intr);
 
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 
-extern void BG_SYS_ClearGraphicsMemory(unsigned);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *);
 
-extern void BG_SYS_SetLcdSwap(unsigned);
 
-extern void BG_SYS_ResetSubDisplay(void);
 
-extern void BG_SYS_ClearMainPlanes(void);
 
-extern void BG_SYS_ClearSubPlanes(void);
 
-extern void GF_FONT_InitTextColor(void);
 
-extern void *GFL_USE_AddMainTask(unsigned, unsigned, unsigned);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void GF_FONT_SetDefaultTextColor(void);
 
-extern void BG_SYS_Create(unsigned short);
 
-extern void BMP_WIN_Init(unsigned short);
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void BG_SYS_InitBgLayer(unsigned char, const Bg *, unsigned char);
 
-extern void BG_SYS_FreeSlot(unsigned char);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void BMP_WIN_Exit(void);
 
-extern void BG_SYS_Delete(void);
 
-extern void BG_SYS_Update(void);
 struct DispVramCfg;
-struct SysInit;
+struct ClactSysInit;
+struct ClactSysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void CLACT_ExitSystem(void);
 
-extern void CLACT_DrawSystem(void);
 
-extern void CLACT_VBlankSystem(void);
 
-int NAMEIN_GRAPHIC_SymbolGetValue(Pair *p,Pair *out);
+int NAMEIN_GRAPHIC_SymbolGetValue(NameinGraphicPair *p,NameinGraphicPair *out);
 
 void NAMEIN_GRAPHIC_InitGrid(u8 *p,int mode,void *font,void *window,void *data,void *palette,u32 heap);
 
@@ -845,7 +786,7 @@ void NAMEIN_GRAPHIC_DrawDisplay(u8 *p);
 
 unsigned NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p);
 
-void NAMEIN_GRAPHIC_DisplayMainTask(u32 a, u8 *b);
+void NAMEIN_GRAPHIC_DisplayMainTask(struct TcbTask *a, void *b);
 
 void NAMEIN_GRAPHIC_InitBg(void *p, unsigned short heap);
 
@@ -865,7 +806,7 @@ void NAMEIN_GRAPHIC_VBlankClact(u8 *unused);
 
 u32 NAMEIN_GRAPHIC_LoadWord(const u32 *p);
 
-void NAMEIN_GRAPHIC_LoadIconMember(u8 *dst,unsigned arc,u32 member,u32 index,u16 width,u16 height,int pos,int mode,u16 heap);
+#include "nsbtx_to_clwk.h"
 
 extern const u8 d_021F5569[];
 
@@ -879,10 +820,10 @@ extern const struct DispVram d_021F55D0;
 
 extern const Disp d_021F55A4;
 
-extern const Entry d_021F5600[];
+extern const NameinGraphicEntry d_021F5600[];
 
-int NAMEIN_GRAPHIC_SymbolGetValue(Pair *p,Pair *out) {
- int result;Pair xy;
+int NAMEIN_GRAPHIC_SymbolGetValue(NameinGraphicPair *p,NameinGraphicPair *out) {
+ int result;NameinGraphicPair xy;
  result=0;
  switch((unsigned)p->y) {
  case 0: if(p->x==10)result=6;else {xy=*p;result=1;}break;
@@ -899,15 +840,15 @@ int NAMEIN_GRAPHIC_SymbolGetValue(Pair *p,Pair *out) {
  */
 void NAMEIN_GRAPHIC_InitGrid(u8 *p,int mode,void *font,void *window,void *data,void *palette,u32 heap)
 {
- Box box;
+ NameinGraphicBox box;
  void *bg;
  int index;
  MI_CpuFill8(p,0,0x130);
  ((NameinGraphicGrid *)p)->selectionX=0;((NameinGraphicGrid *)p)->selectionY=0;
  ((NameinGraphicGrid *)p)->font=font;((NameinGraphicGrid *)p)->printSys=window;((NameinGraphicGrid *)p)->heap=heap;
  ((NameinGraphicGrid *)p)->mode=mode;((NameinGraphicGrid *)p)->targetMode=mode;((NameinGraphicGrid *)p)->data=data;
- ((NameinGraphicGrid *)p)->paletteHandleA=ARC_UTIL_LoadPaletteDataFromArchive(118,10,0,(u32)(p+0x124),heap);
- ((NameinGraphicGrid *)p)->paletteHandleB=ARC_UTIL_LoadPaletteDataFromArchive(118,5,0,(u32)(p+0x128),heap);
+ ((NameinGraphicGrid *)p)->paletteHandleA=ARC_UTIL_LoadPaletteDataFromArchive(118,10,0,(void *)((u32)(p+0x124)),heap);
+ ((NameinGraphicGrid *)p)->paletteHandleB=ARC_UTIL_LoadPaletteDataFromArchive(118,5,0,(void *)((u32)(p+0x128)),heap);
  if(mode==3){BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataA+12,2048);BG_SYS_SetPlaneVisible(2,0);}
  else {BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataB+12,2048);BG_SYS_SetPlaneVisible(2,1);}
  BG_SYS_PushTile(1);
@@ -920,9 +861,9 @@ void NAMEIN_GRAPHIC_InitGrid(u8 *p,int mode,void *font,void *window,void *data,v
  ((NameinGraphicGrid *)p)->tipBmp=((NameinGraphicGrid *)p)->bmpWin;p[0xf0]=0;
  NAMEIN_GRAPHIC_DrawCellTips((char *)p,(char *)p+0xec,window,font,heap);
  if(UI_GetInputMode()==0){
-  if(NAMEIN_GRAPHIC_PickerGetBox((char *)p,(Pair *)(p+0xd8),&box))NAMEIN_GRAPHIC_SetupCursor((char *)p+0x24,1,(const struct Rect *)(&box),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+  if(NAMEIN_GRAPHIC_PickerGetBox((char *)p,(NameinGraphicPair *)(p+0xd8),&box))NAMEIN_GRAPHIC_SetupCursor((char *)p+0x24,1,(struct NameinGraphicMainRect *)(&box),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
  }else {
-  if(NAMEIN_GRAPHIC_PickerGetBox((char *)p,(Pair *)(p+0xd8),&box))NAMEIN_GRAPHIC_SetupCursor((char *)p+0x24,0,(const struct Rect *)(&box),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+  if(NAMEIN_GRAPHIC_PickerGetBox((char *)p,(NameinGraphicPair *)(p+0xd8),&box))NAMEIN_GRAPHIC_SetupCursor((char *)p+0x24,0,(struct NameinGraphicMainRect *)(&box),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
  }
 }
 
@@ -932,7 +873,7 @@ void NAMEIN_GRAPHIC_UpdateGrid(char *p,char *q)
 {
     int out0[4];
     int out2[4];
-    Rect rect;
+    NameinGraphicRect rect;
     int result;
     ((NameinGraphicGrid *)p)->action=0;
     switch(((NameinGraphicGrid *)p)->state){
@@ -950,11 +891,11 @@ void NAMEIN_GRAPHIC_UpdateGrid(char *p,char *q)
         if(NAMEIN_GRAPHIC_AnimateGrid(p))((NameinGraphicGrid *)p)->state=0;
         break;
     case 1:
-        if(NAMEIN_GRAPHIC_IsFieldFull(q)){NAMEIN_GRAPHIC_FindCellByValue(p,7,(Pair *)(p+0xD8));((NameinGraphicGrid *)p)->action=11;}
+        if(NAMEIN_GRAPHIC_IsFieldFull(q)){NAMEIN_GRAPHIC_FindCellByValue(p,7,(NameinGraphicPair *)(p+0xD8));((NameinGraphicGrid *)p)->action=11;}
         ((NameinGraphicGrid *)p)->state=0;
         break;
     }
-    NAMEIN_GRAPHIC_PickerGetBox(p, (Pair *)((int)(p+0xD8)), (Box *)((int)&rect));
+    NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((int)(p+0xD8)), (NameinGraphicBox *)((int)&rect));
     NAMEIN_GRAPHIC_UpdateCursor(p+0x24,((NameinGraphicGrid *)p)->mode,&rect);
     NAMEIN_GRAPHIC_IsGridDrawDone(p);
 }
@@ -1075,7 +1016,7 @@ void NAMEIN_GRAPHIC_SwitchGridMode(char *p, u32 mode) {
  if(mode==3) {BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataA+12,2048);BG_SYS_SetPlaneVisible(2,0);}
  else BG_SYS_DecodeTile(1,*(char * *)&((NameinGraphicGrid *)p)->paletteDataB+12,2048);
  BG_SYS_PushTile(1);
- if(mode==3 || ((NameinGraphicGrid *)p)->mode==3)NAMEIN_GRAPHIC_ConvertCellMode((Pair *)(p+0xD8),((NameinGraphicGrid *)p)->mode,mode);
+ if(mode==3 || ((NameinGraphicGrid *)p)->mode==3)NAMEIN_GRAPHIC_ConvertCellMode((NameinGraphicPair *)(p+0xD8),((NameinGraphicGrid *)p)->mode,mode);
  ((NameinGraphicGrid *)p)->mode=mode;
 }
 
@@ -1095,8 +1036,8 @@ void NAMEIN_GRAPHIC_SetGridSelection(char *p,int index,int variant) {
 
 int NAMEIN_GRAPHIC_KanaKeyMove(char *p,int *out)
 {
-    Rect rect;
-    Pair delta;
+    NameinGraphicRect rect;
+    NameinGraphicPair delta;
     int changed=0;
     if(KEY_GetRepeat()&64){delta.x=0;delta.y=-1;changed=1;}
     else if(KEY_GetRepeat()&128){delta.x=0;delta.y=1;changed=1;}
@@ -1104,21 +1045,21 @@ int NAMEIN_GRAPHIC_KanaKeyMove(char *p,int *out)
     else if(KEY_GetRepeat()&16){delta.x=1;delta.y=0;changed=1;}
     else if(KEY_GetTrg()&8){
         delta.x=0;delta.y=0;changed=1;
-        NAMEIN_GRAPHIC_FindCellByValue(p,7,(Pair *)(p+0xD8));
+        NAMEIN_GRAPHIC_FindCellByValue(p,7,(NameinGraphicPair *)(p+0xD8));
         NAMEIN_GRAPHIC_PickerMove(p,(int)(p+0xD8),(int)&delta);
     }
     if(changed){
         if(UI_GetInputMode()==1){
-            if(NAMEIN_GRAPHIC_PickerGetBox(p, (Pair *)((int)(p+0xD8)), (Box *)((int)&rect))){
+            if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((int)(p+0xD8)), (NameinGraphicBox *)((int)&rect))){
                 UI_SetInputMode(0);
-                NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+                NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(struct NameinGraphicMainRect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 GFL_USE_PlaySeDefaultVolume(1352);
             }
         }else{
             NAMEIN_GRAPHIC_PickerMove(p,(int)p+0xD8,(int)&delta);
-            if(NAMEIN_GRAPHIC_PickerGetBox(p, (Pair *)((int)(p+0xD8)), (Box *)((int)&rect))){
+            if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((int)(p+0xD8)), (NameinGraphicBox *)((int)&rect))){
                 GFL_USE_PlaySeDefaultVolume(1352);
-                NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+                NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(struct NameinGraphicMainRect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
             }
         }
     }
@@ -1127,27 +1068,27 @@ int NAMEIN_GRAPHIC_KanaKeyMove(char *p,int *out)
 
 int NAMEIN_GRAPHIC_KanaKeyAction(char *p,int *out)
 {
-    Rect rect;
+    NameinGraphicRect rect;
     int changed;
     changed=0;
     if(KEY_GetTrg()==1) {
-        *(Pair *)(out+2)=*(Pair *)(p+0xD8);
+        *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(p+0xD8);
         out[1]=1;changed=1;
     }
     if(KEY_GetTrg()==2) {
-        NAMEIN_GRAPHIC_FindCellByValue(p,6,(Pair *)(out+2));out[0]=6;changed=1;
+        NAMEIN_GRAPHIC_FindCellByValue(p,6,(NameinGraphicPair *)(out+2));out[0]=6;changed=1;
     }
     if(KEY_GetTrg()==4) {
         out[0]=((NameinGraphicGrid *)p)->mode+3;
         if(out[0]>5)out[0]=2;
-        NAMEIN_GRAPHIC_FindCellByValue(p,out[0],(Pair *)(p+0xD8));
-        *(Pair *)(out+2)=*(Pair *)(p+0xD8);changed=1;
+        NAMEIN_GRAPHIC_FindCellByValue(p,out[0],(NameinGraphicPair *)(p+0xD8));
+        *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(p+0xD8);changed=1;
     }
     if(KEY_GetTrg()==256){((NameinGraphicGrid *)p)->action=10;changed=0;}
     if(changed && UI_GetInputMode()==1) {
-        if(NAMEIN_GRAPHIC_PickerGetBox(p, (Pair *)((int)(p+0xD8)), (Box *)((int)&rect))) {
+        if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((int)(p+0xD8)), (NameinGraphicBox *)((int)&rect))) {
             GFL_USE_PlaySeDefaultVolume(1352);UI_SetInputMode(0);
-            NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+            NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(struct NameinGraphicMainRect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
             return 0;
         }
     }
@@ -1158,7 +1099,7 @@ int NAMEIN_GRAPHIC_KanaTouch(char *p,int *out) {
  int point[2];unsigned x,y;int u;
  if(TOUCHPANEL_GetPointTrg(&x,&y)) {
  point[0]=x;point[1]=y;
- if(NAMEIN_GRAPHIC_FindCellAtPoint(p,point,(Pair *)(p+0xD8))) {
+ if(NAMEIN_GRAPHIC_FindCellAtPoint(p,point,(NameinGraphicPair *)(p+0xD8))) {
  u=((NameinGraphicGrid *)p)->selectionX;out[3]=((NameinGraphicGrid *)p)->selectionY;out[1]=1;out[2]=u;UI_SetInputMode(1);return 1;
  }}return 0;
 }
@@ -1166,7 +1107,7 @@ int NAMEIN_GRAPHIC_KanaTouch(char *p,int *out) {
 void NAMEIN_GRAPHIC_ApplyKanaAction(char *p,int *input)
 {
     unsigned code;
-    Rect rect;
+    NameinGraphicRect rect;
     if(input[1])code=NAMEIN_GRAPHIC_PickerToChar(p,(int *)(p+0xD8),(unsigned short *)(p+0xFC));
     else code=input[0];
     switch(code){
@@ -1185,8 +1126,8 @@ void NAMEIN_GRAPHIC_ApplyKanaAction(char *p,int *input)
     case 10:((NameinGraphicGrid *)p)->action=3;break;
     case 11:((NameinGraphicGrid *)p)->action=4;break;
     }
-    if(NAMEIN_GRAPHIC_PickerGetBox(p, (Pair *)((int)(input+2)), (Box *)((int)&rect)))
-        NAMEIN_GRAPHIC_SetupCursor(p+0x24,2,(const struct Rect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+    if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((int)(input+2)), (NameinGraphicBox *)((int)&rect)))
+        NAMEIN_GRAPHIC_SetupCursor(p+0x24,2,(struct NameinGraphicMainRect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
 }
 
 /*
@@ -1194,9 +1135,9 @@ void NAMEIN_GRAPHIC_ApplyKanaAction(char *p,int *input)
  */
 int NAMEIN_GRAPHIC_SymbolKeyMove(char *p,int *out)
 {
-    Rect rect;
-    Pair delta;
-    Pair point;
+    NameinGraphicRect rect;
+    NameinGraphicPair delta;
+    NameinGraphicPair point;
     int changed=0;
     if(((NameinGraphicGrid *)p)->extraLayer==0){
         if(KEY_GetTrg()&64){delta.x=0;delta.y=-1;changed=1;}
@@ -1205,19 +1146,19 @@ int NAMEIN_GRAPHIC_SymbolKeyMove(char *p,int *out)
         else if(KEY_GetTrg()&16){delta.x=1;delta.y=0;changed=1;}
     }
     if(changed){
-        point=*(Pair *)(p+0xD8);
+        point=*(NameinGraphicPair *)(p+0xD8);
         NAMEIN_GRAPHIC_PickerMove(p,(int)&point,(int)&delta);
         if(NAMEIN_GRAPHIC_PickerToChar(p,&point.x,0)-2<=3){
             if(UI_GetInputMode()==1){
-                if(NAMEIN_GRAPHIC_PickerGetBox(p, (Pair *)((int)(p+0xD8)), (Box *)((int)&rect))){
+                if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((int)(p+0xD8)), (NameinGraphicBox *)((int)&rect))){
                     GFL_USE_PlaySeDefaultVolume(1352);UI_SetInputMode(0);
-                    NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+                    NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(struct NameinGraphicMainRect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 }
             }else{
                 NAMEIN_GRAPHIC_PickerMove(p,(int)p+0xD8,(int)&delta);
-                if(NAMEIN_GRAPHIC_PickerGetBox(p, (Pair *)((int)(p+0xD8)), (Box *)((int)&rect))){
+                if(NAMEIN_GRAPHIC_PickerGetBox(p, (NameinGraphicPair *)((int)(p+0xD8)), (NameinGraphicBox *)((int)&rect))){
                     GFL_USE_PlaySeDefaultVolume(1352);
-                    NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+                    NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(struct NameinGraphicMainRect *)(&rect),((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 }
             }
         }
@@ -1230,20 +1171,20 @@ int NAMEIN_GRAPHIC_SymbolKeyAction(char *p,int *out) {
     int rect[4];
     if (((NameinGraphicGrid *)p)->extraLayer==0) {
         if (KEY_GetTrg()&1) {
-            *(Pair *)(out+2)=*(Pair *)(p+0xd8);
+            *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(p+0xd8);
             changed=1; out[1]=1;
         }
         if (KEY_GetTrg()&4) {
             out[0]=((NameinGraphicGrid *)p)->mode+3;
             if (out[0]>5) out[0]=2;
-            NAMEIN_GRAPHIC_FindCellByValue(p,out[0],(Pair *)(p+0xd8));
-            *(Pair *)(out+2)=*(Pair *)(p+0xd8);
+            NAMEIN_GRAPHIC_FindCellByValue(p,out[0],(NameinGraphicPair *)(p+0xd8));
+            *(NameinGraphicPair *)(out+2)=*(NameinGraphicPair *)(p+0xd8);
             changed=1;
         }
         if (changed && UI_GetInputMode()==1) {
-            if (NAMEIN_GRAPHIC_PickerGetBox(p,(Pair *)(p+0xd8),(Box *)rect)) {
+            if (NAMEIN_GRAPHIC_PickerGetBox(p,(NameinGraphicPair *)(p+0xd8),(NameinGraphicBox *)rect)) {
                 GFL_USE_PlaySeDefaultVolume(1352); UI_SetInputMode(0);
-                NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(const struct Rect *)rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+                NAMEIN_GRAPHIC_SetupCursor(p+0x24,1,(struct NameinGraphicMainRect *)rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
                 return 0;
             }
         }
@@ -1260,7 +1201,7 @@ int NAMEIN_GRAPHIC_SymbolTouch(char *p,int *out) {
     if (((NameinGraphicGrid *)p)->extraLayer==0) {
         if (TOUCHPANEL_GetPointTrg(&x,&y)) {
             point[0]=x; point[1]=y;
-            if (NAMEIN_GRAPHIC_FindCellAtPoint(p,point,(Pair *)(p+0xd8))) {
+            if (NAMEIN_GRAPHIC_FindCellAtPoint(p,point,(NameinGraphicPair *)(p+0xd8))) {
                 if (NAMEIN_GRAPHIC_PickerToChar(p,(int *)(p+0xd8),0)-2<=3) {
                     u=((NameinGraphicGrid *)p)->selectionX;
                     out[3]=((NameinGraphicGrid *)p)->selectionY;
@@ -1288,8 +1229,8 @@ void NAMEIN_GRAPHIC_ApplySymbolAction(char *p,int *input) {
         }
         break;
     }
-    if (NAMEIN_GRAPHIC_PickerGetBox(p,(Pair *)(input+2),(Box *)rect))
-        NAMEIN_GRAPHIC_SetupCursor(p+0x24,2,(const struct Rect *)rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
+    if (NAMEIN_GRAPHIC_PickerGetBox(p,(NameinGraphicPair *)(input+2),(NameinGraphicBox *)rect))
+        NAMEIN_GRAPHIC_SetupCursor(p+0x24,2,(struct NameinGraphicMainRect *)rect,((NameinGraphicGrid *)p)->index,((NameinGraphicGrid *)p)->mode);
 }
 
 void NAMEIN_GRAPHIC_InitMsgBox(unsigned char *p,int a,int b,int c,int d,unsigned short e) {
@@ -1368,7 +1309,7 @@ void NAMEIN_GRAPHIC_PrintNameStream(char *p,char *q,int *w,u32 heap)
     BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp((struct BmpWin *)*(int *)&((NameinGraphicMsgBox *)q)->win)),((NameinGraphicMsgBox *)q)->color);
     STRBUF_Clear(((NameinGraphicMsgBox *)q)->strbuf);
     WORDSET_CopyTaggedText(set,((NameinGraphicMsgBox *)q)->strbuf,(void *)w[3]);
-    ((NameinGraphicTcbl *)p)->stream=(void *)PRINTSYS_PrintStream((u32)((NameinGraphicMsgBox *)q)->win,0,0,*(u32 *)&((NameinGraphicMsgBox *)q)->strbuf,((NameinGraphicMsgBox *)q)->font,MSG_SPEED_GetWait(),(u32)((NameinGraphicTcbl *)p)->handle,2,heap,((NameinGraphicMsgBox *)q)->color);
+    ((NameinGraphicTcbl *)p)->stream=(void *)PRINTSYS_PrintStream((struct BmpWin *)((u32)((NameinGraphicMsgBox *)q)->win),0,0,(struct Strbuf *)(*(u32 *)&((NameinGraphicMsgBox *)q)->strbuf),(struct GfFont *)(((NameinGraphicMsgBox *)q)->font),MSG_SPEED_GetWait(),(struct Tcbl *)((u32)((NameinGraphicTcbl *)p)->handle),2,heap,((NameinGraphicMsgBox *)q)->color);
     ((NameinGraphicTcbl *)p)->flag=0;
     *(void (**)(void))(p+8)=(void (*)(void))NAMEIN_GRAPHIC_CallbackFadeOut;
     ((NameinGraphicTcbl *)p)->counter=60;
@@ -1451,7 +1392,7 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, 
         MI_CpuFill8((unsigned char *)&dim, 0, 8);
         dim.w = w24;
         dim.h = h20;
-        *(void **)o = CLACT_CreateActor((void *)s0, (u32)(*(void **)(o + 0xC)), (u32)(*(void **)(o + 8)), (u32)(*(void **)(o + 0x10)), &dim, flagB, heap);
+        *(void **)o = CLACT_CreateActor((struct Unit *)((void *)s0), (u32)(*(void **)(o + 0xC)), (u32)(*(void **)(o + 8)), (u32)(*(void **)(o + 0x10)), (const struct ActorInitParam *)&dim, flagB, heap);
     }
     CLACT_SetActorAutoAnim(*(void **)o, 1);
     switch (mode) {
@@ -1499,7 +1440,7 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, 
         *(u32 *)(st + 0x14) = 0;
         *(u8 *)(st + 0x11) = 0;
         *(u32 *)(st + 0xC) = 0;
-        *(void **)(o + 0x2C) = BMP_OAM_Create((struct Sys *)s4, (const struct Param *)st);
+        *(void **)(o + 0x2C) = BMP_OAM_Create((struct BmpOamSys *)s4, (struct BmpOamParam *)st);
         if (v1c == 1) {
             idx = 0x11;
             r = 0xC80;
@@ -1509,7 +1450,7 @@ void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, 
         }
         *(void **)(o + 0x28) = MSGDATA_AllocString(s3, idx);
         BMP_Clear(*(void **)(o + 0x30), 0);
-        PRINTSYS_PrintQueColor(s2, *(void **)(o + 0x30), 0, 0, *(void **)(o + 0x28), s1, r);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)s2, (struct Bmp *)(*(void **)(o + 0x30)), 0, 0, (struct Strbuf *)(*(void **)(o + 0x28)), (struct GfFont *)s1, r);
         *(u32 *)(o + 0x38) = s2;
         *(u32 *)(o + 0x34) = 1;
     }
@@ -1532,11 +1473,11 @@ void NAMEIN_GRAPHIC_DeleteIconActor(unsigned char *p) {
 void NAMEIN_GRAPHIC_UpdateIconTouch(char *p) {
     int rect[4];
     unsigned x,y;
-    Vec2 pos;
+    NameinGraphicVec2 pos;
     int point[2];
     switch (((NameinGraphicIcon *)p)->touchMode) {
     case 0:
-        CLACT_GetActorSurfacePos((struct Actor *)((NameinGraphicIcon *)p)->actor,(struct PtS *)&pos,0);
+        CLACT_GetActorSurfacePos((struct ClactActor *)((NameinGraphicIcon *)p)->actor,(struct ClactVec2 *)&pos,0);
         ((NameinGraphicIcon *)p)->state=0;
         if (TOUCHPANEL_GetPointTrg(&x,&y)) {
             rect[0]=pos.x-16; rect[1]=pos.y-16;
@@ -1554,21 +1495,21 @@ void NAMEIN_GRAPHIC_UpdateIconTouch(char *p) {
     }
 }
 
-void NAMEIN_GRAPHIC_FlushIconOam(unsigned char *p){if(((NameinGraphicIcon *)p)->oamDirty){if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(((NameinGraphicIcon *)p)->printSys), (void *)(((NameinGraphicIcon *)p)->bmp))==0){BMP_OAM_UploadChars((struct BmpOam *)(*(struct Obj * *)&((NameinGraphicIcon *)p)->oam));((NameinGraphicIcon *)p)->oamDirty=0;}}}
+void NAMEIN_GRAPHIC_FlushIconOam(unsigned char *p){if(((NameinGraphicIcon *)p)->oamDirty){if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(((NameinGraphicIcon *)p)->printSys), (void *)(((NameinGraphicIcon *)p)->bmp))==0){BMP_OAM_UploadChars((struct BmpOam *)(*(struct ClactActor * *)&((NameinGraphicIcon *)p)->oam));((NameinGraphicIcon *)p)->oamDirty=0;}}}
 
 unsigned NAMEIN_GRAPHIC_IsIconAnimDone(unsigned char *p){return ((NameinGraphicIcon *)p)->state;}
 
 void NAMEIN_GRAPHIC_StartIconAnim(unsigned char *p){((NameinGraphicIcon *)p)->animTick=0;*(unsigned *)&((NameinGraphicIcon *)p)->animActive=1;}
 
 int NAMEIN_GRAPHIC_StepIconAnim(char *p) {
-    Vec2 pos;
+    NameinGraphicVec2 pos;
     int tick;
     if (((NameinGraphicIcon *)p)->animActive) {
         tick=((NameinGraphicIcon *)p)->animTick;
         ((NameinGraphicIcon *)p)->animTick=tick+1;
-        CLACT_GetActorSurfacePos((struct Actor *)((NameinGraphicIcon *)p)->actor,(struct PtS *)&pos,0);
+        CLACT_GetActorSurfacePos((struct ClactActor *)((NameinGraphicIcon *)p)->actor,(struct ClactVec2 *)&pos,0);
         pos.y=20-((12*FX_SinCosTable_[((unsigned short)(32767*tick/8)>>4)*2])>>12);
-        CLACT_AddActorSurfacePos((struct Obj *)(((NameinGraphicIcon *)p)->actor),(const struct Vec2 *)(&pos),0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((NameinGraphicIcon *)p)->actor),(struct ClactVec2 *)(&pos),0);
         if (((NameinGraphicIcon *)p)->animTick>8) ((NameinGraphicIcon *)p)->animActive=0;
         return 0;
     }
@@ -1829,7 +1770,7 @@ unsigned char *NAMEIN_GRAPHIC_CreateDisplay(unsigned swap, unsigned short heap)
     GF_FONT_InitTextColor();
     NAMEIN_GRAPHIC_InitBg(p, heap);
     NAMEIN_GRAPHIC_InitClact(p + 4, (int)&d_021F55D0, heap);
-    ((NameinGraphicDisplay *)p)->mainTask = GFL_USE_AddMainTask((unsigned)NAMEIN_GRAPHIC_DisplayMainTask, (unsigned)p, 0);
+    ((NameinGraphicDisplay *)p)->mainTask = GFL_USE_AddMainTask(NAMEIN_GRAPHIC_DisplayMainTask, p, 0);
     return p;
 }
 
@@ -1855,8 +1796,9 @@ void NAMEIN_GRAPHIC_DrawDisplay(u8 *p)
 
 unsigned NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p){return NAMEIN_GRAPHIC_LoadWord((const unsigned *)(p+4));}
 
-void NAMEIN_GRAPHIC_DisplayMainTask(u32 a, u8 *b)
+void NAMEIN_GRAPHIC_DisplayMainTask(struct TcbTask *a, void *bArg)
 {
+    u8 * b = bArg;
     NAMEIN_GRAPHIC_ResetBg(b);
     NAMEIN_GRAPHIC_VBlankClact(b + 4);
 }
@@ -1868,7 +1810,7 @@ void NAMEIN_GRAPHIC_InitBg(void *p, unsigned short heap)
 {
     unsigned i = 0;
     unsigned id;
-    const Entry *e;
+    const NameinGraphicEntry *e;
     MI_CpuFill8(p, 0, 4);
     BG_SYS_Create(heap);
     BMP_WIN_Init(heap);
@@ -1876,7 +1818,7 @@ void NAMEIN_GRAPHIC_InitBg(void *p, unsigned short heap)
     for (; i < 8; i++) {
         id = d_021F5600[i].id;
         e = &d_021F5600[i];
-        BG_SYS_InitBgLayer(id, &e->config, e->type);
+        BG_SYS_InitBgLayer(id, (const struct BgTemplate *)&e->config, e->type);
         BG_SYS_FreeSlot(id);
         BG_SYS_SetPlaneVisible((unsigned char)id, (unsigned char)e->enabled);
     }
@@ -1902,7 +1844,7 @@ void NAMEIN_GRAPHIC_ResetBg(u8 *unused) { BG_SYS_Update(); }
 void NAMEIN_GRAPHIC_InitClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((struct SysInit *)0x021F55B4, (struct DispVramCfg *)a, b);
+    CLACT_InitSystem((struct ClactSysInit *)0x021F55B4, (struct DispVramCfg *)a, b);
     *(int *)&((NameinGraphicClact *)p)->unit = (int)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(((NameinGraphicClact *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -1911,7 +1853,7 @@ void NAMEIN_GRAPHIC_InitClact(unsigned char *p, int a, int b)
 
 void NAMEIN_GRAPHIC_ExitClact(u8 *p)
 {
-    CLACT_DeleteUnit((struct Bank *)(((NameinGraphicClact *)p)->unit));
+    CLACT_DeleteUnit((struct Unit *)(((NameinGraphicClact *)p)->unit));
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }

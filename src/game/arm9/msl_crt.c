@@ -304,7 +304,7 @@ void *MSL_C_LIB_ReallocResource(u32 resSet, u32 heap)
     if (resSet == 0)
         return MSL_C_LIB_AllocFromHeap(heap);
     if (heap == 0) {
-        CRT_Free((u32)((void *)resSet));
+        CRT_Free((uptr)((void *)resSet));
         return 0;
     }
     n = MSL_C_LIB_PrependResourceSet((void *)resSet);
@@ -313,7 +313,7 @@ void *MSL_C_LIB_ReallocResource(u32 resSet, u32 heap)
         if (n >= heap)
             n = heap;
         memcpy(p, (const void *)resSet, n);
-        CRT_Free((u32)((void *)resSet));
+        CRT_Free((uptr)((void *)resSet));
     }
     return p;
 }

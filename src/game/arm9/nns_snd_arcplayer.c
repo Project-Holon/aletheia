@@ -200,7 +200,7 @@ u32 NNS_SndArcPlayerStartSeqEx(u32 handle, int playerNo, int bankNo, int priorit
 u32 NNS_SndArcPlayerStartSeqArc(u32 handle, u32 arcIndex, u32 index)
 {
     struct SndMedia *media;
-    u32 blockAddr;
+    uptr blockAddr;
     struct SndArcPlayerEntry *entry;
 
     media = NNS_SndArcGetSeqArcInfo(arcIndex);
@@ -244,15 +244,15 @@ u32 NNS_SndArcPlayerStartSeqArc(u32 handle, u32 arcIndex, u32 index)
 u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct SndArcPlayerEntry *entry, u32 seqNo)
 {
     void *seqPlayer;
-    u32 heap;
+    uptr heap;
     struct SndBlock *block;
-    u32 slot;
+    uptr slot;
 
     seqPlayer = NNSi_SndPlayerAllocSeqPlayer((struct SndHandle *)handle, playerNo, priority);
     if (seqPlayer == 0) {
         return 0;
     }
-    heap = (u32)NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
+    heap = (uptr)NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
     if ((struct NNSSndHeap *)NNSi_SndArcLoadBank(bankNo, 6, (struct NNSSndHeap *)heap, 0, &slot) != 0) {
         NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
@@ -310,15 +310,15 @@ u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority
 u32 NNSi_SndArcPlayerStartSeqArc(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct SndArcPlayerEntry *entry, struct SndBlock *block, u32 arcIndex, u32 index)
 {
     void *seqPlayer;
-    u32 heap;
-    u32 slot;
+    uptr heap;
+    uptr slot;
 
     seqPlayer = NNSi_SndPlayerAllocSeqPlayer((struct SndHandle *)handle, playerNo, priority);
     if (seqPlayer == 0) {
         return 0;
     }
 
-    heap = (u32)NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
+    heap = (uptr)NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
 
     if ((struct NNSSndHeap *)NNSi_SndArcLoadBank(bankNo, 6, (struct NNSSndHeap *)heap, 0, &slot) != 0) {
         NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
@@ -501,9 +501,9 @@ void NNSi_SndTrackClose(struct SndTrack *track)
     if (track->active == 0) return;
     NNSi_SndTrackReleaseRef(track);
     track->stopCallback(track);
-    NNSi_SndTrackListUnlinkByValue(g_02150190, (u32)track);
+    NNSi_SndTrackListUnlinkByValue(g_02150190, (uptr)track);
     p = *(u8 **)(g_0214EA90 + 4);
-    if (p != 0) NNSi_SndTrackListUnlinkByValue(p + 0x10e0, (u32)track);
+    if (p != 0) NNSi_SndTrackListUnlinkByValue(p + 0x10e0, (uptr)track);
     NNSi_SndTrackDetachObject(track);
 }
 

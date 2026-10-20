@@ -14,7 +14,7 @@
  * symbols:
  *   DWCi_CELLlGetPosition  0x021d5250  arm  ov016
  *   func_021BCBB4  0x021bcbb4  arm  ov016
- *   DWCi_TSKlSetParam  0x021d771c  arm  ov016
+ *   DWCi_TSKlChangeFunc  0x021d771c  arm  ov016
  *   gButtonWork  0x021de508  data
  *   func_021BCCB0  0x021bccb0  arm  ov016
  */
@@ -27,7 +27,7 @@ extern struct tagMEMBTN *gButtonWork;
 
 extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void func_021BCBB4(int y);
-extern void DWCi_TSKlSetParam(char *p, unsigned int v);
+extern void DWCi_TSKlChangeFunc(char *p, unsigned int v);
 extern void func_021BCCB0(void *task);
 
 void taskStart(void *task)
@@ -40,5 +40,5 @@ void taskStart(void *task)
     if (y > 168)
         return;
     func_021BCBB4(168);
-    DWCi_TSKlSetParam(task, (unsigned int)func_021BCCB0);
+    DWCi_TSKlChangeFunc(task, (unsigned int)func_021BCCB0);
 }

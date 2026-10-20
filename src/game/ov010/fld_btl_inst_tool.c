@@ -108,6 +108,7 @@
 #include "fld_btl_inst_tool_shared_types.h"
 
 #include "../types.h"
+#include "../arm9/ica_anime_shared_types.h"
 
 #include "../sdk_fx.h"
 
@@ -126,7 +127,7 @@ typedef struct ZukanSave ZukanSave;
 
 typedef struct Strbuf Strbuf;
 
-typedef struct MsgData MsgData;
+typedef struct MsgBank MsgData;
 
 typedef struct PokemonParam PokemonParam;
 
@@ -144,18 +145,6 @@ typedef struct TrialHouseSave TrialHouseSave;
 
 typedef struct Regulation Regulation;
 
-typedef int (*GameEventFunc)(GameEvent *event, u32 *seq, void *work);
-
-/* Two PMS sentences back to back (see PmsData in mail.c: type, id, two words each). */
-typedef struct PmsSentencePair {
-    u16 half[8];
-} PmsSentencePair;
-
-typedef struct PmsData {
-    u16 sentenceType;   /* 0x00 */
-    u16 sentenceId;     /* 0x02 */
-    u16 word[2];        /* 0x04 */
-} PmsData;
 
 /* ---- Party select event (poke list, then status screen, with field close/open around it) ---- */
 
@@ -197,34 +186,6 @@ typedef struct TrainerMsgEventWork {
 } TrainerMsgEventWork;
 
 /* ---- Battle facility trainer data ---- */
-typedef struct BattleMon {
-    u16 species : 11;   /* 0x00 */
-    u16 form : 5;
-    u16 item;           /* 0x02 */
-    u16 moves[4];       /* 0x04 */
-    u32 otId;           /* 0x0C */
-    u32 pid;            /* 0x10 */
-    union {
-        u32 ivs;        /* 0x14 */
-        struct {
-            u32 hpIv : 5;
-            u32 atkIv : 5;
-            u32 defIv : 5;
-            u32 speIv : 5;
-            u32 spaIv : 5;
-            u32 spdIv : 5;
-            u32 ivRest : 2;
-        } b;
-    } iv;
-    u8 ev[6];           /* 0x18 */
-    u8 ppUps;           /* 0x1E */
-    u8 lang;            /* 0x1F */
-    u8 ability;         /* 0x20 */
-    u8 friendship;      /* 0x21 */
-    u16 nick[11];       /* 0x22 */
-    u8 nature;          /* 0x38 */
-} BattleMon;
-
 /* One 16-byte record of archive a/2/1/4. */
 typedef struct BtlInstMonData {
     u16 species;        /* 0x00 */
@@ -242,25 +203,6 @@ typedef struct BtlInstGroup {
     u16 memberIds[1];   /* 0x04 */
 } BtlInstGroup;
 
-/* The first two draws, kept to build the matching record later. */
-typedef struct BtlInstDraw {
-    u32 otId;           /* 0x00 */
-    u16 ids[2];         /* 0x04 */
-    u32 pids[2];        /* 0x08 */
-    u8 natures[2];      /* 0x10 */
-} BtlInstDraw;
-
-/* One facility trainer with the four Pokemon (0x120 bytes). */
-typedef struct BtlInstTrainer {
-    u32 trainerId;              /* 0x00 */
-    u16 trainerType;            /* 0x04 */
-    u8 reserved06[2];
-    u16 name[8];                /* 0x08 */
-    PmsData introMsg;           /* 0x18: type 0xFFFF = take the text from message bank 0xB8 at id */
-    PmsSentencePair battleMsgs; /* 0x20 */
-    BattleMon mons[4];          /* 0x30 */
-} BtlInstTrainer;
-
 /* Battle request of the facility (0x130 bytes). */
 typedef enum { BTL_INST_REQUEST_MODE_OFFSET = 0x12c } BtlInstRequestOffset;
 
@@ -272,41 +214,12 @@ typedef struct BtlInstBattleRequest {
 } BtlInstBattleRequest;
 
 /* ---- Battle setup built for the facility ---- */
-typedef struct BtlFieldSituation {
-    u32 bgGround;       /* 0x00 */
-    u32 bgAttr;         /* 0x04 */
-    u8 weather;         /* 0x08 */
-    u8 season;          /* 0x09 */
-    u16 zoneId;         /* 0x0A */
-    u8 timeZone;        /* 0x0C */
-    u8 reserved0D[3];
-} BtlFieldSituation;
-
-typedef struct BtlTrainerData {
-    u32 trainerId;              /* 0x00 */
-    u32 trainerType;            /* 0x04 */
-    u32 aiBits;                 /* 0x08 */
-    u8 reserved0C[8];
-    Strbuf *name;               /* 0x14 */
-    PmsSentencePair battleMsgs; /* 0x18 */
-} BtlTrainerData;
-
-typedef struct BtlSetup {
-    u8 reserved00[0x22];
-    u8 battleRule;              /* 0x22: 0 single, 3 multi */
-    u8 reserved23;
-    Party *parties[4];          /* 0x24 */
-    MyStatus *myStatus[4];      /* 0x34 */
-    u8 reserved44[4];
-    BtlTrainerData *trainers[4];/* 0x48 */
-} BtlSetup;
-
 typedef enum {
     BTL_CLIENT_PLAYER,
     BTL_CLIENT_ENEMY1,
     BTL_CLIENT_PARTNER,
     BTL_CLIENT_ENEMY2
-} BtlClient;
+} BtlInstClient;
 
 /* ---- Party select wrapper event ---- */
 typedef struct PartySelectStepWork {
@@ -331,14 +244,6 @@ typedef struct BtlInstRecord {
     u16 scoreShare;             /* 0x148 */
     u16 lastTally;              /* 0x14A */
 } BtlInstRecord;
-
-typedef struct BtlInstResult {
-    u8 reserved00[0x24];
-    Party *party;               /* 0x24 */
-    u8 reserved28[0xB4 - 0x28];
-    u16 score;                  /* 0xB4 */
-    u8 tally[11];               /* 0xB6 */
-} BtlInstResult;
 
 /* ---- Comm reset event ---- */
 typedef struct CommResetWork {
@@ -371,190 +276,141 @@ typedef struct TrialHouseAwardEventWork {
     TrialHouseAwardParam param; /* 0x08 */
 } TrialHouseAwardEventWork;
 
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern void *GFL_HEAP_Alloc(u32 heapKind, u32 size, int unused, const char *file, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 
-extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
+#include "../arm9/game_data.h"
 struct GFLNetHandle;
 
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 
-extern u8 MYSTATUS_GetSex(const MyStatus *myStatus);
+#include "../arm9/mystatus.h"
 
-extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
+#include "../arm9/pokeparty.h"
 
-extern u32 POKE_TOOL_GetPartyValue(PokemonParam *mon, u32 id, u32 v);
+#include "../arm9/poke_tool.h"
 
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+#include "../arm9/net_system.h"
 
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventFunc main, u32 workSize);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(GameEvent *event);
 
-extern void POKE_REGULATION_LoadInto(int memberId, void *dst);
+#include "../arm9/poke_regulation.h"
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
+#include "../arm9/zukan_save.h"
 
-extern u32 POKEPARTY_GetCount(Party *party);
 
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(ZukanSave *zukan);
 
-extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int a, int b);
+#include "../ov021/event_fieldmap_control.h"
 
-extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
 
-extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, FieldMap *fieldMap);
+#include "../arm9/field_status.h"
 
-extern void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target);
 
-extern GameEvent *FIELD_STATUS_CreateFieldOpenEvent(GameSystem *gameSystem);
 
-extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int a, int b, int c, u8 d, u8 e);
 
-extern u32 POKEPARTY_GetCapacity(Party *party);
 
-extern u32 POKEPARTY_Add(Party *party, const PokemonParam *mon);
 struct FieldMsgBg;
 
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
-extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 struct MsgBank;
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void *PMSI_PARAM_ToString(PmsData *pms, unsigned int heapId);
+#include "../arm9/pmsi_param.h"
 struct GameData;
 
-extern void *GAME_DATA_GetOccupyInfo(GameData *gameData);
 struct MmdlSys;
 struct Mmdl;
 
-extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *sys, u32 objId);
-struct MmdlVec;
+#include "fldmmdl.h"
+struct VecFx32;
 
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 struct FieldTalkWin;
 
-extern struct FieldTalkWin *FIELD_MSGBG_AddTalkWin(struct FieldMsgBg *msgBg, int index, VecFx32 *pos, struct Strbuf *str, u32 winType, u32 tailType);
+#include "../ov021/field_msgbg.h"
 struct FieldTalkWin;
 
-extern u32 FIELD_MSGBG_TalkWinMain(struct FieldTalkWin *talkWin);
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern int FIELD_MSGBG_DeleteTalkWin(struct FieldTalkWin *talkWin);
 
-extern int FIELD_MSGBG_WaitTalkWinClose(struct FieldTalkWin *talkWin);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 struct FieldSituation;
 
-extern void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap);
+#include "../ov021/field_encount.h"
 struct BattleSetupParam;
 
-extern struct BattleSetupParam *BTL_SETUP_Create(u32 heapId);
+#include "../arm9/btl_setup.h"
 
-extern void BTL_SETUP_SetupTrainerSingle(struct BattleSetupParam *param, struct GameData *gd, struct FieldSituation *sit, u32 trainerId, u16 heap);
 
-extern void BTL_SETUP_SetupTrainerDouble(struct BattleSetupParam *param, struct GameData *gd, struct FieldSituation *sit, u32 trainerId, u16 heap);
 
-extern void BTL_SETUP_SetupTrainerMulti(struct BattleSetupParam *param, struct GameData *gd, struct FieldSituation *sit, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heap);
 
-extern void BTL_SETUP_SetupCommAiMulti(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u8 netId, u32 trainerId1, u32 trainerId2, u16 heap);
 
-extern void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *param, u32 heap);
 
-extern void POKEPARTY_InitEx(Party *party, int capacity);
 
-extern u32 POKE_TOOL_GetPartyParamSize(void);
 
-extern void POKE_TOOL_ClearPartyParam(PokemonParam *mon);
 struct PartyPokemon;
 
-extern void POKE_TOOL_CopyPartyPokemon(struct PartyPokemon *src, struct PartyPokemon *dest);
 
-extern void POKE_TOOL_SetLevelAndRecalc(PokemonParam *mon, u32 level);
 
-extern void STRBUF_SetString(Strbuf *dest, const u16 *src);
 
-extern void PMSI_PARAM_ClearSentence(PmsData *pms);
 
-extern void BTL_SETUP_ChangeToSubway(struct BattleSetupParam *param);
 
-extern u32 POKE_TOOL_CreatePersonalRnd(unsigned int otId, int species, unsigned short form, int ratioMode, int shinyWanted, int mode);
 
-extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 paramId);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
 
-extern void POKE_TOOL_SetupPartyParamEx(PokemonParam *mon, u16 species, u16 level, unsigned long long otId, u32 ivs, unsigned long long pid);
 
-extern void POKE_TOOL_SetPartyValue(PokemonParam *mon, u32 id, u32 v);
 
-extern void POKE_TOOL_SetNature(PokemonParam *mon, u32 nature);
 
-extern u16 STRBUF_GetEosChar(void);
 
-extern u32 POKE_TOOL_CalcLevel(PokemonParam *mon);
 
-extern void ARC_TOOL_ReadMember(void *dest, u32 archiveId, u32 member);
+#include "../arm9/arc_tool.h"
 
-extern void *ARC_UTIL_LoadMember(int archiveId, int member, int flag, int heapId);
+#ifdef __MWERKS__
+extern void *ARC_UTIL_LoadMember(int archiveId, int member, int flag, int heapId); /* original prototype; the definition differs in argument width */
+#else
+extern void*ARC_UTIL_LoadMember(s32, s32, s32, u16);
+#endif
 
-extern u32 GFL_USE_GetRandom(u32 range);
+#include "../arm9/gfl_use.h"
 
-extern Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_ToChars(Strbuf *strbuf, u16 *dest, u32 maxLen);
 
-extern GameEvent *FIELD_SUBSCREEN_RequestModeWithCallback(FieldMap *fieldMap, u32 a, u32 callback, u32 callbackArg);
 struct FieldSubscreen;
 
-extern struct FieldSubscreen *FIELDMAP_GetSubscreen(FieldMap *fieldMap);
 
-extern GameComm *GAMESYSTEM_GetGameComm(GameSystem *gameSystem);
 
-extern u32 GAME_COMM_GetKind(GameComm *gameComm);
+#include "../arm9/game_comm.h"
 
-extern void GAME_COMM_RequestExitNoCallback(GameComm *gameComm);
 
-extern void GAMESYSTEM_SetAlwaysNetFlag(GameSystem *gameSystem, unsigned int flag);
 
-extern u32 GAMESYSTEM_TryStartAutoComm(GameSystem *gameSystem);
 
-extern void *GAME_DATA_GetMyParty(GameData *gameData);
 
-extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 struct SaveControl;
 struct BattleBoxSave;
 
-extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(SaveControl *saveControl);
+#include "../arm9/battle_box.h"
 struct BoxMonGroup;
 struct Party;
 
-extern Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap);
 
-extern int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *btlSetup);
+#include "event_battle.h"
 
-extern void *TRIAL_HOUSE_SAVE_GetFromSave(void *saveData);
+#include "../arm9/trial_house_savedata.h"
+#include "../ov021/field_subscreen.h"
 
-extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
 
 extern const char d_02172A2C[];
 
@@ -576,7 +432,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlIn
 
 int FLD_BTL_INST_TOOL_TrainerMsgEventMain(GameEvent *event, int *seq, TrainerMsgEventWork *work);
 
-BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *playerParty, u32 battleMode, BtlInstTrainer *trainerA, BtlInstTrainer *trainerB, int monCount);
+struct BattleSetupParam *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *playerParty, u32 battleMode, BtlInstTrainer *trainerA, BtlInstTrainer *trainerB, int monCount);
 
 u32 FLD_BTL_INST_TOOL_BuildBattleMon(BattleMon *out, u32 memberId, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useTableItem, u16 heapId);
 
@@ -612,7 +468,7 @@ int FLD_BTL_INST_TOOL_PartySelectStepEventMain(GameEvent *event, int *step, Part
 
 GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(GameSystem *gameSystem, BtlInstBattleRequest *request);
 
-void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, BtlInstResult *result);
+void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, struct BattleSetupParam *result);
 
 GameEvent *FLD_BTL_INST_TOOL_CreateTrialHouseAwardEvent(GameSystem *gameSystem, int hasSecondEntry, int fadeOutBgm);
 
@@ -755,13 +611,13 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlIn
     if (trainers->introMsg.sentenceType == 0xFFFF) {
         MsgData *msgData;
         work->message = STRBUF_Create(0x5c, 4);
-        msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0xb8, 4);
+        msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0xb8, 4);
         MSGDATA_ReadString((struct MsgBank *)msgData, trainers->introMsg.sentenceId, work->message);
         MSGDATA_Delete((struct MsgBank *)msgData);
     } else {
         work->message = PMSI_PARAM_ToString(&trainers[index].introMsg, 4);
     }
-    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(GAME_DATA_GetOccupyInfo(gameData), mmdlId), (struct MmdlVec *)(&work->trainerPos));
+    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(GAME_DATA_GetOccupyInfo(gameData), mmdlId), (struct VecFx32 *)(&work->trainerPos));
     work->balloon = FIELD_MSGBG_AddTalkWin(balloonSys, 1, &work->trainerPos, work->message, 0, 0);
     return event;
 }
@@ -803,20 +659,20 @@ int FLD_BTL_INST_TOOL_TrainerMsgEventMain(GameEvent *event, int *seq, TrainerMsg
  * one party local per side block sets the spill slots; the sprite pointer
  * of the third block is read before the record pointer moves.
  */
-BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *playerParty, u32 battleMode, BtlInstTrainer *trainerA, BtlInstTrainer *trainerB, int monCount)
+struct BattleSetupParam *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *playerParty, u32 battleMode, BtlInstTrainer *trainerA, BtlInstTrainer *trainerB, int monCount)
 {
     u16 mode;
-    BtlFieldSituation situation;
-    BtlSetup *bs;
+    struct FieldSituation situation;
+    struct BattleSetupParam *bs;
     GameData *gameData;
     PokemonParam *tempMon;
     Party *party;
     Party *enemy1Party;
     Party *enemy2Party;
     Party *partnerParty;
-    BtlTrainerData *trainerData;
+    struct BattleTrainerData *trainerData;
     int i;
-    BtlClient client;
+    BtlInstClient client;
     int playerPos;
     NetHandle *netHandle;
     PokemonParam *srcMon;
@@ -825,21 +681,21 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     mode = battleMode;
-    FIELD_ENCOUNT_SetFieldSituation((struct FieldSituation *)(&situation), gameData, GAMESYSTEM_GetFieldMap(gameSystem));
-    bs = (struct BtlSetup *)BTL_SETUP_Create(4);
+    FIELD_ENCOUNT_SetFieldSituation(&situation, gameData, GAMESYSTEM_GetFieldMap(gameSystem));
+    bs = BTL_SETUP_Create(4);
     switch (mode) {
     case 0:
     case 4:
     case 5:
-        BTL_SETUP_SetupTrainerSingle((struct BattleSetupParam *)bs, gameData, (struct FieldSituation *)(&situation), 0, 4);
+        BTL_SETUP_SetupTrainerSingle(bs, gameData, &situation, 0, 4);
         break;
     case 1:
     case 6:
-        BTL_SETUP_SetupTrainerDouble((struct BattleSetupParam *)bs, gameData, (struct FieldSituation *)(&situation), 0, 4);
+        BTL_SETUP_SetupTrainerDouble(bs, gameData, &situation, 0, 4);
         break;
     case 2:
     case 7:
-        BTL_SETUP_SetupTrainerMulti((struct BattleSetupParam *)bs, gameData, (struct FieldSituation *)(&situation), 0, 0, 0, 4);
+        BTL_SETUP_SetupTrainerMulti(bs, gameData, &situation, 0, 0, 0, 4);
         break;
     case 3:
     case 8:
@@ -847,16 +703,16 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         playerPos = 0;
         if (GFL_NET_SYSTEM_GetCurrentAid() != 0)
             playerPos = 2;
-        BTL_SETUP_SetupCommAiMulti((struct BattleSetupParam *)bs, gameData, (u32)netHandle, 1, playerPos, 0, 0, 4);
+        BTL_SETUP_SetupCommAiMulti(bs, gameData, (u32)netHandle, 1, playerPos, 0, 0, 4);
         break;
     }
-    BTL_SETUP_AllocRecordBuffer((struct BattleSetupParam *)bs, 4);
+    BTL_SETUP_AllocRecordBuffer(bs, 4);
 
     client = BTL_CLIENT_PLAYER;
     i = 0;
     myStatus = GAME_DATA_GetMyStatus(gameData);
-    bs->myStatus[client] = myStatus;
-    party = bs->parties[client];
+    bs->playerStatus[client] = myStatus;
+    party = bs->party[client];
     POKEPARTY_InitEx(party, 6);
     tempMon = GFL_HEAP_Alloc(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x253);
     POKE_TOOL_ClearPartyParam(tempMon);
@@ -870,33 +726,33 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
     GFL_HEAP_Free(tempMon);
 
     client = BTL_CLIENT_ENEMY1;
-    trainerData = bs->trainers[client];
+    trainerData = bs->trainerData[client];
     trainerData->trainerId = trainerA->trainerId;
     trainerData->trainerType = trainerA->trainerType;
-    trainerData->aiBits = 0x87;
+    trainerData->aiFlags = 0x87;
     STRBUF_SetString(trainerData->name, trainerA->name);
-    PMSI_PARAM_ClearSentence((PmsData *)&trainerData->battleMsgs.half[0]);
-    PMSI_PARAM_ClearSentence((PmsData *)&trainerData->battleMsgs.half[4]);
+    PMSI_PARAM_ClearSentence((PmsData *)&trainerData->winWords[0]);
+    PMSI_PARAM_ClearSentence((PmsData *)&trainerData->loseWords[0]);
     if (mode == 4) {
-        trainerData->battleMsgs.half[0] = trainerA->battleMsgs.half[0];
-        trainerData->battleMsgs.half[1] = trainerA->battleMsgs.half[1];
-        trainerData->battleMsgs.half[2] = trainerA->battleMsgs.half[2];
-        trainerData->battleMsgs.half[3] = trainerA->battleMsgs.half[3];
-        trainerData->battleMsgs.half[4] = trainerA->battleMsgs.half[4];
-        trainerData->battleMsgs.half[5] = trainerA->battleMsgs.half[5];
-        trainerData->battleMsgs.half[6] = trainerA->battleMsgs.half[6];
-        trainerData->battleMsgs.half[7] = trainerA->battleMsgs.half[7];
+        trainerData->winWords[0] = trainerA->battleMsgs.half[0];
+        trainerData->winWords[1] = trainerA->battleMsgs.half[1];
+        trainerData->winWords[2] = trainerA->battleMsgs.half[2];
+        trainerData->winWords[3] = trainerA->battleMsgs.half[3];
+        trainerData->loseWords[0] = trainerA->battleMsgs.half[4];
+        trainerData->loseWords[1] = trainerA->battleMsgs.half[5];
+        trainerData->loseWords[2] = trainerA->battleMsgs.half[6];
+        trainerData->loseWords[3] = trainerA->battleMsgs.half[7];
     } else if (FLD_BTL_INST_TOOL_HasBattleMsgs(trainerA) != 0) {
-        trainerData->battleMsgs.half[0] = trainerA->battleMsgs.half[0];
-        trainerData->battleMsgs.half[1] = trainerA->battleMsgs.half[1];
-        trainerData->battleMsgs.half[2] = trainerA->battleMsgs.half[2];
-        trainerData->battleMsgs.half[3] = trainerA->battleMsgs.half[3];
-        trainerData->battleMsgs.half[4] = trainerA->battleMsgs.half[4];
-        trainerData->battleMsgs.half[5] = trainerA->battleMsgs.half[5];
-        trainerData->battleMsgs.half[6] = trainerA->battleMsgs.half[6];
-        trainerData->battleMsgs.half[7] = trainerA->battleMsgs.half[7];
+        trainerData->winWords[0] = trainerA->battleMsgs.half[0];
+        trainerData->winWords[1] = trainerA->battleMsgs.half[1];
+        trainerData->winWords[2] = trainerA->battleMsgs.half[2];
+        trainerData->winWords[3] = trainerA->battleMsgs.half[3];
+        trainerData->loseWords[0] = trainerA->battleMsgs.half[4];
+        trainerData->loseWords[1] = trainerA->battleMsgs.half[5];
+        trainerData->loseWords[2] = trainerA->battleMsgs.half[6];
+        trainerData->loseWords[3] = trainerA->battleMsgs.half[7];
     }
-    enemy1Party = bs->parties[client];
+    enemy1Party = bs->party[client];
     POKEPARTY_InitEx(enemy1Party, 6);
     tempMon = GFL_HEAP_Alloc(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x29E);
     for (i = 0; i < monCount; i++) {
@@ -905,15 +761,15 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
     }
     GFL_HEAP_Free(tempMon);
 
-    if (bs->battleRule != 0) {
+    if (bs->multiMode != 0) {
         client = BTL_CLIENT_ENEMY2;
-        trainerData = bs->trainers[client];
+        trainerData = bs->trainerData[client];
         trainerC = trainerA + 1;
         trainerData->trainerId = trainerC->trainerId;
         trainerData->trainerType = trainerC->trainerType;
-        trainerData->aiBits = 0x87;
+        trainerData->aiFlags = 0x87;
         STRBUF_SetString(trainerData->name, trainerC->name);
-        enemy2Party = bs->parties[client];
+        enemy2Party = bs->party[client];
         POKEPARTY_InitEx(enemy2Party, 6);
         tempMon = GFL_HEAP_Alloc(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x2C4);
         for (i = 0; i < monCount; i++) {
@@ -922,16 +778,16 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         }
         GFL_HEAP_Free(tempMon);
     }
-    if (bs->battleRule == 3) {
+    if (bs->multiMode == 3) {
         client = BTL_CLIENT_PARTNER;
-        trainerData = bs->trainers[client];
+        trainerData = bs->trainerData[client];
         trainerData->trainerId = trainerB->trainerId;
         trainerData->trainerType = trainerB->trainerType;
-        trainerData->aiBits = 0x87;
+        trainerData->aiFlags = 0x87;
         STRBUF_SetString(trainerData->name, trainerB->name);
-        PMSI_PARAM_ClearSentence((PmsData *)&trainerData->battleMsgs.half[0]);
-        PMSI_PARAM_ClearSentence((PmsData *)&trainerData->battleMsgs.half[4]);
-        partnerParty = bs->parties[client];
+        PMSI_PARAM_ClearSentence((PmsData *)&trainerData->winWords[0]);
+        PMSI_PARAM_ClearSentence((PmsData *)&trainerData->loseWords[0]);
+        partnerParty = bs->party[client];
         POKEPARTY_InitEx(partnerParty, 6);
         tempMon = GFL_HEAP_Alloc(0x8004, POKE_TOOL_GetPartyParamSize(), 0, d_02172A2C, 0x2F3);
         for (i = 0; i < monCount; i++) {
@@ -940,7 +796,7 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         }
         GFL_HEAP_Free(tempMon);
     }
-    BTL_SETUP_ChangeToSubway((struct BattleSetupParam *)bs);
+    BTL_SETUP_ChangeToSubway(bs);
     return bs;
 }
 
@@ -1013,7 +869,7 @@ u32 FLD_BTL_INST_TOOL_BuildBattleMon(BattleMon *out, u32 memberId, u32 otId, u32
         out->ability = POKE_TOOL_GetPersonalParam(out->species, 0, 0x1A);
     }
     out->friendship = friendship;
-    speciesNames = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x46, heapId);
+    speciesNames = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x46, heapId);
     MSGDATA_ReadUnits((struct MsgBank *)speciesNames, out->species, out->nick, 11);
     MSGDATA_Delete((struct MsgBank *)speciesNames);
     return pid;
@@ -1123,7 +979,7 @@ void FLD_BTL_INST_TOOL_ReadMonData(void *dest, u32 memberId)
  */
 void *FLD_BTL_INST_TOOL_LoadTrainerGroup(u32 group, u32 heapId)
 {
-    return ARC_UTIL_LoadMember(215, (u16)(group + 1), 0, heapId);
+    return (void *)ARC_UTIL_LoadMember(215, (u16)(group + 1), 0, heapId);
 }
 
 /*
@@ -1178,7 +1034,7 @@ int FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerIndex, i
  */
 BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int trainerIndex, int heapId)
 {
-    MsgData *nameBank = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 11, heapId);
+    MsgData *nameBank = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 11, heapId);
     BtlInstGroup *group;
     Strbuf *name;
     MI_CpuFill8(trainer, 0, 0x120);
@@ -1341,7 +1197,7 @@ void FLD_BTL_INST_TOOL_SetDoneFlag(int *doneFlag)
 int FLD_BTL_INST_TOOL_CommResetEventMain(GameEvent *event, int *step, CommResetWork *work)
 {
     GameSystem *gameSystem = work->gameSystem;
-    int fieldMapId = (int)FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(gameSystem));
+    struct FieldSubscreen *subscreen = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(gameSystem));
     GameComm *gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     CommResetStep current = (CommResetStep)*step;
     switch (current) {
@@ -1364,7 +1220,7 @@ int FLD_BTL_INST_TOOL_CommResetEventMain(GameEvent *event, int *step, CommResetW
         (*step)++;
         break;
     case COMM_RESET_REQUEST_FIELD_RESET:
-        FIELD_SUBSCREEN_RequestModeWithCallback((FieldMap *)fieldMapId, 8, (u32)FLD_BTL_INST_TOOL_SetDoneFlag, (u32)work);
+        FIELD_SUBSCREEN_RequestModeWithCallback(subscreen, 8, (void (*)(int))FLD_BTL_INST_TOOL_SetDoneFlag, (u32)work);
         (*step)++;
         break;
     case COMM_RESET_WAIT_DONE:
@@ -1494,30 +1350,30 @@ GameEvent *FLD_BTL_INST_TOOL_CreateBattleEvent(GameSystem *gameSystem, BtlInstBa
  * Add one battle's tallies into the running record and credit the
  * score share against the party's summed stat 0xA1. First draft.
  */
-void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, BtlInstResult *result)
+void FLD_BTL_INST_TOOL_AddBattleTally(BtlInstRecord *record, struct BattleSetupParam *result)
 {
     Party *party;
     int count;
     int i;
     int statSum;
 
-    record->tally[0] += (u16)(result->tally[0] + 1);
-    record->tally[1] += result->tally[1];
-    record->tally[2] += result->tally[2];
-    record->tally[3] += result->tally[3];
-    record->tally[4] += result->tally[4];
-    record->tally[5] += result->tally[5];
-    record->tally[6] += result->tally[6];
-    record->tally[7] += result->tally[7];
-    record->tally[8] += result->tally[8];
-    record->tally[9] += result->tally[9];
-    record->lastTally += result->tally[10];
-    party = result->party;
+    record->tally[0] += (u16)(result->turnCount + 1);
+    record->tally[1] += result->stats[0];
+    record->tally[2] += result->stats[1];
+    record->tally[3] += result->stats[2];
+    record->tally[4] += result->stats[3];
+    record->tally[5] += result->stats[4];
+    record->tally[6] += result->stats[5];
+    record->tally[7] += result->won;
+    record->tally[8] += result->enemyFainted;
+    record->tally[9] += result->ownFainted;
+    record->lastTally += result->moveUseTotal;
+    party = result->party[0];
     count = POKEPARTY_GetCount(party);
     statSum = 0;
     for (i = 0; i < count; i++)
         statSum += POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, i), 0xA1, 0);
-    record->scoreShare += (u16)(result->score * 100 / statSum);
+    record->scoreShare += (u16)(result->hpSum * 100 / statSum);
 }
 
 /*

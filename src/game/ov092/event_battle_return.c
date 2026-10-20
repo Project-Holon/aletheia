@@ -132,7 +132,6 @@ struct PlayerWork;
 struct RecordBlock;
 struct Strbuf;
 struct MsgBank;
-struct EvolutionRequest;
 #include "../types.h"
 
 /*
@@ -203,90 +202,40 @@ struct EventBattleReturnWork {
     u32 bgmFadeStarted;
 };
 
-/* Parameter block of the evolution screen (overlay 195), same layout as the one in the trade code. */
-struct EvolutionRequest {
-    struct GameData *gameData;
-    struct PokeParty *party;
-    u16 targetSpecies;
-    u8 partySlot;
-    u8 evolveCondition;
-    u32 fromTrade;
-    u32 fromField;
-};
-
 /* One 0x24-byte record per battle background of the Burmy form table. */
 struct BurmyFormRecord {
     u8 header[0x13];
     u8 formByAttr[0x11];
 };
 
-extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
+#include "../ov010/evolution_request_types.h"
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *PROCSYS_Create(int heapId);
-extern void PROCSYS_Delete(struct ProcSys *procSys);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern u32 PROCSYS_Main(struct ProcSys *procSys);
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern struct MyStatus *GAME_DATA_GetMyStatus(const struct GameData *gameData);
-extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
-extern u32 GAME_DATA_GetBoxManager(const struct GameData *gameData);
+#include "../arm9/procsys.h"
+#include "../arm9/strbuf.h"
+#include "../ov010/fld_btl_inst_tool_shared_types.h"
+extern void PROCSYS_Delete(ProcSys *sys);
+#include "../arm9/gfl_heap_wrap.h"
+extern unsigned int PROCSYS_Main(ProcSys *sys);
+#include "../arm9/game_data.h"
+#include "../arm9/zukan_save.h"
 struct Party;
-extern void POKEPARTY_Copy(struct Party *src, struct Party *dst);
-extern void POKERUS_TryInfectParty(struct Party *party);
-extern void POKERUS_SpreadParty(struct Party *party);
-extern void *GAME_DATA_GetMiscSave(const struct GameData *gameData);
-extern u32 MISC_AddMoney(struct MiscSave *misc, u32 amount);
-extern u32 MISC_SubMoney(struct MiscSave *misc, u32 amount);
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern void MYSTATUS_NameToStrbuf(u16 *name, struct Strbuf *buf);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *mon, u32 paramId, u32 value);
-extern u32 POKEPARTY_GetCount(struct Party *party);
-extern u32 POKEPARTY_GetCapacity(struct Party *party);
-extern u32 BOX_SAVEDATA_GetCurrentBox(struct GameData *gameData);
-extern int BOX_SAVEDATA_FindFreeSlot(struct GameData *gameData, s32 *pBox, s32 *pSlot);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(const struct GameData *gameData);
-extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
-extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
-extern void SAVE_EVENT_Write(struct PokemonParam *mon, u32 mode, const struct MyStatus *trainer, u32 placeNameId, u16 heapId);
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *zukan);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 paramId, u32 unused);
-extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *zukan, u16 species);
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
-extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *pZukan, void *pMon);
-extern void PROCSYS_Push(struct ProcSys *procSys, u32 overlayId, const struct SubProcTable *procTable, void *args);
-extern struct SaveControl *GAME_DATA_GetSaveControl(const struct GameData *gameData);
-extern struct MiscSave *MISC_GetBlock(struct SaveControl *saveControl);
-extern struct NameInArgs *NAMEIN_SETUP_CreateCaptureArgs(u16 heapId, void *mon, s32 maxLen, struct Strbuf *initialName, struct Strbuf *boxName, void *boxManager, s32 boxIndex, void *pokedex);
-extern int NAMEIN_SETUP_IsCanceled(struct NameInArgs *args);
-extern void NAMEIN_SETUP_CopyName(struct NameInArgs *args, struct Strbuf *dst);
-extern void *GAME_DATA_GetTrainerRecord(const struct GameData *gameData);
-extern u32 RECORD_AddOne(struct RecordBlock *record, int index);
-extern void NAMEIN_SETUP_FreeArgs(struct NameInArgs *args);
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
-extern int BOX_SAVEDATA_AddPokemon(struct GameData *gameData, struct BoxPokemon *mon);
-extern void GFL_USE_FadeOutBgm(u32 frames);
-extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
-extern u16 SHINKA_CHECK_CheckEvolution(struct PokeParty *party, struct PokemonParam *mon, u32 mode, u32 zoneId, u8 season, u32 *method, u16 heapId);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 GFL_HEAP_Free(void *memory);
-extern u32 GFL_USE_GetRandom(u32 range);
-extern void POKE_TOOL_SetStatusCondition(struct PokemonParam *mon, u32 status);
-extern void FLDMMDL_ApplyBurmyFormForPlace(void *saveData, void *mon, s32 placeId);
-extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
-extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *mon);
-extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *mon, u32 prevState);
+#include "../arm9/pokeparty.h"
+#include "../arm9/pokerus.h"
+#include "../arm9/beacon.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/poke_tool.h"
+#include "../arm9/box_savedata.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/zonedata.h"
+#include "../arm9/save_event.h"
+extern void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
+#include "../ov010/namein_setup.h"
+#include "../arm9/record.h"
+#include "../arm9/gfl_use.h"
+extern u16 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *mon, u32 mode, u32 zoneId, u8 season, u32 *method, u16 heapId);
+#include "../ov010/fldmmdl_poslog.h"
+extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
 int EVENT_BATTLE_RETURN_Init(struct ProcObj *proc);
 int EVENT_BATTLE_RETURN_Exit(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleReturnWork *work);
 int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *args, struct EventBattleReturnWork *work);
@@ -294,7 +243,7 @@ void EVENT_BATTLE_RETURN_FlagLeveledUpMembers(struct EventBattleReturnWork *work
 void EVENT_BATTLE_RETURN_ApplyPickupAndHoneyGather(struct PokeParty *party);
 void EVENT_BATTLE_RETURN_ApplyNaturalCure(struct PokeParty *party);
 void EVENT_BATTLE_RETURN_ApplyBurmyForms(struct EventBattleReturnArgs *args, struct PokeParty *party, int burmyForm);
-u32 EVENT_BATTLE_RETURN_GetBurmyForm(const struct BattleField *field, u32 heapId);
+u32 EVENT_BATTLE_RETURN_GetBurmyForm(const struct BattleField *field, u16 heapId);
 void EVENT_BATTLE_RETURN_RegisterShayminForms(struct EventBattleReturnArgs *args, struct PokeParty *party);
 void EVENT_BATTLE_RETURN_ApplyHealBall(struct PokemonParam *mon);
 /* Overlay ids of the sub-screens this step machine starts. */
@@ -434,7 +383,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
             work->catchArgs.boxNo = work->boxNo;
             work->catchArgs.gameData = args->gameData;
             if (isNewSpecies) work->catchArgs.wasAlreadyCaught = 0; else work->catchArgs.wasAlreadyCaught = 1;
-            PROCSYS_Push(work->procSys, (u32)ov207_id, &gCatchRegistrationProcData, &work->catchArgs);
+            PROCSYS_Push((ProcSys *)work->procSys, (u32)ov207_id, (const ProcData *)&gCatchRegistrationProcData, (void *)&work->catchArgs);
             ++*seq;
         } else *seq = 4;
         break;
@@ -446,7 +395,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
         if (wantsNickname) {
             miscSave = MISC_GetBlock(GAME_DATA_GetSaveControl(args->gameData));
             work->nameInArgs = NAMEIN_SETUP_CreateCaptureArgs(work->heapId, work->caughtMon, MAX_NICKNAME_LENGTH, 0, work->boxFullMsg, boxManager, work->boxNo, miscSave);
-            PROCSYS_Push(work->procSys, (u32)ov194_id, &data_021F5580, work->nameInArgs);
+            PROCSYS_Push((ProcSys *)work->procSys, (u32)ov194_id, (const ProcData *)&data_021F5580, (void *)work->nameInArgs);
             ++*seq;
         } else *seq = 3;
         break;
@@ -495,7 +444,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
             while (work->levelUpMask) {
                 if (work->levelUpMask & 1) {
                     mon = POKEPARTY_GetMember((struct Party *)scanParty, work->scanIndex);
-                    species = SHINKA_CHECK_CheckEvolution(scanParty, mon, 0, args->battleParam->field.zoneId, GAME_DATA_GetSeason(args->gameData), &method, work->heapId);
+                    species = SHINKA_CHECK_CheckEvolution((struct Party *)scanParty, mon, 0, args->battleParam->field.zoneId, GAME_DATA_GetSeason(args->gameData), &method, work->heapId);
                     slot = work->scanIndex;
                 }
                 work->levelUpMask = work->levelUpMask >> 1;
@@ -504,7 +453,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
                     evolutionRequest = GFL_HEAP_Alloc(work->heapId, 20, 0, (const char *)sSourceFileName, LINE_OF_HEAP_ALLOC);
                     evolutionRequest->gameData = args->gameData; evolutionRequest->party = scanParty; evolutionRequest->targetSpecies = species; evolutionRequest->partySlot = slot; evolutionRequest->evolveCondition = method; evolutionRequest->fromTrade = 0; evolutionRequest->fromField = 1;
                     work->evolutionRequest = evolutionRequest;
-                    PROCSYS_Push(work->procSys, (u32)ov195_id, &data_02208C40, evolutionRequest);
+                    PROCSYS_Push((ProcSys *)work->procSys, (u32)ov195_id, (const ProcData *)&data_02208C40, (void *)evolutionRequest);
                     *seq = 5;
                     break;
                 }
@@ -639,7 +588,7 @@ void EVENT_BATTLE_RETURN_ApplyBurmyForms(struct EventBattleReturnArgs *args, str
 }
 
 /* Reads the Burmy form of a battle background from its archive table. */
-u32 EVENT_BATTLE_RETURN_GetBurmyForm(const struct BattleField *field, u32 heapId)
+u32 EVENT_BATTLE_RETURN_GetBurmyForm(const struct BattleField *field, u16 heapId)
 {
     struct BurmyFormRecord *table;
     u32 form;

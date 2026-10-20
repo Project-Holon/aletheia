@@ -86,39 +86,15 @@
 #include "auth_types.h"
 extern int wsLoginCertReadXML(GSLoginCertificate *cert, void *reader);
 
-extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern void gsDebugFormat(int theCategory, int theType, int theLevel, const char *theTokenStr, ...);
-extern int gsXmlMoveToStart(void *stream);
-extern int gsXmlMoveToNext(void *stream, char *matchtag);
-extern int gsXmlMoveToChild(void *stream, char *matchtag);
-extern int gsXmlMoveToParent(void *stream);
-extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
-extern int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
-extern int gsXmlReadChildAsHexBinary(void *stream, char *matchtag, unsigned char *valueOut, int maxLen,
-                                     int *lenOut);
-extern int gsXmlReadChildAsLargeInt(void *stream, char *matchtag, int *lintData);
-extern void GSMD5Init(GSMD5_CTX *context);
-extern void gsLargeIntAddToMD5(gsLargeInt_t *lint, GSMD5_CTX *md5);
-extern void GSMD5Update(GSMD5_CTX *context, unsigned char *input, unsigned int inputLen);
-extern void GSMD5Final(unsigned char *digest, GSMD5_CTX *context);
-extern void gsifree(void *ptr);
-extern void *gsimalloc(unsigned long size);
-extern void *gsXmlCreateStreamWriter(const char **namespaces, int count);
-extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
-extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
-extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
-extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
-extern int gsXmlWriteAsciiStringElement(void *stream, char *namespaceName, char *tag, char *value);
-extern int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *tag, gsLargeInt_t *lint);
-extern int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data,
-                                      int len);
-extern int gsXmlCloseWriter(void *stream);
-extern void gsXmlFreeWriter(void **writerRef);
-extern void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc,
-                            void *theUserData);
-extern int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream);
-extern int gsCryptRSAVerifySignedHash(gsCryptRSAKey *publicKey, unsigned char *hash, unsigned int hashLen,
-                                      unsigned char *sig, unsigned int sigLen);
+#include "../arm9/os_printf.h"
+#include "../ov009/gsdebug.h"
+#include "../ov009/gsxml.h"
+#include "../ov009/md5c.h"
+typedef int gsi_bool;
+#include "../ov009/gslargeint.h"
+#include "../ov009/gsmemory.h"
+#include "../ov009/gssoap.h"
+#include "../ov009/gscrypt.h"
 
 int wsiServiceAvailable(void);
 char *wsGetServiceUrl(void);

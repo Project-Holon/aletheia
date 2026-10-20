@@ -44,6 +44,7 @@
  *   GX_EndLoadTexPltt  0x0207FADC  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_gx.h"
 
@@ -253,7 +254,7 @@ void NNSi_G2dCpuLoadOamSub(void *src, u32 offset, u32 size)
  */
 void NNSi_G2dCpuLoadOamMain(void *src, u32 offset, u32 size)
 {
-    MIi_CpuCopy16(src, (void *)(offset + 0x07000000), size);
+    MIi_CpuCopy16(src, (void *)(offset + HW_OAM), size);
 }
 
 /*
@@ -971,7 +972,7 @@ void NNSi_G2dSetupVramResource(struct VramResource *r, u32 dst, int mode, struct
 
 void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 offset, int sel, VramHandleSel *out)
 {
-    u32 a = self->src;
+    uptr a = self->src;
     u32 b = self->size;
 
     DC_FlushRange((void *)(const void *)a, b);
@@ -1079,7 +1080,7 @@ void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *l
     u16 n;
     u16 i;
     u32 d;
-    u32 a;
+    uptr a;
     u32 t;
 
     step = (self->formatCode == 3) ? 0x20 : 0x200;

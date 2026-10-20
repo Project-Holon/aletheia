@@ -37,6 +37,7 @@
  *   OS_EnableIrqMask  0x02084968  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 /* per-channel NDMA configuration, 16 bytes */
 typedef struct {
@@ -55,12 +56,13 @@ typedef struct {
     u32 fill;
     u32 ctrl;
 } NdmaCh;
-#define NDMA ((volatile NdmaCh *)0x04004104)
+#define NDMA ((volatile NdmaCh *)REG_MI_NDMA_SRC_ADDR)
 
 extern NdmaConfig data_02732EFC[];
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32);
-extern void OSi_EnterNDmaCallback(u32 dmaNo, void (*cb)(), void *arg);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
 extern void MIi_CpuCopy32(void *dst, const void *src, u32 n);
 
 u32 MIi_GetControlData(u32 type);
@@ -220,13 +222,13 @@ void MI_NDmaCopyAsync(int ch, u32 src, u32 dst, u32 size, void (*cb)(), u32 arg)
 
 u32 MI_IsNDmaBusy(int ch)
 {
-    return (*(volatile u32 *)(0x0400411C + ch * 0x1C) & 0x80000000) >> 31;
+    return (*(volatile u32 *)(REG_MI_NDMA_CNT_ADDR + ch * 0x1C) & 0x80000000) >> 31;
 }
 
 void MI_WaitNDma(int ch)
 {
     int irq = OS_DisableInterrupts();
-    volatile u32 *reg = (volatile u32 *)(0x0400411C + ch * 0x1C);
+    volatile u32 *reg = (volatile u32 *)(REG_MI_NDMA_CNT_ADDR + ch * 0x1C);
     while (*reg & 0x80000000) {
     }
     OS_RestoreInterrupts(irq);
@@ -235,7 +237,7 @@ void MI_WaitNDma(int ch)
 void MI_StopNDma(int ch)
 {
     int irq = OS_DisableInterrupts();
-    volatile u32 *reg = (volatile u32 *)(0x04004000 + 0x11C + ch * 0x1C);
+    volatile u32 *reg = (volatile u32 *)(REG_SCFG_ROM_ADDR + 0x11C + ch * 0x1C);
     *reg &= ~0x80000000;
     (void)*reg;
     (void)*reg;
@@ -283,13 +285,13 @@ void MI_GetNDmaConfig(int ch, const void *src)
 void MIi_CardNDmaRecv32(int ch, const void *src, void *dst)
 {
     u32 irq = OS_DisableInterrupts();
-    u32 base;
+    uptr base;
     NdmaConfig *e;
     MIi_Wait(ch);
-    base = 0x04000000 + ch * 0x1C;
+    base = REG_DISPCNT_ADDR + ch * 0x1C;
     e = &data_02732EFC[ch];
-    *(volatile u32 *)(base + 0x4104) = (u32)src;
-    *(volatile u32 *)(base + 0x4108) = (u32)dst;
+    *(volatile u32 *)(base + 0x4104) = (uptr)src;
+    *(volatile u32 *)(base + 0x4108) = (uptr)dst;
     *(volatile u32 *)(base + 0x410C) = 1;
     *(volatile u32 *)(base + 0x4110) = 1;
     *(volatile u32 *)(base + 0x411C) = e->blockSize | 0x4000 | 0xA4000000;
@@ -313,5 +315,5 @@ void MI_Camera_NDmaRecvAsync(u32 ch, u32 dst, u32 blockWordCount, u32 size, int 
     buf.prescaler = 0;
     buf.blockSize = 0x40000;
     buf.blockWordCount = blockWordCount;
-    MIi_NDmaAsync_withConfig_Dev(n, ch, 0x04004204, dst, 0, size, callback, arg, &buf, 0x0b000000, 0x80000000);
+    MIi_NDmaAsync_withConfig_Dev(n, ch, REG_DSP_PCFG_ADDR, dst, 0, size, callback, arg, &buf, 0x0b000000, 0x80000000);
 }

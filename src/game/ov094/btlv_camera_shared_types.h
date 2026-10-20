@@ -1,15 +1,12 @@
 #ifndef BTLV_CAMERA_SHARED_TYPES_H
 #define BTLV_CAMERA_SHARED_TYPES_H
 
-#include "btlv_effvm_types.h"
+#include "../ov094/btlv_effvm_types.h"
 
 #include "../types.h"
+#include "../sdk_fx.h"
 
 struct G3dCamera;
-
-typedef struct BtlvVec3 {
-    fx32 x, y, z;
-} BtlvVec3;
 
 /*
  * Moves a vector by a fixed step per tick (BTLV_EFFECT_StepMover). Shared by the camera,
@@ -19,9 +16,9 @@ typedef struct BtlvVec3 {
  */
 typedef struct BtlvMover {
     int mode;           /* 0x00 */
-    BtlvVec3 start;     /* 0x04: value when the move began, restored after the last repeat (modes 2 and 3) */
-    BtlvVec3 end;       /* 0x10: target of modes 0, 1 and 4 */
-    BtlvVec3 step;      /* 0x1c: change per update */
+    VecFx32 start;     /* 0x04: value when the move began, restored after the last repeat (modes 2 and 3) */
+    VecFx32 end;       /* 0x10: target of modes 0, 1 and 4 */
+    VecFx32 step;      /* 0x1c: change per update */
     int count;          /* 0x28: updates left before the step reverses */
     int countReset;     /* 0x2c */
     int wait;           /* 0x30: ticks left before the next update */
@@ -41,13 +38,13 @@ typedef struct BtlvCamera {
     int orbitYaw;               /* 0x0C */
     int orbitRadius;            /* 0x10: distance between eye and target */
     u32 moveFlags;              /* 0x14: BTLV_CAMERA_MOVE_* */
-    BtlvVec3 eye;               /* 0x18 */
-    BtlvVec3 target;            /* 0x24 */
-    BtlvVec3 eyeDest;           /* 0x30 */
-    BtlvVec3 targetDest;        /* 0x3C */
-    BtlvVec3 eyeStep;           /* 0x48 */
-    BtlvVec3 targetStep;        /* 0x54 */
-    BtlvVec3 shakeOffset;       /* 0x60: added to eye and target */
+    VecFx32 eye;               /* 0x18 */
+    VecFx32 target;            /* 0x24 */
+    VecFx32 eyeDest;           /* 0x30 */
+    VecFx32 targetDest;        /* 0x3C */
+    VecFx32 eyeStep;           /* 0x48 */
+    VecFx32 targetStep;        /* 0x54 */
+    VecFx32 shakeOffset;       /* 0x60: added to eye and target */
     int moveWait;               /* 0x6C: ticks left before the next move step */
     int moveWaitReset;          /* 0x70 */
     int easeCount;              /* 0x74: moves left before the steps are halved */

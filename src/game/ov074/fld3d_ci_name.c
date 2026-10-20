@@ -25,13 +25,7 @@
  */
 #include "../types.h"
 
-typedef struct Fld3dCiNameRow {
-    u32 sequenceId;
-    u32 chrFile;
-    u32 plttFile;
-    u32 nameMsgId;
-    u32 nameLayout;
-} Fld3dCiNameRow;
+#include "fld3d_ci_name_types.h"
 
 extern const Fld3dCiNameRow g_Fld3dCiNameRows[];
 

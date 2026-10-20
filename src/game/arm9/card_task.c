@@ -35,7 +35,7 @@
 extern void CARDi_EndTask(CARDiCommon *p);
 #include "os_system.h"
 extern BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async);
-void CARDi_OldTypeTaskThread(void);
+void CARDi_OldTypeTaskThread(void *arg);
 BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg);
 extern CARDiCommon cardi_common;
 
@@ -64,7 +64,7 @@ BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async)
 /*
  * sdk:      CARDi_OldTypeTaskThread (libcard.TWL.HYB.a card_task.o)
  */
-void CARDi_OldTypeTaskThread(void)
+void CARDi_OldTypeTaskThread(void *arg)
 {
     CARDiCommon *p = &cardi_common;
 

@@ -31,6 +31,7 @@
  */
 #include "../types.h"
 
+#include "../arm9/clact.h"
 #include "ui_scene_types.h"
 
 /* UiScene is allocated with this size; the header comment of ui_scene_types.h has the layout. */
@@ -40,20 +41,10 @@
 #define ACTOR_GFX_FLAG_NO_CHAR_RANGE 0x1 /* load the character data without charBase and charSize */
 #define ACTOR_GFX_FLAG_PLTT_OPTION 0x2   /* passed to the palette loader as its option */
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern int CLACT_RegisterPaletteCompressed(void *arc, u32 charId, u32 screen, u32 plttOffset, u16 heapId);
-extern int CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
-extern int CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
-extern int CLACT_RegisterCellAnim(void *arc, u32 cellId, u32 animId, u32 heapId);
-extern void ARC_TOOL_DeleteHandle(void *arc);
-extern void CLACT_ReleasePalette(unsigned int charHandle);
-extern void CLACT_ReleaseCharacter(unsigned int plttHandle);
-extern void CLACT_ReleaseCellAnim(unsigned int animHandle);
-extern struct Actor *CLACT_CreateActor(void *actorSys, unsigned int plttHandle, unsigned int charHandle, unsigned int animHandle, const void *rect, u16 screen, u16 heapId);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animIndex);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_tool.h"
+struct ClactActor;
 struct UiScene *UI_SCENE_Create(u32 heapId, const struct UiSceneEntry *entries, u8 param, u16 sceneIndex, void *userData);
 void UI_SCENE_Delete(struct UiScene *scene);
 int UI_SCENE_Step(struct UiScene *scene);
@@ -188,7 +179,7 @@ struct Actor *UI_SCENE_CreateActor(ActorGfxSet *gfx, void *actorSys, u16 x, u16 
 
     rect.x = x;
     rect.y = y;
-    actor = CLACT_CreateActor(actorSys, gfx->plttHandle, gfx->charHandle, gfx->animHandle, &rect, (u16)gfx->screen, heapId);
-    CLACT_SetActorAnimSeq(actor, animIndex);
+    actor = (struct Actor *)CLACT_CreateActor(actorSys, gfx->plttHandle, gfx->charHandle, gfx->animHandle, (struct ActorInitParam *)(&rect), (u16)gfx->screen, heapId);
+    CLACT_SetActorAnimSeq((struct ClactActor *)actor, animIndex);
     return actor;
 }

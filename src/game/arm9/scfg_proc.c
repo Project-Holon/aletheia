@@ -22,6 +22,7 @@
  *   SCFGi_FuseInfo                 0x02153040  data
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -45,7 +46,7 @@ void SCFG_Init(void);
 void SCFG_SetCpuSpeed(int cpuSpeed);
 extern SCFGFuseInfo SCFGi_FuseInfo;
 
-#define reg_SCFG_CLK (*(vu16 *)0x04004004)
+#define reg_SCFG_CLK (*(vu16 *)REG_SCFG_CLK_ADDR)
 
 /*
  * sdk:      SCFG_Init (libscfg.TWL.HYB.a scfg_proc.o)

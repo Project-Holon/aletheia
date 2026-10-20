@@ -35,16 +35,14 @@ typedef struct TwlMsg {
     u32 buf;
 } TwlMsg;
 
-extern u32 NWMi_CheckState(unsigned int n, ...);
-extern unsigned int NWMi_GetSystemWork(void);
+#include "nwm_system.h"
 extern void DC_InvalidateRange(u8 *, u32);
 extern void DC_StoreRange(const void *, u32);
-extern void NWMi_SetCallbackTable(u32, u32);
-extern void MI_CpuCopy8(const void *, void *, u32);
-extern u32 NWMi_SendCommandDirect(unsigned int command, unsigned int length);
+#include "nwm_cmd.h"
+#include "../arm9/mi_memory.h"
 extern u32 DAT_027341cc[];
 
-u32 NWM_Connect(u32 callback, u32 authMode, const u16 *bssDesc) {
+u32 NWM_Connect(void *callback, u32 authMode, const u16 *bssDesc) {
     u32 r;
     u32 busy;
     u32 len;
@@ -79,7 +77,7 @@ u32 NWM_Connect(u32 callback, u32 authMode, const u16 *bssDesc) {
         return 5;
     }
     DC_StoreRange(bssDesc, len * 2);
-    NWMi_SetCallbackTable(8, callback);
+    NWMi_SetCallbackTable(8, (u32)callback);
     msg.buf = (u32)DAT_027341cc;
     msg.len = 8;
     msg.idx = authMode;

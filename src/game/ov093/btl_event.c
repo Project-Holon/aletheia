@@ -31,61 +31,16 @@
 
 #include "../types.h"
 
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void *BTL_SERVER_FLOW_GetPokeParam(s32 *flow, s32 pokeId);
+#include "../arm9/mi_memory.h"
+#include "btl_server_flow.h"
 struct BtlPokeParam;
-extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *bpp, s32 sickIndex);
-extern int BTL_POKEPARAM_TestTurnFlag(struct BtlPokeParam *pp, u32 flag);
-extern int BTL_FIELD_IsStaticSlotInUse(int);
+#include "btl_server_types.h"
+#include "btl_pokeparam.h"
+#include "btl_field.h"
 struct BtlEventFactor;
-extern int HAND_WAZA_IsKeptOnSuspend(struct BtlEventFactor *factor, u32 *work);
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-void BTL_EVENT_InitFactorList(void);
-void BTL_EVENT_ClearSuspendedFlags(void);
-void BTL_EVENT_DebugPrintFactorList(void);
-struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u32 key, int priority, u32 subPriority, u8 ownerId, u32 handlers, u16 handlerCount);
-void BTL_EVENT_RemoveDeadFactors(void);
-void BTL_EVENT_RemoveFactor(struct BtlEventFactor *factor);
-void BTL_EVENT_MarkFactorDead(struct BtlEventFactor *factor);
-int BTL_EVENT_IsFactorDead(struct BtlEventFactor *factor);
-u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
-u8 BTL_EVENT_GetFactorPokeId(struct BtlEventFactor *factor);
-u32 BTL_EVENT_GetFactorWork(struct BtlEventFactor *factor, int index);
-void BTL_EVENT_EnableFactorSpecialEvent(struct BtlEventFactor *factor);
-void BTL_EVENT_KeepFactorRunning(struct BtlEventFactor *factor);
-void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value);
-void BTL_EVENT_DispatchEvent(void *context, int eventId);
-void BTL_EVENT_DispatchEventChecked(void *context, int eventId);
-void BTL_EVENT_DispatchEventToType(int context, int eventId, int factorType);
-void BTL_EVENT_DispatchEventNested(void *context, int eventId, int factorType, int checkSkip);
-void BTL_EVENT_DispatchToFactors(void *context, int eventId, int factorType, int checkSkip);
-int BTL_EVENT_IsEventBlocked(void *context, struct BtlEventFactor *target, int eventId);
-void BTL_EVENT_SetFactorSkipCheck(struct BtlEventFactor *factor, BtlEventSkipCheck skipCheck);
-void BTL_EVENT_ClearFactorSkipCheck(struct BtlEventFactor *factor);
-struct BtlEventFactor *BTL_EVENT_FindFactor(int factorType, int ownerId);
-struct BtlEventFactor *BTL_EVENT_FindNextFactor(struct BtlEventFactor *factor);
-void BTL_EVENT_SuspendPokeFactors(int pokeId);
-void BTL_EVENT_ResumePokeFactors(int pokeId);
-void BTL_EVENT_DisablePokeFactors(u32 pokeId, int factorType);
-int BTL_EVENT_EnablePokeFactors(int pokeId, int factorType);
-struct BtlEventFactor *BTL_EVENT_AllocFactor(void);
-void BTL_EVENT_FreeFactor(void *factor);
-void BTL_EVENT_ClearFactor(int factor);
-void BTL_EVENT_ResetVarStack(void);
-void BTL_EVENT_ResetVarStackIfUsed(void);
-void BTL_EVENT_PushVarFrame(int line);
-void BTL_EVENT_PopVarFrame(int line);
-void BTL_EVENT_SetVar(int key, u32 value);
-void BTL_EVENT_SetVarReadOnly(int key, u32 value);
-void BTL_EVENT_SetVarOnce(int key, u32 value);
-void BTL_EVENT_SetVarRanged(int key, u32 value, u32 minValue, u32 maxValue);
-int BTL_EVENT_OverwriteVar(int key, u32 value);
-void BTL_EVENT_MultiplyVar(int key, s32 multiplier);
-int BTL_EVENT_GetVar(int key);
-int BTL_EVENT_TryGetVar(int key, int *out);
-u32 BTL_EVENT_FindVarSlot(struct BtlEventVarStack *stack, int key);
-int BTL_EVENT_FindVar(struct BtlEventVarStack *stack, int key);
-int BTL_EVENT_ClampVar(struct BtlEventVarStack *stack, int index, int value);
+#include "hand_waza.h"
+#include "../arm9/gf_panic.h"
+#include "btl_event.h"
 extern struct BtlEventFactor gBtlEventFactorStorage[BTL_EVENT_FACTOR_MAX];
 extern struct BtlEventFactorList gBtlEventFactorList;
 /* stand-in: the same object as gBtlEventFactorList.freePool (gBtlEventFactorList + 0xC); the original reaches it through its own symbol, a field access changes the bytes of BTL_EVENT_InitFactorList. */
@@ -235,22 +190,22 @@ void BTL_EVENT_KeepFactorRunning(struct BtlEventFactor *factor)
 
 void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value) { factor->work[index] = value; }
 
-void BTL_EVENT_DispatchEvent(void *context, int eventId)
+void BTL_EVENT_DispatchEvent(struct BtlServerFlow *context, int eventId)
 {
     BTL_EVENT_DispatchEventNested(context, eventId, BTL_EVENT_TYPE_ANY, 0);
 }
 
-void BTL_EVENT_DispatchEventChecked(void *context, int eventId)
+void BTL_EVENT_DispatchEventChecked(struct BtlServerFlow *context, int eventId)
 {
     BTL_EVENT_DispatchEventNested(context, eventId, BTL_EVENT_TYPE_ANY, 1);
 }
 
-void BTL_EVENT_DispatchEventToType(int context, int eventId, int factorType)
+void BTL_EVENT_DispatchEventToType(struct BtlServerFlow *context, int eventId, int factorType)
 {
-    BTL_EVENT_DispatchEventNested((void *)context, eventId, factorType, 1);
+    BTL_EVENT_DispatchEventNested(context, eventId, factorType, 1);
 }
 
-void BTL_EVENT_DispatchEventNested(void *context, int eventId, int factorType, int checkSkip)
+void BTL_EVENT_DispatchEventNested(struct BtlServerFlow *context, int eventId, int factorType, int checkSkip)
 {
     struct BtlEventFactor *factor;
     gBtlEventFactorList.dispatchDepth++;
@@ -260,7 +215,7 @@ void BTL_EVENT_DispatchEventNested(void *context, int eventId, int factorType, i
     }
 }
 
-void BTL_EVENT_DispatchToFactors(void *context, int eventId, int factorType, int checkSkip)
+void BTL_EVENT_DispatchToFactors(struct BtlServerFlow *context, int eventId, int factorType, int checkSkip)
 {
     struct BtlEventFactor *factor;
     struct BtlEventFactor *next;
@@ -304,7 +259,7 @@ advance:
     }
 }
 
-int BTL_EVENT_IsEventBlocked(void *context, struct BtlEventFactor *target, int eventId)
+int BTL_EVENT_IsEventBlocked(struct BtlServerFlow *context, struct BtlEventFactor *target, int eventId)
 {
     void *poke = 0;
     struct BtlEventFactor *factor;

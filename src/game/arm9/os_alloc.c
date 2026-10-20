@@ -21,8 +21,8 @@
  *   OS_IsRunOnTwl         0x02085D3C  arm
  *   g_020A86AC            0x020A86AC  data
  */
-#define OSi_ROUND(n, a)     (((u32)(n) + (a) - 1) & ~((a) - 1))
-#define OSi_TRUNC(n, a)     (((u32)(n)) & ~((a) - 1))
+#define OSi_ROUND(n, a)     (((uptr)(n) + (a) - 1) & ~((a) - 1))
+#define OSi_TRUNC(n, a)     (((uptr)(n)) & ~((a) - 1))
 #include "../types.h"
 
 #include "os_alloc.h"
@@ -212,7 +212,7 @@ void *OS_InitAlloc(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps)
     OSiHeapInfo[id] = heapInfo;
 
     arraySize = sizeof(HeapDesc) * maxHeaps;
-    heapInfo->heapArray = (HeapDesc *)((u32)arenaStart + sizeof(OSHeapInfo));
+    heapInfo->heapArray = (HeapDesc *)((uptr)arenaStart + sizeof(OSHeapInfo));
     heapInfo->numHeaps = maxHeaps;
 
     for (i = 0; i < heapInfo->numHeaps; i++) {
@@ -224,7 +224,7 @@ void *OS_InitAlloc(OSArenaId id, void *arenaStart, void *arenaEnd, int maxHeaps)
 
     heapInfo->currentHeap = -1;
 
-    arenaStart = (void *)((u32)heapInfo->heapArray + arraySize);
+    arenaStart = (void *)((uptr)heapInfo->heapArray + arraySize);
     heapInfo->arenaStart = (void *)OSi_ROUND(arenaStart, 32);
     heapInfo->arenaEnd = (void *)OSi_TRUNC(arenaEnd, 32);
 
@@ -312,8 +312,7 @@ int OS_CreateExtraHeap(OSArenaId id)
 
 long OS_ReferentSize(int id, void *ptr)
 {
-    OS_DisableInterrupts();
-    ((void (*)(void))OS_RestoreInterrupts)();
+    OS_RestoreInterrupts(OS_DisableInterrupts());
     return ((Cell *)((char *)ptr - 0x20))->size - 0x20;
 }
 
@@ -323,12 +322,12 @@ long OS_ReferentSize(int id, void *ptr)
 BOOL OS_IsOnExtendedMainMemory(void *ptr)
 {
     if (OS_IsRunOnTwl()) {
-        if (0x0D000000 <= (u32)ptr && (u32)ptr < 0x0E000000) {
+        if (0x0D000000 <= (uptr)ptr && (uptr)ptr < 0x0E000000) {
             return 1;
         }
         return 0;
     } else {
-        if (0x02400000 <= (u32)ptr && (u32)ptr < 0x02800000) {
+        if (0x02400000 <= (uptr)ptr && (uptr)ptr < 0x02800000) {
             return 1;
         }
         return 0;
@@ -340,7 +339,7 @@ BOOL OS_IsOnExtendedMainMemory(void *ptr)
  */
 int OS_IsOnVram(void *ptr)
 {
-    unsigned int p = (unsigned int)ptr;
+    unsigned int p = (uptr)ptr;
 
     if (p >= 0x05000000u && p < 0x07000800u) {
         return 1;

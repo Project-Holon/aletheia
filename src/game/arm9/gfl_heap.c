@@ -127,7 +127,7 @@ u32 GFL_HEAP_FreeMemory(void *mem);
 u32 GFL_HEAP_InitAllocator(void *allocator, u32 heapIdAndDirection, s32 alignment);
 u32 GFL_HEAP_ResizeMemory(void *mem, u32 newSize);
 void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
-void *GFL_HEAP_GetAllocatableSize(u32 heapId);
+u32 GFL_HEAP_GetAllocatableSize(u32 heapId);
 u32 GFL_HEAP_GetHeapSize(u32 heapId);
 void *GFL_HEAP_GetHeapHandle(u32 heapId);
 u16 GFL_HEAP_GetAllocCountById(u32 heapId);
@@ -327,7 +327,7 @@ int GFL_HEAP_CreateChildHeapImpl(u32 parentHeapId, u32 newHeapId, u32 size)
         goto fail;
     }
 
-    if (GFL_HEAP_AddRecord((u32)parentHeap, newHeapId, (u32)childBlock, size) == 0) {
+    if (GFL_HEAP_AddRecord((uptr)parentHeap, newHeapId, (uptr)childBlock, size) == 0) {
         goto fail;
     }
     return 1;
@@ -366,7 +366,7 @@ int GFL_HEAP_RegisterBlockHeapImpl(void *block, u32 size, u32 newHeapId)
         goto fail;
     }
 
-    if (GFL_HEAP_AddRecord(0, heapId, (u32)block, size) == 0) {
+    if (GFL_HEAP_AddRecord(0, heapId, (uptr)block, size) == 0) {
         goto fail;
     }
 
@@ -718,7 +718,7 @@ u32 GFL_HEAP_InitAllocator(void *allocator, u32 heapIdAndDirection, s32 alignmen
         gHeapManager.lastError = 1;
         goto fail;
     }
-    NNS_FndInitAllocatorForExpHeap(allocator, (u32)GFL_HEAP_GetHeap(heapIdAndDirection & 0x7FFF), signedAlignment);
+    NNS_FndInitAllocatorForExpHeap(allocator, (uptr)GFL_HEAP_GetHeap(heapIdAndDirection & 0x7FFF), signedAlignment);
     gHeapManager.lastError = 0;
     return 1;
 
@@ -853,7 +853,7 @@ fail:
  *   python tools/match.py one --src src/matched/GFL_HEAP_GetAllocatableSize.c \
  *       --func GFL_HEAP_GetAllocatableSize --addr 0x0203038C --cc 1.1p1 --arm
  */
-void *GFL_HEAP_GetAllocatableSize(u32 heapId)
+u32 GFL_HEAP_GetAllocatableSize(u32 heapId)
 {
     heapId &= 0x7FFF;
     if (heapId >= gHeapManager.heapIdCount) {
@@ -861,7 +861,7 @@ void *GFL_HEAP_GetAllocatableSize(u32 heapId)
         goto fail;
     }
     gHeapManager.lastError = 0;
-    return (void *)NNSi_FndGetListAllocatableSize(GFL_HEAP_GetHeap(heapId), 4);
+    return NNSi_FndGetListAllocatableSize(GFL_HEAP_GetHeap(heapId), 4);
 
 fail:
     return 0;
@@ -897,9 +897,9 @@ u32 GFL_HEAP_GetHeapSize(u32 heapId)
     }
     heap = GFL_HEAP_GetHeap(heapId);
     if (heap != 0) {
-        u32 end = (u32)heap->end;
+        u32 end = (uptr)heap->end;
         gHeapManager.lastError = 0;
-        return end - (u32)heap;
+        return end - (uptr)heap;
     }
 
 fail:
@@ -1140,10 +1140,10 @@ BOOL GFL_HEAP_InitSystemHeap(u32 size)
     }
 
     arenaLow = (void *)OS_GetArenaLo(4);
-    OS_SetArenaHi((u32)4, (u32)SDK_AUTOLOAD_MAIN_TWL_START + 0x3000);
+    OS_SetArenaHi((u32)4, (uptr)SDK_AUTOLOAD_MAIN_TWL_START + 0x3000);
     success = 1;
     heapStart = OS_InitAlloc(4, arenaLow, (u8 *)arenaLow + size, 1);
-    OS_SetArenaLo((u32)4, (u32)heapStart);
+    OS_SetArenaLo((u32)4, (uptr)heapStart);
     osHeap = OS_CreateHeap(4, heapStart, (u8 *)arenaLow + size);
     gSystemHeap.heapHandle = osHeap;
     if (osHeap == -1) {

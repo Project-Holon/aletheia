@@ -44,20 +44,22 @@ struct EvolutionData {
     u16 pad;
 };
 
-extern void  ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 dataId);
 
 #include "poke_tool.h"
 
 #include "gfl_heap_wrap.h"
 
 
-extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heap);
+#include "arc_tool.h"
 
-extern u32   FILE_UTIL_GetItemParam(u32 item, u32 param, u16 heap);
+#ifdef __MWERKS__
+extern u32   FILE_UTIL_GetItemParam(u32 item, u32 param, u16 heap); /* original prototype; the definition differs in argument width */
+#else
+#include "file_util.h"
+#endif
 
 #include "timezone.h"
 
-extern void  ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 dataId, void *dst);
 
 #include "pokeparty.h"
 

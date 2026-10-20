@@ -19,7 +19,7 @@ typedef struct
   u8 pad[3];
 } MusicalShowProp;
 
-/* One performer of a show (MusicalShowPerformer in ov010, 0x58 bytes). */
+/* One performer of a show (MusicalShotPerformer in ov010, 0x58 bytes). */
 typedef struct
 {
   u16 monsNo;
@@ -29,17 +29,17 @@ typedef struct
   u32 personality;
   u16 name[8];
   MusicalShowProp props[8];
-} MusicalShowPerformer;
+} MusicalShotPerformer;
 
 /* A performer seen from the record base plus 0x58 per slot. The original code
    indexes the record by 0x58, so the view starts on the record header word. */
 typedef struct
 {
   u32 recordHeader;
-  MusicalShowPerformer performer;
+  MusicalShotPerformer performer;
 } MusicalShowPerformerView;
 
-/* The show record stored in the musical save (MusicalShowRecord in ov010, 0x1B0 bytes). */
+/* The show record stored in the musical save (MusicalShotRecord in ov010, 0x1B0 bytes). */
 typedef struct
 {
   u32 programId : 5;
@@ -49,18 +49,18 @@ typedef struct
   u32 day : 6;
   u32 localSlot : 2;
   u32 reserved : 3;
-  MusicalShowPerformer performers[4];
+  MusicalShotPerformer performers[4];
   u16 title[0x25];
   u8 showType;
   u8 valid;
-} MusicalShowRecord;
+} MusicalShotRecord;
 
 /* The scene record owned by musical_shot_sys (allocated 100 bytes). */
 typedef struct
 {
   u16 heap;
   u16 pad;
-  MusicalShowRecord *record;
+  MusicalShotRecord *record;
   u8 *objects[4];
   void *camera;
   void *board;

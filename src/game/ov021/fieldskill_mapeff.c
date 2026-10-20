@@ -29,21 +29,16 @@ typedef struct FieldSkillMapEff {
     FieldFlash *flash;
 } FieldSkillMapEff;
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern char gFieldSkillMapEffFileName[];
 
-FieldFlash *FIELD_FLASH_Create(u32 heapId);
+#include "field_flash.h"
 
-void FIELD_FLASH_Delete(FieldFlash *flash);
 
-void FIELD_FLASH_Update(FieldFlash *flash);
 
-void FIELD_FLASH_Apply(FieldFlash *flash);
 
-void FIELD_FLASH_SetPendingCommand(FieldFlash *flash, u16 command);
 
 FieldSkillMapEff *FIELDSKILL_MAPEFF_Create(u32 flags, u32 heapId);
 

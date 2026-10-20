@@ -26,7 +26,7 @@
 #define IS_B(m, d, a) (((((a) ^ (d)) & (m)) != 0 || (~(m) ^ ((d) & ~(m))) != 0) ? 1 : 0)
 #include "../types.h"
 
-extern void MI_CpuFill8(void *p, int v, int n);
+#include "../arm9/mi_memory.h"
 u32 SOCLi_RoundUp4(u32 size);
 void SOCLi_InitResource(void);
 int SOCLi_IsIPv4ValidDNSAddr(unsigned long netmask, unsigned long dns, unsigned long addr);

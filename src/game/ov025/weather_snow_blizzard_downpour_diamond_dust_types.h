@@ -11,7 +11,7 @@
  * WeatherParticle, WeatherScreenPos, WeatherSpawnFunc (the main file includes
  * ../ov021/weather_task_types.h, a file at another depth declares them). */
 
-typedef struct Actor Actor;
+typedef struct ClactActor Actor;
 
 /* Snow: work buffer. */
 typedef struct WeatherSnowWork {
@@ -96,44 +96,8 @@ typedef struct WeatherDiamondDustSparkle {
 } WeatherDiamondDustSparkle;
 
 /* Weather task services (ov021 weather_task.c). */
-extern void *WEATHER_TASK_GetWorkBuffer(WeatherTaskSys *task);
-extern void WEATHER_TASK_SetupSpawner(WeatherTaskSys *task, int count, int interval, int targetCount, int targetInterval, int intervalStep, int stepsPerCountChange, int countStep, WeatherSpawnFunc spawn);
-extern void WEATHER_TASK_InitFog(WeatherTaskSys *task, int slope, int offset, int phase);
-extern void WEATHER_TASK_SaveCameraPos(WeatherTaskSys *task);
-extern int WEATHER_TASK_StepSpawner(WeatherTaskSys *task, int arg);
-extern void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, int slope, int offset, int frames, int mode);
-extern int WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId);
-extern void WEATHER_TASK_PlaySe(WeatherTaskSys *task, u16 seId);
-extern int WEATHER_TASK_IsFogIdle(WeatherTaskSys *task);
-extern void WEATHER_TASK_GetCameraScroll(WeatherTaskSys *task, s32 *outX, s32 *outY);
-extern void WEATHER_TASK_ShiftParticles(WeatherTaskSys *task, int dx, int dy);
-extern void WEATHER_TASK_PrewarmParticles(WeatherTaskSys *task, WeatherSpawnFunc spawn, int iterations, int growEvery, int growBy, int heapId);
-extern int WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, u32 memberId);
-extern int WEATHER_TASK_StepSpawnTimer(WeatherTaskSys *task, int arg);
-extern void WEATHER_TASK_RetargetSpawner(WeatherTaskSys *task, int targetCount, int targetInterval, int intervalStep, int countStep);
-extern void WEATHER_TASK_StopSe(WeatherTaskSys *task);
-extern void WEATHER_TASK_ChangeFogOffset(WeatherTaskSys *task, int endOffset, int frames, int mode);
-extern int WEATHER_TASK_GetParticleCount(WeatherTaskSys *task);
-extern void WEATHER_TASK_DisableFog(WeatherTaskSys *task, int phase);
-extern void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
-extern u8 *WEATHER_TASK_GetParticleWork(WeatherParticle *particle);
-extern Actor *WEATHER_TASK_GetParticleActor(WeatherParticle *particle);
-extern void WEATHER_TASK_GetParticlePos(WeatherParticle *particle, WeatherScreenPos *out);
-extern void WEATHER_TASK_SetParticlePosWrapped(WeatherParticle *particle, const WeatherScreenPos *pos);
-extern int WEATHER_TASK_SetParticlePos(WeatherParticle *particle, const WeatherScreenPos *pos);
-extern void WEATHER_TASK_RemoveParticle(WeatherParticle *particle);
-extern WeatherParticle *WEATHER_TASK_AddParticle(WeatherTaskSys *task, int reserved);
-extern void WEATHER_TASK_SetBillboardVisible(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardTexOffsetX(WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardTexOffsetY(WeatherTaskSys *task, unsigned int value, int layer);
 
 /* Arm9 services. */
-extern u16 ZONEDATA_GetLightTableMember(u32 i);
-extern u32 GFL_USE_GetRandom(u32 range);
-extern void CLACT_SetActorAnimIndex(Actor *actor, int index);
-extern u16 CLACT_GetActorAnimSeqCount(Actor *actor);
-extern void CLACT_GetActorSurfacePos(Actor *actor, WeatherScreenPos *out, u32 space);
-extern void CLACT_AddActorSurfacePos(Actor *actor, const WeatherScreenPos *pos, u32 space);
 
 /* Snow stages (begin, fade in, begin at once, run, stop spawning, fade out, finish). */
 int WEATHER_SNOW_Begin(WeatherTaskSys *task, int variant, int heapId);

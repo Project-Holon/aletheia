@@ -1,7 +1,7 @@
 #ifndef ARROW_H
 #define ARROW_H
 
-#include "research_clact.h"
+#include "../ov217/research_clact.h"
 
 #define ARROW_MAX_PARTS 26
 
@@ -51,5 +51,35 @@ struct Arrow {
     u8 partCount;
     u8 pad299[3];                       /* struct size rounded to a word */
 };
+
+#include "../types.h"
+struct Arrow;
+struct ArrowResources;
+struct ArrowPart;
+struct Arrow *ARROW_Create(u32 heapId, const struct ArrowResources *resources);
+u32 ARROW_Destroy(struct Arrow *arrow);
+void ARROW_Layout(struct Arrow *arrow, int tipX, int tipY, int cornerX, int endY);
+void ARROW_Update(struct Arrow *arrow);
+void ARROW_Start(struct Arrow *arrow);
+void ARROW_Reset(struct Arrow *arrow);
+void ARROW_RunState(struct Arrow *arrow);
+void ARROW_RunIdle(struct Arrow *arrow);
+void ARROW_RunDrawing(struct Arrow *arrow);
+void ARROW_RunDone(struct Arrow *arrow);
+void ARROW_SetState(struct Arrow *arrow, u32 state);
+u32 ARROW_IsComplete(struct Arrow *arrow);
+void ARROW_ShowPart(struct Arrow *arrow, int index);
+void ARROW_StopPart(struct Arrow *arrow, u32 index);
+void ARROW_HideAll(struct Arrow *arrow);
+void ARROW_BuildParts(struct Arrow *arrow, int tipX, int tipY, int cornerX, int endY);
+void ARROW_InitPart(struct ArrowPart *part, u8 x, u8 y, u32 startTime, u32 kind);
+struct Arrow *ARROW_Alloc(u32 heapId);
+void ARROW_Init(struct Arrow *arrow, u32 heapId);
+u32 ARROW_Free(struct Arrow *arrow);
+void ARROW_CreateUnit(struct Arrow *arrow);
+void ARROW_DeleteUnit(struct Arrow *arrow);
+void ARROW_CreateActors(struct Arrow *arrow);
+void ARROW_DeleteActors(struct Arrow *arrow);
+void ARROW_SetResources(struct Arrow *arrow, const struct ArrowResources *resources);
 
 #endif

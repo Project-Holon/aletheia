@@ -296,7 +296,7 @@ u32 GFL_NET_LOWER_DATA_SendChunk(int size)
     int isParent = _pNetLdataWork->isParent;
     int sendData = _pNetLdataWork->sendData;
     int sentSize = _pNetLdataWork->sentSize;
-    int dataAddr = sendData + sentSize;
+    sptr dataAddr = sendData + sentSize;
     struct GFLNetHandle *handle;
     if (isParent == 1)
         handle = GFL_NET_HANDLE_GetNetHandle(NET_LDATA_NETID_SERVER);
@@ -351,7 +351,7 @@ void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32
         return;
     }
 
-    if ((u32)GFL_NET_HANDLE_GetCurrentHandle() != pNetHandle && netInit->init.bMPMode == 0) {
+    if ((uptr)GFL_NET_HANDLE_GetCurrentHandle() != pNetHandle && netInit->init.bMPMode == 0) {
         return;
     }
 
@@ -402,7 +402,7 @@ void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand 
         return;
     }
 
-    if (pNetHandle != (u32)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (pNetHandle != (uptr)GFL_NET_HANDLE_GetCurrentHandle()) {
         if (netInit->init.bMPMode == 0) {
             return;
         }

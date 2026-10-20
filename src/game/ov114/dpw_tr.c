@@ -43,6 +43,7 @@
  *   gDpwTrPathUploadFinish 0x021CF614 data a4
  *   gDpwTrPathUpload                       0x021CF578  data  a4
  */
+#include "dwc_encsession_2.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 
 #include "../types.h"
@@ -114,35 +115,30 @@ typedef struct DpwTrWork {
     u8 *resultBuf;                      /* 0x1c8 */
 } DpwTrWork;
 
-extern int DWCi_EncSessionProcess(void);
-extern void DWCi_EncSessionShutdown(void);
-extern u32 DWCi_EncSessionGetResponse(u32 *len);
-extern int DWC_GetLastErrorEx(int *code, int *type);
-extern void DWCi_EncSessionInitialize(int server, char *initdata);
-extern int DWCi_EncSessionGetAsync(void *, unsigned int, void *, unsigned int, unsigned int);
-extern void DWCi_EncSessionCancel(void);
-extern void OS_GetMacAddress(u8 *macAddress);
-extern int DWC_UpdateConnection(void);
-extern void DWC_ClearError(void);
+#include "../arm9/dwc_error.h"
+#include "../arm9/os_ownerinfo.h"
+#include "../arm9/dwc_connectinet.h"
 
 int DPW_TR_ConvertDwcError(u32 dwcErrorType);
 
 extern DpwTrWork gDpwTrWork;
 extern int gDpwTrServerIndex;
 extern unsigned int gDpwTrRequestPacket[];
-extern unsigned int gDpwTrBaseUrl[];
-extern unsigned int gDpwTrWantedData[], gDpwTrPathUpload[];
+extern char gDpwTrBaseUrl[];
+extern char gDpwTrPathUpload[];
+extern unsigned int gDpwTrWantedData[];
 extern const unsigned int gDpwTrKeyHeader[];
-extern unsigned int gDpwTrPathGetUploadResult[];
-extern unsigned int gDpwTrPathDownload[];
-extern unsigned int gDpwTrPathReturn[];
-extern unsigned int gDpwTrBaseUrl[], gDpwTrPathDelete[];
-extern unsigned int gDpwTrBaseUrl[], gDpwTrPathUploadFinish[];
-extern unsigned int gDpwTrBaseUrl[], gDpwTrPathDownloadMatchData[];
-extern unsigned gDpwTrWantedData[], gDpwTrBaseUrl[], gDpwTrPathTrade[];
-extern unsigned gDpwTrBaseUrl[], gDpwTrPathTradeFinish[];
-extern unsigned gDpwTrBaseUrl[], gDpwTrPathGetServerState[];
-extern unsigned gDpwTrBaseUrl[], gDpwTrPathSetProfile[];
+extern char gDpwTrPathGetUploadResult[];
+extern char gDpwTrPathDownload[];
+extern char gDpwTrPathReturn[];
+extern char gDpwTrBaseUrl[], gDpwTrPathDelete[];
+extern char gDpwTrBaseUrl[], gDpwTrPathUploadFinish[];
+extern char gDpwTrBaseUrl[], gDpwTrPathDownloadMatchData[];
+extern char gDpwTrBaseUrl[], gDpwTrPathTrade[];
+extern unsigned gDpwTrWantedData[];
+extern char gDpwTrBaseUrl[], gDpwTrPathTradeFinish[];
+extern char gDpwTrBaseUrl[], gDpwTrPathGetServerState[];
+extern char gDpwTrBaseUrl[], gDpwTrPathSetProfile[];
 
 /* Starts a session for the player profile; serverType selects the server (0, 1 or 2). */
 void DPW_TR_Init(unsigned int profileId, unsigned int friendKeyLo, unsigned int friendKeyHi, int serverType)
@@ -506,7 +502,7 @@ void DPW_TR_UploadAsync(const void *tradeData, const void *wantedData, int wante
     gDpwTrWork.uploadFlag = 0;
     memcpy(gDpwTrWantedData, wantedData, wantedLen);
     gDpwTrWork.wantedLen = wantedLen;
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathUpload, gDpwTrWork.profileId, gDpwTrRequestPacket, 0x1b0, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_UPLOAD;
         return;
@@ -520,7 +516,7 @@ void DPW_TR_UploadAsync(const void *tradeData, const void *wantedData, int wante
 void DPW_TR_GetUploadResultAsync(void)
 {
     memcpy(gDpwTrRequestPacket, gDpwTrKeyHeader, 8);
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathGetUploadResult, gDpwTrWork.profileId, gDpwTrRequestPacket, 8, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_GET_UPLOAD_RESULT;
         return;
@@ -534,7 +530,7 @@ void DPW_TR_GetUploadResultAsync(void)
 void DPW_TR_DownloadAsync(u8 *resultBuf)
 {
     gDpwTrWork.resultBuf = resultBuf;
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathDownload, gDpwTrWork.profileId, gDpwTrRequestPacket, 0x1b0, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_DOWNLOAD;
         return;
@@ -548,7 +544,7 @@ void DPW_TR_DownloadAsync(u8 *resultBuf)
 void DPW_TR_ReturnAsync(u8 *resultBuf)
 {
     gDpwTrWork.resultBuf = resultBuf;
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathReturn, gDpwTrWork.profileId, gDpwTrRequestPacket, 0x1b0, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_RETURN;
         return;
@@ -561,7 +557,7 @@ void DPW_TR_ReturnAsync(u8 *resultBuf)
 /* Request: delete the uploaded Pokemon. */
 void DPW_TR_DeleteAsync(void)
 {
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathDelete, gDpwTrWork.profileId, gDpwTrRequestPacket, 0x1b0, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_DELETE;
         return;
@@ -574,7 +570,7 @@ void DPW_TR_DeleteAsync(void)
 /* Request: finish the upload. */
 void DPW_TR_UploadFinishAsync(void)
 {
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathUploadFinish, gDpwTrWork.profileId, gDpwTrRequestPacket, 0, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_UPLOAD_FINISH;
         return;
@@ -657,7 +653,7 @@ void DPW_TR_DownloadMatchDataAsync(const DpwTrSearchKey *searchKey, int searchCo
     dst->levelMin = levelMin;
     dst->levelMax = levelMax;
     gDpwTrWork.searchCount = searchCount;
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathDownloadMatchData, gDpwTrWork.profileId, ((DpwTrSearchKey *)gDpwTrRequestPacket), 7, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_DOWNLOAD_MATCH_DATA;
         return;
@@ -674,7 +670,7 @@ void DPW_TR_DownloadMatchDataRawAsync(const void *searchData, u8 *resultBuf)
 {
     gDpwTrWork.resultBuf = resultBuf;
     memcpy(gDpwTrRequestPacket, searchData, 8);
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathDownloadMatchData, gDpwTrWork.profileId, gDpwTrRequestPacket, 8, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_DOWNLOAD_MATCH_DATA;
         return;
@@ -692,7 +688,7 @@ void DPW_TR_TradeAsync(unsigned uploadFlag, const void *tradeData, u8 *resultBuf
     gDpwTrWork.uploadFlag = uploadFlag;
     memcpy(gDpwTrWantedData, wantedData, wantedLen);
     gDpwTrWork.wantedLen = wantedLen;
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathTrade, gDpwTrWork.profileId, gDpwTrRequestPacket, 0x1b0, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_TRADE;
         return;
@@ -706,7 +702,7 @@ void DPW_TR_TradeAsync(unsigned uploadFlag, const void *tradeData, u8 *resultBuf
 void DPW_TR_TradeFinishAsync(void)
 {
     memcpy(gDpwTrRequestPacket, gDpwTrKeyHeader, 8);
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathTradeFinish, gDpwTrWork.profileId, gDpwTrRequestPacket, 8, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_TRADE_FINISH;
         return;
@@ -719,7 +715,7 @@ void DPW_TR_TradeFinishAsync(void)
 /* Request: query the server state. */
 void DPW_TR_GetServerStateAsync(void)
 {
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathGetServerState, gDpwTrWork.profileId, gDpwTrRequestPacket, 0, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_GET_SERVER_STATE;
         return;
@@ -735,7 +731,7 @@ void DPW_TR_SetProfileAsync(unsigned char *profile, u8 *resultBuf)
     OS_GetMacAddress(profile + 0x1c);
     memcpy(gDpwTrRequestPacket, profile, 100);
     gDpwTrWork.resultBuf = resultBuf;
-    DWCi_EncSessionInitialize(gDpwTrServerIndex, (char *)gDpwTrBaseUrl);
+    DWCi_EncSessionInitialize(gDpwTrServerIndex, gDpwTrBaseUrl);
     if (DWCi_EncSessionGetAsync(gDpwTrPathSetProfile, gDpwTrWork.profileId, gDpwTrRequestPacket, 100, 0) == 0) {
         gDpwTrWork.state = DPW_TR_STATE_SET_PROFILE;
         return;

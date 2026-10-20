@@ -23,23 +23,22 @@
  */
 #include "../types.h"
 
-extern void MI_CpuFill8(void *,unsigned,unsigned);
+#include "../arm9/mi_memory.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 
-extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, int heapID);
+#include "../arm9/arc_util.h"
 
-extern void WORDSET_CopyString(const u16 *,u16 *,u32);
+#include "../arm9/wordset.h"
 
-extern unsigned short STRBUF_GetEosChar(void);
+#include "../arm9/strbuf.h"
 
-int NAMEIN_GRAPHIC_LoadArcMember(u32 a, u32 b);
+void *NAMEIN_GRAPHIC_LoadArcMember(u32 a, u16 b);
 
 void NAMEIN_GRAPHIC_FreeMember(void *p);
 
-u32 *NAMEIN_GRAPHIC_CreateMembers(u32 heap);
+u32 *NAMEIN_GRAPHIC_CreateMembers(u16 heap);
 
 void NAMEIN_GRAPHIC_DeleteMembers(u8 *p);
 
@@ -51,7 +50,7 @@ u16 NAMEIN_GRAPHIC_GetGridHeight(const u16 *p);
 
 u32 NAMEIN_GRAPHIC_GetGridCell(u8 *p, u16 a, u16 b);
 
-int NAMEIN_GRAPHIC_LoadCharMember(int a, int b);
+void *NAMEIN_GRAPHIC_LoadCharMember(int a, u16 b);
 
 void NAMEIN_GRAPHIC_FreeHandle(void *p);
 
@@ -69,7 +68,7 @@ u16 NAMEIN_GRAPHIC_FindTableIndex(const char *p,const u16 *b);
 
 int NAMEIN_GRAPHIC_CompareEntry(const unsigned short *a, const unsigned short *b);
 
-int NAMEIN_GRAPHIC_LoadPairMember(int a);
+void *NAMEIN_GRAPHIC_LoadPairMember(u16 a);
 
 void NAMEIN_GRAPHIC_FreePairMember(void *p);
 
@@ -83,7 +82,7 @@ u32 NAMEIN_GRAPHIC_IsNameCharValid(u16 *s, u32 x);
 
 extern const char d_021F5798[];
 
-int NAMEIN_GRAPHIC_LoadArcMember(u32 a, u32 b)
+void *NAMEIN_GRAPHIC_LoadArcMember(u32 a, u16 b)
 {
     return ARC_UTIL_LoadMember(0x77, a, 0, b);
 }
@@ -93,14 +92,14 @@ void NAMEIN_GRAPHIC_FreeMember(void *p) { GFL_HEAP_Free(p); }
 /*
  * evidence: caller consumes 021F4D20 r0; full forwarder leaves 0204A1BC allocation result live despite own void declaration.
  */
-u32 *NAMEIN_GRAPHIC_CreateMembers(u32 heap)
+u32 *NAMEIN_GRAPHIC_CreateMembers(u16 heap)
 {
     u32 *p;
     int i = 0;
     p = GFL_HEAP_Alloc(heap, 20, 0, d_021F5798, 147);
     MI_CpuFill8(p, 0, 20);
     for (; i < 5; i++)
-        p[i] = NAMEIN_GRAPHIC_LoadArcMember(i, heap);
+        p[i] = (u32)NAMEIN_GRAPHIC_LoadArcMember(i, heap);
     return p;
 }
 
@@ -125,7 +124,7 @@ u32 NAMEIN_GRAPHIC_GetGridCell(u8 *p, u16 a, u16 b)
     return *(u16 *)(p + ((a + b * NAMEIN_GRAPHIC_GetGridWidth((const u16 *)p)) << 1) + 4);
 }
 
-int NAMEIN_GRAPHIC_LoadCharMember(int a, int b)
+void *NAMEIN_GRAPHIC_LoadCharMember(int a, u16 b)
 {
     return ARC_UTIL_LoadMember(0x77, a + 5, 0, b);
 }
@@ -190,7 +189,7 @@ int NAMEIN_GRAPHIC_CompareEntry(const unsigned short *a, const unsigned short *b
     return 1;
 }
 
-int NAMEIN_GRAPHIC_LoadPairMember(int a)
+void *NAMEIN_GRAPHIC_LoadPairMember(u16 a)
 {
     return ARC_UTIL_LoadMember(0x77, 8, 0, a);
 }

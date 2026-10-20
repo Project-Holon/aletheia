@@ -76,7 +76,7 @@ int FSi_MemArchiveProc(FSFile *p_file, u32 cmd)
             entry->dir_id.index = 0;
             entry->dir_id.pos = 0;
         }
-        p_file->prop.dir.pos.pos = (u32)arc->next;
+        p_file->prop.dir.pos.pos = (uptr)arc->next;
         return 0;
     }
     case 2:
@@ -104,7 +104,7 @@ void FSi_InitMemArchive(void)
     if (!fsi_mem_init || !FS_IsArchiveLoaded(&fsi_arc_mem))
     {
         FS_InitArchive(&fsi_arc_mem);
-        FS_SetArchiveProc(&fsi_arc_mem, (u32)FSi_MemArchiveProc, 0xFFFFFFFF);
+        FS_SetArchiveProc(&fsi_arc_mem, (uptr)FSi_MemArchiveProc, 0xFFFFFFFF);
         if (!FS_LoadArchive(&fsi_arc_mem, 0, 0, 0, 0, 0, 0, 0))
         {
             OS_Terminate();
@@ -120,5 +120,5 @@ void FSi_InitMemArchive(void)
 BOOL FS_CreateFileFromMemory(FSFile *p_file, void *buf, u32 size)
 {
     FSi_InitMemArchive();
-    return FS_OpenFileDirect(p_file, &fsi_arc_mem, (u32)buf, (u32)buf + size, 0);
+    return FS_OpenFileDirect(p_file, &fsi_arc_mem, (uptr)buf, (uptr)buf + size, 0);
 }

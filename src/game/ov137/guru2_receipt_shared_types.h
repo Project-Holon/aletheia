@@ -1,7 +1,7 @@
 #ifndef GURU2_RECEIPT_SHARED_TYPES_H
 #define GURU2_RECEIPT_SHARED_TYPES_H
 
-#include "guru2_shared_types.h"
+#include "../ov137/guru2_shared_types.h"
 
 struct GfFont;
 
@@ -33,18 +33,17 @@ struct FrameObj;
 
 struct CharBuf;
 
-struct Descriptor;
+struct Guru2ReceiptDescriptor;
 
 struct Link;
 
-struct Obj;
+struct Guru2ReceiptObj;
 
-struct DispConfig { u32 w[4]; };
+#include "../arm9/bg_sys.h"
 
-struct BgTemplate { u32 w[8]; };
 
-typedef struct { int a[4]; } Descriptor;
+typedef struct { int a[4]; } Guru2ReceiptDescriptor;
 
-typedef struct {u8 pad[0x2c]; int index,count;} Obj;
+typedef struct {u8 pad[0x2c]; int index,count;} Guru2ReceiptObj;
 
 #endif

@@ -28,18 +28,13 @@
  *   NHTTPi_SetError 0x021BA874 arm ov114
  *   NHTTPi_IsCreateCommThreadMessageQueueOff  0x021BBEAC  arm  ov114
  */
+#include "nhttp_recvbuf.h"
 #include "nhttp_types.h"
 
-extern void NHTTPi_free(void *);
-extern NHTTPConnection *NHTTPi_Response2Connection(NHTTPMutexInfo *, NHTTPRes *);
-extern int NHTTPi_findNextLineHdrRecvBuf(const NHTTPRes *res, int pos, int limit, int *colon, int *rcsize);
-extern int NHTTPi_compareTokenN_HdrRecvBuf(const NHTTPRes *res, int pos, int limit, char *str, char extdeli);
-extern int NHTTPi_skipSpaceHdrRecvBuf(const NHTTPRes *res, int pos, int limit);
-extern void *NHTTPi_alloc(unsigned long size, int align);
-extern int NHTTPi_loadFromHdrRecvBuf(NHTTPRes *res_p, char *buf, int pos, int size);
-extern int NHTTPi_strcmp(char *a, char *b);
-extern void NHTTPi_SetError(NHTTPBgnEndInfo *bgnEndInfo_p, int error);
-extern void NHTTPi_IsCreateCommThreadMessageQueueOff(NHTTPThreadInfo *threadInfo_p);
+#include "nhttp_bgnend.h"
+#include "d_nhttp_common.h"
+#include "nhttp_stdlib_ntr.h"
+#include "nhttp_thread.h"
 void NHTTPi_DestroyResponse(NHTTPMutexInfo *mutexInfo_p, NHTTPRes *res_p);
 int NHTTPi_getHeaderValue(const NHTTPRes *res_p, char *label_p, int *pos_p);
 int NHTTP_GetResponseHeaderField(NHTTPRes *res_p, char *label_p, char **value_pp);

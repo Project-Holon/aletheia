@@ -159,133 +159,120 @@ typedef struct IntroMsgWork {
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned),GFL_USE_SetSeSlotVolume(int,unsigned),GFL_USE_SetSeSlotParams(int,unsigned,unsigned,unsigned);
 
-extern int TOUCHPANEL_GetTrg(void);
+#include "../arm9/touchpanel.h"
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern void BG_SYS_MarkTileDirty(u32);
+#include "../arm9/bg_sys.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct WordSet;
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+#include "../arm9/gf_font.h"
 struct PrintQueue;
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+struct TextPrinter;
+struct BmpWin;
+struct Strbuf;
+struct BmpMenuList;
+struct BmpMenuListTemplate;
+#include "../arm9/bmp_menuwork_shared_types.h"
+#include "../arm9/strbuf_types.h"
+#include "../ov099/wifi_club_work.h"
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 struct TcblSystem;
 
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+#include "../arm9/tcbl.h"
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+#include "../arm9/arc_util.h"
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 struct Strbuf;
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 struct BmpWin;
 
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+#include "../arm9/bmp_win.h"
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 struct KeyCursor;
 
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(unsigned int id, unsigned int isLive, unsigned int isFlip, unsigned short heapId);
+#include "../arm9/app_keycursor.h"
 struct TimeIcon;
 
-extern struct TimeIcon *TIME_ICON_Alloc(u32 heap);
+#include "../arm9/time_icon.h"
 
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern unsigned int GF_FONT_Delete(struct GfFont *font);
 struct TextPrinter;
 
 extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
 extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
+#include "../arm9/msgdata.h"
 
-extern unsigned int WORDSET_Delete(struct WordSet *p);
+#include "../arm9/wordset.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
 
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern void GF_FONT_SetTextColor(unsigned int, unsigned int, unsigned int);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
-extern void *PRINTSYS_PrintStream(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short);
+extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
 
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette);
 
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
 
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+extern u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
 
 extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 
-extern unsigned int KEY_GetCont(void);
 
-extern int TOUCHPANEL_GetCont(void);
 
-extern void *MI_CpuFill8(void *,int,u32);
+#include "../arm9/mi_memory.h"
 
-extern void *BMP_MENUWORK_Create(u32,u32);
+extern BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId);
 
-extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
+extern void BMP_MENUWORK_AddStrItem(BmpMenuWork *items, const struct U16Vec *src, u32 param, u32 heapId);
 struct MenuTemplate;
 struct BmpMenuList;
 
-extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, unsigned short scroll, unsigned short row, unsigned int heap);
+extern struct BmpMenuList *BMP_MENULIST_Create(struct BmpMenuListTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
 
 extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap);
 
-extern void BG_SYS_PushTile(u32 index);
 
-extern void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, unsigned int disabled);
+extern void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled);
 
-extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, unsigned short *outScroll, unsigned short *outRow);
+extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
 
 extern u32 BMP_MENUWORK_Delete(void *p);
 
-extern int BMP_MENULIST_Main(struct BmpMenuList *menu);
+extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
 struct TcbList;
 
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
+#include "../arm9/gfl_use.h"
 
-extern void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct BmpWin *refWin, unsigned char fillColor, unsigned char waitInterval);
 
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
 
 char *INTRO_MSG_Create(u16 heap);
 
@@ -391,7 +378,7 @@ void INTRO_MSG_PrintText(char *p, void *a, int flag)
     GF_FONT_SetTextColor(1, 2, 15);
     MSGDATA_ReadString(work->msgBank, (unsigned int)a, work->strbuf1);
     WORDSET_CopyTaggedText(work->wordSet, work->strbuf2, work->strbuf1);
-    work->printStream = PRINTSYS_PrintStream((unsigned int)desc, 4, 0, (unsigned int)work->strbuf2, (unsigned int)work->font, value, (unsigned int)work->tcbl, 0xFFFF, work->heapId, 15);
+    work->printStream = PRINTSYS_PrintStream((struct BmpWin *)((unsigned int)desc), 4, 0, (struct Strbuf *)((unsigned int)work->strbuf2), (struct GfFont *)((unsigned int)work->font), value, (struct Tcbl *)((unsigned int)work->tcbl), 0xFFFF, work->heapId, 15);
     if (flag == 0)
         BMP_MENUWORK_DrawWindow(desc, 1, 7, 9);
     else
@@ -491,7 +478,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     *(void **)(state+4)=BMP_MENUWORK_Create(count,heap);
     for(i=0;i<count;i++){
         MSGDATA_ReadString(work->msgBank,*(u32 *)((char *)entries+i*8),(void *)work->strbuf1);
-        BMP_MENUWORK_AddStrItem((struct Slot *)((char *)*(void **)(state+4)+i*8),(u32)work->strbuf1,*(u32 *)((char *)entries+i*8+4),heap);
+        BMP_MENUWORK_AddStrItem((BmpMenuWork *)((struct IntroSlot *)((char *)*(void **)(state+4)+i*8)),(const struct U16Vec *)((u32)work->strbuf1),*(u32 *)((char *)entries+i*8+4),heap);
     }
     MI_CpuFill8(&config,0,52);
     config.items=*(void **)(state+4);config.win=obj;
@@ -500,7 +487,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     config.mode3=0;config.lineGap=0;config.pageKeys=1;config.mode6=0;config.cursorOff=0;
     config.userData=0;config.cursorW=16;config.rowH=16;config.pad24=0;
     config.target=INTRO_MSG_InitMenuDesc(p,(int)obj);config.printer=work->printSys;config.font=work->font;
-    *(void **)state=BMP_MENULIST_Create((struct MenuTemplate *)(&config),0,0,heap);
+    *(void **)state=BMP_MENULIST_Create((struct BmpMenuListTemplate *)((struct MenuTemplate *)(&config)),0,0,heap);
     BMP_MENULIST_ResetCursorTile(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));
     BMP_MENUWORK_DrawWindow(obj,1,7,9);

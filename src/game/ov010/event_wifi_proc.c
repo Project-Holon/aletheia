@@ -70,77 +70,57 @@ typedef struct WifiProcWork {
 struct GameComm;
 struct IntrudeCommSys;
 
-extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
+#include "intrude_comm_query.h"
 struct GameEvent;
 
 /* game system, game event, game data */
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, EventTaskFn taskFn, unsigned int workSize);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-extern void GAME_EVENT_Change(struct GameEvent *event, EventTaskFn taskFn, u32 workSize);
 
-extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, const void *procData, void *procArg);
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, const void *procData, void *procArg);
 
-extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern void GAME_DATA_SetSubscreenType(struct GameData *gameData, u32 subscreenType);
 
 /* game comm, config, misc */
-extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
+#include "../arm9/game_comm.h"
 
-extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 
-extern u32 GAME_COMM_IsTransition(struct GameComm *gameComm);
 
-extern int GF_OVERLAY_Load(s32 overlayId);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(s32 overlayId);
 
-extern int GF_OVERLAY_Load(int overlayId);
 
-extern void GF_OVERLAY_Unload(int overlayId);
 
-extern u16 GFL_USE_GetBgmNo(void);
+#include "../arm9/gfl_use.h"
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 volume);
 
-extern void GFL_USE_FadeInBgmFull(u32 frames);
 
 /* field events and field */
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
+#include "../ov021/event_fieldmap_control.h"
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+#include "../arm9/field_status.h"
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
 
-extern void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, s32 mode);
+#include "../ov018/intrude_subdisp.h"
 
-extern void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *gameSystem);
 
-extern struct GameEvent *EVENT_COMM_COMMON_CreateReturnPalaceEvent(struct GameSystem *gameSystem);
+#include "../ov018/event_comm_common.h"
 
-extern struct GameEvent *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(struct GameSystem *gameSystem);
+#include "../ov020/event_mapchange.h"
 
-extern struct GameEvent *EVENT_MAPCHANGE_CreateByMode(struct GameSystem *gameSystem, u32 initParam);
 struct FieldSubscreen;
 
                                       
-extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
 extern unsigned char ov020_id[];
 
@@ -169,7 +149,7 @@ struct GameEvent *EVENT_WIFI_PROC_Create(struct GameSystem *gameSystem, struct F
 struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam)
 {
     GF_OVERLAY_Load((u32)ov020_id);
-    return EVENT_MAPCHANGE_CreateByMode(gameSystem, initParam);
+    return EVENT_MAPCHANGE_CreateByMode(gameSystem, (struct GameInitWork *)initParam);
 }
 
 /*

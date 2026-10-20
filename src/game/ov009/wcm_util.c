@@ -24,11 +24,11 @@
 
 #include "../sdk_wm.h"
 
-extern unsigned long OS_DisableInterrupts(void);
-extern WCMWork *WCMi_GetSystemWork(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "wcm_system.h"
 int WcmCompareMemory(unsigned char *a, unsigned char *b, unsigned int n);
-void WCM_CompareBssID(int a, int b);
+int WCM_CompareBssID(unsigned char *a, unsigned char *b);
 WMLinkLevel WCM_GetLinkLevel(void);
 WMLinkLevel WCM_CalcLinkLevel(unsigned char rssi);
 unsigned char WCMi_GetRssiAverage(void);
@@ -49,9 +49,9 @@ int WcmCompareMemory(unsigned char *a, unsigned char *b, unsigned int n)
 }
 
 
-void WCM_CompareBssID(int a, int b)
+int WCM_CompareBssID(unsigned char *a, unsigned char *b)
 {
-    WcmCompareMemory((unsigned char *)a, (unsigned char *)b, 6);
+    return WcmCompareMemory(a, b, 6);
 }
 
 

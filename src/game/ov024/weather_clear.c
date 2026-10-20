@@ -32,6 +32,15 @@
  */
 #include "../ov021/weather_task_types.h"
 #include "weather_clear_types.h"
+/* Original prototype (docs/ORIGINAL_BUGS.tsv): the DS caller passes slope as a full int */
+#ifdef __MWERKS__
+#define WEATHER_TASK_ChangeFog WEATHER_TASK_ChangeFog_header
+#endif
+#include "../ov021/weather_task.h"
+#ifdef __MWERKS__
+#undef WEATHER_TASK_ChangeFog
+void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, int slope, int offset, int frames, int mode);
+#endif
 
 /* Clear weather: no particles, only the zone fog is faded to white. */
 

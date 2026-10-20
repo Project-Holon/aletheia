@@ -260,28 +260,46 @@
 #include "../ov091/pokelist_types.h"
 #include "mailview_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void CLACT_VBlankSystem(void);
+#ifdef __MWERKS__
+#define CLACT_DrawSystem CLACT_DrawSystem_hdr
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+#undef CLACT_DrawSystem
+void CLACT_DrawSystem(struct Unit *);
+#endif
 
-extern void BG_SYS_Update(void);
+#include "../arm9/bg_sys.h"
 struct MsgBank;
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 struct PrintQueue;
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
+#ifdef __MWERKS__
+#define PRINTSYS_PrintQueColor PRINTSYS_PrintQueColor_hdr
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_PrintQueColor
+void PRINTSYS_PrintQueColor(struct PrintQueue *, struct Bmp *, s16, s16, struct Strbuf *, struct GfFont *, u16);
+#endif
 
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 struct PmsDraw;
 
-extern struct PmsDraw *PMS_DRAW_Create(unsigned int clunit, unsigned int drawType, unsigned int printQue, unsigned int font, unsigned char plttOffset, unsigned char elemMax, unsigned short heapId);
+#ifdef __MWERKS__
+#define PMS_DRAW_Print PMS_DRAW_Print_hdr
+#endif
+#include "../arm9/pms_draw.h"
+#ifdef __MWERKS__
+#undef PMS_DRAW_Print
+void PMS_DRAW_Print(u32, u32, struct BeaconDetailGraQuad *, u8);
+#endif
 
-extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 struct ProcData;
 
@@ -342,7 +360,7 @@ struct ClactPos {
 };
 
 /* Rectangle of a touch panel hit table (top, bottom, left, right). */
-struct TouchRect {
+struct MbSeqTouchRect {
     u8 top;
     u8 bottom;
     u8 left;
@@ -373,165 +391,117 @@ struct MailBoxChildFinish {
 struct GameData;
 struct MailBox;
 
-extern struct MailBox *MAIL_GetBox(struct GameData *gameData);
+#include "../arm9/mail.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+#include "../arm9/procsys.h"
 
-extern void GFL_HEAP_DeleteChecked(u32);
 
-extern int PMSI_PARAM_IsEnabled(unsigned short *word);
+#include "../arm9/pmsi_param.h"
 
-extern u16 *MAIL_GetWriterName(struct Mail *mail);
 
-extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 
-extern u8 MAIL_GetDesign(const struct Mail *mail);
 
-extern u16 MAIL_GetMessageId(const struct Mail *mail);
 
-extern struct PmsData *MAIL_GetMessage(struct Mail *mail, u32 index);
 
-extern void STRBUF_Delete(struct Strbuf *vec);
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 struct TcblSystem;
 
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+#include "../arm9/tcbl.h"
 
-extern void BG_SYS_Create(u16);
 
-extern void BG_SYS_Delete(void);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 
-extern void PMS_DRAW_Main(struct PmsDraw *draw);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern int TOUCHPANEL_GetTrg(void);
+#include "../arm9/touchpanel.h"
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#ifdef __MWERKS__
+#define BMP_WIN_Create BMP_WIN_Create_hdr
+#endif
+#include "../arm9/bmp_win.h"
+#ifdef __MWERKS__
+#undef BMP_WIN_Create
+struct BmpWin * BMP_WIN_Create(u8, u8, u8, u8, u8, u8, u8);
+#endif
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 
-extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *win, u32 x, u32 y, struct Strbuf *text, struct GfFont *font, int speed, struct Tcbl *tcbl, u32 unused, u16 heapId, u16 clearColor);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *d);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 
-extern void BG_SYS_PushTile(u32 v);
 struct TextPrinter;
 
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
+#include "../arm9/bmp_menuwork.h"
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 struct TaskMenuRes;
 struct TaskMenuInitWork;
 struct TaskMenuWork;
 
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
+#include "../arm9/app_taskmenu.h"
 
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 
-extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
-extern void PMS_DRAW_Delete(struct PmsDraw *draw);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void BG_SYS_ClearSlot(u32);
 
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void BG_SYS_FreeLayerBuf(u32 bgId);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+#include "../arm9/arc_util.h"
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void BG_SYS_MarkTileDirty(u32);
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/g2.h"
 
-extern void BMP_WIN_Init(u16);
 
-extern struct BmpWin *BMP_WIN_Create(u8 bg, u8 x, u8 y, u8 w, u8 h, u8 pal, u8 base);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *d);
 
-extern void BMP_WIN_Exit(void);
 
-extern void PMS_DRAW_Print(struct PmsDraw *draw, struct BmpWin *win, struct PmsData *pms, u8 index);
 
-extern void PRINTSYS_PrintQueColor(struct PrintQue *queue, struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font, u16 color);
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
+#include "../arm9/net.h"
 
-extern void CLACT_ExitSystem(void);
 
-extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
+#include "../arm9/gfl_heap.h"
 
-extern void MIi_CpuClearFast(u32, void *, u32);
+#include "../arm9/mi_memory.h"
 
-extern void *PROCSYS_Create(int);
 
 int MB_SEQ_Update(struct MailBoxProc *p, int *state);
 
-extern void PROCSYS_Delete(void *procSys);
 
-extern void PROCSYS_FreeProcWork(struct Proc *p);
 
-extern void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
 
 int MB_SEQ_ProcInit(void *procSys, int unused, struct MailBoxArgs *args);
 
@@ -585,34 +555,23 @@ void MB_SEQ_SetVramBanks(void)
     BG_SYS_SetVramBanks(&d_021C78E0);
 }
 
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, unsigned int memberIdx, unsigned int heapID, unsigned int unpackedOut, unsigned short flags);
 
-extern void MIi_CpuCopyFast(void *, const void *, u32);
 struct BgWinFrmWork;
 
-extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
+#include "../arm9/bgwinfrm.h"
 
-extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, unsigned int idx, unsigned int bgFrame, unsigned int sizeX, unsigned int sizeY);
 
-extern void BGWINFRM_SetFrameDataArc(struct BgWinFrmWork *wk, unsigned int idx, unsigned int arcId, unsigned int datId, unsigned int compressed);
 
-extern unsigned short *BGWINFRM_GetFrameBuffer(struct BgWinFrmWork *wk, unsigned int idx);
 
-extern void MI_CpuCopy8(void *,void *,u32);
 
-extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, unsigned int idx, char x, char y);
 
-extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
 struct WordSet;
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 
-extern u32 WORDSET_Delete(struct WordSet *p);
+#include "../arm9/wordset.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 struct GFont;
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(unsigned short bgFrame, unsigned short palNo, struct GFont *font, struct PrintQueue *printQue, unsigned short heapId);
 
 void MB_SEQ_InitBgs(struct MailBoxProc *p);
 
@@ -749,9 +708,9 @@ void MB_SEQ_LoadFrameCharData(struct MailBoxProc *p)
     ARC_UTIL_UploadPaletteFromHandleWhole(handle, 0x2B, 4, 0, 0, 0x66);
     ARC_UTIL_UploadBgCharFromHandle(handle, 0x26, 3, 0, 0, 1, 0x66);
     ARC_UTIL_UploadBgCharFromHandle(handle, 0x26, 1, 0, 0, 1, 0x66);
-    ARC_UTIL_UploadBgPaletteFromHandle(handle, 0x25, 3, 0, 0, 1, 0x66);
-    ARC_UTIL_UploadPaletteFromHandleWhole(handle, 0x27, 0, 0, 0, 0x66);
-    buf = ARC_UTIL_LoadBgCharDataFromHandle(handle, (unsigned int)0x26, (unsigned int)1, (unsigned int)(&charData), 0x66);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)handle, 0x25, 3, 0, 0, 1, 0x66);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)handle, 0x27, 0, 0, 0, 0x66);
+    buf = ARC_UTIL_LoadBgCharDataFromHandle((void *)handle, (unsigned int)0x26, (unsigned int)1, (void *)((unsigned int)(&charData)), 0x66);
     tiles = charData->tiles;
     MIi_CpuCopyFast(tiles + 0x100, p->view->blankTile[0], 0x20);
     MIi_CpuCopyFast(tiles + 0x100, p->view->blankTile[1], 0x20);
@@ -866,86 +825,48 @@ void MB_SEQ_CloseMenu(struct MailBoxProc *p)
     APP_TASKMENU_CloseMenu((struct TaskMenuWork *)p->view->taskMenu);
 }
 
-extern struct Mail *MAIL_CreateSlotCopy(struct Mail *box, unsigned int boxKind, int index, unsigned int heapId);
 
-extern int MAIL_IsDesignValid(const struct Mail *mail);
 
-extern void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, unsigned int idx);
 
-extern void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, unsigned int idx);
-struct Actor;
+struct ClactActor;
 
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
 
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
-extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
 
-extern u8 MAIL_GetGender(const struct Mail *mail);
 
-extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, unsigned int idx, void *bmpWin);
 
-extern void BMP_Delete(struct Bmp *bmp);
 
-extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 i, struct Strbuf *src, u32 n, u32 f, u32 c);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern void CLACT_DrawSystem(struct ClactUnit *unit);
 
-extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern void CLACT_ReleasePalette(u32 i);
 
-extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, u32 i, u32 j, u32 k, const struct ClactActorParam *param, u16 space, u16 heap);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactPos *delta, unsigned int which);
 
-extern void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
 
-extern void CLACT_SetActorObjMode(struct Actor *actor, unsigned int value);
 
-extern u32 APP_ICON_GetArchiveId(void);
+#include "../arm9/app_icon.h"
 
-extern u32 APP_ICON_GetItemPaletteFileId(void);
 
-extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 
-extern int POKE_TOOL_GetIconPaletteArcId(void);
+#include "../arm9/poke_tool_ext.h"
 
-extern int CLACT_RegisterPalette(void *, u32, u32, u32, u16);
 
-extern u32 APP_ICON_GetItemAnimFileId(u32);
 
-extern u32 APP_ICON_GetItemFrameFileId(u32);
 
-extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 
-extern u32 APP_ICON_GetStatusCellFileId(u32);
 
-extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 
-extern void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
 void MB_SEQ_CollectMails(struct MailBoxProc *p);
 
@@ -1092,7 +1013,7 @@ int MB_SEQ_StepSelectFlash(struct MailBoxProc *p)
     switch (flash->state) {
     case 0:
         if (flash->isWindow == 0) {
-            CLACT_SetActorPaletteOffset((struct Actor *)p->view->actor[flash->target], flash->paletteFirst, 1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)p->view->actor[flash->target], flash->paletteFirst, 1);
         } else {
             BG_SYS_FillTileMap(flash->target, flash->x, flash->y, flash->w, flash->h, flash->paletteFirst);
             BG_SYS_MarkTileDirty(flash->target);
@@ -1103,7 +1024,7 @@ int MB_SEQ_StepSelectFlash(struct MailBoxProc *p)
         flash->count++;
         if (flash->count == 4) {
             if (flash->isWindow == 0) {
-                CLACT_SetActorPaletteOffset((struct Actor *)p->view->actor[flash->target], flash->paletteSecond, 1);
+                CLACT_SetActorPaletteOffset((struct ClactActor *)p->view->actor[flash->target], flash->paletteSecond, 1);
             } else {
                 BG_SYS_FillTileMap(flash->target, flash->x, flash->y, flash->w, flash->h, flash->paletteSecond);
                 BG_SYS_MarkTileDirty(flash->target);
@@ -1144,9 +1065,9 @@ void MB_SEQ_CreatePmsDraw(struct MailBoxProc *p)
 
 void MB_SEQ_DeletePmsDraw(struct MailBoxProc *p)
 {
-    PMS_DRAW_Delete(p->view->pmsDraw);
+    PMS_DRAW_Delete((struct PmsDraw *)p->view->pmsDraw);
     PRINTSYS_QUE_Delete((struct PrintQueue *)p->view->pmsPrintQue);
-    CLACT_DeleteUnit(p->view->pmsClactUnit);
+    CLACT_DeleteUnit((struct Unit *)p->view->pmsClactUnit);
 }
 
 /*
@@ -1203,7 +1124,7 @@ void MB_SEQ_PrintTextToSlot(struct BmpWin *unused, struct Strbuf *text, struct M
         x -= PRINTSYS_MeasureWidestLine(text, font, 0);
     else if (align == 2)
         x -= PRINTSYS_MeasureWidestLine(text, font, 0) >> 1;
-    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(slot->win), x, y, text, font, color);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)printQue, BMP_WIN_GetBmp(slot->win), x, y, text, font, color);
     slot->flag = 1;
 }
 
@@ -1343,7 +1264,7 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
     for (i = 0; i < 3; i++) {
         sentence = MAIL_GetMessage(p->view->mails[p->selectedMail], (u8)i);
         if (PMSI_PARAM_IsEnabled((unsigned short *)sentence)) {
-            PMS_DRAW_Print(p->view->pmsDraw, p->view->win[i + 27], sentence, (u8)i);
+            PMS_DRAW_Print((u32)p->view->pmsDraw, (u32)(p->view->win[i + 27]), (struct BeaconDetailGraQuad *)sentence, (u8)i);
             win = p->view->win[i + 27];
             BMP_WIN_TransferChars(win);
             BMP_WIN_MakeScreen(win);
@@ -1354,7 +1275,7 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
     p->view->closingWord.sentenceId = 0;
     p->view->closingWord.word[0] = MAIL_GetMessageId(p->view->mails[p->selectedMail]);
     if (p->view->closingWord.word[0] != 0) {
-        PMS_DRAW_Print(p->view->pmsDraw, p->view->win[30], &p->view->closingWord, 3);
+        PMS_DRAW_Print((u32)p->view->pmsDraw, (u32)p->view->win[30], (struct BeaconDetailGraQuad *)&p->view->closingWord, 3);
     }
     BMP_Clear(BMP_WIN_GetBmp(p->view->win[31]), 0);
     STRBUF_SetString(p->view->msgBuf, MAIL_GetWriterName(p->view->mails[p->selectedMail]));
@@ -1369,7 +1290,7 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
 static inline void setActorAutoAnimOn(struct ClactActor *actor)
 {
     Active on = ACTIVE;
-    CLACT_SetActorAutoAnim((struct Actor *)actor, on);
+    CLACT_SetActorAutoAnim((struct ClactActor *)actor, on);
 }
 
 /*
@@ -1423,20 +1344,24 @@ void MB_SEQ_DeleteActors(struct MailBoxProc *p)
 
 void MB_SEQ_DrawActors(struct MailBoxView *view)
 {
-    struct ClactUnit *unit = view->clactUnit;
+    struct Unit *unit = view->clactUnit;
     if (unit != 0) {
+#ifdef __MWERKS__
         CLACT_DrawSystem(unit);
+#else
+        CLACT_DrawSystem();
+#endif
     }
 }
 
 void MB_SEQ_InitActorSystem(struct MailBoxView *view)
 {
-    struct ClactUnit *unit;
+    struct Unit *unit;
 
-    CLACT_InitSystem((struct SysInit *)(&d_021C7BA0), (struct DispVramCfg *)(&d_021C78E0), 0x66);
+    CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)(&d_021C7BA0)), (const struct DispVramCfg *)((struct DispVramCfg *)(&d_021C78E0)), 0x66);
     unit = CLACT_CreateUnit(8, 0, 0x66);
     view->clactUnit = unit;
-    CLACT_SetUnitDefaultRenderer(unit);
+    CLACT_SetUnitDefaultRenderer((struct Unit *)unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
@@ -1445,7 +1370,7 @@ void MB_SEQ_ExitActorSystem(struct MailBoxView *view)
 {
     CLACT_ReleaseCellAnim(view->paletteRes[0]);
     CLACT_ReleasePalette(view->cellRes[0]);
-    CLACT_DeleteUnit(view->clactUnit);
+    CLACT_DeleteUnit((struct Unit *)view->clactUnit);
     CLACT_ExitSystem();
 }
 
@@ -1460,13 +1385,13 @@ struct ClactActor *MB_SEQ_CreateActor(struct MailBoxView *view, const struct Mai
     param.value = def->value;
     param.flag = 0;
     param.mode = def->mode;
-    return CLACT_CreateActor(view->clactUnit, view->charRes[def->charIndex], view->paletteRes[def->paletteIndex], view->cellRes[def->cellIndex], &param, def->space, 102);
+    return CLACT_CreateActor((struct Unit *)view->clactUnit, view->charRes[def->charIndex], view->paletteRes[def->paletteIndex], view->cellRes[def->cellIndex], (const struct ActorInitParam *)&param, def->space, 102);
 }
 
 void MB_SEQ_DeleteActor(struct MailBoxView *view, int i)
 {
     if (view->actor[i]) {
-        CLACT_DeleteActor((struct Actor *)view->actor[i]);
+        CLACT_DeleteActor((struct ClactActor *)view->actor[i]);
         view->actor[i] = 0;
     }
 }
@@ -1480,12 +1405,12 @@ void MB_SEQ_DeleteAllActors(struct MailBoxView *view)
 
 void MB_SEQ_SetActorAnim(struct MailBoxView *view, int i, u32 animSeq)
 {
-    CLACT_SetActorAnimSeq((struct Actor *)view->actor[i], (u16)animSeq);
+    CLACT_SetActorAnimSeq((struct ClactActor *)view->actor[i], (u16)animSeq);
 }
 
 void MB_SEQ_SetActorVisible(struct MailBoxView *view, int i, u32 visible)
 {
-    CLACT_SetActorDrawEnable((struct Actor *)view->actor[i], visible);
+    CLACT_SetActorDrawEnable((struct ClactActor *)view->actor[i], visible);
 }
 
 void MB_SEQ_SetActorPosition(struct MailBoxView *view, int i, int x, int y)
@@ -1494,18 +1419,18 @@ void MB_SEQ_SetActorPosition(struct MailBoxView *view, int i, int x, int y)
     pos.x = x;
     pos.y = y;
     if (y < 256)
-        CLACT_AddActorSurfacePos(view->actor[i], &pos, 0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)view->actor[i], (const struct ClactVec2 *)&pos, 0);
     else
-        CLACT_AddActorSurfacePos(view->actor[i], &pos, 1);
-    CLACT_SetActorAnimFrame((struct Actor *)view->actor[i], 0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)view->actor[i], (const struct ClactVec2 *)&pos, 1);
+    CLACT_SetActorAnimFrame((struct ClactActor *)view->actor[i], 0);
 }
 
 void MB_SEQ_SetActorObjMode(struct MailBoxView *view, int i, int on)
 {
     if (on == 1) {
-        CLACT_SetActorObjMode((struct Actor *)view->actor[i], 1);
+        CLACT_SetActorObjMode((struct ClactActor *)view->actor[i], 1);
     } else {
-        CLACT_SetActorObjMode((struct Actor *)view->actor[i], 0);
+        CLACT_SetActorObjMode((struct ClactActor *)view->actor[i], 0);
     }
 }
 
@@ -1606,84 +1531,58 @@ int MB_SEQ_Update(struct MailBoxProc *p, int *state)
     return 1;
 }
 
-extern void BG_SYS_SetMainVisiblePlanes(u32);
 
-extern void BG_SYS_SetSubVisiblePlanes(u32);
 
-extern void BG_SYS_SetLcdSwap(u32);
-struct Tcb;
+struct TcbTask;
 
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *), void *, u32);
+#include "../arm9/gfl_use.h"
 
-extern u32 WIPE_SYS_EndCheck(void);
+#include "../arm9/wipe.h"
 
-extern void GFL_USE_PlaySeDefaultVolume(u32);
 
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 
-extern unsigned int PROCSYS_Main(void *p);
 
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 struct Cursor;
 
-extern int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
+#include "../arm9/cursor_move.h"
 
-extern u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
 
 int MB_SEQ_IsXPressed(void);
 
-extern u16 FILE_UTIL_GetItemId(u32);
+#include "../arm9/file_util.h"
 
-extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 
-extern void BGWINFRM_GetPos(struct BgWinFrm *mgr, u32 idx, s8 *x, s8 *y);
 
-extern void BGWINFRM_GetSize(struct BgWinFrm *mgr, u32 idx, u16 *w, u16 *h);
 
-extern void PMS_DRAW_Clear(struct PmsDraw *draw, int index, u32 isTrans);
 
-extern void *GAME_DATA_GetMyItem(struct GameData *gameData);
+#include "../arm9/game_data.h"
 struct MyItem;
 
-extern u32 MYITEM_SAVEDATA_AddItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
+#include "../arm9/myitem_savedata.h"
 
-extern void MAIL_ClearSlot(struct Mail *box, unsigned int boxKind, int index);
 
-extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
+#include "../arm9/zukan_save.h"
 
-extern void PROCSYS_Push(void *, u32, const void *, void *);
 
-extern u8 FILE_UTIL_GetItemSlot(u16 v);
 
-extern void *MAILTOOL_CreateWriteArgs(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int heap);
+#include "mailtool.h"
 
-extern u32 MAILTOOL_IsMailSent(struct MailArgs *args);
 
-extern int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon);
 
-extern void MAILTOOL_DeleteArgs(struct MailArgs *args);
 struct Party;
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
+#include "../arm9/pokeparty.h"
 
-extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
 
-extern int TOUCHPANEL_HitTrg(const void *);
 struct CursorVtbl;
 struct CursorEntry;
 
-extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, unsigned int ctx, unsigned int state, unsigned char start, unsigned short heapId);
 
-extern u32 CURSOR_MOVE_Delete(void *cursor);
 
-extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, unsigned int idx);
 
 int MB_SEQ_StateInit(struct MailBoxProc *p);
 
@@ -1815,13 +1714,13 @@ extern u8 ov091_id[];
 
 extern const struct ProcData d_021C7D5C;
 
-extern const struct TouchRect d_021C7E2C[];
+extern const struct MbSeqTouchRect d_021C7E2C[];
 
-extern const struct TouchRect d_021C7E40[];
+extern const struct MbSeqTouchRect d_021C7E40[];
 
 extern const u8 d_021C7E1C[];
 
-extern const struct TouchRect d_021C7E14[];
+extern const struct MbSeqTouchRect d_021C7E14[];
 
 int MB_SEQ_StateInit(struct MailBoxProc *p)
 {
@@ -1851,7 +1750,7 @@ int MB_SEQ_StateInit(struct MailBoxProc *p)
     MB_SEQ_DrawTitle(p);
     MB_SEQ_DrawPage(p);
     MB_SEQ_CreateMenuEntries(p);
-    p->vblankTask = GFL_USE_AddMainTask(MB_SEQ_VBlankTask, p, 1);
+    p->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))MB_SEQ_VBlankTask, (void *)p, 1);
     GFL_NET_RefreshWmIconAtTopRight(0, 0x66);
     return p->nextState;
 }
@@ -2194,7 +2093,7 @@ int MB_SEQ_StartPartyListForReturn(struct MailBoxProc *p)
 
 int MB_SEQ_StateBackButtonDone(struct MailBoxProc *p)
 {
-    if (CLACT_IsActorAnimActive((struct Actor *)p->view->actor[3]) == 0) {
+    if (CLACT_IsActorAnimActive((struct ClactActor *)p->view->actor[3]) == 0) {
         p->args->result = 0;
         MB_SEQ_SetActorAnim(p->view, 7, 0);
         return p->nextState;
@@ -2204,7 +2103,7 @@ int MB_SEQ_StateBackButtonDone(struct MailBoxProc *p)
 
 int MB_SEQ_StateCloseButtonDone(struct MailBoxProc *p)
 {
-    if (CLACT_IsActorAnimActive((struct Actor *)p->view->actor[7]) == 0) {
+    if (CLACT_IsActorAnimActive((struct ClactActor *)p->view->actor[7]) == 0) {
         p->args->result = 1;
         return p->nextState;
     }
@@ -2253,8 +2152,8 @@ int MB_SEQ_StartMailFlash(struct MailBoxProc *p, int frameIndex, int nextState)
 {
     struct FrameRect { s8 y, x; u16 h, w; } frame;
     struct MailBoxFlash *flash;
-    BGWINFRM_GetPos(p->view->frames, frameIndex, &frame.x, &frame.y);
-    BGWINFRM_GetSize(p->view->frames, frameIndex, &frame.w, &frame.h);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)p->view->frames, frameIndex, (s8 *)&frame.x, (s8 *)&frame.y);
+    BGWINFRM_GetSize((struct BgWinFrmWork *)p->view->frames, frameIndex, (u16 *)&frame.w, (u16 *)&frame.h);
     flash = &p->view->flash;
     flash->isWindow = 1;
     flash->target = 2;
@@ -2485,7 +2384,7 @@ void MB_SEQ_ShowItemMessage(struct MailBoxProc *p)
 
 int MB_SEQ_GetPageButtonHit(struct MailBoxProc *p)
 {
-    return TOUCHPANEL_HitTrg(d_021C7E2C);
+    return TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C7E2C);
 }
 
 void MB_SEQ_CreateTouchSelect(struct MailBoxProc *p)
@@ -2538,7 +2437,7 @@ void MB_SEQ_MoveCursorToPosition(struct MailBoxProc *p, u32 position)
 
 int MB_SEQ_IsConfirmPressed(struct MailBoxProc *p)
 {
-    if (TOUCHPANEL_HitTrg(d_021C7E14) != -1) {
+    if (TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C7E14) != -1) {
         return 1;
     }
     if ((KEY_GetTrg() & 3) != 0) {

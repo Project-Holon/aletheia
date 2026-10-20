@@ -45,23 +45,14 @@ extern IRCNetWork gIrcNetWork;
 extern u8 gIrcNetAssertText[];
 extern u8 gIrcNetHandlerTable[];
 
-extern GFLNetSession *GFL_NET_GetInitParam(void);
-extern void GF_PANIC_Fail(const char *expr, unsigned int line, const char *file);
-extern void MI_CpuCopy8(void *src, void *dst, int n);
-extern void MI_CpuFill8(void *p, int v, u32 n);
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
-extern u16 WM_GetNextTgid(void);
-extern u32 GFL_USE_GetRandom(u32 x);
-extern void GFL_NET_HANDLE_RemoveHandle(u32 netId);
-extern void IRC_Init(u8 unitId);
-extern void IRC_Connect(void);
-extern unsigned int IRC_IsSender(void);
-extern u32 IRC_IsConnect(void);
-extern void IRC_Shutdown(void);
-extern void IRC_Send(u8 *data, u8 size, int command);
-extern int IRC_Move(void);
-extern void IRC_SetRecvCallback(void *cb);
-extern unsigned int IRC_GetUnitNumber(void);
+#include "../arm9/net.h"
+#include "../arm9/gf_panic.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/wm_sync.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/net_handle.h"
+#include "irc.h"
 
 void IRCNET_OnRecv(u8 *pkt, u32 len, u32 type);
 int IRCNET_IsLinkAlive(void);

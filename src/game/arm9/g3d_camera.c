@@ -28,7 +28,21 @@
 #include "gfl_heap_wrap.h"
 
 
-u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, VecFx32 *eye, VecFx32 *a10, VecFx32 *a11, u16 heap);
+struct G3dCamera {
+    u32     mode;
+    u32     nearClip;
+    u32     farClip;
+    u32     fieldOfView;
+    u32     aspectRatio;
+    u32     scale;
+    u32     roll;
+    u32     flags;
+    VecFx32 eye;
+    VecFx32 target;
+    VecFx32 up;
+};
+
+struct G3dCamera *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, VecFx32 *eye, VecFx32 *a10, VecFx32 *a11, u16 heap);
 
 u32 G3D_CAMERA_Delete(void *ptr);
 
@@ -49,7 +63,7 @@ extern char  g3d_camera_file[];
  *   python tools/match.py one --src src/matched/G3D_CAMERA_Create.c \
  *       --func G3D_CAMERA_Create --addr 0x02048A24 --cc 1.1p1 --arm
  */
-u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags,
+struct G3dCamera *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags,
                    VecFx32 *eye, VecFx32 *target, VecFx32 *up, u16 heapID)
 {
     u32 *p = (u32 *)GFL_HEAP_Alloc(heapID, 0x44, 0, g3d_camera_file, 0x38);
@@ -65,7 +79,7 @@ u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32
     *(VecFx32 *)(p + 8) = *eye;
     *(VecFx32 *)(p + 11) = *target;
     *(VecFx32 *)(p + 14) = *up;
-    return p;
+    return (struct G3dCamera *)p;
 }
 
 u32 G3D_CAMERA_Delete(void *camera)
@@ -75,19 +89,6 @@ u32 G3D_CAMERA_Delete(void *camera)
 
 #include "../sdk_fx.h"
 
-struct G3dCamera {
-    u32     mode;
-    u32     nearClip;
-    u32     farClip;
-    u32     fieldOfView;
-    u32     aspectRatio;
-    u32     scale;
-    u32     roll;
-    u32     flags;
-    VecFx32 eye;
-    VecFx32 target;
-    VecFx32 up;
-};
 struct G3dProjection;
 
 #include "g3d_system.h"

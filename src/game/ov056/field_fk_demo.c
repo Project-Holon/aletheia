@@ -115,92 +115,45 @@
  *   G3D_SYSTEM_DrawObject  0x02047A60  arm
  */
 #include "field_fk_demo_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
+#include "../arm9/ica_anime_shared_types.h"
 
-extern struct G3dAnmObjHead *G3D_SYSTEM_GetAnimeObj(struct G3dAnime *anime);
+#include "../arm9/g3d_system.h"
 struct FieldSubprocTemplate;
 struct FieldSubprocMgr;
 struct FieldSubproc;
-extern struct FieldSubproc *FIELD_SUBPROC_Start(s32 overlayId, struct FieldSubprocMgr *mgr, struct FieldSubprocTemplate *tmpl);
-extern FkDemoDrawWork *FIELD_SUBPROC_GetWork(const struct FieldSubproc *proc);
-extern void FIELD_SUBPROC_End(struct FieldSubproc *proc);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, FkDemoEventFunc func, u32 workSize);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(FkDemoTcbFunc callback, void *work, u32 priority);
+#include "../ov021/fieldmap_func.h"
+#include "../arm9/game_event.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
-extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
-extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(struct BuildModelMan *man, int kind, const VecFx32 *pos);
-extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
-extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMan *man, struct BuildModelEntry *entry, int slot, int mode);
-extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot, int mode);
-extern int FIELD_BUILDMODEL_TryOpenNodeSlot(struct BuildModelNode *node, int slot);
-extern struct IcaAnime *ICA_ANIME_CreateStream(u32 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
-extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
-extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *g3dCamera, VecFx32 *out);
-extern void G3D_CAMERA_GetEye(struct G3dCamera *g3dCamera, VecFx32 *out);
-extern void G3D_CAMERA_GetCamUp(struct G3dCamera *g3dCamera, VecFx32 *out);
-extern struct G3dCamera *G3D_CAMERA_Create(int projType, s16 fovySin, s16 fovyCos, int aspect, int right, int nearClip, int farClip, int scaleW,
-                                       VecFx32 *position, VecFx32 *up, VecFx32 *target, int heapId);
-extern u32 FIELD_CAMERA_GetMode(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetMode(struct FieldCamera *camera, u32 mode);
-extern u8 FIELD_CAMERA_GetAreasEnabled(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetAreasEnabled(struct FieldCamera *camera, u32 enabled);
-extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
-extern void FIELD_CAMERA_GetTargetShift(struct FieldCamera *camera, VecFx32 *out);
-extern void FIELD_CAMERA_SetTargetShift(struct FieldCamera *camera, const VecFx32 *shift);
-extern void FIELD_CAMERA_GetG3dUp(struct FieldCamera *camera, VecFx32 *out);
-extern void FIELD_CAMERA_ResumeTargetTrace(struct FieldCamera *camera);
-extern const VecFx32 *FIELD_CAMERA_GetTraceTarget(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetTarget(struct FieldCamera *camera, const VecFx32 *target);
-extern void FIELD_CAMERA_SetG3dUp(struct FieldCamera *camera, const VecFx32 *up);
-extern void FIELD_CAMERA_SetSetting(struct FieldCamera *camera, u32 settingId);
-extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetEyeRaw(struct FieldCamera *camera, const VecFx32 *eye);
-extern u32 G3D_CAMERA_Delete(void *camera);
-extern void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime);
-extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern void MTX_Identity33_(MtxFx33 *matrix);
+#include "../arm9/gfl_use.h"
+struct TcbTask;
+#include "../arm9/tcb_list.h"
+#include "../ov021/field_camera.h"
+#include "../ov021/field_buildmodel.h"
+#include "../arm9/ica_anime.h"
+#include "../arm9/g3d_camera.h"
+#include "../arm9/fx_vec.h"
+#include "../arm9/arc_tool.h"
+#include "../ov021/field_player.h"
+#include "../arm9/fx_mtx33.h"
 struct ArcHandle;
 struct G3dResource;
-extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
-extern int G3D_SYSTEM_AllocVramTexture(struct G3dResource *res);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *modelRes, u32 modelIndex, struct G3dResource *texRes);
-extern struct G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
-extern struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **animeTable, int animeCount);
-extern s32 G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *object, u16 animeIndex, s32 *frame);
-extern s32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *object, u32 animeIndex);
-extern void G3D_SYSTEM_DeleteObject(struct G3dObject *object);
-extern void G3D_SYSTEM_DeleteAnime(struct G3dAnime *anime);
-extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
-extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *res);
-extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
-extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
-extern void FLDMMDL_InitGridPosition(struct Mmdl *mmdl, unsigned int tileX, unsigned int tileY, unsigned int tileZ, u16 dir);
-extern int FLDMMDL_MOVE_UpdateHeight(struct Mmdl *mmdl);
-struct MmdlVec;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, const VecFx32 *pos);
-extern void FLDMMDL_SetMoveBitReflect(struct Mmdl *mmdl, int value);
-extern s32 G3D_SYSTEM_TransAllocatedTexture(struct G3dResource *res);
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *object, G3dObjectStatus *status);
+#include "../ov010/fldmmdl.h"
+#include "../ov010/fldmmdl_move.h"
+struct VecFx32;
 extern const s16 FX_SinCosTable_[];
 
 struct GameEvent *FIELD_FK_DEMO_StartEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 variant);
 u32 FIELD_FK_DEMO_GetCameraSettingId(u32 variant);
 int FIELD_FK_DEMO_GetAnimeEndFrame(struct G3dAnime *anime);
-void FIELD_FK_DEMO_UploadModelTask(struct Tcb *tcb, FkDemoWork *work);
+void FIELD_FK_DEMO_UploadModelTask(struct TcbTask *tcb, FkDemoWork *work);
 struct GameEvent *FIELD_FK_DEMO_CreateEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 variant);
 int FIELD_FK_DEMO_EventMain(struct GameEvent *event, int *seq, FkDemoWork *work);
 void FIELD_FK_DEMO_InitBuildAnime(FkBuildModelAnime *anime, struct BuildModelMan *man, int variant);
 void FIELD_FK_DEMO_DeleteBuildAnime(FkBuildModelAnime *anime);
 void FIELD_FK_DEMO_StartBuildAnime(FkBuildModelAnime *anime);
 int FIELD_FK_DEMO_IsBuildAnimeDone(FkBuildModelAnime *anime);
-void FIELD_FK_DEMO_InitCamera(FkDemoCamera *demoCamera, struct FieldCamera *fieldCamera, int heapId, int variant);
+void FIELD_FK_DEMO_InitCamera(FkDemoCamera *demoCamera, struct FieldCamera *fieldCamera, u16 heapId, int variant);
 void FIELD_FK_DEMO_ExitCamera(FkDemoCamera *demoCamera);
 int FIELD_FK_DEMO_StepCamera(FkDemoCamera *demoCamera);
 void FIELD_FK_DEMO_ApplyCameraAnime(FkDemoCamera *demoCamera);
@@ -244,14 +197,14 @@ u32 FIELD_FK_DEMO_GetCameraSettingId(u32 variant)
 /* Length of a model animation in fx32 frames. */
 int FIELD_FK_DEMO_GetAnimeEndFrame(struct G3dAnime *anime)
 {
-    return G3D_SYSTEM_GetAnimeObj(anime)->res->frameCount << 12;
+    return ((const G3dAnmResHead *)G3D_SYSTEM_GetAnimeObj(anime)->resAnm)->frameCount << 12;
 }
 
 /*
  * Per frame task: uploads the stand-in model once. Unlabelled tail-call leaf:
  * forwards the work plus 0x3c (the model).
  */
-void FIELD_FK_DEMO_UploadModelTask(struct Tcb *tcb, FkDemoWork *work)
+void FIELD_FK_DEMO_UploadModelTask(struct TcbTask *tcb, FkDemoWork *work)
 {
     FIELD_FK_DEMO_UploadModelOnce(&work->model);
 }
@@ -263,12 +216,12 @@ struct GameEvent *FIELD_FK_DEMO_CreateEvent(struct GameSystem *gameSystem, struc
     FkDemoWork *work;
 
     FIELDMAP_GetHeapId(fieldMap);
-    event = GAME_EVENT_Create(gameSystem, 0, FIELD_FK_DEMO_EventMain, sizeof(FkDemoWork));
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_FK_DEMO_EventMain, sizeof(FkDemoWork));
     work = GAME_EVENT_GetWork(event);
     work->fieldMap = fieldMap;
     work->gameSystem = gameSystem;
     work->variant = variant;
-    work->uploadTcb = GFL_USE_AddMainTask(FIELD_FK_DEMO_UploadModelTask, work, 0);
+    work->uploadTcb = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))FIELD_FK_DEMO_UploadModelTask, work, 0);
     return event;
 }
 
@@ -307,10 +260,10 @@ int FIELD_FK_DEMO_EventMain(struct GameEvent *event, int *seq, FkDemoWork *work)
         }
         FIELD_FK_DEMO_InitCamera(&work->camera, fieldCamera, heapId, work->variant);
         FIELD_FK_DEMO_CreateSoundAnime(&work->soundAnime, work->variant, heapId);
-        FIELD_FK_DEMO_InitBuildAnime(&work->buildAnime, FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->fieldMap)), work->variant);
+        FIELD_FK_DEMO_InitBuildAnime(&work->buildAnime, (struct BuildModelMan *)FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->fieldMap)), work->variant);
         FIELD_FK_DEMO_CreateModelObject(&work->model);
         work->drawProc = FIELD_SUBPROC_Start(-1, (struct FieldSubprocMgr *)(FIELDMAP_GetMapFunc(work->fieldMap)), (struct FieldSubprocTemplate *)(&gFkDemoDrawTemplate));
-        FIELD_SUBPROC_GetWork(work->drawProc)->model = &work->model;
+        ((FkDemoDrawWork *)FIELD_SUBPROC_GetWork(work->drawProc))->model = &work->model;
         FIELD_FK_DEMO_SetPlayerHidden(&work->model, 1);
         FIELD_FK_DEMO_StartBuildAnime(&work->buildAnime);
         (*seq)++;
@@ -385,7 +338,7 @@ int FIELD_FK_DEMO_IsBuildAnimeDone(FkBuildModelAnime *anime)
  * and builds the demo camera. The demo camera is driven by the ICA animation
  * of the variant.
  */
-void FIELD_FK_DEMO_InitCamera(FkDemoCamera *demoCamera, struct FieldCamera *fieldCamera, int heapId, int variant)
+void FIELD_FK_DEMO_InitCamera(FkDemoCamera *demoCamera, struct FieldCamera *fieldCamera, u16 heapId, int variant)
 {
     VecFx32 target;
     VecFx32 eye;
@@ -586,7 +539,7 @@ void FIELD_FK_DEMO_SetPlayerHidden(FkDemoModel *model, int hide)
     FLDMMDL_InitGridPosition(model->playerMmdl, (s16)(model->endTile.x), (s16)(model->endTile.y),
                   (s16)(model->endTile.z), model->endDir);
     FLDMMDL_MOVE_UpdateHeight(model->playerMmdl);
-    FLDMMDL_GetPos(model->playerMmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(model->playerMmdl, (struct VecFx32 *)(&pos));
     FIELD_PLAYER_SetPos(model->player, &pos);
     FLDMMDL_SetMoveBitReflect(model->playerMmdl, 0);
 }
@@ -663,7 +616,7 @@ void FIELD_FK_BUILD_SOUND_Init(struct FieldSubproc *proc, struct FieldMap *field
     u32 i;
     int frame;
 
-    man = FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(fieldMap));
+    man = (struct BuildModelMan *)FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(fieldMap));
     i = 0;
     work->entry = FIELD_BUILDMODEL_GetFirstEntryNearPos(man, 0, &gFkBuildSoundModelPos);
     work->man = man;
@@ -677,13 +630,13 @@ void FIELD_FK_BUILD_SOUND_Init(struct FieldSubproc *proc, struct FieldMap *field
             break;
         }
     }
-    FIELD_SOUND_SYSTEM_ClaimSlot(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
+    FIELD_SOUND_SYSTEM_ClaimSlot((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
 }
 
 /* Exit of that proc: stops the loop sound. */
 void FIELD_FK_BUILD_SOUND_Exit(struct FieldSubproc *proc, struct FieldMap *fieldMap)
 {
-    FIELD_SOUND_SYSTEM_ReleaseSlot(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
+    FIELD_SOUND_SYSTEM_ReleaseSlot((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
 }
 
 /* Update of that proc: plays the hit sound when the building animation reaches the trigger frame. */
@@ -692,7 +645,7 @@ void FIELD_FK_BUILD_SOUND_Update(struct FieldSubproc *proc, struct FieldMap *fie
     struct FieldSoundSystem *soundSys;
 
     if (work->triggerFrame == FIELD_BUILDMODEL_GetEntrySlotFrame(work->man, work->entry, 1)) {
-        soundSys = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+        soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
         work->triggerIndex = 0;
         work->triggerFrame = gFkBuildSoundTriggerFrame[work->triggerIndex];
         FIELD_SOUND_SYSTEM_ClaimSlot(soundSys, FK_SE_BUILD_ANIME_HIT);

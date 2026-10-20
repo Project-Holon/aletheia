@@ -40,27 +40,17 @@
 struct DispVram;
 
 /* Display control block handed to the display setup call (16 bytes). */
-struct DispConfig {
-    u32 a, b, c, d;
-};
+#include "../arm9/bg_sys.h"
 
-extern void GFL_HEAP_CreateChildHeap(u32 parentId, u32 heapId, u32 size);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern int GFL_USE_AddMainTask(void *func, void *work, int priority);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gfl_use.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void CLACT_VBlankSystem(void);
-extern void DOUBLE3DDISP_Delete(void);
-extern void BG_SYS_Update(void);
-extern void BG_SYS_ClearGraphicsMemory(u32);
-extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void BG_SYS_Create(u16);
-extern void BG_SYS_Delete(void);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-extern void BG_SYS_LoadPlttEntry(u32, u32);
+#include "../arm9/tcb_list.h"
+#include "../arm9/clact.h"
+#include "../arm9/double3Ddisp.h"
 extern u32 SDK_AUTOLOAD_DTCM_START[];
 extern const struct DispVram gHallOfFameVramBanksMain;
 extern const struct DispVram gHallOfFameVramBanksSub;

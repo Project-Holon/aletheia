@@ -32,6 +32,7 @@
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  *   GFL_USE_AddHBlankTask  0x02005624  thumb  arm9
  */
+#include "../arm9/palanm.h"
 #include "zknsearch_types.h"
 
 
@@ -40,25 +41,21 @@
 
 
 
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern u32 ZKNSEARCH_MAIN_RunState(u8 *p);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(u32);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(void), void *work, unsigned int priority);
-extern u32 TCB_DeleteTask(u32 a);
-extern void BG_SYS_Update(void);
-extern void CLACT_VBlankSystem(void);
-extern void PALANM_TransferPalettes(void *p);
-extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
-extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
-extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
-extern void BG_SYS_ClearGraphicsMemory(u32 a);
-struct DispVram;
-extern void BG_SYS_SetVramBanks(struct DispVram *banks);
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+typedef int YCoord;
+#include "zknsearch_main.h"
+#include "../arm9/gfl_heap_wrap.h"
+struct TcbTask;
+struct TcbTask;
+extern struct TcbTask *GFL_USE_AddMainTask(void (*callback)(struct TcbTask *, void *), void *work, u32 priority);
+extern struct TcbTask *GFL_USE_AddHBlankTask(void (*callback)(struct TcbTask *, void *), void *work, u32 priority);
+extern u32 TCB_DeleteTask(struct TcbTask *a);
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
+
 u32 ZKNSEARCH_SYS_Create(void *man, u32 b, u32 arg);
 u32 ZKNSEARCH_SYS_IsReady(u32 a, u32 b, u32 c, u32 d);
 u32 ZKNSEARCH_SYS_Delete(void *p);
@@ -104,13 +101,13 @@ u32 ZKNSEARCH_SYS_Delete(void *work)
 
 void ZKNSEARCH_SYS_RegisterVBlank(u8 *work)
 {
-    ((ZknSearchWork *)work)->vblank = (unsigned int)GFL_USE_AddMainTask((void (*)(void))ZKNSEARCH_SYS_VBlankHandler, work, (unsigned int)0);
+    ((ZknSearchWork *)work)->vblank = (unsigned int)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(void))ZKNSEARCH_SYS_VBlankHandler), (void *)work, (unsigned int)0);
 }
 
 
 u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *work)
 {
-    return TCB_DeleteTask(((ZknSearchWork *)work)->vblank);
+    return TCB_DeleteTask((struct TcbTask *)(((ZknSearchWork *)work)->vblank));
 }
 
 void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *work)
@@ -133,13 +130,13 @@ void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *work)
 
 void ZKNSEARCH_SYS_RegisterHBlank(u8 *work)
 {
-    ((ZknSearchWork *)work)->hblank = (u32)GFL_USE_AddHBlankTask((u32)ZKNSEARCH_SYS_HBlankHandler, (u32)work, 0);
+    ((ZknSearchWork *)work)->hblank = (u32)GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((u32)ZKNSEARCH_SYS_HBlankHandler), (void *)((u32)work), 0);
 }
 
 
 u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *work)
 {
-    return TCB_DeleteTask(((ZknSearchWork *)work)->hblank);
+    return TCB_DeleteTask((struct TcbTask *)(((ZknSearchWork *)work)->hblank));
 }
 
 /*

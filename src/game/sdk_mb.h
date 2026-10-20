@@ -8,7 +8,7 @@
  * and the file cache.
  */
 
-typedef struct {
+typedef struct MBGameRegistry {
     char *romFilePathp;
     u16 *gameNamep;
     u16 *gameIntroductionp;
@@ -64,8 +64,9 @@ typedef struct MBiCacheList {
 
 typedef struct MBiTaskInfo {
     struct MBiTaskInfo *next;
-    u32 priority;
-    void (*task)(struct MBiTaskInfo *);
+    unsigned active : 1;
+    unsigned priority : 31;
+    void (*volatile task)(struct MBiTaskInfo *);
     void (*callback)(struct MBiTaskInfo *);
     u32 param[4];
 } MBiTaskInfo;

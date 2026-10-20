@@ -32,8 +32,7 @@ typedef struct Wf2dmapAnimTarget {
 } Wf2dmapAnimTarget;
 struct Actor;
 
-extern void CLACT_AddActorAnimFrame(struct Actor *actor, u32 frames);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
+#include "../arm9/clact.h"
 
 void WF2DMAP_ANIM_ApplyActorAnim(u8 *p)
 {

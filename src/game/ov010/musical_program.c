@@ -29,23 +29,19 @@
 
 #include "../types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern u32 *MUSICAL_MCSS_LoadActorData(int heapId);
+#include "../ov112/mus_item_data.h"
 
-extern unsigned char MUSICAL_MCSS_GetElemA(void *table, int propId);
 
-extern void MUSICAL_MCSS_FreeActorData(void **table);
 
-extern u32 GF_STANDARD_Rand(void);
+#include "../arm9/gf_standard.h"
 
 extern const char sMusicalProgramFileName[];
 
-void MUSICAL_STAGE_SYS_CreateNpcPerformer(MusicalStage *stage, u8 slot, u16 monsNo, u8 form, u32 personality, u16 appealBase, u16 heapId);
+#include "musical_stage_sys.h"
 
-void MUSICAL_STAGE_SYS_SetPerformerProp(MusicalStage *stage, u8 slot, u8 bodySlot, u16 propId, s16 offset, u8 order);
 
 MusicalShowProgram *MUSICAL_PROGRAM_Create(u32 heapId, MusicalSystemHead *musicalSystem, u16 maxLevel);
 

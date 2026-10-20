@@ -47,6 +47,7 @@
  *   isUnloaded  0x021de5c4  data
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_mb.h"
 
@@ -57,33 +58,22 @@ typedef struct {
 
 typedef _Bool bool;
 
-extern char *DWCi_MOVlGetChild(void);
-extern void *DWCi_FNTlFormBgEx(int lcd, int font);
-extern void MIi_CpuClear16();
-extern void MIi_CpuCopy16();
-extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
-extern void DWCi_FNTlRenewBg(int x);
+#include "move.h"
+typedef int bool_0;
+#include "font.h"
+#include "../arm9/mi_memory.h"
 extern void DWCi_WINlInitEx(s32 msg, s32 type, bool dark, s32 n, s32 num);
-void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
+#include "common.h"
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
-extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_ChangeScene(u32 v);
+#include "graphics.h"
+#include "dwcutil_main.h"
 extern bool DWCi_EFFlCheck(int lcd);
-extern s8 DWCi_WINlGet(void);
-extern void DWCi_SNDlPlay(unsigned int v);
-extern void DWCi_MOVlChangeCallback(u32 v);
-extern void DWCi_WINlEnd(void);
-extern int DWCi_WINlIsInit(void);
-extern void DWCi_MOVlAdmitChild();
-extern void DWCi_MOVlEnd(void);
-extern int DWCi_MOVlIsEnd(void);
-extern void DWCi_FNTlDeleteBgLcd(int lcd);
-extern void DWCi_GXlInvisible(int lcd, int plane);
-extern int DWCi_COMMENTlDelete(void);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SceneOptMenu(void);
-extern void DWCi_SceneOptMovComm(void);
-extern void DWCi_SceneOptMovFailure(void);
+#include "window.h"
+#include "sound.h"
+#include "comment.h"
+#include "sceneoptmenu.h"
+#include "sceneoptmovcomm.h"
+#include "sceneoptmovfailure.h"
 void DWCi_SceneOptMovUser(void);
 void DWCi_SceneOptMovUser_input(void);
 void DWCi_SceneOptMovUser_draw(void);
@@ -118,40 +108,40 @@ void DWCi_SceneOptMovUser(void)
     MIi_CpuClear16(0, buf, sizeof(buf));
     MIi_CpuCopy16(info->name, buf, info->nameLength * 2);
     DWCi_FNTlDrawRect(bg, 8, 0x35, 0xF0, 0x1C, 2, 0x480, buf);
-    DWCi_FNTlRenewBg((int)bg);
-    DWCi_MOVlChangeCallback((u32)cbMov);
+    DWCi_FNTlRenewBg((sptr)bg);
+    DWCi_MOVlChangeCallback((uptr)cbMov);
     DWCi_WINlInitEx(0x1D, 4, 0, -1, 0);
-    DWCi_ChangeScene((u32)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB3B8, (void *)0x0207EB78);
-    ((BgCnt *)0x04001008)->priority = 3;
-    ((BgCnt *)0x0400100A)->priority = 3;
-    ((BgCnt *)0x04000008)->priority = 3;
-    ((BgCnt *)0x0400000A)->priority = 3;
-    ((BgCnt *)0x0400000C)->priority = 3;
+    ((BgCnt *)REG_DB_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_DB_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG2CNT_ADDR)->priority = 3;
 }
 
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
-        DWCi_ChangeScene((u32)procInit2);
+        DWCi_ChangeScene((uptr)procInit2);
 }
 
 static void procInit2(void)
 {
     if (DWCi_WINlGet() == -2)
         return;
-    DWCi_ChangeScene((u32)procScene);
+    DWCi_ChangeScene((uptr)procScene);
 }
 
 
@@ -174,7 +164,7 @@ static void procScene(void)
     }
     DWCi_MOVlChangeCallback(0);
     DWCi_WINlEnd();
-    DWCi_ChangeScene((u32)endScene);
+    DWCi_ChangeScene((uptr)endScene);
 }
 
 /*
@@ -208,7 +198,7 @@ static void endScene(void)
     if (Error[1] == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene((u32)endScene1);
+    DWCi_ChangeScene((uptr)endScene1);
 }
 
 static void endScene1(void)
@@ -221,7 +211,7 @@ static void endScene1(void)
         DWCi_MOVlAdmitChild();
     else
         DWCi_MOVlEnd();
-    DWCi_ChangeScene((u32)endScene2);
+    DWCi_ChangeScene((uptr)endScene2);
 }
 
 static void endScene2(void)
@@ -238,15 +228,15 @@ static void endScene2(void)
     }
     DWCi_SetParam_(0, 1);
     if (Error[0]) {
-        DWCi_ChangeScene((u32)DWCi_SceneOptMovFailure);
+        DWCi_ChangeScene((uptr)DWCi_SceneOptMovFailure);
         return;
     }
     if (Error[1] == 0) {
         DWCi_GXlInvisible(1, 1);
-        DWCi_ChangeScene((u32)DWCi_SceneOptMenu);
+        DWCi_ChangeScene((uptr)DWCi_SceneOptMenu);
         return;
     }
-    DWCi_ChangeScene((u32)DWCi_SceneOptMovComm);
+    DWCi_ChangeScene((uptr)DWCi_SceneOptMovComm);
 }
 
 static void cbMov(int state)

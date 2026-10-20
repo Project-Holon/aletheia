@@ -32,13 +32,18 @@
  */
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_models_a_types.h"
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../arm9/zonedata.h"
+#include "../ov021/fld_exp_obj.h"
+#include "field_gimmick_models_a.h"
 
 void FIELD_GIMMICK_MODELS_A_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_A_Exit(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_A_Update(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_A_PlaceModels(FieldGimmickModelsAWork *work, struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_A_InitExtra(FieldGimmickModelsAWork *work, struct FieldMap *fieldMap);
-extern void FIELD_GIMMICK_MODELS_A_ExitExtra(FieldGimmickModelsAWork *work, struct FieldMap *fieldMap);
 
 extern const G3dUtilSetup gModelsASetup;
 extern const VecFx32 gModelsAModelPos[FIELD_GIMMICK_MODELS_A_MODEL_COUNT];

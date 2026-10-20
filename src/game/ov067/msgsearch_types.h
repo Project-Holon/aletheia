@@ -6,7 +6,7 @@
  * Needs u32 to be defined before it is included.
  */
 
-struct StrBuf;
+struct Strbuf;
 struct MsgBank;
 
 /* Byte size of the MsgSearch fields in front of bank[]. */
@@ -14,7 +14,7 @@ struct MsgBank;
 
 /* Search object: a scratch string for the message being compared and the banks to search. */
 typedef struct {
-    struct StrBuf *scratch;
+    struct Strbuf *scratch;
     u32 bankCount;
     struct MsgBank *bank[1];
 } MsgSearch;

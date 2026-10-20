@@ -5,14 +5,6 @@
  * location. The rail move code (fldmmdl_rail_move.c) passes it around too. */
 
 #include "../types.h"
-
-/* A place on the rails (8 bytes). */
-typedef struct {
-    u16 railIndex;    /* which rail */
-    u8 type;          /* 2 marks a stored location as not set yet */
-    u8 key;           /* rail move key, converted from a direction (ZONEDATA_DirToRailKey) */
-    s16 widthGrid;    /* grid position across the rail line, 0 at the centre */
-    u16 lineGrid;     /* grid position along the rail line */
-} RailLocation;
+#include "../arm9/zonedata_types.h"
 
 #endif

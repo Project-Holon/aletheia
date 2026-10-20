@@ -73,30 +73,11 @@ struct Config;
 struct WifiList;
 struct FieldMap;
 #include "../types.h"
+#include "../arm9/ica_anime_shared_types.h"
 
 /* Parameter block read by the WiFi login overlay (ov115). */
-typedef struct WifiLoginParam {
-    struct GameData *gameData;
-    u32 loginType;
-    u32 loginOption;
-    u32 messageId;
-    u8 *saveData;
-    u32 useSaveData;
-    u32 allowCancel;
-    u32 result;
-    u32 reserved[2];
-} WifiLoginParam;
+#include "../ov000/wifi_login_param_types.h"
 
-/* Parameter block of the second ov115 call (session confirm). */
-typedef struct WifiConfirmParam {
-    struct GameData *gameData;
-    u32 loginType;
-    u32 loginOption;
-    u32 messageId;
-    u8 *saveData;
-    u32 useSaveData;
-    u32 allowCancel;
-} WifiConfirmParam;
 
 /* Parameter block read by the box overlay (ov170) when the player picks a Pokemon to sync. */
 typedef struct GsyncBoxParam {
@@ -147,42 +128,20 @@ typedef struct GsyncEventWorkInit {
     u32 loginMessageId;
 } GsyncEventWorkInit;
 
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void  MI_CpuFill8(void *dst, int value, int size);
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
-extern u16 GFL_USE_GetBgmNo(void);
-extern void  GFL_USE_ClearSndHeap(void);
-extern void  GFL_USE_InitSound(void);
-extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
-extern void GFL_USE_FadeInBgmFull(u32 frames);
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
-extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_SetBgmPaused(u32 value);
-extern int GFL_USE_PushBgm(void);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/gamesystem.h"
+#include "../ov021/event_fieldmap_control.h"
+#include "../arm9/game_event.h"
+#include "../arm9/field_status.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/game_data.h"
 struct GameSyncData;
-extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
+#include "../arm9/game_sync.h"
 struct CgearSaveBlock;
-extern u8 BLOCK20_SAVEDATA_GetActive(struct CgearSaveBlock *block);
-extern u32 GAME_DATA_GetBoxManager(const struct GameData *gameData);
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern void *GAME_DATA_GetMyItem(const struct GameData *gameData);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern int BOX_SAVEDATA_CountNonEggPokemon(struct GameData *gameData);
-extern struct Config *SYSTEM_DATA_GetConfig(void *saveControl);
-extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern void  GFL_NET_ERR_RequestScreen(void);
-extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
-extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
-struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
-void *GAME_EVENT_GetWork(struct GameEvent *event);
+#include "../arm9/block20_savedata.h"
+#include "../arm9/box_savedata.h"
+#include "../arm9/system_data.h"
+#include "../arm9/net_err.h"
 u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work);
 void *EVENT_GSYNC_Entry(void *gameSystem);
 void *EVENT_GSYNC_Create(void *gameSystem);
@@ -200,7 +159,7 @@ extern char d_021EF78C[];
 u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
 {
     struct GameSystem *gameSystem = work->gameSystem;
-    u32 fieldMap = (u32)GAMESYSTEM_GetFieldMap(gameSystem);
+    u32 fieldMap = (uptr)GAMESYSTEM_GetFieldMap(gameSystem);
     int wifiFlag;
 
     switch (*seq) {
@@ -216,7 +175,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 2:
         MI_CpuFill8(work->syncParam, 0, 0x44);
         work->syncResult = 0;
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov123_id, d_021DA674, work);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov123_id, d_021DA674, work);
         (*seq)++;
         break;
     case 3:
@@ -235,7 +194,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 6:
         work->savedBgmNo = GFL_USE_GetBgmNo();
         GFL_USE_ClearSndHeap();
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov016_id, d_021D77B8, work);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov016_id, d_021D77B8, work);
         (*seq)++;
         break;
     case 7:
@@ -292,7 +251,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         break;
     case 17:
         work->login.saveData = work->loginSaveData;
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov115_id, gNetSaveMainProc, &work->login);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, gNetSaveMainProc, &work->login);
         (*seq)++;
         break;
     case 18:
@@ -311,7 +270,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         }
         break;
     case 19:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov123_id, d_021DA838, work);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov123_id, d_021DA838, work);
         (*seq)++;
         break;
     case 20:
@@ -341,7 +300,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         work->box.pickerBuffer = work->pickerBuffer;
         work->box.result = 0;
         work->box.mode = 5;
-        GAME_EVENT_CallProc(event, (u32)ov170_id, (void *)d_021EF78C, (void *)&work->box);
+        GAME_EVENT_CallProc(event, (uptr)ov170_id, (void *)d_021EF78C, (void *)&work->box);
         (*seq)++;
         break;
     case 22:
@@ -371,7 +330,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         work->confirm.gameData = GAMESYSTEM_GetGameData(gameSystem);
         work->confirm.loginType = 1;
         work->confirm.loginOption = 0;
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov115_id, gNetSaveRetryProc, &work->confirm);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, gNetSaveRetryProc, &work->confirm);
         (*seq)++;
         break;
     case 24:
@@ -407,7 +366,7 @@ void *EVENT_GSYNC_Create(void *gameSystem)
     GsyncEventWorkInit *work;
     struct GameData *gameData;
 
-    event = GAME_EVENT_Create(gameSystem, 0, EVENT_GSYNC_Main, 0x2CC);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_GSYNC_Main, 0x2CC);
     work = GAME_EVENT_GetWork(event);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->gameData = gameData;

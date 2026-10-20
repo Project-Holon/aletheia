@@ -1,6 +1,10 @@
 #ifndef BEACON_VIEW_TYPES_H
 #define BEACON_VIEW_TYPES_H
 
+struct PaletteFade;
+struct TcbTask;
+struct TcblSystem;
+
 /* Beacon list view: the work area allocated in BEACON_VIEW_Create and the structs it holds.
    The including file defines u8, u16 and u32 first. */
 
@@ -133,10 +137,10 @@ typedef struct BeaconViewWork {
     u16 mainHeapId; /* 0x98 */
     u8 pad9A[0x2];
     void *bgResource; /* 0x9C */
-    u32 taskList; /* 0xA0 */
-    void *updateTask; /* 0xA4 */
+    struct TcblSystem *taskList; /* 0xA0 */
+    struct TcbTask *updateTask; /* 0xA4 */
     int busyCount; /* 0xA8 */
-    u32 paletteAnim; /* 0xAC */
+    struct PaletteFade *paletteAnim; /* 0xAC */
     u32 font; /* 0xB0 */
     u32 printQueue; /* 0xB4 */
     u32 taskMenuState; /* 0xB8 */

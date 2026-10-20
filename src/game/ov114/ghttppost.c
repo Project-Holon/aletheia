@@ -72,6 +72,7 @@
  *   sGhttpPostLineEnd     0x021CEFAC  data
  *   sGhttpQrGSDD4     0x021CEFB0  data
  */
+#include "../ov009/gsmemory.h"
 #include "ghttp_types.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 extern u8 *strchr(const u8 *s, int c);
@@ -110,39 +111,24 @@ typedef struct GSIDimeHeader {
     u32 mDataLength;
 } GSIDimeHeader;
 
-extern void gsifree(void *);
-extern void gsXmlFreeWriter(void **writerRef);
-extern void *gsimalloc(unsigned long size);
+#include "../ov009/gsxml.h"
 struct DArrayImplementation;
-extern struct DArrayImplementation *ArrayNew(int, int, void (*)(void *));
-extern void ArrayFree(struct DArrayImplementation *array);
-extern GHIConnection *ghiRequestToConnection(int request);
+#include "../ov009/darray.h"
+#include "ghttpconnection.h"
 extern void ghiPostCleanupState(GHIConnection *connection);
-extern char *goastrdup(char *src);
-extern void ArrayAppend(void *array, void *newElem);
-extern int ArrayLength(const int *p);
-extern void *ArrayNth(struct DArrayImplementation *array, s32 n);
-extern int gsXmlWriterGetDataLength(void *);
+#include "../ov009/gsplatformutil.h"
 extern int fseek(u32 stream, u32 pos, u32 whence);
 extern s32 ftell(u32 stream);
 extern int rewind(void *);
 extern int fclose(u8 *stream);
 static void ghiPostStateCleanup(GHIPostState *state);
 extern int ghiPostGetContentLength(GHIConnection *);
-extern void *ArrayNth(struct DArrayImplementation *array, s32 n);
-extern void ArrayFree(struct DArrayImplementation *array);
 extern void ghiFreePost(GHIPost *post);
-extern int ghiAppendCharToBuffer(GHIBuffer *buffer, int ch);
-extern int ghiAppendDataToBuffer(GHIBuffer *, char *, int);
-extern GHITrySendResult ghiTrySendThenBuffer(GHIConnection *, char *, int);
-extern int ghiSendBufferedData(GHIConnection *);
-extern void ghiResetBuffer(GHIBuffer *);
-extern char *gsXmlWriterGetData(void *);
-extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
+#include "ghttpbuffer.h"
+#include "ghttpcommon.h"
 extern s32 fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream);
-extern int ghiDoSend(struct GHIConnection *connection, char *buffer, int len);
-extern s32 gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
+#include "../ov009/gsstringutil.h"
+#include "../arm9/os_printf.h"
 static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection *connection,
                                        GHTTPBool first, GHTTPBool last);
 void ghiPostDataFree(void *elem);
@@ -466,9 +452,9 @@ int ghiPostStateInit(GHIPostState *state)
     } else if (type == 1) {
         if (state->state.fileDisk.file == 0)
             return 0;
-        if (fseek((u32)state->state.fileDisk.file, 0, 2) != 0)
+        if (fseek((uptr)state->state.fileDisk.file, 0, 2) != 0)
             return 0;
-        state->state.fileDisk.len = ftell((u32)state->state.fileDisk.file);
+        state->state.fileDisk.len = ftell((uptr)state->state.fileDisk.file);
         if (state->state.fileDisk.len == -1)
             return 0;
         rewind(state->state.fileDisk.file);
@@ -655,7 +641,7 @@ int ghiPostFileDiskStateDoPosting(GHIPostState *state, GHIConnection *connection
     int result;
 
     do {
-        len = fread(buffer, 1, 4096, (u32)state->state.fileDisk.file);
+        len = fread(buffer, 1, 4096, (uptr)state->state.fileDisk.file);
         if (len <= 0) {
             connection->result = 14;
             connection->completed = 1;

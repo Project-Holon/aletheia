@@ -58,30 +58,26 @@ typedef struct IntrudeOfferSpot {
     u16 zoneId;
 } IntrudeOfferSpot;
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+#include "../arm9/game_event.h"
 
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/game_data.h"
 struct IntrudeSave;
 
-extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *saveControl);
+#include "../arm9/intrude.h"
 
-extern void *SCRIPT_SYS_ChangeScriptEvent(void *event, unsigned short scriptId, void *target, int reserved);
+#include "../ov010/script_sys.h"
 
-extern int SCRIPT_WORK_SetParams(struct ScriptWork *scriptWork, int scriptParam0, int scriptParam1, int scriptParam2, u16 scriptParam3);
+#include "../ov010/script_work.h"
 
-extern void *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 length);
 
-extern void STRBUF_Delete(struct Strbuf *str);
 
-extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
+#include "../arm9/wordset.h"
 
 extern const IntrudeOfferSpot gIntrudeOfferTilePositions[];
 
@@ -169,7 +165,7 @@ int INTRUDE_OfferEventMain(struct GameEvent *event, u32 seq, const IntrudeOfferS
 /* Takes offer slot slotIndex out of the log and starts the event task that shows it. */
 struct GameEvent *INTRUDE_StartOfferEvent(struct GameSystem *gameSystem, u32 heapId, int slotIndex)
 {
-    struct GameEvent *taskEvent = GAME_EVENT_Create(gameSystem, 0, INTRUDE_OfferEventMain, 0x14);
+    struct GameEvent *taskEvent = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)INTRUDE_OfferEventMain, 0x14);
     IntrudeOfferSlot *offer = GAME_EVENT_GetWork(taskEvent);
 
     INTRUDE_TakeOfferSlot((struct IntrudeOfferLog *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), slotIndex, offer);

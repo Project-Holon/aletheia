@@ -18,17 +18,6 @@
 #define UNION_CHARA_ACTION_DISAPPEAR 2
 #define UNION_CHARA_ACTION_TALK      3
 
-/* Header of a field object, as FLDMMDL_AddMmdl reads it (0x24 bytes). */
-typedef union UnionCharaMmdlHeader {
-    u32 raw[9];
-    struct {
-        u16 objId;             /* 0x00 */
-        u16 graphicsId;        /* 0x02 */
-        u16 moveCode;          /* 0x04 */
-        u16 rest[15];          /* 0x06 */
-    } f;
-} UnionCharaMmdlHeader;
-
 typedef struct UnionGridPos {
     s16 x;
     s16 z;

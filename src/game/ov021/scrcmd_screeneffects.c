@@ -79,7 +79,7 @@ struct GameSystem;
 struct GameData;
 struct FieldMap;
 struct FieldPlayer;
-struct Tcb;
+struct TcbTask;
 struct BuildModelMgr;
 struct BuildModelEntry;
 struct BuildModelNode;
@@ -94,65 +94,35 @@ typedef struct FadeEffectTask {
     u32 step;                       /* 0x14 */
 } FadeEffectTask;
 
-extern u32 GFL_HEAP_Free(void *work);
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
-extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
-extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gamesystem.h"
+#include "../ov010/scrcmd_work.h"
+#include "../ov010/script_work_cmd.h"
+#include "../ov010/script_sys.h"
 struct GameEvent;
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int skipWait, int restoreBg, u8 season, u8 seasonAgain);
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+#include "event_fieldmap_control.h"
+#include "fieldmap.h"
 extern u16 VM_ReadU16(struct ScriptVm *vm);
 extern void VM_SetWait(struct ScriptVm *vm, int (*waitFunc)(struct ScriptVm *vm, struct ScrcmdWork *cmdWork));
-extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern void FADE_Start(u32 screenMask, s32 startLevel, s32 endLevel, s32 speed);
-extern int FADE_IsActive(void);
-extern s32 FIELDMAP_GetScriptEffectBusy(struct FieldMap *fieldMap);
-extern void *SCRIPT_WORK_GetEvent(struct ScriptWork *scriptWork);
-extern struct GameEvent *EVENT_RECOVERY_CreatePartyEvent(struct GameSystem *gameSystem, struct GameEvent *parent);
-extern struct GameEvent *EVENT_RECOVERY_CreateBallsEvent(struct GameSystem *gameSystem, struct GameEvent *parent, u32 count);
-extern u32 FIELD_DOOR_ANIME_StartOpen(u32 prio, u32 gameSys, u32 fieldmap);
-extern u32 FIELD_DOOR_ANIME_StartSetOpen(u32 prio, u32 gameSys, u32 fieldmap);
-extern u32 FIELD_DOOR_ANIME_StartClose(u32 prio, u32 gameSys, u32 fieldmap, u32 silent);
+#include "../arm9/game_data.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/fade.h"
+#include "../ov010/script_work.h"
+#include "event_recovery.h"
+#include "field_door_anime.h"
 struct FieldG3dMapper;
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
-struct FieldBuildModel;
-extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
 struct BuildModelMan;
-extern struct BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(struct BuildModelMan *man, s32 kind, s32 *pos);
-extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMan *man, struct BuildModelEntry *entry, s32 slot, s32 mode);
-extern void FIELD_BUILDMODEL_SwapEntryModelId(struct BuildModelEntry *entry, int modelId);
+#include "field_g3d_mapper.h"
+struct BuildModelMan;
+#include "field_buildmodel.h"
 struct BuildModelSearchArgs;
-extern void FIELD_BUILDMODEL_GetModelIndexOut(struct BuildModelMan *man, struct BuildModelSearchArgs *args, s32 tableId);
-extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(struct BuildModelMan *man, s32 kind, s32 *pos);
-extern u16 FIELD_BUILDMODEL_GetNodeHandle(struct BuildModelMan *man, struct BuildModelNode *node);
-extern void *FIELD_BUILDMODEL_GetNodeByHandle(struct BuildModelMan *man, s32 handle);
-extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
-extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot, int mode);
-extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(struct BuildModelNode *node, s32 out);
-extern void FIELD_BUILDMODEL_PlayNodeCurrentSlot(struct BuildModelNode *node, int mode);
-extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(struct BuildModelNode *node);
-extern int FIELD_BUILDMODEL_IsNodeSeBusy(struct BuildModelNode *node);
-struct TcblSys;
-extern struct TcblSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
+struct TcbSystem;
 struct TcbSystem;
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*func)(), void *work, u32 priority);
-extern void FIELDMAP_SetScriptEffectBusy(struct FieldMap *fieldMap, s32 busy);
-extern unsigned int BG_SYS_GetMainVisiblePlanes(void);
-extern void FIELDMAP_SetBgMode(void);
-extern void BG_SYS_SetMainVisiblePlanes(unsigned int planes);
-extern void FIELDMAP_ResetBgAffineShowMsg(struct FieldMap *fieldMap);
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/bg_sys.h"
+#include "../arm9/tcb_list.h"
 struct FieldPlaceName;
-extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
-extern void FIELD_PLACE_NAME_ForceShowForZone(struct FieldPlaceName *placeName, s32 zoneId);
+#include "field_place_name.h"
 extern u16 gScrcmdScreeneffectsNodeHandle;
 extern u8 d_021DE14C;
 int SCRCMD_SCREENEFFECTS_StartBrightnessChange(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
@@ -189,7 +159,7 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeCurrentMode3(struct ScriptVm *vm, str
 int SCRCMD_SCREENEFFECTS_WaitBuildModelNodeAnim(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait);
-void SCRCMD_SCREENEFFECTS_StepFadeTask(struct Tcb *tcb, FadeEffectTask *task);
+void SCRCMD_SCREENEFFECTS_StepFadeTask(struct TcbTask *tcb, FadeEffectTask *task);
 int SCRCMD_SCREENEFFECTS_ShowPlaceName(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 /* Script command: change the screen brightness (mask, start level, end level, speed). */
@@ -437,7 +407,7 @@ struct BuildModelEntry *SCRCMD_SCREENEFFECTS_FindBuildModelEntry(struct BuildMod
     pos.x = x << 16;
     pos.y = 0;
     pos.z = z << 16;
-    return FIELD_BUILDMODEL_GetFirstEntryNearPos((struct BuildModelMan *)mgr, modelId, (s32 *)(&pos));
+    return FIELD_BUILDMODEL_GetFirstEntryNearPos((struct BuildModelMan *)mgr, modelId, &pos);
 }
 
 /* Script command: play the two animations (1 and 3) of the build model at a position. */
@@ -516,7 +486,7 @@ int SCRCMD_SCREENEFFECTS_CreateBuildModelNode(struct ScriptVm *vm, struct Scrcmd
     pos.x = x << 16;
     pos.y = 0;
     pos.z = z << 16;
-    *handleOut = FIELD_BUILDMODEL_GetNodeHandle((struct BuildModelMan *)mgr, FIELD_BUILDMODEL_CreateNodeNearPos((struct BuildModelMan *)mgr, modelId, (s32 *)(&pos)));
+    *handleOut = FIELD_BUILDMODEL_GetNodeHandle((struct BuildModelMan *)mgr, FIELD_BUILDMODEL_CreateNodeNearPos((struct BuildModelMan *)mgr, modelId, &pos));
     return 0;
 }
 
@@ -605,7 +575,7 @@ void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct F
     int tcbSys = (s32)FIELDMAP_GetTcblSys(fieldMap);
     FadeEffectTask *task = GFL_HEAP_Alloc(4, 0x18, 1, (const char *)&d_021DE14C, 0x369);
 
-    TCB_AddTask((struct TcbSystem *)tcbSys, SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
+    TCB_AddTask((struct TcbSystem *)tcbSys, (TcbFunc)SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
     FIELDMAP_SetScriptEffectBusy(fieldMap, 1);
     task->step = 0;
     task->gameSystem = gameSystem;
@@ -616,7 +586,7 @@ void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct F
 }
 
 /* Fade task step: step 0 starts the brightness change, step 1 waits for it and frees the task. */
-void SCRCMD_SCREENEFFECTS_StepFadeTask(struct Tcb *tcb, FadeEffectTask *task)
+void SCRCMD_SCREENEFFECTS_StepFadeTask(struct TcbTask *tcb, FadeEffectTask *task)
 {
     int speed;
     int startLevel;

@@ -28,6 +28,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef enum
 {
@@ -35,7 +36,7 @@ typedef enum
     SCFG_CPU_SPEED_2X = 1
 } SCFGCpuSpeed;
 
-#define REG_CLK_ADDR                 0x04004004
+#define REG_CLK_ADDR                 REG_SCFG_CLK_ADDR
 #define REG_SCFG_CLK_CPUSPD_MASK     1
 
 #define SCFGi_SWITCH_CPU_WAIT        10

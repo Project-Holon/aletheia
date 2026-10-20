@@ -6,13 +6,21 @@
  */
 
 #include "../types.h"
+#include "../ov093/btl_pokeparam_types.h"
 
-/* Parameters of the 64 bit linear congruential generator. */
+/* Parameters of the 64 bit linear congruential generator. mwcc aligns a u64 member to 4
+   bytes; the host ABI would align it to 8 and move the fields that follow. */
+#ifndef __MWERKS__
+#pragma pack(push, 4)
+#endif
 typedef struct {
     u64 seed;
     u64 mul;
     u64 add;
 } BtlRngState;
+#ifndef __MWERKS__
+#pragma pack(pop)
+#endif
 
 /* The calculation state at 021F6360. */
 struct BtlCalcWork {
@@ -89,19 +97,14 @@ struct BtlCalcWork {
 
 #define BTL_RULE_ROTATION 3
 
-/*
- * One volatile-condition record: a kind and the parameters that go with it
- * (turn counts, a Pokemon id). Same word as the sickCont slots of
- * btl_pokeparam_types.h; kept here so this unit does not depend on that header.
- * Kinds: 0 none, 1 permanent, 2 turns, 3 tied to a Pokemon, 4 turns and Pokemon.
- */
-union BtlSickCont {
-    u32 raw;
-    struct { u32 kind : 3; u32 paramLow : 6; u32 paramHigh : 6; u32 flags : 17; } byPart;
-};
-
 /* Client id that marks an empty entry of a BtlClientSet. */
 #define BTL_CLIENT_ID_NONE 4
+
+/* Up to four client ids, BTL_CLIENT_ID_NONE meaning an empty entry. */
+struct BtlClientSet {
+    u32 count;
+    u8 ids[4];
+};
 
 /*
  * Recipe for a volatile condition as move data stores it (16 bits): the kind

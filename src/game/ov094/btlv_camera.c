@@ -41,30 +41,22 @@
 #include "btlv_effvm_types.h"
 #include "btlv_camera_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern struct G3dCamera *G3D_CAMERA_Create(int mode, int nearClip, int farClip, int fieldOfView, int aspectRatio, int scale, int roll, int flags,
-                                           const BtlvVec3 *eye, const BtlvVec3 *up, const BtlvVec3 *target, int heap);
+#include "../arm9/g3d_camera.h"
 
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
-extern unsigned int G3D_CAMERA_Delete(void *camera);
 
-extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, const BtlvVec3 *eye);
 
-extern void G3D_CAMERA_SetCamTarget(struct G3dCamera *camera, const BtlvVec3 *target);
 
-extern u32 FX_Div(u32 a, u32 b);
+#include "../arm9/fx_cp.h"
 
-extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, BtlvVec3 *out);
 
-extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, BtlvVec3 *out);
 
-extern u16 FX_Atan2Idx(int, int);
+#include "../arm9/fx_atanidx.h"
 
-extern int VEC_Mag(BtlvVec3 *);
+#include "../arm9/fx_vec.h"
 
 BtlvCamera *BTLV_CAMERA_Create(void *owner, u16 heap);
 
@@ -72,19 +64,19 @@ void BTLV_CAMERA_Delete(BtlvCamera *camera);
 
 void BTLV_CAMERA_UpdateMove(BtlvCamera *camera);
 
-void BTLV_CAMERA_SetEyeAndTarget(BtlvCamera *camera, const BtlvVec3 *eye, const BtlvVec3 *target);
+void BTLV_CAMERA_SetEyeAndTarget(BtlvCamera *camera, const VecFx32 *eye, const VecFx32 *target);
 
 void BTLV_CAMERA_RotateOrbit(BtlvCamera *camera, int dPitch, int dYaw);
 
-void BTLV_CAMERA_StartMove(BtlvCamera *camera, const BtlvVec3 *eyeDest, const BtlvVec3 *targetDest, int frames, int delay, int easeCount);
+void BTLV_CAMERA_StartMove(BtlvCamera *camera, const VecFx32 *eyeDest, const VecFx32 *targetDest, int frames, int delay, int easeCount);
 
 void BTLV_CAMERA_StartMoveWithEasing(BtlvCamera *camera, int axis, fx32 amplitude, int unused, int frames, int waitTicks, int repeatPairs);
 
-void BTLV_CAMERA_GetEyeAndTarget(BtlvCamera *camera, BtlvVec3 *eyeOut, BtlvVec3 *targetOut);
+void BTLV_CAMERA_GetEyeAndTarget(BtlvCamera *camera, VecFx32 *eyeOut, VecFx32 *targetOut);
 
-void BTLV_CAMERA_AdvanceOrbitEye(BtlvCamera *camera, int dPitch, int dYaw, BtlvVec3 *eyeOut, BtlvVec3 *targetBase);
+void BTLV_CAMERA_AdvanceOrbitEye(BtlvCamera *camera, int dPitch, int dYaw, VecFx32 *eyeOut, VecFx32 *targetBase);
 
-void BTLV_CAMERA_GetDefaultEyeAndTarget(BtlvVec3 *eyeOut, BtlvVec3 *targetOut);
+void BTLV_CAMERA_GetDefaultEyeAndTarget(VecFx32 *eyeOut, VecFx32 *targetOut);
 
 int BTLV_CAMERA_IsMoving(BtlvCamera *camera);
 
@@ -92,19 +84,17 @@ void BTLV_CAMERA_StepMove(BtlvCamera *camera);
 
 void BTLV_CAMERA_SyncOrbitFromCamera(BtlvCamera *camera);
 
-void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *stepOut, fx32 frames);
+#include "btlv_effect.h"
 
-void BTLV_EFFECT_StepScalarWithLimit(fx32 *value, fx32 *step, fx32 *limit, int *notDone);
 
-int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *out);
 
 extern const char gBtlvCameraFileName[];
 
-extern BtlvVec3 gBtlvCameraInitEye; /* (0x6b33, 0x6b33, 0x114cd): eye */
+extern VecFx32 gBtlvCameraInitEye; /* (0x6b33, 0x6b33, 0x114cd): eye */
 
-extern BtlvVec3 gBtlvCameraInitUp; /* (0, 0x1000, 0): up */
+extern VecFx32 gBtlvCameraInitUp; /* (0, 0x1000, 0): up */
 
-extern BtlvVec3 gBtlvCameraInitTarget; /* (0, 0x299a, 0): look-at point */
+extern VecFx32 gBtlvCameraInitTarget; /* (0, 0x299a, 0): look-at point */
 
 extern const s16 FX_SinCosTable_[];
 
@@ -145,7 +135,7 @@ void BTLV_CAMERA_UpdateMove(BtlvCamera *camera)
  * EXACT*: inferred extent is two bytes long; the follower is an unlabelled
  * leaf that disasm.py did not label.
  */
-void BTLV_CAMERA_SetEyeAndTarget(BtlvCamera *camera, const BtlvVec3 *eye, const BtlvVec3 *target)
+void BTLV_CAMERA_SetEyeAndTarget(BtlvCamera *camera, const VecFx32 *eye, const VecFx32 *target)
 {
     if (eye) {
         camera->eye.x = eye->x;
@@ -173,7 +163,7 @@ void BTLV_CAMERA_RotateOrbit(BtlvCamera *camera, int dPitch, int dYaw)
     G3D_CAMERA_Reset(camera->camera);
 }
 
-void BTLV_CAMERA_StartMove(BtlvCamera *camera, const BtlvVec3 *eyeDest, const BtlvVec3 *targetDest, int frames, int delay, int easeCount)
+void BTLV_CAMERA_StartMove(BtlvCamera *camera, const VecFx32 *eyeDest, const VecFx32 *targetDest, int frames, int delay, int easeCount)
 {
     camera->easeCount = easeCount;
     camera->moveWait = delay;
@@ -230,13 +220,13 @@ void BTLV_CAMERA_StartMoveWithEasing(BtlvCamera *camera, int axis, fx32 amplitud
  *
  * Reads the current eye and target positions out of the G3D camera.
  */
-void BTLV_CAMERA_GetEyeAndTarget(BtlvCamera *camera, BtlvVec3 *eyeOut, BtlvVec3 *targetOut)
+void BTLV_CAMERA_GetEyeAndTarget(BtlvCamera *camera, VecFx32 *eyeOut, VecFx32 *targetOut)
 {
     G3D_CAMERA_GetEye(camera->camera, eyeOut);
     G3D_CAMERA_GetCamTarget(camera->camera, targetOut);
 }
 
-void BTLV_CAMERA_AdvanceOrbitEye(BtlvCamera *camera, int dPitch, int dYaw, BtlvVec3 *eyeOut, BtlvVec3 *targetBase)
+void BTLV_CAMERA_AdvanceOrbitEye(BtlvCamera *camera, int dPitch, int dYaw, VecFx32 *eyeOut, VecFx32 *targetBase)
 {
     G3D_CAMERA_GetCamTarget(camera->camera, targetBase);
     camera->orbitPitch += dPitch;
@@ -252,7 +242,7 @@ void BTLV_CAMERA_AdvanceOrbitEye(BtlvCamera *camera, int dPitch, int dYaw, BtlvV
     eyeOut->z += targetBase->z;
 }
 
-void BTLV_CAMERA_GetDefaultEyeAndTarget(BtlvVec3 *eyeOut, BtlvVec3 *targetOut)
+void BTLV_CAMERA_GetDefaultEyeAndTarget(VecFx32 *eyeOut, VecFx32 *targetOut)
 {
     eyeOut->x = 0x6b33;
     eyeOut->y = 0x6b33;
@@ -269,8 +259,8 @@ int BTLV_CAMERA_IsMoving(BtlvCamera *camera)
 
 void BTLV_CAMERA_StepMove(BtlvCamera *camera)
 {
-    BtlvVec3 eye;
-    BtlvVec3 target;
+    VecFx32 eye;
+    VecFx32 target;
     int allDone = 1;
     int half;
     if (camera->moveFlags == 0) return;
@@ -319,8 +309,8 @@ void BTLV_CAMERA_StepMove(BtlvCamera *camera)
 
 void BTLV_CAMERA_SyncOrbitFromCamera(BtlvCamera *camera)
 {
-    BtlvVec3 eye;
-    BtlvVec3 target;
+    VecFx32 eye;
+    VecFx32 target;
     G3D_CAMERA_GetEye(camera->camera, &eye);
     G3D_CAMERA_GetCamTarget(camera->camera, &target);
     eye.x -= target.x;

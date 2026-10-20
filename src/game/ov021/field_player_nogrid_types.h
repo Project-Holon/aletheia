@@ -2,7 +2,7 @@
 #define GAME_OV021_FIELD_PLAYER_NOGRID_TYPES_H
 
 #include "../ov010/fldmmdl_types.h"
-#include "fldmmdl_rail_types.h"
+#include "../ov021/fldmmdl_rail_types.h"
 
 #include "../types.h"
 

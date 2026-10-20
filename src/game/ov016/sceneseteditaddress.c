@@ -75,6 +75,9 @@
  *   sceneseteditaddress_bss            0x021DE5E4  data
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
+#include "common.h"
+#include "../arm9/gx_load2d.h"
 
 typedef _Bool bool;
 
@@ -101,65 +104,36 @@ typedef struct {
     MemSsea *MemSsea;
 } SCENESETEDITADDRESS_BSS;
 
-typedef struct tagCOORD {
-    u16 x, y;
-} COORD;
-
-typedef struct AREA {
-    u16 x, y, w, h;
-} AREA;
+#include "dwcutil_types.h"
 
 typedef struct AddressLimit {
     u8 c[4];
 } AddressLimit;
 
-extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
-extern void DWCi_GetParam2_(u32 *a, u32 *b);
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void DWCi_HLlLoad(int idx);
-extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
-extern void DWCi_CMNlStep(int step);
-extern void *DWCi_FNTlFormBgEx(int lcd, int font);
-extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
-extern void DWCi_ChangeScene(u32 v);
-extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, u32, u32));
-extern void GX_LoadOBJPltt(void *src, u32 offset, u32 size);
-extern void GX_LoadBG2Char(void *src, u32 offset, u32 size);
-extern void GX_LoadBGPltt(void *src, u32 offset, u32 size);
-extern void GX_LoadBG2Scr(void *src, u32 offset, u32 size);
+#include "heap.h"
+#include "dwcutil_main.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../arm9/mi_memory.h"
+#include "headline.h"
+#include "comment.h"
+typedef int bool_0;
+#include "font.h"
+#include "cellinfo.h"
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
-extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_KB10lInit(void);
-extern u8 DWCi_KB10lGet(void);
-extern void DWCi_KB10lSetErase(unsigned char v);
-extern void DWCi_KB10lSetInput(unsigned char v);
-extern void DWCi_KB10lSetShift(u8 v);
-extern void DWCi_SNDlPlay(u32 v);
+#include "graphics.h"
+#include "keyboard10.h"
+#include "sound.h"
 extern bool DWCi_EFFlCheck(int lcd);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern int atoi(u32 s);
-extern void DWCi_KB10lEnd(void);
+#include "../arm9/msl_strtod.h"
 extern bool DWCi_EFFlWait(int frame);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
-extern int DWCi_COMMENTlDelete(void);
-extern void DWCi_FNTlDeleteBgLcd(int lcd);
 struct Canvas;
-extern void DWCi_FNTlClear(struct Canvas *cnv, s32 color);
-extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
-extern void DWCi_FNTlRenewBg(int x);
-extern void DWCi_OBJlDelete(unsigned int *obj);
-extern int DWCi_KB10lIsInit(void);
+#include "obj.h"
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
-extern s8 DWCi_WINlGet(void);
-extern void DWCi_WINlEnd(void);
-extern int DWCi_WINlIsInit(void);
-extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_SceneSetList(void);
-extern void DWCi_SETTINGlConvAddress(char *adr, unsigned char *buf);
-extern int DWC_BACKUPlCheckAddress(u8 *address);
+#include "window.h"
+#include "scenesetlist.h"
+#include "setting.h"
+#include "../arm9/dwc_backup.h"
 void DWCi_SceneSetEditAddress(void);
 void DWCi_SceneSetEditAddress_procScene(void);
 void DWCi_SceneSetEditAddress_draw(void);
@@ -229,7 +203,7 @@ void DWCi_SceneSetEditAddress(void)
     G2_SetOBJPriority(gMemSsea->caret, 3);
     DWCi_SceneSetEditAddressDispCaret();
     DWCi_SceneSetEditAddressDrawAddress();
-    DWCi_ChangeScene((u32)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 /*
@@ -245,12 +219,12 @@ static void initGraphics(void)
     DWCi_CMNlLoadResource(sSceneSetEditAddressPathJbBgStep3Char, GX_LoadBG2Char);
     DWCi_CMNlLoadResource(sSceneSetEditAddressPathYbBgStep3Pltt, GX_LoadBGPltt);
     DWCi_CMNlLoadResource(sSceneSetEditAddressPathXb4EditAddrScr, GX_LoadBG2Scr);
-    p = (u16 *)0x04001008;
+    p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;
-    p = (u16 *)0x04000008;
+    p = (u16 *)REG_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 2;
-    p = (u16 *)0x0400000A;
+    p = (u16 *)REG_BG1CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;
 }
@@ -261,7 +235,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
 static void procInit1(void)
@@ -280,14 +254,14 @@ static void procInit1(void)
             DWCi_KB10lSetInput(0);
         DWCi_KB10lSetShift(0);
     }
-    DWCi_ChangeScene((u32)procInit2);
+    DWCi_ChangeScene((uptr)procInit2);
 }
 
 static void procInit2(void)
 {
     if (DWCi_KB10lGet() == 0x1F)
         return;
-    DWCi_ChangeScene((u32)DWCi_SceneSetEditAddress_procScene);
+    DWCi_ChangeScene((uptr)DWCi_SceneSetEditAddress_procScene);
 }
 
 void DWCi_SceneSetEditAddress_procScene(void)
@@ -330,7 +304,7 @@ static void input(void)
     case 0x12:
         gMemSsea->result = 0;
         DWCi_SNDlPlay(7);
-        DWCi_ChangeScene((u32)endScene);
+        DWCi_ChangeScene((uptr)endScene);
         return;
     case 0x13:
         if (isCorrect()) {
@@ -344,7 +318,7 @@ static void input(void)
         gMemSsea->caret->attr01 = (gMemSsea->caret->attr01 & 0xC1FFFCFF) | 0x200;
         DWCi_SceneSetEditAddressDispCaret();
         arrangeAddress();
-        DWCi_ChangeScene((u32)endScene);
+        DWCi_ChangeScene((uptr)endScene);
         return;
     default:
         if (gMemSsea->cursor == 3 && isOver(0x1a))
@@ -399,7 +373,7 @@ static int isOver(int limit)
             break;
         buf[i] = ' ';
     }
-    v = atoi((u32)buf);
+    v = atoi((char *)buf);
     return v >= limit;
 }
 
@@ -411,7 +385,7 @@ void DWCi_SceneSetEditAddress_draw(void)
 static void endScene(void)
 {
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((u32)endScene1);
+    DWCi_ChangeScene((uptr)endScene1);
 }
 
 static void endScene1(void)
@@ -420,7 +394,7 @@ static void endScene1(void)
         return;
     DWCi_KB10lEnd();
     DWCi_SNDlPlay(0x15);
-    DWCi_ChangeScene((u32)endScene2);
+    DWCi_ChangeScene((uptr)endScene2);
 }
 
 static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
@@ -436,13 +410,13 @@ static void endScene2(void)
         return;
     r = gMemSsea->result;
     if (r == 0) {
-        DWCi_ChangeScene((u32)DWCi_SceneSetEditAddressEndScene3);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetEditAddressEndScene3);
     } else if (r == 2) {
         DWCi_WINlInitEx(6, 3, 1, -1, 0);
-        DWCi_ChangeScene((u32)procError);
+        DWCi_ChangeScene((uptr)procError);
     } else {
         DWCi_WINlInitEx(0x47, 2, 1, -1, 0);
-        DWCi_ChangeScene((u32)DWCi_SceneSetEditAddressProcWin);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetEditAddressProcWin);
     }
 }
 
@@ -461,7 +435,7 @@ static void DWCi_SceneSetEditAddressEndScene3(void)
         kind++;
     DWCi_SetParam_(2, 1);
     DWCi_SetParam2_(0, kind + 3);
-    DWCi_ChangeScene((u32)DWCi_SceneSetList);
+    DWCi_ChangeScene((uptr)DWCi_SceneSetList);
     DWCi_HEAPlFree_((void **)&sceneseteditaddress_bss);
 }
 
@@ -494,7 +468,7 @@ static void DWCi_SceneSetEditAddressDrawAddress(void)
         a.x = sSceneSetEditAddressDigitX[i];
         DWCi_FNTlDrawRect(gMemSsea->bg, a.x, a.y, a.w, a.h, 2, 0x480, buf);
     }
-    DWCi_FNTlRenewBg((int)gMemSsea->bg);
+    DWCi_FNTlRenewBg((sptr)gMemSsea->bg);
 }
 
 static void DWCi_SceneSetEditAddressDispCaret(void)
@@ -520,7 +494,7 @@ static void DWCi_SceneSetEditAddressProcWin(void)
         return;
     }
     DWCi_WINlEnd();
-    DWCi_ChangeScene((u32)DWCi_SceneSetEditAddressProcWin1);
+    DWCi_ChangeScene((uptr)DWCi_SceneSetEditAddressProcWin1);
 }
 
 static void DWCi_SceneSetEditAddressProcWin1(void)
@@ -532,12 +506,12 @@ static void DWCi_SceneSetEditAddressProcWin1(void)
         return;
     if (gMemSsea->result == 0) {
         gMemSsea->caret->attr01 &= 0xC1FFFCFF;
-        DWCi_ChangeScene((u32)procInit1);
+        DWCi_ChangeScene((uptr)procInit1);
         return;
     }
     DWCi_GetParam2_((u32 *)&kind, 0);
     getters.f[kind](gMemSsea->digits);
-    DWCi_ChangeScene((u32)DWCi_SceneSetEditAddressEndScene3);
+    DWCi_ChangeScene((uptr)DWCi_SceneSetEditAddressEndScene3);
 }
 
 /*
@@ -611,7 +585,7 @@ static void procError(void)
         return;
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
-    DWCi_ChangeScene((u32)procError1);
+    DWCi_ChangeScene((uptr)procError1);
 }
 
 static void procError1(void)
@@ -619,5 +593,5 @@ static void procError1(void)
     if (DWCi_WINlIsInit() != 0)
         return;
     gMemSsea->caret->attr01 &= 0xC1FFFCFF;
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }

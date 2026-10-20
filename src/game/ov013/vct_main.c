@@ -73,91 +73,67 @@
 extern VctWork *gVctWork;
 
 /* Power management and microphone driver. */
-extern void MIC_Init(void);
 
-extern void PM_Init(void);
+#include "../arm9/pm.h"
 
-extern unsigned int PM_SetAmp(unsigned int status);
 
-extern unsigned int PM_SetAmpGain(unsigned int gain);
 
-extern u32 APP_ENV_IsRunOnTwl(void);
+#include "../arm9/app_env.h"
 struct MICAutoParam;
 
-extern int MIC_StartAutoSamplingAsync(struct MICAutoParam *param, void (*callback)(void), void *arg);
+#include "../arm9/mic.h"
 
-extern int MIC_StartLimitedSamplingAsync(struct MICAutoParam *param, void (*callback)(void), void *arg);
 
-extern u32 MIC_GetLastSamplingAddress(void);
-
-extern int MIC_StopAutoSampling(void);
-
-extern int MIC_StopLimitedSampling(void);
 
 /* Sound system and sound stream object (arm9 unit_020737C0). */
-extern void NNS_SndInit(void);
+#include "../arm9/nns_snd_system.h"
 struct SndStrm;
+#include "../arm9/nns_snd_types.h"
 
-extern void NNS_SndStrmInit(struct SndStrm *strm);
+#include "../arm9/nns_snd_strm.h"
 
-extern int NNS_SndStrmAllocChannel(struct SndStrm *strm, int numChannels, unsigned char *channelList);
 
-extern void NNS_SndStrmSetVolume(struct SndStrm *strm, int volume);
 
-extern int NNS_SndStrmSetup(struct SndStrm *strm, int format, unsigned int bufferAddr, unsigned int length, unsigned int rate, int frames, VctStreamCallback callback, unsigned int userData);
 
-extern void NNS_SndStrmStart(struct SndStrm *strm);
 
-extern void NNSi_SndStrmStopIfSetup(struct SndStrm *strm);
 
-extern void NNS_SndStrmFreeChannel(struct SndStrm *strm);
 
-extern void MI_CpuFill8(void *dst, int value, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern u64 OS_GetTick(void);
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
 /* Wi-Fi glue (ov009). */
-extern void DWC_RAP_CleanupVchat(void);
+#include "../ov009/dwc_rap.h"
 
-extern unsigned int DWC_RAPCOMMON_Alloc(unsigned int ownerId, unsigned int size, unsigned int align);
+#include "../ov009/dwc_rapcommon.h"
 
-extern void DWC_RAPCOMMON_Free(u32 heap, void *block, int unused);
 
-extern u8 DWC_GetMyAID(void);
+#include "../ov009/dwc_main.h"
 
 /* Engine (ov013). */
-extern VctPeer *VCT_SESSION_AllocPeerRecord(unsigned int peerType);
+#include "vct_audio.h"
 
-extern int VCT_SESSION_SendGroupCommand(int peer, int type);
 
-extern int VCT_SESSION_FreePeerRecord(VctPeer *peer);
 
-extern int VCT_SESSION_SendPeerReply(int peer, int type);
 
-extern int VCT_SESSION_AddPeer(u8 aid);
 
-extern int VCT_SESSION_RemovePeer(int aid);
 
-extern void VCT_Update(void);
+#include "vct.h"
 struct VctFrameHeader;
 
-extern int VCT_ReceiveFrame(int senderId, struct VctFrameHeader *frame, int length);
 struct VctInitParams;
 
-extern int VCT_Init(VctInitParams *param);
 
-extern void VCT_Exit(void);
 
-extern void VCT_DSP_GetVoiceGateConfig(void *out);
+#include "vct_dsp.h"
 
-extern void VCT_MIXER_SetSendEnabled(int enabled);
+#include "vct_mixer.h"
 
-extern void VCT_MIXER_SetFilterEnabled(int enabled);
 
 /* Two names for 0x02082AC0: see VCT_MIXER_MixVoices. */
-extern void MIi_CpuClearFast(int value, void *dst, u32 size);
 
 void VCT_MAIN_InitAudio(void);
 
@@ -197,15 +173,10 @@ int VCT_MAIN_DisconnectPeers(int excludedAid);
 
 void VCT_MAIN_SetMuted(int muted);
 
-int VCT_MIXER_AddMember(VctPeer *peer);
 
-void VCT_MIXER_RemoveMember(VctPeer *peer);
 
-int VCT_MIXER_QueueFrame(const u8 *src, u32 length);
 
-int VCT_MIXER_MixVoices(void *output, u32 length, u32 *sourceMask);
 
-int VCT_MIXER_SetCodecMode(int codecMode);
 
 /* Fixed text the engine passes to the error call (raw address kept: it lives in the overlay image). */
 #define VCT_ERROR_TEXT ((const char *)0x021B3C20)
@@ -257,16 +228,16 @@ void VCT_MAIN_StreamCallback(int status, int channelCount, void **buffers, u32 l
     }
     if (APP_ENV_IsRunOnTwl() == 0) {
         if (gVctWork->micRestartPending != 0) {
-            MIC_StartAutoSamplingAsync((struct MICAutoParam *)(&gVctWork->micParam), VCT_MAIN_MicRestartDone, 0);
+            MIC_StartAutoSamplingAsync((struct MICAutoParam *)(&gVctWork->micParam), (void (*)(MICResult, void *))VCT_MAIN_MicRestartDone, 0);
             gVctWork->micRestartPending = 0;
         }
     } else {
         if (gVctWork->micRestartPending != 0) {
-            MIC_StartLimitedSamplingAsync((struct MICAutoParam *)(&gVctWork->micParam), VCT_MAIN_MicRestartDone, 0);
+            MIC_StartLimitedSamplingAsync((struct MICAutoParam *)(&gVctWork->micParam), (void (*)(MICResult, void *))VCT_MAIN_MicRestartDone, 0);
             gVctWork->micRestartPending = 0;
         }
     }
-    if ((u32)(MIC_GetLastSamplingAddress() - (u32)micAddress) < length) {
+    if ((u32)((uptr)MIC_GetLastSamplingAddress() - (uptr)micAddress) < length) {
         micAddress = micAddress + length;
     }
     if (((*(volatile u16 *)HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> PAD_DETECT_FOLD_SHIFT) != 0
@@ -301,9 +272,9 @@ int VCT_MAIN_RequestConnection(int peerType)
         if (peer == 0) {
             return 0;
         }
-        result = VCT_SESSION_SendGroupCommand((int)peer, 0);
+        result = VCT_SESSION_SendGroupCommand((sptr)peer, 0);
     } else {
-        result = VCT_SESSION_SendGroupCommand((int)peer, 0);
+        result = VCT_SESSION_SendGroupCommand((sptr)peer, 0);
     }
     if (result != 0) {
         VCT_SESSION_FreePeerRecord(peer);
@@ -322,7 +293,7 @@ int VCT_MAIN_AcceptPendingPeer(int unused)
 
     if (peer != 0 && peer->phase == 4) {
         accepted = 0;
-        if (VCT_SESSION_SendPeerReply((int)peer, 0) != 0) {
+        if (VCT_SESSION_SendPeerReply((sptr)peer, 0) != 0) {
             return accepted;
         }
         if (VCT_MIXER_AddMember(gVctWork->pendingPeer) != 0) {
@@ -349,21 +320,21 @@ void VCT_MAIN_OnEventPair(int aid, int event, VctPeer *peer, int arg)
     switch (event) {
     case VCT_EVENT_REQUEST_RECEIVED:
         if (gVctWork->pendingPeer != 0) {
-            VCT_SESSION_SendPeerReply((int)peer, 3);
+            VCT_SESSION_SendPeerReply((sptr)peer, 3);
             VCT_SESSION_FreePeerRecord(peer);
             return;
         }
         gVctWork->pendingPeer = peer;
         return;
     case VCT_EVENT_REQUEST_REFUSED:
-        VCT_SESSION_SendPeerReply((int)peer, 0);
+        VCT_SESSION_SendPeerReply((sptr)peer, 0);
         VCT_MAIN_ReleasePeer(peer);
         return;
     case VCT_EVENT_PEER_LEFT:
         VCT_MAIN_ReleasePeer(peer);
         return;
     case VCT_EVENT_CONNECTION_CLOSED:
-        VCT_SESSION_SendPeerReply((int)peer, 4);
+        VCT_SESSION_SendPeerReply((sptr)peer, 4);
         VCT_MAIN_ReleasePeer(peer);
         return;
     case VCT_EVENT_PEER_JOINED:
@@ -473,9 +444,9 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     u8 channelNumbers[3] = {0, 0, 0};
 
     if (gVctWork == 0) {
-        gVctWork = (struct VctWork *)DWC_RAPCOMMON_Alloc((unsigned int)heap, sizeof(VctWork), 0x20);
+        gVctWork = (struct VctWork *)DWC_RAPCOMMON_Alloc((uptr)heap, sizeof(VctWork), 0x20);
         MI_CpuFill8(gVctWork, 0, sizeof(VctWork));
-        gVctWork->frameMemory = (void *)DWC_RAPCOMMON_Alloc((unsigned int)heap, peerCount * VCT_PEER_QUEUE_BYTES + 0x20, 0x20);
+        gVctWork->frameMemory = (void *)DWC_RAPCOMMON_Alloc((uptr)heap, peerCount * VCT_PEER_QUEUE_BYTES + 0x20, 0x20);
         gVctWork->exitCallback = 0;
         VCT_MAIN_InitAudio();
     }
@@ -493,9 +464,9 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     gVctWork->micRestartPending = 1;
     NNS_SndStrmAllocChannel((struct SndStrm *)gVctWork->audioStream, 1, channelNumbers);
     NNS_SndStrmSetVolume((struct SndStrm *)gVctWork->audioStream, 0);
-    if (NNS_SndStrmSetup((struct SndStrm *)gVctWork->audioStream, 1, (unsigned int)gVctWork->playbackBuffers, (unsigned int)VCT_BUFFER_BYTES,
-                      (unsigned int)(APP_ENV_IsRunOnTwl() ? 0x40 : 0x41), 2, VCT_MAIN_StreamCallback,
-                      (unsigned int)gVctWork) == 0) {
+    if (NNS_SndStrmSetup((struct SndStrm *)gVctWork->audioStream, 1, (uptr)gVctWork->playbackBuffers, (unsigned int)VCT_BUFFER_BYTES,
+                      (unsigned int)(APP_ENV_IsRunOnTwl() ? 0x40 : 0x41), 2, (NNSSndStrmCallback)VCT_MAIN_StreamCallback,
+                      (uptr)gVctWork) == 0) {
         GF_PANIC_Fail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
     }
     gVctWork->linkState = 0;
@@ -513,7 +484,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
         param.eventCallback = VCT_MAIN_OnEventPair;
     }
     param.callbackArg = 0;
-    param.frameBuffer = (int)gVctWork->frameMemory;
+    param.frameBuffer = (sptr)gVctWork->frameMemory;
     param.frameBufferSize = peerCount * VCT_PEER_QUEUE_BYTES + 0x20;
     VCT_Init(&param);
     gVctWork->sendPaused = 0;
@@ -533,12 +504,12 @@ void VCT_MAIN_HangUp(void)
         return;
     }
     if (gVctWork->linkState == 1) {
-        if (VCT_SESSION_SendGroupCommand((int)gVctWork->pendingPeer, 2)) {
+        if (VCT_SESSION_SendGroupCommand((sptr)gVctWork->pendingPeer, 2)) {
             DWC_RAP_CleanupVchat();
             return;
         }
     }
-    if (VCT_SESSION_SendGroupCommand((int)gVctWork->pendingPeer, 1)) {
+    if (VCT_SESSION_SendGroupCommand((sptr)gVctWork->pendingPeer, 1)) {
         DWC_RAP_CleanupVchat();
     }
 }

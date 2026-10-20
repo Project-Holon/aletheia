@@ -27,16 +27,15 @@ typedef struct TwlWork {
     u8 *buf;
 } TwlWork;
 
-extern u32 NWMi_GetSystemWork(void);
-extern u32 NWMi_CheckState(u32 n, ...);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32);
-extern void DC_StoreRange(void *, u32);
-extern u32 NWMi_SendCommand(unsigned short apiid, unsigned short argc, ...);
+#include "nwm_system.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/os_cache.h"
+#include "nwm_cmd.h"
 extern void MI_CpuCopy8(u32, u32, u32);
 void NWMi_AddMACHeader(u32 destMac, u32 srcMac, u8 *frame, u32 length);
 
-u32 NWM_SendFrame(u32 callback, u32 destMac, u8 *frame, u32 length) {
+u32 NWM_SendFrame(void *callback, u32 destMac, u8 *frame, u32 length) {
     TwlWork *w;
     u32 r;
     u32 saved;
@@ -54,7 +53,7 @@ u32 NWM_SendFrame(u32 callback, u32 destMac, u8 *frame, u32 length) {
     DC_StoreRange(frame, length);
     NWMi_AddMACHeader(destMac, (u32)(w->buf + 0x40), frame, length);
     DC_StoreRange(frame, 0xE);
-    r = NWMi_SendCommand(0xB, 3, callback, frame, length);
+    r = NWMi_SendCommand(0xB, 3, (u32)callback, frame, length);
     if (r == 0) {
         return 2;
     }

@@ -133,32 +133,44 @@ extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+struct TcbTask;
+struct ClactActor;
+struct Bmp;
+struct BmpWin;
+struct PrintQueue;
+struct Strbuf;
+struct MsgBank;
+struct GfFont;
+#include "../arm9/strbuf_types.h"
+#include "../arm9/tcb_list.h"
+#include "../ov067/touchbar_types.h"
+#include "../ov099/wifi_club_work.h"
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, unsigned int heapID);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *);
 
-extern int GF_OVERLAY_Load(int);
+extern int GF_OVERLAY_Load(s32 handle);
 
-extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+extern struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority);
 struct TcbTask;
 
 extern void TCB_DeleteTask(struct TcbTask *task);
 
-extern void TOUCHBAR_Delete(unsigned char *);
+extern void TOUCHBAR_Delete(TouchBar *bar);
 
-extern void GF_OVERLAY_Unload(int);
+extern void GF_OVERLAY_Unload(s32 handle);
 
-extern void TOUCHBAR_Update(struct TouchBar *p);
+extern void TOUCHBAR_Update(TouchBar *bar);
 
-extern int TOUCHBAR_GetPressedButtonIdIfPressing(u8 *);
+extern int TOUCHBAR_GetPressedButtonIdIfPressing(TouchBar *bar);
 
-extern int TOUCHBAR_GetPressedButtonIdIfDone(u8 *);
+extern int TOUCHBAR_GetPressedButtonIdIfDone(TouchBar *bar);
 
-extern void TOUCHBAR_SetButtonVisible(unsigned char *p, unsigned int id, unsigned int v);
+extern void TOUCHBAR_SetButtonVisible(TouchBar *bar, unsigned int buttonId, unsigned int visible);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
 
 extern void MI_CpuFill8(void *,u8,u32);
 
@@ -172,28 +184,28 @@ struct Bmp;
 
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
 extern void PRINTSYS_QUE_Clear(struct PrintSys *),BMP_WIN_Delete(struct Descriptor *);
 struct Bmp;
 struct PrintQueue;
 
-extern unsigned PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern void BG_SYS_MarkTileDirty(unsigned);
+extern void BG_SYS_MarkTileDirty(u32 bit);
 struct MsgBank;
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *,unsigned);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 struct GfFont;
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 
@@ -226,9 +238,9 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
+extern void CLACT_DeleteActor(struct ClactActor *actor);
 
 extern void CLACT_ReleaseCellAnim(u32);
 
@@ -236,19 +248,19 @@ extern void CLACT_ReleaseCharacter(u32);
 
 extern void CLACT_ReleasePalette(u32);
 
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
+extern u32 CLACT_GetActorDrawEnable(struct ClactActor *actor);
 
 extern u32 KEY_GetRepeat(void);
 
-extern void UI_SetInputMode(u8);
+extern void UI_SetInputMode(u32 value);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *,u32 *);
 
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
+extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
-extern u32 CLACT_IsActorAnimActive(struct Actor *);
+extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
 
 void *MANUAL_COMMON_CreateTouchbar(char *owner);
 
@@ -307,27 +319,27 @@ extern const struct ManualActorEntry gManualCommonActorEntries[];
 void *MANUAL_COMMON_CreateTouchbar(char *owner)
 {
     char *touchbar;
-    GF_OVERLAY_Load((int)ov067_id);
+    GF_OVERLAY_Load((sptr)ov067_id);
     touchbar=GFL_HEAP_Alloc(((struct ManualData *)owner)->heap,0x4c,1,gManualCommonTouchbarAllocFile,235);
     ((struct ManualTouchbar *)touchbar)->owner=owner;MANUAL_COMMON_CreateTouchbarWidget(touchbar);MANUAL_COMMON_TouchbarNoop(touchbar);MANUAL_COMMON_CreateTouchbarSlots(touchbar);MANUAL_COMMON_LoadTouchbarActors(touchbar);
     ((struct ManualTouchbar *)touchbar)->mode=4;touchbar[0xc]=0;touchbar[0xd]=0;MANUAL_COMMON_SetTouchbarState(touchbar,0);MANUAL_COMMON_ResetTouchbar(touchbar);
-    ((struct ManualTouchbar *)touchbar)->task=GFL_USE_AddMainTask((unsigned)MANUAL_COMMON_TouchbarTaskNoop,(unsigned)touchbar,1);
+    ((struct ManualTouchbar *)touchbar)->task=GFL_USE_AddMainTask((TcbFunc)((uptr)MANUAL_COMMON_TouchbarTaskNoop),(void *)((uptr)touchbar),1);
     return touchbar;
 }
 
-void MANUAL_COMMON_DeleteTouchbar(char *touchbar){TCB_DeleteTask(((struct ManualTouchbar *)touchbar)->task);MANUAL_COMMON_DeleteTouchbarActors(touchbar);MANUAL_COMMON_DeleteTouchbarSlots(touchbar);TOUCHBAR_Delete(*(unsigned char * *)&((struct ManualTouchbar *)touchbar)->touchbar);GFL_HEAP_Free(touchbar);GF_OVERLAY_Unload((int)ov067_id);}
+void MANUAL_COMMON_DeleteTouchbar(char *touchbar){TCB_DeleteTask(((struct ManualTouchbar *)touchbar)->task);MANUAL_COMMON_DeleteTouchbarActors(touchbar);MANUAL_COMMON_DeleteTouchbarSlots(touchbar);TOUCHBAR_Delete((TouchBar *)(*(unsigned char * *)&((struct ManualTouchbar *)touchbar)->touchbar));GFL_HEAP_Free(touchbar);GF_OVERLAY_Unload((sptr)ov067_id);}
 
 void MANUAL_COMMON_UpdateTouchbar(char *touchbar)
 {
     ((struct ManualTouchbar *)touchbar)->pressedId=-1;((struct ManualTouchbar *)touchbar)->releasedId=-1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
     if(((struct ManualTouchbar *)touchbar)->pressState==1) {((struct ManualTouchbar *)touchbar)->pressState=0;return;}
     if(((struct ManualTouchbar *)touchbar)->pressState==0 || ((struct ManualTouchbar *)touchbar)->pressState==2) {
-        TOUCHBAR_Update(*(struct TouchBar * *)&((struct ManualTouchbar *)touchbar)->touchbar);
+        TOUCHBAR_Update((TouchBar *)(*(struct TouchBar * *)&((struct ManualTouchbar *)touchbar)->touchbar));
         if(((struct ManualTouchbar *)touchbar)->pressState==0) {
-            int result=TOUCHBAR_GetPressedButtonIdIfPressing(*(u8 * *)&((struct ManualTouchbar *)touchbar)->touchbar);
+            int result=TOUCHBAR_GetPressedButtonIdIfPressing((TouchBar *)(*(u8 * *)&((struct ManualTouchbar *)touchbar)->touchbar));
             if(result!=-1) {((struct ManualTouchbar *)touchbar)->pressState=2;((struct ManualTouchbar *)touchbar)->pressedId=result;}
         } else {
-            int result=TOUCHBAR_GetPressedButtonIdIfDone(*(u8 * *)&((struct ManualTouchbar *)touchbar)->touchbar);
+            int result=TOUCHBAR_GetPressedButtonIdIfDone((TouchBar *)(*(u8 * *)&((struct ManualTouchbar *)touchbar)->touchbar));
             if(result!=-1) {((struct ManualTouchbar *)touchbar)->pressState=1;((struct ManualTouchbar *)touchbar)->releasedId=result;}
         }
     }
@@ -345,8 +357,8 @@ void MANUAL_COMMON_SetTouchbarState(char *touchbar,unsigned state)
 {
     if(((struct ManualTouchbar *)touchbar)->mode==state)return;
     switch(((struct ManualTouchbar *)touchbar)->mode) {
-    case 0:TOUCHBAR_SetButtonVisible(((struct ManualTouchbar *)touchbar)->touchbar,0,0);break;
-    case 3:CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0),0);CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1),0);break;
+    case 0:TOUCHBAR_SetButtonVisible((TouchBar *)(((struct ManualTouchbar *)touchbar)->touchbar),0,0);break;
+    case 3:CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0)),0);CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1)),0);break;
     case 1:case 2:case 4:break;
     }
     ((struct ManualTouchbar *)touchbar)->mode=state;MANUAL_COMMON_ResetTouchbar(touchbar);
@@ -366,14 +378,14 @@ void MANUAL_COMMON_SetTouchbarSelection(char *touchbar,unsigned count,unsigned s
     touchbar[0xc]=count;touchbar[0xd]=selected;
     if(((struct ManualTouchbar *)touchbar)->mode==3) {
         if(((struct ManualTouchbar *)touchbar)->selectX<=1) {
-            CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0),0);CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1),0);MANUAL_COMMON_DrawTouchbarIdle(touchbar);return;
+            CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0)),0);CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1)),0);MANUAL_COMMON_DrawTouchbarIdle(touchbar);return;
         }
         if(((struct ManualTouchbar *)touchbar)->selectY==0) {
-            CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0),0);CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1),1);
+            CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0)),0);CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1)),1);
         } else if(((struct ManualTouchbar *)touchbar)->selectY==count-1) {
-            CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0),1);CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1),0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0)),1);CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1)),0);
         } else {
-            CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0),1);CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1),1);
+            CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor0)),1);CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)touchbar)->actor1)),1);
         }
         MANUAL_COMMON_DrawTouchbarContinue(touchbar);
     }
@@ -409,23 +421,23 @@ void MANUAL_COMMON_CreateTouchbarSlots(char *touchbar)
     u8 i;
     for(i=0;i<2;i++) {
         const struct ManualBmpParams *t=&gManualCommonSlotRecords[i];
-        *(unsigned *)(touchbar+i*4+0x10)=(u32)BMP_WIN_Create(t->layer,t->baseX,t->baseY,t->tiles,t->palette,t->mode,t->slot);
-        BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(touchbar+i*4+0x10))),0);
-        BMP_WIN_TransferChars(*(struct Descriptor **)(touchbar+i*4+0x10));
+        *(unsigned *)(touchbar+i*4+0x10)=(uptr)BMP_WIN_Create(t->layer,t->baseX,t->baseY,t->tiles,t->palette,t->mode,t->slot);
+        BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(touchbar+i*4+0x10)))),0);
+        BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor **)(touchbar+i*4+0x10)));
         *(unsigned *)(touchbar+i*4+0x18)=0;
     }
 }
 
-void MANUAL_COMMON_DeleteTouchbarSlots(char *touchbar){unsigned char i;PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);for(i=0;i<2;i++){*(unsigned *)((unsigned)touchbar+i*4+24)=0;BMP_WIN_Delete(*(struct Descriptor **)((unsigned)touchbar+i*4+16));}}
+void MANUAL_COMMON_DeleteTouchbarSlots(char *touchbar){unsigned char i;PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue[2]);for(i=0;i<2;i++){*(unsigned *)((uptr)touchbar+i*4+24)=0;BMP_WIN_Delete(*(struct Descriptor **)((uptr)touchbar+i*4+16));}}
 
 void MANUAL_COMMON_UpdateTouchbarSlots(char *touchbar)
 {
     u8 i;
     for(i=0;i<2;i++) {
         if(*(unsigned *)(touchbar+i*4+0x18)!=0) {
-            if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2),BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(touchbar+i*4+0x10))))==0) {
+            if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue[2]),(struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(touchbar+i*4+0x10)))))==0) {
                 struct Descriptor *d=*(struct Descriptor **)(touchbar+i*4+0x10);
-                BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct BmpWin *)d);
+                BMP_WIN_TransferChars((struct BmpWin *)d);BMP_WIN_MakeScreen((struct BmpWin *)d);
                 BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));
                 *(unsigned *)(touchbar+i*4+0x18)=0;
             }
@@ -433,25 +445,25 @@ void MANUAL_COMMON_UpdateTouchbarSlots(char *touchbar)
     }
 }
 
-void MANUAL_COMMON_DrawTouchbarIdle(char *touchbar){PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0)),0);BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0);((struct ManualTouchbar *)touchbar)->bmp0Dirty=0;}
+void MANUAL_COMMON_DrawTouchbarIdle(char *touchbar){PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue[2]);BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0))),0);BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0));((struct ManualTouchbar *)touchbar)->bmp0Dirty=0;}
 
 void MANUAL_COMMON_DrawTouchbarStart(char *touchbar)
 {
     void *s;
-    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue[2]);
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0)),0);
-    s=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,2);
-    PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0)),0,4,s,(struct GfFont *)(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font),0x3c40);
+    s=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank[0],2);
+    PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue[2],BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0)),0,4,s,(struct GfFont *)(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font),0x3c40);
     STRBUF_Delete(s);((struct ManualTouchbar *)touchbar)->bmp0Dirty=1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
 }
 
 void MANUAL_COMMON_DrawTouchbarEnd(char *touchbar)
 {
     void *s;
-    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue[2]);
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0)),0);
-    s=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,3);
-    PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0)),0,4,s,(struct GfFont *)(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font),0x3c40);
+    s=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank[0],3);
+    PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue[2],BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0)),0,4,s,(struct GfFont *)(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font),0x3c40);
     STRBUF_Delete(s);((struct ManualTouchbar *)touchbar)->bmp0Dirty=1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
 }
 
@@ -463,15 +475,15 @@ void MANUAL_COMMON_DrawTouchbarContinue(char *touchbar)
     struct WordSet *words;
     struct U16Vec *str;
     void *slot;
-    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2);
+    PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue[2]);
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0)),0);
     words=WORDSET_CreateDefault(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
-    slot=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank0,4);
+    slot=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->bank[0],4);
     str=(struct U16Vec *)STRBUF_Create(16,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     WORDSET_SetSlotNumber(words,0,((struct ManualTouchbar *)touchbar)->selectY+1,1,0,1);
     WORDSET_SetSlotNumber(words,1,((struct ManualTouchbar *)touchbar)->selectX,1,0,1);
     WORDSET_CopyTaggedText(words,(struct Strbuf *)str,slot);
-    PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue2,BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0)),32,4,(struct Strbuf *)str,(struct GfFont *)(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font),0x3c40);
+    PRINTSYS_PrintQueColor((void *)((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->printQue[2],BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualTouchbar *)touchbar)->bmp0)),32,4,(struct Strbuf *)str,(struct GfFont *)(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->font),0x3c40);
     STRBUF_Delete((struct Strbuf *)str);STRBUF_Delete(slot);WORDSET_Delete(words);
     ((struct ManualTouchbar *)touchbar)->bmp0Dirty=1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
 }
@@ -482,21 +494,21 @@ void MANUAL_COMMON_LoadTouchbarActors(char *touchbar)
     void *loader;
     u32 first;
     loader=ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(),((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
-    *(int *)&((struct ManualTouchbar *)touchbar)->animCharacter=CLACT_RegisterPaletteEx((void *)((u32)loader),APP_ICON_GetMoveKindPaletteFileId(),1,128,0,3,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
-    *(int *)&((struct ManualTouchbar *)touchbar)->animPalette=CLACT_RegisterCharacter((void *)((u32)loader),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
+    *(int *)&((struct ManualTouchbar *)touchbar)->animCharacter=CLACT_RegisterPaletteEx((void *)((uptr)loader),APP_ICON_GetMoveKindPaletteFileId(),1,128,0,3,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
+    *(int *)&((struct ManualTouchbar *)touchbar)->animPalette=CLACT_RegisterCharacter((void *)((uptr)loader),APP_ICON_GetMoveKindAnimFileId(),0,1,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     first=APP_ICON_GetStatusCellFileId(0);
-    *(int *)&((struct ManualTouchbar *)touchbar)->animCell=CLACT_RegisterCellAnim((void *)((u32)loader),first,APP_ICON_GetStatusPaletteFileId(0),((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
+    *(int *)&((struct ManualTouchbar *)touchbar)->animCell=CLACT_RegisterCellAnim((void *)((uptr)loader),first,APP_ICON_GetStatusPaletteFileId(0),((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     ARC_TOOL_DeleteHandle(loader);
     for(i=0;i<2;i++) {
         char *parent=*(char * *)&((struct ManualTouchbar *)touchbar)->owner;
         char *dest=touchbar+i*4;
         *(struct Obj * *)&((struct ManualTouchbar *)dest)->actor0=CLACT_CreateActor((void *)MANUAL_GRAPHIC_GetClactUnit(((struct ManualData *)parent)->screen),((struct ManualTouchbar *)touchbar)->animPalette,((struct ManualTouchbar *)touchbar)->animCharacter,((struct ManualTouchbar *)touchbar)->animCell,&gManualCommonActorEntries[i],1,((struct ManualData *)parent)->heap);
-        CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)dest)->actor0),0);
-        CLACT_SetActorAutoAnim((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)dest)->actor0),1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)dest)->actor0)),0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualTouchbar *)dest)->actor0)),1);
     }
 }
 
-void MANUAL_COMMON_DeleteTouchbarActors(char *touchbar) { u8 i; for(i=0;i<2;i++) CLACT_DeleteActor((struct Actor *)(*(struct Obj **)(touchbar+i*4+0x38))); CLACT_ReleaseCellAnim(((struct ManualTouchbar *)touchbar)->animCell); CLACT_ReleaseCharacter(((struct ManualTouchbar *)touchbar)->animPalette); CLACT_ReleasePalette(((struct ManualTouchbar *)touchbar)->animCharacter); }
+void MANUAL_COMMON_DeleteTouchbarActors(char *touchbar) { u8 i; for(i=0;i<2;i++) CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct Obj **)(touchbar+i*4+0x38)))); CLACT_ReleaseCellAnim(((struct ManualTouchbar *)touchbar)->animCell); CLACT_ReleaseCharacter(((struct ManualTouchbar *)touchbar)->animPalette); CLACT_ReleasePalette(((struct ManualTouchbar *)touchbar)->animCharacter); }
 
 void MANUAL_COMMON_UpdateTouchbarActors(char *touchbar)
 {
@@ -507,7 +519,7 @@ void MANUAL_COMMON_UpdateTouchbarActors(char *touchbar)
  case 0:
   found=0;
   for(i=0;i<2;i++) {
-   if(CLACT_GetActorDrawEnable((struct Actor *)(*(struct Obj **)(touchbar+i*4+0x38)))) {
+   if(CLACT_GetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj **)(touchbar+i*4+0x38))))) {
     row=&gManualCommonActorEntries[i];
     if(KEY_GetRepeat()&row->mask) {
      ((struct ManualTouchbar *)touchbar)->focusIndex=i;
@@ -526,15 +538,15 @@ void MANUAL_COMMON_UpdateTouchbarActors(char *touchbar)
    }
   }
   if(found) {
-   CLACT_SetActorAnimSeq((struct Actor *)(*(struct Obj **)(touchbar+((struct ManualTouchbar *)touchbar)->focusIndex*4+0x38)),gManualCommonActorEntries[*(u8 *)(touchbar+0x40)].active);
+   CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(*(struct Obj **)(touchbar+((struct ManualTouchbar *)touchbar)->focusIndex*4+0x38))),gManualCommonActorEntries[*(u8 *)(touchbar+0x40)].active);
    if(gManualCommonActorEntries[*(u8 *)(touchbar+0x40)].sound) GFL_USE_PlaySeDefaultVolume(gManualCommonActorEntries[*(u8 *)(touchbar+0x40)].sound);
    ((struct ManualTouchbar *)touchbar)->animState=1;
   }
   break;
  case 1: ((struct ManualTouchbar *)touchbar)->animState=2; break;
  case 2:
-  if(!CLACT_IsActorAnimActive(*(struct Actor **)(touchbar+((struct ManualTouchbar *)touchbar)->focusIndex*4+0x38))) {
-   CLACT_SetActorAnimSeq((struct Actor *)(*(struct Obj **)(touchbar+((struct ManualTouchbar *)touchbar)->focusIndex*4+0x38)),gManualCommonActorEntries[*(u8 *)(touchbar+0x40)].normal);
+  if(!CLACT_IsActorAnimActive((struct ClactActor *)(*(struct Actor **)(touchbar+((struct ManualTouchbar *)touchbar)->focusIndex*4+0x38)))) {
+   CLACT_SetActorAnimSeq((struct ClactActor *)((struct Actor *)(*(struct Obj **)(touchbar+((struct ManualTouchbar *)touchbar)->focusIndex*4+0x38))),gManualCommonActorEntries[*(u8 *)(touchbar+0x40)].normal);
    ((struct ManualTouchbar *)touchbar)->animState=3;
   }
   break;

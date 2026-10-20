@@ -1001,7 +1001,7 @@ u32 FS_LoadArchiveTables(FSArchive *p_arc, void *p_mem, u32 max_size)
     context = (FSROMFATArchiveContext *)p_arc->userdata;
     total_size = (u32)((context->fat_size + context->fnt_size + 32 + 31) & ~31);
     if (total_size <= max_size) {
-        p_cache = (u8 *)(((u32)p_mem + 31) & ~31);
+        p_cache = (u8 *)(((uptr)p_mem + 31) & ~31);
         FS_InitFile(&tmp);
         if (FS_OpenFileDirect(&tmp, p_arc, context->fat, context->fat + context->fat_size, (u32)~0)) {
             if (FS_ReadFile(&tmp, p_cache, (s32)context->fat_size) < 0) {
@@ -1009,7 +1009,7 @@ u32 FS_LoadArchiveTables(FSArchive *p_arc, void *p_mem, u32 max_size)
             }
             (void)FS_CloseFile(&tmp);
         }
-        context->fat = (u32)p_cache;
+        context->fat = (uptr)p_cache;
         p_cache += context->fat_size;
         if (FS_OpenFileDirect(&tmp, p_arc, context->fnt, context->fnt + context->fnt_size, (u32)~0)) {
             if (FS_ReadFile(&tmp, p_cache, (s32)context->fnt_size) < 0) {
@@ -1017,7 +1017,7 @@ u32 FS_LoadArchiveTables(FSArchive *p_arc, void *p_mem, u32 max_size)
             }
             (void)FS_CloseFile(&tmp);
         }
-        context->fnt = (u32)p_cache;
+        context->fnt = (uptr)p_cache;
         context->load_mem = p_mem;
         p_arc->flag |= FS_ARCHIVE_FLAG_TABLE_LOAD;
     }

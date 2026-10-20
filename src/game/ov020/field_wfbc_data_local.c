@@ -191,7 +191,7 @@
 struct GameData;
 struct Location;
 struct PlayerWork;
-struct MsgData;
+struct MsgBank;
 struct Strbuf;
 struct MyStatus;
 struct ArcHandle;
@@ -209,110 +209,68 @@ struct ScrcmdWork;
 struct FieldYesNoHandle;
 #include "../types.h"
 
-struct Location { u32 v[7]; };
+#include "../arm9/zonedata_types.h"
 
 typedef short GridCoord;
 
 #include "../ov010/script_work_types.h"
 #include "../ov021/field_wfbc_types.h"
 #include "../version.h"
-extern void *GAME_DATA_GetMyPlayerWork(struct GameData *p);
-struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/game_data.h"
+#include "../arm9/msgdata.h"
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/strbuf.h"
 struct MsgBank;
-u32 MSGDATA_Delete(struct MsgBank *bank);
-u16 FLDMMDL_GetObjId(const struct Mmdl *mmdl);
-extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(WfbcPerson *person);
-extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
+#include "../ov010/fldmmdl.h"
+#include "../ov010/event_field_proclink_return.h"
+#include "../arm9/mystatus.h"
 #include "../arm9/gfl_use.h"
-struct ProcLinkEntry;
-extern int EVENT_FIELD_PROCLINK_IsReturnEntryAllowed(struct ProcLinkEntry *entry);
-u8 MYSTATUS_GetRomCode(const struct MyStatus *obj);
-int INTRUDE_COMM_NormalizeVersion(s32 version, u32 trainerId);
-extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(const WfbcPerson *person);
-extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
-extern WfbcData *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
-extern u16 *GAME_DATA_GetMusicalShotTitle(struct GameData *gameData);
-extern WfbcDailyState *GAME_DATA_GetMusicalShotExtraData(struct GameData *gameData);
+#include "../ov010/event_field_proclink_types.h"
+
+#include "../ov010/intrude_comm_query.h"
 #include "../arm9/zonedata.h"
-extern void EVENT_FIELD_PROCLINK_CompactReturnList(WfbcData *data, int mode);
-extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *itemSlots);
 extern void FLDMMDL_InitPosRecord(MmdlHeader *header, u16 gridX, u16 gridZ, int direction);
-extern const void *MYSTATUS_GetName(const void *p);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 member, void *dst);
-extern void ARC_TOOL_DeleteHandle(void *p);
-extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, unsigned int member,
-                           unsigned int heap);
-extern ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
-extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *scriptWork);
-extern void *FIELDMAP_GetG3dMapper(void *fieldSystem);
-extern FieldWfbc *FIELD_G3D_MAPPER_GetWfbc(void *fieldWfbcOwner);
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
-extern void *FIELDMAP_GetFieldPlayer(void *fieldSystem);
-extern void *FIELDMAP_GetMmdlSys(void *fieldSystem);
-extern int FIELD_PLAYER_GetFrontGridPos(void *player, GridCoord *outX, GridCoord *outY, GridCoord *outZ);
-extern struct Mmdl *FLDMMDL_SysSearchGridPos(void *mmdlSystem, int gridX, int gridZ, int unused);
-extern void FIELD_WFBC_ApplyGiftMood(FieldWfbc *wfbc, u32 personIndex);
-extern int FIELD_WFBC_GetPeopleArrivalFlag(FieldWfbc *wfbc, u32 personIndex);
-extern void FIELD_WFBC_ClearPeopleArrivalFlag(FieldWfbc *wfbc, u32 personIndex);
-extern void *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
-extern unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, struct ScrcmdWork *work);
-extern u16 SCRCMD_WORK_GetHeapId(struct ScrcmdWork *work);
-extern void FIELD_WFBC_SetWordSetParentName(FieldWfbc *wfbc, void *wordSet, int npcId, int bufIndex, int heapId);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScrcmdWork *work);
-extern void FIELD_WFBC_ReloadSaveData(FieldWfbc *wfbc);
-extern FieldWfbcPeople *FIELD_WFBC_GetPeople(FieldWfbc *wfbc, u32 personIndex);
-extern WfbcNpcRecord *FIELD_WFBC_PEOPLE_GetNpcRecord(FieldWfbcPeople *people);
-extern WfbcPerson *FIELD_WFBC_PEOPLE_GetPersonData(FieldWfbcPeople *people);
-extern int FIELD_WFBC_GetPeopleNum(FieldWfbc *wfbc);
-extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldSystem);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-void *GAME_DATA_GetMyParty(const struct GameData *p);
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_tool.h"
+#include "../ov010/scrcmd_work.h"
+#include "../ov010/script_work.h"
+#include "../ov021/fieldmap.h"
+#include "../ov021/field_g3d_mapper.h"
+#include "../ov021/field_player.h"
+#include "../ov021/field_wfbc.h"
+#include "../ov010/script_work_cmd.h"
+#include "../arm9/gamesystem.h"
 #include "../arm9/pokeparty.h"
 #include "../arm9/gf_standard.h"
 #include "../arm9/poke_tool.h"
-extern unsigned char FIELD_WFBC_GetCityType(FieldWfbc *wfbc);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern void SCRIPT_SYS_CallEvent(ScriptWork *scriptWork, void *event);
-u16 FIELDMAP_GetHeapId(void *fieldSystem);
-u32 FIELDMAP_GetMsgBg(void *fieldSystem);
-void *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-void *INTRUDE_COMM_GetWorkIfRunning(void *eventWork);
-void *INTRUDE_COMM_GetReturnSlots(void *eventWork);
-struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *proc, u32 workSize);
-void *GAME_EVENT_GetWork(struct GameEvent *p);
-struct WordSet *WORDSET_CreateDefault(u32 heap);
-WfbcData *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 index);
-void FLDMMDL_GetPos(const struct Mmdl *mmdl, struct VecFx32 *out);
+#include "../ov010/script_sys.h"
+#include "../arm9/gf_font.h"
 struct EventSlots;
-void EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending(struct EventSlots *slots);
-void EVENT_FIELD_PROCLINK_RequestReturn(struct EventSlots *slots, s32 entryId, s32 handlerIndex);
-int EVENT_FIELD_PROCLINK_HasReturnDefaultSlot(void *returnList, int personIndex);
-u16 EVENT_FIELD_PROCLINK_GetReturnDefaultSlotType(void *returnList);
-int EVENT_FIELD_PROCLINK_HasEventdataEntry(WfbcData *data, int personIndex, unsigned mode);
+#include "../ov010/event_field_proclink_eventdata.h"
 #include "../arm9/fade.h"
-struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-void EVENT_FIELD_PROCLINK_ApplyReturnEntry(void *returnList, WfbcData *ownData, WfbcData *cityData, void *playerBlock, u16 personIndex, u16 heapId);
-int FIELD_WFBC_RemovePeople(FieldWfbc *wfbc, u32 personIndex);
-void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
 #include "../arm9/wordset.h"
-extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
-extern struct FieldMsgHandle *FIELD_MSGBG_AddTalkWin(int msgBgSys, int speed, int *playerPos, struct Strbuf *message, u32 c, u32 d);
-extern u32 FIELD_MSGBG_TalkWinMain(struct FieldMsgHandle *handle);
+#include "../ov021/field_msgbg.h"
 #include "../arm9/key.h"
-extern struct FieldYesNoHandle *FIELD_MSGBG_CreateYesNoMenu(int msgBgSys, u32 b);
-extern int FIELD_MSGBG_YesNoMenuMain(struct FieldYesNoHandle *h);
+#include "../arm9/game_event.h"
+
+/* The resident records have the layout of the proc link entries: the proc link functions of ov010 serve both. */
+static inline void WFBC_ClearReturnEntry(WfbcPerson *person)
+{
+    EVENT_FIELD_PROCLINK_ClearReturnEntry((ProcLinkEntry *)person);
+}
+
+static inline int WFBC_IsReturnEntryValid(const WfbcPerson *person)
+{
+    return EVENT_FIELD_PROCLINK_IsReturnEntryValid((ProcLinkEntry *)person);
+}
+
+static inline void WFBC_CompactReturnList(WfbcData *data, int listIndex)
+{
+    EVENT_FIELD_PROCLINK_CompactReturnList((struct ProcLinkSys *)data, listIndex);
+}
 struct FieldMenuFunc;
-extern int FIELD_MSGBG_DeleteMenuFunc(struct FieldMenuFunc *menu);
 struct FieldTalkWin;
-extern int FIELD_MSGBG_DeleteTalkWin(struct FieldTalkWin *talkWin);
-extern int FIELD_MSGBG_WaitTalkWinClose(struct FieldTalkWin *talkWin);
-extern int FIELD_MSGBG_ClearTalkWin(struct FieldMsgHandle *handle);
-int FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(const struct Mmdl *mmdl);
+int FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(struct Mmdl *mmdl);
 void FIELD_WFBC_DATA_LOCAL_ClearPeopleList(WfbcData *data);
 void FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList(WfbcData *data);
 void FIELD_WFBC_DATA_LOCAL_Init(WfbcData *data, const struct MyStatus *myStatus, int heapSeed);
@@ -388,7 +346,7 @@ extern u16 d_02187E04[];
 /*
  * extent: two zero alignment bytes after the return.
  */
-int FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(const struct Mmdl *mmdl)
+int FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(struct Mmdl *mmdl)
 {
     return FLDMMDL_GetObjId(mmdl) - 0x80;
 }
@@ -397,14 +355,14 @@ void FIELD_WFBC_DATA_LOCAL_ClearPeopleList(WfbcData *data)
 {
     int i;
     for (i = 0; i < 10; i++)
-        EVENT_FIELD_PROCLINK_ClearReturnEntry(&data->people[i]);
+        WFBC_ClearReturnEntry(&data->people[i]);
 }
 
 void FIELD_WFBC_DATA_LOCAL_ClearBackPeopleList(WfbcData *data)
 {
     int i;
     for (i = 0; i < 10; i++)
-        EVENT_FIELD_PROCLINK_ClearReturnEntry(&data->backPeople[i]);
+        WFBC_ClearReturnEntry(&data->backPeople[i]);
 }
 
 void FIELD_WFBC_DATA_LOCAL_Init(WfbcData *data, const struct MyStatus *myStatus, int heapSeed)
@@ -508,7 +466,7 @@ int FIELD_WFBC_DATA_LOCAL_CountPeople(const WfbcData *data, int which)
         people = data->backPeople;
     count = 0;
     for (i = 0; i < 10; i++)
-        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&people[i]))
+        if (WFBC_IsReturnEntryValid(&people[i]))
             count++;
     return count;
 }
@@ -550,7 +508,7 @@ void FIELD_WFBC_DATA_LOCAL_AdvanceDays(struct GameData *gameData, int days, u32 
     zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
     base = (char *)GAME_DATA_GetSecondUnionInfo(gameData);
     itemSlots = GAME_DATA_GetMusicalShotTitle(gameData);
-    dailyState = GAME_DATA_GetMusicalShotExtraData(gameData);
+    dailyState = (WfbcDailyState *)GAME_DATA_GetMusicalShotExtraData(gameData);
     if (days <= 0) {
         days = 1;
     }
@@ -563,7 +521,7 @@ void FIELD_WFBC_DATA_LOCAL_AdvanceDays(struct GameData *gameData, int days, u32 
     i = 0;
     items = base + 8;
     for (; i < 10; i++) {
-        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid((WfbcPerson *)(items + i * 0x18)) != 0) {
+        if (WFBC_IsReturnEntryValid((WfbcPerson *)(items + i * 0x18)) != 0) {
             int reachedZero;
             person = base + i * 0x18;
             person[0xb] = 7;
@@ -573,7 +531,7 @@ void FIELD_WFBC_DATA_LOCAL_AdvanceDays(struct GameData *gameData, int days, u32 
             } else if (reachedZero != 0) {
                 if (ZONEDATA_IsZoneInTableDFEC(zoneId) == 0) {
                     FIELD_WFBC_DATA_LOCAL_PushPersonFront((WfbcPerson *)(base + 0xF8), (WfbcPerson *)(items + i * 0x18));
-                    EVENT_FIELD_PROCLINK_ClearReturnEntry((WfbcPerson *)(items + i * 0x18));
+                    WFBC_ClearReturnEntry((WfbcPerson *)(items + i * 0x18));
                 } else {
                     person[0xb] = 1;
                 }
@@ -582,13 +540,13 @@ void FIELD_WFBC_DATA_LOCAL_AdvanceDays(struct GameData *gameData, int days, u32 
         }
     }
     i = 0;
-    EVENT_FIELD_PROCLINK_CompactReturnList((WfbcData *)base, 0);
+    WFBC_CompactReturnList((WfbcData *)base, 0);
     EVENT_FIELD_PROCLINK_InitIdList(itemSlots);
     npcData = FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, (u16)((heapSeed & 0x7FFF) | 0x8000));
     if (((WfbcData *)base)->cityType == 1) {
         for (i = 0; i < 10; i++) {
             char *entry = base + 8 + i * 0x18;
-            if (EVENT_FIELD_PROCLINK_IsReturnEntryValid((WfbcPerson *)entry) != 0) {
+            if (WFBC_IsReturnEntryValid((WfbcPerson *)entry) != 0) {
                 FIELD_WFBC_DATA_LOCAL_LoadNpcData(npcData, *(u8 *)(base + i * 0x18 + 9));
                 npcRecord = FIELD_WFBC_DATA_LOCAL_GetNpcRecord(npcData);
                 if ((u16)GFL_USE_GetRandom(100) < npcRecord->giftChance) {
@@ -604,12 +562,12 @@ void FIELD_WFBC_DATA_LOCAL_AdvanceDays(struct GameData *gameData, int days, u32 
             pick = GFL_USE_GetRandom(backCount * 3);
             for (j = 0; j < 10; j++) {
                 offset = j * 0x18;
-                if (EVENT_FIELD_PROCLINK_IsReturnEntryValid((WfbcPerson *)(base + 8 + offset)) != 0) {
+                if (WFBC_IsReturnEntryValid((WfbcPerson *)(base + 8 + offset)) != 0) {
                     weightSum += 3;
                     if (weightSum > pick) {
                         FIELD_WFBC_DATA_LOCAL_LoadNpcData(npcData, *(u8 *)(base + offset + 9));
                         npcRecord = FIELD_WFBC_DATA_LOCAL_GetNpcRecord(npcData);
-                        FIELD_WFBC_DATA_LOCAL_WriteValue(dailyState, (npcRecord->requestIds)[pick % 3]);
+                        FIELD_WFBC_DATA_LOCAL_WriteValue(dailyState, (npcRecord->speciesIds)[pick % 3]);
                         FIELD_WFBC_DATA_LOCAL_WriteCounter(dailyState, npcRecord->giftItemId);
                         break;
                     }
@@ -643,12 +601,12 @@ void FIELD_WFBC_DATA_LOCAL_MoveBoredPeopleToBackList(struct GameData *gameData)
     items = base + 8;
     key = zoneId;
     for (; i < 10; i++) {
-        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid((WfbcPerson *)(items + i * 0x18)) != 0 && FIELD_WFBC_DATA_LOCAL_IsMoodZero((WfbcPerson *)(items + i * 0x18)) != 0 && ZONEDATA_IsZoneInTableDFEC(key) == 0) {
+        if (WFBC_IsReturnEntryValid((WfbcPerson *)(items + i * 0x18)) != 0 && FIELD_WFBC_DATA_LOCAL_IsMoodZero((WfbcPerson *)(items + i * 0x18)) != 0 && ZONEDATA_IsZoneInTableDFEC(key) == 0) {
             FIELD_WFBC_DATA_LOCAL_PushPersonFront((WfbcPerson *)backPeople, (WfbcPerson *)(base + 8 + i * 0x18));
-            EVENT_FIELD_PROCLINK_ClearReturnEntry((WfbcPerson *)(base + 8 + i * 0x18));
+            WFBC_ClearReturnEntry((WfbcPerson *)(base + 8 + i * 0x18));
         }
     }
-    EVENT_FIELD_PROCLINK_CompactReturnList((WfbcData *)base, 0);
+    WFBC_CompactReturnList((WfbcData *)base, 0);
 }
 
 static inline void FIELD_WFBC_DATA_LOCAL_ClearFlagBits(u8 *flags, unsigned int mask)
@@ -668,7 +626,7 @@ void FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus(u8 *data)
 {
     int i;
     for (i = 0; i < 10; i++) {
-        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid((WfbcPerson *)(data + 8 + i * 0x18)) &&
+        if (WFBC_IsReturnEntryValid((WfbcPerson *)(data + 8 + i * 0x18)) &&
             (*(u8 *)((unsigned int)data + i * 0x18 + 0xb) & 2)) {
             FIELD_WFBC_DATA_LOCAL_AddMood((WfbcPerson *)(data + 8 + i * 0x18), 3);
             FIELD_WFBC_DATA_LOCAL_ClearFlagBits((u8 *)((unsigned int)data + i * 0x18 + 0xb), 2);
@@ -713,7 +671,7 @@ MmdlHeader *FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders(WfbcData *data, int which, i
     i = 0;
     proto = d_02187DBC;
     for (; i < 10; i++) {
-        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&people[i])) {
+        if (WFBC_IsReturnEntryValid(&people[i])) {
             header = &headers[count];
             *header = proto;
             FIELD_WFBC_DATA_LOCAL_LoadNpcData(npcData, FIELD_WFBC_DATA_LOCAL_GetNpcId(&people[i]));
@@ -783,9 +741,9 @@ void FIELD_WFBC_DATA_LOCAL_ValidatePerson(WfbcPerson *person)
 
     eosChar = STRBUF_GetEosChar();
     if (person->npcId >= 0x1e)
-        EVENT_FIELD_PROCLINK_ClearReturnEntry(person);
+        WFBC_ClearReturnEntry(person);
     if (person->mood > 0x64)
-        EVENT_FIELD_PROCLINK_ClearReturnEntry(person);
+        WFBC_ClearReturnEntry(person);
     if (person->hasParent != 0) {
         found = 0;
         for (i = 0; i < 8; i++) {
@@ -793,7 +751,7 @@ void FIELD_WFBC_DATA_LOCAL_ValidatePerson(WfbcPerson *person)
                 found = 1;
         }
         if (found == 0)
-            EVENT_FIELD_PROCLINK_ClearReturnEntry(person);
+            WFBC_ClearReturnEntry(person);
     }
 }
 
@@ -907,7 +865,7 @@ MmdlHeader *FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders(u16 *itemSlots, int whic
     WfbcNpcData *npcData;
     WfbcPosition *positions;
     WfbcPosition *position;
-    int heapId;
+    u16 heapId;
     int total;
     int count;
     MmdlHeader *header;
@@ -1016,13 +974,13 @@ int FIELD_WFBC_DATA_LOCAL_IsNpcPresent(const WfbcData *data, int npcId)
     i = 0;
     people = data->people;
     for (; i < 10; i++) {
-        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&people[i]) != 0 && data->people[i].npcId == npcId)
+        if (WFBC_IsReturnEntryValid(&people[i]) != 0 && data->people[i].npcId == npcId)
             return 1;
     }
     i = 0;
     backPeople = data->backPeople;
     for (; i < 10; i++) {
-        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&backPeople[i]) != 0 && data->backPeople[i].npcId == npcId)
+        if (WFBC_IsReturnEntryValid(&backPeople[i]) != 0 && data->backPeople[i].npcId == npcId)
             return 1;
     }
     return 0;
@@ -1034,7 +992,7 @@ void FIELD_WFBC_DATA_LOCAL_InsertPerson(WfbcData *data, const struct MyStatus *m
 
     if (FIELD_WFBC_DATA_LOCAL_IsPeopleListFull(data->people) == 1) {
         FIELD_WFBC_DATA_LOCAL_PushPersonFront(data->backPeople, &data->people[9]);
-        EVENT_FIELD_PROCLINK_ClearReturnEntry(&data->people[9]);
+        WFBC_ClearReturnEntry(&data->people[9]);
     }
     front = data->people;
     front = FIELD_WFBC_DATA_LOCAL_PushPersonFront(front, person);
@@ -1042,7 +1000,7 @@ void FIELD_WFBC_DATA_LOCAL_InsertPerson(WfbcData *data, const struct MyStatus *m
         FIELD_WFBC_DATA_LOCAL_SetPersonParent(front, myStatus);
 }
 
-int FIELD_WFBC_DATA_LOCAL_IsPeopleListFull(const WfbcPerson *list) { int i; for (i = 0; i < 10; i++) { if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&list[i]) == 0) return 0; } return 1; }
+int FIELD_WFBC_DATA_LOCAL_IsPeopleListFull(const WfbcPerson *list) { int i; for (i = 0; i < 10; i++) { if (WFBC_IsReturnEntryValid(&list[i]) == 0) return 0; } return 1; }
 
 /*
  * Lever: unsigned index scaling retains separate source/destination multiplies.
@@ -1053,7 +1011,7 @@ WfbcPerson *FIELD_WFBC_DATA_LOCAL_FindEmptyPersonSlot(WfbcPerson *list)
 {
     int i;
     for (i = 0; i < 10; i++) {
-        if (EVENT_FIELD_PROCLINK_IsReturnEntryValid(&list[i]) == 0)
+        if (WFBC_IsReturnEntryValid(&list[i]) == 0)
             return &list[i];
     }
     return list;
@@ -1128,7 +1086,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdCheckAndMarkFacingPerson(ScriptVm *vm, struct Sc
 
     fieldParam = SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work));
     wfbc = FIELD_G3D_MAPPER_GetWfbc(FIELDMAP_GetG3dMapper(fieldParam->fieldSystem));
-    dailyState = GAME_DATA_GetMusicalShotExtraData(SCRCMD_WORK_GetGameData(work));
+    dailyState = (WfbcDailyState *)GAME_DATA_GetMusicalShotExtraData(SCRCMD_WORK_GetGameData(work));
     player = FIELDMAP_GetFieldPlayer(fieldParam->fieldSystem);
     mmdlSystem = FIELDMAP_GetMmdlSys(fieldParam->fieldSystem);
     FIELD_PLAYER_GetFrontGridPos(player, &frontGrid[2], &frontGrid[1], &frontGrid[0]);
@@ -1149,7 +1107,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdSetFacingPersonParam(ScriptVm *vm, struct Scrcmd
     void *mmdlSystem;
     void *wordSet;
     int bufIndex;
-    int heapId;
+    u16 heapId;
     GridCoord frontGrid[3];
 
     scriptWork = SCRCMD_WORK_GetScriptWork(work);
@@ -1187,7 +1145,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue(ScriptVm *vm, struct ScrcmdWork *wo
 
     scriptWork = SCRCMD_WORK_GetScriptWork(work);
     gameData = SCRCMD_WORK_GetGameData(work);
-    data = GAME_DATA_GetSecondUnionInfo(gameData);
+    data = (WfbcData *)GAME_DATA_GetSecondUnionInfo(gameData);
     query = SCRIPT_WORK_ReadWorkValue(vm, work);
     result = SCRIPT_WORK_ReadWorkPointer(vm, work);
     if (query == 3) {
@@ -1197,7 +1155,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue(ScriptVm *vm, struct ScrcmdWork *wo
     wfbc = FIELD_G3D_MAPPER_GetWfbc(FIELDMAP_GetG3dMapper(fieldParam->fieldSystem));
     player = FIELDMAP_GetFieldPlayer(fieldParam->fieldSystem);
     mmdlSystem = FIELDMAP_GetMmdlSys(fieldParam->fieldSystem);
-    dailyState = GAME_DATA_GetMusicalShotExtraData(gameData);
+    dailyState = (WfbcDailyState *)GAME_DATA_GetMusicalShotExtraData(gameData);
     FIELD_PLAYER_GetFrontGridPos(player, &frontGrid[2], &frontGrid[1], &frontGrid[0]);
     personMmdl = FLDMMDL_SysSearchGridPos(mmdlSystem, frontGrid[2], frontGrid[0], 0);
     if (personMmdl != 0) {
@@ -1260,7 +1218,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdGetWfbcValue(ScriptVm *vm, struct ScrcmdWork *wo
  */
 int FIELD_WFBC_DATA_LOCAL_ScrCmdAddPoints(ScriptVm *vm, struct ScrcmdWork *work)
 {
-    FIELD_WFBC_DATA_LOCAL_AddValuePoints(GAME_DATA_GetMusicalShotExtraData(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work))->fieldSystem))));
+    FIELD_WFBC_DATA_LOCAL_AddValuePoints((WfbcDailyState *)GAME_DATA_GetMusicalShotExtraData(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work))->fieldSystem))));
     return 0;
 }
 
@@ -1359,8 +1317,8 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdCallPersonTalkEvent(ScriptVm *vm, struct ScrcmdW
 
 struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem *gameSystem, void *fieldSystem)
 {
-    int heapId;
-    int msgBgSys;
+    u16 heapId;
+    struct FieldMsgBg *msgBgSys;
     struct GameData *gameData;
     void *returnList;
     struct GameEvent *event;
@@ -1380,7 +1338,7 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
     if (returnList == 0)
         return 0;
     returnList = INTRUDE_COMM_GetReturnSlots(returnList);
-    event = GAME_EVENT_Create(gameSystem, 0, FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain, 0x58);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain, 0x58);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldSystem = fieldSystem;
@@ -1392,15 +1350,15 @@ struct GameEvent *FIELD_WFBC_DATA_LOCAL_CreatePersonTalkEvent(struct GameSystem 
     work->returnList = returnList;
     work->firstTalk = 1;
     work->heapId = (heapId & 0x7FFF) | 0x8000;
-    work->ownData = GAME_DATA_GetUnionInfo(gameData, 1);
-    work->cityData = GAME_DATA_GetUnionInfo(gameData, 0);
+    work->ownData = (WfbcData *)GAME_DATA_GetUnionInfo(gameData, 1);
+    work->cityData = (WfbcData *)GAME_DATA_GetUnionInfo(gameData, 0);
     wfbc = FIELD_G3D_MAPPER_GetWfbc(FIELDMAP_GetG3dMapper(fieldSystem));
     player = FIELDMAP_GetFieldPlayer(fieldSystem);
     mmdlSystem = FIELDMAP_GetMmdlSys(fieldSystem);
     GAME_DATA_GetMusicalShotExtraData(GAMESYSTEM_GetGameData(gameSystem));
     FIELD_PLAYER_GetFrontGridPos(player, &frontGrid[2], &frontGrid[1], &frontGrid[0]);
     personMmdl = FLDMMDL_SysSearchGridPos(mmdlSystem, frontGrid[2], frontGrid[0], 0);
-    FLDMMDL_GetPos(personMmdl, (struct VecFx32 *)work->playerPos);
+    FLDMMDL_GetPos(personMmdl, (struct VecFx32 *)&work->playerPos);
     personIndex = FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(personMmdl);
     personRecord = FIELD_WFBC_GetPeople(wfbc, personIndex);
     work->wfbcRuntime = wfbc;
@@ -1494,7 +1452,7 @@ int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *stat
     case 14:
         if (FADE_IsActive() != 0)
             break;
-        EVENT_FIELD_PROCLINK_ApplyReturnEntry(talk->returnList, talk->ownData, talk->cityData, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(talk->gameSystem)), talk->personIndex, talk->heapId);
+        EVENT_FIELD_PROCLINK_ApplyReturnEntry((int)talk->returnList, (struct ProcLinkRequest *)talk->ownData, (struct ProcLinkSys *)talk->cityData, (int)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(talk->gameSystem)), talk->personIndex, talk->heapId);
         FIELD_WFBC_RemovePeople(talk->wfbcRuntime, talk->personIndex);
         FLDMMDL_DeleteMmdl(talk->personMmdl);
         FADE_Start(1, 0x10, 0, 0);
@@ -1518,7 +1476,7 @@ int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *stat
             break;
         STRBUF_Delete(talk->msgBuf);
         STRBUF_Delete(talk->tmpBuf);
-        MSGDATA_Delete((struct MsgBank *)talk->msgData);
+        MSGDATA_Delete(talk->msgData);
         WORDSET_Delete(talk->wordSet);
         return 1;
     }
@@ -1534,7 +1492,7 @@ void FIELD_WFBC_DATA_LOCAL_StartTalkMessage(WfbcTalkEvent *talk, int messageSlot
                   talk->tmpBuf);
     WORDSET_CopyTaggedText(talk->wordSet, talk->msgBuf, talk->tmpBuf);
     zero = 0;
-    talk->msgHandle = FIELD_MSGBG_AddTalkWin(talk->msgBgSys, 2, talk->playerPos, talk->msgBuf, zero, zero);
+    talk->msgHandle = FIELD_MSGBG_AddTalkWin(talk->msgBgSys, 2, &talk->playerPos, talk->msgBuf, zero, zero);
     *state = 0x10;
     talk->yesState = nextState;
     talk->msgState = 0;
@@ -1551,7 +1509,7 @@ void FIELD_WFBC_DATA_LOCAL_StartTalkMessageWithChoice(WfbcTalkEvent *talk, int m
                   talk->tmpBuf);
     WORDSET_CopyTaggedText(talk->wordSet, talk->msgBuf, talk->tmpBuf);
     zero = 0;
-    talk->msgHandle = FIELD_MSGBG_AddTalkWin(talk->msgBgSys, 2, talk->playerPos, talk->msgBuf, zero, zero);
+    talk->msgHandle = FIELD_MSGBG_AddTalkWin(talk->msgBgSys, 2, &talk->playerPos, talk->msgBuf, zero, zero);
     *state = 0x10;
     talk->yesState = yesStateId;
     talk->noState = noStateId;

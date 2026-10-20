@@ -59,38 +59,24 @@ struct FieldPlayer;
 struct SaveControl;
 struct ScriptWork;
 
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
-extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
-extern void *GAME_DATA_GetMyItem(struct GameData *gameData);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
+#include "../ov010/scrcmd_work.h"
+#include "../ov010/script_work_cmd.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "fieldmap.h"
 extern void VM_SetWait(struct ScriptVm *vm, int (*waitFunc)(struct ScriptVm *vm, struct ScrcmdWork *cmdWork));
-extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern void *SCRIPT_WORK_GetUserWorkPtr(struct ScriptWork *work);
+#include "field_player.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../ov010/script_work.h"
 struct UnionInfo;
-extern struct UnionInfo *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
 struct GfFont;
-extern struct GfFont *FIELD_MSGBG_GetFont(struct FieldMsgBg *msgBg);
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
-extern int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern void GAME_BEACON_SEARCH_SetFacilityEnter(void);
+#include "field_msgbg.h"
+#include "../arm9/save_control.h"
+#include "scrcmd_proc_fld.h"
+#include "../ov010/game_beacon_set.h"
 struct FieldCamera;
-extern u8 FIELD_CAMERA_GetAreasEnabled(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetAreasEnabled(struct FieldCamera *camera, u32 enabled);
-extern void FIELD_CAMERA_PushStateConstrained(struct FieldCamera *camera);
-extern void FIELD_CAMERA_GetEyeRaw(struct FieldCamera *camera, VecFx32 *out);
-extern void FIELD_CAMERA_GetTargetRaw(struct FieldCamera *camera, VecFx32 *out);
-extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
+#include "field_camera.h"
 struct FieldCameraMoveRequest;
-extern void FIELD_CAMERA_StartMoveConstrained(struct FieldCamera *camera, struct FieldCameraMoveRequest *request, u16 frames);
 int SCRCMD_SHOP_StartShop(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 void SCRCMD_SHOP_PrepareFieldCamera(ShopTask *task, struct FieldMap *fieldMap, void *fieldCamera);
 extern u8 d_021DE210[];

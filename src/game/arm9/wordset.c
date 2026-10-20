@@ -458,13 +458,13 @@ void WORDSET_SetSlotMonNameEx(struct WordSet *words, u32 slot, void *mon)
 
 void WORDSET_SetSlotMonNickname(struct WordSet *words, u32 slot, void *mon)
 {
-    POKE_TOOL_GetPartyValue(mon, 0x73, (u32)words->scratch);
+    POKE_TOOL_GetPartyValue(mon, 0x73, (uptr)words->scratch);
     WORDSET_SetSlotText(words, slot, words->scratch, 0);
 }
 
 void WORDSET_SetSlotMonNicknameAlt(struct WordSet *words, u32 slot, void *mon)
 {
-    POKE_TOOL_GetBoxValue(mon, 0x73, (u32)words->scratch);
+    POKE_TOOL_GetBoxValue(mon, 0x73, (uptr)words->scratch);
     WORDSET_SetSlotText(words, slot, words->scratch, 0);
 }
 

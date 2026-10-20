@@ -40,7 +40,7 @@
 #include "../types.h"
 
 #include "../ov010/namein_args.h"
-#include "poke_tool_param.h"
+#include "../arm9/poke_tool_param.h"
 
 struct GameEvent;
 struct GameSystem;
@@ -84,27 +84,19 @@ typedef struct SubProcEventWork {
     u16 *result;                          /* 0x10 */
 } SubProcEventWork;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-struct GameEvent *GAME_EVENT_Create(void *owner, void *parent, void *handler, u32 workSize);
-void *GAME_EVENT_GetWork(struct GameEvent *event);
+#include "../arm9/game_data.h"
+#include "../arm9/game_event.h"
 struct FieldMap;
-extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
-extern struct GameEvent *FIELD_STATUS_CreateSubProcNoFadeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+#include "../arm9/field_status.h"
+#include "../arm9/gamesystem.h"
 struct Party;
-extern u32 POKEPARTY_GetCount(struct Party *party);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 struct MiscSave;
-extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
+#include "../arm9/beacon.h"
+#include "../arm9/poke_tool.h"
 extern int *NAMEIN_SETUP_CreateArgs(int kind, int mode, int species, int form, int maxLength, int flags, void *nameSave);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
-extern u32 RECORD_AddOne(struct TrainerRecord *record, int recordId);
+#include "../arm9/record.h"
 struct NameInArgs;
 extern void NAMEIN_SETUP_FreeArgs(struct NameInArgs *args);
 
@@ -126,7 +118,7 @@ extern char ov171_id[];
  */
 void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode)
 {
-    void *task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_NameInEventMain, 0x10);
+    void *task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_NameInEventMain, 0x10);
     NameInEventWork *work = GAME_EVENT_GetWork(task);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
@@ -224,7 +216,7 @@ int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventW
  */
 void *SCRCMD_CreateSubProcEvent(void *gameSystem, u32 procId, u16 *result)
 {
-    void *task = GAME_EVENT_Create(gameSystem, 0, SCRCMD_SubProcEventMain, 0x14);
+    void *task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)SCRCMD_SubProcEventMain, 0x14);
     SubProcEventWork *work = GAME_EVENT_GetWork(task);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);

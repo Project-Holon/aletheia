@@ -8,9 +8,9 @@
 #include "../ov009/wcm_types.h"
 
 void WCM_ClearApList(void);
-long WCM_CountApList(void);
-long WCM_LockApList(long lock);
-void *WCM_PointApList(long index);
+int WCM_CountApList(void);
+int WCM_LockApList(int lock);
+WMBssDesc *WCM_PointApList(unsigned short index);
 WMBssDesc *WCM_PointApListEx(long index);
 void WCMi_EntryApList(WMBssDesc *bssDesc, unsigned short linkLevel);
 WCMApList *WcmAllocApList(void);

@@ -107,7 +107,7 @@ static inline SNDExChannel *ConvAddr(const SNDExChannel *p, const SNDWork *base,
     if (p == 0) {
         return 0;
     }
-    return (SNDExChannel *)((unsigned char *)info + ((unsigned long)p - (unsigned long)base));
+    return (SNDExChannel *)((unsigned char *)info + ((uptr)p - (uptr)base));
 }
 
 /*

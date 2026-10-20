@@ -65,26 +65,7 @@
 #include "../sdk_os.h"
 #include "../../matched/include/G_AOSSLINK_BSS.h"
 
-struct wlla_ssid {
-    unsigned long Len;
-    unsigned char Ssid[32];
-};
-
-struct wlla_rateset {
-    unsigned long Count;
-    unsigned char Rate[16];
-};
-
-struct wlla_bss_info {
-    struct wlla_ssid    Ssid;
-    unsigned long       Channel;
-    unsigned long       Noise;
-    unsigned long       Signal;
-    unsigned char       Bssid[6];
-    struct wlla_rateset SupportRates;
-    unsigned long       BeaconPeriod;
-    unsigned long       Capability;
-};
+#include "wlla_types.h"
 
 typedef struct {
     unsigned short apc;
@@ -106,53 +87,25 @@ typedef struct {
     void  (*AOSSi_Free)(void *ptr);
 } AOSSLINK_BSS;
 
-struct wlla_bss_list {
-    unsigned long        Num;
-    struct wlla_bss_info BssInfo[1];
-};
-
 #include "../types.h"
 
 #include "../sdk_wm.h"
 
-typedef struct wlla_connect_param {
-    u32 ssidLen;            /* +0x00 */
-    u8 ssid[0x20];          /* +0x04 */
-    u32 AuthAlgo;           /* +0x24 */
-    u32 keyLen;             /* +0x28 */
-    u8 key[0x10];           /* +0x2c */
-} wlla_connect_param;
 
-typedef struct wlla_link_stat wlla_link_stat;
-
-extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
-extern void MIi_CpuClear16(unsigned short data, void *destp, unsigned long size);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern int OS_SendMessage(OSMessageQueue *mq, void *msg, long flags);
-extern void OS_InitMessageQueue(OSMessageQueue *mq, void **msgArray, long msgCount);
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int work_size);
-extern int OS_ReceiveMessage(OSMessageQueue *mq, void **msg, long flags);
-extern int APC_End(void);
-extern int APC_Disconnect(void);
-extern int APC_SearchStart(unsigned char *bssid, unsigned char *essid, int essid_len, unsigned long option);
-extern void OS_CreateAlarm(OSAlarm *alarm);
-extern void OS_SetAlarm(OSAlarm *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
-extern int APC_GetAPList(struct WMBssDesc *WMBssdescBuf, int list_max);
-extern int APC_SearchEnd(void);
-extern void OS_CancelAlarm(OSAlarm *alarm);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void WCM_ClearApList(void);
-extern int APC_Connect(WMBssDesc *bd, u8 *wep_buf, u32 option);
-extern void OS_Sleep(unsigned int msec);
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_message.h"
+#include "../arm9/os_system.h"
+#include "apc.h"
+#include "../arm9/os_alarm.h"
+#include "../ov009/wcm_aplist.h"
+#include "../arm9/os_thread.h"
 void Set_WLLA_BSS_INFO(struct WMBssDesc *bd, struct wlla_bss_info *bi);
 void Get_WLLA_SSID_PARAM(struct wlla_ssid *ssid, struct WMBssDesc *bd);
 int AOSSi_InitLocal(void *(*alloc)(unsigned long), void (*free)(void *));
 int AOSSi_EndLocal(void);
 int AOSSi_Disconnect(void);
 int AOSSi_WLANGetBSSList(struct wlla_bss_list **bssList);
-int AOSSi_WLANConnect(wlla_connect_param *conParam, wlla_link_stat *linkStat);
+int AOSSi_WLANConnect(WLLA_CONNECT_PARAM *conParam, WLLA_LINK_STAT *linkStat);
 void AOSSi_Sleep(unsigned int msec);
 int AOSSi_Status(int a);
 extern RATESET rateset_table[12];
@@ -247,7 +200,7 @@ int AOSSi_InitLocal(void *(*alloc)(unsigned long), void (*free)(void *))
         loop_flag = 0;
     while (loop_flag) {
         OS_ReceiveMessage(&aoss_mq, &msg, 1);
-        switch ((int)msg) {
+        switch ((sptr)msg) {
         case 4:
         case 5:
             break;
@@ -290,7 +243,7 @@ int AOSSi_EndLocal(void)
         return -1;
     while (loop_flag) {
         OS_ReceiveMessage(&aoss_mq, &msg, 1);
-        switch ((int)msg) {
+        switch ((sptr)msg) {
         case 4:
         case 5:
             break;
@@ -339,7 +292,7 @@ int AOSSi_Disconnect(void)
     if (APC_Disconnect() != 0) {
         do {
             OS_ReceiveMessage(&aoss_mq, &msg, 1);
-            if ((int)msg == 14) {
+            if ((sptr)msg == 14) {
                 loop_flag = 0;
                 rc = 0;
             } else {
@@ -381,7 +334,7 @@ int AOSSi_WLANGetBSSList(struct wlla_bss_list **bssList)
     OS_SetAlarm(&alarm, 0x3FEC42, alarmCallback, (void *)0x13);
     do {
         OS_ReceiveMessage(&aoss_mq, &msg, 1);
-        switch ((int)msg) {
+        switch ((sptr)msg) {
         case 4:
         case 8:
         case 18:
@@ -471,7 +424,7 @@ static WMBssDesc gAosslinkBlock1 __attribute__((aligned(32))) = {0};
  *   `case 19` that keeps the arm's block (table slot on case 18's `b`).
  *   Also: `while (loop_flag)` instead of gotos, u8 wep_id per DWARF, no `cp`.
  */
-int AOSSi_WLANConnect(wlla_connect_param *conParam, wlla_link_stat *linkStat)
+int AOSSi_WLANConnect(WLLA_CONNECT_PARAM *conParam, WLLA_LINK_STAT *linkStat)
 {
     void *msg;
     OSAlarm alarm;
@@ -495,26 +448,26 @@ int AOSSi_WLANConnect(wlla_connect_param *conParam, wlla_link_stat *linkStat)
     connect_option |= 0x30000;
 
     MI_CpuFill8(gAosslinkBlock2, 0, 96);
-    if (conParam->keyLen == 5) {
+    if (conParam->Key.Len == 5) {
         gAosslinkBlock2[0] = 1;
-    } else if (conParam->keyLen == 13) {
+    } else if (conParam->Key.Len == 13) {
         gAosslinkBlock2[0] = 2;
-    } else if (conParam->keyLen == 16) {
+    } else if (conParam->Key.Len == 16) {
         gAosslinkBlock2[0] = 3;
     } else {
         return -1;
     }
     gAosslinkBlock2[1] = wep_id;
-    MI_CpuCopy8(conParam->key, &gAosslinkBlock2[wep_id * 20 + 2], conParam->keyLen);
+    MI_CpuCopy8(conParam->Key.Key, &gAosslinkBlock2[wep_id * 20 + 2], conParam->Key.Len);
 
     WCM_ClearApList();
-    if (APC_SearchStart(0, conParam->ssid, conParam->ssidLen, 0x30BFFE)) {
+    if (APC_SearchStart(0, conParam->Ssid.Ssid, conParam->Ssid.Len, 0x30BFFE)) {
         connect_retry_count = 0;
         OS_CreateAlarm(&alarm);
         OS_SetAlarm(&alarm, 0x3FEC42, alarmCallback, (void *)0x12);
         while (loop_flag) {
             OS_ReceiveMessage(&gAosslinkEventQueue, &msg, 1);
-            switch ((int)msg) {
+            switch ((sptr)msg) {
             case 18:
                 if (wep_id == 0)
                     loop_flag = 0;

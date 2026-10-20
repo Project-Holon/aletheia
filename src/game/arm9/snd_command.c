@@ -143,7 +143,7 @@ void SND_CommandInit(void)
         return;
     }
     command->id = 0x1d;
-    command->arg[0] = (u32)SNDi_SharedWork;
+    command->arg[0] = (uptr)SNDi_SharedWork;
     SND_PushCommand(command);
     (void)SND_FlushCommand(1);
 }
@@ -283,13 +283,13 @@ BOOL SND_FlushCommand(u32 flags)
 
     DC_FlushRange(sCommandArray, sizeof(sCommandArray));
 
-    if (PXI_SendWordByFifo(PXI_FIFO_TAG_SOUND, (u32)sFreeList.reserveList, 0) < 0) {
+    if (PXI_SendWordByFifo(PXI_FIFO_TAG_SOUND, (uptr)sFreeList.reserveList, 0) < 0) {
         if ((flags & SND_COMMAND_BLOCK) == 0) {
             (void)OS_RestoreInterrupts(bak_psr);
             return 0;
         }
         while (sFreeList.waitingCommandListCount >= SND_PXI_FIFO_MESSAGE_BUFSIZE ||
-               PXI_SendWordByFifo(PXI_FIFO_TAG_SOUND, (u32)sFreeList.reserveList, 0) < 0) {
+               PXI_SendWordByFifo(PXI_FIFO_TAG_SOUND, (uptr)sFreeList.reserveList, 0) < 0) {
             (void)OS_RestoreInterrupts(bak_psr);
             (void)SND_RecvCommandReply(0);
             bak_psr = OS_DisableInterrupts();

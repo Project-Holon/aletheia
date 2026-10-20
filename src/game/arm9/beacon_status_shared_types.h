@@ -4,6 +4,6 @@
 #include "../types.h"
 
 /* Objects of other files, used here only through pointers. */
-struct StrBuf;          /* string buffer */
+struct Strbuf;          /* string buffer */
 
 #endif

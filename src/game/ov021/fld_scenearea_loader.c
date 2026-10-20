@@ -46,40 +46,26 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "fld_scenearea_types.h"
+#include "../arm9/arc_tool.h"
 
-extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
-extern void ARC_TOOL_DeleteHandle(void *arcHandle);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
+#include "fieldmap.h"
 struct FieldMap;
-extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *arcHandle, int fileId, int decompress, u32 heapId, u32 *outSize);
-extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern int VEC_Mag(const VecFx32 *v);
-extern void VEC_Normalize(const VecFx32 *v, VecFx32 *out);
-extern u16 FX_Atan2Idx(int x, int z);
+#include "../arm9/arc_util.h"
+#include "../arm9/fx_vec.h"
+#include "../arm9/fx_atanidx.h"
+#include "field_camera.h"
 struct FieldCamera;
-extern void FIELD_CAMERA_EnterMode(struct FieldCamera *camera, u32 mode);
-extern void FIELD_CAMERA_SetTarget(struct FieldCamera *camera, VecFx32 *target);
-extern void FIELD_CAMERA_SetEyeRaw(struct FieldCamera *camera, VecFx32 *eye);
-extern u32 FX_Div(u32 numer, u32 denom);
-extern void FIELD_CAMERA_SetPitch(struct FieldCamera *camera, u16 pitch);
-extern void FIELD_CAMERA_SetYaw(struct FieldCamera *camera, u32 yaw);
-extern void FIELD_CAMERA_SetDistance(struct FieldCamera *camera, u32 distance);
-extern void FIELD_CAMERA_StopDelay(struct FieldCamera *camera, s32 unused);
-extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetTargetShift(struct FieldCamera *camera, VecFx32 *shift);
-extern void FIELD_CAMERA_SetFov(struct FieldCamera *camera, u16 fov);
-extern void *FLD_SCENEAREA_GetCamera(FldSceneArea *sceneArea);
-extern void *FLD_SCENEAREA_GetFieldMap(FldSceneArea *sceneArea);
+#include "../arm9/fx_cp.h"
+#include "fld_scenearea.h"
 
 FldSceneAreaLoader *FLD_SCENEAREA_LOADER_Create(int heapId);
 void FLD_SCENEAREA_LOADER_Delete(FldSceneAreaLoader *loader);
-void FLD_SCENEAREA_LOADER_Load(FldSceneAreaLoader *loader, int arcIndex, int fileId, int heapId);
+void FLD_SCENEAREA_LOADER_Load(FldSceneAreaLoader *loader, int arcIndex, int fileId, u16 heapId);
 void FLD_SCENEAREA_LOADER_Unload(FldSceneAreaLoader *loader);
 FldSceneAreaRec *FLD_SCENEAREA_LOADER_GetRecs(FldSceneAreaLoader *loader);
 u32 FLD_SCENEAREA_LOADER_GetRecCount(FldSceneAreaLoader *loader);
-const FldSceneAreaCallbacks *FLD_SCENEAREA_LOADER_GetCallbacks(void);
+const FldSceneAreaCallbacks *FLD_SCENEAREA_LOADER_GetCallbacks(FldSceneAreaLoader *loader);
 int FLD_SCENEAREA_LOADER_CheckSector(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, VecFx32 *pos);
 void FLD_SCENEAREA_LOADER_ApplySectorCamera(FldSceneArea *sceneArea, const FldSceneAreaRec *rec, const VecFx32 *pos);
 void FLD_SCENEAREA_LOADER_ApplyFixedCamera(FldSceneArea *sceneArea, const FldSceneAreaRec *rec);
@@ -123,7 +109,7 @@ void FLD_SCENEAREA_LOADER_Delete(FldSceneAreaLoader *loader)
 }
 
 /* Loads a scene area file from one of the two archives. */
-void FLD_SCENEAREA_LOADER_Load(FldSceneAreaLoader *loader, int arcIndex, int fileId, int heapId)
+void FLD_SCENEAREA_LOADER_Load(FldSceneAreaLoader *loader, int arcIndex, int fileId, u16 heapId)
 {
     u32 size;
 
@@ -152,7 +138,7 @@ u32 FLD_SCENEAREA_LOADER_GetRecCount(FldSceneAreaLoader *loader)
 }
 
 /* The check and action tables (gFldSceneAreaCallbacks). */
-const FldSceneAreaCallbacks *FLD_SCENEAREA_LOADER_GetCallbacks(void)
+const FldSceneAreaCallbacks *FLD_SCENEAREA_LOADER_GetCallbacks(FldSceneAreaLoader *loader)
 {
     return &gFldSceneAreaCallbacks;
 }

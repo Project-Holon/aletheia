@@ -54,9 +54,9 @@
 #include "sta_acting_shared_types.h"
 #include "sta_act_script_shared_types.h"
 
-extern void TCB_DeleteTask(struct Node *n);
+#include "../arm9/tcb_list.h"
 
-extern void STA_ACT_LIGHT_CopyActorPos(void *unused, u32 *p, u32 *q);
+#include "../ov112/sta_act_poke.h"
 
 struct ScriptVm;
 
@@ -64,51 +64,35 @@ struct DList;
 
 struct ScriptVmParams;
 
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void *STA_ACTING_GetActorSystem(char *p);
+#include "sta_acting.h"
 
-extern u32 TCB_GetTaskOffset(u32);
 struct TcbSystem;
 
-extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
 
-extern void NNS_FndInitList(int list, int offset);
+#include "../arm9/nns_fnd_expheap.h"
 
-extern struct ScriptVm *VM_End(struct ScriptVm *vm);
+#include "../arm9/vm.h"
 
-extern void VM_Delete(struct ScriptVm *vm);
 
-extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
 
-extern void TCB_Noop(void *);
 
-extern void TCB_Main(struct TcbSystem *sys);
 
-extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 
-extern void VM_Init(struct ScriptVm *vm, void *user);
 
-extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 
-extern int VM_Control(struct ScriptVm *vm);
 
-extern struct Node *TCB_AddTask(struct Ctx *c, u32 a, u32 b, u32 key);
 struct NNSFndList;
 
-extern void NNS_FndAppendListObject(struct NNSFndList *list, void *object);
 
-extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 
-extern void VEC_MultAdd(int, void *, void *, void *);
+#include "../arm9/fx_vec.h"
 
-extern void VEC_Add(const Vec *, const Vec *, Vec *);
 
-extern u32 VM_GetU32(struct ScriptVm *vm);
 
-u32 STA_ACTING_GetElapsedTicks(u8 *p);
+#include "sta_act_effect.h"
 
 void *STA_ACT_SCRIPT_Create(u32 heap, void *owner);
 
@@ -287,8 +271,8 @@ u8 STA_ACT_SCRIPT_CountScripts(char *p)
 void *STA_ACT_SCRIPT_AddTask(char *p, u32 taskFunc, u32 arg, u32 key)
 {
     char *q;
-    q = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, 16, 0, d_021FDCEC, 0x115);
-    ((struct ScriptTaskNode *)q)->task = TCB_AddTask(((struct ScriptSystem *)p)->tcb, taskFunc, arg, key);
+    q = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, 16, 0, (const char *)d_021FDCEC, 0x115);
+    ((struct ScriptTaskNode *)q)->task = TCB_AddTask((struct TcbSystem *)(((struct ScriptSystem *)p)->tcb), (TcbFunc)taskFunc, (void *)arg, key);
     if (((struct ScriptTaskNode *)q)->task != 0) {
         ((struct ScriptTaskNode *)q)->arg = (void *)arg;
         NNS_FndAppendListObject((struct NNSFndList *)(p + 0x38), q);
@@ -333,7 +317,7 @@ int STA_ACT_SCRIPT_StepTaskVec(char *p, int *out)
     }
     if (((struct ScriptVecTask *)p)->counter != 0) v = (int)(0.5f + (float)(((struct ScriptVecTask *)p)->counter << 12));
     else v = (int)((float)(((struct ScriptVecTask *)p)->counter << 12) - 0.5f);
-    VEC_MultAdd(v, p + 0x1c, p + 4, out);
+    VEC_MultAdd(v, (const VecFx32 *)(p + 0x1c), (const VecFx32 *)(p + 4), (VecFx32 *)out);
     return 0;
 }
 
@@ -344,7 +328,7 @@ int STA_ACT_SCRIPT_StepTaskActor(char *p, void *out)
 {
     int v[3];
     STA_ACT_LIGHT_CopyActorPos(STA_ACTING_GetActorSystem(((struct ScriptFollowStep *)p)->scene), (u32 *)(((struct ScriptFollowStep *)p)->actor), (u32 *)v);
-    VEC_Add((const Vec *)v, (const Vec *)(p + 8), (Vec *)out);
+    VEC_Add((const VecFx32 *)v, (const VecFx32 *)((const StaActingVec *)(p + 8)), (VecFx32 *)out);
     (((struct ScriptFollowStep *)p)->counter)++;
     if (((struct ScriptFollowStep *)p)->counter >= ((struct ScriptFollowStep *)p)->duration) return 1;
     return 0;

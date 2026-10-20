@@ -18,7 +18,6 @@ struct GameComm;
 struct FieldStatus;
 struct PlayerWork;
 struct MmdlSys;
-struct EventData;
 struct EventWork;
 struct EventDataSystem;
 struct SaveControl;
@@ -37,26 +36,10 @@ typedef struct GameComm GameComm;
 typedef struct FieldStatus FieldStatus;
 typedef struct PlayerWork PlayerWork;
 typedef struct MmdlSys MmdlSys;
-typedef struct EventData EventData;
 
 #include "../sdk_fx.h"
 
-/* RailLocation: the rail position record of ov021 fldmmdl_rail. */
-#include "../ov021/fldmmdl_rail_types.h"
-
-/* A place on a map (0x1C bytes): zone, facing and position. */
-typedef struct Location {
-    int type;          /* 00: 1 = direct position, 2 = rail position */
-    u16 zoneId;        /* 04 */
-    s16 exitId;        /* 06 */
-    s16 dir;           /* 08 */
-    u16 exitOffset;    /* 0A */
-    int posType;       /* 0C */
-    union {            /* 10 */
-        VecFx32 vec;
-        RailLocation rail;
-    } pos;
-} Location;
+#include "../arm9/zonedata_types.h"
 
 /* Parameter block of the entrance effect events (0x50 bytes), embedded in MapChangeWork. */
 typedef struct EntranceParam {
@@ -114,15 +97,5 @@ typedef struct {
     GameData *gameData;      /* 04 */
     Location location;       /* 08 */
 } WarpIdArrivalWork;
-
-/* Intrude communication work (only the parts these events read). */
-typedef struct {
-    u8 unused00[0x86];
-    u16 slot : 3;            /* 86 */
-    u16 reserved86 : 13;
-    u8 unused88[0x124];
-    u8 requestInfo[0x756];   /* 1AC */
-    u8 slotCount;            /* 902 */
-} IntrudeComm;
 
 #endif

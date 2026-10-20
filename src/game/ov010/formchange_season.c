@@ -23,19 +23,21 @@
 #include "script_work_types.h"
 #include "formchange_shaymin_shared_types.h"
 
-extern struct PokedexSave *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
 
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
 
 /* Party and Pokemon. */
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern void POKE_TOOL_ChangeForm(struct PokemonParam *mon, u16 form);
+#ifdef __MWERKS__
+extern void POKE_TOOL_ChangeForm(struct PokemonParam *mon, u16 form); /* original prototype; the definition differs in return type, argument width */
+#else
+extern u32 POKE_TOOL_ChangeForm(struct PokemonParam*, u32);
+#endif
 
 void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, struct Party *party, int season);
 

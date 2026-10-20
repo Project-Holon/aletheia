@@ -44,34 +44,23 @@
  *   SOC_Send  0x0215F590  arm  ov009
  */
 #include "nhttp_types.h"
+#include "../ov009/soc.h"
 
 #include "../sdk_soc.h"
 
-extern void OS_GetLowEntropyData(u32 *buffer);
-extern void CPS_SslAddRandomSeed(void *random_seed, unsigned int len);
-extern int SOC_Recv(int s, void *buf, int len, int flags);
-extern void SOC_Socket(int, int, int);
-extern int SOC_Close(int socket);
-extern void OS_Sleep(unsigned long msec);
-extern void SOCLi_TrashSocket(void);
-extern void NHTTPi_free(void *ptr_p);
-extern int SOC_Connect(int s, void *sockAddr);
-extern void *NHTTPi_alloc(unsigned long size, int align);
-extern void NHTTPi_memclr(void *dst_p, int size);
-extern int SOCL_EnableSsl(int s, void *con);
+#include "../arm9/os_entropy.h"
+#include "../ov009/ssl.h"
+#include "../arm9/os_thread.h"
+#include "../ov009/socl_close.h"
+#include "nhttp_bgnend.h"
+#include "nhttp_stdlib_ntr.h"
+#include "../ov009/socl_ssl.h"
 static int NHTTPi_CpsAuthCallback(int result);
-extern void NHTTPi_memcpy(void *dst, void *src, unsigned int size);
-NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
-extern int SOC_Send(int s, void *buf, int len, int flags);
-extern void NHTTPi_lockReqList(NHTTPMutexInfo *mutexInfo_p);
-extern void NHTTPi_unlockReqList(NHTTPMutexInfo *mutexInfo_p);
-extern int SOC_Shutdown(int, int);
-extern int SOC_InetAtoN(char *cp, unsigned int *inp);
-extern SOCHostEnt *SOC_GetHostByName(char *name);
+#include "d_nhttp_common.h"
 int NHTTPi_CpsAuthCallbackForDebug(void);
 void NHTTPi_SetSSLseed(void);
 int NHTTPi_checkKeepAlive(int a);
-void NHTTPi_SocOpen(void);
+int NHTTPi_SocOpen(NHTTPReq *req_p);
 int NHTTPi_SocClose(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
 int NHTTPi_SocConnect(NHTTPBgnEndInfo *bgnEndInfo_p, NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket, unsigned long hostaddr, int port);
 int NHTTPi_SocSSLConnect(NHTTPBgnEndInfo *bgnEndInfo_p, NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket);
@@ -127,9 +116,9 @@ int NHTTPi_checkKeepAlive(int socket)
 
 
 
-void NHTTPi_SocOpen(void)
+int NHTTPi_SocOpen(NHTTPReq *req_p)
 {
-    SOC_Socket(2, 1, 0);
+    return SOC_Socket(2, 1, 0);
 }
 
 
@@ -324,7 +313,7 @@ unsigned long NHTTPi_resolveHostname(NHTTPReq *req_p, char *hostname_p)
     unsigned long addr = 0;
     SOCInAddr inAddr;
 
-    if (SOC_InetAtoN(hostname_p, (unsigned int *)(&inAddr))) {
+    if (SOC_InetAtoN(hostname_p, (unsigned long *)(&inAddr))) {
         addr = inAddr.addr;
     } else {
         hostEnt = SOC_GetHostByName(hostname_p);

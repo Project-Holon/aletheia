@@ -12,7 +12,7 @@ struct CgearSaveRecord;
 
 u32 BLOCK20_SAVEDATA_TestPanelMark(const struct CGearSave *save, int row, int col, int kind);
 void BLOCK20_SAVEDATA_SetPanelMark(struct CGearSave *save, int row, int col, int kind, int marked, int flagged);
-void BLOCK20_SAVEDATA_InitPanelMarks(void);
+void *BLOCK20_SAVEDATA_InitPanelMarks(void *save);
 void BLOCK20_SAVEDATA_SetPanelState(struct CGearSave *save, u8 value);
 u8 BLOCK20_SAVEDATA_GetPanelState(const struct CGearSave *save);
 struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *sys);

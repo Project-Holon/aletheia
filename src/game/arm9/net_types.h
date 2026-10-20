@@ -69,7 +69,8 @@ typedef struct GFLNetInitializeStruct {
     u32  (*getFriendListFunc)(u32 userArg);
     u32  (*getWifiUserDataFunc)(u32 userArg);
     u32   heapSize;
-    u8    reserved4C[8];
+    u8    reserved4C[4];
+    u32   ggid;
     u16   parentHeapId;
     u16   heapId;
     u16   wifiHeapId;
@@ -327,7 +328,7 @@ typedef struct NetCommandEntry {
 typedef struct NetCommandTable {
     NetCommandEntry *list;
     int   listNum;
-    u32   userData;
+    void *userData;
     u32   groupKey;
 } NetCommandTable;
 
@@ -343,7 +344,7 @@ typedef union SendSlotState {
 typedef struct NetSendSlot {
     u32 handleId;
     u32 totalSize;
-    u32 dataAddr;
+    void *dataAddr;
     u16 command;
     u16 chunkSize;
     u16 lastChunkSize;

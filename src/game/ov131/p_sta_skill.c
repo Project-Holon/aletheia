@@ -104,7 +104,6 @@
 
 #include "../types.h"
 
-struct Obj;
 struct BmpWin;
 struct PrintQue;
 struct MsgData;
@@ -116,8 +115,8 @@ typedef struct PStaSkillSlot {
     u8 index;                               /* 0x00: slot number, 0xFF once deleted */
     u8 pad_1[3];
     int redrawPending;                      /* 0x04: 1 = show the frame, type icon and name when the text is ready */
-    struct Obj *frameObj;                   /* 0x08: slot frame */
-    struct Obj *typeObj;                    /* 0x0C: move type icon */
+    struct ClactActor *frameObj;                   /* 0x08: slot frame */
+    struct ClactActor *typeObj;                    /* 0x0C: move type icon */
     struct Bmp *nameBmp;                    /* 0x10: bitmap with the move name, PP and PP label */
     StaOamBitmapActors *nameActors;  /* 0x14: actors that show nameBmp */
 } PStaSkillSlot;
@@ -175,11 +174,11 @@ struct PStaSkillWork {
     void *movesScrnData;            /* 0x54 */
     void *movesScrnFile;            /* 0x58: graphics file 76 (moves page screen) */
     struct BmpWin *win[STA_SKILL_WIN_MAX]; /* 0x5C: STA_SKILL_WIN_* */
-    struct Obj *statsObj;           /* 0x90: decoration shown on the stats page only */
-    struct Obj *moveTypeObj;        /* 0x94: type icon of the selected move, moves page only */
-    struct Obj *cursorObj;          /* 0x98 */
-    struct Obj *heldObj;            /* 0x9C: frame that follows the picked up move */
-    struct Obj *touchObj;           /* 0xA0: frame shown while the stylus is down */
+    struct ClactActor *statsObj;           /* 0x90: decoration shown on the stats page only */
+    struct ClactActor *moveTypeObj;        /* 0x94: type icon of the selected move, moves page only */
+    struct ClactActor *cursorObj;          /* 0x98 */
+    struct ClactActor *heldObj;            /* 0x9C: frame that follows the picked up move */
+    struct ClactActor *touchObj;           /* 0xA0: frame shown while the stylus is down */
     StaOamManager *oamManager;        /* 0xA4 */
     struct Bmp *giveUpBmp;          /* 0xA8: "give up learning" text, 5 slot case only */
     StaOamBitmapActors *giveUpActors; /* 0xAC */
@@ -187,99 +186,40 @@ struct PStaSkillWork {
 };
 
                                                                       
-extern unsigned int GFL_HEAP_Free(void *ptr);
-struct Actor;
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
-extern void BG_SYS_PushTile(u32 bgLayer);
-extern struct Obj *CLACT_CreateActor(void *clunit, unsigned int charRes, unsigned int plttRes, unsigned int cellRes, const StaOamActorPos *pos, u16 space, u16 heapId);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_DeleteActor(struct Actor *actor);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern int TOUCHPANEL_HitTrg(const void *rectTable);
+#include "../arm9/msgdata.h"
+#include "../arm9/touchpanel.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern u32 KEY_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern u32 POKE_TOOL_GetBoxValue(void *pp, int id, void *buf);
+#include "../arm9/printsys.h"
+#include "../arm9/key.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/poke_tool.h"
 struct PokemonParam;
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
-extern void STRBUF_Delete(struct Strbuf *str);
+#include "../arm9/strbuf.h"
 struct GfFont;
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/bmp_win.h"
 struct BoxPokemon;
-extern void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int value);
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32 bgLayer);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padMode, u32 flag);
-extern int TOUCHPANEL_GetTrg(void);
-extern int TOUCHPANEL_GetCont(void);
-extern int TOUCHPANEL_HitCont(const void *rectTable);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, unsigned int fileId, unsigned int flag, void **outData, unsigned short heapId);
-extern void BG_SYS_DrawTileEx(u32 bgLayer, u32 a, u32 b, u32 width, u8 height, u32 src, u8 c, u8 d, u8 e, u8 f);
-extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 size);
+#include "../arm9/gf_font.h"
+#include "../arm9/wordset.h"
+#include "../arm9/arc_util.h"
 struct ImageProxy;
-extern void CLACT_GetCharacterProxy(unsigned int idx, struct ImageProxy *out);
-extern void CLACT_SetActorImageProxy(char *actor_base, struct ImageProxy *proxy);
-extern u8 APP_ICON_GetTypePaletteOffset(int typeId);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
-extern void CLACT_AddActorSurfacePos(struct Obj *obj, const StaOamPoint *pos, u32 mode);
-extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
-extern void BG_SYS_ClearLayerEx(int bgLayer, u16 value);
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 color);
-extern void BMP_Delete(struct Bmp *bmp);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 value);
-extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 size, u32 offset);
-extern int BGWINFRM_GetScaleRank(u32 curHp, u32 maxHp);
-extern u8 BGWINFRM_ScaleRatio(u32 curHp, u32 maxHp, u32 pixels);
-extern void BMP_Clear(struct Bmp *bmp, u8 fill);
-extern int WAZA_TOOL_GetDamageType(unsigned short move);
-extern u8 APP_ICON_GetMoveKindPaletteOffset(u8 typeId);
-extern unsigned short WAZA_TOOL_GetPower(u16 moveId);
-extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 field);
-extern u32 WAZA_TOOL_IsAlwaysHit(u16 moveId);
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
-extern void CLACT_RestartActorAnim(struct Actor *actor);
-extern u32 WAZA_TOOL_IsHmMove(void *config, u16 moveId, u16 heapId);
-extern void POKE_TOOL_SetBoxMoveSlot(struct BoxPokemon *box, unsigned short move, unsigned int slot);
-extern s8 POKE_TOOL_GetNatureModifier(u32 nature, u32 statIndex);
-extern unsigned char WAZA_TOOL_GetType(u16 moveId);
+#include "../arm9/app_icon.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/bgwinfrm.h"
+#include "../arm9/waza_tool.h"
+#include "../arm9/event_id.h"
 
 /* Status screen functions (p_status.c). */
-void P_STATUS_SetInputEnable(PStatusWork *wk, int enable);
-void *P_STATUS_GetPokePara(PStatusWork *wk);
-int P_STATUS_GetPokeParaSource(PStatusWork *wk);
-void P_STATUS_SetParamDecoded(PStatusWork *wk, int fastMode);
+#include "p_status.h"
 struct PStatusWork;
-void P_STATUS_PrintMsg(struct PStatusWork *wk, int bmpWin, int msgId, int x, unsigned short y, unsigned short color);
-void P_STATUS_PrintMsgToWin(struct PStatusWork *wk, struct BmpWin *bmpWinData, int msgId, int x, u16 y, u16 color);
-void P_STATUS_PrintWordSetMsg(struct PStatusWork *wk, int bmpWin, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color);
-void P_STATUS_PrintWordSetMsgToWin(struct PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, u16 x, u16 y, u16 color);
-void P_STATUS_PrintWordSetMsgRight(struct PStatusWork *wk, int bmpWin, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color);
-void P_STATUS_PrintWordSetMsgRightToWin(struct PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, u16 x, u16 y, u16 color);
 struct StaOamManager;
 
 /* Pokemon status screen sub-page in p_sta_oam.c. */
-StaOamManager *P_STA_OAM_CreateManager(u32 heapId, void *clunit);
-void P_STA_OAM_DeleteManager(StaOamManager *manager);
-StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(StaOamManager *manager, const StaOamBitmapDesc *desc);
-void P_STA_OAM_DeleteBitmapActors(StaOamBitmapActors *actors);
-void P_STA_OAM_SetBitmapActorsEnabled(StaOamBitmapActors *actors, int enable);
-void P_STA_OAM_TransferBitmap(StaOamBitmapActors *actors);
-void P_STA_OAM_SwapInts(int *a, int *b);
+#include "p_sta_oam.h"
 
 /* This file. */
 PStaSkillWork *P_STA_SKILL_Create(PStatusWork *wk);
@@ -421,17 +361,17 @@ void P_STA_SKILL_Main(PStatusWork *wk, PStaSkillWork *work)
         P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
         work->heldSlot=STA_SKILL_SLOT_NONE;
         P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
-        CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,0);
         work->swapPending=0;
     }
     for(i=0;i<STA_SKILL_SLOT_MAX;i++) P_STA_SKILL_UpdateSlot(wk,work,&work->slot[i]);
     if(work->isConfirmed==1) {
         work->blinkCount++;
         if(work->blinkCount%8<4) {
-            if(work->blinkSlotFrame==1) CLACT_SetActorAnimSeq((struct Actor *)work->slot[work->cursorSlot].frameObj,15);
+            if(work->blinkSlotFrame==1) CLACT_SetActorAnimSeq((struct ClactActor *)work->slot[work->cursorSlot].frameObj,15);
             else P_STA_SKILL_SetSlotAnim(&work->slot[work->cursorSlot],0);
         } else {
-            if(work->blinkSlotFrame==1) CLACT_SetActorAnimSeq((struct Actor *)work->slot[work->cursorSlot].frameObj,16);
+            if(work->blinkSlotFrame==1) CLACT_SetActorAnimSeq((struct ClactActor *)work->slot[work->cursorSlot].frameObj,16);
             else P_STA_SKILL_SetSlotAnim(&work->slot[work->cursorSlot],1);
         }
         if(work->blinkCount>16) wk->seq=2;
@@ -471,34 +411,34 @@ void P_STA_SKILL_Exit(PStatusWork *wk, PStaSkillWork *work)
  */
 void P_STA_SKILL_CreateObjects(PStatusWork *wk, PStaSkillWork *work)
 {
-    StaOamActorPos pos;
+    struct ActorInitParam pos;
     u8 i;
     pos.x=159;
     pos.y=52;
-    pos.drawPriority=10;
-    pos.bgPriority=1;
+    pos.draw_priority=10;
+    pos.bg_priority=1;
     i=0;
-    pos.animSeq=0;
+    pos.anim_seq=0;
     work->statsObj=CLACT_CreateActor(wk->clunit,wk->objRes[19],wk->objRes[5],wk->objRes[31],&pos,1,wk->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)work->statsObj,0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->statsObj,0);
     pos.x=172;
     pos.y=56;
     work->moveTypeObj=CLACT_CreateActor(wk->clunit,wk->objRes[16],wk->objRes[4],wk->objRes[29],&pos,1,wk->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)work->moveTypeObj,0);
-    pos.bgPriority=0;
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->moveTypeObj,0);
+    pos.bg_priority=0;
     work->cursorObj=CLACT_CreateActor(wk->clunit,wk->objRes[21],wk->objRes[11],wk->objRes[33],&pos,0,wk->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)work->cursorObj,0);
-    pos.animSeq=5;
-    pos.drawPriority=8;
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
+    pos.anim_seq=5;
+    pos.draw_priority=8;
     work->heldObj=CLACT_CreateActor(wk->clunit,wk->objRes[21],wk->objRes[11],wk->objRes[33],&pos,0,wk->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,0);
-    CLACT_SetActorAutoAnim((struct Actor *)work->heldObj,1);
-    pos.animSeq=2;
-    pos.drawPriority=4;
-    pos.bgPriority=0;
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,0);
+    CLACT_SetActorAutoAnim((struct ClactActor *)work->heldObj,1);
+    pos.anim_seq=2;
+    pos.draw_priority=4;
+    pos.bg_priority=0;
     work->touchObj=CLACT_CreateActor(wk->clunit,wk->objRes[21],wk->objRes[11],wk->objRes[33],&pos,0,wk->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)work->touchObj,0);
-    CLACT_SetActorAutoAnim((struct Actor *)work->touchObj,1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->touchObj,0);
+    CLACT_SetActorAutoAnim((struct ClactActor *)work->touchObj,1);
     for(;i<work->slotCount;i++) P_STA_SKILL_CreateSlotObjects(wk,work,&work->slot[i],i);
 }
 
@@ -507,11 +447,11 @@ void P_STA_SKILL_DeleteObjects(PStatusWork *wk, PStaSkillWork *work)
     u8 i;
     for (i = 0; i < work->slotCount; i++)
         P_STA_SKILL_DeleteSlotObjects(wk, work, &work->slot[i]);
-    CLACT_DeleteActor((struct Actor *)work->statsObj);
-    CLACT_DeleteActor((struct Actor *)work->moveTypeObj);
-    CLACT_DeleteActor((struct Actor *)work->cursorObj);
-    CLACT_DeleteActor((struct Actor *)work->heldObj);
-    CLACT_DeleteActor((struct Actor *)work->touchObj);
+    CLACT_DeleteActor((struct ClactActor *)work->statsObj);
+    CLACT_DeleteActor((struct ClactActor *)work->moveTypeObj);
+    CLACT_DeleteActor((struct ClactActor *)work->cursorObj);
+    CLACT_DeleteActor((struct ClactActor *)work->heldObj);
+    CLACT_DeleteActor((struct ClactActor *)work->touchObj);
 }
 
 void P_STA_SKILL_InitStatsPage(PStatusWork *wk, PStaSkillWork *work)
@@ -532,7 +472,7 @@ void P_STA_SKILL_InitStatsPage(PStatusWork *wk, PStaSkillWork *work)
 void P_STA_SKILL_ShowStatsPage(PStatusWork *wk, PStaSkillWork *work)
 {
     u8 i;
-    BG_SYS_DrawTileEx(2,0,0,32,24,(u32)work->bgScrnData+12,0,0,32,32);
+    BG_SYS_DrawTileEx(2,0,0,32,24,(const void *)((uptr)work->bgScrnData+12),0,0,32,32);
     BG_SYS_MarkTileDirty(2);
     P_STA_SKILL_ApplyStatsScreen(wk,work);
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_ShowSlot(wk,work,&work->slot[i]);
@@ -557,8 +497,8 @@ void P_STA_SKILL_HideStatsPage(PStatusWork *wk, PStaSkillWork *work)
     BG_SYS_PushTile(1);
     BG_SYS_ClearLayerEx(4,0);
     BG_SYS_MarkTileDirty(4);
-    CLACT_SetActorDrawEnable((struct Actor *)work->statsObj,0);
-    CLACT_SetActorDrawEnable((struct Actor *)work->moveTypeObj,0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->statsObj,0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->moveTypeObj,0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[0],0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[1],0);
     CLACT_SetActorAnimSeq(wk->buttonActor[1],1);
@@ -582,12 +522,12 @@ void P_STA_SKILL_ApplyStatsScreen(PStatusWork *wk, PStaSkillWork *work)
         BMP_WIN_MakeScreen(win);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(win));
     }
-    BG_SYS_DecodeTile(6,(u8 *)work->statsPlttData+12,((StaGraphicsFile *)work->statsPlttData)->dataSize);
+    BG_SYS_DecodeTile(6,(const void *)((u8 *)work->statsPlttData+12),((StaGraphicsFile *)work->statsPlttData)->dataSize);
     BG_SYS_MarkTileDirty(6);
-    BG_SYS_DrawTileEx(5,0,0,32,3,(u32)work->statsScrnData+12,0,0,32,32);
+    BG_SYS_DrawTileEx(5,0,0,32,3,(const void *)((uptr)work->statsScrnData+12),0,0,32,32);
     BG_SYS_MarkTileDirty(5);
-    CLACT_SetActorDrawEnable((struct Actor *)work->statsObj,1);
-    CLACT_SetActorDrawEnable((struct Actor *)work->moveTypeObj,0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->statsObj,1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->moveTypeObj,0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[0],0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[1],0);
 }
@@ -621,12 +561,12 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
     }
     i=0;
     BG_SYS_PushTileSource(6,(u8 *)work->movesPlttData+12,((StaGraphicsFile *)work->movesPlttData)->dataSize,0);
-    BG_SYS_DecodeTile(6,(u8 *)work->movesPlttData+12,((StaGraphicsFile *)work->movesPlttData)->dataSize);
+    BG_SYS_DecodeTile(6,(const void *)((u8 *)work->movesPlttData+12),((StaGraphicsFile *)work->movesPlttData)->dataSize);
     BG_SYS_MarkTileDirty(6);
-    BG_SYS_DrawTileEx(5,0,0,32,3,(u32)((u8 *)work->movesScrnData+12),0,0,32,32);
+    BG_SYS_DrawTileEx(5,0,0,32,3,(const void *)((uptr)((u8 *)work->movesScrnData+12)),0,0,32,32);
     BG_SYS_MarkTileDirty(5);
-    CLACT_SetActorDrawEnable((struct Actor *)work->statsObj,0);
-    CLACT_SetActorDrawEnable((struct Actor *)work->moveTypeObj,1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->statsObj,0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->moveTypeObj,1);
     for(;i<work->slotCount;i++) P_STA_SKILL_ShowSlot(wk,work,&work->slot[i]);
     pp=P_STATUS_GetPokePara(wk);
     type1=POKE_TOOL_GetBoxValue(pp,174,0);
@@ -636,7 +576,7 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
     CLACT_SetActorPaletteOffset(wk->typeIconActor[0],APP_ICON_GetTypePaletteOffset((u8)type1),1);
     pos.x=208;
     pos.y=120;
-    CLACT_AddActorSurfacePos(wk->typeIconActor[0],&pos,0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)wk->typeIconActor[0],(const struct ClactVec2 *)&pos,0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[0],1);
     CLACT_SetActorBgPriority(wk->typeIconActor[0],0);
     if(type1!=type2) {
@@ -645,7 +585,7 @@ void P_STA_SKILL_ApplyMovesScreen(PStatusWork *wk, PStaSkillWork *work)
         CLACT_SetActorPaletteOffset(wk->typeIconActor[1],APP_ICON_GetTypePaletteOffset((u8)type2),1);
         pos.x=240;
         pos.y=120;
-        CLACT_AddActorSurfacePos(wk->typeIconActor[1],&pos,0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)wk->typeIconActor[1],(const struct ClactVec2 *)&pos,0);
         CLACT_SetActorDrawEnable(wk->typeIconActor[1],1);
         CLACT_SetActorBgPriority(wk->typeIconActor[1],0);
     } else CLACT_SetActorDrawEnable(wk->typeIconActor[1],0);
@@ -721,7 +661,8 @@ void P_STA_SKILL_PrintStats(PStatusWork *wk, PStaSkillWork *work)
 void P_STA_SKILL_DrawHpBar(PStatusWork *wk, PStaSkillWork *work) {
     void *pp,*bmp;
     u16 maxHp,curHp;
-    int barColor,barPixels,firstRow,lastRow;
+    int barColor,barPixels;
+    u8 firstRow,lastRow;
     pp=(void *)P_STATUS_GetPokeParaSource(wk);
     maxHp=POKE_TOOL_GetPartyValue(pp,161,0);
     curHp=POKE_TOOL_GetPartyValue(pp,160,0);
@@ -752,7 +693,7 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     pp=P_STATUS_GetPokePara(wk);
     zero=0;
     for(i=8;i<=11;i++) BMP_Clear(BMP_WIN_GetBmp(work->win[i]),zero);
-    if(work->cursorSlot<4) moveId=POKE_TOOL_GetBoxValue(pp,work->cursorSlot+54,(void *)zero);
+    if(work->cursorSlot<4) moveId=POKE_TOOL_GetBoxValue(pp,work->cursorSlot+54,zero);
     else if(work->cursorSlot==STA_SKILL_NO_CURSOR) {
         if(wk->param->mode==2 && work->slotCount==STA_SKILL_SLOT_MAX) moveId=wk->param->newMove;
         else moveId=POKE_TOOL_GetBoxValue(pp,54,0);
@@ -761,8 +702,8 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
     P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_CATEGORY], 149, 1, one, 15424);
     moveType=WAZA_TOOL_GetDamageType((u16)moveId);
     CLACT_GetCharacterProxy(wk->objRes[moveType+16],(struct ImageProxy *)(&typeRes));
-    CLACT_SetActorImageProxy((char *)work->moveTypeObj,(struct ImageProxy *)(&typeRes));
-    CLACT_SetActorPaletteOffset((struct Actor *)work->moveTypeObj,APP_ICON_GetMoveKindPaletteOffset(moveType),1);
+    CLACT_SetActorImageProxy((char *)work->moveTypeObj,(const struct ImageProxy *)((struct ImageProxy *)(&typeRes)));
+    CLACT_SetActorPaletteOffset((struct ClactActor *)work->moveTypeObj,APP_ICON_GetMoveKindPaletteOffset(moveType),1);
     P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_POWER], 147, 1, one, 15424);
     power=WAZA_TOOL_GetPower(moveId);
     if(power<=1) P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_POWER], 154, 87, one, 1088);
@@ -773,7 +714,7 @@ void P_STA_SKILL_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *work)
         WORDSET_Delete(powerWords);
     }
     P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_ACCURACY], 148, 1, 1, 15424);
-    accuracy=WAZA_TOOL_GetParam(moveId,4);
+    accuracy=WAZA_TOOL_GetParam((u16)moveId,4);
     if(WAZA_TOOL_IsAlwaysHit(moveId)==1 || accuracy==0) P_STATUS_PrintMsgToWin(wk, work->win[STA_SKILL_WIN_MOVE_ACCURACY], 154, 87, 1, 1088);
     else {
         accuracyWords=WORDSET_CreateDefault(wk->heapId);
@@ -807,7 +748,7 @@ void P_STA_SKILL_InitMovesPage(PStatusWork *wk, PStaSkillWork *work)
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_InitSlotText(wk,work,&work->slot[i]);
     if(work->slotCount==STA_SKILL_SLOT_MAX) {
         work->giveUpBmp=BMP_Create(11,4,32,wk->heapId);
-        P_STATUS_PrintMsg(wk,(int)work->giveUpBmp,193,5,9,1088);
+        P_STATUS_PrintMsg(wk,(sptr)work->giveUpBmp,193,5,9,1088);
         desc.x=32;
         desc.y=160;
         desc.plttRes=wk->objRes[8];
@@ -831,7 +772,7 @@ void P_STA_SKILL_InitMovesPage(PStatusWork *wk, PStaSkillWork *work)
  */
 void P_STA_SKILL_ShowMovesPage(PStatusWork *wk, PStaSkillWork *work) {
     u8 i;
-    BG_SYS_DrawTileEx(2,0,0,32,24,(u32)work->bgScrnData+12,0,0,32,32);
+    BG_SYS_DrawTileEx(2,0,0,32,24,(const void *)((uptr)work->bgScrnData+12),0,0,32,32);
     BG_SYS_MarkTileDirty(2);
     P_STA_SKILL_ApplyMovesScreen(wk,work);
     for(i=0;i<work->slotCount;i++) P_STA_SKILL_ShowSlot(wk,work,&work->slot[i]);
@@ -859,8 +800,8 @@ void P_STA_SKILL_HideMovesPage(PStatusWork *wk, PStaSkillWork *work) {
     BG_SYS_PushTile(1);
     BG_SYS_ClearLayerEx(4,0);
     BG_SYS_MarkTileDirty(4);
-    CLACT_SetActorDrawEnable((struct Actor *)work->statsObj,0);
-    CLACT_SetActorDrawEnable((struct Actor *)work->moveTypeObj,0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->statsObj,0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->moveTypeObj,0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[0],0);
     CLACT_SetActorDrawEnable(wk->typeIconActor[1],0);
     CLACT_SetActorAnimSeq(wk->buttonActor[1],1);
@@ -903,9 +844,9 @@ int P_STA_SKILL_HandleKeys(PStatusWork *wk, PStaSkillWork *work)
     } else {
         if (KEY_GetTrg()==2 && work->isMoveHeld==0) {
             P_STATUS_SetInputEnable(wk,1);
-            CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
+            CLACT_SetActorAnimSeq((struct ClactActor *)wk->buttonActor[7],9);
             P_STA_SKILL_SetSlotAnim(&work->slot[work->cursorSlot],0);
-            CLACT_SetActorDrawEnable((struct Actor *)work->cursorObj,0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
             P_STA_SKILL_PrintStatsPage(wk,work);
             wk->inputType=0;
             GFL_USE_PlaySeDefaultVolume(1361);
@@ -928,9 +869,9 @@ int P_STA_SKILL_HandleKeys(PStatusWork *wk, PStaSkillWork *work)
                     work->heldSlot=selected;
                     P_STA_SKILL_SetSlotAnim(&work->slot[selected],2);
                     P_STA_SKILL_GetSlotPos(&work->slot[work->heldSlot],&pos);
-                    CLACT_AddActorSurfacePos(work->heldObj,&pos,0);
-                    CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,1);
-                    CLACT_RestartActorAnim((struct Actor *)work->heldObj);
+                    CLACT_AddActorSurfacePos((struct ClactActor *)work->heldObj,(const struct ClactVec2 *)&pos,0);
+                    CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,1);
+                    CLACT_RestartActorAnim((struct ClactActor *)work->heldObj);
                     GFL_USE_PlaySeDefaultVolume(1356);
                 } else {
                     if (work->heldSlot!=work->cursorSlot) {
@@ -939,7 +880,7 @@ int P_STA_SKILL_HandleKeys(PStatusWork *wk, PStaSkillWork *work)
                     } else {
                         work->isMoveHeld=0;
                         P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
-                        CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,0);
+                        CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,0);
                         GFL_USE_PlaySeDefaultVolume(1356);
                     }
                 }
@@ -948,8 +889,8 @@ int P_STA_SKILL_HandleKeys(PStatusWork *wk, PStaSkillWork *work)
             if (KEY_GetTrg()==2 && work->isMoveHeld==1) {
                 P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
                 P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
-                CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
-                CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,0);
+                CLACT_SetActorAnimSeq((struct ClactActor *)wk->buttonActor[7],9);
+                CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,0);
                 work->isMoveHeld=0;
                 work->heldSlot=STA_SKILL_SLOT_NONE;
                 GFL_USE_PlaySeDefaultVolume(1361);
@@ -990,13 +931,13 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
     StaOamPoint pos1;
     if (wk->tpHit==7 && wk->isInputEnabled==0) {
         P_STATUS_SetInputEnable(wk,1);
-        CLACT_SetActorAnimSeq(wk->buttonActor[7],9);
+        CLACT_SetActorAnimSeq((struct ClactActor *)wk->buttonActor[7],9);
         P_STA_SKILL_SetSlotAnim(&work->slot[work->cursorSlot],0);
-        CLACT_SetActorDrawEnable((struct Actor *)work->cursorObj,0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
         P_STA_SKILL_PrintStatsPage(wk,work);
         if (work->isMoveHeld==1) {
             P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
-            CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,0);
             work->isMoveHeld=0;
             work->heldSlot=STA_SKILL_SLOT_NONE;
         }
@@ -1007,7 +948,7 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
     for (i=0;i<STA_SKILL_SLOT_MAX;i++) P_STA_SKILL_GetSlotTouchRect(&work->slot[i],&touch[i]);
     touch[5].top=255;
     if (TOUCHPANEL_GetTrg()==1) {
-        touchedSlot=TOUCHPANEL_HitTrg(touch);
+        touchedSlot=TOUCHPANEL_HitTrg((const TouchHitTable *)touch);
         if (touchedSlot==-1) goto out;
         if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk),touchedSlot+54,0)==0) goto out;
         if (wk->isInputEnabled==1) P_STATUS_SetInputEnable(wk,0);
@@ -1016,18 +957,18 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
             if (work->isMoveHeld!=1) {
                 work->heldSlot=touchedSlot;
                 P_STA_SKILL_GetSlotPos(&work->slot[touchedSlot],&pos1);
-                CLACT_AddActorSurfacePos(work->touchObj,&pos1,0);
-                CLACT_SetActorDrawEnable((struct Actor *)work->touchObj,1);
-                if (touchedSlot==0) CLACT_SetActorAnimSeq((struct Actor *)work->touchObj,3);
-                else if (touchedSlot==3) CLACT_SetActorAnimSeq((struct Actor *)work->touchObj,4);
-                else CLACT_SetActorAnimSeq((struct Actor *)work->touchObj,2);
+                CLACT_AddActorSurfacePos((struct ClactActor *)work->touchObj,(const struct ClactVec2 *)&pos1,0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)work->touchObj,1);
+                if (touchedSlot==0) CLACT_SetActorAnimSeq((struct ClactActor *)work->touchObj,3);
+                else if (touchedSlot==3) CLACT_SetActorAnimSeq((struct ClactActor *)work->touchObj,4);
+                else CLACT_SetActorAnimSeq((struct ClactActor *)work->touchObj,2);
             }
             work->touchStartX=wk->tpX;
             work->touchStartY=wk->tpY;
             P_STA_SKILL_GetSlotPos(&work->slot[touchedSlot],&pos2);
-            CLACT_AddActorSurfacePos(work->heldObj,&pos2,0);
-            CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,1);
-            CLACT_RestartActorAnim((struct Actor *)work->heldObj);
+            CLACT_AddActorSurfacePos((struct ClactActor *)work->heldObj,(const struct ClactVec2 *)&pos2,0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,1);
+            CLACT_RestartActorAnim((struct ClactActor *)work->heldObj);
         }
         wk->inputType=1;
         P_STA_SKILL_SetCursor(wk,work,touchedSlot,1);
@@ -1036,19 +977,19 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
     }
     if (TOUCHPANEL_GetCont()==1) {
         if (work->isTouching!=1) goto out;
-        touchedSlot=TOUCHPANEL_HitCont(touch);
+        touchedSlot=TOUCHPANEL_HitCont((const TouchHitTable *)touch);
         if (work->isMoveHeld==0) {
             if (touchedSlot==-1) {
                 work->isTouching=0;
-                CLACT_SetActorDrawEnable((struct Actor *)work->touchObj,0);
-                CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)work->touchObj,0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,0);
             } else {
                 dragDistance=work->touchStartY-wk->tpY;
                 if ((int)dragDistance<0) dragDistance=0U-dragDistance;
                 if ((int)dragDistance>8) {
                     P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],2);
                     work->isMoveHeld=1;
-                    CLACT_SetActorDrawEnable((struct Actor *)work->touchObj,0);
+                    CLACT_SetActorDrawEnable((struct ClactActor *)work->touchObj,0);
                 }
             }
         }
@@ -1059,8 +1000,8 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
                 return;
             }
             P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
-            CLACT_SetActorDrawEnable((struct Actor *)work->touchObj,0);
-            CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->touchObj,0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,0);
             work->isMoveHeld=0;
             work->isTouching=0;
             P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
@@ -1069,8 +1010,8 @@ void P_STA_SKILL_HandleTouch(PStatusWork *wk, PStaSkillWork *work)
         }
     } else {
         if (work->isTouching==1) {
-            CLACT_SetActorDrawEnable((struct Actor *)work->touchObj,0);
-            CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->touchObj,0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,0);
             if (work->isMoveHeld==1) {
                 if (work->heldSlot!=work->cursorSlot) {
                     P_STA_SKILL_SwapMoves(wk,work,work->heldSlot,work->cursorSlot);
@@ -1112,7 +1053,7 @@ int P_STA_SKILL_HandleKeysForget(PStatusWork *wk, PStaSkillWork *work)
             wk->inputType=0;
             P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
             P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
-            CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,0);
             work->cursorSlot=work->heldSlot;
             work->heldSlot=STA_SKILL_SLOT_NONE;
             work->isPickingForget=0;
@@ -1151,9 +1092,9 @@ int P_STA_SKILL_HandleKeysForget(PStatusWork *wk, PStaSkillWork *work)
                     work->cursorSlot=4;
                     P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
                     P_STA_SKILL_GetSlotPos(&work->slot[work->heldSlot],&pos);
-                    CLACT_AddActorSurfacePos(work->heldObj,&pos,0);
-                    CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,1);
-                    CLACT_RestartActorAnim((struct Actor *)work->heldObj);
+                    CLACT_AddActorSurfacePos((struct ClactActor *)work->heldObj,(const struct ClactVec2 *)&pos,0);
+                    CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,1);
+                    CLACT_RestartActorAnim((struct ClactActor *)work->heldObj);
                     P_STA_SKILL_SetNewMoveHeld(wk,work,1);
                 }
             } else {
@@ -1209,7 +1150,7 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
         wk->inputType=1;
         P_STA_SKILL_SetSlotAnim(&work->slot[work->heldSlot],0);
         P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
-        CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,0);
         work->heldSlot=STA_SKILL_SLOT_NONE;
         work->isPickingForget=0;
         if (work->slotCount==STA_SKILL_SLOT_MAX) {
@@ -1225,11 +1166,11 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
     }
     for (i=0;i<STA_SKILL_SLOT_MAX;i++) P_STA_SKILL_GetSlotTouchRect(&work->slot[i],&touch[i]);
     touch[5].top=255;
-    touchedSlot=TOUCHPANEL_HitTrg(touch);
+    touchedSlot=TOUCHPANEL_HitTrg((const TouchHitTable *)touch);
     if (touchedSlot==-1) return;
     if (work->isPickingForget==0) {
         if (touchedSlot<4) {
-            if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk),touchedSlot+54,0)==0) return;
+            if (POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk),(int)(touchedSlot+54),0)==0) return;
             forgetBlock=WAZA_TOOL_IsHmMove(wk->param->config,POKE_TOOL_GetBoxValue(P_STATUS_GetPokePara(wk),touchedSlot+54,0),wk->heapId);
             if (forgetBlock==0 || wk->restoreModeAll==1) {
                 if (wk->param->newMove==0) {
@@ -1251,9 +1192,9 @@ void P_STA_SKILL_HandleTouchForget(PStatusWork *wk, PStaSkillWork *work)
                 work->cursorSlot=4;
                 P_STA_SKILL_SetCursor(wk,work,work->cursorSlot,0);
                 P_STA_SKILL_GetSlotPos(&work->slot[work->heldSlot],&pos);
-                CLACT_AddActorSurfacePos(work->heldObj,&pos,0);
-                CLACT_SetActorDrawEnable((struct Actor *)work->heldObj,1);
-                CLACT_RestartActorAnim((struct Actor *)work->heldObj);
+                CLACT_AddActorSurfacePos((struct ClactActor *)work->heldObj,(const struct ClactVec2 *)&pos,0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)work->heldObj,1);
+                CLACT_RestartActorAnim((struct ClactActor *)work->heldObj);
                 P_STA_SKILL_SetNewMoveHeld(wk,work,1);
                 GFL_USE_PlaySeDefaultVolume(1356);
                 return;
@@ -1310,9 +1251,9 @@ void P_STA_SKILL_SetCursor(PStatusWork *wk, PStaSkillWork *work, u8 newSlot, int
     StaOamPoint pos;
     if(wk->inputType==0) {
         P_STA_SKILL_GetSlotPos(&work->slot[newSlot],&pos);
-        CLACT_AddActorSurfacePos(work->cursorObj,&pos,0);
-        CLACT_SetActorDrawEnable((struct Actor *)work->cursorObj,0);
-    } else CLACT_SetActorDrawEnable((struct Actor *)work->cursorObj,0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)work->cursorObj,(const struct ClactVec2 *)&pos,0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
+    } else CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
     if(work->cursorSlot!=work->heldSlot || work->isMoveHeld==0) {
         if(work->cursorSlot!=STA_SKILL_NO_CURSOR) P_STA_SKILL_SetSlotAnim(&work->slot[work->cursorSlot],0);
     } else P_STA_SKILL_SetSlotAnim(&work->slot[work->cursorSlot],2);
@@ -1370,14 +1311,14 @@ void P_STA_SKILL_SwapMoves(PStatusWork *wk, PStaSkillWork *work, u32 slotA, u32 
 void P_STA_SKILL_SetNewMoveHeld(PStatusWork *wk, PStaSkillWork *work, int isNewMoveHeld) {
     PStaSkillSlot *newMoveSlot=&work->slot[4];
     if(isNewMoveHeld==1) {
-        CLACT_SetActorAnimSeq((struct Actor *)newMoveSlot->frameObj,16);
-        P_STA_OAM_SetBitmapActorsEnabled(newMoveSlot->nameActors,0);
-        CLACT_SetActorDrawEnable((struct Actor *)newMoveSlot->typeObj,0);
+        CLACT_SetActorAnimSeq((struct ClactActor *)newMoveSlot->frameObj,16);
+        P_STA_OAM_SetBitmapActorsEnabled((struct StaOamBitmapActors *)newMoveSlot->nameActors,0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)newMoveSlot->typeObj,0);
         P_STA_OAM_TransferBitmap(work->giveUpActors);
         P_STA_OAM_SetBitmapActorsEnabled(work->giveUpActors,1);
     } else {
-        P_STA_OAM_SetBitmapActorsEnabled(work->giveUpActors,0);
-        CLACT_SetActorDrawEnable((struct Actor *)newMoveSlot->typeObj,1);
+        P_STA_OAM_SetBitmapActorsEnabled((struct StaOamBitmapActors *)work->giveUpActors,0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)newMoveSlot->typeObj,1);
         if(work->cursorSlot==4) P_STA_SKILL_SetSlotAnim(newMoveSlot,1); else P_STA_SKILL_SetSlotAnim(newMoveSlot,0);
         P_STA_OAM_SetBitmapActorsEnabled(newMoveSlot->nameActors,1);
     }
@@ -1403,29 +1344,29 @@ u16 P_STA_SKILL_GetNatureStatColor(PStatusWork *wk, PStaSkillWork *work, unsigne
  * lever: assign slot->index before pos.x to schedule its store before the stack address.
  */
 void P_STA_SKILL_CreateSlotObjects(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *slot, u8 index) {
-    StaOamActorPos pos;
+    struct ActorInitParam pos;
     slot->redrawPending=0;
     slot->index=index;
     pos.x=P_STA_SKILL_SlotTilePos[index][0]*8;
     pos.y=P_STA_SKILL_SlotTilePos[index][1]*8;
-    pos.drawPriority=10;
-    pos.bgPriority=0;
-    pos.animSeq=slot->index;
+    pos.draw_priority=10;
+    pos.bg_priority=0;
+    pos.anim_seq=slot->index;
     slot->frameObj=CLACT_CreateActor(wk->clunit,(wk->objRes[20]),(wk->objRes[6]),(wk->objRes[32]),&pos,0,wk->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)slot->frameObj,0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)slot->frameObj,0);
     pos.x=P_STA_SKILL_SlotTilePos[slot->index][0]*8+26;
     pos.y=P_STA_SKILL_SlotTilePos[slot->index][1]*8+9;
-    pos.drawPriority=8;
-    pos.bgPriority=0;
-    pos.animSeq=0;
+    pos.draw_priority=8;
+    pos.bg_priority=0;
+    pos.anim_seq=0;
     slot->typeObj=CLACT_CreateActor(wk->clunit,wk->typeChrRes[0],wk->objRes[3],(wk->objRes[29]),&pos,0,wk->heapId);
-    CLACT_SetActorDrawEnable((struct Actor *)slot->typeObj,0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)slot->typeObj,0);
 }
 
 void P_STA_SKILL_DeleteSlotObjects(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *slot)
 {
-    CLACT_DeleteActor((struct Actor *)slot->frameObj);
-    CLACT_DeleteActor((struct Actor *)slot->typeObj);
+    CLACT_DeleteActor((struct ClactActor *)slot->frameObj);
+    CLACT_DeleteActor((struct ClactActor *)slot->typeObj);
     slot->index = 0xff;
 }
 
@@ -1465,18 +1406,18 @@ void P_STA_SKILL_InitSlotText(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlo
     STRBUF_Delete(str);
     MSGDATA_Delete((struct MsgBank *)nameBank);
     if(moveId!=0) {
-        P_STATUS_PrintMsg(wk,(int)slot->nameBmp,135,13,17,1088);
+        P_STATUS_PrintMsg(wk,(sptr)slot->nameBmp,135,13,17,1088);
         ppWords=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(ppWords,0,curPP,3,1,1);
-        P_STATUS_PrintWordSetMsgRight(wk,(int)slot->nameBmp,ppWords,136,57,17,1088);
+        P_STATUS_PrintWordSetMsgRight(wk,(sptr)slot->nameBmp,ppWords,136,57,17,1088);
         WORDSET_Delete(ppWords);
-        P_STATUS_PrintMsg(wk,(int)slot->nameBmp,117,57,17,1088);
+        P_STATUS_PrintMsg(wk,(sptr)slot->nameBmp,117,57,17,1088);
         maxPPWords=WORDSET_CreateDefault(wk->heapId);
         WORDSET_SetSlotNumber(maxPPWords,0,maxPP,3,1,1);
-        P_STATUS_PrintWordSetMsg(wk,(int)slot->nameBmp,maxPPWords,141,61,17,1088);
+        P_STATUS_PrintWordSetMsg(wk,(sptr)slot->nameBmp,maxPPWords,141,61,17,1088);
         WORDSET_Delete(maxPPWords);
     } else {
-        P_STATUS_PrintMsg(wk,(int)slot->nameBmp,153,49,17,1088);
+        P_STATUS_PrintMsg(wk,(sptr)slot->nameBmp,153,49,17,1088);
     }
     desc.x=(P_STA_SKILL_SlotTilePos[slot->index][0]+5)*8;
     desc.y=P_STA_SKILL_SlotTilePos[slot->index][1]*8;
@@ -1506,12 +1447,12 @@ void P_STA_SKILL_ShowSlot(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *s
         if(moveId!=0) {
             moveType=WAZA_TOOL_GetType(moveId);
             CLACT_GetCharacterProxy(wk->typeChrRes[moveType],(struct ImageProxy *)(&typeRes));
-            CLACT_SetActorImageProxy((char *)slot->typeObj,(struct ImageProxy *)(&typeRes));
-            CLACT_SetActorPaletteOffset((struct Actor *)slot->typeObj,APP_ICON_GetTypePaletteOffset(moveType),1);
-            CLACT_SetActorDrawEnable((struct Actor *)slot->typeObj,1);
-        } else CLACT_SetActorDrawEnable((struct Actor *)slot->typeObj,0);
-        P_STA_OAM_TransferBitmap(slot->nameActors);
-        CLACT_SetActorDrawEnable((struct Actor *)slot->frameObj,1);
+            CLACT_SetActorImageProxy((char *)slot->typeObj,(const struct ImageProxy *)((struct ImageProxy *)(&typeRes)));
+            CLACT_SetActorPaletteOffset((struct ClactActor *)slot->typeObj,APP_ICON_GetTypePaletteOffset(moveType),1);
+            CLACT_SetActorDrawEnable((struct ClactActor *)slot->typeObj,1);
+        } else CLACT_SetActorDrawEnable((struct ClactActor *)slot->typeObj,0);
+        P_STA_OAM_TransferBitmap((struct StaOamBitmapActors *)slot->nameActors);
+        CLACT_SetActorDrawEnable((struct ClactActor *)slot->frameObj,1);
         slot->redrawPending=0;
     }
 }
@@ -1524,8 +1465,8 @@ void P_STA_SKILL_FreeSlot(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *s
 
 void P_STA_SKILL_HideSlot(PStatusWork *wk, PStaSkillWork *work, PStaSkillSlot *slot)
 {
-    CLACT_SetActorDrawEnable((struct Actor *)slot->frameObj, 0);
-    CLACT_SetActorDrawEnable((struct Actor *)slot->typeObj, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)slot->frameObj, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)slot->typeObj, 0);
 }
 
 void P_STA_SKILL_GetSlotTouchRect(PStaSkillSlot *slot, StaTouchRect *rect) {
@@ -1544,5 +1485,5 @@ void P_STA_SKILL_GetSlotPos(PStaSkillSlot *slot, StaOamPoint *out) {
 
 void P_STA_SKILL_SetSlotAnim(PStaSkillSlot *slot, int animOffset)
 {
-    CLACT_SetActorAnimSeq((struct Actor *)slot->frameObj, (u16)(slot->index + animOffset * 5));
+    CLACT_SetActorAnimSeq((struct ClactActor *)slot->frameObj, (u16)(slot->index + animOffset * 5));
 }

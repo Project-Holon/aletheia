@@ -271,7 +271,7 @@ void GAME_DATA_TakeUnionInfo(struct GameData *gameData, void *dst);
 
 void GAME_DATA_ClearUnionInfo(struct GameData *gameData);
 
-extern struct FieldState *GAME_DATA_GetWifiList(const struct GameData *gd);
+extern struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gd);
 
 void *GAME_DATA_GetEventData(const struct GameData *gameData);
 
@@ -560,7 +560,7 @@ u8 *GAME_DATA_GetMusicalShotExtraData(struct GameData *gameData)
 void GAME_DATA_TakeUnionInfo(struct GameData *gameData, void *dst)
 {
     MI_CpuCopy8(dst, gameData->unionInfo[0], sizeof(gameData->unionInfo[0]));
-    (struct ZoneFlagSetting *)EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable((struct ZoneFlagSetting *)gameData->unionInfo[0]);
+    EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable((struct ZoneFlagSetting *)gameData->unionInfo[0]);
 }
 
 /*
@@ -571,7 +571,7 @@ void GAME_DATA_TakeUnionInfo(struct GameData *gameData, void *dst)
 void GAME_DATA_ClearUnionInfo(struct GameData *gameData)
 {
     MI_CpuFill8(gameData->unionInfo[0], 0, sizeof(gameData->unionInfo[0]));
-    (struct ZoneFlagSetting *)EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable((struct ZoneFlagSetting *)gameData->unionInfo[1]);
+    EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable((struct ZoneFlagSetting *)gameData->unionInfo[1]);
 }
 
 /*
@@ -607,9 +607,9 @@ void GAME_DATA_ClearUnionInfo(struct GameData *gameData)
  *   python tools/match.py tu --src src/matched/unit_0201283C.c \
  *       --addr 0x0201283C --thumb
  */
-struct FieldState *GAME_DATA_GetWifiList(const struct GameData *gameData)
+struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gameData)
 {
-    return (struct FieldState *)gameData->wifiList;
+    return (struct WifiList *)gameData->wifiList;
 }
 
 void *GAME_DATA_GetEventData(const struct GameData *gameData)
@@ -863,7 +863,7 @@ void GAME_DATA_SetEnterMode(struct GameData *gd, u8 value);
 
 u8 GAME_DATA_GetOwnNetId(const struct GameData *gd);
 
-void GAME_DATA_SetOwnNetId(struct GameData *gd, u8 value);
+void GAME_DATA_SetOwnNetId(struct GameData *gd, u32 value);
 
 int GAME_DATA_GetIntrudeCount(const struct GameData *gd);
 
@@ -883,7 +883,7 @@ void GAME_DATA_SetConfigFlag(struct GameData *gd, int on);
 
 void GAME_DATA_SetRecentId(struct GameData *gd, u32 id, u32 on);
 
-void GAME_DATA_ContainsRecentId(struct GameData *gd, u32 id);
+u32 GAME_DATA_ContainsRecentId(struct GameData *gd, u32 id);
 
 u8 *GAME_DATA_GetRtcWork(struct GameData *gd);
 
@@ -1346,7 +1346,7 @@ u8 GAME_DATA_GetOwnNetId(const struct GameData *gd)
     return gd->ownNetId;
 }
 
-void GAME_DATA_SetOwnNetId(struct GameData *gd, u8 value)
+void GAME_DATA_SetOwnNetId(struct GameData *gd, u32 value)
 {
     gd->ownNetId = value;
 }
@@ -1434,9 +1434,9 @@ void GAME_DATA_SetRecentId(struct GameData *gd, u32 id, u32 on)
     RECENT_ID_LIST_SAVEDATA_SetId(RECENT_ID_LIST_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(gd)), id, on);
 }
 
-void GAME_DATA_ContainsRecentId(struct GameData *gd, u32 id)
+u32 GAME_DATA_ContainsRecentId(struct GameData *gd, u32 id)
 {
-    RECENT_ID_LIST_SAVEDATA_ContainsId(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControlWork(gd)), id);
+    return RECENT_ID_LIST_SAVEDATA_ContainsId(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControlWork(gd)), id);
 }
 
 /*
@@ -1482,7 +1482,7 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
     struct PlayerWork *player;
     void *occupy;
     struct UnionInfo *unionInfo;
-    struct FieldState *fieldState;
+    struct WifiList *fieldState;
     struct PlayTime *savedTime;
     u32 situation;
     if (SAVE_CONTROL_IsNewGame(gd->saveControl) == 1) {
@@ -1501,7 +1501,7 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
     PLAYER_LOCATION_WriteFlashActiveTo((struct PlayerLocationData *)situation, gd->moveModelSys);
     PLAYER_LOCATION_GetSeason((struct PlayerLocationData *)situation, &gd->season);
     fieldState = GAME_DATA_GetWifiList(gd);
-    WIFILIST_Copy((struct WifiList *)(WIFILIST_GetFromSave(gd->saveControl)), (struct WifiList *)fieldState);
+    WIFILIST_Copy((struct WifiList *)(WIFILIST_GetFromSave(gd->saveControl)), fieldState);
     PLAYER_LOCATION_GetWeatherId((struct PlayerLocationData *)gd->situation, &gd->weatherId);
     SAVE_SYNC_Load(gd->saveControl, gd->saveSyncBlock);
     savedTime = SYSTEM_DATA_GetPlayTime(gd->saveControl);
@@ -1528,7 +1528,7 @@ void GAME_DATA_WriteToSave(struct GameData *gd)
     struct PlayerWork *player;
     void *occupy;
     struct UnionInfo *unionInfo;
-    struct FieldState *fieldState;
+    struct WifiList *fieldState;
     struct PlayTime *savedTime;
     u32 situation;
     player = GAME_DATA_GetMyPlayerWork(gd);
@@ -1544,7 +1544,7 @@ void GAME_DATA_WriteToSave(struct GameData *gd)
     PLAYER_LOCATION_ReadFlashActiveFrom((struct PlayerLocationData *)situation, gd->moveModelSys);
     PLAYER_LOCATION_SetSeason((struct PlayerLocationData *)situation, gd->season);
     fieldState = GAME_DATA_GetWifiList(gd);
-    WIFILIST_Copy((struct WifiList *)fieldState, WIFILIST_GetFromSave(gd->saveControl));
+    WIFILIST_Copy(fieldState, WIFILIST_GetFromSave(gd->saveControl));
     PLAYER_LOCATION_SetWeatherId((struct PlayerLocationData *)gd->situation, gd->weatherId);
     SAVE_SYNC_Store(gd->saveSyncBlock, gd->saveControl);
     savedTime = SYSTEM_DATA_GetPlayTime(gd->saveControl);

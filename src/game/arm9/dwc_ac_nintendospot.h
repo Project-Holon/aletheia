@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_DWC_AC_NINTENDOSPOT_H
 #define GAME_ARM9_DWC_AC_NINTENDOSPOT_H
 
+typedef struct tagDWCWDSData DWCWDSData;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of dwc_ac_nintendospot.c, prototypes copied from their definitions. */
 
@@ -19,7 +21,5 @@ void WDS_EndScan_CB(void);
 void WDS_End_CB(void);
 void WDS_Error_End_CB(void);
 /* END mkheaders: generated region */
-
-typedef struct tagDWCWDSData DWCWDSData;
 
 #endif

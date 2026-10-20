@@ -6,6 +6,11 @@
  */
 
 struct HashImplementation;
+
+typedef int GT2Bool;
+typedef enum { GT2Success, GT2OutOfMemory, GT2Rejected } GT2Result;
+typedef enum { GT2LocalClose, GT2RemoteClose } GT2CloseReason;
+
 struct DArrayImplementation;
 typedef struct GTI2Connection GTI2Connection;
 typedef struct GTI2Socket GTI2Socket;
@@ -20,11 +25,29 @@ typedef struct GTI2Buffer {
 } GTI2Buffer;
 
 typedef struct GT2ConnectionCallbacks {
-    int (*connected)(GTI2Connection *, int, unsigned char *, int);
-    int (*received)(GTI2Connection *, unsigned char *, int, int);
+    void (*connected)(GTI2Connection *, int, unsigned char *, int);
+    void (*received)(GTI2Connection *, unsigned char *, int, int);
     void (*closed)(GTI2Connection *, int);
     void (*ping)(GTI2Connection *, int);
 } GT2ConnectionCallbacks;
+
+struct GTI2IncomingBufferMessage {
+    int start;
+    int len;
+    int type;
+    unsigned short serialNumber;
+};
+
+struct GTI2OutgoingBufferMessage {
+    int offset;
+    int len;
+    unsigned short SN;
+    unsigned short pad;
+    unsigned int sendTime;
+};
+
+typedef struct GTI2IncomingBufferMessage GTI2IncomingBufferMessage;
+typedef struct GTI2OutgoingBufferMessage GTI2OutgoingBufferMessage;
 
 struct GTI2Connection {
     unsigned int ip;                                     /* 0x00 */
@@ -47,7 +70,7 @@ struct GTI2Connection {
     struct DArrayImplementation *outgoingBufferMessages; /* 0x60 */
     unsigned short serialNumber;                         /* 0x64 */
     unsigned short expectedSerialNumber;                 /* 0x66 */
-    char response[32];                                   /* 0x68 */
+    unsigned char response[32];                                  /* 0x68 */
     unsigned int lastSend;                               /* 0x88 */
     unsigned int challengeTime;                          /* 0x8C */
     int pendingAck;                                      /* 0x90 */

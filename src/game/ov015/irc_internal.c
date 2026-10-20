@@ -39,13 +39,10 @@ typedef struct IRCParam {
     unsigned char *recv;
 } IRCParam;
 
-extern unsigned long long OS_GetTick(void);
-extern long OS_GetLockID(void);
-extern void OS_ReleaseLockID(unsigned short lockID);
-extern void CARD_LockBackup(int owner);
-extern long OS_LockCard(u16 id);
-extern void OS_UnLockCard();
-extern void CARD_UnlockBackup(u16 id);
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
+#include "../arm9/os_spinlock.h"
+#include "../arm9/card_api.h"
 void IRCi_WaitCommand(void);
 void IRCi_Init(void);
 void IRCi_End(void);

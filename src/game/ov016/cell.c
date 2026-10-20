@@ -65,23 +65,14 @@ typedef struct tagMEMCELL {
     CELLPRM c[2];
 } MEMCELL;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void *DWCi_QUElFormEx(long size, void *data, long dataSize);
-extern struct ListCB *DWCi_LSTlForm(void);
-extern char *DWCi_OBJlGetOam(u32 a, u32 b);
-extern void DWCi_LSTlPushFront(char *p, void *ob);
-extern void DWCi_LSTlPushBack(char *p, void *ob);
+#include "heap.h"
+#include "deque.h"
+#include "list.h"
+#include "obj.h"
 struct tagLISTCB;
-extern void DWCi_LSTlDelete(struct tagLISTCB *list);
-extern void DWCi_QUElDelete(struct tagLISTCB *list);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void *DWCi_QUElPopBack(void *queue);
-extern unsigned long OS_DisableIrqMask(unsigned long intr);
-extern void DWCi_LSTlInsert(void *pos, void *ob);
-extern void OS_Terminate(void);
-extern unsigned long OS_EnableIrqMask(unsigned long intr);
-extern void DWCi_LSTlErase(void *p);
-extern void DWCi_QUElPushBack(void *queue, void *data);
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
+#include "../arm9/os_terminate_processor.h"
 void DWCi_CELLlInit(void);
 void DWCi_CELLlEnd(void);
 void *DWCi_CELLlForm(int lcd, int num, int head);

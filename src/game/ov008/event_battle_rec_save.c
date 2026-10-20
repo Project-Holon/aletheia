@@ -150,7 +150,7 @@ typedef struct {
 } BattleRecordWork;
 
 typedef struct {
-    int procsys;
+    struct ProcSys *procsys;
     int playerIdFirst;
     int playerIdSecond;
     int swapped;
@@ -161,7 +161,7 @@ typedef struct {
 
 /* The procsys proc work made by EVENT_BATTLE_REC_SAVE_ProcInit (0x1c bytes). */
 typedef struct EventBattleRecSaveProc {
-    int procsys;        /* 0x00: handle from PROCSYS_Create(0x76) */
+    struct ProcSys *procsys;        /* 0x00: handle from PROCSYS_Create(0x76) */
     char pad4[0x18];
 } EventBattleRecSaveProc;
 
@@ -171,38 +171,23 @@ typedef struct EventBattleRecSaveTask {
     int commBattleActive;   /* 0x14: nonzero once the comm battle has started */
 } EventBattleRecSaveTask;
 
-extern void  GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void *PROCSYS_Create(int heapId);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern void GFL_NET_ERR_RequestScreen(void);
-extern void PROCSYS_Delete(struct S020314B8 *p);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern unsigned int PROCSYS_Main(void *p);
-extern void PROCSYS_Push(int h, u32 id, void *a, void *b);
-extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
-extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
-extern void GF_OVERLAY_Unload(s32 handle);
-extern int GF_OVERLAY_Load(s32 handle);
-extern void BATTLE_REC_FreeWork(void);
-extern void BATTLE_REC_AllocWork(u32 heap);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/net_err.h"
+#include "../arm9/procsys.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/net_command.h"
+#include "../arm9/gf_overlay.h"
+#include "../arm9/battle_rec.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_StartTimingSync(struct GFLNetHandle *handle, unsigned short tag);
-extern unsigned int GFL_NET_CheckTimingSync(struct GFLNetHandle *handle, unsigned int timingNo);
-extern void BATTLE_REC_LoadToolOverlay(void);
-extern void BATTLE_REC_UnloadToolOverlay(void);
-extern u32 BATTLE_REC_IsVersionSupported(u32 v);
+#include "../arm9/net_handle.h"
+#include "../arm9/net.h"
 struct BattleSetupParam;
-extern void BATTLE_REC_TOOL_PackSetup(struct BattleSetupParam *setup);
-extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
+#include "../ov188/battle_rec_tool.h"
+#include "../arm9/game_event.h"
 struct GameEvent;
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 struct GameData;
-struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner);
 int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, int *procsys);
 u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *work, BattleRecordCtx *ctx);
@@ -226,7 +211,7 @@ int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner)
 
     GFL_HEAP_CreateChildHeap(1, 0x76, 0x4000);
     procWork = PROCSYS_AllocProcWork(procsysOwner, 0x1c, 0x76);
-    procWork->procsys = (unsigned int)PROCSYS_Create(0x76);
+    procWork->procsys = PROCSYS_Create(0x76);
     return 1;
 }
 
@@ -236,7 +221,7 @@ int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, i
         if (GFL_NET_ERR_GetErrorLevel() != 0)
             GFL_NET_ERR_RequestScreen();
     }
-    PROCSYS_Delete((struct S020314B8 *)*procsys);
+    PROCSYS_Delete((struct ProcSys *)*procsys);
     PROCSYS_FreeProcWork(procWork);
     GFL_HEAP_DeleteChecked(0x76);
     return 1;
@@ -255,7 +240,7 @@ int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, i
  */
 u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *work, BattleRecordCtx *ctx)
 {
-    int procsysBusy = PROCSYS_Main((void *)ctx->procsys);
+    int procsysBusy = PROCSYS_Main(ctx->procsys);
     int lastPlayer, firstTeamBase, secondTeamBase, i, j, playerIndexBit, nameRow;
     u32 versionOk;
 
@@ -263,7 +248,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         if (ctx->cmdTableAdded == 1)
             GFL_NET_COMMAND_DeleteCommandTable(0x100);
         if (ctx->overlayLoaded == 1)
-            GF_OVERLAY_Unload((u32)ov093_id);
+            GF_OVERLAY_Unload((uptr)ov093_id);
         if (ctx->recordWorkAllocated == 1)
             BATTLE_REC_FreeWork();
         return 1;
@@ -275,7 +260,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
             work->slots->modeId = 1;
         else
             work->slots->modeId = 3;
-        PROCSYS_Push(ctx->procsys, (u32)ov213_id, d_021BB0B0, work->slots);
+        PROCSYS_Push(ctx->procsys, (uptr)ov213_id, (const struct ProcData *)d_021BB0B0, work->slots);
         *stage = 1;
         break;
     case 1:
@@ -305,7 +290,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
             ctx->playerIdFirst = work->slots->slot[1].trainerId;
             ctx->playerIdSecond = work->slots->slot[0].trainerId;
         }
-        PROCSYS_Push(ctx->procsys, (u32)ov097_id, d_021F75EC, &ctx->playerIdFirst);
+        PROCSYS_Push(ctx->procsys, (uptr)ov097_id, (const struct ProcData *)d_021F75EC, &ctx->playerIdFirst);
         *stage = 5;
         break;
     case 5:
@@ -315,9 +300,9 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         break;
     case 6:
         ctx->overlayLoaded = 1;
-        GF_OVERLAY_Load((u32)ov093_id);
+        GF_OVERLAY_Load((uptr)ov093_id);
         ctx->cmdTableAdded = 1;
-        GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
+        GFL_NET_COMMAND_AddCommandTable(0x100, (uptr)d_021F03C4, 9, 0);
         GFL_NET_StartTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), 0xC8);
         *stage = 7;
         break;
@@ -329,7 +314,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
     case 8:
         ctx->recordWorkAllocated = 1;
         BATTLE_REC_AllocWork(0x76);
-        PROCSYS_Push(ctx->procsys, -1, d_021EFDAC, work->info);
+        PROCSYS_Push(ctx->procsys, -1, (const struct ProcData *)d_021EFDAC, work->info);
         *stage = 9;
         break;
     case 9:
@@ -349,7 +334,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
             break;
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
         ctx->cmdTableAdded = 0;
-        GF_OVERLAY_Unload((u32)ov093_id);
+        GF_OVERLAY_Unload((uptr)ov093_id);
         ctx->overlayLoaded = 0;
         BATTLE_REC_LoadToolOverlay();
         BATTLE_REC_TOOL_PackSetup((struct BattleSetupParam *)work->info);
@@ -410,7 +395,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
             *stage = 16;
             break;
         }
-        PROCSYS_Push(ctx->procsys, (u32)ov213_id, d_021BB0B0, work->slots);
+        PROCSYS_Push(ctx->procsys, (uptr)ov213_id, (const struct ProcData *)d_021BB0B0, work->slots);
         *stage = 14;
         break;
     case 14:
@@ -426,7 +411,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         work->saveEnabled = 1;
         work->resultFlag = work->flag;
         work->resultExtraFlag = work->extraFlag;
-        PROCSYS_Push(ctx->procsys, (u32)ov214_id, d_021BB474, &work->resultGameSystem);
+        PROCSYS_Push(ctx->procsys, (uptr)ov214_id, (const struct ProcData *)d_021BB474, &work->resultGameSystem);
         *stage = 16;
         break;
     case 16:
@@ -449,10 +434,10 @@ void *EVENT_BATTLE_REC_SAVE_Start(void *gameSystem, const int *args)
 
 void *EVENT_BATTLE_REC_SAVE_CreateEvent(void *gameSystem, int info, int slots, int flag)
 {
-    void *event = GAME_EVENT_Create(gameSystem, 0, (void *)((int)EVENT_BATTLE_REC_SAVE_EventMain), 0x40);
+    void *event = GAME_EVENT_Create(gameSystem, 0, (void *)((sptr)EVENT_BATTLE_REC_SAVE_EventMain), 0x40);
     u32 *work = GAME_EVENT_GetWork(event);
 
-    work[0] = (u32)gameSystem;
+    work[0] = (uptr)gameSystem;
     work[1] = info;
     work[2] = slots;
     work[3] = flag;
@@ -467,7 +452,7 @@ int EVENT_BATTLE_REC_SAVE_EventMain(int unused, int *stage, int *work)
     switch (*stage) {
     case 0:
         procArgs = work + 4;
-        work[4] = (int)GAMESYSTEM_GetGameData(gameSystem);
+        work[4] = (sptr)GAMESYSTEM_GetGameData(gameSystem);
         procArgs[1] = work[1];
         procArgs[2] = work[2];
         procArgs[3] = *(int *)(work[2] + 0x48);

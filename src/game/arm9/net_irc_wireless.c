@@ -378,7 +378,7 @@ void GFL_NET_IRC_WIRELESS_Main(void)
         if (GFL_NET_GetRunState() != 1)
             return;
         GFL_NET_GetSession()->ops->setSessionParam(gNetIrcWirelessLink->sessionParam);
-        GFL_NET_StartChangeoverChild((u32)GFL_NET_IRC_WIRELESS_OnSyncReady);
+        GFL_NET_StartChangeoverChild((uptr)GFL_NET_IRC_WIRELESS_OnSyncReady);
         GFL_NET_IRC_WIRELESS_SetState(link, 6);
         break;
     case 6:
@@ -493,7 +493,7 @@ void GFL_NET_IRC_WIRELESS_Main(void)
         if (GFL_NET_GetRunState() != 1)
             return;
         GFL_NET_GetSession()->ops->setSessionParam(gNetIrcWirelessLink->sessionParam);
-        GFL_NET_StartChangeoverChild((u32)GFL_NET_IRC_WIRELESS_OnSyncReady);
+        GFL_NET_StartChangeoverChild((uptr)GFL_NET_IRC_WIRELESS_OnSyncReady);
         GFL_NET_IRC_WIRELESS_SetState(link, 0x10);
         break;
     case 16:

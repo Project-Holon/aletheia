@@ -35,4 +35,9 @@ struct BtlNetCtx {
     u8 pad1a7[4];
     u8 reserved1ab;
 };
+/* The 32-byte battle setup the leader broadcasts. */
+typedef struct {
+    int words[8];
+} BtlNetSetup;
+
 #endif

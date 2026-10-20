@@ -20,21 +20,19 @@
  *   OS_LockMutex  0x02086028  arm  arm9
  *   OS_UnlockMutex  0x02086078  arm  arm9
  */
-extern unsigned long OS_DisableInterrupts_IrqAndFiq(void);
-extern unsigned long OS_RestoreInterrupts_IrqAndFiq(unsigned long state);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
 #include "../sdk_os.h"
 
-extern void OS_InitMutex(struct OSMutex *mutex);
-extern void OS_LockMutex(struct OSMutex *mutex);
-extern void OS_UnlockMutex(struct OSMutex *mutex);
-extern long long atoll(unsigned int string);
+#include "../arm9/os_mutex.h"
+#include "../arm9/msl_strtod.h"
 unsigned int gsiInterlockedIncrement(unsigned int *value);
 unsigned int gsiInterlockedDecrement(unsigned int *value);
 void gsiInitializeCriticalSection(void *criticalSection);
 void gsiEnterCriticalSection(void *criticalSection);
 void gsiLeaveCriticalSection(void *criticalSection);
 void gsiDeleteCriticalSection(void *criticalSection);
-long long gsiStringToInt64(unsigned int string);
+long long gsiStringToInt64(const char *string);
 
 
 
@@ -115,7 +113,7 @@ void gsiDeleteCriticalSection(void *criticalSection)
  * EXACT arm9 shard entry (pkt_020964F4) reproducing the defaulting thunk, so
  * the ABS32 site resolves via `matched`.  Verified EXACT.
  */
-long long gsiStringToInt64(unsigned int string)
+long long gsiStringToInt64(const char *string)
 {
     return atoll(string);
 }

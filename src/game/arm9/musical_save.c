@@ -62,7 +62,7 @@ MusicalOutfit *MUSICAL_SAVE_GetOutfits(struct MusicalSave *musical);
 
 u32 MUSICAL_SAVE_IsShowActive(struct MusicalSave *musical);
 
-void MUSICAL_SAVE_NoOp(void);
+struct MusicalSave *MUSICAL_SAVE_NoOp(struct MusicalSave *musical);
 
 u32 MUSICAL_SAVE_IsPropOwned(struct MusicalSave *musical, u8 prop);
 
@@ -169,8 +169,9 @@ u32 MUSICAL_SAVE_IsShowActive(struct MusicalSave *musical)
     return musical->shotState != 0;
 }
 
-void MUSICAL_SAVE_NoOp(void)
+struct MusicalSave *MUSICAL_SAVE_NoOp(struct MusicalSave *musical)
 {
+    return musical;
 }
 
 u32 MUSICAL_SAVE_IsPropOwned(struct MusicalSave *musical, u8 prop)

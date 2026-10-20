@@ -32,7 +32,7 @@ struct GameSystem;
 struct GameData;
 struct GameEvent;
 
-typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
+#include "../arm9/ica_anime_shared_types.h"
 
 #define SP_POKE_GIMMICK_ANIME_COUNT 3
 
@@ -56,13 +56,7 @@ typedef struct SpPokeGimmickWork {
 } SpPokeGimmickWork;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
-extern SpPokeGimmickWork *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
-extern int FLD_EXP_OBJ_GetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex);
-extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, u16 animeIndex);
-extern int FLD_EXP_OBJ_IsAnimeStopped(FldExpObjAnime *anime);
+#include "../ov021/fld_exp_obj.h"
 
 int SP_POKE_GIMMICK_SwapNpcEventMain(struct GameEvent *event, int *seq, void *work);
 

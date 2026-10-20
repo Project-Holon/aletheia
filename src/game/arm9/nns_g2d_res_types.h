@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Bodies of the NITRO graphics resources after unpacking ('RAHC' character data, 'TTLP' palette data). */
+/* Bodies of the NITRO graphics resources after unpacking ('RAHC' character data, 'NRCS' screen data, 'TTLP' palette data). */
 
 typedef struct NNSG2dCharacterData {
     u16 H;                  /* +0x00 */
@@ -14,6 +14,15 @@ typedef struct NNSG2dCharacterData {
     u32 szByte;             /* +0x10 */
     void *pRawData;         /* +0x14  offset, becomes a pointer */
 } NNSG2dCharacterData;
+
+typedef struct NNSG2dScreenData {
+    u16 screenWidth;        /* +0x00 */
+    u16 screenHeight;       /* +0x02 */
+    u16 colorMode;          /* +0x04 */
+    u16 screenFormat;       /* +0x06 */
+    u32 szByte;             /* +0x08 */
+    u8  rawData[1];         /* +0x0c  the tile map */
+} NNSG2dScreenData;
 
 typedef struct NNSG2dPaletteData {
     u32 fmt;                /* +0x00 */

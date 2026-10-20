@@ -13,7 +13,7 @@
  *
  * symbols:
  *   DWCi_WindowG2x_ChangeBlendBrightness_  0x0207D6C0  arm
- *   DWCi_TSKlSetParam  0x021D771C  arm  ov016
+ *   DWCi_TSKlChangeFunc  0x021D771C  arm  ov016
  *   func_021D1C5C  0x021D1C5C  arm  ov016
  *   gWindowWork     0x021DE658  data
  */
@@ -39,7 +39,7 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
-extern void DWCi_TSKlSetParam(char *p, unsigned int v);
+extern void DWCi_TSKlChangeFunc(char *p, unsigned int v);
 extern void func_021D1C5C(void *task);
 extern struct MemWinT *gWindowWork;
 
@@ -49,5 +49,5 @@ void taskEnd2(void *task)
     DWCi_WindowG2x_ChangeBlendBrightness_(0x04000050, gWindowWork->count);
     if (gWindowWork->count < 0)
         return;
-    DWCi_TSKlSetParam(task, (unsigned int)func_021D1C5C);
+    DWCi_TSKlChangeFunc(task, (unsigned int)func_021D1C5C);
 }

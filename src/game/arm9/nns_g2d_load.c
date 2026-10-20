@@ -182,10 +182,10 @@ void NNSi_G2dFixupOffsets(struct Tbl *t)
 {
     u16 i;
 
-    t->offsets = (u8 **)((u8 *)t->offsets + (u32)t);
+    t->offsets = (u8 **)((u8 *)t->offsets + (uptr)t);
     i = 0;
     while (t->count > i) {
-        t->offsets[i] = (u8 *)t + (u32)t->offsets[i];
+        t->offsets[i] = (u8 *)t + (uptr)t->offsets[i];
         i = i + 1;
     }
 }
@@ -281,8 +281,8 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
         u32 pos;
         s->bReverse ^= 1;
         seq = s->pAnimSequence;
-        pos = (u32)s->pCurrent;
-        if (pos <= ((u32)seq->pAnmFrameArray + (seq->loopStartFrameIdx << 3) - 8)) {
+        pos = (uptr)s->pCurrent;
+        if (pos <= ((uptr)seq->pAnmFrameArray + (seq->loopStartFrameIdx << 3) - 8)) {
             if (s->callBack.type == 1) {
                 ((void (*)(u32, u32))s->callBack.pFunc)(s->callBack.param, s->currentTime);
             }
@@ -307,13 +307,13 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
 
     {
         const AnimSequenceData *seq = s->pAnimSequence;
-        u32 pos = (u32)s->pCurrent;
-        u32 bound = (u32)seq->pAnmFrameArray + (seq->numFrames << 3) - 8;
+        u32 pos = (uptr)s->pCurrent;
+        u32 bound = (uptr)seq->pAnmFrameArray + (seq->numFrames << 3) - 8;
         if (pos > bound) {
             s->pCurrent = (AnimFrameData *)bound;
             return;
         }
-        if (pos < (u32)seq->pAnmFrameArray) {
+        if (pos < (uptr)seq->pAnmFrameArray) {
             s->pCurrent = seq->pAnmFrameArray;
         }
     }
@@ -382,7 +382,7 @@ static inline BOOL IsReachedEdge_(const AnimCtrl *p)
 
 static inline u16 GetCurrentFrameIdx_(const AnimCtrl *p)
 {
-    return (u16)(((u32)p->pCurrent - (u32)p->pAnimSequence->pAnmFrameArray) >> 3);
+    return (u16)(((uptr)p->pCurrent - (uptr)p->pAnimSequence->pAnmFrameArray) >> 3);
 }
 
 static inline BOOL ShouldAdvance_(const AnimCtrl *p)
@@ -487,7 +487,7 @@ int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i)
  */
 u16 NNSi_G2dGetCellAnimFrameIdx(const AnimCtrl *n)
 {
-    return (u16)(((u32)n->pCurrent - (u32)n->pAnimSequence->pAnmFrameArray) >> 3);
+    return (u16)(((uptr)n->pCurrent - (uptr)n->pAnimSequence->pAnmFrameArray) >> 3);
 }
 
 int NNS_G2dInitAnimCtrl(AnimCtrl *pAnimCtrl)

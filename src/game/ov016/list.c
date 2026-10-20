@@ -37,10 +37,9 @@ typedef struct ListCB {
     void *tailPrev;
 } ListCB;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void DWCi_HEAPlFree_(void **mem);
-extern unsigned long OS_DisableIrqMask(unsigned long intr);
-extern unsigned long OS_EnableIrqMask(unsigned long intr);
+#include "heap.h"
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
 ListCB *DWCi_LSTlForm(void);
 void DWCi_LSTlDelete(struct tagLISTCB *list);
 void DWCi_LSTlErase(void *ob);

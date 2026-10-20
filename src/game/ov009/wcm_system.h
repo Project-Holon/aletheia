@@ -13,7 +13,7 @@ long WCM_Finish(void);
 int WCM_GetWorkSize(long *workSize, unsigned char deviceId);
 long WCM_StartupAsync(void *config, void (*notify)(void *));
 long WCM_CleanupAsync(void);
-void WCM_SearchAsync(void *bssid, void *essid, unsigned long option);
+long WCM_SearchAsync(void *bssid, void *essid, unsigned long option);
 long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option);
 long WCM_EndSearchAsync(void);
 long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option);

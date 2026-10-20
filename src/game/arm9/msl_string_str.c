@@ -85,7 +85,7 @@ char *strcpy(char *dst, const char *src)
     fromb = (u8 *)src;
     destb = (u8 *)dst;
 
-    if ((align = ((int)fromb & 3)) != ((int)destb & 3)) {
+    if ((align = ((sptr)fromb & 3)) != ((sptr)destb & 3)) {
         goto bytecopy;
     }
 
@@ -238,8 +238,8 @@ int strcmp(const char *s1, const char *s2)
         return diff;
     }
 
-    align = (u32)s1 & 3;
-    if (((u32)s2 & 3) != align) {
+    align = (uptr)s1 & 3;
+    if (((uptr)s2 & 3) != align) {
         goto byte_loop;
     }
 

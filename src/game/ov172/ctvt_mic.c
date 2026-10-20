@@ -68,60 +68,42 @@
  */
 #include "ctvt_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-typedef enum MICResult { MIC_SUCCESS, MIC_BUSY, MIC_ILLEGAL, MIC_SEND_ERROR } MICResult;
+#include "../arm9/mic.h"
 
-typedef struct MICAutoParam {
-    int type;
-    void *buffer;
-    u32 size;
-    u32 rate;
-    int loop;
-    void (*callback)(MICResult, void *);
-    void *arg;
-} MICAutoParam;
 
-extern int OS_IsRunOnTwl();
+#include "../arm9/os_emulator.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *GFL_NET_AllocAligned(u32 heap, u32 size, const char *file, u16 line);
+#include "../arm9/net.h"
 
-extern void GFL_NET_FreeAligned(void *);
 
-extern void MIi_CpuClear32();
+#include "../arm9/mi_memory.h"
 
-extern void MIC_Init(void);
 
-extern void PM_Init(void);
+#include "../arm9/pm.h"
 
-extern u32 PM_SetAmp(u32);
 
-extern u32 PM_SetAmpGainLevel(u8);
 
 extern void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap);
 
-extern int GFL_USE_SetVBlankHook(int, int);
+#include "../arm9/gfl_use.h"
 
-extern void GFL_USE_ClearVBlankHook(void);
 
 extern void CTVT_MIC_FreeChannel(CtvtMic *mic);
 
-extern void *MIC_GetLastSamplingAddress(void);
 struct NNSSndWaveOutHandle;
 
-extern int NNS_SndWaveOutIsPlaying(struct NNSSndWaveOutHandle *handle);
+#include "../arm9/nns_snd_waveout.h"
 
 extern void CTVT_MIC_PostUpdate(CtvtMic *mic);
 
-extern MICResult MIC_StartLimitedSampling(MICAutoParam *);
 
-extern int MIC_StopLimitedSampling(void);
 
-CtvtMic *CTVT_MIC_Create(u32 heap);
+CtvtMic *CTVT_MIC_Create(u16 heap);
 
-unsigned int SNDEXi_SetIirFilter(unsigned int target, unsigned short *coefficients);
+#include "../twl/sndex.h"
 
 void CTVT_MIC_Delete(CtvtMic *mic);
 
@@ -148,7 +130,7 @@ extern const char gCtvtMicAllocSite[], gCtvtMicIirFilter[];
 
 extern CtvtMic *gCtvtMic;
 
-CtvtMic *CTVT_MIC_Create(u32 heap)
+CtvtMic *CTVT_MIC_Create(u16 heap)
 {
     CtvtMic *mic = GFL_HEAP_Alloc(heap, 36, 1, gCtvtMicAllocSite, 87);
     MIC_Init();
@@ -162,7 +144,7 @@ CtvtMic *CTVT_MIC_Create(u32 heap)
     mic->capturing = 0;
     mic->captureTicks = 0;
     gCtvtMic = mic;
-    GFL_USE_SetVBlankHook((int)CTVT_MIC_OnVBlank, 0);
+    GFL_USE_SetVBlankHook((void (*)(void *))((int)CTVT_MIC_OnVBlank), 0);
     return mic;
 }
 
@@ -217,10 +199,10 @@ int CTVT_MIC_StartCapture(CtvtMic *mic)
     param.buffer = mic->buffer;
     MIi_CpuClear32(0, param.buffer, param.size);
     if (param.size & 31) param.size &= ~31;
-    param.callback = CTVT_MIC_OnCaptureComplete;
-    param.loop = 0;
+    param.full_callback = CTVT_MIC_OnCaptureComplete;
+    param.loop_enable = 0;
     param.rate = 4097;
-    param.arg = mic;
+    param.full_arg = mic;
     if (MIC_StartLimitedSampling(&param) == 0) {
         mic->capturing = 1;
         mic->capturedBytes = 0;
@@ -258,22 +240,16 @@ u32 CTVT_MIC_GetReadyBytes(CtvtMic *mic)
 
 u32 CTVT_MIC_GetBuffer(CtvtMic *mic) { return (u32)mic->buffer; }
 
-extern void MI_CpuFill8(void *p, int v, int n);
 
-extern int CTVT_ADPCM_Encode(void *pcm, unsigned pcmBytes, void *out);
+#include "ctvt_adpcm.h"
 
 
-extern int CTVT_ADPCM_Decode(int a, int b, int c);
 
-extern struct NNSSndWaveOutHandle *NNS_SndWaveOutAllocChannel(unsigned int slotNo);
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern void NNSi_SndWaveOutUnlockChannel(unsigned int *channelNoPtr);
 
-extern int NNS_SndWaveOutStart(struct NNSSndWaveOutHandle *handle, int format, void *waveData, int loopFlag, int loopStart, int loopEnd, int sampleRate, int volume, int playFreq, int pan);
 
-extern void NNS_SndWaveOutStop(struct NNSSndWaveOutHandle *handle);
 struct CtvtMic;
 
 

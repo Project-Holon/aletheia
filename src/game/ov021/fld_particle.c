@@ -30,44 +30,34 @@
  */
 #include "fld3d_ci_types.h"
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void PARTICLE_InitManager(u32);
+#include "../arm9/particle.h"
 struct ParticleSys;
 
-extern struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
 struct Obj3D;
 
-extern s32 PARTICLE_EMITTER_GetBlock(struct Obj3D *p);
 struct G3dCamera;
 
-extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, u32 *in);
+#include "../arm9/g3d_camera.h"
 
-extern void G3D_CAMERA_SetFar(struct G3dCamera *camera, u32 *in);
 
-extern void PARTICLE_DeleteSystem(struct ParticleSys *sys);
 
-extern void *PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 
-extern u32 PARTICLE_SetupSystem(u32, u32, u32, u32);
 
-extern int PARTICLE_GetEffectCount(struct ParticleSys *sys);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void PARTICLE_ExitManager(void);
 
-extern void PARTICLE_Main();
 
 FldParticle *FLD_PARTICLE_Create(u32 heapId);
 
-void *FLD_PARTICLE_CreateEffect(FldParticle *particle);
+struct ParticleSys *FLD_PARTICLE_CreateEffect(FldParticle *particle);
 
 void FLD_PARTICLE_DeleteEffect(FldParticle *particle);
 
 void *FLD_PARTICLE_LoadResource(FldParticle *particle, int kind, int resourceId);
 
-int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 applyNow, u32 taskMgr);
+void FLD_PARTICLE_StartEmitter(FldParticle *particle, void *resource, u32 applyNow, u32 taskMgr);
 
 int FLD_PARTICLE_IsEffectFinished(FldParticle *particle);
 
@@ -91,14 +81,14 @@ FldParticle *FLD_PARTICLE_Create(u32 heapId)
 /*
  * Creates the effect instance and sets its two scale parameters.
  */
-void *FLD_PARTICLE_CreateEffect(FldParticle *particle)
+struct ParticleSys *FLD_PARTICLE_CreateEffect(FldParticle *particle)
 {
     u32 effectScale;
     u32 effectRange;
-    void *effect;
+    struct G3dCamera *effect;
 
     particle->effect = PARTICLE_CreateSystemDefault((int)particle->workBuffer, 0x4800, 1, particle->heapId);
-    effect = (void *)PARTICLE_EMITTER_GetBlock(particle->effect);
+    effect = (struct G3dCamera *)PARTICLE_EMITTER_GetBlock((struct Obj3D *)particle->effect);
     effectScale = 1 << 12;
     effectRange = 0x384000;
     G3D_CAMERA_SetNear(effect, &effectScale);
@@ -108,7 +98,7 @@ void *FLD_PARTICLE_CreateEffect(FldParticle *particle)
 
 void FLD_PARTICLE_DeleteEffect(FldParticle *particle)
 {
-    void *effect = particle->effect;
+    struct ParticleSys *effect = particle->effect;
     if (effect != 0) {
         PARTICLE_DeleteSystem(effect);
         particle->effect = 0;
@@ -123,9 +113,9 @@ void *FLD_PARTICLE_LoadResource(FldParticle *particle, int kind, int resourceId)
     return (void *)PARTICLE_LoadArchiveMember(kind, resourceId, particle->heapId);
 }
 
-int FLD_PARTICLE_StartEmitter(FldParticle *particle, u32 resource, u32 applyNow, u32 taskMgr)
+void FLD_PARTICLE_StartEmitter(FldParticle *particle, void *resource, u32 applyNow, u32 taskMgr)
 {
-    return PARTICLE_SetupSystem((u32)particle->effect, resource, applyNow, taskMgr);
+    PARTICLE_SetupSystem(particle->effect, resource, applyNow, taskMgr);
 }
 
 /* Returns 1 when the effect is gone or finished. */
@@ -133,7 +123,7 @@ int FLD_PARTICLE_IsEffectFinished(FldParticle *particle)
 {
     if (particle->effect == 0)
         return 1;
-    if (PARTICLE_GetEffectCount((struct ParticleSys *)particle->effect) == 0)
+    if (PARTICLE_GetEffectCount(particle->effect) == 0)
         return 1;
     return 0;
 }

@@ -71,122 +71,89 @@
  */
 #include "pdwacc_disp_types.h"
 
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
+#include "../arm9/wipe.h"
 
-extern int GFL_NET_GetRunState(void);
+#include "../arm9/net.h"
 struct TaskMenuWork;
 
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
+#include "../arm9/app_taskmenu.h"
 
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 WIPE_SYS_EndCheck(void);
 struct GameData;
 
-extern int GAME_DATA_SaveMain(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern int GAME_DATA_SaveStart(struct GameData *gd);
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 struct Proc;
 
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
+#include "../arm9/procsys.h"
 
-extern void MI_CpuFill8(void *,u8,u32);
+#include "../arm9/mi_memory.h"
 
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 
-extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
-extern int GF_OVERLAY_Load(int);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(int);
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern void GAME_DATA_SaveCancel(struct GameData *gd);
 struct _NHTTPRapSession;
 
-extern void NHTTP_RAP_DeleteConnection(struct _NHTTPRapSession *session_p);
+#include "../ov114/nhttp_rap.h"
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
+#include "../arm9/gfl_use.h"
 struct GameSyncData;
 
-extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
+#include "../arm9/game_sync.h"
 
-extern int NHTTP_RAP_GetResultCode(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_PollConnection(struct _NHTTPRapSession *session_p);
 
-extern char *NHTTP_RAP_GetRecvBuffer(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_CreateRequest(s32 index, struct _NHTTPRapSession *session_p);
 struct _NHTTPConnection;
 
-extern struct _NHTTPConnection *NHTTP_RAP_GetConnection(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_StartConnection(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length);
+#include "../ov114/d_nhttp.h"
 struct CgearSaveBlock;
 
-extern void BLOCK20_SAVEDATA_SetPending(struct CgearSaveBlock *block, u8 value);
+#include "../arm9/block20_savedata.h"
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 
-extern void *SAVE_CONTROL_GetWorkArea(struct SaveControl *saveControl, u32 *size);
+#include "../arm9/save_control.h"
 
-extern void NHTTP_RAP_Destroy(struct _NHTTPRapSession *session_p);
 
-extern struct _NHTTPRapSession *NHTTP_RAP_Create(unsigned int heapId, unsigned int gameCode, char *source_p);
 
-extern void DWC_RAP_SetErrorCallback(int,int);
+#include "../ov009/dwc_rap.h"
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError);
+#include "../ov009/dwc_rapcommon.h"
 
-extern void GFL_USE_FadeOutBgm(u32 a);
 
-PdwaccMessageWork *PDWACC_MESSAGE_InitSystem(u32 heap, u32 bank);
+#include "pdwacc_message.h"
 
-void PDWACC_MESSAGE_UpdateSystem(PdwaccMessageWork *work);
 
-void PDWACC_MESSAGE_ExitSystem(PdwaccMessageWork *work);
 
-void PDWACC_MESSAGE_PrintStream(PdwaccMessageWork *work, int msgId);
 
-void PDWACC_MESSAGE_RestartTimeIcon(PdwaccMessageWork *work);
 
-int PDWACC_MESSAGE_UpdateStream(PdwaccMessageWork *work);
 
-void PDWACC_MESSAGE_ClearStream(PdwaccMessageWork *work);
 
-void *PDWACC_MESSAGE_OpenYesNoMenu(PdwaccMessageWork *work, int layout);
 
-void PDWACC_MESSAGE_PrintInWindow(PdwaccMessageWork *work, int msgId);
 
-void PDWACC_MESSAGE_ClearWindow(PdwaccMessageWork *work);
 
-void PDWACC_MESSAGE_PrintNumberWindows(PdwaccMessageWork *work, int value, int unused);
 
-void PDWACC_MESSAGE_DeleteNumberWindows(PdwaccMessageWork *work);
 
-PdwaccDispWork *PDWACC_DISP_Init(int heap);
+#include "pdwacc_disp.h"
 
-void PDWACC_DISP_Draw(PdwaccDispWork *disp);
 
-void PDWACC_DISP_Exit(PdwaccDispWork *disp);
 
 int PDWACC_STATE_HandleHttpError(PdwaccProc *proc, int httpStatus);
 
@@ -397,7 +364,7 @@ int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param)
     proc->profileId=MYSTATUS_GetProfileId((struct MyStatus *)GAME_DATA_GetMyStatus(param->gameData));
     if(GFL_NET_GetRunState()) {
         proc->connection=NHTTP_RAP_Create(param->heap,proc->profileId,(char *)param->connectionArg);
-        DWC_RAP_SetErrorCallback((int)PDWACC_STATE_DestroyHttpConnection,(int)proc);
+        DWC_RAP_SetErrorCallback((int (*)(u32, u32, u32, int))((int)PDWACC_STATE_DestroyHttpConnection),(int)proc);
     }
     proc->disp=PDWACC_DISP_Init(proc->heap);
     proc->message=PDWACC_MESSAGE_InitSystem(proc->heap,87);

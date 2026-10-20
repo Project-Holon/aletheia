@@ -1,10 +1,12 @@
 #ifndef GAME_OV091_PLIST_PLATE_H
 #define GAME_OV091_PLIST_PLATE_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of plist_plate.c, prototypes copied from their definitions. */
 
 #include "../ov091/plist_plate_types.h"
 #include "../ov091/pokelist_types.h"
+#include "../types.h"
 
 PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon);
 PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot);
@@ -36,5 +38,6 @@ void PLIST_PLATE_UpdateLabelState(PokelistWork *work, PlistPlate *plate);
 int PLIST_PLATE_CheckSelection(PokelistWork *work, PlistPlate *plate);
 u8 PLIST_PLATE_GetHpBarColor(PlistPlate *plate);
 void PLIST_PLATE_GetActorOffset(PlistPlate *plate, int x, int y, PlistPlatePos *out);
+/* END mkheaders: generated region */
 
 #endif

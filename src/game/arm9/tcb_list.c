@@ -15,14 +15,13 @@
  * symbols:
  */
 #include "../types.h"
+#include "tcb_list.h"
 
 struct TcbSystem;
 
 struct TcbTask;
 
 /* Task list (priority-sorted, fixed pool of tasks, one callback per task). */
-typedef void (*TcbFunc)(struct TcbTask *task, void *work);
-
 struct TcbTask {
     struct TcbSystem *owner;     /* +0x00 */
     struct TcbTask   *prev;      /* +0x04 */
@@ -59,7 +58,7 @@ void TCB_Reset(struct TcbSystem *sys);
 
 void TCB_Main(struct TcbSystem *sys);
 
-void TCB_Noop(void);
+void TCB_Noop(struct TcbSystem *sys);
 
 struct TcbTask *TCB_AddTask(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority);
 
@@ -284,7 +283,7 @@ void TCB_Main(struct TcbSystem *sys)
     sys->current->func = 0;
 }
 
-void TCB_Noop(void){ }
+void TCB_Noop(struct TcbSystem *sys){ }
 
 /*
  * Previously capped at MATCH: 0x02030C44 has exactly one caller image-wide,

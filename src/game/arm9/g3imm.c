@@ -19,6 +19,7 @@
  *   MI_Copy36B   0x02082B60  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_fx.h"
 
@@ -58,14 +59,14 @@ void G3_MultMtx43(const void *m)
 void G3_MultMtx33(const void *m)
 {
     *(volatile unsigned int *)0x04000400 = 0x1a;
-    MI_Copy36B(m, (void *)0x04000400);
+    MI_Copy36B(m, (void *)REG_GXFIFO_ADDR);
 }
 
-#define reg_G3X_GXFIFO      (*(vu32 *)0x04000400)
+#define reg_G3X_GXFIFO      (*(vu32 *)REG_GXFIFO_ADDR)
 
-#define reg_G3_MTX_MODE     (*(vu32 *)0x04000440)
+#define reg_G3_MTX_MODE     (*(vu32 *)REG_MTX_MODE_ADDR)
 
-#define reg_G3_MTX_MULT_3x3 (*(vu32 *)0x04000468)
+#define reg_G3_MTX_MULT_3x3 (*(vu32 *)REG_MTX_MULT_3x3_ADDR)
 
 /*
  * sdk:      G3_MultTransMtx33 (libgx.TWL.HYB.a g3imm.o)

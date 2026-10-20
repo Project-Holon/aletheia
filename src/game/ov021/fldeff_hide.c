@@ -104,42 +104,18 @@ typedef struct HideWork {
     u32 animeFrame;                              /* 0x20 */
 } HideWork;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct FieldEffectSys;
-extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
-extern u32 FIELD_EFFECT_GetFieldMapData(FieldEffectSys *fieldEffect);
-extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
-extern FieldEffectObj *FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
-extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
-extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
-extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
+#include "field_effect.h"
 struct FieldG3dObjResDesc;
-extern void FIELD_G3DOBJ_InitResDesc(struct FieldG3dObjResDesc *desc);
-extern void FIELD_G3DOBJ_SetResDescModel(struct FieldG3dObjResDesc *desc, u32 arc, u32 file);
-extern void FIELD_G3DOBJ_SetResDescAnimeArc(struct FieldG3dObjResDesc *desc, u32 arc);
-extern void FIELD_G3DOBJ_AddResDescAnimeFile(struct FieldG3dObjResDesc *desc, u16 file);
+#include "field_g3dobj.h"
 struct FieldG3dObjCtrl;
-extern int FIELD_G3DOBJ_AddResourceDefaultPal(struct FieldG3dObjCtrl *ctrl, struct FieldG3dObjResDesc *desc, s32 mode);
-extern u16 FIELD_G3DOBJ_AddObject(struct FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecFx32 *pos);
-extern void FIELD_G3DOBJ_SetObjectManualDraw(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 manualDraw);
-extern void FIELD_G3DOBJ_DeleteObject(struct FieldG3dObjCtrl *ctrl, s32 objIdx);
-extern void FIELD_G3DOBJ_DeleteResource(struct FieldG3dObjCtrl *ctrl, s32 resIdx);
-extern void FIELD_G3DOBJ_SetAnimeFrame(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 animeIdx, s32 frame);
-extern int FIELD_G3DOBJ_IncAnimeFrame(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 speed);
-extern s32 FIELD_G3DOBJ_GetAnimeFrame(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 animeIdx);
-extern void FIELD_G3DOBJ_SetObjectTrans(struct FieldG3dObjCtrl *ctrl, s32 objIdx, VecFx32 *pos);
-extern void FIELD_G3DOBJ_DrawObject(struct FieldG3dObjCtrl *ctrl, s32 objIdx);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void FLDMMDL_GetCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
-extern int FLDMMDL_CheckCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
+#include "../arm9/gfl_use.h"
+#include "../ov010/fldmmdl.h"
 struct Mmdl;
-extern void FLDMMDL_MOVE_SetHideEffect(struct Mmdl *mmdl, u32 effect);
-struct MmdlVec;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern int FLDMMDL_MOVE_GetMapHeight(const Mmdl *mmdl, VecFx32 *pos, int *outHeight);
+#include "fldmmdl_movecode.h"
+struct VecFx32;
+#include "../ov010/fldmmdl_move.h"
 
 HideRes *FLDEFF_HIDE_CreateResources(FieldEffectSys *fieldEffect, u32 heapId);
 void FLDEFF_HIDE_DeleteResources(FieldEffectSys *fieldEffect, HideRes *res);
@@ -275,7 +251,7 @@ void FLDEFF_HIDE_Update(FieldEffectObj *effect, HideWork *work)
         FIELD_EFFECT_DeleteObject(effect);
         return;
     }
-    FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(work->param.mmdl, (struct VecFx32 *)(&pos));
     if (FLDMMDL_MOVE_GetMapHeight(work->param.mmdl, &pos, &mapHeight) == 1) {
         pos.y = mapHeight;
     }

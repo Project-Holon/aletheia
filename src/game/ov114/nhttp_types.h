@@ -6,6 +6,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_os.h"
 
 /* Opaque SDK objects. */
 
@@ -151,7 +152,7 @@ typedef struct _NHTTPBgnEndInfo {
 typedef struct _NHTTPThreadInfo {
     u8 msgQueue[0x20];                  /* 0x00 */
     void *msgArray[3];                  /* 0x20 */
-    u8 commThread[0xc0];                /* 0x2c */
+    OSThread commThread;                /* 0x2c */
     int isCreateCommThreadMessageQueue; /* 0xec */
     u8 pad_f0[0x10];
     char commBuf[0x4000];               /* 0x100 */

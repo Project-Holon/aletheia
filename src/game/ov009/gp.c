@@ -28,7 +28,7 @@
  *   gpiProfileSearch  0x021906E0  arm   ov009
  *   gpiGetInfo  0x0218D4A4  arm   ov009
  *   g_021A4024     0x021A4024  data  ov009
- *   gpiSetInfoi        0x0218CC48  arm
+ *   gpiSetInfos        0x0218CC48  arm
  *   strzcpy  0x0219327C  arm
  *   gpiBuddyDeletedLocally  0x02189300  arm
  *   gpiAppendStringToBuffer  0x0218946C  arm
@@ -60,53 +60,23 @@
  *   g_021A4118     0x021A4118  data  ov009
  *   gpiOthersBuddyList  0x021908B0  arm   ov009
  */
+#include "gpisearch.h"
 #include "gpi_types.h"
 extern void *__memcpy(void *dest, const void *src, unsigned long n);
 /* Response records handed back to the game when a call short-circuits. */
-typedef struct GPConnectResponseArg {
-    int a[8];
-} GPConnectResponseArg;
 
-typedef struct GPGetInfoResponseArg {
-    unsigned int w[0x81];
-} GPGetInfoResponseArg;
-
-typedef struct GPBuddyStatus {
-    int profile;
-    int status;
-    char statusString[256];
-    char locationString[256];
-    int ip;
-    int port;
-    int quietModeFlags;
-} GPBuddyStatus;
-
-extern int gpiInitialize(void **connection, int productID, int namespaceID, int partnerID);
-extern void gpiDestroy(void **connection);
-extern int gpiProcess(void **connection, int blockingOperationID);
-extern void gpiSetErrorString(int *p, int b);
-extern int gpiConnect(void **connection, char *nick, char *uniquenick, char *email, char *password, char *authtoken, char *partnerchallenge, char *cdkey, int firewall, int newuser, int blocking, void (*callback)(void **, void *, void *), void *param);
-extern void gpiDisconnect(void **connection, int tellServer);
-extern int gpiReset(void **connection);
-extern int gpiProfileSearch(int *connection, char *nick, char *uniquenick, char *email, char *firstname, char *lastname, int icquin, int skip, int blocking, int callback, int param);
-extern int gpiGetInfo(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
-extern int gpiSetInfoi(void **connection, int info, int value);
-extern void strzcpy(char *p, int b, int n);
-extern int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted);
-extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
-extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
-extern int gpiAuthBuddyRequest(void **connection, int profile);
-extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
-extern void gsifree(void *ptr);
-extern int gpiCanFreeProfile(char *p);
-extern void gpiRemoveProfile(void **connection, GPIProfile *profile);
-extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long len);
-extern GPIProfile *gpiFindBuddy(void **connection, int buddyIndex);
-extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
-extern int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest);
-extern int strcmp(const char *a, const char *b);
-struct GPIPeerOp;
-extern int gpiSendBuddyMessage(void **connection, int profileid, int type, char *message, int sendOption, struct GPIPeerOp *peerOp);
+#include "gpi.h"
+#include "gpiutility.h"
+#include "gpiconnect.h"
+typedef int _GPResult;
+#include "gpiinfo.h"
+#include "gpibuddy.h"
+#include "gpibuffer.h"
+#include "gpiprofile.h"
+#include "gsmemory.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../arm9/msl_string_str.h"
 extern int gpiOthersBuddyList(void **connection, int *profiles, int numOfProfiles, int blocking, void (*callback)(void **, void *, void *), void *param);
 int gpInitialize(void **connection, int productID, int namespaceID, int partnerID);
 void gpDestroy(int **p);
@@ -116,7 +86,7 @@ int gpConnectPreAuthenticatedA(void **connection, char *authtoken, char *partner
 void gpDisconnect(void **connection);
 int gpProfileSearchA(void **connection, char *nick, char *uniquenick, char *email, char *firstname, char *lastname, int icquin, int blocking, GPCallback callback, void *param);
 int gpGetInfo(void **connection, int profile, int checkCache, int blocking, GPCallback callback, void *param);
-int gpSetInfosA(void **connection, int info, int value);
+int gpSetInfosA(void **connection, int info, char *value);
 int gpSendBuddyRequestA(void **connection, int profile, char *reason);
 int gpAuthBuddyRequest(void **connection, int profile);
 int gpDenyBuddyRequest(void **connection, int profile);
@@ -208,7 +178,7 @@ int gpSetCallback(void **connection, int func, void (*callback)(void **, void *,
         iconnection->callbacks[func].param = param;
         return 0;
     }
-    gpiSetErrorString((int *)connection, (int)g_021A4000);
+    gpiSetErrorString(connection, g_021A4000);
     return 2;
 }
 
@@ -231,7 +201,7 @@ int gpConnectPreAuthenticatedA(void **connection, char *authtoken, char *partner
     if (!partnerchallenge || !partnerchallenge[0])
         return 2;
     if (!callback) {
-        gpiSetErrorString((int *)connection, (int)g_021A4010);
+        gpiSetErrorString(connection, g_021A4010);
         return 2;
     }
     if (iconnection->simulation != 0) {
@@ -279,7 +249,7 @@ int gpProfileSearchA(void **connection, char *nick, char *uniquenick, char *emai
     if (connection == 0 || (iconnection = (GPIConnection *)*connection) == 0)
         return 2;
     if (callback == 0) {
-        gpiSetErrorString((int *)connection, (int)g_021A4010);
+        gpiSetErrorString(connection, g_021A4010);
         return 2;
     }
     if (iconnection->simulation != 0) {
@@ -288,8 +258,8 @@ int gpProfileSearchA(void **connection, char *nick, char *uniquenick, char *emai
         callback(connection, &arg, param);
         return 0;
     }
-    return gpiProfileSearch((int *)connection, nick, uniquenick, email, firstname, lastname, icquin, 0,
-                         blocking, (int)callback, (int)param);
+    return gpiProfileSearch(connection, nick, uniquenick, email, firstname, lastname, icquin, 0,
+                         blocking, callback, param);
 }
 
 
@@ -307,7 +277,7 @@ int gpGetInfo(void **connection, int profile, int checkCache, int blocking,
     if (connection == 0 || (iconnection = (GPIConnection *)*connection) == 0 || profile == 0)
         return 2;
     if (callback == 0) {
-        gpiSetErrorString((int *)connection, (int)g_021A4010);
+        gpiSetErrorString(connection, g_021A4010);
         return 2;
     }
     if (iconnection->simulation != 0) {
@@ -316,7 +286,7 @@ int gpGetInfo(void **connection, int profile, int checkCache, int blocking,
         return 0;
     }
     if (iconnection->connectState == 4) {
-        gpiSetErrorString((int *)connection, (int)g_021A4024);
+        gpiSetErrorString(connection, g_021A4024);
         return 2;
     }
     return gpiGetInfo(connection, profile, checkCache, blocking, callback, param);
@@ -326,7 +296,7 @@ int gpGetInfo(void **connection, int profile, int checkCache, int blocking,
 
 
 
-int gpSetInfosA(void **connection, int info, int value)
+int gpSetInfosA(void **connection, int info, char *value)
 {
     GPIConnection *iconnection;
 
@@ -336,10 +306,10 @@ int gpSetInfosA(void **connection, int info, int value)
     if (iconnection->simulation != 0)
         return 0;
     if (iconnection->connectState == 4) {
-        gpiSetErrorString((int *)connection, (int)g_021A4024);
+        gpiSetErrorString(connection, g_021A4024);
         return 2;
     }
-    return gpiSetInfoi(connection, info, value);
+    return gpiSetInfos(connection, info, value);
 }
 
 
@@ -359,26 +329,26 @@ int gpSendBuddyRequestA(void **connection, int profile, char *reason)
     iconnection = (GPIConnection *)*connection;
     if (iconnection->simulation != 0) return 0;
     if (iconnection->connectState == 4) {
-        gpiSetErrorString((int *)connection, (int)g_021A4024);
+        gpiSetErrorString(connection, g_021A4024);
         return 2;
     }
     if (reason == 0) {
-        gpiSetErrorString((int *)connection, (int)g_021A4054);
+        gpiSetErrorString(connection, g_021A4054);
         return 2;
     }
-    strzcpy(reasonFixed, (int)reason, 1025);
+    strzcpy(reasonFixed, reason, 1025);
     for (i = 0; reasonFixed[i] != 0; i++) {
         if (reasonFixed[i] == '\\') reasonFixed[i] = '/';
     }
     gpiBuddyDeletedLocally(connection, profile, 0);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A4064);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A4070);
-    gpiAppendIntToBuffer((int *)connection, (int *)&iconnection->outputBuffer, iconnection->sessKey);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A407C);
-    gpiAppendIntToBuffer((int *)connection, (int *)&iconnection->outputBuffer, profile);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A408C);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, reasonFixed);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A4098);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4064);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4070);
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, iconnection->sessKey);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A407C);
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, profile);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A408C);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, reasonFixed);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4098);
     return 0;
 }
 
@@ -396,7 +366,7 @@ int gpAuthBuddyRequest(void **connection, int profile)
     if (iconnection->simulation != 0)
         return 0;
     if (iconnection->connectState == 4) {
-        gpiSetErrorString((int *)connection, (int)g_021A4024);
+        gpiSetErrorString(connection, g_021A4024);
         return 2;
     }
     return gpiAuthBuddyRequest(connection, profile);
@@ -419,7 +389,7 @@ int gpDenyBuddyRequest(void **connection, int profile)
     if (iconnection->simulation != 0)
         return 0;
     if (iconnection->connectState == 4) {
-        gpiSetErrorString((int *)connection, (int)g_021A4024);
+        gpiSetErrorString(connection, g_021A4024);
         return 2;
     }
     if (!gpiGetProfile(connection, profile, &pProfile))
@@ -472,17 +442,17 @@ int gpGetBuddyStatus(void **connection, int index, GPBuddyStatus *status)
         return 0;
     }
     if (status == 0) {
-        gpiSetErrorString((int *)connection, (int)g_021A40A0);
+        gpiSetErrorString(connection, g_021A40A0);
         return 2;
     }
     num = iconnection->profileList.numBuddies;
     if (index < 0 || index >= num) {
-        gpiSetErrorString((int *)connection, (int)g_021A40B0);
+        gpiSetErrorString(connection, g_021A40B0);
         return 2;
     }
     profile = gpiFindBuddy(connection, index);
     if (profile == 0) {
-        gpiSetErrorString((int *)connection, (int)g_021A40B0);
+        gpiSetErrorString(connection, g_021A40B0);
         return 2;
     }
     status->profile = profile->profileId;
@@ -490,11 +460,11 @@ int gpGetBuddyStatus(void **connection, int index, GPBuddyStatus *status)
     if (profile->buddyStatus->statusString == 0)
         status->statusString[0] = 0;
     else
-        strzcpy(status->statusString, (int)profile->buddyStatus->statusString, 256);
+        strzcpy(status->statusString, profile->buddyStatus->statusString, 256);
     if (profile->buddyStatus->locationString == 0)
         status->locationString[0] = 0;
     else
-        strzcpy(status->locationString, (int)profile->buddyStatus->locationString, 256);
+        strzcpy(status->locationString, profile->buddyStatus->locationString, 256);
     status->ip = profile->buddyStatus->ip;
     status->port = profile->buddyStatus->port;
     status->quietModeFlags = profile->buddyStatus->quietModeFlags;
@@ -558,7 +528,7 @@ int gpDeleteBuddy(void **connection, int profile)
     if (iconnection->simulation != 0)
         return 0;
     if (iconnection->connectState == 4) {
-        gpiSetErrorString((int *)connection, (int)g_021A4024);
+        gpiSetErrorString(connection, g_021A4024);
         return 2;
     }
     __result__ = gpiDeleteBuddy(connection, profile, 1);
@@ -585,25 +555,25 @@ int gpSetStatusA(GPConnection *connection, int status, const char *statusString,
         return 0;
     if (iconnection->connectState == 4)
     {
-        gpiSetErrorString((int *)connection, (int)g_021A4024);
+        gpiSetErrorString(connection, g_021A4024);
         return 2;
     }
     if (statusString == 0)
     {
-        gpiSetErrorString((int *)connection, (int)g_021A40C0);
+        gpiSetErrorString(connection, g_021A40C0);
         return 2;
     }
     if (locationString == 0)
     {
-        gpiSetErrorString((int *)connection, (int)g_021A40D8);
+        gpiSetErrorString(connection, g_021A40D8);
         return 2;
     }
 
-    strzcpy(statusStringFixed, (int)statusString, sizeof(statusStringFixed));
+    strzcpy(statusStringFixed, statusString, sizeof(statusStringFixed));
     for (i = 0; statusStringFixed[i]; i++)
         if (statusStringFixed[i] == '\\')
             statusStringFixed[i] = '/';
-    strzcpy(locationStringFixed, (int)locationString, sizeof(locationStringFixed));
+    strzcpy(locationStringFixed, locationString, sizeof(locationStringFixed));
     for (i = 0; locationStringFixed[i]; i++)
         if (locationStringFixed[i] == '\\')
             locationStringFixed[i] = '/';
@@ -614,18 +584,18 @@ int gpSetStatusA(GPConnection *connection, int status, const char *statusString,
         return 0;
 
     iconnection->lastStatusState = status;
-    strzcpy(iconnection->lastStatusString, (int)statusStringFixed, sizeof(iconnection->lastStatusString));
-    strzcpy(iconnection->lastLocationString, (int)locationStringFixed, sizeof(iconnection->lastLocationString));
+    strzcpy(iconnection->lastStatusString, statusStringFixed, sizeof(iconnection->lastStatusString));
+    strzcpy(iconnection->lastLocationString, locationStringFixed, sizeof(iconnection->lastLocationString));
 
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A40F0);
-    gpiAppendIntToBuffer((int *)connection, (int *)&iconnection->outputBuffer, status);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A4070);
-    gpiAppendIntToBuffer((int *)connection, (int *)&iconnection->outputBuffer, iconnection->sessKey);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A40FC);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, statusStringFixed);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A410C);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, locationStringFixed);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, g_021A4098);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A40F0);
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, status);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4070);
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, iconnection->sessKey);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A40FC);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, statusStringFixed);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A410C);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, locationStringFixed);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, g_021A4098);
     return 0;
 }
 
@@ -643,11 +613,11 @@ int gpSendBuddyMessageA(void **connection, int profile, char *message)
     if (iconnection->simulation != 0)
         return 0;
     if (iconnection->connectState == 4) {
-        gpiSetErrorString((int *)connection, (int)g_021A4024);
+        gpiSetErrorString(connection, g_021A4024);
         return 2;
     }
     if (message == 0) {
-        gpiSetErrorString((int *)connection, (int)g_021A4118);
+        gpiSetErrorString(connection, g_021A4118);
         return 2;
     }
     return gpiSendBuddyMessage(connection, profile, 1, message, 0, 0);
@@ -663,12 +633,12 @@ int gpGetReversBuddiesList(void **connection, int *targets, int numOfTargets, in
     if (connection == 0 || *connection == 0)
         return 2;
     if (callback == 0) {
-        gpiSetErrorString((int *)connection, (int)g_021A4010);
+        gpiSetErrorString(connection, g_021A4010);
         return 2;
     }
     iconnection = (GPIConnection *)*connection;
     if (iconnection->connectState == 4) {
-        gpiSetErrorString((int *)connection, (int)g_021A4024);
+        gpiSetErrorString(connection, g_021A4024);
         return 2;
     }
     if (iconnection->simulation != 0) {

@@ -23,6 +23,7 @@
  *   OS_Terminate                   0x02088234  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -44,9 +45,7 @@ void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaC
 void MI_StopAllDma(void);
 void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType);
 
-#define REG_DMA0SAD_ADDR 0x040000B0
 
-#define REG_DMA0CNT_ADDR 0x040000B8
 
 #define MI_DMA_ENABLE    0x80000000
 
@@ -72,9 +71,9 @@ void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable)
     MIi_Wait(dmaCntp);
 
     if (dmaEnable) {
-        MIi_DmaSetParameters(dmaNo, data, (u32)dest, 0x85000000 | (size / 4), 0x12);
+        MIi_DmaSetParameters(dmaNo, data, (uptr)dest, 0x85000000 | (size / 4), 0x12);
     } else {
-        MIi_DmaSetParameters(dmaNo, data, (u32)dest, 0x05000000 | (size / 4), 0x16);
+        MIi_DmaSetParameters(dmaNo, data, (uptr)dest, 0x05000000 | (size / 4), 0x16);
     }
     MIi_Wait(dmaCntp);
 }
@@ -89,15 +88,15 @@ void MIi_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEna
     if (size == 0) {
         return;
     }
-    MIi_CheckDma0SourceAddress(dmaNo, (u32)src, size, 0);
+    MIi_CheckDma0SourceAddress(dmaNo, (uptr)src, size, 0);
 
     dmaCntp = (vu32 *)(REG_DMA0SAD_ADDR + (dmaNo * 3 + 2) * 4);
     MIi_Wait(dmaCntp);
 
     if (dmaEnable) {
-        MIi_DmaSetParameters(dmaNo, (u32)src, (u32)dest, 0x84000000 | (size / 4), 2);
+        MIi_DmaSetParameters(dmaNo, (uptr)src, (uptr)dest, 0x84000000 | (size / 4), 2);
     } else {
-        MIi_DmaSetParameters(dmaNo, (u32)src, (u32)dest, 0x04000000 | (size / 4), 6);
+        MIi_DmaSetParameters(dmaNo, (uptr)src, (uptr)dest, 0x04000000 | (size / 4), 6);
     }
     MIi_Wait(dmaCntp);
 }
@@ -119,15 +118,15 @@ void MIi_DmaCopy16(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEna
     if (size == 0) {
         return;
     }
-    MIi_CheckDma0SourceAddress(dmaNo, (u32)src, size, 0);
+    MIi_CheckDma0SourceAddress(dmaNo, (uptr)src, size, 0);
 
     dmaCntp = (vu32 *)(REG_DMA0SAD_ADDR + (dmaNo * 3 + 2) * 4);
     MIi_Wait(dmaCntp);
 
     if (dmaEnable) {
-        MIi_DmaSetParameters(dmaNo, (u32)src, (u32)dest, 0x80000000 | (size / 2), 2);
+        MIi_DmaSetParameters(dmaNo, (uptr)src, (uptr)dest, 0x80000000 | (size / 2), 2);
     } else {
-        MIi_DmaSetParameters(dmaNo, (u32)src, (u32)dest, 0x00000000 | (size / 2), 6);
+        MIi_DmaSetParameters(dmaNo, (uptr)src, (uptr)dest, 0x00000000 | (size / 2), 6);
     }
     MIi_Wait(dmaCntp);
 }
@@ -145,15 +144,15 @@ void MIi_DmaFill32Async(u32 dmaNo, void *dest, u32 data, u32 size, MIDmaCallback
         if (callback) {
             OSi_EnterDmaCallback(dmaNo, callback, arg);
             if (dmaEnable) {
-                MIi_DmaSetParameters(dmaNo, data, (u32)dest, 0xC5000000 | (size / 4), 0x10);
+                MIi_DmaSetParameters(dmaNo, data, (uptr)dest, 0xC5000000 | (size / 4), 0x10);
             } else {
-                MIi_DmaSetParameters(dmaNo, data, (u32)dest, 0x45000000 | (size / 4), 0x14);
+                MIi_DmaSetParameters(dmaNo, data, (uptr)dest, 0x45000000 | (size / 4), 0x14);
             }
         } else {
             if (dmaEnable) {
-                MIi_DmaSetParameters(dmaNo, data, (u32)dest, 0x85000000 | (size / 4), 0x10);
+                MIi_DmaSetParameters(dmaNo, data, (uptr)dest, 0x85000000 | (size / 4), 0x10);
             } else {
-                MIi_DmaSetParameters(dmaNo, data, (u32)dest, 0x05000000 | (size / 4), 0x14);
+                MIi_DmaSetParameters(dmaNo, data, (uptr)dest, 0x05000000 | (size / 4), 0x14);
             }
         }
     }
@@ -164,7 +163,7 @@ void MIi_DmaFill32Async(u32 dmaNo, void *dest, u32 data, u32 size, MIDmaCallback
  */
 void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable)
 {
-    MIi_CheckDma0SourceAddress(dmaNo, (u32)src, size, 0);
+    MIi_CheckDma0SourceAddress(dmaNo, (uptr)src, size, 0);
 
     if (size == 0) {
         MIi_CallCallback(callback, arg);
@@ -174,15 +173,15 @@ void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaC
         if (callback) {
             OSi_EnterDmaCallback(dmaNo, callback, arg);
             if (dmaEnable) {
-                MIi_DmaSetParameters(dmaNo, (u32)src, (u32)dest, 0xC4000000 | (size / 4), 0);
+                MIi_DmaSetParameters(dmaNo, (uptr)src, (uptr)dest, 0xC4000000 | (size / 4), 0);
             } else {
-                MIi_DmaSetParameters(dmaNo, (u32)src, (u32)dest, 0x44000000 | (size / 4), 4);
+                MIi_DmaSetParameters(dmaNo, (uptr)src, (uptr)dest, 0x44000000 | (size / 4), 4);
             }
         } else {
             if (dmaEnable) {
-                MIi_DmaSetParameters(dmaNo, (u32)src, (u32)dest, 0x84000000 | (size / 4), 0);
+                MIi_DmaSetParameters(dmaNo, (uptr)src, (uptr)dest, 0x84000000 | (size / 4), 0);
             } else {
-                MIi_DmaSetParameters(dmaNo, (u32)src, (u32)dest, 0x04000000 | (size / 4), 4);
+                MIi_DmaSetParameters(dmaNo, (uptr)src, (uptr)dest, 0x04000000 | (size / 4), 4);
             }
         }
     }

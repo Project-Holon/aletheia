@@ -1,7 +1,8 @@
 #ifndef BTLV_CORE_TYPES_H
 #define BTLV_CORE_TYPES_H
 
-#include "btlv_scu_types.h"
+#include "../ov093/btlv_scu_types.h"
+#include "../ov095/btl_pick_list_types.h"
 
 /* Opaque types owned by other files of the battle code. */
 struct BtlClient;
@@ -188,7 +189,7 @@ struct BtlvCore {
     BtlvCoreStepFn stepFn;          /* 0x014 current menu step, zero when idle */
     int stepState;                  /* 0x018 */
     BtlvCoreTask task;              /* 0x01C */
-    struct MsgBuf *msgBuffer;       /* 0x0AC */
+    struct Strbuf *msgBuffer;       /* 0x0AC */
     void *fontMain;                 /* 0x0B0 */
     void *fontSub;                  /* 0x0B4 */
     u8 *actionCursor;               /* 0x0B8 */
@@ -197,7 +198,7 @@ struct BtlvCore {
     int actionResult;               /* 0x0C4 */
     BtlvBagWork bag;                /* 0x0C8 */
     BtlvPlistWork plist;            /* 0x10C */
-    u8 *choiceFlags;                /* 0x15C */
+    BtlPickList *choiceFlags;       /* 0x15C */
     BtlvCounterCmd counterCmd;      /* 0x160 */
     u32 *entry;                     /* 0x170 */
     u8 subStep;                     /* 0x174 step of whichever menu sub-screen runs */

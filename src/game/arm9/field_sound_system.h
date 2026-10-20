@@ -1,6 +1,10 @@
 #ifndef GAME_ARM9_FIELD_SOUND_SYSTEM_H
 #define GAME_ARM9_FIELD_SOUND_SYSTEM_H
 
+typedef struct FieldSoundSystem FieldSoundSystem;
+typedef struct FieldSoundRequest FieldSoundRequest;
+typedef struct FieldSoundTaskWork FieldSoundTaskWork;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of field_sound_system.c, prototypes copied from their definitions. */
 
@@ -20,7 +24,7 @@ typedef struct FieldSoundTaskWork FieldSoundTaskWork;
 FieldSoundSystem *FIELD_SOUND_SYSTEM_Create(struct GameData *gameData, u32 heap);
 void FIELD_SOUND_SYSTEM_Delete(FieldSoundSystem *s);
 int FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(FieldSoundSystem *s);
-void *FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *s);
+u32 FIELD_SOUND_SYSTEM_GetFinalValue(FieldSoundSystem *s);
 u32 FIELD_SOUND_SYSTEM_IsStateActive(FieldSoundSystem *s);
 u32 FIELD_SOUND_SYSTEM_IsBusy(FieldSoundSystem *s);
 u32 FIELD_SOUND_SYSTEM_CanAcceptRequest(FieldSoundSystem *s);
@@ -137,12 +141,12 @@ int FIELD_SOUND_SYSTEM_WaitAcceptRequestTask(struct GameEvent *event, u32 *seq, 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(struct GameSystem *gameSystem);
 void FIELD_SOUND_SYSTEM_PostZoneBgmChange(FieldSoundSystem *fieldSound, struct GameData *gameData, u32 zoneId);
 void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(FieldSoundSystem *fieldSound, struct GameData *gameData, u16 zoneId, u8 season);
-void FIELD_SOUND_SYSTEM_PostFadeIn(FieldSoundSystem *fieldSound);
+void FIELD_SOUND_SYSTEM_PostFadeIn(FieldSoundSystem *fieldSound, struct GameData *gameData);
 void FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade(FieldSoundSystem *fieldSound, struct GameData *gameData, u32 zoneId);
 void FIELD_SOUND_SYSTEM_LowerVolume(FieldSoundSystem *fieldSound, struct IssSys *iss);
 void FIELD_SOUND_SYSTEM_RestoreVolume(FieldSoundSystem *fieldSound, struct IssSys *iss);
 unsigned int FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(struct GameData *gameData, unsigned int zoneId, unsigned int season);
-void *FIELD_SOUND_SYSTEM_GetFinalBgm(const struct GameData *gameData);
+u32 FIELD_SOUND_SYSTEM_GetFinalBgm(const struct GameData *gameData);
 int FIELD_SOUND_SYSTEM_HasZoneBgmOverride(struct GameData *gameData, u32 zoneId);
 u16 FIELD_SOUND_SYSTEM_GetTrainerClassBgm(u32 trainerClass);
 int FIELD_SOUND_SYSTEM_GetPlayerObjectCode(struct GameData *gameData);
@@ -150,9 +154,5 @@ u32 FIELD_SOUND_SYSTEM_GetZoneBgm(struct GameData *gameData, u32 zoneId, u32 sea
 u32 FIELD_SOUND_SYSTEM_FindZoneBgmOverride(struct GameData *gameData, u32 zoneId);
 u32 FIELD_SOUND_SYSTEM_GetFieldBgmForZone(struct GameData *gameData, u32 zoneId, u32 season);
 /* END mkheaders: generated region */
-
-typedef struct FieldSoundSystem FieldSoundSystem;
-typedef struct FieldSoundRequest FieldSoundRequest;
-typedef struct FieldSoundTaskWork FieldSoundTaskWork;
 
 #endif

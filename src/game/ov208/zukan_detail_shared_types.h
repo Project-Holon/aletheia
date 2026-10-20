@@ -14,8 +14,8 @@ struct WordSet;
 struct StrObj;
 struct Cfg;
 struct Bank;
-struct DispVram;
-struct DispConfig;
+#include "../arm9/bg_sys_types.h"
+
 struct Light;
 struct Bmp;
 struct Descriptor;
@@ -43,7 +43,7 @@ void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(struct Ov208Ctx *p);
 void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p);
 
 /* Integer point used by the common helper tables. */
-struct Pair { int x; int y; };
+struct ZukanDetailPair { int x; int y; };
 
 /*
  * Palette animation object, 0x14 bytes, created by
@@ -98,12 +98,8 @@ struct Ov208Fsm {
 };
 
 /* One BG template entry of the 8-row table d_021C81B4. */
-struct BgTemplate {
-    u32 w[8];
-};
-
 /* One row of a background template table: bg number, template, type and enable. */
-struct BgEntry {
+struct ZukanDetailBgEntry {
     u32 bg;
     struct BgTemplate tmpl;
     u32 type;
@@ -111,7 +107,7 @@ struct BgEntry {
 };
 
 /* 3-component fixed-point vector. */
-struct Vec3 {
+struct ZukanDetailVec3 {
     int x;
     int y;
     int z;
@@ -169,16 +165,16 @@ struct Ov208Pltt {
 
 /* Screen point used by the area screen's touch hit test. */
 
-struct PtS { s16 x, y; };
+struct ZukanDetailPtS { s16 x, y; };
 
 /* Word-size alias kept so the touch bar palette/handle casts stay one line. */
 
 /* Signed short alias kept so the touch bar palette casts stay one line. */
 
 /* Unsigned point/actor stand-ins of the touch bar actors. */
-struct Pt { u16 x,y; };
+struct ZukanDetailPt { u16 x,y; };
 
-struct Actor { char pad[0xc]; struct Pt pos; };
+struct Actor { char pad[0xc]; struct ZukanDetailPt pos; };
 
 /*
  * Screen state tail shared by the info and area screens (0x438 bytes, read

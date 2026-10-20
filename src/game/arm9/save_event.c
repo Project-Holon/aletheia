@@ -226,7 +226,7 @@ void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct MyStatus *record
     u32 kind = MYSTATUS_GetId((struct MyStatus *)record);
     u32 key = MYSTATUS_GetSex((struct MyStatus *)record);
 
-    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x8d, (u32)name);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x8d, (uptr)name);
     POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x9a, key);
     POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 7, kind);
     STRBUF_Delete(name);

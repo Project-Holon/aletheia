@@ -32,18 +32,18 @@ extern void SAVE_CONTROL_CancelSave(struct SaveControl *saveControl);
 struct Sub020071E4Ctrl;
 struct Sub02007168;
 #include "../types.h"
-extern u32 GFL_HEAP_Free(void *p);
-extern u8 SAVE_CONTROL_GetOutsideSaveLoaded(const struct Sub020071E4Ctrl *ctrl);
-extern void *GFL_HEAP_Alloc(unsigned int, unsigned int, int, const char *, unsigned short);
-extern unsigned char SAVE_CONTROL_HasFlashSave(const struct Sub020071E4Ctrl *);
-extern void UI_SetIntrDataGlobal(u32 a, u32 b);
-int SAVE_CONTROL_StartSave(int saveControl);
-void SYSTEM_DATA_SetActive(void *);
-u8 SAVE_CONTROL_GetOutsideSaveBroken(const struct Sub020071E4Ctrl *ctrl);
+#include "../arm9/gfl_heap_wrap.h"
+struct SaveControl;
+extern u8 SAVE_CONTROL_GetOutsideSaveLoaded(const struct SaveControl *saveControl);
+extern u8 SAVE_CONTROL_HasFlashSave(const struct SaveControl *saveControl);
+#include "../arm9/ui.h"
+extern int SAVE_CONTROL_StartSave(struct SaveControl *saveControl);
+#include "../arm9/system_data.h"
+extern u8 SAVE_CONTROL_GetOutsideSaveBroken(const struct SaveControl *saveControl);
 void SAVE_CONTROL_SetOutsideSaveLoaded(void *, u32);
 void SAVE_CONTROL_SetOutsideSaveBroken(void *, u32);
-extern int BACKUP_SYSTEM_IsFlashBusy(void);
-extern u32 SAVE_CONTROL_MainSave(struct Sub02007168 *p);
+#include "../arm9/backup_system.h"
+extern u32 SAVE_CONTROL_MainSave(struct SaveControl *saveControl);
 
 /* Save progress object: drives a save that can be paused or cancelled. */
 typedef struct SaveControlIntr {
@@ -64,7 +64,7 @@ void *SAVE_CONTROL_INTR_Create(int heapId, int saveControl)
 {
     SaveControlIntr *intr = (SaveControlIntr *)GFL_HEAP_Alloc(heapId, 0x10, 1, (const char *)0x021BDA0C, 0x45);
     intr->saveControl = (void *)saveControl;
-    if (SAVE_CONTROL_HasFlashSave((const struct Sub020071E4Ctrl *)saveControl) == 1) {
+    if (SAVE_CONTROL_HasFlashSave((const struct SaveControl *)saveControl) == 1) {
         intr->cancelled = 1;
     } else {
         UI_SetIntrDataGlobal(0x021BD3B9, (int)intr);
@@ -81,7 +81,7 @@ void SAVE_CONTROL_INTR_Delete(void *p)
 void SAVE_CONTROL_INTR_Start(SaveControlIntr *intr)
 {
     if (intr->cancelled != 1) {
-        SAVE_CONTROL_StartSave((int)intr->saveControl);
+        SAVE_CONTROL_StartSave((struct SaveControl *)((int)intr->saveControl));
         if (intr->cancelled == 0) {
             SYSTEM_DATA_SetActive(intr->saveControl);
             intr->outsideSaveLoaded = SAVE_CONTROL_GetOutsideSaveLoaded(intr->saveControl);

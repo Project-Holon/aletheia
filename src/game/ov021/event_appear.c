@@ -149,45 +149,21 @@ enum {
     EVENT_APPEAR_ACMD_END
 };
 
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EventAppearFunc func, u32 workSize);
-extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
-extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern FieldTaskManager *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
+#include "../arm9/game_event.h"
+#include "fieldmap.h"
 struct FieldMap;
-struct FieldEffectCont;
-extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
-extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern unsigned int FIELD_CAMERA_GetMode(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetMode(struct FieldCamera *camera, unsigned int mode);
-extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
-extern unsigned int FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
-struct MmdlVec;
-struct Mmdl;
-extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
-extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 acmdCode);
-extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
-extern int FLDMMDL_EndAcmd(Mmdl *mmdl);
-extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int mode, int wait, int bgInit, u8 season, u8 seasonTarget);
-extern GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int seasonShown, int seasonTarget, EventAppearCallback finishCallback, void *finishCallbackArg);
-extern FieldTask *FIELD_TASK_CreatePlayerDrop(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height);
-extern FieldTask *FIELD_TASK_CreatePlayerSpinEaseOut(FieldMap *fieldMap, u16 frames, int spins, int endDirection);
-extern FieldTask *FIELD_TASK_CreatePlayerSpinLinear(FieldMap *fieldMap, u32 frames, u32 spins);
-extern FieldTask *FIELD_TASK_CreatePlayerDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset);
-extern void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
-extern int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager);
-extern struct FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
-extern void FIELD_CAMERA_ANIME_SetData(struct FieldCameraAnime *anime, FieldCameraAnimeData *data);
-extern int FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
-extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, FieldCameraParam *param);
-extern void FIELD_CAMERA_ANIME_ApplyStartParam(struct FieldCameraAnime *anime);
-extern void FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
-extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
-extern void FIELD_CAMERA_ANIME_Delete(struct FieldCameraAnime *anime);
 struct FieldEffectSys;
-extern void FLDEFF_KEMURI_Start(struct Mmdl *mmdl, struct FieldEffectSys *sys);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "field_player.h"
+#include "field_camera.h"
+struct VecFx32;
+struct Mmdl;
+#include "../ov010/fldmmdl.h"
+#include "event_fieldmap_control.h"
+#include "field_task_manager.h"
+#include "field_camera_anime.h"
+struct FieldEffectSys;
+#include "fldeff_kemuri.h"
+#include "../arm9/gfl_use.h"
 
 GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 GameEvent *EVENT_APPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget);
@@ -217,7 +193,7 @@ extern const VecFx32 d_021DA080;
 /* Creates the player drop event. */
 GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunPlayerDrop, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunPlayerDrop, 0x68);
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -228,7 +204,7 @@ GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSyst
 /* Creates the spin zoom event with an optional season scoreboard. */
 GameEvent *EVENT_APPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunSpinZoom, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunSpinZoom, 0x68);
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -242,7 +218,7 @@ GameEvent *EVENT_APPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem
 /* Second copy of the spin zoom event; the map change events use the two as pairs. */
 GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int showSeasonScoreboard, int seasonShown, int seasonTarget)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunSpinZoomAlt, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunSpinZoomAlt, 0x68);
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -256,7 +232,7 @@ GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(GameEvent *parent, GameSystem *gameSys
 /* Creates the spin zoom event that ends with a smoke puff at the player. */
 GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunSpinZoomSmoke, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunSpinZoomSmoke, 0x68);
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -267,7 +243,7 @@ GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(GameEvent *parent, GameSystem *gameS
 /* Creates the descending spin event. */
 GameEvent *EVENT_APPEAR_CreateDescendingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunDescendingSpin, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunDescendingSpin, 0x68);
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -278,7 +254,7 @@ GameEvent *EVENT_APPEAR_CreateDescendingSpin(GameEvent *parent, GameSystem *game
 /* Creates the move animation event. */
 GameEvent *EVENT_APPEAR_CreateMoveAnime(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_APPEAR_RunMoveAnime, 0x68);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_APPEAR_RunMoveAnime, 0x68);
     EventAppearWork *work = GAME_EVENT_GetWork(event);
 
     work->fieldMap = fieldMap;
@@ -303,7 +279,7 @@ int EVENT_APPEAR_RunPlayerDrop(GameEvent *event, int *seq, EventAppearWork *work
         FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
         drawOffset = d_021DA080;
         player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(work->fieldMap));
-        FLDMMDL_SetDrawOffset(player, (struct MmdlVec *)(&drawOffset));
+        FLDMMDL_SetDrawOffset(player, (struct VecFx32 *)(&drawOffset));
         FLDMMDL_SetAcmd(player, EVENT_APPEAR_ACMD_DROP_START);
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, work->fieldMap, 0, 1, 1, 0, 0));
         dropTask = FIELD_TASK_CreatePlayerDrop(work->fieldMap, FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(work->fieldMap)), EVENT_APPEAR_DROP_FRAMES, EVENT_APPEAR_DROP_HEIGHT);
@@ -412,7 +388,7 @@ GameEvent *EVENT_APPEAR_CreateFadeIn(EventAppearWork *work)
     FieldMap *fieldMap = work->fieldMap;
 
     if (showSeasonScoreboard != 0) {
-        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, EVENT_APPEAR_OnScoreboardEnd, work);
+        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, (FieldFadeCallback)EVENT_APPEAR_OnScoreboardEnd, work);
     }
     return EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 1, 1, 1, 0, 0);
 }
@@ -510,7 +486,7 @@ GameEvent *EVENT_APPEAR_CreateFadeInAlt(EventAppearWork *work)
     FieldMap *fieldMap = work->fieldMap;
 
     if (showSeasonScoreboard != 0) {
-        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, EVENT_APPEAR_OnScoreboardEndAlt, work);
+        return EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(gameSystem, fieldMap, (u8)work->seasonShown, (u8)work->seasonTarget, (FieldFadeCallback)EVENT_APPEAR_OnScoreboardEndAlt, work);
     }
     return EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 1, 1, 1, 0, 0);
 }
@@ -610,7 +586,7 @@ int EVENT_APPEAR_RunDescendingSpin(GameEvent *event, int *seq, EventAppearWork *
             startOffset.y = 0xA000;
             startOffset.x = 0;
             startOffset.z = 0;
-            FLDMMDL_SetDrawOffset(player, (struct MmdlVec *)(&startOffset));
+            FLDMMDL_SetDrawOffset(player, (struct VecFx32 *)(&startOffset));
         }
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, fieldMap, 0, 1, 1, 0, 0));
         {

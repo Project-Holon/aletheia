@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_OS_SPINLOCK_H
 #define GAME_ARM9_OS_SPINLOCK_H
 
+typedef struct OSLockWord OSLockWord;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of os_spinlock.c, prototypes copied from their definitions. */
 
@@ -32,7 +34,5 @@ unsigned short OS_ReadOwnerOfLockWord(char *lock);
 s32 OS_GetLockID(void);
 void OS_ReleaseLockID(u16 lockID);
 /* END mkheaders: generated region */
-
-typedef struct OSLockWord OSLockWord;
 
 #endif

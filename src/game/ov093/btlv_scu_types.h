@@ -2,6 +2,15 @@
 #define BTLV_SCU_TYPES_H
 
 #include "../types.h"
+#include "../arm9/printsys_shared_types.h"
+
+struct TextPrinter;
+
+/* Which name plate a view position uses. */
+typedef enum BtlvScuPlateSide {
+    BTLV_SCU_PLATE_LOCAL,
+    BTLV_SCU_PLATE_OPPOSING
+} BtlvScuPlateSide;
 
 /* Opaque types owned by other files of the battle code. */
 struct BtlvCore;
@@ -11,7 +20,7 @@ struct BtlPokeParam;
 struct BmpWin;
 struct CharBuf;
 struct PrintSys;
-struct MsgBuf;
+struct Strbuf;
 struct Bmp;
 struct PrintStream;
 
@@ -151,10 +160,10 @@ typedef struct BtlvScu {
     void *fontMain;                 /* 0x024 */
     void *fontSub;                  /* 0x028 */
     void *taskSys;                  /* 0x02C */
-    struct PrintStream *msgStream;  /* 0x030, running message stream */
-    struct MsgBuf *textBuf;         /* 0x034 */
-    struct MsgBuf *wordBuf0;        /* 0x038 */
-    struct MsgBuf *wordBuf1;        /* 0x03C */
+    struct TextPrinter *msgStream;  /* 0x030, running message stream */
+    struct Strbuf *textBuf;         /* 0x034 */
+    struct Strbuf *wordBuf0;        /* 0x038 */
+    struct Strbuf *wordBuf1;        /* 0x03C */
     u8 monTaskCount;                /* 0x040, running mon sprite and window fade tasks */
     u8 sendOutTaskCount;            /* 0x041 */
     u8 withdrawTaskCount;           /* 0x042 */

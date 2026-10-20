@@ -2,6 +2,8 @@
 #define BTLV_EFFVM_TYPES_H
 
 #include "../types.h"
+#include "../arm9/particle.h"
+#include "../sdk_fx.h"
 
 /*
  * Work area of the battle effect script VM.
@@ -34,12 +36,6 @@ typedef union BtlvEffVmFlags {
     } bit;
 } BtlvEffVmFlags;
 
-typedef struct BtlvEffVmVec {
-    int x;
-    int y;
-    int z;
-} BtlvEffVmVec;
-
 typedef struct BtlvEffVmVec16 {
     s16 x;
     s16 y;
@@ -59,17 +55,7 @@ typedef struct BtlvEffVmTargetTable {
 
 struct ParticleSys;
 
-/* Projection setup passed to PARTICLE_InitCamera (same layout as arm9 struct ParticleCameraParams). */
-struct ParticleCameraParams {
-    u32 projType;
-    u32 fovSin;
-    u32 fovCos;
-    u32 aspect;
-    u32 orthoExtent;
-    u32 nearZ;
-    u32 farZ;
-    u32 projScale;
-};
+#include "../arm9/particle_types.h"
 
 /* Effect parameters 9 to 15 selectable by the script, copied as one block from the caller. */
 typedef struct BtlvEffVmParams {
@@ -117,8 +103,8 @@ typedef struct BtlvEffVmWork {
     int bg3ScrollY; /* 0x268: saved BG3 scroll */
     int seVoiceIds[6]; /* 0x26C: sound effect voice ids, -1 = free */
     int camVecSaved; /* 0x284: camEye and camTarget hold a valid pair */
-    BtlvEffVmVec camEye; /* 0x288: saved camera position */
-    BtlvEffVmVec camTarget; /* 0x294: saved camera target */
+    VecFx32 camEye; /* 0x288: saved camera position */
+    VecFx32 camTarget; /* 0x294: saved camera target */
     int scratchVar; /* 0x2A0: script variable selected by 55 */
     u32 lastEffectId; /* 0x2A4: effectId of the last request */
     u32 lastSlot; /* 0x2A8: attackerPos of the last request */
@@ -129,13 +115,13 @@ typedef struct BtlvEffVmParticleReq {
     struct ScriptVm *vm; /* 0x00 */
     int srcKey; /* 0x04: source battler slot or anchor id */
     int dstKey; /* 0x08: target slot or anchor id, 8 = fixed position */
-    BtlvEffVmVec offset; /* 0x0C: offset added to the positions */
+    VecFx32 offset; /* 0x0C: offset added to the positions */
     int arcAngle; /* 0x18 */
     int arcScale; /* 0x1C */
     int motionKind; /* 0x20: 0 = none, 1..6 = path shape (see the emitter callbacks) */
     int travelTime; /* 0x24 */
-    BtlvEffVmVec fixedSrc; /* 0x28: source position when srcKey = 8 */
-    BtlvEffVmVec fixedDst; /* 0x34: target position when dstKey = 8 */
+    VecFx32 fixedSrc; /* 0x28: source position when srcKey = 8 */
+    VecFx32 fixedDst; /* 0x34: target position when dstKey = 8 */
     int mode; /* 0x40 */
     int scaleX; /* 0x44: multiplier of the emitter scale, 0 = unchanged */
     int alphaScale; /* 0x48 */
@@ -179,7 +165,7 @@ typedef struct BtlvEffVmSeRampJob {
 /* Circular motion record of one particle emitter (0x40 bytes), made by the circle-particle script commands. */
 typedef struct BtlvEffVmCircleMotion {
     int anchorKind; /* 0x00: 0 and 1 center on the user, 2 and 3 on the target, 4 and 5 on the origin; bit 0 runs the circle backwards */
-    BtlvEffVmVec center; /* 0x04 */
+    VecFx32 center; /* 0x04 */
     int radiusX; /* 0x10 */
     int radiusZ; /* 0x14 */
     int phase; /* 0x18: 16.16 fraction of a turn */

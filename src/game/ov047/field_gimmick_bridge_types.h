@@ -27,7 +27,7 @@ typedef struct FieldPlayer FieldPlayer;
 typedef struct BridgeSwayWork {
     FieldPlayer *player;    /* 0x00 */
     Mmdl *playerMmdl;       /* 0x04: model that receives the draw offset */
-    MmdlVec drawOffset;     /* 0x08: only y is written, in fx32 */
+    VecFx32 drawOffset;     /* 0x08: only y is written, in fx32 */
 } BridgeSwayWork;
 
 /* The sway state in the gimmick save area (4 bytes). */
@@ -37,24 +37,6 @@ typedef struct BridgeSwaySave {
 } BridgeSwaySave;
 
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
-extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
-extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(FieldMap *fieldMap, int id, int heapId, int size);
-extern void FIELDMAP_FreeCommonWork(FieldMap *fieldMap, int id);
-extern void *FIELDMAP_GetCommonWork(FieldMap *fieldMap, int id);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
-extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
-extern u32 FIELD_PLAYER_GetNowAttribute(FieldPlayer *player);
-extern int MAP_ATTR_IsPresent(u32 attr);
-extern u16 MAP_ATTR_GetTerrainId(u32 attr);
-extern int MAP_ATTR_IsNoDash(u16 terrainId);
-extern void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const MmdlVec *offset);
-extern u32 GFL_USE_GetRandomBelow(u32 range);
-extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short degrees);
-extern void MI_CpuFill8(void *dst, int value, int size);
 
 void FIELD_GIMMICK_BRIDGE_Init(FieldMap *fieldMap);
 void FIELD_GIMMICK_BRIDGE_Exit(FieldMap *fieldMap);

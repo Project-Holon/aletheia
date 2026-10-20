@@ -19,23 +19,15 @@
  */
 #include "../types.h"
 
-typedef struct FsEntry {
-    u32 arg;
-    u32 state;
-} FsEntry;
-
 extern BOOL g_0273444C;  /* fatfs_api.o static `initialized` */
-extern FsEntry *FATFSi_AllocateEmergencyCommandBuffer(u32);
-extern void FATFSi_PostRequest(FsEntry *);
-extern void FATFSi_WaitForRequest(FsEntry *);
-extern void FATFSi_FreeCommandBuffer(FsEntry *);
+#include "fatfs_request.h"
 
 BOOL FATFSi_IsInitialized(void) {
     return g_0273444C;
 }
 
 BOOL FATFS_UnmountAll(void) {
-    FsEntry *e = FATFSi_AllocateEmergencyCommandBuffer(0x1a);
+    FATFSCommandBuffer *e = FATFSi_AllocateEmergencyCommandBuffer(0x1a);
     BOOL ok;
     FATFSi_PostRequest(e);
     FATFSi_WaitForRequest(e);

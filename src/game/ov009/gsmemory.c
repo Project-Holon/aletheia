@@ -18,11 +18,11 @@
  *   gGsMemoryFuncs                   0x021A3730  data
  *   gGsMemoryFuncs  0x021A3730  data
  */
-extern void *MSL_C_LIB_Calloc(unsigned long n, unsigned long size);
+#include "../arm9/msl_crt.h"
 void *_gsi_memalign(unsigned long boundary, unsigned long size);
 void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void *), void *(*p_realloc)(void *, unsigned long), void *(*p_memalign)(unsigned long, unsigned long));
-void gsimalloc(int a);
-void gsirealloc(int a, int b);
+void *gsimalloc(unsigned long size);
+void *gsirealloc(void *ptr, unsigned long size);
 void gsifree(void *p);
 extern void *gGsMemoryFuncs[4];
 extern void *gGsMemoryFuncs[4];
@@ -50,18 +50,18 @@ void gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void
 /*
  * Calls the first word of the table at 0x021A3730 on the argument.
  */
-void gsimalloc(int a)
+void *gsimalloc(unsigned long size)
 {
-    (*(void (**)(int))gGsMemoryFuncs)(a);
+    return (*(void *(**)(unsigned long))gGsMemoryFuncs)(size);
 }
 
 
 /*
  * Calls the second word of the table at 0x021A3730 on the two arguments.
  */
-void gsirealloc(int a, int b)
+void *gsirealloc(void *ptr, unsigned long size)
 {
-    (*(void (**)(int, int))((char *)gGsMemoryFuncs + 8))(a, b);
+    return (*(void *(**)(void *, unsigned long))((char *)gGsMemoryFuncs + 8))(ptr, size);
 }
 
 

@@ -18,10 +18,10 @@
  *   _s32_div_f 0x0209C0A4 arm twl a2
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
-extern void OS_SpinWaitSysCycles(u32);
-extern unsigned int OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(unsigned int enable);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
 void CAMERA_ResetCore(void);
 s32 CAMERA_IsBusyCore(void);
 void CAMERA_StartCaptureCore(void);
@@ -41,9 +41,9 @@ u32 CAMERA_GetBytesAtOnceCore(u32 width);
  * control), 0x04004202 is REG_CAM_CNT (camera control) and 0x04004004 is the
  * system control clock REG_SCFG_CLK (the camera clock gate).  The REG_ names
  * are the DSi SDK register names; symbols_sdk.json lists functions only. */
-#define REG_SCFG_CLK (*(volatile u16 *)0x04004004)
-#define REG_CAM_MCNT (*(volatile u16 *)0x04004200)
-#define REG_CAM_CNT (*(volatile u16 *)0x04004202)
+#define REG_SCFG_CLK (*(volatile u16 *)REG_SCFG_CLK_ADDR)
+#define REG_CAM_MCNT (*(volatile u16 *)REG_DSP_PDATA_ADDR)
+#define REG_CAM_CNT (*(volatile u16 *)REG_DSP_PADR_ADDR)
 
 void CAMERA_ResetCore(void) {
     REG_SCFG_CLK |= 4;

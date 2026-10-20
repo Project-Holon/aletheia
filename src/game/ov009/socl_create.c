@@ -38,17 +38,13 @@
  *   OS_WakeupThreadDirect  0x02085868  arm
  *   SOCLi_CommandPacketHandler  0x0215CFC0  arm  ov009
  */
+#include "cps_network.h"
 #include "socl_command_types.h"
 
 struct SOCLSocketParam;
 struct SOCLiCommandPacket;
 struct CPSSoc;
-struct SOCLSocket {
-    unsigned char pad[0xac];
-    short state;                 /* 0xac */
-    signed char flagBlock;       /* 0xae */
-    signed char flagMode;        /* 0xaf */
-};
+#include "socl_types.h"
 
 struct SOCLiResource {
     unsigned long count0;
@@ -149,28 +145,20 @@ typedef struct {
 	OSMutex mutex;
 } SOCLSocketCommandPipe;
 
-extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
-                                                            struct SOCLSocket *socket,
-                                                            long flag);
-extern void SOCLi_ExecCommandPacketInCtrlPipe(int socket, int packet);
+#include "socl_command.h"
 extern int SOCLi_CreateSocketCallBack(void *arg);
 extern void CPS_SocRegister(int v);
 extern void CPS_SocDup(char *dst);
 extern void CPS_SocUse(void);
 extern void CPS_SocDatagramMode(void);
-extern void CPS_SetUdpCallback(int (*callback)(unsigned char *, unsigned long, void *));
-extern int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct CPSSoc *soc);
-extern unsigned long OS_DisableInterrupts(void);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void SOCLi_SocketRegister(void *a);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern unsigned long SOCLi_RoundUp4(unsigned long size);
-extern void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
-extern void OS_InitMutex(OSMutex *mutex);
-extern void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack,
-                            u32 stackSize, u32 prio);
-extern void OS_WakeupThreadDirect(OSThread *thread);
-extern void SOCLi_CommandPacketHandler(void *arg);
+#include "socl_read.h"
+#include "../arm9/os_system.h"
+#include "../arm9/mi_memory.h"
+#include "socl_list.h"
+#include "socl_misc.h"
+#include "../arm9/os_message.h"
+#include "../arm9/os_mutex.h"
+#include "../arm9/os_thread.h"
 int SOCL_CreateSocket(struct SOCLSocketParam *param);
 int SOCLi_CreateSocketCallBack(void *arg);
 void *SOCLi_StartupSocket(void *param);
@@ -181,7 +169,7 @@ unsigned char *SOCLi_InitSocketBuffer(unsigned char *ptr, Buf *buf, unsigned lon
 unsigned char *SOCLi_InitCommandPipe(unsigned char *ptr, SOCLSocketCommandPipe *pipe, const SOCLSocketThreadParam *param);
 extern void *SOCLiConfigPtr;
 extern struct SOCLiResource SOCLi_Resource;
-extern SoclConfig *gSoclConfig;
+extern SOCLConfig *gSoclConfig;
 extern Sock *SOCLiUDPSendSocket;
 
 int SOCL_CreateSocket(struct SOCLSocketParam *param)
@@ -195,7 +183,7 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param)
     if (socket == 0)
         return -0x31;
     command = SOCLi_CreateCommandPacket(SOCLi_CreateSocketCallBack, socket, 1);
-    SOCLi_ExecCommandPacketInCtrlPipe((int)socket, (int)command);
+    SOCLi_ExecCommandPacketInCtrlPipe((sptr)socket, (sptr)command);
     {
         int flag = 0;
 
@@ -206,7 +194,7 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param)
                 flag = 0;
         }
         if (flag != 0) {
-            int b = (socket->flagMode == 0 || socket->flagMode == 4);
+            int b = (socket->flag_mode == 0 || socket->flag_mode == 4);
 
             if (b)
                 SOCLi_Resource.count0++;
@@ -214,7 +202,7 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param)
                 SOCLi_Resource.count4++;
         }
     }
-    return (int)socket;
+    return (sptr)socket;
 }
 
 /*
@@ -226,7 +214,7 @@ int SOCLi_CreateSocketCallBack(void *arg)
 	unsigned char *send_pipe;
 
 	socket = ((Cmd *)arg)->socket;
-	CPS_SocRegister((int)socket);
+	CPS_SocRegister((sptr)socket);
 	send_pipe = socket->send_pipe;
 	switch (socket->flag_mode) {
 	case 0:
@@ -237,7 +225,7 @@ int SOCLi_CreateSocketCallBack(void *arg)
 	case 1:
 		CPS_SocUse();
 		CPS_SocDatagramMode();
-		CPS_SetUdpCallback((int (*)(unsigned char *, long unsigned int,  void *))SOCLi_UdpRecvCallback);
+		CPS_SetUdpCallback((int (*)(unsigned char *, unsigned long, struct CPSSoc *))SOCLi_UdpRecvCallback);
 		break;
 	case 2:
 		CPS_SocDatagramMode();

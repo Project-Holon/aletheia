@@ -340,158 +340,126 @@ struct MysteryUtilDetailEntry {
 
 struct MysteryUtilDetailTable { struct MysteryUtilDetailEntry r[4]; };
 
-struct Pt { s16 x; s16 y; };
+struct MysteryUtilPt { s16 x; s16 y; };
 
 /* BMP_OAM create parameter (MYSTERY_UTIL_CreateTaskEx). */
 typedef struct { void *win; s16 x,y; int z; int pal; u8 a,b; u16 c; int d; } MysteryUtilOamParam;
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *, int, u32);
+#include "../arm9/mi_memory.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void *STRBUF_Create(u32, u16);
+#ifdef __MWERKS__
+#define STRBUF_Create STRBUF_Create_hdr
+#endif
+#include "../arm9/strbuf.h"
+#ifdef __MWERKS__
+#undef STRBUF_Create
+struct Strbuf * STRBUF_Create(u32, u16);
+#endif
 struct BmpWin;
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+#include "../arm9/bmp_win.h"
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern void BG_SYS_PushTile(u32);
+#include "../arm9/bg_sys.h"
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+#include "../arm9/msgdata.h"
 struct GfFont;
 struct PrintQueue;
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+#include "../arm9/printsys.h"
 
-extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
-extern void BG_SYS_MarkTileDirty(unsigned);
 
-extern u16 BMP_GetWidth(struct Bmp *bmp);
 
-extern u16 BMP_GetHeight(struct Bmp *bmp);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
-extern u32 PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font);
 struct TcblSystem;
 
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+#include "../arm9/tcbl.h"
 
-extern void PRINTSYS_CTRL_Init(void *p, u32 v);
+#include "../arm9/app_keycursor.h"
 struct TextPrinter;
 
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 struct TimeIcon;
 
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
+#include "../arm9/time_icon.h"
 struct KeyCursor;
 
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
+#ifdef __MWERKS__
+#define BMP_MENUWORK_DrawWindow BMP_MENUWORK_DrawWindow_hdr
+#endif
+#include "../arm9/bmp_menuwork.h"
+#ifdef __MWERKS__
+#undef BMP_MENUWORK_DrawWindow
+void BMP_MENUWORK_DrawWindow(struct BmpWin *, int, int, int);
+#endif
 
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 struct PrintStreamCtrl;
 
-extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
 struct TcbList;
 
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
+#include "../arm9/gfl_use.h"
 
-extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 
-extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
 
-extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern void *PRINTSYS_PrintStream(void *,u32,u32,u32,u32,int, void *,u32,u16,u16);
 
-extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 
-extern void *BMP_MENUWORK_Create(u32,u32);
 
-extern void BMP_MENUWORK_AddMsgItem(void *table, u32 a, u32 b, u32 tag, u32 heap);
 struct MenuTemplate;
 struct BmpMenuList;
 
-extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
-
-extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, s32 heap);
-
-extern void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled);
-
-extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
-
-extern u32 BMP_MENUWORK_Delete(void *p);
-
-extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
-
-extern u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr);
-
-extern u8 BMP_GetTileBytes(struct Bmp *bmp);
-
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-
-extern void BMP_Delete(struct Bmp *bmp);
-
-extern void BMP_CopyPixels(struct Bmp *src, struct Bmp *dst);
-
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-
-extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
-
-extern void CLACT_AddActorSurfacePos(void *p, const void *delta, u32 which);
-struct Actor;
-
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-
-extern u32 KEY_GetTrg(void);
-
-extern u32 KEY_GetRepeat(void);
-
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/bmp_menulist.h"
 
 
-extern struct Grid *BMP_OAM_Create(void *sys, const void *param);
+
+
+
+
+
+
+
+
+
+
+
+#include "../arm9/clact.h"
+struct ClactActor;
+
+
+
+
+#include "../arm9/key.h"
+
+
+
+
+#include "../arm9/bmp_oam.h"
 struct BmpOam;
 
-extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
 
-extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
 
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
+#include "../arm9/nns_gfd_vram_transfer.h"
 
 void *MYSTERY_UTIL_CreateWindow(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap);
 
@@ -821,8 +789,8 @@ void *MYSTERY_UTIL_CreateMenuWindow2(int a, u8 b, void *c, void *d, u16 heap)
     *(void **)(p + 4) = d;
     *(void **)(p + 0x24) = c;
     *(u32 *)(p + 0x28) = 3;
-    PRINTSYS_CTRL_Init(p + 0x34, 2);
-    *(struct U16Vec **)(p + 0x14) = STRBUF_Create(0x200, heap);
+    PRINTSYS_CTRL_Init((PrintStreamCtrl *)(p + 0x34), 2);
+    *(struct Strbuf **)(p + 0x14) = STRBUF_Create(0x200, heap);
     q = (struct Descriptor *)BMP_WIN_Create((u8)a, 1, 21, 30, 2, b, 1);
     *(struct Descriptor **)(p + 0x10) = q;
     *(struct Descriptor **)(p + 0x1c) = q;
@@ -928,9 +896,9 @@ void MYSTERY_UTIL_SetMenuMode(u8 *p,int mode)
         ((MysteryUtilMenuWindow *)p)->state=0;
         break;
     case 1:
-        PRINTSYS_CTRL_Init(p+0x34,2);
+        PRINTSYS_CTRL_Init((PrintStreamCtrl *)(p+0x34),2);
         ((MysteryUtilMenuWindow *)p)->keyCursor=APP_KEYCURSOR_CreateDefault(((MysteryUtilMenuWindow *)p)->height,1,0,((MysteryUtilMenuWindow *)p)->heapTag);
-        ((MysteryUtilMenuWindow *)p)->printStream=PRINTSYS_PrintStream(((MysteryUtilMenuWindow *)p)->bmpWin,0,0,*(u32 *)&((MysteryUtilMenuWindow *)p)->textBuf,((MysteryUtilMenuWindow *)p)->printArg,MSG_SPEED_GetWait(),((MysteryUtilMenuWindow *)p)->tcbl,0,((MysteryUtilMenuWindow *)p)->heapTag,((MysteryUtilMenuWindow *)p)->height);
+        ((MysteryUtilMenuWindow *)p)->printStream=PRINTSYS_PrintStream((struct BmpWin *)(((MysteryUtilMenuWindow *)p)->bmpWin),0,0,(struct Strbuf *)(*(u32 *)&((MysteryUtilMenuWindow *)p)->textBuf),(struct GfFont *)(((MysteryUtilMenuWindow *)p)->printArg),MSG_SPEED_GetWait(),(struct Tcbl *)(((MysteryUtilMenuWindow *)p)->tcbl),0,((MysteryUtilMenuWindow *)p)->heapTag,((MysteryUtilMenuWindow *)p)->height);
         ((MysteryUtilMenuWindow *)p)->state=1;
         break;
     }
@@ -968,7 +936,7 @@ void *MYSTERY_UTIL_CreateMenu(const u8 *p,u16 heap)
     out[12]=0;
     ((MysteryUtilMenu *)out)->menuWork=BMP_MENUWORK_Create(((MysteryUtilMenuDef *)p)->count,heap);
     for(i=0;i<((MysteryUtilMenuDef *)p)->count;i++)
-        BMP_MENUWORK_AddMsgItem(((MysteryUtilMenu *)out)->menuWork,((MysteryUtilMenuDef *)p)->menuTable,((MysteryUtilMenuDef *)p)->menuItems[i],i,(u16)heap);
+        BMP_MENUWORK_AddMsgItem(((MysteryUtilMenu *)out)->menuWork,(struct MsgBank *)((MysteryUtilMenuDef *)p)->menuTable,((MysteryUtilMenuDef *)p)->menuItems[i],i,(u16)heap);
     cfg=d_021DF78C;
     cfg.menuWork=*(u32 *)&((MysteryUtilMenu *)out)->menuWork;
     cfg.itemCount=((MysteryUtilMenuDef *)p)->count;
@@ -978,7 +946,7 @@ void *MYSTERY_UTIL_CreateMenu(const u8 *p,u16 heap)
     cfg.slotPointer=(u32)(out+8);
     cfg.printOwner=((MysteryUtilMenuDef *)p)->printOwner;
     cfg.messageTable=((MysteryUtilMenuDef *)p)->messageTable;
-    ((MysteryUtilMenu *)out)->menuList=BMP_MENULIST_Create((struct MenuTemplate *)(&cfg),0,0,heap);
+    ((MysteryUtilMenu *)out)->menuList=BMP_MENULIST_Create((struct BmpMenuListTemplate *)((struct MenuTemplate *)(&cfg)),0,0,heap);
     BMP_MENULIST_ResetCursorTile(((MysteryUtilMenu *)out)->menuList,heap);
     BMP_MENULIST_SetCancelDisabled(((MysteryUtilMenu *)out)->menuList,0);
     return out;
@@ -1098,7 +1066,7 @@ void MYSTERY_UTIL_CopyBmpList(u8 *p) { u32 i; for(i=0;i<((MysteryUtilWindowList 
 struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct MysteryUtilDetailDef *in, u16 heap)
 {
     struct MysteryUtilDetailTable t;
-    struct Pt pt;
+    struct MysteryUtilPt pt;
     u32 i;
     u8 c;
     u16 w;
@@ -1139,7 +1107,7 @@ struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct Mys
         if (t.r[i].h) STRBUF_Delete(t.r[i].h);
     pt.x = d_021DF76C[out->index].x;
     pt.y = d_021DF770[out->index].x + in->rowOffset * 8;
-    CLACT_AddActorSurfacePos((void *)out->actor, (const struct Vec2 *)(&pt), 0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)out->actor, (const struct ClactVec2 *)((const struct Vec2 *)(&pt)), 0);
     CLACT_SetActorDrawEnable((void *)out->actor, 1);
     CLACT_SetActorAnimSeq((void *)out->actor, out->animSeq);
     CLACT_SetActorAutoAnim((void *)out->actor, 1);
@@ -1185,7 +1153,7 @@ int MYSTERY_UTIL_SetVoice(u8 *p)
     if(changed) {
         pos.x=d_021DF76C[*(u32 *)(p+8)].x;
         pos.y=d_021DF76C[*(u32 *)(p+8)].y+((MysteryUtilVoiceSelect *)p)->rowOffset*8;
-        CLACT_AddActorSurfacePos(((MysteryUtilVoiceSelect *)p)->actor,(const struct Vec2 *)(&pos),0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(((MysteryUtilVoiceSelect *)p)->actor),(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);
         if(((MysteryUtilVoiceSelect *)p)->index==3) CLACT_SetActorAnimSeq(((MysteryUtilVoiceSelect *)p)->actor,2);
         else CLACT_SetActorAnimSeq(((MysteryUtilVoiceSelect *)p)->actor,((MysteryUtilVoiceSelect *)p)->animSeq);
         if(*(void (**)(u32))(p+0x34)) (*(void (**)(u32))(p+0x34))(((MysteryUtilVoiceSelect *)p)->callbackArg);
@@ -1257,7 +1225,7 @@ void *MYSTERY_UTIL_CreateTaskEx(const char *p,u16 a,u16 b,int c,u8 d,int e,void 
     desc.d=e;
     desc.b=((MysteryUtilActorPairDef *)p)->b;
     desc.pal=d;
-    ((MysteryUtilActorPair *)out)->oam=BMP_OAM_Create(f,(const struct Param *)(&desc));
+    ((MysteryUtilActorPair *)out)->oam=BMP_OAM_Create((struct BmpOamSys *)f,(const struct BmpOamParam *)((const struct Param *)(&desc)));
     return out;
 }
 

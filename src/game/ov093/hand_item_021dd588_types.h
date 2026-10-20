@@ -1,6 +1,6 @@
 #ifndef HAND_ITEM_021DD588_TYPES_H
 #define HAND_ITEM_021DD588_TYPES_H
-#include "hand_common_types.h"
+#include "../ov093/hand_common_types.h"
 /*
  * ov093 held item handlers (berries): the effect records a handler pushes to
  * the battle flow and the event variable numbers the handlers read.
@@ -10,7 +10,7 @@
  * 32-bit header the flow writes.
  */
 
-#include "btl_pokeparam_types.h"
+#include "../ov093/btl_pokeparam_types.h"
 
 struct BtlEventFactor;
 

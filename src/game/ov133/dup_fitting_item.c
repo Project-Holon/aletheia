@@ -29,26 +29,20 @@
  *   _fflt                        0x0209BDBC  arm
  */
 #include "dup_fitting_types.h"
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void MUSICAL_MCSS_FreeElemImage(u8 *, u8 *, int, u16);
+#include "../ov112/mus_item_draw.h"
 struct McssActorPool;
 struct McssActorElem;
 
-extern struct McssActorElem *MUSICAL_MCSS_AddImageNoVram(struct McssActorPool *pool, int type, unsigned int id, int *v);
 
-extern void MUSICAL_MCSS_FreeElem(u8 *p, u8 *e);
 struct McssOffset;
 
-extern void MUSICAL_MCSS_GetElemOffset(unsigned char *elem, struct McssOffset *out);
 
 extern unsigned int DUP_FITTING_ITEM_ElemHitDistance(u8 *, int, int);
 
-extern int MUSICAL_MCSS_GetElemFlag(int unused, struct McssActorElem *p);
 
-extern void MUSICAL_MCSS_GetElemField(int, u16 *, u16 *);
 
 void DUP_FITTING_ITEM_NoOp(u8 *p, u8 n);
 

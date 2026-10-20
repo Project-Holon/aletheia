@@ -39,17 +39,11 @@ typedef struct Wf2dmapSpawnCmd {
     u8 index;               /* 0x03: resource id */
 } Wf2dmapSpawnCmd;
 
-extern int WF2DMAP_OBJ_GetSlot(u8 *,unsigned);
-extern void WF2DMAP_OBJ_SetPos(char *, Wf2dmapPos);
-extern void WF2DMAP_OBJ_SetDestPos(char *, Wf2dmapPos);
-extern void WF2DMAP_OBJ_SetSlot(void *, int, int);
+#include "wf2dmap_obj.h"
 struct Wf2dmapPos;
-extern Wf2dmapPos WF2DMAP_OBJ_GetPos(char *p);
-extern Wf2dmapPos WF2DMAP_OBJ_OffsetPos(Wf2dmapPos,int);
-extern char *WF2DMAP_OBJ_FindById2(unsigned *p, unsigned id);
-extern void WF2DMAP_OBJDRAW_FillSpawnDesc(u8 *,void *,int,int,int);
-extern int WF2DMAP_ACTOR_FIND_HasMatch(void *, void *, int);
-extern int WF2DMAP_MAP_IsCellBlocked(u8 *p, u16 x, u16 y);
+#include "wf2dmap_objdraw.h"
+#include "wf2dmap_actor_find.h"
+#include "wf2dmap_map.h"
 void WF2DMAP_OBJCMD_Update(u8 *p);
 void WF2DMAP_OBJCMD_StartCmd0(char *p, Wf2dmapPos v, int n);
 void WF2DMAP_OBJCMD_StartCmd1(char *p, Wf2dmapPos v, int n);
@@ -100,8 +94,8 @@ void WF2DMAP_OBJCMD_Update(u8 *p)
  */
 void WF2DMAP_OBJCMD_StartCmd0(char *p, Wf2dmapPos v, int n)
 {
-    WF2DMAP_OBJ_SetPos(p, v);
-    WF2DMAP_OBJ_SetDestPos(p, v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 0);
 }
@@ -111,8 +105,8 @@ void WF2DMAP_OBJCMD_StartCmd0(char *p, Wf2dmapPos v, int n)
  */
 void WF2DMAP_OBJCMD_StartCmd1(char *p, Wf2dmapPos v, int n)
 {
-    WF2DMAP_OBJ_SetPos(p, v);
-    WF2DMAP_OBJ_SetDestPos(p, v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 1);
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
@@ -122,8 +116,8 @@ void WF2DMAP_OBJCMD_StartCmd1(char *p, Wf2dmapPos v, int n)
 void WF2DMAP_OBJCMD_StartCmd2(char *p, Wf2dmapPos v, int n)
 {
     Wf2dmapPos x = WF2DMAP_OBJCMD_OffsetPos(v, n);
-    WF2DMAP_OBJ_SetDestPos(p, v);
-    WF2DMAP_OBJ_SetPos(p, x);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&x);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 2);
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
@@ -133,8 +127,8 @@ void WF2DMAP_OBJCMD_StartCmd2(char *p, Wf2dmapPos v, int n)
 void WF2DMAP_OBJCMD_StartCmd3(char *p, Wf2dmapPos v, int n)
 {
     Wf2dmapPos x = WF2DMAP_OBJCMD_OffsetPos(v, n);
-    WF2DMAP_OBJ_SetDestPos(p, v);
-    WF2DMAP_OBJ_SetPos(p, x);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&x);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 3);
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
@@ -143,16 +137,16 @@ void WF2DMAP_OBJCMD_StartCmd3(char *p, Wf2dmapPos v, int n)
 
 void WF2DMAP_OBJCMD_StartCmd4(char *p, Wf2dmapPos v, int n)
 {
-    WF2DMAP_OBJ_SetPos(p, v);
-    WF2DMAP_OBJ_SetDestPos(p, v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 4);
 }
 
 void WF2DMAP_OBJCMD_StartCmd5(char *p, Wf2dmapPos v, int n)
 {
-    WF2DMAP_OBJ_SetPos(p, v);
-    WF2DMAP_OBJ_SetDestPos(p, v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 5);
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
@@ -162,8 +156,8 @@ void WF2DMAP_OBJCMD_StartCmd5(char *p, Wf2dmapPos v, int n)
 void WF2DMAP_OBJCMD_StartCmd6(char *p, Wf2dmapPos v, int n)
 {
     Wf2dmapPos x = WF2DMAP_OBJCMD_OffsetPos(v, n);
-    WF2DMAP_OBJ_SetDestPos(p, v);
-    WF2DMAP_OBJ_SetPos(p, x);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&x);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 6);
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
@@ -173,8 +167,8 @@ void WF2DMAP_OBJCMD_StartCmd6(char *p, Wf2dmapPos v, int n)
 void WF2DMAP_OBJCMD_StartCmd7(char *p, Wf2dmapPos v, int n)
 {
     Wf2dmapPos x = WF2DMAP_OBJCMD_OffsetPos(v, n);
-    WF2DMAP_OBJ_SetDestPos(p, v);
-    WF2DMAP_OBJ_SetPos(p, x);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&x);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 7);
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
@@ -183,8 +177,8 @@ void WF2DMAP_OBJCMD_StartCmd7(char *p, Wf2dmapPos v, int n)
 
 void WF2DMAP_OBJCMD_StartCmd8(char *p, Wf2dmapPos v, int n)
 {
-    WF2DMAP_OBJ_SetDestPos(p, v);
-    WF2DMAP_OBJ_SetPos(p, v);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&v);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 8);
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
@@ -193,8 +187,8 @@ void WF2DMAP_OBJCMD_StartCmd8(char *p, Wf2dmapPos v, int n)
 
 void WF2DMAP_OBJCMD_StartCmd9(char *p, Wf2dmapPos v, int n)
 {
-    WF2DMAP_OBJ_SetDestPos(p, v);
-    WF2DMAP_OBJ_SetPos(p, v);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&v);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 9);
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
@@ -203,8 +197,8 @@ void WF2DMAP_OBJCMD_StartCmd9(char *p, Wf2dmapPos v, int n)
 
 void WF2DMAP_OBJCMD_StartCmd10(char *p, Wf2dmapPos v, int n)
 {
-    WF2DMAP_OBJ_SetDestPos(p, v);
-    WF2DMAP_OBJ_SetPos(p, v);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&v);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 10);
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
@@ -213,8 +207,8 @@ void WF2DMAP_OBJCMD_StartCmd10(char *p, Wf2dmapPos v, int n)
 
 void WF2DMAP_OBJCMD_StartCmd11(void *p, Wf2dmapPos v, int n)
 {
-    WF2DMAP_OBJ_SetDestPos(p, v);
-    WF2DMAP_OBJ_SetPos(p, v);
+    WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
+    WF2DMAP_OBJ_SetPos(p, *(Wf2dmapPairU16 *)&v);
     WF2DMAP_OBJ_SetSlot(p, 6, n);
     WF2DMAP_OBJ_SetSlot(p, 5, 11);
     WF2DMAP_OBJ_SetSlot(p, 8, 0);
@@ -233,7 +227,7 @@ int WF2DMAP_OBJCMD_StepAdvanceSnap(void *p)
     int r = WF2DMAP_OBJCMD_AdvanceTimer(p);
     if (r == 1) {
         Wf2dmapPos v = WF2DMAP_OBJ_GetPos(p);
-        WF2DMAP_OBJ_SetDestPos(p, v);
+        WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
     }
     return r;
 }
@@ -243,7 +237,7 @@ int WF2DMAP_OBJCMD_StepAdvanceSnap2(void *p)
     int r = WF2DMAP_OBJCMD_AdvanceTimer(p);
     if (r == 1) {
         Wf2dmapPos v = WF2DMAP_OBJ_GetPos(p);
-        WF2DMAP_OBJ_SetDestPos(p, v);
+        WF2DMAP_OBJ_SetDestPos(p, *(Wf2dmapPairU16 *)&v);
     }
     return r;
 }

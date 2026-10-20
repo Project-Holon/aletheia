@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_CURSOR_MOVE_H
 #define GAME_ARM9_CURSOR_MOVE_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of cursor_move.c, prototypes copied from their definitions. */
 
 struct Cursor;
@@ -33,5 +34,6 @@ void CURSOR_MOVE_SetSkipBit(struct Cursor *obj, u32 idx);
 struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, u32 idx);
 int CURSOR_MOVE_IsWrapNeighbour(const struct CursorEntry *entry, u32 type);
 int CURSOR_MOVE_TestSkipBit(const u32 *bitmap, u32 bit);
+/* END mkheaders: generated region */
 
 #endif

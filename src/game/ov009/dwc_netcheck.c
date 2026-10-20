@@ -80,29 +80,15 @@
  *
  */
 
+#include "../arm9/os_thread.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 
 #include "../types.h"
 
+#include "dwc_http_types.h"
 #include "../sdk_dwc.h"
 
 #include "../sdk_os.h"
-
-typedef struct DWCHttp {
-    u8 stack[0x1000];
-    u8 initflag;
-    DWCHttpParam param;
-    int error;                  /* +0x1020 */
-    u8 pad1024[0x112c - 0x1024];
-    unsigned long hostip;       /* +0x112c */
-    u8 pad1130[0x1a44 - 0x1130];
-    DWCHttpBuffer rep;          /* +0x1a44 */
-    u8 pad1a54[0x1a74 - 0x1a54];
-    DWCHttpLabelValue labelvalue[32];
-    OSThread thread;            /* +0x1b74 */
-    u8 mutex[0x18];
-    int abort;
-} DWCHttp;
 
 typedef struct {
     u8 stack[0x1000];
@@ -137,7 +123,6 @@ extern NetcheckData _ZZ23DWC_SimpleNetcheckAsynciE6bFirst_0;
 extern DWCHttpParam DWCnetcheckhttpparam;
 extern DWCAuthParam DWCnetcheckauthparam;
 extern DWCHttpParam DWCauthhttpparam;
-extern OSThreadInfo OSi_ThreadInfo;
 extern int errno;
 extern char gDwcNetcheckLabelHttpResult[];
 extern char gDwcNetcheckNasUrl[];
@@ -151,40 +136,18 @@ extern char gDwcNetcheckLabelUrl[];
 extern char gDwcNetcheckLabelData[];
 extern char gDwcNetcheckLabelWait[];
 
-extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
-extern void DWC_Http_Destroy(char *http);
-extern int DWC_Http_FinishHeader(char *http);
-extern unsigned long OS_GetThreadPriority(void *thread);
-extern void DWC_Http_StartThread(char *http, unsigned int prio);
-extern int OS_IsThreadTerminated(void *thread);
-extern void OS_JoinThread(void *thread);
-extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
-extern char *DWC_Http_GetResult(char *http, char *label);
-extern int atoi(unsigned int s);
+#include "dwc_http.h"
+#include "../arm9/os_thread.h"
+#include "../arm9/msl_strtod.h"
 extern int strcmp(const char *a, const char *b);
-extern int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
-extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
-extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
+#include "dwc_cal.h"
 extern void DWCi_Netcheck_SetError(int error);
 extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
-extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
-extern int DWC_Auth_Create(DWCAuthParam *param, struct DWCHttp *http);
-extern void DWC_Auth_Join(void);
-extern int DWC_Auth_GetError(void);
-extern void DWC_Auth_GetResult(int *result);
-extern void DWC_Auth_Destroy(void);
-extern int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned int buffer_len);
-extern int DWC_Http_Add_Body(char *http, char *data);
-extern void OS_Sleep(unsigned long msec);
+#include "../arm9/dwc_backup.h"
+#include "dwc_auth.h"
 
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void OS_InitMutex(struct OSMutex *mutex);
-extern void OS_LockMutex(struct OSMutex *mutex);
-extern void OS_UnlockMutex(struct OSMutex *mutex);
-extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long size, unsigned long prio);
-extern void OS_WakeupThreadDirect(void *thread);
-extern void DWC_Http_Abort(char *http);
-extern void DWC_Auth_Abort(void);
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_mutex.h"
 void DWCi_Netcheck_StartThread(void);
 static void DWCi_Netcheck_Thread(void *arg);
 
@@ -193,7 +156,7 @@ static void DWCi_Netcheck_Thread(void *arg);
  */
 int DWC_Netcheck_Create(DWCNetcheckParam *param)
 {
-    void *(*alloc)(unsigned long, long) = param->alloc;
+    DWCAuthAlloc alloc = param->alloc;
 
     if (DWChttp.nc != 0) {
         return 4;
@@ -223,7 +186,7 @@ int DWC_Netcheck_Create(DWCNetcheckParam *param)
  */
 void DWC_Netcheck_Destroy(void)
 {
-    void (*free)(unsigned long, void *, long) = DWChttp.nc->param.free;
+    DWCAuthFree free = DWChttp.nc->param.free;
 
     if (DWChttp.http != 0) {
         DWC_Http_Destroy((char *)DWChttp.http);
@@ -311,8 +274,8 @@ static void DWCi_Netcheck_Thread(void *arg)
     int httpretcodei;
     DWCWiFiInfo DWC_netcheck_wifiinfo;
     DWCAuthResult authresult;
-    void *(*alloc)(unsigned long, long) = DWCnetcheck_->param.alloc;
-    void (*free)(unsigned long, void *, long) = DWCnetcheck_->param.free;
+    DWCAuthAlloc alloc = DWCnetcheck_->param.alloc;
+    DWCAuthFree free = DWCnetcheck_->param.free;
     char *body302;
     char *bodywayport;
     char retcode[4];
@@ -362,7 +325,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             goto exit;
         }
         httpretcode = DWC_Http_GetResult((char *)DWChttp_, gDwcNetcheckLabelHttpResult);
-        httpretcodei = atoi((unsigned int)httpretcode);
+        httpretcodei = atoi(httpretcode);
         if (errno == 34) {
             DWCi_Netcheck_SetError(2);
             goto exit;
@@ -541,7 +504,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             goto exit;
         }
         httpretcode = DWC_Http_GetResult((char *)DWChttp_, gDwcNetcheckLabelHttpResult);
-        httpretcodei = atoi((unsigned int)httpretcode);
+        httpretcodei = atoi(httpretcode);
         if (errno == 34) {
             DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(2);
@@ -562,7 +525,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
-        httpretcodei = atoi((unsigned int)retcode);
+        httpretcodei = atoi(retcode);
         if (errno == 34) {
             DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(9);
@@ -634,7 +597,7 @@ static void DWCi_Netcheck_Thread(void *arg)
                 goto exit;
             }
             wait[wait_len] = 0;
-            wait_sec = atoi((unsigned int)wait);
+            wait_sec = atoi(wait);
             if (errno == 34) {
                 DWC_Http_Destroy((char *)DWChttp_);
                 DWCi_Netcheck_SetError(9);

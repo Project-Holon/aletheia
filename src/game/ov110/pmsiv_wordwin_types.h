@@ -11,7 +11,7 @@ struct PmsInput;
 struct PmsInputView;
 struct PmsInputData;
 struct Descriptor;
-struct Obj;
+struct ClactActor;
 struct U16Vec;
 
 #define PMSIV_WORDWIN_ITEM_COUNT 10
@@ -22,10 +22,10 @@ struct PmsivWordwin {
     /* 0x08 */ struct PmsInputData *wordData;
     /* 0x0C */ struct Descriptor *listWindow;
     /* 0x10 */ struct Descriptor *wrapWindow;
-    /* 0x14 */ struct Obj *cursor;
+    /* 0x14 */ struct ClactActor *cursor;
     /* 0x18 */ unsigned int cursorWasVisible;
-    /* 0x1C */ struct Obj *scrollThumb;
-    /* 0x20 */ struct Obj *items[PMSIV_WORDWIN_ITEM_COUNT];
+    /* 0x1C */ struct ClactActor *scrollThumb;
+    /* 0x20 */ struct ClactActor *items[PMSIV_WORDWIN_ITEM_COUNT];
     /* 0x48 */ struct U16Vec *wordText;
     /* 0x4C */ struct PmsivFade fade;
     /* 0x6C */ struct PmsivBgScroll scroll;

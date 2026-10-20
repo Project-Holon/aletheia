@@ -33,12 +33,11 @@ typedef struct NasTimeDiff_ {
     long long diff;
 } NasTimeDiff;
 
-extern int strlen(unsigned char *s);
-extern int RTC_GetDateTime(RTCDate *date, RTCTime *time);
-extern long long RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time);
-extern char *strcpy(char *dst, const char *src);
-extern int atoi(unsigned int s);
-extern int strcmp(const char *a, const char *b);
+#include "../arm9/msl_string_str.h"
+typedef int RTCResult;
+#include "../arm9/external.h"
+#include "../arm9/convert.h"
+#include "../arm9/msl_strtod.h"
 
 extern char gDwcNasTimeSample[];
 extern int errno;
@@ -78,7 +77,7 @@ int DWC_Auth_SetNasTimeDiff(char *datestr)
     datestr2[22] = 0;
     datestr2[25] = 0;
 
-    rtcdate.year = atoi((unsigned int)(&datestr2[12]));
+    rtcdate.year = atoi((&datestr2[12]));
     if (errno == ERANGE)
         goto fail;
     rtcdate.year = rtcdate.year - 2000;
@@ -94,19 +93,19 @@ int DWC_Auth_SetNasTimeDiff(char *datestr)
         goto fail;
 
     errno = 0;
-    rtcdate.day = atoi((unsigned int)(&datestr2[5]));
+    rtcdate.day = atoi((&datestr2[5]));
     if (errno == ERANGE)
         goto fail;
     errno = 0;
-    rtctime.hour = atoi((unsigned int)(&datestr2[17]));
+    rtctime.hour = atoi((&datestr2[17]));
     if (errno == ERANGE)
         goto fail;
     errno = 0;
-    rtctime.minute = atoi((unsigned int)(&datestr2[20]));
+    rtctime.minute = atoi((&datestr2[20]));
     if (errno == ERANGE)
         goto fail;
     errno = 0;
-    rtctime.second = atoi((unsigned int)(&datestr2[23]));
+    rtctime.second = atoi((&datestr2[23]));
     if (errno == ERANGE)
         goto fail;
 

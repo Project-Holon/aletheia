@@ -125,6 +125,7 @@
  *   gsifree  0x0217EAE0  arm  ov009
  *   @13998                          0x021ce0b8 data
  */
+#include "../ov009/gsmemory.h"
 #include "ghttp_types.h"
 
 #define SOC_HTONS(x) ((u16)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
@@ -134,42 +135,21 @@ struct GSIResolveHostnameInfo;
 #include "../sdk_soc.h"
 
 extern int strcspn(const u8 *s, const u8 *reject);
-extern char *goastrdup(char *);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern void ghiCallProgressCallback(GHIConnection *, char *, int);
-extern void SocketStartUp();
-extern int ghttpSetRequestEncryptionEngine(int, int);
-extern int inet_addr(char *addrString);
-extern int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle);
-extern int gsiGetResolvedIP(int *p);
-extern int socket(int pf, int type, int protocol);
-extern int GOAGetLastError(int socket);
-extern int SetSockBlocking(int sock, int isblocking);
-extern int SetReceiveBufferSize(int sock, int size);
+#include "../ov009/gsplatformutil.h"
+#include "../ov009/gsdebug.h"
+#include "ghttpcallbacks.h"
+#include "ghttpEncryption.h"
+#include "../ov009/gsplatformsocket.h"
 struct SOCSockAddr;
-extern int connect(int sock, struct SOCSockAddr *addr, int len);
-extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
-extern int ghiSendBufferedData(struct GHIConnection *connection);
-extern void ghiResetBuffer(GHIBuffer *buffer);
-extern int ghiDoReceive(struct GHIConnection *connection, char *buffer, int *bufferLen);
-extern int ghiAppendDataToBuffer(struct GHIBuffer *buffer, char *data, int dataLen);
-extern int ghiDecryptReceivedData(struct GHIConnection *connection);
-extern int ghiAppendHeaderToBuffer(GHIBuffer *buffer, const char *name, const char *value);
-extern int ghiAppendCharToBuffer(GHIBuffer *buffer, int ch);
-extern int ghiAppendIntToBuffer(GHIBuffer *buffer, int i);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern char *ghiPostGetContentType(GHIConnection *connection);
-extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
-extern int ghiPostDoPosting(GHIConnection *);
-extern void ghiPostCleanupState(GHIConnection *);
-extern void ghiCallPostCallback(GHIConnection *);
-extern int STD_TSScanf(char *src, char *fmt, ...);
-extern void *memcpy(void *dst, const void *src, unsigned int n);
-extern void gsifree(void *);
-extern void *gsimalloc(unsigned long size);
+#include "ghttpbuffer.h"
+#include "ghttpcommon.h"
+#include "../arm9/os_printf.h"
+typedef int GHIPostingResult;
+#include "ghttppost.h"
+#include "../arm9/std_string.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
 extern int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len);
-extern unsigned int current_time(void);
-extern void *gsimalloc(unsigned long size);
 GHTTPBool ghiParseURL(GHIConnection *connection);
 void ghiDoSocketInit(GHIConnection *connection);
 void ghiDoHostLookup(GHIConnection *connection);
@@ -252,8 +232,7 @@ extern unsigned long strlen(const char *p);
 extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern unsigned char *strchr(unsigned char *s, int c);
 extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
-extern int atoi(u32 s);
-extern void *memmove(void *dst, const void *src, unsigned long n);
+#include "../arm9/msl_strtod.h"
 /*
  * sdk:      ghiParseURL (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  */
@@ -289,7 +268,7 @@ GHTTPBool ghiParseURL(GHIConnection *connection)
     URL += nIndex;
     if (*URL == ':') {
         URL++;
-        connection->serverPort = (unsigned short)atoi((u32)URL);
+        connection->serverPort = (unsigned short)atoi(URL);
         if (connection->serverPort == 0)
             return GHTTPFalse;
         while (*++URL != 0 && *URL != '/')
@@ -1205,7 +1184,7 @@ void ghiDoReceivingHeaders(GHIConnection *connection)
                 ghiFreeTempBuffer(buffer);
                 return;
             }
-            connection->totalSize = atoi((u32)pStart);
+            connection->totalSize = atoi(pStart);
         }
 
         connection->chunkedTransfer = (strstr((unsigned char *)headers, (unsigned char *)sGhttpTransferEncodingChunked) != 0) ? 1 : 0;

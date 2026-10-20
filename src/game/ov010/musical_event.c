@@ -135,12 +135,7 @@
 #include "event_ircbattle_shared_types.h"
 #include "musical_event_shared_types.h"
 
-/* Save block 0x2A entry, 4 bytes (same object as MusicalProgram in mystery_data.c). */
-struct MusicalProgram {
-    u8 state;       /* 4 = initial, else the best appeal category of the show */
-    u8 hasProp;     /* 1 when the program rewards a prop */
-    u16 prop;       /* the rewarded prop */
-};
+#include "../arm9/musical_save_types.h"
 
 typedef struct MusicalShowEquip {
     u16 propId;                         /* 0xFF = none */
@@ -184,10 +179,7 @@ typedef struct MusicalShowResult {
 } MusicalShowResult;
 
 /* Session back pointer used by the link sequence. */
-typedef struct MusicalLink {
-    struct MusicalEventWork *owner;     /* 0x00 */
-    void *session;                      /* 0x04 */
-} MusicalLink;
+#include "musical_link_types.h"
 
 /* Work of the musical show event task (0x54 bytes). */
 typedef struct MusicalEventWork {
@@ -244,212 +236,148 @@ enum {
     MUSICAL_EVENT_STATE_ABORT_MESSAGE = 26
 };
 
-typedef struct Float3 {
-    u32 x;
-    u32 y;
-    u32 z;
-} Float3;
+#include "../sdk_fx.h"
+typedef VecFx32 Float3;
 
-typedef struct RtcDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-} RtcDate;
+#include "../arm9/gf_standard_types.h"
 struct GameSystem;
 
 /* Callees outside this file (named tree-wide by the integrator's rename map). */
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct GameEvent;
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 struct FieldMap;
 struct GameSystem;
 struct GameEvent;
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+#include "../arm9/field_status.h"
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, unsigned int overlayId, void *procData, void *param);
 
-extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
 struct GameData;
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u32 size);
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+#include "../arm9/gfl_heap.h"
 struct GameComm;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 struct Strbuf;
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern void *GAME_DATA_GetMyParty(struct GameData *gd);
 struct Party;
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
+#include "../arm9/pokeparty.h"
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
+#include "../arm9/poke_tool.h"
 
-extern void GAME_BEACON_SEARCH_SetNamedEvent(struct Strbuf *name);
+#include "game_beacon_set.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void *GAME_DATA_GetSaveBlock2A(struct GameData *gd);
 
-extern void *MUSICAL_MCSS_AllocDistSave(u32 heapId);
+#include "../ov112/musical_system.h"
 
-extern int STA_NET_GetRole(int *p);
+#include "../ov132/sta_net.h"
 
-extern u8 MUSICAL_SAVE_GetScriptSetting(struct MusicalSave *save);
+#include "../arm9/musical_save.h"
 
-extern void MUSICAL_MCSS_LoadDistSave(unsigned char *p, unsigned int unused, void *sys, unsigned char kind, unsigned short heap);
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 
-extern void MUS_COMM_FUNC_InitWork(u8 *p, void *myStatusSrc, void *boxParamSrc, void *unused, void *hostEntry, u16 heap);
+#include "../ov132/mus_comm_func.h"
 
-extern u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *save);
 
-extern u32 GFL_USE_GetRandomBelow(u32 n);
+#include "../arm9/gfl_use.h"
 
-extern u32 STA_NET_GetBoxesReceived(unsigned char *p);
 
-extern void STA_NET_SetState6Pair(char *p, unsigned int pairA, int pairB);
 
-extern u32 STA_NET_GetCurrentSlotValue(char *p);
 
-extern u8 STA_NET_GetSlotValueByIndex(char *p, int index);
 
-extern int MUS_COMM_FUNC_GetSlotValueA(char *p, unsigned int index);
 
-extern u32 STA_NET_GetSlot1Done(char *p);
 
-extern void *MET_TRAINERS_GetFromSave(void *saveControl);
+#include "../arm9/met_trainers_savedata.h"
 struct MetTrainersSave;
 
-extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, unsigned int value);
 
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 
-extern void GFL_NET_ERR_RequestScreen(void);
 
-extern void GFL_HEAP_DumpReport(unsigned int heapId);
 
-extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern char *MUSICAL_MCSS_CreateMon(void *a, unsigned short heap);
 
-extern void STA_NET_BeginKind5Phase(char *p);
 
-extern void MUSICAL_MCSS_FreeDistSave(char *p);
 
-extern void STA_NET_SetState18Value(char *p, unsigned int value);
+struct StaNetCtx;
 
-extern MusicalPerformer *STA_NET_FindRecValueByKey(void *session, u8 slot);
 
-extern u32 STA_SLOT_GetSub(char *p, unsigned int index, unsigned int subindex);
+#include "../ov132/sta_slot.h"
 
-extern unsigned int *MUSICAL_MCSS_LoadActorData(int heapId);
+#include "../ov112/mus_item_data.h"
 
-extern unsigned char MUSICAL_MCSS_GetElemA(void *table, int propId);
 
-extern void MUSICAL_MCSS_FreeActorData(void **table);
 
-extern void GF_STANDARD_GetCachedDate(RtcDate *date);
+#include "../arm9/gf_standard.h"
 
-extern void STRBUF_ToChars(struct Strbuf *strbuf, unsigned short *out, unsigned int maxChars);
 
-extern void MI_CpuCopy8(void *src, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 struct MsgBank;
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
-extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
 
-extern void MUSICAL_SAVE_IncrementShowCount(struct MusicalSave *save);
 
-extern void MUSICAL_SAVE_IncrementTopRankCount(struct MusicalSave *save);
 
-extern void MUSICAL_SAVE_SetSelectedProgram(struct MusicalSave *save, u8 value);
 
-extern void MUSICAL_SAVE_AddFanPoints(struct MusicalSave *save, s32 delta);
 
-extern void MUSICAL_SAVE_SetEquippedProp(struct MusicalSave *save, u32 index, u8 value);
 
-extern u16 *GAME_DATA_GetMyPlayerWork(void *gameData);
 
-extern void NATSUKI_Calc(void *mon, int type, int zoneId, int heap);
+#include "../arm9/natsuki.h"
 
-extern u32 RECORD_AddOne(void *trainerRecord, int id);
+#include "../arm9/record.h"
 
-extern u32 RECORD_AddCounter(void *trainerRecord, int id, u32 delta);
 
-extern struct MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *save, u32 index);
 
-extern unsigned int STA_NET_GetSlotWordByIndex(char *p, unsigned int index);
 
-extern u32 MUSICAL_SAVE_IsPropOwned(struct MusicalSave *save, u8 prop);
 
-extern unsigned int GAME_DATA_GetBgmInfo(struct GameData *gd);
 
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopTask(struct GameSystem *gameSystem, unsigned int fadeOutFrames, unsigned int fadeInFrames);
+#include "../arm9/field_sound_system.h"
 
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(struct GameSystem *gameSystem);
 
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushTask(struct GameSystem *gameSystem, unsigned int fadeOutFrames);
 
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitSettledTask(struct GameSystem *gameSystem);
 
-extern void *EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(void *gameSys, void *fieldMap, s16 effectId, const Float3 *pos, u16 x);
 
-extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *gameSys, int messageId, int c, int d);
+#ifdef __MWERKS__
+extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *gameSys, int messageId, int c, int d); /* original prototype; the definition differs in pointer as integer, argument width */
+#else
+extern struct GameEvent*SCRIPT_SYS_CreateScriptEventSimple(void*, u16, void*, s32);
+#endif
 
 extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 
-extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 struct WordSet;
 
-extern void WORDSET_SetSlotMyStatus(struct WordSet *words, unsigned int slot, void *source);
+#include "../arm9/wordset.h"
 
-extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
 
-extern int MUS_COMM_FUNC_GetSlotValueB(char *p, unsigned int index);
 
-extern void WORDSET_SetSlotMonNickname(struct WordSet *words, unsigned int slot, void *mon);
 
-extern void WORDSET_SetSlotMonNicknameAlt(struct WordSet *words, unsigned int slot, void *mon);
 
-extern u32 STA_NET_GetPairA(char *p);
 
-extern u32 STA_NET_GetPairB(char *p);
 
 extern u8 d_021F8360[];
 
@@ -463,6 +391,8 @@ extern const u16 d_0216FF14[10];
 
 extern const u8 d_0216FF28[7][0x28];
 
+#include "../ov020/event_mapchange.h"
+struct PlayerWork;
 extern const Float3 d_0216FEFC;
 
 extern const Float3 d_0216FEF0;
@@ -533,45 +463,29 @@ void MUSICAL_EVENT_CheckNetError(MusicalEventWork *work);
 
 u32 MUSICAL_EVENT_IsAborted(MusicalEventWork *work);
 
-MusicalDressupParam *MUSICAL_DRESSUP_SYS_Create(int heapId, MusicalPerformer *performer, void *saveControl);
+#include "musical_dressup_sys.h"
 
-void MUSICAL_DRESSUP_SYS_Delete(MusicalDressupParam *param);
 
-MusicalStage *MUSICAL_STAGE_SYS_Create(u32 heapId, void *session);
+#include "musical_stage_sys.h"
 
-int MUSICAL_STAGE_SYS_Delete(MusicalStage *stage);
 
-int MUSICAL_STAGE_SYS_SetLocalPerformer(MusicalStage *stage, int slot, MusicalPerformer *performer);
 
-int MUSICAL_STAGE_SYS_SetRemotePerformer(MusicalStage *stage, int slot, MusicalPerformer *performer);
 
-MusicalShowProgram *MUSICAL_PROGRAM_Create(u32 heapId, MusicalSystemHead *musicalSystem, u16 maxLevel);
+#include "musical_program.h"
+#include "../arm9/game_event.h"
 
-int MUSICAL_PROGRAM_Delete(MusicalShowProgram *program);
 
-void MUSICAL_PROGRAM_SplitBonus(u32 heapId, MusicalShowProgram *program, MusicalStage *stage);
 
-u32 MUSICAL_PROGRAM_PackBonus(const MusicalShowProgram *program);
 
-void MUSICAL_PROGRAM_UnpackBonus(MusicalShowProgram *program, u32 packed);
 
-u32 MUSICAL_PROGRAM_PackPicks(const MusicalShowProgram *program);
 
-void MUSICAL_PROGRAM_UnpackPicks(MusicalShowProgram *program, u32 packed);
 
-u8 MUSICAL_PROGRAM_GetBestCategory(MusicalShowProgram *program);
 
-void MUSICAL_PROGRAM_CreateNpcPerformer(MusicalShowProgram *program, MusicalStage *stage, u8 slot, u8 npcIndex, u16 heapId);
 
-u8 MUSICAL_PROGRAM_GetBaseProgramId(MusicalShowProgram *program);
 
-int MUSICAL_PROGRAM_GetPropRow(MusicalShowProgram *program);
 
-u8 MUSICAL_PROGRAM_GetNpcPortraitClass(MusicalShowProgram *program, u8 npcIndex);
 
-u8 MUSICAL_PROGRAM_GetNpcNameId(MusicalShowProgram *program, int npcIndex);
 
-u16 MUSICAL_PROGRAM_GetCategoryShare(MusicalShowProgram *program, int category);
 
 /*
  * Creates the musical show event task (MUSICAL_EVENT_Main over a
@@ -588,7 +502,7 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     void *nickname;
 
     GFL_HEAP_CreateChildHeap(1, 0x802C, 0x42000);
-    event = GAME_EVENT_Create(gameSys, 0, MUSICAL_EVENT_Main, sizeof(MusicalEventWork));
+    event = GAME_EVENT_Create(gameSys, 0, (GameEventFunc)MUSICAL_EVENT_Main, sizeof(MusicalEventWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSys = gameSys;
     work->gameData = gameData;
@@ -903,7 +817,7 @@ void MUSICAL_EVENT_CreateStage(MusicalEventWork *work)
     } else {
         npc = 0;
         for (i = 0; i < 4; i++) {
-            peer = STA_NET_FindRecValueByKey(work->session, work->playerSlot[i]);
+            peer = (struct MusicalPerformer *)STA_NET_FindRecValueByKey(work->session, work->playerSlot[i]);
             if (peer != 0) {
                 MUSICAL_STAGE_SYS_SetRemotePerformer(work->stage, work->playerSlot[i], peer);
             } else {
@@ -963,7 +877,7 @@ void MUSICAL_EVENT_ScorePerformers(MusicalEventWork *work)
 void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
 {
     MusicalShowRecord *record;
-    RtcDate date;
+    struct RtcDate date;
     void *title;
     u8 sortScore[4];
     u8 i;
@@ -1104,7 +1018,7 @@ void MUSICAL_EVENT_ApplyResults(MusicalEventWork *work)
             MUSICAL_SAVE_SetEquippedProp(work->save, j, count[j]);
     }
     MUSICAL_MCSS_FreeActorData(propTable);
-    zoneId = *GAME_DATA_GetMyPlayerWork(work->gameData);
+    zoneId = *(u16 *)GAME_DATA_GetMyPlayerWork(work->gameData);
     NATSUKI_Calc(work->ownMon, 6, zoneId, 4);
     trainerRecord = GAME_DATA_GetTrainerRecord(work->gameData);
     if (work->linkMode == 0) {
@@ -1132,7 +1046,7 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
 {
     u8 shuffle[10];
     u8 *candidates;
-    struct MusicalProgram *program;
+    MusicalProgram *program;
     u32 scoreSum;
     u32 propRow;
     u16 *peerValue;
@@ -1152,8 +1066,8 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
     for (i = 0; i < 10; i++) {
         program = MUSICAL_SAVE_GetProgram(work->save, i);
         program->state = 4;
-        program->hasProp = 0;
-        program->prop = 0;
+        program->rank = 0;
+        program->score = 0;
     }
     if (work->linkMode == 0) {
         scoreSum = MUSICAL_SAVE_GetFanPoints(work->save) + MUSICAL_EVENT_GetScoreCapped(work, work->localSlot);
@@ -1200,8 +1114,8 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
         program->state = category;
         if ((u8)GFL_USE_GetRandomBelow(100) < chance && candidateCount != 0) {
             pick = GFL_USE_GetRandomBelow(candidateCount);
-            program->hasProp = 1;
-            program->prop = candidates[pick];
+            program->rank = 1;    /* the program rewards a prop */
+            program->score = candidates[pick];    /* the rewarded prop */
             for (; pick < candidateCount - 1; pick++)
                 candidates[pick] = candidates[pick + 1];
             candidateCount--;

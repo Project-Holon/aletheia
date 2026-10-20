@@ -1,5 +1,7 @@
 #ifndef OV009_SOCL_COMMAND_TYPES_H
 #define OV009_SOCL_COMMAND_TYPES_H
+
+#include "../types.h"
 /*
  * Types for the ov009 SOCL command layer (socl_command and the other socl
  * objects that share gSoclConfig). One definition per object; offsets taken
@@ -7,18 +9,26 @@
  */
 
 /* The SOCL module global at gSoclConfig. */
-typedef struct SoclConfig {
-    int useDhcp;                            /* 0x00 */
-    unsigned long myIp;                     /* 0x04 */
-    unsigned long netMask;                  /* 0x08 */
-    unsigned long gatewayIp;                /* 0x0c */
-    unsigned long dnsIp[2];                 /* 0x10 */
-    void *(*alloc)(unsigned long size);     /* 0x18 */
+typedef struct SOCLHostIp {
+    unsigned long addr;                     /* 0x00 */
+    unsigned long mask;                     /* 0x04 */
+    unsigned long gateway;                  /* 0x08 */
+    unsigned long dns;                      /* 0x0c */
+    unsigned long dns2;                     /* 0x10 */
+} SOCLHostIp;
+
+typedef struct SOCLConfig {
+    int use_dhcp;                           /* 0x00 */
+    SOCLHostIp host_ip;                     /* 0x04 */
+    void *(*alloc)(u32 size);     /* 0x18 */
     void (*free)(void *ptr);                /* 0x1c */
-    long cmdPacketMax;                      /* 0x20 */
-    unsigned long lanBufferSize;            /* 0x24 */
-    void *lanBuffer;                        /* 0x28 */
-} SoclConfig;
+    unsigned long cmd_packet_max;           /* 0x20 */
+    unsigned long lan_buffer_size;          /* 0x24 */
+    void *lan_buffer;                       /* 0x28 */
+    long cps_thread_prio;                   /* 0x2c */
+    long mtu;                               /* 0x30 */
+    long rwin;                              /* 0x34 */
+} SOCLConfig;
 
 /* An opaque SOCL socket; the command layer only stores and reads the pointer. */
 struct SOCLSocket;

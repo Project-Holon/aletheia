@@ -1,6 +1,10 @@
 #ifndef GAME_ARM9_GX_VRAMCNT_H
 #define GAME_ARM9_GX_VRAMCNT_H
 
+#include "../types.h"
+#include "../sdk_gx.h"
+#include "../arm9/gx_vramcnt_types.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gx_vramcnt.c, prototypes copied from their definitions. */
 
@@ -40,9 +44,9 @@ GXVRam GX_DisableBankForTex(void);
 GXVRam GX_DisableBankForTexPltt(void);
 GXVRam GX_DisableBankForClearImage(void);
 GXVRam GX_DisableBankForARM7(void);
-void GX_DisableBankForLCDC(void);
-void GX_DisableBankForSubBG(void);
-void GX_DisableBankForSubOBJ(void);
+GXVRam GX_DisableBankForLCDC(void);
+GXVRam GX_DisableBankForSubBG(void);
+GXVRam GX_DisableBankForSubOBJ(void);
 GXVRam GX_DisableBankForSubBGExtPltt(void);
 GXVRam GX_DisableBankForSubOBJExtPltt(void);
 u16 GX_GetBankForOBJ(void);

@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_NNS_SND_WAVEOUT_H
 #define GAME_ARM9_NNS_SND_WAVEOUT_H
 
+typedef struct NNSSndWaveOutHandle NNSSndWaveOutHandle;
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_snd_waveout.c, prototypes copied from their definitions. */
 
 struct NNSSndWaveOutHandle;
@@ -22,5 +25,6 @@ void NNS_SndWaveOutSetVolume(NNSSndWaveOutHandle *handle, u32 volume);
 void NNS_SndWaveOutSetSpeed(NNSSndWaveOutHandle *handle, int speed);
 int NNS_SndWaveOutIsPlaying(NNSSndWaveOutHandle *handle);
 void NNS_SndWaveOutWaitIdle(NNSSndWaveOutHandle *handle);
+/* END mkheaders: generated region */
 
 #endif

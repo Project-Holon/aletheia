@@ -39,17 +39,6 @@ typedef void (*PanicHookFunc)(void);
 
 struct CharBuf;
 
-struct DebugConsole {
-    struct Bmp *charBitmap; /* 0x0 */
-    u16   cursorX;      /* 0x4 */
-    u16   cursorY;      /* 0x6 */
-    u8    advanceX;     /* 0x8 */
-    u8    advanceY;     /* 0x9 */
-    u8    fgColor : 4;  /* 0xA */
-    u8    bgColor : 4;
-    u8    flags;        /* 0xB */
-};
-
 /* ---- panic handler table, set up by the boot code ---- */
 struct PanicHandlers {
     u32 die_func;
@@ -74,10 +63,6 @@ struct PanicHandlers {
 
 #define BG_PLTT_2    (*(vu16 *)0x05000004)
 
-typedef int GXVRam;
-typedef int GXVRamBG;
-typedef int GXVRamOBJ;
-typedef int GXVRamTex;
 #include "gx_vramcnt.h"
 
 
@@ -90,7 +75,7 @@ typedef short s16_p07;
 #include "bmp.h"
 
 
-extern void TEXTPRINT_PrintText(const char *text, struct DebugConsole *console);
+#include "textprint.h"
 
 #include "gx_bgcnt.h"
 
@@ -119,7 +104,7 @@ void GF_PANIC_RegisterDefaultHandlers(void);
 
 extern struct PanicHandlers _PanicHandlers;
 
-extern struct DebugConsole _DebugConsole;
+extern TextParam _DebugConsole;
 
 extern const char _NewlineStr[];
 

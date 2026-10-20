@@ -345,7 +345,7 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
 
     WIFI_HISTORY_GetBlock(saveData);
     miscSave = GAME_DATA_GetMiscSave(sys);
-    recordEnv = GREETING_SAVEDATA_GetFromSaveThunk((u32)saveData);
+    recordEnv = GREETING_SAVEDATA_GetFromSaveThunk((uptr)saveData);
     OS_GetOwnerInfo(&info);
     MISC_GetMonRecord(miscSave, &species, &form, &isEgg, &monGender);
 

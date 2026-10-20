@@ -43,8 +43,14 @@ typedef struct Wf2dmapCmdStore {
     u16 capacity;
 } Wf2dmapCmdStore;
 
-extern void *GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
-extern u32 GFL_HEAP_Free(void *p);
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_Alloc_hdr
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+void * GFL_HEAP_Alloc(u16, u32, int, const char *, u16);
+#endif
 extern u32 _u32_div_f(u32, u32);
 extern int WF2DMAP_CMDQ_Pop(Wf2dmapCmdRing *, Wf2dmapCmdPos *);
 extern const char sWf2dmapCmdqFileName[];

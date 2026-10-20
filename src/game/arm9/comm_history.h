@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_COMM_HISTORY_H
 #define GAME_ARM9_COMM_HISTORY_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of comm_history.c, prototypes copied from their definitions. */
 
 struct HistoryOwner;
@@ -19,5 +20,6 @@ void COMM_HISTORY_StoreAndNotify(struct HistoryOwner *owner, struct HistoryEntry
 void COMM_HISTORY_StoreAt(struct HistoryEntry *table, struct HistoryEntry *entry, u32 mark);
 u32 SCROLLBAR_GetValueFromPos(u32 maxValue, u32 value, u32 rangeStart, u32 rangeEnd, u32 margin);
 u32 SCROLLBAR_GetPosFromValue(u32 total, u32 rate, u32 start, u32 end, u32 margin);
+/* END mkheaders: generated region */
 
 #endif

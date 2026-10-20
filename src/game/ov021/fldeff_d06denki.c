@@ -55,6 +55,7 @@
  *   sD06DenkiPulseDrawStatus  0x021DAC44  data  ov021  a4
  */
 #include "../ov010/fldmmdl_types.h"
+#include "../arm9/g3d_system_types.h"
 
 #include "../types.h"
 
@@ -65,17 +66,6 @@ typedef struct ArcHandle ArcHandle;
 typedef struct FieldEffectSys FieldEffectSys;           /* field effect system (field_effect.c) */
 typedef struct FieldEffectObj FieldEffectObj;           /* one running effect (field_effect.c) */
 typedef struct FieldEffectObjFuncs FieldEffectObjFuncs; /* callback table: unused, init, exit, update, draw */
-typedef struct G3dResource G3dResource;                 /* layouts in arm9/g3d_system_types.h */
-typedef struct G3dRender G3dRender;
-typedef struct G3dAnime G3dAnime;
-typedef struct G3dObject G3dObject;
-
-/* Position, scale and rotation an object is drawn with. */
-typedef struct G3dObjectStatus {
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
-} G3dObjectStatus;
 
 /* Id of the D06 electric resources in the field effect system. */
 #define FLDEFF_ID_D06DENKI 0xb
@@ -157,38 +147,14 @@ typedef struct D06DenkiPulseWork {
     G3dRender *render;                             /* 0x20 */
 } D06DenkiPulseWork;
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
-extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
-extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
-extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
-extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
-extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
-extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
-extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
-struct MmdlVec;
+#include "../arm9/gfl_use.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "field_effect.h"
+#include "../arm9/g3d_system.h"
+struct VecFx32;
 struct Mmdl;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
-extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
-extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
-extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
-extern s32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 anmIdx, const fx32 *frame);
-extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
-extern s32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 anmIdx, fx32 *frame);
-extern void MTX_Identity33_(MtxFx33 *mtx);
-extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
-extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
-extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
-extern int FLDMMDL_CheckStatusBitUse(Mmdl *mmdl);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
+#include "../ov010/fldmmdl.h"
+#include "../arm9/fx_mtx33.h"
 
 D06DenkiRes *FLDEFF_D06DENKI_Create(FieldEffectSys *fieldEffect, u32 heapId);
 void FLDEFF_D06DENKI_Delete(FieldEffectSys *fieldEffect, D06DenkiRes *res);
@@ -199,15 +165,15 @@ void FLDEFF_D06DENKI_SparkInit(FieldEffectObj *effect, D06DenkiSparkWork *work);
 void FLDEFF_D06DENKI_SparkExit(void);
 void FLDEFF_D06DENKI_SparkUpdate(FieldEffectObj *effect, D06DenkiSparkWork *work);
 void FLDEFF_D06DENKI_SparkDraw(FieldEffectObj *effect, D06DenkiSparkWork *work);
-void FLDEFF_D06DENKI_StartFollow(FieldEffectSys *fieldEffect, const VecFx32 *pos, Mmdl *mmdl);
+FieldEffectObj *FLDEFF_D06DENKI_StartFollow(FieldEffectSys *fieldEffect, const VecFx32 *pos, Mmdl *mmdl);
 void FLDEFF_D06DENKI_FollowFreezeLoop(FieldEffectObj *effect);
 void FLDEFF_D06DENKI_FollowStartEnding(FieldEffectObj *effect);
-int FLDEFF_D06DENKI_FollowIsEnded(FieldEffectObj *effect, u32 unusedA, u32 unusedB, u32 unusedC);
+int FLDEFF_D06DENKI_FollowIsEnded(FieldEffectObj *effect);
 void FLDEFF_D06DENKI_FollowInit(FieldEffectObj *effect, D06DenkiFollowWork *work);
 void FLDEFF_D06DENKI_FollowExit(void *task, D06DenkiFollowWork *work);
 void FLDEFF_D06DENKI_FollowUpdate(FieldEffectObj *effect, D06DenkiFollowWork *work);
 void FLDEFF_D06DENKI_FollowDraw(FieldEffectObj *effect, D06DenkiFollowWork *work);
-void FLDEFF_D06DENKI_StartPulse(FieldEffectSys *fieldEffect, const VecFx32 *pos);
+FieldEffectObj *FLDEFF_D06DENKI_StartPulse(FieldEffectSys *fieldEffect, const VecFx32 *pos);
 void FLDEFF_D06DENKI_PulseTrigger(FieldEffectObj *effect);
 void FLDEFF_D06DENKI_PulseInit(FieldEffectObj *effect, D06DenkiPulseWork *work);
 void FLDEFF_D06DENKI_PulseExit(void *task, D06DenkiPulseWork *work);
@@ -282,7 +248,7 @@ void FLDEFF_D06DENKI_StartSpark(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
 {
     VecFx32 pos;
     D06DenkiStartParam param;
-    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct VecFx32 *)(&pos));
     param.res = (struct D06DenkiRes *)FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_D06DENKI);
     param.pos = pos;
     FIELD_EFFECT_AddObject(fieldEffect, &sD06DenkiSparkFuncs, 0, 0, &param, 0);
@@ -330,13 +296,13 @@ void FLDEFF_D06DENKI_SparkDraw(FieldEffectObj *effect, D06DenkiSparkWork *work)
 }
 
 /* Starts a follow effect at the position, tracking the model. */
-void FLDEFF_D06DENKI_StartFollow(FieldEffectSys *fieldEffect, const VecFx32 *pos, Mmdl *mmdl)
+FieldEffectObj *FLDEFF_D06DENKI_StartFollow(FieldEffectSys *fieldEffect, const VecFx32 *pos, Mmdl *mmdl)
 {
     D06DenkiFollowParam param;
     param.res = (struct D06DenkiRes *)FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_D06DENKI);
     param.pos = *pos;
     param.mmdl = mmdl;
-    FIELD_EFFECT_AddObject(fieldEffect, &sD06DenkiFollowFuncs, 0, 0, &param, 0);
+    return FIELD_EFFECT_AddObject(fieldEffect, &sD06DenkiFollowFuncs, 0, 0, &param, 0);
 }
 
 /* Freezes the looping animation of a follow effect. */
@@ -361,7 +327,7 @@ void FLDEFF_D06DENKI_FollowStartEnding(FieldEffectObj *effect)
 }
 
 /* Returns nonzero when the ending animation of a follow effect is done (or the effect is gone). */
-int FLDEFF_D06DENKI_FollowIsEnded(FieldEffectObj *effect, u32 unusedA, u32 unusedB, u32 unusedC)
+int FLDEFF_D06DENKI_FollowIsEnded(FieldEffectObj *effect)
 {
 if (effect != 0) {
     return ((D06DenkiFollowWork *)FIELD_EFFECT_GetObjectWork(effect))->ended;
@@ -401,7 +367,7 @@ void FLDEFF_D06DENKI_FollowUpdate(FieldEffectObj *effect, D06DenkiFollowWork *wo
     VecFx32 pos;
 
     if (FLDMMDL_CheckStatusBitUse(work->param.mmdl) != 0) {
-        FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&pos));
+        FLDMMDL_GetPos(work->param.mmdl, (struct VecFx32 *)(&pos));
         work->subPos = pos;
         FIELD_EFFECT_SetObjectPos(effect, &pos);
         work->subPos.y -= 0x4000;
@@ -430,12 +396,12 @@ void FLDEFF_D06DENKI_FollowDraw(FieldEffectObj *effect, D06DenkiFollowWork *work
 }
 
 /* Starts a pulse effect at the position. */
-void FLDEFF_D06DENKI_StartPulse(FieldEffectSys *fieldEffect, const VecFx32 *pos)
+FieldEffectObj *FLDEFF_D06DENKI_StartPulse(FieldEffectSys *fieldEffect, const VecFx32 *pos)
 {
     D06DenkiStartParam param;
     param.res = (struct D06DenkiRes *)FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_D06DENKI);
     param.pos = *pos;
-    FIELD_EFFECT_AddObject(fieldEffect, &sD06DenkiPulseFuncs, 0, 0, &param, 0);
+    return FIELD_EFFECT_AddObject(fieldEffect, &sD06DenkiPulseFuncs, 0, 0, &param, 0);
 }
 
 /* Triggers the second animation of a pulse effect, once. */

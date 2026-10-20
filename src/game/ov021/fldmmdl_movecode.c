@@ -195,54 +195,40 @@
 /* One step of a move code: returns 1 to run the next step in the same frame. */
 typedef int (*MmdlStepProc)(Mmdl *mmdl, void *work);
 
-extern u32 FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 v);
-extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
-extern u32 FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern int FLDMMDL_SetDirMove(Mmdl *mmdl, u16 dir);
-extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowY(Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
-extern int FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
-extern void *FLDMMDL_InitMoveProcWork();
-extern int FLDMMDL_OffMoveBitMove(Mmdl *mmdl);
-extern void *FLDMMDL_GetMoveProcWork();
-extern u16 FLDMMDL_GetEventType(Mmdl *mmdl);
-extern int FLDMMDL_MOVE_IsNearPlayer(Mmdl *mmdl);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
-extern void FLDMMDL_OffMoveBitMoveEnd(Mmdl *mmdl);
-extern int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int speed);
-extern void FLDMMDL_SetLocalAcmd(Mmdl *mmdl, int acmd);
-extern u32 FLDMMDL_ACMD_Update(Mmdl *mmdl);
-extern void FLDMMDL_SetDirAll(Mmdl *mmdl, u16 dir);
-extern int FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u16 dir);
-extern void FLDMMDL_OnMoveBitMove(Mmdl *mmdl);
-extern int FLDMMDL_GetGridInitX(Mmdl *mmdl);
-extern int FLDMMDL_GetGridInitZ(Mmdl *mmdl);
-extern int FLDMMDL_GetMoveLimitX(Mmdl *mmdl);
-extern int FLDMMDL_GetMoveLimitZ(Mmdl *mmdl);
-extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
-extern int FLDMMDL_MOVE_GetDirAddGridZ(u16 dir);
-extern int FLDMMDL_GetDirHeader(Mmdl *mmdl);
-extern u16 FLDMMDL_MOVE_GetDirTableValue(int dir);
-extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
-extern int FLDMMDL_GetParam(Mmdl *mmdl, int index);
+#ifdef __MWERKS__
+#define FLDMMDL_InitMoveProcWork FLDMMDL_InitMoveProcWork_header
+#define FLDMMDL_GetMoveProcWork FLDMMDL_GetMoveProcWork_header
+#define FLDMMDL_MOVE_GetDirAddGridZ FLDMMDL_MOVE_GetDirAddGridZ_header
+#define FLDMMDL_SetLocalAcmd FLDMMDL_SetLocalAcmd_header
+#define FLDMMDL_ChangeMoveCode FLDMMDL_ChangeMoveCode_header
+#endif
+#include "../ov010/fldmmdl.h"
+#include "../ov010/fldmmdl_move.h"
+#ifdef __MWERKS__
+#undef FLDMMDL_InitMoveProcWork
+#undef FLDMMDL_GetMoveProcWork
+#undef FLDMMDL_MOVE_GetDirAddGridZ
+#undef FLDMMDL_SetLocalAcmd
+#undef FLDMMDL_ChangeMoveCode
+void FLDMMDL_ChangeMoveCode(Mmdl *mmdl, int moveCode); /* original prototype: the definition takes u16 */
+void FLDMMDL_SetLocalAcmd(Mmdl *mmdl, int acmd); /* original prototype: the definition takes u16 */
+s16 FLDMMDL_MOVE_GetDirAddGridZ(u16 dir); /* original prototype: the definition takes int */
+/* The original calls pass the two spare argument registers to FLDMMDL_InitMoveProcWork and call FLDMMDL_GetMoveProcWork without argument, with the model still in r0; the definitions take (mmdl, size) and (mmdl). */
+void *FLDMMDL_InitMoveProcWork();
+void *FLDMMDL_GetMoveProcWork();
+#define INIT_MOVE_PROC_WORK(mmdl, size, extraA, extraB) FLDMMDL_InitMoveProcWork(mmdl, size, extraA, extraB)
+#define GET_MOVE_PROC_WORK(mmdl) FLDMMDL_GetMoveProcWork()
+#else
+#define INIT_MOVE_PROC_WORK(mmdl, size, extraA, extraB) FLDMMDL_InitMoveProcWork(mmdl, size)
+#define GET_MOVE_PROC_WORK(mmdl) FLDMMDL_GetMoveProcWork(mmdl)
+#endif
+#include "fldmmdl_acmd.h"
 struct FieldEncount;
 struct Mmdl;
-extern int EVENT_TRAINER_EYE_GetPlayerDistance(struct Mmdl *mmdl, unsigned int dir, int range, struct FieldEncount *encount);
-extern int FLDMMDL_ChangeMoveCode(Mmdl *mmdl, int moveCode);
-extern unsigned int KEY_GetCont(void);
-extern Mmdl *FLDMMDL_SysSearchPlayer(MmdlSys *sys);
-extern u16 FLDMMDL_GetAcmdCode(Mmdl *mmdl);
-extern u32 KEY_GetTrg(void);
-extern u32 GFL_USE_GetRandom(u32 range);
-extern u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int y0, int x1, int y1);
+#include "event_trainer_eye.h"
+#include "../arm9/key.h"
+#include "../arm9/gfl_use.h"
 struct Mmdl;
-extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bit);
-extern int FLDMMDL_GetGridOldX(Mmdl *mmdl);
-extern int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
 
 extern u32 gMmdlRandomWaitFrames[];
 extern u16 gMmdlRotationDirRows[][6];
@@ -281,15 +267,15 @@ u32 FLDMMDL_MOVECODE_CheckByEventType(Mmdl *mmdl);
 u32 FLDMMDL_MOVECODE_UpdateByEventType(Mmdl *mmdl);
 int FLDMMDL_MOVECODE_IsDirInsideMoveRect(Mmdl *mmdl, u32 dir);
 void FLDMMDL_MOVECODE_GetMoveRect(Mmdl *mmdl, MmdlMoveRect *rect);
-int FLDMMDL_MOVECODE_InitFixedDir(Mmdl *mmdl, u32 dir);
+void FLDMMDL_MOVECODE_InitFixedDir(Mmdl *mmdl, u32 dir);
 void FLDMMDL_MOVECODE_InitSpin(Mmdl *mmdl, u8 rotation);
 void FLDMMDL_MOVECODE_InitRoutePatrol(Mmdl *mmdl, u32 speed, u32 axis, u32 routeId);
 void FLDMMDL_MOVECODE_InitRoutePatrolSwap(Mmdl *mmdl, u32 speed, u32 axis, u32 routeId);
 void FLDMMDL_MOVECODE_InitWalkRandom(Mmdl *mmdl, u32 acmdSpeed, u32 dirSetId, u32 limitMode);
-int FLDMMDL_MOVECODE_InitTurnRandom(Mmdl *mmdl, u32 kind);
+void FLDMMDL_MOVECODE_InitTurnRandom(Mmdl *mmdl, u32 kind);
 u16 FLDMMDL_MOVECODE_GetNextDirInRotation(u16 moveCode, u16 dir);
 void FLDMMDL_MOVECODE_AdvanceRouteIndex(MmdlRoutePatrolSwapWork *work);
-struct Actor;
+struct ClactActor;
 #include "../sdk_fx.h"
 
 typedef struct DirGroupTable { u32 group[4]; } DirGroupTable;
@@ -298,36 +284,24 @@ typedef struct LookAroundDirTable { u32 dir[2][2]; } LookAroundDirTable;
 
 typedef struct SpinDirTable { u32 dir[2][4]; } SpinDirTable;
 
-extern void *FLDMMDL_InitMoveSubProcWork(Mmdl *mmdl, int size);
-extern void *FLDMMDL_GetMoveSubProcWork(Mmdl *mmdl);
-extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
-extern u32 FLDMMDL_SetStatusBitFellowHit(Mmdl *mmdl, u32 mode);
-extern u16 FLDMMDL_GetZoneId(Mmdl *mmdl);
-extern int EVENT_TRAINER_EYE_GetTrainerId(Mmdl *mmdl);
 struct MmdlSys;
-extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *sys, struct Mmdl **out, u32 *iter);
-extern u32 FLDMMDL_CheckMoveBit(Mmdl *mmdl, u32 bits);
-extern void FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bits);
-struct MmdlVec;
-extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
+struct VecFx32;
 struct FieldEffectObj;
-extern void FIELD_EFFECT_DeleteObject(struct FieldEffectObj *obj);
-extern void *FLDMMDL_SysGetFieldMap(struct MmdlSys *sys);
+#include "field_effect.h"
 struct FieldMap;
-struct FieldEffectCont;
-extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
 struct FieldEffectSys;
-extern struct FieldEffectObj *FLDEFF_HIDE_Start(struct FieldEffectSys *fieldEffect, struct Mmdl *mmdl, unsigned int kind);
-extern int FLDMMDL_CheckDrawInitComp(Mmdl *mmdl);
-u32 FLDMMDL_MOVE_InitFaceDir();
-u32 FLDMMDL_MOVE_InitFaceDirUp(Mmdl *mmdl);
-u32 FLDMMDL_MOVE_InitFaceDirDown(Mmdl *mmdl);
-u32 FLDMMDL_MOVE_InitFaceDirLeft(Mmdl *mmdl);
-u32 FLDMMDL_MOVE_InitFaceDirRight(Mmdl *mmdl);
-u32 FLDMMDL_MOVE_InitFaceDirUpFlag(Mmdl *mmdl);
-u32 FLDMMDL_MOVE_InitFaceDirDownFlag(Mmdl *mmdl);
-u32 FLDMMDL_MOVE_InitFaceDirLeftFlag(Mmdl *mmdl);
-u32 FLDMMDL_MOVE_InitFaceDirRightFlag(Mmdl *mmdl);
+#include "fieldmap.h"
+struct FieldEffectSys;
+#include "fldeff_hide.h"
+void FLDMMDL_MOVE_InitFaceDir();
+void FLDMMDL_MOVE_InitFaceDirUp(Mmdl *mmdl);
+void FLDMMDL_MOVE_InitFaceDirDown(Mmdl *mmdl);
+void FLDMMDL_MOVE_InitFaceDirLeft(Mmdl *mmdl);
+void FLDMMDL_MOVE_InitFaceDirRight(Mmdl *mmdl);
+void FLDMMDL_MOVE_InitFaceDirUpFlag(Mmdl *mmdl);
+void FLDMMDL_MOVE_InitFaceDirDownFlag(Mmdl *mmdl);
+void FLDMMDL_MOVE_InitFaceDirLeftFlag(Mmdl *mmdl);
+void FLDMMDL_MOVE_InitFaceDirRightFlag(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitWallWalk();
 void FLDMMDL_MOVE_FaceDir(Mmdl *mmdl);
 int FLDMMDL_MOVE_FaceDirTurnSelf(Mmdl *mmdl, u32 unusedWork, u32 regR2, u32 regR3);
@@ -339,9 +313,7 @@ void FLDMMDL_MOVE_InitWallWalkMode0Hand0(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitWallWalkMode1Hand1(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitWallWalkMode2Hand0(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitWallWalkMode2Hand1(Mmdl *mmdl);
-extern int FLDMMDL_MOVE_GetMapAttr(Mmdl *mmdl, MmdlVec *pos, u32 *outAttr);
-extern int MAP_ATTR_IsBlocked(u32 attr);
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+#include "map_attr.h"
 void FLDMMDL_MOVE_InitWalkRepeat(Mmdl *mmdl);
 int FLDMMDL_MOVE_WalkRepeat(Mmdl *mmdl);
 int FLDMMDL_MOVE_TurnLookAround(Mmdl *mmdl);
@@ -349,7 +321,7 @@ void FLDMMDL_MOVE_InitWalkRepeatSpin(Mmdl *mmdl);
 int FLDMMDL_MOVE_WalkRepeatSpin(Mmdl *mmdl);
 int FLDMMDL_MOVE_TurnSpin(Mmdl *mmdl);
 int FLDMMDL_MOVE_IsButtonBHeld(void);
-int FLDMMDL_MOVE_InitLookPlayer(Mmdl *mmdl, u32 unusedWork, u32 regR2, u32 regR3);
+void FLDMMDL_MOVE_InitLookPlayer(Mmdl *mmdl, u32 unusedWork, u32 regR2, u32 regR3);
 void FLDMMDL_MOVE_LookPlayer(Mmdl *mmdl);
 void FLDMMDL_MOVE_DeleteLookPlayer(void);
 int FLDMMDL_MOVE_LookPlayerTurn(Mmdl *mmdl, MmdlLookWork *work);
@@ -363,7 +335,11 @@ int FLDMMDL_MOVE_TurnToPlayer(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitLookFellow(Mmdl *mmdl);
 void FLDMMDL_MOVE_LookFellow(Mmdl *mmdl);
 void FLDMMDL_MOVE_DeleteLookFellow(void);
+#ifdef __MWERKS__
 void FLDMMDL_MOVE_ClearFellowTracking(void);
+#else
+void FLDMMDL_MOVE_ClearFellowTracking(Mmdl *mmdl);
+#endif
 int FLDMMDL_MOVE_LookFellowTurn(Mmdl *mmdl, MmdlLookWork *work);
 int FLDMMDL_MOVE_LookFellowWaitTurn(Mmdl *mmdl, MmdlLookWork *work, u32 regR2, u32 regR3);
 Mmdl *FLDMMDL_MOVE_FindFellow(Mmdl *mmdl);
@@ -389,8 +365,8 @@ void FLDMMDL_MOVE_WallWalk(Mmdl *mmdl);
 int FLDMMDL_MOVE_WallWalkStop(Mmdl *mmdl, MmdlWallWalkWork *work);
 int FLDMMDL_MOVE_WallWalkTryStep(Mmdl *mmdl, MmdlWallWalkWork *work);
 int FLDMMDL_MOVE_WallWalkWaitStep(Mmdl *mmdl, MmdlWallWalkWork *work, u32 regR2, u32 regR3);
-int FLDMMDL_MOVE_IsWallAtOffsetA(Mmdl *mmdl, MmdlVec *pos, int dir, int hand);
-int FLDMMDL_MOVE_IsWallAtOffsetB(Mmdl *mmdl, MmdlVec *pos, int dir, int hand);
+int FLDMMDL_MOVE_IsWallAtOffsetA(Mmdl *mmdl, VecFx32 *pos, int dir, int hand);
+int FLDMMDL_MOVE_IsWallAtOffsetB(Mmdl *mmdl, VecFx32 *pos, int dir, int hand);
 int FLDMMDL_MOVE_IsWallNearA(Mmdl *mmdl, int dir, int hand);
 int FLDMMDL_MOVE_IsWallNearB(Mmdl *mmdl, int dir, int hand);
 int FLDMMDL_MOVE_GetWallWalkDir(Mmdl *mmdl, int dir, int hand);
@@ -401,9 +377,9 @@ extern LookAroundDirTable gLookAroundDirTable;
 extern SpinDirTable gSpinDirTable;
 extern MmdlStepProc gLookPlayerStepTable[];
 extern MmdlStepProc gLookFellowStepTable[];
-extern MmdlVec gHideDrawOffsetInit;
+extern VecFx32 gHideDrawOffsetInit;
 extern MmdlStepProc gHideStepTable[];
-extern MmdlVec gHideDrawOffsetRecover;
+extern VecFx32 gHideDrawOffsetRecover;
 extern MmdlStepProc gFaceDirStepTable[];
 extern MmdlStepProc gWallWalkStepTable[];
 extern int gWallCheckOffsetAX[][2];
@@ -415,7 +391,7 @@ extern u32 gWallWalkHandSwap[];
 extern u32 gWallWalkBounceDir[][2];
 
 /* Init of the turn-in-place move codes: kind selects the direction set. */
-int FLDMMDL_MOVECODE_InitTurnRandom(Mmdl *mmdl, u32 kind)
+void FLDMMDL_MOVECODE_InitTurnRandom(Mmdl *mmdl, u32 kind)
 {
     MmdlTurnRandomWork *work;
     int workSize = 8;
@@ -423,30 +399,30 @@ int FLDMMDL_MOVECODE_InitTurnRandom(Mmdl *mmdl, u32 kind)
     work->waitFrames = FLDMMDL_MOVECODE_GetRandomTableEntry(gMmdlRandomWaitFrames, workSize - 9);
     work->dirSetId = kind;
     FLDMMDL_SetDrawStatus(mmdl, 0);
-    return FLDMMDL_OffMoveBitMove(mmdl);
+    FLDMMDL_OffMoveBitMove(mmdl);
 }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet0(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 0); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet0(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 0); }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet1(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 1); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet1(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 1); }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet2(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 2); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet2(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 2); }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet3(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 3); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet3(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 3); }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet4(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 4); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet4(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 4); }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet5(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 5); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet5(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 5); }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet6(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 6); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet6(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 6); }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet7(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 7); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet7(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 7); }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet8(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 8); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet8(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 8); }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet9(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 9); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet9(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 9); }
 
-int FLDMMDL_MOVECODE_InitTurnRandomSet10(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 10); }
+void FLDMMDL_MOVECODE_InitTurnRandomSet10(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitTurnRandom(mmdl, 10); }
 
 void FLDMMDL_MOVECODE_MoveTurnRandom(Mmdl *mmdl)
 {
@@ -691,13 +667,13 @@ int FLDMMDL_MOVECODE_IsDirInsideMoveRect(Mmdl *mmdl, u32 dir)
     return 1;
 }
 
-int FLDMMDL_MOVECODE_InitFixedDir(Mmdl *mmdl, u32 dir)
+void FLDMMDL_MOVECODE_InitFixedDir(Mmdl *mmdl, u32 dir)
 {
     MmdlFixedDirWork *work = FLDMMDL_InitMoveProcWork(mmdl, 8);
     work->dir = dir;
     FLDMMDL_SetDrawStatus(mmdl, 0);
     FLDMMDL_OffMoveBitMove(mmdl);
-    return FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
+    FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
 }
 
 void FLDMMDL_MOVECODE_MoveFixedDir(Mmdl *mmdl)
@@ -713,13 +689,13 @@ void FLDMMDL_MOVECODE_MoveFixedDir(Mmdl *mmdl)
     }
 }
 
-int FLDMMDL_MOVECODE_InitFixedDirUp(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitFixedDir(mmdl, 0); }
+void FLDMMDL_MOVECODE_InitFixedDirUp(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitFixedDir(mmdl, 0); }
 
-int FLDMMDL_MOVECODE_InitFixedDirDown(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitFixedDir(mmdl, 1); }
+void FLDMMDL_MOVECODE_InitFixedDirDown(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitFixedDir(mmdl, 1); }
 
-int FLDMMDL_MOVECODE_InitFixedDirLeft(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitFixedDir(mmdl, 2); }
+void FLDMMDL_MOVECODE_InitFixedDirLeft(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitFixedDir(mmdl, 2); }
 
-int FLDMMDL_MOVECODE_InitFixedDirRight(Mmdl *mmdl) { return FLDMMDL_MOVECODE_InitFixedDir(mmdl, 3); }
+void FLDMMDL_MOVECODE_InitFixedDirRight(Mmdl *mmdl) { FLDMMDL_MOVECODE_InitFixedDir(mmdl, 3); }
 
 void FLDMMDL_MOVECODE_InitSpin(Mmdl *mmdl, u8 rotation)
 {
@@ -834,7 +810,7 @@ void FLDMMDL_MOVECODE_MoveSwing(Mmdl *mmdl)
 /* Swing step: turn toward the display direction (the turn acmd with speed 0). */
 int FLDMMDL_MOVECODE_SwingStepTurn(Mmdl *mmdl, MmdlSpinWork *work)
 {
-    FLDMMDL_SetLocalAcmd(mmdl, (((u32)FLDMMDL_ACMD_ConvertCodeByDir((u32)(((u32)FLDMMDL_GetDirDisp(mmdl) << 16) >> 16), (u32)0) << 16) >> 16));
+    FLDMMDL_SetLocalAcmd(mmdl, (u16)FLDMMDL_ACMD_ConvertCodeByDir((((u32)FLDMMDL_GetDirDisp(mmdl) << 16) >> 16), 0));
     work->step = 1;
     return 1;
 }
@@ -1235,7 +1211,7 @@ void FLDMMDL_MOVECODE_AdvanceRouteIndex(MmdlRoutePatrolSwapWork *work)
 /* Swap patrol step: when the player is in sight (event type 10), turn toward it. */
 int FLDMMDL_MOVECODE_RoutePatrolSwapStepLookForPlayer(Mmdl *mmdl, MmdlRoutePatrolSwapWork *work)
 {
-    u32 dir;
+    u16 dir;
     if (FLDMMDL_GetEventType(mmdl) == 10) {
         dir = FLDMMDL_GetDirDisp(mmdl);
         if (EVENT_TRAINER_EYE_GetPlayerDistance(mmdl, dir, FLDMMDL_GetParam(mmdl, 0), 0) != -1) {
@@ -1953,12 +1929,12 @@ int FLDMMDL_MOVE_IsButtonBHeld(void)
  */
 
 /* Look at the player (init). */
-int FLDMMDL_MOVE_InitLookPlayer(Mmdl *mmdl, u32 unusedWork, u32 regR2, u32 regR3)
+void FLDMMDL_MOVE_InitLookPlayer(Mmdl *mmdl, u32 unusedWork, u32 regR2, u32 regR3)
 {
-    FLDMMDL_MOVE_UpdatePlayerTracking(mmdl, FLDMMDL_InitMoveProcWork(mmdl, 8, regR2, regR3));
+    FLDMMDL_MOVE_UpdatePlayerTracking(mmdl, INIT_MOVE_PROC_WORK(mmdl, 8, regR2, regR3));
     FLDMMDL_SetDrawStatus((void *)mmdl, 0);
     FLDMMDL_OffMoveBitMove(mmdl);
-    return FLDMMDL_SetStatusBitFellowHit(mmdl, 0);
+    FLDMMDL_SetStatusBitFellowHit(mmdl, 0);
 }
 
 /* Look at the player (move). */
@@ -2113,9 +2089,13 @@ void FLDMMDL_MOVE_LookFellow(Mmdl *mmdl)
 void FLDMMDL_MOVE_DeleteLookFellow(void) {}
 
 /* Forget the other model being watched. */
+#ifdef __MWERKS__
 void FLDMMDL_MOVE_ClearFellowTracking(void)
+#else
+void FLDMMDL_MOVE_ClearFellowTracking(Mmdl *mmdl)
+#endif
 {
-    MmdlLookWork *work = FLDMMDL_GetMoveProcWork();
+    MmdlLookWork *work = GET_MOVE_PROC_WORK(mmdl);
     work->tracking = 0;
 }
 
@@ -2254,7 +2234,7 @@ int FLDMMDL_MOVE_TurnToFellow(Mmdl *mmdl, MmdlLookWork *work)
 /* Hide in a field effect (init, shared by the four hide move codes). */
 void FLDMMDL_MOVE_InitHide(Mmdl *mmdl, u32 kind)
 {
-    MmdlVec drawOffset;
+    VecFx32 drawOffset;
     u32 hideBit = 8;
     ((MmdlHideWork *)FLDMMDL_InitMoveProcWork(mmdl, 8))->kind = kind;
     FLDMMDL_SetDrawStatus((void *)mmdl, 0);
@@ -2290,7 +2270,7 @@ void FLDMMDL_MOVE_DeleteHide(Mmdl *mmdl)
 void FLDMMDL_MOVE_RecoverHide(Mmdl *mmdl)
 {
     MmdlHideWork *work = FLDMMDL_GetMoveProcWork((void *)mmdl);
-    MmdlVec drawOffset;
+    VecFx32 drawOffset;
     work->step = 0;
     FLDMMDL_MOVE_SetHideEffect(mmdl, 0);
     if (work->noEffect == 0) {
@@ -2335,7 +2315,7 @@ int FLDMMDL_MOVE_HideKeepEffect(Mmdl *mmdl, MmdlHideWork *work, u32 regR2, u32 r
 /* Store the hide field effect in the move proc work. */
 void FLDMMDL_MOVE_SetHideEffect(Mmdl *mmdl, u32 effect)
 {
-    ((MmdlHideWork *)FLDMMDL_GetMoveProcWork())->effect = effect;
+    ((MmdlHideWork *)GET_MOVE_PROC_WORK(mmdl))->effect = effect;
 }
 
 /* Get the hide field effect of the move proc work. */
@@ -2347,7 +2327,7 @@ int FLDMMDL_MOVE_GetHideEffect(Mmdl *mmdl)
 /* Do not create a field effect for this hidden model. */
 void FLDMMDL_MOVE_SetHideNoEffect(Mmdl *mmdl)
 {
-    MmdlHideWork *work = FLDMMDL_GetMoveProcWork();
+    MmdlHideWork *work = GET_MOVE_PROC_WORK(mmdl);
     work->noEffect = 1;
 }
 
@@ -2355,24 +2335,24 @@ void FLDMMDL_MOVE_SetHideNoEffect(Mmdl *mmdl)
  * Face a direction (init). The dir argument is unused here; the model
  * turns to direction 0 first and the step functions set the real one.
  */
-u32 FLDMMDL_MOVE_InitFaceDir(mmdl, dir, flag, regR3)
+void FLDMMDL_MOVE_InitFaceDir(mmdl, dir, flag, regR3)
 Mmdl *mmdl;
 u32 dir, flag, regR3;
 {
-    MmdlFaceDirWork *work = FLDMMDL_InitMoveProcWork(mmdl, 4, flag, regR3);
+    MmdlFaceDirWork *work = INIT_MOVE_PROC_WORK(mmdl, 4, flag, regR3);
     work->dir = 9;
     work->flag = flag;
-    return FLDMMDL_SetDirDispCheckPause(mmdl, 0);
+    FLDMMDL_SetDirDispCheckPause(mmdl, 0);
 }
 
-u32 FLDMMDL_MOVE_InitFaceDirUp(Mmdl *mmdl) { return FLDMMDL_MOVE_InitFaceDir(mmdl, 0, 0); }
-u32 FLDMMDL_MOVE_InitFaceDirDown(Mmdl *mmdl) { return FLDMMDL_MOVE_InitFaceDir(mmdl, 1, 0); }
-u32 FLDMMDL_MOVE_InitFaceDirLeft(Mmdl *mmdl) { return FLDMMDL_MOVE_InitFaceDir(mmdl, 2, 0); }
-u32 FLDMMDL_MOVE_InitFaceDirRight(Mmdl *mmdl) { return FLDMMDL_MOVE_InitFaceDir(mmdl, 3, 0); }
-u32 FLDMMDL_MOVE_InitFaceDirUpFlag(Mmdl *mmdl) { return FLDMMDL_MOVE_InitFaceDir(mmdl, 0, 1); }
-u32 FLDMMDL_MOVE_InitFaceDirDownFlag(Mmdl *mmdl) { return FLDMMDL_MOVE_InitFaceDir(mmdl, 1, 1); }
-u32 FLDMMDL_MOVE_InitFaceDirLeftFlag(Mmdl *mmdl) { return FLDMMDL_MOVE_InitFaceDir(mmdl, 2, 1); }
-u32 FLDMMDL_MOVE_InitFaceDirRightFlag(Mmdl *mmdl) { return FLDMMDL_MOVE_InitFaceDir(mmdl, 3, 1); }
+void FLDMMDL_MOVE_InitFaceDirUp(Mmdl *mmdl) { FLDMMDL_MOVE_InitFaceDir(mmdl, 0, 0); }
+void FLDMMDL_MOVE_InitFaceDirDown(Mmdl *mmdl) { FLDMMDL_MOVE_InitFaceDir(mmdl, 1, 0); }
+void FLDMMDL_MOVE_InitFaceDirLeft(Mmdl *mmdl) { FLDMMDL_MOVE_InitFaceDir(mmdl, 2, 0); }
+void FLDMMDL_MOVE_InitFaceDirRight(Mmdl *mmdl) { FLDMMDL_MOVE_InitFaceDir(mmdl, 3, 0); }
+void FLDMMDL_MOVE_InitFaceDirUpFlag(Mmdl *mmdl) { FLDMMDL_MOVE_InitFaceDir(mmdl, 0, 1); }
+void FLDMMDL_MOVE_InitFaceDirDownFlag(Mmdl *mmdl) { FLDMMDL_MOVE_InitFaceDir(mmdl, 1, 1); }
+void FLDMMDL_MOVE_InitFaceDirLeftFlag(Mmdl *mmdl) { FLDMMDL_MOVE_InitFaceDir(mmdl, 2, 1); }
+void FLDMMDL_MOVE_InitFaceDirRightFlag(Mmdl *mmdl) { FLDMMDL_MOVE_InitFaceDir(mmdl, 3, 1); }
 
 /* Face a direction (move). */
 void FLDMMDL_MOVE_FaceDir(Mmdl *mmdl)
@@ -2385,7 +2365,7 @@ void FLDMMDL_MOVE_FaceDir(Mmdl *mmdl)
 /* Face a direction, step 0: turn to the model's display direction. */
 int FLDMMDL_MOVE_FaceDirTurnSelf(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3)
 {
-    FLDMMDL_SetLocalAcmd(mmdl, (((u32)FLDMMDL_ACMD_ConvertCodeByDir((u32)(((u32)FLDMMDL_GetDirDisp((void *)mmdl) << 16) >> 16), (u32)0) << 16) >> 16));
+    FLDMMDL_SetLocalAcmd(mmdl, (u16)FLDMMDL_ACMD_ConvertCodeByDir((((u32)FLDMMDL_GetDirDisp(mmdl) << 16) >> 16), 0));
     FLDMMDL_OffMoveBitMove(mmdl);
     FLDMMDL_OffMoveBitMoveEnd(mmdl);
     ((MmdlFaceDirWork *)work)->step = 1;
@@ -2421,7 +2401,7 @@ int FLDMMDL_MOVE_FaceDirResolvePlayerDir(Mmdl *mmdl, s8 *work)
 /* Face a direction, step 3: turn to the player's direction. */
 int FLDMMDL_MOVE_FaceDirTurnPlayerDir(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3)
 {
-    FLDMMDL_SetLocalAcmd(mmdl, (((u32)FLDMMDL_ACMD_ConvertCodeByDir((u32)FLDMMDL_GetDirMove(FLDMMDL_SysSearchPlayer((void *)FLDMMDL_GetMmdlSys((void *)mmdl))), (u32)0) << 16) >> 16));
+    FLDMMDL_SetLocalAcmd(mmdl, (u16)FLDMMDL_ACMD_ConvertCodeByDir(FLDMMDL_GetDirMove(FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys(mmdl))), 0));
     ((MmdlFaceDirWork *)work)->step = 4;
     return 1;
 }
@@ -2440,9 +2420,10 @@ int FLDMMDL_MOVE_FaceDirWaitPlayerTurn(Mmdl *mmdl, u32 work, u32 regR2, u32 regR
 
 /* Walk along a wall (init). */
 void FLDMMDL_MOVE_InitWallWalk(mmdl, mode, hand, regR3)
-u32 mmdl, mode, hand, regR3;
+Mmdl *mmdl;
+u32 mode, hand, regR3;
 {
-    MmdlWallWalkWork *work = FLDMMDL_InitMoveProcWork(mmdl, 12, hand, regR3);
+    MmdlWallWalkWork *work = INIT_MOVE_PROC_WORK(mmdl, 12, hand, regR3);
     work->mode = mode;
     work->hand = hand;
 }
@@ -2491,12 +2472,12 @@ int FLDMMDL_MOVE_WallWalkWaitStep(Mmdl *mmdl, MmdlWallWalkWork *work, u32 regR2,
  * stack spill and leaves ip for &checkPos.
  */
 /* Is the cell next to pos (offset table A) a blocking attribute. */
-int FLDMMDL_MOVE_IsWallAtOffsetA(Mmdl *mmdl, MmdlVec *pos, int dir, int hand)
+int FLDMMDL_MOVE_IsWallAtOffsetA(Mmdl *mmdl, VecFx32 *pos, int dir, int hand)
 {
     int result;
     s16 gridX;
     s16 gridZ;
-    MmdlVec checkPos;
+    VecFx32 checkPos;
     u32 attr;
     result = 0;
     checkPos = *pos;
@@ -2513,12 +2494,12 @@ int FLDMMDL_MOVE_IsWallAtOffsetA(Mmdl *mmdl, MmdlVec *pos, int dir, int hand)
 }
 
 /* Same as FLDMMDL_MOVE_IsWallAtOffsetA with offset table B. */
-int FLDMMDL_MOVE_IsWallAtOffsetB(Mmdl *mmdl, MmdlVec *pos, int dir, int hand)
+int FLDMMDL_MOVE_IsWallAtOffsetB(Mmdl *mmdl, VecFx32 *pos, int dir, int hand)
 {
     int result;
     s16 gridX;
     s16 gridZ;
-    MmdlVec checkPos;
+    VecFx32 checkPos;
     u32 attr;
     result = 0;
     checkPos = *pos;
@@ -2537,16 +2518,16 @@ int FLDMMDL_MOVE_IsWallAtOffsetB(Mmdl *mmdl, MmdlVec *pos, int dir, int hand)
 /* Table A wall check at the model's position. */
 int FLDMMDL_MOVE_IsWallNearA(Mmdl *mmdl, int dir, int hand)
 {
-    MmdlVec pos;
-    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct MmdlVec *)&pos);
+    VecFx32 pos;
+    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct VecFx32 *)&pos);
     return FLDMMDL_MOVE_IsWallAtOffsetA(mmdl, &pos, dir, hand);
 }
 
 /* Table B wall check at the model's position. */
 int FLDMMDL_MOVE_IsWallNearB(Mmdl *mmdl, int dir, int hand)
 {
-    MmdlVec pos;
-    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct MmdlVec *)&pos);
+    VecFx32 pos;
+    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct VecFx32 *)&pos);
     return FLDMMDL_MOVE_IsWallAtOffsetB(mmdl, &pos, dir, hand);
 }
 

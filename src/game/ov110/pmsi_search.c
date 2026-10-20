@@ -67,6 +67,8 @@
 #include "pms_input_data_shared_types.h"
 #include "pms_input_view_shared_types.h"
 #include "pmsi_search_shared_types.h"
+#include "../types.h"
+#include "../ov067/msgsearch_types.h"
 extern void *__builtin__clear(void *dest, unsigned long size);
 
 #define PMSI_SEARCH_INITIAL_COUNT 27
@@ -82,7 +84,7 @@ struct PmsiSearch {
     struct PmsInputData *wordData;
     u16 heapId;
     struct MsgBank *messageBanks[PMSI_SEARCH_INITIAL_COUNT];
-    u32 *messageSearch;
+    MsgSearch *messageSearch;
     struct {
         u32 initial;
         u32 wordIndex;
@@ -107,26 +109,13 @@ struct KanaKey {
     u8 kind;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/msgdata.h"
 struct Strbuf;
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 *MSGSEARCH_Create(u32 *src, u32 n, u16 heap);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void MSGSEARCH_Delete(u32 *);
-extern u16 STRBUF_GetEosChar(void);
-extern void STRBUF_SetString(struct Strbuf *strbuf, u16 *srcChars);
-extern void STRBUF_Clear(struct Strbuf *strbuf);
-extern u16 MSGDATA_GetMessageCount(struct MsgBank *bank);
-extern u32 MSGSEARCH_Search(u32 *, u32, u32, struct U16Vec *, void *, u32);
-extern void STRBUF_SetStringN(struct Strbuf *strbuf, u16 *srcChars, u32 charCount);
+#include "../arm9/strbuf.h"
+#include "../ov067/msgsearch.h"
 
-u32 PMS_INPUT_DATA_FilterWordList(u32 a, u32 b, u32 c);
-u16 PMS_INPUT_DATA_GetInitialWordId(struct PmsInputData *unused, int initial, int index);
-void PMS_INPUT_DATA_GetWordString(struct PmsInputData *data, u16 wordId, int mode);
-int PMS_INPUT_DATA_GetInvalidWordId(struct PmsInputData *unused);
+#include "pms_input_data.h"
 
 extern const char sPmsiSearchAllocSite[];
 extern const u16 sPmsiSearchBankFileIds[];
@@ -164,7 +153,7 @@ struct PmsiSearch *PMSI_SEARCH_Create(void *owner, struct PmsInputData *wordData
     s->heapId = heap;
     PMSI_SEARCH_ClearInput(s);
     for (i = 0; i < PMSI_SEARCH_INITIAL_COUNT; i++) s->messageBanks[i] = MSGDATA_CreateFromArchive(1, 2, sPmsiSearchBankFileIds[i], heap);
-    s->messageSearch = MSGSEARCH_Create((u32 *)s->messageBanks, PMSI_SEARCH_INITIAL_COUNT, s->heapId);
+    s->messageSearch = MSGSEARCH_Create(s->messageBanks, PMSI_SEARCH_INITIAL_COUNT, s->heapId);
     s->inputText = (struct U16Vec *)STRBUF_Create(27, heap);
     return s;
 }
@@ -268,7 +257,7 @@ int PMSI_SEARCH_Run(struct PmsiSearch *s)
         return 0;
     } else {
         __builtin__clear(normalWords, sizeof(normalWords));
-        matchCount = MSGSEARCH_Search(s->messageSearch, initialId, 0, s->inputText, s->results, PMSI_SEARCH_RESULT_MAX);
+        matchCount = MSGSEARCH_Search(s->messageSearch, initialId, 0, (struct Strbuf *)s->inputText, (MsgSearchHit *)s->results, PMSI_SEARCH_RESULT_MAX);
         for (i = 0; i < matchCount; i++) {
             normalWords[i] = PMS_INPUT_DATA_GetInitialWordId(s->wordData, initialId, s->results[i].wordIndex);
         }

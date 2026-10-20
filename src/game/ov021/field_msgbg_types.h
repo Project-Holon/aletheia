@@ -8,13 +8,16 @@
  */
 
 #include "../types.h"
+#include "../arm9/bmp_menuwork_shared_types.h"
+#include "../arm9/nns_g2d_res_types.h"
+#include "../arm9/bmp_menu_types.h"
 
 struct BmpWin;
 struct Bmp;
 struct Strbuf;
-struct MsgData;
+struct MsgBank;
 struct PrintQue;
-struct PrintStream;
+struct TextPrinter;
 struct GfFont;
 struct Tcbl;
 struct BmpMenuList;
@@ -22,30 +25,7 @@ struct TalkMsgWinSys;
 struct G3dCamera;
 struct FieldMsgBg;
 
-/* One menu item of the arm9 menu list (8 bytes); str -1 ends the list. */
-typedef struct BmpMenuWork {
-    struct Strbuf *str;
-    u32 param;
-} BmpMenuWork;
-
 #include "../sdk_fx.h"
-
-/* SDK layout of an unpacked NCGR character block. */
-typedef struct NNSG2dCharacterData {
-    u16 H;
-    u16 W;
-    u32 pixelFmt;
-    u32 mapingType;
-    u32 characterFmt;
-    u32 szByte;
-    void *pRawData;               /* 0x14 */
-} NNSG2dCharacterData;
-
-/* Bitmap window plus its pending VRAM transfer (8 bytes). */
-typedef struct PrintUtil {
-    struct BmpWin *bmpWin;        /* 0x00 */
-    u8 transReq;                  /* 0x04, 1: transfer once the print queue is done */
-} PrintUtil;
 
 /* Blinking "more text" cursor at the bottom right of a window (8 bytes). */
 typedef struct FieldMsgCursor {
@@ -69,7 +49,7 @@ typedef struct FieldMsgPrint {
     u32 transDone;                /* 0x04, 1: no transfer pending */
     struct GfFont *font;          /* 0x08 */
     struct PrintQue *printQue;    /* 0x0C, 0: slot free */
-    struct MsgData *msgData;      /* 0x10 */
+    struct MsgBank *msgData;      /* 0x10 */
     struct BmpWin *bmpWin;        /* 0x14 */
     struct Strbuf *strBuf;        /* 0x18, 0xA0 characters */
     PrintUtil printUtil;          /* 0x1C */
@@ -123,7 +103,7 @@ typedef struct FieldMsgWin {
 typedef struct FieldMsgStream {
     u16 reserved;                 /* 0x00 */
     u16 wait;                     /* 0x02, frames per character */
-    struct PrintStream *stream;   /* 0x04 */
+    struct TextPrinter *stream;   /* 0x04 */
     FieldMsgBg *msgBg;            /* 0x08 */
 } FieldMsgStream;
 
@@ -132,7 +112,7 @@ typedef struct FieldSysWin {
     struct BmpWin *bmpWin;        /* 0x00 */
     FieldMsgStream *stream;       /* 0x04 */
     FieldMsgPrint *msgPrint;      /* 0x08 */
-    struct MsgData *msgData;      /* 0x0C */
+    struct MsgBank *msgData;      /* 0x0C */
     struct Strbuf *strBuf;        /* 0x10 */
     FieldMsgBg *msgBg;            /* 0x14 */
     FieldMsgCursor cursor;        /* 0x18 */
@@ -144,7 +124,7 @@ typedef struct FieldPlainWin {
     struct Strbuf *strBuf;        /* 0x08 */
     FieldMsgBg *msgBg;            /* 0x0C */
     struct TalkMsgWinSys *talkSys; /* 0x10 */
-    struct MsgData *msgData;      /* 0x14 */
+    struct MsgBank *msgData;      /* 0x14 */
     struct BmpWin *bmpWin;        /* 0x18 */
     FieldMsgStream *stream;       /* 0x1C */
     FieldMsgPrint *msgPrint;      /* 0x20 */

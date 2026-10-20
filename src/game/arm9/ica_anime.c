@@ -75,12 +75,10 @@ struct IcaAnime {
 #include "gfl_heap_wrap.h"
 
 
-extern void ARC_TOOL_DeleteHandle(void *handle);
 
-extern struct ArcFile *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heapId);
+#include "arc_tool.h"
 struct ArcHandle;
 
-extern void  ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 
 #include "g3d_camera.h"
 
@@ -88,7 +86,7 @@ extern void  ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx
 
 #include "button_man.h"
 
-extern void MTX_MultVec33(struct VecFx32 *vec, struct VecFx32 *mtx, struct VecFx32 *out);
+#include "fx_mtx33.h"
 
 #include "fx_vec.h"
 
@@ -659,11 +657,9 @@ void ICA_ANIME_LoadFrames(struct IcaAnime *anime, s32 frame)
  *     before the BUTTON_MAN_MakeRotMtxXYZ call.  Written inline as
  *     `(u16)(u32)(65535.0f * (h / 360.0f))' the lsls/lsrs #0x10 pair
  *     after each _ffixu disappears (about 10 bytes short).
- *   - the scratch the two MTX_MultVec33 calls share is 36 bytes, not
- *     12: `struct VecFx32 rotMtx[3]'.  With a plain `struct VecFx32' the whole
- *     frame comes out `sub sp, #0x68' instead of `sub sp, #0x80' and
- *     nothing else differs, so the 24 extra bytes are real declared
- *     storage above 0x5c that this function never reads back.
+ *   - the scratch the two MTX_MultVec33 calls share is a whole MtxFx33 (36
+ *     bytes); a single VecFx32 comes out `sub sp, #0x68' instead of
+ *     `sub sp, #0x80'.
  *   - the wrap-around is `h += 360.0f': 0x0209C95C is the soft-float
  *     add.  `h = h + 360.0f' puts the constant first (see docs/idioms/
  *     a-soft-float-add-puts-the-constant-first-unless-it-is-a-compound-
@@ -673,7 +669,7 @@ void ICA_ANIME_LoadFrames(struct IcaAnime *anime, s32 frame)
  */
 void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime)
 {
-    struct VecFx32 rotMtx[3];
+    MtxFx33 rotMtx;
     struct VecFx32 rotDeg;
     struct VecFx32 forward;
     struct VecFx32 up;
@@ -710,10 +706,10 @@ void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime)
     angleX = (u16)(u32)(65535.0f * (degX / 360.0f));
     angleY = (u16)(u32)(65535.0f * (degY / 360.0f));
     angleZ = (u16)(u32)(65535.0f * (degZ / 360.0f));
-    BUTTON_MAN_MakeRotMtxXYZ(angleX, angleY, angleZ, (MtxFx33 *)rotMtx);
+    BUTTON_MAN_MakeRotMtxXYZ(angleX, angleY, angleZ, &rotMtx);
 
-    MTX_MultVec33(&forward, rotMtx, &rotForward);
-    MTX_MultVec33(&up, rotMtx, &rotUp);
+    MTX_MultVec33(&forward, &rotMtx, &rotForward);
+    MTX_MultVec33(&up, &rotMtx, &rotUp);
 
     ICA_ANIME_GetTranslate(anime, &position);
     VEC_Add(&position, &rotForward, &target);

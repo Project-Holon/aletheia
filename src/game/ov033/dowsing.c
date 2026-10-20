@@ -131,122 +131,58 @@ struct FieldSystem;
 struct GameData;
 struct PlayerAvatar;
 struct BgTemplate;
-struct Vec3Fx;
 
-typedef struct Vec3Fx {
-    int x, y, z;
-} Vec3Fx;
-
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *mem);
+#include "../sdk_fx.h"
+#include "../arm9/nns_g2d_res_types.h"
+#include "../arm9/clact.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct EventWork;
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
+#include "../arm9/zonedata.h"
 struct IntrudeOfferLog;
-extern int INTRUDE_FindOfferSlotAt(struct IntrudeOfferLog *log, s32 zoneId, s32 x, s32 y, s32 z);
+#include "../ov021/intrude_offer.h"
 struct HiddenItemEntry;
-extern struct HiddenItemEntry *HIDDEN_ITEM_GetTable(u16 *count);
+#include "../ov010/hidden_item.h"
 struct IntrudeOfferSpot;
-extern struct IntrudeOfferSpot *INTRUDE_GetNextOfferSpot(struct IntrudeOfferLog *log, s32 *index);
-extern s32 ARC_UTIL_LoadMemberWithSize(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID, u32 *out);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*proc)(int, DowsingWork *), void *work, u32 priority);
+#include "../arm9/arc_util.h"
+struct TcbTask;
+#include "../arm9/gfl_use.h"
 struct FieldMap;
 struct GameSystem;
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 struct IntrudeSave;
-extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
+#include "../arm9/intrude.h"
+#include "../arm9/g2.h"
+#include "../arm9/net.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void INFOWIN_Update(void);
+#include "../arm9/tcb_list.h"
+#include "../arm9/infowin.h"
 struct PlayerWork;
-extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
 struct PlayerPosition;
-extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
-extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
 struct MapMatrix;
-extern int MAP_MATRIX_IsInRangeByPos(struct MapMatrix *matrix, int posX, int posZ);
-extern int MAP_MATRIX_GetZoneIdByPos(struct MapMatrix *matrix, int posX, int posZ);
-extern u32 ZONEDATA_IsFieldMatrix(u32 zoneId);
-extern int ZONEDATA_IsZoneGroup118To13C(u32 zoneId);
-extern int GFL_USE_GetSeSlot(u32 se);
-extern void GFL_USE_PlaySeInSlot(u32 se, int handle);
-extern void GFL_USE_SetSeSlotParams(int handle, u32 volume, u32 pitch, u32 pan);
-extern int GFL_USE_IsSeSlotBusy(u32 handle);
-extern void GFL_USE_PlaySeDefaultVolume(u32 se);
+#include "../ov010/map_matrix.h"
 extern void DOWSING_UpdateFade(DowsingWork *work);
 struct TcbSystem;
-extern void TCB_Main(struct TcbSystem *sys);
-extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSlot *palAnm);
-extern int PALANM_RequestFade(struct PalAnmSlot *palAnm, u16 slotMask, u16 paletteMask, s16 wait, u8 startLevel, u8 endLevel, u16 color, struct TaskSys *taskSys);
-struct Actor;
-extern void CLACT_StartActorAnim(struct Actor *actor);
-extern void CLACT_StopActorAnim(struct Actor *actor);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const ScreenPos *pos, u32 which);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
-extern void PALANM_TransferPalettes(struct PalAnmSlot *palAnm);
-extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char visible);
-extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *bgTemplate, unsigned int bgType);
-extern void BG_SYS_FreeSlot(unsigned char bgId);
-extern void BG_SYS_ChangeScrollImmediate(unsigned char bgId, unsigned attr, unsigned value);
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
-extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
-extern unsigned int CLACT_DeleteUnit(struct ClactUnit *unit);
-extern void BG_SYS_FreeLayerBuf(u32 bgId);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u32 palSize, u16 heapId);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 charRegion, u32 x, u32 y, u16 heapId);
-extern void ARC_TOOL_DeleteHandle(void *archive);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BG_SYS_MarkTileDirty(unsigned bgId);
-extern void BG_SYS_FreeTileRun(u32 bgId, u32 offset, u32 size);
-extern s32 CLACT_RegisterPaletteEx(void *archive, u32 fileId, u32 slotCount, u32 offset, u16 e, u16 f, u16 heapId);
-extern s32 CLACT_RegisterCharacter(void *archive, u32 fileId, u32 compressed, u32 mode, u16 heapId);
-extern s32 CLACT_RegisterCellAnim(void *archive, u32 cellFileId, u32 animFileId, u32 heapId);
-extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, s32 charRes, s32 palRes, s32 cellRes, const ClactSetup *setup, unsigned short mode, unsigned short heapId);
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleaseCellAnim(u32 idx);
-extern void CLACT_ReleaseCharacter(u32 idx);
-extern void CLACT_ReleasePalette(u32 idx);
-extern void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap);
-extern u32 APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetStatusAnimFileId(void);
-extern u32 APP_ICON_GetStatusFrameFileId(void);
-extern u32 APP_ICON_GetStatusDataFileId(void);
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern u32 APP_ICON_GetStatusCellFileId(u32);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *archive, u32 fileId, u32 compressed, void **outData, u16 heapId);
-extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
-extern void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, u32 speed);
-extern int INFOWIN_Exit(void);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
-extern void UI_SetInputMode(u8 touchMode);
-extern u32 KEY_GetTrg(void);
-extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
-extern int FIELD_SUBSCREEN_RequestMode(FieldSubscreen *subscreen, u32 mode);
-extern unsigned TCB_GetTaskOffset(unsigned);
-extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
-extern void *PALANM_Create(u32 heapId);
-extern void PALANM_SetAutoTransfer(struct PalAnmSlot *palAnm, int enable);
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *palAnm, u32 slot, u32 size, u32 heapId);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palAnm, u32 slot, u32 offset, u32 size);
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *palAnm, u32 slot);
-extern u32 PALANM_Delete(struct PalAnmSlot *palAnm);
-extern void TCB_Noop(struct TaskSys *taskSys);
+#include "../arm9/palanm.h"
+struct ClactActor;
+#include "../arm9/arc_tool.h"
+#include "../arm9/app_icon.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/ui.h"
+#include "../arm9/key.h"
+#include "../ov021/field_subscreen.h"
+#include "../arm9/palanm.h"
+/* Original prototype (docs/ORIGINAL_BUGS.tsv): the DS caller passes the layer as an unsigned char */
+#ifdef __MWERKS__
+#define BG_SYS_ChangeScrollImmediate BG_SYS_ChangeScrollImmediate_header
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_ChangeScrollImmediate
+void BG_SYS_ChangeScrollImmediate(unsigned char bgId, unsigned attr, unsigned value);
+#endif
 
 DowsingSearch *DOWSING_CreateSearch(u32 heapId, void *eventFlags, void *eventData);
 void DOWSING_DeleteSearch(DowsingSearch *search);
@@ -383,7 +319,7 @@ DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscre
     DOWSING_CreateParts(work);
     DOWSING_CreateCloseButton(work);
     work->levelGrid = (u8 *)ARC_UTIL_LoadMemberWithSize(DOWSING_ARC_ID, 0xD, 0, work->heapId, &size);
-    work->task = (struct Task *)GFL_USE_AddMainTask(DOWSING_TaskTransferPalettes, work, 1);
+    work->task = (struct Task *)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))DOWSING_TaskTransferPalettes, work, 1);
     work->tick = 0;
     work->isOn = 1;
     DOWSING_InitFade(work);
@@ -434,7 +370,7 @@ void DOWSING_Update(DowsingWork *work, int isOn)
     int playLevelSound;
     int levelChanged;
     int prevX;
-    u32 mapId;
+    uptr mapId;
     struct FieldSystem *fieldSystem;
     int gridX, gridY, gridZ;
     int zoneId;
@@ -446,7 +382,7 @@ void DOWSING_Update(DowsingWork *work, int isOn)
     const DowsingHiddenItem *item;
     const DowsingMapEvent *event;
     int newX, newZ;
-    const Vec3Fx *pos;
+    const VecFx32 *pos;
     int runScan;
     int startSe;
     u16 targetIndex;
@@ -474,7 +410,7 @@ void DOWSING_Update(DowsingWork *work, int isOn)
     else if (work->prevTarget.kind == DOWSING_TARGET_MAP_EVENT)
         work->prevTarget.event = work->target.event;
     fieldSystem = (struct FieldSystem *)FIELDMAP_GetGameSystem(work->fieldMap);
-    pos = (struct Vec3Fx *)GAME_DATA_GetPlayerPosition(GAMESYSTEM_GetMyPlayerWork((struct GameSystem *)fieldSystem));
+    pos = (VecFx32 *)GAME_DATA_GetPlayerPosition(GAMESYSTEM_GetMyPlayerWork((struct GameSystem *)fieldSystem));
     gridX = (pos->x >> 4) / 4096;
     gridY = (pos->y >> 4) / 4096;
     gridZ = (pos->z >> 4) / 4096;
@@ -655,27 +591,27 @@ void DOWSING_Update(DowsingWork *work, int isOn)
 /* Redraws the sprites after the level changed and runs the fade. */
 void DOWSING_UpdateDisplay(DowsingWork *work, int draw)
 {
-    ScreenPos pos;
+    struct ClactVec2 pos;
 
     DOWSING_UpdateFade(work);
     if (draw == 0)
         return;
     if (work->shownLevel != work->level) {
-        CLACT_SetActorDrawEnable((struct Actor *)work->parts[DOWSING_PART_DIRECTION].actor,
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->parts[DOWSING_PART_DIRECTION].actor,
                       (work->level == DOWSING_LEVEL_ON_TARGET || work->level == DOWSING_LEVEL_NONE) ? 0 : 1);
-        CLACT_SetActorDrawEnable((struct Actor *)work->parts[DOWSING_PART_FOUND_MARK].actor, work->level == DOWSING_LEVEL_ON_TARGET);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->parts[DOWSING_PART_FOUND_MARK].actor, work->level == DOWSING_LEVEL_ON_TARGET);
         pos.x = sDowsingLevelTable[work->level].directionX;
         pos.y = sDowsingLevelTable[work->level].directionY;
         CLACT_AddActorSurfacePos(work->parts[DOWSING_PART_DIRECTION].actor, &pos, 1);
-        CLACT_SetActorAnimSeq((struct Actor *)work->parts[DOWSING_PART_LEFT_GAUGE].actor, sDowsingLevelTable[work->level].leftAnim);
-        CLACT_SetActorAnimSeq((struct Actor *)work->parts[DOWSING_PART_RIGHT_GAUGE].actor, sDowsingLevelTable[work->level].rightAnim);
-        CLACT_SetActorAnimSeq((struct Actor *)work->parts[DOWSING_PART_DIRECTION].actor, sDowsingLevelTable[work->level].directionAnim);
+        CLACT_SetActorAnimSeq((struct ClactActor *)work->parts[DOWSING_PART_LEFT_GAUGE].actor, sDowsingLevelTable[work->level].leftAnim);
+        CLACT_SetActorAnimSeq((struct ClactActor *)work->parts[DOWSING_PART_RIGHT_GAUGE].actor, sDowsingLevelTable[work->level].rightAnim);
+        CLACT_SetActorAnimSeq((struct ClactActor *)work->parts[DOWSING_PART_DIRECTION].actor, sDowsingLevelTable[work->level].directionAnim);
         work->shownLevel = work->level;
     }
     if (work->level == DOWSING_LEVEL_ON_TARGET && work->restartFoundAnim != 0) {
-        CLACT_SetActorAnimSeq((struct Actor *)work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
-        CLACT_SetActorAutoAnim((struct Actor *)work->parts[DOWSING_PART_FOUND_MARK].actor, 1);
-        CLACT_SetActorAnimFrame((struct Actor *)work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
+        CLACT_SetActorAnimSeq((struct ClactActor *)work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->parts[DOWSING_PART_FOUND_MARK].actor, 1);
+        CLACT_SetActorAnimFrame((struct ClactActor *)work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
         work->restartFoundAnim = 0;
     }
 }
@@ -747,7 +683,7 @@ void DOWSING_FreeBackground(DowsingWork *work)
  * Creates the four sprite parts. The right gauge (part 1) shares the
  * resources of the left gauge.
  *
- * note:     the four `strh #0` at the loop top are `ClactSetup setup = {0};`
+ * note:     the four `strh #0` at the loop top are `struct ActorInitParam setup = {0};`
  *           declared in the loop body (field-by-field zeroing ends in two
  *           strb), and `pos` lives in its own block after the loop so it
  *           takes the lower slot (sp+0x10) below `setup` (sp+0x14).
@@ -760,7 +696,7 @@ void DOWSING_CreateParts(DowsingWork *work)
     archive = ARC_TOOL_CreateHandle(DOWSING_ARC_ID, work->ownerHeapId);
     work->partsPalRes = CLACT_RegisterPaletteEx(archive, 1, 1, 0, 0, 1, work->heapId);
     for (i = 0; i < DOWSING_PART_COUNT; i++) {
-        ClactSetup setup = {0};
+        struct ActorInitParam setup = {0};
         if (i == DOWSING_PART_RIGHT_GAUGE) {
             work->parts[i].charRes = work->parts[DOWSING_PART_LEFT_GAUGE].charRes;
             work->parts[i].cellRes = work->parts[DOWSING_PART_LEFT_GAUGE].cellRes;
@@ -768,14 +704,14 @@ void DOWSING_CreateParts(DowsingWork *work)
             work->parts[i].charRes = CLACT_RegisterCharacter(archive, sDowsingPartIds[i].charId, 0, 1, work->heapId);
             work->parts[i].cellRes = CLACT_RegisterCellAnim(archive, sDowsingPartIds[i].cellId, sDowsingPartIds[i].animId, work->heapId);
         }
-        setup.priority = i;
+        setup.draw_priority = i;
         work->parts[i].actor = CLACT_CreateActor(work->clactUnit, work->parts[i].charRes, work->partsPalRes, work->parts[i].cellRes, &setup, 1, work->heapId);
-        CLACT_SetActorAutoAnim((struct Actor *)work->parts[i].actor, 1);
-        CLACT_SetActorObjMode((struct Actor *)work->parts[i].actor, 1);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->parts[i].actor, 1);
+        CLACT_SetActorObjMode((struct ClactActor *)work->parts[i].actor, 1);
     }
     ARC_TOOL_DeleteHandle(archive);
     {
-        ScreenPos pos;
+        struct ClactVec2 pos;
 
         pos.x = 0x50;
         pos.y = 0x60;
@@ -793,7 +729,7 @@ void DOWSING_DeleteParts(DowsingWork *work)
 {
     unsigned char i;
     for (i = 0; i < DOWSING_PART_COUNT; i++) {
-        CLACT_DeleteActor((struct Actor *)work->parts[i].actor);
+        CLACT_DeleteActor((struct ClactActor *)work->parts[i].actor);
         if (i != DOWSING_PART_RIGHT_GAUGE) {
             CLACT_ReleaseCellAnim(work->parts[i].cellRes);
             CLACT_ReleaseCharacter(work->parts[i].charRes);
@@ -805,19 +741,19 @@ void DOWSING_DeleteParts(DowsingWork *work)
 /*
  * Builds the close button (BG 4 panel and one actor).
  *
- * note:     the four `strh #0` after INFOWIN_Init are `ClactSetup setup = {0};`
+ * note:     the four `strh #0` after INFOWIN_Init are `struct ActorInitParam setup = {0};`
  *           opening an inner block there; declared at the top they land
  *           before the first call.
  */
 void DOWSING_CreateCloseButton(DowsingWork *work)
 {
-    ScreenData *screen;
+    NNSG2dScreenData *screen;
     u32 ownerHeapId;
 
     ownerHeapId = work->ownerHeapId;
     INFOWIN_Init(4, 3, GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap)), work->heapId);
     {
-        ClactSetup setup = {0};
+        struct ActorInitParam setup = {0};
         void *screenFile;
         void *archive;
         u16 *tiles;
@@ -829,12 +765,12 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
         work->bgCharRegion4 = ARC_UTIL_RegisterObjCharFromHandle(archive, APP_ICON_GetStatusFrameFileId(), 4, 0, 0, ownerHeapId);
         screenFile = ARC_UTIL_LoadPaletteDataFromHandle(archive, APP_ICON_GetStatusDataFileId(), 0, (void **)&screen, ownerHeapId);
         base = work->bgCharRegion4;
-        tiles = screen->tiles;
+        tiles = (u16 *)screen->rawData;
         for (i = 0; i < 0x300; i++) {
             tiles[i] &= 0xFFF;
             tiles[i] = (base + tiles[i]) | 0x2000;
         }
-        BG_SYS_DrawTileEx(4, 0, 0x15, 0x20, 3, (void *)screen->tiles, 0, 0x15, 0x20, 0x18);
+        BG_SYS_DrawTileEx(4, 0, 0x15, 0x20, 3, (void *)screen->rawData, 0, 0x15, 0x20, 0x18);
         BG_SYS_MarkTileDirty(4);
         GFL_HEAP_Free(screenFile);
         work->buttonPalRes = CLACT_RegisterPaletteEx(archive, APP_ICON_GetMoveKindPaletteFileId(), 1, 0x20, 0, 3, work->heapId);
@@ -843,9 +779,9 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
         setup.x = 0xE8;
         setup.y = 0xA8;
         work->buttonActor = CLACT_CreateActor(work->clactUnit, work->buttonCharRes, work->buttonPalRes, work->buttonCellRes, &setup, 1, work->heapId);
-        CLACT_SetActorAutoAnim((struct Actor *)work->buttonActor, 1);
-        CLACT_SetActorAutoAnimSpeed((struct Actor *)work->buttonActor, 0x2000);
-        CLACT_SetActorAnimSeq((struct Actor *)work->buttonActor, 0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->buttonActor, 1);
+        CLACT_SetActorAutoAnimSpeed((struct ClactActor *)work->buttonActor, 0x2000);
+        CLACT_SetActorAnimSeq((struct ClactActor *)work->buttonActor, 0);
         ARC_TOOL_DeleteHandle(archive);
         work->buttonState = DOWSING_BUTTON_IDLE;
     }
@@ -854,7 +790,7 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
 void DOWSING_DeleteCloseButton(DowsingWork *work)
 {
     unsigned region;
-    CLACT_DeleteActor((struct Actor *)work->buttonActor);
+    CLACT_DeleteActor((struct ClactActor *)work->buttonActor);
     CLACT_ReleaseCellAnim(work->buttonCellRes);
     CLACT_ReleaseCharacter(work->buttonCharRes);
     CLACT_ReleasePalette(work->buttonPalRes);
@@ -887,15 +823,15 @@ void DOWSING_UpdateCloseButton(DowsingWork *work)
         }
         if (pressed != 0) {
             work->buttonState = DOWSING_BUTTON_PRESSED;
-            CLACT_SetActorAnimSeq((struct Actor *)work->buttonActor, 8);
+            CLACT_SetActorAnimSeq((struct ClactActor *)work->buttonActor, 8);
             GFL_USE_PlaySeDefaultVolume(DOWSING_SE_CLOSE);
             return;
         }
         break;
     case DOWSING_BUTTON_PRESSED:
-        if (CLACT_IsActorAnimActive((struct Actor *)work->buttonActor) == 0) {
+        if (CLACT_IsActorAnimActive((struct ClactActor *)work->buttonActor) == 0) {
             work->buttonState = DOWSING_BUTTON_RELEASED;
-            CLACT_SetActorAnimSeq((struct Actor *)work->buttonActor, 0);
+            CLACT_SetActorAnimSeq((struct ClactActor *)work->buttonActor, 0);
             return;
         }
         break;
@@ -915,7 +851,7 @@ void DOWSING_UpdateCloseButton(DowsingWork *work)
 void DOWSING_InitFade(DowsingWork *work)
 {
     work->fadeTaskMem = GFL_HEAP_Alloc(work->heapId, TCB_GetTaskOffset(2), 1, sDowsingFileName, 0x6DF);
-    work->fadeTaskSys = (struct TaskSys *)TCB_Init(2, work->fadeTaskMem);
+    work->fadeTaskSys = (struct TcbSystem *)TCB_Init(2, work->fadeTaskMem);
     work->palAnm = PALANM_Create(work->heapId);
     PALANM_SetAutoTransfer(work->palAnm, 1);
     PALANM_AllocSlotBuffers(work->palAnm, 1, 0x60, work->heapId);
@@ -961,7 +897,7 @@ void DOWSING_UpdateFade(DowsingWork *work)
             PALANM_RequestFade(work->palAnm, 8, paletteMask, 0, 0, 0, 0, work->fadeTaskSys);
             work->fadeState = 0;
             for (i = 0; i < DOWSING_PART_COUNT; i++)
-                CLACT_StartActorAnim((struct Actor *)work->parts[i].actor);
+                CLACT_StartActorAnim((struct ClactActor *)work->parts[i].actor);
         }
         break;
     case DOWSING_FADE_OUT:
@@ -976,7 +912,7 @@ void DOWSING_UpdateFade(DowsingWork *work)
             PALANM_RequestFade(work->palAnm, 8, paletteMask, 0, 8, 8, 0, work->fadeTaskSys);
             work->fadeState = 1;
             for (i = 0; i < DOWSING_PART_COUNT; i++)
-                CLACT_StopActorAnim((struct Actor *)work->parts[i].actor);
+                CLACT_StopActorAnim((struct ClactActor *)work->parts[i].actor);
         }
         break;
     }

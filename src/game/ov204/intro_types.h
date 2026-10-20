@@ -12,7 +12,7 @@ struct Rec;
 struct Rec3;
 
 /* One slot of the intro command work: tag plus two data words. */
-typedef struct Slot { unsigned data[3]; } Slot;
+typedef struct IntroSlot { unsigned data[3]; } IntroSlot;
 
 /* A 3D vector of ints (camera position and friends). */
 typedef struct IntroVec { int v[3]; } IntroVec;
@@ -78,7 +78,7 @@ typedef struct IntroCmdWork {
     void *msg;                  /* 0x18: IntroMsgWork (intro_msg.c) */
     unsigned int scenarioId;    /* 0x1C: index into the scenario table list */
     void *commands[8];          /* 0x20: IntroCommand pointers */
-    Slot slots[8];              /* 0x40: per-command state words */
+    IntroSlot slots[8];              /* 0x40: per-command state words */
     unsigned int rowIndex;      /* 0xA0: current row in the scenario table */
     void *saveControl;          /* 0xA4: args->saveControl */
     unsigned char data[4096];   /* 0xA8: script data block */

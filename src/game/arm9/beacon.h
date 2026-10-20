@@ -6,7 +6,7 @@
 
 struct MiscSave;
 struct SaveControl;
-struct StrBuf;
+struct Strbuf;
 
 #include "../types.h"
 
@@ -28,9 +28,9 @@ u32 MISC_IncrementGreetCount(struct MiscSave *beacon);
 u32 MISC_GetThanksCount(struct MiscSave *beacon);
 u32 MISC_IncrementThanksCount(struct MiscSave *beacon);
 u16 *MISC_GetGreetMessage(struct MiscSave *beacon);
-void MISC_SetGreetMessage(struct MiscSave *beacon, struct StrBuf *message);
+void MISC_SetGreetMessage(struct MiscSave *beacon, struct Strbuf *message);
 u16 *MISC_GetThanksMessage(struct MiscSave *beacon);
-void MISC_SetThanksMessage(struct MiscSave *beacon, struct StrBuf *message);
+void MISC_SetThanksMessage(struct MiscSave *beacon, struct Strbuf *message);
 u8 MISC_GetResearchRank(struct MiscSave *beacon);
 void MISC_SetResearchRank(struct MiscSave *beacon, u8 mode);
 u32 MISC_GetBadge(struct MiscSave *beacon, u32 bit);

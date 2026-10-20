@@ -1,7 +1,7 @@
 #ifndef PMSIV_EDIT_SHARED_TYPES_H
 #define PMSIV_EDIT_SHARED_TYPES_H
 
-#include "pms_input_data_shared_types.h"
+#include "../ov110/pms_input_data_shared_types.h"
 
 #include "../types.h"
 
@@ -38,6 +38,6 @@ struct PmsivBgScroll {
 
 struct Bmp;
 
-typedef struct { short x,y; } Pair;
+typedef struct { short x,y; } PmsivEditPair;
 
 #endif

@@ -41,37 +41,25 @@
 #include "sta_acting_shared_types.h"
 #include "sta_act_effect_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void PARTICLE_InitManager(unsigned);
+#include "../arm9/particle.h"
 
-extern void PARTICLE_ExitManager(void);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern int PARTICLE_UpdateAllSystems(void);
 
-extern int PARTICLE_DrawAllSystems(void);
 struct ParticleSys;
 
-extern struct ParticleSys *PARTICLE_CreateSystemDefault(unsigned int workBuf, unsigned int workSize, unsigned int withCamera, unsigned int heapId);
 
-extern void *PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 struct TcbList;
 
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
+#include "../arm9/gfl_use.h"
 
-extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, unsigned int applyNow, unsigned int taskMgr);
 
-extern void PARTICLE_KillAllEffects(struct ParticleSys *sys);
 
-extern void PARTICLE_DeleteSystem(struct ParticleSys *sys);
 
-extern int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg);
 
-extern void PARTICLE_KillEffect(struct ParticleSys *sys, void *effect);
 
-extern void PARTICLE_EMITTER_SetEmitPos(void *, int);
 
 void STA_ACTING_SetCameraHoldScript(u8 *p,u32 v);
 
@@ -95,7 +83,7 @@ char *STA_ACT_EFFECT_StartSystem(char *p, u32 a);
 
 void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p);
 
-void STA_ACT_EFFECT_StartEffect(char *p, unsigned i, Vec *v);
+void STA_ACT_EFFECT_StartEffect(char *p, unsigned i, StaActingVec *v);
 
 void STA_ACT_EFFECT_KillEffect(char *p, int i);
 
@@ -141,7 +129,7 @@ char *STA_ACT_EFFECT_StartSystem(char *p, u32 memberIndex)
 
 void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p) { ((ActEffectSystem *)p)->active.u=0; PARTICLE_KillAllEffects((struct ParticleSys *)(((ActEffectSystem *)p)->system.u)); PARTICLE_DeleteSystem((struct ParticleSys *)(((ActEffectSystem *)p)->system.u)); }
 
-static inline void set(Vec *p, int x, int y, int z)
+static inline void set(StaActingVec *p, int x, int y, int z)
 {
     p->x = x;
     p->y = y;
@@ -149,11 +137,11 @@ static inline void set(Vec *p, int x, int y, int z)
 }
 
 /*
- * lever: Non-const Vec source preserves alias dependence: inline setter
+ * lever: Non-const StaActingVec source preserves alias dependence: inline setter
  * arguments load z, y, x after the handle store and before vector stores.
- * const int * and const Vec * sources both gave DIFF, 19 concrete bytes.
+ * const int * and const StaActingVec * sources both gave DIFF, 19 concrete bytes.
  */
-void STA_ACT_EFFECT_StartEffect(char *p, unsigned index, Vec *pos)
+void STA_ACT_EFFECT_StartEffect(char *p, unsigned index, StaActingVec *pos)
 {
     int a = PARTICLE_StartEffect(((ActEffectSystem *)p)->system.p, index, (int)pos);
     if (a == 0 || index < 4) {
@@ -185,5 +173,5 @@ void STA_ACT_EFFECT_SetEmitterPos(char *p, int index, int position)
     void *v = *(void **)(p + index * 16 + 0x4808);
 
     if (v != 0)
-        PARTICLE_EMITTER_SetEmitPos(v, position);
+        PARTICLE_EMITTER_SetEmitPos((struct Obj3D *)v, (const Vec3 *)position);
 }

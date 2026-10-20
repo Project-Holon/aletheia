@@ -80,9 +80,6 @@ typedef struct {
 
 #include "gf_panic.h"
 
-typedef int GXVRamBG;
-typedef int GXVRamOBJ;
-typedef int GXVRamTex;
 #include "gx_vramcnt.h"
 
 

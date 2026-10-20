@@ -89,7 +89,7 @@ typedef struct CommPlayerEntry {
     u8 pending : 1;
     u8 dir : 4;
     u8 pad15[3];
-    u32 effect;             /* 0x18 */
+    struct FieldEffectObj *effect;             /* 0x18 */
 } CommPlayerEntry;
 
 /* Last own position sent to the other players. */
@@ -104,7 +104,7 @@ typedef struct CommPlayerLastPos {
 
 typedef struct CommPlayerWork {
     void *gameSystem;           /* 0x00 */
-    void *playerSys;            /* 0x04 */
+    struct FieldCommActorCtrl *playerSys; /* 0x04 */
     CommPlayerEntry entries[4]; /* 0x08 */
     CommPlayerLastPos last;     /* 0x78 */
     u8 pad88[4];
@@ -131,50 +131,39 @@ typedef struct CommPlayerRowView {
 } CommPlayerRowView;
 struct SymbolSave;
 
-extern void SYMBOL_SAVE_FinalizeChecksum(struct SymbolSave *save);
-extern void SYMBOL_SAVE_UpdateChecksum(struct SymbolSave *save);
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/symbol_save.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct GameSystem;
-extern unsigned int GAMESYSTEM_IsFieldMapActive(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct FieldCommActorCtrl;
-extern void FIELD_COMM_ACTOR_CTRL_Delete(struct FieldCommActorCtrl *ctrl);
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-extern u32 GFL_HEAP_Free(void *p);
-extern int FLDEFF_GYOE_IsFinished(void *task);
-struct MmdlVec;
-extern void FIELD_COMM_ACTOR_CTRL_AddActor(struct FieldCommActorCtrl *ctrl, int id, int objCode, unsigned short *dir, struct MmdlVec *pos, int *vanish);
-extern void FIELD_COMM_ACTOR_CTRL_DeleteActor(struct FieldCommActorCtrl *ctrl, unsigned int id);
-extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+#include "../arm9/gf_panic.h"
+struct VecFx32;
 struct MmdlSys;
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern struct FieldCommActorCtrl *FIELD_COMM_ACTOR_CTRL_Create(int actorMax, struct MmdlSys *mmdlSys, int heapId, int useRunAnime);
+#include "../ov021/fieldmap.h"
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 struct PlayerWork;
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u32 GAME_DATA_GetPlayerObjectCode(struct PlayerWork *player);
 extern void *GAME_DATA_GetMoveModelSys(struct GameData *gd);
 struct FieldStatus;
-extern u8 FIELD_STATUS_GetSeasonDispFlag(struct FieldStatus *fs);
-extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);
+#include "../arm9/field_status.h"
 struct FieldPlayer;
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 struct Mmdl;
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern int FIELD_PLAYER_GetFormSlot(struct FieldPlayer *player);
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
-struct MmdlVec;
-extern void FLDMMDL_ACMD_GetDrawPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-extern VecFx32 *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
-extern u16 GAME_DATA_GetPlayerDirectionType(void *pl);
-extern fx32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
-extern int FIELD_COMM_ACTOR_CTRL_SearchGridPos(void *playerSys, int, int, int, int, int);
-extern u32 FIELDMAP_GetEffect(u8 *p);
-extern u32 FIELD_COMM_ACTOR_CTRL_GetMmdl(struct Tbl *t, u32 key);
-extern u32 FLDEFF_GYOE_StartHeld(void *a, void *b, int c, int d);
+#include "../ov021/field_player.h"
+struct VecFx32;
+struct PlayerPosition;
+                                  
+extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
+#ifdef __MWERKS__
+extern u16 GAME_DATA_GetPlayerDirectionType(struct PlayerWork *player); /* original prototype; the definition differs in return type */
+#else
+extern u32 GAME_DATA_GetPlayerDirectionType(struct PlayerWork*);
+#endif
+#include "../arm9/gf_standard.h"
+#include "../ov021/field_comm_actor.h"
+#include "../ov021/fldeff_gyoe.h"
+#include "../ov021/fldmmdl_acmd.h"
 u8 QUESTIONNAIRE_GetAnswerBitOffset(u32 id);
 u8 QUESTIONNAIRE_GetAnswerMax(u32 i);
 u8 SYMBOL_MAP_GetGroup(u8 *p);
@@ -197,7 +186,7 @@ int COMM_PLAYER_CheckOccupy(CommPlayerWork *work, int index);
 u16 COMM_PLAYER_GetObjCode(CommPlayerWork *work, int index);
 void COMM_PLAYER_SetPackage(CommPlayerWork *work, int index, CommPlayerPackage *package);
 int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out);
-int COMM_PLAYER_SearchGridPos(CommPlayerWork *work, int index, int gridY, int gridZ, int outId, int searchIndex);
+int COMM_PLAYER_SearchGridPos(CommPlayerWork *work, s16 gridX, int gridY, s16 gridZ, int *outId, u32 *searchIndex);
 int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index);
 u32 COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index);
 int COMM_PLAYER_CheckActive(CommPlayerWork *work, int index);
@@ -365,7 +354,7 @@ void COMM_PLAYER_Update(void *gameSystem, CommPlayerWork *work)
     COMM_PLAYER_CreateSys(gameSystem, work);
     if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) == 1) {
         for (i = 0; i < 4; i++) {
-            if (work->entries[i].used == 1 && work->entries[i].effect != 0 && FLDEFF_GYOE_IsFinished((void *)work->entries[i].effect) == 1)
+            if (work->entries[i].used == 1 && work->entries[i].effect != 0 && FLDEFF_GYOE_IsFinished(work->entries[i].effect) == 1)
                 work->entries[i].effect = 0;
         }
     }
@@ -387,7 +376,7 @@ void COMM_PLAYER_Add(CommPlayerWork *work, int index, int objCode, CommPlayerPac
         work->entries[index].pending = 0;
         work->entries[index].used = 1;
         work->entries[index].effect = 0;
-        FIELD_COMM_ACTOR_CTRL_AddActor(work->playerSys, index, objCode, &work->entries[index].zoneId, (struct MmdlVec *)((&work->entries[index])), (int *)((&work->entries[index].vanish)));
+        FIELD_COMM_ACTOR_CTRL_AddActor(work->playerSys, index, objCode, &work->entries[index].zoneId, (struct VecFx32 *)((&work->entries[index])), (int *)((&work->entries[index].vanish)));
     }
 }
 
@@ -546,10 +535,10 @@ int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out)
         if (FIELD_PLAYER_GetFormSlot(rail) == 4)
             FIELD_PLAYER_GetPos(rail, &pos);
         else
-            FLDMMDL_ACMD_GetDrawPos(railPlayer, (struct MmdlVec *)((fx32 *)(&pos)));
+            FLDMMDL_ACMD_GetDrawPos(railPlayer, (struct VecFx32 *)((fx32 *)(&pos)));
         zoneId = FIELD_PLAYER_GetDirDisp(rail);
     } else {
-        pos = *GAME_DATA_GetPlayerPosition(player);
+        pos = *(struct VecFx32 *)GAME_DATA_GetPlayerPosition(player);
         zoneId = GAME_DATA_GetPlayerDirectionType(player);
     }
     out->zoneId = zoneId;
@@ -571,9 +560,9 @@ int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out)
  * Forwards a five-argument request for one player to the ov021 player
  * system, with a zero bail when that system is not created.
  */
-int COMM_PLAYER_SearchGridPos(CommPlayerWork *work, int gridX, int gridY, int gridZ, int outId, int searchIndex)
+int COMM_PLAYER_SearchGridPos(CommPlayerWork *work, s16 gridX, int gridY, s16 gridZ, int *outId, u32 *searchIndex)
 {
-    void *playerSys = work->playerSys;
+    struct FieldCommActorCtrl *playerSys = work->playerSys;
     if (playerSys == 0)
         return 0;
     return FIELD_COMM_ACTOR_CTRL_SearchGridPos(playerSys, gridX, gridY, gridZ, outId, searchIndex);
@@ -587,7 +576,7 @@ int COMM_PLAYER_SetEffect(CommPlayerWork *work, int index)
     if (work->playerSys == 0 || entry->used == 0 || entry->effect != 0)
         return 0;
     effectSys = (void *)FIELDMAP_GetEffect(GAMESYSTEM_GetFieldMap(work->gameSystem));
-    entry->effect = FLDEFF_GYOE_StartHeld(effectSys, (void *)FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index), 0, 0);
+    entry->effect = FLDEFF_GYOE_StartHeld(effectSys, FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index), 0, 0);
     return 1;
 }
 
@@ -597,7 +586,7 @@ u32 COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->entries[index].used != 1)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    return FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index);
+    return (u32)FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index);
 }
 
 /*

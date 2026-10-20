@@ -35,34 +35,27 @@ struct GameData;
 struct GimmickWork;
 struct FieldMap;
 
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 slot);
-extern void *FIELDMAP_GetExpObj(void *fieldMap);
-extern void FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
-extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, int model);
-extern void FLD_EXP_OBJ_SetModelCullDraw(void *expObj, int unit, int model, int visible);
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../arm9/gimmick.h"
+#include "../ov021/fld_exp_obj.h"
 struct FldExpObjCnt;
-extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObjCnt *cnt, int unitIdx, int modelIdx, int animeIdx, int enable);
-extern void FLD_EXP_OBJ_SetModelHidden(struct FldExpObjCnt *cnt, int unitIdx, int modelIdx, int hidden);
-extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, unsigned short unitIdx);
 void FIELD_GIMMICK_62_Init(void *fieldMap);
 void FIELD_GIMMICK_62_Exit(void *fieldMap);
-extern VecFx32 gFieldGimmick62UnitSetup;
+extern const struct G3dUtilSetup gFieldGimmick62UnitSetup;
 extern VecFx32 gFieldGimmick62ModelPos;
 struct FldExpObjCnt;
-extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
 
 void FIELD_GIMMICK_62_Init(void *fieldMap)
 {
     s32 *hideFlag;
-    void *expObj;
+    struct FldExpObjCnt *expObj;
 
     hideFlag = GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_62_WORK_SLOT);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gFieldGimmick62UnitSetup, 0);
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = gFieldGimmick62ModelPos;
+    FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->trans = gFieldGimmick62ModelPos;
     FLD_EXP_OBJ_SetModelCullDraw(expObj, 0, 0, 1);
     FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, 0, 0, 1);
     if (*hideFlag != 0)

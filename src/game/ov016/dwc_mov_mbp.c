@@ -47,6 +47,7 @@
  *   gMovMbpBuffers  0x021DB9D4  data
  */
 #include "../types.h"
+#include "../ov107/mb_fileinfo.h"
 
 #include "../sdk_mb.h"
 
@@ -94,33 +95,21 @@ typedef enum {
     CS_REBOOT
 } ChildState;
 
-extern void DWCi_MOV_WH_MemInit(void *mw);
-extern int MB_Init(void *work, MBUserInfo *user, u32 ggid, u32 tgid, u32 dma);
-extern int MB_SetParentCommParam(u16 sendSize, u16 maxChildren);
+#include "dwc_mov_wh.h"
+#include "../ov107/mb_wm_base.h"
 extern void MB_CommSetParentStateCallback(void (*cb)(u16, u32, void *));
-extern int MB_StartParentFromIdle(int channel);
-extern void FS_InitFile(FSFile *file);
-extern int FS_OpenFile(FSFile *file, char *path);
-extern u32 MB_GetSegmentLength(void *file);
-extern int MB_ReadSegment(FSFile *file, void *buf, u32 len);
-extern int MB_RegisterFile(MBGameRegistry *game_reg, void *buf);
-extern int FS_CloseFile(FSFile *file);
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32 state);
-extern int MB_CommResponseRequest(u16 child_aid, int ack);
-extern void MB_DisconnectChild(u16 aid);
+#include "../arm9/fs_file.h"
+#include "../arm9/os_system.h"
+#include "../ov107/mb_parent.h"
 void DWCi_MOV_MBP_ChangeState(unsigned short v);
 void DWCi_MOV_MBP_StartDownload(u16 child_aid);
-extern int MB_CommIsBootable(u16 child_aid);
-extern void MB_EndToIdle(void);
 extern void DWCi_DwcMoveidMB_EndToIdle(void);
 unsigned short DWCi_MOV_MBP_GetState(void);
 ChildState DWCi_MOV_MBP_GetChildState(u16 aid);
 void DWCi_MOV_MBP_KickChild(u16 child_aid);
 void DWCi_MOV_MBP_AcceptChild(u16 aid);
-extern void *MB_CommGetChildUser(u16 child_aid);
-extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
-extern void OS_Terminate(void);
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_terminate_processor.h"
 void DWCi_MOV_MBP_MemInit(int x);
 void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid);
 void DWCi_MOV_MBP_Start(MBGameRegistry *gameInfo, u16 channel);
@@ -143,7 +132,7 @@ extern u16 *gMovMbpBuffers[6];
 
 static void MBPi_CheckAllReboot(void);
 static void ParentStateCallback(u16 child_aid, u32 status, void *arg);
-void DWCi_MOV_MBP_MemInit(int x)
+void DWCi_MOV_MBP_MemInit(sptr x)
 {
     int *g = (int *)0x021DE65C;
 

@@ -94,98 +94,66 @@
  *   WAZA_TOOL_GetParam  0x0201BD28  thumb  arm9
  */
 #include "tr_ai_types.h"
+#include "../ov093/btl_pokeparam_types.h"
 
 typedef enum { COUNT_ONE = 1 } Count;
 typedef enum { Z0 } E;
-typedef struct SickCont { u32 a : 3; u32 rest : 29; } SickCont;
-extern SickCont BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *p, int i);
+#include "../ov093/btl_pokeparam.h"
 
 typedef struct { u8 id[4]; u8 ref[4]; void *obj[4]; } TrAiScriptCache;
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *ARC_TOOL_CreateHandle(u32 id, u16 heap);
-extern void *FILE_UTIL_CreateItemArcHandle(u16 heap);
+#include "../arm9/gfl_heap_wrap.h"
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/arc_tool.h */
+#ifdef __MWERKS__
+#define ARC_TOOL_CreateHandle ARC_TOOL_CreateHandle_header
+#endif
+#include "../arm9/arc_tool.h"
+#ifdef __MWERKS__
+#undef ARC_TOOL_CreateHandle
+void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#endif
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/file_util.h */
+#ifdef __MWERKS__
+#define FILE_UTIL_CreateItemArcHandle FILE_UTIL_CreateItemArcHandle_header
+#endif
+#include "../arm9/file_util.h"
+#ifdef __MWERKS__
+#undef FILE_UTIL_CreateItemArcHandle
+void *FILE_UTIL_CreateItemArcHandle(u16 heap);
+#endif
 struct BtlMain;
-extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
-extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
-extern ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
-extern void VM_Init(ScriptVm *vm, void *user);
-extern u32 WAZA_TOOL_IsCacheCreated(void);
-extern void WAZA_TOOL_CreateCache(int n, u32 heap);
-extern TrAiWork *VM_GetContext(ScriptVm *vm);
-extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *m);
-extern u32 GF_STANDARD_Rand(void);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../ov093/btl_main.h"
+#include "../arm9/vm.h"
+#include "../arm9/waza_tool.h"
+#include "../arm9/gf_standard.h"
 struct ScriptVm;
-extern void VM_Delete(struct ScriptVm *vm);
-extern void WAZA_TOOL_DeleteCache(void);
-extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *p);
-extern u64 OS_GetTick(void);
-extern u16 BTL_POKEPARAM_GetMoveId(struct BtlPokeParam *p, int i);
-extern int BTL_MAIN_IsPosInTable(int, u32);
-extern u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlMain *main, int slot);
-extern int BTL_MAIN_IsOpposingPos(void *unusedWork, s32 posA, s32 posB);
-extern u8 BTL_POKEPARAM_GetMovePPChecked(struct BtlPokeParam *p, u32 i);
+#include "../arm9/os_tick.h"
 extern void TR_AI_ReleaseScript(TrAiWork *);
-extern void VM_Start(ScriptVm *vm, u8 *pc);
-extern ScriptVm *VM_End(ScriptVm *vm);
-extern int VM_Control(ScriptVm *vm);
-extern u32 VM_GetU32(ScriptVm *p);
-extern int BTL_POKEPARAM_GetHpRatioFixed(struct BtlPokeParam *p);
-extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *p);
-extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *p, int i);
-extern int BTL_SICKCONT_IsKind1Index15(SickCont);
-extern int BTL_POKEPARAM_TestContFlag(struct BtlPokeParam *p, u32 n);
-extern int BTL_SERVER_FLOW_GetSideEffectEntry(void *unused, u32 v, s32 k);
-extern void VM_Jump(struct ScriptVm *vm, u8 *pc);
+#include "../ov093/btl_sickcont.h"
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../ov093/btl_server_flow.h */
+#ifdef __MWERKS__
+#define BTL_SERVER_FLOW_CalcPredictedMoveDamage BTL_SERVER_FLOW_CalcPredictedMoveDamage_header
+#define BTL_SERVER_FLOW_CalcMoveTypeEffectiveness BTL_SERVER_FLOW_CalcMoveTypeEffectiveness_header
+#endif
+#include "../ov093/btl_server_flow.h"
+#ifdef __MWERKS__
+#undef BTL_SERVER_FLOW_CalcPredictedMoveDamage
+u16 BTL_SERVER_FLOW_CalcPredictedMoveDamage(BtlServerFlow *flow, u8 attackerId, u8 defenderId, u32 moveId, int useEffectiveness, int isNotCritical);
+#undef BTL_SERVER_FLOW_CalcMoveTypeEffectiveness
+int BTL_SERVER_FLOW_CalcMoveTypeEffectiveness(BtlServerFlow *flow, int attackerId, int defenderId, int moveId);
+#endif
 struct BtlServerFlowTurnCount;
-extern unsigned short BTL_SERVER_FLOW_GetTurnCount(struct BtlServerFlowTurnCount *p);
-extern u16 BTL_POKEPARAM_GetTypePair(struct BtlPokeParam *p);
-extern u8 BTL_TYPEPAIR_GetHigh(int v);
-extern int BTL_TYPEPAIR_GetLow(int x);
-extern u16 WAZA_TOOL_GetPower(u16 move);
-extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *);
-extern u16 BTL_SERVER_FLOW_CalcPredictedMoveDamage(u8 *p, u8 a, u8 b, u32 c, int e0, int e1);
-extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct BtlPokeParam *p);
+#include "../ov093/btl_typepair.h"
 struct BtlServerFlow;
-extern u16 BTL_SERVER_FLOW_CalcPokeSpeedWrapper(struct BtlServerFlow *flow, u8 *poke, s32 useItem);
 struct BtlSide;
 struct BtlSideSlot;
-extern struct BtlSideSlot *BTL_SIDE_GetSlotOfClientThunk(struct BtlSide *side, int clientId);
-extern int BTL_MAIN_GetPositionsPerClientThunk(struct BtlMain *main, unsigned int clientId);
 struct BtlSideSlot;
-extern u8 BTL_SLOT_GetCount(struct BtlSideSlot *slot);
-extern int BTL_POKEPARAM_IsAbleToBattle(struct BtlPokeParam *);
-extern int BTL_SERVER_FLOW_CalcMoveTypeEffectiveness(u8 *p, int a, int b, int c);
-extern int BTL_FIELD_GetCountdownValue(void);
-extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *p, int k);
-extern u16 BTL_POKEPARAM_GetItem(struct BtlPokeParam *p);
-extern unsigned char BTL_POKEPARAM_GetCounter(struct BtlPokeParam *base, int idx);
-extern u16 BTL_POKEPARAM_GetConsumedItem(struct BtlPokeParam *p);
-extern u16 BTL_POKEPARAM_GetMoveStreak(struct BtlPokeParam *p);
-extern int BTL_FIELD_IsStaticSlotInUse(int);
-extern u8 BTL_POKEPARAM_GetMovePPLost(struct BtlPokeParam *p, u8 i);
-extern u8 BTL_POKEPARAM_CountUsedMoves(struct BtlPokeParam *p);
-extern u16 BTL_SERVER_FLOW_CountFasterPokes(struct BtlServerFlow *flow, u8 *poke, u32 useItem);
-extern unsigned short BTL_POKEPARAM_GetTurnCount(struct BtlPokeParam *p);
-extern int BTL_SLOT_FindPoke(struct BtlSideSlot *slot, struct BtlPokeParam *poke);
-extern u32 BTL_POKEPARAM_HasSubstitute(struct BtlPokeParam *p);
-extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *p);
-extern int BTL_SERVER_FLOW_CheckFieldEffectActive(void *flow, s32 unused, s32 factorKey);
-extern u8 BTL_MAIN_GetOwnLanePos(u32 flags, u32 v);
-extern int BTLV_EFFECT_GetPokeEffectValue(int);
-extern u32 POKE_TOOL_GetPersonalParam(u16, u16, u32);
-extern u8 *BTL_SIDE_GetPokeAtPos(struct BtlMain **side, u8 position);
-extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlSideSlot *slot, u32 index);
-extern int WAZA_TOOL_GetParam(int, int);
-extern int WAZA_TOOL_GetFlag(int, int);
+#include "../ov093/btl_field.h"
+#include "../ov094/btlv_effect.h"
+#include "../arm9/poke_tool.h"
 struct ArcFile;
-extern void *FILE_UTIL_LoadArcMember(struct ArcFile *arc, u32 item, u32 heap);
 struct ItemRecord;
-extern u32 FILE_UTIL_GetItemRecordParam(struct ItemRecord *record, u32 prop);
 struct ArcHandle;
-extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
-ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, void *sideTable, u32 scriptMask, u16 heapId);
+ScriptVm *TR_AI_Create(struct BtlMain *battleMain, u32 serverFlow, void *sideTable, u32 scriptMask, u16 heapId);
 int TR_AI_Think(ScriptVm *vm);
 void TR_AI_Delete(ScriptVm *vm);
 void TR_AI_Start(ScriptVm *vm, u8 *movePp, int selfPos);
@@ -350,7 +318,7 @@ extern const ScriptVmParams gTrAiVmParams;
 extern TrAiScriptCache *gTrAiScriptCache;
 
 
-ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, void *sideTable, u32 scriptMask, u16 heapId)
+ScriptVm *TR_AI_Create(struct BtlMain *battleMain, u32 serverFlow, void *sideTable, u32 scriptMask, u16 heapId)
 {
     TrAiWork *ai;
     ScriptVm *vm;
@@ -363,8 +331,8 @@ ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, void *sideTable, u32 s
     ai->battleMain = battleMain;
     ai->serverFlow = (void *)serverFlow;
     ai->sideTable = (void *)sideTable;
-    ai->rule = BTL_MAIN_GetRule((struct BtlMain *)battleMain);
-    ai->competitor = (void *)BTL_MAIN_GetCompetitor((struct BtlMain *)battleMain);
+    ai->rule = BTL_MAIN_GetRule(battleMain);
+    ai->competitor = (void *)BTL_MAIN_GetCompetitor(battleMain);
     vm = VM_Create(heapId, &gTrAiVmParams);
     VM_Init(vm, ai);
     if (WAZA_TOOL_IsCacheCreated() == 0)
@@ -449,9 +417,9 @@ void TR_AI_Start(ScriptVm *vm, u8 *movePp, int selfPos)
     ai->randomByte = (u32)(((u64)GF_STANDARD_Rand() * 0x100) >> 32);
 }
 
-u8 TR_AI_GetChosenMove(ScriptVm *vm) { return VM_GetContext(vm)->chosenMove; }
+u8 TR_AI_GetChosenMove(ScriptVm *vm) { return ((TrAiWork *)VM_GetContext(vm))->chosenMove; }
 
-u8 TR_AI_GetChosenTarget(ScriptVm *vm) { return VM_GetContext(vm)->chosenTarget; }
+u8 TR_AI_GetChosenTarget(ScriptVm *vm) { return ((TrAiWork *)VM_GetContext(vm))->chosenTarget; }
 
 inline static u32 draw_below(u32 n) {
     u32 r = GF_STANDARD_Rand();
@@ -852,7 +820,7 @@ int TR_AI_CompareSickContKind(ScriptVm *vm, TrAiWork *ai, int op) {
     struct BtlPokeParam *poke;
     u8 pos;
     int matches;
-    SickCont cont;
+    union SickCont cont;
 
     side = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
@@ -1133,8 +1101,8 @@ int TR_AI_CmdCompareSpeed(ScriptVm *vm, TrAiWork *ai) {
 
     compareOp = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
-    selfSpeed = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(ai->serverFlow, (u8 *)ai->selfPoke, 1);
-    targetSpeed = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(ai->serverFlow, (u8 *)ai->targetPoke, 1);
+    selfSpeed = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(ai->serverFlow, ai->selfPoke, 1);
+    targetSpeed = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(ai->serverFlow, ai->targetPoke, 1);
     switch (compareOp) {
     case 0:
         compareOp = 1;
@@ -1784,7 +1752,7 @@ int TR_AI_CmdLoadFasterCount(ScriptVm *vm, TrAiWork *ai) {
     u8 pos;
     selector = VM_GetU32(vm);
     pos = TR_AI_GetPosition(ai, selector);
-    selector = BTL_SERVER_FLOW_CountFasterPokes(ai->serverFlow, (u8 *)(TR_AI_GetPoke(ai, pos)), 1);
+    selector = BTL_SERVER_FLOW_CountFasterPokes(ai->serverFlow, (TR_AI_GetPoke(ai, pos)), 1);
     ai->workValue = selector;
     return ai->cmdReturn;
 }
@@ -2160,7 +2128,10 @@ u8 TR_AI_GetPosition(TrAiWork *ai, int kind) {
         }
         break;
     }
-    /* rule above 3 leaves r0 = ai (first argument); `return (u8)(int)ai;` changes the bytes (docs/DEBT.tsv, missing-return) */
+#ifndef __MWERKS__
+    /* A rule above 3 leaves the work pointer in r0 on the DS; the value is that pointer's low byte. */
+    return (u8)(unsigned long)ai;
+#endif
 }
 
 /*

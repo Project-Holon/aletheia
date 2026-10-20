@@ -22,11 +22,17 @@
  */
 #include "../types.h"
 
+#ifdef __MWERKS__
 extern u32 NWMi_CheckState(u32, ...);
-extern u32 OS_DisableInterrupts(void);
+#else
+#include "nwm_system.h"
+#endif
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#ifdef __MWERKS__
 extern void NWMi_ClearFifoRecvFlag(void);
-extern void PXI_SetFifoRecvCallback(u32, u32);
-extern void OS_RestoreInterrupts(u32);
+#endif
+#include "../arm9/pxi_fifo.h"
 extern u32 DAT_027341a4[];
 extern u8 DAT_027341a0[];
 

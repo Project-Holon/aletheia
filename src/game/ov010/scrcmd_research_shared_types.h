@@ -5,6 +5,6 @@ struct GameData;
 
 struct ScriptContext;
 
-struct ScrCmdWork;
+struct ScrcmdWork;
 
 #endif

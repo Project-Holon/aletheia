@@ -23,6 +23,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -45,11 +46,11 @@ OSTick OS_GetTick(void);
 unsigned short OS_GetTickLo(void);
 extern OsTickBss g_02151330;
 
-#define reg_OS_IF (*(vu32 *)0x04000214)
+#define reg_OS_IF (*(vu32 *)REG_IF_ADDR)
 
-#define reg_OS_TM0CNT_L (*(volatile u16 *)0x04000100)
+#define reg_OS_TM0CNT_L (*(volatile u16 *)REG_TM0CNT_L_ADDR)
 
-#define reg_OS_TM0CNT_H (*(volatile u16 *)0x04000102)
+#define reg_OS_TM0CNT_H (*(volatile u16 *)REG_TM0CNT_H_ADDR)
 
 /*
  * sdk:      OS_InitTick (os_tick.o)
@@ -103,7 +104,7 @@ OSTick OS_GetTick(void)
     vu64 countH;
 
     OSIntrMode prev = OS_DisableInterrupts();
-    countL = *(vu16 *)0x04000100;
+    countL = *(vu16 *)REG_TM0CNT_L_ADDR;
     countH = g_02151330.OSi_TickCounter & 0xffffffffffffULL;
 
     if ((reg_OS_IF & 0x8) && !(countL & 0x8000)) {
@@ -119,5 +120,5 @@ OSTick OS_GetTick(void)
  */
 unsigned short OS_GetTickLo(void)
 {
-    return *(volatile unsigned short *)0x04000100;
+    return *(volatile unsigned short *)REG_TM0CNT_L_ADDR;
 }

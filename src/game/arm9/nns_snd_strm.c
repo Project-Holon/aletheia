@@ -102,7 +102,7 @@ extern SndStrmChannel gSndStrmChannels[];
 void NNS_SndStrmInit(SndStrm *strm)
 {
     if (gSndStrmListReady == 0) {
-        NNS_FndInitList((s32)(&gSndStrmList), 0);
+        NNS_FndInitList((sptr)(&gSndStrmList), 0);
         gSndStrmListReady = 1;
     }
     strm->alarm[0].handler = (void (*)(void *))NNSi_SndStrmAlarmHandler;

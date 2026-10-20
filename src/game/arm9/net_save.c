@@ -119,7 +119,6 @@ struct Proc;
 #include "game_sync.h"
 struct CgearSaveBlock;
 #include "block20_savedata.h"
-extern void PROCSYS_PushGlobal(u32 overlayId, const void *procData, void *arg);
 #include "net.h"
 
 void GFL_NET_SAVE_SetStep(struct NetSaveTask *task, void (*step)(struct NetSaveTask *task));
@@ -430,7 +429,7 @@ int GFL_NET_SAVE_Main(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork 
         work->screenArgs.enable = 1;
         work->screenArgs.waitFrames = 0x32;
         work->screenArgs.saveBuf = work->saveBuf;
-        PROCSYS_PushGlobal((u32)ov115_id, gNetSaveMainProc, work);
+        PROCSYS_PushGlobal((uptr)ov115_id, (const ProcData *)gNetSaveMainProc, work);
         work->state += 1;
         break;
     case 1:
@@ -441,7 +440,7 @@ int GFL_NET_SAVE_Main(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork 
         work->checkArgs.gameData = work->gameData;
         work->checkArgs.heapId = work->heapId;
         work->checkArgs.saveBuf = work->saveBuf;
-        PROCSYS_PushGlobal((u32)ov123_id, gNetSaveCheckProc, &work->checkArgs);
+        PROCSYS_PushGlobal((uptr)ov123_id, (const ProcData *)gNetSaveCheckProc, &work->checkArgs);
         work->state += 1;
         break;
     case 2:
@@ -461,7 +460,7 @@ int GFL_NET_SAVE_Main(u32 proc, u32 seq, u32 parentWork, struct NetSaveProcWork 
         work->retryArgs.gameData = work->gameData;
         work->retryArgs.mode = 0;
         work->retryArgs.enable = 1;
-        PROCSYS_PushGlobal((u32)ov115_id, gNetSaveRetryProc, &work->retryArgs);
+        PROCSYS_PushGlobal((uptr)ov115_id, (const ProcData *)gNetSaveRetryProc, &work->retryArgs);
         work->state += 1;
         break;
     default:

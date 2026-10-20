@@ -59,38 +59,35 @@ typedef struct UnionChatRing {
     int oldestIndex;           /* 0x440 absolute index of the oldest kept line */
 } UnionChatRing;
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-void MYSTATUS_CopyNameChars(u16 *src, u16 *dest, u32 n);
+#include "../arm9/mystatus.h"
 struct MyStatus;
 
-u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
-void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
+#include "../arm9/wordset.h"
 
-void OS_GetMacAddress(u8 *outMac);
+#include "../arm9/os_ownerinfo.h"
 
-void MI_CpuCopy8(const void *src, void *dst, int n);
+#include "../arm9/mi_memory.h"
 struct GameSystem;
 struct GameData;
 
-struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct FieldState;
 
-struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
+#include "../arm9/game_data.h"
 struct SaveControl;
 
-struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
-void *MET_TRAINERS_GetFromSave(void *saveControl);
+#include "../arm9/met_trainers_savedata.h"
 struct UnionBeaconPc;
 
-int UNION_CHARA_IsWifiFriendBeacon(void *wifiFriends, struct UnionBeaconPc *beaconPc);
+#include "../ov019/union_msg.h"
 struct MetTrainersSave;
 
-int MET_TRAINERS_Contains(struct MetTrainersSave *list, u32 value);
 
-extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
+#include "../arm9/gf_standard.h"
 
 void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatPms, u8 chatType);
 

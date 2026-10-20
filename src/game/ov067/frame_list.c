@@ -68,57 +68,30 @@
 
 struct Bitmap;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *ptr);
-extern void BG_SYS_DrawTileEx(u8 layer, u32 dstX, u32 dstY, u32 width, u8 height, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
+#include "../arm9/gfl_heap_wrap.h"
+extern void BG_SYS_DrawTileEx(u8 layer, u32 dstX, u32 dstY, u32 width, u8 height, void *, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 pltt);
-extern void UI_SetInputMode(u8 value);
-extern u32 KEY_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/ui.h"
+#include "../arm9/key.h"
+#include "../arm9/gfl_use.h"
 struct BmpWin;
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
+#include "../arm9/printsys.h"
 extern void BG_SYS_MarkTileDirty(u32 layer);
-extern u8 UI_GetInputMode(void);
-extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 size, u32 heapId);
-extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 bgLayer, u16 heapId);
+#include "../arm9/blink_palanm.h"
 struct BgWinFrmWork;
-extern struct BgWinFrmWork *BGWINFRM_Create(u32 kind, u32 frameCount, u32 heapId);
-extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY);
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
-extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anim);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *source, u32 fileIndex, u32 memberIndex, void **outData, u16 heapId);
-extern void MIi_CpuCopy16(const void *src, void *dst, int size);
-extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcStart, u32 dstStart);
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
-extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *anim);
+#include "../arm9/bgwinfrm.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/touchpanel.h"
 extern void BG_SYS_ChangeScroll(u32 layer, u32 axis, u32 offset);
-extern int TOUCHPANEL_HitTrg(const void *hitRects);
-extern unsigned int KEY_GetCont(void);
-extern int TOUCHPANEL_HitCont(const void *hitRects);
-extern u32 SCROLLBAR_GetValueFromPos(u32 scrollMax, u32 touchY, u32 barX, u32 barY, u32 barPad);
-extern u32 SCROLLBAR_GetPosFromValue(u32 scrollMax, u32 index, u32 barX, u32 barY, u32 barPad);
-extern u8 BGWINFRM_GetBgFrame(struct BgWinFrmWork *wk, u32 idx);
-extern s32 G2_GetBGCharPtrById(int id);
-extern void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, u32 idx, void *src);
-extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, u32 idx, void *bmpWin);
-extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
-extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
-extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
-extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
-extern void *BMP_GetPixels(struct Bmp *bmp);
-extern u16 *BGWINFRM_GetFrameBuffer(struct BgWinFrmWork *wk, u32 idx);
+#include "../arm9/comm_history.h"
+#include "../arm9/particle.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anim);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId);
 void FRAME_LIST_Delete(FrameList *list);
 void FRAME_LIST_AddItem(FrameList *list, unsigned mapIndex, unsigned value);
@@ -433,7 +406,7 @@ int FRAME_LIST_ReadTouch(FrameList *list)
 
     if (list->hitRects == 0)
         return FRAME_LIST_EVENT_NONE;
-    hitIndex = TOUCHPANEL_HitTrg(list->hitRects);
+    hitIndex = TOUCHPANEL_HitTrg((const TouchHitTable *)list->hitRects);
     if (hitIndex == -1)
         return FRAME_LIST_EVENT_NONE;
     savedTouchMode = UI_GetInputMode();
@@ -772,7 +745,7 @@ int FRAME_LIST_StepScroll(FrameList *list)
 
     if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)list->printer) == 0) return 1;
     if (list->returnState == 3 && list->flicking == 1) {
-        hitRow = TOUCHPANEL_HitCont(list->hitRects);
+        hitRow = TOUCHPANEL_HitCont((const TouchHitTable *)list->hitRects);
         if (list->drag == 1) {
             if (list->trigger == 0) {
                 if (hitRow == -1) {
@@ -799,7 +772,7 @@ int FRAME_LIST_StepScroll(FrameList *list)
     }
     if (list->stepFramesLeft == 0) {
         if (list->stepsLeft == 0) {
-            hitRow = TOUCHPANEL_HitCont(list->hitRects);
+            hitRow = TOUCHPANEL_HitCont((const TouchHitTable *)list->hitRects);
             if (hitRow != -1 &&
                 (hitOffset = hitRow * 8, hitBase = (const u8 *)list->params.hitEntries + 4, *(u32 *)(hitBase + hitOffset) == 0) &&
                 list->ready == 1 && *(u32 *)(hitBase + hitOffset) == 0 &&
@@ -841,7 +814,7 @@ int FRAME_LIST_StepScroll(FrameList *list)
                     list->trigger = 0;
                 }
                 if (list->drag == 1 && list->dragFrames == 3) {
-                    hitRow = TOUCHPANEL_HitCont(list->hitRects);
+                    hitRow = TOUCHPANEL_HitCont((const TouchHitTable *)list->hitRects);
                     if (hitRow != -1 && list->params.hitEntries[hitRow].kind == FRAME_LIST_HIT_ROW) list->cursor = hitRow;
                     list->flicking = 0;
                     list->dragAnchorRow = list->cursor;
@@ -989,7 +962,7 @@ int FRAME_LIST_ClampToScrollBar(FrameList *list, unsigned int touchY)
     unsigned int slotStart, slotEnd;
 
     if (list->scrollBarDrag == 1) {
-        if (TOUCHPANEL_HitCont(&list->scrollBarRect) != -1) {
+        if (TOUCHPANEL_HitCont((const TouchHitTable *)&list->scrollBarRect) != -1) {
             TOUCHPANEL_GetPointCont(&touchX, &touchYOut);
             return touchYOut;
         }
@@ -1014,7 +987,7 @@ int FRAME_LIST_StepScrollBarDrag(FrameList *list)
 
     if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)list->printer) == 0)
         return 1;
-    if (TOUCHPANEL_HitCont(&list->scrollBarRect) == -1 && list->scrollBarTouchY == -1) {
+    if (TOUCHPANEL_HitCont((const TouchHitTable *)&list->scrollBarRect) == -1 && list->scrollBarTouchY == -1) {
         list->scrollBarDrag = 0;
         list->state = 0;
         return 0;
@@ -1057,7 +1030,7 @@ int FRAME_LIST_StepRowDrag(FrameList *list)
 
     if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)list->printer) == 0)
         return 1;
-    hitRow = TOUCHPANEL_HitCont(list->hitRects);
+    hitRow = TOUCHPANEL_HitCont((const TouchHitTable *)list->hitRects);
     switch (list->dragPhase) {
     case 0:
         if (hitRow == -1) {
@@ -1268,7 +1241,7 @@ void FRAME_LIST_ScrollBgRows(FrameList *list, int windowIndex, s8 y)
             y += 0x20;
         else if (y >= 0x20)
             y -= 0x20;
-        BG_SYS_DrawTileEx(bgFrame, list->params.tileX, (u8)y, list->params.tileWidth, 1, frameBuffer, 0, tileRow, list->params.tileWidth, list->params.rowHeight);
+        BG_SYS_DrawTileEx(bgFrame, list->params.tileX, (u8)y, list->params.tileWidth, 1, (void *)frameBuffer, 0, tileRow, list->params.tileWidth, list->params.rowHeight);
         y++;
     }
     BG_SYS_MarkTileDirty((u8)bgFrame);

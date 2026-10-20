@@ -186,7 +186,7 @@ void ISS_ZONE_SYS_LoadRecords(struct IssZone *zone, u32 heapId)
 
     for (i = 0; i < count; i++) {
         ARC_TOOL_ReadHandleMemberRange(archive, (u32)i, 0, 8,
-                      (void *)((u32)zone->records + ((u32)i << 3)));
+                      (void *)((uptr)zone->records + ((u32)i << 3)));
     }
     ARC_TOOL_DeleteHandle(archive);
 }

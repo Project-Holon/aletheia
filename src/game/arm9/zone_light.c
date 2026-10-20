@@ -48,11 +48,14 @@ struct AreaData;
 
 #include "gfl_heap_wrap.h"
 
+#ifdef __MWERKS__
 extern u32   ARC_TOOL_GetMemberSize(u32 archive, u32 member);
+extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap); /* original prototype; the definition differs in argument width */
+#else
+#include "arc_tool.h"
+#endif
 
-extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
-
-extern void  VEC_Fx16Normalize(void *dest, const void *src);
+#include "fx_vec.h"
 
 #include "timezone.h"
 
@@ -139,7 +142,7 @@ void *ZONEDATA_LoadLightTable(u32 archive, u32 member, u32 *countOut, u32 heap)
     for (recordIdx = 0; recordIdx < recordCount; recordIdx++) {
         dir = table + recordIdx * 0x34 + 0x10;
         for (dirIdx = 0; dirIdx < 4; dirIdx++) {
-            VEC_Fx16Normalize(dir + dirIdx * 6, dir + dirIdx * 6);
+            VEC_Fx16Normalize((VecFx16 *)(dir + dirIdx * 6), (VecFx16 *)(dir + dirIdx * 6));
         }
     }
     return table;

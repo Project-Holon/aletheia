@@ -87,7 +87,7 @@ extern char BagParamFileName[];
  */
 void *BAG_PARAM_Create(const struct BigObj *gameData, u8 *itemCheck, int mode, int heapId)
 {
-    int   saveControl = (int)GAME_DATA_GetSaveControl((struct GameData *)gameData);
+    int   saveControl = (sptr)GAME_DATA_GetSaveControl((struct GameData *)gameData);
     struct BagParam *param = GFL_HEAP_Alloc(heapId, 0x3c, 1, BagParamFileName, 0x37);
 
     param->gameData = (void *)gameData;

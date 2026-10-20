@@ -264,6 +264,14 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  *   _u32_div_f                   0x0209C2B0  arm
  */
+struct ActorInitParam;
+struct ClactActor;
+struct ClactVec2;
+struct PaletteFade;
+struct Unit;
+#include "../arm9/arc_tool.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/bmp_oam.h"
 #include "../../matched/include/G_Bg.h"
 #include "research_shared_types.h"
 
@@ -357,9 +365,7 @@ extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
-extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *, u32, u32);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -382,7 +388,6 @@ extern void CLACT_DrawSystem();
 
 extern u32 KEY_GetTrg(void);
 
-extern int TOUCHPANEL_HitTrg(const void *);
 
 extern void * RESEARCH_COMMON_GetTouchRects(struct ResearchCommon *common);
 
@@ -412,9 +417,9 @@ extern u8 GAME_BEACON_PopQuestionnaireUpdated(void);
 extern void RESEARCH_COMMON_StartPaletteAnime(struct ResearchCommon *common, unsigned int index);
 struct Actor;
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int value);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, unsigned int enable);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 struct PaletteAnime;
@@ -473,11 +478,11 @@ extern u32 CLACT_ReleaseCellAnim();
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
+extern u32 CLACT_DeleteUnit(struct Unit *bank);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
+extern void CLACT_DeleteActor(struct ClactActor *actor);
 
 extern u32 PALETTE_ANIME_Create(u32 heapId);
 
@@ -502,18 +507,18 @@ struct BmpOam;
 
 extern void BMP_OAM_SetPalette(struct BmpOam *bmpOam, unsigned int palette);
 
-extern void CLACT_AddActorSurfacePos(struct Obj *p,const struct Vec2 *delta,u32 which);
+extern void CLACT_AddActorSurfacePos(struct ClactActor *p,const struct ClactVec2 *delta,u32 which);
 
 extern void BgTextLabel_SetVisible(struct BgTextLabel *label, int visible);
 
 
-extern int PALANM_RequestFade(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
+extern int PALANM_RequestFade(struct PaletteFade *, u16, u16, s16, u8, u8, u16, void *);
 
-extern u32 PALANM_GetFadeRequestBits(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const struct PaletteFade *ptr);
 
 extern u32 PALETTE_ANIME_IsRunning();
 
-extern u32 PALANM_TransferPalettes(struct S02021D50 *p);
+extern u32 PALANM_TransferPalettes(struct PaletteFade *p);
 
 extern void BG_SYS_Update();
 
@@ -542,16 +547,16 @@ extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
 
 extern void *PALANM_Create(u32);
 
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *, u32, u32, u32);
+extern void PALANM_AllocSlotBuffers(struct PaletteFade *, u32, u32, u32);
 
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, u32, u32, u32);
+extern void PALANM_CopyHwPaletteToSlot(struct PaletteFade *, u32, u32, u32);
 
 extern u32 PALANM_Delete(void *ctx);
 
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-struct Tcb;
+extern void PALANM_FreeSlotBuffers(struct PaletteFade *slots, u32 idx);
+struct TcbTask;
 
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(void), void *work, unsigned int priority);
+extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void), void *work, unsigned int priority);
 struct TcbTask;
 
 extern void TCB_DeleteTask(struct TcbTask *task);
@@ -711,7 +716,7 @@ extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct 
 
 extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void CLACT_SetActorAnimLoopCount(struct Actor *,unsigned);
+extern void CLACT_SetActorAnimLoopCount(struct ClactActor *,unsigned);
 
 extern u32 RESEARCH_COMMON_GetContext(u32 *p);
 
@@ -1270,7 +1275,7 @@ void RESEARCH_GRAPH_HandleInput(u8 *graph)
 
     KEY_GetCont();
     keys = KEY_GetTrg();
-    hit = TOUCHPANEL_HitTrg(graph + 0x2FE);
+    hit = TOUCHPANEL_HitTrg((TouchHitTable *)(graph + 0x2FE));
     sub = TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjB *)graph)->owner));
     if (*(int *)&((struct ResearchObjB *)graph)->entryShown != 0 && ((struct ResearchObjB *)graph)->updatedFlag != 0 && *(int *)&((struct ResearchObjB *)graph)->timerExpired != 0) {
         RESEARCH_GRAPH_SetStateChanged(graph);
@@ -1390,7 +1395,7 @@ void RESEARCH_GRAPH_HandleInputAlt(u8 *graph)
 
     KEY_GetCont();
     keys = KEY_GetTrg();
-    hit = TOUCHPANEL_HitTrg(graph + 0x2FE);
+    hit = TOUCHPANEL_HitTrg((TouchHitTable *)(graph + 0x2FE));
     sub = TOUCHPANEL_HitTrg(RESEARCH_COMMON_GetTouchRects(((struct ResearchObjB *)graph)->owner));
     if (*(int *)&((struct ResearchObjB *)graph)->entryShown != 0 && ((struct ResearchObjB *)graph)->updatedFlag != 0 && *(int *)&((struct ResearchObjB *)graph)->timerExpired != 0) {
         RESEARCH_GRAPH_SetStateChanged(graph);
@@ -2464,7 +2469,7 @@ void RESEARCH_GRAPH_LoadBackground(char *graph)
         id=6;
         if (((struct ResearchObjB *)graph)->entryShown!=0) id=7;
     }
-    file=ARC_TOOL_LoadHandleMember(arc,id,((struct ResearchObjB *)graph)->heapId);
+    file=ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc,id,((struct ResearchObjB *)graph)->heapId);
     NNS_G2dGetUnpackedScreenData(file,&out);
     BG_SYS_DrawTile(2,(unsigned)out+12,0,0,32,32);
     BG_SYS_PushTile(2);
@@ -2613,33 +2618,33 @@ void RESEARCH_GRAPH_LayoutActors(char *graph)
 {
     const struct CursorLayoutRow *row;
     struct Obj *a,*b;
-    struct Vec2 pos;
+    struct ResearchVec2 pos;
     row=(const struct CursorLayoutRow *)&d_021C3AC8[((struct ResearchObjB *)graph)->cursorIndex];
     a=(struct Obj *)RESEARCH_GRAPH_GetMarkerActor(graph,0);
     b=(struct Obj *)RESEARCH_GRAPH_GetMarkerActor(graph,1);
     if (((struct ResearchObjB *)graph)->detailMode==1 || ((struct ResearchObjB *)graph)->cursorIndex==2 || ((struct ResearchObjB *)graph)->cursorIndex==4) {
-        CLACT_SetActorDrawEnable((struct Actor *)a,0);
-        CLACT_SetActorDrawEnable((struct Actor *)b,0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)a,0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)b,0);
         return;
     }
     pos.x=row->offsets[0]+row->offsets[4];
     pos.y=row->offsets[1]+row->offsets[5];
-    CLACT_AddActorSurfacePos(a,&pos,0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)a,(struct ClactVec2 *)(&pos),0);
     pos.x=row->offsets[0]+row->offsets[6];
     pos.y=row->offsets[1]+row->offsets[7];
-    CLACT_AddActorSurfacePos(b,&pos,0);
-    CLACT_SetActorDrawEnable((struct Actor *)a,1);
-    CLACT_SetActorDrawEnable((struct Actor *)b,1);
-    CLACT_SetActorAutoAnim((struct Actor *)a,1);
-    CLACT_SetActorAutoAnim((struct Actor *)b,1);
+    CLACT_AddActorSurfacePos((struct ClactActor *)b,(struct ClactVec2 *)(&pos),0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)a,1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)b,1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)a,1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)b,1);
 }
 
 void RESEARCH_GRAPH_SetTriangleActorVisible(char *graph)
 {
     if (((struct ResearchObjB *)graph)->entryShown == 0 || RESEARCH_GRAPH_GetGroupValue(graph) == 0) {
-        CLACT_SetActorDrawEnable((struct Actor *)((struct ResearchObjB *)graph)->triangleActor, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)((struct ResearchObjB *)graph)->triangleActor, 0);
     } else {
-        CLACT_SetActorDrawEnable((struct Actor *)((struct ResearchObjB *)graph)->triangleActor, 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)((struct ResearchObjB *)graph)->triangleActor, 1);
     }
 }
 
@@ -2648,23 +2653,23 @@ void RESEARCH_GRAPH_LayoutMarkerActor(char *graph)
     struct Obj *obj;
     unsigned index;
     s32 x,y;
-    struct Vec2 pos;
+    struct ResearchVec2 pos;
     const u16 *table;
     obj=*(struct Obj * *)&((struct ResearchObjB *)graph)->markerActor;
     table=d_021C3850;
-    if (((struct ResearchObjB *)graph)->entryShown==0) { CLACT_SetActorDrawEnable((struct Actor *)obj,0); return; }
-    if (((struct ResearchObjB *)graph)->cursorIndex!=2) { CLACT_SetActorDrawEnable((struct Actor *)obj,0); return; }
+    if (((struct ResearchObjB *)graph)->entryShown==0) { CLACT_SetActorDrawEnable((struct ClactActor *)obj,0); return; }
+    if (((struct ResearchObjB *)graph)->cursorIndex!=2) { CLACT_SetActorDrawEnable((struct ClactActor *)obj,0); return; }
     index=RESEARCH_GRAPH_GetEntryIdBySave((u8 *)graph);
-    if (CircleGraph_GetPercentByKey((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)),index)==0) { CLACT_SetActorDrawEnable((struct Actor *)obj,0); return; }
-    if (index==0) { CLACT_SetActorDrawEnable((struct Actor *)obj,0); return; }
+    if (CircleGraph_GetPercentByKey((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)),index)==0) { CLACT_SetActorDrawEnable((struct ClactActor *)obj,0); return; }
+    if (index==0) { CLACT_SetActorDrawEnable((struct ClactActor *)obj,0); return; }
     CircleGraph_GetLabelPositionByKey((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)),index,&x,&y);
 
     pos.x=x;
     pos.y=y;
-    CLACT_AddActorSurfacePos(obj,&pos,table[12]);
-    CLACT_SetActorDrawEnable((struct Actor *)obj,1);
-    CLACT_SetActorAutoAnim((struct Actor *)obj,1);
-    CLACT_SetActorAnimLoopCount((struct Actor *)obj,2);
+    CLACT_AddActorSurfacePos((struct ClactActor *)obj,(struct ClactVec2 *)(&pos),table[12]);
+    CLACT_SetActorDrawEnable((struct ClactActor *)obj,1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)obj,1);
+    CLACT_SetActorAnimLoopCount((struct ClactActor *)obj,2);
 }
 
 void RESEARCH_GRAPH_EnableOams(void *graph)
@@ -2741,14 +2746,14 @@ void RESEARCH_GRAPH_UpdatePaletteAnime(u8 *graph)
 
 void RESEARCH_GRAPH_RequestFadeIn(char *graph)
 {
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)graph)->palAnm,1,0xffff,3,0,7,0xffff,((struct ResearchObjB *)graph)->fadeParam);
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)graph)->palAnm,4,0xffff,3,0,7,0xffff,((struct ResearchObjB *)graph)->fadeParam);
+    PALANM_RequestFade(*(struct PaletteFade * *)&((struct ResearchObjB *)graph)->palAnm,1,0xffff,3,0,7,0xffff,((struct ResearchObjB *)graph)->fadeParam);
+    PALANM_RequestFade(*(struct PaletteFade * *)&((struct ResearchObjB *)graph)->palAnm,4,0xffff,3,0,7,0xffff,((struct ResearchObjB *)graph)->fadeParam);
 }
 
 void RESEARCH_GRAPH_RequestFadeOut(char *graph)
 {
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)graph)->palAnm,1,0xffff,3,7,0,0xffff,((struct ResearchObjB *)graph)->fadeParam);
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((struct ResearchObjB *)graph)->palAnm,4,0xffff,3,7,0,0xffff,((struct ResearchObjB *)graph)->fadeParam);
+    PALANM_RequestFade(*(struct PaletteFade * *)&((struct ResearchObjB *)graph)->palAnm,1,0xffff,3,7,0,0xffff,((struct ResearchObjB *)graph)->fadeParam);
+    PALANM_RequestFade(*(struct PaletteFade * *)&((struct ResearchObjB *)graph)->palAnm,4,0xffff,3,7,0,0xffff,((struct ResearchObjB *)graph)->fadeParam);
 }
 
 /*
@@ -2761,7 +2766,7 @@ void RESEARCH_GRAPH_RequestFadeOut(char *graph)
  */
 u32 RESEARCH_GRAPH_IsFadeDone(u8 *graph)
 {
-    if (PALANM_GetFadeRequestBits((const char *)(((struct ResearchObjB *)graph)->palAnm)) == 0) {
+    if (PALANM_GetFadeRequestBits((struct PaletteFade *)(((struct ResearchObjB *)graph)->palAnm)) == 0) {
     return 1;
     }
     return 0;
@@ -2771,7 +2776,7 @@ u32 RESEARCH_GRAPH_TransferPalettes(u32 unusedArg, u32 graph)
 {
     BG_SYS_Update();
     CLACT_VBlankSystem();
-    return PALANM_TransferPalettes((struct S02021D50 *)((struct ResearchObjB *)graph)->palAnm);
+    return PALANM_TransferPalettes((struct PaletteFade *)((struct ResearchObjB *)graph)->palAnm);
 }
 
 void RESEARCH_GRAPH_CheckQuestionnaireUpdated(char *graph)
@@ -3428,11 +3433,9 @@ void RESEARCH_GRAPH_InitScreen(void)
     G3X_SetEdgeColorTable(d_021C365C);
 }
 
-struct DispConfig { u32 graphicsMode, bgMode, vramMode, layerMode; };
+#include "../arm9/bg_sys_types.h"
 
-struct BgTemplate { u32 dispcnt, bgMode, bufSize, layerMode; unsigned char screenSize, colorMode, screenBase, charBase; u32 vramOffset; unsigned char bgControl, priority, reservedA, reservedB; u32 mosaic; };
-
-struct Config { u8 bgLayer, winX, winY, winWidth, winHeight, textX, textY, palette, red, green, blue; u32 centered; };
+struct ResearchGraphConfig { u8 bgLayer, winX, winY, winWidth, winHeight, textX, textY, palette, red, green, blue; u32 centered; };
 
 struct GraphLabelEntry { u8 bgLayer, winX, winY, winWidth, winHeight, textX, textY, palette, red, green, blue; u32 messageIndex, messageMode, centered; };
 
@@ -3454,7 +3457,7 @@ extern u32 BG_SYS_FreeLayerBuf();
 
 extern void CLACT_ReleasePalette(u32 i);
 
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct ClactActor *CLACT_CreateActor(struct Unit *owner, unsigned int i, unsigned int j, unsigned int k, const struct ActorInitParam *position, unsigned short space, unsigned short heap);
 
 extern void BMP_Delete(struct Bmp *);
 
@@ -3517,7 +3520,7 @@ void RESEARCH_GRAPH_LoadBackground6(char *graph)
     void *h;
     void *blob;
     h = ARC_TOOL_CreateHandle(192, ((struct ResearchObjB *)graph)->heapId);
-    blob = ARC_TOOL_LoadHandleMember((struct ArcFile *)h, 13, ((struct ResearchObjB *)graph)->heapId);
+    blob = ARC_TOOL_LoadHandleMember((struct ArcHandle *)h, 13, ((struct ResearchObjB *)graph)->heapId);
     NNS_G2dGetUnpackedScreenData(blob, &out);
     BG_SYS_DrawTile(6, (u32)((char *)out + 12), 0, 0, 32, 24);
     BG_SYS_PushTile(6);
@@ -3559,7 +3562,7 @@ void RESEARCH_GRAPH_LoadBackground2(char *graph)
     void *h;
     void *blob;
     h = ARC_TOOL_CreateHandle(192, ((struct ResearchObjB *)graph)->heapId);
-    blob = ARC_TOOL_LoadHandleMember((struct ArcFile *)h, 7, ((struct ResearchObjB *)graph)->heapId);
+    blob = ARC_TOOL_LoadHandleMember((struct ArcHandle *)h, 7, ((struct ResearchObjB *)graph)->heapId);
     NNS_G2dGetUnpackedScreenData(blob, &out);
     BG_SYS_DrawTile(2, (u32)((char *)out + 12), 0, 0, 32, 32);
     BG_SYS_PushTile(2);
@@ -3605,7 +3608,7 @@ void RESEARCH_GRAPH_ClearLabels(void *graph)
  */
 void RESEARCH_GRAPH_CreateLabels(char *graph)
 {
-    struct Config args;
+    struct ResearchGraphConfig args;
     int i;
     for (i = 0; i < 9; i++) {
         u32 handle;
@@ -3703,7 +3706,7 @@ void RESEARCH_GRAPH_DeleteUnits(int *graph)
 {
     int i;
     for (i = 0; i < 4; i++)
-        CLACT_DeleteUnit((struct Bank *)graph[i + 0xE1]);
+        CLACT_DeleteUnit((struct Unit *)graph[i + 0xE1]);
 }
 
 /*
@@ -3736,8 +3739,8 @@ void RESEARCH_GRAPH_CreateActors(u8 *graph)
         c=RESEARCH_GRAPH_GetClactUnit(graph,q->unitB);
         d=RESEARCH_GRAPH_GetClactUnit(graph,q->unitC);
         dest=graph+i*4;
-        *(u32 *)&((struct ResearchObjB *)dest)->markerActorA=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,q->space,((struct ResearchObjB *)graph)->heapId);
-        CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ResearchObjB *)dest)->markerActorA),0);
+        *(u32 *)&((struct ResearchObjB *)dest)->markerActorA=(u32)CLACT_CreateActor((void *)a,b,c,d,(struct ActorInitParam *)(&arg),q->space,((struct ResearchObjB *)graph)->heapId);
+        CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct Obj * *)&((struct ResearchObjB *)dest)->markerActorA),0);
     }
 }
 
@@ -3745,7 +3748,7 @@ void RESEARCH_GRAPH_DeleteActors(int *graph)
 {
     int i;
     for (i = 0; i < 4; i++)
-        CLACT_DeleteActor((struct Actor *)graph[i + 0xE5]);
+        CLACT_DeleteActor((struct ClactActor *)graph[i + 0xE5]);
 }
 
 /*
@@ -3815,7 +3818,6 @@ struct PaletteAnimeBind {
 
 extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
 
-extern struct Grid *BMP_OAM_Create(struct Sys *,const struct OamObjectParam *);
 struct GameComm;
 
 extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
@@ -3902,7 +3904,7 @@ void RESEARCH_GRAPH_CreateOamObjects(u8 *graph)
         param.palette=q->palette;
         param.drawPriority=q->drawPriority; param.bgPriority=q->bgPriority;
         param.space=q->space; param.engine=q->engine;
-        *(struct Grid **)(dest+outOff)=BMP_OAM_Create(*(struct Sys **)(graph+sysOff),&param);
+        *(struct Grid **)(dest+outOff)=(struct Grid *)BMP_OAM_Create(*(struct BmpOamSys **)(graph+sysOff),(struct BmpOamParam *)(&param));
         BMP_OAM_SetEnabled((struct BmpOam *)(*(u8 **)(dest+callOff)),0);
         BMP_OAM_UploadChars((struct BmpOam *)(*(struct Obj **)(dest+uploadOff)));
     }
@@ -3948,8 +3950,8 @@ void RESEARCH_GRAPH_CreatePalAnm(u8 *graph)
  */
 u32 RESEARCH_GRAPH_DeletePalAnm(u32 graph)
 {
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct ResearchObjB *)(((u8*)graph)))->palAnm), 0);
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(((struct ResearchObjB *)(((u8*)graph)))->palAnm), 2);
+    PALANM_FreeSlotBuffers((struct PaletteFade *)(((struct ResearchObjB *)(((u8*)graph)))->palAnm), 0);
+    PALANM_FreeSlotBuffers((struct PaletteFade *)(((struct ResearchObjB *)(((u8*)graph)))->palAnm), 2);
     return PALANM_Delete((void *)(((struct ResearchObjB *)(((u8*)graph)))->palAnm));
 }
 

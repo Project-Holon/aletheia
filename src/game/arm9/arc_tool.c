@@ -315,7 +315,7 @@ void ARC_TOOL_OpenArchive(FSFile *arc, u32 archiveID)
         u32 *tbl = (u32 *)ARC_TOOL_gArchiveTable.entries;
         struct ArcRecord *rec = (struct ArcRecord *)tbl + archiveID;
         u32 end = rec->end;
-        u32 start = rec->start;
+        uptr start = rec->start;
 
         FS_CreateFileFromMemory(arc, (void *)start, end - start);
     }
@@ -489,9 +489,9 @@ u32 ARC_TOOL_GetArchiveFileCount(u32 archiveID)
     headerSize = 0;
     ARC_TOOL_OpenArchive((FSFile *)buf, archiveID);
     FS_SeekFile((FSFile *)buf, 0xc, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)buf, &headerSize, 2);
+    FS_ReadFile((FSFile *)buf, &headerSize, 2);
     FS_SeekFile((FSFile *)buf, headerSize + 4, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)buf, header, 6);
+    FS_ReadFile((FSFile *)buf, header, 6);
     FS_CloseFile((FSFile *)buf);
     return header[2];
 }
@@ -569,13 +569,13 @@ void ARC_TOOL_ReadHandleHeader(struct ArcHandle *arc)
 
     arc->fatOffset = 0;
     FS_SeekFile(&arc->file, 0xc, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &arc->fatOffset, 2);
+    FS_ReadFile((FSFile *)arc, &arc->fatOffset, 2);
     FS_SeekFile(&arc->file, arc->fatOffset + 4, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &scan, 6);
+    FS_ReadFile((FSFile *)arc, &scan, 6);
     arc->count = scan.fileCount;
     off = arc->fatOffset + scan.fatSize;
     FS_SeekFile(&arc->file, off + 4, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &scan.nameTableSize, 4);
+    FS_ReadFile((FSFile *)arc, &scan.nameTableSize, 4);
     arc->imageBase = off + scan.nameTableSize;
 }
 
@@ -625,12 +625,12 @@ void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u32 heapID
     }
 
     FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
+    FS_ReadFile((FSFile *)arc, range, 8);
     FS_SeekFile(&arc->file, arc->imageBase + 8 + range[0], 0);
 
     buf = GFL_HEAP_Alloc(heapID, range[1] - range[0], 0, (char *)arc_tool_file, 619);
     if (buf != 0) {
-        ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, buf, range[1] - range[0]);
+        FS_ReadFile((FSFile *)arc, buf, range[1] - range[0]);
     }
     return buf;
 }
@@ -657,9 +657,9 @@ void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst)
     }
 
     FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
+    FS_ReadFile((FSFile *)arc, range, 8);
     FS_SeekFile(&arc->file, arc->imageBase + 8 + range[0], 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, dst, range[1] - range[0]);
+    FS_ReadFile((FSFile *)arc, dst, range[1] - range[0]);
 }
 
 /*
@@ -684,7 +684,7 @@ u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx)
     }
 
     FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
+    FS_ReadFile((FSFile *)arc, range, 8);
     return range[1] - range[0];
 }
 
@@ -717,9 +717,9 @@ void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 of
     }
 
     FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &start, 4);
+    FS_ReadFile((FSFile *)arc, &start, 4);
     FS_SeekFile(&arc->file, offset + (arc->imageBase + 8 + start), 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, dst, size);
+    FS_ReadFile((FSFile *)arc, dst, size);
 }
 
 /*
@@ -745,7 +745,7 @@ void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcHandle *arc, u32 memberIdx, u32
     }
 
     FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &start, 4);
+    FS_ReadFile((FSFile *)arc, &start, 4);
     *out = arc->imageBase + 8 + start;
 }
 
@@ -771,7 +771,7 @@ u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 memberIdx)
     }
 
     FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &start, 4);
+    FS_ReadFile((FSFile *)arc, &start, 4);
     return arc->imageBase + 8 + start;
 }
 
@@ -789,7 +789,7 @@ u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 memberIdx)
  */
 void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst)
 {
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, dst, size);
+    FS_ReadFile((FSFile *)arc, dst, size);
 }
 
 int ARC_TOOL_SeekHandle(struct FSFile *file, u32 offset)

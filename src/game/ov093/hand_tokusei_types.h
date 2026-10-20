@@ -1,8 +1,8 @@
 #ifndef UNIT_021D93D8_TYPES_H
 #define UNIT_021D93D8_TYPES_H
-#include "hand_common_types.h"
-#include "btl_pokeparam_types.h"
-#include "hand_common_protos.h"
+#include "../ov093/hand_common_types.h"
+#include "../ov093/btl_pokeparam_types.h"
+#include "../ov093/hand_common_protos.h"
 /*
  * ov093 ability handlers (second part): Frisk, Sturdy, Unaware, Heatproof,
  * Dry Skin, Water Absorb, Volt Absorb, Motor Drive, Scrappy, Soundproof,
@@ -10,14 +10,14 @@
  * takes the factor that owns it, the server flow and the id of the Pokemon
  * that owns the factor, and the four-argument form adds the factor's work words.
  */
-#include "btl_event_types.h"
+#include "../ov093/btl_event_types.h"
 /*
  * ov093 ability handlers (Run Away, Mold Breaker, Forecast, Storm Drain,
  * Lightning Rod, Suction Cups, Liquid Ooze, Klutz, Sticky Hold, Pressure,
  * Magic Guard, Stench, Shadow Tag, Arena Trap): the command records that the
  * handlers push to the battle server flow, and the event variable keys they use.
  */
-#include "btl_action_word_types.h"
+#include "../ov093/btl_action_word_types.h"
 
 /*
  * ov093 battle ability handlers (status guards, weather abilities, weather
@@ -296,18 +296,15 @@ typedef struct {
 } BtlContFlagCmd;
 
 /* Services of the event variable stack. */
-extern void BTL_EVENT_ClearFactorSkipCheck(struct BtlEventFactor *factor);
+#include "../ov093/btl_event.h"
 
 /* Services of the battle server flow. */
 
 /* Services of the calculation and of the poke parameter. */
-extern u32 BTL_CALC_Random(u32 range);
+#include "../ov093/btl_calc.h"
 
-extern int BTL_CALC_Max(int value, int floor);
 
-extern int BTL_POKEPARAM_IsHpFull(struct BtlPokeParam *bpp);
 
-extern int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *bpp, int statId, int amount);
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
 
@@ -348,13 +345,11 @@ typedef struct HandExPokeNotice {
     u8 pokeId;
 } HandExPokeNotice;
 
-extern u8 BTL_EVENT_GetFactorPokeId(struct BtlEventFactor *factor);
 
-extern void BTL_SERVER_FLOW_SetMsgRecordSe(void *str, u32 extra);
+#include "../ov093/btl_server_flow.h"
 
-extern int BTL_SERVER_FLOW_IsPokeGroundedById(struct BtlServerFlow *flow, int pokeId);
 
-extern int HAND_COMMON_IsMoveTarget(int pokeId);
+#include "../ov093/hand_common.h"
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
 
@@ -577,11 +572,8 @@ typedef struct {
     BtlStrParam strParam;
 } BtlAbilityChangeCmd;
 
-extern int BTL_SERVER_FLOW_CheckShowdownThunk(struct BtlServerFlow *flow);
 
-extern void HAND_COMMON_EventRedirectMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, void *work);
 
-extern void HAND_COMMON_EventCounterMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int ownerId, void *work);
 
 /*
  * ov093 battle event handlers: the last ability handlers (Magic Bounce,
@@ -595,15 +587,13 @@ extern void HAND_COMMON_EventCounterMove(struct BtlEventFactor *factor, struct B
  */
 
 /* Effect record kinds that the handlers of this file request. */
-enum {
-    HANDEX_KIND_ABILITY_WINDOW_IN = 2,
-    HANDEX_KIND_ABILITY_WINDOW_OUT = 3,
-    HANDEX_KIND_RECOVER_PP = 9,
-    HANDEX_KIND_CURE_SICK = 0xb,
-    HANDEX_KIND_SET_ITEM = 0x20,
-    HANDEX_KIND_TRANSFORM = 0x33,
-    HANDEX_KIND_END_ILLUSION = 0x34
-};
+#define HANDEX_KIND_ABILITY_WINDOW_IN 2
+#define HANDEX_KIND_ABILITY_WINDOW_OUT 3
+#define HANDEX_KIND_RECOVER_PP 9
+#define HANDEX_KIND_CURE_SICK 0xb
+#define HANDEX_KIND_SET_ITEM 0x20
+#define HANDEX_KIND_TRANSFORM 0x33
+#define HANDEX_KIND_END_ILLUSION 0x34
 
 /* Header flag: show the ability window around the effect. */
 
@@ -673,59 +663,37 @@ typedef struct ItemHandlerEntry {
 #define ITEM_HANDLER_COUNT 0xac
 
 /* Battle server flow services. */
-extern u8 BTL_SERVER_FLOW_GetPokeIdAtFieldIndex(struct BtlServerFlow *flow, int position);
 
-extern int BTL_SERVER_FLOW_QueryMainFlag(struct BtlServerFlow *flow, int rule);
 
 extern int BTL_CALC_RollChanceOrFlag(struct BtlServerFlow *flow, u32 percent);
 
-extern void HAND_COMMON_EventQueueMoveNotice(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int work);
 
-extern int HAND_ITEM_IsHpAtOrBelowFraction(struct BtlServerFlow *flow, int pokeId, u32 param);
+#include "../ov093/hand_item.h"
 
-extern void HAND_ITEM_HpBerryCheckAndUse(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int param, int forced);
 
-extern u8 BTL_MAIN_GetFacingPos(int kind, u32 flags);
+#include "../ov093/btl_main.h"
 
-extern u8 BTL_MAIN_IsZero(u32 side);
 
 /* Event variables and factors. */
-extern int BTL_EVENT_TryGetVar(int key, int *out);
 
-extern void BTL_EVENT_EnableFactorSpecialEvent(struct BtlEventFactor *factor);
 
-extern void BTL_EVENT_KeepFactorRunning(struct BtlEventFactor *factor);
 
-extern u32 BTL_EVENT_GetFactorWork(struct BtlEventFactor *factor, int index);
 
-extern void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value);
 
-extern struct BtlEventFactor *BTL_EVENT_FindFactor(int factorType, int ownerId);
 
-extern struct BtlEventFactor *BTL_EVENT_FindNextFactor(struct BtlEventFactor *factor);
 
-extern void BTL_EVENT_DisablePokeFactors(unsigned int ownerId, int factorType);
 
-extern int BTL_EVENT_EnablePokeFactors(int ownerId, int factorType);
 
-extern int BTL_CALC_RollPercent(unsigned int percent);
 
 /* Poke parameters. */
-extern u16 BTL_POKEPARAM_GetConsumedItem(struct BtlPokeParam *poke);
+#include "../ov093/btl_pokeparam.h"
 
-extern int BTL_POKEPARAM_IsIllusionActive(struct BtlPokeParam *poke);
 
-extern int BTL_POKEPARAM_GetStatRaw(struct BtlPokeParam *poke, int paramId);
 
-extern int BTL_CALC_FindMajorSick(struct BtlPokeParam *poke);
 
-extern u16 BTL_POKEPARAM_GetLastSelectedMoveId(struct BtlPokeParam *poke);
 
-extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *poke);
 
-extern u8 BTL_POKEPARAM_GetMovePPLost(struct BtlPokeParam *poke, u8 slot);
 
-extern u16 BTL_POKEPARAM_GetMoveId(struct BtlPokeParam *poke, int slot);
 
 extern int PALANM_IsColorCodeKnown(u32 itemId);
 

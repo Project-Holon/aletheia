@@ -38,7 +38,6 @@ struct ActorTool {
 
 #include "clact.h"
 
-struct PalAnmSlot;
 
 #include "palanm.h"
 
@@ -177,7 +176,7 @@ u32 ACTOR_TOOL_LoadCharPalAnm(void *palSlots, struct ActorTool *tool, void *src,
         palBankType = 3;
     }
     charOffset = ACTOR_TOOL_LoadChar(tool, src, resId, bank, len, flags);
-    charBlock = ACTOR_TOOL_GetCharBlock((int)tool, charOffset, bank);
+    charBlock = ACTOR_TOOL_GetCharBlock((sptr)tool, charOffset, bank);
     PALANM_CopyHwPaletteToSlot(palSlots, palBankType, (u16)(charBlock << 4), len << 5);
     return charOffset;
 }
@@ -196,7 +195,7 @@ u32 ACTOR_TOOL_LoadCharSimplePalAnm(void *palSlots, struct ActorTool *tool, void
         palBankType = 3;
     }
     charOffset = ACTOR_TOOL_LoadCharSimple(tool, src, resId, bank, len, flags);
-    charBlock = ACTOR_TOOL_GetCharBlock((int)tool, charOffset, bank);
+    charBlock = ACTOR_TOOL_GetCharBlock((sptr)tool, charOffset, bank);
     PALANM_CopyHwPaletteToSlot(palSlots, palBankType, (u16)(charBlock << 4), len << 5);
     return charOffset;
 }
@@ -211,7 +210,7 @@ unsigned int ACTOR_TOOL_GetCharBlock(int tool, int charOffset, int bank)
 
 void ACTOR_TOOL_FreeChar(struct ActorTool *tool, u32 charOffset, u32 bank)
 {
-    u32 charBlock = ACTOR_TOOL_GetCharBlock((int)tool, charOffset, bank);
+    u32 charBlock = ACTOR_TOOL_GetCharBlock((sptr)tool, charOffset, bank);
 
     ACTOR_TOOL_FreeRun(tool, charBlock, bank);
     CLACT_ReleasePalette(charOffset);

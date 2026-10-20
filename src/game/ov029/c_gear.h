@@ -1,0 +1,153 @@
+#ifndef GAME_OV029_C_GEAR_H
+#define GAME_OV029_C_GEAR_H
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
+/* Public functions of c_gear.c, prototypes copied from their definitions. */
+
+struct GameSystem;
+struct HexMap;
+struct GameEvent;
+struct ArcFile;
+
+#include "../ov029/c_gear_types.h"
+#include "../ov029/c_gear_types.h"
+#include "../types.h"
+
+int C_GEAR_IsColumnRowValid(int col, int row);
+void C_GEAR_SetStepFunc(CGearWork *work, CGearStepFunc stepFunc);
+void C_GEAR_ChangeStep(CGearWork *work, CGearStepFunc stepFunc, int line);
+void C_GEAR_GetHexNeighbors(int col, int row, int *outCols, int *outRows);
+void C_GEAR_SpawnRippleActor(CGearWork *work, int col, int row);
+CGearActorSlot *C_GEAR_AcquireActorSlot(CGearWork *work);
+int C_GEAR_IsTileActorIdle(CGearWork *work, int col, int row);
+int C_GEAR_StepRipple(CGearWork *work);
+void C_GEAR_StartRippleFlood(CGearWork *work);
+int C_GEAR_HitTestTile(const CGearWork *work, int touchX, int touchY, int *outCol, int *outRow);
+void C_GEAR_InitTabTimersPowerOn(CGearWork *work);
+void C_GEAR_InitTabTimersPowerOff(CGearWork *work);
+void C_GEAR_ResetTabPalettes(CGearWork *work);
+void C_GEAR_UpdateTabInput(CGearWork *work, int tabKind, int slot, int resetPriorities, int modeEnabled);
+int C_GEAR_IsCallTabActive(CGearWork *work);
+void C_GEAR_TickTabTimers(CGearWork *work);
+void C_GEAR_SetTabMode(CGearWork *work, int mode, int variant);
+void C_GEAR_UpdateTabPalettes(CGearWork *work);
+void C_GEAR_UpdateTabPaletteKind3(CGearWork *work, int slot, CGearTabTimer *timer);
+void C_GEAR_UpdateTabPaletteKind1(CGearWork *work, int slot, CGearTabTimer *timer);
+void C_GEAR_UpdateTabPaletteKind2(CGearWork *work, int slot, CGearTabTimer *timer);
+void C_GEAR_UpdateTabPaletteKind0(CGearWork *work, int slot, CGearTabTimer *timer);
+void C_GEAR_UpdateTabPaletteKind4(CGearWork *work, int slot, CGearTabTimer *timer);
+void C_GEAR_BlendTabPalette(CGearWork *work, int slot, int step, int steps);
+void C_GEAR_LoadTargetPalette(CGearWork *work, const u8 *paletteFile, int bank);
+int C_GEAR_SelectTabPalette(CGearWork *work, int slot, int paletteIndex, int kind, int wantedKind, int wantedSlot);
+void C_GEAR_InitTiles(CGearWork *work);
+void C_GEAR_StepTiles(CGearWork *work);
+int C_GEAR_IsAnyTileFlashing(CGearWork *work);
+void C_GEAR_StopTileFlashes(CGearWork *work);
+void C_GEAR_InitTile(CGearTile *tile, int col, int row);
+void C_GEAR_ResetTileFlash(CGearTile *tile, CGearWork *work, int surfaceVariant);
+void C_GEAR_StartTileFlash(CGearTile *tile, CGearWork *work, int palRow, int mode, int variant, u16 stepPeriod);
+void C_GEAR_StopTileFlash(CGearTile *tile);
+void C_GEAR_StepTileFlash(CGearTile *tile, CGearWork *work);
+void C_GEAR_SetTileFlashStep(CGearTile *tile, int step);
+int C_GEAR_IsTileFlashing(CGearTile *tile);
+int C_GEAR_GetTilePalette(CGearWork *work, int palRow, int col, int row);
+void C_GEAR_InitTabTimer(CGearTabTimer *timer, u16 limit, u8 stagger, u8 resetOnFire);
+void C_GEAR_TickTabTimer(CGearTabTimer *timer);
+int C_GEAR_IsTabTimerFull(CGearTabTimer *timer, int slot);
+void C_GEAR_ResetTabTimerCount(CGearTabTimer *timer, int slot);
+void C_GEAR_ClearTabTimerCount(CGearTabTimer *timer, int slot);
+u16 C_GEAR_GetTabTimerCount(CGearTabTimer *timer, int slot);
+void C_GEAR_SetTabTimerRunning(CGearTabTimer *timer, char running);
+void C_GEAR_TileToScreen(int col, int row, int *outX, int *outY);
+int C_GEAR_IsIdleForInput(CGearWork *work);
+int C_GEAR_CountCellsOfKind(CGearWork *work, int kind);
+void C_GEAR_TintPalettes(CGearWork *work, int commEnabled);
+void C_GEAR_StartFlashFade(CGearWork *work);
+void C_GEAR_FadeBackground(CGearWork *work, int faded);
+void C_GEAR_FadeAccentColors(CGearWork *work, int faded);
+void C_GEAR_StartFadeOut(CGearWork *work);
+void C_GEAR_StartFadeIn(CGearWork *work);
+void C_GEAR_StopFade(CGearWork *work);
+int C_GEAR_GetFadeRequestBits(CGearWork *work);
+void C_GEAR_DrawEmptyBoard(CGearWork *work);
+int C_GEAR_StepIntroTiles(CGearWork *work);
+int C_GEAR_StepOutroTiles(CGearWork *work);
+void C_GEAR_ResetAllTiles(CGearWork *work);
+void C_GEAR_DrawTile(CGearWork *work, int col, int row, int kind);
+int C_GEAR_FindCellOfKind(CGearWork *work, int kind, int *outX, int *outY);
+void C_GEAR_DrawAllCells(CGearWork *work);
+u32 C_GEAR_LoadSkin(CGearWork *work, int theme, int skin, int loadPalettes);
+void C_GEAR_LoadSpriteResources(CGearWork *work, int theme);
+void C_GEAR_LoadFrameGraphics(CGearWork *work, int customBgLoaded);
+void C_GEAR_SetupBackgrounds(CGearWork *work);
+void C_GEAR_SetupSubScreenBlend(CGearWork *work);
+void C_GEAR_HandleButton(CGearWork *work, int key);
+void C_GEAR_OnButtonEvent(int key, int buttonState, CGearWork *work);
+void C_GEAR_SetPaintModeIcon(CGearWork *work, int paintMode);
+void C_GEAR_CreateHudActors(CGearWork *work);
+void C_GEAR_SetTileMarkersVisible(CGearWork *work, int visible);
+void C_GEAR_SetAllActorsVisible(CGearWork *work, int visible);
+void C_GEAR_SetSplashActorsVisible(CGearWork *work, int visible);
+void C_GEAR_CreateSplashActors(CGearWork *work);
+void C_GEAR_DeleteSplashActors(CGearWork *work);
+int C_GEAR_IsSplashDone(CGearWork *work);
+void C_GEAR_CreateBarActors(CGearWork *work);
+void C_GEAR_UpdateBeaconColors(CGearWork *work);
+void C_GEAR_DeleteBarActors(CGearWork *work);
+void C_GEAR_LoadGraphics(CGearWork *work, int introMode);
+void C_GEAR_DeleteActors(CGearWork *work);
+void C_GEAR_FreeGraphics(CGearWork *work);
+u8 C_GEAR_GetBatteryFrame(void);
+void C_GEAR_UpdateClock(CGearWork *work);
+void C_GEAR_UpdateTileMarkers(CGearWork *work);
+void C_GEAR_RunFrame(CGearWork *work);
+void C_GEAR_StepIdle(CGearWork *work);
+void C_GEAR_StepIntroEnd(CGearWork *work);
+void C_GEAR_StepOpen(CGearWork *work);
+void C_GEAR_StepClose(CGearWork *work);
+int C_GEAR_LoadCustomBackground(CGearWork *work, struct GameSystem *gameSystem);
+void C_GEAR_OnCommDisconnect(CGearWork *work);
+void C_GEAR_OnCommEvent(CGearWork *work);
+void C_GEAR_TransferPalettesTask(void *task, CGearWork *work);
+void C_GEAR_Init(CGearWork *work, struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode);
+void C_GEAR_Cleanup(CGearWork *work);
+CGearWork *C_GEAR_Create(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, int introMode);
+CGearWork *C_GEAR_Open(struct HexMap *hexMap, int parentWork, struct GameSystem *gameSystem, void (*callback)(int), int callbackArg, int introMode);
+void C_GEAR_Update(CGearWork *work, u8 powerOn);
+void C_GEAR_Nop(void);
+void C_GEAR_Destroy(CGearWork *work);
+int C_GEAR_Restart(CGearWork *work);
+struct GameEvent *C_GEAR_HandleCommand(CGearWork *work, int enabled);
+int C_GEAR_IsLastCommandWifi(CGearWork *work);
+void C_GEAR_StopRingtone(CGearWork *work);
+void C_GEAR_SetCellKind(CGearWork *work, struct HexMap *hexMap, int col, int row, int kind);
+u32 C_GEAR_GetCellKind(const CGearWork *work, int col, int row);
+int C_GEAR_IsCellMarked(const CGearWork *work, int col, int row);
+int C_GEAR_IsCellKind(const CGearWork *work, int col, int row, int kind);
+int CTRDG_IsAgbCartridge(CGearWork *work);
+int C_GEAR_StepIconAnim(CGearWork *work);
+int C_GEAR_StepFadeIcon(CGearWork *work);
+void C_GEAR_NoOp(CGearWork *work);
+void C_GEAR_ShowOffIndicator(CGearWork *work);
+void C_GEAR_ShowCommIndicator(CGearWork *work);
+void C_GEAR_HideCommIndicator(CGearWork *work);
+void C_GEAR_HideOffIndicator(CGearWork *work);
+void C_GEAR_TickIndicators(CGearWork *work);
+void C_GEAR_ApplyIndicators(CGearWork *work);
+int C_GEAR_IsAnyIndicatorShown(CGearWork *work);
+void C_GEAR_TickTabFrame(CGearWork *work);
+void C_GEAR_CreateFadeFx(CGearWork *work, CGearFadeFx *fx);
+void C_GEAR_DeleteFadeFx(CGearFadeFx *fx);
+void C_GEAR_StartFadeFx(CGearFadeFx *fx, int palette);
+int C_GEAR_StepFadeFx(CGearFadeFx *fx);
+struct GameEvent *C_GEAR_StartPanelEvent(CGearWork *work, int kind);
+int C_GEAR_PanelEventMain(struct GameEvent *event, int *seq, CGearEventWork *req);
+void C_GEAR_StartSelectedRipple(CGearWork *work);
+void C_GEAR_DeleteActorSlots(CGearWork *work);
+int C_GEAR_AreActorSlotsIdle(CGearWork *work);
+void C_GEAR_StepWaitSlots(CGearWork *work);
+void C_GEAR_SetPowerState(CGearWork *work, int powerOn);
+void C_GEAR_LoadSkinMember(struct HexMap *hexMap, struct ArcFile *arc, int skinIndex, int heapId);
+/* END mkheaders: generated region */
+
+#endif

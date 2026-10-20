@@ -16,7 +16,7 @@
 struct GameData;
 struct MsgData;
 struct WordSet;
-struct StrBuf;
+struct Strbuf;
 
 /* Request ids.  The server answers with a packet that carries the same id
  * (21000 = 0x5208 ... 22003 = 0x55F3). */
@@ -296,7 +296,7 @@ typedef struct GdsRapWork {
     u32 searchKind;                     /* 0x3E0 */
     struct MsgData *msgData;            /* 0x3E4 */
     struct WordSet *wordSet;            /* 0x3E8 */
-    struct StrBuf *strBuf;              /* 0x3EC */
+    struct Strbuf *strBuf;              /* 0x3EC */
     GdsRapPending pending;              /* 0x3F0 */
     u8 unknown400;                      /* 0x400 */
     u8 waitFrames;                      /* 0x401 */

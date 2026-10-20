@@ -28,6 +28,7 @@
         *(vu16 *)(a) = v; \
     } while (0)
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct tagRect {
     u16 x1;
@@ -44,13 +45,13 @@ void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, int effect);
 void DWCi_GXlVisible(int lcd, int plane)
 {
     if (lcd == 1) {
-        unsigned long v = (REG_DISPCNT(0x04001000) & 0x1f00) >> 8;
+        unsigned long v = (REG_DISPCNT(REG_DB_DISPCNT_ADDR) & 0x1f00) >> 8;
 
-        REG_DISPCNT(0x04001000) = (REG_DISPCNT(0x04001000) & ~0x1f00) | ((v | plane) << 8);
+        REG_DISPCNT(REG_DB_DISPCNT_ADDR) = (REG_DISPCNT(REG_DB_DISPCNT_ADDR) & ~0x1f00) | ((v | plane) << 8);
     } else {
-        unsigned long v = (REG_DISPCNT(0x04000000) & 0x1f00) >> 8;
+        unsigned long v = (REG_DISPCNT(REG_DISPCNT_ADDR) & 0x1f00) >> 8;
 
-        REG_DISPCNT(0x04000000) = (REG_DISPCNT(0x04000000) & ~0x1f00) | ((v | plane) << 8);
+        REG_DISPCNT(REG_DISPCNT_ADDR) = (REG_DISPCNT(REG_DISPCNT_ADDR) & ~0x1f00) | ((v | plane) << 8);
     }
 }
 
@@ -64,13 +65,13 @@ void DWCi_GXlVisible(int lcd, int plane)
 void DWCi_GXlInvisible(int lcd, int plane)
 {
     if (lcd == 1) {
-        unsigned long v = (REG_DISPCNT(0x04001000) & 0x1f00) >> 8;
+        unsigned long v = (REG_DISPCNT(REG_DB_DISPCNT_ADDR) & 0x1f00) >> 8;
 
-        REG_DISPCNT(0x04001000) = (REG_DISPCNT(0x04001000) & ~0x1f00) | ((v & ~plane) << 8);
+        REG_DISPCNT(REG_DB_DISPCNT_ADDR) = (REG_DISPCNT(REG_DB_DISPCNT_ADDR) & ~0x1f00) | ((v & ~plane) << 8);
     } else {
-        unsigned long v = (REG_DISPCNT(0x04000000) & 0x1f00) >> 8;
+        unsigned long v = (REG_DISPCNT(REG_DISPCNT_ADDR) & 0x1f00) >> 8;
 
-        REG_DISPCNT(0x04000000) = (REG_DISPCNT(0x04000000) & ~0x1f00) | ((v & ~plane) << 8);
+        REG_DISPCNT(REG_DISPCNT_ADDR) = (REG_DISPCNT(REG_DISPCNT_ADDR) & ~0x1f00) | ((v & ~plane) << 8);
     }
 }
 
@@ -87,14 +88,14 @@ void DWCi_GXlSetWndPosition(int lcd, int wnd, struct tagRect *r)
 {
     if (lcd == 1) {
         if (wnd == 0)
-            SetWin((u16 *)0x04001040, r->x1, r->y1, r->x2, r->y2);
+            SetWin((u16 *)REG_DB_WIN0H_ADDR, r->x1, r->y1, r->x2, r->y2);
         else
-            SetWin((u16 *)0x04001042, r->x1, r->y1, r->x2, r->y2);
+            SetWin((u16 *)REG_DB_WIN1H_ADDR, r->x1, r->y1, r->x2, r->y2);
     } else {
         if (wnd == 0)
-            SetWin((u16 *)0x04000040, r->x1, r->y1, r->x2, r->y2);
+            SetWin((u16 *)REG_WIN0H_ADDR, r->x1, r->y1, r->x2, r->y2);
         else
-            SetWin((u16 *)0x04000042, r->x1, r->y1, r->x2, r->y2);
+            SetWin((u16 *)REG_WIN1H_ADDR, r->x1, r->y1, r->x2, r->y2);
     }
 }
 
@@ -106,27 +107,27 @@ void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, int effect)
     switch (wnd) {
     case 0:
         if (lcd == 1)
-            LO(0x04001048);
+            LO(REG_DB_WININ_ADDR);
         else
-            LO(0x04000048);
+            LO(REG_WININ_ADDR);
         break;
     case 1:
         if (lcd == 1)
-            HI(0x04001048);
+            HI(REG_DB_WININ_ADDR);
         else
-            HI(0x04000048);
+            HI(REG_WININ_ADDR);
         break;
     case 2:
         if (lcd == 1)
-            HI(0x0400104a);
+            HI(REG_DB_WINOUT_ADDR);
         else
-            HI(0x0400004a);
+            HI(REG_WINOUT_ADDR);
         break;
     case 3:
         if (lcd == 1)
-            LO(0x0400104a);
+            LO(REG_DB_WINOUT_ADDR);
         else
-            LO(0x0400004a);
+            LO(REG_WINOUT_ADDR);
         break;
     }
 }

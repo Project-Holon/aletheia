@@ -19,8 +19,7 @@
  */
 #include "crypto_types.h"
 
-extern void *OS_AllocFromHeap(int id, int heap, int size);
-extern void OS_FreeToHeap(int arenaId, int heap, void *ptr);
+#include "../arm9/os_alloc.h"
 void *CRYPTOi_MyAlloc(unsigned long size);
 void CRYPTOi_MyFree(void *ptr);
 void CRYPTO_SetMemAllocator(void *(*allocFunc)(unsigned long), void (*freeFunc)(void *), void *(*reallocFunc)(void *, unsigned long));

@@ -1,6 +1,16 @@
 #ifndef GAME_ARM9_SPL_EMITTER_H
 #define GAME_ARM9_SPL_EMITTER_H
 
+typedef struct SPLList SPLList;
+typedef struct SPLNode SPLNode;
+typedef struct SPLParticle SPLParticle;
+typedef struct SPLResource SPLResource;
+typedef struct SPLEmitter SPLEmitter;
+typedef struct SPLParticleList SPLParticleList;
+typedef struct SPLManager SPLManager;
+typedef struct SPLTexture SPLTexture;
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of spl_emitter.c, prototypes copied from their definitions. */
 
 struct SPLList;
@@ -91,5 +101,6 @@ int SPL_EMITTER_AllocResource(char *p, int b, int c);
 int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *));
 void SPL_EMITTER_FreeResource(char *p, char *q);
 void SPL_EMITTER_FreeResourceList(void *p);
+/* END mkheaders: generated region */
 
 #endif

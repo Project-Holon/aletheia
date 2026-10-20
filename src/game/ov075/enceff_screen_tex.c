@@ -43,6 +43,7 @@
  *   TCB_DeleteTask 0x02030EAC arm
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  */
+#include "../arm9/g3_util.h"
 #include "../ov021/fieldmap_types.h"
 #include "enceff_screen_tex_types.h"
 
@@ -58,35 +59,29 @@ struct GameEvent;
 
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventMainFunc main, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern void MI_CpuFill8(void *dst, int value, u32 size);
-extern void G3i_PerspectiveW_(int a, int b, int c, int d, int e, int f, int g, int h);
-extern void G3X_Reset(void);
-extern void G3i_LookAt_(VecFx32 *eye, VecFx32 *up, VecFx32 *target, int d, int e);
+#include "../arm9/mi_memory.h"
+#include "../sdk_gx.h"
+#include "../arm9/g3x.h"
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 extern void BG_SYS_SetPriority(int idx, u16 val);
-extern int FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
-extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, int drawMode);
-extern u16 GX_GetBankForTex(void);
-extern void GX_DisableBankForLCDC(void);
-extern void GX_SetBankForTex(s32 tex);
+#include "../ov021/fieldmap.h"
+#include "../arm9/gx_vramcnt_types.h"
+#include "../arm9/gx_vramcnt.h"
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 struct EncEffWork;
-extern void *ENCEFF_GetWork(struct EncEffWork *eff);
+#include "../ov021/enceff.h"
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern void FADE_Start(u32 flags, s32 start, s32 end, s32 step);
-extern int FADE_IsActive(void);
-extern void GX_SetBankForLCDC(int);
-extern void *GFL_USE_AddMainTask(u32, u32, u32);
+#include "../arm9/fade.h"
+extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *), void *, u32);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 void ENCEFF_DrawScreenTexEffect(EncEffScreenTexWork *work);
 int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
 void ENCEFF_RequestScreenCapture(EncEffScreenTexWork *work);
-void ENCEFF_ScreenCaptureTask(void *task, int *captureDone);
+void ENCEFF_ScreenCaptureTask(struct TcbTask *task, void *captureDone);
 u32 ENCEFF_GetScreenTexParam(void);
 int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
 extern const s16 d_020A1EB8[];
@@ -132,7 +127,7 @@ struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, Vec
 
 static inline void G3_Perspective(int fovySin, int fovyCos, int aspect, int near, int far, void *mtx)
 {
-    G3i_PerspectiveW_(fovySin, fovyCos, aspect, near, far, 0x1000, 1, (int)mtx);
+    G3i_PerspectiveW_(fovySin, fovyCos, aspect, near, far, 0x1000, 1, mtx);
 }
 
 
@@ -241,13 +236,13 @@ void ENCEFF_RequestScreenCapture(EncEffScreenTexWork *work)
 {
     work->captureDone = 0;
     GX_SetBankForLCDC(8);
-    GFL_USE_AddMainTask((u32)ENCEFF_ScreenCaptureTask, (u32)&work->captureDone, 0);
+    GFL_USE_AddMainTask(ENCEFF_ScreenCaptureTask, &work->captureDone, 0);
 }
 
 
 /* Main task: starts the display capture, then reports it through the flag. */
-void ENCEFF_ScreenCaptureTask(void *task, int *captureDone)
-{
+void ENCEFF_ScreenCaptureTask(struct TcbTask *task, void *work_)
+{ int * captureDone = work_;
     REG_DISPCAPCNT = 0x81330010;
     TCB_DeleteTask(task);
     if (captureDone)

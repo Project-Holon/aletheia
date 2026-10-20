@@ -33,6 +33,7 @@
  *   G3D_SYSTEM_DeleteResource 0x02046EFC arm
  *   G3D_SYSTEM_FreeVramTexture 0x020470D0 arm
  */
+#include "sta_act_types.h"
 #include "sta_act_light_shared_types.h"
 #include "sta_act_bg_shared_types.h"
 
@@ -46,56 +47,30 @@ struct G3dSys;
 
 struct Rec;
 
-/* The 64-byte G3D model part shared by the light unit and the sprite elem. */
-typedef struct {
-    u16 heap;            /* 0x00 */
-    u16 pad_02;          /* 0x02 */
-    u32 param;           /* 0x04 AllocElem parameter */
-    u16 frame;           /* 0x08 SetModelFrame */
-    u8 pad_0A[0x12];     /* 0x0A */
-    u32 resourceArc;     /* 0x1C single resource arc, 0 until created */
-    int arcs[3];         /* 0x20 three more resource arcs */
-    int render;          /* 0x2C G3D render */
-    int animes[3];       /* 0x30 G3D anime records */
-    void *object;        /* 0x3C G3D object */
-} LightModel;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *);
 struct G3dObject;
 
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, s32 anmIdx, s32 step);
+#include "../arm9/g3d_system.h"
 
-extern void MTX_Identity33_(void *);
+#include "../arm9/fx_mtx33.h"
 struct G3dObjectStatus;
 
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 struct G3dResource;
 
-extern struct G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
 
-extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
 struct G3dRender;
 
-extern struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *mdlRes, u32 mdlIdx, struct G3dResource *texRes);
 struct G3dAnime;
 
-extern struct G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
 
-extern struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **anmTbl, s32 anmCount);
 
-extern s32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
 
-extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
 
-extern void G3D_SYSTEM_DeleteAnime(struct G3dAnime *anime);
 
-extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
 
-extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 
-extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *res);
 
 u8 *STA_ACT_LIGHT_AllocElem(u32 heap,u32 v);
 
@@ -105,9 +80,9 @@ void STA_ACT_LIGHT_StepModelAnim(u8 *p);
 
 void STA_ACT_LIGHT_DrawModel(u8 *p);
 
-void STA_ACT_LIGHT_CreateModel(LightModel *p, char *q);
+void STA_ACT_LIGHT_CreateModel(StaActLightModel *p, u32 id);
 
-void STA_ACT_LIGHT_FreeModel(LightModel *p);
+void STA_ACT_LIGHT_FreeModel(StaActLightModel *p);
 
 void STA_ACT_LIGHT_SetModelFrame(u8 *p, u16 v);
 
@@ -117,27 +92,27 @@ extern u32 d_021F8430[];
 
 extern struct Arg d_021F8418;
 
-u8 *STA_ACT_LIGHT_AllocElem(u32 heap,u32 v) { u8 *p; p=GFL_HEAP_Alloc(heap,64,0,d_021F8454,81); ((LightModel *)p)->heap=heap; ((LightModel *)p)->param=v; ((LightModel *)p)->frame=0; ((LightModel *)p)->resourceArc=0; return p; }
+u8 *STA_ACT_LIGHT_AllocElem(u32 heap,u32 v) { u8 *p; p=GFL_HEAP_Alloc(heap,64,0,d_021F8454,81); ((StaActLightModel *)p)->heap=heap; ((StaActLightModel *)p)->param=v; ((StaActLightModel *)p)->frame=0; ((StaActLightModel *)p)->resourceArc=0; return p; }
 
 /*
  * extent: two zero alignment bytes follow code.
  */
-void STA_ACT_LIGHT_DeleteModel(u8 *p) { if(((LightModel *)p)->resourceArc) STA_ACT_LIGHT_FreeModel((LightModel *)p); GFL_HEAP_Free(p); }
+void STA_ACT_LIGHT_DeleteModel(u8 *p) { if(((StaActLightModel *)p)->resourceArc) STA_ACT_LIGHT_FreeModel((StaActLightModel *)p); GFL_HEAP_Free(p); }
 
-void STA_ACT_LIGHT_StepModelAnim(u8 *p) { u8 i; if(((LightModel *)p)->resourceArc) { for(i=0;i<3;i++) G3D_SYSTEM_LoopObjectAnimeFrame(((LightModel *)p)->object,i,4096); } }
+void STA_ACT_LIGHT_StepModelAnim(u8 *p) { u8 i; if(((StaActLightModel *)p)->resourceArc) { for(i=0;i<3;i++) G3D_SYSTEM_LoopObjectAnimeFrame((G3dObject *)(((StaActLightModel *)p)->object),i,4096); } }
 
-void STA_ACT_LIGHT_DrawModel(u8 *p) { if(((LightModel *)p)->resourceArc) { MTX_Identity33_(d_021F8430); G3D_SYSTEM_DrawObject(((LightModel *)p)->object,(struct G3dObjectStatus *)(&d_021F8418)); } }
+void STA_ACT_LIGHT_DrawModel(u8 *p) { if(((StaActLightModel *)p)->resourceArc) { MTX_Identity33_((MtxFx33 *)d_021F8430); G3D_SYSTEM_DrawObject((G3dObject *)(((StaActLightModel *)p)->object),(G3dObjectStatus *)((struct G3dObjectStatus *)(&d_021F8418))); } }
 
 /*
  * extent: two-byte zero padding before 021F7048.
  */
-void STA_ACT_LIGHT_CreateModel(LightModel *p, char *q) {
+void STA_ACT_LIGHT_CreateModel(StaActLightModel *p, u32 id) {
     u8 i, j;
     if (p->resourceArc != 0) STA_ACT_LIGHT_FreeModel(p);
-    p->resourceArc = (u32)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x1e));
-    p->arcs[0] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x24));
-    p->arcs[1] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x2e));
-    p->arcs[2] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x29));
+    p->resourceArc = (u32)G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x1e);
+    p->arcs[0] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x24);
+    p->arcs[1] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x2e);
+    p->arcs[2] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, id + 0x29);
     if (G3D_SYSTEM_TransVramTexture((struct G3dResource *)p->resourceArc) != 0) {
         p->render = (int)G3D_SYSTEM_CreateRender((void *)p->resourceArc, 0, (void *)p->resourceArc);
         for (i = 0; i < 3; i++) p->animes[i] = (int)G3D_SYSTEM_CreateAnime((struct G3dRender *)p->render, (struct G3dResource *)p->arcs[i], 0);
@@ -146,7 +121,7 @@ void STA_ACT_LIGHT_CreateModel(LightModel *p, char *q) {
     }
 }
 
-void STA_ACT_LIGHT_FreeModel(LightModel *p) {
+void STA_ACT_LIGHT_FreeModel(StaActLightModel *p) {
     u8 i;
     G3D_SYSTEM_DeleteObject((struct G3dObject *)p->object);
     for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteAnime((struct G3dAnime *)p->animes[i]);
@@ -157,4 +132,4 @@ void STA_ACT_LIGHT_FreeModel(LightModel *p) {
     p->resourceArc = 0;
 }
 
-void STA_ACT_LIGHT_SetModelFrame(u8 *p, u16 v) { ((LightModel *)p)->frame = v; }
+void STA_ACT_LIGHT_SetModelFrame(u8 *p, u16 v) { ((StaActLightModel *)p)->frame = v; }

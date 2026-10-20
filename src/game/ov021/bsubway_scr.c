@@ -289,101 +289,59 @@ typedef struct TrainerNoRange {
 } TrainerNoRange;
 struct ScrcmdWork;
 
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
+#include "../ov010/scrcmd_work.h"
+#include "../arm9/gamesystem.h"
 struct ScriptWork;
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
 struct ScriptVm;
 extern u16 VM_ReadU16(struct ScriptVm *vm);
-extern u16 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+#include "../arm9/game_data.h"
+#include "../ov010/script_sys.h"
+#include "../ov010/script_work_cmd.h"
+#include "fieldmap.h"
+#include "fldeff_btrain.h"
 extern struct Task *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 struct GameEvent;
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 struct FieldPlayer;
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 struct Mmdl;
 extern u16 FLDMMDL_GetDirDisp(struct Mmdl *mmdl);
-extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
+#include "field_player.h"
 extern void FLDMMDL_SetDirDispCheckPause(struct Mmdl *mmdl, s32 dir);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-struct MmdlVec;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern struct GameData *GAME_DATA_SetCurrentEvent(struct GameData *gd, void *event);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *p);
-extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *ctrl, u32 id);
-extern void BSUBWAY_PLAYDATA_SetFlag01(struct BsubwayPlayData *p, u32 v);
-extern void BSUBWAY_PLAYDATA_Init(struct BsubwayPlayData *p);
-extern void BSUBWAY_PLAYDATA_ClearRound(struct BsubwayPlayData *p);
-extern u32 BSUBWAY_SCOREDATA_HasCleared(struct BsubwayScoreData *p, u32 i);
-extern u16 BSUBWAY_SCOREDATA_GetWinCount(struct BsubwayScoreData *p, u32 i);
-extern void BSUBWAY_PLAYDATA_SetField(struct BsubwayPlayData *p, u32 id, const void *src);
-extern u32 BSUBWAY_PLAYDATA_GetField(struct BsubwayPlayData *p, u32 id, void *out);
+#include "../arm9/gfl_heap_wrap.h"
+struct VecFx32;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct VecFx32 *out);
+#include "../arm9/mystatus.h"
+#include "../arm9/save_control.h"
+#include "../arm9/gds_profile.h"
 struct PlayerWork;
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
-extern u16 BSUBWAY_PLAYDATA_GetRound(struct BsubwayPlayData *p);
-extern u16 BSUBWAY_SCOREDATA_GetRepeatClearCount(struct BsubwayScoreData *p, u32 i);
 struct BattleSetupParam;
-extern void BTL_SETUP_Delete(struct BattleSetupParam *param);
-extern void MI_CpuFill8(void *p, int v, int n);
+#include "../arm9/btl_setup.h"
+#include "../arm9/mi_memory.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern void BSUBWAY_SCOREDATA_ResetClearCount(struct BsubwayScoreData *p, u32 i);
-extern void BSUBWAY_SCOREDATA_SetWinCount(struct BsubwayScoreData *p, u32 i, u16 v);
-extern void BSUBWAY_SCOREDATA_UpdateMaxWinCount(struct BsubwayScoreData *p, u32 i, u16 v);
-extern u8 BSUBWAY_SCOREDATA_GetLevel(struct BsubwayScoreData *p);
-extern void BSUBWAY_SCOREDATA_AddBattlePoints(struct BsubwayScoreData *p, s32 v);
-extern void BSUBWAY_SCOREDATA_IncClearCount(struct BsubwayScoreData *p, u32 i);
+#include "../arm9/pokeparty.h"
+#include "../arm9/poke_tool.h"
 extern void BSUBWAY_SAVEDATA_ExportTrainer(u32 h, u8 *list, u8 n, u16 id);
 extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 key);
-extern u32 BSUBWAY_SCOREDATA_AccessFlag(struct BsubwayScoreData *p, s32 i, u32 op);
-extern void BSUBWAY_SCOREDATA_IncLevel(struct BsubwayScoreData *p);
-extern u8 BSUBWAY_SCOREDATA_UpdateStreak(struct BsubwayScoreData *p, u32 kind);
-extern void BSUBWAY_SCOREDATA_DecLevel(struct BsubwayScoreData *p);
 struct BattleBoxSave;
-extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
+#include "../arm9/battle_box.h"
 struct BoxMonGroup;
-extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, s32 heap);
-extern void *GAME_DATA_GetMyParty(const struct GameData *p);
 struct GdsScoreSrc;
-extern void BSUBWAY_SCOREDATA_CalcRecordScore(struct BsubwayScoreData *p, struct GdsScoreSrc *q);
-extern void BSUBWAY_SCOREDATA_SetRecordBlob(struct BsubwayScoreData *p, u32 which, const void *src);
 struct ScriptFieldParam;
-extern struct ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(struct ScriptWork *work);
-extern void *SCRIPT_WORK_GetGameSystem(struct ScriptWork *work);
-extern void *GAME_DATA_GetCurrentEvent(struct GameData *p);
-extern void *GAME_DATA_GetEventWork(const struct GameData *p);
-extern u16 *SCRIPT_WORK_GetWorkPtr(struct ScriptWork *work, void *gameData, u32 id);
-extern void SCRIPT_SYS_CallEvent(void *h, void *task);
-extern void OS_ResetSystem(u32 a);
-extern u32 BSUBWAY_PLAYDATA_GetFlag01(struct BsubwayPlayData *p);
-extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+#include "../ov010/script_work.h"
+#include "../arm9/os_reset.h"
 extern void ZONEDATA_SetDirectLocation(ReturnLocation *out, u32 id, s16 n, u32 a, u32 b, u32 c);
 struct Location;
-extern void GAME_DATA_SetSpecialLocation(struct GameData *gameData, struct Location *location);
 struct EventWork;
 extern void ZONEDATA_SetEventFlag(struct EventWork *ev, s32 flagId);
 extern void ZONEDATA_ResetEventFlag(struct EventWork *ev, s32 flagId);
-extern u32 FIELD_PLAYER_GetSex(struct FieldPlayer *player);
-extern u16 FIELD_PLAYER_GetFormObjCode(int i, int j);
 struct MmdlSys;
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *sys, u32 objId);
 extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
 extern void FIELD_GIMMICK_BSUBWAY_StartTrain(void *a, int b, int c);
 struct FieldEffectObj;
 extern struct FieldEffectObj *FIELD_GIMMICK_BSUBWAY_GetTrainEffect(struct FieldMap *fieldMap);
-extern void FLDEFF_BTRAIN_SetAnime(struct FieldEffectObj *effect, u32 animeIndex);
-extern void FLDEFF_BTRAIN_SetHidden(struct FieldEffectObj *effect, u32 hidden);
-extern void FLDMMDL_InitPosition(struct Mmdl *mmdl, struct MmdlVec *pos, s32 dir);
+extern void FLDMMDL_InitPosition(struct Mmdl *mmdl, struct VecFx32 *pos, s32 dir);
 extern void FLDMMDL_SetStatusBitHeightGetOff(struct Mmdl *mmdl, s32 flag);
-extern int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
-extern u32 BATTLE_BOX_HasMon(struct BoxMonGroup *box);
 extern void FLDMMDL_OnMoveBitMovePause(struct Mmdl *mmdl);
 extern int FLDMMDL_GetParam(struct Mmdl *mmdl, s32 no);
 extern void *NAMEIN_SETUP_StartNameBalloonFromHistory(u32 x, u32 v, u32 id);
@@ -393,7 +351,7 @@ extern struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *
 extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct HistoryBuf *history);
 extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, u32 (*fn)(void *, u32), void *arg);
 struct BsubwayProcArgs;
-extern int EVENT_BSUBWAY_COMM_Start(s32 gameSystem, struct BsubwayProcArgs *args);
+#include "../ov007/event_bsubway_comm.h"
 extern u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct BsubwaySave *save);
 extern u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct BsubwaySave *save);
 extern u8 BSUBWAY_SAVEDATA_GetHistoryPresent(struct BsubwaySave *save);
@@ -405,76 +363,39 @@ extern struct GameEvent *NAMEIN_SETUP_StartPartyPickEvent(struct EncounterContex
 extern void *NAMEIN_SETUP_StartEncounterScene(BsubwayScrWork *work, u32 gameSystem, void *fieldMap);
 struct NameBalloonRecord;
 extern struct GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(struct NameBalloonRecord *records, struct GameSystem *gameSystem, u32 recordIndex, u16 npcId, u8 dir);
-extern void *GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
 extern u32 ISS_SYS_GetSwitchSys(u32 *p);
-extern void ISS_SWITCH_SYS_SwitchOn(u8 *p, u32 a);
-extern void *POKE_REGULATION_Load(int a, int b);
+#include "../arm9/iss_switch_sys.h"
+#include "../arm9/poke_regulation.h"
 struct Regulation;
-extern int POKE_REGULATION_CheckPartyUsable(struct Regulation *reg, struct Party *party);
-extern u32 BATTLE_REC_VerifyAndCloseSave(struct SaveControl *save, u32 heap, u32 *result, u32 id);
-extern void BATTLE_REC_LoadToolOverlay(void);
-extern void BATTLE_REC_TOOL_PackSetup(struct BattleSetupParam *setup);
-extern void BATTLE_REC_UnloadToolOverlay(void);
+#include "../arm9/battle_rec.h"
+#include "../ov188/battle_rec_tool.h"
 extern void VM_SetWait(char *p, int val);
-extern void BATTLE_REC_FreeWork(void);
 extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int callback, int callbackWork);
 extern void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(struct FieldMap *fieldMap);
-extern u32 POKEPARTY_GetCount(struct Party *party);
-extern void BSUBWAY_PLAYDATA_AddCounters(struct BsubwayPlayData *p, s32 a, s32 b, s32 c);
-extern void BSUBWAY_PLAYDATA_IncRound(struct BsubwayPlayData *p);
-extern void BSUBWAY_SCOREDATA_SetFirstClear(struct BsubwayScoreData *p, u32 i);
-extern void BSUBWAY_COMM_AddCommandTable(u32 a);
-extern void BSUBWAY_COMM_NetInit(void *p);
-extern int BSUBWAY_COMM_StartTimingSync(int timingNo);
+#include "../ov010/bsubway_comm.h"
 struct CommEntryMenu;
-extern struct CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 minMembers, u32 maxMembers, u32 heapId, u32 menuMode, u32 isChild, u8 *mac);
+#include "comm_entry_menu.h"
 struct BsubwayScrWork;
-extern void BSUBWAY_COMM_SetSendData(struct BsubwayScrWork *work, u32 cmd, u16 arg);
-extern void BSUBWAY_COMM_SetRecvMode(BsubwayScrWork *work, u8 v);
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+#include "../arm9/net_system.h"
 struct MetTrainersSave;
-extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, u32 value);
-extern void *MET_TRAINERS_GetFromSave(void *p);
-extern void GFL_NET_ERR_RequestScreen(void);
-extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *p, u32 v);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern u32 BATTLE_REC_IsVersionSupported(u32 v);
-extern int BSUBWAY_COMM_SendData(BsubwayScrWork *work);
-extern int BSUBWAY_COMM_CheckTimingSync(int timingNo);
-extern u32 COMM_ENTRY_MENU_Main(struct CommEntryMenu *menu);
-extern u32 COMM_ENTRY_MENU_Delete(struct CommEntryMenu *menu);
-extern int BSUBWAY_COMM_IsRecvEnd(BsubwayScrWork *work, u16 *out);
-extern u32 GFL_NET_IsParentAid(void);
-extern void GFL_NET_SetLoginOption(u8 loginOption);
-extern void BSUBWAY_COMM_DeleteCommandTable(void *p);
-extern int GFL_NET_GetNegotiationNum(void);
-extern int GFL_NET_Exit(int exitCallback);
-extern int GFL_NET_IsSessionNull(void);
-extern void SCRCMD_WORK_SetWaitCount(struct ScrcmdWork *work, u16 count);
-extern int SCRCMD_WORK_CountDownWait(struct ScrcmdWork *work);
+#include "../arm9/met_trainers_savedata.h"
+#include "../arm9/net_err.h"
+#include "../arm9/net.h"
 struct FieldMsgBg;
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 struct FieldMenuFunc;
-extern struct FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(struct FieldMsgBg *msgBg, u32 cursorPos);
-extern int FIELD_MSGBG_YesNoMenuMain(struct FieldMenuFunc *menu);
-extern int FIELD_MSGBG_DeleteMenuFunc(struct FieldMenuFunc *menu);
+#include "field_msgbg.h"
 struct HistoryEntry;
 extern u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct HistoryEntry *entry);
 extern void *FLDMMDL_AddMmdlParam(void *o, int x, int y, u16 d, u32 a, u32 b, u32 c, u32 e);
 extern void FLDMMDL_SetParam(struct Mmdl *mmdl, s32 param, s32 no);
 extern void FLDMMDL_SetEventId(struct Mmdl *mmdl, u16 eventId);
-extern u32 BATTLE_REC_BeginSave(struct GameData *gameData, u16 heap, u32 modeIndex, u32 battleCount, u32 id, u16 *seq, u16 *subSeq);
-extern struct Party *POKEPARTY_Create(u32 heap);
-extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 struct BtlInstTrainer;
-struct BtlSetup;
-extern struct BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(struct GameSystem *gameSystem, struct Party *playerParty, u32 battleMode, struct BtlInstTrainer *trainerA, struct BtlInstTrainer *trainerB, s32 monCount);
+extern struct BattleSetupParam *FLD_BTL_INST_TOOL_CreateBtlSetup(struct GameSystem *gameSystem, struct Party *playerParty, u32 battleMode, struct BtlInstTrainer *trainerA, struct BtlInstTrainer *trainerB, s32 monCount);
 extern u8 FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);
 struct BtlInstGroup;
 extern struct BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(struct BtlInstTrainer *trainer, s32 trainerIndex, s32 heapId);
 extern u32 FLD_BTL_INST_TOOL_BuildBattleMon(struct BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
-extern u32 GFL_USE_GetRandom(u32 max);
+#include "../arm9/gfl_use.h"
 int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem);
 BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 playMode);
 void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work);
@@ -1198,7 +1119,7 @@ void BSUBWAY_SCR_PackBattleMon(BattleMon *mon, u32 pokeParam)
     mon->lang = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xc, 0);
     mon->otId = POKE_TOOL_GetPartyValue((void *)pokeParam, 7, 0);
     mon->pid = POKE_TOOL_GetPartyValue((void *)pokeParam, 0, 0);
-    mon->ivs = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xac, 0);
+    mon->iv.ivs = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xac, 0);
     for (i = 0; i < 6; i++)
         mon->ev[i] = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xd + i, 0);
     mon->ability = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xa, 0);
@@ -1458,9 +1379,9 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         u32 height = operand2 << 16;
         void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         if (npcObj != 0) {
-            FLDMMDL_GetPos(npcObj, (struct MmdlVec *)(&npcPos));
+            FLDMMDL_GetPos(npcObj, (struct VecFx32 *)(&npcPos));
             npcPos.y = height;
-            FLDMMDL_InitPosition(npcObj, (struct MmdlVec *)(&npcPos), FLDMMDL_GetDirDisp(npcObj));
+            FLDMMDL_InitPosition(npcObj, (struct VecFx32 *)(&npcPos), FLDMMDL_GetDirDisp(npcObj));
             FLDMMDL_SetStatusBitHeightGetOff(npcObj, 1);
         }
         break;
@@ -1745,7 +1666,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = work->stateBits.flag8;
         break;
     case BSUBWAY_SCR_CMD_IS_BATTLE_WON: {
-        BtlSetup *setup = work->btlSetup;
+        struct BattleSetupParam *setup = work->btlSetup;
         if (setup == NULL)
             *resultDst = 0;
         else if (setup->outcome == 1)
@@ -1892,12 +1813,12 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_ADD_BATTLE_TALLY: {
-        BtlSetup *setup = work->btlSetup;
+        struct BattleSetupParam *setup = work->btlSetup;
         if (setup != NULL) {
-            u32 tallyFirst = setup->tally[0];
-            u32 tallyLast = setup->tally[9];
+            u32 tallyFirst = setup->turnCount;
+            u32 tallyLast = setup->ownFainted;
             int monCount;
-            void *btlParty = setup->parties[0];
+            void *btlParty = setup->party[0];
             int monIndex;
             int sumBefore;
             int sumAfter;
@@ -2030,10 +1951,10 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
             *resultDst = 1;
         break;
     case BSUBWAY_SCR_CMD_IS_BATTLE_REC_PLAYABLE: {
-        BtlSetup *setup;
+        struct BattleSetupParam *setup;
         *resultDst = 0;
         setup = work->btlSetup;
-        if (setup != NULL && BATTLE_REC_IsVersionSupported(setup->recordMode) == 1)
+        if (setup != NULL && BATTLE_REC_IsVersionSupported(setup->resultValue[1]) == 1)
             *resultDst = 1;
         break;
     }

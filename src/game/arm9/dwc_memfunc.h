@@ -1,12 +1,18 @@
 #ifndef GAME_ARM9_DWC_MEMFUNC_H
 #define GAME_ARM9_DWC_MEMFUNC_H
 
+typedef void *(*DWCiMemAlloc)(int, unsigned long, int);
+typedef void (*DWCiMemFree)(int, void *, unsigned long);
+
+void DWCi_SetMemFunc(DWCiMemAlloc alloc, DWCiMemFree free);
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of dwc_memfunc.c, prototypes copied from their definitions. */
 
 void *DWCi_GetAllocateHeader(char *p);
 void *DWCi_SetAllocateHeader(void *ptr, unsigned long size);
 unsigned long DWCi_GetAllocateSize(char *ptr);
+void DWCi_SetMemFunc(DWCiMemAlloc alloc, DWCiMemFree free);
 void *DWC_Alloc(int name, unsigned long size);
 void *DWC_AllocEx(int name, unsigned long size, int align);
 void DWC_Free(int name, void *ptr, unsigned long size);

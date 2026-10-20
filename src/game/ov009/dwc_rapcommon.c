@@ -56,82 +56,60 @@
  *   GFL_NET_STATE_WifiDisconnect  0x0203C554  arm
  */
 #include "dwc_rap_types.h"
+#include "../arm9/dwc_init.h"
 #include "dwc_rap_shared_types.h"
 
 struct ExpHeap;
 
-void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-u32 GFL_HEAP_Free(void *block);
 
-void GFL_NET_STATE_SetError(int errorCode, u32 errorType, u32 dwcError, u32 gameCode);
+#include "../arm9/net_state.h"
 
-u32 GFL_NET_STATE_GetError(void);
 
-void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern void DWC_ClearError(void);
+#include "../arm9/dwc_error.h"
 struct DWCstAccUserData;
 
-void DWC_ClearDirtyFlag(struct DWCstAccUserData *userdata);
+#include "../arm9/dwc_account.h"
 
-extern int GF_OVERLAY_Load(signed int id);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(int id);
 
-extern void ERROR_SCREEN_ShowAndWait(void);
+#include "../ov017/error_screen.h"
 
-extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
+#include "../arm9/nns_fnd_expheap.h"
 
-extern u32 NNSi_FndSetAllocModeBit(char *p, u32 v);
 
-extern u16 NNSi_FndSetGroupId(char *p, u16 v);
 
-extern void NNSi_FndDestroyExpHeap(void *heap);
 
-extern void GFL_HEAP_DeleteChecked(u32 heap);
 
-extern u32 OS_DisableInterrupts(void);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
 
-extern void OS_RestoreInterrupts(u32 h);
 
-extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, int align);
 
-extern void GFL_NET_ERR_ExitAndHalt(void);
+#include "../arm9/net_err.h"
 
-extern u8 NNSi_FndGetMBlockAttribute(char *p);
 
-extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 
-extern int DWC_InitForProduction(void *a, u32 b, void *c, void *d);
 
-extern void MIi_CpuClearFast(unsigned int data, void *destp, unsigned int size);
+#include "../arm9/mi_memory.h"
 
-extern int DWC_CheckUserData(struct DWCstAccUserData *userdata);
 
-extern void DWC_CreateUserData(void *userdata);
 
-extern void GFL_NET_STATE_SetWifiError(void);
 
-extern void GFL_NET_STATE_ClearErrorMode(void);
 
 extern int GFL_NET_GetRunState(void);
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
-extern void GFL_NET_ERR_ShowSimpleScreen(void);
 
-extern void GFL_NET_ERR_ResetState(void);
 
-extern void GFL_NET_ERR_RequestScreen(void);
 
-extern void GFL_NET_ERR_RaiseFatal(unsigned int x);
 
-extern void GFL_NET_ERR_HaltWithMessage(u32 value);
 
-extern void GFL_NET_ERR_RecordError(void);
 
-extern void GFL_NET_STATE_WifiDisconnect(u32 a);
 
 void DWC_RAPCOMMON_InitDwcWithNotice(int heapId);
 
@@ -145,9 +123,9 @@ void DWC_RAPCOMMON_ReleaseSubHeap(void);
 
 void DWC_RAPCOMMON_SetHeapTag(int tag);
 
-u32 DWC_RAPCOMMON_Alloc(u32 ownerId, u32 size, u32 align);
+void *DWC_RAPCOMMON_Alloc(int ownerId, unsigned long size, int align);
 
-void DWC_RAPCOMMON_Free(u32 ownerId, void *block, int unused);
+void DWC_RAPCOMMON_Free(int ownerId, void *block, unsigned long unused);
 
 void DWC_RAPCOMMON_CreateHeap(u32 heapId, u32 size);
 
@@ -179,9 +157,9 @@ extern char _sDwcGameName[];
 void DWC_RAPCOMMON_InitDwcWithNotice(int heapId)
 {
     if (DWC_RAPCOMMON_RunDwcInit(heapId) == 3) {
-        GF_OVERLAY_Load((int)abs_id_11);
+        GF_OVERLAY_Load((sptr)abs_id_11);
         ERROR_SCREEN_ShowAndWait();
-        GF_OVERLAY_Unload((int)abs_id_11);
+        GF_OVERLAY_Unload((sptr)abs_id_11);
     }
 }
 
@@ -209,8 +187,8 @@ void DWC_RAPCOMMON_CreateSubHeap(u32 ownerId, u32 size, u32 minRequestSize, u32 
     if (_pRapHeap->subHeap != 0) {
         GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
-    _pRapHeap->subMem = (u32)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
-    _pRapHeap->subHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
+    _pRapHeap->subMem = (uptr)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x62);
+    _pRapHeap->subHeap = (uptr)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->subMem + 0x1f) & ~0x1f), size - 0xc0, 0);
     _pRapHeap->subOwnerId = ownerId;
     NNSi_FndSetAllocModeBit((char *)_pRapHeap->subHeap, 1);
     NNSi_FndSetGroupId((char *)_pRapHeap->subHeap, 0xea);
@@ -254,19 +232,19 @@ void DWC_RAPCOMMON_SetHeapTag(int tag)
     _pRapHeap->tag = tag;
 }
 
-u32 DWC_RAPCOMMON_Alloc(u32 ownerId, u32 size, u32 align)
+void *DWC_RAPCOMMON_Alloc(int ownerId, unsigned long size, int align)
 {
     u32 irqState;
-    u32 block;
+    void *block;
 
     if (_pRapHeap->subHeap != 0 && ownerId == _pRapHeap->subOwnerId && size > _pRapHeap->subMinRequest) {
         irqState = OS_DisableInterrupts();
-        block = (u32)NNS_FndAllocFromExpHeapEx((struct ExpHeap *)_pRapHeap->subHeap, size, align);
+        block = NNS_FndAllocFromExpHeapEx((struct ExpHeap *)_pRapHeap->subHeap, size, align);
         OS_RestoreInterrupts(irqState);
         _pRapHeap->subLiveBlocks++;
     } else {
         irqState = OS_DisableInterrupts();
-        block = (u32)NNS_FndAllocFromExpHeapEx((struct ExpHeap *)_pRapHeap->mainHeap, size, align);
+        block = NNS_FndAllocFromExpHeapEx((struct ExpHeap *)_pRapHeap->mainHeap, size, align);
         OS_RestoreInterrupts(irqState);
     }
     if (block == 0) {
@@ -281,7 +259,7 @@ u32 DWC_RAPCOMMON_Alloc(u32 ownerId, u32 size, u32 align)
  * witness:  callee 0x02060F98 is witnessed by its ARM9 entry
  *           (src/matched/arm9/NNSi_FndGetMBlockAttribute.c, pkt_02060F98).
  */
-void DWC_RAPCOMMON_Free(u32 ownerId, void *block, int unused)
+void DWC_RAPCOMMON_Free(int ownerId, void *block, unsigned long unused)
 {
     u32 irqState;
 
@@ -310,8 +288,8 @@ void DWC_RAPCOMMON_CreateHeap(u32 heapId, u32 size)
         GF_PANIC_Fail(_sAssertEmptyCommon, 0, _sAssertEmptyCommon);
     }
     _pRapHeap = (DwcRapHeap *)GFL_HEAP_Alloc(0, 0x24, 1, _sDwcRapCommonFile, 0x14C);
-    _pRapHeap->mainMem = (u32)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
-    _pRapHeap->mainHeap = (u32)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->mainMem + 0x1f) & ~0x1f), size - 0xc0, 0);
+    _pRapHeap->mainMem = (uptr)GFL_HEAP_Alloc(heapId, size - 0x80, 0, _sDwcRapCommonFile, 0x14D);
+    _pRapHeap->mainHeap = (uptr)NNS_FndCreateExpHeapEx((void *)((_pRapHeap->mainMem + 0x1f) & ~0x1f), size - 0xc0, 0);
     _pRapHeap->tag = 0;
 }
 

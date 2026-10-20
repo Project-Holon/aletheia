@@ -17,7 +17,7 @@
  *   DC_FlushRange  0x020862F0  arm
  *   CARDi_ReadRomWithDMA  0x02077008  arm
  *   CARD_NotifyRomHashReadAsync  0x0272EE2C  arm twl
- *   data_02150200  0x02150200  data
+ *   cardi_common  0x02150200  data
  *   data_02732DA8  0x02732DA8  data twl
  *   OS_GetArenaLo  0x02086580  arm
  *   OS_GetArenaHi  0x0208656C  arm
@@ -34,7 +34,7 @@
  *   CARD_InitRomHashContext  0x0272F0BC  arm twl
  *   data_02732DA0  0x02732DA0  data twl
  *   data_02732DA4  0x02732DA4  data twl
- *   data_02150840  0x02150840  data
+ *   cardi_rom_base  0x02150840  data
  */
 #include "../types.h"
 
@@ -49,45 +49,35 @@ struct Hook {
 
 #include "../arm9/card_rom.h"
 
-extern struct SysState data_02150200;
+extern struct SysState cardi_common;
 extern struct CARDTransferInfo data_02732DA8;
-extern void DC_FlushRange(u32, u32);
-extern void CARDi_ReadRomWithDMA(struct CARDTransferInfo *info);
-extern void CARD_NotifyRomHashReadAsync(void *);
-extern struct Hook data_02150840;
+#include "../arm9/os_cache.h"
+extern struct Hook cardi_rom_base;
 extern u32 data_02732DA0, data_02732DA4;
 extern u8 data_02732DC4[];
-extern u32 OS_GetArenaLo(u32 arenaId);
-extern u32 OS_GetArenaHi(u32 arenaId);
-extern void OS_SetArenaLo(u32 arenaId, u32 newLo);
-extern void *CARD_GetOwnRomHeaderTWL(void);
-extern u32 CARD_CalcRomHashBufferLength(void *hdr);
-extern void OS_Terminate(void);
-extern u16 OS_GetBootType(void);
-extern int OS_GetLockID(void);
-extern void CARD_LockRom(u16 id);
-extern void CARD_UnlockRom(u32 id);
-extern void OS_ReleaseLockID(u16 id);
-extern int CARDi_ReadRomWithCPU(void *, void *, u32, u32);
-extern void CARD_InitRomHashContext(void *, void *, u32, u32, void *, void *, void *);
-
-void CARD_ReadRomHashImage(void *obj, u8 *buf, u32 off, u32 len);
+#include "../arm9/os_arena.h"
+#include "../arm9/card_api.h"
+#include "card_hash.h"
+#include "../arm9/os_terminate_processor.h"
+#include "../arm9/os_systemwork.h"
+#include "../arm9/os_spinlock.h"
+#include "../arm9/card_pullout.h"
 
 int CARDi_ReadCardWithHash(int userdata, int buffer, int offset, int length) {
-    CARD_ReadRomHashImage(data_02732DC4, (u8 *)buffer, offset, length);
+    CARD_ReadRomHashImage((CardHash *)data_02732DC4, (u8 *)buffer, offset, length);
     return length;
 }
 
-u32 CARDi_ReadCardWithHashInternalAsync(u32 userdata, u32 buffer, u32 offset, u32 length)
+int CARDi_ReadCardWithHashInternalAsync(void *userdata, void *buffer, u32 offset, u32 length)
 {
-    if (data_02150200.state == -1) {
+    if (cardi_common.state == -1) {
         length = 0;
     } else {
         DC_FlushRange(buffer, length);
         data_02732DA8.callback = CARD_NotifyRomHashReadAsync;
-        data_02732DA8.userdata = (void *)userdata;
+        data_02732DA8.userdata = userdata;
         data_02732DA8.src = offset;
-        data_02732DA8.dst = buffer;
+        data_02732DA8.dst = (u32)buffer;
         data_02732DA8.len = length;
         data_02732DA8.command = 0;
         data_02732DA8.work = 0;
@@ -117,11 +107,11 @@ void CARDi_InitRomHash(void)
     if (!(*(u8 *)0x02FFE01C & 1)) {
         return;
     }
-    data_02150200.state = -1;
-    data_02150840.callback = CARDi_ReadCardWithHash;
+    cardi_common.state = -1;
+    cardi_rom_base.callback = CARDi_ReadCardWithHash;
     lock = OS_GetLockID();
     CARD_LockRom(lock);
-    CARD_InitRomHashContext(data_02732DC4, CARD_GetOwnRomHeaderTWL(), data_02732DA0, data_02732DA4, CARDi_ReadRomWithCPU, CARDi_ReadCardWithHashInternalAsync, data_02732DC4);
+    CARD_InitRomHashContext((CardHash *)data_02732DC4, (const RomHdr *)CARD_GetOwnRomHeaderTWL(), data_02732DA0, data_02732DA4, CARDi_ReadRomWithCPU, CARDi_ReadCardWithHashInternalAsync, data_02732DC4);
     data_02732DA0 = 0;
     data_02732DA4 = 0;
     CARD_UnlockRom(lock);

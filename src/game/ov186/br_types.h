@@ -9,11 +9,11 @@
 
 #include "../ov125/gds_rap_types.h"
 
-struct Bank;
+struct Unit;
 
 /* Actor (CLACT) system handle, 4 bytes. */
 struct BrActorSys {
-    struct Bank *unit;
+    struct Unit *unit;
 };
 
 /* BR graphic system, 16 bytes, allocated by BR_GRAPHIC_Create. */
@@ -62,7 +62,7 @@ struct BrBtnTable {
     struct BrBtnTemplate records[1];  /* sum of section counts rows */
 };
 
-struct PalAnmSys;
+struct PaletteFade;
 
 struct BrFade;
 
@@ -78,7 +78,7 @@ struct BrFade {
     u32 frameCount;
     int durationParam;        /* 0: use the global fade speed */
     BrFadeStepFunc step;
-    struct PalAnmSys *palAnm;
+    struct PaletteFade *palAnm;
     u16 blendColor;
     u16 pad26;
     u32 unused28[5];
@@ -230,7 +230,7 @@ struct BrSidebar {
 };
 
 struct PrintSys;
-struct StrBuf;
+struct Strbuf;
 struct ZukanSave;
 struct BrTextWin;
 struct BrButton;
@@ -310,8 +310,8 @@ struct Param;
 struct Sys;
 
 /* Small coordinate pairs used by the button and text helpers. */
-typedef struct { int x, y; } Pair;
-typedef struct { int x, y, z; } Triple;
+typedef struct { int x, y; } BrPair;
+typedef struct { int x, y, z; } BrTriple;
 
 /* One button result entry (button kind and message id) of a button set. */
 struct BrBtnResult { u16 a, b; };

@@ -7,7 +7,7 @@
  * system keeps the field camera state and sets its own camera while it draws.
  */
 
-#include "field_msgbg_types.h"
+#include "../ov021/field_msgbg_types.h"
 
 #define TALKMSGWIN_MAX 32
 
@@ -81,7 +81,7 @@ typedef struct TalkMsgWin {
     u8 isPlain;                 /* 0x02, 1: no balloon polygon */
     u8 frameType;               /* 0x03 */
     u32 tailMode;               /* 0x04 */
-    struct PrintStream *printStream;  /* 0x08 */
+    struct TextPrinter *printStream;  /* 0x08 */
     struct BmpWin *bmpWin;      /* 0x0C */
     const VecFx32 *targetPos;   /* 0x10, 0: tail points at the anchor window */
     struct Strbuf *str;         /* 0x14 */

@@ -22,7 +22,7 @@ extern u16 SVC_GetCRC16(u32, u32, u32);
  * constant; it is a literal pool word, not a relocation. */
 u32 NWMi_CheckFirmDataParamIntegrity(void) {
     u32 *r4 = (u32 *)*(volatile u32 *)0x02FFFDFC;
-    u16 crc = SVC_GetCRC16(0xFFFF, (u32)r4 + 0x1e4, 0xc);
+    u16 crc = SVC_GetCRC16(0xFFFF, (uptr)r4 + 0x1e4, 0xc);
     u32 target = r4[0x1e0/4] >> 16;
     if (crc == target) {
         return 1;

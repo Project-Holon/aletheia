@@ -116,39 +116,19 @@ typedef struct FieldMap FieldMap;
 typedef struct FieldCommLink FieldCommLink;
 typedef struct FieldAvatar FieldAvatar;
 typedef struct FieldMmdl FieldMmdl;
-typedef struct FieldMsgContext FieldMsgContext;
-typedef struct SaveEffect SaveEffect;
-typedef struct TcblSystem TcblSystem;
-typedef struct MsgData MsgData;
+
+typedef struct FieldSaveAnime SaveEffect;
+
+typedef struct MsgBank MsgData;
 typedef struct Strbuf Strbuf;
 typedef struct WordSet WordSet;
 typedef struct BmpWin BmpWin;
 typedef struct Bmp Bmp;
 typedef struct PrintQue PrintQue;
-typedef struct PrintStream PrintStream;
+
 typedef struct AppKeyCursor AppKeyCursor;
 typedef struct TimeIcon TimeIcon;
-typedef struct TaskMenuRes TaskMenuRes;
-typedef struct TaskMenuWork TaskMenuWork;
-
-/* One entry of the yes/no menu (see app_taskmenu.c). */
-typedef struct TaskMenuItem {
-    Strbuf *str;        /* 0x00 */
-    u16 msgColor;       /* 0x04 */
-    u32 type;           /* 0x08 */
-} TaskMenuItem;
-
-/* Menu description handed to the task menu (see app_taskmenu.c). */
-typedef struct TaskMenuInitWork {
-    u32 heapId;             /* 0x00 */
-    u8 itemNum;             /* 0x04 */
-    TaskMenuItem *itemWork; /* 0x08 */
-    u32 posType;            /* 0x0C */
-    u8 charPosX;            /* 0x10 */
-    u8 charPosY;            /* 0x11 */
-    u8 width;               /* 0x12 */
-    u8 height;              /* 0x13 */
-} TaskMenuInitWork;
+#include "../arm9/app_taskmenu.h"
 
 /* The message window and whether a print queue job still has to be transferred to it. */
 typedef struct ReportEventWindow {
@@ -159,10 +139,10 @@ typedef struct ReportEventWindow {
 
 /* Everything the report event allocates for its message window and yes/no menu. */
 typedef struct ReportEventRes {
-    TcblSystem *tcbl;           /* 0x00: task list of the print stream */
+    struct TcblSystem *tcbl;         /* 0x00: task list of the print stream */
     MsgData *msgData;           /* 0x04 */
     ReportEventWindow window;   /* 0x08 */
-    PrintStream *printStream;   /* 0x10 */
+    struct TextPrinter *printStream; /* 0x10 */
     PrintQue *printQue;         /* 0x14 */
     Strbuf *message;            /* 0x18: text buffer of the current message */
     AppKeyCursor *keyCursor;    /* 0x1C */
@@ -225,107 +205,57 @@ enum {
     REPORT_EVENT_AVATAR_END = 8
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gamesystem.h"
 struct FieldPlayer;
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct Mmdl;
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
-extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../ov021/field_player.h"
+#include "../arm9/game_data.h"
+#include "../arm9/strbuf.h"
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 type, u32 arcId, u32 fileId, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 KEY_GetTrg(void);
-extern void STRBUF_Delete(Strbuf *str);
-extern Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
+#include "../arm9/msgdata.h"
+#include "../arm9/key.h"
 struct FieldSubscreen;
-extern struct FieldSubscreen *FIELDMAP_GetSubscreen(FieldMap *fieldMap);
-extern void *GAME_DATA_GetTrainerRecord(GameData *gameData);
-extern int FIELD_SUBSCREEN_RequestMode(struct FieldSubscreen *work, u32 mode);
-extern int FIELD_SUBSCREEN_IsIdle(struct FieldSubscreen *work);
-extern int FIELD_SUBSCREEN_IsReportReady(struct FieldSubscreen *work);
-extern void FIELD_SUBSCREEN_PrepareReportSave(struct FieldSubscreen *work);
-extern int FIELD_SUBSCREEN_CheckReportSaveCounter(struct FieldSubscreen *work);
-extern void FIELD_SUBSCREEN_StartReportSaveAnim(struct FieldSubscreen *work);
-extern void FIELD_SUBSCREEN_StopReportSaveAnim(struct FieldSubscreen *work);
-extern int FIELD_SUBSCREEN_IsReportSaveAnimDone(struct FieldSubscreen *work);
-extern void FIELD_SUBSCREEN_ResumeField(struct FieldSubscreen *work, u32 heapId);
-extern TcblSystem *TCBL_Create(u16 heapId, u16 tag, u32 taskCount, u32 workSize);
+#include "../ov021/field_subscreen.h"
+#include "../arm9/tcbl.h"
 struct KeyCursor;
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
+#include "../arm9/app_keycursor.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
-extern int SAVE_CONTROL_WouldOverwriteSave(SaveControl *saveControl);
-extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *bmpWin, u32 kind);
-extern u32 RECORD_AddOne(TrainerRecord *record, int id);
+#include "../arm9/printsys.h"
+#include "../arm9/save_control.h"
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/record.h"
 struct TcbList;
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
-extern TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
-extern int GAME_DATA_SaveStart(GameData *gameData);
-extern int GAME_DATA_SaveMain(GameData *gameData);
-extern void TIME_ICON_Delete(TimeIcon *timeIcon);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern WordSet *WORDSET_CreateDefault(u16 heapId);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
-extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dest, Strbuf *src);
-extern u32 WORDSET_Delete(WordSet *wordSet);
-extern int GFL_USE_IsSeqPlaying(u32 seNo);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
-extern void TCBL_Destroy(TcblSystem *tcbl);
-extern BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 layer, u32 tileOffset, u32 palSlot, u32 frameId, u16 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 archiveID, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags);
-extern u32 BMP_WIN_Delete(BmpWin *bmpWin);
-extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
-extern void BMP_Clear(Bmp *bmp, u8 value);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
-extern u32 FIELD_MSGBG_GetFont(FieldMsgContext *msgContext);
-extern signed char MSG_SPEED_GetWait(void);
-extern PrintStream *PRINTSYS_PrintStream(BmpWin *bmpWin, u32 x, u32 y, Strbuf *str, u32 font, u32 speed, TcblSystem *tcbl, u32 priority, u16 heapId, u32 clearColor);
-extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
-extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
-extern u8 BMP_WIN_GetBgLayer(BmpWin *bmpWin);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-struct TextPrinter;
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern int TOUCHPANEL_GetTrg(void);
-extern u32 KEY_GetCont(void);
-extern void TCBL_Main(TcblSystem *tcbl);
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
-struct GfFont;
-extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font);
-extern unsigned int PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+#include "../arm9/gfl_use.h"
+#include "../arm9/time_icon.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/wordset.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/arc_util.h"
+typedef short s16_p07;
 struct FieldMsgBg;
-extern struct PrintQue *FIELD_MSGBG_GetPrintQue(struct FieldMsgBg *msgBg);
+struct GfFont;
+                        
+#include "../ov021/field_msgbg.h"
+#include "../arm9/msg_speed.h"
+struct Tcbl;
+struct TextPrinter;
+#include "../arm9/bg_sys.h"
+struct TextPrinter;
+struct TextPrinter;
+#include "../arm9/touchpanel.h"
+struct GfFont;
+struct FieldMsgBg;
 struct GFont;
-extern TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern void APP_TASKMENU_RES_Delete(TaskMenuRes *res);
-extern TaskMenuWork *APP_TASKMENU_OpenMenuFastDecide(TaskMenuInitWork *init, TaskMenuRes *res);
-extern void APP_TASKMENU_UpdateMenu(TaskMenuWork *menu);
-extern u32 APP_TASKMENU_IsFinish(TaskMenuWork *menu);
-extern u8 APP_TASKMENU_GetCursorPos(const TaskMenuWork *menu);
-extern void APP_TASKMENU_CloseMenu(TaskMenuWork *menu);
-extern int FIELD_PLAYER_CheckNotWaterForm(struct FieldPlayer *player);
-extern void FIELD_PLAYER_StartFormChange(struct FieldPlayer *player, u32 mask);
-extern int FIELD_PLAYER_StepFormChange(struct FieldPlayer *player);
-extern int FIELD_PLAYER_CheckAnimePaused(struct FieldPlayer *player);
-extern void FLDMMDL_OffMoveBitMovePause(struct Mmdl *mmdl);
-extern void FLDMMDL_ClearStatusBit(struct Mmdl *mmdl, u32 bit);
-extern SaveEffect *FIELD_SAVEANIME_Create(u32 heapId, FieldMap *fieldMap);
-extern int FIELD_SAVEANIME_Start(SaveEffect *effect);
 struct FieldSaveAnime;
-extern void FIELD_SAVEANIME_Stop(struct FieldSaveAnime *work);
-extern int FIELD_SAVEANIME_Delete(struct FieldSaveAnime *work);
+                    
+#include "../ov021/field_saveanime.h"
+#ifndef __MWERKS__
+#include "../arm9/bmp.h"
+#include "fldmmdl.h"
+#endif
+struct FieldSaveAnime;
 extern const char d_02172A50[];
 
 int REPORT_EVENT_Main(ReportEventWork *w, u32 *state);
@@ -346,7 +276,7 @@ void REPORT_EVENT_BeginAvatarAnim(ReportEventWork *w);
 void REPORT_EVENT_EndAvatarAnim(ReportEventWork *w);
 int REPORT_EVENT_IsAvatarRequestDone(ReportEventWork *w);
 int REPORT_EVENT_IsAvatarReady(ReportEventWork *w);
-int REPORT_EVENT_StartSaveEffect(ReportEventWork *w);
+void REPORT_EVENT_StartSaveEffect(ReportEventWork *w);
 int REPORT_EVENT_StopSaveEffect(ReportEventWork *w);
 
 /*
@@ -368,7 +298,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(w->fieldMap)) == 1
             && FIELD_SUBSCREEN_IsReportReady(FIELDMAP_GetSubscreen(w->fieldMap)) == 1) {
             w->res = GFL_HEAP_Alloc(w->heapId, 0x50, 0, d_02172A50, 0x9F);
-            w->res->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x9E, w->heapId);
+            w->res->msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 3, 0x9E, w->heapId);
             w->res->message = STRBUF_Create(0x200, w->heapId);
             w->res->tcbl = TCBL_Create(w->heapId, w->heapId, 1, 4);
             w->res->keyCursor = (struct AppKeyCursor *)APP_KEYCURSOR_CreateDefault(0xF, 1, 1, w->heapId);
@@ -554,14 +484,14 @@ void REPORT_EVENT_PrintMessage(ReportEventWork *w, u32 msgIndex)
 void REPORT_EVENT_StartPrintStream(ReportEventWork *w)
 {
     ReportEventRes *res;
-    u32 font;
+    struct GfFont *font;
     BmpWin *bmpWin;
 
     BMP_Clear(BMP_WIN_GetBmp(w->res->window.bmpWin), 15);
     BMP_MENUWORK_DrawWindow(w->res->window.bmpWin, 2, 1, 13);
     res = w->res;
     font = FIELD_MSGBG_GetFont(w->msgContext);
-    w->res->printStream = PRINTSYS_PrintStream(res->window.bmpWin, 0, 0, res->message, font, MSG_SPEED_GetWait(), res->tcbl, 10, w->heapId, 15);
+    w->res->printStream = PRINTSYS_PrintStream(res->window.bmpWin, 0, 0, res->message, font, MSG_SPEED_GetWait(), (struct Tcbl *)res->tcbl, 10, w->heapId, 15);
     w->res->printWait = 0;
     bmpWin = w->res->window.bmpWin;
     BMP_WIN_TransferChars(bmpWin);
@@ -611,7 +541,7 @@ int REPORT_EVENT_UpdateMessage(ReportEventWork *w)
 void REPORT_EVENT_QueueMessage(ReportEventWork *w, u32 msgIndex)
 {
     Strbuf *message;
-    u32 font;
+    struct GfFont *font;
     ReportEventWindow *window;
     PrintQue *printQue;
     BmpWin *bmpWin;
@@ -651,9 +581,9 @@ int REPORT_EVENT_UpdateMessageQueue(ReportEventWork *w)
 void REPORT_EVENT_CreateMenuResources(ReportEventWork *w)
 {
     MsgData *msgData;
-    u32 font;
+    struct GfFont *font;
 
-    msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0xA8, w->heapId);
+    msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0xA8, w->heapId);
     w->res->menuItems[0].str = MSGDATA_AllocString((struct MsgBank *)msgData, 8);
     w->res->menuItems[0].msgColor = 0x39E3;
     w->res->menuItems[0].type = 0;
@@ -662,7 +592,7 @@ void REPORT_EVENT_CreateMenuResources(ReportEventWork *w)
     w->res->menuItems[1].type = 0;
     MSGDATA_Delete((struct MsgBank *)msgData);
     font = FIELD_MSGBG_GetFont(w->msgContext);
-    w->res->taskMenuRes = APP_TASKMENU_RES_Create(6, 14, (struct GFont *)font, (struct PrintQueue *)FIELD_MSGBG_GetPrintQue((struct FieldMsgBg *)w->msgContext), w->heapId);
+    w->res->taskMenuRes = APP_TASKMENU_RES_Create(6, 14, (struct GFont *)font, (struct PrintQueue *)FIELD_MSGBG_GetPrintQue(w->msgContext), w->heapId);
 }
 
 /* Deletes the task menu resources and the two menu strings. */
@@ -761,10 +691,10 @@ int REPORT_EVENT_IsAvatarReady(ReportEventWork *w)
 }
 
 /* Creates the save effect object and starts it. */
-int REPORT_EVENT_StartSaveEffect(ReportEventWork *w)
+void REPORT_EVENT_StartSaveEffect(ReportEventWork *w)
 {
     w->res->saveEffect = FIELD_SAVEANIME_Create(w->heapId, w->fieldMap);
-    return FIELD_SAVEANIME_Start(w->res->saveEffect);
+    FIELD_SAVEANIME_Start(w->res->saveEffect);
 }
 
 /* Stops and frees the save effect object. */

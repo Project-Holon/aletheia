@@ -18,7 +18,7 @@
 #define GAME_TYPES_U32_LONG
 #include "../types.h"
 
-typedef char *va_list;
+#include "../sdk_stdarg.h"
 
 #include "mi_memory.h"
 char *STD_CopyString(char *destp, const char *srcp);
@@ -60,9 +60,9 @@ int STD_CopyLString(char *destp, const char *srcp, int siz)
 
     source = srcp;
     index = 0;
-    dstalign = (unsigned long)destp & 3;
+    dstalign = (uptr)destp & 3;
 
-    if ((dstalign ^ ((unsigned long)srcp & 3)) == 0) {
+    if ((dstalign ^ ((uptr)srcp & 3)) == 0) {
         if (dstalign != 0) {
             for (; index + dstalign < 4 && index < siz - 1; source++, index++) {
                 destp[index] = *source;
@@ -123,7 +123,7 @@ int STD_GetStringLength(const char *str)
 {
     int length = 0;
 
-    while (((u32)(str + length) & 3) != 0) {
+    while (((uptr)(str + length) & 3) != 0) {
         if (str[length] == '\0')
             return length;
         ++length;
@@ -155,7 +155,7 @@ int STD_GetStringNLength(const char *str, int len)
     const unsigned long *p32;
     unsigned long zeroMask;
 
-    for (length = 0; ((unsigned long)(str + length) & 3) != 0 && length < len; length++) {
+    for (length = 0; ((uptr)(str + length) & 3) != 0 && length < len; length++) {
         if (str[length] == '\0') {
             return length;
         }
@@ -189,9 +189,9 @@ int STD_CompareString(const char *str1, const char *str2)
     int index;
 
     index = 0;
-    dstalign = (unsigned long)str1 & 3;
+    dstalign = (uptr)str1 & 3;
 
-    if ((dstalign ^ ((unsigned long)str2 & 3)) == 0) {
+    if ((dstalign ^ ((uptr)str2 & 3)) == 0) {
         if (dstalign != 0) {
             for (; index + dstalign < 4; index++) {
                 chr1 = (unsigned char)str1[index];
@@ -238,9 +238,9 @@ int STD_CompareNString(const char *str1, const char *str2, int len)
 
     if (len != 0) {
         index = 0;
-        dstalign = (unsigned long)str1 & 3;
+        dstalign = (uptr)str1 & 3;
 
-        if ((dstalign ^ ((unsigned long)str2 & 3)) == 0) {
+        if ((dstalign ^ ((uptr)str2 & 3)) == 0) {
             if (dstalign != 0) {
                 for (; index + dstalign < 4 && index < len; index++) {
                     chr1 = (unsigned char)str1[index];
@@ -273,10 +273,6 @@ int STD_CompareNString(const char *str1, const char *str2, int len)
     return 0;
 }
 
-#define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-
-#define va_end(v)
-
 int STD_TSScanf(char *dst, const char *fmt, ...)
 {
     int result;
@@ -307,10 +303,6 @@ void STDi_FillBitset(unsigned long *bitset, unsigned long start, unsigned long e
         bitset[pos] |= mask;
     }
 }
-
-#define __va_size(t) ((sizeof(t) + 3) & ~3)
-
-#define va_arg(ap, t) (*(t *)((ap += __va_size(t)) - __va_size(t)))
 
 enum {
     flag_plus = 0x0002,

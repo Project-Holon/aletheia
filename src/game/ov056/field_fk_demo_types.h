@@ -35,7 +35,7 @@ struct FieldSubproc;
 struct FieldSubprocTemplate;
 struct FieldSoundSystem;
 struct Mmdl;
-struct Tcb;
+struct TcbTask;
 struct IcaAnime;
 struct ArcFile;
 struct G3dCamera;
@@ -79,25 +79,24 @@ struct BuildModelNode;
 #define FK_SE_AMBIENT_A         0x756
 #define FK_SE_AMBIENT_B         0x7EF
 
-/* Position, scale and rotation a 3D object is drawn with (same layout as arm9 g3d_system_types.h). */
 #include "../sdk_fx.h"
 
-typedef struct G3dObjectStatus {
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
-} G3dObjectStatus;
+#include "../arm9/g3d_system_types.h"
+#include "../ov021/fieldmap.h"
+#include "../ov021/field_g3d_mapper.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/zonedata.h"
+#include "../arm9/field_sound_system.h"
+#include "../arm9/ica_anime.h"
+#include "../arm9/mi_memory.h"
 
 /* The head of a NitroSystem animation object and of its animation resource (only the fields read here). */
 typedef struct G3dAnmResHead {
     u8 pad00[4];
     u16 frameCount;                     /* 0x04 */
 } G3dAnmResHead;
-
-typedef struct G3dAnmObjHead {
-    u8 pad00[8];
-    G3dAnmResHead *res;                 /* 0x08 */
-} G3dAnmObjHead;
 
 /*
  * The stand-in player model of the demo (0x80 bytes, FkDemoWork.model). The
@@ -164,7 +163,7 @@ typedef struct FkDemoWork {
     FkBuildModelAnime buildAnime;       /* 0xBC */
     FkSoundAnime *soundAnime;           /* 0xC8: 0 when the variant has none */
     struct FieldSubproc *drawProc;      /* 0xCC: field proc that draws the model */
-    struct Tcb *uploadTcb;              /* 0xD0 */
+    struct TcbTask *uploadTcb;              /* 0xD0 */
 } FkDemoWork;
 
 /* Work of the draw proc: the model to draw. */
@@ -198,8 +197,6 @@ typedef struct FkAmbientSoundWork {
     struct FieldSoundSystem *soundSys;  /* 0x0C */
 } FkAmbientSoundWork;
 
-typedef int (*FkDemoEventFunc)(struct GameEvent *event, int *seq, FkDemoWork *work);
-typedef void (*FkDemoTcbFunc)(struct Tcb *tcb, FkDemoWork *work);
 
 /* Data of the overlay. */
 extern const u32 gFkDemoCameraSettingId[FK_DEMO_VARIANT_COUNT];                /* field camera setting id restored after the demo */
@@ -219,27 +216,6 @@ extern int gFkFrameSoundFrame[];                                           /* fr
 extern char gFkSoundAnimeSourceFile[];                                          /* source file name for allocations */
 
 /* Field map accessors and shared helpers (overlay 21 and arm9). */
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern struct FieldmapFunc *FIELDMAP_GetMapFunc(struct FieldMap *fieldMap);
-extern struct BuildModelMan *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
-extern u8 MYSTATUS_GetSex(const struct MyStatus *myStatus);
-extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *eventWork, u32 workId);
-extern struct BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(struct BuildModelMan *man, int kind, const VecFx32 *pos);
-extern int FIELD_BUILDMODEL_GetEntrySlotFrame(struct BuildModelMan *man, struct BuildModelEntry *entry, int animeId);
-extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct FieldSoundSystem *soundSys, u32 seId);
-extern void FIELD_SOUND_SYSTEM_ReleaseSlot(struct FieldSoundSystem *soundSys, int seId);
-extern u32 ICA_ANIME_GetFrameNum(struct IcaAnime *anime);
-extern void ICA_ANIME_SetFrame(struct IcaAnime *anime, s32 frame);
-extern void ICA_ANIME_Delete(struct IcaAnime *anime);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
 /* Sound anime (field_fk_sound_anime.c). */
 FkSoundAnime *FIELD_FK_SOUND_ANIME_Create(const void *soundIds, u32 arcId, u32 dataId, u32 bufFrameNum, u16 heapId);

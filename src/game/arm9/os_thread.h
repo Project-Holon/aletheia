@@ -1,6 +1,10 @@
 #ifndef GAME_ARM9_OS_THREAD_H
 #define GAME_ARM9_OS_THREAD_H
 
+#include "../sdk_os.h"
+
+extern OSThreadInfo OSi_ThreadInfo; /* 0x02150FEC */
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of os_thread.c, prototypes copied from their definitions. */
 

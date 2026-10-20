@@ -14,7 +14,7 @@ struct FieldMsgBg;
 struct FldMmdlSys;
 struct InfoMsgWin;
 struct InfoSysWin;
-struct MsgData;
+struct MsgBank;
 struct WordSet;
 struct GPowerTable;
 struct Strbuf;
@@ -57,7 +57,7 @@ typedef struct GPowerListWork {
     struct FldMmdlSys *mmdlSys;         /* 0x1C: field objects, paused while the list shows */
     struct InfoSysWin *infoSysWin;      /* 0x20: opening window */
     u32 pad24;
-    struct MsgData *msgData;            /* 0x28 */
+    struct MsgBank *msgData;            /* 0x28 */
     struct WordSet *wordSet;            /* 0x2C */
     struct GPowerTable *powerTable;     /* 0x30 */
     struct Strbuf *templateStr;         /* 0x34: message template */

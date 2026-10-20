@@ -13,6 +13,7 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_fx.h"
 
@@ -24,15 +25,15 @@ void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 void G2x_SetBlendBrightnessExt_(u32 addr, int plane1, int plane2, int ev1, int ev2, int brightness);
 void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
 
-#define reg_GX_VRAMCNT   (*(vu32 *)0x04000240)
+#define reg_GX_VRAMCNT   (*(vu32 *)REG_VRAMCNT_A_ADDR)
 
-#define reg_GX_VRAMCNT_E (*(vu8 *)0x04000244)
+#define reg_GX_VRAMCNT_E (*(vu8 *)REG_VRAMCNT_E_ADDR)
 
-#define reg_GX_VRAMCNT_F (*(vu8 *)0x04000245)
+#define reg_GX_VRAMCNT_F (*(vu8 *)REG_VRAMCNT_F_ADDR)
 
-#define reg_GX_VRAMCNT_G (*(vu8 *)0x04000246)
+#define reg_GX_VRAMCNT_G (*(vu8 *)REG_VRAMCNT_G_ADDR)
 
-#define reg_GX_VRAM_HI_CNT (*(vu16 *)0x04000248)
+#define reg_GX_VRAM_HI_CNT (*(vu16 *)REG_VRAMCNT_H_ADDR)
 
 #define GX_FX32_FX16(x) ((fx16)((x) >> 4))
 
@@ -59,7 +60,7 @@ void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b,
     *reg = (a | 0x40) | (b << 8) | ((c | (d << 8)) << 16);
 }
 
-#define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
+#define reg_GX_DISPSTAT (*(vu16 *)REG_DISPSTAT_ADDR)
 
 /*
  * sdk:      G2x_SetBlendBrightness_ (libgx.TWL.HYB.a g2.o)
@@ -75,7 +76,7 @@ void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness)
     }
 }
 
-#define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
+#define reg_GX_DISPSTAT (*(vu16 *)REG_DISPSTAT_ADDR)
 
 /*
  * sdk:      G2x_SetBlendBrightnessExt_ (libgx.TWL.HYB.a g2.o)
@@ -92,7 +93,7 @@ void G2x_SetBlendBrightnessExt_(u32 addr, int plane1, int plane2, int ev1, int e
     }
 }
 
-#define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
+#define reg_GX_DISPSTAT (*(vu16 *)REG_DISPSTAT_ADDR)
 
 /*
  * sdk:      G2x_ChangeBlendBrightness_ (libgx.TWL.HYB.a g2.o)

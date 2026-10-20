@@ -93,32 +93,31 @@ typedef struct WarpDataEntry {
     char pad0A[10];
 } WarpDataEntry;
 struct GameData;
-extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct EventWork;
 extern void ZONEDATA_SetEventFlag(struct EventWork *ev, int flagId);
 struct GameSystem;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+#include "../arm9/gamesystem.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_tool.h"
 struct ArcHandle;
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
-extern void ARC_TOOL_DeleteHandle(void *arc);
 int MAP_REPLACE_GetFlagIndex(int selector);
 struct GameComm;
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 struct PlayerInfo;
-extern int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info);
+#include "../arm9/comm_player_support.h"
 struct GameComm;
-extern int INTRUDE_COMM_GetAreaOwnerVersion(struct GameComm *comm);
+#include "intrude_comm_query.h"
 struct EventWork;
 extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
 void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem);
 MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(int unused, int flagNo);
 /* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Constant leaf: `movs r0, N; bx lr`. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/MAP_REPLACE_GetDefaultWarpId.c \ * --func MAP_REPLACE_GetDefaultWarpId --addr 0x02159F80 --region ov010 --cc dsi/1.1p1 --thumb */ int MAP_REPLACE_GetDefaultWarpId(void);
 int MAP_REPLACE_IsValidWarpId(int warpId);
-extern void ZONEDATA_SetDirectLocation(void *, int, int, int, int, int);
+#ifdef __MWERKS__
+extern void ZONEDATA_SetDirectLocation(void *, int, int, int, int, int); /* original prototype; the definition differs in pointer type, argument sign, argument width */
+#else
+extern void ZONEDATA_SetDirectLocation(struct Location*, u16, s16, u32, u32, u32);
+#endif
 /* * evidence: owner commit f860957 supplies the matched ARM9 Thumb02014184 * witness. Recheck the caller against that witness; no owner C compiled. * prototype: owner's u16 id is widened to int here because original r1 * is passed unchanged without narrowing. Remaining payloads retain 32 bits. * prior: wave49 one MATCH; tu --suggest-split left caller OUT. */ void MAP_REPLACE_SetDirectLocation(void *location, int zoneId, int unused, unsigned gridX, u16 gridZ);
 int MAP_REPLACE_WarpIdToIndex(int warpId);
 extern const char d_021728BC[];
@@ -358,7 +357,7 @@ void MAP_REPLACE_SetArriveFlag(void *gameData, int zoneId)
  */
 void MAP_REPLACE_SetDirectLocation(void *location, int zoneId, int unused, unsigned gridX, u16 gridZ)
 {
-    ZONEDATA_SetDirectLocation(location, zoneId, 1, gridX << 16, 0, (unsigned)gridZ << 16);
+    ZONEDATA_SetDirectLocation(location, (s32)zoneId, (s32)1, (s32)(gridX << 16), (s32)0, (unsigned)gridZ << 16);
 }
 
 /* Table index of a 1-based warp id; an out-of-range id falls back to the default id. */

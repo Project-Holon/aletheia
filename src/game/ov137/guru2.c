@@ -53,44 +53,34 @@ struct BigObj;
 
 struct Blk37;
 
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+#include "../arm9/procsys.h"
 
-extern void MI_CpuFill8(void *,int,u32);
+#include "../arm9/mi_memory.h"
 
-extern void *PROCSYS_Create(int heapId);
 
-extern u32 PROCSYS_Main(void *);
 
-extern void PROCSYS_Delete(struct S020314B8 *p);
 
-extern void PROCSYS_FreeProcWork(struct Proc *p);
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void PROCSYS_Push(void *,int,const void *,void *);
 struct GameData;
 
-extern void *GAME_DATA_GetMyParty(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern void *GAME_DATA_GetMyItem(struct GameData *gd);
 struct Party;
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
 
-extern void GFL_NET_SetAutoExit(u8 autoExit);
+#include "../arm9/net.h"
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
 
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 
 int GURU2_EntryProcInit(void *obj,int a,struct Guru2Param *param);
 
@@ -120,11 +110,9 @@ int GURU2_EntryStateDestroySession(struct Guru2Entry *p);
 
 void *GURU2_GetUnionApp(struct Guru2Comm *p);
 
-struct Guru2Comm *GURU2_COMM_Create(struct Guru2Session *session,int heap);
+#include "guru2_comm.h"
 
-void GURU2_COMM_Destroy(struct Guru2Comm *p);
 
-void GURU2_COMM_Exit(struct Guru2Comm *p);
 
 extern const char gGuru2AllocFileName[];
 
@@ -190,7 +178,7 @@ int GURU2_EntryStateStartReceipt(struct Guru2Entry *p)
     v=GURU2_SessionCreate(p->param,4);
     p->state=1;
     p->session=v;
-    PROCSYS_Push(p->procHandle,-1,gGuru2LobbyProcData,v);
+    PROCSYS_Push((ProcSys *)p->procHandle,-1,(const ProcData *)gGuru2LobbyProcData,(void *)v);
     return 0;
 }
 
@@ -228,7 +216,7 @@ int GURU2_EntryStateOpenPartyList(struct Guru2Entry *p)
         GFL_NET_SetAutoExit(1);
         v=GURU2_PartyListArgsCreate(p,21,0);
         p->partyListParam=v;
-        PROCSYS_Push(p->procHandle,(int)d_0000005B,gPartyListProcData,v);
+        PROCSYS_Push((ProcSys *)p->procHandle,(int)d_0000005B,(const ProcData *)gPartyListProcData,(void *)v);
         p->session->state=1;
         p->state=2;
     }
@@ -269,11 +257,11 @@ int GURU2_EntryStateAfterPartyList(struct Guru2Entry *p)
         p->statusParam->nationalDex=ZUKAN_SAVE_IsNationalDexEnabled(q);
         p->selectedSlot=sel;
         p->statusParam->cursor=sel;
-        PROCSYS_Push(p->procHandle,(int)d_00000083,gPokeStatusProcData,p->statusParam);
+        PROCSYS_Push((ProcSys *)p->procHandle,(int)d_00000083,(const ProcData *)gPokeStatusProcData,(void *)p->statusParam);
         p->state=3;
     } else {
         p->session->selectedSlot=sel;
-        PROCSYS_Push(p->procHandle,-1,gGuru2MainProcData,p->session);
+        PROCSYS_Push((ProcSys *)p->procHandle,-1,(const ProcData *)gGuru2MainProcData,(void *)p->session);
         p->session->state=3;
         p->state=4;
     }
@@ -288,7 +276,7 @@ int GURU2_EntryStateReopenPartyList(struct Guru2Entry *p)
     GFL_HEAP_Free(p->statusParam);
     v=GURU2_PartyListArgsCreate(p,21,a);
     p->partyListParam=v;
-    PROCSYS_Push(p->procHandle,(int)d_0000005B,gPartyListProcData,v);
+    PROCSYS_Push((ProcSys *)p->procHandle,(int)d_0000005B,(const ProcData *)gPartyListProcData,(void *)v);
     p->state=2;
     return 0;
 }

@@ -69,7 +69,7 @@ typedef struct Sha1HmacCtx {
     u32 keyLen;            /* 0x14 when the key was hashed down */
 } Sha1HmacCtx;
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 void SHA1_HMAC_Start(Sha1HmacCtx *ctx, const void *key, u32 key_len);
 void SHA1_HMAC_UpdateData(void *a, const void *b, u32 c);
 void SHA1_HMAC_Finish(Sha1HmacCtx *ctx, u8 *digest);

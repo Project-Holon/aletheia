@@ -1,6 +1,10 @@
 #ifndef GAME_ARM9_ISS_DUNGEON_SYS_H
 #define GAME_ARM9_ISS_DUNGEON_SYS_H
 
+typedef struct DungeonSoundRecord DungeonSoundRecord;
+typedef struct DungeonSoundTable DungeonSoundTable;
+typedef struct IssDungeonSys IssDungeonSys;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of iss_dungeon_sys.c, prototypes copied from their definitions. */
 
@@ -32,9 +36,5 @@ void ISS_DUNGEON_SYS_Activate(IssDungeonSys *dungeon);
 void ISS_DUNGEON_SYS_Deactivate(IssDungeonSys *dungeon);
 void ISS_DUNGEON_SYS_SelectRecord(IssDungeonSys *dungeon, u16 areaId);
 /* END mkheaders: generated region */
-
-typedef struct DungeonSoundRecord DungeonSoundRecord;
-typedef struct DungeonSoundTable DungeonSoundTable;
-typedef struct IssDungeonSys IssDungeonSys;
 
 #endif

@@ -11,7 +11,7 @@ typedef struct {
     fx32 x;
     fx32 y;
     fx32 z;
-} Vec;
+} ZukanDetailFormVec;
 
 typedef struct {
     float x;

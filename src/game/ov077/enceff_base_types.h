@@ -6,8 +6,8 @@
 
 #include "../sdk_fx.h"
 
-typedef struct Mtx33 {
+typedef struct EnceffBaseMtx33 {
     fx32 m[9];
-} Mtx33;
+} EnceffBaseMtx33;
 
 #endif

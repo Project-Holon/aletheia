@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_NNS_FND_FRAMEHEAP_H
 #define GAME_ARM9_NNS_FND_FRAMEHEAP_H
 
+typedef struct NNSiFndFrmHeapHead NNSiFndFrmHeapHead;
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_fnd_frameheap.c, prototypes copied from their definitions. */
 
 struct NNSiFndFrmHeapHead;
@@ -21,5 +24,6 @@ u32 NNS_FndAllocFromFrmHeapEx(char *p, int size, int align);
 void NNS_FndFreeToFrmHeap(void *heap, int flags);
 int NNS_FndRecordStateForFrmHeap(NNSiFndHeapHead *pHeapHd, u32 tagName);
 BOOL NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName);
+/* END mkheaders: generated region */
 
 #endif

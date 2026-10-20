@@ -310,7 +310,7 @@ int __flush_buffer(struct MslStream *stream, u32 *bytes_flushed)
  */
 int fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream)
 {
-    u32 idx = (stream == (u32)gMslStream0) ? 2 : 5;
+    u32 idx = (stream == (uptr)gMslStream0) ? 2 : 5;
     u8 *blk = gMslMutexTable + idx * 0x18;
     int r;
 
@@ -706,8 +706,8 @@ int __ftell(struct MslStream *stream)
  */
 int ftell(u32 stream)
 {
-    u32 idx = (stream == (u32)gMslStream0) ? 2 : (stream == (u32)gMslStream1) ? 3
-            : (stream == (u32)gMslStream2) ? 4 : 5;
+    u32 idx = (stream == (uptr)gMslStream0) ? 2 : (stream == (uptr)gMslStream1) ? 3
+            : (stream == (uptr)gMslStream2) ? 4 : 5;
     u8 *blk = gMslMutexTable + idx * 0x18;
     int r;
 
@@ -811,8 +811,8 @@ int __fseek(MslStream *stream, u32 pos, u32 whence)
  */
 int fseek(u32 stream, u32 pos, u32 whence)
 {
-    u32 idx = (stream == (u32)gMslStream0) ? 2 : (stream == (u32)gMslStream1) ? 3
-            : (stream == (u32)gMslStream2) ? 4 : 5;
+    u32 idx = (stream == (uptr)gMslStream0) ? 2 : (stream == (uptr)gMslStream1) ? 3
+            : (stream == (uptr)gMslStream2) ? 4 : 5;
     u8 *blk = gMslMutexTable + idx * 0x18;
     int r;
 
@@ -837,7 +837,7 @@ int fseek(u32 stream, u32 pos, u32 whence)
     return r;
 }
 
-int rewind(void *stream){ int result; ((struct MslStream *)((char *)(stream)))->error = (unsigned char)0; result = fseek((int)stream, (int)0, (int)0); ((struct MslStream *)((char *)(stream)))->error = (unsigned char)0; return result; }
+int rewind(void *stream){ int result; ((struct MslStream *)((char *)(stream)))->error = (unsigned char)0; result = fseek((sptr)stream, (int)0, (int)0); ((struct MslStream *)((char *)(stream)))->error = (unsigned char)0; return result; }
 
 /*
  * 64-bit population count: the four SWAR stages of the standard bit-count

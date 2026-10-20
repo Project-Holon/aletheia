@@ -20,8 +20,8 @@
  *   gQr2RegKeysDebugInvalid  0x021A80A0  data
  *   gQr2RegKeysDebugRegistered  0x021A80CC  data
  */
-extern int strcmp(const char *a, const char *b);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
+#include "../arm9/msl_string_str.h"
+#include "gsdebug.h"
 int qr2_internal_is_master_only_key(char *keyname);
 void qr2_register_keyA(int keyid, char *key);
 extern char *gQr2RegKeys[254];

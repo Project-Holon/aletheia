@@ -57,65 +57,46 @@ struct EventWork;
 
 struct BattleRecSlot;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern u32 MYSTATUS_GetId(const struct MyStatus *status);
+#include "../arm9/mystatus.h"
 
-extern GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 
-extern u32 GAME_COMM_GetCounter(GameComm *comm);
+#include "../arm9/game_comm.h"
 
-extern void *GAME_COMM_GetWork(GameComm *comm);
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern u32 GAME_COMM_GetKind(GameComm *comm);
 
-extern u32 GAME_COMM_IsTransition(GameComm *comm);
 
-extern struct GameData *GAME_COMM_GetGameData(GameComm *comm);
 
-extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 
-extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
 
-extern void *GAME_DATA_GetBattleRecSlot(struct GameData *gameData, u32 netId);
 
-extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 netId);
 
-extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
 
-extern u8 MYSTATUS_GetRomCode(const struct MyStatus *status);
 
-extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 
-extern u8 GAME_DATA_GetSlotFlag(const struct GameData *gameData, u32 slot);
 
-extern void *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
 struct FieldStatus;
 
-extern u32 FIELD_STATUS_GetMapMode(struct FieldStatus *fs);
+#include "../arm9/field_status.h"
 
-extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, int flag);
+#include "../arm9/zonedata.h"
 
-extern int INTRUDE_COMM_IsSessionActive(IntrudeSession *session);
+#include "../ov011/intrude_comm.h"
 
-extern int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *work);
 struct IntrudeSession;
 struct IntrudeCommSys;
 
-extern unsigned char INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *work, IntrudeSession *session);
 struct Strbuf;
 
-extern void MYSTATUS_NameToStrbuf(unsigned short *name, struct Strbuf *buf);
 
-extern int GFL_NET_IsSessionNull(void);
+#include "../arm9/net.h"
 
 int INTRUDE_COMM_CheckEntryAllowed(struct GameSystem *gameSystem);
 

@@ -269,8 +269,8 @@ void NNS_GfdInitVramManager(u32 mode, u32 flag)
         return;
     }
 
-    NNS_GfdDefaultFuncAllocTexVram = (u32)NNSi_GfdDefaultAllocTexVram;
-    NNS_GfdDefaultFuncFreeTexVram = (u32)NNSi_GfdDefaultFreeTexVram;
+    NNS_GfdDefaultFuncAllocTexVram = (uptr)NNSi_GfdDefaultAllocTexVram;
+    NNS_GfdDefaultFuncFreeTexVram = (uptr)NNSi_GfdDefaultFreeTexVram;
 }
 
 /*

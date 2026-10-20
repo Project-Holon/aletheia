@@ -239,7 +239,7 @@ void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userDa
         _pCommandWork = GFL_HEAP_Alloc(0, 0x22c, 1, g_020A7AF8, 0x96);
     }
     GFL_NET_COMMAND_AddCommandTable(groupKey, commandList, listNum, userData);
-    g_020A7AE8.userData = userData;
+    g_020A7AE8.userData = (void *)userData;
     for (memberIdx = 0; memberIdx < 8; memberIdx++) {
         _pCommandWork->memberState[memberIdx] = 0;
     }
@@ -268,7 +268,7 @@ void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum,
             tables[tableIdx].groupKey = groupKey;
             _pCommandWork->commandTables[tableIdx].list = (NetCommandEntry *)commandList;
             _pCommandWork->commandTables[tableIdx].listNum = listNum;
-            _pCommandWork->commandTables[tableIdx].userData = userData;
+            _pCommandWork->commandTables[tableIdx].userData = (void *)userData;
             return;
         }
     }
@@ -393,7 +393,7 @@ u32 GFL_NET_COMMAND_GetCommandWork(u32 command)
 {
     struct NetCommandTable *table = GFL_NET_COMMAND_GetCommandTable(command);
 
-    return table != 0 ? table->userData : 0;
+    return table != 0 ? (uptr)table->userData : 0;
 }
 
 NetCommandSizeFunc GFL_NET_COMMAND_GetSizeFunc(u32 command)
@@ -488,7 +488,7 @@ void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int
     if (netId == 0xff) {
         slotIdx = 8;
     }
-    if (handle != (u32)GFL_NET_HANDLE_GetCurrentHandle()) {
+    if (handle != (uptr)GFL_NET_HANDLE_GetCurrentHandle()) {
         return;
     }
     if (_pCommandWork->aNetHugeRecv[slotIdx].used == 0) {
@@ -535,7 +535,7 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, 
     slotIdx = netId;
     if (netId == 0xff)
         slotIdx = 8;
-    if (handle != (int)GFL_NET_HANDLE_GetCurrentHandle())
+    if (handle != (sptr)GFL_NET_HANDLE_GetCurrentHandle())
         return;
     if (GFL_NET_COMMAND_GetHugeBuffer(*((u16 *)(header + 6)), netId, *((u32 *)header)) == 0)
         return;
@@ -610,7 +610,7 @@ u32 GFL_NET_COMMAND_SetSendSlot(u32 handle, u32 destMask, u32 command, u32 total
     slot->chunksSent = 0;
     slot->command = command;
     slot->destMask = destMask;
-    slot->dataAddr = dataAddr;
+    slot->dataAddr = (void *)dataAddr;
     slot->handleId = GFL_NET_HANDLE_GetNetHandleID((void *)handle);
     slot->state.bits.headerPending = 1;
     return slot->state.bits.headerPending;
@@ -646,7 +646,7 @@ void GFL_NET_COMMAND_Main(void)
     int slotIdx;
     u32 chunkBytes;
     u32 chunkIdx;
-    u32 chunkAddr;
+    uptr chunkAddr;
     struct NetCommandWork *work;
     struct NetSendSlot *slot;
 
@@ -656,7 +656,7 @@ void GFL_NET_COMMAND_Main(void)
             slot = &work->sendSlots[slotIdx];
             chunkIdx = slot->chunksSent;
             chunkBytes = slot->chunkSize;
-            chunkAddr = slot->dataAddr + chunkBytes * chunkIdx;
+            chunkAddr = (uptr)slot->dataAddr + chunkBytes * chunkIdx;
             if (chunkIdx + 1 == slot->chunkCount)
                 chunkBytes = slot->lastChunkSize;
             if (GFL_NET_SYSTEM_SetSendQueue(0xc, (const u8 *)chunkAddr, chunkBytes, 1,

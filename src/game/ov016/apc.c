@@ -35,6 +35,8 @@
  *   WCM_Init              0x02164D64  arm
  */
 #include "../../matched/include/G_APC_BSS.h"
+#include "../ov009/wcm_system.h"
+#include "../ov009/wcm_aplist.h"
 
 /*
  * apc.o's .bss statics from 0x021DCF80 (the ten words before apci_bssid_buf): the
@@ -56,46 +58,15 @@ typedef struct {
     unsigned char *apci_Wep;              /* +0x24 */
 } APC_BSS;
 
-struct wlla_ssid {
-    unsigned long Len;
-    unsigned char Ssid[32];
-};
-
-struct wlla_rateset {
-    unsigned long Count;
-    unsigned char Rate[16];
-};
-
-struct wlla_bss_info {
-    struct wlla_ssid    Ssid;
-    unsigned long       Channel;
-    unsigned long       Noise;
-    unsigned long       Signal;
-    unsigned char       Bssid[6];
-    struct wlla_rateset SupportRates;
-    unsigned long       BeaconPeriod;
-    unsigned long       Capability;
-};
+#include "wlla_types.h"
 
 #include "../sdk_wm.h"
 
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern int WCM_SearchAsync(void *bssid, void *essid, unsigned long option);
-extern int WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option);
-extern int WCM_CleanupAsync(void);
-extern long WCM_Finish(void);
-extern int WCM_DisconnectAsync(void);
-extern int WCM_StartupAsync(void *config, void (*notify)(struct WCMNotice *));
-extern int WCM_LockApList(int lock);
-extern int WCM_CountApList(void);
-extern struct WMBssDesc *WCM_PointApList(unsigned short index);
-extern void MIi_CpuCopy32(void *srcp, void *destp, unsigned long size);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/mi_memory.h"
 int APC_GetAPList(struct WMBssDesc *WMBssdescBuf, int list_max);
 int APC_SearchStart(unsigned char *bssid, unsigned char *essid, int essid_len, unsigned long option);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern int WCM_Init(void *buf, long len);
 int APC_Connect(struct WMBssDesc *wmbssdesc, unsigned char *wep_buf, unsigned long option);
 int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int work_size);
 int APC_SearchEnd(void);
@@ -254,7 +225,7 @@ int APCi_MoveIdleState(void)
             return 0;
         break;
     case 1:
-        if (WCM_StartupAsync(apc_bss.apci_WCMConfig, APCi_Notify) != 3)
+        if (WCM_StartupAsync(apc_bss.apci_WCMConfig, (void (*)(void *))APCi_Notify) != 3)
             return 0;
         break;
     case 0:
@@ -421,11 +392,11 @@ int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int work_size
 
     enabled = OS_DisableInterrupts();
     apc_bss.apci_Wep = workbuffer;
-    apc_bss.apci_WCMConfig = (WCMConfig *)(((unsigned long)workbuffer + 0x50 + 3) & ~3);
-    apc_bss.apci_WCMBuffer = (void *)(((unsigned long)((WCMConfig *)apc_bss.apci_WCMConfig) + sizeof(WCMConfig) + 0x1F) & ~0x1F);
-    apc_bss.apci_wmbssdesc = (void *)(((unsigned long)apc_bss.apci_WCMBuffer + 0x2300 + 0x1F) & ~0x1F);
-    ((WCMConfig *)apc_bss.apci_WCMConfig)->pbdbuffer = (void *)(((unsigned long)apc_bss.apci_wmbssdesc + 0xC0 + 0x1F) & ~0x1F);
-    ((WCMConfig *)apc_bss.apci_WCMConfig)->nbdbuffer = ((unsigned long)workbuffer + work_size) - (unsigned long)((WCMConfig *)apc_bss.apci_WCMConfig)->pbdbuffer;
+    apc_bss.apci_WCMConfig = (WCMConfig *)(((uptr)workbuffer + 0x50 + 3) & ~3);
+    apc_bss.apci_WCMBuffer = (void *)(((uptr)((WCMConfig *)apc_bss.apci_WCMConfig) + sizeof(WCMConfig) + 0x1F) & ~0x1F);
+    apc_bss.apci_wmbssdesc = (void *)(((uptr)apc_bss.apci_WCMBuffer + 0x2300 + 0x1F) & ~0x1F);
+    ((WCMConfig *)apc_bss.apci_WCMConfig)->pbdbuffer = (void *)(((uptr)apc_bss.apci_wmbssdesc + 0xC0 + 0x1F) & ~0x1F);
+    ((WCMConfig *)apc_bss.apci_WCMConfig)->nbdbuffer = ((uptr)workbuffer + work_size) - (uptr)((WCMConfig *)apc_bss.apci_WCMConfig)->pbdbuffer;
     ((WCMConfig *)apc_bss.apci_WCMConfig)->nbdmode = 0;
     ((WCMConfig *)apc_bss.apci_WCMConfig)->dmano = 3;
     apc_bss.apci_user_callback = user_callback;
@@ -437,7 +408,7 @@ int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int work_size
         apc_bss.apci_state = 1;
     }
     if (apc_bss.apci_state == 1) {
-        if (WCM_StartupAsync(apc_bss.apci_WCMConfig, APCi_Notify) != 3) {
+        if (WCM_StartupAsync(apc_bss.apci_WCMConfig, (void (*)(void *))APCi_Notify) != 3) {
             OS_RestoreInterrupts(enabled);
             return 0;
         }

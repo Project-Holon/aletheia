@@ -108,4 +108,12 @@ typedef char TouchBarButton_size_check[sizeof(TouchBarButton) == 0x38 ? 1 : -1];
 typedef char TouchBarParams_size_check[sizeof(TouchBarParams) == 0x20 ? 1 : -1];
 typedef char TouchBar_size_check[sizeof(TouchBar) == 0x58 ? 1 : -1];
 
+struct BmpData;
+
+/* Window the touch bar labels are printed into. */
+typedef struct {
+    struct BmpData *bitmap;
+    u8 redraw;
+} TouchBarWindow;
+
 #endif

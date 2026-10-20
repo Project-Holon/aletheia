@@ -115,6 +115,23 @@
  *   gBtlvScdCounterRegionsA  0x0689D934  data  ov095
  *   gBtlvScdCounterRegionsB  0x0689DEBC  data  ov095
  */
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define WAZA_TOOL_GetFlag WAZA_TOOL_GetFlagHeader
+#define WAZA_TOOL_GetParam WAZA_TOOL_GetParamHeader
+#endif
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define BTL_MAIN_GetTrainerSlotOfPoke BTL_MAIN_GetTrainerSlotOfPokeHeader
+#define BTL_MAIN_GetOwnClientId BTL_MAIN_GetOwnClientIdHeader
+#define BTL_MAIN_GetOwnPartnerClient BTL_MAIN_GetOwnPartnerClientHeader
+#define BTL_SIDE_GetPokeAtPos BTL_SIDE_GetPokeAtPosHeader
+#define BTL_SLOT_GetPokeParam BTL_SLOT_GetPokeParamHeader
+#endif
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_AllocHeader
+#endif
 #include "btlv_scd_types.h"
 
 /* Services of the input module (ov094), which draws the touch screen menus. */
@@ -136,65 +153,45 @@ extern void BTLV_EFFECT_GaugeSelectSlot(int sel);
 extern void BTLV_EFFECT_StartIntroEffect(void);
 
 /* Services of the battle main module. */
-extern u32 BTL_MAIN_GetGameData(struct BtlMain *main);
-extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
-extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
-extern u32 BTL_MAIN_GetTrainerSlotOfPoke(struct BtlMain *main, struct BtlPokeCon *pokeCon, u32 pokeId);
-extern u8 BTL_MAIN_GetViewPosOfSlot(struct BtlMain *main, u32 slot);
-extern u8 BTL_MAIN_GetSlotFromViewPos(struct BtlMain *main, u8 viewPos);
-extern u8 BTL_MAIN_DecodeMessageCode(struct BtlMain *main, int code, u8 *out);
-extern int BTL_MAIN_GetFrontEnemyPos(u32 position, u8 *outPosition);
-extern u8 BTL_MAIN_GetFacingPos(int rule, u32 basePos);
-extern u32 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
-extern u32 BTL_MAIN_GetOwnPartnerClient(struct BtlMain *main);
-extern u8 BTL_MAIN_GetOwnOpponentClient(struct BtlMain *main, int nth);
-extern u8 *BTL_MAIN_GetPosTable(int tableIndex);
 
 /* Services of the poke container and the parties. */
-extern struct BtlPokeParam *BTL_SIDE_GetPokeAtPos(struct BtlPokeCon *pokeCon, u32 slot);
-extern struct BtlParty *BTL_SIDE_GetSlotOfClientThunk(struct BtlPokeCon *pokeCon, int clientId);
-extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlParty *party, u8 index);
-extern u8 BTL_SLOT_GetCount(struct BtlParty *party);
-extern u8 BTL_SLOT_GetRotateSrcIndex(u8 rotateKind);
-extern int BTL_CLIENT_GetClientId(struct BtlClient *client);
-extern u8 BTL_CLIENT_GetFieldCountdownByte(struct BtlClient *client);
 
 /* Services of the poke parameter. */
-extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *bpp);
-extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *bpp);
-extern int BTL_POKEPARAM_IsAbleToBattle(struct BtlPokeParam *bpp);
-extern int BTL_POKEPARAM_IsTransformed(struct BtlPokeParam *bpp);
-extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
-extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *bpp);
-extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *bpp);
-extern u16 BTL_POKEPARAM_GetMoveId(struct BtlPokeParam *bpp, int slot);
-extern u16 BTL_POKEPARAM_GetMovePP(struct BtlPokeParam *bpp, u8 slot, u8 *outPp, u8 *outPpMax);
-extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
-extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
-extern u32 POKE_TOOL_GetPartyValue(void *mon, int paramId, int arg);
-extern u32 POKE_TOOL_GetGender(void *mon);
+#include "../arm9/poke_tool.h"
 
 /* Services of the actions and the move data. */
-extern void BTL_ACTION_SetFight(union BtlAction *action, u32 moveId, u32 targetPos);
-extern void BTL_ACTION_SetFightSlotFlag(union BtlAction *action);
-extern void BTL_ACTION_SetRotate(union BtlAction *action, u32 direction);
-extern void BTL_ACTION_SetEscape(union BtlAction *action);
-extern void BTL_ACTION_SetSkip(union BtlAction *action);
-extern void BTL_ACTION_SetNone(union BtlAction *action);
-extern int BTL_CALC_GetCurseTargetKind(struct BtlPokeParam *bpp);
-extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
-extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 paramId);
+#include "../ov093/btl_calc.h"
 
 /* System services. */
-extern BtlvAuxView *GFL_HEAP_Alloc(u16 heapId, int size, int clear, u8 *site, int tag);
-extern void GFL_HEAP_Free(void *block);
-extern void MIi_CpuClear16(u32 value, void *dst, u32 size);
-extern void MI_CpuFill8(void *dst, int value, int size);
-extern void BG_SYS_SetSubPlaneVisible(int planeMask, int visible);
-extern struct Strbuf *STRBUF_Create(int size, u16 heapId);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern struct PrintQueue *PRINTSYS_QUE_Create(u16 heapId);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+#include "../arm9/mi_memory.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/printsys.h"
+#include "../ov093/btl_client.h"
+#include "../ov093/btl_pokeparam.h"
+#include "../arm9/waza_tool.h"
+#include "../ov093/btl_main.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../ov093/btl_action_word.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+extern void * GFL_HEAP_Alloc(u16 heapId, u32 size, int clear, const char *site, int tag);
+#endif
+#ifdef __MWERKS__
+#undef BTL_MAIN_GetTrainerSlotOfPoke
+#undef BTL_MAIN_GetOwnClientId
+#undef BTL_MAIN_GetOwnPartnerClient
+#undef BTL_SIDE_GetPokeAtPos
+#undef BTL_SLOT_GetPokeParam
+extern u8 * BTL_SIDE_GetPokeAtPos(struct BtlMain *const *side, u32 position);
+extern struct BtlPokeParam * BTL_SLOT_GetPokeParam(struct BtlSideSlot *slot, u8 index);
+#endif
+#ifdef __MWERKS__
+#undef WAZA_TOOL_GetFlag
+#undef WAZA_TOOL_GetParam
+extern u32 WAZA_TOOL_GetFlag(u16 move, u32 flag);
+extern u32 WAZA_TOOL_GetParam(u16 move, u32 param);
+#endif
 
 /* Touch region tables of the menus and data of the view. */
 extern u8 gBtlvScdFileName[];
@@ -215,7 +212,7 @@ extern const char *const gBtlvScdTargetRegionsSingleA[][15];
 extern const char *const gBtlvScdTargetRegionsDoubleA[][15];
 extern const char *const gBtlvScdTargetRegionsDoubleB[][15];
 
-BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlPokeCon *pokeCon, void *taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId);
+BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlSide *pokeCon, void *taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId);
 void BTLV_SCD_CreateInput(BtlvAuxView *view);
 void BTLV_SCD_StartInputSlideIn(BtlvAuxView *view, u32 mode);
 void BTLV_SCD_StartInputSlideOut(BtlvAuxView *view);
@@ -270,14 +267,14 @@ u8 *BTLV_SCD_GetInputFlags(BtlvAuxView *view);
 void BTLV_SCD_BeginCloseSequence(BtlvAuxView *view);
 int BTLV_SCD_RunCloseSequence(BtlvAuxView *view);
 void BTLV_SCD_ShowCounterScreen(BtlvAuxView *view, void *payload);
-void BTLV_SCD_PollCounterTouch(BtlvAuxView *view);
+int BTLV_SCD_PollCounterTouch(BtlvAuxView *view);
 
 /* Creates the view: allocates it, takes the party of the local client and resets the task stack. */
-BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlPokeCon *pokeCon, void *taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId)
+BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlSide *pokeCon, void *taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId)
 {
     BtlvAuxView *view;
 
-    view = GFL_HEAP_Alloc(heapId, 0xb4, 1, gBtlvScdFileName, 0xc8);
+    view = GFL_HEAP_Alloc(heapId, 0xb4, 1, (const char *)gBtlvScdFileName, 0xc8);
     view->core = core;
     view->mainModule = mainModule;
     view->pokeCon = pokeCon;
@@ -550,7 +547,7 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
     u16 count;
     u16 pass;
     u16 index;
-    struct BtlParty *parties[2] = {0, 0};
+    struct BtlSideSlot *parties[2] = {0, 0};
     u16 counts[2] = {0, 0};
     u32 rule, first, second, side, slot;
     struct BtlPokeParam *mon;
@@ -590,7 +587,7 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
             switch (rule) {
             case 0:
                 slot = BTL_MAIN_GetSlotFromViewPos(view->mainModule, 0);
-                mon = BTL_SIDE_GetPokeAtPos(view->pokeCon, slot);
+                mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain *const *)view->pokeCon, slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[0] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[0] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
@@ -599,7 +596,7 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
                 break;
             case 2:
                 slot = BTL_MAIN_GetSlotFromViewPos(view->mainModule, 6);
-                mon = BTL_SIDE_GetPokeAtPos(view->pokeCon, slot);
+                mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain *const *)view->pokeCon, slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[2] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[2] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
@@ -607,14 +604,14 @@ int BTLV_SCD_OpenActionMenuStep(int *state, BtlvAuxView *view)
                 }
             case 1: case 3:
                 slot = BTL_MAIN_GetSlotFromViewPos(view->mainModule, 2);
-                mon = BTL_SIDE_GetPokeAtPos(view->pokeCon, slot);
+                mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain *const *)view->pokeCon, slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[0] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[0] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
                     info.monValue[0] = BTL_POKEPARAM_GetValue(mon, 18);
                 }
                 slot = BTL_MAIN_GetSlotFromViewPos(view->mainModule, 4);
-                mon = BTL_SIDE_GetPokeAtPos(view->pokeCon, slot);
+                mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain *const *)view->pokeCon, slot);
                 if (BTL_POKEPARAM_IsFainted(mon) == 0) {
                     info.species[1] = BTL_POKEPARAM_GetSpecies(mon);
                     info.monLabel[1] = POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetDisplayMon(mon), 111, 0);
@@ -889,7 +886,7 @@ void BTLV_SCD_ShowTargetMenu(u8 *slots, u8 count, int altMode, BtlvAuxView *view
     if (moveId == 0xae) info.targetKind = BTL_CALC_GetCurseTargetKind(view->pokeParam);
     if (info.targetKind == 0 && WAZA_TOOL_GetFlag(moveId, 0xb)) info.targetKind = 14;
     while (count-- != 0) {
-        bpp = BTL_SIDE_GetPokeAtPos(view->pokeCon, *slots);
+        bpp = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain *const *)view->pokeCon, *slots);
         monWord = (u32)BTL_POKEPARAM_GetDisplayMon(bpp);
         rowIndex = BTL_MAIN_GetViewPosOfSlot(view->mainModule, *slots) - 2;
         row = &info.rows[rowIndex];
@@ -936,7 +933,7 @@ int BTLV_SCD_OpenTargetMenuStep(int *state, BtlvAuxView *view)
     if (BTL_MAIN_GetRule(view->mainModule) == 2) {
         targetPos = 6;
         if (view->targets.count != 0) {
-            targetPos = BTL_MAIN_GetPosTable(BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)))[4];
+            targetPos = BTL_MAIN_GetPosTable(BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)))->positions[0];
         }
         BTL_ACTION_SetFight(view->action, (u16)view->action->fight.moveId, targetPos);
         view->targetChosen = 1;
@@ -1146,7 +1143,7 @@ void BTLV_SCD_ShowCounterScreen(BtlvAuxView *view, void *payload)
 }
 
 /* Polls the touch regions of the counter screen. */
-void BTLV_SCD_PollCounterTouch(BtlvAuxView *view)
+int BTLV_SCD_PollCounterTouch(BtlvAuxView *view)
 {
-    BTLV_INPUT_ProcessTouchInput(view->input, gBtlvScdCounterRegionsA, gBtlvScdCounterRegionsB);
+    return BTLV_INPUT_ProcessTouchInput(view->input, gBtlvScdCounterRegionsA, gBtlvScdCounterRegionsB);
 }

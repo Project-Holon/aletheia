@@ -13,6 +13,6 @@ enum {
     EVENT_FINISHED
 };
 
-typedef int (*GameEventFunc)(GameEvent *event, int *seq, void *work);
+#include "../arm9/ica_anime_shared_types.h"
 
 #endif

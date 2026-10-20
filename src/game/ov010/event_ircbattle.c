@@ -82,72 +82,15 @@
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  */
 #include "../arm9/btl_setup_types.h"
+#include "../sdk_ioreg.h"
 #include "event_ircbattle_shared_types.h"
 
 #include "../types.h"
 
 /* Hardware: POWCNT1 (display power control). */
-#define HW_POWER_CONTROL_REG (*(vu16 *)0x04000304)
+#define HW_POWER_CONTROL_REG (*(vu16 *)REG_POWCNT1_ADDR)
 
 /* ---- IR battle entry sequence ---- */
-
-/* Argument block of the overlay that picks the party and result (work+0x08). */
-typedef struct IrcBattlePickArgs {
-    u32 reserved[2];        /* 0x00 */
-    u32 repeatFlag;         /* 0x08: in/out, 1 = come back from the detail screen */
-    u32 selection;          /* 0x0C: out */
-    u32 subSelection;       /* 0x10: out */
-    void *gameData;         /* 0x14 */
-    u32 unused;             /* 0x18 */
-    void *partyList;        /* 0x1C */
-} IrcBattlePickArgs;
-
-/* Argument block of the detail overlay (0x14 bytes, heap). */
-typedef struct IrcBattleDetailArgs {
-    void *gameData;         /* 0x00 */
-    void *partyList;        /* 0x04 */
-    u16 selection;          /* 0x08 */
-    u8 reserved0A;          /* 0x0A */
-    u8 subSelection;        /* 0x0B */
-    u32 enabled;            /* 0x0C */
-    u32 reserved10;         /* 0x10 */
-} IrcBattleDetailArgs;
-
-/* Argument block of the battle menu overlay (work+0x60). */
-typedef struct IrcBattleMenuArgs {
-    void *gameData;         /* 0x00 */
-    void *ownParty;         /* 0x04 */
-    void *linkParties[4];   /* 0x08 */
-    u8 teamByNetId[4];      /* 0x18 */
-    u32 mode;               /* 0x1C: in/out */
-} IrcBattleMenuArgs;
-
-/* Work of the IR battle entry event task (0xE8 bytes). */
-typedef struct IrcBattleEntryWork {
-    void *gameSys;                      /* 0x00 */
-    void *gameData;                     /* 0x04 */
-    IrcBattlePickArgs pickArgs;         /* 0x08 */
-    IrcBattleDetailArgs *detailArgs;    /* 0x28 */
-    u8 pad2C[0xC];
-    void *ownParty;                     /* 0x38 */
-    void *linkParties[4];               /* 0x3C */
-    void *saveControl;                  /* 0x4C */
-    u32 mode;                           /* 0x50: 1..5 battle kind, 6/7/8/12/13 menu results */
-    u32 savedBgm;                       /* 0x54 */
-    int partyMode;                      /* 0x58 */
-    void *recorderArg;                  /* 0x5C */
-    IrcBattleMenuArgs menuArgs;         /* 0x60 */
-    u8 pad80[8];
-    struct BattleSetupParam *setup;     /* 0x88 */
-    u8 recorderSlots[0x40];             /* 0x8C */
-    u32 reservedCC;                     /* 0xCC */
-    u32 ruleCategory;                   /* 0xD0 */
-    u32 ruleBase;                       /* 0xD4 */
-    u32 ruleOffset;                     /* 0xD8 */
-    u32 reservedDC;                     /* 0xDC */
-    void *trainerRecord;                /* 0xE0 */
-    u32 waitFrames;                     /* 0xE4 */
-} IrcBattleEntryWork;
 
 /* Event task of the IR battle entry as the event system sees it. */
 typedef struct IrcBattleEventTask {
@@ -163,117 +106,81 @@ typedef struct Tbl4 { u32 v[4]; } Tbl4;
 struct GameSystem;
 
 /* Callees outside this file (named tree-wide by the integrator's rename map). */
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct GameEvent;
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 struct FieldMap;
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+#include "../arm9/field_status.h"
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 
-extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
 struct GameData;
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern int GF_OVERLAY_Load(s32 overlayId);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(s32 overlayId);
 
-extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/net_command.h"
 struct GFLNetHandle;
 
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 struct GFLNetHandle;
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 
-extern void GFL_NET_ERR_ShowSimpleScreen(void);
 
-extern void GFL_NET_ERR_HaltIfActive(void);
 
-extern void GFL_NET_ERR_ResetState(void);
 
-extern struct BattleSetupParam *BTL_SETUP_Create(u32 heapId);
+#include "../arm9/btl_setup.h"
 
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
 
-extern void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
 
-extern void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
 
-extern void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
 
-extern void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *param, struct GameData *gd, unsigned int netHandle, unsigned char commPos, unsigned char netId, unsigned short heap);
 
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
+#include "../arm9/net.h"
 struct Party;
 
-extern void BTL_SETUP_SetParty(struct BattleSetupParam *param, struct Party *src, s32 client);
 
-extern void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *setup, u32 flag);
 
-extern u16 GFL_USE_GetBgmNo(void);
+#include "../arm9/gfl_use.h"
 
-extern void GFL_USE_CancelChangeAndStopBgm(void);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 
-extern void BTL_SETUP_Delete(struct BattleSetupParam *setup);
 
-extern u32 GFL_NET_IsParentAid(void);
 
-extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(void *gameSys, u32 overlayId, void *proc, void *procArg);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern int GFL_NET_GetRunState(void);
 
-extern int GFL_NET_Exit(int exitCallback);
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern void GFL_NET_IRC_WIRELESS_Exit(void);
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
+#include "../ov021/event_fieldmap_control.h"
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
 
-extern void *EVENT_BATTLE_REC_SAVE_Start(void *a, const int *p);
+#include "../ov008/event_battle_rec_save.h"
 struct MusicalEventWork;
 
-extern void MUSICAL_EVENT_BuildParty(s32 partySource, struct MusicalEventWork *work);
+#include "musical_event_party.h"
 
-extern void MUSICAL_EVENT_TrimAllPartiesToThree(struct MusicalEventWork *work);
 
-extern void MUSICAL_EVENT_UpdateFriendRecords(struct MusicalEventWork *work, struct GameData *gameData);
 
-extern void MUSICAL_EVENT_BindParticipantSlots(struct MusicalEventWork *work, struct GameSystem *gameSystem);
 
-extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u32 size);
 
-extern void GAME_EVENT_Change(void *event, void *proc, u32 size);
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
-extern struct Party *POKEPARTY_Create(u32 heapId);
+#include "../arm9/pokeparty.h"
+#include "../arm9/game_event.h"
 
-extern void GFL_USE_FadeInBgmFull(u32 frames);
 
 /* Overlay ids (absolute linker symbols) and data of other overlays. */
 extern u8 ov008_id[];
@@ -493,7 +400,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         recArgs.setup = work->setup;
         recArgs.slotData = work->recorderSlots;
         recArgs.flag = 1;
-        GAME_EVENT_CallEvent(parentEvent, GAME_EVENT_CreateOverlayEvent(gameSys, (u32)ov008_id, EVENT_BATTLE_REC_SAVE_Start, &recArgs));
+        GAME_EVENT_CallEvent(parentEvent, GAME_EVENT_CreateOverlayEvent(gameSys, (u32)ov008_id, (GameEventCreatorFn)EVENT_BATTLE_REC_SAVE_Start, &recArgs));
         (*step)++;
         break;
     case 12:
@@ -618,9 +525,9 @@ struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, void *unused, struct Ga
     int i;
 
     if (create != 0)
-        event = GAME_EVENT_Create(gameSys, 0, IRC_BATTLE_ENTRY_Main, 0xE8);
+        event = GAME_EVENT_Create(gameSys, 0, (GameEventFunc)IRC_BATTLE_ENTRY_Main, 0xE8);
     else
-        GAME_EVENT_Change(event, IRC_BATTLE_ENTRY_Main, 0xE8);
+        GAME_EVENT_Change(event, (GameEventFunc)IRC_BATTLE_ENTRY_Main, 0xE8);
     task = GAME_EVENT_GetWork(event);
     task->saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSys));
     task->gameData = GAMESYSTEM_GetGameData(gameSys);

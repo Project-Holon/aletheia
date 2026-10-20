@@ -138,54 +138,52 @@ typedef int (*BbActControlFn)(struct BbActEntry *entry, struct BbActCmd *cmd);
 #include "../sdk_nnsfnd.h"
 #include "gfl_heap_wrap.h"
 
+#ifdef __MWERKS__
 extern void *BILLBOARD_Create(u8 *src, void *heap);
+#else
+#include "billboard.h"
+#endif
 
+#ifdef __MWERKS__
 extern struct AreaMan *AREAMAN_Create(u32 size, u32 heapId);
+#else
+#include "areaman.h"
+#endif
 
+#ifdef __MWERKS__
 extern void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemId);
-
 extern void BILLBOARD_Delete(void *p);
-
 extern u32 AREAMAN_Delete(void *areaman);
-
-
 extern s32 AREAMAN_Alloc(struct AreaMan *pool, u32 count);
-
-extern u16  BILLBOARD_AddImage(struct BbBoard *board, u32 resource, u32 format, u32 sizeS, u8 sizeT, u8 paletteId);
-
+extern u16  BILLBOARD_AddImage(struct BbBoard *board, u32 resource, u32 format, u32 sizeS, u8 sizeT, u8 paletteId); /* original prototype; the definition differs in argument sign, argument width, pointer or integer, pointer type, return type */
 extern void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 boardId);
-
 extern void BILLBOARD_DeleteImage(struct BbBoard *board, int boardId);
+#else
+#define BILLBOARD_AddImage(board, res, ...) (BILLBOARD_AddImage)(board, (struct G3dResource *)(uptr)(res), __VA_ARGS__)
+#endif
 struct G3dResource;
 
 #include "g3d_system.h"
 
-extern int AREAMAN_Free(struct AreaMan *pool, u32 start, s32 count);
-
-extern s32  BILLBOARD_AddElem(struct BbBoard *board, u32 boardId, s16 width, s16 height, const VecFx32 *pos, u8 layer, u32 color, u32 mode);
-
-extern int BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemId, const u32 *flags);
-
+#ifdef __MWERKS__
+extern int AREAMAN_Free(struct AreaMan *pool, u32 start, s32 count); /* original prototype; the definition differs in return type */
+extern s32  BILLBOARD_AddElem(struct BbBoard *board, u32 boardId, s16 width, s16 height, const VecFx32 *pos, u8 layer, u32 color, u32 mode); /* original prototype; the definition differs in argument sign, argument width, pointer or integer, pointer type, return type */
+extern int BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemId, const u32 *flags); /* original prototype; the definition differs in argument sign, argument width, pointer or integer, pointer type, return type */
 extern void BILLBOARD_SetElemCell(struct BbBoard *board, s32 elemIndex, u16 *cell);
-
 extern void BILLBOARD_SetElemFlipS(struct BbBoard *board, u32 elemId, u32 *flipX);
-
 extern void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemId, u32 *flipY);
-
-
 extern void BILLBOARD_GetImageVramAddr(struct BbBoard *board, s32 index, s32 *outTexVramOffset);
-
 extern void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, s32 frame, s32 *outOffset, s32 *outFrameSize, u8 useFrameIndex);
-
-
-extern u32 BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, u16 boardId, u32 *palDst);
+extern u32 BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, u16 boardId, u32 *palDst); /* original prototype; the definition differs in argument sign, argument width, pointer or integer, pointer type, return type */
+#endif
 struct LightSlot;
 struct Camera;
 struct G3dCamera;
 
+#ifdef __MWERKS__
 extern void BILLBOARD_Draw(struct BbBoard *board, struct G3dCamera *camera, struct LightSlot *lights);
-
 extern u32 BILLBOARD_GetElemVisible(struct BbBoard *board, s32 elemIndex);
+#endif
 
 struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUploadFn uploadFn, int heapId);
 
@@ -225,7 +223,7 @@ void BILLBOARD_ACT_Draw(struct BbActSys *sys, void *camera, void *light);
 
 int BILLBOARD_ACT_SetEntryFlags(struct BbActSys *sys, int entryIndex, u32 flags);
 
-int BILLBOARD_ACT_GetEntryFlags(struct BbActSys *sys, int entryIndex);
+int BILLBOARD_ACT_GetEntryFlags(struct BbActSys *sys, u16 entryIndex);
 
 void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *sys, int entryIndex, u32 enabled);
 
@@ -241,7 +239,7 @@ u16 BILLBOARD_ACT_GetEntryCursor(struct BbActSys *sys, int entryIndex);
 
 int BILLBOARD_ACT_SetEntryPaletteFromSlot(struct BbActSys *sys, int entryIndex, int srcSlot);
 
-int BILLBOARD_ACT_GetEntryElemId(struct BbActSys *sys, int entryIndex);
+int BILLBOARD_ACT_GetEntryElemId(struct BbActSys *sys, u16 entryIndex);
 
 u32 BILLBOARD_ACT_GetEntrySlotIndex(struct BbActSys *sys, u32 entryIndex);
 
@@ -499,7 +497,13 @@ void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count)
 int BILLBOARD_ACT_DeleteSlot(struct BbActSys *sys, u32 slot)
 {
     BILLBOARD_ACT_InitSlot(&sys->slots[slot]);
+#ifdef __MWERKS__
     return AREAMAN_Free(sys->slotPool, slot, 1);
+#else
+    /* the definition returns void; the DS caller returns whatever r0 holds */
+    AREAMAN_Free(sys->slotPool, slot, 1);
+    return 0;
+#endif
 }
 
 u16 BILLBOARD_ACT_GetSlotBoardId(struct BbActSys *sys, int slotIndex)
@@ -644,7 +648,7 @@ void BILLBOARD_ACT_UpdateEntry(struct BbActSys *sys, struct BbActEntry *entry)
     frame = cmd->frame;
     duration = cmd->arg;
 
-    slot = (struct BbActSlot *)((u8 *)(entry->slotIndex * 8) + (u32)sys->slots);
+    slot = (struct BbActSlot *)((u8 *)(entry->slotIndex * 8) + (uptr)sys->slots);
     if (slot->payload != 0) {
         BILLBOARD_ACT_UploadSlotFrame(sys, slot, frame);
     } else {
@@ -679,7 +683,7 @@ void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot,
     u32 payloadBase;
     u32 zero;
 
-    payloadBase = (u32)G3D_SYSTEM_GetTexDataAddr((struct G3dResource *)slot->payload);
+    payloadBase = (uptr)G3D_SYSTEM_GetTexDataAddr((struct G3dResource *)slot->payload);
     BILLBOARD_GetImageVramAddr(sys->board, slot->boardId, (s32 *)(&texDst));
     zero = 0;
     BILLBOARD_CalcImageFrameRange(sys->board, slot->boardId, frame, (s32 *)(&frameOffset), (s32 *)(&frameSize), zero);
@@ -703,7 +707,7 @@ void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot,
  */
 u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot)
 {
-    u32 paletteSrc = (u32)G3D_SYSTEM_GetPlttDataAddr((G3dResource *)(slot->payload));
+    u32 paletteSrc = (uptr)G3D_SYSTEM_GetPlttDataAddr((G3dResource *)(slot->payload));
     u32 paletteDst;
     u32 result = BILLBOARD_GetImagePlttVramOffset(sys->board, slot->boardId, &paletteDst);
     BbActUploadFn uploadFn = sys->uploadFn;
@@ -748,15 +752,21 @@ void BILLBOARD_ACT_Draw(struct BbActSys *sys, void *camera, void *light)
  */
 int BILLBOARD_ACT_SetEntryFlags(struct BbActSys *sys, int entryIndex, u32 flags)
 {
+#ifdef __MWERKS__
     return BILLBOARD_SetElemVisible(sys->board,
                          sys->entries[entryIndex].elemId,
                          &flags);
+#else
+    /* the definition returns void; the DS caller returns whatever r0 holds */
+    BILLBOARD_SetElemVisible(sys->board, sys->entries[entryIndex].elemId, &flags);
+    return 0;
+#endif
 }
 
 /*
  * Leaf witness for ov021 0x021BBF10 / 0x021BC138 (lane wA1-12).
  */
-int BILLBOARD_ACT_GetEntryFlags(struct BbActSys *sys, int entryIndex)
+int BILLBOARD_ACT_GetEntryFlags(struct BbActSys *sys, u16 entryIndex)
 {
     return BILLBOARD_GetElemVisible(sys->board, sys->entries[entryIndex].elemId);
 }
@@ -846,7 +856,7 @@ int BILLBOARD_ACT_SetEntryPaletteFromSlot(struct BbActSys *sys, int entryIndex, 
     return BILLBOARD_ACT_UploadSlotPalette(sys, &slots[dstSlot]);
 }
 
-int BILLBOARD_ACT_GetEntryElemId(struct BbActSys *sys, int entryIndex)
+int BILLBOARD_ACT_GetEntryElemId(struct BbActSys *sys, u16 entryIndex)
 {
     return sys->entries[entryIndex].elemId;
 }

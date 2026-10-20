@@ -70,83 +70,76 @@
  *   _u32_div_f                   0x0209C2B0  arm
  *   _ull_mul                     0x0209C054  arm
  */
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define BTL_SICKCONT_MakeKind2Index BTL_SICKCONT_MakeKind2IndexHeader
+#define BTL_SICKCONT_MakeKind1 BTL_SICKCONT_MakeKind1Header
+#define BTL_SICKCONT_MakeKind4 BTL_SICKCONT_MakeKind4Header
+#endif
 #include "btl_calc_types.h"
 #include "../arm9/btl_setup_types.h"
 #include "btl_main_types.h"
 
 struct BtlParty;
 
-extern void *GFL_HEAP_Alloc(unsigned int, unsigned int, int, const char *, unsigned short);
-
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
 
 
-extern void BTL_TYPEPAIR_Split(int packedTypes, u8 *firstType, u8 *secondType);
 
-extern int BTL_TYPEPAIR_IsSingleType(int packedTypes);
+#include "btl_typepair.h"
 
-extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 
-extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int type);
 
-extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *bpp);
 
-extern union BtlSickCont BTL_SICKCONT_MakeKind3(u32 pokeId);
 
-extern union BtlSickCont BTL_SICKCONT_MakeKind2Index(u8 turns);
 
-extern union BtlSickCont BTL_SICKCONT_MakeKind1(u8 high, u32 low);
 
-extern union BtlSickCont BTL_SICKCONT_MakeKind4(u32 pokeId, u8 turns);
 
-extern union BtlSickCont BTL_SICKCONT_MakeKind1Empty(void);
 
-extern u32 BTL_ID_GetItemCuredSick(u32 index);
 
-extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *bpp, int sick);
+#include "../ov095/btl_id_sets.h"
 
-u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *bpp);
+#include "btl_pokeparam.h"
 
-u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 paramId);
 
-extern u8 TPOKE_DATA_GetTrainerKind(u32 trainerId);
+#include "../arm9/poke_tool.h"
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/tpoke_data.h"
+
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
-extern u32 TPOKE_DATA_GetRecordField(void *a, unsigned int idx);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 struct BtlSideSlot;
 
-u8 BTL_SLOT_GetCount(struct BtlSideSlot *slot);
+#include "btl_main.h"
 
-extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlSideSlot *slot, u32 index);
 
-extern u32 FILE_UTIL_GetItemParam(u32 item, u32 sel, u32 heap);
+#include "../arm9/file_util.h"
 struct BtlMain;
 
-extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
 struct BtlSide;
 
-extern u8 BTL_MAIN_GetTrainerSlotOfPoke(struct BtlMain *main, struct BtlSide *side, u32 pokeId);
 
-extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 fieldIndex);
+#include "../arm9/waza_tool.h"
+#include "btl_sickcont.h"
+#ifdef __MWERKS__
+#undef BTL_SICKCONT_MakeKind2Index
+#undef BTL_SICKCONT_MakeKind1
+#undef BTL_SICKCONT_MakeKind4
+extern union SickCont BTL_SICKCONT_MakeKind2Index(u8 index);
+extern union SickCont BTL_SICKCONT_MakeKind1(u8 index, u32 value);
+extern union SickCont BTL_SICKCONT_MakeKind4(u32 hi, u8 lo);
+#endif
 
-extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 bit);
 
-extern u8 BTL_MAIN_GetEnemyLanePosFromWork(struct BtlMain *main, u32 basePos, s32 lane);
 
-extern u8 BTL_MAIN_CollectLivingPokeIds(struct BtlMain *main, struct BtlSide *side, s32 code, u8 *outPokeIds);
 
-extern u8 BTL_MAIN_DecodeMessageCode(struct BtlMain *main, s32 code, u8 *out);
 
-extern int BTL_MAIN_IsSameTeamClient(int clientId, int otherClientId);
 
-void BTL_CALC_Init(const BtlRngState *rng, unsigned int heapId);
+void BTL_CALC_Init(BtlRngState *rng, unsigned int heapId);
 
 void BTL_CALC_SetRngState(const BtlRngState *rng);
 
@@ -196,17 +189,17 @@ int BTL_CALC_GetWeatherDamage(struct BtlPokeParam *bpp, int weather);
 
 u32 BTL_CALC_GetWeatherMoveRatio(int weather, int moveType);
 
-void BTL_CALC_MakeSickContFromSpec(struct BtlSickContSpec spec, struct BtlPokeParam *attacker, union BtlSickCont *out);
+void BTL_CALC_MakeSickContFromSpec(struct BtlSickContSpec spec, struct BtlPokeParam *attacker, union SickCont *out);
 
-union BtlSickCont BTL_CALC_MakeDefaultSickCont(int kind);
+union SickCont BTL_CALC_MakeDefaultSickCont(int kind);
 
 int BTL_CALC_HasDefaultSickCont(int kind);
 
-union BtlSickCont BTL_CALC_MakeSickContTurns(u32 turns);
+union SickCont BTL_CALC_MakeSickContTurns(u32 turns);
 
-union BtlSickCont BTL_CALC_MakeSickContPoke(u32 pokeId);
+union SickCont BTL_CALC_MakeSickContPoke(u32 pokeId);
 
-void BTL_CALC_MakeSickContFromKind(int kind, struct BtlPokeParam *attacker, union BtlSickCont *out);
+void BTL_CALC_MakeSickContFromKind(int kind, struct BtlPokeParam *attacker, union SickCont *out);
 
 int BTL_CALC_FindMajorSick(struct BtlPokeParam *bpp);
 
@@ -280,7 +273,7 @@ extern u8 gBtlCalcHitCountThresholds[6];
 /* Money lost on defeat per level point, by badge count (0 to 8). */
 extern u8 gBtlCalcDefeatMoneyScales[];
 
-void BTL_CALC_Init(const BtlRngState *rng, unsigned int heapId) { gBtlCalcWork.workTable=GFL_HEAP_Alloc(heapId,0x460,1,(const char *)gBtlCalcFileName,0x50); gBtlCalcWork.rng=*rng; }
+void BTL_CALC_Init(BtlRngState *rng, unsigned int heapId) { gBtlCalcWork.workTable=GFL_HEAP_Alloc(heapId,0x460,1,(const char *)gBtlCalcFileName,0x50); gBtlCalcWork.rng=*rng; }
 
 void BTL_CALC_SetRngState(const BtlRngState *rng) { gBtlCalcWork.rng = *rng; }
 
@@ -494,7 +487,7 @@ int BTL_CALC_GetWeatherDamage(struct BtlPokeParam *bpp, int weather)
 u32 BTL_CALC_GetWeatherMoveRatio(int weather, int moveType) { switch(weather) { case BTL_WEATHER_SUN: if(moveType==BTL_TYPE_FIRE) return 6144; if(moveType==BTL_TYPE_WATER) return 2048; break; case BTL_WEATHER_RAIN: if(moveType==BTL_TYPE_FIRE) return 2048; if(moveType==BTL_TYPE_WATER) return 6144; break; } return 4096; }
 
 /* Builds the volatile-condition record that a move's data describes. */
-void BTL_CALC_MakeSickContFromSpec(struct BtlSickContSpec spec, struct BtlPokeParam *attacker, union BtlSickCont *out)
+void BTL_CALC_MakeSickContFromSpec(struct BtlSickContSpec spec, struct BtlPokeParam *attacker, union SickCont *out)
 {
     u8 pokeId;
     u8 turns;
@@ -522,9 +515,9 @@ void BTL_CALC_MakeSickContFromSpec(struct BtlSickContSpec spec, struct BtlPokePa
 }
 
 /* Default record of a condition kind: 1, 3, 4 and 5 are permanent, 2 lasts 2 to 4 turns. */
-union BtlSickCont BTL_CALC_MakeDefaultSickCont(int kind)
+union SickCont BTL_CALC_MakeDefaultSickCont(int kind)
 {
-    union BtlSickCont sickCont;
+    union SickCont sickCont;
     sickCont.raw = 0;
     switch (kind) {
     case 1:
@@ -555,13 +548,13 @@ int BTL_CALC_HasDefaultSickCont(int kind)
 }
 
 /* Record that lasts the given number of turns. */
-union BtlSickCont BTL_CALC_MakeSickContTurns(u32 turns) { union BtlSickCont sickCont; sickCont.raw=0; sickCont.byPart.kind=2; sickCont.byPart.paramLow=turns; return sickCont; }
+union SickCont BTL_CALC_MakeSickContTurns(u32 turns) { union SickCont sickCont; sickCont.raw=0; sickCont.byPart.kind=2; sickCont.byPart.paramLow=turns; return sickCont; }
 
 /* Record tied to a Pokemon id. */
-union BtlSickCont BTL_CALC_MakeSickContPoke(u32 pokeId) { union BtlSickCont sickCont; sickCont.raw=0; sickCont.byPart.kind=3; sickCont.byPart.paramLow=pokeId; return sickCont; }
+union SickCont BTL_CALC_MakeSickContPoke(u32 pokeId) { union SickCont sickCont; sickCont.raw=0; sickCont.byPart.kind=3; sickCont.byPart.paramLow=pokeId; return sickCont; }
 
 /* Builds a condition record from a condition kind: default record, the attacker's id, or 2 to 5 turns. */
-void BTL_CALC_MakeSickContFromKind(int kind, struct BtlPokeParam *attacker, union BtlSickCont *out)
+void BTL_CALC_MakeSickContFromKind(int kind, struct BtlPokeParam *attacker, union SickCont *out)
 {
     u8 turns;
 

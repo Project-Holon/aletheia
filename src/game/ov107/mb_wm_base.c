@@ -88,18 +88,14 @@ static int mbi_power_save_mode = 1;
 
 #include "../sdk_wm.h"
 
-extern u16 WM_GetAllowedChannel(void);
+#include "../arm9/wm_sync.h"
 extern void MBi_CheckWmErrcode(u16 apiid, int errcode);
-extern int WM_SetIndCallback(void (*callback)(void *));
-extern int WM_SetLifeTime(void (*callback)(void *), u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime);
-extern int WM_SetParentParameter(void (*callback)(void *), struct WMParentParam *pparaBuf);
-extern int WM_SetBeaconIndication(void (*callback)(void *), u16 flag);
-extern int WMi_StartParentEx(void (*callback)(void *), int powerSave);
-extern int WM_StartMPEx(void (*callback)(void *), u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, int minPollBmpMode, int singlePacketMode, int fixFreqMode, int ignoreFatalError);
-extern int WM_End(void (*callback)(void *));
-extern int WM_SetPortCallback(u16 port, void (*callback)(void *), void *arg);
-extern void OS_SpinWaitSysCycles(u32 cycle);
-extern void OS_Terminate(void);
+#include "../arm9/wm_etc.h"
+#include "../arm9/wm_standard.h"
+#include "../arm9/wm_mp.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/os_terminate_processor.h"
 
 static void MBi_ParentCallback(void *arg);
 
@@ -445,18 +441,15 @@ static inline u16 mbi_game_char(int advance)
 static u32 mbi_reject_ggid = 0xffffffff;
 static u32 mbi_reject_ggid_mask = 0xffffffff;
 
-extern int WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
-extern BOOL MBi_CheckMBParent(void *bssDescp);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern void MIi_DmaCopy16(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
+#include "mb_gameinfo.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/mi_dma.h"
+#include "../arm9/mi_memory.h"
 extern BOOL changeScanChannel(WMScanExParam *p);
 extern BOOL MBi_CommEnd(void);
-extern int WM_StartConnectEx(void (*callback)(void *), WMBssDesc *pInfo, u8 *ssid, BOOL powerSave, u16 authMode);
 extern BOOL MBi_IsSendEnabled(void);
 extern void MBi_EndCommon(void *arg);
-extern void OS_GetMacAddress(u8 *macAddress);
+#include "../arm9/os_ownerinfo.h"
 /* .data anchor at mbi_life_mp (0x021F6E58) */
 
 
@@ -750,29 +743,15 @@ typedef struct MBiFileSlot {
     MBiParentFileInfo fi;
 } MBiFileSlot;
 
-extern u16 WM_GetNextTgid(void);
-extern u32 OS_DisableInterrupts(void);
-extern void MIi_CpuClear32(u32, void *, u32);
-extern void MIi_CpuClear16(u32, void *, u32);
 extern u32 MBi_GetBeaconPeriodDispersion(void);
-extern u32 OS_RestoreInterrupts(u32);
 static int MBi_IsCommSizeValid(unsigned short sendSize, unsigned short recvSize, unsigned short entry_num);
-extern int WM_Initialize(void *wmSysBuf, void *callback, unsigned short dmaNo);
 extern void MBi_OnInitializeDone(void);
 extern void MB_CommSetParentStateCallback(void (*callback)(u16, u32, void *));
-extern void MBi_SetChildMPMaxSize(u16 childMaxSize);
-extern void MBi_SetParentPieceBuffer(void *buf);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void MB_InitSendGameInfoStatus(void);
-extern int PXI_IsCallbackReady(int fifotag, int proc);
-extern void MBi_CommParentCallback(u16 type, void *arg);
-extern int WM_Reset(u32 param);
+#include "mb_block.h"
+#include "../arm9/pxi_fifo.h"
+#include "mb_parent.h"
 extern void MBi_CheckWmErrcode(u16 apiid, int errcode);
-extern int MBi_IsTaskAvailable(void);
-extern void MBi_EndTaskThread(void (*callback)(struct MBiTaskInfo *));
-extern int WM_Disconnect(void (*callback)(void *), u16 aid);
-extern void MBi_ClearParentPieceBuffer(u16 child_aid);
-extern int WM_SetMPDataToPortEx(void (*callback)(void *), void *arg, u16 *sendData, u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
+#include "mb_task.h"
 extern void MBi_ChildCallback(void *arg);
 int MB_Init(void *work, const MBUserInfo *user, u32 ggid, u32 tgid, u32 dma);
 int MB_SetParentCommParam(unsigned short sendSize, unsigned short maxChildren);
@@ -999,7 +978,7 @@ int MB_StartParentFromIdle(int channel)
 
 int MBi_CallReset(void)
 {
-    int errcode = WM_Reset(*(u32 *)(*(char **)(gMbWm + 0xC) + 0x508));
+    int errcode = WM_Reset((WMCallbackFunc)(*(u32 *)(*(char **)(gMbWm + 0xC) + 0x508)));
 
     MBi_CheckWmErrcode(1, errcode);
     return errcode == 2 ? 0 : errcode;

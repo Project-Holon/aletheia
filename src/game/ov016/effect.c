@@ -43,20 +43,17 @@ struct MEMEFFECT {
 };
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct { s8 b[4]; } S4;
 
 typedef struct { u8 b[4]; } U4;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void G2x_SetBlendBrightness_(unsigned long addr, int plane, int brightness);
+#include "heap.h"
+#include "../arm9/g2.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work,
-                           unsigned char prio);
-extern long FX_DivS32(long a, long b);
-extern void DWCi_WindowG2x_ChangeBlendBrightness_(unsigned long addr, int brightness);
-extern void DWCi_TSKlDelete(int kind, void *task);
+#include "task.h"
+#include "../arm9/fx_cp.h"
 void DWCi_EFFlInit(void);
 void DWCi_EFFlEnd(void);
 bool DWCi_EFFlCheck(int lcd);
@@ -78,10 +75,10 @@ void DWCi_EFFlInit(void)
 {
     unsigned short *p;
 
-    *(int *)0x021DE67C = (int)DWCi_HEAPlAllocEx(0x18, 4);
-    p = (unsigned short *)0x04000050;
-    G2x_SetBlendBrightness_((unsigned int)p, 0x3f, 0x10);
-    G2x_SetBlendBrightness_((unsigned int)(p + 0x800), 0x3f, 0x10);
+    *(int *)0x021DE67C = (sptr)DWCi_HEAPlAllocEx(0x18, 4);
+    p = (unsigned short *)REG_BLDCNT_ADDR;
+    G2x_SetBlendBrightness_((uptr)p, 0x3f, 0x10);
+    G2x_SetBlendBrightness_((uptr)(p + 0x800), 0x3f, 0x10);
 }
 
 /*
@@ -117,9 +114,9 @@ bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame)
     if (prm->active)
         return 0;
     if (lcd == 1)
-        G2x_SetBlendBrightness_(0x04001050, plane, BRIGHT.b[kind]);
+        G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, plane, BRIGHT.b[kind]);
     else
-        G2x_SetBlendBrightness_(0x04000050, plane, BRIGHT.b[kind]);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, plane, BRIGHT.b[kind]);
     ok = 1;
     prm->task = DWCi_TSKlForm(ok, taskFade, prm, 0xc8);
     prm->count = 0;
@@ -146,15 +143,15 @@ static void taskFade(void *task, void *work)
     if (TABLE.b[prm->index] & 0x10)
         value = -value;
     if (prm == &MemEffect->param[0])
-        DWCi_WindowG2x_ChangeBlendBrightness_(0x04001050, value);
+        DWCi_WindowG2x_ChangeBlendBrightness_(REG_DB_BLDCNT_ADDR, value);
     else
-        DWCi_WindowG2x_ChangeBlendBrightness_(0x04000050, value);
+        DWCi_WindowG2x_ChangeBlendBrightness_(REG_BLDCNT_ADDR, value);
     if (prm->count < prm->max)
         return;
     if (prm == &MemEffect->param[0])
-        DWCi_WindowG2x_ChangeBlendBrightness_(0x04001050, BRIGHT.b[prm->index]);
+        DWCi_WindowG2x_ChangeBlendBrightness_(REG_DB_BLDCNT_ADDR, BRIGHT.b[prm->index]);
     else
-        DWCi_WindowG2x_ChangeBlendBrightness_(0x04000050, BRIGHT.b[prm->index]);
+        DWCi_WindowG2x_ChangeBlendBrightness_(REG_BLDCNT_ADDR, BRIGHT.b[prm->index]);
     prm->active = 0;
     DWCi_TSKlDelete(1, task);
 }
@@ -165,7 +162,7 @@ bool DWCi_EFFlWait(int frame)
 
     if (prm->active != 0)
         return 0;
-    prm->task = DWCi_TSKlForm(1, taskWait, prm, 0xc8);
+    prm->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskWait, prm, 0xc8);
     prm->count = 0;
     prm->max = frame;
     prm->active = 1;

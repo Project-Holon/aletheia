@@ -32,12 +32,21 @@
  *   PRINTSYS_QUE_IsExistTarget 0x0201C6C4 thumb
  *   BMP_WIN_TransferChars 0x02045334 arm
  */
-struct Obj;
-struct Vec2;
+struct ClactActor;
+struct ClactVec2;
 struct Descriptor;
 struct Cfg;
 struct PrintSys;
 #include "../types.h"
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define CLACT_CreateActor CLACT_CreateActor_header
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+#undef CLACT_CreateActor
+extern struct ClactActor * CLACT_CreateActor(struct Unit *, int, int, int, const struct ActorInitParam *, int, u16);
+#endif
 
 /* Actor creation record read by CLACT_CreateActor (8 bytes). */
 typedef struct BAppToolActorPos {
@@ -72,25 +81,20 @@ typedef struct BAppTool {
 typedef char BAppTool_size_check[(sizeof(BAppTool) == 0x18) ? 1 : -1];
 typedef char BAppToolEntry_size_check[(sizeof(BAppToolEntry) == 0x8) ? 1 : -1];
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern int CLACT_CreateActor(int, int, int, int, void *, int, u16);
-struct Actor;
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+#include "../arm9/gfl_heap_wrap.h"
+struct ClactActor;
+struct ClactActor;
+extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 pltt_op);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
+extern void CLACT_DeleteActor(struct ClactActor *actor);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
+struct ClactVec2;
 struct BmpWin;
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32);
+#include "../arm9/bmp_win.h"
+#include "../arm9/bg_sys.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+#include "../arm9/printsys.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 u8 *B_APP_TOOL_Create(u16 heapId);
 void B_APP_TOOL_Delete(void *p);
 void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int cellRes);
@@ -120,9 +124,9 @@ void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int ce
     pos.x=0;pos.y=0;pos.mode=0;pos.space=1;
     for(i=0;i<4;i++) {
         pos.z=i;
-        tool->actors[i]=CLACT_CreateActor(owner,charRes,palRes,cellRes,&pos,1,tool->heapId);
-        CLACT_SetActorPaletteOffset((struct Actor *)tool->actors[i],0,1);
-        CLACT_SetActorAutoAnim((struct Actor *)tool->actors[i],1);
+        tool->actors[i]=(int)CLACT_CreateActor((struct Unit *)owner,charRes,palRes,cellRes,(const struct ActorInitParam *)&pos,1,tool->heapId);
+        CLACT_SetActorPaletteOffset((struct ClactActor *)tool->actors[i],0,1);
+        CLACT_SetActorAutoAnim((struct ClactActor *)tool->actors[i],1);
     }
 }
 
@@ -135,7 +139,7 @@ void B_APP_TOOL_DeleteActors(u8 *p)
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        CLACT_DeleteActor((struct Actor *)tool->actors[i]);
+        CLACT_DeleteActor((struct ClactActor *)tool->actors[i]);
     }
 }
 
@@ -158,10 +162,10 @@ void B_APP_TOOL_LayoutActors(int *actors, u8 *rect)
     BAppToolLayoutPos pos;
     u8 halfH=rect[3]/2;
     u8 halfW=rect[2]/2;
-    pos.x=rect[0]-halfW;pos.y=rect[1]-halfH;CLACT_AddActorSurfacePos((struct Obj *)actors[0],(const struct Vec2 *)(&pos),1);
-    pos.x=rect[0]-halfW;pos.y=rect[1]+halfH;CLACT_AddActorSurfacePos((struct Obj *)actors[1],(const struct Vec2 *)(&pos),1);
-    pos.x=rect[0]+halfW;pos.y=rect[1]-halfH;CLACT_AddActorSurfacePos((struct Obj *)actors[2],(const struct Vec2 *)(&pos),1);
-    pos.x=rect[0]+halfW;pos.y=rect[1]+halfH;CLACT_AddActorSurfacePos((struct Obj *)actors[3],(const struct Vec2 *)(&pos),1);
+    pos.x=rect[0]-halfW;pos.y=rect[1]-halfH;CLACT_AddActorSurfacePos((struct ClactActor *)actors[0],(struct ClactVec2 *)(&pos),1);
+    pos.x=rect[0]-halfW;pos.y=rect[1]+halfH;CLACT_AddActorSurfacePos((struct ClactActor *)actors[1],(struct ClactVec2 *)(&pos),1);
+    pos.x=rect[0]+halfW;pos.y=rect[1]-halfH;CLACT_AddActorSurfacePos((struct ClactActor *)actors[2],(struct ClactVec2 *)(&pos),1);
+    pos.x=rect[0]+halfW;pos.y=rect[1]+halfH;CLACT_AddActorSurfacePos((struct ClactActor *)actors[3],(struct ClactVec2 *)(&pos),1);
 }
 
 /*

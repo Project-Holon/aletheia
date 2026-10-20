@@ -10,12 +10,12 @@
  * status:   EXACT
  * note:     wave8 (2026-09-30): EXACT, 220 bytes, 9/9 relocs.  The old
  *           +0094/+0098 residue (`ldr r1,[r0,#0xb90]` vs `ldr r0,[r0,#0xb90]`)
- *           was not an allocator tie: `DWCi_TSKlDeleteByIndex` is a 12-byte veneer to
+ *           was not an allocator tie: `DWCi_TSKlDeleteEx` is a 12-byte veneer to
  *           0x021D7750, whose body opens `mov r4, r1` then `ldrb r1,[r4,#0x11]`
  *           and passes r4 on -- it takes the task pointer as a *second*
  *           argument.  The image keeps `g->task` in r1 across the guard
  *           because the guarded call passes that same value again:
- *           `DWCi_TSKlDeleteByIndex(0, gUsbapWork->task)`.  The one-argument spelling
+ *           `DWCi_TSKlDeleteEx(0, gUsbapWork->task)`.  The one-argument spelling
  *           lets the dying base coalesce into the load destination, which is
  *           the 2-byte residue.  The general lever is
  *           docs/idioms/a-guard-value-still-in-r1-at-the-call-is-the-callees-second-argument.md.
@@ -61,7 +61,7 @@
  *   WM_ReadStatus  0x0208EBE4  arm
  *   WM_Reset  0x0208F400  arm
  *   WM_End  0x0208F43C  arm
- *   DWCi_TSKlDeleteByIndex  0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteEx  0x021D7744  arm  ov016
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   gUsbapWork     0x021DE654  data
  *   gMemUsbAp   0x021DE654  data
@@ -86,7 +86,7 @@ struct WMStatus;
 extern int WM_ReadStatus(struct WMStatus *statusBuf);
 extern enum WMErrCode WM_Reset(void (*)(void *));
 extern enum WMErrCode WM_End(void (*)(void *));
-extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
+extern void DWCi_TSKlDeleteEx(unsigned int idx, void *r4);
 extern void DWCi_HEAPlFree_(void **mem);
 extern M *gUsbapWork;
 extern M *gMemUsbAp;
@@ -109,7 +109,7 @@ int DWCi_USBAPlEnd(void)
     if (rs != WM_ERRCODE_OPERATING)
         return 0;
     if (gUsbapWork->task != 0)
-        DWCi_TSKlDeleteByIndex(0, gUsbapWork->task);
+        DWCi_TSKlDeleteEx(0, gUsbapWork->task);
     while (gUsbapWork->end != 2)
         ;
     DWCi_HEAPlFree_((void **)(&gMemUsbAp));

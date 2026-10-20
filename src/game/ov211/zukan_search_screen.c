@@ -78,10 +78,7 @@
  *   BG_SYS_ChangeScale  0x02041F6C  arm
  */
 
-struct DispVram;
 struct Node;
-struct BgTemplate;
-struct DispConfig;
 struct Big;
 struct Ctrl;
 struct Sub020073D8Ctrl;
@@ -94,62 +91,40 @@ typedef struct
 
 #include "../types.h"
 
+#include "../arm9/bg_sys.h"
+
 typedef struct DispConfigData { u32 words[4]; } DispConfigData;
 
 typedef struct BgTemplateData { u32 words[8]; } BgTemplateData;
 
 #include "zukan_search_types.h"
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 restartParamA, u32 restartParamB);
+#include "../arm9/net.h"
 
-extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_Update(void);
-extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void BG_SYS_Create(u16);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_ClearSlot(u32);
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void BG_SYS_ClearLayerEx(int, u16);
-extern void BG_SYS_SetMainPlaneVisible(u32, u32);
-extern void BG_SYS_SetSubPlaneVisible(u32, u32);
+#include "../arm9/tcb_list.h"
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisible(unsigned,unsigned),BG_SYS_FreeLayerBuf(unsigned),BG_SYS_Delete(void);
-extern void *ARC_TOOL_CreateHandle(u32,u16);
-extern u8 MYSTATUS_GetSex(const struct MyStatus *mystatus);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 tileOffset, u32 size, u32 heapID, u16 allocFlags);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
-extern void ARC_TOOL_DeleteHandle(void *);
+#include "../arm9/arc_tool.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/arc_util.h"
 struct GameData;
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32,u32);
-extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, unsigned int slot, unsigned int recordId);
+#include "../arm9/game_data.h"
+extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *,u32,u32);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 slot, u32 recordId);
 extern u32 ZUKAN_SKIN_SAVE_GetValidFlag(const void *obj);
 extern void *ZUKAN_SKIN_SAVE_GetTiles(void *),*ZUKAN_SKIN_SAVE_GetPalette(void *);
-extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
-extern void BG_SYS_LoadPltt(u32,void *,u32,u32);
-extern void DC_FlushRange(void *,unsigned long);
+#include "../arm9/os_cache.h"
 extern void GX_BeginLoadBGExtPltt(void),GX_LoadBGExtPltt(const void *,u32,u32),GX_EndLoadBGExtPltt(void);
 extern void GXS_BeginLoadBGExtPltt(void),GXS_LoadBGExtPltt(const void *,u32,u32),GXS_EndLoadBGExtPltt(void);
-extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, unsigned int slot);
-extern void BG_SYS_SetLcdSwap(u32 swap);
-extern void ZUKAN_StartWipeIn(unsigned);
+extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
+#include "../ov212/zukan.h"
 extern void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *),ZUKAN_SEARCH_SCREEN_DeleteBg(void),BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
-extern u32 WIPE_SYS_EndCheck(void);
-extern int  TOUCHPANEL_GetCont(void);
-extern void UI_SetInputMode(u8 v);
-extern u32 KEY_GetTrg(void);
-extern void ZUKAN_StartWipeOut(u32 heap);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seqNo);
-extern void BG_SYS_ChangeScroll(u32,u32,u32);
-extern void BG_SYS_ChangeCenter(u32 which, u32 op, u16 value);
+#include "../arm9/wipe.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/ui.h"
+#include "../arm9/key.h"
 extern void ZUKAN_SEARCH_SCREEN_Tick(void);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern u32 WIPE_SYS_EndCheck(void);
-extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
 void ZUKAN_SEARCH_SCREEN_SetupVram(void);
 void ZUKAN_SEARCH_SCREEN_VBlank(void);
 void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p);
@@ -179,7 +154,7 @@ void ZUKAN_SEARCH_SCREEN_SetupVram(void)
 
 void ZUKAN_SEARCH_SCREEN_VBlank(void){BG_SYS_Update();*(unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3FF8)|=1;}
 
-void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p){p->vblankNode=GFL_USE_AddMainTask((unsigned)ZUKAN_SEARCH_SCREEN_VBlank,(unsigned)p,0);}
+void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p){p->vblankNode=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((unsigned)ZUKAN_SEARCH_SCREEN_VBlank),(void *)((unsigned)p),0);}
 
 void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p){TCB_DeleteTask((struct TcbTask *)p->vblankNode);}
 

@@ -22,15 +22,13 @@
  */
 #include "../types.h"
 
-extern u32 NWMi_GetSystemWork(void);
-extern void DC_StoreRange(u16 *, u32);
-extern s32 PXI_SendWordByFifo(s32 fifotag, u32 data, s32 err);
+#include "nwm_system.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/pxi_fifo.h"
 #include "../sdk_os.h"
 
-extern s32 OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
+#include "../arm9/os_message.h"
 extern void MI_CpuCopy8(u32, u16 *, u32);
-extern s32 OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
-extern void DC_InvalidateRange(void *, u32);
 void NWMi_SetCallbackTable(u32 index, u32 callback);
 void NWMi_SetReceiveCallbackTable(u32 index, u32 callback);
 u32 NWMi_SendCommand(u16 apiid, u16 argc, ...);

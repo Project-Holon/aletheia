@@ -60,9 +60,9 @@ void OS_InitException(void)
 
     if (!ex) {
         u32 *vec = (u32 *)0x02FFFD9C;
-        *vec = (u32)OSi_ExceptionHandler;
+        *vec = (uptr)OSi_ExceptionHandler;
         if (!OS_IsRunOnTwl()) {
-            *(u32 *)((u32)vec & ~0x800000) = (u32)OSi_ExceptionHandler;
+            *(u32 *)((uptr)vec & ~0x800000) = (uptr)OSi_ExceptionHandler;
         }
     }
 

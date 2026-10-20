@@ -5,7 +5,7 @@
 
 /* One 0x30-byte player row inside ActingHost at +0x60 (also viewed as
    Context.rec in mus_comm_func.c). */
-struct Record {
+struct StaActRecord {
     int statusReceived;           /* 0x00 set when the player's status block arrived */
     int partyReceived;            /* 0x04 set when the party record block arrived */
     int boxReceived;              /* 0x08 set when the box data arrived */
@@ -41,7 +41,7 @@ struct ActingHost {
     void * icaCtx;
     void * gameData;
     void * myStatus;               /* 0x5C */
-    struct Record rec[4];
+    struct StaActRecord rec[4];
     unsigned int statusSource;     /* 0x120 source of the status block (state 18) */
     void * statusSendBuf;
     void * partyRecordBuf;         /* 4 party blocks */
@@ -429,7 +429,7 @@ struct ScriptTask {
 };
 
 /* Button manager (0x60 bytes) created by STA_ACT_BUTTON_Create. */
-struct TaskObj {
+struct StaActTaskObj {
     unsigned short heapId;
     unsigned char pad_2[2];
     void * scene;

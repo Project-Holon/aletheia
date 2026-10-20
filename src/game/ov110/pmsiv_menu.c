@@ -99,7 +99,7 @@
 
 #define PMSIV_MENU_HEAP_ID 42
 
-struct ClactUnit;
+struct Unit;
 struct MsgData;
 struct Strbuf;
 struct GfFont;
@@ -107,70 +107,26 @@ struct PrintQue;
 
 typedef struct { u8 header[12]; u8 *colors; } PaletteFile;
 
-extern void *GFL_HEAP_Alloc(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 *PMS_INPUT_GetUiInputModePtr(struct PmsInput *input);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern u32 PMS_INPUT_HasInitialSentence(struct PmsInput *input);
-extern u8 PMS_INPUT_GetBrowseMode(struct PmsInput *input);
+#include "../arm9/gfl_heap_wrap.h"
+#include "pms_input.h"
+#include "../arm9/arc_tool.h"
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-struct Actor;
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern struct GfFont *PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
-extern void PMS_INPUT_VIEW_GetUiRes(struct PmsInputView *view, struct PmsInputViewSpriteRes *out, int screen, int unused);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heapId);
-extern u8 PMS_INPUT_GetInitialCount(struct PmsInput *input);
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
-extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
-extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
-extern unsigned PMS_INPUT_GetInputMode(struct PmsInput *input);
-extern int PMS_INPUT_GetSentenceType(struct PmsInput *input);
-extern struct ClactActor *PMS_INPUT_VIEW_CreateActor(struct PmsInputView *view, struct PmsInputViewSpriteRes *res, int x, int y, int priority, int mode);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
-extern struct PrintQue *PMS_INPUT_VIEW_GetPrintQue(struct PmsInputView *view);
+#include "../arm9/msgdata.h"
+#include "../arm9/strbuf.h"
+struct ClactActor;
+#include "../arm9/clact.h"
+#include "pms_input_view.h"
 struct PrintQueue;
 struct GFont;
 struct TaskMenuRes;
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
-extern void CLACT_ReleasePalette(u32 id);
-extern void CLACT_ReleaseCharacter(u32 id);
-extern void CLACT_ReleaseCellAnim(u32 id);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/arc_util.h"
 struct TaskMenuWin;
-extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
-extern void BG_SYS_PushTile(u32 index);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/bg_sys.h"
 struct TaskMenuItem;
-extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u16 heapId);
-extern void APP_TASKMENU_WIN_ChangePalette(struct TaskMenuWin *win, struct TaskMenuRes *res, u32 palNo, u32 color0, u16 color1);
-extern int PMS_INPUT_CanConfirm(struct PmsInput *input);
-extern int PMS_INPUT_GetSearchState(struct PmsInput *input);
-extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, unsigned int isActive);
-extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int isDecide);
-extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
-extern int CLACT_RegisterCharacter(void *handle, unsigned int fileId, unsigned int compressed, unsigned int screen, u16 heapId);
-extern int CLACT_RegisterCellAnim(void *handle, unsigned int cellFileId, unsigned int animFileId, unsigned int heapId);
-extern unsigned int APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern u32 APP_ICON_GetStatusCellFileId(u32 a);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
-extern int CLACT_RegisterPaletteEx(void *handle, u32 fileId, u32 screen, u32 offset, u16, u16, u16 heapId);
-extern void MI_CpuFill8(void *dst, int value, unsigned size);
-extern struct ClactUnit *PMS_INPUT_VIEW_GetClactUnit(struct PmsInputView *view);
-extern struct ClactActor *CLACT_CreateActor(void *unit, u32 character, u32 palette, u32 cellAnim, const void *setup, u16 screen, u16 heapId);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
-extern void MI_CpuCopy8(const void *src, void *dst, unsigned int size);
-extern int NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, unsigned int dstOffset, unsigned int srcAddr, int szByte);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
+#include "../arm9/app_icon.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
 extern short FX_SinCosTable_[];
 
 struct PmsivMenuActorSetup { u16 x, y, z; u8 priority, mode; };
@@ -246,7 +202,7 @@ void PMSIV_MENU_Delete(struct PmsivMenu *menu)
 {
     int i;
     PMSIV_MENU_HideAll(menu);
-    CLACT_DeleteActor((struct Actor *)menu->backButton);
+    CLACT_DeleteActor((struct ClactActor *)menu->backButton);
     CLACT_ReleasePalette(menu->backPalette);
     CLACT_ReleaseCharacter(menu->backCharacter);
     CLACT_ReleaseCellAnim(menu->backCellAnim);
@@ -263,7 +219,7 @@ void PMSIV_MENU_Update(struct PmsivMenu *menu)
     switch (menu->backButtonState) {
     case 0: break;
     case 1: menu->backButtonState=2;
-    case 2: if (!CLACT_IsActorAnimActive((struct Actor *)menu->backButton)) menu->backButtonState=3; break;
+    case 2: if (!CLACT_IsActorAnimActive((struct ClactActor *)menu->backButton)) menu->backButtonState=3; break;
     case 3: menu->backButtonState=0; break;
     }
     PMSIV_MENU_UpdateBlend(menu);
@@ -273,12 +229,12 @@ void PMSIV_MENU_HideAll(struct PmsivMenu *menu) {
     int i;
     for(i=0;i<PMSIV_MENU_TEXT_COUNT;i++) {
         if(menu->entries[i].text) { STRBUF_Delete(menu->entries[i].text); menu->entries[i].text=0; }
-        if(menu->taskMenuWin[i]) { APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)menu->taskMenuWin[i]); menu->taskMenuWin[i]=0; }
+        if(menu->taskMenuWin[i]) { APP_TASKMENU_WIN_Delete((TaskMenuWin *)menu->taskMenuWin[i]); menu->taskMenuWin[i]=0; }
     }
-    for(i=0;i<PMSIV_MENU_ITEM_COUNT;i++) CLACT_SetActorDrawEnable((struct Actor *)menu->items[i], 0);
-    for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) CLACT_SetActorDrawEnable((struct Actor *)menu->extraItems[i], 0);
+    for(i=0;i<PMSIV_MENU_ITEM_COUNT;i++) CLACT_SetActorDrawEnable((struct ClactActor *)menu->items[i], 0);
+    for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) CLACT_SetActorDrawEnable((struct ClactActor *)menu->extraItems[i], 0);
     BG_SYS_PushTile(0);
-    CLACT_SetActorDrawEnable((struct Actor *)menu->backButton, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)menu->backButton, 0);
 }
 
 /*
@@ -308,14 +264,14 @@ void PMSIV_MENU_ShowEditEntries(struct PmsivMenu *menu)
     PMSIV_MENU_UpdateEntryPalette(menu);
     BG_SYS_PushTile(0);
     if(PMS_INPUT_HasInitialSentence(menu->input)==0 && PMS_INPUT_GetInputMode(menu->input)==2) {
-        CLACT_SetActorDrawEnable((struct Actor *)menu->items[0], 1);
-        CLACT_SetActorDrawEnable((struct Actor *)menu->items[1], 1);
-        CLACT_SetActorDrawEnable((struct Actor *)menu->items[2], 1);
-        CLACT_SetActorDrawEnable((struct Actor *)menu->items[3], 1);
-        CLACT_SetActorDrawEnable((struct Actor *)menu->items[4], 1);
-        CLACT_SetActorDrawEnable((struct Actor *)menu->items[5], 1);
-        CLACT_SetActorDrawEnable((struct Actor *)menu->items[6], 1);
-        for(i=0;i<2;i++) CLACT_SetActorDrawEnable((struct Actor *)menu->extraItems[i], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->items[0], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->items[1], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->items[2], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->items[3], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->items[4], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->items[5], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->items[6], 1);
+        for(i=0;i<2;i++) CLACT_SetActorDrawEnable((struct ClactActor *)menu->extraItems[i], 1);
     }
     PMSIV_MENU_UpdateItemHighlight(menu);
 }
@@ -323,7 +279,7 @@ void PMSIV_MENU_ShowEditEntries(struct PmsivMenu *menu)
 void PMSIV_MENU_ShowWordEntries(struct PmsivMenu *menu)
 {
     PMSIV_MENU_HideAll(menu);
-    CLACT_SetActorDrawEnable((struct Actor *)menu->items[7], 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)menu->items[7], 1);
     if (PMS_INPUT_GetBrowseMode(menu->input) == 0) PMSIV_MENU_ShowBackButton(menu);
     else PMSIV_MENU_ShowListEntries(menu);
 }
@@ -331,8 +287,8 @@ void PMSIV_MENU_ShowWordEntries(struct PmsivMenu *menu)
 void PMSIV_MENU_ShowOnlyBackButton(struct PmsivMenu *menu)
 {
     PMSIV_MENU_HideAll(menu);
-    CLACT_SetActorDrawEnable((struct Actor *)menu->backButton, 1);
-    CLACT_SetActorAnimSeq((struct Actor *)menu->backButton, 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)menu->backButton, 1);
+    CLACT_SetActorAnimSeq((struct ClactActor *)menu->backButton, 1);
     menu->backButtonState = 0;
 }
 
@@ -344,7 +300,7 @@ void PMSIV_MENU_UpdateItemHighlight(struct PmsivMenu *menu) {
     old=-1; new=-1;
     selected=PMS_INPUT_GetSentenceType(menu->input);
     for(i=1;i<=5;i++) {
-        state=CLACT_GetActorAnimSeq((struct Actor *)menu->items[i]);
+        state=CLACT_GetActorAnimSeq((struct ClactActor *)menu->items[i]);
         if(state==gPmsivMenuItemAnimSeq[i*2+1]) { old=i; break; }
     }
     for(i=0;i<5;i++) {
@@ -396,7 +352,7 @@ void PMSIV_MENU_PressBackItem(struct PmsivMenu *menu) {
 }
 
 int PMSIV_MENU_IsBackItemDone(struct PmsivMenu *menu) {
-    if (CLACT_IsActorAnimActive((struct Actor *)menu->items[7])==0) return 1;
+    if (CLACT_IsActorAnimActive((struct ClactActor *)menu->items[7])==0) return 1;
     return 0;
 }
 
@@ -519,8 +475,8 @@ u32 PMSIV_MENU_IsEntryFinished(struct PmsivMenu *menu, u32 index) {
  * Extent ends in two-byte alignment padding at 0x021BD026.
  */
 int PMSIV_MENU_PressBackButton(struct PmsivMenu *menu) {
-    if (CLACT_GetActorDrawEnable((struct Actor *)menu->backButton) && menu->backButtonState==0) {
-        CLACT_SetActorAnimSeq((struct Actor *)menu->backButton, 9);
+    if (CLACT_GetActorDrawEnable((struct ClactActor *)menu->backButton) && menu->backButtonState==0) {
+        CLACT_SetActorAnimSeq((struct ClactActor *)menu->backButton, 9);
         menu->backButtonState=1;
         return 1;
     }
@@ -529,7 +485,7 @@ int PMSIV_MENU_PressBackButton(struct PmsivMenu *menu) {
 
 int PMSIV_MENU_IsBackButtonDone(struct PmsivMenu *menu)
 {
-    if(CLACT_GetActorDrawEnable((struct Actor *)menu->backButton) && menu->backButtonState!=3) return 0;
+    if(CLACT_GetActorDrawEnable((struct ClactActor *)menu->backButton) && menu->backButtonState!=3) return 0;
     return 1;
 }
 
@@ -547,14 +503,14 @@ void PMSIV_MENU_CreateItems(struct PmsivMenu *menu) {
         if(i==7) x=0;
         menu->items[i]=PMS_INPUT_VIEW_CreateActor(menu->view, &menu->itemRes, (int)x, (int)168, (int)0, 1);
         PMSIV_MENU_SetItemAnim(menu,i,0);
-        CLACT_SetActorDrawEnable((struct Actor *)menu->items[i], 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->items[i], 0);
     }
 }
 
 void PMSIV_MENU_DeleteItems(struct PmsivMenu *menu)
 {
     int i;
-    for(i=0;i<PMSIV_MENU_ITEM_COUNT;i++) CLACT_DeleteActor((struct Actor *)menu->items[i]);
+    for(i=0;i<PMSIV_MENU_ITEM_COUNT;i++) CLACT_DeleteActor((struct ClactActor *)menu->items[i]);
     CLACT_ReleaseCharacter(menu->itemRes.character);
     CLACT_ReleaseCellAnim(menu->itemRes.cellAnim);
 }
@@ -565,22 +521,22 @@ void PMSIV_MENU_DeleteItems(struct PmsivMenu *menu)
  */
 void PMSIV_MENU_SetItemAnim(struct PmsivMenu *menu,int i,int flag)
 {
-    CLACT_SetActorAnimSeq((struct Actor *)menu->items[i], *(u8 *)((u32)gPmsivMenuItemAnimSeq+i*2+flag));
+    CLACT_SetActorAnimSeq((struct ClactActor *)menu->items[i], *(u8 *)((u32)gPmsivMenuItemAnimSeq+i*2+flag));
 }
 
 void PMSIV_MENU_CreateExtraItems(struct PmsivMenu *menu) {
     u8 i;
     for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) {
         menu->extraItems[i]=PMS_INPUT_VIEW_CreateActor(menu->view, &menu->itemRes, (int)(gPmsivMenuExtraItems[3*i]), (int)(gPmsivMenuExtraItems[3*i+1]), (int)0, 1);
-        CLACT_SetActorAnimSeq((struct Actor *)menu->extraItems[i], gPmsivMenuExtraItems[3*i+2]);
-        CLACT_SetActorDrawEnable((struct Actor *)menu->extraItems[i], 0);
+        CLACT_SetActorAnimSeq((struct ClactActor *)menu->extraItems[i], gPmsivMenuExtraItems[3*i+2]);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->extraItems[i], 0);
     }
 }
 
 void PMSIV_MENU_DeleteExtraItems(struct PmsivMenu *menu)
 {
     u8 i;
-    for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) CLACT_DeleteActor((struct Actor *)menu->extraItems[i]);
+    for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) CLACT_DeleteActor((struct ClactActor *)menu->extraItems[i]);
 }
 
 void PMSIV_MENU_CreateBackButton(struct PmsivMenu *menu) {
@@ -595,9 +551,9 @@ void PMSIV_MENU_CreateBackButton(struct PmsivMenu *menu) {
     ARC_TOOL_DeleteHandle(handle);
     MI_CpuFill8(&setup,0,8);
     setup.x=232; setup.y=168; setup.z=1; setup.priority=0; setup.mode=3;
-    menu->backButton=CLACT_CreateActor(PMS_INPUT_VIEW_GetClactUnit(menu->view),menu->backCharacter,menu->backPalette,menu->backCellAnim,&setup,0,PMSIV_MENU_HEAP_ID);
-    CLACT_SetActorAutoAnim((struct Actor *)menu->backButton,1);
-    CLACT_SetActorDrawEnable((struct Actor *)menu->backButton, 0);
+    menu->backButton=CLACT_CreateActor((struct Unit *)PMS_INPUT_VIEW_GetClactUnit(menu->view),menu->backCharacter,menu->backPalette,menu->backCellAnim,(const struct ActorInitParam *)&setup,0,PMSIV_MENU_HEAP_ID);
+    CLACT_SetActorAutoAnim((struct ClactActor *)menu->backButton,1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)menu->backButton, 0);
     menu->backButtonState=0;
 }
 
@@ -606,8 +562,8 @@ void PMSIV_MENU_CreateBackButton(struct PmsivMenu *menu) {
  */
 void PMSIV_MENU_ShowBackButton(struct PmsivMenu *menu)
 {
-    CLACT_SetActorDrawEnable((struct Actor *)menu->backButton, 1);
-    CLACT_SetActorAnimSeq((struct Actor *)menu->backButton, 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)menu->backButton, 1);
+    CLACT_SetActorAnimSeq((struct ClactActor *)menu->backButton, 1);
     menu->backButtonState=0;
 }
 
@@ -676,12 +632,12 @@ void PMSIV_MENU_UpdateBlend(struct PmsivMenu *menu)
 
 void PMSIV_MENU_StartItemBlend(struct PmsivMenu *menu,int i)
 {
-    CLACT_SetActorPaletteOffset((struct Actor *)menu->items[i],2,1);
+    CLACT_SetActorPaletteOffset((struct ClactActor *)menu->items[i],2,1);
     MI_CpuCopy8(menu->baseColors,menu->blendColors,10);
     menu->blendPhase=0;
 }
 
 void PMSIV_MENU_StopItemBlend(struct PmsivMenu *menu,int i)
 {
-    CLACT_SetActorPaletteOffset((struct Actor *)menu->items[i],6,1);
+    CLACT_SetActorPaletteOffset((struct ClactActor *)menu->items[i],6,1);
 }

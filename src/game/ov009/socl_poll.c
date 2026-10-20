@@ -28,10 +28,10 @@ typedef struct {
 } Socket;
 struct SOCLSocket;
 
-extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-extern unsigned long OS_DisableInterrupts(void);
-extern long SOCLi_GetWriteBufferFreeSize(struct SOCLSocket *socket);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
+#include "socl_list.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "socl_write.h"
 int SOCL_GetStatus(int s);
 int SOCLi_GetReadBufferOccpiedSize(char *p);
 

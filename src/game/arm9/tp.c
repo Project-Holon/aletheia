@@ -26,6 +26,7 @@
  *   OS_Terminate                   0x02088234  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 #include "../sdk_os.h"
 
 typedef void (*TPRecvCallback)(int command, int result, u16 index);
@@ -257,13 +258,13 @@ static inline void CP_SetDiv32_32(u32 numer, u32 denom)
 
 static inline void CP_WaitDiv(void)
 {
-    while (*(vu16 *)0x04000280 & 0x8000) {
+    while (*(vu16 *)REG_DIVCNT_ADDR & 0x8000) {
     }
 }
 
 static inline long CP_GetDivResult32(void)
 {
-    return *(volatile long *)0x040002A0;
+    return *(volatile long *)REG_DIV_RESULT_ADDR;
 }
 
 /*

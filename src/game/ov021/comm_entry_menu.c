@@ -132,12 +132,12 @@ struct FieldMap;
 struct MyStatus;
 struct WordSet;
 struct Strbuf;
-struct MsgData;
+struct MsgBank;
 
 #include "../types.h"
 
 /* Callback of the owner: a member joined or left. */
-typedef void (*CommEntryMemberFunc)(void *work, const void *myStatus, const u8 *mac);
+#include "comm_entry_menu_types.h"
 
 /* Value of menuMode: which entry flow the menu runs. */
 enum {
@@ -405,7 +405,7 @@ typedef struct CommEntryRoster {
 typedef struct CommEntryMenu {
     struct FieldMap *fieldMap;           /* 0x000 */
     struct WordSet *wordSet;             /* 0x004 */
-    struct MsgData *msgData;             /* 0x008 */
+    struct MsgBank *msgData;             /* 0x008 */
     FieldMsgWin *memberWin;              /* 0x00C: member names */
     FieldMsgWin *titleWin;               /* 0x010 */
     FieldSysWin *sysWin;                 /* 0x014: message window */
@@ -461,86 +461,37 @@ typedef struct CommEntryMenu {
     u8 pad57C[4];
 } CommEntryMenu;
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 slot, u32 number, u32 digits, u32 dispType, u32 charCode);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *format);
-extern int FIELD_MSGBG_MsgWinPrintMsg(FieldMsgWin *msgWin, int x, int y, u32 msgId);
-extern void STRBUF_Delete(struct Strbuf *str);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
+#include "field_msgbg.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "fieldmap.h"
+#ifdef __MWERKS__
+/* The original declares the heap id wide: the call does not truncate it. */
+struct WordSet;
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern struct MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
-extern FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgData *msgData);
+#else
+#include "../arm9/gf_font.h"
+#endif
 struct MsgBank;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
-extern void GFL_NET_SetLoginOption(u8 loginOption);
-extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
-extern u32 GFL_NET_GetUserArg(void);
-extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
-extern int FIELD_MSGBG_DeleteSysWin(FieldSysWin *sysWin);
-extern u32 FIELD_MSGBG_DeleteMsgData(struct MsgData *msgData);
-extern u32 WORDSET_Delete(struct WordSet *ws);
-extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_StartByNetType(void);
-extern int GFL_NET_SYSTEM_GetConnectNum(void);
-extern int GFL_NET_HANDLE_CheckNegotiation(void);
-extern u32 KEY_GetTrg(void);
-extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
-extern int GFL_NET_GetNegotiationNum(void);
-extern void GFL_NET_SetAcceptConnection(u32 unusedArg, void *eventArg);
-extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
-extern u32 GFL_NET_IsConnectMember(u32 netId);
-extern u8 MATH_CountPopulation(u32 x);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, unsigned int timingNo, unsigned int range);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, unsigned int timingNo, unsigned int range);
-extern u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern void GFL_NET_BeaconScanStart(void);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *ws, u32 slot, const void *myStatus);
-extern int GFL_NET_Exit(int exitCallback);
-extern int GFL_NET_IsSessionNull(void);
-extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 transportArg, u32 userArg);
-extern FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);
-extern int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);
-extern FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
-extern int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin);
-extern void FIELD_MSGBG_ClearPrintQue(FieldMsgBg *msgBg);
-extern int FIELD_MSGBG_IsMsgWinTransDone(FieldMsgWin *msgWin);
-extern void FIELD_MSGBG_FillMsgWin(FieldMsgWin *msgWin, int x, int y, int width, int height);
-extern void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str);
-extern int GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
-extern u16 MYSTATUS_GetIdLow16(struct MyStatus *mystatus);
-extern void FIELD_MSGBG_ClearSysWin(FieldSysWin *sysWin);
-extern void FIELD_MSGBG_SysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, struct Strbuf *str);
-extern struct BmpMenuWork *FIELD_MSGBG_CreateMenuItems(int count, u16 heapId);
-extern u32 FIELD_MSGBG_CreateMenuFunc(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items);
-extern void FIELD_MSGBG_RewriteMenuFunc(FieldMenuFunc *menu);
-extern int FIELD_MSGBG_IsPrintQueFinished(FieldMsgBg *msgBg);
-extern int FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu);
-extern u16 STRBUF_GetEosChar(void);
-extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
-extern void GFL_NET_COMMAND_DeleteCommandTable(u32 v);
-extern int MYSTATUS_GetSize(void);
-extern u32 GFL_NET_IsParentAid(void);
-extern int FIELD_MSGBG_MenuFuncMain(FieldMenuFunc *menu);
-extern void GFL_NET_ConnectMacAddressChild(void *context);
-extern u32 GFL_NET_GetScanResult(u32 index);
-extern void FIELD_MSGBG_DeleteMenuItems(struct BmpMenuWork *items);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern int FIELD_MSGBG_AddMenuItemStr(struct BmpMenuWork *items, struct Strbuf *text, u32 value, u32 heapId);
-extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 id);
-extern void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
-extern void MI_CpuFill8();
-extern void OS_GetMacAddress(u8 *macAddress);
-extern u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 a, u32 b, u32 c);
-extern u32 GFL_NET_SendDataMask(GFLNetHandle *handle, u32 recipients, u32 command, u32 size, const void *data, u32 a, u32 b, u32 c);
+#include "../arm9/msgdata.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/net.h"
+#include "../arm9/net_system.h"
+#include "../arm9/net_handle.h"
+#include "../arm9/key.h"
+#include "../arm9/math.h"
+#include "../arm9/net_err.h"
+#ifdef __MWERKS__
+/* The original declares the compared buffers without const; the qualifier changes the scheduling. */
+#else
+#include "../arm9/gf_standard.h"
+#endif
+#include "../arm9/net_command.h"
+#include "../arm9/config.h"
+#include "../arm9/os_ownerinfo.h"
 struct GFLNetHandle;
-extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, u32 command, u32 size, void *data);
 
 CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 minMembers, u32 maxMembers, u32 heapId, u32 menuMode, u32 isChild, const u8 *mac);
 u32 COMM_ENTRY_MENU_Delete(CommEntryMenu *menu);
@@ -661,7 +612,7 @@ CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap
     if (isChild == 1) {
         menu->netMode = 1;
     }
-    netInit = GFL_NET_GetInitParam();
+    netInit = (GFLNetInitializeStruct *)GFL_NET_GetInitParam();
     ((CommEntryBeaconData *)netInit->getBeaconDataFunc((void *)GFL_NET_GetUserArg()))->advertiseId = COMM_ENTRY_ADVERTISE_ID;
     return menu;
 }
@@ -818,7 +769,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
     case RECRUIT_CONFIRM_START:
         count = COMM_ENTRY_MENU_ProcessCancel(menu);
         if (count == 1) {
-            GFL_NET_SetAcceptConnection((u32)(GFL_NET_HANDLE_GetCurrentHandle()), 0);
+            GFL_NET_SetAcceptConnection((void *)GFL_NET_HANDLE_GetCurrentHandle(), 0);
             menu->state = RECRUIT_SEND_READY_REQUEST;
         } else if (count == 2) {
             if (COMM_ENTRY_MENU_CountAcceptedMembers(menu) >= menu->maxMembers) {
@@ -836,7 +787,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
     case RECRUIT_CONFIRM_QUIT:
         count = COMM_ENTRY_MENU_ProcessStartConfirm(menu);
         if (count == 1) {
-            GFL_NET_SetAcceptConnection((u32)(GFL_NET_HANDLE_GetCurrentHandle()), 0);
+            GFL_NET_SetAcceptConnection((void *)GFL_NET_HANDLE_GetCurrentHandle(), 0);
             menu->state = RECRUIT_SEND_QUIT;
         } else if (count == 2) {
             menu->state = RECRUIT_COLLECT;
@@ -899,7 +850,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
 
             menu->result = COMM_ENTRY_RESULT_START;
             menu->state = RECRUIT_DONE;
-            netInit = GFL_NET_GetInitParam();
+            netInit = (GFLNetInitializeStruct *)GFL_NET_GetInitParam();
             ((CommEntryBeaconData *)netInit->getBeaconDataFunc((void *)GFL_NET_GetUserArg()))->advertiseId = 0;
         }
         break;
@@ -1764,7 +1715,7 @@ void COMM_ENTRY_MENU_PrintMemberName(CommEntryMenu *menu, const void *myStatus, 
 {
     u32 trainerId;
     if (menu->memberWin != 0) {
-        WORDSET_SetSlotMyStatus(menu->wordSet, 0, myStatus);
+        WORDSET_SetSlotMyStatus(menu->wordSet, 0, (void *)myStatus);
         trainerId = MYSTATUS_GetIdLow16((struct MyStatus *)myStatus);
         WORDSET_SetSlotNumber(menu->wordSet, 1, trainerId, 5, 2, 1);
         WORDSET_CopyTaggedText(menu->wordSet, menu->nameStr, menu->nameFormat);

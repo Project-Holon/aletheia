@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_MUSICAL_SAVE_H
 #define GAME_ARM9_MUSICAL_SAVE_H
 
+#include "../arm9/musical_save_types.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of musical_save.c, prototypes copied from their definitions. */
 
@@ -16,7 +18,7 @@ struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
 void MUSICAL_SAVE_InitOutfits(struct MusicalSave *musical);
 MusicalOutfit *MUSICAL_SAVE_GetOutfits(struct MusicalSave *musical);
 u32 MUSICAL_SAVE_IsShowActive(struct MusicalSave *musical);
-void MUSICAL_SAVE_NoOp(void);
+struct MusicalSave *MUSICAL_SAVE_NoOp(struct MusicalSave *musical);
 u32 MUSICAL_SAVE_IsPropOwned(struct MusicalSave *musical, u8 prop);
 u32 MUSICAL_SAVE_IsPropNew(struct MusicalSave *musical, u8 prop);
 void MUSICAL_SAVE_AddProp(struct MusicalSave *musical, u32 prop);
@@ -42,7 +44,5 @@ u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *musical);
 u32 MUSICAL_SAVE_GetFittingSetting(struct MusicalSave *musical);
 void MUSICAL_SAVE_SetFittingSetting(struct MusicalSave *musical, u8 value);
 /* END mkheaders: generated region */
-
-#include "../arm9/musical_save_types.h"
 
 #endif

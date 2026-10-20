@@ -41,6 +41,7 @@
  *   FIELD_EFFECT_SetObjectPos  0x021AC1CC  thumb  ov021
  */
 #include "field_effect_types.h"
+#include "field_g3dobj_types.h"
 #include "../ov010/fldmmdl_types.h"
 
 /* Id of the smoke (kemuri) resource in the field effect system. */
@@ -57,21 +58,7 @@
 /* Fixed-point step added to the animation frame each update (one frame). */
 #define FLDEFF_KEMURI_ANIME_STEP 0x1000
 
-#define FIELD_G3DOBJ_ANIME_MAX 8
 
-/* Opaque and shared types of field_g3dobj.c. */
-typedef struct FieldG3dObjCtrl FieldG3dObjCtrl;
-
-/* Files of one G3D resource: a model, a texture file and up to eight animations (0x24 bytes). */
-typedef struct FieldG3dObjResDesc {
-    u32 modelArc;
-    u32 texArc;
-    u32 anmArc;
-    u16 modelFile;
-    u16 texFile;
-    u16 anmFile[FIELD_G3DOBJ_ANIME_MAX];
-    u8  anmCount;
-} FieldG3dObjResDesc;
 
 /* Resource of the smoke effect (8 bytes): the G3D resource of the smoke model. */
 typedef struct FldeffKemuri {
@@ -93,35 +80,18 @@ typedef struct FldeffKemuriWork {
     u16 objIdx;                           /* 0x08 object index in the G3D object control */
 } FldeffKemuriWork;
 
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-struct MmdlVec;
+#include "../arm9/gfl_heap_wrap.h"
+struct VecFx32;
 struct Mmdl;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+#include "../ov010/fldmmdl.h"
 struct MmdlSys;
-extern struct MmdlSys *FLDMMDL_GetMmdlSys(const Mmdl *mmdl);
-extern void FIELD_G3DOBJ_InitResDesc(FieldG3dObjResDesc *desc);
-extern void FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, u32 arc, u32 file);
-extern void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dObjResDesc *desc, u32 arc);
-extern void FIELD_G3DOBJ_AddResDescAnimeFile(FieldG3dObjResDesc *desc, u16 file);
-extern int FIELD_G3DOBJ_AddResourceDefaultPal(FieldG3dObjCtrl *ctrl, FieldG3dObjResDesc *desc, int mode);
-extern u32 FIELD_G3DOBJ_DeleteResource(FieldG3dObjCtrl *ctrl, int resIdx);
-extern u32 FLDMMDL_SysGetAreaId(struct MmdlSys *sys);
-extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecFx32 *pos);
-void FIELD_G3DOBJ_DeleteObject(FieldG3dObjCtrl *ctrl, int objIdx);
-extern int FIELD_G3DOBJ_IncAnimeFrame(FieldG3dObjCtrl *ctrl, int objIdx, int speed);
-FieldG3dObjCtrl *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *sys);
+#include "field_g3dobj.h"
+#include "field_effect.h"
 struct FieldEffectSys;
-u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
-s32 FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
-void FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
-void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *obj);
-void FIELD_EFFECT_SetObjectPos(FieldEffectObj *obj, const VecFx32 *pos);
 FldeffKemuri *FLDEFF_KEMURI_Create(FieldEffectSys *sys, int heapId);
 void FLDEFF_KEMURI_Delete(FieldEffectSys *sys, FldeffKemuri *kemuri);
 void FLDEFF_KEMURI_LoadResource(FldeffKemuri *kemuri);
-int FLDEFF_KEMURI_FreeResource(FldeffKemuri *kemuri);
+void FLDEFF_KEMURI_FreeResource(FldeffKemuri *kemuri);
 void FLDEFF_KEMURI_Start(Mmdl *mmdl, FieldEffectSys *sys);
 void FLDEFF_KEMURI_StartFacing(Mmdl *mmdl, FieldEffectSys *sys);
 void FLDEFF_KEMURI_Init(FieldEffectObj *obj, FldeffKemuriWork *work);
@@ -185,9 +155,9 @@ void FLDEFF_KEMURI_LoadResource(FldeffKemuri *kemuri)
 
 
 /* Frees the G3D resource of the smoke model. */
-int FLDEFF_KEMURI_FreeResource(FldeffKemuri *kemuri)
+void FLDEFF_KEMURI_FreeResource(FldeffKemuri *kemuri)
 {
-    return FIELD_G3DOBJ_DeleteResource(FIELD_EFFECT_GetFieldMapData(kemuri->fieldEffect), kemuri->resIdx);
+    FIELD_G3DOBJ_DeleteResource(FIELD_EFFECT_GetFieldMapData(kemuri->fieldEffect), kemuri->resIdx);
 }
 
 
@@ -202,7 +172,7 @@ void FLDEFF_KEMURI_Start(Mmdl *mmdl, FieldEffectSys *sys)
 {
     VecFx32 pos;
     FldeffKemuriParam param;
-    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&pos));
     pos.y += FLDEFF_KEMURI_RAISE;
     pos.z += FLDEFF_KEMURI_FORWARD;
     param.kemuri = (struct FldeffKemuri *)FIELD_EFFECT_GetResource(sys, FLDEFF_ID_KEMURI);
@@ -222,7 +192,7 @@ void FLDEFF_KEMURI_StartFacing(Mmdl *mmdl, FieldEffectSys *sys)
     FldeffKemuriParam param;
     int dirIndex;
     dirIndex = FLDMMDL_SysGetAreaId(FLDMMDL_GetMmdlSys(mmdl));
-    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&pos));
     pos.y += FLDEFF_KEMURI_RAISE;
     dirIndex = (dirIndex >> 4) * 2;
     pos.z += (s32)(((long long)FX_SinCosTable_[dirIndex + 1] * FLDEFF_KEMURI_FORWARD + 0x800) >> 12);

@@ -59,6 +59,8 @@
  */
 
 #include "../types.h"
+#include "../sdk_os.h"
+#include "nwm_wpa.h"
 
 typedef struct NetWork {
     u8 pad00[0x600];
@@ -107,14 +109,10 @@ typedef struct SendPkt {
     u16 size[32];
 } SendPkt;
 
-typedef struct JoinReq {
-    u16 mode;
-    u8 peer[0x20];
-} JoinReq;
-
 typedef struct NetObj {
     u8 pad0[4];
-    u8 queue[0x20];
+    OSThreadQueue queue;
+    u8 queueRest[0x18];
     u16 status;
     u8 pad1[6];
     u32 arg;
@@ -129,44 +127,60 @@ typedef struct Pkt {
     u8 *data;
 } Pkt;
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern NetWork *WCMi_GetSystemWork(void);
-extern void DC_InvalidateRange(u32 buf, u32 len);
-extern int NWM_StartScanEx(void *cb, void *buf);
+#include "../arm9/mi_memory.h"
+#ifdef __MWERKS__
+extern NetWork *WCMi_GetSystemWork(void); /* original prototype; the definition differs in return type */
+#else
+#include "../ov009/wcm_system.h"
+#define WCMi_GetSystemWork() ((NetWork *)(WCMi_GetSystemWork)())
+#endif
+#include "../arm9/os_cache.h"
+#include "nwm_startscan.h"
 struct CamBuf;
-extern u32 NWM_Init(struct CamBuf *buf, unsigned int size, unsigned int mode);
+#include "nwm_init.h"
+#ifdef __MWERKS__
 extern void WCMi_SetPhase(unsigned char phase);
-extern u32 NWM_LoadDevice(u32 callback);
-extern u32 NWM_Close(void *arg);
-extern u32 NWM_SetWEPKey(void *a, u32 b, u32 c, void *d, u32 e);
-extern u32 NWM_SetWPAPSK(void *a, void *b);
-extern u32 NWM_UnsetReceivingFrameBuffer(void *callback, u32 protocol);
-extern u32 NWM_GetState(void);
-extern u32 NWM_End(void);
-extern u32 NWM_UnloadDevice(void *arg);
-extern u32 NWM_Disconnect(void *arg);
-extern void *WCMi_GetCpsifWork(void);
-extern u32 NWM_SendFrame(void *cb, u32 a, u32 b, u32 c);
-extern void OS_SleepThread(void *queue);
+#endif
+#include "nwm_loaddev.h"
+#include "nwm_close.h"
+#ifdef __MWERKS__
+extern u32 NWM_SetWEPKey(void *a, u32 b, u32 c, const u8 *d, u32 e); /* original prototype; the definition takes the last argument as u16 */
+#else
+#include "nwm_setwepkey.h"
+#endif
+#include "nwm_wpa.h"
+#include "nwm_recvframe.h"
+#include "nwm_system.h"
+#include "nwm_end.h"
+#include "nwm_unloaddev.h"
+#include "nwm_disconnect.h"
+#include "../ov009/wcm_cpsif.h"
+#include "nwm_sendframe.h"
+#include "../arm9/os_thread.h"
+#ifdef __MWERKS__
 extern u32 NWM_GetAllowedChannel(void);
 extern void WCMi_Notify(short result, void *para0, void *para1, int para2);
 extern void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, int para2);
-extern void WCMi_EntryApList(u32 a, u32 b);
+#endif
+#include "../ov009/wcm_aplist.h"
+#ifdef __MWERKS__
 extern u16 WCMi_GetNextScanChannel(u16 a);
-extern void DC_StoreRange(u32 buf, u32 len);
-extern unsigned char MATH_CountPopulation(u32 x);
-extern u32 NWM_Open(void *arg);
-extern void OS_GetMacAddress(u8 *macAddress);
-extern void WCMi_CpsifSetMacAddress(void *mac);
-extern u32 NWM_SetPowerSaveMode(void *arg, u32 b);
-extern u32 NWM_SetReceivingFrameBuffer(void *arg, void *b, u32 c, u32 d);
-extern void WCMi_ShelterRssi(u8 v);
-extern void WCMi_CpsifRecvCallback(unsigned char *s, unsigned char *d, unsigned char *dat, int len);
-extern int NWM_Connect(void *cb, u8 flag, void *buf);
+#endif
+#include "../arm9/math.h"
+#include "nwm_open.h"
+#include "../arm9/os_ownerinfo.h"
+#include "nwm_setpowersave.h"
+#include "../ov009/wcm_util.h"
+#ifdef __MWERKS__
+extern int NWM_Connect(void *cb, u8 flag, void *buf); /* original prototype; the definition takes u32 and returns u32 */
+#else
+#include "nwm_connect.h"
+#endif
+#ifdef __MWERKS__
 extern unsigned long WCM_UpdateOption(unsigned long option);
 extern u16 NWM_GetDispersionScanPeriod(u32 a);
 extern void WCMi_ResetKeepAliveAlarm(void);
-extern void OS_WakeupThread(void *queue);
+#endif
 u32 WCMi_NwmifStartupAsync(void);
 u32 WCMi_NwmifCleanupAsync(void);
 int WCMi_NwmifBeginSearchAsync(u32 a, u32 b, u32 c);
@@ -212,7 +226,6 @@ typedef struct WCMCpsifWork {
 } WCMCpsifWork;
 typedef struct NWMCallback { unsigned short apiid; unsigned short retcode; } NWMCallback;
 
-extern void WCMi_CpsifUnlockMutexInIRQ(OSMutex *mutex);
 
 u32 WCMi_NwmifStartupAsync(void)
 {
@@ -284,9 +297,9 @@ int WCMi_NwmifBeginSearchAsync(u32 bssid, u32 essid, u32 option)
         return 1;
     case 3:
         WcmEditScanExParam((void *)bssid, (void *)essid, option);
-        DC_InvalidateRange(w->sendBuf, w->sendLen);
+        DC_InvalidateRange((void *)w->sendBuf, w->sendLen);
         w->sendCount++;
-        switch (NWM_StartScanEx(WcmNwmcbScanEx, &w->sendBuf)) {
+        switch (NWM_StartScanEx(WcmNwmcbScanEx, (void *)&w->sendBuf)) {
         case 2:
             WCMi_SetPhase(5);
             w->phase = 3;
@@ -304,7 +317,7 @@ int WCMi_NwmifBeginSearchAsync(u32 bssid, u32 essid, u32 option)
 u32 WCMi_NwmifConnectAsync(void)
 {
     NetWork *w = WCMi_GetSystemWork();
-    JoinReq req;
+    TwlReq req;
     u32 ret;
     u32 flag;
 
@@ -323,8 +336,8 @@ u32 WCMi_NwmifConnectAsync(void)
     case 5:
     case 6:
     case 7:
-        MI_CpuCopy8(w->peer, req.peer, 0x20);
-        req.mode = w->mode;
+        MI_CpuCopy8(w->peer, req.data, 0x20);
+        req.kind = w->mode;
         ret = NWM_SetWPAPSK(WcmNwmcbCommon, &req);
         break;
     }
@@ -411,10 +424,10 @@ u32 WCMi_NwmifSetDCFData(u32 destMac, u32 frame, u32 length, u32 asyncArg)
     u32 ret;
 
     if (asyncArg == 0) {
-        ret = NWM_SendFrame(WcmNwmcbSetDCFData, destMac, frame, length);
+        ret = NWM_SendFrame(WcmNwmcbSetDCFData, destMac, (u8 *)frame, length);
     } else {
         o->arg = asyncArg;
-        ret = NWM_SendFrame(WcmNwmcbSetDCFDataAsync, destMac, frame, length);
+        ret = NWM_SendFrame(WcmNwmcbSetDCFDataAsync, destMac, (u8 *)frame, length);
     }
     switch (ret) {
     case 0:
@@ -429,7 +442,7 @@ u32 WCMi_NwmifSetDCFData(u32 destMac, u32 frame, u32 length, u32 asyncArg)
         break;
     }
     if (asyncArg == 0) {
-        OS_SleepThread(o->queue);
+        OS_SleepThread(&o->queue);
         if (o->status != 0) {
             return -5;
         }
@@ -599,9 +612,9 @@ void WcmNwmcbScanEx(SendPkt *p)
         case 6:
             w->phase = 7;
             if (p->count != 0) {
-                DC_InvalidateRange(w->sendBuf, w->sendLen);
+                DC_InvalidateRange((void *)w->sendBuf, w->sendLen);
                 for (i = 0; i < p->count; i++) {
-                    WCMi_EntryApList(p->ptr[i], p->size[i]);
+                    WCMi_EntryApList((WMBssDesc *)p->ptr[i], p->size[i]);
                     WCMi_NotifyEx(7, 0, (void *)p->ptr[i], p, 953);
                 }
             }
@@ -612,9 +625,9 @@ void WcmNwmcbScanEx(SendPkt *p)
                 }
             }
             w->sendMask = (1 << WCMi_GetNextScanChannel(32 - clz32(p->len))) >> 1;
-            DC_StoreRange(w->sendBuf, w->sendLen);
+            DC_StoreRange((void *)w->sendBuf, w->sendLen);
             w->sendCount++;
-            status = NWM_StartScanEx(WcmNwmcbScanEx, &w->sendBuf);
+            status = NWM_StartScanEx(WcmNwmcbScanEx, (void *)&w->sendBuf);
             break;
         case 7:
             status = 2;
@@ -787,7 +800,7 @@ void WcmNwmcbSetRecvFrmBuf(Pkt *p)
             WcmNwmReset();
             return;
         }
-        switch (NWM_Connect(WcmNwmcbConnect, (w->optFlags & 2) ? 1 : 0, w->buf)) {
+        switch (NWM_Connect(WcmNwmcbConnect, (w->optFlags & 2) ? 1 : 0, (void *)w->buf)) {
         case 2:
             return;
         case 6:
@@ -801,7 +814,7 @@ void WcmNwmcbSetRecvFrmBuf(Pkt *p)
             return;
         }
     case 11:
-        DC_InvalidateRange((u32)p->data, 0x620);
+        DC_InvalidateRange(p->data, 0x620);
         lv = p->level;
         if (lv < 0) {
             lv = 0;

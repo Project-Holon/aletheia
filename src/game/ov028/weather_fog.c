@@ -33,18 +33,16 @@
 #include "weather_fog_types.h"
 
 /* Weather task services (ov021). */
-void *WEATHER_TASK_GetWorkBuffer(WeatherTaskSys *task);
-void WEATHER_TASK_InitFog(WeatherTaskSys *task, int slope, int offset, int phase);
+#include "../arm9/zone_light.h"
+/* Original prototype (docs/ORIGINAL_BUGS.tsv): the DS caller passes slope as a full int */
+#ifdef __MWERKS__
+#define WEATHER_TASK_ChangeFog WEATHER_TASK_ChangeFog_header
+#endif
+#include "../ov021/weather_task.h"
+#ifdef __MWERKS__
+#undef WEATHER_TASK_ChangeFog
 void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, int slope, int offset, int frames, int mode);
-int WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId);
-int WEATHER_TASK_IsFogIdle(WeatherTaskSys *task);
-int WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, u32 memberId);
-void WEATHER_TASK_ChangeFogOffset(WeatherTaskSys *task, int endOffset, int frames, int mode);
-int WEATHER_TASK_GetParticleCount(WeatherTaskSys *task);
-void WEATHER_TASK_DisableFog(WeatherTaskSys *task, int phase);
-void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
-int WEATHER_TASK_GetCameraSettingId(WeatherTaskSys *task);
-u16 ZONEDATA_GetLightTableMember(u32 weatherId);
+#endif
 
 /* Weather id 9 (fixed fog). */
 int WEATHER_FOG_BeginFixed(WeatherTaskSys *task, int variant);

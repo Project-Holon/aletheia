@@ -117,6 +117,9 @@
  */
 #define GAME_TYPES_U32_LONG
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
+#include "../ov009/wcm_system.h"
+#include "../ov009/wcm_aplist.h"
+#include "../ov009/soc.h"
 #include "../../matched/include/G__ATERMApConfigParam.h"
 #include "../../matched/include/G_ATERMSET_DATA.h"
 #include "../../matched/include/G_ATERMSET_BSS.h"
@@ -284,43 +287,14 @@ typedef struct _ATERMApConfigState {
     int result;
 } ATERMApConfigState;
 
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern int WCM_SearchAsync(void *bssid, void *essid, unsigned long option);
-extern int WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option);
-extern int WCM_CleanupAsync(void);
-extern long WCM_Finish(void);
-extern int WCM_DisconnectAsync(void);
-extern int WCM_StartupAsync(void *config, void (*notify)(struct WCMNotice *));
-extern int WCM_LockApList(int lock);
-extern int WCM_CountApList(void);
-extern void *WCM_PointApList(unsigned short index);
-extern void MIi_CpuCopy32(void *srcp, void *destp, unsigned long size);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern int WCM_Init(void *buf, long len);
-extern void OS_LockMutex(OSMutex *mutex);
-extern void OS_UnlockMutex(OSMutex *mutex);
-extern void OS_Sleep(unsigned long msec);
-extern void OS_CreateAlarm(OSAlarm *alarm);
-extern void OS_SetAlarm(OSAlarm *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
-extern void OS_CancelAlarm(OSAlarm *alarm);
-extern int SOC_Startup(SOCConfig *config);
-extern int SOC_Cleanup(void);
-extern int SOC_SendTo(int s, void *buf, int len, int flags, void *sockTo);
-extern unsigned long SOCL_GetHostID(void);
-extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
-extern int SOC_Socket(int pf, int type, int protocol);
-extern int SOC_Bind(int s, void *sockAddr);
-extern int SOC_Close(int s);
-extern int SOC_RecvFrom(int s, int buf, int len, int flags, unsigned char *sockFrom);
-extern void OS_GetMacAddress(unsigned char *mac);
-extern unsigned long long OS_GetTick(void);
-extern int OS_IsThreadAvailable(void);
-extern void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
-extern int OS_IsThreadTerminated(OSThread *thread);
-extern void OS_WakeupThreadDirect(OSThread *thread);
-extern void OS_JoinThread(OSThread *thread);
+#include "../arm9/os_system.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_mutex.h"
+#include "../arm9/os_thread.h"
+#include "../arm9/os_alarm.h"
+#include "../ov009/socl_resolve.h"
+#include "../arm9/os_ownerinfo.h"
+#include "../arm9/os_tick.h"
 
 void *soAlloc(unsigned long name, long size);
 void soFree(unsigned long name, void *ptr, long size);
@@ -587,7 +561,7 @@ static int APCi_MoveIdleState(void)
             return 0;
         break;
     case 1:
-        if (WCM_StartupAsync(atermset_bss.apci_IWConfig, APCi_Notify) != 3)
+        if (WCM_StartupAsync(atermset_bss.apci_IWConfig, (void (*)(void *))APCi_Notify) != 3)
             return 0;
         break;
     case 0:
@@ -730,11 +704,11 @@ static int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int wo
 
     enabled = OS_DisableInterrupts();
     atermset_bss.apci_Wep = workbuffer;
-    atermset_bss.apci_IWConfig = (struct WCMConfig *)(((unsigned long)workbuffer + 0x60 + 3) & ~3);
-    atermset_bss.apci_IWBuffer = (void *)(((unsigned long)atermset_bss.apci_IWConfig + sizeof(struct WCMConfig) + 0x1F) & ~0x1F);
-    atermset_bss.apci_wmbssdesc = (void *)(((unsigned long)atermset_bss.apci_IWBuffer + 0x2300 + 0x1F) & ~0x1F);
-    atermset_bss.apci_IWConfig->pbdbuffer = (void *)(((unsigned long)atermset_bss.apci_wmbssdesc + 0xC0 + 0x1F) & ~0x1F);
-    atermset_bss.apci_IWConfig->nbdbuffer = ((unsigned long)workbuffer + work_size) - (unsigned long)atermset_bss.apci_IWConfig->pbdbuffer;
+    atermset_bss.apci_IWConfig = (struct WCMConfig *)(((uptr)workbuffer + 0x60 + 3) & ~3);
+    atermset_bss.apci_IWBuffer = (void *)(((uptr)atermset_bss.apci_IWConfig + sizeof(struct WCMConfig) + 0x1F) & ~0x1F);
+    atermset_bss.apci_wmbssdesc = (void *)(((uptr)atermset_bss.apci_IWBuffer + 0x2300 + 0x1F) & ~0x1F);
+    atermset_bss.apci_IWConfig->pbdbuffer = (void *)(((uptr)atermset_bss.apci_wmbssdesc + 0xC0 + 0x1F) & ~0x1F);
+    atermset_bss.apci_IWConfig->nbdbuffer = ((uptr)workbuffer + work_size) - (uptr)atermset_bss.apci_IWConfig->pbdbuffer;
     atermset_bss.apci_IWConfig->nbdmode = 0;
     atermset_bss.apci_IWConfig->dmano = 3;
     apci_user_callback = user_callback;
@@ -746,7 +720,7 @@ static int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int wo
         atermset_bss.apci_state = 1;
     }
     if (atermset_bss.apci_state == 1) {
-        if (WCM_StartupAsync(atermset_bss.apci_IWConfig, APCi_Notify) != 3) {
+        if (WCM_StartupAsync(atermset_bss.apci_IWConfig, (void (*)(void *))APCi_Notify) != 3) {
             OS_RestoreInterrupts(enabled);
             return 0;
         }
@@ -831,7 +805,7 @@ static void AtermApc_callback(event)
 
 static void alarmCallback(void *event)
 {
-    AtermApc_callback((int)event, 0);
+    AtermApc_callback((sptr)event, 0);
 }
 
 static int InitAtermApcNetwork(int maxap)
@@ -845,8 +819,8 @@ static int InitAtermApcNetwork(int maxap)
     atermset_bss.atermapc_work = atermset_bss.gAtermAlloc(APC_WORK_SIZE(maxap) + 64 + maxap * sizeof(struct WMBssDesc));
     if (atermset_bss.atermapc_work == 0)
         return -1;
-    atermset_bss.apc_work = (u8 *)ROUNDUP32((u32)atermset_bss.atermapc_work);
-    atermset_bss.ap_list = (struct WMBssDesc *)ROUNDUP32((u32)atermset_bss.apc_work + APC_WORK_SIZE(maxap));
+    atermset_bss.apc_work = (u8 *)ROUNDUP32((uptr)atermset_bss.atermapc_work);
+    atermset_bss.ap_list = (struct WMBssDesc *)ROUNDUP32((uptr)atermset_bss.apc_work + APC_WORK_SIZE(maxap));
     if (APC_Init((void (*)(int, void *))AtermApc_callback, atermset_bss.apc_work, APC_WORK_SIZE(maxap)) == 0)
         return -2;
     do {
@@ -1734,7 +1708,7 @@ static int AutoConfigThreadEx(void)
             }
             target.len = sizeof(target);
             GetMacEncKey(gAtermsetBlock7, &target);
-            n = SOC_RecvFrom((int)sock, (int)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target));
+            n = SOC_RecvFrom((int)sock, (sptr)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target));
             if (n > 0) {
                 if (IsSearchCommand(gAtermsetBlock10, &gAtermsetBlock1)) {
                     atermset_data.gAtermApTimeout = GetTickCount() + 30000;
@@ -1758,7 +1732,7 @@ static int AutoConfigThreadEx(void)
                 bfinish = 1;
                 break;
             }
-            n = SOC_RecvFrom((int)sock, (int)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target));
+            n = SOC_RecvFrom((int)sock, (sptr)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target));
             if (n > 0) {
                 if (GetCommandElement(gAtermsetBlock10, 3, ElementData, gAtermsetBlock7)) {
                     lpe = GetFirstElement(ElementData, &eid, &esize);
@@ -1791,7 +1765,7 @@ static int AutoConfigThreadEx(void)
             atermset_bss.AutoPhase = 8;
             break;
         case 8:
-            if (SOC_RecvFrom((int)sock, (int)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target)) > 0
+            if (SOC_RecvFrom((int)sock, (sptr)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target)) > 0
                 && (atermset_bss.cbElementData = GetCommandElement(gAtermsetBlock10, 5, ElementData, gAtermsetBlock8)) != 0
                 && GetWLanSetElement(ElementData)) {
                 if (gAtermsetBlock5[0x14] != 0)

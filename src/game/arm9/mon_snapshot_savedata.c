@@ -199,7 +199,7 @@ void MON_SNAPSHOT_Fill(struct BoxMonSlot *slots, int index, void *mon)
     slots[index].pid = POKE_TOOL_GetPartyValue(mon, 0, 0);
     slots[index].experience = POKE_TOOL_GetPartyValue(mon, 7, 0);
     if (POKE_TOOL_GetPartyValue(mon, 0x75, 0) != 0) {
-        POKE_TOOL_GetPartyValue(mon, 0x74, (u32)slots[index].name);
+        POKE_TOOL_GetPartyValue(mon, 0x74, (uptr)slots[index].name);
     } else {
         u16 buf[12];
 

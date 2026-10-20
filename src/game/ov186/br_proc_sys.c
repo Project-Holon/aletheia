@@ -102,7 +102,7 @@ struct Sub020071CCCtrl;
 
 struct Bits;
 
-struct S020314B8;
+struct ProcSys;
 
 typedef struct { struct { u16 id; u16 x; } e[6]; int n; } BrProcStack;
 
@@ -164,7 +164,7 @@ typedef struct Context {
 
 struct Ops {u32 id,size,fn;void (*init)(void *,u32,void *,int);void (*update)(void *,u32);};
 
-struct Slot {u32 active;void *work;const struct Ops *ops;int arg;};
+struct BrProcSysSlot {u32 active;void *work;const struct Ops *ops;int arg;};
 
 typedef struct BrProcEntry {
     int kind;        /* 0x00 */
@@ -257,138 +257,106 @@ typedef struct BrProcOwner {
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32),MI_CpuFill8(void *,int,unsigned);
 
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
+#include "../arm9/procsys.h"
 
-extern void *BR_GRAPHIC_Create(unsigned mode, int setting, unsigned heap);
+#include "br_graphic.h"
 struct GameData;
 
-extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern void *BR_RES_Create(unsigned,unsigned,unsigned);
+#include "br_res.h"
 struct MiscSave;
 
-extern u8 MISC_GetRecorderFlag(struct MiscSave *beacon);
+#include "../arm9/beacon.h"
 
-extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
 struct BrFade;
 
-extern struct BrFade *BR_FADE_Create(unsigned);
+extern struct BrFade *BR_FADE_Create(u16 heapId);
 
 extern void BR_FADE_CaptureHwPalettes(char *),BR_FADE_SetBlendColor(int *,int),BR_FADE_BlendFull(char *,int);
 struct BrRes;
 
-extern int BR_RES_GetCurrentSetParam(struct BrRes *res);
 struct BrGraphic;
 
-extern u32 BR_GRAPHIC_GetActorUnit(struct BrGraphic *gfx);
-struct Bank;
+struct Unit;
 struct BrSidebar;
 
-extern struct BrSidebar *BR_SIDEBAR_Create(struct Bank *unit, int unused, struct BrRes *res, unsigned short heapId);
+#include "br_sidebar.h"
 struct BrNet;
 
-extern struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, unsigned int heapId);
+#include "br_net.h"
 
 extern int GF_OVERLAY_Load(int),GFL_NET_GetRunState(void);
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
+#include "../arm9/net.h"
 
-extern u32 GAME_DATA_GetBgmInfo(struct GameData *gd);
 struct FieldSoundSystem;
 
-extern void FIELD_SOUND_SYSTEM_FadeVolume(struct FieldSoundSystem *s, unsigned char level, unsigned short frames);
+#include "../arm9/field_sound_system.h"
 
-extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
+#include "../arm9/gfl_use.h"
 
-extern void BR_SIDEBAR_ResetPositions(struct BrSidebar *sidebar);
 
-extern void BR_SIDEBAR_StartWobble(struct BrSidebar *sidebar);
 
 extern void BR_FADE_SetBlendLevel(int,int,int);
 
-extern int BR_NET_IsFatal(struct BrNet *net);
 
-extern void BR_NET_Destroy(struct BrNet *net);
 
-extern void GF_OVERLAY_Unload(int);
+#include "../arm9/gf_overlay.h"
 
-extern void BR_SIDEBAR_Destroy(struct BrSidebar *sidebar, struct BrRes *res);
 
 extern void BR_FADE_Delete(struct BrFade *fade);
 
-extern int BR_RES_GetPalSet(struct BrRes *res);
 
-extern void MISC_SetRecorderFlag(struct MiscSave *beacon, unsigned int flag);
 
-extern void BR_RES_ApplyBgSet(void *unusedA, u32 palSet);
 
-extern void BR_RES_Delete(struct BrRes *res);
 
-extern void BR_GRAPHIC_Destroy(struct BrGraphic *gfx);
 
-extern void PROCSYS_FreeProcWork(struct Proc *p);
 
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+#include "../arm9/fade.h"
 
-extern int FADE_IsActive(void);
 
 extern void BR_FADE_Update(struct BrFade *);
 
-extern void BR_SIDEBAR_Update(struct BrSidebar *sidebar);
 
-extern void BR_GRAPHIC_Draw(struct BrGraphic *gfx);
 
-extern void BR_NET_Main(struct BrNet *net);
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 struct BattleRecSave;
 
-extern struct BattleRecSave *BATTLE_REC_GetWork(void);
+#include "../arm9/battle_rec.h"
 
-extern u32 BATTLE_REC_Load(struct SaveControl *save, unsigned short heap, unsigned int *result, unsigned int id);
 
-extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
+#include "../arm9/gds_profile.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, unsigned int blockId);
+#include "../arm9/save_control.h"
 
-extern void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *p);
+#include "../arm9/livebattlematch_savedata.h"
 
-extern int LIVEBATTLEMATCH_SAVE_GetStats2(int);
 struct BattleRecHeader;
 
-extern struct BattleRecHeader *BATTLE_REC_GetHeader(void);
 struct MusicalSave;
 
-extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
+#include "../arm9/musical_save.h"
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 
-extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
 struct StoredMon;
 
-extern u32 GDS_PROFILE_GetEggFlag(struct StoredMon *p);
 
-extern u32 MUSICAL_SAVE_IsShowActive(struct MusicalSave *musical);
 
-extern unsigned long long BATTLE_REC_GetHeaderParam(struct BattleRecHeader *head, int param, int index);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *PROCSYS_Create(int heapId);
 
-extern void PROCSYS_Delete(struct S020314B8 *);
+extern void PROCSYS_Delete(struct ProcSys *);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void PROCSYS_Push(u32,u32,u32,void *);
 
-extern u32 PROCSYS_Main(void *);
 
 extern void MI_CpuCopy8(void *, void *, int);
 
@@ -514,7 +482,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     BR_FADE_CaptureHwPalettes(*(char * *)&((struct BrProcSys *)p)->fade);
     BR_FADE_SetBlendColor(*(int * *)&((struct BrProcSys *)p)->fade,BR_RES_GetCurrentSetParam((struct BrRes *)(*(char * *)&((struct BrProcSys *)p)->resources)));
     if(!((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag) BR_FADE_BlendFull(*(char * *)&((struct BrProcSys *)p)->fade,3);
-    *(char * *)&((struct BrProcSys *)p)->sidebar=(char *)BR_SIDEBAR_Create((struct Bank *)BR_GRAPHIC_GetActorUnit((struct BrGraphic *)(*(int *)&((struct BrProcSys *)p)->graphic)),*(int *)&((struct BrProcSys *)p)->fade,(struct BrRes *)(*(char * *)&((struct BrProcSys *)p)->resources),0x5a);
+    *(char * *)&((struct BrProcSys *)p)->sidebar=(char *)BR_SIDEBAR_Create((struct Unit *)BR_GRAPHIC_GetActorUnit((struct BrGraphic *)(*(int *)&((struct BrProcSys *)p)->graphic)),*(int *)&((struct BrProcSys *)p)->fade,(struct BrRes *)(*(char * *)&((struct BrProcSys *)p)->resources),0x5a);
     BR_PROC_SYS_LoadRecords((char *)(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->data+0x1748),1,(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),0x5a);
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
         ((struct BrProcSys *)p)->net=BR_NET_Create((void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->netArg),0x5a);
@@ -938,7 +906,7 @@ Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsig
 
 void BR_PROC_SYS_Delete(int *p)
 {
-    PROCSYS_Delete((struct S020314B8 *)p[0]);
+    PROCSYS_Delete((struct ProcSys *)p[0]);
     GFL_HEAP_Free(p);
 }
 
@@ -947,10 +915,10 @@ void BR_PROC_SYS_Delete(int *p)
  */
 void BR_PROC_SYS_RunSlot(char *p)
 {
- struct Slot *current,*old,*next;
- current=(struct Slot *)(p+0x2c);
- old=(struct Slot *)(p+0x1c);
- next=(struct Slot *)(p+0x3c);
+ struct BrProcSysSlot *current,*old,*next;
+ current=(struct BrProcSysSlot *)(p+0x2c);
+ old=(struct BrProcSysSlot *)(p+0x1c);
+ next=(struct BrProcSysSlot *)(p+0x3c);
  switch(((struct Context *)p)->state){
  case 0:*old=*current;*current=*next;((struct Context *)p)->state=1;break;
  case 1:{
@@ -963,7 +931,7 @@ void BR_PROC_SYS_RunSlot(char *p)
   current->ops->init(current->work,((struct Context *)p)->arg,old->work,mode);
   ((struct Context *)p)->loaded=0;
   if(old->work)GFL_HEAP_Free(old->work);
-  PROCSYS_Push(*(u32 *)&((struct Context *)p)->object,current->ops->fn,current->ops->id,current->work);
+  PROCSYS_Push((struct ProcSys *)*(u32 *)&((struct Context *)p)->object,current->ops->fn,(const struct ProcData *)current->ops->id,current->work);
   ((struct Context *)p)->state=2;break;
  }
  case 2:if(!PROCSYS_Main((void *)((struct Context *)p)->object))((struct Context *)p)->state=3;break;

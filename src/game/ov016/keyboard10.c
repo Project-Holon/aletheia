@@ -61,7 +61,7 @@
  *   keyboard10_str_20864             0x021DA458  data
  *   keyboard10_str_20866             0x021DA448  data
  *   taskMain                         0x021BF970  arm
- *   DWCi_TSKlSetParam  0x021D771C  arm
+ *   DWCi_TSKlChangeFunc  0x021D771C  arm
  *   changeColor   0x021C0328  arm
  *   C_KEY  0x021DA3B0  data
  *   C_SKEY  0x021DA37A  data
@@ -79,11 +79,8 @@ typedef _Bool bool;
 /* keyboard10.o was built with plain char unsigned, like keyboard.o: every DWARF
    `char` below is written `unsigned char`. */
 
-typedef struct tagCOORD { unsigned short x, y; } COORD;
-
-typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
-
-typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
+#include "dwcutil_types.h"
+#include "task.h"
 
 #include "gx_oam_types.h"
 
@@ -145,41 +142,20 @@ struct Keyboard10Work {
    docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md) */
 typedef struct { MEMKB10 *MemKb10; } KEYBOARD10_BSS;
 
-extern void DWCi_TSKlChangeFunc(void *task, void (*func)(void *));
-extern void DWCi_TSKlDelete(int kind, void *task);
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
+#include "cellinfo.h"
 extern void *DWCi_CEINlSetExCell(int lcd, int idx, bool head);
-extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
-extern void *DWCi_CELLlForm(int lcd, int num, int head);
+#include "cell.h"
 struct CellInfo;
-extern void DWCi_CELLlDelete(struct CellInfo *p);
 union GXOamAttr;
-extern GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
-extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
-extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
-extern void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
-extern void DWCi_CELLlSetPalette(unsigned char *obj, int idx, unsigned int v, unsigned int w);
-extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
-extern void DWCi_Coord2Rect(COORD *coord, COORD *size, RECT *rect);
-extern void *DWCi_FNTlFormEx(int lcd, int width, int height, int head, int *obj, int font);
+#include "foundation.h"
+typedef int bool_0;
+#include "font.h"
 struct Canvas;
-extern void DWCi_FNTlDelete(struct Canvas *a);
-extern void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio);
-extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void DWCi_OBJlDelete(unsigned int *obj);
-extern void DWCi_SNDlPlay(unsigned int v);
-extern int DWCi_IPTlCheckRelease(unsigned int f);
-extern int DWCi_IPTlCheckRepeat(unsigned int f);
-extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern int DWCi_TPlCheck(unsigned short *a);
-extern int DWCi_TPlCheckRelease(unsigned short *a);
-extern int DWCi_TPlCheckTrigger(unsigned short *a);
-struct TaskObj;
-extern void DWCi_TSKlSetParam(struct TaskObj *task, unsigned int param);
+#include "heap.h"
+#include "obj.h"
+#include "sound.h"
+#include "input.h"
 void DWCi_KB10lInit(void);
 void DWCi_KB10lEnd(void);
 unsigned char DWCi_KB10lGet(void);
@@ -290,12 +266,12 @@ void DWCi_KB10lInit(void)
     buf[1] = 0;
     for (i = 0; i < 4; i++) {
         MemKb10->canv[i] = DWCi_FNTlFormEx(0, 12, 4, 0, &num, 0);
-        a.l = 0;
+        a.x = 0;
         ix = i * 3;
         for (j = 0; j < 3; j++, ix++) {
             buf[0] = KEY_CHR[ix];
-            DWCi_FNTlDrawRect(MemKb10->canv[i], a.l, a.t, a.w, a.h, 2, 0x480, buf);
-            a.l += 32;
+            DWCi_FNTlDrawRect(MemKb10->canv[i], a.x, a.y, a.w, a.h, 2, 0x480, buf);
+            a.x += 32;
         }
         MemKb10->cellCanv[i] = DWCi_CELLlForm(0, num, 0);
     }
@@ -313,7 +289,7 @@ void DWCi_KB10lInit(void)
 void DWCi_KB10lEnd(void)
 {
     DWCi_CELLlDelete((struct CellInfo *)(*(int *)(*(char **)0x021DE560 + 0x58)));
-    DWCi_TSKlSetParam((struct TaskObj *)(*(int *)(*(char **)0x021DE560 + 0x5c)), (unsigned int)((void *)0x021C0528));
+    DWCi_TSKlChangeFunc((TCB *)(*(int *)(*(char **)0x021DE560 + 0x5c)), (void (*)(void *, void *))0x021C0528);
 }
 
 unsigned char DWCi_KB10lGet(void)
@@ -368,7 +344,7 @@ static void taskStart0(void *task)
     } else {
         disp(0, 76);
         disp(1, 192);
-        DWCi_TSKlChangeFunc(task, taskStart1);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart1);
     }
 }
 
@@ -383,7 +359,7 @@ static void taskStart1(void *task)
     } else {
         disp(1, 99);
         disp(2, 192);
-        DWCi_TSKlChangeFunc(task, taskStart2);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart2);
     }
 }
 
@@ -398,7 +374,7 @@ static void taskStart2(void *task)
     } else {
         disp(2, 122);
         disp(3, 192);
-        DWCi_TSKlChangeFunc(task, taskStart3);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart3);
     }
 }
 
@@ -413,7 +389,7 @@ static void taskStart3(void *task)
     } else {
         disp(3, 145);
         disp(4, 192);
-        DWCi_TSKlChangeFunc(task, taskStart4);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskStart4);
     }
 }
 
@@ -428,7 +404,7 @@ static void taskStart4(void *task)
     } else {
         disp(4, 170);
         dispFocus();
-        DWCi_TSKlChangeFunc(task, taskMain);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskMain);
     }
 }
 
@@ -678,12 +654,12 @@ static void dispFocus(void)
 {
     struct Keyboard10Work *g;
     int sel = 0x44;
-    int v;
+    sptr v;
 
     g = gKeyboard10Work;
     if (g->focusIndex > 0xb)
         sel = 0x45;
-    v = (int)DWCi_CELLlGetObj((struct CellInfo *)g->focusCell, 0);
+    v = (sptr)DWCi_CELLlGetObj((struct CellInfo *)g->focusCell, 0);
     DWCi_CEINlSet(0, sel, (GXOamAttr *)v);
     g = gKeyboard10Work;
     DWCi_CELLlSetPriority((void *)g->focusCell, -1, 2);
@@ -724,7 +700,7 @@ static void taskEnd0(void *task)
     y += 12;
     disp(4, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, taskEnd1);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd1);
 }
 
 static void taskEnd1(void *task)
@@ -737,7 +713,7 @@ static void taskEnd1(void *task)
     y += 12;
     disp(3, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, taskEnd2);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd2);
 }
 
 static void taskEnd2(void *task)
@@ -750,7 +726,7 @@ static void taskEnd2(void *task)
     y += 12;
     disp(2, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, taskEnd3);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd3);
 }
 
 static void taskEnd3(void *task)
@@ -763,7 +739,7 @@ static void taskEnd3(void *task)
     y += 12;
     disp(1, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, taskEnd4);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd4);
 }
 
 static void taskEnd4(void *task)
@@ -776,7 +752,7 @@ static void taskEnd4(void *task)
     y += 12;
     disp(0, y);
     if (y >= 192)
-        DWCi_TSKlChangeFunc(task, taskEnd5);
+        DWCi_TSKlChangeFunc(task, (void (*)(void *, void *))taskEnd5);
 }
 
 static void taskEnd5(void *task)

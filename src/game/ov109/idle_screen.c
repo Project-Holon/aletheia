@@ -48,65 +48,19 @@
 
 #include "../types.h"
 
-struct DispConfig {
-    u32 dispMode;
-    u32 bgMode;
-    u32 subBgMode;
-    u32 bg0As;
-};
+#include "../arm9/bg_sys.h"
 
-struct DispVram {
-    u32 mainBg;
-    u32 mainBgExtPltt;
-    u32 subBg;
-    u32 subBgExtPltt;
-    u32 mainObj;
-    u32 mainObjExtPltt;
-    u32 subObj;
-    u32 subObjExtPltt;
-    u32 teximage;
-    u32 texpltt;
-    u32 mainMapping;
-    u32 subMapping;
-};
 
-struct BgTemplate {
-    u32 scrollX;
-    u32 scrollY;
-    u32 bufSize;
-    u32 baseTile;
-    unsigned char screenSize;
-    unsigned char colorMode;
-    unsigned char screenBase;
-    unsigned char charBase;
-    u32 tileDataSize;
-    unsigned char extPltt;
-    unsigned char priority;
-    unsigned char areaOver;
-    unsigned char pad_1b;
-    u32 mosaic;
-};
 
 struct BgTemplateSet {
     struct BgTemplate layer[4];
 };
 
-extern void BG_SYS_Create(unsigned short heapId);
-extern void BG_SYS_SetVramBanks(const struct DispVram *banks);
-extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern unsigned int ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, unsigned int size, unsigned int heapID, unsigned short allocFlags);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(unsigned int archiveID, unsigned int memberIdx, unsigned int channel, unsigned int offset, unsigned int size, unsigned int heapID, unsigned short flags);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned int archiveID, unsigned int memberIdx, unsigned int kind, unsigned int dest, unsigned int size, unsigned short flags);
-extern void BG_SYS_ResetSubDisplay(void);
-extern void BG_SYS_SetLcdSwap(u32 swap);
-extern void FADE_Start(unsigned int a, int b, int c, int d);
-extern void UI_Update(void);
-extern void FADE_Update(void);
-extern void OS_WaitIrq(int clear, unsigned int irqFlags);
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/fade.h"
+#include "../arm9/ui.h"
+#include "../arm9/os_irqhandler.h"
 
 static const struct DispConfig sDispConfig = { 1, 0, 0, 0 };
 

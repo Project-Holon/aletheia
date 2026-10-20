@@ -372,8 +372,9 @@ def autoload_pieces(lay, ext, itcm_len):
 
 
 def link_twl_region(white):
-    """The DSi block (region twl): the link of src/game/twl (tools/twllink.py), plain mode.  Its
-    data blob (0x02707CB4..0x0272E9E8) is a gap of the link and comes from the image."""
+    """The DSi block (region twl): the link of src/game/twl (tools/twllink.py), plain mode.  The
+    data between its files (the DSP component 0x02707CB4..0x0272E9E8 and four small objects) is C
+    written by tools/twldata.py from the extract (build/datac/twl); the link has no gap."""
     r = sh([PY, "tools/twllink.py"] + (["--version=white"] if white else []))
     return (r.stdout + r.stderr).strip()[-300:]
 

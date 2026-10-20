@@ -58,49 +58,27 @@
 #include "mus_item_draw_shared_types.h"
 #include "mus_poke_draw_shared_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
 typedef struct { int f0, f4, active; } Fields;
 
-typedef struct { u32 value; u8 pad[52]; } Track;
-
-typedef struct {
-    u32 active, enabled;
-    u8 *object;
-    char *primary, *secondary;
-    Track tracks[9];
-    u32 f524, f528, f532, f536, f540, f544, f548, f552;
-} Slot;
-
-/* The render object (allocated 4456 bytes by CreateRenderObj): a halfword heap
-   id, then the render pool pointer and 8 slots. heap is stored as a u16. */
-typedef struct { u16 heap; u16 pad_2; char *main; Slot slots[8]; } Scene;
 
 typedef struct { u32 stats[9]; int scale[3]; } Buffers;
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 struct PokemonParam;
 struct BoxPokemon;
 
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
+#include "../arm9/poke_tool.h"
 
-extern u32 POKE_TOOL_NormalizeForm(u16 species, u16 form);
 
-extern int POKE_TOOL_FilterSpecies(u16 a, int b);
 
-extern int POKEGRA_GetCbrArcIndex(u32,u32,u32,u32,u32,u32,u32);
+#include "../arm9/pokegra.h"
 
-extern int POKEGRA_GetPalArcIndex(u32,u32,u32,u32,u32,u32,u32);
 
-extern int POKEGRA_GetCelArcIndex(u32,u32,u32,u32,u32,u32,u32);
 
-extern int POKEGRA_GetAnmArcIndex(u32,u32,u32,u32,u32,u32,u32);
 
-extern int POKEGRA_GetMCelArcIndex(u32,u32,u32,u32,u32,u32,u32);
 
-extern int POKEGRA_GetMAnmArcIndex(u32,u32,u32,u32,u32,u32,u32);
 
-extern int POKEGRA_GetNcecArcIndex(u32,u32,u32,u32,u32,u32,u32);
 
 void *MUSICAL_MCSS_CreateRenderObj(u32 heap);
 
@@ -110,7 +88,7 @@ void MUSICAL_MCSS_TickAnim(u8 *p);
 
 void MUSICAL_MCSS_DrawRenderObj(void **p);
 
-u8 *MUSICAL_MCSS_SetupRenderObj(Scene *p,const u8 *b,int c);
+u8 *MUSICAL_MCSS_SetupRenderObj(MusPokeDrawScene *p,const u8 *b,int c);
 
 void MUSICAL_MCSS_FreeRenderObj(int a, int b);
 
@@ -146,51 +124,31 @@ u8 *MUSICAL_MCSS_GetRenderFlags(u8 *p);
 
 char *MUSICAL_MCSS_GetRenderMatrix(char *p);
 
-void MUSICAL_MCSS_SetMatrix(unsigned mode, McssMatrixInput *in, Big *p);
+void MUSICAL_MCSS_SetMatrix(unsigned mode, McssMatrixInput *in, MusPokeDrawBig *p);
 
 void MUSICAL_MCSS_GetPokemonArcs(u8 *p, u32 *out, u32 k);
 
-void *MUSICAL_MCSS_AllocRenderPool(int count, u32 heap);
+#include "musical_mcss.h"
 
-void MUSICAL_MCSS_FreeRenderPool(char *p);
 
-void MUSICAL_MCSS_TickMCAnim(char *p);
 
-void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, Big *));
 
-char *MUSICAL_MCSS_LoadMC(char *a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g);
 
-void MUSICAL_MCSS_FreeMC(char *a, char *p);
 
-void MUSICAL_MCSS_SetCameraBack(void *p);
 
-void MUSICAL_MCSS_SetCellVramBase(char *p,int b);
 
-void MUSICAL_MCSS_SetAnimVramBase(u8 *p, int a);
 
-void MUSICAL_MCSS_SetMCAnimPos(char *p, int *q);
 
-void MUSICAL_MCSS_SetMCAnimScale(char *p, int *q);
 
-void MUSICAL_MCSS_SetMCAnimFrame(char *p, unsigned short v);
 
-void MUSICAL_MCSS_EnableDrawOffset(u8 *p);
 
-void MUSICAL_MCSS_DisableDrawOffset(u8 *p);
 
-void MUSICAL_MCSS_PauseMCAnim(u8 *p);
 
-void MUSICAL_MCSS_ResumeMCAnim(char *p);
 
-void MUSICAL_MCSS_SetMCAnim(char *p,u32 n);
 
-u32 MUSICAL_MCSS_IsMCAnimHidden(u8 *p);
 
-void MUSICAL_MCSS_HideMCAnim(char *p);
 
-void MUSICAL_MCSS_ShowMCAnim(char *p);
 
-void MUSICAL_MCSS_CopyField(Object *a,Object *b);
 
 extern const char d_021F83C4[];
 
@@ -199,16 +157,16 @@ void *MUSICAL_MCSS_CreateRenderObj(u32 heap)
     int i;
     char *p;
     p = GFL_HEAP_Alloc(heap, 4456, 0, d_021F83C4, 76);
-    ((Scene *)p)->heap = heap;
-    ((Scene *)p)->main = MUSICAL_MCSS_AllocRenderPool(8, heap);
+    ((MusPokeDrawScene *)p)->heap = heap;
+    ((MusPokeDrawScene *)p)->main = MUSICAL_MCSS_AllocRenderPool(8, heap);
     for (i = 0; i < 8; i++) *(u32 *)(p + i * 556 + 8) = 0;
-    MUSICAL_MCSS_SetCameraBack(((Scene *)p)->main);
+    MUSICAL_MCSS_SetCameraBack(((MusPokeDrawScene *)p)->main);
     return p;
 }
 
-void MUSICAL_MCSS_DeleteRenderObj(int a) { int i; for(i=0;i<8;i++) { if(((Fields *)(a+i*556))->active==1)MUSICAL_MCSS_FreeRenderObj(a,a+8+i*556); } MUSICAL_MCSS_FreeRenderPool(((Scene *)a)->main); GFL_HEAP_Free((void *)a); }
+void MUSICAL_MCSS_DeleteRenderObj(int a) { int i; for(i=0;i<8;i++) { if(((Fields *)(a+i*556))->active==1)MUSICAL_MCSS_FreeRenderObj(a,a+8+i*556); } MUSICAL_MCSS_FreeRenderPool(((MusPokeDrawScene *)a)->main); GFL_HEAP_Free((void *)a); }
 
-void MUSICAL_MCSS_TickAnim(u8 *p) { MUSICAL_MCSS_TickMCAnim((char *)(((Scene *)p)->main)); }
+void MUSICAL_MCSS_TickAnim(u8 *p) { MUSICAL_MCSS_TickMCAnim((char *)(((MusPokeDrawScene *)p)->main)); }
 
 /*
  * 2026-10-05 (wave D5 lane 02): ov112 0x021F546C is a different function from the ov194 one (a 172-byte slot
@@ -223,9 +181,9 @@ void MUSICAL_MCSS_TickAnim(u8 *p) { MUSICAL_MCSS_TickMCAnim((char *)(((Scene *)p
  *   (the matrix input `*in`) fixes its residue (b), the modes 4/5 y-before-x load order; with the y local kept
  *   it is 172/172 with 5 bytes left, only the slot multiply colours (original idx r4 and product
  *   r1, ours idx r1 and product r4). No change to that from: no idx local, mode -= 7, unsigned idx,
- *   idx declared at function scope, an else-if chain, a void * parameter cast to Big *, an inline
+ *   idx declared at function scope, an else-if chain, a void * parameter cast to MusPokeDrawBig *, an inline
  *   SetSlot(p, idx, in), enabled stored last; a byte-offset form loses the copy shape.
- * 2026-10-05 (D9 lane 02): still blocked by ov112 021F546C. Tried one more reading there: `Slot *s = &p->slots[mode - 7]` instead of the idx local (worse, 128 bytes differ).
+ * 2026-10-05 (D9 lane 02): still blocked by ov112 021F546C. Tried one more reading there: `MusPokeDrawSlot *s = &p->slots[mode - 7]` instead of the idx local (worse, 128 bytes differ).
  * 2026-10-05 (D9r lane 45): bytes still identical; still blocked by ov112 021F546C, now DIFF 172/172 with
  *   5 bytes (only the slot multiply colours), see that file.
  * 2026-10-05 (D9r lane 74): bytes still identical; still blocked by ov112 021F546C (DIFF, 5 bytes, slot
@@ -246,7 +204,7 @@ void MUSICAL_MCSS_TickAnim(u8 *p) { MUSICAL_MCSS_TickMCAnim((char *)(((Scene *)p
  */
 void MUSICAL_MCSS_DrawRenderObj(void **p) { MUSICAL_MCSS_DrawMC(p[1],MUSICAL_MCSS_SetMatrix); }
 
-u8 *MUSICAL_MCSS_SetupRenderObj(Scene *p,const u8 *b,int c)
+u8 *MUSICAL_MCSS_SetupRenderObj(MusPokeDrawScene *p,const u8 *b,int c)
 {
     int i;
     int j;
@@ -255,7 +213,7 @@ u8 *MUSICAL_MCSS_SetupRenderObj(Scene *p,const u8 *b,int c)
     char *second;
     for(i=0;i<8;i++) if(p->slots[i].active==0) break;
     slot=(u8 *)&p->slots[i];
-    ((Slot *)slot)->active=1;
+    ((MusPokeDrawSlot *)slot)->active=1;
     MUSICAL_MCSS_GetPokemonArcs((u8 *)b,buffers.stats,0);
     p->slots[i].primary=MUSICAL_MCSS_LoadMC(p->main,0,0,0,(u32)buffers.stats,(u32)slot,0);
     if(c==1) {
@@ -283,26 +241,26 @@ u8 *MUSICAL_MCSS_SetupRenderObj(Scene *p,const u8 *b,int c)
 }
 
 void MUSICAL_MCSS_FreeRenderObj(int a, int b) {
-    if (((Slot *)b)->secondary != 0) {
-        MUSICAL_MCSS_FreeMC((char *)(*(int *)&((Scene *)a)->main), (char *)(((Slot *)b)->secondary));
+    if (((MusPokeDrawSlot *)b)->secondary != 0) {
+        MUSICAL_MCSS_FreeMC((char *)(*(int *)&((MusPokeDrawScene *)a)->main), (char *)(((MusPokeDrawSlot *)b)->secondary));
     }
-    MUSICAL_MCSS_FreeMC((char *)(*(int *)&((Scene *)a)->main), (char *)(((Slot *)b)->primary));
-    ((Slot *)b)->active = 0;
+    MUSICAL_MCSS_FreeMC((char *)(*(int *)&((MusPokeDrawScene *)a)->main), (char *)(((MusPokeDrawSlot *)b)->primary));
+    ((MusPokeDrawSlot *)b)->active = 0;
 }
 
 void MUSICAL_MCSS_SetRenderPos(int *p, int *q)
 {
-    MUSICAL_MCSS_SetMCAnimPos(*(char * *)&((Slot *)p)->object, q);
+    MUSICAL_MCSS_SetMCAnimPos(*(char * *)&((MusPokeDrawSlot *)p)->object, q);
 }
 
 void MUSICAL_MCSS_SetRenderScale(int *p, int *q)
 {
-    MUSICAL_MCSS_SetMCAnimScale(*(char * *)&((Slot *)p)->object, q);
+    MUSICAL_MCSS_SetMCAnimScale(*(char * *)&((MusPokeDrawSlot *)p)->object, q);
 }
 
 void MUSICAL_MCSS_SetRenderFrame(int *p, unsigned short v)
 {
-    MUSICAL_MCSS_SetMCAnimFrame(*(char * *)&((Slot *)p)->object, v);
+    MUSICAL_MCSS_SetMCAnimFrame(*(char * *)&((MusPokeDrawSlot *)p)->object, v);
 }
 
 void MUSICAL_MCSS_SetRenderVisible(int *p,int b) { if(b==1)MUSICAL_MCSS_ShowMCAnim((char *)p[2]); else MUSICAL_MCSS_HideMCAnim((char *)p[2]); }
@@ -312,32 +270,32 @@ int MUSICAL_MCSS_IsRenderVisible(u8 **p) { return MUSICAL_MCSS_IsMCAnimHidden(p[
 void MUSICAL_MCSS_ResumeRenderAnim(void **p) {MUSICAL_MCSS_ResumeMCAnim(p[3]); if(p[4])MUSICAL_MCSS_ResumeMCAnim(p[4]); }
 
 void MUSICAL_MCSS_PauseRenderAnim(void *a) {
-    MUSICAL_MCSS_PauseMCAnim((u8 *)(((Slot *)a)->primary));
-    if (((Slot *)a)->secondary != 0) {
-        MUSICAL_MCSS_PauseMCAnim((u8 *)(((Slot *)a)->secondary));
+    MUSICAL_MCSS_PauseMCAnim((u8 *)(((MusPokeDrawSlot *)a)->primary));
+    if (((MusPokeDrawSlot *)a)->secondary != 0) {
+        MUSICAL_MCSS_PauseMCAnim((u8 *)(((MusPokeDrawSlot *)a)->secondary));
     }
 }
 
 void MUSICAL_MCSS_SetRenderAnim(void *a, u32 n)
 {
-    MUSICAL_MCSS_SetMCAnim(*(char * *)&((Slot *)a)->object, n);
+    MUSICAL_MCSS_SetMCAnim(*(char * *)&((MusPokeDrawSlot *)a)->object, n);
 }
 
 void MUSICAL_MCSS_ResetRender(int a) {
-    if (((Slot *)a)->enabled == 1) {
-        MUSICAL_MCSS_CopyField((Object *)((Slot *)a)->primary, (Object *)((Slot *)a)->secondary);
-        ((Slot *)a)->object = (u8 *)((Slot *)a)->secondary;
-        ((Slot *)a)->enabled = 0;
-        MUSICAL_MCSS_HideMCAnim((char *)(((Slot *)a)->primary));
+    if (((MusPokeDrawSlot *)a)->enabled == 1) {
+        MUSICAL_MCSS_CopyField((MusPokeDrawObject *)((MusPokeDrawSlot *)a)->primary, (MusPokeDrawObject *)((MusPokeDrawSlot *)a)->secondary);
+        ((MusPokeDrawSlot *)a)->object = (u8 *)((MusPokeDrawSlot *)a)->secondary;
+        ((MusPokeDrawSlot *)a)->enabled = 0;
+        MUSICAL_MCSS_HideMCAnim((char *)(((MusPokeDrawSlot *)a)->primary));
     } else {
-        MUSICAL_MCSS_CopyField((Object *)((Slot *)a)->secondary, (Object *)((Slot *)a)->primary);
-        ((Slot *)a)->object = (u8 *)((Slot *)a)->primary;
-        ((Slot *)a)->enabled = 1;
-        MUSICAL_MCSS_HideMCAnim((char *)(((Slot *)a)->secondary));
+        MUSICAL_MCSS_CopyField((MusPokeDrawObject *)((MusPokeDrawSlot *)a)->secondary, (MusPokeDrawObject *)((MusPokeDrawSlot *)a)->primary);
+        ((MusPokeDrawSlot *)a)->object = (u8 *)((MusPokeDrawSlot *)a)->primary;
+        ((MusPokeDrawSlot *)a)->enabled = 1;
+        MUSICAL_MCSS_HideMCAnim((char *)(((MusPokeDrawSlot *)a)->secondary));
     }
 }
 
-void MUSICAL_MCSS_ResetRender2(int a,int b) { if(b!=((Slot *)a)->enabled)MUSICAL_MCSS_ResetRender(a); }
+void MUSICAL_MCSS_ResetRender2(int a,int b) { if(b!=((MusPokeDrawSlot *)a)->enabled)MUSICAL_MCSS_ResetRender(a); }
 
 /*
  * Recursive MATCH unblocker: unresolved callee named by the parked
@@ -349,16 +307,16 @@ void MUSICAL_MCSS_ResetRender2(int a,int b) { if(b!=((Slot *)a)->enabled)MUSICAL
 void MUSICAL_MCSS_SetRenderDrawOffset(void *slot, int isLarge)
 {
     if (isLarge == 1)
-        MUSICAL_MCSS_EnableDrawOffset((u8 *)(((Slot *)slot)->object));
+        MUSICAL_MCSS_EnableDrawOffset((u8 *)(((MusPokeDrawSlot *)slot)->object));
     else
-        MUSICAL_MCSS_DisableDrawOffset((u8 *)(((Slot *)slot)->object));
+        MUSICAL_MCSS_DisableDrawOffset((u8 *)(((MusPokeDrawSlot *)slot)->object));
 }
 
 void MUSICAL_MCSS_SetRenderCellVramBase(void **p,int b) {MUSICAL_MCSS_SetCellVramBase(p[1],b); }
 
 void MUSICAL_MCSS_SetRenderAnimVramBase(u8 *p, int a)
 {
-    MUSICAL_MCSS_SetAnimVramBase(*(u8 * *)&((Scene *)p)->main, a);
+    MUSICAL_MCSS_SetAnimVramBase(*(u8 * *)&((MusPokeDrawScene *)p)->main, a);
 }
 
 u8 *MUSICAL_MCSS_GetRenderElem(u8 *p, int i) { return p + 0x14 + i * 0x38; }
@@ -370,7 +328,7 @@ u8 *MUSICAL_MCSS_GetRenderFlags(u8 *p) { return p + 0x20c; }
  */
 char *MUSICAL_MCSS_GetRenderMatrix(char *p) { return p+536; }
 
-void MUSICAL_MCSS_SetMatrix(unsigned mode, McssMatrixInput *in, Big *p)
+void MUSICAL_MCSS_SetMatrix(unsigned mode, McssMatrixInput *in, MusPokeDrawBig *p)
 {
     if (mode >= 7) {
         u32 off = mode - 7;
@@ -378,12 +336,12 @@ void MUSICAL_MCSS_SetMatrix(unsigned mode, McssMatrixInput *in, Big *p)
         off *= 0x38;
         *(int *)(base + off + 0x14) = 1;
         base += off;
-        *(struct Vec3 *)(base + 0x18) = in->a;
-        *(struct Vec3 *)(base + 0x24) = in->b;
+        *(struct MusItemDrawVec3 *)(base + 0x18) = in->a;
+        *(struct MusItemDrawVec3 *)(base + 0x24) = in->b;
         *(u16 *)(base + 0x48) = in->e;
         *(u16 *)(base + 0x4a) = in->f;
-        *(struct Vec3 *)(base + 0x30) = in->c;
-        *(struct Vec3 *)(base + 0x3c) = in->d;
+        *(struct MusItemDrawVec3 *)(base + 0x30) = in->c;
+        *(struct MusItemDrawVec3 *)(base + 0x3c) = in->d;
         return;
     }
     if (mode == 4) {

@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_OS_OWNERINFOEX_H
 #define GAME_ARM9_OS_OWNERINFOEX_H
 
+typedef struct OSOwnerInfoEx OSOwnerInfoEx;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of os_ownerinfoex.c, prototypes copied from their definitions. */
 
@@ -26,7 +28,5 @@ u8 OS_GetROMHeaderEULAVersion(void);
 const OSParentalControlInfo *OS_GetParentalControlInfoPtr(void);
 BOOL OS_IsForceDisableWireless(void);
 /* END mkheaders: generated region */
-
-typedef struct OSOwnerInfoEx OSOwnerInfoEx;
 
 #endif

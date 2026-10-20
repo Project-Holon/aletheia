@@ -48,29 +48,26 @@
 typedef _Bool bool;
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct {
     u16 priority : 2;
     u16 rest : 14;
 } BgCnt;
 
-extern void DWCi_CMNlMsgDraw(int msgId);
-extern void DWCi_SETTINGlEraseAll(void);
+#include "common.h"
+#include "setting.h"
 extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
-extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_ChangeScene(u32 v);
-extern void DWCi_CMNlButton(int kind);
-extern s8 DWCi_BTNlGet(void);
-extern void DWCi_BTNlEnable(void);
-extern void DWCi_BTNlDisable(void);
-extern void DWCi_SNDlPlay(u32 v);
-void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern void DWCi_BTNlSet(signed char v);
-extern void OS_SpinWaitSysCycles(unsigned int cycle);
-extern unsigned int PM_ForceToPowerOff(void);
+#include "graphics.h"
+#include "dwcutil_main.h"
+#include "button.h"
+#include "sound.h"
+#include "input.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/pm.h"
 void DWCi_SceneOptErase1(void);
 void DWCi_SceneOptErase1_procScene(void);
 void DWCi_SceneOptErase1_draw(void);
@@ -91,24 +88,24 @@ void DWCi_SceneOptErase1(void)
     initGraphics();
     DWCi_CMNlMsgDraw(0x19);
     DWCi_SETTINGlEraseAll();
-    DWCi_ChangeScene((u32)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB2C8, (void *)0x0207EB78);
-    ((BgCnt *)0x04001008)->priority = 3;
-    ((BgCnt *)0x0400100A)->priority = 3;
-    ((BgCnt *)0x04000008)->priority = 3;
-    ((BgCnt *)0x0400000A)->priority = 3;
-    ((BgCnt *)0x0400000C)->priority = 3;
+    ((BgCnt *)REG_DB_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_DB_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG2CNT_ADDR)->priority = 3;
 }
 
 static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
 static void procInit1(void)
@@ -116,7 +113,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(5);
-    DWCi_ChangeScene((u32)procInit2);
+    DWCi_ChangeScene((uptr)procInit2);
 }
 
 static void procInit2(void)
@@ -124,7 +121,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((u32)DWCi_SceneOptErase1_procScene);
+    DWCi_ChangeScene((uptr)DWCi_SceneOptErase1_procScene);
 }
 
 void DWCi_SceneOptErase1_procScene(void)
@@ -149,14 +146,14 @@ static void button(void)
     if (DWCi_BTNlGet() != 0)
         return;
     DWCi_SNDlPlay(6);
-    DWCi_ChangeScene((u32)endScene);
+    DWCi_ChangeScene((uptr)endScene);
 }
 
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((u32)endScene1);
+    DWCi_ChangeScene((uptr)endScene1);
 }
 
 static void endScene1(void)
@@ -165,7 +162,7 @@ static void endScene1(void)
         return;
     DWCi_EFFlFade(3, 1, 0x3F, 0x40);
     DWCi_EFFlFade(3, 0, 0x3F, 0x40);
-    DWCi_ChangeScene((u32)endScene2);
+    DWCi_ChangeScene((uptr)endScene2);
 }
 
 /*

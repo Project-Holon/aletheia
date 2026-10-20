@@ -79,48 +79,36 @@ enum {
     ENCEFF_MAX_OVERLAYS = 3
 };
 
-extern u32 GFL_HEAP_Free(void *work);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+#include "fieldmap.h"
 
-extern u32 GFL_HEAP_GetAllocatableSize(u32 key);
+#include "../arm9/gfl_heap.h"
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern int GF_OVERLAY_Load(s32 overlayId);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(s32 overlayId);
 
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 
 extern u16 ZONEDATA_GetParentZoneId(u32 zoneId);
 
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 
-extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *player);
+#include "field_player.h"
 
-extern u16 MAP_ATTR_GetTerrainId(u32 attr);
+#include "map_attr.h"
 
-extern u16 MAP_ATTR_GetFlags(u32 attr);
 
-extern int MAP_ATTR_IsAnyGrass(u16 tileType);
 
-extern int MAP_ATTR_IsSplashWaterB(u16 tileType);
 
-extern int MAP_ATTR_IsSandVariant(u32 tileType);
 
-extern u32 TPOKE_DATA_GetRecordField(void *trainerData, u32 index);
+#include "../arm9/tpoke_data.h"
 
-extern u8 TPOKE_DATA_GetTrainerKind(u32 trainerClass);
 
-extern u8 TPOKE_DATA_FindTrainerType(u32 trainerClass);
 struct AreaData;
 
-extern struct AreaData *FIELDMAP_GetAreaData(struct FieldMap *fieldMap);
 
 extern u8 ZONEDATA_GetAreaInnerOuter(struct AreaData *areaData);
 

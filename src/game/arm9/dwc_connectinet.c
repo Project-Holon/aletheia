@@ -59,24 +59,7 @@
  *   DWC_CheckNintendoZone 0x0205CF30 arm
  *   DWC_ProcessInet 0x0205C8E0 arm
  */
-typedef struct {
-    int ac_state;
-    unsigned short state;
-    unsigned short online;
-    unsigned short dmaNo;
-    unsigned short powerMode;
-    long rwin;
-    unsigned char wontExecuteEULACheck;
-    unsigned char wontExecuteWDS;
-    int processWDSstate;
-    struct {
-        unsigned char ssid[32];
-        unsigned char wep[32];
-        int wepMode;
-        unsigned short mtu;
-        char apSpotInfo[10];
-    } nspotInfo;
-} DWCstInetControl;
+#include "dwc_connectinet_types.h"
 
 /* dwc_connectinet.o .bss: stateOld (DWC_GetInetStatus static) then stpInetCntl */
 typedef struct {
@@ -86,14 +69,7 @@ typedef struct {
 
 #include "dwc_ac.h"
 
-typedef struct {
-    int aptype;
-    int area;
-    int security;
-    char spotinfo[10];
-    char essid[33];
-    unsigned char bssid[6];
-} DWCApInfo;
+#include "dwc_connectinet_types.h"
 
 #include "../sdk_wm.h"
 
@@ -130,7 +106,6 @@ struct tagDWCWDSData;
 extern int DWC_CheckWiFiStation(void *ssid, unsigned short len, DWCApInfo *apinfo);
 extern int DWC_CheckNintendoZone(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo);
 extern void DWC_ProcessInet(void);
-void DWC_InitInetEx(DWCstInetControl *inetCntl, unsigned short dmaNo, unsigned short unused, unsigned short ssl_priority);
 void DWC_SetRwinSize(long size);
 void DWC_DebugConnectInetExAsync(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType);
 int DWC_CheckInet(void);
@@ -140,7 +115,7 @@ int DWC_GetLinkLevel(void);
 void DWCi_DivideFullApinfo(char *fullapinfo, DWCApInfo *apinfo);
 int DWC_GetApInfo(DWCApInfo *apinfo);
 unsigned long DWC_GetCheckNintendoZoneWorkSize(void);
-void DWC_GetParseWMBssDescWorkSize(void);
+unsigned long DWC_GetParseWMBssDescWorkSize(void);
 int DWC_ParseWMBssDesc(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo);
 int DWC_UpdateConnection(void);
 extern INETBSS g_02146AD4;
@@ -588,9 +563,9 @@ int DWC_CheckNintendoZone(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo)
     return 0;
 }
 
-void DWC_GetParseWMBssDescWorkSize(void)
+unsigned long DWC_GetParseWMBssDescWorkSize(void)
 {
-    DWC_GetCheckNintendoZoneWorkSize();
+    return DWC_GetCheckNintendoZoneWorkSize();
 }
 
 

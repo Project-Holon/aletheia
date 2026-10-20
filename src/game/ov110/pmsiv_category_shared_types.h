@@ -3,6 +3,6 @@
 
 struct StrObj;
 
-typedef struct { int a,b,c; } Triple;
+typedef struct { int a,b,c; } PmsivCategoryTriple;
 
 #endif

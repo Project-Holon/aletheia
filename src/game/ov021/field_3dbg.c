@@ -61,7 +61,7 @@
 struct G3dResource;
 
 /* 4x4 projection matrix as read back from the geometry engine. */
-typedef struct {
+typedef struct ProjectionMtx {
     fx32 xScale;
     fx32 xRowRest[3];
     fx32 yRowLead;
@@ -74,27 +74,22 @@ typedef struct {
 struct FieldSubscreen;
 struct CGearPowerOnOffWork;
 
-extern struct CGearPowerOnOffWork *C_GEAR_POWER_ONOFF_Create(struct FieldSubscreen *subscreen, void *gameSystem, u16 heapId);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern void NNS_G3dGeFlushBuffer(void);
-extern void G3_LoadMtx44(void *m);
-extern u32 G3D_SYSTEM_GetResourceSize(void);
+#include "../ov035/c_gear_power_onoff.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/nns_g3d_ge.h"
+#include "../arm9/g3imm.h"
+#include "../arm9/g3d_system.h"
+struct ArcHandle;
+#ifdef __MWERKS__
+/* The original declares the heap id of the member loader as u16, so each call truncates it. */
 struct ArcHandle;
 extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
+#else
+#include "../arm9/arc_tool.h"
+#endif
 extern void G3D_SYSTEM_InitResourceByFile(void *dst, void *src);
-extern int G3D_SYSTEM_AllocVramTexture(struct G3dResource *res);
-extern void G3D_SYSTEM_DeleteResource(struct G3dResource *resource);
-extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *res);
-s32 G3D_SYSTEM_TransAllocatedTexture(struct G3dResource *p);
-u32 FX_Div(u32 numer, u32 denom);
-void MTX_Identity33_(MtxFx33 *pDst);
-void MTX_RotZ33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
-void MTX_Scale33_(MtxFx33 *pDst, fx32 x, fx32 y, fx32 z);
-void MTX_Concat33(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);
-extern void G3_MultMtx33(const void *m);
-u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *resource);
-u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *resource);
+#include "../arm9/fx_cp.h"
+#include "../arm9/fx_mtx33.h"
 Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId);
 int FIELD_3DBG_DeleteBillboard(Field3dbgBillboard *billboard);
 void FIELD_3DBG_DrawBillboard(Field3dbgBillboard *billboard);

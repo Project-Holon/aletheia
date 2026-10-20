@@ -9,57 +9,14 @@
  * BtlInstTrainer and BtlInstDraw are the ov010 fld_btl_inst_tool.c layouts.
  */
 
+#include "../ov010/fld_btl_inst_tool_shared_types.h"
+
 typedef struct GameData GameData;
 typedef struct GameSystem GameSystem;
 typedef struct SaveControl SaveControl;
 typedef struct BsubwayPlayData BsubwayPlayData;   /* save block 0x39 */
 typedef struct BsubwayScoreData BsubwayScoreData; /* save block 0x3A */
 typedef struct BsubwayWifiData BsubwayWifiData;   /* save block 0x3B */
-
-/* Two PMS sentences back to back. */
-typedef struct PmsSentencePair {
-    u16 half[8];
-} PmsSentencePair;
-
-typedef struct PmsData {
-    u16 sentenceType;   /* 0x00 */
-    u16 sentenceId;     /* 0x02 */
-    u16 word[2];        /* 0x04 */
-} PmsData;
-
-typedef struct BattleMon {
-    u16 species : 11;   /* 0x00 */
-    u16 form : 5;
-    u16 item;           /* 0x02 */
-    u16 moves[4];       /* 0x04 */
-    u32 otId;           /* 0x0C */
-    u32 pid;            /* 0x10 */
-    u32 ivs;            /* 0x14 */
-    u8 ev[6];           /* 0x18 */
-    u8 ppUps;           /* 0x1E */
-    u8 lang;            /* 0x1F */
-    u8 ability;         /* 0x20 */
-    u8 friendship;      /* 0x21 */
-    u16 nick[11];       /* 0x22 */
-    u8 nature;          /* 0x38 */
-} BattleMon;
-
-typedef struct BtlInstDraw {
-    u32 otId;           /* 0x00 */
-    u16 ids[2];         /* 0x04 */
-    u32 pids[2];        /* 0x08 */
-    u8 natures[2];      /* 0x10 */
-} BtlInstDraw;
-
-typedef struct BtlInstTrainer {
-    u32 trainerId;              /* 0x00 */
-    u16 trainerType;            /* 0x04 */
-    u8 reserved06[2];
-    u16 name[8];                /* 0x08 */
-    PmsData introMsg;           /* 0x18 */
-    PmsSentencePair battleMsgs; /* 0x20 */
-    BattleMon mons[4];          /* 0x30 */
-} BtlInstTrainer;
 
 /* The MyStatus layout of arm9 config.c (0x20 bytes). */
 typedef struct BsubwayPartnerStatus {
@@ -107,19 +64,6 @@ typedef union BsubwaySendBuf {
     } select;
     u8 raw[0x46];
 } BsubwaySendBuf;
-
-/* Battle setup, the fields this file reads (ov010 BtlSetup and BtlInstResult names). */
-typedef struct BtlSetup {
-    u8 reserved00[0x24];
-    void *parties[4];           /* 0x24 */
-    u8 reserved34[0x8C - 0x34];
-    u32 outcome;                /* 0x8C: 1 won */
-    u8 reserved90;
-    u8 recordMode;              /* 0x91: checked by BATTLE_REC_IsVersionSupported (cmd 416) */
-    u8 reserved92[0xB4 - 0x92];
-    u16 score;                  /* 0xB4 */
-    u8 tally[11];               /* 0xB6 */
-} BtlSetup;
 
 /* ov100 proc parameter (cmd 408/409). */
 typedef struct BsubwayWifiProcParam {
@@ -328,7 +272,7 @@ typedef struct BsubwayScrWork {
     u8 reserved74C[0x7A4 - 0x74C];
     BsubwayWifiProcParam wifiProcParam;   /* 0x7A4 */
     void *partyCopy;                /* 0x7C8 */
-    BtlSetup *btlSetup;             /* 0x7CC */
+    struct BattleSetupParam *btlSetup;             /* 0x7CC */
     BsubwayBtlRecProcParam btlRecProcParam; /* 0x7D0 */
     u16 msgState;                   /* 0x7E8 */
     u16 msgSubState;                /* 0x7EA */

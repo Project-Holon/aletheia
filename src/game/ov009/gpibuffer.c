@@ -58,54 +58,28 @@
  *   g_021A45BC     0x021a45bc  data
  *   g_021A45C0     0x021a45c0  data
  */
+#include "darray.h"
+#include "gsdebug.h"
+#include "gpibuffer.h"
 #include "gpi_types.h"
 
-struct GPIPeer_s;
-struct GPIPeer_s {
-    int  state;                        /* +0x00 */
-    int  initiated;                    /* +0x04 */
-    u32  ip;                           /* +0x08 */
-    u16  port;                         /* +0x0c */
-    u16  pad0e;                        /* +0x0e */
-    int  profile;                      /* +0x10 */
-    long timeout;                      /* +0x14 */
-    int  nackCount;                    /* +0x18 */
-    GPIBuffer inputBuffer;      /* +0x1c */
-    GPIBuffer outputBuffer;     /* +0x2c */
-    void *messages;                    /* +0x3c */
-};
-
-extern char *gsirealloc(char *p, int n);
-extern void gpiSetErrorString(int *connection, int string);
-extern void *memcpy(void *dest, const void *src, unsigned int n);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern int send(int sock, char *buffer, int bufferLen, int flags);
-extern int GOAGetLastError(int sock);
-extern void gpiSetError(int *connection, int result, int errorString);
-extern int gpiCallErrorCallback(void **connection, int result, int fatal);
-extern char *gsimalloc(int size);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
-extern void gsifree(void *p);
-extern int ArrayLength(int *array);
+#include "gsmemory.h"
+#include "gpiutility.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../arm9/os_printf.h"
+#include "gsplatformsocket.h"
+#include "gpicallback.h"
 extern int gsUdpEngineGetPeerOutBufferFreeSpace(u32 theIp, u16 thePort);
 extern int gsUdpEngineSendMessage(u32 theIp, u16 thePort, char *theHeader,
                                   unsigned char *theMsg, u32 theMsgLen,
                                   int theReliable);
-extern int recv(int sock, char *buffer, int len, int flags);
 extern int gsUdpEngineGetPeerState(unsigned int ip, unsigned short port, int *state);
-extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
-int gpiAppendCharToBuffer(int *connection, int *buffer, int c);
-int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n);
-int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
-int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
-int gpiSendData(int *connection, int sock, char *buffer, int bufferLen, int *closed, int *sent, char *id);
-int gpiSendOrBufferChar(void);
-int gpiSendOrBufferStringLenToPeer(void **connection, struct GPIPeer_s *peer, char *string, int stringLen);
-int gpiSendOrBufferString(void **connection, struct GPIPeer_s *peer, char *string);
-int gpiRecvToBuffer(int *connection, int sock, GPIBuffer *inputBuffer, int *bytesRead, int *connClosed, char *id);
-int gpiSendFromBuffer(int *connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
+int gpiSendOrBufferChar(void **connection, GPIPeer *peer, char c);
+int gpiSendOrBufferStringLenToPeer(void **connection, GPIPeer *peer, char *string, int stringLen);
+int gpiSendOrBufferString(void **connection, GPIPeer *peer, char *string);
 int gpiSendBufferToPeer(GPIConnection **connection, unsigned int ip, unsigned short port, GPIBuffer *outputBuffer, int *closed, int clipSentData);
-int gpiReadMessageFromBuffer(int unused, GPIBuffer *inputBuffer, char **message, int *type, int *plen);
+int gpiReadMessageFromBuffer(void **connection, GPIBuffer *inputBuffer, char **message, int *type, int *plen);
 int gpiClipBufferToPosition(void **unused, GPIBuffer *buffer);
 extern char g_021A44C8[];
 extern char g_021A44D8[];
@@ -122,35 +96,32 @@ extern char g_021A45C0[];
 
 
 
-extern int strlen(unsigned char *s);
-extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
-extern unsigned char *strchr(unsigned char *s, int c);
-extern int atoi(unsigned int s);
-extern void *memmove(void *dest, const void *src, unsigned int n);
+#include "../arm9/msl_string_str.h"
+#include "../arm9/msl_strtod.h"
 /*
  * gpiAppendCharToBuffer: append one character to a GPIBuffer (0=data,
  * 4=size, 8=len), growing the backing store by 0x4000 bytes when full.
  */
-int gpiAppendCharToBuffer(int *connection, int *buffer, int c)
+int gpiAppendCharToBuffer(void **connection, GPIBuffer *buffer, int c)
 {
-    int len = buffer[2];
-    int size = buffer[1];
+    int len = buffer->len;
+    int size = buffer->size;
     char *data;
 
-    data = (char *)buffer[0];
+    data = buffer->buffer;
     if (size == len) {
         size += 0x4000;
         data = gsirealloc(data, size + 1);
         if (data == 0) {
-            gpiSetErrorString(connection, (int)g_021A44C8);
+            gpiSetErrorString(connection, g_021A44C8);
             return 1;
         }
     }
     data[len] = c;
     data[len + 1] = 0;
-    buffer[0] = (int)data;
-    buffer[2] += 1;
-    buffer[1] = size;
+    buffer->buffer = data;
+    buffer->len += 1;
+    buffer->size = size;
     return 0;
 }
 
@@ -161,7 +132,7 @@ int gpiAppendCharToBuffer(int *connection, int *buffer, int c)
  * (0=data, 4=size, 8=len).  Grows the store by max(0x4000, n) when the
  * free tail is shorter than n, then NUL-terminates.
  */
-int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n)
+int gpiAppendStringToBufferLen(void **connection, GPIBuffer *buffer, const char *src, int n)
 {
     int buflen;
     int size;
@@ -169,9 +140,9 @@ int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n)
 
     if (src == 0)
         return 0;
-    buflen = buffer[2];
-    size = buffer[1];
-    data = (char *)buffer[0];
+    buflen = buffer->len;
+    size = buffer->size;
+    data = buffer->buffer;
     if (size - buflen < n) {
         int grow = 0x4000;
         if (n >= grow)
@@ -179,15 +150,15 @@ int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n)
         size += grow;
         data = gsirealloc(data, size + 1);
         if (data == 0) {
-            gpiSetErrorString(connection, (int)g_021A44C8);
+            gpiSetErrorString(connection, g_021A44C8);
             return 1;
         }
     }
-    memcpy(data + buflen, (const void *)src, n);
+    memcpy(data + buflen, src, n);
     data[buflen + n] = 0;
-    buffer[1] = size;
-    buffer[2] += n;
-    buffer[0] = (int)data;
+    buffer->size = size;
+    buffer->len += n;
+    buffer->buffer = data;
     return 0;
 }
 
@@ -197,9 +168,9 @@ int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n)
  * gpiAppendStringToBuffer: append a NUL-terminated string's bytes to a
  * GPIBuffer, its length supplied by strlen.
  */
-int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string)
+int gpiAppendStringToBuffer(void **connection, GPIBuffer *buffer, const char *string)
 {
-    return gpiAppendStringToBufferLen(connection, buffer, (int)string, strlen((unsigned char *)string));
+    return gpiAppendStringToBufferLen(connection, buffer, string, strlen((unsigned char *)string));
 }
 
 
@@ -208,7 +179,7 @@ int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string)
  * gpiAppendIntToBuffer: format the integer with sprintf("%d") into a small
  * stack buffer, then append that string to the GPIBuffer.
  */
-int gpiAppendIntToBuffer(int *connection, int *buffer, int value)
+int gpiAppendIntToBuffer(void **connection, GPIBuffer *buffer, int value)
 {
     char buf[0x10];
 
@@ -298,7 +269,7 @@ int gpiSendData(int *connection, int sock, char *buffer, int bufferLen,
         if (rcode != -6 && rcode != -26 && rcode != -76) {
             if (id[0] == 'P' && id[1] == 'R')
                 return 3;
-            gpiSetError(connection, 5, (int)g_021A44DC);
+            gpiSetError((void **)connection, 5, g_021A44DC);
             gpiCallErrorCallback((void **)connection, 3, 0);
             return 3;
         }
@@ -321,14 +292,14 @@ int gpiSendData(int *connection, int sock, char *buffer, int bufferLen,
     return 0;
 }
 
-int gpiSendOrBufferChar(void)
+int gpiSendOrBufferChar(void **connection, GPIPeer *peer, char c)
 {
     return 0;
 }
 
 
 
-int gpiSendOrBufferStringLenToPeer(void **connection, struct GPIPeer_s *peer,
+int gpiSendOrBufferStringLenToPeer(void **connection, GPIPeer *peer,
                                    char *string, int stringLen)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
@@ -360,8 +331,8 @@ int gpiSendOrBufferStringLenToPeer(void **connection, struct GPIPeer_s *peer,
         }
     }
     if (remaining != 0) {
-        int result = gpiAppendStringToBufferLen((int *)connection, (int *)&peer->outputBuffer,
-                                                (int)(string + total), remaining);
+        int result = gpiAppendStringToBufferLen(connection, &peer->outputBuffer,
+                                                (string + total), remaining);
         if (result != 0)
             return result;
     }
@@ -370,7 +341,7 @@ int gpiSendOrBufferStringLenToPeer(void **connection, struct GPIPeer_s *peer,
 
 
 
-int gpiSendOrBufferString(void **connection, struct GPIPeer_s *peer,
+int gpiSendOrBufferString(void **connection, GPIPeer *peer,
                           char *string)
 {
     return gpiSendOrBufferStringLenToPeer(connection, peer, string,
@@ -393,7 +364,7 @@ int gpiSendOrBufferString(void **connection, struct GPIPeer_s *peer,
  * gpiSendData's sendCount + 4: both counters sit in this object's .bss with
  * sendCount first, so the load is `[anchor, #4]`. No volatile needed.
  */
-int gpiRecvToBuffer(int *connection, int sock, GPIBuffer *inputBuffer,
+int gpiRecvToBuffer(void **connection, int sock, GPIBuffer *inputBuffer,
                   int *bytesRead, int *connClosed, char *id)
 {
     static int recvCount;
@@ -415,7 +386,7 @@ int gpiRecvToBuffer(int *connection, int sock, GPIBuffer *inputBuffer,
             size = len + 0x4000;
             buffer = gsirealloc(buffer, size + 1);
             if (buffer == 0) {
-                gpiSetErrorString(connection, (int)g_021A44C8);
+                gpiSetErrorString(connection, g_021A44C8);
                 return 1;
             }
             inputBuffer->buffer = buffer;
@@ -427,7 +398,7 @@ int gpiRecvToBuffer(int *connection, int sock, GPIBuffer *inputBuffer,
         if (rcode == -1) {
             int error = GOAGetLastError(sock);
             if (error != -6 && error != -26 && error != -76) {
-                gpiSetErrorString(connection, (int)g_021A453C);
+                gpiSetErrorString(connection, g_021A453C);
                 return 3;
             }
         } else if (rcode == 0) {
@@ -472,7 +443,7 @@ int gpiRecvToBuffer(int *connection, int sock, GPIBuffer *inputBuffer,
  * treats +4 as size and +8 as len, while this routine reads len at +8 and
  * pos at +0xc.
  */
-int gpiSendFromBuffer(int *connection, int sock, GPIBuffer *outputBuffer,
+int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffer,
                   int *connClosed, int clipSentData, char *id)
 {
     int closed;
@@ -494,7 +465,7 @@ int gpiSendFromBuffer(int *connection, int sock, GPIBuffer *outputBuffer,
         return 0;
 
     do {
-        result = gpiSendData(connection, sock, &buffer[pos + total], remaining, &closed, &sent, id);
+        result = gpiSendData((int *)connection, sock, &buffer[pos + total], remaining, &closed, &sent, id);
         if (result != 0)
             return result;
         if (sent) {
@@ -586,7 +557,7 @@ int gpiSendBufferToPeer(GPIConnection **connection, unsigned int ip, unsigned sh
 /*
  * sdk:      gpiReadMessageFromBuffer (libdwcgsgp.TWL.HYB.a gpibuffer.o)
  */
-int gpiReadMessageFromBuffer(int unused, GPIBuffer *inputBuffer, char **message, int *type, int *plen)
+int gpiReadMessageFromBuffer(void **connection, GPIBuffer *inputBuffer, char **message, int *type, int *plen)
 {
     char intValue[16];
     int len;
@@ -602,10 +573,10 @@ int gpiReadMessageFromBuffer(int unused, GPIBuffer *inputBuffer, char **message,
         *str = 0;
         if (!gpiValueForKey(inputBuffer->buffer, g_021A45BC, intValue, 16))
             return 3;
-        *type = atoi((unsigned int)intValue);
+        *type = atoi(intValue);
         if (!gpiValueForKey(inputBuffer->buffer, g_021A45C0, intValue, 16))
             return 3;
-        len = atoi((unsigned int)intValue);
+        len = atoi(intValue);
         if (inputBuffer->len > len + 1 + (str - inputBuffer->buffer)) {
             if (str[len + 1] != 0)
                 return 3;

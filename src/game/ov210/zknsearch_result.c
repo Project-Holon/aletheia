@@ -42,25 +42,13 @@ typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; u
 
 
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 struct FrameListParams;
-extern struct FrameList *FRAME_LIST_Create(struct FrameListParams *params, unsigned int heapId);
-extern void FRAME_LIST_CopyMapToBuffer(struct FrameList *list, void *source, unsigned int fileIndex, unsigned int memberIndex, unsigned int mapSlot);
-extern void FRAME_LIST_LoadPalettes(struct FrameList *list, unsigned char *palettes, unsigned int firstSlot, unsigned int srcSlot, unsigned int slotCount);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void FRAME_LIST_AddItem(struct FrameList *list, unsigned int mapIndex, unsigned int value);
-extern void FRAME_LIST_Delete(struct FrameList *s);
+#include "../ov067/frame_list.h"
 struct Strbuf;
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void ZKNSEARCH_MAIN_PrintListRow(char *work, s32 *window, u32 text);
-extern void ZKNSEARCH_MAIN_PlaceColumnActor(char *p, int idx, int y, int flag);
-extern void ZKNSEARCH_MAIN_MoveColumnActors(int p, int v);
-extern void ZKNSEARCH_MAIN_UpdateCursorActors(u8 *p, int a);
-extern u32 ZKNSEARCH_MAIN_GetListIndexB(u32 a, u32 b);
-extern void ZKNSEARCH_MAIN_TransferRowChars(int p, unsigned *b);
-extern void ZKNSEARCH_MAIN_PlaceColumnActor3(char *p, int y, int flag);
-extern void ZKNSEARCH_MAIN_PlacePageActor(char *ctx, unsigned long slot, int y, int flag);
-extern void ZKNSEARCH_MAIN_MoveScrollActors(char *p, int dx);
+#include "../arm9/strbuf.h"
+typedef int YCoord;
+#include "zknsearch_main.h"
 void ZKNSEARCH_RESULT_InitFrameList(char *ctx);
 void ZKNSEARCH_RESULT_DeleteFrameList(u8 *p);
 void ZKNSEARCH_RESULT_SetRow1(int p, unsigned a, int b, int c, int d);

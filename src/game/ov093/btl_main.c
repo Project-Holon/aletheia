@@ -250,11 +250,19 @@
  *   BTL_CLIENT_IsWindowDone  0x021CDDCC  thumb  ov093
  *   _u32_div_f                   0x0209C2B0  arm
  */
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define ZUKAN_SAVE_IsCaught ZUKAN_SAVE_IsCaughtHeader
+#define MYITEM_SAVEDATA_RemoveItem MYITEM_SAVEDATA_RemoveItemHeader
+#define MYITEM_SAVEDATA_AddItem MYITEM_SAVEDATA_AddItemHeader
+#define BTL_REC_IsChannelDone BTL_REC_IsChannelDoneHeader
+#endif
 #include "../version.h"
+#include "../sdk_ioreg.h"
 #include "btl_main_types.h"
 
-#define REG_MASTER_BRIGHT_A 0x0400006C
-#define REG_MASTER_BRIGHT_B 0x0400106C
+#define REG_MASTER_BRIGHT_A REG_MASTER_BRIGHT_ADDR
+#define REG_MASTER_BRIGHT_B REG_DB_MASTER_BRIGHT_ADDR
 
 struct PerapVoice;
 struct MsgBank;
@@ -278,158 +286,51 @@ struct ProcHandle
  * rule: bit 0 is the side of the client.
  */
 
-extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern void MIi_CpuClear32(u32, void *, u32);
-extern void BTLV_CORE_LoadOverlays(unsigned short heapId);
-extern void BTLV_CORE_LoadDsiOverlay(void);
-extern int GFL_USE_IsMuteHookActive(void);
-extern void GFL_USE_SetSleepVolumeHooks(void);
-extern u32 CONFIG_GetTextSpeed(struct Config *config);
-extern u32 CONFIG_GetBattleScene(struct Config *config);
-extern u32 CONFIG_GetBattleStyle(struct Config *config);
-extern struct BtlField *BTL_FIELD_Create(u32 heapId);
-extern void BTL_SIDE_Init(struct BtlSide *side, struct BtlMain *main, u32 sideIndex);
-extern void BTL_SETUP_ClearResultStats(struct BattleSetupParam *setup);
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "btlv_core.h"
+#include "btl_dsi_overlay.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/config.h"
 struct Lcg64;
-extern void GF_STANDARD_SeedLcg64(struct Lcg64 *out);
-extern void BTL_CALC_Init(struct BattleRngState *rng, u32 heapId);
-extern void BTL_SERVER_CMD_Dummy(void);
-extern u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup);
-extern void BTL_CLIENT_SET_Clear(struct BtlClientSet *set);
-extern void BTL_NET_Init(void *netHandle, u16 memberMask, u16 heapId);
-extern void BTL_CALC_SetHeapId(u32 heapId);
-extern int BTL_NET_HasCommError(void);
-extern int BTL_NET_IsInitialSyncDone(void);
-extern void BTL_ADAPTER_ClearSlots(int commPos);
-extern void BTL_MAIN_ClearTrainerSlotsAndVoices(struct BtlMain *main);
-extern void BTL_MAIN_CreateParties(struct BtlMain *main);
-extern void BTL_MAIN_TrainerRecordAdd(struct BtlMain *main, int arg);
-extern u8 BTL_MAIN_GetOwnsSlots(struct BtlMain *main);
-extern int BTL_MAIN_JudgeResult(struct BtlMain *main);
-extern void BTL_MAIN_StoreRecorderEntry(struct BtlMain *main);
-extern void BTL_MAIN_StoreResultStats(struct BtlMain *main);
-extern void BTL_MAIN_WriteBackResults(struct BtlMain *main);
-extern int BTL_REC_IsChannelDone(void *reader, u8 client);
-extern void GFL_USE_FadeOutBgm(u32);
-extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
-extern int GXx_GetMasterBrightness_(volatile u16 *reg);
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int level);
-extern void BTL_FIELD_Delete(void *state);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BTL_NET_FreeRelayPacket(void *p);
-extern void BTL_CALC_Exit(void);
-extern void BTL_MAIN_FreeParties(struct BtlMain *main);
-extern void BTL_MAIN_FreeTrainerSlotsAndVoices(struct BtlMain *main);
-extern void BTL_ADAPTER_NoOp(void);
-extern void BTL_NET_Exit(void);
-extern void BTL_CALC_NoOp(void);
-extern void BTLV_CORE_UnloadOverlays(void);
-extern void GFL_USE_SetPlayersAudible(int, u32);
-extern void PM_VOICE_ResetMasterVolume(void);
-extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int);
-extern void BTLV_CORE_UnloadDsiOverlay(void);
+#include "../arm9/gf_standard.h"
+#include "btl_calc.h"
+#include "btl_server_cmd.h"
+#include "btl_net.h"
+#include "btl_client.h"
+#include "btl_rec.h"
+#ifdef __MWERKS__
+#undef BTL_REC_IsChannelDone
+extern int BTL_REC_IsChannelDone(BtlRecReader *, u8);
+#endif
+#include "btl_field.h"
+#include "../arm9/pmsi_param.h"
+#include "../arm9/comm_player_support.h"
+#include "btl_adapter.h"
+#include "../arm9/gx.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/pm_voice.h"
+#include "../arm9/ringtone_sys.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern const struct PerapVoice *PERAPVOICE_GetFromSave(struct SaveControl *saveControl);
-extern struct PerapVoice *PERAPVOICE_Create(u32 heapId);
-extern void PERAPVOICE_Copy(struct PerapVoice *dest, const struct PerapVoice *src);
-extern int BTL_MAIN_GetClientVoiceFlag(struct BtlMain *main, unsigned int client);
-extern u8 BTL_MAIN_GetRelativeClientIndex(int ownClient, int client);
-extern void BTL_MAIN_SetClientParty(struct BtlMain *main, int client, struct Party *party);
-extern void BTL_TRAINER_SLOT_InitFromData(struct BtlTrainerSlot *slot, struct BattleTrainerData *trainer);
-extern void BTL_TRAINER_SLOT_InitPlayer(struct BtlTrainerSlot *slot, int heapId, void *playerStatus);
-extern u32 POKEPARTY_GetCount(struct Party *party);
-extern void BTL_REC_InitReader(void *reader, void *recordBuffer, int size);
-extern void BTL_CLIENT_AttachRemoteLink(struct BtlClient *client, void *reader);
+#include "../arm9/game_data.h"
+#include "../arm9/perapvoice.h"
+#include "../arm9/pokeparty.h"
 struct BtlvCore;
-extern struct BtlvCore *BTLV_CORE_Create(void *context, void *client, struct BtlSide *monTable, s32 param, u16 heapId);
-extern void BTL_CLIENT_SetView(struct BtlClient *client, struct BtlvCore *viewCore);
-extern void BTL_SIDE_SetupClientParty(struct BtlSide *side, struct BtlMain *main, u8 slot);
-extern struct BtlServer *BTL_SERVER_Create(struct BtlMain *main, struct BattleRngState *rng, struct BtlSide *side, int isComm, u16 heapId);
-extern struct BtlClient *BTL_CLIENT_Create(struct BtlMain *main, struct BtlSide *side, int unused, int netHandle, u16 clientId, u16 slotCount, u8 isOpponent, int isComm, int ownsSlots, struct BattleRngState *rng, u16 heapId);
-extern u32 BTL_CLIENT_GetNetChannel(struct BtlClient *client);
-extern void BTL_SERVER_SetClientAdapter(struct BtlServer *server, void *adapter, u8 clientId, u8 battleSlots);
-extern void BTL_SERVER_Restart(struct BtlServer *server);
-extern void BTLV_CORE_Delete(struct BtlvCore *viewCore);
-extern void BTL_CLIENT_Delete(struct BtlClient *client);
-extern void BTL_SIDE_DeletePokeParams(struct BtlSide *side);
-extern void BTL_SERVER_Delete(struct BtlServer *server);
 extern int (*gSetupSeqKind1Steps[7])(struct BtlMain *, u32 *);
-extern int BTL_NET_SendEntry(u16 v);
-extern int BTL_NET_IsLeaderKnown(void);
-extern int BTL_NET_IsLeader(void);
-extern u8 BTL_NET_GetLeaderValue(void);
-extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, int mask);
 struct BtlRuleExchange;
-extern u32 BTL_NET_SendSetup(struct BtlRuleExchange *setup);
-extern int BTL_NET_GetSetup(void *);
-extern void BTL_NET_BeginSync(int a);
-extern int BTL_NET_PollSync(int a);
-extern u8 BTL_NET_SendParty(struct Party *party);
-extern int BTL_NET_IsPartyReceived(void);
-extern void *BTL_NET_AllocRelayPacket(u32,u16);
-extern void BTL_NET_FillRelayPacket(u32 *p, const void *src, u32 a);
-extern u32 BTL_NET_SendRelayedParty(u32 *a);
-extern int BTL_NET_IsRelayedPartyReceived(u32 a);
-extern void *BTL_NET_GetParty(u8);
-extern void BTL_NET_FreeAfterPartyUse(void);
-extern void BTL_MAIN_CopyClientParty(struct BtlMain *main, u8 client, void *dst);
-extern int POKE_REGULATION_GetDataSize(void);
-extern int BTL_NET_SendPlayerInfo(void *myStatus);
-extern int BTL_NET_IsPlayerInfoReceived(void);
-extern void *BTL_NET_GetPlayerInfo(u8);
-extern u32 BTL_NET_SendRelayedPlayerInfo(void *);
-extern int BTL_NET_IsRelayedPlayerInfoReceived(void);
-extern void *BTL_NET_GetRelayedPlayerInfo(void);
-extern void BTL_NET_FreeRelayedPlayerInfo(void);
-extern void BTL_NET_FreeAfterPlayerInfoUse(void);
-extern void BTL_TRAINER_SLOT_InitFromPacket(struct BtlTrainerSlot *slot, const struct BtlTrainerPacket *src);
-extern void BTL_MAIN_CopyClientPlayerStatus(struct BtlMain *main, u8 client, void *src);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/poke_regulation.h"
+#include "../arm9/msgdata.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
-extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
-extern u16 STRBUF_GetEosChar(void);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void MYSTATUS_CopyName(u16 *dest, u16 *src);
-extern void BTL_NET_ResetAfterParty(void);
-extern u32 BTL_NET_SendPerapVoice(u32 *);
-extern int BTL_NET_IsPerapVoiceReceived(void);
-extern u32 BTL_NET_GetPerapVoice(u32 a);
-extern void BTL_NET_ResetAfterPerapVoice(void);
-extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlMain *main, int slot);
-extern void BTL_MAIN_StoreClientVoiceFlag(struct BtlMain *main, int client);
-extern u32 PERAPVOICE_GetSize(void);
-extern void MI_CpuCopy8(const void *,void *,u32);
-extern void BTL_SERVER_CreateClientAdapter(struct BtlServer *server, int unused, int netId, int clientId, u8 slotCount);
-extern void BTL_SERVER_SetClientWithoutAdapter(struct BtlServer *server, u8 clientId, u8 battleSlots);
-extern void BTL_CLIENT_SetRequestParam(struct BtlClient *client, struct BtlServer *server);
-extern u8 BTL_MAIN_GetPartnerClient(struct BtlMain *main, u8 clientId);
-extern int BTL_SERVER_Update(struct BtlServer *server);
-extern int BTL_CLIENT_RunTick(struct BtlClient *client);
-extern void BTL_CLIENT_GetCursor(struct BtlClient *client, void *buf);
-extern void BTLV_CORE_Update(struct BtlvCore *viewCore);
-extern void BTL_SERVER_GetFinalData(struct BtlServer *server, void *buf);
-extern void BTL_CLIENT_MarkCommandIssued(struct BtlClient *client);
-extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
-extern int GF_OVERLAY_Load(int id);
-extern void GF_OVERLAY_Unload(int id);
-extern int CARD_SPI_CheckCardId(void);
+#include "../arm9/strbuf.h"
+#include "../arm9/mystatus.h"
+#include "../arm9/msg_speed.h"
+#include "../arm9/gf_overlay.h"
+#include "../ov231/card_spi.h"
 struct BtlPokeParam;
-extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *pp);
-extern int ZUKAN_SAVE_IsCaught(void *,unsigned int);
 struct ZukanSave;
-extern u16 ZUKAN_SAVE_CountCaughtNational(struct ZukanSave *pZukan);
 struct PokemonParam;
-extern struct PokemonParam *BTL_POKEPARAM_GetMon(struct BtlPokeParam *pp);
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
 extern u8 ov231_id[];
 extern int (*gSetupSeqKind3Steps[7])(struct BtlMain *, u32 *);
 #include "btl_server_types.h"
@@ -438,273 +339,36 @@ struct Blk34;
 struct PartyMon;
 struct BtlPosTable;
 #include "../types.h"
-struct BtlPosTable { u16 firstCount; volatile u16 secondCount; u8 positions[6]; }; /* stand-in: volatile forces the reload of secondCount in each loop test */
-extern u8 BTL_MAIN_DecodeMessageCode(struct BtlMain *main, int code, u8 *out);
-extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *poke);
-extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *poke);
-extern u8 BTL_MAIN_GetClientTrainerIndex(struct BtlMain *main, u32 clientId, u8 nth);
-extern int BTL_MAIN_IsMultiMode(struct BtlMain *main);
-extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
-extern int BTL_MAIN_IsClientUsed(struct BtlMain *main, unsigned char clientId);
-extern int MYITEM_SAVEDATA_RemoveItem(void *,u32,int,u16);
-extern int MYITEM_SAVEDATA_AddItem(void *,u32,int,u16);
-extern u32 GPOWER_ApplyPrizeMoney(u32 v);
-extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
+#include "../arm9/gpower.h"
 struct MiscSave;
-extern u32 MISC_GetMoney(struct MiscSave *beacon);
+#include "../arm9/beacon.h"
 struct BtlParty;
-extern u32 BTL_CALC_CalcDefeatMoneyLoss(u32 badgeCount, struct BtlParty *party);
-extern struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
-extern void NATSUKI_Calc(struct PokemonParam *pp, s32 type, s32 zoneId, u16 heap);
-extern void BTL_POKEPARAM_CopyMoves(struct BtlPokeParam *src, struct BtlPokeParam *dst);
-extern int BTL_POKEPARAM_IsIllusionActive(struct BtlPokeParam *poke);
-extern struct PokemonParam *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *poke);
-extern void BTL_POKEPARAM_Delete(struct BtlPokeParam *poke);
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern struct BtlPokeParam *BTL_POKEPARAM_Create(struct PokemonParam *mon, u8 pokeId, u32 heapId);
-extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *poke, int paramId);
-extern void BTL_POKEPARAM_SetFakeMon(struct BtlPokeParam *pp, struct PokemonParam *fakeMon);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern struct PokemonParam *POKE_TOOL_Create(u16 species, u16 level, u64 id, u16 heap);
-extern void POKEPARTY_Init(struct Party *p);
-extern void BTL_POKEPARAM_WriteBackToParam(struct BtlPokeParam *poke, int flag);
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
-extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
-extern void BTL_POKEPARAM_SetPokeParam(void **pokeParamSlot, void *pokeParam);
-extern int BTL_POKEPARAM_HasEnteredBattle(struct BtlPokeParam *poke);
-extern u32 PERAPVOICE_IsRecorded(struct PerapVoice *voice);
-extern u32 PERAPVOICE_GetVoiceKind(struct PerapVoice *p);
-extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
-extern u8 BTL_MAIN_GetEnemyLanePos(int rule, u32 basePos, u32 lane);
-extern int BTL_POKEPARAM_IsAbleToBattle(struct BtlPokeParam *poke);
-extern unsigned int BTL_MAIN_CountClientTrainers(struct BtlMain *main, int clientId);
-extern void BTL_POKEPARAM_ClearFakeMon(struct BtlPokeParam *poke);
-extern void *MYSTATUS_Create(int a);
+#include "../arm9/natsuki.h"
+#include "btl_pokeparam.h"
+#include "../arm9/poke_tool.h"
 struct MyStatus;
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern struct Strbuf *MYSTATUS_CreateNameStrbuf(u16 *name, s32 heap_id);
-extern void PMSI_PARAM_ClearSentence(void *a);
-extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
-extern void PMSI_PARAM_Copy(void *dst, const void *src);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_SetChars(struct Strbuf *strbuf, void *srcChars, u32 charCount);
-char *COMM_PLAYER_SUPPORT_GetCurrent(char *p);
-extern struct Party *POKEPARTY_Create(u32);
-int BTL_SETUP_CheckStatusFlag(struct BattleSetupParam *setup, int mask);
-extern u32 RECORD_AddOne(void *trainerRecord, int arg);
-extern u32 RECORD_AddCounter(void *trainerRecord, int arg, u32 delta);
-extern u8 BTL_MAIN_IsCommCompetitor(struct BattleSetupParam *setup);
-extern void NATSUKI_CalcUseItem(struct PokemonParam *pp, s32 item, u16 zoneId, u16 heap);
-extern int BTL_CALC_IsBossTrainer(u32);
-extern void NATSUKI_CalcParty(struct Party *party, s32 zoneId, u16 heap);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
-extern u32 BTL_CALC_GetItemParam(u32 itemId, u32 paramId);
-extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *poke);
-extern u32 BTL_CLIENT_SET_GetCount(struct BtlClientSet *set);
-extern int BTL_CLIENT_SET_JudgeResult(struct BtlClientSet *set, u8 localClientId, u32 rule);
-extern void BTL_CALC_SetRngState(void *);
-extern void BTL_MAIN_InitClientParties(struct BtlMain *main, struct BattleSetupParam *setup);
-extern void BTLV_CORE_ResetDisplay(u16 heapId);
-extern u8 BTL_POKEPARAM_GetUsedMoveTotal(struct BtlPokeParam *poke);
-int BTL_MAIN_IsOpposingPos(void *unusedWork, int posA, int posB);
-unsigned char BTL_MAIN_GetSlotClientId(struct BtlMain *main, int slot);
-u8 BTL_MAIN_PokeIdToClientId(u32 pokeId);
-u8 BTL_MAIN_CollectLivingPokeIds(struct BtlMain *main, struct BtlSide *side, int code, u8 *outPokeIds);
-u8 BTL_MAIN_GetTrainerSlotOfPoke(struct BtlMain *main, struct BtlSide *side, u32 pokeId);
-unsigned char BTL_MAIN_GetViewPosOfPoke(struct BtlMain *main, struct BtlSide *side, unsigned int pokeId);
-u8 BTL_MAIN_PokeIdToClientIdThunk(u32 pokeId);
-u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlMain *main, int slot);
-unsigned char BTL_MAIN_GetSlotNthOfClient(struct BtlMain *main, unsigned char slot);
-void BTL_MAIN_GetSlotClientAndNth(struct BtlMain *main, u8 slot, u8 *outClientId, u8 *outNth);
-u8 BTL_MAIN_GetViewPosOfSlot(struct BtlMain *main, u32 slot);
-u8 BTL_MAIN_GetSlotFromViewPos(struct BtlMain *main, u8 slot);
-int BTL_MAIN_IsCommMulti(struct BtlMain *main);
-int BTL_MAIN_SyncSideParty(struct BtlMain *main, int clientId);
-int BTL_MAIN_SyncPartnerSideParty(struct BtlMain *main, u32 clientId);
-unsigned char BTL_MAIN_IsSecondTeamClient(struct BtlMain *main, unsigned int clientId);
-u8 BTL_MAIN_IsOwnClientSecondTeam(struct BtlMain *main);
-u8 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
-u8 BTL_MAIN_GetOwnPartnerClient(struct BtlMain *main);
-int BTL_MAIN_IsSameTeamClient(int clientA, int clientB);
-u8 BTL_MAIN_GetOwnOpponentClient(struct BtlMain *main, int nth);
-u32 BTL_MAIN_GetOpponentClient(struct BtlMain *main, int clientId, int nth);
-void BTL_MAIN_RemoveItemFromBag(struct BtlMain *main, u32 clientId, u32 itemId);
-void BTL_MAIN_AddItemToBag(struct BtlMain *main, u8 clientId, u32 itemId);
-u32 BTL_MAIN_GetMyItem(struct BtlMain *main);
-u32 BTL_MAIN_GetMapMatrix(struct BtlMain *main);
-int BTL_MAIN_IsRecordingActive(struct BtlMain *main);
-int BTL_MAIN_ReturnZero(struct BtlMain *main, int unused);
-void BTL_MAIN_StoreSlotNthResult(struct BtlMain *main, u8 slot);
-void BTL_MAIN_SetOutcomeIfUnset(struct BtlMain *main, u32 outcome);
-int BTL_MAIN_JudgeResultThunk(struct BtlMain *main);
-void BTL_MAIN_SetRecordInvalid(struct BtlMain *main);
-u32 BTL_MAIN_GetPrizeMoney(struct BtlMain *main);
-void BTL_MAIN_AddBonusMoney(struct BtlMain *main, int add);
-u32 BTL_MAIN_GetBonusMoney(struct BtlMain *main);
-void BTL_MAIN_SetDoubleMoney(struct BtlMain *main);
-u32 BTL_MAIN_CalcPenaltyMoney(struct BtlMain *main);
-void BTL_MAIN_SetKeepBgm(struct BtlMain *main);
-void BTL_MAIN_UpdateFriendshipIfPlayer(struct BtlMain *main, struct BtlPokeParam *poke, int isHigh);
-void BTL_MAIN_UpdateFriendship(struct BtlMain *main, struct BtlPokeParam *poke, int event);
-void BTL_MAIN_CopyLiveToSnapshotPoke(struct BtlMain *main, int pokeId);
-struct BtlPokeParam *BTL_MAIN_ResolveIllusionPoke(struct BtlMain *main, struct BtlSide *side, struct BtlPokeParam *poke);
-void BTL_SIDE_Clear(struct BtlSide *side);
-int BTL_MAIN_FindLastLivingPartyIndex(struct Party *party);
-void BTL_SIDE_WriteBackParty(struct BtlSide *side, struct BtlMain *main, int clientId, int flag);
-void BTL_SIDE_WriteBackPartyOrdered(struct BtlSide *side, struct BtlMain *main, int clientId);
-int BTL_SIDE_GetParty(struct BtlSide *side, int clientId);
-int BTL_SIDE_FindPokeIndexInClient(struct BtlSide *side, int clientId, int pokeId);
-struct BtlPokeParam *BTL_SIDE_GetPokeAtPosThunk(struct BtlSide *side, u8 position);
-u8 *BTL_SIDE_GetPokeAtPos(struct BtlMain *const *side, u8 position);
-void *BTL_SIDE_GetClientPokeParam(struct BtlSide *side, unsigned int clientId, unsigned int nth);
-struct BtlPokeParam *BTL_SIDE_GetClientPoke(struct BtlSide *side, u32 clientId, u8 nth);
-struct BtlPokeParam *BTL_SIDE_GetPokeByIdThunk(struct BtlSide *side, int pokeId);
-struct BtlPokeParam *BTL_SIDE_GetPokeById(struct BtlSide *side, u8 pokeId);
-int BTL_MAIN_GetVoiceOfSlot(struct BtlMain *main, u32 slot, struct PerapVoice **outVoice);
-int BTL_MAIN_GetPositionsPerClientThunk(struct BtlMain *main, unsigned int clientId);
-u8 BTL_MAIN_GetViewPositionsPerClient(struct BtlMain *main, u32 clientId);
-struct BtlPosTable *BTL_MAIN_GetPosTable(int tableIndex);
-u32 BTL_MAIN_IsBackRowPos(u32 position);
-int BTL_MAIN_GetFrontEnemyPos(u32 position, u8 *outPosition);
-int BTL_MAIN_IsPokeSamePair(unsigned int pokeIdA, unsigned int pokeIdB);
-unsigned char BTL_MAIN_IsPokeIdInSecondPair(unsigned int pokeId);
-unsigned char BTL_MAIN_IsPokeIdInFirstPair(unsigned int pokeId);
-u8 BTL_MAIN_IsZero(u32 value);
-int BTL_MAIN_IsPosInTable(int tableIndex, u32 position);
-u8 BTL_SLOT_GetRotateSrcIndex(u8 rotateKind);
-int BTL_SLOT_GetRotateDstIndex(int rotateKind);
-unsigned char BTL_MAIN_GetPosParity(unsigned int position);
-struct BtlSideSlot *BTL_SIDE_GetSlotOfClient(struct BtlSide *side, int clientId);
-struct BtlSideSlot *BTL_SIDE_GetSlotOfClientThunk(struct BtlSide *side, int clientId);
-unsigned char BTL_SIDE_CountLivingOfClient(struct BtlSide *side, int clientId);
-void BTL_MAIN_AddClientPoints(struct BtlMain *main, u8 clientId, u8 points);
-void BTL_SLOT_Clear(struct BtlSideSlot *slot);
-void BTL_SLOT_Add(struct BtlSideSlot *slot, struct BtlPokeParam *poke);
-void BTL_SLOT_CompactLiving(struct BtlSideSlot *slot);
-u8 BTL_SLOT_GetCount(struct BtlSideSlot *slot);
-u8 BTL_SLOT_CountLiving(struct BtlSideSlot *slot);
-u8 BTL_SLOT_CountLivingFrom(struct BtlSideSlot *slot, int from);
-struct BtlPokeParam *BTL_SLOT_GetPoke(struct BtlSideSlot *slot, u32 index);
-struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlSideSlot *slot, u32 index);
-void BTL_SLOT_Swap(struct BtlSideSlot *slot, int indexA, int indexB);
-void BTL_SLOT_MoveToEnd(struct BtlSideSlot *slot, u8 index);
-void BTL_SLOT_Rotate(struct BtlSideSlot *slot, u8 rotateKind, struct BtlPokeParam **outFirst, struct BtlPokeParam **outLast);
-int BTL_SLOT_FindPoke(struct BtlSideSlot *slot, struct BtlPokeParam *poke);
-int BTL_SLOT_FindPokeId(struct BtlSideSlot *slot, int pokeId);
-struct BtlPokeParam *BTL_SLOT_GetFirstLiving(struct BtlSideSlot *slot);
-void BTL_SLOT_UpdateIllusion(struct BtlMain *main, struct BtlSideSlot *slot, int firstIndex);
-u16 BTL_MAIN_GetTrainerItem(struct BtlMain *main, int slot, unsigned int index);
-u32 BTL_MAIN_GetTrainerNameAndType(struct BtlMain *main, int slot, u32 *outTrainerType);
-int BTL_MAIN_GetTrainerAiFlags(struct BtlMain *main, int slot);
-u16 BTL_MAIN_GetTrainerId(struct BtlMain *main, int slot);
-unsigned short BTL_MAIN_GetTrainerType(struct BtlMain *main, int slot);
-void *BTL_MAIN_GetTrainerSentence(struct BtlMain *main, int slot, int mode);
-int BTL_MAIN_GetTrainerHandle(struct BtlMain *main, int slot);
-void BTL_MAIN_UpdateCommPlayerSupport(struct BtlMain *main);
-u32 BTL_MAIN_GetField(struct BtlMain *main);
-struct Party *BTL_MAIN_GetClientParty(struct BtlMain *main, int clientId, int useSaved);
-void BTL_MAIN_TrainerRecordAddDelta(struct BtlMain *main, int arg, u32 delta);
-char *BTL_MAIN_GetRegulationRules(struct BtlMain *main);
-Bool BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main);
-int BTL_MAIN_IsRecordAllowed(struct BtlMain *main);
-void BTL_MAIN_NotifyLevelUp(struct BtlMain *main, struct BtlPokeParam *poke);
-void BTL_MAIN_UpdateFriendshipUseItem(struct BtlMain *main, struct BtlPokeParam *poke, int itemId);
-void BTL_MAIN_NotifyCapture(struct BtlMain *main, u32 *captureInfo);
-int BTL_MAIN_IsCommTrainerBattle(struct BtlMain *main);
-u16 BTL_MAIN_GetLimitTimeCommand(struct BtlMain *main);
-u16 BTL_MAIN_GetLimitTimeGame(struct BtlMain *main);
-int BTL_MAIN_IsOwnWindowWaiting(struct BtlMain *main);
-int BTL_MAIN_CheckOwnWindowDone(struct BtlMain *main);
-void BTL_MAIN_RestartBattle(struct BtlMain *main, u16 stepArg);
-void BTL_MAIN_StartClientMainSteps(struct BtlMain *main);
-u32 BTL_MAIN_GetServerFlow(struct BtlMain *main);
-void BTL_SERVER_NotifyLevelUp(struct BtlServer *server, u32 *pokeParam);
-void BTL_SERVER_NotifyCapture(struct BtlServer *server, u32 *captureInfo);
-void *BTL_SERVER_GetFlow(struct BtlServer *server);
-u16 BTL_SERVER_FLOW_GetPlayerNoEffectCount(u8 *flow);
-u16 BTL_SERVER_FLOW_GetPlayerSuperEffectiveCount(u8 *flow);
+#include "../arm9/btl_setup.h"
+#include "../arm9/record.h"
+#include "btl_server_flow.h"
+#include "btl_main.h"
+#include "btl_server.h"
+#include "../arm9/zukan_save.h"
+#include "../arm9/myitem_savedata.h"
+#ifdef __MWERKS__
+#undef ZUKAN_SAVE_IsCaught
+#undef MYITEM_SAVEDATA_RemoveItem
+#undef MYITEM_SAVEDATA_AddItem
+extern int ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, unsigned int species);
+extern int MYITEM_SAVEDATA_RemoveItem(struct MyItem *bag, u32 itemId, int quantity, u16 heapId);
+extern int MYITEM_SAVEDATA_AddItem(struct MyItem *bag, u32 itemId, int quantity, u16 heapId);
+#endif
 struct BtlServerFlowResistedCount;
-u16 BTL_SERVER_FLOW_GetPlayerResistedCount(struct BtlServerFlowResistedCount *p);
-u16 BTL_SERVER_FLOW_GetOpponentNoEffectCount(u8 *flow);
-u16 BTL_SERVER_FLOW_GetOpponentResistedCount(u8 *flow);
 struct BtlServerFlowTurnCount;
-u16 BTL_SERVER_FLOW_GetTurnCount(struct BtlServerFlowTurnCount *p);
-unsigned char BTL_SERVER_FLOW_GetSlotFlag(char *flow, int index);
-void *BTL_CLIENT_ReadRecorderEntry(struct BtlClient *client, u32 *outSize);
-void BTL_CLIENT_StartRemoteStep(struct BtlClient *client, u16 stepArg);
-void BTL_CLIENT_StartMainStep(struct BtlClient *client);
-void BTL_CLIENT_AddPoints(struct BtlClient *client, u8 points);
-int BTL_CLIENT_IsWindowWaiting(struct BtlClient *client);
-u32 BTL_CLIENT_IsWindowDone(struct BtlClient *client);
 extern const u8 gClientFirstPokeIds[4];
 extern u8 gViewPosOfSlotDouble[2][3];
 extern u8 gViewPosOfSlotTriple[2][3];
-extern struct BtlPosTable gBtlPosTables[];
 
-extern u8 BTL_MAIN_MapPosForRule(struct BtlMain *main, u8 basePos);
 
-int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main);
-int BTL_MAIN_ProcMain(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main);
-int BTL_MAIN_IsRecordPlaybackDone(struct BtlMain *main);
-int BTL_MAIN_ProcExit(struct ProcHandle *proc, u32 *step, int unused, struct BtlMain *main);
-void BTL_MAIN_StartSetupTask(struct BtlTask *task, struct BtlMain *main, struct BattleSetupParam *setup);
-void BTL_MAIN_StartCleanupTask(struct BtlTask *task, struct BtlMain *main, struct BattleSetupParam *setup);
-void BTL_MAIN_SetupOwnClient(struct BtlMain *main, struct BattleSetupParam *setup);
-void BTL_MAIN_InitTrainerSlot(struct BtlMain *main, int slot);
-u8 BTL_MAIN_GetPositionsPerClient(struct BtlMain *main, u32 clientId);
-void BTL_MAIN_InitFirstTwoTrainerSlots(struct BtlMain *main, struct BattleSetupParam *setup);
-void BTL_MAIN_StartRecordPlayback(struct BtlMain *main, struct BattleSetupParam *setup);
-void BTL_MAIN_CreateViewCore(struct BtlMain *main, struct BattleSetupParam *setup, int isComm);
-int BTL_MAIN_TaskSetupSingle(u32 *unused, void *arg);
-int BTL_MAIN_TaskCleanup(u32 *unused, void *arg);
-int BTL_MAIN_TaskSetupDouble(u32 *unused, void *arg);
-int BTL_MAIN_TaskSetupMulti(u32 *unused, void *arg);
-int BTL_MAIN_TaskSetupTriple(u32 *unused, void *arg);
-int BTL_MAIN_TaskSetupRotation(u32 *unused, void *arg);
-int BTL_MAIN_TaskCommSingle(u32 *step, void *arg);
-int BTL_MAIN_TaskCommDouble(u32 *step, void *arg);
-int BTL_MAIN_RunSetupSeqKind1(u32 *step, void *arg);
-int BTL_MAIN_RunSetupSeqKind3(u32 *step, void *arg);
-int BTL_MAIN_SeqSyncRules(struct BtlMain *main, u32 *state);
-int BTL_MAIN_SeqExchangeRegulation(struct BtlMain *main, u32 *state);
-int BTL_MAIN_SeqExchangePlayers(struct BtlMain *main, u32 *state);
-int BTL_MAIN_SeqExchangePerapVoice(struct BtlMain *main, u32 *state);
-int BTL_MAIN_SeqCreateClientsKind1Solo(struct BtlMain *main);
-int BTL_MAIN_SeqCreateClientsByMulti(struct BtlMain *main);
-int BTL_MAIN_SeqCreateClientsKind3(struct BtlMain *main);
-int BTL_MAIN_SeqCreateClientsKind1(struct BtlMain *main);
-int BTL_MAIN_SeqCreateView(struct BtlMain *main, int *step);
-int BTL_MAIN_StepClientsSolo(struct BtlMain *main);
-int BTL_MAIN_StepParent(struct BtlMain *main);
-int BTL_MAIN_StepChild(struct BtlMain *main);
-void BTL_MAIN_MarkClientsDisconnected(struct BtlMain *main);
-int BTL_MAIN_CheckAllClientsReady(struct BtlMain *main);
-unsigned int BTL_MAIN_CheckSceneOff(struct BtlMain *main);
-u8 BTL_MAIN_GetBadgeCount(struct BtlMain *main);
-int BTL_MAIN_CheckShiftModePrompt(struct BtlMain *main);
-int BTL_MAIN_GetTextSpeedFrames(struct BtlMain *main);
-int BTL_MAIN_CheckEventOverlayAllowed(struct BtlMain *main);
-u32 BTL_MAIN_GetPmsWork(struct BtlMain *main);
-unsigned int BTL_MAIN_GetRuleSlotSpan(struct BtlMain *main);
-unsigned int BTL_MAIN_GetActivePosPerSide(struct BtlMain *main);
-int BTL_MAIN_CheckFrontPos(struct BtlMain *main, unsigned int posIdx);
-u8 BTL_MAIN_GetCommPos(struct BtlMain *main);
-u16 BTL_MAIN_GetWinBgm(struct BtlMain *main);
-int BTL_MAIN_GetCompetitorKind(struct BtlMain *main);
-int BTL_MAIN_GetPlayerStatus(struct BtlMain *main);
-int BTL_MAIN_CheckZukanSeen(struct BtlMain *main, void *mon);
-u32 BTL_MAIN_GetZukanSeenCount(struct BtlMain *main);
-u32 BTL_MAIN_GetGameData(struct BtlMain *main);
-void BTL_MAIN_RegisterZukanSeen(struct BtlMain *main, unsigned char doRegister, void *mon);
-u8 BTL_MAIN_DecodeMessageCodeBasic(struct BtlMain *main, u32 k, u32 v, u8 *out);
-u8 BTL_MAIN_ExpandPosDouble(struct BtlMain *main, u32 rangeType, u8 basePos, u8 *out);
-u8 BTL_MAIN_ExpandPosTriple(struct BtlMain *main, u32 rangeType, u32 basePos, u8 *out);
-unsigned char BTL_MAIN_GetClientSide(int unusedWork, unsigned int clientId);
-int BTL_MAIN_IsLocalSide(struct BtlMain *main, unsigned char side);
-u8 BTL_MAIN_GetOwnLanePos(u32 basePos, u32 lane);
-u8 BTL_MAIN_GetEnemyLanePosFromWork(struct BtlMain *main, u32 basePos, int lane);
-u8 BTL_MAIN_GetFacingPos(int rule, u32 basePos);
 
 int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupParam *setup, struct BtlMain *main)
 {
@@ -757,7 +421,7 @@ int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupPara
       if (main->setup->ownsSlots == 0)
         GF_STANDARD_SeedLcg64((struct Lcg64 *)(&main->rng));
       else
-        main->rng = setup->rng;
+        main->rng = *(BtlRngState *)&setup->rng;
       BTL_CALC_Init(&main->rng, main->heapId);
       BTL_SERVER_CMD_Dummy();
       main->prizeMoney = BTL_CALC_CalcPrizeMoney(setup);
@@ -873,7 +537,7 @@ int BTL_MAIN_IsRecordPlaybackDone(struct BtlMain *main)
     unsigned int client;
     for (client = 0; client < 4; client++) {
         if (BTL_MAIN_IsClientUsed(main, client)) {
-            if (!BTL_REC_IsChannelDone(main->recordReader, client)) return 0;
+            if (!BTL_REC_IsChannelDone(&main->recordReader, client)) return 0;
         }
     }
     return 1;
@@ -1106,9 +770,9 @@ void BTL_MAIN_InitFirstTwoTrainerSlots(struct BtlMain *main, struct BattleSetupP
 void BTL_MAIN_StartRecordPlayback(struct BtlMain *main, struct BattleSetupParam *setup)
 {
     if (setup->ownsSlots) {
-        BTL_REC_InitReader(main->recordReader, setup->recordBuffer, setup->recordSize);
-        BTL_CLIENT_AttachRemoteLink(main->clients[0], main->recordReader);
-        BTL_CLIENT_AttachRemoteLink(main->clients[1], main->recordReader);
+        BTL_REC_InitReader(&main->recordReader, setup->recordBuffer, setup->recordSize);
+        BTL_CLIENT_AttachRemoteLink(main->clients[0], &main->recordReader);
+        BTL_CLIENT_AttachRemoteLink(main->clients[1], &main->recordReader);
     }
 }
 
@@ -1234,7 +898,7 @@ int BTL_MAIN_TaskSetupMulti(u32 *unused, void *arg)
     u8 slotCount;
     int isOpponent;
     struct BtlSide *sideBlock;
-    struct BattleRngState *rngState;
+    BtlRngState *rngState;
     int isComm;
     setup = main->setup;
     isComm = BTL_MAIN_IsCommCompetitor(setup);
@@ -1288,9 +952,9 @@ int BTL_MAIN_TaskSetupMulti(u32 *unused, void *arg)
         }
     }
     if (setup->ownsSlots) {
-        BTL_REC_InitReader(main->recordReader, setup->recordBuffer, setup->recordSize);
+        BTL_REC_InitReader(&main->recordReader, setup->recordBuffer, setup->recordSize);
         for (client = 0; client < 4; client++) {
-            if (BTL_MAIN_IsClientUsed(main, client)) BTL_CLIENT_AttachRemoteLink(main->clients[client], main->recordReader);
+            if (BTL_MAIN_IsClientUsed(main, client)) BTL_CLIENT_AttachRemoteLink(main->clients[client], &main->recordReader);
         }
     }
     BTL_MAIN_CreateViewCore(main, setup, isComm);
@@ -1515,7 +1179,7 @@ int BTL_MAIN_SeqSyncRules(struct BtlMain *main, u32 *state)
         }
         break;
     case 2:
-        *(struct BattleRngState *)&main->ruleExchange = main->rng;
+        *(BtlRngState *)&main->ruleExchange = main->rng;
         main->ruleExchange.resultCount = main->setup->resultCount;
         main->ruleExchange.limitTimeGame = main->setup->limitTimeGame;
         main->ruleExchange.limitTimeCommand = main->setup->limitTimeCommand;
@@ -1529,11 +1193,11 @@ int BTL_MAIN_SeqSyncRules(struct BtlMain *main, u32 *state)
         if (BTL_NET_SendSetup(&main->ruleExchange)) ++*state;
         break;
     case 3:
-        if (BTL_NET_GetSetup(&main->ruleExchange)) {
+        if (BTL_NET_GetSetup((BtlNetSetup *)&main->ruleExchange)) {
             setup = main->setup;
             setup->resultCount = main->ruleExchange.resultCount;
             setup->rng = *(struct BattleRngState *)&main->ruleExchange;
-            main->rng = *(struct BattleRngState *)&main->ruleExchange;
+            main->rng = *(BtlRngState *)&main->ruleExchange;
             main->flags.noBattleAnim = main->ruleExchange.sceneOff;
             main->textSpeed = main->ruleExchange.textSpeed;
             main->limitTimeGame = main->ruleExchange.limitTimeGame;
@@ -2120,9 +1784,9 @@ struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main)
     return &main->setup->fieldSituation;
 }
 
-int BTL_MAIN_GetPlayerStatus(struct BtlMain *main)
+struct MyStatus *BTL_MAIN_GetPlayerStatus(struct BtlMain *main)
 {
-    return (int)main->playerStatus;
+    return main->playerStatus;
 }
 
 int BTL_MAIN_CheckZukanSeen(struct BtlMain *main, void *mon) { unsigned int species=BTL_POKEPARAM_GetSpecies(mon); return ZUKAN_SAVE_IsCaught(main->setup->zukanWork,species); }
@@ -2380,16 +2044,16 @@ int BTL_MAIN_IsClientUsed(struct BtlMain *main, unsigned char clientId)
 }
 
 /* Side of a client: bit 0 of its id. The main pointer is not read. */
-unsigned char BTL_MAIN_GetClientSide(int unusedWork, unsigned int clientId)
+unsigned char BTL_MAIN_GetClientSide(struct BtlMain *main, unsigned int clientId)
 {
-    (void)unusedWork;
+    (void)main;
     return clientId & 1;
 }
 
 /* Nonzero when side is the side of the local network id. */
 int BTL_MAIN_IsLocalSide(struct BtlMain *main, unsigned char side)
 {
-    if (side == BTL_MAIN_GetClientSide((int)main, main->ownClientId)) {
+    if (side == BTL_MAIN_GetClientSide(main, main->ownClientId)) {
         return 1;
     }
     return 0;
@@ -3241,7 +2905,7 @@ int BTL_MAIN_IsPokeSamePair(unsigned int pokeIdA, unsigned int pokeIdB)
 
 unsigned char BTL_MAIN_IsPokeIdInSecondPair(unsigned int pokeId)
 {
-    Bool result;
+    BtlBool result;
     if (pokeId < 12) result = FALSE;
     else result = TRUE;
     return result;
@@ -3522,8 +3186,8 @@ void BTL_TRAINER_SLOT_InitPlayer(struct BtlTrainerSlot *slot, int heapId, void *
         flag = 1;
     slot->trainerType = flag;
     slot->name = MYSTATUS_CreateNameStrbuf(slot->handle, 0x12);
-    PMSI_PARAM_ClearSentence(slot->winWord);
-    PMSI_PARAM_ClearSentence(slot->loseWord);
+    PMSI_PARAM_ClearSentence(&slot->winWord);
+    PMSI_PARAM_ClearSentence(&slot->loseWord);
 }
 
 void BTL_TRAINER_SLOT_InitFromData(struct BtlTrainerSlot *slot, struct BattleTrainerData *src)
@@ -3537,8 +3201,8 @@ void BTL_TRAINER_SLOT_InitFromData(struct BtlTrainerSlot *slot, struct BattleTra
         slot->name = STRBUF_Clone(src->name, 0x12);
         slot->aiFlags = src->aiFlags;
         MI_CpuCopy8(src->itemIds, slot->itemIds, 8);
-        PMSI_PARAM_Copy(slot->winWord, src->winWord);
-        PMSI_PARAM_Copy(slot->loseWord, src->loseWord);
+        PMSI_PARAM_Copy(&slot->winWord, (struct PmsData *)src->winWord);
+        PMSI_PARAM_Copy(&slot->loseWord, (struct PmsData *)src->loseWord);
     } else {
         slot->trainerId = 0;
         slot->trainerType = 0;
@@ -3546,8 +3210,8 @@ void BTL_TRAINER_SLOT_InitFromData(struct BtlTrainerSlot *slot, struct BattleTra
         for (i = 0; i < 4; i++) {
             slot->itemIds[i] = 0;
         }
-        PMSI_PARAM_ClearSentence(slot->winWord);
-        PMSI_PARAM_ClearSentence(slot->loseWord);
+        PMSI_PARAM_ClearSentence(&slot->winWord);
+        PMSI_PARAM_ClearSentence(&slot->loseWord);
     }
 }
 
@@ -3567,8 +3231,8 @@ void BTL_TRAINER_SLOT_InitFromPacket(struct BtlTrainerSlot *slot, const struct B
         STRBUF_SetChars(nameBuf, (void *)src->nameChars, nameLength);
         slot->aiFlags = src->aiFlags;
         MI_CpuCopy8((void *)src->itemIds, slot->itemIds, 8);
-        PMSI_PARAM_Copy(slot->winWord, src->winWord);
-        PMSI_PARAM_Copy(slot->loseWord, src->loseWord);
+        PMSI_PARAM_Copy(&slot->winWord, &src->winWord);
+        PMSI_PARAM_Copy(&slot->loseWord, &src->loseWord);
     } else {
         slot->trainerId = 0;
         slot->trainerType = 0;
@@ -3576,8 +3240,8 @@ void BTL_TRAINER_SLOT_InitFromPacket(struct BtlTrainerSlot *slot, const struct B
         for (i = 0; i < 4; i++) {
             slot->itemIds[i] = 0;
         }
-        PMSI_PARAM_ClearSentence(slot->winWord);
-        PMSI_PARAM_ClearSentence(slot->loseWord);
+        PMSI_PARAM_ClearSentence(&slot->winWord);
+        PMSI_PARAM_ClearSentence(&slot->loseWord);
     }
 }
 
@@ -3629,11 +3293,11 @@ unsigned short BTL_MAIN_GetTrainerType(struct BtlMain *main, int slot)
     return main->trainers[slot].trainerType;
 }
 
-void *BTL_MAIN_GetTrainerSentence(struct BtlMain *main, int slot, int mode)
+struct PmsData *BTL_MAIN_GetTrainerSentence(struct BtlMain *main, int slot, int mode)
 {
     if ((int)BTL_MAIN_GetCompetitor(main) == 2 && BTL_MAIN_IsTrainerSlotNpc(main, slot)) {
-        if (mode == 1) return main->trainers[slot].loseWord;
-        return main->trainers[slot].winWord;
+        if (mode == 1) return &main->trainers[slot].loseWord;
+        return &main->trainers[slot].winWord;
     }
     return 0;
 }
@@ -3647,9 +3311,9 @@ int BTL_MAIN_GetTrainerHandle(struct BtlMain *main, int slot)
 /*
  * branch, so the pool relocation cannot be witnessed.  All bytes correct.
  */
-void BTL_MAIN_UpdateCommPlayerSupport(struct BtlMain *main)
+struct MyStatus *BTL_MAIN_UpdateCommPlayerSupport(struct BtlMain *main)
 {
-    COMM_PLAYER_SUPPORT_GetCurrent((char *)main->setup->pmsWork);
+    return COMM_PLAYER_SUPPORT_GetCurrent((struct CommPlayerSupport *)main->setup->pmsWork);
 }
 
 /*
@@ -3732,9 +3396,9 @@ char *BTL_MAIN_GetRegulationRules(struct BtlMain *main)
     return (char *)main->setup->regulationRules;
 }
 
-Bool BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main)
+BtlBool BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main)
 {
-    Bool result = FALSE;
+    BtlBool result = FALSE;
     if (BTL_MAIN_IsCommCompetitor(main->setup) == 1) {
         if (main->setup->recordEnabled) result = TRUE;
     }
@@ -3869,7 +3533,7 @@ int BTL_MAIN_JudgeResult(struct BtlMain *main)
         }
         result = main->outcome;
     }
-    main->setup->moneyRate = result;
+    main->setup->outcome = result;
     return result;
 }
 
@@ -3940,7 +3604,7 @@ void BTL_MAIN_StoreRecorderEntry(struct BtlMain *main)
         if (src) {
             MI_CpuCopy8(src, main->setup->recordBuffer, size);
             main->setup->recordSize = size;
-            main->setup->rng = main->rng;
+            main->setup->rng = *(struct BattleRngState *)&main->rng;
         }
     }
 }
@@ -4035,7 +3699,7 @@ void BTL_MAIN_StoreResultStats(struct BtlMain *main)
     setup->stats[3] = BTL_SERVER_FLOW_GetPlayerResistedCount(flow);
     setup->stats[4] = BTL_SERVER_FLOW_GetOpponentNoEffectCount(flow);
     setup->stats[5] = BTL_SERVER_FLOW_GetOpponentResistedCount(flow);
-    if (setup->moneyRate == 1)
+    if (setup->outcome == 1)
         setup->won = 1;
     slot = BTL_SIDE_GetSlotOfClient(&main->sides[1], 0);
     count = BTL_SLOT_GetCount(slot);

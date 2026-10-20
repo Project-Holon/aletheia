@@ -72,7 +72,7 @@ u32 ZONEDATA_IsZoneInTableDFD2(u32 id);
 u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
 u32 ZONEDATA_IsRawZone176Or17A(u32 id);
 u8 ZONEDATA_GetMapSubType(u32 id);
-u32 ZONEDATA_IsParentZoneD6(u32 id);
+u32 ZONEDATA_IsParentZoneD6(u16 id);
 void *ZONEDATA_CreateAreaData(u16 heapId, u16 areaId, u32 season);
 u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
 u16 ZONEDATA_GetAreaTexSetId(const struct AreaData *areaData);

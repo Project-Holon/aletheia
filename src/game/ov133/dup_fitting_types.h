@@ -169,12 +169,12 @@ struct Object;
 
 #include "../types.h"
 
-typedef struct { int x, y, z; } Vec;
+typedef struct { int x, y, z; } DupFittingVec;
 
 typedef struct { u32 x,y; } DupFittingPairU32;
 
 typedef struct {int x,y;} DupFittingPair;
 
-typedef struct { u16 a:2; u16 flag:1; u16 b:13; } Flags;
+typedef struct { u16 a:2; u16 flag:1; u16 b:13; } DupFittingFlags;
 
 #endif

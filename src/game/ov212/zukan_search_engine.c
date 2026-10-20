@@ -42,36 +42,29 @@ struct Search {
   void *personal; u16 resultCount; u16 pad42; u16 *result;
 };
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
 
-extern void *ARC_TOOL_CreateHandle(u32, u16);
+#include "../arm9/arc_tool.h"
 
-extern void ARC_TOOL_DeleteHandle(void *);
 struct ZukanSave;
 
 
 
 
 
-extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, unsigned short species);
+#include "../arm9/zukan_save.h"
 
-extern void ZUKAN_SAVE_GetViewGenderAndForm(struct ZukanSave *pZukan, unsigned short species, unsigned int *outGender, unsigned int *outShiny, unsigned int *outForm, unsigned short language);
 
-extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, unsigned short species);
 struct PersonalData;
 
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
-
-extern struct PersonalData *POKE_PERSONAL_Create(u32, int, u32);
-
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, unsigned int field);
+#include "../arm9/poke_personal.h"
 
 
-extern void *ARC_UTIL_LoadMemberWithSize(int,int,int,int,u32 *);
 
-extern u16 *POKE_PERSONAL_LoadFormTable(unsigned int heap, unsigned short *countOut);
+
+extern void *ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, u16 heapID, u32 *out);
+
 
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
@@ -82,7 +75,7 @@ void ZUKAN_SEARCH_ENGINE_ReleaseWork(int work);
 
 int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
 
-u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,int heap,u16 **out);
+u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode, u16 heap, u16 **out);
 
 unsigned int ZUKAN_SEARCH_ENGINE_LoadFormIds(int archive, int mode, int rule, int heapId, u16 **out);
 
@@ -230,7 +223,7 @@ int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **
   return 0;
 }
 
-u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,int heap,u16 **out)
+u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,u16 heap,u16 **out)
 {
     u16 *result;
     u16 *map;

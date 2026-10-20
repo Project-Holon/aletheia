@@ -22,7 +22,8 @@
 
 #include "../types.h"
 
-extern void *RTCEXi_GetCommonCallback(void);
+typedef int RTCResult;
+#include "../arm9/external.h"
 
 typedef struct {
     u8 pad00[8];

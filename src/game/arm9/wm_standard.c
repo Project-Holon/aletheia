@@ -109,7 +109,7 @@ WMErrCode WMi_EnableEx(WMCallbackFunc callback, u32 miscFlags)
     WMi_SetCallbackTable(3, callback);
     WMi_RegisterSleepCallback();
     p = WMi_GetSystemWork();
-    result = WMi_SendCommand(3, 4, (u32)p->WM7, (u32)p->status, (u32)p->fifo7to9, miscFlags);
+    result = WMi_SendCommand(3, 4, (uptr)p->WM7, (uptr)p->status, (uptr)p->fifo7to9, miscFlags);
     if (result != WM_ERRCODE_SUCCESS) {
         return result;
     }
@@ -215,7 +215,7 @@ WMErrCode WMi_InitializeEx(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u
     WMi_SetCallbackTable(0, callback);
     WMi_RegisterSleepCallback();
     p = WMi_GetSystemWork();
-    result = WMi_SendCommand(0, 4, (u32)p->WM7, (u32)p->status, (u32)p->fifo7to9, miscFlags);
+    result = WMi_SendCommand(0, 4, (uptr)p->WM7, (uptr)p->status, (uptr)p->fifo7to9, miscFlags);
     if (result != WM_ERRCODE_SUCCESS) {
         return result;
     }

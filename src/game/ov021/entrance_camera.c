@@ -46,29 +46,15 @@ struct FieldSave;
 struct GameSystem;
 struct GameData;
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern unsigned int GFL_HEAP_Free(void *p);
-extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern void MI_CpuFill8(void *, int, int);
-extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern unsigned short FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern void FIELD_CAMERA_ANIME_SetData(struct FieldCameraAnime *anime, FieldCameraAnimeData *data);
-extern void FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
-extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
-extern struct FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
-extern void FIELD_CAMERA_ANIME_Delete(struct FieldCameraAnime *anime);
-extern unsigned short FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-extern void FIELD_GROUND_ANIME_GetEntryPos(void *fieldMap, VecFx32 *out);
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
-extern int FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
-extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, FieldCameraParam *param);
-extern void FIELD_CAMERA_ANIME_ApplyStartParam(struct FieldCameraAnime *anime);
-extern void ARC_TOOL_ReadMember(void *dst, unsigned int archiveId, unsigned int memberId);
-extern void FIELD_CAMERA_Main(struct FieldCamera *camera, unsigned int value);
-extern int FIELD_CAMERA_ResumeTargetTrace(struct FieldCamera *camera);
-extern unsigned int FIELD_CAMERA_SetTarget(struct FieldCamera *camera, const VecFx32 *target);
-extern int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int value);
+#include "../arm9/gfl_heap_wrap.h"
+#include "fieldmap.h"
+#include "../arm9/mi_memory.h"
+#include "field_camera.h"
+#include "field_camera_anime.h"
+#include "field_player.h"
+#include "field_ground_anime.h"
+#include "../arm9/arc_tool.h"
+#include "../ov010/event_field_proclink_return.h"
 
 void *ENTRANCE_CAMERA_Create(FieldMap *fieldMap);
 void ENTRANCE_CAMERA_Delete(EntranceCamera *work);
@@ -87,7 +73,7 @@ void ENTRANCE_CAMERA_SetupArriveByDir(EntranceCamera *work);
 void ENTRANCE_CAMERA_SetupLeaveByRecord(EntranceCamera *work);
 void ENTRANCE_CAMERA_SetupArriveByRecord(EntranceCamera *work);
 void ENTRANCE_CAMERA_LoadRecord(EntranceCameraRecord *dst, int entranceType);
-int ENTRANCE_CAMERA_AimAtTarget(struct FieldCamera *camera, VecFx32 *target);
+void ENTRANCE_CAMERA_AimAtTarget(struct FieldCamera *camera, VecFx32 *target);
 struct FieldCamera *ENTRANCE_CAMERA_GetCamera(EntranceCamera *work);
 EntranceCameraRequest *ENTRANCE_CAMERA_GetRequest(EntranceCamera *work);
 void ENTRANCE_CAMERA_SetRequest(EntranceCamera *work, const EntranceCameraRequest *request);
@@ -470,12 +456,12 @@ void ENTRANCE_CAMERA_LoadRecord(EntranceCameraRecord *dst, int entranceType)
 }
 
 /* Aims the camera at the target and returns the camera trace state. */
-int ENTRANCE_CAMERA_AimAtTarget(struct FieldCamera *camera, VecFx32 *target)
+void ENTRANCE_CAMERA_AimAtTarget(struct FieldCamera *camera, VecFx32 *target)
 {
     FIELD_CAMERA_StopTargetTrace(camera);
     FIELD_CAMERA_SetTarget(camera, target);
     FIELD_CAMERA_Main(camera, 0);
-    return FIELD_CAMERA_ResumeTargetTrace(camera);
+    FIELD_CAMERA_ResumeTargetTrace(camera);
 }
 
 struct FieldCamera *ENTRANCE_CAMERA_GetCamera(EntranceCamera *work)

@@ -35,28 +35,17 @@
  */
 #include "nhttp_types.h"
 
-extern NHTTPSysInfo *NHTTPi_GetSystemInfoP(void);
-extern int NHTTPi_Startup(NHTTPSysInfo *sysInfo_p, void *(*alloc)(unsigned long, int), void (*free)(void *), unsigned long threadprio);
-extern void NHTTPi_CleanupAsync(NHTTPSysInfo *sysInfo_p, void (*callback)(void));
-extern u32 NHTTPi_GetError(NHTTPBgnEndInfo *bgnEndInfo_p);
-extern NHTTPMutexInfo *NHTTPi_GetMutexInfoP(NHTTPSysInfo *sysInfo_p);
+#include "d_nhttp_common.h"
+#include "nhttp_bgnend.h"
 struct _NHTTPMutexInfo;
-extern void *NHTTPi_GetRequest(NHTTPMutexInfo *mutexInfo_p, void *handle_p);
-extern NHTTPBgnEndInfo *NHTTPi_GetBgnEndInfoP(NHTTPSysInfo *sysInfo_p);
-extern int NHTTPi_AddRequestHeaderField(NHTTPReq *req_p, NHTTPBgnEndInfo *bgnEndInfo_p, char *label_p, char *value_p);
-extern int NHTTPi_AddRequestPostDataAscii(NHTTPReq *req_p, NHTTPBgnEndInfo *bgnEndInfo_p, char *label_p, char *value_p);
-extern void *NHTTPi_GetResponse(NHTTPMutexInfo *mutexInfo_p, void *handle_p);
-extern int NHTTP_GetResponseHeaderField(NHTTPRes *res_p, char *label_p, char **value_pp);
-extern int NHTTPi_GetResponseHeaderAll(NHTTPBgnEndInfo *bgnEndInfo_p, NHTTPRes *res_p, char **value_pp);
-extern int NHTTPi_strnlen(char *s, int max);
-extern void NHTTPi_memclr(void *dst_p, int size);
-extern void NHTTPi_memcpy(void *dst, void *src, u32 size);
-extern int NHTTPi_Base64Encode(char *dst_p, const char *src_p);
+#include "nhttp_control.h"
+#include "nhttp_response.h"
+#include "nhttp_stdlib_ntr.h"
 int NHTTP_Startup(void *(*alloc)(unsigned long, int), void (*free)(void *), unsigned long threadprio);
 void NHTTP_CleanupAsync(void (*callback)(void));
 void NHTTP_Cleanup(void);
 u32 NHTTP_GetError(void);
-void NHTTP_AddHeaderField(void *handle_p, char *label_p, char *value_p);
+int NHTTP_AddHeaderField(void *handle_p, char *label_p, char *value_p);
 int NHTTP_AddRequestHeaderField(NHTTPReq *req_p, char *label_p, char *value_p);
 int NHTTP_AddPostDataAscii(void *handle_p, char *label_p, char *value_p);
 int NHTTP_AddPostDataRaw(void *handle_p, void *value_p, unsigned long length);
@@ -109,9 +98,9 @@ u32 NHTTP_GetError(void)
 
 
 
-void NHTTP_AddHeaderField(void *handle_p, char *label_p, char *value_p)
+int NHTTP_AddHeaderField(void *handle_p, char *label_p, char *value_p)
 {
-    NHTTP_AddRequestHeaderField(NHTTPi_GetRequest(NHTTPi_GetMutexInfoP(NHTTPi_GetSystemInfoP()), handle_p), label_p, value_p);
+    return NHTTP_AddRequestHeaderField(NHTTPi_GetRequest(NHTTPi_GetMutexInfoP(NHTTPi_GetSystemInfoP()), handle_p), label_p, value_p);
 }
 
 

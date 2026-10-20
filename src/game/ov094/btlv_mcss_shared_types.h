@@ -1,9 +1,10 @@
 #ifndef BTLV_MCSS_SHARED_TYPES_H
 #define BTLV_MCSS_SHARED_TYPES_H
 
-#include "btlv_camera_shared_types.h"
+#include "../ov094/btlv_camera_shared_types.h"
 
 #include "../types.h"
+#include "../arm9/mcss_types.h"
 
 /*
  * Battle Pokemon and trainer sprites (MCSS = multi-cell sprite system).
@@ -12,8 +13,8 @@
  * sprite function includes this header instead of keeping its own view.
  */
 
-struct McssSystem; /* arm9 sprite system handle (MCSS_Init) */
-struct McssSprite; /* arm9 sprite handle (MCSS_Add) */
+struct McssSys; /* arm9 sprite system handle (MCSS_Init) */
+struct McssWork; /* arm9 sprite handle (MCSS_Add) */
 
 #define BTLV_MCSS_SPRITE_MAX 14   /* positions 0..13: 8 Pokemon positions, 6 trainer positions */
 #define BTLV_MCSS_POKE_POS_COUNT 8
@@ -53,20 +54,7 @@ typedef enum BtlvMcssPos {
 #define BTLV_MCSS_ATTR_SUBSTITUTE 0x4 /* substitute doll is shown */
 
 /* Same type as the camera and mover vector. */
-typedef BtlvVec3 BtlvMcssVec;
-
-/* MCSS_Add input: archive and the seven resource file ids of one sprite (36 bytes). */
-typedef struct BtlvMcssAddWork {
-    u32 archiveId;      /* 0x00 */
-    u32 ncbrId;         /* 0x04 */
-    u32 nclrId;         /* 0x08 */
-    u32 ncerId;         /* 0x0c */
-    u32 nanrId;         /* 0x10 */
-    u32 nmcrId;         /* 0x14 */
-    u32 nmarId;         /* 0x18 */
-    u32 ncecId;         /* 0x1c */
-    u32 terminator;     /* 0x20: 0 */
-} BtlvMcssAddWork;
+typedef VecFx32 BtlvMcssVec;
 
 /* Bits of BtlvMcssSprite.flags. */
 typedef struct BtlvMcssSpriteFlags {
@@ -95,8 +83,8 @@ typedef struct BtlvMcssIdentity {
 
 /* One sprite slot (0x5c bytes). A slot is free while mcss is NULL. */
 typedef struct BtlvMcssSprite {
-    struct McssSprite *mcss;            /* 0x00 */
-    BtlvMcssAddWork addWork;            /* 0x04 */
+    struct McssWork *mcss;            /* 0x00 */
+    McssAddWork addWork;            /* 0x04 */
     void *animWatchTask;                /* 0x28: idle animation watcher task */
     BtlvMcssIdentity identity;          /* 0x2c */
     u32 colorCode;                      /* 0x3c: Pokemon value 0x98, used as a color/type code by effect scripts */
@@ -120,7 +108,7 @@ typedef struct BtlvMcssWorkFlags {
 /* The sprite system of the battle view. */
 typedef struct BtlvMcssWork {
     void *taskOwner;                    /* 0x000: owner of the tween tasks */
-    struct McssSystem *mcss;            /* 0x004 */
+    struct McssSys *mcss;            /* 0x004 */
     BtlvMcssSprite sprites[BTLV_MCSS_SPRITE_MAX]; /* 0x008 */
     BtlvMcssWorkFlags flags;            /* 0x510 */
     u32 positionTweenMask;              /* 0x514: bit per position with a running position, shake or bounce task */

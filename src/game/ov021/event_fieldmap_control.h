@@ -8,14 +8,16 @@ struct FieldFadeWork;
 typedef struct FieldFadeWork FieldFadeWork;
 
 #include "../types.h"
-#include "../ov021/event_comm_error_shared_types.h"
-#include "../ov021/bsubway_scr_types.h"
-#include "../ov021/fieldmap_types.h"
+#include "../ov020/event_mapchange_types.h"
+#include "../ov020/event_mapchange_types.h"
+#include "../ov020/event_mapchange_types.h"
+#include "../ov021/event_fieldmap_control_types.h"
 
 int EVENT_FIELDMAP_CONTROL_GetExitEffect(int fromZoneId, u32 toZoneId);
 int EVENT_FIELDMAP_CONTROL_GetEntranceEffect(int fromZoneId, int toZoneId);
 GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait);
 GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg, u8 seasonShown, u8 seasonTarget);
+GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg);
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventWithBgRestore(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int fadeSpeed);
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait);
 int EVENT_FIELDMAP_CONTROL_GetFadeKind(int effect);

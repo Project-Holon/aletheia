@@ -12,9 +12,7 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-typedef struct tagCOORD { unsigned short x, y; } COORD;
-
-typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
+#include "dwcutil_types.h"
 
 void DWCi_InputCoord(int a, int b, unsigned short *p);
 void DWCi_InputRect(int a, int b, int c, int d, unsigned short *p);

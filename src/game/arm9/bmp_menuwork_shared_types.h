@@ -7,7 +7,7 @@ struct MsgBank;
 
 #include "../types.h"
 
-typedef struct {
+typedef struct BmpMenuWork {
     union {
         const void *text;   /* +0x00  item text */
         void       *handle; /* same word read as an owned string handle */

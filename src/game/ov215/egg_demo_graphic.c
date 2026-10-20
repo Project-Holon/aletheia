@@ -63,11 +63,11 @@
  *   G3D_SYSTEM_ApplyLookAt 0x020479D8 arm
  *   G3D_SYSTEM_DrawEnd 0x02047970 arm
  */
+#include "../types.h"
+#include "../arm9/clact.h"
 #include "egg_demo_types.h"
 
-struct DispVram;
-
-struct DispConfig;
+#include "../arm9/bg_sys.h"
 
 struct Cfg;
 
@@ -75,11 +75,9 @@ struct Bank;
 
 struct Light;
 
-struct BgTemplate { unsigned words[8]; };
-
 struct BgConfig { unsigned layer; struct BgTemplate template; unsigned type,enable; };
 
-struct Vec3 { unsigned x,y,z; };
+struct EggDemoGraphicVec3 { unsigned x,y,z; };
 
 /* EGG_DEMO_GRAPHIC work, 16 bytes, allocated by EGG_DEMO_GRAPHIC_Create. */
 struct EggDemoClact {
@@ -97,7 +95,14 @@ struct EggDemoGraphic {
     struct Node *vblankTask;
 };
 
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
+struct TcbTask;
+struct ClactSysInit;
+struct DispVramCfg;
+struct Unit;
+struct G3dCamera;
+#include "../arm9/tcb_list.h"
+#include "../ov021/scrcmd_msgwin.h"
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *,int,int);
 
@@ -105,7 +110,7 @@ extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void BG_SYS_SetLcdSwap(unsigned);
+extern void BG_SYS_SetLcdSwap(u32 swap);
 
 extern void BG_SYS_ResetSubDisplay(void);
 
@@ -114,9 +119,9 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 
 extern void GF_FONT_InitTextColor(void);
-struct Tcb;
+struct TcbTask;
 
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(int,char *), void *work, unsigned int priority);
+extern struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority);
 struct TcbTask;
 
 extern void TCB_DeleteTask(struct TcbTask *task);
@@ -125,9 +130,9 @@ extern void GF_FONT_SetDefaultTextColor(void);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_Create(unsigned);
+extern void BG_SYS_Create(u16 heapId);
 
-extern void BMP_WIN_Init(unsigned);
+extern void BMP_WIN_Init(u16 heapId);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
@@ -135,7 +140,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void BG_SYS_FreeSlot(u8);
 
-extern void BG_SYS_SetPlaneVisible(u8,u8);
+extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -147,29 +152,22 @@ extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void CLACT_ExitSystem(void);
 
-extern void CLACT_DrawSystem(void);
 
-extern void CLACT_VBlankSystem(void);
 
 extern void EGG_DEMO_MENU_InitGraphics(void);
 
 extern void G3D_SYSTEM_Init(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void (*)(void));
 
-extern u32 *G3D_CAMERA_Create(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,const struct Vec3 *,const struct Vec3 *,const struct Vec3 *,u16);
+extern struct G3dCamera *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, VecFx32 *eye, VecFx32 *target, VecFx32 *up, u16 heapID);
 
 extern u32 G3D_CAMERA_Delete(void *ptr);
 
@@ -198,7 +196,7 @@ int EGG_DEMO_GRAPHIC_GetClactBank2(char *p);
 
 void EGG_DEMO_GRAPHIC_VBlank(int a, char *b);
 
-void EGG_DEMO_GRAPHIC_InitBg(void *out,unsigned heap);
+void EGG_DEMO_GRAPHIC_InitBg(void *out, u16 heap);
 
 void EGG_DEMO_GRAPHIC_DeleteBg(void *p);
 
@@ -234,7 +232,7 @@ extern const struct BgConfig d_021F71F4[];
 
 extern const s16 d_020A1EB8[];
 
-extern const struct Vec3 d_021F7160,d_021F7154,d_021F716C;
+extern const struct EggDemoGraphicVec3 d_021F7160,d_021F7154,d_021F716C;
 
 /*
  * volatile: hardware 021F63F2,63F4,63F8,6400,6402,6406.
@@ -258,7 +256,7 @@ char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heapId)
     EGG_DEMO_GRAPHIC_InitBg(work,heapId);
     EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(work+4),(int)d_021F71C4,heapId);
     EGG_DEMO_GRAPHIC_InitG3d((void **)(work+8),heapId);
-    ((struct EggDemoGraphic *)work)->vblankTask=(struct Node *)GFL_USE_AddMainTask(EGG_DEMO_GRAPHIC_VBlank,work,0);
+    ((struct EggDemoGraphic *)work)->vblankTask=(struct Node *)GFL_USE_AddMainTask((TcbFunc)EGG_DEMO_GRAPHIC_VBlank,(void *)work,0);
     return work;
 }
 
@@ -295,7 +293,7 @@ void EGG_DEMO_GRAPHIC_VBlank(int unused, char *work)
     EGG_DEMO_GRAPHIC_VBlankClact(work + 4);
 }
 
-void EGG_DEMO_GRAPHIC_InitBg(void *bgWork,unsigned heapId)
+void EGG_DEMO_GRAPHIC_InitBg(void *bgWork,u16 heapId)
 {
     unsigned i;
     MI_CpuFill8(bgWork,0,4);
@@ -327,14 +325,14 @@ void EGG_DEMO_GRAPHIC_TickDisplay(void *unused){BG_SYS_Update();}
 void EGG_DEMO_GRAPHIC_InitClact(unsigned char *clact, int resource, u32 heapId)
 {
     MI_CpuFill8(clact, 0, 4);
-    CLACT_InitSystem((struct SysInit *)0x021F7188, (struct DispVramCfg *)resource, heapId);
-    ((struct EggDemoClact *)clact)->unit = CLACT_CreateUnit(0x80, 0, heapId);
-    CLACT_SetUnitDefaultRenderer(((struct EggDemoClact *)clact)->unit);
+    CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)0x021F7188), (const struct DispVramCfg *)resource, heapId);
+    ((struct EggDemoClact *)clact)->unit = (struct Bank *)CLACT_CreateUnit(0x80, 0, heapId);
+    CLACT_SetUnitDefaultRenderer((struct Unit *)(((struct EggDemoClact *)clact)->unit));
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-void EGG_DEMO_GRAPHIC_DeleteClact(char *clact){CLACT_DeleteUnit(((struct EggDemoClact *)clact)->unit);CLACT_ExitSystem();MI_CpuFill8(clact,0,4);}
+void EGG_DEMO_GRAPHIC_DeleteClact(char *clact){CLACT_DeleteUnit((struct Unit *)(((struct EggDemoClact *)clact)->unit));CLACT_ExitSystem();MI_CpuFill8(clact,0,4);}
 
 void EGG_DEMO_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
 
@@ -351,7 +349,7 @@ int EGG_DEMO_GRAPHIC_GetClactBank(void *clact){return (int)((struct EggDemoClact
 void EGG_DEMO_GRAPHIC_InitG3d(void **g3d,u16 heapId)
 {
     G3D_SYSTEM_Init(0,2,0,1,0,heapId,EGG_DEMO_MENU_InitGraphics);
-    ((struct EggDemoG3d *)g3d)->camera=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,4096,4194304,0,&d_021F7160,&d_021F7154,&d_021F716C,heapId);
+    ((struct EggDemoG3d *)g3d)->camera=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,4096,4194304,0,(VecFx32 *)&d_021F7160,(VecFx32 *)&d_021F7154,(VecFx32 *)&d_021F716C,heapId);
 }
 
 void EGG_DEMO_GRAPHIC_DeleteG3d(int *g3d)

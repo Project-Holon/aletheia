@@ -339,7 +339,7 @@ typedef struct AcmdStayWork {
 /* Work of the step commands (0x10 bytes): frames left and the position step per frame. */
 typedef struct AcmdStepWork {
     int framesLeft;
-    MmdlVec step;
+    VecFx32 step;
 } AcmdStepWork;
 
 /* Offsets of the bounce, one per frame. */
@@ -375,71 +375,27 @@ typedef struct AcmdFlyReadyWork {
     u8 padding[3];
 } AcmdFlyReadyWork;
 
-extern void FLDMMDL_MOVE_UpdateGridPosDir(Mmdl *mmdl, int dir);
-extern void FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
-extern void FLDMMDL_MOVE_AddDirVectorPos(Mmdl *mmdl, int dir, int amount);
+#include "../ov010/fldmmdl_move.h"
 struct Mmdl;
-extern s32 FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
-extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
-extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 code);
-extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
-extern int FLDMMDL_EndAcmd(Mmdl *mmdl);
-extern u32 FLDMMDL_SysCheckStatusBit(MmdlSys *sys, u32 bit);
-extern u16 FLDMMDL_SysGetTcbPriority(MmdlSys *sys);
-extern u32 FLDMMDL_SysGetHeapId(MmdlSys *sys);
-extern void *FLDMMDL_SysGetTcbSys(MmdlSys *sys);
-extern void *FLDMMDL_SysGetBlActCont(MmdlSys *sys);
-extern void *FLDMMDL_SysGetG3dObjCont(MmdlSys *sys);
-extern void *FLDMMDL_SysGetFieldMap(MmdlSys *sys);
-extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bit);
-extern u32 FLDMMDL_CheckStatusBit(Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 bit);
-extern u32 FLDMMDL_CheckMoveBit(Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern void FLDMMDL_SetDirAll(Mmdl *mmdl, u16 dir);
-extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 drawStatus);
-extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
-extern void *FLDMMDL_InitMoveCmdWork(Mmdl *mmdl, int size);
-extern void *FLDMMDL_GetMoveCmdWork(Mmdl *mmdl);
-extern void FLDMMDL_CallDrawProc(Mmdl *mmdl);
-extern void FLDMMDL_SetAcmdCode(Mmdl *mmdl, u16 code);
-extern u16 FLDMMDL_GetAcmdCode(Mmdl *mmdl);
-extern void FLDMMDL_SetAcmdSeq(Mmdl *mmdl, u16 seq);
-extern int FLDMMDL_IncAcmdSeq(Mmdl *mmdl);
-extern u16 FLDMMDL_GetAcmdSeq(Mmdl *mmdl);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, MmdlVec *out);
-extern void FLDMMDL_GetDrawOffset(Mmdl *mmdl, MmdlVec *out);
-extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, const MmdlVec *offset);
-extern void FLDMMDL_GetDrawOffsetOutside(Mmdl *mmdl, MmdlVec *out);
-extern void FLDMMDL_GetAttrOffset(Mmdl *mmdl, MmdlVec *out);
-extern void FLDMMDL_GetModelOffset(Mmdl *mmdl, MmdlVec *out);
-extern void FLDMMDL_SysSetDrawInit(MmdlSys *sys, int flag);
-extern int FLDMMDL_CheckMoveBitDrawInitComp(Mmdl *mmdl);
-extern int FLDMMDL_CheckMoveBitMovePause(Mmdl *mmdl);
-extern int FLDMMDL_CheckMoveBitAcmd(Mmdl *mmdl);
+#include "../ov010/fldmmdl.h"
 
-extern void FLDMMDL_BLACT_Exit(MmdlSys *sys);
+#include "fldmmdl_blact.h"
 struct MmdlSys;
-extern void FLDMMDL_G3DOBJ_Delete(struct MmdlSys *mmdlSys);
+#include "fldmmdl_g3dobj.h"
 struct FieldMap;
 struct FieldEffectCont;
-extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
-extern void *FLDEFF_GYOE_SetMMdl(void *fieldEffectSys, Mmdl *mmdl, u32 type, u32 sePlay);
-extern int FLDEFF_GYOE_IsFinished(void *task);
+#include "fieldmap.h"
+#include "fldeff_gyoe.h"
 struct FieldEffectObj;
-extern void FIELD_EFFECT_DeleteObject(struct FieldEffectObj *obj);
+#include "field_effect.h"
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *mem);
+#include "../arm9/gfl_use.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct TcbSystem;
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*func)(void *, MmdlAcmdListWork *), void *work, u32 priority);
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 struct TcblSystem;
-extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
+#include "../arm9/tcbl.h"
 
 extern u8 d_021DDBE0;
 extern int (*const d_021D4A50[])(MmdlAcmdListWork *);
@@ -447,73 +403,51 @@ extern int *d_021D5D6C[];
 extern int (**const d_021D624C[])(Mmdl *);
 extern int (**const d_021D5F58[])(Mmdl *);
 extern int *d_021DDBD4[];
-extern void FLDMMDL_MOVE_AddVectorPos(Mmdl *mmdl, const MmdlVec *step);
-extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
-extern void FLDMMDL_SetDirMove(struct Mmdl *mmdl, s32 dir);
-extern int FLDMMDL_CallDrawGetProc(Mmdl *mmdl, u32 kind);
-extern void FLDMMDL_SetGridOldX(Mmdl *mmdl, int grid);
-extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
-extern void FLDMMDL_SetGridOldY(Mmdl *mmdl, int grid);
-extern int FLDMMDL_GetGridNowY(Mmdl *mmdl);
-extern void FLDMMDL_SetGridOldZ(Mmdl *mmdl, int grid);
-extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
-extern void FLDMMDL_AddGridNowX(Mmdl *mmdl, s16 amount);
-extern void FLDMMDL_AddGridNowY(Mmdl *mmdl, s16 amount);
-extern void FLDMMDL_AddGridNowZ(Mmdl *mmdl, s16 amount);
-extern void FLDMMDL_SetPos(Mmdl *mmdl, const MmdlVec *pos);
-extern void FLDMMDL_OnMoveBitMoveStart(Mmdl *mmdl);
 struct BlactSys;
 struct BbActSys;
-extern struct BbActSys *FLDMMDL_BLACT_GetBbActSys(struct BlactSys *cont);
-extern u32 BILLBOARD_ACT_GetEntryLastCommand(struct BbActSys *sys, s32 entryIndex, u16 *lastCommand);
-extern s32 FLDMMDL_MOVE_GetHideEffect(Mmdl *mmdl);
-extern void FLDMMDL_MOVE_SetHideEffect(Mmdl *mmdl, u32 effect);
-extern void FLDMMDL_MOVE_SetHideNoEffect(Mmdl *mmdl);
-extern void FLDEFF_HIDE_RequestEnd(struct FieldEffectObj *effect);
-extern int FLDEFF_HIDE_IsFinished(struct FieldEffectObj *effect);
-extern int FLDMMDL_DRAW_GetBlactAnimeTypeA(Mmdl *mmdl, u16 *animeState, u16 *animeFrame);
-extern int FLDMMDL_DRAW_GetBlactAnimeTypeB(Mmdl *mmdl, u16 *animeState, u16 *animeFrame);
-extern void FLDMMDL_DRAW_ResetBlactAnime(Mmdl *mmdl);
-extern u32 FLDMMDL_DRAW_CheckBlactReady(Mmdl *mmdl);
+#include "../arm9/billboard_act.h"
+#include "fldmmdl_movecode.h"
+#include "fldeff_hide.h"
+#include "fldmmdl_draw.h"
 
 extern const u32 d_021D4A44[];
 extern const u32 d_021D4A68[];
 extern const u32 d_021D4A80[];
 extern const u32 d_021D4A9C[];
 extern const AcmdBounceTable d_021D4C1C;
-extern const MmdlVec d_021D41E0;
-extern const MmdlVec d_021D4204;
-extern const MmdlVec d_021D4210;
-extern const MmdlVec d_021D45E8;
-extern const MmdlVec d_021D4648;
-extern const MmdlVec d_021D4ACC;
-extern const MmdlVec d_021D4AD8;
-extern const MmdlVec d_021D4AE4;
-extern const MmdlVec d_021D4AF0;
-extern const MmdlVec d_021D4AFC;
-extern const MmdlVec d_021D4B08;
-extern const MmdlVec d_021D4B14;
-extern const MmdlVec d_021D4B20;
-extern const MmdlVec d_021D4B2C;
-extern const MmdlVec d_021D4B38;
-extern const MmdlVec d_021D4B44;
-extern const MmdlVec d_021D4B50;
-extern const MmdlVec d_021D4B5C;
-extern const MmdlVec d_021D4B68;
-extern const MmdlVec d_021D4B74;
-extern const MmdlVec d_021D4B80;
-extern const MmdlVec d_021D4B8C;
-extern const MmdlVec d_021D4B98;
-extern const MmdlVec d_021D4BA4;
-extern const MmdlVec d_021D4BB0;
-extern const MmdlVec d_021D4BBC;
-extern const MmdlVec d_021D4BC8;
-extern const MmdlVec d_021D4BD4;
-extern const MmdlVec d_021D4BE0;
-extern const MmdlVec d_021D4BEC;
-extern const MmdlVec d_021D4BF8;
-extern const MmdlVec d_021D4C04;
-extern const MmdlVec d_021D4C10;
+extern const VecFx32 d_021D41E0;
+extern const VecFx32 d_021D4204;
+extern const VecFx32 d_021D4210;
+extern const VecFx32 d_021D45E8;
+extern const VecFx32 d_021D4648;
+extern const VecFx32 d_021D4ACC;
+extern const VecFx32 d_021D4AD8;
+extern const VecFx32 d_021D4AE4;
+extern const VecFx32 d_021D4AF0;
+extern const VecFx32 d_021D4AFC;
+extern const VecFx32 d_021D4B08;
+extern const VecFx32 d_021D4B14;
+extern const VecFx32 d_021D4B20;
+extern const VecFx32 d_021D4B2C;
+extern const VecFx32 d_021D4B38;
+extern const VecFx32 d_021D4B44;
+extern const VecFx32 d_021D4B50;
+extern const VecFx32 d_021D4B5C;
+extern const VecFx32 d_021D4B68;
+extern const VecFx32 d_021D4B74;
+extern const VecFx32 d_021D4B80;
+extern const VecFx32 d_021D4B8C;
+extern const VecFx32 d_021D4B98;
+extern const VecFx32 d_021D4BA4;
+extern const VecFx32 d_021D4BB0;
+extern const VecFx32 d_021D4BBC;
+extern const VecFx32 d_021D4BC8;
+extern const VecFx32 d_021D4BD4;
+extern const VecFx32 d_021D4BE0;
+extern const VecFx32 d_021D4BEC;
+extern const VecFx32 d_021D4BF8;
+extern const VecFx32 d_021D4C04;
+extern const VecFx32 d_021D4C10;
 
 int FLDMMDL_ACMD_RunCmdStep(Mmdl *mmdl, u32 code, u32 seq);
 void FLDMMDL_ACMD_ListTaskMain(void *tcb, MmdlAcmdListWork *work);
@@ -550,13 +484,13 @@ int FLDMMDL_ACMD_CheckAnimePaused(Mmdl *mmdl)
 }
 
 /* Draw position: position plus the draw, outside draw, attribute and model offsets. */
-void FLDMMDL_ACMD_GetDrawPos(Mmdl *mmdl, MmdlVec *out)
+void FLDMMDL_ACMD_GetDrawPos(Mmdl *mmdl, VecFx32 *out)
 {
-    MmdlVec pos;
-    MmdlVec drawOffset;
-    MmdlVec drawOffsetOutside;
-    MmdlVec attrOffset;
-    MmdlVec modelOffset;
+    VecFx32 pos;
+    VecFx32 drawOffset;
+    VecFx32 drawOffsetOutside;
+    VecFx32 attrOffset;
+    VecFx32 modelOffset;
 
     FLDMMDL_GetPos(mmdl, &pos);
     FLDMMDL_GetDrawOffset(mmdl, &drawOffset);
@@ -569,8 +503,9 @@ void FLDMMDL_ACMD_GetDrawPos(Mmdl *mmdl, MmdlVec *out)
 }
 
 /* Starts a task that runs a command list: entries of (code, count), ended by code 0xFE. */
-void FLDMMDL_ACMD_ListCreate(Mmdl *mmdl, const MmdlAcmdListEntry *list)
+struct TcbTask *FLDMMDL_ACMD_ListCreate(Mmdl *mmdl, const MmdlAcmdListEntry *list)
 {
+    struct TcbTask *tcb;
     MmdlSys *mmdlSys;
     MmdlAcmdListWork *work;
     u32 priority;
@@ -578,9 +513,10 @@ void FLDMMDL_ACMD_ListCreate(Mmdl *mmdl, const MmdlAcmdListEntry *list)
     mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
     work = GFL_HEAP_Alloc((u16)(0x8000 | (FLDMMDL_SysGetHeapId(mmdlSys) & 0x7fff)), sizeof(MmdlAcmdListWork), 1, (const char *)&d_021DDBE0, 0x115);
     priority = FLDMMDL_SysGetTcbPriority(FLDMMDL_GetMmdlSys(mmdl)) - 2;
-    TCB_AddTask(FLDMMDL_SysGetTcbSys(mmdlSys), FLDMMDL_ACMD_ListTaskMain, work, priority);
+    tcb = TCB_AddTask(FLDMMDL_SysGetTcbSys(mmdlSys), (TcbFunc)FLDMMDL_ACMD_ListTaskMain, work, priority);
     work->mmdl = mmdl;
     work->list = list;
+    return tcb;
 }
 
 int FLDMMDL_ACMD_ListCheckEnd(void *tcb)
@@ -717,12 +653,12 @@ int FLDMMDL_ACMD_EndCmd(Mmdl *mmdl)
     return 0;
 }
 
-int FLDMMDL_ACMD_TurnInit(Mmdl *mmdl, u32 dir)
+void FLDMMDL_ACMD_TurnInit(Mmdl *mmdl, u32 dir)
 {
     FLDMMDL_SetDirDispCheckPause(mmdl, (u16)dir);
     FLDMMDL_SetDrawStatus(mmdl, 0);
     FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
-    return FLDMMDL_IncAcmdSeq(mmdl);
+    FLDMMDL_IncAcmdSeq(mmdl);
 }
 
 u32 FLDMMDL_ACMD_DirUp(Mmdl *mmdl)
@@ -1167,7 +1103,7 @@ int FLDMMDL_ACMD_JumpMove(Mmdl *mmdl)
         work->height = 0xF00;
     }
     {
-        MmdlVec offset;
+        VecFx32 offset;
         u16 index;
         int table;
 
@@ -1183,7 +1119,7 @@ int FLDMMDL_ACMD_JumpMove(Mmdl *mmdl)
         return 0;
     }
     {
-        MmdlVec offset = { 0, 0, 0 };
+        VecFx32 offset = { 0, 0, 0 };
         FLDMMDL_SetDrawOffset(mmdl, &offset);
     }
     FLDMMDL_SetMoveBit(mmdl, MMDL_MOVEBIT_JUMP_END | MMDL_MOVEBIT_MOVE_END | MMDL_MOVEBIT_ACMD_END);
@@ -1338,10 +1274,10 @@ int FLDMMDL_ACMD_JumpRight3G24FNoSe(Mmdl *mmdl)
     return 1;
 }
 
-int FLDMMDL_ACMD_WaitInit(Mmdl *mmdl, u32 frames)
+void FLDMMDL_ACMD_WaitInit(Mmdl *mmdl, u32 frames)
 {
     ((AcmdWaitWork *)FLDMMDL_InitMoveCmdWork(mmdl, sizeof(AcmdWaitWork)))->framesLeft = frames;
-    return FLDMMDL_IncAcmdSeq(mmdl);
+    FLDMMDL_IncAcmdSeq(mmdl);
 }
 
 int FLDMMDL_ACMD_WaitMove(Mmdl *mmdl)
@@ -1412,7 +1348,7 @@ int FLDMMDL_ACMD_RiseMove(Mmdl *mmdl)
     work = FLDMMDL_GetMoveCmdWork(mmdl);
     work->height = work->height + work->step;
     {
-        MmdlVec offset = { 0, 0, 0 };
+        VecFx32 offset = { 0, 0, 0 };
         offset.y = work->height;
         FLDMMDL_SetDrawOffset(mmdl, &offset);
     }
@@ -1444,7 +1380,7 @@ int FLDMMDL_ACMD_FallMove(Mmdl *mmdl)
         work->height = 0;
     }
     {
-        MmdlVec offset = { 0, 0, 0 };
+        VecFx32 offset = { 0, 0, 0 };
         offset.y = work->height;
         FLDMMDL_SetDrawOffset(mmdl, &offset);
     }
@@ -1822,7 +1758,7 @@ int FLDMMDL_ACMD_HideOffInit(Mmdl *mmdl)
         FLDEFF_HIDE_RequestEnd((struct FieldEffectObj *)effect);
     }
     {
-        MmdlVec offset = { 0, 0, 0 };
+        VecFx32 offset = { 0, 0, 0 };
         FLDMMDL_SetDrawOffset(mmdl, &offset);
     }
     FLDMMDL_SetMoveBit(mmdl, MMDL_MOVEBIT_JUMP_START | MMDL_MOVEBIT_MOVE_START);
@@ -1838,7 +1774,7 @@ int FLDMMDL_ACMD_HideOffMove(Mmdl *mmdl)
 
     work = FLDMMDL_GetMoveCmdWork(mmdl);
     {
-        MmdlVec offset = { 0, 0, 0 };
+        VecFx32 offset = { 0, 0, 0 };
         offset.y = d_021DDBD4[0][work->heightIndex];
         FLDMMDL_SetDrawOffset(mmdl, &offset);
         effect = FLDMMDL_MOVE_GetHideEffect(mmdl);
@@ -1912,7 +1848,7 @@ int FLDMMDL_ACMD_BounceInit(Mmdl *mmdl)
 
 int FLDMMDL_ACMD_BounceMove(Mmdl *mmdl)
 {
-    MmdlVec offset = { 0, 0, 0 };
+    VecFx32 offset = { 0, 0, 0 };
     AcmdBounceTable heights;
     AcmdCounterWork *work;
     int index;
@@ -1933,7 +1869,7 @@ int FLDMMDL_ACMD_BounceMove(Mmdl *mmdl)
 }
 
 /* Starts a step of the given frames along the vector, facing dispDir while moving to moveDir. */
-void FLDMMDL_ACMD_StepInit(Mmdl *mmdl, const MmdlVec *step, u32 dispDir, u32 moveDir, u32 frames, u8 drawStatus)
+void FLDMMDL_ACMD_StepInit(Mmdl *mmdl, const VecFx32 *step, u32 dispDir, u32 moveDir, u32 frames, u8 drawStatus)
 {
     AcmdStepWork *work;
 
@@ -1985,224 +1921,224 @@ int FLDMMDL_ACMD_StepMove(Mmdl *mmdl)
 /* Steps of 8, 4 and 2 frames, then 4 frame dash steps, along one vector: the model faces dispDir while it moves to moveDir. */
 int FLDMMDL_ACMD_StepUpFaceLeft8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B44;
+    VecFx32 step = d_021D4B44;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_LEFT, MMDL_DIR_UP, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepDownFaceRight8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4204;
+    VecFx32 step = d_021D4204;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_RIGHT, MMDL_DIR_DOWN, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepLeftFaceDown8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4C04;
+    VecFx32 step = d_021D4C04;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_DOWN, MMDL_DIR_LEFT, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepRightFaceUp8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D41E0;
+    VecFx32 step = d_021D41E0;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_UP, MMDL_DIR_RIGHT, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepUpFaceRight8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4210;
+    VecFx32 step = d_021D4210;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_RIGHT, MMDL_DIR_UP, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepDownFaceLeft8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4C10;
+    VecFx32 step = d_021D4C10;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_LEFT, MMDL_DIR_DOWN, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepLeftFaceUp8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4648;
+    VecFx32 step = d_021D4648;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_UP, MMDL_DIR_LEFT, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepLeftFaceDown8FAlt(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4BF8;
+    VecFx32 step = d_021D4BF8;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_DOWN, MMDL_DIR_LEFT, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepUpFaceDown8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4BEC;
+    VecFx32 step = d_021D4BEC;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_DOWN, MMDL_DIR_UP, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepDownFaceUp8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4BE0;
+    VecFx32 step = d_021D4BE0;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_UP, MMDL_DIR_DOWN, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepLeftFaceRight8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4BD4;
+    VecFx32 step = d_021D4BD4;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_RIGHT, MMDL_DIR_LEFT, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepRightFaceLeft8F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4BC8;
+    VecFx32 step = d_021D4BC8;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_LEFT, MMDL_DIR_RIGHT, 8, MMDL_DRAWSTA_WALK_8F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepUpFaceDown4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4BBC;
+    VecFx32 step = d_021D4BBC;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_DOWN, MMDL_DIR_UP, 4, MMDL_DRAWSTA_WALK_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepDownFaceUp4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4BB0;
+    VecFx32 step = d_021D4BB0;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_UP, MMDL_DIR_DOWN, 4, MMDL_DRAWSTA_WALK_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepLeftFaceRight4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4BA4;
+    VecFx32 step = d_021D4BA4;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_RIGHT, MMDL_DIR_LEFT, 4, MMDL_DRAWSTA_WALK_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepRightFaceLeft4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B98;
+    VecFx32 step = d_021D4B98;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_LEFT, MMDL_DIR_RIGHT, 4, MMDL_DRAWSTA_WALK_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepUpFaceDown2F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B8C;
+    VecFx32 step = d_021D4B8C;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_DOWN, MMDL_DIR_UP, 2, MMDL_DRAWSTA_WALK_2F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepDownFaceUp2F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B80;
+    VecFx32 step = d_021D4B80;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_UP, MMDL_DIR_DOWN, 2, MMDL_DRAWSTA_WALK_2F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepLeftFaceRight2F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B74;
+    VecFx32 step = d_021D4B74;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_RIGHT, MMDL_DIR_LEFT, 2, MMDL_DRAWSTA_WALK_2F);
     return 1;
 }
 
 int FLDMMDL_ACMD_StepRightFaceLeft2F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B68;
+    VecFx32 step = d_021D4B68;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_LEFT, MMDL_DIR_RIGHT, 2, MMDL_DRAWSTA_WALK_2F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepUpFaceLeft4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B5C;
+    VecFx32 step = d_021D4B5C;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_LEFT, MMDL_DIR_UP, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepDownFaceRight4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B50;
+    VecFx32 step = d_021D4B50;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_RIGHT, MMDL_DIR_DOWN, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepLeftFaceDown4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D45E8;
+    VecFx32 step = d_021D45E8;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_DOWN, MMDL_DIR_LEFT, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepRightFaceUp4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B38;
+    VecFx32 step = d_021D4B38;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_UP, MMDL_DIR_RIGHT, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepUpFaceRight4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B2C;
+    VecFx32 step = d_021D4B2C;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_RIGHT, MMDL_DIR_UP, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepDownFaceLeft4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B20;
+    VecFx32 step = d_021D4B20;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_LEFT, MMDL_DIR_DOWN, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepLeftFaceUp4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B14;
+    VecFx32 step = d_021D4B14;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_UP, MMDL_DIR_LEFT, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepLeftFaceDown4FAlt(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4B08;
+    VecFx32 step = d_021D4B08;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_DOWN, MMDL_DIR_LEFT, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepUpFaceDown4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4AFC;
+    VecFx32 step = d_021D4AFC;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_DOWN, MMDL_DIR_UP, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepDownFaceUp4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4AF0;
+    VecFx32 step = d_021D4AF0;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_UP, MMDL_DIR_DOWN, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepLeftFaceRight4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4AE4;
+    VecFx32 step = d_021D4AE4;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_RIGHT, MMDL_DIR_LEFT, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
 
 int FLDMMDL_ACMD_DashStepRightFaceLeft4F(Mmdl *mmdl)
 {
-    MmdlVec step = d_021D4AD8;
+    VecFx32 step = d_021D4AD8;
     FLDMMDL_ACMD_StepInit(mmdl, &step, MMDL_DIR_LEFT, MMDL_DIR_RIGHT, 4, MMDL_DRAWSTA_DASH_4F);
     return 1;
 }
@@ -2253,7 +2189,7 @@ void FLDMMDL_ACMD_HopInit(Mmdl *mmdl, int speed, u32 dispDir, u32 moveDir, u8 fr
 int FLDMMDL_ACMD_HopMove(Mmdl *mmdl)
 {
     AcmdHopWork *work;
-    MmdlVec pos;
+    VecFx32 pos;
     int speedAbs;
     int height;
 
@@ -2279,7 +2215,7 @@ int FLDMMDL_ACMD_HopMove(Mmdl *mmdl)
     if (work->angle > 0xF00)
         work->angle = 0xF00;
     {
-        MmdlVec offset = { 0, 0, 0 };
+        VecFx32 offset = { 0, 0, 0 };
         height = d_021DDBD4[1][(u16)(work->angle / 256)];
         if (work->negate == 1)
             height = -height;
@@ -2328,7 +2264,7 @@ int FLDMMDL_ACMD_HopMove(Mmdl *mmdl)
     if (work->frames != 0)
         return 0;
     {
-        MmdlVec offset = { 0, 0, 0 };
+        VecFx32 offset = { 0, 0, 0 };
         FLDMMDL_SetDrawOffset(mmdl, &offset);
     }
     FLDMMDL_SetMoveBit(mmdl, MMDL_MOVEBIT_MOVE_END | MMDL_MOVEBIT_JUMP_END | MMDL_MOVEBIT_ACMD_END);
@@ -2518,7 +2454,7 @@ int FLDMMDL_ACMD_FlyUpMove(Mmdl *mmdl)
         return 0;
     work->height += work->speed;
     {
-        MmdlVec offset = { 0, 0, 0 };
+        VecFx32 offset = { 0, 0, 0 };
         offset.y = work->height;
         FLDMMDL_SetDrawOffset(mmdl, &offset);
     }
@@ -2565,7 +2501,7 @@ int FLDMMDL_ACMD_AnimeWaitEndFaceDown(Mmdl *mmdl)
 
 int FLDMMDL_ACMD_ResetDrawOffset(Mmdl *mmdl)
 {
-    MmdlVec offset = { 0, 0, 0 };
+    VecFx32 offset = { 0, 0, 0 };
 
     FLDMMDL_SetDrawOffset(mmdl, &offset);
     FLDMMDL_IncAcmdSeq(mmdl);
@@ -2576,7 +2512,7 @@ int FLDMMDL_ACMD_ResetDrawOffset(Mmdl *mmdl)
 int FLDMMDL_ACMD_FlyReadyInit(Mmdl *mmdl)
 {
     AcmdFlyReadyWork *work;
-    MmdlVec offset = d_021D4ACC;
+    VecFx32 offset = d_021D4ACC;
 
     work = FLDMMDL_InitMoveCmdWork(mmdl, sizeof(AcmdFlyReadyWork));
     work->elapsed = 0;

@@ -28,19 +28,19 @@ struct FldSceneAreaLoader;
 struct FieldG3dMapper;
 struct FieldPlayer;
 struct FieldEncount;
-struct FieldEffectCont;
+struct FieldEffectSys;
 struct UnionEff;
 struct FieldPalaceSys;
 struct FieldSkillMapEff;
 struct G3dCamera;
 struct G3dLightSlots;
-struct GFL_TCB;
+struct TcbTask;
 struct BbActSys;
 struct FieldmapFunc;
-struct TcblSys;
+struct TcbSystem;
 struct FldParticle;
 struct Fld3dCi;
-struct Sodateya;
+struct SodateyaWork;
 struct FieldG3dObjCtrl;
 struct FieldTaskManager;
 struct EncEff;
@@ -141,13 +141,13 @@ typedef struct FieldMap {
     FieldMapMapperParam mapperParam;        /* 0x050 */
     struct FieldPlayer *player;             /* 0x08C FIELD_PLAYER_Create */
     struct FieldEncount *encount;           /* 0x090 FIELD_ENCOUNT_Create */
-    struct FieldEffectCont *effect;         /* 0x094 FIELD_EFFECT_Create */
+    struct FieldEffectSys *effect;         /* 0x094 FIELD_EFFECT_Create */
     struct UnionEff *unionEff;              /* 0x098 UNION_EFF_Create (union room only) */
     struct FieldPalaceSys *palaceSys;       /* 0x09C FIELD_PALACE_SYS_Create */
     struct FieldSkillMapEff *mapEff;        /* 0x0A0 FIELDSKILL_MAPEFF_Create */
     struct G3dCamera *g3dCamera;            /* 0x0A4 G3D_CAMERA_Create */
     struct G3dLightSlots *g3dLight;         /* 0x0A8 G3D_LIGHT_CreateSlots */
-    struct GFL_TCB *vblankTcb;              /* 0x0AC FIELDMAP_VBlankTask */
+    struct TcbTask *vblankTcb;              /* 0x0AC FIELDMAP_VBlankTask */
     struct BbActSys *mmdlBbdAct;            /* 0x0B0 billboards of the move models */
     struct BbActSys *effectBbdAct;          /* 0x0B4 shadows and effects (half depth offset) */
     struct BbActSys *groundBbdAct;          /* 0x0B8 grass, ripple, splash */
@@ -167,12 +167,12 @@ typedef struct FieldMap {
     int projDepthOffset;                    /* 0x104 FIELDMAP_GetProjDepthOffset */
     const FieldMapCtrlFuncs *ctrlFuncs;     /* 0x108 FIELDMAP_GetCtrlFuncs */
     void *ctrlWork;                         /* 0x10C */
-    struct TcblSys *tcblSys;                /* 0x110 */
+    struct TcbSystem *tcblSys;                /* 0x110 */
     void *tcblWork;                         /* 0x114 */
     FieldMapCommonWork commonWork;          /* 0x118 */
     struct FldParticle *particle;           /* 0x120 FLD_PARTICLE_Create */
     struct Fld3dCi *fld3dCi;                /* 0x124 FLD3D_CI_Create */
-    struct Sodateya *sodateya;              /* 0x128 SODATEYA_Create */
+    struct SodateyaWork *sodateya;              /* 0x128 SODATEYA_Create */
     int drawMode;                           /* 0x12C: index into the draw tables */
     struct FieldG3dObjCtrl *g3dObjCtrl;     /* 0x130 FIELD_G3DOBJ_Create */
     struct FieldTaskManager *taskManager;   /* 0x134 FIELD_TASK_MANAGER_Create */

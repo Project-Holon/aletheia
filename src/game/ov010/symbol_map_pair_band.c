@@ -27,18 +27,13 @@ typedef struct {
     u32 word;
 } RecordWord;
 
-extern u32 SYMBOL_SAVE_FindBandThunk(u32 recordIndex);
+#include "../arm9/symbol_save.h"
 struct SymbolSave;
 
-extern u32 SYMBOL_SAVE_RemoveSlotAndFind(struct SymbolSave *save, u32 band);
 
-extern void SYMBOL_SAVE_FinalizeChecksum(struct SymbolSave *save);
 
-extern void SYMBOL_SAVE_SetRank(struct SymbolSave *save, int index);
 
-extern void SYMBOL_SAVE_UpdateChecksum(struct SymbolSave *save);
 
-extern void SYMBOL_SAVE_RemoveSlotAndCommit(struct SymbolSave *save, u32 index);
 
 int SYMBOL_MAP_MoveRecordToPairedBand(u32 *save, u32 recordIndex);
 

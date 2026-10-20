@@ -13,7 +13,7 @@
  */
 #include "../types.h"
 
-extern int PXI_SendWordByFifo(int tag, u32 data, int err);
+#include "../arm9/pxi_fifo.h"
 
 void AESi_PxiSendFirst(int tag, u32 a, u32 b);
 void AESi_PxiSendSecond(int tag, u32 payload);

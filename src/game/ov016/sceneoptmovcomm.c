@@ -38,6 +38,7 @@
  *   DWCi_MOVlEnd  0x021C115C  arm  ov016
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 typedef _Bool bool;
 
 typedef struct {
@@ -45,28 +46,21 @@ typedef struct {
     u16 rest : 14;
 } BgCnt;
 
-extern void DWCi_CMNlMsgDraw(int msg);
-extern void DWCi_ANIMElInitEx(int color);
-extern void DWCi_ICONlInit(int type);
-extern void DWCi_SNDlPlay(unsigned int v);
-extern void DWCi_ChangeScene(unsigned int v);
-void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
+#include "common.h"
+#include "anime.h"
+#include "icon.h"
+#include "sound.h"
+#include "dwcutil_main.h"
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
-extern void DWCi_GXlVisible(int lcd, int plane);
+#include "graphics.h"
 extern bool DWCi_EFFlCheck(int lcd);
-extern void DWCi_MOVlChangeCallback(u32 v);
-extern int  DWCi_MOVlIsEnd(void);
-extern void DWCi_ICONlEnd(void);
-extern void DWCi_ANIMElEnd(void);
-extern void DWCi_FNTlDeleteBgLcd(int x);
-extern void DWCi_GXlInvisible(int a, int b);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SceneOptMovFailure(void);
-extern void DWCi_SceneOptMovDisconnect(void);
-extern void DWCi_SceneOptMovComplete(void);
-extern void DWCi_SETTINGlEraseAll(void);
-extern void DWCi_SNDlStop(void);
-extern void DWCi_MOVlEnd(void);
+#include "move.h"
+typedef int bool_0;
+#include "font.h"
+#include "sceneoptmovfailure.h"
+#include "sceneoptmovdisconnect.h"
+#include "sceneoptmovcomplete.h"
+#include "setting.h"
 void DWCi_SceneOptMovComm(void);
 void DWCi_SceneOptMovComm_procScene(void);
 void DWCi_SceneOptMovComm_input(void);
@@ -90,17 +84,17 @@ void DWCi_SceneOptMovComm(void)
 	DWCi_ANIMElInitEx(0);
 	DWCi_ICONlInit(1);
 	DWCi_SNDlPlay(0xb);
-	DWCi_ChangeScene((unsigned int)procInit);
+	DWCi_ChangeScene((uptr)procInit);
 }
 
 static void initGraphics(void)
 {
     DWCi_CMNlLoadResource((void *)0x021DB368, (void *)0x0207EB78);
-    ((BgCnt *)0x04001008)->priority = 3;
-    ((BgCnt *)0x0400100A)->priority = 3;
-    ((BgCnt *)0x04000008)->priority = 3;
-    ((BgCnt *)0x0400000A)->priority = 3;
-    ((BgCnt *)0x0400000C)->priority = 3;
+    ((BgCnt *)REG_DB_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_DB_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG0CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG1CNT_ADDR)->priority = 3;
+    ((BgCnt *)REG_BG2CNT_ADDR)->priority = 3;
 }
 
 /*
@@ -110,15 +104,15 @@ static void procInit(void)
 {
 	DWCi_EFFlFade(2, 0, 0x15, 8);
 	DWCi_GXlVisible(0, 0x15);
-	DWCi_ChangeScene((unsigned int)procInit1);
+	DWCi_ChangeScene((uptr)procInit1);
 }
 
 static void procInit1(void)
 {
 	if (DWCi_EFFlCheck(0))
 		return;
-	DWCi_MOVlChangeCallback((u32)DWCi_SceneOptMovCommCbMov);
-	DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovComm_procScene);
+	DWCi_MOVlChangeCallback((uptr)DWCi_SceneOptMovCommCbMov);
+	DWCi_ChangeScene((uptr)DWCi_SceneOptMovComm_procScene);
 }
 
 void DWCi_SceneOptMovComm_procScene(void)
@@ -157,7 +151,7 @@ void DWCi_SceneOptMovComm_draw(void)
 static void endScene(void)
 {
 	DWCi_EFFlFade(3, 0, 0x15, 8);
-	DWCi_ChangeScene((unsigned int)endScene1);
+	DWCi_ChangeScene((uptr)endScene1);
 }
 
 static void endScene1(void)
@@ -172,14 +166,14 @@ static void endScene1(void)
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 1);
     if (gSceneOptMovCommWork == 0) {
-        DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovFailure);
+        DWCi_ChangeScene((uptr)DWCi_SceneOptMovFailure);
         return;
     }
     if (gSceneOptMovCommWork == 2) {
-        DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovDisconnect);
+        DWCi_ChangeScene((uptr)DWCi_SceneOptMovDisconnect);
         return;
     }
-    DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovComplete);
+    DWCi_ChangeScene((uptr)DWCi_SceneOptMovComplete);
 }
 
 /*
@@ -203,5 +197,5 @@ static void DWCi_SceneOptMovCommCbMov(int state)
 	}
 	DWCi_MOVlChangeCallback(0);
 	DWCi_MOVlEnd();
-	DWCi_ChangeScene((unsigned int)endScene);
+	DWCi_ChangeScene((uptr)endScene);
 }

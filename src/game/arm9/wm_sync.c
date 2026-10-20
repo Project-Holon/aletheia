@@ -253,7 +253,7 @@ WMMpRecvData *WM_ReadMPData(const WMMpRecvHeader *header, u16 aid)
             return recvdata_p[i];
         }
         i++;
-        recvdata_p[i] = (WMMpRecvData *)((u32)recvdata_p[i - 1] + header->length);
+        recvdata_p[i] = (WMMpRecvData *)((uptr)recvdata_p[i - 1] + header->length);
     } while (i < header->count);
 
     return 0;

@@ -8,9 +8,9 @@
 
 u32 APP_ENV_IsRunOnTwl(void);
 int APP_ENV_HasParentalControlBits(void);
-void APP_ENV_IsWirelessAvailable(void);
+BOOL APP_ENV_IsWirelessAvailable(void);
 u32 APP_ENV_IsEulaAgreed(void);
-void APP_ENV_GetOwnerColorAndBirthMonth(u8 *outFavoriteColor, u8 *outBirthMonth);
+void APP_ENV_GetOwnerColorAndBirthMonth(u8 *outBirthMonth, u8 *outBirthDay);
 /* END mkheaders: generated region */
 
 #endif

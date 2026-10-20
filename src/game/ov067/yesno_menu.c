@@ -66,6 +66,7 @@
  */
 #include "../types.h"
 
+struct ClactVec2;
 #include "ui_scene_types.h"
 #include "yesno_menu_types.h"
 
@@ -94,65 +95,47 @@
 #define YESNO_MENU_SE_CANCEL 0x552
 
 struct CharBuf;
-struct StrBuf;
+struct Strbuf;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_TOOL_DeleteHandle(void *arc);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
-extern void BG_SYS_PushTile(u32 index);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 value);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *touchX, u32 *touchY);
-extern void UI_SetInputMode(u8 inputMode);
-extern u32 KEY_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/bg_sys.h"
+struct ClactActor;
+struct Strbuf;
+struct GfFont;
+#include "../arm9/strbuf_types.h"
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
+extern void CLACT_DeleteActor(struct ClactActor *actor);
+#include "../arm9/touchpanel.h"
+#include "../arm9/ui.h"
+#include "../arm9/key.h"
+#include "../arm9/gfl_use.h"
 struct BmpWin;
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void PRINTSYS_PrintQueColor(struct PrintSys *printer, struct CharBuf *chars, s16 x, s16 y, struct StrBuf *text, u32 fontId, u16 color);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
+#include "../arm9/bmp_win.h"
+extern void PRINTSYS_PrintQueColor(struct PrintSys *printer, struct CharBuf *chars, s16 x, s16 y, struct Strbuf *text, u32 fontId, u16 color);
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
+extern void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
 struct GfFont;
 struct Strbuf;
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern void BG_SYS_FreeSlot(u8 idx);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 struct ArcHandle;
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
 struct NitroFileHeader;
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 mapId, u32 layer, u32 tileOffset, u32 size, u32 blockOffset, u16 heapId);
-extern void BG_SYS_SetPlaneVisible(unsigned char layer, unsigned char enable);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 plttId, u32 target, u32 offset, u32 size, u16 heapId);
+#include "../arm9/nns_g2d_anim_bank.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void CLACT_AddActorSurfacePos(struct Actor *actor, YesNoPoint *pos, u16 screen);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, struct ClactVec2 *pos, u16 screen);
 struct Bmp;
 struct PrintQueue;
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern u8 UI_GetInputMode(void);
-extern int TOUCHPANEL_HitPoint(YesNoTouchTable *table, u32 x, u32 y);
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte);
-void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys, u16 heapId);
-void UI_SCENE_FreeActorGfx(ActorGfxSet *gfx);
-struct Actor *UI_SCENE_CreateActor(ActorGfxSet *gfx, void *actorSys, u16 x, u16 y, u8 animIndex, u16 heapId);
+#include "../arm9/nns_gfd_vram_transfer.h"
+#include "ui_scene.h"
 YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, u32 fontId, struct PrintSys *printer);
 void YESNO_MENU_Delete(YesNoMenu *menu);
-void YESNO_MENU_Start(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *lowerText);
+void YESNO_MENU_Start(YesNoMenu *menu, struct Strbuf *upperText, struct Strbuf *lowerText);
 void YESNO_MENU_Close(YesNoMenu *menu);
 void YESNO_MENU_Update(YesNoMenu *menu);
 int YESNO_MENU_GetAnswer(YesNoMenu *menu);
@@ -245,9 +228,9 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
     for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
         menu->buttonActors[i] = UI_SCENE_CreateActor(&menu->gfx, menu->actorSys, YESNO_MENU_GetButtonPos(menu->cursorIndex, i, 0),
                                               YESNO_MENU_GetButtonPos(menu->cursorIndex, i, 1), i, menu->heapId);
-        CLACT_SetActorBgPriority(menu->buttonActors[i], menu->actorPriority);
-        CLACT_SetActorDrawEnable(menu->buttonActors[i], 0);
-        CLACT_SetActorAutoAnim(menu->buttonActors[i], 0);
+        CLACT_SetActorBgPriority((struct ClactActor *)menu->buttonActors[i], menu->actorPriority);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->buttonActors[i], 0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)menu->buttonActors[i], 0);
     }
     if (menu->isSubScreen == 0)
         BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -262,7 +245,7 @@ void YESNO_MENU_Delete(YesNoMenu *menu)
     u32 tileAlloc;
 
     for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
-        CLACT_DeleteActor(menu->buttonActors[i]);
+        CLACT_DeleteActor((struct ClactActor *)menu->buttonActors[i]);
     }
     UI_SCENE_FreeActorGfx(&menu->gfx);
     BMP_WIN_Delete((struct BmpWin *)menu->windowUpper);
@@ -273,7 +256,7 @@ void YESNO_MENU_Delete(YesNoMenu *menu)
 }
 
 /* Shows the menu: places the buttons, prints the two texts centered in their windows and resets the answer. */
-void YESNO_MENU_Start(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *lowerText)
+void YESNO_MENU_Start(YesNoMenu *menu, struct Strbuf *upperText, struct Strbuf *lowerText)
 {
     YesNoPoint pos;
     u8 i;
@@ -286,7 +269,7 @@ void YESNO_MENU_Start(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *
     for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
         pos.x = YESNO_MENU_GetButtonPos(menu->cursorIndex, i, 0);
         pos.y = YESNO_MENU_GetButtonPos(menu->cursorIndex, i, 1);
-        CLACT_AddActorSurfacePos(menu->buttonActors[i], &pos, menu->isSubScreen);
+        CLACT_AddActorSurfacePos((struct ClactActor *)menu->buttonActors[i], (struct ClactVec2 *)(&pos), menu->isSubScreen);
     }
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->yesPlttSlot, menu->palette);
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->noPlttSlot, menu->palette);
@@ -316,8 +299,8 @@ void YESNO_MENU_Start(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *
     }
     if (UI_GetInputMode() == YESNO_MENU_INPUT_KEYS) {
         for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
-            CLACT_SetActorDrawEnable(menu->buttonActors[i], 1);
-            CLACT_SetActorAutoAnim(menu->buttonActors[i], 1);
+            CLACT_SetActorDrawEnable((struct ClactActor *)menu->buttonActors[i], 1);
+            CLACT_SetActorAutoAnim((struct ClactActor *)menu->buttonActors[i], 1);
         }
     }
 }
@@ -341,8 +324,8 @@ void YESNO_MENU_Close(YesNoMenu *menu)
     BMP_WIN_MakeScreen((struct BmpWin *)window);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
     for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
-        CLACT_SetActorDrawEnable(menu->buttonActors[i], 0);
-        CLACT_SetActorAutoAnim(menu->buttonActors[i], 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)menu->buttonActors[i], 0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)menu->buttonActors[i], 0);
     }
     menu->state = YESNO_MENU_STATE_IDLE;
 }
@@ -405,7 +388,7 @@ void YESNO_MENU_Update(YesNoMenu *menu)
                 for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
                     pos.x = YESNO_MENU_GetButtonPos(menu->cursorIndex, i, 0);
                     pos.y = YESNO_MENU_GetButtonPos(menu->cursorIndex, i, 1);
-                    CLACT_AddActorSurfacePos(menu->buttonActors[i], &pos, menu->isSubScreen);
+                    CLACT_AddActorSurfacePos((struct ClactActor *)menu->buttonActors[i], (struct ClactVec2 *)(&pos), menu->isSubScreen);
                 }
                 GFL_USE_PlaySeDefaultVolume(YESNO_MENU_SE_CURSOR);
             }
@@ -413,7 +396,7 @@ void YESNO_MENU_Update(YesNoMenu *menu)
         if (!handled && touched != 0) {
             int hit;
             hitTable = d_021B94C4;
-            hit = TOUCHPANEL_HitPoint(&hitTable, touchX, touchY);
+            hit = TOUCHPANEL_HitPoint((const TouchHitTable *)&hitTable, touchX, touchY);
             if (hit != -1) {
                 if (hit == 0) {
                     GFL_USE_PlaySeDefaultVolume(YESNO_MENU_SE_DECIDE);
@@ -428,16 +411,16 @@ void YESNO_MENU_Update(YesNoMenu *menu)
         }
         if (!handled && UI_GetInputMode() == YESNO_MENU_INPUT_TOUCH && keys != 0) {
             for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
-                CLACT_SetActorDrawEnable(menu->buttonActors[i], 1);
-                CLACT_SetActorAutoAnim(menu->buttonActors[i], 1);
+                CLACT_SetActorDrawEnable((struct ClactActor *)menu->buttonActors[i], 1);
+                CLACT_SetActorAutoAnim((struct ClactActor *)menu->buttonActors[i], 1);
             }
             GFL_USE_PlaySeDefaultVolume(YESNO_MENU_SE_CURSOR);
             UI_SetInputMode(YESNO_MENU_INPUT_KEYS);
         }
         if (handled) {
             for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
-                CLACT_SetActorDrawEnable(menu->buttonActors[i], 0);
-                CLACT_SetActorAutoAnim(menu->buttonActors[i], 0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)menu->buttonActors[i], 0);
+                CLACT_SetActorAutoAnim((struct ClactActor *)menu->buttonActors[i], 0);
             }
             menu->state = YESNO_MENU_STATE_FLASH;
             menu->palAnimIndex = 0;

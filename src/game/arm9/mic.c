@@ -80,7 +80,6 @@ typedef struct MicBss
 #include "os_system.h"
 #include "os_systemwork.h"
 #include "pxi_fifo.h"
-extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 extern void MicCommonCallback(int tag, u32 data, BOOL err);
 extern BOOL MicStartAutoSampling(void *buf, u32 size, u32 span, u8 flags);
 extern BOOL MicStopAutoSampling(void);
@@ -89,8 +88,6 @@ extern void MicGetResultCallback(MICResult result, void *arg);
 extern MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
 extern MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg);
 extern MICResult MIC_StopAutoSampling(void);
-extern MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
-extern MICResult MICEXi_StartLimitedSampling(const MICAutoParam *param);
 #include "../twl/micex.h"
 extern void micWork(void);
 void MIC_Init(void);

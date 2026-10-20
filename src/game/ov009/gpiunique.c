@@ -26,37 +26,23 @@
  *   gGpiUniqueErrorOutOfMemory     0x021a5700  data
  *   gGpiUniqueResponseC     0x021a5710  data
  */
-struct GPIOperation;
-typedef struct GPICallback {
-    void (*callback)(void **, void *, void *);
-    void *param;
-} GPICallback;
-
-typedef struct GPIOperation_s {
-    int type;
-    void *data;
-    int blocking;
-    GPICallback callback;
-} GPIOperation;
-
 typedef struct {
     int result;
 } GPRegisterUniqueNickResponseArg;
 
 #include "../types.h"
 
+#include "gpi_types.h"
+
 typedef struct {
     int result;
 } GPRegisterCdKeyResponseArg;
 
-extern int gpiCheckForError(int *connection, const char *input, int fatal);
-extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
-extern void gpiSetError(int *connection, int result, int errorString);
-extern int gpiCallErrorCallback(void **connection, int result, int fatal);
-extern void *gsimalloc(unsigned long size);
-extern void gpiSetErrorString(int *p, int b);
-extern int gpiAddCallback(void **connection, struct GPICallback callback, void *arg, int *operation, int type);
-extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
+#include "gpiutility.h"
+#include "../arm9/msl_string_str.h"
+#include "gpicallback.h"
+#include "gsmemory.h"
+#include "gpioperation.h"
 int gpiProcessRegisterUniqueNick(void **connection, GPIOperation *operation, char *input);
 int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *input);
 extern char gGpiUniqueResponseN[];
@@ -73,10 +59,10 @@ int gpiProcessRegisterUniqueNick(void **connection, GPIOperation *operation, cha
     GPRegisterUniqueNickResponseArg *arg;
     int __result__;
 
-    if (gpiCheckForError((int *)connection, input, 1))
+    if (gpiCheckForError(connection, input, 1))
         return 4;
     if (strncmp((const u8 *)input, (const u8 *)gGpiUniqueResponseN, 4) != 0) {
-        gpiSetError((int *)connection, 1, (int)gGpiUniqueErrorUnexpectedData);
+        gpiSetError(connection, 1, gGpiUniqueErrorUnexpectedData);
         __result__ = 3;
         gpiCallErrorCallback((void **)connection, __result__, 1);
         return __result__;
@@ -85,11 +71,11 @@ int gpiProcessRegisterUniqueNick(void **connection, GPIOperation *operation, cha
     if (callback.callback != 0) {
         arg = (GPRegisterUniqueNickResponseArg *)gsimalloc(sizeof(GPRegisterUniqueNickResponseArg));
         if (arg == 0) {
-            gpiSetErrorString((int *)connection, (int)gGpiUniqueErrorOutOfMemory);
+            gpiSetErrorString(connection, gGpiUniqueErrorOutOfMemory);
             return 1;
         }
         arg->result = 0;
-        __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
+        __result__ = gpiAddCallback(connection, callback, arg, (GPIOperation *)operation, 0);
         if (__result__ != 0)
             return __result__;
     }
@@ -106,10 +92,10 @@ int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *in
     GPRegisterCdKeyResponseArg *arg;
     int __result__;
 
-    if (gpiCheckForError((int *)connection, input, 1))
+    if (gpiCheckForError(connection, input, 1))
         return 4;
     if (strncmp((const u8 *)input, (const u8 *)gGpiUniqueResponseC, 4) != 0) {
-        gpiSetError((int *)connection, 1, (int)gGpiUniqueErrorUnexpectedData);
+        gpiSetError(connection, 1, gGpiUniqueErrorUnexpectedData);
         __result__ = 3;
         gpiCallErrorCallback((void **)connection, __result__, 1);
         return __result__;
@@ -118,11 +104,11 @@ int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *in
     if (callback.callback != 0) {
         arg = (GPRegisterCdKeyResponseArg *)gsimalloc(sizeof(GPRegisterCdKeyResponseArg));
         if (arg == 0) {
-            gpiSetErrorString((int *)connection, (int)gGpiUniqueErrorOutOfMemory);
+            gpiSetErrorString(connection, gGpiUniqueErrorOutOfMemory);
             return 1;
         }
         arg->result = 0;
-        __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
+        __result__ = gpiAddCallback(connection, callback, arg, (GPIOperation *)operation, 0);
         if (__result__ != 0)
             return __result__;
     }

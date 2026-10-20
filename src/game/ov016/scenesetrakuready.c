@@ -97,58 +97,40 @@
 typedef _Bool bool;
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
+#include "../arm9/gx_load2d.h"
 
 /* sceneopterase.o .bss at 0x021DE5A4, members at their vendor offsets */
 typedef struct {
     unsigned char  Choose;            /* 0x00 */
 } SCENEOPTERASE_BSS;
 
-extern void DWCi_HLlLoadSet(void);
-extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
-extern void DWCi_CMNlStep(int step);
-extern void DWCi_CMNlMsgDraw(int msgId);
-extern void DWCi_ANIMElInitEx(int color);
-extern void DWCi_SNDlPlay(u32 v);
-extern void DWCi_ChangeScene(u32 v);
-extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
+#include "headline.h"
+#include "comment.h"
+#include "common.h"
+#include "anime.h"
+#include "sound.h"
+#include "dwcutil_main.h"
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
-extern void DWCi_GXlVisible(int lcd, int plane);
+#include "graphics.h"
 extern bool DWCi_EFFlCheck(int lcd);
-extern void DWCi_RAKUlInit(void);
-extern void DWCi_CMNlButton(int kind);
-extern s8 DWCi_BTNlGet(void);
-extern void DWCi_BTNlEnable(void);
-extern void OS_Sleep(u32 msec);
-extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern void DWCi_BTNlSet(signed char v);
-extern void DWCi_SNDlStop(void);
-extern void DWCi_BTNlDisable(void);
+#include "rakuraku.h"
+#include "button.h"
+#include "../arm9/os_thread.h"
+#include "input.h"
 extern bool DWCi_EFFlWait(int frame);
-extern void DWCi_BTNlEnd(void);
-extern int DWCi_BTNlIsEnd(void);
-extern void DWCi_ANIMElEnd(void);
-extern void DWCi_FNTlDeleteBgLcd(int lcd);
-extern int DWCi_COMMENTlDelete(void);
-extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_RAKUlEnd(void);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SceneSetSelectWay(void);
-extern void DWCi_SceneSetRakuButton(void);
-extern int DWCi_RAKUlGetState(void);
+typedef int bool_0;
+#include "font.h"
+#include "scenesetselectway.h"
+#include "scenesetrakubutton.h"
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
-extern s8 DWCi_WINlGet(void);
-extern void DWCi_WINlEnd(void);
-extern void DWCi_HLlLoad(int idx);
-extern s32 DWCi_WINlIsInit(void);
+#include "window.h"
 void DWCi_SceneSetRakuReady(void);
 void DWCi_SceneSetRakuReady_draw(void);
 extern unsigned char Choose;
 extern unsigned short sSceneSetRakuReadyPathJbBgStep3Char[];
 extern unsigned short sSceneSetRakuReadyPathYbBgStep3Pltt[];
 extern unsigned short sSceneSetRakuReadyPathXb4MultiScr[];
-extern unsigned short GX_LoadBG2Char[];
-extern unsigned short GX_LoadBGPltt[];
-extern unsigned short GX_LoadBG2Scr[];
 extern SCENEOPTERASE_BSS sceneopterase_bss;
 
 static void initGraphics(void);
@@ -184,7 +166,7 @@ void DWCi_SceneSetRakuReady(void)
     DWCi_CMNlMsgDraw(0x24);
     DWCi_ANIMElInitEx(0);
     DWCi_SNDlPlay(0xb);
-    DWCi_ChangeScene((u32)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 /*
@@ -196,16 +178,16 @@ static void initGraphics(void)
 {
     u16 *p;
 
-    DWCi_CMNlLoadResource((char *)((int)sSceneSetRakuReadyPathJbBgStep3Char), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
-    DWCi_CMNlLoadResource((char *)((int)sSceneSetRakuReadyPathYbBgStep3Pltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
-    DWCi_CMNlLoadResource((char *)((int)sSceneSetRakuReadyPathXb4MultiScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
+    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetRakuReadyPathJbBgStep3Char), GX_LoadBG2Char);
+    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetRakuReadyPathYbBgStep3Pltt), GX_LoadBGPltt);
+    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetRakuReadyPathXb4MultiScr), GX_LoadBG2Scr);
 
-    p = (u16 *)0x04001008;
+    p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;
-    p = (u16 *)0x04000008;
+    p = (u16 *)REG_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
-    p = (u16 *)0x0400000A;
+    p = (u16 *)REG_BG1CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;
 }
@@ -216,7 +198,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
 static void procInit1(void)
@@ -226,7 +208,7 @@ static void procInit1(void)
     }
     DWCi_RAKUlInit();
     DWCi_CMNlButton(1);
-    DWCi_ChangeScene((u32)procInit2);
+    DWCi_ChangeScene((uptr)procInit2);
 }
 
 static void procInit2(void)
@@ -235,7 +217,7 @@ static void procInit2(void)
         return;
     }
     DWCi_BTNlEnable();
-    DWCi_ChangeScene((u32)procScene);
+    DWCi_ChangeScene((uptr)procScene);
 }
 
 static void procScene(void)
@@ -268,14 +250,14 @@ static void button(void)
         return;
     DWCi_SNDlStop();
     DWCi_SNDlPlay(7);
-    DWCi_ChangeScene((u32)endScene);
+    DWCi_ChangeScene((uptr)endScene);
 }
 
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene((u32)endScene1);
+    DWCi_ChangeScene((uptr)endScene1);
 }
 
 static void endScene1(void)
@@ -287,7 +269,7 @@ static void endScene1(void)
     if (Choose == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x14, 8);
-    DWCi_ChangeScene((u32)endScene2);
+    DWCi_ChangeScene((uptr)endScene2);
 }
 
 static void endScene2(void)
@@ -313,10 +295,10 @@ static void endScene2(void)
     if (Choose == 0) {
         DWCi_RAKUlEnd();
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene((u32)DWCi_SceneSetSelectWay);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetSelectWay);
     } else {
         DWCi_SetParam_(0, 0);
-        DWCi_ChangeScene((u32)DWCi_SceneSetRakuButton);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetRakuButton);
     }
 }
 
@@ -325,7 +307,7 @@ static void checkRaku(void)
     switch (DWCi_RAKUlGetState()) {
     case 1:
         Choose = 1;
-        DWCi_ChangeScene((u32)endScene);
+        DWCi_ChangeScene((uptr)endScene);
         break;
     case 4:
         Choose = 0;
@@ -333,7 +315,7 @@ static void checkRaku(void)
         DWCi_SNDlPlay(9);
         DWCi_WINlInitEx(0xd, 1, 1, -1, 0);
         DWCi_BTNlDisable();
-        DWCi_ChangeScene((u32)procError);
+        DWCi_ChangeScene((uptr)procError);
         break;
     }
 }
@@ -345,7 +327,7 @@ static void procError(void)
     }
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
-    DWCi_ChangeScene((u32)procError1);
+    DWCi_ChangeScene((uptr)procError1);
 }
 
 static void procConfirm(void);
@@ -354,5 +336,5 @@ static void procError1(void)
 {
     if (DWCi_WINlIsInit())
         return;
-    DWCi_ChangeScene((u32)endScene);
+    DWCi_ChangeScene((uptr)endScene);
 }

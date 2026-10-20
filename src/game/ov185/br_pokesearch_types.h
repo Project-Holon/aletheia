@@ -33,7 +33,7 @@ struct BrPokeSearchWork {
     } profileScreen;
     union {
         void *scene;                   /* 0x14 musical shot scene */
-        int sceneHandle;
+        unsigned char *sceneHandle;
     } scene;
     union {
         void *backButton;              /* 0x18 back button of the current view */

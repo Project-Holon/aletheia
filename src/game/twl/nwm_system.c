@@ -27,10 +27,7 @@
  *   OSi_SystemWorkVblankCount  0x02FFFC3C  data
  */
 #include "../types.h"
-typedef char *va_list;
-
-#define va_start(ap, last) ((ap) = (char *)(((u32)&(last)) & ~3) + 4)
-#define va_arg(ap, t) (*(t *)(((ap) += 4) - 4))
+#include "../sdk_stdarg.h"
 
 typedef struct Msg {
     u16 type;
@@ -46,10 +43,9 @@ extern void DC_StoreRange(u32, u32);
 struct PMiGenCallbackInfo;
 extern void PM_DeletePostExitCallback(struct PMiGenCallbackInfo *info);
 extern void MI_CpuFill8(u32, u32, u32);
-extern void OS_GetMacAddress(u8 *);
-extern void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, int priority);
-extern void PM_DeletePreSleepCallback(struct PMiGenCallbackInfo *info);
-extern void OS_Terminate(void);
+#include "../arm9/os_ownerinfo.h"
+#include "../arm9/pm.h"
+#include "../arm9/os_terminate_processor.h"
 extern u32 NWMi_SysWorkPtr[];
 extern u32 NWMi_PostExitInfo[];
 extern u32 NWMi_PreSleepInfo[];
@@ -65,7 +61,7 @@ u16 NWM_GetDispersionScanPeriod(u32 type);
 void NWMi_RegisterSleepCallback(void);
 void NWMi_DeleteSleepCallback(void);
 void NwmSleepCallback(void);
-extern u32 NWMi_CheckInitialized(void);
+#include "nwm_init.h"
 
 u32 NWMi_GetSystemWork(void) {
     return NWMi_SysWorkPtr[0];

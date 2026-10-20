@@ -163,10 +163,10 @@ enum {
 /* Work slot 0 of a held item is cleared when the item has shown its message (ITEM_WORK_USED). */
 
 /* Kind 0: the held item acts. */
-typedef struct HandExUseItem {
+typedef struct HandExUseHeldItem {
     u32 header;
     u32 useFlags;
-} HandExUseItem;
+} HandExUseHeldItem;
 
 /* useFlags: the record keeps the item (the berry only remembers the attacker). */
 #define HANDEX_USE_ITEM_KEEP_ITEM 2
@@ -190,26 +190,12 @@ typedef struct HandExRestoreRanks {
     u8 pokeId;
 } HandExRestoreRanks;
 
-/* Kind 0x23: show a message that names the item (the string is at +8). */
-typedef struct HandExItemMessage {
-    u32 header;
-    u32 pad04;
-    BtlStrParam message;
-} HandExItemMessage;
-
-/* Kind 0x2b: make a Pokemon flinch with a chance in percent. */
-typedef struct HandExFlinch {
-    u32 header;
-    u8 pokeId;
-    u8 percent;
-} HandExFlinch;
-
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
 
 
 #define BTL_ITEM_DITTO_SPECIES 0x84
 
-#define BTL_SICK_MOVE_LOCK 0x1b     /* choice item lock */
+#define BTL_SICK_CHOICE_LOCK 0x1b     /* choice item lock */
 
 
 
@@ -245,7 +231,7 @@ typedef struct {
 typedef struct {
     u32 header;
     u32 sickKind;
-    u32 sickCont;
+    union SickCont sickCont;
     u8 pad0C;
     u8 flagD;
     u8 pad0E;
@@ -336,25 +322,23 @@ typedef struct {
 } BtlItemAddSickCmd;
 
 /* Services of the event factor and the item parameters. */
-extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
+#include "btl_event.h"
 
-extern int HAND_ITEM_GetParam(struct BtlEventFactor *factor, int index);
-
-extern int HAND_ITEM_GetBoostRatio(struct BtlEventFactor *factor);
-
-extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *poke);
+#include "hand_item.h"
 
 
-extern void BTL_SERVER_FLOW_TryFinishMainCounter(struct BtlServerFlow *flow, int pokeId);
+#include "btl_pokeparam.h"
 
-extern int HAND_COMMON_EventTrySetFlagIfAttacker(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 
-extern union SickCont BTL_SICKCONT_MakeKind1Index15(void);
+#include "btl_server_flow.h"
 
-extern union SickCont BTL_CALC_MakeDefaultSickCont(int sickKind);
+#include "hand_common.h"
+
+#include "btl_sickcont.h"
+
+#include "btl_calc.h"
 
 /* The move power handler shared by all type boost items. */
-void HAND_ITEM_BoostMovePowerOfType(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int moveType);
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
 
@@ -420,22 +404,17 @@ typedef struct {
 
 #define BTL_FORCE_SWITCH_STR_ID 0x28C
 
-extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *pokeParam, u32 divisor);
 
-extern int BTL_SERVER_FLOW_IsPokeEvolvable(struct BtlServerFlow *flow, int pokeId);    /* guess: the Pokemon can still evolve */
+    /* guess: the Pokemon can still evolve */
 
-extern int BTL_FIELD_IsStaticSlotInUse(int query);
-
-extern int HAND_COMMON_IsMoveTarget(int pokeId);
+#include "btl_field.h"
 
 
-extern int BTL_SERVER_FLOW_CheckClientHasBackupPoke(struct BtlServerFlow *flow, int pokeId);
 
-extern int BTL_SERVER_FLOW_CheckShowdownThunk(struct BtlServerFlow *flow);
 
-extern u32 BTL_SERVER_FLOW_IsActionCounterSet(struct BtlServerFlow *flow);
 
-extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
+
+#include "../arm9/waza_tool.h"
 
 
 
@@ -464,52 +443,28 @@ typedef struct {
 } BtlSwitchOutCmd;
 
 
-/* Kind 0x14: change the type of a Pokemon to a packed type pair (the same type twice). */
-typedef struct {
-    u32 header;
-    u16 typePair;
-    u8 pokeId;
-} BtlChangeTypeCmd;
-
 /* Services used by the handlers of this part. */
-extern void BTL_SICKCONT_SetFlag(u32 *packedCont, int slot);
-
-extern int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *pokeParam, int statId, int amount);
-
-extern void HAND_ITEM_PushUseItem(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
-
-extern int BTL_SERVER_FLOW_IsPokeAfflictedByStatus(struct BtlServerFlow *flow, int pokeId);
-
-extern u32 BTL_SERVER_FLOW_TestStateFlagBit0(struct BtlServerFlow *flow);
-
-extern int BTL_SERVER_FLOW_TrySetOnceFlag(struct BtlServerFlow *flow);
 
 
-extern int BTL_ID_IsGemIgnoredMove(u16 moveId);
-
-extern int BTL_EVENT_IsFactorDead(struct BtlEventFactor *factor);
-
-extern void BTL_EVENT_MarkFactorDead(struct BtlEventFactor *factor);
 
 
-extern struct BtlEventFactor *BTL_EVENT_FindFactor(int factorType, int ownerId);
 
-extern struct BtlEventFactor *BTL_EVENT_FindNextFactor(struct BtlEventFactor *factor);
 
-extern u32 BTL_EVENT_GetFactorWork(struct BtlEventFactor *factor, int index);
 
-extern void BTL_EVENT_RemoveFactor(struct BtlEventFactor *factor);
+#include "../ov095/btl_id_sets.h"
 
-extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *bpp);
 
-extern u16 BTL_POKEPARAM_GetMoveId(struct BtlPokeParam *bpp, int slot);
 
-extern u8 WAZA_TOOL_GetType(u32 moveId);
 
-extern int BTL_POKEPARAM_HasType(struct BtlPokeParam *bpp, int type);
 
-extern u32 BTL_CALC_Random(u32 range);
 
-extern u16 BTL_TYPEPAIR_MakeSingle(int value);
+
+
+
+
+
+
+
+#include "btl_typepair.h"
 
 #endif

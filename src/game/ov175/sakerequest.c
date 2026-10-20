@@ -70,25 +70,16 @@ typedef struct GSSoapTask {
     struct GSTask *coreTask;
 } GSSoapTask;
 
-typedef void (*GSSoapCallback)(int httpResult, void *requestData, void *responseData, void *userData);
 
-extern void *gsimalloc(unsigned long size);
-extern void gsifree(void *ptr);
-extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long n);
-extern int strcmp(const char *a, const char *b);
-extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern int gsXmlMoveToStart(void *stream);
-extern int gsXmlMoveToNext(void *stream, char *matchtag);
-extern int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
-extern void *gsXmlCreateStreamWriter(const char **namespaces, int count);
-extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
-extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
-extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
-extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
-extern void gsXmlFreeWriter(void **writerRef);
-extern int gsXmlCloseWriter(void *stream);
-extern void *gsiExecuteSoap(char *url, char *service, void *soap, GSSoapCallback callback, void *userData);
+#include "../ov009/gsmemory.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../arm9/msl_string_str.h"
+#include "../arm9/os_printf.h"
+#include "../ov009/gsxml.h"
+#include "../ov009/gssoap.h"
 
+#include "../ov175/sc_types.h"
 SAKERequestInternal *sakeiInitRequest(SAKEInternal *sake, int type, void *input, SAKERequestCallback callback, void *userData);
 void sakeiFreeRequest(SAKERequestInternal *request);
 int sakeiCheckHttpResult(int httpResult);

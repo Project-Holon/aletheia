@@ -1,24 +1,14 @@
 #ifndef GAME_ARM9_APP_TASKMENU_H
 #define GAME_ARM9_APP_TASKMENU_H
 
-/* Public functions of app_taskmenu.c, prototypes copied from their definitions. */
-
-struct StrBuf;
-struct TaskMenuWork;
-struct TaskMenuRes;
-struct BmpWin;
-struct GFont;
-struct PrintQueue;
-struct TaskMenuWin;
+struct Strbuf;
 typedef struct TaskMenuWork TaskMenuWork;
 typedef struct TaskMenuRes TaskMenuRes;
 typedef struct TaskMenuWin TaskMenuWin;
 
-#include "../types.h"
-
 /* One menu entry (0xC bytes). */
 typedef struct TaskMenuItem {
-    struct StrBuf *str;         /* +0x00 */
+    struct Strbuf *str;         /* +0x00 */
     u16 msgColor;               /* +0x04 print colour */
     u32 type;                   /* +0x08 frame style; 1 is the back/cancel entry */
 } TaskMenuItem;
@@ -35,6 +25,21 @@ typedef struct TaskMenuInitWork {
     u8 width;                   /* +0x12 in characters, 13 when 0 */
     u8 height;                  /* +0x13 per entry, 3 when 0 */
 } TaskMenuInitWork;
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
+/* Public functions of app_taskmenu.c, prototypes copied from their definitions. */
+
+struct TaskMenuWork;
+struct TaskMenuRes;
+struct BmpWin;
+struct GFont;
+struct PrintQueue;
+struct TaskMenuWin;
+typedef struct TaskMenuWork TaskMenuWork;
+typedef struct TaskMenuRes TaskMenuRes;
+typedef struct TaskMenuWin TaskMenuWin;
+
+#include "../types.h"
 
 TaskMenuWork *APP_TASKMENU_OpenMenu(TaskMenuInitWork *init, TaskMenuRes *res);
 TaskMenuWork *APP_TASKMENU_OpenMenuFastDecide(TaskMenuInitWork *init, TaskMenuRes *res);
@@ -73,5 +78,6 @@ void APP_TASKMENU_DrawWinFrame(struct BmpWin *win, TaskMenuRes *res, u32 frameSt
 void APP_TASKMENU_WIN_ClearScreen(TaskMenuWin *win);
 void APP_TASKMENU_WIN_TransChar(TaskMenuWin *win);
 u32 APP_TASKMENU_WIN_IsUpdateTrans(TaskMenuWin *win);
+/* END mkheaders: generated region */
 
 #endif

@@ -164,8 +164,8 @@ struct CharBuf;
 struct Descriptor;
 struct MsgBank;
 struct StrObj;
-struct Obj;
-struct Actor;
+struct ClactActor;
+struct ClactActor;
 struct GfFont;
 struct U16Vec;
 struct Rec;
@@ -192,7 +192,7 @@ struct TaskMenu;
 struct TaskMenuState;
 #include "../types.h"
 
-typedef struct Config { u32 w[8]; } Config;
+typedef struct IntrudeCommViewConfig { u32 w[8]; } IntrudeCommViewConfig;
 
 typedef struct { int x, y, w, h; } Row;
 
@@ -277,167 +277,81 @@ typedef struct { u8 reserved[12]; void *data; } IntrudeCommViewPalette;
 
 typedef int (*Fn)(int,u32 *);
 
-typedef struct { u8 v[3]; } Triple;
+typedef struct { u8 v[3]; } IntrudeCommViewTriple;
 
-typedef struct { u16 x, y, z; u8 mode, layer; } Request;
+typedef struct { u16 x, y, z; u8 mode, layer; } IntrudeCommViewRequest;
 
-typedef struct { int v[2]; } Pair;
+typedef struct { int v[2]; } IntrudeCommViewPair;
 
-typedef struct { u16 opcode; char *ctx; void (*fn)(void); } Params;
+typedef struct { u16 opcode; char *ctx; void (*fn)(void); } IntrudeCommViewParams;
 
 typedef struct { u32 v[4]; } Display;
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(u8 idx);
-extern void BG_SYS_PushTile(u32);
-extern void BG_SYS_SetPriority(int, u16);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_Init(u32, u32, u32, u32);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u16);
+#include "../arm9/bg_sys.h"
+#include "../arm9/arc_util.h"
 struct BmpWin;
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+#include "../arm9/bmp_win.h"
+#include "../arm9/bmp_menuwork.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern u32 PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/msgdata.h"
+#ifdef __MWERKS__
+#define PRINTSYS_PrintColor PRINTSYS_PrintColor_hdr
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_PrintColor
+void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+#endif
 struct Bmp;
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 struct ButtonMan;
-extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
-extern void BG_SYS_MarkTileDirty(u32);
-extern struct Obj *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
-extern void MI_CpuCopy8(const void *, void *, u32);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void *BMP_MENUWORK_LoadFrameGfx(unsigned int layer, unsigned int palSlot, unsigned int frameId, unsigned short heapId);
-extern void *BUTTON_MAN_Create(u8 *rects, int cb, int arg, int heap);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern unsigned int WIPE_SYS_EndCheck(void);
+#include "../arm9/button_man.h"
+#include "../arm9/clact.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/wipe.h"
 struct GameSystem;
 struct GameComm;
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct GameComm;
-extern u32 GAME_COMM_GetKind(struct GameComm *comm);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern void NET_WHPIPE_SetNotifyCallback(u32 callback, u32 value);
-extern void GAME_COMM_RequestExitNoCallback(struct GameComm *comm);
-extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const struct Cmd *cmd);
-extern void CLACT_RestartActorAnim(struct Actor *a);
-extern int INTRUDE_COMM_GetRequestState(struct GameComm *comm);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern int GAME_BEACON_GetNextNewLogIndex(int *);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern int INTRUDE_COMM_CountEventPeers(struct GameComm *comm);
+#include "../arm9/game_comm.h"
+#include "../ov014/net_whpipe.h"
+#include "../ov010/intrude_comm_query.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/wordset.h"
+#include "../arm9/game_beacon.h"
 struct MyStatus;
-extern int INTRUDE_COMM_GetRequesterStatus(struct GameComm *comm, struct MyStatus *out);
-extern int BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
-extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 struct GFLNetSession;
-extern struct GFLNetSession *GFL_NET_GetInitParam(void);
-extern void *GFL_NET_GetScanResultMac(u32);
+#include "../arm9/net.h"
 struct GameData;
 struct FieldState;
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
-extern int WIH_DWC_FindSlotByKey(void *);
-extern u32 GFL_NET_GetScanResult(u32 a);
-extern u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(void *);
-extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
-extern unsigned int GAME_DATA_GetBgmInfo(struct GameData *gd);
+#include "../arm9/game_data.h"
+#include "../arm9/wih_dwc.h"
+#include "../arm9/comm_player_support.h"
 struct FieldSoundSystem;
-extern void FIELD_SOUND_SYSTEM_StartRingtone(struct FieldSoundSystem *s);
-extern void FIELD_SOUND_SYSTEM_StopRingtone(struct FieldSoundSystem *s);
-extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
-extern void CLACT_VBlankSystem(void);
-extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *, int, u32);
-extern void BG_SYS_SetLcdSwap(u32);
-extern void GX_DispOn(void);
-extern void BG_SYS_Create(u16);
-extern void BMP_WIN_Init(u16);
-extern void GF_FONT_InitTextColor(void);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_SetMainVisiblePlanes(u32);
-extern void BG_SYS_SetSubVisiblePlanes(u32);
+#include "../arm9/field_sound_system.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/gx.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void *GFL_USE_AddMainTask(u32, void *, u32);
-extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+#include "../arm9/tcbl.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 struct GFont;
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
-extern int GFL_NET_GetRunState(void);
-extern void UI_SetInputMode(u8);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/g2.h"
+#include "../arm9/ui.h"
 struct TaskMenuWork;
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
-extern void CLACT_DrawSystem(void);
-extern u32 WIH_DWC_PollStatus(void *);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 struct GameSystem;
-extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
-extern u32 GAMESYSTEM_IsNetOffBySleep(struct GameSystem *gameSystem);
-extern void WIPE_SetBrightnessFadeOut(u32, u32);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
+#include "../arm9/tcb_list.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 void INTRUDE_COMM_VIEW_StoreCallback(u32 *slot, u32 value);
 void INTRUDE_COMM_VIEW_SetCallback(void *p, u32 callback, int id);
 void INTRUDE_COMM_VIEW_SetupBackgrounds(void *unused);
@@ -472,10 +386,10 @@ u32 INTRUDE_COMM_VIEW_SumPeerTimers(u8 *p);
 void INTRUDE_COMM_VIEW_VBlankHandler(void);
 int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args);
 int INTRUDE_COMM_VIEW_Main(void *owner, void *unused1, void *unused2, char *p);
-extern const Config d_021D5780, d_021D57A0, d_021D57C0, d_021D57E0, d_021D5800;
-extern const Triple data_021D5708, data_021D5704, data_021D570C;
+extern const IntrudeCommViewConfig d_021D5780, d_021D57A0, d_021D57C0, d_021D57E0, d_021D5800;
+extern const IntrudeCommViewTriple data_021D5708, data_021D5704, data_021D570C;
 extern u16 data_021D5870[];
-extern const Pair d_021D575C;
+extern const IntrudeCommViewPair d_021D575C;
 extern int d_021D5890[], d_021D5720[], d_021D5718[], d_021D5728[];
 extern Row data_021D58E0[];
 extern int data_021D5714[], data_021D5710[];
@@ -489,7 +403,7 @@ void INTRUDE_COMM_VIEW_SetCallback(void *p, u32 callback, int id) {INTRUDE_COMM_
 
 void INTRUDE_COMM_VIEW_SetupBackgrounds(void *unused)
 {
-    Config bg0, bg4, bg5, bg6, bg7;
+    IntrudeCommViewConfig bg0, bg4, bg5, bg6, bg7;
     bg0 = d_021D5780;
     BG_SYS_InitBgLayer(0, (const struct BgTemplate *)(&bg0), 0);
     BG_SYS_FreeSlot(0);
@@ -621,10 +535,10 @@ void INTRUDE_COMM_VIEW_BrightenPalette(u16 *p, const u16 *add, int count)
 
 void INTRUDE_COMM_VIEW_CreateActors(char *p)
 {
-    Triple x = data_021D5708;
-    Triple y = data_021D5704;
-    Triple z = data_021D570C;
-    Request req;
+    IntrudeCommViewTriple x = data_021D5708;
+    IntrudeCommViewTriple y = data_021D5704;
+    IntrudeCommViewTriple z = data_021D570C;
+    IntrudeCommViewRequest req;
     int i, charIdOfs, palIdOfs, cellIdOfs, actorOfs0, actorOfs1, actorOfs2, actorOfs3;
     i = 0;
     charIdOfs = 0x37c;
@@ -639,23 +553,23 @@ void INTRUDE_COMM_VIEW_CreateActors(char *p)
         req.x = x.v[i]; req.y = y.v[i]; req.z = z.v[i];
         req.mode = 1; req.layer = 2;
         q = p + 4 * i;
-        *(void **)(q + actorOfs0) = CLACT_CreateActor((void *)*(u32 *)&((IntrudeCommView *)p)->clactUnit, *(u32 *)(p + charIdOfs), *(u32 *)(p + palIdOfs), *(u32 *)(p + cellIdOfs), &req, 1, ((IntrudeCommView *)p)->heapId);
+        *(void **)(q + actorOfs0) = CLACT_CreateActor((struct Unit *)((void *)*(u32 *)&((IntrudeCommView *)p)->clactUnit), *(u32 *)(p + charIdOfs), *(u32 *)(p + palIdOfs), *(u32 *)(p + cellIdOfs), (const struct ActorInitParam *)&req, 1, ((IntrudeCommView *)p)->heapId);
         CLACT_SetActorAutoAnim(*(void **)(q + actorOfs1), 0);
         CLACT_SetActorDrawEnable(*(void **)(q + actorOfs2), 1);
         CLACT_SetActorObjMode(*(void **)(q + actorOfs3), 1);
     }
     req.x = 128; req.y = 96; req.z = 15; req.mode = 0; req.layer = 2;
-    ((IntrudeCommView *)p)->actors[3] = CLACT_CreateActor((void *)*(u32 *)&((IntrudeCommView *)p)->clactUnit, ((IntrudeCommView *)p)->charId, ((IntrudeCommView *)p)->paletteId, ((IntrudeCommView *)p)->cellId, &req, 1, ((IntrudeCommView *)p)->heapId);
+    ((IntrudeCommView *)p)->actors[3] = CLACT_CreateActor((struct Unit *)((void *)*(u32 *)&((IntrudeCommView *)p)->clactUnit), ((IntrudeCommView *)p)->charId, ((IntrudeCommView *)p)->paletteId, ((IntrudeCommView *)p)->cellId, (const struct ActorInitParam *)&req, 1, ((IntrudeCommView *)p)->heapId);
     CLACT_SetActorAutoAnim(((IntrudeCommView *)p)->actors[3], 1);
     CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[3], 1);
-    CLACT_SetActorObjMode(((IntrudeCommView *)p)->actors[3], 1);
+    CLACT_SetActorObjMode((struct ClactActor *)(((IntrudeCommView *)p)->actors[3]), 1);
     req.x = 128; req.y = 96; req.z = 18; req.mode = 0; req.layer = 2;
-    ((IntrudeCommView *)p)->actors[4] = CLACT_CreateActor((void *)*(u32 *)&((IntrudeCommView *)p)->clactUnit, ((IntrudeCommView *)p)->charId, ((IntrudeCommView *)p)->paletteId, ((IntrudeCommView *)p)->cellId, &req, 1, ((IntrudeCommView *)p)->heapId);
+    ((IntrudeCommView *)p)->actors[4] = CLACT_CreateActor((struct Unit *)((void *)*(u32 *)&((IntrudeCommView *)p)->clactUnit), ((IntrudeCommView *)p)->charId, ((IntrudeCommView *)p)->paletteId, ((IntrudeCommView *)p)->cellId, (const struct ActorInitParam *)&req, 1, ((IntrudeCommView *)p)->heapId);
     CLACT_SetActorAutoAnim(((IntrudeCommView *)p)->actors[4], 1);
     CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[4], 0);
-    CLACT_SetActorObjMode(((IntrudeCommView *)p)->actors[4], 1);
+    CLACT_SetActorObjMode((struct ClactActor *)(((IntrudeCommView *)p)->actors[4]), 1);
     req.x = 128; req.y = 96; req.z = 25; req.mode = 0; req.layer = 2;
-    ((IntrudeCommView *)p)->actors[5] = CLACT_CreateActor((void *)*(u32 *)&((IntrudeCommView *)p)->clactUnit, ((IntrudeCommView *)p)->charId, ((IntrudeCommView *)p)->paletteId, ((IntrudeCommView *)p)->cellId, &req, 1, ((IntrudeCommView *)p)->heapId);
+    ((IntrudeCommView *)p)->actors[5] = CLACT_CreateActor((struct Unit *)((void *)*(u32 *)&((IntrudeCommView *)p)->clactUnit), ((IntrudeCommView *)p)->charId, ((IntrudeCommView *)p)->paletteId, ((IntrudeCommView *)p)->cellId, (const struct ActorInitParam *)&req, 1, ((IntrudeCommView *)p)->heapId);
     CLACT_SetActorAutoAnim(((IntrudeCommView *)p)->actors[5], 1);
     CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[5], 0);
     CLACT_SetActorObjMode(((IntrudeCommView *)p)->actors[5], 1);
@@ -697,9 +611,9 @@ void INTRUDE_COMM_VIEW_CreateResources(char *p)
 
 void INTRUDE_COMM_VIEW_InitMenu(char *p)
 {
-    Pair pair = d_021D575C;
+    IntrudeCommViewPair pair = d_021D575C;
     INTRUDE_COMM_VIEW_BuildRowList(2, (int *)&pair, (IntrudeCommView *)p, (Row *)d_021D5890, (const int *)d_021D5720, (const int *)d_021D5718);
-    ((IntrudeCommView *)p)->buttonMan = BUTTON_MAN_Create((u8 *)d_021D5728, (int)INTRUDE_COMM_VIEW_InvokeCallback, (int)p, ((IntrudeCommView *)p)->heapId);
+    ((IntrudeCommView *)p)->buttonMan = BUTTON_MAN_Create((u8 *)d_021D5728, (void (*)(s32, s32, s32))((int)INTRUDE_COMM_VIEW_InvokeCallback), (int)p, ((IntrudeCommView *)p)->heapId);
     ((IntrudeCommView *)p)->invokeCallback = INTRUDE_COMM_VIEW_SelectRow;
     INTRUDE_COMM_VIEW_InitStatusText(p);
     INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_Update, 0x31b);
@@ -762,7 +676,7 @@ void INTRUDE_COMM_VIEW_Noop(void)
 void INTRUDE_COMM_VIEW_AnimateSelectedRow(char *p)
 {
     int i;
-    Params args;
+    IntrudeCommViewParams args;
     void **base;
     i = ((IntrudeCommView *)p)->selectedRow;
     args.opcode = 0;
@@ -771,8 +685,8 @@ void INTRUDE_COMM_VIEW_AnimateSelectedRow(char *p)
     if (i == 3) i = 0;
     else if (i == 4) i = 1;
     base = ((IntrudeCommView *)p)->actors;
-    CLACT_SetActorAutoAnim(base[i], 1);
-    CLACT_ApplyActorAnimCommand(base[i], (const struct Cmd *)(&args));
+    CLACT_SetActorAutoAnim((struct ClactActor *)base[i], 1);
+    CLACT_ApplyActorAnimCommand((struct ClactActor *)base[i], (const struct ClactAnimCommand *)((const struct Cmd *)(&args)));
     CLACT_RestartActorAnim(base[i]);
     INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_Noop, 0x390);
 }
@@ -1090,9 +1004,9 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     BG_SYS_SetGraphicsMode((struct DispConfig *)(&display));
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
-    CLACT_InitSystem((struct SysInit *)data_021D5740, (struct DispVramCfg *)data_021D58B0, ((IntrudeCommView *)p)->heapId);
+    CLACT_InitSystem((const struct ClactSysInit *)data_021D5740, (const struct DispVramCfg *)data_021D58B0, ((IntrudeCommView *)p)->heapId);
     ((IntrudeCommView *)p)->clactUnit = CLACT_CreateUnit(40, 0, ((IntrudeCommView *)p)->heapId);
-    ((IntrudeCommView *)p)->vblankTask = GFL_USE_AddMainTask((u32)INTRUDE_COMM_VIEW_VBlankHandler, p, 0);
+    ((IntrudeCommView *)p)->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((u32)INTRUDE_COMM_VIEW_VBlankHandler), (void *)p, 0);
     INTRUDE_COMM_VIEW_SetupBackgrounds(p);
     INTRUDE_COMM_VIEW_CreateResources(p);
     ((IntrudeCommView *)p)->wordSet = WORDSET_Create(11, 200, ((IntrudeCommView *)p)->heapId);

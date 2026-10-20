@@ -503,7 +503,7 @@ void NNSi_G2dRendererDrawCellTransformed(struct CellDrawCmd *c)
 
 void NNSi_G2dRendererDrawCellEntryTransformed(struct Cmd020659D4 *c)
 {
-    int a;
+    sptr a;
 
     if (c->bVisible == 0)
         return;
@@ -612,10 +612,10 @@ void NNS_G2dInitRenderSurface(struct RndStateObj *p)
     p->state = 1;
     p->mode  = 3;
 
-    p->fn18 = (u32)NNSi_G2dRendererBeforeDrawCell;
-    p->fn1c = (u32)NNSi_G2dRendererAfterDrawCell;
-    p->fn20 = (u32)NNSi_G2dRendererPreDrawOam;
-    p->fn24 = (u32)NNSi_G2dRendererCallSurfaceOamFunc;
+    p->fn18 = (uptr)NNSi_G2dRendererBeforeDrawCell;
+    p->fn1c = (uptr)NNSi_G2dRendererAfterDrawCell;
+    p->fn20 = (uptr)NNSi_G2dRendererPreDrawOam;
+    p->fn24 = (uptr)NNSi_G2dRendererCallSurfaceOamFunc;
 }
 
 /*

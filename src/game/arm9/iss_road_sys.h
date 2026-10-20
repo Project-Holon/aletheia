@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_ISS_ROAD_SYS_H
 #define GAME_ARM9_ISS_ROAD_SYS_H
 
+typedef struct IssRoadSys IssRoadSys;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of iss_road_sys.c, prototypes copied from their definitions. */
 
@@ -23,7 +25,5 @@ void ISS_ROAD_SYS_FadeIn(IssRoadSys *road);
 void ISS_ROAD_SYS_FadeOut(IssRoadSys *road);
 void ISS_ROAD_SYS_ApplyVolume(IssRoadSys *road);
 /* END mkheaders: generated region */
-
-typedef struct IssRoadSys IssRoadSys;
 
 #endif

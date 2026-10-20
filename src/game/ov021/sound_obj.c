@@ -48,13 +48,14 @@
 struct BbActDesc;
 struct BbActSys;
 struct BbActRec;
-struct Actor;
+#include "../arm9/billboard_act_types.h"
+struct ClactActor;
 struct IcaAnime;
 struct Rec12;
 struct Mtx33;
 struct Big;
 struct BgTemplate;
-struct Bank;
+struct Unit;
 struct GfFont;
 struct MsgBank;
 struct Obj;
@@ -71,7 +72,7 @@ struct Desc;
 struct Evt;
 struct BigObj;
 struct Ctx;
-struct Sub02008C20Obj;
+struct RecordBlock;
 struct Self;
 struct S0201235C;
 
@@ -80,11 +81,7 @@ struct S0201235C;
 typedef struct FieldMap FieldMap;
 #include "../sdk_fx.h"
 
-typedef struct SoundObjTarget {
-    VecFx32 pos;
-    VecFx32 scale;
-    MtxFx33 rotate;
-} SoundObjTarget;
+#include "../arm9/g3d_system_types.h"
 
 typedef struct SoundObj {
     u16 heapId;
@@ -93,55 +90,21 @@ typedef struct SoundObj {
     void *iss3dsSys;
     u32 sourceId;
     void *anime;
-    SoundObjTarget *target;
+    G3dObjectStatus *target;
 } SoundObj;
 
-/* Entry template for BILLBOARD_ACT_CreateEntries (0x24 bytes). */
-typedef struct BbActDesc {
-    u16 imageIdx;
-    u16 scaleX;
-    u16 scaleY;
-    u8 alpha;
-    u8 pad07;
-    u32 visible;
-    u32 animEnable;
-    VecFx32 pos;
-    void (*onEnd)(void);
-    void *userData;
-} BbActDesc;
-
-/* Image record for BILLBOARD_ACT_CreateSlots. */
-typedef struct BbActRec {
-    void *resource;
-    u8 type;
-    u8 imageId;
-    u8 cellWidth;
-    u8 cellHeight;
-    u32 count;
-} BbActRec;
-
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+#include "../arm9/gfl_heap_wrap.h"
+#include "fieldmap.h"
 struct GameSystem;
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern void *GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
-extern u32 ISS_SYS_Get3dsSys(void *obj);
-extern int ISS_3DS_SYS_IsSourceActive(int a, int b);
-extern void ISS_3DS_SYS_StartSource(void *m, int i, int a, int b);
-extern void ICA_ANIME_Delete(struct IcaAnime *p);
-extern struct IcaAnime *ICA_ANIME_CreateStream(u32 heap, u32 arcId, u32 dataId, u32 bufFrameNum);
-extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
-extern void ICA_ANIME_SetFrame(struct IcaAnime *p, s32 v);
-extern u32 ICA_ANIME_GetFrame(struct IcaAnime *p);
-extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *t, VecFx32 *out);
-extern void ISS_3DS_SYS_SetSourcePos(u32 a, u32 b, VecFx32 *pos);
-extern u32 ICA_ANIME_GetRotate(struct IcaAnime *ctx, VecFx32 *out);
-extern void MTX_Identity33_(void *p);
-extern void BUTTON_MAN_MakeRotMtxXYZ(int h, int s, int v, struct Mtx33 *out);
+#include "../arm9/gamesystem.h"
+#include "../arm9/iss_sys.h"
+#include "../arm9/iss_3ds_sys.h"
+#include "../arm9/ica_anime.h"
+#include "../arm9/fx_mtx33.h"
+#include "../arm9/button_man.h"
 /* Retain the mode used to store f59 for the helper's second argument. */
 SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 startArg0, u32 startArg1);
-SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, SoundObjTarget *target);
+SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, G3dObjectStatus *target);
 int SOUND_OBJ_Delete(SoundObj *obj);
 void SOUND_OBJ_SetAnime(SoundObj *obj, u32 arcId, u32 dataId, u32 bufFrameNum);
 u32 SOUND_OBJ_AdvanceAnime(SoundObj *obj, s32 deltaFrame);
@@ -166,15 +129,15 @@ SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 s
     obj->iss3dsSys = iss3dsSys;
     obj->sourceId = sourceId;
     obj->anime = 0;
-    obj->target = (SoundObjTarget *)pos;
-    if (ISS_3DS_SYS_IsSourceActive((int)iss3dsSys, sourceId) == 0) {
+    obj->target = (G3dObjectStatus *)pos;
+    if (ISS_3DS_SYS_IsSourceActive( (Iss3dsSys *)((int)iss3dsSys), sourceId) == 0) {
         ISS_3DS_SYS_StartSource(iss3dsSys, sourceId, startArg0, startArg1);
     }
     return obj;
 }
 
 /* Sound object without a sound source, only the animated target. */
-SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, SoundObjTarget *target)
+SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, G3dObjectStatus *target)
 {
     u32 heapId = FIELDMAP_GetHeapId((struct FieldMap *)fieldMap);
     SoundObj *obj = GFL_HEAP_Alloc(heapId, 0x18, 0, gSoundObjFileName, 0x61);
@@ -246,9 +209,9 @@ void SOUND_OBJ_ApplyPosition(SoundObj *obj)
     VecFx32 pos;
 
     if (obj->anime != 0 && ICA_ANIME_GetTranslate((struct IcaAnime *)obj->anime, (VecFx32 *)&pos) == 1) {
-        V3_Set(&obj->target->pos, pos.x, pos.y, pos.z);
+        V3_Set(&obj->target->trans, pos.x, pos.y, pos.z);
         if (obj->iss3dsSys != 0)
-            ISS_3DS_SYS_SetSourcePos((u32)obj->iss3dsSys, obj->sourceId, &pos);
+            ISS_3DS_SYS_SetSourcePos( (Iss3dsSys *)((u32)obj->iss3dsSys), obj->sourceId, (const VecFx32 *)&pos);
     }
 }
 
@@ -291,5 +254,5 @@ void SOUND_OBJ_ApplyRotation(SoundObj *obj)
     rotY = (u16)(u32)(65535.0f * (degY / 360.0f));
     rotZ = (u16)(u32)(65535.0f * (degZ / 360.0f));
     MTX_Identity33_(&obj->target->rotate);
-    BUTTON_MAN_MakeRotMtxXYZ(rotX, rotY, rotZ, (struct Mtx33 *)&obj->target->rotate);
+    BUTTON_MAN_MakeRotMtxXYZ(rotX, rotY, rotZ, (MtxFx33 *)((struct Mtx33 *)&obj->target->rotate));
 }

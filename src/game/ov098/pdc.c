@@ -34,7 +34,7 @@
 #include "../arm9/gf_overlay.h"
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
-extern void MIi_CpuClearFast(int value, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 
 #include "pdc_main.h"
 
@@ -99,7 +99,7 @@ int PDC_ProcInit(struct Proc *proc, int seq, struct PdcArgs *args)
 {
     struct PdcProc *work;
 
-    GF_OVERLAY_Load((int)ov094_id);
+    GF_OVERLAY_Load((sptr)ov094_id);
     GFL_HEAP_CreateChildHeap(1, 0x85, 0xc0000);
     work = PROCSYS_AllocProcWork(proc, 0xc, 0x85);
     MIi_CpuClearFast(0, work, 0xc);
@@ -123,6 +123,6 @@ int PDC_ProcExit(struct Proc *proc, int seq, int unused, struct PdcProc *work)
     PDC_MAIN_Delete(work->sys);
     PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x85);
-    GF_OVERLAY_Unload((int)ov094_id);
+    GF_OVERLAY_Unload((sptr)ov094_id);
     return 1;
 }

@@ -26,21 +26,19 @@
  *   gGsDebugHexFormat2                     0x021A3710  data
  *   gGsDebugMsgFmt                     0x021A3718  data
  */
-#define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-typedef char *va_list;
+#include "../sdk_stdarg.h"
 
 typedef struct {
     void (*callback)(int, int, int, const char *, va_list);
     int initialized;
 } GSIDebugState;
 
-extern void VPrintf(char *format, char *args);
-extern void gsiInitializeCriticalSection(void *mutex);
-extern void gsiEnterCriticalSection(void *mutex);
-extern void gsiLeaveCriticalSection(void *mutex);
-extern void *MSL_C_LIB_MemsetPtr(void *p, int c, unsigned long n);
-extern int OS_SPrintf(char *dst, char *fmt, ...);
-void gsiDebugCallback(int a, int b, int c, int d, int e);
+#include "screen.h"
+#include "gsplatformthread.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../arm9/os_printf.h"
+void gsiDebugCallback(int cat, int type, int level, const char *fmt, va_list args);
 void gsDebugVaList(int cat, int type, int level, const char *fmt, va_list args);
 void gsDebugFormat(int cat, int type, int level, const char *fmt, ...);
 void HexEncode16(char *theInStream, char *theOutStream, unsigned int theInLen);
@@ -52,14 +50,10 @@ extern const unsigned short gCtypeMap[];
 extern char gGsDebugHexFormat2[];
 extern char gGsDebugMsgFmt[];
 
-
-
-void gsiDebugCallback(int a, int b, int c, int d, int e)
+void gsiDebugCallback(int cat, int type, int level, const char *fmt, va_list args)
 {
-    VPrintf((char *)d, (char *)e);
+    VPrintf(fmt, args);
 }
-
-
 
 /*
  * gsDebugVaList: the filtering dispatcher behind gsDebugFormat
@@ -86,12 +80,10 @@ void gsDebugVaList(int cat, int type, int level, const char *fmt, va_list args)
         if (gGsDebugState.callback != 0)
             gGsDebugState.callback(cat, type, level, fmt, args);
         else
-            gsiDebugCallback(cat, type, level, (int)fmt, (int)args);
+            gsiDebugCallback(cat, type, level, fmt, args);
     }
     gsiLeaveCriticalSection(gGsDebugCriticalSection);
 }
-
-
 
 /*
  * Variadic logging thunk: capture the anonymous arguments with va_start and
@@ -107,10 +99,7 @@ void gsDebugFormat(int cat, int type, int level, const char *fmt, ...)
     gsDebugVaList(cat, type, level, fmt, args);
 }
 
-
 static inline int isgraph(int c) { return ((c < 0 || c >= 0x80) ? 0 : (gCtypeMap[c] & 0x10)); }
-
-
 
 /*
  * sdk:      HexEncode16 (gsdebug.o, stamp 4.0.0.1025)
@@ -144,8 +133,6 @@ void HexEncode16(char *theInStream, char *theOutStream, unsigned int theInLen)
     *theOutStream = ' ';
     *(aTextOutStream) = '\0';
 }
-
-
 
 /*
  * sdk:      gsDebugBinary (gsdebug.o)

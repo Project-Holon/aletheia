@@ -7,7 +7,7 @@
 
 #include "../types.h"
 
-struct Obj;
+struct ClactActor;
 
 #define HOF_HEAP_ID 141
 #define HOF_ACTOR_COUNT 33
@@ -99,7 +99,7 @@ typedef struct HallOfFameWork {
     void *wordSet;                  /* 0x903C */
     void *strBuf;                   /* 0x9040 */
     void *clactUnit;                /* 0x9044 */
-    struct Obj *actors[HOF_ACTOR_COUNT];              /* 0x9048 */
+    struct ClactActor *actors[HOF_ACTOR_COUNT];              /* 0x9048 */
     int charIds[HOF_CHAR_COUNT];    /* 0x90CC */
     int paletteIds[HOF_PALETTE_COUNT];                /* 0x90E4 */
     int cellAnimIds[HOF_CELL_ANIM_COUNT];             /* 0x9100 */

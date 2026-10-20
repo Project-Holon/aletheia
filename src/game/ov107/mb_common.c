@@ -14,9 +14,8 @@
  */
 #include "../types.h"
 
-extern void DC_FlushRange(const void *p, u32 size);
-extern void DC_WaitWriteBufferEmpty(void);
-extern int MBi_SendMP(unsigned short *buf, int len, int pollbmp);
+#include "../arm9/os_cache.h"
+#include "mb_wm_base.h"
 int MBi_BlockHeaderEnd(int body_len, u16 pollbmp, u32 *sendbuf);
 u16 MBi_calc_cksum(u16 *buf, int length);
 

@@ -53,39 +53,16 @@
 #include "weather_sandstorm_types.h"
 
 /* Weather task services (ov021). */
-void *WEATHER_TASK_GetWorkBuffer(WeatherTaskSys *task);
-void WEATHER_TASK_SetupSpawner(WeatherTaskSys *task, int count, int interval, int targetCount, int targetInterval, int intervalStep, int stepsPerCountChange, int countStep, WeatherSpawnFunc spawn);
-void WEATHER_TASK_InitFog(WeatherTaskSys *task, int slope, int offset, int phase);
-void WEATHER_TASK_SaveCameraPos(WeatherTaskSys *task);
-void WEATHER_TASK_PlaySe(WeatherTaskSys *task, u16 seId);
-int WEATHER_TASK_StepSpawner(WeatherTaskSys *task, int heapId);
-void WEATHER_TASK_ChangeFog(WeatherTaskSys *task, u8 slope, int offset, int frames, int mode);
-int WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId);
-int WEATHER_TASK_IsFogIdle(WeatherTaskSys *task);
-void WEATHER_TASK_SetBillboardVisible(WeatherTaskSys *task, unsigned int value, int layer);
-void WEATHER_TASK_PrewarmParticles(WeatherTaskSys *task, WeatherSpawnFunc spawn, int iterations, int growEvery, int growBy, int heapId);
-int WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, u32 memberId);
-int WEATHER_TASK_StepSpawnTimer(WeatherTaskSys *task, int heapId);
-void WEATHER_TASK_RetargetSpawner(WeatherTaskSys *task, int targetCount, int targetInterval, int intervalStep, int countStep);
-void WEATHER_TASK_StopSe(WeatherTaskSys *task);
-void WEATHER_TASK_ChangeFogOffset(WeatherTaskSys *task, int endOffset, int frames, int mode);
-int WEATHER_TASK_GetParticleCount(WeatherTaskSys *task);
-void WEATHER_TASK_DisableFog(WeatherTaskSys *task, int phase);
-void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
-u8 *WEATHER_TASK_GetParticleWork(WeatherParticle *particle);
-struct Actor *WEATHER_TASK_GetParticleActor(WeatherParticle *particle);
-void WEATHER_TASK_GetParticlePos(WeatherParticle *particle, WeatherScreenPos *out);
+#include "../ov021/weather_task.h"
+struct ClactActor *WEATHER_TASK_GetParticleActor(WeatherParticle *particle);
 struct WeatherParticle;
-void WEATHER_TASK_SetParticlePosWrapped(struct WeatherParticle *particle, u16 *src);
-void WEATHER_TASK_RemoveParticle(WeatherParticle *particle);
-WeatherParticle *WEATHER_TASK_AddParticle(WeatherTaskSys *task, int reserved);
-u16 ZONEDATA_GetLightTableMember(u32 weatherId);
-extern u32 GFL_USE_GetRandom(u32 range);
+#include "../arm9/zone_light.h"
+#include "../arm9/gfl_use.h"
 /* Signed divide helper, called by name here (the result is the quotient). */
-extern void CLACT_SetActorAnimIndex(struct Actor *actor, u32 animIndex);
+#include "../arm9/clact.h"
 int WEATHER_SANDSTORM_Begin(WeatherTaskSys *task, int variant);
 int WEATHER_SANDSTORM_BeginParticles(WeatherTaskSys *task, int variant, int heapId);
-int WEATHER_SANDSTORM_BeginPlain(WeatherTaskSys *task, int variant, int heapId);
+int WEATHER_SANDSTORM_BeginPlain(WeatherTaskSys *task, int variant, u16 heapId);
 int WEATHER_SANDSTORM_Run(WeatherTaskSys *task, int variant, int heapId);
 int WEATHER_SANDSTORM_EndParticles(WeatherTaskSys *task);
 int WEATHER_SANDSTORM_EndFade(WeatherTaskSys *task, int variant, int heapId);
@@ -97,10 +74,6 @@ void WEATHER_SANDSTORM_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapI
 extern const int gSandstormGustSpeedX[];
 /* Vertical speed per gust step. */
 extern const int gSandstormGustSpeedY[];
-extern void WEATHER_TASK_GetCameraScroll(struct WeatherTaskSys *task, int *outX, int *outY);
-extern void WEATHER_TASK_ShiftParticles(struct WeatherTaskSys *task, int dx, int dy);
-extern void WEATHER_TASK_SetBillboardTexOffsetX(struct WeatherTaskSys *task, unsigned int value, int layer);
-extern void WEATHER_TASK_SetBillboardTexOffsetY(struct WeatherTaskSys *task, unsigned int value, int layer);
 /* Begin stage of the kind (staged start): spawner, fog and sound. */
 int WEATHER_SANDSTORM_Begin(WeatherTaskSys *task, int variant)
 {
@@ -138,7 +111,7 @@ int WEATHER_SANDSTORM_BeginParticles(WeatherTaskSys *task, int variant, int heap
 }
 
 /* Begin plain stage (everything at once): fog, filled screen, light, first billboard layer. */
-int WEATHER_SANDSTORM_BeginPlain(WeatherTaskSys *task, int variant, int heapId)
+int WEATHER_SANDSTORM_BeginPlain(WeatherTaskSys *task, int variant, u16 heapId)
 {
     WEATHER_TASK_GetWorkBuffer(task);
     WEATHER_TASK_SetupSpawner(task, 1, 2, 1, 2, -2, 4, 1, WEATHER_SANDSTORM_SpawnParticles);
@@ -244,7 +217,7 @@ void WEATHER_SANDSTORM_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapI
     int spriteSize;
     WeatherParticle *particle;
     WeatherSandstormGrain *particleWork;
-    struct Actor *actor;
+    struct ClactActor *actor;
     WeatherScreenPos pos;
 
     work = WEATHER_TASK_GetWorkBuffer(task);

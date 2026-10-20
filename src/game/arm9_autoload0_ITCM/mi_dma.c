@@ -15,6 +15,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int);
@@ -35,19 +36,19 @@ void MIi_DmaSetParameters(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode)
         enabled = OS_DisableInterrupts();
     }
 
-    p = (vu32 *)(0x040000B0 + dmaNo * 12);
+    p = (vu32 *)(REG_DMA0SAD_ADDR + dmaNo * 12);
 
     if (mode & 0x10)
     {
-        MIiDmaClearSrc *srcp = (MIiDmaClearSrc *)(0x040000E0 + dmaNo * 4);
+        MIiDmaClearSrc *srcp = (MIiDmaClearSrc *)(REG_DMA0FILL_ADDR + dmaNo * 4);
         srcp->b32 = src;
-        src = (u32)srcp;
+        src = (uptr)srcp;
     }
     else if (mode & 0x20)
     {
-        MIiDmaClearSrc *srcp = (MIiDmaClearSrc *)(0x040000E0 + dmaNo * 4);
+        MIiDmaClearSrc *srcp = (MIiDmaClearSrc *)(REG_DMA0FILL_ADDR + dmaNo * 4);
         srcp->b16 = (u16)src;
-        src = (u32)srcp;
+        src = (uptr)srcp;
     }
 
     *p = (vu32)src;
@@ -57,10 +58,10 @@ void MIi_DmaSetParameters(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode)
     if (mode & 2)
     {
         {
-            u32 dummy = *(volatile u32 *)0x040000B0;
+            u32 dummy = *(volatile u32 *)REG_DMA0SAD_ADDR;
         }
         {
-            u32 dummy = *(volatile u32 *)0x040000B0;
+            u32 dummy = *(volatile u32 *)REG_DMA0SAD_ADDR;
         }
 
         if (!(mode & 4))
@@ -82,10 +83,10 @@ void MIi_DmaSetParameters(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode)
     if (mode & 2)
     {
         {
-            u32 dummy = *(volatile u32 *)0x040000B0;
+            u32 dummy = *(volatile u32 *)REG_DMA0SAD_ADDR;
         }
         {
-            u32 dummy = *(volatile u32 *)0x040000B0;
+            u32 dummy = *(volatile u32 *)REG_DMA0SAD_ADDR;
         }
     }
 }

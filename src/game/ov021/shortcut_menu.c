@@ -98,6 +98,7 @@
 struct BbActDesc;
 struct BbActSys;
 struct BbActRec;
+#include "../arm9/billboard_act_types.h"
 struct Actor;
 struct IcaAnime;
 struct Rec12;
@@ -127,18 +128,7 @@ struct S0201235C;
 
 #include "../types.h"
 
-typedef struct ShortcutActorPos {
-    u16 x;
-    u16 y;
-    u16 z;
-    u8 animNo;
-    u8 flags;
-} ShortcutActorPos;
 
-typedef struct ShortcutActorOffset {
-    s16 x;
-    s16 y;
-} ShortcutActorOffset;
 
 /* List menu template (0x34 bytes); the shortcut menu copies the const one and fills the pointers. */
 typedef struct ShortcutListTemplate {
@@ -182,7 +172,7 @@ typedef struct ShortcutMenu {
     u16 savedCursor;                      /* 0x1E: list cursor when move mode started */
     void *menuData;                       /* 0x20: the shortcut entries */
     u32 moveMode;                         /* 0x24: 1 while an entry is being moved */
-    struct BmpMenuList *listActors[3];            /* 0x28: copy of actors, set by InitList */
+    struct ClactActor *listActors[3];            /* 0x28: copy of actors, set by InitList */
     u16 heapId;                           /* 0x34 */
     u16 pad36;
     struct MsgBank *msgBank;              /* 0x38 */
@@ -190,12 +180,12 @@ typedef struct ShortcutMenu {
     u32 cursorWrapped;                    /* 0x40 */
     u32 redrawBg;                         /* 0x44 */
     u32 showActors;                       /* 0x48 */
-    struct Bank *actorBank;               /* 0x4C */
+    struct Unit *actorBank;               /* 0x4C */
     u16 charResId;                        /* 0x50 */
     u16 palResId;                         /* 0x52 */
     u16 cellResId;                        /* 0x54 */
     u16 pad56;
-    struct BmpMenuList *actors[3];                /* 0x58: the three cursor actors */
+    struct ClactActor *actors[3];                /* 0x58: the three cursor actors */
     struct MsgBank *ownedMsgBank;         /* 0x64 */
     struct GfFont *ownedFont;             /* 0x68 */
     struct PrintSys *ownedPrintSys;       /* 0x6C */
@@ -205,114 +195,46 @@ typedef struct ShortcutMenu {
     int resultValue;                      /* 0x78 */
     const u16 *savedState;                /* 0x7C: {scroll, cursor} kept by the caller */
     u32 scrollDone;                       /* 0x80 */
-    struct Node *scrollTask;              /* 0x84 */
+    struct TcbTask *scrollTask;              /* 0x84 */
 } ShortcutMenu;
 
 #include "../sdk_fx.h"
 
-/* Entry template for BILLBOARD_ACT_CreateEntries (0x24 bytes). */
-typedef struct BbActDesc {
-    u16 imageIdx;
-    u16 scaleX;
-    u16 scaleY;
-    u8 alpha;
-    u8 pad07;
-    u32 visible;
-    u32 animEnable;
-    VecFx32 pos;
-    void (*onEnd)(void);
-    void *userData;
-} BbActDesc;
-
-/* Image record for BILLBOARD_ACT_CreateSlots. */
-typedef struct BbActRec {
-    void *resource;
-    u8 type;
-    u8 imageId;
-    u8 cellWidth;
-    u8 cellHeight;
-    u32 count;
-} BbActRec;
-
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 MI_CpuFill8(void *p, int v, int n);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(u8 idx);
-extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern struct BmpMenuList *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/clact.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
+#include "../arm9/printsys.h"
 struct GameData;
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int priority);
+#include "../arm9/game_data.h"
+#include "../arm9/recent_id_list_savedata.h"
+#include "../arm9/g2.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+#include "../arm9/tcb_list.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern unsigned char BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_PushTile(unsigned int index);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct BmpMenuList;
 extern u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr);
 extern void BMP_MENULIST_GetPos(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
 extern u16 BMP_MENULIST_GetRowY(struct BmpMenuList *menu, u32 row);
-extern void UI_SetInputMode(u8 v);
+#include "../arm9/ui.h"
 extern void BMP_MENULIST_GetListIndex(struct BmpMenuList *menu, u16 *outIndex);
-extern unsigned int KEY_GetRepeat(void);
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
 extern u32 BMP_MENULIST_GetItemValue(struct BmpMenuList *menu, u32 index);
-extern u8 RECENT_ID_LIST_SAVEDATA_InsertId(u8 *a, int id, u8 pos);
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern u16 BMP_MENULIST_GetCursorY(struct BmpMenuList *menu);
-extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const u8 *a);
-extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const u8 *a, u32 i);
-extern void *BMP_MENUWORK_Create(int n, u32 heap);
-extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+#include "../arm9/bmp_menuwork.h"
 struct MenuTemplate;
 extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
-extern u32 BMP_MENUWORK_Delete(void *p);
 extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void CLACT_AddActorSurfacePos(struct BmpMenuList *p, const struct Vec2 *delta, u32 which);
 /* Retain the mode used to store f59 for the helper's second argument. */
 ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedState, u16 textHeapId, u16 heapId);
 void SHORTCUT_MENU_Delete(ShortcutMenu *menu);
@@ -322,8 +244,8 @@ void SHORTCUT_MENU_Start(ShortcutMenu *menu);
 void SHORTCUT_MENU_RequestClose(ShortcutMenu *menu);
 int SHORTCUT_MENU_IsWaitingInput(ShortcutMenu *menu);
 u32 SHORTCUT_MENU_GetResult(ShortcutMenu *menu, u32 *outValue);
-void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct BmpMenuList **actors, u16 heapId);
-int SHORTCUT_MENU_FreeList(ShortcutMenu *menu, u16 *savedState);
+void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct ClactActor **actors, u16 heapId);
+void SHORTCUT_MENU_FreeList(ShortcutMenu *menu, u16 *savedState);
 void SHORTCUT_MENU_OnKeyUp(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *done);
 void SHORTCUT_MENU_OnKeyDown(ShortcutMenu *menu, int cursor, int itemCount, int *done);
 void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu);
@@ -353,7 +275,7 @@ extern char ov171_id[];
  */
 ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedState, u16 textHeapId, u16 heapId)
 {
-    ShortcutActorPos pos;
+    struct ActorInitParam pos;
     int tileBase;
     ShortcutMenu *menu;
     void *resArchive;
@@ -384,11 +306,11 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
     MI_CpuFill8(&pos, 0, 8);
     pos.y = 0x60;
     for (i = 0; i < 3; i++) {
-        pos.z = i;
+        pos.anim_seq = i;
         pos.x = gShortcutMenuActorX[i];
         menu->actors[i] = CLACT_CreateActor(menu->actorBank, menu->palResId, menu->charResId, menu->cellResId, &pos, 0, heapId);
-        CLACT_SetActorDrawEnable((struct Actor *)menu->actors[i], 0);
-        CLACT_SetActorAutoAnim((struct Actor *)menu->actors[i], 1);
+        CLACT_SetActorDrawEnable(menu->actors[i], 0);
+        CLACT_SetActorAutoAnim(menu->actors[i], 1);
     }
     menu->ownedMsgBank = MSGDATA_CreateFromArchive(0, 2, 0xAD, heapId);
     menu->ownedFont = GF_FONT_Create(0x17, 0, 0, 0, textHeapId);
@@ -420,7 +342,7 @@ void SHORTCUT_MENU_Delete(ShortcutMenu *menu)
     BG_SYS_SetPlaneVisible(1, 0);
     SHORTCUT_MENU_FreeList(menu, (u16 *)menu->savedState);
     for (i = 0; i < 3; i++) {
-        CLACT_DeleteActor((struct Actor *)menu->actors[i]);
+        CLACT_DeleteActor(menu->actors[i]);
     }
     PRINTSYS_QUE_Clear((struct PrintQueue *)menu->ownedPrintSys);
     PRINTSYS_QUE_Delete((struct PrintQueue *)menu->ownedPrintSys);
@@ -477,7 +399,7 @@ void SHORTCUT_MENU_Main(ShortcutMenu *menu)
         break;
     case 4:
         for (i = 0; i < 3; i++) {
-            CLACT_SetActorDrawEnable((struct Actor *)menu->actors[i], 0);
+            CLACT_SetActorDrawEnable(menu->actors[i], 0);
         }
         menu->scrollFrame = 4;
         menu->state = 5;
@@ -541,7 +463,7 @@ u32 SHORTCUT_MENU_GetResult(ShortcutMenu *menu, u32 *outValue)
     return menu->resultKind;
 }
 
-void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct BmpMenuList **actors, u16 heapId)
+void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct ClactActor **actors, u16 heapId)
 {
     int i = 0;
     struct Descriptor *window;
@@ -570,11 +492,11 @@ void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct Ms
  *
  * Addresses are Black-image addresses.
  */
-int SHORTCUT_MENU_FreeList(ShortcutMenu *menu, u16 *savedState)
+void SHORTCUT_MENU_FreeList(ShortcutMenu *menu, u16 *savedState)
 {
     SHORTCUT_MENU_DeleteList(menu, savedState, savedState + 1);
     BMP_WIN_Delete((struct BmpWin *)menu->window);
-    return MI_CpuFill8(menu, 0, 76);
+    MI_CpuFill8(menu, 0, 76);
 }
 
 /*
@@ -697,7 +619,7 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
         if (menu->moveMode == 0) {
             menu->cursorWrapped = 0;
             for (i = 0; i < 3; i++) {
-                CLACT_SetActorDrawEnable((struct Actor *)menu->listActors[i], 0);
+                CLACT_SetActorDrawEnable(menu->listActors[i], 0);
             }
             SHORTCUT_MENU_UpdateCursorBg(menu->list, 0, 0);
             return;
@@ -732,7 +654,7 @@ int SHORTCUT_MENU_FinishPrint(ShortcutMenu *menu)
         }
         if (menu->showActors != 0) {
             for (i = 0; i < 3; i++) {
-                CLACT_SetActorDrawEnable((struct Actor *)menu->listActors[i], 1);
+                CLACT_SetActorDrawEnable(menu->listActors[i], 1);
             }
             menu->showActors = 0;
         }
@@ -832,7 +754,7 @@ void SHORTCUT_MENU_CreateList(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 he
     menu->listItems = BMP_MENUWORK_Create(itemCount, heapId);
     for (i = 0; i < itemCount; i++) {
         u8 entryId = RECENT_ID_LIST_SAVEDATA_GetIdAt(menu->menuData, (u8)i);
-        BMP_MENUWORK_AddMsgItem(menu->listItems, (u32)menu->msgBank, (int)entryId, (int)entryId, heapId);
+        BMP_MENUWORK_AddMsgItem(menu->listItems, menu->msgBank, (int)entryId, (int)entryId, heapId);
     }
     while (cursor + scroll >= itemCount) {
         if (cursor != 0) {
@@ -891,13 +813,13 @@ void SHORTCUT_MENU_SetActorsY(ShortcutMenu *menu, int offsetY)
 {
     s16 y;
     int i;
-    ShortcutActorOffset offset;
+    struct ClactVec2 offset;
 
     i = 0;
     y = offsetY;
     for (; i < 3; i++) {
-        CLACT_GetActorSurfacePos((struct Actor *)menu->listActors[i], (struct PtS *)&offset, 0);
+        CLACT_GetActorSurfacePos(menu->listActors[i], &offset, 0);
         offset.y = y;
-        CLACT_AddActorSurfacePos(menu->listActors[i], (const struct Vec2 *)(&offset), 0);
+        CLACT_AddActorSurfacePos(menu->listActors[i], &offset, 0);
     }
 }

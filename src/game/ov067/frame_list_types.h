@@ -22,7 +22,7 @@ struct FrameListWindow {
 
 /* FrameListOps, FrameListHitEntry and FrameListParams live in the typedef-free
  * frame_list_params.h so standalone unit files can include them. */
-#include "frame_list_params.h"
+#include "../ov067/frame_list_params.h"
 
 struct FrameListItem {
     u32 mapIndex;

@@ -89,7 +89,6 @@
 
 #include "../types.h"
 
-struct Actor;
 struct Bmp;
 struct BmpWin;
 struct MsgBank;
@@ -172,7 +171,7 @@ struct PStaRibbonWork {
     u8 pad_11[3];
     u32 scrollPos;                      /* 0x014: pixels */
     u32 detailChrRes;                   /* 0x018: character resource of the picked ribbon */
-    struct Actor *detailObj;            /* 0x01C: big picture of the picked ribbon */
+    struct ClactActor *detailObj;            /* 0x01C: big picture of the picked ribbon */
     struct BmpWin *titleWin;            /* 0x020: ribbon name */
     struct BmpWin *descWin;             /* 0x024: ribbon description */
     StaGraphicsFile *listScrn;        /* 0x028 */
@@ -186,7 +185,7 @@ struct PStaRibbonWork {
     StaRibbonCharData *iconChr;         /* 0x048: row picture tiles */
     void *iconChrMem;                   /* 0x04C */
     struct MsgBank *msgBank;            /* 0x050 */
-    struct Actor *cursorObj;            /* 0x054 */
+    struct ClactActor *cursorObj;            /* 0x054 */
     u8 selectedRow;                     /* 0x058: row of the cursor, 255 = none */
     u8 selectedOwned;                   /* 0x059: owned[] index of the cursor, 255 = none */
     u8 prevSelectedRow;                 /* 0x05A */
@@ -226,65 +225,29 @@ enum StaRibbonVramPart {
     STA_RIBBON_VRAM_ZERO
 };
 
-extern u32 GFL_HEAP_Free(void *mem);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animSeq);
-extern void BG_SYS_PushTile(u32 bgId);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern int CLACT_RegisterCharacter(void *arc, u32 fileId, u32 a, u32 screen, u16 heapId);
-extern void ARC_TOOL_DeleteHandle(void *arc);
-extern void CLACT_ReleaseCharacter(u32 charRes);
-extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern int TOUCHPANEL_HitTrg(const void *hitTable);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/touchpanel.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern unsigned int KEY_GetRepeat(void);
-extern u32 KEY_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/printsys.h"
+#include "../arm9/key.h"
+#include "../arm9/gfl_use.h"
 struct BoxPokemon;
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int arg);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct Strbuf *str);
+#include "../arm9/poke_tool.h"
+#include "../arm9/strbuf.h"
 struct GfFont;
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32 bgId);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern u32 WORDSET_Delete(struct WordSet *ws);
-extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 index, u32 number, u32 digits, u32 dispType, u32 zeroPad);
-extern int TOUCHPANEL_GetTrg(void);
-extern int TOUCHPANEL_GetCont(void);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, unsigned int fileId, unsigned int a, void **outData, unsigned short heapId);
-extern void BG_SYS_DrawTileEx(unsigned int index, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch, void *src, unsigned char sx, unsigned char sy, unsigned char sw, unsigned char sh);
-extern void BG_SYS_DecodeTile(u32 palIndex, const void *src, u32 size);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 animSeq, u32 flag);
-extern void CLACT_AddActorSurfacePos(struct Actor *actor, const StaOamPoint *delta, u32 space);
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
-extern void BG_SYS_ClearLayerEx(int bgId, u16 value);
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
-extern void BMP_Delete(struct Bmp *bmp);
-extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
-extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void GFL_USE_PlaySeInSlot(u32 seId, int flag);
-extern unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo);
-void P_STATUS_SetInputEnable(PStatusWork *wk, int enable);
-void *P_STATUS_GetPokePara(PStatusWork *wk);
+#include "../arm9/bmp_win.h"
+#include "../arm9/wordset.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/arc_util.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/mi_memory.h"
+#include "p_sta_oam.h"
+#include "p_status.h"
 void *P_STA_RIBBON_Create(PStatusWork *wk);
 void P_STA_RIBBON_Delete(PStatusWork *wk, PStaRibbonWork *work);
 void P_STA_RIBBON_Main(PStatusWork *wk, PStaRibbonWork *work);
@@ -315,14 +278,6 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work);
 void P_STA_RIBBON_FreeDetailWindows(PStatusWork *wk, PStaRibbonWork *work);
 void P_STA_RIBBON_HideDetail(PStatusWork *wk, PStaRibbonWork *work);
 struct StaOamManager;
-StaOamManager *P_STA_OAM_CreateManager(u32 heapId, void *clunit);
-void P_STA_OAM_DeleteManager(StaOamManager *mgr);
-StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(StaOamManager *mgr, const StaOamBitmapDesc *desc);
-void P_STA_OAM_DeleteBitmapActors(StaOamBitmapActors *actors);
-void P_STA_OAM_SetBitmapActorsEnabled(StaOamBitmapActors *actors, int enable);
-void P_STA_OAM_TransferBitmap(StaOamBitmapActors *actors);
-void P_STA_OAM_SetBitmapActorsPos(StaOamBitmapActors *actors, s16 x, s16 y);
-u32 P_STA_RIBBON_GetRibbonInfo(u32 ribbonNo, u32 field);
 extern const char P_STA_RIBBON_FileName[];
 extern const StaRibbonKindCount P_STA_RIBBON_KindCountInit;
 
@@ -379,16 +334,16 @@ void P_STA_RIBBON_FreeArcGraphics(PStatusWork *wk, PStaRibbonWork *work) {
  */
 void P_STA_RIBBON_CreateObjects(PStatusWork *wk, PStaRibbonWork *work)
 {
-    StaOamActorPos pos;
+    struct ActorInitParam pos;
     StaOamBitmapDesc desc;
     enum StaRibbonVramPart vramHi, vramLo;
-    u32 vramBase;
+    uptr vramBase;
     u8 i;
-    pos.x=0;pos.y=0;pos.drawPriority=10;pos.bgPriority=0;pos.animSeq=0;
-    work->cursorObj=CLACT_CreateActor((void *)(u32)wk->clunit,wk->objRes[PSTATUS_RES_CHR_END],wk->objRes[PSTATUS_RES_PLTT_END],wk->objRes[PSTATUS_RES_CELL_END],&pos,0,wk->heapId);
-    CLACT_SetActorDrawEnable(work->cursorObj,0);
+    pos.x=0;pos.y=0;pos.draw_priority=10;pos.bg_priority=0;pos.anim_seq=0;
+    work->cursorObj=CLACT_CreateActor((void *)(uptr)wk->clunit,wk->objRes[PSTATUS_RES_CHR_END],wk->objRes[PSTATUS_RES_PLTT_END],wk->objRes[PSTATUS_RES_CELL_END],&pos,0,wk->heapId);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
     desc.x=8;
-    desc.plttRes=(u32)((void *)wk->objRes[STA_RIBBON_RES_ROW_PLTT]);
+    desc.plttRes=(uptr)((void *)wk->objRes[STA_RIBBON_RES_ROW_PLTT]);
     desc.animSeq=0;
     desc.drawPriority=0;
     vramHi=0x19;
@@ -409,7 +364,7 @@ void P_STA_RIBBON_CreateObjects(PStatusWork *wk, PStaRibbonWork *work)
 
 void P_STA_RIBBON_DeleteObjects(PStatusWork *wk, PStaRibbonWork *work) {
  unsigned char i;
- CLACT_DeleteActor(work->cursorObj);
+ CLACT_DeleteActor((struct ClactActor *)work->cursorObj);
  for (i = 0; i < STA_RIBBON_ROW_COUNT; i++) {
   StaRibbonRowAt *row = (StaRibbonRowAt *)((u8 *)work + i * 20);
   P_STA_OAM_DeleteBitmapActors(row->actors);
@@ -455,9 +410,9 @@ int P_STA_RIBBON_UpdateKeys(PStatusWork *wk, PStaRibbonWork *work)
     s16 shortDelta;
     int position;
     if(KEY_GetTrg()==STA_RIBBON_KEY_B) {
-        P_STATUS_SetInputEnable(wk,1);
-        CLACT_SetActorAnimSeq(wk->buttonActor[STA_RIBBON_BUTTON_B],9);
-        CLACT_SetActorDrawEnable(work->cursorObj,0);
+        P_STATUS_SetInputEnable((PStatusWork *)wk,1);
+        CLACT_SetActorAnimSeq((struct ClactActor *)wk->buttonActor[STA_RIBBON_BUTTON_B],9);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
         work->selectedRow=255;
         work->selectedOwned=255;
         work->selectionChanged=1;
@@ -534,9 +489,9 @@ void P_STA_RIBBON_UpdateTouch(PStatusWork *wk, PStaRibbonWork *work)
 {
     int index, delta, velocity;
     if((u32)wk->tpHit==7) {
-        P_STATUS_SetInputEnable(wk,1);
-        CLACT_SetActorAnimSeq(wk->buttonActor[STA_RIBBON_BUTTON_B],9);
-        CLACT_SetActorDrawEnable(work->cursorObj,0);
+        P_STATUS_SetInputEnable((PStatusWork *)wk,1);
+        CLACT_SetActorAnimSeq((struct ClactActor *)wk->buttonActor[STA_RIBBON_BUTTON_B],9);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
         work->selectedRow=255;
         work->selectedOwned=255;
         work->selectionChanged=1;
@@ -554,7 +509,7 @@ void P_STA_RIBBON_UpdateTouch(PStatusWork *wk, PStaRibbonWork *work)
             work->selectedOwned=P_STA_RIBBON_GetRowOwnedIndex(work,(u8)index);
             work->isDragging=1;
             work->scrollSpeed=0;
-            CLACT_SetActorDrawEnable(work->cursorObj,0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorObj,0);
             P_STA_RIBBON_FreeDetailWindows(wk,work);
             P_STA_RIBBON_PrintDetail(wk,work);
         }
@@ -615,7 +570,7 @@ int P_STA_RIBBON_GetTouchedRow(PStatusWork *wk, PStaRibbonWork *work)
             hitTable[i].top = 0xfd;
     }
     hitTable[STA_RIBBON_ROW_COUNT].top = 0xff;
-    return TOUCHPANEL_HitTrg(hitTable);
+    return TOUCHPANEL_HitTrg((const TouchHitTable *)hitTable);
 }
 
 void P_STA_RIBBON_SnapCursorToScroll(PStatusWork *wk, PStaRibbonWork *work)
@@ -628,7 +583,7 @@ void P_STA_RIBBON_SelectRow(PStatusWork *wk, PStaRibbonWork *work, u8 row)
     StaOamPoint pt;
     pt.x=8;
     pt.y=P_STA_RIBBON_GetRowY(work,row);
-    CLACT_AddActorSurfacePos(work->cursorObj,&pt,0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)work->cursorObj,(const struct ClactVec2 *)&pt,0);
     work->selectedRow=row;
     work->selectionChanged=1;
     work->selectedOwned=P_STA_RIBBON_GetRowOwnedIndex(work,row);
@@ -910,7 +865,7 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
     struct BmpWin *win;
     void *archive;
     u8 ribbonNo;
-    StaOamActorPos pos;
+    struct ActorInitParam pos;
     ribbonNo=work->owned[work->selectedOwned].ribbonNo;
     win=work->titleWin;
     BMP_WIN_TransferChars(win);
@@ -925,12 +880,12 @@ void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work)
     ARC_TOOL_DeleteHandle(archive);
     pos.x=128;
     pos.y=100;
-    pos.drawPriority=10;
-    pos.bgPriority=0;
-    pos.animSeq=0;
-    work->detailObj=CLACT_CreateActor((void *)(u32)wk->clunit,work->detailChrRes,wk->objRes[STA_RIBBON_RES_DETAIL_PLTT],wk->objRes[STA_RIBBON_RES_DETAIL_CELL],&pos,1,wk->heapId);
-    CLACT_SetActorPaletteOffset(work->detailObj,(u8)P_STA_RIBBON_GetRibbonInfo(ribbonNo,2),1);
-    CLACT_SetActorDrawEnable(work->detailObj,1);
+    pos.draw_priority=10;
+    pos.bg_priority=0;
+    pos.anim_seq=0;
+    work->detailObj=CLACT_CreateActor((void *)(uptr)wk->clunit,work->detailChrRes,wk->objRes[STA_RIBBON_RES_DETAIL_PLTT],wk->objRes[STA_RIBBON_RES_DETAIL_CELL],&pos,1,wk->heapId);
+    CLACT_SetActorPaletteOffset((struct ClactActor *)work->detailObj,(u8)P_STA_RIBBON_GetRibbonInfo(ribbonNo,2),1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->detailObj,1);
     BG_SYS_DecodeTile(6,work->detailPal->data,work->detailPal->dataSize);
     BG_SYS_MarkTileDirty(6);
     work->isDetailShown=1;
@@ -952,7 +907,7 @@ void P_STA_RIBBON_HideDetail(PStatusWork *wk, PStaRibbonWork *work)
 {
     if(work->isDetailShown==1) {
         CLACT_ReleaseCharacter(work->detailChrRes);
-        CLACT_DeleteActor(work->detailObj);
+        CLACT_DeleteActor((struct ClactActor *)work->detailObj);
         BG_SYS_ClearLayerEx(4,0);
         BG_SYS_MarkTileDirty(4);
         work->isDetailShown=0;

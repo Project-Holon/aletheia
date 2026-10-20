@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_MSL_STDIO_H
 #define GAME_ARM9_MSL_STDIO_H
 
+typedef struct FILE FILE;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of msl_stdio.c, prototypes copied from their definitions. */
 
@@ -32,7 +34,5 @@ int MSL_C_LIB_WcToMb(char *s, unsigned short wc);
 u32 MSL_C_LIB_CallFormatHook(u32 *dst, u32 c);
 u32 MSL_C_LIB_WideToNarrow(u8 *dst, const u16 *src, u32 max);
 /* END mkheaders: generated region */
-
-typedef struct FILE FILE;
 
 #endif

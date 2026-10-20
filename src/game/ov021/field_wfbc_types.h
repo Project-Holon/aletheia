@@ -66,7 +66,7 @@ typedef struct FieldWfbc {
     struct ArcHandle *arcHandle;
     FieldWfbcBlockTable *blockTable;
     FieldWfbcBlock blocks[8][8];
-    u8 *mmdlPosTable;
+    WfbcPosition *mmdlPosTable;
     FieldWfbcBlockRand blockRand;
     struct MmdlSys *mmdlSys;
 } FieldWfbc;

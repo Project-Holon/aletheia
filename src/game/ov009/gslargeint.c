@@ -49,10 +49,7 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 struct GSMD5_CTX;
 typedef unsigned int l_word;
 
-typedef struct gsLargeInt_s {
-    l_word mLength;
-    l_word mData[64];
-} gsLargeInt_t;
+#include "../ov175/auth_types.h"
 
 #include "../types.h"
 
@@ -62,14 +59,14 @@ typedef unsigned int gsi_u32;
 
 typedef int gsi_i32;
 
-extern unsigned int current_time_hires(void);
+#include "gsplatformutil.h"
 static void gsiLargeIntTimerEnter(int id);
 static void gsiLargeIntTimerExit(int id);
 extern gsi_i32 gsiLargeIntCompare(const l_word *data1, l_word len1,
                                   const l_word *data2, l_word len2);
 extern int gsiLargeIntInverseMod(gsLargeInt_t *mod, l_word *dest);
-extern int STD_TSScanf(const char *src, const char *fmt, ...);
-extern void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen);
+#include "../arm9/std_string.h"
+#include "md5c.h"
 int gsiLargeIntAdd(u32 *data1, u32 length1, u32 *data2, u32 length2, u32 *dest, u32 *lenout, u32 maxlen);
 int gsiLargeIntSub(u32 *src1, u32 length1, u32 *src2, u32 length2, u32 *dest, u32 *lenout);
 gsi_bool gsLargeIntDiv(const gsLargeInt_t *src1, const gsLargeInt_t *divisor, gsLargeInt_t *dest, gsLargeInt_t *remainder);
@@ -84,9 +81,7 @@ unsigned int gsLargeIntGetByteLength(gsLargeInt_t * lint);
 extern GslTimer gTimers[9];
 extern char gGsLargeIntHexFormatNibble[];
 extern char gGsLargeIntHexFormatByte[];
-extern void *MSL_C_LIB_AllocFromHeap(unsigned long heap);
-extern void CRT_Free(u32 heap);
-extern void *MSL_C_LIB_ReallocResource(unsigned long resSet, unsigned long heap);
+#include "../arm9/msl_crt.h"
 void *gsiMemoryMalloc(unsigned long size);
 void gsiMemoryFree(void *p);
 void *gsiMemoryRealloc(unsigned long block, unsigned long size);
@@ -860,7 +855,7 @@ void *gsiMemoryMalloc(unsigned long size)
 
 void gsiMemoryFree(void *p)
 {
-    CRT_Free((u32)p);
+    CRT_Free((uptr)p);
 }
 
 void *gsiMemoryRealloc(unsigned long block, unsigned long size)

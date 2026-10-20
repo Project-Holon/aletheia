@@ -64,6 +64,7 @@
  *   d_021F71A4 0x021F71A4 data a2
  */
 
+#include "../arm9/bmp_menu.h"
 #include "egg_demo_types.h"
 
 struct Descriptor;
@@ -80,60 +81,39 @@ struct WinDat;
 struct BmpMenu;
 #include "../types.h"
 
-extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_SetBgmPaused(unsigned int value);
-extern void GFL_USE_FadeInBgmFull(u32 a);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
+#include "../arm9/gfl_use.h"
+#include "../arm9/arc_util.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+#include "../arm9/bmp_win.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void *BMP_MENUWORK_LoadFrameGfx(unsigned int layer, unsigned int palSlot, unsigned int frameId, unsigned short heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/msgdata.h"
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void GF_FONT_SetTextColor(u32,u32,u32);
-extern void BG_SYS_MarkTileDirty(u32);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+#include "../arm9/tcbl.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/bg_sys.h"
 struct TextPrinter;
 extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_PushTile(u32 index);
+#include "../arm9/strbuf.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u32 WORDSET_Delete(struct WordSet *p);
+#include "../arm9/wordset.h"
 extern signed char MSG_SPEED_GetWait(void);
-extern void *PRINTSYS_PrintStream(void *,unsigned,unsigned,void *,unsigned,unsigned,void *,unsigned,u16,u16);
-extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern unsigned int KEY_GetCont(void);
-extern int TOUCHPANEL_GetCont(void);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
-extern u32 KEY_GetTrg(void);
-extern int TOUCHPANEL_GetTrg(void);
+struct GfFont;
+#include "../arm9/bmp_menu_types.h"
+#include "../arm9/strbuf_types.h"
+#include "../ov099/wifi_club_work.h"
+extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
+extern u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer);
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
 extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
-extern unsigned BMP_MENU_ProcessYesNo(u8 *);
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,unsigned short,unsigned char,unsigned char,unsigned short);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void G3X_SetFog(int,int,int,int);
-extern void G3X_SetClearColor(u16,int,int,int,int);
+#include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
+#include "../arm9/g3d_system.h"
 void EGG_DEMO_MENU_FadeInBgm(void);
 void EGG_DEMO_MENU_Create(int unused,char *p);
 void EGG_DEMO_MENU_Delete(void *unused,char *p);
@@ -219,7 +199,7 @@ void EGG_DEMO_MENU_SetText(char *args,char *work,unsigned entry)
     WORDSET_CopyTaggedText(words,buffer,text);
     WORDSET_Delete(words);
     STRBUF_Delete(text);
-    ((struct EggDemoWork *)work)->printStream=PRINTSYS_PrintStream(((struct EggDemoWork *)work)->window,0,0,((struct EggDemoWork *)work)->textBuf,(unsigned int)((struct EggDemoWork *)work)->font,MSG_SPEED_GetWait(),((struct EggDemoWork *)work)->tcbl,2,((struct EggDemoWork *)work)->heapId,15);
+    ((struct EggDemoWork *)work)->printStream=PRINTSYS_PrintStream((struct BmpWin *)(((struct EggDemoWork *)work)->window),0,0,(struct Strbuf *)(((struct EggDemoWork *)work)->textBuf),(struct GfFont *)((unsigned int)((struct EggDemoWork *)work)->font),MSG_SPEED_GetWait(),(struct Tcbl *)(((struct EggDemoWork *)work)->tcbl),2,((struct EggDemoWork *)work)->heapId,15);
 }
 
 int EGG_DEMO_MENU_WaitText(void *unused,char *work)
@@ -267,7 +247,7 @@ void EGG_DEMO_MENU_ProcessDialog(void *unused, char *work)
     case 0:
         break;
     case 1:
-        result = BMP_MENU_ProcessYesNo(*(u8 * *)&((struct EggDemoWork *)work)->bmpMenu);
+        result = BMP_MENU_ProcessYesNo((struct BmpMenu *)(*(u8 * *)&((struct EggDemoWork *)work)->bmpMenu));
         if (result != 0xffffffff) {
             if (result == 0) flag = 1;
             else flag = 0;

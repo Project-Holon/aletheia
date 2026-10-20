@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_LIVEBATTLEMATCH_SAVEDATA_H
 #define GAME_ARM9_LIVEBATTLEMATCH_SAVEDATA_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of livebattlematch_savedata.c, prototypes copied from their definitions. */
 
 #include "../types.h"
@@ -18,5 +19,6 @@ void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *saveData);
 int LIVEBATTLEMATCH_SAVE_GetStats(int stats);
 int LIVEBATTLEMATCH_SAVE_GetStats2(int stats);
 int LIVEBATTLEMATCH_SAVE_GetRecord(int stats);
+/* END mkheaders: generated region */
 
 #endif

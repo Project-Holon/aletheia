@@ -64,23 +64,19 @@
     (a) = ROTATE_LEFT((a), (s)); \
     (a) += (b); \
 }
-struct GSMD5_CTX {
-    unsigned int state[4];
-    unsigned int count[2];
-    unsigned char buffer[64];
-};
+#include "../ov175/auth_types.h"
 
 #include "../types.h"
 
 static void Encode(unsigned char * output, unsigned int * input, unsigned int len);
-extern void *memcpy(void *dest, const void *src, unsigned int n);
-extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
-extern void GSMD5Init(struct GSMD5_CTX * context);
-extern void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context);
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+extern void GSMD5Init(GSMD5_CTX * context);
+extern void GSMD5Final(unsigned char * digest, GSMD5_CTX * context);
 extern void GSMD5Print(unsigned char * digest, char * output);
-void GSMD5Init(struct GSMD5_CTX * context);
-void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen);
-void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context);
+void GSMD5Init(GSMD5_CTX * context);
+void GSMD5Update(GSMD5_CTX * context, unsigned char * input, unsigned int inputLen);
+void GSMD5Final(unsigned char * digest, GSMD5_CTX * context);
 void GSMD5Transform(u32 state[4], const u8 block[64]);
 static void Encode(unsigned char * output, unsigned int * input, unsigned int len);
 static void Decode(u32 *dst, const u8 *src, u32 count);
@@ -94,7 +90,7 @@ extern char gMd5cHexDigits[];
 /*
  * sdk:      GSMD5Init (md5c)
  */
-void GSMD5Init(struct GSMD5_CTX * context)
+void GSMD5Init(GSMD5_CTX * context)
 {
     context->count[0] = context->count[1] = 0;
     context->state[0] = 0x67452301;
@@ -103,7 +99,7 @@ void GSMD5Init(struct GSMD5_CTX * context)
     context->state[3] = 0x10325476;
 }
 
-void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int inputLen)
+void GSMD5Update(GSMD5_CTX * context, unsigned char * input, unsigned int inputLen)
 {
     unsigned int i, index, partLen;
 
@@ -130,7 +126,7 @@ void GSMD5Update(struct GSMD5_CTX * context, unsigned char * input, unsigned int
 /*
  * sdk:      GSMD5Final (md5c)
  */
-void GSMD5Final(unsigned char * digest, struct GSMD5_CTX * context)
+void GSMD5Final(unsigned char * digest, GSMD5_CTX * context)
 {
     unsigned char bits[8];
     unsigned int index, padLen;
@@ -297,7 +293,7 @@ void GSMD5Print(unsigned char * digest, char * output)
  */
 void GSMD5Digest(unsigned char * input, unsigned int len, char * output)
 {
-    struct GSMD5_CTX ctx;
+    GSMD5_CTX ctx;
     unsigned char digest[16];
 
     GSMD5Init(&ctx);

@@ -23,19 +23,18 @@
 #define NHTTPi_TOLOWER(c) ((((c) >= 'A') & ((c) <= 'Z')) ? (c) + 0x20 : (c))
 
 
-extern void NHTTPi_memcpy(void *dst, void *src, u32 size);
-extern int NHTTPi_SocRecv(NHTTPMutexInfo *mutexInfo_p,
-        NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
+#include "nhttp_stdlib_ntr.h"
+#include "nhttp_socket_ntr.h"
 int NHTTPi_isRecvBufFull(NHTTPRes *res_p, u32 pos);
-int NHTTPi_findNextLineHdrRecvBuf(NHTTPRes *res_p, int pos, int limit, int *colon_pos_p, int *return_code_size_p);
-int NHTTPi_skipSpaceHdrRecvBuf(NHTTPRes *res_p, int pos, int limit);
-int NHTTPi_compareTokenN_HdrRecvBuf(NHTTPRes *res_p, int pos, int limit, char *str_p, char extdeli);
+int NHTTPi_findNextLineHdrRecvBuf(const NHTTPRes *res_p, int pos, int limit, int *colon_pos_p, int *return_code_size_p);
+int NHTTPi_skipSpaceHdrRecvBuf(const NHTTPRes *res_p, int pos, int limit);
+int NHTTPi_compareTokenN_HdrRecvBuf(const NHTTPRes *res_p, int pos, int limit, char *str_p, char extdeli);
 int NHTTPi_loadFromHdrRecvBuf(NHTTPRes *res_p, char *dst_p, int pos, int len);
 int NHTTPi_RecvBuf(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket, int pos, int flags);
 int NHTTPi_RecvBufN(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket, int pos, int len, int flags);
 
 
-static void setupGetcharFromHdrRecvBuf(NHTTPRes *res_p, int pos,
+static void setupGetcharFromHdrRecvBuf(const NHTTPRes *res_p, int pos,
         NHTTPi_HDRBUFLIST **hdrbuf_pp, int *blockpos_p)
 {
     NHTTPi_HDRBUFLIST *a_hdrbuf_p;
@@ -74,7 +73,7 @@ static char getcharFromHdrRecvBuf(const NHTTPRes *res_p,
 }
 
 
-int NHTTPi_findNextLineHdrRecvBuf(NHTTPRes *res_p, int pos, int limit, int *colon_pos_p, int *return_code_size_p)
+int NHTTPi_findNextLineHdrRecvBuf(const NHTTPRes *res_p, int pos, int limit, int *colon_pos_p, int *return_code_size_p)
 {
     NHTTPi_HDRBUFLIST *hdrbuf_p;
     int blockpos;
@@ -135,7 +134,7 @@ int NHTTPi_findNextLineHdrRecvBuf(NHTTPRes *res_p, int pos, int limit, int *colo
 }
 
 
-int NHTTPi_skipSpaceHdrRecvBuf(NHTTPRes *res_p, int pos, int limit)
+int NHTTPi_skipSpaceHdrRecvBuf(const NHTTPRes *res_p, int pos, int limit)
 {
     NHTTPi_HDRBUFLIST *hdrbuf_p;
     int blockpos;
@@ -155,7 +154,7 @@ int NHTTPi_skipSpaceHdrRecvBuf(NHTTPRes *res_p, int pos, int limit)
 /*
  * sdk:      NHTTPi_compareTokenN_HdrRecvBuf (libnhttp.TWL.HYB.a(nhttp_recvbuf.o))
  */
-int NHTTPi_compareTokenN_HdrRecvBuf(NHTTPRes *res_p, int pos, int limit, char *str_p, char extdeli)
+int NHTTPi_compareTokenN_HdrRecvBuf(const NHTTPRes *res_p, int pos, int limit, char *str_p, char extdeli)
 {
     char c;
     NHTTPi_HDRBUFLIST *hdrbuf_p;

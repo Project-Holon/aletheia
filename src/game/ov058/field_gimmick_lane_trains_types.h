@@ -27,12 +27,7 @@ typedef int fx32;
 typedef struct FldExpObjCnt FldExpObjCnt;
 typedef struct G3dUtilSetup G3dUtilSetup;
 
-/* Position, scale and rotation of a model (same layout as arm9 g3d_system_types.h). */
-typedef struct G3dObjectStatus {
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
-} G3dObjectStatus;
+#include "../arm9/g3d_system_types.h"
 #endif
 
 struct FieldMap;
@@ -79,9 +74,7 @@ typedef struct FieldGimmickLaneTrainsWork {
 /* The functions of overlay 21 and arm9 that the gimmick uses. */
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
-extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
-extern void FLD_EXP_OBJ_SetModelCullDraw(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, int cullDraw);
-extern void FLD_EXP_OBJ_SetModelCullDraw(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, int cullDraw);
+#include "../ov021/fld_exp_obj.h"
 extern void MTX_RotY33_(MtxFx33 *matrix, s32 sin, s32 cos);
 
 /* Sine and cosine of each angle step (short pairs, arm9 table). */

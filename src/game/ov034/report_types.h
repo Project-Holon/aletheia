@@ -34,14 +34,14 @@ typedef struct ReportWork {
     void *font;
     void *unit;                              /* actor unit */
     void *actors[REPORT_ACTOR_COUNT];        /* 0..5 party icons, 6..15 progress bar pieces */
-    void *partyCharRes[REPORT_PARTY_MAX];
-    void *barCharRes;
+    s32 partyCharRes[REPORT_PARTY_MAX];
+    s32 barCharRes;
     u32 spare0[8];
-    void *partyPalRes;
-    void *barPalRes;
+    s32 partyPalRes;
+    s32 barPalRes;
     u32 spare1[11];
-    void *partyCellRes;
-    void *barCellRes;
+    s32 partyCellRes;
+    s32 barCellRes;
     void *tcb;                               /* save animation task */
     int saveAnimRunning;
     u32 saveCountCurrent;

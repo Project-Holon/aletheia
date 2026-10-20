@@ -225,13 +225,13 @@ typedef struct SaveEraseWork {
 typedef char SaveEraseWork_SizeCheck[(sizeof(SaveEraseWork) == 0x2C) ? 1 : -1];
 
 /* One touch screen hit box in pixels. */
-typedef struct TouchRect {
+typedef struct StartmenuTouchRect {
     u8 top, bottom, left, right;
-} TouchRect;
+} StartmenuTouchRect;
 
 /* Hit boxes of the Yes and No buttons, ended by a zero entry. */
-typedef struct TouchHitTable {
-    TouchRect rects[3];
-} TouchHitTable;
+typedef struct StartmenuTouchHitTable {
+    StartmenuTouchRect rects[3];
+} StartmenuTouchHitTable;
 
 #endif

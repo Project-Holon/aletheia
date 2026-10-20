@@ -52,13 +52,12 @@
  */
 #include "worldtrade_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct GameSystem;
 struct GameData;
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
 struct Sub020097BCObj;
 
@@ -66,111 +65,96 @@ struct DWCstAccUserData;
 
 #include "../types.h"
 
-extern void WORLDTRADE_ExitPlanes(Work *);
+#include "worldtrade.h"
 
-extern void WORLDTRADE_ClearAndShowPlanes(Work *p);
 
-extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
+#include "../arm9/gfl_use.h"
 
-extern void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b);
 
-extern int DWC_NASLoginAsync(void);
+#include "../ov009/dwc_nasfunc.h"
 
-extern int DWC_NASLoginProcess(void);
 struct WifiList;
 
-extern struct WifiList *WIFILIST_GetWork(struct WifiList *list);
+#include "../arm9/wifilist.h"
 
-extern int WIFILIST_GetGsProfileId(struct WifiList *list);
 struct MyStatus;
 
-extern void MYSTATUS_SetProfileIdOnce(struct MyStatus *mystatus, unsigned int profile_id);
+#include "../arm9/mystatus.h"
 
-extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
 
-extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
+#include "../arm9/dwc_account.h"
 
-extern void DPW_TR_Init(u32 a, u32 b, u32 c, int d);
+#include "../ov114/dpw_tr.h"
 
-extern void DPW_TR_GetServerStateAsync(u8 *p);
 
-extern void *DPW_TR_Main();
 
-extern u32 DPW_TR_IsAsyncEnd();
 
-extern s32 DPW_TR_GetAsyncResult(void);
 
-extern void WORLDTRADE_CancelSave(Work *p);
 
-extern void WORLDTRADE_DeleteTimeIcon(Work *p);
 struct MYSTATUS;
 struct _NHTTPRapTrainerInfo;
 
-extern void NHTTP_RAP_InitTrainerInfo(struct _NHTTPRapTrainerInfo *info_p, struct MYSTATUS *mystatus_p);
+#include "../ov114/nhttp_rap_evilcheck.h"
 
-extern void DPW_TR_SetProfileAsync(unsigned char *profile, unsigned char *resultBuf);
 
-extern void MI_CpuFill8(void *p, u32 value, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void PROCSYS_Push(void *h, u32 id, const void *a, void *b);
+#include "../arm9/procsys.h"
 
-extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
+#include "../arm9/net_err.h"
 
-extern void DPW_TR_End();
 
-extern void WIFILOGIN_MSG_DrawWindow(char *p, struct MsgBank *a, int b);
+#include "../ov115/wifilogin_message.h"
 
-extern int WIFILOGIN_MSG_IsPrintDone(u8 *p);
 
-extern void DWC_ShutdownFriendsMatch(void);
+#include "../ov009/dwc_main.h"
 
-extern void DWC_CleanupInet(void);
+#include "../arm9/dwc_connectinet.h"
 
-int WORLDTRADE_ENTER_Init(Work *p);
+int WORLDTRADE_ENTER_Init(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_CallStateHandler(Work *p);
+int WORLDTRADE_ENTER_CallStateHandler(WorldtradeWork *p);
 
-u32 WORLDTRADE_ENTER_Exit(Work *p);
+u32 WORLDTRADE_ENTER_Exit(WorldtradeWork *p);
 
-void WORLDTRADE_ENTER_EmptyInitHook(Work *p);
+void WORLDTRADE_ENTER_EmptyInitHook(WorldtradeWork *p);
 
 void WORLDTRADE_ENTER_EmptyExitHook(void);
 
-int WORLDTRADE_ENTER_SetState(Work *p);
+int WORLDTRADE_ENTER_SetState(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_StateStartServerCheck(Work *p);
+int WORLDTRADE_ENTER_StateStartServerCheck(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_StatePollServerCheck(Work *p);
+int WORLDTRADE_ENTER_StatePollServerCheck(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_InitDwcTrade(Work *p);
+int WORLDTRADE_ENTER_InitDwcTrade(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_StateStartConnect(Work *p);
+int WORLDTRADE_ENTER_StateStartConnect(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_WaitServerCheck(Work *p);
+int WORLDTRADE_ENTER_WaitServerCheck(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_SendProfile(Work *p);
+int WORLDTRADE_ENTER_SendProfile(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_WaitProfileResult(Work *p);
+int WORLDTRADE_ENTER_WaitProfileResult(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_PushWifiSetup(Work *p);
+int WORLDTRADE_ENTER_PushWifiSetup(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_StateWaitWifiSetup(Work *p);
+int WORLDTRADE_ENTER_StateWaitWifiSetup(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_PushWifiError(Work *p);
+int WORLDTRADE_ENTER_PushWifiError(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_StateWaitWifiError(Work *p);
+int WORLDTRADE_ENTER_StateWaitWifiError(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_RunDialog(void *dialog, Work *p);
+int WORLDTRADE_ENTER_RunDialog(void *dialog, WorldtradeWork *p);
 
-u32 WORLDTRADE_ENTER_StateAbortConnect(Work *p);
+u32 WORLDTRADE_ENTER_StateAbortConnect(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_StateExit(Work *p);
+int WORLDTRADE_ENTER_StateExit(WorldtradeWork *p);
 
-int WORLDTRADE_ENTER_ShowErrorMessage(Work *p, void *dialog);
+int WORLDTRADE_ENTER_ShowErrorMessage(WorldtradeWork *p, void *dialog);
 
-int WORLDTRADE_ENTER_ShutdownDwcStep(Work *p, void *dialog);
+int WORLDTRADE_ENTER_ShutdownDwcStep(WorldtradeWork *p, void *dialog);
 
 extern const char str_02203C34[], ov115_id[];
 
@@ -181,16 +165,16 @@ extern u8 tbl_021D654C[];
 /*
  * volatile: hardware read-modify-write at 021F89C6/021F89CA, 0x04000304.
  */
-int WORLDTRADE_ENTER_Init(Work *p) {WORLDTRADE_ExitPlanes(p);WORLDTRADE_ENTER_EmptyInitHook(p);*(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000);switch(p->kind){case 19:case 21:p->state=2;break;case 20:p->state=4;break;}return 1;}
+int WORLDTRADE_ENTER_Init(WorldtradeWork *p) {WORLDTRADE_ExitPlanes(p);WORLDTRADE_ENTER_EmptyInitHook(p);*(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000);switch(p->kind){case 19:case 21:p->state=2;break;case 20:p->state=4;break;}return 1;}
 
-extern int (*const d_02203C1C[])(Work *);
+extern int (*const d_02203C1C[])(WorldtradeWork *);
 
-int WORLDTRADE_ENTER_CallStateHandler(Work *p) { int prevState,result;prevState=p->state_i;result=d_02203C1C[prevState](p);if(prevState!=p->state_i){p->subStep=0;p->stepTimer=0;}return result; }
+int WORLDTRADE_ENTER_CallStateHandler(WorldtradeWork *p) { int prevState,result;prevState=p->state_i;result=d_02203C1C[prevState](p);if(prevState!=p->state_i){p->subStep=0;p->stepTimer=0;}return result; }
 
 /*
  * Run the three teardown steps, then report 4 while the +0x10 handle is gone.
  */
-u32 WORLDTRADE_ENTER_Exit(Work *p)
+u32 WORLDTRADE_ENTER_Exit(WorldtradeWork *p)
 {
     WORLDTRADE_ENTER_EmptyExitHook();
     WORLDTRADE_ClearAndShowPlanes(p);
@@ -204,7 +188,7 @@ u32 WORLDTRADE_ENTER_Exit(Work *p)
 /*
  * Empty stub.
  */
-void WORLDTRADE_ENTER_EmptyInitHook(Work *p)
+void WORLDTRADE_ENTER_EmptyInitHook(WorldtradeWork *p)
 {
 }
 
@@ -212,7 +196,7 @@ void WORLDTRADE_ENTER_EmptyExitHook(void)
 {
 }
 
-int WORLDTRADE_ENTER_SetState(Work *p)
+int WORLDTRADE_ENTER_SetState(WorldtradeWork *p)
 {
     GFL_USE_CancelChangeAndPlayBgm(0x486, 0xFFFF);
     p->state = 1;
@@ -225,7 +209,7 @@ int WORLDTRADE_ENTER_SetState(Work *p)
 /*
  * Call DWC_NASLoginAsync and report success.
  */
-int WORLDTRADE_ENTER_StateStartServerCheck(Work *p)
+int WORLDTRADE_ENTER_StateStartServerCheck(WorldtradeWork *p)
 {
     DWC_NASLoginAsync();
     return 1;
@@ -234,12 +218,12 @@ int WORLDTRADE_ENTER_StateStartServerCheck(Work *p)
 /*
  * Extent remainder: 2-byte zero alignment padding.
  */
-int WORLDTRADE_ENTER_StatePollServerCheck(Work *p) { switch(DWC_NASLoginProcess()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }
+int WORLDTRADE_ENTER_StatePollServerCheck(WorldtradeWork *p) { switch(DWC_NASLoginProcess()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }
 
 /*
  * extent: 0x021F8AF2..0x021F8AF4 is two zero alignment bytes.
  */
-int WORLDTRADE_ENTER_InitDwcTrade(Work *p)
+int WORLDTRADE_ENTER_InitDwcTrade(WorldtradeWork *p)
 {
     void *handle;
     u32 id;
@@ -255,9 +239,9 @@ int WORLDTRADE_ENTER_InitDwcTrade(Work *p)
 /*
  * Hand the object over, clear the +0xf8c slot and latch 1.
  */
-int WORLDTRADE_ENTER_StateStartConnect(Work *p)
+int WORLDTRADE_ENTER_StateStartConnect(WorldtradeWork *p)
 {
-    DPW_TR_GetServerStateAsync((u8 *)p);
+    DPW_TR_GetServerStateAsync();
     p->timer = 0;
     return 1;
 }
@@ -267,7 +251,7 @@ int WORLDTRADE_ENTER_StateStartConnect(Work *p)
  * index 14 returns 1, and four separate case groups (15, 13+16, 0+3, 1+12)
  * each call WORLDTRADE_DeleteTimeIcon and archive n at +0x38 before returning 2; the
  * remaining indexes fall through to the shared tail (one more WORLDTRADE_DeleteTimeIcon)
- * and the function returns 0.  DPW_TR_Main(p) runs first, unconditionally.
+ * and the function returns 0.  DPW_TR_Main() runs first, unconditionally.
  * Concrete bytes are identical to the image; the only wildcards are the two
  * BLX sites to 0x021C866C and 0x021C86A8, which carry no func_ label in any
  * overlay listing (match.py's `label` class needs exactly one listing to
@@ -275,16 +259,17 @@ int WORLDTRADE_ENTER_StateStartConnect(Work *p)
  * trace 0x021C866C / 0x021C86A8 in layout/function_starts.txt and this
  * promotes automatically.
  *
- * UNBLOCKED: DPW_TR_IsAsyncEnd (0x021C866C) and DPW_TR_GetAsyncResult
+ * UNBLOCKED: DPW_TR_IsAsyncEnd(0x021C866C) and DPW_TR_GetAsyncResult
  * (0x021C86A8) are now EXACT entries in layout/matched/ov114
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
  */
-int WORLDTRADE_ENTER_WaitServerCheck(Work *p)
+int WORLDTRADE_ENTER_WaitServerCheck(WorldtradeWork *p)
 {
     s32 asyncResult;
 
-    if (DPW_TR_IsAsyncEnd(DPW_TR_Main((u8 *)p)) != 0) {
+    DPW_TR_Main();
+    if (DPW_TR_IsAsyncEnd() != 0) {
         asyncResult = DPW_TR_GetAsyncResult();
         p->timer = 0;
         switch (asyncResult + 15) {
@@ -320,12 +305,12 @@ int WORLDTRADE_ENTER_WaitServerCheck(Work *p)
     return 0;
 }
 
-int WORLDTRADE_ENTER_SendProfile(Work *p) { NHTTP_RAP_InitTrainerInfo((struct _NHTTPRapTrainerInfo *)p->trInfo,p->ctx->myStatus);DPW_TR_SetProfileAsync((unsigned char *)p->trInfo,(unsigned char *)(&p->state_iF7C));p->timer=0;return 1; }
+int WORLDTRADE_ENTER_SendProfile(WorldtradeWork *p) { NHTTP_RAP_InitTrainerInfo((struct _NHTTPRapTrainerInfo *)p->trInfo,p->ctx->myStatus);DPW_TR_SetProfileAsync((unsigned char *)p->trInfo,(unsigned char *)(&p->state_iF7C));p->timer=0;return 1; }
 
 /*
  * note: 2026-10-05 wave P19: the sub switch exit (state 0, sub out of range) is a cross-jumped copy of the tail, `b 0x021F8CEC` in the image. Written as `WORLDTRADE_CancelSave(p); goto done;` after the sub switch, with `done: return 0;` at the end. EXACT in c99 and c (296 bytes). Idiom: a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.
  */
-int WORLDTRADE_ENTER_WaitProfileResult(Work *p)
+int WORLDTRADE_ENTER_WaitProfileResult(WorldtradeWork *p)
 {
     int code;
 
@@ -398,7 +383,7 @@ done:
 /*
  * lever: ov115 data hint is witnessed by this function loading ov115 via PROCSYS_Push; no hint remains MATCH.
  */
-int WORLDTRADE_ENTER_PushWifiSetup(Work *p)
+int WORLDTRADE_ENTER_PushWifiSetup(WorldtradeWork *p)
 {
     NetSaveProcArgs *args;
     p->saveArgs = GFL_HEAP_Alloc(0x48, sizeof(NetSaveProcArgs), 0, str_02203C34, 0x263);
@@ -414,13 +399,13 @@ int WORLDTRADE_ENTER_PushWifiSetup(Work *p)
     p->connectStep = 0;
     if ((u32)p->kind == 21) args->isTrade = 1;
     else args->isTrade = 0;
-    PROCSYS_Push(p->procSys, (u32)ov115_id, gNetSaveMainProc, p->saveArgs);
+    PROCSYS_Push((ProcSys *)p->procSys, (uptr)ov115_id, (const ProcData *)gNetSaveMainProc, (void *)p->saveArgs);
     GFL_NET_ERR_ShowScreen(0);
     p->state = 3;
     return 2;
 }
 
-int WORLDTRADE_ENTER_StateWaitWifiSetup(Work *p)
+int WORLDTRADE_ENTER_StateWaitWifiSetup(WorldtradeWork *p)
 {
     NetSaveProcArgs *args = p->saveArgs;
     if (p->busy_u == 0) {
@@ -436,7 +421,7 @@ int WORLDTRADE_ENTER_StateWaitWifiSetup(Work *p)
     return 2;
 }
 
-int WORLDTRADE_ENTER_PushWifiError(Work *p)
+int WORLDTRADE_ENTER_PushWifiError(WorldtradeWork *p)
 {
     NetProcArgs *args;
     p->netArgs = GFL_HEAP_Alloc(72, sizeof(NetProcArgs), 0, str_02203C34, 689);
@@ -447,13 +432,13 @@ int WORLDTRADE_ENTER_PushWifiError(Work *p)
     args->enabled = 1;
     args->callback = WORLDTRADE_ENTER_StateAbortConnect;
     args->context = p;
-    PROCSYS_Push(p->procSys, (u32)ov115_id, tbl_021D654C, p->netArgs);
+    PROCSYS_Push((ProcSys *)p->procSys, (uptr)ov115_id, (const ProcData *)tbl_021D654C, (void *)p->netArgs);
     p->state_i = 5;
     GFL_NET_ERR_ShowScreen(0);
     return 2;
 }
 
-int WORLDTRADE_ENTER_StateWaitWifiError(Work *p)
+int WORLDTRADE_ENTER_StateWaitWifiError(WorldtradeWork *p)
 {
     if (p->busy_u == 0) {
         GFL_HEAP_Free(p->req);
@@ -463,7 +448,7 @@ int WORLDTRADE_ENTER_StateWaitWifiError(Work *p)
     return 2;
 }
 
-int WORLDTRADE_ENTER_RunDialog(void *dialog, Work *p)
+int WORLDTRADE_ENTER_RunDialog(void *dialog, WorldtradeWork *p)
 {
     int result;
     switch (p->connectStep) {
@@ -524,16 +509,16 @@ int WORLDTRADE_ENTER_RunDialog(void *dialog, Work *p)
  * a guess, so the site stays parked until the region that owns 0x021C8658 is
  * established.
  */
-u32 WORLDTRADE_ENTER_StateAbortConnect(Work *p)
+u32 WORLDTRADE_ENTER_StateAbortConnect(WorldtradeWork *p)
 {
-    DPW_TR_End(p);
+    DPW_TR_End();
     return 0;
 }
 
 /*
  * Reset the object, latch state 0 and set the +0xeb4 slot to 1.
  */
-int WORLDTRADE_ENTER_StateExit(Work *p)
+int WORLDTRADE_ENTER_StateExit(WorldtradeWork *p)
 {
     WORLDTRADE_DeleteTimeIcon(p);
     p->state = 0;
@@ -541,7 +526,7 @@ int WORLDTRADE_ENTER_StateExit(Work *p)
     return 3;
 }
 
-int WORLDTRADE_ENTER_ShowErrorMessage(Work *p, void *dialog)
+int WORLDTRADE_ENTER_ShowErrorMessage(WorldtradeWork *p, void *dialog)
 {
     int text;
     switch (p->err) {
@@ -569,7 +554,7 @@ int WORLDTRADE_ENTER_ShowErrorMessage(Work *p, void *dialog)
     return 1;
 }
 
-int WORLDTRADE_ENTER_ShutdownDwcStep(Work *p, void *dialog)
+int WORLDTRADE_ENTER_ShutdownDwcStep(WorldtradeWork *p, void *dialog)
 {
     switch (p->subStep) {
     case 0:

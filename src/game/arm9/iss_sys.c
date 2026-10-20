@@ -94,7 +94,7 @@ typedef struct IssZoneSys IssZoneSys;
 typedef struct IssSwitchSys IssSwitchSys;
 
 /* Interactive sound system, 0x28 bytes: one object per subsystem. */
-typedef struct {
+typedef struct IssSys {
     u16 heapId;
     u16 reserved02;
     GameData *gameData;

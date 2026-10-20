@@ -16,26 +16,11 @@
  */
 #include "btl_pokeparam_types.h"
 
-/* A pick of up to six party slots on one side (see BTL_PICK_InitSlotChoices). */
-typedef struct BtlSlotChoices {
-    int sideData;
-    u8 pickCount;
-    u8 slotState[6];     /* 0 unavailable, 2 selectable */
-    u8 mode;
-} BtlSlotChoices;
-
-/* The slots picked so far, with the position each one fills. */
-typedef struct BtlPickList {
-    u8 slots[3];
-    u8 positions[3];
-    u8 count;
-    u8 capacity;
-    u8 locked;
-} BtlPickList;
+#include "btl_pick_list_types.h"
 
 #define BTL_PICK_SLOT_NONE 6
 
-void BTL_PICK_InitSlotChoices(BtlSlotChoices *choices, int sideData, u8 pickCount, u8 mode);
+void BTL_PICK_InitSlotChoices(BtlSlotChoices *choices, struct BtlSideSlot *sideData, u8 pickCount, u8 mode);
 
 void BTL_PICK_MarkSlotsSelectable(BtlSlotChoices *choices, u8 slotCount);
 
@@ -55,7 +40,7 @@ int BTL_PICK_GetLast(BtlPickList *list);
 
 int BTL_PICK_GetSlot(BtlPickList *list, u8 index);
 
-void BTL_PICK_InitSlotChoices(BtlSlotChoices *choices, int sideData, u8 pickCount, u8 mode)
+void BTL_PICK_InitSlotChoices(BtlSlotChoices *choices, struct BtlSideSlot *sideData, u8 pickCount, u8 mode)
 {
     unsigned i;
     choices->mode = mode;

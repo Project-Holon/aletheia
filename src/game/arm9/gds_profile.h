@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_GDS_PROFILE_H
 #define GAME_ARM9_GDS_PROFILE_H
 
+struct GdsProfile *GDS_PROFILE_Create(u32 heap);
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gds_profile.c, prototypes copied from their definitions. */
 
 struct GdsProfile;
@@ -71,5 +74,6 @@ void BSUBWAY_WIFIDATA_SetTrainerBit(u8 *p, u8 a, u8 b, u32 *q);
 void BSUBWAY_WIFIDATA_ClearStampAndBitmap(struct BsubwayWifiData *p);
 u32 BSUBWAY_WIFIDATA_IsStampNewer(const struct Stamp *a, const struct Stamp *b);
 int BSUBWAY_WIFIDATA_GetTrainerBit(struct BsubwayWifiData *p, u8 a, u8 b, const struct Stamp *q);
+/* END mkheaders: generated region */
 
 #endif

@@ -62,13 +62,13 @@
  *   BTL_MAIN_GetOwnClientId  0x021B8FF4  thumb  ov093
  */
 
-#define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
-
-#define va_arg(ap, t) (*(t *)((ap += 4) - 4))
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define WORDSET_CreateDefault WORDSET_CreateDefaultHeader
+#endif
+#include "../sdk_stdarg.h"
 
 #include "../types.h"
-
-typedef char *va_list;
 
 struct BtlMain;
 
@@ -120,94 +120,53 @@ typedef struct {
 } BtlMsgEffectArgsB;
 struct BtlMain;
 
-extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, s32 mask);
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
 
-extern void STRBUF_Delete(struct Strbuf *buf);
-
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 struct BtlSide;
 struct BtlPokeParam;
 
-extern struct BtlPokeParam *BTL_SIDE_GetPokeById(struct BtlSide *side, u8 pokeId);
 struct PokemonParam;
 
-extern struct PokemonParam *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *pp);
+#include "btl_pokeparam.h"
 
-extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 slot, void *mon);
 
-extern struct PokemonParam *BTL_POKEPARAM_GetMon(struct BtlPokeParam *pp);
 
-extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *wordSet, u32 slot, void *mon);
 
-extern unsigned short BTL_MAIN_GetTrainerType(struct BtlMain *main, s32 slot);
 
-extern void WORDSET_SetSlotFromMsgBF(struct WordSet *wordSet, u32 slot, u32 value);
 
-extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlMain *main, s32 slot);
 
-extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
 
-extern u16 BTL_MAIN_GetTrainerId(struct BtlMain *main, s32 slot);
 
-extern u32 BTL_MAIN_GetTrainerNameAndType(struct BtlMain *main, s32 slot, u32 *outTrainerType);
 
-extern s32 BTL_MAIN_GetTrainerHandle(struct BtlMain *main, s32 slot);
 
-extern struct Strbuf *BTL_MAIN_UpdateCommPlayerSupport(struct BtlMain *battle);
+#include "../arm9/tpoke_data.h"
 
-extern u8 TPOKE_DATA_GetGenderValue(u32 trainerClass);
 
-extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
 
-extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 slot, struct Strbuf *src);
 
-extern void WORDSET_SetSlotFromMsgBE(struct WordSet *wordSet, u32 slot, u32 value);
 
-extern int BTL_MAIN_IsLocalSide(struct BtlMain *main, u8 side);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+#include "../arm9/printsys.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/wordset.h"
+#include "btl_main.h"
+#ifdef __MWERKS__
+#undef WORDSET_CreateDefault
+extern struct WordSet * WORDSET_CreateDefault(u32 heapId);
+#endif
 
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dest, struct Strbuf *src);
 
-extern u16 STRBUF_GetEosChar(void);
 
-extern u32 PRINTSYS_GetTagChar(void);
 
-extern u32 PRINTSYS_IsWordSlotTag(const u16 *tag);
 
-extern u32 PRINTSYS_GetTagParam(const u16 *tag, u32 index);
 
-extern u32 PRINTSYS_GetTagGroup(const u16 *tag);
 
-extern u32 PRINTSYS_GetTagKind(const u16 *tag);
 
-extern u16 *PRINTSYS_SkipTag(u16 *tag);
-
-extern u16 *STRBUF_GetChars(struct Strbuf *buf);
-
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 value, u32 digits, u32 padding, u32 charSet);
-
-extern void WORDSET_SetSlotFromMsgB6(struct WordSet *wordSet, u32 slot, u32 value);
-
-extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 slot, u32 value);
-
-extern void WORDSET_SetSlotFromMsg36(struct WordSet *wordSet, u32 slot, u32 value);
-
-extern void WORDSET_SetSlotFromMsgC7(struct WordSet *wordSet, u32 slot, u32 value);
-
-extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 clientId);
-
-extern int BTL_MAIN_IsOpposingPos(void *unusedWork, s32 posA, s32 posB);
-
-extern u8 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
 
 extern struct BtlMsgState gBtlMsgState;
 

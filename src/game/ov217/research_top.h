@@ -1,0 +1,132 @@
+#ifndef GAME_OV217_RESEARCH_TOP_H
+#define GAME_OV217_RESEARCH_TOP_H
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
+/* Public functions of research_top.c, prototypes copied from their definitions. */
+
+struct ResearchObjC;
+
+#include "../types.h"
+
+u32 RESEARCH_TOP_InitProc(u32 procsys, u32 state, u8 *work, u32 proc);
+u32 RESEARCH_TOP_ReleaseProc(u32 procsys, u32 unused1, u32 unused2, u32 proc);
+int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *proc);
+void RESEARCH_TOP_UpdateNetwork(u32 proc);
+void RESEARCH_TOP_ChangeScreen(void *proc, int *state, int nextState);
+void RESEARCH_TOP_CloseSubState(u32 *proc, u32 *state);
+void RESEARCH_TOP_OpenSubState(u32 *proc, u32 *state, u32 kind);
+int RESEARCH_TOP_StateIdle(void *proc);
+u32 RESEARCH_TOP_StateList(u8 *proc);
+u32 RESEARCH_TOP_StateGraph(u32 proc);
+u32 RESEARCH_TOP_StateDetail(u32 proc);
+u32 RESEARCH_TOP_GetFrameCount(const void *proc);
+void RESEARCH_TOP_IncFrameCount(void *proc);
+void RESEARCH_TOP_ResetProc(void *proc, u32 appResource);
+void RESEARCH_TOP_CreateCommon(u32 proc);
+u32 RESEARCH_TOP_DestroyCommon(u32 proc);
+void RESEARCH_TOP_CreateListView(u32 proc);
+u32 RESEARCH_TOP_DestroyListView(u32 proc);
+void RESEARCH_TOP_InitBackgrounds(unsigned short heapId);
+u32 RESEARCH_TOP_ExitBackgrounds(void);
+void RESEARCH_TOP_LoadSubAssets(u32 heap);
+void RESEARCH_TOP_UpdateFrameGraphic(const void *proc);
+void RESEARCH_TOP_LoadTopAssets(u32 heap);
+u32 RESEARCH_TOP_CreateListObject(void *owner);
+u32 RESEARCH_TOP_DestroyListObject(void *obj);
+void RESEARCH_TOP_UpdateListObject(char *obj);
+int RESEARCH_TOP_IsListObjectDone(void *obj);
+u32 RESEARCH_TOP_GetListObjectMode(void *obj);
+void RESEARCH_TOP_InitListObject(char *obj);
+void RESEARCH_TOP_HandleListInput(char *obj);
+void RESEARCH_TOP_HandleListInputAlt(char *obj);
+void RESEARCH_TOP_AdvanceListScroll(u32 obj);
+void RESEARCH_TOP_StepExitFade(u32 obj);
+void RESEARCH_TOP_CleanupListObject(u32 obj);
+void RESEARCH_TOP_PushCommand(u8 *obj, u32 command);
+void RESEARCH_TOP_SetCommandReady(void *obj);
+void RESEARCH_TOP_ProcessCommand(u32 obj);
+void RESEARCH_TOP_StartCommand(void *obj, u32 command);
+u32 RESEARCH_TOP_GetCommandTimer(void *obj);
+void RESEARCH_TOP_IncCommandTimer(void *obj);
+u32 RESEARCH_TOP_GetTransitionKind(u8 *obj);
+void RESEARCH_TOP_SetEntryHandled(u8 *obj, u32 handled);
+void RESEARCH_TOP_SetMode(void *obj, u32 mode);
+void RESEARCH_TOP_CheckQuestionnaire(u32 obj);
+void RESEARCH_TOP_SelectPrev(u32 obj);
+void RESEARCH_TOP_SelectNext(u32 obj);
+void RESEARCH_TOP_SelectDirect(u32 obj, u32 selection);
+void RESEARCH_TOP_DrawSelector(int selection);
+void RESEARCH_TOP_DrawSelectorIdle(int selection);
+void RESEARCH_TOP_SetupTextLabel(u32 obj);
+void RESEARCH_TOP_StartPaletteAnime(u8 *obj);
+u32 RESEARCH_TOP_ShowEntryActor(u32 obj);
+void RESEARCH_TOP_FadeIn(void);
+void RESEARCH_TOP_FadeOut(void);
+void RESEARCH_TOP_IncStateTimer(void *obj);
+u32 RESEARCH_TOP_GetStateTimer(void *obj);
+void RESEARCH_TOP_SetStateTimer(void *obj, u32 limit);
+u32 RESEARCH_TOP_GetStateTimerLimit(void *obj);
+void RESEARCH_TOP_MoveSelection(char *obj, int delta);
+void RESEARCH_TOP_SetSelection(void *obj, u32 selection);
+u32 RESEARCH_TOP_IsSelectionValid(u32 obj, u32 selection);
+u32 RESEARCH_TOP_GetEntryActorSource(void *obj, u32 index);
+u32 RESEARCH_TOP_GetEntryLabelSource(void *obj, u32 index);
+u32 RESEARCH_TOP_GetEntryIconSource(void *obj, u32 index);
+void RESEARCH_TOP_StartEntryPaletteAnime(char *obj, int slot);
+void RESEARCH_TOP_StopEntryPaletteAnime(u8 *obj, u32 slot);
+void RESEARCH_TOP_UpdateEntryPaletteAnime(int *obj);
+unsigned char RESEARCH_TOP_CountUnlockedEntries(char *obj);
+u32 RESEARCH_TOP_GetOwner(void *obj);
+void RESEARCH_TOP_SetOwner(void *obj, u32 owner);
+void RESEARCH_TOP_SetHeapId(void *obj, u32 heapId);
+u32 RESEARCH_TOP_GetInputFlag(void *obj);
+u32 RESEARCH_TOP_AllocListObject(u32 heapId);
+u32 RESEARCH_TOP_FreeListObject(void *obj);
+void RESEARCH_TOP_InitFields(char *obj);
+void RESEARCH_TOP_InitSelection(char *obj);
+void RESEARCH_TOP_ClearFont(void *obj);
+void RESEARCH_TOP_CreateFont(u32 obj);
+void RESEARCH_TOP_DeleteFont(u8 *obj);
+void RESEARCH_TOP_ClearMessages(void *obj);
+void RESEARCH_TOP_CreateMessages(char *obj);
+void RESEARCH_TOP_DeleteMessages(int *obj);
+void RESEARCH_TOP_InitPaletteRows(u8 *obj);
+void RESEARCH_TOP_ClearCommandQueue(void *obj);
+void RESEARCH_TOP_CreateCommandQueue(u32 obj);
+void RESEARCH_TOP_DestroyCommandQueue(struct ResearchObjC *obj);
+void RESEARCH_TOP_InitOverlayBackgrounds(char *obj);
+void RESEARCH_TOP_ExitOverlayBackgrounds(u32 obj);
+void RESEARCH_TOP_LoadBackground6(char *obj);
+void RESEARCH_TOP_DummyBg7(u32 unused);
+void RESEARCH_TOP_UpdateBackground7(void *obj);
+void RESEARCH_TOP_ShowBackground7(u32 obj);
+void RESEARCH_TOP_LoadBackground2(char *obj);
+void RESEARCH_TOP_DummyBg3(u32 unused);
+u32 RESEARCH_TOP_UpdateBackground3(void *obj);
+void RESEARCH_TOP_ShowBackground3(u32 obj);
+void RESEARCH_TOP_ClearLabels(void *obj);
+void RESEARCH_TOP_CreateLabels(char *obj);
+void RESEARCH_TOP_DestroyLabels(int *obj);
+void RESEARCH_TOP_ClearResources(void *obj);
+void RESEARCH_TOP_RegisterEntryResources(struct ResearchObjC *p);
+u32 RESEARCH_TOP_ReleaseEntryResources(u32 obj);
+void RESEARCH_TOP_RegisterCursorResources(struct ResearchObjC *p);
+u32 RESEARCH_TOP_ReleaseCursorResources(u32 obj);
+void RESEARCH_TOP_ClearUnits(void *obj);
+void RESEARCH_TOP_CreateUnits(char *obj);
+void RESEARCH_TOP_DeleteUnits(int *obj);
+void RESEARCH_TOP_ClearActor(void *obj);
+void RESEARCH_TOP_CreateActor(char *obj);
+void RESEARCH_TOP_DeleteActor(u8 *obj);
+void RESEARCH_TOP_ClearPaletteAnime(void *obj);
+void RESEARCH_TOP_CreatePaletteAnime(char *obj);
+void RESEARCH_TOP_DestroyPaletteAnime(int *obj);
+void RESEARCH_TOP_BindPaletteAnime(char *obj);
+void RESEARCH_TOP_RestorePaletteAnime(char *obj);
+void RESEARCH_TOP_UpdateVBlank(void);
+void RESEARCH_TOP_RegisterVBlank(void *obj);
+void RESEARCH_TOP_UnregisterVBlank(void);
+void RESEARCH_TOP_RestartNetwork(u32 obj);
+/* END mkheaders: generated region */
+
+#endif

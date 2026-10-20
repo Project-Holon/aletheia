@@ -99,20 +99,23 @@ struct Proc;
 struct Node;
 struct PrintSys;
 struct Proc;
-struct DispVram;
-struct BgTemplate;
-struct DispConfig;
 struct Bank;
 struct Cfg;
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/ui.h"
 #include "../types.h"
+
+struct G3dCamera;
+struct VecFx32;
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys_types.h"
 
 typedef enum { SUB_BG_LAYER_FIRST = 0, SUB_BG_LAYER_SECOND = 1 } SubBgLayerIndex;
 
 typedef enum { SUB_DISPLAY_MODE_2 = 2 } SubDisplayMode;
 
-struct BgTemplate {u32 words[8];};
-
-struct Entry { u32 id; struct BgTemplate bg; u32 kind,visible; };
+struct SubwayMapGraphicEntry { u32 id; struct BgTemplate bg; u32 kind,visible; };
 
 struct Assets {u32 palette,screen,chars;};
 
@@ -124,7 +127,7 @@ struct SubwayMapScreen {u32 bgState; struct SubwayMapClactUnit clactUnit; void *
 
 #include "../sdk_gx.h"
 
-struct Record { u32 id; u32 bg[8]; u32 kind; u32 visible; };
+struct SubwayMapGraphicRecord { u32 id; u32 bg[8]; u32 kind; u32 visible; };
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *,u32,u32);
@@ -133,7 +136,7 @@ extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 struct PrintQueue;
 extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 extern void BG_SYS_SetPriority(int,u16);
-extern void *GFL_USE_AddMainTask(u32,u32,u32);
+extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *),void *,u32);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GXS_SetGraphicsMode(u32);
 extern void BG_SYS_ClearSubBgPlanes(void);
@@ -141,8 +144,6 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -159,7 +160,6 @@ extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int FADE_IsActive(void);
 extern u32 KEY_GetTrg(void);
-extern void UI_SetInputMode(u8 v);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
@@ -185,28 +185,21 @@ extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,unsigned short,u32,void(*)(void));
-extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,void *,void *,void *,u32);
+extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct VecFx32 *,struct VecFx32 *,struct VecFx32 *,u32);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(u32 x);
 int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args);
 int SUBWAY_MAP_GRAPHIC_Exit(void *a,int b,int c,char *p);
 int SUBWAY_MAP_GRAPHIC_Main(void *a,unsigned *state,int b,char *p);
-void SUBWAY_MAP_GRAPHIC_TaskNoop(void);
+void SUBWAY_MAP_GRAPHIC_TaskNoop(struct TcbTask *unused, void *unused2);
 void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work);
 void SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(char *unused);
 void SUBWAY_MAP_GRAPHIC_Setup3d(void);
 void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap);
 void SUBWAY_MAP_GRAPHIC_DeleteScreen(char *p);
 void SUBWAY_MAP_GRAPHIC_DrawScreen(void *p);
-void SUBWAY_MAP_GRAPHIC_VBlankScreen(void *unused, char *p);
+void SUBWAY_MAP_GRAPHIC_VBlankScreen(struct TcbTask *unused, void *p);
 void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap);
 void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p);
 void SUBWAY_MAP_GRAPHIC_DrawBg(void *work);
@@ -217,12 +210,12 @@ void SUBWAY_MAP_GRAPHIC_DrawClactUnit(void *work);
 void SUBWAY_MAP_GRAPHIC_VBlankClactUnit(void *work);
 void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap);
 void SUBWAY_MAP_GRAPHIC_DeleteCamera(u32 *p);
-extern const struct Entry gSubwayMapGraphicSubBgLayerTable[];
+extern const struct SubwayMapGraphicEntry gSubwayMapGraphicSubBgLayerTable[];
 extern struct Assets gSubwayMapGraphicChoiceAssets[];
 extern u16 gSubwayMapGraphicLightParams[][4];
 extern char file[], vram[];
 extern u32 config[];
-extern struct Record gSubwayMapGraphicMainBgLayerTable[];
+extern struct SubwayMapGraphicRecord gSubwayMapGraphicMainBgLayerTable[];
 extern const s16 cfg[];
 extern u32 vecA[],vecB[],vecC[];
 
@@ -235,7 +228,7 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
 {
  struct SubwayMapWork *p;
  SubBgLayerIndex i;
- const struct Entry *row;
+ const struct SubwayMapGraphicEntry *row;
  u32 id,choice;
  u16 heap;
  void *arc;
@@ -247,7 +240,7 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
  p->font=GF_FONT_Create(23,0,0,0,p->heap);
  p->string=(u32)PRINTSYS_QUE_Create((u32)(u32)p->heap);
  BG_SYS_SetPriority(1,1); BG_SYS_SetPriority(2,0);
- p->task=GFL_USE_AddMainTask((u32)SUBWAY_MAP_GRAPHIC_TaskNoop,(u32)p,1);
+ p->task=GFL_USE_AddMainTask(SUBWAY_MAP_GRAPHIC_TaskNoop, p,1);
  SUBWAY_MAP_GRAPHIC_LoadCommonAssets((u16 *)p);
  i=SUB_BG_LAYER_FIRST;
  *(volatile u16 *)0x04001050=0;
@@ -313,7 +306,7 @@ int SUBWAY_MAP_GRAPHIC_Main(void *a,unsigned *state,int b,char *p)
     return 0;
 }
 
-void SUBWAY_MAP_GRAPHIC_TaskNoop(void) {}
+void SUBWAY_MAP_GRAPHIC_TaskNoop(struct TcbTask *unused, void *unused2) {}
 
 void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work)
 {
@@ -405,7 +398,7 @@ void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap)
     SUBWAY_MAP_GRAPHIC_CreateBg(p, heap);
     SUBWAY_MAP_GRAPHIC_CreateClactUnit((unsigned char *)p + 4, (int)vram, heap);
     SUBWAY_MAP_GRAPHIC_CreateCamera((void **)(p + 8), heap);
-    ((struct SubwayMapScreen *)p)->task = GFL_USE_AddMainTask((u32)SUBWAY_MAP_GRAPHIC_VBlankScreen, (u32)p, 0);
+    ((struct SubwayMapScreen *)p)->task = GFL_USE_AddMainTask(SUBWAY_MAP_GRAPHIC_VBlankScreen, p, 0);
     return p;
 }
 
@@ -435,8 +428,8 @@ void SUBWAY_MAP_GRAPHIC_DrawScreen(void *p)
 /*
  * Addresses are Black-image addresses.
  */
-void SUBWAY_MAP_GRAPHIC_VBlankScreen(void *unused, char *p)
-{
+void SUBWAY_MAP_GRAPHIC_VBlankScreen(struct TcbTask *unused, void *work_)
+{ char * p = work_;
     SUBWAY_MAP_GRAPHIC_VBlankBg(p);
     SUBWAY_MAP_GRAPHIC_VBlankClactUnit(p + 4);
 }
@@ -449,7 +442,7 @@ void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap)
     BMP_WIN_Init(heap);
     BG_SYS_SetGraphicsMode((struct DispConfig *)config);
     for (; i < 2; i++) {
-        struct Record *r = &gSubwayMapGraphicMainBgLayerTable[i];
+        struct SubwayMapGraphicRecord *r = &gSubwayMapGraphicMainBgLayerTable[i];
         u32 id = r->id;
         BG_SYS_InitBgLayer((u8)id, (const struct BgTemplate *)r->bg, (u8)r->kind);
         BG_SYS_FreeSlot(id);
@@ -472,7 +465,7 @@ void SUBWAY_MAP_GRAPHIC_VBlankBg(void *work) { BG_SYS_Update(); }
 void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((struct SysInit *)0x021B9C64, (struct DispVramCfg *)a, b);
+    CLACT_InitSystem((struct ClactSysInit *)0x021B9C64, (struct DispVramCfg *)a, b);
     ((struct SubwayMapClactUnit *)p)->unit = (int)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((void *)((struct SubwayMapClactUnit *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -481,7 +474,7 @@ void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b)
 
 void SUBWAY_MAP_GRAPHIC_DeleteClactUnit(char *p)
 {
-    CLACT_DeleteUnit((struct Bank *)(((struct SubwayMapClactUnit *)p)->unit));
+    CLACT_DeleteUnit((struct Unit *)(((struct SubwayMapClactUnit *)p)->unit));
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }
@@ -494,7 +487,7 @@ void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,0,heap,SUBWAY_MAP_GRAPHIC_Setup3d);
     *p = G3D_CAMERA_Create(0,cfg[6],cfg[7],0x1555,0,0x1000,0x400000,0,
-        vecA,vecB,vecC,heap);
+        (struct VecFx32 *)vecA,(struct VecFx32 *)vecB,(struct VecFx32 *)vecC,heap);
 }
 
 void SUBWAY_MAP_GRAPHIC_DeleteCamera(u32 *p)

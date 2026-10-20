@@ -85,6 +85,7 @@
 
 #include "../types.h"
 
+#include "../arm9/clact.h"
 #include "pokelist_types.h"
 #include "plist_plate_types.h"
 
@@ -98,77 +99,45 @@ struct Bmp;
 struct CharBuf;
 struct Actor;
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_AddActorSurfacePos(struct Obj *actor, const PlistPlatePos *delta, u32 which);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern void BG_SYS_MarkTileDirty(u32 bit);
+struct ClactActor;
+struct ClactVec2;
+struct Unit;
+struct Renderer;
+#include "../ov099/wifi_club_work.h"
+#include "../arm9/bg_sys.h"
 struct PokemonParam;
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern u32 FILE_UTIL_IsMailItem(u16 item);
-extern u32 GFL_HEAP_Free(void *mem);
+#include "../arm9/poke_tool.h"
+#include "../arm9/file_util.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct Party;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+#include "../arm9/pokeparty.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 struct BmpWin;
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
-extern struct Obj *CLACT_CreateRenderer(u16 *area, u32 mode, u32 heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitRenderer(struct Bank *bank, void *unit);
-extern void CLACT_SetSurfacePos(void *unit, int index, void *offset);
-extern struct Descriptor *BMP_WIN_Create(int bgLayer, u8 posX, u8 posY, int width, u8 height, u8 palette, u8 allocDir);
+#include "../arm9/strbuf.h"
+extern struct BmpWin *BMP_WIN_Create(int bgLayer, u8 posX, u8 posY, int width, u8 height, u8 palette, u8 allocDir);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void CLACT_DeleteActor(struct Actor *actor);
 struct Renderer;
-extern void CLACT_DeleteRenderer(struct Renderer *renderer);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ReleaseCharacter(u32 iconResource);
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+#include "../arm9/printsys.h"
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern u32 POKE_TOOL_GetStatusCondition(struct PokemonParam *pp);
-extern u32 CLACT_GetActorAnimFrame(struct Actor *actor);
-extern struct Obj *CLACT_CreateActor(struct Bank *bank, unsigned int char_idx, unsigned int pltt_idx, unsigned int cell_idx, const PlistPlateActorSpec *spec, u16 space, u16 heapId);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 struct BoxPokemon;
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
-extern u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 d, u16 heapId);
-extern void ARC_TOOL_DeleteHandle(void *a);
-extern u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 index, void *mon);
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padMode, u32 d);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern u32 POKE_TOOL_CalcLevel(struct PokemonParam *pp);
+#include "../arm9/poke_tool_ext.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/wordset.h"
 extern u8 BGWINFRM_ScaleRatio(u32 a, u32 b, u32 c);
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u32 h, u32 value);
-extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 extern void BMP_WIN_SetPosX(struct BmpWin *win, u8 posX);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 struct Pokemon;
 struct Regulation;
-extern int POKE_REGULATION_CheckPokemon(struct Regulation *reg, struct Pokemon *mon);
+#include "../arm9/poke_regulation.h"
 extern u8 BGWINFRM_GetScaleRank(u32 a, u32 b);
-extern void CLACT_GetSurfacePos(struct Obj *unit, u32 index, PlistPlatePos *out);
-extern int POKELIST_IsItemMode(PokelistWork *work);
-extern int POKELIST_GetMoveLearnStatus(PokelistWork *work, void *mon, u8 bit);
-extern u32 POKELIST_CheckEvolution(PokelistWork *work, void *mon, u32 param);
-extern void POKELIST_PrintTextMain(PokelistWork *work, struct Descriptor *window, u32 id, int x, s16 y, u16 color);
-extern void POKELIST_PrintTextSub(PokelistWork *work, struct Descriptor *window, u32 idx, u32 x, s16 y, u16 color);
-extern void POKELIST_PrintTextSubDirect(PokelistWork *work, struct Descriptor *window, u32 idx, u32 x, s16 y, u16 color);
-extern void POKELIST_PrintExpandedTextMain(PokelistWork *work, struct Descriptor *window, struct WordSet *wordSet, u32 idx, s16 x, s16 y, u16 color);
-extern void POKELIST_PrintExpandedTextSub(PokelistWork *work, struct Descriptor *window, struct WordSet *wordSet, u32 idx, s16 x, s16 y, u16 color);
-extern void POKELIST_PrintExpandedTextSubDirect(PokelistWork *work, struct Descriptor *window, struct WordSet *wordSet, u32 idx, s16 x, s16 y, u16 color);
+#include "pokelist.h"
 
 PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon);
 PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot);
@@ -238,15 +207,15 @@ PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
     surface.areaHeight = 0xc0;
     surface.priority = 0;
     surface.bgPriority = 0;
-    plate->clactUnit = CLACT_CreateRenderer(&surface.areaLeft, 1, work->heapId);
-    plate->clactBank = CLACT_CreateUnit(6, 0, work->heapId);
-    CLACT_SetUnitRenderer(plate->clactBank, plate->clactUnit);
+    plate->clactUnit = (struct Obj *)CLACT_CreateRenderer((struct SurfaceInit *)(&surface.areaLeft), 1, work->heapId);
+    plate->clactBank = (struct Bank *)CLACT_CreateUnit(6, 0, work->heapId);
+    CLACT_SetUnitRenderer((struct Unit *)plate->clactBank, (void *)plate->clactUnit);
     PLIST_PLATE_CreateActors(work, plate);
     PLIST_PLATE_CreateMonIcon(work, plate);
     surface.offsetX = -x * 8;
     surface.offsetY = -y * 8;
-    CLACT_SetSurfacePos(plate->clactUnit, 0, &surface);
-    plate->window = BMP_WIN_Create(1, tileX, (u8)y, 0x10, 6, 0xd, 1);
+    CLACT_SetSurfacePos((struct Renderer *)plate->clactUnit, 0, (struct ClactVec2 *)&surface);
+    plate->window = (struct Descriptor *)BMP_WIN_Create(1, tileX, (u8)y, 0x10, 6, 0xd, 1);
     PLIST_PLATE_UpdateLabelState(work, plate);
     if (POKELIST_IsItemMode(work) == 1) {
         for (i = 0; i < 6; i++) {
@@ -277,11 +246,11 @@ void PLIST_PLATE_Delete(void *unused, PlistPlate *plate)
 {
     if (!plate->isEmpty) {
         BMP_WIN_Delete((struct BmpWin *)plate->window);
-        CLACT_DeleteActor((struct Actor *)plate->monIconActor);
-        CLACT_DeleteActor((struct Actor *)plate->frameActor);
-        CLACT_DeleteActor((struct Actor *)plate->hpBarActor);
+        CLACT_DeleteActor((struct ClactActor *)plate->monIconActor);
+        CLACT_DeleteActor((struct ClactActor *)plate->frameActor);
+        CLACT_DeleteActor((struct ClactActor *)plate->hpBarActor);
         CLACT_DeleteRenderer((struct Renderer *)plate->clactUnit);
-        CLACT_DeleteUnit(plate->clactBank);
+        CLACT_DeleteUnit((struct Unit *)plate->clactBank);
         CLACT_ReleaseCharacter(plate->iconResource);
     }
     GFL_HEAP_Free(plate);
@@ -306,9 +275,9 @@ void PLIST_PLATE_Update(PokelistWork *work, PlistPlate *plate)
     }
     if (plate->selected == 1 && POKE_TOOL_GetStatusCondition(plate->mon) == 0 && plate->hp != 0) {
         PLIST_PLATE_GetActorOffset(plate, 0x1a, 0x13, &offset);
-        if (CLACT_GetActorAnimFrame((struct Actor *)plate->monIconActor) == 1)
+        if (CLACT_GetActorAnimFrame((struct ClactActor *)plate->monIconActor) == 1)
             offset.y = offset.y - 6;
-        CLACT_AddActorSurfacePos(plate->monIconActor, &offset, 0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)plate->monIconActor, (const struct ClactVec2 *)&offset, 0);
     }
 }
 
@@ -324,31 +293,31 @@ void PLIST_PLATE_CreateActors(PokelistWork *work, PlistPlate *plate)
     frameSpec.depth = 0;
     frameSpec.animation = 1;
     frameSpec.bgPriority = 2;
-    actor = CLACT_CreateActor(plate->clactBank, work->palRes[1], work->charRes[0], work->cellRes[1], &frameSpec, 0, work->heapId);
+    actor = (struct Obj *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[1], work->charRes[0], work->cellRes[1], (struct ActorInitParam *)(&frameSpec), 0, work->heapId);
     plate->frameActor = actor;
-    CLACT_SetActorAutoAnim((struct Actor *)actor, 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)actor, 1);
     hpBarSpec.x = 0x54;
     hpBarSpec.y = 0x1c;
     hpBarSpec.depth = 0;
     hpBarSpec.animation = 0;
     hpBarSpec.bgPriority = 2;
-    plate->hpBarActor = CLACT_CreateActor(plate->clactBank, work->palRes[6], work->charRes[5], work->cellRes[6], &hpBarSpec, 0, work->heapId);
+    plate->hpBarActor = (struct Obj *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[6], work->charRes[5], work->cellRes[6], (struct ActorInitParam *)(&hpBarSpec), 0, work->heapId);
     itemSpec.x = 32;
     itemSpec.y = 24;
     itemSpec.depth = 0;
     itemSpec.animation = 0;
     itemSpec.bgPriority = 2;
-    actor = CLACT_CreateActor(plate->clactBank, work->palRes[3], work->charRes[2], work->cellRes[3], &itemSpec, 0, work->heapId);
+    actor = (struct Obj *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[3], work->charRes[2], work->cellRes[3], (struct ActorInitParam *)(&itemSpec), 0, work->heapId);
     plate->itemIconActor = actor;
-    CLACT_SetActorDrawEnable((struct Actor *)actor, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)actor, 0);
     statusSpec.x = 32;
     statusSpec.y = 42;
     statusSpec.depth = 0;
     statusSpec.animation = 0;
     statusSpec.bgPriority = 2;
-    actor = CLACT_CreateActor(plate->clactBank, work->palRes[5], work->charRes[4], work->cellRes[5], &statusSpec, 0, work->heapId);
+    actor = (struct Obj *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[5], work->charRes[4], work->cellRes[5], (struct ActorInitParam *)(&statusSpec), 0, work->heapId);
     plate->statusIconActor = actor;
-    CLACT_SetActorDrawEnable((struct Actor *)actor, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)actor, 0);
 }
 
 void PLIST_PLATE_CreateMonIcon(PokelistWork *work, PlistPlate *plate)
@@ -368,12 +337,12 @@ void PLIST_PLATE_CreateMonIcon(PokelistWork *work, PlistPlate *plate)
     spec.animation = 0;
     spec.bgPriority = 2;
     {
-        struct Obj *actor = CLACT_CreateActor(plate->clactBank, plate->iconResource, work->charRes[6],
-                                          work->cellRes[7], &spec, 0, work->heapId);
+        struct Obj *actor = (struct Obj *)CLACT_CreateActor((struct Unit *)plate->clactBank, plate->iconResource, work->charRes[6],
+                                          work->cellRes[7], (struct ActorInitParam *)(&spec), 0, work->heapId);
         plate->monIconActor = actor;
-        CLACT_SetActorPaletteOffset((struct Actor *)actor, palette, 1);
+        CLACT_SetActorPaletteOffset((struct ClactActor *)actor, palette, 1);
     }
-    CLACT_SetActorAutoAnim((struct Actor *)plate->monIconActor, 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)plate->monIconActor, 1);
 }
 
 void PLIST_PLATE_Draw(PokelistWork *work, PlistPlate *plate, int isRefresh)
@@ -427,20 +396,20 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
                 POKELIST_PrintExpandedTextSubDirect(work, plate->window, wordSetB, 2, 9, 0x23, 0x440);
             }
             WORDSET_Delete(wordSetB);
-            CLACT_SetActorDrawEnable((struct Actor *)plate->statusIconActor, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)plate->statusIconActor, 0);
         } else {
             if (plate->hp == 0) {
-                CLACT_SetActorAnimSeq((struct Actor *)plate->statusIconActor, 6);
+                CLACT_SetActorAnimSeq((struct ClactActor *)plate->statusIconActor, 6);
             } else {
                 switch (POKE_TOOL_GetStatusCondition(plate->mon)) {
-                case 1: CLACT_SetActorAnimSeq((struct Actor *)plate->statusIconActor, 1); break;
-                case 2: CLACT_SetActorAnimSeq((struct Actor *)plate->statusIconActor, 3); break;
-                case 3: CLACT_SetActorAnimSeq((struct Actor *)plate->statusIconActor, 2); break;
-                case 4: CLACT_SetActorAnimSeq((struct Actor *)plate->statusIconActor, 5); break;
-                case 5: CLACT_SetActorAnimSeq((struct Actor *)plate->statusIconActor, 4); break;
+                case 1: CLACT_SetActorAnimSeq((struct ClactActor *)plate->statusIconActor, 1); break;
+                case 2: CLACT_SetActorAnimSeq((struct ClactActor *)plate->statusIconActor, 3); break;
+                case 3: CLACT_SetActorAnimSeq((struct ClactActor *)plate->statusIconActor, 2); break;
+                case 4: CLACT_SetActorAnimSeq((struct ClactActor *)plate->statusIconActor, 5); break;
+                case 5: CLACT_SetActorAnimSeq((struct ClactActor *)plate->statusIconActor, 4); break;
                 }
             }
-            CLACT_SetActorDrawEnable((struct Actor *)plate->statusIconActor, 1);
+            CLACT_SetActorDrawEnable((struct ClactActor *)plate->statusIconActor, 1);
         }
     }
     label = plate->labelState;
@@ -453,7 +422,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
             label = label + PLIST_PLATE_MSG_ORDER_FIRST;
         }
         POKELIST_PrintTextMain(work, plate->window, (u16)label, 0x2e, 0x1f, 0x440);
-        CLACT_SetActorDrawEnable((struct Actor *)plate->hpBarActor, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)plate->hpBarActor, 0);
     } else if (isTeachMode == 1) {
         switch (POKELIST_GetMoveLearnStatus(work, plate->mon, plate->slot)) {
         case 0:
@@ -462,7 +431,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
         case 3: msgId = PLIST_PLATE_MSG_TEACH_NOT_ABLE; break;
         }
         POKELIST_PrintTextMain(work, plate->window, (u16)msgId, 0x1d, 0x1f, 0x440);
-        CLACT_SetActorDrawEnable((struct Actor *)plate->hpBarActor, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)plate->hpBarActor, 0);
     } else {
         arg = work->arg;
         if (arg->mode == PLIST_PLATE_MODE_EVOLVE_ITEM) {
@@ -472,7 +441,7 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
                 label = PLIST_PLATE_MSG_EVOLVE_ABLE;
             }
             POKELIST_PrintTextMain(work, plate->window, (u16)label, 0x2e, 0x1f, 0x440);
-            CLACT_SetActorDrawEnable((struct Actor *)plate->hpBarActor, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)plate->hpBarActor, 0);
         } else {
             wordSetB = WORDSET_CreateDefault(work->heapId);
             WORDSET_SetSlotNumber(wordSetB, 0, POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
@@ -499,14 +468,14 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
     }
     heldItem = POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
     if (heldItem != 0) {
-        CLACT_SetActorDrawEnable((struct Actor *)plate->itemIconActor, 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)plate->itemIconActor, 1);
         if (FILE_UTIL_IsMailItem(heldItem) == 1) {
-            CLACT_SetActorAnimSeq((struct Actor *)plate->itemIconActor, 1);
+            CLACT_SetActorAnimSeq((struct ClactActor *)plate->itemIconActor, 1);
         } else {
-            CLACT_SetActorAnimSeq((struct Actor *)plate->itemIconActor, 0);
+            CLACT_SetActorAnimSeq((struct ClactActor *)plate->itemIconActor, 0);
         }
     } else {
-        CLACT_SetActorDrawEnable((struct Actor *)plate->itemIconActor, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)plate->itemIconActor, 0);
     }
     hpBarColor = PLIST_PLATE_GetHpBarColor(plate);
     iconAnim = 1;
@@ -521,15 +490,15 @@ void PLIST_PLATE_DrawMonInfo(PokelistWork *work, PlistPlate *plate, int isRefres
     } else if (hpBarColor == PLIST_PLATE_HPBAR_RED) {
         iconAnim = 2;
     }
-    CLACT_SetActorAnimSeq((struct Actor *)plate->monIconActor, iconAnim);
+    CLACT_SetActorAnimSeq((struct ClactActor *)plate->monIconActor, iconAnim);
     plate->textPending = 1;
 }
 
 void PLIST_PLATE_DrawHpBar(PokelistWork *work, PlistPlate *plate)
 {
     u8 hpBarColor;
-    int paletteA;
-    int paletteB;
+    u8 paletteA;
+    u8 paletteB;
     int filledDots;
     struct Bmp *bitmap;
     if (POKELIST_IsItemMode(work) != 0)
@@ -549,9 +518,9 @@ void PLIST_PLATE_DrawHpBar(PokelistWork *work, PlistPlate *plate)
         paletteA = 0xa;
         paletteB = 0xb;
     }
-    BMP_FillRect(bitmap, 0x3d, 0x1b, filledDots, 1, paletteA);
-    BMP_FillRect(bitmap, 0x3d, 0x1c, filledDots, 1, paletteB);
-    CLACT_SetActorDrawEnable((struct Actor *)plate->hpBarActor, 1);
+    BMP_FillRect((struct Bmp *)bitmap, 0x3d, 0x1b, filledDots, 1, paletteA);
+    BMP_FillRect((struct Bmp *)bitmap, 0x3d, 0x1c, filledDots, 1, paletteB);
+    CLACT_SetActorDrawEnable((struct ClactActor *)plate->hpBarActor, 1);
 }
 
 void PLIST_PLATE_DrawEgg(PokelistWork *work, PlistPlate *plate)
@@ -564,8 +533,8 @@ void PLIST_PLATE_DrawEgg(PokelistWork *work, PlistPlate *plate)
     POKELIST_PrintExpandedTextMain(work, plate->window, wordSet, 3, 0x29, 9, 0x440);
     STRBUF_Delete(eggText);
     WORDSET_Delete(wordSet);
-    CLACT_SetActorDrawEnable((struct Actor *)plate->hpBarActor, 0);
-    CLACT_SetActorAnimSeq((struct Actor *)plate->monIconActor, 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)plate->hpBarActor, 0);
+    CLACT_SetActorAnimSeq((struct ClactActor *)plate->monIconActor, 1);
     plate->textPending = 1;
 }
 
@@ -587,7 +556,7 @@ void PLIST_PLATE_SetSelected(PokelistWork *work, PlistPlate *plate, int selected
             PLIST_PLATE_SetPalette(work, plate, 8);
         else
             PLIST_PLATE_SetPalette(work, plate, 6);
-        CLACT_SetActorAnimSeq((struct Actor *)plate->frameActor, 1);
+        CLACT_SetActorAnimSeq((struct ClactActor *)plate->frameActor, 1);
         offset = getActorOffset(plate, 0x1a, 0x13, &selectedOffset);
     } else {
         if ((work->phase == PLIST_PLATE_PHASE_SWAP && work->swapSourceSlot == plate->slot) ||
@@ -597,10 +566,10 @@ void PLIST_PLATE_SetSelected(PokelistWork *work, PlistPlate *plate, int selected
             PLIST_PLATE_SetPalette(work, plate, 5);
         else
             PLIST_PLATE_SetPalette(work, plate, 3);
-        CLACT_SetActorAnimSeq((struct Actor *)plate->frameActor, 0);
+        CLACT_SetActorAnimSeq((struct ClactActor *)plate->frameActor, 0);
         offset = getActorOffset(plate, 0x18, 0x10, &normalOffset);
     }
-    CLACT_AddActorSurfacePos(plate->monIconActor, offset, 0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)plate->monIconActor, (const struct ClactVec2 *)offset, 0);
     plate->selected = selected;
 }
 
@@ -627,7 +596,7 @@ void PLIST_PLATE_SetSlideOffset(PokelistWork *work, const PlistPlate *plate, int
     BMP_WIN_SetPosX((struct BmpWin *)plate->window, slideX + (x + 16));
     pos.x = -(x + slideX) * 8;
     pos.y = -y * 8;
-    CLACT_SetSurfacePos(plate->clactUnit, 0, &pos);
+    CLACT_SetSurfacePos((struct Renderer *)plate->clactUnit, 0, (struct ClactVec2 *)&pos);
     isOther = 0;
     if (plate->slot != 0) isOther = 1;
     kind = plate->slot != 0;
@@ -666,18 +635,18 @@ void PLIST_PLATE_SetMon(PokelistWork *work, PlistPlate *plate, void *mon, int sl
     plate->isEgg = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_IS_EGG, 0);
     plate->hp = POKE_TOOL_GetPartyValue(plate->mon, POKE_TOOL_PARAM_HP, 0);
     plate->targetHp = plate->hp;
-    CLACT_DeleteActor((struct Actor *)plate->monIconActor);
+    CLACT_DeleteActor((struct ClactActor *)plate->monIconActor);
     CLACT_ReleaseCharacter(plate->iconResource);
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)plate->window), 0);
-    CLACT_SetActorDrawEnable((struct Actor *)plate->itemIconActor, 0);
-    CLACT_SetActorDrawEnable((struct Actor *)plate->statusIconActor, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)plate->itemIconActor, 0);
+    CLACT_SetActorDrawEnable((struct ClactActor *)plate->statusIconActor, 0);
     pos[1].x = 0;
     pos[1].y = 0;
-    CLACT_SetSurfacePos(plate->clactUnit, 0, &pos[1]);
+    CLACT_SetSurfacePos((struct Renderer *)plate->clactUnit, 0, (struct ClactVec2 *)&pos[1]);
     PLIST_PLATE_CreateMonIcon(work, plate);
     pos[0].x = -(x + slideX) * 8;
     pos[0].y = -y * 8;
-    CLACT_SetSurfacePos(plate->clactUnit, 0, pos);
+    CLACT_SetSurfacePos((struct Renderer *)plate->clactUnit, 0, (struct ClactVec2 *)pos);
     PLIST_PLATE_Draw(work, plate, 0);
 }
 
@@ -838,7 +807,7 @@ u8 PLIST_PLATE_GetHpBarColor(PlistPlate *plate)
 void PLIST_PLATE_GetActorOffset(PlistPlate *plate, int x, int y, PlistPlatePos *out)
 {
     PlistPlatePos surfacePos;
-    CLACT_GetSurfacePos(plate->clactUnit, 0, &surfacePos);
+    CLACT_GetSurfacePos((struct Renderer *)plate->clactUnit, 0, (struct ClactVec2 *)&surfacePos);
     out->x = x - surfacePos.x;
     out->y = y - surfacePos.y;
 }

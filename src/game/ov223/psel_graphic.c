@@ -158,6 +158,7 @@
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  */
 #include "psel_types.h"
+#include "../sdk_ioreg.h"
 
 struct MsgBank;
 struct U16Vec;
@@ -166,9 +167,8 @@ struct GfFont;
 struct Main;
 struct Node;
 struct PrintSys;
-struct DispVram;
-struct BgTemplate;
-struct DispConfig;
+#include "../arm9/bg_sys_types.h"
+
 struct Bank;
 struct Cfg;
 struct Light;
@@ -176,9 +176,9 @@ struct PselWork;
 
 typedef struct Obj Obj;
 
-struct Item { void *text; u16 color; unsigned value; };
+struct PselGraphicItem { void *text; u16 color; unsigned value; };
 
-struct TaskMenuTmpl {
+struct PselGraphicTaskMenuTmpl {
     unsigned heapId;
     u8 count;
     u8 pad05[3];
@@ -201,7 +201,7 @@ typedef enum { BIT8=8, BIT32=32 } Bits;
 
 typedef enum { TOON, HIGHLIGHT } Shading;
 
-struct Entry { unsigned id; char fields[32]; unsigned a,b; };
+struct PselGraphicEntry { unsigned id; char fields[32]; unsigned a,b; };
 struct Strbuf;
 
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *, unsigned);
@@ -224,8 +224,8 @@ extern struct GfFont *GF_FONT_Create(int, int, int, int, unsigned);
 struct PrintQueue;
 extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 extern void BG_SYS_SetPriority(int, u16);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *, char *), void *work, u32 priority);
+struct TcbTask;
+extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void *, char *), void *work, u32 priority);
 extern void PSEL_Task(void *, char *);
 extern void PSEL_CreateG3dUtil(char *);
 extern void PSEL_CreateBmpWindows(u16 *p);
@@ -329,7 +329,7 @@ extern void CLACT_VBlankSystem(void);
 extern void G3D_SYSTEM_Init(int,int,int,int,int,int,void (*)(void));
 extern int G3D_CAMERA_Create(int,int,int,int,int,int,int,int,const int *,const int *,const int *,int);
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern int G3D_SYSTEM_Exit(int);
+extern void G3D_SYSTEM_Exit(int);
 extern void G3D_SYSTEM_DrawStart(void);
 struct G3dCamera;
 extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
@@ -398,7 +398,7 @@ extern char d_021BC960[];
 extern char d_021BCB08[];
 extern unsigned d_021BC980[];
 extern const unsigned d_021BC934[];
-extern const struct Entry d_021BC9B0[];
+extern const struct PselGraphicEntry d_021BC9B0[];
 extern int d_021BC944;
 extern const short d_020A1EB8[];
 extern int d_021BC91C[],d_021BC910[],d_021BC928[];
@@ -422,8 +422,8 @@ extern int d_021BC91C[],d_021BC910[],d_021BC928[];
  */
 void PSEL_GRAPHIC_OpenMenu(char *work)
 {
-    struct TaskMenuTmpl tmpl;
-    struct Item items[2];
+    struct PselGraphicTaskMenuTmpl tmpl;
+    struct PselGraphicItem items[2];
     unsigned i;
     for (i = 0; i < 2; i++) {
         unsigned value;
@@ -531,7 +531,7 @@ void PSEL_GRAPHIC_LoadFadeSources(u8 *work)
     }
     for (i = 0; i < 3; i++) {
         MI_CpuCopy8((u8 *)((struct PselWork *)work)->fade.slots[i].dst, (u8 *)((struct PselWork *)work)->fade.slots[i].out, 0x20);
-        NNS_GfdRegisterNewVramTransferTask((void *)0x1E, d_021BC6FC[i] << 5, (u32)((struct PselWork *)work)->fade.slots[i].out, 0x20);
+        NNS_GfdRegisterNewVramTransferTask((void *)0x1E, d_021BC6FC[i] << 5, (uptr)((struct PselWork *)work)->fade.slots[i].out, 0x20);
     }
 }
 
@@ -593,7 +593,7 @@ void PSEL_GRAPHIC_StepFade(struct PselWork *work)
                         (u16)((w[3] * (16 - t) + w[0] * t) / 16) << 10 | ((u16)((w[5] * (16 - t) + w[2] * t) / 16) | (u16)((w[4] * (16 - t) + w[1] * t) / 16) << 5);
                 }
             }
-            NNS_GfdRegisterNewVramTransferTask((void *)0x1E, d_021BC6FC[i] << 5, (u32)work->fade.slots[i].out, 0x20);
+            NNS_GfdRegisterNewVramTransferTask((void *)0x1E, d_021BC6FC[i] << 5, (uptr)work->fade.slots[i].out, 0x20);
         }
     }
 }
@@ -619,7 +619,7 @@ void PSEL_GRAPHIC_LoadPaletteBuffers(char *work)
     ((struct PselWork *)work)->fadeWeight = 16;
     ((struct PselWork *)work)->fadeSrcIndex = 3;
     MI_CpuCopy8((char *)((struct PselWork *)work)->palBuf[3], (char *)((struct PselWork *)work)->palDst, 256);
-    NNS_GfdRegisterNewVramTransferTask((void *)31, 256, (unsigned)((struct PselWork *)work)->palDst, 256);
+    NNS_GfdRegisterNewVramTransferTask((void *)31, 256, (uptr)((struct PselWork *)work)->palDst, 256);
 }
 
 
@@ -643,7 +643,7 @@ void PSEL_GRAPHIC_BlendPalettes(char *work)
     u8 i;
     u8 weight;
     struct Colors colors;
-    u32 q;
+    uptr q;
     int next;
     u16 red,green,blue;
     u32 tmp;
@@ -659,7 +659,7 @@ void PSEL_GRAPHIC_BlendPalettes(char *work)
         for(;i<128;i++) {
             weight=((struct PselWork *)work)->fadeWeight;
             next=*(u16 *)(work+(*(u8 *)(work+which))*256+i*2+0x26a);
-            tmp=(u32)work+i*2;
+            tmp=(uptr)work+i*2;
             q=tmp;
             PSEL_GRAPHIC_SplitColor(((struct PselWork *)q)->palSrc[0],&colors.r1,&colors.g1,&colors.b1);
             PSEL_GRAPHIC_SplitColor(next,&colors.r2,&colors.g2,&colors.b2);
@@ -668,7 +668,7 @@ void PSEL_GRAPHIC_BlendPalettes(char *work)
             green=(colors.g1*(16-weight)+colors.g2*weight)/16;
             ((struct PselWork *)q)->palDst[0]=red|(green<<5)|(blue<<10);
         }
-        NNS_GfdRegisterNewVramTransferTask((void *)31,256,(u32)(work+0x76a),256);
+        NNS_GfdRegisterNewVramTransferTask((void *)31,256,(uptr)(work+0x76a),256);
     }
 done:;
 }
@@ -721,7 +721,7 @@ void PSEL_GRAPHIC_UpdateFade(char *work)
 
 
 
-void PSEL_GRAPHIC_SetRecordState(unsigned char *work,unsigned index,int cmd){switch(cmd){case 0:if(*(unsigned short *)((unsigned)work+212+index*148)!=0)*(unsigned short *)((unsigned)work+212+index*148)=3;break;case 2:if(*(unsigned short *)((unsigned)work+212+index*148)!=2)*(unsigned short *)((unsigned)work+212+index*148)=1;break;}}
+void PSEL_GRAPHIC_SetRecordState(unsigned char *work,unsigned index,int cmd){switch(cmd){case 0:if(*(unsigned short *)((uptr)work+212+index*148)!=0)*(unsigned short *)((uptr)work+212+index*148)=3;break;case 2:if(*(unsigned short *)((uptr)work+212+index*148)!=2)*(unsigned short *)((uptr)work+212+index*148)=1;break;}}
 
 
 
@@ -752,7 +752,7 @@ int PSEL_GRAPHIC_Init(char *work)
 {
     ((struct PselWork *)work)->graphicSys = PSEL_GRAPHIC_Create(1, ((struct PselWork *)work)->heapId);
     *(struct GfFont * *)&((struct PselWork *)work)->font = GF_FONT_Create(23, 0, 0, 0, ((struct PselWork *)work)->heapId);
-    ((struct PselWork *)work)->printQue = (u32)PRINTSYS_QUE_Create((u32)(unsigned)((struct PselWork *)work)->heapId);
+    ((struct PselWork *)work)->printQue = (uptr)PRINTSYS_QUE_Create((u32)(unsigned)((struct PselWork *)work)->heapId);
     BG_SYS_SetPriority(0, 2);
     BG_SYS_SetPriority(1, 3);
     BG_SYS_SetPriority(2, 1);
@@ -786,7 +786,7 @@ int PSEL_GRAPHIC_InitSelect(char *work)
     PSEL_ClearWin2(work);
     ((struct PselWork *)work)->flags |= 2;
     ((struct PselWork *)work)->alpha = 0;
-    G2x_SetBlendAlpha_((void *)0x04000050, 5, 63,
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 5, 63,
                  ((struct PselWork *)work)->alpha, 16 - ((struct PselWork *)work)->alpha);
     ((struct PselWork *)work)->frame = 0;
     return 3;
@@ -860,7 +860,7 @@ int PSEL_GRAPHIC_StateFadeAnim(char *work,u32 *state)
         if(((struct PselWork *)work)->animFrame==199) {((struct PselWork *)work)->frame=0;return 5;}
         break;
     }
-    if(changed) G2x_SetBlendAlpha_((void *)0x04000050, 5, 63, ((struct PselWork *)work)->alpha, 16-((struct PselWork *)work)->alpha);
+    if(changed) G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 5, 63, ((struct PselWork *)work)->alpha, 16-((struct PselWork *)work)->alpha);
     ++((struct PselWork *)work)->frame;
     return 4;
 }
@@ -899,7 +899,7 @@ int PSEL_GRAPHIC_StateFadeOut(char *work, int *state)
 
 
 
-int PSEL_GRAPHIC_StateExit(unsigned char *work){*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;PSEL_ClearWin3((char *)work);PSEL_NopBgDelete(work);PSEL_ClearBgLayer2(work);PSEL_DeleteListAnime((char *)work);((struct PselWork *)work)->frame=0;return 7;}
+int PSEL_GRAPHIC_StateExit(unsigned char *work){*(volatile unsigned short *)REG_BLDCNT_ADDR=0;*(volatile unsigned short *)REG_DB_BLDCNT_ADDR=0;PSEL_ClearWin3((char *)work);PSEL_NopBgDelete(work);PSEL_ClearBgLayer2(work);PSEL_DeleteListAnime((char *)work);((struct PselWork *)work)->frame=0;return 7;}
 
 
 
@@ -919,7 +919,7 @@ int PSEL_GRAPHIC_StateEnter(char *work)
     BG_SYS_LoadPlttEntry(0,0x2f3b); BG_SYS_LoadPlttEntry(4,0x2f3b);
     PSEL_SetupSelectAnime(work); PSEL_CreateUnits(work); PSEL_CreateUnits2(work); PSEL_SetBgSys((const u16 *)work); PSEL_UploadBgPalette((u16 *)work); PSEL_GRAPHIC_InitFadePalettes(work);
     setFlagBits(work,BIT8); setFlagBits(work,BIT32);
-    G2x_SetBlendAlpha_((void *)0x04000050, 5, 63, 8, 8); G2x_SetBlendAlpha_((void *)0x04001050, 4, 63, 8, 8);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 5, 63, 8, 8); G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR, 4, 63, 8, 8);
     ((struct PselWork *)work)->frame=0;
     return 8;
 }
@@ -1112,9 +1112,9 @@ void *PSEL_GRAPHIC_Create(int a,int heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     PSEL_GRAPHIC_InitBg(sys,heap);
-    PSEL_GRAPHIC_InitClact((int *)(sys+1),(int)d_021BC980,heap);
+    PSEL_GRAPHIC_InitClact((int *)(sys+1),(sptr)d_021BC980,heap);
     PSEL_GRAPHIC_InitG3d((int *)(sys+2),heap);
-    sys[3]=(unsigned)GFL_USE_AddMainTask(PSEL_GRAPHIC_VBlank,sys,0);
+    sys[3]=(uptr)GFL_USE_AddMainTask(PSEL_GRAPHIC_VBlank,sys,0);
     return sys;
 }
 
@@ -1196,7 +1196,7 @@ void PSEL_GRAPHIC_InitBg(void *sys,int heap)
     BMP_WIN_Init(heap);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021BC934);
     for(i=0;i<7;i++) {
-        const struct Entry *e=&d_021BC9B0[i];
+        const struct PselGraphicEntry *e=&d_021BC9B0[i];
         unsigned id=e->id;
         BG_SYS_InitBgLayer((u8)id,(const struct BgTemplate *)e->fields,(u8)e->a);
         BG_SYS_FreeSlot(id);
@@ -1231,7 +1231,7 @@ void PSEL_GRAPHIC_InitClact(int *out, int a, int b)
 {
     MI_CpuFill8(out, 0, 4);
     CLACT_InitSystem((struct SysInit *)(&d_021BC944), (struct DispVramCfg *)a, b);
-    *out = (int)CLACT_CreateUnit(0x80, 0, b);
+    *out = (sptr)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((void *)*out);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);

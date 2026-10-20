@@ -95,6 +95,7 @@ typedef union PU {
 } PU;
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 struct LANG {
     char pad[0x10];
@@ -107,61 +108,38 @@ struct Ov016Bits8 {
     unsigned int f : 4;
 };
 
-extern int OS_IsRunOnTwl(void);
-extern char *DWC_Auth_GetCustomNas(void);
-extern void DWC_Auth_SetCustomNas(char *v);
-extern void DWCi_SNDlInit(void);
-extern void DWCi_IPTlUpdate();
-extern void DWCi_TSKlAct(int kind);
-extern void DWCi_IPTlCheckFold(void);
-extern void DWCi_SetLedWireless(void);
-extern void OS_WaitVBlankIntr(void);
-extern void DWCi_SceneInit(void);
-extern void GX_DispOff(void);
-extern int OS_IsTickAvailable(void);
-extern void OS_Terminate(void);
-extern int OS_IsAlarmAvailable(void);
-extern void FX_Init(void);
-extern void FS_Init(unsigned long default_dma_no);
-extern void TP_Init(void);
-extern void RTC_Init(void);
-extern void DWCi_ClearVram(void);
-extern void DWCi_HEAPlInit(void *address);
-extern void DWCi_ITRlIntr(void);
-extern void DWCi_TSKlInit(void);
-extern void DWCi_ARClInit(void);
-extern void DWCi_IPTlInit(void);
-extern void DWCi_EFFlInit(void);
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern int DWC_BM_Init(void *work);
-extern void DWCi_HEAPlFree_(void **mem);
-extern long GX_VBlankIntr(int enable);
-extern void GX_SetBankForBG(int bg);
-extern void GX_SetBankForOBJ(int obj);
-extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
-extern void GXx_SetMasterBrightness_(vu16 *reg, int brightness);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void GX_SetBankForSubBG(int sub_bg);
-extern void GX_SetBankForSubOBJ(int sub_obj);
-extern void GXS_SetGraphicsMode(u32 mode);
-extern void DWCi_FNTlInit(void);
-extern void DWCi_OBJlInit(void);
-extern void DWCi_OVRlInit(void);
-extern void DWCi_CELLlInit(void);
-extern void GX_DispOn(void);
-extern void DWCi_SetLedNormal(void);
-extern int PM_SetLCDPower(int sw);
-extern void DWCi_IPTlEnd(void);
-extern void DWCi_ITRlEnd(void);
-extern void DWCi_SNDlEnd(void);
-extern void DWCi_CELLlEnd(void);
-extern void DWCi_OBJlEnd(void);
-extern void DWCi_FNTlEnd(void);
-extern void DWCi_EFFlEnd(void);
-extern void DWCi_ARClEnd(void);
-extern void DWCi_TSKlEnd(void);
-extern void DWCi_HEAPlEnd(void);
-extern void DWCi_RepairVram(void);
+#include "../arm9/os_emulator.h"
+#include "../ov009/dwc_auth.h"
+#include "sound.h"
+#include "input.h"
+#include "task.h"
+#include "sub.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "sceneinit.h"
+#include "../arm9/gx.h"
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
+#include "../arm9/os_terminate_processor.h"
+#include "../arm9/os_alarm.h"
+#include "../arm9/fx.h"
+#include "../arm9/fs_api.h"
+#include "../arm9/tp.h"
+typedef int RTCResult;
+#include "../arm9/external.h"
+#include "heap.h"
+#include "interrupt.h"
+#include "archive.h"
+#include "effect.h"
+#include "../arm9/dwc_bm_init.h"
+#include "../arm9/gx_vramcnt.h"
+#include "../arm9/g2.h"
+typedef int bool_0;
+#include "font.h"
+#include "obj.h"
+#include "objvram.h"
+#include "cell.h"
+#include "../arm9/pm.h"
 int DWC_StartUtility(void *work, int language, int param);
 void initGraph(void);
 void DWCi_ChangeScene(unsigned int v);
@@ -200,7 +178,7 @@ int DWC_StartUtility(void *work, int language, int param)
     initGame();
     initGraph();
     DWCi_SNDlInit();
-    DWCi_ChangeScene((unsigned int)DWCi_SceneInit);
+    DWCi_ChangeScene((uptr)DWCi_SceneInit);
     result = 0;
     do {
         DWCi_IPTlUpdate();
@@ -243,7 +221,7 @@ static void initGame(void)
 {
     void *work;
     int zero;
-    volatile unsigned short *ime = (volatile unsigned short *)0x04000208;
+    volatile unsigned short *ime = (volatile unsigned short *)REG_IME_ADDR;
     unsigned short old = *ime;
     *ime = 0;
     GX_DispOff();
@@ -281,7 +259,7 @@ void initGraph(void)
 
     *(vu32 *)0x04000000 = *(vu32 *)0x04000000 & ~0x1f00;
     *(vu32 *)0x04000000 = *(vu32 *)0x04000000 & ~0xe000;
-    GXx_SetMasterBrightness_((vu16 *)0x0400006c, 0);
+    GXx_SetMasterBrightness_((vu16 *)REG_MASTER_BRIGHT_ADDR, 0);
     *(vu32 *)0x04000000 = (*(vu32 *)0x04000000 & 0xffcfffef) | 0x10 | 0x200000;
     *(vu16 *)0x04000008 = (u16)(*(vu16 *)0x04000008 & 0xffbf);
     *(vu16 *)0x0400000a = (u16)(*(vu16 *)0x0400000a & 0xffbf);
@@ -291,14 +269,14 @@ void initGraph(void)
     *(vu32 *)0x04000014 = 0;
     *(vu32 *)0x04000018 = 0;
     *(vu32 *)0x0400001c = 0;
-    G2x_SetBlendBrightness_(0x04000050, 0x3f, 0x10);
+    G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 0x3f, 0x10);
     GX_SetBankForSubBG(0x80);
     GX_SetBankForSubOBJ(0x100);
     GXS_SetGraphicsMode(0);
 
     *(vu32 *)0x04001000 = *(vu32 *)0x04001000 & ~0x1f00;
     *(vu32 *)0x04001000 = *(vu32 *)0x04001000 & ~0xe000;
-    GXx_SetMasterBrightness_((vu16 *)0x0400106c, 0);
+    GXx_SetMasterBrightness_((vu16 *)REG_DB_MASTER_BRIGHT_ADDR, 0);
     *(vu32 *)0x04001000 = (*(vu32 *)0x04001000 & 0xffcfffef) | 0x10;
     *(vu16 *)0x04001008 = (u16)(*(vu16 *)0x04001008 & 0xffbf);
     *(vu16 *)0x0400100a = (u16)(*(vu16 *)0x0400100a & 0xffbf);
@@ -308,7 +286,7 @@ void initGraph(void)
     *(vu32 *)0x04001014 = 0;
     *(vu32 *)0x04001018 = 0;
     *(vu32 *)0x0400101c = 0;
-    G2x_SetBlendBrightness_(0x04001050, 0x3f, 0x10);
+    G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, 0x3f, 0x10);
 
     *(vu16 *)0x04000008 = (u16)((*(vu16 *)0x04000008 & 0x43) | 0xc00);
     *(vu16 *)0x0400000a = (u16)((*(vu16 *)0x0400000a & 0x43) | 0x108 | 0xc00);

@@ -61,33 +61,9 @@ typedef struct SickAddStringEntry {
     s16 stringIdWithArg;     /* negative: the plain string is used for both */
 } SickAddStringEntry;
 
-extern int BTL_POKEPARAM_CalcSickDamage(struct BtlPokeParam *bpp, int sickKind);
+#include "../ov093/btl_pokeparam.h"
+#include "btl_sick.h"
 struct BtlServerFlow;
-extern void BTL_SERVER_FLOW_ProcSickDamage(struct BtlServerFlow *flow, u8 *poke, u32 sickKind, u32 baseDamage);
-void BTL_SICK_ProcAddedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isAdded);
-void BTL_SICK_ProcTurnEnd(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId, int sickKind);
-int BTL_SICK_BuildDamageMessage(BtlStrParam *message, struct BtlPokeParam *bpp, int sickKind);
-int BTL_SICK_GetDamageStringId(int sickKind);
-void BTL_SICK_TickPerishSong(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-void BTL_SICK_ApplyLeechSeed(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-void BTL_SICK_RecoverHpIngrain(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-void BTL_SICK_ApplyBindDamage(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-void BTL_SICK_RecoverHpAquaRing(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-void BTL_SICK_EndEncoreWhenPpEmpty(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId);
-void BTL_SICK_OnAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId, int sickKind, union SickCont cont);
-void BTL_SICK_StartYawnSleep(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-void BTL_SICK_ApplyPerishFaint(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-void BTL_SICK_ShowPerishCount(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, u8 count);
-void BTL_SICK_OnHealBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-void BTL_SICK_OnItemBlockAdded(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
-int BTL_SICK_GetCureStringId(unsigned int sickKind, union SickCont cont);
-void BTL_SICK_BuildCureMessage(int sickKind, union SickCont cont, struct BtlPokeParam *bpp, BtlStrParam *message);
-int BTL_SICK_GetAddStringId(u32 sickKind, int hasArg);
-int BTL_SICK_BuildAddMessage(int sickKind, union SickCont cont, struct BtlPokeParam *bpp, u8 argValue, BtlStrParam *message);
-void BTL_SICK_OverrideGroundImmunity(struct BtlEventFactor *factor, struct BtlPokeParam *bpp);
-void BTL_SICK_ForceGroundedByTrap(struct BtlEventFactor *factor, struct BtlPokeParam *bpp);
-void BTL_SICK_ForceGroundedOrFloating(struct BtlEventFactor *factor, struct BtlPokeParam *bpp);
-void BTL_SICK_ShowIngrainRoots(struct BtlServerFlow *flow, struct BtlPokeParam *bpp);
 extern SickAddStringEntry gSickAddStringTable[17];
 
 
@@ -115,9 +91,9 @@ void BTL_SICK_ProcTurnEnd(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, 
 
     if (BTL_POKEPARAM_IsFainted(bpp) != 0)
         return;
-    damage = BTL_POKEPARAM_CalcSickDamage(bpp, sickKind);
+    damage = BTL_POKEPARAM_CalcSickDamage((struct BtlPokeParam *)bpp, sickKind);
     if (damage != 0)
-        BTL_SERVER_FLOW_ProcSickDamage(flow, (u8 *)bpp, sickKind, damage);
+        BTL_SERVER_FLOW_ProcSickDamage(flow, bpp, sickKind, damage);
     switch (sickKind) {
     case 0x14:
         BTL_SICK_TickPerishSong(flow, bpp, pokeId);
@@ -212,7 +188,7 @@ void BTL_SICK_ApplyLeechSeed(struct BtlServerFlow *flow, struct BtlPokeParam *bp
     damage->amount = amount;
     effectStringId = 0x262;
     BTL_SERVER_FLOW_InitMsgRecord(&damage->message, BTL_STR_TYPE_STD, effectStringId);
-    BTL_SERVER_FLOW_AppendMsgRecordArg(&damage->message, pokeId);
+    BTL_SERVER_FLOW_AppendMsgRecordArg((&damage->message), pokeId);
     damage->flags |= BTL_CMD_DAMAGE_HAS_EFFECT;
     effectStringId += 0x13;
     damage->effectStringId = effectStringId;
@@ -241,7 +217,7 @@ void BTL_SICK_RecoverHpIngrain(struct BtlServerFlow *flow, struct BtlPokeParam *
         recover->sourceId = BTL_CMD_ACTIVE_NONE;
         recover->amount = BTL_CALC_DivideMaxHpMin1(bpp, 0x10);
         BTL_SERVER_FLOW_InitMsgRecord(&recover->message, BTL_STR_TYPE_STD, 0x2e3);
-        BTL_SERVER_FLOW_AppendMsgRecordArg(&recover->message, pokeId);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((&recover->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, recover);
     }
 }
@@ -281,8 +257,8 @@ void BTL_SICK_ApplyBindDamage(struct BtlServerFlow *flow, struct BtlPokeParam *b
         damage->effectArgB = 6;
     }
     BTL_SERVER_FLOW_InitMsgRecord(&damage->message, BTL_STR_TYPE_STD, 0x174);
-    BTL_SERVER_FLOW_AppendMsgRecordArg(&damage->message, pokeId);
-    BTL_SERVER_FLOW_AppendMsgRecordArg(&damage->message, moveId);
+    BTL_SERVER_FLOW_AppendMsgRecordArg((&damage->message), pokeId);
+    BTL_SERVER_FLOW_AppendMsgRecordArg((&damage->message), moveId);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, damage);
 }
 
@@ -298,7 +274,7 @@ void BTL_SICK_RecoverHpAquaRing(struct BtlServerFlow *flow, struct BtlPokeParam 
         recover->sourceId = BTL_CMD_ACTIVE_NONE;
         recover->amount = BTL_CALC_DivideMaxHpMin1(bpp, 0x10);
         BTL_SERVER_FLOW_InitMsgRecord(&recover->message, BTL_STR_TYPE_STD, 0x25c);
-        BTL_SERVER_FLOW_AppendMsgRecordArg(&recover->message, pokeId);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((&recover->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, recover);
     }
 }
@@ -391,8 +367,8 @@ void BTL_SICK_ShowPerishCount(struct BtlServerFlow *flow, struct BtlPokeParam *b
     pokeId = BTL_POKEPARAM_GetPokeId(bpp);
     record = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_MESSAGE, pokeId);
     BTL_SERVER_FLOW_InitMsgRecord(&record->message, BTL_STR_TYPE_STD, 0x35c);
-    BTL_SERVER_FLOW_AppendMsgRecordArg(&record->message, pokeId);
-    BTL_SERVER_FLOW_AppendMsgRecordArg(&record->message, count);
+    BTL_SERVER_FLOW_AppendMsgRecordArg((&record->message), pokeId);
+    BTL_SERVER_FLOW_AppendMsgRecordArg((&record->message), count);
     BTL_SERVER_FLOW_CommitCmdRecord(flow, record);
 }
 
@@ -519,7 +495,7 @@ int BTL_SICK_BuildAddMessage(int sickKind, union SickCont cont, struct BtlPokePa
 
 
 
-void BTL_SICK_OverrideGroundImmunity(struct BtlEventFactor *factor, struct BtlPokeParam *bpp)
+void BTL_SICK_OverrideGroundImmunity(struct BtlServerFlow *flow, struct BtlPokeParam *bpp)
 {
     int sickKind;
     union SickCont cont;
@@ -545,7 +521,7 @@ void BTL_SICK_OverrideGroundImmunity(struct BtlEventFactor *factor, struct BtlPo
 
 
 
-void BTL_SICK_ForceGroundedByTrap(struct BtlEventFactor *factor, struct BtlPokeParam *bpp)
+void BTL_SICK_ForceGroundedByTrap(struct BtlServerFlow *flow, struct BtlPokeParam *bpp)
 {
     if (BTL_POKEPARAM_HasSick(bpp, BTL_SICK_NO_ESCAPE) != 0 || BTL_POKEPARAM_HasSick(bpp, BTL_SICK_BIND) != 0) {
         BTL_EVENT_OverwriteVar(BTL_EVAR_FORCE_GROUNDED_FLAG, 1);
@@ -554,7 +530,7 @@ void BTL_SICK_ForceGroundedByTrap(struct BtlEventFactor *factor, struct BtlPokeP
 
 
 
-void BTL_SICK_ForceGroundedOrFloating(struct BtlEventFactor *factor, struct BtlPokeParam *bpp)
+void BTL_SICK_ForceGroundedOrFloating(struct BtlServerFlow *flow, struct BtlPokeParam *bpp)
 {
     if (BTL_POKEPARAM_HasSick(bpp, BTL_SICK_INGRAIN))
         BTL_EVENT_OverwriteVar(BTL_EVAR_FORCE_GROUNDED_FLAG, 1);
@@ -575,7 +551,7 @@ void BTL_SICK_ShowIngrainRoots(struct BtlServerFlow *flow, struct BtlPokeParam *
         pokeId = BTL_POKEPARAM_GetPokeId(bpp);
         record = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_MESSAGE, pokeId);
         BTL_SERVER_FLOW_InitMsgRecord(&record->message, BTL_STR_TYPE_STD, 0x2e6);
-        BTL_SERVER_FLOW_AppendMsgRecordArg(&record->message, pokeId);
+        BTL_SERVER_FLOW_AppendMsgRecordArg((&record->message), pokeId);
         BTL_SERVER_FLOW_CommitCmdRecord(flow, record);
     }
 }

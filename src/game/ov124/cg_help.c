@@ -131,7 +131,7 @@
 
 struct Node;
 struct Descriptor;
-struct Obj;
+struct ClactActor;
 struct PrintSys;
 struct Cfg;
 struct DispConfig;
@@ -159,7 +159,7 @@ typedef struct { u32 text; u16 color; u16 pad; u32 flag; } CgHelpMenuItem;
 
 typedef struct { u8 bytes[16]; } CgHelpTouchRects;
 
-typedef struct { s16 x, y; } Vec;
+typedef struct { s16 x, y; } CgHelpVec;
 
 typedef struct CgHelpArgs {
     void *myStatus;
@@ -210,117 +210,61 @@ typedef struct CgHelpWork {
     void *pageActor;
 } CgHelpWork;
 
-extern void *GFL_USE_AddMainTask(void *,void *,int);
-extern void GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
+#include "../arm9/gfl_use.h"
+#include "../arm9/net.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern u32 WIPE_SYS_EndCheck(void);
+#include "../arm9/tcb_list.h"
+#include "../arm9/wipe.h"
 struct TaskMenuWin;
-extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
-extern u32 KEY_GetTrg(void);
-extern void BG_SYS_MarkTileDirty(u32 bit);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/key.h"
+#ifdef __MWERKS__
+#define BG_SYS_SetPlaneVisible BG_SYS_SetPlaneVisible_hdr
+#define BG_SYS_FreeSlot BG_SYS_FreeSlot_hdr
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_SetPlaneVisible
+#undef BG_SYS_FreeSlot
+void BG_SYS_SetPlaneVisible(u32, unsigned char);
+void BG_SYS_FreeSlot(u32);
+#endif
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void CLACT_DrawSystem(void);
-extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+#include "../arm9/printsys.h"
+#include "../arm9/clact.h"
 struct BmpWin;
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_ClearScreen(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_TransChar(struct TaskMenuWin *win);
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
-extern void CLACT_VBlankSystem(void);
-extern void BG_SYS_ResetSubDisplay(void), BG_SYS_ClearMainPlanes(void), BG_SYS_ClearSubPlanes(void);
-extern void WIPE_SetBrightnessFadeOut(u32, u32);
-extern void WIPE_ResetWndMask(void *);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_Create(u16), BMP_WIN_Init(u16);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/bmp_win.h"
+extern void BG_SYS_ResetSubDisplay(void);
+extern void BG_SYS_ClearMainPlanes(void);
+extern void BG_SYS_ClearSubPlanes(void);
+extern void BG_SYS_Create(u16);
+extern void BMP_WIN_Init(u16);
+#include "../arm9/g2.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void BG_SYS_FreeLayerBuf(u32);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
-extern void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
-extern void BG_SYS_FreeSlot(u32);
-extern void BG_SYS_PushTile(u32);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_TOOL_DeleteHandle(void *);
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
 struct MyStatus;
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-struct Actor;
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern u32 GFL_HEAP_Free(void *p);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleasePalette(u32);
-extern void CLACT_ReleaseCharacter(u32);
-extern void CLACT_ReleaseCellAnim(u32);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern void GF_FONT_SetTextColor(u32, u32, u32);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u16);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32, u32, u32, u32, u16);
-extern u8 BMP_MENUWORK_GetPlttFileId(int);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
+#include "../arm9/mystatus.h"
+struct ClactActor;
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/bmp_menuwork.h"
 struct GFont;
 struct TaskMenuRes;
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 struct TaskMenuItem;
-extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u16 heapId);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern int TOUCHPANEL_HitTrg(const void *p);
-extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, s32 isDecide);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/strbuf.h"
+#include "../arm9/touchpanel.h"
 struct GameSystem;
-extern u32 GAMESYSTEM_IsNetOffBySleep(struct GameSystem *gameSystem);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern int NNS_GfdRegisterNewVramTransferTask(void *, u32, u32, int);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern void BG_SYS_DrawTile(u32 index, void *src, u8 dx, u8 dy, u8 cw, u8 ch);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx);
-extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void *MYSTATUS_Create(int heap_id);
-extern unsigned int KEY_GetCont(void);
-extern void MYSTATUS_SetSex(struct MyStatus *mystatus, u8 sex);
-extern void PROCSYS_FreeProcWork(struct Proc *);
-extern void GFL_HEAP_DeleteChecked(u32);
+#include "../arm9/gamesystem.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
 void CG_HELP_Setup(CgHelpWork *work);
 void CG_HELP_Teardown(CgHelpWork *work);
 int CG_HELP_Main(CgHelpWork *work);
@@ -342,7 +286,7 @@ extern const u32 gCgHelpVramBanks[], gCgHelpDispConfig[], gCgHelpBgTemplateLayer
 extern const CgHelpTouchRects gCgHelpTouchRects;
 extern const u32 gCgHelpPageAnimSeq[], gCgHelpPageCharOffset[], gCgHelpPageTileBase[];
 extern const char gCgHelpFileName[];
-extern const Vec gCgHelpActorOffset;
+extern const CgHelpVec gCgHelpActorOffset;
 
 void CG_HELP_Setup(CgHelpWork *work)
 {
@@ -350,7 +294,7 @@ void CG_HELP_Setup(CgHelpWork *work)
     CG_HELP_InitDisplay(work);
     CG_HELP_LoadActorResources(work);
     CG_HELP_InitWindows(work);
-    work->vblankTask = GFL_USE_AddMainTask(CG_HELP_VBlank,work,8);
+    work->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))CG_HELP_VBlank,(void *)work,8);
     work->pageIndex = 0;
     work->firstDrawPending = 1;
     CG_HELP_DrawPageText(work,work->pageIndex);
@@ -468,7 +412,7 @@ void CG_HELP_InitDisplay(CgHelpWork *work)
     G2x_SetBlendAlpha_((u32 *)0x04001050, 4, 8, 15, 4);
     cfg = gClActorInitParam;
     cfg.h = 0x40;
-    CLACT_InitSystem((struct SysInit *)(&cfg), (struct DispVramCfg *)gCgHelpVramBanks, work->heapId);
+    CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)(&cfg)), (const struct DispVramCfg *)gCgHelpVramBanks, work->heapId);
     work->actorUnit = CLACT_CreateUnit(0x30, 0, work->heapId);
     CLACT_SetUnitDefaultRenderer(work->actorUnit);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
@@ -521,7 +465,7 @@ void CG_HELP_LoadActorResources(CgHelpWork *work)
     req.z = 0;
     req.a = 0;
     req.b = 0;
-    work->pageActor = CLACT_CreateActor(work->actorUnit, work->paletteId, work->charId, work->cellAnimId, &req, 1, work->heapId);
+    work->pageActor = CLACT_CreateActor((struct Unit *)work->actorUnit, work->paletteId, work->charId, work->cellAnimId, (const struct ActorInitParam *)&req, 1, work->heapId);
     CLACT_SetActorDrawEnable(work->pageActor, 0);
     CLACT_SetActorAutoAnim(work->pageActor, 1);
 }
@@ -593,7 +537,7 @@ void CG_HELP_HandleTouchInput(CgHelpWork *work)
 {
     CgHelpTouchRects table;
     table = gCgHelpTouchRects;
-    switch (TOUCHPANEL_HitTrg(&table)) {
+    switch (TOUCHPANEL_HitTrg((const TouchHitTable *)&table)) {
     case 0:
         if (work->pageIndex != 0) {
             (work->pageIndex)--;
@@ -644,7 +588,7 @@ void CG_HELP_UpdatePageGraphics(CgHelpWork *work, u32 page)
 {
     u16 *q;
     u8 i, j;
-    Vec delta;
+    CgHelpVec delta;
     CLACT_SetActorAnimSeq(work->pageActor, gCgHelpPageAnimSeq[page]);
     CLACT_SetActorDrawEnable(work->pageActor, 1);
     if (page <= 7) {
@@ -664,13 +608,13 @@ void CG_HELP_UpdatePageGraphics(CgHelpWork *work, u32 page)
     }
     BG_SYS_PushTile(4);
     delta = gCgHelpActorOffset;
-    CLACT_AddActorSurfacePos(work->pageActor, (const struct Vec2 *)(&delta), 1);
+    CLACT_AddActorSurfacePos((struct ClactActor *)work->pageActor, (const struct ClactVec2 *)((const struct Vec2 *)(&delta)), 1);
     if (page == 10) {
-        CLACT_SetActorAutoAnim(work->pageActor, 0);
-        CLACT_SetActorAnimIndex((struct Actor *)(work->pageActor), 1);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->pageActor, 0);
+        CLACT_SetActorAnimIndex((struct ClactActor *)(work->pageActor), 1);
     } else if (page == 11) {
-        CLACT_SetActorAutoAnim(work->pageActor, 0);
-        CLACT_SetActorAnimIndex((struct Actor *)(work->pageActor), 0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->pageActor, 0);
+        CLACT_SetActorAnimIndex((struct ClactActor *)(work->pageActor), 0);
     } else {
         CLACT_SetActorAutoAnim(work->pageActor, 1);
     }
@@ -707,7 +651,7 @@ int CG_HELP_ProcExit(struct Proc *task, int b, int keep, CgHelpWork *work)
     return 1;
 }
 
-extern unsigned int GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 int CG_HELP_ProcMain(int a, int b, int c, CgHelpWork *work)
 {
     int r;

@@ -32,21 +32,19 @@
 #include "zukan_detail_shared_types.h"
 #include "zukan_detail_main_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void ZUKAN_DETAIL_INFO_SetHeapId(unsigned short *p, unsigned short v);
+#include "zukan_detail_info.h"
 
-extern void ZUKAN_DETAIL_AREA_SetHeapId(u16 *p, u16 v);
+#include "zukan_detail_area.h"
 
-extern void ZUKAN_DETAIL_VOICE_SetHeapId(u16 *dst, u16 value);
+#include "zukan_detail_voice.h"
 
-extern void ZUKAN_DETAIL_FORM_SetHeapId(u16 *p, u32 value);
+#include "zukan_detail_form.h"
 
-struct Ov208Fsm *ZUKAN_DETAIL_PROCSYS_AllocNode(void *owner, int val, u32 heap);
+#include "zukan_detail_procsys.h"
 
-void ZUKAN_DETAIL_PROCSYS_FreeNode(void *p);
 
 void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Args *m, struct Ov208Main *s);
 

@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_MYSTERY_DATA_H
 #define GAME_ARM9_MYSTERY_DATA_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of mystery_data.c, prototypes copied from their definitions. */
 
 struct MysteryData;
@@ -47,5 +48,6 @@ void MYSTERY_DATA_Encrypt(struct MysteryData *data);
 void MYSTERY_DATA_Decrypt(struct MysteryData *data);
 void MYSTERY_DATA_EncryptBuffer(u8 *buffer, u32 saveType);
 void MYSTERY_DATA_DecryptBuffer(u8 *buffer, u32 saveType);
+/* END mkheaders: generated region */
 
 #endif

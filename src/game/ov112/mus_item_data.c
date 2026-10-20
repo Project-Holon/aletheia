@@ -22,7 +22,7 @@
 #include "musical_shot_sys_shared_types.h"
 #include "mus_item_draw_shared_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
 #include "../types.h"
 
@@ -45,9 +45,15 @@ typedef struct McssActorData {
     void *table;            /* 0x04 MUSICAL_MCSS_GetElemPtr base */
 } McssActorData;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, int heapID);
+#ifdef __MWERKS__
+#define ARC_UTIL_LoadMember ARC_UTIL_LoadMember_hdr
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_LoadMember
+void * ARC_UTIL_LoadMember(int, int, int, int);
+#endif
 
 u32 *MUSICAL_MCSS_LoadActorData(int heap);
 
@@ -82,9 +88,9 @@ extern char d_021F83B4[];
 u32 *MUSICAL_MCSS_LoadActorData(int heap)
 {
     u32 *p = GFL_HEAP_Alloc(heap, 8, 0, d_021F83B4, 0x47);
-    int r = ARC_UTIL_LoadMember(45, 0x65, 0, heap);
-    p[0] = r;
-    p[1] = r;
+    void *r = ARC_UTIL_LoadMember(45, 0x65, 0, heap);
+    p[0] = (u32)r;
+    p[1] = (u32)r;
     return p;
 }
 

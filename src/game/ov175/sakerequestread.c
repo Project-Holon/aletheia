@@ -72,25 +72,13 @@
  */
 #include "sake_types.h"
 
-extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
-extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
-extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
-extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
-extern int gsXmlMoveToChild(void *stream, char *matchtag);
-extern int gsXmlCountChildren(void *stream, char *matchtag);
-extern void *gsimalloc(unsigned long size);
-extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long n);
-extern int gsXmlMoveToNext(void *stream, char *matchtag);
-extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
-extern int gsXmlReadChildAsInt64(void *stream, char *matchtag, long long *valueOut);
-extern int gsXmlReadChildAsFloat(void *stream, char *matchtag, float *valueOut);
-extern int gsXmlReadChildAsString(void *stream, char *matchtag, char **valueOut, int *lenOut);
-extern unsigned short *UTF8ToUCS2StringAlloc(char *theUTF8String);
-extern int strcmp(const char *a, const char *b);
-extern int gsXmlReadChildAsDateTimeElement(void *stream, char *matchtag, long *valueOut);
-extern int gsXmlReadChildAsBase64Binary(void *stream, char *matchtag, unsigned char *valueOut, int *lenOut);
-extern void gsifree(void *ptr);
-extern int sakeiStartRequest(SAKERequestInternal *request, SAKERequestInfo *info);
+#include "../ov009/gsxml.h"
+#include "../ov009/gsmemory.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../ov009/gsstringutil.h"
+#include "../arm9/msl_string_str.h"
+#include "sakerequest.h"
 int sakeiValidateRequestFieldNames(char **fieldNames, int numFields);
 void sakeiFillSoapRequestFieldNames(SAKERequestInternal *request, char **fieldNames, int numFields);
 void sakeiFillSoapRequestRecordIds(SAKERequestInternal *request, int *recordIds, int numRecordIds);

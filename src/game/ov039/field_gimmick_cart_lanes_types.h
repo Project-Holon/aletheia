@@ -32,7 +32,7 @@ struct FieldPlayer;
 struct Mmdl;
 struct IcaAnime;
 struct SndHandle;
-struct Tcb;
+struct TcbTask;
 struct TcbSys;
 struct ScriptWork;
 
@@ -91,7 +91,7 @@ typedef struct FieldGimmickCartLanesDockCell {
 
 /* The common work of the gimmick on the field map (0x21F4 bytes, id 1). */
 typedef struct FieldGimmickCartLanesWork {
-    struct Tcb *task;                       /* 0x00: per-frame task */
+    struct TcbTask *task;                       /* 0x00: per-frame task */
     u8 selectedCart;                        /* 0x04: cart being ridden, FIELD_GIMMICK_CART_LANES_NO_CART if none */
     s8 switchLane;                          /* 0x05: lane whose lever is being thrown, -1 if none */
     u8 switchState;                         /* 0x06: lever position being set */
@@ -128,7 +128,7 @@ typedef struct FieldGimmickCartLanesJointTag {
 #define FIELD_GIMMICK_CART_LANES_JOINT_Y_CONSTANT      0x10
 #define FIELD_GIMMICK_CART_LANES_JOINT_Z_CONSTANT      0x20
 
-typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
+#include "../arm9/ica_anime_shared_types.h"
 
 /* Data of the overlay. */
 extern const G3dUtilSetup sCartSetup;
@@ -145,79 +145,20 @@ extern const u32 sStopFrames[][2];
 extern const u16 sSwitchFrameLimits[];
 
 /* Functions of overlay 21 and arm9 that the gimmick uses. */
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
-extern struct TcbSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
-extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern FieldGimmickCartLanesSave *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
-extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent,
-                                       GameEventFunc func, u32 workSize);
-extern void *SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u16 scriptId, int targetObj, int param, u16 heapId);
-extern struct ScriptWork *SCRIPT_SYS_ChangeScriptEvent(struct GameEvent *event, int scriptId, int target, int heapId);
-extern struct Tcb *TCB_AddTask(struct TcbSys *tcbSys, void (*callback)(struct Tcb *, struct FieldMap *),
-                                 struct FieldMap *work, u32 priority);
-extern void TCB_DeleteTask(struct Tcb *tcb);
+#include "../arm9/tcb_list.h"
+#include "../arm9/game_event.h"
 
-extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
-extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
-extern struct G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *expObj, u32 unitIndex, u16 modelIndex);
-extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
-extern FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *expObj, int unitIndex, u16 modelIndex, int animeIndex);
-extern void FLD_EXP_OBJ_SetAnimePaused(FldExpObjAnime *anime, int paused);
-extern u8 FLD_EXP_OBJ_IsAnimePaused(FldExpObjAnime *anime);
-extern void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
-extern int FLD_EXP_OBJ_IsAnimeStopped(FldExpObjAnime *anime);
-extern void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int frame);
-extern int FLD_EXP_OBJ_GetAnimeFrame(FldExpObjCnt *expObj, int unitIndex, u8 modelIndex, u8 animeIndex);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, u8 animeIndex, int enable);
-extern int FLD_EXP_OBJ_GetAnimeLastFrame(FldExpObjAnime *anime);
-extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
+#include "../ov021/fld_exp_obj.h"
 
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *outPos);
-extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, const VecFx32 *pos);
-extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, u32 value);
-extern void FLDMMDL_SetDirDispCheckPause(struct Mmdl *mmdl, u32 value);
 
-extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct FieldSoundSystem *soundSys, u32 seId);
-extern void FIELD_SOUND_SYSTEM_ReleaseSlot(struct FieldSoundSystem *soundSys, int seId);
-extern void FIELD_SOUND_SYSTEM_TransferSlot(struct FieldSoundSystem *soundSys, u32 slot, u32 volume);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern int GFL_USE_GetSeSlot(u32 seId);
-extern void GFL_USE_StopSeSlot(int seSlot);
-extern struct SndHandle *GFL_USE_GetSeHandle(int seSlot);
-extern void GFL_USE_StopAllSe(void);
-extern void NNS_SndHandleSetSeqPriority(struct SndHandle *handle, u8 priority);
-extern void NNS_SndHandleSetVolume(struct SndHandle *handle, int volume);
-extern unsigned int KEY_GetCont(void);
 
-extern struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u16 dataId, void *buffer, u32 bufferSize);
-extern u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *anime, VecFx32 *translate, u32 frame);
-extern void ICA_ANIME_Delete(struct IcaAnime *anime);
 
-extern struct G3dAnime *G3D_SYSTEM_GetObjectAnime(struct G3dObject *obj, u16 anmIdx);
-extern NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(struct G3dAnime *anime);
-extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, fx32 *frame);
-extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, u16 anmIdx, fx32 *frame);
-extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern fx32 VEC_Mag(const VecFx32 *v);
 
 /* Functions of the overlay. */
 u8 FIELD_GIMMICK_CART_LANES_FindDockAt(int x, int z);
 u8 FIELD_GIMMICK_CART_LANES_GetActiveCart(FieldGimmickCartLanesWork *work, int lane);
 void FIELD_GIMMICK_CART_LANES_Setup(struct FieldMap *fieldMap);
-void FIELD_GIMMICK_CART_LANES_UpdateTask(struct Tcb *tcb, struct FieldMap *fieldMap);
+void FIELD_GIMMICK_CART_LANES_UpdateTask(struct TcbTask *tcb, struct FieldMap *fieldMap);
 void FIELD_GIMMICK_CART_LANES_End(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_CART_LANES_SaveCartFrames(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_CART_LANES_TransferSound(struct GameSystem *gameSystem);

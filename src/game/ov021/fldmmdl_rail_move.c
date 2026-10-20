@@ -74,26 +74,13 @@
  *   FLDMMDL_RAIL_GetDrawOffsetByDir  0x0219E784  thumb  ov021
  */
 #include "../types.h"
+#include "../ov010/fldmmdl_types.h"
+#include "../arm9/zonedata_types.h"
 
 #include "../sdk_fx.h"
 
 /* A field model (opaque here; fldmmdl.c owns the layout). */
 typedef struct Mmdl Mmdl;
-
-/* The start of the object code parameter of a field model. */
-typedef struct {
-    u16 code;
-    u8 drawType;
-    u8 drawProcNo;
-    u8 shadowSize;
-    u8 footMarkType;   /* 2: cycle foot marks */
-    u8 reflectType;    /* 0: no reflection */
-} MmdlObjCodeParam;
-
-/* A rail location (8 bytes; fldmmdl_rail.c fills it). */
-typedef struct {
-    u32 word[2];
-} RailLocation;
 
 /* Anime command work of the stay walk commands (walk in place). */
 typedef struct {
@@ -146,64 +133,41 @@ typedef struct {
 #define _SE_RAIL_JUMP 0x55E
 #define _SE_RAIL_LAND 0x67B
 
-extern void *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
-extern MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(Mmdl *mmdl);
-extern u32 *FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_CallMoveInitProc(Mmdl *mmdl);
-extern u32 FLDMMDL_CheckSysStatusBit(Mmdl *mmdl, unsigned int bit);
-extern u32 FLDMMDL_CheckMoveBit(Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_ACMD_RunCmds(Mmdl *mmdl);
-extern int FLDMMDL_CheckMoveBitMovePause(Mmdl *mmdl);
-extern void FLDMMDL_CallMoveProc(Mmdl *mmdl);
+#ifdef __MWERKS__
+#define FLDMMDL_InitMoveCmdWork FLDMMDL_InitMoveCmdWork_header
+#endif
+#include "../ov010/fldmmdl.h"
+#ifdef __MWERKS__
+#undef FLDMMDL_InitMoveCmdWork
+/* The original calls pass a third argument that FLDMMDL_InitMoveCmdWork ignores. */
+#define INIT_MOVE_CMD_WORK(mmdl, size, extra) FLDMMDL_InitMoveCmdWork(mmdl, size, extra)
+void *FLDMMDL_InitMoveCmdWork(Mmdl *mmdl, int size, int extra);
+#else
+#define INIT_MOVE_CMD_WORK(mmdl, size, extra) FLDMMDL_InitMoveCmdWork(mmdl, size)
+#endif
+#include "../arm9/fx_vec.h"
+#include "fldmmdl_acmd.h"
 struct MmdlSys;
-extern void *FLDMMDL_SysGetNogridMapper(struct MmdlSys *sys);
 struct FieldNogridMapper;
-extern u32 FIELD_NOGRID_MAPPER_GetAttribute(struct FieldNogridMapper *mapper, RailLocation *location);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern void VEC_Fx16Normalize(s16 *src, s16 *dst);
-extern u16 FX_Atan2Idx(int y, int x);
-extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
-extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
-extern void FLDMMDL_OnMoveBitMoveStart(Mmdl *mmdl);
-extern char *FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 bit);
-extern int FLDMMDL_CheckStatusBitAttrGetOff(Mmdl *mmdl);
-extern void FLDMMDL_SetOldAttr(Mmdl *mmdl, u32 attr);
-extern void FLDMMDL_SetNowAttr(Mmdl *mmdl, u32 attr);
-extern void *FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bit);
-extern int FLDMMDL_CheckDrawInitComp(Mmdl *mmdl);
-extern u32 FLDMMDL_GetNowAttr(Mmdl *mmdl);
-extern u32 FLDMMDL_GetOldAttr(Mmdl *mmdl);
-extern u16 MAP_ATTR_GetFlags(u32 attr);
+#include "field_nogrid_mapper.h"
+#include "../arm9/fx_atanidx.h"
+#include "map_attr.h"
 extern void FLDEFF_GRASS_Start(u32 fldEffCtrl, Mmdl *mmdl, u32 animate, int arg);
-extern void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, s32 fieldEffectCtrl, s32 type);
-extern int FLDMMDL_SysIsDrawEnable(void *mmdlSys);
+#include "fldeff_footmark.h"
 extern void FLDEFF_SHADOW_Start(Mmdl *mmdl, u32 fldEffCtrl);
 extern u32 FLDEFF_KEMURI_StartFacing(Mmdl *mmdl, u32 fldEffCtrl);
-extern int FLDMMDL_CheckMoveBitReflect(Mmdl *mmdl);
-extern int FLDMMDL_MOVE_GetDirMapAttr(Mmdl *mmdl, int dir);
-extern int FLDMMDL_SetMoveBitReflect(Mmdl *mmdl, int on);
-extern void FLDEFF_REFLECT_SetMMdl(u32 mmdlSys, u32 mmdl, u32 fieldEffectCtrl, u32 type);
-extern void *FLDMMDL_SysGetFieldMap(struct MmdlSys *sys);
+#include "../ov010/fldmmdl_move.h"
+#include "fldeff_reflect.h"
 struct FieldMap;
 struct FieldEffectCont;
-extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
-extern void FLDMMDL_IncAcmdSeq(Mmdl *mmdl);
-extern int FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
-extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 drawStatus);
-extern void FLDMMDL_SetDirAll(Mmdl *mmdl, u16 dir);
+#include "fieldmap.h"
 struct RailWork;
-extern void FIELD_RAIL_WORK_GetPos(struct RailWork *work, VecFx32 *outPos);
+#include "field_rail.h"
 struct RailWork;
-extern u8 FIELD_RAIL_WORK_IsMoving(struct RailWork *work);
-struct MmdlVec;
-extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
-extern void *FLDMMDL_InitMoveCmdWork(Mmdl *mmdl, int size, int arg);
-extern void *FLDMMDL_GetMoveCmdWork(Mmdl *mmdl);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
+struct VecFx32;
+#include "../arm9/gfl_use.h"
 
-int FLDMMDL_RAIL_MOVE_InitMove(Mmdl *mmdl);
+void FLDMMDL_RAIL_MOVE_InitMove(Mmdl *mmdl);
 void FLDMMDL_RAIL_MOVE_UpdateMove(Mmdl *mmdl);
 int FLDMMDL_RAIL_MOVE_GetLocationAttr(Mmdl *mmdl, RailLocation *location);
 u32 FLDMMDL_RAIL_MOVE_GetDirByAngle(Mmdl *mmdl, int angle);
@@ -293,13 +257,7 @@ int FLDMMDL_RAIL_MOVE_AcJumpL16F0(Mmdl *mmdl);
 int FLDMMDL_RAIL_MOVE_AcJumpR16F0(Mmdl *mmdl);
 
 /* fldmmdl_rail.c */
-void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *location);
-int FLDMMDL_RAIL_GetNowLocation(Mmdl *mmdl, RailLocation *location);
-struct RailWork *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl);
-void FLDMMDL_RAIL_UpdateRailWork(Mmdl *mmdl);
-void FLDMMDL_RAIL_SetMoveRequest(Mmdl *mmdl, u32 dir, u32 frames);
-void FLDMMDL_RAIL_SetGridPosByDir(Mmdl *mmdl, u16 dir);
-void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *vec);
+#include "fldmmdl_rail.h"
 
 /* Display direction for each 1/16 turn of the camera relative angle. */
 extern u8 d_021D80E4[];
@@ -307,10 +265,10 @@ extern u8 d_021D80E4[];
 extern s32 *d_021DDD94[];
 
 /* Move proc init of the rail move. */
-int FLDMMDL_RAIL_MOVE_InitMove(Mmdl *mmdl)
+void FLDMMDL_RAIL_MOVE_InitMove(Mmdl *mmdl)
 {
     FLDMMDL_CallMoveInitProc(mmdl);
-    return (int)FLDMMDL_SetStatusBit(mmdl, 2);
+    FLDMMDL_SetStatusBit(mmdl, 2);
 }
 
 /* Per-frame update of a field model on a rail: anime command or move proc,
@@ -339,12 +297,12 @@ int FLDMMDL_RAIL_MOVE_GetLocationAttr(Mmdl *mmdl, RailLocation *location)
 /* Display direction of the field model's rail direction seen at `angle`. */
 u32 FLDMMDL_RAIL_MOVE_GetDirByAngle(Mmdl *mmdl, int angle)
 {
-    s16 vec[4];
+    VecFx16 vec;
     int relAngle;
-    FLDMMDL_RAIL_GetDrawOffsetByDir(mmdl, FLDMMDL_GetDirDisp(mmdl), vec);
-    vec[1] = 0;
-    VEC_Fx16Normalize(vec, vec);
-    relAngle = FX_Atan2Idx(vec[0], vec[2]) - angle;
+    FLDMMDL_RAIL_GetDrawOffsetByDir(mmdl, FLDMMDL_GetDirDisp(mmdl), (s16 *)&vec);
+    vec.y = 0;
+    VEC_Fx16Normalize(&vec, &vec);
+    relAngle = FX_Atan2Idx(vec.x, vec.z) - angle;
     if (relAngle < 0) {
         relAngle += 0x10000;
     }
@@ -658,7 +616,7 @@ int FLDMMDL_RAIL_MOVE_AcWalk1(Mmdl *mmdl)
     railWork = FLDMMDL_RAIL_GetRailWork(mmdl);
     FLDMMDL_RAIL_UpdateRailWork(mmdl);
     FIELD_RAIL_WORK_GetPos(railWork, &pos);
-    FLDMMDL_SetPos(mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_SetPos(mmdl, (struct VecFx32 *)(&pos));
     if (FIELD_RAIL_WORK_IsMoving(railWork)) {
         return 0;
     }
@@ -698,7 +656,7 @@ int FLDMMDL_RAIL_MOVE_AcDashR4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcWalkSet(mmdl,
 
 void FLDMMDL_RAIL_MOVE_AcStayWalkSet(Mmdl *mmdl, u32 dir, u16 frames, u16 drawStatus)
 {
-    RailAcmdStayWalkWork *work = FLDMMDL_InitMoveCmdWork(mmdl, sizeof(RailAcmdStayWalkWork), frames);
+    RailAcmdStayWalkWork *work = INIT_MOVE_CMD_WORK(mmdl, sizeof(RailAcmdStayWalkWork), frames);
     work->drawStatus = drawStatus;
     work->frameCount = frames;
     FLDMMDL_SetDirDispCheckPause(mmdl, (u16)dir);
@@ -743,7 +701,7 @@ int FLDMMDL_RAIL_MOVE_AcStayWalkR4F0(Mmdl *mmdl) { FLDMMDL_RAIL_MOVE_AcStayWalkS
 void FLDMMDL_RAIL_MOVE_AcJumpSetSe(Mmdl *mmdl, u32 dir, u32 speed, u8 frames, u16 drawStatus, s16 heightTable, u16 heightStep, u32 seNo)
 {
     RailAcmdJumpWork *work;
-    work = FLDMMDL_InitMoveCmdWork(mmdl, sizeof(RailAcmdJumpWork), speed);
+    work = INIT_MOVE_CMD_WORK(mmdl, sizeof(RailAcmdJumpWork), speed);
     work->dir = dir;
     work->speed = speed;
     work->frameCount = frames;
@@ -786,7 +744,7 @@ int FLDMMDL_RAIL_MOVE_AcJump1(Mmdl *mmdl)
         railWork = FLDMMDL_RAIL_GetRailWork(mmdl);
         FLDMMDL_RAIL_UpdateRailWork(mmdl);
         FIELD_RAIL_WORK_GetPos(railWork, &pos);
-        FLDMMDL_SetPos(mmdl, (struct MmdlVec *)(&pos));
+        FLDMMDL_SetPos(mmdl, (struct VecFx32 *)(&pos));
         if (work->moveAcc >= 0x10000 && work->frameCount > 0) {
             work->moveAcc = 0;
             FLDMMDL_RAIL_SetMoveRequest(mmdl, work->dir, 8);

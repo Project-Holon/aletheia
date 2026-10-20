@@ -45,6 +45,7 @@
  *   sIaigiriDrawStatus  0x021DAC94  data  ov021  a4
  */
 #include "../ov010/fldmmdl_types.h"
+#include "../arm9/g3d_system_types.h"
 
 #include "../types.h"
 
@@ -55,17 +56,6 @@ typedef struct ArcHandle ArcHandle;
 typedef struct FieldEffectSys FieldEffectSys;           /* field effect system (field_effect.c) */
 typedef struct FieldEffectObj FieldEffectObj;           /* one running effect (field_effect.c) */
 typedef struct FieldEffectObjFuncs FieldEffectObjFuncs; /* callback table: unused, init, exit, update, draw */
-typedef struct G3dResource G3dResource;                 /* layouts in arm9/g3d_system_types.h */
-typedef struct G3dRender G3dRender;
-typedef struct G3dAnime G3dAnime;
-typedef struct G3dObject G3dObject;
-
-/* Position, scale and rotation an object is drawn with. */
-typedef struct G3dObjectStatus {
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
-} G3dObjectStatus;
 
 /* Id of the Cut resources in the field effect system. */
 #define FLDEFF_ID_IAIGIRI 0xc
@@ -109,33 +99,13 @@ typedef struct IaigiriTaskWork {
     G3dRender *render;                             /* 0x14 */
 } IaigiriTaskWork;
 
-extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
-extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
-extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
-extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
-extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
-extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
-extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
-extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
-struct MmdlVec;
+#include "../ov010/fldmmdl.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "field_effect.h"
+#include "../arm9/g3d_system.h"
+struct VecFx32;
 struct Mmdl;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
-extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
-extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
-extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
-extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int anmIdx, fx32 step);
-extern void MTX_Identity33_(MtxFx33 *mtx);
-extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
-extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
+#include "../arm9/fx_mtx33.h"
 
 IaigiriRes *FLDEFF_IAIGIRI_Create(FieldEffectSys *fieldEffect, u32 heapId);
 void FLDEFF_IAIGIRI_Delete(FieldEffectSys *fieldEffect, IaigiriRes *res);
@@ -191,8 +161,8 @@ void FLDEFF_IAIGIRI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
     VecFx32 pos;
     IaigiriStartParam param;
 
-    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct MmdlVec *)(&pos));
-    switch (FLDMMDL_GetDirDisp(mmdl)) {
+    FLDMMDL_GetPos( (const Mmdl *)((struct Mmdl *)mmdl), (VecFx32 *)((struct VecFx32 *)(&pos)));
+    switch (FLDMMDL_GetDirDisp( (Mmdl *)mmdl)) {
     case IAIGIRI_DIR_UP:
         pos.z -= IAIGIRI_TILE_SIZE;
         break;

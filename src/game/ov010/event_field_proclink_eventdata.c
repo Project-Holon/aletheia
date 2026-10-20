@@ -30,9 +30,10 @@
 
 #include "../types.h"
 struct ProcLinkReturnList;
-struct ProcLinkEntry;
+#include "event_field_proclink_types.h"
 
-extern struct ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(struct ProcLinkReturnList *list, int id, unsigned int mode);
+typedef int Bool;
+#include "event_field_proclink.h"
 
 /*
  * Returns 1 when the entry with this id exists in the selected list(s) of

@@ -923,7 +923,7 @@ void GFL_NET_HANDLE_Main(void)
         return;
     if (session->init.negotiationFunc != 0 && session->init.negotiationSizeFunc != 0) {
         u32 negotiationSize;
-        u32 negotiationData;
+        uptr negotiationData;
         negotiationSize = (session->init.negotiationSizeFunc)(GFL_NET_GetUserArg());
         negotiationData = (session->init.negotiationFunc)(GFL_NET_GetUserArg());
         if (GFL_NET_SendToHandle(ownHandle, (u16)0xa, (u16)negotiationSize, ((void *)negotiationData)) != 0)

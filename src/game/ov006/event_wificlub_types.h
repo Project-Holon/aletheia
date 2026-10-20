@@ -12,39 +12,10 @@ struct GameEvent;
 struct GameData;
 struct SaveControl;
 
-/* Request read by the evolution demo overlay (ov195), 0x14 bytes. */
-typedef struct EvolutionRequest {
-    struct GameData *gameData;
-    void *party;
-    u16 partyIndex;
-    u8  reserved;
-    u8  evolveCondition;
-    u32 fromTrade;
-    u32 reserved2;
-} EvolutionRequest;
+#include "../ov010/evolution_request_types.h"
 
-/* Parameter block read by the Wi-Fi login overlay (ov115), 0x20 bytes. */
-typedef struct WifiLoginParam {
-    struct GameData *gameData;
-    u32 loginType;
-    u32 loginOption;
-    u32 messageId;
-    u8 *saveData;
-    u32 useSaveData;
-    u32 allowCancel;
-    u32 result;
-} WifiLoginParam;
+#include "../ov000/wifi_login_param_types.h"
 
-/* Short parameter block of the second ov115 call (session confirm), 0x1C bytes. */
-typedef struct WifiConfirmParam {
-    struct GameData *gameData;
-    u32 loginType;
-    u32 loginOption;
-    u32 messageId;
-    u8 *saveData;
-    u32 useSaveData;
-    u32 allowCancel;
-} WifiConfirmParam;
 
 /* Parameter block read by the Pokemon trade overlay (ov119), 0x30 bytes. */
 typedef struct ClubTradeParam {
@@ -68,7 +39,7 @@ typedef struct ClubViewParam {
 } ClubViewParam;
 
 /* Heap blocks and selection state of one club session, 0x4C bytes. */
-typedef struct WifiClubSession {
+typedef struct WifiClubEventSession {
     void *scratchBuffer;
     struct GameData *gameData;
     struct SaveControl *saveControl;
@@ -83,7 +54,7 @@ typedef struct WifiClubSession {
     u8  useAltRule;
     u8  rematch;
     u8  reserved4A[2];
-} WifiClubSession;
+} WifiClubEventSession;
 
 /* Entry of the battle start list, one per side (0x10 bytes). */
 typedef struct ClubBattleSide {
@@ -125,17 +96,16 @@ typedef struct WifiClubEventWork {
     u32 reserved10;
     u32 hideFieldObjects;
     u32 reserved18;
-    void *loginTask;
+    struct ProcSys *loginTask;
     ClubBattleEntry battleEntry;
     u32 battleResult;
     ClubViewParam viewParam;
     u8  reserved54[8];
-    WifiClubSession *session;
+    WifiClubEventSession *session;
     ClubTradeParam tradeParam;
     struct GameData *paramGameData;
     u32 battleRecord;
     WifiLoginParam login;
-    u8  reservedB8[8];
     WifiConfirmParam confirm;
     void *battleSetup;
     ClubBattleSide sides[2];

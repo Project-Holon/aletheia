@@ -25,16 +25,13 @@
  */
 #include "../types.h"
 
-extern u32 NWMi_CheckState(u32, ...);
-extern u32 NWMi_GetSystemWork(void);
+#include "nwm_system.h"
 extern void DC_InvalidateRange(u32, u32);
-extern u32 NWMi_CheckFirmDataParamIntegrity(void);
-extern void NWMi_SetCallbackTable(u32, u32);
-extern void NWMi_RegisterSleepCallback(void);
+#include "nwm_installfirm.h"
+#include "nwm_cmd.h"
 struct PMiGenCallbackInfo;
 extern void PMi_InsertPostExitCallbackEx(struct PMiGenCallbackInfo *info, int priority);
-extern u32 NWMi_SendCommand(unsigned short apiid, unsigned short argc, ...);
-extern void NWMi_ForceExit(void);
+#include "nwm_unloaddev.h"
 extern u32 NWMi_PostExitInfo[];
 
 u32 NWM_LoadDevice(u32 callback) {
@@ -60,7 +57,7 @@ u32 NWM_LoadDevice(u32 callback) {
         return 3;
     }
     NWMi_CheckFirmDataParamIntegrity();
-    NWMi_SetCallbackTable(3, callback);
+    NWMi_SetCallbackTable(3, (u32)callback);
     NWMi_RegisterSleepCallback();
     NWMi_PostExitInfo[0] = (u32)NWMi_ForceExit;
     NWMi_PostExitInfo[1] = 0;

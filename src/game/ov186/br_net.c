@@ -61,89 +61,63 @@
  */
 #include "br_types.h"
 
-extern void GF_OVERLAY_Load(int);
+#include "../arm9/gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(int);
 struct GameData;
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "../arm9/game_data.h"
 struct GdsProfile;
 
-extern void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys);
+#include "../arm9/gds_profile.h"
 
 extern char ov125_id[];
 
-extern void *MI_CpuFill8(void *dst, u32 value, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 
-extern struct GdsProfile *GDS_PROFILE_Create(u32 heapId);
 
-extern void GDS_PROFILE_Delete(struct GdsProfile *profile);
 
 typedef int (*BrNetErrorHook)(struct BrNet *net, int unused, int errorKind, int unused2);
 
 extern void DWC_RAP_SetErrorHookCallback(BrNetErrorHook hook, unsigned int hookArg);
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern void GFL_USE_StopAllSe(void);
+#include "../arm9/gfl_use.h"
 
-extern void GFL_NET_ERR_RaiseFatal(unsigned int errorId);
+#include "../arm9/net_err.h"
 
-extern int DWC_RAPCOMMON_HandleNetError(int, int);
+#include "../ov009/dwc_rapcommon.h"
 
-extern void GFL_NET_ERR_Halt(void);
 
-extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 
-extern int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params);
+#include "../ov125/gds_rap.h"
 
-extern void GDS_RAP_Exit(GdsRapWork *work);
 
-extern int GDS_RAP_RequestUploadEntry(GdsRapWork *work, const GdsProfileBlock *profile, const GdsPayloadBlock *payload);
 
-extern int GDS_RAP_RequestDownloadEntries(GdsRapWork *work, int key);
 
-extern int GDS_RAP_RequestUploadVideo(GdsRapWork *work, void *profile);
 
-extern int GDS_RAP_RequestSearchVideos(GdsRapWork *work, int keyId, unsigned int category, int mode, u8 flag);
 
-extern int GDS_RAP_RequestSearchKind1(GdsRapWork *work);
 
-extern int GDS_RAP_RequestSearchKind2(GdsRapWork *work);
 
-extern int GDS_RAP_RequestSearchKind3(GdsRapWork *work);
 
-extern int GDS_RAP_RequestGetVideo(GdsRapWork *work, int dataNumberLo, int dataNumberHi);
 
-extern int GDS_RAP_RequestMarkVideo(GdsRapWork *work, int dataNumberLo, int dataNumberHi);
 
-extern int GDS_RAP_Main(GdsRapWork *work);
 
-extern void GDS_RAP_ReleaseSession(GdsRapWork *work, int unused, int scene, int unused2);
 
-extern int GDS_RAP_GetResult(GdsRapWork *work, GdsRapResult **result);
 
-extern void GDS_RAP_ClearResult(GdsRapWork *work);
 
-extern int GDS_RAP_IsIdle(GdsRapWork *work);
 
-extern int GDS_RAP_GetDownloadEntries(GdsRapWork *work, void **entries, int max);
 
-extern u64 GDS_RAP_GetUploadedDataNumber(GdsRapWork *work);
 
-extern int GDS_RAP_GetSearchResults(GdsRapWork *work, char *dst, int max);
 
-extern int GDS_RAP_GetVideoReply(GdsRapWork *work, struct BattleRecSave **video);
 
 extern const char gBrNetSourceFile[];
 
@@ -158,7 +132,7 @@ extern const char gBrNetAssertString[];
 #define BR_NET_MSG_SEARCH_VIDEOS 269
 #define BR_NET_MSG_GET_VIDEO 274
 
-struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u32 heapId);
+struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u16 heapId);
 
 void BR_NET_Destroy(struct BrNet *net);
 
@@ -220,7 +194,7 @@ void BR_NET_OnGetVideo(void *userData, GdsRapResult *result);
 
 void BR_NET_OnMarkVideo(void *userData, GdsRapResult *result);
 
-struct BrNetTask *BR_NET_CreateTask(struct BrNet *net, BrNetStepFunc step, u32 heapId);
+struct BrNetTask *BR_NET_CreateTask(struct BrNet *net, BrNetStepFunc step, u16 heapId);
 
 void BR_NET_DestroyTask(struct BrNetTask *task);
 
@@ -239,7 +213,7 @@ typedef char BrNetCheckTask[sizeof(struct BrNetTask) == 0x10 ? 1 : -1];
 /*
  * Layout: original fills 0x2c bytes of local config and allocates 0x5e4-byte context. Callback table occupies its final seven words.
  */
-struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u32 heapId)
+struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u16 heapId)
 {
     struct BrNet *net;
     GdsRapInitParams params;
@@ -558,7 +532,7 @@ void BR_NET_OnGetVideo(void *userData, GdsRapResult *result) { ((struct BrNet *)
 
 void BR_NET_OnMarkVideo(void *userData, GdsRapResult *result) { ((struct BrNet *)userData)->markVideoDone = 1; }
 
-struct BrNetTask *BR_NET_CreateTask(struct BrNet *net, BrNetStepFunc step, u32 heapId)
+struct BrNetTask *BR_NET_CreateTask(struct BrNet *net, BrNetStepFunc step, u16 heapId)
 {
     struct BrNetTask *task=GFL_HEAP_Alloc(heapId,sizeof(struct BrNetTask),0,gBrNetSourceFile,0x44f);
     MI_CpuFill8(task,0,sizeof(struct BrNetTask));

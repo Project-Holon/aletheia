@@ -64,8 +64,20 @@
  *   FLDEFF_D06DENKI_PulseTrigger 0x021C928C thumb ov021
  *   FLDMMDL_AddMmdlParam 0x0216CE6C thumb ov010
  */
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS file declares these differently from the ARM9 headers. */
+#ifdef __MWERKS__
+#define FLDMMDL_AddMmdlParam FLDMMDL_AddMmdlParam_header
+#define FLDMMDL_SetAcmd FLDMMDL_SetAcmd_header
+#define FLDMMDL_MOVE_HitCheckMoveCurrent FLDMMDL_MOVE_HitCheckMoveCurrent_header
+#endif
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_d06_types.h"
+extern struct FieldEffectObj *FLDEFF_D06DENKI_StartFollow(struct FieldEffectSys *effects, const VecFx32 *pos, struct Mmdl *mmdl);
+extern struct FieldEffectObj *FLDEFF_D06DENKI_StartPulse(struct FieldEffectSys *effects, const VecFx32 *pos);
+extern void FLDEFF_D06DENKI_PulseTrigger(struct FieldEffectObj *effect);
+extern void FLDEFF_D06DENKI_FollowFreezeLoop(struct FieldEffectObj *effect);
+extern void FLDEFF_D06DENKI_FollowStartEnding(struct FieldEffectObj *effect);
+extern int FLDEFF_D06DENKI_FollowIsEnded(struct FieldEffectObj *effect);
 
 const GimmickD06ZoneTable *FIELD_GIMMICK_D06_FindStoneTableRow(int zoneId);
 const GimmickD06GridPos *FIELD_GIMMICK_D06_GetStonePositions(int zoneId);
@@ -96,6 +108,30 @@ extern char gGimmickD06SourceFile[];
 extern const GimmickD06ZoneTable gGimmickD06StoneTable[GIMMICK_D06_ZONE_COUNT];
 extern const GimmickD06ZoneTable gGimmickD06PanelTable[GIMMICK_D06_ZONE_COUNT];
 #include "field_gimmick_d06_ids.h"
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../arm9/gimmick.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../ov021/field_effect.h"
+#include "../arm9/game_event.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_use.h"
+#include "../ov010/fldmmdl.h"
+#include "../ov010/fldmmdl_move.h"
+#include "../ov021/fldmmdl_acmd.h"
+#include "../ov021/field_player.h"
+#include "../ov021/map_attr.h"
+#include "field_gimmick_d06.h"
+#ifdef __MWERKS__
+#undef FLDMMDL_AddMmdlParam
+#undef FLDMMDL_SetAcmd
+#undef FLDMMDL_MOVE_HitCheckMoveCurrent
+struct Mmdl *FLDMMDL_AddMmdlParam(struct MmdlSys *mmdlSys, short gridX, short gridZ, u16 dir, u16 objId,
+                                  u16 objCode, u16 moveCode, int zoneId);
+void FLDMMDL_SetAcmd(struct Mmdl *mmdl, int acmd);
+int FLDMMDL_MOVE_HitCheckMoveCurrent(struct Mmdl *mmdl, int x, int y, int z, u32 dir);
+#endif
 
 /* The row of the stone table for a zone; the first row for an unknown zone. */
 const GimmickD06ZoneTable *FIELD_GIMMICK_D06_FindStoneTableRow(int zoneId)
@@ -172,10 +208,10 @@ void FIELD_GIMMICK_D06_Init(struct FieldMap *fieldMap)
     struct MmdlSys *mmdlSys;
 
     heapId = FIELDMAP_GetHeapId(fieldMap);
-    gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    gimmickWork = (struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     effects = FIELDMAP_GetEffect(fieldMap);
     zoneId = FIELDMAP_GetZoneId(fieldMap);
-    save = GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(zoneId));
+    save = (GimmickD06Save *)GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(zoneId));
     work = GFL_HEAP_Alloc(heapId, sizeof(GimmickD06Work), 1, gGimmickD06SourceFile, 0xca);
     save->work = work;
     work->save = save;
@@ -222,9 +258,9 @@ void FIELD_GIMMICK_D06_Exit(struct FieldMap *fieldMap)
     struct GimmickWork *gimmickWork;
 
     FIELDMAP_GetHeapId(fieldMap);
-    gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    gimmickWork = (struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     FIELDMAP_GetEffect(fieldMap);
-    GFL_HEAP_Free(GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work);
+    GFL_HEAP_Free(((GimmickD06Save *)GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap))))->work);
 }
 
 /*
@@ -302,9 +338,9 @@ struct GameEvent *FIELD_GIMMICK_D06_CreateSlideEvent(struct FieldMap *fieldMap, 
         return 0;
     steps = FIELD_GIMMICK_D06_GetSlideSteps(work, slot, direction);
     if (steps == 0)
-        event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_D06_EventStoneBlocked, 0x10);
+        event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_D06_EventStoneBlocked, 0x10);
     else
-        event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_D06_EventSlideStone, 0x10);
+        event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_D06_EventSlideStone, 0x10);
     slide = GAME_EVENT_GetWork(event);
     MI_CpuFill(slide, 0, 0x10);
     slide->direction = direction;
@@ -407,7 +443,7 @@ void FIELD_GIMMICK_D06_AddStone(GimmickD06Work *work, GimmickD06StoneSlot *slot,
     VecFx32 pos;
 
     slot->mmdl = FIELD_GIMMICK_D06_AddStoneMmdl(work->fieldMap, gridX, gridZ);
-    FLDMMDL_GetPos(slot->mmdl, &pos);
+    FLDMMDL_GetPos(slot->mmdl, (struct VecFx32 *)&pos);
     slot->follow = FLDEFF_D06DENKI_StartFollow(FIELDMAP_GetEffect(work->fieldMap), &pos, slot->mmdl);
     if (FIELD_GIMMICK_D06_IsStoneNextToPanel(work, slot) == 1)
         FLDEFF_D06DENKI_FollowFreezeLoop(slot->follow);
@@ -423,7 +459,7 @@ void FIELD_GIMMICK_D06_AttachStone(GimmickD06Work *work, GimmickD06StoneSlot *sl
     VecFx32 pos;
 
     slot->mmdl = mmdl;
-    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)&pos);
     slot->follow = FLDEFF_D06DENKI_StartFollow(FIELDMAP_GetEffect(work->fieldMap), &pos, slot->mmdl);
     if (FIELD_GIMMICK_D06_IsStoneNextToPanel(work, slot) == 1)
         FLDEFF_D06DENKI_FollowFreezeLoop(slot->follow);
@@ -443,7 +479,7 @@ int FIELD_GIMMICK_D06_ScanSlide(GimmickD06Work *work, GimmickD06StoneSlot *slot,
     short gridX;
     short gridZ;
     int found = 0;
-    struct G3dMapper *mapper;
+    struct FieldG3dMapper *mapper;
     int gridY;
     int result;
 
@@ -514,8 +550,8 @@ void FIELD_GIMMICK_D06_AddPanelPulse(GimmickD06Work *work, struct FieldEffectObj
 /* Trigger the pulse of one panel. */
 void FIELD_GIMMICK_D06_TriggerPanelPulse(struct FieldMap *fieldMap, int panelIndex)
 {
-    struct GimmickWork *gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
-    GimmickD06Work *work = GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work;
+    struct GimmickWork *gimmickWork = (struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    GimmickD06Work *work = ((GimmickD06Save *)GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap))))->work;
 
     FLDEFF_D06DENKI_PulseTrigger(work->panelPulse[panelIndex]);
 }
@@ -532,9 +568,9 @@ struct Mmdl *FIELD_GIMMICK_D06_AddStoneMmdl(struct FieldMap *fieldMap, int gridX
 /* The work of the gimmick of the current zone. */
 GimmickD06Work *FIELD_GIMMICK_D06_GetWork(struct FieldMap *fieldMap)
 {
-    struct GimmickWork *gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    struct GimmickWork *gimmickWork = (struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
 
-    return GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap)))->work;
+    return ((GimmickD06Save *)GIMMICK_WORK_GetWork(gimmickWork, FIELD_GIMMICK_D06_GetGimmickId(FIELDMAP_GetZoneId(fieldMap))))->work;
 }
 
 /* The gimmick id of the zone (the id of its save area); the first one for an unknown zone. */

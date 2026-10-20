@@ -67,26 +67,20 @@ typedef struct PalaceZoneFlag {
 #define PALACE_ZONE_FLAG_COUNT 25
 
 extern const char d_021DE6D4[];  /* "field_palace_sys.c" */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void ARC_TOOL_DeleteHandle(void *h);
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern int ZONEDATA_IsZoneGroup118To13C(u32 zoneId);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/zonedata.h"
 extern int FIELD_PALACE_SYS_IsZoneFlagSet(struct GameData *gameData, int zoneId);
-extern int INTRUDE_COMM_GetAreaOwnerVersionClass(struct GameComm *gameComm, struct GameData *gameData);
-extern int INTRUDE_COMM_GetAreaSlotFlag(struct GameComm *gameComm);
-extern u32 ZONEDATA_GetAreaId(u32 zoneId);
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
-extern void MI_CpuCopy8(void *src, void *dst, u32 n);
+#include "../ov010/intrude_comm_query.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/mi_memory.h"
 FieldPalaceSys *FIELD_PALACE_SYS_Create(u16 heapId, struct GameSystem *gameSystem, void *fieldMap, u16 zoneId);
 void FIELD_PALACE_SYS_Delete(FieldPalaceSys *sys);
 u8 *FIELD_PALACE_SYS_GetPalTable(FieldPalaceSys *sys);
 void FIELD_PALACE_SYS_SetupPalTable(FieldPalaceSys *sys, u16 zoneId, u16 heapId);
 void FIELD_PALACE_SYS_LoadPalTable(FieldPalaceSys *sys, u32 fileId, int zoneId, int season, u16 heapId);
-extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
+#include "../arm9/game_data.h"
 extern PalaceZoneFlag sPalaceZoneFlags[];
 
 /*

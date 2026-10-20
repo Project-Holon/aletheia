@@ -8,6 +8,7 @@
 #include "../types.h"
 
 #include "../sdk_os.h"
+#include "../ov009/cps_types.h"
 
 #include "../sdk_rtc.h"
 
@@ -58,7 +59,16 @@ typedef struct CPSMd5Ctx {
     unsigned char buffer[64];             /* 0x18 */
 } CPSMd5Ctx;
 
-typedef struct CPSCipherCtx { unsigned char b[0x104]; } CPSCipherCtx;
+typedef struct CPSRc4Ctx {
+    unsigned char x;
+    unsigned char y;
+    unsigned char m[256];
+} CPSRc4Ctx;
+
+typedef union CPSCipherCtx {
+    CPSRc4Ctx rc4;
+    unsigned char b[0x104];
+} CPSCipherCtx;
 
 typedef struct {
     u64 x;
@@ -130,22 +140,6 @@ struct CPSSslConnection {
     unsigned long end;                    /* 0x828 */
     unsigned long pos;                    /* 0x82c */
 };
-
-typedef struct CPSSoc {
-    OSThread *thread;                     /* 0x00 */
-    unsigned long block_type;             /* 0x04 */
-    unsigned char state;                  /* 0x08 */
-    unsigned char ssl;                    /* 0x09 */
-    unsigned char pad0a[2];
-    CPSSslConnection *con;                /* 0x0c */
-    unsigned long when;                   /* 0x10 */
-    unsigned char pad14[4];
-    unsigned short remote_port;           /* 0x18 */
-    unsigned char pad1a[2];
-    unsigned long remote_ip;              /* 0x1c */
-    unsigned char pad20[0x30];
-    unsigned long rcvbufp;                /* 0x50 */
-} CPSSoc;
 
 /* gCpsSslConfig: the supported cipher methods and the handshake priority */
 typedef struct CPSSslConfig {

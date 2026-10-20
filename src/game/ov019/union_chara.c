@@ -71,93 +71,72 @@ typedef enum { FALSE, TRUE } Bool;
 #include "../ov012/union_comm_types.h"
 #include "union_chara_types.h"
 
-void MI_CpuFill8(void *dstp, u8 data, u32 size);
+#include "../arm9/mi_memory.h"
 
-int GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
+#include "../arm9/gf_standard.h"
 struct GameData;
 
-extern void *GAME_DATA_GetOccupyInfo(const struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern u32 CURSOR_MOVE_GetTableValue(u32 trainerView);
+#include "../arm9/cursor_move.h"
 
-extern void FLDMMDL_InitPosRecord(void *header, u32 gridX, u32 gridZ, int gridY);
+#include "../ov010/fldmmdl_poslog.h"
+#include "../ov010/fldmmdl_types.h"
 struct MmdlHeader;
 struct MmdlSys;
 struct Mmdl;
 
-extern struct Mmdl *FLDMMDL_AddMmdl(struct MmdlSys *sys, struct MmdlHeader *header, s32 zoneId);
+#include "../ov010/fldmmdl.h"
 
-extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *sys, u32 objId);
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
 
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct FieldMap;
 struct UnionEff;
 
-extern struct UnionEff *FIELDMAP_GetUnionEff(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct UnionEffWork;
 
-extern void UNION_EFF_DeleteIcon(struct UnionEffWork *work, void *mmdl);
+#include "union_eff.h"
 
-extern void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
 
-extern void OS_GetMacAddress(u8 *macAddress);
+#include "../arm9/os_ownerinfo.h"
 
-extern int UNION_CHARA_IsWifiFriendBeacon(void *wifiFriends, UnionBeaconPc *beaconPc);
+#include "union_msg.h"
 struct MetTrainersSave;
 
-extern int MET_TRAINERS_Contains(struct MetTrainersSave *list, u32 value);
+#include "../arm9/met_trainers_savedata.h"
 
-extern void UNION_EFF_AddIcon(struct UnionEffWork *work, void *mmdl, u32 iconKind);
 
-extern unsigned int GAMESYSTEM_IsFieldMapActive(struct GameSystem *gameSystem);
 
-extern void UNION_EFF_AddAnimEffect(struct UnionEffWork *work, void *mmdl);
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(const struct GameData *gameData);
 
-extern void *MET_TRAINERS_GetFromSave(void *saveControl);
 struct FieldState;
 
-extern struct FieldState *GAME_DATA_GetWifiList(const struct GameData *gameData);
 
-extern int UNION_MSG_GetCategoryTableValue(int status);
 
-extern int UNION_CHARA_GetGroupCategory(int status);
 
-extern int FLDMMDL_CheckPossibleAcmd(struct Mmdl *mmdl);
 
-extern void FLDMMDL_SetAcmd(struct Mmdl *mmdl, unsigned short code);
 
-extern u16 FLDMMDL_GetMoveCode(struct Mmdl *mmdl);
 
-extern void FLDMMDL_ChangeMoveCode(struct Mmdl *mmdl, u16 moveCode);
 struct MmdlGridVec;
 
-extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, struct MmdlGridVec *out);
 
-extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
 
-extern int FLDMMDL_EndAcmd(struct Mmdl *mmdl);
 struct FieldPlayer;
 
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+#include "../ov021/field_player.h"
 
-extern u16 FLDMMDL_GetDirDisp(struct Mmdl *mmdl);
 
-extern void FLDMMDL_SetStatusBit(struct Mmdl *mmdl, u32 bit);
 
-extern void FLDMMDL_ClearStatusBit(struct Mmdl *mmdl, u32 bit);
 
-extern void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *outValue, u8 mode);
+#include "../ov021/union_chat_log.h"
 
-extern void UNION_COMM_SetSituationParam(UnionRoomWork *work, u32 id, u32 value);
+#include "../ov012/union_comm.h"
 
 void UNION_CHARA_ClearTable(UnionRoomWork *work);
 
@@ -209,9 +188,9 @@ void UNION_CHARA_ProcessBeaconUpdates(UnionRoomWork *work);
 
 void UNION_CHARA_OnBeaconUpdate(UnionRoomWork *work, UnionBeaconPc *beaconPc);
 
-int UNION_ONESELF_SetNextPlayCategoryInMainPhase(UnionRoomWork *work, char playCategory);
+#include "union_oneself.h"
 
-extern const UnionCharaMmdlHeader gUnionCharaMmdlHeader;
+extern const MmdlHeader gUnionCharaMmdlHeader;
 
 extern const UnionGridPos gUnionCharaSeatPos[];
 
@@ -246,19 +225,19 @@ int UNION_CHARA_AddMmdl(UnionRoomWork *work, struct GameData *gameData, u16 trai
 {
     int mmdlSys;
     u16 beaconIndex, memberIndex;
-    UnionCharaMmdlHeader header;
+    MmdlHeader header;
 
     mmdlSys = (s32)GAME_DATA_GetOccupyInfo(gameData);
     beaconIndex = (u16)(objId >> 8);
     memberIndex = (u16)((objId & 0xff) - 0x20);
     header = gUnionCharaMmdlHeader;
-    header.f.objId = objId;
-    header.f.graphicsId = CURSOR_MOVE_GetTableValue(trainerView);
+    header.objId = objId;
+    header.objCode = CURSOR_MOVE_GetTableValue(trainerView);
     if (memberIndex != 0)
-        header.f.moveCode = 15;
+        header.moveCode = 15;
     FLDMMDL_InitPosRecord(&header, (u16)(gUnionCharaSeatPos[beaconIndex].x + gUnionCharaMemberOffset[memberIndex].x),
                   (u16)(gUnionCharaSeatPos[beaconIndex].z + gUnionCharaMemberOffset[memberIndex].z), 0);
-    return (s32)FLDMMDL_AddMmdl((struct MmdlSys *)mmdlSys, (struct MmdlHeader *)(&header), 422);
+    return (s32)FLDMMDL_AddMmdl((struct MmdlSys *)mmdlSys, &header, 422);
 }
 
 u16 UNION_CHARA_MakeObjId(UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { return (beaconPc->index << 8) | (slot->memberIndex + 0x20); }

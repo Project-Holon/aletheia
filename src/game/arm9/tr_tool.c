@@ -64,6 +64,7 @@
  */
 
 #include "../types.h"
+#include "tr_tool.h"
 
 /* The 0x14-byte trainer record read from archive member 0x5c.  Both
  * TR_TOOL_LoadTrainerInfo and TR_TOOL_BuildParty read the same record, so it is one
@@ -87,44 +88,48 @@ typedef struct { u8 dv; u8 ability; u16 level; u16 species; u16 form; u16 item; 
 
 extern char  g_020A76DC[];
 
-extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 align, const char *file, u32 line);
+#ifdef __MWERKS__
+extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 align, const char *file, u32 line); /* original prototype; the definition differs in argument sign, argument width */
 extern u32 GFL_HEAP_Free(void *p);
+#else
+#include "gfl_heap_wrap.h"
+#endif
 struct Mon;
 struct Party;
 struct PartyMon;
 #include "pokeparty.h"
 struct PokemonParam;
+#ifdef __MWERKS__
 extern u32   POKE_TOOL_GetPartyParamSize(void);
+#else
+#include "poke_tool.h"
+#endif
 #include "tpoke_data.h"
 extern void  TR_TOOL_AdjustPersonality(u32 species, u32 form, int ability, u32 *gender, u16 heap);
 extern void  TR_TOOL_FinalizePartyMember(u32 id, void *mon, u32 form, u32 ability);
+#ifdef __MWERKS__
 extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
 extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, u16 move, u32 slot);
+#endif
 struct Personal;
 struct PersonalData;
 #include "poke_personal.h"
+#ifdef __MWERKS__
 extern u32  POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#endif
 struct BoxPokemon;
+#ifdef __MWERKS__
 extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
-extern u32  POKE_TOOL_GetPersonalParam(u32 species, u16 form, u32 personalField);
+extern u32  POKE_TOOL_GetPersonalParam(u32 species, u16 form, u32 personalField); /* original prototype; the definition differs in argument width */
 extern void POKE_TOOL_SetNature(struct PokemonParam *pp, u32 nature);
-
-typedef struct {
-    u32 trainerId;    /* +0x00 the trainer id this record was loaded for */
-    u32 genderClass;  /* +0x04 copied from the record's genderClass byte */
-    u32 data0C;       /* +0x08 copied from the record's data0C word */
-    u32 data04[2];    /* +0x0C the record's 8 data04 bytes, copied verbatim */
-    u32 name;         /* +0x14 destination buffer for the trainer name string */
-    u32 sentence[2];  /* +0x18 PmsData easy-chat sentence (2 words) */
-    u32 sentence2[2]; /* +0x20 PmsData easy-chat sentence (2 words) */
-} TrTrainerInfo;
+#endif
 
 struct MsgBank;
 #include "msgdata.h"
 struct Strbuf;
 #include "mi_memory.h"
-extern void  PMSI_PARAM_ClearSentence(void *p);
+#include "pmsi_param.h"
 void TR_TOOL_LoadTrainerInfo(u32 id, TrTrainerInfo *out, u16 heap);
 
 /*
@@ -150,8 +155,8 @@ void TR_TOOL_LoadTrainerInfo(u32 id, TrTrainerInfo *out, u16 heap)
     MSGDATA_Delete(bank);
 
     MIi_CpuCopy16(t->data04, &out->data04, 8);
-    PMSI_PARAM_ClearSentence(&out->sentence);
-    PMSI_PARAM_ClearSentence(&out->sentence2);
+    PMSI_PARAM_ClearSentence((struct PmsData *)&out->sentence);
+    PMSI_PARAM_ClearSentence((struct PmsData *)&out->sentence2);
 
     GFL_HEAP_Free(t);
 }

@@ -72,7 +72,7 @@ int ISS_3DS_SYS_IsSourceActive(Iss3dsSys *sys, int slot);
 
 void ISS_3DS_SYS_SetSourcePos(Iss3dsSys *sys, int slot, const VecFx32 *pos);
 
-void ISS_3DS_SYS_SetCamera(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget);
+void ISS_3DS_SYS_SetCamera(Iss3dsSys *sys, const VecFx32 *cameraPos, const VecFx32 *cameraTarget);
 
 void ISS_3DS_SYS_ClearTable(Iss3dsSys *sys);
 
@@ -90,7 +90,7 @@ void ISS_3DS_SYS_StartSourceImpl(Iss3dsSys *sys, int slot, int radius, int amp);
 
 void ISS_3DS_SYS_SetSourcePosImpl(Iss3dsSys *sys, int slot, const VecFx32 *pos);
 
-void ISS_3DS_SYS_SetCameraImpl(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget);
+void ISS_3DS_SYS_SetCameraImpl(Iss3dsSys *sys, const VecFx32 *cameraPos, const VecFx32 *cameraTarget);
 
 void ISS_3DS_SYS_EnterImpl(Iss3dsSys *sys);
 
@@ -183,7 +183,7 @@ void ISS_3DS_SYS_SetSourcePos(Iss3dsSys *sys, int slot, const VecFx32 *pos)
     ISS_3DS_SYS_SetSourcePosImpl(sys, slot, pos);
 }
 
-void ISS_3DS_SYS_SetCamera(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget)
+void ISS_3DS_SYS_SetCamera(Iss3dsSys *sys, const VecFx32 *cameraPos, const VecFx32 *cameraTarget)
 {
     ISS_3DS_SYS_SetCameraImpl(sys, cameraPos, cameraTarget);
 }
@@ -289,10 +289,10 @@ void ISS_3DS_SYS_SetSourcePosImpl(Iss3dsSys *sys, int slot, const VecFx32 *pos)
     }
 }
 
-void ISS_3DS_SYS_SetCameraImpl(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget)
+void ISS_3DS_SYS_SetCameraImpl(Iss3dsSys *sys, const VecFx32 *cameraPos, const VecFx32 *cameraTarget)
 {
-    ISS_3DS_SYS_SetVec3(&sys->cameraPos, cameraPos[0], cameraPos[1], cameraPos[2]);
-    ISS_3DS_SYS_SetVec3(&sys->cameraTarget, cameraTarget[0], cameraTarget[1], cameraTarget[2]);
+    ISS_3DS_SYS_SetVec3(&sys->cameraPos, cameraPos->x, cameraPos->y, cameraPos->z);
+    ISS_3DS_SYS_SetVec3(&sys->cameraTarget, cameraTarget->x, cameraTarget->y, cameraTarget->z);
 }
 
 /* Enter: once per entry, pick the table entry for the BGM now playing. */

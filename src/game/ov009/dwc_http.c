@@ -105,19 +105,7 @@ typedef struct {
     int cap;
 } Buf;
 
-typedef struct CPSSslConnection {
-    char pad0[0x800];
-    char *server_name;
-    char pad804[0xc];
-    int (*auth_callback)(int result);
-    char pad814[0x1c];
-} CPSSslConnection;
-
-typedef struct CPSSoc {
-    char pad0[0xc];
-    CPSSslConnection *con;
-    char pad10[0x90];
-} CPSSoc;
+#include "cps_ssl_types.h"
 
 #include "../sdk_os.h"
 
@@ -129,66 +117,15 @@ typedef struct DWCHttpParseResult {
     int index;
 } DWCHttpParseResult;
 
-/* One DWC HTTP connection object; the old views differed only in how
-   many fields they named. */
-typedef struct DWCHttp {
-    unsigned char stack[0x1000];        /* 0x0000 */
-    unsigned char initflag;             /* 0x1000 */
-    DWCHttpParam param;                 /* 0x1004 */
-    int error;                          /* 0x1020 */
-    char url[256];                      /* 0x1024 */
-    char *hostname;                     /* 0x1124 */
-    char *filepath;                     /* 0x1128 */
-    unsigned long hostip;               /* 0x112c */
-    int ssl_enabled;                    /* 0x1130 */
-    unsigned short port;                /* 0x1134 */
-    CPSSoc soc;                         /* 0x1138 */
-    CPSSslConnection con;               /* 0x11d8 */
-    unsigned char *lowrecvbuf;          /* 0x1a08 */
-    unsigned char *lowsendbuf;          /* 0x1a0c */
-    unsigned long lowentropydata[8];    /* 0x1a10 */
-    int num_postitem;                   /* 0x1a30 */
-    DWCHttpBuffer req;                  /* 0x1a34 */
-    DWCHttpBuffer rep;                  /* 0x1a44 */
-    OSMutex content_len_mutex;          /* 0x1a54 */
-    int content_len;                    /* 0x1a6c */
-    int receivedbody_len;               /* 0x1a70 */
-    DWCHttpLabelValue labelvalue[32];   /* 0x1a74 */
-    unsigned char pad1b74[0xdc];        /* 0x1b74 */
-} DWCHttp;
-
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern void OS_InitMutex(struct OSMutex *mutex);
-extern int OS_IsThreadTerminated(void *thread);
-extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long size, unsigned long prio);
-extern void OS_WakeupThreadDirect(void *thread);
-extern void OS_LockMutex(struct OSMutex *mutex);
-extern void OS_UnlockMutex(struct OSMutex *mutex);
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_printf.h"
+#include "../arm9/os_mutex.h"
 extern void OS_GetLowEntropyData(unsigned long *buffer);
-extern void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
-extern void OS_Sleep(unsigned long msec);
-extern void CPS_SocRegister(int v);
-extern unsigned long CPS_Resolve(char *name);
-extern void CPS_SocUse(void);
-extern void CPS_SetRootCa(struct SOCLCaInfo **rootCa, int num);
-extern void CPS_SetSsl(int mode);
-extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
-extern unsigned long CPS_TcpConnect(void);
-extern void CPS_SocRelease(void);
-extern void CPS_SocUnRegister(void);
-extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
-extern void CPS_SocFlush(void);
-extern unsigned long long OS_GetTick(void);
-extern long CPS_SocGetLength(void);
-extern unsigned char *CPS_SocRead(unsigned long *len);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-extern void CPS_SocConsume(unsigned long len);
-extern void CPS_TcpShutdown(void);
-extern void CPS_TcpClose(void);
-extern int DWC_Base64Encode(const char *src, unsigned long srclen, char *dst, unsigned long dstlen);
-extern char *strcpy(char *dst, const char *src);
-extern int DWC_Base64Decode(char *src, unsigned long srclen, char *dst, unsigned long dstlen);
+#include "ssl.h"
+#include "cps_network.h"
+#include "../arm9/os_tick.h"
+#include "../arm9/dwc_base64.h"
+#include "../arm9/msl_string_str.h"
 int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
 int DWC_Http_FinishHeader(char *http);
 void DWC_Http_StartThread(char *http, unsigned long prio);
@@ -201,7 +138,7 @@ int DWCi_Http_WriteBasicHeader(char *http);
 int DWC_Http_Add_HeaderItem(char *http, char *label, char *data);
 int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
 int DWC_Http_Add_Body(char *http, char *data);
-int DWCi_Http_CPSCallback(int result);
+int DWCi_Http_CPSCallback(int result, CPSSslConnection *con, int level);
 int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size);
 int DWCi_Http_SetHostinfo(DWCHttp *http, char *url);
 int DWCi_Http_AddResult(DWCHttp *http, DWCHttpParseResult *result, char *label, char *value);
@@ -239,19 +176,15 @@ extern const char gDwcHttpColonSpace[];
 extern const char gDwcHttpEquals[];
 extern const char gDwcHttpAmpersand[];
 
-extern int strlen(u8 *s);
-extern int strncmp(u8 *s1, u8 *s2, u32 n);
-extern int strcmp(const char *s1, const char *s2);
-extern u8 *strncpy(u8 *dest, u8 *src, u32 n);
-extern u8 *strstr(u8 *s1, u8 *s2);
-extern int atoi(u32 s);
-extern void *memmove(void *dst, const void *src, unsigned long n);
+#include "../arm9/msl_strtod.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
 /*
  * sdk:      DWC_Http_Create (libdwcauth.TWL.HYB.a dwc_http.o)
  */
 int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param)
 {
-    void *(*alloc)(unsigned long, long) = param->alloc;
+    DWCAuthAlloc alloc = param->alloc;
 
     MI_CpuFill8(http, 0, sizeof(DWCHttp));
     http->content_len = -1;
@@ -316,11 +249,11 @@ void DWC_Http_StartThread(char *http, unsigned long prio)
     } else {
         gDwcHttpFlag = 0;
     }
-    if (*(int *)(http + 0x1be0) != 0 && !OS_IsThreadTerminated(http + 0x1b74)) {
+    if (*(int *)(http + 0x1be0) != 0 && !OS_IsThreadTerminated((OSThread *)(http + 0x1b74))) {
         return;
     }
-    OS_CreateThread(http + 0x1b74, DWCi_Http_Thread, http, http + 0x1000, 0x1000, prio);
-    OS_WakeupThreadDirect(http + 0x1b74);
+    OS_CreateThread((OSThread *)(http + 0x1b74), DWCi_Http_Thread, http, http + 0x1000, 0x1000, prio);
+    OS_WakeupThreadDirect((OSThread *)(http + 0x1b74));
 }
 
 void DWC_Http_Abort(char *http)
@@ -356,7 +289,7 @@ static void DWCi_Http_InitCpsSocket(char *http)
     *(unsigned long *)(http + 0x1184) = *(unsigned long *)(http + 0x1a08);
     *(unsigned long *)(http + 0x118c) = 0x5ea;
     *(unsigned long *)(http + 0x1190) = *(unsigned long *)(http + 0x1a0c);
-    CPS_SocRegister((int)(http + 0x1138));
+    CPS_SocRegister((sptr)(http + 0x1138));
 }
 
 /*
@@ -397,7 +330,7 @@ int DWCi_Http_CheckHeaderReceived(char *http)
     content_temp = *content_end;
     *content_end = 0;
     OS_LockMutex((struct OSMutex *)(http + 0x1a54));
-    *(int *)(http + 0x1a6c) = atoi((u32)content_length);
+    *(int *)(http + 0x1a6c) = atoi(content_length);
     OS_UnlockMutex((struct OSMutex *)(http + 0x1a54));
     *content_end = content_temp;
     return 1;
@@ -437,8 +370,8 @@ void DWCi_Http_Thread(void *arg)
 
     if (http->ssl_enabled == 1) {
         MI_CpuFill8(con, 0, sizeof(CPSSslConnection));
-        con->auth_callback = DWCi_Http_CPSCallback;
-        con->server_name = http->hostname;
+        con->f810 = DWCi_Http_CPSCallback;
+        con->hostName = http->hostname;
         soc->con = con;
         CPS_SetRootCa(gDwcHttpRootCaList, 12);
         CPS_SetSsl(1);
@@ -532,8 +465,8 @@ fail:
  */
 void DWC_Http_Destroy(char *http)
 {
-    void (*free)(unsigned long, void *, long) =
-        *(void (**)(unsigned long, void *, long))(http + 0x1014);
+    DWCAuthFree free =
+        *(DWCAuthFree *)(http + 0x1014);
 
     if (http == 0) {
         return;
@@ -672,7 +605,7 @@ int DWC_Http_Add_Body(char *http, char *data)
     return 0;
 }
 
-int DWCi_Http_CPSCallback(int result)
+int DWCi_Http_CPSCallback(int result, CPSSslConnection *con, int level)
 {
 	if (result & 0x8000)
 		result &= ~0x8000;
@@ -681,7 +614,7 @@ int DWCi_Http_CPSCallback(int result)
 
 static int DWCi_Http_AllocBuffer(char *http, char *buf, unsigned long size)
 {
-    void *(*alloc)(unsigned long, long) = *(void *(**)(unsigned long, long))(http + 0x1010);
+    DWCAuthAlloc alloc = *(DWCAuthAlloc *)(http + 0x1010);
     void *p;
 
     if (size == 0)
@@ -700,7 +633,7 @@ static int DWCi_Http_AllocBuffer(char *http, char *buf, unsigned long size)
 
 static void DWCi_Http_FreeBuffer(char *http, char *buf)
 {
-    void (*free)(unsigned long, void *, long) = *(void (**)(unsigned long, void *, long))(http + 0x1014);
+    DWCAuthFree free = *(DWCAuthFree *)(http + 0x1014);
 
     if (*(void **)buf != 0) {
         free(0, *(void **)buf, 0);
@@ -713,12 +646,12 @@ static void DWCi_Http_FreeBuffer(char *http, char *buf)
  */
 int DWCi_Http_ReallocBuffer(char *http, Buf *buf, int size)
 {
-    void *(*alloc)(unsigned long, long);
-    void (*free)(unsigned long, void *, long);
+    DWCAuthAlloc alloc;
+    DWCAuthFree free;
     char *newptr;
 
-    alloc = *(void *(**)(unsigned long, long))(http + 0x1010);
-    free = *(void (**)(unsigned long, void *, long))(http + 0x1014);
+    alloc = *(DWCAuthAlloc *)(http + 0x1010);
+    free = *(DWCAuthFree *)(http + 0x1014);
     if (size <= 0) {
         return 0;
     }
@@ -775,7 +708,7 @@ int DWCi_Http_SetHostinfo(DWCHttp *http, char *url)
         http->filepath = 0;
     }
     if (portnum != 0)
-        http->port = atoi((u32)portnum);
+        http->port = atoi(portnum);
     return 1;
 }
 
@@ -784,8 +717,8 @@ int DWCi_Http_SetHostinfo(DWCHttp *http, char *url)
  */
 int DWCi_Http_AddResult(DWCHttp *http, DWCHttpParseResult *result, char *label, char *value)
 {
-    void *(*alloc)(unsigned long, long) = http->param.alloc;
-    void (*free)(unsigned long, void *, long) = http->param.free;
+    DWCAuthAlloc alloc = http->param.alloc;
+    DWCAuthFree free = http->param.free;
 
     if (result->index > result->len)
         return 0;
@@ -958,7 +891,7 @@ int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len)
 
 static void DWCi_Http_DestroyResult(char *http, DWCHttpLabelValue *array_entry, int array_len)
 {
-    void (*free)(unsigned long, void *, long) = *(void (**)(unsigned long, void *, long))(http + 0x1014);
+    DWCAuthFree free = *(DWCAuthFree *)(http + 0x1014);
     int i;
 
     for (i = 0; i < array_len; i++) {

@@ -72,18 +72,14 @@ typedef struct huffman_structure {
     u8  mEhufsi[260];
 } huffman_structure;
 
-extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
-extern void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
-extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
+#include "../arm9/mi_memory.h"
 extern int Yos_BitWrite(u8 *dst, unsigned long *ptr, unsigned long num, unsigned long size);
 static void Yos_JpegEncoderForwardDct(unsigned char *data, long *qtable, short *output);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern int OS_IsRunOnTwl(void);
-extern void AESi_Init(void);
-extern int AESi_SignForJpeg(unsigned char *sign, unsigned int data, unsigned int length);
-extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
+#include "../arm9/os_emulator.h"
+#include "../twl/aes_core.h"
+#include "../twl/aes_util.h"
 extern unsigned long _u32_div_f(unsigned long a, unsigned long b);
-extern unsigned long SSP_ExifEncode(int dstBuffer, int width, int height, unsigned char *thumbSrc, unsigned int thumbSize);
+#include "exifenc.h"
 static unsigned long Yos_JPEGEncode(void *src, unsigned char *dst, unsigned long limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, int thumb, unsigned char *thumb_src, unsigned long thumb_size, void (*func)(void *, unsigned long, unsigned long, void *));
 void Yos_BitInit(void);
 int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *huff, u8 *dst, u32 *pos);

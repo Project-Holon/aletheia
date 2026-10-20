@@ -251,10 +251,11 @@
  *   EVENT_COMM_COMMON_ChangeTalkedItemSaleEvent  0x021828A8  thumb  ov018
  *   EVENT_COMM_COMMON_ChangeTalkedItemPurchaseEvent  0x021828B0  thumb  ov018
  */
-#define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
-#define REG_WINOUT_SUB     (*(volatile u16 *)0x0400104A)
-#define REG_DB_BLDCNT_SUB (*(volatile u16 *)0x04001050)
+#define REG_DB_DISPCNT_SUB (*(volatile u32 *)REG_DB_DISPCNT_ADDR)
+#define REG_WINOUT_SUB     (*(volatile u16 *)REG_DB_WINOUT_ADDR)
+#define REG_DB_BLDCNT_SUB (*(volatile u16 *)REG_DB_BLDCNT_ADDR)
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../ov011/intrude_comm_types.h"
 #include "event_comm_common_types.h"
@@ -280,273 +281,108 @@ typedef struct {
     int alone;              /* 0x24 */
 } IntrudeDisconnectWork;
 
-struct BgTemplate {
-    u32 x;                  /* 0x00 */
-    u32 y;                  /* 0x04 */
-    u32 bufSize;            /* 0x08 */
-    u32 baseTile;           /* 0x0C */
-    u8 screenSize;          /* 0x10 */
-    u8 colorMode;           /* 0x11 */
-    u8 screenBase;          /* 0x12 */
-    u8 charBase;            /* 0x13 */
-    u32 extPaletteSlot;     /* 0x14 */
-    u8 priority;            /* 0x18 */
-    u8 areaOver;            /* 0x19 */
-    u8 dummy;               /* 0x1A */
-    u8 mosaic;              /* 0x1B */
-    u32 bgType;             /* 0x1C */
-};
 extern void MI_CpuFill8(void *, int, int);
 struct GameSystem;
 struct GameData;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void *GAME_DATA_GetOccupyInfo(struct GameData *gd);
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct FieldPlayer;
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct Mmdl;
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern u16 FLDMMDL_GetObjCode(struct Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowX(struct Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
-extern s32 FLDMMDL_GetPosY(struct Mmdl *mmdl);
-extern void FLDMMDL_InitPosRecord(MmdlHeader *, u16, u16, int);
+#include "../ov021/field_player.h"
+#include "../ov010/fldmmdl.h"
+#include "../ov010/fldmmdl_poslog.h"
 struct MmdlHeader;
 struct MmdlSys;
-extern struct Mmdl *FLDMMDL_AddMmdl(struct MmdlSys *sys, struct MmdlHeader *header, s32 zoneId);
 struct IntrudeCommSys;
-extern void INTRUDE_FIELD_ChangePlayerLook(struct IntrudeCommSys *work, struct GameSystem *gameSystem, s32 objCode, u8 kind, u8 flag);
-extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
-extern void FLDMMDL_SetAcmd(struct Mmdl *mmdl, u16 code);
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
-extern void FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt(void *fieldMap, VecFx32 *pos);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern int FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive(void *);
-extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
-extern int FLDMMDL_EndAcmd(struct Mmdl *mmdl);
-extern void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
+#include "intrude_field.h"
+#include "../ov060/field_gimmick_gauge_effect.h"
+#include "../arm9/gfl_use.h"
 struct IntrudeMemberRecord;
-extern int INTRUDE_COMM_SendRequest(struct IntrudeCommSys *work, s32 destNetId, struct IntrudeMemberRecord *data, s32 type);
-extern int INTRUDE_COMM_TakeRequestResult(struct IntrudeCommSys *work);
-extern u32 KEY_GetTrg(void);
-extern int INTRUDE_COMM_SendAnswer(int a, int b);
-extern void INTRUDE_COMM_NextRequestToken(struct IntrudeCommSys *work);
-extern int INTRUDE_COMM_SendReply(void *unused, int destNetId, int answer, int seq);
-extern int INTRUDE_FIELD_GetZoneAnchor(s32 zoneId, VecFx32 *out);
+#include "../ov011/intrude_comm.h"
+#include "../arm9/key.h"
 struct GameEvent;
-extern struct GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset(struct GameSystem *gameSystem, u16 zoneId, VecFx32 *pos);
 struct GameComm;
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
-extern u8 GAME_DATA_GetOwnNetId(struct GameData *gd);
-extern void GAME_DATA_SetIntrudeId(struct GameData *gd, u32 value);
-extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
-extern void INTRUDE_COMM_SetIntrudeId(struct IntrudeCommSys *work, u32 intrudeId);
-struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, unsigned int size);
+#include "../ov010/intrude_comm_query.h"
 struct GameEvent;
-void *GAME_EVENT_GetWork(struct GameEvent *event);
-u32 GAME_COMM_GetKind(struct GameComm *comm);
-void *GAME_COMM_GetWork(struct GameComm *comm);
-u32 GAME_COMM_GetLastKind(struct GameComm *comm);
-u32 GAMESYSTEM_IsNetOffBySleep(struct GameSystem *gameSystem);
-void INTRUDE_FIELD_SetSingleAreaMode(struct IntrudeCommSys *work);
-struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-u32 GFL_NET_ERR_GetErrorLevel(void);
-u32 GAME_COMM_IsTransition(struct GameComm *comm);
-void GAME_COMM_RequestExitNoCallback(struct GameComm *comm);
-u32 GAMESYSTEM_IsFieldMapActive(struct GameSystem *gameSystem);
-void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
-int FIELDMAP_IsReady(struct FieldMap *fieldMap);
+#include "../arm9/game_comm.h"
+#include "../arm9/net_err.h"
 struct FieldMsgBg;
-struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-struct MsgData;
-struct MsgData *FIELD_MSGBG_CreateMsgData(struct FieldMsgBg *msgBg, u32 fileId);
-struct FieldSysWin;
-struct FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(struct FieldMsgBg *msgBg, struct MsgData *msgData);
-u32 GAME_COMM_GetCounter(struct GameComm *comm);
-void FIELD_MSGBG_SysWinPrintMsg(struct FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
-struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gameSystem, u32 bgmNo);
-int GFL_USE_IsBgmPlaying(void);
-struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *gameSystem, u32 fadeOutFrames, u32 fadeInFrames);
-u32 FIELD_MSGBG_SysWinMain(struct FieldSysWin *sysWin);
-int FIELD_MSGBG_DeleteSysWin(struct FieldSysWin *sysWin);
 struct MsgBank;
-u32 MSGDATA_Delete(struct MsgBank *bank);
-int FIELD_PLAYER_CheckFormModel(struct FieldPlayer *player);
+#include "../ov021/field_msgbg.h"
+struct FieldSysWin;
+#include "../arm9/field_sound_system.h"
+struct MsgBank;
+#include "../arm9/msgdata.h"
 struct PlayerSpinWork;
-void INTRUDE_FIELD_InitPlayerSpin(struct PlayerSpinWork *spin, struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 objCode, u8 kind, u8 flag);
-int INTRUDE_FIELD_StepPlayerSpin(struct PlayerSpinWork *spin, struct IntrudeCommSys *work);
-void *GAME_DATA_GetEventWork(struct GameData *gd);
 struct EventWork;
-u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
-void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
-u8 GAMESYSTEM_GetFieldMapState(struct GameSystem *gameSystem);
-struct GameEvent *EVENT_COMM_ERROR_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-void GAME_COMM_ClearCounter(struct GameComm *comm);
-void GAME_COMM_ClearPlayerStatus(struct GameComm *comm);
-struct GameEvent *EVENT_MAPCHANGE_CreateIntrudeReturnEvent(struct GameSystem *gameSystem);
-extern int GAME_DATA_GetIntrudeCount(struct GameData *gd);
-extern struct GameEvent *EVENT_MAPCHANGE_CreateIntrudeWarpEvent(struct GameSystem *gameSystem, s32 zoneId, VecFx32 *pos, s32 requestSession);
+#include "../arm9/zonedata.h"
+#include "../ov010/script_sys.h"
+#include "../ov021/event_comm_error.h"
 struct IntrudeZonePos;
-extern IntrudeZonePos *INTRUDE_FIELD_FindZonePos(u32 zoneId);
-extern void *EVENT_MAPCHANGE_CreateWarpEvent(void *p, int unused, int a, const void *q, u16 s, int t);
+struct VecFx32;
 struct FldVReq;
-extern struct FldVReq *FIELDMAP_GetVReq(struct FieldMap *fieldMap);
-extern void FLD_VREQ_SetSubMasterBrightness(void *vreq, int brightness);
+#ifdef __MWERKS__
+extern void FLD_VREQ_SetSubMasterBrightness(void *vreq, int brightness); /* original prototype; the definition differs in pointer type, argument width */
+#else
+#include "../ov021/fld_vreq.h"
+#endif
 struct FieldSubscreen;
-extern void FIELD_SUBSCREEN_ChangeModeNow(struct FieldSubscreen *work, u32 mode);
+#include "../ov021/field_subscreen.h"
 struct ScrcmdWork;
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
-extern void INTRUDE_FIELD_AddAreaMmdls(struct FieldMap *fieldMap);
-extern void INTRUDE_FIELD_ResetExtraAreaCount(s32 unusedArg0, s32 unusedArg1, struct IntrudeCommSys *work);
-extern void INTRUDE_FIELD_AddAreaMaps(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct IntrudeCommSys *work);
-extern void INTRUDE_FIELD_AddAreaMapCount(struct FieldMap *fieldMap, s32 count);
-extern void INTRUDE_FIELD_AddMarkerMmdls(struct FieldMap *fieldMap);
-void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
-void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-void ARC_TOOL_DeleteHandle(void *bg);
-void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-void GFL_NET_WM_ICON_EasyObjWindowOn(void);
-struct Tcb;
-struct Tcb *GFL_USE_AddMainTask(void (*cb)(void *, void *), void *work, u32 priority);
+#include "../ov010/scrcmd_work.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/net.h"
+#include "../arm9/wm_icon.h"
+struct TcbTask;
 struct PlayerWork;
-struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
-u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 extern void MIi_CpuClear16();
-extern u32 GFL_HEAP_Free(void *p);
-extern void GFL_NET_WM_ICON_EasyObjWindowOff();
 struct FieldState;
-struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
-u32 WIH_DWC_PollStatus(void *key);
+#include "../arm9/wih_dwc.h"
 struct TcblSystem;
-void TCBL_Main(struct TcblSystem *tcbl);
+#include "../arm9/tcbl.h"
 struct PrintQueue;
-u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+#include "../arm9/printsys.h"
 struct BmpWin;
 struct Bmp;
-struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-void BMP_WIN_TransferChars(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct BmpOam;
-void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
-void G2x_SetBlendBrightness_(u32 addr, s32 plane, s32 brightness);
-u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
-u32 GFL_NET_IsConnectMember(u32 index);
-int INTRUDE_COMM_SendUnionInfoRequest(struct IntrudeCommSys *work, u8 netId);
-u8 INTRUDE_COMM_GetUnionInfoReceived(struct IntrudeCommSys *work);
-struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
-void GF_PANIC_Fail(char *file, unsigned int line, char *expr);
-u32 ZONEDATA_IsEntralink(u32 id);
+#include "../arm9/g2.h"
+#include "../arm9/gf_panic.h"
 struct IntrudeSession;
-int INTRUDE_COMM_HasResult(struct IntrudeSession *session);
-int INTRUDE_COMM_IsSessionAccepted(struct IntrudeSession *session);
-int INTRUDE_COMM_GetPlayerNetId(struct GameComm *comm);
-extern void DC_FlushRange();
-extern void GXS_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
-extern void GXS_LoadOBJ(void *pSrc, u32 offset, u32 szByte);
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+#include "../arm9/os_cache.h"
+#include "../arm9/gx_load2d.h"
 struct SurfaceInit;
 struct Renderer;
-extern struct Renderer *CLACT_CreateRenderer(struct SurfaceInit *inits, u32 count, u32 heap_id);
-extern void CLACT_SetUnitRenderer(void *bank, void *p);
 struct BmpOamSys;
-extern struct BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact);
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 struct WordSet;
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern unsigned int WORDSET_Delete(struct WordSet *words);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
-extern void CLACT_DeleteRenderer(struct Renderer *renderer);
-extern u32 CLACT_DeleteUnit(void *bank);
-void BG_SYS_InitBgLayer(u32 bgId, const void *tmpl, u32 type);
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
+#include "../arm9/bg_sys.h"
 void MIi_CpuClear32(u32 data, void *dest, u32 size);
-u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void **out, u16 flags);
+#include "../arm9/arc_util.h"
 void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_FreeLayerBuf(unsigned int);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_PushTile(unsigned int);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern s32 CLACT_RegisterPaletteEx(void *a, unsigned int b, unsigned int c, unsigned int d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, unsigned int b, unsigned int c, unsigned int vram_mode, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
-extern s32 CLACT_RegisterPaletteCompressed(void *archive, unsigned int file_idx, unsigned int vram_mode, unsigned int vram_offset, u16 heap_id);
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern s32 CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
-extern void CLACT_ReleasePalette(u32 idx);
-extern void CLACT_ReleaseCharacter(u32 idx);
-extern void CLACT_ReleaseCellAnim(u32 idx);
-struct Actor;
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *, struct ClactRes *, struct ClactRes *, struct ClactRes *, const void *, unsigned short, unsigned short);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
+struct ClactActor;
+struct ClactActor;
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const void *param);
-extern void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, u32 enabled);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
-extern void BMP_Delete(struct Bmp *bmp);
-extern void PALANM_BlendColors(void *, void *, int, u8, u16);
-extern void CLACT_AddActorSurfacePos(void *p, const void *delta, u32 which);
-extern void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, u32 speed);
-extern u32 CLACT_GetActorPaletteOffset(struct Actor *actor);
-extern void CLACT_GetActorSurfacePos(void *actor, void *out, u16 space);
-extern unsigned int CLACT_GetActorDrawEnable(struct Actor *actor);
-extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
+#include "../arm9/mystatus.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#ifdef __MWERKS__
+extern void PALANM_BlendColors(void *, void *, int, u8, u16); /* original prototype; the definition differs in pointer type, argument sign, argument width */
+#else
+#include "../arm9/palanm.h"
+#endif
 extern void MIi_CpuCopy32(const void *src, void *dst, int size);
-void BMP_Clear(struct Bmp *bmp, u8 value);
-struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, u32 playerId);
-void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
-void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-u32 ZONEDATA_IsZoneGroup118To120(u32 id);
-int GFL_NET_GetNegotiationNum(void);
-void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
 struct GameCommInfoMessage;
-int GAME_COMM_PopInfoMessage(struct GameComm *comm, struct GameCommInfoMessage *message);
-int INTRUDE_COMM_IsWarnedWithoutRequest(IntrudeCommSys *sys);
-struct MyStatus *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, u32 netId);
 struct IntrudeMemberName;
-void INTRUDE_COMM_SetWordSetMemberName(struct WordSet *wordSet, u32 slot, struct IntrudeMemberName *name, u16 heapId);
 struct IntrudeRequestHead;
-void INTRUDE_COMM_SetWordSetRequest(struct IntrudeRequestHead *head, struct IntrudeMemberName *name, struct WordSet *wordSet, u16 heapId);
-int FIELD_PALACE_SYS_IsZoneFlagSet(struct GameData *gameData, s32 zoneId);
-extern void *GAME_DATA_GetBattleRecSlot(struct GameData *gameData, u32 index);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
-extern int FIELD_SUBSCREEN_GetPanelResult(struct FieldSubscreen *work);
-extern int ZONEDATA_IsZoneInTableDFC0(int zoneId);
-extern int BMP_OAM_GetEnabled(struct BmpOam *bmpOam);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern u8 MATH_CountPopulation(unsigned int x);
-extern int INTRUDE_COMM_GetSessionRemaining(struct IntrudeSession *session);
-extern int INTRUDE_FIELD_IsStartRequested(struct IntrudeCommSys *work);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
-extern int INTRUDE_COMM_HasUnlockFlags(struct GameData *gameData);
+#include "../ov021/field_palace_sys.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/math.h"
 
 void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *r, void *gameSystem, void *fieldMap, void *intrudeWork, u16 id, u8 kind, u8 flag, u16 idx, int place);
 int INTRUDE_FIELD_MainMmdlCopyAnime(PlayerSpinWork *r);
@@ -616,11 +452,11 @@ void INTRUDE_SUBDISP_ClearInfoPanel(void);
 void INTRUDE_SUBDISP_DrawInfoPanel(IntrudeSubdispWork *work, int mode);
 int INTRUDE_SUBDISP_IsAlone(IntrudeSubdispWork *work);
 struct EventCommMsgBox;
-void EVENT_COMM_COMMON_PrintMsg(struct EventCommMsgBox *msgBox, u16 msgId);
-int EVENT_COMM_COMMON_IsPrintFinished(struct EventCommMsgBox *msgBox);
-int EVENT_COMM_COMMON_IsKeyTrg(void);
-int EVENT_COMM_COMMON_GetMissionState(struct IntrudeSession *session);
-extern struct IntrudeMemberRecord *INTRUDE_COMM_GetActiveSessionRequest(struct IntrudeSession *session);
+#include "event_comm_common.h"
+#include "../arm9/game_event.h"
+#include "../arm9/clact.h"
+#include "../arm9/bmp_oam.h"
+#include "../ov020/event_mapchange.h"
 
 extern MmdlHeader d_02183AF0;
 extern MmdlHeader g_02183AF0;
@@ -636,7 +472,7 @@ extern const IntrudeSubdispActorParam d_021836DC;
 extern const IntrudeSubdispActorParam d_021836D4;
 extern const IntrudeSubdispActorParam d_021836EC;
 extern const IntrudeSubdispActorParam d_021836C4;
-extern const unsigned short d_021836AA[];
+extern const struct ActorInitParam d_021836AA;
 extern const IntrudeSubdispBmpOamTmpl d_021836F4;
 extern const s8 d_021836A4[3][2];
 struct EventCommCommonWork;
@@ -680,8 +516,6 @@ void INTRUDE_FIELD_InitMmdlCopyAnime(PlayerSpinWork *spinWork, void *gameSystem,
         FLDMMDL_SetStatusBitVanish(spinWork->copyMmdl, 0);
     }
 }
-void EVENT_COMM_COMMON_ChangeTalkedItemSaleEvent(struct GameEvent *event, struct EventCommCommonWork *src);
-void EVENT_COMM_COMMON_ChangeTalkedItemPurchaseEvent(struct GameEvent *event, struct EventCommCommonWork *src);
 
 /*
  * Per-frame step of the 0x18-byte record (same layout as INTRUDE_FIELD_StepPlayerSpin's).
@@ -830,7 +664,7 @@ int INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, int cause)
     unsigned char *x;
 
     sys = (void *)GAMESYSTEM_GetGameComm(gameSystem);
-    ret = (int)GAME_EVENT_Create(gameSystem, 0, INTRUDE_SUBDISP_DisconnectEventMain, 0x28);
+    ret = (int)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)INTRUDE_SUBDISP_DisconnectEventMain, 0x28);
     work = GAME_EVENT_GetWork((void *)ret);
     work->cause = cause;
     if (GAME_COMM_GetKind(sys) == 2) {
@@ -900,7 +734,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *event, int *seq, IntrudeDisconnect
         }
         z = (void *)FIELDMAP_GetMsgBg(y);
         work->msgData = t = (void *)FIELD_MSGBG_CreateMsgData((struct FieldMsgBg *)z, 0x2D);
-        work->msgBox = FIELD_MSGBG_CreateBottomSysWin(z, (struct MsgData *)t);
+        work->msgBox = FIELD_MSGBG_CreateBottomSysWin(z, (struct MsgBank *)t);
         switch (work->cause) {
         case 1:
         case 2:
@@ -1025,7 +859,7 @@ int INTRUDE_SUBDISP_DisconnectEventMain(void *event, int *seq, IntrudeDisconnect
 
 void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *gameSystem)
 {
-    return GAME_EVENT_Create(gameSystem, 0, INTRUDE_SUBDISP_GuideScriptEventMain, 0);
+    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)INTRUDE_SUBDISP_GuideScriptEventMain, 0);
 }
 
 int INTRUDE_SUBDISP_GuideScriptEventMain(void *event, int *state)
@@ -1073,14 +907,14 @@ void *INTRUDE_SUBDISP_CreatePlayerWarpEvent(void *gameSystem, void *fieldMap, in
     s = q->townId;
     v = *(VecFx32 *)&sys->peers[netId].package.pos;
     v.z += 0x20000;
-    return EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, (int)fieldMap, s, (const int *)(&v), 0, 0);
+    return EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, fieldMap, s, &v, 0, 0);
 }
 
 void *INTRUDE_SUBDISP_CreateBrightFadeEvent(void *gameSystem, int fieldMap, int subscreen)
 {
     void *task;
     int *work;
-    task = GAME_EVENT_Create(gameSystem, 0, INTRUDE_SUBDISP_BrightFadeEventMain, 12);
+    task = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)INTRUDE_SUBDISP_BrightFadeEventMain, 12);
     work = GAME_EVENT_GetWork(task);
     work[0] = fieldMap;
     work[1] = subscreen;
@@ -1191,7 +1025,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
     tmp |= 0x20;
     REG_WINOUT_SUB = (u16)tmp;
     REG_DB_DISPCNT_SUB = (REG_DB_DISPCNT_SUB & ~0xE000) | 0x8000;
-    work->vblankTask = (struct TcbTask *)GFL_USE_AddMainTask(INTRUDE_SUBDISP_VBlankTask, work, 10);
+    work->vblankTask = (struct TcbTask *)GFL_USE_AddMainTask((TcbFunc)INTRUDE_SUBDISP_VBlankTask, work, 10);
     zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(work->gameSystem));
     target = INTRUDE_SUBDISP_GetTargetPlayerData(work);
     INTRUDE_SUBDISP_PrintTitle(work, zoneId);
@@ -1207,7 +1041,7 @@ IntrudeSubdispWork *INTRUDE_SUBDISP_Init(void *gameSystem)
 void INTRUDE_SUBDISP_Exit(IntrudeSubdispWork *work)
 {
     TCB_DeleteTask(work->vblankTask);
-    MIi_CpuClear16(0, 0x05000400, 2);
+    MIi_CpuClear16(0, HW_DB_BG_PLTT, 2);
     INTRUDE_SUBDISP_DeleteButtonBmpOam(work);
     INTRUDE_SUBDISP_ClactActorDelete(work);
     INTRUDE_SUBDISP_ClactResourceUnload(work);
@@ -1420,8 +1254,8 @@ void INTRUDE_SUBDISP_SystemSetup(IntrudeSubdispWork *work)
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x70);
     work->wordSet = WORDSET_CreateDefault(0x70);
     work->printQue = (struct PrintQue *)PRINTSYS_QUE_Create(0x70);
-    work->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x2D, 0x70);
-    work->msgDataDetail = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x42, 0x70);
+    work->msgData = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x2D, 0x70);
+    work->msgDataDetail = (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, 0x42, 0x70);
     work->strbufMsg = STRBUF_Create(0x80, 0x70);
     work->strbufText = STRBUF_Create(0x80, 0x70);
     work->strbufTitle = STRBUF_Create(0x80, 0x70);
@@ -1453,7 +1287,7 @@ void INTRUDE_SUBDISP_BgSetup(IntrudeSubdispWork *work, void *bg)
     layer = 6;
     BG_SYS_InitBgLayer(6, &d_0218370C, 0);
     BG_SYS_InitBgLayer(7, &d_0218372C, 0);
-    MIi_CpuClear32(0, (void *)0x06200000, 0x20000);
+    MIi_CpuClear32(0, (void *)HW_DB_BG_VRAM, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
     G2x_SetBlendBrightness_((u32)(&REG_DB_BLDCNT_SUB), 0x3F, -8);
@@ -1519,15 +1353,15 @@ void INTRUDE_SUBDISP_ClactResourceLoad(IntrudeSubdispWork *work, void *bg)
 {
     void *bg2;
 
-    work->palRes = (struct ClactRes *)CLACT_RegisterPaletteEx(bg, 3, 1, 0, 0, 9, 0x15);
-    work->charRes = (struct ClactRes *)CLACT_RegisterCharacter(bg, 0, 1, 1, 0x15);
-    work->cellRes = (struct ClactRes *)CLACT_RegisterCellAnim(bg, 1, 2, 0x70);
+    work->palRes = CLACT_RegisterPaletteEx(bg, 3, 1, 0, 0, 9, 0x15);
+    work->charRes = CLACT_RegisterCharacter(bg, 0, 1, 1, 0x15);
+    work->cellRes = CLACT_RegisterCellAnim(bg, 1, 2, 0x70);
     bg2 = ARC_TOOL_CreateHandle(0x17, 0x15);
-    work->bmpOamPalRes = (struct ClactRes *)CLACT_RegisterPaletteCompressed(bg2, 5, 1, 0x1a0, 0x15);
+    work->bmpOamPalRes = CLACT_RegisterPaletteCompressed(bg2, 5, 1, 0x1a0, 0x15);
     ARC_TOOL_DeleteHandle(bg2);
-    work->infoCharRes = (struct ClactRes *)CLACT_RegisterCharacter(bg, 10, 1, 1, 0x15);
-    work->infoCellRes = (struct ClactRes *)CLACT_RegisterCellAnim(bg, 12, 13, 0x70);
-    work->numberRes = ARC_UTIL_LoadBgCharDataFromHandle((void *)bg, (u32)10, (u32)1, (&work->numberGfx), 0x70);
+    work->infoCharRes = CLACT_RegisterCharacter(bg, 10, 1, 1, 0x15);
+    work->infoCellRes = CLACT_RegisterCellAnim(bg, 12, 13, 0x70);
+    work->numberRes = ARC_UTIL_LoadBgCharDataFromHandle(bg, 10, 1, &work->numberGfx, 0x70);
     work->numberVram = CLACT_GetCharacterVramAddress((u32)work->infoCharRes, 2);
     work->numberBuf = GFL_HEAP_Alloc(0x70, 0x200, 1, (char *)str_02183B14, 0x495);
     MIi_CpuCopy16((void *)0x050006E2, work->palBase, 8);
@@ -1565,7 +1399,7 @@ void INTRUDE_SUBDISP_ClactActorCreate(IntrudeSubdispWork *work, void *bg)
 void INTRUDE_SUBDISP_ClactActorDelete(IntrudeSubdispWork *work)
 {
     int i;
-    for (i = 0; i < INTRUDE_SUBDISP_ACTOR_COUNT; i++) CLACT_DeleteActor((struct Actor *)work->actors[i]);
+    for (i = 0; i < INTRUDE_SUBDISP_ACTOR_COUNT; i++) CLACT_DeleteActor((struct ClactActor *)work->actors[i]);
 }
 
 void INTRUDE_SUBDISP_CreateTownActors(IntrudeSubdispWork *work, void *bg)
@@ -1578,15 +1412,15 @@ void INTRUDE_SUBDISP_CreateTownActors(IntrudeSubdispWork *work, void *bg)
         param.x = d_02176AA0[i].x;
         param.y = d_02176AA0[i].y;
         work->actors[i] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 0, 0x70);
-        CLACT_SetActorDrawEnable((struct Actor *)work->actors[i], 0);
-        CLACT_SetActorAutoAnim((struct Actor *)work->actors[i], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[i], 0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->actors[i], 1);
     }
-    param.anim = 8;
+    param.anim_seq = 8;
     param.x = 0x80;
     param.y = 0x5c;
     work->actors[8] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 0, 0x70);
-    CLACT_SetActorDrawEnable((struct Actor *)work->actors[8], 0);
-    CLACT_SetActorAutoAnim((struct Actor *)work->actors[8], 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[8], 0);
+    CLACT_SetActorAutoAnim((struct ClactActor *)work->actors[8], 1);
 }
 
 void INTRUDE_SUBDISP_CreatePlayerMarkActors(IntrudeSubdispWork *work, void *bg)
@@ -1597,8 +1431,8 @@ void INTRUDE_SUBDISP_CreatePlayerMarkActors(IntrudeSubdispWork *work, void *bg)
     param = d_021836E4;
     for (i = 9; i <= 11; i++) {
         work->actors[i] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 0, 0x70);
-        CLACT_SetActorPaletteOffset((struct Actor *)work->actors[i], (u8)(i - 8), 1);
-        CLACT_SetActorDrawEnable((struct Actor *)work->actors[i], 0);
+        CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[i], (u8)(i - 8), 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[i], 0);
     }
 }
 
@@ -1610,9 +1444,9 @@ void INTRUDE_SUBDISP_CreateTownMarkActors(IntrudeSubdispWork *work, void *bg)
     param = d_021836DC;
     for (i = 12; i <= 14; i++) {
         work->actors[i] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 0, 0x70);
-        CLACT_SetActorPaletteOffset((struct Actor *)work->actors[i], (u8)(i - 11), 1);
-        CLACT_SetActorDrawEnable((struct Actor *)work->actors[i], 0);
-        CLACT_SetActorAutoAnim((struct Actor *)work->actors[i], 1);
+        CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[i], (u8)(i - 11), 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[i], 0);
+        CLACT_SetActorAutoAnim((struct ClactActor *)work->actors[i], 1);
     }
 }
 
@@ -1624,12 +1458,12 @@ void INTRUDE_SUBDISP_CreateMyPlayerActor(IntrudeSubdispWork *work, void *bg)
     param = d_021836D4;
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (MYSTATUS_GetSex(GAME_DATA_GetMyStatus(gameData)) == 1) {
-        param.anim = 3;
+        param.anim_seq = 3;
     }
     work->actors[15] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 0, 0x70);
-    CLACT_SetActorPaletteOffset((struct Actor *)work->actors[15], (u8)(GAME_DATA_GetOwnNetId(gameData) + 1), 1);
-    CLACT_SetActorDrawEnable((struct Actor *)work->actors[15], 0);
-    CLACT_SetActorAutoAnim((struct Actor *)work->actors[15], 1);
+    CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[15], (u8)(GAME_DATA_GetOwnNetId(gameData) + 1), 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[15], 0);
+    CLACT_SetActorAutoAnim((struct ClactActor *)work->actors[15], 1);
 }
 
 void INTRUDE_SUBDISP_CreatePlayerIconActors(IntrudeSubdispWork *work, void *bg)
@@ -1640,8 +1474,8 @@ void INTRUDE_SUBDISP_CreatePlayerIconActors(IntrudeSubdispWork *work, void *bg)
     param = d_021836EC;
     for (i = 17; i <= 19; i++) {
         work->actors[i] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &param, 0, 0x70);
-        CLACT_SetActorPaletteOffset((struct Actor *)work->actors[i], (u8)(i - 16), 1);
-        CLACT_SetActorDrawEnable((struct Actor *)work->actors[i], 0);
+        CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[i], (u8)(i - 16), 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[i], 0);
     }
 }
 
@@ -1653,7 +1487,7 @@ void INTRUDE_SUBDISP_CreateInfoIconActor(IntrudeSubdispWork *work, void *bg)
     param = d_021836C4;
     infoActive = INTRUDE_SUBDISP_IsInfoActive(work);
     work->actors[20] = CLACT_CreateActor(work->clactUnit, work->infoCharRes, work->palRes, work->infoCellRes, &param, 0, 0x70);
-    CLACT_SetActorDrawEnable((struct Actor *)work->actors[20], infoActive);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[20], infoActive);
 }
 
 void INTRUDE_SUBDISP_CreateButtonActors(IntrudeSubdispWork *work, void *bg)
@@ -1665,14 +1499,14 @@ void INTRUDE_SUBDISP_CreateButtonActors(IntrudeSubdispWork *work, void *bg)
     IntrudeSubdispBmpOamTmpl tmpl;
 
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
-    work->actors[16] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, d_021836AA, 0, 0x70);
-    CLACT_SetActorDrawEnable((struct Actor *)work->actors[16], 0);
+    work->actors[16] = CLACT_CreateActor(work->clactUnit, work->charRes, work->palRes, work->cellRes, &d_021836AA, 0, 0x70);
+    CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[16], 0);
     tmpl = d_021836F4;
     for (i = 0; i < 2; i++) {
         copy = tmpl;
         work->buttonBitmaps[i] = BMP_Create(6, 2, 0x20, 0x70);
         copy.bmp = work->buttonBitmaps[i];
-        copy.palRes = work->bmpOamPalRes;
+        copy.animResId = work->bmpOamPalRes;
         work->buttonOams[i] = BMP_OAM_Create(work->bmpOamSys, &copy);
         BMP_OAM_SetEnabled(work->buttonOams[i], 0);
         str = MSGDATA_AllocString((struct MsgBank *)work->msgData, i + 0x45);
@@ -1680,7 +1514,7 @@ void INTRUDE_SUBDISP_CreateButtonActors(IntrudeSubdispWork *work, void *bg)
         STRBUF_Delete(str);
     }
     if (work->noIntrude == 0 && GAME_DATA_GetIntrudeCount(gameData) == 0) {
-        CLACT_SetActorDrawEnable((struct Actor *)work->actors[16], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[16], 1);
         BMP_OAM_SetEnabled(work->buttonOams[1], 1);
     }
 }
@@ -1705,19 +1539,19 @@ void INTRUDE_SUBDISP_UpdateTownActors(IntrudeSubdispWork *work, void *target)
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (INTRUDE_SUBDISP_IsAlone(work) == 1) {
         for (i = 0; i <= 7; i++) {
-            CLACT_SetActorDrawEnable((struct Actor *)work->actors[i], 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[i], 0);
         }
-        CLACT_SetActorDrawEnable((struct Actor *)work->actors[8], 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[8], 0);
     } else if (work->town.homeSlot == GAME_DATA_GetOwnNetId(gameData) || GAME_DATA_GetIntrudeCount(gameData) == 0) {
         for (i = 0; i <= 7; i++) {
-            CLACT_SetActorDrawEnable((struct Actor *)work->actors[i], 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[i], 0);
         }
-        CLACT_SetActorDrawEnable((struct Actor *)work->actors[8], 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[8], 0);
     } else {
         for (i = 0; i <= 7; i++) {
-            CLACT_SetActorDrawEnable((struct Actor *)work->actors[i], 1);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[i], 1);
         }
-        CLACT_SetActorDrawEnable((struct Actor *)work->actors[8], 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[8], 1);
     }
     for (i = 6; i <= 8; i++) {
         MIi_CpuCopy16((void *)(0x05000602 + (work->town.homeSlot + 1) * 32), (void *)(0x0500060C + i * 32), 2);
@@ -1735,7 +1569,7 @@ void INTRUDE_SUBDISP_UpdateTownActors(IntrudeSubdispWork *work, void *target)
             } else {
                 actor = work->actors[8];
             }
-            CLACT_SetActorPaletteOffset((struct Actor *)actor, (u8)anim, (int)1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)actor, (u8)anim, (int)1);
         }
         if (work->blinkCount < 10) {
             work->blinkCount++;
@@ -1819,15 +1653,15 @@ void INTRUDE_SUBDISP_UpdatePlayerMarkActors(IntrudeSubdispWork *work, void *targ
                 }
                 actor = work->actors[9 + j];
                 CLACT_AddActorSurfacePos(actor, &layout.pos, 0);
-                CLACT_SetActorPaletteOffset((struct Actor *)actor, (u8)(layout.slot[i] + 1), 1);
-                CLACT_SetActorDrawEnable((struct Actor *)actor, 1);
+                CLACT_SetActorPaletteOffset((struct ClactActor *)actor, (u8)(layout.slot[i] + 1), 1);
+                CLACT_SetActorDrawEnable((struct ClactActor *)actor, 1);
                 j++;
             }
             i++;
         } while (i < n);
     }
     for (; i < 3; i++) {
-        CLACT_SetActorDrawEnable((struct Actor *)(work->actors[9 + i]), 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)(work->actors[9 + i]), 0);
     }
 }
 
@@ -1861,32 +1695,32 @@ void INTRUDE_SUBDISP_UpdatePlayerTownActors(IntrudeSubdispWork *work, IntrudeCom
         mark = work->actors[12 + i];
         icon = work->actors[17 + i];
         if (i == GAME_DATA_GetOwnNetId(gameData)) {
-            CLACT_SetActorDrawEnable((struct Actor *)mark, 0);
-            CLACT_SetActorDrawEnable((struct Actor *)icon, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)mark, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)icon, 0);
             continue;
         }
         if (sys == 0) {
-            CLACT_SetActorDrawEnable((struct Actor *)mark, 0);
-            CLACT_SetActorDrawEnable((struct Actor *)icon, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)mark, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)icon, 0);
             continue;
         }
         if (work->town.peerMask & (1 << i)) {
             peer = &sys->peers[i];
         } else {
-            CLACT_SetActorDrawEnable((struct Actor *)mark, 0);
-            CLACT_SetActorDrawEnable((struct Actor *)icon, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)mark, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)icon, 0);
             continue;
         }
         if (peer->state == 2) {
-            CLACT_SetActorAutoAnimSpeed((struct Actor *)mark, 0x2000);
+            CLACT_SetActorAutoAnimSpeed((struct ClactActor *)mark, 0x2000);
         } else {
-            CLACT_SetActorAutoAnimSpeed((struct Actor *)mark, 0x1000);
+            CLACT_SetActorAutoAnimSpeed((struct ClactActor *)mark, 0x1000);
         }
         if (peer->intrudeId == cur) {
             if (ZONEDATA_IsEntralink(peer->zoneId) == 1) {
                 pair.pos.x = d_021836A4[i][0] + 0x80;
                 pair.pos.y = d_021836A4[i][1] + 0x4c;
-                CLACT_SetActorDrawEnable((struct Actor *)icon, 0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)icon, 0);
             } else {
                 if (peer->zoneId != prevZone) {
                     town = INTRUDE_FIELD_FindZonePos(peer->zoneId);
@@ -1896,36 +1730,36 @@ void INTRUDE_SUBDISP_UpdatePlayerTownActors(IntrudeSubdispWork *work, IntrudeCom
                 if (town != 0) {
                     pair.pos.x = town->x + d_021836A4[i][0];
                     pair.pos.y = town->y + d_021836A4[i][1];
-                    CLACT_SetActorDrawEnable((struct Actor *)icon, 0);
+                    CLACT_SetActorDrawEnable((struct ClactActor *)icon, 0);
                 } else {
                     pair.pos.x = 0xe8;
                     pair.pos.y = i * 0x18 + 0x50;
                     pair.marker = pair.pos;
                     pair.marker.x = 0xf0;
                     CLACT_AddActorSurfacePos(icon, &pair.marker, 0);
-                    CLACT_SetActorDrawEnable((struct Actor *)icon, 1);
+                    CLACT_SetActorDrawEnable((struct ClactActor *)icon, 1);
                 }
             }
             CLACT_AddActorSurfacePos(mark, &pair.pos, 0);
             work->peerTowns[i].town = town;
             work->peerTowns[i].zoneId = peer->zoneId;
         } else {
-            CLACT_SetActorDrawEnable((struct Actor *)icon, 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)icon, 0);
             for (k = 0; k < 3; k++) {
-                if (CLACT_GetActorPaletteOffset((struct Actor *)(work->actors[9 + k])) == i + 1) {
+                if (CLACT_GetActorPaletteOffset((struct ClactActor *)(work->actors[9 + k])) == i + 1) {
                     CLACT_GetActorSurfacePos(work->actors[9 + k], &pair.pos, 0);
                     break;
                 }
             }
             if (k == 3) {
-                CLACT_SetActorDrawEnable((struct Actor *)mark, 0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)mark, 0);
                 continue;
             }
             pair.pos.x += d_021836A4[i][0];
             pair.pos.y += d_021836A4[i][1];
             CLACT_AddActorSurfacePos(mark, &pair.pos, 0);
         }
-        CLACT_SetActorDrawEnable((struct Actor *)mark, 1);
+        CLACT_SetActorDrawEnable((struct ClactActor *)mark, 1);
     }
 }
 
@@ -1941,10 +1775,10 @@ void INTRUDE_SUBDISP_UpdateTownMarkPalette(IntrudeSubdispWork *work)
         anim = -1;
         v = work->lastPeer;
         if (v != 4 && v != sel) {
-            CLACT_SetActorPaletteOffset((struct Actor *)(work->actors[v + 12]), (u8)(v + 1), (int)1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)(work->actors[v + 12]), (u8)(v + 1), (int)1);
         }
         if (work->lastPeer != sel) {
-            MIi_CpuCopy16((void *)(0x05000600 + (sel + 1) * 32), buf, 0x20);
+            MIi_CpuCopy16((void *)(HW_DB_OBJ_PLTT + (sel + 1) * 32), buf, 0x20);
             PALANM_BlendColors(buf, buf, 0x10, 8, 0x7fff);
             MIi_CpuCopy16(buf, (void *)0x05000720, 0x20);
             work->lastPeer = sel;
@@ -1957,13 +1791,13 @@ void INTRUDE_SUBDISP_UpdateTownMarkPalette(IntrudeSubdispWork *work)
             work->peerBlinkCount = 0;
         }
         if (anim != -1) {
-            CLACT_SetActorPaletteOffset((struct Actor *)(work->actors[sel + 12]), (u8)anim, (int)1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)(work->actors[sel + 12]), (u8)anim, (int)1);
         }
         return;
     }
     v = work->lastPeer;
     if (v != 4) {
-        CLACT_SetActorPaletteOffset((struct Actor *)(work->actors[v + 12]), (u8)(v + 1), (int)1);
+        CLACT_SetActorPaletteOffset((struct ClactActor *)(work->actors[v + 12]), (u8)(v + 1), (int)1);
         work->lastPeer = 4;
         work->peerBlinkCount = 0;
     }
@@ -2013,7 +1847,7 @@ void INTRUDE_SUBDISP_UpdateMyPlayerActor(IntrudeSubdispWork *work, void *target,
     }
     actor = work->actors[15];
     CLACT_AddActorSurfacePos(actor, &pos, 0);
-    CLACT_SetActorDrawEnable((struct Actor *)actor, 1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)actor, 1);
     INTRUDE_SUBDISP_SetTownCursor(work, sel);
     work->peerTowns[idx].zoneId = zoneId;
 }
@@ -2030,7 +1864,7 @@ void INTRUDE_SUBDISP_UpdateButtonActors(IntrudeSubdispWork *work, void *target)
         case 2:
         case 3:
         case 4:
-            CLACT_SetActorDrawEnable((struct Actor *)work->actors[16], 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[16], 0);
             BMP_OAM_SetEnabled(work->buttonOams[0], 0);
             break;
         }
@@ -2047,14 +1881,14 @@ void INTRUDE_SUBDISP_UpdateInfoIcon(IntrudeSubdispWork *work, void *target)
 
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     if (INTRUDE_SUBDISP_IsInfoActive(work) == 0) {
-        if (CLACT_GetActorDrawEnable((struct Actor *)work->actors[20]) == 1) {
-            CLACT_SetActorDrawEnable((struct Actor *)work->actors[20], 0);
+        if (CLACT_GetActorDrawEnable((struct ClactActor *)work->actors[20]) == 1) {
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[20], 0);
             INTRUDE_SUBDISP_ClearInfoPanel();
         }
         return;
     }
-    if (CLACT_GetActorDrawEnable((struct Actor *)work->actors[20]) == 0) {
-        CLACT_SetActorDrawEnable((struct Actor *)work->actors[20], 1);
+    if (CLACT_GetActorDrawEnable((struct ClactActor *)work->actors[20]) == 0) {
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[20], 1);
         INTRUDE_SUBDISP_DrawInfoPanel(work, 1);
     }
     GAME_DATA_GetLastBattleRecSlot(gameData);
@@ -2404,7 +2238,7 @@ void INTRUDE_SUBDISP_UpdateTouch(IntrudeCommSys *sys, IntrudeSubdispWork *work, 
             continue;
         }
         actor = work->actors[12 + i];
-        if (CLACT_GetActorDrawEnable((struct Actor *)actor) != 1) {
+        if (CLACT_GetActorDrawEnable((struct ClactActor *)actor) != 1) {
             continue;
         }
         CLACT_GetActorSurfacePos(actor, &pt, 0);
@@ -2588,8 +2422,8 @@ void INTRUDE_SUBDISP_StartTownBlink(IntrudeSubdispWork *work)
     int i;
     work->blinkCount = 0;
     work->blinkActive = 1;
-    for (i = 0; i < 7; i++) CLACT_SetActorPaletteOffset((struct Actor *)work->actors[i], 6, 1);
-    CLACT_SetActorPaletteOffset((struct Actor *)work->actors[8], 6, 1);
+    for (i = 0; i < 7; i++) CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[i], 6, 1);
+    CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[8], 6, 1);
 }
 
 int INTRUDE_SUBDISP_IsTownBlinking(IntrudeSubdispWork *work)
@@ -2605,14 +2439,14 @@ void INTRUDE_SUBDISP_SetTownCursor(IntrudeSubdispWork *work, int index)
     cursor = work->cursorActor;
     if (cursor != index && work->blinkActive != 1) {
         if (cursor < 8) {
-            CLACT_SetActorPaletteOffset((struct Actor *)work->actors[cursor], 6, 1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[cursor], 6, 1);
         } else if (cursor == 8) {
-            CLACT_SetActorPaletteOffset((struct Actor *)work->actors[8], 6, 1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[8], 6, 1);
         }
         if (index < 8) {
-            CLACT_SetActorPaletteOffset((struct Actor *)work->actors[index], 8, 1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[index], 8, 1);
         } else if (index == 8) {
-            CLACT_SetActorPaletteOffset((struct Actor *)work->actors[8], 8, 1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[8], 8, 1);
         }
         work->cursorActor = index;
         work->cursorPulse = 0;
@@ -2624,7 +2458,7 @@ void INTRUDE_SUBDISP_StartButtonBlink(IntrudeSubdispWork *work)
 {
     work->buttonBlinkCount = 0;
     work->buttonBlinkActive = 1;
-    CLACT_SetActorPaletteOffset((struct Actor *)work->actors[16], 6, 1);
+    CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[16], 6, 1);
 }
 
 void INTRUDE_SUBDISP_UpdateButtonBlink(IntrudeSubdispWork *work)
@@ -2634,7 +2468,7 @@ void INTRUDE_SUBDISP_UpdateButtonBlink(IntrudeSubdispWork *work)
     if (work->buttonBlinkActive != 0) {
         count = work->buttonBlinkCount;
         if (count % 2 == 0) {
-            CLACT_SetActorPaletteOffset((struct Actor *)work->actors[16], (u8)(((unsigned)count >> 1) & 1 ? 6 : 7), (int)1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors[16], (u8)(((unsigned)count >> 1) & 1 ? 6 : 7), (int)1);
         }
         if (work->buttonBlinkCount < 10) {
             work->buttonBlinkCount++;

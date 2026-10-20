@@ -46,30 +46,13 @@
 #include "../types.h"
 #include "nhttp_types.h"
 
-extern NHTTPSysInfo *NHTTPi_GetSystemInfoP(void);
-extern NHTTPBgnEndInfo *NHTTPi_GetBgnEndInfoP(NHTTPSysInfo *sysInfo_p);
-extern NHTTPMutexInfo *NHTTPi_GetMutexInfoP(NHTTPSysInfo *sysInfo_p);
-extern void *NHTTPi_alloc(unsigned long size, int align);
-extern void NHTTPi_SetError(NHTTPBgnEndInfo *bgnEndInfo_p, int error);
-extern void NHTTPi_memclr(void *dst_p, int size);
-extern NHTTPReq *NHTTPi_CreateRequest(NHTTPBgnEndInfo *bgnEndInfo_p, char *url_p, int method, char *buf_p, u32 len,
-                               void *param_p, NHTTPBufFullFn bufFull, NHTTPFreeBufFn freeBuf);
-extern void NHTTPi_free(void *ptr_p);
-extern int NHTTPi_CommitConnectionList(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p);
-extern void NHTTPi_SetVirtualContentLength(NHTTPConnection *connection_p, u32 virtualContentLength);
-extern NHTTPConnection *NHTTPi_GetConnection(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *handle_p);
-extern NHTTPThreadInfo *NHTTPi_GetThreadInfoP(NHTTPSysInfo *sysInfo_p);
-extern void NHTTPi_CheckCurrentThread(NHTTPThreadInfo *threadInfo_p, int isCommThread);
-extern void NHTTPi_WaitForCompletion(void *waiter_p);
-extern int NHTTPi_CancelRequestAsync(NHTTPSysInfo *, int);
-extern int NHTTPi_decRef(NHTTPMutexInfo *, NHTTPConnection *);
-extern void NHTTPi_DestroyRequest(NHTTPSysInfo *, NHTTPReq *);
+#include "d_nhttp_common.h"
+#include "nhttp_bgnend.h"
+#include "nhttp_stdlib_ntr.h"
+#include "nhttp_request.h"
+#include "nhttp_os_ntr.h"
 int NHTTP_WaitForConnection(NHTTPConnection *handle_p);
-extern void NHTTPi_DestroyResponse(NHTTPMutexInfo *, NHTTPRes *);
-extern int NHTTPi_OmitConnectionList(NHTTPMutexInfo *, NHTTPConnection *);
-extern int NHTTPi_SendRequestAsync(NHTTPSysInfo *, NHTTPReq *);
-extern int NHTTPi_addRef(NHTTPMutexInfo *, NHTTPConnection *);
-extern NHTTPRes *NHTTPi_Connection2Response(NHTTPMutexInfo *, NHTTPConnection *);
+#include "nhttp_response.h"
 NHTTPConnection *NHTTP_CreateConnection(char *url_p, int method, char *buf_p, u32 len, int (*callback)(NHTTPConnection *, int, void *), void *userParam_p);
 int NHTTP_DeleteConnection(NHTTPConnection *handle_p);
 int NHTTPi_DeleteConnection(NHTTPConnection *connection_p);
@@ -136,7 +119,7 @@ int NHTTP_DeleteConnection(NHTTPConnection *handle_p)
 int NHTTPi_DeleteConnection(NHTTPConnection *connection_p)
 {
     NHTTPSysInfo *sysInfo_p = NHTTPi_GetSystemInfoP();
-    NHTTPMutexInfo *mutexInfo_p = ((NHTTPMutexInfo * (*)(void))NHTTPi_GetMutexInfoP)();
+    NHTTPMutexInfo *mutexInfo_p = NHTTPi_GetMutexInfoP(sysInfo_p);
 
     NHTTPi_GetThreadInfoP(sysInfo_p);
     if (connection_p == 0)
@@ -181,7 +164,7 @@ int NHTTP_WaitForConnection(NHTTPConnection *handle_p)
 int NHTTP_StartConnection(void *handle)
 {
     NHTTPSysInfo *sysInfo_p = NHTTPi_GetSystemInfoP();
-    NHTTPMutexInfo *mutexInfo_p = ((NHTTPMutexInfo * (*)(void))NHTTPi_GetMutexInfoP)();
+    NHTTPMutexInfo *mutexInfo_p = NHTTPi_GetMutexInfoP(sysInfo_p);
     NHTTPConnection *connection_p = NHTTPi_GetConnection(mutexInfo_p, handle);
 
     if (connection_p == 0)
@@ -199,7 +182,7 @@ int NHTTP_StartConnection(void *handle)
 int NHTTP_CancelConnection(void *handle)
 {
     NHTTPSysInfo *sysInfo_p = NHTTPi_GetSystemInfoP();
-    NHTTPMutexInfo *mutexInfo_p = ((NHTTPMutexInfo * (*)(void))NHTTPi_GetMutexInfoP)();
+    NHTTPMutexInfo *mutexInfo_p = NHTTPi_GetMutexInfoP(sysInfo_p);
     NHTTPConnection *connection_p = NHTTPi_GetConnection(mutexInfo_p, handle);
 
     if (connection_p == 0)
@@ -227,8 +210,7 @@ int NHTTP_GetBodyBuffer(void *handle, char **value_pp, unsigned long *size_p)
     NHTTPConnection *connection_p;
     NHTTPRes *res_p;
 
-    NHTTPi_GetSystemInfoP();
-    mutexInfo_p = ((NHTTPMutexInfo * (*)(void))NHTTPi_GetMutexInfoP)();
+    mutexInfo_p = NHTTPi_GetMutexInfoP(NHTTPi_GetSystemInfoP());
     connection_p = NHTTPi_GetConnection(mutexInfo_p, handle);
     if (connection_p == 0)
         goto fail;
@@ -248,8 +230,7 @@ void *NHTTP_GetUserParam(void *handle)
     NHTTPConnection *connection_p;
     NHTTPRes *res_p;
 
-    NHTTPi_GetSystemInfoP();
-    mutexInfo_p = ((NHTTPMutexInfo * (*)(void))NHTTPi_GetMutexInfoP)();
+    mutexInfo_p = NHTTPi_GetMutexInfoP(NHTTPi_GetSystemInfoP());
     connection_p = NHTTPi_GetConnection(mutexInfo_p, handle);
     if (connection_p == 0)
         goto fail;
@@ -276,8 +257,7 @@ int NHTTP_GetConnectionProgress(void *handle, unsigned long *received_p, unsigne
     NHTTPConnection *connection_p;
     NHTTPRes *res_p;
 
-    NHTTPi_GetSystemInfoP();
-    mutexInfo_p = ((NHTTPMutexInfo * (*)(void))NHTTPi_GetMutexInfoP)();
+    mutexInfo_p = NHTTPi_GetMutexInfoP(NHTTPi_GetSystemInfoP());
     connection_p = NHTTPi_GetConnection(mutexInfo_p, handle);
     if (connection_p == 0)
         goto fail;

@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_MET_TRAINERS_SAVEDATA_H
 #define GAME_ARM9_MET_TRAINERS_SAVEDATA_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of met_trainers_savedata.c, prototypes copied from their definitions. */
 
 struct MetTrainersSave;
@@ -14,5 +15,6 @@ void MET_TRAINERS_Insert(struct MetTrainersSave *list, u32 value);
 int MET_TRAINERS_Contains(struct MetTrainersSave *list, u32 value);
 int MET_TRAINERS_TestBit(char *list, int bitIndex);
 void MET_TRAINERS_SetBit(char *list, int bitIndex);
+/* END mkheaders: generated region */
 
 #endif

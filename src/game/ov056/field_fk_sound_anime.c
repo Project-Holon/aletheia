@@ -42,16 +42,17 @@
  *   GFL_USE_GetSeSlot  0x02006148  thumb
  *   GFL_USE_StopSeSlot  0x020061F8  thumb
  */
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS code passes the heap id of GFL_HEAP_Alloc and ICA_ANIME_CreateStream as u16 */
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_Alloc_header
+#define ICA_ANIME_CreateStream ICA_ANIME_CreateStream_header
+#endif
 #include "field_fk_demo_types.h"
+#include "../ov021/field_buildmodel.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuCopy8(const void *src, void *dst, int size);
-extern u32 GFL_HEAP_Free(void *memory);
-extern struct IcaAnime *ICA_ANIME_CreateStream(u16 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
-extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *anime, VecFx32 *translate);
-extern u32 ICA_ANIME_GetScale(struct IcaAnime *anime, VecFx32 *scale);
-extern u32 ICA_ANIME_GetRotate(struct IcaAnime *anime, VecFx32 *rotate);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_use.h"
 
 void FIELD_FK_SOUND_ANIME_InitFrameSound(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkFrameSoundWork *work);
 void FIELD_FK_SOUND_ANIME_ExitFrameSound(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkFrameSoundWork *work);
@@ -63,8 +64,13 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundB(struct FieldSubproc *proc, struct Fi
 void FIELD_FK_SOUND_ANIME_ExitAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
 void FIELD_FK_SOUND_ANIME_UpdateAmbientSoundB(struct FieldSubproc *proc, struct FieldMap *fieldMap, FkAmbientSoundWork *work);
 #include "../types.h"
-extern int GFL_USE_GetSeSlot(u32 seId);
-extern void GFL_USE_StopSeSlot(int seSlot);
+#include "../arm9/ica_anime.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+#undef ICA_ANIME_CreateStream
+void *GFL_HEAP_Alloc(u16 heapId, u32 size, int clear, const char *site, u16 tag);
+struct IcaAnime *ICA_ANIME_CreateStream(u16 heapId, u32 arcId, u32 dataId, u32 bufFrameNum);
+#endif
 
 /*
  * Init of the proc that plays a sound at listed frames of a building
@@ -80,10 +86,10 @@ void FIELD_FK_SOUND_ANIME_InitFrameSound(struct FieldSubproc *proc, struct Field
 {
     struct BuildModelMan *man;
 
-    man = FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(fieldMap));
+    man = (struct BuildModelMan *)FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(fieldMap));
     work->entry = FIELD_BUILDMODEL_GetFirstEntryNearPos(man, 0, &gFkFrameSoundModelPos);
     work->man = man;
-    work->soundSys = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    work->soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
 }
 
 /* Exit of that proc: nothing to undo. */
@@ -131,7 +137,7 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundA(struct FieldSubproc *proc, struct Fi
 
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
     work->eventWork = GAME_DATA_GetEventWork(gameData);
-    work->soundSys = GAME_DATA_GetBgmInfo(gameData);
+    work->soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->stopVar = ZONEDATA_GetEventWorkAddress(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
     if (*work->stopVar == 0) {
         FIELD_SOUND_SYSTEM_ClaimSlot(work->soundSys, FK_SE_AMBIENT_A);
@@ -165,7 +171,7 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundB(struct FieldSubproc *proc, struct Fi
 
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
     work->eventWork = GAME_DATA_GetEventWork(gameData);
-    work->soundSys = GAME_DATA_GetBgmInfo(gameData);
+    work->soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     work->stopVar = ZONEDATA_GetEventWorkAddress(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
     if (*work->stopVar == 0) {
         FIELD_SOUND_SYSTEM_ClaimSlot(work->soundSys, FK_SE_AMBIENT_B);

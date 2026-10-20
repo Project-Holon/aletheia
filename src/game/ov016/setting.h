@@ -1,6 +1,7 @@
 #ifndef GAME_OV016_SETTING_H
 #define GAME_OV016_SETTING_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of setting.c, prototypes copied from their definitions. */
 
 void DWCi_SETTIGNlInit(void);
@@ -30,5 +31,6 @@ char *DWCi_SETTINGlGetMemMap(void);
 void DWCi_SETTINGlErasePage(int page);
 void DWCi_SETTINGlEraseAll(void);
 void DWCi_SETTINGlConvAddress(char *adr, unsigned char *buf);
+/* END mkheaders: generated region */
 
 #endif

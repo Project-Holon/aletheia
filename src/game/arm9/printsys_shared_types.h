@@ -1,11 +1,14 @@
 #ifndef PRINTSYS_SHARED_TYPES_H
 #define PRINTSYS_SHARED_TYPES_H
 
-#include "gf_font_shared_types.h"
+#include "../arm9/gf_font_shared_types.h"
 
 struct ArcFile;
 
 #include "../types.h"
+
+/* Per-character callback of PRINTSYS_PrintStreamCallBack. */
+typedef u8 (*PrintCallback)(u32 arg);
 
 struct FontInfo {
     u8  fontType;

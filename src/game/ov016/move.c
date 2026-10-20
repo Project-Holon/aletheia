@@ -41,13 +41,12 @@
  *   DWCi_HEAPlFree_    0x021D6438  arm  ov016
  *   MemMovFree                   0x021DE590  data
  */
-typedef struct {
-	int w[7];
-} MovData;
+#include "task.h"
+#include "dwc_moveid_types.h"
 
 typedef void (*MoveCallback)(int);
 
-typedef struct Wk {
+typedef struct MoveWork {
 	unsigned char body[0x1e280];
 	unsigned char childInfo[0x18];
 	MoveCallback callback;
@@ -57,24 +56,14 @@ typedef struct Wk {
 	unsigned char pad[2];
 } MoveWork;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
-extern unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx);
-extern unsigned char kDWCi_Language(void);
-struct Wk;
-extern void DWCi_MOVInit(struct Wk *wm, MovData *md);
-extern int DWCi_MOVStartAdmitChild(void);
-extern void OS_Terminate(void);
+#include "heap.h"
+#include "message.h"
+#include "dwcutil_main.h"
+#include "dwc_moveid.h"
+#include "../arm9/os_terminate_processor.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
-extern int DWCi_MOVFinalize(void);
-extern int DWCi_MOVStartDownloadandBootChild(void);
-extern void DWCi_MOVFramework(void);
-extern void DWCi_MOVGetStatus(unsigned char *stt, unsigned char *change_f);
 struct MBUserInfo;
-extern struct MBUserInfo *DWCi_GetChildInfo(void);
-extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
-extern void DWCi_TSKlDelete(int kind, void *task);
-extern void DWCi_HEAPlFree_(void **mem);
+#include "../arm9/mi_memory.h"
 void DWCi_MOVlInit(void (*callback)(int));
 void DWCi_MOVlEnd(void);
 int DWCi_MOVlIsEnd(void);
@@ -102,19 +91,19 @@ void DWCi_MOVlInit(void (*callback)(int))
 	gMoveWork->reportPending = 0;
 	gMoveWork->ended = 0;
 	dat = sMoveTable;
-	dat.w[1] = (int)DWCi_MSGlGet(gCommentWork, 0);
-	dat.w[2] = (int)DWCi_MSGlGet(gCommentWork, 1);
-	*(unsigned char *)&dat.w[6] = kDWCi_Language();
-	DWCi_MOVInit(gMoveWork, &dat);
+	dat.gameNamep = (u16 *)DWCi_MSGlGet(gCommentWork, 0);
+	dat.gameIntroductionp = (u16 *)DWCi_MSGlGet(gCommentWork, 1);
+	dat.language = kDWCi_Language();
+	DWCi_MOVInit((Wk *)gMoveWork, &dat);
 	if (DWCi_MOVStartAdmitChild() == 0)
 		OS_Terminate();
-	gMoveWork->task = DWCi_TSKlForm(0, taskFramework, 0, 0x78);
+	gMoveWork->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskFramework, 0, 0x78);
 }
 
 
 void DWCi_MOVlEnd(void)
 {
-    DWCi_TSKlForm(0, DWCi_MoveTaskEnd, 0, 0x78);
+    DWCi_TSKlForm(0, (void (*)(void *, void *))DWCi_MoveTaskEnd, 0, 0x78);
 }
 
 

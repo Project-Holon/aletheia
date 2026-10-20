@@ -18,28 +18,17 @@
  *   memcpy  0x02092344 arm
  *   memmove 0x02092364  arm
  */
-struct GTI2Buffer;
-typedef struct {
-    char *buffer;
-    int size;
-    int length;
-} GTI2Buffer;
+#include "gt2main_types.h"
 
-struct GTI2Buffer {
-    unsigned char *data;
-    int size;
-    int position;
-};
-
-extern void *gsimalloc(unsigned long size);
-extern int strlen(unsigned char *s);
-extern void *memcpy(void *dest, const void *src, unsigned int n);
-extern void *memmove(void *dest, const void *src, unsigned int n);
+#include "gsmemory.h"
+#include "../arm9/msl_string_str.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
 int gti2AllocateBuffer(GTI2Buffer *buffer, int size);
 int gti2GetBufferFreeSpace(const int *p);
 void gti2BufferWriteByte(int *p, int v);
 void gti2BufferWriteUShort(int *p, int v);
-void gti2BufferWriteData(struct GTI2Buffer *buffer, unsigned char *data, int len);
+void gti2BufferWriteData(GTI2Buffer *buffer, unsigned char *data, int len);
 void gti2BufferShorten(GTI2Buffer *buffer, int start, int shortenBy);
 
 
@@ -85,14 +74,14 @@ void gti2BufferWriteUShort(int *p, int v)
 }
 
 
-void gti2BufferWriteData(struct GTI2Buffer *buffer, unsigned char *data, int len)
+void gti2BufferWriteData(GTI2Buffer *buffer, unsigned char *data, int len)
 {
     if ((data == 0) || (len == 0))
         return;
     if (len == -1)
         len = strlen((unsigned char *)data);
-    memcpy(buffer->data + buffer->position, data, len);
-    buffer->position += len;
+    memcpy(buffer->buffer + buffer->len, data, len);
+    buffer->len += len;
 }
 
 
@@ -102,8 +91,8 @@ void gti2BufferWriteData(struct GTI2Buffer *buffer, unsigned char *data, int len
 void gti2BufferShorten(GTI2Buffer *buffer, int start, int shortenBy)
 {
     if (start == -1)
-        start = buffer->length - shortenBy;
+        start = buffer->len - shortenBy;
     memmove(buffer->buffer + start, buffer->buffer + start + shortenBy,
-                  buffer->length - start - shortenBy);
-    buffer->length -= shortenBy;
+                  buffer->len - start - shortenBy);
+    buffer->len -= shortenBy;
 }

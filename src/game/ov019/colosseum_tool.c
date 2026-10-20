@@ -49,25 +49,21 @@
 #define NULL ((void *)0)
 #endif
 
-extern int  GFL_NET_GetNegotiationNum(void);
+#include "../arm9/net.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u8 MATH_CountPopulation(u32 x);
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
+#include "../arm9/net_handle.h"
+#include "../arm9/math.h"
 struct MyStatus;
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 struct FieldMap;
 struct FieldPlayer;
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct Mmdl;
-extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern void FIELD_PLAYER_GetPos(void *a, void *v);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-extern void MTX_Identity33_(void *m);
-extern int FLDMMDL_GetGridNowX(struct Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+#include "../ov021/field_player.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/gf_panic.h"
+#include "../arm9/fx_mtx33.h"
+#include "../ov010/fldmmdl.h"
 int COLOSSEUM_CheckAllEntered(ColosseumWork *colosseum);
 int COLOSSEUM_CheckAllTrainerCardsReceived(ColosseumWork *colosseum);
 int COLOSSEUM_IsPositionsReceived(ColosseumWork *colosseum);
@@ -85,12 +81,10 @@ extern s16 d_021807C0[][2];
 
 struct CommPlayer;
 struct MyStatus;
-extern int COLOSSEUM_TakePackage(ColosseumWork *work, int netId, CommPlayerPackage *out);
+#include "../ov012/colosseum.h"
 struct CommPlayerWork;
-extern int COMM_PLAYER_CheckOccupy(struct CommPlayerWork *work, s32 index);
+#include "../ov010/comm_player.h"
 struct CommPlayerPackage;
-extern void COMM_PLAYER_Add(struct CommPlayerWork *work, s32 index, s32 objCode, struct CommPlayerPackage *package);
-extern void COMM_PLAYER_SetPackage(struct CommPlayerWork *work, s32 index, struct CommPlayerPackage *package);
 
 int COLOSSEUM_CheckAllEntered(ColosseumWork *colosseum)
 {

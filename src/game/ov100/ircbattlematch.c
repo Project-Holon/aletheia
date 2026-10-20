@@ -201,12 +201,10 @@
  *   BMP_WIN_Exit  0x020450C8  arm  arm9
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  */
-struct Chan02021FD8;
-struct PalAnmSlot;
-struct Obj;
-struct Actor;
+struct ClactActor;
+struct ClactActor;
 struct PtS;
-struct Vec2;
+struct ClactVec2;
 struct Entry;
 struct Big;
 struct L0200ED54;
@@ -215,7 +213,6 @@ struct Sub0200852CObj;
 struct Sub24;
 struct Link;
 struct BigObj;
-struct TaskMenu;
 struct DispConfig;
 struct DispVram;
 struct MsgBank;
@@ -225,41 +222,27 @@ struct Bmp;
 struct BmpWin;
 struct Sub020097BCObj;
 struct WordSet;
-struct Bank;
+struct Unit;
 struct GfFont;
 struct Rec;
 struct TaskMenuRes;
-struct Cmd;
 struct Proc;
 struct PrintSys;
 struct Node;
 struct NetSessionReq;
 struct IrcBattleMatchWork;
 #include "../types.h"
+#include "../sdk_ioreg.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/app_taskmenu.h"
 
-#define PLTT_SUB_BG_ADDR 0x05000400
-#define REG_BLDCNT_ADDR 0x04000050
+#define PLTT_SUB_BG_ADDR HW_DB_BG_PLTT
 #define VBLANK_COUNT_ADDR 0x02FFFC3C
 
 /* Message id of the text printed in the main message window. */
 typedef struct MessageRef { int msgId; } MessageRef;
 
-typedef struct BgTemplate { unsigned int words[8]; } BgTemplate;
-
-/* Layout of the task menu opened by APP_TASKMENU_OpenMenu. */
-typedef struct TaskMenuTemplate {
-    int heapId;
-    u8 itemCount, pad[3];
-    void *items;
-    int flag;
-    u8 x, y, paletteSlot, layer;
-} TaskMenuTemplate;
-
-typedef struct TaskMenuItem {
-    struct U16Vec *label;
-    u16 color, pad;
-    int selectType;
-} TaskMenuItem;
+typedef struct BgTemplate BgTemplate;
 
 /* Session request block handed to GFL_NET_StartSession (112 bytes, copied from ROM data). */
 typedef struct NetSessionReq {
@@ -310,16 +293,16 @@ typedef struct IrcBattleMatchWork {
     struct MsgBank *msgData;         /* 0x288 */
     struct WordSet *wordSet;         /* 0x28C */
     struct GfFont *font;             /* 0x290 */
-    struct U16Vec *tempStr;          /* 0x294 */
-    struct U16Vec *msgStr;           /* 0x298 */
+    struct Strbuf *tempStr;          /* 0x294 */
+    struct Strbuf *msgStr;           /* 0x298 */
     u8 unused29C[0x14];
     struct Node *vblankTask;         /* 0x2B0 */
-    struct Bank *clactUnit;          /* 0x2B4 */
+    struct Unit *clactUnit;          /* 0x2B4 */
     int actorPaletteId;              /* 0x2B8 */
     int actorCharId;                 /* 0x2BC */
     int actorCellAnimId;             /* 0x2C0 */
     u8 unused2C4[4];
-    struct Obj *actors[8];           /* 0x2C8 */
+    struct ClactActor *actors[8];           /* 0x2C8 */
     int readyMask;                   /* 0x2E8 */
     int allReady;                    /* 0x2EC */
     u8 unused2F0[12];
@@ -347,7 +330,7 @@ typedef struct IrcBattleMatchWork {
     u8 *paletteBackup;               /* 0xCB4 */
     struct PrintSys *printQue;       /* 0xCB8 */
     int menuKind;                    /* 0xCBC 0 two items, 1 one item */
-    struct TaskMenu *taskMenu;       /* 0xCC0 */
+    TaskMenuWork *taskMenu;       /* 0xCC0 */
     struct TaskMenuRes *taskMenuRes; /* 0xCC4 */
     TaskMenuItem menuItems[2];       /* 0xCC8 */
     u8 *okWin;                       /* 0xCE0 */
@@ -356,182 +339,74 @@ typedef struct IrcBattleMatchWork {
     int paletteFlash;                /* 0xCEC */
 } IrcBattleMatchWork;
 
-extern void GFL_NET_IRC_WIRELESS_Exit(void);
-extern int GFL_NET_Exit(int exitCallback);
-extern u32 WIPE_SYS_EndCheck(void);
-extern void *PALANM_Create(u32 heap);
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
-extern int PALANM_GetTransWork(char *p, int i);
-extern void DC_FlushRange(int, int);
-extern void GXS_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
-extern void GXS_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-extern u32 PALANM_Delete(void *ctx);
-extern void MI_CpuCopy8(const void *,void *,u32);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern unsigned char MATH_CountPopulation(unsigned x);
+#include "../arm9/net.h"
+#include "../arm9/wipe.h"
+#include "../arm9/palanm.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/gx_load2d.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/clact.h"
+#include "../arm9/math.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 struct GameData;
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, u32 playerId);
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+#include "../arm9/game_data.h"
+#include "../arm9/mystatus.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern void *MET_TRAINERS_GetFromSave(void *p);
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+#include "../arm9/met_trainers_savedata.h"
 struct MetTrainersSave;
-extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, u32 value);
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern int WIFILIST_InsertFriend(void *saveData, void *profile, void *friendData, void *heapId);
-extern unsigned GFL_NET_IsParentAid(void);
-extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
-extern int TOUCHPANEL_GetTrg(void);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern void GFL_NET_SetAutoExit(u8 autoExit);
-extern void GFL_NET_SetLoginOption(u8 loginOption);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
+#include "../arm9/net_system.h"
+#include "../arm9/wifi_friend.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/gfl_use.h"
 struct Party;
-extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
-extern void POKE_TOOL_HealParty(struct Party *party);
-extern int POKE_REGULATION_GetDataSize(void);
-extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, u32 sendId, u32 command, u32 size, void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
-extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, u32 command, u32 size, void *data);
-extern void OS_GetMacAddress(u8 *macAddress);
+#include "../arm9/pokeparty.h"
+#include "../arm9/poke_tool_ext.h"
+#include "../arm9/poke_regulation.h"
+#include "../arm9/os_ownerinfo.h"
 struct FieldState;
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
-extern void WIFILIST_CreateExchangeToken(void *account, void *out);
+#include "../arm9/wifilist.h"
 struct TaskMenuWork;
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
-extern int MYSTATUS_GetSize(void);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
-extern void GFL_NET_IRC_WIRELESS_GetMacAddress(void *dst, u32 slot);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
-extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void BG_SYS_InitBgLayer(u32 bgId, const BgTemplate *tmpl, u32 type);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern void BG_SYS_PushTile(u32 index);
-extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern void CLACT_VBlankSystem(void);
+#include "../arm9/config.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/net_command.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+#include "../arm9/strbuf.h"
+#include "../arm9/msgdata.h"
 struct TaskMenuInitWork;
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
-extern void APP_TASKMENU_SetDisableKey(struct TaskMenuWork *menu, s32 isDisable);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+#include "../arm9/bmp_win.h"
 struct BmpWin;
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
+#include "../arm9/bmp_menuwork.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct Bmp;
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
+#include "../arm9/printsys.h"
 struct WifiList;
-extern u32 WIFILIST_CountFriends(struct WifiList *list);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/wordset.h"
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
-extern void GF_FONT_InitTextColor(void);
-extern void BG_SYS_Delete(void);
-extern void BMP_WIN_Exit(void);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
-extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*task)(void), void *work, u32 priority);
+struct TcbTask;
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 struct GFont;
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
-extern void FADE_Start(u32,int,int,int);
+#include "../arm9/fade.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern u32 GFL_HEAP_Free(void *p);
-extern int FADE_IsActive(void);
-extern void GFL_NET_StartSession(NetSessionReq *,u32,IrcBattleMatchWork *);
-extern void GFL_NET_IRC_WIRELESS_SetSessionParam(int (*isCompatible)(int, int));
-extern void GFL_NET_IRC_WIRELESS_SetRetryRequest(int);
-extern void GFL_NET_SetGameKindOverride(int);
-extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
-extern int GFL_NET_GetRunState(void);
-extern void IRCNET_SetFilter(int (*isCompatible)(int, int));
-extern void GFL_NET_StartChangeoverEx(void (*collectMacs)(IrcBattleMatchWork *), void (*onResult)(IrcBattleMatchWork *, int), void (*onConnected)(IrcBattleMatchWork *));
-extern u32 GFL_NET_IRC_WIRELESS_Step(void);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../ov015/ircnet.h"
 struct ButtonMan;
-extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
-extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern void CLACT_ApplyActorAnimCommand(struct Actor *a, const ActorTask *task);
-extern int GFL_NET_HANDLE_GetNegotiationState(struct GFLNetHandle *handle);
-extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heap);
-extern void MI_CpuFill8(int, int, int);
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void GX_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
+#include "../arm9/button_man.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/g2.h"
 struct TaskMenuWin;
-extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
-extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
-extern void CLACT_DrawSystem(void);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern void GFL_NET_ERR_RequestScreen(void);
-extern void WIPE_SetBrightnessFadeOut(u32, u32);
-extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
+#include "../arm9/net_err.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern u32 CLACT_DeleteUnit(struct Bank *unit);
-extern void CLACT_ExitSystem(void);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern void GFL_NET_COMMAND_DeleteCommandTable(u32 id);
+#include "../arm9/tcb_list.h"
 void IRCBATTLEMATCH_SetStep(IrcBattleMatchWork *work, IrcBattleMatchStep step);
 
 char *IRCBATTLEMATCH_GetRecvBuffer(void);
@@ -575,7 +450,7 @@ void IRCBATTLEMATCH_StepRegisterCommands(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_CollectMacAddresses(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_OnChangeoverResult(IrcBattleMatchWork *work,int role);
 void IRCBATTLEMATCH_SetupDisplay(IrcBattleMatchWork *work);
-void IRCBATTLEMATCH_VBlankTask(void);
+void IRCBATTLEMATCH_VBlankTask(struct TcbTask *tcb,void *work);
 void IRCBATTLEMATCH_OpenQuitMenu(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_OpenWaitMenu(IrcBattleMatchWork *work,int twoItems);
 void IRCBATTLEMATCH_PrintMainMessage(MessageRef *message,IrcBattleMatchWork *work);
@@ -670,25 +545,25 @@ void IRCBATTLEMATCH_StepWipeEnd(IrcBattleMatchWork *work) { if(WIPE_SYS_EndCheck
  */
 int IRCBATTLEMATCH_BlendBgPalette(IrcBattleMatchWork *work, int bgSlot, int paletteCount)
 {
-    int palAnim;
+    PaletteFade *palAnim;
     int byteSize;
-    int transWork;
+    sptr transWork;
 
-    palAnim = (int)PALANM_Create(work->heapId);
-    PALANM_AllocSlotBuffers((struct PalAnmSlot *)palAnim, bgSlot, 0x200, work->heapId);
+    palAnim = PALANM_Create(work->heapId);
+    PALANM_AllocSlotBuffers(palAnim, bgSlot, 0x200, work->heapId);
     byteSize = paletteCount << 5;
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)palAnim, bgSlot, 0, byteSize);
-    PALANM_BlendChannel((struct Chan02021FD8 *)palAnim, bgSlot, 0, (u16)(paletteCount << 4), 6, 0);
+    PALANM_CopyHwPaletteToSlot(palAnim, bgSlot, 0, byteSize);
+    PALANM_BlendChannel((PaletteFadeWork *)palAnim, bgSlot, 0, (u16)(paletteCount << 4), 6, 0);
     transWork = PALANM_GetTransWork((char *)palAnim, bgSlot);
-    DC_FlushRange(transWork, byteSize);
+    DC_FlushRange((void *)transWork, byteSize);
     if (bgSlot != 1) {
         if (bgSlot == 3)
             GXS_LoadOBJPltt((void *)transWork, 0, byteSize);
     } else {
         GXS_LoadBGPltt((void *)transWork, 0, byteSize);
     }
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)palAnim, bgSlot);
-    return PALANM_Delete((void *)palAnim);
+    PALANM_FreeSlotBuffers(palAnim, bgSlot);
+    return PALANM_Delete(palAnim);
 }
 
 void IRCBATTLEMATCH_SetPaletteFade(IrcBattleMatchWork *work,int enable){if(enable){MI_CpuCopy8((void *)PLTT_SUB_BG_ADDR,work->paletteBackup,0x200);IRCBATTLEMATCH_BlendBgPalette(work,1,9);}else{GXS_LoadBGPltt((void *)work->paletteBackup,0,0x120);}}
@@ -713,10 +588,10 @@ void IRCBATTLEMATCH_CreateActor(IrcBattleMatchWork *work,int x,int y,int slot,in
  ActorParam param;
  if(work->actors[slot]==0) {
   param.x=x; param.y=y; param.animSeq=animSeq; param.slot=slot; param.mode=2;
-  work->actors[slot]=CLACT_CreateActor(work->clactUnit,work->actorCharId,work->actorPaletteId,work->actorCellAnimId,&param,0,work->heapId);
-  CLACT_SetActorAutoAnim((struct Actor *)work->actors[slot],1);
-  CLACT_SetActorDrawEnable((struct Actor *)work->actors[slot],1);
-  CLACT_SetActorAffineMode((struct Actor *)work->actors[slot],2);
+  work->actors[slot]=CLACT_CreateActor(work->clactUnit,work->actorCharId,work->actorPaletteId,work->actorCellAnimId,(const struct ActorInitParam *)&param,0,work->heapId);
+  CLACT_SetActorAutoAnim((struct ClactActor *)work->actors[slot],1);
+  CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[slot],1);
+  CLACT_SetActorAffineMode((struct ClactActor *)work->actors[slot],2);
  }
 }
 
@@ -724,15 +599,15 @@ void IRCBATTLEMATCH_NudgeActor(IrcBattleMatchWork *work,int dx,int dy,int slot)
 {
  struct Vec2Short { s16 x,y; } pos;
  if(work->actors[slot] != 0) {
-  CLACT_GetActorSurfacePos((struct Actor *)work->actors[slot],(struct PtS *)&pos,0);
+  CLACT_GetActorSurfacePos((struct ClactActor *)work->actors[slot],(struct ClactVec2 *)&pos,0);
   pos.x += (s16)dx;
   pos.y += (s16)dy;
-  CLACT_AddActorSurfacePos(work->actors[slot],(const struct Vec2 *)(&pos),0);
+  CLACT_AddActorSurfacePos(work->actors[slot],(const struct ClactVec2 *)(&pos),0);
  }
 }
 
 /* stand-in: the address is written as (int)work + 0x2c8 + slot * 4; work->actors[slot] compiles four bytes shorter. */
-void IRCBATTLEMATCH_MoveActor(IrcBattleMatchWork *work,int x,int y,int slot) { struct Vec2Short { s16 x,y; } pos; struct Obj *actor; actor=*(struct Obj **)((int)work+0x2c8+slot*4); if(actor){pos.x=x;pos.y=y;CLACT_AddActorSurfacePos(actor,(const struct Vec2 *)(&pos),0);} }
+void IRCBATTLEMATCH_MoveActor(IrcBattleMatchWork *work,int x,int y,int slot) { struct Vec2Short { s16 x,y; } pos; struct ClactActor *actor; actor=*(struct ClactActor **)((sptr)work+0x2c8+slot*4); if(actor){pos.x=x;pos.y=y;CLACT_AddActorSurfacePos(actor,(const struct ClactVec2 *)(&pos),0);} }
 
 void IRCBATTLEMATCH_SetPlayerReady(IrcBattleMatchWork *work,int aid)
 {
@@ -757,12 +632,12 @@ void IRCBATTLEMATCH_RecvModeHandler(unsigned aid,int size,int *data,IrcBattleMat
 
 void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,int data,IrcBattleMatchWork *work,int handle)
 {
- int record;
- int saveData;
- if(handle==(int)GFL_NET_HANDLE_GetCurrentHandle()) {
-  record=(int)GAME_DATA_GetMyStatusPlayer((struct GameData *)work->param->gameData,aid);
+ sptr record;
+ sptr saveData;
+ if(handle==(sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
+  record=(sptr)GAME_DATA_GetMyStatusPlayer((struct GameData *)work->param->gameData,aid);
   MYSTATUS_Copy((void *)data,(void *)record);
-  saveData=(int)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)work->param->gameData));
+  saveData=(sptr)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)work->param->gameData));
  MET_TRAINERS_Insert((struct MetTrainersSave *)saveData,MYSTATUS_GetId((struct MyStatus *)record));
  }
 }
@@ -771,16 +646,16 @@ void IRCBATTLEMATCH_NoOp(void) {}
 
 int IRCBATTLEMATCH_GetParty(int index,IrcBattleMatchWork *work)
 {
- if(index>=0 && index<4) return (int)work->param->party[index];
+ if(index>=0 && index<4) return (sptr)work->param->party[index];
  return 0;
 }
 
 void IRCBATTLEMATCH_RecvTrainerInfoHandler(int aid,int size,int data,IrcBattleMatchWork *work,int handle)
 {
  void *records = work->param->gameData;
- if (handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
+ if (handle == (sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
   if (aid != GFL_NET_SYSTEM_GetCurrentAid()) {
-   int record = (int)GAME_DATA_GetMyStatusPlayer((struct GameData *)records,aid);
+   int record = (sptr)GAME_DATA_GetMyStatusPlayer((struct GameData *)records,aid);
    work->regulationResult = WIFILIST_InsertFriend(records,(void *)record,(void *)data,(void *)(work->heapId));
   }
  }
@@ -790,7 +665,7 @@ void IRCBATTLEMATCH_RecvMacAddressHandler(int aid,int size,void *data,IrcBattleM
 {
  u8 *macs;
  int i;
- if(handle == (int)GFL_NET_HANDLE_GetCurrentHandle()) {
+ if(handle == (sptr)GFL_NET_HANDLE_GetCurrentHandle()) {
   if(GFL_NET_IsParentAid() != 0) {
    i=0;
    macs = (u8 *)work->macAddress;
@@ -886,7 +761,7 @@ void IRCBATTLEMATCH_StepSendRegulation(IrcBattleMatchWork *work)
 {
  int syncId=12;
  if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x7e,syncId)!=0) {
-  int handle=(int)GFL_NET_HANDLE_GetCurrentHandle();
+  int handle=(sptr)GFL_NET_HANDLE_GetCurrentHandle();
   int regulationSize=POKE_REGULATION_GetDataSize();
   if((void *)GFL_NET_SendData((struct GFLNetHandle *)handle,0xff,0xc02,regulationSize,(void *)work->param->regulation,0,0,1)!=0) {
    GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x7a,syncId);
@@ -942,14 +817,14 @@ void IRCBATTLEMATCH_StepSendTrainerInfo(IrcBattleMatchWork *work)
     GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x79,syncId);
     IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepSendMacAddress);
     if(work->taskMenu!=0) {
-     APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+     APP_TASKMENU_CloseMenu(work->taskMenu);
      work->taskMenu=0;
     }
    }
   } else {
    GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x79,syncId);
    if(work->taskMenu!=0) {
-    APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+    APP_TASKMENU_CloseMenu(work->taskMenu);
     work->taskMenu=0;
    }
    IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepSendMacAddress);
@@ -958,9 +833,9 @@ void IRCBATTLEMATCH_StepSendTrainerInfo(IrcBattleMatchWork *work)
 }
 
 void IRCBATTLEMATCH_StepSendMyStatus(IrcBattleMatchWork *work) {
- int handle=(int)GFL_NET_HANDLE_GetCurrentHandle();
+ int handle=(sptr)GFL_NET_HANDLE_GetCurrentHandle();
  int myStatusSize=MYSTATUS_GetSize();
- int myStatus=(int)GAME_DATA_GetMyStatus((void *)work->param->gameData);
+ int myStatus=(sptr)GAME_DATA_GetMyStatus((void *)work->param->gameData);
  if((void *)GFL_NET_SendToHandle((void *)handle,(u16)0xc01,(u16)myStatusSize,(void *)myStatus)!=0) {
   GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x7b,12);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepSendTrainerInfo);
@@ -993,9 +868,9 @@ void IRCBATTLEMATCH_StepResumeWaiting(IrcBattleMatchWork *work)
 }
 
 void IRCBATTLEMATCH_StepWaitQuitChoice(IrcBattleMatchWork *work) {
- if(APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->taskMenu)!=0) {
-  int choice=APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->taskMenu);
-  APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+ if(APP_TASKMENU_IsFinish(work->taskMenu)!=0) {
+  int choice=APP_TASKMENU_GetCursorPos(work->taskMenu);
+  APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
   BG_SYS_MarkTileDirty(6);
   if(choice==0) {
@@ -1021,9 +896,9 @@ void IRCBATTLEMATCH_StepOpenQuitConfirm(IrcBattleMatchWork *work) {
 void IRCBATTLEMATCH_StepSendMode(IrcBattleMatchWork *work)
 {
     if (work->taskMenu != 0) {
-        if (APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->taskMenu) != 0) {
-            APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->taskMenu);
-            APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+        if (APP_TASKMENU_IsFinish(work->taskMenu) != 0) {
+            APP_TASKMENU_GetCursorPos(work->taskMenu);
+            APP_TASKMENU_CloseMenu(work->taskMenu);
             work->taskMenu = 0;
             BG_SYS_MarkTileDirty(6);
             IRCBATTLEMATCH_SetStep(work, IRCBATTLEMATCH_StepOpenQuitConfirm);
@@ -1047,7 +922,7 @@ void IRCBATTLEMATCH_StepSendMode(IrcBattleMatchWork *work)
 
 void IRCBATTLEMATCH_StepRegisterCommands(IrcBattleMatchWork *work)
 {
- GFL_NET_COMMAND_AddCommandTable((u32)0xc00,(u32)gIrcBattleMatchCommandTable,(u32)6,(u32)work);
+ GFL_NET_COMMAND_AddCommandTable((u32)0xc00,(uptr)gIrcBattleMatchCommandTable,(u32)6,(uptr)work);
  GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x78,12);
  GFL_NET_SetAutoExit(1);GFL_NET_SetLoginOption(1);
  IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepSendMode);
@@ -1084,57 +959,57 @@ void IRCBATTLEMATCH_SetupDisplay(IrcBattleMatchWork *work) {
  {BgTemplate bg=gIrcBattleMatchBgTemplate7;BG_SYS_InitBgLayer(7,&bg,0);BG_SYS_SetTileEntry(7,0,0,0,32,32,17);BG_SYS_PushTile(7);}
 }
 
-void IRCBATTLEMATCH_VBlankTask(void) { CLACT_VBlankSystem(); }
+void IRCBATTLEMATCH_VBlankTask(struct TcbTask *tcb,void *work) { CLACT_VBlankSystem(); }
 
 void IRCBATTLEMATCH_OpenQuitMenu(IrcBattleMatchWork *work) {
- TaskMenuTemplate menu;
- struct TaskMenu *taskMenu;
+ TaskMenuInitWork menu;
+ TaskMenuWork *taskMenu;
  menu.heapId=work->heapId;
- menu.itemCount=2;
- menu.items=work->menuItems;
- menu.flag=1;
- menu.x=32; menu.y=13; menu.paletteSlot=13; menu.layer=3;
- work->menuItems[0].label=(struct U16Vec *)STRBUF_Create(100,menu.heapId);
- MSGDATA_ReadString(work->msgData,26,(struct Strbuf *)work->menuItems[0].label);
- work->menuItems[0].color=0x39e3;
- work->menuItems[1].label=(struct U16Vec *)STRBUF_Create(100,work->heapId);
- MSGDATA_ReadString(work->msgData,27,(struct Strbuf *)work->menuItems[1].label);
- work->menuItems[1].color=0x39e3;
- work->menuItems[0].selectType=0;
- work->menuItems[1].selectType=0;
- taskMenu=(struct TaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&menu),work->taskMenuRes);
+ menu.itemNum=2;
+ menu.itemWork=work->menuItems;
+ menu.posType=1;
+ menu.charPosX=32; menu.charPosY=13; menu.width=13; menu.height=3;
+ work->menuItems[0].str=STRBUF_Create(100,menu.heapId);
+ MSGDATA_ReadString(work->msgData,26,work->menuItems[0].str);
+ work->menuItems[0].msgColor=0x39e3;
+ work->menuItems[1].str=STRBUF_Create(100,work->heapId);
+ MSGDATA_ReadString(work->msgData,27,work->menuItems[1].str);
+ work->menuItems[1].msgColor=0x39e3;
+ work->menuItems[0].type=0;
+ work->menuItems[1].type=0;
+ taskMenu=APP_TASKMENU_OpenMenu(&menu,work->taskMenuRes);
  work->taskMenu=taskMenu;
- switch(work->mode) {case 9: case 10: case 11: break; default: APP_TASKMENU_SetDisableKey((struct TaskMenuWork *)taskMenu,1); break;}
- STRBUF_Delete((struct Strbuf *)work->menuItems[0].label);
- STRBUF_Delete((struct Strbuf *)work->menuItems[1].label);
+ switch(work->mode) {case 9: case 10: case 11: break; default: APP_TASKMENU_SetDisableKey(taskMenu,1); break;}
+ STRBUF_Delete(work->menuItems[0].str);
+ STRBUF_Delete(work->menuItems[1].str);
  IRCBATTLEMATCH_SetPaletteFade(work,1);
 }
 
 void IRCBATTLEMATCH_OpenWaitMenu(IrcBattleMatchWork *work,int twoItems) {
- TaskMenuTemplate menu;
+ TaskMenuInitWork menu;
  menu.heapId=work->heapId;
- menu.flag=1;
- menu.x=32;menu.y=24;menu.paletteSlot=13;menu.layer=3;
+ menu.posType=1;
+ menu.charPosX=32;menu.charPosY=24;menu.width=13;menu.height=3;
  if(twoItems!=0) {
-  menu.itemCount=2;menu.items=work->menuItems;
-  work->menuItems[0].label=(struct U16Vec *)STRBUF_Create(100,menu.heapId);
-  MSGDATA_ReadString(work->msgData,0x23,(struct Strbuf *)work->menuItems[0].label);
-  work->menuItems[0].color=0x39e3;work->menuItems[0].selectType=0;
-  work->menuItems[1].label=(struct U16Vec *)STRBUF_Create(100,work->heapId);
-  MSGDATA_ReadString(work->msgData,2,(struct Strbuf *)work->menuItems[1].label);
-  work->menuItems[1].color=0x39e3;work->menuItems[1].selectType=1;
-  work->taskMenu=(struct TaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&menu),work->taskMenuRes);
-  STRBUF_Delete((struct Strbuf *)work->menuItems[0].label);STRBUF_Delete((struct Strbuf *)work->menuItems[1].label);
+  menu.itemNum=2;menu.itemWork=work->menuItems;
+  work->menuItems[0].str=STRBUF_Create(100,menu.heapId);
+  MSGDATA_ReadString(work->msgData,0x23,work->menuItems[0].str);
+  work->menuItems[0].msgColor=0x39e3;work->menuItems[0].type=0;
+  work->menuItems[1].str=STRBUF_Create(100,work->heapId);
+  MSGDATA_ReadString(work->msgData,2,work->menuItems[1].str);
+  work->menuItems[1].msgColor=0x39e3;work->menuItems[1].type=1;
+  work->taskMenu=APP_TASKMENU_OpenMenu(&menu,work->taskMenuRes);
+  STRBUF_Delete(work->menuItems[0].str);STRBUF_Delete(work->menuItems[1].str);
   work->menuKind=0;
  } else {
-  menu.itemCount=1;menu.items=work->menuItems;
-  work->menuItems[0].label=(struct U16Vec *)STRBUF_Create(100,menu.heapId);
-  MSGDATA_ReadString(work->msgData,2,(struct Strbuf *)work->menuItems[0].label);
-  work->menuItems[0].color=0x39e3;work->menuItems[0].selectType=1;
-  work->taskMenu=(struct TaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&menu),work->taskMenuRes);
-  STRBUF_Delete((struct Strbuf *)work->menuItems[0].label);work->menuKind=1;
+  menu.itemNum=1;menu.itemWork=work->menuItems;
+  work->menuItems[0].str=STRBUF_Create(100,menu.heapId);
+  MSGDATA_ReadString(work->msgData,2,work->menuItems[0].str);
+  work->menuItems[0].msgColor=0x39e3;work->menuItems[0].type=1;
+  work->taskMenu=APP_TASKMENU_OpenMenu(&menu,work->taskMenuRes);
+  STRBUF_Delete(work->menuItems[0].str);work->menuKind=1;
  }
- switch(work->mode) {case 9:case 10:case 11:break;default:APP_TASKMENU_SetDisableKey((struct TaskMenuWork *)work->taskMenu,1);break;}
+ switch(work->mode) {case 9:case 10:case 11:break;default:APP_TASKMENU_SetDisableKey(work->taskMenu,1);break;}
 }
 
 void IRCBATTLEMATCH_PrintMainMessage(MessageRef *message,IrcBattleMatchWork *work) {
@@ -1145,7 +1020,7 @@ void IRCBATTLEMATCH_PrintMainMessage(MessageRef *message,IrcBattleMatchWork *wor
   BMP_WIN_MakeScreen((struct BmpWin *)win);
   BMP_MENUWORK_DrawWindow((struct BmpWin *)work->messageWin,0,(unsigned short)(work->windowPalette),14);
  }
- BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp(work->messageWin)),255);
+ BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp(work->messageWin)),255);
  work->lastMessageId=message->msgId;
  MSGDATA_ReadString(work->msgData,message->msgId,(struct Strbuf *)work->msgStr);
  PRINTSYS_Print(BMP_WIN_GetBmp(work->messageWin),4,4,(struct Strbuf *)work->msgStr,work->font);
@@ -1159,7 +1034,7 @@ void IRCBATTLEMATCH_PrintPlayerMessage(int msgId,IrcBattleMatchWork *work) {
   BMP_WIN_MakeScreen((struct BmpWin *)win);
   BMP_MENUWORK_DrawWindow((struct BmpWin *)work->infoWin,0,(unsigned short)(work->windowPalette),14);
  }
- BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp(work->infoWin)),255);
+ BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp(work->infoWin)),255);
  MSGDATA_ReadString(work->msgData,msgId,(struct Strbuf *)work->tempStr);
  WORDSET_SetSlotNumber(work->wordSet,0,WIFILIST_CountFriends((struct WifiList *)GAME_DATA_GetWifiList((struct GameData *)work->param->gameData)),2,1,1);
  WORDSET_SetSlotNumber(work->wordSet,1,32,2,1,1);
@@ -1205,7 +1080,7 @@ void IRCBATTLEMATCH_ExitWindowSystem(IrcBattleMatchWork *work) { BG_SYS_Delete()
 void IRCBATTLEMATCH_DeleteActor(IrcBattleMatchWork *work,unsigned slot)
 {
  if(work->actors[slot]!=0) {
-  CLACT_DeleteActor((struct Actor *)work->actors[slot]);
+  CLACT_DeleteActor((struct ClactActor *)work->actors[slot]);
   work->actors[slot]=0;
  }
 }
@@ -1232,8 +1107,8 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  GF_FONT_SetDefaultTextColor();
  work->wordSet=WORDSET_Create(11,200,work->heapId);
  IRCBATTLEMATCH_InitWindowSystem(work);IRCBATTLEMATCH_SetupDisplay(work);
- work->msgStr=(struct U16Vec *)STRBUF_Create(200,work->heapId);
- work->tempStr=(struct U16Vec *)STRBUF_Create(200,work->heapId);
+ work->msgStr=STRBUF_Create(200,work->heapId);
+ work->tempStr=STRBUF_Create(200,work->heapId);
  work->font=GF_FONT_Create(23,0,0,0,work->heapId);
  work->msgData=MSGDATA_CreateFromArchive(0,2,46,work->heapId);
  arc=ARC_TOOL_CreateHandle(28,work->heapId);
@@ -1246,9 +1121,9 @@ void IRCBATTLEMATCH_InitScreen(IrcBattleMatchWork *work) {
  ARC_UTIL_UploadPaletteFromHandleWhole(arc,1,4,0,0,work->heapId);
  work->bgScreenId=(int)ARC_UTIL_RegisterObjCharFromHandle(arc,4,4,0,0,work->heapId);
  ARC_UTIL_UploadBgPaletteAddFromHandle(arc,9,4,0,(u16)(work->bgScreenId),0,0,work->heapId);ARC_TOOL_DeleteHandle(arc);
- work->windowPalette=(int)(u32)BMP_MENUWORK_LoadFrameGfx((u32)5,14,0,work->heapId);
+ work->windowPalette=(int)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)5,14,0,work->heapId);
  FADE_Start(3,16,0,2);IRCBATTLEMATCH_PrintWaitingMessage(work);
- CLACT_InitSystem((struct SysInit *)gClActorInitParam,(struct DispVramCfg *)gIrcBattleMatchVramBanks,work->heapId);
+ CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam,(struct DispVramCfg *)gIrcBattleMatchVramBanks,work->heapId);
  work->clactUnit=CLACT_CreateUnit(40,0,work->heapId);
  work->vblankTask=(struct Node *)GFL_USE_AddMainTask(IRCBATTLEMATCH_VBlankTask,work,0);
  work->printQue=(struct PrintSys *)PRINTSYS_QUE_Create((u32)(work->heapId));
@@ -1347,15 +1222,15 @@ void IRCBATTLEMATCH_StepStartSession(IrcBattleMatchWork *work)
         break;
     }
     zero=0;
-    GFL_NET_StartSession(&req,0,work);
+    GFL_NET_StartSession((struct GFLNetInitializeStruct *)&req,0,(uptr)work);
     switch(work->mode) {
     case 10:
-        GFL_NET_IRC_WIRELESS_SetSessionParam(IRCBATTLEMATCH_IsCompatibleGameKind);
+        GFL_NET_IRC_WIRELESS_SetSessionParam((uptr)IRCBATTLEMATCH_IsCompatibleGameKind);
         GFL_NET_IRC_WIRELESS_SetRetryRequest(1);
         GFL_NET_SetGameKindOverride(17);
         break;
     case 9:
-        GFL_NET_IRC_WIRELESS_SetSessionParam(IRCBATTLEMATCH_IsCompatibleGameKind);
+        GFL_NET_IRC_WIRELESS_SetSessionParam((uptr)IRCBATTLEMATCH_IsCompatibleGameKind);
         GFL_NET_IRC_WIRELESS_SetRetryRequest(zero);
         GFL_NET_SetGameKindOverride(17);
         break;
@@ -1392,8 +1267,8 @@ void IRCBATTLEMATCH_ExitScreen(IrcBattleMatchWork *work) {
  */
 void IRCBATTLEMATCH_StepStartChangeover(IrcBattleMatchWork *work) {
  if(GFL_NET_GetRunState()==1) {
-  switch(work->mode) { case 9: case 10: IRCNET_SetFilter(IRCBATTLEMATCH_IsCompatibleGameKind); break; }
-  GFL_NET_StartChangeoverEx(IRCBATTLEMATCH_CollectMacAddresses,IRCBATTLEMATCH_OnChangeoverResult,IRCBATTLEMATCH_OnChangeoverConnected);
+  switch(work->mode) { case 9: case 10: IRCNET_SetFilter((sptr)IRCBATTLEMATCH_IsCompatibleGameKind); break; }
+  GFL_NET_StartChangeoverEx((uptr)IRCBATTLEMATCH_CollectMacAddresses,(uptr)IRCBATTLEMATCH_OnChangeoverResult,(uptr)IRCBATTLEMATCH_OnChangeoverConnected);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitSession);
  }
 }
@@ -1413,9 +1288,9 @@ void IRCBATTLEMATCH_StepRedrawWaitMenu(IrcBattleMatchWork *work) {
 }
 
 void IRCBATTLEMATCH_StepWaitQuitChoiceDuringWait(IrcBattleMatchWork *work) {
- if(APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->taskMenu)!=0) {
-  int choice=APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->taskMenu);
-  APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+ if(APP_TASKMENU_IsFinish(work->taskMenu)!=0) {
+  int choice=APP_TASKMENU_GetCursorPos(work->taskMenu);
+  APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
   BG_SYS_MarkTileDirty(6);
   if(choice==0) {
@@ -1427,9 +1302,9 @@ void IRCBATTLEMATCH_StepWaitQuitChoiceDuringWait(IrcBattleMatchWork *work) {
 
 void IRCBATTLEMATCH_StepWaitErrorDialogClose(IrcBattleMatchWork *work)
 {
- if(APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->taskMenu)!=0) {
-  APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->taskMenu);
-  APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+ if(APP_TASKMENU_IsFinish(work->taskMenu)!=0) {
+  APP_TASKMENU_GetCursorPos(work->taskMenu);
+  APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
   BG_SYS_MarkTileDirty(6);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepOpenErrorConfirm);
@@ -1438,9 +1313,9 @@ void IRCBATTLEMATCH_StepWaitErrorDialogClose(IrcBattleMatchWork *work)
 
 void IRCBATTLEMATCH_StepWaitWirelessStep(IrcBattleMatchWork *work) {
  if(GFL_NET_IRC_WIRELESS_Step()!=0) { IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitErrorDialogClose); return; }
- if(APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->taskMenu)!=0) {
-  APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->taskMenu);
-  APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+ if(APP_TASKMENU_IsFinish(work->taskMenu)!=0) {
+  APP_TASKMENU_GetCursorPos(work->taskMenu);
+  APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
   BG_SYS_MarkTileDirty(6);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepOpenErrorConfirm);
@@ -1459,9 +1334,9 @@ void IRCBATTLEMATCH_StepRestoreWaitMenu(IrcBattleMatchWork *work) {
 }
 
 void IRCBATTLEMATCH_StepWaitCancelChoice(IrcBattleMatchWork *work) {
- if(APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->taskMenu)!=0) {
-  int choice=APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->taskMenu);
-  APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+ if(APP_TASKMENU_IsFinish(work->taskMenu)!=0) {
+  int choice=APP_TASKMENU_GetCursorPos(work->taskMenu);
+  APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
   if(choice==0) {
    IRCBATTLEMATCH_FreeMessageWindows(work); BG_SYS_MarkTileDirty(6); IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepOpenWirelessWaitMenu); return;
@@ -1522,9 +1397,9 @@ void IRCBATTLEMATCH_StepShowErrorMessage(IrcBattleMatchWork *work) {
 }
 
 void IRCBATTLEMATCH_StepWaitErrorChoice(IrcBattleMatchWork *work) {
- if(APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->taskMenu)!=0) {
-  int choice=APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->taskMenu);
-  APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+ if(APP_TASKMENU_IsFinish(work->taskMenu)!=0) {
+  int choice=APP_TASKMENU_GetCursorPos(work->taskMenu);
+  APP_TASKMENU_CloseMenu(work->taskMenu);
   work->taskMenu=0;
   BG_SYS_MarkTileDirty(6);
   if(choice==0) {
@@ -1548,26 +1423,26 @@ void IRCBATTLEMATCH_StepOpenErrorConfirm(IrcBattleMatchWork *work) {
 }
 
 void IRCBATTLEMATCH_IconAnimLeft(IrcBattleMatchWork *work) {
- switch(CLACT_GetActorAnimSeq((struct Actor *)work->actors[0])) {
+ switch(CLACT_GetActorAnimSeq((struct ClactActor *)work->actors[0])) {
  case 8:
-  CLACT_SetActorAnimSeq((struct Actor *)work->actors[0],11);
+  CLACT_SetActorAnimSeq((struct ClactActor *)work->actors[0],11);
   IRCBATTLEMATCH_MoveActor(work,200,38,0);
   IRCBATTLEMATCH_CreateActor(work,128,113,4,2);
   return;
  case 11: break;
- default: CLACT_SetActorAnimSeq((struct Actor *)work->actors[0],8); break;
+ default: CLACT_SetActorAnimSeq((struct ClactActor *)work->actors[0],8); break;
  }
 }
 
 void IRCBATTLEMATCH_IconAnimRight(IrcBattleMatchWork *work) {
- switch(CLACT_GetActorAnimSeq((struct Actor *)work->actors[2])) {
+ switch(CLACT_GetActorAnimSeq((struct ClactActor *)work->actors[2])) {
  case 9:
-  CLACT_SetActorAnimSeq((struct Actor *)work->actors[2],10);
+  CLACT_SetActorAnimSeq((struct ClactActor *)work->actors[2],10);
   IRCBATTLEMATCH_MoveActor(work,57,154,2);
   IRCBATTLEMATCH_CreateActor(work,128,77,5,3);
   return;
  case 10: break;
- default: CLACT_SetActorAnimSeq((struct Actor *)work->actors[2],9); break;
+ default: CLACT_SetActorAnimSeq((struct ClactActor *)work->actors[2],9); break;
  }
 }
 
@@ -1608,9 +1483,9 @@ void IRCBATTLEMATCH_StepAnimateIcons(IrcBattleMatchWork *work)
             task.state=0;
             task.context=work;
             task.callback=IRCBATTLEMATCH_IconAnimLeft;
-            CLACT_ApplyActorAnimCommand((struct Actor *)work->actors[0],&task);
+            CLACT_ApplyActorAnimCommand((struct ClactActor *)work->actors[0],(const struct ClactAnimCommand *)&task);
             task.callback=IRCBATTLEMATCH_IconAnimRight;
-            CLACT_ApplyActorAnimCommand((struct Actor *)work->actors[2],&task);
+            CLACT_ApplyActorAnimCommand((struct ClactActor *)work->actors[2],(const struct ClactAnimCommand *)&task);
         }
         work->iconsDirty=0;
     }
@@ -1634,8 +1509,8 @@ void IRCBATTLEMATCH_StepWaitSession(IrcBattleMatchWork *work)
             IRCBATTLEMATCH_DeleteActor(work,5);
             work->showTrigger=0;
             if(work->actors[0]) {
-                CLACT_SetActorAutoAnim((struct Actor *)work->actors[0],0);
-                CLACT_SetActorAutoAnim((struct Actor *)work->actors[2],0);
+                CLACT_SetActorAutoAnim((struct ClactActor *)work->actors[0],0);
+                CLACT_SetActorAutoAnim((struct ClactActor *)work->actors[2],0);
             }
         }
         IRCBATTLEMATCH_NudgeActor(work,0,-2,0);
@@ -1643,8 +1518,8 @@ void IRCBATTLEMATCH_StepWaitSession(IrcBattleMatchWork *work)
         work->iconsTimer++;
         if(work->iconsTimer>30) {
             if(work->actors[0]) {
-                CLACT_SetActorDrawEnable((struct Actor *)work->actors[0],0);
-                CLACT_SetActorDrawEnable((struct Actor *)work->actors[2],0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[0],0);
+                CLACT_SetActorDrawEnable((struct ClactActor *)work->actors[2],0);
             }
             work->iconsVisible=0;
         }
@@ -1653,9 +1528,9 @@ void IRCBATTLEMATCH_StepWaitSession(IrcBattleMatchWork *work)
         IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepShowDisconnectMessage);
         return;
     }
-    if(APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->taskMenu)) {
-        choice=APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->taskMenu);
-        APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+    if(APP_TASKMENU_IsFinish(work->taskMenu)) {
+        choice=APP_TASKMENU_GetCursorPos(work->taskMenu);
+        APP_TASKMENU_CloseMenu(work->taskMenu);
         work->taskMenu=0;
         BG_SYS_MarkTileDirty(6);
         if(work->menuKind) {
@@ -1673,7 +1548,7 @@ void IRCBATTLEMATCH_StepWaitSession(IrcBattleMatchWork *work)
             work->retryCount=GFL_NET_IRC_WIRELESS_GetRetryCount();
         }
         if(work->retryCount>0 && work->menuKind==1) {
-            APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+            APP_TASKMENU_CloseMenu(work->taskMenu);
             work->taskMenu=0;
             IRCBATTLEMATCH_OpenWaitMenu(work,1);
         }
@@ -1688,7 +1563,7 @@ int IRCBATTLEMATCH_ProcInit(struct Proc *proc, int seq, IrcBattleMatchParam *par
     GFL_HEAP_CreateChildHeap(1, 0x1f, 0x20000);
     workSize = 0xcf0;
     work = PROCSYS_AllocProcWork(proc, workSize, 0x1f);
-    MI_CpuFill8((int)work, 0, workSize);
+    MI_CpuFill8((void *)work, 0, workSize);
     work->param = param;
     work->heapId = 0x1f;
     work->mode = work->param->mode;
@@ -1721,7 +1596,7 @@ storeFlag:
         step(work);
         if (work->step) ret = 0;
     }
-    if (work->taskMenu) APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)work->taskMenu);
+    if (work->taskMenu) APP_TASKMENU_UpdateMenu(work->taskMenu);
     if (work->okWin) APP_TASKMENU_WIN_Update((struct TaskMenuWin *)work->okWin);
     if (work->cancelWin) APP_TASKMENU_WIN_Update((struct TaskMenuWin *)work->cancelWin);
     BG_SYS_ChangeScrollImmediate(4, 3, work->scrollY);
@@ -1742,7 +1617,7 @@ int IRCBATTLEMATCH_ProcExit(struct Proc *proc, int b, int c, IrcBattleMatchWork 
 {
     if(!WIPE_SYS_EndCheck()) return 0;
     if(GFL_NET_GetRunState()) GFL_NET_COMMAND_DeleteCommandTable(0xc00);
-    if(work->taskMenu) APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
+    if(work->taskMenu) APP_TASKMENU_CloseMenu(work->taskMenu);
     if(work->okWin) APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)work->okWin);
     if(work->cancelWin) APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)work->cancelWin);
     if(work->buttonMan) BUTTON_MAN_Delete(work->buttonMan);

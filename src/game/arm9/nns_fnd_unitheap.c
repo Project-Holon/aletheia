@@ -222,7 +222,7 @@ int NNSi_FndAllocFoundMBlock(NNSiFndHeapRef *o, u32 i)
     if (i > p->unitSize) {
         return 0;
     }
-    return (int)NNSi_FndAllocBlockFromHeap((NNSiFndUnitHeap *)p);
+    return (sptr)NNSi_FndAllocBlockFromHeap((NNSiFndUnitHeap *)p);
 }
 
 void NNSi_FndFreeToUnitHeapAllocator(NNSiFndAllocator *allocator, void *block)
@@ -232,10 +232,10 @@ void NNSi_FndFreeToUnitHeapAllocator(NNSiFndAllocator *allocator, void *block)
 
 void *NNSi_FndAllocFromVramAllocator(NNSiFndAllocator *allocator, u32 size)
 {
-    return OS_AllocFromHeap((int)allocator->heapParam1, (int)allocator->heap, size);
+    return OS_AllocFromHeap((int)allocator->heapParam1, (sptr)allocator->heap, size);
 }
 
 void NNSi_FndFreeToVramAllocator(NNSiFndAllocator *allocator, void *ptr)
 {
-    OS_FreeToHeap((int)allocator->heapParam1, (int)allocator->heap, ptr);
+    OS_FreeToHeap((int)allocator->heapParam1, (sptr)allocator->heap, ptr);
 }

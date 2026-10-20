@@ -21,7 +21,7 @@ void FIELD_STATUS_SetContinueFlag(struct FieldStatus *fs, u8 continueFlag);
 u8 FIELD_STATUS_GetContinueFlag(struct FieldStatus *fs);
 void FIELD_STATUS_SetFlashActive(struct FieldStatus *fs, u8 flashActive);
 u8 FIELD_STATUS_IsFlashActive(struct FieldStatus *fs);
-void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fs, u16 mapEffectMask);
+void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fs, u32 mapEffectMask);
 u16 FIELD_STATUS_GetMapEffectMask(struct FieldStatus *fs);
 void FIELD_STATUS_SetProcAction(struct FieldStatus *fs, u16 procAction);
 u16 FIELD_STATUS_GetProcAction(struct FieldStatus *fs);

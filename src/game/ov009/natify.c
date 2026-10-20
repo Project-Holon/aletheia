@@ -61,15 +61,8 @@
 
 #define NN_NTOHS(x) ((unsigned short)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
 #define NN_NTOHL(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | (((x) << 24) & 0xFF000000))
-struct _NAT;
+#include "natneg_types.h"
 #include "../sdk_soc.h"
-
-typedef struct _AddressMapping {
-    unsigned int privateIp;
-    unsigned short privatePort;
-    unsigned int publicIp;
-    unsigned short publicPort;
-} AddressMapping;
 
 typedef struct _InitPacket {
     unsigned char porttype;                          /* 0x00 */
@@ -90,36 +83,12 @@ typedef struct _NatNegPacket {
     } Packet;                                        /* 0x0C */
 } NatNegPacket;
 
-typedef enum { no_nat, firewall_only, full_cone, restricted_cone, port_restricted_cone, symmetric, unknown } NatType;
-
-typedef enum { promiscuous, not_promiscuous, port_promiscuous, ip_promiscuous, promiscuity_not_applicable } NatPromiscuity;
-
-typedef enum { unrecognized, private_as_public, consistent_port, incremental, mixed } NatMappingScheme;
-
-typedef struct _NAT {
-    char brand[32];                  /* 0x00 */
-    char model[32];                  /* 0x20 */
-    char firmware[64];               /* 0x40 */
-    int ipRestricted;                /* 0x80 */
-    int portRestricted;              /* 0x84 */
-    NatPromiscuity promiscuity;      /* 0x88 */
-    NatType natType;                 /* 0x8C */
-    NatMappingScheme mappingScheme;  /* 0x90 */
-    AddressMapping mappings[4];      /* 0x94 */
-    int qr2Compatible;               /* 0xD4 */
-} NAT;
-
-extern char *SOC_InetNtoA(SOCInAddr in);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern SOCHostEnt *getlocalhost(void);
-extern int IsPrivateIP(SOCInAddr *addr);
+#include "soc.h"
+#include "../arm9/os_printf.h"
+#include "gsplatformsocket.h"
 struct SOCSockAddr;
-extern int getsockname(int sock, struct SOCSockAddr *addr, int *len);
-extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
-extern int CanReceiveOnSocket(int sock);
-extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
-extern int GOAGetLastError(int sock);
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+#include "gsdebug.h"
+#include "../arm9/msl_string_mem.h"
 extern int abs(int x) __attribute__((const));
 char *AddressToString(unsigned int ip, unsigned short port, char *string);
 static unsigned int GetLocalIP(void);

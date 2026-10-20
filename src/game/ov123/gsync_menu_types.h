@@ -2,7 +2,7 @@
 #ifndef GSYNC_MENU_TYPES_H
 #define GSYNC_MENU_TYPES_H
 
-#include "gsync_common_types.h"
+#include "../ov123/gsync_common_types.h"
 
 /* Key bits of the pad word read in the main loop (DS pad register layout). */
 #define GSYNC_KEY_UP    0x40
@@ -15,25 +15,7 @@
 #define GSYNC_MENU_EXIT_BUTTON_0 2
 #define GSYNC_MENU_EXIT_BUTTON_1 3
 
-/* Template passed to APP_TASKMENU_OpenMenu (same record as TaskMenuTmpl in the item menu). */
-typedef struct TaskMenuTmpl {
-    int heapId;
-    u8 itemNum;
-    u8 pad[3];
-    void *items;
-    int posType;
-    u8 charPosX;
-    u8 charPosY;
-    u8 width;
-    u8 height;
-} TaskMenuTmpl;
-
-/* One entry of the template item array. */
-typedef struct TaskMenuItem {
-    void *text;             /* STRBUF */
-    u16 color;
-    u32 value;              /* never written by ov123 */
-} TaskMenuItem;
+#include "../arm9/app_taskmenu.h"
 
 /* Arguments the caller hands to the menu proc; also receives the result. */
 typedef struct GsyncProcParam {

@@ -95,6 +95,7 @@
  *   _fmul                        0x0209C77C  arm
  *   _fsub                        0x0209CB8C  arm
  */
+#include "../arm9/g3d_util.h"
 #include "egg_demo_types.h"
 
 #define FIX(x) ((int)(((x)>0)?((x)*4096.0f+.5f):((x)*4096.0f-.5f)))
@@ -115,7 +116,7 @@ struct Arg;
 
 struct Setup;
 
-struct Record;
+struct EggDemoViewRecord;
 
 struct G3dSys;
 
@@ -123,13 +124,13 @@ struct AnmCtl;
 
 struct Ctx;
 
-typedef struct { unsigned short tag; unsigned short pad2; int x,y,z,sx,sy,sz,matrix[9],tail; } Record;
+typedef struct { unsigned short tag; unsigned short pad2; int x,y,z,sx,sy,sz,matrix[9],tail; } EggDemoViewRecord;
 
 #include "../types.h"
 
 typedef struct {int x,y,z;} EggDemoVec3;
 
-typedef struct {u32 species;float x,y;} Entry;
+typedef struct {u32 species;float x,y;} EggDemoViewEntry;
 
 /* The egg demo view work, 96 bytes, allocated by EGG_DEMO_VIEW_Create. */
 struct EggDemoView {
@@ -159,7 +160,7 @@ struct EggDemoView {
     unsigned short animIndex;    /* 0x4E */
     unsigned short recordCount;  /* 0x50 */
     unsigned char pad52[2];      /* 0x52 */
-    Record *records;             /* 0x54 */
+    EggDemoViewRecord *records;             /* 0x54 */
     int animFrame;               /* 0x58 */
     int modelAnimState;          /* 0x5C */
 };
@@ -179,35 +180,27 @@ struct EggDemoParticles {
     int life;                    /* 0x4818 */
 };
 
-extern void G3D_UTIL_RemoveUnit(void *util, u32 unitIdx);
 struct G3dObject;
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
-struct Tcb;
-
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(int,char *), void *work, unsigned int priority);
-
-extern u32 GFL_HEAP_Free(void *p);
-
-extern void MTX_Identity33_(void *);
-struct PokemonParam;
-
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
+#include "../arm9/g3d_system.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/gfl_use.h"
 
-extern void GFL_USE_PlaySeDefaultVolume(u32);
 
-extern int GFL_USE_IsAnySeBusy(void);
+#include "../arm9/fx_mtx33.h"
+struct PokemonParam;
 
-extern int GFL_USE_IsSeSlotBusy(u32);
+#include "../arm9/poke_tool.h"
+struct TcbTask;
 
-extern int GFL_USE_GetSeSlot(u32);
+#include "../arm9/tcb_list.h"
 
-extern void GFL_USE_PlaySeInSlot(unsigned int seqNo, int slot);
 
-extern void GFL_USE_StopSeSlot(int);
+
+
+
+
 
 extern void EGG_DEMO_VIEW_StartModelAnim(char *);
 
@@ -215,113 +208,69 @@ extern int EGG_DEMO_VIEW_IsModelAnimDone(char *);
 
 extern void EGG_DEMO_VIEW_EndModelAnim(char *);
 
-extern u32 PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, void **recordedVoice);
+#include "../arm9/pm_voice.h"
 
-extern int PM_VOICE_IsAnyActive(void);
 
-extern void MCSS_Main(struct McssSys *sys);
+#include "../arm9/mcss.h"
 
-extern void MCSS_Draw(struct McssSys *);
 struct McssWork;
 
-extern void MCSS_SetVanishFlag(struct McssWork *work);
 
-extern void MCSS_SetPaletteFade(struct McssWork *work, unsigned int start, unsigned int end, int wait, unsigned int color);
 
-extern int MCSS_CheckPaletteFade(struct McssWork *work);
 
-extern struct McssSys *MCSS_Init(unsigned int maxCount, unsigned int heapId);
 
-extern void MCSS_SetTextureTransAdrs(struct McssSys *sys, unsigned int adrs);
 
-extern void MCSS_SetOrthoMode(struct McssSys *sys);
 
-extern void MCSS_Exit(struct McssSys *sys);
 
-extern struct McssWork *MCSS_TOOL_AddPokeMcss(struct McssSys *sys, void *pp, unsigned int direction, int x, int y, int z);
 
-extern void MCSS_SetShadowVanishFlag(struct McssWork *work, int flag);
 
-extern void MCSS_SetPosition(struct McssWork *work, unsigned int *src);
 
-extern void MCSS_SetScale(struct McssWork *work, unsigned int *src);
 
-extern u16 MCSS_GetSizeY(struct McssWork *work);
 
-extern s16 MCSS_GetOfsY(struct McssWork *work);
 
-extern s16 MCSS_GetOfsX(struct McssWork *work);
 
-extern void MCSS_SetOfsPosition(struct McssWork *work, unsigned int *src);
 
-extern void MCSS_SetAnmStopFlag(struct McssWork *work);
 
-extern void MCSS_Del(struct McssSys *sys, struct McssWork *work);
 
 /* Legacy 020173B4 inputs r1-r3 are replaced by its body; full forwarding
  * 02015F2C supplies fixed member, one, original p and callback to 02063000.
  * It reads no caller r1-r3. 02016028 retains live incoming flag in r1. */
-extern void MCSS_SetAnimeIndex(struct McssWork *work, unsigned int animeIndex);
 
-extern void *MCSS_GetAnimCtrl(struct McssWork *work);
 struct MultiCellAnim;
 
-extern void NNS_G2dRestartMCAnimation(struct MultiCellAnim *pMCAnim);
+#include "../arm9/nns_g2d_multi_cell_animation.h"
 
-extern void MCSS_ResetAnmStopFlag(struct McssWork *work);
 struct CellAnim;
 
-extern void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, int func);
+#include "../arm9/nns_g2d_cell_animation.h"
 
-extern int MCSS_TOOL_SetAnimeStopCallback(struct McssWork *work);
 
-extern u8 MCSS_GetAlpha(struct McssWork *work);
 
-extern void MCSS_SetAlpha(struct McssWork *work, int alpha);
 
-extern void MCSS_ResetVanishFlag(struct McssWork *work);
 
-extern void PARTICLE_InitManager(unsigned);
+#include "../arm9/particle.h"
 struct ParticleSys;
 
-extern struct ParticleSys *PARTICLE_CreateSystemDefault(unsigned int workBuf, unsigned int workSize, unsigned int withCamera, unsigned int heapId);
 
-extern void *PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
 
-extern u16 PARTICLE_RESOURCE_GetType(void *);
 
-extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, unsigned int applyNow, unsigned int taskMgr);
 
-extern void PARTICLE_ExitManager(void);
 
-extern int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg);
 
-extern void PARTICLE_KillAllEffects(struct ParticleSys *sys);
 
-extern void PARTICLE_Main(void);
 
-extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
 
-extern struct Util *G3D_UTIL_Create(u16,u16,u16);
 
-extern void G3D_UTIL_Delete(struct Rec *);
 
-extern unsigned G3D_UTIL_GetObject(unsigned char *,int);
 struct G3dObjectStatus;
 
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
-extern u16 G3D_UTIL_AddUnit(struct Util *,const struct Setup *);
 
-extern unsigned G3D_UTIL_GetUnitObjIdx(unsigned char *,int);
 
-extern int G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, unsigned int anmIdx);
 
-extern int G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, unsigned short anmIdx, int *frame);
 
-extern int G3D_SYSTEM_IncObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
 
-Record *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count);
+EggDemoViewRecord *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count);
 
 void EGG_DEMO_VIEW_FreeRecords(void *work);
 
@@ -395,7 +344,7 @@ extern const char d_021F73F4[];
 
 extern const unsigned d_021F7340[],d_021F7314[];
 
-extern const Entry table_021F7384[];
+extern const EggDemoViewEntry table_021F7384[];
 
 extern const unsigned long long d_021F7300;
 
@@ -403,15 +352,15 @@ extern const EggDemoVec3 d_021F73B4;
 
 extern const struct Setup d_021F7330;
 
-Record *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count)
+EggDemoViewRecord *EGG_DEMO_VIEW_CreateRecords(unsigned heap,unsigned count)
 {
-    Record *records;
+    EggDemoViewRecord *records;
     u16 i;
     records=GFL_HEAP_Alloc(heap,68*count,1,d_021F73F4,283);
     for(i=0;i<count;i++) {
         records[i].x=0;records[i].y=0;records[i].z=0;
         records[i].sx=4096;records[i].sy=4096;records[i].sz=4096;
-        MTX_Identity33_(records[i].matrix);
+        MTX_Identity33_((MtxFx33 *)records[i].matrix);
     }
     return records;
 }
@@ -435,7 +384,7 @@ char *EGG_DEMO_VIEW_Create(unsigned heap,void *mon)
     ((struct EggDemoView *)work)->soundPlaying=0;
     ((struct EggDemoView *)work)->soundDelay=0;
     ((struct EggDemoView *)work)->soundStep=0;
-    ((struct EggDemoView *)work)->vblankTask=GFL_USE_AddMainTask((void ( *)(int,char *))EGG_DEMO_VIEW_Noop, (char *)work, 1);
+    ((struct EggDemoView *)work)->vblankTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void ( *)(int,char *))EGG_DEMO_VIEW_Noop), (void *)work, 1);
     EGG_DEMO_VIEW_InitMcss(work);
     EGG_DEMO_VIEW_AddPokeMcss(work);
     if(((struct EggDemoView *)work)->species==490)
@@ -711,17 +660,17 @@ void EGG_DEMO_VIEW_MainParticles(char *work){PARTICLE_Main();}
  */
 void EGG_DEMO_VIEW_StartParticles(char *work){((struct EggDemoParticles *)work)->active=1;}
 
-void EGG_DEMO_VIEW_InitModel(char *work){unsigned z=0;G3D_SYSTEM_SetSwapBuffersMode(1,z);*(struct Util * *)&((struct EggDemoView *)work)->util=G3D_UTIL_Create(4,1,((struct EggDemoView *)work)->heapId);((struct EggDemoView *)work)->recordCount=z;}
+void EGG_DEMO_VIEW_InitModel(char *work){unsigned z=0;G3D_SYSTEM_SetSwapBuffersMode(1,z);*(struct Util * *)&((struct EggDemoView *)work)->util=(struct Util *)G3D_UTIL_Create(4,1,((struct EggDemoView *)work)->heapId);((struct EggDemoView *)work)->recordCount=z;}
 
-void EGG_DEMO_VIEW_DeleteModel(char *work){G3D_UTIL_Delete(*(struct Rec * *)&((struct EggDemoView *)work)->util);}
+void EGG_DEMO_VIEW_DeleteModel(char *work){G3D_UTIL_Delete(*(struct G3dUtil * *)&((struct EggDemoView *)work)->util);}
 
 void EGG_DEMO_VIEW_DrawModels(char *work)
 {
     unsigned short i;
     for(i=0;i<((struct EggDemoView *)work)->recordCount;i++) {
         char *entry=*(char * *)&((struct EggDemoView *)work)->records+i*0x44;
-        if(((Record *)entry)->tail)
-            G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(*(unsigned char * *)&((struct EggDemoView *)work)->util,((Record *)entry)->tag),(struct G3dObjectStatus *)(entry+4));
+        if(((EggDemoViewRecord *)entry)->tail)
+            G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct EggDemoView *)work)->util),((EggDemoViewRecord *)entry)->tag),(struct G3dObjectStatus *)(entry+4));
     }
 }
 
@@ -732,21 +681,21 @@ void EGG_DEMO_VIEW_AddModel(char *work)
     u16 i;
     void *q;
     int frame;
-    ((struct EggDemoView *)work)->unitId=G3D_UTIL_AddUnit(*(struct Util * *)&((struct EggDemoView *)work)->util,&d_021F7330);
+    ((struct EggDemoView *)work)->unitId=G3D_UTIL_AddUnit(*(struct G3dUtil * *)&((struct EggDemoView *)work)->util,(struct G3dUtilSetup *)(&d_021F7330));
     ((struct EggDemoView *)work)->recordCount=1;
-    *(struct Record * *)&((struct EggDemoView *)work)->records=(struct Record *)EGG_DEMO_VIEW_CreateRecords(((struct EggDemoView *)work)->heapId,((struct EggDemoView *)work)->recordCount);
-    id=G3D_UTIL_GetUnitObjIdx(*(unsigned char * *)&((struct EggDemoView *)work)->util,((struct EggDemoView *)work)->unitId);
+    *(struct EggDemoViewRecord * *)&((struct EggDemoView *)work)->records=(struct EggDemoViewRecord *)EGG_DEMO_VIEW_CreateRecords(((struct EggDemoView *)work)->heapId,((struct EggDemoView *)work)->recordCount);
+    id=G3D_UTIL_GetUnitObjIdx((struct G3dUtil *)(*(unsigned char * *)&((struct EggDemoView *)work)->util),((struct EggDemoView *)work)->unitId);
     ((struct EggDemoView *)work)->animIndex=0;
     entry=*(char * *)&((struct EggDemoView *)work)->records;
-    ((Record *)entry)->tag=id;
-    ((Record *)entry)->x=0;
-    ((Record *)entry)->y=0;
-    ((Record *)entry)->z=0;
-    ((Record *)entry)->tail=1;
+    ((EggDemoViewRecord *)entry)->tag=id;
+    ((EggDemoViewRecord *)entry)->x=0;
+    ((EggDemoViewRecord *)entry)->y=0;
+    ((EggDemoViewRecord *)entry)->z=0;
+    ((EggDemoViewRecord *)entry)->tail=1;
     for(i=0;i<((struct EggDemoView *)work)->recordCount;i++)
-        G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)G3D_UTIL_GetObject(*(unsigned char * *)&((struct EggDemoView *)work)->util,*(u16 *)(*(char * *)&((struct EggDemoView *)work)->records+i*68)),0);
+        G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct EggDemoView *)work)->util),*(u16 *)(*(char * *)&((struct EggDemoView *)work)->records+i*68)),0);
     ((struct EggDemoView *)work)->animFrame=0;
-    q=(void *)G3D_UTIL_GetObject(*(unsigned char * *)&((struct EggDemoView *)work)->util,*(u16 *)(*(char * *)&((struct EggDemoView *)work)->records+((struct EggDemoView *)work)->animIndex*68));
+    q=(void *)G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct EggDemoView *)work)->util),*(u16 *)(*(char * *)&((struct EggDemoView *)work)->records+((struct EggDemoView *)work)->animIndex*68));
     frame=0;
     ((struct EggDemoView *)work)->modelAnimState=0;
     G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)q,1);
@@ -755,7 +704,7 @@ void EGG_DEMO_VIEW_AddModel(char *work)
     G3D_SYSTEM_SetObjectAnimeFrame((struct G3dObject *)q,2,&frame);
 }
 
-void EGG_DEMO_VIEW_RemoveModel(char *work){G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct EggDemoView *)work)->util,((struct EggDemoView *)work)->unitId);EGG_DEMO_VIEW_FreeRecords(((struct EggDemoView *)work)->records);((struct EggDemoView *)work)->recordCount=0;}
+void EGG_DEMO_VIEW_RemoveModel(char *work){G3D_UTIL_RemoveUnit(*(struct G3dUtil * *)&((struct EggDemoView *)work)->util,((struct EggDemoView *)work)->unitId);EGG_DEMO_VIEW_FreeRecords(((struct EggDemoView *)work)->records);((struct EggDemoView *)work)->recordCount=0;}
 
 void EGG_DEMO_VIEW_UpdateModel(char *work)
 {
@@ -764,10 +713,10 @@ void EGG_DEMO_VIEW_UpdateModel(char *work)
     int a, b;
 
     for (i = 0; i < ((struct EggDemoView *)work)->recordCount; i++) {
-        G3D_SYSTEM_LoopObjectAnimeFrame((void *)G3D_UTIL_GetObject((unsigned char *)(((struct EggDemoView *)work)->util), *(u16 *)(*(char * *)&((struct EggDemoView *)work)->records + i * 0x44)), 0, 0x1000);
+        G3D_SYSTEM_LoopObjectAnimeFrame((void *)G3D_UTIL_GetObject((struct G3dUtil *)(((struct EggDemoView *)work)->util), *(u16 *)(*(char * *)&((struct EggDemoView *)work)->records + i * 0x44)), 0, 0x1000);
     }
     ((struct EggDemoView *)work)->animFrame = ((struct EggDemoView *)work)->animFrame + 1;
-    q = (void *)G3D_UTIL_GetObject((unsigned char *)(((struct EggDemoView *)work)->util), *(u16 *)(*(char * *)&((struct EggDemoView *)work)->records + ((struct EggDemoView *)work)->animIndex * 0x44));
+    q = (void *)G3D_UTIL_GetObject((struct G3dUtil *)(((struct EggDemoView *)work)->util), *(u16 *)(*(char * *)&((struct EggDemoView *)work)->records + ((struct EggDemoView *)work)->animIndex * 0x44));
     if (((struct EggDemoView *)work)->modelAnimState == 1) {
         a = G3D_SYSTEM_IncObjectAnimeFrame(q, 1, 0x5000);
         b = G3D_SYSTEM_IncObjectAnimeFrame(q, 2, 0x5000);

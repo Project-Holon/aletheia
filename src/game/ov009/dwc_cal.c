@@ -62,6 +62,7 @@ typedef struct {
     char bytes[0x14];
 } WiFiInfo;
 
+#include "../arm9/dwc_backup.h"
 #include "../sdk_rtc.h"
 
 #include "../sdk_os.h"
@@ -72,26 +73,19 @@ typedef struct DWCHttp DWCHttp;
 
 #include "../sdk_dwc.h"
 
-extern void DWCi_BM_GetWiFiInfo(WiFiInfo *buf);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern void OS_Terminate(void);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-extern void OS_GetMacAddress(unsigned char *macAddress);
-extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern void OS_GetOwnerInfo(OSOwnerInfo *info);
-extern int RTC_GetDateTime(RTCDate *date, RTCTime *time);
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned char *WCM_GetApMacAddress(void);
-extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern unsigned char DWC_AC_GetApType(void);
-extern unsigned char *WCM_GetApEssid(unsigned short *length);
-extern int DWC_AC_GetApSpotInfo(unsigned char *apSpotInfo);
-extern int strlen(const u8 *s);
-extern int DWC_Http_Add_PostBase64Item(struct DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int wcslen(const u16 *s);
-extern int DWC_Http_Add_HeaderItem(char *http, char *label, char *data);
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_printf.h"
+#include "../arm9/os_terminate_processor.h"
+#include "../arm9/os_ownerinfo.h"
+typedef int RTCResult;
+#include "../arm9/external.h"
+#include "../arm9/os_system.h"
+#include "wcm_cpsif.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/dwc_ac.h"
+#include "../arm9/msl_string_str.h"
+#include "dwc_http.h"
+#include "../arm9/msl_wchar.h"
 int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
 int DWC_Auth_GetCalInfoFromWiFiInfo(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo);
 int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
@@ -126,7 +120,7 @@ extern const char gDwcCalHeaderGameCd[];
 int DWC_Auth_GetCalInfoFromNVRAM(void *cal)
 {
     WiFiInfo wifiinfo;
-    DWCi_BM_GetWiFiInfo(&wifiinfo);
+    DWCi_BM_GetWiFiInfo((struct tagDWCWiFiInfo *)&wifiinfo);
     return DWC_Auth_GetCalInfoFromWiFiInfo(cal, (DWCWiFiInfo *)(&wifiinfo));
 }
 

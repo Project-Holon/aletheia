@@ -38,7 +38,7 @@
  *   gDwcHttpParamArg  0x021A2358  data  ov009
  *   gDwcAuthNasUrl  0x021A2374  data  ov009
  *   gDwcWiFiInfo  0x021AB190  data  ov009
- *   gMslRefToken  0x02150FEC  data
+ *   OSi_ThreadInfo  0x02150FEC  data
  *   OS_GetTick  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
  *   OS_Sleep  0x02085A38  arm
@@ -75,6 +75,7 @@
  *   gDwcAuthPostLabelIsWfc  0x021A2410  data  ov009
  *   gDwcAuthPostLabelIngamesn  0x021A2418  data  ov009
  */
+#include "../arm9/os_thread.h"
 #include "dwc_http_types.h"
 #include "dwc_auth_types.h"
 
@@ -82,14 +83,6 @@
 #include "../types.h"
 
 #include "../sdk_os.h"
-
-typedef struct DWCHttp {
-    char pad0[0x1020];
-    int state;
-    char pad1024[0xb50];
-    char thread[0x6c];
-    int thread_started;
-} DWCHttp;
 
 typedef struct DWCAuth {
     char stack[0x1000];
@@ -113,40 +106,17 @@ typedef struct DWCAuthGlobal {
     unsigned long long userid;
 } DWCAuthGlobal;
 
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void OS_InitMutex(OSMutex *mutex);
-extern int OS_IsThreadTerminated(void *thread);
-extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stack_size, unsigned long prio);
-extern void OS_WakeupThreadDirect(void *thread);
-extern void OS_LockMutex(OSMutex *mutex);
-extern void OS_UnlockMutex(OSMutex *mutex);
-extern void DWC_Http_Abort(char *http);
-extern void OS_JoinThread(void *thread);
-extern void DWC_Http_Destroy(char *http);
-extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
-extern int strcmp(const char *, const char *);
-extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
-extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
-extern int DWC_Http_FinishHeader(char *http);
-extern unsigned long OS_GetThreadPriority(void *thread);
-extern void DWC_Http_StartThread(char *http, unsigned int prio);
-extern unsigned long long OS_GetTick(void);
-extern void OS_Sleep(unsigned long msec);
-extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
-extern int DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *wifiinfo, void *work);
-extern int DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *wifiinfo);
-extern int DWCi_AUTH_MakeWiFiID(void *work);
-extern char *DWC_Http_GetResult(char *http, char *label);
-extern int DWC_Auth_SetNasTimeDiff(char *datestr);
-extern int atoi(u32 s);
-extern int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned int buffer_len);
-extern s32 strtol(u32 s, u32 *endptr, u32 base);
-extern int strlen(const u8 *s);
-extern int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len);
-extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int DWC_Auth_GetCalInfoFromWiFiInfo(DWCCalInfo *cal, DWCWiFiInfo *wifiinfo);
-extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
-extern int wcslen(const u16 *s);
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_mutex.h"
+#include "dwc_http.h"
+#include "../arm9/msl_string_str.h"
+#include "../arm9/dwc_backup.h"
+#include "../arm9/os_tick.h"
+#include "../arm9/util_wifiidtool.h"
+#include "dwc_nastime.h"
+#include "../arm9/msl_strtod.h"
+#include "dwc_cal.h"
+#include "../arm9/msl_wchar.h"
 void DWC_Auth_SetCustomNas(char *v);
 char *DWC_Auth_GetCustomNas(void);
 int DWC_Auth_Create(DWCAuthParam *param, DWCHttp *http);
@@ -168,7 +138,6 @@ extern char gDwcAuthNasUrl[];
 extern DWCAuthGlobal gDwcAuthGlobal;
 extern DWCAuth *gDwcAuth;
 extern DWCWiFiInfo gDwcWiFiInfo;
-extern OSThreadInfo gMslRefToken;
 extern int errno;
 extern char gDwcAuthLabelDate[];
 extern char gDwcAuthLabelHttpResult[];
@@ -202,7 +171,7 @@ char *DWC_Auth_GetCustomNas(void)
  */
 int DWC_Auth_Create(DWCAuthParam *param, DWCHttp *http)
 {
-    void *(*alloc)(unsigned long, long) = param->alloc;
+    DWCAuthAlloc alloc = param->alloc;
 
     if (gDwcAuthGlobal.auth != 0)
         return 2;
@@ -233,11 +202,11 @@ void DWCi_Auth_StartThread(void)
 	OS_InitMutex(&gDwcAuthGlobal.auth->mutex);
 	gDwcAuthGlobal.auth->abort_flag = 0;
 	if (gDwcAuthGlobal.auth->started != 0) {
-		if (OS_IsThreadTerminated(gDwcAuthGlobal.auth->thread) == 0)
+		if (OS_IsThreadTerminated((OSThread *)gDwcAuthGlobal.auth->thread) == 0)
 			return;
 	}
-	OS_CreateThread(gDwcAuthGlobal.auth->thread, DWCi_Auth_Thread, &gDwcAuth, gDwcAuthGlobal.auth->stack + 0x1000, 0x1000, 0x10);
-	OS_WakeupThreadDirect(gDwcAuthGlobal.auth->thread);
+	OS_CreateThread((OSThread *)gDwcAuthGlobal.auth->thread, DWCi_Auth_Thread, &gDwcAuth, gDwcAuthGlobal.auth->stack + 0x1000, 0x1000, 0x10);
+	OS_WakeupThreadDirect((OSThread *)gDwcAuthGlobal.auth->thread);
 }
 
 /*
@@ -254,9 +223,9 @@ void DWC_Auth_Abort(void)
 		DWC_Http_Abort((char *)gDwcAuthGlobal.auth->http);
 	if (gDwcAuthGlobal.auth->started == 0)
 		return;
-	if (OS_IsThreadTerminated(gDwcAuthGlobal.auth->thread) != 0)
+	if (OS_IsThreadTerminated((OSThread *)gDwcAuthGlobal.auth->thread) != 0)
 		return;
-	OS_JoinThread(gDwcAuthGlobal.auth->thread);
+	OS_JoinThread((OSThread *)gDwcAuthGlobal.auth->thread);
 }
 
 /*
@@ -264,7 +233,7 @@ void DWC_Auth_Abort(void)
  */
 void DWC_Auth_Destroy(void)
 {
-	void (*free)(unsigned long, void *, long);
+	DWCAuthFree free;
 
 	if (gDwcAuthGlobal.auth == 0)
 		return;
@@ -282,9 +251,9 @@ void DWC_Auth_Join(void)
 {
 	if (gDwcAuthGlobal.auth->started == 0)
 		return;
-	if (OS_IsThreadTerminated(gDwcAuthGlobal.auth->thread) != 0)
+	if (OS_IsThreadTerminated((OSThread *)gDwcAuthGlobal.auth->thread) != 0)
 		return;
-	OS_JoinThread(gDwcAuthGlobal.auth->thread);
+	OS_JoinThread((OSThread *)gDwcAuthGlobal.auth->thread);
 }
 
 /*
@@ -349,7 +318,7 @@ int DWCi_Auth_Start(int getwifiinfofromflash)
     if (DWC_Http_FinishHeader((char *)gDwcAuthGlobal.auth->http) != 0)
         return 4;
 
-    DWC_Http_StartThread((char *)gDwcAuthGlobal.auth->http, OS_GetThreadPriority(gMslRefToken.current) - 1);
+    DWC_Http_StartThread((char *)gDwcAuthGlobal.auth->http, OS_GetThreadPriority(OSi_ThreadInfo.current) - 1);
     return 0;
 }
 
@@ -364,20 +333,20 @@ void DWCi_Auth_Thread(void *arg)
     int getwifiinfofromflash;
 
     for (;;) {
-        if (gDwcAuthGlobal.auth->http->thread_started != 0
-            && !OS_IsThreadTerminated(gDwcAuthGlobal.auth->http->thread))
-            OS_JoinThread(gDwcAuthGlobal.auth->http->thread);
+        if (gDwcAuthGlobal.auth->http->thread.id != 0
+            && !OS_IsThreadTerminated(&gDwcAuthGlobal.auth->http->thread))
+            OS_JoinThread(&gDwcAuthGlobal.auth->http->thread);
 
-        if (gDwcAuthGlobal.auth->http->state != 8) {
+        if (gDwcAuthGlobal.auth->http->error != 8) {
             gDwcAuthGlobal.auth->result.returncode = 20100;
-            if (gDwcAuthGlobal.auth->http->state == 7) {
+            if (gDwcAuthGlobal.auth->http->error == 7) {
                 DWCi_Auth_SetError(20);
                 return;
             }
             if (retrycount > 2) {
-                if (gDwcAuthGlobal.auth->http->state == 2)
+                if (gDwcAuthGlobal.auth->http->error == 2)
                     DWCi_Auth_SetError(9);
-                else if (gDwcAuthGlobal.auth->http->state == 3)
+                else if (gDwcAuthGlobal.auth->http->error == 3)
                     DWCi_Auth_SetError(11);
                 else
                     DWCi_Auth_SetError(13);
@@ -443,8 +412,8 @@ void DWCi_Auth_Thread(void *arg)
  */
 int DWCi_Auth_ParseHttp(void)
 {
-    void *(*alloc)(unsigned long, long) = gDwcAuthGlobal.auth->param.alloc;
-    void (*free)(unsigned long, void *, long) = gDwcAuthGlobal.auth->param.free;
+    DWCAuthAlloc alloc = gDwcAuthGlobal.auth->param.alloc;
+    DWCAuthFree free = gDwcAuthGlobal.auth->param.free;
     unsigned char *bmwork;
 
     if (DWC_Http_ParseResult(gDwcAuthGlobal.auth->http, 0) != 1)
@@ -465,7 +434,7 @@ int DWCi_Auth_ParseHttp(void)
                 gDwcAuthGlobal.auth->result.returncode = 20100;
                 return 2;
             }
-            if (DWCi_AUTH_UpDateWiFiID(&gDwcWiFiInfo, (void *)(((unsigned long)bmwork + 31) & ~31)) != 1)
+            if (DWCi_AUTH_UpDateWiFiID(&gDwcWiFiInfo, (void *)(((uptr)bmwork + 31) & ~31)) != 1)
             {
                 free(0, bmwork, 0);
                 gDwcAuthGlobal.auth->result.returncode = 20100;
@@ -488,7 +457,7 @@ int DWCi_Auth_ParseHttp(void)
             gDwcAuthGlobal.auth->result.returncode = 20108;
             return 17;
         }
-        DWCi_AUTH_MakeWiFiID((void *)(((unsigned long)bmwork + 31) & ~31));
+        DWCi_AUTH_MakeWiFiID((void *)(((uptr)bmwork + 31) & ~31));
         free(0, bmwork, 0);
         gDwcAuthGlobal.auth->result.returncode = 20108;
         return 17;
@@ -512,7 +481,7 @@ int DWCi_Auth_FillResult(void)
 
     endptr = 0;
     errno = 0;
-    returncode = atoi((u32)DWC_Http_GetResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelHttpResult));
+    returncode = atoi(DWC_Http_GetResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelHttpResult));
     if (errno == 0x22) {
         gDwcAuthGlobal.auth->result.returncode = 20101;
         return 12;
@@ -525,7 +494,7 @@ int DWCi_Auth_FillResult(void)
         gDwcAuthGlobal.auth->result.returncode = 20101;
         return 14;
     }
-    returncode = strtol((u32)gDwcAuthGlobal.auth->result.retcode, (u32 *)(&endptr), 10);
+    returncode = strtol(gDwcAuthGlobal.auth->result.retcode, (char **)(&endptr), 10);
     if (endptr != gDwcAuthGlobal.auth->result.retcode + strlen((const u8 *)gDwcAuthGlobal.auth->result.retcode)) {
         gDwcAuthGlobal.auth->result.returncode = 20101;
         return 12;

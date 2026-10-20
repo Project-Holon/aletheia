@@ -6,8 +6,11 @@ The twl block is the code of arm9i.bin (0x02700000..0x02732DA0, bss to
 (link_overlay) on it: every top-level file of src/game/twl/ is compiled with the
 compiler of its header (unit_02731754.c uses ../2.0/sp2), callees outside the
 block become typed stubs, data symbols absolute assignments, and the bytes
-between files (the data blob 0x02707CB4..0x0272E9E8, the key data card_rom.c
-reads from build/gen) are binary sections from the image.  The image is
+between files are C companions (tools/twldata.py: the DSP component
+0x02707CB4..0x0272E9E8, four pointer tables, strings, one variable, the padding;
+written to build/datac/twl from the user's own extract, never committed).  The
+key data card_rom.c reads comes from build/gen.  With --image-gaps the bytes
+between the files are binary sections from the image instead.  The image is
 extract/arm9i_dec.bin (the decrypted, decompressed block; its first word is
 not part of the block).  The result is compared byte for byte with the block.
 
@@ -15,7 +18,7 @@ gamelink.py knows overlays, `itcm` and `arm9_main`; this module adds the region
 `twl` to its region table (overlay_info, SRC_DIR) without editing gamelink.py.
 
 usage
-    python tools/twllink.py [--version=white]
+    python tools/twllink.py [--version=white] [--image-gaps]
 Output is in build/gamelink/twl/ (White: build/gamelink/twl_white/).
 """
 
@@ -63,8 +66,14 @@ def install():
     gamelink._twl_installed = True
 
 
-def link_twl(**kw):
+def link_twl(image_gaps=False, **kw):
+    """Link the block.  The data between the files comes from the companions of tools/twldata.py
+    (written first) unless image_gaps is set."""
     install()
+    if not image_gaps and "extra" not in kw:
+        import twldata
+        twldata.build(gamelink.VERSION == "white")
+        kw["extra"] = twldata.out_dir(gamelink.VERSION == "white")
     return gamelink.link_overlay(REGION, **kw)
 
 
@@ -78,6 +87,8 @@ def main(argv):
             mode["absolute_only"] = True
         elif a.startswith("--skip="):
             mode["skip"] = tuple(x for x in a[7:].split(",") if x)
+        elif a == "--image-gaps":
+            mode["image_gaps"] = True
         elif a == "--no-interworking":
             mode["interworking"] = False
     r = link_twl(**mode)

@@ -162,10 +162,10 @@
 #define MGR (*(struct BgWinFrmWork **)(p + 0x2194))
 struct Obj;
 struct Actor;
-struct PtS;
-struct Vec2;
-struct Ctx;
-struct Node;
+struct ClactVec2;
+struct ClactVec2;
+struct TcbSystem;
+struct TcbTask;
 struct Tcbl;
 struct PrintSys;
 struct MsgBank;
@@ -174,7 +174,7 @@ struct Rec;
 struct Rec3;
 struct S02031140;
 struct BgWinFrmWork;
-struct PalAnmSlot;
+struct PaletteFade;
 struct GfFont;
 struct U16Vec;
 struct WordSet;
@@ -187,7 +187,7 @@ struct CursorMove;
 
 
 
-typedef struct {short x,y;} Pair;
+typedef struct {short x,y;} BPlistMainPair;
 
 
 
@@ -198,16 +198,19 @@ typedef struct {short x,y;} Pair;
 
 
 
-struct BgVramReq {u32 dispMode,bgMode,subBgMode,bg0As;};
 
-struct BgTemplate {
-    u32 scrollX,scrollY,bufSize,baseTile;
-    u8 screenSize,colorMode,screenBase,charBase;
-    u32 tileDataSize;
-    u8 extPltt,priority,areaOver,pad1b;
-    u32 mosaic;
-};
+/* The DS code was built against a prototype with a byte tile index (the header takes a word). The host build uses the header. */
+#ifdef __MWERKS__
+#define BG_SYS_MarkTileDirty BG_SYS_MarkTileDirty_header
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_MarkTileDirty
+extern void BG_SYS_MarkTileDirty(u8 bit);
+#endif
 
+#include "../arm9/arc_tool.h"
+#include "../arm9/waza_tool.h"
 struct Move {u16 id;u8 pp,up,kind,power,type,accuracy;};
 
 struct Summary {
@@ -250,146 +253,53 @@ struct Order {u8 ids[6];};
 
 
 
-extern void B_PLIST_DRAW_TransferCharacter(char *p, void *obj, int index, int which);
-extern void B_PLIST_DRAW_PlaceActor(u8 *, u32);
-extern u32 WAZA_TOOL_GetParam(u16, u32);
-extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
-extern void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
-extern void CLACT_SetActorAnimSeq(void *, int);
-extern int BGWINFRM_GetScaleRank(unsigned,unsigned);
-extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
-extern void B_APP_TOOL_CreateActors(char *,int,int,int,int);
-extern unsigned B_APP_TOOL_SetActorsVisible();
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
-extern struct Node *TCB_AddTask(struct Ctx *c, u32 a, u32 b, u32 key);
+#include "b_plist_draw.h"
+struct ClactActor;
+#include "../arm9/clact.h"
+#include "../arm9/bgwinfrm.h"
+#include "../ov196/b_app_tool.h"
+struct ClactVec2;
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/tcb_list.h"
 struct TcblSystem;
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern void B_PLIST_ANM_StepPaletteAnim(u8 *);
-extern void B_PLIST_DRAW_UpdateToolWindows(u8 *);
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u8 *B_APP_TOOL_Create(u16 v);
-extern void B_PLIST_ANM_UpdateByMode(u8 *,u32);
-extern void B_PLIST_ANM_CopyPaletteSlot(u8 *,u32);
-extern void B_PLIST_DRAW_Init(char *);
-extern void B_PLIST_DRAW_LayoutActors(char *,u32);
-extern void B_PLIST_ANM_CreateTileWindows(u8 *);
-extern void B_PLIST_DRAW_DrawModePage(char *,int);
-extern void B_PLIST_DRAW_ShowToolWindows(u8 *);
-extern int PALANM_RequestFade(void *,u16,u16,short,u8,u8,u16,void *);
+#include "../arm9/tcbl.h"
+#include "b_plist_anm.h"
+#include "../arm9/gx.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
-extern u32 WIPE_SYS_EndCheck(void);
-extern u32 PALANM_GetFadeRequestBits(const char *);
-extern void B_PLIST_ANM_StartPaletteAnim(u8 *,u32);
-extern void B_PLIST_DRAW_ClearAndPrintStream(u8 *);
-extern void B_PLIST_DRAW_FormatRowWord(u8 *);
-extern u32 FILE_UTIL_GetItemParam(unsigned int item, unsigned int sel, unsigned int heap);
+#include "../arm9/printsys.h"
+#include "../arm9/wipe.h"
+#include "../arm9/file_util.h"
 struct Strbuf;
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
+#include "../arm9/msgdata.h"
 struct Cursor;
-extern int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
-extern void B_PLIST_DRAW_PrintWordAndRefresh(u8 *);
+#include "../arm9/cursor_move.h"
 struct BmpWin;
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
+#include "../arm9/bmp_menuwork.h"
 struct TextPrinter;
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern int TOUCHPANEL_GetTrg(void);
-extern unsigned int KEY_GetCont(void);
-extern u32 KEY_GetTrg(void);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void WIPE_SYS_ExeEnd(void);
+#include "../arm9/touchpanel.h"
+#include "../arm9/key.h"
 struct BgWinFrmWork;
-extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
-extern void B_PLIST_DRAW_DeleteActors(char *);
-extern void B_PLIST_DRAW_DeleteAllWindows(u8 *p);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void B_APP_TOOL_Delete(void *);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_ApplyGraphicsMode(const struct BgVramReq *,u32);
-extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
-extern void BG_SYS_ClearSlot(u32);
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
-extern void B_PLIST_ANM_CopyMonSpriteTiles(char *,u16 *);
-extern void B_PLIST_ANM_CopySubSpriteTiles(char *,u16 *);
-extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *,u32,u32,u32,u32,u32,u16);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern int PALANM_GetDefaultWork(char *,int);
-extern void MI_CpuCopy8(const void *,void *,u32);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *,u32,u32,u32);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16,u32);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/arc_util.h"
+#include "../arm9/palanm.h"
+/* palanm.h does not declare these yet */
+/* palanm.h does not declare these yet */
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
 struct PokemonParam;
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
-extern u8 POKE_TOOL_GetGender(struct PokemonParam *pp);
-extern int APP_ICON_GetStatusIconAnim(struct PokemonParam *pp);
-extern u32 POKE_TOOL_GetLevelMinExp(struct PokemonParam *pp);
-extern u32 POKE_TOOL_GetExpForLevel(u16,u16,u16);
-extern u8 WAZA_TOOL_GetMaxPP(u16,u32);
-extern u32 WAZA_TOOL_IsAlwaysHit(u16);
+#include "../arm9/poke_tool.h"
+#include "../arm9/app_icon.h"
 struct Party;
-extern unsigned POKEPARTY_GetCount(struct Party *party);
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
-extern u8 BGWINFRM_ScaleRatio(u32,u32,u32);
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
-extern void BG_SYS_MarkTileDirty(u8);
-extern void B_PLIST_DRAW_DeleteStateWindows(char *);
-extern void B_PLIST_DRAW_CreateStateWindows(u8 *,u32);
-extern void BG_SYS_ClearLayerEx(int channel, u16 val);
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u32 WAZA_TOOL_IsHmMove(void *,u16,u16);
-extern void B_PLIST_DRAW_PrintHeader10(char *p);
-extern void B_PLIST_DRAW_ShowSubWindow(u8 *p);
-extern u32 BG_SYS_GetBuf(int channel);
-extern void MIi_CpuCopy16(const void *, void *, unsigned);
-extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
-extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, unsigned int idx, unsigned int bgFrame, unsigned int sizeX, unsigned int sizeY);
-extern void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, unsigned int idx, void *src);
-extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
-extern void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
-extern void BGWINFRM_StartMove(struct BgWinFrmWork *wk, u32 idx, s8 moveX, s8 moveY, u8 count);
-extern void BGWINFRM_GetPos(struct BgWinFrmWork *wk, u32 idx, s8 *x, s8 *y);
-extern u32 BGWINFRM_IsMoving(struct BgWinFrmWork *wk, u32 idx);
-extern void B_PLIST_ANM_UpdateSelectedTile(u8 *);
-extern void B_PLIST_DRAW_PrintHeader9(char *p);
-extern void GFL_USE_PlaySeDefaultVolume(u32);
+#include "../arm9/pokeparty.h"
+#include "../arm9/event_id.h"
+#include "../arm9/gfl_use.h"
 struct CursorVtbl;
 struct CursorEntry;
-extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, unsigned int ctx, unsigned int state, unsigned char start, unsigned short heapId);
-extern void CURSOR_MOVE_EnableInput(struct Cursor *obj);
-extern void CURSOR_MOVE_SetMode(struct Cursor *obj);
-extern u32 CURSOR_MOVE_Delete(void *cursor);
-extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, unsigned int idx);
-extern void B_APP_TOOL_LayoutActors(int *p, u8 *q);
 void B_PLIST_MAIN_SyncMoveActors(u8 *p);
-void B_PLIST_MAIN_SetActorAnimSeq(void *a, int b);
-int B_PLIST_MAIN_GetMonAnimState(char *p);
+void B_PLIST_MAIN_SetActorAnimSeq(struct ClactActor *a, u16 b);
+u16 B_PLIST_MAIN_GetMonAnimState(char *p);
 void B_PLIST_MAIN_UpdateActorAnims(u8 *p);
 void B_PLIST_MAIN_CreateToolActors(u8 *p);
 void B_PLIST_MAIN_ShiftActors(u8 *p,int a,short delta);
@@ -426,7 +336,7 @@ int B_PLIST_MAIN_HandleSkipKey(char *p);
 int B_PLIST_MAIN_CheckBusyFlag(char *p);
 int B_PLIST_MAIN_BeginFadeOut(char *p);
 u32 B_PLIST_MAIN_WaitFadeOut(u8 *p);
-int B_PLIST_MAIN_Delete(struct Node *task,char *p);
+int B_PLIST_MAIN_Delete(struct TcbTask *task,char *p);
 void B_PLIST_MAIN_InitBg(u8 *p);
 void B_PLIST_MAIN_ExitBg(void);
 void B_PLIST_MAIN_LoadGraphics(char *p);
@@ -476,12 +386,12 @@ void B_PLIST_MAIN_PlaySe2(u8 **p, u32 b);
 void B_PLIST_MAIN_CreateCursor(u8 *p,u32 index,u32 b);
 u32 B_PLIST_MAIN_DeleteCursor(u8 *p);
 void B_PLIST_MAIN_RecreateCursor(u8 *p, u32 a, u32 b);
-u32 B_PLIST_MAIN_SetActorsVisible(u8 *p, u32 v);
+void B_PLIST_MAIN_SetActorsVisible(u8 *p, u32 v);
 void B_PLIST_MAIN_LayoutCursorActors(u8 *p, u32 idx);
 extern u32 d_02211DA0[];
 extern const char d_02212550[];
 extern volatile u16 d_04001050[];
-extern const struct BgVramReq d_02212144;
+extern const struct DispConfig d_02212144;
 extern const struct BgTemplate d_02212174,d_022121B4,d_02212154,d_02212194;
 extern const struct Order d_02212130;
 extern const u32 d_022121D4[];
@@ -543,7 +453,7 @@ void B_PLIST_MAIN_SyncMoveActors(u8 *p)
 
 
 
-void B_PLIST_MAIN_SetActorAnimSeq(void *a, int b)
+void B_PLIST_MAIN_SetActorAnimSeq(struct ClactActor *a, u16 b)
 {
     if (b != CLACT_GetActorAnimSeq(a))
     {
@@ -555,7 +465,7 @@ void B_PLIST_MAIN_SetActorAnimSeq(void *a, int b)
 
 
 
-int B_PLIST_MAIN_GetMonAnimState(char *p)
+u16 B_PLIST_MAIN_GetMonAnimState(char *p)
 {
     u16 a=((struct B_PlistWork *)p)->monSpecies;
     if (a==0) return 0;
@@ -579,7 +489,7 @@ void B_PLIST_MAIN_UpdateActorAnims(u8 *p)
     for (i=0;i<6;i++) {
         j=B_PLIST_MAIN_GetOrderIndex(p,i);
         if (*(u16 *)(p+j*0x4c+8)) {
-            int k=B_PLIST_MAIN_GetMonAnimState((char *)p+4+j*0x4c);
+            u16 k=B_PLIST_MAIN_GetMonAnimState((char *)p+4+j*0x4c);
             B_PLIST_MAIN_SetActorAnimSeq(*(void **)(p+j*4+0x1ed8),k);
             CLACT_AddActorAnimFrame(*(void **)(p+j*4+0x1ed8),0x1000);
         }
@@ -597,19 +507,19 @@ void B_PLIST_MAIN_CreateToolActors(u8 *p) { B_APP_TOOL_CreateActors(*(char * *)&
 void B_PLIST_MAIN_ShiftActors(u8 *p,int a,short delta)
 {
     int i=B_PLIST_MAIN_GetOrderIndex(p,a);
-    Pair pair;
-    CLACT_GetActorSurfacePos(*(void **)(p+0x1ebc+i*4),(struct PtS *)&pair,1);
+    BPlistMainPair pair;
+    CLACT_GetActorSurfacePos(*(void **)(p+0x1ebc+i*4),(struct ClactVec2 *)&pair,1);
     pair.x+=delta;
-    CLACT_AddActorSurfacePos(*(void **)(p+0x1ebc+i*4),(const struct Vec2 *)(&pair),1);
-    CLACT_GetActorSurfacePos(*(void **)(p+0x1ed8+i*4),(struct PtS *)&pair,1);
+    CLACT_AddActorSurfacePos(*(void **)(p+0x1ebc+i*4),(struct ClactVec2 *)(&pair),1);
+    CLACT_GetActorSurfacePos(*(void **)(p+0x1ed8+i*4),(struct ClactVec2 *)&pair,1);
     pair.x+=delta;
-    CLACT_AddActorSurfacePos(*(void **)(p+0x1ed8+i*4),(const struct Vec2 *)(&pair),1);
-    CLACT_GetActorSurfacePos(*(void **)(p+0x1ef0+i*4),(struct PtS *)&pair,1);
+    CLACT_AddActorSurfacePos(*(void **)(p+0x1ed8+i*4),(struct ClactVec2 *)(&pair),1);
+    CLACT_GetActorSurfacePos(*(void **)(p+0x1ef0+i*4),(struct ClactVec2 *)&pair,1);
     pair.x+=delta;
-    CLACT_AddActorSurfacePos(*(void **)(p+0x1ef0+i*4),(const struct Vec2 *)(&pair),1);
-    CLACT_GetActorSurfacePos(*(void **)(p+0x1f08+i*4),(struct PtS *)&pair,1);
+    CLACT_AddActorSurfacePos(*(void **)(p+0x1ef0+i*4),(struct ClactVec2 *)(&pair),1);
+    CLACT_GetActorSurfacePos(*(void **)(p+0x1f08+i*4),(struct ClactVec2 *)&pair,1);
     pair.x+=delta;
-    CLACT_AddActorSurfacePos(*(void **)(p+0x1f08+i*4),(const struct Vec2 *)(&pair),1);
+    CLACT_AddActorSurfacePos(*(void **)(p+0x1f08+i*4),(struct ClactVec2 *)(&pair),1);
 }
 
 
@@ -623,25 +533,25 @@ void B_PLIST_MAIN_SwapActorPos(char *p, int slotA, int slotB)
     u32 x;
     u32 y;
 
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ebc))[i1], (struct PtS *)&x, 1);
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ebc))[i2], (struct PtS *)&y, 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ebc))[i1], (const struct Vec2 *)(&y), 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ebc))[i2], (const struct Vec2 *)(&x), 1);
+    CLACT_GetActorSurfacePos(((void **)(p + 0x1ebc))[i1], (struct ClactVec2 *)&x, 1);
+    CLACT_GetActorSurfacePos(((void **)(p + 0x1ebc))[i2], (struct ClactVec2 *)&y, 1);
+    CLACT_AddActorSurfacePos(((void **)(p + 0x1ebc))[i1], (struct ClactVec2 *)(&y), 1);
+    CLACT_AddActorSurfacePos(((void **)(p + 0x1ebc))[i2], (struct ClactVec2 *)(&x), 1);
 
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ed8))[i1], (struct PtS *)&x, 1);
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ed8))[i2], (struct PtS *)&y, 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ed8))[i1], (const struct Vec2 *)(&y), 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ed8))[i2], (const struct Vec2 *)(&x), 1);
+    CLACT_GetActorSurfacePos(((void **)(p + 0x1ed8))[i1], (struct ClactVec2 *)&x, 1);
+    CLACT_GetActorSurfacePos(((void **)(p + 0x1ed8))[i2], (struct ClactVec2 *)&y, 1);
+    CLACT_AddActorSurfacePos(((void **)(p + 0x1ed8))[i1], (struct ClactVec2 *)(&y), 1);
+    CLACT_AddActorSurfacePos(((void **)(p + 0x1ed8))[i2], (struct ClactVec2 *)(&x), 1);
 
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ef0))[i1], (struct PtS *)&x, 1);
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1ef0))[i2], (struct PtS *)&y, 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ef0))[i1], (const struct Vec2 *)(&y), 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1ef0))[i2], (const struct Vec2 *)(&x), 1);
+    CLACT_GetActorSurfacePos(((void **)(p + 0x1ef0))[i1], (struct ClactVec2 *)&x, 1);
+    CLACT_GetActorSurfacePos(((void **)(p + 0x1ef0))[i2], (struct ClactVec2 *)&y, 1);
+    CLACT_AddActorSurfacePos(((void **)(p + 0x1ef0))[i1], (struct ClactVec2 *)(&y), 1);
+    CLACT_AddActorSurfacePos(((void **)(p + 0x1ef0))[i2], (struct ClactVec2 *)(&x), 1);
 
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1f08))[i1], (struct PtS *)&x, 1);
-    CLACT_GetActorSurfacePos(((void **)(p + 0x1f08))[i2], (struct PtS *)&y, 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1f08))[i1], (const struct Vec2 *)(&y), 1);
-    CLACT_AddActorSurfacePos(((void **)(p + 0x1f08))[i2], (const struct Vec2 *)(&x), 1);
+    CLACT_GetActorSurfacePos(((void **)(p + 0x1f08))[i1], (struct ClactVec2 *)&x, 1);
+    CLACT_GetActorSurfacePos(((void **)(p + 0x1f08))[i2], (struct ClactVec2 *)&y, 1);
+    CLACT_AddActorSurfacePos(((void **)(p + 0x1f08))[i1], (struct ClactVec2 *)(&y), 1);
+    CLACT_AddActorSurfacePos(((void **)(p + 0x1f08))[i2], (struct ClactVec2 *)(&x), 1);
 }
 
 
@@ -652,7 +562,7 @@ void B_PLIST_MAIN_Create(u8 *p)
     u8 *q;
     if (p[0x20]>5) p[0x20]=0;
     q=GFL_HEAP_Alloc(((struct B_PlistWork *)p)->monSpecies,0x2544,1,d_02212550,0x130);
-    TCB_AddTask(((struct B_PlistWork *)p)->task,(unsigned)B_PLIST_MAIN_Task,(unsigned)q,100);
+    TCB_AddTask((struct TcbSystem *)((struct B_PlistWork *)p)->task,(TcbFunc)B_PLIST_MAIN_Task,(void *)q,100);
     ((struct B_PlistWork *)q)->owner=(struct B_PlistHost *)p;
     if (p[0x1f]!=5) p[0x4b]=0;
     else if (B_PLIST_MAIN_GetOwnerFlag18((char **)((unsigned)q))==1 && p[0x1c]==1) p[0x20]++;
@@ -707,14 +617,14 @@ int B_PLIST_MAIN_Init(u8 *p)
     B_PLIST_DRAW_LayoutActors((char *)p,p[0x2180]);B_PLIST_ANM_CreateTileWindows(p);B_PLIST_DRAW_DrawModePage((char *)p,p[0x2180]);B_PLIST_DRAW_ShowToolWindows(p);
     if(**(u8 * *)&((struct B_PlistWork *)p)->owner->syncFlagPtr==1) *(u32 *)&((struct B_PlistWork *)p)->syncRequested=1;
     else *(u32 *)&((struct B_PlistWork *)p)->syncRequested=0;
-    B_APP_TOOL_SetActorsVisible((char *)(*(u8 * *)&((struct B_PlistWork *)p)->appTool),((struct B_PlistWork *)p)->syncRequested);
+    B_APP_TOOL_SetActorsVisible((char *)(*(u8 * *)&((struct B_PlistWork *)p)->appTool),(void *)(((struct B_PlistWork *)p)->syncRequested));
     if(p[0x2180]==0) {
         if(B_PLIST_MAIN_IsBattleSlot((u32)p,B_PLIST_MAIN_GetOrderIndex(p,0))==1) (*(u8 **)p)[32]=1;
         B_PLIST_MAIN_CreateCursor(p,p[0x2180],(*(u8 **)p)[32]);
     } else if((*(u8 **)p)[31]==5) B_PLIST_MAIN_CreateCursor(p,p[0x2180],(*(u8 **)p)[75]);
     else B_PLIST_MAIN_CreateCursor(p,p[0x2180],0);
     B_PLIST_MAIN_DrawExpBar(p,p[0x2180]);
-    PALANM_RequestFade(((struct B_PlistWork *)p)->palAnm,10,65535,0,16,0,0,((struct B_PlistWork *)p)->owner->fadeContext);
+    PALANM_RequestFade((struct PaletteFade *)(const struct PaletteFade *)((struct B_PlistWork *)p)->palAnm,10,65535,0,16,0,0,((struct B_PlistWork *)p)->owner->fadeContext);
     ((struct B_PlistWork *)p)->done=1;
     return 1;
 }
@@ -735,7 +645,7 @@ int B_PLIST_MAIN_WaitWipe(u8 *p) { if(WIPE_SYS_EndCheck()==1) { if((*(u8 **)p)[3
 int B_PLIST_MAIN_HandleSelectInput(u8 *p)
 {
     u8 pair[2];
-    if(PALANM_GetFadeRequestBits(*(char * *)&((struct B_PlistWork *)p)->palAnm)!=0) return 3;
+    if(PALANM_GetFadeRequestBits((const struct PaletteFade *)*(char * *)&((struct B_PlistWork *)p)->palAnm)!=0) return 3;
     if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1) return 31;
     if(B_PLIST_MAIN_HandleCursorInput(p)==1) {
         if((*(u8 **)p)[32]==6) {
@@ -1018,7 +928,7 @@ int B_PLIST_MAIN_HandleSlotSelectFade(u8 *p)
 {
     u32 sel;
     int row;
-    if(PALANM_GetFadeRequestBits(*(const char * *)&((struct B_PlistWork *)p)->palAnm)!=0)return 30;
+    if(PALANM_GetFadeRequestBits((const struct PaletteFade *)*(const char * *)&((struct B_PlistWork *)p)->palAnm)!=0)return 30;
     if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1)return 31;
     sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
     switch(sel){
@@ -1056,7 +966,7 @@ int B_PLIST_MAIN_HandleItemSelect(u8 *p)
 {
     u32 sel;
     u8 value;
-    if(PALANM_GetFadeRequestBits(*(const char * *)&((struct B_PlistWork *)p)->palAnm)!=0)return 25;
+    if(PALANM_GetFadeRequestBits((const struct PaletteFade *)*(const char * *)&((struct B_PlistWork *)p)->palAnm)!=0)return 25;
     sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
     switch(sel){
     case 0: case 1: case 2: case 3: case 4:
@@ -1373,7 +1283,7 @@ int B_PLIST_MAIN_BeginFadeOut(char *p)
 {
     if (B_PLIST_MAIN_GetOwnerFlag18((char **)((unsigned)p))==1 && (*(u8 **)p)[0x20]!=6)
         (*(u8 **)p)[0x20]/=2u;
-    PALANM_RequestFade(((struct B_PlistWork *)p)->palAnm,10,0xffff,0,0,0x10,0,((struct B_PlistWork *)p)->owner->fadeContext);
+    PALANM_RequestFade((struct PaletteFade *)(const struct PaletteFade *)((struct B_PlistWork *)p)->palAnm,10,0xffff,0,0,0x10,0,((struct B_PlistWork *)p)->owner->fadeContext);
     return 0x20;
 }
 
@@ -1383,7 +1293,7 @@ int B_PLIST_MAIN_BeginFadeOut(char *p)
 
 u32 B_PLIST_MAIN_WaitFadeOut(u8 *p)
 {
-    if (PALANM_GetFadeRequestBits((const char *)(((u32)((struct B_PlistWork *)p)->palAnm))) == 0) {
+    if (PALANM_GetFadeRequestBits((const struct PaletteFade *)(const char *)(((u32)((struct B_PlistWork *)p)->palAnm))) == 0) {
         return 0x21;
     }
     return 0x20;
@@ -1392,7 +1302,7 @@ u32 B_PLIST_MAIN_WaitFadeOut(u8 *p)
 
 
 
-int B_PLIST_MAIN_Delete(struct Node *task,char *p)
+int B_PLIST_MAIN_Delete(struct TcbTask *task,char *p)
 {
     if(((struct B_PlistWork *)p)->done==1) {
         if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)(*(struct PrintSys * *)&((struct B_PlistWork *)p)->printQue))==0) {
@@ -1426,7 +1336,7 @@ int B_PLIST_MAIN_Delete(struct Node *task,char *p)
 
 void B_PLIST_MAIN_InitBg(u8 *p)
 {
-    struct BgVramReq req=d_02212144;
+    struct DispConfig req=d_02212144;
     struct BgTemplate cfg7,cfg6,cfg5,cfg4;
     BG_SYS_ApplyGraphicsMode(&req,1);
     cfg7=d_02212174;
@@ -1474,12 +1384,12 @@ void B_PLIST_MAIN_LoadGraphics(char *p)
     handle=ARC_UTIL_LoadPaletteDataFromHandle(owner,17,1,(void **)&data,((struct B_PlistWork *)p)->owner->heapId);
     B_PLIST_ANM_CopySubSpriteTiles(p,(u16 *)(data+12));
     GFL_HEAP_Free(handle);
-    PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct B_PlistWork *)p)->palAnm,100,19,((struct B_PlistWork *)p)->owner->heapId,1,0x1e0,0);
+    PALANM_LoadArcPaletteToSlot(*(struct PaletteFade * *)&((struct B_PlistWork *)p)->palAnm,100,19,((struct B_PlistWork *)p)->owner->heapId,1,0x1e0,0);
     ARC_TOOL_DeleteHandle(owner);
-    MI_CpuCopy8((void *)(PALANM_GetDefaultWork(*(char * *)&((struct B_PlistWork *)p)->palAnm,1)+0x180),p+0x1e78,32);
+    MI_CpuCopy8((void *)(PALANM_GetDefaultWork(((struct B_PlistWork *)p)->palAnm,1)+0x180),p+0x1e78,32);
     BMP_MENUWORK_LoadCharAndPltt(4,1,14,0,((struct B_PlistWork *)p)->owner->heapId);
-    PALANM_CopyHwPaletteToSlot(*(struct PalAnmSlot * *)&((struct B_PlistWork *)p)->palAnm,1,0xe0,32);
-    PALANM_LoadArcPaletteToSlot(*(struct PalAnmSlot * *)&((struct B_PlistWork *)p)->palAnm,23,5,((struct B_PlistWork *)p)->owner->heapId,1,32,0xd0);
+    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade * *)&((struct B_PlistWork *)p)->palAnm,1,0xe0,32);
+    PALANM_LoadArcPaletteToSlot(*(struct PaletteFade * *)&((struct B_PlistWork *)p)->palAnm,23,5,((struct B_PlistWork *)p)->owner->heapId,1,32,0xd0);
 }
 
 
@@ -2412,13 +2322,13 @@ void B_PLIST_MAIN_RecreateCursor(u8 *p, u32 a, u32 b)
  * note:     the callee takes (p, v); passing v as the second argument keeps r1 live
  *           across the store, so the index decrement stays in r2.
  */
-u32 B_PLIST_MAIN_SetActorsVisible(u8 *p, u32 v)
+void B_PLIST_MAIN_SetActorsVisible(u8 *p, u32 v)
 {
     u32 i = 0x218c;
 
     *(u32 *)(p + i) = v;
     i -= 4;
-    return B_APP_TOOL_SetActorsVisible(*(u32 *)(p + i), v);
+    B_APP_TOOL_SetActorsVisible((char *)(*(u32 *)(p + i)), (void *)v);
 }
 
 

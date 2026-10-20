@@ -112,25 +112,32 @@
 #include "mus_shot_photo_shared_types.h"
 #include "mus_shot_info_shared_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct BmpWin;
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct GfFont;
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
+#include "../arm9/gf_font.h"
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+#include "../arm9/arc_util.h"
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+#ifdef __MWERKS__
+#define BG_SYS_SetPlaneVisible BG_SYS_SetPlaneVisible_hdr
+#define BG_SYS_FreeSlot BG_SYS_FreeSlot_hdr
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_SetPlaneVisible
+#undef BG_SYS_FreeSlot
+void BG_SYS_SetPlaneVisible(u32, unsigned char);
+void BG_SYS_FreeSlot(u32);
+#endif
 
-extern void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
 
-extern void BG_SYS_FreeSlot(u32);
 
 struct TaskMenuRes;
 
@@ -154,13 +161,12 @@ struct S02031140;
 
 struct TaskMenuTmpl;
 
-typedef struct { u16 v; u16 pad; } H16;
 
-typedef struct { u8 b[8]; } Box;
+typedef struct { u8 b[8]; } MusShotInfoBox;
 
-typedef struct Item { void *data; u16 value; u16 pad; int zero; } Item;
+typedef struct MusShotInfoItem { void *data; u16 value; u16 pad; int zero; } MusShotInfoItem;
 
-typedef struct Menu { u32 heap; u8 count; u8 pad[3]; Item *items; int zero; u8 a,b,c,d; } Menu;
+typedef struct MusShotInfoMenu { u32 heap; u8 count; u8 pad[3]; MusShotInfoItem *items; int zero; u8 a,b,c,d; } MusShotInfoMenu;
 
 /* A word used both as a pointer handle and as a raw integer by different views. */
 typedef union { void *ptr; u32 val; } McssPtrWord;
@@ -198,169 +204,114 @@ typedef struct MusicalMcssWork {
     void *actor;            /* 0x58 */
 } MusicalMcssWork;
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern u32 ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern void BG_SYS_PushTile(u32);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct PrintQueue;
 struct GFont;
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
+#include "../arm9/app_taskmenu.h"
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
+#include "../arm9/net.h"
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
-extern void CLACT_ReleasePalette(u32);
+#include "../arm9/clact.h"
 
-extern void CLACT_ReleaseCharacter(u32);
 
-extern void CLACT_ReleaseCellAnim(u32);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32);
+#include "../arm9/gfl_use.h"
 
-extern u32 WIPE_SYS_EndCheck(void);
+#include "../arm9/wipe.h"
 struct TaskMenuWork;
 
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 
-extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 
-extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
 
-extern void *MUSICAL_SAVE_NoOp(void *);
+#include "../arm9/musical_save.h"
 
-extern void MI_CpuCopy8(const void *,void *,u32);
+#include "../arm9/mi_memory.h"
 
-extern void MUS_COMM_FUNC_SetTimingSync(int,int);
+#include "../ov132/mus_comm_func.h"
 
-extern int MUS_COMM_FUNC_CheckTimingSync(char *p, int id);
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
-extern int TOUCHPANEL_HitTrg(const void *p);
+#include "../arm9/touchpanel.h"
 
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 struct TextPrinter;
 
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+#include "../arm9/printsys.h"
 
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 struct TcblList;
 struct TimeIcon;
 
-extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
+#include "../arm9/time_icon.h"
 struct TcblSystem;
 
-extern void TCBL_Main(struct TcblSystem *tcbl);
+#include "../arm9/tcbl.h"
 
-extern void BG_SYS_ChangeScroll(u32,u32,u32);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern u32 APP_ICON_GetArchiveId(void);
+#include "../arm9/app_icon.h"
 
-extern u32 APP_ICON_GetStatusAnimFileId(void);
 
-extern u32 APP_ICON_GetStatusFrameFileId(void);
 
-extern u32 APP_ICON_GetStatusDataFileId(void);
 
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 
-extern u32 APP_ICON_GetStatusCellFileId(u32);
 
-extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
 
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
+#include "../arm9/bmp_menuwork.h"
 
-extern void GF_FONT_SetDefaultTextColor(u32);
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
 
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 
-extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 
-extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 
-extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
 struct TaskMenuInitWork;
 
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
 
-void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, H16 heap);
+void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, u16 heap);
 
 void MUSICAL_SHOT_INFO_Delete(u8 *p);
 
@@ -384,7 +335,7 @@ void MUSICAL_SHOT_INFO_OpenYesNoMenu(u8 *p);
 
 extern char d_021F8394[];
 
-extern const Box d_021F8290;
+extern const MusShotInfoBox d_021F8290;
 
 extern const u32 d_021F8298[];
 
@@ -392,7 +343,7 @@ extern const u32 d_021F82B8[];
 
 extern const u32 d_021F82D8[];
 
-void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, H16 heap)
+void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, u16 heap)
 {
     u8 *p = GFL_HEAP_Alloc(*(u16 *)&heap, 0x5c, 1, d_021F8394, 0x8d);
     *(u16 *)p = *(u16 *)&heap;
@@ -421,9 +372,9 @@ void MUSICAL_SHOT_INFO_Delete(u8 *p)
         CLACT_ReleasePalette(((MusicalMcssWork *)p)->palette);
         CLACT_ReleaseCharacter(((MusicalMcssWork *)p)->character);
         CLACT_ReleaseCellAnim(((MusicalMcssWork *)p)->cellAnim);
-        CLACT_DeleteActor((struct Actor *)(((MusicalMcssWork *)p)->actor));
+        CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(((MusicalMcssWork *)p)->actor)));
     }
-    CLACT_DeleteUnit((struct Bank *)(((MusicalMcssWork *)p)->unit));
+    CLACT_DeleteUnit((struct Unit *)((struct Bank *)(((MusicalMcssWork *)p)->unit)));
     MUSICAL_SHOT_INFO_DeleteWindows(p);
     BG_SYS_FreeLayerBuf(4);
     BG_SYS_FreeLayerBuf(6);
@@ -457,9 +408,9 @@ void MUSICAL_SHOT_INFO_Main(u8 *p)
         }
         break;
     case 3:
-        APP_TASKMENU_UpdateMenu(((MusicalMcssWork *)p)->taskMenu);
-        if(APP_TASKMENU_IsFinish(((MusicalMcssWork *)p)->taskMenu)==1) {
-            v=APP_TASKMENU_GetCursorPos(*(u8 * *)&((MusicalMcssWork *)p)->taskMenu);
+        APP_TASKMENU_UpdateMenu((TaskMenuWork *)(((MusicalMcssWork *)p)->taskMenu));
+        if(APP_TASKMENU_IsFinish((TaskMenuWork *)(((MusicalMcssWork *)p)->taskMenu))==1) {
+            v=APP_TASKMENU_GetCursorPos((const TaskMenuWork *)(*(u8 * *)&((MusicalMcssWork *)p)->taskMenu));
             APP_TASKMENU_CloseMenu(((MusicalMcssWork *)p)->taskMenu);
             if(v==0) MI_CpuCopy8(((MusicalMcssWork *)p)->src,MUSICAL_SAVE_NoOp(((MusicalMcssWork *)p)->dst),432);
             if(*(int *)&((MusicalMcssWork *)p)->musComm) {
@@ -477,7 +428,7 @@ void MUSICAL_SHOT_INFO_Main(u8 *p)
         else if(GFL_NET_ERR_GetErrorLevel()!=0) ((MusicalMcssWork *)p)->state=7;
         break;
     case 5:
-        if((KEY_GetTrg()&2)||!TOUCHPANEL_HitTrg(&d_021F8290)) {
+        if((KEY_GetTrg()&2)||!TOUCHPANEL_HitTrg((const TouchHitTable *)&d_021F8290)) {
             GFL_USE_PlaySeDefaultVolume(1361);
             ((MusicalMcssWork *)p)->state=6;
             CLACT_SetActorAnimSeq(((MusicalMcssWork *)p)->actor,9);
@@ -515,7 +466,7 @@ int MUSICAL_SHOT_INFO_IsFinished(u32 *p) { if(p[1]==7) return 1; return 0; }
  */
 void MUSICAL_SHOT_INFO_InitGraphics(u8 *p)
 {
-    Desc d;
+    MusShotInfoDesc d;
     void *t;
     u32 v;
     u32 w;
@@ -548,7 +499,7 @@ void MUSICAL_SHOT_INFO_InitGraphics(u8 *p)
         d.z=1;
         d.b=0;
         d.a=0;
-        ((MusicalMcssWork *)p)->actor=CLACT_CreateActor((void *)*(u32 *)&((MusicalMcssWork *)p)->unit,((MusicalMcssWork *)p)->character,((MusicalMcssWork *)p)->palette,((MusicalMcssWork *)p)->cellAnim,&d,1,((MusicalMcssWork *)p)->heap);
+        ((MusicalMcssWork *)p)->actor=CLACT_CreateActor((struct Unit *)((void *)*(u32 *)&((MusicalMcssWork *)p)->unit),((MusicalMcssWork *)p)->character,((MusicalMcssWork *)p)->palette,((MusicalMcssWork *)p)->cellAnim,(const struct ActorInitParam *)&d,1,((MusicalMcssWork *)p)->heap);
     }
 }
 
@@ -565,7 +516,8 @@ void MUSICAL_SHOT_INFO_InitWindows(u8 *p)
     ((MusicalMcssWork *)p)->font.val=(u32)GF_FONT_Create(23,0,0,0,((MusicalMcssWork *)p)->heap);
     ((MusicalMcssWork *)p)->msgBank.val=(u32)MSGDATA_CreateFromArchive(0,2,78,((MusicalMcssWork *)p)->heap);
     BMP_MENUWORK_LoadCharAndPltt(4,1,11,0,((MusicalMcssWork *)p)->heap);
-    GF_FONT_SetDefaultTextColor(ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,320,32,((MusicalMcssWork *)p)->heap));
+    ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,4,320,32,((MusicalMcssWork *)p)->heap);
+    GF_FONT_SetDefaultTextColor();
     ((MusicalMcssWork *)p)->tcbl.val=(u32)TCBL_Create(((MusicalMcssWork *)p)->heap,((MusicalMcssWork *)p)->heap,3,256);
     ((MusicalMcssWork *)p)->printStream.val=zero;
     ((MusicalMcssWork *)p)->strbuf.val=zero;
@@ -604,7 +556,7 @@ void MUSICAL_SHOT_INFO_PrintMessageStream(u8 *p,u32 index)
     BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((MusicalMcssWork *)p)->win.ptr)),15);
     ((MusicalMcssWork *)p)->strbuf.ptr=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank.val),index);
     t=MSG_SPEED_GetWait();
-    *(u32 *)&((MusicalMcssWork *)p)->printStream.ptr=PRINTSYS_PrintStream(*(u32 *)&((MusicalMcssWork *)p)->win.ptr,0,0,*(u32 *)&((MusicalMcssWork *)p)->strbuf.ptr,((MusicalMcssWork *)p)->font.val,t,((MusicalMcssWork *)p)->tcbl.val,2,((MusicalMcssWork *)p)->heap,0);
+    ((MusicalMcssWork *)p)->printStream.ptr=PRINTSYS_PrintStream((struct BmpWin *)((MusicalMcssWork *)p)->win.ptr,0,0,(struct Strbuf *)((MusicalMcssWork *)p)->strbuf.ptr,(struct GfFont *)((MusicalMcssWork *)p)->font.ptr,t,(struct Tcbl *)((MusicalMcssWork *)p)->tcbl.ptr,2,((MusicalMcssWork *)p)->heap,0);
     BMP_MENUWORK_DrawWindow(((MusicalMcssWork *)p)->win.ptr,1,1,11);
 }
 
@@ -625,8 +577,8 @@ void MUSICAL_SHOT_INFO_PrintMessageQueued(u8 *p,u32 index)
 
 void MUSICAL_SHOT_INFO_OpenYesNoMenu(u8 *p)
 {
-    Item items[2];
-    Menu menu;
+    MusShotInfoItem items[2];
+    MusShotInfoMenu menu;
     items[0].data=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank.val),4);
     items[1].data=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank.val),5);
     items[0].value=0x39e0;

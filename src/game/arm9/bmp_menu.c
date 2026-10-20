@@ -53,45 +53,6 @@
 #include "bmp_menuwork_shared_types.h"
 #include "bmp_menu_types.h"
 
-struct BmpCursor;
-
-struct GfFont;
-
-#include "../types.h"
-
-typedef struct {
-    BmpMenuWork *items;     /* +0x00 */
-    struct BmpWin *win;     /* +0x04 */
-    u8   fontId;            /* +0x08 */
-    u8   numColumns;        /* +0x09 */
-    u8   itemsPerColumn;    /* +0x0A */
-    u8   lineSpacing : 4;   /* +0x0B */
-    u8   cursorMode  : 2;   /* 1 = no cursor drawn */
-    u8   wrap        : 2;   /* nonzero = cursor wraps at the ends */
-    u16  xPad;              /* +0x0C */
-    u16  lineHeight;        /* +0x0E */
-    u32  reserved10;        /* +0x10  zero, never read */
-    PrintUtil *util;        /* +0x14 */
-    void *que;              /* +0x18  print queue */
-    struct GfFont *fontH;   /* +0x1C */
-    u32  committed;         /* +0x20  window committed to VRAM */
-} BmpMenuHeader;
-
-typedef struct {
-    BmpMenuHeader header;   /* +0x00 */
-    struct BmpCursor *cursor; /* +0x24 */
-    u32 cancelMask;         /* +0x28 */
-    u8  reserved2C;
-    u8  selected;           /* +0x2D */
-    u8  colWidth;           /* +0x2E */
-    u8  originX;            /* +0x2F */
-    u8  originY;            /* +0x30 */
-    u8  xPad;               /* +0x31 */
-    u8  lineHeight;         /* +0x32 */
-    u8  movedDir;           /* +0x33  direction accepted this frame, 1..4 */
-    u16 heapId;             /* +0x34 */
-    u16 reserved36;
-} BmpMenu;
 
 #include "bmp_win.h"
 
@@ -114,10 +75,12 @@ typedef short s16_p07;
 #include "bmp.h"
 struct Strbuf;
 
+#ifdef __MWERKS__
 extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
-
-
-extern void PRINTSYS_PrintQue(void *que, void *bitmap, u32 x, u32 y, const void *str, struct GfFont *font);
+extern void PRINTSYS_PrintQue(void *que, void *bitmap, u32 x, u32 y, const void *str, struct GfFont *font); /* original prototype; the definition differs in argument width, pointer or integer, pointer type, return type */
+#else
+#include "printsys.h"
+#endif
 struct MenuTarget;
 
 
@@ -130,16 +93,20 @@ struct MenuTarget;
 #include "gf_font.h"
 
 
-extern void *PRINTSYS_QUE_Create(void *heapIdAsPtr);
+#ifdef __MWERKS__
+extern void *PRINTSYS_QUE_Create(void *heapIdAsPtr); /* original prototype; the definition differs in argument width, pointer or integer, pointer type, return type */
+#else
+#define PRINTSYS_QUE_Create(heap) (PRINTSYS_QUE_Create)((u32)(uptr)(heap))
+#endif
 
 
 struct PrintQueue;
 
+#ifdef __MWERKS__
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-
 extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-
 extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+#endif
 
 
 

@@ -3,6 +3,6 @@
 
 struct ScriptVm;
 
-struct ScrCmdWork;
+struct ScrcmdWork;
 
 #endif

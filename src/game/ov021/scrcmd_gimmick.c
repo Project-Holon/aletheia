@@ -54,35 +54,22 @@ struct ScriptWork;
 struct GameEvent;
 struct FieldMap;
 
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
-extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
-extern u16 VM_ReadU16(ScriptVm *vm);
+#include "../ov010/scrcmd_work.h"
+#include "../ov010/script_work_cmd.h"
+#include "../ov010/script_sys.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/vm.h"
 extern struct GameEvent *FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(struct GameSystem *gameSystem, u32 switchId);
 extern void FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(struct GameSystem *gameSystem, u32 laneId);
 extern void FIELD_GIMMICK_CART_LANES_TransferSound(struct GameSystem *gameSystem);
-extern void FIELD_GIMMICK_FLAG_ANIME_SetFlag(struct FieldMap *fieldMap);
-extern int FIELD_GIMMICK_FLAG_ANIME_GetFlag(struct FieldMap *fieldMap);
-extern struct GameEvent *FIELD_GIMMICK_FLAG_ANIME_CreateEvent(struct GameSystem *gameSystem, u32 eventId);
-extern struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(struct GameSystem *gameSystem, u32 stateModel, u32 showLastFrame);
-extern struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(struct GameSystem *gameSystem, u32 eventId);
+#include "../ov040/field_gimmick_flag_anime.h"
+#include "../ov042/field_gimmick_button_states.h"
 extern struct GameEvent *FIELD_GIMMICK_CART_LANES_UnlockLane(struct GameSystem *gameSystem, u16 laneId);
-extern void *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(void *gameSystem, int plateIdx);
-extern void *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(void *gameSystem, int variant);
-extern void *FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *gameSystem, int liftIndex);
-extern struct GameEvent *FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(struct GameSystem *gameSystem, u32 elevatorFlag);
-extern struct GameEvent *FIELD_GIMMICK_LIFT_CallEvent(struct GameSystem *gameSystem, u32 liftFlag);
-extern void FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop(void *gameSystem);
-extern void FIELD_GIMMICK_LIFT_SnapLiftToBottom(void *gameSystem);
-extern struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent(struct GameSystem *gameSystem, int switchId);
-extern void FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(struct GameSystem *gameSystem, int requirementId);
-extern int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int gameSystem, int cellX, int cellZ);
-extern struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *gameSystem, int hopId);
-extern struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int leverId, int leverState);
-extern struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, u32 rotateId);
+#include "../ov038/field_gimmick_plate_doors.h"
+#include "../ov043/field_gimmick_lift_elevator.h"
+#include "../ov044/field_gimmick_lift.h"
+#include "../ov046/field_gimmick_rotating_room.h"
+#include "../ov045/field_gimmick_switch_toggle.h"
 
 int SCRCMD_FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(ScriptVm *vm, struct ScrcmdWork *cmdWork);
 int SCRCMD_FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(ScriptVm *vm, struct ScrcmdWork *cmdWork);

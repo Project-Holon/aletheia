@@ -129,101 +129,55 @@ struct CodeIn;
 struct BlinkPalAnm;
 struct Cfg;
 #include "../types.h"
+#include "../ov067/touchbar.h"
 
-typedef struct { u16 v[10]; } Tbl;
+typedef struct { u16 v[10]; } Wf2dmapTouchTbl;
 
-typedef struct {u16 v[4];} Bounds;
 
 struct GameData;
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct MiscSave;
-extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
+#include "../arm9/beacon.h"
 struct FieldState;
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
-extern u32 WIFILIST_GetFriendInfoField(const struct Sub020097BCObj *obj, u32 i, u32 field);
-extern char *NAMEIN_SETUP_CreateArgs(int,int,u32,u32,int,int,void *);
-extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void Wf2dmapFriend_SetState(u8 *p, u8 a, u8 b);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern u32 WIPE_SYS_EndCheck(void);
-extern int TOUCHPANEL_HitTrg(const void *);
-extern void UI_SetInputMode(u8 v);
-extern u32 KEY_GetTrg(void);
-extern void Wf2dmapFriend_CreateWindow(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
-extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/wifilist.h"
+#include "../ov010/namein_args.h"
+#ifdef __MWERKS__
+/* The original caller declared this with wide arguments; the definition takes u16 and short. */
+NameInArgs *NAMEIN_SETUP_CreateArgs(int heapId, int kind, u32 species, u32 traits, int maxLen, int initialName, void *pokedex);
+#else
+#include "../ov010/namein_setup.h"
+#endif
+#include "../arm9/strbuf.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/clact.h"
+#include "wf2dmap_friend.h"
+#include "../arm9/wipe.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/ui.h"
+#include "../arm9/key.h"
 struct WifiList;
-extern struct WifiList *WIFILIST_GetWork(struct WifiList *list);
-extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+#include "../arm9/dwc_account.h"
+#include "../arm9/msgdata.h"
 struct BmpWin;
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern void STRBUF_Clear(struct Strbuf *strbuf);
-extern void STRBUF_AppendChar(struct Strbuf *strbuf, u16 ch);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 id, u32 comp, void **out, u16 heap);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/bmp_win.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-extern void Wf2dmapFriend_DrawText(u8 *p, u8 *q, unsigned v);
-extern void BG_SYS_DrawTile(u32 index, void *src, u8 dx, u8 dy, u8 cw, u8 ch);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void Wf2dmapFriend_ClearWindow(u8 *p);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+#include "../arm9/wordset.h"
+#include "../arm9/bg_sys.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
-extern void Wf2dmapFriend_RestartActorAnim(u8 *p, int i, u16 a);
-extern unsigned int KEY_GetCont(void);
-extern void Wf2dmapFriend_SetActorAutoAnim(u8 *p, u32 a);
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
-extern void Wf2dmapFriend_PrintMyStatus(u8 *,u8 *,int,unsigned);
-extern void Wf2dmapFriend_SetActorDrawEnable(u8 *p, u32 a);
+#include "../arm9/printsys.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
-extern void TOUCHBAR_PrintYesNoCancelLabels(u32 window, void *textCtx, u32 fontId, u16 x, u16 y, u16 color, u32 firstNumber, u32 secondNumber, u16 heap);
-extern void Wf2dmapFriend_SetWordSlot(char **,int);
-extern int Wf2dmapFriend_PrintTrainerStats(u8 *,u8 *,int);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern u32 CURSOR_MOVE_GetTableGroup(u32);
-extern int POKEGRA_OpenTrainerHandle(int);
-extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
-extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern int POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
-extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u16 STRBUF_GetEosChar(void);
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
-extern int TOUCHPANEL_GetTrg(void);
-extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heap);
-extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcStart, u32 dstStart);
-extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *p);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anm);
-extern u8 UI_GetInputMode(void);
-extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void G2x_SetBlendBrightness_(u32,int,int);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern void CLACT_DeleteActor(struct Actor *actor);
-char *WF2DMAP_TOUCH_CreateNameEntry(void *unused,char *q,int mode,int heap);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/cursor_move.h"
+#include "../arm9/pokegra.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/blink_palanm.h"
+#include "../arm9/g2.h"
+NameInArgs *WF2DMAP_TOUCH_CreateNameEntry(void *unused,char *q,int mode,int heap);
 void WF2DMAP_TOUCH_DrawFriendKeyThunk(void *p,void *q,void *r,u16 s);
 int WF2DMAP_TOUCH_FriendKeyScreen(void *p, u8 *q, u8 *r, int heap);
 void WF2DMAP_TOUCH_DeleteScreenThunk(void *p, void *q, void *r);
@@ -291,27 +245,27 @@ void WF2DMAP_TOUCH_UpdateSlots(char *p);
 void WF2DMAP_TOUCH_TransferScreen(char *p);
 void WF2DMAP_TOUCH_ReleaseActor(int *p);
 extern const u8 gWf2dmapFriendKeyHitRects[];
-extern const Tbl gWf2dmapCursorTileTable;
+extern const Wf2dmapTouchTbl gWf2dmapCursorTileTable;
 extern const u8 gWf2dmapEditHitRects[];
 extern const s16 gWf2dmapEntryPositions[][3];
 extern const u32 gWf2dmapTileValues[];
 extern const u32 gWf2dmapTileItemValues[];
 extern const u8 gWf2dmapTileItemIds[];
-extern const Bounds gWf2dmapTrainerActorBounds;
+extern const struct ActorInitParam gWf2dmapTrainerActorBounds;
 extern const u8 gWf2dmapSliderTileX[];
 extern const u8 gWf2dmapSliderFlags[];
 extern const u8 gWf2dmapSliderTileY[];
 extern const u16 gWf2dmapWidgetFileIds[4];
 extern const u8 gWf2dmapTileWindowParams[10][4];
 
-char *WF2DMAP_TOUCH_CreateNameEntry(void *unused,char *q,int mode,int heap) {
- void *v;void *base;int idx;char *ret;unsigned kind;
+NameInArgs *WF2DMAP_TOUCH_CreateNameEntry(void *unused,char *q,int mode,int heap) {
+ void *v;void *base;int idx;NameInArgs *ret;unsigned kind;
  v=MISC_GetBlock(GAME_DATA_GetSaveControl(((Wf2dmapTouchFriendData *)q)->saveData));
  base=(void *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);idx=*(u8 *)(q+24+*(signed char *)&((Wf2dmapTouchFriendData *)q)->index);
  kind=WIFILIST_GetFriendInfoField(base,idx,9);
  if(mode==1 || kind==2) ret=NAMEIN_SETUP_CreateArgs(heap,4,65535,0,7,0,v);
  else ret=NAMEIN_SETUP_CreateArgs(heap,4,WIFILIST_GetFriendInfoField(base,idx,8),0,7,0,v);
- if(((Wf2dmapTouchFriendData *)q)->nameFlag==1) {STRBUF_SetString(((Wf2dmapNameEntry *)ret)->text,(const u16 *)(((Wf2dmapTouchFriendData *)q)->nameText));((Wf2dmapTouchFriendData *)q)->nameFlag=0;}
+ if(((Wf2dmapTouchFriendData *)q)->nameFlag==1) {STRBUF_SetString(ret->name,(const u16 *)(((Wf2dmapTouchFriendData *)q)->nameText));((Wf2dmapTouchFriendData *)q)->nameFlag=0;}
  return ret;
 }
 
@@ -378,7 +332,7 @@ void WF2DMAP_TOUCH_DeleteScreenThunk(void *p, void *q, void *r)
 }
 
 int WF2DMAP_TOUCH_GetFriendKeyInput(void *unused,int *q) {
- int v=TOUCHPANEL_HitTrg(gWf2dmapFriendKeyHitRects);
+ int v=TOUCHPANEL_HitTrg((const TouchHitTable *)gWf2dmapFriendKeyHitRects);
  if(v!=-1) {UI_SetInputMode(1);*q=1;return v;}
  if(KEY_GetTrg()&2) {UI_SetInputMode(0);*q=0;return 0;}
  if(KEY_GetTrg()&1024) {UI_SetInputMode(0);*q=0;return 1;}
@@ -446,7 +400,7 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
     u32 n;
     u32 text;
     u64 key;
-    Tbl t;
+    Wf2dmapTouchTbl t;
     int x;
     int i;
     Wf2dmapFriend_CreateWindow(ctx, (u32 *)p, 3, 2, 10, 0x1e, 8, 10, 1, 0);
@@ -456,7 +410,7 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
     key = DWC_CreateFriendKey((struct DWCstAccUserData *)WIFILIST_GetWork((void *)GAME_DATA_GetWifiList(*(void **)(q + 4))));
     if (key != 0) {
         MSGDATA_ReadString(*(void **)(ctx + 4), 0x35, (void *)text);
-        TOUCHBAR_PrintAligned(p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
         WF2DMAP_TOUCH_TransferScreen(*(char **)p);
         pal = *(u32 *)(ctx + 0x17c);
         gfx = *(u32 *)(ctx + 0x34);
@@ -467,7 +421,7 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
         for (i = 1; i <= 12; i++) {
             STRBUF_Clear((void *)text);
             STRBUF_AppendChar((void *)text, t.v[key % 10]);
-            TOUCHBAR_PrintAligned(w1, (void *)gfx, (n - i) * 8 - x + 1, 0, text, pal, 0x3c40, 0);
+            TOUCHBAR_PrintAligned((TouchBarWindow *)w1, (void *)gfx, (n - i) * 8 - x + 1, 0, text, pal, 0x3c40, 0);
             if (i % 4 == 0)
                 x += 8;
             key = key / 10;
@@ -475,7 +429,7 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
         WF2DMAP_TOUCH_TransferScreen(*(char **)(p + 8));
     } else {
         MSGDATA_ReadString(*(void **)(ctx + 4), 0x36, (void *)text);
-        TOUCHBAR_PrintAligned(p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)p, (void *)(*(u32 *)(ctx + 0x34)), 4, 0, text, *(u32 *)(ctx + 0x17c), 0x440, 0);
         WF2DMAP_TOUCH_TransferScreen(*(char **)p);
     }
     STRBUF_Delete((void *)text);
@@ -575,7 +529,7 @@ int WF2DMAP_TOUCH_GetMenuKeyInput(void *p,int *q,void *r) {
 }
 
 int WF2DMAP_TOUCH_GetMenuTouchInput(void *p,void *q,void *r,int *flag) {
- int v=TOUCHPANEL_HitTrg(gWf2dmapEditHitRects);
+ int v=TOUCHPANEL_HitTrg((const TouchHitTable *)gWf2dmapEditHitRects);
  if(v==-1)return 2;
  *flag=1;
  if(v==0)return WF2DMAP_TOUCH_SelectMenu(p,q,r,3);
@@ -725,26 +679,28 @@ void WF2DMAP_TOUCH_ReleaseEditWidgets(char *p,u8 *q) {char *base;int i;i=0;base=
  */
 void WF2DMAP_TOUCH_CreateTrainerWidgets(u8 *p,u8 *q,u8 *ctx,u16 heap)
 {
-    u32 i,base,id,archive,offset;
+    u32 i,id,offset;
+    u8 *archive;
+    struct WifiList *base;
     int pos;
-    Bounds bounds;
-    base=(unsigned int)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
-    WIFILIST_GetFriendInfoField((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),9);
+    struct ActorInitParam bounds;
+    base=(struct WifiList *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
+    WIFILIST_GetFriendInfoField(base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),9);
     for(i=0;i<10;i++) BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*8+0x128)),0);
     offset=0x128;
     pos=BMP_WIN_GetDispWidth(*(void **)(p+offset));
-    TOUCHBAR_PrintYesNoCancelLabels((u32)(p+offset),(void *)(*(u32 *)&((Wf2dmapTouchGfx *)ctx)->printWin),*(u32 *)&((Wf2dmapTouchGfx *)ctx)->palWin,
+    TOUCHBAR_PrintYesNoCancelLabels((void *)(p+offset),(void *)(*(u32 *)&((Wf2dmapTouchGfx *)ctx)->printWin),*(u32 *)&((Wf2dmapTouchGfx *)ctx)->palWin,
         (int)((u32)pos*8)/2,0,0x3C40,
         *(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+0x38)+1,((Wf2dmapTouchFriendData *)q)->nextColor,heap);
     WF2DMAP_TOUCH_PrintItem(p+(offset+8),q,ctx,19,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+16),q,ctx,20,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+0x140,q,ctx,21,0,0,0x3C40);
-    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),2));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField(base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),2));
     WF2DMAP_TOUCH_PrintItem(p+(offset+32),q,ctx,22,0,0,0x3C40);
-    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),3));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField(base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),3));
     WF2DMAP_TOUCH_PrintItem(p+0x150,q,ctx,22,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+48),q,ctx,23,0,0,0x3C40);
-    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),4));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField(base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),4));
     WF2DMAP_TOUCH_PrintItem(p+0x160,q,ctx,24,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+=64),q,ctx,27,0,0,0x3C40);
     if(Wf2dmapFriend_PrintTrainerStats(ctx,q,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24))!=0)
@@ -752,13 +708,13 @@ void WF2DMAP_TOUCH_CreateTrainerWidgets(u8 *p,u8 *q,u8 *ctx,u16 heap)
     else BMP_WIN_TransferChars(((Wf2dmapTouchEdit *)p)->trainerWindow[9].handle);
     for(i=0;i<10;i++) WF2DMAP_TOUCH_TransferScreen(*(char **)(p+i*8+0x128));
     bounds=gWf2dmapTrainerActorBounds;
-    id=CURSOR_MOVE_GetTableGroup(WIFILIST_GetFriendInfoField((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),8));
+    id=CURSOR_MOVE_GetTableGroup(WIFILIST_GetFriendInfoField(base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),8));
     archive=POKEGRA_OpenTrainerHandle(heap);
     ((Wf2dmapTouchEdit *)p)->cgr=POKEGRA_RegisterTrainerCgr(archive,id,0,heap);
     ((Wf2dmapTouchEdit *)p)->palette=POKEGRA_RegisterTrainerPalette(archive,id,0,192,heap);
     ((Wf2dmapTouchEdit *)p)->cellAnim=POKEGRA_RegisterTrainerCellAnim(id,2,0,heap);
-    ARC_TOOL_DeleteHandle((void *)archive);
-    ((Wf2dmapTouchEdit *)p)->cursorBmp=(u32)CLACT_CreateActor((void *)((Wf2dmapTouchGfx *)ctx)->actorBank,((Wf2dmapTouchEdit *)p)->cgr,
+    ARC_TOOL_DeleteHandle(archive);
+    ((Wf2dmapTouchEdit *)p)->actor=CLACT_CreateActor(((Wf2dmapTouchGfx *)ctx)->actorBank,((Wf2dmapTouchEdit *)p)->cgr,
         ((Wf2dmapTouchEdit *)p)->palette,((Wf2dmapTouchEdit *)p)->cellAnim,&bounds,0,heap);
 }
 
@@ -806,15 +762,15 @@ void WF2DMAP_TOUCH_DrawCursorBg(void *unused,u8 *p)
 int WF2DMAP_TOUCH_FindPrevEntry(u8 *p,int direction)
 {
     int index;
-    u32 data;
+    struct WifiList *data;
     u32 count;
-    data=(unsigned int)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)p)->saveData);
+    data=(struct WifiList *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)p)->saveData);
     index=((Wf2dmapTouchFriendData *)p)->index;
     if(direction==0) {
         for(count=0;count<((Wf2dmapTouchFriendData *)p)->count-1;count++) {
             index--;
             if(index<0) index+=((Wf2dmapTouchFriendData *)p)->count;
-            if(WIFILIST_GetFriendInfoField((const struct Sub020097BCObj *)data,p[index+24],9)!=2) {
+            if(WIFILIST_GetFriendInfoField(data,p[index+24],9)!=2) {
                 p[11]=index;
                 return 1;
             }
@@ -822,7 +778,7 @@ int WF2DMAP_TOUCH_FindPrevEntry(u8 *p,int direction)
     } else {
         for(count=0;count<((Wf2dmapTouchFriendData *)p)->count-1;count++) {
             index=(u32)(index+1)%((Wf2dmapTouchFriendData *)p)->count;
-            if(WIFILIST_GetFriendInfoField((const struct Sub020097BCObj *)data,p[index+24],9)!=2) {
+            if(WIFILIST_GetFriendInfoField(data,p[index+24],9)!=2) {
                 p[11]=index;
                 return 1;
             }
@@ -838,22 +794,22 @@ int WF2DMAP_TOUCH_FindPrevEntry(u8 *p,int direction)
 int WF2DMAP_TOUCH_FindNextEntry(u8 *p,int direction)
 {
     int index;
-    u32 data;
+    struct WifiList *data;
     u32 count;
-    data=(unsigned int)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)p)->saveData);
+    data=(struct WifiList *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)p)->saveData);
     index=((Wf2dmapTouchFriendData *)p)->index;
     if(direction==0) {
         for(count=0;count<((Wf2dmapTouchFriendData *)p)->count-1;count++) {
             index--;
             if(index<0) index+=((Wf2dmapTouchFriendData *)p)->count;
             if(((Wf2dmapTouchFriendData *)p)->index==index) goto fail;
-            if(WIFILIST_GetFriendInfoField((const struct Sub020097BCObj *)data,p[index+24],9)!=2) return 1;
+            if(WIFILIST_GetFriendInfoField(data,p[index+24],9)!=2) return 1;
         }
     } else {
         for(count=0;count<((Wf2dmapTouchFriendData *)p)->count-1;count++) {
             index=(u32)(index+1)%((Wf2dmapTouchFriendData *)p)->count;
             if(((Wf2dmapTouchFriendData *)p)->index==index) goto fail;
-            if(WIFILIST_GetFriendInfoField((const struct Sub020097BCObj *)data,p[index+24],9)!=2) return 1;
+            if(WIFILIST_GetFriendInfoField(data,p[index+24],9)!=2) return 1;
         }
     }
 fail:
@@ -922,7 +878,7 @@ void WF2DMAP_TOUCH_PrintItem(u8 *p,void *unused,u8 *q,u32 item,int x,int y,int c
 {
     MSGDATA_ReadString(((Wf2dmapTouchGfx *)q)->msgBank,item,((Wf2dmapTouchGfx *)q)->formatArg);
     WORDSET_CopyTaggedText(((Wf2dmapTouchGfx *)q)->wordSet,(void *)((Wf2dmapTouchGfx *)q)->textHandle,((Wf2dmapTouchGfx *)q)->formatArg);
-    TOUCHBAR_PrintAligned(p,(void *)(*(u32 *)&((Wf2dmapTouchGfx *)q)->printWin),x,y,((Wf2dmapTouchGfx *)q)->textHandle,*(u32 *)&((Wf2dmapTouchGfx *)q)->palWin,color,0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)p,(void *)(*(u32 *)&((Wf2dmapTouchGfx *)q)->printWin),x,y,((Wf2dmapTouchGfx *)q)->textHandle,*(u32 *)&((Wf2dmapTouchGfx *)q)->palWin,color,0);
 }
 
 /*
@@ -1159,5 +1115,5 @@ void WF2DMAP_TOUCH_ReleaseActor(int *p)
     CLACT_ReleaseCharacter(p[95]);
     CLACT_ReleasePalette(p[96]);
     CLACT_ReleaseCellAnim(p[97]);
-    CLACT_DeleteActor((struct Actor *)p[94]);
+    CLACT_DeleteActor((struct ClactActor *)p[94]);
 }

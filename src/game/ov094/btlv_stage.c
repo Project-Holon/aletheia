@@ -39,45 +39,33 @@
 #include "btlv_effvm_types.h"
 #include "btlv_stage_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern G3dResource *G3D_SYSTEM_CreateResourceArc(u32, u32);
+#include "../arm9/g3d_system.h"
 
-extern int G3D_SYSTEM_TransVramTexture(G3dResource *);
 
-extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *, u32, G3dResource *);
 
-extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *, const G3dResource *, u32);
 
-extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *, G3dAnime **, int);
 
-extern int G3D_SYSTEM_EnableObjectAnime(G3dObject *, u32 idx);
 
-extern void MTX_Identity33_(int *rotate);
+#include "../arm9/fx_mtx33.h"
 
-extern void *G3D_SYSTEM_GetResourceFile(G3dResource *);
 
-extern NNSG3dResTex *NNS_G3dGetTex(void *file);
+#include "../arm9/nns_g3d_res.h"
 
-extern void G3X_SetEdgeColorTable(void *);
+typedef int GXFogBlend;
+typedef int GXFogSlope;
+#include "../arm9/g3x.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void G3D_SYSTEM_DeleteAnime(G3dAnime *);
 
-extern void G3D_SYSTEM_DeleteResource(G3dResource *);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void G3D_SYSTEM_DeleteObject(G3dObject *);
 
-extern void G3D_SYSTEM_DeleteRender(G3dRender *);
 
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *, int idx, int amount);
 
-extern void G3D_SYSTEM_DrawObject(G3dObject *, G3dObjectStatus *);
 
 BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap);
 
@@ -97,7 +85,7 @@ void BTLV_STAGE_ArmLayerEntry(BtlvStage *stage, int side, int anim, int speed, i
 
 int BTLV_STAGE_IsAnyLayerArmed(BtlvStage *stage);
 
-void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade);
+#include "btlv_effect.h"
 
 extern const char gBtlvStageFileName[];
 
@@ -159,7 +147,7 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
         stage->object[0] = G3D_SYSTEM_CreateObject(stage->render[0], 0, (u16)0);
         stage->object[1] = G3D_SYSTEM_CreateObject(stage->render[1], 0, (u16)0);
     }
-    bytes = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(stage->resource))->plttInfo.sizePltt * 8;
+    bytes = ((NNSG3dResTex *)NNS_G3dGetTex((unsigned char *)G3D_SYSTEM_GetResourceFile(stage->resource)))->plttInfo.sizePltt * 8;
     stage->palFade.resources = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0xd6);
     stage->palFade.palettes = GFL_HEAP_Alloc(stage->heap, 4, 0, gBtlvStageFileName, 0xd7);
     *stage->palFade.resources = stage->resource;
@@ -172,14 +160,14 @@ BtlvStage *BTLV_STAGE_Create(int mode, int group, int variant, u16 heap)
     stage->status[0].scale.x = 0x1000;
     stage->status[0].scale.y = 0x1000;
     stage->status[0].scale.z = 0x1000;
-    MTX_Identity33_(stage->status[0].rotate);
+    MTX_Identity33_(&stage->status[0].rotate);
     stage->status[1].trans.x = 0;
     stage->status[1].trans.y = 0;
     stage->status[1].trans.z = -0xcb7d;
     stage->status[1].scale.x = 0x1000;
     stage->status[1].scale.y = 0x1000;
     stage->status[1].scale.z = 0x1000;
-    MTX_Identity33_(stage->status[1].rotate);
+    MTX_Identity33_(&stage->status[1].rotate);
     if (mode == 3) {
         stage->status[0].trans.z = 0xa000;
         stage->status[1].trans.z = -0xf000;
@@ -228,7 +216,7 @@ void BTLV_STAGE_UpdateLayerAnims(BtlvStage *stage)
             for (side = 0; side < 2; side++) {
                 BtlvAnimState *state;
 
-                state = (BtlvAnimState *)(i * 16 + (u32)stage->animState[side]);
+                state = (BtlvAnimState *)(i * 16 + (uptr)stage->animState[side]);
                 amount = 0;
                 switch (state->kind) {
                 case BTLV_ANIM_LOOP:
@@ -238,8 +226,8 @@ void BTLV_STAGE_UpdateLayerAnims(BtlvStage *stage)
                     if (state->armed == 1) {
                         amount = state->speed;
                         state->updatesLeft--;
-                        if (((BtlvAnimState *)(i * 16 + (u32)stage->animState[side]))->updatesLeft == 0)
-                            ((BtlvAnimState *)(i * 16 + (u32)stage->animState[side]))->armed = 0;
+                        if (((BtlvAnimState *)(i * 16 + (uptr)stage->animState[side]))->updatesLeft == 0)
+                            ((BtlvAnimState *)(i * 16 + (uptr)stage->animState[side]))->armed = 0;
                     }
                     break;
                 }

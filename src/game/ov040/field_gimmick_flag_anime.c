@@ -43,6 +43,12 @@
 #include "../ov021/fld_exp_obj_types.h"
 #include "../ov037/gimmick_save_types.h"
 #include "field_gimmick_flag_anime_types.h"
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../arm9/gimmick.h"
+#include "../arm9/game_event.h"
+#include "../ov021/fld_exp_obj.h"
 
 void FIELD_GIMMICK_FLAG_ANIME_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_FLAG_ANIME_Exit(struct FieldMap *fieldMap);
@@ -66,7 +72,7 @@ void FIELD_GIMMICK_FLAG_ANIME_Init(struct FieldMap *fieldMap)
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), 4);
     FIELDMAP_GetCommonWork(fieldMap, 1);
     FLD_EXP_OBJ_AddUnit(expObj, &gFlagAnimeUnitSetup, 0);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
+    save = (FieldGimmickFlagAnimeSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
     pos.x = gFlagAnimeModelPos.x;
     pos.y = 0;
     pos.z = gFlagAnimeModelPos.z;
@@ -100,7 +106,7 @@ void FIELD_GIMMICK_FLAG_ANIME_SetFlag(struct FieldMap *fieldMap)
     FieldGimmickFlagAnimeSave *save;
 
     FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
+    save = (FieldGimmickFlagAnimeSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
     save->flag = 1;
 }
 
@@ -112,7 +118,7 @@ int FIELD_GIMMICK_FLAG_ANIME_GetFlag(struct FieldMap *fieldMap)
     FieldGimmickFlagAnimeSave *save;
 
     FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
+    save = (FieldGimmickFlagAnimeSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
     return save->flag;
 }
 
@@ -124,7 +130,7 @@ struct GameEvent *FIELD_GIMMICK_FLAG_ANIME_CreateEvent(struct GameSystem *gameSy
 
     if (modelIndex >= 1)
         return 0;
-    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime, 0);
     work->modelIndex = modelIndex;
     return event;
 }
@@ -142,7 +148,7 @@ int FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime(struct GameEvent *event, int *seq, v
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     gimmickWork = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
+    save = (FieldGimmickFlagAnimeSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 3);
     switch (*seq) {
     case 0:
         modelIndex = gimmickWork->modelIndex;

@@ -448,7 +448,7 @@ void NNS_G2dSetAnimSequenceToMCAnimation(MultiCellAnim *pMCAnim, const AnimSeque
 {
     NodeRec *pNodeRec;
     u32 kind;
-    u32 pMultiCellData;
+    uptr pMultiCellData;
 
     NNS_G2dSetCellAnimationBank((CellAnim *)(&pMCAnim->animCtrl), (void *)pAnimSeq);
     pMCAnim->totalFrames = 0;
@@ -458,7 +458,7 @@ void NNS_G2dSetAnimSequenceToMCAnimation(MultiCellAnim *pMCAnim, const AnimSeque
     }
 
     pNodeRec = NNSi_G2dGetCellAnimationCurrentSequence(&pMCAnim->animCtrl);
-    pMultiCellData = (u32)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
+    pMultiCellData = (uptr)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
     kind = pMCAnim->animCtrl.pAnimSequence->animType & 0xff;
 
     NNSi_G2dSrtcInitControl((SRTControl *)(&pMCAnim->srtCtrl), 1);
@@ -658,7 +658,7 @@ void NNS_G2dTickMCAnimation(MultiCellAnim *pMCAnim, fx32 frames)
     unsigned short stepFrames = pMCAnim->animCtrl.pCurrent->frames;
     NodeRec *pNodeRec;
     int kind;
-    int pMultiCellData;
+    sptr pMultiCellData;
 
     if (NNS_G2dTickAnimCtrl(&pMCAnim->animCtrl, frames) == 0) {
         goto miss;
@@ -667,7 +667,7 @@ void NNS_G2dTickMCAnimation(MultiCellAnim *pMCAnim, fx32 frames)
     if (pMCAnim->animCtrl.pActiveCurrent->frames == 0)
         return;
     pNodeRec = NNSi_G2dGetCellAnimationCurrentSequence(&pMCAnim->animCtrl);
-    pMultiCellData = (int)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
+    pMultiCellData = (sptr)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
     kind = pMCAnim->animCtrl.pAnimSequence->animType & 0xff;
     NNSi_G2dSrtcInitControl((SRTControl *)(&pMCAnim->srtCtrl), 1);
     switch (kind) {
@@ -711,12 +711,12 @@ void NNS_G2dSetMCAnimationCurrentFrame(MultiCellAnim *pMCAnim, u32 frameIdx)
 {
     NodeRec *pNodeRec;
     int kind;
-    int pMultiCellData;
+    sptr pMultiCellData;
 
     if (NNSi_G2dSetCellAnimationCurrentFrame(&pMCAnim->animCtrl, frameIdx) == 0 || pMCAnim->animCtrl.pActiveCurrent->frames == 0)
         return;
     pNodeRec = NNSi_G2dGetCellAnimationCurrentSequence(&pMCAnim->animCtrl);
-    pMultiCellData = (int)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
+    pMultiCellData = (sptr)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
     kind = pMCAnim->animCtrl.pAnimSequence->animType & 0xff;
     NNSi_G2dSrtcInitControl((SRTControl *)(&pMCAnim->srtCtrl), 1);
     switch (kind) {

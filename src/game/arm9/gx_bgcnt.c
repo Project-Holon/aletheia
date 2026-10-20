@@ -12,21 +12,20 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-#define reg_G2_BG0CNT (*(vu16 *)0x04000008)
+#define reg_G2_BG0CNT (*(vu16 *)REG_BG0CNT_ADDR)
 #define NULL ((void *)0)
-#define HW_BG_VRAM      0x06000000
-#define HW_DB_BG_VRAM   0x06200000
-#define reg_G2_BG2CNT      (*(vu16 *)0x0400000C)
-#define reg_G2_BG3CNT      (*(vu16 *)0x0400000E)
-#define reg_G2S_DB_BG2CNT  (*(vu16 *)0x0400100C)
-#define reg_G2S_DB_BG3CNT  (*(vu16 *)0x0400100E)
+#define reg_G2_BG2CNT      (*(vu16 *)REG_BG2CNT_ADDR)
+#define reg_G2_BG3CNT      (*(vu16 *)REG_BG3CNT_ADDR)
+#define reg_G2S_DB_BG2CNT  (*(vu16 *)REG_DB_BG2CNT_ADDR)
+#define reg_G2S_DB_BG3CNT  (*(vu16 *)REG_DB_BG3CNT_ADDR)
 #define GX_GetBGScrOffset()  ((u32)((reg_GX_DISPCNT & 0x38000000) >> 27))
 #define GX_GetBGCharOffset() ((u32)((reg_GX_DISPCNT & 0x07000000) >> 24))
-#define reg_G2_BG1CNT (*(vu16 *)0x0400000A)
+#define reg_G2_BG1CNT (*(vu16 *)REG_BG1CNT_ADDR)
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
-#define reg_GX_DISPCNT (*(vu32 *)0x04000000)
-#define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
+#define reg_GX_DISPCNT (*(vu32 *)REG_DISPCNT_ADDR)
+#define reg_GXS_DB_DISPCNT (*(vu32 *)REG_DB_DISPCNT_ADDR)
 
 typedef enum {
     GX_BGMODE_0 = 0,
@@ -68,12 +67,12 @@ void *G2_GetBG0ScrPtr(void)
     int screenBase = GetBG0ScreenBase();
     int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x38000000) >> 27);
 
-    return (void *)(0x06000000 + baseBlock + screenBase * 0x800);
+    return (void *)(HW_BG_VRAM + baseBlock + screenBase * 0x800);
 }
 
 u32 G2S_GetBG0ScrPtr(void)
 {
-    return (u32)((((*(volatile unsigned short *)0x04001008 & 0x1f00) >> 8) << 11) + 0x6200000);
+    return (u32)((((*(volatile unsigned short *)REG_DB_BG0CNT_ADDR & 0x1f00) >> 8) << 11) + 0x6200000);
 }
 
 static inline int GetBG1ScreenBase(void)
@@ -89,12 +88,12 @@ void *G2_GetBG1ScrPtr(void)
     int screenBase = GetBG1ScreenBase();
     int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x38000000) >> 27);
 
-    return (void *)(0x06000000 + baseBlock + screenBase * 0x800);
+    return (void *)(HW_BG_VRAM + baseBlock + screenBase * 0x800);
 }
 
 u32 G2S_GetBG1ScrPtr(void)
 {
-    return (u32)((((*(volatile unsigned short *)0x0400100A & 0x1f00) >> 8) << 11) + 0x6200000);
+    return (u32)((((*(volatile unsigned short *)REG_DB_BG1CNT_ADDR & 0x1f00) >> 8) << 11) + 0x6200000);
 }
 
 /*
@@ -228,12 +227,12 @@ void *G2_GetBG0CharPtr(void)
     int charBase = GetBG0CharBase();
     int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x07000000) >> 24);
 
-    return (void *)(0x06000000 + baseBlock + charBase * 0x4000);
+    return (void *)(HW_BG_VRAM + baseBlock + charBase * 0x4000);
 }
 
 u32 G2S_GetBG0CharPtr(void)
 {
-    return (u32)((((*(volatile unsigned short *)0x04001008 & 0x3c) >> 2) << 14) + 0x6200000);
+    return (u32)((((*(volatile unsigned short *)REG_DB_BG0CNT_ADDR & 0x3c) >> 2) << 14) + 0x6200000);
 }
 
 static inline int GetBG1CharBase(void)
@@ -249,12 +248,12 @@ void *G2_GetBG1CharPtr(void)
     int charBase = GetBG1CharBase();
     int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x07000000) >> 24);
 
-    return (void *)(0x06000000 + baseBlock + charBase * 0x4000);
+    return (void *)(HW_BG_VRAM + baseBlock + charBase * 0x4000);
 }
 
 u32 G2S_GetBG1CharPtr(void)
 {
-    return (u32)((((*(volatile unsigned short *)0x0400100A & 0x3c) >> 2) << 14) + 0x6200000);
+    return (u32)((((*(volatile unsigned short *)REG_DB_BG1CNT_ADDR & 0x3c) >> 2) << 14) + 0x6200000);
 }
 
 /*

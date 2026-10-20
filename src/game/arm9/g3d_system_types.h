@@ -1,15 +1,20 @@
 /*
  * g3d_system_types.h: the objects of the 3D system (g3d_system.c).
  *
- * The includer defines u8, u16, u32, fx32, VecFx32, MtxFx33, NNSFndAllocator
- * and the NitroSystem resource types named below before it includes this
- * header.
+ * It includes the base types, the SDK math and allocator types and the
+ * NitroSystem animation types it names.
  *
  * Every object starts with a magic halfword. The delete functions check it
  * and write magic - 1 before they free the object.
  */
 #ifndef G3D_SYSTEM_TYPES_H
 #define G3D_SYSTEM_TYPES_H
+
+#include "../types.h"
+#include "../sdk_fx.h"
+#include "../sdk_nnsfnd.h"
+#include "../arm9/nns_g3d_anm_calc_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
 
 #define G3D_RESOURCE_MAGIC 0x48BF
 #define G3D_RENDER_MAGIC   0x7A14

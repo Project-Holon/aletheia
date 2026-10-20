@@ -23,12 +23,12 @@
  *   gGt2AuthChallengeKey               0x021A591C  data
  */
 #define CALCULATEODDMODE(buffer, i, oddmode) ((buffer[i-1] & 1) ^ (i & 1) ^ oddmode ^ (buffer[0] & 1) ^ ((buffer[0] < 79) ? 1 : 0) ^ ((buffer[i-1] < buffer[0]) ? 1 : 0))
-extern unsigned int current_time(void);
+#include "gsplatformutil.h"
 extern void srand(unsigned int seed);
 extern int rand();
-extern int strlen(unsigned char *s);
+#include "../arm9/msl_string_str.h"
 extern int gti2VerifyChallenge();
-extern int abs(int value);
+#include "../arm9/msl_crt.h"
 int gti2VerifyChallenge(unsigned char *buffer);
 unsigned char *gti2GetChallenge(unsigned char *buffer);
 unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge);

@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_RECORD_H
 #define GAME_ARM9_RECORD_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of record.c, prototypes copied from their definitions. */
 
 struct RecordBlock;
@@ -26,5 +27,6 @@ void RECORD_SetTrialRank(struct RecordBlock *record, u32 rank);
 u8 RECORD_GetTrialRank(struct RecordBlock *record);
 void RECORD_SetTrialScore(struct RecordBlock *record, u32 score);
 u32 RECORD_GetTrialScore(struct RecordBlock *record);
+/* END mkheaders: generated region */
 
 #endif

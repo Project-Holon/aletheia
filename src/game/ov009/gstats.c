@@ -73,6 +73,7 @@
  *   gGstatsPlayerOpFormat   0x021A5914  data
  */
 #include "../types.h"
+#include "darray.h"
 
 /* The persistent-stats socket wrapper (vendor object gstats.o). */
 typedef struct StatsSocket {
@@ -110,26 +111,17 @@ typedef struct {
     void *callback;
 } serverreq_t;
 
-extern int shutdown(int sock, int how);
-extern int closesocket(int sock);
-extern void gsifree(void *ptr);
-extern void *gsirealloc(void *ptr, unsigned long size);
-extern int recv(int sock, char *buf, int len, int flags);
-extern int CanReceiveOnSocket(int sock);
-extern void *memmove(void *dest, const void *src, unsigned int n);
-extern u8 *strcat(u8 *dest, const u8 *src);
-extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
-extern int strlen(const u8 *s);
-extern int ArrayLength(const int *p);
-extern int *ArrayNth(void *array, int n);
-extern int atoi(u32 s);
-extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
-extern void ArrayDeleteAt(int a, int b);
+#include "gsplatformsocket.h"
+#include "gsmemory.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../arm9/msl_string_str.h"
+#include "../arm9/msl_strtod.h"
 struct DArrayImplementation;
 extern void ArrayFree(struct DArrayImplementation *array);
 struct bucketset_s;
-extern void *BucketNew(struct bucketset_s *set, char *name, int type, void *initialvalue);
-extern int OS_SPrintf(char *dst, char *fmt, ...);
+#include "gbucket.h"
+#include "../arm9/os_printf.h"
 
 void CloseStatsConnection(void);
 int IsStatsConnected(void);
@@ -369,7 +361,7 @@ void CallReqCallback(int reqindex, int success, long modified, char *data, int l
             break;
         }
     }
-    ArrayDeleteAt((int)(gGstatsConn.requests), reqindex);
+    ArrayDeleteAt(gGstatsConn.requests, reqindex);
 }
 
 /*
@@ -424,10 +416,10 @@ void ProcessSetData(char *buf, int len)
     int modified;
     int reqindex;
 
-    success = atoi((u32)value_for_key_safe(buf, gGstatsKeySetpdr));
-    pid = atoi((u32)value_for_key_safe(buf, gGstatsKeyPid));
-    lid = atoi((u32)value_for_key_safe(buf, gGstatsKeyLid));
-    modified = atoi((u32)value_for_key_safe(buf, gGstatsKeyMod));
+    success = atoi(value_for_key_safe(buf, gGstatsKeySetpdr));
+    pid = atoi(value_for_key_safe(buf, gGstatsKeyPid));
+    lid = atoi(value_for_key_safe(buf, gGstatsKeyLid));
+    modified = atoi(value_for_key_safe(buf, gGstatsKeyMod));
     reqindex = FindRequest(2, lid, pid);
     if (reqindex == -1)
         return;
@@ -447,14 +439,14 @@ void ProcessGetData(char *buf, int len)
     long modified;
     char *data;
 
-    success = atoi((u32)value_for_key_safe(buf, gGstatsKeyGetpdr));
-    lid = atoi((u32)value_for_key_safe(buf, gGstatsKeyLid));
-    pid = atoi((u32)value_for_key_safe(buf, gGstatsKeyPid));
-    modified = atoi((u32)value_for_key_safe(buf, gGstatsKeyMod));
+    success = atoi(value_for_key_safe(buf, gGstatsKeyGetpdr));
+    lid = atoi(value_for_key_safe(buf, gGstatsKeyLid));
+    pid = atoi(value_for_key_safe(buf, gGstatsKeyPid));
+    modified = atoi(value_for_key_safe(buf, gGstatsKeyMod));
     reqindex = FindRequest(1, lid, pid);
     if (reqindex == -1)
         return;
-    length = atoi((u32)value_for_key_safe(buf, gGstatsKeyLength));
+    length = atoi(value_for_key_safe(buf, gGstatsKeyLength));
     data = (char *)strstr((unsigned char *)buf, (unsigned char *)gGstatsKeyData);
     if (data == 0) {
         data = gGstatsEmptyString;
@@ -473,12 +465,12 @@ void ProcessGetPid(char *buf, int len)
     int pid;
     int reqindex;
 
-    pid = atoi((u32)value_for_key_safe(buf, gGstatsKeyGetpidr));
-    lid = atoi((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    pid = atoi(value_for_key_safe(buf, gGstatsKeyGetpidr));
+    lid = atoi(value_for_key_safe(buf, gGstatsKeyLid));
     reqindex = FindRequest(3, lid, 0);
     if (reqindex == -1)
         return;
-    ArrayNth(gGstatsConn.requests, reqindex)[2] = pid;
+    ((int *)ArrayNth(gGstatsConn.requests, reqindex))[2] = pid;
     CallReqCallback(reqindex, pid > 0, 0, 0, 0);
 }
 
@@ -492,13 +484,13 @@ void ProcessPlayerAuth(char *buf, int len)
     int pid;
     int lid;
 
-    pid = atoi((u32)value_for_key_safe(buf, gGstatsKeyPauthr));
-    lid = atoi((u32)value_for_key_safe(buf, gGstatsKeyLid));
+    pid = atoi(value_for_key_safe(buf, gGstatsKeyPauthr));
+    lid = atoi(value_for_key_safe(buf, gGstatsKeyLid));
     errmsg = value_for_key_safe(buf, gGstatsKeyErrmsg);
     reqindex = FindRequest(0, lid, 0);
     if (reqindex == -1)
         return;
-    ArrayNth(gGstatsConn.requests, reqindex)[2] = pid;
+    ((int *)ArrayNth(gGstatsConn.requests, reqindex))[2] = pid;
     CallReqCallback(reqindex, pid > 0, 0, errmsg, 0);
 }
 

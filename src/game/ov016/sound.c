@@ -49,28 +49,19 @@ typedef struct SND {
 
 #include "../types.h"
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
-extern void NNS_SndInit();
+#include "heap.h"
+#include "archive.h"
+#include "../arm9/nns_snd_system.h"
 struct NNSSndArc;
-extern void NNS_SndArcInitOnMemory(struct NNSSndArc *arc, unsigned char *base);
+#include "../arm9/nns_snd_main.h"
 struct NNSSndHeap;
-extern unsigned int NNS_SndArcPlayerSetup(struct NNSSndHeap *heap);
+#include "../arm9/nns_snd_arc.h"
 struct SndHandle;
-extern void NNS_SndHandleInit(struct SndHandle *handle);
-extern void NNS_SndPlayerSetPlayerVolume(unsigned int playerNo, unsigned int volume);
-extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int playableSeqCount);
-extern void NNS_SndPlayerSetAllocatableChannel(unsigned int playerNo, unsigned int channelMask);
+#include "../arm9/nns_snd_player.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+#include "task.h"
 extern void taskSound(void);
-extern void DWCi_TSKlDelete(int kind, void *task);
-extern void DWCi_HEAPlFree_(void **mem);
-extern u32 NNS_SndArcPlayerStartSeqArc(u32 a, u32 b, u32 c);
-extern void NNS_SndHandleSetVolume(struct SndHandle *, int);
-extern void NNS_SndHandleSetTrackPitch(struct SndHandle *handle, unsigned int trackMask, unsigned int value);
-extern void NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrame);
-extern void NNS_SndBoot(void);
+#include "../arm9/nns_snd_arcplayer.h"
 void DWCi_SNDlInit(void);
 void DWCi_SNDlEnd(void);
 void DWCi_SNDlPlay(unsigned int v);
@@ -115,7 +106,7 @@ void DWCi_SNDlEnd(void)
 
 void DWCi_SNDlPlay(unsigned int v)
 {
-    NNS_SndArcPlayerStartSeqArc((u32)(*(char **)0x021DE648 + 0xa0), 0, v);
+    NNS_SndArcPlayerStartSeqArc((uptr)(*(char **)0x021DE648 + 0xa0), 0, v);
 }
 
 /*

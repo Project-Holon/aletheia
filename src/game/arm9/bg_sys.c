@@ -107,26 +107,26 @@
  *   GX_DispOn  0x0207D46C  arm
  */
 #include "bmp_shared_types.h"
+#include "../sdk_ioreg_reg.h"
 
-#define REG_DISPCNT (*(volatile u32 *)0x04000000)
 
 #define REG16(a) (*(volatile u16 *)(a))
 
-#define REG_BG0CNT_A  0x04000008
+#define REG_BG0CNT_A  REG_BG0CNT_ADDR
 
-#define REG_BG1CNT_A  0x0400000A
+#define REG_BG1CNT_A  REG_BG1CNT_ADDR
 
-#define REG_BG2CNT_A  0x0400000C
+#define REG_BG2CNT_A  REG_BG2CNT_ADDR
 
-#define REG_BG3CNT_A  0x0400000E
+#define REG_BG3CNT_A  REG_BG3CNT_ADDR
 
-#define REG_BG0CNT_B  0x04001008
+#define REG_BG0CNT_B  REG_DB_BG0CNT_ADDR
 
-#define REG_BG1CNT_B  0x0400100A
+#define REG_BG1CNT_B  REG_DB_BG1CNT_ADDR
 
-#define REG_BG2CNT_B  0x0400100C
+#define REG_BG2CNT_B  REG_DB_BG2CNT_ADDR
 
-#define REG_BG3CNT_B  0x0400100E
+#define REG_BG3CNT_B  REG_DB_BG3CNT_ADDR
 
 #define W(a) (*(volatile u32 *)(a))
 
@@ -517,11 +517,11 @@ u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top)
     u32 d1 = g->tileBaseOffset[layer] / t;
     u32 d2 = g->tileDataSize[layer] / t;
     u32 f;
-    u32 n, r, base;
+    u32 n, r; uptr base;
 
     f = (size % t != 0);
     n = size / t;
-    base = (layer < 4) ? (u32)g->mainTileArena : (u32)g->subTileArena;
+    base = (layer < 4) ? (uptr)g->mainTileArena : (uptr)g->subTileArena;
     if (top == 0)
         r = AREAMAN_AllocUp((struct AreaMan *)base, d1, d2, n + f);
     else
@@ -1014,7 +1014,7 @@ void BG_SYS_EnableBg0WithPriority(u32 mode)
 {
     BG_SYS_SetMainPlaneVisible(1, 1);
     *(volatile u16 *)0x04000008 =
-        (*(volatile u16 *)0x04000008 & ~3) | mode;
+        (*(volatile u16 *)REG_BG0CNT_ADDR & ~3) | mode;
 }
 
 /*
@@ -1033,35 +1033,35 @@ void BG_SYS_SetPriority(int idx, unsigned short val)
 
     switch (idx) {
     case 0:
-        p = (volatile unsigned short *)0x04000008;
+        p = (volatile unsigned short *)REG_BG0CNT_ADDR;
         *p = (unsigned short)((*p & ~3) | val);
         break;
     case 1:
-        p = (volatile unsigned short *)0x0400000A;
+        p = (volatile unsigned short *)REG_BG1CNT_ADDR;
         *p = (unsigned short)((*p & ~3) | val);
         break;
     case 2:
-        p = (volatile unsigned short *)0x0400000C;
+        p = (volatile unsigned short *)REG_BG2CNT_ADDR;
         *p = (unsigned short)((*p & ~3) | val);
         break;
     case 3:
-        p = (volatile unsigned short *)0x0400000E;
+        p = (volatile unsigned short *)REG_BG3CNT_ADDR;
         *p = (unsigned short)((*p & ~3) | val);
         break;
     case 4:
-        p = (volatile unsigned short *)0x04001008;
+        p = (volatile unsigned short *)REG_DB_BG0CNT_ADDR;
         *p = (unsigned short)((*p & ~3) | val);
         break;
     case 5:
-        p = (volatile unsigned short *)0x0400100A;
+        p = (volatile unsigned short *)REG_DB_BG1CNT_ADDR;
         *p = (unsigned short)((*p & ~3) | val);
         break;
     case 6:
-        p = (volatile unsigned short *)0x0400100C;
+        p = (volatile unsigned short *)REG_DB_BG2CNT_ADDR;
         *p = (unsigned short)((*p & ~3) | val);
         break;
     case 7:
-        p = (volatile unsigned short *)0x0400100E;
+        p = (volatile unsigned short *)REG_DB_BG3CNT_ADDR;
         *p = (unsigned short)((*p & ~3) | val);
         break;
     }
@@ -1129,42 +1129,42 @@ void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b)
 
     switch (layer) {
     case 0:
-        W(0x04000010) = (x & mask) | (hmask & (y << 16));
+        W(REG_BG0OFS_ADDR) = (x & mask) | (hmask & (y << 16));
         break;
     case 1:
-        W(0x04000014) = (x & mask) | (hmask & (y << 16));
+        W(REG_BG1OFS_ADDR) = (x & mask) | (hmask & (y << 16));
         GFL_NET_SetIrcParams(x, y);
         break;
     case 2:
         if (g_02146A44->bgs[2].type == 0) {
-            W(0x04000018) = (x & mask) | (hmask & (y << 16));
+            W(REG_BG2OFS_ADDR) = (x & mask) | (hmask & (y << 16));
         } else {
             BG_SYS_ResetAffineMatrix(2);
         }
         break;
     case 3:
         if (g_02146A44->bgs[3].type == 0) {
-            W(0x0400001c) = (x & mask) | (hmask & (y << 16));
+            W(REG_BG3OFS_ADDR) = (x & mask) | (hmask & (y << 16));
         } else {
             BG_SYS_ResetAffineMatrix(3);
         }
         break;
     case 4:
-        W(0x04001010) = (x & mask) | (hmask & (y << 16));
+        W(REG_DB_BG0OFS_ADDR) = (x & mask) | (hmask & (y << 16));
         break;
     case 5:
-        W(0x04001014) = (x & mask) | (hmask & (y << 16));
+        W(REG_DB_BG1OFS_ADDR) = (x & mask) | (hmask & (y << 16));
         break;
     case 6:
         if (g_02146A44->bgs[6].type == 0) {
-            W(0x04001018) = (x & mask) | (hmask & (y << 16));
+            W(REG_DB_BG2OFS_ADDR) = (x & mask) | (hmask & (y << 16));
         } else {
             BG_SYS_ResetAffineMatrix(6);
         }
         break;
     case 7:
         if (g_02146A44->bgs[7].type == 0) {
-            W(0x0400101c) = (x & mask) | (hmask & (y << 16));
+            W(REG_DB_BG3OFS_ADDR) = (x & mask) | (hmask & (y << 16));
         } else {
             BG_SYS_ResetAffineMatrix(7);
         }
@@ -1245,11 +1245,11 @@ void BG_SYS_SetScrollRegs(u32 layer, MtxFx22 *a, u32 b, u32 c)
     case 1:
         break;
     case 2:
-        G2x_SetBGyAffine_((u32)(void *)0x04000020, a, b, c,
+        G2x_SetBGyAffine_((uptr)(void *)REG_BG2PA_ADDR, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 3:
-        G2x_SetBGyAffine_((u32)(void *)0x04000030, a, b, c,
+        G2x_SetBGyAffine_((uptr)(void *)REG_BG3PA_ADDR, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 4:
@@ -1257,11 +1257,11 @@ void BG_SYS_SetScrollRegs(u32 layer, MtxFx22 *a, u32 b, u32 c)
     case 5:
         break;
     case 6:
-        G2x_SetBGyAffine_((u32)(void *)0x04001020, a, b, c,
+        G2x_SetBGyAffine_((uptr)(void *)REG_DB_BG2PA_ADDR, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 7:
-        G2x_SetBGyAffine_((u32)(void *)0x04001030, a, b, c,
+        G2x_SetBGyAffine_((uptr)(void *)REG_DB_BG3PA_ADDR, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     }
@@ -1274,7 +1274,7 @@ void BG_SYS_SetupMemory(void *dest, const void *src, u32 size)
         return;
     }
 
-    if (((u32)dest & 3) == 0 && ((u32)src & 3) == 0 && ((u16)size % 4) == 0) {
+    if (((uptr)dest & 3) == 0 && ((uptr)src & 3) == 0 && ((u16)size % 4) == 0) {
         MIi_CpuCopy32(dest, (void *)src, size);
         return;
     }
@@ -1958,14 +1958,14 @@ void BG_SYS_ClearLayerEx(int channel, u16 val)
 u32 BG_SYS_GetGraphics(u32 channel)
 {
     switch (channel) {
-    case 0: return (u32)G2_GetBG0CharPtr();
-    case 1: return (u32)G2_GetBG1CharPtr();
-    case 2: return (u32)G2_GetBG2CharPtr();
-    case 3: return (u32)G2_GetBG3CharPtr();
+    case 0: return (uptr)G2_GetBG0CharPtr();
+    case 1: return (uptr)G2_GetBG1CharPtr();
+    case 2: return (uptr)G2_GetBG2CharPtr();
+    case 3: return (uptr)G2_GetBG3CharPtr();
     case 4: return G2S_GetBG0CharPtr();
     case 5: return G2S_GetBG1CharPtr();
-    case 6: return (u32)G2S_GetBG2CharPtr();
-    case 7: return (u32)G2S_GetBG3CharPtr();
+    case 6: return (uptr)G2S_GetBG2CharPtr();
+    case 7: return (uptr)G2S_GetBG3CharPtr();
     default: return 0;
     }
 }
@@ -1983,7 +1983,7 @@ u32 BG_SYS_GetGraphics(u32 channel)
  */
 u32 BG_SYS_GetBuf(int channel)
 {
-    return (u32)g_02146A44->bgs[channel].buf;
+    return (uptr)g_02146A44->bgs[channel].buf;
 }
 
 u32 BG_SYS_GetChannelScrollX(u8 channel)
@@ -2057,10 +2057,10 @@ u8 BG_SYS_GetPriority(u32 layer)
 
     switch (layer) {
     case 0:
-        c0 = R(0x04000008);
+        c0 = R(REG_BG0CNT_ADDR);
         return c0.prio;
     case 1:
-        c1 = R(0x0400000a);
+        c1 = R(REG_BG1CNT_ADDR);
         return c1.prio;
     case 2:
         {
@@ -2069,13 +2069,13 @@ u8 BG_SYS_GetPriority(u32 layer)
             if (m == 1) goto L0_1;
             if (m == 2) goto L0_2;
         L0_0:
-            c2 = R(0x0400000c);
+            c2 = R(REG_BG2CNT_ADDR);
             return c2.prio;
         L0_1:
-            c3 = R(0x0400000c);
+            c3 = R(REG_BG2CNT_ADDR);
             return c3.prio;
         L0_2:
-            c4 = R(0x0400000c);
+            c4 = R(REG_BG2CNT_ADDR);
             return c4.prio;
         }
     case 3:
@@ -2085,20 +2085,20 @@ u8 BG_SYS_GetPriority(u32 layer)
             if (m == 1) goto L1_1;
             if (m == 2) goto L1_2;
         L1_0:
-            c5 = R(0x0400000e);
+            c5 = R(REG_BG3CNT_ADDR);
             return c5.prio;
         L1_1:
-            c6 = R(0x0400000e);
+            c6 = R(REG_BG3CNT_ADDR);
             return c6.prio;
         L1_2:
-            c7 = R(0x0400000e);
+            c7 = R(REG_BG3CNT_ADDR);
             return c7.prio;
         }
     case 4:
-        c8 = R(0x04001008);
+        c8 = R(REG_DB_BG0CNT_ADDR);
         return c8.prio;
     case 5:
-        c9 = R(0x0400100a);
+        c9 = R(REG_DB_BG1CNT_ADDR);
         return c9.prio;
     case 6:
         {
@@ -2107,13 +2107,13 @@ u8 BG_SYS_GetPriority(u32 layer)
             if (m == 1) goto L2_1;
             if (m == 2) goto L2_2;
         L2_0:
-            c10 = R(0x0400100c);
+            c10 = R(REG_DB_BG2CNT_ADDR);
             return c10.prio;
         L2_1:
-            c11 = R(0x0400100c);
+            c11 = R(REG_DB_BG2CNT_ADDR);
             return c11.prio;
         L2_2:
-            c12 = R(0x0400100c);
+            c12 = R(REG_DB_BG2CNT_ADDR);
             return c12.prio;
         }
     case 7:
@@ -2123,13 +2123,13 @@ u8 BG_SYS_GetPriority(u32 layer)
             if (m == 1) goto L3_1;
             if (m == 2) goto L3_2;
         L3_0:
-            c13 = R(0x0400100e);
+            c13 = R(REG_DB_BG3CNT_ADDR);
             return c13.prio;
         L3_1:
-            c14 = R(0x0400100e);
+            c14 = R(REG_DB_BG3CNT_ADDR);
             return c14.prio;
         L3_2:
-            c15 = R(0x0400100e);
+            c15 = R(REG_DB_BG3CNT_ADDR);
             return c15.prio;
         }
     }
@@ -2255,75 +2255,75 @@ void BG_SYS_CommitScroll(void)
     u32 hm = m << 16;
 
     if (g_02146A44->scrollDirtyMask & 0x01) {
-        W(0x04000010) = (SLOT(0).scrollX & m)
+        W(REG_BG0OFS_ADDR) = (SLOT(0).scrollX & m)
                       | (hm & (SLOT(0).scrollY << 16));
     }
     if (g_02146A44->scrollDirtyMask & 0x02) {
-        W(0x04000014) = (SLOT(1).scrollX & m)
+        W(REG_BG1OFS_ADDR) = (SLOT(1).scrollX & m)
                       | (hm & (SLOT(1).scrollY << 16));
         GFL_NET_SetIrcParams(SLOT(1).scrollX,
                       SLOT(1).scrollY);
     }
     if (g_02146A44->scrollDirtyMask & 0x04) {
         if (SLOT(2).type == 0) {
-            W(0x04000018) = (SLOT(2).scrollX & m)
+            W(REG_BG2OFS_ADDR) = (SLOT(2).scrollX & m)
                           | (hm & (SLOT(2).scrollY << 16));
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(2).rotation,
-                          (long int)(const void *)SLOT(2).scaleX,
-                          (long int)(const void *)SLOT(2).scaleY, 2);
-            G2x_SetBGyAffine_((u32)(void *)0x04000020, &t,
+                          (sptr)(const void *)SLOT(2).scaleX,
+                          (sptr)(const void *)SLOT(2).scaleY, 2);
+            G2x_SetBGyAffine_((uptr)(void *)REG_BG2PA_ADDR, &t,
                           SLOT(2).centerX, SLOT(2).centerY,
                           SLOT(2).scrollX, SLOT(2).scrollY);
         }
     }
     if (g_02146A44->scrollDirtyMask & 0x08) {
         if (SLOT(3).type == 0) {
-            W(0x0400001c) = (SLOT(3).scrollX & m)
+            W(REG_BG3OFS_ADDR) = (SLOT(3).scrollX & m)
                           | (hm & (SLOT(3).scrollY << 16));
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(3).rotation,
-                          (long int)(const void *)SLOT(3).scaleX,
-                          (long int)(const void *)SLOT(3).scaleY, 2);
-            G2x_SetBGyAffine_((u32)(void *)0x04000030, &t,
+                          (sptr)(const void *)SLOT(3).scaleX,
+                          (sptr)(const void *)SLOT(3).scaleY, 2);
+            G2x_SetBGyAffine_((uptr)(void *)REG_BG3PA_ADDR, &t,
                           SLOT(3).centerX, SLOT(3).centerY,
                           SLOT(3).scrollX, SLOT(3).scrollY);
         }
     }
     if (g_02146A44->scrollDirtyMask & 0x10) {
-        W(0x04001010) = (SLOT(4).scrollX & m)
+        W(REG_DB_BG0OFS_ADDR) = (SLOT(4).scrollX & m)
                       | (hm & (SLOT(4).scrollY << 16));
     }
     if (g_02146A44->scrollDirtyMask & 0x20) {
-        W(0x04001014) = (SLOT(5).scrollX & m)
+        W(REG_DB_BG1OFS_ADDR) = (SLOT(5).scrollX & m)
                       | (hm & (SLOT(5).scrollY << 16));
     }
     if (g_02146A44->scrollDirtyMask & 0x40) {
         if (SLOT(6).type == 0) {
-            W(0x04001018) = (SLOT(6).scrollX & m)
+            W(REG_DB_BG2OFS_ADDR) = (SLOT(6).scrollX & m)
                           | (hm & (SLOT(6).scrollY << 16));
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(6).rotation,
-                          (long int)(const void *)SLOT(6).scaleX,
-                          (long int)(const void *)SLOT(6).scaleY, 2);
-            G2x_SetBGyAffine_((u32)(void *)0x04001020, &t,
+                          (sptr)(const void *)SLOT(6).scaleX,
+                          (sptr)(const void *)SLOT(6).scaleY, 2);
+            G2x_SetBGyAffine_((uptr)(void *)REG_DB_BG2PA_ADDR, &t,
                           SLOT(6).centerX, SLOT(6).centerY,
                           SLOT(6).scrollX, SLOT(6).scrollY);
         }
     }
     if (g_02146A44->scrollDirtyMask & 0x80) {
         if (SLOT(7).type == 0) {
-            W(0x0400101c) = (SLOT(7).scrollX & m)
+            W(REG_DB_BG3OFS_ADDR) = (SLOT(7).scrollX & m)
                           | (hm & (SLOT(7).scrollY << 16));
         } else {
             MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(7).rotation,
-                          (long int)(const void *)SLOT(7).scaleX,
-                          (long int)(const void *)SLOT(7).scaleY, 2);
-            G2x_SetBGyAffine_((u32)(void *)0x04001030, &t,
+                          (sptr)(const void *)SLOT(7).scaleX,
+                          (sptr)(const void *)SLOT(7).scaleY, 2);
+            G2x_SetBGyAffine_((uptr)(void *)REG_DB_BG3PA_ADDR, &t,
                           SLOT(7).centerX, SLOT(7).centerY,
                           SLOT(7).scrollX, SLOT(7).scrollY);
         }
@@ -2621,7 +2621,7 @@ void BG_SYS_ResetAffineMatrix(u32 layer)
 {
     MtxFx22 p;
 
-    BUTTON_MAN_RotScaleMtx22(&p, 0, (long int)(const void *)0x1000, (long int)(const void *)0x1000, 0);
+    BUTTON_MAN_RotScaleMtx22(&p, 0, (sptr)(const void *)0x1000, (sptr)(const void *)0x1000, 0);
     BG_SYS_SetScrollRegs(layer, &p, 0, 0);
 }
 
@@ -3378,9 +3378,6 @@ void BG_SYS_ApplyCenterOp(struct BgLayer *bg, u32 opcode, u32 operand)
     }
 }
 
-typedef int GXVRamBG;
-typedef int GXVRamOBJ;
-typedef int GXVRamTex;
 #include "gx_vramcnt.h"
 
 
@@ -3426,13 +3423,13 @@ void BG_SYS_ClearGraphicsMemory(u32 keepBanks)
 {
     GX_SetBankForLCDC((keepBanks ^ 0xffff) & 0x1ff);
 
-    MIi_CpuClearFast(0, (void *)0x06800000, 0xa4000);
+    MIi_CpuClearFast(0, (void *)HW_LCDC_VRAM, 0xa4000);
     GX_DisableBankForLCDC();
 
-    MIi_CpuClearFast(0xc0, (void *)0x07000000, 0x400);
-    MIi_CpuClearFast(0, (void *)0x05000000, 0x400);
-    MIi_CpuClearFast(0xc0, (void *)0x07000400, 0x400);
-    MIi_CpuClearFast(0, (void *)0x05000400, 0x400);
+    MIi_CpuClearFast(0xc0, (void *)HW_OAM, 0x400);
+    MIi_CpuClearFast(0, (void *)HW_BG_PLTT, 0x400);
+    MIi_CpuClearFast(0xc0, (void *)HW_DB_OAM, 0x400);
+    MIi_CpuClearFast(0, (void *)HW_DB_BG_PLTT, 0x400);
 }
 
    /* GX_ResetBankForBGExtPltt */
@@ -3468,9 +3465,9 @@ void BG_SYS_ClearGraphicsMemory(u32 keepBanks)
 
    /* GX_SetBankForTexPltt */
 
-#define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
+#define reg_GX_DISPCNT      (*(volatile u32 *)REG_DISPCNT_ADDR)
 
-#define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
+#define reg_GXS_DB_DISPCNT  (*(volatile u32 *)REG_DB_DISPCNT_ADDR)
 
 static inline void GX_SetOBJVRamModeChar(GXOBJVRamModeChar mode)
 {
@@ -3575,14 +3572,14 @@ void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable)
 
     gVisiblePlanes[1] ^= mask;
     *(volatile u32 *)0x04000000 =
-        (*(volatile u32 *)0x04000000 & ~0x1f00) | (gVisiblePlanes[1] << 8);
+        (*(volatile u32 *)REG_DISPCNT_ADDR & ~0x1f00) | (gVisiblePlanes[1] << 8);
 }
 
 void BG_SYS_SetMainVisiblePlanes(u32 planes)
 {
     gVisiblePlanes[1] = planes;
     *(volatile u32 *)0x04000000 =
-        (*(volatile u32 *)0x04000000 & ~0x1f00) | (planes << 8);
+        (*(volatile u32 *)REG_DISPCNT_ADDR & ~0x1f00) | (planes << 8);
 }
 
 void BG_SYS_ClearSubBgPlanes(void)
@@ -3648,7 +3645,7 @@ void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable)
 
     gVisiblePlanes[0] ^= mask;
     *(volatile u32 *)0x04001000 =
-        (*(volatile u32 *)0x04001000 & ~0x1f00) | (gVisiblePlanes[0] << 8);
+        (*(volatile u32 *)REG_DB_DISPCNT_ADDR & ~0x1f00) | (gVisiblePlanes[0] << 8);
 }
 
 /*
@@ -3659,7 +3656,7 @@ void BG_SYS_SetSubVisiblePlanes(u32 planes)
 {
     gVisiblePlanes[0] = planes;
     *(volatile u32 *)0x04001000 =
-        (*(volatile u32 *)0x04001000 & ~0x1f00) | (planes << 8);
+        (*(volatile u32 *)REG_DB_DISPCNT_ADDR & ~0x1f00) | (planes << 8);
 }
 
 /*
@@ -3689,7 +3686,7 @@ void BG_SYS_ResetSubDisplay(void)
 void BG_SYS_SetLcdSwap(u32 swap)
 {
     *(volatile u16 *)0x04000304 =
-        (*(volatile u16 *)0x04000304 & ~0x8000) | (swap << 15);
+        (*(volatile u16 *)REG_POWCNT1_ADDR & ~0x8000) | (swap << 15);
 }
 
 u32 BG_SYS_GetMainVisiblePlanes(void)

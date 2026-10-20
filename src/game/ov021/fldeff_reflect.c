@@ -61,7 +61,7 @@
  *   gReflectMdlSizeOffsetY     0x021D9B4C  data  a4
  *   GFL_HEAP_Alloc  0x02030734  arm
  */
-struct Actor;
+struct ClactActor;
 struct BbBoard;
 
 #include "../types.h"
@@ -77,9 +77,9 @@ typedef struct ReflectEffectWork {
 typedef struct ReflectTaskHead {
     ReflectEffectWork *effWork;
     u32 type;
-    u32 mmdl;
-    u32 mmdlSys;
-    u32 bbActSys;
+    struct Mmdl *mmdl;
+    struct MmdlSys *mmdlSys;
+    struct BbActSys *bbActSys;
 } ReflectTaskHead;
 
 typedef struct ReflectTaskWork {
@@ -96,72 +96,32 @@ typedef struct ReflectTaskWork {
     u8 checkInfo[4];
 } ReflectTaskWork;
 
-/* Object code parameters (FLDMMDL_GetObjCodeParam). */
-typedef struct ObjCodeParam {
-    u16 code;
-    u8 drawType;
-    u8 drawProcNo;
-    u8 shadowType;
-    u8 footmarkType;
-    u8 reflectType;
-    u8 mdlSize;
-} ObjCodeParam;
 struct FieldEffectSys;
 
-int FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, int id);
+#include "field_effect.h"
 struct FieldEffectObjFuncs;
-void FIELD_EFFECT_AddObject(struct FieldEffectSys *sys, struct FieldEffectObjFuncs *funcs, VecFx32 *pos, u32 mode, void *param, u32 priority);
 struct FieldEffectObj;
-extern void *FIELD_EFFECT_GetObjectParam(struct FieldEffectObj *obj);
-extern void FIELD_EFFECT_DeleteObject(struct FieldEffectObj *obj);
 struct BbActSys;
-extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *sys);
-extern u32 BILLBOARD_ACT_GetEntryElemId(u32 bbActSys, u16 actId);
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/billboard_act.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct MmdlSys;
-extern void *FLDMMDL_SysGetBlActCont(struct MmdlSys *sys);
+#include "../ov010/fldmmdl.h"
 struct BlactSys;
 struct BbActSys;
-extern struct BbActSys *FLDMMDL_BLACT_GetBbActSys(struct BlactSys *cont);
+#include "fldmmdl_blact.h"
 struct MmdlCheckInfo;
 struct Mmdl;
-extern void FLDMMDL_GetCheckInfo(struct Mmdl *mmdl, struct MmdlCheckInfo *info);
-extern void FLDMMDL_BLACT_DeleteActorPos(struct MmdlSys *mmdlSys, u16 *actor);
-extern int FLDMMDL_CheckCheckInfo(struct Mmdl *mmdl, struct MmdlCheckInfo *info);
-extern int FLDMMDL_CheckMoveBitReflect(struct Mmdl *mmdl);
-extern int FLDMMDL_CallDrawGetProc(struct Mmdl *mmdl, u32 kind);
-extern void *FLDMMDL_GetObjCodeParam(void *mmdl);
-extern int FLDMMDL_BLACT_AddActorPosOrReserve(u32 mmdlSys, const u8 *objCodeParam, u16 *actorReq, VecFx32 *pos, u32 initProc, u32 initWork);
-extern void FLDMMDL_BLACT_GetActorSize(struct Mmdl *mmdl, u16 *width, u16 *height);
-extern u32 FIELD_EFFECT_GetFieldMap(struct FieldEffectSys *sys);
 struct FieldMap;
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern int BILLBOARD_ACT_GetEntryFlags(u32 bbActSys, u16 actId);
-extern int BILLBOARD_ACT_SetEntryFlags(struct BbActSys *sys, int entryIndex, unsigned int flags);
-extern void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *sys, int entryIndex, unsigned int enabled);
-struct MmdlVec;
-extern void FLDMMDL_GetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *out);
-extern int FLDMMDL_MOVE_GetMapHeight(struct Mmdl *mmdl, VecFx32 *pos, int *outHeight);
-extern void FLDMMDL_GetDrawOffsetOutside(struct Mmdl *mmdl, struct MmdlVec *out);
-extern u32 FLDMMDL_GetNowAttr(struct Mmdl *mmdl);
-extern u16 MAP_ATTR_GetFlags(u32 attr);
+#include "fieldmap.h"
+struct VecFx32;
+#include "../ov010/fldmmdl_move.h"
+#include "map_attr.h"
 struct FieldMap;
 struct FieldCamera;
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
 struct G3dCamera;
-extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
-extern void BILLBOARD_SetElemPos(struct BbBoard *board, int elemIndex, VecFx32 *pos);
-extern void BILLBOARD_GetElemId(struct BbBoard *board, unsigned int elemIndex, unsigned short *outImageIndex);
-extern void BILLBOARD_SetElemId(struct BbBoard *board, unsigned int elemIndex, unsigned short *imageIndex);
-extern void BILLBOARD_GetElemCell(struct BbBoard *board, int elemIndex, unsigned short *outCell);
-extern void BILLBOARD_SetElemCell(struct BbBoard *board, int elemIndex, unsigned short *cell);
-extern void BILLBOARD_SetElemScale(struct BbBoard *board, int elem, const s16 *rotX, const s16 *rotY);
-extern void BILLBOARD_SetElemFlipT(struct BbBoard *board, unsigned int elemIndex, unsigned int *flipT);
-extern u32 BILLBOARD_GetElemFlipS(struct BbBoard *board, int elemIndex);
-extern void BILLBOARD_SetElemFlipS(struct BbBoard *board, unsigned int elemIndex, unsigned int *flipS);
+#include "field_camera.h"
+#include "../arm9/g3d_camera.h"
+#include "../arm9/billboard.h"
 ReflectEffectWork *FLDEFF_REFLECT_Init(int fieldEffectCtrl, int heapId);
 void FLDEFF_REFLECT_Delete(u32 fieldEffectCtrl, u8 *effWork);
 void FLDEFF_REFLECT_InitResource(void);
@@ -209,9 +169,9 @@ void FLDEFF_REFLECT_SetMMdl(u32 mmdlSys, u32 mmdl, u32 fieldEffectCtrl, u32 type
     ReflectTaskHead head;
 
     head.type = type;
-    head.mmdl = mmdl;
-    head.mmdlSys = mmdlSys;
-    head.bbActSys = (u32)FLDMMDL_BLACT_GetBbActSys((struct BlactSys *)FLDMMDL_SysGetBlActCont((void *)mmdlSys));
+    head.mmdl = (struct Mmdl *)mmdl;
+    head.mmdlSys = (struct MmdlSys *)mmdlSys;
+    head.bbActSys = (struct BbActSys *)FLDMMDL_BLACT_GetBbActSys((struct BlactSys *)FLDMMDL_SysGetBlActCont((void *)mmdlSys));
     head.effWork = (ReflectEffectWork *)FIELD_EFFECT_GetResource((struct FieldEffectSys *)fieldEffectCtrl, 6);
     FIELD_EFFECT_AddObject((struct FieldEffectSys *)fieldEffectCtrl, (struct FieldEffectObjFuncs *)gReflectTaskHeader, (VecFx32 *)0, 0, &head, 0);
 }
@@ -258,7 +218,7 @@ void FLDEFF_REFLECT_UpdateTask(u32 task, ReflectTaskWork *work)
         {
             VecFx32 pos = {0, 0, 0};
             FLDMMDL_BLACT_AddActorPosOrReserve(work->head.mmdlSys, FLDMMDL_GetObjCodeParam((void *)work->head.mmdl), &work->actorReq, &pos,
-                          (u32)FLDEFF_REFLECT_UpdateActor, (u32)work);
+                          (BlactAddActorHook)FLDEFF_REFLECT_UpdateActor, (u32)work);
         }
         work->actorAdded = 1;
     }
@@ -307,11 +267,11 @@ void FLDEFF_REFLECT_UpdateActor(u16 actId, ReflectTaskWork *work)
     u32 flag;
     s16 rot[4];
     u16 zoneId;
-    u32 bbActSys;
+    struct BbActSys *bbActSys;
     u32 board;
     int mmdlActId;
-    u32 mmdl;
-    ObjCodeParam *objCode;
+    struct Mmdl *mmdl;
+    const MmdlObjCodeParam *objCode;
     u32 mmdlBoardElem;
     u32 boardElem;
     u16 mmdlElem;
@@ -328,16 +288,16 @@ void FLDEFF_REFLECT_UpdateActor(u16 actId, ReflectTaskWork *work)
     BILLBOARD_ACT_SetEntryEnabled((void *)bbActSys, actId, 0);
     mmdl = work->head.mmdl;
     objCode = FLDMMDL_GetObjCodeParam((void *)mmdl);
-    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct MmdlVec *)&pos);
+    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct VecFx32 *)&pos);
     pos.z += gReflectMdlSizeOffsetZ[objCode->mdlSize];
-    FLDMMDL_GetDrawOffset((struct Mmdl *)mmdl, (struct MmdlVec *)(&offset));
+    FLDMMDL_GetDrawOffset((struct Mmdl *)mmdl, (struct VecFx32 *)(&offset));
     pos.x += offset.x;
     pos.z -= offset.z;
     if (FLDMMDL_MOVE_GetMapHeight((struct Mmdl *)mmdl, &pos, &height) == 1) {
         pos.y = height;
     }
     pos.y += gReflectTypeOffsetY[work->head.type];
-    FLDMMDL_GetDrawOffsetOutside((struct Mmdl *)mmdl, (struct MmdlVec *)(&offset));
+    FLDMMDL_GetDrawOffsetOutside((struct Mmdl *)mmdl, (struct VecFx32 *)(&offset));
     pos.x += offset.x;
     pos.y -= offset.y;
     pos.z -= offset.z;

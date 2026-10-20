@@ -1,6 +1,10 @@
 #ifndef GAME_ARM9_PARTICLE_H
 #define GAME_ARM9_PARTICLE_H
 
+struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
+struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCamera, u32 limitA, u32 limitB, u32 maxResIndex, u32 heapId);
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of particle.c, prototypes copied from their definitions. */
 
 struct ParticleSys;
@@ -9,6 +13,10 @@ struct ParticleCameraParams;
 struct Obj3D;
 
 #include "../types.h"
+
+typedef struct Vec3U16 {
+    u16 x, y, z;
+} Vec3U16;
 #include "../arm9/billboard_act_shared_types.h"
 #include "../arm9/billboard_act_shared_types.h"
 #include "../arm9/billboard_act_shared_types.h"
@@ -57,6 +65,8 @@ int PARTICLE_ReleaseCamera(struct ParticleSys *sys);
 u32 PARTICLE_GetCallbackArg(void);
 int PARTICLE_EMITTER_GetBlock(struct Obj3D *p);
 void PARTICLE_EMITTER_GetPos(struct Obj3D *p, Vec3 *out);
+void PARTICLE_EMITTER_GetRot(struct Obj3D *p, Vec3U16 *out);
+void PARTICLE_EMITTER_SetRot(struct Obj3D *o, const Vec3U16 *v);
 void PARTICLE_EMITTER_SetPos(struct Obj3D *p, const Vec3 *v);
 int PARTICLE_EMITTER_GetScaleX(struct Obj3D *p);
 void PARTICLE_EMITTER_SetScaleX(struct Obj3D *p, int v);
@@ -84,5 +94,6 @@ int PARTICLE_AllocVramOffset(int a, int b);
 u32 PARTICLE_AllocPlttVramTracked(u32 a, u32 b);
 u16 PARTICLE_RESOURCE_GetType(void *res);
 int G2_GetBGCharPtrById(int i);
+/* END mkheaders: generated region */
 
 #endif

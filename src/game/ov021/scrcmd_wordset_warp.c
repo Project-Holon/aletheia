@@ -104,66 +104,33 @@ typedef struct FieldNogridMapper FieldNogridMapper;
 
 typedef void (*WordSetRegisterFn)(WordSet *wordSet, u32 slot, u32 value);
 
-extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *fieldPlayer);
-extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
-extern void *GAME_DATA_GetEventWork(GameData *gameData);
-extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
-extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *scriptWork);
-extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
-extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
-extern GameSystem *SCRIPT_WORK_GetGameSystem(ScriptWork *scriptWork);
-extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
-extern u16 VM_ReadU16(ScriptVm *vm);
-extern WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
-extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
-extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 slot, MyStatus *myStatus);
-extern void WORDSET_SetSlotFromMsg36(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_SetSlotFromMsg117(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_SetSlotFromMsg118(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern u32 FILE_UTIL_GetMachineMove(u32 value);
-extern void WORDSET_SetSlotFromMsgCB(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_SetSlotFromMsgC7(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_SetSlotSpeciesName(WordSet *wordSet, u32 slot, u16 speciesId);
-extern void WORDSET_SetSlotFromMsg119(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_SetSlotFromMsg37(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern Party *GAME_DATA_GetMyParty(GameData *gameData);
-extern PokemonParam *POKEPARTY_GetMember(Party *party, u32 pos);
-extern void WORDSET_SetSlotMonSpeciesName(WordSet *wordSet, u32 slot, PokemonParam *mon);
-extern void WORDSET_SetSlotMonNickname(WordSet *wordSet, u32 slot, PokemonParam *mon);
+#include "../arm9/beacon.h"
+#include "../arm9/file_util.h"
+#include "../arm9/game_data.h"
+#include "../arm9/game_event.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/pokeparty.h"
+#include "../arm9/vm.h"
+#include "../arm9/wordset.h"
+#include "../arm9/zonedata.h"
+#include "../ov010/scrcmd_work.h"
+#include "../ov010/script_work.h"
+#include "../ov010/script_work_cmd.h"
+#include "field_nogrid_mapper.h"
+#include "field_player.h"
+#include "fldeff_gyoe.h"
 extern Sodateya *FIELDMAP_GetSodateya(FieldMap *fieldMap);
 extern PokemonParam *SODATEYA_GetPokemon(Sodateya *sodateya, u32 index);
-extern void WORDSET_SetSlotNumber(WordSet *wordSet, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
-extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
-extern void WORDSET_SetSlotFromMsg59(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_SetSlotPmsWord(WordSet *wordSet, u32 slot, u32 pmsWord);
-extern void WORDSET_SetSlotFromMsgE7(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_SetSlotFromMsg2B(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_SetSlotFromMsg00(WordSet *wordSet, u32 slot, u8 entryIndex);
-extern void WORDSET_SetSlotFromMsgA0(WordSet *wordSet, u32 slot, s32 entryIndex);
-extern void WORDSET_SetSlotFromMsgBF(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern void WORDSET_SetSlotFromMsg11B(WordSet *wordSet, u32 slot, u32 entryIndex);
-extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
-extern MiscSave *MISC_GetBlock(SaveControl *saveControl);
-extern u32 MISC_GetThanksCount(MiscSave *beacon);
-extern u32 MISC_GetGreetCount(MiscSave *beacon);
-extern GameEvent *GAMESYSTEM_GetEvent(GameSystem *gameSystem);
-extern void GAME_EVENT_CallEvent(GameEvent *parentEvent, GameEvent *childEvent);
 extern GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const VecFx32 *pos, u16 dir, int seasonFadeAllowed);
 extern GameEvent *EVENT_MAPCHANGE_CreateWarpEventPlain(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const VecFx32 *pos, u16 dir);
-extern EventDataSystem *GAME_DATA_GetEventData(GameData *gameData);
 extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
-extern void FIELD_PLAYER_GetPos(FieldPlayer *fieldPlayer, VecFx32 *outPos);
-extern EventRec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(EventDataSystem *eventData, void *eventWork, VecFx32 *pos, int mode);
-extern void EVENTDATA_SYSTEM_GetPosEventCenterPosThunk(const EventRec *event, VecFx32 *outPos);
+#include "../ov010/eventdata_system.h"
 extern GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithTargetPos(GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos, u16 zoneId, const VecFx32 *pos);
-extern void FLDEFF_GYOE_StartHeld(FieldEffectCont *fieldEffectCtrl, Mmdl *mmdl, int type, int sePlay);
 extern GameEvent *EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const VecFx32 *pos, u16 dir);
 extern GameEvent *EVENT_MAPCHANGE_CreateFixedZoneEvent(GameSystem *gameSystem, FieldMap *fieldMap);
 extern GameEvent *EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, const VecFx32 *pos, u16 dir);
 extern FieldNogridMapper *FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
-extern void FIELD_NOGRID_MAPPER_CalcZoneRailLocation(FieldNogridMapper *nogridMapper, u32 zoneId, u16 railIndex, u16 lineGrid, u16 widthPos, RailLocation *outLocation, u16 heapId);
 extern GameEvent *EVENT_MAPCHANGE_CreateRailWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const RailLocation *rail, u16 dir, int seasonFadeAllowed);
 extern GameEvent *EVENT_MAPCHANGE_CreateRailWarpEventWithTransition(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const RailLocation *rail, u16 dir, int seasonFadeAllowed);
 

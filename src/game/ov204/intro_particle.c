@@ -58,27 +58,18 @@ typedef struct IntroParticleWork {
     unsigned char data[18432];  /* 0x0C: PARTICLE_CreateSystemDefault work */
 } IntroParticleWork;
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void PARTICLE_InitManager(unsigned);
+#include "../arm9/particle.h"
 
-extern struct ParticleSys *PARTICLE_CreateSystemDefault(unsigned int workBuf, unsigned int workSize, unsigned int withCamera, unsigned int heapId);
 
-extern int PARTICLE_ReleaseCamera(struct ParticleSys *sys);
 
-extern void PARTICLE_InitCamera(struct ParticleSys *sys, IntroParticleCameraParams *params, u16 angle, int *pos, int *target, int *up, u32 heapId);
 
-extern void *PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
 
-extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, unsigned int applyNow, unsigned int taskMgr);
 
-extern void PARTICLE_ExitManager(void);
 
-extern void PARTICLE_Main(void);
 
-extern int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg);
 
 char *INTRO_PARTICLE_Create(void *owner,unsigned heap);
 
@@ -111,8 +102,8 @@ char *INTRO_PARTICLE_Create(void *owner,unsigned heap)
     config.nearZ=4096;
     config.farZ=4194304;
     config.projScale=4096;
-    PARTICLE_ReleaseCamera(p->system);
-    PARTICLE_InitCamera(p->system,&config,8192,d_021C0B18,d_021C0B0C,d_021C0B24,p->heapId);
+    PARTICLE_ReleaseCamera((struct ParticleSys *)p->system);
+    PARTICLE_InitCamera((struct ParticleSys *)p->system,(struct ParticleCameraParams *)&config,8192,(Vec3 *)d_021C0B18,(Vec3 *)d_021C0B0C,(Vec3 *)d_021C0B24,p->heapId);
     PARTICLE_SetupSystem(p->system,PARTICLE_LoadArchiveMember(6,6,p->heapId),1,0);
     return (char *)p;
 }

@@ -157,7 +157,7 @@ void FIELD_STATUS_SetFlashActive(struct FieldStatus *fs, u8 flashActive);
 
 u8 FIELD_STATUS_IsFlashActive(struct FieldStatus *fs);
 
-void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fs, u16 mapEffectMask);
+void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fs, u32 mapEffectMask);
 
 u16 FIELD_STATUS_GetMapEffectMask(struct FieldStatus *fs);
 
@@ -296,7 +296,7 @@ u8 FIELD_STATUS_IsFlashActive(struct FieldStatus *fs)
     return fs->flashActive;
 }
 
-void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fs, u16 mapEffectMask)
+void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fs, u32 mapEffectMask)
 {
     fs->mapEffectMask = mapEffectMask;
 }
@@ -803,7 +803,7 @@ int FIELD_STATUS_SubProcListEvent(struct GameEvent *event, u32 *seq, void *work)
      * words unattested (MATCH, not EXACT), since the overlays are not linked here. */
     switch (*seq) {
     case 0:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov091_id, (void *)0x021BED00, wk->firstParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov091_id, (void *)0x021BED00, wk->firstParam);
         *seq = 1;
         break;
     case 1:
@@ -824,7 +824,7 @@ int FIELD_STATUS_SubProcListEvent(struct GameEvent *event, u32 *seq, void *work)
         *seq = 5;
         break;
     case 3:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov131_id, (void *)0x021DC800, wk->secondParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov131_id, (void *)0x021DC800, wk->secondParam);
         *seq = 4;
         break;
     case 4:
@@ -855,10 +855,10 @@ void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int
  */
 void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target)
 {
-    void *task = GAME_EVENT_Create(anime, 0, (void *)((int)FIELD_STATUS_SubProcListEvent), 0x10);
+    void *task = GAME_EVENT_Create(anime, 0, (void *)((sptr)FIELD_STATUS_SubProcListEvent), 0x10);
     u32 *taskWork = GAME_EVENT_GetWork(task);
 
-    taskWork[0] = (u32)anime;
+    taskWork[0] = (uptr)anime;
     taskWork[1] = slot;
     taskWork[2] = config;
     taskWork[3] = target;

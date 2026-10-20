@@ -17,7 +17,7 @@ typedef struct FieldGimmickWork FieldGimmickWork;
 int FIELD_ENCOUNT_ST_LoadEncountData(EncountRow *row, struct ArcFile *arc, u32 zoneId, int seasonIndex);
 void *FIELD_ENCOUNT_ST_Create(u32 heapId);
 void FIELD_ENCOUNT_ST_Delete(void *encountState);
-int FIELD_ENCOUNT_ST_GetEffectEncount(struct FieldMap *fieldMap);
+void FIELD_ENCOUNT_ST_GetEffectEncount(struct FieldMap *fieldMap);
 FieldGimmickWork *FIELD_ENCOUNT_ST_ResetGimmickState(struct GameData *gameData);
 /* END mkheaders: generated region */
 

@@ -57,37 +57,22 @@
  *   DWCi_SceneMenu  0x021C1984  arm  ov016
  *   DWCi_SceneSetSelectAp  0x021CBC90  arm  ov016
  */
-typedef void (*LoadFunc)(void *, unsigned long, unsigned long);
 
-extern void DWCi_SETTIGNlInit(void);
-extern void DWCi_MSGlInit(void);
-extern void DWCi_FOCUSlInit(void);
-extern void DWCi_HLlInit(void);
-extern void DWCi_COMMENTlInit(void);
-extern unsigned char DWCi_Language(void);
-extern int DWCi_Flag(unsigned long flag);
-extern void *DWCi_MSGlRead(char *file);
-extern unsigned char *DWCi_Char(unsigned char *name);
-extern void DWCi_CEINlRead(int lcd, char *file);
-extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern unsigned int DWCi_Entry(void);
-extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_ChangeScene(unsigned int v);
-extern void GXS_LoadBG1Char(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GXS_LoadBGPltt(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GXS_LoadOBJ(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GXS_LoadOBJPltt(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GX_LoadBG2Char(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GX_LoadBGPltt(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GX_LoadOBJ(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GX_LoadOBJPltt(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GXS_LoadBG1Scr(void *pSrc, unsigned int offset, unsigned int szByte);
+#include "setting.h"
+#include "message.h"
+#include "focus.h"
+#include "headline.h"
+#include "comment.h"
+#include "dwcutil_main.h"
+#include "common.h"
+#include "cellinfo.h"
+#include "graphics.h"
+#include "../arm9/gx_load2d.h"
 typedef _Bool bool;
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlCheck(int lcd);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SceneMenu(void);
-extern void DWCi_SceneSetSelectAp(void);
+#include "scenemenu.h"
+#include "scenesetselectap.h"
 void DWCi_SceneInit(void);
 extern char *sSceneInitTable1[7];
 extern char sSceneInitTable2[];
@@ -130,20 +115,20 @@ void DWCi_SceneInit(void)
     }
     DWCi_CEINlRead(1, (char *)DWCi_Char((unsigned char *)sSceneInitTable3));
     DWCi_CEINlRead(0, (char *)DWCi_Char((unsigned char *)sSceneInitTable4));
-    DWCi_CMNlLoadResource(sSceneInitPathJtBgMainChar, (LoadFunc)GXS_LoadBG1Char);
-    DWCi_CMNlLoadResource(sSceneInitPathJtBgMainPltt, (LoadFunc)GXS_LoadBGPltt);
-    DWCi_CMNlLoadResource(sSceneInitPathJtObjMainChar, (LoadFunc)GXS_LoadOBJ);
-    DWCi_CMNlLoadResource(sSceneInitPathXtObjMainPltt, (LoadFunc)GXS_LoadOBJPltt);
-    DWCi_CMNlLoadResource(sSceneInitPathJbBgStep1Char, (LoadFunc)GX_LoadBG2Char);
-    DWCi_CMNlLoadResource(sSceneInitPathJbBgStep1Pltt, (LoadFunc)GX_LoadBGPltt);
-    DWCi_CMNlLoadResource(sSceneInitPathJbObjMainChar, (LoadFunc)GX_LoadOBJ);
-    DWCi_CMNlLoadResource(sSceneInitPathYbObjMainPltt, (LoadFunc)GX_LoadOBJPltt);
+    DWCi_CMNlLoadResource(sSceneInitPathJtBgMainChar, GXS_LoadBG1Char);
+    DWCi_CMNlLoadResource(sSceneInitPathJtBgMainPltt, GXS_LoadBGPltt);
+    DWCi_CMNlLoadResource(sSceneInitPathJtObjMainChar, GXS_LoadOBJ);
+    DWCi_CMNlLoadResource(sSceneInitPathXtObjMainPltt, GXS_LoadOBJPltt);
+    DWCi_CMNlLoadResource(sSceneInitPathJbBgStep1Char, GX_LoadBG2Char);
+    DWCi_CMNlLoadResource(sSceneInitPathJbBgStep1Pltt, GX_LoadBGPltt);
+    DWCi_CMNlLoadResource(sSceneInitPathJbObjMainChar, GX_LoadOBJ);
+    DWCi_CMNlLoadResource(sSceneInitPathYbObjMainPltt, GX_LoadOBJPltt);
     switch (DWCi_Entry()) {
     case 0:
-        DWCi_CMNlLoadResource(sSceneInitPathJtTopScr, (LoadFunc)GXS_LoadBG1Scr);
+        DWCi_CMNlLoadResource(sSceneInitPathJtTopScr, GXS_LoadBG1Scr);
         break;
     case 1:
-        DWCi_CMNlLoadResource(sSceneInitPathJtStep1Scr, (LoadFunc)GXS_LoadBG1Scr);
+        DWCi_CMNlLoadResource(sSceneInitPathJtStep1Scr, GXS_LoadBG1Scr);
         break;
     }
     *(volatile unsigned short *)0x0400100A = (*(volatile unsigned short *)0x0400100A & ~3) | 3;
@@ -151,7 +136,7 @@ void DWCi_SceneInit(void)
     *(volatile unsigned short *)0x0400000A = (*(volatile unsigned short *)0x0400000A & ~3) | 3;
     DWCi_GXlVisible(1, 2);
     DWCi_GXlVisible(0, 2);
-    DWCi_ChangeScene((unsigned int)procFade);
+    DWCi_ChangeScene((uptr)procFade);
 }
 
 
@@ -159,7 +144,7 @@ static void procFade(void)
 {
 	DWCi_EFFlFade(2, 1, 2, 0x14);
 	DWCi_EFFlFade(2, 0, 2, 0x14);
-	DWCi_ChangeScene((unsigned int)DWCi_SceneInitProcWait);
+	DWCi_ChangeScene((uptr)DWCi_SceneInitProcWait);
 }
 
 
@@ -172,11 +157,11 @@ static void DWCi_SceneInitProcWait(void)
 	switch (DWCi_Entry()) {
 	case 0:
 		DWCi_SetParam_(0, (unsigned int)(1));
-		DWCi_ChangeScene((unsigned int)DWCi_SceneMenu);
+		DWCi_ChangeScene((uptr)DWCi_SceneMenu);
 		break;
 	case 1:
 		DWCi_SetParam_((unsigned int)(1), (unsigned int)(1));
-		DWCi_ChangeScene((unsigned int)DWCi_SceneSetSelectAp);
+		DWCi_ChangeScene((uptr)DWCi_SceneSetSelectAp);
 		break;
 	}
 }

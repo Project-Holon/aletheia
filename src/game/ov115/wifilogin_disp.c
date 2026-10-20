@@ -188,243 +188,192 @@ struct Node;
 
 struct Bank;
 
-typedef struct BgTemplate {
-    u32 x, y, bufSize, baseTile;
-    u8 screenSize, colorMode, screenBase, charBase;
-    u32 charSize;
-    u8 priority, areaOver, dummy, mosaic;
-    u32 affineParam;
-} BgTemplate;
+#ifdef __MWERKS__
+#define BG_SYS_PushTile BG_SYS_PushTile_hdr
+#define BG_SYS_SetTileEntry BG_SYS_SetTileEntry_hdr
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_PushTile
+#undef BG_SYS_SetTileEntry
+void BG_SYS_PushTile(u8);
+void BG_SYS_SetTileEntry(u8, int, int, int, u8, u8, u8);
+#endif
 
-struct Rect { short x,y; u16 z; u8 kind,mode; };
+struct WifiloginDispRect { short x,y; u16 z; u8 kind,mode; };
 struct GameData;
 struct FieldState;
 
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
+#include "../arm9/game_data.h"
 struct WifiList;
 
-extern struct WifiList *WIFILIST_GetWork(struct WifiList *list);
+#include "../arm9/wifilist.h"
 
-extern struct Sub020097BCFriend *WIFILIST_GetDwcFriendData(struct Sub020097BCObj *obj, int i);
 
-extern void WIFILIST_MergeFriendRecord(struct WifiList *list, int src, int dest);
 
-extern u32 WIPE_SYS_EndCheck(void);
+#include "../arm9/wipe.h"
 
-extern void WIFILOGIN_COMMON_SetStateHandler(u8 *,u32);
+#include "wifilogin_common.h"
 
-extern int WIFILOGIN_COMMON_IsCancelInput(u8 *);
 
-extern int GFL_NET_STATE_IsWifiLoginState(void);
+#include "../arm9/net_state.h"
 
-extern u32 APP_ENV_IsRunOnTwl(void);
+#ifdef __MWERKS__
+#define APP_ENV_IsWirelessAvailable APP_ENV_IsWirelessAvailable_hdr
+#endif
+#include "../arm9/app_env.h"
+#ifdef __MWERKS__
+#undef APP_ENV_IsWirelessAvailable
+int APP_ENV_IsWirelessAvailable(u8 *);
+#endif
 
-extern unsigned char DWC_RAP_IsUserDataChanged(void);
+#include "../ov009/dwc_rap.h"
 struct GameData;
 
-extern int GAME_DATA_SaveMain(struct GameData *gd);
 
-extern void DWC_RAP_ClearUserDataChanged(int);
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern int WIFILIST_GetGsProfileId(struct WifiList *list);
 
-extern void MYSTATUS_SetProfileIdOnce(struct MyStatus *mystatus, unsigned int profile_id);
+#include "../arm9/mystatus.h"
 
-extern int GAME_DATA_SaveStart(struct GameData *gd);
 
-extern int OS_IsRunOnTwl(void);
+#include "../arm9/os_emulator.h"
 
-extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
+#include "../arm9/net.h"
 
-extern void GFL_NET_STATE_WifiStartMatch(void);
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern u32 GFL_NET_STATE_GetError(void);
 
-extern void GFL_NET_ERR_ShowSimpleScreen(void);
 
-extern int GFL_NET_GetRunState(void);
 
-extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 
-extern void GFL_NET_STATE_SetWifiError(void);
 
-extern void GFL_NET_ERR_ResetState(void);
 
-extern void GFL_NET_STATE_ClearErrorMode(void);
 
-extern void GFL_NET_ERR_HaltIfActive(void);
 struct RegulationCard;
 
-extern struct RegulationCard *REGULATION_GetCard(struct RegulationCard *cards, u32 index);
+#include "../arm9/regulation.h"
 struct SaveControl;
 struct BattleCompetitionSave;
 
-extern struct BattleCompetitionSave *BATTLE_COMPETITION_GetFromSave(struct SaveControl *save);
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 struct BattleBoxSave;
 
-extern void BATTLE_BOX_ClearLockFlags(struct BattleBoxSave *box, int flags);
+#include "../arm9/battle_box.h"
 
-extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
 
-extern void REGULATION_Card_SetValue(struct RegulationCard *card, unsigned int id, int value);
 
-extern void WIFILIST_Init(struct WifiList *list);
 
-extern int REGULATION_Card_GetValue(struct RegulationCard *card, u32 id);
 
-extern int APP_ENV_IsWirelessAvailable(u8 *);
 
-extern u32 APP_ENV_IsEulaAgreed(void);
 
-extern int DWC_CheckHasProfile(struct DWCstAccUserData *userdata);
+#include "../arm9/dwc_account.h"
 
-extern int DWC_CheckValidConsole(struct DWCstAccUserData *userdata);
 
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 
-extern void GFL_USE_FadeOutBgm(u32 a);
+#include "../arm9/gfl_use.h"
 
-extern int DWC_SVLGetTokenAsync(char *svl, void *result);
+#include "../ov009/dwc_nasfunc.h"
 
-extern int DWC_SVLProcess(void);
 
-extern void GF_PANIC_Fail(const char *,u32,const char *);
+#include "../arm9/gf_panic.h"
 
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
+#include "../arm9/gfl_heap.h"
 
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+#include "../arm9/procsys.h"
 
-extern void MI_CpuFill8(void *,int,unsigned);
+#include "../arm9/mi_memory.h"
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void PROCSYS_FreeProcWork(struct Proc *p);
 
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void BG_SYS_SetMainVisiblePlanes(u32);
 
-extern void BG_SYS_SetSubVisiblePlanes(u32);
 
-extern void BG_SYS_SetLcdSwap(u32);
 
-extern void GX_DispOn(void);
+#include "../arm9/gx.h"
 
-extern void BG_SYS_Create(u16);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
-
-extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
-
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-
-extern void BG_SYS_Delete(void);
-
-extern u32 GFL_HEAP_Free(void *p);
-
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-
-extern void BG_SYS_PushTile(u8);
-
-extern void BG_SYS_Init(u32,u32,u32,u32);
-
-extern void BG_SYS_SetTileEntry(u8,int,int,int,u8,u8,u8);
-
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+#include "../arm9/tcb_list.h"
 
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
-extern void MI_CpuCopy8(const void *, void *, u32);
 
-extern void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
 
-extern void DC_FlushRange(void *, int);
 
-extern void *GFL_USE_AddMainTask(void *, void *, int);
 
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 
-extern void ARC_TOOL_DeleteHandle(void *);
+#include "../arm9/arc_tool.h"
 
-extern void GX_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 
-extern void GXS_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadPaletteFromHandleWhole ARC_UTIL_UploadPaletteFromHandleWhole_hdr
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_UploadPaletteFromHandleWhole
+void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
+#endif
 
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
+#ifdef __MWERKS__
+#define PALANM_BlendColors PALANM_BlendColors_hdr
+#endif
+#include "../arm9/palanm.h"
+#ifdef __MWERKS__
+#undef PALANM_BlendColors
+void PALANM_BlendColors(u16 *, u16 *, int, u8, u16);
+#endif
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
+#include "../arm9/os_cache.h"
 
-extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
-extern int CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+#include "../arm9/g2.h"
 
-extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern void ARC_TOOL_DeleteHandle(void *);
+#include "../arm9/gx_load2d.h"
 
-extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
-struct Actor;
 
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 
-extern void *GFL_USE_AddHBlankTask(u32,u32,u32);
 
-extern void FX_MakeSineTable(short *,u32,u16,int);
+
+
+#include "../arm9/clact.h"
+
+
+
+
+struct ClactActor;
+
+
+
+
+#include "../arm9/pmsi_param.h"
 struct DispVramCfg;
 struct SysInit;
 
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void CLACT_DrawSystem(void);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_ReleasePalette(u32);
 
-extern void CLACT_ReleaseCharacter(u32);
 
-extern void CLACT_ReleaseCellAnim(u32);
 
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void CLACT_ExitSystem(void);
 
-extern void CLACT_VBlankSystem(void);
 
 void WIFILOGIN_DISP_OpenProfileCard(u8 *p);
 
@@ -526,37 +475,22 @@ void WIFILOGIN_DISP_SetPaletteFlag(u8 *p);
 
 void WIFILOGIN_DISP_SetupScreen(u8 *p);
 
-u8 *WIFILOGIN_MSG_Create(u32 heap, u32 bank, u32 mode);
+#include "wifilogin_message.h"
 
-void WIFILOGIN_MSG_Run(u8 *p);
 
-void WIFILOGIN_MSG_Delete(u8 *p);
 
-void WIFILOGIN_MSG_Draw(void *p, int b);
 
-void WIFILOGIN_MSG_SetMessage(void *p, int b);
 
-int WIFILOGIN_MSG_IsPrintDone(u8 *p);
 
-void WIFILOGIN_MSG_RedrawWindow(u8 *p);
 
-void WIFILOGIN_MSG_ShowMessage(u8 *p, u32 n);
 
-void WIFILOGIN_MSG_CloseMessage(u8 *p);
 
-void *WIFILOGIN_MSG_OpenTask(u8 *p, int mode, int flag, int selected);
 
-void WIFILOGIN_MSG_CloseTask(u8 *p);
 
-void WIFILOGIN_MSG_UpdateTask(u8 *p);
 
-int WIFILOGIN_MSG_IsTaskFinish(u8 *p);
 
-u8 WIFILOGIN_MSG_GetTaskCursor(u8 *p);
 
-void WIFILOGIN_MSG_PrintMessage(u8 *p,u32 n);
 
-void WIFILOGIN_MSG_RedrawBorder(u8 *p);
 
 extern u8 d_021D6560[];
 
@@ -574,11 +508,11 @@ extern u32 d_021D65D4[];
 
 extern const struct BgTemplate data_021D6364,data_021D64C4,data_021D64A4,data_021D6484;
 
-extern const BgTemplate d_021D6464, d_021D6444, d_021D6424, d_021D6524;
+extern const struct BgTemplate d_021D6464, d_021D6444, d_021D6424, d_021D6524;
 
-extern const BgTemplate d_021D63E4, d_021D63C4, d_021D63A4, d_021D6384;
+extern const struct BgTemplate d_021D63E4, d_021D63C4, d_021D63A4, d_021D6384;
 
-extern const BgTemplate d_021D6404, d_021D6344, d_021D64E4, d_021D6504;
+extern const struct BgTemplate d_021D6404, d_021D6344, d_021D64E4, d_021D6504;
 
 extern u8 gClActorInitParam[];
 
@@ -621,7 +555,7 @@ void WIFILOGIN_DISP_StepCheckSave(u8 *p) {
 }
 
 void WIFILOGIN_DISP_StartSession(u8 *p) {
- int z; if(OS_IsRunOnTwl()) *(u32 *)(d_021D6560+0x48)=0x79000; else *(u32 *)(d_021D6560+0x48)=0x5e400; if(((struct WifiloginWork *)p)->state->dialogId==44) *(u32 *)(d_021D6560+0x48)=0x50000; else if(((struct WifiloginWork *)p)->state->dialogId==36) *(u32 *)(d_021D6560+0x48)=0x6e000; if(((struct WifiloginWork *)p)->state->dialogId!=10) *(u32 *)(d_021D6560+0x40)=0; z=0; d_021D65C0[7]=((struct WifiloginWork *)p)->state->dialogId; *(u32 *)gWifiloginDialogId=((struct WifiloginWork *)p)->state->dialogId; GFL_NET_StartSession((struct Req *)d_021D6560,z,(u32)p); GFL_NET_STATE_WifiStartMatch(); if(!((struct WifiloginWork *)p)->state->reconnect) GFL_NET_RefreshWmIconAtTopRight(z,((struct WifiloginWork *)p)->heapId); else GFL_NET_RefreshWmIconAtTopRight(1,((struct WifiloginWork *)p)->heapId); WIFILOGIN_MSG_SetMessage((void *)((struct WifiloginWork *)p)->message,23); WIFILOGIN_DISP_SetPaletteFlag(((struct WifiloginWork *)p)->disp); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCheckSave);
+ int z; if(OS_IsRunOnTwl()) *(u32 *)(d_021D6560+0x48)=0x79000; else *(u32 *)(d_021D6560+0x48)=0x5e400; if(((struct WifiloginWork *)p)->state->dialogId==44) *(u32 *)(d_021D6560+0x48)=0x50000; else if(((struct WifiloginWork *)p)->state->dialogId==36) *(u32 *)(d_021D6560+0x48)=0x6e000; if(((struct WifiloginWork *)p)->state->dialogId!=10) *(u32 *)(d_021D6560+0x40)=0; z=0; d_021D65C0[7]=((struct WifiloginWork *)p)->state->dialogId; *(u32 *)gWifiloginDialogId=((struct WifiloginWork *)p)->state->dialogId; GFL_NET_StartSession((GFLNetInitializeStruct *)d_021D6560,z,(u32)p); GFL_NET_STATE_WifiStartMatch(); if(!((struct WifiloginWork *)p)->state->reconnect) GFL_NET_RefreshWmIconAtTopRight(z,((struct WifiloginWork *)p)->heapId); else GFL_NET_RefreshWmIconAtTopRight(1,((struct WifiloginWork *)p)->heapId); WIFILOGIN_MSG_SetMessage((void *)((struct WifiloginWork *)p)->message,23); WIFILOGIN_DISP_SetPaletteFlag(((struct WifiloginWork *)p)->disp); WIFILOGIN_COMMON_SetStateHandler((u8 *)p,(u32)WIFILOGIN_DISP_StepCheckSave);
 }
 
 void WIFILOGIN_DISP_StepConfirmProfileResult(u8 *p) {
@@ -672,7 +606,11 @@ void WIFILOGIN_DISP_StepCancelWait(u8 *p) {
  */
 void WIFILOGIN_DISP_StepCheckAccount(u8 *p)
 {
+#ifdef __MWERKS__
     if(APP_ENV_IsWirelessAvailable(p)==0) {
+#else
+    if(APP_ENV_IsWirelessAvailable()==0) {
+#endif
         WIFILOGIN_MSG_CloseMessage((u8 *)((int)(((struct WifiloginWork *)p)->message)));
         WIFILOGIN_MSG_PrintMessage(((struct WifiloginWork *)p)->message,39);
         ((struct WifiloginWork *)p)->state->aidMismatch=1;
@@ -903,7 +841,7 @@ void WIFILOGIN_DISP_InitBgLayersA(u32 unused,unsigned long base)
  */
 void WIFILOGIN_DISP_InitBgLayersB(void *unused, unsigned long base)
 {
-    BgTemplate t0, t1, t2, t3;
+    struct BgTemplate t0, t1, t2, t3;
     unsigned long id1, id2, id3;
     t0 = d_021D6464;
     BG_SYS_InitBgLayer((u8)base, &t0, 0);
@@ -930,7 +868,7 @@ void WIFILOGIN_DISP_InitBgLayersB(void *unused, unsigned long base)
 
 void WIFILOGIN_DISP_InitBgLayersC(void *unused, unsigned long base)
 {
-    BgTemplate t0, t1, t2, t3;
+    struct BgTemplate t0, t1, t2, t3;
     unsigned long id1, id2, id3;
     t0 = d_021D63E4;
     BG_SYS_InitBgLayer((u8)base, &t0, 0);
@@ -961,7 +899,7 @@ void WIFILOGIN_DISP_InitBgLayersC(void *unused, unsigned long base)
 
 void WIFILOGIN_DISP_InitBgLayersD(void *unused, unsigned long base)
 {
-    BgTemplate t0, t1, t2, t3;
+    struct BgTemplate t0, t1, t2, t3;
     unsigned long id1, id2, id3;
     t0 = d_021D6404;
     BG_SYS_InitBgLayer((u8)base, &t0, 0);
@@ -1072,7 +1010,7 @@ void WIFILOGIN_DISP_CreateActors(u8 *p)
 {
     enum { Zero=0 } zero;
     u32 res;
-    struct Rect a,b;
+    struct WifiloginDispRect a,b;
     res = (u32)ARC_TOOL_CreateHandle((u32)((void *)143), ((struct WifiloginDisp *)p)->heapId);
     zero=Zero;
     ARC_UTIL_UploadPaletteFromHandleWhole((void *)((u32)res),0,4,zero,0,((struct WifiloginDisp *)p)->heapId);
@@ -1090,21 +1028,21 @@ void WIFILOGIN_DISP_CreateActors(u8 *p)
     *(int *)&((struct WifiloginDisp *)p)->cellAnimHandle = CLACT_RegisterCellAnim((void *)((u32)res),12,25,((struct WifiloginDisp *)p)->heapId);
     ARC_TOOL_DeleteHandle((void *)res);
     a.x=128; a.y=96; a.z=10; a.kind=0; a.mode=2;
-    *(struct Obj * *)&((struct WifiloginDisp *)p)->actors[0] = CLACT_CreateActor((void *)((struct WifiloginDisp *)p)->unit,((struct WifiloginDisp *)p)->charHandle,((struct WifiloginDisp *)p)->paletteHandle,((struct WifiloginDisp *)p)->cellAnimHandle,&a,1,((struct WifiloginDisp *)p)->heapId);
-    CLACT_SetActorAutoAnim((struct Actor *)(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[0]),1);
-    CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[0]),1);
+    *(struct ClactActor * *)&((struct WifiloginDisp *)p)->actors[0] = CLACT_CreateActor((void *)((struct WifiloginDisp *)p)->unit,((struct WifiloginDisp *)p)->charHandle,((struct WifiloginDisp *)p)->paletteHandle,((struct WifiloginDisp *)p)->cellAnimHandle,(const struct ActorInitParam *)&a,1,((struct WifiloginDisp *)p)->heapId);
+    CLACT_SetActorAutoAnim((struct ClactActor *)((struct ClactActor *)(*(struct ClactActor * *)&((struct WifiloginDisp *)p)->actors[0])),1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)((struct ClactActor *)(*(struct ClactActor * *)&((struct WifiloginDisp *)p)->actors[0])),1);
     b.x=128; b.y=96; b.z=11; b.kind=1; b.mode=2;
-    *(struct Obj * *)&((struct WifiloginDisp *)p)->actors[1] = CLACT_CreateActor((void *)((struct WifiloginDisp *)p)->unit,((struct WifiloginDisp *)p)->charHandle,((struct WifiloginDisp *)p)->paletteHandle,((struct WifiloginDisp *)p)->cellAnimHandle,&b,1,((struct WifiloginDisp *)p)->heapId);
-    CLACT_SetActorAutoAnim((struct Actor *)(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[1]),1);
-    CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[1]),1);
-    G2x_SetBlendAlpha_((void *)0x04000050,4,3,6,16);
-    G2x_SetBlendAlpha_((void *)0x04001050,8,21,6,16);
-    ((struct WifiloginDisp *)p)->hblankTask = GFL_USE_AddHBlankTask((u32)WIFILOGIN_DISP_ScanlineEffect,(u32)p,0);
+    *(struct ClactActor * *)&((struct WifiloginDisp *)p)->actors[1] = CLACT_CreateActor((void *)((struct WifiloginDisp *)p)->unit,((struct WifiloginDisp *)p)->charHandle,((struct WifiloginDisp *)p)->paletteHandle,((struct WifiloginDisp *)p)->cellAnimHandle,(const struct ActorInitParam *)&b,1,((struct WifiloginDisp *)p)->heapId);
+    CLACT_SetActorAutoAnim((struct ClactActor *)((struct ClactActor *)(*(struct ClactActor * *)&((struct WifiloginDisp *)p)->actors[1])),1);
+    CLACT_SetActorDrawEnable((struct ClactActor *)((struct ClactActor *)(*(struct ClactActor * *)&((struct WifiloginDisp *)p)->actors[1])),1);
+    G2x_SetBlendAlpha_((unsigned int *)((void *)0x04000050),4,3,6,16);
+    G2x_SetBlendAlpha_((unsigned int *)((void *)0x04001050),8,21,6,16);
+    ((struct WifiloginDisp *)p)->hblankTask = GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((u32)WIFILOGIN_DISP_ScanlineEffect),(void *)((u32)p),0);
     FX_MakeSineTable(((struct WifiloginDisp *)p)->sineTable,192,1456,6144);
     ((struct WifiloginDisp *)p)->frameTimer = 10;
 }
 
-void WIFILOGIN_DISP_CreateUnit(u8 *p) { CLACT_InitSystem((struct SysInit *)gClActorInitParam,(struct DispVramCfg *)d_021D65E4,((struct WifiloginDisp *)p)->heapId); ((struct WifiloginDisp *)p)->unit=CLACT_CreateUnit(40,0,((struct WifiloginDisp *)p)->heapId); ((struct WifiloginDisp *)p)->vblankTask=GFL_USE_AddMainTask((void *)WIFILOGIN_DISP_VBlank,p,0); }
+void WIFILOGIN_DISP_CreateUnit(u8 *p) { CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam,(const struct DispVramCfg *)d_021D65E4,((struct WifiloginDisp *)p)->heapId); ((struct WifiloginDisp *)p)->unit=CLACT_CreateUnit(40,0,((struct WifiloginDisp *)p)->heapId); ((struct WifiloginDisp *)p)->vblankTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))WIFILOGIN_DISP_VBlank,(void *)p,0); }
 
 void WIFILOGIN_DISP_DrawActors(u8 *p) {
     ++((struct WifiloginDisp *)p)->scanline;
@@ -1120,7 +1058,7 @@ void WIFILOGIN_DISP_DeleteActors(u8 *p) {
     int i;
     for (i = 0; i < 5; ++i) {
         if (((struct WifiloginDisp *)p)->actors[i]) {
-            CLACT_DeleteActor((struct Actor *)(((struct WifiloginDisp *)p)->actors[i]));
+            CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(((struct WifiloginDisp *)p)->actors[i])));
             ((struct WifiloginDisp *)p)->actors[i] = 0;
         }
     }
@@ -1129,7 +1067,7 @@ void WIFILOGIN_DISP_DeleteActors(u8 *p) {
     CLACT_ReleaseCellAnim(((struct WifiloginDisp *)p)->cellAnimHandle);
     if (((struct WifiloginDisp *)p)->hblankTask) TCB_DeleteTask((struct TcbTask *)(((struct WifiloginDisp *)p)->hblankTask));
     TCB_DeleteTask((struct TcbTask *)(((struct WifiloginDisp *)p)->vblankTask));
-    CLACT_DeleteUnit((struct Bank *)(((struct WifiloginDisp *)p)->unit));
+    CLACT_DeleteUnit((struct Unit *)((struct Bank *)(((struct WifiloginDisp *)p)->unit)));
     CLACT_ExitSystem();
 }
 

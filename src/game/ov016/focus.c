@@ -32,14 +32,11 @@ typedef struct {
     void *cell[4];
 } MemFocus;
 
-extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
+#include "heap.h"
 void DWCi_FOCUSlDelete(void);
-extern void DWCi_HEAPlFree_(void **mem);
 extern void *DWCi_CEINlSetExCell(s32 lcd, s32 idx, bool head);
-extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
-extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
+#include "cell.h"
 struct CellInfo;
-extern void DWCi_CELLlDelete(struct CellInfo *p);
 void DWCi_FOCUSlInit(void);
 void DWCi_FOCUSlEnd(void);
 void DWCi_FOCUSlDisp(int kind, int x0, int x1, int y);

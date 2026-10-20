@@ -48,26 +48,16 @@ struct Bank;
 struct TextureList;
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 struct Renderer;
-extern void CLACT_DeleteRenderer(struct Renderer *renderer);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern int FIELD_3DBG_DeleteBillboard(Field3dbgBillboard *billboard);
-extern u32 GFL_HEAP_Free(void *p);
-extern int GF_OVERLAY_Load(s32 overlayId);
-extern void GF_OVERLAY_Unload(int overlayId);
-void FIELD_3DBG_DrawBillboard(Field3dbgBillboard *billboard);
-void FIELD_3DBG_ReleaseBillboardTextureVram(Field3dbgBillboard *billboard);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+#include "../arm9/clact.h"
+#include "field_3dbg.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gf_overlay.h"
 struct SurfaceInit;
-extern struct Renderer *CLACT_CreateRenderer(struct SurfaceInit *inits, u32 count, u32 heap_id);
-extern void CLACT_SetUnitRenderer(struct Bank *bank, struct TextureList *list);
-extern struct WeatherTaskSys *WEATHER_TASK_Create(struct Bank *bank, u32 obj10, u32 obj14, u32 obj18, u32 obj1C, WeatherSys *sys, u32 weatherParam, u16 zoneId, u16 heapId);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*cb)(int taskId, void *work), void *work, u32 priority);
-WeatherSys *WEATHER_Create(u32 obj10, u32 obj14, u32 obj18, u32 obj1C, u32 weatherParam, u16 zoneId, u16 heapId);
+struct TcbTask;
+#include "../arm9/gfl_use.h"
+WeatherSys *WEATHER_Create(struct FieldCamera *camera, struct FieldLight *light, struct FieldFog *fog, struct FieldZoneFog *zoneFog, struct FieldSoundSystem *soundSys, u16 zoneId, u16 heapId);
 void WEATHER_Delete(WeatherSys *sys);
 void WEATHER_Update(WeatherSys *sys, u16 frames);
 void WEATHER_Draw(WeatherSys *sys);
@@ -84,13 +74,8 @@ void WEATHER_UpdateSequential(WeatherSys *sys, int frames);
 void WEATHER_UpdateCrossfade(WeatherSys *sys, int frames);
 int WEATHER_GetTransitionMode(u16 currentWeatherId, u16 nextWeatherId);
 /* Weather task (weather_task.c). */
-void WEATHER_TASK_Delete(struct WeatherTaskSys *task);
-void WEATHER_TASK_Update(struct WeatherTaskSys *task, u16 frames);
+#include "weather_task.h"
 struct WeatherKindDef;
-void WEATHER_TASK_Start(struct WeatherTaskSys *task, struct WeatherKindDef *kind, u8 startMode, u32 updatesParticles, u32 variant, u32 useSoundSys, u32 reserved);
-void WEATHER_TASK_RequestEnd(struct WeatherTaskSys *task, u32 isFadeOut, u32 fadeKind);
-void WEATHER_TASK_ForceEnd(struct WeatherTaskSys *task);
-int WEATHER_TASK_GetPhase(struct WeatherTaskSys *task);
 extern char g_WeatherSourceName[];
 extern Field3dbgBillboardDesc gWeatherBillboardDescs[];
 extern u8 gWeatherSurfaceInits[];
@@ -108,7 +93,7 @@ extern const WeatherEntry gWeatherTable[];
  * The two loops use separate counters (one shared counter swaps p and the
  * counter between r4 and r5).
  */
-WeatherSys *WEATHER_Create(u32 obj10, u32 obj14, u32 obj18, u32 obj1C, u32 weatherParam, u16 zoneId, u16 heapId)
+WeatherSys *WEATHER_Create(struct FieldCamera *camera, struct FieldLight *light, struct FieldFog *fog, struct FieldZoneFog *zoneFog, struct FieldSoundSystem *soundSys, u16 zoneId, u16 heapId)
 {
     int i;
     int j;
@@ -123,13 +108,13 @@ WeatherSys *WEATHER_Create(u32 obj10, u32 obj14, u32 obj18, u32 obj1C, u32 weath
     sys->nextWeatherId = 0xFFFF;
     sys->queuedWeatherId = 0xFFFF;
     sys->loadedOverlayId = -1;
-    sys->textureBank = CLACT_CreateUnit(0x40, 8, heapId);
-    sys->textureList = (struct TextureList *)CLACT_CreateRenderer((struct SurfaceInit *)gWeatherSurfaceInits, 1, heapId);
-    CLACT_SetUnitRenderer(sys->textureBank, sys->textureList);
+    sys->textureBank = (struct Bank *)CLACT_CreateUnit(0x40, 8, heapId);
+    sys->textureList = (struct TextureList *)CLACT_CreateRenderer( (const struct SurfaceInit *)((struct SurfaceInit *)gWeatherSurfaceInits), 1, heapId);
+    CLACT_SetUnitRenderer( (struct Unit *)sys->textureBank, (void *)sys->textureList);
     for (j = 0; j < 2; j++) {
-        sys->tasks[j] = WEATHER_TASK_Create(sys->textureBank, obj10, obj14, obj18, obj1C, sys, weatherParam, zoneId, heapId);
+        sys->tasks[j] = WEATHER_TASK_Create(sys->textureBank, camera, light, fog, zoneFog, sys, soundSys, zoneId, heapId);
     }
-    sys->updateTaskId = (s32)GFL_USE_AddMainTask(WEATHER_ReleaseBillboardVramTask, sys, 0x40);
+    sys->updateTaskId = (s32)GFL_USE_AddMainTask( (void (*)(struct TcbTask *, void *))WEATHER_ReleaseBillboardVramTask, (void *)sys, 0x40);
     return sys;
 }
 
@@ -144,7 +129,7 @@ void WEATHER_Delete(WeatherSys *sys)
     }
     WEATHER_UnloadOverlay(sys);
     CLACT_DeleteRenderer((struct Renderer *)sys->textureList);
-    CLACT_DeleteUnit(sys->textureBank);
+    CLACT_DeleteUnit( (struct Unit *)sys->textureBank);
     for (i = 0; i < 2; i++) {
         FIELD_3DBG_DeleteBillboard(sys->billboards[i]);
     }

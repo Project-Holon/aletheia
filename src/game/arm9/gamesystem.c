@@ -104,8 +104,6 @@ struct GameSystemGlobal {
     struct GameInitWork initWork;
 };
 
-extern void PROCSYS_Delete(struct ProcSys *procSys);
-
 #include "procsys.h"
 
 #include "mi_memory.h"
@@ -142,11 +140,19 @@ struct VecSet;
 
 #include "game_comm.h"
 
-extern void *ISS_SYS_Create(struct GameData *gameData, unsigned int heapId);
+#ifdef __MWERKS__
+extern void *ISS_SYS_Create(struct GameData *gameData, unsigned int heapId); /* original prototype; the definition differs in return type */
+#else
+#include "iss_sys.h"
+#endif
 
 #include "zonedata.h"
 
-extern void ISS_SYS_Delete(void *issSystem);
+#ifdef __MWERKS__
+extern void ISS_SYS_Delete(void *issSystem); /* original prototype; the definition differs in pointer type */
+#else
+#include "iss_sys.h"
+#endif
 
 
 
@@ -161,18 +167,17 @@ extern void ISS_SYS_Delete(void *issSystem);
 extern void GAMESYSTEM_UpdateAutoComm(struct GameSystem *gameSystem);
 
 
-extern unsigned int PROCSYS_Main(struct ProcSys *procSys);
-
 struct FieldSoundSystem;
 
 #include "field_sound_system.h"
 
-extern void ISS_SYS_Update(void *issSystem);
+#ifdef __MWERKS__
+extern void ISS_SYS_Update(void *issSystem); /* original prototype; the definition differs in pointer type */
+#endif
 
 
 #include "net_err.h"
 
-extern void PROCSYS_Push(struct ProcSys *procSys, u32 overlayId, void *procData, void *param);
 
 
 
@@ -181,7 +186,6 @@ extern void PROCSYS_Push(struct ProcSys *procSys, u32 overlayId, void *procData,
 
 #include "../ov010/intrude_comm_query.h"
 
-extern int   DWCi_IsFold(void);
 
 struct CgearSaveBlock;
 
@@ -338,7 +342,7 @@ u32 GAMESYSTEM_CallIfSet(u32 (*func)(void))
     if (func != 0) {
         func();
     }
-    return ~(u32)func;
+    return ~(uptr)func;
 }
 
 void GAMESYSTEM_RandTwice(void)
@@ -361,7 +365,7 @@ void GAMESYSTEM_RandTwice(void)
  */
 void GAMESYSTEM_ApplyTamperPenalty(void)
 {
-    GFL_USE_AddMainTask((void (*)(struct Tcb *, void *))GAMESYSTEM_RandTwice, 0, 0x7f);
+    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))GAMESYSTEM_RandTwice, 0, 0x7f);
     _GameSystemGlobal.tamperCount += 1;
 }
 
@@ -390,7 +394,7 @@ void GAMESYSTEM_ProbeHeapCreate(void)
  */
 void GAMESYSTEM_ApplyTamperPenaltyRepeat(void)
 {
-    GFL_USE_AddMainTask((void (*)(struct Tcb *, void *))GAMESYSTEM_RandTwice, 0, 0x7f);
+    GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))GAMESYSTEM_RandTwice, 0, 0x7f);
     _GameSystemGlobal.tamperCount += 1;
 }
 
@@ -440,16 +444,16 @@ u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
     u32 checkCaller;
 
     workSize = GAMESYSTEM_GetWorkSize();
-    checkCaller = (u32)GAMESYSTEM_CallIfSet;
+    checkCaller = (uptr)GAMESYSTEM_CallIfSet;
     checkSum = 0xc35ffb;
-    GF_OVERLAY_Load((int)ov230_id);
+    GF_OVERLAY_Load((sptr)ov230_id);
     intact = 0;
-    if (OV230_CallSealedBody0((void (*)(void))checkCaller, GAMESYSTEM_ApplyTamperPenalty, 0) == ~(u32)GAMESYSTEM_ApplyTamperPenalty)
+    if (OV230_CallSealedBody0((void (*)(void))checkCaller, GAMESYSTEM_ApplyTamperPenalty, 0) == ~(uptr)GAMESYSTEM_ApplyTamperPenalty)
         intact = 1;
     checkSum += intact * 0x47;
     GFL_HEAP_CreateChildHeap(1, 3, 0xa << 12);
     intact = 1;
-    if (OV230_CallSealedBody3((void (*)(void))checkCaller, GAMESYSTEM_ProbeHeapCreate, 0) != ~(u32)GAMESYSTEM_ProbeHeapCreate)
+    if (OV230_CallSealedBody3((void (*)(void))checkCaller, GAMESYSTEM_ProbeHeapCreate, 0) != ~(uptr)GAMESYSTEM_ProbeHeapCreate)
         intact = 0;
     checkPenalty = 0;
     if (intact == 0)
@@ -457,7 +461,7 @@ u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam)
     GFL_HEAP_CreateChildHeap(1, 4, 4 << 14);
     OV230_CallSealedBody4((void (*)(void))checkCaller, GAMESYSTEM_ApplyTamperPenaltyRepeat, 0);
     GFL_HEAP_CreateChildHeap(9, 5, 5 << 10);
-    GF_OVERLAY_Unload((s32)ov230_id);
+    GF_OVERLAY_Unload((sptr)ov230_id);
     gameSystem = PROCSYS_AllocProcWork(proc, workSize, 3);
     MI_CpuFill8(gameSystem, 0, workSize);
     _GameSystemGlobal.gameSystem = gameSystem;
@@ -766,7 +770,7 @@ void GAMESYSTEM_UpdateEventActiveFlag(struct GameSystem *gameSystem)
  */
 void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param)
 {
-    PROCSYS_Push(gameSystem->procSys, overlayId, procData, param);
+    PROCSYS_Push(gameSystem->procSys, overlayId, (const ProcData *)procData, param);
 }
 
 /*
@@ -800,7 +804,7 @@ void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *pro
  */
 void GAMESYSTEM_CallFieldProc(struct GameSystem *gameSystem)
 {
-    GAMESYSTEM_CallProc(gameSystem, (u32)SDK_OVERLAY_ov021_ID, &FieldMapProcData, gameSystem);
+    GAMESYSTEM_CallProc(gameSystem, (uptr)SDK_OVERLAY_ov021_ID, &FieldMapProcData, gameSystem);
 }
 
 int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem)
@@ -984,7 +988,7 @@ u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem)
     if (GFL_NET_GetRunState() == 0) {
         if (GAME_COMM_GetKind(gameComm) == 0) {
             if (GAMESYSTEM_CanStartAutoComm(gameSystem) == 1) {
-                GAME_COMM_Start(gameComm, (u32)1, (u32)gameSystem);
+                GAME_COMM_Start(gameComm, (u32)1, (uptr)gameSystem);
                 return 1;
             }
         }

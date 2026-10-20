@@ -35,11 +35,11 @@
 #define GAME_TYPES_U32_LONG
 #include "../types.h"
 
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
+#include "../arm9/mi_memory.h"
 extern u64 get48bits_3(u16 *s);
 extern u64 get48bits_2(u16 *s);
-extern void *memmove(void *dst, const void *src, u32 n);
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
 extern u64 get64bits(u16 *s);
 static void CPSi_big_modinv(unsigned short *c, unsigned short *a, unsigned short *n, int digits, unsigned short *tmp_var);
 extern void CPSi_big_mult(unsigned short *c, unsigned short *a, unsigned short *b, int digits);
@@ -62,7 +62,7 @@ void CPSi_big_div(u16 *c, u16 *a, u16 *b, u16 *r, int digits, u16 *work);
 void CPSi_big_power(u16 *c, u16 *a, u16 *b, int digits, u16 *n);
 void CPSi_big_montpower(unsigned short *c, unsigned short *m, unsigned short *e, int digits, unsigned short *n);
 void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int digits);
-void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes);
+void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes, int digits);
 
 /*
  * Drops trailing zero halfwords from a counted array.
@@ -548,7 +548,7 @@ void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int d
         *d = *s;
 }
 
-void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes)
+void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes, int digits)
 {
     unsigned char *p;
 

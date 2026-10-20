@@ -95,7 +95,7 @@ void MTX_ScaleApply43(const MtxFx43 *pSrc, MtxFx43 *pDst, fx32 x, fx32 y, fx32 z
 #pragma thumb on
 
 /* hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction */
-asm void MTX_RotY43_(void)
+asm void MTX_RotY43_(union MtxFx43 *m, fx32 sinVal, fx32 cosVal)
 {
     str r1, [r0, #0x18]
     mov r3, #0

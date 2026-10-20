@@ -92,18 +92,14 @@
  *   data_021C28F0  0x021C28F0  data  a4
  */
 #include "wifi_club_actor_types.h"
+#include "../arm9/clact.h"
+#include "../ov127/wf2dmap_obj.h"
 
 /* Placement request for the entity manager. */
 typedef struct {
     short x, y;
     u16 id, kind, flag, graphic;
 } EntitySpawnParams;
-
-/* Actor creation parameters of CLACT_CreateActor. */
-typedef struct {
-    u16 vramType, drawArea, animSeq;
-    u8 bgPriority, drawPriority;
-} ClactActorParams;
 
 typedef struct {
     u8 b[11];
@@ -119,83 +115,27 @@ typedef struct {
 
 extern u32 WIFICLUB_GetMessageIdByIndex(int mapIndex);
 struct Wf2dmapMapGrid;
-extern struct Wf2dmapMapGrid *WF2DMAP_MAP_CreateGrid(u32 width, u32 height, u32 heapId);
-extern void WF2DMAP_MAP_CopyEntries(u8 *tileMap, void *mapData);
-struct Wf2dmapObjList;
-extern struct Wf2dmapObjList *WF2DMAP_OBJ_CreateList(u32 count, u32 heapId);
-extern void WF2DMAP_OBJDRAW_ClearPos(void *layerState);
+#include "../ov127/wf2dmap_map.h"
+#include "../ov127/wf2dmap_objdraw.h"
 struct Wf2dmapCmdStore;
-extern struct Wf2dmapCmdStore *WF2DMAP_CMDQ_CreateStore(int count, int heapId);
-extern void WF2DMAP_CMDQ_DeleteStore(u8 *cmdQueue);
-extern void WF2DMAP_OBJ_DeleteList(u8 *entityMgr);
-extern void WF2DMAP_MAP_DeleteGrid(u8 *tileMap);
-extern void WF2DMAP_OBJ_UpdateList(u8 *entityMgr);
-extern void WF2DMAP_OBJDRAW_SetPosFromOwner(void *layerState, void *entity);
-extern void WF2DMAP_SCRDRAW_UpdatePosition(char *surface, void *point);
-extern void WF2DMAP_OBJDRAW_UpdateAllActors(u8 *spriteMgr);
-extern int WF2DMAP_OBJ_GetSlot(u8 *entity, unsigned int index);
-extern TilePos WF2DMAP_OBJ_GetPos(void *entity);
-extern u32 WF2DMAP_MAP_GetCellValue(u8 *tileMap, u16 x, u16 y);
-extern int WF2DMAP_OBJDRAW_GetActorDrawPriority(u8 *sprite);
-extern void WF2DMAP_OBJDRAW_SetSubActorDrawEnable(u8 *sprite, int value);
-extern void WF2DMAP_OBJDRAW_SetActive(u8 *sprite, int value);
-extern void WF2DMAP_OBJDRAW_SetFrameDefault(u8 *sprite);
-extern void WF2DMAP_OBJDRAW_RemoveActor(u8 *sprite);
-extern void WF2DMAP_OBJ_Clear(void *entity);
-extern unsigned char WF2DMAP_OBJ_GetDirectionTableEntry(int direction);
-extern void WF2DMAP_OBJDRAW_SetFrameZero(u8 *sprite, int value);
-extern void WF2DMAP_OBJDRAW_SetActorPos(void *sprite, TilePos pos);
-extern TilePos WF2DMAP_OBJ_OffsetPos(TilePos pos, int direction);
+#include "../ov127/wf2dmap_cmdq.h"
+#include "../ov127/wf2dmap_scrdraw.h"
 struct Wf2dmapCmdPos;
 struct Wf2dmapCmdRing;
-extern int WF2DMAP_CMDQ_Pop(struct Wf2dmapCmdRing *a, struct Wf2dmapCmdPos *out);
-extern int WF2DMAP_OBJCMD_Dispatch(void *tileMap, void *entityMgr, const u8 *desc, int *out);
-extern void WF2DMAP_OBJ_DispatchById(void *entityMgr, u8 *entry);
-extern u8 *WF2DMAP_OBJ_FindAtPos(u8 *key, void *entityMgr, int direction);
+#include "../ov127/wf2dmap_objcmd.h"
 struct Wf2dmapAnimSeq;
-extern struct Wf2dmapAnimSeq *WF2DMAP_OBJDRAW_CreateAnimSeq(void *, void *, u32, void *, int, u32, u32);
-extern void WF2DMAP_OBJDRAW_ConfigureSprite(char *, int, int);
-extern void WF2DMAP_OBJDRAW_DeleteAnimSeq(u8 *spriteMgr);
 struct Wf2dmapBitmapDesc;
-extern struct Wf2dmapBitmapDesc *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *src, u32 count, u8 *res, u32 heap);
-extern void WF2DMAP_SCRDRAW_DeleteBitmapDesc(u8 *layer);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
-extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, u32 size, u32 heapID, u16 allocFlags);
-extern u16 WF2DMAP_MAP_GetWidth(u16 *tileMap);
-extern u16 WF2DMAP_MAP_GetHeight(u16 *tileMap);
-extern u8 *WF2DMAP_OBJDRAW_AddActor(u8 *, void *, int, u32);
-extern void WF2DMAP_OBJDRAW_SetActorDrawEnable(char *, int);
-extern void *WF2DMAP_OBJ_Create(void *, EntitySpawnParams *);
-extern u32 GFL_USE_GetRandom(u32 range);
-extern void WF2DMAP_OBJDRAW_StepActorAnim(char *sprite);
-extern int WF2DMAP_OBJDRAW_GetActorDrawEnable(char *sprite);
-extern int GF_STANDARD_SinFromDegrees(u32 angle);
-extern void WF2DMAP_OBJDRAW_SetSubActorPos(void *sprite, TilePos pos);
-extern void WF2DMAP_OBJDRAW_RestoreFrame(u8 *sprite);
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 d, u16 flags);
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern void *CLACT_CreateActor(void *a, unsigned int b, unsigned int c, unsigned int d, const void *e, u16 f, u16 g);
-struct Actor;
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
+#include "../arm9/arc_util.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/mi_memory.h"
+struct ClactActor;
 struct Pt16;
-extern void CLACT_SetActorPos(struct Actor *actor, struct Pt16 *pos);
-extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
-extern u32 KEY_GetCont(void);
-extern u32 KEY_GetTrg(void);
-extern void WF2DMAP_CMDQ_Push(struct Wf2dmapCmdRing *p, struct Wf2dmapCmdPos *q);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
-extern u32 GFL_HEAP_Free(void *handle);
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
-extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
-extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
+#include "../arm9/key.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
+#include "../arm9/net_command.h"
 void WIFICLUBACTOR_Init(WifiClubActorSys *sys, int heapId, u32 clactResArc, u32 spriteArc, u32 mapIndexPlusOne, u32 paletteArc, u32 clactSys, void *gfxArchive);
 void WIFICLUBACTOR_Exit(WifiClubActorSys *sys);
 int WIFICLUBACTOR_IsReady(WifiClubActorSys *sys);
@@ -549,7 +489,7 @@ void WIFICLUBACTOR_StartTurn(void *sys, WifiClubActor *actor, int direction)
     WF2DMAP_OBJDRAW_SetFrameZero(actor->sprite, direction);
     pos.x = WF2DMAP_OBJ_GetSlot(actor->entity, 0);
     pos.y = WF2DMAP_OBJ_GetSlot(actor->entity, 1);
-    WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, pos);
+    WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, *(struct Wf2dmapPair *)&pos);
 }
 
 
@@ -791,17 +731,17 @@ void WIFICLUBACTOR_ReleaseClactResources(WifiClubSpriteSet *sprites)
 
 void WIFICLUBACTOR_CreateClactActors(WifiClubSpriteSet *sprites, int heapId)
 {
-    ClactActorParams params;
+    struct ActorInitParam params;
 
-    params.vramType = 1;
-    params.drawArea = 1;
-    params.animSeq = 0;
-    params.bgPriority = 0;
-    params.drawPriority = 0;
+    params.x = 1;
+    params.y = 1;
+    params.anim_seq = 0;
+    params.draw_priority = 0;
+    params.bg_priority = 0;
     sprites->cursorActor = CLACT_CreateActor(sprites->clactSys, sprites->charRes, sprites->palRes, sprites->cellRes, &params, 0, heapId);
-    params.animSeq = 2;
-    params.bgPriority = 0xfe;
-    params.drawPriority = 3;
+    params.anim_seq = 2;
+    params.draw_priority = 0xfe;
+    params.bg_priority = 3;
     sprites->markerActor = CLACT_CreateActor(sprites->clactSys, sprites->charRes, sprites->palRes, sprites->cellRes, &params, 0, heapId);
     CLACT_SetActorDrawEnable(sprites->cursorActor, 0);
     CLACT_SetActorDrawEnable(sprites->markerActor, 0);
@@ -945,7 +885,7 @@ void WIFICLUBACTOR_SpawnEntity(WifiClubActorSys *sys, void **out, short *xy, int
     params.kind = kind;
     params.flag = flag;
     params.graphic = graphic;
-    *out = WF2DMAP_OBJ_Create(sys->entityMgr, &params);
+    *out = WF2DMAP_OBJ_Create(sys->entityMgr, (u16 *)&params);
 }
 
 
@@ -1025,8 +965,8 @@ void WIFICLUBACTOR_AnimateWalkBob(void *sys, WifiClubActor *actor)
     pos.y = WF2DMAP_OBJ_GetSlot(actor->entity, 1);
     base = pos;
     pos.y = pos.y + (s16)((int)(((long long)GF_STANDARD_SinFromDegrees(actor->counter.phase) * -786432 + 0x800) >> 12) >> 12);
-    WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, pos);
-    WF2DMAP_OBJDRAW_SetSubActorPos(actor->sprite, base);
+    WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, *(struct Wf2dmapPair *)&pos);
+    WF2DMAP_OBJDRAW_SetSubActorPos(actor->sprite, *(struct Wf2dmapPair *)&base);
 }
 
 
@@ -1042,8 +982,8 @@ void WIFICLUBACTOR_AnimateBounce(void *sys, WifiClubActor *actor)
     if (t > 0) {
         pos.y = pos.y - (s16)((int)(((long long)GF_STANDARD_SinFromDegrees((u16)(180 * (s16)(t % 6) / 6)) * 16384 + 0x800) >> 12) >> 12);
     }
-    WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, pos);
-    WF2DMAP_OBJDRAW_SetSubActorPos(actor->sprite, base);
+    WF2DMAP_OBJDRAW_SetActorPos(actor->sprite, *(struct Wf2dmapPair *)&pos);
+    WF2DMAP_OBJDRAW_SetSubActorPos(actor->sprite, *(struct Wf2dmapPair *)&base);
     WF2DMAP_OBJDRAW_SetFrameZero(actor->sprite, 1);
 }
 

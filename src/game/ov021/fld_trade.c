@@ -70,7 +70,7 @@ struct PartyMon;
 struct Desc;
 
 #include "../types.h"
-#include "poke_tool_param.h"
+#include "../arm9/poke_tool_param.h"
 
 /* One in-game trade record (archive 0xA5, 0x6C bytes per trade). */
 typedef struct FldTradeData {
@@ -135,52 +135,35 @@ typedef struct FldTradeEvent {
     FldTradeEvolveParam *evolveParam;   /* 0x58 */
 } FldTradeEvent;
 
-extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 clear, const char *file, u32 line);
-extern void *ARC_TOOL_LoadMemberRange(unsigned int archiveID, unsigned int memberIdx, unsigned short heapID, unsigned int offset, unsigned int size);
 extern void *MYSTATUS_Create(int heap_id);
 struct MyStatus;
 extern void MYSTATUS_Init(struct MyStatus *mystatus);
 struct Strbuf;
-extern void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void MYSTATUS_CopyName(u16 *dest, u16 *src);
 extern void MYSTATUS_SetSex(int, u32);
-extern u32 GFL_HEAP_Free(void *p);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 POKE_TOOL_AdjustPersonalRnd(u32 id, u16 species, u16 formNo, u8 gender, u8 shinyWanted, int genderMode);
 struct PokemonParam;
-extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, unsigned short species, unsigned short level, unsigned long long otId, unsigned int ivs, unsigned long long personality);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
 struct PersonalData;
-extern struct PersonalData *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
 struct GameData;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+#include "../arm9/game_data.h"
 extern void SAVE_EVENT_Write(void *mon, u32 mode, u32 record, u32 eventId, u16 index);
 struct PokemonParam;
-extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 struct GameSystem;
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 struct FieldMap;
 struct GameEvent;
-extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern void POKEPARTY_SetMember(struct Party *party, u32 pos, struct PokemonParam *member);
-extern void *ZUKAN_SAVE_GetFromGameData(void *p);
+#include "../arm9/field_status.h"
+extern u32 GFL_HEAP_Free(void *p);
+extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+#include "../arm9/arc_tool.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/poke_tool.h"
+#include "../arm9/poke_personal.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/pokeparty.h"
+#include "../arm9/game_event.h"
+#include "../arm9/zukan_save.h"
+#include "../arm9/shinka_check.h"
 struct ZukanSave;
-extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
-extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *pZukan, void *pMon);
-extern u8 GAME_DATA_GetSeason(struct GameData *gd);
-extern u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, unsigned int mode, unsigned int arg, unsigned char timezone, unsigned int *methodOut, unsigned short heap);
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void *GAME_DATA_GetMyParty(struct GameData *gd);
-extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId);
 void FLD_TRADE_Delete(FldTradeHolder *holder);

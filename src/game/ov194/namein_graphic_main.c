@@ -107,13 +107,14 @@ struct Proc;
 struct PrintSys;
 struct Rec;
 struct Proc;
-struct Obj;
+struct ClactActor;
 struct Actor;
 #include "../types.h"
+#include "../ov194/prof_word.h"
 
-typedef struct Rect { int left, top, right, bottom; } Rect;
+typedef struct NameinGraphicMainRect { int left, top, right, bottom; } NameinGraphicMainRect;
 
-typedef struct Vec2 { s16 x, y; } Vec2;
+typedef struct NameinGraphicMainVec2 { s16 x, y; } NameinGraphicMainVec2;
 
 /* The caller's parameter block read by NAMEIN_GRAPHIC_Create. */
 typedef struct NameinGraphicConfig {
@@ -146,7 +147,7 @@ typedef struct NameinGraphicCursor {
     unsigned short phase[16];     /* 0x60 fade phase accumulators */
     unsigned short blinkTimer;    /* 0x80 */
     unsigned char pad_82[2];
-    Rect rect;                    /* 0x84 selection rectangle */
+    NameinGraphicMainRect rect;                    /* 0x84 selection rectangle */
     int mode;                     /* 0x94 */
     int active;                   /* 0x98 */
     int flag;                     /* 0x9C */
@@ -188,105 +189,63 @@ typedef struct NameinGraphicWork {
     void *nameStrbuf;             /* 0x2D0 */
 } NameinGraphicWork;
 
-extern void BG_SYS_PushTile(u32 index);
+#include "../arm9/bg_sys.h"
 struct MiscSave;
-extern u8 MISC_GetInputFlag(struct MiscSave *beacon, unsigned int index);
-extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *,unsigned,unsigned);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/beacon.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern unsigned char *NAMEIN_GRAPHIC_CreateDisplay(unsigned swap, unsigned short heap);
-extern unsigned NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p);
+#include "../arm9/printsys.h"
+#include "../arm9/msgdata.h"
+#include "namein_graphic.h"
 struct BmpOamSys;
-extern struct BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact);
-extern int NAMEIN_GRAPHIC_GetIconMode(int x, int y);
-extern void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap);
-extern u32 *NAMEIN_GRAPHIC_CreateMembers(u32 heap);
+#include "../arm9/bmp_oam.h"
+#include "namein_data.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
-extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
-extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
-extern u32 NAMEIN_GRAPHIC_IsNameCharValid(u16 *s, u32 x);
-extern void STRBUF_Clear(struct Strbuf *strbuf);
-extern void NAMEIN_GRAPHIC_InitCallback(u8 *a, u32 b, u32 c);
-extern void NAMEIN_GRAPHIC_CallbackWaitDraw(unsigned char *p, int *unused, unsigned char *q);
-extern void NAMEIN_GRAPHIC_InitInputField(u8 *p, u32 a, u32 b, u32 c, u32 d, u8 *e, u32 f);
-extern void NAMEIN_GRAPHIC_InitGrid(u8 *p, int mode, void *font, void *window, void *data, void *palette, u32 heap);
-extern void NAMEIN_GRAPHIC_InitMsgBox(u8 *p, int a, int b, int c, int d, u16 e);
-extern void NAMEIN_GRAPHIC_InitTcbl(char *p, int v);
-extern u32 PROF_WORD_Create(u16 heap);
-extern void NAMEIN_GRAPHIC_PrintPokeMsg(char *, int, u32, u32, u16);
-extern void NAMEIN_GRAPHIC_PrintMonMsg(char *, int, void *);
-extern void NAMEIN_GRAPHIC_PrintMsg(char *, int);
-extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
+#include "../arm9/strbuf.h"
+/* The DS code passes b and c as words (the original prototype); the definition keeps halfword parameters. The host build uses the header. */
+#ifdef __MWERKS__
+#define NAMEIN_GRAPHIC_InitInputField NAMEIN_GRAPHIC_InitInputField_header
+#endif
+#include "namein_graphic_field.h"
+#ifdef __MWERKS__
+#undef NAMEIN_GRAPHIC_InitInputField
+extern void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u32 b, u32 c, int d, u8 *e, int f);
+#endif
+#include "../arm9/net.h"
 struct SaveControlIntr;
-extern void SAVE_CONTROL_INTR_Resume(struct SaveControlIntr *intr);
-extern void PROF_WORD_Delete(u8 *);
-extern void NAMEIN_GRAPHIC_DeleteTcbl(u8 *);
-extern void NAMEIN_GRAPHIC_DeleteMsgBox(u8 *);
-extern void NAMEIN_GRAPHIC_DeleteGrid(u8 *);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void NAMEIN_GRAPHIC_DeleteMembers(u8 *);
-extern void NAMEIN_GRAPHIC_DeleteInputField(u8 *);
-extern void NAMEIN_GRAPHIC_ClearCallback(void *p);
-extern void NAMEIN_GRAPHIC_DeleteIconActor(u8 *);
-extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
-extern void NAMEIN_GRAPHIC_DeleteDisplay(unsigned char *p);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(u32);
-extern void NAMEIN_GRAPHIC_RunCallback(u8 *);
-extern void NAMEIN_GRAPHIC_DrawDisplay(u8 *);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void NAMEIN_GRAPHIC_FlushIconOam(u8 *);
-extern unsigned NAMEIN_GRAPHIC_GetCallbackState(unsigned char *p);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned,unsigned,unsigned,unsigned,u16);
-extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void BG_SYS_Init(unsigned,unsigned,unsigned,unsigned);
-extern void BMP_MENUWORK_LoadCharAndPltt(unsigned,unsigned,unsigned,unsigned,u16);
-extern int BG_SYS_FreeTiles(int, int, int);
-extern int CLACT_RegisterPalette(void *,unsigned,unsigned,unsigned,u16);
-extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
-extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,u16);
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern u8 UI_GetInputMode(void);
-extern void CLACT_RestartActorAnim(struct Actor *a);
-extern int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b);
-extern u32 BG_SYS_GetScrollY(u32 layer);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+#include "../ov088/save_control_intr.h"
+#include "prof_word.h"
+#include "../arm9/wordset.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_tool.h"
+/* The DS code passes the flags as a word (the original prototype); the definition takes a halfword. The host build uses the header. */
+#ifdef __MWERKS__
+#define ARC_UTIL_LoadPaletteBlockFromArchive ARC_UTIL_LoadPaletteBlockFromArchive_header
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_LoadPaletteBlockFromArchive
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u32 flags);
+#endif
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/clact.h"
+struct ClactActor;
+#include "../arm9/ui.h"
+struct ClactVec2;
 u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args);
 int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d);
 int NAMEIN_GRAPHIC_Main(int a,int b,int c,u8 *p);
 void NAMEIN_GRAPHIC_LoadBgPalette(int unused,u16 heap);
-int NAMEIN_GRAPHIC_UpdateBg(void *unused);
+void NAMEIN_GRAPHIC_UpdateBg(void *unused);
 void NAMEIN_GRAPHIC_CreateActors(char *p,unsigned owner,u16 heap);
 void NAMEIN_GRAPHIC_DeleteActors(u8 *p);
 void *NAMEIN_GRAPHIC_GetActor(u8 *p,u32 i);
 void NAMEIN_GRAPHIC_InitCursor(u8 *a,void *b,void *c,u32 d);
 void NAMEIN_GRAPHIC_ClearCursor(void *p);
-void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect *rect,int flag,int selected);
+void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const NameinGraphicMainRect *rect,int flag,int selected);
 void NAMEIN_GRAPHIC_UpdateCursor(char *p, int sel, const void *rect);
 extern u32 d_021F5780[];
 
@@ -334,7 +293,7 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
     NAMEIN_GRAPHIC_InitGrid(w + 0xfc, mode, *(void **)(w + 0x2b0), *(void **)(w + 0x2b4), *(void **)(w + 0x22c), w + 4, 0x1e);
     NAMEIN_GRAPHIC_InitMsgBox(w + 0x230, *(u32 *)(w + 0x2b0), *(u32 *)(w + 0x2b8), *(u32 *)(w + 0x2b4), *(u32 *)(w + 0x2bc), 0x1e);
     NAMEIN_GRAPHIC_InitTcbl((char *)(w + 0x254), 0x1e);
-    *(u32 *)(w + 0x2cc) = PROF_WORD_Create(0x1e);
+    *(u32 *)(w + 0x2cc) = (u32)PROF_WORD_Create(0x1e);
     if (*(u32 *)args == 1) {
         if (*(u32 *)(args + 8) == 0) {
             NAMEIN_GRAPHIC_PrintPokeMsg((char *)(w + 0x230), *(u32 *)args, *(u16 *)(args + 4), *(u16 *)(args + 6), 0x1e);
@@ -404,9 +363,9 @@ void NAMEIN_GRAPHIC_LoadBgPalette(int unused,u16 heap)
     BMP_MENUWORK_LoadCharAndPltt(4,1,14,0,heap);
 }
 
-int NAMEIN_GRAPHIC_UpdateBg(void *unused)
+void NAMEIN_GRAPHIC_UpdateBg(void *unused)
 {
-    return BG_SYS_FreeTiles(4, 1, 0);
+    BG_SYS_FreeTiles(4, 1, 0);
 }
 
 void NAMEIN_GRAPHIC_CreateActors(char *p,unsigned owner,u16 heap)
@@ -424,15 +383,15 @@ void NAMEIN_GRAPHIC_CreateActors(char *p,unsigned owner,u16 heap)
     pos[2]=0;
     zero=0;
     for(i=0;i<16;i++)
-        *(void **)(p+i*4+12)=CLACT_CreateActor((void *)owner,((NameinGraphicActors *)p)->character,((NameinGraphicActors *)p)->palette,((NameinGraphicActors *)p)->cellAnim,pos,zero,heap);
+        *(void **)(p+i*4+12)=CLACT_CreateActor((struct Unit *)((void *)owner),((NameinGraphicActors *)p)->character,((NameinGraphicActors *)p)->palette,((NameinGraphicActors *)p)->cellAnim,(const struct ActorInitParam *)pos,zero,heap);
     pos[2]=1;
-    ((NameinGraphicActors *)p)->list[17]=CLACT_CreateActor((void *)owner,((NameinGraphicActors *)p)->character,((NameinGraphicActors *)p)->palette,((NameinGraphicActors *)p)->cellAnim,pos,zero,heap);
+    ((NameinGraphicActors *)p)->list[17]=CLACT_CreateActor((struct Unit *)((void *)owner),((NameinGraphicActors *)p)->character,((NameinGraphicActors *)p)->palette,((NameinGraphicActors *)p)->cellAnim,(const struct ActorInitParam *)pos,zero,heap);
     CLACT_SetActorDrawEnable(((NameinGraphicActors *)p)->list[17],zero);
     for(i=18;i<20;i++) {
         pos[0]=-32;
         pos[1]=-32;
         pos[2]=i-15;
-        *(void **)(p+i*4+12)=CLACT_CreateActor((void *)owner,((NameinGraphicActors *)p)->character,((NameinGraphicActors *)p)->palette,((NameinGraphicActors *)p)->cellAnim,pos,0,heap);
+        *(void **)(p+i*4+12)=CLACT_CreateActor((struct Unit *)((void *)owner),((NameinGraphicActors *)p)->character,((NameinGraphicActors *)p)->palette,((NameinGraphicActors *)p)->cellAnim,(const struct ActorInitParam *)pos,0,heap);
         CLACT_SetActorAutoAnim(*(void **)(p+i*4+12),1);
         CLACT_SetActorDrawEnable(*(void **)(p+i*4+12),0);
     }
@@ -452,7 +411,7 @@ void NAMEIN_GRAPHIC_InitCursor(u8 *a,void *b,void *c,u32 d)
     MI_CpuFill8(a,0,180);
     ((NameinGraphicCursor *)a)->selected=(int)b;
     for(i=0;i<2;i++) *(u32 *)(a+164+i*4)=(u32)NAMEIN_GRAPHIC_GetActor(c,i+18);
-    p=ARC_UTIL_LoadPaletteBlockFromArchive(118,2,(u32)(&x),d);
+    p=ARC_UTIL_LoadPaletteBlockFromArchive(118,2,(void *)((u32)(&x)),d);
     q=*(u8 * *)&((NameinGraphicGlyphSrc *)x)->glyphs;
     for(i=0;i<16;i++) *(u16 *)(a+i*2)=*(u16 *)(q+32+i*2);
     for(j=0;j<16;j++) *(u16 *)(a+32+j*2)=*(u16 *)(q+64+j*2);
@@ -465,7 +424,7 @@ void NAMEIN_GRAPHIC_ClearCursor(void *p) { MI_CpuFill8(p,0,180); }
  * extent: 478 instruction bytes; 021F1BFA is two-byte zero alignment before021F1BFC.
  * lever: const Rect source schedules the loads ahead of argument stores; signed y destinations avoid an extra unsigned truncation pair (484/224 to482/157 toEXACT*478).
  */
-void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect *rect,int flag,int selected)
+void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const NameinGraphicMainRect *rect,int flag,int selected)
 {
     int x;
     short y;
@@ -521,7 +480,7 @@ void NAMEIN_GRAPHIC_SetupCursor(char *p,int mode,const Rect *rect,int flag,int s
  */
 void NAMEIN_GRAPHIC_UpdateCursor(char *p, int sel, const void *rect)
 {
-    struct Vec2 v;
+    struct NameinGraphicMainVec2 v;
     u32 d, c;
     int i;
     if (*(u32 *)(p + 0x98) != 0) {
@@ -538,9 +497,9 @@ void NAMEIN_GRAPHIC_UpdateCursor(char *p, int sel, const void *rect)
             c = 0x1999;
             if ((*(u16 *)(p + 0x80))++ > 10) {
                 if (UI_GetInputMode() == 0)
-                    NAMEIN_GRAPHIC_SetupCursor(p, 1, (const Rect *)rect, *(int *)(p + 0x9C), sel);
+                    NAMEIN_GRAPHIC_SetupCursor(p, 1, (const NameinGraphicMainRect *)rect, *(int *)(p + 0x9C), sel);
                 else
-                    NAMEIN_GRAPHIC_SetupCursor(p, 0, (const Rect *)rect, *(int *)(p + 0x9C), sel);
+                    NAMEIN_GRAPHIC_SetupCursor(p, 0, (const NameinGraphicMainRect *)rect, *(int *)(p + 0x9C), sel);
             }
             break;
         }
@@ -555,11 +514,11 @@ void NAMEIN_GRAPHIC_UpdateCursor(char *p, int sel, const void *rect)
     v.x = *(u16 *)(p + 0xAC);
     v.y = *(u16 *)(p + 0xAE);
     v.y = v.y - (s16)(BG_SYS_GetScrollY(2) << 3);
-    CLACT_AddActorSurfacePos(*(struct Obj **)(p + 0xA4), rect, 0);
+    CLACT_AddActorSurfacePos(*(struct ClactActor **)(p + 0xA4), (struct ClactVec2 *)rect, 0);
     v.x = *(u16 *)(p + 0xB0);
     v.y = *(u16 *)(p + 0xB2);
     v.y = v.y - (s16)(BG_SYS_GetScrollY(2) << 3);
-    CLACT_AddActorSurfacePos(*(struct Obj **)(p + 0xA8), rect, 0);
+    CLACT_AddActorSurfacePos(*(struct ClactActor **)(p + 0xA8), (struct ClactVec2 *)rect, 0);
     if (*(int *)(p + 0xA0) != sel) {
         if (UI_GetInputMode() == 0)
             NAMEIN_GRAPHIC_SetupCursor(p, 1, &((NameinGraphicCursor *)p)->rect, *(int *)(p + 0x9C), sel);

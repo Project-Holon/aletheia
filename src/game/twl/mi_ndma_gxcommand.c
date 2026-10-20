@@ -27,6 +27,7 @@
  *   OS_EnableIrqMask  0x02084968  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct {
     int intervalTimer;
@@ -50,15 +51,14 @@ typedef struct {
 
 extern GxState data_02732F3C;
 extern NdmaConfig data_02732EFC[];
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32);
-extern void MI_WaitNDma(int);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "mi_ndma.h"
 extern void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, NdmaConfig *cfg, int words, u32 flags);
-extern u32 OS_DisableIrqMask(u32);
-extern u32 OS_ResetRequestIrqMask(u32);
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
 extern IrqHandler OS_GetIrqFunction(u32);
 extern void OS_SetIrqFunction(u32, IrqHandler);
-extern u32 OS_EnableIrqMask(u32);
 
 void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 arg);
 static void MIi_FIFOCallback(void);
@@ -78,7 +78,7 @@ void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 a
     }
     while (((volatile GxState *)&data_02732F3C)->busy != 0) {
     }
-    while ((((*(volatile u32 *)0x04000600) & 0x7000000) >> 24 & 2) == 0) {
+    while ((((*(volatile u32 *)REG_GXSTAT_ADDR) & 0x7000000) >> 24 & 2) == 0) {
     }
     s = &data_02732F3C;
     s->busy = 1;
@@ -89,7 +89,7 @@ void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 a
     s->arg = arg;
     MI_WaitNDma(ch);
     irq = OS_DisableInterrupts();
-    s->savedFifoIrqMode = (*(volatile u32 *)0x04000600 & 0xc0000000) >> 0x1e;
+    s->savedFifoIrqMode = (*(volatile u32 *)REG_GXSTAT_ADDR & 0xc0000000) >> 0x1e;
     s->savedIrqHandler = OS_GetIrqFunction(0x200000);
     *(volatile u32 *)0x04000600 = (*(volatile u32 *)0x04000600 & ~0xc0000000) | 0x40000000;
     OS_SetIrqFunction(0x200000, MIi_FIFOCallback);
@@ -124,7 +124,7 @@ static void MIi_FIFOCallback(void)
         cb = 0;
     }
     idx = data_02732F3C.ch;
-    MIi_NDmaAsync_withConfig_Dev(rem == 0 ? 9 : 8, idx, pos, 0x04000400, 0, n, cb, 0,
+    MIi_NDmaAsync_withConfig_Dev(rem == 0 ? 9 : 8, idx, pos, REG_GXFIFO_ADDR, 0, n, cb, 0,
                   (void *)((char *)data_02732EFC + (idx << 4)), -1, 0x80000000);
 }
 
@@ -133,7 +133,7 @@ void MIi_NDMACallback(void)
     GxState *s = &data_02732F3C;
     void (*cb)(u32);
     u32 arg;
-    volatile u32 *reg = (volatile u32 *)0x04000600;
+    volatile u32 *reg = (volatile u32 *)REG_GXSTAT_ADDR;
     OS_DisableIrqMask(0x200000);
     *reg = (s->savedFifoIrqMode << 30) | (*reg & ~0xC0000000);
     OS_SetIrqFunction(0x200000, s->savedIrqHandler);
@@ -162,7 +162,7 @@ void MI_SendNDmaGXCommandAsyncFast(u32 ch, u32 src, u32 size, void (*cb)(u32), u
     s->callback = cb;
     s->arg = arg;
     MI_WaitNDma(ch);
-    MIi_NDmaAsync_withConfig_Dev(9, ch, src, 0x04000400, 0, size, MIi_NDMAFastCallback, 0, (void *)((char *)data_02732EFC + (ch << 4)), -1, 0x80000000);
+    MIi_NDmaAsync_withConfig_Dev(9, ch, src, REG_GXFIFO_ADDR, 0, size, MIi_NDMAFastCallback, 0, (void *)((char *)data_02732EFC + (ch << 4)), -1, 0x80000000);
 }
 
 void MIi_NDMAFastCallback(void)

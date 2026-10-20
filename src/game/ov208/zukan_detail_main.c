@@ -66,84 +66,63 @@ struct Proc;
 
 struct Ov208Fade;
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+#include "../arm9/zukan_save.h"
 
-extern void GFL_HEAP_CreateChildHeap(u32 src, u32 heap, u32 size);
+#include "../arm9/gfl_heap.h"
 
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+#include "../arm9/procsys.h"
 
-extern void MI_CpuFill8(void *p, int v, int n);
+#include "../arm9/mi_memory.h"
 
-extern char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(unsigned int display, unsigned short heap, int threeD);
+#include "zukan_detail_graphic.h"
 
-extern void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *p);
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 struct PrintQueue;
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-struct Tcb;
-
-extern struct Tcb *GFL_USE_AddMainTask(void (*fn)(void), void *work, unsigned int priority);
-struct ZukanSave;
-
-extern u32 ZUKAN_SAVE_GetDexObtained(struct ZukanSave *pZukan);
-
-extern char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap, unsigned arg);
-
-extern struct Ov208Icon *ZUKAN_DETAIL_HEADBAR_Create(u16 heap, unsigned arg);
-
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-
-extern void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Icon *m);
-struct Ov208Scene;
-
-extern void ZUKAN_DETAIL_TOUCHBAR_Delete(struct Ov208Scene *m);
+#include "../arm9/printsys.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/gfl_use.h"
+struct ZukanSave;
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+#include "zukan_detail_touchbar.h"
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
+#include "zukan_detail_headbar.h"
 
-extern void PROCSYS_FreeProcWork(struct Proc *p);
+#include "../arm9/fade.h"
 
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
+#include "../arm9/net.h"
 
-extern unsigned ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(struct Ov208Scene *p);
+struct Ov208Scene;
 
-extern unsigned ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(struct Ov208Scene *p);
+struct TcbTask;
 
-extern void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m);
+#include "../arm9/tcb_list.h"
 
-extern void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void ZUKAN_DETAIL_GRAPHIC_DrawFrame(char *p);
 
-extern void ZUKAN_DETAIL_GRAPHIC_ApplyCamera(char *p);
 
-extern void ZUKAN_DETAIL_GRAPHIC_EndDraw3d(char *p);
 
-void ZUKAN_DETAIL_PROCSYS_FreeNode(void *p);
 
-int ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(struct Ov208Fsm *p,int arg);
 
-void ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(char *p, int a, int b);
 
-void ZUKAN_DETAIL_PROCSYS_CallOwnerHook(char *p, int v);
 
-void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, int h, unsigned short i, void *j);
 
-void ZUKAN_DETAIL_COMMON_DeleteContext(void *ctx);
+
+
+
+#include "zukan_detail_procsys.h"
+
+
+
+
+#include "zukan_detail_common.h"
+
 
 int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args);
 
@@ -153,7 +132,7 @@ int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *a, struct O
 
 void ZUKAN_DETAIL_MAIN_NoOp(void);
 
-void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Args *m, struct Ov208Main *s);
+#include "zukan_detail.h"
 
 /*
  * 2026-10-02: only ZUKAN_DETAIL_MAIN_NoOp (unlabelled bx lr stub, filed as ZUKAN_DETAIL_MAIN_NoOp.c) lacks a witness; bytes match.
@@ -172,7 +151,7 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
     p->display = ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(0, p->heap, 0);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, p->heap);
     p->printer = (void *)PRINTSYS_QUE_Create((unsigned int)p->heap);
-    p->task = (void *)GFL_USE_AddMainTask(ZUKAN_DETAIL_MAIN_NoOp, p, 1);
+    p->task = (void *)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))ZUKAN_DETAIL_MAIN_NoOp, (void *)p, 1);
 
     p->touchbar = ZUKAN_DETAIL_TOUCHBAR_Create(p->heap, ZUKAN_SAVE_GetDexObtained(ZUKAN_SAVE_GetFromGameData(args->src)));
     p->headbar = ZUKAN_DETAIL_HEADBAR_Create(p->heap, (unsigned int)p->font);

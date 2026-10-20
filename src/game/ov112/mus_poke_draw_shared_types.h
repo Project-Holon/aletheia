@@ -1,16 +1,16 @@
 #ifndef MUS_POKE_DRAW_SHARED_TYPES_H
 #define MUS_POKE_DRAW_SHARED_TYPES_H
 
-#include "musical_shot_sys_shared_types.h"
-#include "mus_item_draw_shared_types.h"
+#include "../ov112/musical_shot_sys_shared_types.h"
+#include "../ov112/mus_item_draw_shared_types.h"
 
-typedef struct { struct Vec3 a,b,c,d; u16 e,f; } McssMatrixInput;
+typedef struct { struct MusItemDrawVec3 a,b,c,d; u16 e,f; } McssMatrixInput;
 
-typedef struct { int pad[5]; u32 tracks[126]; /* 9 tracks of 0x38 bytes */ struct Vec3 t[2]; int flag[2]; } Big;
+typedef struct { int pad[5]; u32 tracks[126]; /* 9 tracks of 0x38 bytes */ struct MusItemDrawVec3 t[2]; int flag[2]; } MusPokeDrawBig;
 
-typedef struct { int x,y,z; } Vec;
+typedef struct { int x,y,z; } MusPokeDrawVec;
 
-typedef struct { char pad[200]; Vec a,b,c; u32 b0:1,b1:1,b2:1,rest:29; char pad2[12]; u16 h,pad3; Vec d,e; } Object;
+typedef struct { char pad[200]; MusPokeDrawVec a,b,c; u32 b0:1,b1:1,b2:1,rest:29; char pad2[12]; u16 h,pad3; MusPokeDrawVec d,e; } MusPokeDrawObject;
 
 /* The mon record (allocated 124 bytes by MUSICAL_MCSS_CreateMon/AllocMon). */
 typedef struct McssMon {
@@ -29,5 +29,19 @@ typedef struct McssMon {
     u16 reserved78;            /* 0x78 */
     u8 pad_7A[2];           /* 0x7A */
 } McssMon;
+
+typedef struct { u32 value; u8 pad[52]; } MusPokeDrawTrack;
+
+typedef struct {
+    u32 active, enabled;
+    u8 *object;
+    char *primary, *secondary;
+    MusPokeDrawTrack tracks[9];
+    u32 f524, f528, f532, f536, f540, f544, f548, f552;
+} MusPokeDrawSlot;
+
+/* The render object (allocated 4456 bytes by CreateRenderObj): a halfword heap
+   id, then the render pool pointer and 8 slots. heap is stored as a u16. */
+typedef struct MusPokeDrawScene { u16 heap; u16 pad_2; char *main; MusPokeDrawSlot slots[8]; } MusPokeDrawScene;
 
 #endif

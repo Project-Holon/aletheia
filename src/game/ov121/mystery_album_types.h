@@ -3,10 +3,6 @@
 
 /* Mystery Gift album screen work (types shared with mystery_util.c, which allocates it). */
 
-typedef struct MysteryAlbumPoint16 {
-    signed short x, y;
-} MysteryAlbumPoint16;
-
 typedef struct MysteryAlbumPathPoint {
     int x, y;
 } MysteryAlbumPathPoint;
@@ -82,5 +78,13 @@ typedef struct MysteryAlbum {
     void *paletteRes;
     void *cardView;
 } MysteryAlbum;
+
+/* Input of MYSTERY_ALBUM_CreateSlotWork, copied into the album work. */
+typedef struct MysteryAlbumDesc {
+    u32 w[12];
+} MysteryAlbumDesc;
+
+/* Album select create input (MYSTERY_ALBUM_Create). */
+typedef struct MysteryAlbumCreateInput {u32 w[9];} MysteryAlbumCreateInput;
 
 #endif

@@ -17,7 +17,8 @@
  *   _ll_udiv                       0x0209C00C  arm
  */
 
-extern unsigned long long OS_GetTick(void);
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 
 long gsiTimeNitro(long *timer)
 {

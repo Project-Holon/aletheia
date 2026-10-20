@@ -43,6 +43,7 @@ void UI_RunWakeHook(UiCtx *p);
 void UI_RunSuspendHook(UiCtx *p);
 void UI_RunResumeHook(UiCtx *p);
 void UI_PollPower(void);
+int DWCi_IsFold(void);
 int UI_IsPowerConnected(void);
 void UI_RunWakePoweredHook(UiCtx *ui);
 int UI_IsSleepInhibited(UiCtx *ui);
@@ -60,7 +61,6 @@ void UI_ResetFrameCounter(void);
 void UI_ChangeFrameRate(u8 value);
 int UI_GetPowerState(void);
 void UI_ApplyInputBounds(int inputObj);
-int DWCi_IsFold(void);
 /* END mkheaders: generated region */
 
 #endif

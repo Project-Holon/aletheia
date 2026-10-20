@@ -270,8 +270,8 @@ void MAIL_InitBox(struct Mail *box)
     }
 }
 
-/* Index of the first empty letter in the box, or -1. */
-int MAIL_FindEmptySlot(struct Mail *box)
+/* Index of the first empty letter in the box, or -1. Every caller passes 0 as the second argument; the body ignores it. */
+int MAIL_FindEmptySlot(struct Mail *box, int unused)
 {
     return MAIL_FindEmptySlotInRange(box, MAIL_BOX_CAPACITY);
 }

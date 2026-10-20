@@ -552,7 +552,7 @@ void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work)
 void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback)
 {
     UI_SetKeepAwakeFlagsGlobal(4);
-    GFL_NET_STATE_InitWork((u32)heapId);
+    GFL_NET_STATE_InitWork((uptr)heapId);
     _pNetState->initCallback = (void (*)(u32))initCallback;
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_DeviceInitialized, 0, 0x13F);
 }
@@ -620,7 +620,7 @@ void GFL_NET_STATE_ExtendConnectTimer(void)
  */
 void GFL_NET_STATE_ConnectMac(struct NetStateWork *work)
 {
-    if (GFL_NET_SYSTEM_ConnectToParent(0, (u32)work->aMacAddress, 0x200, (u32)(void *)GFL_NET_STATE_ExtendConnectTimer) != 0)
+    if (GFL_NET_SYSTEM_ConnectToParent(0, (uptr)work->aMacAddress, 0x200, (uptr)(void *)GFL_NET_STATE_ExtendConnectTimer) != 0)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ConnectMacDone, 0xA, 0x169);
 }
 
@@ -644,7 +644,7 @@ void GFL_NET_STATE_StartConnectMac(void)
 
 void GFL_NET_STATE_ConnectMacAddress(void *mac, int anyParent)
 {
-    if ((int)_pNetState->aMacAddress & 1) {
+    if ((sptr)_pNetState->aMacAddress & 1) {
         GF_PANIC_Fail(_FileName, 395, _AssertMacAlign);
     }
     if (mac != 0) {
@@ -738,7 +738,7 @@ int GFL_NET_STATE_ParentConnectCallback(void)
 void GFL_NET_STATE_StartParent(void)
 {
     GFL_NET_GetInitParam();
-    if (GFL_NET_SYSTEM_StartParent(1, 0x200, 1, (u32)(void *)GFL_NET_STATE_ParentConnectCallback) != 0)
+    if (GFL_NET_SYSTEM_StartParent(1, 0x200, 1, (uptr)(void *)GFL_NET_STATE_ParentConnectCallback) != 0)
         GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ParentWait, 0, 0x205);
 }
 
@@ -797,7 +797,7 @@ void GFL_NET_STATE_ChangeoverConnect(struct NetStateWork *work)
     if (work->changeoverHasMac == 0 || work->changeoverMode == 1)
         goto alt;
 
-    if (GFL_NET_SYSTEM_ConnectToParent(1, (u32)work->changeoverMac, scanParam, (u32)GFL_NET_STATE_ExtendConnectTimer) == 0)
+    if (GFL_NET_SYSTEM_ConnectToParent(1, (uptr)work->changeoverMac, scanParam, (uptr)GFL_NET_STATE_ExtendConnectTimer) == 0)
         return;
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_ChangeoverChildMain, GFL_NET_STATE_RollChildWaitTime(work), scanParam + 0x45);
     return;
@@ -937,7 +937,7 @@ void GFL_NET_STATE_ChangeoverStartParent(struct NetStateWork *work)
 {
     if (GFL_NET_GetSession()->ops->isIdle() == 0)
         return;
-    if (GFL_NET_SYSTEM_StartParent(0, 0x200, 0, (u32)GFL_NET_STATE_ChangeoverParentCallback) == 0)
+    if (GFL_NET_SYSTEM_StartParent(0, 0x200, 0, (uptr)GFL_NET_STATE_ChangeoverParentCallback) == 0)
         return;
 
     work->parentRetry = 0;
@@ -1146,7 +1146,7 @@ void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac)
     } else {
         work = _pNetState;
         if (work->changeoverHasMac != 0 && work->changeoverMode != 1) {
-            GFL_NET_SYSTEM_ConnectToParent(1, (u32)work->changeoverMac, 0x200, (u32)GFL_NET_STATE_ExtendConnectTimer);
+            GFL_NET_SYSTEM_ConnectToParent(1, (uptr)work->changeoverMac, 0x200, (uptr)GFL_NET_STATE_ExtendConnectTimer);
         } else {
             GFL_NET_SYSTEM_StartBeaconScan(1, 0x200);
         }
@@ -2086,7 +2086,7 @@ u32 GFL_NET_STATE_GetError(void)
 {
     if (_pNetState == 0)
         GF_PANIC_Fail(_FileName, 0x8CA, _AssertNetState);
-    return (u32)&_pNetState->errorInfo;
+    return (uptr)&_pNetState->errorInfo;
 }
 
 /*

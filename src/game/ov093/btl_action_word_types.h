@@ -1,13 +1,13 @@
 #ifndef BTL_ACTION_WORD_TYPES_H
 #define BTL_ACTION_WORD_TYPES_H
-#include "hand_common_types.h"
-#include "hand_common_protos.h"
+#include "../ov093/hand_common_types.h"
+#include "../ov093/hand_common_protos.h"
 /*
  * ov093 ability handlers: the action word setters, the ability handler
  * registry, and the handler functions of the abilities that gate on the
  * event variable stack.
  */
-#include "btl_event_types.h"
+#include "../ov093/btl_event_types.h"
 
 struct BtlServerFlow;
 struct BtlPokeParam;
@@ -64,14 +64,11 @@ enum {
 
 
 /* Services of the event variable stack and the battle server flow. */
-extern u32 BTL_CALC_MulRatio(u32 value, u32 ratio);
-extern u32 BTL_CALC_DivideMaxHp(struct BtlPokeParam *bpp, u32 divisor);
-extern int BTL_CALC_SummarizeTypeAffinity(int affinity);
-extern int BTL_CALC_RollPercent(u32 percent);
-extern int WAZA_TOOL_GetDamageType(int moveId);
+#include "../ov093/btl_calc.h"
+#include "../arm9/waza_tool.h"
 
 /* Services of the poke parameter. */
-extern int BTL_POKEPARAM_GetStatRaw(struct BtlPokeParam *bpp, int valueId);
+#include "../ov093/btl_pokeparam.h"
 
 /* Deprecated names of event variable keys, kept for files not yet cleaned. */
 

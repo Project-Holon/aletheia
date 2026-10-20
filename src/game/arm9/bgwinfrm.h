@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_BGWINFRM_H
 #define GAME_ARM9_BGWINFRM_H
 
+struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heapId);
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of bgwinfrm.c, prototypes copied from their definitions. */
 
 struct BgWinFrmWork;
@@ -30,5 +33,6 @@ void BGWINFRM_SetClipArea(struct BgWinFrmWork *wk, u32 idx, s8 xmin, s8 xmax, s8
 void BGWINFRM_EmptyStub(void);
 u8 BGWINFRM_ScaleRatio(u32 a, u32 b, u32 c);
 int BGWINFRM_GetScaleRank(u32 a, u32 b);
+/* END mkheaders: generated region */
 
 #endif

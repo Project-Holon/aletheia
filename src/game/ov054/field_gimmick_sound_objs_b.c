@@ -45,9 +45,15 @@
  *   SOUND_OBJ_SetAnimeFrame 0x021C4E08 thumb ov021
  *   GFL_USE_GetRandomBelow 0x02005728 thumb
  */
+/* Original prototype (docs/ORIGINAL_BUGS.tsv): the DS caller passes the heap id of ARC_TOOL_LoadMember as a full integer */
+#ifdef __MWERKS__
+#define ARC_TOOL_LoadMember ARC_TOOL_LoadMember_header
+#endif
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_sound_objs_b_types.h"
-extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
+extern void G3D_CAMERA_GetUp(struct G3dCamera *camera, VecFx32 *target);
+extern struct SoundObj *SOUND_OBJ_Create(struct FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 radius, u32 amplitude);
+#include "../arm9/g3d_camera.h"
 
 void FIELD_GIMMICK_SOUND_OBJS_B_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_SOUND_OBJS_B_Exit(struct FieldMap *fieldMap);
@@ -62,7 +68,22 @@ extern G3dUtilSetup sSoundObjsBUnitSetup;
 extern FieldGimmickSoundObjsBWaitMembers sSoundObjsBWaitMembers;
 /* Sound object and gimmick work of field_gimmick_sound_objs_b.c; only the fields used here. */
 struct SoundObj;
-extern void SOUND_OBJ_SetAnimeFrame(struct SoundObj *obj, int frame);
+#include "../ov021/sound_obj.h"
+#include "../ov021/fieldmap.h"
+#include "../ov021/fld_exp_obj.h"
+#include "../arm9/iss_3ds_sys.h"
+#include "../ov021/field_camera.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/iss_sys.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/game_data.h"
+#include "../arm9/gimmick.h"
+#include "../arm9/gfl_use.h"
+#ifdef __MWERKS__
+#undef ARC_TOOL_LoadMember
+void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u32 heapID);
+#endif
 
 /* Gimmick init: adds the expansion unit, creates the sound objects and starts them at the saved frames. */
 void FIELD_GIMMICK_SOUND_OBJS_B_Init(struct FieldMap *fieldMap)
@@ -161,7 +182,7 @@ void FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits(FieldGimmickSoundObjsBWork *work)
 /* Saves the animation frame of each sound object in the gimmick work. */
 void FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(FieldGimmickSoundObjsBWork *work, struct FieldMap *fieldMap)
 {
-    FieldGimmickSoundObjsBSave *save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
+    FieldGimmickSoundObjsBSave *save = (FieldGimmickSoundObjsBSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
     int i;
 
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT; i++) {
@@ -173,7 +194,7 @@ void FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames(FieldGimmickSoundObjsBWork *work
 /* Sets the animation of each sound object to the saved frame. */
 void FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs(FieldGimmickSoundObjsBWork *work, struct FieldMap *fieldMap)
 {
-    FieldGimmickSoundObjsBSave *save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
+    FieldGimmickSoundObjsBSave *save = (FieldGimmickSoundObjsBSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SOUND_OBJS_B_SAVE_SLOT);
     int i;
 
     for (i = 0; i < FIELD_GIMMICK_SOUND_OBJS_B_SOUND_OBJ_COUNT; i++)

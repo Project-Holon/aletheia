@@ -59,57 +59,27 @@ struct GfFont;
 struct MsgBank;
 struct Strbuf;
 #include "../types.h"
+#include "../arm9/nns_g2d_res_types.h"
 
-/* Character data block of a packed graphics file. */
-typedef struct CharData {
-    u8 pad00[0x10];
-    u32 sizeBytes;
-    void *pixels;
-} CharData;
-
-/* Screen (tile map) data block of a packed graphics file. */
-typedef struct ScreenData {
-    u8 pad00[0x8];
-    u32 sizeBytes;
-    u8 tiles[1];
-} ScreenData;
-
-/* Palette data block of a packed graphics file. */
-typedef struct PaletteData {
-    u8 pad00[0xc];
-    void *colors;
-} PaletteData;
-
-extern u32 APP_ENV_IsRunOnTwl(void);
-extern void GFL_USE_PollPowerExit(void);
-extern void UI_Update(void);
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern int GX_ResetBankForBG(void);
-extern int GX_ResetBankForSubBG(void);
-extern void GX_SetBankForBG(int mode);
-extern void GX_SetGraphicsMode(int layer, int x, int y);
-extern void *G2_GetBG1CharPtr(void);
-extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
-extern int ARC_UTIL_LoadMember(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID);
-extern signed int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
-extern void DC_FlushRange(void *data, u32 size);
-extern void MIi_CpuCopy16(void *src, void *dst, u32 size);
-extern u32 GFL_HEAP_Free(void *ptr);
-extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
-extern void *G2_GetBG1ScrPtr(void);
-extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
-extern void MIi_CpuClear16(int value, u32 dst, u32 size);
-extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
-extern struct GfFont *GF_FONT_Create(int fontId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void STRBUF_Delete(struct Strbuf *str);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void BMP_Delete(struct Bmp *bmp);
-extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
+#include "../arm9/app_env.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/ui.h"
+#include "../arm9/gx.h"
+#include "../arm9/gx_vramcnt.h"
+#include "../arm9/gx_bgcnt.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/nns_g2d_anim_bank.h"
+#include "../arm9/os_cache.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/nns_g2d_load.h"
+#include "../arm9/mi_memory.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/printsys.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/bg_sys.h"
 void ERROR_SCREEN_ShowAndWait(void);
 void ERROR_SCREEN_Setup(int messageIndex);
 void ERROR_SCREEN_LoadBackground(void);
@@ -184,9 +154,9 @@ static inline void CopyToVram(void *src, void *dst, u32 size)
  */
 void ERROR_SCREEN_LoadBackground(void)
 {
-    CharData *charData;
-    ScreenData *screenData;
-    PaletteData *paletteData;
+    NNSG2dCharacterData *charData;
+    NNSG2dScreenData *screenData;
+    NNSG2dPaletteData *paletteData;
     void *unusedBlock;
     void *file;
 
@@ -194,23 +164,23 @@ void ERROR_SCREEN_LoadBackground(void)
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 1, 0, 1);
     if (NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&charData))) {
-        DC_FlushRange(charData->pixels, charData->sizeBytes);
-        CopyToVram(charData->pixels, G2_GetBG1CharPtr(), charData->sizeBytes);
+        DC_FlushRange(charData->pRawData, charData->szByte);
+        CopyToVram(charData->pRawData, G2_GetBG1CharPtr(), charData->szByte);
     }
     GFL_HEAP_Free(file);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 2, 0, 1);
     if (NNS_G2dGetUnpackedScreenData(file, (void **)(&screenData))) {
-        DC_FlushRange(screenData->tiles, screenData->sizeBytes);
-        CopyToVram(screenData->tiles, G2_GetBG1ScrPtr(), screenData->sizeBytes);
+        DC_FlushRange(screenData->rawData, screenData->szByte);
+        CopyToVram(screenData->rawData, G2_GetBG1ScrPtr(), screenData->szByte);
     }
     GFL_HEAP_Free(file);
 
     file = (void *)ARC_UTIL_LoadMember(0x16, 0, 0, 1);
     NNS_G2dGetUnpackedPaletteCompressInfo(file, &unusedBlock);
     if (NNS_G2dGetUnpackedPaletteData(file, (void **)(&paletteData))) {
-        DC_FlushRange(paletteData->colors, 0x20);
-        CopyToVram(paletteData->colors, (void *)PLTT_MAIN_BG, 0x20);
+        DC_FlushRange(paletteData->pRawData, 0x20);
+        CopyToVram(paletteData->pRawData, (void *)PLTT_MAIN_BG, 0x20);
     }
     GFL_HEAP_Free(file);
 }
@@ -234,8 +204,8 @@ void ERROR_SCREEN_PrintMessage(int messageIndex)
             tile++;
         }
     }
-    MIi_CpuClear16(0x7777, (u32)G2_GetBG1CharPtr() + 0x400, 0x3C00);
-    bmp = BMP_CreateFromVram((void *)((u32)G2_GetBG1CharPtr() + 0x400), 30, 16, 32, 1);
+    MIi_CpuClear16(0x7777, (void *)((uptr)G2_GetBG1CharPtr() + 0x400), 0x3C00);
+    bmp = BMP_CreateFromVram((void *)((uptr)G2_GetBG1CharPtr() + 0x400), 30, 16, 32, 1);
     font = GF_FONT_Create(0x17, 0, 0, 0, 1);
     bank = MSGDATA_CreateFromArchive(0, 2, 0xe8, 1);
     message = MSGDATA_AllocString(bank, messageIndex);
@@ -252,9 +222,9 @@ void ERROR_SCREEN_Teardown(void)
     GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_MAIN, -16);
     GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_SUB, -16);
     BG_SYS_SetSubVisiblePlanes(0);
-    MIi_CpuClear16(0, (u32)G2_GetBG1CharPtr(), 0x4000);
-    MIi_CpuClear16(0, (u32)G2_GetBG1ScrPtr(), 0x800);
-    MIi_CpuClear16(0x7FFF, PLTT_MAIN_BG, 0x20);
+    MIi_CpuClear16(0, G2_GetBG1CharPtr(), 0x4000);
+    MIi_CpuClear16(0, G2_GetBG1ScrPtr(), 0x800);
+    MIi_CpuClear16(0x7FFF, (void *)PLTT_MAIN_BG, 0x20);
     REG_DISPCNT_MAIN &= 0xFFFFE0FF;
     GX_ResetBankForSubBG();
     GX_ResetBankForBG();

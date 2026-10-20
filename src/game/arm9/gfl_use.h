@@ -5,13 +5,14 @@
 /* Public functions of gfl_use.c, prototypes copied from their definitions. */
 
 struct Config;
-struct Tcb;
+struct TcbTask;
 struct TcbList;
 struct GflRandom;
 struct SndHeap;
 struct SndHandle;
 struct SndWaveSetHeader;
 
+#include "../arm9/tcb_list.h"
 #include "../types.h"
 
 void NitroMain(void);
@@ -31,12 +32,12 @@ void GFL_USE_InitSystem(void);
 void GFL_USE_PollFrameInput(void);
 void GFL_USE_NoOpFrameHook(void);
 void GFL_USE_RunHBlankTasks(void);
-struct Tcb *GFL_USE_AddHBlankTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+struct TcbTask *GFL_USE_AddHBlankTask(TcbFunc callback, void *work, u32 priority);
 void GFL_USE_CallVBlankHook(void);
 u32 GFL_USE_SetVBlankHook(void (*hook)(void *), void *hookArg);
 void GFL_USE_ClearVBlankHook(void);
 void GFL_USE_RunMainTasks(void);
-struct Tcb *GFL_USE_AddMainTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority);
 struct TcbList *GFL_USE_GetMainTaskList(void);
 void GFL_USE_InitRandomState(struct GflRandom *rand);
 void GFL_USE_InitRandom(void);

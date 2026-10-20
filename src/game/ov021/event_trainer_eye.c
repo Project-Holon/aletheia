@@ -133,63 +133,39 @@ typedef int (*TrainerEyeSightFunc)(int range, const GridPos *trainerPos, const G
 typedef int (*TrainerEyeStepFunc)(TrainerEyeWork *work);
 typedef int (*GameEventFunc)(void *eventSys, void *gameSystem, void *work);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *memory);
-extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
-extern int EVENT_TRAINER_GetBattleType(int trainerId);
-extern u32 EVENT_TRAINER_GetTrainerIdFromScriptId(u32 eventId);
-extern u32 EVENT_TRAINER_CheckDefeatedFlag(void *saveData, u32 trainerId);
+#include "../arm9/gfl_heap_wrap.h"
+#include "field_effect.h"
+#include "../ov010/event_trainer.h"
 struct RecordHead24;
-extern void EVENT_TRAINER_SetScriptTrainerEntry(s32 scrcmdWork, s32 index, struct RecordHead24 *src);
-extern GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
-extern int FIELD_EVENT_CHECK_CountAlivePartyMembers(void *gameSystem);
+#include "fieldmap.h"
+#include "field_event_check.h"
 struct GameData;
 extern struct GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
-extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+#include "../arm9/game_data.h"
 extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, s32 reserved);
-extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
-extern Mmdl *FLDMMDL_SysSearchObjId(MmdlSys *mmdlSys, u32 objId);
+#ifdef __MWERKS__
+#define FLDMMDL_SetAcmd FLDMMDL_SetAcmd_header
+#include "../ov010/fldmmdl.h"
+#include "../ov010/fldmmdl_move.h"
+#undef FLDMMDL_SetAcmd
+void FLDMMDL_SetAcmd(Mmdl *mmdl, u32 acmd); /* original prototype: the definition takes u16 */
+#else
+#include "../ov010/fldmmdl.h"
+#include "../ov010/fldmmdl_move.h"
+#endif
 struct MmdlGridVec;
 struct Mmdl;
-extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, struct MmdlGridVec *out);
-extern FieldEncount *FIELDMAP_GetEncount(FieldMap *fieldMap);
-extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
-extern MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
-extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **outMmdl, u32 *iter);
-extern int FLDMMDL_GetParam(Mmdl *mmdl, int paramIndex);
-extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
+#include "field_player.h"
 extern GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
-extern void FLDMMDL_OffMoveBitMovePause(Mmdl *mmdl);
-extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern void FLDMMDL_OnMoveBitMovePause(Mmdl *mmdl);
-extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
-extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
-extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
-extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u32 acmd);
-extern int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int acmdBase);
-extern void *FLDEFF_GYOE_SetMMdl(void *fieldEffect, Mmdl *mmdl, u32 a, u32 b);
-extern int FLDEFF_GYOE_IsFinished(void *task);
+#include "fldmmdl_acmd.h"
+#include "fldeff_gyoe.h"
 struct FieldEffectCont;
-extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
-extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
-extern u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int z0, int x1, int z1);
-extern s32 FLDMMDL_EndAcmd(Mmdl *mmdl);
-extern void FLDMMDL_ChangeMoveCode(struct Mmdl *mmdl, u16 moveCode);
-extern u16 FLDMMDL_GetEventType(Mmdl *mmdl);
-extern u32 FLDMMDL_NormalizeEventType(u32 movementCode);
-extern u32 FLDMMDL_GetEventId(Mmdl *mmdl);
-extern s16 FLDMMDL_MOVE_GetDirAddGridX(u32 dir);
-extern s16 FLDMMDL_MOVE_GetDirAddGridZ(u32 dir);
-extern int FLDMMDL_MOVE_HitCheckMoveCurrent(Mmdl *mmdl, int x, int y, int z, u32 dir);
 struct FieldEncount;
-extern int EFFECT_ENCOUNT_IsSpotAt(struct FieldEncount *encount, s16 *pos);
+#include "effect_encount.h"
 
 int EVENT_TRAINER_EYE_Check(FieldMap *fieldMap);
-int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, u32 dir, int range, FieldEncount *encount);
+int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, u16 dir, int range, FieldEncount *encount);
 int EVENT_TRAINER_EYE_FindTrainer(FieldMap *fieldMap, Mmdl *exclude, TrainerEyeHit *out);
 int EVENT_TRAINER_EYE_GetSightDistance(FieldEncount *encount, Mmdl *trainer, Mmdl *player, u16 *outDir);
 int EVENT_TRAINER_EYE_CheckSight(int dir, int range, const GridPos *trainerPos, const GridPos *targetPos);
@@ -220,7 +196,7 @@ int EVENT_TRAINER_EYE_StepDone(TrainerEyeWork *work);
 int EVENT_TRAINER_EYE_Run(TrainerEyeWork *work);
 int EVENT_TRAINER_EYE_UpdatePairEvent(void *eventSys, void *gameSystem, void *work);
 int EVENT_TRAINER_EYE_GetSightType(Mmdl *mmdl);
-int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u32 dir, int distance, FieldEncount *encount);
+int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u16 dir, int distance, FieldEncount *encount);
 int EVENT_TRAINER_EYE_GetTrainerId(Mmdl *mmdl);
 int EVENT_TRAINER_EYE_IsTrainerDefeated(FieldMap *fieldMap, Mmdl *mmdl);
 void EVENT_TRAINER_EYE_FillHit(TrainerEyeHit *hit, Mmdl *trainer, u32 distance, u32 direction);
@@ -281,7 +257,7 @@ int EVENT_TRAINER_EYE_Check(FieldMap *fieldMap)
 }
 
 /* Distance in tiles to the player along dir, or -1 when the player is not in line or the way is blocked. */
-int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, u32 dir, int range, FieldEncount *encount)
+int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, u16 dir, int range, FieldEncount *encount)
 {
     GridPos trainerPos;
     GridPos playerPos;
@@ -337,7 +313,7 @@ int EVENT_TRAINER_EYE_GetSightDistance(FieldEncount *encount, Mmdl *trainer, Mmd
     GridPos playerPos;
     int sightType;
     int range;
-    int dir;
+    u16 dir;
     u16 scanDir;
 
     sightType = EVENT_TRAINER_EYE_GetSightType(trainer);
@@ -411,7 +387,7 @@ GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(void *owner, TrainerEyeWork *first,
     GameEvent *event;
     TrainerEyePairWork *pair;
 
-    event = GAME_EVENT_Create(owner, 0, EVENT_TRAINER_EYE_UpdatePairEvent, sizeof(TrainerEyePairWork));
+    event = GAME_EVENT_Create(owner, 0, (GameEventFunc)EVENT_TRAINER_EYE_UpdatePairEvent, sizeof(TrainerEyePairWork));
     pair = GAME_EVENT_GetWork(event);
     pair->first = first;
     pair->second = second;
@@ -671,7 +647,7 @@ int EVENT_TRAINER_EYE_GetSightType(Mmdl *mmdl)
 }
 
 /* Returns 1 when something blocks the straight path of distance tiles from the model along dir. */
-int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u32 dir, int distance, FieldEncount *encount)
+int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u16 dir, int distance, FieldEncount *encount)
 {
     GridPos pos;
     s16 dx;

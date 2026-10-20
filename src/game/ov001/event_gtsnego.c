@@ -66,41 +66,13 @@ struct NetHandle;
 struct Party;
 struct MyStatus;
 #include "../types.h"
+#include "../arm9/ica_anime_shared_types.h"
 
-/* Request read by the evolution demo overlay (ov195). */
-typedef struct EvolutionRequest {
-    struct GameData *gameData;
-    struct Party *party;
-    u16 partyIndex;
-    u8  reserved;
-    u8  evolveCondition;
-    u32 fromTrade;
-    u32 reserved2;
-} EvolutionRequest;
+#include "../ov010/evolution_request_types.h"
 
 /* Parameter block read by the WiFi login overlay (ov115), 0x28 bytes. */
-typedef struct WifiLoginParam {
-    struct GameData *gameData;
-    u32 loginType;
-    u32 loginOption;
-    u32 messageId;
-    u8 *saveData;
-    u32 useSaveData;
-    u32 allowCancel;
-    u32 result;
-    u32 reserved[2];
-} WifiLoginParam;
+#include "../ov000/wifi_login_param_types.h"
 
-/* Short parameter block of the second ov115 call (session confirm), 0x1C bytes. */
-typedef struct WifiConfirmParam {
-    struct GameData *gameData;
-    u32 loginType;
-    u32 loginOption;
-    u32 messageId;
-    u8 *saveData;
-    u32 useSaveData;
-    u32 allowCancel;
-} WifiConfirmParam;
 
 /* Parameter block read by the GTS negotiation screen (ov120), 0x1B4 bytes. */
 typedef struct GtsDispParam {
@@ -141,37 +113,20 @@ typedef struct GtsNegoEventWork {
     u32 startMode;
 } GtsNegoEventWork;
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern u16 GFL_USE_GetBgmNo(void);
-extern void GFL_USE_FadeOutBgm(u32 frames);
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern u32 GAME_COMM_GetKind(struct GameComm *comm);
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
-extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
-extern int   GFL_NET_GetRunState(void);
+#include "../arm9/gamesystem.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/game_comm.h"
+#include "../arm9/field_status.h"
+#include "../arm9/game_event.h"
+#include "../arm9/net.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void  GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern u32   GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern void GFL_NET_SetAutoExit(u8 enable);
-extern void GFL_NET_SetLoginOption(u8 option);
-extern void GFL_NET_STATE_WifiDisconnect(u32 a);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
-extern void GFL_USE_FadeInBgmFull(u32 frames);
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
-void *GAME_EVENT_GetWork(struct GameEvent *event);
-void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-struct Party *POKEPARTY_Create(u32 heapId);
-void MI_CpuFill8(void *dst, int value, int size);
-int MYSTATUS_GetSize(void);
-struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-void MI_CpuCopy8(u32 src, void *dst, u32 size);
-void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
+#include "../arm9/net_handle.h"
+#include "../arm9/net_state.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/pokeparty.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/config.h"
+#include "../arm9/game_data.h"
 u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work);
 void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode);
 void *EVENT_GTSNEGO_Create(void *gameSystem, int a);
@@ -209,7 +164,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
     case 2:
         work->login.saveData = work->loginSaveData;
         work->login.messageId = 0x33;
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov115_id, gNetSaveMainProc, &work->login);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, gNetSaveMainProc, &work->login);
         (*seq)++;
         break;
     case 3:
@@ -222,7 +177,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         break;
     case 4:
         work->dispParam.result = 0;
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov120_id, d_021D890C, &work->dispParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov120_id, d_021D890C, &work->dispParam);
         (*seq)++;
         break;
     case 5:
@@ -242,7 +197,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         work->tradeParam.gameData = gameData;
         work->tradeParam.dispParam = &work->dispParam;
         work->tradeParam.loginSaveData = work->loginSaveData;
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov119_id, d_021E759C, &work->tradeParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov119_id, d_021E759C, &work->tradeParam);
         (*seq)++;
         break;
     case 7:
@@ -278,13 +233,13 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         request = GFL_HEAP_Alloc(4, 0x14, 0, d_021546A0, 0xcc);
         request->gameData = work->tradeParam.gameData;
         request->party = work->tradedParty;
-        request->partyIndex = work->tradeParam.partyIndex;
-        request->reserved = 0;
+        request->targetSpecies = work->tradeParam.partyIndex;
+        request->partySlot = 0;
         request->evolveCondition = work->tradeParam.evolveCondition;
         request->fromTrade = 1;
-        request->reserved2 = 0;
+        request->fromField = 0;
         work->tradeParam.evolutionRequest = request;
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov195_id, d_02208C40, request);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov195_id, d_02208C40, request);
         (*seq)++;
         break;
     case 11:
@@ -300,7 +255,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         }
         break;
     case 12:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov115_id, gNetSaveRetryProc, &work->confirm);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov115_id, gNetSaveRetryProc, &work->confirm);
         (*seq)++;
         break;
     case 13:
@@ -345,7 +300,7 @@ void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode
     work->dispParam.gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->dispParam.myStatusCopy = GFL_HEAP_Alloc(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x123);
     work->dispParam.partnerStatusCopy = GFL_HEAP_Alloc(4, MYSTATUS_GetSize(), 1, d_021546A0, 0x124);
-    MI_CpuCopy8((u32)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)), work->dispParam.myStatusCopy, MYSTATUS_GetSize());
+    MI_CpuCopy8((const void *)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(gameSystem)), work->dispParam.myStatusCopy, MYSTATUS_GetSize());
     MI_CpuFill8(&work->login, 0, 0x28);
     work->login.gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->login.loginType = 0;
@@ -362,7 +317,7 @@ void *EVENT_GTSNEGO_InitWork(void *event, void *gameSystem, int a, int startMode
  */
 void *EVENT_GTSNEGO_Create(void *gameSystem, int a)
 {
-    void *event = GAME_EVENT_Create(gameSystem, 0, EVENT_GTSNEGO_Main, 0x3B4);
+    void *event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_GTSNEGO_Main, 0x3B4);
     EVENT_GTSNEGO_InitWork(event, gameSystem, a, 0);
     return event;
 }

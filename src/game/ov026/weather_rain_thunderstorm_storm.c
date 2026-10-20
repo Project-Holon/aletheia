@@ -72,6 +72,11 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "weather_rain_thunderstorm_storm_types.h"
+#include "../ov021/weather_task.h"
+#include "../arm9/zone_light.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/clact.h"
+#include "../arm9/mi_memory.h"
 
 /* Steps of the thunderstorm begin stage (WeatherThunderstormWork.step). */
 enum {

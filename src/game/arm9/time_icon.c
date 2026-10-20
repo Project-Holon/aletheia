@@ -42,7 +42,7 @@
 #include "comm_player_support_shared_types.h"
 #include "time_icon_shared_types.h"
 
-struct Tcb;
+struct TcbTask;
 
 struct TcbList;
 
@@ -58,7 +58,7 @@ struct BmpWin;
  * next 16x16 frame of the 8-frame sheet into the window.
  */
 struct TimeIcon {
-    struct Tcb *task;           /* 0x00, set when created with a task list */
+    struct TcbTask *task;           /* 0x00, set when created with a task list */
     struct TcblNode *node;      /* 0x04, set when created with a TCBL node */
     struct BmpWin *win;         /* 0x08 */
     struct Bmp *sheet;          /* 0x0c, frame sheet loaded from archive 0xC6 */
@@ -76,11 +76,9 @@ struct TimeIcon {
 struct TcbSystem;
 struct TcbTask;
 
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*callback)(struct Tcb *, void *), void *work, unsigned int priority);
 struct TcblSystem;
 struct TcblTask;
 
-extern struct TcblTask *TCBL_AddTask(struct TcblSystem *tcbl, void (*callback)(struct TcblNode *, void *), unsigned int workSize, unsigned int priority);
 struct TcblTask;
 
 #include "tcbl.h"
@@ -133,9 +131,9 @@ void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct Bmp
 
 void TIME_ICON_Delete(struct TimeIcon *icon);
 
-void TIME_ICON_TaskMain(struct Tcb *tcb, void *work);
+void TIME_ICON_TaskMain(struct TcbTask *tcb, void *work);
 
-void TIME_ICON_NodeMain(struct TcblNode *node, void *work);
+void TIME_ICON_NodeMain(struct TcblTask *node, void *work);
 
 void TIME_ICON_Update(struct TimeIcon *icon);
 
@@ -158,7 +156,7 @@ struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWi
     icon = GFL_HEAP_Alloc(heapId, sizeof(struct TimeIcon), 0, time_icon_File, 0x49);
     TIME_ICON_Init(icon, refWin, fillColor, waitInterval, heapId);
     if (taskList != 0) {
-        icon->task = (struct Tcb *)TCB_AddTask((struct TcbSystem *)taskList, TIME_ICON_TaskMain, icon, 0);
+        icon->task = (struct TcbTask *)TCB_AddTask((struct TcbSystem *)taskList, TIME_ICON_TaskMain, icon, 0);
     } else {
         icon->task = 0;
     }
@@ -259,7 +257,7 @@ void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct Bmp
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(icon->win));
 
     icon->node = 0;
-    icon->task = (struct Tcb *)TCB_AddTask((struct TcbSystem *)taskList, TIME_ICON_TaskMain, icon, 0);
+    icon->task = (struct TcbTask *)TCB_AddTask((struct TcbSystem *)taskList, TIME_ICON_TaskMain, icon, 0);
     icon->isActive = 1;
 }
 
@@ -293,13 +291,13 @@ void TIME_ICON_Delete(struct TimeIcon *icon)
 }
 
 /* Task callback of an icon created with a task list. */
-void TIME_ICON_TaskMain(struct Tcb *tcb, void *work)
+void TIME_ICON_TaskMain(struct TcbTask *tcb, void *work)
 {
     TIME_ICON_Update(work);
 }
 
 /* Node callback of an icon created with a TCBL node. */
-void TIME_ICON_NodeMain(struct TcblNode *node, void *work)
+void TIME_ICON_NodeMain(struct TcblTask *node, void *work)
 {
     TIME_ICON_Update(work);
 }

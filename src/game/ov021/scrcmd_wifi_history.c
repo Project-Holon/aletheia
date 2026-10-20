@@ -74,71 +74,50 @@ enum {
     WIFI_HISTORY_FIELD_INFO = 6
 };
 
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
+#include "../ov010/scrcmd_work.h"
 
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+#include "../ov010/script_work_cmd.h"
 
-extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-extern u16 VM_ReadU16(struct ScriptVm *vm);
+#include "../arm9/vm.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
-extern PartnerCandidates *GAME_DATA_GetSaveSyncBlock(struct GameData *gameData);
 
-extern u32 MYSTATUS_GetId(const void *myStatus);
+#include "../arm9/mystatus.h"
 
-extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetArea(struct MyStatus *mystatus);
 
-extern void *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
+#include "../ov010/script_work.h"
 
-extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
+#include "../arm9/wifi_history.h"
 
-extern struct HistoryEntry *WIFI_HISTORY_GetEntry(struct WifiHistory *history, int index);
 
-extern u32 WIFI_HISTORY_GetEntryField(const struct WifiHistory *history, u32 index, u32 field);
 
-extern u8 WIFI_HISTORY_GetGreetingSet(const struct WifiHistory *history);
 
-extern u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *status, int flag);
 
-extern u8 WIFI_HISTORY_GetFirstFreeEntry(const struct WifiHistory *history);
 
-extern void WIFI_HISTORY_SetEntryField(struct WifiHistory *history, int index, u32 field, u32 value);
 
-extern void WIFI_HISTORY_SetRatingLevel(struct WifiHistory *history, int value);
 
-extern void WIFI_HISTORY_SetGreetingSet(struct WifiHistory *history, int value);
 
-extern void SAVE_SYNC_Clear(void *dst);
+#include "../arm9/save_sync_savedata.h"
 
-extern u32 CURSOR_MOVE_GetTableValue(u32 outfit);
+#include "../arm9/cursor_move.h"
 
-extern u8 NATION_AREA_GetAreaCount(u32 language);
+#include "../arm9/bmp_oam.h"
 
-extern void WORDSET_SetSlotFromMsgE7(struct WordSet *wordSet, u32 index, u32 number);
+#include "../arm9/wordset.h"
 
-extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *wordSet, u32 index, u32 a, u32 number);
 
-extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, const void *myStatus);
 
-extern void WORDSET_SetSlotSpeciesName(struct WordSet *wordSet, u32 index, u16 value);
 
-extern void WORDSET_SetSlotFromMsg2B(struct WordSet *wordSet, u32 index, u32 value);
 
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 a, u32 b, u32 c, u32 d);
 
 void SCRCMD_FillPartnerCandidates(struct GameSystem *gameSystem, int language, u32 mode);
 
@@ -179,7 +158,7 @@ int SCRCMD_HasPlayerLanguage(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 void SCRCMD_FillPartnerCandidates(struct GameSystem *gameSystem, int language, u32 mode)
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
-    PartnerCandidates *candidates = GAME_DATA_GetSaveSyncBlock(gameData);
+    PartnerCandidates *candidates = (PartnerCandidates *)GAME_DATA_GetSaveSyncBlock(gameData);
 
     if (language < 0xe9) {
         SCRCMD_CollectPartnersByLanguage(WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData)), candidates, language, mode);
@@ -250,8 +229,8 @@ int SCRCMD_GetPartnerGreetingMessage(struct WordSet *wordSet, struct GameSystem 
     entry = WIFI_HISTORY_GetEntry(history, historyIndex);
     outfitVariant = MYSTATUS_GetSex((struct MyStatus *)entry);
     tier = WIFI_HISTORY_GetEntryField(history, historyIndex, 4);
-    trainerId = MYSTATUS_GetId(entry);
-    if (NATION_AREA_GetAreaCount(GAME_DATA_GetSaveSyncBlock(gameData)->language)) {
+    trainerId = MYSTATUS_GetId((struct MyStatus *)entry);
+    if (NATION_AREA_GetAreaCount(((PartnerCandidates *)GAME_DATA_GetSaveSyncBlock(gameData))->language)) {
         isSpecialLanguage = 1;
     }
     return SCRCMD_CalcPartnerGreetingIndex(outfitVariant, trainerId, tier, variant, isSpecialLanguage);
@@ -288,7 +267,7 @@ void SCRCMD_SetPartnerWords(struct WordSet *wordSet, struct GameData *gameData, 
     u8 language;
 
     history = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(gameData));
-    language = GAME_DATA_GetSaveSyncBlock(gameData)->language;
+    language = ((PartnerCandidates *)GAME_DATA_GetSaveSyncBlock(gameData))->language;
     entry = WIFI_HISTORY_GetEntry(history, historyIndex);
     WORDSET_SetSlotFromMsgE7(wordSet, 0, language);
     if (NATION_AREA_GetAreaCount(language)) {
@@ -350,7 +329,7 @@ int SCRCMD_MarkPartnerCandidate(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
-    candidates = GAME_DATA_GetSaveSyncBlock(gameData);
+    candidates = (PartnerCandidates *)GAME_DATA_GetSaveSyncBlock(gameData);
     candidateIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     historyIndex = SCRCMD_GetPartnerCandidateHistoryIndex(candidates, candidateIndex);
     if (historyIndex != 0xff) {
@@ -369,7 +348,7 @@ int SCRCMD_IsPartnerCandidateMarked(struct ScriptVm *vm, struct ScrcmdWork *cmdW
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
-    candidates = GAME_DATA_GetSaveSyncBlock(gameData);
+    candidates = (PartnerCandidates *)GAME_DATA_GetSaveSyncBlock(gameData);
     candidateIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     *resultVar = 0;
@@ -441,7 +420,7 @@ int SCRCMD_GetPartnerGreetingMessageFromScript(struct ScriptVm *vm, struct Scrcm
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    candidates = GAME_DATA_GetSaveSyncBlock(GAMESYSTEM_GetGameData(gameSystem));
+    candidates = (PartnerCandidates *)GAME_DATA_GetSaveSyncBlock(GAMESYSTEM_GetGameData(gameSystem));
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     candidateIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     variant = VM_ReadU16(vm);

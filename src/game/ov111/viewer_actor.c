@@ -171,13 +171,6 @@ typedef struct {
     int step;
 } ViewerCounter;
 
-typedef struct {
-    u8 year;
-    u8 month;
-    u8 day;
-    u8 week;
-} ViewerBadgeDate;
-
 #include "../sdk_rtc.h"
 
 typedef struct {
@@ -201,102 +194,48 @@ typedef struct {
     u16 ofsDict;
 } ViewerTexInfo;
 
-extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
+#include "../arm9/g3d_util.h"
+#include "../arm9/clact.h"
+#include "../arm9/g3d_system.h"
 struct LightSetDesc;
 struct LightSlotValue;
-extern struct LightSlotValue *G3D_LIGHT_CreateSlots(struct LightSetDesc *set, u16 heapID);
-extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
+#include "../arm9/g3d_light.h"
 struct G3dProjection;
-extern void G3D_SYSTEM_SetProjection(struct G3dProjection *proj);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern u32 G3D_LIGHT_DeleteSlots(void *p);
-extern void G3D_SYSTEM_Exit(void);
-extern void *G3D_UTIL_Create(int a, int b, int heap);
-extern u16 G3D_UTIL_AddUnit(void *p, const void *q);
-extern u32 G3D_UTIL_GetObject(u8 *util, int i);
+#include "../arm9/bg_sys.h"
 struct G3dObject;
-extern u16 G3D_SYSTEM_GetObjectAnimeCount(struct G3dObject *obj);
-extern s32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
-extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
-extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
-extern void G3D_UTIL_Delete(struct Rec *p);
-extern void MTX_Identity33_(MtxFx33 *m);
+#include "../arm9/g3d_camera.h"
+#include "../arm9/fx_mtx33.h"
 struct G3dCamera;
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
-extern s32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, s32 *frame);
-extern s32 G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, u16 anmIdx, s32 *frame);
-extern void G3D_SYSTEM_DrawStart(void);
-extern void G3D_SYSTEM_ApplyLookAt(void);
 struct G3dObjectStatus;
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
-extern void G3D_SYSTEM_DrawEnd(void);
-extern void BMP_WIN_Init(u16 heapId);
+#include "../arm9/bmp_win.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void BMP_WIN_Exit(void);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_PushTile(unsigned int index);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern u32 WIPE_SYS_EndCheck(void);
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
+#include "../arm9/printsys.h"
+#include "../arm9/wipe.h"
 struct Strbuf;
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern ViewerBadgeDate TRCARD_SIGN_GetBadgeDate(void *obj, int i);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern int TOUCHPANEL_HitTrg(const void *rects);
-extern int TOUCHPANEL_HitCont(const void *rects);
-extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern u32 KEY_GetTrg(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/msgdata.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/key.h"
+#include "../arm9/gfl_use.h"
 extern void VIEWER_ACTOR_HandleTouchDrag(ViewerTextWork *p, int idx);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void UI_SetInputMode(u8 v);
-extern int GAME_DATA_ContainsRecentId(int gd, int id);
+#include "../arm9/ui.h"
+#include "../arm9/game_data.h"
 struct GameData;
-extern void GAME_DATA_SetRecentId(struct GameData *gd, u32 id, u32 on);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
 struct MiscSave;
-extern u32 MISC_GetBadge(struct MiscSave *beacon, u32 bit);
-extern void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
-extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
+#include "../arm9/beacon.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/convert.h"
 struct TrainerCardSignature;
-extern void TRCARD_SIGN_SetLastBadgeTime(struct TrainerCardSignature *card, u32 lo, u32 hi);
-extern void TRCARD_SIGN_SetBadgeTimer(struct TrainerCardSignature *card, s32 badge, s32 timer);
-extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
-extern unsigned long long TRCARD_SIGN_GetLastBadgeTime(struct TrainerCardSignature *card);
-extern u16 TRCARD_SIGN_GetBadgeTimer(struct TrainerCardSignature *card, u32 badge);
-extern void GX_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
-extern u32 G3D_UTIL_GetResource(u8 *util, int i);
-extern ViewerTexInfo *G3D_SYSTEM_GetResourceTex(void *p);
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
+#include "../arm9/trcard_sign.h"
+#include "../arm9/gx_load2d.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
 void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p);
 void VIEWER_ACTOR_DeleteObjects(ViewerTextWork *p);
 void VIEWER_ACTOR_Init3D(ViewerTextWork *p);
@@ -370,7 +309,7 @@ void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p)
         pos.z = d_021C8AA0[i].z;
         pos.flags = 0;
         pos.pri = 0x24 - i;
-        p->actors.obj[i] = CLACT_CreateActor(p->unit, (unsigned int)p->resSet.set[d_021C8AA0[i].cell], (unsigned int)p->resSet.set[d_021C8AA0[i].chr], (unsigned int)p->resSet.set[d_021C8AA0[i].anm], &pos, 0, 0x27);
+        p->actors.obj[i] = CLACT_CreateActor((struct Unit *)p->unit, (unsigned int)p->resSet.set[d_021C8AA0[i].cell], (unsigned int)p->resSet.set[d_021C8AA0[i].chr], (unsigned int)p->resSet.set[d_021C8AA0[i].anm], (const struct ActorInitParam *)&pos, 0, 0x27);
         CLACT_SetActorAutoAnim(p->actors.obj[i], 1);
     }
 }
@@ -432,7 +371,7 @@ void VIEWER_ACTOR_CreateModel(ViewerTextWork *p)
     VecFx32 c;
 
     p->g3dUtil = G3D_UTIL_Create(10, 10, 0x27);
-    p->g3dUnit = G3D_UTIL_AddUnit(p->g3dUtil, d_021C8834);
+    p->g3dUnit = G3D_UTIL_AddUnit(p->g3dUtil, (const G3dUtilSetup *)d_021C8834);
     mdl = (void *)G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit);
     n = G3D_SYSTEM_GetObjectAnimeCount(mdl);
     for (i = 0; i < n; i++) {
@@ -679,7 +618,7 @@ void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, int col)
 void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx)
 {
     void *str;
-    ViewerBadgeDate r;
+    struct BadgeDate r;
     void *v;
     int i;
 
@@ -814,10 +753,10 @@ int VIEWER_ACTOR_HandleInput(ViewerTextWork *p)
     int a;
     int c;
 
-    ret = TOUCHPANEL_HitTrg(d_021C898C);
-    a = TOUCHPANEL_HitCont(d_021C898C);
-    b = TOUCHPANEL_HitTrg(d_021C8808);
-    c = TOUCHPANEL_HitCont(d_021C8808);
+    ret = TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C898C);
+    a = TOUCHPANEL_HitCont((const TouchHitTable *)d_021C898C);
+    b = TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C8808);
+    c = TOUCHPANEL_HitCont((const TouchHitTable *)d_021C8808);
     TOUCHPANEL_GetPointCont((u32 *)(&x), (u32 *)(&y));
     if (KEY_GetTrg() & 2) {
         GFL_USE_PlaySeDefaultVolume(0x551);
@@ -961,7 +900,7 @@ void VIEWER_ACTOR_SelectActor(ViewerTextWork *p, int sel, int flag)
 
 void VIEWER_ACTOR_ToggleFavorite(ViewerTextWork *p)
 {
-    int v = GAME_DATA_ContainsRecentId((int)p->parent->gameData, 0x17) ^ 1;
+    int v = GAME_DATA_ContainsRecentId((struct GameData *)p->parent->gameData, 0x17) ^ 1;
 
     CLACT_SetActorAnimSeq(p->actors.named.actorD, v + 6);
     GAME_DATA_SetRecentId(p->parent->gameData, 0x17, v);
@@ -1037,7 +976,7 @@ void VIEWER_ACTOR_UpdateRowVisibility(ViewerTextWork *p, int a, int b)
             p->rowEnabled[i] = 0;
         }
     }
-    CLACT_SetActorAnimSeq(p->actors.named.actorD, GAME_DATA_ContainsRecentId((int)p->parent->gameData, 0x17) + 6);
+    CLACT_SetActorAnimSeq(p->actors.named.actorD, GAME_DATA_ContainsRecentId((struct GameData *)p->parent->gameData, 0x17) + 6);
 }
 
 
@@ -1183,7 +1122,7 @@ void VIEWER_ACTOR_LoadTexture(ViewerTextWork *p, int idx, int k)
         k = 2;
     }
     dst = p->res170[k]->data;
-    tex = G3D_SYSTEM_GetResourceTex((void *)G3D_UTIL_GetResource(p->g3dUtil, 0));
+    tex = (ViewerTexInfo *)G3D_SYSTEM_GetResourceTex((void *)G3D_UTIL_GetResource(p->g3dUtil, 0));
     e = TexGetPltt(tex, idx);
     NNS_GfdRegisterNewVramTransferTask((void *)1, (u32)(tex->plttData + *e * 8), (u32)(dst + d_021C8874[idx] * 32), 0x20);
 }

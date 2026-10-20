@@ -146,7 +146,7 @@ typedef struct PartyStatusObj7 {
 struct Proc;
 struct Party;
 struct PartyMon;
-struct S020314B8;
+struct ProcSys;
 struct Proc;
 struct Big;
 struct Sub02008700Obj;
@@ -158,7 +158,7 @@ typedef struct {unsigned words[9];} Copy;
 
 #include "../types.h"
 
-typedef struct { u8 *regulation; void *party; u32 opponentName; u8 opponentGender, padD[3]; u32 opponentParty; void *gameData; u8 tail[20]; } Args;
+typedef struct { u8 *regulation; void *party; u32 opponentName; u8 opponentGender, padD[3]; u32 opponentParty; void *gameData; u8 tail[20]; } PartyStatusArgs;
 
 typedef struct { u8 pad[4]; void *party; } Other;
 
@@ -182,56 +182,35 @@ typedef struct {
     u32 timerShown, timerRunning;
 } Output;
 
-extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *,int,int);
-extern void *PROCSYS_Create(int heapId);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
-extern void PLIST_COMM_End(void *);
-extern void GF_OVERLAY_Unload(s32 handle);
-extern void PROCSYS_Delete(struct S020314B8 *p);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(unsigned);
-extern int GFL_NET_GetRunState(void);
+#include "../arm9/pokeparty.h"
+#include "../ov090/plist_comm.h"
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/net.h"
 struct GFLNetSession;
-extern struct GFLNetSession *GFL_NET_GetInitParam(void);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern void GFL_NET_ERR_RequestScreen(void);
-extern int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError);
-extern int GF_OVERLAY_Load(int);
-extern void PROCSYS_Push(void *,u32,void *,void *);
-extern u32 PROCSYS_Main(void *);
+#include "../arm9/net_err.h"
+#include "../ov009/dwc_rapcommon.h"
 struct PartyListCommWork;
-extern void PLIST_COMM_Update(struct PartyListCommWork *work);
 struct GameData;
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
-extern void PLIST_COMM_Start(struct PartyListCommWork *work);
+#include "../arm9/game_data.h"
+#include "../arm9/system_data.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern unsigned int POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
-extern char *WIFIBATTLEMATCH_NET_CreateNetContext(u32,void *,u32,u16);
+#include "../arm9/net_handle.h"
+#include "../ov175/wifibattlematch_net.h"
 extern u32 WIFIBATTLEMATCH_NET_SendRegDataAlt(char *,u32),WIFIBATTLEMATCH_NET_TakeRegBuffer(char *,u32);
-extern void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *p);
-extern void *LIVEBATTLEMATCH_IRC_Create(int unused, int heap);
-extern int LIVEBATTLEMATCH_IRC_SendSaveData(int unused, int arg);
-extern int LIVEBATTLEMATCH_IRC_RecvSaveData(u8 *p, const void *q);
-extern void LIVEBATTLEMATCH_IRC_NoOp(void *);
-extern void LIVEBATTLEMATCH_IRC_Delete(int *p);
+#include "../ov176/livebattlematch_irc.h"
 int PARTY_STATUS_Create(void *handle,int unused,PartyStatusObj5 *q);
 int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusObj1 *p);
 int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p);
-void PARTY_STATUS_SetupDisplay(Args *p, Other *o, Output *out);
+void PARTY_STATUS_SetupDisplay(PartyStatusArgs *p, Other *o, Output *out);
 void PARTY_STATUS_InitRecord(int *r5, int *r6, PartyStatusObj2 *r4);
 int PARTY_STATUS_CreateSub(struct Proc *a, int b, int *p);
 int PARTY_STATUS_DestroySub(void *a, u32 b, u32 *c, void *d);
@@ -239,7 +218,7 @@ int PARTY_STATUS_UpdateSub(u32 a, u32 b, u32 *c, void *d);
 void PARTY_STATUS_Noop(int work, int *param, int heapId);
 int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state);
 void PARTY_STATUS_DestroySubWork(void **pp, u32 *c);
-void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u32 v);
+void PARTY_STATUS_CreateSubWork(u32 *out, u32 **pp, u16 v);
 unsigned PARTY_STATUS_NetSync2(void **d,unsigned *c,unsigned *state);
 void PARTY_STATUS_ExitSubWork(int *p, void *c);
 extern unsigned d_02FFFC3C;
@@ -261,7 +240,7 @@ int PARTY_STATUS_Create(void *handle,int unused,PartyStatusObj5 *q)
  p->heapId=0x58;
  p->procSys=PROCSYS_Create(p->heapId);
  p->party=q->party;
- PARTY_STATUS_SetupDisplay((Args *)q, (Other *)p, (Output *)((char *)p+8));PARTY_STATUS_InitRecord((int *)q,(int *)p,(PartyStatusObj2 *)((char *)p+0xA0));
+ PARTY_STATUS_SetupDisplay((PartyStatusArgs *)q, (Other *)p, (Output *)((char *)p+8));PARTY_STATUS_InitRecord((int *)q,(int *)p,(PartyStatusObj2 *)((char *)p+0xA0));
  p->tickAccum=0;
  p->lastTick=d_02FFFC3C;
  p->state=0;q->exitReason=0;
@@ -311,14 +290,14 @@ int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
     }
     switch(((PartyStatusObj1 *)p)->state) {
     case 0:GF_OVERLAY_Load((int)ov091_id);
-        PROCSYS_Push(((PartyStatusObj1 *)p)->procSys,-1,gPartyListProcData,p+8);((PartyStatusObj1 *)p)->state=1;break;
+        PROCSYS_Push(((PartyStatusObj1 *)p)->procSys,-1,(const struct ProcData *)gPartyListProcData,p+8);((PartyStatusObj1 *)p)->state=1;break;
     case 1:if(PROCSYS_Main(((PartyStatusObj1 *)p)->procSys)==0)((PartyStatusObj1 *)p)->state=2;break;
     case 2:GF_OVERLAY_Unload((int)ov091_id);
         if(((PartyStatusObj1 *)p)->exitCode==1) {((PartyStatusObj1 *)p)->savedPosition=((PartyStatusObj1 *)p)->selectedIndex;((PartyStatusObj1 *)p)->state=3;}
         else return 1;
         break;
     case 3:GF_OVERLAY_Load((int)ov131_id);
-        PROCSYS_Push(((PartyStatusObj1 *)p)->procSys,-1,gPokeStatusProcData,p+0xa0);((PartyStatusObj1 *)p)->state=4;break;
+        PROCSYS_Push(((PartyStatusObj1 *)p)->procSys,-1,(const struct ProcData *)gPokeStatusProcData,p+0xa0);((PartyStatusObj1 *)p)->state=4;break;
     case 4:
         if(((PartyStatusObj1 *)p)->timerRunning==1 && ((PartyStatusObj1 *)p)->timeLeft==0)((PartyStatusObj1 *)p)->forceExit=1;
         if(PROCSYS_Main(((PartyStatusObj1 *)p)->procSys)==0)((PartyStatusObj1 *)p)->state=5;break;
@@ -358,7 +337,7 @@ int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
  * second call: out->f10 then out->a before out->f34 and out->f30 (code order is unchanged; the earlier
  * pcode position of the a store gives a the higher spill score, so a takes r5 and p r6).
  */
-void PARTY_STATUS_SetupDisplay(Args *p, Other *o, Output *out)
+void PARTY_STATUS_SetupDisplay(PartyStatusArgs *p, Other *o, Output *out)
 {
     u8 *regulation;
     void *saveControl;
@@ -524,7 +503,7 @@ void PARTY_STATUS_DestroySubWork(void **work, u32 *param)
     GF_OVERLAY_Unload((u32)ov067_id);
 }
 
-void PARTY_STATUS_CreateSubWork(u32 *work, u32 **param, u32 heapId)
+void PARTY_STATUS_CreateSubWork(u32 *work, u32 **param, u16 heapId)
 {
     GF_OVERLAY_Load((u32)ov176_id);
     *work = (u32)LIVEBATTLEMATCH_IRC_Create(*(u32 *)*param, heapId);
@@ -538,7 +517,7 @@ unsigned PARTY_STATUS_NetSync2(void **netWork,unsigned *ctx,unsigned *state)
  case 1:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F);++*state;break;
  case 2:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F)!=0)++*state;break;
  case 3:if(LIVEBATTLEMATCH_IRC_SendSaveData((int)(*netWork),ctx[3])!=0)++*state;break;
- case 4:if(LIVEBATTLEMATCH_IRC_RecvSaveData(*netWork,(const void *)ctx[4])!=0)++*state;break;
+ case 4:if(LIVEBATTLEMATCH_IRC_RecvSaveData((u8 *)(*netWork),(const void *)ctx[4])!=0)++*state;break;
  case 5:return 1;
  }
  LIVEBATTLEMATCH_IRC_NoOp(*netWork);return 0;

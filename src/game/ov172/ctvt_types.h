@@ -6,26 +6,26 @@
  * record CtvtWork and the records its sub-systems keep behind pointers.
  */
 
-#include "ctvt_camera_types.h"
+#include "../ov172/ctvt_camera_types.h"
 
 #include "../types.h"
 
 /* Opaque library objects. */
-struct ClActor;
+struct ClactActor;
 struct BmpWin;
-struct PrintQue;
-struct MsgData;
-struct StrBuf;
+struct PrintQueue;
+struct MsgBank;
+struct Strbuf;
 struct TaskMenu;
 struct TimeIcon;
 struct ArcHandle;
-struct ClActUnit;
+struct Unit;
 struct GameData;
 struct Bmp;
 struct Obj;
 struct Cfg;
 struct CharBuf;
-struct Descriptor;
+struct CtvtDescriptor;
 struct Actor;
 struct PrintSys;
 struct MsgBank;
@@ -36,30 +36,21 @@ struct StrObj;
 struct Sub0200852CObj;
 
 /* Screen and window parameter records shared by the overlay files. */
-typedef struct { u16 heap; u8 kind, pad; u16 count, a, b, c, d; } Params;
+typedef struct { u16 heap; u8 kind, pad; u16 count, a, b, c, d; } CtvtParams;
 
-/* One 0xE byte cell actor sprite placement. */
-struct Desc {
-    s16 x;
-    s16 y;
-    s16 z;
-    u8  a;
-    u8  b;
-};
-
-struct SpritePos {
+struct CtvtSpritePos {
     s16 x;
     s16 y;
 };
 
 /* Window descriptor handed to the BMP_WIN and PRINTSYS helpers. */
-typedef struct { unsigned int heap; u8 count; u8 pad[3]; void *items; unsigned int zero; u8 a, b, c, d; } Descriptor;
+typedef struct { unsigned int heap; u8 count; u8 pad[3]; void *items; unsigned int zero; u8 a, b, c, d; } CtvtDescriptor;
 
 /* Sub-system records behind the CtvtWork pointers. */
 struct CtvtComm;
 struct CtvtTalk;
 struct CtvtCall;
-struct CtvtSprites;
+struct DrawCanvas;
 
 /* Screen numbers of the CtvtWork state machine. */
 #define CTVT_SCREEN_TALK       1
@@ -100,15 +91,15 @@ typedef struct CtvtWork {
     u8 fadePalette[10][32];     /* palette rows of the fade */
     struct ArcHandle *arc;      /* graphics archive */
     u32 resId[11];              /* cell actor resource ids: 3 groups of char, palette, cell, anim */
-    struct ClActUnit *clactUnit;
-    struct ClActor *marker;     /* slot marker sprite */
+    struct Unit *clactUnit;
+    struct ClactActor *marker;     /* slot marker sprite */
     signed char slotFlagA;
     signed char slotFlagB;
     u8 pad1B6[2];               /* alignment before the window array */
     struct BmpWin *bmpWin[4];   /* one name window per member slot */
     u32 font;
-    struct MsgData *msgData;
-    struct PrintQue *printQue;
+    struct MsgBank *msgData;
+    struct PrintQueue *printQue;
     struct TaskMenu *taskMenu;
     void *timeIconSrc;          /* source handed to TIME_ICON_CreateNode */
     struct TimeIcon *timeIcon;
@@ -117,7 +108,7 @@ typedef struct CtvtWork {
     struct CtvtTalk *talk;
     struct CtvtDrawScene *draw;
     struct CtvtCall *call;
-    struct CtvtSprites *sprites;
+    struct DrawCanvas *sprites;
     CtvtLaunchParams *launch;
 } CtvtWork;
 
@@ -237,12 +228,12 @@ typedef struct CtvtDrawScene {
     struct BmpWin *messageWin;
     u16 messageTimer;           /* frames since the message appeared */
     u8 pad56[2];                /* alignment before the actor array */
-    struct ClActor *button[6];  /* pen, pick, eraser, stamp, grid, panel arrow */
-    struct ClActor *helpIcon[5];
-    struct ClActor *penPicker;
-    struct ClActor *stampPicker;
-    struct ClActor *pickMarker;
-    struct ClActor *cursor;
+    struct ClactActor *button[6];  /* pen, pick, eraser, stamp, grid, panel arrow */
+    struct ClactActor *helpIcon[5];
+    struct ClactActor *penPicker;
+    struct ClactActor *stampPicker;
+    struct ClactActor *pickMarker;
+    struct ClactActor *cursor;
     u16 fadeColor;              /* backdrop color written to the palette */
     u16 fadePhase;
 } CtvtDrawScene;
@@ -321,11 +312,11 @@ typedef struct CtvtTalk {
     u16 promptTimer;                /* +0x88: frames spent on the leave prompt */
     u8 pad8A[2];                    /* alignment before the voice state */
     s32 voiceActive;                /* +0x8C: 1: a voice sample is playing */
-    struct ClActor *levelActor;     /* +0x90: voice level indicator */
-    struct ClActor *swapActor;      /* +0x94: view swap button */
-    struct ClActor *cancelActor;    /* +0x98: leave button */
-    struct ClActor *backActor;      /* +0x9C: back to talk button */
-    struct ClActor *voiceActor;     /* +0xA0: voice icon */
+    struct ClactActor *levelActor;     /* +0x90: voice level indicator */
+    struct ClactActor *swapActor;      /* +0x94: view swap button */
+    struct ClactActor *cancelActor;    /* +0x98: leave button */
+    struct ClactActor *backActor;      /* +0x9C: back to talk button */
+    struct ClactActor *voiceActor;     /* +0xA0: voice icon */
     u32 voiceIconState;             /* +0xA4: voice icon state, 0, 1 or 2 */
     u32 voiceIconPrev;              /* +0xA8: voice icon state already shown */
 } CtvtTalk;
@@ -396,17 +387,17 @@ typedef char CtvtCallSizeCheck[(sizeof(CtvtCall) == 0x408) ? 1 : -1];
 extern CtvtCamView *COMM_TVT_SYS_GetCamView(CtvtWork *work);
 extern struct CtvtComm *COMM_TVT_SYS_GetComm(CtvtWork *work);
 extern int COMM_TVT_SYS_GetTalkStatus(CtvtWork *work);
-extern struct CtvtSprites *COMM_TVT_SYS_GetSprites(CtvtWork *work);
+extern struct DrawCanvas *COMM_TVT_SYS_GetSprites(CtvtWork *work);
 extern CtvtLaunchParams *COMM_TVT_SYS_GetLaunchParams(CtvtWork *work);
 extern u16 COMM_TVT_SYS_GetHeapId(CtvtWork *work);
 extern struct ArcHandle *COMM_TVT_SYS_GetArc(CtvtWork *work);
 extern u32 COMM_TVT_SYS_GetResId(CtvtWork *work, int index);
-extern struct ClActUnit *COMM_TVT_SYS_GetClactUnit(CtvtWork *work);
+extern struct Unit *COMM_TVT_SYS_GetClactUnit(CtvtWork *work);
 extern s32 COMM_TVT_SYS_GetReturnedFromChild(CtvtWork *work);
 extern void COMM_TVT_SYS_SetReturnedFromChild(CtvtWork *work, s32 value);
 extern u32 COMM_TVT_SYS_GetFont(CtvtWork *work);
-extern struct MsgData *COMM_TVT_SYS_GetMsgData(CtvtWork *work);
-extern struct PrintQue *COMM_TVT_SYS_GetPrintQue(CtvtWork *work);
+extern struct MsgBank *COMM_TVT_SYS_GetMsgData(CtvtWork *work);
+extern struct PrintQueue *COMM_TVT_SYS_GetPrintQue(CtvtWork *work);
 extern struct TaskMenu *COMM_TVT_SYS_GetTaskMenu(CtvtWork *work);
 extern u8 COMM_TVT_SYS_GetMemberCount(CtvtWork *work);
 extern void COMM_TVT_SYS_SetMemberCount(CtvtWork *work, u32 count);

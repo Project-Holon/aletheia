@@ -97,22 +97,22 @@
  *   PDC_MSG_TakeStreamEnded 0x021B6B74 thumb ov098
  */
 #include "pdc_types.h"
+#include "../sdk_ioreg.h"
 
-#define BLDCNT (*(volatile u16 *)0x04000050)
+#define BLDCNT (*(volatile u16 *)REG_BLDCNT_ADDR)
 
-#define SBLDCNT (*(volatile u16 *)0x04001050)
+#define SBLDCNT (*(volatile u16 *)REG_DB_BLDCNT_ADDR)
 
-#define POWCNT (*(volatile u16 *)0x04000304)
+#define POWCNT (*(volatile u16 *)REG_POWCNT1_ADDR)
 
-#define DISP3DCNT (*(volatile u16 *)0x04000060)
+#define DISP3DCNT (*(volatile u16 *)REG_DISP3DCNT_ADDR)
 
-#define BG0CNT (*(volatile u16 *)0x04000008)
+#define BG0CNT (*(volatile u16 *)REG_BG0CNT_ADDR)
 
-#define MASTER_BRIGHT_MAIN ((unsigned short *)0x0400006c)
+#define MASTER_BRIGHT_MAIN ((unsigned short *)REG_MASTER_BRIGHT_ADDR)
 
 struct DispVram;
 struct DispConfig;
-struct Cfg;
 struct PdcWindowGfx;
 struct PdcPanel;
 
@@ -124,91 +124,39 @@ struct PdcViewParams {
     u16 height;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int GF_OVERLAY_Load(int overlayId);
-extern void GF_OVERLAY_Unload(int overlayId);
-extern struct GfFont *GF_FONT_Create(int, int, int, int, u32 heapId);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gf_font.h"
 struct BtlvEffFieldSituation;
 struct BtlvEffSetup;
-extern struct BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, struct BtlvEffFieldSituation *situation, int isMultiMode, u16 *trainerTypes, void *battle, int param, u16 heap);
-extern void BTLV_EFFECT_Init(struct BtlvEffSetup *setup, void *font, u16 heap);
-extern u32 GFL_HEAP_Free(void *p);
-struct PalAnmSlot;
-extern struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
+#include "../ov094/btlv_effect.h"
 struct BtlvInput;
-extern struct BtlvInput *BTLV_INPUT_CreateDefault(int infoWinParam, int battleType, int palAnm, int font, int cursorVisible, u16 heap);
+#include "../ov094/btlv_input.h"
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+#include "../arm9/tcbl.h"
 struct BagCursor;
-extern struct BagCursor *MYITEM_SAVEDATA_CreateBagCursor(u32 heapId);
+#include "../arm9/myitem_savedata.h"
 struct TcblSystem;
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern void BTLV_EFFECT_Main(void);
 struct BtlvInput;
-extern void BTLV_INPUT_UpdateInfoWindow(struct BtlvInput *input);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void BTLV_EFFECT_Exit(void);
-extern void BTLV_INPUT_Delete(struct BtlvInput *input);
-extern unsigned int GF_FONT_Delete(struct GfFont *font);
-extern void BG_SYS_Create(u16);
-extern void BMP_WIN_Init(u16);
-extern void GF_FONT_InitTextColor(void);
-extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u32, void (*)(void));
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
-extern void G3X_SetFog(int, int, int, int);
+#include "../arm9/bg_sys.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/g3d_system.h"
+#include "../arm9/g3x.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern void BG_SYS_EnableBg0WithPriority(u32);
-extern void BG_SYS_SetMainPlaneVisible(u32, u32);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern void CLACT_ExitSystem(void);
-extern void G3D_SYSTEM_Exit(void);
-extern void BTLV_EFFECT_SetPokeSpriteKey(void *poke, int key);
-extern void BTLV_EFFECT_StartEffect(u32 a);
-extern int BTLV_EFFECT_IsBusy(void);
+#include "../arm9/clact.h"
 struct ZukanSave;
-extern void BTLV_EFFECT_GaugeInitSlotFromPartyPoke(struct ZukanSave *zukanSave, void *partyPoke, u32 slotIdx);
-extern void BTLV_INPUT_ChangeScreen(struct BtlvInput *input, int mode, void *arg);
-extern int BTLV_INPUT_ProcessTouchInput(struct PdcMenu *menu, char *b, char *c);
-extern void BTLV_INPUT_StartPaletteFadeTask(struct BtlvInput *input, int flag);
-extern int BTLV_INPUT_IsScreenBusy(struct BtlvInput *input);
-extern void BTLV_INPUT_StartScreenFadeTask(struct BtlvInput *input);
-extern void B_BAG_MAIN_Create(u8 *arg);
-extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
-extern void BTLV_EFFECT_ResumeVm(void);
-extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
-extern int GFL_USE_IsBgmPlaying(void);
-extern u32 KEY_GetTrg(void);
-extern int TOUCHPANEL_GetTrg(void);
-extern void FADE_Start(u32, int, int, int);
-extern int FADE_IsActive(void);
-extern unsigned short PALANM_GetPairedCodeForFirst(int value);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
-extern void GFL_USE_FadeOutBgm(u32 a);
-extern int GXx_GetMasterBrightness_(volatile u16 *reg);
+#include "../ov197/b_bag_main.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/fade.h"
+#include "../arm9/palanm.h"
+#include "../arm9/poke_tool.h"
+#include "../arm9/gx.h"
 
-extern struct GameData *PDC_GetGameData(struct PdcArgs *args);
-extern struct PokemonParam *PDC_GetMon(struct PdcArgs *args);
-extern void *PDC_GetScene(struct PdcArgs *args);
-extern struct MyItem *PDC_GetMyItem(struct PdcArgs *args);
-extern struct Config *PDC_GetConfig(struct PdcArgs *args);
-extern struct PokedexSave *PDC_GetPokedexSave(struct PdcArgs *args);
-extern struct PdcMsg *PDC_MSG_Create(struct GfFont *font, struct Config *config, struct Tcbl *tcbl, u32 heapId);
-extern void PDC_MSG_Delete(struct PdcMsg *msg);
-extern void PDC_MSG_PrintMessage0(struct PdcMsg *msg, struct PdcArgs *args);
-extern void PDC_MSG_PrintMessage3(struct PdcMsg *msg, struct PdcArgs *args);
-extern void PDC_MSG_PrintMessage1(struct PdcMsg *msg, struct PdcArgs *args);
-extern void PDC_MSG_PrintMessage2(struct PdcMsg *msg, struct PdcArgs *args);
-extern void PDC_MSG_PrintMessage4(struct PdcMsg *msg, struct PdcArgs *args);
-extern int PDC_MSG_Update(struct PdcMsg *msg);
-extern void PDC_MSG_StartFadeIn(struct PdcMsg *msg);
-extern int PDC_MSG_UpdateFade(struct PdcMsg *msg);
-extern int PDC_MSG_TakeStreamEnded(struct PdcMsg *msg);
+#include "pdc.h"
+#include "pdc_msg.h"
 
 struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId);
 int PDC_MAIN_Update(struct PdcSys *sys);
@@ -226,7 +174,7 @@ extern const char gPdcMainSrcName[];
 extern const struct PdcViewParams gPdcViewParams;
 extern const struct DispVram gPdcDispVram;
 extern struct DispConfig gPdcDispConfig;
-extern const struct Cfg gPdcClactInit;
+extern const struct ClactSysInit gPdcClactInit;
 extern char gPdcMenuLayoutA[];
 extern char gPdcMenuLayoutB[];
 extern char ov196_id[], ov197_id[];
@@ -250,7 +198,7 @@ struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
     BTLV_EFFECT_Init(screen, sys->msgFont, sys->heapId);
     GFL_HEAP_Free(screen);
     gameData = PDC_GetGameData(args);
-    sys->menu = (struct PdcMenu *)BTLV_INPUT_CreateDefault((int)gameData, (int)0, (int)BTLV_EFFECT_GetPalanm(), (int)sys->font, (int)(&sys->menuWork), sys->heapId);
+    sys->menu = BTLV_INPUT_CreateDefault((sptr)gameData, (int)0, (sptr)BTLV_EFFECT_GetPalanm(), (sptr)sys->font, (sptr)(&sys->menuWork), sys->heapId);
     sys->tcbl = (struct Tcbl *)TCBL_Create(heapId, heapId, 64, 128);
     sys->mon = PDC_GetMon(args);
     sys->msg = PDC_MSG_Create(sys->font, PDC_GetConfig(args), sys->tcbl, sys->heapId);
@@ -264,7 +212,7 @@ int PDC_MAIN_Update(struct PdcSys *sys)
     PdcStep step;
     TCBL_Main((struct TcblSystem *)sys->tcbl);
     BTLV_EFFECT_Main();
-    BTLV_INPUT_UpdateInfoWindow((struct BtlvInput *)sys->menu);
+    BTLV_INPUT_UpdateInfoWindow(sys->menu);
     step = sys->step;
     if (step != 0) return step(sys);
     return 0;
@@ -275,7 +223,7 @@ void PDC_MAIN_Delete(struct PdcSys *sys)
     TCBL_Destroy((struct TcblSystem *)sys->tcbl);
     PDC_MSG_Delete(sys->msg);
     BTLV_EFFECT_Exit();
-    BTLV_INPUT_Delete((struct BtlvInput *)sys->menu);
+    BTLV_INPUT_Delete(sys->menu);
     GF_FONT_Delete(sys->font);
     GF_FONT_Delete(sys->msgFont);
     PDC_MAIN_ExitGraphics();
@@ -295,14 +243,15 @@ void PDC_MAIN_InitGraphics(u16 heapId)
     SBLDCNT = 0;
     POWCNT = (u16)(POWCNT | 0x8000);
     BG_SYS_SetGraphicsMode(&gPdcDispConfig);
-    G3D_SYSTEM_Init(0, 1, 0, 1, 0, heapId, 0);
+    /* likely original mismatch: the call site passes the heap id wide, the ARM9 definition takes s16 */
+    ((void (*)(u32, u32, u32, u32, u16, u32, void (*)(void)))G3D_SYSTEM_Init)(0, 1, 0, 1, 0, heapId, 0);
     G3D_SYSTEM_SetSwapBuffersMode(1, 0);
     DISP3DCNT = (u16)((DISP3DCNT & ~0x3000) | 8);
     DISP3DCNT &= (u16)~0x3020;
     DISP3DCNT = (u16)((DISP3DCNT & ~0x3000) | 16);
     G3X_SetFog(0, 0, 0, 0);
     BG0CNT = (u16)((BG0CNT & ~3) | 1);
-    CLACT_InitSystem((struct SysInit *)(&gPdcClactInit), (struct DispVramCfg *)&gPdcDispVram, heapId);
+    CLACT_InitSystem(&gPdcClactInit, (struct DispVramCfg *)&gPdcDispVram, heapId);
     BG_SYS_EnableBg0WithPriority(1);
     BG_SYS_SetMainPlaneVisible(16, 1);
 }
@@ -370,12 +319,12 @@ int PDC_MAIN_StepConfirm(struct PdcSys *sys)
         break;
     case 1:
         if (PDC_MSG_Update(sys->msg) != 0) {
-            BTLV_INPUT_ChangeScreen((struct BtlvInput *)sys->menu, 7, 0);
+            BTLV_INPUT_ChangeScreen(sys->menu, 7, 0);
             sys->state++;
         }
         break;
     case 2:
-        choice = BTLV_INPUT_ProcessTouchInput(sys->menu, gPdcMenuLayoutA, gPdcMenuLayoutB);
+        choice = BTLV_INPUT_ProcessTouchInput(sys->menu, (BtlvInputTouchTable *)gPdcMenuLayoutA, (sptr)gPdcMenuLayoutB);
         if (choice != -1) {
             if (choice != 0)
                 PDC_MAIN_SetStep(sys, PDC_MAIN_StepDeclined);
@@ -403,21 +352,21 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
         sys->select.cursorPos = 0; sys->select.scrollPos = 0; sys->select.done = 0;
         sys->select.menuWork = (u8 *)&sys->menuWork;
         sys->select.enabled = 1;
-        BTLV_INPUT_StartPaletteFadeTask((struct BtlvInput *)sys->menu, 1);
-        GF_OVERLAY_Load((int)ov196_id);
+        BTLV_INPUT_StartPaletteFadeTask(sys->menu, 1);
+        GF_OVERLAY_Load((sptr)ov196_id);
         sys->state++;
         break;
     case 1:
-        if (!BTLV_INPUT_IsScreenBusy((struct BtlvInput *)sys->menu)) {
-            GF_OVERLAY_Load((int)ov197_id);
+        if (!BTLV_INPUT_IsScreenBusy(sys->menu)) {
+            GF_OVERLAY_Load((sptr)ov197_id);
             B_BAG_MAIN_Create((u8 *)(&sys->select));
             sys->state++;
         }
         break;
     case 2:
         if (sys->select.done) {
-            GF_OVERLAY_Unload((int)ov196_id); GF_OVERLAY_Unload((int)ov197_id);
-            BTLV_INPUT_StartScreenFadeTask((struct BtlvInput *)sys->menu);
+            GF_OVERLAY_Unload((sptr)ov196_id); GF_OVERLAY_Unload((sptr)ov197_id);
+            BTLV_INPUT_StartScreenFadeTask(sys->menu);
             if (sys->select.chosenItem == 0) sys->state = 3;
             else {
                 MYITEM_SAVEDATA_RemoveItem(PDC_GetMyItem(sys->args), sys->select.chosenItem, 1, sys->heapId);
@@ -426,10 +375,10 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
         }
         break;
     case 3:
-        if (!BTLV_INPUT_IsScreenBusy((struct BtlvInput *)sys->menu)) PDC_MAIN_SetStep(sys, PDC_MAIN_StepConfirm);
+        if (!BTLV_INPUT_IsScreenBusy(sys->menu)) PDC_MAIN_SetStep(sys, PDC_MAIN_StepConfirm);
         break;
     case 4:
-        if (!BTLV_INPUT_IsScreenBusy((struct BtlvInput *)sys->menu)) {
+        if (!BTLV_INPUT_IsScreenBusy(sys->menu)) {
             PDC_MSG_PrintMessage1(sys->msg, sys->args);
             sys->state++;
         }

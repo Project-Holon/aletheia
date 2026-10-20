@@ -49,7 +49,7 @@ void WORLDTRADE_SetIsDeposited(struct WorldTradeData *trade, u16 isDeposited);
 
 void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon);
 
-void WORLDTRADE_NoOp(void);
+void *WORLDTRADE_NoOp(void *x);
 
 void WORLDTRADE_SetPokemon(struct WorldTradeData *trade, const void *pokemon, u32 boxPos);
 
@@ -108,12 +108,14 @@ void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon)
 }
 
 /*
- * Unlabelled Thumb leaf in the ARM9 module: an empty `bx lr` body.
+ * Unlabelled Thumb leaf in the ARM9 module: a single `bx lr`. It returns its
+ * argument unchanged (the overlay callers use the result as the Pokemon record).
  *
  * Addresses are Black-image addresses.
  */
-void WORLDTRADE_NoOp(void)
+void *WORLDTRADE_NoOp(void *x)
 {
+    return x;
 }
 
 /*

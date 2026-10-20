@@ -112,68 +112,40 @@ extern void VM_Call(struct ScriptVm *vm, u8 *pc);
 extern void VM_SetWait(ScriptVm *vm, int (*waitFn)(ScriptVm *, ScrcmdWork *));
 
                                      
-extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
-extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
-extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
-extern void *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
-extern void FIELD_STATUS_SetProcAction(struct MoveModelSys *sys, void *action);
+#include "../arm9/game_data.h"
+#include "../arm9/zonedata.h"
 struct FieldStatus;
-extern u8 FIELD_STATUS_GetContinueFlag(struct FieldStatus *fs);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern u32 GAME_DATA_GetBgmInfo(const struct GameData *gameData);
-extern s32 FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(struct FieldSoundSystem *soundSystem);
+#include "../arm9/field_status.h"
+struct FieldStatus;
+#include "../arm9/gamesystem.h"
+#include "../arm9/field_sound_system.h"
 struct GameEvent;
-extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAllTask(struct GameSystem *gameSystem, u16 mode);
-extern u32 KEY_GetTrg(void);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern u8 GAME_DATA_IsSaving(struct GameData *gameData);
-extern int GAME_DATA_SaveMain(struct GameData *gameData);
-extern s32 GAME_DATA_SaveStart(struct GameData *gameData);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
-extern u32 RECORD_AddOne(struct TrainerRecord *record, int index);
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
-extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
+#include "../arm9/key.h"
+#include "../arm9/record.h"
 struct FieldSubscreen;
 
                                 
-extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern u32 FIELD_SUBSCREEN_GetMode(struct FieldSubscreen *work);
-extern int FIELD_SUBSCREEN_IsReportSaveAnimDone(struct FieldSubscreen *work);
-extern void FIELD_SUBSCREEN_StopReportSaveAnim(struct FieldSubscreen *work);
-extern void FIELD_SUBSCREEN_PrepareReportSave(struct FieldSubscreen *work);
-extern void FIELD_SUBSCREEN_StartReportSaveAnim(struct FieldSubscreen *work);
+#include "../ov021/fieldmap.h"
+#include "../ov021/field_subscreen.h"
 struct FieldSaveAnime;
-extern struct FieldSaveAnime *FIELD_SAVEANIME_Create(u32 heapId, void *fieldMap);
-extern void FIELD_SAVEANIME_Start(struct FieldSaveAnime *work);
-extern void FIELD_SAVEANIME_Stop(struct FieldSaveAnime *work);
-extern s32 FIELD_SAVEANIME_Delete(struct FieldSaveAnime *work);
-extern int SCRCMD_FLDMMDL_PauseMmdls(ScriptVm *vm, ScrcmdWork *cmdWork);
-extern void SCRCMD_FLDMMDL_UnpauseAllMmdls(ScrcmdWork *cmdWork);
+#include "../ov021/field_saveanime.h"
+#include "../ov021/scrcmd_fldmmdl.h"
 
 /* Script system and script work. */
-extern int SCRIPT_SYS_AddScript(ScriptWork *scriptWork, int zoneId, int scriptId);
-extern int SCRIPT_SYS_HasVm(void *scriptWork, s32 index);
-extern void SCRIPT_SYS_RunScriptNow(void *first, void *second, int scriptId, int callParam);
-extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
+#ifdef __MWERKS__
+extern int SCRIPT_SYS_AddScript(ScriptWork *scriptWork, int zoneId, int scriptId); /* original prototype; the definition differs in pointer type, argument width */
+#else
+#include "script_sys.h"
+#endif
+#ifdef __MWERKS__
+extern void SCRIPT_SYS_RunScriptNow(void *first, void *second, int scriptId, int callParam); /* original prototype; the definition differs in argument width */
+#else
+#endif
 struct ScriptWork;
-extern u16 *SCRIPT_WORK_GetWorkPtr(struct ScriptWork *work, void *gameData, u32 id);
-extern u32 SCRIPT_WORK_GetWorkValue(struct ScriptWork *work, void *gameData, u32 id);
-extern void SCRIPT_WORK_SetReturnScriptId(ScriptWork *scriptWork, u32 scriptId);
-extern u32 SCRIPT_WORK_GetReturnScriptId(ScriptWork *scriptWork);
-extern void *SCRIPT_WORK_CreateCheckTask(struct ScriptVm *vm);
+#include "script_work.h"
 
 /* Command work accessors. */
-extern u8 SCRCMD_WORK_GetChildScriptIndex(ScrcmdWork *cmdWork);
-extern void SCRCMD_WORK_RestoreScriptState(ScrcmdWork *cmdWork);
-extern void SCRCMD_WORK_SetChildScriptIndex(ScrcmdWork *cmdWork, int childIndex);
-extern void SCRCMD_WORK_SaveScriptState(ScrcmdWork *cmdWork);
-extern u32 SCRCMD_WORK_GetCallMode(ScrcmdWork *cmdWork);
-extern u32 SCRCMD_WORK_GetCallParam(ScrcmdWork *cmdWork);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
-extern struct GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
-extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
+#include "scrcmd_work.h"
 
 /* Condition table of the conditional jump and call commands, [condition][compare flag]. */
 extern u8 d_021705DC[][3];
@@ -184,7 +156,7 @@ int SCRIPT_WORK_WaitKeyDecide(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRIPT_WORK_WaitKeyAny(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRIPT_WORK_WaitReportSave(ScriptVm *vm, ScrcmdWork *cmdWork);
 u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
-unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
+unsigned short SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRIPT_WORK_GetPlayerZoneId(ScrcmdWork *cmdWork);
 
 int SCRIPT_WORK_CompareValues(unsigned int lhs, unsigned int rhs)
@@ -353,7 +325,7 @@ int SCRIPT_WORK_CmdChangeScript(ScriptVm *vm, ScrcmdWork *cmdWork)
     SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     scriptId = VM_ReadU16(vm);
-    SCRIPT_SYS_AddScript(scriptWork, SCRIPT_WORK_GetPlayerZoneId(cmdWork), scriptId);
+    SCRIPT_SYS_AddScript((void *)scriptWork, (s32)(SCRIPT_WORK_GetPlayerZoneId(cmdWork)), scriptId);
     return 1;
 }
 
@@ -373,13 +345,13 @@ int SCRIPT_WORK_CmdCallScript(ScriptVm *vm, ScrcmdWork *cmdWork)
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     int scriptId = VM_ReadU16(vm);
     if (SCRCMD_WORK_GetCallMode(cmdWork) == 0) {
-        SCRCMD_WORK_SetChildScriptIndex(cmdWork, SCRIPT_SYS_AddScript(scriptWork, SCRIPT_WORK_GetPlayerZoneId(cmdWork), scriptId));
+        SCRCMD_WORK_SetChildScriptIndex(cmdWork, SCRIPT_SYS_AddScript((void *)scriptWork, (s32)(SCRIPT_WORK_GetPlayerZoneId(cmdWork)), scriptId));
         SCRCMD_WORK_SaveScriptState(cmdWork);
         VM_SetWait(vm, SCRIPT_WORK_WaitChildScript);
         return 1;
     }
     SCRCMD_WORK_SaveScriptState(cmdWork);
-    SCRIPT_SYS_RunScriptNow(gameSystem, scriptWork, scriptId, SCRCMD_WORK_GetCallParam(cmdWork));
+    SCRIPT_SYS_RunScriptNow(gameSystem, scriptWork, (s32)scriptId, SCRCMD_WORK_GetCallParam(cmdWork));
     SCRCMD_WORK_RestoreScriptState(cmdWork);
     return 0;
 }
@@ -440,8 +412,8 @@ int SCRIPT_WORK_CmdIfCall(ScriptVm *vm)
  */
 int SCRIPT_WORK_CmdSetProcAction(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    void *action = (void *)VM_ReadU16(vm);
-    FIELD_STATUS_SetProcAction(GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(cmdWork)), action);
+    u16 action = VM_ReadU16(vm);
+    FIELD_STATUS_SetProcAction((void *)(GAME_DATA_GetMoveModelSys(SCRCMD_WORK_GetGameData(cmdWork))), action);
     return 0;
 }
 
@@ -723,7 +695,7 @@ u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork)
  * Same three-argument submission as its neighbour, aimed at the second
  * overlay handler.
  */
-unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork)
+unsigned short SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
     return SCRIPT_WORK_GetWorkValue(SCRCMD_WORK_GetScriptWork(cmdWork), gameData, VM_ReadU16(vm));

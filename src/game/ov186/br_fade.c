@@ -47,51 +47,48 @@
  */
 #include "br_types.h"
 
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+#include "../arm9/fade.h"
 
-extern int FADE_IsActive(void);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
+#include "../arm9/bg_sys.h"
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-struct PalAnmSlot;
+struct PaletteFade;
 
-struct S02021D50;
+struct PaletteFade;
 
-extern void * MI_CpuFill8(void *,u32,u32);
+#include "../arm9/mi_memory.h"
 
-extern void *PALANM_Create(unsigned);
-
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-
-extern void PALANM_SetAutoTransfer(struct PalAnmSys *o, int v);
-
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,u32);
-
-extern unsigned int PALANM_Delete(void *);
-
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-
-extern void PALANM_BlendChannelMask(unsigned, unsigned, unsigned short, unsigned, unsigned);
-
-extern void PALANM_RequestFullTransfer(struct PalAnmSys *o, int v);
-
-extern void PALANM_TransferPalettes(struct S02021D50 *p);
-
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
-
-extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *,void *,u32,u32,u32,u32,u16,u16);
-
-extern int FADE_GetSpeed(void);
+/* The DS code passes the weight and colour as words (the original prototype); the header has a byte weight and a halfword colour. The host build uses the header. */
+#ifdef __MWERKS__
+#define PALANM_BlendChannelMask PALANM_BlendChannelMask_header
+#endif
+#include "../arm9/palanm.h"
+#ifdef __MWERKS__
+#undef PALANM_BlendChannelMask
+extern void PALANM_BlendChannelMask(void *p, u32 idx, u16 m, u32 weight, u32 color);
+#endif
+/* palanm.h does not declare this one yet */
+void PALANM_RequestFullTransfer(PaletteFade *o, int v);
 
 
 
-struct BrFade *BR_FADE_Create(unsigned heapId);
+
+
+
+
+
+
+#include "../arm9/g2.h"
+
+
+
+
+
+struct BrFade *BR_FADE_Create(u16 heapId);
 
 void BR_FADE_Delete(struct BrFade *fade);
 
@@ -127,7 +124,7 @@ void *BR_FADE_GetStepFunc(unsigned index);
 
 extern const char d_02200D6C[];
 
-struct BrFade *BR_FADE_Create(unsigned heapId)
+struct BrFade *BR_FADE_Create(u16 heapId)
 {
     struct BrFade *fade = GFL_HEAP_Alloc(heapId, 0x40, 0, d_02200D6C, 0x62);
     MI_CpuFill8(fade, 0, 0x40);
@@ -145,7 +142,7 @@ struct BrFade *BR_FADE_Create(unsigned heapId)
  * extent: two zero alignment bytes at 0x021FE766 follow; no follower.
  * ABI: 02021540's legacy source declares void(void), but this caller loads r0 from p+0x20 at 021FE758; its tail-forward target 020307B0 saves and reads r0. Preserve that pointer argument.
  */
-void BR_FADE_Delete(struct BrFade *fade) { PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,2); PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,0); PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,3); PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade->palAnm,1); PALANM_Delete(fade->palAnm); GFL_HEAP_Free(fade); }
+void BR_FADE_Delete(struct BrFade *fade) { PALANM_FreeSlotBuffers((struct PaletteFade *)fade->palAnm,2); PALANM_FreeSlotBuffers((struct PaletteFade *)fade->palAnm,0); PALANM_FreeSlotBuffers((struct PaletteFade *)fade->palAnm,3); PALANM_FreeSlotBuffers((struct PaletteFade *)fade->palAnm,1); PALANM_Delete(fade->palAnm); GFL_HEAP_Free(fade); }
 
 void BR_FADE_Update(struct BrFade *fade)
 {
@@ -181,10 +178,10 @@ int BR_FADE_GetResult(struct BrFade *fade)
  */
 void BR_FADE_CaptureHwPalettes(struct BrFade *fade)
 {
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)fade->palAnm, 0, 0, 512);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)fade->palAnm, 2, 0, 448);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)fade->palAnm, 1, 0, 512);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)fade->palAnm, 3, 0, 448);
+    PALANM_CopyHwPaletteToSlot((struct PaletteFade *)fade->palAnm, 0, 0, 512);
+    PALANM_CopyHwPaletteToSlot((struct PaletteFade *)fade->palAnm, 2, 0, 448);
+    PALANM_CopyHwPaletteToSlot((struct PaletteFade *)fade->palAnm, 1, 0, 512);
+    PALANM_CopyHwPaletteToSlot((struct PaletteFade *)fade->palAnm, 3, 0, 448);
 }
 
 void BR_FADE_SetBlendColor(struct BrFade *fade,u16 blendColor) { fade->blendColor=blendColor; }
@@ -192,11 +189,11 @@ void BR_FADE_SetBlendColor(struct BrFade *fade,u16 blendColor) { fade->blendColo
 void BR_FADE_BlendFull(struct BrFade *fade, int planeMask)
 {
     if (planeMask & 1)
-        PALANM_BlendChannelMask((unsigned)fade->palAnm, 0, 0xBFFF, 16, fade->blendColor);
+        PALANM_BlendChannelMask((void *)fade->palAnm, 0, 0xBFFF, 16, fade->blendColor);
     if (planeMask & 2)
-        PALANM_BlendChannelMask((unsigned)fade->palAnm, 1, 0xBFFF, 16, fade->blendColor);
+        PALANM_BlendChannelMask((void *)fade->palAnm, 1, 0xBFFF, 16, fade->blendColor);
     PALANM_RequestFullTransfer(fade->palAnm, 1);
-    PALANM_TransferPalettes((struct S02021D50 *)fade->palAnm);
+    PALANM_TransferPalettes((struct PaletteFade *)fade->palAnm);
 }
 
 void BR_FADE_SetBlendLevel(int unused, int planeMask, int level)
@@ -225,7 +222,7 @@ void BR_FADE_SetBlendLevel(int unused, int planeMask, int level)
     }
 }
 
-void BR_FADE_LoadPalette(struct BrFade *fade,void *archive,u32 fileId,u32 slot,u32 offset,u32 count,u16 heapId) { PALANM_LoadHandlePaletteToSlotAt((struct PalAnmSlot *)fade->palAnm,archive,fileId,heapId,slot,count,offset,0); }
+void BR_FADE_LoadPalette(struct BrFade *fade,void *archive,u32 fileId,u32 slot,u32 offset,u32 count,u16 heapId) { PALANM_LoadHandlePaletteToSlotAt((struct PaletteFade *)fade->palAnm,archive,fileId,heapId,slot,count,offset,0); }
 
 /*
  * Three-state fade task.  start/end are assigned only for direction == 0 or 1:
@@ -359,18 +356,18 @@ int BR_FADE_StepPalette(struct BrFade *fade,int *state)
         if(fade->direction==0)level=(u8)(16-(fade->frame<<4)/fade->frameCount);
         else if(fade->direction==1)level=(u8)((fade->frame<<4)/fade->frameCount);
         if(fade->planeMask==15) {
-            PALANM_BlendChannelMask((u32)fade->palAnm,1,0x3000,level,0xffff);
+            PALANM_BlendChannelMask((void *)fade->palAnm,1,0x3000,level,0xffff);
         } else {
             if(fade->planeMask&1) {
-                PALANM_BlendChannelMask((u32)fade->palAnm,2,0x3fff,level,fade->blendColor);
-                PALANM_BlendChannelMask((u32)fade->palAnm,0,0xbfff,level,fade->blendColor);
+                PALANM_BlendChannelMask((void *)fade->palAnm,2,0x3fff,level,fade->blendColor);
+                PALANM_BlendChannelMask((void *)fade->palAnm,0,0xbfff,level,fade->blendColor);
             }
             if(fade->planeMask&2) {
-                PALANM_BlendChannelMask((u32)fade->palAnm,3,0x3fff,level,fade->blendColor);
-                PALANM_BlendChannelMask((u32)fade->palAnm,1,0xbfff,level,fade->blendColor);
+                PALANM_BlendChannelMask((void *)fade->palAnm,3,0x3fff,level,fade->blendColor);
+                PALANM_BlendChannelMask((void *)fade->palAnm,1,0xbfff,level,fade->blendColor);
             }
         }
-        PALANM_TransferPalettes((struct S02021D50 *)fade->palAnm);
+        PALANM_TransferPalettes((struct PaletteFade *)fade->palAnm);
         if((fade->frame)++ >= fade->frameCount)*state=2;
         break;
     }

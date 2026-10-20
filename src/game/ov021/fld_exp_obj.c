@@ -43,49 +43,38 @@
 
 typedef int (*GameEventFunc)(struct GameEvent *event, u32 *seq, void *work);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 extern struct G3dUtil *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapId);
 extern void G3D_UTIL_Delete(struct G3dUtil *util);
-extern u32 GFL_HEAP_Free(void *block);
 extern u16 G3D_UTIL_AddUnitLoaded(struct G3dUtil *util, const G3dUtilSetup *setup);
-extern void MTX_Identity33_(MtxFx33 *mtx);
-extern struct G3dAnime *G3D_SYSTEM_GetObjectAnime(struct G3dObject *obj, int anmIdx);
+#include "../arm9/fx_mtx33.h"
+#include "../arm9/g3d_system.h"
 extern void G3D_UTIL_RemoveUnit(struct G3dUtil *util, u32 unitId);
 extern u32 G3D_UTIL_GetUnitObjIdx(struct G3dUtil *util, int unitId);
 extern struct G3dObject *G3D_UTIL_GetObject(struct G3dUtil *util, int objIdx);
 extern u16 G3D_UTIL_GetUnitObjCount(struct G3dUtil *util, int unitId);
-extern int G3D_SYSTEM_DrawObjectCulling(struct G3dObject *obj, G3dObjectStatus *status);
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, G3dObjectStatus *status);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, int anmIdx, fx32 step);
-extern int G3D_SYSTEM_IncObjectAnimeFrame(struct G3dObject *obj, int anmIdx, fx32 step);
-extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, fx32 *frame);
-extern s32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, fx32 *frame);
-extern s32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
-extern int G3D_SYSTEM_DisableObjectAnime(struct G3dObject *obj, u32 anmIdx);
-extern NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(struct G3dAnime *anime);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 extern u16 G3D_UTIL_AddUnitFromArchive(struct G3dUtil *util, const G3dUtilSetup *setup, void *archive);
-extern void ARC_TOOL_DeleteHandle(void *archive);
 
 FldExpObjCnt *FLD_EXP_OBJ_Create(u32 resCount, u32 objCount, u32 heapId);
 void FLD_EXP_OBJ_Delete(FldExpObjCnt *cnt);
 void FLD_EXP_OBJ_AddUnit(FldExpObjCnt *cnt, G3dUtilSetup *setup, u16 unitIdx);
 void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *cnt, u16 unitIdx);
-G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *cnt, unsigned unitIdx, int modelIdx);
-void FLD_EXP_OBJ_SetModelCullDraw(FldExpObjCnt *cnt, int unitIdx, int modelIdx, int cullDraw);
-void FLD_EXP_OBJ_SetModelHidden(FldExpObjCnt *cnt, int unitIdx, int modelIdx, int hidden);
+G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *cnt, unsigned unitIdx, u16 modelIdx);
+void FLD_EXP_OBJ_SetModelCullDraw(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, int cullDraw);
+void FLD_EXP_OBJ_SetModelHidden(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, int hidden);
 struct G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *cnt, u32 unitIdx, int modelIdx);
 void FLD_EXP_OBJ_Draw(FldExpObjCnt *cnt);
 void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *cnt);
 void FLD_EXP_OBJ_InitAnimeSet(FldExpObjAnimeSet *animeSet, int count, int heapId);
-FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *cnt, int unitIdx, unsigned int modelIdx, int animeIdx);
+FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx);
 void FLD_EXP_OBJ_SetAnimePaused(FldExpObjAnime *anime, int paused);
 u8 FLD_EXP_OBJ_IsAnimePaused(FldExpObjAnime *anime);
 void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
 int FLD_EXP_OBJ_IsAnimeStopped(FldExpObjAnime *anime);
-void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *cnt, int unitIdx, int modelIdx, int animeIdx, int frame);
+void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx, int frame);
 int FLD_EXP_OBJ_GetAnimeFrame(FldExpObjCnt *cnt, int unitIdx, int modelIdx, int animeIdx);
-void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *cnt, int unitIdx, int modelIdx, int animeIdx, int enable);
+void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
 int FLD_EXP_OBJ_GetAnimeLastFrame(FldExpObjAnime *anime);
 void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *cnt, const G3dUtilSetup *setup, u16 unitIdx);
 
@@ -196,7 +185,7 @@ void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *cnt, u16 unitIdx)
  * ov010/ov021 overlay pair.  Returns the status of model modelIdx of unit
  * unitIdx: null when the unit is not loaded or the index is out of range.
  */
-G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *cnt, unsigned unitIdx, int modelIdx)
+G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *cnt, unsigned unitIdx, u16 modelIdx)
 {
     if (cnt->units[unitIdx].active == 0)
         return 0;
@@ -205,12 +194,12 @@ G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *cnt, unsigned unitIdx,
     return &cnt->units[unitIdx].models[modelIdx].status;
 }
 
-void FLD_EXP_OBJ_SetModelCullDraw(FldExpObjCnt *cnt, int unitIdx, int modelIdx, int cullDraw)
+void FLD_EXP_OBJ_SetModelCullDraw(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, int cullDraw)
 {
     cnt->units[unitIdx].models[modelIdx].cullDraw = cullDraw;
 }
 
-void FLD_EXP_OBJ_SetModelHidden(FldExpObjCnt *cnt, int unitIdx, int modelIdx, int hidden)
+void FLD_EXP_OBJ_SetModelHidden(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, int hidden)
 {
     cnt->units[unitIdx].models[modelIdx].hidden = hidden;
 }
@@ -313,7 +302,7 @@ void FLD_EXP_OBJ_InitAnimeSet(FldExpObjAnimeSet *animeSet, int count, int heapId
     }
 }
 
-FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *cnt, int unitIdx, unsigned int modelIdx, int animeIdx)
+FldExpObjAnime *FLD_EXP_OBJ_GetAnime(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx)
 {
     FldExpObjAnime *animeTbl;
 
@@ -353,7 +342,7 @@ int FLD_EXP_OBJ_IsAnimeStopped(FldExpObjAnime *anime)
     return anime->advanceResult == 0;
 }
 
-void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *cnt, int unitIdx, int modelIdx, int animeIdx, int frame)
+void FLD_EXP_OBJ_SetAnimeFrame(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx, int frame)
 {
     int frameTmp = frame;
 
@@ -368,7 +357,7 @@ int FLD_EXP_OBJ_GetAnimeFrame(FldExpObjCnt *cnt, int unitIdx, int modelIdx, int 
     return frame;
 }
 
-void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *cnt, int unitIdx, int modelIdx, int animeIdx, int enable)
+void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *cnt, int unitIdx, u16 modelIdx, u16 animeIdx, int enable)
 {
     struct G3dObject *obj = FLD_EXP_OBJ_GetModelObject(cnt, unitIdx, modelIdx);
     FldExpObjAnime *anime = FLD_EXP_OBJ_GetAnime(cnt, unitIdx, modelIdx, animeIdx);

@@ -186,9 +186,10 @@ struct SaveCtrl;
 struct SaveData;
 struct Config;
 struct TcbList;
-struct Tcb;
+struct TcbTask;
 struct SndHeap;
 #include "../types.h"
+#include "tcb_list.h"
 
 #include "../sdk_os.h"
 #include "nns_snd_types.h"
@@ -310,7 +311,6 @@ typedef unsigned int OSIrqMask;
 #include "gf_overlay.h"
 #include "printsys.h"
 #include "wih_dwc.h"
-extern void PROCSYS_PushGlobal(int mode, u32 table, u32 option);
 struct SaveControl;
 #include "save_control.h"
 #include "system_data.h"
@@ -357,7 +357,6 @@ struct TcbSystem;
 #include "app_power.h"
 #include "wifi_friend.h"
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*callback)(struct Tcb *, void *), void *work, unsigned int priority);
 struct Lcg64;
 #include "key.h"
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
@@ -396,12 +395,12 @@ void GFL_USE_InitSystem(void);
 void GFL_USE_PollFrameInput(void);
 void GFL_USE_NoOpFrameHook(void);
 void GFL_USE_RunHBlankTasks(void);
-struct Tcb *GFL_USE_AddHBlankTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+struct TcbTask *GFL_USE_AddHBlankTask(TcbFunc callback, void *work, u32 priority);
 void GFL_USE_CallVBlankHook(void);
 u32 GFL_USE_SetVBlankHook(void (*hook)(void *), void *hookArg);
 void GFL_USE_ClearVBlankHook(void);
 void GFL_USE_RunMainTasks(void);
-struct Tcb *GFL_USE_AddMainTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority);
 struct TcbList *GFL_USE_GetMainTaskList(void);
 void GFL_USE_InitRandomState(struct GflRandom *rand);
 void GFL_USE_InitRandom(void);
@@ -456,6 +455,7 @@ extern char _SndArc[];
 #include "os_arena.h"
 #include "ui.h"
 #include "tcb_list.h"
+#ifdef __MWERKS__
 extern void  NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
 extern void  NNS_SndHandleSetTrackModSpeed(struct SndHandle *handle, u32 trackMask, u32 speed);
 extern void  NNS_SndHandleSetTrackPan(struct SndHandle *handle, u32 trackMask, u32 pan);
@@ -465,7 +465,7 @@ extern void  NNS_SndHandleSetTrackPitch(struct SndHandle *handle, u32 trackMask,
 extern void  NNS_SndHandleSetTrackVolume(struct SndHandle *handle, u32 trackMask, int volumeIndex);
 extern void  NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrames);
 extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
-extern void  NNS_SndHandlePauseSeq(struct SndHandle *handle, u32 value);
+extern void  NNS_SndHandlePauseSeq(struct SndHandle *handle, u32 value); /* original prototype; the definition differs in argument width */
 extern void  NNS_SndHandleStop(struct SndHandle *handle, u32 tempoRatio);
 extern void  NNS_SndHandleSetTrackPause(struct SndHandle *handle, u32 trackMask, u32 mute);
 extern void  NNS_SndHandleSetTrackMute(struct SndHandle *handle, u32 trackMask, u32 mute);
@@ -475,6 +475,9 @@ extern s32   NNS_SndPlayerCountPlayingSeqBySeqNo(u32 seqNo);
 extern void  NNS_SndHandleMoveVolume(struct SndHandle *handle, u32 volume, u32 frames);
 extern u16   NNS_SndPlayerGetActiveSeqCount(u32 playerNo);
 extern void NNS_SndHandleInit(struct SndHandle *handle);
+#else
+#include "nns_snd_player.h"
+#endif
 #include "nns_snd_arc.h"
 #include "../twl/sndex.h"
 static inline u16 OS_EnableIrq(void)
@@ -612,7 +615,7 @@ void GFL_USE_InitGameSystems(void)
     GFL_NET_SetupHeaps(1, 0, 1, netHeapId);
     WIH_DWC_CreateFilterBuffer(netHeapId);
     WIH_DWC_ResetFilterState();
-    PROCSYS_PushGlobal(netHeapId - 0xD, (u32)(void *)0x020A0480, 0);
+    PROCSYS_PushGlobal(netHeapId - 0xD, (const ProcData *)0x020A0480, 0);
     SAVE_CONTROL_Create(7);
     CONFIG_ApplyTextLanguage(SYSTEM_DATA_GetConfig((struct SaveData *)SAVE_CONTROL_Get()));
     MSG_SPEED_SetSaveControl(SAVE_CONTROL_Get());
@@ -929,9 +932,9 @@ void GFL_USE_RunHBlankTasks(void)
     TCB_Main((struct TcbSystem *)(_GflUse.runtime->hblankTasks));
 }
 
-struct Tcb *GFL_USE_AddHBlankTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
+struct TcbTask *GFL_USE_AddHBlankTask(TcbFunc callback, void *work, u32 priority)
 {
-    return (struct Tcb *)TCB_AddTask((struct TcbSystem *)_GflUse.runtime->hblankTasks, callback, work, priority);
+    return (struct TcbTask *)TCB_AddTask((struct TcbSystem *)_GflUse.runtime->hblankTasks, callback, work, priority);
 }
 
 void GFL_USE_CallVBlankHook(void)
@@ -1079,9 +1082,9 @@ void GFL_USE_RunMainTasks(void)
  *   python tools/match.py tu --src src/matched/unit_020056A0.c \
  *       --addr 0x020056A0 --thumb
  */
-struct Tcb *GFL_USE_AddMainTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
+struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority)
 {
-    return (struct Tcb *)TCB_AddTask((struct TcbSystem *)_GflUse.runtime->mainTasks, callback, work, priority);
+    return (struct TcbTask *)TCB_AddTask((struct TcbSystem *)_GflUse.runtime->mainTasks, callback, work, priority);
 }
 
 struct TcbList *GFL_USE_GetMainTaskList(void)

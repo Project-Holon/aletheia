@@ -20,24 +20,19 @@
  */
 #include "../types.h"
 
-typedef struct TwlReq {
-    u16 kind;
-    u8 data[0x20];
-} TwlReq;
-
 typedef struct TwlMsg {
     u16 len;
     u16 kind;
     u8 data[0x20];
 } TwlMsg;
 
-extern u32 NWMi_CheckState(u32 n, ...);
-extern void DC_StoreRange(const void *, u32);
-extern void NWMi_SetCallbackTable(u32, u32);
-extern void MI_CpuCopy8(const void *, void *, u32);
-extern u32 NWMi_SendCommandDirect(u32 command, u32 length);
+#include "nwm_wpa.h"
+#include "nwm_system.h"
+#include "../arm9/os_cache.h"
+#include "nwm_cmd.h"
+#include "../arm9/mi_memory.h"
 
-u32 NWM_SetWPAPSK(u32 callback, TwlReq *pskInfo) {
+u32 NWM_SetWPAPSK(void *callback, TwlReq *pskInfo) {
     u32 r;
     TwlMsg msg;
 
@@ -58,7 +53,7 @@ u32 NWM_SetWPAPSK(u32 callback, TwlReq *pskInfo) {
     default:
         return 5;
     }
-    NWMi_SetCallbackTable(0x12, callback);
+    NWMi_SetCallbackTable(0x12, (u32)callback);
     msg.len = 0x12;
     msg.kind = pskInfo->kind;
     MI_CpuCopy8(pskInfo->data, msg.data, 0x20);

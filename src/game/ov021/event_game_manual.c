@@ -44,15 +44,11 @@ typedef struct EventGameManualWork {
     u16 *resultOut;                 /* 0x0C */
 } EventGameManualWork;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *next);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_event.h"
 struct FieldMap;
-extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
+#include "../arm9/field_status.h"
 struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *resultOut);
 u32 EVENT_GAME_MANUAL_Main(struct GameEvent *event, u32 *seq, EventGameManualWork *work);
 void EVENT_GAME_MANUAL_SetResult(EventGameManualWork *work);
@@ -69,7 +65,7 @@ struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *r
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    event = GAME_EVENT_Create(gameSystem, 0, EVENT_GAME_MANUAL_Main, sizeof(EventGameManualWork));
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_GAME_MANUAL_Main, sizeof(EventGameManualWork));
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;

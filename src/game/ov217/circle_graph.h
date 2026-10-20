@@ -2,7 +2,7 @@
 #define CIRCLE_GRAPH_H
 
 #include "../types.h"
-#include "ring_queue.h"
+#include "../ov217/ring_queue.h"
 
 #define CIRCLE_GRAPH_MAX_ENTRIES 20
 #define CIRCLE_GRAPH_POINT_COUNT 100
@@ -96,5 +96,54 @@ u8 CircleGraph_GetPercentByIndex(struct CircleGraph *graph, u8 index);
 int CircleGraph_IsAnimating(const struct CircleGraph *graph);
 void CircleGraph_GetLabelPositionByKey(struct CircleGraph *graph, u8 key, s32 *px, s32 *py);
 void CircleGraph_GetLabelPositionByIndex(struct CircleGraph *graph, u8 index, s32 *px, s32 *py);
+
+struct CircleGraph;
+struct CircleGraphInput;
+struct CircleGraphPosition;
+struct CircleGraphEntry;
+void CircleGraph_DrawSlices(struct CircleGraph *graph);
+void CircleGraph_DrawOutline(struct CircleGraph *graph);
+void CircleGraph_SetupCamera(struct CircleGraph *graph);
+void CircleGraph_UpdateState(struct CircleGraph *graph);
+void CircleGraph_UpdateHidden(struct CircleGraph *graph);
+void CircleGraph_UpdateDrawSlow(struct CircleGraph *graph);
+void CircleGraph_UpdateDrawFast(struct CircleGraph *graph);
+void CircleGraph_UpdateErase(struct CircleGraph *graph);
+void CircleGraph_UpdateShown(struct CircleGraph *graph);
+void CircleGraph_UpdateDrawMedium(struct CircleGraph *graph);
+void CircleGraph_AdvanceFrame(struct CircleGraph *graph);
+void CircleGraph_TickHold(struct CircleGraph *graph);
+void CircleGraph_QueueCommand(struct CircleGraph *graph, u32 command);
+void CircleGraph_NextCommand(struct CircleGraph *graph);
+struct CircleGraph *CircleGraph_SetState(struct CircleGraph *graph, u32 state);
+struct CircleGraph *CircleGraph_ClearSlices(struct CircleGraph *graph);
+void CircleGraph_AddSlice(struct CircleGraph *graph, const struct CircleGraphInput *input);
+void CircleGraph_SortSlices(struct CircleGraph *graph);
+void CircleGraph_ComputePercents(struct CircleGraph *graph);
+void CircleGraph_ComputePointRanges(struct CircleGraph *graph);
+void CircleGraph_BuildVertices(struct CircleGraph *graph);
+void CircleGraph_SetEnabledImpl(struct CircleGraph *graph, u32 enabled);
+void CircleGraph_StartHold(struct CircleGraph *graph, u32 frames);
+void CircleGraph_StoreCenter(struct CircleGraph *graph, const struct CircleGraphPosition *center);
+u8 CircleGraph_FindSliceIndexImpl(struct CircleGraph *graph, u8 key);
+struct CircleGraphEntry *CircleGraph_GetSlice(struct CircleGraph *graph, u32 index);
+struct CircleGraphEntry *CircleGraph_GetSliceByKey(struct CircleGraph *graph, u8 key);
+int CircleGraph_SumValues(struct CircleGraph *graph);
+int CircleGraph_SumPercents(struct CircleGraph *graph);
+void CircleGraph_GetPointRange(struct CircleGraphEntry *entry, u8 *first, u8 *last);
+u16 CircleGraph_GetRimColor(struct CircleGraphEntry *entry);
+u16 CircleGraph_GetCenterColor(struct CircleGraphEntry *entry);
+void CircleGraph_GetSliceMiddle(struct CircleGraph *graph, struct CircleGraphEntry *entry, struct CircleGraphPosition *out);
+u32 CircleGraph_IsEnabled(struct CircleGraph *graph);
+s32 CircleGraph_IsAnimatingImpl(const struct CircleGraph *graph);
+void CircleGraph_Init(struct CircleGraph *graph);
+void CircleGraph_DestroyQueueImpl(struct CircleGraph *graph);
+void CircleGraph_InitFields(struct CircleGraph *graph, u32 heapId);
+struct CircleGraph *CircleGraph_Alloc(u32 heapId);
+u32 CircleGraph_Free(struct CircleGraph *graph);
+void CircleGraph_CreateQueue(struct CircleGraph *graph);
+void CircleGraph_DestroyQueue(struct CircleGraph *graph);
+void CircleGraph_BuildCirclePoints(struct CircleGraph *graph);
+void CircleGraph_ProjectToScreen(const struct CircleGraphPosition *position, s32 *px, s32 *py);
 
 #endif

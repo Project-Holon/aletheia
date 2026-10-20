@@ -36,55 +36,47 @@
 #include "field_intrude_event_shared_types.h"
 #include "scrcmd_research_shared_types.h"
 
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct FieldMap;
 struct FieldPlayer;
 
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
-extern void *SCRCMD_WORK_GetScriptWork(struct ScrCmdWork *work);
 struct ScrcmdWork;
 struct GameData;
 
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
 struct ScriptVm;
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptContext *ctx, struct ScrCmdWork *work);
 
-extern void *SCRCMD_WORK_GetGameSystem(struct ScrCmdWork *work);
+struct VecFx32;
 
-extern void SCRIPT_SYS_CallEvent(void *scriptSystem, void *event);
+#include "script_sys.h"
+#include "scrcmd_work.h"
+#include "script_work_cmd.h"
 
-extern void FIELD_PLAYER_GetPos(void *player, FxVec3 *out);
+#include "../ov021/field_player.h"
+struct GameSystem;
+struct GameEvent;
 
-extern void *SP_POKE_GIMMICK_StartMove(void *gameSystem, int fromPlayer, FxVec3 *from, FxVec3 *to, int height, int frames);
+#include "../ov059/sp_poke_gimmick.h"
 
-extern void SP_POKE_GIMMICK_ShowAndPlay(void *gameSystem, int mode, FxVec3 *position);
-
-extern void *SP_POKE_GIMMICK_StartWaitAnimeEnd(void *gameSystem, u32 value);
-
-extern void *SP_POKE_GIMMICK_StartWaitAnimeProgress(void *gameSystem, u32 value);
-
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+#include "../arm9/game_data.h"
 struct Party;
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
-extern int SAVE_EVENT_IsStageDone(void *mon, int kind);
+#include "../arm9/save_event.h"
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 
-extern void SAVE_EVENT_CommitStage(void *mon, u32 kind);
 
 int SCRCMD_EVENT_MON_FindEventMonInParty(void *party, int species, int move, int kind, u16 *outIndex);
 
 /* Script command: starts a special Pokemon gimmick task between the player and a grid position. */
-int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickTask(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickTask(struct ScriptVm *ctx, struct ScrcmdWork *scrWork)
 {
     void *scriptSystem;
     void *gameSystem;
@@ -110,7 +102,7 @@ int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickTask(struct ScriptContext *ctx, struct
     gridZ = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     speed = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     frames = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
+    FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), (struct VecFx32 *)(&playerPos));
     targetPos.x = (gridX << 16) + 0x8000;
     targetPos.y = height << 15;
     targetPos.z = (gridZ << 16) + 0x8000;
@@ -121,7 +113,7 @@ int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickTask(struct ScriptContext *ctx, struct
         from = &targetPos;
         to = &playerPos;
     }
-    gimmickTask = SP_POKE_GIMMICK_StartMove(gameSystem, fromPlayer, from, to, speed << 15, frames);
+    gimmickTask = SP_POKE_GIMMICK_StartMove(gameSystem, fromPlayer, (struct VecFx32 *)from, (struct VecFx32 *)to, speed << 15, frames);
     if (gimmickTask == 0) {
         return 1;
     }
@@ -130,7 +122,7 @@ int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickTask(struct ScriptContext *ctx, struct
 }
 
 /* Script command: moves the special Pokemon gimmick to a grid position. */
-int SCRCMD_EVENT_MON_CmdMoveSpPokeGimmick(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_EVENT_MON_CmdMoveSpPokeGimmick(struct ScriptVm *ctx, struct ScrcmdWork *scrWork)
 {
     void *gameSystem;
     int mode;
@@ -147,12 +139,12 @@ int SCRCMD_EVENT_MON_CmdMoveSpPokeGimmick(struct ScriptContext *ctx, struct ScrC
     position.x = (gridX << 16) + 0x8000;
     position.y = height << 15;
     position.z = (gridZ << 16) + 0x8000;
-    SP_POKE_GIMMICK_ShowAndPlay(gameSystem, mode, &position);
+    SP_POKE_GIMMICK_ShowAndPlay(gameSystem, mode, (struct VecFx32 *)(&position));
     return 0;
 }
 
 /* Script command: starts the first special Pokemon gimmick step task and waits on it. */
-int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickStepA(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickStepA(struct ScriptVm *ctx, struct ScrcmdWork *scrWork)
 {
     void *scriptSystem, *gameSystem, *task;
     scriptSystem = SCRCMD_WORK_GetScriptWork(scrWork);
@@ -164,7 +156,7 @@ int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickStepA(struct ScriptContext *ctx, struc
 }
 
 /* Script command: starts the second special Pokemon gimmick step task and waits on it. */
-int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickStepB(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickStepB(struct ScriptVm *ctx, struct ScrcmdWork *scrWork)
 {
     void *scriptSystem, *gameSystem, *task;
     scriptSystem = SCRCMD_WORK_GetScriptWork(scrWork);
@@ -182,7 +174,7 @@ int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickStepB(struct ScriptContext *ctx, struc
  * is 0), and stores SCRCMD_EVENT_MON_FindEventMonInParty's answer in the second variable; any other
  * species stores 0.
  */
-int SCRCMD_EVENT_MON_CmdFindEventMonInParty(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_EVENT_MON_CmdFindEventMonInParty(struct ScriptVm *ctx, struct ScrcmdWork *scrWork)
 {
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork));
     int species = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
@@ -265,7 +257,7 @@ int SCRCMD_EVENT_MON_FindEventMonInParty(void *party, int species, int move, int
 }
 
 /* Script command: clears the event flag of the party member at an index when its species has one. */
-int SCRCMD_EVENT_MON_CmdClearEventMonFlag(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
+int SCRCMD_EVENT_MON_CmdClearEventMonFlag(struct ScriptVm *ctx, struct ScrcmdWork *scrWork)
 {
     void *party;
     int species;

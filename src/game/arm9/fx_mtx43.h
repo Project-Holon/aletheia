@@ -4,6 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of fx_mtx43.c, prototypes copied from their definitions. */
 
+union MtxFx43;
+
 #include "../sdk_fx.h"
 #include "../types.h"
 
@@ -11,7 +13,7 @@ void MTX_Identity43_(MtxFx43 *pDst);
 void MTX_Copy43To44_(const MtxFx43 *pSrc, MtxFx44 *pDst);
 void MTX_Scale43_(void);
 void MTX_ScaleApply43(const MtxFx43 *pSrc, MtxFx43 *pDst, fx32 x, fx32 y, fx32 z);
-void MTX_RotY43_(void);
+void MTX_RotY43_(union MtxFx43 *m, fx32 sinVal, fx32 cosVal);
 void MTX_RotAxis43(void *m, void *v, fx32 sinVal, fx32 cosVal);
 int MTX_Inverse43(const MtxFx43 *pSrc, MtxFx43 *pDst);
 void MTX_Concat43(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab);

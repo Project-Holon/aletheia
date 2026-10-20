@@ -29,32 +29,27 @@
  *   MYSTATUS_GetNation  0x0200856C  thumb  arm9
  *   MYSTATUS_GetArea  0x02008570  thumb  arm9
  */
+#include "../arm9/mystatus.h"
+#include "../arm9/wordset.h"
 #include "../version.h"
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
 
-struct MYSTATUS;
-
-extern void GF_PANIC_Fail(const char *,u32,const char *);
-
-extern void MI_CpuFill8(void *,int,unsigned);
-
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-
-extern u32 GFL_HEAP_Free(void *p);
-
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 struct MyStatus;
 
-extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
+#include "../arm9/gf_panic.h"
 
-extern u8 MYSTATUS_GetArea(struct MyStatus *mystatus);
+#include "../arm9/mi_memory.h"
 
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern const void *MYSTATUS_GetName(const void *p);
 
-extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
+struct MyStatus;
+
+
+
+
+
 
 u8 *NHTTP_RAP_EvilCheckAllocArray(int elemSize, int count, int heapId);
 
@@ -62,11 +57,11 @@ void NHTTP_RAP_EvilCheckFreeArray(void *buf);
 
 void NHTTP_RAP_EvilCheckSetElement(u8 *base_p, const void *src_p, u32 elemSize, int index);
 
-void *NHTTP_RAP_EvilCheckCryptoAlloc(int size);
+void *NHTTP_RAP_EvilCheckCryptoAlloc(unsigned long size);
 
 void NHTTP_RAP_EvilCheckCryptoFree(void *p);
 
-void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATUS *mystatus_p);
+void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MyStatus *mystatus_p);
 
 extern u16 sNHTTPRapCryptoHeapId;
 
@@ -92,7 +87,7 @@ void NHTTP_RAP_EvilCheckFreeArray(void *buf)
 
 void NHTTP_RAP_EvilCheckSetElement(u8 *base_p, const void *src_p, u32 elemSize, int index) { MI_CpuCopy8(src_p,base_p+elemSize*index,elemSize); }
 
-void *NHTTP_RAP_EvilCheckCryptoAlloc(int size)
+void *NHTTP_RAP_EvilCheckCryptoAlloc(unsigned long size)
 {
     void *p;
     if (sNHTTPRapCryptoHeapId == 0xffff)
@@ -108,7 +103,7 @@ void NHTTP_RAP_EvilCheckCryptoFree(void *block)
     GFL_HEAP_Free(block);
 }
 
-void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATUS *mystatus_p)
+void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MyStatus *mystatus_p)
 {
     MI_CpuFill8(info_p, 0, 0x64);
     info_p->packetType = PM_VERSION_ID;
@@ -124,9 +119,8 @@ void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATU
 
 #pragma thumb off
 
-extern void OS_InitMutex(struct OSMutex *mutex);
+#include "../arm9/os_mutex.h"
 
-extern void OS_LockMutex(struct OSMutex *mutex);
 
 void NHTTPi_InitMutex(int *mutex_p);
 

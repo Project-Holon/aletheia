@@ -78,9 +78,12 @@
  *   sFuncNameGhiEncryptorSslCleanupFunc    0x021CE713  data  a1
  *   sGhttpGamespySslTwlEngineCleanup    0x021CED3C  data  a4
  */
+#include "../ov009/gsmemory.h"
 #include "ghttp_types.h"
+#include "../ov009/gsdebug.h"
+#include "../arm9/os_entropy.h"
 
-struct CPSSslConnection;
+#include "../ov009/cps_ssl_types.h"
 /* One entry of the root CA table: server URL, its CA list and a use count. */
 typedef struct GHTTPCertificateInfo {
     char *serverUrl;
@@ -92,49 +95,26 @@ typedef struct GHTTPCertificateInfo {
 typedef void (*GHTTPArrayElementFreeFunc)(void *element);
 typedef int (*GHTTPArrayCompareFunc)(void *a, void *b);
 
-typedef struct CPSSslConnection {
-    char pad0[0x5b0];
-    char subject[0x100];        /* +0x5b0 */
-    char issuer[0x100];         /* +0x6b0 */
-    char name[0x50];            /* +0x7b0 */
-    int verifyState;            /* +0x800 */
-    char pad1[0x810 - 0x804];
-    int (*authCallback)(int result, struct CPSSslConnection *con, int level); /* +0x810 */
-    void *rootCerts;            /* +0x814 */
-    int rootCertCount;          /* +0x818 */
-    char pad2[0x830 - 0x81c];
-} CPSSslConnection;
 
 typedef struct GHTTPTwlCaList {
     void *certs;
     int count;
 } GHTTPTwlCaList;
 
-extern GHIConnection *ghiRequestToConnection(int request);
-extern int strncmp(u8 *s1, u8 *s2, u32 n);
+#include "ghttpconnection.h"
+#include "../arm9/msl_string_str.h"
 extern int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *encryptor);
 extern int ghiEncryptorSslStartFunc(GHIConnection *connection, GHIEncryptor *encryptor);
 extern int ghiEncryptorSslCleanupFunc(GHIConnection *connection, GHIEncryptor *encryptor);
 extern int ghiEncryptorSslEncryptFunc(GHIConnection *connection, void *encryptor, const char *plainText, int plainTextLen, char *cipherText, int *cipherTextLen);
 extern int ghiEncryptorSslDecryptFunc(GHIConnection *connection, void *encryptor, char *readPos, int *readLen, char *writePos, int *writeLen);
-extern int strcmp(const char *s1, const char *s2);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
-extern char *ghiGetServerAddressFromUrl(char *);
 struct DArrayImplementation;
-extern int ArraySearch(struct DArrayImplementation *array, void *key, GHTTPArrayCompareFunc compare, int fromIndex, int isSorted);
-extern void gsifree(void *);
-extern void *ArrayNth(struct DArrayImplementation *array, int n);
-extern struct DArrayImplementation *ArrayNew(int elementSize, int growBy, GHTTPArrayElementFreeFunc freeFunc);
+#include "../ov009/darray.h"
 struct DArrayImplementation;
-extern void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem, GHTTPArrayCompareFunc compare);
-extern void ArrayDeleteAt(int a, int b);
-extern int ArrayLength(const int *p);
-extern void ArrayFree(struct DArrayImplementation *array);
-extern void OS_GetLowEntropyData(unsigned long *);
-extern void CPS_SslAddRandomSeed(void *, unsigned long);
-extern void *gsimalloc(unsigned long);
-extern void *MSL_C_LIB_MemsetPtr(void *, int, unsigned long);
-extern int SOCL_EnableSsl(int s, void *con);
+#include "../ov009/ssl.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
+#include "../ov009/socl_ssl.h"
 int ghttpSetRequestEncryptionEngine(int request, int engine);
 int ghiEncyptorSetRootCAList(char *url, void *theRootCAList);
 int ghiEncryptorCleanupRootCAList(char *url);
@@ -169,7 +149,7 @@ extern char sGhttpSslNoRootCaInstalled[];
 extern char sGhttpSslBadSignatureDoNot[];
 extern char sGhttpSslUnknownSignatureAlgorithm[];
 extern char sGhttpSslUnknownPublicKeyAlrorithm[];
-extern unsigned long gGhttpSslRandomSeed[8];
+extern u32 gGhttpSslRandomSeed[8];
 extern char sFuncNameGhiTwlSSLInit[];
 extern char sGhttpTwlFailedToAllocateMemory[];
 extern char sGhttpTwlUninitializedCertificateList[];
@@ -241,7 +221,7 @@ int ghiEncyptorSetRootCAList(char *url, void *theRootCAList)
         if (strcmp(url, sGhttpEmptyString) != 0)
             goto done;
     }
-    gsDebugFormat(8, (char *)4, 1, sGhttpSslNullPointerOrEmpty, sGhttpEncryptionFileName, sFuncNameGhiEncyptorSetRootCAList, 0x74, url, theRootCAList);
+    gsDebugFormat(8, 4, 1, sGhttpSslNullPointerOrEmpty, sGhttpEncryptionFileName, sFuncNameGhiEncyptorSetRootCAList, 0x74, url, theRootCAList);
     return 0;
 done:
     return ghiEncryptorSetTwlRootCA(url, theRootCAList);
@@ -272,14 +252,14 @@ void *ghiEncryptorGetRootCAList(char *url)
     int pos;
 
     if (url == 0 || gGhttpRootCaTable == 0 || strcmp(url, sGhttpEmptyString) == 0) {
-        gsDebugFormat(8, (char *)4, 1, sGhttpSslNullPointerOrEmpty2, sGhttpEncryptionFileName, sFuncNameGhiEncryptorGetRootCAList, 0x312, url, gGhttpRootCaTable);
+        gsDebugFormat(8, 4, 1, sGhttpSslNullPointerOrEmpty2, sGhttpEncryptionFileName, sFuncNameGhiEncryptorGetRootCAList, 0x312, url, gGhttpRootCaTable);
         return 0;
     }
     certInfo.serverUrl = ghiGetServerAddressFromUrl(url);
     pos = ArraySearch(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl, 0, 1);
     gsifree(certInfo.serverUrl);
     if (pos == -1) {
-        gsDebugFormat(8, (char *)4, 1, sGhttpSslCouldNotFindUrl, sGhttpEncryptionFileName, sFuncNameGhiEncryptorGetRootCAList, 0x323, url);
+        gsDebugFormat(8, 4, 1, sGhttpSslCouldNotFindUrl, sGhttpEncryptionFileName, sFuncNameGhiEncryptorGetRootCAList, 0x323, url);
         return 0;
     }
     certInfoToReturn = ArrayNth(gGhttpRootCaTable, pos);
@@ -313,13 +293,13 @@ int ghiEncryptorSetTwlRootCA(char *url, void *theRootCAList)
     GHTTPCertificateInfo *certInfoToUpdate;
 
     if (url == 0 || theRootCAList == 0 || strcmp(url, sGhttpEmptyString) == 0) {
-        gsDebugFormat(8, (char *)4, 1, sGhttpSslNullPointerOrEmpty, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSetTwlRootCA, 0x345, url, theRootCAList);
+        gsDebugFormat(8, 4, 1, sGhttpSslNullPointerOrEmpty, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSetTwlRootCA, 0x345, url, theRootCAList);
         return 0;
     }
     if (gGhttpRootCaTable == 0) {
         gGhttpRootCaTable = ArrayNew(sizeof(GHTTPCertificateInfo), 1, ghiFreeCertificateInfo);
         if (gGhttpRootCaTable == 0) {
-            gsDebugFormat(8, (char *)2, 1, sGhttpSslOutOfMemoryCannot, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSetTwlRootCA, 0x354);
+            gsDebugFormat(8, 2, 1, sGhttpSslOutOfMemoryCannot, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSetTwlRootCA, 0x354);
             return 0;
         }
     }
@@ -351,19 +331,19 @@ int ghiEncryptorCleanupTwlRootCA(char *url)
 
     result = 1;
     if (url == 0 || gGhttpRootCaTable == 0 || strcmp(url, sGhttpEmptyString) == 0) {
-        gsDebugFormat(8, (char *)4, 1, sGhttpSslNullPointerOrEmpty3, sGhttpEncryptionFileName, sFuncNameGhiEncryptorCleanupTwlRootCA, 0x37b, url, gGhttpRootCaTable);
+        gsDebugFormat(8, 4, 1, sGhttpSslNullPointerOrEmpty3, sGhttpEncryptionFileName, sFuncNameGhiEncryptorCleanupTwlRootCA, 0x37b, url, gGhttpRootCaTable);
         return 0;
     }
     certInfo.serverUrl = ghiGetServerAddressFromUrl(url);
     pos = ArraySearch(gGhttpRootCaTable, &certInfo, ghiCompareCertUrl, 0, 1);
     if (pos == -1) {
-        gsDebugFormat(8, (char *)4, 1, sGhttpSslCouldNotFindUrl, sGhttpEncryptionFileName, sFuncNameGhiEncryptorCleanupTwlRootCA, 0x38a, url);
+        gsDebugFormat(8, 4, 1, sGhttpSslCouldNotFindUrl, sGhttpEncryptionFileName, sFuncNameGhiEncryptorCleanupTwlRootCA, 0x38a, url);
         result = 0;
     } else {
         certInfoToUpdate = ArrayNth(gGhttpRootCaTable, pos);
         certInfoToUpdate->refCount--;
         if (certInfoToUpdate->refCount <= 0) {
-            ArrayDeleteAt((int)gGhttpRootCaTable, pos);
+            ArrayDeleteAt((struct DArrayImplementation *)gGhttpRootCaTable, pos);
             if (ArrayLength(gGhttpRootCaTable) == 0) {
                 ArrayFree(gGhttpRootCaTable);
                 gGhttpRootCaTable = 0;
@@ -381,15 +361,15 @@ int ghiEncryptorCleanupTwlRootCA(char *url)
  */
 int SslAuthCallback(int result, CPSSslConnection *con, int level)
 {
-    gsDebugFormat(8, (char *)4, 8, sGhttpSslReceivedCertficate, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 938);
-    gsDebugFormat(8, (char *)4, 8, sGhttpLSCnI, level, con->issuer, con->name, con->subject);
+    gsDebugFormat(8, 4, 8, sGhttpSslReceivedCertficate, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 938);
+    gsDebugFormat(8, 4, 8, sGhttpLSCnI, level, con->subjectDn, con->commonName, con->dn);
 
     if (result & 0x8000) {
-        gsDebugFormat(8, (char *)4, 2, sGhttpCertificateIsOutOfDate, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 946);
+        gsDebugFormat(8, 4, 2, sGhttpCertificateIsOutOfDate, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 946);
         result &= ~0x8000;
     }
     if (result & 0x4000) {
-        gsDebugFormat(8, (char *)4, 2, sGhttpSslServerNameDoesNot, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 954);
+        gsDebugFormat(8, 4, 2, sGhttpSslServerNameDoesNot, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 954);
         result &= ~0x4000;
     }
 
@@ -397,16 +377,16 @@ int SslAuthCallback(int result, CPSSslConnection *con, int level)
     case 0:
         break;
     case 1:
-        gsDebugFormat(8, (char *)4, 2, sGhttpSslNoRootCaInstalled, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 963);
+        gsDebugFormat(8, 4, 2, sGhttpSslNoRootCaInstalled, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 963);
         break;
     case 2:
-        gsDebugFormat(8, (char *)4, 2, sGhttpSslBadSignatureDoNot, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 969);
+        gsDebugFormat(8, 4, 2, sGhttpSslBadSignatureDoNot, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 969);
         break;
     case 3:
-        gsDebugFormat(8, (char *)4, 2, sGhttpSslUnknownSignatureAlgorithm, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 975);
+        gsDebugFormat(8, 4, 2, sGhttpSslUnknownSignatureAlgorithm, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 975);
         break;
     case 4:
-        gsDebugFormat(8, (char *)4, 2, sGhttpSslUnknownPublicKeyAlrorithm, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 981);
+        gsDebugFormat(8, 4, 2, sGhttpSslUnknownPublicKeyAlrorithm, sGhttpEncryptionFileName, sFuncNameSslAuthCallback, 981);
         break;
     }
     return result;
@@ -430,18 +410,18 @@ CPSSslConnection *ghiTwlSSLInit(char *url)
             sslCon = gsimalloc(0x830);
             if (sslCon != 0) {
                 MSL_C_LIB_MemsetPtr(sslCon, 0, 0x830);
-                sslCon->verifyState = 0;
-                sslCon->rootCerts = rootCaList->certs;
-                sslCon->rootCertCount = rootCaList->count;
-                sslCon->authCallback = SslAuthCallback;
+                sslCon->hostName = 0;
+                sslCon->rootCa = (SOCLCaInfo **)rootCaList->certs;
+                sslCon->rootCaNum = rootCaList->count;
+                sslCon->f810 = SslAuthCallback;
             } else {
-                gsDebugFormat(8, (char *)2, 2, sGhttpTwlFailedToAllocateMemory, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x3fc);
+                gsDebugFormat(8, 2, 2, sGhttpTwlFailedToAllocateMemory, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x3fc);
             }
         } else {
-            gsDebugFormat(8, (char *)2, 2, sGhttpTwlUninitializedCertificateList, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x403);
+            gsDebugFormat(8, 2, 2, sGhttpTwlUninitializedCertificateList, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x403);
         }
     } else {
-        gsDebugFormat(8, (char *)2, 2, sGhttpTwlUninitializedCertificateList, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x40a);
+        gsDebugFormat(8, 2, 2, sGhttpTwlUninitializedCertificateList, sGhttpEncryptionFileName, sFuncNameGhiTwlSSLInit, 0x40a);
     }
     return sslCon;
 }
@@ -452,10 +432,10 @@ int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *theEncrypto
 {
     GsTwlSslInterface *sslInterface;
 
-    gsDebugFormat(8, (char *)4, 0xf, sGhttpEncryptionLocationFormat, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x417);
+    gsDebugFormat(8, 4, 0xf, sGhttpEncryptionLocationFormat, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x417);
     theEncryptor->mInterface = gsimalloc(8);
     if (theEncryptor->mInterface == 0) {
-        gsDebugFormat(8, (char *)2, 2, sGhttpFailedToAllocateSslInterface, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x425, 8);
+        gsDebugFormat(8, 2, 2, sGhttpFailedToAllocateSslInterface, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x425, 8);
         return 3;
     }
     {
@@ -473,7 +453,7 @@ int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *theEncrypto
     sslInterface->con = ghiTwlSSLInit(connection->URL);
     sslInterface->connected = 0;
     if (sslInterface->con == 0) {
-        gsDebugFormat(8, (char *)4, 0xf, sGhttpGamespySslTwlCertificateIs, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x431);
+        gsDebugFormat(8, 4, 0xf, sGhttpGamespySslTwlCertificateIs, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x431);
         return 3;
     }
     theEncryptor->interfaceCreated = 1;
@@ -482,7 +462,7 @@ int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *theEncrypto
     theEncryptor->encryptOnBuffer = 0;
     theEncryptor->encryptOnSend = 1;
     theEncryptor->handshaking = 1;
-    gsDebugFormat(8, (char *)4, 0xf, sGhttpGamespySslTwlEngineInitialized, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x43d);
+    gsDebugFormat(8, 4, 0xf, sGhttpGamespySslTwlEngineInitialized, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslInitFunc, 0x43d);
     return 1;
 }
 
@@ -495,26 +475,26 @@ int ghiEncryptorSslStartFunc(GHIConnection *connection, GHIEncryptor *theEncrypt
 {
     GsTwlSslInterface *sslInterface = theEncryptor->mInterface;
 
-    gsDebugFormat(8, (char *)4, 15, sGhttpEncryptionLocationFormat, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1100);
+    gsDebugFormat(8, 4, 15, sGhttpEncryptionLocationFormat, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1100);
 
     if (sslInterface->connected == 0) {
         int result = SOCL_EnableSsl(connection->socket, sslInterface->con);
         if (result < 0) {
             switch (result) {
             case -28:
-                gsDebugFormat(8, (char *)4, 15, sGhttpGamespySslTwlInvalidProcessing, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1113);
+                gsDebugFormat(8, 4, 15, sGhttpGamespySslTwlInvalidProcessing, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1113);
                 break;
             case -33:
-                gsDebugFormat(8, (char *)4, 15, sGhttpGamespySslTwlCannotCreate, sFuncNameGhiEncryptorSslStartFunc, 1118);
+                gsDebugFormat(8, 4, 15, sGhttpGamespySslTwlCannotCreate, sFuncNameGhiEncryptorSslStartFunc, 1118);
                 break;
             case -39:
-                gsDebugFormat(8, (char *)4, 15, sGhttpGamespySslTwlSocketLibrary, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1124);
+                gsDebugFormat(8, 4, 15, sGhttpGamespySslTwlSocketLibrary, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1124);
                 break;
             case -42:
-                gsDebugFormat(8, (char *)4, 15, sGhttpGamespySslTwlInsufficientResources, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1129);
+                gsDebugFormat(8, 4, 15, sGhttpGamespySslTwlInsufficientResources, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1129);
                 break;
             default:
-                gsDebugFormat(8, (char *)4, 15, sGhttpGamespySslTwlSocEnablessl, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1135, result);
+                gsDebugFormat(8, 4, 15, sGhttpGamespySslTwlSocEnablessl, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1135, result);
                 break;
             }
             connection->completed = 1;
@@ -527,7 +507,7 @@ int ghiEncryptorSslStartFunc(GHIConnection *connection, GHIEncryptor *theEncrypt
 
     theEncryptor->initialized = 1;
     theEncryptor->sessionEstablished = 1;
-    gsDebugFormat(8, (char *)4, 15, sGhttpReturnSuccess, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1154);
+    gsDebugFormat(8, 4, 15, sGhttpReturnSuccess, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslStartFunc, 1154);
     return 1;
 }
 
@@ -570,7 +550,7 @@ int ghiEncryptorSslDecryptFunc(GHIConnection *connection, void *encryptor, char 
 
 int ghiEncryptorSslCleanupFunc(GHIConnection *connection, GHIEncryptor *encryptor)
 {
-    gsDebugFormat(8, (char *)4, 0xf, sGhttpGamespySslTwlEngineCleanup, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslCleanupFunc, 0x4d5);
+    gsDebugFormat(8, 4, 0xf, sGhttpGamespySslTwlEngineCleanup, sGhttpEncryptionFileName, sFuncNameGhiEncryptorSslCleanupFunc, 0x4d5);
     if (encryptor != 0) {
         GsTwlSslInterface *sslInterface = encryptor->mInterface;
         if (sslInterface != 0) {

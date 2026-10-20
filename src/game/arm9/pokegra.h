@@ -40,7 +40,7 @@ int POKEGRA_RegisterCgrPP(int handle, void *pp, int dir, int drawType, unsigned 
 u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
 void *POKEGRA_OpenTrainerHandle(u32 heapId);
 s32 POKEGRA_RegisterTrainerPalette(u8 *handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId);
-void POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId);
+s32 POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId);
 s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId);
 void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *palDst, volatile u16 heapId);
 /* END mkheaders: generated region */

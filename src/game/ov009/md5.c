@@ -32,8 +32,7 @@
     a += f(b, c, d) + x[gMd5Permutation[k]] + gMd5TTable[k]; \
     a = ROTL(a, s) + b
 
-extern void MI_CpuCopy8(void *a, void *b, int n);
-extern void MI_CpuFill8(void *dstp, unsigned char val, unsigned long size);
+#include "../arm9/mi_memory.h"
 static void char_from_long(void *a, void *b, int n);
 static void long_from_char(void *a, void *b, int n);
 void CPSi_md5_block(CPSMd5Ctx *ctx, unsigned char *m);

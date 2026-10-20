@@ -21,10 +21,12 @@
  *   gGsUdpEngineContext  0x021AD188  data
  */
 #include "../types.h"
+#include "gsudp_types.h"
 
-extern int strlen(const u8 *s);
-extern void *gsimalloc(unsigned long size);
-extern void *memcpy(void *dest, const void *src, unsigned int n);
+#include "../arm9/msl_string_str.h"
+#include "gsmemory.h"
+typedef unsigned int size_t;
+#include "../arm9/msl_string_mem.h"
 int _ReadUCS2CharFromUTF8String(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut);
 int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String);
 int _UTF8ToUCS2ConversionLengthOnly(const char *s, int n);
@@ -32,7 +34,7 @@ unsigned short *UTF8ToUCS2StringAlloc(char *theUTF8String);
 unsigned short *UTF8ToUCS2StringAllocLen(char *theUTF8String, int theUTF8StringLength);
 int UTF8ToUCS2StringLen2(const unsigned char *src, int size, u16 *out, int max);
 int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n);
-void *gsUdpEngineContext(void);
+GSUdpEngineObject *gsUdpEngineContext(void);
 extern char gGsUdpEngineContext[];
 
 /*
@@ -201,7 +203,7 @@ int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n)
     return len;
 }
 
-void *gsUdpEngineContext(void)
+GSUdpEngineObject *gsUdpEngineContext(void)
 {
-    return gGsUdpEngineContext;
+    return (GSUdpEngineObject *)gGsUdpEngineContext;
 }

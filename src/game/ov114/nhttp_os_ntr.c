@@ -29,30 +29,24 @@
 #include "nhttp_types.h"
 
 #include "../types.h"
+#include "../arm9/os_thread.h"
 
 typedef struct {
     int pad;
     int *current;
 } OSInfo;
 
-extern int NHTTPi_IsCreateCommThreadMessageQueue(NHTTPThreadInfo *threadInfo_p);
+#include "nhttp_thread.h"
 #include "../sdk_os.h"
 
-extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
-extern void NHTTPi_IsCreateCommThreadMessageQueueOn(NHTTPThreadInfo *threadInfo_p);
-extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
-extern void OS_WakeupThreadDirect(void *thread);
+#include "../arm9/os_message.h"
 extern void NHTTPi_CommThreadProc(void *);
-extern void OS_JoinThread(void *);
-extern s32 OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
-extern s32 OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
-extern void OS_Terminate(void);
+#include "../arm9/os_terminate_processor.h"
 int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priority, unsigned long *stack_p);
 void NHTTPi_destroyCommThread(NHTTPThreadInfo *threadInfo_p, NHTTPBgnEndInfo *bgnEndInfo_p);
 void NHTTPi_idleCommThread(NHTTPThreadInfo *threadInfo_p);
 void NHTTPi_kickCommThread(NHTTPThreadInfo *threadInfo_p);
 void NHTTPi_CheckCurrentThread(NHTTPThreadInfo *threadInfo_p, int isCommThread);
-extern void NHTTPi_CommThreadProcMain(void);
 extern OSInfo gMslRefToken;
 
 int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priority, unsigned long *stack_p)
@@ -61,8 +55,8 @@ int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priorit
         OS_InitMessageQueue((struct OSMessageQueue *)threadInfo_p->msgQueue, threadInfo_p->msgArray, 3);
         NHTTPi_IsCreateCommThreadMessageQueueOn(threadInfo_p);
     }
-    OS_CreateThread(threadInfo_p->commThread, NHTTPi_CommThreadProc, 0, (char *)stack_p + 0x2000, 0x2000, priority);
-    OS_WakeupThreadDirect(threadInfo_p->commThread);
+    OS_CreateThread(&threadInfo_p->commThread, NHTTPi_CommThreadProc, 0, (char *)stack_p + 0x2000, 0x2000, priority);
+    OS_WakeupThreadDirect(&threadInfo_p->commThread);
     return 1;
 }
 
@@ -70,7 +64,7 @@ void NHTTPi_destroyCommThread(NHTTPThreadInfo *threadInfo_p, NHTTPBgnEndInfo *bg
 {
     bgnEndInfo_p->isThreadEnd = 1;
     NHTTPi_kickCommThread(threadInfo_p);
-    OS_JoinThread(threadInfo_p->commThread);
+    OS_JoinThread(&threadInfo_p->commThread);
 }
 
 void NHTTPi_idleCommThread(NHTTPThreadInfo *threadInfo_p)
@@ -87,7 +81,7 @@ void NHTTPi_kickCommThread(NHTTPThreadInfo *threadInfo_p)
 
 void NHTTPi_CheckCurrentThread(NHTTPThreadInfo *threadInfo_p, int isCommThread)
 {
-    int *commThread_p = (int *)threadInfo_p->commThread;
+    int *commThread_p = (int *)&threadInfo_p->commThread;
     int *currentThread_p = gMslRefToken.current;
 
     if (currentThread_p) {

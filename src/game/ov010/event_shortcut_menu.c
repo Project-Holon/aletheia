@@ -189,68 +189,38 @@ typedef struct ShortcutProcTask {
     u8 pad6C[8];
 } ShortcutProcTask;
 
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 size);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct ScriptWork;
-extern int SCRIPT_WORK_SetParams(struct ScriptWork *work, int param0, int param1, int param2, unsigned short param3);
-extern unsigned int GFL_HEAP_Free(void *block);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTemplate, void *work);
-extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
-extern void UI_SetInputMode(u8 v);
+#include "script_work.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/game_data.h"
+#include "../ov021/event_fieldmap_control.h"
+#include "../arm9/field_status.h"
+#include "../arm9/ui.h"
 struct MmdlSys;
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
-extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
+#include "../ov021/fieldmap.h"
+#include "fldmmdl.h"
 struct FieldSkillInfo;
-extern void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, struct FieldSkillInfo *out);
-extern struct GameEvent *FIELD_LINK_EVENT_Create(int index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(void *sys);
-extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(u8 *ids);
+#include "move_pokemon.h"
+#include "field_skill_check.h"
+#include "../arm9/recent_id_list_savedata.h"
 struct FieldSkillUseFlags;
-extern void FIELD_SKILL_CHECK_FillUseFlags(struct FieldSkillUseFlags *flags, struct GameSystem *gameSystem, void *fieldMap);
 struct ShortcutMenu;
-extern void SHORTCUT_MENU_Main(struct ShortcutMenu *menu);
-extern void SHORTCUT_MENU_Start(struct ShortcutMenu *menu);
-extern void SHORTCUT_MENU_RequestClose(struct ShortcutMenu *menu);
-extern int SHORTCUT_MENU_IsWaitingInput(struct ShortcutMenu *menu);
-extern u32 SHORTCUT_MENU_GetResult(struct ShortcutMenu *menu, u32 *outValue);
+#include "../ov021/shortcut_menu.h"
 struct PlayerWork;
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(const struct GameData *gameData);
-extern u32 GAME_DATA_GetPlayerObjectCode(struct PlayerWork *player);
-extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
-extern u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(struct FieldSkillUseFlags *flags, u32 skillIndex);
-extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(u8 *ids, u32 index);
-extern void BG_SYS_SetPlaneVisible(u8 which, u8 enable);
+#include "../arm9/app_keycursor.h"
+#include "../arm9/bg_sys.h"
 struct FieldMsgBg;
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-extern void FIELD_MSGBG_ReleaseBg(struct FieldMsgBg *msgBg);
-extern unsigned char *GAME_DATA_GetRtcWork(struct GameData *gameData);
-extern struct ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, unsigned short *savedState, unsigned short textHeapId, unsigned short heapId);
-extern void SHORTCUT_MENU_Delete(struct ShortcutMenu *menu);
-extern void FIELD_MSGBG_SetupBgSingle(struct FieldMsgBg *msgBg);
-extern int SHORTCUT_MENU_RunPrint(struct ShortcutMenu *menu);
+#include "../ov021/field_msgbg.h"
 extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, unsigned short scriptId, void *target, int reserved);
 extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 struct Party;
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "../arm9/poke_tool.h"
 struct BoxPokemon;
-extern u32 POKE_TOOL_HasRibbonData(struct BoxPokemon *box);
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void FIELDMAP_SetBgMode(void);
-extern void FIELDMAP_ResetBgAffineShowMsg(struct FieldMap *fieldMap);
+#include "../arm9/mi_memory.h"
+#include "../arm9/game_event.h"
 
 int EVENT_SHORTCUT_MENU_HasShortcuts(struct GameSystem *gameSystem);
 struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 id);
@@ -298,9 +268,9 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
 
     shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
     if (RECENT_ID_LIST_SAVEDATA_CountIds((u8 *)shortcuts) == 1) {
-        event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_ReturnEvent, sizeof(ShortcutMenuWork));
+        event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_SHORTCUT_MENU_ReturnEvent, sizeof(ShortcutMenuWork));
     } else {
-        event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_MainEvent, sizeof(ShortcutMenuWork));
+        event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_SHORTCUT_MENU_MainEvent, sizeof(ShortcutMenuWork));
     }
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, sizeof(ShortcutMenuWork));
@@ -880,7 +850,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(ShortcutLink *link, u16 id
     struct GameEvent *event;
     ShortcutProcTask *task;
 
-    event = GAME_EVENT_Create(link->gameSystem, link->event, EVENT_SHORTCUT_MENU_ProcEventMain, sizeof(ShortcutProcTask));
+    event = GAME_EVENT_Create(link->gameSystem, link->event, (GameEventFunc)EVENT_SHORTCUT_MENU_ProcEventMain, sizeof(ShortcutProcTask));
     task = GAME_EVENT_GetWork(event);
     MI_CpuFill8(task, 0, sizeof(ShortcutProcTask));
     task->id = id;

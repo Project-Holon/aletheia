@@ -114,62 +114,43 @@ extern MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(Mmdl *mmdl);
 extern MmdlDrawWork *FLDMMDL_GetDrawProcWork(Mmdl *mmdl);
 struct Mmdl;
 extern void *FLDMMDL_GetBlActCont(Mmdl *mmdl);
-extern struct BbActSys *FLDMMDL_BLACT_GetBbActSys(BlactSys *cont);
-extern u16 BILLBOARD_ACT_GetEntryList(struct BbActSys *sys, int entryIndex);
-extern u16 BILLBOARD_ACT_GetEntryCursor(struct BbActSys *sys, int entryIndex);
-extern void BILLBOARD_ACT_SetEntryList(struct BbActSys *sys, int entryIndex, u32 listIndex);
-extern void BILLBOARD_ACT_SetEntryCursor(struct BbActSys *sys, int entryIndex, u32 cursor);
+#include "../arm9/billboard.h"
+#include "../arm9/billboard_act.h"
+#include "../arm9/fx_vec.h"
+#include "../arm9/g3d_camera.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/zonedata.h"
+#include "../ov010/fldmmdl_move.h"
+#include "field_camera.h"
+#include "field_g3dobj.h"
+#include "field_player.h"
+#include "fieldmap.h"
+#include "fldmmdl_acmd.h"
+#include "fldmmdl_blact.h"
+#include "fldmmdl_rail_move.h"
 extern void *FLDMMDL_InitDrawProcWork(Mmdl *mmdl, int size);
-extern int FLDMMDL_BLACT_AddActorMmdlOrReserve(Mmdl *mmdl, u16 *outBlactId);
-extern void FLDMMDL_BLACT_DeleteActorMmdl(Mmdl *mmdl, u32 blactId);
-struct MmdlVec;
-extern void FLDMMDL_ACMD_GetDrawPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *sys);
-extern void BILLBOARD_SetElemPos(struct BbBoard *board, int elem, VecFx32 *pos);
+struct VecFx32;
 extern u16 FLDMMDL_GetDrawStatus(Mmdl *mmdl);
 extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
-extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
-extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
-extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
 extern void MTX_LookAt(VecFx32 *camPos, VecFx32 *camUp, VecFx32 *camTarget, s32 *outMtx43);
-extern void MI_Copy36B(s32 *mtx43, s32 *outMtx33);
 extern void MTX_Inverse33(s32 *mtx33, s32 *outMtx33);
 extern void MTX_MultVec33(VecFx32 *vec, s32 *mtx33, VecFx32 *out);
 extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
 struct MmdlSys;
 extern void *FLDMMDL_SysGetFieldMap(MmdlSys *sys);
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
-extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
-extern void VEC_Add(VecFx32 *a, VecFx32 *b, VecFx32 *out);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern void FLDMMDL_GetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *out);
-extern s32 FLDMMDL_ACMD_CheckAnimePaused(Mmdl *mmdl);
-extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
+extern void FLDMMDL_GetDrawOffset(struct Mmdl *mmdl, struct VecFx32 *out);
+extern short FLDMMDL_GetGridNowX(Mmdl *mmdl);
 extern u16 FLDMMDL_GetZoneId(Mmdl *mmdl);
 extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
-extern int FIELDMAP_IsFieldPlayerCreated(struct FieldMap *fieldMap);
 struct FieldPlayer;
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern u32 FIELD_PLAYER_GetStepKind(struct FieldPlayer *player);
-extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
-extern u32 ZONEDATA_IsZoneGroup118To120(u32 zoneId);
+extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct VecFx32 *offset);
 extern int FLDMMDL_CallDrawGetProc(Mmdl *mmdl, unsigned int kind);
-extern u32 BILLBOARD_ACT_GetEntryLastCommand(struct BbActSys *sys, int entryIndex, u16 *outLastCommand);
-extern u32 MI_CpuFill8(void *p, u32 value, u32 size);
-extern int FIELDMAP_GetCameraPitchScale(struct FieldMap *fieldMap);
 extern u32 FLDMMDL_SysGetAreaId(MmdlSys *sys);
 extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
-extern u32 FLDMMDL_RAIL_MOVE_GetDirByAngle(Mmdl *mmdl, int angle);
-extern u8 FLDMMDL_MOVE_GetRelativeDirCode(int tableIndex, int offset);
-extern int FLDMMDL_BLACT_GetEntryHookFlag(Mmdl *mmdl);
 extern int FLDMMDL_CheckStatusBitVanish(Mmdl *mmdl);
-extern void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *sys, int entryIndex, u32 enabled);
-extern int BILLBOARD_ACT_SetEntryFlags(struct BbActSys *sys, int entryIndex, u32 flags);
 extern u32 FLDMMDL_G3DOBJ_AddObj(struct Mmdl *mmdl);
 extern u32 FLDMMDL_G3DOBJ_GetObjCtrl(u32 mmdl);
-extern void FIELD_G3DOBJ_SetObjectTrans(struct FieldG3dObjCtrl *ctrl, int objIdx, VecFx32 *pos);
-extern void FIELD_G3DOBJ_SetObjectHidden(struct FieldG3dObjCtrl *ctrl, int objIdx, int hidden);
-extern int FIELD_G3DOBJ_LoopAnimeFrame(struct FieldG3dObjCtrl *ctrl, int objIdx, int speed);
 extern void FLDMMDL_G3DOBJ_DelObj(Mmdl *mmdl, u32 objIdx);
 
 void FLDMMDL_DRAW_RotateByCamera(struct G3dCamera *camera, VecFx32 *vec, VecFx32 *out);
@@ -247,7 +228,7 @@ void FLDMMDL_DRAW_DrawDirAnime(Mmdl *mmdl)
     if (work->blactId != 0xFFFF) {
         bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
         FLDMMDL_DRAW_UpdateDirAnime(&work->dirAnime, mmdl, bbActSys, work->blactId);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -284,7 +265,7 @@ void FLDMMDL_DRAW_DrawDirAnimeMoving(Mmdl *mmdl)
             work->dirAnime.anime = anime;
         }
         FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 0);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -311,7 +292,7 @@ void FLDMMDL_DRAW_DrawDirAnimeB(Mmdl *mmdl)
     if (work->blactId != 0xFFFF) {
         bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
         FLDMMDL_DRAW_UpdateDirAnime(&work->dirAnime, mmdl, bbActSys, work->blactId);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -352,7 +333,7 @@ void FLDMMDL_DRAW_DrawDirAnimeSized(Mmdl *mmdl)
             isUpdated = 1;
         }
         FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, isSpecialCode);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -386,7 +367,7 @@ void FLDMMDL_DRAW_DrawWalkAnime(Mmdl *mmdl)
         } else {
             FLDMMDL_DRAW_UpdateDirAnime(&work->dirAnime, mmdl, bbActSys, work->blactId);
         }
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -416,7 +397,7 @@ void FLDMMDL_DRAW_DrawWalkAnimeB(Mmdl *mmdl)
         } else {
             FLDMMDL_DRAW_UpdateDirAnime(&work->dirAnime, mmdl, bbActSys, work->blactId);
         }
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -449,7 +430,7 @@ void FLDMMDL_DRAW_DrawTwoFrame(Mmdl *mmdl)
             BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, 0);
         }
         FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, 0, 0);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -477,7 +458,7 @@ void FLDMMDL_DRAW_DrawThreeFrame(Mmdl *mmdl)
             BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, 0);
         }
         FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, 0, 0);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -545,7 +526,7 @@ void FLDMMDL_DRAW_DrawBillboardOffset(Mmdl *mmdl)
         BILLBOARD_ACT_SetEntryCursor(bbActSys, work->blactId, 0);
     }
     FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 1);
-    FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&pos));
     FLDMMDL_DRAW_AddHeightOffset(mmdl, &pos);
     curListIndex = BILLBOARD_ACT_GetEntryList(bbActSys, work->blactId);
     FLDMMDL_DRAW_GetFrameOffsetZero(mmdl, curListIndex, BILLBOARD_ACT_GetEntryCursor(bbActSys, work->blactId), &frameOffset);
@@ -581,7 +562,7 @@ void FLDMMDL_DRAW_DrawStatic(Mmdl *mmdl)
             work->dirAnime.dir = dirIndex;
         }
         FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, 0, 0);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -636,7 +617,7 @@ void FLDMMDL_DRAW_DrawPositionOnly(Mmdl *mmdl)
     if (work->blactId != 0xFFFF) {
         bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_GetBlActCont(mmdl));
         FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, 0, 0);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -680,11 +661,11 @@ void FLDMMDL_DRAW_DrawWalking(Mmdl *mmdl)
                 clear->x = 0;
                 clear->y = 0;
                 clear->z = 0;
-                FLDMMDL_GetDrawOffset(mmdl, (struct MmdlVec *)clear);
+                FLDMMDL_GetDrawOffset(mmdl, (struct VecFx32 *)clear);
             }
         }
         FLDMMDL_DRAW_UpdateWalkOffset(mmdl, work, dir);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
         FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 0);
@@ -715,7 +696,7 @@ void FLDMMDL_DRAW_UpdateWalkOffset(Mmdl *mmdl, MmdlDrawWork *work, u8 dir)
     offset.y = 0;
     offset.z = 0;
     isAnimePaused = FLDMMDL_ACMD_CheckAnimePaused(mmdl);
-    FLDMMDL_GetDrawOffset(mmdl, (struct MmdlVec *)(&curOffset));
+    FLDMMDL_GetDrawOffset(mmdl, (struct VecFx32 *)(&curOffset));
     gridX = FLDMMDL_GetGridNowX(mmdl);
     zoneId = FLDMMDL_GetZoneId(mmdl);
     objId = FLDMMDL_GetObjId(mmdl);
@@ -747,7 +728,7 @@ void FLDMMDL_DRAW_UpdateWalkOffset(Mmdl *mmdl, MmdlDrawWork *work, u8 dir)
         offset.y = 0;
         offset.z = 0;
     }
-    FLDMMDL_SetDrawOffset(mmdl, (struct MmdlVec *)(&offset));
+    FLDMMDL_SetDrawOffset(mmdl, (struct VecFx32 *)(&offset));
     work->counter++;
 }
 
@@ -876,7 +857,7 @@ void FLDMMDL_DRAW_DrawMultiPattern(Mmdl *mmdl)
     }
 draw:
     FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 1);
-    FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+    FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
     FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
     BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
 }
@@ -950,7 +931,7 @@ void FLDMMDL_DRAW_DrawTwoPattern(Mmdl *mmdl)
             isUpdated = 1;
         }
         FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, isUpdated, 0);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -981,7 +962,7 @@ void FLDMMDL_DRAW_DrawThreePattern(Mmdl *mmdl)
             frameOrUpdated = 1;
         }
         FLDMMDL_DRAW_UpdateBlactFlags(mmdl, bbActSys, work->blactId, frameOrUpdated, 0);
-        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+        FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
         FLDMMDL_DRAW_AddHeightOffset(mmdl, &drawPos);
         BILLBOARD_SetElemPos(BILLBOARD_ACT_GetBoard(bbActSys), work->blactId, &drawPos);
     }
@@ -1140,7 +1121,7 @@ void FLDMMDL_DRAW_DrawEffect(Mmdl *mmdl)
 
     work = FLDMMDL_GetDrawProcWork(mmdl);
     g3dObjCtrl = (struct FieldG3dObjCtrl *)FLDMMDL_G3DOBJ_GetObjCtrl((u32)mmdl);
-    FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&drawPos));
+    FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
     FIELD_G3DOBJ_SetObjectTrans(g3dObjCtrl, work->blactId, &drawPos);
     hidden = 0;
     if (FLDMMDL_CheckStatusBitVanish(mmdl) == 1) hidden = 1;

@@ -144,13 +144,16 @@ struct ItemRecord {
 
 
 
-extern u32   ITEM_GFX_GetRowIndex(u32 item);
+#include "item_gfx.h"
 
+#ifdef __MWERKS__
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-
-extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
-
-extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap); /* original prototype; the definition differs in argument width, pointer type */
+extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heap); /* original prototype; the definition differs in argument width, pointer type */
+#else
+#include "arc_tool.h"
+#define ARC_TOOL_LoadHandleMember(arc, member, heap) (ARC_TOOL_LoadHandleMember)((struct ArcHandle *)(arc), member, heap)
+#endif
 
 #include "msgdata.h"
 struct Strbuf;

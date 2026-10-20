@@ -1,11 +1,14 @@
 #ifndef BTLV_INPUT_SHARED_TYPES_H
 #define BTLV_INPUT_SHARED_TYPES_H
 
-#include "btlv_effvm_types.h"
+#include "../arm9/palanm.h"
+#include "../ov094/btlv_effvm_types.h"
 
-struct Cfg;
-
-typedef struct { s16 x, y, z; u8 pri, f7; } Cfg;
+typedef struct BtlvInputTouchTable {
+    void *key;          /* 0x00 */
+    int reserved04;
+    int *vals;          /* 0x08 */
+} BtlvInputTouchTable;
 
 /* State word at BtlvInput+0x68. */
 typedef struct BtlvInputFlags {
@@ -56,7 +59,7 @@ typedef struct BtlvInput {
     /* 0x58 */ int screen;
     /* 0x5c */ void *msgData;
     /* 0x60 */ void *fingerCursor;
-    /* 0x64 */ void *palAnm;
+    /* 0x64 */ PaletteFade *palAnm;
     /* 0x68 */ BtlvInputFlags flags;
     /* 0x6c */ BtlvInputFlags2 flags2;
     /* 0x70 */ int pending;

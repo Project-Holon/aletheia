@@ -4,18 +4,17 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of symbol_map.c, prototypes copied from their definitions. */
 
-struct SymbolMapLinkRecord;
 struct SymbolMapOwner;
 struct SymbolMapProgress;
 struct SaveSyncBlock;
 struct PokeEventWork;
-typedef struct SymbolMapLinkRecord SymbolMapLinkRecord;
 typedef struct SymbolMapOwner SymbolMapOwner;
 typedef struct SymbolMapProgress SymbolMapProgress;
 typedef struct SaveSyncBlock SaveSyncBlock;
 typedef struct PokeEventWork PokeEventWork;
 
 #include "../types.h"
+#include "../ov010/symbol_map_shared_types.h"
 
 int SYMBOL_MAP_GetCellTileId(u8 *grid, int id);
 int SYMBOL_MAP_GetSelection(void *gameSystem, u32 *outSymbolIndex, u32 *outSymbolGroup);
@@ -41,7 +40,7 @@ int SYMBOL_MAP_PickerTaskMain(void *task, int *state);
 int SYMBOL_MAP_ScrCmdGetSyncBlockItem(void *vm, void *work);
 int SYMBOL_MAP_ScrCmdGetSyncBlockHeader(void *vm, void *work);
 int SYMBOL_MAP_ScrCmdStartPicker(void *vm, void *work);
-void SYMBOL_MAP_UpdateBg2Scale(void);
+void SYMBOL_MAP_UpdateBg2Scale(void *unused);
 void SYMBOL_MAP_StartBg2Scale(void);
 void SYMBOL_MAP_StopBg2Scale(void);
 u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work);

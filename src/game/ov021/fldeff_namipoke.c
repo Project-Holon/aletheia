@@ -64,23 +64,17 @@
  *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  */
 #include "../arm9/billboard_act_types.h"
+#include "../arm9/g3d_system_types.h"
 #include "../ov010/fldmmdl_types.h"
 
 #include "../sdk_fx.h"
 
 /* Opaque types of other files. */
 typedef struct ArcHandle ArcHandle;
-typedef struct FieldG3dObjSys FieldG3dObjSys;           /* field 3D object system (arm9/ov021 field_g3dobj) */
+typedef struct FieldG3dObjCtrl FieldG3dObjSys;           /* field 3D object system (arm9/ov021 field_g3dobj) */
 typedef struct FieldEffectSys FieldEffectSys;           /* field effect system (field_effect.c) */
 typedef struct FieldEffectObj FieldEffectObj;           /* one running effect (field_effect.c) */
 typedef struct FieldEffectObjFuncs FieldEffectObjFuncs; /* callback table: work size, init, exit, update, draw */
-
-/* Position, scale and rotation a field 3D object is drawn with. */
-typedef struct G3dObjectStatus {
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
-} G3dObjectStatus;
 
 /* Resource description the field 3D object system builds a model from (9 words). */
 typedef struct FieldG3dResDesc {
@@ -204,35 +198,16 @@ typedef struct NamipokeSplashOffsets {
     VecFx32 type[NAMIPOKE_SPLASH_TYPE_COUNT];
 } NamipokeSplashOffsets;
 
-extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
-extern u16 FLDMMDL_GetZoneId(Mmdl *mmdl);
+#include "../ov010/fldmmdl.h"
 struct Mmdl;
-extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
-struct MmdlVec;
-extern void FLDMMDL_SetDrawOffsetOutside(struct Mmdl *mmdl, struct MmdlVec *offset);
-extern void FLDMMDL_GetDrawOffsetOutside(struct Mmdl *mmdl, struct MmdlVec *out);
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern void FLDMMDL_ACMD_GetDrawPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *out);
+struct VecFx32;
+#include "fldmmdl_acmd.h"
+#include "fldmmdl_rail.h"
 extern void VEC_Fx16Normalize(s16 *in, s16 *out);
 extern s32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
-extern void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, MtxFx33 *dst);
-extern void BUTTON_MAN_MakeLookAtMtx(const VecFx32 *v, MtxFx33 *dst);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern FieldG3dObjSys *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *fieldEffect);
-extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
-extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
-extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
-extern void FIELD_EFFECT_UpdateObject(FieldEffectObj *effect);
-extern int FIELD_EFFECT_GetObjectMode(FieldEffectObj *effect);
-extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
-extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
-extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
-extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
+#include "../arm9/button_man.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "field_effect.h"
 struct FieldG3dObjResDesc;
 extern void FIELD_G3DOBJ_InitResDesc(struct FieldG3dObjResDesc *desc);
 extern int FIELD_G3DOBJ_SetResDescModel(FieldG3dResDesc *desc, ArcHandle *arc, u32 modelFile);
@@ -254,7 +229,7 @@ NamipokeRes *FLDEFF_NAMIPOKE_Create(FieldEffectSys *fieldEffect, int heapId);
 void FLDEFF_NAMIPOKE_Delete(FieldEffectSys *fieldEffect, NamipokeRes *res);
 void FLDEFF_NAMIPOKE_LoadResources(NamipokeRes *res);
 void FLDEFF_NAMIPOKE_FreeResources(NamipokeRes *res);
-void FLDEFF_NAMIPOKE_Start(FieldEffectSys *fieldEffect, u32 facing, const VecFx32 *pos, Mmdl *mmdl, u32 followMode);
+FieldEffectObj *FLDEFF_NAMIPOKE_Start(FieldEffectSys *fieldEffect, u32 facing, const VecFx32 *pos, Mmdl *mmdl, u32 followMode);
 void FLDEFF_NAMIPOKE_SetFollowMode(FieldEffectObj *effect, u8 followMode);
 void FLDEFF_NAMIPOKE_SetWakeEnabled(FieldEffectObj *effect, int wakeEnabled);
 int FLDEFF_NAMIPOKE_GetWakeScale(int distance);
@@ -340,7 +315,7 @@ void FLDEFF_NAMIPOKE_FreeResources(NamipokeRes *res)
 }
 
 /* Starts a surf Pokemon effect on a model. */
-void FLDEFF_NAMIPOKE_Start(FieldEffectSys *fieldEffect, u32 facing, const VecFx32 *pos, Mmdl *mmdl, u32 followMode)
+FieldEffectObj *FLDEFF_NAMIPOKE_Start(FieldEffectSys *fieldEffect, u32 facing, const VecFx32 *pos, Mmdl *mmdl, u32 followMode)
 {
     NamipokeStartParam param;
     param.res = (struct NamipokeRes *)FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_NAMIPOKE);
@@ -350,9 +325,9 @@ void FLDEFF_NAMIPOKE_Start(FieldEffectSys *fieldEffect, u32 facing, const VecFx3
     param.facing = facing;
     param.pos = *pos;
     if (FLDMMDL_CheckStatusBit(mmdl, MMDL_STABIT_RAIL_MOVE) != 0)
-        FIELD_EFFECT_AddObject(fieldEffect, &sNamipokeRailFuncs, &param.pos, followMode, &param, 0);
+        return FIELD_EFFECT_AddObject(fieldEffect, &sNamipokeRailFuncs, &param.pos, followMode, &param, 0);
     else
-        FIELD_EFFECT_AddObject(fieldEffect, &sNamipokeGridFuncs, &param.pos, followMode, &param, 0);
+        return FIELD_EFFECT_AddObject(fieldEffect, &sNamipokeGridFuncs, &param.pos, followMode, &param, 0);
 }
 
 void FLDEFF_NAMIPOKE_SetFollowMode(FieldEffectObj *effect, u8 followMode)
@@ -494,11 +469,11 @@ void FLDEFF_NAMIPOKE_UpdateGrid(FieldEffectObj *effect, NamipokeWork *work)
         objCode = FLDMMDL_GetObjCode(work->param.mmdl);
         if (objCode == NAMIPOKE_TALL_OBJ_CODE_A || objCode == NAMIPOKE_TALL_OBJ_CODE_B)
             drawOffset.y = work->bobHeight + 0x8000;
-        FLDMMDL_SetDrawOffsetOutside(work->param.mmdl, (struct MmdlVec *)(&drawOffset));
+        FLDMMDL_SetDrawOffsetOutside(work->param.mmdl, (struct VecFx32 *)(&drawOffset));
     } else if (work->followMode == NAMIPOKE_MODE_MODEL_OFFSET) {
-        FLDMMDL_GetDrawOffsetOutside(work->param.mmdl, (struct MmdlVec *)(&drawOffset));
+        FLDMMDL_GetDrawOffsetOutside(work->param.mmdl, (struct VecFx32 *)(&drawOffset));
     }
-    FLDMMDL_ACMD_GetDrawPos(work->param.mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_ACMD_GetDrawPos(work->param.mmdl, (struct VecFx32 *)(&pos));
     pos.x -= drawOffset.x;
     pos.y -= drawOffset.y;
     pos.z -= drawOffset.z;
@@ -513,7 +488,7 @@ void FLDEFF_NAMIPOKE_UpdateGrid(FieldEffectObj *effect, NamipokeWork *work)
     } else {
         wake = &work->wake;
         FIELD_G3DOBJ_LoopAnimeFrame((struct FieldG3dObjCtrl *)(FIELD_EFFECT_GetFieldMapData(work->param.res->fieldEffect)), wake->objId, 0x1000);
-        FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&mmdlPos));
+        FLDMMDL_GetPos(work->param.mmdl, (struct VecFx32 *)(&mmdlPos));
         if (work->facing != wake->dir) {
             wake->dir = work->facing;
             wake->tailPos = mmdlPos;
@@ -619,9 +594,9 @@ void FLDEFF_NAMIPOKE_UpdateRail(FieldEffectObj *effect, NamipokeWork *work)
         drawOffset.x = FX_Mul(-baseDir[0], 0x7000);
         drawOffset.y = work->bobHeight + 0x5000;
         drawOffset.z = FX_Mul(-baseDir[2], 0x7000);
-        FLDMMDL_SetDrawOffsetOutside(work->param.mmdl, (struct MmdlVec *)(&drawOffset));
+        FLDMMDL_SetDrawOffsetOutside(work->param.mmdl, (struct VecFx32 *)(&drawOffset));
     }
-    FLDMMDL_ACMD_GetDrawPos(work->param.mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_ACMD_GetDrawPos(work->param.mmdl, (struct VecFx32 *)(&pos));
     pos.x -= drawOffset.x;
     pos.y -= drawOffset.y;
     pos.z -= drawOffset.z;
@@ -635,7 +610,7 @@ void FLDEFF_NAMIPOKE_UpdateRail(FieldEffectObj *effect, NamipokeWork *work)
     } else {
         wake = &work->wake;
         FIELD_G3DOBJ_LoopAnimeFrame((struct FieldG3dObjCtrl *)(FIELD_EFFECT_GetFieldMapData(work->param.res->fieldEffect)), wake->objId, 0x1000);
-        FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&mmdlPos));
+        FLDMMDL_GetPos(work->param.mmdl, (struct VecFx32 *)(&mmdlPos));
         if (work->facing != wake->dir) {
             wake->dir = work->facing;
             wake->tailPos = mmdlPos;

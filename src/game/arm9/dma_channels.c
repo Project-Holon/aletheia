@@ -18,6 +18,7 @@
  *   OS_RestoreInterrupts  0x0208799C  arm
  */
 #include "billboard_act_shared_types.h"
+#include "../sdk_ioreg.h"
 
 /* ---- DMA channel bank (not billboard code, see misplaced.tsv) ---- */
 
@@ -32,7 +33,7 @@ typedef struct DmaChannel {
     u32             : 29;
 } DmaChannel;
 
-#define REG_DMA_CNT(ch) (*(volatile u32 *)(0x040000B8 + (ch) * 12))
+#define REG_DMA_CNT(ch) (*(volatile u32 *)(REG_DMA0CNT_ADDR + (ch) * 12))
 
 #include "../sdk_os.h"
 #include "os_system.h"

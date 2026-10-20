@@ -19,7 +19,11 @@ struct PokemonParam;
 union SickCont {
     u32 raw;
     struct { u32 kind : 3; u32 paramLow : 6; u32 paramHigh : 6; u32 flags : 17; } byPart;
-    struct { u32 kind : 3; u32 skipped : 6; u32 value : 16; u32 flagsWide : 7; } byValue;
+    struct { u32 kind : 3; u32 index : 6; u32 value : 16; u32 flagsWide : 7; } byValue;
+    struct { u32 kind : 3; u32 skip : 12; u32 value : 16; u32 extra : 1; } wideParam;
+    struct { u32 kind : 3; u32 skip : 22; u32 flag : 1; u32 extra : 6; } flagMid;
+    struct { u32 kind : 3; u32 skip : 28; u32 flag : 1; } flagHigh;
+    struct { u32 kind : 3; u32 index : 6; u32 extra : 23; } indexOnly;
 };
 
 /* One half of a move slot: move id, PP, PP maximum, PP ups and two counters. */
@@ -84,7 +88,13 @@ struct BtlHitRecord {
             u8 attackerId;
         };
     };
-    u16 hitFlags;
+    union {
+        u16 hitFlags;
+        struct {
+            u8 attackerPos;     /* battle position of the attacker */
+            u8 hitFlagsHigh;
+        };
+    };
 };
 
 /* Stat gains of one level up, filled by BTL_POKEPARAM_AddExp. */
@@ -171,5 +181,7 @@ struct BtlPokeParam {
 };
 
 typedef char BtlPokeParamSizeCheck[sizeof(struct BtlPokeParam) == 0x1f8 ? 1 : -1];
+
+typedef struct BtlPokeParam BtlPokeParam;
 
 #endif

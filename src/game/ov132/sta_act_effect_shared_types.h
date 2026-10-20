@@ -3,7 +3,7 @@
 
 #include "sta_acting_shared_types.h"
 
-typedef struct { int a; Vec v; } Part;
+typedef struct { int a; StaActingVec v; } StaActEffectPart;
 
 /* One of the eight effect-system records in the array created by
  * STA_ACT_EFFECT_Create (stride 0x4848). +0x04 is the particle work buffer
@@ -19,7 +19,7 @@ typedef struct {
         unsigned int u;        /* 0x4804 PARTICLE system handle */
         void *p;
     } system;
-    Part part[4];              /* 0x4808 up to four effect parts */
+    StaActEffectPart part[4];              /* 0x4808 up to four effect parts */
 } ActEffectSystem;
 
 /* Effect manager (0x24244 bytes) created by STA_ACT_EFFECT_Create. */

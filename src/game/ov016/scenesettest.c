@@ -76,6 +76,9 @@
  *   DWCi_HEAPlAllocEx            0x021D6414  arm
  *   DWCi_HEAPlFree2              0x021D647C  arm
  */
+#include "task.h"
+#include "../sdk_ioreg.h"
+#include "../arm9/gx_load2d.h"
 #include "../types.h"
 
 #include "../arm9/dwc_ac.h"
@@ -88,9 +91,7 @@ typedef struct { unsigned char pad0[10]; unsigned char channel; unsigned char pa
 
 typedef _Bool bool;
 
-typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
-
-typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
+#include "dwcutil_types.h"
 
 #include "gx_oam_types.h"
 
@@ -147,46 +148,28 @@ typedef struct {
     RECT           R_FOCUS[6];        /* 0x78 */
 } SCENESETLIST_RODATA;
 
-extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
-extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
-extern void DWCi_CMNlStep(int step);
-extern void DWCi_HLlLoadSet(void);
-extern void DWCi_CMNlMsgDraw(int msgId);
-extern void DWCi_ANIMElInitEx(int color);
-extern void DWCi_ICONlInit(int type);
-extern void DWCi_SNDlPlay(unsigned int v);
-extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern char *DWCi_SETTIGNlGet(void);
-extern void MIi_CpuCopy32(void *srcp, void *destp, unsigned long size);
-extern int DWC_AC_Create(struct tagDWCACConfig *config);
-extern void OS_Terminate(void);
-extern void DWCi_AC_InsertApInfo(int no, struct NCFGApInfo *info);
+#include "dwcutil_main.h"
+#include "comment.h"
+#include "common.h"
+#include "headline.h"
+#include "anime.h"
+#include "icon.h"
+#include "sound.h"
+#include "setting.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_terminate_processor.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
-extern void DWCi_GXlVisible(int a, int b);
+#include "graphics.h"
 extern bool DWCi_EFFlCheck(int lcd);
-extern void DWCi_ChangeScene(u32 v);
-extern char *DWCi_SETTINGlGetMemMap(void);
-extern int DWC_AC_Destroy(void);
-extern void *DWCi_BACKUPlGetWifi();
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern void DWCi_ANIMElEnd(void);
-extern void DWCi_FNTlDeleteBgLcd(int lcd);
-extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SceneSetError(void);
-extern void DWCi_SceneSetTestCompletet(void);
-extern int DWC_AC_Process(void);
-extern void DWCi_ICONlEnd(void);
-extern void DWCi_SNDlStop(void);
-extern int DWC_AC_GetStatus(void);
-extern void DWCi_SetErrorCode(unsigned int v);
-extern void DWCi_TSKlDelete(int kind, void *task);
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void DWCi_HEAPlFree2(void *mem);
+#include "../arm9/dwc_backup.h"
+typedef int bool_0;
+#include "font.h"
+#include "sceneseterror.h"
+#include "scenesettestcomplete.h"
+#include "heap.h"
 void DWCi_SceneSetTest(void);
-void procInit1(void);
+static void procInit1(void);
 void DWCi_SceneSetTest_procScene(void);
 void DWCi_SceneSetTest_input(void);
 void DWCi_SceneSetTest_draw(void);
@@ -197,9 +180,6 @@ extern unsigned char gSceneSetTestWork;
 extern unsigned short sSceneSetTestPathJbBgStep3Char[];
 extern unsigned short sSceneSetTestPathYbBgStep3Pltt[];
 extern unsigned short sSceneSetTestPathXb4MultiScr[];
-extern unsigned short GX_LoadBG2Char[];
-extern unsigned short GX_LoadBGPltt[];
-extern unsigned short GX_LoadBG2Scr[];
 extern ACConfig sSceneSetTestConfig;
 extern SCENESETLIST_BSS scenesetlist_bss;
 extern const SCENESETLIST_RODATA scenesetlist_rodata;
@@ -228,23 +208,23 @@ void DWCi_SceneSetTest(void)
     initAc();
     DWCi_ICONlInit(0);
     DWCi_SNDlPlay(12);
-    DWCi_ChangeScene((u32)procInit);
+    DWCi_ChangeScene((uptr)procInit);
 }
 
 static void initGraphics(void)
 {
     u16 *p;
 
-    DWCi_CMNlLoadResource((char *)((int)sSceneSetTestPathJbBgStep3Char), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Char));
-    DWCi_CMNlLoadResource((char *)((int)sSceneSetTestPathYbBgStep3Pltt), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBGPltt));
-    DWCi_CMNlLoadResource((char *)((int)sSceneSetTestPathXb4MultiScr), (void (*)(void *, long unsigned int,  long unsigned int))((int)GX_LoadBG2Scr));
+    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetTestPathJbBgStep3Char), GX_LoadBG2Char);
+    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetTestPathYbBgStep3Pltt), GX_LoadBGPltt);
+    DWCi_CMNlLoadResource((char *)((sptr)sSceneSetTestPathXb4MultiScr), GX_LoadBG2Scr);
 
-    p = (u16 *)0x04001008;
+    p = (u16 *)REG_DB_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;
-    p = (u16 *)0x04000008;
+    p = (u16 *)REG_BG0CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
-    p = (u16 *)0x0400000A;
+    p = (u16 *)REG_BG1CNT_ADDR;
     p[0] = (p[0] & ~3) | 3;
     p[1] = (p[1] & ~3) | 3;
 }
@@ -271,7 +251,7 @@ static void initAc(void)
         OS_Terminate();
     if (scene == 0)
         DWCi_AC_InsertApInfo(info->ap, (struct NCFGApInfo *)info);
-    DWCi_TSKlForm(0, taskAc, 0, 0x78);
+    DWCi_TSKlForm(0, (void (*)(void *, void *))taskAc, 0, 0x78);
 }
 
 static void procInit(void)
@@ -285,16 +265,16 @@ static void procInit(void)
         DWCi_EFFlFade(2, 1, 1, 8);
         DWCi_GXlVisible(1, 1);
     }
-    DWCi_ChangeScene((u32)procInit1);
+    DWCi_ChangeScene((uptr)procInit1);
 }
 
-void procInit1(void)
+static void procInit1(void)
 {
     if (DWCi_EFFlCheck(1))
         return;
     if (DWCi_EFFlCheck(0))
         return;
-    DWCi_ChangeScene((u32)DWCi_SceneSetTest_procScene);
+    DWCi_ChangeScene((uptr)DWCi_SceneSetTest_procScene);
 }
 
 /*
@@ -343,7 +323,7 @@ void DWCi_SceneSetTest_button(void)
 static void endScene(void)
 {
 	DWCi_EFFlFade(3, 0, 0x15, 8);
-	DWCi_ChangeScene((u32)endScene1);
+	DWCi_ChangeScene((uptr)endScene1);
 }
 
 /*
@@ -356,7 +336,7 @@ static void endScene1(void)
 {
     if (DWCi_EFFlCheck(0))
         return;
-    DWCi_ChangeScene((u32)endScene2);
+    DWCi_ChangeScene((uptr)endScene2);
 }
 
 /*
@@ -374,10 +354,10 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 21);
     if (gSceneSetTestWork == 0) {
         DWCi_SetParam_(0, (unsigned int)(1));
-        DWCi_ChangeScene((u32)DWCi_SceneSetError);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetError);
     } else {
         DWCi_SetParam_(0, (unsigned int)(1));
-        DWCi_ChangeScene((u32)DWCi_SceneSetTestCompletet);
+        DWCi_ChangeScene((uptr)DWCi_SceneSetTestCompletet);
     }
 }
 
@@ -401,7 +381,7 @@ static void taskAc(void *task)
         DWCi_SetErrorCode(DWC_AC_GetStatus());
         DWCi_SNDlPlay(18);
     }
-    DWCi_ChangeScene((u32)endScene);
+    DWCi_ChangeScene((uptr)endScene);
     DWCi_TSKlDelete(0, task);
 }
 

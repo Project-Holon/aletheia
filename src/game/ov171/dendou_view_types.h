@@ -10,6 +10,7 @@
 #define DENDOU_VIEW_TYPES_H
 
 #include "../types.h"
+#include "../arm9/dendou_savedata.h"
 
 struct Strbuf;
 struct BmpWin;
@@ -18,8 +19,8 @@ struct GfFont;
 struct MsgData;
 struct WordSet;
 struct PrintQue;
-struct PalAnmSlot;
-struct ClactUnit;
+struct PaletteFade;
+struct Unit;
 struct ClactActor;
 struct BmpOamSys;
 struct BmpOam;
@@ -78,18 +79,8 @@ typedef struct DendouViewParams {
     u16 result;       /* +6 written on exit: 1 after the X action, 0 after cancel */
 } DendouViewParams;
 
-/* One Pokemon of a Hall of Fame entry (0x1C bytes). */
-typedef struct DendouViewMember {
-    struct Strbuf *nickname;    /* +0x00 */
-    struct Strbuf *trainerName; /* +0x04 */
-    u32 personality;            /* +0x08 */
-    u32 trainerId;              /* +0x0C */
-    u16 species;                /* +0x10 */
-    u8 level;                   /* +0x12 */
-    u8 form : 6;                /* +0x13 copied from the arm9 loader */
-    u8 gender : 2;              /* +0x13 0 male 1 female (DrawMemberInfo shows the symbol per bit) */
-    u16 moves[4];               /* +0x14 */
-} DendouViewMember;
+/* One Pokemon of a Hall of Fame entry (0x1C bytes): the record the arm9 loader exports. */
+typedef struct RecordTarget DendouViewMember;
 
 /* One Hall of Fame entry (0xBC bytes). */
 typedef struct DendouViewRow {
@@ -147,9 +138,9 @@ typedef struct DendouViewWork {
     DendouViewRow rows[DENDOU_VIEW_ROW_MAX];        /* +0x00C */
     s16 angle[DENDOU_VIEW_MEMBER_MAX];              /* +0xB10 current angle per actor */
     s16 targetAngle[DENDOU_VIEW_MEMBER_MAX];        /* +0xB1C */
-    s32 vblankTaskId;                               /* +0xB28 */
+    struct TcbTask *vblankTaskId;                         /* +0xB28 */
     u8 pad_B2C[4];                                  /* +0xB2C */
-    struct PalAnmSlot *palAnm;                          /* +0xB30 */
+    struct PaletteFade *palAnm;                          /* +0xB30 */
     u8 fadeSettled[DENDOU_VIEW_MEMBER_MAX];         /* +0xB34 */
     u8 fadeLevel[DENDOU_VIEW_MEMBER_MAX];           /* +0xB3A */
     u8 fadeTarget[DENDOU_VIEW_MEMBER_MAX];          /* +0xB40 */
@@ -161,7 +152,7 @@ typedef struct DendouViewWork {
     struct WordSet *wordSet;                        /* +0xB64 */
     struct Strbuf *textBuf;                         /* +0xB68 */
     struct PrintQue *printQueue;                    /* +0xB6C */
-    struct ClactUnit *clactUnit;                    /* +0xB70 */
+    struct Unit *clactUnit;                    /* +0xB70 */
     struct ClactActor *actors[DENDOU_VIEW_ACTOR_MAX]; /* +0xB74 */
     s32 cgrIds[DENDOU_VIEW_RESOURCE_MAX];           /* +0xBB4 */
     s32 palIds[DENDOU_VIEW_RESOURCE_MAX];           /* +0xBE8 */

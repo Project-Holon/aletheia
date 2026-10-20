@@ -171,26 +171,40 @@ typedef struct FieldBgTemplate {
 
 struct BgTemplate;
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *bgTemplate, u32 type);
-extern void BG_SYS_Init(u32 frame, u32 value, u32 count, u32 index);
-extern void BG_SYS_SetPlaneVisible(u8 frame, u8 enable);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern int GFL_USE_IsCardIrqEnabled(void);
-extern void TALKMSGWIN_LoadTexture(struct TalkMsgWinSys *talkSys);
-extern TalkMsgWinSys *TALKMSGWIN_Create(const TalkMsgWinParam *param);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void BG_SYS_SetPriority(s32 idx, u16 val);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, u32 heapId);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 frame, u32 charStart, u32 palette, u32 trans, u32 heapId);
-extern void TALKMSGWIN_ReloadFrameGraphics(struct TalkMsgWinSys *talkSys);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *bmpWin, u32 kind);
-extern u8 BMP_MENUWORK_GetPlttFileId(int windowType);
-extern signed char MSG_SPEED_GetWaitForSpeed(u32 index);
-extern signed char MSG_SPEED_GetWait(void);
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamSetSpeed(struct TextPrinter *printer, s32 wait);
-extern void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer);
+struct PrintQueue;
+struct TcblSystem;
+struct NitroFileHeader;
+struct TcbTask;
+struct MsgBank;
+struct MenuTemplate;
+struct BmpMenuList;
+#include "../arm9/bg_sys.h"
+#include "../arm9/g2.h"
+#include "../arm9/gfl_use.h"
+#include "talkmsgwin.h"
+#include "../arm9/tcb_list.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/bmp_menuwork.h"
+#include "../arm9/msg_speed.h"
+#ifdef __MWERKS__
+#define PRINTSYS_PrintStreamCallBack PRINTSYS_PrintStreamCallBack_header
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_PrintStreamCallBack
+#endif
+#include "../arm9/mi_memory.h"
+#include "../arm9/key.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/tcbl.h"
+#include "../arm9/nns_g2d_anim_bank.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/bmp_menulist.h"
 
 extern const FieldMsgCursorOffsets d_021D3E60;
 extern const FieldMsgCursorOffsets d_021D3E58;
@@ -201,148 +215,43 @@ extern const FieldBgTemplate d_021D3EF8;
 extern const FieldBgTemplate d_021D3EB8;
 extern const FieldBgTemplate d_021D3F18;
 
-extern u32 MI_CpuFill8(void *dst, int value, u32 size);
-extern u32 KEY_GetTrg(void);
-extern unsigned int KEY_GetCont(void);
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
-extern u32 GFL_HEAP_Free(void *ptr);
-extern struct GfFont *GF_FONT_Create(int arcId, int fileId, int mode, int fixed, u32 heapId);
-struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
-struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heapId, u16 tag, u32 count, u32 workSize);
 extern void FIELD_MSGBG_KeyWaitInit(FieldMsgKeyWait *keyWait);
-extern void *ARC_UTIL_LoadMember(int arcId, int fileId, int compressed, int heapId);
-struct NitroFileHeader;
-extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 extern void FIELD_MSGBG_InitBgTwoLayerTalk(FieldMsgBg *msgBg, int loadTalkSys);
 extern void FIELD_MSGBG_InitBgTwoLayer(FieldMsgBg *msgBg, int loadTalkSys);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*fn)(void *, void *), void *arg, u32 pri);
-extern void FIELD_MSGBG_VblankTalkSysTask(void *task, void *msgBg);
-extern void FIELD_MSGBG_LoadWindowGraphicsAll(int bgFrame, int heapId);
-extern void FIELD_MSGBG_LoadWindowGraphicsStepFn(int bgFrame, int heapId, int step);
-extern void TALKMSGWIN_Delete(struct TalkMsgWinSys *talkSys);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void BG_SYS_FreeTiles(u32 frame, u32 visible, u32 mode);
-extern void BG_SYS_FreeLayerBuf(u32 frame);
-extern void STRBUF_Delete(struct Strbuf *str);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
+extern void FIELD_MSGBG_VblankTalkSysTask(struct TcbTask *task, void *msgBg);
+extern void FIELD_MSGBG_LoadWindowGraphicsAll(int bgFrame, u16 heapId);
+extern void FIELD_MSGBG_LoadWindowGraphicsStepFn(int bgFrame, u16 heapId, int step);
 extern void FIELD_MSGBG_InitBgOneLayer(FieldMsgBg *msgBg);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern void TALKMSGWIN_Update(struct TalkMsgWinSys *talkSys);
-extern void TALKMSGWIN_EndUpdate(struct TalkMsgWinSys *talkSys);
-extern void TALKMSGWIN_Draw(struct TalkMsgWinSys *talkSys);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void FIELD_MSGBG_KeyWaitSetAuto(FieldMsgKeyWait *keyWait, u8 autoMode);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern u32 BG_SYS_PushTile(u32 frame);
-extern void BMP_Clear(struct Bmp *bmp, u8 color);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 extern void FIELD_MSGBG_SetupSysFrame(FieldMsgBg *msgBg);
-extern struct BmpWin *FIELD_MSGBG_CreateWindow(int frame, int heapId, int x, int y, u16 width, u16 height, u16 palette);
+extern struct BmpWin *FIELD_MSGBG_CreateWindow(int frame, int unusedHeapId, int x, int y, u16 width, u16 height, u16 palette);
 extern void FIELD_MSGBG_LoadMenuGraphicsLower(u32 heapId);
 extern void FIELD_MSGBG_SetBlend(u32 enable);
 extern void FIELD_MSGBG_LoadMenuGraphicsUpper(u32 heapId);
 extern int FIELD_MSGBG_DeleteWindow(struct BmpWin *bmpWin);
-extern struct BmpWin *FIELD_MSGBG_CreateSysFrameWindow(u8 x, u8 y, u8 width, u8 height, u32 heapId);
+extern struct BmpWin *FIELD_MSGBG_CreateSysFrameWindow(u8 x, u8 y, u8 width, u8 height, u16 heapId);
 extern void FIELD_MSGBG_DeleteSysFrameWindow(struct BmpWin *bmpWin);
-struct MenuTemplate;
-struct BmpMenuList;
-extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
-extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menuList, int heapId);
-extern void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menuList, u32 cancelMode);
-extern u32 BMP_MENUWORK_Delete(void *items);
-extern void BMP_MENULIST_Delete(struct BmpMenuList *menuList, u16 *listPos, u16 *cursorPos);
-extern s32 BMP_MENULIST_Main(struct BmpMenuList *menuList);
-extern void BMP_MENULIST_Redraw(struct BmpMenuList *menuList);
-extern struct BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId);
-extern void BMP_MENUWORK_AddMsgItem(struct BmpMenuWork *items, struct MsgData *msgData, u32 msgId, u32 param, u32 heapId);
-extern u32 BMP_MENUWORK_AddStrItem(struct BmpMenuWork *items, struct Strbuf *str, u32 param, u32 heapId);
-extern void BMP_MENUWORK_ReleaseItems(struct BmpMenuWork *items);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 margin);
-extern u32 BMP_MENUWORK_CountItems(struct BmpMenuWork *items);
-extern u32 BMP_MENUWORK_DrawWindow(struct BmpWin *bmpWin, u32 trans, u32 charStart, u32 palette);
+#ifdef __MWERKS__
 extern struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *bmpWin, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait,
-                                         struct Tcbl *tcbl, u32 tcblPri, u32 heapId, u16 clearColor, int (*callback)(int));
+                                         struct Tcbl *tcbl, u32 tcblPri, u16 heapId, u16 clearColor, int (*callback)(int));
+#endif
 extern void FIELD_MSGBG_KeyWaitReset(FieldMsgKeyWait *keyWait);
-extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern int GFL_USE_IsAnySeBusy(void);
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern u32 PRINTSYS_PrintStreamGetWaitKind(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 extern int FIELD_MSGBG_KeyWaitCheckSkip(FieldMsgKeyWait *keyWait);
 extern int FIELD_MSGBG_KeyWaitCheckAdvance(FieldMsgKeyWait *keyWait, u32 streamParam);
 extern u8 FIELD_MSGBG_KeyWaitGetAuto(FieldMsgKeyWait *keyWait);
-extern void FIELD_MSGBG_StreamSetSpeed(struct PrintStream *stream, int fast);
+extern void FIELD_MSGBG_StreamSetSpeed(struct TextPrinter *stream, int fast);
 extern u32 FIELD_MSGBG_KeyWaitGetCharWait(FieldMsgKeyWait *keyWait);
 extern void FIELD_MSGBG_AnimateCursor(FieldMsgCursor *cursor, struct Bmp *bmp, u32 color);
-extern void TALKMSGWIN_SetupUpperBalloon(struct TalkMsgWinSys *talkSys, int index, VecFx32 *pos, struct Strbuf *str, u32 color, u32 winType, u32 tailType, u32 wait);
-extern void TALKMSGWIN_SetupLowerBalloon(struct TalkMsgWinSys *talkSys, int index, VecFx32 *pos, struct Strbuf *str, u32 color, u32 winType, u32 tailType, u32 wait);
-extern void TALKMSGWIN_SetupAutoBalloon(struct TalkMsgWinSys *talkSys, int index, VecFx32 *pos, struct Strbuf *str, u8 color, u32 winType, u32 wait);
-extern void TALKMSGWIN_Open(struct TalkMsgWinSys *talkSys, int index);
-extern u32 TALKMSGWIN_Close(struct TalkMsgWinSys *talkSys, u32 index);
-extern u32 TALKMSGWIN_IsFree(struct TalkMsgWinSys *talkSys, u32 index);
-extern void TALKMSGWIN_Release(struct TalkMsgWinSys *talkSys, int index);
-extern struct BmpWin *TALKMSGWIN_GetBmpWin(struct TalkMsgWinSys *talkSys, u32 index);
-extern void TALKMSGWIN_Reprint(struct TalkMsgWinSys *talkSys, int index, struct Strbuf *str, u32 wait);
-extern int TALKMSGWIN_IsShown(struct TalkMsgWinSys *talkSys, int index);
-extern struct PrintStream *TALKMSGWIN_GetPrintStream(struct TalkMsgWinSys *talkSys, u32 index);
-extern void BG_SYS_ChangeScrollImmediate(u32 frame, u32 op, u32 value);
-extern struct BmpWin *TALKMSGWIN_AddFrameWindow(struct TalkMsgWinSys *talkSys, u8 x, u8 y, u8 width, u8 height, u32 winType);
-extern void TALKMSGWIN_DeleteFrameWindow(struct TalkMsgWinSys *talkSys, struct BmpWin *bmpWin);
-extern void TALKMSGWIN_ClearWindowFrame(struct TalkMsgWinSys *talkSys, struct BmpWin *bmpWin);
-extern void TALKMSGWIN_SetupPlainWindow(struct TalkMsgWinSys *talkSys, int index, struct Strbuf *str, u8 x, u8 y, u8 width, u8 height,
-                          u32 color, u32 bgColor, u32 wait, u8 frameType, u8 tailDir);
-extern u32 PRINTSYS_CountLines(struct Strbuf *str, struct GfFont *font);
 extern int FIELD_MSGBG_StoreSubMsgWin(FieldMsgBg *msgBg, FieldSubMsgWin *subMsgWin);
-extern u16 STRBUF_GetLength(struct Strbuf *str);
-extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
 extern FieldSubMsgWin *FIELD_MSGBG_RemoveSubMsgWin(FieldMsgBg *msgBg, u32 id);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 colorMode, u32 heapId);
-extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
-extern u8 BMP_WIN_GetPosX(struct BmpWin *bmpWin);
-extern u8 BMP_WIN_GetPosY(struct BmpWin *bmpWin);
-extern u8 BMP_WIN_GetWidth(struct BmpWin *bmpWin);
-extern u8 BMP_WIN_GetHeight(struct BmpWin *bmpWin);
-extern void BMP_WIN_ClearScreen(struct BmpWin *bmpWin);
-extern void BG_SYS_SetTileEntry(u32 frame, u16 tile, u8 x, u8 y, u8 width, u8 height, u8 palette);
-extern u32 BMP_WIN_Delete(struct BmpWin *bmpWin);
-extern void BMP_Delete(struct Bmp *bmp);
-extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
-extern void ARC_UTIL_UploadBgCharFromArchive(u32 arcId, u32 fileId, u32 frame, u32 offset, u32 size, u32 compressed, u32 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchive(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, u32 transSize, u32 heapId);
-extern u32 PRINTSYS_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 line);
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
-extern u16 BMP_GetHeight(const struct Bmp *bmp);
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u16 colorKey);
-extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void MI_CpuCopy(void *src, void *dst, u32 size);
-extern u32 GF_FONT_GetLineHeight(struct GfFont *font);
 extern void FIELD_MSGBG_AnimateCursorOnFrame(FieldMsgCursor *cursor, struct Bmp *bmp, struct Bmp *backBmp);
-extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
-extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 colorMode, u16 heapId);
 
 FieldMsgBg *FIELD_MSGBG_Create(u16 heapId, struct G3dCamera *g3dCamera);
 void FIELD_MSGBG_SetupBg(FieldMsgBg *msgBg);
 void FIELD_MSGBG_SetupBgDelayed(FieldMsgBg *msgBg);
-void FIELD_MSGBG_LoadWindowGraphics(u32 bgFrame, u32 heapId);
+void FIELD_MSGBG_LoadWindowGraphics(u32 bgFrame, u16 heapId);
 void FIELD_MSGBG_LoadWindowGraphicsStep(FieldMsgBg *msgBg, int step);
 void FIELD_MSGBG_Delete(FieldMsgBg *msgBg);
 void FIELD_MSGBG_ReleaseBg(FieldMsgBg *msgBg);
@@ -355,33 +264,33 @@ void FIELD_MSGBG_ClearPrintQue(FieldMsgBg *msgBg);
 int FIELD_MSGBG_IsPrintQueFinished(FieldMsgBg *msgBg);
 struct PrintQue *FIELD_MSGBG_GetPrintQue(FieldMsgBg *msgBg);
 struct GfFont *FIELD_MSGBG_GetFont(FieldMsgBg *msgBg);
-struct MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
-u32 FIELD_MSGBG_DeleteMsgData(struct MsgData *msgData);
+struct MsgBank *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId);
+u32 FIELD_MSGBG_DeleteMsgData(struct MsgBank *msgData);
 void FIELD_MSGBG_RequestSysFrame(FieldMsgBg *msgBg);
 void FIELD_MSGBG_SetAutoMode(FieldMsgBg *msgBg, u8 autoMode);
-FieldMsgPrint *FIELD_MSGBG_AddMsgPrint(FieldMsgBg *msgBg, struct MsgData *msgData, struct BmpWin *bmpWin);
+FieldMsgPrint *FIELD_MSGBG_AddMsgPrint(FieldMsgBg *msgBg, struct MsgBank *msgData, struct BmpWin *bmpWin);
 void FIELD_MSGBG_DeleteMsgPrint(FieldMsgPrint *msgPrint);
 void FIELD_MSGBG_MsgPrintPrintMsg(FieldMsgPrint *msgPrint, int x, int y, u32 msgId);
 void FIELD_MSGBG_MsgPrintPrintStr(FieldMsgPrint *msgPrint, int x, int y, struct Strbuf *str);
 void FIELD_MSGBG_MsgPrintPrintStrColorFont(FieldMsgPrint *msgPrint, int x, int y, struct Strbuf *str, u16 color, struct GfFont *font);
 void FIELD_MSGBG_MsgPrintPrintStrColor(FieldMsgPrint *msgPrint, int x, int y, struct Strbuf *str, u16 color);
 u32 FIELD_MSGBG_IsMsgPrintTransDone(FieldMsgPrint *msgPrint);
-int FIELD_MSGBG_ClearMsgPrint(FieldMsgPrint *msgPrint);
+void FIELD_MSGBG_ClearMsgPrint(FieldMsgPrint *msgPrint);
 void FIELD_MSGBG_FillMsgPrint(FieldMsgPrint *msgPrint, int x, int y, int width, int height);
 struct PrintQue *FIELD_MSGBG_GetMsgPrintQue(FieldMsgPrint *msgPrint);
 PrintUtil *FIELD_MSGBG_GetMsgPrintUtil(FieldMsgPrint *msgPrint);
-FieldMsgWin *FIELD_MSGBG_CreateMsgWinPalette(FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height, u16 palette);
-FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
+FieldMsgWin *FIELD_MSGBG_CreateMsgWinPalette(FieldMsgBg *msgBg, struct MsgBank *msgData, u16 x, u16 y, u16 width, u16 height, u16 palette);
+FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, struct MsgBank *msgData, u16 x, u16 y, u16 width, u16 height);
 int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin);
-int FIELD_MSGBG_MsgWinPrintMsg(FieldMsgWin *msgWin, int x, int y, u32 msgId);
+void FIELD_MSGBG_MsgWinPrintMsg(FieldMsgWin *msgWin, int x, int y, u32 msgId);
 void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str);
-void FIELD_MSGBG_MsgWinPrintStrColorFont(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str, u16 color, struct GfFont *font);
+void FIELD_MSGBG_MsgWinPrintStrColorFont(FieldMsgWin *msgWin, u16 x, u16 y, struct Strbuf *str, u16 color, struct GfFont *font);
 int FIELD_MSGBG_IsMsgWinTransDone(FieldMsgWin *msgWin);
 void FIELD_MSGBG_ClearMsgWin(FieldMsgWin *msgWin);
 void FIELD_MSGBG_FillMsgWin(FieldMsgWin *msgWin, int x, int y, int width, int height);
-void FIELD_MSGBG_CreateBottomMsgWin(FieldMsgBg *msgBg, struct MsgData *msgData);
+FieldMsgWin *FIELD_MSGBG_CreateBottomMsgWin(FieldMsgBg *msgBg, struct MsgBank *msgData);
 struct BmpWin *FIELD_MSGBG_GetMsgWinBmpWin(FieldMsgWin *msgWin);
-FieldMsgWin *FIELD_MSGBG_CreateInfoMsgWin(FieldMsgBg *msgBg, struct MsgData *msgData, u32 x, u32 y, u16 width, u16 height);
+FieldMsgWin *FIELD_MSGBG_CreateInfoMsgWin(FieldMsgBg *msgBg, struct MsgBank *msgData, u32 x, u32 y, u16 width, u16 height);
 int FIELD_MSGBG_DeleteInfoMsgWin(FieldMsgWin *msgWin);
 void FIELD_MSGBG_InfoMsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str);
 void FIELD_MSGBG_ClearInfoMsgWin(FieldMsgWin *msgWin);
@@ -397,32 +306,36 @@ int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
 int FIELD_MSGBG_MenuFuncMain(FieldMenuFunc *menu);
 void FIELD_MSGBG_RewriteMenuFunc(FieldMenuFunc *menu);
 struct BmpMenuWork *FIELD_MSGBG_CreateMenuItems(int count, u16 heapId);
-struct BmpMenuWork *FIELD_MSGBG_CreateMenuItemsFromTable(const FieldMenuItemData *itemData, int count, struct MsgData *msgData, u16 heapId);
-int FIELD_MSGBG_AddMenuItemStr(struct BmpMenuWork *items, struct Strbuf *str, u32 param, u32 heapId);
+struct BmpMenuWork *FIELD_MSGBG_CreateMenuItemsFromTable(const FieldMenuItemData *itemData, int count, struct MsgBank *msgData, u16 heapId);
+void FIELD_MSGBG_AddMenuItemStr(struct BmpMenuWork *items, struct Strbuf *str, u32 param, u16 heapId);
 void FIELD_MSGBG_DeleteMenuItems(struct BmpMenuWork *items);
 u32 FIELD_MSGBG_GetMenuItemsMaxWidth(FieldMsgBg *msgBg, BmpMenuWork *items, u32 *outIndex, u32 margin);
 unsigned FIELD_MSGBG_GetMenuItemCount(struct BmpMenuWork *items);
 u32 FIELD_MSGBG_GetMenuItemsWidthChars(FieldMsgBg *msgBg, BmpMenuWork *items, u32 fontId, u32 margin);
 unsigned FIELD_MSGBG_GetMenuHeightChars(unsigned lines, unsigned fontHeight, unsigned lineSpacing, int scrolls);
 FieldMenuHeader *FIELD_MSGBG_SetMenuHeaderRect(FieldMenuHeader *header, u16 itemCount, u16 x, u16 y, u16 width, u16 height);
-int FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu);
+void FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu);
 void FIELD_MSGBG_MakeListHeader(BmpMenuListHeader *listHeader, const FieldMenuHeader *header);
 FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);
 int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);
 FieldMsgStream *FIELD_MSGBG_CreateMsgStreamColor(FieldMsgBg *msgBg, struct Strbuf *str, struct BmpWin *bmpWin, u32 x, u16 y, u32 wait, u16 clearColor);
-int FIELD_MSGBG_MsgStreamCallback(int code);
+#ifdef __MWERKS__
+int FIELD_MSGBG_MsgStreamCallback(int code); /* original prototype: the callback type of PRINTSYS_PrintStreamCallBack is u8 (*)(u32) */
+#else
+u8 FIELD_MSGBG_MsgStreamCallback(u32 code);
+#endif
 FieldMsgStream *FIELD_MSGBG_CreateMsgStream(FieldMsgBg *msgBg, struct Strbuf *str, struct BmpWin *bmpWin, u32 x, u16 y, u32 wait);
 int FIELD_MSGBG_DeleteMsgStream(FieldMsgStream *stream);
 int FIELD_MSGBG_MsgStreamMain(FieldMsgStream *stream);
-FieldSysWin *FIELD_MSGBG_CreateSysWin(FieldMsgBg *msgBg, struct MsgData *msgData, u32 x, u16 y, u16 width, u16 height);
+FieldSysWin *FIELD_MSGBG_CreateSysWin(FieldMsgBg *msgBg, struct MsgBank *msgData, u32 x, u16 y, u16 width, u16 height);
 int FIELD_MSGBG_DeleteSysWin(FieldSysWin *sysWin);
 void FIELD_MSGBG_SysWinPrintMsg(FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
 void FIELD_MSGBG_SysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, struct Strbuf *str);
 u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin);
-FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgData *msgData);
+FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgBank *msgData);
 void FIELD_MSGBG_ClearSysWin(FieldSysWin *sysWin);
 struct BmpWin *FIELD_MSGBG_GetSysWinBmpWin(FieldSysWin *sysWin);
-FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(FieldMsgBg *msgBg, struct MsgData *msgData, u32 y);
+FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(FieldMsgBg *msgBg, struct MsgBank *msgData, u32 y);
 int FIELD_MSGBG_DeleteInfoSysWin(FieldSysWin *sysWin);
 void FIELD_MSGBG_InfoSysWinPrintMsg(FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
 void FIELD_MSGBG_InfoSysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, struct Strbuf *str);
@@ -433,14 +346,14 @@ void FIELD_MSGBG_InfoSysWinPrintStrNow(FieldSysWin *sysWin, u32 x, int y, struct
 struct BmpWin *FIELD_MSGBG_GetInfoSysWinBmpWin(FieldSysWin *sysWin);
 void FIELD_MSGBG_SetupTalkWin(FieldMsgBg *msgBg, FieldTalkWin *talkWin, int index, VecFx32 *pos, struct Strbuf *str, u32 winType, u32 tailType);
 FieldTalkWin *FIELD_MSGBG_AddTalkWin(FieldMsgBg *msgBg, int index, VecFx32 *pos, struct Strbuf *str, u32 winType, u32 tailType);
-int FIELD_MSGBG_DeleteTalkWin(FieldTalkWin *talkWin);
+void FIELD_MSGBG_DeleteTalkWin(FieldTalkWin *talkWin);
 int FIELD_MSGBG_WaitTalkWinClose(FieldTalkWin *talkWin);
-int FIELD_MSGBG_ClearTalkWin(FieldTalkWin *talkWin);
-u32 FIELD_MSGBG_TalkWinPrintStr(FieldTalkWin *talkWin, struct Strbuf *str);
+void FIELD_MSGBG_ClearTalkWin(FieldTalkWin *talkWin);
+void FIELD_MSGBG_TalkWinPrintStr(FieldTalkWin *talkWin, struct Strbuf *str);
 u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin);
 void FIELD_MSGBG_TalkWinDrawCursor(FieldTalkWin *talkWin);
 void FIELD_MSGBG_SetupPlainWin(FieldMsgBg *msgBg, FieldPlainWin *plainWin, u32 x, u32 y, u16 width, u16 height, u32 winType);
-FieldPlainWin *FIELD_MSGBG_CreatePlainWin(FieldMsgBg *msgBg, struct MsgData *msgData, u32 winType, u16 x, u16 y, u16 width, u16 height);
+FieldPlainWin *FIELD_MSGBG_CreatePlainWin(FieldMsgBg *msgBg, struct MsgBank *msgData, u32 winType, u16 x, u16 y, u16 width, u16 height);
 int FIELD_MSGBG_DeletePlainWin(FieldPlainWin *plainWin);
 void FIELD_MSGBG_ClearPlainWin(FieldPlainWin *plainWin);
 void FIELD_MSGBG_OpenPlainWin(FieldPlainWin *plainWin);
@@ -453,26 +366,26 @@ void FIELD_MSGBG_PlainWinDrawCursor(FieldPlainWin *plainWin);
 int FIELD_MSGBG_GetPlainWinStreamState(FieldPlainWin *plainWin);
 void FIELD_MSGBG_SetupSubMsgWin(FieldMsgBg *msgBg, FieldSubMsgWin *subMsgWin, struct Strbuf *str, u32 talkIndex, u8 x, u8 y, u8 width, u8 height, u32 id);
 void FIELD_MSGBG_GetStrSizeChars(FieldMsgBg *msgBg, struct Strbuf *str, u8 *width, u8 *height);
-void FIELD_MSGBG_AddSubMsgWinMsg(FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId, u32 id, u8 x, u8 y, u8 width, u8 height);
+void FIELD_MSGBG_AddSubMsgWinMsg(FieldMsgBg *msgBg, struct MsgBank *msgData, u32 msgId, u32 id, u8 x, u8 y, u8 width, u8 height);
 void FIELD_MSGBG_AddSubMsgWinStr(FieldMsgBg *msgBg, struct Strbuf *str, u32 id, u8 x, u8 y, u8 width, u8 height);
 int FIELD_MSGBG_FreeSubMsgWin(FieldSubMsgWin *subMsgWin);
 void FIELD_MSGBG_DeleteSubMsgWin(FieldMsgBg *msgBg, u32 id);
 void FIELD_MSGBG_DeleteAllSubMsgWin(FieldMsgBg *msgBg);
 int FIELD_MSGBG_ExistsSubMsgWin(FieldMsgBg *msgBg);
 int FIELD_MSGBG_SubMsgWinMain(FieldSubMsgWin *subMsgWin);
-void FIELD_MSGBG_CreateBgWin(FieldMsgBg *msgBg, int winType);
+FieldBgWin *FIELD_MSGBG_CreateBgWin(FieldMsgBg *msgBg, int winType);
 FieldBgWin *FIELD_MSGBG_CreateBgWinFont(FieldMsgBg *msgBg, u32 winType, struct GfFont *font);
 void FIELD_MSGBG_DeleteBgWin(FieldBgWin *bgWin);
 u32 FIELD_MSGBG_BgWinMain(FieldBgWin *bgWin, struct Strbuf *str);
-void FIELD_MSGBG_LoadBgWinGraphics(u32 frame, u32 palSlot, u32 winType, u32 heapId);
+void FIELD_MSGBG_LoadBgWinGraphics(u32 frame, u32 palSlot, u32 winType, u16 heapId);
 void FIELD_MSGBG_DrawBgWinFrame(u8 frame, u8 x, u8 y, u8 width, u8 height, u16 tile, u8 palette);
 void FIELD_MSGBG_ClearBgWinFrame(u8 frame, u8 x, u8 y, u8 width, u8 height, u16 tile, u8 palette);
 int FIELD_MSGBG_IsLineMissing(struct Strbuf *str, struct Strbuf *lineStr, u32 line);
 int FIELD_MSGBG_PrintTwoLines(struct Bmp *bmp, struct GfFont *font, struct Strbuf *str, struct Strbuf *lineStr, u32 *line, u8 color);
 int FIELD_MSGBG_RollLines(struct Bmp *dst, struct Bmp *prevBmp, struct Bmp *nextBmp, int offset, u16 color);
-void FIELD_MSGBG_LoadSpWinPalette(u32 bgFrame, u32 palSlot, u32 heapId);
-void FIELD_MSGBG_LoadFrameTile(struct Bmp *bmp, u32 frameType, u32 heapId, u32 tileIndex);
-void FIELD_MSGBG_DrawFrameBmp(struct Bmp *bmp, u32 frameType, u32 heapId);
+void FIELD_MSGBG_LoadSpWinPalette(u32 bgFrame, u32 palSlot, u16 heapId);
+void FIELD_MSGBG_LoadFrameTile(struct Bmp *bmp, u32 frameType, u16 heapId, u32 tileIndex);
+void FIELD_MSGBG_DrawFrameBmp(struct Bmp *bmp, u32 frameType, u16 heapId);
 void FIELD_MSGBG_PrintLines(u16 x, u16 y, struct Bmp *bmp, struct GfFont *font, struct Strbuf *str, u16 heapId);
 FieldSpWin *FIELD_MSGBG_CreateSpWin(FieldMsgBg *msgBg, u32 frameType, u32 x, u16 y, u16 width, u16 height);
 void FIELD_MSGBG_DeleteSpWin(FieldSpWin *spWin);
@@ -521,7 +434,7 @@ void FIELD_MSGBG_SetupBgDelayed(FieldMsgBg *msgBg)
         msgBg->vblankTask = GFL_USE_AddMainTask(FIELD_MSGBG_VblankTalkSysTask, msgBg, 0);
 }
 
-void FIELD_MSGBG_LoadWindowGraphics(u32 bgFrame, u32 heapId)
+void FIELD_MSGBG_LoadWindowGraphics(u32 bgFrame, u16 heapId)
 {
     FIELD_MSGBG_LoadWindowGraphicsAll(bgFrame, heapId);
 }
@@ -634,8 +547,8 @@ void FIELD_MSGBG_Main(FieldMsgBg *msgBg)
         printQue = msgPrint->printQue;
         if (printQue != 0) {
             if (msgPrint->printUtil.transReq != 0) {
-                if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printQue, BMP_WIN_GetBmp(msgPrint->printUtil.bmpWin)) == 0) {
-                    BMP_WIN_TransferChars(msgPrint->printUtil.bmpWin);
+                if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printQue, BMP_WIN_GetBmp(msgPrint->printUtil.win)) == 0) {
+                    BMP_WIN_TransferChars(msgPrint->printUtil.win);
                     msgPrint->printUtil.transReq = 0;
                 }
             }
@@ -676,12 +589,12 @@ struct GfFont *FIELD_MSGBG_GetFont(FieldMsgBg *msgBg)
     return msgBg->font;
 }
 
-struct MsgData *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId)
+struct MsgBank *FIELD_MSGBG_CreateMsgData(FieldMsgBg *msgBg, u32 fileId)
 {
-    return (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, (u16)fileId, msgBg->heapId);
+    return (struct MsgBank *)MSGDATA_CreateFromArchive(0, 2, (u16)fileId, msgBg->heapId);
 }
 
-u32 FIELD_MSGBG_DeleteMsgData(struct MsgData *msgData)
+u32 FIELD_MSGBG_DeleteMsgData(struct MsgBank *msgData)
 {
     return MSGDATA_Delete((struct MsgBank *)msgData);
 }
@@ -699,7 +612,7 @@ void FIELD_MSGBG_SetAutoMode(FieldMsgBg *msgBg, u8 autoMode)
     FIELD_MSGBG_KeyWaitSetAuto(&msgBg->keyWait, autoMode);
 }
 
-FieldMsgPrint *FIELD_MSGBG_AddMsgPrint(FieldMsgBg *msgBg, struct MsgData *msgData, struct BmpWin *bmpWin)
+FieldMsgPrint *FIELD_MSGBG_AddMsgPrint(FieldMsgBg *msgBg, struct MsgBank *msgData, struct BmpWin *bmpWin)
 {
     FieldMsgPrint *msgPrint;
     int i;
@@ -715,7 +628,7 @@ FieldMsgPrint *FIELD_MSGBG_AddMsgPrint(FieldMsgBg *msgBg, struct MsgData *msgDat
             msgPrint->printQue = msgBg->printQue;
             msgPrint->strBuf = STRBUF_Create(0xa0, msgBg->heapId);
             msgPrint->msgData = msgData;
-            msgPrint->printUtil.bmpWin = bmpWin;
+            msgPrint->printUtil.win = bmpWin;
             msgPrint->printUtil.transReq = 0;
             return msgPrint;
         }
@@ -738,7 +651,7 @@ void FIELD_MSGBG_MsgPrintPrintMsg(FieldMsgPrint *msgPrint, int x, int y, u32 msg
 
     MSGDATA_ReadString((struct MsgBank *)msgPrint->msgData, msgId, msgPrint->strBuf);
     printQue = msgPrint->printQue;
-    PRINTSYS_PrintQue((struct PrintQueue *)printQue, BMP_WIN_GetBmp(msgPrint->printUtil.bmpWin), (s16)x, (s16)y, msgPrint->strBuf, msgPrint->font);
+    PRINTSYS_PrintQue((struct PrintQueue *)printQue, BMP_WIN_GetBmp(msgPrint->printUtil.win), (s16)x, (s16)y, msgPrint->strBuf, msgPrint->font);
     msgPrint->printUtil.transReq = 1;
 }
 
@@ -747,7 +660,7 @@ void FIELD_MSGBG_MsgPrintPrintStr(FieldMsgPrint *msgPrint, int x, int y, struct 
     struct PrintQue *printQue;
 
     printQue = msgPrint->printQue;
-    PRINTSYS_PrintQue((struct PrintQueue *)printQue, BMP_WIN_GetBmp(msgPrint->printUtil.bmpWin), (s16)x, (s16)y, str, msgPrint->font);
+    PRINTSYS_PrintQue((struct PrintQueue *)printQue, BMP_WIN_GetBmp(msgPrint->printUtil.win), (s16)x, (s16)y, str, msgPrint->font);
     msgPrint->printUtil.transReq = 1;
 }
 
@@ -756,7 +669,7 @@ void FIELD_MSGBG_MsgPrintPrintStrColorFont(FieldMsgPrint *msgPrint, int x, int y
     struct PrintQue *printQue;
 
     printQue = msgPrint->printQue;
-    PRINTSYS_PrintQueColor((struct PrintQueue *)printQue, BMP_WIN_GetBmp(msgPrint->printUtil.bmpWin), (s16)x, (s16)y, str, font, color);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)printQue, BMP_WIN_GetBmp(msgPrint->printUtil.win), (s16)x, (s16)y, str, font, color);
     msgPrint->printUtil.transReq = 1;
 }
 
@@ -771,10 +684,10 @@ u32 FIELD_MSGBG_IsMsgPrintTransDone(FieldMsgPrint *msgPrint)
     return msgPrint->transDone;
 }
 
-int FIELD_MSGBG_ClearMsgPrint(FieldMsgPrint *msgPrint)
+void FIELD_MSGBG_ClearMsgPrint(FieldMsgPrint *msgPrint)
 {
     BMP_Clear(BMP_WIN_GetBmp(msgPrint->bmpWin), 255);
-    return BG_SYS_PushTile(BMP_WIN_GetBgLayer(msgPrint->bmpWin));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(msgPrint->bmpWin));
 }
 
 void FIELD_MSGBG_FillMsgPrint(FieldMsgPrint *msgPrint, int x, int y, int width, int height)
@@ -793,7 +706,7 @@ PrintUtil *FIELD_MSGBG_GetMsgPrintUtil(FieldMsgPrint *msgPrint)
     return &msgPrint->printUtil;
 }
 
-FieldMsgWin *FIELD_MSGBG_CreateMsgWinPalette(FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height, u16 palette)
+FieldMsgWin *FIELD_MSGBG_CreateMsgWinPalette(FieldMsgBg *msgBg, struct MsgBank *msgData, u16 x, u16 y, u16 width, u16 height, u16 palette)
 {
     u8 frame;
     FieldMsgWin *msgWin;
@@ -816,7 +729,7 @@ FieldMsgWin *FIELD_MSGBG_CreateMsgWinPalette(FieldMsgBg *msgBg, struct MsgData *
     return msgWin;
 }
 
-FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height)
+FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, struct MsgBank *msgData, u16 x, u16 y, u16 width, u16 height)
 {
     msgBg->windowKind = 0xE;
     return FIELD_MSGBG_CreateMsgWinPalette(msgBg, msgData, x, y, width, height, msgBg->windowKind);
@@ -829,10 +742,10 @@ int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin)
     return GFL_HEAP_Free(msgWin);
 }
 
-int FIELD_MSGBG_MsgWinPrintMsg(FieldMsgWin *msgWin, int x, int y, u32 msgId)
+void FIELD_MSGBG_MsgWinPrintMsg(FieldMsgWin *msgWin, int x, int y, u32 msgId)
 {
     FIELD_MSGBG_MsgPrintPrintMsg(msgWin->msgPrint, x, y, msgId);
-    return BG_SYS_PushTile(BMP_WIN_GetBgLayer(msgWin->bmpWin));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(msgWin->bmpWin));
 }
 
 void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str)
@@ -840,7 +753,7 @@ void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, struct Strbuf
     FIELD_MSGBG_MsgPrintPrintStr(msgWin->msgPrint, x, y, str);
 }
 
-void FIELD_MSGBG_MsgWinPrintStrColorFont(FieldMsgWin *msgWin, int x, int y, struct Strbuf *str, u16 color, struct GfFont *font)
+void FIELD_MSGBG_MsgWinPrintStrColorFont(FieldMsgWin *msgWin, u16 x, u16 y, struct Strbuf *str, u16 color, struct GfFont *font)
 {
     FIELD_MSGBG_MsgPrintPrintStrColorFont(msgWin->msgPrint, x, y, str, color, font);
 }
@@ -860,9 +773,9 @@ void FIELD_MSGBG_FillMsgWin(FieldMsgWin *msgWin, int x, int y, int width, int he
     FIELD_MSGBG_FillMsgPrint(msgWin->msgPrint, x, y, width, height);
 }
 
-void FIELD_MSGBG_CreateBottomMsgWin(FieldMsgBg *msgBg, struct MsgData *msgData)
+FieldMsgWin *FIELD_MSGBG_CreateBottomMsgWin(FieldMsgBg *msgBg, struct MsgBank *msgData)
 {
-    FIELD_MSGBG_CreateMsgWin(msgBg, msgData, 1, 0x13, 0x1E, 4);
+    return FIELD_MSGBG_CreateMsgWin(msgBg, msgData, 1, 0x13, 0x1E, 4);
 }
 
 struct BmpWin *FIELD_MSGBG_GetMsgWinBmpWin(FieldMsgWin *msgWin)
@@ -870,7 +783,7 @@ struct BmpWin *FIELD_MSGBG_GetMsgWinBmpWin(FieldMsgWin *msgWin)
     return msgWin->bmpWin;
 }
 
-FieldMsgWin *FIELD_MSGBG_CreateInfoMsgWin(FieldMsgBg *msgBg, struct MsgData *msgData, u32 x, u32 y, u16 width, u16 height)
+FieldMsgWin *FIELD_MSGBG_CreateInfoMsgWin(FieldMsgBg *msgBg, struct MsgBank *msgData, u32 x, u32 y, u16 width, u16 height)
 {
     FieldMsgWin *msgWin;
 
@@ -934,7 +847,7 @@ FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPalette(FieldMsgBg *msgBg, const FieldM
     listHeader.lineCallback = lineCallback;
     listHeader.moveCallback = moveCallback;
     listHeader.work = work;
-    menu->menuList = BMP_MENULIST_Create((struct MenuTemplate *)(&listHeader), listPos, cursorPos, msgBg->heapId);
+    menu->menuList = BMP_MENULIST_Create((struct BmpMenuListTemplate *)(&listHeader), listPos, cursorPos, msgBg->heapId);
     BMP_MENULIST_ResetCursorTile(menu->menuList, msgBg->heapId);
     if (palette == 0xe) {
         FIELD_MSGBG_LoadMenuGraphicsLower(msgBg->heapId);
@@ -1004,7 +917,7 @@ struct BmpMenuWork *FIELD_MSGBG_CreateMenuItems(int count, u16 heapId)
     return BMP_MENUWORK_Create(count, heapId);
 }
 
-struct BmpMenuWork *FIELD_MSGBG_CreateMenuItemsFromTable(const FieldMenuItemData *itemData, int count, struct MsgData *msgData, u16 heapId)
+struct BmpMenuWork *FIELD_MSGBG_CreateMenuItemsFromTable(const FieldMenuItemData *itemData, int count, struct MsgBank *msgData, u16 heapId)
 {
     struct BmpMenuWork *items;
     int i;
@@ -1015,9 +928,9 @@ struct BmpMenuWork *FIELD_MSGBG_CreateMenuItemsFromTable(const FieldMenuItemData
     return items;
 }
 
-int FIELD_MSGBG_AddMenuItemStr(struct BmpMenuWork *items, struct Strbuf *str, u32 param, u32 heapId)
+void FIELD_MSGBG_AddMenuItemStr(struct BmpMenuWork *items, struct Strbuf *str, u32 param, u16 heapId)
 {
-    return BMP_MENUWORK_AddStrItem(items, str, param, heapId);
+    BMP_MENUWORK_AddStrItem(items, (const struct U16Vec *)str, param, heapId);
 }
 
 void FIELD_MSGBG_DeleteMenuItems(struct BmpMenuWork *items)
@@ -1035,21 +948,21 @@ u32 FIELD_MSGBG_GetMenuItemsMaxWidth(FieldMsgBg *msgBg, BmpMenuWork *items, u32 
     bestWidth = 0;
     bestIndex = 0;
     i = 0;
-    if ((u32)items->str != -1) {
+    if ((u32)items->u.handle != -1) {
         marginU16 = (u16)margin;
         do {
             u32 width;
-            if (items->str == 0) {
+            if (items->u.handle == 0) {
                 break;
             }
-            width = PRINTSYS_MeasureWidestLine(items->str, msgBg->font, marginU16);
+            width = PRINTSYS_MeasureWidestLine(items->u.handle, msgBg->font, marginU16);
             if (width > bestWidth) {
                 bestWidth = width;
                 bestIndex = i;
             }
             items++;
             i++;
-        } while ((u32)items->str != -1);
+        } while ((u32)items->u.handle != -1);
     }
     *outIndex = bestIndex;
     return bestWidth;
@@ -1096,9 +1009,9 @@ FieldMenuHeader *FIELD_MSGBG_SetMenuHeaderRect(FieldMenuHeader *header, u16 item
     return header;
 }
 
-int FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu)
+void FIELD_MSGBG_DrawMenuFuncFrame(FieldMenuFunc *menu)
 {
-    return BMP_MENUWORK_DrawWindow(menu->bmpWin, 0, 1, 13);
+    BMP_MENUWORK_DrawWindow(menu->bmpWin, 0, 1, 13);
 }
 
 void FIELD_MSGBG_MakeListHeader(BmpMenuListHeader *listHeader, const FieldMenuHeader *header)
@@ -1125,7 +1038,7 @@ FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos)
 {
     FieldMenuHeader header = sYesNoMenuHeader;
     FieldYesNoItems itemData = sYesNoMenuItems;
-    struct MsgData *msgData;
+    struct MsgBank *msgData;
     struct BmpMenuWork *items;
     FieldMenuFunc *menu;
 
@@ -1155,12 +1068,16 @@ FieldMsgStream *FIELD_MSGBG_CreateMsgStreamColor(FieldMsgBg *msgBg, struct Strbu
     stream = GFL_HEAP_Alloc(msgBg->heapId, 0xc, 1, (char *)d_021DDA50, 0x85e);
     stream->msgBg = msgBg;
     stream->wait = wait;
-    stream->stream = (struct PrintStream *)PRINTSYS_PrintStreamCallBack(bmpWin, x, y, str, msgBg->font, wait, msgBg->tcbl, 0, msgBg->heapId, clearColor, FIELD_MSGBG_MsgStreamCallback);
+    stream->stream = (struct TextPrinter *)PRINTSYS_PrintStreamCallBack(bmpWin, x, y, str, msgBg->font, wait, msgBg->tcbl, 0, msgBg->heapId, clearColor, FIELD_MSGBG_MsgStreamCallback);
     FIELD_MSGBG_KeyWaitReset(&stream->msgBg->keyWait);
     return stream;
 }
 
+#ifdef __MWERKS__
 int FIELD_MSGBG_MsgStreamCallback(int code)
+#else
+u8 FIELD_MSGBG_MsgStreamCallback(u32 code)
+#endif
 {
     switch (code) {
     case 3:
@@ -1210,7 +1127,7 @@ int FIELD_MSGBG_MsgStreamMain(FieldMsgStream *stream)
     return state;
 }
 
-FieldSysWin *FIELD_MSGBG_CreateSysWin(FieldMsgBg *msgBg, struct MsgData *msgData, u32 x, u16 y, u16 width, u16 height)
+FieldSysWin *FIELD_MSGBG_CreateSysWin(FieldMsgBg *msgBg, struct MsgBank *msgData, u32 x, u16 y, u16 width, u16 height)
 {
     FieldSysWin *sysWin;
 
@@ -1281,7 +1198,7 @@ u32 FIELD_MSGBG_SysWinMain(FieldSysWin *sysWin)
     return 0;
 }
 
-FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgData *msgData)
+FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(FieldMsgBg *msgBg, struct MsgBank *msgData)
 {
     return FIELD_MSGBG_CreateSysWin(msgBg, msgData, 1, 0x13, 0x1E, 4);
 }
@@ -1298,7 +1215,7 @@ struct BmpWin *FIELD_MSGBG_GetSysWinBmpWin(FieldSysWin *sysWin)
     return sysWin->bmpWin;
 }
 
-FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(FieldMsgBg *msgBg, struct MsgData *msgData, u32 y)
+FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(FieldMsgBg *msgBg, struct MsgBank *msgData, u32 y)
 {
     FieldSysWin *sysWin;
 
@@ -1440,13 +1357,13 @@ FieldTalkWin *FIELD_MSGBG_AddTalkWin(FieldMsgBg *msgBg, int index, VecFx32 *pos,
     return 0;
 }
 
-int FIELD_MSGBG_DeleteTalkWin(FieldTalkWin *talkWin)
+void FIELD_MSGBG_DeleteTalkWin(FieldTalkWin *talkWin)
 {
     if (talkWin->strBuf != 0) {
         STRBUF_Delete(talkWin->strBuf);
     }
     FIELD_MSGBG_ExitCursor(&talkWin->cursor);
-    return TALKMSGWIN_Close(talkWin->talkSys, talkWin->index);
+    TALKMSGWIN_Close(talkWin->talkSys, talkWin->index);
 }
 
 int FIELD_MSGBG_WaitTalkWinClose(FieldTalkWin *talkWin)
@@ -1458,27 +1375,27 @@ int FIELD_MSGBG_WaitTalkWinClose(FieldTalkWin *talkWin)
     return 0;
 }
 
-int FIELD_MSGBG_ClearTalkWin(FieldTalkWin *talkWin)
+void FIELD_MSGBG_ClearTalkWin(FieldTalkWin *talkWin)
 {
     if (talkWin->strBuf != 0) {
         STRBUF_Delete(talkWin->strBuf);
     }
     TALKMSGWIN_Release(talkWin->talkSys, talkWin->index);
     FIELD_MSGBG_ExitCursor(&talkWin->cursor);
-    return MI_CpuFill8(talkWin, 0, 52);
+    MI_CpuFill8(talkWin, 0, 52);
 }
 
-u32 FIELD_MSGBG_TalkWinPrintStr(FieldTalkWin *talkWin, struct Strbuf *str)
+void FIELD_MSGBG_TalkWinPrintStr(FieldTalkWin *talkWin, struct Strbuf *str)
 {
     struct BmpWin *bmpWin = TALKMSGWIN_GetBmpWin(talkWin->talkSys, talkWin->index);
     BMP_Clear(BMP_WIN_GetBmp(bmpWin), 255);
     TALKMSGWIN_Reprint(talkWin->talkSys, talkWin->index, str, FIELD_MSGBG_KeyWaitGetCharWait(&talkWin->msgBg->keyWait));
-    return BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
 }
 
 u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin)
 {
-    struct PrintStream *stream;
+    struct TextPrinter *stream;
     u32 state;
     struct BmpWin *bmpWin;
     struct Bmp *bmp;
@@ -1556,7 +1473,7 @@ void FIELD_MSGBG_SetupPlainWin(FieldMsgBg *msgBg, FieldPlainWin *plainWin, u32 x
     FIELD_MSGBG_InitCursor(&plainWin->cursor, msgBg);
 }
 
-FieldPlainWin *FIELD_MSGBG_CreatePlainWin(FieldMsgBg *msgBg, struct MsgData *msgData, u32 winType, u16 x, u16 y, u16 width, u16 height)
+FieldPlainWin *FIELD_MSGBG_CreatePlainWin(FieldMsgBg *msgBg, struct MsgBank *msgData, u32 winType, u16 x, u16 y, u16 width, u16 height)
 {
     FieldPlainWin *plainWin;
 
@@ -1712,7 +1629,7 @@ void FIELD_MSGBG_GetStrSizeChars(FieldMsgBg *msgBg, struct Strbuf *str, u8 *widt
     *height = heightChars;
 }
 
-void FIELD_MSGBG_AddSubMsgWinMsg(FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId, u32 id, u8 x, u8 y, u8 width, u8 height)
+void FIELD_MSGBG_AddSubMsgWinMsg(FieldMsgBg *msgBg, struct MsgBank *msgData, u32 msgId, u32 id, u8 x, u8 y, u8 width, u8 height)
 {
     FieldSubMsgWin *subMsgWin;
     int slot;
@@ -1799,9 +1716,9 @@ int FIELD_MSGBG_SubMsgWinMain(FieldSubMsgWin *subMsgWin)
     return 0;
 }
 
-void FIELD_MSGBG_CreateBgWin(FieldMsgBg *msgBg, int winType)
+FieldBgWin *FIELD_MSGBG_CreateBgWin(FieldMsgBg *msgBg, int winType)
 {
-    FIELD_MSGBG_CreateBgWinFont(msgBg, winType, msgBg->font);
+    return FIELD_MSGBG_CreateBgWinFont(msgBg, winType, msgBg->font);
 }
 
 FieldBgWin *FIELD_MSGBG_CreateBgWinFont(FieldMsgBg *msgBg, u32 winType, struct GfFont *font)
@@ -1937,11 +1854,11 @@ u32 FIELD_MSGBG_BgWinMain(FieldBgWin *bgWin, struct Strbuf *str)
     return 0;
 }
 
-void FIELD_MSGBG_LoadBgWinGraphics(u32 frame, u32 palSlot, u32 winType, u32 heapId)
+void FIELD_MSGBG_LoadBgWinGraphics(u32 frame, u32 palSlot, u32 winType, u16 heapId)
 {
     if (winType >= 4)
         winType = 0;
-    ARC_UTIL_UploadBgCharFromArchive(5, 6, frame, 0x33, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromArchive((void *)5, (void *)6, (void *)frame, (void *)0x33, 0, 0, heapId);
     ARC_UTIL_UploadPaletteFromArchive(5, 1, 0, winType << 5, palSlot << 5, 0x20, heapId);
 }
 
@@ -2022,12 +1939,12 @@ int FIELD_MSGBG_RollLines(struct Bmp *dst, struct Bmp *prevBmp, struct Bmp *next
     return 0;
 }
 
-void FIELD_MSGBG_LoadSpWinPalette(u32 bgFrame, u32 palSlot, u32 heapId)
+void FIELD_MSGBG_LoadSpWinPalette(u32 bgFrame, u32 palSlot, u16 heapId)
 {
     ARC_UTIL_UploadPaletteFromArchive(5, 2, 0, 0, palSlot * 32, 0x20, heapId);
 }
 
-void FIELD_MSGBG_LoadFrameTile(struct Bmp *bmp, u32 frameType, u32 heapId, u32 tileIndex)
+void FIELD_MSGBG_LoadFrameTile(struct Bmp *bmp, u32 frameType, u16 heapId, u32 tileIndex)
 {
     enum { FRAME_SET_FIRST } frameSet = FRAME_SET_FIRST;
     u8 *pixels;
@@ -2056,7 +1973,7 @@ static inline void blit(struct Bmp *tile, struct Bmp *bmp, u16 x, u16 y)
  * counters i and j as the x/y tile positions, assigned before each tile
  * load, so the u16 truncation is scheduled ahead of the FIELD_MSGBG_LoadFrameTile call.
  */
-void FIELD_MSGBG_DrawFrameBmp(struct Bmp *bmp, u32 frameType, u32 heapId)
+void FIELD_MSGBG_DrawFrameBmp(struct Bmp *bmp, u32 frameType, u16 heapId)
 {
     u16 width;
     u16 j;
@@ -2300,9 +2217,9 @@ void FIELD_MSGBG_AnimateCursorOnFrame(FieldMsgCursor *cursor, struct Bmp *bmp, s
     cursor->isDrawn = 1;
 }
 
-void FIELD_MSGBG_LoadSysWindowFrameGraphics(u32 heapId)
+void FIELD_MSGBG_LoadSysWindowFrameGraphics(u16 heapId)
 {
-    ARC_UTIL_UploadBgCharFromArchive(5, 10, 1, 0x1F, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromArchive((void *)5, (void *)10, (void *)1, (void *)0x1F, 0, 0, heapId);
 }
 
 /* Draws a one-tile frame around a window (tiles 0x1F..0x30, palette 13). */
@@ -2330,7 +2247,7 @@ void FIELD_MSGBG_DrawSysWindowFrame(struct BmpWin *bmpWin)
     BG_SYS_PushTile(bgFrame);
 }
 
-struct BmpWin *FIELD_MSGBG_CreateSysFrameWindow(u8 x, u8 y, u8 width, u8 height, u32 heapId)
+struct BmpWin *FIELD_MSGBG_CreateSysFrameWindow(u8 x, u8 y, u8 width, u8 height, u16 heapId)
 {
     struct BmpWin *bmpWin;
 
@@ -2466,7 +2383,7 @@ void FIELD_MSGBG_InitBgOneLayer(FieldMsgBg *msgBg)
 }
 
 /* Task callback: once the transition is over, uploads the balloon graphics and ends itself. */
-void FIELD_MSGBG_VblankTalkSysTask(void *task, void *arg)
+void FIELD_MSGBG_VblankTalkSysTask(struct TcbTask *task, void *arg)
 {
     FieldMsgBg *msgBg = arg;
 
@@ -2511,7 +2428,7 @@ void FIELD_MSGBG_SetupSysFrame(FieldMsgBg *msgBg)
     }
 }
 
-void FIELD_MSGBG_LoadWindowGraphicsAll(int bgFrame, int heapId)
+void FIELD_MSGBG_LoadWindowGraphicsAll(int bgFrame, u16 heapId)
 {
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x160, 0x20, heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 7, 0, 0x1c0, 0x20, heapId);
@@ -2520,7 +2437,7 @@ void FIELD_MSGBG_LoadWindowGraphicsAll(int bgFrame, int heapId)
 }
 
 /* FIELD_MSGBG_LoadWindowGraphicsAll in three steps, one per call. */
-void FIELD_MSGBG_LoadWindowGraphicsStepFn(int bgFrame, int heapId, int step)
+void FIELD_MSGBG_LoadWindowGraphicsStepFn(int bgFrame, u16 heapId, int step)
 {
     if (step == 0) {
         ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x160, 0x20, heapId);
@@ -2687,7 +2604,7 @@ int FIELD_MSGBG_KeyWaitCheckAdvance(FieldMsgKeyWait *keyWait, u32 streamState)
     return 0;
 }
 
-void FIELD_MSGBG_StreamSetSpeed(struct PrintStream *stream, int fast)
+void FIELD_MSGBG_StreamSetSpeed(struct TextPrinter *stream, int fast)
 {
     if (fast == 1)
         PRINTSYS_PrintStreamSetSpeed((struct TextPrinter *)stream, MSG_SPEED_GetWaitForSpeed(2));

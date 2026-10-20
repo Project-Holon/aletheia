@@ -93,32 +93,32 @@ int NET_DEVICE_TABLE_Select(u32 sel)
 {
     switch (sel) {
     case 6:
-        GF_OVERLAY_Unload((u32)ov_id_0A);
-        GF_OVERLAY_Unload((u32)ov_id_0B);
-        GF_OVERLAY_Load((u32)ov_id_09);
-        GF_OVERLAY_Load((u32)ov_id_0D);
-        GF_OVERLAY_Load((u32)ov_id_72);
-        return (int)GFL_NET_DEVWIFI_GetDeviceTable();
+        GF_OVERLAY_Unload((uptr)ov_id_0A);
+        GF_OVERLAY_Unload((uptr)ov_id_0B);
+        GF_OVERLAY_Load((uptr)ov_id_09);
+        GF_OVERLAY_Load((uptr)ov_id_0D);
+        GF_OVERLAY_Load((uptr)ov_id_72);
+        return (sptr)GFL_NET_DEVWIFI_GetDeviceTable();
     case 1:
-        GF_OVERLAY_Unload((u32)ov_id_0A);
-        GF_OVERLAY_Unload((u32)ov_id_0B);
-        GF_OVERLAY_Load((u32)ov_id_09);
-        GF_OVERLAY_Load((u32)ov_id_0D);
-        return (int)GFL_NET_DEVWIFI_GetDeviceTable();
+        GF_OVERLAY_Unload((uptr)ov_id_0A);
+        GF_OVERLAY_Unload((uptr)ov_id_0B);
+        GF_OVERLAY_Load((uptr)ov_id_09);
+        GF_OVERLAY_Load((uptr)ov_id_0D);
+        return (sptr)GFL_NET_DEVWIFI_GetDeviceTable();
     case 2:
-        GF_OVERLAY_Unload((u32)ov_id_0A);
-        GF_OVERLAY_Unload((u32)ov_id_0B);
-        GF_OVERLAY_Load((u32)ov_id_09);
-        GF_OVERLAY_Load((u32)ov_id_0D);
-        return (int)GFL_NET_DEVWIFI_GetDeviceTable();
+        GF_OVERLAY_Unload((uptr)ov_id_0A);
+        GF_OVERLAY_Unload((uptr)ov_id_0B);
+        GF_OVERLAY_Load((uptr)ov_id_09);
+        GF_OVERLAY_Load((uptr)ov_id_0D);
+        return (sptr)GFL_NET_DEVWIFI_GetDeviceTable();
     case 0:
     case 5:
-        GF_OVERLAY_Load((u32)ov_id_0E);
-        return (int)GFL_NET_DEVWIRELESS_GetDeviceTable();
+        GF_OVERLAY_Load((uptr)ov_id_0E);
+        return (sptr)GFL_NET_DEVWIRELESS_GetDeviceTable();
     case 3:
     case 4:
-        GF_OVERLAY_Load((u32)ov_id_0F);
-        return (int)IRCNET_GetHandlerTable();
+        GF_OVERLAY_Load((uptr)ov_id_0F);
+        return (sptr)IRCNET_GetHandlerTable();
     }
     return 0;
 }
@@ -127,31 +127,31 @@ void NET_DEVICE_TABLE_Reset(u32 sel)
 {
     switch (sel) {
     case 6:
-        GF_OVERLAY_Unload((u32)ov_id_72);
-        GF_OVERLAY_Unload((u32)ov_id_09);
-        GF_OVERLAY_Unload((u32)ov_id_0D);
-        GF_OVERLAY_Load((u32)ov_id_0A);
-        GF_OVERLAY_Load((u32)ov_id_0B);
+        GF_OVERLAY_Unload((uptr)ov_id_72);
+        GF_OVERLAY_Unload((uptr)ov_id_09);
+        GF_OVERLAY_Unload((uptr)ov_id_0D);
+        GF_OVERLAY_Load((uptr)ov_id_0A);
+        GF_OVERLAY_Load((uptr)ov_id_0B);
         break;
     case 1:
-        GF_OVERLAY_Unload((u32)ov_id_09);
-        GF_OVERLAY_Unload((u32)ov_id_0D);
-        GF_OVERLAY_Load((u32)ov_id_0A);
-        GF_OVERLAY_Load((u32)ov_id_0B);
+        GF_OVERLAY_Unload((uptr)ov_id_09);
+        GF_OVERLAY_Unload((uptr)ov_id_0D);
+        GF_OVERLAY_Load((uptr)ov_id_0A);
+        GF_OVERLAY_Load((uptr)ov_id_0B);
         break;
     case 2:
-        GF_OVERLAY_Unload((u32)ov_id_09);
-        GF_OVERLAY_Unload((u32)ov_id_0D);
-        GF_OVERLAY_Load((u32)ov_id_0A);
-        GF_OVERLAY_Load((u32)ov_id_0B);
+        GF_OVERLAY_Unload((uptr)ov_id_09);
+        GF_OVERLAY_Unload((uptr)ov_id_0D);
+        GF_OVERLAY_Load((uptr)ov_id_0A);
+        GF_OVERLAY_Load((uptr)ov_id_0B);
         break;
     case 0:
     case 5:
-        GF_OVERLAY_Unload((u32)ov_id_0E);
+        GF_OVERLAY_Unload((uptr)ov_id_0E);
         break;
     case 3:
     case 4:
-        GF_OVERLAY_Unload((u32)ov_id_0F);
+        GF_OVERLAY_Unload((uptr)ov_id_0F);
         break;
     }
 }

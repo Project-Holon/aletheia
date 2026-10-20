@@ -34,19 +34,16 @@ struct TrainerRec;
 struct ScrcmdWork;
 struct GameData;
 
-extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
+#include "scrcmd_work.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveSys);
+#include "../arm9/game_data.h"
+#include "../arm9/move_pokemon_save.h"
 struct ScriptVm;
-extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern unsigned short *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+#include "script_work_cmd.h"
 struct MovePokemonSave;
-extern u8 MOVE_POKEMON_SAVE_GetEntryState(struct MovePokemonSave *pSave, u32 slot);
 struct MyStatus;
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
-extern void MISC_SetHashedId(struct MiscSave *p, s32 i, u32 v);
-extern u32 MISC_GetHashedId(struct MiscSave *p, s32 i);
+#include "../arm9/mystatus.h"
+#include "../arm9/beacon.h"
 int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx);
 void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *beaconSave, int slot, void *trainerRec);
 int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *beaconSave, int slot, void *trainerRec);

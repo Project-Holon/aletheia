@@ -10,8 +10,7 @@ struct Bmp;
 
 struct Cfg;
 
-struct DispConfig { u32 w[4]; };
+#include "../arm9/bg_sys.h"
 
-struct BgTemplate { u32 w[8]; };
 
 #endif

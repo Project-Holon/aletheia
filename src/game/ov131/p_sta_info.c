@@ -76,7 +76,6 @@
 
 #include "../types.h"
 
-struct Actor;
 struct BmpWin;
 struct Bmp;
 struct MsgBank;
@@ -124,63 +123,33 @@ struct PStaInfoWork {
 struct StaInfoStatIds { u32 id[6]; };
 struct StaInfoStatRows { u8 row[6][6]; };
 
-extern u32 GFL_HEAP_Free(void *p);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 anim);
-extern void BG_SYS_PushTile(u32);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern u32 POKE_TOOL_GetBoxValue(void *mon, int paramId, void *out);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct Strbuf *str);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/poke_tool.h"
+#include "../arm9/strbuf.h"
 struct GfFont;
 struct PrintQueue;
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32);
+#include "../arm9/printsys.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/wordset.h"
 struct BoxPokemon;
-extern u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *box);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
-extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, unsigned int fileId, unsigned int a, void **dataOut, unsigned short heapId);
-extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
-extern void BG_SYS_DecodeTile(u32 index, const void *src, u32 mode);
+#include "../arm9/gf_font.h"
+#include "../arm9/poke_personal.h"
+#include "../arm9/arc_util.h"
 struct ImageProxy;
-extern void CLACT_GetCharacterProxy(unsigned int idx, struct ImageProxy *out);
-extern void CLACT_SetActorImageProxy(char *actor_base, struct ImageProxy *proxy);
-extern u8 APP_ICON_GetTypePaletteOffset(int i);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 v, u32 flag);
-extern void CLACT_AddActorSurfacePos(struct Actor *actor, const StaOamPoint *delta, u32 which);
-extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 enable);
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
-extern void BG_SYS_ClearLayerEx(int channel, u16 val);
-extern u32 POKE_TOOL_GetExpForLevel(u16,u16,u16);
-extern void BMP_FillRect(struct Bmp *bmp, unsigned int x, unsigned int y, unsigned int w, unsigned short h, unsigned char value);
+#include "../arm9/app_icon.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct SaveData;
-extern int SAVE_EVENT_CheckStage(struct SaveData *save, int stage);
+#include "../arm9/save_event.h"
 struct GameData;
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern u32 POKE_TOOL_IsBoxOwnedByPlayer(struct BoxPokemon *box, struct MyStatus *myStatus);
-extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern u32 PRINTSYS_CountLine(struct Strbuf *s);
-extern unsigned int PLACE_NAME_GetBank(unsigned int);
-extern unsigned int PLACE_NAME_GetIndex(unsigned int);
-void *P_STATUS_GetPokePara(PStatusWork *wk);
+#include "../arm9/game_data.h"
+#include "../arm9/event_id.h"
+#include "p_status.h"
 struct PStatusWork;
-void P_STATUS_PrintMsgToWin(struct PStatusWork *wk, struct BmpWin *bmpWinData, int msgId, int x, u16 y, u16 color);
-void P_STATUS_PrintWordSetMsgToWin(struct PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, u16 x, u16 y, u16 color);
 PStaInfoWork *P_STA_INFO_AllocWork(PStatusWork *wk);
 void P_STA_INFO_FreeWork(PStatusWork *wk, PStaInfoWork *work);
 void P_STA_INFO_Main(PStatusWork *wk, PStaInfoWork *work);
@@ -294,7 +263,7 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
         CLACT_SetActorPaletteOffset(wk->typeIconActor[0],APP_ICON_GetTypePaletteOffset((u8)type1),1);
         offset.x=96;
         offset.y=48;
-        CLACT_AddActorSurfacePos(wk->typeIconActor[0],&offset,0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)wk->typeIconActor[0],(const struct ClactVec2 *)&offset,0);
         CLACT_SetActorDrawEnable(wk->typeIconActor[0],1);
         CLACT_SetActorBgPriority(wk->typeIconActor[0],1);
         if(type1!=type2) {
@@ -303,7 +272,7 @@ void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *work)
             CLACT_SetActorPaletteOffset(wk->typeIconActor[1],APP_ICON_GetTypePaletteOffset((u8)type2),1);
             offset.x=130;
             offset.y=48;
-            CLACT_AddActorSurfacePos(wk->typeIconActor[1],&offset,0);
+            CLACT_AddActorSurfacePos((struct ClactActor *)wk->typeIconActor[1],(const struct ClactVec2 *)&offset,0);
             CLACT_SetActorDrawEnable(wk->typeIconActor[1],1);
             CLACT_SetActorBgPriority(wk->typeIconActor[1],1);
         } else CLACT_SetActorDrawEnable(wk->typeIconActor[1],0);
@@ -382,10 +351,20 @@ void P_STA_INFO_DrawStats(PStatusWork *wk, PStaInfoWork *work, void *mon)
         P_STATUS_PrintMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],13,1,1,0x3c40);
         otName=STRBUF_Create(0x20,wk->heapId);
         otWordSet=WORDSET_CreateDefault(wk->heapId);
-        tmpValue=POKE_TOOL_GetBoxValue(mon,0x9a,otName);
+#ifdef __MWERKS__
+        /* The original prototype took the third argument as a pointer. */
+        tmpValue=((u32 (*)(void *, int, void *))POKE_TOOL_GetBoxValue)(mon,0x9a,otName);
+#else
+        tmpValue=POKE_TOOL_GetBoxValue(mon,0x9a,(uptr)otName);
+#endif
         if(tmpValue==0) color=0x14c0;
         else if(tmpValue==1) color=0xc80;
-        POKE_TOOL_GetBoxValue(mon,0x8d,otName);
+#ifdef __MWERKS__
+        /* The original prototype took the third argument as a pointer. */
+        ((u32 (*)(void *, int, void *))POKE_TOOL_GetBoxValue)(mon,0x8d,otName);
+#else
+        POKE_TOOL_GetBoxValue(mon,0x8d,(uptr)otName);
+#endif
         WORDSET_SetSlotTag(otWordSet,0,otName,0,1,2);
         P_STATUS_PrintWordSetMsgToWin(wk,work->win[STA_INFO_WIN_OT_NAME],otWordSet,14,0x41,1,color);
         WORDSET_Delete(otWordSet);

@@ -52,7 +52,7 @@
 #define BUFROM(f) (((RomHeader *)buf)->f)
 #define E(i) ((unsigned char *)mbc + (i) * 0x5D4 + 0x1000)
 #define MB_DL_SEGMENT_NUM 3
-#define MBC_BLOCK_SIZE_MAX (*(u32 *)(mbc + 0x1318))
+#define MBC_BLOCK_SIZE_MAX (*(u32 *)((u8 *)mbc + 0x1318))
 #define MBi_GetSegmentInfo(mdfi, i) \
     ((MbSegmentInfo *)((char *)(mdfi) + 0xc + (i) * 16))
 #include "../sdk_fs.h"
@@ -63,17 +63,7 @@ struct MBGameRegistry;
 
 #include "../sdk_card.h"
 
-typedef struct MBiCacheList {
-    u32 lifetime;
-    u32 recent;
-    void *p_list;
-    u32 size;
-    char arc_name[4];
-    u32 arc_name_len;
-    void *arc_pointer;
-    u8 reserved[0x48 - 0x1c];
-    u8 *p_buf;
-} MBiCacheList;
+#include "../sdk_mb.h"
 
 typedef struct MbSegmentHeaderInfo {
     u32 target;
@@ -91,13 +81,7 @@ typedef struct MbSegmentInfo
 }
 MbSegmentInfo;
 
-typedef struct MbDownloadFileInfoHeader
-{
-    u32 arm9EntryAddr;
-    u32 arm7EntryAddr;
-    u32 reserved;
-}
-MbDownloadFileInfoHeader;
+#include "mb_parent.h"
 
 typedef struct {
     u32 offset;
@@ -118,22 +102,7 @@ typedef struct {
     u32 own_size;                 /* 0x80 */
 } RomHeader;
 
-typedef struct
-{
-    u32 seg_src_offset[3];
-    u16 seg_head_blockno[3];
-    u16 block_num;
-}
-MB_BlockInfoTable;
 
-typedef struct
-{
-    u32 child_address;
-    u32 size;
-    u32 offset;
-    u8 segment_no;
-}
-MB_BlockInfo;
 
 typedef enum {
     SEG_A = 0,
@@ -141,32 +110,21 @@ typedef enum {
     SEG_C = 2
 } SegType;
 
-extern u32 FS_GetFilePosition(struct FSFile *file);
-extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
-extern int FS_SeekFile(struct FSFile *file, long offset, int origin);
-extern void *CARD_GetOwnRomHeader(void);
-extern void FS_InitFile(FSFile *file);
-extern struct FSArchive *FS_FindArchive(char *name, int name_len);
-extern int FS_OpenFileDirect(FSFile *file, struct FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern void *CARDi_GetRomCacheBuffer(void);
-extern void MBi_InitCache(void *pl);
-extern void MBi_AttachCacheBuffer(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state);
-extern u32 FS_GetFileImageTop(FSFile *file);
-extern int FS_CloseFile(FSFile *file);
+#include "../arm9/fs_file.h"
+#include "../arm9/card_api.h"
+#include "../arm9/fs_archive.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/card_rom.h"
+#include "mb_cache.h"
+#include "../arm9/fs_proc_mem.h"
 void MBi_ReadSegmentHeader(MbSegmentHeaderInfo *p, u32 top, u32 bottom, int clean);
-extern void DC_FlushRange(void *startAddr, u32 nBytes);
+#include "../arm9/os_cache.h"
 extern void _start_AutoloadDoneCallback(void **argv);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern unsigned long OS_DisableInterrupts(void);
-extern int MBi_IsStarted(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void MBi_MakeGameInfo(u8 *gameInfop, u8 *mbGameRegp, u8 *parent);
-extern void MB_AddGameInfo(void *);
-extern int MBi_IsTaskAvailable(void);
-extern void MBi_InitTaskInfo(void *);
-extern void MBi_InitTaskThread(void *, unsigned long);
-extern void OS_Terminate(void);
+#include "../arm9/os_system.h"
+#include "mb_wm_base.h"
+#include "mb_gameinfo.h"
+#include "mb_task.h"
+#include "../arm9/os_terminate_processor.h"
 extern BOOL IsAbleToLoad(u8 segment_no, u32 address, u32 size);
 u32 MB_GetSegmentLength(void *file);
 int MB_ReadSegment(FSFile *file, void *buf, u32 len);
@@ -180,7 +138,6 @@ extern char d_021F6E54[];
 extern CARDRomRegion mbi_seg_header_default[3];
 extern CARDRomRegion *mbi_seg_header;
 extern CARDRomRegion _ZZ14MB_ReadSegmentP6FSFilePvmE18mbi_seg_header_twl[3];
-extern unsigned char *mbc;
 extern const u32 MBi_defaultLoadSegList[];
 extern SegType g_021F6D04[3];
 
@@ -379,7 +336,7 @@ int MB_ReadSegment(FSFile *file, void *buf, u32 len)
 
                 info.target = BUFROM(main.offset);
                 info.src = (u8 *)(BUFROM(main.ram_address) - info.target);
-                info.dst = (u8 *)((u32)p_cache->p_buf - info.target);
+                info.dst = (u8 *)((u32)p_cache->list[1].ptr - info.target);
                 info.size = len;
                 p_map = mbi_seg_header;
                 MBi_ReadSegmentHeader((MbSegmentHeaderInfo *)&info, 0x4000, 0x8000, 1);
@@ -389,7 +346,7 @@ int MB_ReadSegment(FSFile *file, void *buf, u32 len)
                     MBi_ReadSegmentHeader((MbSegmentHeaderInfo *)&info, w[0], w[0] + w[1], 0);
                     p_map++;
                 }
-                dst2 = (u8 *)p_cache->p_buf;
+                dst2 = (u8 *)p_cache->list[1].ptr;
                 dst2 += ((u32)&_start_AutoloadDoneCallback - BUFROM(main.ram_address));
                 *(u32 *)dst2 = 0xE12FFF1E;
             }
@@ -474,7 +431,7 @@ int MB_RegisterFile(struct MBGameRegistry *game_reg, void *buf)
     MBi_MakeGameInfo((u8 *)mbc + 0x186c + fileID * 0x5D4, (u8 *)game_reg,
                      (unsigned char *)mbc + 0x1300);
     *(u8 *)(E(fileID) + 0xd21) = fileID;
-    MB_AddGameInfo((unsigned char *)mbc + 0x186c + fileID * 0x5D4);
+    MB_AddGameInfo((MbGameInfo *)((unsigned char *)mbc + 0x186c + fileID * 0x5D4));
     *(u8 *)(E(fileID) + 0xd1f) = update++;
     *(u16 *)(E(fileID) + 0xd4e) = 1;
     *(u32 *)(E(fileID) + 0xd44) = (u32)buf;
@@ -642,13 +599,13 @@ BOOL MBi_get_blockinfo(MB_BlockInfo *bi, MB_BlockInfoTable *table,
         return 0;
 
     seg_block = block - table->seg_head_blockno[i];
-    block_adr_offset = seg_block * *(u32 *)(mbc + 0x1318);
+    block_adr_offset = seg_block * MBC_BLOCK_SIZE_MAX;
 
     {
         MbSegmentInfo *si = MBi_GetSegmentInfo(mdfi, i);
         bi->size = si->size - block_adr_offset;
-        if (bi->size > *(u32 *)(mbc + 0x1318))
-            bi->size = *(u32 *)(mbc + 0x1318);
+        if (bi->size > MBC_BLOCK_SIZE_MAX)
+            bi->size = MBC_BLOCK_SIZE_MAX;
         bi->offset = block_adr_offset + table->seg_src_offset[i];
         bi->child_address = block_adr_offset + si->recv_addr;
         bi->segment_no = (u8)i;

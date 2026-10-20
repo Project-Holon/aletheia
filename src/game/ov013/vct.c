@@ -37,34 +37,28 @@
  */
 #include "vct_types.h"
 
-extern unsigned long long OS_GetTick(void);
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 
-extern void OSi_ReferSymbol(const void *symbol);
+#include "../arm9/crt0.h"
 
-extern void MI_CpuFill8(void *dst, int c, int n);
+#include "../arm9/mi_memory.h"
 
-extern int  VCT_MIXER_Init(void);
+#include "vct_mixer.h"
 
-extern int VCT_SESSION_InitPeerPool(VctInitParams *params);
+#include "vct_audio.h"
 
-extern void VCT_SESSION_ResetPeerPool(void);
 
-extern int VCT_POOL_InitFrames(VctRxPacket *buffer, u32 size);
+#include "vct_pool.h"
 
-extern void VCT_POOL_Reset(void);
 
-extern void VCT_MIXER_ClearMemberCount(void);
 
-extern void VCT_SESSION_CheckAnnounceTimeout(void);
+#include "vct_session.h"
 
-extern int VCT_AUDIO_SendFrameStep(void);
 
-extern int VCT_AUDIO_DecodePendingFrames(void);
 struct VctAudioFrame;
 
-extern int VCT_AUDIO_ReceiveFrame(u32 senderAid, struct VctAudioFrame *frame, u32 size, u64 arrivalTick);
 
-extern int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event);
 
 int VCT_Init(VctInitParams *params);
 

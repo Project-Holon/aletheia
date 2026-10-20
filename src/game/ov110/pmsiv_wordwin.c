@@ -84,11 +84,10 @@
 #include "pmsiv_wordwin_types.h"
 #include "pms_input_view_shared_types.h"
 
-struct Pt { u16 x, y; };
+struct PmsivWordwinPt { u16 x, y; };
 
-struct PtS { short x, y; };
+struct PmsivWordwinPtS { short x, y; };
 
-struct PmsPos3 { int x, y, z; };
 
 #define IO_U16(addr) (*(volatile u16 *)(addr))
 
@@ -106,46 +105,44 @@ struct PmsPos3 { int x, y, z; };
 
 #define REG_BLDCNT_ADDR 0x04000050
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+#include "../arm9/bg_sys.h"
 struct BmpWin;
 struct Bmp;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct BmpWin;
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 struct Strbuf;
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern void BG_SYS_PushTile(u32);
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct GfFont;
 
-extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
+#ifdef __MWERKS__
+#define PRINTSYS_Print PRINTSYS_Print_hdr
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_Print
+void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
+#endif
 
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+#include "../arm9/clact.h"
 
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-struct Actor;
+struct ClactActor;
 
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
 
-extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
 
-extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
 struct Bmp;
 
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 
 #include "../types.h"
 
@@ -153,65 +150,42 @@ typedef enum { PLANE_NONE=0, PLANE_ALL=31 } Plane;
 
 typedef enum { WINDOW_NONE=0, WINDOW_0=1, WINDOW_1=2, WINDOW_OBJ=4 } Window;
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/g2.h"
 
-extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 
-extern void GF_FONT_SetDefaultTextColor(void);
+#include "../arm9/gf_font.h"
 
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
 
-extern void PMS_INPUT_VIEW_GetUiRes(struct PmsInputView *view, struct PmsPos3 *out, int x, int y);
+#include "pms_input_view.h"
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 struct GfFont;
 
-extern struct GfFont *PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
 
-extern struct Obj *PMS_INPUT_VIEW_CreateActor(struct PmsInputView *view, struct PmsPos3 *pos, short x, short y, unsigned int a, int mode);
 
-extern void PMS_INPUT_VIEW_GetCursorRes(struct PmsInputView *view, struct PmsPos3 *out, int i);
 
-extern void PMS_INPUT_VIEW_LoadBgPalette(struct PmsInputView *view, int enable);
 
-extern void PMSIV_BGSCROLL_Start(struct PmsivBgScroll *scroll, int layer, int axis, int step, int frames);
+#include "pmsiv_tool.h"
 
-extern int PMSIV_BGSCROLL_Step(struct PmsivBgScroll *scroll);
 
-extern void PMSIV_FADE_StartBlend(struct PmsivFade *fade, int firstPlanes, int secondPlanes, int start, int end, int frames);
 
-extern int PMSIV_FADE_IsBlendDone(struct PmsivFade *fade);
 
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct PtS *delta, u32 which);
 
-extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 
-extern void CLACT_GetActorSurfacePos(struct Obj *actor, struct PtS *out, u16 space);
 struct Pt16;
 
-extern void CLACT_SetActorPos(struct Actor *actor, struct Pt16 *pos);
 
 extern const char gPmsivWordwinFileName[];
 
-unsigned int *PMS_INPUT_GetUiInputModePtr(PmsInput *input);
+#include "pms_input.h"
 
-u8 PMS_INPUT_GetBrowseMode(PmsInput *input);
 
-u16 PMS_INPUT_GetCursorPos(PmsInput *input);
 
-u32 PMS_INPUT_GetListItemCount(PmsInput *input);
 
-void PMS_INPUT_GetListWord(PmsInput *input,u32 a,int b);
 
-void PMS_INPUT_GetScrollRange(const PmsInput *input, u16 *topRow, u16 *maxTopRow);
 
 struct PmsivWordwin *PMSIV_WORDWIN_Create(struct PmsInputView *view, PmsInput *input, struct PmsInputData *wordData);
 
@@ -241,7 +215,7 @@ void PMSIV_WORDWIN_Scroll(struct PmsivWordwin *p,int amount);
 
 int PMSIV_WORDWIN_UpdateScroll(struct PmsivWordwin *p);
 
-u32 PMSIV_WORDWIN_GetThumb(struct PmsivWordwin *p,struct PtS *out);
+u32 PMSIV_WORDWIN_GetThumb(struct PmsivWordwin *p,struct PmsivWordwinPtS *out);
 
 void PMSIV_WORDWIN_SetThumbRow(struct PmsivWordwin *p,unsigned a,unsigned n);
 
@@ -273,8 +247,8 @@ struct PmsivWordwin *PMSIV_WORDWIN_Create(struct PmsInputView *view, PmsInput *i
 
 /* Frees the actors, the text and the windows. */
 void PMSIV_WORDWIN_Delete(struct PmsivWordwin *p) {
-    if(p->cursor) CLACT_DeleteActor((struct Actor *)p->cursor);
-    if(p->scrollThumb) CLACT_DeleteActor((struct Actor *)p->scrollThumb);
+    if(p->cursor) CLACT_DeleteActor((struct ClactActor *)p->cursor);
+    if(p->scrollThumb) CLACT_DeleteActor((struct ClactActor *)p->scrollThumb);
     if(p->wordText) STRBUF_Delete((struct Strbuf *)p->wordText);
     BMP_WIN_Delete((struct BmpWin *)p->wrapWindow);
     BMP_WIN_Delete((struct BmpWin *)p->listWindow);
@@ -293,25 +267,25 @@ void PMSIV_WORDWIN_Setup(struct PmsivWordwin *p) {
 
 /* Creates the cursor, the scroll thumb and the ten decoration actors. */
 void PMSIV_WORDWIN_CreateActors(struct PmsivWordwin *p) {
-    struct PmsPos3 t;
-    struct PmsPos3 s;
+    struct PmsInputViewSpriteRes t;
+    struct PmsInputViewSpriteRes s;
     int i;
     int z;
     i=0;
     PMS_INPUT_VIEW_GetUiRes(p->view,&t,0,0);
     p->cursor=PMS_INPUT_VIEW_CreateActor(p->view,&t,62,24,4,1);
-    CLACT_SetActorAnimSeq(p->cursor,8);
-    CLACT_SetActorDrawEnable(p->cursor,0);
+    CLACT_SetActorAnimSeq((struct ClactActor *)p->cursor,8);
+    CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor,0);
     p->scrollThumb=PMS_INPUT_VIEW_CreateActor(p->view,&t,244,18,5,1);
-    CLACT_SetActorAnimSeq(p->scrollThumb,18);
-    CLACT_SetActorDrawEnable(p->scrollThumb,0);
+    CLACT_SetActorAnimSeq((struct ClactActor *)p->scrollThumb,18);
+    CLACT_SetActorDrawEnable((struct ClactActor *)p->scrollThumb,0);
     z=i;
     for(;i<10;i++) {
-        PMS_INPUT_VIEW_GetCursorRes(p->view,&s,z);
+        PMS_INPUT_VIEW_GetCursorRes((struct PmsInputView *)p->view,(struct PmsInputViewSpriteRes *)&s,z);
         p->items[i]=PMS_INPUT_VIEW_CreateActor(p->view,&s,z,z,z,1);
-        CLACT_SetActorAnimSeq(p->items[i],i);
-        CLACT_SetActorDrawEnable(p->items[i],z);
-        CLACT_SetActorBgPriority((struct Actor *)p->items[i],1);
+        CLACT_SetActorAnimSeq((struct ClactActor *)p->items[i],i);
+        CLACT_SetActorDrawEnable((struct ClactActor *)p->items[i],z);
+        CLACT_SetActorBgPriority((struct ClactActor *)p->items[i],1);
     }
 }
 
@@ -414,7 +388,7 @@ int PMSIV_WORDWIN_FinishClose(struct PmsivWordwin *p) {
     int i;
     if(p->fadeBusy==0) {
     if(PMSIV_FADE_IsBlendDone(&p->fade)) {
-        for(i=0;i<10;i++) CLACT_SetActorDrawEnable(p->items[i],0);
+        for(i=0;i<10;i++) CLACT_SetActorDrawEnable((struct ClactActor *)p->items[i],0);
         BG_SYS_SetPlaneVisible(2,0);
         outside_b(p->savedWinOut.bits.plane,p->savedWinOut.bits.effect);
         visible_b(p->savedDispWindows);
@@ -427,23 +401,23 @@ int PMSIV_WORDWIN_FinishClose(struct PmsivWordwin *p) {
 /* Shows or hides the cursor and the scroll thumb. */
 void PMSIV_WORDWIN_SetVisible(struct PmsivWordwin *p, unsigned visible) {
     if (visible) {
-        if (*p->uiInputMode==0) CLACT_SetActorDrawEnable(p->cursor,1);
-        else CLACT_SetActorDrawEnable(p->cursor,0);
-        CLACT_SetActorDrawEnable(p->scrollThumb, PMS_INPUT_GetListItemCount(p->input)>14 ? 1 : 0);
+        if (*p->uiInputMode==0) CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor,1);
+        else CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor,0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)p->scrollThumb, PMS_INPUT_GetListItemCount((PmsInput *)p->input)>14 ? 1 : 0);
     } else {
-        CLACT_SetActorDrawEnable(p->cursor,visible);
-        CLACT_SetActorDrawEnable(p->scrollThumb,0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor,visible);
+        CLACT_SetActorDrawEnable((struct ClactActor *)p->scrollThumb,0);
     }
 }
 
 /* Puts the cursor on a list cell. */
 void PMSIV_WORDWIN_SetCursorCell(struct PmsivWordwin *p, unsigned i) {
-    struct PtS pos;
+    struct PmsivWordwinPtS pos;
     if (i != -1) {
         pos.x = 0x70*(i&1)+0x3e;
         pos.y = 0x18*((i>>1)+1);
-        CLACT_AddActorSurfacePos(p->cursor, &pos, 0);
-        CLACT_SetActorAnimSeq(p->cursor, 8);
+        CLACT_AddActorSurfacePos((struct ClactActor *)p->cursor, (const struct ClactVec2 *)&pos, 0);
+        CLACT_SetActorAnimSeq((struct ClactActor *)p->cursor, 8);
     }
 }
 
@@ -484,11 +458,11 @@ void PMSIV_WORDWIN_Scroll(struct PmsivWordwin *p,int amount) {
 int PMSIV_WORDWIN_UpdateScroll(struct PmsivWordwin *p) { u16 x,y; if(PMSIV_BGSCROLL_Step(&p->scroll)) { PMS_INPUT_GetScrollRange(p->input,&x,&y); PMSIV_WORDWIN_SetThumbRow(p,x,y); return 1; } return 0; }
 
 /* Reads the scroll thumb position and visibility. */
-u32 PMSIV_WORDWIN_GetThumb(struct PmsivWordwin *p,struct PtS *out) { u32 result; result=CLACT_GetActorDrawEnable((struct Actor *)p->scrollThumb); CLACT_GetActorSurfacePos(p->scrollThumb,out,0); return result; }
+u32 PMSIV_WORDWIN_GetThumb(struct PmsivWordwin *p,struct PmsivWordwinPtS *out) { u32 result; result=CLACT_GetActorDrawEnable((struct ClactActor *)p->scrollThumb); CLACT_GetActorSurfacePos((struct ClactActor *)p->scrollThumb,(struct ClactVec2 *)out,0); return result; }
 
 /* Puts the scroll thumb at the position of a row. */
 void PMSIV_WORDWIN_SetThumbRow(struct PmsivWordwin *p,unsigned a,unsigned n) {
-    struct PtS pos;
+    struct PmsivWordwinPtS pos;
     short lo,hi;
     pos.x=244;
     if(a==0) { pos.y=18; goto apply; }
@@ -506,18 +480,18 @@ void PMSIV_WORDWIN_SetThumbRow(struct PmsivWordwin *p,unsigned a,unsigned n) {
     goto apply;
 low: pos.y=18;
 apply:
-    CLACT_AddActorSurfacePos(p->scrollThumb, &pos, 0);
+    CLACT_AddActorSurfacePos((struct ClactActor *)p->scrollThumb, (const struct ClactVec2 *)&pos, 0);
 }
 
 /* Puts the scroll thumb at a height, clamped to the bar. */
-void PMSIV_WORDWIN_SetThumbY(struct PmsivWordwin *p,int y) { struct PtS pos; CLACT_GetActorSurfacePos(p->scrollThumb,&pos,0); pos.y=y; if(pos.y<18) pos.y=18; if(pos.y>149) pos.y=149; CLACT_AddActorSurfacePos(p->scrollThumb, &pos, 0); }
+void PMSIV_WORDWIN_SetThumbY(struct PmsivWordwin *p,int y) { struct PmsivWordwinPtS pos; CLACT_GetActorSurfacePos((struct ClactActor *)p->scrollThumb,(struct ClactVec2 *)&pos,0); pos.y=y; if(pos.y<18) pos.y=18; if(pos.y>149) pos.y=149; CLACT_AddActorSurfacePos((struct ClactActor *)p->scrollThumb, (const struct ClactVec2 *)&pos, 0); }
 
 /* Row that matches the scroll thumb position. */
 unsigned PMSIV_WORDWIN_GetThumbRow(struct PmsivWordwin *p, unsigned n)
 {
     int i;
     unsigned result;
-    struct PtS pos;
+    struct PmsivWordwinPtS pos;
     short y;
     PMSIV_WORDWIN_GetThumb(p, &pos);
     if (n == 0) goto zero;
@@ -570,7 +544,7 @@ void PMSIV_WORDWIN_ResetScroll(struct PmsivWordwin *p) { p->originY=0; p->firstS
 void PMSIV_WORDWIN_DrawCell(struct PmsivWordwin *p, u32 n, u32 y)
 {
     u32 font;
-    struct Pt pos;
+    struct PmsivWordwinPt pos;
     u32 wrap, x;
     struct Bmp *dest;
     font = (u32)PMS_INPUT_VIEW_GetFont(p->view);
@@ -580,8 +554,8 @@ void PMSIV_WORDWIN_DrawCell(struct PmsivWordwin *p, u32 n, u32 y)
         n = n - 2;
         pos.x = x;
         pos.y = y - 8;
-        CLACT_SetActorPos((struct Actor *)p->items[n], (struct Pt16 *)(&pos));
-        CLACT_SetActorDrawEnable(p->items[n], 1);
+        CLACT_SetActorPos((struct ClactActor *)p->items[n], (const struct Pt16 *)((struct Pt16 *)(&pos)));
+        CLACT_SetActorDrawEnable((struct ClactActor *)p->items[n], 1);
         return;
     }
     PMS_INPUT_GetListWord(p->input, n - 2, (int)(p->wordText));
@@ -602,16 +576,16 @@ void PMSIV_WORDWIN_DrawCell(struct PmsivWordwin *p, u32 n, u32 y)
 
 /* Starts the animation of the cursor on the picked cell. */
 void PMSIV_WORDWIN_StartPickAnim(struct PmsivWordwin *p, unsigned i) {
-    struct PtS pos;
-    p->cursorWasVisible=CLACT_GetActorDrawEnable((struct Actor *)p->cursor);
-    CLACT_SetActorDrawEnable(p->cursor,1);
+    struct PmsivWordwinPtS pos;
+    p->cursorWasVisible=CLACT_GetActorDrawEnable((struct ClactActor *)p->cursor);
+    CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor,1);
     if (i != -1) {
         pos.x=0x70*(i&1)+0x3e;
         pos.y=0x18*((i>>1)+1);
-        CLACT_AddActorSurfacePos(p->cursor, &pos, 0);
-        CLACT_SetActorAnimSeq(p->cursor,0x1c);
+        CLACT_AddActorSurfacePos((struct ClactActor *)p->cursor, (const struct ClactVec2 *)&pos, 0);
+        CLACT_SetActorAnimSeq((struct ClactActor *)p->cursor,0x1c);
     }
 }
 
 /* Ends the pick animation when it is done. */
-int PMSIV_WORDWIN_IsPickAnimDone(struct PmsivWordwin *p) { if(CLACT_GetActorAnimSeq((struct Actor *)p->cursor)!=28) return 1; if(!CLACT_IsActorAnimActive((struct Actor *)p->cursor)) { CLACT_SetActorDrawEnable(p->cursor,p->cursorWasVisible); CLACT_SetActorAnimSeq(p->cursor,8); p->cursorWasVisible=0; return 1; } return 0; }
+int PMSIV_WORDWIN_IsPickAnimDone(struct PmsivWordwin *p) { if(CLACT_GetActorAnimSeq((struct ClactActor *)p->cursor)!=28) return 1; if(!CLACT_IsActorAnimActive((struct ClactActor *)p->cursor)) { CLACT_SetActorDrawEnable((struct ClactActor *)p->cursor,p->cursorWasVisible); CLACT_SetActorAnimSeq((struct ClactActor *)p->cursor,8); p->cursorWasVisible=0; return 1; } return 0; }

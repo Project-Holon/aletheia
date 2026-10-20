@@ -10,8 +10,8 @@
 #include "../ov093/btl_calc_types.h"
 
 struct BtlMain;
-struct BtlPokeCon;
-struct BtlParty;
+struct BtlSide;
+struct BtlSideSlot;
 struct BtlPokeParam;
 struct BtlvInput;
 struct BtlClient;
@@ -109,8 +109,8 @@ typedef struct BtlvAuxView {
     u32 result;                     /* 0x98, result of the last menu */
     struct BtlvCore *core;          /* 0x9c */
     struct BtlMain *mainModule;     /* 0xa0 */
-    struct BtlPokeCon *pokeCon;     /* 0xa4 */
-    struct BtlParty *ownParty;      /* 0xa8, party of the local client */
+    struct BtlSide *pokeCon;     /* 0xa4 */
+    struct BtlSideSlot *ownParty;      /* 0xa8, party of the local client */
     u16 heapId;                     /* 0xac */
     u8 padAE[2];
     struct BtlvInput *input;        /* 0xb0 */

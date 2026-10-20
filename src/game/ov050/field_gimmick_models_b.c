@@ -30,8 +30,22 @@
  *   gModelsBSetup     0x021F38A4  data  a4
  *   gModelsBModelPos     0x021F38B4  data  a4
  */
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS file declares these differently from the ARM9 headers. */
+#ifdef __MWERKS__
+#define FLD_EXP_OBJ_GetAnime FLD_EXP_OBJ_GetAnime_header
+#define FLD_EXP_OBJ_SetAnimeEnabled FLD_EXP_OBJ_SetAnimeEnabled_header
+#endif
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_models_b_types.h"
+#include "../ov021/fieldmap.h"
+#include "../ov021/fld_exp_obj.h"
+#include "field_gimmick_models_b.h"
+#ifdef __MWERKS__
+#undef FLD_EXP_OBJ_GetAnime
+#undef FLD_EXP_OBJ_SetAnimeEnabled
+void *FLD_EXP_OBJ_GetAnime(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx);
+void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
+#endif
 
 void FIELD_GIMMICK_MODELS_B_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_B_Exit(struct FieldMap *fieldMap);
@@ -44,7 +58,6 @@ void FIELD_GIMMICK_MODELS_B_ShowModel1(struct FieldMap *fieldMap);
 int FIELD_GIMMICK_MODELS_B_IsModel1AnimeDone(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_B_InitModels(FieldGimmickModelsBWork *work, struct FieldMap *fieldMap);
 void FIELD_GIMMICK_MODELS_B_InitExtra(FieldGimmickModelsBWork *work, struct FieldMap *fieldMap);
-extern void FIELD_GIMMICK_MODELS_B_ExitExtra(FieldGimmickModelsBWork *work, struct FieldMap *fieldMap);
 
 extern const G3dUtilSetup gModelsBSetup;
 extern const VecFx32 gModelsBModelPos[FIELD_GIMMICK_MODELS_B_MODEL_COUNT];

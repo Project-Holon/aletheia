@@ -30,46 +30,14 @@
  *   CPS_SocWrite  0x0215B470  arm  ov009
  *   CPS_TcpClose  0x0215AD3C  arm  ov009
  *   OS_WakeupThread  0x02085800  arm
- *   gMslRefToken     0x02150FEC  data
+ *   OSi_ThreadInfo     0x02150FEC  data
  *   SOCLiCPSConfig     0x021AA450  data
  */
+#include "../arm9/os_thread.h"
 #include "ov009_globals.h"
-extern void OS_SleepThread(void *queue);
 
-struct SOCLiSocketRingBuffer {
-    long size;
-    unsigned char *area;
-    volatile unsigned short in;
-    volatile unsigned short out;
-    struct { void *head; void *tail; } waiting;
-};
-
-struct SOCLiSocketSendCommandPipe {
-    unsigned char pad0[0xe0];
-    unsigned char mutex[0x18];
-    struct SOCLiSocketRingBuffer buffer;
-    struct SOCLSocket *exe_socket;
-};
-
-struct SOCLSocket {
-    struct {
-        unsigned char pad0[0xa];
-        unsigned short local_port;
-        unsigned char padc[0x54 - 0xc];
-        long sndbuf_len;
-        unsigned char *sndbuf;
-        unsigned char pad5c[0xa0 - 0x5c];
-    } cps_socket;
-    void *recv_pipe;
-    struct SOCLiSocketSendCommandPipe *send_pipe;
-    long result;
-    short state;
-    signed char flag_block;
-    signed char flag_mode;
-    unsigned short local_port;
-    unsigned short remote_port;
-    unsigned long remote_ip;
-};
+#include "socl_types.h"
+#include "socl_command.h"
 
 struct SOCLiCommandWrite {
     int (*handler)(void *);
@@ -97,35 +65,15 @@ typedef struct {
 	unsigned short winSize;
 } Soc;
 
-typedef struct {
-	char pad0[0xa4];
-	Soc *soc;
-} Thr;
-
-typedef struct {
-	char pad0[4];
-	Thr *cur;
-} Info;
-
-extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
+#include "socl_list.h"
 #include "../sdk_os.h"
 
-extern int OS_TryLockMutex(struct OSMutex *mutex);
-extern void OS_LockMutex(struct OSMutex *mutex);
-extern void OS_UnlockMutex(struct OSMutex *mutex);
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
+#include "../arm9/os_mutex.h"
+#include "../arm9/os_system.h"
 struct SOCLiCommandPacket;
 extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, long flag);
-extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
-extern unsigned short CPS_SocGetEport(void);
-extern int SOCLi_ExecCommandPacketInSendPipe(struct SOCLSocket *socket, struct SOCLiCommandWrite *command);
-extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
-extern unsigned long CPS_SocWrite(unsigned char *buf, unsigned long len);
-extern void CPS_TcpClose(void);
-extern void OS_WakeupThread(void *queue);
-extern Info gMslRefToken;
-extern CpsConfig SOCLiCPSConfig;
+#include "../arm9/mi_memory.h"
+#include "cps_network.h"
 int SOCL_WriteTo(int s, void *buffer, int buffer_len, unsigned short remote_port, unsigned long remote_ip,
                   int flags);
 static int SOCLi_WriteBuffer(struct SOCLSocket *socket, unsigned char *buffer, long buffer_len,
@@ -203,7 +151,7 @@ static int SOCLi_WriteBuffer(struct SOCLSocket *socket, unsigned char *buffer, l
     long wrtbuf_in;
     long sndbuf_len;
 
-    sndbuf_len = socket->send_pipe->exe_socket->cps_socket.sndbuf_len;
+    sndbuf_len = socket->send_pipe->exe_socket->cps_socket.sndbuf.size;
     copied_len = 0;
     if (socket->flag_mode == 1) {
         sndbuf_len -= 0x2a;
@@ -368,7 +316,7 @@ static int SOCLi_ExecWriteCommand(struct SOCLSocket *socket, unsigned char *buff
     } else {
         command->remote_ip = 0;
     }
-    result = SOCLi_ExecCommandPacketInSendPipe(send_pipe->exe_socket, command);
+    result = SOCLi_ExecCommandPacketInSendPipe(send_pipe->exe_socket, (struct SOCLiCommandPacket *)command);
     if (result) {
         send_pipe->buffer.in = saved_send_buffer_in;
         buffer_len = 0;
@@ -403,11 +351,11 @@ static int SOCLi_WriteCallBack(void *arg)
     hdr = 0x36;
     if (!isStream(socket->flag_mode))
         hdr = 0x2a;
-    sndbuf = socket->cps_socket.sndbuf;
+    sndbuf = socket->cps_socket.sndbuf.data;
     if (socket->flag_mode == 0 || socket->flag_mode == 4)
-        sndbuf_len = SOCLi_GetOptimumSendBufLen(socket->cps_socket.sndbuf_len - hdr);
+        sndbuf_len = SOCLi_GetOptimumSendBufLen((long)socket->cps_socket.sndbuf.size - hdr);
     else
-        sndbuf_len = socket->cps_socket.sndbuf_len - hdr;
+        sndbuf_len = (long)socket->cps_socket.sndbuf.size - hdr;
     for (;;) {
         int n = SOCLi_MemCpy(sndbuf + hdr, sndbuf_len, cpacket);
         if (n <= 0)
@@ -438,11 +386,11 @@ done:
  * config buffer size), doubled, then as many whole copies of `len` as the
  * divisor helper allows.  Interrupts are off across the window-size read.
  *
- * The lever was the `int max = SOCLiCPSConfig.bufSize;` local: reading the config
+ * The lever was the `int max = SOCLiCPSConfig.mymss;` local: reading the config
  * word into a local *before* the two min compares is what makes the scheduler
  * hoist the config base load above `cmp winSize, mss`, which in turn keeps
  * `mss` alive in r2 (r3 = winSize, r2 = mss, r1 = bufSize).  Reading
- * SOCLiCPSConfig.bufSize inline in the second compare sinks both loads below the
+ * SOCLiCPSConfig.mymss inline in the second compare sinks both loads below the
  * first min and reuses r1 for mss (21 bytes out); using `temp` itself as the
  * running minimum forces it into r6 and costs the frame (`push {r4,r5,r6,lr}`).
  *
@@ -460,12 +408,12 @@ int SOCLi_GetOptimumSendBufLen(int len)
 	unsigned long enabled;
 	int count;
 
-	soc = gMslRefToken.cur->soc;
+	soc = (Soc *)OSi_ThreadInfo.current->specific[0];
 	enabled = OS_DisableInterrupts();
 	if (soc != 0) {
 		if (soc->winSize != 0 && soc->mss != 0) {
 			int w = soc->winSize;
-			int max = SOCLiCPSConfig.bufSize;
+			int max = SOCLiCPSConfig.mymss;
 			if (w > soc->mss) {
 				w = soc->mss;
 			}
@@ -474,10 +422,10 @@ int SOCLi_GetOptimumSendBufLen(int len)
 			}
 			temp = w << 1;
 		} else {
-			temp = SOCLiCPSConfig.bufSize << 1;
+			temp = SOCLiCPSConfig.mymss << 1;
 		}
 	} else {
-		temp = SOCLiCPSConfig.bufSize << 1;
+		temp = SOCLiCPSConfig.mymss << 1;
 	}
 	OS_RestoreInterrupts(enabled);
 	if (temp > 0) {

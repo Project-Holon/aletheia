@@ -7,7 +7,7 @@
 
 #include "../types.h"
 
-struct PalAnmSlot;
+struct PaletteFade;
 struct PrintSys;
 struct GfFont;
 struct WordSet;
@@ -160,7 +160,7 @@ typedef struct MonolithToolBlink {
 
 /* Work object of the tool shell, 0x13C bytes. */
 typedef struct MonolithToolWork {
-    /* 0x00 */ struct PalAnmSlot *palAnm;
+    /* 0x00 */ struct PaletteFade *palAnm;
     /* 0x04 */ u8 *actorTool;
     /* 0x08 */ struct PrintSys *printSys;
     /* 0x0C */ struct GfFont *font;

@@ -20,7 +20,7 @@
  */
 #include "nns_fnd_types.h"
 
-#define GetLink(list, obj) ((NNSFndLink *)(((u32)(obj)) + (list)->offset))
+#define GetLink(list, obj) ((NNSFndLink *)(((uptr)(obj)) + (list)->offset))
 #define NNSi_FndSetBitValue(data, st, bits, val) \
     ((data) = (((data) & ~(((1u << (bits)) - 1) << (st))) | (((val) & ((1u << (bits)) - 1)) << (st))))
 struct DList;
@@ -393,7 +393,7 @@ struct Elem *NNSi_FndFindElem(struct DList *list, u32 val)
 void *NNSi_FndFindListContainHeap(u32 a)
 {
     void *r = &sRootList;
-    u32 v = (u32)NNSi_FndFindElem((struct DList *)(&sRootList), a);
+    u32 v = (uptr)NNSi_FndFindElem((struct DList *)(&sRootList), a);
 
     if (v != 0) {
         r = (void *)(v + 0xc);
@@ -428,19 +428,19 @@ void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapSta
     pHeapHd->attribute = 0;
     SetOptForHeap(pHeapHd, optFlag);
 
-    NNS_FndInitList((int)(&pHeapHd->childList), 4);
+    NNS_FndInitList((sptr)(&pHeapHd->childList), 4);
 
     if (!sRootListInitialized) {
-        NNS_FndInitList((int)(&sRootList), 4);
+        NNS_FndInitList((sptr)(&sRootList), 4);
         sRootListInitialized = 1;
     }
 
-    NNS_FndAppendListObject(NNSi_FndFindListContainHeap((u32)pHeapHd), pHeapHd);
+    NNS_FndAppendListObject(NNSi_FndFindListContainHeap((uptr)pHeapHd), pHeapHd);
 }
 
 void NNSi_FndFinalizeHeap(void *p)
 {
-    NNS_FndRemoveListObject(NNSi_FndFindListContainHeap((u32)p), p);
+    NNS_FndRemoveListObject(NNSi_FndFindListContainHeap((uptr)p), p);
 }
 
 /*
@@ -463,8 +463,8 @@ void NNSi_FndGetMBlockRegion(int *out, int *blk)
 {
     int f = ((struct MBlock *)blk)->attr;
 
-    out[0] = (int)blk - (u16)((f >> 8) & 0x7f);
-    out[1] = blk[1] + (int)(blk + 4);
+    out[0] = (sptr)blk - (u16)((f >> 8) & 0x7f);
+    out[1] = blk[1] + (sptr)(blk + 4);
 }
 
 void *NNSi_FndRemoveMBlock(int *p, int *node)
@@ -472,13 +472,13 @@ void *NNSi_FndRemoveMBlock(int *p, int *node)
     int *a = (int *)node[2];
     int *b = (int *)node[3];
     if (a != 0)
-        a[3] = (int)b;
+        a[3] = (sptr)b;
     else
-        p[0] = (int)b;
+        p[0] = (sptr)b;
     if (b != 0)
-        b[2] = (int)a;
+        b[2] = (sptr)a;
     else
-        p[1] = (int)a;
+        p[1] = (sptr)a;
     return a;
 }
 
@@ -488,16 +488,16 @@ void *NNSi_FndInsertMBlock(int *p, void *node, int *a)
     ((struct MBlock *)node)->prev = (struct MBlock *)a;
     if (a != 0) {
         b = (int *)a[3];
-        a[3] = (int)node;
+        a[3] = (sptr)node;
     } else {
         b = (int *)p[0];
-        p[0] = (int)node;
+        p[0] = (sptr)node;
     }
     ((struct MBlock *)node)->next = (struct MBlock *)b;
     if (b != 0)
-        b[2] = (int)node;
+        b[2] = (sptr)node;
     else
-        p[1] = (int)node;
+        p[1] = (sptr)node;
     return node;
 }
 
@@ -559,8 +559,8 @@ void *NNSi_FndCreateExpHeap(struct ExpHeap *heap, void *lo, u16 attr)
     heap->feature = 0;
     heap->feature = heap->feature & ~1;
 
-    pair[0] = (int)heap->lo;
-    pair[1] = (int)heap->hi;
+    pair[0] = (sptr)heap->lo;
+    pair[1] = (sptr)heap->hi;
     heap->freeList.head = NNSi_FndInitMBlock(pair, 0x4652);
     heap->freeList.tail = heap->freeList.head;
     heap->usedList.head = 0;
@@ -615,7 +615,7 @@ void *NNSi_FndCreateExpHeap(struct ExpHeap *heap, void *lo, u16 attr)
 void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, void *ptr,
                     u32 size, u16 fromTail)
 {
-    int              end;
+    sptr end;
     int              start;
     struct MemRegion rest;
     struct MemRegion alloc;
@@ -625,8 +625,8 @@ void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, 
 
     NNSi_FndGetMBlockRegion(&start, (int *)block);
     rest.end = end;
-    end = (int)ptr - 0x10;
-    rest.start = (int)(size + (u32)ptr);
+    end = (sptr)ptr - 0x10;
+    rest.start = (int)(size + (uptr)ptr);
 
     prev = NNSi_FndRemoveMBlock((int *)(&heap->freeList), (int *)block);
     if ((u32)(end - start) < 0x14) {
@@ -646,12 +646,12 @@ void *NNSi_FndAllocFromExpHeap(struct ExpHeapLists *heap, struct MBlock *block, 
         MIi_CpuClear32(0, (void *)end, sz);
     }
 
-    alloc.start = (int)ptr - 0x10;
+    alloc.start = (sptr)ptr - 0x10;
     alloc.end = rest.start;
     node = NNSi_FndInitMBlock((int *)&alloc, 0x5544);
     node->attr = node->attr & ~0x8000;
     node->attr = node->attr | (u16)(fromTail << 15);
-    sz = (u16)((u32)node - (u32)end);
+    sz = (u16)((uptr)node - (u32)end);
     node->attr = node->attr & ~0x7f00;
     node->attr = node->attr | ((sz & 0x7f) << 8);
     sz = heap->groupId & 0xff;
@@ -703,7 +703,7 @@ void *NNSi_FndAllocFromExpHeapHead(struct ExpHeap *heap, u32 size, s32 align)
 
     for (block = heap->freeList.head; block != 0; block = block->next) {
         u8   *base = (u8 *)block + 0x10;
-        u8   *ptr = (u8 *)(((align - 1) + (u32)base) & ~(align - 1));
+        u8   *ptr = (u8 *)(((align - 1) + (uptr)base) & ~(align - 1));
         u32   offset = (u32)(ptr - base);
 
         if (block->size >= size + offset && foundSize > block->size) {
@@ -762,8 +762,8 @@ void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap *heap, u32 size, s32 align)
 
     for (block = heap->freeList.tail; block != 0; block = block->prev) {
         u8   *base = (u8 *)block + 0x10;
-        u8   *end = (u8 *)(block->size + (u32)base);
-        u8   *ptr = (u8 *)(((u32)end - size) & ~(align - 1));
+        u8   *end = (u8 *)(block->size + (uptr)base);
+        u8   *ptr = (u8 *)(((uptr)end - size) & ~(align - 1));
 
         if ((s32)(ptr - base) >= 0 && foundSize > block->size) {
             found = block;
@@ -781,13 +781,13 @@ void *NNSi_FndAllocFromExpHeapTail(struct ExpHeap *heap, u32 size, s32 align)
     return NNSi_FndAllocFromExpHeap((struct ExpHeapLists *)(&heap->freeList), found, foundPtr, size, 1);
 }
 
-static inline void *AddU32ToPtr(void *ptr, u32 val) { return (void *)(val + (u32)ptr); }
+static inline void *AddU32ToPtr(void *ptr, u32 val) { return (void *)(val + (uptr)ptr); }
 
 static inline void *GetMemPtrForMBlock(struct MBlock *p) { return AddU32ToPtr(p, sizeof(struct MBlock)); }
 
 static inline void *GetMBlockEndAddr(struct MBlock *p) { return AddU32ToPtr(GetMemPtrForMBlock(p), p->size); }
 
-static inline u32 GetOffsetFromPtr(void *start, void *end) { return (u32)end - (u32)start; }
+static inline u32 GetOffsetFromPtr(void *start, void *end) { return (uptr)end - (uptr)start; }
 
 static inline struct MBlock *InitFreeMBlock(MemRegion *r) { return NNSi_FndInitMBlock((int *)r, 0x4652); }
 
@@ -872,8 +872,8 @@ BOOL NNSi_FndRecycleRegion(ExpHeapHead *pEHHead, const MemRegion *pRegion)
  */
 void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr)
 {
-    void *end = (void *)((size + (u32)start) & ~3);
-    void *lo  = (void *)(((u32)start + 3) & ~3);
+    void *end = (void *)((size + (uptr)start) & ~3);
+    void *lo  = (void *)(((uptr)start + 3) & ~3);
 
     if (lo > end || (u32)((u8 *)end - (u8 *)lo) < 0x4c) {
         return 0;
@@ -954,8 +954,8 @@ u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 siz
     }
 
     if (size > crBlockSize) {
-        struct MBlock *crUsedEnd = (struct MBlock *)(crBlockSize + (u32)(pMBHead + 1));
-        u32 oldStart;
+        struct MBlock *crUsedEnd = (struct MBlock *)(crBlockSize + (uptr)(pMBHead + 1));
+        uptr oldStart;
         struct MBlock *pMBlkFrPrev;
         u32 fillSize;
         u8 attr;
@@ -972,11 +972,11 @@ u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 siz
         pMBlkFrPrev = NNSi_FndRemoveMBlock((int *)(&pEHHead->freeList), (int *)pMBlkFr);
 
         oldStart = rgnFree.start;
-        rgnFree.start = size + (u32)memBlock;
+        rgnFree.start = size + (uptr)memBlock;
         if (rgnFree.end - rgnFree.start < 0x10) {
             rgnFree.start = rgnFree.end;
         }
-        pMBHead->size = rgnFree.start - (u32)memBlock;
+        pMBHead->size = rgnFree.start - (uptr)memBlock;
         if (rgnFree.end - rgnFree.start >= 0x10) {
             NNSi_FndInsertMBlock((int *)(&pEHHead->freeList), NNSi_FndInitMBlock((int *)(&rgnFree), 0x4652), (int *)pMBlkFrPrev);
         }
@@ -986,8 +986,8 @@ u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 siz
             MIi_CpuClear32(0, (void *)oldStart, fillSize);
         }
     } else {
-        rgn.start = size + (u32)memBlock;
-        rgn.end = pMBHead->size + (u32)(pMBHead + 1);
+        rgn.start = size + (uptr)memBlock;
+        rgn.end = pMBHead->size + (uptr)(pMBHead + 1);
         pMBHead->size = size;
         if (NNSi_FndRecycleRegion((ExpHeapHead *)pEHHead, (const MemRegion *)&rgn) == 0) {
             pMBHead->size = crBlockSize;
@@ -1097,7 +1097,7 @@ s32 NNSi_FndGetListAllocatableSize(struct Heap *heap, s32 x)
     struct HeapBlock *blk = heap->head;
 
     for (; blk != 0; blk = blk->next) {
-        u32 data = (u32)blk + 0x10;
+        u32 data = (uptr)blk + 0x10;
         u32 start = ((size - 1) + data) & ~(size - 1);
         u32 end = blk->size + data;
 

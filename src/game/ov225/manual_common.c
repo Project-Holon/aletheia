@@ -42,6 +42,7 @@
  *   MANUAL_COMMON_DeleteTouchbar 0x021B9F8C thumb ov225
  */
 #include "../version.h"
+#include "../sdk_ioreg.h"
 
 #if VERSION == VERSION_WHITE
 #define MANUAL_MSG_ARCHIVE_1 63
@@ -55,54 +56,42 @@ struct GfFont;
 
 struct MsgBank;
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *, int, int, u32, u32 *);
+#include "../arm9/arc_util.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void *MANUAL_GRAPHIC_CreateScreen(u32,u32);
+#include "manual_graphic.h"
 
-extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
+#include "../arm9/gf_font.h"
 struct PrintQueue;
 
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+#include "../arm9/printsys.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
+#include "../arm9/msgdata.h"
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 
-extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern unsigned int GF_FONT_Delete(struct GfFont *font);
 
-extern void MANUAL_GRAPHIC_DeleteScreen(char *);
 
-extern unsigned PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void MANUAL_GRAPHIC_DrawScreen(char *);
 
-extern void DC_FlushRange(const void *,unsigned);
+#include "../arm9/os_cache.h"
 
-extern void GX_LoadBG2Scr(const void *,unsigned,unsigned);
+#include "../arm9/gx_load2d.h"
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+#include "../arm9/bg_sys.h"
 
 extern void PRINTSYS_QUE_Clear(struct PrintQueue *),BMP_WIN_Delete(struct Descriptor *);
 
-void *MANUAL_COMMON_CreateMenuTable(void *narc, u32 heap);
+#include "manual_data.h"
 
-void MANUAL_COMMON_DeleteMenuTable(char *p);
 
-int MANUAL_COMMON_GetDefaultId(void *unused);
 
 void *MANUAL_COMMON_CreateData(void *owner,u16 heap);
 
@@ -116,9 +105,8 @@ void MANUAL_COMMON_InitDisplay(void *unused);
 
 void MANUAL_COMMON_DataNoop(void *unused);
 
-void *MANUAL_COMMON_CreateTouchbar(char *owner);
+#include "manual_touchbar.h"
 
-void MANUAL_COMMON_DeleteTouchbar(char *p);
 
 extern const char gManualCommonDataAllocFile[];
 
@@ -127,16 +115,16 @@ void *MANUAL_COMMON_CreateData(void *owner,u16 heap)
     struct ManualData *data=GFL_HEAP_Alloc(heap,0x38,1,gManualCommonDataAllocFile,0x4b);
     data->owner=owner; data->heap=heap;
     data->screen=MANUAL_GRAPHIC_CreateScreen(1,data->heap);
-    data->font=(u32)GF_FONT_Create(23,0,0,0,data->heap);
-    data->printQue0=(u32)PRINTSYS_QUE_Create((u32)(u32)data->heap);
-    data->printQue1=(u32)PRINTSYS_QUE_Create((u32)(u32)data->heap);
-    data->printQue2=(u32)PRINTSYS_QUE_Create((u32)(u32)data->heap);
-    data->bank0=MSGDATA_CreateFromArchive(0,2,61,data->heap);
-    data->bank1=MSGDATA_CreateFromArchive(0,2,MANUAL_MSG_ARCHIVE_1,data->heap);
-    data->arc0=ARC_TOOL_CreateHandle(223,data->heap);
-    data->arc1=ARC_TOOL_CreateHandle(231,data->heap);
+    data->font=(uptr)GF_FONT_Create(23,0,0,0,data->heap);
+    data->printQue[0]=(uptr)PRINTSYS_QUE_Create((u32)(u32)data->heap);
+    data->printQue[1]=(uptr)PRINTSYS_QUE_Create((u32)(u32)data->heap);
+    data->printQue[2]=(uptr)PRINTSYS_QUE_Create((u32)(u32)data->heap);
+    data->bank[0]=MSGDATA_CreateFromArchive(0,2,61,data->heap);
+    data->bank[1]=MSGDATA_CreateFromArchive(0,2,MANUAL_MSG_ARCHIVE_1,data->heap);
+    data->arc[0]=ARC_TOOL_CreateHandle(223,data->heap);
+    data->arc[1]=ARC_TOOL_CreateHandle(231,data->heap);
     ARC_UTIL_UploadPaletteFromArchive(23,5,4,0,64,32,data->heap);
-    data->assets=MANUAL_COMMON_CreateMenuTable(data->arc0,data->heap);
+    data->assets=MANUAL_COMMON_CreateMenuTable(data->arc[0],data->heap);
     MANUAL_COMMON_InitDisplay(data);
     data->id=65535;
     MANUAL_COMMON_SetScreenId((char *)data,MANUAL_COMMON_GetDefaultId(data->assets));
@@ -147,15 +135,15 @@ void *MANUAL_COMMON_CreateData(void *owner,u16 heap)
 void MANUAL_COMMON_DeleteData(char *data)
 {
     MANUAL_COMMON_DeleteTouchbar(((struct ManualData *)data)->group);MANUAL_COMMON_SetScreenId(data,0xffff);MANUAL_COMMON_DataNoop(data);
-    MANUAL_COMMON_DeleteMenuTable(((struct ManualData *)data)->assets);ARC_TOOL_DeleteHandle(((struct ManualData *)data)->arc0);ARC_TOOL_DeleteHandle(((struct ManualData *)data)->arc1);
-    MSGDATA_Delete(*(struct MsgBank * *)&((struct ManualData *)data)->bank0);MSGDATA_Delete(*(struct MsgBank * *)&((struct ManualData *)data)->bank1);
-    PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue0);PRINTSYS_QUE_Delete((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue0));
-    PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue1);PRINTSYS_QUE_Delete((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue1));
-    PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue2);PRINTSYS_QUE_Delete((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue2));
+    MANUAL_COMMON_DeleteMenuTable(((struct ManualData *)data)->assets);ARC_TOOL_DeleteHandle(((struct ManualData *)data)->arc[0]);ARC_TOOL_DeleteHandle(((struct ManualData *)data)->arc[1]);
+    MSGDATA_Delete(*(struct MsgBank * *)&((struct ManualData *)data)->bank[0]);MSGDATA_Delete(*(struct MsgBank * *)&((struct ManualData *)data)->bank[1]);
+    PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue[0]);PRINTSYS_QUE_Delete((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue[0]));
+    PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue[1]);PRINTSYS_QUE_Delete((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue[1]));
+    PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue[2]);PRINTSYS_QUE_Delete((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue[2]));
     GF_FONT_Delete((void *)((struct ManualData *)data)->font);MANUAL_GRAPHIC_DeleteScreen(*(char * *)&((struct ManualData *)data)->screen);GFL_HEAP_Free(data);
 }
 
-void MANUAL_COMMON_DrawData(char *data){PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue0));PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue1));PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue2));MANUAL_GRAPHIC_DrawScreen(*(char * *)&((struct ManualData *)data)->screen);}
+void MANUAL_COMMON_DrawData(char *data){PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue[0]));PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue[1]));PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintQueue * *)&((struct ManualData *)data)->printQue[2]));MANUAL_GRAPHIC_DrawScreen(*(char * *)&((struct ManualData *)data)->screen);}
 
 void MANUAL_COMMON_SetScreenId(char *data,unsigned id)
 {
@@ -167,7 +155,7 @@ void MANUAL_COMMON_SetScreenId(char *data,unsigned id)
             buf=GFL_HEAP_Alloc(((struct ManualData *)data)->heap,0x18000,1,gManualCommonDataAllocFile,245);
             size=0x18000;
         } else {
-            buf=ARC_UTIL_LoadHandleMemberWithSize(((struct ManualData *)data)->arc1,((struct ManualData *)data)->id,1,((struct ManualData *)data)->heap,&size);
+            buf=ARC_UTIL_LoadHandleMemberWithSize(((struct ManualData *)data)->arc[1],((struct ManualData *)data)->id,1,((struct ManualData *)data)->heap,&size);
         }
         DC_FlushRange(buf,size);GX_LoadBG2Scr(buf,0,0x18000);GFL_HEAP_Free(buf);
     }
@@ -176,6 +164,6 @@ void MANUAL_COMMON_SetScreenId(char *data,unsigned id)
 /*
  * volatile: 021B9EEC,021B9EF8 re-read 0400000C;021B9F02 read 04000008.
  */
-void MANUAL_COMMON_InitDisplay(void *unused){*(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;*(volatile unsigned short *)0x0400000C=(unsigned short)(*(volatile unsigned short *)0x0400000C&~3);*(volatile unsigned short *)0x04000008&=~0x40;BG_SYS_SetPlaneVisible(2,1);}
+void MANUAL_COMMON_InitDisplay(void *unused){*(volatile unsigned short *)REG_BG2CNT_ADDR=(*(volatile unsigned short *)REG_BG2CNT_ADDR&0x43)|0x4084;*(volatile unsigned short *)REG_BG2CNT_ADDR=(unsigned short)(*(volatile unsigned short *)REG_BG2CNT_ADDR&~3);*(volatile unsigned short *)REG_BG0CNT_ADDR&=~0x40;BG_SYS_SetPlaneVisible(2,1);}
 
 void MANUAL_COMMON_DataNoop(void *unused){}

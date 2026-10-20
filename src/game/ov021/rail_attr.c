@@ -42,9 +42,8 @@ typedef struct RailAttr {
     RailAttrLine **lines;    /* 0x0C: one pointer per line into data */
 } RailAttr;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern unsigned int GFL_HEAP_Free(void *p);
-extern int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, unsigned short heapID, unsigned int *out);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/arc_util.h"
 
 RailAttr *RAIL_ATTR_Create(int heapId);
 void RAIL_ATTR_Delete(RailAttr *attr);

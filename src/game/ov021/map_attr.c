@@ -23,8 +23,8 @@
 #include "../types.h"
 
 #include "map_attr_types.h"
-extern int FIELD_G3D_MAPPER_QueryNearestHit(void *g3dMapper, void *pos, u32 *out);
-int MAP_ATTR_GetAt(void *g3dMapper, void *pos);
+#include "field_g3d_mapper.h"
+int MAP_ATTR_GetAt(struct FieldG3dMapper *g3dMapper, const struct VecFx32 *pos);
 u16 MAP_ATTR_GetTerrainId(u32 attr);
 u16 MAP_ATTR_GetFlags(u32 attr);
 BOOL MAP_ATTR_IsPresent(u32 attr);
@@ -101,11 +101,11 @@ extern const u8 data_021D8EA1[];
  *
  * Addresses are Black-image addresses.
  */
-int MAP_ATTR_GetAt(void *g3dMapper, void *pos)
+int MAP_ATTR_GetAt(struct FieldG3dMapper *g3dMapper, const struct VecFx32 *pos)
 {
     u32 hit[4];
 
-    if (FIELD_G3D_MAPPER_QueryNearestHit(g3dMapper, pos, hit) == 1)
+    if (FIELD_G3D_MAPPER_QueryNearestHit( g3dMapper, pos, (FieldG3dMapHit *)hit) == 1)
         return hit[2];
     return -1;
 }

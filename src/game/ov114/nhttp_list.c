@@ -26,14 +26,12 @@
  */
 #include "nhttp_types.h"
 
-extern void *NHTTPi_alloc(unsigned long size, int align);
-extern NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *, NHTTPReq *);
-extern int NHTTPi_destroyRequestObject(NHTTPMutexInfo *, NHTTPReq *);
-extern void NHTTPi_free(void *);
-extern void NHTTPi_CompleteCallback(NHTTPMutexInfo *, NHTTPConnection *);
-extern int NHTTPi_DeleteConnection(NHTTPConnection *);
+#include "nhttp_bgnend.h"
+#include "d_nhttp_common.h"
+#include "nhttp_request.h"
+#include "d_nhttp_private.h"
 struct _NHTTPi_DATALIST;
-extern struct _NHTTPi_DATALIST *NHTTPi_getHdrFromList(struct _NHTTPi_DATALIST **head_pp);
+#include "nhttp_control.h"
 void NHTTPi_InitListInfo(NHTTPListInfo *listInfo_p);
 int NHTTPi_setReqQueue(NHTTPListInfo *listInfo_p, NHTTPReq *req_p);
 NHTTPi_REQLIST *NHTTPi_findReqQueue(NHTTPListInfo *listInfo_p, int id);

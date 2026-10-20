@@ -450,7 +450,7 @@ void NNS_G3dPlttLoad(NNSG3dResTex *pTex, BOOL exec)
  */
 void *NNS_G3dPlttReleasePlttKey(NNSG3dResTex *pTex)
 {
-    u32 oldKey;
+    uptr oldKey;
     u32 flag = pTex->plttInfo.flag;
 
     pTex->plttInfo.flag = (u16)(flag & ~1u);

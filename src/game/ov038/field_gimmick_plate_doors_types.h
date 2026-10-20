@@ -17,7 +17,7 @@ typedef struct FieldGimmickPlateDoorsRuntime {
     unsigned char side;             /* 0x06 which side the player pushes from (0 or 1) */
     unsigned char holdFrames;       /* 0x07 frames the push key is held */
     VecFx32 doorPos;                /* 0x08 home position of the door */
-    int acmdList;                   /* 0x14 player animation command list, 0 when none */
+    struct TcbTask *acmdList;                   /* 0x14 player animation command list, 0 when none */
     int acmdDone;                   /* 0x18 the push animation has ended */
     int acmdActive;                 /* 0x1C the push animation was started */
     int slideSePlayed;              /* 0x20 the slide sound was started */

@@ -18,7 +18,7 @@ typedef struct Location {
     u32 type;           /* 0x00: 0 exit, 1 direct */
     u16 zoneId;         /* 0x04 */
     s16 exitId;         /* 0x06 */
-    u16 dir;            /* 0x08 */
+    s16 dir;            /* 0x08, read signed by ov020 event_mapchange */
     u16 exitOffset;     /* 0x0a */
     u32 posType;        /* 0x0c: 0 vector, 1 rail */
     union {

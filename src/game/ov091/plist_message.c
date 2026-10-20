@@ -80,75 +80,47 @@
 struct MsgData;
 struct Bmp;
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern u32 GFL_HEAP_Free(void *p);
-extern unsigned KEY_GetTrg(void);
-extern int TOUCHPANEL_GetTrg(void);
+#include "../arm9/gfl_use.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
 struct MsgBank;
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 struct BmpWin;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct GfFont;
 struct PrintQueue;
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern void STRBUF_Delete(struct Strbuf *text);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 index, void *mon);
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 heapId);
-struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-struct KeyCursor;
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
-struct TimeIcon;
-extern void TIME_ICON_Delete(struct TimeIcon *icon);
-struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *keyCursor);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
-struct PrintStreamCtrl;
-extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
-extern void APP_KEYCURSOR_Animate(struct KeyCursor *keyCursor, const struct Bmp *bmp, u32 color);
-struct TcblList;
-extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
-extern void PRINTSYS_CTRL_Init(struct PrintStreamCtrl *ctrl, unsigned int inputType);
-extern signed char MSG_SPEED_GetWait(void);
-struct Tcbl;
+#ifdef __MWERKS__
+#define PRINTSYS_PrintStreamCallBack PRINTSYS_PrintStreamCallBack_hdr
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_PrintStreamCallBack
+/* original prototype: the DS code passes an int callback; the SDK header takes u8 (*)(u32) */
 extern struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, short x, short y, struct Strbuf *str, struct GfFont *font, int wait, struct Tcbl *tcbl, unsigned int priority, unsigned int heap, unsigned short fillColor, int (*callback)(int));
-extern void GFL_USE_SetBgmPaused(unsigned int value);
-extern int GFL_USE_PushBgm(void);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
-extern int GFL_USE_IsBgmPlaying(void);
-extern int GFL_USE_PopBgm(void);
-extern int GFL_USE_IsAnySeBusy(void);
-extern void WORDSET_SetSlotFromMsg36(struct WordSet *wordSet, u32 index, u32 v);
-extern void WORDSET_SetSlotFromMsg117(struct WordSet *wordSet, u32 index, u32 v);
-extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 index, u32 v);
-extern void WORDSET_SetSlotFromMsgB4(struct WordSet *wordSet, u32 index, u32 v);
-extern void APP_KEYCURSOR_DrawMark(struct KeyCursor *keyCursor, const struct Bmp *bmp, u32 color);
+#else
+struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u32 heap, u16 fillColor, u8 (*callback)(u32 arg));
+#endif
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
+struct PrintQueue;
+#include "../arm9/gf_font.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/bmp_menuwork.h"
+struct TcblSystem;
+#include "../arm9/tcbl.h"
+struct KeyCursor;
+#include "../arm9/app_keycursor.h"
+struct TimeIcon;
+#include "../arm9/time_icon.h"
+struct TextPrinter;
+struct PrintStreamCtrl;
+struct TcblList;
+#include "../arm9/msg_speed.h"
+struct Tcbl;
 extern const char sPlistMessageAllocSite[];
 
 PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work);
@@ -160,7 +132,11 @@ int PLIST_MESSAGE_IsWindowOpen(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_PrintText(PokelistWork *work, PlistMessage *msg, u32 messageId);
 void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messageId, u32 waitForKey);
 int PLIST_MESSAGE_IsIdle(PokelistWork *work, PlistMessage *msg);
+#ifdef __MWERKS__
 int PLIST_MESSAGE_StreamCallback(int command);
+#else
+u8 PLIST_MESSAGE_StreamCallback(u32 command);
+#endif
 void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg);
 struct PokelistWork;
@@ -337,7 +313,11 @@ int PLIST_MESSAGE_IsIdle(PokelistWork *work, PlistMessage *msg)
     return 0;
 }
 
+#ifdef __MWERKS__
 int PLIST_MESSAGE_StreamCallback(int command)
+#else
+u8 PLIST_MESSAGE_StreamCallback(u32 command)
+#endif
 {
     switch (command) {
     case 2:

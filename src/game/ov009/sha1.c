@@ -33,8 +33,7 @@
     b = ROL(b, 30);
 
 static unsigned long R(int t, unsigned long *w);
-extern void MI_CpuFill8(void *dstp, unsigned char val, unsigned long size);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
+#include "../arm9/mi_memory.h"
 static unsigned long R(int t, unsigned long *w);
 static void long_from_char(unsigned int *dst, const u8 *src, unsigned int count);
 static void char_from_long(unsigned char *d, unsigned long *s, unsigned int len);

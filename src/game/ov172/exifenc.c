@@ -120,7 +120,7 @@ typedef struct jpeg_exif_data_structure {
     long thumb_compressed_length;
 } jpeg_exif_data_structure;
 
-struct Slot
+struct ExifencSlot
 {
   u16 tag;
   u16 type;
@@ -138,23 +138,23 @@ struct Slot
 
 struct SlotManager
 {
-  struct Slot *ptr0;
+  struct ExifencSlot *ptr0;
   s16 count0;
   u16 pad6;
   u32 ifd0NextPointer;
-  struct Slot *ptrC;
+  struct ExifencSlot *ptrC;
   s16 count1;
   u16 pad12;
   u32 exifNextPointer;
-  struct Slot *ptr18;
+  struct ExifencSlot *ptr18;
   s16 count2;
   u16 pad1E;
   u32 makerNoteNextPointer;
-  struct Slot *ptr24;
+  struct ExifencSlot *ptr24;
   s16 count3;
   u16 pad2A;
   u32 interopNextPointer;
-  struct Slot *ptr30;
+  struct ExifencSlot *ptr30;
   s16 count4;
   u16 pad36;
   u32 ifd1NextPointer;
@@ -198,11 +198,11 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
 u32 SSP_ExifEncode(int dstBuffer, int width, int height, u8 *thumbSrc, u32 thumbSize);
 extern const char gExifDateTimeFormat[];
 extern struct SlotManager gExifIfdSlotManager;
-extern struct Slot gExifIfd0Slots[];
-extern struct Slot gExifExifIfdSlots[];
-extern struct Slot gExifMakerNoteSlots[];
-extern struct Slot gExifInteropIfdSlots[];
-extern struct Slot gExifIfd1Slots[];
+extern struct ExifencSlot gExifIfd0Slots[];
+extern struct ExifencSlot gExifExifIfdSlots[];
+extern struct ExifencSlot gExifMakerNoteSlots[];
+extern struct ExifencSlot gExifInteropIfdSlots[];
+extern struct ExifencSlot gExifIfd1Slots[];
 extern const char gExifMake[];
 extern const char gExifModel[];
 extern const char gExifVersion[];
@@ -646,7 +646,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
   s16 cfg_input_width;
   s16 cfg_input_height;
   struct SlotManager *sb = &gExifIfdSlotManager;
-  struct Slot *s;
+  struct ExifencSlot *s;
   s16 cfg_encode_exif_;
   sb->ptr0 = gExifIfd0Slots;
   sb->count0 = 0;
@@ -1021,7 +1021,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
     {
       if (((gExifMakerNoteConfig.count + SSPiMakerNoteBufferSize) + SSPiMakerNoteUserBufferSize) != 0)
       {
-        struct Slot *m = &sb->ptrC[4];
+        struct ExifencSlot *m = &sb->ptrC[4];
         m->tag = 0x927C;
         m->type = 7;
         m->count = 6;
@@ -1075,7 +1075,7 @@ s16 jpeg_encode_main(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u3
     {
       if (((gExifMakerNoteConfig.count + SSPiMakerNoteBufferSize) + SSPiMakerNoteUserBufferSize) != 0)
       {
-        struct Slot *m = &sb->ptrC[4];
+        struct ExifencSlot *m = &sb->ptrC[4];
         m->tag = 0x927C;
         m->type = 7;
         m->count = 6;

@@ -159,7 +159,7 @@ void NNSi_SndShutdown(void)
     NNSSndSystem *sndSystem;
     s32  hasAlarm;
     s32  commandTag;
-    s32  zero;
+    sptr zero;
 
     sndSystem = &gNNSSndSystem;
     if (sndSystem->initialized == 0) {
@@ -268,20 +268,20 @@ u32 NNSi_SndArcLoadTables(NNSSndArc *arc, u32 *heap, u32 loadSymbols)
     if (FS_SeekFile(&arc->file, 0, 0) == 0) return 0;
     if (FS_ReadFile(&arc->file, arc, 0x30) != 0x30) return 0;
     if (heap != 0) {
-        arc->infoBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->infoSize, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeInfo, (unsigned int)arc, 0);
+        arc->infoBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->infoSize, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeInfo, (uptr)arc, 0);
         if (arc->infoBlock == 0) return 0;
         if (FS_SeekFile(&arc->file, arc->infoOffset, 0) == 0) return 0;
         bytesRead = FS_ReadFile(&arc->file, arc->infoBlock, arc->infoSize);
         if (bytesRead != arc->infoSize) return 0;
 
-        arc->fatBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->fatSize, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeFat, (unsigned int)arc, 0);
+        arc->fatBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->fatSize, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeFat, (uptr)arc, 0);
         if (arc->fatBlock == 0) return 0;
         if (FS_SeekFile(&arc->file, arc->fatOffset, 0) == 0) return 0;
         bytesRead = FS_ReadFile(&arc->file, arc->fatBlock, arc->fatSize);
         if (bytesRead != arc->fatSize) return 0;
 
         if (loadSymbols != 0 && arc->symbolSize != 0) {
-            arc->symbolBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->symbolSize, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeSymbol, (unsigned int)arc, 0);
+            arc->symbolBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->symbolSize, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeSymbol, (uptr)arc, 0);
             if (arc->symbolBlock == 0) return 0;
             if (FS_SeekFile(&arc->file, arc->symbolOffset, 0) == 0) return 0;
             bytesRead = FS_ReadFile(&arc->file, arc->symbolBlock, arc->symbolSize);
@@ -320,7 +320,7 @@ void NNS_SndArcInitOnMemory(NNSSndArc *arc, u8 *base)
         u32 fileOffset = ((NNSSndArcFatRecord *)record)->offset;
         u32 filePtr;
         if (fileOffset == 0) filePtr = 0;
-        else                 filePtr = (u32)(base + fileOffset);
+        else                 filePtr = (uptr)(base + fileOffset);
         ((NNSSndArcFatRecord *)record)->data = filePtr;
     }
 

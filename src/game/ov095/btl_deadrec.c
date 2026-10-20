@@ -13,10 +13,8 @@
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
 #include "../ov093/btl_records_types.h"
+#include "btl_deadrec.h"
 
-void BTL_DEADREC_ClearTurn(BtlDeadRecTurn *t);
-void BTL_DEADREC_Init(BtlDeadRec *p);
-void BTL_DEADREC_StartTurn(BtlDeadRec *p);
 
 /* Clear one turn. */
 void BTL_DEADREC_ClearTurn(BtlDeadRecTurn *t)
@@ -49,9 +47,10 @@ void BTL_DEADREC_StartTurn(BtlDeadRec *p)
 }
 
 
-/* Add a fainted pokemon to a turn (ignored when the turn is full). */
-void BTL_DEADREC_Add(BtlDeadRecTurn *t, u8 pokeId)
+/* Add a fainted pokemon to the newest turn (ignored when the turn is full). */
+void BTL_DEADREC_Add(BtlDeadRec *p, u8 pokeId)
 {
+    BtlDeadRecTurn *t = &p->turn[0];
     u8 *q;
 
     if (t->count < BTL_DEADREC_MAX) {

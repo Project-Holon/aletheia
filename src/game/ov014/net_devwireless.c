@@ -59,51 +59,34 @@ typedef struct DevWirelessWork {
     void (*onEndedCallback)(void *result);  /* called once the pipe has shut down */
 } DevWirelessWork;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u8 *GFL_NET_GetInitParam(void);
 
-extern int NET_WHPIPE_Create(int a, int b, u32 c, int d);
 
-extern int NET_WHPIPE_IsIdle(void);
 
-extern void NET_WHPIPE_Update(u32);
 
-extern int NET_WHPIPE_RequestFinalize(void);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern int NET_WHPIPE_RequestEnd(int a);
 
-extern void NET_WHPIPE_ClearEntries(void);
+
 
 /* Pipe layer (net_whpipe.c, net_whpipe_p02.c) */
-extern u8 *NET_WHPIPE_GetEntryBeaconData(int entryIndex);
 
-extern u8 *NET_WHPIPE_GetEntryBssid(int entryIndex);
 
-extern int NET_WHPIPE_StartParent(int autoChannel);
 
-extern int NET_WHPIPE_StartScan(int resetWork);
 
-extern int NET_WHPIPE_StartChild(u32 unused, u8 *bssid, u32 entryIndex, u32 onConnected);
 
-extern int NET_WHPIPE_SendData(int data, u32 size, int callbackArg);
 
-extern void NET_WHPIPE_SetEventCallback(u32 callback);
 
-extern int NET_WHPIPE_IsConnected(void);
 
 /* WH layer (wih.c) and the beacon-sent check (net_whpipe.c) */
-extern int NET_WHPIPE_HasBeaconBeenSent(void *unused);
 
-extern void WIH_SetConnectCallback(unsigned connectCallback);
+#include "wih.h"
+#include "net_whpipe.h"
+#include "../arm9/net.h"
 
-extern int WIH_GetSysState(void);
 
-extern int WIH_StepDS(int sendData);
 
-extern int WIH_GetSharedDataAdr(u16 aid);
 
 void *GFL_NET_DEVWIRELESS_GetDeviceTable(void);
 
@@ -185,7 +168,7 @@ int GFL_NET_DEVWIRELESS_Setup(int heapId, u32 setupParam, int wmParam, int userD
     forListening = 1;
     sDevWirelessWork = work;
     work->setupParam = setupParam;
-    if (GFL_NET_GetInitParam()[0x65] != 5)
+    if (((u8 *)GFL_NET_GetInitParam())[0x65] != 5)
         forListening = 0;
     return NET_WHPIPE_Create(heapId, wmParam, userData, forListening);
 }
@@ -234,7 +217,7 @@ int GFL_NET_DEVWIRELESS_Cleanup(void (*endCallback)(void *))
 {
     if(sDevWirelessWork != 0) {
         sDevWirelessWork->onEndedCallback = endCallback;
-        return NET_WHPIPE_RequestEnd((int)GFL_NET_DEVWIRELESS_OnShutdownDone);
+        return NET_WHPIPE_RequestEnd((sptr)GFL_NET_DEVWIRELESS_OnShutdownDone);
     }
     return 1;
 }
@@ -280,7 +263,7 @@ int GFL_NET_DEVWIRELESS_StartParent(int autoChannel) { return NET_WHPIPE_StartPa
 int GFL_NET_DEVWIRELESS_StartChildScan(int resetWork) { return NET_WHPIPE_StartScan(resetWork); }
 
 /* Slot 18: starts the child connect task toward the given BSSID (or scan entry); onConnected runs after. */
-int GFL_NET_DEVWIRELESS_StartChild(u32 unused, u8 *bssid, u32 entryIndex, u32 unused2, u32 onConnected) { return NET_WHPIPE_StartChild(unused,bssid,entryIndex,onConnected); }
+int GFL_NET_DEVWIRELESS_StartChild(u32 unused, u8 *bssid, u32 entryIndex, u32 unused2, u32 onConnected) { return NET_WHPIPE_StartChild(unused,bssid,entryIndex,(void (*)(void))onConnected); }
 
 /* Slot 19: unused by this device; reports failure. */
 int GFL_NET_DEVWIRELESS_UnusedSlot19(void) { return 0; }
@@ -307,7 +290,7 @@ int GFL_NET_DEVWIRELESS_SendData(int data,u32 size,int unused,int callbackArg) {
 /* Slot 26: stores the pipe's event callback; always succeeds. */
 int GFL_NET_DEVWIRELESS_SetEventCallback(u32 callback)
 {
-    NET_WHPIPE_SetEventCallback(callback);
+    NET_WHPIPE_SetEventCallback((int (*)(int, int, int))callback);
     return 1;
 }
 
@@ -323,13 +306,11 @@ int GFL_NET_DEVWIRELESS_IsActive(void)
 /* Slot 28: true while connected (pipe task running and WH state 4 or 5). */
 int GFL_NET_DEVWIRELESS_IsConnected(void) { return NET_WHPIPE_IsConnected(); }
 
-extern u32 GFL_NET_GetGameKind(void);
 
-extern u16 WIH_DWC_GetAlertLevel(void);
+#include "../arm9/wih_dwc.h"
 
-extern int WM_GetLinkLevel(void);
+#include "../arm9/wm_sync.h"
 
-int DWCi_MOV_WH_GetLastError(void);
 
 int NET_WHPIPE_IsWorkNotAllocated(void);
 
@@ -351,21 +332,13 @@ int GFL_NET_DEVWIRELESS_StartAutoSearch(void);
 
 void GFL_NET_DEVWIRELESS_StartJoinLock(int frames);
 
-int NET_WHPIPE_IsWorkAllocated(void);
 
-int NET_WHPIPE_IsDisconnectDetected(void);
 
-void NET_WHPIPE_SetWatchDisconnect(u8 watch);
 
-unsigned int NET_WHPIPE_GetConnectBitmap(void);
 
-int NET_WHPIPE_GetOwnAid(void);
 
-void NET_WHPIPE_SetAcceptChild(int acceptChild);
 
-int NET_WHPIPE_StartAutoSearch(void);
 
-void NET_WHPIPE_StartJoinLock(int a);
 
 int NET_WHPIPE_IsWorkNotAllocated(void)
 {

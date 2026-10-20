@@ -9,9 +9,13 @@
  * the actions of one turn; it keeps a stack of up to seven frames (one per
  * nested action) and a set of pointers into the frame on top of the stack.
  *
- * The includer must include btl_server_types.h first (Entry, u8, u16, u32).
+ * This header includes btl_server_types.h (BtlServerEntry, u8, u16, u32).
  */
-#include "btl_records_types.h"
+#include "../ov093/btl_server_types.h"
+#include "../ov093/btl_records_types.h"
+#include "../ov093/btl_main_types.h"
+#include "../ov093/hand_common_types.h"
+#include "../ov095/btl_pokeset_types.h"
 
 
 /*
@@ -28,16 +32,16 @@ typedef char EventParamBufSizeCheck[(sizeof(EventParamBuf) == 0x224) ? 1 : -1];
 
 /* One frame of the action stack: the sets, parameter blocks and queues that one action works on. */
 typedef struct BtlServerFlowFrame {
-    u8 targetSet[0x48];             /* 0x000: poke set the action aims at */
-    u8 targetSetWork[0x48];         /* 0x048: working copy of the target set */
-    u8 hitSetA[0x48];               /* 0x090 */
-    u8 hitSetB[0x48];               /* 0x0D8 */
-    u8 damageSet[0x48];             /* 0x120: poke ids with the damage each took */
-    u8 effectSet[0x48];             /* 0x168 */
-    u8 queuedSet[0x48];             /* 0x1B0 */
+    BtlPokeSet targetSet;             /* 0x000: poke set the action aims at */
+    BtlPokeSet targetSetWork;         /* 0x048: working copy of the target set */
+    BtlPokeSet hitSetA;               /* 0x090 */
+    BtlPokeSet hitSetB;               /* 0x0D8 */
+    BtlPokeSet damageSet;             /* 0x120: poke ids with the damage each took */
+    BtlPokeSet effectSet;             /* 0x168 */
+    BtlPokeSet queuedSet;             /* 0x1B0 */
     u8 moveTurnState[8];                /* 0x1F8: struct Unk021BD1E0 view */
-    u8 moveParam[0x14];             /* 0x200 */
-    u8 moveParamBackup[0x14];       /* 0x214 */
+    struct BtlMoveParam moveParam;  /* 0x200 */
+    struct BtlMoveParam moveParamBackup; /* 0x214 */
     u8 hitInfo[6];                 /* 0x228 */
     u8 interruptQueue[0x13];        /* 0x22E: count, six poke ids, six selections, six params */
     u8 deferredQueue[0x13];         /* 0x241: same layout as interruptQueue */
@@ -50,12 +54,20 @@ typedef struct BtlServerFlowFrame {
 } BtlServerFlowFrame;
 typedef char BtlServerFlowFrameSizeCheck[(sizeof(BtlServerFlowFrame) == 0x290) ? 1 : -1];
 
+/* Cursor of the walk over the living pokes of the field. */
+typedef struct BtlFieldPokeIter {
+    u8 client;      /* client index of the next poke */
+    u8 slot;        /* slot index of the next poke */
+    u8 done;        /* 1 when the walk is over */
+    u8 triple;      /* 1 in a triple battle: only the first three slots count */
+} BtlFieldPokeIter;
+
 #define BTL_SERVER_FLOW_FRAME_MAX 7
 
 typedef struct BtlServerFlow {
-    u8 *server;                         /* 0x000: BtlServer that owns the flow */
-    void *mainModule;                   /* 0x004 */
-    void *pokeCon;                      /* 0x008: poke container */
+    struct BtlServer *server;           /* 0x000: BtlServer that owns the flow */
+    struct BtlMain *mainModule;                   /* 0x004 */
+    struct BtlSide *pokeCon;            /* 0x008: poke container */
     void *cmdQueue;                     /* 0x00C: command queue the flow writes to */
     u32 turnCount;                      /* 0x010 */
     u32 flowResult;                     /* 0x014 */
@@ -67,8 +79,8 @@ typedef struct BtlServerFlow {
     u8 *curInterruptQueue;              /* 0x4AC: into the top frame */
     u8 *curDeferredQueue;               /* 0x4B0: into the top frame */
     u8 *curHitInfo;                    /* 0x4B4: into the top frame */
-    u8 escapedClientSet[8];                    /* 0x4B8 */
-    u8 levelUpResult[0xE];                  /* 0x4C0 */
+    struct BtlClientSet escapedClientSet;    /* 0x4B8: clients that escaped */
+    struct BtlLevelUpResult levelUpResult;  /* 0x4C0 */
     u8 changeClientList[6];                    /* 0x4CE */
     u8 actOrderScratch[0x2A0];          /* 0x4D4 */
     u32 actionCounter;                  /* 0x774 */
@@ -104,25 +116,25 @@ typedef struct BtlServerFlow {
     u8 faintHandled[0x18];                /* 0x7A9 */
     u8 memberInPending[0x18];                /* 0x7C1 */
     u8 memberChangeCount[7];                    /* 0x7D9 */
-    Entry actOrder[6];                  /* 0x7E0 */
-    Entry actOrderTemp;                 /* 0x840 */
-    void *curTargetSet;                 /* 0x850: into the top frame */
-    void *curTargetSetWork;             /* 0x854 */
-    void *curHitSetA;                   /* 0x858 */
-    void *curHitSetB;                   /* 0x85C */
-    void *curDamageSet;                 /* 0x860 */
-    void *curEffectSet;                 /* 0x864 */
-    void *curQueuedSet;                 /* 0x868 */
+    BtlServerEntry actOrder[6];                  /* 0x7E0 */
+    BtlServerEntry actOrderTemp;                 /* 0x840 */
+    BtlPokeSet *curTargetSet;                 /* 0x850: into the top frame */
+    BtlPokeSet *curTargetSetWork;             /* 0x854 */
+    BtlPokeSet *curHitSetA;                   /* 0x858 */
+    BtlPokeSet *curHitSetB;                   /* 0x85C */
+    BtlPokeSet *curDamageSet;                 /* 0x860 */
+    BtlPokeSet *curEffectSet;                 /* 0x864 */
+    BtlPokeSet *curQueuedSet;                 /* 0x868 */
     void *curHitRecordA;                /* 0x86C */
     void *curHitRecordB;                /* 0x870 */
     BtlServerFlowFrame frames[BTL_SERVER_FLOW_FRAME_MAX]; /* 0x874 */
     u32 frameDepth;                     /* 0x1A64 */
-    u8 pad1A68[0x48];                   /* 0x1A68 */
-    void *curMoveParam;                 /* 0x1AB0: into the top frame */
-    void *curMoveParamBackup;           /* 0x1AB4 */
+    BtlPokeSet memberInSet;             /* 0x1A68: pokes that entered and wait for their entry events */
+    struct BtlMoveParam *curMoveParam;  /* 0x1AB0: into the top frame */
+    struct BtlMoveParam *curMoveParamBackup; /* 0x1AB4 */
     BtlPosPoke posPoke;                 /* 0x1AB8: who stands where */
     u8 padPosPokeEnd[0x14];             /* 0x1AD0 */
-    u8 msgRecord[0x24];                  /* 0x1AE4: struct Msg view */
+    BtlStrParam msgRecord;              /* 0x1AE4: the message being built */
     u8 expShareTable[0x48];           /* 0x1B08 */
     EventParamBuf eventParamBuf;        /* 0x1B50 */
     u32 cmdLock;                           /* 0x1D74 */
@@ -131,7 +143,7 @@ typedef struct BtlServerFlow {
     u8 pad1F76[2];                      /* 0x1F76 */
     int disobeyResult;                  /* 0x1F78 */
     u16 effectivenessRecord[6];              /* 0x1F7C: per-side type affinity counts, read as u16 words */
-    u8 hitTable[0x60];               /* 0x1F88 */
+    u32 hitTable[24];                   /* 0x1F88: per poke id, the hit result of the move */
     u8 turnOnceFlags[4];                    /* 0x1FE8: [0] guards ProcPreTurnMoveCheck once per turn, [1] cleared at ProcMoveHitTargets */
     u8 scratchBuffer[0x140];                /* 0x1FEC: handler work area, see GetScratchBuffer */
 } BtlServerFlow;

@@ -19,7 +19,7 @@
  *   gAnimeWork  0x021DE504  data
  *   sAnimePaletteByColor  0x021D9FF8  data
  *   gAnimeWorkSlot    0x021DE504  data
- *   DWCi_TSKlDeleteByIndex   0x021D7744  arm
+ *   DWCi_TSKlDeleteEx   0x021D7744  arm
  *   DWCi_OBJlDelete   0x021D6F38  arm
  *   DWCi_HEAPlFree_   0x021D6438  arm
  *   FX_ModS32  0x0207C994  arm
@@ -27,32 +27,28 @@
  *   DWCi_CEINlSet  0x021D52D4  arm  ov016
  */
 #include "../../matched/include/G_Ani.h"
+#include "task.h"
 
 #include "../types.h"
 
 typedef struct {
 	u32 w0;
 	u16 h4;
-} Obj;
+} AnimeObj;
 
 typedef struct {
 	void *task;
-	Obj *obj;
+	AnimeObj *obj;
 	u8 color;
 	u8 cnt;
 } Ani;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+#include "heap.h"
 union GXOamAttr;
-extern union GXOamAttr *DWCi_CEINlSetExObj(int a, int b);
+#include "cellinfo.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*fn)(void), void *work, u8 prio);
-extern void DWCi_TSKlDeleteByIndex(u32 taskIdx, struct TCB *task);
-extern void DWCi_OBJlDelete(unsigned int *obj);
-extern void DWCi_HEAPlFree_(void **mem);
-extern int FX_ModS32(int a, int b);
-extern int FX_DivS32(int a, int b);
-extern void DWCi_CEINlSet(s32 lcd, s32 idx, union GXOamAttr *obj);
+#include "obj.h"
+#include "../arm9/fx_cp.h"
 void DWCi_ANIMElInitEx(int color);
 void DWCi_ANIMElEnd(void);
 extern struct Ani *gAnimeWork;
@@ -64,40 +60,40 @@ static void taskAnime(void);
 void DWCi_ANIMElInitEx(int color)
 {
 	u32 pal;
-	Obj *o;
+	AnimeObj *o;
 	gAnimeWork = DWCi_HEAPlAllocEx(12, 4);
 	gAnimeWork->color = color;
 	gAnimeWork->obj = DWCi_CEINlSetExObj(0, 0x47);
 	pal = sAnimePaletteByColor[color];
-	((Obj *)gAnimeWork->obj)->h4 = (((Obj *)gAnimeWork->obj)->h4 & ~0xc00) | 0x400;
+	((AnimeObj *)gAnimeWork->obj)->h4 = (((AnimeObj *)gAnimeWork->obj)->h4 & ~0xc00) | 0x400;
 	o = gAnimeWork->obj;
 	o->w0 &= ~0xc00;
 	o->h4 = (o->h4 & ~0xf000) | (pal << 12);
-	((Obj *)gAnimeWork->obj)->w0 = (((Obj *)gAnimeWork->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
-	gAnimeWork->task = DWCi_TSKlForm(1, taskAnime, 0, 0x78);
+	((AnimeObj *)gAnimeWork->obj)->w0 = (((AnimeObj *)gAnimeWork->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
+	gAnimeWork->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskAnime, 0, 0x78);
 }
 
 void DWCi_ANIMElEnd(void)
 {
     unsigned char *g = (unsigned char *)0x021DE504;
 
-    DWCi_TSKlDeleteByIndex(1, (void *)(**(int **)g));
+    DWCi_TSKlDeleteEx(1, (void *)(**(int **)g));
     DWCi_OBJlDelete((unsigned int *)(*(int *)(*(int *)g + 4)));
-    DWCi_HEAPlFree_((void **)((int)gAnimeWorkSlot));
+    DWCi_HEAPlFree_((void **)((sptr)gAnimeWorkSlot));
 }
 
 static void taskAnime(void)
 {
 	int name;
 	u32 pal;
-	Obj *o;
+	AnimeObj *o;
 	gAnimeWork->cnt = FX_ModS32(gAnimeWork->cnt + 1, 40);
 	name = FX_DivS32(gAnimeWork->cnt, 5) + 0x47;
 	DWCi_CEINlSet(0, name, gAnimeWork->obj);
-	((Obj *)gAnimeWork->obj)->h4 = (((Obj *)gAnimeWork->obj)->h4 & ~0xc00) | 0x400;
+	((AnimeObj *)gAnimeWork->obj)->h4 = (((AnimeObj *)gAnimeWork->obj)->h4 & ~0xc00) | 0x400;
 	pal = sAnimePaletteByColor[gAnimeWork->color];
 	o = gAnimeWork->obj;
 	o->w0 &= ~0xc00;
 	o->h4 = (o->h4 & ~0xf000) | (pal << 12);
-	((Obj *)gAnimeWork->obj)->w0 = (((Obj *)gAnimeWork->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
+	((AnimeObj *)gAnimeWork->obj)->w0 = (((AnimeObj *)gAnimeWork->obj)->w0 & 0xfe00ff00) | 0x8b | 0xe60000;
 }

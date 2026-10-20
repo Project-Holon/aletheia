@@ -7,16 +7,6 @@
  * The including file defines u8, u16 and u32 first.
  */
 
-/* Result of the texture load of the scoreboard lamp (stack argument pair). */
-typedef struct ElTexParams {
-    u16 texIndex;
-    u16 pad02;
-    u16 plttIndex;
-    u16 pad06;
-    u16 heapId;
-    u16 pad0A;
-} ElTexParams;
-
 typedef struct ElTexResult {
     u16 texIndex;
     u16 plttIndex;

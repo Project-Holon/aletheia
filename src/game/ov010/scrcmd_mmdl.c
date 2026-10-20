@@ -53,34 +53,28 @@ typedef struct MmdlOrbitWork {
 } MmdlOrbitWork;
 
 /* ScriptWork, ScrcmdWork and game structure accessors. */
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
+#include "scrcmd_work.h"
 
-extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
 
-extern struct GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
 
-extern u32 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
+#include "script_work_cmd.h"
 
-extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
+#include "script_sys.h"
 
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
 /* Game events. */
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 /* Field models and the field map. */
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
-extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *mmdlSys, u32 objId);
-struct MmdlVec;
+#include "fldmmdl.h"
+struct VecFx32;
 
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 
-extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
 
-extern void FLDMMDL_SetMoveBit(struct Mmdl *mmdl, u32 bits);
 
 extern const s16 FX_SinCosTable_[];
 
@@ -117,7 +111,7 @@ int SCRCMD_MMDL_StartRise(ScriptVm *vm, ScrcmdWork *cmdWork)
     work->frames = frames;
     work->frame = 0;
     mmdl = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(gameSystem)), objId);
-    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&work->startPos));
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&work->startPos));
     work->mmdl = mmdl;
     FLDMMDL_SetMoveBit(mmdl, MMDL_MOVE_BIT_RISE);
     work->totalRise = (height << 15) - work->startPos.y;
@@ -133,7 +127,7 @@ int SCRCMD_MMDL_RiseEventMain(struct GameEvent *event, u32 *state, void *work)
     rise->frame = rise->frame + 1;
     pos = rise->startPos;
     pos.y += (rise->totalRise * rise->frame) / rise->frames;
-    FLDMMDL_SetPos(rise->mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_SetPos(rise->mmdl, (struct VecFx32 *)(&pos));
     if (rise->frame >= rise->frames) {
         return 1;
     }
@@ -158,7 +152,7 @@ int SCRCMD_MMDL_StartOrbit(ScriptVm *vm, ScrcmdWork *cmdWork)
     work = GAME_EVENT_GetWork(event);
     work->frame = 0;
     mmdl = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(GAMESYSTEM_GetFieldMap(gameSystem)), objId);
-    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&work->centerPos));
+    FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&work->centerPos));
     work->mmdl = mmdl;
     SCRIPT_SYS_CallEvent(scriptWork, event);
     return 1;
@@ -194,7 +188,7 @@ int SCRCMD_MMDL_OrbitEventMain(struct GameEvent *event, u32 *mode, void *work)
         radius = (frame * 3 << 16) / 110;
         pos.x += FX_Mul(FX_SinCosTable_[index + 1], radius);
         pos.z += FX_Mul(FX_SinCosTable_[index], radius);
-        FLDMMDL_SetPos(orbit->mmdl, (struct MmdlVec *)(&pos));
+        FLDMMDL_SetPos(orbit->mmdl, (struct VecFx32 *)(&pos));
         if (orbit->frame >= 110) {
             orbit->frame = 0;
             *mode = 1;
@@ -207,7 +201,7 @@ int SCRCMD_MMDL_OrbitEventMain(struct GameEvent *event, u32 *mode, void *work)
         index = (index >> 4) * 2;
         pos.x += FX_Mul(FX_SinCosTable_[index + 1], 0x30000);
         pos.z += FX_Mul(FX_SinCosTable_[index], 0x30000);
-        FLDMMDL_SetPos(orbit->mmdl, (struct MmdlVec *)(&pos));
+        FLDMMDL_SetPos(orbit->mmdl, (struct VecFx32 *)(&pos));
         if (orbit->frame >= 80) {
             orbit->frame = 0;
             *mode = 2;
@@ -221,7 +215,7 @@ int SCRCMD_MMDL_OrbitEventMain(struct GameEvent *event, u32 *mode, void *work)
         radius = ((80 - frame) * 3 << 16) / 80;
         pos.x += FX_Mul(FX_SinCosTable_[index + 1], radius);
         pos.z += FX_Mul(FX_SinCosTable_[index], radius);
-        FLDMMDL_SetPos(orbit->mmdl, (struct MmdlVec *)(&pos));
+        FLDMMDL_SetPos(orbit->mmdl, (struct VecFx32 *)(&pos));
         if (orbit->frame >= 80)
             return 1;
         break;

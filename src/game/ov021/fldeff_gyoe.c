@@ -101,44 +101,34 @@ typedef struct FldeffGyoeTaskParam {
     void *fieldMap;            /* 0x18 */
 } FldeffGyoeTaskParam;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct FieldEffectSys;
 
-extern u32 FIELD_EFFECT_GetArcHandle(struct FieldEffectSys *sys);
+#include "field_effect.h"
 struct ArcHandle;
 struct G3dResource;
 
-extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
+#include "../arm9/g3d_system.h"
 
-extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
 struct G3dRender;
 
-extern struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *mdlRes, u32 mdlIdx, struct G3dResource *texRes);
 struct G3dAnime;
 struct G3dObject;
 
-extern struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **anmTbl, s32 anmCount);
 
-extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
 
-extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
 
-extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 
 /* ---- externs ---- */
-int FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
 
-void FLDMMDL_GetCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
+#include "../ov010/fldmmdl.h"
 
-u32 FIELD_EFFECT_GetFieldMap(struct FieldEffectSys *sys);
 
 void FLDEFF_GYOE_PlaySe(int type);
 
-void *FIELD_EFFECT_AddObject(void *fieldEffectCtrl, const void *taskHeader, int pos, int mode, FldeffGyoeTaskParam *param, int priority);
 
-FldeffGyoe *FLDEFF_GYOE_Init(void *fieldEffectCtrl, int heapId);
+FldeffGyoe *FLDEFF_GYOE_Init(void *fieldEffectCtrl, u16 heapId);
 
 void FLDEFF_GYOE_Delete(void *fieldEffectCtrl, FldeffGyoe *gyoe);
 
@@ -148,11 +138,11 @@ void FLDEFF_GYOE_DeleteResource(FldeffGyoe *gyoe);
 
 extern u32 sGyoeResIds[FLDEFF_GYOE_RES_MAX];
 
-extern int sGyoeTaskHeader;
+extern const struct FieldEffectObjFuncs sGyoeTaskHeader;
 
 extern int d_021DE2E8;
 
-FldeffGyoe *FLDEFF_GYOE_Init(void *fieldEffectCtrl, int heapId)
+FldeffGyoe *FLDEFF_GYOE_Init(void *fieldEffectCtrl, u16 heapId)
 {
     FldeffGyoe *gyoe = GFL_HEAP_Alloc(heapId, sizeof(FldeffGyoe), 1, (const char *)&d_021DE2E8, 0x6F);
     gyoe->fieldEffectCtrl = fieldEffectCtrl;
@@ -229,62 +219,48 @@ typedef struct GxState {
 } GxState;
 struct FieldEffectObj;
 
-extern void *FIELD_EFFECT_GetObjectWork(struct FieldEffectObj *obj);
 
-extern FldeffGyoeTaskParam *FIELD_EFFECT_GetObjectParam(void *task);
 
-extern void FIELD_EFFECT_UpdateObject(struct FieldEffectObj *obj);
 
-extern int FLDMMDL_CheckCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
-struct MmdlVec;
+struct VecFx32;
 struct Mmdl;
 
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 
-extern void FIELD_EFFECT_SetObjectPos(struct FieldEffectObj *obj, VecFx32 *pos);
 
-void FIELD_EFFECT_DeleteObject(struct FieldEffectObj *obj);
 
-extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void NNS_G3dGlbFlush(void);
+#include "../arm9/nns_g3d_glb.h"
 
-extern void NNS_G3dGeFlushBuffer(void);
+#include "../arm9/nns_g3d_ge.h"
 
-extern void MTX_Identity33_(MtxFx33 *mtx);
+#include "../arm9/fx_mtx33.h"
 
-extern void FIELD_EFFECT_GetObjectPos(void *task, G3dObjectTransform *transform);
 struct G3dObjectStatus;
 
-extern int G3D_SYSTEM_DrawObjectCulling(struct G3dObject *obj, struct G3dObjectStatus *status);
 
-void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_use.h"
 struct G3dCamera;
 
-void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
+#include "../arm9/g3d_camera.h"
 
-void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
 
-void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
 
-void MTX_LookAt(VecFx32 *eye, VecFx32 *target, VecFx32 *up, int *outMtx43);
+#include "../arm9/fx_mtx43.h"
 
-void MI_Copy36B(int *mtx43, int *outMtx33);
 
-void MTX_Inverse33(int *mtx33, int *outMtx33);
 
-void MTX_MultVec33(VecFx32 *src, int *mtx33, VecFx32 *dst);
 struct FieldMap;
 struct FieldCamera;
 
-struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
+#include "fieldmap.h"
 struct G3dCamera;
 
-struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
+#include "field_camera.h"
 
-void VEC_Add(VecFx32 *a, VecFx32 *b, VecFx32 *dst);
+#include "../arm9/fx_vec.h"
 
-void FLDEFF_GYOE_StartHeld(void *fieldEffectCtrl, Mmdl *mmdl, int type, int sePlay);
+struct FieldEffectObj *FLDEFF_GYOE_StartHeld(void *fieldEffectCtrl, Mmdl *mmdl, int type, int sePlay);
 
 int FLDEFF_GYOE_IsFinished(void *task);
 
@@ -302,7 +278,7 @@ void FLDEFF_GYOE_RotateByCamera(void *g3dCamera, VecFx32 *src, VecFx32 *dst);
 
 void FLDEFF_GYOE_StepAnimation(FldeffGyoeTaskWork *work, VecFx32 *out);
 
-extern int gGyoeHeldTaskHeader;
+extern const struct FieldEffectObjFuncs gGyoeHeldTaskHeader;
 
 extern const G3dObjectTransform gGyoeDrawTransformInit;
 
@@ -311,7 +287,7 @@ extern MtxFx44 g_DefaultProjectionMtx;
 extern GxState SCREENTEX_CameraState;
 
 /* Starts a mark that stays until its owner reads the finished flag. */
-void FLDEFF_GYOE_StartHeld(void *fieldEffectCtrl, Mmdl *mmdl, int type, int sePlay)
+struct FieldEffectObj *FLDEFF_GYOE_StartHeld(void *fieldEffectCtrl, Mmdl *mmdl, int type, int sePlay)
 {
     FldeffGyoeTaskParam param;
 
@@ -324,7 +300,7 @@ void FLDEFF_GYOE_StartHeld(void *fieldEffectCtrl, Mmdl *mmdl, int type, int sePl
     if (sePlay == 1) {
         FLDEFF_GYOE_PlaySe(type);
     }
-    FIELD_EFFECT_AddObject(fieldEffectCtrl, &gGyoeHeldTaskHeader, 0, 0, &param, 0);
+    return FIELD_EFFECT_AddObject(fieldEffectCtrl, &gGyoeHeldTaskHeader, 0, 0, &param, 0);
 }
 
 /* Returns 1 when the task is gone or its mark is finished. */
@@ -338,7 +314,7 @@ int FLDEFF_GYOE_IsFinished(void *task)
 
 void FLDEFF_GYOE_InitHeldTask(void *task, FldeffGyoeTaskWork *work)
 {
-    work->param = *FIELD_EFFECT_GetObjectParam(task);
+    work->param = *(FldeffGyoeTaskParam *)FIELD_EFFECT_GetObjectParam(task);
     work->yVelocity = 0x6000;
     FIELD_EFFECT_UpdateObject(task);
 }
@@ -353,7 +329,7 @@ void FLDEFF_GYOE_UpdateHeldTask(void *task, FldeffGyoeTaskWork *work)
         work->finished = 1;
         return;
     }
-    FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(work->param.mmdl, (struct VecFx32 *)(&pos));
     FLDEFF_GYOE_StepAnimation(work, &pos);
     FIELD_EFFECT_SetObjectPos(task, &pos);
 }
@@ -366,7 +342,7 @@ void FLDEFF_GYOE_UpdateTask(void *task, FldeffGyoeTaskWork *work)
         FIELD_EFFECT_DeleteObject(task);
         return;
     }
-    FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&pos));
+    FLDMMDL_GetPos(work->param.mmdl, (struct VecFx32 *)(&pos));
     FLDEFF_GYOE_StepAnimation(work, &pos);
     FIELD_EFFECT_SetObjectPos(task, &pos);
 }
@@ -395,7 +371,7 @@ void FLDEFF_GYOE_DrawTask(void *task, FldeffGyoeTaskWork *work)
     NNS_G3dGlbFlush();
     NNS_G3dGeFlushBuffer();
     MTX_Identity33_(&transform.rotation);
-    FIELD_EFFECT_GetObjectPos(task, &transform);
+    FIELD_EFFECT_GetObjectPos(task, (VecFx32 *)&transform);
     G3D_SYSTEM_DrawObjectCulling(work->param.gyoe->object[work->param.type], (struct G3dObjectStatus *)(&transform));
     MIi_CpuCopyFast(&saved, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.matrixDirtyFlags &= ~0x50;
@@ -429,16 +405,16 @@ void FLDEFF_GYOE_RotateByCamera(void *g3dCamera, VecFx32 *src, VecFx32 *dst)
     VecFx32 eye;
     VecFx32 target;
     VecFx32 up;
-    int lookAt[12];
-    int inverse[9];
+    union MtxFx43 lookAt;
+    union MtxFx33 inverse;
 
     G3D_CAMERA_GetEye(g3dCamera, &eye);
     G3D_CAMERA_GetCamUp(g3dCamera, &target);
     G3D_CAMERA_GetCamTarget(g3dCamera, &up);
-    MTX_LookAt(&eye, &target, &up, lookAt);
-    MI_Copy36B(lookAt, inverse);
-    MTX_Inverse33(inverse, inverse);
-    MTX_MultVec33(src, inverse, dst);
+    MTX_LookAt(&eye, &target, &up, &lookAt);
+    MI_Copy36B(&lookAt, &inverse);
+    MTX_Inverse33(&inverse, &inverse);
+    MTX_MultVec33(src, &inverse, dst);
 }
 
 /* Steps the hop and wait animation and returns the mark position in out. */

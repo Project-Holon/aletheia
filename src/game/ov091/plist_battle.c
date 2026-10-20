@@ -104,93 +104,52 @@ struct Strbuf;
 #include "pokelist_types.h"
 #include "plist_battle_types.h"
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+#include "../arm9/gfl_use.h"
 struct Actor;
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern void BG_SYS_MarkTileDirty(u32 bit);
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
 struct PokemonParam;
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern u32 FILE_UTIL_IsMailItem(u16);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/poke_tool.h"
+#include "../arm9/file_util.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct Party;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/pokeparty.h"
+#include "../arm9/msgdata.h"
 struct BmpWin;
 struct Bmp;
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 struct GfFont;
 struct PrintQueue;
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/printsys.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
 extern u32 BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
 struct BmpWin;
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleaseCharacter(u32);
 struct Bmp;
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../arm9/arc_tool.h"
 struct BoxPokemon;
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
-extern u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern void ARC_TOOL_DeleteHandle(void *a);
-extern u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 POKE_TOOL_CalcLevel(struct PokemonParam *pp);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern int GFL_USE_IsAnySeBusy(void);
+#include "../arm9/poke_tool_ext.h"
+#include "../arm9/gf_font.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct TaskMenuWin;
-void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, s32 isDecide);
-extern u32 POKEPARTY_GetCount(struct Party *party);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern int NNS_GfdRegisterNewVramTransferTask(void *,u32,u32,int);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void POKELIST_ShutdownBgPlane0(PokelistWork *work);
-extern void POKELIST_SetupLight(PokelistWork *work);
-extern void POKELIST_ShutdownLight(PokelistWork *work);
-extern void POKELIST_SetupBgPlanes(PokelistWork *work);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
+#include "pokelist.h"
 struct ParticleSys;
-extern int PARTICLE_GetEffectCount(struct ParticleSys *sys);
-extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
-extern u32 PM_VOICE_IsSlotActive(u32 i);
-extern int PARTICLE_UpdateAllSystems(void);
-extern void G3D_SYSTEM_DrawStart(void);
-extern void G3D_SYSTEM_ApplyLookAt(void);
-extern int PARTICLE_DrawAllSystems(void);
-extern void G3D_SYSTEM_DrawEnd(void);
-void POKELIST_ShowMessage(PokelistWork *work, int messageId, int waitForKey, int onDone);
-void POKELIST_PrintTextMain(PokelistWork *work, u32 win, u32 id, int x, s16 y, u16 color);
-void POKELIST_PrintExpandedTextSub(PokelistWork *work, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color);
-void POKELIST_CloseMessageToList(PokelistWork *work);
-void POKELIST_EndMessageToExit(PokelistWork *work);
-void POKELIST_ForceSelectionEnd(PokelistWork *work);
+#include "../arm9/particle.h"
+#include "../arm9/pm_voice.h"
+#include "../arm9/g3d_system.h"
 struct PlistPlate;
 struct PokelistWork;
-void PLIST_PLATE_SetMon(struct PokelistWork *work, struct PlistPlate *plate, void *mon, s32 slideX);
+#include "plist_plate.h"
 struct PlistMessage;
-void PLIST_MESSAGE_OpenWindow(struct PokelistWork *work, struct PlistMessage *msg, u32 kind);
-int PLIST_MESSAGE_IsWindowOpen(struct PokelistWork *work, struct PlistMessage *msg);
-void PLIST_MESSAGE_PrintText(struct PokelistWork *work, struct PlistMessage *msg, u32 messageId);
-void PLIST_MESSAGE_CreateWordSet(struct PokelistWork *work, struct PlistMessage *msg);
-void PLIST_MESSAGE_DestroyWordSet(struct PokelistWork *work, struct PlistMessage *msg);
-void PLIST_MESSAGE_SetWordSetPokemon(struct PokelistWork *unused, struct PlistMessage *msg, u32 index, void *mon);
-void PLIST_MESSAGE_SetWordSetString(struct PokelistWork *unused, struct PlistMessage *msg, u32 index, void *src, s32 n);
-void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 window);
+#include "plist_message.h"
 PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PokelistWork *work, PlistTeamSource *source, u8 x, u8 y, u8 width);
 void PLIST_BATTLE_DeleteTeamPanel(PokelistWork *work, PlistTeamPanel *panel);
 void PLIST_BATTLE_UpdateTeamPanel(PokelistWork *work, PlistTeamPanel *panel);
@@ -205,8 +164,7 @@ void PLIST_BATTLE_UpdateTimer(PokelistWork *work);
 void PLIST_BATTLE_StartEffect(PokelistWork *work);
 void PLIST_BATTLE_FinishEffect(PokelistWork *work);
 void PLIST_BATTLE_UpdateEffect(PokelistWork *work);
-void PLIST_DEMO_CreateParticles(PokelistWork *work);
-void PLIST_DEMO_DeleteParticles(PokelistWork *work);
+#include "plist_demo.h"
 extern const char d_021BED48[];
 extern s16 FX_SinCosTable_[];
 
@@ -215,7 +173,7 @@ PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PokelistWork *work, PlistTeamSource
     PlistTeamPanel *panel;
     u8 count;
     u8 i;
-    u32 nameBuf;
+    uptr nameBuf;
     u32 active;
 
     panel = (PlistTeamPanel *)GFL_HEAP_Alloc(work->heapId, 0x20, 0, d_021BED48, 0x143);
@@ -234,7 +192,7 @@ PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PokelistWork *work, PlistTeamSource
     }
     active = 1;
     panel->nameWindow = BMP_WIN_Create((int)4, (u8)(x + 1 + ((u32)width >> 1)), (u8)(y + 1), (int)10, 2, 0xe, active);
-    nameBuf = (u32)STRBUF_Create(0x10, work->heapId);
+    nameBuf = (uptr)STRBUF_Create(0x10, work->heapId);
     STRBUF_SetString((struct Strbuf *)nameBuf, source->name);
     PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp((struct BmpWin *)panel->nameWindow), 0, 0, (struct Strbuf *)nameBuf, work->fontMain, 0x3c40);
     STRBUF_Delete((struct Strbuf *)nameBuf);
@@ -256,7 +214,7 @@ void PLIST_BATTLE_DeleteTeamPanel(PokelistWork *work, PlistTeamPanel *panel)
 void PLIST_BATTLE_UpdateTeamPanel(PokelistWork *work, PlistTeamPanel *panel)
 {
     u8 i;
-    u32 window;
+    uptr window;
     for (i = 0; i < 6; i++) {
         if (panel->cells[i] != 0)
             PLIST_BATTLE_UpdateMiniCell(work, panel->cells[i]);
@@ -279,7 +237,7 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     PlistActorParam markParam;
     PlistMiniCell *cell;
     void *iconFile;
-    int boxMon;
+    sptr boxMon;
     int paletteIndex;
     u32 heldItem;
     u32 sex;
@@ -289,29 +247,29 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     u8 xShift;
     int cellX;
     u32 cellY;
-    u32 wordSet;
+    uptr wordSet;
     cell = GFL_HEAP_Alloc(work->heapId, 24, 0, d_021BED48, 0x199);
     isEgg = POKE_TOOL_GetPartyValue(mon, PLIST_MON_EGG_FLAG, 0);
     iconFile = ARC_TOOL_CreateHandle(7, work->heapId);
-    boxMon = (int)POKE_TOOL_GetBoxParam(mon);
+    boxMon = (sptr)POKE_TOOL_GetBoxParam(mon);
     cell->iconRes = CLACT_RegisterCharacter(iconFile, POKE_TOOL_GetGraphicIndex((void *)boxMon), 0, 1, work->heapId);
     ARC_TOOL_DeleteHandle(iconFile);
     paletteIndex = POKE_TOOL_GetIconPalette((void *)boxMon);
     iconParam.x = x + 16; iconParam.y = y + 8; iconParam.animNo = 1; iconParam.softPriority = 16; iconParam.bgPriority = 2;
     {
-        int actor = (int)CLACT_CreateActor(work->actorSystem, cell->iconRes, work->charRes[7], work->cellRes[7], &iconParam, 1, work->heapId);
+        int actor = (sptr)CLACT_CreateActor((struct Unit *)work->actorSystem, cell->iconRes, work->charRes[7], work->cellRes[7], (const struct ActorInitParam *)&iconParam, 1, work->heapId);
         cell->iconActor = actor;
-        CLACT_SetActorPaletteOffset((struct Actor *)actor, paletteIndex, 1);
+        CLACT_SetActorPaletteOffset((struct ClactActor *)actor, paletteIndex, 1);
     }
-    CLACT_SetActorAutoAnim((struct Actor *)cell->iconActor, 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)cell->iconActor, 1);
     heldItem = POKE_TOOL_GetPartyValue(mon, PLIST_MON_HELD_ITEM, 0);
     markParam.x = x + 32; markParam.y = y + 16; markParam.animNo = 0; markParam.softPriority = 8; markParam.bgPriority = 2;
-    cell->itemMarkActor = (u32)CLACT_CreateActor(work->actorSystem, work->palRes[4], work->charRes[3], work->cellRes[4], &markParam, 1, work->heapId);
+    cell->itemMarkActor = (uptr)CLACT_CreateActor((struct Unit *)work->actorSystem, work->palRes[4], work->charRes[3], work->cellRes[4], (const struct ActorInitParam *)&markParam, 1, work->heapId);
     if (heldItem != 0) {
-        CLACT_SetActorDrawEnable((struct Actor *)cell->itemMarkActor, 1);
-        if (FILE_UTIL_IsMailItem(heldItem) == 1) CLACT_SetActorAnimSeq((struct Actor *)cell->itemMarkActor, 1);
-        else CLACT_SetActorAnimSeq((struct Actor *)cell->itemMarkActor, 0);
-    } else CLACT_SetActorDrawEnable((struct Actor *)cell->itemMarkActor, 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)cell->itemMarkActor, 1);
+        if (FILE_UTIL_IsMailItem(heldItem) == 1) CLACT_SetActorAnimSeq((struct ClactActor *)cell->itemMarkActor, 1);
+        else CLACT_SetActorAnimSeq((struct ClactActor *)cell->itemMarkActor, 0);
+    } else CLACT_SetActorDrawEnable((struct ClactActor *)cell->itemMarkActor, 0);
     sex = POKE_TOOL_GetPartyValue(mon, PLIST_MON_SEX, 0);
     xOffset = x % 8;
     xShift = xOffset;
@@ -319,16 +277,16 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
     cellX = (u32)x >> 3;
     cell->sexWindow = BMP_WIN_Create(4, (u8)cellX + 3, cellY, 3, 2, 13, 1);
     if (isEgg == 0) {
-        if (sex == 0) POKELIST_PrintTextMain(work, cell->sexWindow, 7, (u16)(xShift + 4), 0, 0x14c0);
-        else if (sex == 1) POKELIST_PrintTextMain(work, cell->sexWindow, 8, (u16)(xShift + 4), 0, 0xc80);
+        if (sex == 0) POKELIST_PrintTextMain((PokelistWork *)work, (struct Descriptor *)cell->sexWindow, 7, (u16)(xShift + 4), 0, 0x14c0);
+        else if (sex == 1) POKELIST_PrintTextMain((PokelistWork *)work, (struct Descriptor *)cell->sexWindow, 8, (u16)(xShift + 4), 0, 0xc80);
     }
-    level = POKE_TOOL_CalcLevel((void *)((int)mon));
+    level = POKE_TOOL_CalcLevel((void *)((sptr)mon));
     xShift = xOffset;
     cell->levelWindow = BMP_WIN_Create(4, (u8)cellX, (u8)cellY + 3, 6, 1, 14, 1);
     if (isEgg == 0) {
-        wordSet = (u32)WORDSET_CreateDefault(work->heapId);
+        wordSet = (uptr)WORDSET_CreateDefault(work->heapId);
         WORDSET_SetSlotNumber((struct WordSet *)wordSet, 0, level, 3, 0, 1);
-        POKELIST_PrintExpandedTextSub(work, cell->levelWindow, (void *)wordSet, 2, (s16)xShift, (s16)0, 0x3c40);
+        POKELIST_PrintExpandedTextSub((PokelistWork *)work, (struct Descriptor *)cell->levelWindow, (void *)wordSet, 2, (s16)xShift, (s16)0, 0x3c40);
         WORDSET_Delete((struct WordSet *)wordSet);
     }
     cell->active = 1;
@@ -339,15 +297,15 @@ void PLIST_BATTLE_DeleteMiniCell(PokelistWork *unusedWork, PlistMiniCell *cell)
 {
     BMP_WIN_Delete((struct BmpWin *)cell->sexWindow);
     BMP_WIN_Delete((struct BmpWin *)cell->levelWindow);
-    CLACT_DeleteActor((struct Actor *)cell->itemMarkActor);
-    CLACT_DeleteActor((struct Actor *)cell->iconActor);
+    CLACT_DeleteActor((struct ClactActor *)cell->itemMarkActor);
+    CLACT_DeleteActor((struct ClactActor *)cell->iconActor);
     CLACT_ReleaseCharacter(cell->iconRes);
     GFL_HEAP_Free(cell);
 }
 
 void PLIST_BATTLE_UpdateMiniCell(PokelistWork *work, PlistMiniCell *cell)
 {
-    u32 window;
+    uptr window;
     if (cell->active == 1
         && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp((struct BmpWin *)cell->sexWindow)) == 0
         && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp((struct BmpWin *)cell->levelWindow)) == 0) {
@@ -371,13 +329,13 @@ void PLIST_BATTLE_RefreshOpponentMessage(PokelistWork *work)
 
 void PLIST_BATTLE_PrintOpponentMessage(PokelistWork *work)
 {
-    int text;
+    sptr text;
     if (work->arg->timerExpired == 0)
         return;
     if (PLIST_MESSAGE_IsWindowOpen(work, (struct PlistMessage *)work->messageWindow) == 0)
         PLIST_MESSAGE_OpenWindow(work, (struct PlistMessage *)work->messageWindow, 1);
     if (work->arg->battleKind == 1) {
-        text = (int)STRBUF_Create(0x10, work->heapId);
+        text = (sptr)STRBUF_Create(0x10, work->heapId);
         STRBUF_SetString((struct Strbuf *)text, work->arg->entries[1].name);
         PLIST_MESSAGE_CreateWordSet(work, (struct PlistMessage *)work->messageWindow);
         PLIST_MESSAGE_SetWordSetString(work, (struct PlistMessage *)work->messageWindow, 0, (void *)text, work->arg->entries[1].gender);
@@ -391,10 +349,10 @@ void PLIST_BATTLE_PrintOpponentMessage(PokelistWork *work)
 
 void PLIST_BATTLE_CreateTimerWindows(PokelistWork *work)
 {
-    int text;
+    sptr text;
     work->timerLabelWindow = (void *)BMP_WIN_Create(4, 7, 0x15, 0xB, 3, 0xE, 1);
     work->timerValueWindow = (void *)BMP_WIN_Create(4, 0x14, 0x15, 5, 3, 0xE, 1);
-    text = (int)MSGDATA_AllocString((struct MsgBank *)work->msgBank, 0xAD);
+    text = (sptr)MSGDATA_AllocString((struct MsgBank *)work->msgBank, 0xAD);
     PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp((struct BmpWin *)work->timerLabelWindow), 0, 4, (struct Strbuf *)text,
                   work->fontMain, 0x3C40);
     STRBUF_Delete((struct Strbuf *)text);
@@ -483,7 +441,7 @@ void PLIST_BATTLE_UpdateTimer(PokelistWork *work)
             red = value;
             work->timerPalDst[i] = (blue << 10) | (red | (green << 5));
         }
-        NNS_GfdRegisterNewVramTransferTask((void *)31, 64, (u32)work->timerPalDst, 32);
+        NNS_GfdRegisterNewVramTransferTask((void *)31, 64, (uptr)work->timerPalDst, 32);
         work->timerPalPhase++;
         if (work->timerPalPhase >= 60) work->timerPalPhase = 0;
     }
@@ -511,21 +469,21 @@ void PLIST_BATTLE_FinishEffect(PokelistWork *work)
     if (work->evolveCheckKind == 1) {
         callback = POKELIST_EndMessageToExit;
         if (work->arg->mode == 0) callback = POKELIST_CloseMessageToList;
-        PLIST_MESSAGE_CreateWordSet(work, (struct PlistMessage *)work->messageWindow);
-        PLIST_MESSAGE_SetWordSetPokemon(work, (struct PlistMessage *)work->messageWindow, 0, (void *)work->selectedMon);
-        POKELIST_ShowMessage(work, 0xa6, 1, (int)callback);
+        PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
+        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, (void *)work->selectedMon);
+        POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, (PokelistFn)((sptr)callback));
         PLIST_MESSAGE_DestroyWordSet(work, (struct PlistMessage *)work->messageWindow);
     } else if (work->evolveCheckKind == 2) {
         callback = POKELIST_EndMessageToExit;
         if (work->arg->mode == 0) callback = POKELIST_CloseMessageToList;
-        PLIST_MESSAGE_CreateWordSet(work, (struct PlistMessage *)work->messageWindow);
-        PLIST_MESSAGE_SetWordSetPokemon(work, (struct PlistMessage *)work->messageWindow, 0, (void *)work->selectedMon);
-        POKELIST_ShowMessage(work, 0xa6, 1, (int)callback);
+        PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
+        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, (void *)work->selectedMon);
+        POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, (PokelistFn)((sptr)callback));
         PLIST_MESSAGE_DestroyWordSet(work, (struct PlistMessage *)work->messageWindow);
     } else if (work->evolveCheckKind == 3) {
-        PLIST_MESSAGE_CreateWordSet(work, (struct PlistMessage *)work->messageWindow);
-        PLIST_MESSAGE_SetWordSetPokemon(work, (struct PlistMessage *)work->messageWindow, 0, (void *)work->selectedMon);
-        POKELIST_ShowMessage(work, 0xa6, 1, (int)POKELIST_EndMessageToExit);
+        PLIST_MESSAGE_CreateWordSet((PokelistWork *)work, (PlistMessage *)work->messageWindow);
+        PLIST_MESSAGE_SetWordSetPokemon((struct PokelistWork *)work, (PlistMessage *)work->messageWindow, 0, (void *)work->selectedMon);
+        POKELIST_ShowMessage((PokelistWork *)work, 0xa6, 1, (PokelistFn)((sptr)POKELIST_EndMessageToExit));
         PLIST_MESSAGE_DestroyWordSet(work, (struct PlistMessage *)work->messageWindow);
     } else {
         work->phase = 0x13;

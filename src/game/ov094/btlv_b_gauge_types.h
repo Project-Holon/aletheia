@@ -2,34 +2,20 @@
 #define BTLV_B_GAUGE_TYPES_H
 
 #include "../types.h"
+#include "../arm9/clact.h"
 
 /* Opaque types owned by other files. */
-struct ClActor;
-struct ClUnit;
+struct ClactActor;
+struct Unit;
 struct BtlPokeParam;
 struct Strbuf;
 struct BmpData;
-struct PalAnmSlot;
 struct TcblTask;
 
 /* Sound numbers. */
 #define BTLV_GAUGE_SE_BALL_BAR_START 0x570
 #define BTLV_GAUGE_SE_BALL_SETTLE 0x571
 #define BTLV_GAUGE_SE_BALL_ALT 0x572
-
-typedef struct BtlvGaugePoint {
-    s16 x;
-    s16 y;
-} BtlvGaugePoint;
-
-/* Initial values for CLACT_CreateActor (first 8 bytes of the actor init record). */
-typedef struct BtlvGaugeActorInit {
-    s16 x;
-    s16 y;
-    u16 animSeq;
-    u8 drawPriority;
-    u8 bgPriority;
-} BtlvGaugeActorInit;
 
 /* Start and frame positions of the party ball bar per side. */
 typedef struct BtlvPartyBallOrigin {
@@ -46,18 +32,18 @@ typedef struct BtlvPartyBallBarParam {
 } BtlvPartyBallBarParam;
 
 typedef struct BtlvPartyBallEntry {
-    struct ClActor *actor;
+    struct ClactActor *actor;
     int goalX;
     int homeX;
     int stepX;
     int finalAnim;
     int wait;
-    BtlvGaugePoint pos;
+    struct ClactVec2 pos;
 } BtlvPartyBallEntry;
 
 /* Party ball bar (0xe4 bytes): six balls and the frame slide in. */
 typedef struct BtlvPartyBallBar {
-    struct ClUnit *unit;
+    struct Unit *unit;
     u32 charRes;
     u32 cellRes;
     u32 palRes;

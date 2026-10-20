@@ -171,44 +171,36 @@
  *   gBtlStatStageRatios 0x021F0448 data a1
  *   _u32_div_f 0x0209C2B0 arm
  */
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define WAZA_TOOL_GetMaxPP WAZA_TOOL_GetMaxPPHeader
+#endif
 #include "btl_pokeparam_types.h"
 
-typedef struct BtlPokeParam BtlPokeParam;
-typedef struct PokemonParam PokemonParam;
 
 int BTL_POKEPARAM_HasSick(BtlPokeParam *pp, int condition);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern u32 POKE_TOOL_GetPartyValue(PokemonParam *mon, u32 paramId, u32 arg);
-extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 paramId);
-extern u32 POKE_TOOL_GetStatusCondition(PokemonParam *mon);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/poke_tool.h"
 void BTL_POKEPARAM_ClearSickConts(BtlPokeParam *pp, int all);
-extern union SickCont BTL_CALC_MakeDefaultSickCont(int condition);
+#include "btl_calc.h"
 void BTL_POKEPARAM_ClearHitHistory(BtlPokeParam *pp);
 void BTL_POKEPARAM_ClearFoughtList(BtlPokeParam *pp);
-extern u32 POKE_TOOL_DecodePartyParam(PokemonParam *mon);
-extern u32 POKE_TOOL_EncodePartyParam(PokemonParam *mon, u32 wasDecoded);
-extern void POKE_TOOL_SetMoveSlot(PokemonParam *mon, u16 moveId, u32 slot);
-extern void POKE_TOOL_SetPartyValue(PokemonParam *mon, u32 paramId, u32 value);
-extern u32 WAZA_TOOL_GetMaxPP(u32 moveId, u32 ppUps);
-extern u8 POKE_TOOL_GetGender(PokemonParam *mon);
-extern u16 BTL_TYPEPAIR_Make(u32 type1, u32 type2);
-extern int BTL_FIELD_IsStaticSlotInUse(int);
-extern unsigned short BTL_CALC_ApplyStatStage(unsigned short stat, int stage);
+#include "btl_typepair.h"
+#include "btl_field.h"
 extern const char gBtlPokeparamFileName[];
 extern const u32 gSemiInvulnerableContFlags[4];
-BtlPokeParam *BTL_POKEPARAM_Create(PokemonParam *mon, u8 pokeId, u32 heapId);
-void BTL_POKEPARAM_ReloadFromMon(BtlPokeParam *pp, PokemonParam *mon, u32 withHp, u32 withAbility);
-int BTL_POKEPARAM_LoadMoves(BtlPokeParam *pp, PokemonParam *mon, int reset);
+BtlPokeParam *BTL_POKEPARAM_Create(struct PokemonParam *mon, u8 pokeId, u32 heapId);
+void BTL_POKEPARAM_ReloadFromMon(BtlPokeParam *pp, struct PokemonParam *mon, u32 withHp, u32 withAbility);
+int BTL_POKEPARAM_LoadMoves(BtlPokeParam *pp, struct PokemonParam *mon, int reset);
 void BTL_POKEPARAM_SaveMovesToMon(BtlPokeParam *pp);
 void BTL_POKEPARAM_SyncMovesFromMon(BtlPokeParam *pp);
 void BTL_POKEPARAM_ResetBattleMoves(BtlPokeParam *pp);
 void BTL_POKEPARAM_ClearMoveUsedFlags(struct BattleMoveSlot *slot);
 void BTL_POKEPARAM_ReplaceMoveSlot(struct BattleMoveSlot *slot, u32 moveId, u32 ppCap, u32 toReal);
 void BTL_POKEPARAM_SetMoveInfo(struct MoveInfo *info, u32 moveId, u32 ppCap);
-int BTL_POKEPARAM_LoadMoveInfo(struct MoveInfo *info, PokemonParam *mon, u8 slotIndex);
-void BTL_POKEPARAM_LoadStats(BtlPokeParam *pp, PokemonParam *mon, u32 withTypes);
+int BTL_POKEPARAM_LoadMoveInfo(struct MoveInfo *info, struct PokemonParam *mon, u8 slotIndex);
+void BTL_POKEPARAM_LoadStats(BtlPokeParam *pp, struct PokemonParam *mon, u32 withTypes);
 void BTL_POKEPARAM_RestoreIfNeeded(BtlPokeParam *pp);
 void BTL_POKEPARAM_ResetMoveHistory(BtlPokeParam *pp);
 void BTL_POKEPARAM_ClearMoveFlags(BtlPokeParam *pp);
@@ -243,13 +235,13 @@ u8 BTL_POKEPARAM_FindMoveSlot(BtlPokeParam *pp, u16 moveId);
 void BTL_POKEPARAM_GetTypes(BtlPokeParam *pp, u8 *type1, u8 *type2);
 u16 BTL_POKEPARAM_GetTypePair(BtlPokeParam *pp);
 int BTL_POKEPARAM_HasType(BtlPokeParam *pp, int type);
-PokemonParam *BTL_POKEPARAM_GetMon(BtlPokeParam *pp);
-void BTL_POKEPARAM_SetFakeMon(BtlPokeParam *pp, PokemonParam *fakeMon);
+struct PokemonParam *BTL_POKEPARAM_GetMon(BtlPokeParam *pp);
+void BTL_POKEPARAM_SetFakeMon(BtlPokeParam *pp, struct PokemonParam *fakeMon);
 void BTL_POKEPARAM_ClearFakeMon(BtlPokeParam *pp);
-PokemonParam *BTL_POKEPARAM_GetDisplayMon(BtlPokeParam *pp);
+struct PokemonParam *BTL_POKEPARAM_GetDisplayMon(BtlPokeParam *pp);
 int BTL_POKEPARAM_RemapStatId(BtlPokeParam *pp, int valueId);
 int BTL_POKEPARAM_GetStatRaw(BtlPokeParam *pp, int valueId);
-void BTL_POKEPARAM_ReadStatsFromMon(PokemonParam **monPtr, u16 *stats);
+void BTL_POKEPARAM_ReadStatsFromMon(struct PokemonParam **monPtr, u16 *stats);
 void BTL_POKEPARAM_SetStat(BtlPokeParam *pp, int valueId, u16 value);
 int BTL_POKEPARAM_GetValue(BtlPokeParam *pp, int valueId);
 int BTL_POKEPARAM_GetStatForCrit(BtlPokeParam *pp, int valueId);
@@ -270,20 +262,12 @@ int BTL_POKEPARAM_GetStatStageRoom(BtlPokeParam *pp, int stageId);
 int BTL_POKEPARAM_HasLoweredStatStage(BtlPokeParam *pp);
 u8 BTL_POKEPARAM_RaiseStatStage(BtlPokeParam *pp, int stageId, u8 amount);
 typedef enum { SICK_SLOT_FIRST, SICK_SLOT_COUNT = 36, SICK_SLOT_FORCE_UNSIGNED = 0xFFFFFFFF } SickSlotIndex;
-extern int BTL_CALC_HasDefaultSickCont(int sickIndex);
-extern u8 BTL_SICKCONT_GetLow(union SickCont cont);
-extern u16 BTL_SICKCONT_GetValue(union SickCont cont);
-extern union SickCont BTL_SICKCONT_MakeNone(void);
-extern int BTL_SICKCONT_IsNone(union SickCont cont);
-extern int BTL_SICKCONT_GetPosition(union SickCont cont);
-extern int BTL_SICKCONT_IsKind1Index15(union SickCont cont);
-extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *bpp, u32 divisor);
+#include "btl_sickcont.h"
 void BTL_POKEPARAM_AdvanceHitTurn(struct BtlPokeParam *bpp);
-extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 void BTL_POKEPARAM_ClearStoredPokeMove(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ClearIllusion(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ClearSubstitute(struct BtlPokeParam *bpp);
-extern int BTL_ID_IsBatonPassSick(u32 sickIndex);
+#include "../ov095/btl_id_sets.h"
 void BTL_POKEPARAM_SetStatStage(struct BtlPokeParam *bpp, int statIndex, u8 stage);
 int BTL_POKEPARAM_RaiseLoweredStatStages(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ResetStatStages(struct BtlPokeParam *bpp);
@@ -305,7 +289,7 @@ void BTL_POKEPARAM_CureSick(struct BtlPokeParam *bpp, int sickIndex);
 void BTL_POKEPARAM_CureSickBySource(struct BtlPokeParam *bpp, int sourceId);
 int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
 u16 BTL_POKEPARAM_GetSickParam(struct BtlPokeParam *bpp, int sickIndex);
-u32 BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickIndex);
+union SickCont BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickIndex);
 u8 BTL_POKEPARAM_GetSickTurn(struct BtlPokeParam *bpp, int sickIndex);
 int BTL_POKEPARAM_CalcSickDamage(struct BtlPokeParam *bpp, int sickIndex);
 void BTL_POKEPARAM_StartTurnThreshold(struct BtlPokeParam *bpp, u16 threshold);
@@ -315,15 +299,13 @@ void BTL_POKEPARAM_ResetAllEffects(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ResetEffectsOnSwitchOut(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_ReloadAndResetEffects(struct BtlPokeParam *bpp);
 void BTL_POKEPARAM_PassEffects(struct BtlPokeParam *dst, struct BtlPokeParam *src);
-extern u8 BTL_TYPEPAIR_GetHigh(int typePair);
-extern int BTL_TYPEPAIR_GetLow(int typePair);
-extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
-extern u32 POKE_TOOL_GetExpForLevel(u16 species, u16 form, u16 level);
-extern void POKE_TOOL_SetStatusCondition(struct PokemonParam *pp, u32 statusCondition);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 gBtlPokeParamTransformMoves[0x38];
 extern BtlPokeParamKept gBtlPokeParamTransformKept;
-extern unsigned short PALANM_GetPairedCodeForFirst(int value);
+#include "../arm9/palanm.h"
+#include "../arm9/waza_tool.h"
+#ifdef __MWERKS__
+#undef WAZA_TOOL_GetMaxPP
+#endif
 unsigned char BTL_POKEPARAM_GetFoughtCount(BtlPokeParam *pp);
 u8 BTL_POKEPARAM_GetFoughtPokeId(BtlPokeParam *pp, u32 slot);
 void BTL_EVENT_StartClientPalAnm(BtlPokeParam *pp, int value);
@@ -339,7 +321,7 @@ void BTL_POKEPARAM_RecalcMonParam(BtlPokeParam *pp);
  * deriving 0x272 from the hoisted 0x1f8 and 0x143 from the argument 0x9e.
  * With a u32 return every spelling of the body keeps the constant chain.
  */
-BtlPokeParam *BTL_POKEPARAM_Create(PokemonParam *mon, u8 pokeId, u32 heapId)
+BtlPokeParam *BTL_POKEPARAM_Create(struct PokemonParam *mon, u8 pokeId, u32 heapId)
 {
     BtlPokeParam *pp;
     u32 statusCondition;
@@ -389,7 +371,7 @@ BtlPokeParam *BTL_POKEPARAM_Create(PokemonParam *mon, u8 pokeId, u32 heapId)
 }
 
 /* BTL_POKEPARAM_ReloadFromMon: withHp also reloads hp and maxHp, withAbility reloads the stats, ability and form. */
-void BTL_POKEPARAM_ReloadFromMon(BtlPokeParam *pp, PokemonParam *mon, u32 withHp, u32 withAbility)
+void BTL_POKEPARAM_ReloadFromMon(BtlPokeParam *pp, struct PokemonParam *mon, u32 withHp, u32 withAbility)
 {
     if (withHp != 0) {
         pp->hp = POKE_TOOL_GetPartyValue(mon, 0xa0, 0);
@@ -408,7 +390,7 @@ void BTL_POKEPARAM_ReloadFromMon(BtlPokeParam *pp, PokemonParam *mon, u32 withHp
 }
 
 /* BTL_POKEPARAM_LoadMoves: reads the four moves from the Pokemon, returns how many exist. */
-int BTL_POKEPARAM_LoadMoves(BtlPokeParam *pp, PokemonParam *mon, int reset)
+int BTL_POKEPARAM_LoadMoves(BtlPokeParam *pp, struct PokemonParam *mon, int reset)
 {
     u8 wasDecoded = POKE_TOOL_DecodePartyParam(mon);
     u32 moveCount = 0;
@@ -437,7 +419,7 @@ int BTL_POKEPARAM_LoadMoves(BtlPokeParam *pp, PokemonParam *mon, int reset)
 /* BTL_POKEPARAM_SaveMovesToMon */
 void BTL_POKEPARAM_SaveMovesToMon(BtlPokeParam *pp)
 {
-    PokemonParam *mon = pp->mon;
+    struct PokemonParam *mon = pp->mon;
     u32 i;
 
     for (i = 0; i < 4; i++) {
@@ -450,7 +432,7 @@ void BTL_POKEPARAM_SaveMovesToMon(BtlPokeParam *pp)
 /* BTL_POKEPARAM_SyncMovesFromMon */
 void BTL_POKEPARAM_SyncMovesFromMon(BtlPokeParam *pp)
 {
-    PokemonParam *mon = pp->mon;
+    struct PokemonParam *mon = pp->mon;
     u32 i;
     pp->moveCount = 0;
     for (i = 0; i < 4; i++) {
@@ -522,7 +504,7 @@ void BTL_POKEPARAM_SetMoveInfo(struct MoveInfo *info, u32 moveId, u32 ppCap)
 }
 
 /* BTL_POKEPARAM_LoadMoveInfo: reads one move slot from the Pokemon, returns 1 when the slot holds a move. */
-int BTL_POKEPARAM_LoadMoveInfo(struct MoveInfo *info, PokemonParam *mon, u8 slotIndex)
+int BTL_POKEPARAM_LoadMoveInfo(struct MoveInfo *info, struct PokemonParam *mon, u8 slotIndex)
 {
     int hasMove = 1;
     u16 moveId = POKE_TOOL_GetPartyValue(mon, slotIndex + 0x36, 0);
@@ -545,7 +527,7 @@ int BTL_POKEPARAM_LoadMoveInfo(struct MoveInfo *info, PokemonParam *mon, u8 slot
 }
 
 /* BTL_POKEPARAM_LoadStats: withTypes also reloads both types. */
-void BTL_POKEPARAM_LoadStats(BtlPokeParam *pp, PokemonParam *mon, u32 withTypes)
+void BTL_POKEPARAM_LoadStats(BtlPokeParam *pp, struct PokemonParam *mon, u32 withTypes)
 {
     if (withTypes) {
         pp->type1 = POKE_TOOL_GetPartyValue(mon, 0xae, 0);
@@ -872,10 +854,10 @@ int BTL_POKEPARAM_HasType(BtlPokeParam *pp, int type)
 }
 
 /* BTL_POKEPARAM_GetMon */
-PokemonParam *BTL_POKEPARAM_GetMon(BtlPokeParam *pp) { return pp->mon; }
+struct PokemonParam *BTL_POKEPARAM_GetMon(BtlPokeParam *pp) { return pp->mon; }
 
 /* BTL_POKEPARAM_SetFakeMon: leaf of 6 instructions. */
-void BTL_POKEPARAM_SetFakeMon(BtlPokeParam *pp, PokemonParam *fakeMon)
+void BTL_POKEPARAM_SetFakeMon(BtlPokeParam *pp, struct PokemonParam *fakeMon)
 {
     pp->illusionMon = fakeMon;
     pp->illusionActive = 1;
@@ -885,7 +867,7 @@ void BTL_POKEPARAM_SetFakeMon(BtlPokeParam *pp, PokemonParam *fakeMon)
 void BTL_POKEPARAM_ClearFakeMon(BtlPokeParam *pp) { pp->illusionMon = 0; pp->illusionActive = 0; }
 
 /* BTL_POKEPARAM_GetDisplayMon */
-PokemonParam *BTL_POKEPARAM_GetDisplayMon(BtlPokeParam *pp) { if (pp->illusionMon && pp->illusionActive) return pp->illusionMon; return pp->mon; }
+struct PokemonParam *BTL_POKEPARAM_GetDisplayMon(BtlPokeParam *pp) { if (pp->illusionMon && pp->illusionActive) return pp->illusionMon; return pp->mon; }
 
 /* BTL_POKEPARAM_RemapStatId: with the swap condition 6 active, defense (9) and spDefense (11) trade places. */
 int BTL_POKEPARAM_RemapStatId(BtlPokeParam *pp, int valueId)
@@ -921,7 +903,7 @@ int BTL_POKEPARAM_GetStatRaw(BtlPokeParam *pp, int valueId)
 }
 
 /* BTL_POKEPARAM_ReadStatsFromMon: writes maxHp, attack, defense, spAttack, spDefense, speed to stats[1..6]. */
-void BTL_POKEPARAM_ReadStatsFromMon(PokemonParam **monPtr, u16 *stats)
+void BTL_POKEPARAM_ReadStatsFromMon(struct PokemonParam **monPtr, u16 *stats)
 {
     u8 wasDecoded = POKE_TOOL_DecodePartyParam(*monPtr);
     stats[1] = POKE_TOOL_GetPartyValue(*monPtr, 0xa1, 0);
@@ -1510,7 +1492,7 @@ u16 BTL_POKEPARAM_GetSickParam(struct BtlPokeParam *bpp, int sickIndex)
     return 0;
 }
 
-u32 BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickIndex) { return bpp->sickCont[sickIndex].raw; }
+union SickCont BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickIndex) { return bpp->sickCont[sickIndex]; }
 
 u8 BTL_POKEPARAM_GetSickTurn(struct BtlPokeParam *bpp, int sickIndex) { return bpp->sickTurn[sickIndex]; }
 

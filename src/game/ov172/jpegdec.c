@@ -70,13 +70,11 @@ static int yblock = 0;
 static int bcode2 = 0;
 static int ystep = 0;
 
-extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
-extern long SSP_ExifDecode(u8 *src, unsigned long src_size, int *cur, int option);
-extern int OS_IsRunOnTwl(void);
-extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void AESi_Init(void);
-extern int AESi_VerifySignForJpeg(unsigned char *sign, unsigned int data, unsigned int length);
+#include "../arm9/mi_memory.h"
+#include "exifdec.h"
+#include "../arm9/os_emulator.h"
+#include "../twl/aes_core.h"
+#include "../twl/aes_util.h"
 extern int SSPiDecodeSignCheckMode;
 extern short mtx[5][64];
 extern u8 jw[6144];

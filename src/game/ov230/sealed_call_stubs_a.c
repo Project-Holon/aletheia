@@ -25,7 +25,7 @@
 
 #include "../types.h"
 
-extern void LOADER_DECRYPT_DecodeBlocks(u32 *desc);
+#include "loader_decrypt.h"
 
 /* hand-written in the original: position-independent call stub, pops the dispatcher address out of its own parameter block, which follows it */
 asm u32 OV230_CallSealedBody0(void (*hook)(void), void (*hookArg)(void), u32 unused)

@@ -132,8 +132,12 @@ typedef struct SaveRecordFooter {
 } SaveRecordFooter;
 
 /* Kept local: the heap id is a u16 here (gfl_heap_wrap.h takes u32). */
-extern void *GFL_HEAP_Alloc(u16 heap_id, u32 size, int align, const char *file, u16 line);
+#ifdef __MWERKS__
+extern void *GFL_HEAP_Alloc(u16 heap_id, u32 size, int align, const char *file, u16 line); /* original prototype; the definition differs in argument width */
 extern u32 GFL_HEAP_Free(void *mem);
+#else
+#include "gfl_heap_wrap.h"
+#endif
 #include "mi_memory.h"
 #include "crc.h"
 #include "gf_panic.h"

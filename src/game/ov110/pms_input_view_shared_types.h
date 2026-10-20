@@ -12,7 +12,7 @@ struct PmsivEdit;
 struct PmsivCategory;
 struct PmsivWordwin;
 struct PmsivMenu;
-struct ClactUnit;
+struct Unit;
 struct BmpWin;
 struct PrintQue;
 struct GfFont;
@@ -44,7 +44,7 @@ struct PmsInputView {
     void *eventTasks[PMS_INPUT_VIEW_TASK_SLOTS];
     struct PmsInput *input;
     struct PmsInputData *wordData;
-    struct ClactUnit *clactUnit;
+    struct Unit *clactUnit;
     struct PmsInputViewSpriteRes uiRes[PMS_INPUT_VIEW_SCREEN_COUNT];
     struct PmsInputViewSpriteRes cursorRes[PMS_INPUT_VIEW_SCREEN_COUNT];
     struct PmsivEdit *edit;

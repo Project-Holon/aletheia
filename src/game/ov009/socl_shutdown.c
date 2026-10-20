@@ -19,22 +19,12 @@
  *   SOCLi_ShutdownCallBack            0x0215E764  arm  ov009
  *   CPS_TcpShutdown  0x0215AD00  arm  ov009
  */
-typedef struct SOCLSocket SOCLSocket;
+#include "socl_types.h"
+#include "socl_command.h"
 
-typedef struct {
-    unsigned char pad0[0x10C];
-    SOCLSocket *socket;
-} SOCLiSocketSendCommandPipe;
-
-struct SOCLSocket {
-    unsigned char pad0[0xA4];
-    SOCLiSocketSendCommandPipe *send_pipe;
-    unsigned char pad1[4];
-    volatile short flags;
-    signed char flag_block;
-};
-
-typedef union SOCLiCommandPacket SOCLiCommandPacket;
+/* the original reads and writes the state word as volatile */
+#define SOCKET_STATE(s) (*(volatile short *)&(s)->state)
+#include "socl_command_types.h"
 
 typedef struct {
     unsigned char pad0[0xAF];
@@ -46,19 +36,17 @@ typedef struct {
     Socket *socket;
 } Cmd;
 
-extern int SOCL_SocketIsInvalid(SOCLSocket *socket);
+#include "socl_list.h"
 extern SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
                                                      SOCLSocket *socket,
                                                      long flag);
-extern int SOCLi_ExecCommandPacketInSendPipe(SOCLSocket *socket,
-                                             SOCLiCommandPacket *command);
-extern void CPS_TcpShutdown(void);
+#include "cps_network.h"
 int SOCL_Shutdown(int s);
 
 static int SOCLi_ShutdownCallBack(void *arg);
 
 
-int SOCL_Shutdown(int s)
+int SOCL_Shutdown(sptr s)
 {
     long result;
     SOCLiCommandPacket *command;
@@ -71,20 +59,20 @@ int SOCL_Shutdown(int s)
     socket = (SOCLSocket *)s;
     result = 0;
     if (socket != 0)
-        result = (socket->flags & 1) != 0;
+        result = (SOCKET_STATE(socket) & 1) != 0;
     if (result == 0)
         return -0x27;
-    if ((socket->flags & 4) == 0 || (socket->flags & 8) != 0)
+    if ((SOCKET_STATE(socket) & 4) == 0 || (SOCKET_STATE(socket) & 8) != 0)
         return -0x38;
-    socket->flags |= 8;
+    SOCKET_STATE(socket) |= 8;
     send_pipe = socket->send_pipe;
-    if (send_pipe != 0 && send_pipe->socket != 0) {
+    if (send_pipe != 0 && send_pipe->exe_socket != 0) {
         command = SOCLi_CreateCommandPacket(SOCLi_ShutdownCallBack,
-                                            send_pipe->socket,
+                                            send_pipe->exe_socket,
                                             socket->flag_block);
         if (command == 0)
             return -0x21;
-        return SOCLi_ExecCommandPacketInSendPipe(send_pipe->socket, command);
+        return SOCLi_ExecCommandPacketInSendPipe(send_pipe->exe_socket, command);
     }
     return 0;
 }

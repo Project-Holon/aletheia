@@ -46,6 +46,8 @@ typedef struct NasTimeDiff {
     long long diff;
 } NasTimeDiff;
 
+#include "dwc_auth.h"
+#include "../arm9/util_wifiidtool.h"
 #include "../sdk_rtc.h"
 
 typedef struct AuthId {
@@ -71,27 +73,21 @@ typedef struct NalCnt {
     unsigned char http[0x1C50];
     unsigned char auth[0x1C84 - 0x1C50];
     unsigned char id[0x1C90 - 0x1C84];
-    void *(*alloc)(int, int);
+    void *(*alloc)(int, unsigned long);
     void (*free)(int, void *, unsigned long);
     AuthResult result;
 } NalCnt;
 
-extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
-extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
-extern void RTC_ConvertSecondToDateTime(struct RTCDate *date, struct RTCTime *time, long long sec);
-extern void DWC_Auth_GetId(AuthId *id);
-extern int DWC_Svl_Init(void *(*alloc)(int, int), void (*free)(int, void *, unsigned long));
-extern int strlen(const u8 *s);
-extern int DWC_Svl_GetTokenAsync(char *svc, struct DWCSvlResult *result);
-extern void DWC_Svl_Cleanup(void);
-extern int DWC_Svl_Process(void);
-extern void *DWC_Alloc(int kind, int size);
-extern void DWC_Free(int name, void *ptr, unsigned long size);
-extern void OS_Terminate(void);
-extern void DWCi_SetError(int kind, int code);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
-extern int DWC_Auth_Create(struct DWCAuthParam *param, void *http);
+typedef int RTCResult;
+#include "../arm9/external.h"
+#include "../arm9/convert.h"
+extern int DWC_Svl_Init(void *(*alloc)(int, unsigned long), void (*free)(int, void *, unsigned long));
+#include "../arm9/msl_string_str.h"
+#include "dwc_svl.h"
+#include "../arm9/dwc_memfunc.h"
+#include "../arm9/os_terminate_processor.h"
+#include "../arm9/dwc_error.h"
+#include "../arm9/mi_memory.h"
 extern int DWC_Auth_GetError(void);
 extern void DWC_Auth_GetResult(int *result);
 extern void DWC_Auth_Destroy(void);
@@ -138,7 +134,7 @@ int DWC_SVLGetTokenAsync(char *svl, void *result)
     AuthId id;
     int flag;
 
-    DWC_Auth_GetId(&id);
+    DWC_Auth_GetId((struct DWCAuthWiFiId *)&id);
     if (id.useA == 0)
         return 0;
     if (DWC_Svl_Init(DWC_Alloc, DWC_Free) == 0)
@@ -179,7 +175,7 @@ int DWC_NASLoginAsync(void)
     MI_CpuCopy8(gDwcNasInitialId, gDwcNasCnt->id, 9);
     gDwcNasCnt->alloc = DWC_Alloc;
     gDwcNasCnt->free = DWC_Free;
-    DWC_Auth_Create((struct DWCAuthParam *)gDwcNasCnt->auth, gDwcNasCnt);
+    DWC_Auth_Create((struct DWCAuthParam *)gDwcNasCnt->auth, (DWCHttp *)gDwcNasCnt);
     return 1;
 }
 
@@ -200,7 +196,7 @@ int DWC_NASLoginProcess(void)
         DWC_Auth_GetResult((int *)(&result));
         DWC_Auth_Destroy();
         if (result.returncode == 20002) {
-            DWC_Auth_Create((struct DWCAuthParam *)gDwcNasCnt->auth, gDwcNasCnt->http);
+            DWC_Auth_Create((struct DWCAuthParam *)gDwcNasCnt->auth, (DWCHttp *)gDwcNasCnt->http);
             return 2;
         }
         DWC_Free(4, gDwcNasCnt, 7772);

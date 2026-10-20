@@ -69,9 +69,9 @@
 #include "sta_act_script_shared_types.h"
 #include "script_command_shared_types.h"
 
-extern u32 GFL_NET_IsParentAid(void);
+#include "../arm9/net.h"
 
-extern u32 GF_STANDARD_Rand(void);
+#include "../arm9/gf_standard.h"
 
 #define W(q,k) (*(u32 *)((q)+(k)))
 
@@ -101,7 +101,7 @@ struct MusCommPlayerTable {
     struct Pl pl[4];
 };
 
-struct Request {u8 kind;u32 value;};
+struct MusCommFuncRequest {u8 kind;u32 value;};
 
 typedef struct 
 {
@@ -113,99 +113,73 @@ typedef struct { u32 w[12]; } E;
 
 typedef struct { u8 pad[0x60]; E e[4]; } T;
 
-struct Context { char pad0[0x60]; struct Record rec[4]; };
+struct Context { char pad0[0x60]; struct StaActRecord rec[4]; };
 
 /* The callback owner is the 0x1ac-byte allocation in 021FC644, viewed as
    struct ActingHost. */
 
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct GameSystem;
 struct GameData;
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct GameComm;
 
-extern void GAME_COMM_Start(struct GameComm *comm, unsigned int kind, unsigned int param);
+#include "../arm9/game_comm.h"
 
-extern void GAME_COMM_RequestExitNoCallback(struct GameComm *comm);
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
 
-extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+#include "../arm9/mystatus.h"
 
-extern void OS_GetMacAddress(unsigned char *macAddress);
+#include "../arm9/os_ownerinfo.h"
 
-extern int GFL_NET_GetNegotiationNum(void);
 
-extern int GFL_NET_Exit(int);
 
-extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
+#include "../arm9/net_command.h"
 
-extern void GFL_NET_SetLoginOption(u8 loginOption);
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 struct GFLNetHandle;
 
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 struct GFLNetHandle;
 
-extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, unsigned int command, unsigned int size, void *data);
 
-extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSystem, unsigned int state);
 
-extern int GFL_NET_IsSessionNull(void);
 
-extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 
-extern void *GAME_DATA_GetSaveBlock2A(struct GameData *gd);
 
-extern u32 POKE_TOOL_GetPartyParamSize(void);
+#include "../arm9/poke_tool.h"
 
-extern u32 POKE_TOOL_GetBoxParamSize(void);
 
-extern int MYSTATUS_GetSize(void);
+#include "../arm9/config.h"
 
-extern void MI_CpuFill8(void *,u8,u32);
+#include "../arm9/mi_memory.h"
 struct MusicalSave;
 
-extern u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *musical);
+#include "../arm9/musical_save.h"
 
-extern int STA_NET_SendRandomOrder(u8 *p);
+#include "sta_net.h"
 
-extern int STA_NET_NotifyHostKind4(u8 *p);
 
-extern int STA_NET_SendSlot1Command(u8 *p);
 
-extern int STA_NET_NotifyHostKind5(char *);
 
-extern int STA_NET_NotifyHostKind6(char *);
 
-extern int STA_NET_SendSlot2Command(u8 *p);
 
-extern int STA_NET_SendSlot3Command(u8 *p);
 
-extern int STA_NET_IsTransferDone(char *);
 
-extern void STA_NET_UpdateTransferState(char *);
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 
-extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, u32 sendId, u32 command, u32 size, void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(int);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32);
+#include "../arm9/gfl_use.h"
 
-extern void MI_CpuCopy8(void *,void *,u32);
 
-extern int MYSTATUS_IsNameEmpty(struct MyStatus *mystatus);
 
 void MUS_COMM_FUNC_Create(int a, void *b, void *c, int d);
 
@@ -245,7 +219,7 @@ u32 MUS_COMM_FUNC_GetRecordSize(void);
 
 int MUS_COMM_FUNC_Equals(int a,int b);
 
-void MUS_COMM_FUNC_SendCommand(char *unused, int kind, u32 value, u32 id);
+u32 MUS_COMM_FUNC_SendCommand(char *unused, int kind, u32 value, u32 id);
 
 u32 MUS_COMM_FUNC_SendCommandWait(int unused,int kind,u32 value,u32 id);
 
@@ -302,7 +276,7 @@ void *MUS_COMM_FUNC_StartSession(int unused,char *p)
     if(((struct ActingHost *)p)->useExistingSession==1) d_021FDE4C[5]=4;
     else {
         d_021FDE4C[5]=0;
-        GFL_NET_StartSession((struct Req *)d_021FDDEC,(u32)MUS_COMM_FUNC_SetReady,(u32)p);
+        GFL_NET_StartSession((GFLNetInitializeStruct *)d_021FDDEC,(u32)MUS_COMM_FUNC_SetReady,(u32)p);
     }
     MYSTATUS_Copy((struct MyStatus *)(((struct ActingHost *)p)->myStatus),(struct MyStatus *)(p+0x20));
     OS_GetMacAddress((unsigned char *)(p+0x40));
@@ -599,9 +573,9 @@ u32 MUS_COMM_FUNC_GetRecordSize(void){return 40;}
 
 int MUS_COMM_FUNC_Equals(int lhs,int rhs){if(lhs==rhs)return 1;return 0;}
 
-void MUS_COMM_FUNC_SendCommand(char *unused, int kind, u32 value, u32 id) {struct GFLNetHandle *e;struct Request request;e=GFL_NET_HANDLE_GetCurrentHandle();request.kind=kind;request.value=value;GFL_NET_SendData(e,id,0x1100,8,&request,1,0,0);}
+u32 MUS_COMM_FUNC_SendCommand(char *unused, int kind, u32 value, u32 id) {struct GFLNetHandle *e;struct MusCommFuncRequest request;e=GFL_NET_HANDLE_GetCurrentHandle();request.kind=kind;request.value=value;return GFL_NET_SendData(e,id,0x1100,8,&request,1,0,0);}
 
-u32 MUS_COMM_FUNC_SendCommandWait(int unused,int kind,u32 value,u32 id) {struct GFLNetHandle *e;struct Request request;e=GFL_NET_HANDLE_GetNetHandle(255);request.kind=kind;request.value=value;return GFL_NET_SendData(e,id,0x1100,8,&request,1,0,0);}
+u32 MUS_COMM_FUNC_SendCommandWait(int unused,int kind,u32 value,u32 id) {struct GFLNetHandle *e;struct MusCommFuncRequest request;e=GFL_NET_HANDLE_GetNetHandle(255);request.kind=kind;request.value=value;return GFL_NET_SendData(e,id,0x1100,8,&request,1,0,0);}
 
 void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *packet, char *p)
 {

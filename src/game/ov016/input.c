@@ -40,13 +40,11 @@
  *   GX_DispOff  0x0207D42C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/tp.h"
 
-typedef struct tagCOORD {
-    unsigned short x;
-    unsigned short y;
-} COORD;
+#include "dwcutil_types.h"
 
 typedef struct {
     TPData tp[5];
@@ -82,28 +80,16 @@ typedef struct {
     unsigned char reserved7 : 1;
 } ByteBits;
 
-typedef struct tagAREA { unsigned short x, y, w, h; } AREA;
-
-typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
-
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern int TP_GetUserInfo(struct TPCalibrateParam *calibrate);
-extern void  OS_Terminate(void);
-extern void TP_SetCalibrateParam(const struct TPCalibrateParam *param);
+#include "heap.h"
+#include "../arm9/os_terminate_processor.h"
 struct TPData;
 extern void  TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, struct TPData *samplingBufs, u16 bufSize);
-extern void TP_WaitBusy(unsigned int command_flgs);
-extern unsigned int TP_CheckError(unsigned int command_flgs);
-extern void TP_RequestAutoSamplingStopAsync(void);
-extern void DWCi_HEAPlFree_(void **mem);
-extern u16 TP_GetLatestIndexInAuto(void);
-extern void TP_GetCalibratedPoint(struct TPData *disp, const struct TPData *raw);
-extern void DWCi_InputCoord(int a, int b, unsigned short *p);
-extern s32 FX_ModS32(s32 a, s32 b);
-extern int PM_SetLCDPower(int sw);
-extern void OS_WaitVBlankIntr(void);
-extern void GX_DispOn(void);
-extern void GX_DispOff(void);
+#include "foundation.h"
+#include "../arm9/fx_cp.h"
+#include "../arm9/pm.h"
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "../arm9/gx.h"
 void DWCi_IPTlInit(void);
 void DWCi_IPTlEnd(void);
 void DWCi_IPTlUpdate(void);
@@ -165,7 +151,7 @@ static void readKey(void)
     int i;
     unsigned short bit;
 
-    input = (unsigned short *)0x04000130;
+    input = (unsigned short *)REG_KEYINPUT_ADDR;
     bit = ((*input | *(unsigned short *)0x02FFFFA8) ^ 0x2FFF) & 0x2FFF;
     input = &gInputStatics.work->cont;
     bit = bit & ~((bit & 0x40) << 1) & ~((bit & 0x20) >> 1);

@@ -17,6 +17,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 /* os_tick.o .bss from 0x02151330, addressed from one pool word. */
 typedef struct OsTickBss {
@@ -27,8 +28,8 @@ typedef struct OsTickBss {
 
 extern OsTickBss g_02151330;
 
-#define reg_OS_TM0CNT_L (*(volatile u16 *)0x04000100)
-#define reg_OS_TM0CNT_H (*(volatile u16 *)0x04000102)
+#define reg_OS_TM0CNT_L (*(volatile u16 *)REG_TM0CNT_L_ADDR)
+#define reg_OS_TM0CNT_H (*(volatile u16 *)REG_TM0CNT_H_ADDR)
 
 extern u16 OSi_TimerReserved;
 

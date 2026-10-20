@@ -42,7 +42,7 @@ struct Entry;
 
 struct Link;
 
-struct Req;
+struct GFLNetInitializeStruct;
 
 typedef struct DeliveryIrcEntry {
     u32 size;               /* 0x00 */
@@ -92,44 +92,33 @@ struct DeliveryIrcWork {
     DeliveryIrcRequest request; /* 0x67C */
 };
 
-extern int GFL_NET_GetRunState(void);
+#include "../arm9/net.h"
 
-extern void MI_CpuCopy8(void *, void *, u32);
+#include "../arm9/mi_memory.h"
 
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
+#include "../arm9/gf_standard.h"
 
-extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 
-extern int IRCNET_IsLinkAlive(void);
+#include "../ov015/ircnet.h"
 
-extern int GFL_NET_Exit(int);
 struct GFLNetHandle;
 
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
-extern u32 GFL_NET_IsParentAid(void);
 
-extern void IRCNET_SetTimeoutLimit(int);
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
-extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, u32 sendId, u32 command, u32 size, void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 
-extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, u32 command, u32 size, void *data);
 
-extern u32 GFL_USE_GetRandom(u32 range);
+#include "../arm9/gfl_use.h"
 
-extern int GFL_NET_GetNegotiationNum(void);
 
-extern void GFL_NET_StartChangeoverChild(u32 changeoverParam);
+struct GFLNetInitializeStruct;
 
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
 
-extern u32 GFL_HEAP_Free(void *block);
 
 void DELIVERY_IRC_SetStep(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line);
 
@@ -419,7 +408,7 @@ int DELIVERY_IRC_StartNet(DeliveryIrcWork *work)
     if (GFL_NET_GetRunState() != 0)
         return 0;
     d_02172868[7] = work->param.netCommandBase;
-    GFL_NET_StartSession((struct Req *)d_02172808, 0, (u32)work);
+    GFL_NET_StartSession((struct GFLNetInitializeStruct *)d_02172808, 0, (u32)work);
     return 1;
 }
 

@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_GPOWER_H
 #define GAME_ARM9_GPOWER_H
 
+typedef struct GPowerData GPowerData;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gpower.c, prototypes copied from their definitions. */
 
@@ -36,7 +38,5 @@ u32 GPOWER_ApplyPrizeMoney(u32 money);
 s32 GPOWER_ApplyCaptureRate(s32 rate);
 u32 GPOWER_GetSpecialPowerId(void);
 /* END mkheaders: generated region */
-
-typedef struct GPowerData GPowerData;
 
 #endif

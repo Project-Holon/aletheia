@@ -71,6 +71,7 @@
  */
 #define SYS_TICK_COUNTER (*(volatile u32 *)0x02FFFC3C)
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "touchpanel_shared_types.h"
 
@@ -266,7 +267,7 @@ void UI_Main(UiCtx *p)
     KEY_Main();
     TOUCHPANEL_Main();
     UI_ServiceLidSleep();
-    UI_ApplyInputBounds((int)p);
+    UI_ApplyInputBounds((sptr)p);
 
     if ((KEY_GetCont() & 0x30C) == 0x30C && p->softResetInhibit == 0) {
         if (p->intrData != 0) {
@@ -915,8 +916,8 @@ void UI_SoftReset(u32 resetParam)
     UiCtx *ui;
 
     ui = UI_GetContext();
-    GXx_SetMasterBrightness_((unsigned short *)0x0400006C, 0x10);
-    GXx_SetMasterBrightness_((unsigned short *)(0x0400006C + 0x1000), 0x10);
+    GXx_SetMasterBrightness_((unsigned short *)REG_MASTER_BRIGHT_ADDR, 0x10);
+    GXx_SetMasterBrightness_((unsigned short *)(REG_MASTER_BRIGHT_ADDR + 0x1000), 0x10);
     GFL_NET_Exit(0);
 
     while (1) {

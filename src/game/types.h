@@ -50,4 +50,18 @@ typedef volatile f32       vf32;
 
 typedef int                BOOL;
 
+/*
+ * uptr and sptr are the integers that hold an address.  On the DS they are
+ * u32 and s32 (the same bytes as before).  A 64-bit host needs the full
+ * pointer width, so a cast from a pointer to an integer, or a field that keeps
+ * a pointer in an integer, uses these and not u32 or s32.
+ */
+#ifdef __MWERKS__
+typedef u32                uptr;
+typedef s32                sptr;
+#else
+typedef __UINTPTR_TYPE__   uptr;
+typedef __INTPTR_TYPE__    sptr;
+#endif
+
 #endif

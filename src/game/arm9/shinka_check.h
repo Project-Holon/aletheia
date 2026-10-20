@@ -1,6 +1,9 @@
 #ifndef GAME_ARM9_SHINKA_CHECK_H
 #define GAME_ARM9_SHINKA_CHECK_H
 
+struct ArcHandle *SHINKA_CHECK_OpenHandle(u32 heap);
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of shinka_check.c, prototypes copied from their definitions. */
 
 struct Party;
@@ -15,5 +18,6 @@ struct ArcHandle *SHINKA_CHECK_OpenHandle(u32 heap);
 u32 SHINKA_CHECK_GetRowParam(struct ArcHandle *arc, u32 species, u32 rowIndex, u32 field);
 void SHINKA_CHECK_LoadData(u32 species, struct EvolutionRow *rows);
 u32 SHINKA_CHECK_KnowsMove(struct PokemonParam *pp, u32 move);
+/* END mkheaders: generated region */
 
 #endif

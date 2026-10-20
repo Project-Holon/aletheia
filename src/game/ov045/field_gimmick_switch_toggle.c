@@ -50,51 +50,34 @@
  *   FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose  0x021F3938  thumb  ov045
  *   GAME_EVENT_Create  0x020122C0  thumb  arm9
  */
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): the DS file declares these differently from the ARM9 headers. */
+#ifdef __MWERKS__
+#define FLD_EXP_OBJ_GetAnime FLD_EXP_OBJ_GetAnime_header
+#define FLD_EXP_OBJ_SetAnimeEnabled FLD_EXP_OBJ_SetAnimeEnabled_header
+#endif
 #include "field_gimmick_switch_toggle_types.h"
 
 struct FieldMap;
 struct GameSystem;
 struct GameData;
 struct FieldSave;
-struct FldExpObj;
-struct FldExpAnime;
+struct FldExpObjCnt;
+struct FldExpObjAnime;
 struct FldExpUnitDesc;
 struct GameEvent;
 
-typedef int (*GameEventFunc)(struct GameEvent *event, int *state);
+#include "../arm9/ica_anime_shared_types.h"
 struct FldExpObjCnt;
 
-extern struct FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
+#include "../ov021/fieldmap.h"
+#include "../arm9/game_data.h"
 struct GimmickWork;
-extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmick, u32 id);
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int workId, int heapId, int size);
+#include "../arm9/gimmick.h"
 struct G3dUtilSetup;
-extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
-extern Vec3Fx *FLD_EXP_OBJ_GetModelStatus(struct FldExpObj *expObj, int unitIndex, u16 modelIndex);
-extern void FLD_EXP_OBJ_SetModelCullDraw(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 cullDraw);
-extern struct FldExpAnime *FLD_EXP_OBJ_GetAnime(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex);
+#include "../ov021/fld_exp_obj.h"
 struct FldExpObjAnime;
-extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, s32 loop);
-extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, s32 paused);
-extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int workId);
-extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int workId);
-extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, u16 unitIdx);
-extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
-extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc proc, u32 size);
-extern int FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc(struct GameEvent *event, int *state);
-extern u32 FIELDMAP_GetCtrlType(struct FieldMap *fieldMap);
-extern void *FIELDMAP_GetCtrlWork(struct FieldMap *fieldMap);
 struct FieldMapCtrlHybridWork;
-extern void FIELDMAP_CTRL_HYBRID_ReplacePlayer(struct FieldMapCtrlHybridWork *work, struct FieldMap *fieldMap);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObj *expObj, int unitIndex, u16 modelIndex, u16 animIndex, int enabled);
-extern void FLD_EXP_OBJ_SetAnimeFrame(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 animeIdx, s32 frame);
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpObjAnime *anime);
+#include "../ov021/fieldmap_ctrl_hybrid.h"
 
 void FIELD_GIMMICK_SWITCH_TOGGLE_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_SWITCH_TOGGLE_Exit(struct FieldMap *fieldMap);
@@ -103,37 +86,45 @@ struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent(struct G
 struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSwitchToggleEvent(struct GameSystem *gameSystem, int switchIndex);
 void FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(struct GameSystem *gameSystem, int requirementIndex);
 int FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet(FieldGimmickSwitchToggleSave *save, int requirementIndex);
-void FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(struct FldExpObj *expObj, int switchOn, int switchIndex, int usePrimaryModel);
+void FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(struct FldExpObjCnt *expObj, int switchOn, int switchIndex, int usePrimaryModel);
 int FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn(FieldGimmickSwitchToggleSave *save, int switchIndex);
 int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event, int *state);
 
 extern struct FldExpUnitDesc sSwitchToggleUnitDesc;
-extern Vec3Fx sSwitchTogglePrimaryModelPos[];
-extern Vec3Fx sSwitchToggleSecondaryModelPos[];
+extern VecFx32 sSwitchTogglePrimaryModelPos[];
+extern VecFx32 sSwitchToggleSecondaryModelPos[];
 /* Requirement table: entry n is (switch index, required state). The ROM
  * data layout splits the two columns into two objects, so the code reaches
  * them through two symbols. */
 extern u16 sSwitchToggleRequirementSwitchIndex[];
 extern u16 sSwitchToggleRequirementState[];
-extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern void GFL_USE_StopAllSe(void);
+#include "../arm9/gfl_use.h"
+#include "../arm9/gamesystem.h"
+#include "field_gimmick_switch_toggle.h"
+#include "../arm9/game_event.h"
+#ifdef __MWERKS__
+#undef FLD_EXP_OBJ_GetAnime
+#undef FLD_EXP_OBJ_SetAnimeEnabled
+void *FLD_EXP_OBJ_GetAnime(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx);
+void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
+#endif
 
 void FIELD_GIMMICK_SWITCH_TOGGLE_Init(struct FieldMap *fieldMap)
 {
-    struct FldExpObj *expObj;
+    struct FldExpObjCnt *expObj;
     FieldGimmickSwitchToggleSave *save;
-    struct FldExpAnime *anime;
-    Vec3Fx *modelPos;
+    struct FldExpObjAnime *anime;
+    VecFx32 *modelPos;
     int switchIdx;
     int secondaryIdx;
     int animIdx;
 
-    expObj = (struct FldExpObj *)FIELDMAP_GetExpObj(fieldMap);
+    expObj = (struct FldExpObjCnt *)FIELDMAP_GetExpObj(fieldMap);
     save = (struct FieldGimmickSwitchToggleSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickSwitchToggleWork));
     FLD_EXP_OBJ_AddUnitFromArchive((struct FldExpObjCnt *)expObj, (struct G3dUtilSetup *)(&sSwitchToggleUnitDesc), 0);
     for (switchIdx = 0; switchIdx < FIELD_GIMMICK_SWITCH_TOGGLE_SWITCH_COUNT; switchIdx++) {
-        modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, switchIdx);
+        modelPos = ((VecFx32 *)FLD_EXP_OBJ_GetModelStatus(expObj, 0, switchIdx));
         *modelPos = sSwitchTogglePrimaryModelPos[switchIdx];
         FLD_EXP_OBJ_SetModelCullDraw((struct FldExpObjCnt *)expObj, 0, (u16)switchIdx, 1);
         for (animIdx = 0; animIdx < 2; animIdx++) {
@@ -142,7 +133,7 @@ void FIELD_GIMMICK_SWITCH_TOGGLE_Init(struct FieldMap *fieldMap)
             FLD_EXP_OBJ_SetAnimePaused((struct FldExpObjAnime *)anime, 1);
         }
         secondaryIdx = switchIdx + FIELD_GIMMICK_SWITCH_TOGGLE_SECONDARY_MODEL_OFFSET;
-        modelPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, secondaryIdx);
+        modelPos = ((VecFx32 *)FLD_EXP_OBJ_GetModelStatus(expObj, 0, secondaryIdx));
         *modelPos = sSwitchToggleSecondaryModelPos[switchIdx];
         FLD_EXP_OBJ_SetModelCullDraw((struct FldExpObjCnt *)expObj, 0, (u16)secondaryIdx, 1);
         for (animIdx = 0; animIdx < 2; animIdx++) {
@@ -157,7 +148,7 @@ void FIELD_GIMMICK_SWITCH_TOGGLE_Init(struct FieldMap *fieldMap)
 
 void FIELD_GIMMICK_SWITCH_TOGGLE_Exit(struct FieldMap *fieldMap)
 {
-    struct FldExpObj *expObj = (struct FldExpObj *)FIELDMAP_GetExpObj(fieldMap);
+    struct FldExpObjCnt *expObj = (struct FldExpObjCnt *)FIELDMAP_GetExpObj(fieldMap);
 
     FIELDMAP_GetCommonWork(fieldMap, 1);
     FIELDMAP_FreeCommonWork(fieldMap, 1);
@@ -166,9 +157,9 @@ void FIELD_GIMMICK_SWITCH_TOGGLE_Exit(struct FieldMap *fieldMap)
 
 void FIELD_GIMMICK_SWITCH_TOGGLE_Update(struct FieldMap *fieldMap)
 {
-    struct FldExpObj *expObj;
+    struct FldExpObjCnt *expObj;
 
-    expObj = (struct FldExpObj *)FIELDMAP_GetExpObj(fieldMap);
+    expObj = (struct FldExpObjCnt *)FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
     GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
     FLD_EXP_OBJ_UpdateAnimes((struct FldExpObjCnt *)expObj);
@@ -185,7 +176,7 @@ struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent(struct G
     if (switchIndex >= FIELD_GIMMICK_SWITCH_TOGGLE_SWITCH_COUNT)
         return 0;
     work->switchIndex = switchIndex;
-    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc, 0);
+    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc, 0);
 }
 
 struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSwitchToggleEvent(struct GameSystem *gameSystem, int switchIndex)
@@ -199,7 +190,7 @@ struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSwitchToggleEvent(struct Game
     if (switchIndex >= FIELD_GIMMICK_SWITCH_TOGGLE_SWITCH_COUNT)
         return 0;
     work->switchIndex = switchIndex;
-    return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc, 0);
+    return GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc, 0);
 }
 
 
@@ -228,7 +219,7 @@ int FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet(FieldGimmickSwitchToggleSave *s
 }
 
 
-void FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(struct FldExpObj *expObj, int switchOn, int switchIndex, int usePrimaryModel)
+void FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose(struct FldExpObjCnt *expObj, int switchOn, int switchIndex, int usePrimaryModel)
 {
     int onAnim, offAnim;
 
@@ -257,7 +248,7 @@ int FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn(FieldGimmickSwitchToggleSave *save, i
 int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event, int *state)
 {
     struct FieldMap *fieldMap;
-    struct FldExpObj *expObj;
+    struct FldExpObjCnt *expObj;
     FieldGimmickSwitchToggleWork *work;
     FieldGimmickSwitchToggleSave *save;
     int newState;
@@ -265,7 +256,7 @@ int FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc(struct GameEvent *event
     u8 curState;
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
-    expObj = (struct FldExpObj *)FIELDMAP_GetExpObj(fieldMap);
+    expObj = (struct FldExpObjCnt *)FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     newState = 1;
     save = (struct FieldGimmickSwitchToggleSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);
@@ -295,14 +286,14 @@ int FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc(struct GameEvent *event, i
 {
     int newState;
     struct FieldMap *fieldMap;
-    struct FldExpObj *expObj;
+    struct FldExpObjCnt *expObj;
     FieldGimmickSwitchToggleWork *work;
     FieldGimmickSwitchToggleSave *save;
     int switchIdx;
     u8 curState;
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
-    expObj = (struct FldExpObj *)FIELDMAP_GetExpObj(fieldMap);
+    expObj = (struct FldExpObjCnt *)FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     newState = 1;
     save = (struct FieldGimmickSwitchToggleSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_SWITCH_TOGGLE_SAVE_BLOCK_ID);

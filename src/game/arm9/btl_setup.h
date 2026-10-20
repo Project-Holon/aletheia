@@ -1,6 +1,10 @@
 #ifndef GAME_ARM9_BTL_SETUP_H
 #define GAME_ARM9_BTL_SETUP_H
 
+struct BattleSetupParam *BTL_SETUP_Create(u32 heap);
+struct BattleTrainerData *BTL_SETUP_CreateTrainerData(u16 heap);
+
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of btl_setup.c, prototypes copied from their definitions. */
 
 struct BattleSetupParam;
@@ -48,5 +52,6 @@ void BTL_SETUP_InitWithSlots(struct BattleSetupParam *param, struct GameData *gd
 void BTL_SETUP_ClearWithSlots(struct BattleSetupParam *param);
 void BTL_SETUP_ChangeToSubway(struct BattleSetupParam *param);
 void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *param, u32 heap);
+/* END mkheaders: generated region */
 
 #endif

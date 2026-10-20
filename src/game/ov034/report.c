@@ -142,7 +142,7 @@ struct GameData;
 struct PrintQue;
 struct PartyHolder;
 struct ClactActor;
-struct ClactUnit;
+struct Unit;
 struct SaveControl;
 struct PlayTime;
 struct WordSet;
@@ -156,147 +156,55 @@ struct CellRes;
 struct ArcHandle;
 struct PartyMon;
 #include "../types.h"
+struct TcbTask;
 
-struct BgTemplate {
-    u32 x;                  /* 0x00 */
-    u32 y;                  /* 0x04 */
-    u32 bufSize;            /* 0x08 */
-    u32 baseTile;           /* 0x0C */
-    u8 screenSize;          /* 0x10 */
-    u8 colorMode;           /* 0x11 */
-    u8 screenBase;          /* 0x12 */
-    u8 charBase;            /* 0x13 */
-    u32 extPaletteSlot;     /* 0x14 */
-    u8 priority;            /* 0x18 */
-    u8 areaOver;            /* 0x19 */
-    u8 dummy;               /* 0x1A */
-    u8 mosaic;              /* 0x1B */
-    u32 bgType;             /* 0x1C */
-};
+#include "../arm9/bg_sys.h"
 
 #include "../sdk_rtc.h"
 
-typedef struct {
-    s16 x;
-    s16 y;
-    u16 width;
-    u16 height;
-} Rect;
+#include "../arm9/clact.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*proc)(struct Task *, ReportWork *), void *work, u32 priority);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/net.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_use.h"
+struct TcbTask;
+#include "../arm9/tcb_list.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+#include "../arm9/printsys.h"
 struct GameSystem;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct Party;
-extern unsigned int POKEPARTY_GetCount(struct Party *party);
-struct Actor;
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void BG_SYS_SetPlaneVisible(unsigned char layer, unsigned char enable);
-extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+#include "../arm9/pokeparty.h"
+struct ClactActor;
+#include "../arm9/bmp_win.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, u32 *current, u32 *max);
-extern void BMP_WIN_ClearScreen(struct BmpWin *bmpWin);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void BG_SYS_PushTile(u32 layer);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *, int, int, int, int, int);
-extern void BG_SYS_LoadPlttEntry(u32 bgId, u32 color);
-extern void ARC_UTIL_UploadBgCharFromHandle(struct ArcHandle *, int, int, int, int, int, int);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(struct ArcHandle *, int, int, int, int, int, int);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/save_control.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/strbuf.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 i, void *playerName);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void STRBUF_Delete(struct Strbuf *text);
-extern int RTC_GetDate(struct RTCDate *date);
-extern int RTC_GetTime(struct RTCTime *time);
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 i, u32 value, u32 digits, u32 padding, u32 numberType);
+#include "../arm9/wordset.h"
+typedef int RTCResult;
+#include "../arm9/external.h"
 struct PlayerWork;
-extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
-extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
-extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
-extern void WORDSET_SetSlotFromMsg59(struct WordSet *wordSet, u32 i, u32 msgId);
-extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
+#include "../arm9/zonedata.h"
 struct MiscSave;
-extern u32 MISC_CountBadges(struct MiscSave *beacon);
-extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
+#include "../arm9/beacon.h"
 struct EventWork;
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
-extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
-extern u32 ZUKAN_SAVE_CountSeen(struct ZukanSave *pZukan, u32 heap);
-extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
-extern u16 PLAYTIME_GetHours(const struct PlayTime *playTime);
-extern u8 PLAYTIME_GetMinutes(const struct PlayTime *playTime);
-extern int SAVE_CONTROL_WouldOverwriteSave(struct SaveControl *saveControl);
-extern u8 SAVE_CONTROL_HasFlashSave(const struct SaveControl *saveControl);
-extern struct PlayTime *SYSTEM_DATA_GetPlayTime(void *save);
-extern u32 PLAYTIME_GetStampYear(const struct PlayTime *playTime);
-extern u32 PLAYTIME_GetStampMonth(const struct PlayTime *playTime);
-extern u32 PLAYTIME_GetStampDay(const struct PlayTime *playTime);
-extern u32 PLAYTIME_GetStampHour(const struct PlayTime *playTime);
-extern u32 PLAYTIME_GetStampMinute(const struct PlayTime *playTime);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 BMP_WIN_Delete(struct BmpWin *bmpWin);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+#include "../arm9/playtime.h"
+#include "../arm9/system_data.h"
 struct PokemonParam;
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 struct BoxPokemon;
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
-extern u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
-extern s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
-extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern s32 CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
-extern int POKE_TOOL_GetIconCellArcId(void);
-extern int POKE_TOOL_GetIconCellEntryId(void);
-extern s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
-extern s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
-extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, struct CharRes *charRes, struct PalRes *palRes, struct CellRes *cellRes, const Rect *position, unsigned short space, unsigned short heapId);
-extern u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleaseCharacter(u32 idx);
-extern void CLACT_ReleasePalette(u32 idx);
-extern void CLACT_ReleaseCellAnim(u32 idx);
-extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
-extern u32 SAVE_CONTROL_GetWrittenSize(struct SaveControl *saveControl);
-extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
+#include "../arm9/poke_tool.h"
+#include "../arm9/poke_tool_ext.h"
 ReportWork *REPORT_Create(void *gameSystem, int heapId);
 void REPORT_Delete(ReportWork *work);
 void REPORT_ShowPartyIcons(ReportWork *work);
@@ -309,7 +217,7 @@ int REPORT_IsSaveAnimDone(ReportWork *work);
 void REPORT_StopSaveAnim(ReportWork *work);
 void REPORT_InitBgs(u32 heapId);
 void REPORT_ExitBgs(void);
-void REPORT_LoadBgGraphics(int heapId);
+void REPORT_LoadBgGraphics(u16 heapId);
 void REPORT_InitWindows(ReportWork *work);
 void REPORT_ExitWindows(ReportWork *work);
 void REPORT_InitActors(ReportWork *work);
@@ -320,7 +228,7 @@ extern struct BgTemplate sReportBgTemplate6;
 extern struct BgTemplate sReportBgTemplate5;
 extern struct BgTemplate sReportBgTemplate4;
 extern const u8 sReportWindowLayouts[];
-extern const Rect sReportActorPositions[2];
+extern const struct ActorInitParam sReportActorPositions[2];
 
 ReportWork *REPORT_Create(void *gameSystem, int heapId)
 {
@@ -334,7 +242,7 @@ ReportWork *REPORT_Create(void *gameSystem, int heapId)
     REPORT_InitActors(work);
     REPORT_InitWindows(work);
     GFL_NET_RefreshWmIconAtTopRight(0, heapId);
-    work->tcb = GFL_USE_AddMainTask(REPORT_UpdateSaveAnim, work, 0);
+    work->tcb = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))REPORT_UpdateSaveAnim, work, 0);
     return work;
 }
 
@@ -506,7 +414,7 @@ void REPORT_InitBgs(u32 heapId)
 
 void REPORT_ExitBgs(void) { BG_SYS_SetPlaneVisible(6,0); BG_SYS_SetPlaneVisible(5,0); BG_SYS_SetPlaneVisible(4,0); BG_SYS_FreeLayerBuf(6); BG_SYS_FreeLayerBuf(5); BG_SYS_FreeLayerBuf(4); }
 
-void REPORT_LoadBgGraphics(int heapId)
+void REPORT_LoadBgGraphics(u16 heapId)
 {
     struct ArcHandle *arc = ARC_TOOL_CreateHandle(0xC4, heapId);
 
@@ -624,23 +532,23 @@ void REPORT_InitActors(ReportWork *work)
     struct ArcHandle *arc;
     u32 cellFileId;
     struct PartyMon *mon;
-    Rect position;
+    struct ActorInitParam position;
 
     party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
     partyCount = POKEPARTY_GetCount((struct Party *)party);
     work->unit = CLACT_CreateUnit(0x10, 0, work->heapId);
     arc = ARC_TOOL_CreateHandle(7, work->heapId);
     for (i = 0; i < partyCount; i++)
-        work->partyCharRes[i] = (void *)CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(POKEPARTY_GetMember((struct Party *)party, i))), 0, 1,
+        work->partyCharRes[i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(POKEPARTY_GetMember((struct Party *)party, i))), 0, 1,
                                     work->heapId);
-    work->partyPalRes = (void *)CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0, work->heapId);
+    work->partyPalRes = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0, work->heapId);
     cellFileId = POKE_TOOL_GetIconCellArcId();
-    work->partyCellRes = (void *)CLACT_RegisterCellAnim(arc, cellFileId, POKE_TOOL_GetIconCellEntryId(), work->heapId);
+    work->partyCellRes = CLACT_RegisterCellAnim(arc, cellFileId, POKE_TOOL_GetIconCellEntryId(), work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     arc = ARC_TOOL_CreateHandle(0xC4, work->heapId);
-    work->barCharRes = (void *)CLACT_RegisterCharacter(arc, 3, 1, 1, work->heapId);
-    work->barPalRes = (void *)CLACT_RegisterPaletteEx(arc, 4, 1, 0x60, 0, 1, work->heapId);
-    work->barCellRes = (void *)CLACT_RegisterCellAnim(arc, 5, 6, work->heapId);
+    work->barCharRes = CLACT_RegisterCharacter(arc, 3, 1, 1, work->heapId);
+    work->barPalRes = CLACT_RegisterPaletteEx(arc, 4, 1, 0x60, 0, 1, work->heapId);
+    work->barCellRes = CLACT_RegisterCellAnim(arc, 5, 6, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     position = sReportActorPositions[0];
     for (i = 0; i < partyCount; i++) {

@@ -1,6 +1,19 @@
 #ifndef GAME_ARM9_BMP_OAM_H
 #define GAME_ARM9_BMP_OAM_H
 
+/* Init data of a bitmap OAM (BMP_OAM_Create). */
+struct BmpOamParam {
+    const struct Bmp *bmp;
+    s16               x;
+    s16               y;
+    u32               animResId;
+    u32               palette;
+    u8                drawPriority;
+    u8                bgPriority;
+    u16               space;
+    u32               engine;
+};
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of bmp_oam.c, prototypes copied from their definitions. */
 

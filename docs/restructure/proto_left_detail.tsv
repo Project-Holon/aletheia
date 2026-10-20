@@ -993,7 +993,7 @@ src/game/ov016/dwc_moveid.c	154	DWCi_MOV_MBP_GetChildInfo	ret	void* (u16)	struct
 src/game/ov016/dwc_moveid.c	159	DWCi_MOV_WH_GetSharedDataAdr	ret,width	u16* (u16)	void (s32)	src/game/ov016/dwc_mov_wh.c
 src/game/ov016/focus.c	39	DWCi_CEINlSetExCell	other	void* (s32, s32, s32)	void* (s32, s32, bool)	src/game/ov016/cellinfo.c
 src/game/ov016/font.c	155	DWCi_TSKlForm	ret	void* (s32, @fnptr, void*, u8)	struct TCB* (s32, @fnptr, void*, u8)	src/game/ov016/task.c
-src/game/ov016/font.c	159	DWCi_TSKlDeleteByIndex	pointee,sign	void (s32, void*)	void (u32, struct TCB*)	src/game/ov016/task.c
+src/game/ov016/font.c	159	DWCi_TSKlDeleteEx	pointee,sign	void (s32, void*)	void (u32, struct TCB*)	src/game/ov016/task.c
 src/game/ov016/font.c	162	NNSi_G2dCalcTextBox	other,pointee,ptrint	void (struct TextCanvas*, s32, s32, s32, u32, u16*, struct Pair)	void (struct Ctx*, s32, s32, s32, u32, u32, struct Step)	src/game/arm9/nns_g2d_font.c
 src/game/ov016/font.c	163	NNSi_G2dCharCanvasDrawChar	pointee	s8 (struct Ctx*, struct Fnt2**, s32, s32, s32, u16)	s8 (struct Ctx*, struct NNSG2dFont*, s32, s32, s32, u16)	src/game/arm9/nns_g2d_font.c
 src/game/ov016/font.c	164	NNS_G2dFontGetGlyphIndex	pointee,ret	s32 (void*, u16)	u16 (struct NNSG2dFont*, u16)	src/game/arm9/nns_g2d_font.c
@@ -1069,7 +1069,7 @@ src/game/ov016/scenesetaossbutton.c	122	DWCi_SNDlPlay	sign	void (s32)	void (u32)
 src/game/ov016/scenesetaossbutton.c	123	DWCi_ChangeScene	ptrint	void (@fnptr)	void (u32)	src/game/ov016/dwcutil_main.c
 src/game/ov016/scenesetaossbutton.c	129	DWCi_BTNlGet	ret	char ()	s8 ()	src/game/ov016/button.c
 src/game/ov016/scenesetaossbutton.c	130	DWCi_TSKlForm	ret	void* (s32, @fnptr, void*, u8)	struct TCB* (s32, @fnptr, void*, u8)	src/game/ov016/task.c
-src/game/ov016/scenesetaossbutton.c	132	DWCi_TSKlDeleteByIndex	pointee	void (u32, void*)	void (u32, struct TCB*)	src/game/ov016/task.c
+src/game/ov016/scenesetaossbutton.c	132	DWCi_TSKlDeleteEx	pointee	void (u32, void*)	void (u32, struct TCB*)	src/game/ov016/task.c
 src/game/ov016/scenesetaossbutton.c	143	DWCi_WINlGet	ret	char ()	s8 ()	src/game/ov016/window.c
 src/game/ov016/scenesetaossbutton.c	145	DWCi_WINlIsInit	ret	bool ()	s32 ()	src/game/ov016/window.c
 src/game/ov016/scenesetaosscomplete.c	62	DWCi_CMNlMsgDraw	unproto	void (?)	void (s32)	src/game/ov016/common.c

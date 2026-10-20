@@ -23,13 +23,13 @@
 #include "../types.h"
 
 /* IMA ADPCM coder state: last predicted sample and the step table index. */
-typedef struct AdpcmState {
+typedef struct CtvtAdpcmAdpcmState {
     s16 predictor;
     s8 stepIndex;
-} AdpcmState;
+} CtvtAdpcmAdpcmState;
 
-extern AdpcmState gCtvtAdpcmState[2];    /* decoder state, then encoder state */
-extern AdpcmState gCtvtAdpcmEncoderState;       /* encoder state, 4 bytes after the decoder state */
+extern CtvtAdpcmAdpcmState gCtvtAdpcmState[2];    /* decoder state, then encoder state */
+extern CtvtAdpcmAdpcmState gCtvtAdpcmEncoderState;       /* encoder state, 4 bytes after the decoder state */
 extern const int gImaStepTable[];      /* IMA step size table, 89 entries */
 extern const s8 gImaIndexTable[];       /* IMA index adjustment table, 16 entries */
 
@@ -37,10 +37,10 @@ void CTVT_ADPCM_ResetEncoder(void);
 void CTVT_ADPCM_ResetDecoder(void);
 int CTVT_ADPCM_Encode(void *pcm, unsigned pcmBytes, void *out);
 int CTVT_ADPCM_Decode(int in, int inBytes, int out);
-void CTVT_ADPCM_EncodeSamples(short *pcm, unsigned char *out, int sampleCount, AdpcmState *state);
-void CTVT_ADPCM_DecodeSamples(char *in, s16 *out, int sampleCount, AdpcmState *state);
-s8 CTVT_ADPCM_EncodeSample(int sample, AdpcmState *state);
-s16 CTVT_ADPCM_DecodeSample(unsigned char code, AdpcmState *state);
+void CTVT_ADPCM_EncodeSamples(short *pcm, unsigned char *out, int sampleCount, CtvtAdpcmAdpcmState *state);
+void CTVT_ADPCM_DecodeSamples(char *in, s16 *out, int sampleCount, CtvtAdpcmAdpcmState *state);
+s8 CTVT_ADPCM_EncodeSample(int sample, CtvtAdpcmAdpcmState *state);
+s16 CTVT_ADPCM_DecodeSample(unsigned char code, CtvtAdpcmAdpcmState *state);
 
 /* Resets the encoder state. */
 void CTVT_ADPCM_ResetEncoder(void)
@@ -74,7 +74,7 @@ int CTVT_ADPCM_Decode(int in, int inBytes, int out)
 
 /* Packs the codes of sampleCount samples two per byte, first sample in the low
  * nibble. An odd last code is stored alone in the low nibble. */
-void CTVT_ADPCM_EncodeSamples(short *pcm, unsigned char *out, int sampleCount, AdpcmState *state)
+void CTVT_ADPCM_EncodeSamples(short *pcm, unsigned char *out, int sampleCount, CtvtAdpcmAdpcmState *state)
 {
     int i;
     int outIdx = 0;
@@ -100,7 +100,7 @@ void CTVT_ADPCM_EncodeSamples(short *pcm, unsigned char *out, int sampleCount, A
 }
 
 /* Decodes sampleCount / 2 code bytes into sampleCount samples, low nibble first. */
-void CTVT_ADPCM_DecodeSamples(char *in, s16 *out, int sampleCount, AdpcmState *state)
+void CTVT_ADPCM_DecodeSamples(char *in, s16 *out, int sampleCount, CtvtAdpcmAdpcmState *state)
 {
     int i, byteCount;
     char code;
@@ -113,7 +113,7 @@ void CTVT_ADPCM_DecodeSamples(char *in, s16 *out, int sampleCount, AdpcmState *s
 }
 
 /* Encodes one sample as a 4 bit code (sign in bit 3) and updates the state. */
-s8 CTVT_ADPCM_EncodeSample(int sample, AdpcmState *state)
+s8 CTVT_ADPCM_EncodeSample(int sample, CtvtAdpcmAdpcmState *state)
 {
     int code, delta, step, value, index;
     code = 0;
@@ -141,7 +141,7 @@ s8 CTVT_ADPCM_EncodeSample(int sample, AdpcmState *state)
 }
 
 /* Decodes one 4 bit code to a sample and updates the state. */
-s16 CTVT_ADPCM_DecodeSample(unsigned char code, AdpcmState *state)
+s16 CTVT_ADPCM_DecodeSample(unsigned char code, CtvtAdpcmAdpcmState *state)
 {
   int step;
   int value;

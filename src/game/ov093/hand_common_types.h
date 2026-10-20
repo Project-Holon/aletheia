@@ -6,8 +6,8 @@
  * different events (0x41 and 0x51 are shared flag slots: the names are the Iron Ball and
  * Air Balloon uses that decide them).
  */
-#include "btl_event_types.h"
-#include "btl_pokeparam_types.h"
+#include "../ov093/btl_event_types.h"
+#include "../ov093/btl_pokeparam_types.h"
 
 /* A message the flow shows: string id, string type, argument count and up to eight argument words.
    Byte view: strType, argCount, argFlag. Halfword view of the same four bytes: strTypeHalf,
@@ -160,6 +160,43 @@ typedef struct HandExChangeType {
     u8 pokeId;
     u8 showMessage;
 } HandExChangeType;
+
+/* HANDEX_KIND_FLINCH: make a Pokemon flinch with a chance in percent. */
+typedef struct HandExFlinch {
+    u32 header;
+    u8 pokeId;
+    u8 percent;
+} HandExFlinch;
+
+/* HANDEX_KIND_ITEM_MESSAGE: consume the item flag, then show a string (the string is not used by Natural Gift). */
+typedef struct HandExItemMessage {
+    u32 header;
+    u32 consumeItem;
+    BtlStrParam message;
+} HandExItemMessage;
+
+/* HANDEX_KIND_REMOVE_SIDE_EFFECT (0x1a): end a side effect. Two writers see the three bytes after
+   the header differently: as the effect container, or as mode, a spare byte and flags. */
+typedef struct HandExRemoveSideEffect {
+    u32 header;
+    union {
+        u8 effectCont[3];
+        struct {
+            u8 mode;    /* 3 */
+            u8 pad5;
+            u8 flags;   /* bits 1 and 2 set when mode is above 2 */
+        };
+    };
+    u8 side;
+} HandExRemoveSideEffect;
+
+/* HANDEX_KIND_PLAY_EFFECT (0x37): play a battle effect from one position to another (toPos 6 is none). */
+typedef struct HandExPlayEffect {
+    u32 header;
+    u16 effectId;
+    u8 fromPos;
+    u8 toPos;
+} HandExPlayEffect;
 
 /* Constants named by several handler files. */
 /* Species and item ids that decide whether a held item can be taken or given. */

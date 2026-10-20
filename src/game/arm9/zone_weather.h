@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_ZONE_WEATHER_H
 #define GAME_ARM9_ZONE_WEATHER_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of zone_weather.c, prototypes copied from their definitions. */
 
 struct Ctx;
@@ -14,5 +15,6 @@ void WEATHER_RefreshStoredWeatherId(u8 *gameData, int zoneId);
 s32 WEATHER_GetAreaOwnerWeather(void *fieldSys, u32 gameData, u32 zoneId);
 s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, u32 gameData, u32 zoneId);
 u32 WEATHER_GetBirthdayWeather(void *fieldSys, void *gameData, u32 zoneId);
+/* END mkheaders: generated region */
 
 #endif

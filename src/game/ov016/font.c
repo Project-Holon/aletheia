@@ -43,7 +43,7 @@
  *   DC_FlushRange                  0x020862F0  arm
  *   GX_LoadBG0Char                  0x0207EE68  arm
  *   GXS_LoadBG0Char                  0x0207EEFC  arm
- *   DWCi_TSKlDeleteByIndex                0x021D7744  arm  ov016
+ *   DWCi_TSKlDeleteEx                0x021D7744  arm  ov016
  *   G2_GetBG0CharPtr                 0x0207E1F8  arm
  *   MIi_CpuClear16                   0x02082A48  arm
  *   NNSi_G2dCalcTextBox       0x020696F4  arm
@@ -61,6 +61,7 @@
 struct NNSG2dCanvas;
 struct Fnt2;
 #include "../types.h"
+#include "task.h"
 
 typedef struct {
     unsigned char pad[7];
@@ -115,60 +116,29 @@ typedef struct {
 
 typedef int bool_0;
 
-typedef struct Step {
-    signed char dx;
-    signed char dy;
-} Step;
+#include "../arm9/nns_g2d_font_types.h"
 
-typedef struct NNSG2dCharWidths {
-    signed char left;
-    signed char glyphWidth;
-    signed char charWidth;
-} CharWidths;
-
-extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
-extern void *DWCi_QUElFormEx(long size, void *data, long dataSize);
-extern u8 DWCi_Language(void);
-extern void *DWCi_ARClReadEx(char *path, u32 *size, int alignment);
+#include "heap.h"
+#include "deque.h"
+#include "dwcutil_main.h"
+#include "archive.h"
 struct NNSG2dFont;
-extern void NNS_G2dFontInitUTF16(struct NNSG2dFont *pFont, void *pResource);
-extern void DWCi_ARClRelease(void *file);
+#include "../arm9/nns_g2d_font.h"
 struct tagLISTCB;
-extern void DWCi_QUElDelete(struct tagLISTCB *list);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void *DWCi_QUElPopBack(void *queue);
-extern void *DWCi_OVRlAlloc(int lcd, int num, int head, int *name);
-extern u32 NNSi_G2dCalcCharAreaSize(unsigned int areaWidth, unsigned int areaHeight);
-extern void NNS_G2dCharCanvasInitForVRAM(void *pCC, void *charBase, int areaWidth, int areaHeight, int colorMode);
-extern void DWCi_OVRlFree(void *ovram);
-extern void DWCi_QUElPushBack(void *queue, void *data);
-extern void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e);
-extern u32 G2S_GetBG0ScrPtr(void);
-extern void *G2_GetBG0ScrPtr(void);
-extern void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
+#include "objvram.h"
+#include "../arm9/gx_bgcnt.h"
 struct TCB;
-extern struct TCB *DWCi_TSKlForm(int kind, void (*f)(void *), void *w, unsigned char prio);
-extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
-extern void GX_LoadBG0Char(void *pSrc, unsigned long offset, unsigned long szByte);
-extern void GXS_LoadBG0Char(void *pSrc, unsigned long offset, unsigned long szByte);
-extern void DWCi_TSKlDeleteByIndex(u32 taskIdx, struct TCB *task);
-extern void *G2_GetBG0CharPtr(void);
-extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
+#include "../arm9/os_cache.h"
+#include "../arm9/gx_load2d.h"
+#include "../arm9/mi_memory.h"
 struct NNSG2dTextCtx;
 extern void NNSi_G2dCalcTextBox(struct NNSG2dTextCtx *tc, int x, int y, int color, u32 flag, u32 txt, Step p);
 struct NNSG2dCanvas;
-extern s8 NNSi_G2dCharCanvasDrawChar(struct NNSG2dCanvas *ctx, struct NNSG2dFont *font, s32 x, s32 y, s32 cl, u16 code);
-extern u16 NNS_G2dFontGetGlyphIndex(struct NNSG2dFont *pFont, u16 charCode);
-extern struct NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(struct NNSG2dFont *font, u32 idx);
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font);
 extern void NNSi_G2dAlignTextVertical(struct NNSG2dTextCtx *tc, int x, int y, int w, u32 h, u32 color, u32 flag, u32 txt, Step p);
 struct CellInfo;
 union GXOamAttr;
-extern union GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
-extern void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
-extern void DWCi_CELLlSetPalette(unsigned char *obj, int idx, unsigned int v, unsigned int w);
-extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
-extern s32 NNSi_G2dMakeCharObjArea(union GXOamAttr *oam, s32 areaWidth, s32 areaHeight, s32 x, s32 y, s32 color, s32 charName, s32 vramShift);
+#include "cell.h"
 void DWCi_FNTlInit(void);
 void DWCi_FNTlEnd(void);
 void *DWCi_FNTlFormEx(int lcd, int width, int height, bool_0 head, int *obj, int font);
@@ -293,7 +263,7 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
         *(volatile u16 *)0x04000008 &= 0xFFBF;
         *(volatile u16 *)0x04000008 = (*(volatile u16 *)0x04000008 & 0x43) | 0xC00;
     }
-    NNSi_G2dInitPenSimple((int)cv, (int)cv->buf, w, h, 4);
+    NNSi_G2dInitPenSimple((sptr)cv, (sptr)cv->buf, w, h, 4);
     MemFont *base = gFontWork;
     cv->text.pCanvas = cv;
     cv->text.pFont = &base->font[font];
@@ -306,7 +276,7 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
     chr = sFontTable1[lcd];
     NNS_G2dMapScrToCharText(scr, w, h, 0, 0, 0x20, chr, 0xF);
     DWCi_FNTlClear(cv, 0);
-    cv->u.task = DWCi_TSKlForm(1, (void (*)(void *))taskLoad, &gFontWork->renew[lcd], 0xC8);
+    cv->u.task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskLoad, &gFontWork->renew[lcd], 0xC8);
     return cv;
 }
 
@@ -341,7 +311,7 @@ static void taskLoad(void *task, void *work)
 void DWCi_FNTlDeleteBg(void *canvas)
 {
     Canvas *cnv = canvas;
-    DWCi_TSKlDeleteByIndex(1, cnv->u.task);
+    DWCi_TSKlDeleteEx(1, cnv->u.task);
     if (cnv == gFontWork->bg)
         MIi_CpuClear16(0, G2_GetBG0CharPtr(), 0x6000);
     else
@@ -380,7 +350,7 @@ void DWCi_FNTlDraw(void *canvas, int x, int y, int color, u32 flag, u16 *txt)
         p.dy = -1;
         break;
     }
-    NNSi_G2dCalcTextBox((struct NNSG2dTextCtx *)&cnv->text, x, y, color, flag, (u32)txt, p);
+    NNSi_G2dCalcTextBox((struct NNSG2dTextCtx *)&cnv->text, x, y, color, flag, (uptr)txt, p);
 }
 
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font)
@@ -433,7 +403,7 @@ void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 
         p.dy = -1;
         break;
     }
-    NNSi_G2dAlignTextVertical((struct NNSG2dTextCtx *)&cnv->text, x, y, w, h, color, flag, (u32)txt, p);
+    NNSi_G2dAlignTextVertical((struct NNSG2dTextCtx *)&cnv->text, x, y, w, h, color, flag, (uptr)txt, p);
 }
 
 void DWCi_FNTlClear(Canvas *cnv, int color)
@@ -460,7 +430,7 @@ void DWCi_FNTlRenewBg(int x)
     MemFont *p = gFontWork;
     int v = 1;
 
-    if (x == (int)&p->bg[0])
+    if (x == (sptr)&p->bg[0])
         p->renew[0] = v;
     else
         p->renew[1] = v;

@@ -124,45 +124,38 @@ typedef struct UnionSubEventEntry {
     u8 pad06[2];
 } UnionSubEventEntry;
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern int GFL_NET_GetNegotiationNum(void);
+#include "../arm9/net.h"
 
-extern void GFL_NET_SetLoginOption(u8 option);
 
 extern int UNION_SCENE_IsScenePending(UnionRoomWork *work);
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void UNION_APP_Delete(struct UnionAppWork *app);
+#include "../ov022/union_app.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "../arm9/net_handle.h"
 
-extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 struct GameEvent;
 
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*eventFunc)(void *event, int *seq, UnionSubEventWork *eventWork), unsigned int workSize);
+#include "../arm9/game_event.h"
 struct GameEvent;
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern void UNION_MSG_CloseAllWindows(UnionRoomWork *work);
+#include "../ov019/union_msg.h"
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-void UNION_COMM_SetSituationParam(UnionRoomWork *work, u32 id, u32 value);
+#include "union_comm.h"
 
-u32 UNION_COMMAND_SendAppQuitRequest(void);
+#include "union_command.h"
 
-int UNION_COMMAND_SendAppSettingRequest(void);
 
-int UNION_COMMAND_SendAppJoinData(u8 sendMask, const UnionAppData *src);
 
-int UNION_COMMAND_SendAppLeaveData(u8 sendMask, const UnionAppData *src);
 
 void *UNION_SCENE_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, UnionRoomWork *work);
 
@@ -174,7 +167,7 @@ void *UNION_SCENE_CreateSubEvent(struct GameSystem *gameSystem, void *fieldMap, 
 {
     void *event;
     UnionSubEventWork *eventWork;
-    event = GAME_EVENT_Create(gameSystem, 0, UNION_SCENE_SubEventMain, sizeof(UnionSubEventWork));
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)UNION_SCENE_SubEventMain, sizeof(UnionSubEventWork));
     eventWork = GAME_EVENT_GetWork(event);
     eventWork->gameSystem = gameSystem;
     eventWork->fieldMap = fieldMap;
@@ -287,109 +280,74 @@ typedef struct PartyListParam {
     BattleSelectParam *battleSelect;    /* 0xC0 */
 } PartyListParam;
 
-extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
+#include "../arm9/field_status.h"
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int sel, int arg);
+#include "../ov021/event_fieldmap_control.h"
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int sel, int arg, int flag, u8 flagA, u8 flagB);
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *procWork);
 
-extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 
-extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern void UNION_APP_Update(struct UnionAppWork *app, UnionRoomWork *unionRoom);
 
-extern int   GF_OVERLAY_Load(signed int overlayId);
+#include "../arm9/gf_overlay.h"
 
-extern void  GF_OVERLAY_Unload(int overlayId);
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 struct UnionAppStatusCopy;
 struct UnionRoomWork;
 
-extern struct UnionAppWork *UNION_APP_Create(struct UnionRoomWork *work, s32 heapId, s32 maxMembers, struct UnionAppStatusCopy *myStatus);
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, unsigned int timingNo, unsigned int syncRange);
 
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, unsigned int timingNo, unsigned int syncRange);
 
-extern u8 UNION_APP_IsQuitAccepted(struct UnionAppWork *app);
 
-extern int UNION_APP_HasMembers(struct UnionAppWork *app);
 
-extern unsigned char UNION_APP_GetJoinedBits(struct UnionAppWork *app);
 
-extern int UNION_APP_IsAllEntriesReceived(struct UnionAppWork *app);
 
-extern void UNION_APP_AddSelfToJoined(struct UnionAppWork *app);
 
-extern void UNION_COMM_SetGameKindByStatus(unsigned int activity);
 
-extern void GFL_NET_SetAcceptConnection(void *unusedArg, void *eventArg);
 
-extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 
-extern unsigned int FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(struct GameData *gameData, unsigned int zoneId, unsigned int season);
+#include "../arm9/field_sound_system.h"
 
-extern void GFL_USE_ChangeBgm(unsigned int bgmNo, unsigned short fadeFrames, int fadeOutFrames, int fadeInFrames);
+#include "../arm9/gfl_use.h"
 
-extern int   GFL_USE_IsBgmFading(void);
 
-extern struct GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(struct GameSystem *gameSystem, s32 unused, s32 zoneId, VecFx32 *pos, u16 dir, s32 seasonFadeAllowed);
+#include "../ov020/event_mapchange.h"
 struct PartyListCommWork;
 
-extern void PLIST_COMM_Update(struct PartyListCommWork *work);
+#include "../ov090/plist_comm.h"
 
-extern void PLIST_COMM_Start(struct PartyListCommWork *work);
 
-extern void PLIST_COMM_End(void *unused);
 
-extern u32   POKEPARTY_GetCount(struct Party *party);
+#include "../arm9/pokeparty.h"
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
 
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 
-extern struct Party *POKEPARTY_Create(u32 heapId);
 
-extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 
-extern void POKEPARTY_Init(struct Party *party);
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
-extern u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *pokemon);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void COLOSSEUM_ResetParties(ColosseumWork *colosseum, int arg);
+#include "colosseum.h"
 
-extern u32 COLOSSEUM_SendParty(void *party);
 
-extern int COLOSSEUM_AllPartiesReceived(ColosseumWork *colosseum);
 struct ColosseumBattleInfo;
 struct ColosseumWork;
 
-extern void COLOSSEUM_SetupBattleInfo(struct ColosseumWork *work, struct GameSystem *gameSystem, struct ColosseumBattleInfo *out, s32 heapId);
 struct IrcBattleRequest;
 
-extern struct GameEvent *IRC_BATTLE_TASK_Create(void *gameSys, void *gameData, u32 kind, struct IrcBattleRequest *request);
+#include "../ov010/irc_battle_task.h"
 struct FieldState;
 
-extern struct FieldState *GAME_DATA_GetWifiList(const struct GameData *gameData);
 
-extern int WIFILIST_FindFriendByStatus(struct WifiList *wifiList, struct MyStatus *myStatus, u32 *outIndex);
+#include "../arm9/wifilist.h"
 
-extern void WIFILIST_AddFriendBattleRecord(struct WifiList *wifiList, int index, int a, int b, int c);
 
-extern void WIFILIST_SetFriendLastSeen(struct WifiList *wifiList, int index);
 
-extern void  COLOSSEUM_ClearBattleInfo(struct ColosseumBattleInfo *out);
 
 void UNION_SCENE_RequestScene(UnionRoomWork *unionRoom, int sceneId, int sceneParam);
 
@@ -471,7 +429,7 @@ int UNION_SCENE_IsScenePending(UnionRoomWork *unionRoom)
 int UNION_SCENE_StepStartOv111Proc(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int procWork, void *event, struct GameEvent **outEvent, u8 *step)
 {
     if (*step == 0) {
-        *outEvent = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (int)ov111_id, (void *)gOv111ProcData, (void *)procWork);
+        *outEvent = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (sptr)ov111_id, (void *)gOv111ProcData, (void *)procWork);
     } else {
         return 1;
     }
@@ -499,7 +457,7 @@ int UNION_SCENE_StepPokemonTrade(struct GameSystem *gameSystem, UnionRoomWork *u
         (*step)++;
         break;
     case 2:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov119_id, gPokemonTradeProcData, tradeParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov119_id, gPokemonTradeProcData, tradeParam);
         (*step)++;
         break;
     case 3:
@@ -514,13 +472,13 @@ int UNION_SCENE_StepPokemonTrade(struct GameSystem *gameSystem, UnionRoomWork *u
         request = tradeParam->evolutionRequest;
         request->gameData = tradeParam->gameData;
         request->party = tradeParam->party;
-        request->partyIndex = tradeParam->partyIndex;
-        request->reserved = 0;
+        request->targetSpecies = tradeParam->partyIndex;
+        request->partySlot = 0;
         request->evolveCondition = tradeParam->evolveCondition;
         request->fromTrade = 1;
-        request->reserved2 = 0;
+        request->fromField = 0;
         tradeParam->evolutionRequest = request;
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov195_id, d_02208C40, request);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov195_id, d_02208C40, request);
         (*step)++;
         break;
     case 5:
@@ -584,7 +542,7 @@ int UNION_SCENE_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *
         (*step)++;
         break;
     case 2:
-        GF_OVERLAY_Load((u32)ov022_id);
+        GF_OVERLAY_Load((uptr)ov022_id);
         unionRoom->app = UNION_APP_Create(unionRoom, 3, 5, (struct UnionAppStatusCopy *)(GAME_DATA_GetMyStatus(unionRoom->parent->gameData)));
         if (situation->connect.serviceFlag == 1)
             *step = 5;
@@ -648,11 +606,11 @@ int UNION_SCENE_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *
         if (situation->status == 3) {
             activityParam = (ActivityParam *)scene->param;
             activityParam->unionApp = unionRoom->app;
-            GAMESYSTEM_CallProc(gameSystem, (u32)ov023_id, gOekakiProcData, activityParam);
+            GAMESYSTEM_CallProc(gameSystem, (uptr)ov023_id, gOekakiProcData, activityParam);
         } else {
             activityParam = (ActivityParam *)scene->param;
             activityParam->unionApp = unionRoom->app;
-            GAMESYSTEM_CallProc(gameSystem, (u32)ov137_id, gGuru2ProcData, activityParam);
+            GAMESYSTEM_CallProc(gameSystem, (uptr)ov137_id, gGuru2ProcData, activityParam);
         }
         (*step)++;
         break;
@@ -678,7 +636,7 @@ int UNION_SCENE_StepGroupActivity(struct GameSystem *gameSystem, UnionRoomWork *
         if (unionRoom->app != 0) {
             UNION_APP_Delete(unionRoom->app);
             unionRoom->app = 0;
-            GF_OVERLAY_Unload((int)ov022_id);
+            GF_OVERLAY_Unload((sptr)ov022_id);
         }
         *step = 17;
         break;
@@ -707,7 +665,7 @@ int UNION_SCENE_StepWarpToZone96AtSeat(struct GameSystem *gameSystem, UnionRoomW
         pos.x = (GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) * 16 + 0x58) << 12;
         pos.y = 0;
         pos.z = 0x98000;
-        *outEvent = EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, (s32)fieldMap, 0x96, &pos, 0, 0);
+        *outEvent = EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, fieldMap, 0x96, &pos, 0, 0);
     } else {
         return 1;
     }
@@ -726,7 +684,7 @@ int UNION_SCENE_StepWarpToZone97AtSeat(struct GameSystem *gameSystem, UnionRoomW
         zero = 0;
         pos.y = zero;
         pos.z = 0x26 << 14;
-        *outEvent = EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, (s32)fieldMap, 0x97, &pos, zero, zero);
+        *outEvent = EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, fieldMap, 0x97, &pos, zero, zero);
     } else {
         return 1;
     }
@@ -745,7 +703,7 @@ int UNION_SCENE_StepWarpToZone1A6(struct GameSystem *gameSystem, UnionRoomWork *
         zero = 0;
         pos.y = zero;
         pos.z = 0x3a << 14;
-        *outEvent = EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, (s32)fieldMap, 0x1A6, &pos, zero, zero);
+        *outEvent = EVENT_MAPCHANGE_CreateWarpEvent(gameSystem, fieldMap, 0x1A6, &pos, zero, zero);
     } else {
         return 1;
     }
@@ -794,12 +752,12 @@ int UNION_SCENE_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoom
         (*step)++;
         break;
     case 2:
-        GF_OVERLAY_Load((int)ov090_id);
+        GF_OVERLAY_Load((sptr)ov090_id);
         PLIST_COMM_Start((struct PartyListCommWork *)listParam);
         (*step)++;
         break;
     case 3:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov091_id, gPartyListProcData, listParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov091_id, gPartyListProcData, listParam);
         (*step)++;
         break;
     case 4:
@@ -820,7 +778,7 @@ int UNION_SCENE_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoom
         statusParam->cursor = listParam->cursor;
         statusParam->result = 0;
         statusParam->trainerRecord = ZUKAN_SAVE_IsNationalDexEnabled(ZUKAN_SAVE_GetFromGameData(statusParam->gameData));
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov131_id, gPokeStatusProcData, statusParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov131_id, gPokeStatusProcData, statusParam);
         (*step)++;
         break;
     case 6:
@@ -831,7 +789,7 @@ int UNION_SCENE_StepColosseumPartyEntry(struct GameSystem *gameSystem, UnionRoom
         break;
     case 7:
         PLIST_COMM_End(listParam);
-        GF_OVERLAY_Unload((int)ov090_id);
+        GF_OVERLAY_Unload((sptr)ov090_id);
         *step = 8;
         break;
     case 8:
@@ -958,7 +916,7 @@ u32 UNION_SCENE_StepStartBattleSelect(struct GameSystem *gameSystem, UnionRoomWo
 int UNION_SCENE_StepStartPmsInput(struct GameSystem *gameSystem, UnionRoomWork *unionRoom, struct FieldMap *fieldMap, int procWork, void *event, struct GameEvent **outEvent, u8 *step)
 {
     if (*step == 0) {
-        *outEvent = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (int)ov110_id, (void *)gPmsInputProcData, (void *)procWork);
+        *outEvent = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (sptr)ov110_id, (void *)gPmsInputProcData, (void *)procWork);
     } else {
         return 1;
     }

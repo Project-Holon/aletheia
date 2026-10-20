@@ -1,8 +1,8 @@
 #ifndef ALETHEIA_OV021_EFFECT_ENCOUNT_TYPES_H
 #define ALETHEIA_OV021_EFFECT_ENCOUNT_TYPES_H
 
-#include "field_effect_types.h"
-#include "field_encount_types.h"
+#include "../ov021/field_effect_types.h"
+#include "../ov021/field_encount_types.h"
 
 /*
  * Special encounter effects of the field (effect_encount.c): the shaking

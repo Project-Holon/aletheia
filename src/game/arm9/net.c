@@ -88,108 +88,74 @@
 #include "../types.h"
 #include "net_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "gf_panic.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+#include "net_system.h"
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "net_handle.h"
 
-extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-extern void MI_CpuCopy8(const void *src, void *dst, int n);
+#include "mi_memory.h"
 
-extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
+#include "gfl_heap.h"
 
-extern s32 NET_DEVICE_TABLE_Select(u32 netType);
+#include "net_device_table.h"
 
-extern void NET_DEVICE_TABLE_Reset(u32 netType);
 
-extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern void UI_ClearKeepAwakeFlagsGlobal(u8 v);
+#include "ui.h"
 
-extern void GFL_NET_LOWER_DATA_MainSend(void);
+#include "net_lower_data.h"
 
-extern u32  FLASH_ACCESS_GetBusyFlag(void);
+#ifdef __MWERKS__
+extern u32  FLASH_ACCESS_GetBusyFlag(void); /* original prototype; the definition differs in return type */
+#else
+#include "flash_access.h"
+#endif
 
-extern u32 GFL_NET_HANDLE_IsTimingSync(GFLNetHandle *handle, u32 timingNo);
 
-void GFL_NET_WM_ICON_EasyStart(u32 iconX, u32 iconY, u32 isWifi, u32 heapId);
+#include "wm_icon.h"
 
-void GFL_NET_WM_ICON_EasyEnd(void);
 
-void GFL_NET_WM_ICON_EasySetScreen(u32 restartParamA, u32 restartParamB);
 
-void GFL_NET_WM_ICON_EasyMain(void);
 
-void GFL_NET_WM_ICON_SetDefaultPos(unsigned short iconX, unsigned short iconY);
 
-void GFL_NET_SYSTEM_SetDeviceMode(int mode);
 
-int GFL_NET_SYSTEM_Main(void);
 
-int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 sendFlags, u32 aid, u32 targetMask, u32 queueMode);
 
-u32 GFL_NET_SYSTEM_CheckError(void);
 
-int GFL_NET_SYSTEM_IsSendQueueEntry(u32 command, u32 aid);
 
-int GFL_NET_SYSTEM_IsSendQueueEmpty(void);
 
-void GFL_NET_SYSTEM_SetWaitMode(u32 waitMode);
 
-int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *handle);
 
-void GFL_NET_HANDLE_InitWork(GFLNetSession *unused);
 
-void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused);
 struct GFLNetHandle;
 
-u32 GFL_NET_HANDLE_IsNegotiationDone(struct GFLNetHandle *handle);
 
-int GFL_NET_HANDLE_GetNegotiationNum(void);
 
-void GFL_NET_HANDLE_StartTimingSync(GFLNetHandle *handle, u16 tag);
 
-void GFL_NET_HANDLE_Main(void);
 
-void GFL_NET_HANDLE_SetAllTimingValue(struct GFLNetHandle *handle, u32 timing);
 
-void GFL_NET_COMMAND_Init(u32 gameKindShifted, u32 recvFuncTable, u32 recvFuncTableNum, u32 userArg, u32 heapId);
+#include "net_command.h"
 
-void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback);
+#include "net_state.h"
 
-void GFL_NET_STATE_ConnectMacAddress(void *mac, s32 anyParent);
 
-void GFL_NET_STATE_BeaconScan(void);
 
-u32 GFL_NET_STATE_Main(void);
 
-void GFL_NET_STATE_InitParent(u32 heapId);
 
-void GFL_NET_STATE_StartChangeover(u16 heapId, u32 changeoverParam, u8 mode);
 
-void GFL_NET_STATE_SetChangeoverMode(u32 mode, u32 flags, u8 *macAddr);
 
-void GFL_NET_STATE_Exit(u32 handler);
 
-void GFL_NET_STATE_ClearExitFlag(void);
 
-void GFL_NET_STATE_EndDevice(void);
 
-void GFL_NET_STATE_WifiEnterLoginDefault(void);
 
-void GFL_NET_STATE_WifiLogout(u32 handler);
 
-void GFL_NET_STATE_SetAutoExit(u8 autoExit);
 
-void GFL_NET_STATE_SetLoginOption(u8 loginOption);
 
 void GFL_NET_SetupHeaps(u32 parentHeapId, u32 zero, u32 oldBaseHeapId, u32 newBaseHeapId);
 
@@ -279,9 +245,9 @@ u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, co
 
 u32 GFL_NET_SendDataMask(GFLNetHandle *handle, u32 targetMask, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 
-void GFL_NET_ResetSendQueue(void);
+int GFL_NET_ResetSendQueue(void);
 
-void GFL_NET_IsSendQueueEntryOfHandle(GFLNetHandle *handle, u32 command);
+int GFL_NET_IsSendQueueEntryOfHandle(GFLNetHandle *handle, u32 command);
 
 void GFL_NET_StartTimingSync(GFLNetHandle *handle, u16 tag);
 
@@ -343,29 +309,18 @@ void GFL_NET_RefreshWmIconAtOrigin(void);
 
 void GFL_NET_SetErrorCheckEnabled(u32 enable);
 
-GFLNetInitializeStruct *GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct *src, u32 callbackArg);
+#include "net_irc_wireless.h"
 
-void GFL_NET_IRC_WIRELESS_Destroy(void);
 
-void GFL_NET_IRC_WIRELESS_DestroyIfIdle(void);
 
-int GFL_NET_IRC_WIRELESS_IsActive(void);
 
-void GFL_NET_IRC_WIRELESS_SetSessionParamValue(unsigned int value);
 
-void *GFL_NET_IRC_WIRELESS_SetCallbacks(void (*onFinished)(u32), void (*onResult)(u32, int), void (*onReady)(u32));
 
-void GFL_NET_IRC_WIRELESS_CopyMacAddress(void *dst, u32 slot);
 
-void GFL_NET_IRC_WIRELESS_Main(void);
 
-u32 GFL_NET_IRC_WIRELESS_RetryStep(void);
 
-void GFL_NET_IRC_WIRELESS_RequestRetry(int netId);
 
-int GFL_NET_IRC_WIRELESS_GetRetryCountValue(void);
 
-void GFL_NET_IRC_WIRELESS_SetGameKindOverride(int gameKind);
 
 extern const char sNetFileName[];
 
@@ -1046,20 +1001,20 @@ u32 GFL_NET_SendDataMask(GFLNetHandle *handle, u32 targetMask, u32 command, u32 
     return GFL_NET_SYSTEM_SetSendQueue(command, data, size, sendFlags, GFL_NET_HANDLE_GetNetHandleID(handle), targetMask, queueMode);
 }
 
-void GFL_NET_ResetSendQueue(void)
+int GFL_NET_ResetSendQueue(void)
 {
-    GFL_NET_SYSTEM_IsSendQueueEmpty();
+    return GFL_NET_SYSTEM_IsSendQueueEmpty();
 }
 
 /*
  * Forwards the first argument through GFL_NET_HANDLE_GetNetHandleID and passes the result
  * with the second argument to GFL_NET_SYSTEM_IsSendQueueEntry.
  */
-void GFL_NET_IsSendQueueEntryOfHandle(GFLNetHandle *handle, u32 command)
+int GFL_NET_IsSendQueueEntryOfHandle(GFLNetHandle *handle, u32 command)
 {
     u32 aid = GFL_NET_HANDLE_GetNetHandleID(handle);
 
-    GFL_NET_SYSTEM_IsSendQueueEntry(command, aid);
+    return GFL_NET_SYSTEM_IsSendQueueEntry(command, aid);
 }
 
 void GFL_NET_StartTimingSync(GFLNetHandle *handle, u16 tag)

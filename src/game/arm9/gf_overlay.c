@@ -383,7 +383,7 @@ int GF_OVERLAY_GetArea(u32 id)
     if (id <= 0x02000000 && id >= 0x01000000) {
         return 1;
     }
-    twlBase = (u32)SDK_AUTOLOAD_MAIN_TWL_START;
+    twlBase = (uptr)SDK_AUTOLOAD_MAIN_TWL_START;
     if (id <= twlBase + 0x4000 && id >= twlBase) {
         return 2;
     }

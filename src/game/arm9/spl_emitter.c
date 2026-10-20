@@ -1174,32 +1174,16 @@ struct AllocScratch {
     u32 c;
 };
 
-extern void MTX_RotX33_(u8 *buf, int a, int b);
-extern void MTX_RotY33_(u8 *buf, int a, int b);
-extern void MTX_RotZ33_(u8 *buf, int a, int b);
-extern void MTX_MultVec33(const VecFx32 *a, const MtxFx33 *b, VecFx32 *c);
-extern void VEC_Fx16Normalize(VecFx16 *v, VecFx16 *w);
-extern fx32 VEC_Fx16DotProduct(const VecFx16 *a, const VecFx16 *b);
-extern void VEC_Fx16CrossProduct(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
-extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
-extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
-extern void SPLRandom_VecFx32(VecFx32 *v);
-extern void SPLRandom_VecFx32_XY(VecFx32 *v);
-extern void G3_MultMtx43(void *m);
-extern void MI_Copy36B(const void *pSrc, void *pDst);
+#include "fx_mtx33.h"
+#include "fx_vec.h"
+#include "spl_random.h"
+#include "g3imm.h"
+#include "mi_memory.h"
 extern void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
-extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 extern u32 MTX_Scale43_(void *, s32, s32, s32);
 extern void MTX_Concat43(const void *, const void *, void *);
-extern void G3_LoadMtx43(const void *);
 extern void MTX_Identity43_(void *);
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void GX_BeginLoadTex(void);
-extern void GX_LoadTex(void *dst, u32 a, u32 b);
-extern void GX_EndLoadTex(void);
-extern void GX_BeginLoadTexPltt(void);
-extern void GX_LoadTexPltt(void *dst, u32 a, u32 b);
-extern void GX_EndLoadTexPltt(void);
+#include "gx_load3d.h"
 void SPLList_PushFront(SPLList *list, SPLNode *node);
 SPLNode *SPLList_PopFront(SPLList *list);
 SPLNode *SPLList_Erase(SPLList *list, SPLNode *node);
@@ -1399,15 +1383,15 @@ void SPL_EMITTER_BuildFrame(struct AxisAngleKey *o, u8 *dst)
     switch (o->axis) {
     case 0:
         idx = o->angle >> 4;
-        MTX_RotX33_(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
+        MTX_RotX33_((MtxFx33 *)buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     case 1:
         idx = o->angle >> 4;
-        MTX_RotY33_(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
+        MTX_RotY33_((MtxFx33 *)buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     case 2:
         idx = o->angle >> 4;
-        MTX_RotZ33_(buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
+        MTX_RotZ33_((MtxFx33 *)buf, FX_SinCosTable_[idx * 2], FX_SinCosTable_[idx * 2 + 1]);
         break;
     }
 

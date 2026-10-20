@@ -1,6 +1,14 @@
 #ifndef GAME_ARM9_GAME_COMM_H
 #define GAME_ARM9_GAME_COMM_H
 
+typedef struct GameComm GameComm;
+typedef struct GameCommSeq GameCommSeq;
+typedef struct GameCommInfoMessage GameCommInfoMessage;
+
+/* Exit callback of GAME_COMM_RequestExit: called with the two words the exit request carries. */
+typedef void (*GameCommExitFunc)(u32 arg0, u32 arg1);
+void GAME_COMM_RequestExit(GameComm *comm, GameCommExitFunc exitFunc, u32 exitArg);
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of game_comm.c, prototypes copied from their definitions. */
 
@@ -22,6 +30,7 @@ void GAME_COMM_CallHandler(GameComm *comm, u32 arg);
 void GAME_COMM_CallKindNotify(GameComm *comm, u32 arg);
 void GAME_COMM_Start(GameComm *comm, u32 kind, u32 param);
 void GAME_COMM_RequestExitNoCallback(GameComm *comm);
+void GAME_COMM_RequestExit(GameComm *comm, GameCommExitFunc exitFunc, u32 exitArg);
 u32 GAME_COMM_GetKind(const GameComm *comm);
 u32 GAME_COMM_IsTransition(const GameComm *comm);
 void *GAME_COMM_GetWork(const GameComm *comm);
@@ -42,9 +51,5 @@ void GAME_COMM_PushPairMessage(GameComm *comm, u32 netId0, u32 netId1);
 void GAME_COMM_PushPalaceMessage(GameComm *comm, u32 netId, u32 palaceNetId);
 void GAME_COMM_PushPlayerMessage(GameComm *comm, u32 netId);
 /* END mkheaders: generated region */
-
-typedef struct GameComm GameComm;
-typedef struct GameCommSeq GameCommSeq;
-typedef struct GameCommInfoMessage GameCommInfoMessage;
 
 #endif

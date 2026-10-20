@@ -11,7 +11,7 @@ struct G3dCamera;
 #include "../sdk_fx.h"
 #include "../sdk_fx.h"
 
-u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, VecFx32 *eye, VecFx32 *target, VecFx32 *up, u16 heapID);
+struct G3dCamera *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, VecFx32 *eye, VecFx32 *target, VecFx32 *up, u16 heapID);
 u32 G3D_CAMERA_Delete(void *camera);
 void G3D_CAMERA_Reset(struct G3dCamera *camera);
 void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);

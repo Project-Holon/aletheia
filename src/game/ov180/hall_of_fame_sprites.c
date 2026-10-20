@@ -86,7 +86,7 @@ struct Sys;
 struct CharBuf;
 struct MsgBank;
 struct U16Vec;
-struct Param;
+struct BmpOamParam;
 struct Sav;
 struct WordSet;
 struct StrObj;
@@ -103,59 +103,43 @@ typedef struct HofRendererSetup {
     u32 words[8];
 } HofRendererSetup;
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
 struct PaletteData;
-extern void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
-extern u32 GFL_HEAP_Free(void *p);
-extern void ARC_TOOL_DeleteHandle(void *handle);
+#include "../arm9/clact.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct BmpOam;
-extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
-extern void BMP_Delete(struct Bmp *);
+#include "../arm9/bmp_oam.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct GfFont;
 struct Strbuf;
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define PRINTSYS_PrintColor PRINTSYS_PrintColor_header
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_PrintColor
+extern void PRINTSYS_PrintColor(struct Bmp *, short, s16, struct Strbuf *, struct GfFont *, u16);
+#endif
+struct BmpOamParam;
+struct BmpOamSys;
+#include "../arm9/msgdata.h"
+#include "../arm9/strbuf.h"
 struct PokemonParam;
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+#include "../arm9/poke_tool.h"
 struct BoxPokemon;
-extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
-extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, unsigned int didDecode);
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int arg);
-extern void WORDSET_SetSlotMonNicknameAlt(struct WordSet *,u32,void *);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
-extern void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, unsigned int enabled);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *,u32,void *);
+#include "../arm9/wordset.h"
 struct MyStatus;
-extern u16 MYSTATUS_GetIdLow16(struct MyStatus *mystatus);
-extern u16 PLAYTIME_GetHours(const struct PlayTime *);
-extern u8 PLAYTIME_GetMinutes(const struct PlayTime *);
-extern void BMP_OAM_SetPos(struct BmpOam *bmpOam, short x, short y);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
-extern u32 DOUBLE3DDISP_GetMode(void);
-extern void BG_SYS_SetMainPlaneVisible(u32,u32);
-extern u32 GFL_USE_GetRandom(u32);
+#include "../arm9/mystatus.h"
+#include "../arm9/playtime.h"
+#include "../arm9/double3Ddisp.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/gfl_use.h"
 struct SurfaceInit;
 struct Renderer;
-extern struct Renderer *CLACT_CreateRenderer(struct SurfaceInit *inits, unsigned int count, unsigned int heap_id);
-extern void CLACT_SetRendererCulling(struct Renderer *renderer, int enable);
-extern void CLACT_SetUnitRenderer(struct Bank *,void *);
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern int POKEGRA_OpenTrainerHandle(int);
-extern u32 POKEGRA_RegisterTrainerCgr(u32,u32,u32,u32);
-extern s32 POKEGRA_RegisterTrainerPalette(u32 a, u32 b, u32 c, u32 d, u16 e);
-extern int POKEGRA_RegisterTrainerCellAnim(int unusedArg, int mapping, int drawType, unsigned short heapId);
-extern void CLACT_DeleteRenderer(struct Renderer *renderer);
+#include "../arm9/pokegra.h"
 extern unsigned gHallOfFameTrainerPaletteIds[];
 extern const HallOfFameActorTemplate gHallOfFamePlateLeftTemplate, gHallOfFamePlateRightTemplate, gHallOfFameVoiceMarkTemplate;
 extern const HofRendererSetup gHallOfFameRendererSetup;
@@ -220,7 +204,7 @@ void HALL_OF_FAME_CreateMonPlates(HallOfFameWork *work)
     param.bmp = plate->bmp;
     param.x = -184;
     param.y = 16;
-    work->plates[0].oam = BMP_OAM_Create(work->oamSys, (const struct Param *)&param);
+    work->plates[0].oam = BMP_OAM_Create(work->oamSys, (struct BmpOamParam *)&param);
     BMP_Clear(work->plates[0].bmp, 0);
     str = (struct U16Vec *)MSGDATA_AllocString(work->msgData, 0);
     HALL_OF_FAME_PrintToPlate(work, 0, work->fontMain, str, 12, 0);
@@ -230,7 +214,7 @@ void HALL_OF_FAME_CreateMonPlates(HallOfFameWork *work)
     param.bmp = plate->bmp;
     param.x = 264;
     param.y = 160;
-    work->plates[1].oam = BMP_OAM_Create(work->oamSys, (const struct Param *)&param);
+    work->plates[1].oam = BMP_OAM_Create(work->oamSys, (struct BmpOamParam *)&param);
 }
 
 void HALL_OF_FAME_PrintMonInfo(HallOfFameWork *work)
@@ -275,7 +259,7 @@ void HALL_OF_FAME_CreateTrainerPlates(HallOfFameWork *work)
     param.bmp = plate->bmp;
     param.x = 0;
     param.y = 16;
-    work->plates[2].oam = BMP_OAM_Create(work->oamSys, (const struct Param *)&param);
+    work->plates[2].oam = BMP_OAM_Create(work->oamSys, (struct BmpOamParam *)&param);
     BMP_OAM_SetEnabled(work->plates[2].oam, 0);
     BMP_Clear(work->plates[2].bmp, 0);
     str = (struct StrObj *)MSGDATA_AllocString(work->msgData, 4);
@@ -287,7 +271,7 @@ void HALL_OF_FAME_CreateTrainerPlates(HallOfFameWork *work)
     param.bmp = plate->bmp;
     param.x = 0;
     param.y = 160;
-    work->plates[3].oam = BMP_OAM_Create(work->oamSys, (const struct Param *)&param);
+    work->plates[3].oam = BMP_OAM_Create(work->oamSys, (struct BmpOamParam *)&param);
     BMP_OAM_SetEnabled(work->plates[3].oam, 0);
     BMP_Clear(work->plates[3].bmp, 0);
     str = (struct StrObj *)MSGDATA_AllocString(work->msgData, 5);
@@ -409,11 +393,11 @@ void HALL_OF_FAME_CreateTrainerSceneObjects(HallOfFameWork *work)
     if (!MYSTATUS_GetSex(work->args->myStatus))
         trainerGender = 0;
     handle = (u8 *)POKEGRA_OpenTrainerHandle(0x808d);
-    work->charIds[3] = POKEGRA_RegisterTrainerCgr((u32)handle, trainerGender, 0, HOF_HEAP_ID);
-    work->paletteIds[4] = POKEGRA_RegisterTrainerPalette((u32)handle, trainerGender, 0, 192, HOF_HEAP_ID);
+    work->charIds[3] = POKEGRA_RegisterTrainerCgr((u8 *)((u32)handle), trainerGender, 0, HOF_HEAP_ID);
+    work->paletteIds[4] = POKEGRA_RegisterTrainerPalette((u8 *)((u32)handle), trainerGender, 0, 192, HOF_HEAP_ID);
     work->cellAnimIds[3] = POKEGRA_RegisterTrainerCellAnim(trainerGender, 2, 0, HOF_HEAP_ID);
-    work->charIds[4] = POKEGRA_RegisterTrainerCgr((u32)handle, trainerGender, 1, HOF_HEAP_ID);
-    work->paletteIds[5] = POKEGRA_RegisterTrainerPalette((u32)handle, trainerGender, 1, 96, HOF_HEAP_ID);
+    work->charIds[4] = POKEGRA_RegisterTrainerCgr((u8 *)((u32)handle), trainerGender, 1, HOF_HEAP_ID);
+    work->paletteIds[5] = POKEGRA_RegisterTrainerPalette((u8 *)((u32)handle), trainerGender, 1, 96, HOF_HEAP_ID);
     work->cellAnimIds[4] = POKEGRA_RegisterTrainerCellAnim(trainerGender, 0, 1, HOF_HEAP_ID);
     ARC_TOOL_DeleteHandle(handle);
     work->actors[HOF_ACTOR_TRAINER_TOP] = HALL_OF_FAME_CreateActorFromTemplate(work, &gHallOfFameTrainerTopTemplate);

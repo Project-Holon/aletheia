@@ -26,10 +26,9 @@
  *   WAZA_TOOL_GetMaxPP 0x0201C158 thumb arm9
  */
 #include "pokeparty_shared_types.h"
+#include "../sdk_ioreg_reg.h"
 
-#define REG_DISPCNT      (*(volatile u32 *)0x04000000)
 
-#define REG_DB_DISPCNT   (*(volatile u32 *)0x04001000)
 
 #define OBJ_MAPPING_MASK 0x300010
 

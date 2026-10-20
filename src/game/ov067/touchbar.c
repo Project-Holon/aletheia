@@ -73,6 +73,8 @@
 
 #include "../types.h"
 
+struct ActorInitParam;
+struct Unit;
 #include "touchbar_types.h"
 
 struct BmpData;
@@ -82,72 +84,54 @@ struct U16Vec;
 struct WordSet;
 struct Rec;
 
-/* Window the touch bar labels are printed into. */
-typedef struct {
-    struct BmpData *bitmap;
-    u8 redraw;
-} TouchBarWindow;
-
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern u32 GFL_HEAP_Free(void *ptr);
-extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/arc_tool.h"
 extern s32 CLACT_RegisterPaletteEx(void *arc, u32 fileId, u32 screen, u32 offset, u16 count, u16 mode, u32 heapId);
 extern s32 CLACT_RegisterCharacter(void *arc, u32 fileId, u32 flags, u32 screen, u32 heapId);
 extern s32 CLACT_RegisterCellAnim(void *arc, u32 cellFile, u32 animFile, u32 heapId);
-extern void ARC_TOOL_DeleteHandle(void *arc);
-extern void CLACT_ReleasePalette(unsigned int plttHandle);
-extern void CLACT_ReleaseCharacter(unsigned int charHandle);
-extern void CLACT_ReleaseCellAnim(unsigned int animHandle);
-extern struct Actor *CLACT_CreateActor(struct Unit *unit, unsigned int charIdx, unsigned int plttIdx, unsigned int cellIdx, const TouchBarActorInit *init, u16 space, u16 heapId);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animSeq);
-extern u32 APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetStatusAnimFileId(void);
+struct ClactActor;
+#include "../arm9/strbuf_types.h"
+extern void CLACT_ReleasePalette(u32 idx);
+extern void CLACT_ReleaseCharacter(u32 idx);
+extern void CLACT_ReleaseCellAnim(u32 idx);
+extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, unsigned int charIdx, unsigned int plttIdx, unsigned int cellIdx, const struct ActorInitParam *init, u16 space, u16 heapId);
+extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
+#include "../arm9/app_icon.h"
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
-extern u32 APP_ICON_GetStatusFrameFileId(void);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
-extern u32 APP_ICON_GetStatusDataFileId(void);
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern u32 APP_ICON_GetStatusCellFileId(u32 iconSet);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32 iconSet);
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
-extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
+#include "../arm9/nns_g2d_load.h"
 extern u8 BG_SYS_GetColorMode(int bgLayer);
 extern u32 BG_SYS_GetBuf(int bgLayer);
-extern void BG_SYS_DrawTileEx(u8 bgLayer, u32 dstX, u32 dstY, u32 dstWidth, u8 dstHeight, u32 src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
+extern void BG_SYS_DrawTileEx(u8 bgLayer, u32 dstX, u32 dstY, u32 dstWidth, u8 dstHeight, void *, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
 extern void BG_SYS_FillTileMap(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
 extern void BG_SYS_PushTile(u8 bgLayer);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
-extern void UI_SetInputMode(u8 usedTouch);
-extern u32 KEY_GetTrg(void);
-extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
-extern void GFL_USE_PlaySeDefaultVolume(u32 soundId);
+extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
+extern void CLACT_DeleteActor(struct ClactActor *actor);
+extern u32 CLACT_GetActorDrawEnable(struct ClactActor *actor);
+#include "../arm9/touchpanel.h"
+#include "../arm9/ui.h"
+#include "../arm9/key.h"
+extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
+#include "../arm9/gfl_use.h"
 struct BmpWin;
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 struct GfFont;
 struct Strbuf;
 struct PrintQueue;
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
-extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
-extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int bgPriority);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern void *STRBUF_Create(u32 size, u16 heapId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
+#include "../arm9/printsys.h"
+extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
+extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority);
+extern void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
+#include "../arm9/msgdata.h"
+#include "../arm9/gf_font.h"
+extern struct Strbuf *STRBUF_Create(u32 size, u16 heapId);
 struct Strbuf;
 extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 value, u32 digits, u32 padMode, u32 flags);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
+#include "../arm9/wordset.h"
 TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId);
 void TOUCHBAR_Delete(TouchBar *bar);
 void TOUCHBAR_Update(TouchBar *bar);
@@ -459,7 +443,7 @@ void TOUCHBAR_LoadCharToBg(void *arc, u32 fileId, u32 bgLayer, u32 tileOffset,
         }
     }
     if ((int)BG_SYS_GetBuf((u8)bgLayer)) {
-        BG_SYS_DrawTileEx(bgLayer, dstX, dstY, dstWidth, dstHeight, (u32)(data + 0xc), srcX, srcY, srcWidth, srcHeight);
+        BG_SYS_DrawTileEx(bgLayer, dstX, dstY, dstWidth, dstHeight, (data + 0xc), srcX, srcY, srcWidth, srcHeight);
         BG_SYS_FillTileMap(bgLayer, dstX, dstY, dstWidth, dstHeight, plttSlot);
         BG_SYS_PushTile(bgLayer);
     }
@@ -500,8 +484,8 @@ void TOUCHBAR_InitButton(TouchBarButton *button, struct Unit *actorSys, const To
     }
     button->anim = button->def.animIdle;
     init.animSeq = button->anim;
-    button->actor = CLACT_CreateActor(actorSys, charRes, plttRes, animRes, &init, screen, heapId);
-    CLACT_SetActorAutoAnim(button->actor, 1);
+    button->actor = (struct Actor *)CLACT_CreateActor(actorSys, charRes, plttRes, animRes, (struct ActorInitParam *)(&init), screen, heapId);
+    CLACT_SetActorAutoAnim((struct ClactActor *)button->actor, 1);
     switch (button->style) {
     case 0:
         button->onPress = TOUCHBAR_OnPressPlain;
@@ -519,7 +503,7 @@ void TOUCHBAR_InitButton(TouchBarButton *button, struct Unit *actorSys, const To
  */
 void TOUCHBAR_FreeButton(TouchBarButton *button)
 {
-    CLACT_DeleteActor(button->actor);
+    CLACT_DeleteActor((struct ClactActor *)button->actor);
     MI_CpuFill8(button, 0, sizeof(TouchBarButton));
 }
 
@@ -529,7 +513,7 @@ int TOUCHBAR_PollButtonPress(TouchBarButton *button)
     u32 touchY;
     int hit = 0;
 
-    if (CLACT_GetActorDrawEnable(button->actor) & button->enabled) {
+    if (CLACT_GetActorDrawEnable((struct ClactActor *)button->actor) & button->enabled) {
         if (TOUCHPANEL_GetPointTrg(&touchX, &touchY)) {
             if (touchX - button->def.x <= 0x18 && touchY - button->def.y <= 0x18) {
                 hit = 1;
@@ -550,7 +534,7 @@ int TOUCHBAR_PollButtonPress(TouchBarButton *button)
 
 int TOUCHBAR_IsButtonActorIdle(TouchBarButton *button)
 {
-    if (CLACT_IsActorAnimActive(button->actor) == 0) return 1;
+    if (CLACT_IsActorAnimActive((struct ClactActor *)button->actor) == 0) return 1;
     return 0;
 }
 
@@ -565,7 +549,7 @@ int TOUCHBAR_GetButtonId(TouchBarButton *button)
 
 void TOUCHBAR_SetButtonActorVisible(TouchBarButton *button, unsigned int visible)
 {
-    CLACT_SetActorDrawEnable(button->actor, visible);
+    CLACT_SetActorDrawEnable((struct ClactActor *)button->actor, visible);
 }
 
 void TOUCHBAR_CallSetEnabled(TouchBarButton *button, int enabled)
@@ -589,7 +573,7 @@ void TOUCHBAR_SetButtonToggle(TouchBarButton *button, u32 down)
         button->anim = button->def.animDown;
     else
         button->anim = button->def.animIdle;
-    CLACT_SetActorAnimSeq(button->actor, (u16)button->anim);
+    CLACT_SetActorAnimSeq((struct ClactActor *)button->actor, (u16)button->anim);
 }
 
 u32 TOUCHBAR_IsButtonDown(TouchBarButton *button)
@@ -601,7 +585,7 @@ u32 TOUCHBAR_IsButtonDown(TouchBarButton *button)
 
 void TOUCHBAR_SetButtonActorPriority(TouchBarButton *button, unsigned int priority)
 {
-    CLACT_SetActorDrawPriority(button->actor, priority);
+    CLACT_SetActorDrawPriority((struct ClactActor *)button->actor, priority);
 }
 
 /*
@@ -609,7 +593,7 @@ void TOUCHBAR_SetButtonActorPriority(TouchBarButton *button, unsigned int priori
  */
 void TOUCHBAR_SetButtonActorBgPriority(TouchBarButton *button, unsigned int bgPriority)
 {
-    CLACT_SetActorBgPriority(button->actor, bgPriority);
+    CLACT_SetActorBgPriority((struct ClactActor *)button->actor, bgPriority);
 }
 
 /*
@@ -618,7 +602,7 @@ void TOUCHBAR_SetButtonActorBgPriority(TouchBarButton *button, unsigned int bgPr
 void TOUCHBAR_OnPressPlain(TouchBarButton *button)
 {
     button->anim = button->def.animDown;
-    CLACT_SetActorAnimSeq(button->actor, button->anim);
+    CLACT_SetActorAnimSeq((struct ClactActor *)button->actor, button->anim);
     if (button->def.soundId) GFL_USE_PlaySeDefaultVolume(button->def.soundId);
 }
 
@@ -644,9 +628,9 @@ void TOUCHBAR_SetEnabledPlain(TouchBarButton *button, u32 enabled)
     button->enabled = enabled;
     if (enabled) {
         if (button->anim == button->def.animDown) button->anim = button->def.animIdle;
-        CLACT_SetActorAnimSeq(button->actor, button->anim);
+        CLACT_SetActorAnimSeq((struct ClactActor *)button->actor, button->anim);
     } else {
-        CLACT_SetActorAnimSeq(button->actor, button->def.animDisabled);
+        CLACT_SetActorAnimSeq((struct ClactActor *)button->actor, button->def.animDisabled);
     }
 }
 
@@ -659,14 +643,14 @@ void TOUCHBAR_SetEnabledToggle(TouchBarButton *button, u32 enabled)
         } else if (button->anim == button->def.animDisabled) {
             button->anim = button->def.animIdle;
         }
-        CLACT_SetActorAnimSeq(button->actor, button->anim);
+        CLACT_SetActorAnimSeq((struct ClactActor *)button->actor, button->anim);
     } else {
         if (button->anim == button->def.animDownAlt) {
             button->anim = button->def.animDown;
         } else if (button->anim == button->def.animIdle) {
             button->anim = button->def.animDisabled;
         }
-        CLACT_SetActorAnimSeq(button->actor, button->def.animDisabled);
+        CLACT_SetActorAnimSeq((struct ClactActor *)button->actor, button->def.animDisabled);
     }
 }
 

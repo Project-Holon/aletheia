@@ -60,56 +60,62 @@
 
 struct MsgDataRec {void *a,*b;unsigned char pad[12];void *handle;};
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *, int, int);
+#include "../arm9/mi_memory.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern void *WORDSET_Create(unsigned,unsigned,unsigned);
 
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
-extern unsigned int GF_FONT_Delete(struct GfFont *font);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+#include "../arm9/arc_tool.h"
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+/* The DS code passes the flags as a word (the original prototype); the header has a halfword. The host build uses the header. */
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadPaletteFromHandleWhole ARC_UTIL_UploadPaletteFromHandleWhole_header
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_UploadPaletteFromHandleWhole
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, int kind, int dest, int size, u32 flags);
+#endif
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void BG_SYS_ClearSlot(u32 i);
+#include "../arm9/bg_sys.h"
 
-extern void BG_SYS_PushTile(u32 index);
 
-extern u32 CLACT_RegisterCharacter(void *h, u32 file_idx, u32 compressed, u32 vram_mode, u32 s0);
+/* The DS code passes the heap id and colour counts as words (the original prototypes); the header has halfword parameters. The host build uses the header. */
+#ifdef __MWERKS__
+#define CLACT_RegisterCharacter CLACT_RegisterCharacter_header
+#define CLACT_RegisterPaletteEx CLACT_RegisterPaletteEx_header
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+#undef CLACT_RegisterCharacter
+#undef CLACT_RegisterPaletteEx
+extern s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u32 heap_id);
+extern s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u32 first_color, u32 color_count, u32 heap_id);
+#endif
 
-extern u32 CLACT_RegisterPaletteEx(void *h, u32 file_idx, u32 vram_mode, u32 vram_offset, u32 s0, u32 s1, u32 s2);
 
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern void CLACT_ReleasePalette(u32 i);
 
-extern void CLACT_ReleaseCharacter(u32 i);
 
-extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned,unsigned,unsigned,unsigned,unsigned);
 struct BrFade;
 
-extern void BR_FADE_LoadPalette(struct BrFade *fade, void *archive, unsigned int fileId, unsigned int slot, unsigned int offset, unsigned int count, unsigned short heapId);
+#include "br_fade.h"
 
-void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,unsigned heapId);
+#include "../arm9/wordset.h"
+void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,u16 heapId);
 
 void BR_RES_Delete(struct BrRes *res);
 
@@ -164,7 +170,7 @@ extern const u32 d_022008E0[];
 /*
  * volatile: allocated fields +F4 and +F8 re-read after their stores at 021FB8B0 and 021FB8C0.
  */
-void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,unsigned heapId)
+void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,u16 heapId)
 {
     struct BrRes *res;
     res=GFL_HEAP_Alloc(heapId,0xfc,0,d_02200D3C,0x60);

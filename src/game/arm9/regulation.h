@@ -17,7 +17,7 @@ struct SaveControl;
 u32 REGULATION_GetCompetitionSize(void);
 struct Regulation *REGULATION_Create(u32 heapId);
 void REGULATION_Copy(const struct Regulation *src, struct Regulation *dest);
-void REGULATION_NoOp(void);
+void *REGULATION_NoOp(void *card);
 void REGULATION_GetCupName(struct Regulation *rule, void *dest);
 void *REGULATION_CreateCupName(struct Regulation *rule, u32 heapId);
 u32 REGULATION_GetRuleValue(struct Regulation *rule, u32 id);

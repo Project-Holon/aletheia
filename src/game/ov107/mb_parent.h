@@ -60,12 +60,7 @@ typedef struct MB_CommCommonWork {
     int is_started_ex;                          /* 0x1320 */
 } MB_CommCommonWork;
 
-typedef struct MBCommParentBlockHeader {
-    u8 type;
-    u8 pad1;
-    u16 fid;
-    u16 seqno;
-} MBCommParentBlockHeader;
+#include "../ov107/mb_block_types.h"
 
 typedef void (*MBCommPStateCallback)(u16 child_aid, u32 status, void *arg);
 
@@ -92,5 +87,21 @@ typedef struct MBCommPWork {
 
 extern MB_CommCommonWork *mbc;
 #define pPwork ((MBCommPWork *)mbc)
+
+void *MB_CommGetChildUser(unsigned short child_aid);
+int MB_CommIsBootable(unsigned short child_aid);
+int MB_CommResponseRequest(unsigned short child_aid, int ack);
+void MBi_CommChangeParentState(unsigned short child, int state, void *arg);
+void MBi_CommChangeParentStateCallbackOnly(u16 child, int state, void *arg);
+void MBi_CommParentCallback(u16 type, void *arg);
+void MBi_CommParentRecvData(void *arg);
+int MBi_CommParentSendMsg(u8 type, u16 pollbmp);
+int MBi_CommParentSendDLFileInfo(void);
+void MBi_ReloadCache(MBiTaskInfo *p_task);
+int MBi_CommParentSendBlock(void);
+void MBi_calc_sendblock(u8 file_id);
+u16 MBi_calc_nextsendblock(unsigned long next_block, unsigned long next_block_req);
+BOOL IsChildAidValid(u16 child_aid);
+void MBi_CommCallParentError(u16 aid, u16 errcode);
 
 #endif

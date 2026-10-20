@@ -247,19 +247,19 @@ struct BeaconRecord;
 struct Ctx;
 struct WordSet;
 struct Blk34;
-struct Chan02021FD8;
+struct PaletteFadeWork;
 struct PrintSys;
-struct Actor;
+struct ClactActor;
 struct Obj;
 struct MsgBank;
 struct CharBuf;
 struct Descriptor;
-struct Vec2;
+struct ClactVec2;
 struct TcblNode;
 struct U16Vec;
 struct PalAnmSlot;
 struct BeaconTrainerInfo;
-struct Sub0204A9D0;
+struct NNSG2dCharacterData;
 struct Strbuf;
 struct Grid;
 struct Rec02010FA0;
@@ -267,7 +267,7 @@ struct Cfg;
 struct Tcbl;
 struct Desc;
 struct S0201235C;
-struct S02021D50;
+struct PaletteFade;
 struct Big;
 struct BigObj;
 struct Rec1B0;
@@ -278,11 +278,12 @@ struct TaskMenuRes;
 struct TaskMenuState;
 struct ArcFile;
 struct NitroFileHeader;
-struct Bank;
-struct Param;
+struct Unit;
+struct BmpOamParam;
 struct Sys;
 struct Bmp;
 #include "../types.h"
+#include "../arm9/ica_anime_shared_types.h"
 
 typedef struct { u32 x, y; } BeaconPair;
 
@@ -320,271 +321,107 @@ typedef struct {
 
 typedef struct { int w[4]; } T16;
 
-typedef struct {
-    short x;
-    short y;
-    unsigned short w;
-    unsigned char z;
-    unsigned char h;
-} Rect;
+#include "../arm9/clact.h"
 
 typedef struct {
     short x;
     short y;
 } Pt;
 
-/* Sprite template passed to BMP_OAM_Create; same layout as struct Param used
-   by the other sprite users in the tree. */
-struct Param {
-    void *bmp;
-    short x;
-    short y;
-    u32 animResId;
-    u32 palette;
-    u8 drawPriority;
-    u8 bgPriority;
-    u16 space;
-    u32 engine;
-};
+#include "../arm9/bmp_oam.h"
 
-extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
+#include "../arm9/palanm.h"
+#include "../arm9/nns_g2d_res_types.h"
 struct GameBeaconInfo;
 struct GameBeaconInfoTable;
-extern int GAME_BEACON_ACCESSOR_TableRingGet(struct GameBeaconInfoTable *table, struct GameBeaconInfo *info, u16 *receiveTime, s32 offset);
-extern int GAME_BEACON_ACCESSOR_TableGetRingIndex(struct GameBeaconInfoTable *table, s32 offset);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern int GAME_BEACON_ACCESSOR_IsDistributionAction(struct GameBeaconInfo *info);
-extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
+#include "../ov010/game_beacon_accessor.h"
+#include "../arm9/net.h"
+#include "../arm9/touchpanel.h"
 struct GameComm;
-extern int INTRUDE_COMM_GetVisitProgress(struct GameComm *comm);
+#include "../ov010/intrude_comm_query.h"
 struct GameSystem;
-extern u32 GAMESYSTEM_IsNetOffBySleep(struct GameSystem *gameSystem);
-extern u32 WIH_DWC_PollStatus(void *key);
+#include "../arm9/gamesystem.h"
+#include "../arm9/wih_dwc.h"
 struct BeaconStatus;
-extern u16 *BEACON_STATUS_GetViewFlags(struct BeaconStatus *bs);
-struct StrBuf;
-extern struct StrBuf *BEACON_STATUS_GetMessage(struct BeaconStatus *bs);
-extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
+#include "../arm9/beacon_status.h"
+struct Strbuf;
+#include "../arm9/wordset.h"
 struct GPowerData;
-extern u8 GPOWER_GetActiveIdOfSameType(s32 powerId, struct GPowerData *table);
-extern int GAME_BEACON_ACCESSOR_TablePop(struct GameBeaconInfoTable *table, struct GameBeaconInfo *info, u16 *receiveTime);
-extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct GameBeaconInfo *info);
-extern int GAME_BEACON_ACCESSOR_TableRingAdd(struct GameBeaconInfoTable *table, struct GameBeaconInfo *info, u16 receiveTime, s32 *isNew);
+#include "../arm9/gpower.h"
 struct MiscSave;
-extern u32 MISC_IncrementThanksCount(struct MiscSave *beacon);
-extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+#include "../arm9/beacon.h"
 struct FldVReq;
-extern void FLD_VREQ_SetSubBlendAlpha(struct FldVReq *vreq, u32 plane1, u32 plane2, u32 ev1, u32 ev2);
+#include "../ov021/fld_vreq.h"
 struct PrintQueue;
-extern void PRINTSYS_QUE_SetLimitTick(struct PrintQueue *queue, u32 tickLow, u32 tickHigh);
+#include "../arm9/printsys.h"
 struct GameData;
-extern void GAME_BEACON_SEARCH_SetThanks(struct GameData *gameData, u16 trainerId);
-extern u32 CLACT_IsActorAnimActive(struct Actor *);
-extern u8 GAME_BEACON_ACCESSOR_GetSex(struct GameBeaconInfo *info);
-extern u32 GAME_BEACON_ACCESSOR_GetPmVersion(struct GameBeaconInfo *info);
-extern u32 GAME_BEACON_ACCESSOR_GetLanguage(struct GameBeaconInfo *info);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
-extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+#include "../ov010/game_beacon_set.h"
+#include "../arm9/clact.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/msgdata.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/bmp_win.h"
 struct BmpWin;
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern u32 BG_SYS_CheckPixelColor(u32 layer, u16 x, u16 y, u16 *flags);
+#include "../arm9/bmp.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/bg_sys.h"
 struct TaskMenuItem;
 struct TaskMenuWin;
-extern struct TaskMenuWin *APP_TASKMENU_WIN_CreateEx(struct TaskMenuRes *res, struct TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u8 height, u32 anmSpeed, u32 isCenter, u16 heapId);
-extern u32 APP_TASKMENU_WIN_IsUpdateTrans(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
-extern u32 APP_TASKMENU_WIN_IsTouch(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, s32 isDecide);
-extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
-extern u16 GAME_BEACON_ACCESSOR_GetActionNo(struct GameBeaconInfo *info);
-extern void GFL_USE_PlaySeDefaultVolume(unsigned int a);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/gfl_use.h"
 struct BmpOam;
-extern void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, u32 enabled);
-extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
-extern void STRBUF_Clear(struct Strbuf *strbuf);
+#include "../arm9/bmp_oam.h"
+#include "../arm9/strbuf.h"
 struct TcblTask;
-extern void TCBL_DeleteTask(struct TcblTask *task);
-extern u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(struct GameBeaconInfo *info);
-extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
-extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(u16 *rgb, struct GameBeaconInfo *info);
-extern void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, s32 weight, u16 color);
-extern u16 GAME_BEACON_GetReceivedFramesByTrainerId(u16 v);
-extern u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(struct GameBeaconInfo *info);
-extern u16 GAME_BEACON_ACCESSOR_GetTrainerId(struct GameBeaconInfo *info);
-extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct GameBeaconInfo *info, struct Strbuf *name);
-extern void GAME_BEACON_ACCESSOR_GetGreeting(struct GameBeaconInfo *info, struct Strbuf *greeting);
-extern void GAME_BEACON_ACCESSOR_GetThanksName(struct GameBeaconInfo *info, struct Strbuf *name);
-extern void GAME_BEACON_ACCESSOR_GetFreeText(struct GameBeaconInfo *info, struct Strbuf *text);
-extern void BMP_OAM_SetPos(struct BmpOam *bmpOam, short x, short y);
-extern void BEACON_STATUS_SetViewTop(struct BeaconStatus *bs, int top);
-extern void *TCBL_AddTask(u32 a, void *fn, u32 sz, u32 priority);
-extern void *TCBL_GetWork(struct TcblTask *task);
-extern void MI_CpuFill8(void *p, int v, int n);
-extern u32 FX_Div(u32 a, u32 b);
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
-extern void GAME_BEACON_ACCESSOR_RegisterRecordWords(struct GameBeaconInfo *info, struct WordSet *wordSet, u32 heapId);
-extern void GAME_BEACON_SEARCH_SetPresetEvent(unsigned eventId);
-extern u32 MISC_IncrementGreetCount(struct MiscSave *beacon);
-extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
-extern u16 GAME_BEACON_ACCESSOR_GetDistributionSerial(struct GameBeaconInfo *info);
-extern u8 GAME_BEACON_ACCESSOR_GetInfoVersion(struct GameBeaconInfo *info);
-extern void TCBL_SetTaskFunc(int *p, int v);
-extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
-extern unsigned int GPOWER_GetPowerCost(struct GPowerData *table, s32 powerId);
+#include "../arm9/tcbl.h"
+#include "../arm9/palanm.h"
+#include "../arm9/game_beacon.h"
+#include "../arm9/fx_cp.h"
 struct MyItem;
-extern u32 MYITEM_SAVEDATA_GetItemQuantity(struct MyItem *bag, u16 itemId, u16 heapId);
-extern int GPOWER_GetSelectedMinutesLeft(void);
-extern u8 GAME_BEACON_ACCESSOR_GetActionViewVariant(u32 type);
-extern void PRINTSYS_PrintColor(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
+#include "../arm9/myitem_savedata.h"
 struct GfFont;
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BG_SYS_PushTile(u32 index);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 struct GameSystem;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 struct FieldMap;
-extern struct FldVReq *FIELDMAP_GetVReq(struct FieldMap *fieldMap);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "../ov021/fieldmap.h"
+#include "../arm9/arc_tool.h"
 struct TcblSystem;
-extern void TCBL_DeleteAllTasks(struct TcblSystem *tcbl);
-extern void ARC_TOOL_DeleteHandle(void *h);
-extern u32 GFL_HEAP_Free(void *p);
-extern void TCBL_Main(struct TcblSystem *tcbl);
-extern int GAME_BEACON_ACCESSOR_TableAddNewLogs(struct GameBeaconInfoTable *table);
 struct GameComm;
-extern void INTRUDE_COMM_SetCompleted(struct GameComm *comm);
 struct GameEvent;
-extern struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 mode);
-extern struct GameEvent *BEACON_VIEW_EVENT_Create(struct GameSystem *gameSystem, void *unused, u8 mode);
-extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, u32 (*fn)(void *, u32), void *arg);
-extern struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *parentEvent, u32 mode, u16 *resultVar);
+#include "../ov021/field_comm_actor.h"
+#include "../ov010/beacon_view_event.h"
+#include "../arm9/game_event.h"
+#include "../ov021/event_namein.h"
 struct GPowerActivateParam;
-extern struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, struct GPowerActivateParam *param);
-extern struct GameEvent *GPOWER_EVENT_CreateListEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern void GAME_EVENT_ChangeEvent(struct GameEvent *now, struct GameEvent *next);
-extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
-extern void PALANM_TransferPalettes(struct S02021D50 *);
-extern u32 GAME_DATA_GetItemUseWork(struct GameData *gd);
-extern u8 *BEACON_STATUS_GetLog(struct BeaconStatus *bs);
-extern u8 GAME_BEACON_ACCESSOR_TableGetCount(struct GameBeaconInfoTable *table);
-extern u8 BEACON_STATUS_GetViewTop(struct BeaconStatus *bs);
-extern signed char MSG_SPEED_GetWait(void);
+#include "../ov083/gpower_event.h"
+#include "../arm9/game_data.h"
+#include "../arm9/msg_speed.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 struct IntrudeSave;
-extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save);
-extern u8 INTRUDE_GetMonolithLevel(struct IntrudeSave *intrude);
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+#include "../arm9/intrude.h"
 struct FieldState;
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
-extern void *GAME_DATA_GetMyItem(struct GameData *gd);
-extern struct MiscSave *MISC_GetFromSave(struct SaveControl *save);
-extern u32 MISC_GetThanksCount(struct MiscSave *beacon);
 struct MyStatus;
-extern struct MyStatus *SYSTEM_DATA_GetMyStatus(void *sys);
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
-extern struct GameBeaconInfoTable *GAME_BEACON_ACCESSOR_AllocTable(u32 heap);
-extern struct GameBeaconInfo *GAME_BEACON_ACCESSOR_AllocInfo(u32 heap);
-extern struct GPowerData *GPOWER_LoadPowerTable(u32 heap);
-extern void GAME_BEACON_ACCESSOR_TableMarkLogsNew(struct GameBeaconInfo *infoList);
-extern void GPOWER_FreePowerTable(struct GPowerData *table);
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void *GFL_USE_AddMainTask(void *fn, void *ctx, u32 a);
-extern void *PALANM_Create(u32 heap);
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
-extern void PRINTSYS_QUE_SetForceQueue(struct PrintQueue *queue, u32 forceQueue);
+#include "../arm9/system_data.h"
+#include "../arm9/mystatus.h"
 struct FieldMsgBg;
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 struct GfFont;
-extern struct GfFont *FIELD_MSGBG_GetFont(struct FieldMsgBg *msgBg);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-extern u32 PALANM_Delete(void *ctx);
+#include "../ov021/field_msgbg.h"
+#include "../arm9/gf_font.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void MIi_CpuClear32(u32 fill, void *dst, u32 size);
-extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void PALANM_LoadArcPaletteToSlot(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_FreeLayerBuf(unsigned);
+#include "../arm9/tcb_list.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/g2.h"
 struct KeyCursor;
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
+#include "../arm9/app_keycursor.h"
 struct GFont;
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 struct ArcHandle;
-extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
-extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
-extern void DC_FlushAll(void);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+#include "../arm9/nns_g2d_anim_bank.h"
+#include "../arm9/os_cache.h"
 struct SurfaceInit;
 struct Renderer;
-extern struct Renderer *CLACT_CreateRenderer(struct SurfaceInit *inits, u32 count, u32 heap_id);
-extern void CLACT_SetUnitRenderer(struct Bank *bank, void *p);
 struct BmpOamSys;
-extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
-extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void BEACON_VIEW_DeleteEntry(char *, int);
-extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
-extern void BMP_Delete(struct Bmp *bmp);
-extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
-extern void CLACT_DeleteRenderer(struct Renderer *renderer);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void *BMP_WIN_Create(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void CLACT_ReleaseCellAnim(unsigned);
-extern void CLACT_ReleaseCharacter(unsigned);
-extern void CLACT_ReleasePalette(unsigned);
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
 void BEACON_VIEW_InitList(BeaconViewWork *work);
 int BEACON_VIEW_UpdateListTouch(BeaconViewWork *work);
 int BEACON_VIEW_GetContTouchedRow(BeaconViewWork *work);
@@ -650,35 +487,35 @@ void BEACON_VIEW_RefreshTopEntry(BeaconViewWork *work);
 void BEACON_VIEW_ScrollList(BeaconViewWork *work, int dir);
 void BEACON_VIEW_StartSlide(BeaconViewWork *work, int a, u8 b);
 void BEACON_VIEW_StartEntryMove(BeaconViewWork *work, int a, int b, int c, int s);
-void BEACON_VIEW_IconMoveTask(void *h, BeaconViewIconMoveTask *task);
+void BEACON_VIEW_IconMoveTask(struct TcblTask *tcb, void *taskDataArg);
 void BEACON_VIEW_MoveEntryToSlot(BeaconViewWork *work, int a, BeaconViewEntry *icon, BeaconViewEntry *otherIcon, void *s);
 void BEACON_VIEW_MoveEntryToPeer(BeaconViewWork *work, BeaconViewEntry *icon, void *s);
 void BEACON_VIEW_StartEntrySlide(BeaconViewWork *work, BeaconViewEntry *icon, int mode, u8 delay, int *r);
-void BEACON_VIEW_IconSlideTask(void *h, BeaconViewIconSlideTask *task);
+void BEACON_VIEW_IconSlideTask(struct TcblTask *tcb, void *taskDataArg);
 void BEACON_VIEW_StartScrollStep(BeaconViewWork *work, u8 a, int *p);
-void BEACON_VIEW_ScrollStepTask(void *task, BeaconViewScrollStepTask *taskData);
+void BEACON_VIEW_ScrollStepTask(struct TcblTask *tcb, void *taskDataArg);
 int BEACON_VIEW_HandleRecordAction(BeaconViewWork *work, int x, int flag);
 void BEACON_VIEW_ShowRecordMessage(BeaconViewWork *work, BeaconRecord *r);
 void BEACON_VIEW_ShowFormatMessage(BeaconViewWork *work, int b);
 void BEACON_VIEW_StartFadeTask(BeaconViewWork *work, u32 a, int *c);
-void BEACON_VIEW_FadeTask(void *task, BeaconViewFadeTask *taskData);
+void BEACON_VIEW_FadeTask(struct TcblTask *tcb, void *taskDataArg);
 int BEACON_VIEW_HandlePowerRecord(BeaconViewWork *work, void *x, int flag);
 void BEACON_VIEW_ShowActivePower(BeaconViewWork *work);
 void BEACON_VIEW_ShowPowerAnim(BeaconViewWork *work, int b);
 void BEACON_VIEW_StartPowerAnim(BeaconViewWork *work, int b, u8 c, int *r);
-void BEACON_VIEW_PowerAnimTaskA(void *h, BeaconViewPowerAnimTask *task);
-void BEACON_VIEW_PowerAnimTaskB(void *h, BeaconViewPowerAnimTask *task);
+void BEACON_VIEW_PowerAnimTaskA(struct TcblTask *tcb, void *taskDataArg);
+void BEACON_VIEW_PowerAnimTaskB(struct TcblTask *tcb, void *taskDataArg);
 void BEACON_VIEW_StartIconWait(BeaconViewWork *work, BeaconViewEntry *icon, void *x, int flag);
-void BEACON_VIEW_IconWaitTask(void *task, BeaconViewIconWaitTask *taskData);
+void BEACON_VIEW_IconWaitTask(struct TcblTask *tcb, void *taskDataArg);
 void BEACON_VIEW_ShowTouchedRow(BeaconViewWork *work, int a);
 void BEACON_VIEW_StartWindowATask(BeaconViewWork *work, BeaconViewEntry *icon, int *r);
-void BEACON_VIEW_WindowATask(void *task, BeaconViewWindowATask *taskData);
+void BEACON_VIEW_WindowATask(struct TcblTask *tcb, void *taskDataArg);
 void BEACON_VIEW_DrawWindowText(BeaconViewWork *work, BeaconViewWindow *window, void *text, u16 x, u8 y, u8 fillColor, u16 col, u32 busyCounter);
 void BEACON_VIEW_StartWindowBTask(BeaconViewWork *work, BeaconViewWindow *window, int *r);
-void BEACON_VIEW_WindowBTask(void *task, BeaconViewWindowBTask *taskData);
+void BEACON_VIEW_WindowBTask(struct TcblTask *tcb, void *taskDataArg);
 void BEACON_VIEW_DrawEntryText(BeaconViewWork *work, BeaconViewEntry *icon, void *text, u16 col, u32 busyCounter);
 void BEACON_VIEW_StartWindowCTask(BeaconViewWork *work, BeaconViewEntry *icon, int *r);
-void BEACON_VIEW_WindowCTask(void *task, BeaconViewWindowCTask *taskData);
+void BEACON_VIEW_WindowCTask(struct TcblTask *tcb, void *taskDataArg);
 BeaconViewWork *BEACON_VIEW_Create(u32 fieldSystem, u32 initArg);
 void BEACON_VIEW_Delete(BeaconViewWork *work);
 void BEACON_VIEW_Update(BeaconViewWork *work, int request);
@@ -691,7 +528,7 @@ int BEACON_VIEW_TaskProc(int event, int seq, int *st);
 int BEACON_VIEW_TaskStateArrowAnim(BeaconViewWork *work, int *st);
 int BEACON_VIEW_TaskStateTasks(BeaconViewWork *work, int *unused);
 int BEACON_VIEW_TaskStateTaskMenu(int work, int *st);
-void BEACON_VIEW_TransferPalettes(int a, BeaconViewWork *work);
+void BEACON_VIEW_TransferPalettes(struct TcbTask *tcb, void *workArg);
 int BEACON_VIEW_UpdateList(BeaconViewWork *work);
 int BEACON_VIEW_RunRecordArrival(BeaconViewWork *work);
 int BEACON_VIEW_UpdateFadeWait(BeaconViewWork *work);
@@ -710,11 +547,20 @@ void BEACON_VIEW_LoadGraphics(BeaconViewWork *work, void *h);
 void BEACON_VIEW_FreeGraphics(BeaconViewWork *work);
 void BEACON_VIEW_CreateActors(BeaconViewWork *work, void *a);
 void BEACON_VIEW_DeleteActors(BeaconViewWork *work);
-void BEACON_VIEW_CreateWindow(BeaconViewWindow *window, unsigned a, unsigned b, unsigned c, unsigned char d, unsigned char e, unsigned char f);
+void BEACON_VIEW_CreateWindow(BeaconViewWindow *window, unsigned a, unsigned char b, unsigned c, unsigned char d, unsigned char e, unsigned char f);
 void BEACON_VIEW_CreateWindows(BeaconViewWork *work);
 void BEACON_VIEW_DeleteWindows(BeaconViewWork *work);
 void BEACON_VIEW_LoadResList(BeaconViewWork *work, BeaconViewResList *out, const ResSpec *spec, void *arc);
 void BEACON_VIEW_FreeResSet(BeaconViewWork *work, BeaconViewResSet *set);
+
+typedef struct {
+    short x;
+    short y;
+    unsigned short w;
+    unsigned char z;
+    unsigned char h;
+} BeaconActorRect;
+
 void *BEACON_VIEW_CreateIconActor(BeaconViewWork *work, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z);
 void BEACON_VIEW_CreatePanelActors(BeaconViewWork *work);
 void BEACON_VIEW_DeletePanelActors(BeaconViewWork *work);
@@ -745,7 +591,7 @@ void BEACON_VIEW_InitList(BeaconViewWork *work)
     int s;
     int t;
 
-    PALANM_SetAutoTransfer((struct PalAnmSlot *)(work->paletteAnim), 1);
+    PALANM_SetAutoTransfer(work->paletteAnim, 1);
     BEACON_VIEW_ShowRecordCount(work);
     BEACON_VIEW_ShowPlayTime(work, 1, 0);
     for (i = 0; i < work->visibleRows; i++) {
@@ -814,7 +660,7 @@ int BEACON_VIEW_CheckLeaveRequest(BeaconViewWork *work)
     int r;
 
     r = INTRUDE_COMM_GetVisitProgress((struct GameComm *)work->playerProfile);
-    if (GAMESYSTEM_IsNetOffBySleep((struct GameSystem *)((unsigned int)work->fieldSystem)) != 0) {
+    if (GAMESYSTEM_IsNetOffBySleep((struct GameSystem *)((uptr)work->fieldSystem)) != 0) {
         BEACON_VIEW_SetEndRequest(work, 1);
         return 1;
     }
@@ -880,12 +726,12 @@ int BEACON_VIEW_LoadNextRecord(BeaconViewWork *work)
 void BEACON_VIEW_SetFadeState(BeaconViewWork *work, int flag)
 {
     if (flag) {
-        PALANM_BlendChannel((struct Chan02021FD8 *)((unsigned int)work->paletteAnim), 1, 0, 0xe0, 6, 0);
-        PALANM_BlendChannel((struct Chan02021FD8 *)((unsigned int)work->paletteAnim), 3, 0, 0xe0, 6, 0);
+        PALANM_BlendChannel((struct PaletteFadeWork *)work->paletteAnim, 1, 0, 0xe0, 6, 0);
+        PALANM_BlendChannel((struct PaletteFadeWork *)work->paletteAnim, 3, 0, 0xe0, 6, 0);
         FLD_VREQ_SetSubBlendAlpha((struct FldVReq *)work->bgConfig, 5, 0x1e, 0xa, 6);
     } else {
-        PALANM_BlendChannel((struct Chan02021FD8 *)((unsigned int)work->paletteAnim), 1, 0, 0xe0, 0, 0);
-        PALANM_BlendChannel((struct Chan02021FD8 *)((unsigned int)work->paletteAnim), 3, 0, 0xe0, 0, 0);
+        PALANM_BlendChannel((struct PaletteFadeWork *)work->paletteAnim, 1, 0, 0xe0, 0, 0);
+        PALANM_BlendChannel((struct PaletteFadeWork *)work->paletteAnim, 3, 0, 0xe0, 0, 0);
         FLD_VREQ_SetSubBlendAlpha((struct FldVReq *)work->bgConfig, 4, 0x1e, 0xd, 3);
     }
 }
@@ -922,7 +768,7 @@ int BEACON_VIEW_UpdateRecordArrival(BeaconViewWork *work)
         break;
     case 2:
         BEACON_VIEW_ShowRecordCount(work);
-        BEACON_VIEW_ShowPlayTime(work, 1, (int)((u8 *)&work->busyCount));
+        BEACON_VIEW_ShowPlayTime(work, 1, (sptr)((u8 *)&work->busyCount));
         BEACON_VIEW_UpdateAchievements(work, work->currentRecord, work->previousCount);
         (work->step)++;
         break;
@@ -972,7 +818,7 @@ int BEACON_VIEW_UpdateSelect(BeaconViewWork *work)
     switch (work->step) {
     case 0:
         BEACON_VIEW_SetArrowAnim(work, 2, 1);
-        BEACON_VIEW_ShowPlayTime(work, 2, (int)((u8 *)&work->busyCount));
+        BEACON_VIEW_ShowPlayTime(work, 2, (sptr)((u8 *)&work->busyCount));
         (work->step)++;
         break;
     case 1:
@@ -1007,7 +853,7 @@ int BEACON_VIEW_UpdateSelect(BeaconViewWork *work)
         break;
     case 6:
         BEACON_VIEW_SetArrowAnim(work, 4, 0);
-        BEACON_VIEW_ShowPlayTime(work, 1, (int)((u8 *)&work->busyCount));
+        BEACON_VIEW_ShowPlayTime(work, 1, (sptr)((u8 *)&work->busyCount));
         work->step = 7;
         break;
     case 7:
@@ -1023,7 +869,7 @@ int BEACON_VIEW_UpdateSelectTouch(BeaconViewWork *work)
     int r;
     int s;
 
-    if (GAMESYSTEM_IsNetOffBySleep((struct GameSystem *)((unsigned int)work->fieldSystem)) != 0) {
+    if (GAMESYSTEM_IsNetOffBySleep((struct GameSystem *)((uptr)work->fieldSystem)) != 0) {
         BEACON_VIEW_SetEndRequest(work, 1);
         return 6;
     }
@@ -1056,14 +902,14 @@ void BEACON_VIEW_SetArrowAnim(BeaconViewWork *work, int arrowIndex, u32 animOffs
     if ((1 & m) && work->powerId != 0x30)
         BEACON_VIEW_SetActorAnim((void *)(*(u32 *)&work->actors[0]), (u8)(animOffset + 1));
     if (2 & m)
-        BEACON_VIEW_SetActorAnim((void *)((unsigned int)work->actors[1]), (u8)(animOffset + 4));
+        BEACON_VIEW_SetActorAnim((void *)((uptr)work->actors[1]), (u8)(animOffset + 4));
     if ((4 & m) && work->recordCount != 0)
         BEACON_VIEW_SetActorAnim((void *)(*(u32 *)&work->actors[2]), (u8)(animOffset + 7));
     if (8 & m)
-        BEACON_VIEW_SetActorAnim((void *)((unsigned int)work->actors[3]), (u8)(animOffset + 10));
+        BEACON_VIEW_SetActorAnim((void *)((uptr)work->actors[3]), (u8)(animOffset + 10));
 }
 
-int BEACON_VIEW_IsArrowAnimActive(BeaconViewWork *work, int i) { return CLACT_IsActorAnimActive(*(struct Actor * *)&work->actors[i]); }
+int BEACON_VIEW_IsArrowAnimActive(BeaconViewWork *work, int i) { return CLACT_IsActorAnimActive(*(struct ClactActor * *)&work->actors[i]); }
 
 void BEACON_VIEW_RefreshActorAnims(BeaconViewWork *work)
 {
@@ -1233,13 +1079,13 @@ int BEACON_VIEW_HitTestActorTouch(BeaconViewWork *work, u32 *touchPos)
 
     b[4] = 0xff;
     for (i = 0; i < 4; i++) {
-        u32 a = CLACT_GetActorAnimSeq((struct Actor *)(*(u32 *)((u8 *)&work->actors[0] + i * 4)));
+        u32 a = CLACT_GetActorAnimSeq((struct ClactActor *)(*(u32 *)((u8 *)&work->actors[0] + i * 4)));
         if ((u8)(a - (i * 3 + 1)) % 3 < 2) {
             b[0] = 0xac;
             b[1] = b[0] + 0x18;
             b[2] = i * 32 + 0x84;
             b[3] = b[2] + 0x18;
-            if (TOUCHPANEL_HitPoint((struct Ctx *)b, touchPos[0], touchPos[1]) != -1) {
+            if (TOUCHPANEL_HitPoint((const void *)b, touchPos[0], touchPos[1]) != -1) {
                 BEACON_VIEW_PlaySe(d_021F3530[i]);
                 return i;
             }
@@ -1306,7 +1152,7 @@ void BEACON_VIEW_CreateTaskMenuButtons(BeaconViewWork *work, int flag)
         base = 0x10;
     }
     for (i = 0; i < n; i++) {
-        slotList[i].taskMenu = (u32)APP_TASKMENU_WIN_CreateEx((struct TaskMenuRes *)work->taskMenuState, (struct TaskMenuItem *)((char *)&slotList[i].label),
+        slotList[i].taskMenu = (uptr)APP_TASKMENU_WIN_CreateEx((struct TaskMenuRes *)work->taskMenuState, (struct TaskMenuItem *)((char *)&slotList[i].label),
                                       (u8)(base + i * 8), 0x15, 8, 3, 1, 0,
                                       work->mainHeapId);
     }
@@ -1394,7 +1240,7 @@ void BEACON_VIEW_PlaySe(unsigned int seId)
     GFL_USE_PlaySeDefaultVolume(seId);
 }
 
-void BEACON_VIEW_MoveActorSurface(void *actor, short x, short y) { BeaconDelta d; d.x=x; d.y=y; CLACT_AddActorSurfacePos(actor,(const struct Vec2 *)(&d),0); }
+void BEACON_VIEW_MoveActorSurface(void *actor, short x, short y) { BeaconDelta d; d.x=x; d.y=y; CLACT_AddActorSurfacePos(actor,(const struct ClactVec2 *)(&d),0); }
 
 void BEACON_VIEW_SetActorAnim(void *actor, unsigned short animSeq) { CLACT_SetActorAnimSeq(actor,animSeq); CLACT_RestartActorAnim(actor); }
 
@@ -1403,15 +1249,15 @@ void BEACON_VIEW_SetActorVisible(BeaconViewWork *work, unsigned visible) { int i
 void BEACON_VIEW_UpdateActorAnims(BeaconViewWork *work)
 {
     if (work->scrollTop == 0) {
-        CLACT_SetActorAnimSeq((struct Actor *)((int)work->actors[4]), 0x10);
+        CLACT_SetActorAnimSeq((struct ClactActor *)((sptr)work->actors[4]), 0x10);
     } else {
-        CLACT_SetActorAnimSeq((struct Actor *)((int)work->actors[4]), 0xd);
+        CLACT_SetActorAnimSeq((struct ClactActor *)((sptr)work->actors[4]), 0xd);
     }
     if (work->scrollTop + work->visibleRows < work->recordCount) {
-        CLACT_SetActorAnimSeq((struct Actor *)((int)work->actors[5]), 0x11);
+        CLACT_SetActorAnimSeq((struct ClactActor *)((sptr)work->actors[5]), 0x11);
         return;
     }
-    CLACT_SetActorAnimSeq((struct Actor *)((int)work->actors[5]), 0x14);
+    CLACT_SetActorAnimSeq((struct ClactActor *)((sptr)work->actors[5]), 0x14);
 }
 
 void BEACON_VIEW_UpdateCountActorAnims(BeaconViewWork *work) { if(work->recordCount==0) CLACT_SetActorAnimSeq(work->actors[2],9); else CLACT_SetActorAnimSeq(work->actors[2],7); }
@@ -1429,7 +1275,7 @@ void BEACON_VIEW_ResetEntry(BeaconViewEntry *icon)
 
     BEACON_VIEW_SetEntryVisible(icon, 0);
     BEACON_VIEW_SetEntryStatusVisible(icon, 0);
-    BMP_Clear((struct Bmp *)((int)icon->textBitmap), 0);
+    BMP_Clear((struct Bmp *)((sptr)icon->textBitmap), 0);
     BMP_OAM_UploadChars((struct BmpOam *)(*(int *)&icon->textWindow));
     STRBUF_Clear((struct Strbuf *)(*(int *)&icon->messageString));
     STRBUF_Clear((struct Strbuf *)(*(int *)&icon->nameString));
@@ -1463,15 +1309,15 @@ void BEACON_VIEW_LoadEntryPanel(BeaconViewWork *work, BeaconViewEntry *icon, voi
     int x;
 
     x = GAME_BEACON_ACCESSOR_GetTrainerAppearance((struct GameBeaconInfo *)trainerInfo);
-    CLACT_TransferCharacter(*(int *)((int)work->iconLists.images.items + icon->index * 4), (struct Sub0204A9D0 *)(*(int *)&work->iconRes[x].data));
-    PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim),
+    CLACT_TransferCharacter(*(int *)((sptr)work->iconLists.images.items + icon->index * 4), (struct NNSG2dCharacterData *)(*(int *)&work->iconRes[x].data));
+    PALANM_CopyToSlot(work->paletteAnim,
                   (const void *)(*(int *)&work->iconPalette.data + ((d_021F3541[x] & 0xf) << 5)), 3,
                   (u16)((icon->index + 9) << 4), 0x20);
 }
 
 void BEACON_VIEW_LoadEntryStatus(BeaconViewWork *work, BeaconViewEntry *icon, int statusIndex)
 {
-    CLACT_TransferCharacter((*(int * *)&work->statusLists.images.items)[icon->index], (struct Sub0204A9D0 *)(*(int *)&work->statusRes[statusIndex].data));
+    CLACT_TransferCharacter((*(int * *)&work->statusLists.images.items)[icon->index], (struct NNSG2dCharacterData *)(*(int *)&work->statusRes[statusIndex].data));
 }
 
 int BEACON_VIEW_GetPmVersion(BeaconTrainerInfo *trainerInfo)
@@ -1498,7 +1344,7 @@ void BEACON_VIEW_LoadEntryPanelColor(BeaconViewWork *work, BeaconViewEntry *icon
     a[2] = t[b + 2];
     GAME_BEACON_ACCESSOR_GetFavoriteColorRgb((u16 *)(&a[3]), (struct GameBeaconInfo *)trainerInfo);
     PALANM_BlendColors(&a[3], &a[4], 1, 3, 0);
-    PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim), a, 3, (u16)((icon->index + 4) * 16 + 1), 10);
+    PALANM_CopyToSlot(work->paletteAnim, a, 3, (u16)((icon->index + 4) * 16 + 1), 10);
 }
 
 void BEACON_VIEW_PrintEntryName(BeaconViewWork *work, BeaconViewEntry *icon, void *text, int busyCounter)
@@ -1535,8 +1381,8 @@ void BEACON_VIEW_PrintEntryRank(BeaconViewWork *work, BeaconViewEntry *icon, int
     } else {
         k = 0x35;
     }
-    PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim), work->panelPalette.data + 0x30, (int)3, (u16)((icon->index + 4) * 16 + 8), 10);
-    PALANM_CopyToSlot((struct PalAnmSlot *)(work->paletteAnim), work->panelPalette.data + k, (int)3, (u16)((icon->index + 4) * 16 + 8), v * 2);
+    PALANM_CopyToSlot(work->paletteAnim, work->panelPalette.data + 0x30, (int)3, (u16)((icon->index + 4) * 16 + 8), 10);
+    PALANM_CopyToSlot(work->paletteAnim, work->panelPalette.data + k, (int)3, (u16)((icon->index + 4) * 16 + 8), v * 2);
 }
 
 void BEACON_VIEW_SetupEntry(BeaconViewWork *work, BeaconViewEntry *icon, void *record, int mode, int skip, int busyCounter)
@@ -1546,9 +1392,9 @@ void BEACON_VIEW_SetupEntry(BeaconViewWork *work, BeaconViewEntry *icon, void *r
     GAME_BEACON_ACCESSOR_GetPlayerName(record, icon->messageString);
     STRBUF_Clear(icon->nameString);
     GAME_BEACON_ACCESSOR_GetGreeting(record, icon->nameString);
-    BEACON_VIEW_PrintEntryRank(work, icon, (int)record);
+    BEACON_VIEW_PrintEntryRank(work, icon, (sptr)record);
     BEACON_VIEW_LoadEntryPanel(work, icon, record);
-    BEACON_VIEW_LoadEntryPanelColor(work, icon, (int)record);
+    BEACON_VIEW_LoadEntryPanelColor(work, icon, (sptr)record);
     if (skip != 0)
         return;
     switch (mode) {
@@ -1627,7 +1473,7 @@ void BEACON_VIEW_ScrollList(BeaconViewWork *work, int dir)
     BEACON_STATUS_SetViewTop(*(void * *)&work->beaconStatus, *(volatile u8 *)&work->scrollTop);
     GAME_BEACON_ACCESSOR_TableRingGet(*(void * *)&work->recordLog, *(void * *)&work->recordBuffer, (u16 *)((u8 *)&work->tagBuffer), t);
     idx = GAME_BEACON_ACCESSOR_TableGetRingIndex(*(void * *)&work->recordLog, t);
-    BEACON_VIEW_StartEntryMove(work, (int)(*(void * *)&work->recordBuffer), idx, (u8)dir, 2);
+    BEACON_VIEW_StartEntryMove(work, (sptr)(*(void * *)&work->recordBuffer), idx, (u8)dir, 2);
 }
 
 void BEACON_VIEW_StartSlide(BeaconViewWork *work, int target, u8 result)
@@ -1639,9 +1485,9 @@ void BEACON_VIEW_StartSlide(BeaconViewWork *work, int target, u8 result)
     work->slideTimer = 0;
     BEACON_VIEW_SetPrintQueueLimit(work, 1);
     if (work->slideTarget == 0)
-        BEACON_VIEW_SetActorAnim((void *)((int)work->actors[5]), 0x13);
+        BEACON_VIEW_SetActorAnim((void *)((sptr)work->actors[5]), 0x13);
     else
-        BEACON_VIEW_SetActorAnim((void *)((int)work->actors[4]), 0xf);
+        BEACON_VIEW_SetActorAnim((void *)((sptr)work->actors[4]), 0xf);
     BEACON_VIEW_SetArrowAnim(work, 4, 2);
     BEACON_VIEW_ScrollList(work, target);
 }
@@ -1653,7 +1499,7 @@ void BEACON_VIEW_StartEntryMove(BeaconViewWork *work, int record, int slot, int 
 
     icon = (BeaconViewEntry *)BEACON_VIEW_GetEntry(work, 0xff);
     if (icon != 0) {
-        task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)BEACON_VIEW_IconMoveTask, sizeof(BeaconViewIconMoveTask), 0));
+        task = TCBL_GetWork(TCBL_AddTask(work->taskList, BEACON_VIEW_IconMoveTask, sizeof(BeaconViewIconMoveTask), 0));
         MI_CpuFill8(task, 0, sizeof(BeaconViewIconMoveTask));
         task->work = work;
         task->slot = destSlot;
@@ -1662,12 +1508,13 @@ void BEACON_VIEW_StartEntryMove(BeaconViewWork *work, int record, int slot, int 
         task->busyCounter = (int *)((char *)&work->busyCount);
         work->busyCount = work->busyCount + 1;
         BEACON_VIEW_SetEntrySlot(icon, slot, 0);
-        BEACON_VIEW_SetupEntry(work, icon, (void *)record, mode, 0, (int)((u8 *)&task->timer));
+        BEACON_VIEW_SetupEntry(work, icon, (void *)record, mode, 0, (sptr)((u8 *)&task->timer));
     }
 }
 
-void BEACON_VIEW_IconMoveTask(void *tcb, BeaconViewIconMoveTask *task)
+void BEACON_VIEW_IconMoveTask(struct TcblTask *tcb, void *taskArg)
 {
+    BeaconViewIconMoveTask *task = taskArg;
     void *this;
 
     this = (void *)task->work;
@@ -1729,7 +1576,7 @@ void BEACON_VIEW_StartEntrySlide(BeaconViewWork *work, BeaconViewEntry *icon, in
 {
     BeaconViewIconSlideTask *task;
 
-    task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)BEACON_VIEW_IconSlideTask, sizeof(BeaconViewIconSlideTask), 0));
+    task = TCBL_GetWork(TCBL_AddTask(work->taskList, BEACON_VIEW_IconSlideTask, sizeof(BeaconViewIconSlideTask), 0));
     MI_CpuFill8(task, 0, sizeof(BeaconViewIconSlideTask));
     task->mode = mode;
     if (task->mode == 0) {
@@ -1751,8 +1598,9 @@ void BEACON_VIEW_StartEntrySlide(BeaconViewWork *work, BeaconViewEntry *icon, in
     (*busyCounter)++;
 }
 
-void BEACON_VIEW_IconSlideTask(void *tcb, BeaconViewIconSlideTask *task)
+void BEACON_VIEW_IconSlideTask(struct TcblTask *tcb, void *taskArg)
 {
+    BeaconViewIconSlideTask *task = taskArg;
     BeaconViewEntry *icon;
 
     switch (task->phase) {
@@ -1794,7 +1642,7 @@ void BEACON_VIEW_StartScrollStep(BeaconViewWork *work, u8 phase, int *busyCounte
     BeaconViewScrollStepTask *task;
     int v;
 
-    task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)BEACON_VIEW_ScrollStepTask, 0xc, 0));
+    task = TCBL_GetWork(TCBL_AddTask(work->taskList, BEACON_VIEW_ScrollStepTask, 0xc, 0));
     MI_CpuFill8(task, 0, 0xc);
     task->phase = phase;
     if (task->phase == 0) {
@@ -1811,8 +1659,9 @@ void BEACON_VIEW_StartScrollStep(BeaconViewWork *work, u8 phase, int *busyCounte
     *busyCounter = *busyCounter + 1;
 }
 
-void BEACON_VIEW_ScrollStepTask(void *task, BeaconViewScrollStepTask *taskData)
+void BEACON_VIEW_ScrollStepTask(struct TcblTask *task, void *taskDataArg)
 {
+    BeaconViewScrollStepTask *taskData = taskDataArg;
     u32 old;
     int x;
     old = taskData->step;
@@ -1869,7 +1718,7 @@ void BEACON_VIEW_StartFadeTask(BeaconViewWork *work, u32 text, int *busyCounter)
 {
     BeaconViewFadeTask *task;
 
-    task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)BEACON_VIEW_FadeTask, sizeof(BeaconViewFadeTask), 0));
+    task = TCBL_GetWork(TCBL_AddTask(work->taskList, BEACON_VIEW_FadeTask, sizeof(BeaconViewFadeTask), 0));
     MI_CpuFill8(task, 0, sizeof(BeaconViewFadeTask));
     STRBUF_Copy((struct Strbuf *)(work->stringList), (struct Strbuf *)text);
     task->work = work;
@@ -1879,13 +1728,14 @@ void BEACON_VIEW_StartFadeTask(BeaconViewWork *work, u32 text, int *busyCounter)
     (*busyCounter)++;
 }
 
-void BEACON_VIEW_FadeTask(void *task, BeaconViewFadeTask *taskData)
+void BEACON_VIEW_FadeTask(struct TcblTask *task, void *taskDataArg)
 {
+    BeaconViewFadeTask *taskData = taskDataArg;
     if (taskData->frames != 0)
         return;
     switch (taskData->phase) {
     case 0:
-        BEACON_VIEW_ShowWindowText(taskData->work, (void *)(taskData->work->stringList), (unsigned int)((u8 *)&taskData->frames));
+        BEACON_VIEW_ShowWindowText(taskData->work, (void *)(taskData->work->stringList), (uptr)((u8 *)&taskData->frames));
         taskData->phase++;
         return;
     case 1:
@@ -1950,7 +1800,7 @@ void BEACON_VIEW_StartPowerAnim(BeaconViewWork *work, int powerId, u8 mode, int 
     int flag;
     BeaconViewPowerAnimTask *task;
 
-    h = TCBL_AddTask(work->taskList, (void *)BEACON_VIEW_PowerAnimTaskA, sizeof(BeaconViewPowerAnimTask), 0);
+    h = TCBL_AddTask(work->taskList, BEACON_VIEW_PowerAnimTaskA, sizeof(BeaconViewPowerAnimTask), 0);
     task = TCBL_GetWork(h);
     MI_CpuFill8(task, 0, sizeof(BeaconViewPowerAnimTask));
     work->powerIdArg = 0x30;
@@ -1984,13 +1834,14 @@ void BEACON_VIEW_StartPowerAnim(BeaconViewWork *work, int powerId, u8 mode, int 
     BEACON_VIEW_SetArrowAnim(work, 2, 2);
     BEACON_VIEW_SetArrowAnim(work, 3, 2);
     if (task->minutesLeft != 0 || task->nameStringId < task->cost)
-        TCBL_SetTaskFunc(h, (int)((void *)BEACON_VIEW_PowerAnimTaskB));
+        TCBL_SetTaskFunc(h, BEACON_VIEW_PowerAnimTaskB);
     task->busyCounter = busyCounter;
     (*busyCounter)++;
 }
 
-void BEACON_VIEW_PowerAnimTaskA(void *tcb, BeaconViewPowerAnimTask *task)
+void BEACON_VIEW_PowerAnimTaskA(struct TcblTask *tcb, void *taskArg)
 {
+    BeaconViewPowerAnimTask *task = taskArg;
     BeaconViewWork *work;
     int r;
 
@@ -2000,7 +1851,7 @@ void BEACON_VIEW_PowerAnimTaskA(void *tcb, BeaconViewPowerAnimTask *task)
     switch (task->phase) {
     case 0:
         BEACON_VIEW_SetupMessageText(work, d_021F352C[task->mode]);
-        BEACON_VIEW_ShowWindowText(work, (void *)(work->formatBuffer), (unsigned int)((int *)((u8 *)&task->timer)));
+        BEACON_VIEW_ShowWindowText(work, (void *)(work->formatBuffer), (uptr)((int *)((u8 *)&task->timer)));
         task->phase++;
         break;
     case 1:
@@ -2049,7 +1900,7 @@ void BEACON_VIEW_PowerAnimTaskA(void *tcb, BeaconViewPowerAnimTask *task)
         task->phase++;
         break;
     case 6:
-        BEACON_VIEW_ShowPlayTime(work, 1, (int)((int *)((u8 *)&task->timer)));
+        BEACON_VIEW_ShowPlayTime(work, 1, (sptr)((int *)((u8 *)&task->timer)));
         BEACON_VIEW_SetActorVisible(work, 1);
         BEACON_VIEW_StartScrollStep(work, 1, (int *)((u8 *)&task->timer));
         task->phase++;
@@ -2063,8 +1914,9 @@ void BEACON_VIEW_PowerAnimTaskA(void *tcb, BeaconViewPowerAnimTask *task)
     }
 }
 
-void BEACON_VIEW_PowerAnimTaskB(void *tcb, BeaconViewPowerAnimTask *task)
+void BEACON_VIEW_PowerAnimTaskB(struct TcblTask *tcb, void *taskArg)
 {
+    BeaconViewPowerAnimTask *task = taskArg;
     BeaconViewWork *work;
     int r;
 
@@ -2077,7 +1929,7 @@ void BEACON_VIEW_PowerAnimTaskB(void *tcb, BeaconViewPowerAnimTask *task)
             BEACON_VIEW_SetupMessageText(work, (u8)((task->hours != 0 ? 1 : 0) + 9));
         else if (task->nameStringId < task->cost)
             BEACON_VIEW_SetupMessageText(work, (u8)8);
-        BEACON_VIEW_ShowWindowText(work, (void *)(work->formatBuffer), (unsigned int)((int *)((u8 *)&task->timer)));
+        BEACON_VIEW_ShowWindowText(work, (void *)(work->formatBuffer), (uptr)((int *)((u8 *)&task->timer)));
         task->phase++;
         break;
     case 1:
@@ -2120,7 +1972,7 @@ void BEACON_VIEW_PowerAnimTaskB(void *tcb, BeaconViewPowerAnimTask *task)
         task->phase++;
         break;
     case 7:
-        BEACON_VIEW_ShowPlayTime(work, 1, (int)((int *)((u8 *)&task->timer)));
+        BEACON_VIEW_ShowPlayTime(work, 1, (sptr)((int *)((u8 *)&task->timer)));
         BEACON_VIEW_SetActorVisible(work, 1);
         BEACON_VIEW_StartScrollStep(work, 1, (int *)((u8 *)&task->timer));
         task->phase++;
@@ -2138,7 +1990,7 @@ void BEACON_VIEW_StartIconWait(BeaconViewWork *work, BeaconViewEntry *icon, void
     void *t;
     BeaconViewIconWaitTask *task;
 
-    t = TCBL_AddTask(work->taskList, (void *)BEACON_VIEW_IconWaitTask, 0x18, 0);
+    t = TCBL_AddTask(work->taskList, BEACON_VIEW_IconWaitTask, 0x18, 0);
     task = TCBL_GetWork(t);
     MI_CpuFill8(task, 0, 0x18);
     task->work = work;
@@ -2153,8 +2005,9 @@ void BEACON_VIEW_StartIconWait(BeaconViewWork *work, BeaconViewEntry *icon, void
     BEACON_VIEW_SetEntryStatusVisible(icon, flag ? 0 : 1);
 }
 
-void BEACON_VIEW_IconWaitTask(void *task, BeaconViewIconWaitTask *taskData)
+void BEACON_VIEW_IconWaitTask(struct TcblTask *task, void *taskDataArg)
 {
+    BeaconViewIconWaitTask *taskData = taskDataArg;
     if (taskData->phase == 0) {
         u8 c = taskData->delay;
         taskData->delay = c - 1;
@@ -2188,33 +2041,34 @@ void BEACON_VIEW_StartWindowATask(BeaconViewWork *work, BeaconViewEntry *icon, i
 {
     BeaconViewWindowATask *task;
 
-    task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)BEACON_VIEW_WindowATask, sizeof(BeaconViewWindowATask), 0));
+    task = TCBL_GetWork(TCBL_AddTask(work->taskList, BEACON_VIEW_WindowATask, sizeof(BeaconViewWindowATask), 0));
     MI_CpuFill8(task, 0, sizeof(BeaconViewWindowATask));
     task->work = work;
     task->entry = icon;
     task->interval = 2;
     task->paletteOffset = (icon->index + 4) << 4;
-    PALANM_BlendChannel((struct Chan02021FD8 *)(task->work->paletteAnim), 3, task->paletteOffset, 0x10, 4, 0x7fff);
+    PALANM_BlendChannel((struct PaletteFadeWork *)task->work->paletteAnim, 3, task->paletteOffset, 0x10, 4, 0x7fff);
     if (busyCounter != 0) {
         task->busyCounter = busyCounter;
         (*busyCounter)++;
     }
 }
 
-void BEACON_VIEW_WindowATask(void *task, BeaconViewWindowATask *taskData)
+void BEACON_VIEW_WindowATask(struct TcblTask *task, void *taskDataArg)
 {
+    BeaconViewWindowATask *taskData = taskDataArg;
     u8 c = taskData->phase;
 
     if (c < 2) {
         if (taskData->counter++ >= taskData->interval) {
-            PALANM_BlendChannel((struct Chan02021FD8 *)(taskData->work->paletteAnim), 3, taskData->paletteOffset, 0x10, (c % 2) << 2, 0x7fff);
+            PALANM_BlendChannel((struct PaletteFadeWork *)taskData->work->paletteAnim, 3, taskData->paletteOffset, 0x10, (c % 2) << 2, 0x7fff);
             taskData->phase++;
             taskData->counter = 0;
         }
     } else {
         int *r;
 
-        PALANM_BlendChannel((struct Chan02021FD8 *)(taskData->work->paletteAnim), 3, taskData->paletteOffset, 0x10, 0, 0x7fff);
+        PALANM_BlendChannel((struct PaletteFadeWork *)taskData->work->paletteAnim, 3, taskData->paletteOffset, 0x10, 0, 0x7fff);
         r = taskData->busyCounter;
         if (r != 0)
             (*r)--;
@@ -2224,20 +2078,20 @@ void BEACON_VIEW_WindowATask(void *task, BeaconViewWindowATask *taskData)
 
 void BEACON_VIEW_DrawWindowText(BeaconViewWork *work, BeaconViewWindow *window, void *text, u16 x, u8 y, u8 fillColor, u16 col, u32 busyCounter)
 {
-    u32 w;
-    u32 v;
+    uptr w;
+    uptr v;
 
-    BMP_Clear((struct Bmp *)((unsigned int)window->bitmap), fillColor);
+    BMP_Clear((struct Bmp *)((uptr)window->bitmap), fillColor);
     if (work->windowShown != 0) {
-        PRINTSYS_PrintColor((unsigned int)window->bitmap, x, y, text, work->font, col);
-        w = (unsigned int)window->handle;
+        PRINTSYS_PrintColor((struct Bmp *)window->bitmap, x, y, text, (struct GfFont *)work->font, col);
+        w = (uptr)window->handle;
         BMP_WIN_TransferChars((struct BmpWin *)w);
         BMP_WIN_MakeScreen((struct BmpWin *)w);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)w));
         return;
     }
     v = work->printQueue;
-    PRINTSYS_PrintQueColor((void *)v, BMP_WIN_GetBmp((struct BmpWin *)(unsigned int)window->layout), x, y, text,
+    PRINTSYS_PrintQueColor((void *)v, BMP_WIN_GetBmp((struct BmpWin *)(uptr)window->layout), x, y, text,
                   (struct GfFont *)work->font, col);
     window->drawn = 1;
     BEACON_VIEW_StartWindowBTask(work, window, (int *)busyCounter);
@@ -2246,7 +2100,7 @@ void BEACON_VIEW_DrawWindowText(BeaconViewWork *work, BeaconViewWindow *window, 
 void BEACON_VIEW_StartWindowBTask(BeaconViewWork *work, BeaconViewWindow *window, int *busyCounter)
 {
     BeaconViewWindowBTask *task;
-    task = TCBL_GetWork(TCBL_AddTask(work->taskList, (void *)BEACON_VIEW_WindowBTask, sizeof(BeaconViewWindowBTask), 0));
+    task = TCBL_GetWork(TCBL_AddTask(work->taskList, BEACON_VIEW_WindowBTask, sizeof(BeaconViewWindowBTask), 0));
     MI_CpuFill8(task, 0, sizeof(BeaconViewWindowBTask));
     task->work = work;
     task->window = window;
@@ -2256,16 +2110,17 @@ void BEACON_VIEW_StartWindowBTask(BeaconViewWork *work, BeaconViewWindow *window
     }
 }
 
-void BEACON_VIEW_WindowBTask(void *task, BeaconViewWindowBTask *taskData)
+void BEACON_VIEW_WindowBTask(struct TcblTask *task, void *taskDataArg)
 {
+    BeaconViewWindowBTask *taskData = taskDataArg;
     u8 *drawn;
-    u32 v;
+    uptr v;
     int *r;
 
     v = taskData->work->printQueue;
     drawn = (u8 *)&taskData->window->layout;
     if (drawn[4] != 0) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)v, (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)drawn)))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)v, (void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)drawn)))) == 0) {
             BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor **)drawn));
             drawn[4] = 0;
         }
@@ -2287,7 +2142,7 @@ void BEACON_VIEW_DrawEntryText(BeaconViewWork *work, BeaconViewEntry *icon, void
     t = (u32 *)((char *)&icon->textWindow);
     BMP_Clear((struct Bmp *)t[1], 0);
     if (work->windowShown != 0) {
-        PRINTSYS_PrintColor((u32)((void *)t[1]), 0, 0, text, (u32)((void *)(work->font)), col);
+        PRINTSYS_PrintColor((struct Bmp *)t[1], 0, 0, text, (struct GfFont *)((void *)(work->font)), col);
         BMP_OAM_UploadChars((struct BmpOam *)t[0]);
         return;
     }
@@ -2300,7 +2155,7 @@ void BEACON_VIEW_StartWindowCTask(BeaconViewWork *work, BeaconViewEntry *icon, i
     void *t;
     BeaconViewWindowCTask *task;
 
-    t = TCBL_AddTask(work->taskList, (void *)BEACON_VIEW_WindowCTask, sizeof(BeaconViewWindowCTask), 0);
+    t = TCBL_AddTask(work->taskList, BEACON_VIEW_WindowCTask, sizeof(BeaconViewWindowCTask), 0);
     task = TCBL_GetWork(t);
     MI_CpuFill8(task, 0, sizeof(BeaconViewWindowCTask));
     task->work = work;
@@ -2313,8 +2168,9 @@ void BEACON_VIEW_StartWindowCTask(BeaconViewWork *work, BeaconViewEntry *icon, i
     }
 }
 
-void BEACON_VIEW_WindowCTask(void *task, BeaconViewWindowCTask *taskData)
+void BEACON_VIEW_WindowCTask(struct TcblTask *task, void *taskDataArg)
 {
+    BeaconViewWindowCTask *taskData = taskDataArg;
     int *r;
     if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(taskData->work->printQueue), (void *)((taskData->windowRef)[1])) == 0) {
         BMP_OAM_UploadChars((struct BmpOam *)(*taskData->windowRef));
@@ -2333,9 +2189,9 @@ BeaconViewWork *BEACON_VIEW_Create(u32 fieldSystem, u32 initArg)
 
     work = GFL_HEAP_Alloc(0x70, 0x3d0, 1, d_021F36A0, 0x8d);
     *(unsigned int *)&work->fieldSystem = fieldSystem;
-    work->saveInfo = (u32)GAMESYSTEM_GetGameData((struct GameSystem *)fieldSystem);
+    work->saveInfo = (uptr)GAMESYSTEM_GetGameData((struct GameSystem *)fieldSystem);
     work->sessionInfo = v = GAMESYSTEM_GetFieldMap((void *)fieldSystem);
-    work->bgConfig = (u32)FIELDMAP_GetVReq(v);
+    work->bgConfig = (uptr)FIELDMAP_GetVReq(v);
     work->initArg = initArg;
     work->mainHeapId = 0x70;
     work->tempHeapId = 0x15;
@@ -2366,7 +2222,7 @@ void BEACON_VIEW_Delete(BeaconViewWork *work)
     BEACON_VIEW_FreeBackgrounds(work);
     BEACON_VIEW_DestroySubSystems(work);
     BEACON_VIEW_FreeWorkResources(work);
-    ARC_TOOL_DeleteHandle((void *)(unsigned int)work->bgResource);
+    ARC_TOOL_DeleteHandle((void *)(uptr)work->bgResource);
     GFL_HEAP_Free(work);
 }
 
@@ -2460,26 +2316,26 @@ void *BEACON_VIEW_CreateLeaveEvent(BeaconViewWork *work, int go)
     case 1:
     case 3:
         BEACON_STATUS_SetViewTop(*(void * *)&work->beaconStatus, 0);
-        r = BEACON_VIEW_CreateTaskProc(work, (unsigned)(FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(work->fieldSystem, (struct FieldMap *)(work->sessionInfo), 0)), 0, 3);
+        r = BEACON_VIEW_CreateTaskProc(work, (uptr)(FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(work->fieldSystem, (struct FieldMap *)(work->sessionInfo), 0)), 0, 3);
         break;
     case 4:
-        r = BEACON_VIEW_CreateTaskProc(work, (unsigned)(BEACON_VIEW_EVENT_Create(work->fieldSystem, work->sessionInfo, work->touchedRow + work->scrollTop)), 1, 0);
+        r = BEACON_VIEW_CreateTaskProc(work, (uptr)(BEACON_VIEW_EVENT_Create(work->fieldSystem, work->sessionInfo, work->touchedRow + work->scrollTop)), 1, 0);
         break;
     case 5:
         args.powerId = *(u8 *)&work->powerIdArg;
         args.powerFlag = *(u8 *)&work->powerFlagArg;
-        r = BEACON_VIEW_CreateTaskProc(work, (unsigned)(GAME_EVENT_CreateOverlayEvent(work->fieldSystem, (u32)ov083_id, (void *)GPOWER_EVENT_CreateActivateEvent, (void *)(&args))), 2, work->slots[1].taskMenu);
+        r = BEACON_VIEW_CreateTaskProc(work, (uptr)(GAME_EVENT_CreateOverlayEvent(work->fieldSystem, (uptr)ov083_id, (void *)GPOWER_EVENT_CreateActivateEvent, (void *)(&args))), 2, work->slots[1].taskMenu);
         work->powerIdArg = 0x30;
         break;
     case 6:
-        r = BEACON_VIEW_CreateTaskProc(work, (unsigned)(GAME_EVENT_CreateOverlayEvent(work->fieldSystem, (u32)ov083_id, (void *)GPOWER_EVENT_CreateListEvent, (void *)(work->sessionInfo))), 2, work->slots[0].taskMenu);
+        r = BEACON_VIEW_CreateTaskProc(work, (uptr)(GAME_EVENT_CreateOverlayEvent(work->fieldSystem, (uptr)ov083_id, (void *)GPOWER_EVENT_CreateListEvent, (void *)(work->sessionInfo))), 2, work->slots[0].taskMenu);
         break;
     case 7:
-        r = BEACON_VIEW_CreateTaskProc(work, (unsigned)(GAME_EVENT_CreateOverlayEvent(work->fieldSystem, (u32)ov083_id, (void *)GPOWER_EVENT_CreateListEvent, (void *)(work->sessionInfo))), 2, work->slots[3].taskMenu);
+        r = BEACON_VIEW_CreateTaskProc(work, (uptr)(GAME_EVENT_CreateOverlayEvent(work->fieldSystem, (uptr)ov083_id, (void *)GPOWER_EVENT_CreateListEvent, (void *)(work->sessionInfo))), 2, work->slots[3].taskMenu);
         work->resetFlag = 0;
         break;
     case 8:
-        r = BEACON_VIEW_CreateTaskProc(work, (unsigned)((void *)EVENT_NAMEIN_Create((void *)(work->fieldSystem), (void *)(work->sessionInfo), 0, 7, (u16 *)BEACON_STATUS_GetViewFlags((struct BeaconStatus *)(work->beaconStatus)))), 0, 1);
+        r = BEACON_VIEW_CreateTaskProc(work, (uptr)((void *)EVENT_NAMEIN_Create((void *)(work->fieldSystem), (void *)(work->sessionInfo), 0, 7, (u16 *)BEACON_STATUS_GetViewFlags((struct BeaconStatus *)(work->beaconStatus)))), 0, 1);
         break;
     default:
         return 0;
@@ -2502,11 +2358,11 @@ Desc *BEACON_VIEW_CreateTaskProc(BeaconViewWork *work, unsigned eventDesc, unsig
 {
     Desc *d;
     BeaconTaskWork *w;
-    d = (Desc *)GAME_EVENT_Create(work->fieldSystem, 0, BEACON_VIEW_TaskProc, 0x1c);
+    d = (Desc *)GAME_EVENT_Create(work->fieldSystem, 0, (GameEventFunc)BEACON_VIEW_TaskProc, 0x1c);
     w = GAME_EVENT_GetWork((struct GameEvent *)d);
     w->owner = work;
     w->fieldSystem = work->fieldSystem;
-    w->sessionInfo = (unsigned int)work->sessionInfo;
+    w->sessionInfo = (uptr)work->sessionInfo;
     w->eventDesc = eventDesc;
     w->mode = mode;
     w->taskMenu = taskMenu;
@@ -2529,7 +2385,7 @@ int BEACON_VIEW_TaskProc(int event, int seq, int *eventWork)
         r = BEACON_VIEW_TaskStateTasks(work, eventWork);
         break;
     case 2:
-        r = BEACON_VIEW_TaskStateTaskMenu((int)work, eventWork);
+        r = BEACON_VIEW_TaskStateTaskMenu((sptr)work, eventWork);
         break;
     }
     if (r) {
@@ -2564,7 +2420,7 @@ int BEACON_VIEW_TaskStateTasks(BeaconViewWork *work, int *unused)
 
 int BEACON_VIEW_TaskStateTaskMenu(int work, int *st)
 {
-    int h = st[6];
+    sptr h = st[6];
 
     switch (st[0]) {
     case 0:
@@ -2582,10 +2438,11 @@ int BEACON_VIEW_TaskStateTaskMenu(int work, int *st)
     return 0;
 }
 
-void BEACON_VIEW_TransferPalettes(int tcb, BeaconViewWork *work)
+void BEACON_VIEW_TransferPalettes(struct TcbTask *tcb, void *workArg)
 {
-    if (*(struct S02021D50 * *)&work->paletteAnim)
-        PALANM_TransferPalettes(*(struct S02021D50 * *)&work->paletteAnim);
+    BeaconViewWork *work = workArg;
+    if (work->paletteAnim)
+        PALANM_TransferPalettes(work->paletteAnim);
 }
 
 int BEACON_VIEW_UpdateList(BeaconViewWork *work)
@@ -2706,11 +2563,11 @@ int BEACON_VIEW_RunSelect(BeaconViewWork *work)
  */
 void BEACON_VIEW_InitWorkFromSave(BeaconViewWork *work)
 {
-    u32 sv;
-    u32 s2;
+    uptr sv;
+    uptr s2;
 
     *(u32 *)&work->beaconStatus = GAME_DATA_GetItemUseWork((struct GameData *)(work->saveInfo));
-    *(u32 *)&work->recordLog = (u32)BEACON_STATUS_GetLog((struct BeaconStatus *)(*(u32 *)&work->beaconStatus));
+    *(u32 *)&work->recordLog = (uptr)BEACON_STATUS_GetLog((struct BeaconStatus *)(*(u32 *)&work->beaconStatus));
     work->recordCount = GAME_BEACON_ACCESSOR_TableGetCount((struct GameBeaconInfoTable *)(*(u32 *)&work->recordLog));
     work->scrollTop = BEACON_STATUS_GetViewTop((struct BeaconStatus *)(*(u32 *)&work->beaconStatus));
     if (work->recordCount < 4)
@@ -2719,23 +2576,23 @@ void BEACON_VIEW_InitWorkFromSave(BeaconViewWork *work)
         work->visibleRows = 4;
     *(u8 *)&work->powerIdArg = 0x30;
     work->languageCode = MSG_SPEED_GetWait();
-    sv = (u32)GAME_DATA_GetSaveControl((struct GameData *)(work->saveInfo));
+    sv = (uptr)GAME_DATA_GetSaveControl((struct GameData *)(work->saveInfo));
     *(u32 *)&work->powerId = INTRUDE_GetMonolithLevel((struct IntrudeSave *)INTRUDE_GetFromSave((void *)sv));
-    *(u32 *)&work->playerProfile = (u32)GAMESYSTEM_GetGameComm((struct GameSystem *)(*(u32 *)&work->fieldSystem));
-    *(u32 *)&work->optionData = (u32)GAME_DATA_GetWifiList((struct GameData *)(work->saveInfo));
-    work->messageArchive = (u32)GAME_DATA_GetMyItem((struct GameData *)(work->saveInfo));
-    *(u32 *)&work->playerBlock = (u32)MISC_GetFromSave((void *)sv);
+    *(u32 *)&work->playerProfile = (uptr)GAMESYSTEM_GetGameComm((struct GameSystem *)(*(u32 *)&work->fieldSystem));
+    *(u32 *)&work->optionData = (uptr)GAME_DATA_GetWifiList((struct GameData *)(work->saveInfo));
+    work->messageArchive = (uptr)GAME_DATA_GetMyItem((struct GameData *)(work->saveInfo));
+    *(u32 *)&work->playerBlock = (uptr)MISC_GetFromSave((void *)sv);
     work->playTime = MISC_GetThanksCount((struct MiscSave *)(*(u32 *)&work->playerBlock));
-    s2 = (u32)SYSTEM_DATA_GetMyStatus((void *)sv);
+    s2 = (uptr)SYSTEM_DATA_GetMyStatus((void *)sv);
     work->profileId = (u16)MYSTATUS_GetId((struct MyStatus *)s2);
     work->gender = MYSTATUS_GetSex((struct MyStatus *)s2);
     work->languageId = MYSTATUS_GetTrainerView((struct MyStatus *)s2);
     work->styleId = PM_VERSION_ID;
-    *(u32 *)&work->receiveQueue = (u32)GAME_BEACON_ACCESSOR_AllocTable(work->mainHeapId);
-    *(u32 *)&work->recordBuffer = (u32)GAME_BEACON_ACCESSOR_AllocInfo(work->mainHeapId);
-    work->ownRecord = (u32)GAME_BEACON_ACCESSOR_AllocInfo(work->mainHeapId);
-    *(u32 *)&work->currentRecord = (u32)GAME_BEACON_ACCESSOR_AllocInfo(work->mainHeapId);
-    work->powerRecord = (u32)GPOWER_LoadPowerTable(work->mainHeapId);
+    *(u32 *)&work->receiveQueue = (uptr)GAME_BEACON_ACCESSOR_AllocTable(work->mainHeapId);
+    *(u32 *)&work->recordBuffer = (uptr)GAME_BEACON_ACCESSOR_AllocInfo(work->mainHeapId);
+    work->ownRecord = (uptr)GAME_BEACON_ACCESSOR_AllocInfo(work->mainHeapId);
+    *(u32 *)&work->currentRecord = (uptr)GAME_BEACON_ACCESSOR_AllocInfo(work->mainHeapId);
+    work->powerRecord = (uptr)GPOWER_LoadPowerTable(work->mainHeapId);
     BEACON_VIEW_CountDifferingRecords(work, (u8 *)&work->previousIdA, (u8 *)&work->previousIdB);
 }
 
@@ -2754,15 +2611,15 @@ void BEACON_VIEW_FreeWorkResources(BeaconViewWork *work)
 
 void BEACON_VIEW_CreateSubSystems(BeaconViewWork *work)
 {
-    *(void * *)&work->taskList = TCBL_Create(work->mainHeapId, work->mainHeapId, 0x10, 0x80);
-    work->updateTask = GFL_USE_AddMainTask((void *)BEACON_VIEW_TransferPalettes, work, 0);
-    work->paletteAnim = (u32)PALANM_Create(work->mainHeapId);
-    PALANM_AllocSlotBuffers((struct PalAnmSlot *)(work->paletteAnim), 1, 0x1c0, work->mainHeapId);
-    PALANM_AllocSlotBuffers((struct PalAnmSlot *)(work->paletteAnim), 3, 0x200, work->mainHeapId);
-    work->printQueue = (u32)PRINTSYS_QUE_Create((u32)(work->mainHeapId));
+    work->taskList = TCBL_Create(work->mainHeapId, work->mainHeapId, 0x10, 0x80);
+    work->updateTask = GFL_USE_AddMainTask(BEACON_VIEW_TransferPalettes, work, 0);
+    work->paletteAnim = PALANM_Create(work->mainHeapId);
+    PALANM_AllocSlotBuffers(work->paletteAnim, 1, 0x1c0, work->mainHeapId);
+    PALANM_AllocSlotBuffers(work->paletteAnim, 3, 0x200, work->mainHeapId);
+    work->printQueue = (uptr)PRINTSYS_QUE_Create((u32)(work->mainHeapId));
     PRINTSYS_QUE_SetForceQueue((struct PrintQueue *)(work->printQueue), 1);
     PRINTSYS_QUE_SetLimitTick((struct PrintQueue *)(work->printQueue), 0x1f4, 0);
-    work->font = (u32)FIELD_MSGBG_GetFont((struct FieldMsgBg *)FIELDMAP_GetMsgBg((struct FieldMap *)(*(u32 *)&work->sessionInfo)));
+    work->font = (uptr)FIELD_MSGBG_GetFont((struct FieldMsgBg *)FIELDMAP_GetMsgBg((struct FieldMap *)(*(u32 *)&work->sessionInfo)));
     GF_FONT_SetDefaultTextColor();
     *(void * *)&work->wordSet = WORDSET_CreateDefault(work->mainHeapId);
     work->messageBank = MSGDATA_CreateFromArchive(1, 2, 8, work->mainHeapId);
@@ -2775,17 +2632,17 @@ void BEACON_VIEW_DestroySubSystems(BeaconViewWork *work)
 {
     STRBUF_Delete((struct Strbuf *)((int)work->stringList));
     STRBUF_Delete((struct Strbuf *)((int)work->formatBuffer));
-    STRBUF_Delete((struct Strbuf *)((int)work->messageBuffer));
+    STRBUF_Delete((struct Strbuf *)((sptr)work->messageBuffer));
     MSGDATA_Delete(work->messageBank);
     WORDSET_Delete((struct WordSet *)((int)work->wordSet));
     PRINTSYS_QUE_Clear((struct PrintQueue *)((int)work->printQueue));
     PRINTSYS_QUE_Delete((struct PrintQueue *)((int)work->printQueue));
     GF_FONT_SetDefaultTextColor();
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)((int)work->paletteAnim), 3);
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)((int)work->paletteAnim), 1);
-    PALANM_Delete((void *)((int)work->paletteAnim));
-    *(int *)&work->paletteAnim = 0;
-    TCB_DeleteTask((struct TcbTask *)((int)work->updateTask));
+    PALANM_FreeSlotBuffers(work->paletteAnim, 3);
+    PALANM_FreeSlotBuffers(work->paletteAnim, 1);
+    PALANM_Delete((void *)((sptr)work->paletteAnim));
+    work->paletteAnim = 0;
+    TCB_DeleteTask(work->updateTask);
     TCBL_Destroy((struct TcblSystem *)(*(int *)&work->taskList));
 }
 
@@ -2801,8 +2658,8 @@ void BEACON_VIEW_InitBackgrounds(BeaconViewWork *work, void *archiveHandle)
     MIi_CpuClear32(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
-    PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)(work->paletteAnim), (void *)archiveHandle, 0x13, work->uiHeapId, 1, 0x1a0, 0);
-    PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)(work->paletteAnim), 0x17, 5, work->uiHeapId, 1, 0x20, 0xd0);
+    PALANM_LoadHandlePaletteToSlot(work->paletteAnim, (void *)archiveHandle, 0x13, work->uiHeapId, 1, 0x1a0, 0);
+    PALANM_LoadArcPaletteToSlot(work->paletteAnim, 0x17, 5, work->uiHeapId, 1, 0x20, 0xd0);
     ARC_UTIL_UploadBgCharFromHandle((void *)archiveHandle, 0x14, 7, 0, 0, 1, work->uiHeapId);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)archiveHandle, 0x15, 5, 0, 0x800, 1, work->uiHeapId);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)archiveHandle, 0x16, 6, 0, 0x800, 1, work->uiHeapId);
@@ -2835,11 +2692,11 @@ void BEACON_VIEW_CreateTaskMenuRes(BeaconViewWork *work)
     int z;
 
     z = 0;
-    work->taskMenuCursor = (u32)APP_KEYCURSOR_CreateDefault(9, 0, 1, work->mainHeapId);
-    work->taskMenuState = (unsigned int)APP_TASKMENU_RES_Create(4, 0xe, (struct GFont *)work->font, (struct PrintQueue *)work->printQueue, work->mainHeapId);
+    work->taskMenuCursor = (uptr)APP_KEYCURSOR_CreateDefault(9, 0, 1, work->mainHeapId);
+    work->taskMenuState = (uptr)APP_TASKMENU_RES_Create(4, 0xe, (struct GFont *)work->font, (struct PrintQueue *)work->printQueue, work->mainHeapId);
     i = 0;
     do {
-        work->slots[i].label = (unsigned int)MSGDATA_AllocString((struct MsgBank *)(*(unsigned *)&work->messageBank), i + 0xc);
+        work->slots[i].label = (uptr)MSGDATA_AllocString((struct MsgBank *)(*(unsigned *)&work->messageBank), i + 0xc);
         work->slots[i].textColor = 0x39e3;
         work->slots[i].labelId = z;
         *(int *)&work->slots[i].taskMenu = z;
@@ -2848,7 +2705,7 @@ void BEACON_VIEW_CreateTaskMenuRes(BeaconViewWork *work)
     z = 0;
     i = 0;
     do {
-        (&work->slots[3])[i].label = (unsigned int)MSGDATA_AllocString((struct MsgBank *)(*(unsigned *)&work->messageBank), i + 0xf);
+        (&work->slots[3])[i].label = (uptr)MSGDATA_AllocString((struct MsgBank *)(*(unsigned *)&work->messageBank), i + 0xf);
         (&work->slots[3])[i].textColor = 0x39e3;
         (&work->slots[3])[i].labelId = z;
         *(int *)&(&work->slots[3])[i].taskMenu = z;
@@ -2894,8 +2751,8 @@ void BEACON_VIEW_LoadGraphics(BeaconViewWork *work, void *archiveHandle)
     BEACON_VIEW_LoadResList(work, &work->statusLists.palettes, b.s, archiveHandle);
     c = d_021F35C8;
     BEACON_VIEW_LoadResList(work, &work->iconLists.palettes, c.s, h2);
-    PALANM_LoadHandlePaletteToSlot((struct PalAnmSlot *)work->paletteAnim, archiveHandle, 0, work->uiHeapId, 3, 0x1c0, 0);
-    PALANM_LoadArcPaletteToSlot((struct PalAnmSlot *)work->paletteAnim, 0, 1, work->uiHeapId, 3, 0x20, 0xe0);
+    PALANM_LoadHandlePaletteToSlot(work->paletteAnim, archiveHandle, 0, work->uiHeapId, 3, 0x1c0, 0);
+    PALANM_LoadArcPaletteToSlot(work->paletteAnim, 0, 1, work->uiHeapId, 3, 0x20, 0xe0);
     work->panelPalette.res = ARC_TOOL_LoadHandleMember(archiveHandle, 4, work->mainHeapId);
     NNS_G2dGetUnpackedPaletteData(work->panelPalette.res, (void **)(&work->panelPalette.header));
     work->panelPalette.data = (u16 *)((u32 *)work->panelPalette.header)[3];
@@ -2924,8 +2781,8 @@ void BEACON_VIEW_FreeGraphics(BeaconViewWork *work)
     for (i = 0; i < 16; i++) {
         GFL_HEAP_Free((void *)(*(int *)((char *)&work->iconRes[0].file + i * 8)));
     }
-    GFL_HEAP_Free((void *)((int)work->panelPalette.res));
-    GFL_HEAP_Free((void *)((int)work->iconPalette.res));
+    GFL_HEAP_Free((void *)((sptr)work->panelPalette.res));
+    GFL_HEAP_Free((void *)((sptr)work->iconPalette.res));
     BEACON_VIEW_FreeResSet(work, &work->iconLists);
     BEACON_VIEW_FreeResSet(work, &work->statusLists);
     BEACON_VIEW_FreeResSet(work, &work->panelLists);
@@ -2961,15 +2818,15 @@ void BEACON_VIEW_DeleteActors(BeaconViewWork *work)
         BEACON_VIEW_DeleteEntry((char *)work, (unsigned char)i);
     }
     BEACON_VIEW_DeletePanelActors(work);
-    BMP_OAM_DeleteSys((void *)((int)work->actorSystem));
+    BMP_OAM_DeleteSys((void *)((sptr)work->actorSystem));
     CLACT_DeleteRenderer((struct Renderer *)work->actorResource);
-    CLACT_DeleteUnit((struct Bank *)((int)work->actorBank));
+    CLACT_DeleteUnit((struct Unit *)((sptr)work->actorBank));
 }
 
-void BEACON_VIEW_CreateWindow(BeaconViewWindow *window, unsigned bgFrame, unsigned palNo, unsigned charPosX, unsigned char charPosY, unsigned char width, unsigned char height)
+void BEACON_VIEW_CreateWindow(BeaconViewWindow *window, unsigned bgFrame, unsigned char palNo, unsigned charPosX, unsigned char charPosY, unsigned char width, unsigned char height)
 {
     void *w;
-    window->handle = BMP_WIN_Create((void *)bgFrame, charPosX, charPosY, width, height, palNo, 1);
+    window->handle = BMP_WIN_Create((u32)bgFrame, charPosX, charPosY, width, height, palNo, 1);
     window->bitmap = BMP_WIN_GetBmp(window->handle);
     w = window->handle;
     window->drawn = 0;
@@ -3029,14 +2886,14 @@ void BEACON_VIEW_FreeResSet(BeaconViewWork *work, BeaconViewResSet *set)
 
 void *BEACON_VIEW_CreateIconActor(BeaconViewWork *work, unsigned images, unsigned palettes, unsigned cells, short x, short y, unsigned char width, unsigned char height, unsigned char z)
 {
-    Rect r;
+    BeaconActorRect r;
     void *res;
     r.x = x;
     r.y = y;
     r.w = width;
     r.h = height;
     r.z = z;
-    res = CLACT_CreateActor((void *)(unsigned int)work->actorBank, images, palettes, cells, &r, 0, work->tempHeapId);
+    res = CLACT_CreateActor((void *)(uptr)work->actorBank, images, palettes, cells, (const struct ActorInitParam *)&r, 0, work->tempHeapId);
     CLACT_SetActorAutoAnim(res, 1);
     CLACT_SetActorVisible(res, 0);
     return res;
@@ -3069,7 +2926,7 @@ void BEACON_VIEW_DeletePanelActors(BeaconViewWork *work)
 void BEACON_VIEW_CreateIcon(BeaconViewWork *work, u8 idx)
 {
     BeaconViewEntry *icon;
-    struct Param t;
+    struct BmpOamParam t;
 
     icon = &work->icons[idx];
     MI_CpuFill8(icon, 0, 0x34);
@@ -3097,7 +2954,7 @@ void BEACON_VIEW_CreateIcon(BeaconViewWork *work, u8 idx)
     t.bgPriority = 3;
     t.space = 0;
     t.engine = 1;
-    icon->textWindow = BMP_OAM_Create(work->actorSystem, (const struct Param *)(&t));
+    icon->textWindow = BMP_OAM_Create(work->actorSystem, (const struct BmpOamParam *)(&t));
     icon->nameString = STRBUF_Create(0xb, work->mainHeapId);
     icon->messageString = STRBUF_Create(8, work->mainHeapId);
     BMP_Clear(icon->textBitmap, 0);

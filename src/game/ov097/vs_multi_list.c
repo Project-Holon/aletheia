@@ -137,6 +137,9 @@
  *   TCB_DeleteTask  0x02030EAC  arm  arm9
  */
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
+#include "../arm9/bg_sys.h"
+#include "../arm9/clact.h"
 
 struct Proc;
 struct WinMgr;
@@ -152,22 +155,9 @@ struct PokeParty;
 struct PokemonParam;
 struct ArcHandle;
 struct VBlankTask;
-struct ClactUnit;
+struct Unit;
 struct ClactActor;
 struct VsMultiList;
-
-/* Display, background and actor setup tables (data of the overlay). */
-struct DispConfig {
-    u32 word[4];
-};
-
-struct BgTemplate {
-    u32 word[8];
-};
-
-struct ClactInit {
-    u32 word[7];
-};
 
 /* Creation record of one actor (data gVsMultiListActorDescs, 24 entries). */
 struct VsMultiActorDesc {
@@ -176,11 +166,6 @@ struct VsMultiActorDesc {
     u32 charIndex;
     u32 paletteIndex;
     u32 cellAnimIndex;
-};
-
-struct PosS16 {
-    short x;
-    short y;
 };
 
 /* The two parties and the side the first party is shown on (proc argument). */
@@ -216,7 +201,7 @@ struct VsMultiList {
     struct WordSet *wordSet;
     struct PrintSys *printQue;
     struct VsMultiListWindow windows[6];
-    struct ClactUnit *clactUnit;
+    struct Unit *clactUnit;
     union {
         struct ClactActor *all[24];
         struct VsMultiListActors set;
@@ -239,8 +224,6 @@ struct VsMultiList {
 #define VS_MULTI_LIST_STATE_SLIDE 4
 #define VS_MULTI_LIST_STATE_END 5
 
-#define REG_BLDCNT (*(volatile u16 *)0x04000050)
-#define REG_BLDCNT_SUB (*(volatile u16 *)0x04001050)
 
 /* Values read with POKE_TOOL_GetPartyValue (ids of enum PokeToolParam in poke_tool.c). */
 #define POKE_TOOL_PARAM_HELD_ITEM 6
@@ -252,126 +235,39 @@ struct VsMultiList {
 
 enum { NUMBER_DISP_LEFT };
 
-extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
-extern void *PROCSYS_AllocProcWork(struct Proc *, unsigned int, unsigned int);
-extern void MI_CpuFill8(void *, int, unsigned int);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
 struct BgWinFrmWork;
-extern void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
-extern void CLACT_DrawSystem(void);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
-extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void BG_SYS_SetLcdSwap(u32 swap);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern u32 WIPE_SYS_EndCheck(void);
+#include "../arm9/bgwinfrm.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/net.h"
+#include "../arm9/wipe.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern void BGWINFRM_StartMove(struct BgWinFrmWork *wk, u32 idx, s8 moveX, s8 moveY, u8 count);
-extern u32 BGWINFRM_IsMoving(struct BgWinFrmWork *wk, u32 idx);
-extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_Create(u16 heapId);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_ClearSlot(u32 i);
-extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
-extern void BG_SYS_FreeLayerBuf(u32);
-extern void BG_SYS_Delete(void);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 tileOffset, u32 size, u32 heapID, u16 allocFlags);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags);
-extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
-extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*)(void), void *, u32);
+#include "../arm9/printsys.h"
+#include "../arm9/gfl_use.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/wordset.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void BG_SYS_Update(void);
-extern void CLACT_VBlankSystem(void);
+struct TcbTask;
+#include "../arm9/tcb_list.h"
 struct Party;
-extern u32 POKEPARTY_GetCount(struct Party *party);
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern void BMP_WIN_Init(u16 heapId);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *p);
-extern void BMP_Clear(struct Bmp *buf, u8 value);
-extern void BMP_WIN_TransferChars(struct BmpWin *);
-extern u32 BMP_WIN_Delete(struct BmpWin *d);
-extern void BMP_WIN_Exit(void);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u8 BMP_WIN_GetWidth(struct BmpWin *p);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *words, unsigned int slot, void *mon);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 param, u32 unused);
-extern u8 POKE_TOOL_GetGender(struct PokemonParam *mon);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 margin);
-extern void WORDSET_SetSlotNumber(struct WordSet *, u32, u32, u32, u32, u32);
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
+#include "../arm9/pokeparty.h"
+#include "../arm9/bmp_win.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/poke_tool.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern void CLACT_ExitSystem(void);
 struct BoxPokemon;
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *mon);
-extern u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
-extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
-extern int CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
-extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
-extern int POKE_TOOL_GetIconCellArcIdSub(void);
-extern int POKE_TOOL_GetIconCellEntryIdSub(void);
-extern int CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
-extern u32 APP_ICON_GetArchiveId(void);
-extern int CLACT_RegisterPalette(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
-extern int APP_ICON_GetGearCellFileId(int);
-extern int APP_ICON_GetNoneFileId(void);
-extern int APP_ICON_GetGearPaletteFileId(int);
-extern int APP_ICON_GetGearAnimFileId(int);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern struct ClactUnit *CLACT_CreateUnit(int, u8, u32);
-extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *, unsigned int, unsigned int, unsigned int, const struct VsMultiActorDesc *, unsigned short, unsigned short);
-struct Actor;
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-extern u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
-extern u32 FILE_UTIL_IsMailItem(u16);
-extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
-extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, struct PosS16 *out, u16 space);
-extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct PosS16 *delta, u32 which);
-extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
-extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY);
-extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, unsigned int idx, void *bmpWin);
-extern void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, unsigned int idx, void *src);
-extern void BGWINFRM_ChangePalette(struct BgWinFrmWork *wk, unsigned int idx, int x, int y, unsigned char sizeX, unsigned char sizeY, unsigned char palette);
-extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
-extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
-extern u32 BG_SYS_GetBuf(int);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern u32 GFL_HEAP_Free(void *p);
-extern void MIi_CpuCopy16(const void *, void *, u32);
+#include "../arm9/poke_tool_ext.h"
+#include "../arm9/app_icon.h"
+struct ClactActor;
+#include "../arm9/file_util.h"
 
 int VS_MULTI_LIST_ProcInit(struct Proc *proc, int seq, struct VsMultiListArgs *args);
 int VS_MULTI_LIST_ProcMain(struct Proc *proc, int *seq, int unused, struct VsMultiList *work);
@@ -392,7 +288,7 @@ void VS_MULTI_LIST_CreateTextResources(struct VsMultiList *work);
 void VS_MULTI_LIST_DeleteTextResources(struct VsMultiList *work);
 void VS_MULTI_LIST_AddVBlankTask(struct VsMultiList *work);
 void VS_MULTI_LIST_DeleteVBlankTask(struct VsMultiList *work);
-void VS_MULTI_LIST_VBlankCallback(void);
+void VS_MULTI_LIST_VBlankCallback(struct TcbTask *tcb, void *work);
 void VS_MULTI_LIST_InitMons(struct VsMultiList *work);
 void VS_MULTI_LIST_CreateWindows(struct VsMultiList *work);
 void VS_MULTI_LIST_DeleteWindows(struct VsMultiList *work);
@@ -420,7 +316,7 @@ extern const struct BgTemplate gVsMultiListBg0Template;
 extern const struct BgTemplate gVsMultiListBg1Template;
 extern const struct BgTemplate gVsMultiListBg2Template;
 extern u32 SDK_AUTOLOAD_DTCM_START[];
-extern const struct ClactInit gVsMultiListClactInit;
+extern const struct ClactSysInit gVsMultiListClactInit;
 extern const struct VsMultiActorDesc gVsMultiListActorDescs[];
 extern const char gVsMultiListSrcName[];
 extern int (*gVsMultiListStateTable[])(struct VsMultiList *);
@@ -453,7 +349,7 @@ int VS_MULTI_LIST_StateSetup(struct VsMultiList *work)
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     REG_BLDCNT = 0;
-    REG_BLDCNT_SUB = 0;
+    REG_DB_BLDCNT = 0;
     BG_SYS_SetLcdSwap(1);
     VS_MULTI_LIST_InitMons(work);
     VS_MULTI_LIST_SetVramBanks();
@@ -642,12 +538,12 @@ void VS_MULTI_LIST_DeleteVBlankTask(struct VsMultiList *work)
     TCB_DeleteTask((struct TcbTask *)work->vblankTask);
 }
 
-static inline void OS_SetIrqCheckFlag(u32 intr) { *(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3ff8) |= intr; }
+static inline void OS_SetIrqCheckFlag(u32 intr) { *(volatile u32 *)((uptr)SDK_AUTOLOAD_DTCM_START + 0x3ff8) |= intr; }
 
 /*
  * volatile: SDK OS_SetIrqCheckFlag read-modify-write at 021F6A18/021F6A1C, HW_INTR_CHECK_BUF.
  */
-void VS_MULTI_LIST_VBlankCallback(void)
+void VS_MULTI_LIST_VBlankCallback(struct TcbTask *tcb, void *work)
 {
     BG_SYS_Update();
     CLACT_VBlankSystem();
@@ -832,20 +728,20 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     struct Strbuf *maxHpFormat;
     u8 labelWidth;
     u8 labelX;
-    u32 printQue1;
-    u32 printQue2;
+    uptr printQue1;
+    uptr printQue2;
     short x;
-    u32 printQue3;
-    u32 font;
+    uptr printQue3;
+    uptr font;
 
     buf = STRBUF_Create(0x20, 0x8071);
     hpLabel = MSGDATA_AllocString(work->msgBank, 0xc);
     labelWidth = PRINTSYS_MeasureWidestLine(hpLabel, work->fontSmall, 0);
     labelX = CenterX(labelWidth);
     {
-        u32 bmp;
-        printQue1 = (u32)work->printQue;
-        bmp = (u32)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
+        uptr bmp;
+        printQue1 = (uptr)work->printQue;
+        bmp = (uptr)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
         PRINTSYS_PrintQueColor((struct PrintQueue *)printQue1, (struct Bmp *)bmp, (short)labelX, 0x20, hpLabel, work->fontSmall, 0x3dc0);
     }
     work->windows[slot].dirty = 1;
@@ -855,11 +751,11 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_HP, 0), 3, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, buf, hpFormat);
     {
-        u32 bmp;
-        font = (u32)work->fontSmall;
+        uptr bmp;
+        font = (uptr)work->fontSmall;
         x = labelX - PRINTSYS_MeasureWidestLine(buf, (struct GfFont *)font, 0);
-        printQue2 = (u32)work->printQue;
-        bmp = (u32)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
+        printQue2 = (uptr)work->printQue;
+        bmp = (uptr)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
         PRINTSYS_PrintQueColor((struct PrintQueue *)printQue2, (struct Bmp *)bmp, x, 0x20, buf, (struct GfFont *)font, 0x3dc0);
     }
     work->windows[slot].dirty = 1;
@@ -869,9 +765,9 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
     WORDSET_SetSlotNumber(work->wordSet, 0, POKE_TOOL_GetPartyValue(work->mons[slot], POKE_TOOL_PARAM_MAX_HP, 0), 3, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, buf, maxHpFormat);
     {
-        u32 bmp;
-        printQue3 = (u32)work->printQue;
-        bmp = (u32)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
+        uptr bmp;
+        printQue3 = (uptr)work->printQue;
+        bmp = (uptr)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
         PRINTSYS_PrintQueColor((struct PrintQueue *)printQue3, (struct Bmp *)bmp, (short)(labelX + labelWidth), 0x20, buf, work->fontSmall, 0x3dc0);
     }
     work->windows[slot].dirty = 1;
@@ -903,8 +799,8 @@ void VS_MULTI_LIST_ExitIcons(struct VsMultiList *work)
 
 void VS_MULTI_LIST_InitClact(void)
 {
-    struct ClactInit init = gVsMultiListClactInit;
-    CLACT_InitSystem((struct SysInit *)(&init), (struct DispVramCfg *)&gVsMultiListDispVram, 0x71);
+    struct ClactSysInit init = gVsMultiListClactInit;
+    CLACT_InitSystem(&init, (const struct DispVramCfg *)&gVsMultiListDispVram, 0x71);
 }
 
 void VS_MULTI_LIST_ExitClact(void)
@@ -915,9 +811,9 @@ void VS_MULTI_LIST_ExitClact(void)
 /* Mon slot i of a work given as an integer base (the integer-base spelling is what the compiled code needs). */
 #define MON_AT(base, i) (*(struct PokemonParam **)((base) + (i) * 4 + 0xf8))
 
-static inline u32 CharIdsAddress(int base)
+static inline u32 CharIdsAddress(sptr base)
 {
-    return (u32)&((struct VsMultiList *)base)->charIds[0];
+    return (uptr)&((struct VsMultiList *)base)->charIds[0];
 }
 
 /*
@@ -932,12 +828,12 @@ static inline u32 CharIdsAddress(int base)
  */
 void VS_MULTI_LIST_LoadIconResources(struct VsMultiList *work)
 {
-    int base = (int)work;
+    int base = (sptr)work;
     u32 cellArc, cellAnim;
     struct ArcHandle *iconArc;
     struct ArcHandle *uiArc;
     u16 i, icon;
-    u32 charIds;
+    uptr charIds;
     iconArc = ARC_TOOL_CreateHandle(7, 0x8071);
     charIds = CharIdsAddress(base);
     for (i = 0; i < 6; i++) {
@@ -992,27 +888,27 @@ void VS_MULTI_LIST_CreateActors(struct VsMultiList *work)
         work->actors.all[i] = CLACT_CreateActor(work->clactUnit,
             work->charIds[gVsMultiListActorDescs[i].charIndex],
             work->paletteIds[gVsMultiListActorDescs[i].paletteIndex],
-            work->cellAnimIds[gVsMultiListActorDescs[i].cellAnimIndex], &gVsMultiListActorDescs[i], 0, 0x71);
+            work->cellAnimIds[gVsMultiListActorDescs[i].cellAnimIndex], (const struct ActorInitParam *)&gVsMultiListActorDescs[i], 0, 0x71);
     }
     for (i = 0; i < 6; i++) {
         if (work->mons[i] == 0) {
-            CLACT_SetActorDrawEnable((struct Actor *)work->actors.set.icon[i], 0);
-            CLACT_SetActorDrawEnable((struct Actor *)work->actors.set.heldItem[i], 0);
-            CLACT_SetActorDrawEnable((struct Actor *)work->actors.set.markerD[i], 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->actors.set.icon[i], 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->actors.set.heldItem[i], 0);
+            CLACT_SetActorDrawEnable((struct ClactActor *)work->actors.set.markerD[i], 0);
         } else {
-            CLACT_SetActorAutoAnim((struct Actor *)work->actors.set.icon[i], 1);
-            CLACT_SetActorPaletteOffset((struct Actor *)work->actors.set.icon[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(work->mons[i])), 1);
+            CLACT_SetActorAutoAnim((struct ClactActor *)work->actors.set.icon[i], 1);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)work->actors.set.icon[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(work->mons[i])), 1);
             heldItem = POKE_TOOL_GetPartyValue(work->mons[i], POKE_TOOL_PARAM_HELD_ITEM, 0);
-            if (heldItem == 0) CLACT_SetActorDrawEnable((struct Actor *)work->actors.set.heldItem[i], 0);
+            if (heldItem == 0) CLACT_SetActorDrawEnable((struct ClactActor *)work->actors.set.heldItem[i], 0);
             else if (FILE_UTIL_IsMailItem(heldItem) == 1) {
-                CLACT_SetActorAnimFrame((struct Actor *)work->actors.set.heldItem[i], 0);
-                CLACT_SetActorAnimSeq((struct Actor *)work->actors.set.heldItem[i], 1);
+                CLACT_SetActorAnimFrame((struct ClactActor *)work->actors.set.heldItem[i], 0);
+                CLACT_SetActorAnimSeq((struct ClactActor *)work->actors.set.heldItem[i], 1);
             } else {
-                CLACT_SetActorAnimFrame((struct Actor *)work->actors.set.heldItem[i], 0);
-                CLACT_SetActorAnimSeq((struct Actor *)work->actors.set.heldItem[i], 0);
+                CLACT_SetActorAnimFrame((struct ClactActor *)work->actors.set.heldItem[i], 0);
+                CLACT_SetActorAnimSeq((struct ClactActor *)work->actors.set.heldItem[i], 0);
             }
         }
-        CLACT_SetActorDrawEnable((struct Actor *)work->actors.set.markerC[i], 0);
+        CLACT_SetActorDrawEnable((struct ClactActor *)work->actors.set.markerC[i], 0);
     }
     if (work->args->swapSides == 0) {
         for (i = 0; i < 3; i++) {
@@ -1035,14 +931,14 @@ void VS_MULTI_LIST_DeleteActors(struct VsMultiList *work)
 {
     unsigned i;
     for (i = 0; i < 24; i++)
-        CLACT_DeleteActor((struct Actor *)work->actors.all[i]);
+        CLACT_DeleteActor((struct ClactActor *)work->actors.all[i]);
     CLACT_DeleteUnit(work->clactUnit);
 }
 
 /* Moves one actor horizontally by dx. */
 void VS_MULTI_LIST_MoveActorX(struct VsMultiList *work, unsigned actor, int dx)
 {
-    struct PosS16 pos;
+    struct ClactVec2 pos;
     struct ClactActor **actors = work->actors.all;
     CLACT_GetActorSurfacePos(actors[actor], &pos, 0);
     pos.x = pos.x + dx;

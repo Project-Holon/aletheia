@@ -25,14 +25,11 @@
  *   gCommentWork            0x021DE598  data  a4
  *   DWCi_FNTlDeleteBgLcd 0x021D5CA8  arm
  */
-void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-void *DWCi_FNTlFormBgEx(int lcd, int font);
-unsigned short *DWCi_MSGlGetEx(void *msg, int id, int n, int num);
-int DWCi_CMNlFontFlag(void);
-void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
-void DWCi_FNTlRenewBg(int x);
-void GXS_LoadBG0Scr(void *pSrc, unsigned int offset, unsigned int szByte);
-void DWCi_FNTlDeleteBgLcd(int lcd);
+#include "common.h"
+typedef int bool_0;
+#include "font.h"
+#include "message.h"
+#include "../arm9/gx_load2d.h"
 void DWCi_COMMENTlInit(void);
 int DWCi_COMMENTlDispEx(int messageId, int n, int num);
 int DWCi_COMMENTlDelete(void);
@@ -53,12 +50,12 @@ int DWCi_COMMENTlDispEx(int messageId, int n, int num)
     void *canvas;
 
     if (Flag != 0) return 0;
-    DWCi_CMNlLoadResource(sCommentPathJtNullScr, (void (*)(void *, unsigned long, unsigned long))GXS_LoadBG0Scr);
+    DWCi_CMNlLoadResource(sCommentPathJtNullScr, GXS_LoadBG0Scr);
     *(volatile unsigned int *)0x04001010 = 0x01920000;
     canvas = DWCi_FNTlFormBgEx(1, 0);
     msg = DWCi_MSGlGetEx(gCommentWork, messageId, n, num);
     DWCi_FNTlDrawRect(canvas, 0x14, 0, 0xd8, 0x40, 2, DWCi_CMNlFontFlag(), msg);
-    DWCi_FNTlRenewBg((int)canvas);
+    DWCi_FNTlRenewBg((sptr)canvas);
     Flag = 1;
     return 1;
 }

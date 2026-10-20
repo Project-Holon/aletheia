@@ -64,13 +64,13 @@
 #include "field_skill_check_shared_types.h"
 #include "game_beacon_search_shared_types.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
+#include "../arm9/game_data.h"
 
 struct GameComm;
 
-struct NetInitParam;
+struct GFLNetInitializeStruct;
 
 #include "../types.h"
 
@@ -140,92 +140,71 @@ typedef struct OwnerFlags {
     u32 parentalWirelessOn : 1;
     u32 reserved1 : 26;
 } OwnerFlags;
+struct GFLNetInitializeStruct;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GAME_COMM_GetLastKind(struct GameComm *gameComm);
+#include "../arm9/game_comm.h"
 
-extern u32 GAME_COMM_GetCounter(struct GameComm *gameComm);
 
-extern void GFL_HEAP_DumpReport(u32 heapId);
 
-extern void GFL_NET_StartSession(const struct NetInitParam *init, void (*callback)(void *work), void *work);
+extern void GFL_NET_StartSession(struct GFLNetInitializeStruct *req, u32 transportArg, u32 userArg);
 struct WihContext;
 
-extern struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap);
+#include "../arm9/wih_dwc.h"
 struct WihContext;
 
-extern void WIH_DWC_Delete(struct WihContext *context);
 
 extern int GFL_NET_Exit(void (*callback)(void *work));
 
-extern u32 GFL_HEAP_Free(void *memory);
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern void GFL_NET_ERR_ResetState(void);
 
-extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 
-extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 
-extern int DWCi_IsFold(void);
+#include "../arm9/ui.h"
 
-extern int UI_IsPowerConnected(void);
 
-extern void GAME_BEACON_SendIfRequested(void);
+#include "../arm9/game_beacon.h"
 
-extern u32 GAME_COMM_GetNotifyFlag(struct GameComm *gameComm);
 
-extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 
-extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
 
-extern int INTRUDE_COMM_IsListedId(u16 zoneId);
+#include "intrude_comm_query.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+#include "../arm9/mi_memory.h"
 
-extern void GAME_COMM_RequestExit(struct GameComm *comm, void (*callback)(void *work, int cancel), unsigned int exitArg);
 
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 
-extern void NET_WHPIPE_ReleaseEntry(u32 index);
+#include "../ov014/net_whpipe.h"
 
-extern void WIH_DWC_TickTimers(void);
 
 extern void GFL_NET_EndDeviceWrapper(int mode);
 
 extern void *GFL_NET_GetScanResultMac(u32 index);
 
-extern int GAME_BEACON_ReceiveInfo(const GameBeaconInfo *info);
 
-extern u8 NET_WHPIPE_GetEntryKind(u8 index);
 
 extern u32 GFL_NET_GetScanResult(u32 index);
 
-extern void GAME_BEACON_GetMyInfo(GameBeaconInfo *info);
 
 extern int GFL_NET_GetNegotiationNum(void);
 
-extern u32 GFL_NET_SYSTEM_CheckError(void);
+#include "../arm9/net_system.h"
 
-extern int OS_IsRunOnTwl(void);
+#include "../arm9/os_emulator.h"
 
-extern OwnerFlags *OS_GetParentalControlInfoPtr(void);
+#include "../arm9/os_ownerinfoex.h"
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern u32 MYSTATUS_GetId(const struct MyStatus *myStatus);
+#include "../arm9/mystatus.h"
 
-extern u32 GAMESYSTEM_CanStartAutoComm(const struct GameSystem *gameSystem);
 
 extern int GFL_NET_GetRunState(void);
 
-extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 
-extern void GAME_COMM_Start(struct GameComm *comm, u32 kind, u32 param);
 
 GameBeaconSearchWork *GAME_BEACON_SEARCH_Init(void *unused, struct GameSystem *gameSystem);
 
@@ -265,7 +244,7 @@ void GAME_BEACON_SEARCH_StartConnectEvent(void *arg, int cancel);
 
 extern const char GAME_BEACON_SEARCH_FileName[];
 
-extern const struct NetInitParam GAME_BEACON_SEARCH_NetInit;
+extern const struct GFLNetInitializeStruct GAME_BEACON_SEARCH_NetInit;
 
 /* Allocates and initialises the search work. */
 GameBeaconSearchWork *GAME_BEACON_SEARCH_Init(void *unused, struct GameSystem *gameSystem)
@@ -287,7 +266,7 @@ int GAME_BEACON_SEARCH_InitWait(int *seq, void *unused, GameBeaconSearchWork *wo
     switch (*seq) {
     case 0:
         GFL_HEAP_DumpReport(12);
-        GFL_NET_StartSession(&GAME_BEACON_SEARCH_NetInit, GAME_BEACON_SEARCH_OnSessionStarted, work);
+        GFL_NET_StartSession((struct GFLNetInitializeStruct *)(&GAME_BEACON_SEARCH_NetInit), (u32)GAME_BEACON_SEARCH_OnSessionStarted, (u32)work);
         (*seq)++;
         break;
     case 1:
@@ -374,7 +353,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
                         request = GFL_HEAP_Alloc(0x8005, sizeof(GameBeaconConnectRequest), 1, GAME_BEACON_SEARCH_FileName, 0x154);
                         request->gameSystem = gameSystem;
                         MI_CpuCopy8(target->macAddress, request->macAddress, 6);
-                        GAME_COMM_RequestExit(gameComm, GAME_BEACON_SEARCH_StartConnectEvent, (unsigned int)request);
+                        GAME_COMM_RequestExit(gameComm, (GameCommExitFunc)GAME_BEACON_SEARCH_StartConnectEvent, (unsigned int)request);
                         goto end; /* the connect path skips the target reset; bytes need the goto */
                     }
                 }

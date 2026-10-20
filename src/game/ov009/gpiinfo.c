@@ -128,217 +128,36 @@
  *   gsifree                          0x0217EAE0 arm
  */
 extern void *__builtin__clear(void *dest, unsigned long size);
+#include "gpicallback.h"
+#include "gpiutility.h"
 #include "../types.h"
 
-typedef struct GPIInfoCache {
-    char *nick;
-    char *uniquenick;
-    char *email;
-    char *firstname;
-    char *lastname;
-    char *homepage;
-    int icquin;
-    char zipcode[11];
-    char countrycode[3];
-    float longitude;
-    float latitude;
-    char place[128];
-    int birthday;
-    int birthmonth;
-    int birthyear;
-    int sex;
-    int publicmask;
-    char *aimname;
-    int pic;
-    int occupationid;
-    int industryid;
-    int incomeid;
-    int marriedid;
-    int childcount;
-    int interests1;
-    int ownership1;
-    int conntypeid;
-} GPIInfoCache;
-
-typedef struct GPGetInfoResponseArg {
-    int result;
-    int profile;
-    char nick[31];
-    char uniquenick[21];
-    char email[51];
-    char firstname[31];
-    char lastname[31];
-    char homepage[76];
-    int icquin;
-    char zipcode[11];
-    char countrycode[3];
-    float longitude;
-    float latitude;
-    char place[128];
-    int birthday;
-    int birthmonth;
-    int birthyear;
-    int sex;
-    int publicmask;
-    char aimname[51];
-    int pic;
-    int occupationid;
-    int industryid;
-    int incomeid;
-    int marriedid;
-    int childcount;
-    int interests1;
-    int ownership1;
-    int conntypeid;
-} GPGetInfoResponseArg;
-
-typedef struct GPIBuffer {
-    char *buffer;
-    int size;
-    int len;
-    int pos;
-} GPIBuffer;
-
-typedef struct GPICallback {
-    void (*callback)(void **, void *, void *);
-    void *param;
-} GPICallback;
-
-typedef struct GPIOperation_s {
-    int type;
-    void *data;
-    int blocking;
-    GPICallback callback;
-    int state;
-    int id;
-    int result;
-    struct GPIOperation_s *pnext;
-} GPIOperation_s;
-
-typedef struct GPIProfile {
-    int profileId;
-    int userId;
-    void *buddyStatus;
-    void *buddyStatusInfo;
-    GPIInfoCache *cache;
-    char *authSig;
-    int requestCount;
-    char *peerSig;
-    int blocked;
-    int blockIndex;
-    int buddyOrBlockCache;
-    int deletedLocally;
-} GPIProfile;
-
-typedef struct GPIPeer_s {
-    int state;
-    int initiated;
-    unsigned int ip;
-    unsigned short port;
-    int profile;
-    long timeout;
-    int nackCount;
-    GPIBuffer inputBuffer;
-    GPIBuffer outputBuffer;
-    void *messages;
-    char peerOpQueue[12];
-    struct GPIPeer_s *pnext;
-} GPIPeer_s;
-
-typedef struct GPIConnection {
-    char errorString[256];
-    int infoCaching;
-    int infoCachingBuddyAndBlockOnly;
-    int simulation;
-    int firewall;
-    char nick[31];
-    char uniquenick[21];
-    char email[51];
-    char password[31];
-    int sessKey;
-    int userid;
-    int profileid;
-    int partnerID;
-    GPICallback callbacks[9];
-    int cmSocket;
-    int connectState;
-    GPIBuffer socketBuffer;
-    char *inputBuffer;
-    int inputBufferSize;
-    GPIBuffer outputBuffer;
-    char mHeader[16];
-    unsigned short peerPort;
-    int nextOperationID;
-    int numSearches;
-    int lastStatusState;
-    unsigned int hostIp;
-    unsigned int hostPrivateIp;
-    unsigned short queryPort;
-    unsigned short hostPort;
-    unsigned int sessionFlags;
-    char richStatus[256];
-    char gameType[33];
-    char gameVariant[33];
-    char gameMapName[33];
-    void *extendedInfoKeys;
-    char lastStatusString[256];
-    char lastLocationString[256];
-    int errorCode;
-    int fatalError;
-    void *diskCache;
-    GPIOperation_s *operationList;
-    char profileList[16];
-    struct GPIPeer_s *peerList;
-    void *callbackList;
-    void *lastCallback;
-    GPIBuffer updateproBuffer;
-    GPIBuffer updateuiBuffer;
-    void *transfers;
-    unsigned int nextTransferID;
-    int productID;
-    int namespaceID;
-    char loginTicket[25];
-    int quietModeFlags;
-    unsigned int kaTransmit;
-} GPIConnection;
+#include "gpi_types.h"
 
 typedef int _GPResult;
 
-extern void gpiSetErrorString(int *p, int b);
-extern int gpiCheckForError(void **connection, char *input, int callErrorCallback);
 extern int strncmp(const char *a, const char *b, unsigned int n);
-extern void gpiSetError(void **connection, int errorCode, char *errorString);
-extern void gpiCallErrorCallback(void **connection, int result, int fatal);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 extern int atoi(const char *s);
-extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
+#include "gpiprofile.h"
 extern double atof(const char *s);
-extern GPIProfile *gpiProfileListAdd(void **connection, int id);
-extern void gsifree(void *ptr);
-extern char *goastrdup(char *src);
-extern void *gsimalloc(unsigned long size);
+#include "gsmemory.h"
+#include "gsplatformutil.h"
 extern void *memset(void *dst, int c, unsigned long n);
-extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation_s *operation, int type);
-extern void gpiRemoveOperation(void **connection, GPIOperation_s *operation);
-extern int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string);
-extern int gpiAppendIntToBuffer(int *connection, int *buffer, int value);
-extern int OS_SPrintf(char *dst, char *fmt, ...);
+#include "gpioperation.h"
+#include "gpibuffer.h"
+#include "../arm9/os_printf.h"
 extern _GPResult gpiSendLocalInfo(void **connection, char *info, char *value);
 extern _GPResult gpiSendUserInfo(void **connection, char *info, char *value);
-extern void strzcpy(char *dest, char *src, unsigned long len);
-extern char *_strlwr(char *string);
-extern void gpiEncodeString(char *unencodedString, char *encodedString);
 extern int strlen(char *s);
-extern unsigned long gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
-extern int gpiAddOperation(void **connection, int type, void *data, GPIOperation_s **op, int blocking, void (*callback)(void **, void *, void *), void *param);
+#include "gsstringutil.h"
 extern int gpiSendGetInfo(void **connection, int profileid, int operationid);
-extern int gpiProcess(void **connection, int blockingOperationID);
+#include "gpi.h"
 extern void gpiFreeInfoCache(GPIProfile *profile);
-extern void gsifree(void * ptr);
 int gpiIsValidDate(int day, int month, int year);
 int gpiIntToDate(void **connection, int date, int *day, int *month, int *year);
 void gpiInfoCacheToArg(GPIInfoCache *cache, GPGetInfoResponseArg *arg);
-int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input);
+int gpiProcessGetInfo(void **connection, GPIOperation *operation, char *input);
 int gpiAddLocalInfo(void **connection, void *buffer);
 int gpiSendLocalInfo(void **connection, char *info, char *value);
 int gpiSendUserInfo(void **connection, char *info, char *value);
@@ -488,7 +307,7 @@ int gpiIntToDate(void **connection, int date, int *day, int *month, int *year)
     m = (date >> 16) & 0xFF;
     y = date & 0xFFFF;
     if (!gpiIsValidDate(d, m, y)) {
-        gpiSetErrorString((int *)connection, (int)gGpiInfoErrorInvalidDate);
+        gpiSetErrorString(connection, gGpiInfoErrorInvalidDate);
         return 2;
     }
     *day = d;
@@ -566,12 +385,12 @@ void gpiInfoCacheToArg(GPIInfoCache *cache, GPGetInfoResponseArg *arg)
 /*
  * sdk:      gpiProcessGetInfo (gpiinfo.o)
  */
-int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
+int gpiProcessGetInfo(void **connection, GPIOperation *operation, char *input)
 {
     GPIInfoCache infoCache;
     char buffer[64];
     GPIConnection *iconnection = (GPIConnection *)*connection;
-    GPIPeer_s *peer;
+    GPIPeer *peer;
     int saveSig;
     int profileid;
     GPIProfile *profile;
@@ -742,7 +561,7 @@ int gpiProcessGetInfo(void **connection, GPIOperation_s *operation, char *input)
         GPGetInfoResponseArg *arg;
         arg = (GPGetInfoResponseArg *)gsimalloc(sizeof(GPGetInfoResponseArg));
         if (arg == 0) {
-            gpiSetErrorString((int *)connection, (int)gGpiInfoErrorOutOfMemory);
+            gpiSetErrorString(connection, gGpiInfoErrorOutOfMemory);
             return 1;
         }
         gpiInfoCacheToArg(&infoCache, arg);
@@ -766,19 +585,19 @@ int gpiAddLocalInfo(void **connection, void *buffer)
     GPIConnection *iconnection = (GPIConnection *)*connection;
 
     if (iconnection->updateproBuffer.len > 0) {
-        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyUpdateProSessKey);
-        gpiAppendIntToBuffer((int *)connection, buffer, iconnection->sessKey);
-        gpiAppendStringToBuffer((int *)connection, buffer, iconnection->updateproBuffer.buffer);
-        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyPartnerId);
-        gpiAppendIntToBuffer((int *)connection, buffer, iconnection->partnerID);
-        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyFinal);
+        gpiAppendStringToBuffer(connection, buffer, gGpiInfoKeyUpdateProSessKey);
+        gpiAppendIntToBuffer(connection, buffer, iconnection->sessKey);
+        gpiAppendStringToBuffer(connection, buffer, iconnection->updateproBuffer.buffer);
+        gpiAppendStringToBuffer(connection, buffer, gGpiInfoKeyPartnerId);
+        gpiAppendIntToBuffer(connection, buffer, iconnection->partnerID);
+        gpiAppendStringToBuffer(connection, buffer, gGpiInfoKeyFinal);
         iconnection->updateproBuffer.len = 0;
     }
     if (iconnection->updateuiBuffer.len > 0) {
-        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyUpdateUiSessKey);
-        gpiAppendIntToBuffer((int *)connection, buffer, iconnection->sessKey);
-        gpiAppendStringToBuffer((int *)connection, buffer, iconnection->updateuiBuffer.buffer);
-        gpiAppendStringToBuffer((int *)connection, buffer, gGpiInfoKeyFinal);
+        gpiAppendStringToBuffer(connection, buffer, gGpiInfoKeyUpdateUiSessKey);
+        gpiAppendIntToBuffer(connection, buffer, iconnection->sessKey);
+        gpiAppendStringToBuffer(connection, buffer, iconnection->updateuiBuffer.buffer);
+        gpiAppendStringToBuffer(connection, buffer, gGpiInfoKeyFinal);
         iconnection->updateuiBuffer.len = 0;
     }
     return 0;
@@ -792,9 +611,9 @@ int gpiSendLocalInfo(void **connection, char *info, char *value)
     GPIConnection *iconnection = (GPIConnection *)*connection;
     int result;
 
-    if ((result = gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->updateproBuffer, info)) != 0)
+    if ((result = gpiAppendStringToBuffer(connection, &iconnection->updateproBuffer, info)) != 0)
         return result;
-    if ((result = gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->updateproBuffer, value)) != 0)
+    if ((result = gpiAppendStringToBuffer(connection, &iconnection->updateproBuffer, value)) != 0)
         return result;
     return 0;
 }
@@ -807,9 +626,9 @@ int gpiSendUserInfo(void **connection, char *info, char *value)
     GPIConnection *iconnection = (GPIConnection *)*connection;
     int result;
 
-    if ((result = gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->updateuiBuffer, info)) != 0)
+    if ((result = gpiAppendStringToBuffer(connection, &iconnection->updateuiBuffer, info)) != 0)
         return result;
-    if ((result = gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->updateuiBuffer, value)) != 0)
+    if ((result = gpiAppendStringToBuffer(connection, &iconnection->updateuiBuffer, value)) != 0)
         return result;
     return 0;
 }
@@ -822,7 +641,7 @@ _GPResult gpiSetInfoi(void **connection, int info, int value)
     switch (info) {
     case 0x708:
         if (value < 0) {
-            gpiSetErrorString((int *)connection, (int)str15206);
+            gpiSetErrorString(connection, str15206);
             return 2;
         }
         OS_SPrintf(intValue, str15207);
@@ -848,7 +667,7 @@ _GPResult gpiSetInfoi(void **connection, int info, int value)
                 return __result__;
             break;
         default:
-            gpiSetErrorString((int *)connection, (int)str15211);
+            gpiSetErrorString(connection, str15211);
             return 2;
         }
         break;
@@ -952,7 +771,7 @@ _GPResult gpiSetInfoi(void **connection, int info, int value)
             return __result__;
         break;
     default:
-        gpiSetErrorString((int *)connection, (int)str15220);
+        gpiSetErrorString(connection, str15220);
         return 2;
     }
     return 0;
@@ -968,14 +787,14 @@ _GPResult gpiSetInfos(void **connection, int info, char *value)
 
     iconnection = (char *)*connection;
     if (value == 0) {
-        gpiSetErrorString((int *)connection, (int)str15341);
+        gpiSetErrorString(connection, str15341);
         return 2;
     }
 
     switch (info) {
     case 0x700:
         if (value[0] == 0) {
-            gpiSetErrorString((int *)connection, (int)str15341);
+            gpiSetErrorString(connection, str15341);
             return 2;
         }
         strzcpy(buffer, value, 0x1f);
@@ -986,7 +805,7 @@ _GPResult gpiSetInfos(void **connection, int info, char *value)
         break;
     case 0x701:
         if (value[0] == 0) {
-            gpiSetErrorString((int *)connection, (int)str15341);
+            gpiSetErrorString(connection, str15341);
             return 2;
         }
         strzcpy(buffer, value, 0x15);
@@ -997,7 +816,7 @@ _GPResult gpiSetInfos(void **connection, int info, char *value)
         break;
     case 0x702:
         if (value[0] == 0) {
-            gpiSetErrorString((int *)connection, (int)str15341);
+            gpiSetErrorString(connection, str15341);
             return 2;
         }
         strzcpy(buffer, value, 0x33);
@@ -1009,7 +828,7 @@ _GPResult gpiSetInfos(void **connection, int info, char *value)
         break;
     case 0x703:
         if (value[0] == 0) {
-            gpiSetErrorString((int *)connection, (int)str15341);
+            gpiSetErrorString(connection, str15341);
             return 2;
         }
         strzcpy(buffer, value, 0x1f);
@@ -1045,7 +864,7 @@ _GPResult gpiSetInfos(void **connection, int info, char *value)
         break;
     case 0x709:
         if (strlen(value) != 2) {
-            gpiSetErrorString((int *)connection, (int)str15343);
+            gpiSetErrorString(connection, str15343);
             return 2;
         }
         strzcpy(buffer, value, 3);
@@ -1175,7 +994,7 @@ _GPResult gpiSetInfos(void **connection, int info, char *value)
             return __result__;
         break;
     default:
-        gpiSetErrorString((int *)connection, (int)str15220);
+        gpiSetErrorString(connection, str15220);
         return 2;
     }
     return 0;
@@ -1185,13 +1004,13 @@ int gpiSendGetInfo(void **connection, int profileid, int operationid)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
 
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, gGpiInfoKeyGetProfileSessKey);
-    gpiAppendIntToBuffer((int *)connection, (int *)&iconnection->outputBuffer, iconnection->sessKey);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, gGpiInfoKeyProfileId);
-    gpiAppendIntToBuffer((int *)connection, (int *)&iconnection->outputBuffer, profileid);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, gGpiInfoKeyId);
-    gpiAppendIntToBuffer((int *)connection, (int *)&iconnection->outputBuffer, operationid);
-    gpiAppendStringToBuffer((int *)connection, (int *)&iconnection->outputBuffer, gGpiInfoKeyFinal);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiInfoKeyGetProfileSessKey);
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, iconnection->sessKey);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiInfoKeyProfileId);
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, profileid);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiInfoKeyId);
+    gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, operationid);
+    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiInfoKeyFinal);
     return 0;
 }
 
@@ -1203,7 +1022,7 @@ int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
 {
     GPIProfile *pProfile;
     GPIConnection *iconnection = (GPIConnection *)*connection;
-    GPIOperation_s *operation = 0;
+    GPIOperation *operation = 0;
     int useCache;
     int result;
     int id;
@@ -1219,7 +1038,7 @@ int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
 
             arg = (GPGetInfoResponseArg *)gsimalloc(sizeof(GPGetInfoResponseArg));
             if (arg == 0) {
-                gpiSetErrorString((int *)connection, (int)gGpiInfoErrorOutOfMemory);
+                gpiSetErrorString(connection, gGpiInfoErrorOutOfMemory);
                 return 1;
             }
             gpiInfoCacheToArg(pProfile->cache, arg);
@@ -1232,7 +1051,7 @@ int gpiGetInfo(void **connection, int profile, int checkCache, int blocking,
             id = operation->id;
             { int __result__ = gpiAddCallback(connection, gpiCallback, arg, operation, 0);
               if (__result__ != 0) return __result__; }
-            gpiRemoveOperation(connection, (struct GPIOperation_s *)operation);
+            gpiRemoveOperation(connection, (GPIOperation *)operation);
             goto done;
         }
     }

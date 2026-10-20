@@ -60,19 +60,14 @@ typedef struct {
     u16 pad37E;            /* 0x37E padding, never read */
 } SaveOutsideWork;
 
-extern void *GFL_HEAP_Alloc(u32 heap,u32 size,int clear,const char *site,u16 tag);
-extern int BACKUP_SYSTEM_ReadFlash(u32 a, u32 b, u32 c);
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
-extern void MI_CpuCopy8(const void *src,void *dest,u32 size);
-extern u32 GFL_HEAP_Free(void *p);
-extern u16 BACKUP_SYSTEM_WriteFlashAsync(u32 flash_addr, u32 src, u32 size);
-extern int BACKUP_SYSTEM_CheckFlashAsync(u16 lock_id, u32 *success);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/backup_system.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/mi_memory.h"
 struct SaveControl;
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "../arm9/save_control.h"
 extern void MYSTERY_DATA_DecryptBuffer(u8 *buffer, u32 saveType);
 extern void MYSTERY_DATA_EncryptBuffer(u8 *buffer, u32 saveType);
-extern void MIi_CpuClear32(u32 data,void *dest,u32 size);
-extern void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, u32 src, u32 size);
 void *SAVE_OUTSIDE_Load(u32 heap);
 void SAVE_OUTSIDE_Free(void *p);
 void SAVE_OUTSIDE_Prepare(SaveOutsideWork *work);

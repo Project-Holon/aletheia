@@ -101,7 +101,7 @@ struct Regulation *REGULATION_Create(u32 heapId);
 
 void REGULATION_Copy(const struct Regulation *src, struct Regulation *dest);
 
-void REGULATION_NoOp(void);
+void *REGULATION_NoOp(void *card);
 
 void REGULATION_GetCupName(struct Regulation *rule, void *dest);
 
@@ -161,8 +161,9 @@ void REGULATION_Copy(const struct Regulation *src, struct Regulation *dest)
     MI_CpuCopy8(src, dest, sizeof(struct Regulation));
 }
 
-void REGULATION_NoOp(void)
+void *REGULATION_NoOp(void *card)
 {
+    return card;
 }
 
 void REGULATION_GetCupName(struct Regulation *rule, void *dest)

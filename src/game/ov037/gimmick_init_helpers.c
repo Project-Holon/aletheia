@@ -28,12 +28,10 @@ struct GameData;
 struct GimmickWork;
 #include "../types.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct PlayerWork;
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
-extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmick, u32 gimmickId);
-extern u8 *GIMMICK_WORK_GetSubWork(struct GimmickWork *gimmick, u32 gimmickId);
+#include "../arm9/gimmick.h"
 void GIMMICK_INIT_SetCartLanesFlags(void *gameSystem, int setFirst, int setSecond);
 void GIMMICK_INIT_SetFlagAnimeFlag(struct GameSystem *gameSystem, int enable);
 void GIMMICK_INIT_SetButtonStatesFlags(void *gameSystem, int buttonMask);

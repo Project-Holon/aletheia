@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   FLDMMDL_MOVE_GetMapAttrInfo  0x02163E1C  thumb  ov010
+ *   FLDMMDL_MOVE_GetFieldG3dMapHit  0x02163E1C  thumb  ov010
  */
 #include "../include/Obj17719.h"
 
@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 typedef struct { int x, y, z; } VecFx32;
 
-extern int FLDMMDL_MOVE_GetMapAttrInfo(void *a, char *b, void *c);
+extern int FLDMMDL_MOVE_GetFieldG3dMapHit(void *a, char *b, void *c);
 
 int FLDMMDL_MOVE_GetMapAttr(void *a0, VecFx32 *a1, u32 *a2)
 {
@@ -31,7 +31,7 @@ int FLDMMDL_MOVE_GetMapAttr(void *a0, VecFx32 *a1, u32 *a2)
 t4 = a2;
 t5 = 0;
 *t4 = t5;
-    r = FLDMMDL_MOVE_GetMapAttrInfo(a0, (char *)a1, fr);
+    r = FLDMMDL_MOVE_GetFieldG3dMapHit(a0, (char *)a1, fr);
 loc_02163E44:
     if (r != 1) goto loc_02163E52;
 loc_02163E48:

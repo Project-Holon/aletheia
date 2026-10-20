@@ -30,34 +30,27 @@
  */
 #include "../types.h"
 #include "nhttp_types.h"
+#include "../sdk_os_thread.h"
+#include "../arm9/os_thread.h"
 
 /* Static resource block (size 0x24): init flag, a mutex and a thread queue. */
 typedef struct {
     int unique;
     int mutex[6];
-    int queueHead;
-    int queueTail;
+    OSThreadQueue queue;
 } NHTTPStaticResource;
 
-typedef struct {
-    u8 pad_0[0xc];
-    u32 waitQueue;
-} NHTTPWaiter;
-
-extern void NHTTPi_InitMutex(int *mutex_p);
-extern void OS_SleepThread(void *);
-extern void OS_WakeupThread(void *, int);
-extern void NHTTPi_InitBgnEndInfo(NHTTPBgnEndInfo *);
-extern void NHTTPi_InitListInfo(NHTTPListInfo *);
-extern void NHTTPi_InitRequestInfo(NHTTPReqInfo *);
-extern void NHTTPi_InitThreadInfo(NHTTPThreadInfo *);
-extern void NHTTPi_LockMutexThunk(int *mutex_p);
+#include "nhttp_rap_evilcheck.h"
+#include "nhttp_bgnend.h"
+#include "nhttp_list.h"
+#include "nhttp_request.h"
+#include "nhttp_response.h"
 #include "../sdk_os.h"
 
-extern void OS_UnlockMutex(struct OSMutex *mutex);
+#include "../arm9/os_mutex.h"
 NHTTPStaticResource *NHTTPi_GetStaticResource(void);
-void NHTTPi_WaitForCompletion(NHTTPWaiter *waiter_p);
-void NHTTPi_NotifyCompletion(NHTTPWaiter *waiter_p);
+void NHTTPi_WaitForCompletion(NHTTPConnection *connection_p);
+void NHTTPi_NotifyCompletion(NHTTPConnection *connection_p);
 NHTTPConnection *NHTTPi_ControlConnectionList(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *handle_p, unsigned long order);
 int NHTTPi_CommitConnectionList(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *handle_p);
 int NHTTPi_OmitConnectionList(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *handle_p);
@@ -103,31 +96,31 @@ NHTTPStaticResource *NHTTPi_GetStaticResource(void)
     NHTTPStaticResource *resource_p = &gNHTTPStaticResource;
     if (gNHTTPModuleGlobals.isInitialized == 0) {
         NHTTPi_InitMutex(&resource_p->mutex[0]);
-        resource_p->queueTail = 0;
-        resource_p->queueHead = 0;
+        resource_p->queue.tail = 0;
+        resource_p->queue.head = 0;
         resource_p->unique = 1;
     }
     return resource_p;
 }
 
 /*
- * Waits on the static resource queue until the waiter's queue word is clear.
+ * Waits on the static resource queue until the connection stops running.
  */
-void NHTTPi_WaitForCompletion(NHTTPWaiter *waiter_p)
+void NHTTPi_WaitForCompletion(NHTTPConnection *connection_p)
 {
     NHTTPStaticResource *resource_p = NHTTPi_GetStaticResource();
-    while (waiter_p->waitQueue != 0)
-        OS_SleepThread(&resource_p->queueHead);
+    while (connection_p->running != 0)
+        OS_SleepThread(&resource_p->queue);
 }
 
 /*
- * Clears the waiter's queue word and wakes the static resource queue.
+ * Clears the running flag of the connection and wakes the static resource queue.
  */
-void NHTTPi_NotifyCompletion(NHTTPWaiter *waiter_p)
+void NHTTPi_NotifyCompletion(NHTTPConnection *connection_p)
 {
     NHTTPStaticResource *resource_p = NHTTPi_GetStaticResource();
-    waiter_p->waitQueue = 0;
-    OS_WakeupThread(&resource_p->queueHead, 0);
+    connection_p->running = 0;
+    OS_WakeupThread(&resource_p->queue);
 }
 
 NHTTPConnection *NHTTPi_ControlConnectionList(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *handle_p, unsigned long order)

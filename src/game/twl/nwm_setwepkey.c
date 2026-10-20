@@ -35,15 +35,13 @@ typedef struct TwlMsg {
     u8 data[0x50];
 } TwlMsg;
 
-extern u32 NWMi_CheckState(u32 n, ...);
-extern u32 NWMi_GetSystemWork(void);
+#include "nwm_system.h"
 extern void DC_InvalidateRange(u8 *, u32);
 extern void DC_StoreRange(const void *, u32);
-extern void NWMi_SetCallbackTable(u32, u32);
-extern void MI_CpuCopy8(const void *, void *, u32);
-extern u32 NWMi_SendCommandDirect(u32 command, u32 length);
+#include "nwm_cmd.h"
+#include "../arm9/mi_memory.h"
 
-u32 NWM_SetWEPKey(u32 callback, u32 wepMode, u32 keyId, const u8 *wepKey, u16 flags) {
+u32 NWM_SetWEPKey(void *callback, u32 wepMode, u32 keyId, const u8 *wepKey, u16 flags) {
     u32 r;
     u32 busy;
     u32 kind;
@@ -81,7 +79,7 @@ u32 NWM_SetWEPKey(u32 callback, u32 wepMode, u32 keyId, const u8 *wepKey, u16 fl
         return 5;
     }
     DC_StoreRange(wepKey, 0x50);
-    NWMi_SetCallbackTable(13, callback);
+    NWMi_SetCallbackTable(13, (u32)callback);
     msg.len = 13;
     msg.w4 = keyId;
     msg.w6 = kind;

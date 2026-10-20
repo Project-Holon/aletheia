@@ -36,6 +36,7 @@
  *   OS_IrqHandler  0x01FF80F0  data
  *   MI_CpuCopy                   0x02082EA4  arm
  */
+#include "../arm9/os_thread.h"
 #include "wcm_types.h"
 
 typedef struct WcmCpsifWork {
@@ -51,18 +52,13 @@ typedef struct WcmCpsifWork {
 
 #include "../sdk_os.h"
 
-extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
-extern void OS_InitMutex(struct OSMutex *mutex);
-extern WCMWork *WCMi_GetSystemWork(void);
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void OS_LockMutex(struct OSMutex *mutex);
-extern void OS_UnlockMutex(struct OSMutex *mutex);
-extern long WCMi_WmifSetDCFData(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long));
-extern int OS_IsRunOnTwl(void);
-extern unsigned int WCMi_NwmifSetDCFData(unsigned int destMac, unsigned int frame, unsigned int length, unsigned int asyncArg);
-extern void OS_WakeupThread(void *queue);
-extern void MI_CpuCopy(void *src, void *dst, unsigned long size);
+#include "../arm9/mi_memory.h"
+#include "../arm9/os_mutex.h"
+#include "wcm_system.h"
+#include "../arm9/os_system.h"
+#include "wcm_wmif.h"
+#include "../arm9/os_emulator.h"
+#include "../twl/nwmif.h"
 void WCMi_InitCpsif(void);
 void WCMi_CpsifRecvCallback(unsigned char *s, unsigned char *d, unsigned char *dat, long len);
 void *WCMi_GetCpsifWork(void);
@@ -235,7 +231,7 @@ long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long heade
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            WCMi_NwmifSetDCFData((unsigned int)dstAddr, (unsigned int)w->sendBuf, (unsigned short)totalLen, 0);
+            WCMi_NwmifSetDCFData((uptr)dstAddr, (uptr)w->sendBuf, (unsigned short)totalLen, 0);
         }
         break;
     }
@@ -258,7 +254,7 @@ void WCMi_CpsifUnlockMutexInIRQ(OSMutex *mutex)
     if (mutex->thread == (void *)&OS_IrqHandler) {
         if (--mutex->count == 0) {
             mutex->thread = 0;
-            OS_WakeupThread(mutex);
+            OS_WakeupThread(&mutex->queue);
         }
     }
 }

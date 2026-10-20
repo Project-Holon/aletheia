@@ -119,53 +119,26 @@
  *   BTL_POKEPARAM_HasMove  0x021D5750  thumb  ov093
  *   BTL_SICKCONT_GetLow  0x021E8AFC  thumb  ov093
  */
+/* The original callers declare these with other argument or return widths than the headers do. */
+#ifdef __MWERKS__
+#define BTL_MAIN_IsPokeSamePair BTL_MAIN_IsPokeSamePairHeader
+#endif
 #include "btl_field_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct BtlEventFactor;
-extern struct BtlEventFactor *HAND_FIELD_AddFactor(s32 effectId, s32 ownerId);
-extern BtlFieldSlotKey BTL_SICKCONT_MakeNone(void);
-extern u32 BTL_SICKCONT_GetPosition(BtlFieldSlotKey key);
-extern void HAND_FIELD_RemoveFactor(struct BtlEventFactor *factor);
-union BtlvSlot;
-extern void BTL_SICKCONT_SetPosition(union BtlvSlot *slot, u8 pos);
+#include "../ov095/hand_field.h"
+#include "btl_sickcont.h"
 struct BtlPokeParam;
-extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *pp);
-extern int BTL_MAIN_IsPokeSamePair(u8 a, u8 b);
+#include "btl_pokeparam.h"
+#include "btl_field.h"
+#include "btl_main.h"
+#ifdef __MWERKS__
+#undef BTL_MAIN_IsPokeSamePair
+extern int BTL_MAIN_IsPokeSamePair(u8 pokeIdA, u8 pokeIdB);
+#endif
 struct BtlSide;
-extern struct BtlPokeParam *BTL_SIDE_GetPokeById(struct BtlSide *side, u8 pokeId);
-extern int BTL_POKEPARAM_HasMove(struct BtlPokeParam *pp, u16 moveId);
-extern u8 BTL_SICKCONT_GetLow(BtlFieldSlotKey key);
-void BTL_FIELD_ResetSlot(BtlFieldState *state, u32 slot);
-void BTL_FIELD_ResetStatic(int value);
-int BTL_FIELD_GetCountdownValue(void);
-int BTL_FIELD_GetCountdownCount(void);
-int BTL_FIELD_SetCountdown(int value, int count);
-u32 BTL_FIELD_TickCountdown(void);
-int BTL_FIELD_RegisterStaticSlot(u32 slot, BtlFieldSlotKey key);
-int BTL_FIELD_RemoveStaticSlot(int arg);
-int BTL_FIELD_AddStaticSlotHolder(int slot, int value);
 /* The wrappers below pass their words through unchanged, so they call the slot functions with plain word signatures. */
-int BTL_FIELD_RemoveHolderFromStaticSlots(int arg);
-void BTL_FIELD_IsMoveSealedByStaticSlot(int line, int color, char *text);
-int BTL_FIELD_TickStaticSlots(int onExpire, int arg);
-int BTL_FIELD_IsStaticSlotInUse(int arg);
-BtlFieldState *BTL_FIELD_Create(u32 heapId);
-void BTL_FIELD_Delete(void *state);
-void BTL_FIELD_Init(BtlFieldState *state, u32 value);
-u8 BTL_FIELD_GetCountdownByte(BtlFieldCountdown *countdown);
-int BTL_FIELD_GetCountdownCountIfSet(BtlFieldCountdown *countdown);
-int *BTL_FIELD_StoreCountdown(int *countdown, int value, int count);
-void BTL_FIELD_ClearCountdown(int *countdown);
-u32 BTL_FIELD_StepCountdown(BtlFieldCountdown *countdown);
-int BTL_FIELD_RegisterSlot(BtlFieldState *state, u32 slot, BtlFieldSlotKey key, int allocHandle);
-int BTL_FIELD_RemoveSlot(BtlFieldState *state, u32 slot);
-int BTL_FIELD_AddSlotHolder(BtlFieldState *state, u32 slot, u32 pokeId);
-void BTL_FIELD_RemoveHolderFromSlots(BtlFieldState *state, u32 pokeId);
-int BTL_FIELD_IsMoveSealedBySlot(BtlFieldState *state, char *side, void *pokeParam, u16 moveId);
-void BTL_FIELD_TickSlots(BtlFieldState *state, void (*onExpire)(u32, u32), u32 arg);
-void *BTL_FIELD_IsSlotInUse(BtlFieldState *state, int slot);
 extern BtlFieldState gBtlFieldCountdown;
 extern char gBtlFieldFileName[];
 
@@ -209,7 +182,7 @@ int BTL_FIELD_GetCountdownCount(void)
 
 int BTL_FIELD_SetCountdown(int value, int count)
 {
-    return (int)BTL_FIELD_StoreCountdown((int *)&gBtlFieldCountdown.countdown, value, count);
+    return (int)BTL_FIELD_StoreCountdown(&gBtlFieldCountdown.countdown, value, count);
 }
 
 
@@ -224,7 +197,7 @@ u32 BTL_FIELD_TickCountdown(void)
 
 
 
-int BTL_FIELD_RegisterStaticSlot(u32 slot, BtlFieldSlotKey key)
+int BTL_FIELD_RegisterStaticSlot(u32 slot, union SickCont key)
 {
     return BTL_FIELD_RegisterSlot(&gBtlFieldCountdown, slot, key, 1);
 }
@@ -245,30 +218,30 @@ int BTL_FIELD_AddStaticSlotHolder(int slot, int value)
 
 
 
-int BTL_FIELD_RemoveHolderFromStaticSlots(int arg)
+void BTL_FIELD_RemoveHolderFromStaticSlots(u32 pokeId)
 {
-    return ((int (*)(BtlFieldState *, int))BTL_FIELD_RemoveHolderFromSlots)(&gBtlFieldCountdown, arg);
+    BTL_FIELD_RemoveHolderFromSlots(&gBtlFieldCountdown, pokeId);
 }
 
 
 
-void BTL_FIELD_IsMoveSealedByStaticSlot(int line, int color, char *text)
+int BTL_FIELD_IsMoveSealedByStaticSlot(struct BtlSide *side, struct BtlPokeParam *pokeParam, u16 moveId)
 {
-    ((int (*)(BtlFieldState *, int, int, char *))BTL_FIELD_IsMoveSealedBySlot)(&gBtlFieldCountdown, line, color, text);
+    return BTL_FIELD_IsMoveSealedBySlot(&gBtlFieldCountdown, side, pokeParam, moveId);
 }
 
 
 
-int BTL_FIELD_TickStaticSlots(int onExpire, int arg)
+void BTL_FIELD_TickStaticSlots(void (*onExpire)(int, struct BtlServerFlow *), struct BtlServerFlow *arg)
 {
-    return ((int (*)(BtlFieldState *, int, int))BTL_FIELD_TickSlots)(&gBtlFieldCountdown, onExpire, arg);
+    BTL_FIELD_TickSlots(&gBtlFieldCountdown, onExpire, arg);
 }
 
 
 
 int BTL_FIELD_IsStaticSlotInUse(int arg)
 {
-    return (int)BTL_FIELD_IsSlotInUse(&gBtlFieldCountdown, arg);
+    return BTL_FIELD_IsSlotInUse(&gBtlFieldCountdown, arg);
 }
 
 
@@ -312,19 +285,19 @@ int BTL_FIELD_GetCountdownCountIfSet(BtlFieldCountdown *countdown)
 
 
 
-int *BTL_FIELD_StoreCountdown(int *countdown, int value, int count)
+BtlFieldCountdown *BTL_FIELD_StoreCountdown(BtlFieldCountdown *countdown, int value, int count)
 {
-    countdown[0] = value;
-    countdown[1] = count;
+    countdown->value = value;
+    countdown->count = count;
     return countdown;
 }
 
 
 
-void BTL_FIELD_ClearCountdown(int *countdown)
+void BTL_FIELD_ClearCountdown(BtlFieldCountdown *countdown)
 {
-    countdown[0] = 0;
-    countdown[1] = 0;
+    countdown->value = 0;
+    countdown->count = 0;
 }
 
 
@@ -347,7 +320,7 @@ u32 BTL_FIELD_StepCountdown(BtlFieldCountdown *countdown)
 
 
 
-int BTL_FIELD_RegisterSlot(BtlFieldState *state, u32 slot, BtlFieldSlotKey key, int allocHandle)
+int BTL_FIELD_RegisterSlot(BtlFieldState *state, u32 slot, union SickCont key, int allocHandle)
 {
     u32 i;
     u32 stat;
@@ -435,7 +408,7 @@ void BTL_FIELD_RemoveHolderFromSlots(BtlFieldState *state, u32 pokeId)
                     if (state->effectHandle[slot]) { HAND_FIELD_RemoveFactor((struct BtlEventFactor *)state->effectHandle[slot]); state->effectHandle[slot] = 0; }
                     BTL_FIELD_ResetSlot(state, slot);
                 } else {
-                    if (pokeId == BTL_SICKCONT_GetPosition(state->key[slot])) BTL_SICKCONT_SetPosition((union BtlvSlot *)(&state->key[slot]), state->holderIds[slot][0]);
+                    if (pokeId == BTL_SICKCONT_GetPosition(state->key[slot])) BTL_SICKCONT_SetPosition(&state->key[slot], state->holderIds[slot][0]);
                 }
             }
         }
@@ -448,7 +421,7 @@ void BTL_FIELD_RemoveHolderFromSlots(BtlFieldState *state, u32 pokeId)
 
 
 
-int BTL_FIELD_IsMoveSealedBySlot(BtlFieldState *state, char *side, void *pokeParam, u16 moveId)
+int BTL_FIELD_IsMoveSealedBySlot(BtlFieldState *state, struct BtlSide *side, struct BtlPokeParam *pokeParam, u16 moveId)
 {
     u8 selfId;
     u8 holderId;
@@ -460,7 +433,7 @@ int BTL_FIELD_IsMoveSealedBySlot(BtlFieldState *state, char *side, void *pokePar
     for (i = 0; i < count; i++) {
         holderId = state->holderIds[BTL_FIELD_SLOT_MOVE_SEAL][i];
         if (BTL_MAIN_IsPokeSamePair(selfId, holderId) == 0) {
-            if (BTL_POKEPARAM_HasMove(BTL_SIDE_GetPokeById((struct BtlSide *)side, holderId), moveId) != 0)
+            if (BTL_POKEPARAM_HasMove(BTL_SIDE_GetPokeById(side, holderId), moveId) != 0)
                 return 1;
         }
     }
@@ -474,7 +447,7 @@ int BTL_FIELD_IsMoveSealedBySlot(BtlFieldState *state, char *side, void *pokePar
  * it as a union); the `adds r0,r5,#0 ; adds r0,#0x28 ; ldr r0,[r0]` argument
  * setup is that struct copy, not a plain u32 load.
  */
-void BTL_FIELD_TickSlots(BtlFieldState *state, void (*onExpire)(u32, u32), u32 arg)
+void BTL_FIELD_TickSlots(BtlFieldState *state, void (*onExpire)(int, struct BtlServerFlow *), struct BtlServerFlow *arg)
 {
     u32 slot;
 
@@ -500,7 +473,7 @@ void BTL_FIELD_TickSlots(BtlFieldState *state, void (*onExpire)(u32, u32), u32 a
 }
 
 
-void *BTL_FIELD_IsSlotInUse(BtlFieldState *state, int slot)
+int BTL_FIELD_IsSlotInUse(BtlFieldState *state, int slot)
 {
-    return (void *)state->inUse[slot];
+    return state->inUse[slot];
 }

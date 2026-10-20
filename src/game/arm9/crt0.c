@@ -44,6 +44,7 @@
  *   _fp_init                        0x0209D724  arm
  *   __call_static_initializers      0x0209D820  arm
  */
+#include "../sdk_ioreg.h"
 
 extern char SDK_LTDAUTOLOAD_LIST[], SDK_LTDAUTOLOAD_LIST_END[], SDK_LTDAUTOLOAD_START[], SDK_LTDCOMPRESSED_END[];
 extern char SDK_AUTOLOAD_LIST[], SDK_AUTOLOAD_LIST_END[], SDK_AUTOLOAD_START[];
@@ -622,7 +623,7 @@ void OSi_ReferSymbol(void *symbol)
 
 static int INITi_IsRunOnTwl(void)
 {
-    return (*(volatile unsigned char *)0x04004000 & 3) == 1;
+    return (*(volatile unsigned char *)REG_SCFG_ROM_ADDR & 3) == 1;
 }
 
 /* hand-written in the original: ldm/stm copy loop, one SDK line-table row per instruction */

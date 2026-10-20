@@ -71,98 +71,84 @@
 #include "union_comm_types.h"
 #include "../arm9/net_types.h"
 
-extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
+#include "../arm9/gfl_heap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "../arm9/net.h"
+#include "../arm9/gfl_heap_wrap.h"
 
-extern struct Regulation *REGULATION_Create(u32 heapId);
+#include "../arm9/regulation.h"
 
-extern u32 GFL_HEAP_Free(void *memory);
 
-extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern void GFL_NET_StartSession(const GFLNetInitializeStruct *init, void (*startCallback)(UnionRoomWork *work), UnionRoomWork *work);
 
 extern void GFL_NET_EndDeviceWrapper(int flag);
 
 extern void GFL_NET_SetErrorCheckEnabled(u32 enable);
 
-extern int GFL_NET_Exit(void (*exitCallback)(UnionRoomWork *work));
 
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_err.h"
 
-extern void GFL_NET_ERR_ResetState(void);
 
 extern int GFL_NET_GetRunState(void);
 
-extern void NET_WHPIPE_PublishBeacon(void);
+#include "../ov014/net_whpipe.h"
 
 extern u32 GFL_NET_IsParentAid(void);
 
-extern u8 MATH_CountPopulation(u32 x);
+#include "../arm9/math.h"
 
 extern int GFL_NET_GetNegotiationNum(void);
 
 extern void GFL_NET_SetLoginOption(u8 option);
 
-extern int UNION_SCENE_IsScenePending(UnionRoomWork *work);
+#include "union_scene.h"
 struct CommPlayerWork;
 
-extern void COMM_PLAYER_Update(void *gameSystem, struct CommPlayerWork *work);
+#include "../ov010/comm_player.h"
 struct CommPlayerPackage;
 
-extern int COMM_PLAYER_UpdateMyPackage(struct CommPlayerWork *work, struct CommPlayerPackage *out);
 
-extern u32 COLOSSEUM_SendPackage(void *package);
+#include "colosseum.h"
 
-extern void COLOSSEUM_UpdateCommPlayers(ColosseumWork *colosseum);
+#include "../ov019/colosseum_tool.h"
 
-extern void COLOSSEUM_FlushChoiceReplies(ColosseumWork *colosseum);
 
-extern void COLOSSEUM_UpdateReadyState(ColosseumWork *colosseum);
 
 extern u32 GFL_NET_GetScanResult(u32 index);
 
 extern void *GFL_NET_GetScanResultMac(u32 index);
 
-extern void NET_WHPIPE_ReleaseEntry(u32 index);
 
 extern int GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
 
-extern void MI_CpuCopy8(const void *src, void *dst, int size);
+#include "../arm9/mi_memory.h"
 
-extern void MI_CpuFill8(void *dst, int value, int size);
 
-extern void OS_GetMacAddress(u8 *macAddress);
+#include "../arm9/os_ownerinfo.h"
 
-extern void MYSTATUS_CopyNameChars(u16 *src, u16 *dest, u32 n);
+#include "../arm9/mystatus.h"
 
-extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *status);
 
-extern u32 MYSTATUS_GetSex(const struct MyStatus *status);
 
-extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetNation(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetArea(const struct MyStatus *status);
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-struct FieldState;
+#include "../arm9/gamesystem.h"
+struct WifiList;
+struct WifiList;
 struct FieldState;
 
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
+#include "../arm9/game_data.h"
+struct WifiList;
 
-extern void WIFILIST_MakeExchangeToken(struct FieldState *list, void *token);
+#include "../arm9/wifilist.h"
 
-extern int UNION_APP_IsClosed(struct UnionAppWork *app);
+#include "../ov022/union_app.h"
 
-extern void UNION_APP_Delete(struct UnionAppWork *app);
 struct ColosseumWork;
 
-extern void COLOSSEUM_Delete(struct ColosseumWork *work, void *gameSystem);
 
-extern u32 GFL_USE_GetRandom(u32 range);
+#include "../arm9/gfl_use.h"
 
 extern void GFL_NET_SetGameKind(int gameKind, int option);
 
@@ -248,17 +234,15 @@ void UNION_COMM_SetChatType(UnionRoomWork *work, int chatType);
 
 void UNION_COMM_SetGameKindByStatus(u32 status);
 
-int UNION_MAIN_IsFieldReady(UnionRoomWork *work);
+#include "union_main.h"
 
-int UNION_COMMAND_SendConnectSync(void);
+#include "union_command.h"
 
-int UNION_COMMAND_SendAppEntryRefused(u32 sendMask);
 
-int UNION_COMMAND_SendAppEntryAccepted(int sendMask);
 
 extern char sUnionCommFile[];
 
-extern const GFLNetInitializeStruct sUnionNetInit;
+extern GFLNetInitializeStruct sUnionNetInit;
 
 UnionRoomWork *UNION_COMM_Create(UnionParentWork *parent)
 {
@@ -290,7 +274,7 @@ UnionRoomWork *UNION_COMM_InitComm(int *seq, UnionParentWork *parent)
 
     work = UNION_COMM_Create(parent);
     work->commState = 1;
-    GFL_NET_StartSession(&sUnionNetInit, UNION_COMM_SessionStartCallback, work);
+    GFL_NET_StartSession(&sUnionNetInit, (uptr)UNION_COMM_SessionStartCallback, (uptr)work);
     return work;
 }
 
@@ -315,7 +299,7 @@ int UNION_COMM_Exit(int *seq, UnionParentWork *parent, UnionRoomWork *work)
     work->exitStarted = 1;
     if (work->commState < 3) return 0;
     work->commState = 4;
-    if (GFL_NET_Exit(UNION_COMM_ExitCallback) == 0) UNION_COMM_ExitCallback(work);
+    if (GFL_NET_Exit((void (*)(u32))UNION_COMM_ExitCallback) == 0) UNION_COMM_ExitCallback(work);
     return 1;
 }
 
@@ -386,7 +370,7 @@ int UNION_COMM_UpdateReset(UnionRoomWork *work)
         break;
     case 2:
         work->commState = 4;
-        if (GFL_NET_Exit(UNION_COMM_ExitCallback) == 0) {
+        if (GFL_NET_Exit((void (*)(u32))UNION_COMM_ExitCallback) == 0) {
             UNION_COMM_ExitCallback(work);
         }
         work->resetSeq++;
@@ -402,7 +386,7 @@ int UNION_COMM_UpdateReset(UnionRoomWork *work)
         break;
     case 4:
         work->commState = 1;
-        GFL_NET_StartSession(&sUnionNetInit, UNION_COMM_SessionStartCallback, work);
+        GFL_NET_StartSession(&sUnionNetInit, (uptr)UNION_COMM_SessionStartCallback, (uptr)work);
         work->resetSeq++;
         break;
     case 5:
@@ -618,7 +602,7 @@ void UNION_COMM_BuildBeacon(UnionRoomWork *work, UnionBeacon *beacon)
     beacon->nation = MYSTATUS_GetNation(work->parent->myStatus);
     beacon->area = MYSTATUS_GetArea(work->parent->myStatus);
     beacon->group = situation->connect.group;
-    WIFILIST_MakeExchangeToken(GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->parent->gameSystem)), beacon->friendKey);
+    WIFILIST_MakeExchangeToken((struct WifiList *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(work->parent->gameSystem)), beacon->friendKey);
     if (work->app != 0)
         beacon->appActive = UNION_APP_IsClosed(work->app);
     else

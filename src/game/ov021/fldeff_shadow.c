@@ -95,43 +95,21 @@ typedef struct FldeffShadowWork {
     u32 entryId;                          /* 0x14 billboard entry (0xFFFF: none) */
 } FldeffShadowWork;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
-struct MmdlVec;
+#include "../arm9/gfl_heap_wrap.h"
+struct VecFx32;
 struct Mmdl;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
-extern const MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(const Mmdl *mmdl);
-extern struct BbActSys *FIELDMAP_GetEffectBbdAct(struct FieldMap *fieldmap);
-extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *act);
-extern u32 GFL_HEAP_Free(void *block);
+#include "../ov010/fldmmdl.h"
+#include "fieldmap.h"
+#include "../arm9/billboard_act.h"
 struct ArcHandle;
 struct G3dResource;
-extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
-extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *act, const struct BbActRec *recs, u32 count);
-extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *act, u32 first, u32 count);
+#include "../arm9/g3d_system.h"
 struct MmdlCheckInfo;
-extern void FLDMMDL_GetCheckInfo(struct Mmdl *mmdl, struct MmdlCheckInfo *info);
-extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *act, u16 baseSlot, const struct BbActDesc *desc, u32 count, u32 mode);
-extern void BILLBOARD_SetElemPolyId(struct BbBoard *board, int elemId, u8 *polyId);
-extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *act, u16 first, u32 count);
-extern int FLDMMDL_CheckCheckInfo(struct Mmdl *mmdl, struct MmdlCheckInfo *info);
+#include "../arm9/billboard.h"
 struct MmdlSys;
-extern struct MmdlSys *FLDMMDL_GetMmdlSys(const Mmdl *mmdl);
-extern int FLDMMDL_SysIsDrawEnable(struct MmdlSys *sys);
-extern int FLDMMDL_CheckStatusBitVanish(const Mmdl *mmdl);
-extern u32 FLDMMDL_CheckMoveBit(const Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_GetModelOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
-extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void FLDMMDL_GetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *out);
-extern void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemId, u32 *visible);
-extern void BILLBOARD_SetElemPos(struct BbBoard *board, int elemId, const VecFx32 *pos);
+#include "../arm9/fx_vec.h"
 struct FieldEffectSys;
-u32 FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys);
-u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
-s32 FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
-void FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
-void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
-void FIELD_EFFECT_UpdateObject(FieldEffectObj *obj);
-void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *obj);
+#include "field_effect.h"
 FldeffShadow *FLDEFF_SHADOW_Create(FieldEffectSys *sys, int heapId);
 void FLDEFF_SHADOW_Delete(FieldEffectSys *sys, FldeffShadow *shadow);
 void FLDEFF_SHADOW_CreateSlot(FldeffShadow *shadow);
@@ -325,11 +303,11 @@ void FLDEFF_SHADOW_Draw(FieldEffectObj *obj, FldeffShadowWork *work)
     const MmdlObjCodeParam *codeParam = FLDMMDL_GetObjCodeParam(work->mmdl);
     if (work->hidden == 0) {
         show = 1;
-        FLDMMDL_GetPos(work->mmdl, (struct MmdlVec *)(&pos));
-        FLDMMDL_GetModelOffset(work->mmdl, (struct MmdlVec *)(&offset));
+        FLDMMDL_GetPos(work->mmdl, (struct VecFx32 *)(&pos));
+        FLDMMDL_GetModelOffset(work->mmdl, (struct VecFx32 *)(&offset));
         VEC_Add(&pos, &offset, &pos);
         if ((u8)(codeParam->drawProcNo + 246) <= 1) {
-            FLDMMDL_GetDrawOffset(work->mmdl, (struct MmdlVec *)(&offset));
+            FLDMMDL_GetDrawOffset(work->mmdl, (struct VecFx32 *)(&offset));
             if (codeParam->mdlSize == 0)
                 offset.y = -0x800;
             VEC_Add(&pos, &offset, &pos);

@@ -49,17 +49,8 @@
 
 #include "../types.h"
 #include "net_types.h"
-
-/* One 0xC0-byte beacon record (a WMBssDesc) that the ov014 receive callback queues */
-struct WihBssDesc {
-    u8 bssid[6];
-    u16 length;
-    u16 rssi;
-    u16 ssidLength;
-    u8 ssid[0x20];      /* +0x0C */
-    u16 capaInfo;       /* +0x2C, bit 0x10 is the privacy flag */
-    u8 rest[0x92];
-};
+#include "../sdk_wm.h"
+#include "dwc_connectinet_types.h"
 
 /* the 0xA00-byte buffer behind the global's second word */
 struct WihFilterBuf {
@@ -71,7 +62,7 @@ struct WihFilterBuf {
 
 /* the 0x328-byte context object WIH_DWC_Create allocates */
 struct WihContext {
-    struct WihBssDesc beacon[4];
+    WMBssDesc beacon[4];
     void *matchWork;                    /* +0x300 */
     struct WihFilterBuf *filterBuf;     /* +0x304 */
     u8 pad308[4];
@@ -93,37 +84,39 @@ struct WihGlobals {
     struct WihFilterBuf *filterBuf;
 };
 
-struct WihSsidInfo {
-    int kind;          /* +0x00 */
-    u8  rest[0x3C];    /* +0x04 */
-};
-
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-extern void *GFL_NET_AllocAligned(u32 heapId, u32 size, const char *file, u16 line);
-extern u32  DWC_GetParseWMBssDescWorkSize(void);
-extern int GF_OVERLAY_Load(int id);
-extern void WIH_SetBeaconFoundCallback(u32 callback);
-extern void GFL_NET_FreeAligned(void *p);
-extern void GF_OVERLAY_Unload(int handle);
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern u32 GF_STANDARD_GetStringLength(const u8 *s);
-extern s32 GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
-extern struct GFLNetSession *GFL_NET_GetInitParam(void);
-extern int  GFL_NET_GetNegotiationNum(void);
-extern u32 GFL_NET_GetScanResult(u32 slot);
-extern u8   NET_WHPIPE_GetEntryKind(u8 slot);
-extern int  DWC_ParseWMBssDesc(void *work, struct WihBssDesc *beacon, struct WihSsidInfo *out);
-extern void NCFG_ReadConfig(u8 *filterState, u32 value);
-extern int  GFL_NET_GetRunState(void);
-extern void OS_GetMacAddress(u8 *mac);
-extern u8 NET_WHPIPE_GetEntryBeaconKind(int slot);
+#include "gf_panic.h"
+#include "net.h"
+#include "gf_overlay.h"
+#include "../ov014/wih.h"
+#include "mi_memory.h"
+#include "gf_standard.h"
+#include "../ov014/net_whpipe.h"
+#include "dwc_connectinet.h"
+#ifdef __MWERKS__
+extern void NCFG_ReadConfig(u8 *filterState, u32 value); /* original prototype; the definition differs in argument count, return type */
+#else
+#include "ncfg_info.h"
+#endif
+#include "os_ownerinfo.h"
 struct PlayerLookup;
 struct PeerBook;
-extern int COMM_PLAYER_SUPPORT_FindPeerRecord(struct PeerBook *book, struct PlayerLookup *lookup, u8 *mac);
-extern int UI_Update(int a);
-extern int GFL_USE_PollPowerExit(void);
-extern int GFL_USE_UpdateSound(int a);
-extern int PM_VOICE_StopFinished(int a);
+#include "comm_player_support.h"
+#ifdef __MWERKS__
+extern int UI_Update(int a); /* original prototype; the definition differs in argument count, return type */
+#else
+#include "ui.h"
+#endif
+#ifdef __MWERKS__
+extern int GFL_USE_PollPowerExit(void); /* original prototype; the definition differs in argument count, return type */
+extern int GFL_USE_UpdateSound(int a); /* original prototype; the definition differs in argument count, return type */
+#else
+#include "gfl_use.h"
+#endif
+#ifdef __MWERKS__
+extern int PM_VOICE_StopFinished(int a); /* original prototype; the definition differs in argument count, return type */
+#else
+#include "pm_voice.h"
+#endif
 
 int WIH_DWC_PollSystem(void);
 struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap);
@@ -132,9 +125,9 @@ void WIH_DWC_PauseTimers(void);
 void WIH_DWC_ResumeTimers(void);
 void WIH_DWC_AddBeacon(const void *beacon);
 void WIH_DWC_TickTimers(void);
-int WIH_DWC_IsSsidInFilterList(struct WihBssDesc *beacon);
-int WIH_DWC_IsOpenTaggedBeacon(const struct WihBssDesc *beacon);
-u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon);
+int WIH_DWC_IsSsidInFilterList(WMBssDesc *beacon);
+int WIH_DWC_IsOpenTaggedBeacon(const WMBssDesc *beacon);
+u32 WIH_DWC_IsPrivacyBeacon(const WMBssDesc *beacon);
 u32 WIH_DWC_PollStatus(void *searchKey);
 void WIH_DWC_CreateFilterBuffer(u32 heapId);
 void WIH_DWC_ResetFilterState(void);
@@ -154,12 +147,21 @@ extern u8 sWihBeaconSsidTag[];
  */
 int WIH_DWC_PollSystem(void)
 {
+#ifdef __MWERKS__
     int t0 = GFL_USE_PollPowerExit();
     int t1 = UI_Update(t0);
     int t2 = GFL_USE_UpdateSound(t1);
     int t3 = PM_VOICE_StopFinished(t2);
 
     return t3;
+#else
+    /* the DS passes each r0 on to the next call; the host calls them plainly */
+    GFL_USE_PollPowerExit();
+    UI_Update();
+    GFL_USE_UpdateSound();
+    PM_VOICE_StopFinished();
+    return 0;
+#endif
 }
 
 /*
@@ -410,7 +412,7 @@ void WIH_DWC_TickTimers(void)
  *   python tools/match.py one --src src/matched/WIH_DWC_IsSsidInFilterList.c \
  *       --func WIH_DWC_IsSsidInFilterList --addr 0x020104F8 --cc 1.1p1 --thumb
  */
-int WIH_DWC_IsSsidInFilterList(struct WihBssDesc *beacon)
+int WIH_DWC_IsSsidInFilterList(WMBssDesc *beacon)
 {
     int slotIndex = 0;
     u8 *ssid = beacon->ssid;
@@ -446,7 +448,7 @@ int WIH_DWC_IsSsidInFilterList(struct WihBssDesc *beacon)
  *   python tools/match.py one --src src/matched/WIH_DWC_IsOpenTaggedBeacon.c \
  *       --func WIH_DWC_IsOpenTaggedBeacon --addr 0x0201054C --cc 1.1p1 --thumb
  */
-int WIH_DWC_IsOpenTaggedBeacon(const struct WihBssDesc *beacon)
+int WIH_DWC_IsOpenTaggedBeacon(const WMBssDesc *beacon)
 {
     if (beacon->ssidLength == 8) {
         if (GF_STANDARD_CompareBytes((u8 *)sWihBeaconSsidTag, (u8 *)beacon->ssid, 8) != 0) {
@@ -473,7 +475,7 @@ int WIH_DWC_IsOpenTaggedBeacon(const struct WihBssDesc *beacon)
  *   python tools/match.py one --src src/matched/WIH_DWC_IsPrivacyBeacon.c \
  *       --func WIH_DWC_IsPrivacyBeacon --addr 0x0201057C --cc 1.1p1
  */
-u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon)
+u32 WIH_DWC_IsPrivacyBeacon(const WMBssDesc *beacon)
 {
     if (beacon->capaInfo & 0x10) {
         return 1;
@@ -527,8 +529,8 @@ u32 WIH_DWC_PollStatus(void *searchKey)
     struct GFLNetSession *netState = GFL_NET_GetInitParam();
     int slot;
     int beaconIndex;
-    struct WihBssDesc *beacon;
-    struct WihSsidInfo ssidInfo;
+    WMBssDesc *beacon;
+    DWCApInfo ssidInfo;
     u8 slotState;
 
     if (gWihDwc.context == 0)
@@ -556,7 +558,7 @@ u32 WIH_DWC_PollStatus(void *searchKey)
         } else if (WIH_DWC_IsOpenTaggedBeacon(beacon)) {
             gWihDwc.context->taggedGameTimer = 600;
         } else if (DWC_ParseWMBssDesc(gWihDwc.context->matchWork, beacon, &ssidInfo)) {
-            switch (ssidInfo.kind) {
+            switch (ssidInfo.aptype) {
             case 0: case 1: case 2: case 3:
             case 10: case 11: case 12:
                 gWihDwc.context->knownGameTimer = 600;
@@ -655,7 +657,11 @@ void WIH_DWC_ResetFilterState(void)
     if (gWihDwc.filterBuf == 0) {
         GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
+#ifdef __MWERKS__
     NCFG_ReadConfig(gWihDwc.filterBuf->filterState, 0);
+#else
+    NCFG_ReadConfig((struct NCFGConfig *)gWihDwc.filterBuf->filterState);
+#endif
 }
 
 /*

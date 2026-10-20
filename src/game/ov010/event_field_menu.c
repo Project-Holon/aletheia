@@ -52,15 +52,7 @@
 
 struct MoveModelSys;
 
-/* Skill (hidden move) structs shared with move_pokemon.c. */
-typedef struct FieldSkillInfo {
-    u16 zoneId;                     /* 0x00 */
-    u16 usableMask;                 /* 0x02 */
-    u32 playerState;                /* 0x04 */
-    struct GameSystem *gameSystem;  /* 0x08 */
-    void *playerObj;                /* 0x0C */
-    struct FieldMap *fieldMap;      /* 0x10 */
-} FieldSkillInfo;
+#include "move_pokemon_types.h"
 
 typedef struct FieldSkillTarget {
     u16 partySlot;                  /* 0x00 */
@@ -106,72 +98,54 @@ typedef struct FieldMenuWork {
 } FieldMenuWork;
 
 /* game system, game event, game data */
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, EventTaskFn taskFn, unsigned int workSize);
+#include "../arm9/game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *next);
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
-extern void GAME_DATA_SetSubscreenType(struct GameData *gameData, u32 subscreenType);
+#include "../arm9/game_data.h"
 
-extern void GAME_DATA_SetFieldMenuCursor(struct GameData *gameData, u8 cursor);
 
-extern void MI_CpuFill8(void *dst, int value, int size);
+#include "../arm9/mi_memory.h"
 struct FieldSubscreen;
 
                                       
-extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct MmdlSys;
 
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 
-extern u32 ZONEDATA_IsZone96Pair(u32 zoneId);
+#include "../arm9/zonedata.h"
 
-extern u32 FIELD_SUBSCREEN_GetMode(struct FieldSubscreen *work);
+#include "../ov021/field_subscreen.h"
 
-extern u32 FIELD_SUBSCREEN_ResolveMode(struct FieldSubscreen *work, u32 mode);
 
-extern void UI_SetInputMode(u8 value);
+#include "../arm9/ui.h"
 
-extern int FIELD_SUBSCREEN_IsIdle(struct FieldSubscreen *work);
 
-extern int FIELD_SUBSCREEN_RequestMode(struct FieldSubscreen *work, u32 mode);
 
-extern int FIELD_SUBSCREEN_GetPanelResult(struct FieldSubscreen *work);
 
-extern void FIELD_SUBSCREEN_ClearPanelResult(struct FieldSubscreen *work);
 
-extern u32 FIELD_SUBSCREEN_GetMenuSelectedButton(struct FieldSubscreen *work);
 
-extern void FIELD_SUBSCREEN_SetMenuSelectedButton(struct FieldSubscreen *work, u32 buttonId);
 
-extern struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 linkMode);
+#include "../ov021/field_comm_actor.h"
 
-extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
+#include "fldmmdl.h"
 
-extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
 
-extern void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, FieldSkillInfo *info);
+#include "move_pokemon.h"
 struct SkillTarget;
 
-extern void MOVE_POKEMON_InitSkillTarget(struct SkillTarget *target, u16 id, u16 variant, u32 targetObj);
 
-extern struct GameEvent *MOVE_POKEMON_CreateSkillEvent(s32 skillIndex, struct SkillTarget *target, struct FieldSkillInfo *info);
 
-extern struct GameEvent *FIELD_LINK_EVENT_Create(int index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+#include "field_skill_check.h"
 struct ShortcutLink;
 
-extern struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(struct ShortcutLink *link, u16 id);
+#include "event_shortcut_menu.h"
 
 extern const u32 SCRCMD_NETWORK_sProcKindOfButton[];
 

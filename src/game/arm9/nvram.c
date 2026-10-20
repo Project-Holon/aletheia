@@ -282,7 +282,7 @@ NVRAMResult NVRAMi_WriteAsync(u32 address, u32 size, void *pData, NVRAMCallback 
     nvramw.callbackArg = arg;
     nvramw.arg[0] = address;
     nvramw.arg[1] = size;
-    nvramw.arg[2] = (u32)pData;
+    nvramw.arg[2] = (uptr)pData;
     nvramw.seq = 0;
 
     e = OS_DisableInterrupts();
@@ -501,7 +501,7 @@ NVRAMResult NVRAMi_VerifyAsync(u32 address, u32 size, void *pData, NVRAMCallback
     nvramw.callbackArg = arg;
     nvramw.arg[0] = address;
     nvramw.arg[1] = size;
-    nvramw.arg[2] = (u32)pData;
+    nvramw.arg[2] = (uptr)pData;
     nvramw.seq = 0;
 
     DC_InvalidateRange(nvramTemp, 32);
@@ -649,7 +649,7 @@ void NVRAMi_SyncCallback(NVRAMResult result, void *arg)
 
 void NVRAMi_AlarmHandler(void *arg)
 {
-    NVRAMi_Callback(4, (u32)arg, 0);
+    NVRAMi_Callback(4, (uptr)arg, 0);
 }
 
 BOOL NVRAMi_VerifyDataArray(u8 *data0, u8 *data1, u32 size)
@@ -682,13 +682,13 @@ BOOL NVRAMi_WriteDisable(void)
 
 BOOL NVRAMi_ReadStatusRegister(u8 *pData)
 {
-    if (0 > PXI_SendWordByFifo(4, 0x02002200 | ((u32)pData >> 24), 0)) {
+    if (0 > PXI_SendWordByFifo(4, 0x02002200 | ((uptr)pData >> 24), 0)) {
         return 0;
     }
-    if (0 > PXI_SendWordByFifo(4, 0x00010000 | (((u32)pData >> 8) & 0x0000FFFF), 0)) {
+    if (0 > PXI_SendWordByFifo(4, 0x00010000 | (((uptr)pData >> 8) & 0x0000FFFF), 0)) {
         return 0;
     }
-    if (0 > PXI_SendWordByFifo(4, 0x01000000 | 0x00020000 | (((u32)pData << 8) & 0x0000FF00), 0)) {
+    if (0 > PXI_SendWordByFifo(4, 0x01000000 | 0x00020000 | (((uptr)pData << 8) & 0x0000FF00), 0)) {
         return 0;
     }
     return 1;
@@ -708,10 +708,10 @@ BOOL NVRAMi_ReadDataBytes(u32 address, u32 size, u8 *pData)
     if (0 > PXI_SendWordByFifo(4, 0x00030000 | (size & 0x0000FFFF), 0)) {
         return 0;
     }
-    if (0 > PXI_SendWordByFifo(4, 0x00040000 | ((u32)pData >> 16), 0)) {
+    if (0 > PXI_SendWordByFifo(4, 0x00040000 | ((uptr)pData >> 16), 0)) {
         return 0;
     }
-    if (0 > PXI_SendWordByFifo(4, 0x01000000 | 0x00050000 | ((u32)pData & 0x0000FFFF), 0)) {
+    if (0 > PXI_SendWordByFifo(4, 0x01000000 | 0x00050000 | ((uptr)pData & 0x0000FFFF), 0)) {
         return 0;
     }
     return 1;
@@ -728,10 +728,10 @@ BOOL NVRAMi_PageWrite(u32 address, u16 size, u8 *pData)
     if (0 > PXI_SendWordByFifo(4, 0x00020000 | size, 0)) {
         return 0;
     }
-    if (0 > PXI_SendWordByFifo(4, 0x00030000 | ((u32)pData >> 16), 0)) {
+    if (0 > PXI_SendWordByFifo(4, 0x00030000 | ((uptr)pData >> 16), 0)) {
         return 0;
     }
-    if (0 > PXI_SendWordByFifo(4, 0x01000000 | 0x00040000 | ((u32)pData & 0x0000FFFF), 0)) {
+    if (0 > PXI_SendWordByFifo(4, 0x01000000 | 0x00040000 | ((uptr)pData & 0x0000FFFF), 0)) {
         return 0;
     }
     return 1;

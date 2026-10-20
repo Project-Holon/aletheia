@@ -38,18 +38,16 @@
 
 
 
-extern void MI_CpuCopy8(const void *,void *,unsigned);
+#include "../arm9/mi_memory.h"
 struct McssWork;
 
-extern void MCSS_GetPosition(struct McssWork *work, u32 *out);
+#include "../arm9/mcss.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MCSS_SetPosition(struct McssWork *work, u32 *src);
 
-extern void MCSS_SetAnmStopFlag(struct McssWork *work);
 
-void POKETRADE_NEGO_PlaySeByEvent(int eventId, u8 *work);
+#include "pokemontrade_nego.h"
 
 void POKETRADE_MCSS_SlideBegin(McssSlide *p, void *frameCount, void *targetPos);
 
@@ -73,7 +71,7 @@ void POKETRADE_MCSS_SlideBegin(McssSlide *slide, void *frameCount, void *targetP
 
     MCSS_GetPosition(slide->mcss, (u32 *)buf);
     slide->frame = 0;
-    slide->frameCount = (u32)frameCount;
+    slide->frameCount = (uptr)frameCount;
     MI_CpuCopy8(targetPos, &slide->target, 0xC);
     MI_CpuCopy8(buf, &slide->start, 0xC);
 }
@@ -109,7 +107,7 @@ void *POKETRADE_MCSS_SlideCreateWithOffsets(void *mcss, void *frameCount, void *
     slide->mcss = mcss;
     POKETRADE_MCSS_SlideBegin(slide, frameCount, targetPos);
     slide->reserved0C = 0;
-    slide->offsetTable = (McssSlideVec *)(u32)offsetTable;
+    slide->offsetTable = (McssSlideVec *)(uptr)offsetTable;
     return slide;
 }
 

@@ -67,6 +67,37 @@ def header_rows(raw):
     return out
 
 
+def mask_ds(raw):
+    """pf.mask, with the branches the DS build (__MWERKS__ defined) skips also
+    blanked.  A host/DS `#ifdef __MWERKS__ ... #else ... #endif` pair holds two
+    copies of a line, and pf.depth_table would count the braces of both."""
+    m = pf.mask(raw)
+    lines = m.split('\n')
+    rl = raw.split('\n')
+    stack = []          # per open conditional: [branch active, an earlier branch was taken]
+    out = []
+    for i, l in enumerate(lines):
+        t = rl[i].strip() if i < len(rl) else ''
+        if t.startswith('#'):
+            d = re.sub(r'^#\s*', '', t)
+            if re.match(r'(if|ifdef|ifndef)\b', d):
+                neg = d.startswith('ifndef') or re.search(r'!\s*defined', d) is not None
+                stack.append([not neg, not neg])
+            elif d.startswith('elif') and stack:
+                stack[-1][0] = not stack[-1][1]
+                stack[-1][1] = stack[-1][1] or stack[-1][0]
+            elif d.startswith('else') and stack:
+                stack[-1][0] = not stack[-1][1]
+            elif d.startswith('endif') and stack:
+                stack.pop()
+            out.append(l)
+        elif all(b[0] for b in stack):
+            out.append(l)
+        else:
+            out.append(re.sub(r'[^\n]', ' ', l))
+    return '\n'.join(out)
+
+
 ROWDEF = {}   # address -> files defining a function whose header row gives that address
 
 
@@ -111,7 +142,7 @@ def defined_in_tree(tree, region, names=None):
         except OSError:
             continue
         texts.append(raw)
-        m = pf.mask(raw)
+        m = mask_ds(raw)
         tab = pf.depth_table(m)
         rows = header_rows(raw)
         rel = os.path.relpath(p, ROOT).replace(os.sep, '/')

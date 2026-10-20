@@ -1,6 +1,8 @@
 #ifndef GAME_ARM9_FLDMMDL_SAVE_H
 #define GAME_ARM9_FLDMMDL_SAVE_H
 
+typedef struct NetDeviceRecord NetDeviceRecord;
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of fldmmdl_save.c, prototypes copied from their definitions. */
 
@@ -20,7 +22,5 @@ u32 FLDMMDL_GetNextUsed(const void *obj, void *out, u32 *idxptr);
 void *FLDMMDL_GetFreeSlot(void *ctx);
 u32 FLDMMDL_ObjCodeToTableIndex(u32 x);
 /* END mkheaders: generated region */
-
-typedef struct NetDeviceRecord NetDeviceRecord;
 
 #endif

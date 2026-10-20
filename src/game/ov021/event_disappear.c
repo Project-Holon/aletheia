@@ -187,60 +187,28 @@ enum {
     EVENT_DISAPPEAR_RISE_END
 };
 
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EventDisappearFunc func, u32 workSize);
-extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
-extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern FieldTaskManager *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
+#include "../arm9/game_event.h"
+#include "fieldmap.h"
 struct FieldMap;
-struct FieldEffectCont;
-extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
-extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
-extern unsigned int FIELD_CAMERA_GetMode(struct FieldCamera *camera);
-extern void FIELD_CAMERA_SetMode(struct FieldCamera *camera, unsigned int mode);
-extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 acmdCode);
-extern void FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bit);
-extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int effectId, int wait);
-extern FieldTask *FIELD_TASK_CreatePlayerSpinEaseIn(FieldMap *fieldMap, u16 frames, int spins);
-extern FieldTask *FIELD_TASK_CreatePlayerSpinLinear(FieldMap *fieldMap, u32 frames, u32 spins);
-extern FieldTask *FIELD_TASK_CreatePlayerDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset);
-extern FieldTask *FIELD_TASK_CreatePlayerPosTween(FieldMap *fieldMap, u32 frames, VecFx32 *to);
-extern FieldTask *FIELD_TASK_CreateCameraDistanceTween(FieldMap *fieldMap, u16 frames, int targetDistance);
-extern FieldTask *FIELD_TASK_CreateFade(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait);
-extern FieldTask *FIELD_TASK_CreateWait(FieldMap *fieldMap, u16 frames);
+struct FieldEffectSys;
+#include "field_player.h"
+#include "field_camera.h"
+#include "../ov010/fldmmdl.h"
+#include "event_fieldmap_control.h"
+#include "field_task_manager.h"
 struct Mmdl;
-extern FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(struct FieldMap *fieldMap, struct Mmdl *unused, u16 frames, u16 interval);
-extern void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
-extern int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager);
-extern struct FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
-extern void FIELD_CAMERA_ANIME_SetData(struct FieldCameraAnime *anime, FieldCameraAnimeData *data);
-extern int FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
-extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, FieldCameraParam *param);
-extern void FIELD_CAMERA_ANIME_ApplyStartParam(struct FieldCameraAnime *anime);
-extern void FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
-extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
-extern void FIELD_CAMERA_ANIME_Delete(struct FieldCameraAnime *anime);
-struct FieldBuildModel;
-extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+#include "field_camera_anime.h"
+struct BuildModelMan;
+#include "field_g3d_mapper.h"
 struct BuildModelRect;
-extern struct BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(struct BuildModelMan *man, struct BuildModelRect *rect, int kind, int *count);
-extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(struct BuildModelMan *man, struct BuildModelEntry *entry);
-extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot, int mode);
-extern int FIELD_BUILDMODEL_IsNodeSlotIdle(struct BuildModelNode *node, int slot);
-extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
+#include "field_buildmodel.h"
 struct FieldEffectSys;
 struct Mmdl;
-extern void FLDEFF_KEMURI_Start(struct Mmdl *mmdl, struct FieldEffectSys *sys);
-extern unsigned int GFL_HEAP_Free(void *block);
-extern unsigned int KEY_GetCont(void);
-extern int FADE_IsActive(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void GFL_USE_StopSeSlot(int slot);
-extern void GFL_USE_PlaySeInSlot(u32 seqNo, int slot);
-extern int GFL_USE_GetSeSlot(u32 seqNo);
+#include "fldeff_kemuri.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/key.h"
+#include "../arm9/fade.h"
+#include "../arm9/gfl_use.h"
 
 GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos);
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged);
@@ -272,7 +240,7 @@ static inline void VEC_Set(VecFx32 *dst, int x, int y, int z)
 /* Creates the walk event: the player walks to targetPos and falls. */
 GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunWalkFall, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_DISAPPEAR_RunWalkFall, 0x7C);
     EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -286,7 +254,7 @@ GameEvent *EVENT_DISAPPEAR_CreateWalkFall(GameEvent *parent, GameSystem *gameSys
 /* Creates the spin zoom event. */
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoom, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_DISAPPEAR_RunSpinZoom, 0x7C);
     EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -300,7 +268,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(GameEvent *parent, GameSystem *gameSys
 /* Creates the spin zoom event with the player effect. */
 GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int seasonChanged)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinZoomEffect, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_DISAPPEAR_RunSpinZoomEffect, 0x7C);
     EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -314,7 +282,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(GameEvent *parent, GameSystem *g
 /* Creates the spin fade event. */
 GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap, int soundVariant)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunSpinFade, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_DISAPPEAR_RunSpinFade, 0x7C);
     EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;
@@ -327,7 +295,7 @@ GameEvent *EVENT_DISAPPEAR_CreateSpinFade(GameEvent *parent, GameSystem *gameSys
 /* Creates the rising spin event. */
 GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, EVENT_DISAPPEAR_RunRisingSpin, 0x7C);
+    GameEvent *event = GAME_EVENT_Create(gameSystem, parent, (GameEventFunc)EVENT_DISAPPEAR_RunRisingSpin, 0x7C);
     EventDisappearWork *work = GAME_EVENT_GetWork(event);
 
     work->gameSystem = gameSystem;

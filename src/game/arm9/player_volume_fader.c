@@ -76,7 +76,7 @@ extern const char player_volume_fader_File[];
  */
 struct Fader *PLAYER_VOLUME_FADER_Create(void *a, int v)
 {
-    struct Fader *p = GFL_HEAP_Alloc((unsigned int)a, sizeof(struct Fader), 0,
+    struct Fader *p = GFL_HEAP_Alloc((uptr)a, sizeof(struct Fader), 0,
                                     player_volume_fader_File, 0x42);
     PLAYER_VOLUME_FADER_Init(p);
     p->channel = v;

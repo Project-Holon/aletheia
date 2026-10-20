@@ -26,14 +26,11 @@
 struct ExpHeap;
 #include "../types.h"
 
-extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
-extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, unsigned short attr);
-extern void OS_Terminate(void);
-extern void NNSi_FndDestroyExpHeap(void *heap);
-extern unsigned long OS_DisableIrqMask(unsigned long intr);
-extern unsigned long OS_EnableIrqMask(unsigned long intr);
-extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align);
-extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
+#include "../arm9/mi_memory.h"
+#include "../arm9/nns_fnd_expheap.h"
+#include "../arm9/os_terminate_processor.h"
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
 void DWCi_HEAPlInit(void *address);
 void DWCi_HEAPlEnd(void);
 void *DWCi_HEAPlAlloc(unsigned long size, int alignment);

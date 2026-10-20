@@ -81,9 +81,10 @@
  *   ZUKAN_DETAIL_COMMON_LoadPaletteToSlot 0x021BC738 thumb ov208
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteRange  0x021BC9BC  thumb  ov208
  */
+#include "../arm9/tcb_list.h"
 #include "zukan_detail_shared_types.h"
 
-struct PalAnmSlot;
+struct PaletteFade;
 
 /*
  * Brightness/blend controller, 0x14 bytes, one per engine, allocated by
@@ -117,63 +118,50 @@ struct Ov208Win {
     u8  flashTimer;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+#include "../arm9/zukan_save.h"
 struct ZukanSave;
 
-extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, unsigned short species);
 
-extern void G2x_SetBlendBrightnessExt_(unsigned int, int, int, int, int, int);
+#include "../arm9/g2.h"
 
 extern u32 TCB_GetTaskOffset(u32);
 
-extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
 
-extern void *PALANM_Create(u32);
+#include "../arm9/palanm.h"
 
-extern void PALANM_SetAutoTransfer(void *o, int v);
+struct TcbSystem;
+extern void PALANM_SetAutoTransfer(PaletteFade *o, int v);
 
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 
-extern u32 PALANM_Delete(void *ctx);
 
-extern void TCB_Noop(void *);
+extern void TCB_Noop(struct TcbSystem *sys);
 struct TcbSystem;
 
 extern void TCB_Main(struct TcbSystem *sys);
 
-extern u32 PALANM_GetFadeRequestBits(const char *ptr);
+extern u32 PALANM_GetFadeRequestBits(const PaletteFade *ptr);
 
-extern void PALANM_TransferPalettes(void *p);
+extern void PALANM_TransferPalettes(PaletteFade *p);
 
-extern void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 
-extern int PALANM_RequestFade(void *,unsigned short,unsigned short,short,unsigned char,unsigned char,unsigned short,void *);
+extern int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+#include "../arm9/arc_tool.h"
 
-extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
+#include "../arm9/arc_util.h"
 
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+#include "../arm9/bg_sys.h"
 
-extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void BG_SYS_MarkTileDirty(u32 bit);
 
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
-extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 void *ZUKAN_DETAIL_COMMON_CreateContext(u32 a, void *b, void *c, void *d, void *e, void *f, void *g, int h, unsigned short i, void *j);
 
@@ -444,7 +432,7 @@ struct Ov208PalFade *ZUKAN_DETAIL_COMMON_CreatePaletteAnim(u32 heap,u16 mask)
 {
     struct Ov208PalFade *p=GFL_HEAP_Alloc(heap,20,1,d_021C8D98,0x1e5);
     p->memory=GFL_HEAP_Alloc(heap,TCB_GetTaskOffset(2),1,d_021C8D98,0x1e8);
-    p->tcb=TCB_Init(2,p->memory);
+    p->tcb=(struct Ctx *)TCB_Init(2,p->memory);
     p->slots=PALANM_Create(heap);
     PALANM_SetAutoTransfer(p->slots,1);
     p->slotMask=mask;
@@ -468,7 +456,7 @@ void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(struct Ov208PalFade *p)
     if(p->slotMask&4)PALANM_FreeSlotBuffers(p->slots,2);
     if(p->slotMask&1)PALANM_FreeSlotBuffers(p->slots,0);
     PALANM_Delete(p->slots);
-    TCB_Noop(p->tcb);
+    TCB_Noop((struct TcbSystem *)p->tcb);
     GFL_HEAP_Free(p->memory);
     GFL_HEAP_Free((void *)((unsigned)p));
 }
@@ -485,11 +473,11 @@ void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(struct Ov208PalFade *p)
     case 1:
         break;
     case 2:
-        if (PALANM_GetFadeRequestBits((const char *)p->slots) == 0)
+        if (PALANM_GetFadeRequestBits((const PaletteFade *)p->slots) == 0)
             p->fadeState = 0;
         break;
     case 3:
-        if (PALANM_GetFadeRequestBits((const char *)p->slots) == 0)
+        if (PALANM_GetFadeRequestBits((const PaletteFade *)p->slots) == 0)
             p->fadeState = 1;
         break;
     }

@@ -31,6 +31,7 @@
  */
 struct Bmp;
 #include "../types.h"
+#include "textprint.h"
 
 /* Work record of the debug text printer: one rendered 8x8 glyph (4bpp, 0x20
  * bytes), its advance width, and the print cursor. */
@@ -42,18 +43,6 @@ typedef struct {
     u16 cursorY;
 } TextPrintWork;
 
-/* Same object as struct DebugConsole in gf_overlay.c (bytes 0..0xB; the
- * flags byte at 0xB is not read here). */
-typedef struct {
-    struct Bmp *charBitmap;
-    u16 cursorX;
-    u16 cursorY;
-    u8  advanceX;
-    u8  advanceY;
-    u8  fgColor : 4;
-    u8  bgColor : 4;
-} TextParam;
-
 #include "systemfont.h"
   /* glyph height */
   /* full-width space width */
@@ -64,8 +53,8 @@ typedef short s16_p07;
 #include "gfl_heap_wrap.h"
 void TEXTPRINT_Init(u32 fontId);
 void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console);
-void TEXTPRINT_PrintText(char *text, TextParam *console);
-void TEXTPRINT_SjisToGlyphCodes(char *text, u16 *out, int maxCodes);
+void TEXTPRINT_PrintText(const char *text, TextParam *console);
+void TEXTPRINT_SjisToGlyphCodes(const char *text, u16 *out, int maxCodes);
 u16 TEXTPRINT_AsciiToGlyphCode(u8 asciiChar);
 u16 TEXTPRINT_SjisToGlyphCode(u16 sjisChar);
 extern TextPrintWork *g_TextPrintWork;  /* the printer singleton */
@@ -187,7 +176,7 @@ void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console)
  *   python tools/match.py one --src src/pending/TEXTPRINT_PrintText.c \
  *       --func TEXTPRINT_PrintText --addr 0x0204E328 --cc 1.1p1 --arm
  */
-void TEXTPRINT_PrintText(char *text, TextParam *console)
+void TEXTPRINT_PrintText(const char *text, TextParam *console)
 {
     void *codeBuf = GFL_HEAP_Alloc(0, 0x200, 0, s_textprint_c, 0xae);
 
@@ -214,7 +203,7 @@ void TEXTPRINT_PrintText(char *text, TextParam *console)
  * and a compare, and the two-byte value is spelled `(ch << 8) + *p`, not
  * `|`: the original shows `add r0,r1,r0,lsl #8` (one byte at +0x40).
  */
-void TEXTPRINT_SjisToGlyphCodes(char *text, u16 *out, int maxCodes)
+void TEXTPRINT_SjisToGlyphCodes(const char *text, u16 *out, int maxCodes)
 {
     int count = 0;
     u16 glyphCode;

@@ -9,7 +9,7 @@
 
 typedef struct {
     int x, y, z;
-} Vec;
+} PokemontradeDemoVec;
 
 /* Animation work block (0xBC bytes) reached through the demo work's animWork
  * pointer at 0xC. It holds the particle ids, the slot-3 transform, the CLACT
@@ -17,9 +17,9 @@ typedef struct {
 typedef struct PokeTradeAnimWork {
     unsigned int   particleId[9];        /* 0x00 */
     unsigned char  pad_24[0x48 - 0x24];
-    Vec            position;             /* 0x48 */
-    Vec            scale;                /* 0x54 */
-    Vec            slotScale[4];         /* 0x60 per-mcss-slot scales */
+    PokemontradeDemoVec            position;             /* 0x48 */
+    PokemontradeDemoVec            scale;                /* 0x54 */
+    PokemontradeDemoVec            slotScale[4];         /* 0x60 per-mcss-slot scales */
     unsigned char  pad_90[0xB0 - 0x90];
     void          *actor;                /* 0xB0 */
     unsigned char  pad_B4[0xBA - 0xB4];

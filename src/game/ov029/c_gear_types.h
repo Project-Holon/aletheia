@@ -8,14 +8,14 @@
  * Needs u8, u16, u32 and s16 from the including file.
  */
 
-struct Actor;
-struct ActorSystem;
+struct ClactActor;
+struct Unit;
 struct ActorResources;
 struct ButtonTask;
 struct FadeCtx;
 struct GameSystem;
 struct HexMap;
-struct PalAnmSlot;
+struct PaletteFade;
 struct VBlankTask;
 
 struct CGearWork;
@@ -23,25 +23,10 @@ typedef void (*CGearStepFunc)(struct CGearWork *work);
 
 /* Sprite slot: one animated actor per lit tile, at most 20 at once. */
 typedef struct CGearActorSlot {
-    struct Actor *actor;
+    struct ClactActor *actor;
     int col;
     int row;
 } CGearActorSlot;
-
-/* Creation parameters of one sprite actor. */
-typedef struct CGearActorDesc {
-    s16 x;
-    s16 y;
-    u16 animIndex;
-    u8 palOffset;
-    u8 surface;         /* 2: sub screen */
-} CGearActorDesc;
-
-/* Screen position offset of a sprite actor. */
-typedef struct CGearPos {
-    s16 x;
-    s16 y;
-} CGearPos;
 
 /* File descriptor filled by the archive loader. */
 typedef struct CGearFileInfo {
@@ -94,8 +79,8 @@ typedef struct CGearTabTimer {
 typedef struct CGearFadeFx {
     int active;
     int palette;            /* palette offset handed to PALANM_RequestFade */
-    struct Actor *actor;
-    struct PalAnmSlot *palAnm;
+    struct ClactActor *actor;
+    struct PaletteFade *palAnm;
     struct FadeCtx *fadeCtx;
 } CGearFadeFx;
 
@@ -113,20 +98,20 @@ typedef struct CGearWork {
     int spritePlttRes;              /* 0x028 */
     int spriteCharRes;              /* 0x02C */
     int spriteAnimRes;              /* 0x030 */
-    struct ActorSystem *spriteSystem;       /* 0x034 */
+    struct Unit *spriteSystem;       /* 0x034 */
     struct ActorResources *spriteResList;   /* 0x038 */
     CGearActorSlot actorSlots[20];  /* 0x03C */
-    struct Actor *hudActors[11];    /* 0x12C, clock digits, battery, icons */
-    struct Actor *tileMarkerActors[3];      /* 0x158 */
-    struct Actor *barActors[3];     /* 0x164 */
-    struct Actor *splashActors[18]; /* 0x170 */
+    struct ClactActor *hudActors[11];    /* 0x12C, clock digits, battery, icons */
+    struct ClactActor *tileMarkerActors[3];      /* 0x158 */
+    struct ClactActor *barActors[3];     /* 0x164 */
+    struct ClactActor *splashActors[18]; /* 0x170 */
     u32 beaconColors[17];           /* 0x1B8, [16]: no beacon */
     void (*endCallback)(int);       /* 0x1FC */
     int endCallbackArg;             /* 0x200 */
     struct FadeCtx *fadeCtx;        /* 0x204 */
     struct VBlankTask *palTransferTask;     /* 0x208 */
     void *fadeMem;                  /* 0x20C */
-    struct PalAnmSlot *palAnm;          /* 0x210 */
+    struct PaletteFade *palAnm;          /* 0x210 */
     int command;                    /* 0x214 */
     int lastCommand;                /* 0x218 */
     CGearFadeFx fadeFx;             /* 0x21C */

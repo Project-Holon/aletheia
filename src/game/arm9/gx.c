@@ -25,6 +25,7 @@
  *   .word 0x04001000
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 /* gx.o's .bss statics from sDispMode on */
 typedef struct {
@@ -53,33 +54,31 @@ extern GXDataState sIsDispOn;
 
 #define OS_LOCK_ID_ERROR    (-3)
 
-#define reg_GX_DISPCNT      (*(vu32 *)0x04000000)
+#define reg_GX_DISPCNT      (*(vu32 *)REG_DISPCNT_ADDR)
 
-#define reg_GX_DISPSTAT     (*(vu16 *)0x04000004)
+#define reg_GX_DISPSTAT     (*(vu16 *)REG_DISPSTAT_ADDR)
 
-#define REG_BG0CNT_ADDR     0x04000008
 
-#define reg_G2_BG2PA        (*(vu16 *)0x04000020)
+#define reg_G2_BG2PA        (*(vu16 *)REG_BG2PA_ADDR)
 
-#define reg_G2_BG2PD        (*(vu16 *)0x04000026)
+#define reg_G2_BG2PD        (*(vu16 *)REG_BG2PD_ADDR)
 
-#define reg_G2_BG3PA        (*(vu16 *)0x04000030)
+#define reg_G2_BG3PA        (*(vu16 *)REG_BG3PA_ADDR)
 
-#define reg_G2_BG3PD        (*(vu16 *)0x04000036)
+#define reg_G2_BG3PD        (*(vu16 *)REG_BG3PD_ADDR)
 
-#define reg_GX_MASTER_BRIGHT (*(vu16 *)0x0400006C)
+#define reg_GX_MASTER_BRIGHT (*(vu16 *)REG_MASTER_BRIGHT_ADDR)
 
-#define reg_GX_POWCNT       (*(vu16 *)0x04000304)
+#define reg_GX_POWCNT       (*(vu16 *)REG_POWCNT1_ADDR)
 
-#define REG_DB_DISPCNT_ADDR 0x04001000
 
-#define reg_G2S_DB_BG2PA    (*(vu16 *)0x04001020)
+#define reg_G2S_DB_BG2PA    (*(vu16 *)REG_DB_BG2PA_ADDR)
 
-#define reg_G2S_DB_BG2PD    (*(vu16 *)0x04001026)
+#define reg_G2S_DB_BG2PD    (*(vu16 *)REG_DB_BG2PD_ADDR)
 
-#define reg_G2S_DB_BG3PA    (*(vu16 *)0x04001030)
+#define reg_G2S_DB_BG3PA    (*(vu16 *)REG_DB_BG3PA_ADDR)
 
-#define reg_G2S_DB_BG3PD    (*(vu16 *)0x04001036)
+#define reg_G2S_DB_BG3PD    (*(vu16 *)REG_DB_BG3PD_ADDR)
 #include "pm.h"
 long GX_HBlankIntr(int enable);
 long GX_VBlankIntr(int enable);

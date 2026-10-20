@@ -107,4 +107,15 @@ typedef struct ServerBrowser {
 } ServerBrowser;
 
 
+typedef enum {
+    sbe_noerror,
+    sbe_socketerror,
+    sbe_dnserror,
+    sbe_connecterror,
+    sbe_dataerror,
+    sbe_allocerror,
+    sbe_paramerror,
+    sbe_duplicateupdateerror
+} SBError;
+
 #endif

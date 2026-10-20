@@ -194,9 +194,13 @@
  *   BG_SYS_SetPriority  0x0204047C  arm  arm9
  *   BLINK_PALANM_Delete  0x0202EA20  thumb  arm9
  */
+struct Query;
+struct TouchBarWindow;
+#include "../arm9/game_data.h"
+#include "../ov212/zukan_types.h"
 #include "zknsearch_types.h"
 
-struct PalAnmSlot;
+struct PaletteFade;
 struct PalAnmObj;
 struct MsgBank;
 struct GfFont;
@@ -225,9 +229,7 @@ struct Bank;
 struct Sound;
 
 
-struct DispConfig { u32 w[4]; };
-
-struct BgTemplate { u32 w[8]; };
+#include "../arm9/bg_sys.h"
 
 
 
@@ -264,191 +266,63 @@ typedef enum { kMsgWindowOffset = 0x1c4 } WindowOffset;
 typedef struct { u32 words[7]; } ClactConfig;
 
 
-
-struct ZknSearchActorTemplate {
-    int kind;      /* actor kind passed to ZUKAN_CreateActor */
-    u16 id;        /* actor index */
-    u16 flags;     /* second halfword passed through */
-    int charIdx;   /* index into ZknSearchWork.charRes */
-    int palIdx;    /* index into ZknSearchWork.palRes */
-    int cellIdx;   /* index into ZknSearchWork.cellRes */
-    u16 x;         /* first halfword parameter */
-    u16 y;         /* second halfword parameter */
-};
-
-
 typedef enum { YCoordMin = -2147483647, YCoordMax = 2147483647 } YCoord;
 
-extern void BG_SYS_Create(u16);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_ClearSlot(u32);
-extern void BG_SYS_MarkTileDirty(u32);
-extern void BG_SYS_SetMainPlaneVisible(u32, u32);
-extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-extern void BG_SYS_FreeLayerBuf(u32 a);
-extern void BG_SYS_Delete(void);
-extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_TOOL_DeleteHandle(void *h);
-extern u32 APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetStatusFrameFileId(void);
-extern u32 APP_ICON_GetStatusAnimFileId(void);
-extern u32 APP_ICON_GetStatusDataFileId(void);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern u32 BG_SYS_GetBuf(int channel);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *PALANM_Create(unsigned);
-extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *,unsigned,unsigned,unsigned);
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
-extern u32 PALANM_Delete(void *ctx);
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/app_icon.h"
+#include "../arm9/palanm.h"
 struct TcbList;
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
-extern int PALANM_RequestFade(struct PalAnmObj *,u16,u16,s16,u8,u8,u16,void *);
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32, u32, u32, u32);
-extern struct GfFont *GF_FONT_Create(int, int, int, int, u32);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+#include "../arm9/gfl_use.h"
+struct GameData;
+extern int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
+#include "../arm9/g2.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+#include "../arm9/printsys.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(u32, u32);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
 struct BlinkPalAnm;
-extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heap);
-extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, unsigned int fileId, unsigned int srcStart, unsigned int dstStart);
-extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anm);
+#include "../arm9/blink_palanm.h"
 struct BgWinFrmWork;
-extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
-extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, unsigned int idx, unsigned int bgFrame, unsigned int sizeX, unsigned int sizeY);
-extern void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, unsigned int idx, void *src);
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
-extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
-extern void MIi_CpuCopy16(const void *, void *, u32);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
-extern int GAME_DATA_ContainsRecentId(int, int);
-extern void BG_SYS_ChangeScroll(u32, u32, u32);
-extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
-extern void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
-extern void BGWINFRM_StartMove(struct BgWinFrmWork *wk, u32 idx, s8 moveX, s8 moveY, u8 count);
-extern void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
-extern int GF_OVERLAY_Load(s32 handle);
-extern void BG_SYS_SetMainVisiblePlanes(u32 a);
-extern void BG_SYS_SetSubVisiblePlanes(u32 a);
-extern void BG_SYS_SetLcdSwap(u32 a);
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
+#include "../arm9/bgwinfrm.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../ov212/zukan.h"
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gx.h"
 struct ZukanSave;
-extern u32 ZUKAN_SAVE_GetViewMode(struct ZukanSave *pZukan);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern void ZKNSEARCH_SYS_SetVramBanks(void);
-extern void ZKNSEARCH_SYS_RegisterVBlank(u8 *p);
-extern void ZKNSEARCH_SYS_RegisterHBlank(u8 *p);
-extern u32 PALANM_GetFadeRequestBits(const char *);
-extern u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *p);
-extern u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *p);
-extern void GF_OVERLAY_Unload(int);
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *anm);
-extern void ZUKAN_InitQuery(struct Blk37 *p, u8 *out);
-extern void GFL_USE_StopAllSe(void);
-extern int ZUKAN_SEARCH_ENGINE_Create(int, int, int);
+#include "../arm9/zukan_save.h"
+#include "../arm9/net.h"
+#include "zknsearch_sys.h"
+extern u32 PALANM_GetFadeRequestBits(const PaletteFade *ptr);
+extern int ZUKAN_SEARCH_ENGINE_Create(struct Search *, struct Query *, int);
 extern void ZUKAN_SEARCH_ENGINE_ReleaseWork(int);
 extern int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
-extern u8 UI_GetInputMode(void);
+#include "../arm9/ui.h"
 struct Cursor;
-extern void CURSOR_MOVE_SetState(struct Cursor *obj, unsigned int state);
-extern void ZKNSEARCH_MENU_InitFrameList(char *ctx);
-extern int FRAME_LIST_UpdateInit(struct FrameList *p);
-extern int FRAME_LIST_Update(struct FrameList *p);
-extern void ZKNSEARCH_RESULT_DeleteFrameList(u8 *work);
-extern void ZKNSEARCH_LIST_InitFrameList(char *ctx);
-extern void ZKNSEARCH_LIST_InitFrameList2(char *ctx);
-extern void ZKNSEARCH_COND_InitFrameList(char *ctx);
-extern void ZKNSEARCH_RESULT_InitFrameList(char *ctx);
-extern void FRAME_LIST_SetCursor(struct FrameList *s, int v);
-extern int FRAME_LIST_GetScrollPos(struct FrameList *list);
-extern void GAME_DATA_SetRecentId(void *, unsigned, unsigned);
-extern void BMP_WIN_Init(unsigned short);
+#include "../arm9/cursor_move.h"
+#include "zknsearch_menu.h"
+#include "../ov067/frame_list.h"
+#include "zknsearch_result.h"
+#include "zknsearch_list.h"
+#include "zknsearch_cond.h"
+extern void GAME_DATA_SetRecentId(struct GameData *gd, u32 id, u32 on);
+#include "../arm9/bmp_win.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void BMP_WIN_Exit(void);
-extern unsigned PRINTSYS_QUE_Main(struct PrintQueue *queue);
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern unsigned PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *, u32);
-extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern struct PrintSys *FRAME_LIST_GetPrinter(struct FrameList *list);
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern void CLACT_ExitSystem(void);
-extern u32 CLACT_GetActorAutoAnim(struct Actor *actor);
-extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
-extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
-extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
-extern void *ZKNSEARCH_SYS_GetVramBanks(void);
+extern void TOUCHBAR_PrintAligned(struct TouchBarWindow *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/clact.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern int CLACT_RegisterCharacter(void *arc, u32 idx, u32 a, u32 b, u16 heap);
-extern int CLACT_RegisterPalette(void *arc, u32 idx, u32 a, u32 b, u16 heap);
-extern int CLACT_RegisterCellAnim(void *arc, u32 a, u32 b, u32 heap);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
-extern u32 APP_ICON_GetStatusCellFileId(u32 a);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
-extern void CLACT_ReleaseCharacter(unsigned);
-extern void CLACT_ReleasePalette(unsigned);
-extern void CLACT_ReleaseCellAnim(unsigned);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern struct Obj *ZUKAN_CreateActor(void *bank, struct ZknSearchActorTemplate *t, u16 heap);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern int FRAME_LIST_ClampToScrollBar(struct FrameList *, unsigned int);
-extern int FRAME_LIST_GetCursor(struct FrameList *list);
-extern int FRAME_LIST_CanScrollDown(struct FrameList *list);
 struct CursorVtbl;
 struct CursorEntry;
-extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, unsigned int ctx, unsigned int state, unsigned char start, unsigned short heapId);
-extern void CURSOR_MOVE_EnableInput(struct Cursor *obj);
-extern u32 CURSOR_MOVE_Delete(void *cursor);
-extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, unsigned int idx);
-extern int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
-extern unsigned KEY_GetTrg(void);
-extern void UI_SetInputMode(u8 v);
-extern u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
-extern void CURSOR_MOVE_SetCurrent(struct Cursor *obj, unsigned char sel);
-extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anm);
-extern int TOUCHPANEL_GetTrg(void);
-extern int TOUCHPANEL_HitTrg(const void *);
-extern void FRAME_LIST_ShowCursor(struct FrameList *s);
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
 void ZKNSEARCH_MAIN_InitBackgrounds(void);
 void ZKNSEARCH_MAIN_DeleteBackgrounds(u32 work);
 void ZKNSEARCH_MAIN_ShowLayerSetA(u32 work);
@@ -783,14 +657,14 @@ void ZKNSEARCH_MAIN_LoadCommonGraphics(void)
 void ZKNSEARCH_MAIN_InitPaletteAnim(char *work)
 {
     ((ZknSearchWork *)work)->palAnm=PALANM_Create(123);
-    PALANM_AllocSlotBuffers(*(struct PalAnmSlot * *)&((ZknSearchWork *)work)->palAnm,0,512,123);
-    PALANM_AllocSlotBuffers(*(struct PalAnmSlot * *)&((ZknSearchWork *)work)->palAnm,1,512,123);
-    PALANM_AllocSlotBuffers(*(struct PalAnmSlot * *)&((ZknSearchWork *)work)->palAnm,2,512,123);
-    PALANM_AllocSlotBuffers(*(struct PalAnmSlot * *)&((ZknSearchWork *)work)->palAnm,3,512,123);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)(*(unsigned *)&((ZknSearchWork *)work)->palAnm),0,0,512);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)(*(unsigned *)&((ZknSearchWork *)work)->palAnm),1,0,512);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)(*(unsigned *)&((ZknSearchWork *)work)->palAnm),2,0,512);
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)(*(unsigned *)&((ZknSearchWork *)work)->palAnm),3,0,512);
+    PALANM_AllocSlotBuffers(*(struct PaletteFade * *)&((ZknSearchWork *)work)->palAnm,0,512,123);
+    PALANM_AllocSlotBuffers(*(struct PaletteFade * *)&((ZknSearchWork *)work)->palAnm,1,512,123);
+    PALANM_AllocSlotBuffers(*(struct PaletteFade * *)&((ZknSearchWork *)work)->palAnm,2,512,123);
+    PALANM_AllocSlotBuffers(*(struct PaletteFade * *)&((ZknSearchWork *)work)->palAnm,3,512,123);
+    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade **)&((ZknSearchWork *)work)->palAnm,0,0,512);
+    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade **)&((ZknSearchWork *)work)->palAnm,1,0,512);
+    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade **)&((ZknSearchWork *)work)->palAnm,2,0,512);
+    PALANM_CopyHwPaletteToSlot(*(struct PaletteFade **)&((ZknSearchWork *)work)->palAnm,3,0,512);
 }
 
 
@@ -800,10 +674,10 @@ void ZKNSEARCH_MAIN_InitPaletteAnim(char *work)
 
 void ZKNSEARCH_MAIN_DeletePaletteAnim(u8 *work)
 {
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(u32 *)&((ZknSearchWork *)work)->palAnm), 0);
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(u32 *)&((ZknSearchWork *)work)->palAnm), 1);
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(u32 *)&((ZknSearchWork *)work)->palAnm), 2);
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)(*(u32 *)&((ZknSearchWork *)work)->palAnm), 3);
+    PALANM_FreeSlotBuffers((PaletteFade *)((*(u32 *)&((ZknSearchWork *)work)->palAnm)), 0);
+    PALANM_FreeSlotBuffers((PaletteFade *)((*(u32 *)&((ZknSearchWork *)work)->palAnm)), 1);
+    PALANM_FreeSlotBuffers((PaletteFade *)((*(u32 *)&((ZknSearchWork *)work)->palAnm)), 2);
+    PALANM_FreeSlotBuffers((PaletteFade *)((*(u32 *)&((ZknSearchWork *)work)->palAnm)), 3);
     PALANM_Delete((void *)(*(u32 *)&((ZknSearchWork *)work)->palAnm));
 }
 
@@ -813,10 +687,10 @@ void ZKNSEARCH_MAIN_DeletePaletteAnim(u8 *work)
 
 void ZKNSEARCH_MAIN_RequestPaletteFade(char *work,u8 startLevel,u8 endLevel)
 {
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)work)->palAnm,1,0xbfff,-14,startLevel,endLevel,0,(void *)GFL_USE_GetMainTaskList());
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)work)->palAnm,2,0x7fef,-14,startLevel,endLevel,0,(void *)GFL_USE_GetMainTaskList());
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)work)->palAnm,4,0xfe1f,-14,startLevel,endLevel,0,(void *)GFL_USE_GetMainTaskList());
-    PALANM_RequestFade(*(struct PalAnmObj * *)&((ZknSearchWork *)work)->palAnm,8,0xbfff,-14,startLevel,endLevel,0,(void *)GFL_USE_GetMainTaskList());
+    PALANM_RequestFade((PaletteFade *)(*(struct PalAnmObj * *)&((ZknSearchWork *)work)->palAnm),1,0xbfff,-14,startLevel,endLevel,0,(void *)GFL_USE_GetMainTaskList());
+    PALANM_RequestFade((PaletteFade *)(*(struct PalAnmObj * *)&((ZknSearchWork *)work)->palAnm),2,0x7fef,-14,startLevel,endLevel,0,(void *)GFL_USE_GetMainTaskList());
+    PALANM_RequestFade((PaletteFade *)(*(struct PalAnmObj * *)&((ZknSearchWork *)work)->palAnm),4,0xfe1f,-14,startLevel,endLevel,0,(void *)GFL_USE_GetMainTaskList());
+    PALANM_RequestFade((PaletteFade *)(*(struct PalAnmObj * *)&((ZknSearchWork *)work)->palAnm),8,0xbfff,-14,startLevel,endLevel,0,(void *)GFL_USE_GetMainTaskList());
 }
 
 
@@ -1070,7 +944,7 @@ void ZKNSEARCH_MAIN_ShowResultLayout(char *work)
     BG_SYS_MarkTileDirty(1);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 15);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 3, 14);
-    if (GAME_DATA_ContainsRecentId(**(int * *)&((ZknSearchWork *)work)->save, 16) == 1)
+    if (GAME_DATA_ContainsRecentId((struct GameData *)(**(int * *)&((ZknSearchWork *)work)->save), 16) == 1)
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 22);
     else
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 21);
@@ -1090,7 +964,7 @@ void ZKNSEARCH_MAIN_HideResultLayout(char *work)
     BG_SYS_MarkTileDirty(1);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 1);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 3, 0);
-    if (GAME_DATA_ContainsRecentId(**(int * *)&((ZknSearchWork *)work)->save, 16) == 1)
+    if (GAME_DATA_ContainsRecentId((struct GameData *)(**(int * *)&((ZknSearchWork *)work)->save), 16) == 1)
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 7);
     else
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 6);
@@ -1371,7 +1245,7 @@ u32 ZKNSEARCH_MAIN_InitSearchScreen(u8 *work)
  */
 int ZKNSEARCH_MAIN_ExitSearchScreen(char *work)
 {
-    if (ZKNSEARCH_MAIN_UpdateScrollMove(work) == 1 || PALANM_GetFadeRequestBits(*(char * *)&((ZknSearchWork *)work)->palAnm) != 0) return 1;
+    if (ZKNSEARCH_MAIN_UpdateScrollMove(work) == 1 || PALANM_GetFadeRequestBits((const PaletteFade *)(*(char * *)&((ZknSearchWork *)work)->palAnm)) != 0) return 1;
     ZKNSEARCH_SYS_UnregisterHBlank((u8 *)work);
     ZKNSEARCH_MAIN_ResetWindow(ZKNSEARCH_SYS_UnregisterVBlank((u8 *)work));
     ZKNSEARCH_MAIN_DeleteResultGraphics((u8 *)work);
@@ -1398,7 +1272,7 @@ int ZKNSEARCH_MAIN_ExitSearchScreen(char *work)
 
 u32 ZKNSEARCH_MAIN_WaitFadeDone(u8 *work)
 {
-    if (PALANM_GetFadeRequestBits((const char *)(((ZknSearchWork *)work)->palAnm)) == 0) {
+    if (PALANM_GetFadeRequestBits((const PaletteFade *)((const char *)(((ZknSearchWork *)work)->palAnm))) == 0) {
         return ((ZknSearchWork *)work)->returnState2;
     }
     return 2;
@@ -1410,7 +1284,7 @@ u32 ZKNSEARCH_MAIN_WaitFadeDone(u8 *work)
 
 int ZKNSEARCH_MAIN_EnterSearchResult(u8 *work)
 {
-    if (PALANM_GetFadeRequestBits(*(char * *)&((ZknSearchWork *)work)->palAnm) != 0) return 3;
+    if (PALANM_GetFadeRequestBits((const PaletteFade *)(*(char * *)&((ZknSearchWork *)work)->palAnm)) != 0) return 3;
     ZKNSEARCH_MAIN_SetBrightness(1);
     ZKNSEARCH_MAIN_LoadBgTile93(work);
     ZKNSEARCH_MAIN_UpdateResultTexts(work);
@@ -1436,7 +1310,7 @@ int ZKNSEARCH_MAIN_EnterSearchResult(u8 *work)
 
 u32 ZKNSEARCH_MAIN_UpdateSearchResult(u8 *work)
 {
-    if (ZKNSEARCH_MAIN_UpdateScrollMove((char *)work) == 1 || PALANM_GetFadeRequestBits((const char *)(*(u32 *)&((ZknSearchWork *)work)->palAnm)) != 0) {
+    if (ZKNSEARCH_MAIN_UpdateScrollMove((char *)work) == 1 || PALANM_GetFadeRequestBits((const PaletteFade *)((const char *)(*(u32 *)&((ZknSearchWork *)work)->palAnm))) != 0) {
         return 4;
     }
     switch (ZKNSEARCH_MAIN_PollMenuInput((int)work)) {
@@ -1574,7 +1448,7 @@ int ZKNSEARCH_MAIN_UpdateSearchEngine(unsigned char *work)
     if (work[0x2BB] == 1) {
         ZKNSEARCH_MAIN_DenormalizeRecordByte(work);
         *(int *)(work + 0x2CC) =
-            ZUKAN_SEARCH_ENGINE_Create(*(int *)(*(int *)work + 4), *(int *)(*(int *)work + 8), 0x807B);
+            ZUKAN_SEARCH_ENGINE_Create((struct Search *)(*(int *)(*(int *)work + 4)), (struct Query *)(*(int *)(*(int *)work + 8)), 0x807B);
         *(int *)(work + 0x2D0) = 0;
     }
     if (work[0x2BB] >= 2) {
@@ -2556,7 +2430,7 @@ u32 ZKNSEARCH_MAIN_EnterListState(u8 *work, u32 returnState)
  */
 void ZKNSEARCH_MAIN_ToggleSaveFlag(u8 *work)
 {
-    if (GAME_DATA_ContainsRecentId((int)(**(void ** *)&((ZknSearchWork *)work)->save), 16) == 1) {
+    if (GAME_DATA_ContainsRecentId((**(void ** *)&((ZknSearchWork *)work)->save), 16) == 1) {
         GAME_DATA_SetRecentId(**(void ** *)&((ZknSearchWork *)work)->save, 16, 0);
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 6);
     } else {
@@ -2635,7 +2509,7 @@ void ZKNSEARCH_MAIN_UpdateBmpWindows(u8 *work)
 void ZKNSEARCH_MAIN_PrintWindowText(u8 *work, int slot, u32 message, int x, int y, u16 color, u32 mode)
 {
     struct U16Vec *text = (struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&((ZknSearchWork *)work)->msgBank, message);
-    TOUCHBAR_PrintAligned(work + 0x14c + slot * 8, (void *)(((ZknSearchWork *)work)->printSys), x, y, (u32)text, ((ZknSearchWork *)work)->font, color, mode);
+    TOUCHBAR_PrintAligned((struct TouchBarWindow *)(work + 0x14c + slot * 8), (void *)(((ZknSearchWork *)work)->printSys), x, y, (u32)text, ((ZknSearchWork *)work)->font, color, mode);
     STRBUF_Delete((struct Strbuf *)text);
 }
 
@@ -2721,16 +2595,16 @@ void ZKNSEARCH_MAIN_UpdateResultTexts(u8 *work)
         ZKNSEARCH_MAIN_PrintWindowText(work, 9, ZKNSEARCH_MAIN_LookupSavedEntryId((int)work, Bytes021BE564(work)[3]), 0x40, 4, 0x3C40, 2);
     } else {
         s1 = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), 0x31);
-        TOUCHBAR_PrintAligned(work + 0x194, (void *)(((ZknSearchWork *)work)->printSys), 0x42, 4, s1, ((ZknSearchWork *)work)->font, 0x3C40, 2);
+        TOUCHBAR_PrintAligned((struct TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), 0x42, 4, s1, ((ZknSearchWork *)work)->font, 0x3C40, 2);
         w = PRINTSYS_MeasureWidestLine((struct Strbuf *)s1, (struct GfFont *)(((ZknSearchWork *)work)->font), 0);
         STRBUF_Delete((struct Strbuf *)s1);
         x = 0x40 - (u8)(w / 2);
         s2 = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((int)work, Bytes021BE564(work)[3]));
-        TOUCHBAR_PrintAligned(work + 0x194, (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s2, ((ZknSearchWork *)work)->font, 0x3C40, 1);
+        TOUCHBAR_PrintAligned((struct TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s2, ((ZknSearchWork *)work)->font, 0x3C40, 1);
         STRBUF_Delete((struct Strbuf *)s2);
         x += w;
         s3 = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((int)work, Bytes021BE564(work)[4]));
-        TOUCHBAR_PrintAligned(work + 0x194, (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s3, ((ZknSearchWork *)work)->font, 0x3C40, 0);
+        TOUCHBAR_PrintAligned((struct TouchBarWindow *)(work + 0x194), (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s3, ((ZknSearchWork *)work)->font, 0x3C40, 0);
         STRBUF_Delete((struct Strbuf *)s3);
     }
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x194);
@@ -2934,7 +2808,7 @@ void ZKNSEARCH_MAIN_PrintListRow(char *work, int *window, u32 text)
 {
     u32 x = (unsigned int)FRAME_LIST_GetPrinter((struct FrameList *)(*(char * *)&((ZknSearchWork *)work)->frameList));
 
-    TOUCHBAR_PrintAligned((u8 *)window, (void *)x, (u16)(BMP_WIN_GetWidth((struct BmpWin *)(*window)) * 8 / 2), 4, text,
+    TOUCHBAR_PrintAligned((struct TouchBarWindow *)window, (void *)x, (u16)(BMP_WIN_GetWidth((struct BmpWin *)(*window)) * 8 / 2), 4, text,
                   ((ZknSearchWork *)work)->font, 0x39e0, 2);
 }
 
@@ -3038,8 +2912,8 @@ void ZKNSEARCH_MAIN_UpdateActorAnims(int work)
     for (i = 0; i < 0x39; i++) {
         ZknSearchWork *q = (ZknSearchWork *)work;
 
-        if (q->actors[i] != 0 && CLACT_GetActorAutoAnim((struct Actor *)q->actors[i]) != 1)
-            CLACT_AddActorAnimFrame((struct Actor *)q->actors[i], 0x1000);
+        if (q->actors[i] != 0 && CLACT_GetActorAutoAnim((struct ClactActor *)q->actors[i]) != 1)
+            CLACT_AddActorAnimFrame((struct ClactActor *)q->actors[i], 0x1000);
     }
     CLACT_DrawSystem();
 }
@@ -3063,7 +2937,7 @@ void ZKNSEARCH_MAIN_SetActorAnim(char *work, int idx, int animSeq)
 void ZKNSEARCH_MAIN_SetActorAnimAuto(int work, int i, int animSeq)
 {
     ZKNSEARCH_MAIN_SetActorAnim((char *)work, i, animSeq);
-    CLACT_SetActorAutoAnim((struct Actor *)((ZknSearchWork *)work)->actors[i], 1);
+    CLACT_SetActorAutoAnim((struct ClactActor *)((struct Actor *)((ZknSearchWork *)work)->actors[i]), 1);
 }
 
 
@@ -3073,7 +2947,7 @@ void ZKNSEARCH_MAIN_SetActorAnimAuto(int work, int i, int animSeq)
 
 int ZKNSEARCH_MAIN_GetActorAnimSeq(int work, int i)
 {
-    return CLACT_GetActorAnimSeq((struct Actor *)((ZknSearchWork *)work)->actors[i]);
+    return CLACT_GetActorAnimSeq((struct ClactActor *)((struct Actor *)((ZknSearchWork *)work)->actors[i]));
 }
 
 
@@ -3085,7 +2959,7 @@ int ZKNSEARCH_MAIN_IsActorAnimActive(int work, int actorIndex)
 {
     
 
-    return CLACT_IsActorAnimActive((struct Actor *)((ZknSearchWork *)work)->actors[actorIndex]);
+    return CLACT_IsActorAnimActive((struct ClactActor *)((struct Actor *)((ZknSearchWork *)work)->actors[actorIndex]));
 }
 
 
@@ -3098,7 +2972,7 @@ void ZKNSEARCH_MAIN_SetActorVisible(int work, int i, int visible)
     int h = (int)((ZknSearchWork *)work)->actors[i];
 
     if (h != 0)
-        CLACT_SetActorDrawEnable((struct Actor *)h, visible);
+        CLACT_SetActorDrawEnable((struct ClactActor *)h, visible);
 }
 
 
@@ -3108,7 +2982,7 @@ void ZKNSEARCH_MAIN_SetActorVisible(int work, int i, int visible)
 
 int ZKNSEARCH_MAIN_GetActorVisible(int work, int i)
 {
-    return CLACT_GetActorDrawEnable((struct Actor *)((ZknSearchWork *)work)->actors[i]);
+    return CLACT_GetActorDrawEnable((struct ClactActor *)((struct Actor *)((ZknSearchWork *)work)->actors[i]));
 }
 
 
@@ -3138,7 +3012,7 @@ void ZKNSEARCH_MAIN_SetActorSurfacePos(char *work, int idx, int posX, short posY
     unsigned short buf[2];
     buf[0] = posX;
     buf[1] = posY;
-    CLACT_AddActorSurfacePos(*(void **)(work + idx * 4 + 0x28), (const struct Vec2 *)buf, space);
+    CLACT_AddActorSurfacePos((struct ClactActor *)(*(void **)(work + idx * 4 + 0x28)), (const struct ClactVec2 *)buf, space);
 }
 
 
@@ -3149,7 +3023,7 @@ void ZKNSEARCH_MAIN_SetActorSurfacePos(char *work, int idx, int posX, short posY
 void ZKNSEARCH_MAIN_GetActorSurfacePos(char *work, int idx, short *outA, short *outB, unsigned short in)
 {
     short buf[2];
-    CLACT_GetActorSurfacePos(*(void **)(work + idx * 4 + 0x28), (struct PtS *)buf, in);
+    CLACT_GetActorSurfacePos((struct ClactActor *)(*(void **)(work + idx * 4 + 0x28)), (struct ClactVec2 *)buf, in);
     *outA = buf[0];
     *outB = buf[1];
 }
@@ -3173,7 +3047,7 @@ void ZKNSEARCH_MAIN_InitClact(void)
 {
     ClactConfig tbl = d_021C0990;
 
-    CLACT_InitSystem((struct SysInit *)(&tbl), ZKNSEARCH_SYS_GetVramBanks(), 0x7b);
+    CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)(&tbl)), (const struct DispVramCfg *)ZKNSEARCH_SYS_GetVramBanks(), 0x7b);
 }
 
 
@@ -3261,7 +3135,7 @@ void ZKNSEARCH_MAIN_CreateActors(ZknSearchWork *work)
         work->actors[i] = ZUKAN_CreateActor(work->actorBank, (struct ZknSearchActorTemplate *)(&t0), 0x7B);
     }
 
-    if (GAME_DATA_ContainsRecentId((int)(work->save->gameData), 0x10) == 1)
+    if (GAME_DATA_ContainsRecentId((work->save->gameData), 0x10) == 1)
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 4, 7);
     ZKNSEARCH_MAIN_SetActorVisible((int)work, 5, 0);
     ZKNSEARCH_MAIN_SetActorVisible((int)work, 6, 0);
@@ -3315,7 +3189,7 @@ void ZKNSEARCH_MAIN_DeleteActorAt(int work, int i)
     ZknSearchWork *q = (ZknSearchWork *)work;
 
     if (q->actors[i] != 0) {
-        CLACT_DeleteActor((struct Actor *)q->actors[i]);
+        CLACT_DeleteActor((struct ClactActor *)q->actors[i]);
         q->actors[i] = 0;
     }
 }
@@ -3377,6 +3251,9 @@ unsigned ZKNSEARCH_MAIN_ShowResultActors(u8 *work)
     ZKNSEARCH_MAIN_SetActorAnim((char *)work, 7, data[6]);
     ZKNSEARCH_MAIN_SetActorSurfacePos((char *)work, 7, 192, 116, 0);
     ZKNSEARCH_MAIN_SetActorVisible((int)work, 7, 1);
+#ifndef __MWERKS__
+    return 0; /* the DS code falls off the end here; r0 is not set */
+#endif
 }
 
 
@@ -3968,7 +3845,7 @@ int ZKNSEARCH_MAIN_WaitConfirmInput(unsigned char *ctx)
 
 int ZKNSEARCH_MAIN_PollListInput(char *ctx)
 {
-    int result = TOUCHPANEL_HitTrg(d_021C0B3C);
+    int result = TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C0B3C);
     if (result != -1) {
         UI_SetInputMode(1);
         return result;
@@ -3995,7 +3872,7 @@ int ZKNSEARCH_MAIN_PollListInput(char *ctx)
 
 int ZKNSEARCH_MAIN_PollListInput2(char *ctx)
 {
-    int result = TOUCHPANEL_HitTrg(d_021C0B24);
+    int result = TOUCHPANEL_HitTrg((const TouchHitTable *)d_021C0B24);
     if (result != -1) { UI_SetInputMode(1); return result; }
     if (KEY_GetTrg() & 2) { UI_SetInputMode(0); return 8; }
     if (KEY_GetTrg() & 8) { UI_SetInputMode(0); return 8; }

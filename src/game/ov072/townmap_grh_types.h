@@ -6,13 +6,11 @@
 #ifndef TOWNMAP_GRH_TYPES_H
 #define TOWNMAP_GRH_TYPES_H
 
-#include "townmap_types.h"
+#include "../ov072/townmap_types.h"
 
 /* Opaque library objects. */
 struct Bitmap;
-struct DispConfig;
-struct DispVram;
-struct BgTemplate;
+#include "../arm9/bg_sys_types.h"
 
 /* One display layer setup entry, 0x28 bytes. */
 typedef struct TownMapBgEntry {

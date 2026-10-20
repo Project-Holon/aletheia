@@ -30,11 +30,11 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sc_types.h"
-extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, unsigned long n);
+#include "../arm9/msl_string_mem.h"
 
-extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern void *gsimalloc(unsigned long size);
-extern void gsDebugFormat(int theCategory, int theType, int theLevel, const char *theTokenStr, ...);
+#include "../arm9/os_printf.h"
+#include "../ov009/gsmemory.h"
+#include "../ov009/gsdebug.h"
 
 extern int g_021ACEF8;
 extern char g_021ACEFC[];

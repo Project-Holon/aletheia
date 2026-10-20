@@ -202,7 +202,7 @@ addresses, which this link mode does not do yet.
 
 `python tools/whitelink.py [--jobs N] [--black] [ids...]` runs `gamelink.py N --version white`
 (or without the flag with `--black`) for every overlay that has a source directory and writes
-`build/whitelink.tsv` (PASS or FAIL, the differing words). Result: 166 of 180 overlays link
+`build/whitelink.tsv` (PASS or FAIL, the differing words). Result: 180 of 180 overlays link
 byte-identical to White's overlay from the same `src/game` files as Black (ov116 was 1 of 84
 before this wave). Black is unchanged: `gameverify.py` is exact for every file edited, and the
 Black link passes for every overlay that no other lane had broken at the time.
@@ -252,7 +252,7 @@ the earlier 92-byte routine at 0x02004600 came from the first dump tool and is g
 
 ## Not done
 
-- ARM9i / TWL region: built from src/game/twl, see "Data mode and the DSi block"; the data blob between its files is still image bytes.
+- ARM9i / TWL region: built from src/game/twl, see "Data mode and the DSi block"; its data between the files is generated C (tools/twldata.py), no image bytes.
 - Function rows inside the ARM9 secure area (first 0x800 bytes of the module). They are
   encrypted with the game code as key, so they differ by construction; they are
   excluded from the alignment.
@@ -386,8 +386,14 @@ DSi code is Black's code (the same 48 files link byte-identical in both games; o
 move). `romlink.py` rebuilds `arm9i.bin` from that link: the code range of the decrypted block is
 replaced, the block is compressed again with `tools/blz.py`, and the first 0x4000 bytes are enciphered
 again with AES-CTR (`tools/modcrypt.py`, key constant from `ALETHEIA_DSI_KEY`). The result equals the
-original file for Black and for White. The 159,147 bytes of data between the files stay image bytes
-(listed in the report under `twl gap`). The digest tables are not computed again: the code is the
+original file for Black and for White. The 159,147 bytes of data between the files are C too:
+`tools/twldata.py` (region `twl_data` of layout/data_objects.json: address, size, kind, name, owner file,
+no values) writes one companion per object into `build/datac/twl/` (White: `build/datac_white/twl/`,
+Black's structure, White's values) and `tools/twllink.py` links them in plain mode, so the report lists no
+`twl gap`. The objects: the embedded DSP component (`DSPi_StaticComponentG711`, 159,028 bytes, read through
+`FS_CreateFileFromMemory`), four function tables of mi_sharedWram.c, the segment name strings and one
+variable (`DSPi_SoundPriority`) of the DSP files, and 31 bytes of zero padding up to the bss.
+`twllink.py --image-gaps` keeps the old link with image bytes. The digest tables are not computed again: the code is the
 original, so they stay valid.
 
 Per-function White tracking: docs/WHITE_TRACKING.md, tools/whitetrack.py, layout/matched_white/, progress/report_white.json.

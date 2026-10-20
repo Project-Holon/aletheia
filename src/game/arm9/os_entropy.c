@@ -18,12 +18,13 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "os_system_work_types.h"
 
-#define reg_GX_VCOUNT   (*(vu16 *)0x04000006)
-#define reg_GX_GXSTAT   (*(vu32 *)0x04000600)
-#define reg_PAD_KEYINPUT (*(vu16 *)0x04000130)
+#define reg_GX_VCOUNT   (*(vu16 *)REG_VCOUNT_ADDR)
+#define reg_GX_GXSTAT   (*(vu32 *)REG_GXSTAT_ADDR)
+#define reg_PAD_KEYINPUT (*(vu16 *)REG_KEYINPUT_ADDR)
 
 /* Read as an absolute address, not through the system-work pointer: the
    object forms its own base (0x02FFFC00 + 0x3A8) for this halfword. */

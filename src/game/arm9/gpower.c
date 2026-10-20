@@ -62,7 +62,11 @@ typedef struct GPowerState {
 
 #include "../types.h"
 
-extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u32 heapId);
+#ifdef __MWERKS__
+extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u32 heapId); /* original prototype; the definition differs in argument width */
+#else
+#include "arc_tool.h"
+#endif
 
 #include "gfl_heap_wrap.h"
 struct Party;
@@ -646,6 +650,9 @@ s32 GPOWER_ApplyCaptureRate(s32 rate)
     if (_GPowerState.activeId[10] != GPOWER_ID_NONE) {
         return (s64)_GPowerState.value[10] * rate / 100;
     }
+#ifndef __MWERKS__
+    return rate; /* the DS leaves the argument in r0 */
+#endif
 }
 
 /*

@@ -1,0 +1,65 @@
+#ifndef GAME_ARM9_GX_VRAMCNT_TYPES_H
+#define GAME_ARM9_GX_VRAMCNT_TYPES_H
+
+#include "../types.h"
+
+typedef enum {
+    GX_VRAM_BG_NONE = 0x00,
+    GX_VRAM_BG_16_F = 0x20,
+    GX_VRAM_BG_16_G = 0x40,
+    GX_VRAM_BG_32_FG = 0x60,
+    GX_VRAM_BG_64_E = 0x10,
+    GX_VRAM_BG_80_EF = 0x30,
+    GX_VRAM_BG_80_EG = 0x50,
+    GX_VRAM_BG_96_EFG = 0x70,
+    GX_VRAM_BG_128_A = 0x01,
+    GX_VRAM_BG_128_B = 0x02,
+    GX_VRAM_BG_128_C = 0x04,
+    GX_VRAM_BG_128_D = 0x08,
+    GX_VRAM_BG_256_AB = 0x03,
+    GX_VRAM_BG_256_BC = 0x06,
+    GX_VRAM_BG_256_CD = 0x0c,
+    GX_VRAM_BG_384_ABC = 0x07,
+    GX_VRAM_BG_384_BCD = 0x0e,
+    GX_VRAM_BG_512_ABCD = 0x0f,
+    GX_VRAM_BG_256_AC = 0x05,
+    GX_VRAM_BG_256_AD = 0x09,
+    GX_VRAM_BG_256_BD = 0x0a,
+    GX_VRAM_BG_384_ABD = 0x0b,
+    GX_VRAM_BG_384_ACD = 0x0d
+} GXVRamBG;
+
+typedef enum {
+    GX_VRAM_OBJ_NONE = 0x00,
+    GX_VRAM_OBJ_16_F = 0x20,
+    GX_VRAM_OBJ_16_G = 0x40,
+    GX_VRAM_OBJ_32_FG = 0x60,
+    GX_VRAM_OBJ_64_E = 0x10,
+    GX_VRAM_OBJ_80_EF = 0x30,
+    GX_VRAM_OBJ_80_EG = 0x50,
+    GX_VRAM_OBJ_96_EFG = 0x70,
+    GX_VRAM_OBJ_128_A = 0x01,
+    GX_VRAM_OBJ_128_B = 0x02,
+    GX_VRAM_OBJ_256_AB = 0x03
+} GXVRamOBJ;
+
+typedef enum {
+    GX_VRAM_TEX_NONE = 0x00,
+    GX_VRAM_TEX_0_A = 0x01,
+    GX_VRAM_TEX_0_B = 0x02,
+    GX_VRAM_TEX_0_C = 0x04,
+    GX_VRAM_TEX_0_D = 0x08,
+    GX_VRAM_TEX_01_AB = 0x03,
+    GX_VRAM_TEX_012_ABC = 0x07,
+    GX_VRAM_TEX_0123_ABCD = 0x0f,
+    GX_VRAM_TEX_01_BC = 0x06,
+    GX_VRAM_TEX_012_BCD = 0x0e,
+    GX_VRAM_TEX_01_CD = 0x0c,
+    GX_VRAM_TEX_01_AC = 0x05,
+    GX_VRAM_TEX_01_AD = 0x09,
+    GX_VRAM_TEX_01_BD = 0x0a,
+    GX_VRAM_TEX_012_ABD = 0x0b,
+    GX_VRAM_TEX_012_ACD = 0x0d
+} GXVRamTex;
+
+#endif

@@ -165,7 +165,28 @@
  *   BG_SYS_Update  0x020419E4  arm  arm9
  */
 #include "../ov101/irc_appbar.h"
+#include "../sdk_ioreg_reg.h"
 #include "../types.h"
+#include "../sdk_fx.h"
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/bg_sys.h */
+#ifdef __MWERKS__
+#define BG_SYS_FillTileMap BG_SYS_FillTileMap_header
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_FillTileMap
+void BG_SYS_FillTileMap(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+#endif
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/clact.h */
+#ifdef __MWERKS__
+#define CLACT_AddActorSurfacePos CLACT_AddActorSurfacePos_header
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+#undef CLACT_AddActorSurfacePos
+void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u16 which);
+#endif
+#include "../arm9/bmp_oam.h"
 
 /*
  * Infrared compatibility ranking screen.  The proc shows the 30-entry ranking
@@ -174,10 +195,6 @@
  * through the app bar.
  */
 
-#define REG_DISPCNT (*(volatile unsigned *)0x04000000)
-#define REG_DISPCNT_SUB (*(volatile unsigned *)0x04001000)
-#define REG_BLDCNT (*(volatile unsigned short *)0x04000050)
-#define REG_BLDCNT_SUB (*(volatile unsigned short *)0x04001050)
 
 #define IRC_RANKING_HEAP_ID 67
 #define ROW_HEIGHT 24
@@ -199,7 +216,7 @@ struct BmpWin;
 struct Bmp;
 struct Strbuf;
 struct WordSet;
-struct ClactUnit;
+struct Unit;
 struct ClactActor;
 struct BmpOamSys;
 struct BmpOam;
@@ -207,32 +224,9 @@ struct SaveControl;
 struct IrcRankSave;
 struct IrcRankEntry;
 
-/* Data tables in the overlay image, size known, layout opaque here. */
-struct ClactSysInit { u8 bytes[0x1c]; };
-struct DispConfig { u8 bytes[0x10]; };
-struct DispVramConfig { u8 bytes[0x30]; };
+typedef struct { int x, y; } IrcRankingPoint;
 
-typedef struct { int x, y; } Pair;
-typedef struct { long x, y, z; } Vec3;
-
-struct BgTemplate {
-    u32 scrollX;
-    u32 scrollY;
-    u32 bufSize;
-    u32 baseTile;
-    u8  screenSize;
-    u8  colorMode;
-    u8  screenBase;
-    u8  charBase;
-    u32 extPaletteSlot;
-    u8  priority;
-    u8  areaOver;
-    u8  dummy;
-    u8  mosaicFlag;
-    u32 mosaic;
-};
-
-typedef struct { u32 bg; struct BgTemplate bgTemplate; u32 type; } BgEntry;
+typedef struct { u32 bg; struct BgTemplate bgTemplate; u32 type; } IrcRankingBgEntry;
 
 /* Position and OAM priorities of one header label. */
 typedef struct {
@@ -250,33 +244,6 @@ typedef struct {
     u16 widthTiles;
     u16 heightTiles;
 } IrcRankingLabelDef;
-
-/* Init data of a cell actor (CLACT_CreateActor). */
-typedef struct {
-    s16 x;
-    s16 y;
-    u16 animIndex;
-    u8  drawPriority;
-    u8  bgPriority;
-} ActorInitParam;
-
-typedef struct {
-    s16 x;
-    s16 y;
-} OamPos;
-
-/* Init data of a bitmap OAM (BMP_OAM_Create). */
-typedef struct {
-    struct Bmp *bmp;
-    s16 x;
-    s16 y;
-    u32 animResId;
-    u32 palette;
-    u8  drawPriority;
-    u8  bgPriority;
-    u16 space;
-    u32 engine;
-} BmpOamParam;
 
 /* One entry of the ranking as shown on screen (16 bytes). */
 typedef struct {
@@ -316,7 +283,7 @@ typedef struct {
 
 /* Cell actor system (0x14 bytes). */
 typedef struct {
-    struct ClactUnit *unit;
+    struct Unit *unit;
     u32 reserved[4];
 } IrcRankingClact;
 
@@ -374,10 +341,10 @@ typedef struct {
 
 /* Touch and key tracking (0x2C bytes). */
 typedef struct {
-    Pair start;
-    Pair current;
-    Pair prev;
-    Pair delta;
+    IrcRankingPoint start;
+    IrcRankingPoint current;
+    IrcRankingPoint prev;
+    IrcRankingPoint delta;
     int holdFrames;
     u32 idleFrames;
     int keyHoldFrames;
@@ -399,7 +366,7 @@ typedef struct {
     u16 printColor;
     u16 padding06;
     int pending;
-    Pair offset;
+    IrcRankingPoint offset;
     int alignMode;
     struct Strbuf *text;
     struct BmpOam *oam;
@@ -426,148 +393,49 @@ typedef struct IrcRankingWork {
     u32 labelPalette;
 } IrcRankingWork;
 
-extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
+#include "../arm9/procsys.h"
 struct GameSystem;
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
-extern struct GameData *GAME_DATA_Create(u16);
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void CLACT_ReleasePalette(u32 i);
-extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void GAME_DATA_Delete(struct GameData *gameData);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void MI_CpuFill8(void *, unsigned char, unsigned int);
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern int FADE_IsActive(void);
-extern int VEC_DotProduct(const Vec3 *, const Vec3 *);
-extern int FX_Div(int, int);
-extern void BG_SYS_Create(u32);
-extern void BMP_WIN_Init(u32);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(u8);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void BG_SYS_Init(u32, u32, u32, u32);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u32 flags);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u32);
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *, u32);
-extern struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
+#include "../arm9/printsys.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/fade.h"
+#include "../arm9/fx_vec.h"
+#include "../arm9/fx_cp.h"
+#include "../arm9/bmp_win.h"
+#include "../arm9/arc_util.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
+#include "../arm9/irc_ranking.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BG_SYS_PushTile(u32);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern void BG_SYS_Update(void);
+/* Original prototypes (docs/ORIGINAL_BUGS.tsv): ../arm9/strbuf.h */
+#ifdef __MWERKS__
+#define STRBUF_Create STRBUF_Create_header
+#endif
+#include "../arm9/strbuf.h"
+#ifdef __MWERKS__
+#undef STRBUF_Create
+struct Strbuf *STRBUF_Create(int capacity, u16 heapId);
+#endif
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
-extern void BG_SYS_ClearGraphicsMemory(u32);
 struct DispVram;
-extern void BG_SYS_SetVramBanks(struct DispVram *banks);
-extern void BG_SYS_SetLcdSwap(u32);
-extern void BG_SYS_ResetSubDisplay(void);
-extern void BG_SYS_ClearMainPlanes(void);
-extern void GF_FONT_InitTextColor(void);
-struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*taskFunc)(void *task, void *taskWork), void *work, unsigned int priority);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern struct Strbuf *STRBUF_Create(int capacity, u16 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *s, struct GfFont *font, u32 b);
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font);
-extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
-extern int POKE_TOOL_GetIconCellArcId(void);
-extern int POKE_TOOL_GetIconCellEntryId(void);
-extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
-extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
-extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, u32 charRes, u32 palRes, u32 cellRes, const ActorInitParam *param, u16 space, u16 heapId);
-extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 female, u32 isEgg);
-struct Actor;
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleaseCharacter(u32);
-extern void CLACT_ReleaseCellAnim(u32);
-extern void BMP_Delete(struct Bmp *bmp);
-extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, OamPos *out, u16 space);
-extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, OamPos *delta, u16 space);
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
-extern void BG_SYS_FillTileMap(u32, u8, u8, u8, u8, u8);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern s32 IRC_RANKING_GetEntryCount(struct IrcRankSave *rank);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern u8 IRC_RANKING_GetLastSlot(struct IrcRankSave *rank);
-extern struct IrcRankEntry *IRC_RANKING_GetEntry(struct IrcRankSave *rank, u32 index);
-extern void STRBUF_SetString(struct Strbuf *strbuf, unsigned short *srcChars);
-extern u8 IRC_RANKING_GetEntryScore(struct IrcRankSave *rank, u32 index);
-extern u16 IRC_RANKING_GetEntryMeetCount(struct IrcRankSave *rank, u32 index);
-extern u32 IRC_RANKING_GetEntryGender(struct IrcRankSave *rank, u32 index);
-extern void IRC_RANKING_GetEntryProfile(struct IrcRankEntry *entries, unsigned int index, unsigned short *outWord, unsigned char *outByte, unsigned char *outBits, unsigned char *outFlag);
-extern u32 TOUCHPANEL_GetPointTrg(unsigned int *x, unsigned int *y);
-extern u32 TOUCHPANEL_GetPointCont(unsigned int *x, unsigned int *y);
-extern u32 KEY_GetTrg(void);
-extern unsigned int KEY_GetCont(void);
-extern int TOUCHPANEL_GetCont(void);
-extern void VEC_Subtract(const Vec3 *, const Vec3 *, Vec3 *);
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
-extern u32 PRINTSYS_CountLines(struct Strbuf *, struct GfFont *);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *, u32, void *);
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
-extern u16 BMP_GetHeight(const struct Bmp *bmp);
-extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-extern struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const BmpOamParam *param);
-extern void BMP_OAM_Delete(struct BmpOam *oam);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void BMP_OAM_UploadChars(struct BmpOam *oam);
+#include "../arm9/gfl_use.h"
+struct TcbTask;
+#include "../arm9/tcb_list.h"
+#include "../arm9/poke_tool_ext.h"
+#include "../arm9/wordset.h"
+struct ClactActor;
+#include "../arm9/touchpanel.h"
+#include "../arm9/key.h"
 
 int IRC_RANKING_ProcInit(struct ProcSys *procSys, u32 unused, void **args);
 int IRC_RANKING_ProcExit(struct ProcSys *procSys, int unused, int *exitMode, IrcRankingWork *work);
@@ -582,22 +450,22 @@ void IRC_RANKING_SeqFadeIn(IrcSeq *seq, int *step, IrcRankingWork *work);
 void IRC_RANKING_SeqFadeOut(IrcSeq *seq, int *step, IrcRankingWork *work);
 void IRC_RANKING_SeqBrowse(IrcSeq *seq, int *step, IrcRankingWork *work);
 void IRC_RANKING_SeqScrollToLatest(IrcSeq *seq, int *step, IrcRankingWork *work);
-void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u32 heapId);
+void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u16 heapId);
 void IRC_RANKING_GfxExit(IrcRankingGfx *gfx);
 void IRC_RANKING_DisplayBgVBlank(IrcRankingDisplay *display);
 u32 IRC_RANKING_GfxGetCharRegion(IrcRankingGfx *gfx, u32 isMain);
-void IRC_RANKING_ClactInit(IrcRankingClact *clact, const struct DispVramConfig *vramConfig, int heapId);
+void IRC_RANKING_ClactInit(IrcRankingClact *clact, const struct DispVram *vramConfig, int heapId);
 void IRC_RANKING_ClactExit(IrcRankingClact *clact);
 void IRC_RANKING_ClactDraw(IrcRankingClact *clact);
 void IRC_RANKING_ClactVBlank(IrcRankingClact *clact);
-struct ClactUnit *IRC_RANKING_ClactGetUnit(IrcRankingClact *clact);
-void IRC_RANKING_DisplayInit(IrcRankingDisplay *display, struct GameData *gameData, u32 heapId);
+struct Unit *IRC_RANKING_ClactGetUnit(IrcRankingClact *clact);
+void IRC_RANKING_DisplayInit(IrcRankingDisplay *display, struct GameData *gameData, u16 heapId);
 void IRC_RANKING_DisplayExit(IrcRankingDisplay *display);
 void IRC_RANKING_Draw(IrcRankingWork *work);
 IrcRankingDisplay *IRC_RANKING_GetDisplay(IrcRankingWork *work);
-struct ClactUnit *IRC_RANKING_GetClactUnit(IrcRankingWork *work);
-void IRC_RANKING_DisplayVBlankTask(void *task, void *taskWork);
-void IRC_RANKING_ListInit(IrcRankingList *list, u32 rowBgMain, u8 textBgMain, u8 rowBgSub, u8 textBgSub, IrcRankingDisplay *display, struct ClactUnit *unit, struct MsgBank *msgBank, IrcRankingData *data, u16 heapId);
+struct Unit *IRC_RANKING_GetClactUnit(IrcRankingWork *work);
+void IRC_RANKING_DisplayVBlankTask(struct TcbTask *task, void *taskWork);
+void IRC_RANKING_ListInit(IrcRankingList *list, u32 rowBgMain, u8 textBgMain, u8 rowBgSub, u8 textBgSub, IrcRankingDisplay *display, struct Unit *unit, struct MsgBank *msgBank, IrcRankingData *data, u16 heapId);
 void IRC_RANKING_ListExit(IrcRankingList *list);
 void IRC_RANKING_ListUpdate(IrcRankingList *list);
 void IRC_RANKING_ListScrollBy(IrcRankingList *list, s16 delta);
@@ -606,8 +474,8 @@ int IRC_RANKING_ListFindLatestScrollPos(IrcRankingList *list);
 s16 IRC_RANKING_ListGetScrollMax(IrcRankingList *list);
 void IRC_RANKING_ListDrawRows(IrcRankingList *list);
 void IRC_RANKING_ListTransferWindows(IrcRankingList *list);
-void IRC_RANKING_ListScrollTask(void *task, void *taskWork);
-void IRC_RANKING_RowInit(IrcRankingRow *row, const IrcRankingItem *item, struct ClactUnit *unit, u32 palResMain, u32 palResSub, struct MsgBank *msgBank, struct GfFont *font, struct WordSet *wordSet, u16 *screenData, s16 mainY, s16 subY, u16 heapId);
+void IRC_RANKING_ListScrollTask(struct TcbTask *task, void *taskWork);
+void IRC_RANKING_RowInit(IrcRankingRow *row, const IrcRankingItem *item, struct Unit *unit, u32 palResMain, u32 palResSub, struct MsgBank *msgBank, struct GfFont *font, struct WordSet *wordSet, u16 *screenData, s16 mainY, s16 subY, u16 heapId);
 void IRC_RANKING_RowExit(IrcRankingRow *row);
 void IRC_RANKING_RowDraw(IrcRankingRow *row, struct BmpWin *win, u32 bgId, u16 y);
 void IRC_RANKING_RowSetScroll(IrcRankingRow *row, int scroll);
@@ -620,8 +488,8 @@ u32 IRC_RANKING_DataGetCount(IrcRankingData *data);
 void IRC_RANKING_InputInit(IrcRankingInput *input, u32 heapId);
 void IRC_RANKING_InputExit(IrcRankingInput *input);
 void IRC_RANKING_InputUpdate(IrcRankingInput *input);
-int IRC_RANKING_InputGetDrag(IrcRankingInput *input, Pair *start, Pair *current, Pair *delta);
-int IRC_RANKING_InputGetFlick(IrcRankingInput *input, Pair *start, Pair *end, Vec3 *delta, int *holdFrames);
+int IRC_RANKING_InputGetDrag(IrcRankingInput *input, IrcRankingPoint *start, IrcRankingPoint *current, IrcRankingPoint *delta);
+int IRC_RANKING_InputGetFlick(IrcRankingInput *input, IrcRankingPoint *start, IrcRankingPoint *end, VecFx32 *delta, int *holdFrames);
 unsigned int IRC_RANKING_InputGetKeys(IrcRankingInput *input, u32 *keyHoldFrames);
 void IRC_RANKING_InertiaInit(IrcRankingInertia *inertia);
 void IRC_RANKING_InertiaExit(IrcRankingInertia *inertia);
@@ -638,14 +506,14 @@ void IRC_RANKING_LabelSetText(IrcRankingLabel *label, struct MsgBank *msgBank, u
 void IRC_RANKING_LabelSetColor(IrcRankingLabel *label, u16 printColor);
 void IRC_RANKING_LabelSetAlign(IrcRankingLabel *label, u32 offsetX, u32 offsetY, u32 alignMode);
 int IRC_RANKING_LabelUpdate(IrcRankingLabel *label);
-void IRC_RANKING_LabelCalcTextPos(IrcRankingLabel *label, struct GfFont *font, Pair *out);
+void IRC_RANKING_LabelCalcTextPos(IrcRankingLabel *label, struct GfFont *font, IrcRankingPoint *out);
 
 extern const IrcRankingLabelDef gIrcRankingLabelDefs[];
-extern const Vec3 gIrcRankingFlickAxis;
+extern const VecFx32 gIrcRankingFlickAxis;
 extern struct DispConfig gIrcRankingDispConfig;
-extern BgEntry gIrcRankingBgEntries[];
+extern IrcRankingBgEntry gIrcRankingBgEntries[];
 extern const struct ClactSysInit gIrcRankingClactSysInit;
-extern const struct DispVramConfig gIrcRankingVramConfig;
+extern const struct DispVram gIrcRankingVramConfig;
 extern const char gIrcRankingFileName[];
 
 /* Proc init: allocates the work, builds the ranking data, display, list, input, app bar and the four header labels. */
@@ -777,12 +645,12 @@ void IRC_RANKING_SeqFadeOut(IrcSeq *seq, int *step, IrcRankingWork *work)
 #define KEY_SCROLL_SPEED(a, round) ((int)(((long long)FX_Div(round(a)-81920,163840)*245760+2048)>>12))
 
 /*
- * note: Unsigned conversion and ROUND use runtime-proven add C95C/sub CB8C. 8FA8 stores word +28 then tail-calls 3630C; 8E90 reads five inputs, writes Pair/Vec3/word outputs.
+ * note: Unsigned conversion and ROUND use runtime-proven add C95C/sub CB8C. 8FA8 stores word +28 then tail-calls 3630C; 8E90 reads five inputs, writes IrcRankingPoint/VecFx32/word outputs.
  */
 void IRC_RANKING_SeqBrowse(IrcSeq *seq, int *step, IrcRankingWork *work) {
     u32 keyHoldFrames;
-    Pair drag;
-    Vec3 flick;
+    IrcRankingPoint drag;
+    VecFx32 flick;
     int flickFrames;
     if (!IRC_APPBAR_IsBusy(work->appBar)) {
         if (IRC_RANKING_InputGetKeys(&work->input, &keyHoldFrames) & 128) {
@@ -791,10 +659,10 @@ void IRC_RANKING_SeqBrowse(IrcSeq *seq, int *step, IrcRankingWork *work) {
         } else if (IRC_RANKING_InputGetKeys(&work->input, &keyHoldFrames) & 64) {
             if (ROUND_NONZERO(keyHoldFrames) > 81920) IRC_RANKING_InertiaStart(&work->inertia, -KEY_SCROLL_SPEED(keyHoldFrames, ROUND_NONZERO), 12);
             else IRC_RANKING_InertiaStart(&work->inertia, -8192, 12);
-        } else if (IRC_RANKING_InputGetDrag(&work->input, (Pair *)0, (Pair *)0, &drag)) {
+        } else if (IRC_RANKING_InputGetDrag(&work->input, (IrcRankingPoint *)0, (IrcRankingPoint *)0, &drag)) {
             IRC_RANKING_ListScrollBy(&work->list, -drag.y);
             IRC_RANKING_InertiaStop(&work->inertia);
-        } else if (IRC_RANKING_InputGetFlick(&work->input, (Pair *)0, (Pair *)0, &flick, &flickFrames))
+        } else if (IRC_RANKING_InputGetFlick(&work->input, (IrcRankingPoint *)0, (IrcRankingPoint *)0, &flick, &flickFrames))
             IRC_RANKING_InertiaStart(&work->inertia, VEC_DotProduct(&gIrcRankingFlickAxis, &flick), flickFrames);
     }
     if (IRC_RANKING_InertiaIsActive(&work->inertia)) IRC_RANKING_ListScrollBy(&work->list, IRC_RANKING_InertiaStep(&work->inertia));
@@ -831,7 +699,7 @@ void IRC_RANKING_SeqScrollToLatest(IrcSeq *seq, int *step, IrcRankingWork *work)
 }
 
 /* Sets up the backgrounds, tile and screen data and the title window on both screens. */
-void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u32 heapId) {
+void IRC_RANKING_GfxInit(IrcRankingGfx *gfx, struct GameData *gameData, u16 heapId) {
     int i; int paletteBlock; u32 bg; struct MsgBank *msg; struct GfFont *font; struct Strbuf *str;
     MI_CpuFill8(gfx, 0, sizeof(IrcRankingGfx));
     BG_SYS_Create(heapId);
@@ -896,9 +764,9 @@ u32 IRC_RANKING_GfxGetCharRegion(IrcRankingGfx *gfx, u32 isMain)
     return isMain ? gfx->charRegionMain : gfx->charRegionSub;
 }
 
-void IRC_RANKING_ClactInit(IrcRankingClact *clact, const struct DispVramConfig *vramConfig, int heapId) {
+void IRC_RANKING_ClactInit(IrcRankingClact *clact, const struct DispVram *vramConfig, int heapId) {
     MI_CpuFill8(clact, 0, sizeof(IrcRankingClact));
-    CLACT_InitSystem((struct SysInit *)(&gIrcRankingClactSysInit), (struct DispVramCfg *)vramConfig, heapId);
+    CLACT_InitSystem(&gIrcRankingClactSysInit, (const struct DispVramCfg *)vramConfig, heapId);
     clact->unit = CLACT_CreateUnit(128, 0, heapId);
     CLACT_SetUnitDefaultRenderer(clact->unit);
     BG_SYS_SetMainPlaneVisible(16, 1);
@@ -928,17 +796,17 @@ void IRC_RANKING_ClactVBlank(IrcRankingClact *clact)
 /*
  * First-word accessor.
  */
-struct ClactUnit *IRC_RANKING_ClactGetUnit(IrcRankingClact *clact)
+struct Unit *IRC_RANKING_ClactGetUnit(IrcRankingClact *clact)
 {
     return clact->unit;
 }
 
-void IRC_RANKING_DisplayInit(IrcRankingDisplay *display, struct GameData *gameData, u32 heapId) {
+void IRC_RANKING_DisplayInit(IrcRankingDisplay *display, struct GameData *gameData, u16 heapId) {
     MI_CpuFill8(display, 0, sizeof(IrcRankingDisplay));
     REG_BLDCNT = 0;
-    REG_BLDCNT_SUB = 0;
+    REG_DB_BLDCNT = 0;
     REG_DISPCNT &= ~0xe000;
-    REG_DISPCNT_SUB &= ~0xe000;
+    REG_DB_DISPCNT &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_SetVramBanks((struct DispVram *)(&gIrcRankingVramConfig));
     BG_SYS_SetLcdSwap(1);
@@ -968,12 +836,12 @@ IrcRankingDisplay *IRC_RANKING_GetDisplay(IrcRankingWork *work)
     return &work->display;
 }
 
-struct ClactUnit *IRC_RANKING_GetClactUnit(IrcRankingWork *work)
+struct Unit *IRC_RANKING_GetClactUnit(IrcRankingWork *work)
 {
     return IRC_RANKING_ClactGetUnit(&work->display.clact);
 }
 
-void IRC_RANKING_DisplayVBlankTask(void *task, void *taskWork)
+void IRC_RANKING_DisplayVBlankTask(struct TcbTask *task, void *taskWork)
 {
     IrcRankingDisplay *display = taskWork;
     IRC_RANKING_DisplayBgVBlank(display);
@@ -987,7 +855,7 @@ void IRC_RANKING_DisplayVBlankTask(void *task, void *taskWork)
  *   block-constant register over 0x20. With the literal zero stores the zero stays a plain constant
  *   and -40 is built fresh (`movs r1,#0; subs r1,#0x28`) while 0x20 keeps r7.
  */
-void IRC_RANKING_ListInit(IrcRankingList *list, u32 rowBgMain, u8 textBgMain, u8 rowBgSub, u8 textBgSub, IrcRankingDisplay *display, struct ClactUnit *unit, struct MsgBank *msgBank, IrcRankingData *data, u16 heapId) {
+void IRC_RANKING_ListInit(IrcRankingList *list, u32 rowBgMain, u8 textBgMain, u8 rowBgSub, u8 textBgSub, IrcRankingDisplay *display, struct Unit *unit, struct MsgBank *msgBank, IrcRankingData *data, u16 heapId) {
     void *arc;
     int i;
     int m;
@@ -1149,7 +1017,7 @@ void IRC_RANKING_ListTransferWindows(IrcRankingList *list) {
  * BG_SYS_SetScrollField, whose complete three-input body does not read it;
  * this caller supplies only three inputs, so the unused fourth is omitted.
  */
-void IRC_RANKING_ListScrollTask(void *task, void *taskWork)
+void IRC_RANKING_ListScrollTask(struct TcbTask *task, void *taskWork)
 {
     IrcRankingList *list = taskWork;
     s16 rem, x, y;
@@ -1204,8 +1072,8 @@ void IRC_RANKING_ListScrollTask(void *task, void *taskWork)
  *   reload scheduled differently (43 bytes).  CLACT_CreateActor takes the word in
  *   its u32 third slot, so no narrowing is visible anywhere.
  */
-void IRC_RANKING_RowInit(IrcRankingRow *row, const IrcRankingItem *item, struct ClactUnit *unit, u32 palResMain, u32 palResSub, struct MsgBank *msgBank, struct GfFont *font, struct WordSet *wordSet, u16 *screenData, s16 mainY, s16 subY, u16 heapId) {
-    ActorInitParam param; u32 graphicIndex, cellAnim, cellBank; void *arc; struct Strbuf *rankFormat, *scoreFormat, *meetFormat, *text; int i, width; u32 palRes;
+void IRC_RANKING_RowInit(IrcRankingRow *row, const IrcRankingItem *item, struct Unit *unit, u32 palResMain, u32 palResSub, struct MsgBank *msgBank, struct GfFont *font, struct WordSet *wordSet, u16 *screenData, s16 mainY, s16 subY, u16 heapId) {
+    struct ActorInitParam param; u32 graphicIndex, cellAnim, cellBank; void *arc; struct Strbuf *rankFormat, *scoreFormat, *meetFormat, *text; int i, width; u32 palRes;
     i = 0;
     MI_CpuFill8(row, 0, sizeof(IrcRankingRow));
     row->item = item; row->screenData = screenData;
@@ -1218,14 +1086,14 @@ void IRC_RANKING_RowInit(IrcRankingRow *row, const IrcRankingItem *item, struct 
     WORDSET_SetSlotNumber(wordSet, 3, item->meetCount, 3, 0, 1);
     WORDSET_CopyTaggedText(wordSet, text, rankFormat);
     width = PRINTSYS_MeasureWidestLine(text, font, 0) >> 1;
-    PRINTSYS_Print(row->textBmp, 38 - width, 5, text, font);
+    PRINTSYS_Print(row->textBmp, (s16)(38 - width), 5, text, font);
     PRINTSYS_Print(row->textBmp, 52, 5, item->name, font);
     WORDSET_CopyTaggedText(wordSet, text, scoreFormat);
     width = PRINTSYS_MeasureWidestLine(text, font, 0) >> 1;
-    PRINTSYS_Print(row->textBmp, 142 - width, 5, text, font);
+    PRINTSYS_Print(row->textBmp, (s16)(142 - width), 5, text, font);
     WORDSET_CopyTaggedText(wordSet, text, meetFormat);
     width = PRINTSYS_MeasureWidestLine(text, font, 0) >> 1;
-    PRINTSYS_Print(row->textBmp, 194 - width, 5, text, font);
+    PRINTSYS_Print(row->textBmp, (s16)(194 - width), 5, text, font);
     STRBUF_Delete(text); STRBUF_Delete(meetFormat); STRBUF_Delete(scoreFormat); STRBUF_Delete(rankFormat);
     graphicIndex = POKE_TOOL_CalcGraphicIndex(item->species, item->form, item->gender, item->isEgg);
     cellAnim = POKE_TOOL_GetIconCellArcId(); cellBank = POKE_TOOL_GetIconCellEntryId();
@@ -1233,22 +1101,22 @@ void IRC_RANKING_RowInit(IrcRankingRow *row, const IrcRankingItem *item, struct 
     row->iconCharRes = CLACT_RegisterCharacter(arc, graphicIndex, 0, 2, heapId);
     row->iconCellRes = CLACT_RegisterCellAnim(arc, cellAnim, cellBank, heapId);
     ARC_TOOL_DeleteHandle(arc);
-    MI_CpuFill8(&param, 0, sizeof(ActorInitParam)); param.animIndex = 1; param.bgPriority = 1;
+    MI_CpuFill8(&param, 0, sizeof(struct ActorInitParam)); param.anim_seq = 1; param.bg_priority = 1;
     for (; i < 2; i++) {
         param.x = 232;
         if (i == 0) { param.y = mainY; palRes = palResMain; } else { param.y = subY; palRes = palResSub; }
         row->iconY[i] = param.y;
         row->iconActors[i] = CLACT_CreateActor(unit, row->iconCharRes, palRes, row->iconCellRes, &param, i, heapId);
-        CLACT_SetActorPaletteOffset((struct Actor *)row->iconActors[i], POKE_TOOL_CalcIconPalette(item->species, item->form, item->gender, item->isEgg), 0);
-        if (param.y > -16 && param.y < 208) CLACT_SetActorDrawEnable((struct Actor *)row->iconActors[i], 1);
-        else CLACT_SetActorDrawEnable((struct Actor *)row->iconActors[i], 0);
+        CLACT_SetActorPaletteOffset((struct ClactActor *)row->iconActors[i], POKE_TOOL_CalcIconPalette(item->species, item->form, item->gender, item->isEgg), 0);
+        if (param.y > -16 && param.y < 208) CLACT_SetActorDrawEnable((struct ClactActor *)row->iconActors[i], 1);
+        else CLACT_SetActorDrawEnable((struct ClactActor *)row->iconActors[i], 0);
     }
 }
 
 void IRC_RANKING_RowExit(IrcRankingRow *row)
 {
     int i;
-    for (i = 0; i < 2; i++) CLACT_DeleteActor((struct Actor *)row->iconActors[i]);
+    for (i = 0; i < 2; i++) CLACT_DeleteActor((struct ClactActor *)row->iconActors[i]);
     CLACT_ReleaseCharacter(row->iconCharRes);
     CLACT_ReleaseCellAnim(row->iconCellRes);
     BMP_Delete(row->textBmp);
@@ -1265,7 +1133,7 @@ void IRC_RANKING_RowDraw(IrcRankingRow *row, struct BmpWin *win, u32 bgId, u16 y
 
 /* Positions the row's icon sprites for the current scroll position and hides those outside the screen. */
 void IRC_RANKING_RowSetScroll(IrcRankingRow *row, int scroll) {
-    OamPos pos;
+    struct ClactVec2 pos;
     int offsets[2];
     int i;
     offsets[0] = -scroll;
@@ -1273,9 +1141,10 @@ void IRC_RANKING_RowSetScroll(IrcRankingRow *row, int scroll) {
     for (i = 0; i < 2; i++) {
         CLACT_GetActorSurfacePos(row->iconActors[i], &pos, i);
         pos.y = offsets[i] + row->iconY[i];
+        /* likely original mismatch: the surface index is narrowed to u16 at the call, the ARM9 definition takes u32 */
         CLACT_AddActorSurfacePos(row->iconActors[i], &pos, i);
-        if (pos.y > -16 && pos.y < 208) CLACT_SetActorDrawEnable((struct Actor *)row->iconActors[i], 1);
-        else CLACT_SetActorDrawEnable((struct Actor *)row->iconActors[i], 0);
+        if (pos.y > -16 && pos.y < 208) CLACT_SetActorDrawEnable((struct ClactActor *)row->iconActors[i], 1);
+        else CLACT_SetActorDrawEnable((struct ClactActor *)row->iconActors[i], 0);
     }
 }
 
@@ -1310,6 +1179,7 @@ void IRC_RANKING_WriteRowScreen(u16 *screens, u32 bgId, int y, u8 style) {
     u8 *p = (u8 *)screens;
     if (bgId >= 4) p += 192;
     BG_SYS_DrawTile(bgId, p, 0, (u8)y, 32, 3);
+    /* likely original mismatch: the layer is passed wide, the ARM9 definition takes u8 */
     BG_SYS_FillTileMap(bgId, 0, y, 32, 3, style);
 }
 
@@ -1414,7 +1284,7 @@ void IRC_RANKING_InputUpdate(IrcRankingInput *input) {
 /*
  * extent: two bytes of alignment padding after the return.
  */
-int IRC_RANKING_InputGetDrag(IrcRankingInput *input, Pair *start, Pair *current, Pair *delta) {
+int IRC_RANKING_InputGetDrag(IrcRankingInput *input, IrcRankingPoint *start, IrcRankingPoint *current, IrcRankingPoint *delta) {
     if (TOUCHPANEL_GetCont()) {
         if (start) *start = input->start;
         if (current) *current = input->current;
@@ -1435,9 +1305,9 @@ static inline int ToFixedRounded(int v)
 }
 
 /* Reports the finished touch once (start, end, direction vector, hold time) when no key is held. */
-int IRC_RANKING_InputGetFlick(IrcRankingInput *input, Pair *start, Pair *end, Vec3 *delta, int *holdFrames)
+int IRC_RANKING_InputGetFlick(IrcRankingInput *input, IrcRankingPoint *start, IrcRankingPoint *end, VecFx32 *delta, int *holdFrames)
 {
-    Vec3 a, b;
+    VecFx32 a, b;
     int y;
     if (!KEY_GetCont()) {
         if (input->idleFrames < 1) {
@@ -1572,13 +1442,13 @@ void IRC_RANKING_CopyBmpTiles(struct Bmp *srcBmp, struct Bmp *dstBmp, int srcX, 
 
 /* Creates a header label: a bitmap shown as a bitmap OAM. */
 IrcRankingLabel *IRC_RANKING_LabelCreate(const IrcRankingLabelPos *pos, u8 widthTiles, u8 heightTiles, int animResId, u8 palette, int screen, struct BmpOamSys *oamSys, struct PrintQue *printQue, u16 heapId) {
-    IrcRankingLabel *label; BmpOamParam param;
+    IrcRankingLabel *label; struct BmpOamParam param;
     label = GFL_HEAP_Alloc(heapId, sizeof(IrcRankingLabel), 0, gIrcRankingFileName, 3402);
     MI_CpuFill8(label, 0, sizeof(IrcRankingLabel));
     label->printQue = printQue;
     label->text = STRBUF_Create(128, heapId);
-    label->bmp = BMP_Create(widthTiles, heightTiles, 32, heapId);
-    MI_CpuFill8(&param, 0, sizeof(BmpOamParam));
+        label->bmp = BMP_Create(widthTiles, heightTiles, 32, heapId);
+    MI_CpuFill8(&param, 0, sizeof(struct BmpOamParam));
     param.bmp = label->bmp; param.x = pos->x; param.y = pos->y;
     param.animResId = animResId; param.drawPriority = pos->drawPriority; param.space = screen; param.engine = screen; param.bgPriority = pos->bgPriority; param.palette = palette;
     label->oam = BMP_OAM_Create(oamSys, &param);
@@ -1597,7 +1467,7 @@ void IRC_RANKING_LabelDelete(IrcRankingLabel *label)
  * extent: two bytes of alignment padding after the return.
  */
 void IRC_RANKING_LabelSetText(IrcRankingLabel *label, struct MsgBank *msgBank, u32 msgId, struct GfFont *font) {
-    Pair pos;
+    IrcRankingPoint pos;
     BMP_Clear(label->bmp, label->printColor & 31);
     MSGDATA_ReadString(msgBank, msgId, label->text);
     IRC_RANKING_LabelCalcTextPos(label, font, &pos);
@@ -1634,7 +1504,7 @@ int IRC_RANKING_LabelUpdate(IrcRankingLabel *label)
  * The mode 0 copy is an 8-byte struct assignment, which is why the image
  * loads both words before either store.
  */
-void IRC_RANKING_LabelCalcTextPos(IrcRankingLabel *label, struct GfFont *font, Pair *out)
+void IRC_RANKING_LabelCalcTextPos(IrcRankingLabel *label, struct GfFont *font, IrcRankingPoint *out)
 {
     switch (label->alignMode) {
     case 0: {

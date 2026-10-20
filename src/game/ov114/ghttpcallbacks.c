@@ -19,8 +19,8 @@
  */
 #include "ghttp_types.h"
 
-extern int gsDebugFormat(int index, int table, int mask, const char *fmt, int arg);
-extern int ArrayLength(int *array);
+#include "../ov009/gsdebug.h"
+#include "../ov009/darray.h"
 void ghiCallCompletedCallback(GHIConnection *connection);
 /*
  * sdk:      ghiCallProgressCallback (ghttpcallbacks)

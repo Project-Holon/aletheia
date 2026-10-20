@@ -216,7 +216,7 @@ u8 *NNS_G3dGetAnmByIdx(u8 *pFile, u32 resIdx)
     if (resIdx >= ((NNSG3dResDictBlock *)pBlock)->numEntry)
         goto fail;
     ofsEntry = ((NNSG3dResDictBlock *)pBlock)->ofsEntry;
-    resIdx = *(u16 *)(pDict + ofsEntry) * resIdx + ((u32)pDict + ofsEntry + 4);
+    resIdx = *(u16 *)(pDict + ofsEntry) * resIdx + ((uptr)pDict + ofsEntry + 4);
     goto end;
 fail:
     resIdx = 0;

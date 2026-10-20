@@ -57,7 +57,7 @@ typedef struct NetSaveRequest {
 typedef struct NetSaveScreenWork {
     u32           data;             /* 0x00: the constructor's argument (a pointer, see ScreenMain) */
     u32           updateConnection; /* 0x04: nonzero while a connection update is owed */
-    u32           proc;             /* 0x08: PROCSYS proc handle of heap 0x5b */
+    struct ProcSys *proc;          /* 0x08: PROCSYS proc handle of heap 0x5b */
     u8            pad0C[0x180 - 0x0C]; /* 0x0C: argument block of the pushed save procs */
     NetSaveRequest request;         /* 0x180: pushed-proc argument block */
 } NetSaveScreenWork;
@@ -85,9 +85,6 @@ struct Proc;
 #include "mi_memory.h"
 
 
-extern unsigned int PROCSYS_Main(void *p);
-
-extern void PROCSYS_Push(u32 h, void *ovl, void *proc, void *arg);
 
 #include "net_err.h"
 
@@ -148,7 +145,7 @@ int GFL_NET_SAVE_CreateScreenWork(void *ctx, int seq, int pwork)
     p = PROCSYS_AllocProcWork(ctx, 0x1a8, 0x5b);
     MI_CpuFill8(p, 0, 0x1a8);
     ((NetSaveScreenWork *)p)->data = (u32)pwork;
-    ((NetSaveScreenWork *)p)->proc = (unsigned int)PROCSYS_Create(0x5b);
+    ((NetSaveScreenWork *)p)->proc = (struct ProcSys *)PROCSYS_Create(0x5b);
     return 1;
 }
 
@@ -189,7 +186,7 @@ int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx)
     int st;
     int flag;
 
-    st = PROCSYS_Main((void *)((NetSaveScreenWork *)ctx)->proc);
+    st = PROCSYS_Main(((NetSaveScreenWork *)ctx)->proc);
     if (st == 2 || st == 0) {
         GFL_NET_ERR_ShowScreen(0);
     }
@@ -213,7 +210,7 @@ int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx)
         } else {
             ((NetSaveScreenWork *)ctx)->request.retryFlag = 0;
         }
-        PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, ov115_id, gNetSaveMainProc, &((NetSaveScreenWork *)ctx)->request);
+        PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, (uptr)ov115_id, (const ProcData *)gNetSaveMainProc, &((NetSaveScreenWork *)ctx)->request);
         (*seq)++;
         break;
     case 2:
@@ -232,7 +229,7 @@ int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx)
         ((NetSaveScreenWork *)ctx)->request.source0 = (*(u32 **)ctx)[1];
         ((NetSaveScreenWork *)ctx)->request.source1 = (*(u32 **)ctx)[0];
         *(u8 * *)&((NetSaveScreenWork *)ctx)->request.dataPtr = ctx + 0xc;
-        PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, ov187_id, d_0220B294, &((NetSaveScreenWork *)ctx)->request);
+        PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, (uptr)ov187_id, (const ProcData *)d_0220B294, &((NetSaveScreenWork *)ctx)->request);
         (*seq)++;
         break;
     case 4:
@@ -250,7 +247,7 @@ int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx)
         ((NetSaveScreenWork *)ctx)->request.source0 = **(u32 * *)&((NetSaveScreenWork *)ctx)->data;
         ((NetSaveScreenWork *)ctx)->request.source1 = 0;
         *(u32 *)&((NetSaveScreenWork *)ctx)->request.dataPtr = 1;
-        PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, ov115_id, gNetSaveRetryProc, &((NetSaveScreenWork *)ctx)->request);
+        PROCSYS_Push(((NetSaveScreenWork *)ctx)->proc, (uptr)ov115_id, (const ProcData *)gNetSaveRetryProc, &((NetSaveScreenWork *)ctx)->request);
         ((NetSaveScreenWork *)ctx)->updateConnection = 0;
         (*seq)++;
         break;
@@ -269,15 +266,11 @@ int GFL_NET_SAVE_ScreenMain(u32 proc, u32 *seq, u32 pwork, u8 *ctx)
     return 0;
 }
 
-struct ProcSys;
-
-extern void PROCSYS_Delete(struct ProcSys *procSys);
-
 int GFL_NET_SAVE_ScreenExit(struct ProcSysProc *proc, u32 *seq, void *param, NetSaveScreenWork *work);
 
 int GFL_NET_SAVE_ScreenExit(struct ProcSysProc *proc, u32 *seq, void *param, NetSaveScreenWork *work)
 {
-    PROCSYS_Delete((struct ProcSys *)work->proc);
+    PROCSYS_Delete(work->proc);
     PROCSYS_FreeProcWork((struct Proc *)proc);
     GFL_HEAP_DeleteChecked(0x5b);
     return 1;

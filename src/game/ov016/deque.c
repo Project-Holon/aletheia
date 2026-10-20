@@ -30,12 +30,11 @@ typedef struct tagQCB {
     void *data[1];
 } QCB;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void DWCi_HEAPlFree_(void **mem);
-extern unsigned long OS_DisableIrqMask(unsigned long intr);
-extern long FX_ModS32(long a, long b);
-extern void OS_Terminate(void);
-extern unsigned long OS_EnableIrqMask(unsigned long intr);
+#include "heap.h"
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
+#include "../arm9/fx_cp.h"
+#include "../arm9/os_terminate_processor.h"
 void *DWCi_QUElForm(long size);
 void *DWCi_QUElFormEx(long size, void *data, long dataSize);
 void DWCi_QUElDelete(struct tagLISTCB *list);

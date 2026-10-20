@@ -122,7 +122,6 @@
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
  */
 #define R (*(volatile u16*)0x04000060)
-struct BgTemplate;
 struct Obj;
 struct Proc;
 struct GfFont;
@@ -145,6 +144,9 @@ struct Actor;
 struct PtS;
 #include "../types.h"
 
+#include "../arm9/clact.h"
+#include "../arm9/bg_sys.h"
+
 typedef struct {u32 id;u8 cfg[32];u32 type,enable;} AwardBgLayerRow;
 
 typedef struct {u32 a,b,c;} Assets;
@@ -155,9 +157,9 @@ typedef enum { COUNT=1 } LayerCount;
 
 typedef struct {u32 layer;u8 data[40];} AwardBgTemplate;
 
-struct Pos { u8 a, b, c, d; };
+struct ZenkokuZukanAwardPos { u8 a, b, c, d; };
 
-typedef struct {s16 x,y;} Pt;
+typedef struct {s16 x,y;} ZenkokuZukanAwardPt;
 
 /* Caller input, the third Init argument. */
 struct ZenkokuZukanAwardArgs {
@@ -185,110 +187,44 @@ struct ZenkokuZukanAwardWork {
     struct Obj *actor;           /* +0x54 CLACT actor */
 };
 
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
 extern void MI_CpuFill8(void*,int,u32);
-extern void *ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32,u32);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "zenkoku_zukan_award_graphic.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern void BG_SYS_SetPriority(int,u16);
-extern void *GFL_USE_AddMainTask(u32,void*,u32);
+#include "../arm9/printsys.h"
+#include "../arm9/gfl_use.h"
 struct GameData;
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+#include "../arm9/game_data.h"
 extern void BG_SYS_ClearSubPlanes(void),BG_SYS_ClearSubBgPlanes(void),GXS_SetGraphicsMode(BGMode);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(u8);
-extern void BG_SYS_SetPlaneVisible(u8,u8);
-extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void*,u32,u32,u32,u32,u16);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void*,u32,u32,u32,u32,u32,u16);
-extern void ARC_TOOL_DeleteHandle(void*);
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
 extern void FADE_Start(u32,int,int,int),BG_SYS_PushTile(u32),GFL_NET_RefreshWmIconAtTopRight(u32,u32),GFL_USE_FadeOutBgm(u32);
-extern void BG_SYS_FreeLayerBuf(u32 i);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char*);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(unsigned int);
-extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
-extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPaused(unsigned int value);
-extern int GFL_USE_PushBgm(void);
-extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
-extern int GFL_USE_IsBgmPlaying(void);
-extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_FadeInBgmFull(u32);
-extern void FADE_Start(u32,int,int,int);
-extern int FADE_IsActive(void);
-extern u32 KEY_GetTrg(void);
-extern void UI_SetInputMode(unsigned char);
-extern u32 TOUCHPANEL_GetPointTrg(u32*,u32*);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void BG_SYS_PushTile(unsigned);
+#include "../arm9/tcb_list.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/fade.h"
+#include "../arm9/key.h"
+#include "../arm9/ui.h"
+#include "../arm9/touchpanel.h"
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
-extern int CONFIG_GetTextLanguage(unsigned short *p);
-extern void ARC_UTIL_UploadPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "../arm9/system_data.h"
+#include "../arm9/config.h"
+#include "../arm9/msgdata.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_SetPosX(struct BmpWin *win, unsigned char posX);
-extern void BMP_WIN_SetPosY(struct BmpWin *win, unsigned char posY);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+#include "../arm9/bmp_win.h"
+typedef short s16_p07;
+#include "../arm9/bmp.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char*,u16);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_LoadPltt(u32,void*,u32,u32);
-extern u16 BMP_WIN_GetCharOffset(struct BmpWin *win);
-extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
-extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16);
-extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p);
-extern struct Obj *CLACT_CreateActor(void*,u32,u32,u32,const void*,u16,u16);
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
-extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
-extern void CLACT_DeleteActor(struct Actor *actor);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
-extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern unsigned BG_SYS_GetScrollY(unsigned);
-extern void BG_SYS_ChangeScroll(unsigned,unsigned,unsigned);
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void BG_SYS_SetMainPlaneVisible(u32,u32);
-extern void G3X_SetFog(int,int,int,int);
-extern void G3X_SetClearColor(u16,int,int,int,int);
+#include "../arm9/strbuf.h"
+#include "../arm9/wordset.h"
+struct ClactActor;
+struct ClactVec2;
+#include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
+#include "../arm9/g3d_system.h"
 int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input);
 int ZENKOKU_ZUKAN_AWARD_Exit(void*scene,int unused1,int unused2,char*p);
 int ZENKOKU_ZUKAN_AWARD_Main(int unused, int *state, int unused2, unsigned char *p);
@@ -310,7 +246,7 @@ extern const AwardBgLayerRow tbl_021BA1F4[];
 extern Assets tbl_021BA360[];
 extern const AwardBgTemplate d_021BA1F4[];
 extern const u8 d_021BA220[];
-extern struct Pos d_021BA1E0[];
+extern struct ZenkokuZukanAwardPos d_021BA1E0[];
 extern char d_021BA378[];
 extern const u32 d_021BA1D8[];
 extern const u16 d_021BA2AC[][4];
@@ -334,7 +270,7 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
  *(u32*)(p+16)=(unsigned int)PRINTSYS_QUE_Create((unsigned int)*(u16*)p);
  BG_SYS_SetPriority(1,1);BG_SYS_SetPriority(2,0);
- *(void**)(p+20)=GFL_USE_AddMainTask((u32)ZENKOKU_ZUKAN_AWARD_Task,p,1);
+ *(void**)(p+20)=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((u32)ZENKOKU_ZUKAN_AWARD_Task),(void *)p,1);
  ZENKOKU_ZUKAN_AWARD_LoadBgAssets((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_SetupWindows((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_SetupTiles((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_CreateActor((struct ZenkokuZukanAwardWork *)p);
  settings=(char *)GAME_DATA_GetMyStatus(*(void**)(*(char**)(p+4)));
  *(volatile u16*)0x04001050=i;
@@ -443,8 +379,8 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p)
     u32 h;
     s16 off;
     u32 ws, x, t;
-    msg = (char *)GAME_DATA_GetMyStatus(p->args->owner);
-    flag = CONFIG_GetTextLanguage((short unsigned int *)SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(p->args->owner)));
+    msg = (char *)GAME_DATA_GetMyStatus((struct GameData *)p->args->owner);
+    flag = CONFIG_GetTextLanguage((const struct Config *)((short unsigned int *)SYSTEM_DATA_GetConfig((void *)GAME_DATA_GetSaveControl((struct GameData *)p->args->owner))));
     p->msgBank = 0;
     for (i = 0; i < 5; i++) {
         p->windows[i] = 0;
@@ -561,14 +497,14 @@ void ZENKOKU_ZUKAN_AWARD_CreateActor(struct ZenkokuZukanAwardWork *p)
  p->cellAnimId=CLACT_RegisterCellAnim(h,8,9,p->heap);
  ARC_TOOL_DeleteHandle((void*)h);
  t=ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor((char *)p->graphic);
- p->actor=CLACT_CreateActor((void*)t,p->charId,p->paletteId,p->cellAnimId,d_021BA1D8,0,p->heap);
- CLACT_SetActorDrawEnable((struct Actor *)p->actor,1);
- CLACT_SetActorAutoAnim((struct Actor *)p->actor,1);
+ p->actor=(struct Obj *)CLACT_CreateActor((void*)t,p->charId,p->paletteId,p->cellAnimId,(struct ActorInitParam *)d_021BA1D8,0,p->heap);
+ CLACT_SetActorDrawEnable((struct ClactActor *)p->actor,1);
+ CLACT_SetActorAutoAnim((struct ClactActor *)p->actor,1);
 }
 
 void ZENKOKU_ZUKAN_AWARD_DeleteActor(struct ZenkokuZukanAwardWork *p)
 {
-    CLACT_DeleteActor((struct Actor *)p->actor);
+    CLACT_DeleteActor((struct ClactActor *)p->actor);
     CLACT_ReleaseCellAnim(p->cellAnimId);
     CLACT_ReleaseCharacter(p->charId);
     CLACT_ReleasePalette(p->paletteId);
@@ -582,7 +518,7 @@ void ZENKOKU_ZUKAN_AWARD_DeleteActor(struct ZenkokuZukanAwardWork *p)
  */
 void ZENKOKU_ZUKAN_AWARD_SetupActorPos(char*p)
 {
-    Pt pos;
+    ZenkokuZukanAwardPt pos;
     if(*(int*)(*(char**)(p+4)+4)==0){
         s16 *t;
         BG_SYS_ChangeScrollImmediate(1,3,0x40);
@@ -590,7 +526,7 @@ void ZENKOKU_ZUKAN_AWARD_SetupActorPos(char*p)
         t=(s16*)d_021BA1D8;
         pos.x=t[0];
         pos.y=t[1]-0x40;
-        CLACT_AddActorSurfacePos(*(void**)(p+0x54),(const struct Vec2 *)(&pos),0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)(*(void**)(p+0x54)),(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);
         *(u8*)(p+0x44)=0;
     }
 }
@@ -598,16 +534,16 @@ void ZENKOKU_ZUKAN_AWARD_SetupActorPos(char*p)
 void ZENKOKU_ZUKAN_AWARD_UpdateActor(struct ZenkokuZukanAwardWork *p)
 {
     int v;
-    Pt pos;
+    ZenkokuZukanAwardPt pos;
     if(p->args->bgmActive==0){
         v=BG_SYS_GetScrollY(1);
         if(v!=0){
             if(p->countdown==0){
                 if(v>=2)v=2;
                 BG_SYS_ChangeScroll(1,5,v);BG_SYS_ChangeScroll(2,5,v);
-                CLACT_GetActorSurfacePos((struct Actor *)p->actor,(struct PtS *)(&pos),0);
+                CLACT_GetActorSurfacePos((struct ClactActor *)p->actor,(struct ClactVec2 *)((struct PtS *)(&pos)),0);
                 pos.y=pos.y+(s16)v;
-                CLACT_AddActorSurfacePos(p->actor,(const struct Vec2 *)(&pos),0);
+                CLACT_AddActorSurfacePos((struct ClactActor *)p->actor,(const struct ClactVec2 *)((const struct Vec2 *)(&pos)),0);
                 p->countdown=0;
             }else --p->countdown;
         }

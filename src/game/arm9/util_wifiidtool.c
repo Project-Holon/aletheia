@@ -118,7 +118,7 @@ int DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *wifiinfo)
         return 0;
     /* the object adds OS_GetTick's address, not its value */
     if (OS_IsTickAvailable())
-        seed += (u32)OS_GetTick;
+        seed += (uptr)OS_GetTick;
     OS_GetMacAddress(macaddr);
 
     vend = (((macaddr[0] << 16) | (macaddr[1] << 8) | macaddr[2]) != DWC_NINTENDO_OUI) ? 1 : 0;
@@ -200,7 +200,7 @@ int DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *wifiinfo)
         return 0;
     /* the object adds OS_GetTick's address, not its value */
     if (OS_IsTickAvailable())
-        seed += (u32)OS_GetTick;
+        seed += (uptr)OS_GetTick;
     OS_GetMacAddress(macaddr);
 
     vend = (((macaddr[0] << 16) | (macaddr[1] << 8) | macaddr[2]) != DWC_NINTENDO_OUI) ? 1 : 0;

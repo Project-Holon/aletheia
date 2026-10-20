@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_VM_H
 #define GAME_ARM9_VM_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of vm.c, prototypes copied from their definitions. */
 
 #include "../arm9/script_vm_types.h"
@@ -23,5 +24,6 @@ void VM_Jump(ScriptVm *vm, u8 *pc);
 void VM_Call(ScriptVm *vm, u8 *pc);
 u8 *VM_Return(ScriptVm *vm);
 void VM_SetWait(ScriptVm *vm, ScriptWaitFn wait);
+/* END mkheaders: generated region */
 
 #endif

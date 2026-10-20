@@ -46,6 +46,7 @@
  *   TCB_DeleteTask  0x02030EAC  arm  arm9
  */
 #include "field_effect_types.h"
+#include "../arm9/tcb_list.h"
 
 typedef struct PaletteResource {
     u8 pad00[0x30];
@@ -55,50 +56,35 @@ typedef struct PaletteResource {
     u32 palOffset;
 } PaletteResource;
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void ARC_TOOL_DeleteHandle(void *h);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 MI_CpuFill8(void *p, int v, int n);
+#include "../arm9/arc_tool.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
 struct FieldMap;
 struct GameSystem;
-extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern void *GFL_HEAP_Alloc(u32 a, u32 b, int c, const char *d, u16 e);
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern u32 ZONEDATA_GetAreaId(u32 id);
+#include "fieldmap.h"
+#include "../arm9/zonedata.h"
 struct PlayerInfo;
-extern int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info);
+#include "../arm9/comm_player_support.h"
 struct AreaData;
-extern struct AreaData *FIELDMAP_GetAreaData(struct FieldMap *fieldMap);
-extern u8 ZONEDATA_GetAreaInnerOuter(struct AreaData *areaData);
 struct BbActSys;
-extern struct BbActSys *FIELDMAP_GetEffectBbdAct(struct FieldMap *fieldMap);
 struct BbBoard;
-extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *sys);
-extern void BILLBOARD_SetQuadShape(u8 *dst, u8 val);
+#include "../arm9/billboard_act.h"
+#include "../arm9/billboard.h"
 struct Blk3;
-extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
-extern void BILLBOARD_SetPolyIdBase(u8 *dst, u8 *src);
 struct FieldG3dObjCtrl;
-extern struct FieldG3dObjCtrl *FIELDMAP_GetG3dObjCtrl(struct FieldMap *fieldMap);
-extern u32 TCB_GetTaskOffset(u32 idx);
 struct TcbSystem;
-extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
-extern void TCB_Noop(int a);
-extern void TCB_Main(struct TcbSystem *sys);
 struct TcbTask;
-extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*cb)(void), void *work, u32 priority);
-extern void TCB_DeleteTask(struct TcbTask *task);
 struct G3dResource;
-extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *res);
-extern unsigned char *NNS_G3dGetTex(unsigned char *p);
-extern void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
+#include "../arm9/g3d_system.h"
+#include "../arm9/nns_g3d_res.h"
+#include "../arm9/palanm.h"
 
 FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, int resourceCount, u16 heapId);
 int FIELD_EFFECT_Delete(FieldEffectSys *sys);
 void FIELD_EFFECT_Update(FieldEffectSys *sys);
 void FIELD_EFFECT_Draw(FieldEffectSys *sys);
-u32 FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys);
-u32 FIELD_EFFECT_GetFieldMapData(FieldEffectSys *sys);
+struct FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys);
+struct FieldG3dObjCtrl *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *sys);
 u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
 u8 FIELD_EFFECT_GetModelBaseOffset(FieldEffectSys *sys);
 u8 FIELD_EFFECT_GetModelBaseOffsetAlt(FieldEffectSys *sys);
@@ -111,7 +97,7 @@ void FIELD_EFFECT_FreeResourceTable(FieldEffectSys *sys);
 FieldEffectResource *FIELD_EFFECT_FindResourceSlot(FieldEffectSys *sys, int id);
 FieldEffectResourceDef *FIELD_EFFECT_GetResourceDef(int id);
 void FIELD_EFFECT_InitObjectSystem(FieldEffectSys *sys, int objectCount);
-void FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
+FieldEffectObj *FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 void FIELD_EFFECT_ExitObjectSystem(FieldEffectSys *sys);
 void FIELD_EFFECT_RunTasks(FieldEffectSys *sys);
 void FIELD_EFFECT_DrawObjects(FieldEffectSys *sys);
@@ -178,14 +164,14 @@ void FIELD_EFFECT_Draw(FieldEffectSys *sys)
     FIELD_EFFECT_DrawObjects(sys);
 }
 
-u32 FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys)
+struct FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys)
 {
-    return (u32)sys->fieldmap;
+    return (struct FieldMap *)sys->fieldmap;
 }
 
-u32 FIELD_EFFECT_GetFieldMapData(FieldEffectSys *sys)
+struct FieldG3dObjCtrl *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *sys)
 {
-    return (u32)FIELDMAP_GetG3dObjCtrl((struct FieldMap *)sys->fieldmap);
+    return FIELDMAP_GetG3dObjCtrl((struct FieldMap *)sys->fieldmap);
 }
 
 u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys)
@@ -315,16 +301,16 @@ void FIELD_EFFECT_InitObjectSystem(FieldEffectSys *sys, int objectCount)
     sys->objMgr = FIELD_EFFECT_CreateObjectMgr(sys->heapId, sys->taskSys, objectCount);
 }
 
-void FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority)
+FieldEffectObj *FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority)
 {
-    FIELD_EFFECT_AddObjectToMgr(sys->objMgr, funcs, pos, mode, param, priority);
+    return FIELD_EFFECT_AddObjectToMgr(sys->objMgr, funcs, pos, mode, param, priority);
 }
 
 void FIELD_EFFECT_ExitObjectSystem(FieldEffectSys *sys)
 {
     if (sys->objMgr != 0) {
         FIELD_EFFECT_DeleteObjectMgr(sys->objMgr);
-        TCB_Noop(sys->taskSys);
+        TCB_Noop( (struct TcbSystem *)sys->taskSys);
         GFL_HEAP_Free(sys->taskBuffer);
     }
 }
@@ -393,7 +379,7 @@ FieldEffectObj *FIELD_EFFECT_AddObjectToMgr(FieldEffectObjMgr *mgr, const FieldE
             if (pos != 0)
                 obj->pos = *pos;
             obj->mgr = mgr;
-            obj->task = TCB_AddTask((struct TcbSystem *)mgr->taskSys, (void (*)(void))FIELD_EFFECT_ObjectTask, obj, priority);
+            obj->task = TCB_AddTask((struct TcbSystem *)mgr->taskSys, (TcbFunc)FIELD_EFFECT_ObjectTask, obj, priority);
             break;
         }
         i++;

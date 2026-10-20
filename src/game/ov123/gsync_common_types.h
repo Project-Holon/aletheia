@@ -5,30 +5,14 @@
 #include "../types.h"
 
 /* Opaque handle of a CLACT sprite actor. */
-struct ClActor;
+struct ClactActor;
 
-/* Background layer template read by BG_SYS_SetBgTemplate (0x20 bytes). */
-struct BgTemplate {
-    u32 x;                  /* 0x00 */
-    u32 y;                  /* 0x04 */
-    u32 bufSize;            /* 0x08 */
-    u32 baseTile;           /* 0x0C */
-    u8 screenSize;          /* 0x10 */
-    u8 colorMode;           /* 0x11 */
-    u8 screenBase;          /* 0x12 */
-    u8 charBase;            /* 0x13 */
-    u32 extPaletteSlot;     /* 0x14 */
-    u8 priority;            /* 0x18 */
-    u8 areaOver;            /* 0x19 */
-    u8 dummy;               /* 0x1A */
-    u8 mosaic;              /* 0x1B */
-    u32 bgType;             /* 0x1C */
-};
+#include "../arm9/bg_sys.h"
 
 typedef struct { u16 value; char *object; void (*callback)(char *); } NotifyCallback;
 
 /* Position record passed to CLACT_CreateActor (8 bytes). */
-struct ActorSpawnPos {
+struct GsyncCommonActorSpawnPos {
     s16 x;      /* 0x00 */
     s16 y;      /* 0x02 */
     u16 z;      /* 0x04, always 0 in ov123 */
@@ -37,7 +21,7 @@ struct ActorSpawnPos {
 };
 
 /* 2D point written by CLACT_GetActorSurfacePos and added by CLACT_AddActorSurfacePos. */
-struct ActorPos {
+struct GsyncCommonActorPos {
     s16 x;      /* 0x00 */
     s16 y;      /* 0x02 */
 };
@@ -83,7 +67,7 @@ typedef struct GsyncDispIconRecord {
 
 /* One sprite particle of the Game Sync display (0x18 bytes). */
 typedef struct GsyncDispParticle {
-    struct ClActor *actor;  /* 0x00 */
+    struct ClactActor *actor;  /* 0x00 */
     u16 x;                  /* 0x04 */
     u16 y;                  /* 0x06 */
     u16 angleA;             /* 0x08, index into FX_SinCosTable_ after >> 4 */
@@ -111,16 +95,16 @@ typedef struct GsyncDispWork {
     u32 charBase;                       /* 0x000, base slot of the character members */
     u32 paletteBase;                    /* 0x004, base slot of the palette members */
     u8 unknown_08[4];                   /* 0x008, never accessed */
-    struct Bank *clactUnit;             /* 0x00C */
+    struct Unit *clactUnit;             /* 0x00C */
     void *vblankTcb;                    /* 0x010 */
     void *paletteWaveTcb;               /* 0x014 */
     GsyncPaletteData *paletteData;      /* 0x018, palette record returned by ARC_UTIL_LoadPaletteBlockFromHandle */
     void *paletteBlock;                 /* 0x01C, allocation freed on exit */
     GsyncDispResources resources;       /* 0x020 */
     u8 unknown_70[4];                   /* 0x070, never accessed */
-    struct ClActor *actors[16];         /* 0x074 */
-    struct ClActor *pokeIconActor;      /* 0x0B4 */
-    struct ClActor *backdropActor;      /* 0x0B8 */
+    struct ClactActor *actors[16];         /* 0x074 */
+    struct ClactActor *pokeIconActor;      /* 0x0B4 */
+    struct ClactActor *backdropActor;      /* 0x0B8 */
     GsyncDispIconRecord iconRecords[30];/* 0x0BC */
     GsyncDispParticle particles[30];    /* 0x40F4 */
     u16 heapId;                         /* 0x43C4 */
@@ -150,7 +134,7 @@ struct TaskMenuTmpl;
 struct Rec3;
 struct Big;
 struct Proc;
-struct Bank;
+struct Unit;
 struct TaskMenuRes;
 struct Tcbl;
 struct DispConfig;

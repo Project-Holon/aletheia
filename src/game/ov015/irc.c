@@ -65,12 +65,8 @@ typedef struct {
     unsigned char sumHi;
 } IRCHeader;
 
-extern void IRCi_Write(u8 *data, u8 size);
-extern OSTick OS_GetTick(void);
-extern void IRCi_Init(void);
-extern int IRCi_Read(u8 *buf);
-extern void IRCi_End(void);
-extern u64 OS_GetTick(void);
+#include "irc_internal.h"
+#include "../arm9/os_tick.h"
 unsigned short IRCi_CalcSum(void *input, unsigned long length);
 void IRCi_Restore(void);
 void IRCi_ResetState(void);

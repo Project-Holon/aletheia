@@ -45,6 +45,12 @@
 #include "../ov021/fld_exp_obj_types.h"
 #include "../ov037/gimmick_save_types.h"
 #include "field_gimmick_button_states_types.h"
+#include "../ov021/fieldmap.h"
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+#include "../arm9/gimmick.h"
+#include "../arm9/game_event.h"
+#include "../ov021/fld_exp_obj.h"
 
 void FIELD_GIMMICK_BUTTON_STATES_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_BUTTON_STATES_Exit(struct FieldMap *fieldMap);
@@ -74,7 +80,7 @@ void FIELD_GIMMICK_BUTTON_STATES_Init(struct FieldMap *fieldMap)
     FieldGimmickButtonStatesPosTable oneShotPos;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
+    save = (FieldGimmickButtonStatesSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), 4);
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gButtonStatesUnitSetup, 0);
     statePos = gButtonStatesStatePos;
@@ -124,10 +130,10 @@ struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(struct GameSystem
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
+    save = (FieldGimmickButtonStatesSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     if (stateModel >= FIELD_GIMMICK_BUTTON_STATES_STATE_MODEL_COUNT)
         return 0;
-    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventSetState, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_BUTTON_STATES_EventSetState, 0);
     if (event != 0) {
         work->stateModel = stateModel;
         work->showLastFrame = showLastFrame;
@@ -147,10 +153,10 @@ struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(struct GameSyst
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
+    save = (FieldGimmickButtonStatesSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     if (oneShotIndex > FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_COUNT)
         return 0;
-    event = GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot, 0);
+    event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot, 0);
     work->oneShotIndex = oneShotIndex;
     return event;
 }
@@ -168,7 +174,7 @@ int FIELD_GIMMICK_BUTTON_STATES_EventSetState(struct GameEvent *event, int *seq,
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
+    GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     switch (*seq) {
     case 0:
         modelIndex = work->stateModel;
@@ -204,7 +210,7 @@ int FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot(struct GameEvent *event, int *s
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
+    save = (FieldGimmickButtonStatesSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 4);
     switch (*seq) {
     case 0:
         modelIndex = work->oneShotIndex + FIELD_GIMMICK_BUTTON_STATES_ONE_SHOT_FIRST_MODEL;

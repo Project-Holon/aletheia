@@ -1,7 +1,7 @@
 /*
  * file:     task.c
  * unit:     yes
- * function: DWCi_TSKlInit, DWCi_TSKlEnd, DWCi_TSKlAct, DWCi_TSKlForm, formTask, DWCi_TSKlSetParam, DWCi_TSKlDelete, DWCi_TSKlDeleteByIndex, deleteTcb, DWCi_TSKlOperate
+ * function: DWCi_TSKlInit, DWCi_TSKlEnd, DWCi_TSKlAct, DWCi_TSKlForm, formTask, DWCi_TSKlChangeFunc, DWCi_TSKlDelete, DWCi_TSKlDeleteEx, deleteTcb, DWCi_TSKlOperate
  * address:  0x021D7484
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -15,12 +15,12 @@
  * Store a word at +0x08 of the argument.
  * Addresses are Black-image addresses.
  * Verified with:
- *   python tools/match.py one --src src/matched/DWCi_TSKlSetParam.c \
- *       --func DWCi_TSKlSetParam --addr 0x021D771C --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_TSKlChangeFunc.c \
+ *       --func DWCi_TSKlChangeFunc --addr 0x021D771C --region ov016 --cc dsi/1.1p1 --arm
  * sdk:      DWCi_TSKlDelete (task.o), callee of DWCi_WINlEnd / taskWait (L5)
  * ARM tail-call thunk into deleteTcb.
- *   python tools/match.py one --src src/matched/DWCi_TSKlDeleteByIndex.c \
- *       --func DWCi_TSKlDeleteByIndex --addr 0x021D7744 --region ov016 --cc dsi/1.1p1 --arm
+ *   python tools/match.py one --src src/matched/DWCi_TSKlDeleteEx.c \
+ *       --func DWCi_TSKlDeleteEx --addr 0x021D7744 --region ov016 --cc dsi/1.1p1 --arm
  * note: the parked header declared g_021E66E4 (0x021E66E4); the ov016 pool
  * word at 0x021D7790 is 0x021DE6E4, so the wildcarded ABS32 hid the wrong
  * address and kept this at MATCH.  Correcting the address makes it EXACT.
@@ -81,35 +81,20 @@ typedef struct TCB {
 
 #include "../types.h"
 
-/* Task object of the DWC GUI task list (task.o); only the parameter word is written here. */
-typedef struct TaskObj {
-    unsigned char pad00[0x08];
-    unsigned int param;
-} TaskObj;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
-extern void *DWCi_QUElFormEx(long size, void *data, long dataSize);
-extern void *DWCi_QUElForm(long size);
-extern struct ListCB *DWCi_LSTlForm(void);
-extern void DWCi_LSTlPushFront(char *p, void *ob);
-extern void DWCi_LSTlPushBack(char *p, void *ob);
+#include "heap.h"
+#include "deque.h"
+#include "list.h"
 struct tagLISTCB;
-extern void DWCi_LSTlDelete(struct tagLISTCB *list);
-extern void DWCi_QUElDelete(struct tagLISTCB *list);
-extern void DWCi_HEAPlFree_(void **mem);
-extern void *DWCi_QUElPopBack(void *queue);
-extern unsigned long OS_DisableIrqMask(unsigned long intr);
-extern void DWCi_LSTlInsert(void *pos, void *ob);
-extern unsigned long OS_EnableIrqMask(unsigned long intr);
-void DWCi_QUElPushBack(void *queue, void *data);
-extern void DWCi_LSTlErase(void *);
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
 void DWCi_TSKlInit(void);
 void DWCi_TSKlEnd(void);
 void DWCi_TSKlAct(int kind);
 TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-void DWCi_TSKlSetParam(TaskObj *task, unsigned int param);
+void DWCi_TSKlChangeFunc(TCB *task, void (*func)(void *, void *));
 void DWCi_TSKlDelete(int kind, void *task);
-void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, TCB *task);
+void DWCi_TSKlDeleteEx(unsigned int kind, TCB *task);
 extern MemTaskT *MemTask;
 extern unsigned char sTaskTable[2];
 
@@ -197,9 +182,9 @@ static TCB *formTask(int kind, void (*func)(void *, void *), void *work, unsigne
 	return tcb;
 }
 
-void DWCi_TSKlSetParam(TaskObj *task, unsigned int param)
+void DWCi_TSKlChangeFunc(TCB *task, void (*func)(void *, void *))
 {
-    task->param = param;
+    task->func = func;
 }
 
 void DWCi_TSKlDelete(int kind, void *task)
@@ -207,9 +192,9 @@ void DWCi_TSKlDelete(int kind, void *task)
     DWCi_QUElPushBack(MemTask[kind].delque, task);
 }
 
-void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, TCB *task)
+void DWCi_TSKlDeleteEx(unsigned int kind, TCB *task)
 {
-    deleteTcb(taskIdx, task);
+    deleteTcb(kind, task);
 }
 
 static void deleteTcb(u32 idx, TCB *tcb)

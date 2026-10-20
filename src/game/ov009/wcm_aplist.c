@@ -40,21 +40,17 @@ typedef struct NWMInfoElements {
     unsigned short element[1];
 } NWMInfoElements;
 
-extern unsigned long OS_DisableInterrupts(void);
-extern WCMWork *WCMi_GetSystemWork(void);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+#include "wcm_system.h"
+#include "../arm9/mi_memory.h"
 extern int WCM_CompareBssID(unsigned char *a, unsigned char *b);
-extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
-extern void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size);
-extern int MI_CpuComp8(const void *mem1, const void *mem2, u32 size);
-extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
-extern int OS_IsRunOnTwl(void);
-extern u8 *NWM_GetVenderInfoElements(u8 *bssDesc, u32 elementId, void *oui);
+#include "../arm9/os_emulator.h"
+#include "../twl/nwm_startscan.h"
 void WCM_ClearApList(void);
-long WCM_CountApList(void);
-long WCM_LockApList(long lock);
-void *WCM_PointApList(long index);
+int WCM_CountApList(void);
+int WCM_LockApList(int lock);
+WMBssDesc *WCM_PointApList(unsigned short index);
 WMBssDesc *WCM_PointApListEx(long index);
 void WCMi_EntryApList(WMBssDesc *bssDesc, unsigned short linkLevel);
 WCMApList *WcmAllocApList(void);
@@ -78,7 +74,7 @@ void WCM_ClearApList(void)
     OS_RestoreInterrupts(e);
 }
 
-long WCM_CountApList(void)
+int WCM_CountApList(void)
 {
     WCMWork *w;
     unsigned long e;
@@ -97,7 +93,7 @@ long WCM_CountApList(void)
     return count;
 }
 
-long WCM_LockApList(long lock)
+int WCM_LockApList(int lock)
 {
     WCMWork *w;
     unsigned long e;
@@ -120,7 +116,7 @@ long WCM_LockApList(long lock)
     return ret;
 }
 
-void *WCM_PointApList(long index)
+WMBssDesc *WCM_PointApList(unsigned short index)
 {
     return WCM_PointApListEx(index);
 }
