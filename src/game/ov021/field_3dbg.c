@@ -41,21 +41,11 @@
  *   G3D_SYSTEM_GetTexVramKey  0x02047388  arm
  *   G3D_SYSTEM_GetPlttVramKey  0x020473B8  arm
  */
-#define REG_MTX_MODE     (*(volatile u32 *)0x04000440)
-#define REG_MTX_PUSH     (*(volatile u32 *)0x04000444)
-#define REG_MTX_POP      (*(volatile u32 *)0x04000448)
-#define REG_MTX_IDENTITY (*(volatile u32 *)0x04000454)
-#define REG_MTX_SCALE    (*(volatile u32 *)0x0400046C)
-#define REG_TEXCOORD     (*(volatile u32 *)0x04000488)
-#define REG_VTX_16       (*(volatile u32 *)0x0400048C)
-#define REG_POLYGON_ATTR (*(volatile u32 *)0x040004A4)
-#define REG_DIF_AMB      (*(volatile u32 *)0x040004C0)
-#define REG_TEXIMAGE_PARAM (*(volatile u32 *)0x040004A8)
-#define REG_PLTT_BASE    (*(volatile u32 *)0x040004AC)
-#define REG_BEGIN_VTXS   (*(volatile u32 *)0x04000500)
-#define REG_END_VTXS     (*(volatile u32 *)0x04000504)
+#define REG_TEXIMAGE_PARAM (*(volatile u32 *)REG_TEXIMAGE_PARAM_ADDR)
+#define REG_PLTT_BASE    (*(volatile u32 *)REG_TEXPLTT_BASE_ADDR)
 
 #include "field_3dbg_types.h"
+#include "../sdk_ioreg_reg.h"
 #include "field_subscreen_types.h"
 
 struct G3dResource;

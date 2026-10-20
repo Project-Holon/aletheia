@@ -267,7 +267,7 @@ u32 *WIFI_2DCHAR_SpawnActor(Wifi2dcharContext *ctx, const s16 *pos, int idx, u32
     l.z = 0;
     l.a = ta;
     l.b = pos[3];
-    e[1] = (u32)CLACT_CreateActor((struct Unit *)ctx->ownerA, ctx->cells[idx].handle, ctx->cells[idx].owner,
+    e[1] = (uptr)CLACT_CreateActor((struct Unit *)ctx->ownerA, ctx->cells[idx].handle, ctx->cells[idx].owner,
                          ctx->cellAnims[idx].mode, (const struct ActorInitParam *)&l, 0, (u16)heap);
     CLACT_SetActorBgPriority((struct ClactActor *)e[1], (u8)pos[3]);
     if (ctx->cells[idx].argB == 1)
@@ -277,7 +277,7 @@ u32 *WIFI_2DCHAR_SpawnActor(Wifi2dcharContext *ctx, const s16 *pos, int idx, u32
     e[3] = 9;
     *(u16 *)(e + 5) = 0;
     e[4] = 1;
-    e[0] = (u32)&ctx->cells[idx];
+    e[0] = (uptr)&ctx->cells[idx];
     off = 0x2E0;
     if (WIFI_2DCHAR_IsHandleValid((int *)((u8 *)ctx + off))) {
         l.x = pos[0];
@@ -285,7 +285,7 @@ u32 *WIFI_2DCHAR_SpawnActor(Wifi2dcharContext *ctx, const s16 *pos, int idx, u32
         l.z = 0;
         l.a = *(u32 *)((u8 *)ctx + off + 0x10);
         l.b = 0;
-        e[2] = (u32)CLACT_CreateActor((struct Unit *)ctx->ownerA, *(u32 *)((u8 *)ctx + off), *(u32 *)((u8 *)ctx + off + 4),
+        e[2] = (uptr)CLACT_CreateActor((struct Unit *)ctx->ownerA, *(u32 *)((u8 *)ctx + off), *(u32 *)((u8 *)ctx + off + 4),
                              *(u32 *)((u8 *)ctx + off + 8), (const struct ActorInitParam *)&l, 0, (u16)heap);
         CLACT_SetActorBgPriority((struct ClactActor *)e[2], (u8)pos[3]);
     } else {
@@ -382,9 +382,9 @@ void WIFI_2DCHAR_SetActorAnim(Wifi2dcharActor *p, int idx, int a)
 
 void WIFI_2DCHAR_StepActorAnim(u8 *p) { int flag; int n; flag=0; n=sWifi2dcharAnimFrameCount[((Wifi2dcharActor *)p)->animId]; if(n==255) flag=1; else if(n>=((Wifi2dcharActor *)p)->animFrame+1) flag=1; if(flag==1) { WIFI_2DCHAR_StepActorAnimDispatch(p); ((Wifi2dcharActor *)p)->animFrame+=1; } }
 
-void WIFI_2DCHAR_RegisterCellAnims(char *p, int unused, u32 heap) { int i; for(i=16;i<18;i++) { *(u32 *)((u32)p+(u32)i*20+0x188)=CLACT_RegisterCellAnim(((Wifi2dcharContext *)p)->charHandle,(i-16)*2,(i-16)*2+1,(u16)heap); } }
+void WIFI_2DCHAR_RegisterCellAnims(char *p, int unused, u32 heap) { int i; for(i=16;i<18;i++) { *(u32 *)((uptr)p+(u32)i*20+0x188)=CLACT_RegisterCellAnim(((Wifi2dcharContext *)p)->charHandle,(i-16)*2,(i-16)*2+1,(u16)heap); } }
 
-void WIFI_2DCHAR_ReleaseCellAnims(char *p, int unused) { int i; char *q; for(i=16;i<18;i++) { q=(char *)((u32)p+(u32)i*20); CLACT_ReleaseCellAnim(*(u32 *)(q+0x188)); *(u32 *)(q+0x188)=0; } }
+void WIFI_2DCHAR_ReleaseCellAnims(char *p, int unused) { int i; char *q; for(i=16;i<18;i++) { q=(char *)((uptr)p+(u32)i*20); CLACT_ReleaseCellAnim(*(u32 *)(q+0x188)); *(u32 *)(q+0x188)=0; } }
 
 int WIFI_2DCHAR_GetCellIndex(int a) { return a; }
 
@@ -427,7 +427,7 @@ void WIFI_2DCHAR_ReleaseCellPair(char *p,int i) { CLACT_ReleaseCharacter(*(u32 *
 void WIFI_2DCHAR_ReleaseCellChar(u8 *p, int i)
 {
     u32 *tbl = (u32 *)(p + 0x14 + i * 20);
-    CLACT_ReleaseCharacter((u32)((void *)*tbl));
+    CLACT_ReleaseCharacter((uptr)((void *)*tbl));
     *tbl = (u32)-1;
 }
 

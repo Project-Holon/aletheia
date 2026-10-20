@@ -123,6 +123,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "wifibattlematch_graphic_shared_types.h"
+#include "../sdk_ioreg.h"
 #include "wifibattlematch_view_shared_types.h"
 #include "wifibattlematch_view_types.h"
 
@@ -492,7 +493,7 @@ u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, u16 heap)
     ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 4, 0, 0, c);
     ARC_UTIL_UploadBgCharFromHandle(h, 2, 3, 0, 0, 0, c);
     ARC_UTIL_UploadBgCharFromHandle(h, 2, 7, 0, 0, 0, c);
-    WIFIBATTLEMATCH_VIEW_LoadBgPalette((int)w, mode, heap);
+    WIFIBATTLEMATCH_VIEW_LoadBgPalette((sptr)w, mode, heap);
     w[0] = CLACT_RegisterPalette(h, 1, 0, 0, c);
     w[2] = CLACT_RegisterCharacter(h, 3, 0, 0, c);
     w[4] = CLACT_RegisterCellAnim(h, 4, 0xb, c);
@@ -534,9 +535,9 @@ void WIFIBATTLEMATCH_VIEW_Delete(WifiBattleMatchViewRoot *p)
 
 void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int unused, int mode, unsigned color)
 {
-    int h;
+    sptr h;
     unsigned c = (color & 0x7fff) | 0x8000;
-    h = (int)ARC_TOOL_CreateHandle((int)0x85, (unsigned short)c);
+    h = (sptr)ARC_TOOL_CreateHandle((int)0x85, (unsigned short)c);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)h, 5, 3, 0, 0, 0, c);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)h, 6, 7, 0, 0, 0, c);
     switch (mode) {
@@ -617,7 +618,7 @@ void WIFIBATTLEMATCH_VIEW_UpdateAnimation(WifiBattleMatchViewAnimState *p)
  *   (arm9 twin BLINK_PALANM_Update, blink_palanm.c): f as an s16 local, all six channels as u8 locals extracted
  *   mask-then-shift, the blends as s32 locals with a u8 cast, and the pack (b << 10) | (r | (g << 5)).
  */
-void WIFIBATTLEMATCH_VIEW_BlendColors(u32 slot, u16 *out, const u16 *phase, u32 unused, u8 a, u8 b, u16 c0, u16 c1)
+void WIFIBATTLEMATCH_VIEW_BlendColors(uptr slot, u16 *out, const u16 *phase, u32 unused, u8 a, u8 b, u16 c0, u16 c1)
 {
     s16 f;
     u8 r0, g0, b0, r1, g1, b1;
@@ -634,7 +635,7 @@ void WIFIBATTLEMATCH_VIEW_BlendColors(u32 slot, u16 *out, const u16 *phase, u32 
     r = (u8)(r0 + (((r1 - r0) * f) >> 12));
     g = (u8)(g0 + (((g1 - g0) * f) >> 12));
     *out = (u16)((bl << 10) | (r | (g << 5)));
-    NNS_GfdRegisterNewVramTransferTask((void *)slot, a * 32 + b * 2, (u32)out, 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)slot, a * 32 + b * 2, (uptr)out, 2);
 }
 
 /*
@@ -702,7 +703,7 @@ WifibattlematchViewWork *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleM
     w->spritePalSlot = 7;
     w->layer = 1;
     alt = 1;
-    G2x_SetBlendAlpha_((void *)0x04001050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR, 4, 8, 15, 3);
     kind = WIFIBATTLEMATCH_VIEW_GetEntryValue(info->total, info->a, info->b);
     if (kind != 5) alt = 0;
     WIFIBATTLEMATCH_VIEW_SetupMainWindow(w, headerMsgId, info, myStatus, font, printQue, msgData, wordSet, alt, heap);
@@ -714,7 +715,7 @@ WifibattlematchViewWork *WIFIBATTLEMATCH_VIEW_CreateMainWindow(const WifiBattleM
     BG_SYS_FillTileMap(6, 0, 0, 0x20, 6, 1);
     BG_SYS_FillTileMap(6, 0, 6, 0x20, 18, kind + 3);
     BG_SYS_PushTile(6);
-    G2x_SetBlendAlpha_((void *)0x04001050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR, 4, 8, 15, 3);
     return w;
 }
 
@@ -746,7 +747,7 @@ char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *
     *((u8 *) (w + 0x232)) = 5;
     *((u8 *) (w + 0x233)) = 9;
     *((u32 *) (w + 0x234)) = 0;
-    G2x_SetBlendAlpha_((void *) 0x04000050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *) REG_BLDCNT_ADDR, 4, 8, 15, 3);
   }
   else
   {
@@ -756,7 +757,7 @@ char *WIFIBATTLEMATCH_VIEW_CreateStatusWindow(char *info, u32 a, void *b, void *
     *((u8 *) (w + 0x233)) = 7;
     *((u32 *) (w + 0x234)) = 1;
     layer = 6;
-    G2x_SetBlendAlpha_((void *) 0x04001050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *) REG_DB_BLDCNT_ADDR, 4, 8, 15, 3);
   }
   tmp = (WifiBattleMatchViewStatusInfo *) info;
   switch (*((u16 *) (info + 0xaa)))
@@ -903,7 +904,7 @@ char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, vo
     *((u8 *) (w + 0x232)) = 5;
     *((u8 *) (w + 0x233)) = 9;
     *((u32 *) (w + 0x234)) = 0;
-    G2x_SetBlendAlpha_((void *) 0x04000050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *) REG_BLDCNT_ADDR, 4, 8, 15, 3);
   }
   else
   {
@@ -913,7 +914,7 @@ char *WIFIBATTLEMATCH_VIEW_CreateDateWindow(char *info, void *a, void *owner, vo
     *((u8 *) (w + 0x233)) = 7;
     *((u32 *) (w + 0x234)) = 1;
     layer = 6;
-    G2x_SetBlendAlpha_((void *) 0x04001050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *) REG_DB_BLDCNT_ADDR, 4, 8, 15, 3);
   }
   tmp = (WifiBattleMatchViewTimeInfo *) info;
   switch (*((u16 *) (info + 0xa8)))
@@ -1173,7 +1174,7 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(WifibattlematchViewWork *w, unsigned h
             break;
         case 6:
             MSGDATA_ReadString(msgData, 11, s1);
-            WORDSET_SetSlotNumber(wordSet, 0, (u32)info->total, 6, 1, 1);
+            WORDSET_SetSlotNumber(wordSet, 0, (uptr)info->total, 6, 1, 1);
             WORDSET_CopyTaggedText(wordSet, s2, s1);
             break;
         case 7:
@@ -1384,8 +1385,8 @@ int WIFIBATTLEMATCH_VIEW_UpdateWindow(unsigned char *p, void *mgr)
             unsigned char *e = p + i * 8;
             if (e[0x80] != 0) {
                 if (PRINTSYS_QUE_IsExistTarget(mgr, BMP_WIN_GetBmp(((WifibattlematchViewWork *)e)->slots[0].win)) == 0) {
-                    BMP_WIN_TransferChars(*(void **)((unsigned)p + (int)i * 8 + 0x7c));
-                    *(unsigned char *)((unsigned)p + (int)i * 8 + 0x80) = 0;
+                    BMP_WIN_TransferChars(*(void **)((uptr)p + (int)i * 8 + 0x7c));
+                    *(unsigned char *)((uptr)p + (int)i * 8 + 0x80) = 0;
                 }
             }
             result &= e[0x80] == 0;
@@ -1439,7 +1440,7 @@ void WIFIBATTLEMATCH_VIEW_CreatePokeActors(WifibattlematchViewWork *w, void *own
         shown = REGULATION_Party_GetValue((struct RegulationParty *)rec, 2, i);
         if (species != 0) {
             req.x = (i << 5) + 0x120;
-            w->objs[i] = CLACT_CreateActor((struct Unit *)owner, (unsigned int)w->chr[i], (unsigned int)w->pal, (unsigned int)w->cell, (const struct ActorInitParam *)&req, w->layer, heap);
+            w->objs[i] = CLACT_CreateActor((struct Unit *)owner, (uptr)w->chr[i], (uptr)w->pal, (uptr)w->cell, (const struct ActorInitParam *)&req, w->layer, heap);
             CLACT_SetActorPaletteOffset(w->objs[i], POKE_TOOL_CalcIconPalette(species, form, gender, 0), 0);
             if (shown != 0) {
                 sub = req;
@@ -1447,7 +1448,7 @@ void WIFIBATTLEMATCH_VIEW_CreatePokeActors(WifibattlematchViewWork *w, void *own
                 sub.y += 8;
                 sub.a = 0;
                 sub.id = 0;
-                w->objs[i + 15] = CLACT_CreateActor((struct Unit *)owner, (unsigned int)w->chr2, (unsigned int)w->pal2, (unsigned int)w->cell2, (const struct ActorInitParam *)&sub, w->layer, heap);
+                w->objs[i + 15] = CLACT_CreateActor((struct Unit *)owner, (uptr)w->chr2, (uptr)w->pal2, (uptr)w->cell2, (const struct ActorInitParam *)&sub, w->layer, heap);
             } else {
                 w->objs[i + 15] = 0;
             }
@@ -1567,14 +1568,14 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
     MI_CpuFill8(w, 0, 0x9c);
     w->owner = owner;
     w->mode = mode;
-    w->menu = PMS_DRAW_Create((u32)clunit, 0, (u32)printQue, (u32)font, 5, 1, heap);
+    w->menu = PMS_DRAW_Create((uptr)clunit, 0, (uptr)printQue, (uptr)font, 5, 1, heap);
     PMS_DRAW_SetFollowBgScroll(w->menu, 1);
     PMS_DRAW_SetNullColorPalette(w->menu, 0);
     kind = WIFIBATTLEMATCH_VIEW_GetEntryValue(rec->total, rec->score, rec->losses);
     alt = 0;
     if (mode - 2 <= 1)
         alt = kind == 5;
-    WIFIBATTLEMATCH_VIEW_SetupRecordWindow(w, rec, (unsigned)font, printQue, msgData, wordSet, alt, heap);
+    WIFIBATTLEMATCH_VIEW_SetupRecordWindow(w, rec, (uptr)font, printQue, msgData, wordSet, alt, heap);
     WIFIBATTLEMATCH_VIEW_CreateRecordActor((char *)w, MYSTATUS_GetTrainerView((const struct MyStatus *)rec), clunit, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x85, 9, 2, 0, 0, 0, (heap & 0x7fff) | 0x8000);
     switch (mode) {
@@ -1608,7 +1609,7 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
     BG_SYS_PushTile(2);
     BG_SYS_ChangeScrollImmediate(2, 0, ~0xff);
     BG_SYS_ChangeScrollImmediate(1, 0, ~0xff);
-    G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 0xf, 3);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 4, 8, 0xf, 3);
     return w;
 }
 
@@ -1755,7 +1756,7 @@ void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, co
             break;
         case 7:
             PMS_DRAW_SetPrintColor(p->menu, color);
-            PMS_DRAW_Print((u32)p->menu, (u32)p->win[j], (struct BeaconDetailGraQuad *)data->name, 0);
+            PMS_DRAW_Print((uptr)p->menu, (uptr)p->win[j], (struct BeaconDetailGraQuad *)data->name, 0);
             draw = 0;
             break;
         }
@@ -1986,7 +1987,7 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
         mon = POKEPARTY_GetMember((struct Party *)party, (int)i);
         if (POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0xA9, 0) != 0) {
             req.x = i * 0x28 + 0x18;
-            work->spr[i] = CLACT_CreateActor((struct Unit *)owner, (unsigned)(work->chr[i]), (unsigned)work->pal, (unsigned)work->cell, (const struct ActorInitParam *)((const WifibattlematchViewRequest *)&req), 0, heap);
+            work->spr[i] = CLACT_CreateActor((struct Unit *)owner, (uptr)(work->chr[i]), (uptr)work->pal, (uptr)work->cell, (const struct ActorInitParam *)((const WifibattlematchViewRequest *)&req), 0, heap);
             CLACT_SetActorPaletteOffset(work->spr[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(mon)), 0);
             if (POKE_TOOL_GetPartyValue(mon, 6, 0) != 0) {
                 req2 = req;
@@ -1994,7 +1995,7 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
                 req2.y += 8;
                 req2.a = 0;
                 req2.id = 0;
-                work->spr[i + 7] = CLACT_CreateActor((struct Unit *)owner, (unsigned)work->chrB, (unsigned)work->palB, (unsigned)work->cellB, (const struct ActorInitParam *)((const WifibattlematchViewRequest *)&req2), 0, heap);
+                work->spr[i + 7] = CLACT_CreateActor((struct Unit *)owner, (uptr)work->chrB, (uptr)work->palB, (uptr)work->cellB, (const struct ActorInitParam *)((const WifibattlematchViewRequest *)&req2), 0, heap);
             }
         }
     }
@@ -2043,7 +2044,7 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
     BG_SYS_ChangeScrollImmediate((int)2, (int)0, (int)(-0x100));
     BG_SYS_ChangeScrollImmediate((int)1, (int)0, (int)(-0x100));
     GFL_HEAP_Free(party);
-    G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 15, 3);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 4, 8, 15, 3);
     return work;
 }
 
@@ -2056,9 +2057,9 @@ void WIFIBATTLEMATCH_VIEW_DeletePartyWindow(char *p)
  *(volatile unsigned short *)0x04000050 = 0;
  for(i=0;i<6;i++) {if(*(void **)(p+i*4+0x68)!=0){BMP_WIN_ClearScreen(*(void **)(p+i*4+0x68));BMP_WIN_Delete(*(void **)(p+i*4+0x68));}}
  for(i=0;i<14;i++)if(*(void **)(p+i*4+0x30)!=0)CLACT_DeleteActor(*(void **)(p+i*4+0x30));
- CLACT_ReleaseCharacter((u32)(((WifiBattleMatchViewPartyWork *)p)->chrB));CLACT_ReleaseCellAnim((u32)(((WifiBattleMatchViewPartyWork *)p)->cellB));CLACT_ReleasePalette((u32)(((WifiBattleMatchViewPartyWork *)p)->palB));
- for(i=0;i<6;i++)if(*(void **)(p+i*4+0x30)!=0)CLACT_ReleaseCharacter((u32)(*(void **)(p+i*4+4)));
- CLACT_ReleaseCellAnim((u32)(((WifiBattleMatchViewPartyWork *)p)->cell));CLACT_ReleasePalette((u32)(((WifiBattleMatchViewPartyWork *)p)->pal));GFL_HEAP_Free(p);
+ CLACT_ReleaseCharacter((uptr)(((WifiBattleMatchViewPartyWork *)p)->chrB));CLACT_ReleaseCellAnim((uptr)(((WifiBattleMatchViewPartyWork *)p)->cellB));CLACT_ReleasePalette((uptr)(((WifiBattleMatchViewPartyWork *)p)->palB));
+ for(i=0;i<6;i++)if(*(void **)(p+i*4+0x30)!=0)CLACT_ReleaseCharacter((uptr)(*(void **)(p+i*4+4)));
+ CLACT_ReleaseCellAnim((uptr)(((WifiBattleMatchViewPartyWork *)p)->cell));CLACT_ReleasePalette((uptr)(((WifiBattleMatchViewPartyWork *)p)->pal));GFL_HEAP_Free(p);
 }
 
 int WIFIBATTLEMATCH_VIEW_StepPartyWindow(WifiBattleMatchViewPartyWork *p)
@@ -2139,7 +2140,7 @@ int WIFIBATTLEMATCH_VIEW_UpdatePartyWindow(char *p, void *q)
  unsigned char *e=(unsigned char *)p+i*8;
  if(e[0x84]!=0) {
  if(PRINTSYS_QUE_IsExistTarget(q,BMP_WIN_GetBmp(((WifiBattleMatchViewPartyWork *)e)->ent[0].win))==0) {
- BMP_WIN_TransferChars(*(void **)((unsigned)p+(int)i*8+0x80));*(unsigned char *)((unsigned)p+(int)i*8+0x84)=0;
+ BMP_WIN_TransferChars(*(void **)((uptr)p+(int)i*8+0x80));*(unsigned char *)((uptr)p+(int)i*8+0x84)=0;
  }
  }
  result &= e[0x84]==0;

@@ -348,7 +348,7 @@ extern const u32 sRhythmBackgroundLayers[];
 extern const struct BgTemplate sRhythmBackgroundTemplates[];
 extern const u32 sRhythmBackgroundTypes[];
 extern const struct ClactSysInit gClActorInitParam;
-extern const u32 sRhythmNetCommandTable[];
+extern NetCommandEntry sRhythmNetCommandTable[];
 extern const s16 FX_SinCosTable_[];
 
 /* ---- proc entry points ---- */
@@ -749,7 +749,7 @@ int IRC_RHYTHM_JudgeTap(IrcRhythmRecord *record) {
 
 /* ---- record exchange over the infrared link ---- */
 
-void IRC_RHYTHM_InitNetSync(IrcRhythmNetSync *sync,IrcSys *ircSys) { MI_CpuFill8(sync,0,0x198); sync->ircSys=ircSys; COMPATIBLE_IRC_SYS_AddCommandTable(ircSys,IRC_RHYTHM_NET_COMMAND_BASE,(uptr)sRhythmNetCommandTable,1,(uptr)sync); }
+void IRC_RHYTHM_InitNetSync(IrcRhythmNetSync *sync,IrcSys *ircSys) { MI_CpuFill8(sync,0,0x198); sync->ircSys=ircSys; COMPATIBLE_IRC_SYS_AddCommandTable(ircSys,IRC_RHYTHM_NET_COMMAND_BASE,sRhythmNetCommandTable,1,sync); }
 
 void IRC_RHYTHM_ExitNetSync(IrcRhythmNetSync *sync) { COMPATIBLE_IRC_SYS_DeleteCommandTable(sync->ircSys,IRC_RHYTHM_NET_COMMAND_BASE); MI_CpuFill8(sync,0,0x198); }
 

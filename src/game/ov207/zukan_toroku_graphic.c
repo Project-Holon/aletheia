@@ -102,6 +102,7 @@ struct Proc;
 struct Bank;
 struct Cfg;
 #include "../arm9/arc_tool.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/arc_util.h"
 #include "../arm9/ui.h"
 #include "../types.h"
@@ -259,23 +260,23 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
 {
     ZukanTorokuWork *work;
     int mode;
-    GF_OVERLAY_Load((int)overlay67);
-    GF_OVERLAY_Load((int)overlay206);
-    GFL_HEAP_CreateChildHeap((u32)((void *)1),0x6a,0x80000);
+    GF_OVERLAY_Load((sptr)overlay67);
+    GF_OVERLAY_Load((sptr)overlay206);
+    GFL_HEAP_CreateChildHeap((uptr)((void *)1),0x6a,0x80000);
     work=PROCSYS_AllocProcWork(owner,0x34,0x6a);
     MI_CpuFill8(work,0,0x34);
     work->heapId=0x6a;
     work->display=ZUKAN_TOROKU_GRAPHIC_CreateDisplay(1,work->heapId);
     work->font=GF_FONT_Create(0x17,0,0,0,work->heapId);
-    work->printQueue=(unsigned int)PRINTSYS_QUE_Create((unsigned int)(u32)work->heapId);
+    work->printQueue=(uptr)PRINTSYS_QUE_Create((unsigned int)(u32)work->heapId);
     if(args[0]==0) { work->state=0; work->step=0; } else { work->state=1; work->step=0; }
     mode=0;
     if(args[0]!=0) mode=1;
-    work->menu=ZUKAN_INFO_CreateFromMon(work->heapId,(void *)args[1],args[2],1,mode,0,0,ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(u32)work->font,work->printQueue,0,0,0);
-    work->nickname=ZUKAN_NICKNAME_Create(work->heapId,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(u32)work->font,work->printQueue,args[6]);
+    work->menu=ZUKAN_INFO_CreateFromMon(work->heapId,(void *)args[1],args[2],1,mode,0,0,ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(uptr)work->font,work->printQueue,0,0,0);
+    work->nickname=ZUKAN_NICKNAME_Create(work->heapId,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(uptr)work->font,work->printQueue,args[6]);
     GFL_NET_RefreshWmIconAtTopRight(0,work->heapId);
     if(work->state==1) ZUKAN_TOROKU_GRAPHIC_CreateBg(work);
-    work->task=GFL_USE_AddMainTask((u32)ZUKAN_TOROKU_GRAPHIC_ClearTask,(u32)work,1);
+    work->task=GFL_USE_AddMainTask((uptr)ZUKAN_TOROKU_GRAPHIC_ClearTask,(uptr)work,1);
     FADE_Start(3,16,0,2);
     return 1;
 }
@@ -328,13 +329,13 @@ int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork
         case 3:
             work->counter++;
             if(work->counter==4) { work->counter=0; work->fadeLevel--; }
-            G2x_SetBlendBrightnessExt_(0x04000050,15,15,work->fadeLevel,0,work->fadeLevel-16);
+            G2x_SetBlendBrightnessExt_(REG_BLDCNT_ADDR,15,15,work->fadeLevel,0,work->fadeLevel-16);
             if(work->fadeLevel==0) { ZUKAN_INFO_ClearDisplay((char *)work->menu); ZUKAN_TOROKU_GRAPHIC_CreateBg(work); work->step=4; }
             break;
         case 4:
             work->counter++;
             if(work->counter==4) { work->counter=0; work->fadeLevel++; }
-            G2x_SetBlendBrightnessExt_(0x04000050,15,15,work->fadeLevel,0,work->fadeLevel-16);
+            G2x_SetBlendBrightnessExt_(REG_BLDCNT_ADDR,15,15,work->fadeLevel,0,work->fadeLevel-16);
             if(work->fadeLevel==16) work->step=5;
             break;
         case 5:
@@ -418,8 +419,8 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     ZUKAN_TOROKU_GRAPHIC_InitBg(display,heap);
-    ZUKAN_TOROKU_GRAPHIC_InitActors((struct Bank **)&display->actors,(int)d_0220BAE8,heap);
-    display->vblankTask=(void *)GFL_USE_AddMainTask((u32)((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank), (u32)display, 0);
+    ZUKAN_TOROKU_GRAPHIC_InitActors((struct Bank **)&display->actors,(sptr)d_0220BAE8,heap);
+    display->vblankTask=(void *)GFL_USE_AddMainTask((uptr)((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank), (uptr)display, 0);
     return display;
 }
 

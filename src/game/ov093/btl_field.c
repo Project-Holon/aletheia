@@ -182,7 +182,7 @@ int BTL_FIELD_GetCountdownCount(void)
 
 int BTL_FIELD_SetCountdown(int value, int count)
 {
-    return (int)BTL_FIELD_StoreCountdown(&gBtlFieldCountdown.countdown, value, count);
+    return (sptr)BTL_FIELD_StoreCountdown(&gBtlFieldCountdown.countdown, value, count);
 }
 
 
@@ -327,7 +327,7 @@ int BTL_FIELD_RegisterSlot(BtlFieldState *state, u32 slot, union SickCont key, i
 
     if (state->inUse[slot] == 0) {
         if (allocHandle != 0) {
-            state->effectHandle[slot] = (u32)HAND_FIELD_AddFactor(slot, 0);
+            state->effectHandle[slot] = (uptr)HAND_FIELD_AddFactor(slot, 0);
             if (state->effectHandle[slot] == 0)
                 return 0;
         }

@@ -326,7 +326,7 @@ int SCRCMD_RESEARCH_CmdGetTopTallyEntry(struct ScriptContext *ctx, struct Scrcmd
     entryCount = sTallyCategoryEntryCount[category];
     best = -1;
     for (i = 0; i < entryCount; i++) {
-        int countA = MISC_SAVEDATA_GetScoreValue((int)tally, category, i + 1);
+        int countA = MISC_SAVEDATA_GetScoreValue((sptr)tally, category, i + 1);
         int countB = MISC_SAVEDATA_GetTallyValue(tally, category, i + 1);
         int score = countA + countB;
         if (best < score) {
@@ -624,12 +624,12 @@ int SCRCMD_RESEARCH_GetMissionElapsedHours(void *saveControl)
  */
 int SCRCMD_RESEARCH_GetMissionKind(int missionIndex)
 {
-    return *(const u8 *)((u32)sMissionKind + (u32)missionIndex * 7u);
+    return *(const u8 *)((uptr)sMissionKind + (u32)missionIndex * 7u);
 }
 
 int SCRCMD_RESEARCH_GetMissionTargetCount(int missionIndex)
 {
-    return *(const u8 *)((u32)sMissionTargetCount + (u32)missionIndex * 7u);
+    return *(const u8 *)((uptr)sMissionTargetCount + (u32)missionIndex * 7u);
 }
 
 /*
@@ -638,17 +638,17 @@ int SCRCMD_RESEARCH_GetMissionTargetCount(int missionIndex)
  */
 void SCRCMD_RESEARCH_GetMissionTargetIds(int missionIndex, u8 *targetIds)
 {
-    targetIds[0] = *(const u8 *)((u32)sMissionTargetId0 + (u32)missionIndex * 7u);
-    targetIds[1] = *(const u8 *)((u32)sMissionTargetId1 + (u32)missionIndex * 7u);
-    targetIds[2] = *(const u8 *)((u32)sMissionTargetId2 + (u32)missionIndex * 7u);
+    targetIds[0] = *(const u8 *)((uptr)sMissionTargetId0 + (u32)missionIndex * 7u);
+    targetIds[1] = *(const u8 *)((uptr)sMissionTargetId1 + (u32)missionIndex * 7u);
+    targetIds[2] = *(const u8 *)((uptr)sMissionTargetId2 + (u32)missionIndex * 7u);
 }
 
 int SCRCMD_RESEARCH_GetMissionGoal(int missionIndex)
 {
-    return *(const u8 *)((u32)sMissionGoal + (u32)missionIndex * 7u);
+    return *(const u8 *)((uptr)sMissionGoal + (u32)missionIndex * 7u);
 }
 
 int SCRCMD_RESEARCH_GetMissionTimeLimitHours(int missionIndex)
 {
-    return *(const u8 *)((u32)sMissionTimeLimitHours + (u32)missionIndex * 7u);
+    return *(const u8 *)((uptr)sMissionTimeLimitHours + (u32)missionIndex * 7u);
 }

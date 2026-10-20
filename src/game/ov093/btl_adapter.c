@@ -221,7 +221,7 @@ u32 BTL_ADAPTER_StartSend(BtlAdapter *adapter)
 
     if (adapter->netId != 0) {
         packet = &adapter->packet;
-        return BTL_NET_SendServerCmd((u32)adapter->channel, (u32)packet, packet->size + 4);
+        return BTL_NET_SendServerCmd((u32)adapter->channel, (uptr)packet, packet->size + 4);
     }
     return 1;
 }
@@ -279,7 +279,7 @@ u16 BTL_ADAPTER_GetRecvData(BtlAdapter *adapter, u8 **outData)
 u32 BTL_ADAPTER_SetRecvTarget(BtlAdapter *adapter, const u8 *data, u32 size)
 {
     if (adapter->netId != 0)
-        return BTL_NET_SendClientReply((u32)data, size);
+        return BTL_NET_SendClientReply((uptr)data, size);
     if (adapter->peerReady == 0) {
         adapter->peerData = data;
         adapter->peerSize = size;

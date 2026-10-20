@@ -114,7 +114,7 @@ WeatherSys *WEATHER_Create(struct FieldCamera *camera, struct FieldLight *light,
     for (j = 0; j < 2; j++) {
         sys->tasks[j] = WEATHER_TASK_Create(sys->textureBank, camera, light, fog, zoneFog, sys, soundSys, zoneId, heapId);
     }
-    sys->updateTaskId = (s32)GFL_USE_AddMainTask( (void (*)(struct TcbTask *, void *))WEATHER_ReleaseBillboardVramTask, (void *)sys, 0x40);
+    sys->updateTaskId = (sptr)GFL_USE_AddMainTask( (void (*)(struct TcbTask *, void *))WEATHER_ReleaseBillboardVramTask, (void *)sys, 0x40);
     return sys;
 }
 
@@ -184,7 +184,7 @@ int WEATHER_IsTaskActive(WeatherSys *sys)
 void WEATHER_SetImmediate(WeatherSys *sys, int weatherId, int fadeParam)
 {
     int i;
-    u32 taskParam;
+    uptr taskParam;
 
     if (weatherId == sys->weatherId && weatherId != 0) {
         return;

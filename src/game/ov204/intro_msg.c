@@ -376,9 +376,9 @@ void INTRO_MSG_PrintText(char *p, void *a, int flag)
     void *desc = work->textWin;
     BMP_Clear(BMP_WIN_GetBmp(desc), 15);
     GF_FONT_SetTextColor(1, 2, 15);
-    MSGDATA_ReadString(work->msgBank, (unsigned int)a, work->strbuf1);
+    MSGDATA_ReadString(work->msgBank, (uptr)a, work->strbuf1);
     WORDSET_CopyTaggedText(work->wordSet, work->strbuf2, work->strbuf1);
-    work->printStream = PRINTSYS_PrintStream((struct BmpWin *)((unsigned int)desc), 4, 0, (struct Strbuf *)((unsigned int)work->strbuf2), (struct GfFont *)((unsigned int)work->font), value, (struct Tcbl *)((unsigned int)work->tcbl), 0xFFFF, work->heapId, 15);
+    work->printStream = PRINTSYS_PrintStream((struct BmpWin *)((uptr)desc), 4, 0, (struct Strbuf *)((uptr)work->strbuf2), (struct GfFont *)((uptr)work->font), value, (struct Tcbl *)((uptr)work->tcbl), 0xFFFF, work->heapId, 15);
     if (flag == 0)
         BMP_MENUWORK_DrawWindow(desc, 1, 7, 9);
     else
@@ -390,7 +390,7 @@ void INTRO_MSG_PrintText(char *p, void *a, int flag)
 
 void INTRO_MSG_DrawWindowBorder(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;BMP_MENUWORK_DrawWindowBorder(work->textWin,0);}
 
-u32 INTRO_MSG_GetPrintState(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;u32 a=(u32)work->printStream;if(a==0){return 2;}else{return PRINTSYS_PrintStreamGetState((void *)a);}}
+u32 INTRO_MSG_GetPrintState(u8*p){IntroMsgWork *work=(IntroMsgWork*)p;u32 a=(uptr)work->printStream;if(a==0){return 2;}else{return PRINTSYS_PrintStreamGetState((void *)a);}}
 
 int INTRO_MSG_UpdatePrint(char *a)
 {
@@ -478,7 +478,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     *(void **)(state+4)=BMP_MENUWORK_Create(count,heap);
     for(i=0;i<count;i++){
         MSGDATA_ReadString(work->msgBank,*(u32 *)((char *)entries+i*8),(void *)work->strbuf1);
-        BMP_MENUWORK_AddStrItem((BmpMenuWork *)((struct IntroSlot *)((char *)*(void **)(state+4)+i*8)),(const struct U16Vec *)((u32)work->strbuf1),*(u32 *)((char *)entries+i*8+4),heap);
+        BMP_MENUWORK_AddStrItem((BmpMenuWork *)((struct IntroSlot *)((char *)*(void **)(state+4)+i*8)),(const struct U16Vec *)((uptr)work->strbuf1),*(u32 *)((char *)entries+i*8+4),heap);
     }
     MI_CpuFill8(&config,0,52);
     config.items=*(void **)(state+4);config.win=obj;
@@ -486,7 +486,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     config.originY=2;config.letterColor=1;config.bgColor=15;config.shadowColor=2;
     config.mode3=0;config.lineGap=0;config.pageKeys=1;config.mode6=0;config.cursorOff=0;
     config.userData=0;config.cursorW=16;config.rowH=16;config.pad24=0;
-    config.target=INTRO_MSG_InitMenuDesc(p,(int)obj);config.printer=work->printSys;config.font=work->font;
+    config.target=INTRO_MSG_InitMenuDesc(p,(sptr)obj);config.printer=work->printSys;config.font=work->font;
     *(void **)state=BMP_MENULIST_Create((struct BmpMenuListTemplate *)((struct MenuTemplate *)(&config)),0,0,heap);
     BMP_MENULIST_ResetCursorTile(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));
@@ -538,7 +538,7 @@ int INTRO_MSG_GetMenuChoice(u8 *p,int *out)
 int INTRO_MSG_GetWordSet(u8 *p)
 {
     IntroMsgWork *work = (IntroMsgWork *)p;
-    return (int)work->wordSet;
+    return (sptr)work->wordSet;
 }
 
 void INTRO_MSG_StartTimeIcon(u8 *p)

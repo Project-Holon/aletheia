@@ -388,12 +388,12 @@ void COMM_PLAYER_Add(CommPlayerWork *work, int index, int objCode, CommPlayerPac
 void COMM_PLAYER_Del(CommPlayerWork *work, int index) {
     CommPlayerFlagView *flags;
     u32 offset;
-    flags = (CommPlayerFlagView *)((u32)work + 28u);
+    flags = (CommPlayerFlagView *)((uptr)work + 28u);
     offset = (u32)index * 28u;
-    if (((CommPlayerFlagView *)((u32)flags + offset))->used && work->playerSys != 0) {
-        *(u32 *)((u32)work + offset + 32u) = 0;
+    if (((CommPlayerFlagView *)((uptr)flags + offset))->used && work->playerSys != 0) {
+        *(u32 *)((uptr)work + offset + 32u) = 0;
         FIELD_COMM_ACTOR_CTRL_DeleteActor(work->playerSys, index);
-        ((CommPlayerFlagView *)((u32)flags + offset))->used = 0;
+        ((CommPlayerFlagView *)((uptr)flags + offset))->used = 0;
     }
 }
 
@@ -463,7 +463,7 @@ void COMM_PLAYER_ClearPending(CommPlayerWork *work)
  */
 int COMM_PLAYER_CheckOccupy(CommPlayerWork *work, int index) {
     if (work == 0 || index >= 4) GF_PANIC_Fail(d_02172A28, 0, d_02172A28);
-    return ((CommPlayerRowView *)((u32)work + (u32)index * 28u))->flags.used;
+    return ((CommPlayerRowView *)((uptr)work + (u32)index * 28u))->flags.used;
 }
 
 u16 COMM_PLAYER_GetObjCode(CommPlayerWork *work, int index)
@@ -586,7 +586,7 @@ u32 COMM_PLAYER_GetMmdl(CommPlayerWork *work, int index)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
     if (work->entries[index].used != 1)
         GF_PANIC_Fail((const char *)d_02172A28, 0, (const char *)d_02172A28);
-    return (u32)FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index);
+    return (uptr)FIELD_COMM_ACTOR_CTRL_GetMmdl(work->playerSys, index);
 }
 
 /*

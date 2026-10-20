@@ -34,6 +34,7 @@
  *   TCB_DeleteTask  0x02030EAC  arm
  */
 #include "cdemo_types.h"
+#include "../sdk_ioreg.h"
 
 struct ProcSystem;
 struct Proc;
@@ -76,7 +77,7 @@ int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c)
     struct CdemoState *r;
 
     GFL_HEAP_CreateChildHeap(1, 0x7f, 0x80000);
-    r = PROCSYS_AllocProcWork((struct Proc *)p, (u32)((void *)0x605c), 0x7f);
+    r = PROCSYS_AllocProcWork((struct Proc *)p, (uptr)((void *)0x605c), 0x7f);
     MI_CpuFill8(r, 0, 0x605c);
     r->script = (struct CdemoScript *)c;
     r->finish = 0;
@@ -110,8 +111,8 @@ void CDEMO_MAIN_SetupScreen(char *unused)
  *(volatile unsigned short *)0x0400000C=(*(volatile unsigned short *)0x0400000C&0x43)|0x4084;
  *(volatile unsigned short *)0x0400000E=(*(volatile unsigned short *)0x0400000E&0x43)|0x4884;
  BUTTON_MAN_RotScaleMtx22((union MtxFx22 *)(&m),0,(s32)0x1000,0x1000,0);
- G2x_SetBGyAffine_(0x04000020,(union MtxFx22 *)(&m),0,0,0,0);
- G2x_SetBGyAffine_(0x04000030,(union MtxFx22 *)(&m),0,0,0,0);
+ G2x_SetBGyAffine_(REG_BG2PA_ADDR,(union MtxFx22 *)(&m),0,0,0,0);
+ G2x_SetBGyAffine_(REG_BG3PA_ADDR,(union MtxFx22 *)(&m),0,0,0,0);
  p=GFL_HEAP_Alloc(0x807F,0x18000,1,(const char *)d_021B6B00,0x5B);
  GX_LoadBG2Scr(p,0,0x18000);GX_LoadBG3Scr(p,0,0x18000);GFL_HEAP_Free(p);
  BG_SYS_SetMainPlaneVisible(0x13,0);BG_SYS_SetMainPlaneVisible(0xC,1);

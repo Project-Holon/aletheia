@@ -121,7 +121,7 @@
  *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
  */
-#define R (*(volatile u16*)0x04000060)
+#define R (*(volatile u16*)REG_DISP3DCNT_ADDR)
 struct Obj;
 struct Proc;
 struct GfFont;
@@ -143,6 +143,7 @@ struct Vec2;
 struct Actor;
 struct PtS;
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/clact.h"
 #include "../arm9/bg_sys.h"
@@ -260,7 +261,7 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  u32 id;
  u16 heap;
  void *h;
- GFL_HEAP_CreateChildHeap((u32)((void*)1),131,0x30000);
+ GFL_HEAP_CreateChildHeap((uptr)((void*)1),131,0x30000);
  p=PROCSYS_AllocProcWork(owner,88,131);
  i=BG_MODE0;
  MI_CpuFill8(p,i,88);
@@ -268,9 +269,9 @@ int ZENKOKU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  *(void**)(p+4)=input;
  *(void**)(p+8)=ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(1,*(u16*)p);
  *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
- *(u32*)(p+16)=(unsigned int)PRINTSYS_QUE_Create((unsigned int)*(u16*)p);
+ *(u32*)(p+16)=(uptr)PRINTSYS_QUE_Create((unsigned int)*(u16*)p);
  BG_SYS_SetPriority(1,1);BG_SYS_SetPriority(2,0);
- *(void**)(p+20)=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((u32)ZENKOKU_ZUKAN_AWARD_Task),(void *)p,1);
+ *(void**)(p+20)=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)ZENKOKU_ZUKAN_AWARD_Task),(void *)p,1);
  ZENKOKU_ZUKAN_AWARD_LoadBgAssets((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_SetupWindows((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_SetupTiles((struct ZenkokuZukanAwardWork *)p);ZENKOKU_ZUKAN_AWARD_CreateActor((struct ZenkokuZukanAwardWork *)p);
  settings=(char *)GAME_DATA_GetMyStatus(*(void**)(*(char**)(p+4)));
  *(volatile u16*)0x04001050=i;
@@ -378,7 +379,7 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p)
     int flag;
     u32 h;
     s16 off;
-    u32 ws, x, t;
+    uptr ws, x, t;
     msg = (char *)GAME_DATA_GetMyStatus((struct GameData *)p->args->owner);
     flag = CONFIG_GetTextLanguage((const struct Config *)((short unsigned int *)SYSTEM_DATA_GetConfig((void *)GAME_DATA_GetSaveControl((struct GameData *)p->args->owner))));
     p->msgBank = 0;
@@ -401,9 +402,9 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p)
             BMP_WIN_SetPosY(p->windows[j], d_021BA1E0[j].b);
         }
     }
-    ws = (u32)WORDSET_CreateDefault(p->heap);
-    t = (u32)MSGDATA_AllocString(p->msgBank, 4);
-    x = (u32)STRBUF_Create(0x20, p->heap);
+    ws = (uptr)WORDSET_CreateDefault(p->heap);
+    t = (uptr)MSGDATA_AllocString(p->msgBank, 4);
+    x = (uptr)STRBUF_Create(0x20, p->heap);
     off = 0;
     WORDSET_SetSlotMyStatus((struct WordSet *)ws, 0, msg);
     WORDSET_CopyTaggedText((struct WordSet *)ws, (void *)x, (void *)t);
@@ -413,13 +414,13 @@ void ZENKOKU_ZUKAN_AWARD_SetupWindows(struct ZenkokuZukanAwardWork *p)
     STRBUF_Delete((struct Strbuf *)x);
     STRBUF_Delete((struct Strbuf *)t);
     WORDSET_Delete((struct WordSet *)ws);
-    t = (u32)MSGDATA_AllocString(p->msgBank, 6);
+    t = (uptr)MSGDATA_AllocString(p->msgBank, 6);
     x = (u16)PRINTSYS_MeasureWidestLine((struct Strbuf *)t, p->font, 0);
     h = BMP_GetWidth(BMP_WIN_GetBmp(p->windows[3]));
     if (h >= x && flag == 1) off = ((int)(h - x)) / 2;
     PRINTSYS_PrintQueColor(p->printQue, BMP_WIN_GetBmp(p->windows[3]), off, 0, (struct Strbuf *)t, p->font, 0x440);
     STRBUF_Delete((struct Strbuf *)t);
-    t = (u32)MSGDATA_AllocString(p->msgBank, 5);
+    t = (uptr)MSGDATA_AllocString(p->msgBank, 5);
     PRINTSYS_MeasureWidestLine((struct Strbuf *)t, p->font, 0);
     BMP_GetWidth(BMP_WIN_GetBmp(p->windows[4]));
     PRINTSYS_PrintQueColor(p->printQue, BMP_WIN_GetBmp(p->windows[4]), 0, 0, (struct Strbuf *)t, p->font, 0x440);
@@ -489,7 +490,7 @@ void ZENKOKU_ZUKAN_AWARD_SetupTiles(struct ZenkokuZukanAwardWork *p)
 
 void ZENKOKU_ZUKAN_AWARD_CreateActor(struct ZenkokuZukanAwardWork *p)
 {
- u32 t;
+ uptr t;
  void *h;
  h=ARC_TOOL_CreateHandle(0xca,p->heap);
  p->paletteId=CLACT_RegisterPaletteEx(h,0,0,0,0,2,p->heap);

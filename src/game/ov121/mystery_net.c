@@ -171,7 +171,7 @@ int MYSTERY_NET_IsHandler(int *p, int value);
 void *MYSTERY_NET_GetBuffer(char *p);
 int MYSTERY_NET_GetBufferSize(void);
 int MYSTERY_NET_IsEqual(int a, int b);
-void MYSTERY_NET_FlagExit(char *p);
+void MYSTERY_NET_FlagExit(void *userArg);
 void MYSTERY_NET_OnNdAsyncDone(int a, int b);
 void MYSTERY_NET_MarkNdDone(void);
 int MYSTERY_NET_ParseHexValue(const signed char *p);
@@ -192,7 +192,7 @@ void *MYSTERY_NET_Create(void *arg,int heap)
     MI_CpuFill8(p,0,0x17a8);
     ((MysteryNetWork *)p)->heapId=heap;
     ((MysteryNetWork *)p)->param=arg;
-    MYSTERY_NET_InitTask(p,(int)p,MYSTERY_NET_NoopHandler);
+    MYSTERY_NET_InitTask(p,(sptr)p,MYSTERY_NET_NoopHandler);
     return p;
 }
 
@@ -211,16 +211,16 @@ void MYSTERY_NET_SetAction(char *p, unsigned action)
 {
     switch (action) {
     case 1:
-        if (MYSTERY_NET_IsHandler((int *)p, (int)MYSTERY_NET_NoopHandler)) MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_StartSession);
+        if (MYSTERY_NET_IsHandler((int *)p, (sptr)MYSTERY_NET_NoopHandler)) MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_StartSession);
         break;
     case 3:
-        if (MYSTERY_NET_IsHandler((int *)p, (int)MYSTERY_NET_PollWihStatus)) MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_StopSession);
+        if (MYSTERY_NET_IsHandler((int *)p, (sptr)MYSTERY_NET_PollWihStatus)) MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_StopSession);
         break;
     case 4:
-        if (MYSTERY_NET_IsHandler((int *)p, (int)MYSTERY_NET_NoopHandler)) MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_RunNdDownload);
+        if (MYSTERY_NET_IsHandler((int *)p, (sptr)MYSTERY_NET_NoopHandler)) MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_RunNdDownload);
         break;
     case 5:
-        if (MYSTERY_NET_IsHandler((int *)p, (int)MYSTERY_NET_RunNdDownload)) ((MysteryNetWork *)p)->nd.done = 1;
+        if (MYSTERY_NET_IsHandler((int *)p, (sptr)MYSTERY_NET_RunNdDownload)) ((MysteryNetWork *)p)->nd.done = 1;
         break;
     case 6: MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_EndDownload); break;
     case 7: MYSTERY_NET_SetHandler((u32 *)p, MYSTERY_NET_StartBeacon); break;
@@ -233,18 +233,18 @@ void MYSTERY_NET_SetAction(char *p, unsigned action)
 
 int MYSTERY_NET_GetAction(void *p)
 {
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_NoopHandler)) return 0;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_StartSession)) return 1;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_PollWihStatus)) return 2;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_StopSession)) return 3;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_RunNdDownload)) return 4;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_EndDownload)) return 6;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_StartBeacon)) return 7;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_RunBeacon)) return 8;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_DeleteBeacon)) return 9;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_StartIrc)) return 10;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_RunIrc)) return 11;
-    if (MYSTERY_NET_IsHandler(p, (int)MYSTERY_NET_DeleteIrc)) return 12;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_NoopHandler)) return 0;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_StartSession)) return 1;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_PollWihStatus)) return 2;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_StopSession)) return 3;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_RunNdDownload)) return 4;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_EndDownload)) return 6;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_StartBeacon)) return 7;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_RunBeacon)) return 8;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_DeleteBeacon)) return 9;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_StartIrc)) return 10;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_RunIrc)) return 11;
+    if (MYSTERY_NET_IsHandler(p, (sptr)MYSTERY_NET_DeleteIrc)) return 12;
     return 0;
 }
 
@@ -315,7 +315,7 @@ void MYSTERY_NET_StartSession(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        GFL_NET_StartSession((GFLNetInitializeStruct *)(struct Req *)d_021DFABC, 0, (unsigned)p);
+        GFL_NET_StartSession((GFLNetInitializeStruct *)(struct Req *)d_021DFABC, 0, p);
         BG_SYS_SetSubPlaneVisible(0x10, 0);
         *state = 1;
         break;
@@ -343,7 +343,7 @@ void MYSTERY_NET_StopSession(void *a, int *state, char *p)
         *state = 1;
         break;
     case 1:
-        if (GFL_NET_Exit((void (*)(u32))MYSTERY_NET_FlagExit)) *state = 2;
+        if (GFL_NET_Exit(MYSTERY_NET_FlagExit)) *state = 2;
         else *state = 3;
         break;
     case 2:
@@ -364,7 +364,7 @@ void MYSTERY_NET_PollWihStatus(int a, int b, char *c)
     ((MysteryNetWork *)c)->result = (void *)WIH_DWC_PollStatus(0);
 }
 
-void MYSTERY_NET_StartBeacon(void *a,int *state,char *p) {MysteryNetConfig cfg;u32 h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=PM_VERSION_MASK;cfg.last=1;cfg.flag=0;cfg.heap=((MysteryNetWork *)p)->heapId;h=(u32)DELIVERY_BEACON_Create((struct DeliveryBeaconParam *)(&cfg));((MysteryNetWork *)p)->beacon=(void *)h;DELIVERY_BEACON_Start((struct DeliveryBeacon *)h);BG_SYS_SetSubPlaneVisible(16,0);((MysteryNetWork *)p)->recvState=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RefreshWmIconAtTopRight(1,((MysteryNetWork *)p)->heapId);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:MYSTERY_NET_SetHandler(a,MYSTERY_NET_RunBeacon);break;} }
+void MYSTERY_NET_StartBeacon(void *a,int *state,char *p) {MysteryNetConfig cfg;u32 h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=PM_VERSION_MASK;cfg.last=1;cfg.flag=0;cfg.heap=((MysteryNetWork *)p)->heapId;h=(uptr)DELIVERY_BEACON_Create((struct DeliveryBeaconParam *)(&cfg));((MysteryNetWork *)p)->beacon=(void *)h;DELIVERY_BEACON_Start((struct DeliveryBeacon *)h);BG_SYS_SetSubPlaneVisible(16,0);((MysteryNetWork *)p)->recvState=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RefreshWmIconAtTopRight(1,((MysteryNetWork *)p)->heapId);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:MYSTERY_NET_SetHandler(a,MYSTERY_NET_RunBeacon);break;} }
 
 void MYSTERY_NET_DeleteBeacon(void *a, int *state, char *p)
 {
@@ -453,71 +453,71 @@ void MYSTERY_NET_RunNdDownload(void *task,int *state,char *p)
     u32 rnd,t,ratio;
     switch(*state) {
     case 0:
-        DWC_RAP_SetErrorHookCallback((int (*)(u32, u32, u32, int))((int)MYSTERY_NET_GetErrorHookState),(int)q);
+        DWC_RAP_SetErrorHookCallback((int (*)(u32, u32, u32, int))((sptr)MYSTERY_NET_GetErrorHookState),(sptr)q);
         MI_CpuFill8(q,0,0x734);
-        Q(0x70c)=0;Q(0x710)=0;Q(0x724)=0;Q(0x728)=(u32)(p+0x7a4);
+        Q(0x70c)=0;Q(0x710)=0;Q(0x724)=0;Q(0x728)=(uptr)(p+0x7a4);
         W(0x17a4)=0;
         if(!DWC_NdInitAsync((DWCNdCallback)MYSTERY_NET_OnNdAsyncDone,(char *)d_021DFBD0,(char *)d_021DFBD8)) {
             W(0x17a4)=2;*state=9;
         } else {Q(0x730)=1;MYSTERY_NET_SetNdState(q,state,1);}
         break;
     case 1:
-        if(Q(0x710)) {W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,3,state,7,7);}
+        if(Q(0x710)) {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,7,7);}
         else if(!DWC_NdSetAttr(d_021DFBEC,d_021DFBF8,d_021DFBF8)) {
-            W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,4,state,9,9);
+            W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,4,state,9,9);
         } else *state=3;
         break;
     case 3:
-        if(!DWC_NdGetFileListAsync(q,0,10)) {W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,4,state,9,9);}
+        if(!DWC_NdGetFileListAsync(q,0,10)) {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,4,state,9,9);}
         else MYSTERY_NET_SetNdState(q,state,2);
         break;
     case 2:
         for(i=0;i<10;i++) {
             if(!MYSTERY_NET_IsZeroBlock((const unsigned *)(q+0xb0*i),0xb0)) {
                 if(MYSTERY_NET_ParseHexValue((const signed char *)(q+0xb0*i+0x93))&PM_VERSION_MASK)
-                    ((Flag *)((u32)q+(u32)i*4))->flag=1;
-                else ((Flag *)((u32)q+(u32)i*4))->flag=0;
-            } else ((Flag *)((u32)q+(u32)i*4))->flag=0;
+                    ((Flag *)((uptr)q+(u32)i*4))->flag=1;
+                else ((Flag *)((uptr)q+(u32)i*4))->flag=0;
+            } else ((Flag *)((uptr)q+(u32)i*4))->flag=0;
         }
         Q(0x714)=0;
-        for(i=0;i<10;i++) if(((Flag *)((u32)q+(u32)i*4))->flag) Q(0x714)++;
+        for(i=0;i<10;i++) if(((Flag *)((uptr)q+(u32)i*4))->flag) Q(0x714)++;
         *state=4;break;
     case 4:
         n=Q(0x714);
         if(n==1) {
-            for(i=0;i<10;i++) if(((Flag *)((u32)q+(u32)i*4))->flag) {Q(0x724)=i;break;}
+            for(i=0;i<10;i++) if(((Flag *)((uptr)q+(u32)i*4))->flag) {Q(0x724)=i;break;}
         } else if(n>1) {
             j=0;rnd=GF_STANDARD_Rand();
             if(n) rnd=(u32)(((u64)rnd*(u32)n)>>32);
             for(i=0;i<10;i++) {
-                if(((Flag *)((u32)q+(u32)i*4))->flag) {
+                if(((Flag *)((uptr)q+(u32)i*4))->flag) {
                     if(j==rnd) {Q(0x724)=i;break;}
                     j++;
                 }
             }
             Q(0x724)=i;
-        } else {W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,1,state,8,8);break;}
+        } else {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,1,state,8,8);break;}
         *state=5;break;
     case 5:
         if(!DWC_NdGetFileAsync(q+Q(0x724)*0xb0,(char *)Q(0x728),0x1000)) {
-            W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,4,state,9,9);
+            W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,4,state,9,9);
         } else {
             Q(0x718)=0;d_021DFC00[1]=0;d_021DFC00[3]=0;Q(0x72c)=0;*state=6;
         }break;
     case 6:
         DWC_NdProcess();
         if(Q(0x72c)++>7200) {
-            GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,3,state,7,7);
+            GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,7,7);
         }
         if(!d_021DFC00[1]) {
-            if(Q(0x70c)) {W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,3,state,7,7);break;}
+            if(Q(0x70c)) {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,7,7);break;}
             if(DWC_NdGetProgress((unsigned long *)((u32 *)(q+0x71c)),(unsigned long *)((u32 *)(q+0x720)))==1) {
                 ratio=Q(0x71c)*100/Q(0x720);
                 if(Q(0x718)!=ratio) Q(0x718)=ratio;
             }
-        } else if(d_021DFC00[3]) {W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,4,state,9,9);}
-        else if(!Q(0x710)) {W(0x17a4)=1;MYSTERY_NET_AbortNd((u32)q,1,state,8,8);}
-        else {W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,3,state,8,8);}
+        } else if(d_021DFC00[3]) {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,4,state,9,9);}
+        else if(!Q(0x710)) {W(0x17a4)=1;MYSTERY_NET_AbortNd((uptr)q,1,state,8,8);}
+        else {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,8,8);}
         break;
     case 7:DWC_NdCancelAsync();*state=8;break;
     case 8:*state=9;break;
@@ -525,11 +525,11 @@ void MYSTERY_NET_RunNdDownload(void *task,int *state,char *p)
     case 100:
         DWC_NdProcess();
         if(Q(0x72c)++>7200) {
-            GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,3,state,9,9);
+            GFL_NET_STATE_SetError(0,0,0,0x3f5);W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,9,9);
         }
         if(d_021DFC00[1]) {
             d_021DFC00[1]=0;
-            if(d_021DFC00[3]) {W(0x17a4)=2;MYSTERY_NET_AbortNd((u32)q,3,state,9,9);}
+            if(d_021DFC00[3]) {W(0x17a4)=2;MYSTERY_NET_AbortNd((uptr)q,3,state,9,9);}
             else *state=Q(0x708);
         } else if(Q(0x70c)) Q(0x710)=1;
         break;
@@ -590,7 +590,7 @@ void MYSTERY_NET_Dispatch(char *p)
         (*(void (**)(char *, char *, u32))p)(p, p + 8, ((MysteryNetWork *)p)->handlerArg);
 }
 
-void MYSTERY_NET_SetHandler(u32 *p,void *f) {p[0]=(u32)f;p[2]=0;}
+void MYSTERY_NET_SetHandler(u32 *p,void *f) {p[0]=(uptr)f;p[2]=0;}
 
 int MYSTERY_NET_IsHandler(int *p, int value)
 {
@@ -612,8 +612,10 @@ int MYSTERY_NET_IsEqual(int a, int b)
     return a == b;
 }
 
-void MYSTERY_NET_FlagExit(char *p)
+void MYSTERY_NET_FlagExit(void *userArg)
 {
+    char *p = userArg;
+
     ((MysteryNetWork *)p)->flag5C = 1;
 }
 
@@ -950,7 +952,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct MysteryNetRec *r, void *gs, u16 he
                 goto end;
             }
             if (r->nickname != STRBUF_GetEosChar())
-                POKE_TOOL_SetPartyValue(mon, 0x74, (u32)&r->nickname);
+                POKE_TOOL_SetPartyValue(mon, 0x74, (uptr)&r->nickname);
             {
                 u32 v = r->nature;
                 if (v == 0xff)
@@ -965,9 +967,9 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct MysteryNetRec *r, void *gs, u16 he
                 goto end;
             }
             if (r->otName == STRBUF_GetEosChar())
-                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)MYSTATUS_GetName(GAME_DATA_GetMyStatus(gs)));
+                POKE_TOOL_SetPartyValue(mon, 0x8e, (uptr)MYSTATUS_GetName(GAME_DATA_GetMyStatus(gs)));
             else
-                POKE_TOOL_SetPartyValue(mon, 0x8e, (u32)&r->otName);
+                POKE_TOOL_SetPartyValue(mon, 0x8e, (uptr)&r->otName);
             {
                 u32 v = r->otGender;
                 if (v <= 2)
@@ -981,7 +983,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct MysteryNetRec *r, void *gs, u16 he
                 void *s;
                 POKE_TOOL_SetPartyValue(mon, 0x4c, 1);
                 s = MSGDATA_AllocString(gSpeciesNameBank, 0x28a);
-                POKE_TOOL_SetPartyValue(mon, 0x73, (u32)s);
+                POKE_TOOL_SetPartyValue(mon, 0x73, (uptr)s);
                 STRBUF_Delete(s);
                 POKE_TOOL_SetPartyValue(mon, 9, 10);
             }

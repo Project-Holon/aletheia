@@ -160,13 +160,13 @@ UnionRoomWork *UNION_COMM_InitComm(int *seq, UnionParentWork *parent);
 
 int UNION_COMM_InitWait(int *seq, UnionParentWork *parent, UnionRoomWork *work);
 
-void UNION_COMM_SessionStartCallback(UnionRoomWork *work);
+void UNION_COMM_SessionStartCallback(void *userArg);
 
 int UNION_COMM_Exit(int *seq, UnionParentWork *parent, UnionRoomWork *work);
 
 int UNION_COMM_ExitWait(int *seq, UnionParentWork *parent, UnionRoomWork *work);
 
-void UNION_COMM_ExitCallback(UnionRoomWork *work);
+void UNION_COMM_ExitCallback(void *userArg);
 
 void UNION_COMM_RequestRestart(UnionRoomWork *work);
 
@@ -274,7 +274,7 @@ UnionRoomWork *UNION_COMM_InitComm(int *seq, UnionParentWork *parent)
 
     work = UNION_COMM_Create(parent);
     work->commState = 1;
-    GFL_NET_StartSession(&sUnionNetInit, (uptr)UNION_COMM_SessionStartCallback, (uptr)work);
+    GFL_NET_StartSession(&sUnionNetInit, UNION_COMM_SessionStartCallback, work);
     return work;
 }
 
@@ -288,8 +288,10 @@ int UNION_COMM_InitWait(int *seq, UnionParentWork *parent, UnionRoomWork *work)
     return 0;
 }
 
-void UNION_COMM_SessionStartCallback(UnionRoomWork *work)
+void UNION_COMM_SessionStartCallback(void *userArg)
 {
+    UnionRoomWork *work = userArg;
+
     work->commState = 2;
     GFL_NET_SetErrorCheckEnabled(0);
 }
@@ -299,7 +301,7 @@ int UNION_COMM_Exit(int *seq, UnionParentWork *parent, UnionRoomWork *work)
     work->exitStarted = 1;
     if (work->commState < 3) return 0;
     work->commState = 4;
-    if (GFL_NET_Exit((void (*)(u32))UNION_COMM_ExitCallback) == 0) UNION_COMM_ExitCallback(work);
+    if (GFL_NET_Exit(UNION_COMM_ExitCallback) == 0) UNION_COMM_ExitCallback(work);
     return 1;
 }
 
@@ -313,7 +315,7 @@ int UNION_COMM_ExitWait(int *seq, UnionParentWork *parent, UnionRoomWork *work)
     return 0;
 }
 
-void UNION_COMM_ExitCallback(UnionRoomWork *work) { work->commState = 5; }
+void UNION_COMM_ExitCallback(void *userArg) { UnionRoomWork *work = userArg; work->commState = 5; }
 
 void UNION_COMM_RequestRestart(UnionRoomWork *work)
 {
@@ -370,7 +372,7 @@ int UNION_COMM_UpdateReset(UnionRoomWork *work)
         break;
     case 2:
         work->commState = 4;
-        if (GFL_NET_Exit((void (*)(u32))UNION_COMM_ExitCallback) == 0) {
+        if (GFL_NET_Exit(UNION_COMM_ExitCallback) == 0) {
             UNION_COMM_ExitCallback(work);
         }
         work->resetSeq++;
@@ -386,7 +388,7 @@ int UNION_COMM_UpdateReset(UnionRoomWork *work)
         break;
     case 4:
         work->commState = 1;
-        GFL_NET_StartSession(&sUnionNetInit, (uptr)UNION_COMM_SessionStartCallback, (uptr)work);
+        GFL_NET_StartSession(&sUnionNetInit, UNION_COMM_SessionStartCallback, work);
         work->resetSeq++;
         break;
     case 5:

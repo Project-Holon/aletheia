@@ -509,7 +509,7 @@ struct ParticleSys *PARTICLE_CreateSystem(u32 workBuf, u32 workSize, u32 withCam
 void PARTICLE_DeleteSystem(struct ParticleSys *sys)
 {
     int i;
-    u32 z = 0;
+    uptr z = 0;
 
     PARTICLE_KillAllEffects(sys);
 
@@ -596,7 +596,7 @@ void *PARTICLE_AllocWorkSlot0(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[0];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -608,7 +608,7 @@ void *PARTICLE_AllocWorkSlot1(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[1];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -620,7 +620,7 @@ void *PARTICLE_AllocWorkSlot2(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[2];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -632,7 +632,7 @@ void *PARTICLE_AllocWorkSlot3(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[3];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -644,7 +644,7 @@ void *PARTICLE_AllocWorkSlot4(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[4];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -656,7 +656,7 @@ void *PARTICLE_AllocWorkSlot5(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[5];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -668,7 +668,7 @@ void *PARTICLE_AllocWorkSlot6(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[6];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -680,7 +680,7 @@ void *PARTICLE_AllocWorkSlot7(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[7];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -692,7 +692,7 @@ void *PARTICLE_AllocWorkSlot8(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[8];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -704,7 +704,7 @@ void *PARTICLE_AllocWorkSlot9(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[9];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -716,7 +716,7 @@ void *PARTICLE_AllocWorkSlot10(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[10];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -728,7 +728,7 @@ void *PARTICLE_AllocWorkSlot11(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[11];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -740,7 +740,7 @@ void *PARTICLE_AllocWorkSlot12(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[12];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -752,7 +752,7 @@ void *PARTICLE_AllocWorkSlot13(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[13];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -764,7 +764,7 @@ void *PARTICLE_AllocWorkSlot14(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[14];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -776,7 +776,7 @@ void *PARTICLE_AllocWorkSlot15(u32 size)
 {
     struct ParticleSys *sys = g_pParticleMan->systems[15];
     u32 next = sys->workCursor + size;
-    u32 start = sys->workCursor;
+    uptr start = sys->workCursor;
     if (next & 3) {
         next += 4 - (next & 3);
     }
@@ -902,14 +902,14 @@ void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys)
     fn = sys->texLoadFn;
     engine = sys->engine;
     if (fn == 0)
-        SPL_EMITTER_AllocTexVramDefault((u32)engine);
+        SPL_EMITTER_AllocTexVramDefault((uptr)engine);
     else
         SPL_EMITTER_AllocTexVramList((struct RigObject *)engine, fn);
 
     fn = sys->palLoadFn;
     engine = sys->engine;
     if (fn == 0)
-        SPL_EMITTER_AllocPlttVramDefault((u32)engine);
+        SPL_EMITTER_AllocPlttVramDefault((uptr)engine);
     else
         SPL_EMITTER_AllocPlttVramList((struct RigObject *)engine, fn);
 
@@ -971,7 +971,7 @@ void PARTICLE_DrawSystem(struct ParticleSys *sys)
         G3D_SYSTEM_ApplyLookAt();
         NNS_G3dGeFlushBuffer();
     }
-    SPL_EMITTER_FreeNodeHeap((struct VramHeapHead *)sys->engine, (unsigned int)g_renderStateDrawParams);
+    SPL_EMITTER_FreeNodeHeap((struct VramHeapHead *)sys->engine, (uptr)g_renderStateDrawParams);
     if (sys->camera == 0)
         return;
     G3D_SYSTEM_SetProjection((struct G3dProjection *)(&savedState));
@@ -1314,7 +1314,7 @@ extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(u32 a, u32 b, u32 c);
  */
 int PARTICLE_EMITTER_GetBlock(struct Obj3D *p)
 {
-    return (int)p->blk;
+    return (sptr)p->blk;
 }
 
 /*
@@ -1720,14 +1720,14 @@ u16 PARTICLE_RESOURCE_GetType(void *res)
 int G2_GetBGCharPtrById(int i)
 {
     switch (i) {
-    case 0: return (int)G2_GetBG0CharPtr();
-    case 1: return (int)G2_GetBG1CharPtr();
-    case 2: return (int)G2_GetBG2CharPtr();
-    case 3: return (int)G2_GetBG3CharPtr();
+    case 0: return (sptr)G2_GetBG0CharPtr();
+    case 1: return (sptr)G2_GetBG1CharPtr();
+    case 2: return (sptr)G2_GetBG2CharPtr();
+    case 3: return (sptr)G2_GetBG3CharPtr();
     case 4: return G2S_GetBG0CharPtr();
     case 5: return G2S_GetBG1CharPtr();
-    case 6: return (int)G2S_GetBG2CharPtr();
-    case 7: return (int)G2S_GetBG3CharPtr();
+    case 6: return (sptr)G2S_GetBG2CharPtr();
+    case 7: return (sptr)G2S_GetBG3CharPtr();
     }
     return 0;
 }

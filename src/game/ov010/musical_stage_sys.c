@@ -112,7 +112,7 @@ int MUSICAL_STAGE_SYS_Init(void *proc, void *unused, MusicalStage *prevStage)
     GFL_HEAP_CreateChildHeap(1, 0x2E, 0xA8000);
     work = PROCSYS_AllocProcWork(proc, sizeof(MusicalStageWork), 0x2E);
     if (prevStage == 0) {
-        GF_OVERLAY_Load((u32)ov112_id);
+        GF_OVERLAY_Load((uptr)ov112_id);
         work->stage = MUSICAL_STAGE_SYS_Create(0x2E, 0);
         mask = 0xFF000000;
         MUSICAL_STAGE_SYS_CreateNpcPerformer(work->stage, 0, 0x147, 0, mask, 60, 0x2E);
@@ -161,7 +161,7 @@ int MUSICAL_STAGE_SYS_Exit(void *proc, int unused, int keepStage, MusicalStageWo
         GFL_HEAP_DeleteChecked(0x2c);
         work->stage->performers[1]->origin = MUSICAL_PERFORMER_NPC;
         MUSICAL_STAGE_SYS_Delete(work->stage);
-        GF_OVERLAY_Unload((u32)ov112_id);
+        GF_OVERLAY_Unload((uptr)ov112_id);
     }
     PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x2e);
@@ -225,10 +225,10 @@ int MUSICAL_STAGE_SYS_Delete(MusicalStage *stage){
  */
 int MUSICAL_STAGE_SYS_SetLocalPerformer(MusicalStage *stage, int slot, MusicalPerformer *performer)
 {
-    int list;
+    sptr list;
     int offset;
 
-    list = (int)stage + 4;
+    list = (sptr)stage + 4;
     offset = slot << 2;
     *(MusicalPerformer **)((char *)list + offset) = performer;
     performer->origin = MUSICAL_PERFORMER_LOCAL;
@@ -252,10 +252,10 @@ void MUSICAL_STAGE_SYS_CreateNpcPerformer(MusicalStage *stage, u8 slot, u16 mons
  */
 int MUSICAL_STAGE_SYS_SetRemotePerformer(MusicalStage *stage, int slot, MusicalPerformer *performer)
 {
-    int list;
+    sptr list;
     int offset;
 
-    list = (int)stage + 4;
+    list = (sptr)stage + 4;
     offset = slot << 2;
     *(MusicalPerformer **)((char *)list + offset) = performer;
     performer->origin = MUSICAL_PERFORMER_REMOTE;

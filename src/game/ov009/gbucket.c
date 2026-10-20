@@ -193,7 +193,7 @@ void *BucketConcat(struct bucketset_s *set, char *name, void *value)
     if (pbucket == 0)
         return 0;
     s = (char *)DoGet((char *)pbucket);
-    temp = (char *)gsimalloc(strlen((const u8 *)s) + strlen(value) + 1);
+    temp = (char *)gsimalloc(strlen(s) + strlen(value) + 1);
     strcpy(temp, s);
     strcat((u8 *)temp, value);
     DoSet(pbucket, temp);

@@ -240,6 +240,7 @@
  */
 
 #include "p_status_types.h"
+#include "../sdk_ioreg_reg.h"
 
 struct Mon;
 struct TcbTask;
@@ -293,14 +294,14 @@ typedef struct { u16 move[5]; } DebugMoves;
 
 /* Hardware registers (main engine A, sub engine B) and palette RAM. */
 #define HW_REG_DISPCNT 0x04000000
-#define HW_REG_BG3CNT 0x0400000c
+#define HW_REG_BG3CNT REG_BG2CNT_ADDR
 #define HW_REG_MOSAIC 0x0400004c
 #define HW_REG_BLDCNT 0x04000050
-#define HW_REG_DISP3DCNT 0x04000060
-#define HW_REG_POWCNT1 0x04000304
+#define HW_REG_DISP3DCNT REG_DISP3DCNT_ADDR
+#define HW_REG_POWCNT1 REG_POWCNT1_ADDR
 #define HW_REG_DISPCNT_SUB 0x04001000
-#define HW_REG_BG2CNT_SUB 0x0400100a
-#define HW_REG_BG3CNT_SUB 0x0400100c
+#define HW_REG_BG2CNT_SUB REG_DB_BG1CNT_ADDR
+#define HW_REG_BG3CNT_SUB REG_DB_BG2CNT_ADDR
 #define HW_REG_MOSAIC_SUB 0x0400104c
 #define HW_REG_BLDCNT_SUB 0x04001050
 #define HW_PLTT_MAIN_OBJ 0x05000200

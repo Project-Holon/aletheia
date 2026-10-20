@@ -298,6 +298,7 @@
  *   WIFI_HISTORY_GetGreetingSet  0x02009628  thumb  arm9
  */
 #include "pokemontrade_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../ov067/touchbar.h"
 
@@ -368,11 +369,11 @@ struct BmpWin;
 
 #define Q ((void **)(p+0x844))
 
-#define WININ (*(volatile u16 *)0x04001048)
+#define WININ (*(volatile u16 *)REG_DB_WININ_ADDR)
 
-#define WINOUT (*(volatile u16 *)0x0400104a)
+#define WINOUT (*(volatile u16 *)REG_DB_WINOUT_ADDR)
 
-#define DISPCNT (*(volatile u32 *)0x04001000)
+#define DISPCNT (*(volatile u32 *)REG_DB_DISPCNT_ADDR)
 
 struct PerapVoice;
 
@@ -1918,7 +1919,7 @@ void POKETRADE_SAVE_CloseSummaryPage(void *p, int disableSubWindows)
     POKETRADE_2D_DeleteMarkingIcon((char *)p + 0x978);
     POKETRADE_2D_DeleteSummaryIcons(p);
     if (disableSubWindows != 0) {
-        v = *(volatile unsigned int *)0x04001000;
+        v = *(volatile unsigned int *)REG_DB_DISPCNT_ADDR;
         v &= 0xFFFF1FFF;
         *(volatile unsigned int *)0x04001000 = v;
     }
@@ -1968,7 +1969,7 @@ void POKETRADE_SAVE_OpenSummaryScreen(char *p,void *a)
         POKETRADE_2D_LoadSubBackgroundGfx(p);
         BG_SYS_SetMainVisiblePlanes(29);
         BG_SYS_SetSubVisiblePlanes(31);
-        G2x_SetBlendBrightness_(0x04001050,26,-8);
+        G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR,26,-8);
         p[0x11f9]=1;
         GFL_USE_AddMainTask((TcbFunc)((TcbFunc)((void (*)(void *, void *))POKETRADE_SAVE_VBlankSetupWindowRegs)),(void *)p,0);
     }
@@ -2229,20 +2230,20 @@ void POKETRADE_SAVE_SetupWindowRegsSummary(void *unused)
 {
     u32 v;
 
-    G2x_SetBlendBrightness_(0x04001050, 0x1A, -8);
+    G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, 0x1A, -8);
 
-    v = (*(volatile u16 *)0x04001048 & ~0x3F) | 0x1F;
+    v = (*(volatile u16 *)REG_DB_WININ_ADDR & ~0x3F) | 0x1F;
     *(volatile u16 *)0x04001048 = v | 0x20;
     *(volatile u16 *)0x04001040 = 0x00FF;
     *(volatile u16 *)0x04001044 = 0x00C0;
-    v = (*(volatile u16 *)0x04001048 & ~0x3F00) | 0x1F00;
+    v = (*(volatile u16 *)REG_DB_WININ_ADDR & ~0x3F00) | 0x1F00;
     *(volatile u16 *)0x04001048 = v | 0x2000;
     *(volatile u16 *)0x04001042 = 0xFF00;
     *(volatile u16 *)0x04001046 = 0x00C0;
-    v = (*(volatile u16 *)0x0400104A & ~0x3F) | 0x1F;
+    v = (*(volatile u16 *)REG_DB_WINOUT_ADDR & ~0x3F) | 0x1F;
     *(volatile u16 *)0x0400104A = v;
     *(volatile u32 *)0x04001000 =
-        (*(volatile u32 *)0x04001000 & 0xFFFF1FFF) | 0x6000;
+        (*(volatile u32 *)REG_DB_DISPCNT_ADDR & 0xFFFF1FFF) | 0x6000;
 }
 
 /*
@@ -2438,15 +2439,15 @@ void POKETRADE_SAVE_SetCameraTrade(char *p) {
 
 void POKETRADE_SAVE_Update3DParticles(char *p) {POKETRADE_3D_DrawRotatingCube((const u8 *)p);}
 
-static inline void shading(PokemontradeShading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }
+static inline void shading(PokemontradeShading s) { *(volatile u16 *)REG_DISP3DCNT_ADDR = (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3002) | (s << 1)); }
 
-static inline void antialias(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x10); else *(volatile u16 *)0x04000060 &= (u16)~0x3010; }
+static inline void antialias(int b) { if(b) *(volatile u16 *)REG_DISP3DCNT_ADDR = (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 0x10); else *(volatile u16 *)REG_DISP3DCNT_ADDR &= (u16)~0x3010; }
 
-static inline void alphatest(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 4); else *(volatile u16 *)0x04000060 &= (u16)~0x3004; }
+static inline void alphatest(int b) { if(b) *(volatile u16 *)REG_DISP3DCNT_ADDR = (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 4); else *(volatile u16 *)REG_DISP3DCNT_ADDR &= (u16)~0x3004; }
 
-static inline void blend(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 8); else *(volatile u16 *)0x04000060 &= (u16)~0x3008; }
+static inline void blend(int b) { if(b) *(volatile u16 *)REG_DISP3DCNT_ADDR = (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 8); else *(volatile u16 *)REG_DISP3DCNT_ADDR &= (u16)~0x3008; }
 
-static inline void edge(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x20); else *(volatile u16 *)0x04000060 &= (u16)~0x3020; }
+static inline void edge(int b) { if(b) *(volatile u16 *)REG_DISP3DCNT_ADDR = (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 0x20); else *(volatile u16 *)REG_DISP3DCNT_ADDR &= (u16)~0x3020; }
 
 /*
  * volatile: 0x04000060 reread at 021E2C9C, 021E2CAA, 021E2CB6, 021E2CC0, 021E2CC8; 0x04000580 hardware store at 021E2CEC.

@@ -37,6 +37,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct {
     int pad00;
@@ -92,7 +93,7 @@ int CARD_SPI_RunCommand(void)
 
 void CARD_SPI_WaitNotBusy(void)
 {
-    while (*(volatile u16 *)0x040001A0 & 0x80)
+    while (*(volatile u16 *)REG_MCCNT0_ADDR & 0x80)
         ;
 }
 
@@ -112,7 +113,7 @@ u8 CARD_SPI_ExchangeByte(CardSpiTransfer *xfer)
     *(volatile u16 *)0x040001A2 = *xfer->txCursor;
     xfer->txCursor += 1;
     CARD_SPI_WaitNotBusy();
-    v = *(volatile u16 *)0x040001A2;
+    v = *(volatile u16 *)REG_MCD0_ADDR;
     return v;
 }
 

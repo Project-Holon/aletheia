@@ -89,8 +89,8 @@ u32 *MUSICAL_MCSS_LoadActorData(int heap)
 {
     u32 *p = GFL_HEAP_Alloc(heap, 8, 0, d_021F83B4, 0x47);
     void *r = ARC_UTIL_LoadMember(45, 0x65, 0, heap);
-    p[0] = (u32)r;
-    p[1] = (u32)r;
+    p[0] = (uptr)r;
+    p[1] = (uptr)r;
     return p;
 }
 

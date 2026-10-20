@@ -422,7 +422,7 @@ typedef struct CommEntryMenu {
     CommEntryConfirm confirm;            /* 0x130 */
     CommEntryParentList parentList;      /* 0x13C */
     GFLNetInitializeStruct netInitBackup; /* 0x414 */
-    u32 savedUserArg;                    /* 0x484 */
+    void *savedUserArg;                   /* 0x484 */
     void *callbackWork;                  /* 0x488 */
     CommEntryMemberFunc onAdd;           /* 0x48C */
     CommEntryMemberFunc onRemove;        /* 0x490 */
@@ -570,7 +570,7 @@ void COMM_ENTRY_RecvRoster(u32 netId, u32 size, const CommEntryRoster *roster, C
 u32 COMM_ENTRY_SendRoster(const CommEntryRoster *roster, u32 recipients, int netMode);
 
 extern const char d_021DE5E8[];
-extern const u8 data_021DB4BC[];
+extern NetCommandEntry data_021DB4BC[];
 extern const u16 gCommEntryMsgTable[2][6];
 extern const u8 gCommEntryEmptyMac[6];
 extern const FieldMenuHeader gCommEntryParentListHeader;
@@ -613,7 +613,7 @@ CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap
         menu->netMode = 1;
     }
     netInit = (GFLNetInitializeStruct *)GFL_NET_GetInitParam();
-    ((CommEntryBeaconData *)netInit->getBeaconDataFunc((void *)GFL_NET_GetUserArg()))->advertiseId = COMM_ENTRY_ADVERTISE_ID;
+    ((CommEntryBeaconData *)netInit->getBeaconDataFunc(GFL_NET_GetUserArg()))->advertiseId = COMM_ENTRY_ADVERTISE_ID;
     return menu;
 }
 
@@ -851,7 +851,7 @@ int COMM_ENTRY_MENU_MainRecruit(CommEntryMenu *menu)
             menu->result = COMM_ENTRY_RESULT_START;
             menu->state = RECRUIT_DONE;
             netInit = (GFLNetInitializeStruct *)GFL_NET_GetInitParam();
-            ((CommEntryBeaconData *)netInit->getBeaconDataFunc((void *)GFL_NET_GetUserArg()))->advertiseId = 0;
+            ((CommEntryBeaconData *)netInit->getBeaconDataFunc(GFL_NET_GetUserArg()))->advertiseId = 0;
         }
         break;
     case RECRUIT_SEND_QUIT:
@@ -2133,7 +2133,7 @@ int COMM_ENTRY_IsOtherMemberConnected(int mask)
 /* Starts the network command handling for the entry menu commands. */
 void COMM_ENTRY_StartNetCommands(CommEntryMenu *menu)
 {
-    GFL_NET_COMMAND_AddCommandTable((u32)COMM_ENTRY_NET_HEAP, (u32)data_021DB4BC, (u32)COMM_ENTRY_CMD_COUNT, (u32)menu);
+    GFL_NET_COMMAND_AddCommandTable((u32)COMM_ENTRY_NET_HEAP, data_021DB4BC, (u32)COMM_ENTRY_CMD_COUNT, menu);
 }
 
 void COMM_ENTRY_EndNetCommands(void)

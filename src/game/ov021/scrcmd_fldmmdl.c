@@ -939,7 +939,7 @@ int SCRCMD_FLDMMDL_StartMmdlRailSlipDown(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
     mmdl = FLDMMDL_SysSearchObjId(mmdlSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
-    event = RAIL_SLIPDOWN_Start(gameSystem, (unsigned int)(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem), (unsigned int)mmdl);
+    event = RAIL_SLIPDOWN_Start(gameSystem, (uptr)(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem), (uptr)mmdl);
     SCRIPT_SYS_CallEvent(scriptWork, event);
     return 1;
 }

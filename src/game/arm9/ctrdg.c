@@ -27,6 +27,7 @@
  *   PXI_SendWordByFifo  0x02088610  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"
 
@@ -149,7 +150,7 @@ BOOL CTRDG_IsExisting(void)
     return retval;
 }
 
-#define reg_MI_EXMEMCNT (*(vu16 *)0x04000204)
+#define reg_MI_EXMEMCNT (*(vu16 *)REG_EXMEMCNT_ADDR)
 
 static inline void MI_SetCartridgeRomCycle1st(MICartridgeRomCycle1st c1)
 {

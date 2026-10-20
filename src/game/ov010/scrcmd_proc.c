@@ -732,10 +732,10 @@ store:
  */
 int SCRCMD_PROC_GetPartyMemberParam(void *cmdWork, void *partyIndex, void *paramId)
 {
-    int member;
+    sptr member;
 
-    if (SCRCMD_PROC_GetPartyMember(cmdWork, (u32)partyIndex, (void **)(&member)) == 1)
-        return POKE_TOOL_GetPartyValue((void *)member, (u32)paramId, 0);
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, (uptr)partyIndex, (void **)(&member)) == 1)
+        return POKE_TOOL_GetPartyValue((void *)member, (uptr)paramId, 0);
 
     return 0;
 }
@@ -788,7 +788,7 @@ int SCRCMD_PROC_GetMonPairedParams(int vm, int cmdWork)
 {
     u16 *firstResultVar = SCRIPT_WORK_ReadWorkPointer((void *)vm, (void *)cmdWork);
     u16 *secondResultVar = SCRIPT_WORK_ReadWorkPointer((void *)vm, (void *)cmdWork);
-    int mon;
+    sptr mon;
     if (SCRCMD_PROC_GetPartyMember((void *)cmdWork, SCRIPT_WORK_ReadWorkValue((void *)vm, (void *)cmdWork), (void **)(&mon)) == 1) {
         *firstResultVar = POKE_TOOL_GetPartyValue((void *)mon, 0xAE, 0);
         *secondResultVar = POKE_TOOL_GetPartyValue((void *)mon, 0xAF, 0);
@@ -859,7 +859,7 @@ callArg1 = workOrValue + 0;
 callArg1 = callArg0 + 0;
 vmOrZero = 0;
 callArg0 = workOrValue + 0;
-callArg2 = (int)(monSlot + 0);
+callArg2 = (sptr)(monSlot + 0);
 *resultVar = vmOrZero;
     callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
     if (callArg0 != 1) goto done;
@@ -904,7 +904,7 @@ callArg1 = cmdWorkCopy + 0;
 callArg1 = callArg0 + 0;
 vmOrZero = 0;
 callArg0 = cmdWorkCopy + 0;
-callArg2 = (int)(monSlot + 0);
+callArg2 = (sptr)(monSlot + 0);
 *resultVar = vmOrZero;
     callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
     if (callArg0 != 1) goto done;
@@ -938,7 +938,7 @@ callArg1 = cmdWorkCopy + 0;
 callArg1 = callArg0 + 0;
 vmOrZero = 0;
 callArg0 = cmdWorkCopy + 0;
-callArg2 = (int)(monSlot + 0);
+callArg2 = (sptr)(monSlot + 0);
 *resultVar = vmOrZero;
     callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
     if (callArg0 != 1) goto done;
@@ -962,7 +962,7 @@ int SCRCMD_PROC_ChangeMonFriendship(int vm, int cmdWork)
     int partyIndex = SCRIPT_WORK_ReadWorkValue((void *)vm, (void *)cmdWork);
     int amount = SCRIPT_WORK_ReadWorkValue((void *)vm, (void *)cmdWork);
     int operation = VM_ReadU16((struct ScriptVm *)vm);
-    int mon = 0;
+    sptr mon = 0;
     u8 friendship;
     if (SCRCMD_PROC_GetPartyMember((void *)cmdWork, partyIndex, (void **)(&mon)) == 0) {
         return 0;
@@ -1220,7 +1220,7 @@ callArg1 = callArg0 + 0;
 callArg0 = 0;
 *resultVar = callArg0;
 callArg0 = cmdWorkCopy + 0;
-callArg2 = (int)&mon;
+callArg2 = (sptr)&mon;
     callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
     if (callArg0 != 1) goto done;
     callArg0 = mon;
@@ -1244,7 +1244,7 @@ int SCRCMD_PROC_FindPartyMonWithMove(void *vm, void *cmdWork)
 
     *resultVar = 6;
     for (i = 0; i < partyCount; i++) {
-        if (SCRCMD_PROC_CheckMonKnowsMove((int)POKEPARTY_GetMember(party, i), (int)moveId) == 1) {
+        if (SCRCMD_PROC_CheckMonKnowsMove((sptr)POKEPARTY_GetMember(party, i), (sptr)moveId) == 1) {
             *resultVar = i;
             break;
         }
@@ -1352,7 +1352,7 @@ callArg1 = moveSlot + 0;
     callArg0 = (int)SCRIPT_WORK_ReadWorkValue((void *)callArg0, (void *)callArg1);
 callArg1 = callArg0 + 0;
 callArg0 = moveSlot + 0;
-callArg2 = (int)&mon;
+callArg2 = (sptr)&mon;
 moveCount = 0;
     callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
     if (callArg0 != 1) goto store;
@@ -1385,8 +1385,8 @@ int SCRCMD_PROC_GetMonMove(void *vm, void *cmdWork)
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     partyIndex = (char *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     moveSlot = (char *)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    if (SCRCMD_PROC_GetPartyMember(cmdWork, (u32)partyIndex, &mon) == 1) {
-        *resultVar = POKE_TOOL_GetPartyValue(mon, (u32)(moveSlot + 0x36), 0);
+    if (SCRCMD_PROC_GetPartyMember(cmdWork, (uptr)partyIndex, &mon) == 1) {
+        *resultVar = POKE_TOOL_GetPartyValue(mon, (uptr)(moveSlot + 0x36), 0);
     } else {
         *resultVar = 0;
     }
@@ -1482,7 +1482,7 @@ int SCRCMD_PROC_CheckMonIsPlayerOwned(void *vm, void *cmdWork)
     monOtName = STRBUF_Create(16, heapId);
     playerName = STRBUF_Create(16, heapId);
     if (monOtName != 0 && playerName != 0) {
-        POKE_TOOL_GetPartyValue(mon, 0x8D, (u32)monOtName);
+        POKE_TOOL_GetPartyValue(mon, 0x8D, (uptr)monOtName);
         MYSTATUS_NameToStrbuf(myStatus, playerName);
         if (STRBUF_IsEqual(monOtName, playerName) == 0) {
             STRBUF_Delete(monOtName);
@@ -1518,8 +1518,8 @@ int SCRCMD_PROC_ChangeMonForm(void *vm, void *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
-    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (u32)partyIndex);
-    POKE_TOOL_ChangeForm(mon, (u32)form);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (uptr)partyIndex);
+    POKE_TOOL_ChangeForm(mon, (uptr)form);
     ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     return 0;
 }
@@ -1534,8 +1534,8 @@ int SCRCMD_PROC_SetRotomFormMove(void *vm, void *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     gameData = GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork));
-    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (u32)partyIndex);
-    POKE_TOOL_SetRotomFormMove(mon, (u32)moveSlot, (u32)form);
+    mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), (uptr)partyIndex);
+    POKE_TOOL_SetRotomFormMove(mon, (uptr)moveSlot, (uptr)form);
     ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     return 0;
 }
@@ -1560,7 +1560,7 @@ callArg0 = cmdWorkCopy + 0;
 heapId = callArg0 + 0;
 callArg0 = cmdWorkCopy + 0;
 callArg1 = partyIndex + 0;
-callArg2 = (int)&mon;
+callArg2 = (sptr)&mon;
     callArg0 = SCRCMD_PROC_GetPartyMember((void *)callArg0, callArg1, (void **)callArg2);
     if (callArg0 != 1) goto done;
     callArg0 = mon;
@@ -1634,8 +1634,8 @@ int SCRCMD_PROC_SetMonParamChecked(void *vm, void *cmdWork)
 int SCRCMD_PROC_GetMonParamIfListed(void *vm, void *cmdWork)
 {
     u16 *resultVar;
-    u32 partyIndex;
-    u32 paramId;
+    uptr partyIndex;
+    uptr paramId;
     u32 i;
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1763,8 +1763,8 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
     u32 species;
     u32 form;
     void *mon;
-    u32 tempStrbuf;
-    u32 personal;
+    uptr tempStrbuf;
+    uptr personal;
     u32 hatchCycles;
 
     SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -1781,15 +1781,15 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
     }
     mon = POKE_TOOL_Create(species, 1, (u64)-1, heapId);
     POKE_TOOL_SetPartyValue(mon, 0x6F, form);
-    tempStrbuf = (u32)MYSTATUS_CreateNameStrbuf((u16 *)GAME_DATA_GetMyStatus(gameData), heapId);
+    tempStrbuf = (uptr)MYSTATUS_CreateNameStrbuf((u16 *)GAME_DATA_GetMyStatus(gameData), heapId);
     POKE_TOOL_SetPartyValue(mon, 0x8D, tempStrbuf);
     STRBUF_Delete((struct Strbuf *)tempStrbuf);
-    personal = (u32)POKE_PERSONAL_Create((u16)POKE_TOOL_GetPartyValue(mon, 5, 0), (u16)POKE_TOOL_GetPartyValue(mon, 0x6F, 0), heapId);
+    personal = (uptr)POKE_PERSONAL_Create((u16)POKE_TOOL_GetPartyValue(mon, 5, 0), (u16)POKE_TOOL_GetPartyValue(mon, 0x6F, 0), heapId);
     hatchCycles = POKE_PERSONAL_GetParam((const struct PersonalData *)personal, 0x15);
     POKE_PERSONAL_Delete((void *)personal);
     POKE_TOOL_SetPartyValue(mon, 9, hatchCycles);
     POKE_TOOL_SetPartyValue(mon, 0x4C, 1);
-    tempStrbuf = (u32)MSGDATA_AllocString(gSpeciesNameBank, 0x28A);
+    tempStrbuf = (uptr)MSGDATA_AllocString(gSpeciesNameBank, 0x28A);
     POKE_TOOL_SetPartyValue(mon, 0x73, tempStrbuf);
     STRBUF_Delete((struct Strbuf *)tempStrbuf);
     POKE_TOOL_RecalcParam(mon);
@@ -1811,8 +1811,8 @@ void *SCRCMD_PROC_CreateMonFromSpec(void *gameData, PokemonSpec *spec)
     u32 personalRnd;
     myStatus = GAME_DATA_GetMyStatus(gameData);
     trainerIdOrMon = (void *)MYSTATUS_GetId((const struct MyStatus *)GAME_DATA_GetMyStatus(gameData));
-    personalRnd = POKE_TOOL_CreatePersonalRnd((u32)trainerIdOrMon, (u16)spec->species, (u16)spec->form, (u32)spec->natureMode, (u32)spec->genderMode, (u32)spec->shinyMode);
-    trainerIdOrMon = POKE_TOOL_CreateEx(spec->species, spec->level, (u32)trainerIdOrMon, -1, personalRnd, spec->heapId);
+    personalRnd = POKE_TOOL_CreatePersonalRnd((uptr)trainerIdOrMon, (u16)spec->species, (u16)spec->form, (u32)spec->natureMode, (u32)spec->genderMode, (u32)spec->shinyMode);
+    trainerIdOrMon = POKE_TOOL_CreateEx(spec->species, spec->level, (uptr)trainerIdOrMon, -1, personalRnd, spec->heapId);
     POKE_TOOL_SetPartyValue(trainerIdOrMon, 0x6F, spec->form);
     POKE_TOOL_SetPartyValue(trainerIdOrMon, 6, spec->heldItem);
     if ((s32)FILE_UTIL_GetItemParam((u16)spec->ballItem, 0xF, spec->heapId) == 4)
@@ -1831,7 +1831,7 @@ int SCRCMD_PROC_AddMonToBox(void *gameData, void *spec)
     if (BOX_SAVEDATA_CountPokemon(boxManager) >= 0x2D0)
         return 0;
     mon = SCRCMD_PROC_CreateMonFromSpec(gameData, spec);
-    BOX_SAVEDATA_AddPokemon(boxManager, (struct BoxPokemon *)((u32)POKE_TOOL_GetBoxParam(mon)));
+    BOX_SAVEDATA_AddPokemon(boxManager, (struct BoxPokemon *)((uptr)POKE_TOOL_GetBoxParam(mon)));
     ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     GFL_HEAP_Free(mon);
     return 1;
@@ -1911,7 +1911,7 @@ callArg0 = cmdWorkCopy + 0;
 callArg0 = cmdWorkCopy + 0;
     gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    callArg0 = (s32)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap);
+    callArg0 = (sptr)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap);
 callArg1 = callArg0 + 0;
     SCRIPT_SYS_CallEvent(eventSlot, (void *)callArg1);
 callArg0 = 1;
@@ -1943,16 +1943,16 @@ void SCRCMD_PROC_StartOverlayProc(struct ScriptVm *vm, void *cmdWork, u32 overla
 int SCRCMD_PROC_WaitOverlayProc(int callArg0, int callArg1)
 {
     int cmdWorkOrSlot;
-    int handoff;
+    sptr handoff;
     void *gameSystem;
 
 cmdWorkOrSlot = callArg1 + 0;
 callArg0 = cmdWorkOrSlot + 0;
     gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
 callArg0 = cmdWorkOrSlot + 0;
-    callArg0 = (int)SCRCMD_WORK_GetScriptWork((void *)callArg0); /* int-typed on purpose: pointer local changes codegen */
+    callArg0 = (sptr)SCRCMD_WORK_GetScriptWork((void *)callArg0); /* int-typed on purpose: pointer local changes codegen */
 cmdWorkOrSlot = callArg0 + 0;
-    callArg0 = (s32)SCRIPT_WORK_GetUserWork((void *)callArg0);
+    callArg0 = (sptr)SCRIPT_WORK_GetUserWork((void *)callArg0);
 handoff = callArg0 + 0;
     callArg0 = GAMESYSTEM_GetProcStatus(gameSystem);
     if (callArg0 == 0) goto checkCallback;
@@ -1965,7 +1965,7 @@ callArg0 = handoff + 0;
     callArg0 = ((int (*)())callArg1)(callArg0);
     goto clearSlot;
 noCallback:
-callArg0 = (int)((ScriptProcHandoff *)handoff)->work;
+callArg0 = (sptr)((ScriptProcHandoff *)handoff)->work;
     if (callArg0 == 0) goto freeUserData;
     GFL_HEAP_Free((void *)callArg0);
 freeUserData:
@@ -2027,8 +2027,8 @@ int SCRCMD_PROC_CallBagScreen(void *vm, void *cmdWork)
     SCRCMD_WORK_GetGameSystem(cmdWork);
     SCRCMD_WORK_GetScriptWork(cmdWork);
     bagMode = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    selectedVar = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    itemVar = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    selectedVar = (uptr)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    itemVar = (uptr)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     if (bagMode == 0)
         bagType = 4;
     else if (bagMode == 1)
@@ -2039,7 +2039,7 @@ int SCRCMD_PROC_CallBagScreen(void *vm, void *cmdWork)
     closeData = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x118);
     closeData[0] = selectedVar;
     closeData[1] = itemVar;
-    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov070_id, gItemMenuProcData, bagParam, (u32)SCRCMD_PROC_OnBagClosed, (u32)closeData);
+    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov070_id, gItemMenuProcData, bagParam, (uptr)SCRCMD_PROC_OnBagClosed, (uptr)closeData);
     return 1;
 }
 
@@ -2080,19 +2080,19 @@ int SCRCMD_PROC_CallGtsNegotiation(void *vm, void *cmdWork)
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     gtsParam = GFL_HEAP_Alloc(4, 8, 0, sAllocSiteScrcmdProc, 0x14F);
     callbackData = GFL_HEAP_Alloc(4, 8, 0, sAllocSiteScrcmdProc, 0x150);
-    gtsParam[0] = (u32)gameData;
-    callbackData[0] = (u32)gtsParam;
-    callbackData[1] = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, fieldMap, (u32)ov136_id, (void *)gMbSeqProcData, gtsParam, (void (*)(void *))SCRCMD_PROC_OnGtsNegotiationDone, callbackData));
+    gtsParam[0] = (uptr)gameData;
+    callbackData[0] = (uptr)gtsParam;
+    callbackData[1] = (uptr)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, fieldMap, (uptr)ov136_id, (void *)gMbSeqProcData, gtsParam, (void (*)(void *))SCRCMD_PROC_OnGtsNegotiationDone, callbackData));
     return 1;
 }
 
 int SCRCMD_PROC_OnMoveRelearnDone(int callArg0, int callArg1)
 {
-    int callbackData;
+    sptr callbackData;
 
 callbackData = callArg0 + 0;
-callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
+callArg0 = (sptr)((RelearnCallbackData *)callbackData)->param;
 callArg0 = ((MoveRelearnParam *)callArg0)->learned;
     if (callArg0 == 0) goto notLearned;
     if (callArg0 == 1) goto learned;
@@ -2102,12 +2102,12 @@ callArg1 = 0;
 learned:
 callArg1 = 1;
 store:
-callArg0 = (int)((RelearnCallbackData *)callbackData)->resultVar;
+callArg0 = (sptr)((RelearnCallbackData *)callbackData)->resultVar;
 *(u16 *)callArg0 = callArg1;
-callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
-callArg0 = (int)((MoveRelearnParam *)callArg0)->relearnMoves;
+callArg0 = (sptr)((RelearnCallbackData *)callbackData)->param;
+callArg0 = (sptr)((MoveRelearnParam *)callArg0)->relearnMoves;
     callArg0 = (int)GFL_HEAP_Free((void *)callArg0);
-callArg0 = (int)((RelearnCallbackData *)callbackData)->param;
+callArg0 = (sptr)((RelearnCallbackData *)callbackData)->param;
     callArg0 = WAZA_OSHIE_Delete((void *)callArg0);
     return callArg0;}
 
@@ -2145,7 +2145,7 @@ int SCRCMD_PROC_CallMoveRelearn(void *vm, void *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    resultVar = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    resultVar = (uptr)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     mon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(gameData), partyIndex);
     myStatus = GAME_DATA_GetMyStatus(gameData);
@@ -2153,9 +2153,9 @@ int SCRCMD_PROC_CallMoveRelearn(void *vm, void *cmdWork)
     relearnParam = WAZA_OSHIE_Create(4);
     MoveRelearnParam_Init(relearnParam, mon, myStatus, gameSystem, relearnMoves);
     callbackData = GFL_HEAP_Alloc(4, 8, 0, sAllocSiteScrcmdProc, 0x19B);
-    callbackData[0] = (u32)relearnParam;
+    callbackData[0] = (uptr)relearnParam;
     callbackData[1] = resultVar;
-    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcCallbackEvent(gameSystem, fieldMap, (u32)ov173_id, (void *)gMoveRelearnProcData, relearnParam, (void (*)(void *))SCRCMD_PROC_OnMoveRelearnDone, callbackData));
+    SCRIPT_SYS_CallEvent(eventSlot, FIELD_STATUS_CreateSubProcCallbackEvent(gameSystem, fieldMap, (uptr)ov173_id, (void *)gMoveRelearnProcData, relearnParam, (void (*)(void *))SCRCMD_PROC_OnMoveRelearnDone, callbackData));
     return 1;
 }
 
@@ -2205,7 +2205,7 @@ int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
     }
     work->gameSystem = gameSystem;
     work->playerIndex = playerIndex;
-    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov071_id, gPlayerProfileProcData, work, 0, 0);
+    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov071_id, gPlayerProfileProcData, work, 0, 0);
     return 1;
 }
 
@@ -2247,7 +2247,7 @@ int SCRCMD_PROC_CallValueScreen(void *vm, void *cmdWork)
     param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x205);
     param->value = value;
     param->gameData = SCRCMD_WORK_GetGameData(cmdWork);
-    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov174_id, gLocalTvtSysProcData, param, 0, 0);
+    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov174_id, gLocalTvtSysProcData, param, 0, 0);
     return 1;
 }
 
@@ -2287,18 +2287,18 @@ int SCRCMD_PROC_CallModeScreen(void *vm, void *cmdWork)
         param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x22B);
         param->gameData = gameData;
         param->value = value;
-        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov221_id, gChihouZukanAwardProcData, param, 0, 0);
+        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov221_id, gChihouZukanAwardProcData, param, 0, 0);
         break;
     case 1:
         param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x233);
         param->gameData = gameData;
         param->value = value;
-        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov222_id, gZenkokuZukanAwardProcData, param, 0, 0);
+        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov222_id, gZenkokuZukanAwardProcData, param, 0, 0);
         break;
     case 2:
         myStatusParam = GFL_HEAP_Alloc(4, 4, 1, sAllocSiteScrcmdProc, 0x23C);
         *myStatusParam = myStatus;
-        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov224_id, gSubwayMapProcData, myStatusParam, 0, 0);
+        SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov224_id, gSubwayMapProcData, myStatusParam, 0, 0);
         break;
     }
     return 1;
@@ -2317,10 +2317,10 @@ int SCRCMD_PROC_CallWordScreen(void *vm, void *cmdWork)
     u32 value;
     u32 *param;
 
-    value = (u32)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
+    value = (uptr)SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     param = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x254);
     param[0] = value;
-    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (u32)ov223_id, gPselProcData, param, 0, 0);
+    SCRCMD_PROC_StartOverlayProc(vm, cmdWork, (uptr)ov223_id, gPselProcData, param, 0, 0);
     return 1;
 }
 
@@ -2386,7 +2386,7 @@ int SCRCMD_PROC_CallWifiBattleMatch(void *vm, void *cmdWork)
     param.enabled = 1;
     param.flag = flagValue;
     param.matchKind = kindIndex;
-    SCRIPT_SYS_CallEvent(eventSlot, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)ov002_id, (void *)EVENT_WIFIBATTLEMATCH_Entry, (&param)));
+    SCRIPT_SYS_CallEvent(eventSlot, GAME_EVENT_CreateOverlayEvent(gameSystem, (uptr)ov002_id, (void *)EVENT_WIFIBATTLEMATCH_Entry, (&param)));
     return 1;
 }
 
@@ -2400,9 +2400,9 @@ int SCRCMD_PROC_CallMenuProc(void *vm, void *cmdWork)
     void *eventSlot = SCRCMD_WORK_GetScriptWork(cmdWork);
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     u32 mode = !SCRIPT_WORK_ReadWorkValue(vm, cmdWork) ? 1 : 2;
-    param.fieldMap = (u32)GAMESYSTEM_GetFieldMap(gameSystem);
+    param.fieldMap = (uptr)GAMESYSTEM_GetFieldMap(gameSystem);
     param.mode = mode;
-    SCRIPT_SYS_CallEvent(eventSlot, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)ov003_id, (void *)EVENT_MENUPROC_Entry, (&param)));
+    SCRIPT_SYS_CallEvent(eventSlot, GAME_EVENT_CreateOverlayEvent(gameSystem, (uptr)ov003_id, (void *)EVENT_MENUPROC_Entry, (&param)));
     return 1;
 }
 
@@ -2411,9 +2411,9 @@ int SCRCMD_PROC_Ov037InitFromVars(void *vm, void *cmdWork)
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     u16 *firstVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     u16 *secondVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    GF_OVERLAY_Load((u32)ov037_id);
+    GF_OVERLAY_Load((uptr)ov037_id);
     GIMMICK_INIT_SetCartLanesFlags(gameSystem, *firstVar, *secondVar);
-    GF_OVERLAY_Unload((u32)ov037_id);
+    GF_OVERLAY_Unload((uptr)ov037_id);
     return 0;
 }
 
@@ -2421,9 +2421,9 @@ int SCRCMD_PROC_Ov037SetValueA(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    GF_OVERLAY_Load((int)ov037_id);
+    GF_OVERLAY_Load((sptr)ov037_id);
     GIMMICK_INIT_SetFlagAnimeFlag(gameSystem, value);
-    GF_OVERLAY_Unload((int)ov037_id);
+    GF_OVERLAY_Unload((sptr)ov037_id);
     return 0;
 }
 
@@ -2431,9 +2431,9 @@ int SCRCMD_PROC_Ov037SetValueB(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    GF_OVERLAY_Load((int)ov037_id);
+    GF_OVERLAY_Load((sptr)ov037_id);
     GIMMICK_INIT_SetButtonStatesFlags(gameSystem, value);
-    GF_OVERLAY_Unload((int)ov037_id);
+    GF_OVERLAY_Unload((sptr)ov037_id);
     return 0;
 }
 
@@ -2449,18 +2449,18 @@ int SCRCMD_PROC_Ov037ReadEightVars(void *vm, void *cmdWork)
     resultVars[5] = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     resultVars[6] = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     resultVars[7] = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    GF_OVERLAY_Load((u32)ov037_id);
+    GF_OVERLAY_Load((uptr)ov037_id);
     GIMMICK_INIT_RestorePlateDoorsState(gameSystem, resultVars);
-    GF_OVERLAY_Unload((u32)ov037_id);
+    GF_OVERLAY_Unload((uptr)ov037_id);
     return 0;
 }
 
 int SCRCMD_PROC_Ov037Finish(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    GF_OVERLAY_Load((int)ov037_id);
+    GF_OVERLAY_Load((sptr)ov037_id);
     GIMMICK_INIT_ResetRotatingRoomPanels(gameSystem);
-    GF_OVERLAY_Unload((int)ov037_id);
+    GF_OVERLAY_Unload((sptr)ov037_id);
     return 0;
 }
 

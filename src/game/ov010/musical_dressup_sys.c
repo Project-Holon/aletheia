@@ -89,7 +89,7 @@ int MUSICAL_DRESSUP_SYS_Init(void *proc, u32 *state, MusicalDressupParam *param)
 {
     MusicalDressupWork *work;
     *state = 0;
-    GF_OVERLAY_Load((u32)ov133_id);
+    GF_OVERLAY_Load((uptr)ov133_id);
     GFL_HEAP_CreateChildHeap(1, 0x2d, 1 << 18);
     work = PROCSYS_AllocProcWork(proc, 0x10, 0x2d);
     work->paramCopy = GFL_HEAP_Alloc(0x2d, 0xc, 0, sMusicalDressupSysFileName, 0x4e);
@@ -109,7 +109,7 @@ int MUSICAL_DRESSUP_SYS_Exit(void *proc, int unused1, int unused2, MusicalDressu
     GFL_HEAP_Free(work->paramCopy);
     PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x2d);
-    GF_OVERLAY_Unload((u32)ov133_id);
+    GF_OVERLAY_Unload((uptr)ov133_id);
     return 1;
 }
 
@@ -149,7 +149,7 @@ int MUSICAL_DRESSUP_SYS_Main(void *proc, int *state, int unused, MusicalDressupW
 MusicalDressupParam *MUSICAL_DRESSUP_SYS_Create(int heapId, MusicalPerformer *performer, void *saveControl)
 {
     MusicalDressupParam *param;
-    int zero = 0;
+    sptr zero = 0;
 
     param = GFL_HEAP_Alloc(heapId, 12, 0, sMusicalDressupSysFileName, 0xa7);
     param->session = (void *)zero;

@@ -52,7 +52,7 @@ u32 NWMi_SendCommand(u16 apiid, u16 argc, ...) {
     s32 i;
     s32 n;
     u16 *msg;
-    u32 base;
+    uptr base;
 
     base = NWMi_GetSystemWork();
     msg = NwmGetCommandBuffer4Arm7();
@@ -60,13 +60,13 @@ u32 NWMi_SendCommand(u16 apiid, u16 argc, ...) {
         return 6;
     }
     msg[0] = apiid;
-    ap = (char *)(((u32)&argc & ~3) + 4);
+    ap = (char *)(((uptr)&argc & ~3) + 4);
     n = argc;
     for (i = 0; i < n; i++) {
         ((u32 *)msg)[1 + i] = *(u32 *)((ap += 4) - 4);
     }
     DC_StoreRange(msg, 0x100);
-    res = PXI_SendWordByFifo(0x16, (u32)msg, 0);
+    res = PXI_SendWordByFifo(0x16, (uptr)msg, 0);
     OS_SendMessage((struct OSMessageQueue *)(base + 0x2000), msg, 1);
     ret = 6;
     if (res >= 0) {
@@ -86,7 +86,7 @@ u32 NWMi_SendCommandDirect(u32 command, u32 length) {
     }
     MI_CpuCopy8(command, msg, length);
     DC_StoreRange(msg, length);
-    res = PXI_SendWordByFifo(0x16, (u32)msg, 0);
+    res = PXI_SendWordByFifo(0x16, (uptr)msg, 0);
     OS_SendMessage((struct OSMessageQueue *)(base + 0x2000), msg, 1);
     ret = 6;
     if (res >= 0) {

@@ -97,5 +97,5 @@ void ZUKAN_DETAIL_MAIN_SwitchScreen(struct Ov208Args *m, struct Ov208Main *s)
         tbl = d_021C881C;
         break;
     }
-    s->node = ZUKAN_DETAIL_PROCSYS_AllocNode(tbl, (int)s->mem, s->heap);
+    s->node = ZUKAN_DETAIL_PROCSYS_AllocNode(tbl, (sptr)s->mem, s->heap);
 }

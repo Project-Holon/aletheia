@@ -709,7 +709,7 @@ int TR_AI_CompareRandom(ScriptVm *vm, TrAiWork *ai, int op) {
     jumpOffset = (int)VM_GetU32(vm);
     random = GF_STANDARD_Rand();
     zero = Z0;
-    return TR_AI_Compare(vm, op, ((random >> 24) | (zero << 8)), (int)threshold, jumpOffset);
+    return TR_AI_Compare(vm, op, ((random >> 24) | (zero << 8)), (sptr)threshold, jumpOffset);
 }
 
 int TR_AI_CmdAddScore(ScriptVm *vm, TrAiWork *ai) {
@@ -928,7 +928,7 @@ int TR_AI_CmdIfValueInList(ScriptVm *vm, TrAiWork *ai) {
     int index;
     int entry;
 
-    list = (u16 *)((int)vm->pc + VM_GetU32(vm));
+    list = (u16 *)((sptr)vm->pc + VM_GetU32(vm));
     jumpOffset = VM_GetU32(vm);
     index = 0;
     do {
@@ -948,7 +948,7 @@ int TR_AI_CmdIfValueNotInList(ScriptVm *vm, TrAiWork *ai) {
     int index;
     int entry;
 
-    list = (u16 *)((int)vm->pc + VM_GetU32(vm));
+    list = (u16 *)((sptr)vm->pc + VM_GetU32(vm));
     jumpOffset = VM_GetU32(vm);
     index = 0;
     do {
@@ -1451,7 +1451,7 @@ int TR_AI_CmdLoadRule(ScriptVm *vm, TrAiWork *ai) {
 }
 
 int TR_AI_CmdLoadCompetitor(ScriptVm *vm, TrAiWork *ai) {
-    ai->workValue = (int)ai->competitor;
+    ai->workValue = (sptr)ai->competitor;
     return ai->cmdReturn;
 }
 
@@ -2130,7 +2130,7 @@ u8 TR_AI_GetPosition(TrAiWork *ai, int kind) {
     }
 #ifndef __MWERKS__
     /* A rule above 3 leaves the work pointer in r0 on the DS; the value is that pointer's low byte. */
-    return (u8)(unsigned long)ai;
+    return (u8)(uptr)ai;
 #endif
 }
 

@@ -48,8 +48,8 @@ extern const int d_021C4050[];
 /* Allocates and initialises a queue holding capacity values. */
 int RingQueue_Create(int capacity, int heapId)
 {
-    int queue;
-    queue = (int)GFL_HEAP_Alloc(heapId, 0x10, 0, (const char *)d_021C4050, 0x3C);
+    sptr queue;
+    queue = (sptr)GFL_HEAP_Alloc(heapId, 0x10, 0, (const char *)d_021C4050, 0x3C);
     RingQueue_ClearFields((struct RingQueue *)queue);
     RingQueue_AllocBuffer((struct RingQueue *)queue, capacity, heapId);
     return queue;
@@ -112,7 +112,7 @@ void RingQueue_FreeBuffer(struct RingQueue *queue)
 /* Stores value at the write index and advances it, wrapping at capacity. */
 void RingQueue_PushImpl(struct RingQueue *queue, int value)
 {
-    *(int *)((u32)queue->buffer + queue->writeIndex * 4) = value;
+    *(int *)((uptr)queue->buffer + queue->writeIndex * 4) = value;
     queue->writeIndex = (queue->writeIndex + 1) % queue->capacity;
 }
 

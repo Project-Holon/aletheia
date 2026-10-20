@@ -516,7 +516,7 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     work->program = 0;
     nickname = STRBUF_Create(11, 4);
     work->ownMon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(work->gameData), partyIndex);
-    POKE_TOOL_GetPartyValue(work->ownMon, (unsigned int)0x73, (unsigned int)nickname);
+    POKE_TOOL_GetPartyValue(work->ownMon, (unsigned int)0x73, (uptr)nickname);
     GAME_BEACON_SEARCH_SetNamedEvent(nickname);
     STRBUF_Delete(nickname);
     work->dressup = 0;
@@ -525,7 +525,7 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     work->save = GAME_DATA_GetSaveBlock2A(gameData);
     work->musicalSystem = MUSICAL_MCSS_AllocDistSave(4);
     if (work->linkMode == 0 || STA_NET_GetRole(work->link->session) == 1)
-        MUSICAL_MCSS_LoadDistSave((unsigned char *)work->musicalSystem, (unsigned int)work->saveControl, work->gameData, MUSICAL_SAVE_GetScriptSetting(work->save), 0x2C);
+        MUSICAL_MCSS_LoadDistSave((unsigned char *)work->musicalSystem, (uptr)work->saveControl, work->gameData, MUSICAL_SAVE_GetScriptSetting(work->save), 0x2C);
     if (work->linkMode == 1) {
         work->state = MUSICAL_EVENT_STATE_LINK_WAIT_PEERS;
         work->step = 0;
@@ -770,7 +770,7 @@ int MUSICAL_EVENT_Free(MusicalEventWork *work)
         MUSICAL_PROGRAM_Delete(work->program);
     link = work->link;
     link->owner = 0;
-    return (int)link;
+    return (sptr)link;
 }
 
 /*
@@ -792,7 +792,7 @@ MusicalDressupParam *MUSICAL_EVENT_CreateDressupParam(MusicalEventWork *work)
 void MUSICAL_EVENT_SendLocalPerformer(MusicalEventWork *work)
 {
     if (work->linkMode == 1)
-        STA_NET_SetState18Value(work->session, (unsigned int)work->localPerformer);
+        STA_NET_SetState18Value(work->session, (uptr)work->localPerformer);
 }
 
 /*

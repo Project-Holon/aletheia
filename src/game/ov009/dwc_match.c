@@ -291,7 +291,7 @@ typedef struct MatchAnchorA {
 
 #include "ov009_globals.h"
 #include "dwc_match_ctl_types.h"
-extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
+extern int strncmp(const char *s1, const char *s2, u32 n);
 extern int strcmp(const char *s1, const char *s2);
 
 #define KEYID(i)  (g_021AAA40[i].keyID)
@@ -384,7 +384,7 @@ extern void NNFreeNegotiateList(void);
 extern int DWCi_RequestSuspendMatchProcess(void);
 extern int DWCi_SendServerPolling(int immediate);
 #include "../arm9/msl_string_mem.h"
-extern unsigned int strtoul(const char * s, char ** end, int base);
+#include "../arm9/msl_strtod.h"
 extern int DWCi_GT2GetConnectionListIdx(void);
 extern void ** DWCi_GetGT2ConnectionByIdx(int index);
 #include "../arm9/os_printf.h"
@@ -5212,7 +5212,7 @@ void DWCi_QR2ClientMsgCallback(char *data, int len)
     while (offset + 0x14 <= len) {
         MI_CpuCopy8(data, &sbMsg, 0x14);
         *(volatile int *)&sbMsg.profileID = sbMsg.profileID;
-        if (strncmp((const u8 *)sbMsg.identifier, (const u8 *)g_021A2188, 4) != 0 || sbMsg.version != 0x5a)
+        if (strncmp(sbMsg.identifier, g_021A2188, 4) != 0 || sbMsg.version != 0x5a)
             return;
         MI_CpuCopy8(data + 0x14, payload, sbMsg.size);
         boolResult = DWCi_ProcessRecvMatchCommand(sbMsg.command, sbMsg.profileID, sbMsg.qr2IP, sbMsg.qr2Port, payload, sbMsg.size >> 2);

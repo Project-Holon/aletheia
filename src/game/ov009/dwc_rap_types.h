@@ -33,7 +33,7 @@ typedef struct DwcRapWork {
     u32 errorHookArg;                   /* 0x298 */
     void (*connectEventFunc)(int, int); /* 0x29C (aid, connectEventArg) after a match or a new client */
     int connectEventArg;                /* 0x2A0 */
-    int (*acceptFriendFunc)(int, u32);  /* 0x2A4 (friendIndex, userArg); 0 rejects the peer */
+    int (*acceptFriendFunc)(int, void *);  /* 0x2A4 (friendIndex, userArg); 0 rejects the peer */
     void (*fatalErrorFunc)(int);        /* 0x2A8 called with the negated error code (error type 7) */
     char matchFilter[0x80];             /* 0x2AC "a = value" filter string of the match search */
     u8 friendStatus[32];                /* 0x32C status byte per friend index */

@@ -368,7 +368,7 @@ void SODATEYA_Delete(void *work)
 void SODATEYA_DepositPokemon(SodateyaWork *work, void *party, u32 partyPos)
 {
     int count = DAYCARE_GetInUseCount(work->dayCare);
-    u32 mon = (u32)POKEPARTY_GetMember(party, partyPos);
+    u32 mon = (uptr)POKEPARTY_GetMember(party, partyPos);
     if (count < 2) {
         SODATEYA_PrepareDeposit((void *)mon);
         SODATEYA_RevertShaymin((void *)mon);
@@ -396,9 +396,9 @@ void SODATEYA_RevertShaymin(void *mon)
 /* Takes the pokemon of day care slot out into the party, with the experience it gained. */
 void SODATEYA_WithdrawPokemon(SodateyaWork *work, u32 slot, void *party)
 {
-    u32 mon;
+    uptr mon;
     if (DAYCARE_IsSlotInUse(work->dayCare, slot) == 1) {
-        mon = (u32)DAYCARE_GetSlotMon(work->dayCare, slot);
+        mon = (uptr)DAYCARE_GetSlotMon(work->dayCare, slot);
         SODATEYA_GrantExp((void *)mon, DAYCARE_GetSlotSteps(work->dayCare, slot));
         SODATEYA_RegisterCaughtIfNew(work, (void *)mon);
         POKEPARTY_Add(party, (void *)mon);
@@ -420,8 +420,8 @@ void SODATEYA_RegisterCaughtIfNew(SodateyaWork *work, void *mon)
 /* Takes the egg out of the day care into the party. */
 void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
 {
-    u32 egg = (u32)POKE_TOOL_Create(1, 1, 1, work->heapId);
-    u32 gameData;
+    u32 egg = (uptr)POKE_TOOL_Create(1, 1, 1, work->heapId);
+    uptr gameData;
     if (DAYCARE_GetEggReady(work->dayCare) == 1) {
         GAME_BEACON_SEARCH_SetSymbolMapEnter();
         SODATEYA_ClearEggFlag(work->fieldMap);
@@ -429,7 +429,7 @@ void SODATEYA_ReceiveEgg(SodateyaWork *work, void *party)
         POKEPARTY_Add(party, (void *)egg);
         DAYCARE_ClearEggReady(work->dayCare);
         GFL_HEAP_Free((void *)egg);
-        gameData = (u32)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap));
+        gameData = (uptr)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap));
         FORMCHANGE_UpdateSeasonForms((void *)gameData, party, GAME_DATA_GetSeason((void *)gameData));
     }
 }
@@ -497,13 +497,13 @@ int SODATEYA_GetPokemonCount(SodateyaWork *work)
 /* Level the pokemon of slot has reached from the experience it gained. */
 int SODATEYA_GetCurrentLevel(SodateyaWork *work, u32 slot)
 {
-    u32 mon;
+    uptr mon;
     u32 form;
     u32 exp;
     u32 species;
     if (DAYCARE_IsSlotInUse(work->dayCare, slot) != 1)
         return 1;
-    mon = (u32)DAYCARE_GetSlotMon(work->dayCare, slot);
+    mon = (uptr)DAYCARE_GetSlotMon(work->dayCare, slot);
     species = POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
     form = POKE_TOOL_GetPartyValue((void *)mon, 0x6F, 0);
     exp = POKE_TOOL_GetPartyValue((void *)mon, 8, 0);
@@ -1462,10 +1462,10 @@ void SODATEYA_SetupEggMon(struct Pokemon *mon, const DayCareEgg *egg, struct MyS
     POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_MOVE3, egg->moves[2]);
     POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_MOVE4, egg->moves[3]);
     str = (struct StrBuf *)MYSTATUS_CreateNameStrbuf((u16 *)myStatus, heapId);
-    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_OT_NAME, (u32)str);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_OT_NAME, (uptr)str);
     STRBUF_Delete((struct Strbuf *)str);
     str = (struct StrBuf *)MSGDATA_AllocString(gSpeciesNameBank, 0x28a);
-    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_NICKNAME, (u32)str);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_NICKNAME, (uptr)str);
     STRBUF_Delete((struct Strbuf *)str);
     SAVE_EVENT_Write(mon, 5, myStatus, metPlace, heapId);
     POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_IS_EGG, 1);
@@ -1480,13 +1480,13 @@ void SODATEYA_SetupEggMon(struct Pokemon *mon, const DayCareEgg *egg, struct MyS
  */
 int SODATEYA_CanLearnTm(u32 heapId, u32 species, u32 form, u32 tmItem)
 {
-    u32 tmIndex, personal, mask;
+    u32 tmIndex; uptr personal; u32 mask;
 
     if (species >= SPECIES_COUNT)
         return 0;
     if (FILE_UTIL_IsMachineItem(tmItem) == 0)
         return 0;
-    personal = (u32)POKE_PERSONAL_Create(species, form, heapId);
+    personal = (uptr)POKE_PERSONAL_Create(species, form, heapId);
     tmIndex = FILE_UTIL_GetId(tmItem);
     if (tmIndex < 0x20) {
         mask = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x27);
@@ -1525,7 +1525,7 @@ u16 SODATEYA_GetBaseSpecies(u16 species)
 u8 SODATEYA_GetAbilitySlot(u32 species, u32 form, u32 ability, u32 heapId)
 {
     u32 abilities[3];
-    u32 personal = (u32)POKE_PERSONAL_Create(species, form, heapId);
+    u32 personal = (uptr)POKE_PERSONAL_Create(species, form, heapId);
     u32 slot;
 
     abilities[0] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1a);

@@ -201,7 +201,7 @@ void MUS_COMM_FUNC_InitWork(u8 *p, void *a, void *b, void *unused, void *d, u16 
 
 void MUS_COMM_FUNC_DeleteBuffers(char *p);
 
-void MUS_COMM_FUNC_SetReady(char *p);
+void MUS_COMM_FUNC_SetReady(void *userArg);
 
 void MUS_COMM_FUNC_Update(char *p);
 
@@ -253,7 +253,7 @@ extern char d_021FDE4C[];
 
 extern char d_021FDDEC[];
 
-extern char d_021FDC38[];
+extern NetCommandEntry d_021FDC38[];
 
 void MUS_COMM_FUNC_Create(int unused, void *icaCtx, void *comm, int useExistingSession)
 {
@@ -265,7 +265,7 @@ void MUS_COMM_FUNC_Create(int unused, void *icaCtx, void *comm, int useExistingS
     ((struct ActingHost *)p)->comm = comm;
     ((struct ActingHost *)p)->hasError = 0;
     ((struct ActingHost *)p)->isInitialized = 0;
-    GAME_COMM_Start(comm, 4, (u32)p);
+    GAME_COMM_Start(comm, 4, (uptr)p);
 }
 
 void MUS_COMM_FUNC_Delete(char *p) { MUS_COMM_FUNC_DeleteBuffers(p); GAME_COMM_RequestExitNoCallback((struct GameComm *)(*(struct Comm * *)&((struct ActingHost *)p)->comm)); }
@@ -276,7 +276,7 @@ void *MUS_COMM_FUNC_StartSession(int unused,char *p)
     if(((struct ActingHost *)p)->useExistingSession==1) d_021FDE4C[5]=4;
     else {
         d_021FDE4C[5]=0;
-        GFL_NET_StartSession((GFLNetInitializeStruct *)d_021FDDEC,(u32)MUS_COMM_FUNC_SetReady,(u32)p);
+        GFL_NET_StartSession((GFLNetInitializeStruct *)d_021FDDEC,MUS_COMM_FUNC_SetReady,p);
     }
     MYSTATUS_Copy((struct MyStatus *)(((struct ActingHost *)p)->myStatus),(struct MyStatus *)(p+0x20));
     OS_GetMacAddress((unsigned char *)(p+0x40));
@@ -294,7 +294,7 @@ int MUS_COMM_FUNC_UpdateNetState(int *state,u8 *p)
  case 0:
   if(GFL_NET_GetNegotiationNum()<=1) {GFL_NET_Exit(0);return 1;}
   if(((struct ActingHost *)p)->useExistingSession==1) GFL_NET_COMMAND_DeleteCommandTable(0x1100);
-  if(((struct ActingHost *)p)->isInitialized==1) {GFL_NET_SetLoginOption(0);MUS_COMM_FUNC_SetTimingSync((int)p,0x41);*state=1;}
+  if(((struct ActingHost *)p)->isInitialized==1) {GFL_NET_SetLoginOption(0);MUS_COMM_FUNC_SetTimingSync((sptr)p,0x41);*state=1;}
   else *state=2;
   break;
  case 1:
@@ -321,7 +321,7 @@ void MUS_COMM_FUNC_Task(int unused,int unused1,char *p) { MUS_COMM_FUNC_Update(p
 
 void MUS_COMM_FUNC_SetHostFlag(char *p) { if(GFL_NET_IsParentAid()==1) ((struct ActingHost *)p)->role=1; else ((struct ActingHost *)p)->role=2; }
 
-void MUS_COMM_FUNC_InitCommandTable(char *p) { GFL_NET_COMMAND_AddCommandTable(0x1100,(u32)d_021FDC38,9,(u32)p); if(GFL_NET_IsParentAid()==1) ((struct ActingHost *)p)->role=1; else ((struct ActingHost *)p)->role=2; }
+void MUS_COMM_FUNC_InitCommandTable(char *p) { GFL_NET_COMMAND_AddCommandTable(0x1100,d_021FDC38,9,p); if(GFL_NET_IsParentAid()==1) ((struct ActingHost *)p)->role=1; else ((struct ActingHost *)p)->role=2; }
 
 static inline void clear8(void *dest,u32 size)
 {
@@ -399,8 +399,10 @@ void MUS_COMM_FUNC_DeleteBuffers(char *p)
     if(((struct ActingHost *)p)->boxRecvBuf) GFL_HEAP_Free(((struct ActingHost *)p)->boxRecvBuf);
 }
 
-void MUS_COMM_FUNC_SetReady(char *p)
+void MUS_COMM_FUNC_SetReady(void *userArg)
 {
+    char *p = userArg;
+
     ((struct ActingHost *)p)->netReady=1;
 }
 
@@ -438,7 +440,7 @@ void MUS_COMM_FUNC_Update(char *p)
         return;
     case 1:
         GFL_NET_SetLoginOption(1);
-        MUS_COMM_FUNC_SetTimingSync((int)p, 0x46);
+        MUS_COMM_FUNC_SetTimingSync((sptr)p, 0x46);
         *(int *)(p + 0x4c) = 2;
         break;
     case 2:
@@ -463,10 +465,10 @@ void MUS_COMM_FUNC_Update(char *p)
         }
         break;
     case 7:
-        if (MUS_COMM_FUNC_SendCommandWait((int)p, 8, *(u32 *)(p + 0x144), 0xff) == 1) *(int *)(p + 0x4c) = 8;
+        if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 8, *(u32 *)(p + 0x144), 0xff) == 1) *(int *)(p + 0x4c) = 8;
         break;
     case 8:
-        if (MUS_COMM_FUNC_SendCommandWait((int)p, 9, *(u32 *)(p + 0x148), 0xff) == 1) *(int *)(p + 0x4c) = 9;
+        if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 9, *(u32 *)(p + 0x148), 0xff) == 1) *(int *)(p + 0x4c) = 9;
         break;
     case 9:
         if (STA_NET_NotifyHostKind4((u8 *)p) == 1) *(int *)(p + 0x4c) = 0xa;
@@ -520,7 +522,7 @@ void MUS_COMM_FUNC_Update(char *p)
         v += ((struct MusCommPlayerTable *)p)->pl[1].orderValue << 4;
         v += ((struct MusCommPlayerTable *)p)->pl[2].orderValue << 8;
         v += ((struct MusCommPlayerTable *)p)->pl[3].orderValue << 12;
-        if (MUS_COMM_FUNC_SendCommandWait((int)p, 3, v, 0xff) == 1) *(int *)(p + 0x184) = 0;
+        if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 3, v, 0xff) == 1) *(int *)(p + 0x184) = 0;
     }
     {
         u32 sum = 0;
@@ -535,7 +537,7 @@ void MUS_COMM_FUNC_Update(char *p)
         if (n != 0) {
             u32 k = random_below(n);
             sum += list[k] << 16;
-            if (MUS_COMM_FUNC_SendCommandWait((int)p, 0xb, sum, 0xff) == 1) {
+            if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 0xb, sum, 0xff) == 1) {
                 for (j = 0; j < n; j++) {
                     ((struct MusCommPlayerTable *)p)->pl[list[j]].used = 0;
                     ((struct MusCommPlayerTable *)p)->pl[list[j]].value = 10;
@@ -547,7 +549,7 @@ void MUS_COMM_FUNC_Update(char *p)
         ok = 1;
         for (i = 0; i < 8; i++) {
             if (*(u32 *)(p + i * 4 + 0x18c) != 0xFFFF) {
-                if (MUS_COMM_FUNC_SendCommandWait((int)p, 0xc, *(u32 *)(p + i * 4 + 0x18c), 0xff) == 1) *(u32 *)(p + i * 4 + 0x18c) = 0xFFFF;
+                if (MUS_COMM_FUNC_SendCommandWait((sptr)p, 0xc, *(u32 *)(p + i * 4 + 0x18c), 0xff) == 1) *(u32 *)(p + i * 4 + 0x18c) = 0xFFFF;
                 ok = 0;
             }
         }
@@ -563,9 +565,9 @@ void MUS_COMM_FUNC_SetTimingSync(int unused, int timingId)
 
 int MUS_COMM_FUNC_CheckTimingSync(char *p,int id) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),id,0x11)==1)return 1;if(((struct ActingHost *)p)->hasError==1)return 1;return 0;}
 
-int MUS_COMM_FUNC_GetSlotValueA(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && *(int *)((u32)p+index*0x30+0x68)==1)return *(int *)((u32)p+index*0x30+0x84);return 0;}
+int MUS_COMM_FUNC_GetSlotValueA(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && *(int *)((uptr)p+index*0x30+0x68)==1)return *(int *)((uptr)p+index*0x30+0x84);return 0;}
 
-int MUS_COMM_FUNC_GetSlotValueB(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && *(int *)((u32)p+index*0x30+0x68)==1)return *(int *)((u32)p+index*0x30+0x88);return 0;}
+int MUS_COMM_FUNC_GetSlotValueB(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && *(int *)((uptr)p+index*0x30+0x68)==1)return *(int *)((uptr)p+index*0x30+0x88);return 0;}
 
 char *MUS_COMM_FUNC_GetRecordPtr(char *p){return p+0x20;}
 
@@ -587,7 +589,7 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *pa
   u32 mask;
   u32 v;
   u32 rowAddr;
-  u32 itemAddr;
+  uptr itemAddr;
   switch (packet->tag)
   {
     case 0:
@@ -669,7 +671,7 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *pa
     case 10:
       if ((*((u32 *) (p + 0x48))) == 1)
     {
-      *((u32 *) ((((u32) p) + (slot * 0x30)) + 0x6c)) = 1;
+      *((u32 *) ((((uptr) p) + (slot * 0x30)) + 0x6c)) = 1;
       *((u8 *) ((p + (slot * 0x30)) + 0x70)) = packet->data;
     }
       break;
@@ -705,11 +707,11 @@ void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *pa
       item = (u8) v;
       for (i = 0; i < 2; i++)
       {
-        itemAddr = ((u32) p) + (index * 0x30);
+        itemAddr = ((uptr) p) + (index * 0x30);
         itemAddr = itemAddr + i;
         if ((*((u8 *) (itemAddr + 0x73))) == 255)
         {
-          rowAddr = (u32) p;
+          rowAddr = (uptr) p;
           rowAddr = rowAddr + (index * 0x30);
           *((u8 *) ((rowAddr + i) + 0x73)) = item;
           break;
@@ -867,7 +869,7 @@ int MUS_COMM_FUNC_SendRecordBlock(const char *p)
     u8 i;
     u32 n;
     u32 k;
-    u32 q;
+    uptr q;
     void *h;
     for(i=0;i<4;i++) {
         n=POKE_TOOL_GetPartyParamSize()+0x7c;

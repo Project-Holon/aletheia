@@ -473,7 +473,7 @@ int SP_POKE_GIMMICK_SwapNpcEventMain(struct GameEvent *event, int *seq, void *ev
     struct EventData *eventData;
     u16 npcCount;
     u32 zoneId;
-    u32 eventFlagWork;
+    uptr eventFlagWork;
     struct Mmdl *mmdl;
     int result;
 
@@ -491,7 +491,7 @@ int SP_POKE_GIMMICK_SwapNpcEventMain(struct GameEvent *event, int *seq, void *ev
         npcCount = EVENTDATA_SYSTEM_GetNpcCount((struct EventDataSystem *)eventData);
         zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
         if (npcCount != 0) {
-            eventFlagWork = (u32)GAME_DATA_GetEventWork(gameData);
+            eventFlagWork = (uptr)GAME_DATA_GetEventWork(gameData);
             mmdl = FLDMMDL_AddMmdlHeaderById(mmdlSys, (struct MmdlHeader *)(void *)EVENTDATA_SYSTEM_GetNpcHeaders((struct EventDataSystem *)eventData), zoneId, npcCount, (void *)eventFlagWork, addObjectId);
             if (mmdl != 0)
                 FLDMMDL_OnMoveBitMovePause(mmdl);

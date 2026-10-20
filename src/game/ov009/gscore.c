@@ -57,7 +57,6 @@ struct DArrayImplementation;
 #include "../ov114/ghttpmain.h"
 #include "gsmemory.h"
 struct DArrayImplementation;
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 void *gsiCoreGetManager(void);
 void gsiCoreAtExitShutdown(void);

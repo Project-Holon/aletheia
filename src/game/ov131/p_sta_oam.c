@@ -41,10 +41,11 @@
  *   P_STA_RIBBON_InfoTable 0x021DC2F8 data a4
  */
 #include "../arm9/gx_load2d.h"
+#include "../sdk_ioreg.h"
 #include "p_status_types.h"
 
-#define REG_DISPCNT_MAIN 0x04000000
-#define REG_DISPCNT_SUB  0x04001000
+#define REG_DISPCNT_MAIN REG_DISPCNT_ADDR
+#define REG_DISPCNT_SUB  REG_DB_DISPCNT_ADDR
 #include "../types.h"
 
 #include "../arm9/gfl_heap_wrap.h"

@@ -30,8 +30,8 @@
 #include "dwc_encsession_types.h"
 #include "dwc_ghttp_types.h"
 
-extern int strncmp(u8 *s1, u8 *s2, u32 n);
-extern u8 *strncpy(u8 *dest, u8 *src, u32 n);
+extern int strncmp(const char *s1, const char *s2, u32 n);
+extern char *strncpy(char *dest, const char *src, u32 n);
 #include "../arm9/dwc_memfunc.h"
 #include "../ov009/gsplatformutil.h"
 #include "../arm9/dgt_sha1.h"
@@ -104,7 +104,7 @@ int DWCi_EncValidateKey(char *gameName, const char *secretKey, unsigned long mul
     if (bitCount != 1) {
         return 0;
     }
-    strncpy((u8 *)gDwcEncSession.gameName, (u8 *)gameName, 0x20);
+    strncpy(gDwcEncSession.gameName, gameName, 0x20);
     {
         unsigned char *d = (unsigned char *)gDwcEncSession.secretKey;
         unsigned char *s = (unsigned char *)secretKey;
@@ -159,7 +159,7 @@ int DWCi_EncSessionValidateResponse(char *response, int responseLen)
         hashHex[i * 2 + 1] = hexDigits[hash[i] & 15];
     }
     hashHex[40] = '\0';
-    if (strncmp((u8 *)(&response[responseLen - 40]), (u8 *)hashHex, 40) != 0)
+    if (strncmp((&response[responseLen - 40]), hashHex, 40) != 0)
         return 0;
     gDwcEncSession.decodedBuffer = response;
     gDwcEncSession.decodedBufferLen = responseLen - 40u;

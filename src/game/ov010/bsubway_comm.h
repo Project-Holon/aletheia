@@ -11,7 +11,7 @@ void BSUBWAY_COMM_NetInit(void *arg);
 void *BSUBWAY_COMM_GetBeaconData(BsubwayScrWork *work);
 int BSUBWAY_COMM_GetBeaconSize(void);
 int BSUBWAY_COMM_CheckConnectService(int a, int b);
-void BSUBWAY_COMM_AddCommandTable(u32 work);
+void BSUBWAY_COMM_AddCommandTable(void *work);
 void BSUBWAY_COMM_DeleteCommandTable(void *work);
 void BSUBWAY_COMM_StartTimingSync(u16 timingNo);
 int BSUBWAY_COMM_CheckTimingSync(int timingNo);

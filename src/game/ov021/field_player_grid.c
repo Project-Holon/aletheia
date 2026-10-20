@@ -736,7 +736,7 @@ int FIELD_PLAYER_GRID_GetHopAirResult(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPl
 
 int FIELD_PLAYER_GRID_GetHopFallResult(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request)
 {
-    if (FIELD_PLAYER_GRID_IsAtGroundHeight(grid, (u32)mmdl, (u32)request) == 1) {
+    if (FIELD_PLAYER_GRID_IsAtGroundHeight(grid, (uptr)mmdl, (uptr)request) == 1) {
         FIELD_PLAYER_GRID_FinishHop(grid);
         FIELD_PLAYER_GRID_SetHopFlag(grid, 0);
         return FIELD_PLAYER_GRID_RESULT_STAND;
@@ -1630,10 +1630,10 @@ int FIELD_PLAYER_GRID_SetHopLanded(FieldPlayerGrid *grid, u32 landed)
 {
     if (landed == 1) {
         grid->hopLanded = 1;
-        return (int)grid;
+        return (sptr)grid;
     }
     grid->hopLanded = 0;
-    return (int)grid;
+    return (sptr)grid;
 }
 
 int FIELD_PLAYER_GRID_IsBlocked(FieldPlayerGrid *grid)

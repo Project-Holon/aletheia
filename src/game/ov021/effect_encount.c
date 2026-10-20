@@ -653,5 +653,5 @@ u16 EFFECT_ENCOUNT_PickItemKind7(void)
 int EFFECT_ENCOUNT_StartItemEvent(FieldEncount *encount, u16 itemId)
 {
     encount->effectEncount->itemId = itemId;
-    return (s32)SCRIPT_SYS_CreateScriptEventSimple(encount->gameSystem, 0x2795, 0, FIELDMAP_GetHeapId(encount->fieldMap));
+    return (sptr)SCRIPT_SYS_CreateScriptEventSimple(encount->gameSystem, 0x2795, 0, FIELDMAP_GetHeapId(encount->fieldMap));
 }

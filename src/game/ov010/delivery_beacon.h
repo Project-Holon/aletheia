@@ -23,7 +23,7 @@ int DELIVERY_BEACON_HasAllPieces(DeliveryBeacon *work);
 void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work);
 void DELIVERY_BEACON_DecodePieces(DeliveryBeacon *work);
 void DELIVERY_BEACON_StepStartScan(DeliveryBeacon *work);
-void DELIVERY_BEACON_OnSessionStarted(DeliveryBeacon *work);
+void DELIVERY_BEACON_OnSessionStarted(void *userArg);
 int DELIVERY_BEACON_Start(DeliveryBeacon *work);
 int DELIVERY_BEACON_HasAnyPiece(DeliveryBeacon *work);
 int DELIVERY_BEACON_TryComplete(DeliveryBeacon *work);

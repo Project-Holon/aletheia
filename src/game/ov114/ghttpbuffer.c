@@ -34,7 +34,6 @@
 #include "ghttp_types.h"
 
 
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../ov009/gsdebug.h"
 extern int ghiAppendDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
@@ -154,7 +153,7 @@ int ghiAppendDataToBuffer(GHIBuffer *buffer, char *data, int dataLen)
     if (buffer->readOnly != 0)
         return 0;
     if (dataLen == 0)
-        dataLen = strlen((unsigned char *)data);
+        dataLen = strlen(data);
     newLen = buffer->len + dataLen;
     while (newLen >= buffer->size) {
         if (buffer->fixed != 0) {
@@ -198,7 +197,7 @@ int ghiEncryptDataToBuffer(GHIBuffer *buffer, const char *data, int dataLen)
         return ghiAppendDataToBuffer(buffer, (char *)data, dataLen);
 
     if (dataLen == 0)
-        dataLen = strlen((unsigned char *)data);
+        dataLen = strlen(data);
     if (dataLen == 0)
         return 1;
 

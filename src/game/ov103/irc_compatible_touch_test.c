@@ -442,7 +442,7 @@ extern VecFx32 IRC_COMPATIBLE_TOUCH_TEST_CameraUp;
 extern u8 IRC_COMPATIBLE_TOUCH_TEST_ModelFileIds[];
 extern const u8 IRC_COMPATIBLE_TOUCH_TEST_Lights[];
 extern u32 IRC_COMPATIBLE_TOUCH_TEST_FirstTouchRect[], IRC_COMPATIBLE_TOUCH_TEST_SecondTouchRect[];
-extern u8 IRC_COMPATIBLE_TOUCH_TEST_ExchangeCommandTable[];
+extern NetCommandEntry IRC_COMPATIBLE_TOUCH_TEST_ExchangeCommandTable[];
 
 int IRC_COMPATIBLE_TOUCH_TEST_ProcInit(void *proc, int unused, IrcSecondTestArgs *args);
 int IRC_COMPATIBLE_TOUCH_TEST_ProcExit(void *proc, int unused, int unused2, IrcTouchWork *work);
@@ -555,7 +555,7 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcInit(void *proc, int unused, IrcSecondTestArgs
     work->appBar = IRC_APPBAR_Create(2, unit, 1, 13, 13, 2, font, printQueue, 55);
     COMPATIBLE_IRC_SYS_SetOwnValue(work->args->view, 2);
     IRC_COMPATIBLE_TOUCH_TEST_SetHandler(work, IRC_COMPATIBLE_TOUCH_TEST_HandleFirstTouch);
-    REG_DISPCNT_MAIN = (REG_DISPCNT_MAIN & ~0xe000) | 0x6000;
+    REG_DISPCNT = (REG_DISPCNT & ~0xe000) | 0x6000;
     REG_WININ = (REG_WININ & ~0x3f) | 0x1e;
     REG_WININ = (REG_WININ & ~0x3f00) | 0x1e00;
     REG_WINOUT = (REG_WINOUT & ~0x3f) | 0x1f;
@@ -571,7 +571,7 @@ int IRC_COMPATIBLE_TOUCH_TEST_ProcInit(void *proc, int unused, IrcSecondTestArgs
  */
 int IRC_COMPATIBLE_TOUCH_TEST_ProcExit(void *proc, int unused, int unused2, IrcTouchWork *work)
 {
-    REG_DISPCNT_MAIN &= ~0xe000;
+    REG_DISPCNT &= ~0xe000;
     IRC_APPBAR_Delete(work->appBar);
     IRC_COMPATIBLE_TOUCH_TEST_ExitTrail(&work->trail);
     IRC_COMPATIBLE_TOUCH_TEST_ExitWindow(&work->bottomWin);
@@ -715,7 +715,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitBackgrounds(u32 *charRange, u16 heapId)
 void IRC_COMPATIBLE_TOUCH_TEST_ExitBackgrounds(u32 *charRange)
 {
     int i;
-    REG_BLDCNT_MAIN = 0;
+    REG_BLDCNT = 0;
     BG_SYS_FreeTileRun(5, (u16)(*charRange), (u16)(*charRange >> 16));
     BG_SYS_FreeTiles(5, 1, 0);
     for (i = 0; i < 7; i++) BG_SYS_FreeLayerBuf((u8)IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds[i]);
@@ -1346,7 +1346,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitExchange(IrcDrawingExchange *exchange, IrcSys
 {
     MI_CpuFill8(exchange, 0, 0x294);
     exchange->sys = sys;
-    COMPATIBLE_IRC_SYS_AddCommandTable(sys, (u32)0xe00, (uptr)IRC_COMPATIBLE_TOUCH_TEST_ExchangeCommandTable, (u32)1, (uptr)exchange);
+    COMPATIBLE_IRC_SYS_AddCommandTable(sys, (u32)0xe00, IRC_COMPATIBLE_TOUCH_TEST_ExchangeCommandTable, (u32)1, exchange);
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitExchange(IrcDrawingExchange *exchange)

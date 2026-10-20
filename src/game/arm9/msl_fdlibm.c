@@ -64,7 +64,7 @@ double sin(double x);
 double pow(double x, double y);
 int stricmp(const u8 *s1, const u8 *s2);
 int strnicmp(const u8 *s1, const u8 *s2, int n);
-int strcmp_nocase(const u8 *s1, const u8 *s2);
+int strcmp_nocase(const char *s1, const char *s2);
 extern const int init_jk[];
 extern const double PIo2[];
 extern const u8 __tolower_map[];
@@ -626,7 +626,7 @@ int strnicmp(const u8 *s1, const u8 *s2, int n)
     return MSL_C_LIB_StrNICmp(s1, s2, n);
 }
 
-int strcmp_nocase(const u8 *s1, const u8 *s2)
+int strcmp_nocase(const char *s1, const char *s2)
 {
-    return stricmp(s1, s2);
+    return stricmp((const u8 *)s1, (const u8 *)s2);
 }

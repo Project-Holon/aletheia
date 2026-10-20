@@ -63,7 +63,7 @@ struct DWCNdFileInfo;
 #include "../arm9/dwc_base64.h"
 #include "../arm9/dwc_error.h"
 #include "../arm9/mi_memory.h"
-extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
+extern char *strncpy(char *dest, const char *src, unsigned int n);
 void *DWCi_NdAlloc(unsigned long size, int align);
 void DWCi_NdFree(void *ptr);
 void DWCi_NdCleanupCallback(void);
@@ -200,8 +200,8 @@ int DWC_NdInitAsync(DWCNdCallback callback, char *gameCode, char *password)
     }
     MI_CpuFill8(gDwcNdState.param, 0, sizeof(NdParam));
     gDwcNdState.param->status = 0;
-    strncpy((unsigned char *)gDwcNdState.param->gameCode, (unsigned char *)gameCode, 31);
-    strncpy((unsigned char *)gDwcNdState.param->password, (unsigned char *)password, 31);
+    strncpy(gDwcNdState.param->gameCode, gameCode, 31);
+    strncpy(gDwcNdState.param->password, password, 31);
     if (DWC_SVLGetTokenAsync(sDwcNdServiceLocatorPort, &gDwcNdState.param->svl) == 0) {
         DWCi_NdFree(gDwcNdState.param);
         gDwcNdState.param = 0;

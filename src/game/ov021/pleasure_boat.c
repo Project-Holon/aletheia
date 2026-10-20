@@ -81,9 +81,9 @@ PleasureBoatWork *PLEASURE_BOAT_Create(void)
     work->groupCount[2] = 0;
     work->groupCount[3] = 0;
     work->locked = 0;
-    GF_OVERLAY_Load((int)ov036_id); /* stand-in: overlay id passed as a raw address constant; a plain 0x24 changes the literal pool */
+    GF_OVERLAY_Load((sptr)ov036_id); /* stand-in: overlay id passed as a raw address constant; a plain 0x24 changes the literal pool */
     DAILY_LAYOUT_Generate((struct DailyLayoutWork *)work);
-    GF_OVERLAY_Unload((int)ov036_id);
+    GF_OVERLAY_Unload((sptr)ov036_id);
     return work;
 }
 

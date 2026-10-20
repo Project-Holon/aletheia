@@ -105,41 +105,29 @@
  *   _fsub                        0x0209CB8C  arm
  */
 
-#define REG_MTX_MODE     (*(vu32 *)0x04000440)
 
-#define REG_MTX_PUSH     (*(vu32 *)0x04000444)
 
-#define REG_MTX_POP      (*(vu32 *)0x04000448)
 
-#define REG_MTX_STORE    (*(vu32 *)0x0400044C)
 
-#define REG_MTX_IDENTITY (*(vu32 *)0x04000454)
 
-#define REG_MTX_SCALE    (*(vu32 *)0x0400046C)
 
-#define REG_MTX_TRANS    (*(vu32 *)0x04000470)
 
-#define REG_TEXIMAGE_PARAM (*(vu32 *)0x040004A8)
+#define REG_TEXIMAGE_PARAM (*(vu32 *)REG_TEXIMAGE_PARAM_ADDR)
 
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? \
                                   ((x) * (1 << 12) + 0.5f) : \
                                   ((x) * (1 << 12) - 0.5f)))
 
-#define REG_MTX_RESTORE  (*(vu32 *)0x04000450)
 
-#define REG_TEXCOORD     (*(vu32 *)0x04000488)
 
-#define REG_VTX_16       (*(vu32 *)0x0400048C)
 
-#define REG_POLYGON_ATTR (*(vu32 *)0x040004A4)
 
-#define REG_TEXPLTT_BASE (*(vu32 *)0x040004AC)
+#define REG_TEXPLTT_BASE (*(vu32 *)REG_TEXPLTT_BASE_ADDR)
 
-#define REG_BEGIN_VTXS   (*(vu32 *)0x04000500)
 
-#define REG_END_VTXS     (*(vu32 *)0x04000504)
 
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 #include "mcss_types.h"
 
 #include "../sdk_fx.h"
@@ -731,7 +719,7 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
     sys->plttTransAdrs = 0x1000;
     NNSi_G2dInitVramHandleEx((u32 *)&sys->shadowPltt);
     subHeapId = (heapId & 0x7fff) | 0x8000;
-    task = GFL_HEAP_Alloc((u32)((void *)(u16)subHeapId), 0x2c, 1, sFileMcss, 0x8e);
+    task = GFL_HEAP_Alloc((uptr)((void *)(u16)subHeapId), 0x2c, 1, sFileMcss, 0x8e);
     task->sys = sys;
     task->plttProxyOut = &sys->shadowPltt;
     task->plttDest = 0x1100;
@@ -2278,7 +2266,7 @@ void MCSS_CreatePaletteTransTask(McssSys *sys, McssWork *work, u16 fadeLevel, in
 void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
 {
     McssTransTask *task;
-    u32 hasTaskSys;
+    uptr hasTaskSys;
     void *handle;
 
     hasTaskSys = 1;
@@ -2496,14 +2484,14 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     NNSi_G2dInitVramHandleEx((u32 *)&work->plttProxy);
 
     work->cellFile = ARC_UTIL_LoadCellBankFromHandle(arcHandle, (u32)addWork->cellMember, (u32)0,
-                                   (u32)(&work->cellBank),
+                                   (uptr)(&work->cellBank),
                                    (u16)work->heapId);
-    work->cellAnimFile = ARC_UTIL_LoadMultiCellBankFromHandle(arcHandle, (u32)addWork->cellAnimMember, (u32)1, (u32)(&work->cellAnimBank),
+    work->cellAnimFile = ARC_UTIL_LoadMultiCellBankFromHandle(arcHandle, (u32)addWork->cellAnimMember, (u32)1, (uptr)(&work->cellAnimBank),
                                        (u16)work->heapId);
     flag = 1;
-    work->multiCellFile = ARC_UTIL_LoadAnimBankFromHandle(arcHandle, (u32)addWork->multiCellMember, (u32)0, (u32)(&work->multiCellBank),
+    work->multiCellFile = ARC_UTIL_LoadAnimBankFromHandle(arcHandle, (u32)addWork->multiCellMember, (u32)0, (uptr)(&work->multiCellBank),
                                         (u16)work->heapId);
-    work->multiCellAnimFile = ARC_UTIL_LoadMultiAnimBankFromHandle(arcHandle, (u32)addWork->multiCellAnimMember, (u32)0, (u32)(&work->multiCellAnimBank),
+    work->multiCellAnimFile = ARC_UTIL_LoadMultiAnimBankFromHandle(arcHandle, (u32)addWork->multiCellAnimMember, (u32)0, (uptr)(&work->multiCellAnimBank),
                                             (u16)work->heapId);
     MCSS_SetAnimeIndex(work, 0);
 
@@ -2560,7 +2548,7 @@ void MCSS_TransTextureTask(struct TcbTask *taskHandle, void *taskWork)
     McssTransTask *task = taskWork;
 
     if (task->hasTaskSys == 0) {
-        u32 scanline = *(volatile u16 *)0x04000006;
+        u32 scanline = *(volatile u16 *)REG_VCOUNT_ADDR;
 
         if (scanline < 0xc0 || scanline > 0xc8)
             return;
@@ -2592,7 +2580,7 @@ void MCSS_TransPaletteTask(struct TcbTask *taskHandle, void *taskWork)
     McssTransTask *task = taskWork;
 
     if (task->hasTaskSys == 0) {
-        u32 scanline = *(volatile u16 *)0x04000006;
+        u32 scanline = *(volatile u16 *)REG_VCOUNT_ADDR;
 
         if (scanline < 0xc0 || scanline > 0xc8)
             return;
@@ -3246,13 +3234,13 @@ void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShi
 void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainerClass, McssAddWork *out, void *trainerGender)
 {
     out->arcId = POKEGRA_GetTrainerArcID(trainerGender);
-    out->textureMember = POKEGRA_GetTrainerCbrArcIndex((u32)trainerClass, (u32)trainerGender);
-    out->paletteMember = POKEGRA_GetTrainerPalArcIndex((u32)trainerClass, (u32)trainerGender);
-    out->cellMember = POKEGRA_GetTrainerCelArcIndex((u32)trainerClass, (u32)trainerGender);
-    out->cellAnimMember = POKEGRA_GetTrainerAnmArcIndex((u32)trainerClass, (u32)trainerGender);
-    out->multiCellMember = POKEGRA_GetTrainerMCelArcIndex((u32)trainerClass, (u32)trainerGender);
-    out->multiCellAnimMember = POKEGRA_GetTrainerMAnmArcIndex((u32)trainerClass, (u32)trainerGender);
-    out->cellHeaderMember = POKEGRA_GetTrainerNcecArcIndex((u32)trainerClass, (u32)trainerGender);
+    out->textureMember = POKEGRA_GetTrainerCbrArcIndex((uptr)trainerClass, (uptr)trainerGender);
+    out->paletteMember = POKEGRA_GetTrainerPalArcIndex((uptr)trainerClass, (uptr)trainerGender);
+    out->cellMember = POKEGRA_GetTrainerCelArcIndex((uptr)trainerClass, (uptr)trainerGender);
+    out->cellAnimMember = POKEGRA_GetTrainerAnmArcIndex((uptr)trainerClass, (uptr)trainerGender);
+    out->multiCellMember = POKEGRA_GetTrainerMCelArcIndex((uptr)trainerClass, (uptr)trainerGender);
+    out->multiCellAnimMember = POKEGRA_GetTrainerMAnmArcIndex((uptr)trainerClass, (uptr)trainerGender);
+    out->cellHeaderMember = POKEGRA_GetTrainerNcecArcIndex((uptr)trainerClass, (uptr)trainerGender);
     out->heapMode = 1;
 }
 
@@ -3362,7 +3350,7 @@ void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality)
     }
 }
 
-int MCSS_TOOL_SetAnimeStopCallback(McssWork *work){ int ret = MCSS_SetAnimCallback(work, (u32)(work + 0), (u32)0x20173C9, (u32)1); return ret; }
+int MCSS_TOOL_SetAnimeStopCallback(McssWork *work){ int ret = MCSS_SetAnimCallback(work, (uptr)(work + 0), (u32)0x20173C9, (u32)1); return ret; }
 
 /*
  * A four-byte tail call: the pool word 0x02016381 (Thumb) is loaded and

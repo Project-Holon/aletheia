@@ -206,11 +206,11 @@
  *   FX_Atan2Idx 0x0207CFB8 arm
  *   MUSICAL_SAVE_InitOutfits 0x0200A604 thumb
  *   BG_SYS_FillTileMap 0x020413B0 arm
- *   a1 0x021BA558 data a4
- *   b1 0x021BA560 data a4
- *   a2 0x021BA550 data a4
- *   b2 0x021BA548 data a4
- *   table 0x020A1B38 data a2
+ *   gDupFittingPoseSlide1From 0x021BA558 data a4
+ *   gDupFittingPoseSlide1To 0x021BA560 data a4
+ *   gDupFittingPoseSlide2From 0x021BA550 data a4
+ *   gDupFittingPoseSlide2To 0x021BA548 data a4
+ *   FX_SinCosTable_ 0x020A1B38 data a2
  *   GF_FONT_Create 0x0201D7EC thumb
  *   MSGDATA_CreateFromArchive 0x02045B38 arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole 0x02049B40 arm
@@ -282,6 +282,7 @@
  *   _ull_mul                     0x0209C054  arm
  */
 #include "dup_fitting_types.h"
+#include "../sdk_ioreg.h"
 #define B(k) (*(u8 *)((u8 *)work+(k)))
 
 #define P(k) (*(u8 **)((u8 *)work+(k)))
@@ -815,9 +816,9 @@ extern const DupFittingVec d_021BA57C,d_021BA5AC;
 
 extern const Rects d_021BA594;
 
-extern const DupFittingPair a1,b1,a2,b2;
+extern const DupFittingPair gDupFittingPoseSlide1From, gDupFittingPoseSlide1To, gDupFittingPoseSlide2From, gDupFittingPoseSlide2To;
 
-extern const short table[];
+extern const short FX_SinCosTable_[];
 
 #define W(k) (*(u32 *)((u8 *)work+(k)))
 
@@ -1110,7 +1111,7 @@ void DUP_FITTING_InitDisplay(u8 *work)
     DUP_FITTING_InitBgLayer(d_021BA478,3); DUP_FITTING_InitBgLayer(d_021BA4F8,7);
     DUP_FITTING_InitBgLayer(d_021BA498,4); DUP_FITTING_InitBgLayer(d_021BA4B8,5); DUP_FITTING_InitBgLayer(d_021BA4D8,6);
     BG_SYS_SetPlaneVisible(0,1);
-    G2x_SetBlendAlpha_((void *)0x04001050,0,15,4,16);
+    G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR,0,15,4,16);
     cfg = gClActorInitParam;
     cfg.a = 16; cfg.b = 112;
     CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)(&cfg)),(const struct DispVramCfg *)d_021BA518,*(u16 *)work);
@@ -1249,7 +1250,7 @@ void DUP_FITTING_InitFrames(u8 *work)
         *(u32 *)(work + *(u16 *)(work + 0xa8) * 0x14 + 0xbc) = 1;
     }
 
-    *(u8 **)(work + 0x1884) = (u8 *)MUSICAL_MCSS_CreateActorPool((u32)(*(void **)(work + 0x188c)), 0x98, *(u16 *)work);
+    *(u8 **)(work + 0x1884) = (u8 *)MUSICAL_MCSS_CreateActorPool((uptr)(*(void **)(work + 0x188c)), 0x98, *(u16 *)work);
     table = (u8 *)MUSICAL_MCSS_GetActorPoolResource(*(u8 **)(work + 0x1884));
 
     for (i = 0; i < *(u16 *)(work + 0xa8); i++) {
@@ -1714,7 +1715,7 @@ void *DUP_FITTING_SetModelTransform(u8 *work, u16 base, short speed, u16 rx, u16
             if (k >= n)
                 k = (u16)(k - n);
             cur = *(u8 **)(work + k * 4 + 0x1434);
-            DUP_FITTING_ITEM_ElemSetSprite(e, (u32)cur);
+            DUP_FITTING_ITEM_ElemSetSprite(e, (uptr)cur);
             if (*(u16 *)old != *(u16 *)cur && e == *(u8 **)(work + 0x38))
                 *(u8 **)(work + 0x38) = 0;
         }
@@ -1731,20 +1732,20 @@ void *DUP_FITTING_SetModelTransform(u8 *work, u16 base, short speed, u16 rx, u16
         if (a < (h >> 1)) {
             sc = h >> 3;
             MUSICAL_MCSS_SetElemRotZ((void *)(*(int *)(work + 0x1884)), spr, h >> 3, h >> 3);
-            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(work + 0x1884)), (u8 *)((int)spr), 1);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(work + 0x1884)), (u8 *)((sptr)spr), 1);
             DUP_FITTING_ITEM_ElemSetScale(e, h >> 3);
         } else if (a < 0x6E00) {
             sc = ((u16)(0x6E00 - a) << 11) / 0x2E00 + (h >> 4);
             MUSICAL_MCSS_SetElemRotZ((void *)(*(int *)(work + 0x1884)), spr, sc, sc);
-            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(work + 0x1884)), (u8 *)((int)spr), 1);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(work + 0x1884)), (u8 *)((sptr)spr), 1);
             DUP_FITTING_ITEM_ElemSetScale(e, sc);
         } else if (a < 0x78E0) {
             sc = ((u16)(0x78E0 - a) << 11) / 0xAE0;
             MUSICAL_MCSS_SetElemRotZ((void *)(*(int *)(work + 0x1884)), spr, sc, sc);
-            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(work + 0x1884)), (u8 *)((int)spr), 1);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(work + 0x1884)), (u8 *)((sptr)spr), 1);
             DUP_FITTING_ITEM_ElemSetScale(e, sc);
         } else {
-            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(work + 0x1884)), (u8 *)((int)spr), 0);
+            MUSICAL_MCSS_SetElemVisible((u8 *)(*(int *)(work + 0x1884)), (u8 *)((sptr)spr), 0);
             DUP_FITTING_ITEM_ElemSetScale(e, 0);
             sc = 0;
         }
@@ -1912,14 +1913,14 @@ void DUP_FITTING_AttachElem(u8 *work,int sound)
         q=MUSICAL_MCSS_GetRenderElem(*(u8 * *)&((struct DupFittingWork *)work)->renderParam,index);
         pos.x=(int)((float)(((struct DupFittingRenderElem *)q)->x+((struct DupFittingRenderElem *)q)->offsetX)/4096.f)+128;
         pos.y=(int)((float)(((struct DupFittingRenderElem *)q)->y+((struct DupFittingRenderElem *)q)->offsetY)/4096.f)+96;
-        rotation=((struct DupFittingRenderElem *)q)->baseRotation;MUSICAL_MCSS_SetElemFlag((u8 *)(*(int *)&((struct DupFittingWork *)work)->elemSet), (struct McssActorElem *)((int)sprite), 1);
+        rotation=((struct DupFittingRenderElem *)q)->baseRotation;MUSICAL_MCSS_SetElemFlag((u8 *)(*(int *)&((struct DupFittingWork *)work)->elemSet), (struct McssActorElem *)((sptr)sprite), 1);
         if(MUSICAL_MCSS_ElemHasAltDepth(sprite)==1)v.z=0x1a000;
         if(DUP_FITTING_IsFrameOwned(work,((struct DupFittingWork *)work)->frameIndex)==0){((struct DupFittingWork *)work)->holdKind=3;((struct DupFittingWork *)work)->holdDx=pos.x;((struct DupFittingWork *)work)->holdDy=pos.y;}
         DUP_FITTING_ITEM_ElemSetFrameIndex((char *)(*(u8 * *)&((struct DupFittingWork *)work)->heldElem),((struct DupFittingWork *)work)->frameIndex);
         if(old!=((struct DupFittingWork *)work)->frameIndex && sound==1)GFL_USE_PlaySeDefaultVolume(0x627);
     }else{
         ((struct DupFittingWork *)work)->frameIndex=10;pos.x=((struct DupFittingWork *)work)->cursorX;pos.y=*(int *)&((struct DupFittingWork *)work)->cursorY;
-        MUSICAL_MCSS_SetElemFlag((u8 *)(*(int *)&((struct DupFittingWork *)work)->elemSet), (struct McssActorElem *)((int)sprite), rotation);
+        MUSICAL_MCSS_SetElemFlag((u8 *)(*(int *)&((struct DupFittingWork *)work)->elemSet), (struct McssActorElem *)((sptr)sprite), rotation);
     }
     if(pos.x>0)v.x=(int)(0.5f+(float)(int)((u32)pos.x<<12));else v.x=(int)((float)(int)((u32)pos.x<<12)-0.5f);
     if(pos.y>0)v.y=(int)(0.5f+(float)(int)((u32)pos.y<<12));else v.y=(int)((float)(int)((u32)pos.y<<12)-0.5f);
@@ -1974,7 +1975,7 @@ void DUP_FITTING_ReleaseElem(u8 *work)
     e = DUP_FITTING_ITEM_ListGetHead(((struct DupFittingWork *)work)->listA);
     while (e) {
         s = (u8 *)DUP_FITTING_ITEM_ElemGetRenderElem(e);
-        MUSICAL_MCSS_SetElemScale(*(int *)(work + 0x1884), (int)s, (u32)(&v));
+        MUSICAL_MCSS_SetElemScale(*(int *)(work + 0x1884), (sptr)s, (uptr)(&v));
         v.z = z;
         MUSICAL_MCSS_SetElemPos((void *)(*(int *)(work + 0x1884)), (struct McssActorElem *)s, (int *)&v);
         z -= 1024;
@@ -2071,7 +2072,7 @@ void DUP_FITTING_MoveElem(u8 *work)
             entry=DUP_FITTING_ITEM_ListGetHead(((struct DupFittingWork *)work)->listA);
             while(entry) {
                 s=(u8 *)DUP_FITTING_ITEM_ElemGetRenderElem(entry);
-                MUSICAL_MCSS_SetElemScale(*(int *)(work+0x1884),(int)s,(u32)(&first));
+                MUSICAL_MCSS_SetElemScale(*(int *)(work+0x1884),(sptr)s,(uptr)(&first));
                 first.z=depth;
                 MUSICAL_MCSS_SetElemPos((void *)(*(int *)(work+0x1884)), (struct McssActorElem *)s, (int *)&first);
                 depth-=1024;
@@ -2087,7 +2088,7 @@ void DUP_FITTING_MoveElem(u8 *work)
     depth=0;
     while(entry) {
         s=(u8 *)DUP_FITTING_ITEM_ElemGetRenderElem(entry);
-        MUSICAL_MCSS_SetElemScale(*(int *)(work+0x1884),(int)s,(u32)(&second));
+        MUSICAL_MCSS_SetElemScale(*(int *)(work+0x1884),(sptr)s,(uptr)(&second));
         if(MUSICAL_MCSS_ElemHasAltDepth(s)==1) second.z=depth+(102<<10);
         else if(DUP_FITTING_ITEM_ElemGetFrameIndex((char *)entry)==7 || DUP_FITTING_ITEM_ElemGetFrameIndex((char *)entry)==8) second.z=depth+(222<<10);
         else second.z=depth+(202<<10);
@@ -2311,14 +2312,14 @@ void DUP_FITTING_DrawElems(struct DupFittingWork *work)
     int wb;
     int baseYB;
     u8 *e;
-    u32 data;
+    uptr data;
     u32 cnt;
     int n;
     int x;
     int d;
     short sx;
     int *B2;
-    u32 data2;
+    uptr data2;
     e = DUP_FITTING_ITEM_ListGetHead((char *)work->listC);
     if (e) {
         do {
@@ -2334,7 +2335,7 @@ void DUP_FITTING_DrawElems(struct DupFittingWork *work)
                 x = s + ((0x1000 - s) * n) / 10;
                 sx = x;
                 MUSICAL_MCSS_SetElemRotZ(work->elemSet, (u8 *)data, sx, sx);
-                MUSICAL_MCSS_SetElemScale((int)work->elemSet, data, (u32)(&flyPos));
+                MUSICAL_MCSS_SetElemScale((sptr)work->elemSet, data, (uptr)(&flyPos));
                 w = 10 - (u16)n;
                 baseX = A[0];
                 x = B[0] - baseX;
@@ -2372,7 +2373,7 @@ void DUP_FITTING_DrawElems(struct DupFittingWork *work)
                 B2 = (int *)DUP_FITTING_ITEM_ElemGetPos(e);
                 n2 = (u16)(cnt0 - 1);
                 if (n2 != 0) {
-                    MUSICAL_MCSS_SetElemScale((int)work->elemSet, data2, (u32)(&slidePos));
+                    MUSICAL_MCSS_SetElemScale((sptr)work->elemSet, data2, (uptr)(&slidePos));
                     wb = 10 - n2;
                     baseXB = A2[0];
                     x = B2[0] - baseXB;
@@ -2388,7 +2389,7 @@ void DUP_FITTING_DrawElems(struct DupFittingWork *work)
                     else slidePos.y = (int)((float)(x << 12) - 0.5f);
                     MUSICAL_MCSS_SetElemPos(work->elemSet, (struct McssActorElem *)data2, (int *)&slidePos);
                 } else {
-                    MUSICAL_MCSS_SetElemScale((int)work->elemSet, data2, (u32)(&restPos));
+                    MUSICAL_MCSS_SetElemScale((sptr)work->elemSet, data2, (uptr)(&restPos));
                     if (B2[0] > 0) restPos.x = (int)(0.5f + (float)(B2[0] << 12));
                     else restPos.x = (int)((float)(B2[0] << 12) - 0.5f);
                     if (B2[1] > 0) restPos.y = (int)(0.5f + (float)(B2[1] << 12));
@@ -2496,7 +2497,7 @@ void DUP_FITTING_DrawFrames(u8 *work)
         d = x * x + y * y;
         dist = FX_Sqrt(FXI(d));
         ang = FX_Atan2Idx(FXI(y), FXI(x));
-        MUSICAL_MCSS_SetElemScale((u32)(*(u8 **)(work + 0x1884)), id, (u32)v);
+        MUSICAL_MCSS_SetElemScale((uptr)(*(u8 **)(work + 0x1884)), id, (uptr)v);
         k = dist + FXI(*(int *)(work + 0x10));
         sc = &((const SC *)FX_SinCosTable_)[ang >> 4];
         v[0] = (fx32)(((long long)sc->c * k + 0x800) >> 12) + 0x80000;
@@ -2706,9 +2707,9 @@ void DUP_FITTING_UpdatePose(u8 *work)
     case 2: DUP_FITTING_StepPoseHold(work,30); break;
     case 3: DUP_FITTING_StepPoseRotate(work,-(u16)(work[0x1847]*4681),-(work[0x1847]*4681),work[0x1847]*15); break;
     case 4: DUP_FITTING_StepPoseHold(work,30); break;
-    case 5: firstA=a1; firstB=b1; DUP_FITTING_StepPoseSlide(work,&firstA.x,&firstB.x,60); break;
+    case 5: firstA=gDupFittingPoseSlide1From; firstB=gDupFittingPoseSlide1To; DUP_FITTING_StepPoseSlide(work,&firstA.x,&firstB.x,60); break;
     case 6: DUP_FITTING_StepPoseHold(work,30); break;
-    case 7: secondA=a2; secondB=b2; DUP_FITTING_StepPoseSlide(work,&secondA.x,&secondB.x,60); break;
+    case 7: secondA=gDupFittingPoseSlide2From; secondB=gDupFittingPoseSlide2To; DUP_FITTING_StepPoseSlide(work,&secondA.x,&secondB.x,60); break;
     case 8: DUP_FITTING_StepPoseHold(work,30); break;
     case 9: DUP_FITTING_ExitPoseMode(work); return;
     }
@@ -2725,8 +2726,8 @@ void DUP_FITTING_StepPoseRotate(u8 *work,u16 a,int delta,u16 duration)
     CLACT_SetActorDrawEnable(((struct DupFittingWork *)work)->actorC,1);
     step=delta / duration;
     index=((u16)((int)((unsigned)a-(unsigned)step*((struct DupFittingWork *)work)->animStep+65536)%65536)>>4)*2;
-    *(unsigned *)&((struct DupFittingWork *)work)->cursorX=(unsigned)((float)(72*table[index]+0x80000)/4096.0f);
-    *(unsigned *)&((struct DupFittingWork *)work)->cursorY=(unsigned)((float)(48*table[index+1]+0x50000)/4096.0f);
+    *(unsigned *)&((struct DupFittingWork *)work)->cursorX=(unsigned)((float)(72*FX_SinCosTable_[index]+0x80000)/4096.0f);
+    *(unsigned *)&((struct DupFittingWork *)work)->cursorY=(unsigned)((float)(48*FX_SinCosTable_[index+1]+0x50000)/4096.0f);
     ((struct DupFittingWork *)work)->rotation-=(u16)step;
     DUP_FITTING_SetModelTransform(work,((struct DupFittingWork *)work)->rotation,step,72,48);
     ++((struct DupFittingWork *)work)->animStep;
@@ -2867,7 +2868,7 @@ void DUP_FITTING_CreateActors(u8 *work)
     CLACT_SetActorAutoAnim(((struct DupFittingWork *)work)->actorY,1);
 }
 
-void DUP_FITTING_DeleteActors(unsigned char *work) {unsigned char i;for(i=0;i<8;i++)CLACT_DeleteActor(*(void **)((unsigned int)work+(unsigned int)i*4+0x1890));CLACT_DeleteActor(((struct DupFittingWork *)work)->actorY);CLACT_DeleteActor(((struct DupFittingWork *)work)->actorX);}
+void DUP_FITTING_DeleteActors(unsigned char *work) {unsigned char i;for(i=0;i<8;i++)CLACT_DeleteActor(*(void **)((uptr)work+(unsigned int)i*4+0x1890));CLACT_DeleteActor(((struct DupFittingWork *)work)->actorY);CLACT_DeleteActor(((struct DupFittingWork *)work)->actorX);}
 
 /*
  * lever: Pointer addition for timer stores and unsigned address addition for the guard preserve four independent offset homes and the decrement reload. Uniform integer addition gave 292 bytes; uniform pointer addition gave 304.
@@ -2894,7 +2895,7 @@ void DUP_FITTING_UpdateActorTimers(u8 *work)
         CLACT_SetActorBgPriority(((struct DupFittingWork *)q)->actors[0], BG_SYS_GetPriority(4));
         CLACT_SetActorObjMode(((struct DupFittingWork *)q)->actors[0], 0);
         t = work + i;
-        if (*(u8 *)((u32)work+(u32)i+(u32)d) == 0) {
+        if (*(u8 *)((uptr)work+(u32)i+(u32)d) == 0) {
             pos.x = ((u64)GF_STANDARD_Rand() * 56) >> 32;
             if ((u32)(((u64)GF_STANDARD_Rand() * 2) >> 32) == 1) pos.x = 256 - pos.x;
             pos.y = ((u64)GF_STANDARD_Rand() * 192) >> 32;

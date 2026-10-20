@@ -179,6 +179,7 @@
  *   SAVE_CONTROL_WouldOverwriteSave  0x020071F0  thumb  arm9
  */
 #include "gsync_menu_types.h"
+#include "../sdk_ioreg.h"
 
 /* Window rectangle of a button, in tiles. */
 typedef struct ButtonWinDef {
@@ -742,7 +743,7 @@ void GSYNC_MENU_LoadResources(GsyncMenuWork *work)
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 9, 4, 0, (u16)(work->charBase), 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 14, 6, 0, (u16)(work->charBase), 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
-    work->bgFrame = (u32)(u32)BMP_MENUWORK_LoadFrameGfx((u32)5, 12, 0, work->heapId);
+    work->bgFrame = (u32)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)5, 12, 0, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 0x1a0, 32, work->heapId);
     arc = ARC_TOOL_CreateHandle(29, work->heapId);
     work->charHandle = CLACT_RegisterCharacter(arc, 5, 0, 1, work->heapId);
@@ -758,7 +759,7 @@ void GSYNC_MENU_StateSetupButtons(GsyncMenuWork *work)
     /* one-entry message id table; the struct form keeps the original stack layout */
     struct { int id; } messageIds = {0};
     GSYNC_MENU_CreateButtonWindows(1, (u32 *)&messageIds, work, (ButtonWinDef *)sGsyncMenuButtonWinDefs, (u32 *)d_021DA640, (u32 *)(d_021DA640 + 1));
-    work->buttonMan = BUTTON_MAN_Create((u8 *)d_021DA648, (void (*)(s32, s32, s32))GSYNC_MENU_RunButtonCallback, (s32)work, work->heapId);
+    work->buttonMan = BUTTON_MAN_Create((u8 *)d_021DA648, (void (*)(s32, s32, s32))GSYNC_MENU_RunButtonCallback, (sptr)work, work->heapId);
     work->buttonCallback = GSYNC_MENU_OnButtonPressed;
     GSYNC_MENU_ChangeState(work, GSYNC_MENU_StateButtonsActive, 0x321);
 }
@@ -905,8 +906,8 @@ void GSYNC_MENU_FadePaletteSlot(GsyncMenuWork *work, int palSlot, int rowCount)
 void GSYNC_MENU_SetPaletteFade(GsyncMenuWork *work, int enable)
 {
     if (enable) {
-        MI_CpuCopy8((void *)0x05000600, work->palBufMain, 0x200);
-        MI_CpuCopy8((void *)0x05000400, work->palBufSub, 0x200);
+        MI_CpuCopy8((void *)HW_DB_OBJ_PLTT, work->palBufMain, 0x200);
+        MI_CpuCopy8((void *)HW_DB_BG_PLTT, work->palBufSub, 0x200);
         GSYNC_MENU_FadePaletteSlot(work, 3, 14);
         GSYNC_MENU_FadePaletteSlot(work, 1, 9);
     } else {
@@ -1101,8 +1102,8 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     work->gameSystem = param->gameSystem;
     BG_SYS_SetLcdSwap(1);
     if (param->fadeFromWhite) bright = 16; else bright = -16;
-    GXx_SetMasterBrightness_((void *)0x0400006c, bright);
-    GXx_SetMasterBrightness_((void *)0x0400106c, bright);
+    GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR, bright);
+    GXx_SetMasterBrightness_((void *)REG_DB_MASTER_BRIGHT_ADDR, bright);
     *(volatile u32 *)0x04001000 |= 0x10000;
     GX_DispOn();
     BG_SYS_Create(work->heapId);
@@ -1121,10 +1122,10 @@ int GSYNC_MENU_ProcInit(void *proc, int seq, GsyncProcParam *param)
     work->palBufMain = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, 0x5a6);
     work->palBufSub = GFL_HEAP_Alloc(work->heapId, 0x200, 0, d_021DAA20, 0x5a7);
     work->tcbl = TCBL_Create(work->heapId, work->heapId, 3, 0);
-    work->keyCursor = (u32)APP_KEYCURSOR_CreateDefault(15, 0, 1, work->heapId);
+    work->keyCursor = (uptr)APP_KEYCURSOR_CreateDefault(15, 0, 1, work->heapId);
     work->printQue = PRINTSYS_QUE_Create(work->heapId);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, work->font, work->printQue, work->heapId);
-    G2x_SetBlendAlpha_((void *)0x04001050, 4, 1, 15, 4);
+    G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR, 4, 1, 15, 4);
     color = 0;
     if (param->fadeFromWhite) color = 0x7fff;
     WIPE_SYS_Start(0, 1, 1, (u16)color, 6, 1, work->heapId);

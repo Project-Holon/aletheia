@@ -195,7 +195,6 @@ extern int gpiCallErrorCallback(void **connection, int result, int fatal);
 #include "soc.h"
 struct SOCSockAddr;
 #include "gsplatformutil.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "gpioperation.h"
 #include "gpi.h"
@@ -205,8 +204,8 @@ extern int gpiValueForKey(const char *command, const char *key, char *value, int
 extern void *gsirealloc(void *ptr, unsigned int size);
 extern void gsifree(void *ptr);
 extern int strcmp(const char *s1, const char *s2);
-extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
-extern int atoi(const char *s);
+extern char *strstr(const char *s1, const char *s2);
+#include "../arm9/msl_strtod.h"
 int gpiStartProfileSearch(void **connection, GPIOperation *operation);
 int gpiInitSearchData(void **connection, GPISearchData **out, int type);
 int gpiStartSearch(void **connection, GPISearchData *data, int blocking, GPCallback callback, void *param);
@@ -809,7 +808,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
                 data->remove = GPITrue;
                 CallbackError(connection, GP_NETWORK_ERROR, GP_SEARCH_TIMED_OUT, g_02191848);
             }
-            if (strstr((unsigned char *)data->inputBuffer.buffer, (unsigned char *)g_021918E0) != 0)
+            if (strstr(data->inputBuffer.buffer, g_021918E0) != 0)
             {
                 index = 0;
 

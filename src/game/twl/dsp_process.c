@@ -60,6 +60,7 @@
  *   OS_SetIrqFunction  0x02084774  arm  arm9
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 extern char DSPi_ProcessNameFlagged[];
 extern char DSPi_SegNameDataA[];
 extern char DSPi_SegNameDataAHigh[];
@@ -247,8 +248,8 @@ void DSPi_MasterInterrupts(void)
     Shared *sp;
     if (s != 0) {
         for (;;) {
-            lo = *(vu16 *)0x0400431C;
-            hi = *(vu16 *)0x0400430C;
+            lo = *(vu16 *)REG_AES_CTR_ADDR;
+            hi = *(vu16 *)REG_AES_RDFIFO_ADDR;
             pend = (lo | (((hi >> 10) & 7) << 16));
             pend &= s->mask;
             if (pend == 0) {
@@ -290,7 +291,7 @@ u32 DSPi_CommitWram(DspProc *proc, s32 sel, u32 idx, s32 mode)
     ok = 0;
     if (MI_IsWramSlotUsed(sel, id) == 0 || MI_FreeWramSlot(sel, id, 1, MI_GetWramBankMaster(sel, id)) > 0) {
         if (MI_AllocWramSlot(sel, id, 1, mode) != 0) {
-            p = (u8 *)(sel == 1 ? 0x04004044 : 0x0400404C);
+            p = (u8 *)(sel == 1 ? REG_MI_MC_CNT2_ADDR : REG_MI_MC_CNT3_ADDR);
             if (mode == 0) {
                 p[id] = (p[id] & ~0x1c) | (id << 2);
             } else if (mode == 2) {
@@ -492,7 +493,7 @@ u32 DSP_MapAndLoadProcessImage(DspProc *proc, void *file, u16 bankMaskA, u16 ban
 void DSP_SetProcessHook(DspProc *proc, s32 mask, void (*handler)(u32), u32 arg)
 {
     s32 en = OS_DisableInterrupts();
-    vu16 *r = (vu16 *)0x04004308;
+    vu16 *r = (vu16 *)REG_AES_WRFIFO_ADDR;
     s32 i;
     u16 a, b;
     u32 hi, lo;

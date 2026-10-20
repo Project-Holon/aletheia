@@ -88,7 +88,7 @@ void ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(char *p, int ctx, int buttonId)
 
     fn = (void (*)(char *, char *, int, int, int, int))((struct Ov208Fsm *)p)->callbacks[3];
     if (fn != 0)
-        fn(p, p + 8, ((struct Ov208Fsm *)p)->a, (int)((struct Ov208Fsm *)p)->work, ctx, buttonId);
+        fn(p, p + 8, ((struct Ov208Fsm *)p)->a, (sptr)((struct Ov208Fsm *)p)->work, ctx, buttonId);
 }
 
 void ZUKAN_DETAIL_PROCSYS_CallOwnerHook(char *p, int ctx)
@@ -96,7 +96,7 @@ void ZUKAN_DETAIL_PROCSYS_CallOwnerHook(char *p, int ctx)
     Vfn fn = (Vfn)((struct Ov208Fsm *)p)->callbacks[4];
 
     if (fn != 0)
-        fn(p, p + 8, ((struct Ov208Fsm *)p)->a, (int)((struct Ov208Fsm *)p)->work, ctx);
+        fn(p, p + 8, ((struct Ov208Fsm *)p)->a, (sptr)((struct Ov208Fsm *)p)->work, ctx);
 }
 
 void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Fsm *p, u32 size, u32 heap)

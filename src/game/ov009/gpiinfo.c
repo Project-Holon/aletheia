@@ -136,11 +136,10 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 
 typedef int _GPResult;
 
-extern int strncmp(const char *a, const char *b, unsigned int n);
+extern int strncmp(const char *s1, const char *s2, unsigned int n);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
-extern int atoi(const char *s);
+#include "../arm9/msl_strtod.h"
 #include "gpiprofile.h"
-extern double atof(const char *s);
 #include "gsmemory.h"
 #include "gsplatformutil.h"
 extern void *memset(void *dst, int c, unsigned long n);

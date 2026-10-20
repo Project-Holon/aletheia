@@ -155,6 +155,7 @@
  *   BGWINFRM_ShowFrame  0x0202CC58  thumb
  */
 #include "../arm9/arc_util.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/pmsi_param.h"
 #include "bsubway_record_list_types.h"
 
@@ -476,7 +477,7 @@ void BSUBWAY_RECORD_LIST_FreeWork(BsubwayRecordListWork *work)
     ARC_TOOL_DeleteHandle(work->arcHandle);
 }
 
-void BSUBWAY_RECORD_LIST_SetupVramBanks(void) { BG_SYS_SetVramBanks(&sRecordListVramBanks); *(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000); }
+void BSUBWAY_RECORD_LIST_SetupVramBanks(void) { BG_SYS_SetVramBanks(&sRecordListVramBanks); *(volatile u16 *)REG_POWCNT1_ADDR = (u16)(*(volatile u16 *)REG_POWCNT1_ADDR & ~0x8000); }
 
 void BSUBWAY_RECORD_LIST_SetupBgLayers(BsubwayRecordListWork *unusedWork)
 {
@@ -715,7 +716,7 @@ int BSUBWAY_RECORD_LIST_StateFadeOutWait(BsubwayRecordListWork *work)
 
 void BSUBWAY_RECORD_LIST_InitCursor(BsubwayRecordListWork *work)
 {
-    work->cursorMove = (struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)sCursorEntries, (struct CursorVtbl *)sCursorCallbacks, (u32)work, 1, 0, 0x80);
+    work->cursorMove = (struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)sCursorEntries, (struct CursorVtbl *)sCursorCallbacks, (uptr)work, 1, 0, 0x80);
     BSUBWAY_RECORD_LIST_PlaceCursorActor(work, 0);
 }
 

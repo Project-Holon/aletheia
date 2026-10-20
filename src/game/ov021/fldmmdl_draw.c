@@ -1120,7 +1120,7 @@ void FLDMMDL_DRAW_DrawEffect(Mmdl *mmdl)
     MmdlDrawWork *work;
 
     work = FLDMMDL_GetDrawProcWork(mmdl);
-    g3dObjCtrl = (struct FieldG3dObjCtrl *)FLDMMDL_G3DOBJ_GetObjCtrl((u32)mmdl);
+    g3dObjCtrl = (struct FieldG3dObjCtrl *)FLDMMDL_G3DOBJ_GetObjCtrl((uptr)mmdl);
     FLDMMDL_ACMD_GetDrawPos(mmdl, (struct VecFx32 *)(&drawPos));
     FIELD_G3DOBJ_SetObjectTrans(g3dObjCtrl, work->blactId, &drawPos);
     hidden = 0;

@@ -148,7 +148,7 @@ struct GameEvent *EVENT_WIFI_PROC_Create(struct GameSystem *gameSystem, struct F
 
 struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam)
 {
-    GF_OVERLAY_Load((u32)ov020_id);
+    GF_OVERLAY_Load((uptr)ov020_id);
     return EVENT_MAPCHANGE_CreateByMode(gameSystem, (struct GameInitWork *)initParam);
 }
 
@@ -159,7 +159,7 @@ struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem
  */
 struct GameEvent *EVENT_WIFI_PROC_LoadOv020Task(struct GameSystem *gameSystem)
 {
-    GF_OVERLAY_Load((int)abs_id_14);
+    GF_OVERLAY_Load((sptr)abs_id_14);
     return EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(gameSystem);
 }
 
@@ -178,7 +178,7 @@ struct GameEvent *EVENT_WIFI_PROC_LoadOv020Task(struct GameSystem *gameSystem)
  */
 void EVENT_WIFI_PROC_LoadOv020(void)
 {
-    GF_OVERLAY_Load((int)abs_id_14);
+    GF_OVERLAY_Load((sptr)abs_id_14);
 }
 
 /*
@@ -196,7 +196,7 @@ void EVENT_WIFI_PROC_LoadOv020(void)
  */
 void EVENT_WIFI_PROC_UnloadOv020(void)
 {
-    GF_OVERLAY_Unload((int)abs_id_14);
+    GF_OVERLAY_Unload((sptr)abs_id_14);
 }
 
 /*
@@ -233,7 +233,7 @@ int EVENT_WIFI_PROC_EventMain(struct GameEvent *event, u32 *seq, void *workArg)
     case 2:
         (*seq)++;
     case 3:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov122_id, d_021D5764, work);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov122_id, d_021D5764, work);
         (*seq)++;
         break;
     case 4:
@@ -247,7 +247,7 @@ int EVENT_WIFI_PROC_EventMain(struct GameEvent *event, u32 *seq, void *workArg)
             break;
         case 1:
             work->savedBgmNo = GFL_USE_GetBgmNo();
-            GAME_EVENT_CallProc(event, (u32)ov172_id, d_021C7240, work->ov172Param);
+            GAME_EVENT_CallProc(event, (uptr)ov172_id, d_021C7240, work->ov172Param);
             *seq = 5;
             break;
         default:

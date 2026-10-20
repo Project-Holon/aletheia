@@ -166,7 +166,7 @@ int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem)
     int result = MIi_CpuClear32(0, fieldParam, 8);
     fieldParam->fieldSystem = fieldSystem;
     if (fieldSystem != 0) {
-        result = (int)FIELDMAP_GetMsgBg(fieldSystem);
+        result = (sptr)FIELDMAP_GetMsgBg(fieldSystem);
         fieldParam->mapSystem = (void *)result;
     }
     return result;
@@ -183,7 +183,7 @@ ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 sc
     work->targetObj = 0;
     work->targetObjParam = targetObjParam;
     work->parentWork = parentWork;
-    work->isChild = SCRIPT_SYS_IsChildScript((int)parentWork);
+    work->isChild = SCRIPT_SYS_IsChildScript((sptr)parentWork);
     if (work->isChild == 0) {
         work->wordSet = WORDSET_Create(0x1C, 0x40, heapId);
         work->msgBuffer = STRBUF_Create(0x500, heapId);
@@ -285,7 +285,7 @@ u16 *SCRIPT_WORK_GetLocalWork(ScriptWork *work, u32 id)
 
 u16 *SCRIPT_WORK_GetWorkPtr(ScriptWork *work, void *gameData, unsigned int id)
 {
-    u32 eventWork = (u32)GAME_DATA_GetEventWork(gameData);
+    u32 eventWork = (uptr)GAME_DATA_GetEventWork(gameData);
     if (id < 0x4000) return 0;
     if (id < 0x8000) return ZONEDATA_GetEventWorkAddress((struct EventWork *)eventWork, id);
     if (id < 0xc000) return SCRIPT_WORK_GetLocalWork(work, id);

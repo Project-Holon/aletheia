@@ -144,7 +144,7 @@ CtvtMic *CTVT_MIC_Create(u16 heap)
     mic->capturing = 0;
     mic->captureTicks = 0;
     gCtvtMic = mic;
-    GFL_USE_SetVBlankHook((void (*)(void *))((int)CTVT_MIC_OnVBlank), 0);
+    GFL_USE_SetVBlankHook((void (*)(void *))((sptr)CTVT_MIC_OnVBlank), 0);
     return mic;
 }
 
@@ -163,10 +163,10 @@ void CTVT_MIC_Update(CtvtMic *mic)
 {
     u32 n;
     if (mic->capturing == 1) {
-        n = (u32)MIC_GetLastSamplingAddress();
+        n = (uptr)MIC_GetLastSamplingAddress();
         if (n == 0) mic->capturedBytes = 0;
         else {
-            mic->capturedBytes = n - (u32)mic->buffer + 4;
+            mic->capturedBytes = n - (uptr)mic->buffer + 4;
             if (mic->capturedBytes > 51200) mic->capturedBytes = 51200;
         }
     }
@@ -222,7 +222,7 @@ int CTVT_MIC_StopCapture(CtvtMic *mic)
 {
     if (mic->capturing == 0) return 1;
     if (MIC_StopLimitedSampling() == 0) {
-        mic->capturedBytes = (u32)MIC_GetLastSamplingAddress() - (u32)mic->buffer + 4;
+        mic->capturedBytes = (uptr)MIC_GetLastSamplingAddress() - (uptr)mic->buffer + 4;
         if (mic->capturedBytes > 51200) mic->capturedBytes = 51200;
         mic->capturing = 0;
         return 1;
@@ -238,7 +238,7 @@ u32 CTVT_MIC_GetReadyBytes(CtvtMic *mic)
     return 0;
 }
 
-u32 CTVT_MIC_GetBuffer(CtvtMic *mic) { return (u32)mic->buffer; }
+u32 CTVT_MIC_GetBuffer(CtvtMic *mic) { return (uptr)mic->buffer; }
 
 
 #include "ctvt_adpcm.h"
@@ -288,7 +288,7 @@ int CTVT_MIC_EncodeAdpcm(struct CtvtMic *unused, void *a, void *buf, unsigned n)
 int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n)
 {
     MIi_CpuClear32(0, buf, n << 2);
-    return CTVT_ADPCM_Decode(a, (int)n, (int)buf);
+    return CTVT_ADPCM_Decode(a, (int)n, (sptr)buf);
 }
 
 void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap)

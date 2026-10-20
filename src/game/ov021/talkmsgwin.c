@@ -71,21 +71,22 @@
  *   BMP_WIN_ClearScreen  0x020456F8  arm
  */
 #include "talkmsgwin_types.h"
+#include "../sdk_ioreg.h"
 
-#define reg_G3_MTX_PUSH        (*(volatile u32 *)0x04000444)
-#define reg_G3_MTX_POP         (*(volatile u32 *)0x04000448)
-#define reg_G3_MTX_SCALE       (*(volatile u32 *)0x0400046C)
-#define reg_G3_MTX_TRANS       (*(volatile u32 *)0x04000470)
-#define reg_G3_COLOR           (*(volatile u32 *)0x04000480)
-#define reg_G3_TEXCOORD        (*(volatile u32 *)0x04000488)
-#define reg_G3_VTX_16          (*(volatile u32 *)0x0400048C)
-#define reg_G3_POLYGON_ATTR    (*(volatile u32 *)0x040004A4)
-#define reg_G3_TEXIMAGE_PARAM  (*(volatile u32 *)0x040004A8)
-#define reg_G3_TEXPLTT_BASE    (*(volatile u32 *)0x040004AC)
-#define reg_G3_DIF_AMB         (*(volatile u32 *)0x040004C0)
-#define reg_G3_SPE_EMI         (*(volatile u32 *)0x040004C4)
-#define reg_G3_BEGIN_VTXS      (*(volatile u32 *)0x04000500)
-#define reg_G3_END_VTXS        (*(volatile u32 *)0x04000504)
+#define reg_G3_MTX_PUSH        (*(volatile u32 *)REG_MTX_PUSH_ADDR)
+#define reg_G3_MTX_POP         (*(volatile u32 *)REG_MTX_POP_ADDR)
+#define reg_G3_MTX_SCALE       (*(volatile u32 *)REG_MTX_SCALE_ADDR)
+#define reg_G3_MTX_TRANS       (*(volatile u32 *)REG_MTX_TRANS_ADDR)
+#define reg_G3_COLOR           (*(volatile u32 *)REG_COLOR_ADDR)
+#define reg_G3_TEXCOORD        (*(volatile u32 *)REG_TEXCOORD_ADDR)
+#define reg_G3_VTX_16          (*(volatile u32 *)REG_VTX_16_ADDR)
+#define reg_G3_POLYGON_ATTR    (*(volatile u32 *)REG_POLYGON_ATTR_ADDR)
+#define reg_G3_TEXIMAGE_PARAM  (*(volatile u32 *)REG_TEXIMAGE_PARAM_ADDR)
+#define reg_G3_TEXPLTT_BASE    (*(volatile u32 *)REG_TEXPLTT_BASE_ADDR)
+#define reg_G3_DIF_AMB         (*(volatile u32 *)REG_DIF_AMB_ADDR)
+#define reg_G3_SPE_EMI         (*(volatile u32 *)REG_SPE_EMI_ADDR)
+#define reg_G3_BEGIN_VTXS      (*(volatile u32 *)REG_BEGIN_VTXS_ADDR)
+#define reg_G3_END_VTXS        (*(volatile u32 *)REG_END_VTXS_ADDR)
 
 #include "../arm9/fx_cp.h"
 #include "../arm9/gfl_heap_wrap.h"

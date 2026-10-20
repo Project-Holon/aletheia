@@ -30,6 +30,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 typedef struct PMiGenCallbackInfo PMiGenCallbackInfo;
 
 typedef struct {
@@ -41,7 +42,7 @@ typedef struct {
     u32 fcnt;
     u32 cnt;
 } NDmaCh;
-#define NDMA ((volatile NDmaCh *)0x04004104)
+#define NDMA ((volatile NDmaCh *)REG_MI_NDMA_SRC_ADDR)
 
 typedef struct {
     u8 pad[0x14];
@@ -85,8 +86,8 @@ void PMi_PreSleepForNdma(int ch)
         return;
     }
     switch (NDMA[ch].cnt & 0x0F000000) {
-    case 0x04000000:
-        while (*(volatile u32 *)0x040001A4 & 0x80000000) {
+    case REG_DISPCNT_ADDR:
+        while (*(volatile u32 *)REG_MCCNT1_ADDR & 0x80000000) {
         }
         return;
     case 0x08000000:

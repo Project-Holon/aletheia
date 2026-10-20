@@ -222,7 +222,7 @@ void NNSi_G3dGetNodeTransFromMdl(NNSG3dJntAnmResult *pResult)
     const NNSG3dResDict *pDict;
     const NNSG3dResNodeData *pNode;
     const u8 *pUnitTbl;
-    u32 unit;
+    uptr unit;
 
     unit = pRS->c->nodeId;
     pDict = pRS->nodeDict;
@@ -230,7 +230,7 @@ void NNSi_G3dGetNodeTransFromMdl(NNSG3dJntAnmResult *pResult)
     if (pDict == 0) goto nullent;
     if (unit >= pDict->numEntry) goto nullent;
     pUnitTbl = (const u8 *)pDict + pDict->ofsEntry;
-    unit = (u32)(pUnitTbl + 4 + ((const NNSG3dResDictEntryHdr *)pUnitTbl)->sizeUnit * unit);
+    unit = (uptr)(pUnitTbl + 4 + ((const NNSG3dResDictEntryHdr *)pUnitTbl)->sizeUnit * unit);
     goto have;
 nullent:
     unit = 0;
@@ -1532,7 +1532,7 @@ static inline const NNSG3dResMatAnmData *getMatAnmData(const NNSG3dResMatAnm *pM
     const u8 *tbl = (const u8 *)pMatAnm + 8;
     if (tbl != 0 && idx < pMatAnm->dict.numEntry) {
         const u8 *p = tbl + pMatAnm->dict.ofsEntry;
-        return (const NNSG3dResMatAnmData *)(((const NNSG3dResDictEntryHdr *)p)->sizeUnit * idx + (u32)(p + 4));
+        return (const NNSG3dResMatAnmData *)(((const NNSG3dResDictEntryHdr *)p)->sizeUnit * idx + (uptr)(p + 4));
     }
     return 0;
 }
@@ -1613,7 +1613,7 @@ s32 NNSi_G3dAnmGetTexSRTScalarData(const void *pRes, u32 info, u32 offset, u32 f
     if (info & NNS_G3D_ANMTRACK_CONST)
         return offset;
 
-    pKeys = (const u32 *)((int)pRes + offset);
+    pKeys = (const u32 *)((sptr)pRes + offset);
 
     if (info & NNS_G3D_JNTANM_SINFO_STEP_MASK) {
         lastInterp = info & NNS_G3D_ANMTRACK_COUNT_MASK;
@@ -1713,7 +1713,7 @@ int NNSi_G3dAnmGetTexSRTRotData(const void *pRes, u32 info, u32 offset, u32 fram
     if (info & NNS_G3D_ANMTRACK_CONST)
         return offset;
 
-    pKeys = (const u32 *)((int)pRes + offset);
+    pKeys = (const u32 *)((sptr)pRes + offset);
 
     if (info & NNS_G3D_JNTANM_SINFO_STEP_MASK) {
         lastInterp = info & NNS_G3D_ANMTRACK_COUNT_MASK;
@@ -1788,7 +1788,7 @@ void NNSi_G3dAnmGetTexSRTData(const NNSG3dResTexSRTAnm *pSrtAnm, u32 dataIdx, u3
     tbl = (const u8 *)pSrtAnm + 8;
     if (tbl != 0 && dataIdx < pSrtAnm->dict.numEntry) {
         const u8 *p = tbl + pSrtAnm->dict.ofsEntry;
-        pData = (const NNSG3dResTexSRTAnmData *)(((const NNSG3dResDictEntryHdr *)p)->sizeUnit * dataIdx + (u32)(p + 4));
+        pData = (const NNSG3dResTexSRTAnmData *)(((const NNSG3dResDictEntryHdr *)p)->sizeUnit * dataIdx + (uptr)(p + 4));
     } else {
         pData = 0;
     }

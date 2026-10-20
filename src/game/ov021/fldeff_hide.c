@@ -167,8 +167,8 @@ void FLDEFF_HIDE_LoadResources(HideRes *res)
     g3dObjSys = (struct FieldG3dObjCtrl *)FIELD_EFFECT_GetFieldMapData(res->fieldEffect);
     for (; i < HIDE_KIND_COUNT; i++, files++) {
         FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)(&desc));
-        FIELD_G3DOBJ_SetResDescModel((struct FieldG3dObjResDesc *)(&desc), (u32)arc, files->modelFile);
-        FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)(&desc), (u32)arc);
+        FIELD_G3DOBJ_SetResDescModel((struct FieldG3dObjResDesc *)(&desc), (uptr)arc, files->modelFile);
+        FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)(&desc), (uptr)arc);
         FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)(&desc), files->animeFile);
         res->resId[i] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (struct FieldG3dObjResDesc *)(&desc), 0);
         res->objId[i] = FIELD_G3DOBJ_AddObject(g3dObjSys, res->resId[i], 0, 0);

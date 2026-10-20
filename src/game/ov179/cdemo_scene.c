@@ -204,7 +204,7 @@ int CDEMO_SCENE_Step(char *p)
 
 void CDEMO_SCENE_LoadScreenBlock(void *a, int b, int c, int d, int e)
 {
-    int t = (int)ARC_UTIL_LoadHandleMember(a, b, 1, 0x807f);
+    int t = (sptr)ARC_UTIL_LoadHandleMember(a, b, 1, 0x807f);
 
     DC_FlushRange(t, d);
     if (e == 0) {

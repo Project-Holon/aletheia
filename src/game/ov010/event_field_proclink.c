@@ -492,9 +492,9 @@ PokeListParam *EVENT_FIELD_PROCLINK_CreatePokeListParam(ProcLinkWork *work, int 
     } else if (mode == 9) {
         int mailResult;
 
-        GF_OVERLAY_Load((u32)ov136_id);
+        GF_OVERLAY_Load((uptr)ov136_id);
         mailResult = MAILTOOL_IsMailSent(source);
-        GF_OVERLAY_Unload((u32)ov136_id);
+        GF_OVERLAY_Unload((uptr)ov136_id);
         if (work->purpose == 0) {
             list->listMode = 0xB;
             list->selectedSlot = work->resultSlot;
@@ -851,7 +851,7 @@ void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPag
 {
     GameData *gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     u32 zoneId = *(u16 *)GAME_DATA_GetMyPlayerWork(gameData);
-    int canFly = 1;
+    sptr canFly = 1;
     FieldSoundSystem *bgmInfo;
     TrainerCardViewWork *viewWork;
 
@@ -1023,7 +1023,7 @@ int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode,
     u16 itemId;
 
     gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
-    GF_OVERLAY_Load((u32)ov136_id);
+    GF_OVERLAY_Load((uptr)ov136_id);
     if (mode == 0) {
         party = GAME_DATA_GetMyParty(gameData);
         slot = listResult->selectedSlot;
@@ -1031,17 +1031,17 @@ int EVENT_FIELD_PROCLINK_CreateMailParam(ProcLinkWork *work, int kind, int mode,
         itemId = listResult->argValue;
         work->resultValue = itemId;
         if (listResult->command == 6)
-            return (int)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->selectedSlot, FILE_UTIL_GetItemSlot(itemId), 4);
+            return (sptr)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->selectedSlot, FILE_UTIL_GetItemSlot(itemId), 4);
         work->purpose = 1;
-        return (int)MAILTOOL_CreateArgsFromPartyMon(gameData, POKEPARTY_GetMember(party, slot), 4);
+        return (sptr)MAILTOOL_CreateArgsFromPartyMon(gameData, POKEPARTY_GetMember(party, slot), 4);
     }
     if (listResult->carry.words[4] == 2) {
-        mailParam = (int)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->listArg, FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
+        mailParam = (sptr)MAILTOOL_CreateWriteArgs(gameData, 2, (u8)listResult->listArg, FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
         work->resultValue = listResult->listArg;
         return mailParam;
     }
     work->purpose = 1;
-    return (int)MAILTOOL_CreateArgsFromMail(gameData, (void *)FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
+    return (sptr)MAILTOOL_CreateArgsFromMail(gameData, (void *)FILE_UTIL_GetItemSlot((u16)listResult->listArg), 4);
 }
 
 /*
@@ -1068,7 +1068,7 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
             nextState = 0;
         }
         work->nextState = nextState;
-        GF_OVERLAY_Unload((u32)ov136_id);
+        GF_OVERLAY_Unload((uptr)ov136_id);
         return 4;
     }
     if (work->childResult == 2) {
@@ -1082,19 +1082,19 @@ int EVENT_FIELD_PROCLINK_ReturnMail(ProcLinkWork *work, void *mailParam)
         } else {
             work->nextState = 2;
         }
-        GF_OVERLAY_Unload((u32)ov136_id);
+        GF_OVERLAY_Unload((uptr)ov136_id);
         return 4;
     }
     work->nextState = 2;
-    GF_OVERLAY_Unload((u32)ov136_id);
+    GF_OVERLAY_Unload((uptr)ov136_id);
     return 4;
 }
 
 void EVENT_FIELD_PROCLINK_UnloadMailOverlay(void *mailParam)
 {
-    GF_OVERLAY_Load((u32)ov136_id);
+    GF_OVERLAY_Load((uptr)ov136_id);
     MAILTOOL_DeleteArgs(mailParam);
-    GF_OVERLAY_Unload((u32)ov136_id);
+    GF_OVERLAY_Unload((uptr)ov136_id);
 }
 
 EvolutionRequest *EVENT_FIELD_PROCLINK_CreateEvolutionParam(ProcLinkWork *work, int kind, int mode, const PokeListParam *listResult)
@@ -1311,7 +1311,7 @@ int EVENT_FIELD_PROCLINK_ObjAnimEventMain(void *task, int *state, ObjAnimWork *w
         fieldObjects = EVENT_FIELD_PROCLINK_InitAnimNode(fieldObjects, work->fieldObjectId);
         if (fieldObjects == 0)
             return 1;
-        EVENT_FIELD_PROCLINK_IsAnimNodeDone(work, (s32)FLDMMDL_ACMD_ListCreate(fieldObjects, (struct MmdlAcmdListEntry *)work->animName));
+        EVENT_FIELD_PROCLINK_IsAnimNodeDone(work, (sptr)FLDMMDL_ACMD_ListCreate(fieldObjects, (struct MmdlAcmdListEntry *)work->animName));
         *state = *state + 1;
         break;
     case 1:
@@ -1500,7 +1500,7 @@ int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject)
         break;
     }
     FLDMMDL_FreeAcmd(object);
-    return (s32)FLDMMDL_ACMD_ListCreate(object, (struct MmdlAcmdListEntry *)animName);
+    return (sptr)FLDMMDL_ACMD_ListCreate(object, (struct MmdlAcmdListEntry *)animName);
 }
 
 int EVENT_FIELD_PROCLINK_IsHopAnimDone(int handle)
@@ -1549,7 +1549,7 @@ int EVENT_FIELD_PROCLINK_CommExitEventMain(GameEvent *event, int *state, CommPro
             *state = *state + 1;
         break;
     case 2:
-        GAMESYSTEM_CallProc(work->gameSystem, (u32)ov203_id, gDemo3dProcData, &work->procParam);
+        GAMESYSTEM_CallProc(work->gameSystem, (uptr)ov203_id, gDemo3dProcData, &work->procParam);
         *state = *state + 1;
         break;
     case 3:

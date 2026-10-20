@@ -318,12 +318,12 @@ int BATTLE_CHAMPIONSHIP_FLOW_Create(void *owner,void *unused,void *context)
     MI_CpuFill8(work,0,0x34);
     ((BattleChampionshipFlowWork *)work)->context=context;
     ((BattleChampionshipFlowWork *)work)->heapId=0x4e;
-    GF_OVERLAY_Load((int)ov67_id);
-    GF_OVERLAY_Load((int)ov177_id);
+    GF_OVERLAY_Load((sptr)ov67_id);
+    GF_OVERLAY_Load((sptr)ov177_id);
     BATTLE_CHAMPIONSHIP_FLOW_CreateGraphic((int *)work);
     BATTLE_CHAMPIONSHIP_FLOW_CreateView((int *)work);
     BATTLE_CHAMPIONSHIP_FLOW_CreateText(work);
-    ((BattleChampionshipFlowWork *)work)->proc=WIFIBATTLEMATCH_UTIL_CreateCallback((int)work,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeIn,0x4e);
+    ((BattleChampionshipFlowWork *)work)->proc=WIFIBATTLEMATCH_UTIL_CreateCallback((sptr)work,(sptr)BATTLE_CHAMPIONSHIP_FLOW_FadeIn,0x4e);
     return 1;
 }
 
@@ -333,8 +333,8 @@ int BATTLE_CHAMPIONSHIP_FLOW_Delete(int owner, int unused, int unused2, int *wor
     BATTLE_CHAMPIONSHIP_FLOW_DeleteText(work);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteView(work);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic(work);
-    GF_OVERLAY_Unload((int)ov177_id);
-    GF_OVERLAY_Unload((int)ov67_id);
+    GF_OVERLAY_Unload((sptr)ov177_id);
+    GF_OVERLAY_Unload((sptr)ov67_id);
     PROCSYS_FreeProcWork((struct Proc *)owner);
     GFL_HEAP_DeleteChecked(0x4e);
     return 1;
@@ -344,7 +344,7 @@ int BATTLE_CHAMPIONSHIP_FLOW_IsFinished(u32 unused,u32 unused2,u32 unused3,int *
 
 void BATTLE_CHAMPIONSHIP_FLOW_CreateGraphic(int *work)
 {
-    ((BattleChampionshipFlowWork *)work)->graphic = (int)WIFIBATTLEMATCH_GRAPHIC_Create(1, ((BattleChampionshipFlowWork *)work)->heapId);
+    ((BattleChampionshipFlowWork *)work)->graphic = (sptr)WIFIBATTLEMATCH_GRAPHIC_Create(1, ((BattleChampionshipFlowWork *)work)->heapId);
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic(int *work)
@@ -370,7 +370,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_ReleaseGraphic(int *work)
  */
 void BATTLE_CHAMPIONSHIP_FLOW_CreateView(int *work)
 {
-    ((BattleChampionshipFlowWork *)work)->view = (int)WIFIBATTLEMATCH_VIEW_Create(WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(((BattleChampionshipFlowWork *)work)->graphic)), 1, ((BattleChampionshipFlowWork *)work)->heapId);
+    ((BattleChampionshipFlowWork *)work)->view = (sptr)WIFIBATTLEMATCH_VIEW_Create(WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(((BattleChampionshipFlowWork *)work)->graphic)), 1, ((BattleChampionshipFlowWork *)work)->heapId);
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_DeleteView(int *work) {WIFIBATTLEMATCH_VIEW_Delete((void *)((BattleChampionshipFlowWork *)work)->view);}
@@ -383,7 +383,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_CreateText(char *work)
     ((BattleChampionshipFlowWork *)work)->font=GF_FONT_Create(0x17,0,0,0,((BattleChampionshipFlowWork *)work)->heapId);
     ((BattleChampionshipFlowWork *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,4,((BattleChampionshipFlowWork *)work)->heapId);
     ((BattleChampionshipFlowWork *)work)->printQue=(void *)PRINTSYS_QUE_Create((unsigned int)(((BattleChampionshipFlowWork *)work)->heapId));
-    ((BattleChampionshipFlowWork *)work)->printSys=WIFIBATTLEMATCH_UTIL_Create((int)0,(int)15,14,10,(int)(((BattleChampionshipFlowWork *)work)->printQue),(int)(((BattleChampionshipFlowWork *)work)->font),((BattleChampionshipFlowWork *)work)->heapId);
+    ((BattleChampionshipFlowWork *)work)->printSys=WIFIBATTLEMATCH_UTIL_Create((int)0,(int)15,14,10,(sptr)(((BattleChampionshipFlowWork *)work)->printQue),(sptr)(((BattleChampionshipFlowWork *)work)->font),((BattleChampionshipFlowWork *)work)->heapId);
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_DeleteText(int *work)
@@ -404,9 +404,9 @@ void BATTLE_CHAMPIONSHIP_FLOW_SelectFlow(void *proc,int unused,char *work)
 {
     switch(((BattleChampionshipFlowContext *)(*(char * *)&((BattleChampionshipFlowWork *)work)->context))->mode){
     case 0: case 1: case 2:
-        WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartMenu); break;
+        WIFIBATTLEMATCH_UTIL_SetCallback(proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_StartMenu); break;
     case 3: case 4: case 5: case 6:
-        WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch); break;
+        WIFIBATTLEMATCH_UTIL_SetCallback(proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch); break;
     }
 }
 
@@ -420,7 +420,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_FadeIn(void *proc,int *state,char *work)
     switch(*state){
     case 0: FADE_Start(3,16,0,0); *state=1; break;
     case 1: if(!FADE_IsActive()) *state=2; break;
-    case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectFlow); break;
+    case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_SelectFlow); break;
     default: GF_PANIC_Fail(d_0217E5E0,0,d_0217E5E0); break;
     }
 }
@@ -435,7 +435,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_FadeOut(void *proc,int *state,char *work)
         *state=1;
         break;
     case 1: if(!FADE_IsActive()) *state=2; break;
-    case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc,(int)BATTLE_CHAMPIONSHIP_FLOW_End); break;
+    case 2: WIFIBATTLEMATCH_UTIL_SetCallback(proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_End); break;
     default: GF_PANIC_Fail(d_0217E5E0,0,d_0217E5E0); break;
     }
 }
@@ -446,13 +446,13 @@ void BATTLE_CHAMPIONSHIP_FLOW_StartMenu(int *proc,int *state,BattleChampionshipF
     switch(*state) {
     case 0:
         MI_CpuFill8(&config,0,32);
-        config.printSys=(int)work->printSys;
-        config.font=(int)work->font;
-        config.msgBank=(int)work->msgBank;
-        config.printQue=(int)work->printQue;
+        config.printSys=(sptr)work->printSys;
+        config.font=(sptr)work->font;
+        config.msgBank=(sptr)work->msgBank;
+        config.printQue=(sptr)work->printQue;
         config.view=(int)work->view;
         config.graphic=work->graphic;
-        config.save=(int)work->context->save;
+        config.save=(sptr)work->context->save;
         if(work->useAltFlow!=0) {work->useAltFlow=0;config.mode=2;}
         else {
             switch(work->context->mode) {
@@ -460,7 +460,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_StartMenu(int *proc,int *state,BattleChampionshipF
             case 1: config.mode=1;break;
             }
         }
-        work->flow=(int)BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(&config,78);
+        work->flow=(sptr)BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(&config,78);
         (*state)++;
         break;
     case 1:
@@ -473,11 +473,11 @@ void BATTLE_CHAMPIONSHIP_FLOW_StartMenu(int *proc,int *state,BattleChampionshipF
         break;
     case 2:
         BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu((int *)work->flow);
-        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
+        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
         break;
     case 3:
         BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu((int *)work->flow);
-        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch);
+        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch);
         break;
     }
 }
@@ -488,15 +488,15 @@ void BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch(int *proc,int *state,BattleChampion
     switch(*state) {
     case 0:
         MI_CpuFill8(&config,0,40);
-        config.words[1]=(u32)work->printSys;
-        config.words[2]=(u32)work->font;
-        config.words[3]=(u32)work->printQue;
+        config.words[1]=(uptr)work->printSys;
+        config.words[2]=(uptr)work->font;
+        config.words[3]=(uptr)work->printQue;
         config.words[4]=(u32)work->view;
         config.words[5]=(u32)work->graphic;
-        config.words[6]=(u32)work->context->save;
-        config.words[7]=(u32)work->context->battleData;
-        config.words[8]=(u32)work->context->partyData;
-        config.words[9]=(u32)work->context->stateObj;
+        config.words[6]=(uptr)work->context->save;
+        config.words[7]=(uptr)work->context->battleData;
+        config.words[8]=(uptr)work->context->partyData;
+        config.words[9]=(uptr)work->context->stateObj;
         switch(work->context->mode) {
         case 3: config.words[0]=0;break;
         case 4: config.words[0]=2;break;
@@ -504,7 +504,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch(int *proc,int *state,BattleChampion
         case 6: config.words[0]=1;break;
         default: config.words[0]=0;break;
         }
-        work->flow=(int)LIVEBATTLEMATCH_FLOW_Create((LiveBattleMatchInit *)&config, 78);
+        work->flow=(sptr)LIVEBATTLEMATCH_FLOW_Create((LiveBattleMatchInit *)&config, 78);
         (*state)++;
         break;
     case 1:
@@ -518,12 +518,12 @@ void BATTLE_CHAMPIONSHIP_FLOW_StartLiveMatch(int *proc,int *state,BattleChampion
         break;
     case 2:
         LIVEBATTLEMATCH_FLOW_Delete((int *)work->flow);
-        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
+        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_FadeOut);
         break;
     case 3:
         work->useAltFlow=1;
         LIVEBATTLEMATCH_FLOW_Delete((int *)work->flow);
-        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_StartMenu);
+        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_StartMenu);
         break;
     }
 }
@@ -536,7 +536,7 @@ void *BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(const BattleChampionshipFlowConfig *co
     *(BattleChampionshipFlowConfig *)(menu+0x14)=*config;
     ((BattleChampionshipFlowMenu *)menu)->heapId=heap;
     ((BattleChampionshipFlowMenu *)menu)->msgBank=MSGDATA_CreateFromArchive(0,3,0x9e,heap);
-    ((BattleChampionshipFlowMenu *)menu)->proc=WIFIBATTLEMATCH_UTIL_CreateCallback((int)menu,(int)BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase,heap);
+    ((BattleChampionshipFlowMenu *)menu)->proc=WIFIBATTLEMATCH_UTIL_CreateCallback((sptr)menu,(sptr)BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase,heap);
     return menu;
 }
 
@@ -568,13 +568,13 @@ void BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase(int proc, int unused, int *work)
 {
     switch (((BattleChampionshipFlowMenu *)work)->phase) {
     case 0:
-        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc), (int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);
+        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc), (sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);
         break;
     case 1:
-        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc), (int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse);
+        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc), (sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse);
         break;
     case 2:
-        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc), (int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);
+        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc), (sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);
         break;
     }
 }
@@ -592,9 +592,9 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuMain(int proc, unsigned *state, int *work)
         result = BATTLE_CHAMPIONSHIP_FLOW_GetWindowResult(work);
         if (result != -1) {
             switch (result) {
-            case 0: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse); break;
-            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra); break;
-            case 2: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuConfirm); break;
+            case 0: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra); break;
+            case 2: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuConfirm); break;
             case 3: BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(work,1); break;
             }
             BATTLE_CHAMPIONSHIP_FLOW_HideWindow(work);
@@ -603,7 +603,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuMain(int proc, unsigned *state, int *work)
     }
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_MenuConfirm(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetOption((int *)work,1);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);break;}}
+void BATTLE_CHAMPIONSHIP_FLOW_MenuConfirm(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetOption((int *)work,1);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);break;}}
 
 /*
  * extent: stale 0217B550 data label splits its final twelve pool bytes; real next function is separately filed 0217B55C.
@@ -620,12 +620,12 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse(int proc,unsigned *state,int *work)
         if(result!=-1) {
             switch(result) {
             case 0:
-                if(APP_ENV_IsWirelessAvailable()==0) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
+                if(APP_ENV_IsWirelessAvailable()==0) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
                 else {BATTLE_REC_ClearWork(); BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(work,2);}
                 break;
-            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuClose); break;
-            case 2: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1); break;
-            case 3: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuClose); break;
+            case 2: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1); break;
+            case 3: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuMain); break;
             }
             BATTLE_CHAMPIONSHIP_FLOW_HideWindow(work);
         }
@@ -637,7 +637,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuClose(int proc,int *state,int *work)
 {
     switch(*state) {
     case 0: BATTLE_CHAMPIONSHIP_FLOW_SetOption(work,8); *state=1; break;
-    case 1: if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse); break;
+    case 1: if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse); break;
     }
 }
 
@@ -648,14 +648,14 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1(int proc, int *state, char *work)
     case 0:
         MI_CpuFill8(&config, 0, 32);
         config.mode = 0;
-        config.printSys = (int)((BattleChampionshipFlowMenu *)work)->printSys;
-        config.font = (int)((BattleChampionshipFlowMenu *)work)->font;
-        config.msgBank = (int)((BattleChampionshipFlowMenu *)work)->msgBank2;
-        config.printQue = (int)((BattleChampionshipFlowMenu *)work)->printQue;
-        config.view = (int)((BattleChampionshipFlowMenu *)work)->view;
-        config.graphic = (int)((BattleChampionshipFlowMenu *)work)->graphic;
-        config.save = (int)((BattleChampionshipFlowMenu *)work)->save;
-        ((BattleChampionshipFlowMenu *)work)->cardCheck = (int)DIGITALCARDCHECK_Create((RequestConfig *)&config, ((BattleChampionshipFlowMenu *)work)->heapId);
+        config.printSys = (sptr)((BattleChampionshipFlowMenu *)work)->printSys;
+        config.font = (sptr)((BattleChampionshipFlowMenu *)work)->font;
+        config.msgBank = (sptr)((BattleChampionshipFlowMenu *)work)->msgBank2;
+        config.printQue = (sptr)((BattleChampionshipFlowMenu *)work)->printQue;
+        config.view = (sptr)((BattleChampionshipFlowMenu *)work)->view;
+        config.graphic = (sptr)((BattleChampionshipFlowMenu *)work)->graphic;
+        config.save = (sptr)((BattleChampionshipFlowMenu *)work)->save;
+        ((BattleChampionshipFlowMenu *)work)->cardCheck = (sptr)DIGITALCARDCHECK_Create((RequestConfig *)&config, ((BattleChampionshipFlowMenu *)work)->heapId);
         (*state)++;
         break;
     case 1:
@@ -664,7 +664,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck1(int proc, int *state, char *work)
         break;
     case 2:
         DIGITALCARDCHECK_Delete((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck));
-        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc), (int)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse);
+        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc), (sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuBrowse);
         break;
     }
 }
@@ -676,14 +676,14 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck2(int proc, int *state, char *work)
     case 0:
         MI_CpuFill8(&config, 0, 32);
         config.mode = 1;
-        config.printSys = (int)((BattleChampionshipFlowMenu *)work)->printSys;
-        config.font = (int)((BattleChampionshipFlowMenu *)work)->font;
-        config.msgBank = (int)((BattleChampionshipFlowMenu *)work)->msgBank2;
-        config.printQue = (int)((BattleChampionshipFlowMenu *)work)->printQue;
-        config.view = (int)((BattleChampionshipFlowMenu *)work)->view;
-        config.graphic = (int)((BattleChampionshipFlowMenu *)work)->graphic;
-        config.save = (int)((BattleChampionshipFlowMenu *)work)->save;
-        ((BattleChampionshipFlowMenu *)work)->cardCheck = (int)DIGITALCARDCHECK_Create((RequestConfig *)&config, ((BattleChampionshipFlowMenu *)work)->heapId);
+        config.printSys = (sptr)((BattleChampionshipFlowMenu *)work)->printSys;
+        config.font = (sptr)((BattleChampionshipFlowMenu *)work)->font;
+        config.msgBank = (sptr)((BattleChampionshipFlowMenu *)work)->msgBank2;
+        config.printQue = (sptr)((BattleChampionshipFlowMenu *)work)->printQue;
+        config.view = (sptr)((BattleChampionshipFlowMenu *)work)->view;
+        config.graphic = (sptr)((BattleChampionshipFlowMenu *)work)->graphic;
+        config.save = (sptr)((BattleChampionshipFlowMenu *)work)->save;
+        ((BattleChampionshipFlowMenu *)work)->cardCheck = (sptr)DIGITALCARDCHECK_Create((RequestConfig *)&config, ((BattleChampionshipFlowMenu *)work)->heapId);
         (*state)++;
         break;
     case 1:
@@ -692,7 +692,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck2(int proc, int *state, char *work)
         break;
     case 2:
         DIGITALCARDCHECK_Delete((int *)(((BattleChampionshipFlowMenu *)work)->cardCheck));
-        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc), (int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);
+        WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc), (sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);
         break;
     }
 }
@@ -709,12 +709,12 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuExtra(int proc,unsigned *state,int *work)
         if(result!=-1) {
             switch(result) {
             case 0:
-                if(APP_ENV_IsWirelessAvailable()==0) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
+                if(APP_ENV_IsWirelessAvailable()==0) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse);
                 else {BATTLE_REC_ClearWork(); BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(work,3);}
                 break;
-            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm); break;
-            case 2: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck2); break;
-            case 3: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain); break;
+            case 1: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm); break;
+            case 2: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuCardCheck2); break;
+            case 3: WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuMain); break;
             }
             BATTLE_CHAMPIONSHIP_FLOW_HideWindow(work);
         }
@@ -722,9 +722,9 @@ void BATTLE_CHAMPIONSHIP_FLOW_MenuExtra(int proc,unsigned *state,int *work)
     }
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetOption((int *)work,15);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);break;}}
+void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraConfirm(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetOption((int *)work,15);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuExtra);break;}}
 
-void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetExtraOption((int *)work,22);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(int)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);break;}}
+void BATTLE_CHAMPIONSHIP_FLOW_MenuExtraBrowse(int *proc,int *state,u8 *work) {switch(*state) {case 0:BATTLE_CHAMPIONSHIP_FLOW_SetExtraOption((int *)work,22);*state=1;break;case 1:if(BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone((int *)work)==1) WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)proc,(sptr)BATTLE_CHAMPIONSHIP_FLOW_MenuMain);break;}}
 
 static inline void selected(WifibattlematchMenuDesc *rec,void *cardBase,int index)
 {
@@ -754,9 +754,9 @@ void BATTLE_CHAMPIONSHIP_FLOW_DrawMenu(int *work, int index)
     u32 height;
     cardBase=BATTLE_COMPETITION_GetFromSave((void *)GAME_DATA_GetSaveControl(((BattleChampionshipFlowMenu *)work)->save));
     MI_CpuFill8(&rec,0,48);
-    rec.msgBank=(u32)((BattleChampionshipFlowMenu *)work)->msgBank2;
-    rec.font=(u32)((BattleChampionshipFlowMenu *)work)->font;
-    rec.printQue=(u32)((BattleChampionshipFlowMenu *)work)->printQue;
+    rec.msgBank=(uptr)((BattleChampionshipFlowMenu *)work)->msgBank2;
+    rec.font=(uptr)((BattleChampionshipFlowMenu *)work)->font;
+    rec.printQue=(uptr)((BattleChampionshipFlowMenu *)work)->printQue;
     switch(index) {
     case 0:
         rec.items[0]=2;rec.items[1]=3;rec.items[2]=5;rec.items[3]=6;rec.count=4;rec.enabled=1;rec.kind=3;layout=0;break;
@@ -790,4 +790,4 @@ void BATTLE_CHAMPIONSHIP_FLOW_SetExtraOption(int *work, int option)
 
 int BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone(int *work) {return WIFIBATTLEMATCH_UTIL_GetBusy((const WifibattlematchUtilWork *)((struct WifibattlematchUtilWork *)(*(int * *)&((BattleChampionshipFlowMenu *)work)->printSys)));}
 
-void BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(int *work,int result) {((BattleChampionshipFlowMenu *)work)->result=result;WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)((BattleChampionshipFlowMenu *)work)->proc),(int)BATTLE_CHAMPIONSHIP_FLOW_EndMenu);}
+void BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(int *work,int result) {((BattleChampionshipFlowMenu *)work)->result=result;WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)((int *)((BattleChampionshipFlowMenu *)work)->proc),(sptr)BATTLE_CHAMPIONSHIP_FLOW_EndMenu);}

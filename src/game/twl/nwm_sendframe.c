@@ -51,9 +51,9 @@ u32 NWM_SendFrame(void *callback, u32 destMac, u8 *frame, u32 length) {
         return 5;
     }
     DC_StoreRange(frame, length);
-    NWMi_AddMACHeader(destMac, (u32)(w->buf + 0x40), frame, length);
+    NWMi_AddMACHeader(destMac, (uptr)(w->buf + 0x40), frame, length);
     DC_StoreRange(frame, 0xE);
-    r = NWMi_SendCommand(0xB, 3, (u32)callback, frame, length);
+    r = NWMi_SendCommand(0xB, 3, (uptr)callback, frame, length);
     if (r == 0) {
         return 2;
     }
@@ -65,6 +65,6 @@ void NWMi_AddMACHeader(u32 destMac, u32 srcMac, u8 *frame, u32 length) {
     if (length < 0xE) {
         return;
     }
-    MI_CpuCopy8(destMac, (u32)frame, 6);
-    MI_CpuCopy8(srcMac, (u32)(frame + 6), 6);
+    MI_CpuCopy8(destMac, (uptr)frame, 6);
+    MI_CpuCopy8(srcMac, (uptr)(frame + 6), 6);
 }

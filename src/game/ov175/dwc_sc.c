@@ -102,7 +102,6 @@ typedef struct DWCScControl {
 #include "../arm9/os_thread.h"
 #include "../arm9/os_printf.h"
 #include "../ov114/dwc_ghttp.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "authservice.h"
 

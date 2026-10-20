@@ -112,5 +112,5 @@ void INTRO_MCSS_AddSlot(char *p, unsigned int a, unsigned int b, unsigned int c,
     zero = Zero;
     work->slots[i].animFinished = zero;
     work->slots[i].loopAnim = 1;
-    MCSS_SetAnimCallback(work->slots[i].object, (u32)(&work->slots[i]), (u32)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
+    MCSS_SetAnimCallback(work->slots[i].object, (uptr)(&work->slots[i]), (uptr)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
 }

@@ -218,7 +218,7 @@ int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx
     dr = ((u8)(b & 31) - r) * t >> 12;
     dg = ((u8)((b & 0x3E0) >> 5) - g) * t >> 12;
     *out = (u8)(r + dr) | ((u8)(g + dg) << 5) | ((u8)(blue + db) << 10);
-    NNS_GfdRegisterNewVramTransferTask((void *)0xF, row * 32 + idx * 2, (u32)out, 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)0xF, row * 32 + idx * 2, (uptr)out, 2);
     return *out == b;
 }
 
@@ -236,27 +236,27 @@ void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int
 {
     u16 pos[2];
     int i;
-    int h;
+    sptr h;
     int base;
     MI_CpuFill8(p, 0, 0x94);
     i = 0;
     *(int *)(p + 0x34) = c;
     *(u16 *)(p + 0x22) = b;
     *(int *)(p + 0x38) = d;
-    h = (int)BMP_WIN_Create(0, 8, 2, 0x18, 2, 15, 1);
+    h = (sptr)BMP_WIN_Create(0, 8, 2, 0x18, 2, 15, 1);
     *(int *)(p + 0x40) = h;
     BMP_WIN_TransferChars((struct BmpWin *)h);
     BMP_WIN_MakeScreen((struct BmpWin *)h);
     BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)h));
     *(int *)(p + 0x2c) = *(int *)(p + 0x40);
     *(u8 *)(p + 0x30) = i;
-    *(int *)(p + 0x3c) = (int)STRBUF_Create(0xe, f);
+    *(int *)(p + 0x3c) = (sptr)STRBUF_Create(0xe, f);
     for (i = 0; i < 3; i++) {
-        *(int *)(p + i * 4 + 0x84) = (int)NAMEIN_GRAPHIC_LoadCharMember(i, f);
+        *(int *)(p + i * 4 + 0x84) = (sptr)NAMEIN_GRAPHIC_LoadCharMember(i, f);
     }
-    *(int *)(p + 0x90) = (int)NAMEIN_GRAPHIC_LoadPairMember(f);
+    *(int *)(p + 0x90) = (sptr)NAMEIN_GRAPHIC_LoadPairMember(f);
     for (i = 0; i < 16; i++) {
-        *(int *)(p + i * 4 + 0x44) = (int)NAMEIN_GRAPHIC_GetActor(e, i);
+        *(int *)(p + i * 4 + 0x44) = (sptr)NAMEIN_GRAPHIC_GetActor(e, i);
     }
     if (STRBUF_GetLength((struct Strbuf *)a) == 0) {
         *(u16 *)p = STRBUF_GetEosChar();
@@ -285,7 +285,7 @@ void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int
     NAMEIN_GRAPHIC_RefreshInputField(p);
 }
 
-void NAMEIN_GRAPHIC_DeleteInputField(u8 *p) { int i;NAMEIN_GRAPHIC_FreePairMember(((NameinGraphicInputField *)p)->pairMember);for(i=0;i<3;i++)NAMEIN_GRAPHIC_FreeHandle(*(void **)((u32)p+(u32)i*4+132));STRBUF_Delete(((NameinGraphicInputField *)p)->strbuf);BMP_WIN_Delete((struct BmpWin *)(((NameinGraphicInputField *)p)->bmpWin));MI_CpuFill8(p,0,148); }
+void NAMEIN_GRAPHIC_DeleteInputField(u8 *p) { int i;NAMEIN_GRAPHIC_FreePairMember(((NameinGraphicInputField *)p)->pairMember);for(i=0;i<3;i++)NAMEIN_GRAPHIC_FreeHandle(*(void **)((uptr)p+(u32)i*4+132));STRBUF_Delete(((NameinGraphicInputField *)p)->strbuf);BMP_WIN_Delete((struct BmpWin *)(((NameinGraphicInputField *)p)->bmpWin));MI_CpuFill8(p,0,148); }
 
 /*
  * lever: load window in each print arm; p+i*4+0x44 preserves per-element bases and constant registers.
@@ -398,7 +398,7 @@ int NAMEIN_GRAPHIC_ApplyConversion(u8 *a,int b)
     if (((NameinGraphicInputField *)a)->primaryLength==0) goto fail;
     v=NAMEIN_GRAPHIC_FindTableIndex(p,(u16 *)(a+(((NameinGraphicInputField *)a)->primaryLength-1)*2));
     if(v==65535) goto fail;
-    if(!NAMEIN_GRAPHIC_PickTable8((int)p,v,change.added,4,&change.addedCount)) goto fail;
+    if(!NAMEIN_GRAPHIC_PickTable8((sptr)p,v,change.added,4,&change.addedCount)) goto fail;
     NAMEIN_GRAPHIC_CopyTableEntries(p,v,change.removed,4,&change.removedCount);
     for(i=0;i<change.removedCount;i++) NAMEIN_GRAPHIC_Backspace(a);
     for(i=0;i<change.addedCount;i++) {
@@ -410,15 +410,15 @@ fail:
     return 0;
 }
 
-int NAMEIN_GRAPHIC_RevertChar(char *p) { u16 v;if(((NameinGraphicInputField *)p)->primaryLength!=0 && NAMEIN_GRAPHIC_NextPairChar(*(char * *)&((NameinGraphicInputField *)p)->pairMember,(u16 *)((u32)p+(((NameinGraphicInputField *)p)->primaryLength-1)*2),&v)) { NAMEIN_GRAPHIC_Backspace((u8 *)p);NAMEIN_GRAPHIC_AppendChar(p,v);return 1; }return 0; }
+int NAMEIN_GRAPHIC_RevertChar(char *p) { u16 v;if(((NameinGraphicInputField *)p)->primaryLength!=0 && NAMEIN_GRAPHIC_NextPairChar(*(char * *)&((NameinGraphicInputField *)p)->pairMember,(u16 *)((uptr)p+(((NameinGraphicInputField *)p)->primaryLength-1)*2),&v)) { NAMEIN_GRAPHIC_Backspace((u8 *)p);NAMEIN_GRAPHIC_AppendChar(p,v);return 1; }return 0; }
 
 int NAMEIN_GRAPHIC_IsFieldDrawDone(unsigned char *p)
 {
     int c = p[0x30];
-    int r4 = (int)((NameinGraphicInputField *)p)->printSys;
+    int r4 = (sptr)((NameinGraphicInputField *)p)->printSys;
 
     if (c != 0) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)r4, (void *)((int)BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicInputField *)p)->win))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)r4, (void *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)((NameinGraphicInputField *)p)->win))) == 0) {
             BMP_WIN_TransferChars((struct BmpWin *)((NameinGraphicInputField *)p)->win);
             p[0x30] = 0;
         }
@@ -444,7 +444,7 @@ void NAMEIN_GRAPHIC_ClearSecondary(char *p)
     }
 }
 
-void NAMEIN_GRAPHIC_CommitSecondary(char *p) { int i; for(i=0;i<((NameinGraphicInputField *)p)->secondaryLength;i++)NAMEIN_GRAPHIC_AppendChar(p,*(u16 *)((u32)p+(u32)i*2+22));((NameinGraphicInputField *)p)->secondaryLength=0;*(u16 *)((u32)p+((NameinGraphicInputField *)p)->secondaryLength*2+22)=STRBUF_GetEosChar();((NameinGraphicInputField *)p)->needsRefresh=1; }
+void NAMEIN_GRAPHIC_CommitSecondary(char *p) { int i; for(i=0;i<((NameinGraphicInputField *)p)->secondaryLength;i++)NAMEIN_GRAPHIC_AppendChar(p,*(u16 *)((uptr)p+(u32)i*2+22));((NameinGraphicInputField *)p)->secondaryLength=0;*(u16 *)((uptr)p+((NameinGraphicInputField *)p)->secondaryLength*2+22)=STRBUF_GetEosChar();((NameinGraphicInputField *)p)->needsRefresh=1; }
 
 void NAMEIN_GRAPHIC_ClearPrimary(u8 *p) {if(((NameinGraphicInputField *)p)->primaryLength) {((NameinGraphicInputField *)p)->primaryLength=0;*(u16 *)(p+((NameinGraphicInputField *)p)->primaryLength*2)=STRBUF_GetEosChar();((NameinGraphicInputField *)p)->needsRefresh=1;}NAMEIN_GRAPHIC_ClearSecondary((char *)p);}
 

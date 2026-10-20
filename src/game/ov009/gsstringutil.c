@@ -25,7 +25,6 @@
 
 #include "../arm9/msl_string_str.h"
 #include "gsmemory.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 int _ReadUCS2CharFromUTF8String(char *theUTF8String, int theMaxBytes, unsigned short *theUnicodeCharOut);
 int _UCS2CharToUTF8String(unsigned short theUCS2Char, char *theUTF8String);
@@ -135,7 +134,7 @@ unsigned short *UTF8ToUCS2StringAlloc(char *theUTF8String)
 {
     if (theUTF8String == 0)
         return 0;
-    return UTF8ToUCS2StringAllocLen(theUTF8String, strlen((const u8 *)theUTF8String));
+    return UTF8ToUCS2StringAllocLen(theUTF8String, strlen(theUTF8String));
 }
 
 /*
@@ -194,7 +193,7 @@ int UTF8ToUCS2StringLen2(const unsigned char *src, int size, u16 *out, int max)
  */
 int gsiSafeStrcpyA(char *dst, const char *src, unsigned int n)
 {
-    unsigned int len = strlen((const u8 *)src);
+    unsigned int len = strlen(src);
 
     if (len > n - 1)
         len = n - 1;

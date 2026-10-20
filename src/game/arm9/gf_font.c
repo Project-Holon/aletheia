@@ -80,8 +80,6 @@ extern void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcHandle *arc, u32 memberI
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
 extern void ARC_TOOL_DeleteHandle(void *handle);
 extern void ARC_TOOL_SeekHandle(struct ArcFile *arc, u32 offset); /* original prototype; the definition differs in pointer type, return type */
-#else
-#define ARC_TOOL_SeekHandle(arc, offset) (ARC_TOOL_SeekHandle)((struct FSFile *)(arc), offset)
 #endif
 struct ArcHandleRaw;
 
@@ -595,7 +593,11 @@ void GF_FONT_ReadPreloadedGlyph(const struct GfFont *font, u32 glyphIndex, void 
  */
 void GF_FONT_ReadStreamedGlyph(const struct GfFont *font, u32 glyphIndex, void *dst, u8 *metrics)
 {
+#ifdef __MWERKS__
     ARC_TOOL_SeekHandle(font->arc, font->arcBase + (font->glyphDataOffset + glyphIndex * font->glyph.cellSize));
+#else
+    ARC_TOOL_SeekHandle((struct FSFile *)font->arc, font->arcBase + (font->glyphDataOffset + glyphIndex * font->glyph.cellSize));
+#endif
     ARC_TOOL_ReadHandle((struct ArcHandleRaw *)font->arc, font->glyph.cellSize, font->scratch);
     GF_FONT_DecodeGlyph(font, font->scratch, font->lastGroupBits, dst, metrics);
 }

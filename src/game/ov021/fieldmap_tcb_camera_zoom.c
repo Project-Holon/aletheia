@@ -78,7 +78,7 @@ void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta)
 {
     u32 heapId = FIELDMAP_GetHeapId(fieldMap);
     void *camera = FIELDMAP_GetCamera(fieldMap);
-    u32 priority = (u32)FIELDMAP_GetTcblSys(fieldMap);
+    u32 priority = (uptr)FIELDMAP_GetTcblSys(fieldMap);
     CameraZoomWork *w;
 
     w = GFL_HEAP_Alloc((u16)((heapId & 0x7FFF) | 0x8000), sizeof(CameraZoomWork), 0, gFieldmapTcbCameraZoomFileName, 0x5F);

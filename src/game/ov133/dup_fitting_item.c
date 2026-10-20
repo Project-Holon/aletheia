@@ -139,12 +139,12 @@ void DUP_FITTING_ITEM_FreeElemImage(u8*elem,u8*pool,u8*data){*(u8* *)&((struct D
 
 u32 DUP_FITTING_ITEM_ElemGetNext(u8 *elem)
 {
-    return (u32)((struct DupFittingItemElem *)elem)->next;
+    return (uptr)((struct DupFittingItemElem *)elem)->next;
 }
 
 u32 DUP_FITTING_ITEM_ElemGetData(u8 *elem)
 {
-    return (u32)((struct DupFittingItemElem *)elem)->data;
+    return (uptr)((struct DupFittingItemElem *)elem)->data;
 }
 
 void DUP_FITTING_ITEM_ElemSetSprite(u8 *elem, u32 value)
@@ -159,7 +159,7 @@ u32 DUP_FITTING_ITEM_ElemGetSprite(u8 *elem)
 
 u32 DUP_FITTING_ITEM_ElemGetRenderElem(u8 *elem)
 {
-    return (u32)((struct DupFittingItemElem *)elem)->renderElem;
+    return (uptr)((struct DupFittingItemElem *)elem)->renderElem;
 }
 
 void DUP_FITTING_ITEM_ElemSetPos(u8 *elem, const u8 *src)

@@ -91,7 +91,7 @@ struct Guru2Comm *GURU2_COMM_Create(struct Guru2Session *session,int heap);
 
 void GURU2_COMM_Destroy(struct Guru2Comm *p);
 
-void GURU2_COMM_RegisterCommands(u32 a);
+void GURU2_COMM_RegisterCommands(void *work);
 
 void GURU2_COMM_Exit(struct Guru2Comm *p);
 
@@ -137,7 +137,7 @@ void *GURU2_COMM_GetPartyCopy(struct Guru2Comm *p, int i);
 
 extern const char d_021E2268[];
 
-extern const u8 gGuru2CommCommandTable[];
+extern NetCommandEntry gGuru2CommCommandTable[];
 
 /*
  * GFL_HEAP_Alloc 0x02030734 arm
@@ -157,7 +157,7 @@ struct Guru2Comm *GURU2_COMM_Create(struct Guru2Session *session,int heap)
 
 void GURU2_COMM_Destroy(struct Guru2Comm *p) {GFL_HEAP_Free(p->recvBuffer);GFL_HEAP_Free(p->partyCopies);GFL_HEAP_Free(p);}
 
-void GURU2_COMM_RegisterCommands(u32 work) {GFL_NET_COMMAND_AddCommandTable(0x2800,(u32)gGuru2CommCommandTable,16,work);}
+void GURU2_COMM_RegisterCommands(void *work) {GFL_NET_COMMAND_AddCommandTable(0x2800,gGuru2CommCommandTable,16,work);}
 
 void GURU2_COMM_Exit(struct Guru2Comm *p) { }
 
@@ -165,7 +165,7 @@ void GURU2_COMM_Exit(struct Guru2Comm *p) { }
  * lever: separate q=(u8 *)((u32)p+4) keeps the updated buffer base;
  *   assigning p+=4 or retaining an integer parameter gave 50 bytes/DIFF.
  */
-int GURU2_COMM_SendWithHeader(struct Guru2Comm *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=GFL_NET_HANDLE_GetCurrentHandle();q=(u8 *)((u32)p+4);MI_CpuCopy8(data,q+4,size);return GFL_NET_SendToHandle(v,(u16)id,(u16)(size+4),q+4);}
+int GURU2_COMM_SendWithHeader(struct Guru2Comm *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=GFL_NET_HANDLE_GetCurrentHandle();q=(u8 *)((uptr)p+4);MI_CpuCopy8(data,q+4,size);return GFL_NET_SendToHandle(v,(u16)id,(u16)(size+4),q+4);}
 
 int GURU2_COMM_Send(struct Guru2Comm *p,u32 id,const void *data,u32 size) {return GURU2_COMM_SendWithHeader(p,id,data,size);}
 

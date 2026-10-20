@@ -158,8 +158,6 @@ extern s32 AREAMAN_Alloc(struct AreaMan *pool, u32 count);
 extern u16  BILLBOARD_AddImage(struct BbBoard *board, u32 resource, u32 format, u32 sizeS, u8 sizeT, u8 paletteId); /* original prototype; the definition differs in argument sign, argument width, pointer or integer, pointer type, return type */
 extern void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 boardId);
 extern void BILLBOARD_DeleteImage(struct BbBoard *board, int boardId);
-#else
-#define BILLBOARD_AddImage(board, res, ...) (BILLBOARD_AddImage)(board, (struct G3dResource *)(uptr)(res), __VA_ARGS__)
 #endif
 struct G3dResource;
 
@@ -426,11 +424,19 @@ u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec *recs,
         u16 id;
         switch (rec->kind) {
         case 0:
+#ifdef __MWERKS__
             sys->slots[base + i].boardId = BILLBOARD_AddImage(sys->board, rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
+#else
+            sys->slots[base + i].boardId = BILLBOARD_AddImage(sys->board, (struct G3dResource *)(uptr)rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
+#endif
             sys->slots[base + i].payload = 0;
             break;
         case 1:
+#ifdef __MWERKS__
             id = BILLBOARD_AddImage(sys->board, rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
+#else
+            id = BILLBOARD_AddImage(sys->board, (struct G3dResource *)(uptr)rec->resource, rec->format, rec->sizeS, rec->sizeT, rec->paletteId);
+#endif
             BILLBOARD_TrimImageResource(sys->board, id);
             sys->slots[base + i].boardId = id;
             sys->slots[base + i].payload = 0;

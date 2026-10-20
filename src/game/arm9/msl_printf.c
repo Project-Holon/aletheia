@@ -1039,7 +1039,7 @@ int __pformatter(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteP
 {
     int num_chars, chars_written, field_width;
     const uchar *format_ptr;
-    const uchar *curr_format;
+    const char *curr_format;
     print_format format;
     long long_num;
     long long long_long_num;
@@ -1053,20 +1053,20 @@ int __pformatter(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteP
     chars_written = 0;
 
     while (*format_ptr) {
-        if (!(curr_format = strchr(format_ptr, '%'))) {
-            num_chars = strlen(format_ptr);
+        if (!(curr_format = strchr((const char *)format_ptr, '%'))) {
+            num_chars = strlen((const char *)format_ptr);
             chars_written += num_chars;
             if (num_chars && !(*WriteProc)(WriteProcArg, format_ptr, num_chars))
                 return -1;
             break;
         }
 
-        num_chars = curr_format - format_ptr;
+        num_chars = (const uchar *)curr_format - format_ptr;
         chars_written += num_chars;
         if (num_chars && !(*WriteProc)(WriteProcArg, format_ptr, num_chars))
             return -1;
 
-        format_ptr = curr_format;
+        format_ptr = (const uchar *)curr_format;
         format_ptr = parse_format(format_ptr, &arg, &format);
 
         switch (format.conversion_char) {
@@ -1189,7 +1189,7 @@ int __pformatter(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteP
                 if ((string_end = (uchar *)memchr(buff_ptr, 0, num_chars)) != 0)
                     num_chars = string_end - buff_ptr;
             } else
-                num_chars = strlen(buff_ptr);
+                num_chars = strlen((const char *)buff_ptr);
             break;
 
         case 'n':
@@ -1226,7 +1226,7 @@ int __pformatter(void *(*WriteProc)(void *, const uchar *, size_t), void *WriteP
         conversion_error:
             num_chars = strlen(curr_format);
             chars_written += num_chars;
-            if (num_chars && !(*WriteProc)(WriteProcArg, curr_format, num_chars))
+            if (num_chars && !(*WriteProc)(WriteProcArg, (const uchar *)curr_format, num_chars))
                 return -1;
             return chars_written;
         }

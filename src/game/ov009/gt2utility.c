@@ -37,7 +37,6 @@
 #include "soc.h"
 #include "../arm9/os_printf.h"
 #include "../arm9/msl_string_str.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../arm9/msl_strtod.h"
 #include "gsplatformsocket.h"
@@ -101,7 +100,7 @@ int gt2StringToAddress(char *string, u32 *ip, u16 *port)
         char *colon;
         char *host;
 
-        colon = (char *)strchr((unsigned char *)string, ':');
+        colon = (char *)strchr(string, ':');
         if (!colon)
         {
             host = string;
@@ -168,5 +167,5 @@ void gti2MessageCheck(unsigned char **message, int *len)
         return;
     }
     if (*len == -1)
-        *len = strlen((u8 *)*message) + 1;
+        *len = strlen((const char *)*message) + 1;
 }

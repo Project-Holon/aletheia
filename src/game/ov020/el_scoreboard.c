@@ -198,6 +198,7 @@ struct DispConfig;
 struct DispVram;
 struct NitroFileHeader;
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "el_scoreboard_types.h"
 #include "../arm9/gfl_heap_wrap.h"
@@ -263,7 +264,7 @@ ElLamp *EL_SCOREBOARD_CreateLamp(void *archive, const char *texName, const char 
     lamp->plttIndex = TEXT_TEXTURE_GetTexFormatCount() - 1;
     lamp->texVram = -1;
     lamp->plttVram = (char *)-1;
-    if (TEXT_TEXTURE_LoadTexPlttByName(archive, texName, 0, plttName, (u32)text, xPos, yPos, 0xC40, heapId, (struct TexKey *)(&loaded)) != 0) {
+    if (TEXT_TEXTURE_LoadTexPlttByName(archive, texName, 0, plttName, (uptr)text, xPos, yPos, 0xC40, heapId, (struct TexKey *)(&loaded)) != 0) {
         lamp->texAddr = loaded.texAddr;
         lamp->plttSlot = loaded.plttSlot;
         lamp->texVram = loaded.texVram;
@@ -295,7 +296,7 @@ void EL_SCOREBOARD_TickLamp(ElLamp *lamp)
 
 void EL_SCOREBOARD_AnimateLampPalette(ElLampPaletteRef *paletteRef, int tick)
 {
-    NNS_GfdRegisterNewVramTransferTask((void *)1, (u32)(paletteRef->base + (u16)paletteRef->index * 8), EL_SCOREBOARD_LampPaletteColors[(tick & 31) / 8], 8);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, (uptr)(paletteRef->base + (u16)paletteRef->index * 8), EL_SCOREBOARD_LampPaletteColors[(tick & 31) / 8], 8);
 }
 
 int EL_SCOREBOARD_EventMain(void *eventTask, int *state, ElScoreboardWork *work)
@@ -480,16 +481,16 @@ void EL_SCOREBOARD_UpdateFadeShared(const ElScoreboardWork *work, int state)
     int alpha;
 
     if (state == 2) {
-        G2x_SetBlendBrightness_(0x04000050, 8,
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 8,
             (int)(16.0f * ((float)work->stateTimer / (float)work->stateDuration) + -16.0f));
     } else if (state == 4) {
         if (work->shownSeason == work->targetSeason) {
             alpha = (int)(16.0f * ((float)work->stateTimer / (float)work->stateDuration));
-            G2x_SetBlendAlpha_((u32 *)0x04000050, 8, 0x11, 16 - alpha, alpha);
-            GXx_SetMasterBrightness_((volatile u16 *)0x0400106C,
+            G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 8, 0x11, 16 - alpha, alpha);
+            GXx_SetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR,
                 (int)(16.0f * ((float)work->stateTimer / (float)work->stateDuration) + -16.0f));
         } else {
-            G2x_SetBlendBrightness_(0x04000050, 8,
+            G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 8,
                 (int)(0.0f - 16.0f * ((float)work->stateTimer / (float)work->stateDuration)));
         }
     }
@@ -505,14 +506,14 @@ void EL_SCOREBOARD_UpdateFadeStandalone(ElScoreboardWork *work, int state)
         ratio = elapsed / ratio;
         ratio = 16.0f * ratio;
         ratio = -16.0f + ratio;
-        G2x_SetBlendBrightness_(0x04000050, 8, (int)ratio);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 8, (int)ratio);
     } else if (state == 4) {
         elapsed = (float)work->stateTimer;
         ratio = (float)work->stateDuration;
         ratio = elapsed / ratio;
         ratio = 16.0f * ratio;
         ratio = 0.0f - ratio;
-        G2x_SetBlendBrightness_(0x04000050, 8, (int)ratio);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 8, (int)ratio);
     }
 }
 
@@ -559,8 +560,8 @@ void EL_SCOREBOARD_EnterState(ElScoreboardWork *work, int *statePtr, int state)
     case 2:
         BG_SYS_SetPlaneVisible(3, 1);
         BG_SYS_SetPlaneVisible(0, 0);
-        GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, 0);
-        G2x_SetBlendBrightness_(0x04000050, 8, -16);
+        GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_ADDR, 0);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 8, -16);
         work->stateDuration = EL_SCOREBOARD_GetFadeInDuration(work);
         break;
     case 3:

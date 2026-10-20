@@ -422,7 +422,7 @@ void IRCBATTLEMATCH_CreateActor(IrcBattleMatchWork *work,int x,int y,int slot,in
 void IRCBATTLEMATCH_NudgeActor(IrcBattleMatchWork *work,int dx,int dy,int slot);
 void IRCBATTLEMATCH_MoveActor(IrcBattleMatchWork *work,int x,int y,int slot);
 void IRCBATTLEMATCH_SetPlayerReady(IrcBattleMatchWork *work,int aid);
-void IRCBATTLEMATCH_OnChangeoverConnected(IrcBattleMatchWork *work);
+void IRCBATTLEMATCH_OnChangeoverConnected(void *userArg);
 void IRCBATTLEMATCH_RecvModeHandler(unsigned aid,int size,int *data,IrcBattleMatchWork *work,void *handle);
 void IRCBATTLEMATCH_RecvMyStatusHandler(int aid,int size,int data,IrcBattleMatchWork *work,int handle);
 void IRCBATTLEMATCH_NoOp(void);
@@ -447,8 +447,8 @@ void IRCBATTLEMATCH_StepWaitQuitChoice(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_StepOpenQuitConfirm(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_StepSendMode(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_StepRegisterCommands(IrcBattleMatchWork *work);
-void IRCBATTLEMATCH_CollectMacAddresses(IrcBattleMatchWork *work);
-void IRCBATTLEMATCH_OnChangeoverResult(IrcBattleMatchWork *work,int role);
+void IRCBATTLEMATCH_CollectMacAddresses(void *userArg);
+void IRCBATTLEMATCH_OnChangeoverResult(void *userArg,int role);
 void IRCBATTLEMATCH_SetupDisplay(IrcBattleMatchWork *work);
 void IRCBATTLEMATCH_VBlankTask(struct TcbTask *tcb,void *work);
 void IRCBATTLEMATCH_OpenQuitMenu(IrcBattleMatchWork *work);
@@ -493,7 +493,7 @@ int IRCBATTLEMATCH_ProcExit(struct Proc *proc, int b, int c, IrcBattleMatchWork 
 extern char gIrcBattleMatchRecvBuffer[];
 extern const MessageRef gIrcBattleMatchMsgRegulationPassed,gIrcBattleMatchMsgRegulationFailed;
 extern const MessageRef gIrcBattleMatchMsgQuitConfirm;
-extern const unsigned gIrcBattleMatchCommandTable[];
+extern NetCommandEntry gIrcBattleMatchCommandTable[];
 extern const unsigned int gIrcBattleMatchDispConfig[];
 extern const BgTemplate gIrcBattleMatchBgTemplate0,gIrcBattleMatchBgTemplate1,gIrcBattleMatchBgTemplate4,gIrcBattleMatchBgTemplate5,gIrcBattleMatchBgTemplate6,gIrcBattleMatchBgTemplate7;
 extern const MessageRef gIrcBattleMatchMsgPartnerLeft,gIrcBattleMatchMsgWaitingMode7Full,gIrcBattleMatchMsgWaitingMode7,gIrcBattleMatchMsgWaitingMode6,gIrcBattleMatchMsgWaitingMode5,gIrcBattleMatchMsgWaitingMode9,gIrcBattleMatchMsgWaitingMode10,gIrcBattleMatchMsgWaitingMode11,gIrcBattleMatchMsgWaitingDefault;
@@ -547,20 +547,20 @@ int IRCBATTLEMATCH_BlendBgPalette(IrcBattleMatchWork *work, int bgSlot, int pale
 {
     PaletteFade *palAnim;
     int byteSize;
-    sptr transWork;
+    u16 *transWork;
 
     palAnim = PALANM_Create(work->heapId);
     PALANM_AllocSlotBuffers(palAnim, bgSlot, 0x200, work->heapId);
     byteSize = paletteCount << 5;
     PALANM_CopyHwPaletteToSlot(palAnim, bgSlot, 0, byteSize);
-    PALANM_BlendChannel((PaletteFadeWork *)palAnim, bgSlot, 0, (u16)(paletteCount << 4), 6, 0);
-    transWork = PALANM_GetTransWork((char *)palAnim, bgSlot);
-    DC_FlushRange((void *)transWork, byteSize);
+    PALANM_BlendChannel(palAnim, bgSlot, 0, (u16)(paletteCount << 4), 6, 0);
+    transWork = PALANM_GetTransWork(palAnim, bgSlot);
+    DC_FlushRange(transWork, byteSize);
     if (bgSlot != 1) {
         if (bgSlot == 3)
-            GXS_LoadOBJPltt((void *)transWork, 0, byteSize);
+            GXS_LoadOBJPltt(transWork, 0, byteSize);
     } else {
-        GXS_LoadBGPltt((void *)transWork, 0, byteSize);
+        GXS_LoadBGPltt(transWork, 0, byteSize);
     }
     PALANM_FreeSlotBuffers(palAnim, bgSlot);
     return PALANM_Delete(palAnim);
@@ -614,8 +614,10 @@ void IRCBATTLEMATCH_SetPlayerReady(IrcBattleMatchWork *work,int aid)
  if(MATH_CountPopulation(work->readyMask |= 1 << aid)>=2) work->allReady=1;
 }
 
-void IRCBATTLEMATCH_OnChangeoverConnected(IrcBattleMatchWork *work)
+void IRCBATTLEMATCH_OnChangeoverConnected(void *userArg)
 {
+    IrcBattleMatchWork *work = userArg;
+
  if(work->mode!=5) {
   work->showTrigger=1; work->iconsVisible=1; work->partnerLeft=1;
  } else {
@@ -922,13 +924,13 @@ void IRCBATTLEMATCH_StepSendMode(IrcBattleMatchWork *work)
 
 void IRCBATTLEMATCH_StepRegisterCommands(IrcBattleMatchWork *work)
 {
- GFL_NET_COMMAND_AddCommandTable((u32)0xc00,(uptr)gIrcBattleMatchCommandTable,(u32)6,(uptr)work);
+ GFL_NET_COMMAND_AddCommandTable((u32)0xc00,gIrcBattleMatchCommandTable,(u32)6,work);
  GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x78,12);
  GFL_NET_SetAutoExit(1);GFL_NET_SetLoginOption(1);
  IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepSendMode);
 }
 
-void IRCBATTLEMATCH_CollectMacAddresses(IrcBattleMatchWork *work) {
+void IRCBATTLEMATCH_CollectMacAddresses(void *userArg) { IrcBattleMatchWork *work = userArg; 
  if(GFL_NET_IsParentAid()!=0) {
   char *macs;
   int i=0;
@@ -938,7 +940,7 @@ void IRCBATTLEMATCH_CollectMacAddresses(IrcBattleMatchWork *work) {
  IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepRegisterCommands);
 }
 
-void IRCBATTLEMATCH_OnChangeoverResult(IrcBattleMatchWork *work,int role) {
+void IRCBATTLEMATCH_OnChangeoverResult(void *userArg,int role) { IrcBattleMatchWork *work = userArg; 
  work->changeoverRole=role;
  work->iconsDirty=1;
  work->iconsAnimating=1;
@@ -1222,7 +1224,7 @@ void IRCBATTLEMATCH_StepStartSession(IrcBattleMatchWork *work)
         break;
     }
     zero=0;
-    GFL_NET_StartSession((struct GFLNetInitializeStruct *)&req,0,(uptr)work);
+    GFL_NET_StartSession((struct GFLNetInitializeStruct *)&req,0,work);
     switch(work->mode) {
     case 10:
         GFL_NET_IRC_WIRELESS_SetSessionParam((uptr)IRCBATTLEMATCH_IsCompatibleGameKind);
@@ -1268,7 +1270,7 @@ void IRCBATTLEMATCH_ExitScreen(IrcBattleMatchWork *work) {
 void IRCBATTLEMATCH_StepStartChangeover(IrcBattleMatchWork *work) {
  if(GFL_NET_GetRunState()==1) {
   switch(work->mode) { case 9: case 10: IRCNET_SetFilter((sptr)IRCBATTLEMATCH_IsCompatibleGameKind); break; }
-  GFL_NET_StartChangeoverEx((uptr)IRCBATTLEMATCH_CollectMacAddresses,(uptr)IRCBATTLEMATCH_OnChangeoverResult,(uptr)IRCBATTLEMATCH_OnChangeoverConnected);
+  GFL_NET_StartChangeoverEx(IRCBATTLEMATCH_CollectMacAddresses,IRCBATTLEMATCH_OnChangeoverResult,IRCBATTLEMATCH_OnChangeoverConnected);
   IRCBATTLEMATCH_SetStep(work,IRCBATTLEMATCH_StepWaitSession);
  }
 }

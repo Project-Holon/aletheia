@@ -245,7 +245,7 @@ char *SHINKA_DEMO_GRAPHIC_Create(u32 lcdSwap, u16 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     SHINKA_DEMO_GRAPHIC_SetupMainBg(p, heap);
-    SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (int)d_02208CEC, heap);
+    SHINKA_DEMO_GRAPHIC_InitClact((unsigned char *)(p + 4), (sptr)d_02208CEC, heap);
     SHINKA_DEMO_GRAPHIC_Init3d((u32 *)(p + 8), heap);
     ((ShinkaGraphic *)p)->vblank = GFL_USE_AddMainTask(SHINKA_DEMO_GRAPHIC_VBlank, p, 0);
     return p;
@@ -392,7 +392,7 @@ int SHINKA_DEMO_GRAPHIC_GetCameraId(int *camera)
 void SHINKA_DEMO_GRAPHIC_Init3d(u32 *cameraOut, u16 heap)
 {
     G3D_SYSTEM_Init(0, 2, 0, 1, 0, heap, (void (*)(void))SHINKA_DEMO_Setup3d);
-    *cameraOut = (u32)G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
+    *cameraOut = (uptr)G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
                        (VecFx32 *)d_02208C88, (VecFx32 *)d_02208C7C, (VecFx32 *)d_02208C94, heap);
 }
 

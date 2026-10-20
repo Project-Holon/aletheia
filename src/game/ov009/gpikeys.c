@@ -205,20 +205,20 @@ int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **k
 
 static inline int B64LEN(char *s)
 {
-    return ((unsigned long)strlen((const u8 *)s) % 3) ? ((4 - (unsigned long)strlen((const u8 *)s) % 3) + (unsigned long)strlen((const u8 *)s) * 4 / 3) : ((unsigned long)strlen((const u8 *)s) * 4 / 3);
+    return ((unsigned long)strlen(s) % 3) ? ((4 - (unsigned long)strlen(s) % 3) + (unsigned long)strlen(s) * 4 / 3) : ((unsigned long)strlen(s) * 4 / 3);
 }
 
 static inline void B64ADV(char **p, char *s)
 {
-    if ((unsigned long)strlen((const u8 *)s) % 3)
-        *p += (4 - (unsigned long)strlen((const u8 *)s) % 3) + (unsigned long)strlen((const u8 *)s) * 4 / 3;
+    if ((unsigned long)strlen(s) % 3)
+        *p += (4 - (unsigned long)strlen(s) % 3) + (unsigned long)strlen(s) * 4 / 3;
     else
-        *p += (unsigned long)strlen((const u8 *)s) * 4 / 3;
+        *p += (unsigned long)strlen(s) * 4 / 3;
 }
 
 static inline void B64ENC(char *s, char *out)
 {
-    B64Encode(s, out, (int)(unsigned long)strlen((const u8 *)s), 2);
+    B64Encode(s, out, (int)(unsigned long)strlen(s), 2);
 }
 
 /*
@@ -251,7 +251,7 @@ int gpiSaveKeysToBuffer(void **connection, char **buffer)
         sizeKeys += base64KeyNameLen + 2 + base64KeyValLen;
     }
 
-    *buffer = (char *)gsimalloc((unsigned long)strlen((const u8 *)keysHeader) + sizeKeys + 1);
+    *buffer = (char *)gsimalloc((unsigned long)strlen(keysHeader) + sizeKeys + 1);
     if (*buffer == 0) {
         gsDebugFormat((int)1, (int)2, 1, gGpiKeysDebugSaveOom);
         gpiSetErrorString(connection, gGpiKeysErrorOutOfMemory);

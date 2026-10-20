@@ -627,9 +627,9 @@ void FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus(u8 *data)
     int i;
     for (i = 0; i < 10; i++) {
         if (WFBC_IsReturnEntryValid((WfbcPerson *)(data + 8 + i * 0x18)) &&
-            (*(u8 *)((unsigned int)data + i * 0x18 + 0xb) & 2)) {
+            (*(u8 *)((uptr)data + i * 0x18 + 0xb) & 2)) {
             FIELD_WFBC_DATA_LOCAL_AddMood((WfbcPerson *)(data + 8 + i * 0x18), 3);
-            FIELD_WFBC_DATA_LOCAL_ClearFlagBits((u8 *)((unsigned int)data + i * 0x18 + 0xb), 2);
+            FIELD_WFBC_DATA_LOCAL_ClearFlagBits((u8 *)((uptr)data + i * 0x18 + 0xb), 2);
         }
     }
 }
@@ -1240,7 +1240,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(ScriptVm *vm, struct Sc
     (void *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)(((void *)work)));
     s = (void *)SCRCMD_WORK_GetGameData((struct ScrcmdWork *)(((void *)work)));
     (u8 *)GAME_DATA_GetSecondUnionInfo((struct GameData *)(s));
-    w = (void *)(int)GAME_DATA_GetMusicalShotExtraData((struct GameData *)((int)s));
+    w = (void *)(sptr)GAME_DATA_GetMusicalShotExtraData((struct GameData *)((sptr)s));
     b = GAME_DATA_GetMyParty(s);
     outFound = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
     outDateMatch = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
@@ -1452,7 +1452,7 @@ int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *stat
     case 14:
         if (FADE_IsActive() != 0)
             break;
-        EVENT_FIELD_PROCLINK_ApplyReturnEntry((int)talk->returnList, (struct ProcLinkRequest *)talk->ownData, (struct ProcLinkSys *)talk->cityData, (int)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(talk->gameSystem)), talk->personIndex, talk->heapId);
+        EVENT_FIELD_PROCLINK_ApplyReturnEntry((sptr)talk->returnList, (struct ProcLinkRequest *)talk->ownData, (struct ProcLinkSys *)talk->cityData, (sptr)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(talk->gameSystem)), talk->personIndex, talk->heapId);
         FIELD_WFBC_RemovePeople(talk->wfbcRuntime, talk->personIndex);
         FLDMMDL_DeleteMmdl(talk->personMmdl);
         FADE_Start(1, 0x10, 0, 0);

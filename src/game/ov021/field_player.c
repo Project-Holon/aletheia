@@ -697,7 +697,7 @@ u32 FIELD_PLAYER_IsNogridForcedMove(FieldPlayer *player)
 
 u32 FIELD_PLAYER_GetNogridRailWork(FieldPlayer *player)
 {
-    return (u32)FIELD_PLAYER_NOGRID_GetRailWork(player->nogrid);
+    return (uptr)FIELD_PLAYER_NOGRID_GetRailWork(player->nogrid);
 }
 
 void FIELD_PLAYER_SetNogridRailLocation(FieldPlayer *player, void *a)

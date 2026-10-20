@@ -34,7 +34,7 @@ extern u8 OV230_CallSealedBody15[];
 
 u32 OV230_CheckStubSignature0(void)
 {
-    const u8 *p = (const u8 *)((u32)&OV230_CallSealedBody10[0x1600] - 0x2C00) + 0x1000;
+    const u8 *p = (const u8 *)((uptr)&OV230_CallSealedBody10[0x1600] - 0x2C00) + 0x1000;
 
     if (p[0x600] != 0xF) {
         return 0xBD3B;
@@ -89,7 +89,7 @@ u32 OV230_CheckStubSignature0(void)
 
 u32 OV230_CheckStubSignature1(void)
 {
-    const u8 *p = (const u8 *)((u32)&OV230_CallSealedBody11[0x1600] - 0x2C00) + 0x1000;
+    const u8 *p = (const u8 *)((uptr)&OV230_CallSealedBody11[0x1600] - 0x2C00) + 0x1000;
 
     if (p[0x600] != 0xF) {
         return 0xB5B1;
@@ -144,7 +144,7 @@ u32 OV230_CheckStubSignature1(void)
 
 u32 OV230_CheckStubSignature2(void)
 {
-    const u8 *p = (const u8 *)((u32)&OV230_CallSealedBody14[0x1600] - 0x2C00) + 0x1000;
+    const u8 *p = (const u8 *)((uptr)&OV230_CallSealedBody14[0x1600] - 0x2C00) + 0x1000;
 
     if (p[0x600] != 0xF) {
         return 0xBD3B;
@@ -199,7 +199,7 @@ u32 OV230_CheckStubSignature2(void)
 
 u32 OV230_CheckStubSignature3(void)
 {
-    const u8 *p = (const u8 *)((u32)&OV230_CallSealedBody15[0x1600] - 0x2C00) + 0x1000;
+    const u8 *p = (const u8 *)((uptr)&OV230_CallSealedBody15[0x1600] - 0x2C00) + 0x1000;
 
     if (p[0x600] != 0xF) {
         return 0xB5B1;

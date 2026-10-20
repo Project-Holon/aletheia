@@ -44,7 +44,7 @@
 
 #include "dwcutil_types.h"
 
-extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
+extern char *strncpy(char *dest, const char *src, unsigned int n);
 #include "dwcutil_main.h"
 #include "archive.h"
 #include "../arm9/os_cache.h"
@@ -72,7 +72,7 @@ unsigned char *DWCi_Char(unsigned char *name)
 {
     int lang;
 
-    strncpy((unsigned char *)gCommonWork, (unsigned char *)name, 0x3f);
+    strncpy((char *)gCommonWork, (const char *)name, 0x3f);
     if (name[5] == 'x')
         return gCommonWork;
     lang = DWCi_Language();

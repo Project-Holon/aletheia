@@ -426,10 +426,10 @@ int FIELD_PLAYER_CORE_CheckFormModel(FieldPlayerCore *core)
 int FIELD_PLAYER_CORE_CheckAnimePaused(FieldPlayerCore *core)
 {
     u16 lastCommand;
-    u32 bbActSys;
+    uptr bbActSys;
     u32 drawAnimeId;
 
-    bbActSys = (u32)FLDMMDL_BLACT_GetBbActSys(FLDMMDL_SysGetBlActCont(FLDMMDL_GetMmdlSys(core->mmdl)));
+    bbActSys = (uptr)FLDMMDL_BLACT_GetBbActSys(FLDMMDL_SysGetBlActCont(FLDMMDL_GetMmdlSys(core->mmdl)));
     if (FLDMMDL_ACMD_CheckAnimePaused(core->mmdl) == 1 && FLDMMDL_BLACT_GetEntryHookFlag(core->mmdl) == 1)
         return 1;
     drawAnimeId = FLDMMDL_CallDrawGetProc(core->mmdl, 0);

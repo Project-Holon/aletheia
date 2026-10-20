@@ -175,7 +175,7 @@ void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,u16 heapId)
     BG_SYS_ClearGraphicsMemory(0);BG_SYS_SetVramBanks(config);BG_SYS_SetLcdSwap(vramSetting);
     BG_SYS_ResetSubDisplay();BG_SYS_ClearMainPlanes();BG_SYS_ClearSubPlanes();GF_FONT_InitTextColor();
     BR_GRAPHIC_InitBgWindows(&gfx->bgState,heapId);
-    BR_GRAPHIC_InitActors((int *)&gfx->actors,(int)config,heapId);
+    BR_GRAPHIC_InitActors((int *)&gfx->actors,(sptr)config,heapId);
     gfx->vblankTask=GFL_USE_AddMainTask(BR_GRAPHIC_VBlankTask, gfx,0);
     return gfx;
 }
@@ -237,9 +237,9 @@ void BR_GRAPHIC_VBlankBg(void *bgState){BG_SYS_Update();}
 
 void BR_GRAPHIC_InitActors(int *actorSys, int vramConfig, int heapId)
 {
-    MI_CpuFill8((void *)((int)actorSys), 0, 4);
+    MI_CpuFill8((void *)((sptr)actorSys), 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)d_02200920, (struct DispVramCfg *)vramConfig, heapId);
-    actorSys[0] = (int)CLACT_CreateUnit(0x80, 0, heapId);
+    actorSys[0] = (sptr)CLACT_CreateUnit(0x80, 0, heapId);
     CLACT_SetUnitDefaultRenderer((void *)actorSys[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);

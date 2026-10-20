@@ -130,7 +130,7 @@ SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 s
     obj->sourceId = sourceId;
     obj->anime = 0;
     obj->target = (G3dObjectStatus *)pos;
-    if (ISS_3DS_SYS_IsSourceActive( (Iss3dsSys *)((int)iss3dsSys), sourceId) == 0) {
+    if (ISS_3DS_SYS_IsSourceActive( (Iss3dsSys *)((sptr)iss3dsSys), sourceId) == 0) {
         ISS_3DS_SYS_StartSource(iss3dsSys, sourceId, startArg0, startArg1);
     }
     return obj;
@@ -211,7 +211,7 @@ void SOUND_OBJ_ApplyPosition(SoundObj *obj)
     if (obj->anime != 0 && ICA_ANIME_GetTranslate((struct IcaAnime *)obj->anime, (VecFx32 *)&pos) == 1) {
         V3_Set(&obj->target->trans, pos.x, pos.y, pos.z);
         if (obj->iss3dsSys != 0)
-            ISS_3DS_SYS_SetSourcePos( (Iss3dsSys *)((u32)obj->iss3dsSys), obj->sourceId, (const VecFx32 *)&pos);
+            ISS_3DS_SYS_SetSourcePos( (Iss3dsSys *)((uptr)obj->iss3dsSys), obj->sourceId, (const VecFx32 *)&pos);
     }
 }
 

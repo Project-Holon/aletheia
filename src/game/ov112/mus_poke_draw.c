@@ -215,10 +215,10 @@ u8 *MUSICAL_MCSS_SetupRenderObj(MusPokeDrawScene *p,const u8 *b,int c)
     slot=(u8 *)&p->slots[i];
     ((MusPokeDrawSlot *)slot)->active=1;
     MUSICAL_MCSS_GetPokemonArcs((u8 *)b,buffers.stats,0);
-    p->slots[i].primary=MUSICAL_MCSS_LoadMC(p->main,0,0,0,(u32)buffers.stats,(u32)slot,0);
+    p->slots[i].primary=MUSICAL_MCSS_LoadMC(p->main,0,0,0,(uptr)buffers.stats,(uptr)slot,0);
     if(c==1) {
         MUSICAL_MCSS_GetPokemonArcs((u8 *)b,buffers.stats,1);
-        p->slots[(u32)i].secondary=MUSICAL_MCSS_LoadMC(p->main,0,0,0,(u32)buffers.stats,(u32)slot,0);
+        p->slots[(u32)i].secondary=MUSICAL_MCSS_LoadMC(p->main,0,0,0,(uptr)buffers.stats,(uptr)slot,0);
         MUSICAL_MCSS_HideMCAnim(p->slots[(u32)i].secondary);
     } else p->slots[i].secondary=0;
     p->slots[i].enabled=1;
@@ -332,7 +332,7 @@ void MUSICAL_MCSS_SetMatrix(unsigned mode, McssMatrixInput *in, MusPokeDrawBig *
 {
     if (mode >= 7) {
         u32 off = mode - 7;
-        u32 base = (u32)p;
+        u32 base = (uptr)p;
         off *= 0x38;
         *(int *)(base + off + 0x14) = 1;
         base += off;

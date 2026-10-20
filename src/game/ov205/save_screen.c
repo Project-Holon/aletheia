@@ -170,6 +170,7 @@ struct Date;
 struct PlayTime;
 struct Sub02008C20Obj;
 #include "../arm9/printsys.h"
+#include "../sdk_ioreg.h"
 #include "../sdk_rtc.h"
 
 struct Ctrl;
@@ -365,7 +366,7 @@ int SAVE_SCREEN_Exit(void *p)
     return 1;
 }
 
-void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context) { BG_SYS_SetLcdSwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,(void *)(0x6800000),0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=(unsigned int)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)18,27,4,13,1);*(struct Tcbl **)&p->tcbl=(struct Tcbl *)TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=(struct U16Vec *)STRBUF_Create(1024,*(u16 *)p); }
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context) { BG_SYS_SetLcdSwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,(void *)(0x6800000),0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=(uptr)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)18,27,4,13,1);*(struct Tcbl **)&p->tcbl=(struct Tcbl *)TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=(struct U16Vec *)STRBUF_Create(1024,*(u16 *)p); }
 
 void SAVE_SCREEN_Delete(SaveScreenWork *p)
 {
@@ -469,7 +470,7 @@ int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWor
         GFL_NET_RefreshWmIconAtTopRight(1,p->heapId);BG_SYS_SetMainPlaneVisible(16,1);
         (*state)++;break;
     case 1:
-        FADE_Start(3,16,0,0);*(u16 *)0x04000050=0;
+        FADE_Start(3,16,0,0);*(u16 *)REG_BLDCNT_ADDR=0;
         (*state)++;break;
     case 2:
         if(!FADE_IsActive())(*state)++;

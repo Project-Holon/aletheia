@@ -77,7 +77,7 @@ int CARDi_ReadCardWithHashInternalAsync(void *userdata, void *buffer, u32 offset
         data_02732DA8.callback = CARD_NotifyRomHashReadAsync;
         data_02732DA8.userdata = userdata;
         data_02732DA8.src = offset;
-        data_02732DA8.dst = (u32)buffer;
+        data_02732DA8.dst = (uptr)buffer;
         data_02732DA8.len = length;
         data_02732DA8.command = 0;
         data_02732DA8.work = 0;

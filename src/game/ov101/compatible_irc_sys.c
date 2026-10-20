@@ -103,7 +103,7 @@ int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
 int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
 int COMPATIBLE_IRC_SYS_SendToHandle(IrcSys *sys,u32 commandId,u32 size,u32 data);
 u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys,u32 commandId,u32 size,u32 data,u8 target,u32 e,u32 f,u32 g);
-void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys,u32 a,u32 b,u32 c,u32 d);
+void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys,u32 a,NetCommandEntry *b,u32 c,void *d);
 void COMPATIBLE_IRC_SYS_DeleteCommandTable(IrcSys *sys,u32 a);
 int COMPATIBLE_IRC_SYS_SendProfileRequest(IrcSys *sys,u32 a,u32 b);
 int COMPATIBLE_IRC_SYS_PollProfileRequest(IrcSys *sys);
@@ -117,8 +117,8 @@ int COMPATIBLE_IRC_SYS_GetRecvBuffer(void);
 int COMPATIBLE_IRC_SYS_GetRecvSize(void);
 int COMPATIBLE_IRC_SYS_IsEqual(int a, int b);
 void COMPATIBLE_IRC_SYS_ClearPartnerReady(IrcSys *sys);
-void COMPATIBLE_IRC_SYS_StartSessionCallback(void);
-void COMPATIBLE_IRC_SYS_ExitCallback(IrcSys *sys);
+void COMPATIBLE_IRC_SYS_StartSessionCallback(void *userArg);
+void COMPATIBLE_IRC_SYS_ExitCallback(void *userArg);
 void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,unsigned char *work);
 void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int aid,int size,int data,IrcSys *work,unsigned handle);
 void COMPATIBLE_IRC_SYS_RecvOwnValueHandler(unsigned aid,int size,void *data,unsigned char *work,unsigned handle);
@@ -137,7 +137,7 @@ void COMPATIBLE_IRC_SYS_RecvProfileHandler(u32 aid, int size, int data, IrcProfi
 u32 COMPATIBLE_IRC_SYS_ProfileSyncGetProfileForAid(u32 aid,IrcProfileSync *sync);
 extern const char gCompatibleIrcSysFileName[];
 extern const NetSessionParam gCompatibleIrcSessionParam;
-extern const u32 gCompatibleIrcProfileCommands[];
+extern NetCommandEntry gCompatibleIrcProfileCommands[];
 extern char gCompatibleIrcRecvBuffer[];
 
 void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline) {
@@ -163,7 +163,7 @@ int COMPATIBLE_IRC_SYS_StepStartSession(IrcSys *sys) {
   else {
    config=gCompatibleIrcSessionParam;
    config.context=sys->context;
-   GFL_NET_StartSession((struct GFLNetInitializeStruct *)(&config),(uptr)COMPATIBLE_IRC_SYS_StartSessionCallback,(sptr)sys);
+   GFL_NET_StartSession((struct GFLNetInitializeStruct *)(&config),COMPATIBLE_IRC_SYS_StartSessionCallback,sys);
   }
   sys->step=1;
   break;
@@ -196,7 +196,7 @@ int COMPATIBLE_IRC_SYS_StepShutdown(IrcSys *sys)
         sys->step = 1;
         break;
     case 1:
-        if (GFL_NET_Exit((void (*)(unsigned int))COMPATIBLE_IRC_SYS_ExitCallback) != 0)
+        if (GFL_NET_Exit(COMPATIBLE_IRC_SYS_ExitCallback) != 0)
             sys->step = 2;
         else
             sys->step = 3;
@@ -337,7 +337,7 @@ u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys,u32 commandId,u32 size,u32 data,u8 t
 /*
  * note: trailing two zero alignment bytes.
  */
-void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys,u32 a,u32 b,u32 c,u32 d) {
+void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys,u32 a,NetCommandEntry *b,u32 c,void *d) {
     if(sys->offline==0) GFL_NET_COMMAND_AddCommandTable(a,b,c,d);
 }
 
@@ -410,9 +410,9 @@ int COMPATIBLE_IRC_SYS_IsEqual(int a, int b) { return a == b ? 1 : 0; }
 
 void COMPATIBLE_IRC_SYS_ClearPartnerReady(IrcSys *sys) { sys->partnerReady = 0; }
 
-void COMPATIBLE_IRC_SYS_StartSessionCallback(void) { }
+void COMPATIBLE_IRC_SYS_StartSessionCallback(void *userArg) { }
 
-void COMPATIBLE_IRC_SYS_ExitCallback(IrcSys *sys) { sys->exitDone = 1; }
+void COMPATIBLE_IRC_SYS_ExitCallback(void *userArg) { IrcSys *sys = userArg; sys->exitDone = 1; }
 
 void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,unsigned char *work) { unsigned v; if(GFL_NET_IsParentAid()) { MI_CpuCopy8(data,&v,4); *(unsigned *)(work+0x68+aid*4)=v; } }
 
@@ -433,7 +433,7 @@ void COMPATIBLE_IRC_SYS_ProfileSyncInit(IrcProfileSync *sync, IrcSys *sys, int h
     MI_CpuFill8((void *)sync->selfProfile, 0, 0x2c);
     sync->partnerProfile = GFL_HEAP_Alloc(heapId, 0x2c, 0, gCompatibleIrcSysFileName, line + 4);
     MI_CpuFill8((void *)sync->partnerProfile, 0, 0x2c);
-    COMPATIBLE_IRC_SYS_AddCommandTable(sys, 0x1000, (uptr)gCompatibleIrcProfileCommands, 4, (uptr)sync);
+    COMPATIBLE_IRC_SYS_AddCommandTable(sys, 0x1000, gCompatibleIrcProfileCommands, 4, sync);
 }
 
 void COMPATIBLE_IRC_SYS_ProfileSyncExit(IrcProfileSync *sync) { COMPATIBLE_IRC_SYS_DeleteCommandTable(sync->sys,0x1000); GFL_HEAP_Free(sync->sendProfile); GFL_HEAP_Free(sync->selfProfile); GFL_HEAP_Free(sync->partnerProfile); MI_CpuFill8(sync, 0, 0x34); }

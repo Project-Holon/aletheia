@@ -257,6 +257,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../arm9/game_data.h"
+#include "../sdk_ioreg.h"
 #include "zukan_detail_touchbar.h"
 #include "zukan_detail_shared_types.h"
 #include "zukan_detail_form_types.h"
@@ -663,8 +664,8 @@ int ZUKAN_DETAIL_FORM_Main(void *proc, int *seq, u16 *heap, struct Ov208Form *p,
             MCSS_SetPaletteFade((struct McssWork *)W(0x94), 16, 16, 0, 0);
         }
         W(0x5b4) = ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(0, *heap, 7, 1, 1, 0, 0x9f, 2, 12, 0x23, 0);
-        W(0x5b8) = (unsigned int)ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heap, (unsigned int)3, 3, 1, 2);
-        W(0x5bc) = (unsigned int)ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heap, (unsigned int)3, 4, 2, 3);
+        W(0x5b8) = (uptr)ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heap, (unsigned int)3, 3, 1, 2);
+        W(0x5bc) = (uptr)ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(*heap, (unsigned int)3, 4, 2, 3);
         ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots((struct Ov208PalFade *)(W(0x6ac)));
         ZUKAN_DETAIL_COMMON_StartFadeIn((struct Ov208PalFade *)(W(0x6ac)));
         break;
@@ -1001,22 +1002,22 @@ void ZUKAN_DETAIL_FORM_ApplyPendingDisplay(int unused, char *p)
 void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, u32 *outStr, u32 *outB, int *outC, int *outD,
                          u16 idx)
 {
-    u32 str = 0;
+    uptr str = 0;
     u32 b = 0;
     int c = 0;
     int d = 0;
     u16 k;
-    u32 ws;
-    u32 src;
+    uptr ws;
+    uptr src;
     u16 n;
     u16 i;
 
     k = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
     switch (*(u32 *)((u8 *)p + 0x148 + idx * 16)) {
     case 0:
-        ws = (u32)WORDSET_CreateDefault(*heap);
+        ws = (uptr)WORDSET_CreateDefault(*heap);
         src = p->str[2];
-        str = (u32)STRBUF_Create(0x40, *heap);
+        str = (uptr)STRBUF_Create(0x40, *heap);
         WORDSET_SetSlotSpeciesName((struct WordSet *)ws, 0, k);
         WORDSET_CopyTaggedText((struct WordSet *)ws, (void *)str, (void *)src);
         WORDSET_Delete((struct WordSet *)ws);
@@ -1039,7 +1040,7 @@ void ZUKAN_DETAIL_FORM_BuildFormLabelText(u16 *heap, struct Ov208Form *p, struct
             if (k == 0)
                 break;
         }
-        str = (u32)MSGDATA_AllocString((struct MsgBank *)p->msg2, k);
+        str = (uptr)MSGDATA_AllocString((struct MsgBank *)p->msg2, k);
         c = 1;
         break;
     }
@@ -1062,33 +1063,33 @@ void ZUKAN_DETAIL_FORM_CreateTextWindows(u16 *heap, struct Ov208Form *p, struct 
 {
     struct Ov208WinTbl t;
     u32 size;
-    u32 bmp;
-    u32 s;
+    uptr bmp;
+    uptr s;
     u8 i;
 
     t = data_021C8830;
     ARC_UTIL_UploadPaletteFromArchive(0x17, 5, 4, 0, 0, 0x20, *heap);
     ARC_UTIL_UploadPaletteFromArchive(0x17, 5, 0, 0, 0, 0x20, *heap);
     for (i = 0; i < 5; i++) {
-        p->win[i] = (unsigned int)BMP_WIN_Create((unsigned int)t.d[i][0], (unsigned int)t.d[i][1], (unsigned int)t.d[i][2], t.d[i][3], t.d[i][4],
+        p->win[i] = (uptr)BMP_WIN_Create((unsigned int)t.d[i][0], (unsigned int)t.d[i][1], (unsigned int)t.d[i][2], t.d[i][3], t.d[i][4],
                                   t.d[i][5], t.d[i][6]);
-        BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)p->win[i])), 0);
+        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->win[i])), 0);
         BMP_WIN_TransferChars((struct BmpWin *)p->win[i]);
     }
-    p->msg = (u32)MSGDATA_CreateFromArchive(0, 2, 0xea, *heap);
-    p->msg2 = (u32)MSGDATA_CreateFromArchive(0, 2, 0xf4, *heap);
-    p->marc = (u32)ARC_UTIL_LoadMemberWithSize(0x62, 0, 0, *heap, &size);
-    bmp = (u32)BMP_WIN_GetBmp((struct BmpWin *)p->win[2]);
-    s = (u32)MSGDATA_AllocString((struct MsgBank *)p->msg, 0xb8);
+    p->msg = (uptr)MSGDATA_CreateFromArchive(0, 2, 0xea, *heap);
+    p->msg2 = (uptr)MSGDATA_CreateFromArchive(0, 2, 0xf4, *heap);
+    p->marc = (uptr)ARC_UTIL_LoadMemberWithSize(0x62, 0, 0, *heap, &size);
+    bmp = (uptr)BMP_WIN_GetBmp((struct BmpWin *)p->win[2]);
+    s = (uptr)MSGDATA_AllocString((struct MsgBank *)p->msg, 0xb8);
     PRINTSYS_PrintQueColor((void *)p->print[2], (struct Bmp *)bmp, 0, 1, (struct Strbuf *)s, (struct GfFont *)p->font, 0x3c40);
     STRBUF_Delete((struct Strbuf *)s);
-    s = (u32)MSGDATA_AllocString((struct MsgBank *)p->msg, 0xb9);
+    s = (uptr)MSGDATA_AllocString((struct MsgBank *)p->msg, 0xb9);
     PRINTSYS_PrintQueColor((void *)p->print[2], (struct Bmp *)bmp, 0, 0x11, (struct Strbuf *)s, (struct GfFont *)p->font, 0x3c40);
     STRBUF_Delete((struct Strbuf *)s);
     p->active[2] = 1;
     ZUKAN_DETAIL_FORM_FlushPrintWindow(heap, (struct Ov208Form *)p, key, 2);
     for (i = 0; i < 6; i++)
-        p->str[i] = (u32)MSGDATA_AllocString((struct MsgBank *)p->msg, data_021C8794[i]);
+        p->str[i] = (uptr)MSGDATA_AllocString((struct MsgBank *)p->msg, data_021C8794[i]);
 }
 
 void ZUKAN_DETAIL_FORM_DeleteTextWindows(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
@@ -1109,7 +1110,7 @@ void ZUKAN_DETAIL_FORM_CreatePrintQueues(u16 *heap, struct Ov208Form *p, struct 
 {
     u8 i;
     for (i = 0; i < 5; i++) {
-        p->print[i] = (unsigned int)PRINTSYS_QUE_Create((unsigned int)(*heap));
+        p->print[i] = (uptr)PRINTSYS_QUE_Create((unsigned int)(*heap));
         p->active[i] = 0;
     }
 }
@@ -1136,9 +1137,9 @@ void ZUKAN_DETAIL_FORM_UpdatePrintQueues(void *heap, struct Ov208Form *p, struct
 
 void ZUKAN_DETAIL_FORM_FlushPrintWindow(void *heap, struct Ov208Form *p, struct Ov208Ctx *key, int i)
 {
-    u32 w;
+    uptr w;
 
-    if (p->active[i] != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)p->print[i], (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)p->win[i]))) == 0) {
+    if (p->active[i] != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)p->print[i], (void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->win[i]))) == 0) {
         w = p->win[i];
         BMP_WIN_TransferChars((struct BmpWin *)w);
         BMP_WIN_MakeScreen((struct BmpWin *)w);
@@ -1197,17 +1198,17 @@ void ZUKAN_DETAIL_FORM_DrawSpeciesLabels(u16 *heap, struct Ov208Form *p, struct 
 void ZUKAN_DETAIL_FORM_DrawFormLabel(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key, int i, u32 print, u32 win,
                          u32 *active, u16 idx)
 {
-    u32 bmp;
+    uptr bmp;
     u16 width;
-    u32 strA;
-    u32 strB;
+    uptr strA;
+    uptr strB;
     int freeA;
     int freeB;
     int y;
     YPos y2;
     u16 w;
 
-    bmp = (u32)BMP_WIN_GetBmp((struct BmpWin *)win);
+    bmp = (uptr)BMP_WIN_GetBmp((struct BmpWin *)win);
     width = BMP_GetWidth((const struct Bmp *)bmp);
     ZUKAN_DETAIL_FORM_BuildFormLabelText((u16 *)heap, p, key, (u32 *)&strA, (u32 *)&strB, (int *)&freeA, (int *)&freeB, idx);
     y = 1;
@@ -1232,7 +1233,7 @@ void ZUKAN_DETAIL_FORM_DrawFormLabelMain(u16 *heap, struct Ov208Form *p, struct 
 {
     p->active[3] = 0;
     PRINTSYS_QUE_Clear((struct PrintQueue *)p->print[3]);
-    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)p->win[3])), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->win[3])), 0);
     ZUKAN_DETAIL_FORM_DrawFormLabel(heap, p, key, 3, p->print[3], p->win[3], &p->active[3], p->sel);
 }
 
@@ -1240,7 +1241,7 @@ void ZUKAN_DETAIL_FORM_DrawFormLabelSub(u16 *heap, struct Ov208Form *p, struct O
 {
     p->active[4] = 0;
     PRINTSYS_QUE_Clear((struct PrintQueue *)p->print[4]);
-    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)p->win[4])), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->win[4])), 0);
     switch (p->state) {
     case 0:
         BMP_WIN_TransferChars((struct BmpWin *)p->win[4]);
@@ -1493,7 +1494,7 @@ extern const struct Ov208PoseEnt data_021C8854[15];
 
 void ZUKAN_DETAIL_FORM_InitModelSystem(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)
 {
-    p->cam = (u32)MCSS_Init((unsigned int)4, (unsigned int)(*heap));
+    p->cam = (uptr)MCSS_Init((unsigned int)4, (unsigned int)(*heap));
     MCSS_SetTextureTransAdrs((void *)p->cam, 0);
     MCSS_SetOrthoMode((void *)p->cam);
     MCSS_OpenHandle((struct McssSys *)p->cam, POKEGRA_GetArcID());
@@ -1509,7 +1510,7 @@ void ZUKAN_DETAIL_FORM_ExitModelSystem(u16 *heap, struct Ov208Form *p, struct Ov
 {
     MCSS_CloseHandle((McssSys *)p->cam);
     MCSS_Exit((McssSys *)p->cam);
-    TCB_Noop((struct TcbSystem *)((int)p->heap3d));
+    TCB_Noop((struct TcbSystem *)((sptr)p->heap3d));
     GFL_HEAP_Free(p->mem);
 }
 
@@ -1518,13 +1519,13 @@ u32 ZUKAN_DETAIL_FORM_AddModel(void *sys, u32 species, u32 form, u32 gender, u32
 {
     ZukanDetailFormVec scale;
     struct Ov208MonArc arc;
-    u32 obj;
+    uptr obj;
 
     scale = data_021C8804;
     if (species == 0x147)
         MCSS_TOOL_SetSpindaSpotHook(sys, extra);
     MCSS_TOOL_MakeAddWorkFromParam(species, form, gender, shiny, isEgg, (struct McssAddWork *)(&arc), direction);
-    obj = (u32)MCSS_Add(sys, 0, 0, 0, (struct McssAddWork *)(&arc));
+    obj = (uptr)MCSS_Add(sys, 0, 0, 0, (struct McssAddWork *)(&arc));
     MCSS_SetShadowVanishFlag((struct McssWork *)obj, 1);
     MCSS_SetAnmStopFlag((void *)obj);
     MCSS_SetScale((void *)obj, (u32 *)(&scale));
@@ -1568,7 +1569,7 @@ void ZUKAN_DETAIL_FORM_CreateModelItem(struct Ov208Mdl *item, u32 heap, void *sy
 {
     item->obj = ZUKAN_DETAIL_FORM_AddModel(sys, species, form, gender, shiny, isEgg, direction, extra);
     item->state = GFL_HEAP_Alloc(heap, 0x10, 1, data_021C8E64, 0xab1);
-    NNS_G2dSetCellAnimationParam(MCSS_GetAnimCtrl((void *)item->obj), 1, (int)item->state, (int)ZUKAN_DETAIL_FORM_OnAnimStopRequest);
+    NNS_G2dSetCellAnimationParam(MCSS_GetAnimCtrl((void *)item->obj), 1, (sptr)item->state, (sptr)ZUKAN_DETAIL_FORM_OnAnimStopRequest);
     ZUKAN_DETAIL_FORM_GetModelOffsets(item->pos, species, form, gender, shiny, isEgg, direction, extra);
 }
 
@@ -1676,7 +1677,7 @@ u32 ZUKAN_DETAIL_FORM_CreateIconActor(u32 arc, u32 *res, u32 j, u32 k, u32 owner
                         u32 form, u32 gender, u32 isEgg)
 {
     Ov208ObjPos pos;
-    u32 obj;
+    uptr obj;
 
     pos.x = 0x80;
     pos.y = 0x80;
@@ -1684,7 +1685,7 @@ u32 ZUKAN_DETAIL_FORM_CreateIconActor(u32 arc, u32 *res, u32 j, u32 k, u32 owner
     pos.b6 = 1;
     pos.b7 = 0;
     *res = CLACT_RegisterCharacter((void *)arc, POKE_TOOL_CalcGraphicIndex(species, form, gender, isEgg), 0, 1, heap);
-    obj = (u32)CLACT_CreateActor((struct Unit *)owner, *res, j, k, (const struct ActorInitParam *)&pos, 1, heap);
+    obj = (uptr)CLACT_CreateActor((struct Unit *)owner, *res, j, k, (const struct ActorInitParam *)&pos, 1, heap);
     CLACT_SetActorAutoAnim((struct ClactActor *)obj, 0);
     CLACT_SetActorPaletteOffset((struct ClactActor *)obj, POKE_TOOL_CalcIconPalette(species, form, gender, isEgg), 0);
     CLACT_SetActorObjMode((struct ClactActor *)obj, 0);
@@ -1707,7 +1708,7 @@ void ZUKAN_DETAIL_FORM_BuildFormEntries(u16 *heap, struct Ov208Ctx *key, struct 
   Ov208Shiny2 shinies = data_021C87FC;
   u16 species = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
   void *pd = ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(key));
-  u32 h = (u32)POKE_PERSONAL_Create(species, 0, *heap);
+  u32 h = (uptr)POKE_PERSONAL_Create(species, 0, *heap);
   u32 ratio;
   u32 forms;
   u32 curGender;
@@ -1860,14 +1861,14 @@ void ZUKAN_DETAIL_FORM_PlaceModelItem(u16 *heap, struct Ov208Form *p, struct Ov2
         extra = ZUKAN_SAVE_GetSpindaPersonality(ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(key)), extra);
     if (item0Index != 4) {
         ZUKAN_DETAIL_FORM_CreateModelItem(&p->item[item0Index], *heap, (void *)p->cam, species, form, gender, shiny, 0, 0, extra);
-        ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[item0Index], pose, (int)(&v));
+        ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[item0Index], pose, (sptr)(&v));
         MCSS_SetPosition((void *)p->item[item0Index].obj, (u32 *)(&v));
         if (p->side0Shown == 0)
             MCSS_SetVanishFlag((void *)p->item[item0Index].obj);
     }
     if (item1Index != 4) {
         ZUKAN_DETAIL_FORM_CreateModelItem(&p->item[item1Index], *heap, (void *)p->cam, species, form, gender, shiny, 0, 1, extra);
-        ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[item1Index], pose, (int)(&v));
+        ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[item1Index], pose, (sptr)(&v));
         MCSS_SetPosition((void *)p->item[item1Index].obj, (u32 *)(&v));
         if (p->side0Shown != 0)
             MCSS_SetVanishFlag((void *)p->item[item1Index].obj);
@@ -1878,7 +1879,7 @@ void ZUKAN_DETAIL_FORM_CreateCurrentIcon(u16 *heap, struct Ov208Form *p, struct 
 {
     u16 k = ZUKAN_DETAIL_COMMON_GetCurrentEntry(key);
 
-    p->obj[p->cur] = ZUKAN_DETAIL_FORM_CreateIconActor((u32)p->arc, &p->res[p->cur], p->iconPalette, p->iconCellAnim, p->actorUnit, *heap, k,
+    p->obj[p->cur] = ZUKAN_DETAIL_FORM_CreateIconActor((uptr)p->arc, &p->res[p->cur], p->iconPalette, p->iconCellAnim, p->actorUnit, *heap, k,
                                          p->ents[idx].form, p->ents[idx].gender, 0);
 }
 
@@ -1945,12 +1946,12 @@ skip:
     ZUKAN_DETAIL_FORM_PlaceModelItem(heap, p, key, a, b, pose, p->sel);
     if (a != 4) ZUKAN_DETAIL_FORM_InitAnimState(p->item[0].state, 0, p);
     else if (p->item[0].obj != 0) {
-        ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[0], pose, (int)(&v));
+        ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[0], pose, (sptr)(&v));
         MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&v));
     }
     if (b != 4) ZUKAN_DETAIL_FORM_InitAnimState(p->item[1].state, 1, p);
     else if (p->item[1].obj != 0) {
-        ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[1], pose, (int)(&v));
+        ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[1], pose, (sptr)(&v));
         MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v));
     }
     if (p->state == 4 && p->count >= 2) {
@@ -1961,12 +1962,12 @@ skip:
         ZUKAN_DETAIL_FORM_PlaceModelItem(heap, p, key, a, b, 2, p->sel2);
         if (a != 4) ZUKAN_DETAIL_FORM_InitAnimState(p->item[2].state, 2, p);
         else if (p->item[2].obj != 0) {
-            ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[2], 2, (int)(&v));
+            ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[2], 2, (sptr)(&v));
             MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&v));
         }
         if (b != 4) ZUKAN_DETAIL_FORM_InitAnimState(p->item[3].state, 3, p);
         else if (p->item[3].obj != 0) {
-            ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[3], 2, (int)(&v));
+            ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[3], 2, (sptr)(&v));
             MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v));
         }
     }
@@ -2000,12 +2001,12 @@ skip:
     ZUKAN_DETAIL_FORM_PlaceModelItem(heap, p, key, a, b, pose, p->sel);
     if (a != 4) ZUKAN_DETAIL_FORM_InitAnimState(p->item[0].state, 0, p);
     else {
-        ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[0], pose, (int)(&v));
+        ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[0], pose, (sptr)(&v));
         MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&v));
     }
     if (b != 4) ZUKAN_DETAIL_FORM_InitAnimState(p->item[1].state, 1, p);
     else {
-        ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[1], pose, (int)(&v));
+        ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[1], pose, (sptr)(&v));
         MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&v));
     }
     a = 2;
@@ -2015,12 +2016,12 @@ skip:
     ZUKAN_DETAIL_FORM_PlaceModelItem(heap, p, key, a, b, 2, p->sel2);
     if (a != 4) ZUKAN_DETAIL_FORM_InitAnimState(p->item[2].state, 2, p);
     else {
-        ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[2], 2, (int)(&v));
+        ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[2], 2, (sptr)(&v));
         MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&v));
     }
     if (b != 4) ZUKAN_DETAIL_FORM_InitAnimState(p->item[3].state, 3, p);
     else {
-        ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[3], 2, (int)(&v));
+        ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[3], 2, (sptr)(&v));
         MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&v));
     }
     MCSS_SetTaskSystem((struct McssSys *)p->cam, p->heap3d);
@@ -2188,19 +2189,19 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *heap, struct Ov208Form *p, struct O
             flag = 1;
             if (p->count >= 2) {
                 if (p->item[0].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[0], 1, (int)(&spreadPos));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[0], 1, (sptr)(&spreadPos));
                     MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&spreadPos));
                 }
                 if (p->item[1].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[1], 1, (int)(&spreadPos));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[1], 1, (sptr)(&spreadPos));
                     MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&spreadPos));
                 }
                 if (p->item[2].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[2], 2, (int)(&spreadPos));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[2], 2, (sptr)(&spreadPos));
                     MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&spreadPos));
                 }
                 if (p->item[3].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[3], 2, (int)(&spreadPos));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[3], 2, (sptr)(&spreadPos));
                     MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&spreadPos));
                 }
             }
@@ -2244,21 +2245,21 @@ void ZUKAN_DETAIL_FORM_HandleStateEvent(u16 *heap, struct Ov208Form *p, struct O
             flag = 1;
             if (p->count >= 2) {
                 if (p->item[0].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[0], 0, (int)(&restorePos));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[0], 0, (sptr)(&restorePos));
                     MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&restorePos));
                 }
                 if (p->item[1].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[1], 0, (int)(&restorePos));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[1], 0, (sptr)(&restorePos));
                     MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&restorePos));
                 }
                 idx = p->side0Shown != 0 ? SIDE_0 : SIDE_1;
                 ZUKAN_DETAIL_FORM_GetModelPosition(p->item[idx].obj, &restorePos);
                 if (p->item[2].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[2], 2, (int)(&restorePos));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[2], 2, (sptr)(&restorePos));
                     MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&restorePos));
                 }
                 if (p->item[3].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[3], 2, (int)(&restorePos));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[3], 2, (sptr)(&restorePos));
                     MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&restorePos));
                 }
             }
@@ -2311,7 +2312,7 @@ void ZUKAN_DETAIL_FORM_CreateArrowActors(u16 *heap, struct Ov208Form *p, struct 
         hdr[1].z = t[2];
         hdr[1].a = t[3];
         hdr[1].b = t[4];
-        p->act[i] = (u32)CLACT_CreateActor((struct Unit *)p->actorUnit, p->rs[t[5]], p->rs[t[6]], p->rs[t[7]], (const struct ActorInitParam *)&hdr[1], 0, *heap);
+        p->act[i] = (uptr)CLACT_CreateActor((struct Unit *)p->actorUnit, p->rs[t[5]], p->rs[t[6]], p->rs[t[7]], (const struct ActorInitParam *)&hdr[1], 0, *heap);
         CLACT_SetActorAutoAnim((struct ClactActor *)p->act[i], 1);
         CLACT_SetActorDrawEnable((struct ClactActor *)p->act[i], 0);
         CLACT_SetActorObjMode((struct ClactActor *)((struct Actor *)(p->act[i])), 1);
@@ -2384,7 +2385,7 @@ void ZUKAN_DETAIL_FORM_CreateArrowActors(u16 *heap, struct Ov208Form *p, struct 
         hdr[0].z = e->row[0].idleAnim;
         hdr[0].a = 0;
         hdr[0].b = 3;
-        e->row[0].obj = (u32)CLACT_CreateActor((struct Unit *)p->actorUnit, p->rs[e->row[0].res[0]], p->rs[e->row[0].res[1]],
+        e->row[0].obj = (uptr)CLACT_CreateActor((struct Unit *)p->actorUnit, p->rs[e->row[0].res[0]], p->rs[e->row[0].res[1]],
                                             p->rs[e->row[0].res[2]], (const struct ActorInitParam *)&hdr[0], 0, *heap);
         CLACT_SetActorAutoAnim((struct ClactActor *)e->row[0].obj, 1);
         CLACT_SetActorObjMode((struct ClactActor *)e->row[0].obj, 1);
@@ -2794,21 +2795,21 @@ void ZUKAN_DETAIL_FORM_UpdateSlideLeft(u16 *heap, struct Ov208Form *p, struct Ov
             ZUKAN_DETAIL_FORM_HandleStateEvent(heap, p, ctx, 4);
             if (p->count >= 2) {
                 if (p->item[2].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[2], 1, (int)(&u));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[2], 1, (sptr)(&u));
                     MCSS_SetPosition((void *)p->item[2].obj, (u32 *)(&u));
                 }
                 if (p->item[3].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[3], 1, (int)(&u));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[3], 1, (sptr)(&u));
                     MCSS_SetPosition((void *)p->item[3].obj, (u32 *)(&u));
                 }
                 idx = p->side0Shown != 0 ? 2 : 3;
                 ZUKAN_DETAIL_FORM_GetModelPosition(p->item[idx].obj, &u);
                 if (p->item[0].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[0], 2, (int)(&u));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[0], 2, (sptr)(&u));
                     MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&u));
                 }
                 if (p->item[1].obj != 0) {
-                    ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[1], 2, (int)(&u));
+                    ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[1], 2, (sptr)(&u));
                     MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&u));
                 }
                 ZUKAN_DETAIL_FORM_SwapItems(heap, p, ctx);
@@ -3002,11 +3003,11 @@ void ZUKAN_DETAIL_FORM_UpdateSlideRight(u16 *heap, struct Ov208Form *p, struct O
             sh = 1;
         ZUKAN_SAVE_UpdateViewFlags(obj, id, f, sh, p->ents[p->sel].form);
         if (p->item[0].obj != 0) {
-            ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[0], 0, (int)(&u));
+            ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[0], 0, (sptr)(&u));
             MCSS_SetPosition((void *)p->item[0].obj, (u32 *)(&u));
         }
         if (p->item[1].obj != 0) {
-            ZUKAN_DETAIL_FORM_SelectModelPosition((int)&p->item[1], 0, (int)(&w));
+            ZUKAN_DETAIL_FORM_SelectModelPosition((sptr)&p->item[1], 0, (sptr)(&w));
             MCSS_SetPosition((void *)p->item[1].obj, (u32 *)(&w));
         }
         p->slideForward = 1;
@@ -3242,8 +3243,8 @@ void ZUKAN_DETAIL_FORM_SetActorsNormalMode(u16 *heap, struct Ov208Form *p, struc
     CLACT_SetActorObjMode((struct ClactActor *)p->act[1], 0);
     for (i = 0; i < 4; i++)
         CLACT_SetActorObjMode((struct ClactActor *)((struct Actor *)((struct Ov208Form *)((u8 *)p + i * 0x28))->row[0].obj), 0);
-    G2x_SetBlendAlpha_((unsigned int *)0x04000050, 0, 0x3f, 0xc, 4);
-    G2x_SetBlendAlpha_((unsigned int *)0x04001050, 8, 0x3f, 0xc, 4);
+    G2x_SetBlendAlpha_((unsigned int *)REG_BLDCNT_ADDR, 0, 0x3f, 0xc, 4);
+    G2x_SetBlendAlpha_((unsigned int *)REG_DB_BLDCNT_ADDR, 8, 0x3f, 0xc, 4);
 }
 
 void ZUKAN_DETAIL_FORM_SetActorsAlphaMode(u16 *heap, struct Ov208Form *p, struct Ov208Ctx *key)

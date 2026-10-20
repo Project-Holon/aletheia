@@ -269,7 +269,7 @@ int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComp
     sb->engine.numserverkeys = 0;
     for (i = 0; i < numBasicFields; i++) {
         key = gQr2RegKeys[basicFields[i]];
-        keylen = strlen((unsigned char *)key);
+        keylen = strlen(key);
         if (listLen + keylen + 1 >= 256)
             break;
         listLen += OS_SPrintf(keyList + listLen, g_021A8218, key);

@@ -248,7 +248,7 @@ unsigned char GetConnectType(ACWORK *wk)
         }
         for (i = 0; i < max; i++) {
             if (bssdesc->ssidLength == wk->searchList[i].length
-                && strncmp((unsigned char *)bssdesc->ssid, (unsigned char *)wk->searchList[i].ssid, bssdesc->ssidLength) == 0) {
+                && strncmp((const char *)bssdesc->ssid, (const char *)wk->searchList[i].ssid, bssdesc->ssidLength) == 0) {
                 if (j == 0) {
                     type = wk->searchList[i].type;
                 } else {

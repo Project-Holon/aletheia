@@ -51,6 +51,7 @@
  *   NNS_G3dGlb                   0x02148B4C  data
  */
 #include "nns_g3d_sbc_types.h"
+#include "../sdk_ioreg_reg.h"
 #include "../sdk_ioreg.h"
 
 typedef void (*NNSG3dSbcFunc)(NNSG3dRS *pRS, u32 opt);
@@ -851,9 +852,9 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *pRS, u32 opt)
             MtxFx44 m;
 
             NNS_G3dGeFlushBuffer();
-            GXFIFO = 0x00151110;
-            GXFIFO = 0;
-            GXFIFO = 0;
+            REG_GXFIFO = 0x00151110;
+            REG_GXFIFO = 0;
+            REG_GXFIFO = 0;
             while (G3X_GetClipMtx(&m))
                 ;
             if (NNS_G3dGlb.flag & 1) {
@@ -873,19 +874,19 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *pRS, u32 opt)
             scale->z = VEC_Mag((VecFx32 *)&m.m[2][0]);
 
             if (NNS_G3dGlb.flag & 1) {
-                GXFIFO = 0x00171012;
-                MIi_CpuSend32(&gBillboardCmd.params[0], &GXFIFO, 8);
-                MIi_CpuSend32(NNS_G3dGlbGetInvWVMtx(), &GXFIFO, 0x30);
-                GXFIFO = 0x1b19;
-                MIi_CpuSend32(&gBillboardCmd.mtx, &GXFIFO, 0x3c);
+                REG_GXFIFO = 0x00171012;
+                MIi_CpuSend32(&gBillboardCmd.params[0], &REG_GXFIFO, 8);
+                MIi_CpuSend32(NNS_G3dGlbGetInvWVMtx(), &REG_GXFIFO, 0x30);
+                REG_GXFIFO = 0x1b19;
+                MIi_CpuSend32(&gBillboardCmd.mtx, &REG_GXFIFO, 0x3c);
             } else if (NNS_G3dGlb.flag & 2) {
-                GXFIFO = 0x00171012;
-                MIi_CpuSend32(&gBillboardCmd.params[0], &GXFIFO, 8);
-                MIi_CpuSend32(NNS_G3dGlbGetInvCameraMtx(), &GXFIFO, 0x30);
-                GXFIFO = 0x1b19;
-                MIi_CpuSend32(&gBillboardCmd.mtx, &GXFIFO, 0x3c);
+                REG_GXFIFO = 0x00171012;
+                MIi_CpuSend32(&gBillboardCmd.params[0], &REG_GXFIFO, 8);
+                MIi_CpuSend32(NNS_G3dGlbGetInvCameraMtx(), &REG_GXFIFO, 0x30);
+                REG_GXFIFO = 0x1b19;
+                MIi_CpuSend32(&gBillboardCmd.mtx, &REG_GXFIFO, 0x3c);
             } else {
-                MIi_CpuSend32(&gBillboardCmd, &GXFIFO, 0x48);
+                MIi_CpuSend32(&gBillboardCmd, &REG_GXFIFO, 0x48);
             }
         }
 
@@ -951,9 +952,9 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *pRS, u32 opt)
             MtxFx44 m;
 
             NNS_G3dGeFlushBuffer();
-            GXFIFO = 0x00151110;
-            GXFIFO = 0;
-            GXFIFO = 0;
+            REG_GXFIFO = 0x00151110;
+            REG_GXFIFO = 0;
+            REG_GXFIFO = 0;
             while (G3X_GetClipMtx(&m))
                 ;
             if (NNS_G3dGlb.flag & 1) {
@@ -983,19 +984,19 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *pRS, u32 opt)
             VEC_CrossProduct((VecFx32 *)&mtx->m[0][0], (VecFx32 *)&mtx->m[1][0], (VecFx32 *)&mtx->m[2][0]);
 
             if (NNS_G3dGlb.flag & 1) {
-                GXFIFO = 0x00171012;
-                MIi_CpuSend32(&gBillboardYCmd.params[0], &GXFIFO, 8);
-                MIi_CpuSend32(NNS_G3dGlbGetInvWVMtx(), &GXFIFO, 0x30);
-                GXFIFO = 0x1b19;
-                MIi_CpuSend32(&gBillboardYCmd.mtx, &GXFIFO, 0x3c);
+                REG_GXFIFO = 0x00171012;
+                MIi_CpuSend32(&gBillboardYCmd.params[0], &REG_GXFIFO, 8);
+                MIi_CpuSend32(NNS_G3dGlbGetInvWVMtx(), &REG_GXFIFO, 0x30);
+                REG_GXFIFO = 0x1b19;
+                MIi_CpuSend32(&gBillboardYCmd.mtx, &REG_GXFIFO, 0x3c);
             } else if (NNS_G3dGlb.flag & 2) {
-                GXFIFO = 0x00171012;
-                MIi_CpuSend32(&gBillboardYCmd.params[0], &GXFIFO, 8);
-                MIi_CpuSend32(NNS_G3dGlbGetInvCameraMtx(), &GXFIFO, 0x30);
-                GXFIFO = 0x1b19;
-                MIi_CpuSend32(&gBillboardYCmd.mtx, &GXFIFO, 0x3c);
+                REG_GXFIFO = 0x00171012;
+                MIi_CpuSend32(&gBillboardYCmd.params[0], &REG_GXFIFO, 8);
+                MIi_CpuSend32(NNS_G3dGlbGetInvCameraMtx(), &REG_GXFIFO, 0x30);
+                REG_GXFIFO = 0x1b19;
+                MIi_CpuSend32(&gBillboardYCmd.mtx, &REG_GXFIFO, 0x3c);
             } else {
-                MIi_CpuSend32(&gBillboardYCmd, &GXFIFO, 0x48);
+                MIi_CpuSend32(&gBillboardYCmd, &REG_GXFIFO, 0x48);
             }
         }
 

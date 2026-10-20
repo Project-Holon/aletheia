@@ -203,7 +203,7 @@ void DIGITALCARDCHECK_UpdateMenu(void *obj, int a, int b)
 
 int DIGITALCARDCHECK_GetMenuResult(u8 *p){return WIFIBATTLEMATCH_UTIL_GetBusy((struct WifibattlematchUtilWork *)(*(int * *)&((struct LiveBattleMatchWork *)p)->printSys));}
 
-void DIGITALCARDCHECK_End(u8 *p,int v){((struct LiveBattleMatchWork *)p)->flowResult=v;WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)(*(int * *)&((struct LiveBattleMatchWork *)p)->proc),(int)LIVEBATTLEMATCH_FLOW_End);}
+void DIGITALCARDCHECK_End(u8 *p,int v){((struct LiveBattleMatchWork *)p)->flowResult=v;WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)(*(int * *)&((struct LiveBattleMatchWork *)p)->proc),(sptr)LIVEBATTLEMATCH_FLOW_End);}
 
 /*
  * extent: two zero alignment bytes at 0217D15E before existing 0217D160.
@@ -213,13 +213,13 @@ void DIGITALCARDCHECK_CreateRecord(u8 *p)
 {
     DigitalcardcheckRecord rec;
     void *base;
-    int box, aux, x, table, a, b, c, d;
+    sptr box, aux, x, table; int a, b, c, d;
     if (*(int *)&((struct LiveBattleMatchWork *)p)->record) return;
     base = GAME_DATA_GetSaveControl(((struct LiveBattleMatchWork *)p)->save);
     BATTLE_BOX_GetFromSave((struct SaveControl *)base);
-    box = (int)REGULATION_NoOp((void *)(((struct LiveBattleMatchWork *)p)->card));
-    aux = (int)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(base), 1);
-    x = (int)GAME_DATA_GetMyStatus(((struct LiveBattleMatchWork *)p)->save);
+    box = (sptr)REGULATION_NoOp((void *)(((struct LiveBattleMatchWork *)p)->card));
+    aux = (sptr)REGULATION_GetParty(BATTLE_COMPETITION_GetFromSave(base), 1);
+    x = (sptr)GAME_DATA_GetMyStatus(((struct LiveBattleMatchWork *)p)->save);
     table = WIFIBATTLEMATCH_GRAPHIC_GetCamera(*(int * *)&((struct LiveBattleMatchWork *)p)->graphic);
     MI_CpuFill8(&rec, 0, 0xAC);
     rec.fa0 = LIVEBATTLEMATCH_SAVE_GetCounter(*(u8 * *)&((struct LiveBattleMatchWork *)p)->saveBlock, 1);
@@ -237,7 +237,7 @@ void DIGITALCARDCHECK_CreateRecord(u8 *p)
     c = REGULATION_Card_GetValue(((struct LiveBattleMatchWork *)p)->card, 7);
     rec.f98 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
     rec.fa8 = REGULATION_Card_GetValue(((struct LiveBattleMatchWork *)p)->card, 11);
-    *(int *)&((struct LiveBattleMatchWork *)p)->record = (int)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), (void *)x, (void *)table, (void *)(((struct LiveBattleMatchWork *)p)->view), ((struct LiveBattleMatchWork *)p)->font, (void *)(*(int *)&((struct LiveBattleMatchWork *)p)->printQue), (void *)(*(int *)&((struct LiveBattleMatchWork *)p)->mgr), (void *)(((struct LiveBattleMatchWork *)p)->arg2C), (void *)aux, 0, ((struct LiveBattleMatchWork *)p)->heap);
+    *(int *)&((struct LiveBattleMatchWork *)p)->record = (sptr)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), (void *)x, (void *)table, (void *)(((struct LiveBattleMatchWork *)p)->view), ((struct LiveBattleMatchWork *)p)->font, (void *)(*(int *)&((struct LiveBattleMatchWork *)p)->printQue), (void *)(*(int *)&((struct LiveBattleMatchWork *)p)->mgr), (void *)(((struct LiveBattleMatchWork *)p)->arg2C), (void *)aux, 0, ((struct LiveBattleMatchWork *)p)->heap);
 }
 
 void DIGITALCARDCHECK_WaitRecord(int *p)
@@ -276,7 +276,7 @@ void DIGITALCARDCHECK_SetRecordMode(u8 *p,int mode) {WIFIBATTLEMATCH_VIEW_DrawDa
  */
 void DIGITALCARDCHECK_CreateRecord2(char *p, const WifiBattleMatchViewRecord *value)
 {
-    int a;
+    sptr a;
     int b;
     if (((struct LiveBattleMatchWork *)p)->record2 == 0) {
         a = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(((struct LiveBattleMatchWork *)p)->graphic));
@@ -292,7 +292,7 @@ int DIGITALCARDCHECK_IsRecord2Done(u8 *p){return WIFIBATTLEMATCH_VIEW_StepRecord
 
 void DIGITALCARDCHECK_CreateRecord3(char *p)
 {
-    int a;
+    sptr a;
     if (((struct LiveBattleMatchWork *)p)->record3 == 0) {
         a = WIFIBATTLEMATCH_GRAPHIC_GetCamera((int *)(*(int *)&((struct LiveBattleMatchWork *)p)->graphic));
         ((struct LiveBattleMatchWork *)p)->record3 = (void *)WIFIBATTLEMATCH_VIEW_CreatePartyWindow(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)(*(int *)&((struct LiveBattleMatchWork *)p)->save))), (void *)a,
@@ -319,15 +319,15 @@ void DIGITALCARDCHECK_CopyRegulation(u8 *p,const void *q) {void *v;v=BATTLE_BOX_
 void DIGITALCARDCHECK_BuildBattleRecord(u8 *p, u8 *q)
 {
     u8 *r = *(u8 * *)&((struct LiveBattleMatchWork *)q)->save;
-    u32 x;
-    u32 a;
+    uptr x;
+    uptr a;
 
     ((struct BattleRecord *)p)->version = 0x64;
-    x = (u32)GAME_DATA_GetMyStatus((struct GameData *)r);
+    x = (uptr)GAME_DATA_GetMyStatus((struct GameData *)r);
     MI_CpuCopy8((const void *)((void *)x), (void *)p, MYSTATUS_GetSize());
     OS_GetMacAddress(p + 0x20);
-    GREETING_SAVEDATA_GetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSaveThunk((u32)GAME_DATA_GetSaveControl((struct GameData *)r))), 0, (struct QuadRecord *)(p + 0x38));
-    a = (u32)BATTLE_BOX_CreateParty((struct BoxMonGroup *)(BATTLE_BOX_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)r)))), 0x8056);
+    GREETING_SAVEDATA_GetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSaveThunk((uptr)GAME_DATA_GetSaveControl((struct GameData *)r))), 0, (struct QuadRecord *)(p + 0x38));
+    a = (uptr)BATTLE_BOX_CreateParty((struct BoxMonGroup *)(BATTLE_BOX_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)r)))), 0x8056);
     MI_CpuCopy8((void *)a, p + 0xd4, POKE_REGULATION_GetDataSize());
     GFL_HEAP_Free((void *)a);
     ((struct BattleRecord *)p)->stat1 = LIVEBATTLEMATCH_SAVE_GetCounter((const u8 *)(((struct LiveBattleMatchWork *)q)->saveBlock), 1);
@@ -351,7 +351,7 @@ LivebattlematchRequest *DIGITALCARDCHECK_Create(RequestConfig *p, int heap)
     WIFIBATTLEMATCH_VIEW_LoadBgPalette(r->config.view, 3, heap);
     r->msgBank = (void *)MSGDATA_CreateFromArchive(0, 2, 0xD2, heap);
     r->wordSet = (void *)WORDSET_Create(8, 0x40, heap);
-    r->callback = (int)WIFIBATTLEMATCH_UTIL_CreateCallback((int)r, (int)DIGITALCARDCHECK_SelectPhase, heap);
+    r->callback = (sptr)WIFIBATTLEMATCH_UTIL_CreateCallback((sptr)r, (sptr)DIGITALCARDCHECK_SelectPhase, heap);
     return r;
 }
 
@@ -382,26 +382,26 @@ void DIGITALCARDCHECK_SelectPhase(int a, int unused, char *p)
     x = REGULATION_Card_GetValue(m, 2);
     y = REGULATION_Card_GetValue(m, 10);
     if (x && y == 1) {
-        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_Phase1);
+        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (sptr)DIGITALCARDCHECK_Phase1);
         return;
     }
     if (x && y == 2) {
-        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_Phase2);
+        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (sptr)DIGITALCARDCHECK_Phase2);
         return;
     }
     if (x && y == 3) {
-        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_Phase3);
+        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (sptr)DIGITALCARDCHECK_Phase3);
         return;
     }
     if (x && y == 4) {
-        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_Phase4);
+        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (sptr)DIGITALCARDCHECK_Phase4);
         return;
     }
     if (x && y == 5) {
-        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_Phase5);
+        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (sptr)DIGITALCARDCHECK_Phase5);
         return;
     }
-    WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_Phase6);
+    WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (sptr)DIGITALCARDCHECK_Phase6);
 }
 
 void DIGITALCARDCHECK_Phase1(int *a, int *state, int *p)
@@ -413,7 +413,7 @@ void DIGITALCARDCHECK_Phase1(int *a, int *state, int *p)
     case 1: if (DIGITALCARDCHECK_IsInitRecordDone(p)) *state = 2; break;
     case 2: if (KEY_GetTrg() & 3) *state = 3; break;
     case 3:
-        LIVEBATTLEMATCH_IRC_DeleteMenuRecord(p); LIVEBATTLEMATCH_IRC_ToggleSe((int)p, 1); LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x67, 1);
+        LIVEBATTLEMATCH_IRC_DeleteMenuRecord(p); LIVEBATTLEMATCH_IRC_ToggleSe((sptr)p, 1); LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x67, 1);
         *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest(a, 4); break;
     case 4: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 2); *state = 5; break;
     case 5:
@@ -447,8 +447,8 @@ void DIGITALCARDCHECK_Phase1(int *a, int *state, int *p)
         break;
     case 16: LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x73, 1); *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest(a, 17); break;
     case 17: if (DIGITALCARDCHECK_IsInitWorkDone(p)) *state = 18; break;
-    case 18: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_EndPhase); break;
-    case 19: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) WIFIBATTLEMATCH_UTIL_CommitRequest((u32)a); break;
+    case 18: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (sptr)DIGITALCARDCHECK_EndPhase); break;
+    case 19: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) WIFIBATTLEMATCH_UTIL_CommitRequest((uptr)a); break;
     }
 }
 
@@ -461,7 +461,7 @@ void DIGITALCARDCHECK_Phase2(int *a, int *state, int *p)
     case 1: if (DIGITALCARDCHECK_IsInitRecordDone(p)) *state = 2; break;
     case 2: if (KEY_GetTrg() & 3) *state = 3; break;
     case 3:
-        LIVEBATTLEMATCH_IRC_DeleteMenuRecord(p); LIVEBATTLEMATCH_IRC_ToggleSe((int)p, 1); LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x68, 1);
+        LIVEBATTLEMATCH_IRC_DeleteMenuRecord(p); LIVEBATTLEMATCH_IRC_ToggleSe((sptr)p, 1); LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x68, 1);
         *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest(a, 4); break;
     case 4: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 2); *state = 5; break;
     case 5:
@@ -495,8 +495,8 @@ void DIGITALCARDCHECK_Phase2(int *a, int *state, int *p)
         break;
     case 16: LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x6C, 1); *state = 19; WIFIBATTLEMATCH_UTIL_SetRequest(a, 17); break;
     case 17: if (DIGITALCARDCHECK_IsInitWorkDone(p)) *state = 18; break;
-    case 18: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_EndPhase); break;
-    case 19: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) WIFIBATTLEMATCH_UTIL_CommitRequest((u32)a); break;
+    case 18: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (sptr)DIGITALCARDCHECK_EndPhase); break;
+    case 19: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) WIFIBATTLEMATCH_UTIL_CommitRequest((uptr)a); break;
     }
 }
 
@@ -507,7 +507,7 @@ void DIGITALCARDCHECK_Phase3(int *a, int *state, int *p)
     case 0: DIGITALCARDCHECK_InitRecord(p); LIVEBATTLEMATCH_IRC_ShowMenu((int *)p, 1); *state = 1; break;
     case 1: if (DIGITALCARDCHECK_IsInitRecordDone(p)) *state = 2; break;
     case 2: if (KEY_GetTrg() & 3) *state = 3; break;
-    case 3: LIVEBATTLEMATCH_IRC_DeleteMenuRecord(p); LIVEBATTLEMATCH_IRC_ToggleSe((int)p, 1); LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x6D, 1); *state = 4; break;
+    case 3: LIVEBATTLEMATCH_IRC_DeleteMenuRecord(p); LIVEBATTLEMATCH_IRC_ToggleSe((sptr)p, 1); LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x6D, 1); *state = 4; break;
     case 4: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) *state = 5; break;
     case 5: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 1); *state = 6; break;
     case 6:
@@ -518,7 +518,7 @@ void DIGITALCARDCHECK_Phase3(int *a, int *state, int *p)
         }
         break;
     case 7: if (DIGITALCARDCHECK_IsInitWorkDone(p)) *state = 8; break;
-    case 8: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_EndPhase); break;
+    case 8: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (sptr)DIGITALCARDCHECK_EndPhase); break;
     }
 }
 
@@ -533,7 +533,7 @@ void DIGITALCARDCHECK_Phase4(int sys, int *state, int *p)
     case 1: if (DIGITALCARDCHECK_IsInitRecordDone(p)) *state = 2; break;
     case 2: if (KEY_GetTrg() & 3) *state = 3; break;
     case 3:
-        LIVEBATTLEMATCH_IRC_DeleteMenuRecord(p); LIVEBATTLEMATCH_IRC_ToggleSe((int)p, 1); LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x6e, 1);
+        LIVEBATTLEMATCH_IRC_DeleteMenuRecord(p); LIVEBATTLEMATCH_IRC_ToggleSe((sptr)p, 1); LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x6e, 1);
         *state = 4; break;
     case 4: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) *state = 5; break;
     case 5: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 1); *state = 6; break;
@@ -542,7 +542,7 @@ void DIGITALCARDCHECK_Phase4(int sys, int *state, int *p)
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 7; }
         break;
     case 7: if (DIGITALCARDCHECK_IsInitWorkDone(p)) *state = 8; break;
-    case 8: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys, (int)DIGITALCARDCHECK_EndPhase); break;
+    case 8: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys, (sptr)DIGITALCARDCHECK_EndPhase); break;
     }
 }
 
@@ -554,7 +554,7 @@ void DIGITALCARDCHECK_Phase5(int sys, int *state, int *p)
     case 1: if (DIGITALCARDCHECK_IsInitRecordDone(p)) *state = 2; break;
     case 2: if (KEY_GetTrg() & 3) *state = 3; break;
     case 3:
-        LIVEBATTLEMATCH_IRC_DeleteMenuRecord(p); LIVEBATTLEMATCH_IRC_ToggleSe((int)p, 1); LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x70, 1);
+        LIVEBATTLEMATCH_IRC_DeleteMenuRecord(p); LIVEBATTLEMATCH_IRC_ToggleSe((sptr)p, 1); LIVEBATTLEMATCH_IRC_SetMenuValue(p, 0x70, 1);
         *state = 4; break;
     case 4: if (LIVEBATTLEMATCH_IRC_GetMenuValue(p)) *state = 5; break;
     case 5: LIVEBATTLEMATCH_IRC_CreateWindow((char *)p, 1); *state = 6; break;
@@ -563,7 +563,7 @@ void DIGITALCARDCHECK_Phase5(int sys, int *state, int *p)
         if (result != -1) { LIVEBATTLEMATCH_IRC_DeleteWindow(p); if (result == 0) *state = 7; }
         break;
     case 7: if (DIGITALCARDCHECK_IsInitWorkDone(p)) *state = 8; break;
-    case 8: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys, (int)DIGITALCARDCHECK_EndPhase); break;
+    case 8: WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)sys, (sptr)DIGITALCARDCHECK_EndPhase); break;
     }
 }
 
@@ -579,7 +579,7 @@ void DIGITALCARDCHECK_Phase6(int a, int *state, int *p)
             *state = 2;
         break;
     case 2:
-        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (int)DIGITALCARDCHECK_EndPhase);
+        WIFIBATTLEMATCH_UTIL_SetCallback((struct WifibattlematchCallback *)a, (sptr)DIGITALCARDCHECK_EndPhase);
         break;
     }
 }
@@ -603,7 +603,7 @@ void DIGITALCARDCHECK_InitRecord(int *p)
     struct RegulationParty *sub;
     struct Reg *reg;
     u8 *win;
-    int flag;
+    sptr flag;
     if (p[2] == 0) {
         save = GAME_DATA_GetSaveControl((struct GameData *)p[12]);
         base = (struct RegulationCard *)BATTLE_COMPETITION_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)p[12])));
@@ -619,7 +619,7 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             int total, a, b, c, d;
             MI_CpuFill8((void *)&rec, 0, 0xac);
             MI_CpuCopy8((const void *)(REGULATION_Card_GetCupName((struct RegulationCard *)obj)), (void *)&rec, 0x92);
-            table = (u16 (*)[3])LIVEBATTLEMATCH_SAVE_GetStats((int)stats);
+            table = (u16 (*)[3])LIVEBATTLEMATCH_SAVE_GetStats((sptr)stats);
             rec.count0 = BSUBWAY_SAVEDATA_GetStat((StatRow *)table, 10, 0);
             total = BSUBWAY_SAVEDATA_GetStat((StatRow *)table, 10, 1);
             rec.v.total = total + BSUBWAY_SAVEDATA_GetStat((StatRow *)table, 10, 2);
@@ -629,14 +629,14 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             a = REGULATION_Card_GetValue((struct RegulationCard *)obj, 9); b = REGULATION_Card_GetValue((struct RegulationCard *)obj, 8); d = REGULATION_Card_GetValue((struct RegulationCard *)obj, 7);
             rec.color1 = ((u32)d << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             rec.cardValueStatus = REGULATION_Card_GetValue((struct RegulationCard *)obj, 11);
-            p[2] = (int)WIFIBATTLEMATCH_VIEW_CreateStatusWindow((char *)(&rec), 0, win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
+            p[2] = (sptr)WIFIBATTLEMATCH_VIEW_CreateStatusWindow((char *)(&rec), 0, win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         } else {
             DigitalcardcheckRec rec;
             const u8 *table;
             int a, b, c, d;
             MI_CpuFill8(&rec, 0, 0xac);
             MI_CpuCopy8(REGULATION_Card_GetCupName(obj), &rec, 0x92);
-            table = (const u8 *)LIVEBATTLEMATCH_SAVE_GetRecord((int)stats);
+            table = (const u8 *)LIVEBATTLEMATCH_SAVE_GetRecord((sptr)stats);
             rec.count0 = LIVEBATTLEMATCH_SAVE_GetCounter(table, 1); rec.count1 = LIVEBATTLEMATCH_SAVE_GetCounter(table, 2);
             rec.v.h.count2 = LIVEBATTLEMATCH_SAVE_GetCounter(table, 0);
             rec.v.h.ruleValue22 = REGULATION_GetRuleValue((struct Regulation *)reg, 22);
@@ -646,9 +646,9 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             a = REGULATION_Card_GetValue((struct RegulationCard *)obj, 9); b = REGULATION_Card_GetValue((struct RegulationCard *)obj, 8); d = REGULATION_Card_GetValue((struct RegulationCard *)obj, 7);
             rec.color1 = ((u32)d << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
             rec.cardValueDate = REGULATION_Card_GetValue((struct RegulationCard *)obj, 11);
-            p[2] = (int)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
+            p[2] = (sptr)WIFIBATTLEMATCH_VIEW_CreateDateWindow((char *)(&rec), win, (void *)flag, (void *)p[10], p[7], (void *)p[9], (void *)p[0], (void *)p[1], sub, 1, *(u16 *)((char *)p + 0x34));
         }
-        LIVEBATTLEMATCH_IRC_ToggleSe((int)p, 0);
+        LIVEBATTLEMATCH_IRC_ToggleSe((sptr)p, 0);
     }
 }
 

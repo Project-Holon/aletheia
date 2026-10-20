@@ -91,7 +91,7 @@ char *INTRO_PARTICLE_Create(void *owner,unsigned heap)
     IntroParticleWork *p;
     PARTICLE_InitManager(heap);
     p=GFL_HEAP_Alloc(heap,18444,1,d_021C0B30,86);
-    p->system=(void *)PARTICLE_CreateSystemDefault((int)p->data,18432,1,heap);
+    p->system=(void *)PARTICLE_CreateSystemDefault((sptr)p->data,18432,1,heap);
     p->owner=owner;
     p->heapId=heap;
     config.projType=2;
@@ -124,7 +124,7 @@ void INTRO_PARTICLE_StartEffect(u32 *work, u32 x, u32 y, u32 z)
     buf[0] = x;
     buf[1] = y;
     buf[2] = z;
-    PARTICLE_StartEffect((void *)p[2], 0, (int)buf);
-    PARTICLE_StartEffect((void *)p[2], 1, (int)buf);
-    PARTICLE_StartEffect((void *)p[2], 2, (int)buf);
+    PARTICLE_StartEffect((void *)p[2], 0, (sptr)buf);
+    PARTICLE_StartEffect((void *)p[2], 1, (sptr)buf);
+    PARTICLE_StartEffect((void *)p[2], 2, (sptr)buf);
 }

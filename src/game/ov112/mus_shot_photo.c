@@ -111,6 +111,7 @@
  *   WORDSET_CopyTaggedText  0x0201F250  thumb  arm9
  */
 #include "../sdk_gx.h"
+#include "../sdk_ioreg.h"
 #include "musical_shot_sys_shared_types.h"
 #include "mus_shot_photo_shared_types.h"
 #include "musical_shot_types.h"
@@ -328,8 +329,8 @@ u8 *MUSICAL_SHOT_SYS_CreateScene(u8 *src, u16 heap)
     for (i = 0; i < 4; i++) {
         u32 off = i * 0x58;
         u8 *row;
-        *(u32 *)(o + i * 4 + 8) = (u32)MUSICAL_MCSS_AllocMon(*(u16 *)(src + off + 4), (u8)((MusicalPerformerBits *)(src + 6 + off))->gender, (u8)((MusicalPerformerBits *)(src + 6 + off))->form, (u8)((MusicalPerformerBits *)(src + 6 + off))->shiny, *(u32 *)(src + off + 8), heap);
-        row = (u8 *)((u32)src + off);
+        *(u32 *)(o + i * 4 + 8) = (uptr)MUSICAL_MCSS_AllocMon(*(u16 *)(src + off + 4), (u8)((MusicalPerformerBits *)(src + 6 + off))->gender, (u8)((MusicalPerformerBits *)(src + 6 + off))->form, (u8)((MusicalPerformerBits *)(src + 6 + off))->shiny, *(u32 *)(src + off + 8), heap);
+        row = (u8 *)((uptr)src + off);
         for (j = 0; j < 8; j++) {
             u8 k = row[j * 8 + 0x20];
             if (k != 10) {
@@ -355,7 +356,7 @@ void MUSICAL_SHOT_SYS_DeleteScene(u8 *scene)
     STA_ACT_LIGHT_DeleteUnit((char *)((ShotScene *)scene)->unit);
     STA_ACT_LIGHT_DeleteModel((u8 *)((ShotScene *)scene)->model);
     STA_ACT_LIGHT_DeleteBillboardImage(((ShotScene *)scene)->sprite);
-    MUSICAL_MCSS_DeleteRenderObj((int)((ShotScene *)scene)->renderObj);
+    MUSICAL_MCSS_DeleteRenderObj((sptr)((ShotScene *)scene)->renderObj);
     MUSICAL_MCSS_DeleteActorPool(((ShotScene *)scene)->actorPool);
     BMP_WIN_Delete(((ShotScene *)scene)->winB);
     BMP_WIN_Delete(((ShotScene *)scene)->winA);
@@ -389,7 +390,7 @@ void MUSICAL_SHOT_SYS_DrawScene(u8 *scene)
 static inline void G2_SetWndOBJInsidePlane(int wnd, int effect)
 {
     u32 tmp;
-    tmp = (*(volatile u16 *)0x0400004A & ~0x3F00u) | ((u32)wnd << 8);
+    tmp = (*(volatile u16 *)REG_WINOUT_ADDR & ~0x3F00u) | ((u32)wnd << 8);
     if (effect) tmp |= 0x2000;
     *(volatile u16 *)0x0400004A = (u16)tmp;
 }
@@ -397,7 +398,7 @@ static inline void G2_SetWndOBJInsidePlane(int wnd, int effect)
 static inline void G2_SetWndOutsidePlane(int wnd, int effect)
 {
     u32 tmp;
-    tmp = (*(volatile u16 *)0x0400004A & ~63u) | (u32)wnd;
+    tmp = (*(volatile u16 *)REG_WINOUT_ADDR & ~63u) | (u32)wnd;
     if (effect) tmp |= 32;
     *(volatile u16 *)0x0400004A = (u16)tmp;
 }
@@ -457,7 +458,7 @@ void MUSICAL_SHOT_SYS_Init3D(char *p)
     BG_SYS_PushTile(2);
     BG_SYS_PushTile(3);
     ARC_TOOL_DeleteHandle(h);
-    G2x_SetBlendAlpha_((void *)0x04000050, 8, 1, 0, 0xA);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 8, 1, 0, 0xA);
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & 0xFFFF1FFF) | 0x8000;
     G2_SetWndOBJInsidePlane(0x17, 1);
     G2_SetWndOutsidePlane(0x1F, 1);
@@ -492,8 +493,8 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
   current = 5 << 16;
   p->renderObj = MUSICAL_MCSS_CreateRenderObj(p->heap);
   MUSICAL_MCSS_SetRenderCellVramBase(p->renderObj, 2 << 16);
-  p->actorPool = MUSICAL_MCSS_CreateActorPool((u32) p->board, 36, p->heap);
-  p->sprite = STA_ACT_LIGHT_AddBillboardImage(p->heap, 0, (u32)p->renderObj, (u32)p->actorPool, (u32)p->board);
+  p->actorPool = MUSICAL_MCSS_CreateActorPool((uptr) p->board, 36, p->heap);
+  p->sprite = STA_ACT_LIGHT_AddBillboardImage(p->heap, 0, (uptr)p->renderObj, (uptr)p->actorPool, (uptr)p->board);
   for (i = 0; i < 4; i++)
     p->models[i] = 0;
 
@@ -536,7 +537,7 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
   for (; i < 4; mask <<= 1, i++)
   {
     offset = 4 * i;
-    row = (u8 *)(((u32)p) + offset);
+    row = (u8 *)(((uptr)p) + offset);
     scale.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, *((u16 *) ((*((u8 **) (row + 8))) + 8)));
     if (p->record->winnerMask & mask)
     {
@@ -545,7 +546,7 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
       actor = ((u8 *) p) + offset;
       pos.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
-      pos.z = *((int *) (((u32) z) + offset));
+      pos.z = *((int *) (((uptr) z) + offset));
       STA_ACT_LIGHT_SetActorPos(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
       STA_ACT_LIGHT_SetActorOffset(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&temp));
       scale.y = 22 << 14;
@@ -556,7 +557,7 @@ void MUSICAL_SHOT_SYS_InitActors(ShotScene *p)
       actor = ((u8 *) p) + offset;
       pos.x = MUSICAL_SHOT_SYS_GetActorSlotX(p, i, *((u16 *) ((*((u8 **) (actor + 8))) + 8)));
       pos.y = 155 << 12;
-      pos.z = *((int *) (((u32) z) + offset));
+      pos.z = *((int *) (((uptr) z) + offset));
       STA_ACT_LIGHT_SetActorPos(p->sprite, *((void **) (actor + 0x30)), (const u32 *)(&pos));
       scaleY = 2 << 18;
       scale.y = scaleY;

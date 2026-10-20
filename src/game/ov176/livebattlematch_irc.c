@@ -146,7 +146,7 @@ void LIVEBATTLEMATCH_IRC_RecvHandler3(u32 a, void *b, void *c, u8 *p, struct GFL
 int LIVEBATTLEMATCH_IRC_RecvHandler4(int a, int b);
 int LIVEBATTLEMATCH_IRC_OnFilter(int a, int b);
 extern const char d_0217E634[];
-extern const unsigned d_0217E544[];
+extern NetCommandEntry d_0217E544[];
 extern const unsigned d_0217E564[];
 extern int d_0217E630;
 extern unsigned char GAME_LANGUAGE_Code;
@@ -230,7 +230,7 @@ void *LIVEBATTLEMATCH_IRC_Create(int unused, u16 heap)
     MI_CpuFill8(p, 0, 0x1020);
     ((struct LiveBattleMatchIrcWork *)p)->heap = heap;
     if (GFL_NET_GetRunState())
-        GFL_NET_COMMAND_AddCommandTable(0x1F00, (u32)d_0217E544, 4, (u32)p);
+        GFL_NET_COMMAND_AddCommandTable(0x1F00, d_0217E544, 4, p);
     return p;
 }
 
@@ -260,8 +260,8 @@ int LIVEBATTLEMATCH_IRC_StartSession(unsigned *p)
             *p = 2;
         break;
     case 2:
-        GFL_NET_COMMAND_AddCommandTable(0x1F00, (u32)d_0217E544, 4, (u32)p);
-        IRCNET_SetFilter((int)LIVEBATTLEMATCH_IRC_OnFilter);
+        GFL_NET_COMMAND_AddCommandTable(0x1F00, d_0217E544, 4, p);
+        IRCNET_SetFilter((sptr)LIVEBATTLEMATCH_IRC_OnFilter);
         *p = 3;
         break;
     case 3:
@@ -317,14 +317,14 @@ int LIVEBATTLEMATCH_IRC_EndSession(int *p) {switch(*p) {case 0:GFL_NET_COMMAND_D
 int LIVEBATTLEMATCH_IRC_SendRegulation(int unused, int arg)
 {
     int flag;
-    int obj;
+    sptr obj;
     unsigned n;
     int r;
-    r = GFL_NET_GetHandleNetID((struct GFLNetHandle *)((int)GFL_NET_HANDLE_GetCurrentHandle()));
+    r = GFL_NET_GetHandleNetID((struct GFLNetHandle *)((sptr)GFL_NET_HANDLE_GetCurrentHandle()));
     flag = 1;
     if (r != 0)
         flag = 0;
-    obj = (int)GFL_NET_HANDLE_GetCurrentHandle();
+    obj = (sptr)GFL_NET_HANDLE_GetCurrentHandle();
     n = POKE_REGULATION_GetDataSize();
     return GFL_NET_SendData((struct GFLNetHandle *)obj, (unsigned char)flag, (int)0x1F00, n + 0xD4, (void *)arg, (int)1, (int)1, (int)1);
 }
@@ -345,21 +345,21 @@ int LIVEBATTLEMATCH_IRC_TakeRegulation(char *p, void **out)
 int LIVEBATTLEMATCH_IRC_SendSaveData(int unused, int arg)
 {
     int flag;
-    int obj;
+    sptr obj;
     unsigned n;
     int r;
-    r = GFL_NET_GetHandleNetID((struct GFLNetHandle *)((int)GFL_NET_HANDLE_GetCurrentHandle()));
+    r = GFL_NET_GetHandleNetID((struct GFLNetHandle *)((sptr)GFL_NET_HANDLE_GetCurrentHandle()));
     flag = 1;
     if (r != 0)
         flag = 0;
-    obj = (int)GFL_NET_HANDLE_GetCurrentHandle();
+    obj = (sptr)GFL_NET_HANDLE_GetCurrentHandle();
     n = POKE_REGULATION_GetDataSize();
     return GFL_NET_SendData((struct GFLNetHandle *)obj, (unsigned char)flag, (int)0x1F01, n, (void *)arg, (int)1, (int)1, (int)1);
 }
 
 int LIVEBATTLEMATCH_IRC_RecvSaveData(u8 *p,const void *q) {int v;v=((struct LiveBattleMatchIrcWork *)p)->recvFlag1;if(v) {((struct LiveBattleMatchIrcWork *)p)->recvFlag1=0;MI_CpuCopy8((const void *)(p+6),(void *)q,POKE_REGULATION_GetDataSize());}return v;}
 
-u32 LIVEBATTLEMATCH_IRC_SendSyncValue(int unused,int a) {int flag;int v;v=GFL_NET_GetHandleNetID((struct GFLNetHandle *)((int)GFL_NET_HANDLE_GetCurrentHandle()));flag=1;if(v!=0)flag=0;return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),(u8)flag,0x1f03,4,(void *)a,(int)1,(int)1,(int)1);}
+u32 LIVEBATTLEMATCH_IRC_SendSyncValue(int unused,int a) {int flag;int v;v=GFL_NET_GetHandleNetID((struct GFLNetHandle *)((sptr)GFL_NET_HANDLE_GetCurrentHandle()));flag=1;if(v!=0)flag=0;return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),(u8)flag,0x1f03,4,(void *)a,(int)1,(int)1,(int)1);}
 
 int LIVEBATTLEMATCH_IRC_RecvSyncValue(u8 *p,const void *q) {int v;v=((struct LiveBattleMatchIrcWork *)p)->recvFlag3;if(v) {((struct LiveBattleMatchIrcWork *)p)->recvFlag3=0;MI_CpuCopy8((const void *)(p+6),(void *)q,4);}return v;}
 

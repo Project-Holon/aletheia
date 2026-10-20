@@ -191,8 +191,8 @@ void ZKNSEARCH_RESULT_MoveRow1(int work, int delta)
 void ZKNSEARCH_RESULT_SetRowMulti(char *work,int index,void *data,int value,int flag)
 {
     ZKNSEARCH_MAIN_PrintListRow(work,data,(*(unsigned *)(work+484+index*4)));
-    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)work,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)work)->save+8))[3]))ZKNSEARCH_MAIN_PlaceColumnActor(work,0,value,flag);
-    if(index==ZKNSEARCH_MAIN_GetListIndexB((u32)work,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)work)->save+8))[4]))ZKNSEARCH_MAIN_PlaceColumnActor(work,1,value,flag);
+    if(index==ZKNSEARCH_MAIN_GetListIndexB((uptr)work,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)work)->save+8))[3]))ZKNSEARCH_MAIN_PlaceColumnActor(work,0,value,flag);
+    if(index==ZKNSEARCH_MAIN_GetListIndexB((uptr)work,(unsigned char)(*(char **)(*(char * *)&((ZknSearchWork *)work)->save+8))[4]))ZKNSEARCH_MAIN_PlaceColumnActor(work,1,value,flag);
 }
 
 

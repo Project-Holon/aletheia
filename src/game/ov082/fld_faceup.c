@@ -60,9 +60,10 @@
  *   gFldFaceupBlinkFrames     0x021F58E0  data  a4
  */
 #include "fld_faceup_types.h"
+#include "../sdk_ioreg.h"
 
-#define reg_G2_BG3CNT  (*(volatile u16 *)0x0400000E)
-#define reg_G2_BLDCNT  (*(volatile u16 *)0x04000050)
+#define reg_G2_BG3CNT  (*(volatile u16 *)REG_BG3CNT_ADDR)
+#define reg_G2_BLDCNT  (*(volatile u16 *)REG_BLDCNT_ADDR)
 #define FACEUP_HEAP_ID      0x50
 #define FACEUP_BG_HEAP_ID   0x8015
 #define FACEUP_ARC_ID       0xbb

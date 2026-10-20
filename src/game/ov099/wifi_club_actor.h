@@ -6,6 +6,7 @@
 
 #include "../ov099/wifi_club_actor_types.h"
 #include "../types.h"
+#include "../arm9/net_types.h"
 
 void WIFICLUBACTOR_Init(WifiClubActorSys *sys, int heapId, u32 clactResArc, u32 spriteArc, u32 mapIndexPlusOne, u32 paletteArc, u32 clactSys, void *gfxArchive);
 void WIFICLUBACTOR_Exit(WifiClubActorSys *sys);
@@ -95,7 +96,7 @@ void WIFICLUBACTOR_EndBlinkScript(WifiClubPaletteBlink *blink);
 void WIFICLUBACTOR_RequestBlinkRestart(WifiClubPaletteBlink *blink);
 void WIFICLUBACTOR_StartBlinkScript(WifiClubPaletteBlink *blink, u8 colorIndex);
 void WIFICLUBACTOR_RestartBlinkScript(WifiClubPaletteBlink *blink);
-u8 *WIFICLUBACTOR_GetCommandTable(void);
+NetCommandEntry *WIFICLUBACTOR_GetCommandTable(void);
 int WIFICLUBACTOR_GetCommandCount(void);
 void WIFICLUBACTOR_AddNetCommands(void *work);
 void WIFICLUBACTOR_RemoveNetCommands(void *unused);

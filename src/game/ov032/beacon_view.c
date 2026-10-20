@@ -240,8 +240,8 @@
 
 #define FX32_CONST(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
-#define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
-#define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
+#define REG_DB_DISPCNT_SUB (*(volatile u32 *)REG_DB_DISPCNT_ADDR)
+#define REG_DB_BLDCNT_SUB  (*(volatile u16 *)REG_DB_BLDCNT_ADDR)
 struct Queue;
 struct BeaconRecord;
 struct Ctx;
@@ -257,7 +257,6 @@ struct Descriptor;
 struct ClactVec2;
 struct TcblNode;
 struct U16Vec;
-struct PalAnmSlot;
 struct BeaconTrainerInfo;
 struct NNSG2dCharacterData;
 struct Strbuf;
@@ -283,6 +282,7 @@ struct BmpOamParam;
 struct Sys;
 struct Bmp;
 #include "../types.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/ica_anime_shared_types.h"
 
 typedef struct { u32 x, y; } BeaconPair;
@@ -726,12 +726,12 @@ int BEACON_VIEW_LoadNextRecord(BeaconViewWork *work)
 void BEACON_VIEW_SetFadeState(BeaconViewWork *work, int flag)
 {
     if (flag) {
-        PALANM_BlendChannel((struct PaletteFadeWork *)work->paletteAnim, 1, 0, 0xe0, 6, 0);
-        PALANM_BlendChannel((struct PaletteFadeWork *)work->paletteAnim, 3, 0, 0xe0, 6, 0);
+        PALANM_BlendChannel(work->paletteAnim, 1, 0, 0xe0, 6, 0);
+        PALANM_BlendChannel(work->paletteAnim, 3, 0, 0xe0, 6, 0);
         FLD_VREQ_SetSubBlendAlpha((struct FldVReq *)work->bgConfig, 5, 0x1e, 0xa, 6);
     } else {
-        PALANM_BlendChannel((struct PaletteFadeWork *)work->paletteAnim, 1, 0, 0xe0, 0, 0);
-        PALANM_BlendChannel((struct PaletteFadeWork *)work->paletteAnim, 3, 0, 0xe0, 0, 0);
+        PALANM_BlendChannel(work->paletteAnim, 1, 0, 0xe0, 0, 0);
+        PALANM_BlendChannel(work->paletteAnim, 3, 0, 0xe0, 0, 0);
         FLD_VREQ_SetSubBlendAlpha((struct FldVReq *)work->bgConfig, 4, 0x1e, 0xd, 3);
     }
 }
@@ -2047,7 +2047,7 @@ void BEACON_VIEW_StartWindowATask(BeaconViewWork *work, BeaconViewEntry *icon, i
     task->entry = icon;
     task->interval = 2;
     task->paletteOffset = (icon->index + 4) << 4;
-    PALANM_BlendChannel((struct PaletteFadeWork *)task->work->paletteAnim, 3, task->paletteOffset, 0x10, 4, 0x7fff);
+    PALANM_BlendChannel(task->work->paletteAnim, 3, task->paletteOffset, 0x10, 4, 0x7fff);
     if (busyCounter != 0) {
         task->busyCounter = busyCounter;
         (*busyCounter)++;
@@ -2061,14 +2061,14 @@ void BEACON_VIEW_WindowATask(struct TcblTask *task, void *taskDataArg)
 
     if (c < 2) {
         if (taskData->counter++ >= taskData->interval) {
-            PALANM_BlendChannel((struct PaletteFadeWork *)taskData->work->paletteAnim, 3, taskData->paletteOffset, 0x10, (c % 2) << 2, 0x7fff);
+            PALANM_BlendChannel(taskData->work->paletteAnim, 3, taskData->paletteOffset, 0x10, (c % 2) << 2, 0x7fff);
             taskData->phase++;
             taskData->counter = 0;
         }
     } else {
         int *r;
 
-        PALANM_BlendChannel((struct PaletteFadeWork *)taskData->work->paletteAnim, 3, taskData->paletteOffset, 0x10, 0, 0x7fff);
+        PALANM_BlendChannel(taskData->work->paletteAnim, 3, taskData->paletteOffset, 0x10, 0, 0x7fff);
         r = taskData->busyCounter;
         if (r != 0)
             (*r)--;
@@ -2655,7 +2655,7 @@ void BEACON_VIEW_InitBackgrounds(BeaconViewWork *work, void *archiveHandle)
     BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021F3628, 0);
     BG_SYS_InitBgLayer(6, (const struct BgTemplate *)d_021F3648, 0);
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)d_021F3668, 0);
-    MIi_CpuClear32(0, (void *)0x06200000, 0x20000);
+    MIi_CpuClear32(0, (void *)HW_DB_BG_VRAM, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
     PALANM_LoadHandlePaletteToSlot(work->paletteAnim, (void *)archiveHandle, 0x13, work->uiHeapId, 1, 0x1a0, 0);
@@ -2664,7 +2664,7 @@ void BEACON_VIEW_InitBackgrounds(BeaconViewWork *work, void *archiveHandle)
     ARC_UTIL_UploadBgPaletteFromHandle((void *)archiveHandle, 0x15, 5, 0, 0x800, 1, work->uiHeapId);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)archiveHandle, 0x16, 6, 0, 0x800, 1, work->uiHeapId);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)archiveHandle, 0x17, 7, 0, 0x800, 1, work->uiHeapId);
-    G2x_SetBlendAlpha_((u32 *)0x04001050, 4, 0x1e, 0xd, 3);
+    G2x_SetBlendAlpha_((u32 *)REG_DB_BLDCNT_ADDR, 4, 0x1e, 0xd, 3);
     BG_SYS_SetPlaneVisible(4, 1);
     BG_SYS_SetPlaneVisible(5, 1);
     BG_SYS_SetPlaneVisible(6, 1);

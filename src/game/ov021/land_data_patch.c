@@ -51,7 +51,7 @@ extern char d_021DE558[];
 u32 *LAND_DATA_PATCH_Create(u32 patchId, u16 heapId)
 {
     u32 *patch = GFL_HEAP_Alloc(heapId, 4, 1, d_021DE558, 0x4f);
-    patch[0] = (u32)ARC_UTIL_LoadMember(0x9c, patchId, 0, heapId);
+    patch[0] = (uptr)ARC_UTIL_LoadMember(0x9c, patchId, 0, heapId);
     return patch;
 }
 
@@ -94,10 +94,10 @@ u32 LAND_DATA_PATCH_AddBuildModels(u32 patch, u32 bmodelMan, u32 mapIndex, u32 f
 
 int LAND_DATA_PATCH_GetAttrBlock(u32 patch)
 {
-    return (int)(((LandDataPatch *)patch)->data + *(u16 *)(((LandDataPatch *)patch)->data));
+    return (sptr)(((LandDataPatch *)patch)->data + *(u16 *)(((LandDataPatch *)patch)->data));
 }
 
 int LAND_DATA_PATCH_GetBuildModelBlock(u32 patch)
 {
-    return (int)(((LandDataPatch *)patch)->data + *(u16 *)(((LandDataPatch *)patch)->data + 2));
+    return (sptr)(((LandDataPatch *)patch)->data + *(u16 *)(((LandDataPatch *)patch)->data + 2));
 }

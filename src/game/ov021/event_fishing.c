@@ -177,7 +177,7 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem)
     work->playerDir = FLDMMDL_GetDirDisp(work->mmdl);
     FIELD_PLAYER_GetPos(work->fieldPlayer, &work->playerPos);
     work->playerState = FIELD_PLAYER_GetFormSlot(work->fieldPlayer);
-    if (FISHING_CheckFacingWater((u32)work->gameData, work->fieldMap, &work->targetPos) == 0)
+    if (FISHING_CheckFacingWater((uptr)work->gameData, work->fieldMap, &work->targetPos) == 0)
         work->noTarget = 1;
     work->targetGrid[0] = (work->targetPos.x >> 4) / 4096;
     work->targetGrid[1] = (work->targetPos.y >> 4) / 4096;
@@ -283,7 +283,7 @@ int FISHING_EventMain(void *task, int *state, FishingWork *work)
         break;
     case 10:
         RECORD_AddOne((struct RecordBlock *)work->trainerRecord, 8);
-        GAME_EVENT_ChangeEvent((struct GameEvent *)task, (struct GameEvent *)EVENT_BATTLE_CreateScriptedBattle((int)work->gameSystem, (int)work->fieldMap, (int)work->wildEncounter, 0, (u8)(work->hasEncounter == 1 ? 1 : 4)));
+        GAME_EVENT_ChangeEvent((struct GameEvent *)task, (struct GameEvent *)EVENT_BATTLE_CreateScriptedBattle((sptr)work->gameSystem, (sptr)work->fieldMap, (sptr)work->wildEncounter, 0, (u8)(work->hasEncounter == 1 ? 1 : 4)));
         return 0;
     }
     return 0;
@@ -325,7 +325,7 @@ void FISHING_ShowBiteMark(FishingWork *w)
     void *effectSys = FIELDMAP_GetEffect(w->fieldMap);
 
     FLDMMDL_SetDrawStatus(w->mmdl, 2);
-    w->exclamEffect = (u32)FLDEFF_GYOE_SetMMdl(effectSys, w->mmdl, 0, 1);
+    w->exclamEffect = (uptr)FLDEFF_GYOE_SetMMdl(effectSys, w->mmdl, 0, 1);
     FLDEFF_FISHING_SetAnimeSpeed(w->rodEffect, 1);
 }
 

@@ -240,7 +240,7 @@ extern int gFootmarkTaskHeader;
 
 void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, int fieldEffectCtrl, int type)
 {
-    int effWork;
+    sptr effWork;
     int dir;
     int oldDir;
     int resNo;
@@ -292,7 +292,7 @@ void FLDEFF_FOOTMARK_InitTask(int task, FootmarkTaskWork *work)
 
 void FLDEFF_FOOTMARK_DeleteTask(int task, FootmarkTaskWork *work)
 {
-    int bbActSys = (int)work->head.effWork->bbActSys;
+    int bbActSys = (sptr)work->head.effWork->bbActSys;
     u16 actId = work->actId;
 
     if (actId != 0xFFFF) {
@@ -307,7 +307,7 @@ void FLDEFF_FOOTMARK_DeleteTask(int task, FootmarkTaskWork *work)
 void FLDEFF_FOOTMARK_UpdateTask(int task, FootmarkTaskWork *work)
 {
     u8 alpha;
-    int bbActSys, board;
+    sptr bbActSys, board;
     u16 elem;
 
     switch (work->seq) {
@@ -324,8 +324,8 @@ void FLDEFF_FOOTMARK_UpdateTask(int task, FootmarkTaskWork *work)
             return;
         }
         alpha = work->alpha;
-        bbActSys = (int)work->head.effWork->bbActSys;
-        board = (int)BILLBOARD_ACT_GetBoard((struct BbActSys *)bbActSys);
+        bbActSys = (sptr)work->head.effWork->bbActSys;
+        board = (sptr)BILLBOARD_ACT_GetBoard((struct BbActSys *)bbActSys);
         elem = (int)BILLBOARD_ACT_GetEntryElemId((struct BbActSys *)bbActSys, (u16)work->actId);
         BILLBOARD_SetElemAlpha((struct BbBoard *)board, elem, &alpha);
         break;

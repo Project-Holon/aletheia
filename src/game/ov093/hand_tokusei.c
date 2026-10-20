@@ -4160,7 +4160,7 @@ BtlEventHandler *HAND_TOKUSEI_GetBadDreamsHandlers(int *handlerCount) { *handler
 /* Run Away: the first handler of its table; belongs to hand_tokusei_021db0e4.c. */
 void HAND_TOKUSEI_RunAwayCheckEscape(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int unusedArg)
 {
-    HAND_COMMON_EventSetFlagIfAttacker((s32)factor, (s32)flow, pokeId, unusedArg);
+    HAND_COMMON_EventSetFlagIfAttacker((sptr)factor, (sptr)flow, pokeId, unusedArg);
 }
 
 /* Run Away: after the escape check passes, show the escape message with its sound. */
@@ -5596,13 +5596,13 @@ BtlEventHandler *HAND_TOKUSEI_GetPranksterHandlers(u32 *handlerCount)
 /* Magic Bounce: the first of its two handlers is the one that Magic Coat uses to reflect a status move. */
 void HAND_TOKUSEI_MagicBounceReflectMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId, void *work)
 {
-    HAND_COMMON_EventRedirectMove(factor, flow, ownerId, (int)work);
+    HAND_COMMON_EventRedirectMove(factor, flow, ownerId, (sptr)work);
 }
 
 /* Magic Bounce: the second handler is the one that Magic Coat uses to counter a status move aimed at the owner. */
 void HAND_TOKUSEI_MagicBounceCounterMove(struct BtlEventFactor *factor, struct BtlServerFlow *flow, u8 ownerId, void *work)
 {
-    HAND_COMMON_EventCounterMove(factor, flow, ownerId, (int)work);
+    HAND_COMMON_EventCounterMove(factor, flow, ownerId, (sptr)work);
 }
 
 /* Magic Bounce: reflect the incoming move and show the ability window. */

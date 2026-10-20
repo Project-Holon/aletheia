@@ -178,6 +178,7 @@
  *   TOUCHPANEL_GetPointTrg  0x02035D20  arm
  */
 #include "dendou_view_types.h"
+#include "../sdk_ioreg.h"
 #include "../ov067/touchbar.h"
 
 /* Library structures this file only passes around. */
@@ -196,10 +197,10 @@ typedef struct DendouViewPosYX { s16 y, x; } DendouViewPosYX;
 #define DENDOU_VIEW_HEAP_TAIL 0x808c
 #define DENDOU_VIEW_COMMON_RESOURCE 12
 
-#define DENDOU_VIEW_REG_MAIN_BLDCNT 0x04000050
-#define DENDOU_VIEW_REG_SUB_BLDCNT 0x04001050
-#define DENDOU_VIEW_REG_MAIN_BRIGHT 0x0400006c
-#define DENDOU_VIEW_REG_SUB_BRIGHT 0x0400106c
+#define DENDOU_VIEW_REG_MAIN_BLDCNT REG_BLDCNT_ADDR
+#define DENDOU_VIEW_REG_SUB_BLDCNT REG_DB_BLDCNT_ADDR
+#define DENDOU_VIEW_REG_MAIN_BRIGHT REG_MASTER_BRIGHT_ADDR
+#define DENDOU_VIEW_REG_SUB_BRIGHT REG_DB_MASTER_BRIGHT_ADDR
 
 #define SPECIES_NIDORAN_F 29
 #define SPECIES_NIDORAN_M 32
@@ -270,7 +271,7 @@ extern u32 POKEGRA_RegisterCgr(void *handle, u32 species, u32 form, u32 gender, 
 extern u32 POKEGRA_RegisterPalette(void *handle, u32 species, u32 form, u32 gender, u32 shiny, u32 dir, u32 egg, u32 drawType, u16 palOffset, u16 heap);
 #define DENDOU_VIEW_POKEGRA_HANDLE(h) (h)
 #else
-#define DENDOU_VIEW_POKEGRA_HANDLE(h) ((u32)(h))
+#define DENDOU_VIEW_POKEGRA_HANDLE(h) ((uptr)(h))
 #endif
 #include "../arm9/poke_tool.h"
 #include "../arm9/gf_standard.h"
@@ -619,7 +620,7 @@ int DENDOU_VIEW_RunState(DendouViewWork *work)
 
 void DENDOU_VIEW_StateInit(DendouViewWork *work)
 {
-    GF_OVERLAY_Load((int)ov067_id);
+    GF_OVERLAY_Load((sptr)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)DENDOU_VIEW_REG_MAIN_BLDCNT = 0;
@@ -657,7 +658,7 @@ int DENDOU_VIEW_StateExit(DendouViewWork *work)
     *(volatile u16 *)DENDOU_VIEW_REG_SUB_BLDCNT = 0;
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
-    GF_OVERLAY_Unload((int)ov067_id);
+    GF_OVERLAY_Unload((sptr)ov067_id);
     return DENDOU_VIEW_STATE_END;
 }
 
@@ -1097,13 +1098,13 @@ void DENDOU_VIEW_DrawTitle(DendouViewWork *work)
     BMP_Clear((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)work->windows[0].win)), 0);
     if (work->params->source == 0) {
         titleText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 0);
-        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[0], (void *)work->printQueue, 0, 0, (u32)titleText, (u32)work->fontBody, 0x440, 0);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[0], (void *)work->printQueue, 0, 0, (uptr)titleText, (uptr)work->fontBody, 0x440, 0);
         STRBUF_Delete(titleText);
     } else {
         numberedText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 1);
         WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 0, row->hallNumber, 4, 0, 1);
         WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)numberedText);
-        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[0], (void *)work->printQueue, 0, 0, (u32)work->textBuf, (u32)work->fontBody, 0x440, 0);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[0], (void *)work->printQueue, 0, 0, (uptr)work->textBuf, (uptr)work->fontBody, 0x440, 0);
         STRBUF_Delete(numberedText);
     }
     dateText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 2);
@@ -1112,7 +1113,7 @@ void DENDOU_VIEW_DrawTitle(DendouViewWork *work)
     WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 2, row->day, 2, 2, 1);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)dateText);
     dateWidth = BMP_WIN_GetDispWidth((struct BmpWin *)work->windows[0].win);
-    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[0], (void *)work->printQueue, dateWidth << 3, 0, (u32)work->textBuf, (u32)work->fontBody, 0x14c0, 1);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[0], (void *)work->printQueue, dateWidth << 3, 0, (uptr)work->textBuf, (uptr)work->fontBody, 0x14c0, 1);
     STRBUF_Delete(dateText);
     DENDOU_VIEW_PresentWindow(&work->windows[0]);
 }
@@ -1163,45 +1164,45 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
     speciesText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 5);
     WORDSET_SetSlotSpeciesName((struct WordSet *)work->wordSet, 0, member->species);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)speciesText);
-    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 0, 0, (u32)work->textBuf, (u32)work->fontBody, 0x440, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 0, 0, (uptr)work->textBuf, (uptr)work->fontBody, 0x440, 0);
     STRBUF_Delete(speciesText);
     if (member->gender == 0) {
         if (member->species != SPECIES_NIDORAN_M) {
             maleText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 6);
-            TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 64, 0, (u32)maleText, (u32)work->fontBody, 0xc80, 0);
+            TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 64, 0, (uptr)maleText, (uptr)work->fontBody, 0xc80, 0);
             STRBUF_Delete(maleText);
         }
     } else if (member->gender == 1) {
         if (member->species != SPECIES_NIDORAN_F) {
             femaleText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 7);
-            TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 64, 0, (u32)femaleText, (u32)work->fontBody, 0x14c0, 0);
+            TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 64, 0, (uptr)femaleText, (uptr)work->fontBody, 0x14c0, 0);
             STRBUF_Delete(femaleText);
         }
     }
     levelLabelText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 11);
     levelLabelWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)levelLabelText, (struct GfFont *)work->fontLevelLabel, 0);
-    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 80, 4, (u32)levelLabelText, (u32)work->fontLevelLabel, 0x440, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 80, 4, (uptr)levelLabelText, (uptr)work->fontLevelLabel, 0x440, 0);
     STRBUF_Delete(levelLabelText);
     levelText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 8);
     WORDSET_SetSlotNumber((struct WordSet *)work->wordSet, 0, member->level, 3, 0, 1);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)levelText);
-    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, levelLabelWidth + 80, 0, (u32)work->textBuf, (u32)work->fontBody, 0x440, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, levelLabelWidth + 80, 0, (uptr)work->textBuf, (uptr)work->fontBody, 0x440, 0);
     STRBUF_Delete(levelText);
     nicknameText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 9);
     WORDSET_SetSlotTag((struct WordSet *)work->wordSet, 0, (struct Strbuf *)member->nicknameStr, 0, 1, 2);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)nicknameText);
-    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 0, 24, (u32)work->textBuf, (u32)work->fontBody, 0x440, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 0, 24, (uptr)work->textBuf, (uptr)work->fontBody, 0x440, 0);
     STRBUF_Delete(nicknameText);
     trainerText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 10);
     WORDSET_SetSlotTag((struct WordSet *)work->wordSet, 0, (struct Strbuf *)member->otNameStr, 0, 1, 2);
     WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)trainerText);
-    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 0, 48, (u32)work->textBuf, (u32)work->fontBody, 0x440, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, 0, 48, (uptr)work->textBuf, (uptr)work->fontBody, 0x440, 0);
     STRBUF_Delete(trainerText);
     for (i = 0; i < 4; i++) {
         moveText = MSGDATA_AllocString((struct MsgBank *)work->msgData, i + 12);
         WORDSET_SetSlotFromMsgCB((struct WordSet *)work->wordSet, 0, member->traits[i]);
         WORDSET_CopyTaggedText((struct WordSet *)work->wordSet, (struct Strbuf *)work->textBuf, (struct Strbuf *)moveText);
-        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, (i & 1) * 96, (i >> 1) * 16 + 88, (u32)work->textBuf, (u32)work->fontBody, 0x440, 0);
+        TOUCHBAR_PrintAligned((TouchBarWindow *)&work->windows[1], (void *)work->printQueue, (i & 1) * 96, (i >> 1) * 16 + 88, (uptr)work->textBuf, (uptr)work->fontBody, 0x440, 0);
         STRBUF_Delete(moveText);
     }
     DENDOU_VIEW_PresentWindow(&work->windows[1]);

@@ -86,17 +86,17 @@
 #define SPL_TEX_ANIM_MAX_FRAMES 8
 #define gSPLRandomState g_02146A8C
 #define RandRange(v) (((v) * (s32)((g_02146A8C = g_02146A8C * 0x5EEDF715 + 0x1B0CB173) >> 23) - ((v) << 8)) >> 8)
-#define reg_G3_BEGIN_VTXS (*(volatile u32 *)0x04000500)
-#define reg_G3_END_VTXS   (*(volatile u32 *)0x04000504)
-#define reg_G3_TEXCOORD   (*(volatile u32 *)0x04000488)
-#define reg_G3_VTX_10     (*(volatile u32 *)0x04000490)
+#define reg_G3_BEGIN_VTXS (*(volatile u32 *)REG_BEGIN_VTXS_ADDR)
+#define reg_G3_END_VTXS   (*(volatile u32 *)REG_END_VTXS_ADDR)
+#define reg_G3_TEXCOORD   (*(volatile u32 *)REG_TEXCOORD_ADDR)
+#define reg_G3_VTX_10     (*(volatile u32 *)REG_VTX_10_ADDR)
 #define GX_FX16ToVtx10(x) ((u32)((x) >> 6) & 0x3ff)
 #define GX_VECVTX10(x, y, z) ((u32)((GX_FX16ToVtx10(x) << 0) | (GX_FX16ToVtx10(y) << 10) | (GX_FX16ToVtx10(z) << 20)))
 #define FX32_SQRT1_3 ((fx32)0x93d)
-#define reg_G3_MTX_IDENTITY    (*(volatile u32 *)0x04000454)
-#define reg_G3_MTX_TRANS       (*(volatile u32 *)0x04000470)
-#define reg_G3_COLOR           (*(volatile u32 *)0x04000480)
-#define reg_G3_POLYGON_ATTR    (*(volatile u32 *)0x040004A4)
+#define reg_G3_MTX_IDENTITY    (*(volatile u32 *)REG_MTX_IDENTITY_ADDR)
+#define reg_G3_MTX_TRANS       (*(volatile u32 *)REG_MTX_TRANS_ADDR)
+#define reg_G3_COLOR           (*(volatile u32 *)REG_COLOR_ADDR)
+#define reg_G3_POLYGON_ATTR    (*(volatile u32 *)REG_POLYGON_ATTR_ADDR)
 #define GX_RGB_R_SHIFT (0)
 #define GX_RGB_R_MASK (0x001f)
 #define GX_RGB_G_SHIFT (5)
@@ -113,10 +113,10 @@
 #define SPLRandom_DoubleScaledRangeFX32(num, range) ((num) * (255 + (range) - (((range) * (fx32)SPLRandom_U32(8)) >> 7)) >> 8)
 #define SPLRandom_RangeFX32(num) (((num) * (s32)SPLRandom_U32(9) - ((num) << 8)) >> 8)
 #define SPLRandom_BetweenFX32(min, max) ((fx32)(((max) - (min)) * SPLRandom_U32(12) + ((min) * FX32_ONE)))
-#define reg_G3_MTX_MODE        (*(volatile u32 *)0x04000440)
-#define reg_G3_MTX_SCALE       (*(volatile u32 *)0x0400046C)
-#define reg_G3_TEXIMAGE_PARAM  (*(volatile u32 *)0x040004A8)
-#define reg_G3_TEXPLTT_BASE    (*(volatile u32 *)0x040004AC)
+#define reg_G3_MTX_MODE        (*(volatile u32 *)REG_MTX_MODE_ADDR)
+#define reg_G3_MTX_SCALE       (*(volatile u32 *)REG_MTX_SCALE_ADDR)
+#define reg_G3_TEXIMAGE_PARAM  (*(volatile u32 *)REG_TEXIMAGE_PARAM_ADDR)
+#define reg_G3_TEXPLTT_BASE    (*(volatile u32 *)REG_TEXPLTT_BASE_ADDR)
 #define GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, s, t, repeat, flip, pltt0, addr) \
     ((u32)((addr) >> 3) | ((texFmt) << 26) | ((texGen) << 30) | ((s) << 20) | ((t) << 23) | ((repeat) << 16) | ((flip) << 18) | ((pltt0) << 29))
 #define GX_PACK_TEXPLTTBASE_PARAM(addr, texfmt) ((u32)((addr) >> (4 - ((texfmt) == GX_TEXFMT_PLTT4))))
@@ -136,6 +136,7 @@ struct VramHeapNode;
 struct SplEmitterCfg;
 struct RigObject;
 #include "../sdk_fx.h"
+#include "../sdk_ioreg.h"
 typedef struct SPLNode { struct SPLNode *next; struct SPLNode *prev; } SPLNode;
 
 typedef struct SPLList { SPLNode *first; int count; SPLNode *last; } SPLList;
@@ -2405,7 +2406,7 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
     mtx = obj->mtx;
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
-    v = *(volatile u32 *)0x040004A4;
+    v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
 
@@ -2541,7 +2542,7 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
     mtx = obj->mtx;
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
-    v = *(volatile u32 *)0x040004A4;
+    v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
 
@@ -3035,7 +3036,7 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
-    v = *(volatile u32 *)0x040004A4;
+    v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
 
@@ -3121,7 +3122,7 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
-    v = *(volatile u32 *)0x040004A4;
+    v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
 
@@ -3206,7 +3207,7 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
-    v = *(volatile u32 *)0x040004A4;
+    v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
 
@@ -3347,7 +3348,7 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
     n = (s32)s->w.b0 * (s32)(s->w.b5 + 1);
     v = ((u32)s->w.b10 << 24) | (obj->polygonAttr | 0xc0) | ((u32)(n >> 5) << 16);
     *(volatile u32 *)0x040004A4 = v;
-    v = *(volatile u32 *)0x040004A4;
+    v = *(volatile u32 *)REG_POLYGON_ATTR_ADDR;
     if ((n >> 5) == 0)
         return;
 
@@ -4490,7 +4491,7 @@ void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, u32 a)
     struct VramHeapNode *n;
 
     *(volatile u16 *)0x04000060 =
-        (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 8);
+        (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 8);
 
     h->userData = a;
     if (h->reverse == 0) {
@@ -4538,12 +4539,12 @@ int SPL_EMITTER_AllocResource(char *p, int b, int c)
 
     if (((SPLManager *)p)->inactiveEmitters.first != 0) {
         r = SPLList_PopFront((SPLList *)(p + 0x10));
-        SPL_EMITTER_SetupResource(r, (void *)((u32)((SPLManager *)p)->resources + (b << 5)), (const VecFx32 *)c);
+        SPL_EMITTER_SetupResource(r, (void *)((uptr)((SPLManager *)p)->resources + (b << 5)), (const VecFx32 *)c);
         SPLList_PushFront((SPLList *)(p + 4), (SPLNode *)r);
         if ((*(u32 *)(*(u32 *)(*(u32 *)&((SPLEmitter *)r)->resource)) << 0x11 >> 0x1f) != 0)
             r = 0;
     }
-    return (int)r;
+    return (sptr)r;
 }
 
 /*
@@ -4572,14 +4573,14 @@ int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
         struct AllocScratch scratch = { 0, 0, 0 };
 
         r = SPLList_PopFront((SPLList *)(p + 0x10));
-        SPL_EMITTER_SetupResource(r, (void *)((u32)((SPLManager *)p)->resources + (b << 5)), (const VecFx32 *)(&scratch));
+        SPL_EMITTER_SetupResource(r, (void *)((uptr)((SPLManager *)p)->resources + (b << 5)), (const VecFx32 *)(&scratch));
         if (fn != 0)
             fn(r);
         SPLList_PushFront((SPLList *)(p + 4), (SPLNode *)r);
         if ((*(u32 *)(*(u32 *)(*(u32 *)&((SPLEmitter *)r)->resource)) << 0x11 >> 0x1f) != 0)
             r = 0;
     }
-    return (int)r;
+    return (sptr)r;
 }
 
 /*

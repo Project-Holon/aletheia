@@ -360,7 +360,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     int pickMode;
     TownMapTown *town;
 
-    GF_OVERLAY_Load((u32)ov067_id);
+    GF_OVERLAY_Load((uptr)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x44, 0x60000);
     work = PROCSYS_AllocProcWork(taskArg, 0x144, 0x44);
     MI_CpuFill8(work, 0, 0x144);
@@ -370,9 +370,9 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     work->nameMsg = MSGDATA_CreateFromArchive(0, 2, 0x59, 0x44);
     work->detailMsg = MSGDATA_CreateFromArchive(0, 2, 0xb9, 0x44);
     work->gfx = TOWNMAP_GRH_Create(0x44);
-    work->mapInfo = (s32)TOWNMAP_GRH_LoadTownInfo(0x44);
+    work->mapInfo = (sptr)TOWNMAP_GRH_LoadTownInfo(0x44);
     TOWNMAP_ProcInit(&work->proc, work, (TownMapStepFunc)TOWNMAP_StepFadeIn);
-    ctx = (u32)GAMESYSTEM_GetGameData((struct GameSystem *)work->args->gameCtx);
+    ctx = (uptr)GAMESYSTEM_GetGameData((struct GameSystem *)work->args->gameCtx);
     if (work->args->mode != 1) {
         TOWNMAP_GRH_InitTextBox(&work->panel, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->detailMsg, 0, 0x15, 0x18, 3, 0x44);
         GF_FONT_SetTextColor(0xf, 1, 0);
@@ -382,7 +382,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     TOWNMAP_BackButtonInit(&work->buttonBar, work->args->mode, TOWNMAP_GRH_GetHandle(work->gfx, 0), TOWNMAP_GRH_GetBgId(work->gfx, 0), 0xf, 8, ctx, 0x44);
     TOWNMAP_GRH_InitLabel(&work->label, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->nameMsg, TOWNMAP_GRH_GetActor(work->gfx, 0), 0x44);
     BG_SYS_ChangeScrollImmediate(TOWNMAP_GRH_GetBgId(work->gfx, 1), 3, -4);
-    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)GAMESYSTEM_GetGameData((struct GameSystem *)work->args->gameCtx), (u16)0x44, pickMode);
+    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (uptr)GAMESYSTEM_GetGameData((struct GameSystem *)work->args->gameCtx), (u16)0x44, pickMode);
     TOWNMAP_CursorInit(&work->cursor, (void *)TOWNMAP_GRH_GetActor(work->gfx, 1), (void *)TOWNMAP_GRH_GetActor(work->gfx, 2), 0x44);
     town = TOWNMAP_MapFindTownById(&work->map, args->townId, args->townSubId);
     if (town != 0) {
@@ -407,7 +407,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     if (GFL_NET_GetRunState()) {
         GFL_NET_RefreshWmIconAtTopRight(1, 0x44);
     }
-    work->vblankTask = (u32)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))TOWNMAP_GRH_EmptyTask, (void *)work, 0);
+    work->vblankTask = (uptr)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))TOWNMAP_GRH_EmptyTask, (void *)work, 0);
     return 1;
 }
 
@@ -432,7 +432,7 @@ int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
     GF_FONT_Delete(work->fontSystem);
     PROCSYS_FreeProcWork(taskArg);
     GFL_HEAP_DeleteChecked(0x44);
-    GF_OVERLAY_Unload((u32)ov067_id);
+    GF_OVERLAY_Unload((uptr)ov067_id);
     return 1;
 }
 
@@ -634,7 +634,7 @@ void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet,
     req.palette = palette;
     req.tileBase = tileBase + 4;
     req.kind = 2;
-    bar->buttonMan = (u32)TOUCHBAR_Create((struct TouchBarParams *)(&req), heapId);
+    bar->buttonMan = (uptr)TOUCHBAR_Create((struct TouchBarParams *)(&req), heapId);
     TOUCHBAR_SetAllButtonsPriority((TouchBar *)bar->buttonMan, 10);
 }
 

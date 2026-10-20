@@ -28,6 +28,7 @@
  *   G3X_GetVectorMtx    0x0207DCC8  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 #include "../sdk_ioreg.h"
 
 struct NNSiG3dGeCmdList { u32 count; u32 cmds[1]; };

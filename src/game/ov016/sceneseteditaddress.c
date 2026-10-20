@@ -112,7 +112,6 @@ typedef struct AddressLimit {
 
 #include "heap.h"
 #include "dwcutil_main.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../arm9/mi_memory.h"
 #include "headline.h"

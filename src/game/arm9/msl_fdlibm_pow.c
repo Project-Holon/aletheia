@@ -19,7 +19,7 @@
  *   ldexp  0x0209A7A8  arm
  *   sqrt  0x0209C5E0  arm
  *   scalbn  0x02097990  arm
- *   bp  0x020A6300  data
+ *   pow_bp  0x020A6300  data
  *   dp_h  0x020A62F0  data
  *   dp_l  0x020A6310  data
  *   __float_nan  0x020A8818  data
@@ -69,7 +69,7 @@ extern int errno;
 
 extern const float __float_nan;
 
-extern const double bp[];
+extern const double pow_bp[];
 
 extern const double dp_h[];
 
@@ -122,7 +122,7 @@ ivln2_l  =  1.92596299112661746887e-08;
  * The machine entry is 0x020979BC (push {r0-r3} home for the register-passed
  * doubles), four bytes before the disasm body label __ieee754_pow.
  *
- * Front end dsi/1.2 (1.2p2 identical): kept &bp base across its three uses
+ * Front end dsi/1.2 (1.2p2 identical): kept &pow_bp base across its three uses
  * and the push {r3-fp,lr} / sub sp,#0x78 frame; 1.1p1 splits the loads and
  * builds a different frame.
  *
@@ -232,14 +232,14 @@ double __ieee754_pow(double x, double y)
 	    else {k=0;n+=1;ix -= 0x00100000;}
 	    HI(ax) = ix;
 
-	    u = ax-bp[k];
-	    v = one/(ax+bp[k]);
+	    u = ax-pow_bp[k];
+	    v = one/(ax+pow_bp[k]);
 	    ss = u*v;
 	    s_h = ss;
 	    LO(s_h) = 0;
 	    t_h = zero;
 	    HI(t_h)=((ix>>1)|0x20000000)+0x00080000+(k<<18);
-	    t_l = ax - (t_h-bp[k]);
+	    t_l = ax - (t_h-pow_bp[k]);
 	    s_l = v*((u-s_h*t_h)-s_h*t_l);
 	    s2 = ss*ss;
 	    r = s2*s2*(L1+s2*(L2+s2*(L3+s2*(L4+s2*(L5+s2*L6)))));

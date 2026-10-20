@@ -281,7 +281,7 @@ u32 FLDMMDL_BLACT_AddActorPos(MmdlSys *mmdlSys, VecFx32 *pos, int mdlSize, u32 a
     desc.flags = 1;
     desc.color = 1;
     desc.hook = FLDMMDL_BLACT_EntryHook;
-    desc.hookArg = (u32)cont;
+    desc.hookArg = (uptr)cont;
     blactId = BILLBOARD_ACT_CreateEntries(cont->bbdActSys, cont->slotBase, &desc, 1, 0);
     anime = FLDMMDL_BLACT_GetAnimeTable(animId);
     if (anime->cmdLists != 0) {
@@ -1061,7 +1061,7 @@ unsigned short FLDMMDL_BLACT_AddResSlot(BlactSys *cont, int code, int mdlSize, i
     if (kind == FLDMMDL_BLACT_SLOT_VRAM) {
         return (unsigned short)FLDMMDL_BLACT_AddVramSlot(cont->bbdActSys, resHandle, mdlSize, texSize);
     }
-    rec.resource = (u32)resHandle;
+    rec.resource = (uptr)resHandle;
     rec.format = 0;
     rec.sizeS = sBlactTexFmt[texSize];
     cellSize = sBlactCellSize[mdlSize];

@@ -1389,7 +1389,7 @@ void BTL_CLIENT_SetRequestParam(BtlClient *client, struct BtlServer *v) {
 /*
  * Reads the u32 field at #0x50 of the argument and returns it.
  */
-u32 BTL_CLIENT_GetNetChannel(BtlClient *client) { return (u32)client->netChannel; }
+u32 BTL_CLIENT_GetNetChannel(BtlClient *client) { return (uptr)client->netChannel; }
 
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: push {r3, lr}; ldr r1, [r0, #0x28]; blx r1; pop {r3, pc}.
@@ -1424,7 +1424,7 @@ u16 BTL_CLIENT_GetQueuedCommandWord(BtlClient *client) { return client->counter.
  */
 u32 BTL_CLIENT_IsMainStepActive(BtlClient *client)
 {
-    return ((unsigned int)client->tickFn == 0x021CDC0D);
+    return ((uptr)client->tickFn == 0x021CDC0D);
 }
 
 /*
@@ -1792,7 +1792,7 @@ u32 BTL_CLIENT_StepStartActionSelection(BtlClient *client, s32 *state)
 {
     switch (*state) {
     case 0:
-        BTL_CLIENT_SetSubFn(client, (void *)((u32)BTL_CLIENT_InitActionSelection));
+        BTL_CLIENT_SetSubFn(client, (void *)((uptr)BTL_CLIENT_InitActionSelection));
         BTL_CLIENT_StartTimeLimit(client);
         *state = *state + 1;
         break;
@@ -1867,7 +1867,7 @@ void BTL_CLIENT_ResetActionCursor(BtlClient *client) { client->actionCursor=clie
 u32 BTL_CLIENT_InitActionSelection(BtlClient *client)
 {
     u32 slot = 0;
-    u32 mon;
+    uptr mon;
     client->slotIndex = 0;
     ((s8 *)client)[0x11e] = -1;
     client->slotsDone = 0;
@@ -1879,7 +1879,7 @@ u32 BTL_CLIENT_InitActionSelection(BtlClient *client)
         BTL_ACTION_SetNone(&client->actions[slot]);
     }
     for (slot = 0; slot < client->slotCount; slot++) {
-        mon = (u32)BTL_SIDE_GetClientPokeParam((struct BtlSide *)(client->side), client->clientId, (u8)slot);
+        mon = (uptr)BTL_SIDE_GetClientPokeParam((struct BtlSide *)(client->side), client->clientId, (u8)slot);
         if (BTL_CLIENT_IsActionForced(client, (void *)mon, 0) == 0) {
             client->slotsDone = slot;
             break;
@@ -2111,7 +2111,7 @@ static inline void initOffset(Off *value)
  */
 u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *outItemKey)
 {
-    u32 partyEntry;
+    uptr partyEntry;
     int result;
     u32 count;
     u32 trainerId;
@@ -2125,7 +2125,7 @@ u32 BTL_CLIENT_FindSupportItem(BtlClient *client, u16 *outItemKey)
     opponentClientId = BTL_MAIN_GetOwnOpponentClient(client->main,0);
     trainerId = BTL_MAIN_GetTrainerId(client->main,opponentClientId);
     if (!trainerId) goto fail;
-    partyEntry = (u32)BTL_SIDE_GetSlotOfClient(client->side,opponentClientId);
+    partyEntry = (uptr)BTL_SIDE_GetSlotOfClient(client->side,opponentClientId);
     leadMon = BTL_SIDE_GetClientPokeParam(client->side,opponentClientId,(u8)0);
     if (BTL_POKEPARAM_IsFainted(leadMon)) {
         count = BTL_MAIN_GetPositionsPerClientThunk(client->main,opponentClientId);
@@ -2227,7 +2227,7 @@ int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state)
                 if (BTL_MAIN_GetRule(client->main) == 3) {
                     rotationSub = (u8)((Record_td *)&client->recordKey)->sub;
                     monSlot = BTL_SLOT_GetRotateSrcIndex(rotationSub);
-                    mon = *(void **)((u32)client + monSlot * 8U + 0xa4U);
+                    mon = *(void **)((uptr)client + monSlot * 8U + 0xa4U);
                 }
                 if (BTL_ACTION_GetFightSlotFlag((union BtlAction *)action)) {
                     client->highlightSlot = monSlot;
@@ -2245,7 +2245,7 @@ int BTL_CLIENT_StepSelectMove(BtlClient *client, u32 *state)
                     if (BTL_MAIN_GetRule(client->main) == 3 && rotationSub != 0 && rotationSub != 1 && !BTL_POKEPARAM_IsFainted(mon)) {
                         actionKind = BTL_ACTION_GetFightMove((union BtlAction *)&client->actionKey);
                         action = (u32 *)client->actionCursor;
-                        *(u32 *)&client->actionCursor = (u32)action + 4U;
+                        *(u32 *)&client->actionCursor = (uptr)action + 4U;
                         BTL_ACTION_SetRotate((union BtlAction *)action, rotationSub);
                         BTL_ACTION_SetFight(client->actionCursor, actionKind, 6);
                         ++client->extraActionCount;
@@ -5264,7 +5264,7 @@ int BTL_CLIENT_StepGiveExp(BtlClient *client, int *state, u32 *args)
         if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() || gExpGainWork.s.counter > 80) {
             gExpGainWork.s.counter = 0;
             BTL_MAIN_NotifyLevelUp(client->main, pokeParam);
-            BTLV_CORE_StartBallWindowOpen(client->view, (int)pokeParam, (struct BtlExpResult *)gExpGainWork.s.result);
+            BTLV_CORE_StartBallWindowOpen(client->view, (sptr)pokeParam, (struct BtlExpResult *)gExpGainWork.s.result);
             *state = 9;
         }
         break;

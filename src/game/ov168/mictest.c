@@ -420,7 +420,7 @@ enum Result MICTEST_Create(struct Proc *proc)
     MICTEST_InitBg(&p->render,p->heapId);
     MICTEST_InitBgTiles(&p->render,p->heapId);
     MICTEST_CreateWindows(&p->render,p->heapId);
-    MICTEST_InitActorSystem((int)p,p->heapId);
+    MICTEST_InitActorSystem((sptr)p,p->heapId);
     MICTEST_CreateActors(p,p->heapId);
     MICTEST_InitMic(&p->mic,p->heapId,MICTEST_OnMicEvent,p);
     MICTEST_InitStepMachine(&p->state,p,MICTEST_StepWipeIn);
@@ -445,7 +445,7 @@ int MICTEST_Exit(int a, int b, int c, MictestWork *p)
     PROCSYS_FreeProcWork((struct Proc *)a);
     GFL_HEAP_DeleteChecked(v);
     GFL_USE_FadeInBgmFull(0xa);
-    PROCSYS_ReplaceGlobal((u32)ov088_id,(struct ProcData *)d_021BD574,0);
+    PROCSYS_ReplaceGlobal((uptr)ov088_id,(struct ProcData *)d_021BD574,0);
     return 1;
 }
 
@@ -757,7 +757,7 @@ void MICTEST_InitMic(MictestMic *p, int heap, void (*callback)(int, MictestWork 
     MI_CpuFill8(buf, 0, 0x120);
     p->allocBuffer = buf;
     p->type = 0;
-    p->buffer = (u8 *)(((u32)buf + 0x1f) & ~0x1f);
+    p->buffer = (u8 *)(((uptr)buf + 0x1f) & ~0x1f);
     p->size = 0x100;
     p->rate = 0x1001;
     p->loop_enable = 1;
@@ -900,7 +900,7 @@ int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner)
         a = GFL_USE_GetRandom(0x1001) + 0x1333;
         b = GFL_USE_GetRandom(61) + 60;
         c = GFL_USE_GetRandom(15) + 6;
-        MICTEST_InitSpriteTask((int)owner, sprite, entry, x, y, a, b, c, 1);
+        MICTEST_InitSpriteTask((sptr)owner, sprite, entry, x, y, a, b, c, 1);
         return 1;
     }
     return 0;
@@ -915,10 +915,10 @@ int MICTEST_SpawnSprite(MictestWork *p, int unused, s16 x, s16 y, void *owner)
 void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x, s16 y, int speed, u32 angle, u32 radius, u32 wait)
 {
     MictestMotion *o;
-    u32 t;
+    uptr t;
     int c;
 
-    t = (unsigned int)TCB_AddTask((struct TcbSystem *)owner, MICTEST_UpdateSpriteTask, entry, (unsigned int)0);
+    t = (uptr)TCB_AddTask((struct TcbSystem *)owner, MICTEST_UpdateSpriteTask, entry, (unsigned int)0);
     entry->task = (void *)t;
     o = (MictestMotion *)TCBL_IsDeletePending((struct TcblSystem *)t);
     o->actor = handle;

@@ -90,7 +90,7 @@
 
 
 
-GFLNetInitializeStruct *GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct *src, u32 callbackArg);
+GFLNetInitializeStruct *GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct *src, void *callbackArg);
 
 void GFL_NET_IRC_WIRELESS_Destroy(void);
 
@@ -100,15 +100,15 @@ int GFL_NET_IRC_WIRELESS_IsActive(void);
 
 void GFL_NET_IRC_WIRELESS_SetSessionParamValue(unsigned int value);
 
-void *GFL_NET_IRC_WIRELESS_SetCallbacks(void (*onFinished)(u32), void (*onResult)(u32, int), void (*onReady)(u32));
+GFLNetUserFunc GFL_NET_IRC_WIRELESS_SetCallbacks(GFLNetUserFunc onFinished, void (*onResult)(void *, int), GFLNetUserFunc onReady);
 
 void GFL_NET_IRC_WIRELESS_AddMacAddress(const u8 *mac);
 
 void GFL_NET_IRC_WIRELESS_CopyMacAddress(void *dst, u32 slot);
 
-void GFL_NET_IRC_WIRELESS_OnSyncReady(void);
+void GFL_NET_IRC_WIRELESS_OnSyncReady(void *userArg);
 
-void GFL_NET_IRC_WIRELESS_OnConnectEnd(u32 userArg);
+void GFL_NET_IRC_WIRELESS_OnConnectEnd(void *userArg);
 
 void GFL_NET_IRC_WIRELESS_SetState(NetIrcWirelessLink *link, int state);
 
@@ -149,7 +149,7 @@ extern char s_020A7D68[];
  * The block parameter is const: without it the stores into the new record may
  * alias the block and the compiler orders the loads differently.
  */
-GFLNetInitializeStruct *GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct *src, u32 callbackArg)
+GFLNetInitializeStruct *GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct *src, void *callbackArg)
 {
     NetIrcWirelessLink *link;
 
@@ -225,7 +225,7 @@ void GFL_NET_IRC_WIRELESS_SetSessionParamValue(unsigned int value)
  * non-null callback is stored in the link; the link is re-read from the global
  * for the second and third store.
  */
-void *GFL_NET_IRC_WIRELESS_SetCallbacks(void (*onFinished)(u32), void (*onResult)(u32, int), void (*onReady)(u32))
+GFLNetUserFunc GFL_NET_IRC_WIRELESS_SetCallbacks(GFLNetUserFunc onFinished, void (*onResult)(void *, int), GFLNetUserFunc onReady)
 {
     NetIrcWirelessLink *link = gNetIrcWirelessLink;
 
@@ -274,7 +274,7 @@ void GFL_NET_IRC_WIRELESS_CopyMacAddress(void *dst, u32 slot)
     }
 }
 
-void GFL_NET_IRC_WIRELESS_OnSyncReady(void)
+void GFL_NET_IRC_WIRELESS_OnSyncReady(void *userArg)
 {
     if (gNetIrcWirelessLink == 0)
         return;
@@ -291,7 +291,7 @@ void GFL_NET_IRC_WIRELESS_OnSyncReady(void)
  * by states 4 and 14 of GFL_NET_IRC_WIRELESS_Main: flags +0x103 of the live context.
  * An unlabelled ARM leaf.
  */
-void GFL_NET_IRC_WIRELESS_OnConnectEnd(u32 userArg)
+void GFL_NET_IRC_WIRELESS_OnConnectEnd(void *userArg)
 {
     NetIrcWirelessLink *link = gNetIrcWirelessLink;
 
@@ -378,7 +378,7 @@ void GFL_NET_IRC_WIRELESS_Main(void)
         if (GFL_NET_GetRunState() != 1)
             return;
         GFL_NET_GetSession()->ops->setSessionParam(gNetIrcWirelessLink->sessionParam);
-        GFL_NET_StartChangeoverChild((uptr)GFL_NET_IRC_WIRELESS_OnSyncReady);
+        GFL_NET_StartChangeoverChild(GFL_NET_IRC_WIRELESS_OnSyncReady);
         GFL_NET_IRC_WIRELESS_SetState(link, 6);
         break;
     case 6:
@@ -493,7 +493,7 @@ void GFL_NET_IRC_WIRELESS_Main(void)
         if (GFL_NET_GetRunState() != 1)
             return;
         GFL_NET_GetSession()->ops->setSessionParam(gNetIrcWirelessLink->sessionParam);
-        GFL_NET_StartChangeoverChild((uptr)GFL_NET_IRC_WIRELESS_OnSyncReady);
+        GFL_NET_StartChangeoverChild(GFL_NET_IRC_WIRELESS_OnSyncReady);
         GFL_NET_IRC_WIRELESS_SetState(link, 0x10);
         break;
     case 16:

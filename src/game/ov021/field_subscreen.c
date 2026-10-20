@@ -148,8 +148,8 @@ struct FieldVReq;
 
 /* Overlay ids 30 and 31 are absolute symbols: the original loads them with a
  * literal pool word, a plain 30 or 31 would be a mov immediate. */
-#define FIELD_SUBSCREEN_OVERLAY_NO_GEAR ((int)abs_id_1e)
-#define FIELD_SUBSCREEN_OVERLAY_UNION   ((int)abs_id_1f)
+#define FIELD_SUBSCREEN_OVERLAY_NO_GEAR ((sptr)abs_id_1e)
+#define FIELD_SUBSCREEN_OVERLAY_UNION   ((sptr)abs_id_1f)
 
 #include "../types.h"
 
@@ -470,10 +470,10 @@ void FIELD_SUBSCREEN_InitCGear(FieldSubscreen *work)
     u32 cgearPowered, commState;
     gameSystem = FIELDMAP_GetGameSystem(work->fieldMap);
     cgearSave = BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
-    GF_OVERLAY_Load((int)abs_id_1d);
+    GF_OVERLAY_Load((sptr)abs_id_1d);
     cgearPowered = BLOCK20_SAVEDATA_GetPanelState(cgearSave);
     commState = GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem);
-    work->cgear = C_GEAR_Create(cgearSave, (s32)work, gameSystem, commState == 1 && cgearPowered == 0);
+    work->cgear = C_GEAR_Create(cgearSave, (sptr)work, gameSystem, commState == 1 && cgearPowered == 0);
     BLOCK20_SAVEDATA_SetPanelState(cgearSave, commState);
     if (GAMESYSTEM_IsNetOffBySleep(gameSystem) != 0)
         GAMESYSTEM_ClearNetOffBySleep(gameSystem);
@@ -487,10 +487,10 @@ void FIELD_SUBSCREEN_InitCGearWithCallback(FieldSubscreen *work)
     u32 commState;
     gameSystem = FIELDMAP_GetGameSystem(work->fieldMap);
     cgearSaveBase = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
-    GF_OVERLAY_Load((int)abs_id_1d);
+    GF_OVERLAY_Load((sptr)abs_id_1d);
     commState = GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem);
     cgearSave = BLOCK20_SAVEDATA_GetBlock(cgearSaveBase);
-    work->cgear = C_GEAR_Open(cgearSave, (s32)work, FIELDMAP_GetGameSystem(work->fieldMap), work->callback, work->callbackArg, commState);
+    work->cgear = C_GEAR_Open(cgearSave, (sptr)work, FIELDMAP_GetGameSystem(work->fieldMap), work->callback, work->callbackArg, commState);
     BLOCK20_SAVEDATA_SetPanelState(cgearSave, commState);
     if (GAMESYSTEM_IsNetOffBySleep(gameSystem) != 0)
         GAMESYSTEM_ClearNetOffBySleep(gameSystem);
@@ -501,17 +501,17 @@ void FIELD_SUBSCREEN_InitCGearWithCallback(FieldSubscreen *work)
 void FIELD_SUBSCREEN_ExitCGear(FieldSubscreen *work)
 {
     C_GEAR_Destroy(work->cgear);
-    GF_OVERLAY_Unload((int)abs_id_1d);
+    GF_OVERLAY_Unload((sptr)abs_id_1d);
 }
 
-u32 FIELD_3DBG_ExitCGear(FieldSubscreen *work) { return C_GEAR_Nop((u32)work->cgear); }
+u32 FIELD_3DBG_ExitCGear(FieldSubscreen *work) { return C_GEAR_Nop((uptr)work->cgear); }
 
 u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active)
 {
-    u32 gameSystem, savedValue;
+    uptr gameSystem, savedValue;
     if (active != 0) {
-        gameSystem = (u32)FIELDMAP_GetGameSystem(work->fieldMap);
-        savedValue = (u32)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((void *)gameSystem)));
+        gameSystem = (uptr)FIELDMAP_GetGameSystem(work->fieldMap);
+        savedValue = (uptr)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData((void *)gameSystem)));
         if (GAMESYSTEM_IsNetOffBySleep((void *)gameSystem) != 0) {
             if (GAMESYSTEM_IsAlwaysNetFlagSet((void *)gameSystem) != 0) {
                 GAMESYSTEM_ClearNetOffBySleep((void *)gameSystem);
@@ -521,7 +521,7 @@ u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active)
             }
         }
     }
-    return C_GEAR_Update((u32)work->cgear, active);
+    return C_GEAR_Update((uptr)work->cgear, active);
 }
 
 int FIELD_SUBSCREEN_HandleCGearInput(FieldSubscreen *work, int button)
@@ -716,7 +716,7 @@ void FIELD_SUBSCREEN_DrawIntrude(FieldSubscreen *work)
 /* Mode 3 request check: the panel's touch selection may start an event. */
 void *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode)
 {
-    return INTRUDE_SUBDISP_EventCheck(work->cgear, (s32)mode, (s32)work);
+    return INTRUDE_SUBDISP_EventCheck(work->cgear, (s32)mode, (sptr)work);
 }
 
 /*
@@ -729,15 +729,15 @@ void *FIELD_SUBSCREEN_CheckIntrudeRequest(FieldSubscreen *work, int mode)
 /* Mode 4 (beacon view, overlay 0x20) init: load the overlay and create the panel. */
 void FIELD_SUBSCREEN_InitBeaconView(FieldSubscreen *work)
 {
-    GF_OVERLAY_Load((int)abs_id_20);
-    work->cgear = BEACON_VIEW_Create((u32)(FIELDMAP_GetGameSystem(work->fieldMap)), (u32)work);
+    GF_OVERLAY_Load((sptr)abs_id_20);
+    work->cgear = BEACON_VIEW_Create((uptr)(FIELDMAP_GetGameSystem(work->fieldMap)), (uptr)work);
 }
 
 /* Mode 4 exit: delete the beacon view panel and unload its overlay. */
 void FIELD_SUBSCREEN_ExitBeaconView(FieldSubscreen *work)
 {
     BEACON_VIEW_Delete(work->cgear);
-    GF_OVERLAY_Unload((int)abs_id_20);
+    GF_OVERLAY_Unload((sptr)abs_id_20);
 }
 
 /* Mode 4 update. */
@@ -747,12 +747,12 @@ void FIELD_SUBSCREEN_UpdateBeaconView(FieldSubscreen *work, s32 isFieldIdle) { B
 int FIELD_SUBSCREEN_UpdateBeaconViewNoTransition(FieldSubscreen *work) { return BEACON_VIEW_MainPrintQueue(work->cgear); }
 
 /* Mode 4 request check. */
-int FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work, u32 mode) { return (int)BEACON_VIEW_CreateLeaveEvent(work->cgear, mode); }
+int FIELD_SUBSCREEN_CheckBeaconViewRequest(FieldSubscreen *work, u32 mode) { return (sptr)BEACON_VIEW_CreateLeaveEvent(work->cgear, mode); }
 
 /* Mode 6 (dowsing, overlay 0x21) init: load the overlay and create the panel. */
 void FIELD_SUBSCREEN_InitDowsing(FieldSubscreen *work)
 {
-    GF_OVERLAY_Load((int)abs_id_21);
+    GF_OVERLAY_Load((sptr)abs_id_21);
     work->cgear = DOWSING_Create(0x70, work->heapId, work, work->fieldMap);
 }
 
@@ -760,7 +760,7 @@ void FIELD_SUBSCREEN_InitDowsing(FieldSubscreen *work)
 void FIELD_SUBSCREEN_ExitDowsing(FieldSubscreen *work)
 {
     DOWSING_Delete(work->cgear);
-    GF_OVERLAY_Unload((int)abs_id_21);
+    GF_OVERLAY_Unload((sptr)abs_id_21);
 }
 
 /* Mode 6 update. */
@@ -772,7 +772,7 @@ void FIELD_SUBSCREEN_UpdateDowsingNoTransition(FieldSubscreen *work, s32 isField
 /* Mode 7 (save report, overlay 0x22) init: load the overlay and create the panel. */
 void FIELD_SUBSCREEN_InitReport(FieldSubscreen *work)
 {
-    GF_OVERLAY_Load((int)abs_id_22);
+    GF_OVERLAY_Load((sptr)abs_id_22);
     work->cgear = REPORT_Create(FIELDMAP_GetGameSystem(work->fieldMap), work->heapId);
 }
 
@@ -780,7 +780,7 @@ void FIELD_SUBSCREEN_InitReport(FieldSubscreen *work)
 void FIELD_SUBSCREEN_ExitReport(FieldSubscreen *work)
 {
     REPORT_Delete(work->cgear);
-    GF_OVERLAY_Unload((int)abs_id_22);
+    GF_OVERLAY_Unload((sptr)abs_id_22);
 }
 
 /* Mode 7 update: show the panel objects once the print queue is idle. */
@@ -834,7 +834,7 @@ int FIELD_SUBSCREEN_CheckReportSaveCounter(FieldSubscreen *work)
 /* Mode 9 (power on/off, overlay 0x23) init: load the overlay and create the panel. */
 void FIELD_SUBSCREEN_InitPowerOnoff(FieldSubscreen *work)
 {
-    GF_OVERLAY_Load((int)abs_id_23);
+    GF_OVERLAY_Load((sptr)abs_id_23);
     work->cgear = C_GEAR_POWER_ONOFF_Create(work, FIELDMAP_GetGameSystem(work->fieldMap), 0x70);
 }
 
@@ -845,5 +845,5 @@ void FIELD_SUBSCREEN_UpdatePowerOnoff(FieldSubscreen *work, s32 isFieldIdle) { C
 void FIELD_SUBSCREEN_ExitPowerOnoff(FieldSubscreen *work)
 {
     C_GEAR_POWER_ONOFF_Delete(work->cgear);
-    GF_OVERLAY_Unload((int)abs_id_23);
+    GF_OVERLAY_Unload((sptr)abs_id_23);
 }

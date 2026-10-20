@@ -36,7 +36,7 @@
 
 struct ScriptSystem;
 
-#define OVERLAY_ID_52 ((int)ov_id_52)
+#define OVERLAY_ID_52 ((sptr)ov_id_52)
 
 typedef struct FaceUpEndWork {
     struct GameSystem *gameSystem;

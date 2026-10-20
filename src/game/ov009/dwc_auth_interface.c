@@ -193,9 +193,9 @@ void DWCi_Auth_GetGameSpyToken(char *authtoken, char *partnerchallenge)
 	struct DWCAuthResult result;
 
 	DWC_Auth_GetResult((int *)(&result));
-	strncpy((u8 *)authtoken, (const u8 *)result.token, 0x12d);
+	strncpy(authtoken, result.token, 0x12d);
 	authtoken[0x12c] = 0;
-	strncpy((u8 *)partnerchallenge, (const u8 *)result.challenge, 9);
+	strncpy(partnerchallenge, result.challenge, 9);
 	partnerchallenge[8] = 0;
 }
 

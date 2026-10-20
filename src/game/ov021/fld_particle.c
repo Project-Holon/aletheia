@@ -87,7 +87,7 @@ struct ParticleSys *FLD_PARTICLE_CreateEffect(FldParticle *particle)
     u32 effectRange;
     struct G3dCamera *effect;
 
-    particle->effect = PARTICLE_CreateSystemDefault((int)particle->workBuffer, 0x4800, 1, particle->heapId);
+    particle->effect = PARTICLE_CreateSystemDefault((sptr)particle->workBuffer, 0x4800, 1, particle->heapId);
     effect = (struct G3dCamera *)PARTICLE_EMITTER_GetBlock((struct Obj3D *)particle->effect);
     effectScale = 1 << 12;
     effectRange = 0x384000;

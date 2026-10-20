@@ -282,6 +282,7 @@
  */
 
 #include "../version.h"
+#include "../sdk_ioreg_reg.h"
 
 /* Message indices of the multiboot screen: White's message file has one more entry before them. */
 #if VERSION == VERSION_WHITE
@@ -328,13 +329,9 @@ struct Placement {
 };
 
 /* Display registers and palette RAM touched directly by this screen. */
-#define REG_DISPCNT_MAIN (*(volatile u32 *)0x04000000)
-#define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
-#define REG_BLDCNT_MAIN (*(volatile u16 *)0x04000050)
-#define REG_BLDCNT_SUB (*(volatile u16 *)0x04001050)
-#define REG_POWCNT1 (*(volatile u16 *)0x04000304)
-#define PLTT_BG_MAIN ((volatile u16 *)0x05000000)
-#define PLTT_BG_SUB ((volatile u16 *)0x05000400)
+#define REG_POWCNT1 (*(volatile u16 *)REG_POWCNT1_ADDR)
+#define PLTT_BG_MAIN ((volatile u16 *)HW_BG_PLTT)
+#define PLTT_BG_SUB ((volatile u16 *)HW_DB_BG_PLTT)
 
 typedef struct MbPathPair {
     const char *inGame;
@@ -538,11 +535,11 @@ void MB_COMM_SYS_Init(MbCommSysWork *p)
         p->saveState = 0;
         gMbParentUi.vblankCounter = 0;
     }
-    p->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(struct TcbTask *, void *))((u32)MB_COMM_SYS_VBlank)), (void *)((u32)p), 8);
+    p->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(struct TcbTask *, void *))((uptr)MB_COMM_SYS_VBlank)), (void *)((uptr)p), 8);
     if (!p->standalone) {
-        GFL_USE_SetVBlankHook((void (*)(void *))((void (*)(void *))((int)MB_COMM_SYS_VBlankRefreshBg)), 0);
+        GFL_USE_SetVBlankHook((void (*)(void *))((void (*)(void *))((sptr)MB_COMM_SYS_VBlankRefreshBg)), 0);
     } else {
-        GFL_USE_SetVBlankHook((void (*)(void *))((int)MB_COMM_SYS_VBlankRefreshBgStandalone), 0);
+        GFL_USE_SetVBlankHook((void (*)(void *))((sptr)MB_COMM_SYS_VBlankRefreshBgStandalone), 0);
         GFL_USE_CancelChangeAndPlayBgm(1154, 0xffff);
     }
     p->wmActive = 0;
@@ -725,7 +722,7 @@ int MB_COMM_SYS_Main(MbCommSysWork *p)
         if (MB_COMM_SYS_GetCommStage(p->net) == 2) {
             if (p->payloadQueued == 0) {
                 p->payloadQueued = 1;
-                MB_COMM_SYS_QueuePayload((int)p->net, (int)p->payload, p->payloadSize);
+                MB_COMM_SYS_QueuePayload((sptr)p->net, (sptr)p->payload, p->payloadSize);
             }
             MB_UTIL_MSG_PrintStream(p->msg, 2, MSG_SPEED_GetWait());
             p->phase = 15;
@@ -921,14 +918,14 @@ void MB_COMM_SYS_InitDisplay(MbCommSysWork *p)
 
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    REG_DISPCNT_MAIN &= 0xffffe0ff;
-    REG_DISPCNT_SUB &= 0xffffe0ff;
+    REG_DISPCNT &= 0xffffe0ff;
+    REG_DB_DISPCNT &= 0xffffe0ff;
     WIPE_SetBrightnessFadeOut(0, 0);
     WIPE_SetBrightnessFadeOut(1, 0);
     WIPE_ResetWndMask((void *)0);
     WIPE_ResetWndMask((void *)1);
-    REG_BLDCNT_MAIN = 0;
-    REG_BLDCNT_SUB = 0;
+    REG_BLDCNT = 0;
+    REG_DB_BLDCNT = 0;
     REG_POWCNT1 |= 0x8000;
     BG_SYS_SetVramBanks(&d_021F6C10);
     BG_SYS_Create(p->heapId);
@@ -1163,7 +1160,7 @@ void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p)
             p->gameNameBuf[i] = c - 0xFEE0;
     }
     p->lobbyAccepted = 0;
-    GF_OVERLAY_Load((int)ov014_id);
+    GF_OVERLAY_Load((sptr)ov014_id);
     if (p->standalone == 0) {
         BG_SYS_SetPlaneVisible(2, 1);
         BG_SYS_SetPlaneVisible(0, 1);
@@ -1177,7 +1174,7 @@ void MB_COMM_SYS_BuildGameStrings(MbCommSysWork *p)
 /* Frees the game name and description strings and hides the BG layers they used. */
 void MB_COMM_SYS_FreeGameStrings(MbCommSysWork *p)
 {
-    GF_OVERLAY_Unload((int)ov014_id);
+    GF_OVERLAY_Unload((sptr)ov014_id);
     CARD_SetPulledOutCallback(0);
     GFL_HEAP_Free(p->gameNameBuf);
     GFL_HEAP_Free(p->gameIntroBuf);
@@ -1209,14 +1206,14 @@ int MB_COMM_SYS_MainWireless(MbCommSysWork *p)
     case 0:
         gMbParentUi.wmEndDone = 0;
         p->wmActive = 1;
-        WIH_Initialize(p->heapId, (int)MB_COMM_SYS_WmEndCallback, 0);
+        WIH_Initialize(p->heapId, (sptr)MB_COMM_SYS_WmEndCallback, 0);
         GFL_NET_WM_ICON_EasyStart(240, 0, 0, p->heapId);
         if (p->standalone == 0)
             GFL_NET_WM_ICON_EasySetScreen(0, p->heapId);
         else
             GFL_NET_WM_ICON_EasySetScreen(1, p->heapId);
         p->subPhase = 1;
-        UI_SetIntrDataGlobal((u32)MB_COMM_SYS_ResetHook, (u32)p);
+        UI_SetIntrDataGlobal((uptr)MB_COMM_SYS_ResetHook, (uptr)p);
         break;
     case 1:
         if (WIH_GetSysState() == 1 && WIH_StartMeasureChannel() == 1)
@@ -1465,7 +1462,7 @@ void MB_COMM_SYS_ResetHook(MbCommSysWork *p)
         OS_WaitIrq(1, 1);
     if (p->wmActive == 1) {
         gMbParentUi.wmEndDone = 0;
-        while (WIH_End((void (*)(int))((int)MB_COMM_SYS_WmEndCallback)))
+        while (WIH_End((void (*)(int))((sptr)MB_COMM_SYS_WmEndCallback)))
             OS_WaitIrq(1, 1);
         while (gMbParentUi.wmEndDone == 0)
             OS_WaitIrq(1, 1);

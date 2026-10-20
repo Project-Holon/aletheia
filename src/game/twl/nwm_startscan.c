@@ -61,7 +61,7 @@ u8 *NWM_GetVenderInfoElements(u8 *bssDesc, u32 elementId, void *oui);
 u32 NWM_StartScanEx(void *callback, const ApInfo *param) {
     ApCmd cmd;
     u32 r = NWMi_CheckState(1, 3);
-    u32 base;
+    uptr base;
     u32 busy;
     if (r != 0 && r != 2) {
         return r;
@@ -95,7 +95,7 @@ u32 NWM_StartScanEx(void *callback, const ApInfo *param) {
     MI_CpuFill8(param->buf, 0, (param->bufLen + 3) & ~3);
     DC_StoreRange(param->buf, (param->bufLen + 3) & ~3);
     r = 7;
-    NWMi_SetCallbackTable(r, (u32)callback);
+    NWMi_SetCallbackTable(r, (uptr)callback);
     cmd.cmd = r;
     cmd.channelList = param->channelList;
     cmd.bufLen = param->bufLen;
@@ -106,7 +106,7 @@ u32 NWM_StartScanEx(void *callback, const ApInfo *param) {
     cmd.ssidMatchLength = param->ssidMatchLength;
     MI_CpuCopy8(param->ssid, cmd.ssid, 0x20);
     MI_CpuCopy8(param->mac, cmd.mac, 6);
-    r = NWMi_SendCommandDirect((unsigned int)(&cmd), 0x38);
+    r = NWMi_SendCommandDirect((uptr)(&cmd), 0x38);
     if (r == 0 || r == 2) {
         r = 2;
     }

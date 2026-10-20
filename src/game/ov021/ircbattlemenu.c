@@ -260,6 +260,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/bg_sys.h"
 
 #include "ircbattlemenu_types.h"
@@ -418,7 +419,6 @@ struct PartyInfo;
 #include "../arm9/arc_util.h"
 #include "../arm9/os_cache.h"
 #include "../arm9/palanm.h"
-struct PalAnmSlot;
 #include "../arm9/gx_load2d.h"
 struct TcblList;
 extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
@@ -590,16 +590,16 @@ void IRCBATTLEMENU_InitBgLayers(IrcBattleMenuWork *work)
 /* Loads palette bank "bank" (1: BG, 3: OBJ) through the palette fade system, dimmed over "rows" rows of 16 colors. */
 void IRCBATTLEMENU_FadePaletteBank(IrcBattleMenuWork *work, u32 bank, u32 rows)
 {
-    PaletteFadeWork *fade;
+    PaletteFade *fade;
     u32 size;
     u16 *buf;
 
     fade = PALANM_Create(work->heapId);
-    PALANM_AllocSlotBuffers((struct PalAnmSlot *)fade, bank, 0x200, work->heapId);
+    PALANM_AllocSlotBuffers(fade, bank, 0x200, work->heapId);
     size = rows << 5;
-    PALANM_CopyHwPaletteToSlot((struct PalAnmSlot *)fade, bank, 0, size);
+    PALANM_CopyHwPaletteToSlot(fade, bank, 0, size);
     PALANM_BlendChannel(fade, bank, 0, (rows << 20) >> 16, 6, 0);
-    buf = (u16 *)PALANM_GetTransWork((char *)fade, bank);
+    buf = PALANM_GetTransWork(fade, bank);
     DC_FlushRange(buf, size);
     if (bank != 1) {
         if (bank == 3)
@@ -607,7 +607,7 @@ void IRCBATTLEMENU_FadePaletteBank(IrcBattleMenuWork *work, u32 bank, u32 rows)
     } else {
         GXS_LoadBGPltt(buf, 0, size);
     }
-    PALANM_FreeSlotBuffers((struct PalAnmSlot *)fade, bank);
+    PALANM_FreeSlotBuffers(fade, bank);
     PALANM_Delete(fade);
 }
 
@@ -615,8 +615,8 @@ void IRCBATTLEMENU_FadePaletteBank(IrcBattleMenuWork *work, u32 bank, u32 rows)
 void IRCBATTLEMENU_SetSubPaletteActive(IrcBattleMenuWork *work, int isActive)
 {
     if (isActive) {
-        MI_CpuCopy8((void *)0x05000600, work->subObjPlttCopy, 0x200);
-        MI_CpuCopy8((void *)0x05000400, work->subBgPlttCopy, 0x200);
+        MI_CpuCopy8((void *)HW_DB_OBJ_PLTT, work->subObjPlttCopy, 0x200);
+        MI_CpuCopy8((void *)HW_DB_BG_PLTT, work->subBgPlttCopy, 0x200);
         IRCBATTLEMENU_FadePaletteBank(work, 3, 0xE);
         IRCBATTLEMENU_FadePaletteBank(work, 1, 9);
     } else {
@@ -792,7 +792,7 @@ void IRCBATTLEMENU_LoadMenuGraphics(IrcBattleMenuWork *work)
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 9, 4, 0, (u16)work->subBgChar, 0, 0, work->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 0xB, 6, 0, (u16)work->subBgChar, 0, 0, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
-    work->winFrameChar = (u32)BMP_MENUWORK_LoadFrameGfx(5, 0xC, 0, work->heapId);
+    work->winFrameChar = (uptr)BMP_MENUWORK_LoadFrameGfx(5, 0xC, 0, work->heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x160, 0x20, work->heapId);
 }
 
@@ -815,7 +815,7 @@ void IRCBATTLEMENU_SeqSetupTopMenu(IrcBattleMenuWork *work)
     IRCBATTLEMENU_LoadSubBgScreen(work, 0xB);
     IRCBATTLEMENU_CreateTopMenuActors(work);
     IRCBATTLEMENU_CreateButtonWindows(4, msgIds.id, work, sTopMenuWinDescs, sTopMenuTextCenterX, sTopMenuTextCenterY);
-    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sTopMenuTouchRects, IRCBATTLEMENU_TouchCallback, (s32)work, work->heapId);
+    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sTopMenuTouchRects, IRCBATTLEMENU_TouchCallback, (sptr)work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchTopMenu;
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchTop, 0x340);
 }
@@ -984,7 +984,7 @@ void IRCBATTLEMENU_SeqSetupKindMenu(IrcBattleMenuWork *work)
     IRCBATTLEMENU_CreateKindMenuActors(work);
     IRCBATTLEMENU_LoadSubBgScreen(work, 0xC);
     IRCBATTLEMENU_CreateButtonWindows(2, msgIds.id, work, sKindMenuWinDescs, 0, 0);
-    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sKindMenuTouchRects, IRCBATTLEMENU_TouchCallback, (s32)work, work->heapId);
+    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sKindMenuTouchRects, IRCBATTLEMENU_TouchCallback, (sptr)work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchKindMenu;
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchSub, 0x432);
 }
@@ -1088,7 +1088,7 @@ void IRCBATTLEMENU_SeqSetupRuleMenu(IrcBattleMenuWork *work)
     IRCBATTLEMENU_CreateMainMenuActors(work);
     IRCBATTLEMENU_LoadSubBgScreen(work, 0xD);
     IRCBATTLEMENU_CreateButtonWindows(4, msgIds.id, work, sRuleMenuWinDescs, 0, 0);
-    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sRuleMenuTouchRects, IRCBATTLEMENU_TouchCallback, (s32)work, work->heapId);
+    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sRuleMenuTouchRects, IRCBATTLEMENU_TouchCallback, (sptr)work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchRuleMenu;
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchSub, 0x4CC);
 }
@@ -1172,7 +1172,7 @@ void IRCBATTLEMENU_SeqSetupPartyMenu(IrcBattleMenuWork *work)
     IRCBATTLEMENU_CreateSubMenuActors(work);
     IRCBATTLEMENU_LoadSubBgScreen(work, 0xD);
     IRCBATTLEMENU_CreateButtonWindows(2, msgIds.id, work, sKindMenuWinDescs, 0, 0);
-    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sPartyMenuTouchRects, IRCBATTLEMENU_TouchCallback, (s32)work, work->heapId);
+    work->touchSw = (struct TouchSwitch *)BUTTON_MAN_Create((u8 *)sPartyMenuTouchRects, IRCBATTLEMENU_TouchCallback, (sptr)work, work->heapId);
     work->touchFunc = IRCBATTLEMENU_TouchPartyMenu;
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqUpdateTouchParty, 0x54D);
 }
@@ -1623,7 +1623,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     BG_SYS_SetSubVisiblePlanes(0);
     CLACT_InitSystem((struct SysInit *)gClActorInitParam, (struct DispVramCfg *)sVramBank, work->heapId);
     work->clactUnit = CLACT_CreateUnit(0x28, 0, work->heapId);
-    work->vblankTask = (u32)GFL_USE_AddMainTask(IRCBATTLEMENU_VBlankTask, work, 0);
+    work->vblankTask = (uptr)GFL_USE_AddMainTask(IRCBATTLEMENU_VBlankTask, work, 0);
     IRCBATTLEMENU_InitBgLayers(work);
     IRCBATTLEMENU_LoadMenuGraphics(work);
     work->subObjPlttCopy = GFL_HEAP_Alloc(work->heapId, 0x200, 0, (const char *)sIrcBattleMenuFileName, 0x829);
@@ -1639,11 +1639,11 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     IRCBATTLEMENU_SetSeq(work, IRCBATTLEMENU_SeqSetupTopMenu, 0x83B);
     work->param = (struct IrcBattleEntryWork *)param;
     work->gameData = GAMESYSTEM_GetGameData(IRC_BATTLE_ENTRY_GetGameSys((IrcBattleEntryWork *)work->param));
-    G2x_SetBlendAlpha_((u32 *)0x04001050, 4, 1, 0xf, 4);
+    G2x_SetBlendAlpha_((u32 *)REG_DB_BLDCNT_ADDR, 4, 1, 0xf, 4);
     GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
     BG_SYS_SetMainVisiblePlanes(0x13);
     BG_SYS_SetSubVisiblePlanes(0x17);
-    G2x_SetBlendAlpha_((u32 *)0x04000050, 0x10, 3, 9, 0xe);
+    G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 0x10, 3, 9, 0xe);
     return 1;
 }
 

@@ -19,16 +19,16 @@
  *   chit              0x021C88FC  data
  *   bitlen            0x021C8900  data
  *   xblock            0x021C8904  data
- *   ts                0x021C8908  data
+ *   sJpegHuffShortTable                0x021C8908  data
  *   SSPiErrorFlag     0x021C890C  data
- *   ti                0x021C8910  data
+ *   sJpegHuffIntTable                0x021C8910  data
  *   xstep             0x021C8914  data
  *   ystep             0x021C8918  data
  *   MIi_CpuClearFast  0x02082AC0  arm
  *   SSP_ExifDecode    0x021C0BB4  arm  ov172
  *   mtx               0x021C8B1C  data ov172
- *   jw                0x021C959C  data ov172
- *   qy                0x021C8A1C  data
+ *   gJpegHuffmanWork                0x021C959C  data ov172
+ *   gJpegQuantTables                0x021C8A1C  data
  *   asl               0x021C72AC  data
  *   zig               0x021C726C  data
  *   draw_block        0x021C8D9C  data
@@ -55,13 +55,13 @@
 /*
  * jpegdec.o .bss block; declaration order gives the vendor offsets.
  * bcode2 +0x00 (the bit buffer), yblock +0x04, SSPiInputDataSize +0x08,
- * chit +0x0c (set after an 0xff byte), bitlen +0x10, xblock +0x14, ts +0x18,
- * SSPiErrorFlag +0x1c, ti +0x20, xstep +0x24, ystep +0x28.
+ * chit +0x0c (set after an 0xff byte), bitlen +0x10, xblock +0x14, sJpegHuffShortTable +0x18,
+ * SSPiErrorFlag +0x1c, sJpegHuffIntTable +0x20, xstep +0x24, ystep +0x28.
  */
 static int xstep = 0;
-static int *ti = 0;
+static int *sJpegHuffIntTable = 0;
 static int SSPiErrorFlag = 0;
-static short *ts = 0;
+static short *sJpegHuffShortTable = 0;
 static int xblock = 0;
 static int bitlen = 0;
 static int chit = 0;
@@ -77,8 +77,8 @@ static int ystep = 0;
 #include "../twl/aes_util.h"
 extern int SSPiDecodeSignCheckMode;
 extern short mtx[5][64];
-extern u8 jw[6144];
-extern short qy[128];
+extern u8 gJpegHuffmanWork[6144];
+extern short gJpegQuantTables[128];
 extern short asl[64];
 extern u8 zig[64];
 extern short draw_block[1024];
@@ -175,7 +175,7 @@ int Mel_JPEGDecodeExif(u8 *a, unsigned long length, int option)
     chit = 0;
     bitlen = 0;
     mtx[0][0] = mtx[3][0] = mtx[4][0] = 0;
-    MIi_CpuClearFast(0, jw, 0x1000);
+    MIi_CpuClearFast(0, gJpegHuffmanWork, 0x1000);
     SSPiInputDataSize = length;
     if (length <= 2) return 0;
     if (a[0] != 0xFF || a[1] != 0xD8) return 0;
@@ -201,8 +201,8 @@ int Mel_JPEGDecodeExif(u8 *a, unsigned long length, int option)
 /*
  * closed (lane05, 2026-10-01): full rewrite from the listing and DWARF.
  *   (1) the "bcode2 struct" is eleven separate 4-byte .bss objects of
- *   jpegdec.o (bcode2, yblock, SSPiInputDataSize, chit, bitlen, xblock, ts,
- *   SSPiErrorFlag, ti, xstep, ystep at +0..+0x28) addressed off one anchor.
+ *   jpegdec.o (bcode2, yblock, SSPiInputDataSize, chit, bitlen, xblock, sJpegHuffShortTable,
+ *   SSPiErrorFlag, sJpegHuffIntTable, xstep, ystep at +0..+0x28) addressed off one anchor.
  *   Defined here as zero-initialised file statics, declared in the order that
  *   reproduces the vendor offsets (1.1p1 puts the last declared at the end
  *   and the rest in reverse). As separate objects the main-loop length check
@@ -251,7 +251,7 @@ int Mel_JPEGDecode(u8 *d, u8 *a, unsigned long length, long maxWidth,
     RSTn_work = dx;
     mtx[0][0] = dx;
     RSTn_intr = dx;
-    MIi_CpuClearFast(0, jw, 0x1000);
+    MIi_CpuClearFast(0, gJpegHuffmanWork, 0x1000);
     SSPiInputDataSize = length;
     if (length <= 2)
         return dx;
@@ -306,21 +306,21 @@ int Mel_JPEGDecode(u8 *d, u8 *a, unsigned long length, long maxWidth,
                     m += 0x2b0;
                     i += 0x24;
                 }
-                ts = (short *)&jw[m + 0x270];
-                ti = (int *)&jw[m + 0x270];
-                jw[i] = 0;
+                sJpegHuffShortTable = (short *)&gJpegHuffmanWork[m + 0x270];
+                sJpegHuffIntTable = (int *)&gJpegHuffmanWork[m + 0x270];
+                gJpegHuffmanWork[i] = 0;
                 for (h = 1, j = 0; h <= 16; h++) {
                     b = a[q++];
-                    jw[i + h] = b;
+                    gJpegHuffmanWork[i + h] = b;
                     j += b;
                 }
                 if (q + j >= SSPiInputDataSize)
                     return 0;
                 for (h = 0; h < j; h++, q++)
-                    jw[i + 0x14 + h] = a[q];
+                    gJpegHuffmanWork[i + 0x14 + h] = a[q];
                 g = 0;
                 for (h = 1; h <= 16; h++) {
-                    for (j = 1; j <= jw[i + h] && g <= 256; j++, g++)
+                    for (j = 1; j <= gJpegHuffmanWork[i + h] && g <= 256; j++, g++)
                         huffsize[g] = (char)h;
                 }
                 if (g >= 257) {
@@ -344,23 +344,23 @@ int Mel_JPEGDecode(u8 *d, u8 *a, unsigned long length, long maxWidth,
                 }
                 g = 0;
                 for (j = 1; j <= 16; j++) {
-                    if (jw[i + j] != 0) {
-                        ts[j + 0x46] = g;
-                        ti[j] = huffcode[g];
-                        g += jw[i + j];
+                    if (gJpegHuffmanWork[i + j] != 0) {
+                        sJpegHuffShortTable[j + 0x46] = g;
+                        sJpegHuffIntTable[j] = huffcode[g];
+                        g += gJpegHuffmanWork[i + j];
                         if (g >= 257) {
                             SSPiErrorFlag = 1;
                             return 0;
                         }
-                        ti[17 + j] = huffcode[g - 1];
+                        sJpegHuffIntTable[17 + j] = huffcode[g - 1];
                     } else {
-                        ti[17 + j] = -1;
+                        sJpegHuffIntTable[17 + j] = -1;
                     }
                 }
-                ti[34] = 0xfffff;
+                sJpegHuffIntTable[34] = 0xfffff;
                 g = 0;
                 for (h = 1; h <= 8; h++) {
-                    for (j = 1; j <= jw[i + h]; j++, g++) {
+                    for (j = 1; j <= gJpegHuffmanWork[i + h]; j++, g++) {
                         if (g >= 257) {
                             SSPiErrorFlag = 1;
                             return 0;
@@ -375,8 +375,8 @@ int Mel_JPEGDecode(u8 *d, u8 *a, unsigned long length, long maxWidth,
                                 SSPiErrorFlag = 1;
                                 return 0;
                             }
-                            jw[m + 0x31e + x] = (u8)h;
-                            jw[m + 0x41e + x] = jw[i + 0x14 + g];
+                            gJpegHuffmanWork[m + 0x31e + x] = (u8)h;
+                            gJpegHuffmanWork[m + 0x41e + x] = gJpegHuffmanWork[i + 0x14 + g];
                         }
                     }
                 }
@@ -421,7 +421,7 @@ int Mel_JPEGDecode(u8 *d, u8 *a, unsigned long length, long maxWidth,
                     for (i = 0; i < 64; i++, q += 2) {
                         if (j + zig[i] > 0x7f)
                             return 0;
-                        qy[j + zig[i]] = (asl[i] * (a[q + 1] + (a[q] << 8)) + 0x800) >> 12;
+                        gJpegQuantTables[j + zig[i]] = (asl[i] * (a[q + 1] + (a[q] << 8)) + 0x800) >> 12;
                     }
                 } else {
                     if (q + 0x41 >= SSPiInputDataSize)
@@ -431,7 +431,7 @@ int Mel_JPEGDecode(u8 *d, u8 *a, unsigned long length, long maxWidth,
                     for (s = 0; s < 64; s++, q++) {
                         if (i + zig[s] > 0x7f)
                             return 0;
-                        qy[i + zig[s]] = (a[q] * asl[s] + 0x800) >> 12;
+                        gJpegQuantTables[i + zig[s]] = (a[q] * asl[s] + 0x800) >> 12;
                     }
                 }
             }
@@ -536,7 +536,7 @@ void decode_block(short *d, short n)
 /*
  * sdk:      decode_block_sub (jpegdec.o)
  *
- * AAN integer IDCT: pass 1 dequantises through qy[n..] into mtx[2], pass 2
+ * AAN integer IDCT: pass 1 dequantises through gJpegQuantTables[n..] into mtx[2], pass 2
  * range-limits through limits+0x180 (gJpegDecodeClampTable) into d.  The odd-part sum
  * is spelled tmp5 + tmp10 in both passes (operand order of the add).
  */
@@ -555,14 +555,14 @@ void decode_block_sub(short *s, short *d, int n)
             mtx[2][8 * 2 + i] = mtx[2][8 * 3 + i] =
             mtx[2][8 * 4 + i] = mtx[2][8 * 5 + i] =
             mtx[2][8 * 6 + i] = mtx[2][8 * 7 + i] =
-                s[8 * 0 + i] * qy[n + 8 * 0 + i];
+                s[8 * 0 + i] * gJpegQuantTables[n + 8 * 0 + i];
             continue;
         }
 
-        tmp0 = s[8 * 0 + i] * qy[n + 8 * 0 + i];
-        tmp1 = s[8 * 2 + i] * qy[n + 8 * 2 + i];
-        tmp2 = s[8 * 4 + i] * qy[n + 8 * 4 + i];
-        tmp3 = s[8 * 6 + i] * qy[n + 8 * 6 + i];
+        tmp0 = s[8 * 0 + i] * gJpegQuantTables[n + 8 * 0 + i];
+        tmp1 = s[8 * 2 + i] * gJpegQuantTables[n + 8 * 2 + i];
+        tmp2 = s[8 * 4 + i] * gJpegQuantTables[n + 8 * 4 + i];
+        tmp3 = s[8 * 6 + i] * gJpegQuantTables[n + 8 * 6 + i];
 
         tmp10 = tmp0 + tmp2;
         tmp11 = tmp0 - tmp2;
@@ -575,10 +575,10 @@ void decode_block_sub(short *s, short *d, int n)
         tmp1 = tmp11 + tmp12;
         tmp2 = tmp11 - tmp12;
 
-        tmp4 = s[8 * 1 + i] * qy[n + 8 * 1 + i];
-        tmp5 = s[8 * 3 + i] * qy[n + 8 * 3 + i];
-        tmp6 = s[8 * 5 + i] * qy[n + 8 * 5 + i];
-        tmp7 = s[8 * 7 + i] * qy[n + 8 * 7 + i];
+        tmp4 = s[8 * 1 + i] * gJpegQuantTables[n + 8 * 1 + i];
+        tmp5 = s[8 * 3 + i] * gJpegQuantTables[n + 8 * 3 + i];
+        tmp6 = s[8 * 5 + i] * gJpegQuantTables[n + 8 * 5 + i];
+        tmp7 = s[8 * 7 + i] * gJpegQuantTables[n + 8 * 7 + i];
 
         z13 = tmp6 + tmp5;
         z10 = tmp6 - tmp5;
@@ -678,20 +678,20 @@ int loadbit(u8 *data, int *pos)
  *
  * closed (lane09, 2026-10-01): full rewrite from the listing and DWARF.
  *   (1) the "bcode2 struct" is the separate jpegdec.o .bss statics
- *   (bcode2, SSPiInputDataSize, chit, bitlen, ts, SSPiErrorFlag, ti ...),
- *   declared as in sibling 021BE5C4; ts is a short table and ti an int table
+ *   (bcode2, SSPiInputDataSize, chit, bitlen, sJpegHuffShortTable, SSPiErrorFlag, sJpegHuffIntTable ...),
+ *   declared as in sibling 021BE5C4; sJpegHuffShortTable is a short table and sJpegHuffIntTable an int table
  *   (index s+0x46 and 17+s, matching the bounds checks), stored in that order.
  *   (2) only the DWARF locals v, t, s: t is the peek/code, s the code length,
  *   and the 9-bit refill reads its byte into s (the first refill uses t); that
  *   variable identity fixed the walk's r6/r7/r8 colours. (3) DWARF order:
- *   declared v, t, s. Each switch arm checks then does t = jw[...]; break;
+ *   declared v, t, s. Each switch arm checks then does t = gJpegHuffmanWork[...]; break;
  *   default returns t.
  *
  * sdk:      hloadbit (libssp.TWL.HYB.a jpegdec.o)
  *
- * Huffman decode of one coefficient for table n: an 8-bit fast lookup in jw,
+ * Huffman decode of one coefficient for table n: an 8-bit fast lookup in gJpegHuffmanWork,
  * else a 9+ bit canonical walk against the maxcode/mincode/valptr tables at
- * jw + ntbl[n], every jw index bounds-checked (error flag, return 0).
+ * gJpegHuffmanWork + ntbl[n], every gJpegHuffmanWork index bounds-checked (error flag, return 0).
  */
 
 int hloadbit(u8 *b, int *p, int n)
@@ -701,8 +701,8 @@ int hloadbit(u8 *b, int *p, int n)
     int s;
 
     v = ntbl[n];
-    ts = (short *)(jw + v);
-    ti = (int *)(jw + v);
+    sJpegHuffShortTable = (short *)(gJpegHuffmanWork + v);
+    sJpegHuffIntTable = (int *)(gJpegHuffmanWork + v);
 
     if (bitlen < 8) {
         bcode2 <<= 8;
@@ -724,13 +724,13 @@ int hloadbit(u8 *b, int *p, int n)
         SSPiErrorFlag = 1;
         return 0;
     }
-    if (jw[v + 0xae + t] != 0) {
-        bitlen -= jw[v + 0xae + t];
+    if (gJpegHuffmanWork[v + 0xae + t] != 0) {
+        bitlen -= gJpegHuffmanWork[v + 0xae + t];
         if (v + 0x1ae + t < 0 || v + 0x1ae + t >= 6144) {
             SSPiErrorFlag = 1;
             return 0;
         }
-        return jw[v + 0x1ae + t];
+        return gJpegHuffmanWork[v + 0x1ae + t];
     }
 
     while (bitlen < 9) {
@@ -755,7 +755,7 @@ int hloadbit(u8 *b, int *p, int n)
         SSPiErrorFlag = 1;
         return 0;
     }
-    while (t > ti[17 + s]) {
+    while (t > sJpegHuffIntTable[17 + s]) {
         if (bitlen == 0) {
             if (*p + 1 >= SSPiInputDataSize)
                 return 0;
@@ -784,32 +784,32 @@ int hloadbit(u8 *b, int *p, int n)
 
     switch (n) {
     case 0:
-        if (t + ts[s + 0x46] - ti[s] + 0x14 < 0 || t + ts[s + 0x46] - ti[s] + 0x14 >= 6144) {
+        if (t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x14 < 0 || t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x14 >= 6144) {
             SSPiErrorFlag = 1;
             return 0;
         }
-        t = jw[t + ts[s + 0x46] - ti[s] + 0x14];
+        t = gJpegHuffmanWork[t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x14];
         break;
     case 1:
-        if (t + ts[s + 0x46] - ti[s] + 0x38 < 0 || t + ts[s + 0x46] - ti[s] + 0x38 >= 6144) {
+        if (t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x38 < 0 || t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x38 >= 6144) {
             SSPiErrorFlag = 1;
             return 0;
         }
-        t = jw[t + ts[s + 0x46] - ti[s] + 0x38];
+        t = gJpegHuffmanWork[t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x38];
         break;
     case 2:
-        if (t + ts[s + 0x46] - ti[s] + 0x14c < 0 || t + ts[s + 0x46] - ti[s] + 0x14c >= 6144) {
+        if (t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x14c < 0 || t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x14c >= 6144) {
             SSPiErrorFlag = 1;
             return 0;
         }
-        t = jw[t + ts[s + 0x46] - ti[s] + 0x14c];
+        t = gJpegHuffmanWork[t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x14c];
         break;
     case 3:
-        if (t + ts[s + 0x46] - ti[s] + 0x170 < 0 || t + ts[s + 0x46] - ti[s] + 0x170 >= 6144) {
+        if (t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x170 < 0 || t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x170 >= 6144) {
             SSPiErrorFlag = 1;
             return 0;
         }
-        t = jw[t + ts[s + 0x46] - ti[s] + 0x170];
+        t = gJpegHuffmanWork[t + sJpegHuffShortTable[s + 0x46] - sJpegHuffIntTable[s] + 0x170];
         break;
     }
     return t;
@@ -1220,7 +1220,7 @@ int SSP_StartJpegDecoder(unsigned char *data, unsigned long size, void *dst,
             MI_CpuFill8(data + offset, 0, 0x1c);
             if (OS_IsRunOnTwl())
                 AESi_Init();
-            aesResult = AESi_VerifySignForJpeg(sign, (unsigned int)data, size);
+            aesResult = AESi_VerifySignForJpeg(sign, (uptr)data, size);
             MI_CpuCopy8(sign, data + offset, 0x1c);
             if (aesResult != 1)
                 return 0;

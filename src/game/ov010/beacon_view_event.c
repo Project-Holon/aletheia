@@ -43,7 +43,7 @@
 
 #include "../arm9/mi_memory.h"
 
-#define OVERLAY_ID_216 ((u32)ov216_id)
+#define OVERLAY_ID_216 ((uptr)ov216_id)
 
 /* Argument block of the overlay 216 process. */
 typedef struct BeaconSearchProcArgs {

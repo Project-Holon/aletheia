@@ -129,8 +129,8 @@ StaActLightObject *STA_ACT_LIGHT_CreateUnit(u16 heap,void *a)
     CLACT_SetUnitDefaultRenderer(p->bank);
     q=ARC_TOOL_CreateHandle((unsigned int)47,p->heap);
     p->palette=CLACT_RegisterPalette((void *)q,4,0,0,p->heap);
-    p->character=CLACT_RegisterCharacter((void *)((u32)q),10,0,0,p->heap);
-    p->cellAnim=CLACT_RegisterCellAnim((void *)((u32)q),20,23,p->heap);
+    p->character=CLACT_RegisterCharacter((void *)((uptr)q),10,0,0,p->heap);
+    p->cellAnim=CLACT_RegisterCellAnim((void *)((uptr)q),20,23,p->heap);
     ARC_TOOL_DeleteHandle(q);
     return p;
 }

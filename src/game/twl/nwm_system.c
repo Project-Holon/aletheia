@@ -71,21 +71,21 @@ void NWMi_ClearFifoRecvFlag(void) {
     u8 val;
     u8 *r5;
     u32 r4;
-    u32 base = NWMi_SysWorkPtr[0];
+    uptr base = NWMi_SysWorkPtr[0];
     if (base != 0) {
         r5 = (u8 *)*(u32 *)(base + 0x2274);
         r4 = 1;
-        DC_InvalidateRange((u32)r5, r4);
+        DC_InvalidateRange((uptr)r5, r4);
         val = r5[0];
         if (val & 1) {
             r5[0] = val & 0xFE;
-            DC_StoreRange((u32)r5, r4);
+            DC_StoreRange((uptr)r5, r4);
         }
     }
 }
 
 void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err) {
-    u32 base = NWMi_SysWorkPtr[0];
+    uptr base = NWMi_SysWorkPtr[0];
     void (*handler)(Msg *);
     u32 type;
     if (base == 0) {
@@ -102,8 +102,8 @@ void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err) {
     }
     DC_InvalidateRange(*(u32 *)(base + 0x227C), 0x100);
     DC_InvalidateRange(*(u32 *)(base + 0x2278), 0xC0);
-    if ((u32)msg != *(u32 *)(base + 0x227C)) {
-        DC_InvalidateRange((u32)msg, 0x100);
+    if ((uptr)msg != *(u32 *)(base + 0x227C)) {
+        DC_InvalidateRange((uptr)msg, 0x100);
     }
     type = msg->type;
     if ((type == 3 && msg->sub != 0) || (type == 4 && msg->sub == 0) || type == 0x13) {
@@ -126,8 +126,8 @@ void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err) {
             handler(msg);
         }
     }
-    MI_CpuFill8((u32)msg, 0, 0x100);
-    DC_StoreRange((u32)msg, 0x100);
+    MI_CpuFill8((uptr)msg, 0, 0x100);
+    DC_StoreRange((uptr)msg, 0x100);
     if (base != 0) {
         NWMi_ClearFifoRecvFlag();
     }
@@ -194,7 +194,7 @@ u16 NWM_GetDispersionScanPeriod(u32 type) {
 }
 
 void NWMi_RegisterSleepCallback(void) {
-    NWMi_SysWorkPtr[5] = (u32)NwmSleepCallback;
+    NWMi_SysWorkPtr[5] = (uptr)NwmSleepCallback;
     NWMi_SysWorkPtr[6] = 0;
     PMi_InsertPreSleepCallbackEx((struct PMiGenCallbackInfo *)NWMi_PreSleepInfo, 0xFFFF);
 }

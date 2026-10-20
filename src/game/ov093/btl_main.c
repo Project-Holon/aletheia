@@ -1723,9 +1723,9 @@ int BTL_MAIN_CheckEventOverlayAllowed(struct BtlMain *main)
 {
     int r;
     if (main->setup->competitor <= 1) {
-        GF_OVERLAY_Load((int)ov231_id);
+        GF_OVERLAY_Load((sptr)ov231_id);
         r = CARD_SPI_CheckCardId();
-        GF_OVERLAY_Unload((int)ov231_id);
+        GF_OVERLAY_Unload((sptr)ov231_id);
         if (r == 0) {
             return 0;
         }
@@ -1798,7 +1798,7 @@ u32 BTL_MAIN_GetZukanSeenCount(struct BtlMain *main)
 
 u32 BTL_MAIN_GetGameData(struct BtlMain *main)
 {
-    return (u32)main->setup->gameData;
+    return (uptr)main->setup->gameData;
 }
 
 void BTL_MAIN_RegisterZukanSeen(struct BtlMain *main, unsigned char doRegister, void *mon) { if(BTL_MAIN_GetCompetitor(main)<=1 && doRegister!=0) ZUKAN_SAVE_RegisterSeen(main->setup->zukanWork,BTL_POKEPARAM_GetMon(mon)); }
@@ -2388,7 +2388,7 @@ void BTL_MAIN_AddItemToBag(struct BtlMain *main, u8 clientId, u32 itemId)
  */
 u32 BTL_MAIN_GetMyItem(struct BtlMain *main)
 {
-    return (u32)main->setup->myItem;
+    return (uptr)main->setup->myItem;
 }
 
 /*
@@ -2775,7 +2775,7 @@ void BTL_SIDE_WriteBackPartyOrdered(struct BtlSide *side, struct BtlMain *main, 
 
 int BTL_SIDE_GetParty(struct BtlSide *side, int clientId)
 {
-    return (int)side->parties[clientId];
+    return (sptr)side->parties[clientId];
 }
 
 int BTL_SIDE_FindPokeIndexInClient(struct BtlSide *side, int clientId, int pokeId)
@@ -3261,7 +3261,7 @@ u16 BTL_MAIN_GetTrainerItem(struct BtlMain *main, int slot, unsigned int index)
 u32 BTL_MAIN_GetTrainerNameAndType(struct BtlMain *main, int slot, u32 *outTrainerType)
 {
     *outTrainerType = main->trainers[slot].trainerType;
-    return (u32)main->trainers[slot].name;
+    return (uptr)main->trainers[slot].name;
 }
 
 int BTL_MAIN_GetTrainerAiFlags(struct BtlMain *main, int slot)
@@ -3305,7 +3305,7 @@ struct PmsData *BTL_MAIN_GetTrainerSentence(struct BtlMain *main, int slot, int 
 int BTL_MAIN_GetTrainerHandle(struct BtlMain *main, int slot)
 {
     if (BTL_MAIN_IsTrainerSlotNpc(main, slot)) return 0;
-    return (int)main->trainers[slot].handle;
+    return (sptr)main->trainers[slot].handle;
 }
 
 /*
@@ -3319,7 +3319,7 @@ struct MyStatus *BTL_MAIN_UpdateCommPlayerSupport(struct BtlMain *main)
 /*
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: movs r1, #0xaf; lsls r1, r1, #2; ldr r0, [r0, r1]; bx lr.
  */
-u32 BTL_MAIN_GetField(struct BtlMain *main) { return (u32)main->field; }
+u32 BTL_MAIN_GetField(struct BtlMain *main) { return (uptr)main->field; }
 
 void BTL_MAIN_CreateParties(struct BtlMain *main)
 {
@@ -3453,7 +3453,7 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
     struct Party *party;
     u32 n, move, ownPartnerClient, i0, k, slot;
     struct BtlSideSlot *group;
-    u32 count, total, maximum, i, base, j, rowObj;
+    u32 count, total, maximum; uptr i; u32 base; uptr j; u32 rowObj;
     void *old, *mon;
     struct BtlPokeParam *poke;
     u32 rowFainted, rowStart, rowStatus;
@@ -3486,7 +3486,7 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
     if (main->setup->competitor == 4) return;
     for (k = 0; k < 4; k++) {
         slot = BTL_MAIN_GetRelativeClientIndex((u8)main->ownClientId, (u8)k);
-        for (j = 0; j < 6; j++) { rowObj = (u32)main->setup; rowStart = slot * 6; *(u8 *)(j + (rowStart + rowObj) + 0xc8) = 0; }
+        for (j = 0; j < 6; j++) { rowObj = (uptr)main->setup; rowStart = slot * 6; *(u8 *)(j + (rowStart + rowObj) + 0xc8) = 0; }
         if (BTL_MAIN_IsClientUsed(main, (u8)slot)) {
             group = BTL_SIDE_GetSlotOfClient(&main->sides[0], slot);
             count = BTL_SLOT_GetCount(group);
@@ -3497,8 +3497,8 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
                 i = (u8)(BTL_POKEPARAM_GetPokeId(poke) - base);
                 total += BTL_POKEPARAM_GetValue(poke, 13);
                 maximum += BTL_POKEPARAM_GetValue(poke, 14);
-                if (BTL_POKEPARAM_IsFainted(poke)) { rowObj = (u32)main->setup; rowFainted = slot * 6; *(u8 *)(i + (rowFainted + (u32)main->setup) + 0xc8) = 2; }
-                else if (BTL_POKEPARAM_GetMajorStatusIndex(poke)) { rowObj = (u32)main->setup; rowStatus = slot * 6; *(u8 *)(i + (rowStatus + rowObj) + 0xc8) = 1; }
+                if (BTL_POKEPARAM_IsFainted(poke)) { rowObj = (uptr)main->setup; rowFainted = slot * 6; *(u8 *)(i + (rowFainted + (uptr)main->setup) + 0xc8) = 2; }
+                else if (BTL_POKEPARAM_GetMajorStatusIndex(poke)) { rowObj = (uptr)main->setup; rowStatus = slot * 6; *(u8 *)(i + (rowStatus + rowObj) + 0xc8) = 1; }
             }
             *(u32 *)((char *)main->setup + slot * 4 + 0xe0) = (total * 100) / maximum;
         }
@@ -3660,7 +3660,7 @@ void BTL_MAIN_StartClientMainSteps(struct BtlMain *main)
 
 u32 BTL_MAIN_GetServerFlow(struct BtlMain *main)
 {
-    return (u32)BTL_SERVER_GetFlow(main->server);
+    return (uptr)BTL_SERVER_GetFlow(main->server);
 }
 
 void BTL_SETUP_ClearResultStats(struct BattleSetupParam *setup)

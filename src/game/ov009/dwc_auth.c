@@ -495,7 +495,7 @@ int DWCi_Auth_FillResult(void)
         return 14;
     }
     returncode = strtol(gDwcAuthGlobal.auth->result.retcode, (char **)(&endptr), 10);
-    if (endptr != gDwcAuthGlobal.auth->result.retcode + strlen((const u8 *)gDwcAuthGlobal.auth->result.retcode)) {
+    if (endptr != gDwcAuthGlobal.auth->result.retcode + strlen(gDwcAuthGlobal.auth->result.retcode)) {
         gDwcAuthGlobal.auth->result.returncode = 20101;
         return 12;
     }
@@ -529,14 +529,14 @@ int DWCi_Auth_Prepare_FirstPost(DWCHttp *http, char *gsbrcd, unsigned short *ing
 
     if (gDwcAuthGlobal.userid == 0)
     {
-        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelAction, gDwcAuthPostValueAcctCreate, strlen((const u8 *)gDwcAuthPostValueAcctCreate)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelAction, gDwcAuthPostValueAcctCreate, strlen(gDwcAuthPostValueAcctCreate)) != 0)
             return 8;
     }
     else
     {
-        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelAction, gDwcAuthPostValueLogin, strlen((const u8 *)gDwcAuthPostValueLogin)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelAction, gDwcAuthPostValueLogin, strlen(gDwcAuthPostValueLogin)) != 0)
             return 8;
-        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelGsbrcd, gsbrcd, strlen((const u8 *)gsbrcd)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelGsbrcd, gsbrcd, strlen(gsbrcd)) != 0)
             return 8;
     }
 
@@ -547,7 +547,7 @@ int DWCi_Auth_Prepare_FirstPost(DWCHttp *http, char *gsbrcd, unsigned short *ing
 
     if (gDwcAuthGlobal.useWfc == 1)
     {
-        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelIsWfc, gDwcAuthPostValueIsWfc, strlen((const u8 *)gDwcAuthPostValueIsWfc)) != 0)
+        if (DWC_Http_Add_PostBase64Item(http, gDwcAuthPostLabelIsWfc, gDwcAuthPostValueIsWfc, strlen(gDwcAuthPostValueIsWfc)) != 0)
             return 8;
     }
 

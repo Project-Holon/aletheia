@@ -169,9 +169,9 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
     gDwcProfWorkarea->result = result;
     gDwcProfWorkarea->badwordsnum = badwordsnum;
     gDwcProfWorkarea->wordsnum = wordsnum;
-    strncpy((u8 *)gDwcProfWorkarea->url, (const u8 *)gDwcHttpParamArg.url, 256);
+    strncpy(gDwcProfWorkarea->url, gDwcHttpParamArg.url, 256);
     gDwcProfWorkarea->url[256] = '\0';
-    pos = (char *)strstr((unsigned char *)gDwcProfWorkarea->url, (unsigned char *)gDwcProfPathAc);
+    pos = (char *)strstr(gDwcProfWorkarea->url, gDwcProfPathAc);
     if (pos == 0)
         goto error;
     MI_CpuCopy8(gDwcProfPathPr, pos, 4);

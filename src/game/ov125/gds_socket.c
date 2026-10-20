@@ -124,7 +124,6 @@ extern int GDS_SOCKET_GetErrorUnlocked(void);
 extern void *GDS_SOCKET_GetReplyUnlocked(void);
 extern int GDS_SOCKET_GetReplySizeUnlocked(void);
 extern int GDS_SOCKET_SendRequest(int requestId, void *body, void *replyBuffer, int bodySize);
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../arm9/os_entropy.h"
 #include "../ov009/ssl.h"
@@ -229,7 +228,7 @@ int GDS_SOCKET_Start(const char *host, int port, GdsClientInfo *client)
 void GDS_SOCKET_ResetConnection(void) {
  GDS_SOCKET_Close();
  if(gGdsSocket->sendBuffer) {
-  GDS_SOCKET_Free((int)gGdsSocket->sendBuffer);
+  GDS_SOCKET_Free((sptr)gGdsSocket->sendBuffer);
   gGdsSocket->sendBuffer=0;
  }
  gGdsSocket->connectTimeout=15;
@@ -287,7 +286,7 @@ void GDS_SOCKET_RunConnection(void)
                 finish = 1;
             } else next = 6;
             if (gGdsSocket->sendBuffer) {
-                GDS_SOCKET_Free((int)gGdsSocket->sendBuffer);
+                GDS_SOCKET_Free((sptr)gGdsSocket->sendBuffer);
                 gGdsSocket->sendBuffer = 0;
             }
             GDS_SOCKET_Lock();
@@ -921,6 +920,6 @@ void GDS_SOCKET_FreeSslServerName(CPSSslConnection *con)
     name = con->hostName;
     if (name == 0)
         return;
-    GDS_SOCKET_Free((int)name);
+    GDS_SOCKET_Free((sptr)name);
     con->hostName = 0;
 }

@@ -140,12 +140,12 @@ void EGG_DEMO_MENU_Create(int unused,char *work)
 {
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,32,32,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->windowSub=(void *)BMP_WIN_Create(1,0,0,1,1,1,0);
-    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((struct EggDemoWork *)work)->windowSub)),0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((struct EggDemoWork *)work)->windowSub)),0);
     BMP_WIN_TransferChars((struct BmpWin *)((struct EggDemoWork *)work)->windowSub);
     ((struct EggDemoWork *)work)->window=(void *)BMP_WIN_Create(1,1,19,30,4,1,0);
-    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((struct EggDemoWork *)work)->window)),15);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((struct EggDemoWork *)work)->window)),15);
     BMP_WIN_TransferChars((struct BmpWin *)((struct EggDemoWork *)work)->window);
-    ((struct EggDemoWork *)work)->frameGfx=(u32)BMP_MENUWORK_LoadFrameGfx((unsigned int)1,2,0,((struct EggDemoWork *)work)->heapId);
+    ((struct EggDemoWork *)work)->frameGfx=(uptr)BMP_MENUWORK_LoadFrameGfx((unsigned int)1,2,0,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->msgBank=MSGDATA_CreateFromArchive(0,3,260,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->tcbl=TCBL_Create(((struct EggDemoWork *)work)->heapId,((struct EggDemoWork *)work)->heapId,1,0);
     GF_FONT_SetTextColor(1,2,15);
@@ -199,7 +199,7 @@ void EGG_DEMO_MENU_SetText(char *args,char *work,unsigned entry)
     WORDSET_CopyTaggedText(words,buffer,text);
     WORDSET_Delete(words);
     STRBUF_Delete(text);
-    ((struct EggDemoWork *)work)->printStream=PRINTSYS_PrintStream((struct BmpWin *)(((struct EggDemoWork *)work)->window),0,0,(struct Strbuf *)(((struct EggDemoWork *)work)->textBuf),(struct GfFont *)((unsigned int)((struct EggDemoWork *)work)->font),MSG_SPEED_GetWait(),(struct Tcbl *)(((struct EggDemoWork *)work)->tcbl),2,((struct EggDemoWork *)work)->heapId,15);
+    ((struct EggDemoWork *)work)->printStream=PRINTSYS_PrintStream((struct BmpWin *)(((struct EggDemoWork *)work)->window),0,0,(struct Strbuf *)(((struct EggDemoWork *)work)->textBuf),(struct GfFont *)((uptr)((struct EggDemoWork *)work)->font),MSG_SPEED_GetWait(),(struct Tcbl *)(((struct EggDemoWork *)work)->tcbl),2,((struct EggDemoWork *)work)->heapId,15);
 }
 
 int EGG_DEMO_MENU_WaitText(void *unused,char *work)

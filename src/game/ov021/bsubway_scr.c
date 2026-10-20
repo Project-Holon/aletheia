@@ -491,7 +491,7 @@ extern const TrainerNoRange d_021DB3F4[];
  */
 int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem)
 {
-    return (int)GAME_DATA_SetCurrentEvent(GAMESYSTEM_GetGameData(gameSystem), 0);
+    return (sptr)GAME_DATA_SetCurrentEvent(GAMESYSTEM_GetGameData(gameSystem), 0);
 }
 
 BsubwayScrWork *BSUBWAY_SCR_CreateWork(GameSystem *gameSystem, int resume, u32 playMode)
@@ -625,13 +625,13 @@ void BSUBWAY_SCR_LoadMembers(BsubwayScrWork *work, u32 unused)
 {
     void *party;
     int i;
-    u32 mon;
+    uptr mon;
 
     work->memberNum = BSUBWAY_SCR_GetMemberNum(work->playMode);
     BSUBWAY_PLAYDATA_GetField(work->playData, 5, work->memberIndex);
     party = BSUBWAY_SCR_GetParty(work);
     for (i = 0; i < work->memberNum; i++) {
-        mon = (u32)POKEPARTY_GetMember(party, work->memberIndex[i]);
+        mon = (uptr)POKEPARTY_GetMember(party, work->memberIndex[i]);
         work->memberMonsNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
         work->memberItemNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 6, 0);
     }
@@ -665,9 +665,9 @@ void BSUBWAY_SCR_SavePlayDataMembers(BsubwayScrWork *work)
  */
 u32 BSUBWAY_SCR_ResetPlayMode(const struct GameSystem *gameSystem)
 {
-    u32 saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)GAMESYSTEM_GetGameData(gameSystem));
-    u32 playData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x39);
-    u32 scoreData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x3a);
+    u32 saveControl = (uptr)GAME_DATA_GetSaveControl((struct GameData *)GAMESYSTEM_GetGameData(gameSystem));
+    u32 playData = (uptr)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x39);
+    u32 scoreData = (uptr)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x3a);
     u8 playMode = BSUBWAY_PLAYDATA_GetField((struct BsubwayPlayData *)playData, 0, 0);
 
     BSUBWAY_PLAYDATA_ClearRound((struct BsubwayPlayData *)playData);
@@ -684,11 +684,11 @@ void BSUBWAY_SCR_SetLoseScore(u32 unused, BsubwayScrWork *work)
 {
     u16 winCount = work->winCount;
     u8 playMode = work->playMode;
-    u32 scoreData = (u32)work->scoreData;
+    u32 scoreData = (uptr)work->scoreData;
 
     BSUBWAY_SCOREDATA_SetWinCount((struct BsubwayScoreData *)scoreData, playMode, winCount);
     BSUBWAY_SCOREDATA_UpdateMaxWinCount((struct BsubwayScoreData *)scoreData, playMode, winCount);
-    BSUBWAY_SCR_SaveRecordParty(work, (u32)GAME_DATA_GetSaveControl(work->gameData), 1, winCount);
+    BSUBWAY_SCR_SaveRecordParty(work, (uptr)GAME_DATA_GetSaveControl(work->gameData), 1, winCount);
     BSUBWAY_SCOREDATA_ResetClearCount(work->scoreData, playMode);
     BSUBWAY_PLAYDATA_ClearRound(work->playData);
 }
@@ -819,7 +819,7 @@ u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, u32 unused)
 {
     void *party;
     u16 i;
-    u32 mon;
+    uptr mon;
 
     if (work->selectCancel != 0 || work->selectMode == 7 || work->selectMode == 8)
         return 0;
@@ -828,7 +828,7 @@ u32 BSUBWAY_SCR_SetSelectedMembers(BsubwayScrWork *work, u32 unused)
         if (work->selectPos[i] - 1 >= 6)
             work->selectPos[i] = 1;
         work->memberIndex[i] = work->selectPos[i] - 1;
-        mon = (u32)POKEPARTY_GetMember(party, work->memberIndex[i]);
+        mon = (uptr)POKEPARTY_GetMember(party, work->memberIndex[i]);
         work->memberMonsNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
         work->memberItemNo[i] = POKE_TOOL_GetPartyValue((void *)mon, 6, 0);
     }
@@ -863,7 +863,7 @@ void BSUBWAY_SCR_SetClearScore(BsubwayScrWork *work, u32 unused)
     BSUBWAY_SCOREDATA_SetWinCount(work->scoreData, playMode, winCount);
     BSUBWAY_SCOREDATA_UpdateMaxWinCount(work->scoreData, playMode, BSUBWAY_SCOREDATA_GetWinCount(work->scoreData, playMode));
     BSUBWAY_SCOREDATA_IncClearCount(work->scoreData, playMode);
-    BSUBWAY_SCR_SaveRecordParty(work, (u32)GAME_DATA_GetSaveControl(work->gameData), 1, winCount);
+    BSUBWAY_SCR_SaveRecordParty(work, (uptr)GAME_DATA_GetSaveControl(work->gameData), 1, winCount);
     BSUBWAY_PLAYDATA_ClearRound(work->playData);
 }
 
@@ -871,7 +871,7 @@ int BSUBWAY_SCR_ClearStateBits(BsubwayScrWork *work, u32 unused)
 {
     work->stateBits.winMaxReached = 0;
     work->stateBits.fixedBpMode = 0;
-    return (int)work;
+    return (sptr)work;
 }
 
 /*
@@ -889,7 +889,7 @@ void BSUBWAY_SCR_CreateRoundTrainers(BsubwayScrWork *work)
 
     switch (work->playMode) {
     case 4:
-        BSUBWAY_SAVEDATA_ExportTrainer((u32)work->wifiData, (u8 *)work->trainers, round, work->heapId);
+        BSUBWAY_SAVEDATA_ExportTrainer((uptr)work->wifiData, (u8 *)work->trainers, round, work->heapId);
         return;
     case 2:
     case 3:
@@ -1009,7 +1009,7 @@ void BSUBWAY_SCR_IncWinCount(BsubwayScrWork *work)
 int BSUBWAY_SCR_ClearWinCount(BsubwayScrWork *work)
 {
     work->winCount = 0;
-    return (int)work;
+    return (sptr)work;
 }
 
 void BSUBWAY_SCR_SetWinCountFromRound(BsubwayScrWork *work, u32 stage, u32 round)
@@ -1124,7 +1124,7 @@ void BSUBWAY_SCR_PackBattleMon(BattleMon *mon, u32 pokeParam)
         mon->ev[i] = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xd + i, 0);
     mon->ability = POKE_TOOL_GetPartyValue((void *)pokeParam, 0xa, 0);
     mon->friendship = POKE_TOOL_GetPartyValue((void *)pokeParam, 9, 0);
-    POKE_TOOL_GetPartyValue((void *)pokeParam, 0x74, (u32)mon->nick);
+    POKE_TOOL_GetPartyValue((void *)pokeParam, 0x74, (uptr)mon->nick);
 }
 
 /*
@@ -1143,7 +1143,7 @@ void BSUBWAY_SCR_SaveMemberParty(BsubwayScrWork *work, u32 unused, int slot)
     MI_CpuFill8(buf, 0, 0xb4);
     party = BSUBWAY_SCR_GetParty(work);
     for (; i < 3; i++)
-        BSUBWAY_SCR_PackBattleMon(&buf[i], (u32)POKEPARTY_GetMember(party, work->memberIndex[i]));
+        BSUBWAY_SCR_PackBattleMon(&buf[i], (uptr)POKEPARTY_GetMember(party, work->memberIndex[i]));
     BSUBWAY_SCOREDATA_SetRecordBlob(work->scoreData, slot, buf);
     MI_CpuFill8(buf, 0, 0xb4);
     GFL_HEAP_Free(buf);
@@ -1152,10 +1152,10 @@ void BSUBWAY_SCR_SaveMemberParty(BsubwayScrWork *work, u32 unused, int slot)
 int BSUBWAY_SCR_CmdCreateWork(u32 script, u32 scriptCtx)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork((void *)scriptCtx);
-    u32 gameSystem, resume;
+    uptr gameSystem; u32 resume;
 
     SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
-    gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
+    gameSystem = (uptr)SCRIPT_WORK_GetGameSystem(scriptWork);
     resume = VM_ReadU16((struct ScriptVm *)script);
     BSUBWAY_SCR_CreateWork((GameSystem *)gameSystem, resume, SCRIPT_WORK_ReadWorkValue((void *)script, (void *)scriptCtx));
     return 0;
@@ -1173,10 +1173,10 @@ int BSUBWAY_SCR_CmdClearWorkPtr(u32 script, u32 scriptCtx)
 int BSUBWAY_SCR_CmdDeleteWork(u32 script, u32 scriptCtx)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork((void *)scriptCtx);
-    u32 gameSystem;
+    uptr gameSystem;
 
     SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
-    gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
+    gameSystem = (uptr)SCRIPT_WORK_GetGameSystem(scriptWork);
     BSUBWAY_SCR_DeleteWork((GameSystem *)gameSystem, GAME_DATA_GetCurrentEvent(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)));
     return 0;
 }
@@ -1225,15 +1225,15 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     u8 byte10;
     int startedTask;
     void *scriptWork;
-    u32 gameSystem;
-    u32 gameData;
-    u32 saveControl;
-    u32 eventFlags;
+    uptr gameSystem;
+    uptr gameData;
+    uptr saveControl;
+    uptr eventFlags;
     BsubwayScrWork *work;
-    u32 playData;
+    uptr playData;
     u32 playMode;
-    u32 scoreData;
-    u32 wifiData;
+    uptr scoreData;
+    uptr wifiData;
     void *fieldMap;
     u16 operand1;
     u16 operand2;
@@ -1244,15 +1244,15 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     startedTask = 0;
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
     SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
-    gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
-    gameData = (u32)GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem);
-    saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)gameData);
-    eventFlags = (u32)GAME_DATA_GetEventWork((const struct GameData *)gameData);
+    gameSystem = (uptr)SCRIPT_WORK_GetGameSystem(scriptWork);
+    gameData = (uptr)GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem);
+    saveControl = (uptr)GAME_DATA_GetSaveControl((struct GameData *)gameData);
+    eventFlags = (uptr)GAME_DATA_GetEventWork((const struct GameData *)gameData);
     work = GAME_DATA_GetCurrentEvent((struct GameData *)gameData);
-    playData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x39);
+    playData = (uptr)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x39);
     playMode = BSUBWAY_PLAYDATA_GetField((struct BsubwayPlayData *)playData, 0, 0);
-    scoreData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x3a);
-    wifiData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x3b);
+    scoreData = (uptr)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x3a);
+    wifiData = (uptr)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x3b);
     fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
     cmd = VM_ReadU16(scriptCtx);
     operand1 = SCRIPT_WORK_ReadWorkValue(scriptCtx, (void *)script);
@@ -1347,7 +1347,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         BSUBWAY_SCOREDATA_AccessFlag((struct BsubwayScoreData *)scoreData, 10, 1);
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_SIGN_TABLE:
-        FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, data_021DAD88[operand1], (int)(&data_021DAD70[operand2]));
+        FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, data_021DAD88[operand1], (sptr)(&data_021DAD70[operand2]));
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_DOOR_STATE:
         FLDEFF_BTRAIN_SetAnime((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((struct FieldMap *)fieldMap), operand1);
@@ -1403,7 +1403,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         *resultDst = 0;
         if (npcObj != 0)
-            *resultDst = BSUBWAY_SCR_GetMmdlParam((u32)npcObj);
+            *resultDst = BSUBWAY_SCR_GetMmdlParam((uptr)npcObj);
         break;
     }
     case BSUBWAY_SCR_CMD_GET_RANK:
@@ -1424,7 +1424,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = FIELD_PLAYER_GetObjCodeOfFormCode(MYSTATUS_GetSex((const struct MyStatus *)((u8 *)GAME_DATA_GetMyPlayerWork((struct GameData *)gameData) + 0x20)) == 0 ? 1 : 0, 0);
         break;
     case BSUBWAY_SCR_CMD_IS_BATTLE_REC_SAVED: {
-        u32 recordSys = (u32)BATTLE_BOX_GetFromSave((void *)saveControl);
+        u32 recordSys = (uptr)BATTLE_BOX_GetFromSave((void *)saveControl);
         *resultDst = 0;
         if (BATTLE_BOX_HasMon((void *)recordSys) == 1)
             *resultDst = 1;
@@ -1434,7 +1434,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = 0;
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_SIGN_DEFAULT:
-        FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, 7, (int)data_021DAD70);
+        FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, 7, (sptr)data_021DAD70);
         break;
     case BSUBWAY_SCR_CMD_SET_NPC_ANIMATION: {
         void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
@@ -1484,7 +1484,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         u32 cancelFlag = 0;
         if (operand1 == 1)
             cancelFlag = 1;
-        SCRIPT_SYS_CallEvent(scriptWork, BSUBWAY_SCR_CreateYesNoMenuTask((void *)gameSystem, script, (u32)resultDst, cancelFlag));
+        SCRIPT_SYS_CallEvent(scriptWork, BSUBWAY_SCR_CreateYesNoMenuTask((void *)gameSystem, script, (uptr)resultDst, cancelFlag));
         startedTask = 1;
         break;
     }
@@ -1508,19 +1508,19 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     case BSUBWAY_SCR_CMD_START_OV007_PROC_A:
         procParam.mode = 0;
         procParam.result = resultDst;
-        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (void *)(&procParam)));
+        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (uptr)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (void *)(&procParam)));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_OV007_PROC_B:
         startedTask = 1;
         procParam.mode = 1;
         procParam.result = resultDst;
-        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (void *)(&procParam)));
+        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (uptr)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (void *)(&procParam)));
         break;
     case BSUBWAY_SCR_CMD_START_OV007_PROC_C:
         procParam.mode = 2;
         procParam.result = resultDst;
-        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (void *)(&procParam)));
+        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (uptr)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (void *)(&procParam)));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_101:
@@ -1757,7 +1757,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         work->msgState = 0;
         work->msgSubState = 0;
         work->msgNumber = operand1;
-        VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitBeginSave);
+        VM_SetWait(scriptCtx, (sptr)BSUBWAY_SCR_WaitBeginSave);
         work->stateBits.btlRecState = 2;
         startedTask = 1;
         break;
@@ -1778,7 +1778,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         work->btlRecProcParam.winCount = BSUBWAY_SCR_GetWinCount(work);
         if (work->btlRecProcParam.winCount > 9999)
             work->btlRecProcParam.winCount = 9999;
-        SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcCallbackEvent((char *)gameSystem, (int)fieldMap, (u32)ov214_id, (int)data_021BB474, (int)&work->btlRecProcParam, 0, 0));
+        SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcCallbackEvent((char *)gameSystem, (sptr)fieldMap, (uptr)ov214_id, (sptr)data_021BB474, (sptr)&work->btlRecProcParam, 0, 0));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_COMMIT_MODE_CLEAR:
@@ -1866,42 +1866,42 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_START_COMM_SESSION:
         if (work->stateBits.commMode == 1)
-            BSUBWAY_COMM_AddCommandTable((u32)work);
+            BSUBWAY_COMM_AddCommandTable(work);
         else
             BSUBWAY_COMM_NetInit(work);
         break;
     case BSUBWAY_SCR_CMD_START_COMM_CLOSE_TASK:
-        SCRIPT_SYS_CallEvent(scriptWork, BSUBWAY_SCR_CreateCommShutdownTask((void *)gameSystem, (u32)work));
+        SCRIPT_SYS_CallEvent(scriptWork, BSUBWAY_SCR_CreateCommShutdownTask((void *)gameSystem, (uptr)work));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_TIMING_SYNC:
         work->timingNo = operand1;
         work->resultWorkId = resultWorkId;
         BSUBWAY_COMM_StartTimingSync(work->timingNo);
-        VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitTimingSync);
+        VM_SetWait(scriptCtx, (sptr)BSUBWAY_SCR_WaitTimingSync);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_COMM_CHECK_A:
         work->commResultDst = resultDst;
         work->commTask = (void *)COMM_ENTRY_MENU_Create((struct MyStatus *)GAME_DATA_GetMyStatus((void *)gameData), fieldMap, 2, 2, 4, 0, 2, 0);
-        VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommEntryMenu);
+        VM_SetWait(scriptCtx, (sptr)BSUBWAY_SCR_WaitCommEntryMenu);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_COMM_CHECK_B:
         work->commResultDst = resultDst;
         work->commTask = (void *)COMM_ENTRY_MENU_Create((struct MyStatus *)GAME_DATA_GetMyStatus((void *)gameData), fieldMap, 2, 2, 4, 1, 2, 0);
         startedTask = 1;
-        VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommEntryMenuSimple);
+        VM_SetWait(scriptCtx, (sptr)BSUBWAY_SCR_WaitCommEntryMenuSimple);
         break;
     case BSUBWAY_SCR_CMD_SEND_COMM_COMMAND:
         BSUBWAY_COMM_SetSendData(work, operand1, operand2);
-        VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommSend);
+        VM_SetWait(scriptCtx, (sptr)BSUBWAY_SCR_WaitCommSend);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_COMM_RECEIVE:
         BSUBWAY_COMM_SetRecvMode(work, operand1);
         work->resultWorkId = resultWorkId;
-        VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommRecvEnd);
+        VM_SetWait(scriptCtx, (sptr)BSUBWAY_SCR_WaitCommRecvEnd);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_COMM_PLAYER_ID:
@@ -1911,7 +1911,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         MI_CpuFill8(&work->wifiProcParam, 0, 0x24);
         work->wifiProcParam.gameData = (GameData *)gameData;
         work->wifiProcParam.result = 11;
-        SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcCallbackEvent((char *)gameSystem, (int)fieldMap, (u32)ov100_id, (int)data_021BB6A4, (int)&work->wifiProcParam, 0, 0));
+        SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcCallbackEvent((char *)gameSystem, (sptr)fieldMap, (uptr)ov100_id, (sptr)data_021BB6A4, (sptr)&work->wifiProcParam, 0, 0));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_PROC_RESULT:
@@ -2004,7 +2004,7 @@ int BSUBWAY_SCR_WaitCommEntryMenu(u32 unused, u32 script)
     void *scriptWork;
     BsubwayScrWork *work;
     int commResult;
-    u32 zero;
+    uptr zero;
 
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
     SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
@@ -2041,7 +2041,7 @@ int BSUBWAY_SCR_WaitCommEntryMenuSimple(u32 unused, u32 script)
     void *scriptWork;
     BsubwayScrWork *work;
     int commResult;
-    u32 zero;
+    uptr zero;
 
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
     SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
@@ -2149,7 +2149,7 @@ int BSUBWAY_SCR_YesNoMenuMain(void *task, int *state, ScreenTaskWork *taskWork)
         (*state)++;
     case 1:
         if (SCRCMD_WORK_CountDownWait(taskWork->script) == 1) {
-            taskWork->screen = (u32)FIELD_MSGBG_CreateYesNoMenu((struct FieldMsgBg *)FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(taskWork->script))), taskWork->arg);
+            taskWork->screen = (uptr)FIELD_MSGBG_CreateYesNoMenu((struct FieldMsgBg *)FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(taskWork->script))), taskWork->arg);
             (*state)++;
         }
         break;
@@ -2439,7 +2439,7 @@ u32 BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct GameSystem *gameSyst
     POKEPARTY_InitEx(partyList, work->memberNum);
     for (i = 0; i < work->memberNum; i++)
         POKEPARTY_Add(partyList, POKEPARTY_GetMember(party, work->memberIndex[i]));
-    result = (u32)FLD_BTL_INST_TOOL_CreateBtlSetup((void *)gameSystem, partyList, work->playMode, work->trainers, &work->partners[work->stateBits.partnerNo], work->memberNum);
+    result = (uptr)FLD_BTL_INST_TOOL_CreateBtlSetup((void *)gameSystem, partyList, work->playMode, work->trainers, &work->partners[work->stateBits.partnerNo], work->memberNum);
     GFL_HEAP_Free(partyList);
     return result;
 }
@@ -2454,7 +2454,7 @@ void *BSUBWAY_SCR_GetNameinEncounterWork(void *work)
     return (char *)work + 0x74c;
 }
 
-static inline u16 RandInRange(BsubwayScrWork *work, u32 tbl, u32 round)
+static inline u16 RandInRange(BsubwayScrWork *work, uptr tbl, u32 round)
 {
     u16 span = ((const TrainerNoRange *)(tbl + round * 4))->maxNo - ((const TrainerNoRange *)(tbl + round * 4))->minNo + 1;
     return BSUBWAY_SCR_Random(work) % span + ((const TrainerNoRange *)(tbl + round * 4))->minNo;
@@ -2541,20 +2541,20 @@ u16 BSUBWAY_SCR_DrawTrainerNo(BsubwayScrWork *work, u32 round, u32 stage, u32 li
         if (round >= 3)
             goto done;
         if (stage < 6) {
-            id = RandInRange(work, (u32)d_021DB3D8, round);
+            id = RandInRange(work, (uptr)d_021DB3D8, round);
             goto done;
         }
         if (round >= 2)
             goto done;
-        id = RandInRange(work, (u32)d_021DB3D0, round);
+        id = RandInRange(work, (uptr)d_021DB3D0, round);
     } else {
         if (round >= 4)
             goto randomId;
         if (stage < 6) {
-            id = RandInRange(work, (u32)d_021DB3E4, round);
+            id = RandInRange(work, (uptr)d_021DB3E4, round);
             goto done;
         }
-        id = RandInRange(work, (u32)d_021DB3F4, round);
+        id = RandInRange(work, (uptr)d_021DB3F4, round);
         goto done;
 randomId:
         id = BSUBWAY_SCR_Random(work) % 100 + 200;

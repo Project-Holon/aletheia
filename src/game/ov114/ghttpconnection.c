@@ -58,7 +58,6 @@ typedef struct {
 } GHIGlobals;
 
 #include "ghttpcallbacks.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "ghttpbuffer.h"
 extern int ghiFreeConnection(GHIConnection *connection);
@@ -382,7 +381,7 @@ void ghiRedirectConnection(GHIConnection *connection)
         if (connection->encryptor.cleanupFunc != 0)
             connection->encryptor.cleanupFunc(connection, &connection->encryptor);
         connection->encryptor.interfaceCreated = 0;
-        if (strncmp((u8 *)sGhttpHttps2, (u8 *)connection->URL, 8) != 0) {
+        if (strncmp(sGhttpHttps2, connection->URL, 8) != 0) {
             connection->encryptor.engine = 0;
             connection->encryptor.mInterface = 0;
         }
@@ -416,9 +415,9 @@ char *ghiGetServerAddressFromUrl(char *serverUrl)
     char tempChar;
     char *serverAddress;
 
-    if (strncmp((u8 *)serverUrl, (u8 *)sGhttpHttp, 7) == 0)
+    if (strncmp(serverUrl, sGhttpHttp, 7) == 0)
         url = serverUrl + 7;
-    else if (strncmp((u8 *)serverUrl, (u8 *)sGhttpHttps2, 8) == 0)
+    else if (strncmp(serverUrl, sGhttpHttps2, 8) == 0)
         url = serverUrl + 8;
     else
         return 0;

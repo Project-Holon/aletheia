@@ -356,7 +356,7 @@ extern const WifibattlematchMenuConfig d_021E8D68;
 WifibattlematchUtilWork *WIFIBATTLEMATCH_UTIL_Create(int layer, int winType, unsigned short winWidth, unsigned short winHeight, int unused, int printArg, unsigned short heap)
 {
     WifibattlematchUtilWork *w;
-    int h;
+    sptr h;
 
     w = GFL_HEAP_Alloc(heap, 0x40, 0, d_021E8DD4, 0x5e);
     MI_CpuFill8(w, 0, 0x40);
@@ -366,7 +366,7 @@ WifibattlematchUtilWork *WIFIBATTLEMATCH_UTIL_Create(int layer, int winType, uns
     w->state = 3;
     w->heapId = heap;
     w->strbuf = (struct U16Vec *)STRBUF_Create(0x300, heap);
-    w->win = (int)BMP_WIN_Create((unsigned char)layer, 1, 0x13, 0x1e, 4, (unsigned char)winType, 1);
+    w->win = (sptr)BMP_WIN_Create((unsigned char)layer, 1, 0x13, 0x1e, 4, (unsigned char)winType, 1);
     w->winBmp = w->win;
     w->shown = 0;
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)w->win), (unsigned char)w->bgSlot);
@@ -406,13 +406,13 @@ void WIFIBATTLEMATCH_UTIL_Main(WifibattlematchUtilWork *p)
  switch(p->state) {
  case 2:
  printQue=p->printQue;
- if(p->shown!=0 && PRINTSYS_QUE_IsExistTarget(printQue,(void *)((unsigned)BMP_WIN_GetBmp((struct BmpWin *)p->winBmp)))==0) {
+ if(p->shown!=0 && PRINTSYS_QUE_IsExistTarget(printQue,(void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->winBmp)))==0) {
  BMP_WIN_TransferChars((struct BmpWin *)p->winBmp);p->shown=0;
  }
  break;
  case 0:
  printQue=p->printQue;
- if(p->shown!=0 && PRINTSYS_QUE_IsExistTarget(printQue,(void *)((unsigned)BMP_WIN_GetBmp((struct BmpWin *)p->winBmp)))==0) {
+ if(p->shown!=0 && PRINTSYS_QUE_IsExistTarget(printQue,(void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)p->winBmp)))==0) {
  BMP_WIN_TransferChars((struct BmpWin *)p->winBmp);p->shown=0;
  }
  p->busy=p->shown==0;
@@ -450,7 +450,7 @@ void WIFIBATTLEMATCH_UTIL_PrintMessage(WifibattlematchUtilWork *p, void *msgBank
  */
 void WIFIBATTLEMATCH_UTIL_SetMode(WifibattlematchUtilWork *p, int mode)
 {
-    int printQue;
+    sptr printQue;
 
     PRINTSYS_QUE_Clear((struct PrintQueue *)p->printQue);
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)p->win), (unsigned char)p->bgSlot);
@@ -466,13 +466,13 @@ void WIFIBATTLEMATCH_UTIL_SetMode(WifibattlematchUtilWork *p, int mode)
     switch (mode) {
     case 2:
         p->timeIcon = TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(), (void *)p->win, (unsigned char)p->bgSlot, 0x10, p->heapId);
-        printQue = (int)p->printQue;
+        printQue = (sptr)p->printQue;
         PRINTSYS_PrintQue((struct PrintQueue *)printQue, BMP_WIN_GetBmp((struct BmpWin *)p->winBmp), 0, 0, (void *)p->strbuf, (struct GfFont *)p->printArg);
         p->shown = 1;
         p->state = 0;
         break;
     case 0:
-        printQue = (int)p->printQue;
+        printQue = (sptr)p->printQue;
         PRINTSYS_PrintQue((struct PrintQueue *)printQue, BMP_WIN_GetBmp((struct BmpWin *)p->winBmp), 0, 0, (void *)p->strbuf, (struct GfFont *)p->printArg);
         p->shown = 1;
         p->state = 0;
@@ -482,8 +482,8 @@ void WIFIBATTLEMATCH_UTIL_SetMode(WifibattlematchUtilWork *p, int mode)
             GF_PANIC_Fail((const char *)d_021E8DEC, 0, (const char *)d_021E8DEC);
         }
         PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)(u8 *)&p->ctrlKeyReleased, 2);
-        p->keyCursor = (int)APP_KEYCURSOR_CreateDefault(p->bgSlot, 1, 0, p->heapId);
-        p->printStream = (void *)PRINTSYS_PrintStream((struct BmpWin *)(int)p->win, 0, 0, (struct Strbuf *)(int)p->strbuf, (struct GfFont *)p->printArg, MSG_SPEED_GetWait(), (struct Tcbl *)(int)p->tcbl, 0, p->heapId, p->bgSlot);
+        p->keyCursor = (sptr)APP_KEYCURSOR_CreateDefault(p->bgSlot, 1, 0, p->heapId);
+        p->printStream = (void *)PRINTSYS_PrintStream((struct BmpWin *)(int)p->win, 0, 0, (struct Strbuf *)(sptr)p->strbuf, (struct GfFont *)p->printArg, MSG_SPEED_GetWait(), (struct Tcbl *)(sptr)p->tcbl, 0, p->heapId, p->bgSlot);
         p->state = 1;
         break;
     }
@@ -508,7 +508,7 @@ void WIFIBATTLEMATCH_UTIL_StopTimeIcon(WifibattlematchUtilWork *p)
 
 void WIFIBATTLEMATCH_UTIL_ClearBmp(WifibattlematchUtilWork *p)
 {
-    int bmp = (int)BMP_WIN_GetBmp((struct BmpWin *)p->win);
+    int bmp = (sptr)BMP_WIN_GetBmp((struct BmpWin *)p->win);
 
     BMP_Clear((struct Bmp *)bmp, (unsigned char)p->bgSlot);
     BMP_WIN_TransferChars((struct BmpWin *)p->win);
@@ -547,12 +547,12 @@ WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(const WifibattlematchMenuDe
     for(index=0;index<p->count;index++)
         BMP_MENUWORK_AddMsgItem(out->entries,(struct MsgBank *)p->msgBank,p->items[index],index,(u16)heap);
     config=d_021E8D68;
-    config.word[0]=(u32)out->entries;
+    config.word[0]=(uptr)out->entries;
     *(u16 *)((u8 *)&config+0x10)=p->count;
     *(u16 *)((u8 *)&config+0x12)=p->count;
-    config.word[3]=(u32)out->win;
+    config.word[3]=(uptr)out->win;
     config.word[9]=p->msgBank;
-    config.word[10]=(u32)&out->win2;
+    config.word[10]=(uptr)&out->win2;
     config.word[11]=p->printQue;
     config.word[12]=p->font;
     out->menu=BMP_MENULIST_Create((struct BmpMenuListTemplate *)&config,0,p->row,heap);
@@ -576,11 +576,11 @@ void WIFIBATTLEMATCH_UTIL_DeleteMenu(WifibattlematchMenu *p)
 
 int WIFIBATTLEMATCH_UTIL_UpdateMenu(WifibattlematchMenu *p)
 {
-    int que = p->printQue;
+    sptr que = p->printQue;
     int result;
 
     if (p->flag != 0) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)que, (void *)((int)BMP_WIN_GetBmp((struct BmpWin *)p->win2))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)que, (void *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)p->win2))) == 0) {
             BMP_WIN_TransferChars((struct BmpWin *)p->win2);
             p->flag = 0;
         }
@@ -664,9 +664,9 @@ void WIFIBATTLEMATCH_UTIL_CommitRequest(u32 record)
 
 void WIFIBATTLEMATCH_UTIL_SetSaveState(int owner, int state)
 {
-    int save;
+    sptr save;
 
-    save = (int)RECORD_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)owner)));
+    save = (sptr)RECORD_GetFromSave((struct SaveControl *)(GAME_DATA_GetSaveControl((struct GameData *)owner)));
     switch (state) {
     case 1:
     case 4:

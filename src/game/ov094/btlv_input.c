@@ -1617,7 +1617,7 @@ void BTLV_INPUT_LoadCommonGraphics(BtlvInput *input)
     ARC_UTIL_UploadBgPaletteFromHandle(input->arc, 0x72, 7, 0, 0, 0, input->heap);
     PALANM_LoadHandlePaletteToSlot(input->palAnm, input->arc, 0x5c, input->heap, 1, 0x1e0, 0);
     if (input->infoWinEnabled == 1)
-        MIi_CpuCopy16((const void *)(PALANM_GetDefaultWork((char *)BTLV_EFFECT_GetPalanm(), 1) + 0x40), input->palBackup, 0x20);
+        MIi_CpuCopy16((const void *)(PALANM_GetDefaultWork(BTLV_EFFECT_GetPalanm(), 1) + 0x20), input->palBackup, 0x20);
     input->resCommonChr = CLACT_RegisterCharacter(input->arc, 0x73, 0, 1, input->heap);
     input->resCommonCell = CLACT_RegisterCellAnim(input->arc, 0x75, 0x76, input->heap);
     input->resCommonPal = CLACT_RegisterPalette(input->arc, 0x74, 1, 0, input->heap);
@@ -2960,7 +2960,7 @@ void BTLV_INPUT_DrawSelectScreenText(BtlvInput *input, const int *params)
     WORDSET_Delete((struct WordSet *)h);
     STRBUF_Delete(w);
     STRBUF_Delete(v);
-    PALANM_CopyToSlot(input->palAnm, (u16 *)(PALANM_GetDefaultWork((char *)BTLV_EFFECT_GetPalanm(), 1) + 0x40), 1, 0x70, 0x20);
+    PALANM_CopyToSlot(input->palAnm, PALANM_GetDefaultWork(BTLV_EFFECT_GetPalanm(), 1) + 0x20, 1, 0x70, 0x20);
 }
 
 void BTLV_INPUT_ClearButtonState(BtlvInput *input)

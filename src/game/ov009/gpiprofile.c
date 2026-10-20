@@ -59,7 +59,7 @@ struct HashImplementation;
 #include "gpiutility.h"
 #include "../arm9/msl_string_str.h"
 #include "gpicallback.h"
-extern int atoi(const char *s);
+#include "../arm9/msl_strtod.h"
 #include "gpioperation.h"
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 struct HashImplementation;
@@ -200,7 +200,7 @@ int gpiProcessNewProfile(void **connection, GPIOperation *operation, char *input
 
     if (gpiCheckForError(connection, input, 1))
         return 4;
-    if (strncmp((const u8 *)input, (const u8 *)gGpiProfileResponsePr, 5) != 0) {
+    if (strncmp(input, gGpiProfileResponsePr, 5) != 0) {
         gpiSetError(connection, 1, gGpiProfileErrorUnexpectedData);
         __result__ = 3;
         gpiCallErrorCallback((void **)connection, __result__, 1);
@@ -298,7 +298,7 @@ int gpiProcessDeleteProfle(void **connection, GPIOperation *operation, char *inp
 
     if (gpiCheckForError(connection, input, 1))
         return 4;
-    if (strncmp((const u8 *)input, (const u8 *)gGpiProfileResponseDpr, 5) != 0) {
+    if (strncmp(input, gGpiProfileResponseDpr, 5) != 0) {
         gpiSetError(connection, 1, gGpiProfileErrorUnexpectedData);
         gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
@@ -521,7 +521,7 @@ int gpiProcessRecvBlockedList(void **connection, char *input)
     }
     num = atoi(buffer);
 
-    str = (char *)strstr((unsigned char *)input, (unsigned char *)gGpiProfileKeyList);
+    str = (char *)strstr(input, gGpiProfileKeyList);
     if (!str) {
         gpiSetError(connection, 1, gGpiProfileErrorUnexpectedData);
         gpiCallErrorCallback((void **)connection, 3, 1);

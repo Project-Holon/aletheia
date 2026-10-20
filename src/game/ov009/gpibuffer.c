@@ -65,7 +65,6 @@
 
 #include "gsmemory.h"
 #include "gpiutility.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../arm9/os_printf.h"
 #include "gsplatformsocket.h"
@@ -170,7 +169,7 @@ int gpiAppendStringToBufferLen(void **connection, GPIBuffer *buffer, const char 
  */
 int gpiAppendStringToBuffer(void **connection, GPIBuffer *buffer, const char *string)
 {
-    return gpiAppendStringToBufferLen(connection, buffer, string, strlen((unsigned char *)string));
+    return gpiAppendStringToBufferLen(connection, buffer, string, strlen(string));
 }
 
 
@@ -345,7 +344,7 @@ int gpiSendOrBufferString(void **connection, GPIPeer *peer,
                           char *string)
 {
     return gpiSendOrBufferStringLenToPeer(connection, peer, string,
-                                          strlen((unsigned char *)string));
+                                          strlen(string));
 }
 
 
@@ -566,9 +565,9 @@ int gpiReadMessageFromBuffer(void **connection, GPIBuffer *inputBuffer, char **m
     *message = 0;
     if (inputBuffer->len < 5)
         return 0;
-    str = (char *)strchr((unsigned char *)inputBuffer->buffer, '\n');
+    str = (char *)strchr(inputBuffer->buffer, '\n');
     if (str != 0) {
-        if (strncmp((unsigned char *)(str - 5), (unsigned char *)g_021A45B4, 5) != 0)
+        if (strncmp((str - 5), g_021A45B4, 5) != 0)
             return 3;
         *str = 0;
         if (!gpiValueForKey(inputBuffer->buffer, g_021A45BC, intValue, 16))

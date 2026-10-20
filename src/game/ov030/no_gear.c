@@ -43,6 +43,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "../ov021/field_subscreen_types.h"
+#include "../sdk_ioreg.h"
 
 struct GameSystem;
 struct GameData;
@@ -91,7 +92,7 @@ extern struct BgTemplate gNoGearBgTemplateBack;
 extern char str_021F01C0[];
 #include "../types.h"
 struct NoGearWork;
-#define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
+#define REG_DB_BLDCNT_SUB  (*(volatile u16 *)REG_DB_BLDCNT_ADDR)
 
 void NO_GEAR_StoreStepFunc(void (**slot)(NoGearWork *), void (*stepFunc)(NoGearWork *))
 {

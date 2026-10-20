@@ -131,7 +131,7 @@ FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader)
  * code (see misplaced.tsv). */
 int FLDMMDL_CreateTalkScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
 {
-return (int)SCRIPT_SYS_CreateScriptEventSimple((void *)a, ((c << 16) >> 16), (void *)e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
+return (sptr)SCRIPT_SYS_CreateScriptEventSimple((void *)a, ((c << 16) >> 16), (void *)e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
 }
 
 void FLDMMDL_MOVE_VanishProc(void *mmdl, u32 unused1, u32 unused2, u32 unused3)

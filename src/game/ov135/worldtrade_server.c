@@ -145,6 +145,7 @@
  *   GFL_USE_GetRandom  0x020056EC  thumb  arm9
  */
 #include "../version.h"
+#include "../sdk_ioreg.h"
 #include "worldtrade_types.h"
 
 #include "../arm9/mi_memory.h"
@@ -498,7 +499,7 @@ void WORLDTRADE_SERVER_CallStateHandler(u8 *p)
     g_02203E94[*(u32 *)(p + 0x28)](p);
 }
 
-int WORLDTRADE_SERVER_Exit(WorldtradeWork *p) { if(GXx_GetMasterBrightness_((u16 *)0x0400106c)) WORLDTRADE_SUBLCD_SetSlotActorPositionsLower(p); WORLDTRADE_SERVER_DeleteStrings(p); WORLDTRADE_SERVER_DeleteWindows(p); WORLDTRADE_SERVER_ExitBgPlanes(); WORLDTRADE_TITLE_ExitBgPlanes(p); WORLDTRADE_AdvanceScreenId(p); return 0; }
+int WORLDTRADE_SERVER_Exit(WorldtradeWork *p) { if(GXx_GetMasterBrightness_((u16 *)REG_DB_MASTER_BRIGHT_ADDR)) WORLDTRADE_SUBLCD_SetSlotActorPositionsLower(p); WORLDTRADE_SERVER_DeleteStrings(p); WORLDTRADE_SERVER_DeleteWindows(p); WORLDTRADE_SERVER_ExitBgPlanes(); WORLDTRADE_TITLE_ExitBgPlanes(p); WORLDTRADE_AdvanceScreenId(p); return 0; }
 
 /*
  * Three-layer bring-up with all three layers 020414EC'd, tilemap clears for
@@ -1868,7 +1869,7 @@ int WORLDTRADE_SERVER_StateStartWipeOutRestore(WorldtradeWork *p)
 {
     WORLDTRADE_DeleteTimeIcon(p);
     if (p->eb4 == 1) {
-        if (GXx_GetMasterBrightness_((u16 *)0x0400106C) == -16)
+        if (GXx_GetMasterBrightness_((u16 *)REG_DB_MASTER_BRIGHT_ADDR) == -16)
             WIPE_SYS_Start((void *)3, 0, 0, 0, 6, 1, 0x48);
         else
             WIPE_SYS_Start(0, 0, 0, 0, 6, 1, 0x48);

@@ -35,7 +35,7 @@ void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
 
 u8 *memchr(u8 *s, u32 c, u32 n);
 
-int memcmp(const u8 *s1, const u8 *s2, u32 n);
+int memcmp(const void *buf1, const void *buf2, size_t n);
 
 void __fill_mem(u8 *dest, u32 val, u32 count);
 
@@ -125,8 +125,10 @@ u8 *memchr(u8 *s, u32 c, u32 n)
     return 0;
 }
 
-int memcmp(const u8 *s1, const u8 *s2, u32 n)
+int memcmp(const void *buf1, const void *buf2, size_t n)
 {
+    const u8 *s1 = (const u8 *)buf1;
+    const u8 *s2 = (const u8 *)buf2;
     u8 b1;
     u8 b2;
 

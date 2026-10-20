@@ -60,6 +60,7 @@
  *   PROCSYS_PushGlobal  0x020312CC  arm
  */
 #include "comm_player_support_shared_types.h"
+#include "../sdk_ioreg.h"
 #include "../types.h"
 #include "time_icon_shared_types.h"
 #include "save_event_shared_types.h"
@@ -68,15 +69,15 @@
 
 #define REG16(a) (*(volatile u16 *)(a))
 
-#define REG_BG1CNT_A        0x0400000A
+#define REG_BG1CNT_A        REG_BG1CNT_ADDR
 
-#define REG_BG1HOFS_A       0x04000014
+#define REG_BG1HOFS_A       REG_BG1OFS_ADDR
 
-#define REG_BLDCNT_A        0x04000050
+#define REG_BLDCNT_A        REG_BLDCNT_ADDR
 
-#define REG_MASTER_BRIGHT_A 0x0400006C
+#define REG_MASTER_BRIGHT_A REG_MASTER_BRIGHT_ADDR
 
-#define REG_MASTER_BRIGHT_B 0x0400106C
+#define REG_MASTER_BRIGHT_B REG_DB_MASTER_BRIGHT_ADDR
 
 struct MsgBank;
 
@@ -184,7 +185,7 @@ extern struct OverlayLaunchWork sOverlayLaunchWork;
 extern u8 sOverlayLaunchWorkArg[];
 
 /* Hardware registers (main engine, A) used by the shutdown display reset. */
-#define REG_DISPCNT_A       0x04000000
+#define REG_DISPCNT_A       REG_DISPCNT_ADDR
 
 /*
  * An unlabelled tail-call leaf (it saves nothing, so disasm.py prints it as
@@ -323,15 +324,15 @@ void APP_POWER_LoadShutdownScreen(void)
     GFL_HEAP_Free(res);
     res = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
     if (NNS_G2dGetUnpackedScreenData(res, (void **)(&screen)) != 0) {
-        DC_FlushRange((void *)((u32)screen + 0xc), screen[2]);
-        MIi_CpuCopy16((const void *)((u32)screen + 0xc), (void *)G2_GetBG1ScrPtr(), screenSize = screen[2]);
+        DC_FlushRange((void *)((uptr)screen + 0xc), screen[2]);
+        MIi_CpuCopy16((const void *)((uptr)screen + 0xc), (void *)G2_GetBG1ScrPtr(), screenSize = screen[2]);
     }
     GFL_HEAP_Free(res);
     res = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
     NNS_G2dGetUnpackedPaletteCompressInfo((struct NitroFileHeader *)res, (void **)(&paletteHeader));
     if (NNS_G2dGetUnpackedPaletteData((struct NitroFileHeader *)res, (void **)(&palette)) != 0) {
         DC_FlushRange((void *)(palette[3]), 0x20);
-        MIi_CpuCopy16((const void *)(palette[3]), (void *)0x05000000, 0x20);
+        MIi_CpuCopy16((const void *)(palette[3]), (void *)HW_BG_PLTT, 0x20);
     }
     GFL_HEAP_Free(res);
 }
@@ -368,8 +369,8 @@ void APP_POWER_DrawShutdownScreen(u32 messageId)
             tile = tile + 1;
         }
     }
-    MIi_CpuClear16(0x7777, (void *)((u32)G2_GetBG1CharPtr() + 0x400), 0x3C00);
-    bmp = BMP_CreateFromVram((void *)((u32)G2_GetBG1CharPtr() + 0x400), 0x1e, 0x10, 0x20, 7);
+    MIi_CpuClear16(0x7777, (void *)((uptr)G2_GetBG1CharPtr() + 0x400), 0x3C00);
+    bmp = BMP_CreateFromVram((void *)((uptr)G2_GetBG1CharPtr() + 0x400), 0x1e, 0x10, 0x20, 7);
     font = GF_FONT_Create(0x17, 0, 0, 0, 7);
     msgBank = MSGDATA_CreateFromArchive(0, 2, 2, 7);
     message = MSGDATA_AllocString(msgBank, messageId);
@@ -410,7 +411,7 @@ int OVERLAY_LAUNCH_Driver(void *unused, u32 *state)
 {
     switch (*state) {
     case 0:
-        PROCSYS_PushGlobal((u32)ov088_id, (const ProcData *)d_021BD8E8, (void *)&sOverlayLaunchWork.mode);
+        PROCSYS_PushGlobal((uptr)ov088_id, (const ProcData *)d_021BD8E8, (void *)&sOverlayLaunchWork.mode);
         *state = 1;
         break;
     case 1:
@@ -418,14 +419,14 @@ int OVERLAY_LAUNCH_Driver(void *unused, u32 *state)
         sOverlayLaunchWork.stage = 0;
         sOverlayLaunchWork.enabled = 1;
         sOverlayLaunchWork.aborted = 0;
-        PROCSYS_PushGlobal((u32)ov179_id, (const ProcData *)d_021B68D8, (void *)sOverlayLaunchWorkArg);
+        PROCSYS_PushGlobal((uptr)ov179_id, (const ProcData *)d_021B68D8, (void *)sOverlayLaunchWorkArg);
         *state = 2;
         break;
     case 2:
         if (sOverlayLaunchWork.aborted == 0) {
             sOverlayLaunchWork.stage = 1;
             sOverlayLaunchWork.aborted = 0;
-            PROCSYS_PushGlobal((u32)ov179_id, (const ProcData *)d_021B68D8, (void *)sOverlayLaunchWorkArg);
+            PROCSYS_PushGlobal((uptr)ov179_id, (const ProcData *)d_021B68D8, (void *)sOverlayLaunchWorkArg);
             *state = 3;
             break;
         }
@@ -434,11 +435,11 @@ int OVERLAY_LAUNCH_Driver(void *unused, u32 *state)
     case 3:
         sOverlayLaunchWork.stage = 2;
         sOverlayLaunchWork.aborted = 0;
-        PROCSYS_PushGlobal((u32)ov179_id, (const ProcData *)d_021B68D8, (void *)sOverlayLaunchWorkArg);
+        PROCSYS_PushGlobal((uptr)ov179_id, (const ProcData *)d_021B68D8, (void *)sOverlayLaunchWorkArg);
         *state = 4;
         break;
     case 4:
-        PROCSYS_PushGlobal((u32)ov088_id, (const ProcData *)d_021BD574, 0);
+        PROCSYS_PushGlobal((uptr)ov088_id, (const ProcData *)d_021BD574, 0);
         *state = 0;
         break;
     }

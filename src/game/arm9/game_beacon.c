@@ -738,7 +738,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     myStatus = GAME_DATA_GetMyStatus(gameData);
     save = GAME_DATA_GetSaveControl(gameData);
     misc = MISC_GetBlock(save);
-    pmsSave = GREETING_SAVEDATA_GetFromSaveThunk((u32)save);
+    pmsSave = GREETING_SAVEDATA_GetFromSaveThunk((uptr)save);
     OS_GetOwnerInfo(&ownerInfo);
     info->versionBit = 0xff;
     info->zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
@@ -1227,9 +1227,9 @@ void GAME_BEACON_RegisterClearCallback(void)
 {
     int result;
 
-    GF_OVERLAY_Load((int)ov231_id);
+    GF_OVERLAY_Load((sptr)ov231_id);
     result = CARD_SPI_CheckCardId();
-    GF_OVERLAY_Unload((int)ov231_id);
+    GF_OVERLAY_Unload((sptr)ov231_id);
     if (result == 0) {
         GFL_USE_AddHBlankTask(GAME_BEACON_ClearFlags, 0, 3);
     }

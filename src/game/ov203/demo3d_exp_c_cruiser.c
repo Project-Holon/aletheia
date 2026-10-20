@@ -106,7 +106,7 @@ void DEMO3D_EXP_C_CRUISER_LoadTextures(unsigned short heap)
 void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
 {
     Demo3dCruiserGfx *a;
-    int resource;
+    sptr resource;
     Demo3dCruiserActorConfig config;
     a = (Demo3dCruiserGfx *)GFL_HEAP_Alloc(p->heapId, 24, 1, d_021C3D5C, 0xB3);
     p->gfx = a;

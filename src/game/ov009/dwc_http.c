@@ -177,7 +177,6 @@ extern const char gDwcHttpEquals[];
 extern const char gDwcHttpAmpersand[];
 
 #include "../arm9/msl_strtod.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 /*
  * sdk:      DWC_Http_Create (libdwcauth.TWL.HYB.a dwc_http.o)
@@ -226,7 +225,7 @@ int DWC_Http_FinishHeader(char *http)
     if (DWC_Http_Add_HeaderItem(http, gDwcHttpHeaderConnection, gDwcHttpHeaderConnectionClose)) {
         return 1;
     }
-    contentlen = strlen((u8 *)(strstr((u8 *)(*(char **)(http + 0x1a34)), (u8 *)gDwcHttpHeaderTerminator) + 4));
+    contentlen = strlen((strstr((*(char **)(http + 0x1a34)), gDwcHttpHeaderTerminator) + 4));
     if (contentlen != 0) {
         OS_SNPrintf(str_contentlen, 7, gDwcHttpContentLengthFmt, contentlen);
         if (DWC_Http_Add_HeaderItem(http, gDwcHttpHeaderContentLength, str_contentlen)) {
@@ -314,19 +313,19 @@ int DWCi_Http_CheckHeaderReceived(char *http)
 
     hdr = *(char **)(http + 0x1a44);
     rep = (Buf *)(http + 0x1a44);
-    if (strstr((u8 *)hdr, (u8 *)gDwcHttpHeaderTerminator) == 0) {
+    if (strstr(hdr, gDwcHttpHeaderTerminator) == 0) {
         return 0;
     }
-    endof_header = (char *)(strstr((u8 *)hdr, (u8 *)gDwcHttpHeaderTerminator) + 4);
+    endof_header = (char *)(strstr(hdr, gDwcHttpHeaderTerminator) + 4);
     OS_LockMutex((struct OSMutex *)(http + 0x1a54));
     *(int *)(http + 0x1a70) = rep->cur - endof_header;
     OS_UnlockMutex((struct OSMutex *)(http + 0x1a54));
-    content_length = (char *)strstr((u8 *)rep->base, (u8 *)gDwcHttpContentLengthPrefix);
+    content_length = (char *)strstr(rep->base, gDwcHttpContentLengthPrefix);
     if (content_length == 0) {
         return 1;
     }
-    content_length += strlen((u8 *)gDwcHttpContentLengthPrefix);
-    content_end = (char *)strstr((u8 *)content_length, (u8 *)gDwcHttpCrLf);
+    content_length += strlen(gDwcHttpContentLengthPrefix);
+    content_end = (char *)strstr(content_length, gDwcHttpCrLf);
     content_temp = *content_end;
     *content_end = 0;
     OS_LockMutex((struct OSMutex *)(http + 0x1a54));
@@ -387,7 +386,7 @@ void DWCi_Http_Thread(void *arg)
     }
 
     s = (unsigned char *)http->req.buffer;
-    len = CPS_SocWrite(s, strlen((u8 *)s));
+    len = CPS_SocWrite(s, strlen((const char *)s));
     if (len <= 0) {
         http->error = 5;
         goto fail;
@@ -500,8 +499,8 @@ int DWCi_Http_WriteBasicHeader(char *http)
     } else {
         format = gDwcHttpGetFormat;
     }
-    result_len = strlen((u8 *)(*(char **)(http + 0x1124))) +
-                 (strlen((u8 *)format) - 4 + strlen((u8 *)(*(char **)(http + 0x1128))));
+    result_len = strlen((*(char **)(http + 0x1124))) +
+                 (strlen(format) - 4 + strlen((*(char **)(http + 0x1128))));
     if (DWCi_Http_AllocBuffer((char *)http, (char *)((Buf *)(http + 0x1a34)), result_len + 0x400) != 1) {
         return 1;
     }
@@ -522,17 +521,17 @@ int DWC_Http_Add_HeaderItem(char *http, char *label, char *data)
     char *temp_index;
 
     temp_buffer = (Buf *)(http + 0x1a34);
-    result_len = strlen((u8 *)data) +
-                 (strlen((u8 *)gDwcHttpHeaderFmt) - 4 + strlen((u8 *)label));
+    result_len = strlen(data) +
+                 (strlen(gDwcHttpHeaderFmt) - 4 + strlen(label));
     buf_remain = temp_buffer->end - temp_buffer->cur;
     if (result_len + 1 > buf_remain) {
         if (DWCi_Http_ReallocBuffer(http, temp_buffer, result_len - buf_remain + 1) == 0) {
             return 1;
         }
     }
-    temp_index = (char *)strstr((u8 *)temp_buffer->base, (u8 *)gDwcHttpHeaderTerminator) + 2;
+    temp_index = (char *)strstr(temp_buffer->base, gDwcHttpHeaderTerminator) + 2;
     temp = *temp_index;
-    memmove(temp_index + result_len, temp_index, strlen((u8 *)temp_index) + 1);
+    memmove(temp_index + result_len, temp_index, strlen(temp_index) + 1);
     temp_index[OS_SNPrintf(temp_index, result_len + 1, gDwcHttpHeaderFmt, label, data)] = temp;
     temp_buffer->cur += result_len;
     return 0;
@@ -558,7 +557,7 @@ int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned
     http->num_postitem++;
 
     result_base64 = DWC_Base64Encode(data, data_len, 0, 0);
-    result_len = result_base64 + (strlen((u8 *)format) - 2 + strlen((u8 *)label));
+    result_len = result_base64 + (strlen(format) - 2 + strlen(label));
     buf_remain = temp_buffer->buffer_tail - temp_buffer->write_index;
     if (result_len > buf_remain) {
         if (!DWCi_Http_ReallocBuffer((char *)http, (Buf *)temp_buffer, result_len - buf_remain + 1))
@@ -589,7 +588,7 @@ int DWC_Http_Add_Body(char *http, char *data)
     Buf *temp_buffer;
 
     temp_buffer = (Buf *)(http + 0x1a34);
-    result_len = strlen((u8 *)data);
+    result_len = strlen(data);
     buf_remain = temp_buffer->end - temp_buffer->cur;
     if (result_len > buf_remain) {
         if (DWCi_Http_ReallocBuffer(http, temp_buffer, result_len - buf_remain + 1) == 0) {
@@ -676,18 +675,18 @@ int DWCi_Http_SetHostinfo(DWCHttp *http, char *url)
     char *temp;
     char *portnum = 0;
 
-    if ((unsigned long)strlen((u8 *)url) >= 256)
+    if ((unsigned long)strlen(url) >= 256)
         return 0;
-    strncpy((u8 *)http->url, (u8 *)url, 256);
-    if ((unsigned long)strlen((u8 *)url) != (unsigned long)strlen((u8 *)http->url))
+    strncpy(http->url, url, 256);
+    if ((unsigned long)strlen(url) != (unsigned long)strlen(http->url))
         return 0;
 
-    if ((char *)strstr((u8 *)http->url, (u8 *)gDwcHttpSchemeHttp) != 0) {
+    if ((char *)strstr(http->url, gDwcHttpSchemeHttp) != 0) {
         http->hostname = &http->url[7];
         http->ssl_enabled = 0;
         http->port = 80;
     } else {
-        temp = (char *)strstr((u8 *)http->url, (u8 *)gDwcHttpSchemeHttps);
+        temp = (char *)strstr(http->url, gDwcHttpSchemeHttps);
         if (temp == 0)
             return 0;
         http->hostname = temp + 8;
@@ -695,12 +694,12 @@ int DWCi_Http_SetHostinfo(DWCHttp *http, char *url)
         http->port = 443;
     }
 
-    temp = (char *)strstr((u8 *)http->hostname, (u8 *)gDwcHttpColon);
+    temp = (char *)strstr(http->hostname, gDwcHttpColon);
     if (temp != 0) {
         *temp = 0;
         portnum = temp + 1;
     }
-    temp = (char *)strstr((u8 *)http->hostname, (u8 *)gDwcHttpSlash);
+    temp = (char *)strstr(http->hostname, gDwcHttpSlash);
     if (temp != 0) {
         *temp = 0;
         http->filepath = temp + 1;
@@ -723,9 +722,9 @@ int DWCi_Http_AddResult(DWCHttp *http, DWCHttpParseResult *result, char *label, 
     if (result->index > result->len)
         return 0;
 
-    result->entry[result->index].label = alloc(0, strlen((u8 *)label) + 1);
+    result->entry[result->index].label = alloc(0, strlen(label) + 1);
     if (result->entry[result->index].label != 0) {
-        result->entry[result->index].value = alloc(0, strlen((u8 *)value) + 1);
+        result->entry[result->index].value = alloc(0, strlen(value) + 1);
         if (result->entry[result->index].value != 0) {
             strcpy(result->entry[result->index].label, label);
             strcpy(result->entry[result->index].value, value);
@@ -768,12 +767,12 @@ int DWC_Http_ParseResult(DWCHttp *http, int noparsebody)
     MI_CpuFill8(http->labelvalue, 0, sizeof(http->labelvalue));
 
     buffer = http->rep.buffer;
-    httpbody_top = (char *)strstr((u8 *)buffer, (u8 *)gDwcHttpHeaderTerminator);
+    httpbody_top = (char *)strstr(buffer, gDwcHttpHeaderTerminator);
     if (httpbody_top == 0)
         return 0;
-    httpbody_end = httpbody_top + 4 + strlen((u8 *)(httpbody_top + 4));
+    httpbody_end = httpbody_top + 4 + strlen((httpbody_top + 4));
 
-    p_char1 = (char *)strstr((u8 *)buffer, (u8 *)gDwcHttpSpace);
+    p_char1 = (char *)strstr(buffer, gDwcHttpSpace);
     if (p_char1 == 0)
         return 0;
     temp = p_char1[4];
@@ -784,22 +783,22 @@ int DWC_Http_ParseResult(DWCHttp *http, int noparsebody)
     }
     p_char1[4] = temp;
 
-    if (noparsebody == 1 || strncmp((u8 *)(p_char1 + 1), (u8 *)gDwcHttpStatusOk, 3) != 0)
+    if (noparsebody == 1 || strncmp((p_char1 + 1), gDwcHttpStatusOk, 3) != 0)
         return 1;
 
-    index = (char *)strstr((u8 *)(p_char1 + 5), (u8 *)gDwcHttpCrLf);
+    index = (char *)strstr((p_char1 + 5), gDwcHttpCrLf);
     if (index == 0)
         return 0;
     index += 2;
 
     while (*index != '\r' && *(index + 1) != '\n') {
-        p_char1 = (char *)strstr((u8 *)index, (u8 *)gDwcHttpColonSpace);
+        p_char1 = (char *)strstr(index, gDwcHttpColonSpace);
         if (p_char1 == 0)
             break;
         p_char1_temp = *p_char1;
         value = p_char1 + 2;
         *p_char1 = 0;
-        p_char2 = (char *)strstr((u8 *)value, (u8 *)gDwcHttpCrLf);
+        p_char2 = (char *)strstr(value, gDwcHttpCrLf);
         if (p_char2 == 0) {
             *p_char1 = p_char1_temp;
             break;
@@ -811,22 +810,22 @@ int DWC_Http_ParseResult(DWCHttp *http, int noparsebody)
             *p_char2 = p_char2_temp;
             return 0;
         }
-        index = value + strlen((u8 *)value) + 2;
+        index = value + strlen(value) + 2;
         *p_char1 = p_char1_temp;
         *p_char2 = p_char2_temp;
     }
 
     index = httpbody_top + 4;
     while (index < httpbody_end) {
-        buffer = (char *)strstr((u8 *)index, (u8 *)gDwcHttpEquals);
+        buffer = (char *)strstr(index, gDwcHttpEquals);
         if (buffer == 0)
             break;
         p_char1_temp = *buffer;
         p_char1 = buffer + 1;
         *buffer = 0;
-        p_char2 = (char *)strstr((u8 *)p_char1, (u8 *)gDwcHttpAmpersand);
+        p_char2 = (char *)strstr(p_char1, gDwcHttpAmpersand);
         if (p_char2 == 0)
-            p_char2 = (char *)strstr((u8 *)p_char1, (u8 *)gDwcHttpCrLf);
+            p_char2 = (char *)strstr(p_char1, gDwcHttpCrLf);
         if (p_char2 != 0) {
             p_char2_temp = *p_char2;
             *p_char2 = 0;
@@ -837,7 +836,7 @@ int DWC_Http_ParseResult(DWCHttp *http, int noparsebody)
                 *p_char2 = p_char2_temp;
             return 0;
         }
-        index = p_char1 + strlen((u8 *)p_char1) + 1;
+        index = p_char1 + strlen(p_char1) + 1;
         *buffer = p_char1_temp;
         if (p_char2 != 0)
             *p_char2 = p_char2_temp;
@@ -866,7 +865,7 @@ int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsig
     if (value == 0)
         return 0;
 
-    result_len = DWC_Base64Decode(value, strlen((u8 *)value), buffer, buffer_len);
+    result_len = DWC_Base64Decode(value, strlen(value), buffer, buffer_len);
     if (result_len == -1)
         return result_len;
     if (result_len < buffer_len)
@@ -882,7 +881,7 @@ int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len)
     if (value == 0)
         return 0;
 
-    value_len = strlen((u8 *)value);
+    value_len = strlen(value);
     if (value_len >= buffer_len)
         return 0;
     strcpy(buffer, value);

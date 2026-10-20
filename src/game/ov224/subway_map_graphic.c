@@ -93,7 +93,7 @@
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
  */
-#define DISP (*(volatile u16 *)0x04000060)
+#define DISP (*(volatile u16 *)REG_DISP3DCNT_ADDR)
 struct GfFont;
 struct Proc;
 struct Node;
@@ -102,6 +102,7 @@ struct Proc;
 struct Bank;
 struct Cfg;
 #include "../arm9/arc_tool.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/arc_util.h"
 #include "../arm9/ui.h"
 #include "../types.h"
@@ -232,13 +233,13 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
  u32 id,choice;
  u16 heap;
  void *arc;
- GFL_HEAP_CreateChildHeap((u32)((void *)1),0x88,0x30000);
+ GFL_HEAP_CreateChildHeap((uptr)((void *)1),0x88,0x30000);
  p=PROCSYS_AllocProcWork(proc,0x18,0x88);
  MI_CpuFill8(p,0,0x18);
  p->heap=0x88; p->args=args;
  p->screen=SUBWAY_MAP_GRAPHIC_CreateScreen(1,p->heap);
  p->font=GF_FONT_Create(23,0,0,0,p->heap);
- p->string=(u32)PRINTSYS_QUE_Create((u32)(u32)p->heap);
+ p->string=(uptr)PRINTSYS_QUE_Create((u32)(u32)p->heap);
  BG_SYS_SetPriority(1,1); BG_SYS_SetPriority(2,0);
  p->task=GFL_USE_AddMainTask(SUBWAY_MAP_GRAPHIC_TaskNoop, p,1);
  SUBWAY_MAP_GRAPHIC_LoadCommonAssets((u16 *)p);
@@ -336,7 +337,7 @@ static inline void G3X_AntiAlias(int enable) {
 }
 
 static inline void G3X_AlphaTest(int enable,int ref) {
-    if(enable) { DISP = (u16)((DISP & ~(0x1000|0x2000)) | 4); *(volatile u16 *)0x04000340 = (u16)ref; }
+    if(enable) { DISP = (u16)((DISP & ~(0x1000|0x2000)) | 4); *(volatile u16 *)REG_ALPHA_TEST_REF_ADDR = (u16)ref; }
     else DISP &= (u16)~(4|0x1000|0x2000);
 }
 
@@ -368,9 +369,9 @@ void SUBWAY_MAP_GRAPHIC_Setup3d(void)
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }
 
-static inline void G2_BlendNone(void) { *(volatile u16 *)0x04000050 = 0; }
+static inline void G2_BlendNone(void) { *(volatile u16 *)REG_BLDCNT_ADDR = 0; }
 
-static inline void G2S_BlendNone(void) { *(volatile u16 *)0x04001050 = 0; }
+static inline void G2S_BlendNone(void) { *(volatile u16 *)REG_DB_BLDCNT_ADDR = 0; }
 
 static inline void GX_SetVisibleWnd(int window) {
     *(volatile u32 *)0x04000000 = (u32)((*(volatile u32 *)0x04000000 & ~0xE000) | (window << 13));
@@ -396,7 +397,7 @@ void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     SUBWAY_MAP_GRAPHIC_CreateBg(p, heap);
-    SUBWAY_MAP_GRAPHIC_CreateClactUnit((unsigned char *)p + 4, (int)vram, heap);
+    SUBWAY_MAP_GRAPHIC_CreateClactUnit((unsigned char *)p + 4, (sptr)vram, heap);
     SUBWAY_MAP_GRAPHIC_CreateCamera((void **)(p + 8), heap);
     ((struct SubwayMapScreen *)p)->task = GFL_USE_AddMainTask(SUBWAY_MAP_GRAPHIC_VBlankScreen, p, 0);
     return p;
@@ -466,7 +467,7 @@ void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)0x021B9C64, (struct DispVramCfg *)a, b);
-    ((struct SubwayMapClactUnit *)p)->unit = (int)CLACT_CreateUnit(0x80, 0, b);
+    ((struct SubwayMapClactUnit *)p)->unit = (sptr)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((void *)((struct SubwayMapClactUnit *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);

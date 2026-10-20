@@ -156,7 +156,7 @@ lit('USERARG', 'arm9/net_irc_wireless.c', [
     ("void GFL_NET_IRC_WIRELESS_OnSyncReady(void)", "void GFL_NET_IRC_WIRELESS_OnSyncReady(void *userArg)"),
     ("void *GFL_NET_IRC_WIRELESS_SetCallbacks(void (*onFinished)(u32), void (*onResult)(u32, int), void (*onReady)(u32))",
      "GFLNetUserFunc GFL_NET_IRC_WIRELESS_SetCallbacks(GFLNetUserFunc onFinished, void (*onResult)(void *, int), GFLNetUserFunc onReady)"),
-    ("GFL_NET_StartChangeoverChild((u32)GFL_NET_IRC_WIRELESS_OnSyncReady);", "GFL_NET_StartChangeoverChild(GFL_NET_IRC_WIRELESS_OnSyncReady);"),
+    ("GFL_NET_StartChangeoverChild((uptr)GFL_NET_IRC_WIRELESS_OnSyncReady);", "GFL_NET_StartChangeoverChild(GFL_NET_IRC_WIRELESS_OnSyncReady);"),
 ])
 lit('USERARG', 'arm9/net_irc_wireless.h', [
     ("GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct *src, u32 callbackArg)", "GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct *src, void *callbackArg)"),
@@ -392,8 +392,8 @@ lit('MSL', 'arm9/msl_fdlibm.h', [
 # ---------------------------------------------------------------------------
 # Call rewrites.
 # ---------------------------------------------------------------------------
-CASTRE = re.compile(r'^(\s*)\(\s*(?:u32|unsigned int|unsigned|int|u8 \*|char \*|void \*)\s*\)\s*')
-INTCAST = re.compile(r'^(\s*)\(\s*(?:u32|unsigned int|unsigned|int)\s*\)\s*')
+CASTRE = re.compile(r'^(\s*)\(\s*(?:u32|uptr|sptr|unsigned int|unsigned|int|u8 \*|char \*|void \*)\s*\)\s*')
+INTCAST = re.compile(r'^(\s*)\(\s*(?:u32|uptr|sptr|unsigned int|unsigned|int)\s*\)\s*')
 # call name -> argument indexes whose integer cast is removed
 CALLARGS = {
     'GFL_NET_COMMAND_AddCommandTable': (1, 3),

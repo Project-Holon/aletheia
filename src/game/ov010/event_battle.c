@@ -265,7 +265,7 @@ int EVENT_BATTLE_CallAndInvert(void (*fn)(void))
 {
     if (fn != 0)
         fn();
-    return ~(u32)fn;
+    return ~(uptr)fn;
 }
 
 /*
@@ -349,22 +349,22 @@ int EVENT_BATTLE_CreateScriptedBattle(int gameSystem, int battleSrc, int btlSetu
     EVENT_BATTLE_NotifyLeadSpecies((void *)btlSetup, 0);
     RECORD_AddOne(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 5);
     EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((struct FieldMap *)battleSrc));
-    return (int)taskEvent;
+    return (sptr)taskEvent;
 }
 
 int EVENT_BATTLE_CreateEncounterTask(int gameSystem, int battleSrc, int battleMode, int battleFlags, int battleKind, int fieldEffect, int options)
 {
     struct GameEvent *taskEvent;
     BattleTask *task;
-    int battleObj;
-    int records;
-    int btlSetup;
+    sptr battleObj;
+    sptr records;
+    sptr btlSetup;
 
     taskEvent = GAME_EVENT_Create((void *)gameSystem, 0, (GameEventFunc)EVENT_BATTLE_ProcBattleTask, 0x28);
     task = GAME_EVENT_GetWork(taskEvent);
-    battleObj = (s32)FIELDMAP_GetEncount((struct FieldMap *)battleSrc);
-    records = (int)GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem));
-    btlSetup = (int)BTL_SETUP_Create(4);
+    battleObj = (sptr)FIELDMAP_GetEncount((struct FieldMap *)battleSrc);
+    records = (sptr)GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem));
+    btlSetup = (sptr)BTL_SETUP_Create(4);
     FIELD_ENCOUNT_SetupTrainerBattle((struct FieldEncount *)battleObj, (void *)btlSetup, (unsigned int)battleMode, (unsigned int)battleFlags, (unsigned int)battleKind, fieldEffect, 4);
     EVENT_BATTLE_DispatchBattleKindNotify(battleKind, 0);
     RECORD_AddOne((struct RecordBlock *)records, 6);
@@ -377,7 +377,7 @@ int EVENT_BATTLE_CreateEncounterTask(int gameSystem, int battleSrc, int battleMo
     }
     ENCEFF_SelectEffectAndBgmForTrainer((void *)battleKind, (struct FieldMap *)battleSrc, (int *)&task->encounterEffect, &task->btlSetup->bgmBattle);
     EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((struct FieldMap *)battleSrc));
-    return (int)taskEvent;
+    return (sptr)taskEvent;
 }
 
 struct GameEvent *EVENT_BATTLE_CreateResultOnlyTask(int gameSystem, int battleSrc, int btlSetup)
@@ -410,7 +410,7 @@ int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *bt
     task->encounterEffect = 9;
     task->btlSetup->bgmBattle = 0x46b;
     EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((struct FieldMap *)battleSrc));
-    return (int)taskEvent;
+    return (sptr)taskEvent;
 }
 
 /*
@@ -486,7 +486,7 @@ void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u
     u32 rnd;
 
     giftData = GAME_DATA_GetSaveBlock43(GAMESYSTEM_GetGameData(gameSystem));
-    task = (void *)EVENT_BATTLE_CreateEncounterTask((int)gameSystem, battleSrc, battleMode, battleFlags, battleKind, fieldEffect, options);
+    task = (void *)EVENT_BATTLE_CreateEncounterTask((sptr)gameSystem, battleSrc, battleMode, battleFlags, battleKind, fieldEffect, options);
     if (MON_SNAPSHOT_IsFilled(giftData, entryIndex) != 0) {
         mon = POKEPARTY_GetMember(*(void **)(*(u8 **)((u8 *)GAME_EVENT_GetWork(task) + 8) + 0x28), 0);
         oldSpecies = POKE_TOOL_GetPartyValue(mon, 5, 0);
@@ -498,7 +498,7 @@ void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u
         if (MON_SNAPSHOT_HasAbility(giftData, entryIndex) != 0) {
             POKE_TOOL_SetPartyValue(mon, 10, MON_SNAPSHOT_GetAbility(giftData, entryIndex));
         }
-        POKE_TOOL_SetPartyValue(mon, 0x74, (u32)MON_SNAPSHOT_GetNickname(giftData, entryIndex));
+        POKE_TOOL_SetPartyValue(mon, 0x74, (uptr)MON_SNAPSHOT_GetNickname(giftData, entryIndex));
         POKE_TOOL_ChangeSpecies(mon, (u16)oldSpecies);
         POKE_TOOL_SetDefaultMoves(mon);
     }
@@ -569,17 +569,17 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
     case 3:
         FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData), 1);
         COMM_PLAYER_SUPPORT_Init((struct CommPlayerSupport *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
-        GAME_EVENT_CallProc(event, (u32)ov093_id, (void *)d_021EFDAC, (void *)work->btlSetup);
+        GAME_EVENT_CallProc(event, (uptr)ov093_id, (void *)d_021EFDAC, (void *)work->btlSetup);
         (*state)++;
         break;
     case 4:
         work->procBtlSetup = work->btlSetup;
         work->procGameData = gameData;
-        GAME_EVENT_CallProc(event, (u32)ov092_id, (void *)d_021B9D94, (void *)&work->procGameData);
+        GAME_EVENT_CallProc(event, (uptr)ov092_id, (void *)d_021B9D94, (void *)&work->procGameData);
         (*state)++;
         break;
     case 5:
-        GF_OVERLAY_Load((s32)ov230_id);
+        GF_OVERLAY_Load((sptr)ov230_id);
         FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData), 0);
         COMM_PLAYER_SUPPORT_StashMode((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
         (*state)++;
@@ -587,7 +587,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
     case 6: {
         int probeOk = 0;
 
-        if (OV230_CallSealedBody1((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeA, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeA)
+        if (OV230_CallSealedBody1((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeA, 0) == ~(uptr)EVENT_BATTLE_IntegrityProbeA)
             probeOk = 1;
         integritySum += probeOk ? 0 : 0x3D1;
         EVENT_BATTLE_FinishBattleTask(work, gameData);
@@ -595,7 +595,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
             FLD_BTL_INST_TOOL_AddBattleTally(*(void **)GAME_DATA_GetListCursor(gameData), (struct BattleSetupParam *)work->btlSetup);
         (*state)++;
         probeOk = 0;
-        if (OV230_CallSealedBody3((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeB, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeB)
+        if (OV230_CallSealedBody3((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeB, 0) == ~(uptr)EVENT_BATTLE_IntegrityProbeB)
             probeOk = 1;
         integritySum += probeOk ? 0 : 0x5D1;
         break;
@@ -603,7 +603,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
     case 7: {
         int probeOk;
 
-        if (OV230_CallSealedBody4((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityDecoyC, 0) == ~(u32)EVENT_BATTLE_IntegrityDecoyC)
+        if (OV230_CallSealedBody4((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityDecoyC, 0) == ~(uptr)EVENT_BATTLE_IntegrityDecoyC)
             probeOk = 1;
         else
             probeOk = 0;
@@ -612,7 +612,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
             GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(gameSystem, 0x1E));
         else
             GAME_EVENT_CallEvent(event, FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(gameSystem));
-        GF_OVERLAY_Unload((s32)ov230_id);
+        GF_OVERLAY_Unload((sptr)ov230_id);
         (*state)++;
         break;
     }
@@ -635,7 +635,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         break;
     case 10:
         if (work->isScripted == 0)
-            GAME_EVENT_CallEvent(event, (void *)(int)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (void *)((int)fieldMap), 0, 0, 1, 0, 0));
+            GAME_EVENT_CallEvent(event, (void *)(sptr)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (void *)((sptr)fieldMap), 0, 0, 1, 0, 0));
         (*state)++;
         break;
     case 11:
@@ -726,7 +726,7 @@ void EVENT_BATTLE_NotifyBattleEnd(BattleEndCtx *ctx)
     leadMon = POKEPARTY_GetMember(playerParty, POKEPARTY_FindFirstNonEgg(playerParty));
     if (setup->outcome != 0 && setup->outcome != 2) {
         nameBuf = STRBUF_Create(12, 0x8004);
-        POKE_TOOL_GetPartyValue(leadMon, 0x73, (u32)nameBuf);
+        POKE_TOOL_GetPartyValue(leadMon, 0x73, (uptr)nameBuf);
         curHp = POKE_TOOL_GetPartyValue(leadMon, 0xA0, 0);
         maxHp = POKE_TOOL_GetPartyValue(leadMon, 0xA1, 0);
         if (curHp == 0)
@@ -761,7 +761,7 @@ int EVENT_BATTLE_AddBattleRecord(BattleTask *task)
 {
     struct BattleSetupParam *btlSetup = task->btlSetup;
     void *gameData = GAMESYSTEM_GetGameData(task->gameSystem);
-    int records = (int)GAME_DATA_GetTrainerRecord(gameData);
+    int records = (sptr)GAME_DATA_GetTrainerRecord(gameData);
 
     if (btlSetup->competitor == 0 && btlSetup->outcome == 4)
         records = RECORD_AddOne((struct RecordBlock *)records, 0x4f);

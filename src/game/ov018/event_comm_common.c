@@ -2015,7 +2015,7 @@ int EVENT_COMM_COMMON_TalkedPowerGiftTargetEventMain(struct GameEvent *event, in
         EVENT_COMM_COMMON_ExitMsgBox(&work->common.msgBox);
         param.powerId = work->common.member.head.param.x;
         param.arg = 0;
-        GAME_EVENT_CallEvent(event, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)ov083_id, (GameEventCreatorFn)GPOWER_EVENT_CreateActivateEvent, &param));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_CreateOverlayEvent(gameSystem, (uptr)ov083_id, (GameEventCreatorFn)GPOWER_EVENT_CreateActivateEvent, &param));
         (*seq)++;
         break;
     case 3:
@@ -2114,7 +2114,7 @@ int EVENT_COMM_COMMON_TalkPowerShareAsTargetEventMain(struct GameEvent *event, i
         EVENT_COMM_COMMON_ExitMsgBox(&work->msgBox);
         param.powerId = work->member.head.param.x;
         param.arg = 0;
-        GAME_EVENT_CallEvent(event, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)ov083_id, (GameEventCreatorFn)GPOWER_EVENT_CreateActivateEvent, &param));
+        GAME_EVENT_CallEvent(event, GAME_EVENT_CreateOverlayEvent(gameSystem, (uptr)ov083_id, (GameEventCreatorFn)GPOWER_EVENT_CreateActivateEvent, &param));
         (*seq)++;
         break;
     case 3:

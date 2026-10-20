@@ -61,6 +61,7 @@
  *   _ull_mul                     0x0209C054  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 struct G3dUtil;
 struct G3dUtilSetup;
 struct VecFx32;
@@ -229,7 +230,7 @@ void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned 
     work->slots[i].animFinished = 0;
     work->slots[i].loopAnim = 1;
     work->idleTimer = 20 * (unsigned int)(((unsigned long long)GF_STANDARD_Rand() * 5) >> 32) + 200;
-    MCSS_SetAnimCallback(work->slots[i].object, (u32)(&work->slots[i]), (u32)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
+    MCSS_SetAnimCallback(work->slots[i].object, (uptr)(&work->slots[i]), (uptr)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
 }
 
 void INTRO_G3D_SetVanishFlag(u8 *p, int flag, u8 index)
@@ -251,7 +252,7 @@ void INTRO_G3D_SetSlotAnim(char *p, unsigned int i, unsigned int flag, unsigned 
     zero = Zero;
     work->slots[i].animFinished = zero;
     work->slots[i].loopAnim = v;
-    MCSS_SetAnimCallback(work->slots[i].object, (u32)(&work->slots[i]), (u32)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
+    MCSS_SetAnimCallback(work->slots[i].object, (uptr)(&work->slots[i]), (uptr)((void (*)(void *, void *))INTRO_G3D_OnAnimEnd), 0);
 }
 
 unsigned int INTRO_G3D_GetSlotAnimFinished(char *p, u8 i)
@@ -272,7 +273,7 @@ void INTRO_G3D_ClearSlotAnimFinished(u8 *p, u8 index)
 void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha)
 {
     IntroMcssWork *work = (IntroMcssWork *)p;
-    G2x_SetBlendAlpha_((void *)0x04000050,1,9,0,0);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR,1,9,0,0);
     if(alpha>31)alpha=31;
     MCSS_SetAlpha((struct McssWork *)work->slots[index].object,(u8)alpha);
 }
@@ -398,7 +399,7 @@ int INTRO_G3D_UpdateIntro(char *p)
     switch (work->introState)
     {
     case 0:
-        G2x_SetBlendAlpha_((void *)0x04000050, 1, 9, 0, 0);
+        G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 1, 9, 0, 0);
         GFL_USE_PlaySeDefaultVolume(0x555);
         ++work->introState;
     case 1:

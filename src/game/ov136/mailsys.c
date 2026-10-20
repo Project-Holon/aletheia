@@ -103,6 +103,7 @@
  *   BMP_MENUWORK_DrawWindow   0x0201F73C  thumb
  */
 #include "mail_types.h"
+#include "../sdk_ioreg.h"
 
 struct Proc;
 struct Proc;
@@ -289,7 +290,7 @@ int MAILSYS_ProcExit(void *a, void *b, void *c, struct MailEditProc *proc)
 int MAILSYS_RunSequence(struct MailEditProc *proc)
 {
     int r = 0;
-    u32 t;
+    uptr t;
 
     switch (proc->step) {
     case 0:
@@ -305,8 +306,8 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
             proc->vblankTask = GFL_USE_AddMainTask((void *)MAILVIEW_VBlankTask, proc, 0x10);
             BG_SYS_SetMainPlaneVisible(0x10, 1);
             WIPE_ResetBrightness(0);
-            G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 0x1C, 4);
-            t = (unsigned int)GFL_USE_GetMainTaskList();
+            G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 4, 8, 0x1C, 4);
+            t = (uptr)GFL_USE_GetMainTaskList();
             PALANM_RequestFade((PaletteFade *)proc->palAnm, 5, 0xFFFF, -1, 0x10, 0, 0, (void *)t);
             (proc->step)++;
         }
@@ -319,7 +320,7 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
     case 3:
         if (data_021C7774[proc->mode](proc) == 1) {
             (proc->step)++;
-            t = (unsigned int)GFL_USE_GetMainTaskList();
+            t = (uptr)GFL_USE_GetMainTaskList();
             PALANM_RequestFade((PaletteFade *)proc->palAnm, 5, 0xFFFF, -1, 0, 0x10, 0, (void *)t);
         }
         PMS_DRAW_Main(proc->pmsDraw);
@@ -385,7 +386,7 @@ int MAILSYS_IsMessageIncomplete(struct MailEditProc *proc)
 
 void MAILSYS_ResetCursorBlend(struct MailEditProc *proc)
 {
-    PALANM_BlendChannel((PaletteFadeWork *)proc->palAnm, 0, (u16)(proc->blinkSlot + 0x21), 1, 0, 0x7FFF);
+    PALANM_BlendChannel(proc->palAnm, 0, (u16)(proc->blinkSlot + 0x21), 1, 0, 0x7FFF);
     proc->blinkDown = 0;
     proc->blinkWeight = 0;
 }
@@ -609,7 +610,7 @@ void MAILSYS_OpenConfirmMenu(struct MailEditProc *proc)
     t.w = 8;
     t.h = 3;
     proc->dialogMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&t), (struct TaskMenuRes *)proc->taskMenuRes);
-    PALANM_BlendChannel((PaletteFadeWork *)proc->palAnm, 0, 0, 48, 10, 0);
+    PALANM_BlendChannel(proc->palAnm, 0, 0, 48, 10, 0);
     APP_TASKMENU_WIN_ClearScreen((struct TaskMenuWin *)proc->sendButton);
     APP_TASKMENU_WIN_ClearScreen((struct TaskMenuWin *)proc->cancelButton);
 }
@@ -671,7 +672,7 @@ int MAILSYS_StepQuitConfirm(struct MailEditProc *proc)
         }
         proc->dialogActive = 0;
         proc->mode = proc->prevMode;
-        PALANM_BlendChannel((PaletteFadeWork *)proc->palAnm, 0, 0, 0x30, 0, 0);
+        PALANM_BlendChannel(proc->palAnm, 0, 0, 0x30, 0, 0);
         APP_TASKMENU_WIN_TransChar((struct TaskMenuWin *)proc->sendButton);
         APP_TASKMENU_WIN_TransChar((struct TaskMenuWin *)proc->cancelButton);
         return 0;

@@ -83,7 +83,7 @@ extern int (*sWf2dmapObjCmdTable)(u8 *);
 
 void WF2DMAP_OBJCMD_Update(u8 *p)
 {
- int i=WF2DMAP_OBJ_GetSlot(p,5); int r=(*(int (**)(u8 *))((unsigned)&sWf2dmapObjCmdTable+i*4))(p);
+ int i=WF2DMAP_OBJ_GetSlot(p,5); int r=(*(int (**)(u8 *))((uptr)&sWf2dmapObjCmdTable+i*4))(p);
  (((Wf2dmapObj *)p)->updateCounter)++;
  if(r==1) {WF2DMAP_OBJCMD_Restart((char *)p); ((Wf2dmapObj *)p)->updateCounter=0;}
 }

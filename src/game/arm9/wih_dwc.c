@@ -214,13 +214,13 @@ struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap)
     if (gWihDwc.context != 0) {
         GF_PANIC_Fail((const char *)(&sWihDwcAssertArg), 0, (const char *)(&sWihDwcAssertArg));
     }
-    context = GFL_NET_AllocAligned((u32)heap, 0x328, (const char *)sWihDwcFile, 0x49);
+    context = GFL_NET_AllocAligned((uptr)heap, 0x328, (const char *)sWihDwcFile, 0x49);
     context->maxBeacons = maxBeacons;
-    context->matchWork = GFL_NET_AllocAligned((u32)heap, DWC_GetParseWMBssDescWorkSize(), (const char *)sWihDwcFile, 0x4C);
-    WIH_SetBeaconFoundCallback((u32)WIH_DWC_AddBeacon);
+    context->matchWork = GFL_NET_AllocAligned((uptr)heap, DWC_GetParseWMBssDescWorkSize(), (const char *)sWihDwcFile, 0x4C);
+    WIH_SetBeaconFoundCallback((uptr)WIH_DWC_AddBeacon);
     gWihDwc.context = context;
     context->filterBuf = gWihDwc.filterBuf;
-    GF_OVERLAY_Load((int)ov015_id);
+    GF_OVERLAY_Load((sptr)ov015_id);
     return context;
 }
 
@@ -285,7 +285,7 @@ void WIH_DWC_Delete(struct WihContext *context)
     GFL_NET_FreeAligned(context->matchWork);
     GFL_NET_FreeAligned(context);
     gWihDwc.context = 0;
-    GF_OVERLAY_Unload((int)ov015_id);
+    GF_OVERLAY_Unload((sptr)ov015_id);
 }
 
 /*

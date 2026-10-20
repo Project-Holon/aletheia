@@ -425,8 +425,8 @@ u32 BMP_MENULIST_GetItemValue(struct BmpMenuList *menu, u32 index)
 u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr)
 {
     switch (attr) {
-    case 0:  return (u32)menu->onCursor;
-    case 1:  return (u32)menu->drawHook;
+    case 0:  return (uptr)menu->onCursor;
+    case 1:  return (uptr)menu->drawHook;
     case 2:  return menu->count;
     case 3:  return menu->rows;
     case 5:  return menu->sepX;
@@ -442,7 +442,7 @@ u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr)
     case 15: return menu->flags.pageKeys;
     case 16: return menu->flags.mode6;
     case 17: return menu->flags.cursorOff;
-    case 18: return (u32)menu->win;
+    case 18: return (uptr)menu->win;
     case 19: return menu->userData;
     }
     return -1;
@@ -477,7 +477,7 @@ void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u
         return;
     if (menu->useOverride) {
         if (queued) {
-            u32 printer = (u32)menu->printer;
+            u32 printer = (uptr)menu->printer;
             struct MenuTarget *target = menu->target;
             PRINTSYS_PrintQueColor((void *)printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->font,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
@@ -488,7 +488,7 @@ void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u
         }
     } else {
         if (queued) {
-            u32 printer = (u32)menu->printer;
+            u32 printer = (uptr)menu->printer;
             struct MenuTarget *target = menu->target;
             PRINTSYS_PrintQueColor((void *)printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->font,
                           COLOR(menu->letterColor, menu->shadowColor, menu->bgColor));

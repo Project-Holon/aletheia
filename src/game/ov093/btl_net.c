@@ -526,7 +526,7 @@ u32 BTL_NET_GetPerapVoice(u32 clientId)
     u32 netId;
     netId = BTL_NET_FindNetIdByClient(clientId);
     if (netId != BTL_NET_NO_NETID) {
-        if (gBtlNet->recvDone[netId]) return (u32)gBtlNet->recvBuf[netId];
+        if (gBtlNet->recvDone[netId]) return (uptr)gBtlNet->recvBuf[netId];
     }
     return 0;
 }
@@ -673,10 +673,10 @@ u32 BTL_NET_SendRelayedPlayerInfo(void *trainerData)
 u32 BTL_NET_AllocRelayedPlayerInfoBuf(void *unused0, int unused1, int size)
 {
     u32 heapId = (u16)(0x8000 | (gBtlNet->heapId & 0x7fff));
-    u32 buf = (u32)GFL_HEAP_Alloc(heapId, size, 1, gBtlNetSourceName, 0x31e);
+    u32 buf = (uptr)GFL_HEAP_Alloc(heapId, size, 1, gBtlNetSourceName, 0x31e);
 
     gBtlNet->tempBuf = (void *)buf;
-    return (u32)gBtlNet->tempBuf;
+    return (uptr)gBtlNet->tempBuf;
 }
 
 /* The forwarded trainer record is complete in buf. */

@@ -160,7 +160,7 @@ WMErrCode WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize)
         (void)OS_RestoreInterrupts(e);
         return WM_ERRCODE_INVALID_PARAM;
     }
-    if ((u32)wmSysBuf & 0x1F) {
+    if ((uptr)wmSysBuf & 0x1F) {
         (void)OS_RestoreInterrupts(e);
         return WM_ERRCODE_INVALID_PARAM;
     }
@@ -175,10 +175,10 @@ WMErrCode WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize)
     MIi_DmaFill32(dmaNo, wmSysBuf, 0, bufSize, 1);
 
     g_02153058.wm9buf = (WMArm9Buf *)wmSysBuf;
-    g_02153058.wm9buf->WM7 = (void *)((u32)g_02153058.wm9buf + 0x200);
-    g_02153058.wm9buf->status = (void *)((u32)g_02153058.wm9buf->WM7 + 0x300);
-    g_02153058.wm9buf->fifo9to7 = (u32 *)((u32)g_02153058.wm9buf->status + 0x800);
-    g_02153058.wm9buf->fifo7to9 = (u32 *)((u32)g_02153058.wm9buf->fifo9to7 + 0x100);
+    g_02153058.wm9buf->WM7 = (void *)((uptr)g_02153058.wm9buf + 0x200);
+    g_02153058.wm9buf->status = (void *)((uptr)g_02153058.wm9buf->WM7 + 0x300);
+    g_02153058.wm9buf->fifo9to7 = (u32 *)((uptr)g_02153058.wm9buf->status + 0x800);
+    g_02153058.wm9buf->fifo7to9 = (u32 *)((uptr)g_02153058.wm9buf->fifo9to7 + 0x100);
 
     WmClearFifoRecvFlag();
 
@@ -278,7 +278,7 @@ WMErrCode WMi_SendCommand(WMApiid id, u16 paramNum, ...)
     va_end(vlist);
 
     DC_StoreRange(tmpAddr, 0x100);
-    result = PXI_SendWordByFifo(10, (u32)tmpAddr, 0);
+    result = PXI_SendWordByFifo(10, (uptr)tmpAddr, 0);
     (void)OS_SendMessage(&bufMsgQ, tmpAddr, 1);
     if (result < 0) {
         return WM_ERRCODE_FIFO_ERROR;
@@ -298,7 +298,7 @@ WMErrCode WMi_SendCommandDirect(void *data, u32 length)
 
     MI_CpuCopy8(data, tmpAddr, length);
     DC_StoreRange(tmpAddr, length);
-    result = PXI_SendWordByFifo(10, (u32)tmpAddr, 0);
+    result = PXI_SendWordByFifo(10, (uptr)tmpAddr, 0);
     (void)OS_SendMessage(&bufMsgQ, tmpAddr, 1);
     if (result < 0) {
         return WM_ERRCODE_FIFO_ERROR;
@@ -382,7 +382,7 @@ void WmReceiveFifo(int tag, u32 fifo_buf_adr, BOOL err)
     if (!w9b->scanOnlyFlag) {
         DC_InvalidateRange(w9b->status, 0x800);
     }
-    if ((u32)callback_p != (u32)w9b->fifo7to9) {
+    if ((uptr)callback_p != (uptr)w9b->fifo7to9) {
         DC_InvalidateRange(callback_p, 0x100);
     }
 
@@ -513,7 +513,7 @@ void WmReceiveFifo(int tag, u32 fifo_buf_adr, BOOL err)
     DC_InvalidateRange(w9b->fifo7to9, 0x100);
     WmClearFifoRecvFlag();
 
-    if ((u32)callback_p != (u32)w9b->fifo7to9) {
+    if ((uptr)callback_p != (uptr)w9b->fifo7to9) {
         callback_p->apiid |= 0x8000;
         DC_StoreRange(callback_p, 0x100);
     }

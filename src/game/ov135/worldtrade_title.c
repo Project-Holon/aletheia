@@ -105,6 +105,7 @@
  *   WORLDTRADE_SUBLCD_UpdateSlotAnims 0x021FFBC8 thumb ov135
  */
 #include "worldtrade_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/arc_tool.h"
 struct MsgBank;
@@ -322,7 +323,7 @@ int WORLDTRADE_TITLE_Init(WorldtradeWork *p)
 {
     u32 control;
     WORLDTRADE_TITLE_CreateStrings(p);
-    control=*(volatile u16 *)0x04000304;
+    control=*(volatile u16 *)REG_POWCNT1_ADDR;
     control &= ~0x8000;
     *(volatile u16 *)0x04000304=control;
     WORLDTRADE_TITLE_SetupBgPlanes();
@@ -344,7 +345,7 @@ int WORLDTRADE_TITLE_Init(WorldtradeWork *p)
         p->titleEntered=1;
         WORLDTRADE_SUBLCD_StartAnimTaskA(p);
     } else {
-        if(p->eb4==1 && GXx_GetMasterBrightness_((u16 *)0x0400106C)!=0) {
+        if(p->eb4==1 && GXx_GetMasterBrightness_((u16 *)REG_DB_MASTER_BRIGHT_ADDR)!=0) {
             WORLDTRADE_SUBLCD_SetSlotActorPositions(p);
             WIPE_SYS_Start(0,1,1,0,6,1,0x48);
         } else WIPE_SYS_Start((void *)3,1,1,0,6,1,0x48);

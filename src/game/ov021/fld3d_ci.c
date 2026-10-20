@@ -157,6 +157,7 @@
  *   STD_GetStringLength  0x0208CC78  arm  arm9
  */
 #include "fld3d_ci_types.h"
+#include "../sdk_ioreg.h"
 #include "../ov074/fld3d_ci_name_types.h"
 
 #include "../types.h"
@@ -573,7 +574,7 @@ int FLD3D_CI_SetupEffectUnit(Fld3dCi *ci, G3dUtilSetup *setup)
     ci->status.scale.x = (1 << 12);
     ci->status.scale.y = (1 << 12);
     ci->status.scale.z = (1 << 12);
-    MTX_Identity33_((u32)&ci->status.rotate);
+    MTX_Identity33_((uptr)&ci->status.rotate);
     ci->status.trans.x = 0;
     ci->status.trans.y = 0;
     ci->status.trans.z = 0;
@@ -585,7 +586,7 @@ void FLD3D_CI_DrawEffect(Fld3dCi *ci)
 {
     int first;
     int count;
-    int object;
+    sptr object;
     u8 i;
 
     if (ci->cameraSelect == 0)
@@ -648,14 +649,14 @@ void *FLD3D_CI_StartPokemonSequence(void *gameSystem, Fld3dCi *ci, int species, 
 /* Starts the pokemon cut-in for the party member at partyPos. */
 void *FLD3D_CI_StartPartyMemberSequence(void *gameSystem, Fld3dCi *ci, int partyPos)
 {
-    int mon;
+    sptr mon;
     int species;
     int form;
     int attr6E;
     int personality;
     int attr4C;
 
-    mon = (int)POKEPARTY_GetMember(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem)), partyPos);
+    mon = (sptr)POKEPARTY_GetMember(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem)), partyPos);
     species = POKE_TOOL_GetPartyValue((void *)mon, 5, 0);
     form = POKE_TOOL_GetPartyValue((void *)mon, 0x6f, 0);
     attr6E = POKE_TOOL_GetPartyValue((void *)mon, 0x6e, 0);
@@ -672,11 +673,11 @@ void *FLD3D_CI_StartNameSequence(void *gameSystem, Fld3dCi *ci, int tableIndex, 
     Fld3dCiEventWork *work;
     Fld3dCiIcon *icon;
 
-    GF_OVERLAY_Load((int)abs_id_4A);
+    GF_OVERLAY_Load((sptr)abs_id_4A);
     row = FLD3D_CI_GetNameRow(tableIndex);
     event = FLD3D_CI_StartSequence(gameSystem, ci, (u8)row->sequenceId);
     if (event == 0) {
-        GF_OVERLAY_Unload((int)abs_id_4A);
+        GF_OVERLAY_Unload((sptr)abs_id_4A);
         return 0;
     }
     work = GAME_EVENT_GetWork(event);
@@ -700,7 +701,7 @@ void *FLD3D_CI_StartNameSequence(void *gameSystem, Fld3dCi *ci, int tableIndex, 
         icon->secondNameCentered = 1;
     else
         icon->secondNameCentered = 0;
-    GF_OVERLAY_Unload((int)abs_id_4A);
+    GF_OVERLAY_Unload((sptr)abs_id_4A);
     return event;
 }
 
@@ -712,8 +713,8 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
     void *fieldMap;
     int doneB;
     int doneC;
-    u32 modelSys;
-    u32 particleSys;
+    uptr modelSys;
+    uptr particleSys;
     Fld3dCiBgMode bgMode;
 
     ci = work->ci;
@@ -736,7 +737,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
             break;
         }
         if (ci->sequenceId == 0x11) {
-            u32 mmdl = (u32)FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(fieldMap), (u16)ci->arg.pokemon.species);
+            u32 mmdl = (uptr)FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(fieldMap), (u16)ci->arg.pokemon.species);
             if (mmdl)
                 FLDMMDL_DeleteMmdl((struct Mmdl *)mmdl);
             break;
@@ -755,7 +756,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         BG_SYS_SetGraphicsMode(&bgMode);
         *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & 0x43) | 0x4084;
         GX_SetBankForBG(8);
-        G2x_SetBlendAlpha_((u32 *)0x04000050, 0, 4, 0, 0);
+        G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 0, 4, 0, 0);
         BG_SYS_SetPlaneVisible(2, 1);
         FIELD_FOG_SetFlag(FIELDMAP_GetFog(fieldMap), 0);
         (*state)++;
@@ -828,8 +829,8 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         if (ci->displayRestoreDone == 0)
             break;
         GFL_HEAP_GetHeapHead(ci->heapId);
-        modelSys = (u32)FIELDMAP_GetMsgBg(fieldMap);
-        particleSys = (u32)FIELDMAP_GetPlaceName(fieldMap);
+        modelSys = (uptr)FIELDMAP_GetMsgBg(fieldMap);
+        particleSys = (uptr)FIELDMAP_GetPlaceName(fieldMap);
         FIELD_MSGBG_ReloadBg((struct FieldMsgBg *)modelSys);
         FIELD_PLACE_NAME_RestoreWindow((struct FieldPlaceName *)particleSys);
         FIELD_MSGBG_RequestSysFrame((struct FieldMsgBg *)modelSys);
@@ -879,7 +880,7 @@ int FLD3D_CI_UpdateStartDelays(Fld3dCi *ci)
 /* Steps the first animation track after its wait delay; 1 when unused or finished. */
 int FLD3D_CI_UpdateTrackA(Fld3dCi *ci)
 {
-    int object;
+    sptr object;
     u8 i;
     int result;
     int count;
@@ -902,7 +903,7 @@ int FLD3D_CI_UpdateTrackA(Fld3dCi *ci)
 /* Same as above for the second animation track. */
 int FLD3D_CI_UpdateTrackB(Fld3dCi *ci)
 {
-    int object;
+    sptr object;
     u8 i;
     int result;
     int count;
@@ -925,12 +926,12 @@ int FLD3D_CI_UpdateTrackB(Fld3dCi *ci)
 /* Loads the sequence data and resets the animation state of the cut-in. */
 void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int sequenceId)
 {
-    int effectRes;
+    sptr effectRes;
     u8 unit;
     int first;
     int unitCount;
     u8 j;
-    int object;
+    sptr object;
     int animCount;
     int trackKind;
 
@@ -938,7 +939,7 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
     FLD3D_CI_LoadSequence(seq, sequenceId, ci->heapId);
     FLD3D_CI_SetupEffectUnit(ci, &seq->setup);
     if (seq->effectResId != 0xFFFF) {
-        effectRes = (int)FLD_PARTICLE_LoadResource(ci->particle, 0x73, seq->effectResId);
+        effectRes = (sptr)FLD_PARTICLE_LoadResource(ci->particle, 0x73, seq->effectResId);
         FLD_PARTICLE_StartEmitter(ci->particle, (void *)effectRes, 1, 0);
     } else {
         effectRes = 0;
@@ -976,7 +977,7 @@ void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int seque
     if (seq->trackCCount != 0)
         ci->trackWatched[1] = 1;
     if (ci->extraTask != 0) {
-        object = (int)GAME_EVENT_GetGameSystem(event);
+        object = (sptr)GAME_EVENT_GetGameSystem(event);
         GAME_EVENT_CallEvent(event, GAME_EVENT_Create((void *)object, event, (void *)(ci->extraTask), (int)0));
     }
 }
@@ -997,7 +998,7 @@ void FLD3D_CI_EndSequence(Fld3dCi *ci, Fld3dCiSeq *seq)
  */
 void FLD3D_CI_StartTrack(Fld3dCi *ci, int track)
 {
-    PARTICLE_StartEffectWithCallback((int *)(ci->effect), track, (int)FLD3D_CI_FollowTargetCallback, 0);
+    PARTICLE_StartEffectWithCallback((int *)(ci->effect), track, (sptr)FLD3D_CI_FollowTargetCallback, 0);
 }
 
 /*
@@ -1307,8 +1308,8 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
         }
     }
     BMP_ConvertToLinear(ci->canvas, 0, heapId);
-    NNS_GfdRegisterNewVramTransferTask(0, texOffset, (u32)BMP_GetPixels(ci->canvas), 0x2000);
-    NNS_GfdRegisterNewVramTransferTask((void *)1, plttOffset, (u32)ci->pltt->raw, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0, texOffset, (uptr)BMP_GetPixels(ci->canvas), 0x2000);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, plttOffset, (uptr)ci->pltt->raw, 0x20);
     GFL_HEAP_GetHeapHead(ci->heapId);
 }
 
@@ -1413,8 +1414,8 @@ void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *pltt
         }
     }
     BMP_ConvertToLinear(ci->canvas, 0, heapId);
-    NNS_GfdRegisterNewVramTransferTask(0, texOffset, (u32)BMP_GetPixels(ci->canvas), 0x2000);
-    NNS_GfdRegisterNewVramTransferTask((void *)1, plttOffset, (u32)ci->pltt->raw, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0, texOffset, (uptr)BMP_GetPixels(ci->canvas), 0x2000);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, plttOffset, (uptr)ci->pltt->raw, 0x20);
     GFL_HEAP_GetHeapHead(ci->heapId);
 }
 
@@ -1522,7 +1523,7 @@ int FLD3D_CI_GetPlttDataOffset(Fld3dCiTexBlock *texBlock, Fld3dCiPlttDictEntry *
 int FLD3D_CI_FindTexture(Fld3dCiTexBlock *texBlock, const char *name)
 {
     Fld3dCiNameKey key;
-    int entry;
+    sptr entry;
 
     FLD3D_CI_CopyName((char *)&key, name);
     if (texBlock != 0)
@@ -1538,7 +1539,7 @@ int FLD3D_CI_FindTexture(Fld3dCiTexBlock *texBlock, const char *name)
 int FLD3D_CI_FindPalette(Fld3dCiTexBlock *texBlock, const char *name)
 {
     Fld3dCiNameKey key;
-    int entry;
+    sptr entry;
 
     FLD3D_CI_CopyName((char *)&key, name);
     if (texBlock != 0 && texBlock->plttDictOffset != 0)
@@ -1607,7 +1608,7 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     palette = ci->pltt->raw;
     palette[1] = 0x7FFF;
     palette[2] = 0;
-    TEXT_TEXTURE_LoadTexPlttByName(texBlock, (char *)texName, palette, (char *)plttName, (u32)text, xOffset, 0, 0x440, heapId, (struct TexKey *)texKey);
+    TEXT_TEXTURE_LoadTexPlttByName(texBlock, (char *)texName, palette, (char *)plttName, (uptr)text, xOffset, 0, 0x440, heapId, (struct TexKey *)texKey);
     GFL_HEAP_Free(ci->plttRes);
     GFL_HEAP_Free(text);
     MSGDATA_Delete(msgBank);
@@ -1637,7 +1638,7 @@ void *FLD3D_CI_StartMessageSequence(void *gameSystem, Fld3dCi *ci, u32 nameMsgId
 void FLD3D_CI_DarkenCapturedScreen(u32 unused)
 {
     int oldBankState = GX_ResetBankForBG();
-    u16 *pixel = (u16 *)0x06860000;
+    u16 *pixel = (u16 *)HW_LCDC_VRAM_D;
     int i;
     for (i = 0; i < 0xC000; i++) {
         u16 color = *pixel;

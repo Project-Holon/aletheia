@@ -33,7 +33,6 @@
 #include "darray.h"
 
 #include "gsmemory.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 extern void qsort(void *table_base, unsigned int num_members, unsigned int member_size, int (*compare_members)(const void *, const void *));
 struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));

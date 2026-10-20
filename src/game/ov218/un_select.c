@@ -158,6 +158,7 @@
  *   d_021BAED8 0x021BAED8 data a2
  */
 #include "../arm9/printsys.h"
+#include "../sdk_ioreg.h"
 #include "../../matched/include/G_Template.h"
 #include "../../matched/include/G_Config.h"
 
@@ -465,7 +466,7 @@ int UN_SELECT_SceneDelete(struct Proc *ctx, int *state, void *unused, char *p)
         heap = ((struct UnSelectWork *)p)->heapId;
         PROCSYS_FreeProcWork(ctx);
         GFL_HEAP_DeleteChecked(heap);
-        GF_OVERLAY_Unload((int)ov067_id);
+        GF_OVERLAY_Unload((sptr)ov067_id);
         return 1;
     }
     }
@@ -619,7 +620,7 @@ void UN_SELECT_InitRecord(void)
 void UN_SELECT_RequestBrightness(void)
 {
     BRIGHTNESS_ChangeReset(1);
-    BRIGHTNESS_ChangeRequest((int)((void *)8), 0, -8, 60, 1);
+    BRIGHTNESS_ChangeRequest((sptr)((void *)8), 0, -8, 60, 1);
 }
 
 void *UN_SELECT_Create(u16 heap)
@@ -703,7 +704,7 @@ void UN_SELECT_DrawMessage(char *p, u32 id)
     GF_FONT_SetTextColor(1, 2, 15);
     MSGDATA_ReadString(((struct UnSelectRecord *)p)->msgBank.ptr, id, ((struct UnSelectRecord *)p)->text);
     WORDSET_CopyTaggedText(((struct UnSelectRecord *)p)->wordSet, ((struct UnSelectRecord *)p)->taggedText, ((struct UnSelectRecord *)p)->text);
-    ((struct UnSelectRecord *)p)->printStream.handle = (u32)PRINTSYS_PrintStream((struct BmpWin *)obj, 4, 0, ((struct UnSelectRecord *)p)->taggedText, (struct GfFont *)(((struct UnSelectRecord *)p)->font.handle), value, (struct Tcbl *)(((struct UnSelectRecord *)p)->tcbl.handle), (u32)65535, ((struct UnSelectRecord *)p)->heapId, 15);
+    ((struct UnSelectRecord *)p)->printStream.handle = (uptr)PRINTSYS_PrintStream((struct BmpWin *)obj, 4, 0, ((struct UnSelectRecord *)p)->taggedText, (struct GfFont *)(((struct UnSelectRecord *)p)->font.handle), value, (struct Tcbl *)(((struct UnSelectRecord *)p)->tcbl.handle), (u32)65535, ((struct UnSelectRecord *)p)->heapId, 15);
     BMP_MENUWORK_DrawWindow(((struct UnSelectRecord *)p)->window, 2, 1, 15);
     BMP_WIN_TransferChars((struct BmpWin *)obj);
     BMP_WIN_MakeScreen((struct BmpWin *)obj);
@@ -764,10 +765,10 @@ void UN_SELECT_UpdateFrameList(u8 *p, u32 a, u32 b, u8 *c, u32 d)
     u32 t;
     UN_SELECT_SetActorVisible((char *)p);
     FRAME_LIST_GetItemValue((struct FrameList *)((struct UnSelectWork *)p)->frameList, a);
-    t = (unsigned int)FRAME_LIST_GetPrinter((struct FrameList *)((struct UnSelectWork *)p)->frameList);
+    t = (uptr)FRAME_LIST_GetPrinter((struct FrameList *)((struct UnSelectWork *)p)->frameList);
     UN_SELECT_DrawFrameListRow((u8 *)((struct UnSelectWork *)p)->record, b, t, UN_SELECT_GetMsgData((u8 *)((struct UnSelectWork *)p)->record), a);
     if (UN_SELECT_ContainsItem((char *)p, a)) {
-        UN_SELECT_SetActorPos((u32)p, d, (u32)(c + 0x14));
+        UN_SELECT_SetActorPos((uptr)p, d, (uptr)(c + 0x14));
     }
 }
 
@@ -835,8 +836,8 @@ char *UN_SELECT_CreateSceneWork(void *owner,char *input)
 {
     char *p;
     int i,value;
-    u32 a,b;
-    GF_OVERLAY_Load((int)ov067_id);
+    uptr a, b;
+    GF_OVERLAY_Load((sptr)ov067_id);
     GFL_HEAP_CreateChildHeap(1,122,0x30000);
     p=PROCSYS_AllocProcWork(owner,0x330,122);
     MI_CpuFill8(p,0,0x330);
@@ -852,22 +853,22 @@ char *UN_SELECT_CreateSceneWork(void *owner,char *input)
         else value=65535;
         ((struct UnSelectWork *)p)->rowIds[i]=value;
     }
-    GXx_SetMasterBrightness_((u16 *)0x0400006c,-16);
-    GXx_SetMasterBrightness_((u16 *)0x0400106c,-16);
+    GXx_SetMasterBrightness_((u16 *)REG_MASTER_BRIGHT_ADDR,-16);
+    GXx_SetMasterBrightness_((u16 *)REG_DB_MASTER_BRIGHT_ADDR,-16);
     ((struct UnSelectWork *)p)->graphic=UN_SELECT_GRAPHIC_Create(0,((struct UnSelectWork *)p)->heapId);
     ((struct UnSelectWork *)p)->uiScene=UI_SCENE_Create(((struct UnSelectWork *)p)->heapId,(struct UiSceneEntry *)d_021BAB20,3,0,p);
     UN_SELECT_LoadBg((u8 *)p,((struct UnSelectWork *)p)->heapId);
     ((struct UnSelectWork *)p)->record=UN_SELECT_Create(((struct UnSelectWork *)p)->heapId);
     ((struct UnSelectWork *)p)->touchBar=UN_SELECT_CreateTouchBar(UN_SELECT_GRAPHIC_GetActor(((struct UnSelectWork *)p)->graphic),((struct UnSelectWork *)p)->heapId);
-    a=(u32)UN_SELECT_GetMsgData(((struct UnSelectWork *)p)->record);
-    b=(u32)UN_SELECT_GetPrintQue(((struct UnSelectWork *)p)->record);
+    a=(uptr)UN_SELECT_GetMsgData(((struct UnSelectWork *)p)->record);
+    b=(uptr)UN_SELECT_GetPrintQue(((struct UnSelectWork *)p)->record);
     ((struct UnSelectWork *)p)->taskMenuState=APP_TASKMENU_RES_Create(1,11,(struct GFont *)a,(struct PrintQueue *)b,((struct UnSelectWork *)p)->heapId);
     UN_SELECT_LoadActors(p);
     UN_SELECT_CreateFrameList(p);
     UN_SELECT_SetupActors(p);
     UN_SELECT_InitActorPositions(p);
-    G2x_SetBlendAlpha_((u32 *)0x04001050,4,8,6,10);
-    ((struct UnSelectWork *)p)->taskProc=GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((u32)UN_SELECT_Callback),(void *)((u32)p),0);
+    G2x_SetBlendAlpha_((u32 *)REG_DB_BLDCNT_ADDR,4,8,6,10);
+    ((struct UnSelectWork *)p)->taskProc=GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((uptr)UN_SELECT_Callback),(void *)((uptr)p),0);
     GFL_NET_RefreshWmIconAtTopRight(1,((struct UnSelectWork *)p)->heapId);
     return p;
 }
@@ -1009,7 +1010,7 @@ int UN_SELECT_SceneStepMenuOut(unsigned char *task, char *ctx)
 
 void UN_SELECT_Callback(void)
 {
-    int count = *(volatile unsigned short *)0x04000006;
+    int count = *(volatile unsigned short *)REG_VCOUNT_ADDR;
     if (count >= 152)
         *(volatile unsigned short *)0x04001052 = 0x050b;
     else if (count >= 112)
@@ -1030,9 +1031,9 @@ void UN_SELECT_LoadActors(char *ctx)
     ((struct UnSelectWork *)ctx)->paletteId = -1;
     ((struct UnSelectWork *)ctx)->cellAnimId = -1;
     archive = ARC_TOOL_CreateHandle(193, heap);
-    ((struct UnSelectWork *)ctx)->characterId = CLACT_RegisterCharacter((void *)((unsigned)archive), 10, 0, 2, heap);
+    ((struct UnSelectWork *)ctx)->characterId = CLACT_RegisterCharacter((void *)((uptr)archive), 10, 0, 2, heap);
     ((struct UnSelectWork *)ctx)->paletteId = CLACT_RegisterPalette((void *)archive, 11, 2, 96, heap);
-    ((struct UnSelectWork *)ctx)->cellAnimId = CLACT_RegisterCellAnim((void *)((unsigned)archive), 9, 8, heap);
+    ((struct UnSelectWork *)ctx)->cellAnimId = CLACT_RegisterCellAnim((void *)((uptr)archive), 9, 8, heap);
     ARC_TOOL_DeleteHandle(archive);
 }
 
@@ -1047,28 +1048,28 @@ void UN_SELECT_SetupActors(char *p)
     for(j=0;j<36;j++)*(u32 *)(p+0x240+j*4)=0;
     a=d_021BABC8;
     a.c=((struct UnSelectWork *)p)->characterId;a.d=((struct UnSelectWork *)p)->paletteId;a.e=((struct UnSelectWork *)p)->cellAnimId;
-    ((struct UnSelectWork *)p)->mainActor=UN_SELECT_CreateActor((u32)manager,(char *)(&a));
+    ((struct UnSelectWork *)p)->mainActor=UN_SELECT_CreateActor((uptr)manager,(char *)(&a));
     b=d_021BAB68;
     b.c=((struct UnSelectWork *)p)->characterId;b.d=((struct UnSelectWork *)p)->paletteId;b.e=((struct UnSelectWork *)p)->cellAnimId;
-    for(i=0;i<20;i++)((struct UnSelectWork *)p)->rowActors[i]=UN_SELECT_CreateActor((u32)manager,(char *)(&b));
+    for(i=0;i<20;i++)((struct UnSelectWork *)p)->rowActors[i]=UN_SELECT_CreateActor((uptr)manager,(char *)(&b));
     c=d_021BAB98;
     c.c=((struct UnSelectWork *)p)->characterId;c.d=((struct UnSelectWork *)p)->paletteId;c.e=((struct UnSelectWork *)p)->cellAnimId;
     for(j=0;j<7;j++) {
-        item=UN_SELECT_CreateActor((u32)manager,(char *)(&c));
+        item=UN_SELECT_CreateActor((uptr)manager,(char *)(&c));
         CLACT_SetActorDrawEnable(item,0);
         ((struct UnSelectWork *)p)->hiddenActors[j]=item;
     }
     d=d_021BABB0;
     d.c=((struct UnSelectWork *)p)->characterId;d.d=((struct UnSelectWork *)p)->paletteId;d.e=((struct UnSelectWork *)p)->cellAnimId;
     for(i=0;i<7;i++) {
-        item=UN_SELECT_CreateActor((u32)manager,(char *)(&d));
+        item=UN_SELECT_CreateActor((uptr)manager,(char *)(&d));
         CLACT_SetActorObjMode(item,1);
         CLACT_SetActorDrawEnable(item,0);
         ((struct UnSelectWork *)p)->mode1Actors[i]=item;
     }
     e=d_021BAB80;
     e.c=((struct UnSelectWork *)p)->characterId;e.d=((struct UnSelectWork *)p)->paletteId;e.e=((struct UnSelectWork *)p)->cellAnimId;
-    ((struct UnSelectWork *)p)->selectorActor=UN_SELECT_CreateActor((u32)manager,(char *)(&e));
+    ((struct UnSelectWork *)p)->selectorActor=UN_SELECT_CreateActor((uptr)manager,(char *)(&e));
 }
 
 void UN_SELECT_DeleteActor(char *p)
@@ -1084,7 +1085,7 @@ void UN_SELECT_DeleteActor(char *p)
     }
 }
 
-struct Obj *UN_SELECT_CreateActor(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor((struct Unit *)owner,((struct Config *)p)->c,((struct Config *)p)->d,((struct Config *)p)->e,(const struct ActorInitParam *)((u32)p),((struct Config *)p)->g,122);CLACT_SetActorAutoAnim((struct ClactActor *)r,1);return r;}
+struct Obj *UN_SELECT_CreateActor(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor((struct Unit *)owner,((struct Config *)p)->c,((struct Config *)p)->d,((struct Config *)p)->e,(const struct ActorInitParam *)((uptr)p),((struct Config *)p)->g,122);CLACT_SetActorAutoAnim((struct ClactActor *)r,1);return r;}
 
 void UN_SELECT_SetActorVisible(char *ctx)
 {

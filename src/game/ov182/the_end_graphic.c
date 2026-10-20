@@ -317,9 +317,9 @@ void THE_END_GRAPHIC_Dummy(void *p){}
 void THE_END_GRAPHIC_StartFade(void *a, void *b, void *c)
 {
     if (GPOWER_GetSpecialPowerId() == 0x15)
-        FADE_Start(3, (s32)a, (s32)b, (s32)c);
+        FADE_Start(3, (sptr)a, (sptr)b, (sptr)c);
     else
-        FADE_Start(0xc, (s32)a, (s32)b, (s32)c);
+        FADE_Start(0xc, (sptr)a, (sptr)b, (sptr)c);
 }
 
 /*
@@ -360,7 +360,7 @@ char *THE_END_GRAPHIC_Create(int a, u16 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     THE_END_GRAPHIC_InitWindows(p, heap);
-    THE_END_GRAPHIC_InitActors((int *)(p + 4), (int)d_021B9C48, heap);
+    THE_END_GRAPHIC_InitActors((int *)(p + 4), (sptr)d_021B9C48, heap);
     THE_END_GRAPHIC_InitCamera((int *)(p + 8), heap);
     ((struct TheEndGraphic *)p)->vblankHandle = GFL_USE_AddMainTask(THE_END_GRAPHIC_VBlankTask, p, 0);
     return p;
@@ -423,9 +423,9 @@ void THE_END_GRAPHIC_RefreshDisplay(void *unused) { BG_SYS_Update(); }
 
 void THE_END_GRAPHIC_InitActors(int *p, int b, int c)
 {
-    MI_CpuFill8((void *)((int)p), 0, 4);
+    MI_CpuFill8((void *)((sptr)p), 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)d_021B9C0C, (struct DispVramCfg *)b, c);
-    p[0] = (int)CLACT_CreateUnit(0x80, 0, c);
+    p[0] = (sptr)CLACT_CreateUnit(0x80, 0, c);
     CLACT_SetUnitDefaultRenderer((void *)p[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
@@ -445,7 +445,7 @@ void THE_END_GRAPHIC_VBlankActors(void *unused) { CLACT_VBlankSystem(); }
 void THE_END_GRAPHIC_InitCamera(int *p,u16 heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,0,heap,THE_END_GRAPHIC_Setup3d);
-    *p=(s32)G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,(struct VecFx32 *)d_021B9BE4,(struct VecFx32 *)d_021B9BD8,(struct VecFx32 *)d_021B9BF0,heap);
+    *p=(sptr)G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,(struct VecFx32 *)d_021B9BE4,(struct VecFx32 *)d_021B9BD8,(struct VecFx32 *)d_021B9BF0,heap);
 }
 
 void THE_END_GRAPHIC_DeleteCamera(unsigned int *p)

@@ -48,7 +48,7 @@ u32 NWM_Disconnect(void *callback) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(9, (u32)callback);
+    NWMi_SetCallbackTable(9, (uptr)callback);
     r = NWMi_SendCommand(9, 0);
     if (r == 0 || r == 2) {
         r = 2;

@@ -477,7 +477,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     ((struct BrProcSys *)p)->resources=BR_RES_Create(mode,enabled,0x5a);
     BR_RES_LoadBgGraphics((void *)(*(int *)&((struct BrProcSys *)p)->resources),0,0x5a);
     BR_RES_LoadBgGraphics((void *)(*(int *)&((struct BrProcSys *)p)->resources),1,0x5a);
-    ((struct BrProcSys *)p)->proc=BR_PROC_SYS_Create(0,(void *)d_02200254,0xd,(unsigned)p,(unsigned *)(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->data+0x1728),0x5a);
+    ((struct BrProcSys *)p)->proc=BR_PROC_SYS_Create(0,(void *)d_02200254,0xd,(uptr)p,(unsigned *)(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->data+0x1728),0x5a);
     *(int * *)&((struct BrProcSys *)p)->fade=(int *)BR_FADE_Create(0x5a);
     BR_FADE_CaptureHwPalettes(*(char * *)&((struct BrProcSys *)p)->fade);
     BR_FADE_SetBlendColor(*(int * *)&((struct BrProcSys *)p)->fade,BR_RES_GetCurrentSetParam((struct BrRes *)(*(char * *)&((struct BrProcSys *)p)->resources)));
@@ -486,7 +486,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     BR_PROC_SYS_LoadRecords((char *)(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->data+0x1748),1,(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),0x5a);
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
         ((struct BrProcSys *)p)->net=BR_NET_Create((void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->netArg),0x5a);
-    } else GF_OVERLAY_Load((int)ov125_id);
+    } else GF_OVERLAY_Load((sptr)ov125_id);
     if(GFL_NET_GetRunState()) GFL_NET_RefreshWmIconAtTopRight(0,0x5a);
     if(!**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
         if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) FIELD_SOUND_SYSTEM_FadeVolume((void *)GAME_DATA_GetBgmInfo((struct GameData *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
@@ -505,13 +505,13 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
     if(p[5]) {
         if(BR_NET_IsFatal((struct BrNet *)p[5])) ((int *)((int *)p[6])[3])[3]=2;
         BR_NET_Destroy((struct BrNet *)p[5]); p[5]=0;
-    } else GF_OVERLAY_Unload((int)ov125_id);
+    } else GF_OVERLAY_Unload((sptr)ov125_id);
     BR_SIDEBAR_Destroy((struct BrSidebar *)p[4],(struct BrRes *)p[1]);
     BR_FADE_Delete((struct BrFade *)p[3]);
     BR_PROC_SYS_Delete((int *)p[2]);
     nested=(int *)((int *)p[6])[3];
     if(nested[0]==0) {
-        int a=(int)GAME_DATA_GetMiscSave((struct GameData *)nested[1]);
+        int a=(sptr)GAME_DATA_GetMiscSave((struct GameData *)nested[1]);
         int b=BR_RES_GetPalSet((struct BrRes *)p[1]);
         MISC_SetRecorderFlag((struct MiscSave *)a,(unsigned char)b);
     }
@@ -676,13 +676,13 @@ void BR_PROC_SYS_SetPendingFlag(u32 *a, u32 *b) { if (*a == 1) *(u32 *)b[6] = 1;
  */
 void BR_PROC_SYS_BuildProfileRecord(char *r5, int *r4)
 {
-    int x;
-    x = (int)GAME_DATA_GetSaveControl((struct GameData *)(*(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4)));
+    sptr x;
+    x = (sptr)GAME_DATA_GetSaveControl((struct GameData *)(*(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4)));
     ((struct BrProcOutRecord *)r5)->value1 = r4[1];
     ((struct BrProcOutRecord *)r5)->kind = r4[3];
     ((struct BrProcOutRecord *)r5)->value2 = r4[2];
     ((struct BrProcOutRecord *)r5)->actor = BR_GRAPHIC_GetActorUnit((struct BrGraphic *)r4[0]);
-    ((struct BrProcOutRecord *)r5)->value3 = (int)SAVE_CONTROL_GetBlock((struct SaveControl *)x, 0x3a);
+    ((struct BrProcOutRecord *)r5)->value3 = (sptr)SAVE_CONTROL_GetBlock((struct SaveControl *)x, 0x3a);
     ((struct BrProcOutRecord *)r5)->owner = *(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4);
 }
 
@@ -696,14 +696,14 @@ void BR_PROC_SYS_NoopB(void) {}
  */
 void BR_PROC_SYS_BuildProfileRecord2(char *r5, int *r4)
 {
-    int x;
-    x = (int)GAME_DATA_GetSaveControl((struct GameData *)(*(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4)));
+    sptr x;
+    x = (sptr)GAME_DATA_GetSaveControl((struct GameData *)(*(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4)));
     ((struct BrProcOutRecord *)r5)->value1 = r4[1];
     ((struct BrProcOutRecord *)r5)->actor = r4[3];
     ((struct BrProcOutRecord *)r5)->value2 = r4[2];
     ((struct BrProcOutRecord *)r5)->kind = BR_GRAPHIC_GetActorUnit((struct BrGraphic *)r4[0]);
     ((struct BrProcOutRecord *)r5)->value3 = *(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4);
-    ((struct BrProcOutRecord *)r5)->owner = LIVEBATTLEMATCH_SAVE_GetStats2((int)LIVEBATTLEMATCH_SAVE_GetFromSave((void *)x));
+    ((struct BrProcOutRecord *)r5)->owner = LIVEBATTLEMATCH_SAVE_GetStats2((sptr)LIVEBATTLEMATCH_SAVE_GetFromSave((void *)x));
 }
 
 void BR_PROC_SYS_NoopC(void) {}
@@ -821,7 +821,7 @@ void BR_PROC_SYS_LoadBattleRecord(Top *p, Top *q)
     if (p->hasRecord == 0)
         return;
     BR_PROC_SYS_LoadRecords((char *)q->gameState->data + 0x1748, 0, (void *)q->gameState->shared->saveControl, 0x5a);
-    BATTLE_REC_Load((void *)((int)GAME_DATA_GetSaveControl((struct GameData *)q->gameState->shared->saveControl)), 0x805a, (u32 *)buf, p->recordId);
+    BATTLE_REC_Load((void *)((sptr)GAME_DATA_GetSaveControl((struct GameData *)q->gameState->shared->saveControl)), 0x805a, (u32 *)buf, p->recordId);
 }
 
 void BR_PROC_SYS_CopyWordsA(BrProcWords *a, BrProcWordsSrc *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }
@@ -845,12 +845,12 @@ void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap)
     int enabled=1;
     int i;
     u32 result;
-    u32 save;
+    uptr save;
     void *profile;
     if(skip && *(int *)(p+0x54)) enabled=0;
     if(enabled) {
         u32 tag;
-        save=(u32)GAME_DATA_GetSaveControl(sys);
+        save=(uptr)GAME_DATA_GetSaveControl(sys);
         if(*(int *)(p+0x54)) {
             for(i=0;i<4;i++) {
                 if(((Fields *)p)->handles[i]) {
@@ -866,10 +866,10 @@ void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap)
             if(result==1) {
                 profile=BATTLE_REC_GetWork();
                 if(i==0) GDS_PROFILE_Init(profile,sys);
-                *(int *)((u32)p+(u32)i*4)=1;
-                *(void **)((u32)p+(u32)i*4+0x10)=GDS_PROFILE_CreateNameStr(profile,0x59);
-                *(u32 *)((u32)p+(u32)i*4+0x20)=GDS_PROFILE_GetEggFlag(profile);
-                *(u64 *)((u32)p+(u32)i*8+0x30)=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
+                *(int *)((uptr)p+(u32)i*4)=1;
+                *(void **)((uptr)p+(u32)i*4+0x10)=GDS_PROFILE_CreateNameStr(profile,0x59);
+                *(u32 *)((uptr)p+(u32)i*4+0x20)=GDS_PROFILE_GetEggFlag(profile);
+                *(u64 *)((uptr)p+(u32)i*8+0x30)=BATTLE_REC_GetHeaderParam(BATTLE_REC_GetHeader(),4,0);
             }
         }
         *(u32 *)(p+0x50)=MUSICAL_SAVE_IsShowActive(MUSICAL_SAVE_GetFromSave(GAME_DATA_GetSaveControl(sys)));
@@ -888,7 +888,7 @@ Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsig
     ctx->arg = arg;
     ctx->base = base;
     ctx->list = list;
-    ctx->object = (unsigned int)PROCSYS_Create(heap);
+    ctx->object = (uptr)PROCSYS_Create(heap);
     BR_PROC_SYS_ClearEntry((char *)ctx + 0x2c);
     BR_PROC_SYS_ClearEntry((char *)ctx + 0x3c);
     BR_PROC_SYS_ClearEntry((char *)ctx + 0x1c);
@@ -968,7 +968,7 @@ void BR_PROC_SYS_PopEntry(unsigned *ctx)
         ctx[25]--;
         if (ctx[25] != 0) {
             unsigned idx = (unsigned short)((unsigned *)((char *)ctx + 0x48))[ctx[25]];
-            BR_PROC_SYS_InitEntry((char *)(&info), idx, (int)((char *)ctx[1] + idx * 20));
+            BR_PROC_SYS_InitEntry((char *)(&info), idx, (sptr)((char *)ctx[1] + idx * 20));
             *(BrProcEntry *)((char *)ctx + 0x3c) = info;
         } else {
             BR_PROC_SYS_ClearEntry((char *)ctx + 0x3c);
@@ -985,7 +985,7 @@ void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index)
     char *entry = base + index * 20;
     if (index >= ((struct Context *)ctx)->count)
         GF_PANIC_Fail(d_02200D14, 0, d_02200D14);
-    BR_PROC_SYS_InitEntry((char *)(&info), index, (int)entry);
+    BR_PROC_SYS_InitEntry((char *)(&info), index, (sptr)entry);
     if (ctx[25] >= 6)
         GF_PANIC_Fail(d_02200D14, 0, d_02200D14);
     ((unsigned (*)[6])((char *)ctx + 0x4c))[0][ctx[25]] = index;

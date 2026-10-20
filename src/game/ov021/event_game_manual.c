@@ -87,7 +87,7 @@ u32 EVENT_GAME_MANUAL_Main(struct GameEvent *event, u32 *seq, EventGameManualWor
 {
     switch (seq[0]) {
     case 0:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(work->gameSystem, work->fieldMap, (int)abs_id_e1, d_021BBDE4, work->param));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(work->gameSystem, work->fieldMap, (sptr)abs_id_e1, d_021BBDE4, work->param));
         seq[0]++;
         break;
     case 1:

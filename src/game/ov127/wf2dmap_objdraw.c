@@ -147,7 +147,7 @@ Wf2dmapAnimSeq *WF2DMAP_OBJDRAW_CreateAnimSeq(void *srcA, void *srcB, u32 count,
     seq->frames = GFL_HEAP_Alloc(heap, 20 * seq->frameCount, 1, sWf2dmapObjdrawFileName, 168);
     seq->state = 2;
     seq->mode = mode;
-    WIFI_2DCHAR_SetupBmpCell(seq->sprite, (int)palette, seq->mode, animData, heap);
+    WIFI_2DCHAR_SetupBmpCell(seq->sprite, (sptr)palette, seq->mode, animData, heap);
     WIFI_2DCHAR_RegisterBmp(seq->sprite, seq->mode, 255, heap);
     return seq;
 }

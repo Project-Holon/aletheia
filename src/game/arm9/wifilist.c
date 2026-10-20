@@ -206,15 +206,15 @@ void WIFILIST_Copy(const struct WifiList *src, struct WifiList *dest)
 void WIFILIST_Init(struct WifiList *list)
 {
     MI_CpuFill8(list, 0, sizeof(struct WifiList));
-    GF_OVERLAY_Unload((int)ov_id_0A);
-    GF_OVERLAY_Unload((int)ov_id_0B);
-    GF_OVERLAY_Load((int)ov_id_0D);
-    GF_OVERLAY_Load((int)ov_id_09);
+    GF_OVERLAY_Unload((sptr)ov_id_0A);
+    GF_OVERLAY_Unload((sptr)ov_id_0B);
+    GF_OVERLAY_Load((sptr)ov_id_0D);
+    GF_OVERLAY_Load((sptr)ov_id_09);
     DWC_RAPCOMMON_InitUserData(list);
-    GF_OVERLAY_Unload((int)ov_id_09);
-    GF_OVERLAY_Unload((int)ov_id_0D);
-    GF_OVERLAY_Load((int)ov_id_0A);
-    GF_OVERLAY_Load((int)ov_id_0B);
+    GF_OVERLAY_Unload((sptr)ov_id_09);
+    GF_OVERLAY_Unload((sptr)ov_id_0D);
+    GF_OVERLAY_Load((sptr)ov_id_0A);
+    GF_OVERLAY_Load((sptr)ov_id_0B);
 }
 
 /*

@@ -94,7 +94,7 @@ extern int gpiProcessRecvBuddyMessage(void **connection, char *input);
 extern int gpiProcessRecvBuddyStatusInfo(void **connection, char *input);
 #include "gpibuddy.h"
 extern int gpiProcessRecvBlockedList(void **connection, char *input);
-extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
+extern char *strstr(const char *s1, const char *s2);
 #include "../arm9/msl_strtod.h"
 /*
  * gpiInitialize (gpi_engine?): allocate the 0x638-byte GP connection block, * clear it, seed the state words, hand its address to gpiInitProfiles, clear * nine 8-byte pairs, run the two sub-initialisers, then publish the block * through *out. p lives on the stack because &p is taken.
@@ -318,7 +318,7 @@ int gpiProcessConnectionManager(void **connection)
             return result;
         }
 
-        while ((str = (char *)strstr((unsigned char *)ic->socketBuffer.buffer, (unsigned char *)d_021A415C)) != 0) {
+        while ((str = (char *)strstr(ic->socketBuffer.buffer, d_021A415C)) != 0) {
             ic->kaTransmit = now;
             *str = 0;
             gsDebugFormat(1, 0, 0x20, d_021A4164, ic->socketBuffer.buffer);
@@ -336,7 +336,7 @@ int gpiProcessConnectionManager(void **connection)
             ic->socketBuffer.len = ic->socketBuffer.len - ((str + 7) - ic->socketBuffer.buffer);
             memmove(ic->socketBuffer.buffer, str + 7, ic->socketBuffer.len + 1);
             str = ic->inputBuffer;
-            next = (char *)strstr((unsigned char *)str, (unsigned char *)d_021A4180);
+            next = (char *)strstr(str, d_021A4180);
             if (next) {
                 id = atoi((next + 4));
                 if (!gpiFindOperationByID(connection, &operation, id)) {

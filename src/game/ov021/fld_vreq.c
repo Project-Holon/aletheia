@@ -27,6 +27,7 @@
  *   DWCi_WindowG2x_ChangeBlendBrightness_  0x0207D6C0  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 /*
  * Field V-blank requests: blend and brightness register writes and BG
@@ -50,10 +51,10 @@ typedef struct FldVReq {
 #define _BLEND_KIND_BRIGHT_EXT  4
 #define _BLEND_KIND_ALPHA_EV    5
 
-#define _REG_MAIN_BLDCNT        0x04000050
-#define _REG_SUB_BLDCNT         0x04001050
-#define _REG_MAIN_MASTER_BRIGHT 0x0400006C
-#define _REG_SUB_MASTER_BRIGHT  0x0400106C
+#define _REG_MAIN_BLDCNT        REG_BLDCNT_ADDR
+#define _REG_SUB_BLDCNT         REG_DB_BLDCNT_ADDR
+#define _REG_MAIN_MASTER_BRIGHT REG_MASTER_BRIGHT_ADDR
+#define _REG_SUB_MASTER_BRIGHT  REG_DB_MASTER_BRIGHT_ADDR
 
 typedef void (*FldVReqBlendFunc)(void *params, int isMain);
 

@@ -142,6 +142,7 @@
  *   GFL_HEAP_Free  0x020307B0  arm
  */
 #include "viewer_types.h"
+#include "../sdk_ioreg.h"
 
 struct CharBuf;
 struct Descriptor;
@@ -365,7 +366,7 @@ void VIEWER_TEXT_Draw(ViewerWork *p, void **bg, const ViewerInfo *info)
     VIEWER_TEXT_DrawList((ViewerWork *)p, info->listIndex, 0);
     VIEWER_TEXT_PrintDigits((ViewerWork *)p, bg[4], 0xD8, 8, 0, s, info->topValue, 7, 1, 1, 0);
     PMS_DRAW_SetNullColorPalette(p->pmsDraw, 0);
-    PMS_DRAW_Print((u32)p->pmsDraw, (u32)bg[5], (struct BeaconDetailGraQuad *)p->info->decoData, 0);
+    PMS_DRAW_Print((uptr)p->pmsDraw, (uptr)bg[5], (struct BeaconDetailGraQuad *)p->info->decoData, 0);
     if (p->decoVisible != 0) {
         PMS_DRAW_SetVisible(p->pmsDraw, 0, 0);
     }
@@ -659,7 +660,7 @@ void VIEWER_TEXT_PrintDigits(ViewerWork *p, void *a, int x, int dx, int y, void 
     u32 w;
 
     WORDSET_SetSlotNumber(p->wordSet, 0, n, digits, mode, 1);
-    WORDSET_CopyTaggedText(p->wordSet, (void *)((u32)s), p->taggedText[k]);
+    WORDSET_CopyTaggedText(p->wordSet, (void *)((uptr)s), p->taggedText[k]);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
@@ -675,7 +676,7 @@ void VIEWER_TEXT_PrintString(ViewerWork *p, void *a, int x, int dx, int y, void 
     WORDSET_SetSlotNumber(p->wordSet, 0, p->info->year1 + 2000, 4, mode, 1);
     WORDSET_SetSlotNumber(p->wordSet, 1, p->info->month1, 2, mode, 1);
     WORDSET_SetSlotNumber(p->wordSet, 2, p->info->day1, 2, mode, 1);
-    WORDSET_CopyTaggedText(p->wordSet, (void *)((u32)s), p->taggedText[2]);
+    WORDSET_CopyTaggedText(p->wordSet, (void *)((uptr)s), p->taggedText[2]);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
@@ -709,7 +710,7 @@ void VIEWER_TEXT_PrintStringPad(ViewerWork *p, void *a, int x, int dx, int y, vo
     u32 w;
 
     WORDSET_SetSlotNumber(p->wordSet, 0, n, 3, mode, 1);
-    WORDSET_CopyTaggedText(p->wordSet, (void *)((u32)s), p->taggedText[4]);
+    WORDSET_CopyTaggedText(p->wordSet, (void *)((uptr)s), p->taggedText[4]);
     w = PRINTSYS_MeasureWidestLine(s, p->font, 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(a), x - (w + dx), y, s, p->font, d_021C8768[idx]);
 }
@@ -783,7 +784,7 @@ void VIEWER_TEXT_InitActors(ViewerAnim *a, u32 x)
 
     h = ARC_TOOL_CreateHandle(0x28, a->heap);
     CLACT_InitSystem((const struct ClactSysInit *)gClActorInitParam, (const struct DispVramCfg *)x, a->heap);
-    a->unit = (u32)CLACT_CreateUnit(0x23, 0, a->heap);
+    a->unit = (uptr)CLACT_CreateUnit(0x23, 0, a->heap);
     a->res[0].palette = CLACT_RegisterPaletteEx(h, 0xC, 1, 0, 0, 5, a->heap);
     a->res[0].chr = CLACT_RegisterCharacter(h, 0x1D, 0, 1, a->heap);
     a->res[0].cellAnim = CLACT_RegisterCellAnim(h, 0x2E, 0x30, a->heap);
@@ -1025,7 +1026,7 @@ void VIEWER_TEXT_InitBg(ViewerTextWork *p)
     }
     BG_SYS_SetPlaneVisible(7, 0);
     *(volatile u16 *)0x04000050 = 0;
-    G2x_SetBlendAlpha_((u32 *)0x04001050, 2, 4, 7, 0x10);
+    G2x_SetBlendAlpha_((u32 *)REG_DB_BLDCNT_ADDR, 2, 4, 7, 0x10);
 }
 
 

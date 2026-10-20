@@ -61,7 +61,7 @@ extern char gGpiUtilityMsgParseError[];
  */
 void strzcpy(char *p, const char *src, int n)
 {
-    strncpy((u8 *)p, (const u8 *)src, n);
+    strncpy(p, src, n);
     *(char *)(p + n - 1) = 0;
 }
 
@@ -91,14 +91,14 @@ int gpiCheckForError(void **connection, const char *input, int fatal)
     char value[0x10];
     int *ic = (int *)*connection;
 
-    if (strncmp((const unsigned char *)input, (const unsigned char *)gGpiUtilityKeyError, 7) != 0)
+    if (strncmp(input, gGpiUtilityKeyError, 7) != 0)
         goto fail;
     if (gpiValueForKey(input, gGpiUtilityKeyErr, value, 0x10))
         ic[0x5b8 / 4] = atoi(value);
     if (!gpiValueForKey(input, gGpiUtilityKeyErrMsg, (char *)ic, 0x100))
         *(char *)ic = 0;
     if (fatal != 0) {
-        int b = strstr((const u8 *)input, (const u8 *)gGpiUtilityKeyFatal) != 0;
+        int b = strstr(input, gGpiUtilityKeyFatal) != 0;
         gpiCallErrorCallback(connection, 4, b != 0);
     }
     return 1;
@@ -118,14 +118,14 @@ int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, i
 
     command += *index;
     delimiter = key[0];
-    start = (char *)strstr((const unsigned char *)command, (const unsigned char *)key);
+    start = (char *)strstr(command, key);
     if (start == 0)
         return 0;
-    start += strlen((const u8 *)key);
+    start += strlen(key);
     for (i = 0; i < len - 1 && (c = start[i]) != 0 && c != delimiter; i++)
         value[i] = c;
     value[i] = 0;
-    *index += (start - command) + strlen((const u8 *)value);
+    *index += (start - command) + strlen(value);
     return 1;
 }
 
@@ -147,10 +147,10 @@ int gpiValueForKey(const char *command, const char *key, char *value, int valueL
     char keychar = key[0];
     char c;
 
-    p = (char *)strstr((const u8 *)command, (const u8 *)key);
+    p = (char *)strstr(command, key);
     if (p == 0)
         return 0;
-    p += strlen((const u8 *)key);
+    p += strlen(key);
     i = 0;
     while ((i < valueLen - 1) && ((c = p[i]) != '\0') && (c != keychar)) {
         value[i] = c;
@@ -284,7 +284,7 @@ void gpiEncodeString(const char *plaintext, char *encoded)
     unsigned int i;
     unsigned int len;
 
-    len = strlen((const u8 *)plaintext);
+    len = strlen(plaintext);
     Util_RandSeed(0x79707367);
     for (i = 0; i < len; i++)
         temp[i] = plaintext[i] ^ (char)Util_RandInt(0, 0xff);

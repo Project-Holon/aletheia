@@ -93,6 +93,7 @@
  *   _fsub                        0x0209CB8C  arm
  */
 #include "../arm9/printsys.h"
+#include "../sdk_ioreg.h"
 #include "demo3d_graphic_shared_types.h"
 #include "demo3d_engine_shared_types.h"
 #include "demo3d_data_shared_types.h"
@@ -218,7 +219,7 @@ void DEMO3D_DATA_BuildTable(char *ctx, const char *config, u8 type)
     ((Demo3dDataExtra *)extra)->count = pair->count - 1;
 }
 
-void * DEMO3D_DATA_GetPair(char *p,u8 *q) { const Selector *sel=(const Selector *)p;int x=0;switch(sel->selector){case 1:x=q[10];break;case 2:x=q[8];break;case 3:x=q[13];break;}if(x>=sel->count)x=0;return (void *)((unsigned int)sel->groups+x*8); }
+void * DEMO3D_DATA_GetPair(char *p,u8 *q) { const Selector *sel=(const Selector *)p;int x=0;switch(sel->selector){case 1:x=q[10];break;case 2:x=q[8];break;case 3:x=q[13];break;}if(x>=sel->count)x=0;return (void *)((uptr)sel->groups+x*8); }
 
 /*
  * The light record's flag halfword at +6 is struct Cam.doubled (bit 0): the
@@ -235,14 +236,14 @@ u32 DEMO3D_DATA_GetTimeStep(u32 a)
 
 int DEMO3D_DATA_IsDouble3dDisplay(void *a)
 {
-    struct Cam *cam = (struct Cam *)DEMO3D_ENGINE_GetCameraRecord((u32)a);
+    struct Cam *cam = (struct Cam *)DEMO3D_ENGINE_GetCameraRecord((uptr)a);
 
     return cam->count;
 }
 
 void DEMO3D_DATA_GetTextureSize(void *ctx, int mode, unsigned char *width, unsigned char *height)
 {
-    unsigned char *record = (unsigned char *)DEMO3D_ENGINE_GetCameraRecord((u32)ctx);
+    unsigned char *record = (unsigned char *)DEMO3D_ENGINE_GetCameraRecord((uptr)ctx);
     if (mode == 0) {
         *width = record[0x4e];
         *height = record[0x4f] * (((struct Cam *)record)->doubled + 1);
@@ -391,10 +392,10 @@ void DEMO3D_DATA_DeleteTask(int *s,unsigned a,unsigned b,unsigned c)
 {
     GX_SetGraphicsMode(a,b,c);GX_SetBankForLCDC(s[0]);
     switch(s[1]){
-    case 2:MIi_CpuClearFast(0,(void *)0x06800000,0x20000);break;
+    case 2:MIi_CpuClearFast(0,(void *)HW_LCDC_VRAM,0x20000);break;
     case 6:MIi_CpuClearFast(0,(void *)0x06820000,0x20000);break;
     case 10:MIi_CpuClearFast(0,(void *)0x06840000,0x20000);break;
-    case 14:MIi_CpuClearFast(0,(void *)0x06860000,0x20000);break;
+    case 14:MIi_CpuClearFast(0,(void *)HW_LCDC_VRAM_D,0x20000);break;
     default:GX_SetBankForLCDC(0);break;
     }
     TCBL_DeleteTask((struct TcblTask *)s[13]);
@@ -425,10 +426,10 @@ void DEMO3D_DATA_FinishTask(struct TcbTask *node, void *work_)
 void DEMO3D_DATA_StartCapture(CaptureConfig *s)
 {
     switch(s->bank){
-    case 2:MIi_CpuClearFast(0,(void *)0x06800000,0x20000);break;
+    case 2:MIi_CpuClearFast(0,(void *)HW_LCDC_VRAM,0x20000);break;
     case 6:MIi_CpuClearFast(0,(void *)0x06820000,0x20000);break;
     case 10:MIi_CpuClearFast(0,(void *)0x06840000,0x20000);break;
-    case 14:MIi_CpuClearFast(0,(void *)0x06860000,0x20000);break;
+    case 14:MIi_CpuClearFast(0,(void *)HW_LCDC_VRAM_D,0x20000);break;
     }
     GX_SetCapture(s->size,s->mode,s->a,s->b,s->dest,16,0);
 }
@@ -822,7 +823,7 @@ void DEMO3D_DATA_BrightnessSeqMain(void *task,char *work)
 
 void DEMO3D_DATA_TaskSetLightSlot(unsigned unused,char **q,unsigned *v){DEMO3D_GRAPHIC_SetLightSlot((struct Demo3dGraphic *)(*q),(unsigned char)v[0],v[1]|(v[2]<<5)|(v[3]<<10));}
 
-void DEMO3D_DATA_TaskSetLightVector(unsigned unused,char **q,unsigned *v){struct Demo3dLightVector t;t.x=v[1];t.y=v[2];t.z=v[3];DEMO3D_GRAPHIC_SetLightVector((struct Demo3dGraphic *)(*q),(unsigned char)v[0],(int)&t);}
+void DEMO3D_DATA_TaskSetLightVector(unsigned unused,char **q,unsigned *v){struct Demo3dLightVector t;t.x=v[1];t.y=v[2];t.z=v[3];DEMO3D_GRAPHIC_SetLightVector((struct Demo3dGraphic *)(*q),(unsigned char)v[0],(sptr)&t);}
 
 void DEMO3D_DATA_TaskShowMessage(int a, int b, int *s)
 {
@@ -854,7 +855,7 @@ void DEMO3D_DATA_MessageMain(struct TcblNode *task, struct Demo3dMessageContext 
         void *desc;
         ctx->text = MSGDATA_AllocString(bank,ctx->index);
         GF_FONT_SetTextColor(1,2,15);
-        ctx->printer = (u32)PRINTSYS_PrintStream(ctx->desc,0,0,ctx->text,(struct GfFont *)cfg->font,cfg->speed,(struct Tcbl *)cfg->task,(u32)0,cfg->heap,15);
+        ctx->printer = (uptr)PRINTSYS_PrintStream(ctx->desc,0,0,ctx->text,(struct GfFont *)cfg->font,cfg->speed,(struct Tcbl *)cfg->task,(u32)0,cfg->heap,15);
         desc = ctx->desc;
         BMP_WIN_TransferChars(desc);
         BMP_WIN_MakeScreen(desc);
@@ -938,7 +939,7 @@ void DEMO3D_DATA_FadeMain(struct TcblNode *task,struct Demo3dFadeContext *ctx)
         ctx->step=FX_Div(0x10000,(int)a);
         BG_SYS_SetPriority(1,0);
         BG_SYS_SetPriority(0,1);
-        G2x_SetBlendAlpha_((unsigned int *)0x04000050,2,1,0,16);
+        G2x_SetBlendAlpha_((unsigned int *)REG_BLDCNT_ADDR,2,1,0,16);
         BG_SYS_SetPlaneVisible(1,1);
         ctx->state++;
         break;
@@ -990,11 +991,11 @@ void DEMO3D_DATA_CreateFadeWork(char *p,Demo3dFadeWindowWork *out,int a,int b,in
     ARC_UTIL_UploadBgCharFromHandle((void *)(((Demo3dCmdContext *)p)->assets),out->b,1,0,0,1,((Demo3dCmdContext *)p)->alternate);
 }
 
-void DEMO3D_DATA_DeleteFadeWork(void *p){unsigned z=0;memset(p,0,0x2c);BG_SYS_SetPlaneVisible(1,0);BG_SYS_SetPriority(0,0);BG_SYS_SetPriority(1,1);*(volatile unsigned short *)0x04000050=z;BG_SYS_FreeSlot(1);}
+void DEMO3D_DATA_DeleteFadeWork(void *p){unsigned z=0;memset(p,0,0x2c);BG_SYS_SetPlaneVisible(1,0);BG_SYS_SetPriority(0,0);BG_SYS_SetPriority(1,1);*(volatile unsigned short *)REG_BLDCNT_ADDR=z;BG_SYS_FreeSlot(1);}
 
 void DEMO3D_DATA_TaskCreateCapture(char *a, int unused, int *p)
 {
-    ((Demo3dCmdContext *)a)->extra = (int)DEMO3D_DATA_CreateCapture((void *)((Demo3dCmdContext *)a)->task, p[0], p[1]);
+    ((Demo3dCmdContext *)a)->extra = (sptr)DEMO3D_DATA_CreateCapture((void *)((Demo3dCmdContext *)a)->task, p[0], p[1]);
 }
 
 void DEMO3D_DATA_TaskDeleteCapture(char *a)

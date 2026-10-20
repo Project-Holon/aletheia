@@ -699,7 +699,7 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr)
     MI_CpuFill8(dst + offset, 0, 0x1c);
     if (OS_IsRunOnTwl())
         AESi_Init();
-    if (AESi_SignForJpeg(sign, (unsigned int)dst, ptr) != 1)
+    if (AESi_SignForJpeg(sign, (uptr)dst, ptr) != 1)
         return 0;
     MI_CpuCopy8(sign, dst + offset, 0x1c);
     return 1;
@@ -843,7 +843,7 @@ void SSP_RGB555ToYUV888(void *src, unsigned long width, unsigned long height, vo
     image_width = (width + 7) & ~7;
     y = image_width * ((height + 7) & ~7);
     ybuf = (u8 *)dst;
-    crbuf = (u8 *)(y + (u32)(ybuf + y));
+    crbuf = (u8 *)(y + (uptr)(ybuf + y));
     for (x = 0; x < y; x++) {
         pRgb = (u16 *)src;
         bb = (x % image_width < width) ? *pRgb : 0;
@@ -992,7 +992,7 @@ static unsigned long Yos_JPEGEncode(void *src, u8 *dst, unsigned long limit, u8 
         dst[0xd] = samplingy | (samplingx << 4);
         ptr = 25;
     } else {
-        ptr = SSP_ExifEncode((int)dst, width, height, thumb_src, thumb_size);
+        ptr = SSP_ExifEncode((sptr)dst, width, height, thumb_src, thumb_size);
         if (ptr + 0x17 >= gWriteLimit)
             return 0;
         MI_CpuCopy8(jfif, dst + ptr, 0x17);

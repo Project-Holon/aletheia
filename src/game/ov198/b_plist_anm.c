@@ -127,17 +127,17 @@ void *B_PLIST_ANM_GetTileBuffer(void *p,u32 kind,u32 i,int which)
 {
  switch(kind){
  case 0:case 1:case 2:case 3:case 4:case 5:
-  if(which==0) return (void *)((u32)p+0x1dc+i*0xc0);
-  else return (void *)((u32)p+0x4dc+i*0xc0);
- case 6:return (void *)((u32)p+0xb74+i*0x32);
- case 7:return (void *)((u32)p+0xc3c+i*0x3fc);
- case 8:case 9:case 10:case 11:return (void *)((u32)p+0x7dc+i*0x82);
- case 12:return (void *)((u32)p+0x9e4+i*0x32);
- case 13:return (void *)((u32)p+0xaac+i*0x32);
+  if(which==0) return (void *)((uptr)p+0x1dc+i*0xc0);
+  else return (void *)((uptr)p+0x4dc+i*0xc0);
+ case 6:return (void *)((uptr)p+0xb74+i*0x32);
+ case 7:return (void *)((uptr)p+0xc3c+i*0x3fc);
+ case 8:case 9:case 10:case 11:return (void *)((uptr)p+0x7dc+i*0x82);
+ case 12:return (void *)((uptr)p+0x9e4+i*0x32);
+ case 13:return (void *)((uptr)p+0xaac+i*0x32);
  case 14:case 15:case 16:case 17:case 18:case 19:case 20:case 21:case 22:case 23:case 24:case 25:case 26:
-  return (void *)((u32)p+0x1830+i*0xc0);
- case 27:return (void *)((u32)p+0x1b30+i*0x104);
- case 28:case 29:case 30:case 31:return (void *)((u32)p+0x1e3c+i*0x14);
+  return (void *)((uptr)p+0x1830+i*0xc0);
+ case 27:return (void *)((uptr)p+0x1b30+i*0x104);
+ case 28:case 29:case 30:case 31:return (void *)((uptr)p+0x1e3c+i*0x14);
  default:return 0;
  }
 }
@@ -160,21 +160,21 @@ void B_PLIST_ANM_ApplyTilePalette(u8 *p,void *dst,u8 kind,u8 index,u8 which)
  switch(kind){
  case 0:case 1:case 2:case 3:case 4:case 5:
   orderIndex=B_PLIST_MAIN_GetOrderIndex(p,kind);
-  rec=(u8 *)((u32)p+(u32)orderIndex*0x4c);
+  rec=(u8 *)((uptr)p+(u32)orderIndex*0x4c);
   if(((struct B_PlistSlot *)rec)->active==0) break;
   if(((struct B_PlistSlot *)rec)->u1A.bits.flags.high){
-   pair[0]=*(u16 *)((u32)dst+(width*2+5)*2);
-   pair[1]=*(u16 *)((u32)dst+(width*3+5)*2);
+   pair[0]=*(u16 *)((uptr)dst+(width*2+5)*2);
+   pair[1]=*(u16 *)((uptr)dst+(width*3+5)*2);
    for(i=0;i<2;i++){
     u16 value=pair[i];
-    for(j=0;j<9;j++) (((u16 *)((u32)dst+(i+2)*width*2))+j)[6]=pair[i];
+    for(j=0;j<9;j++) (((u16 *)((uptr)dst+(i+2)*width*2))+j)[6]=pair[i];
    }
    return;
   }else if(((struct B_PlistSlot *)rec)->hpRawBase==0){
-   for(i=0;i<count;i++) *(u16 *)((u32)dst+i*2)=(*(u16 *)((u32)dst+i*2)&0xfff)|(((index&1)+7)<<12);
+   for(i=0;i<count;i++) *(u16 *)((uptr)dst+i*2)=(*(u16 *)((uptr)dst+i*2)&0xfff)|(((index&1)+7)<<12);
    return;
-  }else if(B_PLIST_MAIN_IsBattleSlot((u32)p,orderIndex)==1){
-   for(i=0;i<count;i++) *(u16 *)((u32)dst+i*2)=(*(u16 *)((u32)dst+i*2)&0xfff)|(((index&1)+5)<<12);
+  }else if(B_PLIST_MAIN_IsBattleSlot((uptr)p,orderIndex)==1){
+   for(i=0;i<count;i++) *(u16 *)((uptr)dst+i*2)=(*(u16 *)((uptr)dst+i*2)&0xfff)|(((index&1)+5)<<12);
   }
   break;
  }
@@ -263,7 +263,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
  }
  case 1:{
   B_PLIST_ANM_UploadTileBuffer(p,6,0,0);B_PLIST_ANM_UploadTileBuffer(p,7,0,0);
-  if(((struct B_PlistSlot *)((u32)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,((struct B_PlistWork *)p)->owner->orderIndex)*0x4c))->u1A.bits.flags.high){
+  if(((struct B_PlistSlot *)((uptr)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,((struct B_PlistWork *)p)->owner->orderIndex)*0x4c))->u1A.bits.flags.high){
    B_PLIST_ANM_UploadTileBuffer(p,8,3,0);B_PLIST_ANM_UploadTileBuffer(p,10,3,0);
   }else{
    B_PLIST_ANM_UploadTileBuffer(p,8,0,0);B_PLIST_ANM_UploadTileBuffer(p,10,0,0);
@@ -285,7 +285,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
    B_PLIST_ANM_UploadTileBuffer(p,12,3,0);B_PLIST_ANM_UploadTileBuffer(p,13,3,0);
   }
   for(slot=0;slot<4;slot++){
-   if(((struct B_PlistSlot *)((u32)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,((struct B_PlistWork *)p)->owner->orderIndex)*0x4c))->extra[slot].value!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+14),0,0);
+   if(((struct B_PlistSlot *)((uptr)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,((struct B_PlistWork *)p)->owner->orderIndex)*0x4c))->extra[slot].value!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+14),0,0);
    else B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+14),3,0);
   }
   B_PLIST_ANM_UploadTileBuffer(p,9,0,0);B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;
@@ -302,7 +302,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
  case 5:{
   u16 slot;
   for(slot=0;slot<4;slot++){
-   if(((struct B_PlistSlot *)((u32)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,((struct B_PlistWork *)p)->owner->orderIndex)*0x4c))->extra[slot].value!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+18),0,0);
+   if(((struct B_PlistSlot *)((uptr)p+(u32)B_PLIST_MAIN_GetOrderIndex(p,((struct B_PlistWork *)p)->owner->orderIndex)*0x4c))->extra[slot].value!=0) B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+18),0,0);
    else B_PLIST_ANM_UploadTileBuffer(p,(u8)(slot+18),3,0);
   }
   B_PLIST_ANM_UploadTileBuffer(p,6,0,0);break;
@@ -327,7 +327,7 @@ u8 B_PLIST_ANM_CountActiveRecords(u8 *p)
 {
  u16 slot,count=0;
  for(slot=0;slot<6;slot++){
-  u8 *rec=(u8 *)((u32)p+slot*0x4c);
+  u8 *rec=(u8 *)((uptr)p+slot*0x4c);
   if(((struct B_PlistSlot *)rec)->active!=0 && !((struct B_PlistSlot *)rec)->u1A.bits.flags.high) count++;
  }
  return count>=2;

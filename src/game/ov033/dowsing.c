@@ -114,6 +114,7 @@
  *   CLACT_StopActorAnim 0x0204B974 arm
  */
 #include "../ov021/field_subscreen_types.h"
+#include "../sdk_ioreg.h"
 #include "dowsing_types.h"
 
 #define DOWSING_ARC_ID 0xC3
@@ -125,7 +126,7 @@
 #define SCAN_BEST 0
 #define SCAN_CURRENT 1
 
-#define reg_GXS_DB_BLDCNT (*(volatile u16 *)0x04001050)
+#define reg_GXS_DB_BLDCNT (*(volatile u16 *)REG_DB_BLDCNT_ADDR)
 
 struct FieldSystem;
 struct GameData;

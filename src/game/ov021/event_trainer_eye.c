@@ -719,5 +719,5 @@ Mmdl *EVENT_TRAINER_EYE_FindPartner(Mmdl *mmdl, u16 trainerId)
 /* Creates the script work of the trainer battle for a trainer model. */
 int EVENT_TRAINER_EYE_CreateScriptWork(FieldMap *fieldMap, Mmdl *trainer)
 {
-    return (s32)SCRIPT_SYS_CreateScriptEventSimple(FIELDMAP_GetGameSystem(fieldMap), TRAINER_EYE_SCRIPT_WORK_SIZE, trainer, 1);
+    return (sptr)SCRIPT_SYS_CreateScriptEventSimple(FIELDMAP_GetGameSystem(fieldMap), TRAINER_EYE_SCRIPT_WORK_SIZE, trainer, 1);
 }

@@ -1993,7 +1993,7 @@ int FLDMMDL_MOVE_UpdatePlayerTracking(Mmdl *mmdl, MmdlLookWork *work)
 /* Start tracking the player: remember his grid position. */
 void FLDMMDL_MOVE_StartPlayerTracking(Mmdl *mmdl, MmdlLookWork *work)
 {
-    u32 player = (u32)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
+    u32 player = (uptr)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
     work->tracking = 1;
     work->targetX = FLDMMDL_GetGridNowX((void *)player);
     work->targetZ = FLDMMDL_GetGridNowZ((void *)player);
@@ -2003,7 +2003,7 @@ void FLDMMDL_MOVE_StartPlayerTracking(Mmdl *mmdl, MmdlLookWork *work)
 /* Has the player left the remembered grid position. */
 int FLDMMDL_MOVE_HasPlayerMoved(Mmdl *mmdl, MmdlLookWork *work)
 {
-    u32 player = (u32)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
+    u32 player = (uptr)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
     int x;
     int z;
     if (player != 0) {
@@ -2019,7 +2019,7 @@ int FLDMMDL_MOVE_HasPlayerMoved(Mmdl *mmdl, MmdlLookWork *work)
 /* Remember the player's current grid position. */
 void FLDMMDL_MOVE_SavePlayerGridPos(Mmdl *mmdl, MmdlLookWork *work)
 {
-    u32 player = (u32)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
+    u32 player = (uptr)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
     work->targetX = FLDMMDL_GetGridNowX((void *)player);
     work->targetZ = FLDMMDL_GetGridNowZ((void *)player);
 }
@@ -2046,13 +2046,13 @@ int FLDMMDL_MOVE_GetTurnAcmdBase(Mmdl *mmdl)
 /* Turn towards the player when he is on another grid cell. */
 int FLDMMDL_MOVE_TurnToPlayer(Mmdl *mmdl)
 {
-    int player;
+    sptr player;
     int x;
     int z;
     int playerX;
     int playerZ;
     int turnBase;
-    player = (int)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
+    player = (sptr)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
     x = FLDMMDL_GetGridNowX((void *)mmdl);
     z = FLDMMDL_GetGridNowZ((void *)mmdl);
     playerX = FLDMMDL_GetGridOldX((void *)player);
@@ -2283,7 +2283,7 @@ void FLDMMDL_MOVE_RecoverHide(Mmdl *mmdl)
 /* Create the hide field effect of the given kind. */
 int FLDEFF_HIDE_Create(Mmdl *mmdl, u32 kind)
 {
-    return (int)FLDEFF_HIDE_Start((struct FieldEffectSys *)FIELDMAP_GetEffect((struct FieldMap *)FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys((void *)mmdl))), mmdl, kind);
+    return (sptr)FLDEFF_HIDE_Start((struct FieldEffectSys *)FIELDMAP_GetEffect((struct FieldMap *)FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys((void *)mmdl))), mmdl, kind);
 }
 
 /* Hide, step 0: create the effect and pause the model's movement. */
@@ -2385,9 +2385,9 @@ int FLDMMDL_MOVE_FaceDirWaitTurn(Mmdl *mmdl, u32 work, u32 regR2, u32 regR3)
 /* Face a direction, step 2: take the player's direction when none is set. */
 int FLDMMDL_MOVE_FaceDirResolvePlayerDir(Mmdl *mmdl, s8 *work)
 {
-    u32 player;
+    uptr player;
     if (work[1] == 9) {
-        player = (u32)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
+        player = (uptr)FLDMMDL_SysSearchPlayer(FLDMMDL_GetMmdlSys((void *)mmdl));
         if (player != 0) {
             work[1] = FLDMMDL_GetDirMove((void *)player);
         }

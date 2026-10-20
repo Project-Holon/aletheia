@@ -23,7 +23,7 @@
 #include "scrcmd_bridge_gimmick_shared_types.h"
 
 /* Overlay ids are linker symbols whose address is the id. */
-#define OVERLAY_ID_47 ((int)ov_id_47)
+#define OVERLAY_ID_47 ((sptr)ov_id_47)
 
 #include "scrcmd_work.h"
 

@@ -462,7 +462,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
     FieldMap *fieldMap;
     FieldCamera *camera;
     Fld3dCi *ci;
-    u32 bg;
+    uptr bg;
     GameEvent *child;
     void *msgBg;
     u32 visiblePlanes;
@@ -475,11 +475,11 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
     fieldMap = GAMESYSTEM_GetFieldMap(work->gameSystem);
     camera = FIELDMAP_GetCamera(fieldMap);
     ci = FIELDMAP_GetFld3dCi(fieldMap);
-    bg = (u32)FIELDMAP_GetNogridMapper(fieldMap);
+    bg = (uptr)FIELDMAP_GetNogridMapper(fieldMap);
     switch (*seq) {
     case 0:
         FIELD_CAMERA_SetAreasEnabled(camera, 0);
-        work->savedCameraBits = (u32)FIELD_CAMERA_GetTraceTarget(camera);
+        work->savedCameraBits = (uptr)FIELD_CAMERA_GetTraceTarget(camera);
         FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;
@@ -528,7 +528,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         break;
     case 5:
         FIELD_PLACE_NAME_Cancel(FIELDMAP_GetPlaceName(fieldMap));
-        work->savedCameraBits = (u32)FIELD_CAMERA_GetTraceTarget(camera);
+        work->savedCameraBits = (uptr)FIELD_CAMERA_GetTraceTarget(camera);
         FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;

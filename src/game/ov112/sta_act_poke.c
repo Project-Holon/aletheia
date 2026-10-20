@@ -297,10 +297,10 @@ void STA_ACT_LIGHT_DeleteBillboardImage(char *p) {
     int i;
     for (i = 0; i < 4; i++) {
         if (((StaActPokeRecord *)(p + i * 0x108))->flag == 1)
-            STA_ACT_LIGHT_FreeElem((char *)((int)p), (char *)((int)(p + 0x14 + i * 0x108)));
+            STA_ACT_LIGHT_FreeElem((char *)((sptr)p), (char *)((sptr)(p + 0x14 + i * 0x108)));
     }
     BILLBOARD_DeleteImage((struct BbBoard *)((StaActBillboardImage *)p)->board, ((StaActBillboardImage *)p)->image);
-    GFL_HEAP_Free((void *)((int)p));
+    GFL_HEAP_Free((void *)((sptr)p));
 }
 
 void STA_ACT_LIGHT_UpdateBillboard(u8 *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*264+20)==1) STA_ACT_LIGHT_CalcSpriteXform(p,p+20+i*264); }
@@ -448,7 +448,7 @@ void STA_ACT_LIGHT_SetSpritePos(u8 *self, u8 *q)
     BILLBOARD_SetElemPos((struct BbBoard *)(*(void **)(self + 8)), *(u32 *)(q + 0x5C), (VecFx32 *)((struct Trip *)(&elemPos)));
 }
 
-void STA_ACT_LIGHT_UpdateElem(u8 *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*264+20)==1) { if(STA_ACT_LIGHT_IsRenderVisible((int)p,p+20+i*264)==1) STA_ACT_LIGHT_CopyElemB(p,p+20+i*264); } }
+void STA_ACT_LIGHT_UpdateElem(u8 *p) { int i; for(i=0;i<4;i++) if(*(int *)(p+i*264+20)==1) { if(STA_ACT_LIGHT_IsRenderVisible((sptr)p,p+20+i*264)==1) STA_ACT_LIGHT_CopyElemB(p,p+20+i*264); } }
 
 void STA_ACT_LIGHT_CopyElemB(u8 *unused, u8 *elem) { }
 
@@ -503,7 +503,7 @@ u8 *STA_ACT_LIGHT_AddPokemonElem(u8 *image,u8 *input)
     ((StaActPokeElem *)q)->scaleX=4096;
     ((StaActPokeElem *)q)->scaleY=4096;
     ((StaActPokeElem *)q)->scaleZ=4096;
-    STA_ACT_LIGHT_SetupElem((u32)image,q,((MonInput *)input)->monsNo);
+    STA_ACT_LIGHT_SetupElem((uptr)image,q,((MonInput *)input)->monsNo);
     ((StaActPokeElem *)q)->angle=0;
     position=(int *)(q+24);
     scale=1024;
@@ -517,7 +517,7 @@ u8 *STA_ACT_LIGHT_AddPokemonElem(u8 *image,u8 *input)
         ((StaActPokeElem *)q)->slotRecord[i]=record;
         if(id!=255) {
             ((StaActPokeElem *)q)->slotActive[i]=1;
-            ((StaActPokeElem *)q)->slotArc[i]=(int)MUSICAL_MCSS_CreateResourceArc(id);
+            ((StaActPokeElem *)q)->slotArc[i]=(sptr)MUSICAL_MCSS_CreateResourceArc(id);
             ((StaActPokeElem *)q)->slotImage[i]=MUSICAL_MCSS_AddImage(((StaActBillboardImage *)image)->actorPool,id,(u32)((StaActPokeElem *)q)->slotArc[i],(int *)(q+24));
             MUSICAL_MCSS_SetElemRotZ(((StaActBillboardImage *)image)->actorPool,((StaActPokeElem *)q)->slotImage[i],scale,scale);
             MUSICAL_MCSS_SetElemVisible((u8 *)((StaActBillboardImage *)image)->actorPool,(u8 *)((StaActPokeElem *)q)->slotImage[i],0);
@@ -549,7 +549,7 @@ void STA_ACT_LIGHT_FreeElem(char *image, char *elem) {
             ((StaActPokeElem *)elem)->slotImage[i] = 0;
         }
     }
-    MUSICAL_MCSS_FreeRenderObj((int)((StaActBillboardImage *)image)->renderObj, (int)((StaActPokeElem *)elem)->renderElem);
+    MUSICAL_MCSS_FreeRenderObj((sptr)((StaActBillboardImage *)image)->renderObj, (sptr)((StaActPokeElem *)elem)->renderElem);
     ((StaActPokeElem *)elem)->value = 0;
 }
 
@@ -609,7 +609,7 @@ void STA_ACT_LIGHT_HandleElemAnim(char *image,char *elem,int index)
     ((StaActPokeElem *)elem)->tail.anim.count=0;
     ((StaActPokeElem *)elem)->tail.anim.index=index;
     ((StaActPokeElem *)elem)->tail.anim.a=0;
-    GFL_USE_PlaySeInSlot((u32)d_021F832C[v],2);
+    GFL_USE_PlaySeInSlot((uptr)d_021F832C[v],2);
     ((StaActBillboardImage *)image)->count+=1;
     switch(v) {
     case 0: STA_ACT_LIGHT_AnimNone(image,elem); ((StaActPokeElem *)elem)->handler.animFunc=STA_ACT_LIGHT_StopSe; break;
@@ -647,12 +647,12 @@ void STA_ACT_LIGHT_StopSe(char *image, char *elem) {
  */
 void STA_ACT_LIGHT_AnimA(char *image, char *elem) {
     ElemTailSigned *t = &((StaActPokeElem *)elem)->tail.animSigned;
-    int a = (int)STA_ACTING_GetEffectSystem((void *)(((StaActBillboardImage *)image)->b));
+    int a = (sptr)STA_ACTING_GetEffectSystem((void *)(((StaActBillboardImage *)image)->b));
     char *r = (char *)MUSICAL_MCSS_GetRenderElem((u8 *)((StaActPokeElem *)elem)->renderElem, ((StaActPokeElem *)elem)->tail.anim.index);
     StaActLightVec3 v;
-    t->a = (int)STA_ACT_EFFECT_StartSystem((char *)a, 0x35);
+    t->a = (sptr)STA_ACT_EFFECT_StartSystem((char *)a, 0x35);
     if (((StaActPokeElem *)elem)->flag == 1 && ((MssRenderElem *)r)->active == 1) {
-        MUSICAL_MCSS_SetElemScale((u32)((StaActBillboardImage *)image)->actorPool, *(int *)(elem + 0x84 + t->index * 4), (u32)(&v));
+        MUSICAL_MCSS_SetElemScale((uptr)((StaActBillboardImage *)image)->actorPool, *(int *)(elem + 0x84 + t->index * 4), (uptr)(&v));
         v.x /= 16;
         v.y = (0xc0000 - v.y) / 16;
         v.z += 0x1000;
@@ -670,9 +670,9 @@ void STA_ACT_LIGHT_AnimB(u8 *image,u8 *elem)
     ElemTail *t=&((StaActPokeElem *)elem)->tail.anim;
     u8 *r=MUSICAL_MCSS_GetRenderElem((u8 *)((StaActPokeElem *)elem)->renderElem, ((StaActPokeElem *)elem)->tail.anim.index);
     StaActLightVec3 v;
-    int a;
+    sptr a;
     if(((StaActPokeElem *)elem)->flag==1 && ((MssRenderElem *)r)->active==1) {
-        MUSICAL_MCSS_SetElemScale((u32)((StaActBillboardImage *)image)->actorPool,*(int *)(elem+132+t->index*4),(u32)(&v));
+        MUSICAL_MCSS_SetElemScale((uptr)((StaActBillboardImage *)image)->actorPool,*(int *)(elem+132+t->index*4),(uptr)(&v));
         v.x/=16;
         v.y=(0xc0000-v.y)/16;
         v.z+=0x1000;
@@ -682,10 +682,10 @@ void STA_ACT_LIGHT_AnimB(u8 *image,u8 *elem)
         v.y=(0xc0000-v.y)/16;
         v.z-=0x1c000;
     }
-    STA_ACT_EFFECT_SetEmitterPos((char *)t->a,0,(int)&v);
+    STA_ACT_EFFECT_SetEmitterPos((char *)t->a,0,(sptr)&v);
     t->count++;
     if(t->count>=180) {
-        a=(int)STA_ACTING_GetEffectSystem((void *)(((StaActBillboardImage *)image)->b));
+        a=(sptr)STA_ACTING_GetEffectSystem((void *)(((StaActBillboardImage *)image)->b));
         STA_ACT_EFFECT_KillEffect((char *)t->a,0);
         STA_ACT_EFFECT_KillSystem((void *)a,(void *)t->a);
         ((StaActPokeElem *)elem)->handler.active=0;
@@ -726,11 +726,11 @@ void STA_ACT_LIGHT_AnimD(u8 *p,u8 *elem)
     u16 time=t->count;
     int angle=(time<<9)%65536;
     long s=table[(angle>>4)*2];
-    MUSICAL_MCSS_SetElemScale(*(u32 *)(p+0x10),*(u32 *)(elem+0x84+t->index*4),(u32)&v);
+    MUSICAL_MCSS_SetElemScale(*(u32 *)(p+0x10),*(u32 *)(elem+0x84+t->index*4),(uptr)&v);
     offset=205;
     v.x+=fxmul((time/3)*offset,s);
     v.y-=3072;
-    MUSICAL_MCSS_SetElemPos((void *)((*(u32 *)(p+0x10))), (struct McssActorElem *)((int)(*(void **)(elem+0x84+t->index*4))), (s32 *)((StaActLightVec3 *)(&v.x)));
+    MUSICAL_MCSS_SetElemPos((void *)((*(u32 *)(p+0x10))), (struct McssActorElem *)((sptr)(*(void **)(elem+0x84+t->index*4))), (s32 *)((StaActLightVec3 *)(&v.x)));
     MUSICAL_MCSS_SetElemField((void *)(*(u32 *)(p+0x10)),(u8 *)(*(u32 *)(elem+0x84+t->index*4)),s>>1);
     t->count++;
     if(t->count>=180) {
@@ -766,7 +766,7 @@ void STA_ACT_LIGHT_AnimF(char *image,char *elem)
     ElemTail *t=&((StaActPokeElem *)elem)->tail.anim;
     StaActLightVec3 v;
     Scale s;
-    MUSICAL_MCSS_SetElemScale((u32)((StaActBillboardImage *)image)->actorPool,*(int *)(elem+0x84+t->index*4),(unsigned int)(&v));
+    MUSICAL_MCSS_SetElemScale((uptr)((StaActBillboardImage *)image)->actorPool,*(int *)(elem+0x84+t->index*4),(uptr)(&v));
     t->b+=164;
     v.x-=2867;
     v.y+=t->b;
@@ -872,7 +872,7 @@ int STA_ACT_LIGHT_SetActorFlagB(int unused, int *p, int flag)
     return 1;
 }
 
-void STA_ACT_LIGHT_SetActorVisible(int unused,u8 *elem,int visible) { ((StaActPokeElem *)elem)->flag=visible; MUSICAL_MCSS_ResetRender2((int)(((StaActPokeElem *)elem)->renderElem),visible); ((StaActPokeElem *)elem)->dirty=1; }
+void STA_ACT_LIGHT_SetActorVisible(int unused,u8 *elem,int visible) { ((StaActPokeElem *)elem)->flag=visible; MUSICAL_MCSS_ResetRender2((sptr)(((StaActPokeElem *)elem)->renderElem),visible); ((StaActPokeElem *)elem)->dirty=1; }
 
 /* Sets the light element's value word and marks the element updated. */
 int STA_ACT_LIGHT_SetElemValue(void *unused, int *elem, int value)

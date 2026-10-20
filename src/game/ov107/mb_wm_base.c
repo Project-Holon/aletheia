@@ -783,8 +783,8 @@ int MB_Init(void *work, const MBUserInfo *user, u32 ggid, u32 tgid, u32 dma)
 
     if (mbWm.ext != 0 && mbWm.ext->isMbInitialized != 0)
         return 2;
-    p_parm = (struct MBiParam *)(((u32)work + 0x1f) & ~0x1fu);
-    p_com = (struct MB_CommCommonWork *)(((u32)p_parm + 0x1e00 + 0x1f) & ~0x1fu);
+    p_parm = (struct MBiParam *)(((uptr)work + 0x1f) & ~0x1fu);
+    p_com = (struct MB_CommCommonWork *)(((uptr)p_parm + 0x1e00 + 0x1f) & ~0x1fu);
     if (tgid == 0x10000)
         tgid = WM_GetNextTgid();
     enabled = OS_DisableInterrupts();
@@ -935,7 +935,7 @@ int MBi_StartParentCore(int channel)
 
     enabled = OS_DisableInterrupts();
     *(u16 *)(WM + 0x32) = channel;
-    *(u32 *)(gMbWm + 4) = ((u32)PBUF + 0x1f + 0x7d00) & ~0x1f;
+    *(u32 *)(gMbWm + 4) = ((uptr)PBUF + 0x1f + 0x7d00) & ~0x1f;
     cb_tmp = *(void (**)(u16, u32, void *))(PBUF + 0x1000 + 0x4e4);
     MIi_CpuClear16(0, PBUF + 0x1340, 0x69c0);
     MB_CommSetParentStateCallback(cb_tmp);

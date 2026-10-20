@@ -54,7 +54,7 @@ int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx)
 {
     /* The register copies below are kept: they decide the original's register allocation. */
     int index;
-    int cmdStateCopy;
+    sptr cmdStateCopy;
     int scriptCtxCopy;
     void *saveBlock;
     void *chain;
@@ -72,7 +72,7 @@ int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx)
     index = (unsigned)cmdState >> 0x18;
     cmdState = cmdStateCopy;
     scriptCtx = scriptCtxCopy;
-    cmdState = (int)SCRIPT_WORK_ReadWorkPointer((void *)cmdState, (void *)scriptCtx); /* int-typed on purpose: pointer local changes codegen */
+    cmdState = (sptr)SCRIPT_WORK_ReadWorkPointer((void *)cmdState, (void *)scriptCtx); /* int-typed on purpose: pointer local changes codegen */
     cmdStateCopy = cmdState;
     scriptCtx = index;
     cmdState = MOVE_POKEMON_SAVE_GetEntryState(saveBlock, scriptCtx);
@@ -83,7 +83,7 @@ int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx)
 
 /* Store the trainer ID of trainerRec, xored with the slot key, in the beacon save. */
 void FIELD_G3D_MAP_StoreBeaconTrainerKey(void *beaconSave, int slot, void *trainerRec) {
-    if(slot<8) MISC_SetHashedId(beaconSave,slot,MYSTATUS_GetId(trainerRec)^*(const u32 *)((u32)g_BeaconTrainerKeys+(u32)slot*4));
+    if(slot<8) MISC_SetHashedId(beaconSave,slot,MYSTATUS_GetId(trainerRec)^*(const u32 *)((uptr)g_BeaconTrainerKeys+(u32)slot*4));
 }
 
 /*
@@ -94,6 +94,6 @@ int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *beaconSave, int slot, void *traine
     if(slot>=8) return 0;
     trainerId=MYSTATUS_GetId(trainerRec);
     storedId=MISC_GetHashedId(beaconSave,slot);
-    if((storedId^trainerId)==*(const u32 *)((u32)g_BeaconTrainerKeys+(u32)slot*4)) return 1;
+    if((storedId^trainerId)==*(const u32 *)((uptr)g_BeaconTrainerKeys+(u32)slot*4)) return 1;
     return 0;
 }

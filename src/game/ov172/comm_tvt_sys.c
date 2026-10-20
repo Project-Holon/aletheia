@@ -185,7 +185,7 @@ struct CtvtComm *COMM_TVT_SYS_GetComm(CtvtWork *work)
 /* Tail call into the talk module with the talk record. */
 int COMM_TVT_SYS_GetTalkStatus(CtvtWork *work)
 {
-    return CTVT_TALK_GetMic((int)work, (int *)work->talk);
+    return CTVT_TALK_GetMic((sptr)work, (int *)work->talk);
 }
 
 struct DrawCanvas *COMM_TVT_SYS_GetSprites(CtvtWork *work)
@@ -466,7 +466,7 @@ void COMM_TVT_SYS_PlaceSlotMarker(CtvtWork *work, u8 idx)
     if (CTVT_COMM_GetSlotConnected(work, (char *)work->comm, idx) != 1) return;
     place.xTable = d_021C704C;
     place.yTable = d_021C7048;
-    name = (struct Strbuf *)MYSTATUS_CreateNameStrbuf((unsigned short *)CTVT_COMM_GetSlotParam((int)work, (char *)work->comm, idx), work->heapId);
+    name = (struct Strbuf *)MYSTATUS_CreateNameStrbuf((unsigned short *)CTVT_COMM_GetSlotParam((sptr)work, (char *)work->comm, idx), work->heapId);
     nameWidth = (u8)PRINTSYS_MeasureWidestLine((struct Strbuf *)name, (struct GfFont *)work->font, 0);
     STRBUF_Delete((struct Strbuf *)name);
     { u32 baseX = place.xTable.b[markerIndex]; place.x = baseX + (nameWidth >> 1); }

@@ -111,7 +111,7 @@ int SCRCMD_SODATEYA_RunPartyMenuEvent(void *event, u32 *seq, DaycareEventWork *w
         *seq = 2;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (int)work->fieldMap, (int)work->menuParam, (int)work->menuState));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (sptr)work->fieldMap, (sptr)work->menuParam, (sptr)work->menuState));
         *seq = 3;
         break;
     case 3:
@@ -135,7 +135,7 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
 {
     void *gameData = GAMESYSTEM_GetGameData(gameSystem);
     void *party = GAME_DATA_GetMyParty(gameData);
-    u32 zukanSave = (u32)ZUKAN_SAVE_GetFromGameData(gameData);
+    u32 zukanSave = (uptr)ZUKAN_SAVE_GetFromGameData(gameData);
     PartyMenuParam *menuParam = GFL_HEAP_Alloc(4, 0x98, 0, sAllocSiteScrcmdSodateya, 0x22B);
     PartyMenuState *menuState;
     DaycareEventWork *work;
@@ -147,7 +147,7 @@ void *SCRCMD_SODATEYA_Create(void *gameSystem, void *fieldMap, u16 *resultVar)
     menuState = GFL_HEAP_Alloc(4, 0x28, 0, sAllocSiteScrcmdSodateya, 0x232);
     menuState->party = menuParam->party;
     menuState->listWork = menuParam->listWork;
-    menuState->gameData = (u32)gameData;
+    menuState->gameData = (uptr)gameData;
     menuState->enabled = 1;
     menuState->partyCount = POKEPARTY_GetCount(party);
     menuState->cursor = 0;

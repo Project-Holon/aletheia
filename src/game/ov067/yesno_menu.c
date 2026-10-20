@@ -483,7 +483,7 @@ u8 YESNO_MENU_GetButtonPos(u32 cursorIndex, u32 buttonIndex, u32 axis)
 /* Copies one 16-color row into the palette slot of the target (main/sub, background/actor). */
 void YESNO_MENU_CopyPalette(int target, u8 slot, void *colors)
 {
-    int region;
+    sptr region;
 
     switch (target) {
     case 0:
@@ -504,5 +504,5 @@ void YESNO_MENU_CopyPalette(int target, u8 slot, void *colors)
     default:
         return;
     }
-    (void *)NNS_GfdRegisterNewVramTransferTask((void *)region, (u32)(slot << 5), (u32)colors, 0x20);
+    (void *)NNS_GfdRegisterNewVramTransferTask((void *)region, (u32)(slot << 5), (uptr)colors, 0x20);
 }

@@ -69,6 +69,7 @@
  *   ItemValueTable  0x020A02A8  data
  */
 #include "iss_switch_sys_shared_types.h"
+#include "../sdk_ioreg.h"
 #include "iss_switch_set_shared_types.h"
 #include "bgwinfrm_shared_types.h"
 
@@ -528,7 +529,7 @@ void PMS_DRAW_Copy(struct PmsDraw *wk, u32 srcId, u32 dstId)
     dst = &wk->elems[dstId];
     dx = BMP_WIN_GetPosX(dst->bmpWin) - BMP_WIN_GetPosX(src->bmpWin);
     dy = BMP_WIN_GetPosY(dst->bmpWin) - BMP_WIN_GetPosY(src->bmpWin);
-    BMP_CopyPixels((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)src->bmpWin)), (struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)dst->bmpWin)));
+    BMP_CopyPixels((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)src->bmpWin)), (struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)dst->bmpWin)));
     bmpWin = dst->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
@@ -578,9 +579,9 @@ u32 PMS_DRAW_GetDecoCgrIndex(u32 engine)
     vu32 *reg;
 
     if (engine == 0) {
-        reg = (vu32 *)0x04000000;
+        reg = (vu32 *)REG_DISPCNT_ADDR;
     } else {
-        reg = (vu32 *)0x04001000;
+        reg = (vu32 *)REG_DB_DISPCNT_ADDR;
     }
     switch (*reg & 0x00300010) {
     case 0x00000010:
@@ -598,9 +599,9 @@ u32 PMS_DRAW_GetDecoCelIndex(u32 engine)
     vu32 *reg;
 
     if (engine == 0) {
-        reg = (vu32 *)0x04000000;
+        reg = (vu32 *)REG_DISPCNT_ADDR;
     } else {
-        reg = (vu32 *)0x04001000;
+        reg = (vu32 *)REG_DB_DISPCNT_ADDR;
     }
     switch (*reg & 0x00300010) {
     case 0x00000010:
@@ -618,9 +619,9 @@ u32 PMS_DRAW_GetDecoAnmIndex(u32 engine)
     vu32 *reg;
 
     if (engine == 0) {
-        reg = (vu32 *)0x04000000;
+        reg = (vu32 *)REG_DISPCNT_ADDR;
     } else {
-        reg = (vu32 *)0x04001000;
+        reg = (vu32 *)REG_DB_DISPCNT_ADDR;
     }
     switch (*reg & 0x00300010) {
     case 0x00000010:
@@ -726,7 +727,7 @@ void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, 
     struct DecoPos pt;
     u32 frame;
 
-    PMS_DRAW_CalcDecoPos((u32)bmpWin, charX, line, (const struct PmsPos *)offset, (struct PmsPos *)(&pos));
+    PMS_DRAW_CalcDecoPos((uptr)bmpWin, charX, line, (const struct PmsPos *)offset, (struct PmsPos *)(&pos));
     pt.x = (u16)pos.x;
     pt.y = (u16)pos.y;
     frame = BMP_WIN_GetBgLayer((struct BmpWin *)bmpWin);
@@ -869,7 +870,7 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
         }
     }
     word = PMSI_PARAM_ToStringWords((const struct PmsData *)param, heapID, wordCount);
-    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin)), nullColorPalette);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin)), nullColorPalette);
     PRINTSYS_PrintQueColor(printQue, (struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin), (s16)offset->x, (s16)offset->y, (struct Strbuf *)word, (struct GfFont *)font, color);
     elem->printing = 1;
     for (i = 0; i < wordCount; i++) {
@@ -901,7 +902,7 @@ void PMS_DRAW_ClearElem(struct PmsElem *elem, u32 isTrans)
     void *h;
     int i;
 
-    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin)), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin)), 0);
     if (isTrans != 0) {
         BMP_WIN_TransferChars((struct BmpWin *)elem->bmpWin);
         h = elem->bmpWin;

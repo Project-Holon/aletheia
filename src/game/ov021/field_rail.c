@@ -420,7 +420,7 @@ u32 FIELD_RAIL_ClearSetting(RailManager *manager)
 {
     manager->dataLoaded = 0;
     FIELD_RAIL_SETTING_Clear(&manager->setting);
-    return (u32)FIELD_RAIL_CLOSED_Clear(&manager->closedLines);
+    return (uptr)FIELD_RAIL_CLOSED_Clear(&manager->closedLines);
 }
 
 RailWork *FIELD_RAIL_ActivateFreeWork(RailManager *manager)

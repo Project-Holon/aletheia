@@ -27,6 +27,7 @@
  *   OS_EnableIrqMask  0x02084968  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 #include "../sdk_ioreg.h"
 
 typedef struct {

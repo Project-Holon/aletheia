@@ -574,7 +574,7 @@ void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSyst
             continue;
         if (COMM_PLAYER_CheckOccupy(work->commPlayer, i) == 0) {
             GAME_DATA_GetMyStatusPlayer(gameData, i);
-            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], (u32)(GAME_DATA_GetMyStatusPlayer(gameData, i)));
+            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], (uptr)(GAME_DATA_GetMyStatusPlayer(gameData, i)));
             if (work->peers[i].objCode != 0 || GAME_DATA_GetIntrudeCount(gameData) != 0)
                 COMM_PLAYER_Add(work->commPlayer, i, objCode, &work->peers[i].package);
         } else {
@@ -764,7 +764,7 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
         } else if (INTRUDE_COMM_IsStepToOwnArea(gameComm, gameData, work->edgeDir) == 1) {
             INTRUDE_FIELD_InitMmdlCopyAnime((struct PlayerSpinWork *)work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 1);
         } else {
-            INTRUDE_COMM_PickDefaultObjCode((u32)(GAME_DATA_GetMyStatus(gameData)), &look.objCode, &look.kind, &look.flag);
+            INTRUDE_COMM_PickDefaultObjCode((uptr)(GAME_DATA_GetMyStatus(gameData)), &look.objCode, &look.kind, &look.flag);
             INTRUDE_FIELD_InitMmdlCopyAnime((struct PlayerSpinWork *)work->transitionWork, gameSystem, work->fieldMap, intrudeWork, look.objCode, look.kind, look.flag, work->edgeDir, 1);
         }
         *seq += 1;
@@ -840,14 +840,14 @@ int INTRUDE_FIELD_CreateTileEvent(struct FieldMap *fieldMap, struct GameSystem *
     FIELD_PLAYER_GetPos(player, &playerPos);
     for (i = 0; i < 3; i++) {
         if (playerPos.x >= (i << 22) + 0x1F8000 && playerPos.x <= (i << 22) + 0x1F8000 && playerPos.z >= 0x2C8000 && playerPos.z <= 0x2C8000)
-            return (int)INTRUDE_FIELD_CreateExitConfirmEvent(gameSystem, fieldMap, work);
+            return (sptr)INTRUDE_FIELD_CreateExitConfirmEvent(gameSystem, fieldMap, work);
     }
     areaBaseX = 0x1F8000;
     for (i = 0; i < 3; i++) {
         if (playerPos.x >= areaBaseX && playerPos.x < areaBaseX + 0x20000 && playerPos.z == 0x158000) {
             markerPos = INTRUDE_FIELD_gSymbolMarkerPos;
             markerPos.x += playerPos.x - areaBaseX;
-            return (int)FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(gameSystem, 1, &markerPos, 0, 4); /* int-typed on purpose: function returns int */
+            return (sptr)FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(gameSystem, 1, &markerPos, 0, 4); /* int-typed on purpose: function returns int */
         }
         areaBaseX += 0x400000;
     }
@@ -1153,7 +1153,7 @@ void INTRUDE_FIELD_UpdateCommState(struct FieldMap *fieldMap, struct GameSystem 
         break;
     case 1:
         if (INTRUDE_FIELD_IsAtAreaEdge(&playerPos) == 1)
-            GAME_COMM_RequestExit(gameComm, (GameCommExitFunc)INTRUDE_FIELD_StartCommAfterExit, (u32)gameSystem);
+            GAME_COMM_RequestExit(gameComm, (GameCommExitFunc)INTRUDE_FIELD_StartCommAfterExit, (uptr)gameSystem);
         break;
     }
 }
@@ -1180,7 +1180,7 @@ void INTRUDE_FIELD_StartComm(struct GameSystem *gameSystem)
     param->startKind = 1;
     param->gameSystem = gameSystem;
     param->gameComm = gameComm;
-    GAME_COMM_Start(gameComm, 2, (u32)param);
+    GAME_COMM_Start(gameComm, 2, (uptr)param);
 }
 
 void INTRUDE_FIELD_UpdateAreaIndex(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player, IntrudeCommSys *work)
@@ -1330,7 +1330,7 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
         work->localPeer.lookKind = kind;
         work->localPeer.lookFlag = flag;
         work->peerStatusDirty = 1;
-        playerForm = INTRUDE_COMM_GetPlayerObjCode(&work->localPeer, (u32)myStatus);
+        playerForm = INTRUDE_COMM_GetPlayerObjCode(&work->localPeer, (uptr)myStatus);
     } else {
         objCode = 0;
         playerForm = 1;
@@ -1375,7 +1375,7 @@ int INTRUDE_FIELD_TryStartOfferEvent(struct GameSystem *gameSystem, IntrudeCommS
         goto fail;
     if (playerGrid.z != gIntrudeOfferTilePositions[offerIndex].z)
         goto fail;
-    return (s32)EVENT_COMM_COMMON_CreateOfferEvent(gameSystem, work, offer);
+    return (sptr)EVENT_COMM_COMMON_CreateOfferEvent(gameSystem, work, offer);
 fail:
     return 0;
 }
@@ -1585,13 +1585,13 @@ void INTRUDE_FIELD_AddMarkerMmdls(struct FieldMap *fieldMap)
 void INTRUDE_FIELD_AddSymbolMonMmdl(const SymbolSpawnContext *spawn, const SymbolMonEntry *entry, u16 objId, u16 gridX, u16 gridZ, int height)
 {
     const IntrudeMmdlMoveParam *moveParam;
-    int mmdlSys;
+    sptr mmdlSys;
     u16 zoneId;
     MmdlHeader header;
     MmdlGridPos *gridPos;
 
     moveParam = &INTRUDE_FIELD_gSymbolMonMoveParams[entry->appearance];
-    mmdlSys = (int)FIELDMAP_GetMmdlSys(spawn->fieldMap);
+    mmdlSys = (sptr)FIELDMAP_GetMmdlSys(spawn->fieldMap);
     zoneId = FIELDMAP_GetZoneId(spawn->fieldMap);
     header = INTRUDE_FIELD_gSymbolMonMmdlHeader;
     header.objId = objId;
@@ -1777,7 +1777,7 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
         break;
     case 6:
         if (intrudeWork != 0) {
-            if (INTRUDE_CMD_SendRecordAccept((s32)intrudeWork, &intrudeWork->session) == 1)
+            if (INTRUDE_CMD_SendRecordAccept((sptr)intrudeWork, &intrudeWork->session) == 1)
                 (*seq)++;
         } else {
             (*seq)++;

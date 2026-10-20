@@ -55,13 +55,14 @@
  *   VCT_SESSION_FreePeerRecord  0x021B1F54  arm  ov013
  */
 #include "vct_types.h"
+#include "../sdk_ioreg.h"
 #include "vct_audio_shared_types.h"
 
-#define reg_SQRTCNT     (*(volatile u16 *)0x040002B0)
+#define reg_SQRTCNT     (*(volatile u16 *)REG_SQRTCNT_ADDR)
 
-#define reg_SQRT_RESULT (*(volatile u32 *)0x040002B4)
+#define reg_SQRT_RESULT (*(volatile u32 *)REG_SQRT_RESULT_ADDR)
 
-#define reg_SQRT_PARAM  (*(volatile u32 *)0x040002B8)
+#define reg_SQRT_PARAM  (*(volatile u32 *)REG_SQRT_PARAM_ADDR)
 
 #include "vct_dsp.h"
 

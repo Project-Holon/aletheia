@@ -79,7 +79,7 @@ struct BtlEventFactor *HAND_FIELD_AddFactor(int effectId, int ownerId)
     for (i = 0; i < BTL_FLDEFF_COUNT; i++) {
         if (effectId == gHandFieldEffectTable[i].effectId) {
             const BtlEventHandler *handlers = gHandFieldEffectTable[i].getHandlers(&handlerCount);
-            return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_FIELD_EFFECT, effectId, 3, 0, ownerId, (u32)handlers, handlerCount);
+            return BTL_EVENT_AddFactor(BTL_EVENT_TYPE_FIELD_EFFECT, effectId, 3, 0, ownerId, (uptr)handlers, handlerCount);
         }
     }
     return 0;

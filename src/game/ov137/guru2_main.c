@@ -229,6 +229,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "ov137_types.h"
+#include "../sdk_ioreg.h"
 #include "guru2_shared_types.h"
 #include "guru2_comm_shared_types.h"
 #include "guru2_types.h"
@@ -306,7 +307,7 @@ struct Guru2Comm;
 
 #include "guru2_comm.h"
 
-#define DISP3D (*(volatile u16 *)0x04000060)
+#define DISP3D (*(volatile u16 *)REG_DISP3DCNT_ADDR)
 
 struct Ctx;
 
@@ -324,7 +325,6 @@ struct Light;
 
 struct NitroFileHeader;
 
-struct PalAnmSlot;
 
 struct Util;
 
@@ -1249,7 +1249,7 @@ int GURU2_MAIN_StateAnimateSlots(char *p)
     ((struct Guru2Game *)p)->timer=15;
     sendBuffer=(int *)GURU2_MAIN_GetSendBuffer((struct Guru2Game *)p);
     row=sendBuffer[5]*10;
-    value=*(const u16 *)((unsigned)gGuru2PointerAngleTable+row+sendBuffer[4]*2);
+    value=*(const u16 *)((uptr)gGuru2PointerAngleTable+row+sendBuffer[4]*2);
     aid=*(u16 *)(p+0x7e + sendBuffer[4]*4);
     *(u16 *)(p+0x60+sendBuffer[4]*2)=value;
     GURU2_MAIN_StartDropEffect((struct Guru2Game *)p,aid,sendBuffer[4],sendBuffer[0],value,sendBuffer[1],(int *)(p+0x2e0+sendBuffer[4]*0xb4));
@@ -1550,7 +1550,7 @@ int GURU2_MAIN_StateAfterSync4(struct Guru2Game *p)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 205, 40)) {
         GURU2_MAIN_CopyMemberPokemon(p, p->current->aid);
-        p->errScreen = GFL_NET_SAVE_Create(114, (unsigned)p->session->param->gameData);
+        p->errScreen = GFL_NET_SAVE_Create(114, (uptr)p->session->param->gameData);
         p->timeIcon = TIME_ICON_Create(p->taskMgr, p->windows.mainWindow, 15, 16, 114);
         p->state = 44;
     }
@@ -1691,7 +1691,7 @@ void GURU2_MAIN_ShowPlanes(struct Guru2Game *p)
     BG_SYS_SetMainPlaneVisible(16, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
     G2_SetBG0Priority(1);
-    G2x_SetBlendAlpha_((unsigned int *)0x04000050, 4, 40, 11, 10);
+    G2x_SetBlendAlpha_((unsigned int *)REG_BLDCNT_ADDR, 4, 40, 11, 10);
 }
 
 void GURU2_MAIN_HidePlanes(struct Guru2Game *p)
@@ -1791,9 +1791,9 @@ void GURU2_MAIN_LoadBgPalette(struct Guru2Game *p)
     GFL_HEAP_Free(buf);
     buf=GURU2_MAIN_LoadArcMember(p,20,0);
     NNS_G2dGetUnpackedPaletteData(buf,&p->res64);
-    PALANM_CopyToSlot((struct PalAnmSlot *)p->palAnm,(const void *)(((struct NNSG2dPaletteData *)p->res64)->pRawData),1,0,64);
+    PALANM_CopyToSlot(p->palAnm,(const void *)(((struct NNSG2dPaletteData *)p->res64)->pRawData),1,0,64);
     GFL_HEAP_Free((void *)buf);
-    PALANM_BlendChannelMask((PaletteFadeWork *)((u32)p->palAnm),1,65535,8,0);
+    PALANM_BlendChannelMask(p->palAnm,1,65535,8,0);
     buf=GURU2_MAIN_LoadArcMember(p,16,0);
     NNS_G2dGetUnpackedCharacterData(buf,&p->res60);
     data=(u8 *)p->res60;
@@ -1860,9 +1860,9 @@ void GURU2_MAIN_LoadScreen25(struct Guru2Game *p) { GURU2_MAIN_LoadScreen(p,25);
 
 void GURU2_MAIN_CreatePaletteAnim(struct Guru2Game *p){p->palAnm=PALANM_Create(114);PALANM_SetAutoTransfer(p->palAnm,1);PALANM_AllocSlotBuffers(p->palAnm,0,512,114);PALANM_AllocSlotBuffers(p->palAnm,1,512,114);}
 
-void GURU2_MAIN_DeletePaletteAnim(struct Guru2Game *p){PALANM_FreeSlotBuffers((struct PalAnmSlot *)p->palAnm,0);PALANM_FreeSlotBuffers((struct PalAnmSlot *)p->palAnm,1);PALANM_Delete((void *)p->palAnm);}
+void GURU2_MAIN_DeletePaletteAnim(struct Guru2Game *p){PALANM_FreeSlotBuffers(p->palAnm,0);PALANM_FreeSlotBuffers(p->palAnm,1);PALANM_Delete(p->palAnm);}
 
-void GURU2_MAIN_BlendPalette(struct Guru2Game *p,int level){PALANM_BlendChannelMask((PaletteFadeWork *)((u32)p->palAnm),1,65535,(u8)level,0);}
+void GURU2_MAIN_BlendPalette(struct Guru2Game *p,int level){PALANM_BlendChannelMask(p->palAnm,1,65535,(u8)level,0);}
 
 /*
  * blocking: ABS32 data gClActorInitParam at +0x20 has no witness outside 021DFF44..021DFF70; ROM pool at021DFF64 is020A1448. Alignment-only data a4 hint already used; one recheck and tu --suggest-split remain MATCH with zero witnesses. Both ARM9 callees resolve matched.
@@ -2005,7 +2005,7 @@ void GURU2_MAIN_CreateNameWindows(struct Guru2Game *p,int count)
     for(;i<count;i++) {
         entry=&table[i];
         slot=(u32 *)(s+i*4);
-        slot[5]=(u32)BMP_WIN_Create((u8)entry->layer,entry->a,entry->b,entry->c,entry->d,entry->e,1);
+        slot[5]=(uptr)BMP_WIN_Create((u8)entry->layer,entry->a,entry->b,entry->c,entry->d,entry->e,1);
         obj=slot[5];
         *(u32 *)(s+48+i*8)=obj;
         *(u8 *)(s+52+i*8)=0;
@@ -2248,7 +2248,7 @@ void *GURU2_MAIN_FindNearestPlayerRecord(struct Guru2Game *p)
     const u8 *base=(const u8 *)p+0x1a0;
     i=0;
     row=count*10;
-    angle=*(const u16 *)((unsigned)gGuru2PointerAngleTable+row+p->seat*2)<<12;
+    angle=*(const u16 *)((uptr)gGuru2PointerAngleTable+row+p->seat*2)<<12;
     do {indices[i]=i;distance[i]=65535;i++;} while(i<count);
     for(i=0;i<count;i++) {
         value=*(int *)(base+i*0xb4+0x15c);
@@ -2316,8 +2316,8 @@ void GURU2_MAIN_StartDropEffect(struct Guru2Game *p,int aid,int slot,int order,i
     player[2]=0;
     dropEffect=GFL_HEAP_Alloc(0x8072,24,0,gGuru2MainAllocFileName,0x130e);
     MI_CpuFill8(dropEffect,0,24);
-    dropEffect[5]=(int)p;
-    dropEffect[4]=(int)player;
+    dropEffect[5]=(sptr)p;
+    dropEffect[4]=(sptr)player;
     TCB_AddTask((struct TcbSystem *)p->taskMgr,(TcbFunc)((void (*)(void *, void *))GURU2_MAIN_DropEffectTask),(void *)dropEffect,0);
 }
 
@@ -2368,7 +2368,7 @@ void GURU2_MAIN_UpdateBounceEffect(struct Guru2Game *p,int *effect)
     int *player=(int *)effect[7];
     switch(effect[1]) {
     case 0:
-        GURU2_MAIN_AddSettleEffect(p,(int)player);
+        GURU2_MAIN_AddSettleEffect(p,(sptr)player);
         effect[4]=0x4000;
         effect[5]=-1092;
         effect[1]++;
@@ -2381,7 +2381,7 @@ void GURU2_MAIN_UpdateBounceEffect(struct Guru2Game *p,int *effect)
             effect[4]=0;
             if(effect[3]==0) { effect[3]=1; return; }
             player[23]=0;
-            GURU2_MAIN_AddWobbleEffect(p,(int)player);
+            GURU2_MAIN_AddWobbleEffect(p,(sptr)player);
             MI_CpuFill8(effect,0,32);
         }
         break;
@@ -2390,7 +2390,7 @@ void GURU2_MAIN_UpdateBounceEffect(struct Guru2Game *p,int *effect)
 
 void GURU2_MAIN_BounceEffectTask(void *unused,struct Guru2Game *p) { int i; int *effect; effect=(int *)p->fx0; for(i=0;i<5;i++,effect+=8) if(*effect!=0) GURU2_MAIN_UpdateBounceEffect(p,effect); }
 
-void GURU2_MAIN_CreateBounceEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx0,0,160); p->taskFx0=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((u32)GURU2_MAIN_BounceEffectTask)), (void *)p, 256); }
+void GURU2_MAIN_CreateBounceEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx0,0,160); p->taskFx0=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((uptr)GURU2_MAIN_BounceEffectTask)), (void *)p, 256); }
 
 void GURU2_MAIN_DeleteBounceEffectTask(struct Guru2Game *p)
 {
@@ -2406,7 +2406,7 @@ void GURU2_MAIN_AddBounceEffectsForActivePlayers(struct Guru2Game *p)
     int i;
     i=0;
     do {
-        if (base->records[i].active) GURU2_MAIN_AddBounceEffect(p,(int)((char *)&base->records[i]));
+        if (base->records[i].active) GURU2_MAIN_AddBounceEffect(p,(sptr)((char *)&base->records[i]));
         i++;
     } while (i<count);
 }
@@ -2445,7 +2445,7 @@ void GURU2_MAIN_UpdateSettleEffect(int *p)
 
 void GURU2_MAIN_SettleEffectTask(void *unused,struct Guru2Game *p) { int i; int *effect; effect=(int *)p->fx1; for(i=0;i<5;i++,effect+=5) if(*effect!=0) GURU2_MAIN_UpdateSettleEffect(effect); }
 
-void GURU2_MAIN_CreateSettleEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx1,0,100); p->taskFx1=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((u32)GURU2_MAIN_SettleEffectTask)), (void *)p, 257); }
+void GURU2_MAIN_CreateSettleEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx1,0,100); p->taskFx1=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((uptr)GURU2_MAIN_SettleEffectTask)), (void *)p, 257); }
 
 void GURU2_MAIN_DeleteSettleEffectTask(struct Guru2Game *p)
 {
@@ -2512,7 +2512,7 @@ void GURU2_MAIN_UpdateWobbleEffect(int *p)
 
 void GURU2_MAIN_WobbleEffectTask(void *unused,struct Guru2Game *p) { int i; int *effect; effect=(int *)p->fx2; for(i=0;i<5;i++,effect+=6) if(*effect!=0) GURU2_MAIN_UpdateWobbleEffect(effect); }
 
-void GURU2_MAIN_CreateWobbleEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx2,0,120); p->taskFx2=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((u32)GURU2_MAIN_WobbleEffectTask)), (void *)p, 258); }
+void GURU2_MAIN_CreateWobbleEffectTask(struct Guru2Game *p) { MI_CpuFill8((void *)p->fx2,0,120); p->taskFx2=TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))((uptr)GURU2_MAIN_WobbleEffectTask)), (void *)p, 258); }
 
 void GURU2_MAIN_DeleteWobbleEffectTask(struct Guru2Game *p)
 {
@@ -2645,9 +2645,9 @@ void GURU2_MAIN_CreateCenterActorTask(char *p)
     pos.z = 0;
     pos.b = 0;
     pos.a = 0;
-    q[5] = (int)(struct Guru2ReceiptObj *)CLACT_CreateActor((struct Unit *)((void *)((struct Guru2Game *)p)->clactUnit), ((struct Guru2Game *)p)->clactChar, ((struct Guru2Game *)p)->clactPal, ((struct Guru2Game *)p)->clactCell, (const struct ActorInitParam *)&pos, 0, 114);
+    q[5] = (sptr)(struct Guru2ReceiptObj *)CLACT_CreateActor((struct Unit *)((void *)((struct Guru2Game *)p)->clactUnit), ((struct Guru2Game *)p)->clactChar, ((struct Guru2Game *)p)->clactPal, ((struct Guru2Game *)p)->clactCell, (const struct ActorInitParam *)&pos, 0, 114);
     CLACT_AddActorAnimFrame((struct ClactActor *)q[5], 4096);
-    q[4] = (int)p;
+    q[4] = (sptr)p;
     TCB_AddTask((struct TcbSystem *)(((struct Guru2Game *)p)->taskMgr), (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_CenterActorTask), (void *)q, 0);
 }
 
@@ -2813,7 +2813,7 @@ void GURU2_MAIN_StartBlendFade(struct Guru2Game *p, int flag)
 {
     IntPair values = gGuru2FadeValues;
     int *q = GFL_HEAP_Alloc(0x8072, 12, 0, gGuru2MainAllocFileName, 5992);
-    q[0] = (int)p;
+    q[0] = (sptr)p;
     q[1] = flag;
     q[2] = ((int *)&values)[flag];
     TCB_AddTask((struct TcbSystem *)p->taskMgr, (TcbFunc)((void ( *)(void *,void *))GURU2_MAIN_BlendFadeTask), (void *)q, 0);
@@ -2946,7 +2946,7 @@ void GURU2_MAIN_CopyMemberPokemon(struct Guru2Game *p, int member)
     ownPokemon = POKEPARTY_GetMember(party, p->session->selectedSlot);
     otherPokemon = POKEPARTY_GetMember((struct Party *)other, slot);
     unionApp = GURU2_MAIN_GetUnionApp(p);
-    SAVE_EVENT_Write((void *)otherPokemon, (int)6, (const struct MyStatus *)((u32)UNION_APP_GetMemberEntry((UnionAppWork *)unionApp, (u8)GFL_NET_SYSTEM_GetCurrentAid())), (int)30002, (int)114);
+    SAVE_EVENT_Write((void *)otherPokemon, (int)6, (const struct MyStatus *)((uptr)UNION_APP_GetMemberEntry((UnionAppWork *)unionApp, (u8)GFL_NET_SYSTEM_GetCurrentAid())), (int)30002, (int)114);
     POKE_TOOL_CopyPartyPokemon(otherPokemon, ownPokemon);
 }
 

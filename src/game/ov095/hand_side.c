@@ -86,10 +86,6 @@ extern u32 BTL_SICKCONT_MakeKind1Index15(void);
 extern u32 WAZA_TOOL_GetParam(u16 moveId, u32 paramId);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern struct BtlEventFactor *BTL_EVENT_AddFactor(int factorType, u16 key, int priority, u32 subPriority, u32 ownerId, u32 handlers, u16 handlerCount);
-#else
-/* The host build reads the condition word of the returned union. */
-#define BTL_SICKCONT_MakeKind1Index15() (BTL_SICKCONT_MakeKind1Index15().raw)
-#define BTL_SICKCONT_MakeKind1Empty() (BTL_SICKCONT_MakeKind1Empty().raw)
 #endif
 #include "../ov093/btl_event.h"
 void HAND_SIDE_InitTable(void);
@@ -173,7 +169,7 @@ struct BtlEventFactor *HAND_SIDE_AddFactor(u8 side, int effectId, BtlEffectCont 
             if (slot->layers == 0) {
                 struct BtlEventFactor *factor;
                 const BtlEventHandler *handlers = gHandSideEffectTable[i].getHandlers(&handlerCount);
-                factor = BTL_EVENT_AddFactor(BTL_EVENT_TYPE_SIDE_EFFECT, effectId, 2, 0, side, (u32)handlers, handlerCount);
+                factor = BTL_EVENT_AddFactor(BTL_EVENT_TYPE_SIDE_EFFECT, effectId, 2, 0, side, (uptr)handlers, handlerCount);
                 BTL_EVENT_SetFactorWork(factor, 6, cont.raw);
                 slot->layers = 1;
                 slot->turnsElapsed = 0;
@@ -663,9 +659,15 @@ void HAND_SIDE_ToxicSpikesOnEnter(struct BtlEventFactor *factor, struct BtlServe
             sickCmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_ADD_SICK, 0x1f);
             sickCmd->sickKind = BTL_SICK_POISON;
             if ((u32)GetStackCountResult(factor, side).stackCount > 1)
+#ifdef __MWERKS__
                 sickCmd->sickCont.raw = BTL_SICKCONT_MakeKind1Index15();
             else
                 sickCmd->sickCont.raw = BTL_SICKCONT_MakeKind1Empty();
+#else
+                sickCmd->sickCont.raw = BTL_SICKCONT_MakeKind1Index15().raw;
+            else
+                sickCmd->sickCont.raw = BTL_SICKCONT_MakeKind1Empty().raw;
+#endif
             sickCmd->pokeId = pokeId;
             BTL_SERVER_FLOW_CommitCmdRecord(flow, sickCmd);
         }

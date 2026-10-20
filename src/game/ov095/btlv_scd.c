@@ -767,7 +767,7 @@ int BTLV_SCD_OpenRotateMenuStep(int *state, BtlvAuxView *view)
     int j;
 
     for (i = 0; i < 3; i++) {
-        info.pokeParam[i] = (u32)view->rotateSet->cand[i].pokeParam;
+        info.pokeParam[i] = (uptr)view->rotateSet->cand[i].pokeParam;
         for (j = 0; j < 4; j++)
             info.info[i][j] = view->rotateSet->cand[i].info[j];
     }
@@ -887,7 +887,7 @@ void BTLV_SCD_ShowTargetMenu(u8 *slots, u8 count, int altMode, BtlvAuxView *view
     if (info.targetKind == 0 && WAZA_TOOL_GetFlag(moveId, 0xb)) info.targetKind = 14;
     while (count-- != 0) {
         bpp = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain *const *)view->pokeCon, *slots);
-        monWord = (u32)BTL_POKEPARAM_GetDisplayMon(bpp);
+        monWord = (uptr)BTL_POKEPARAM_GetDisplayMon(bpp);
         rowIndex = BTL_MAIN_GetViewPosOfSlot(view->mainModule, *slots) - 2;
         row = &info.rows[rowIndex];
         row->hp = BTL_POKEPARAM_GetValue(bpp, 0xd);

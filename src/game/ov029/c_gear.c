@@ -200,13 +200,13 @@
  *   ARC_TOOL_ReadHandleMember  0x0204932C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 
 #include "c_gear_types.h"
 #include "../arm9/clact.h"
 
-#define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
-#define REG_DB_BLDCNT (*(volatile u16 *)0x04001050)
-#define REG_DB_MASTER_BRIGHT (*(volatile u16 *)0x0400106C)
+#define REG_DB_DISPCNT_SUB (*(volatile u32 *)REG_DB_DISPCNT_ADDR)
+#define REG_DB_MASTER_BRIGHT (*(volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR)
 
 typedef enum { Zero } ZeroValue;
 
@@ -1243,8 +1243,8 @@ void C_GEAR_TintPalettes(CGearWork *work, int commEnabled)
     int i;
 
     if (commEnabled == 0) {
-        srcPal = (char *)PALANM_GetDefaultWork((char *)work->palAnm, 3);
-        dstPal = (char *)PALANM_GetTransWork((char *)work->palAnm, 3);
+        srcPal = (char *)PALANM_GetDefaultWork(work->palAnm, 3);
+        dstPal = (char *)PALANM_GetTransWork(work->palAnm, 3);
         for (i = 0; i < 14; i++) {
             if (0xFBEE & (1 << i)) {
                 PALANM_BlendColors((u16 *)(srcPal + i * 0x20), (u16 *)(srcPal + i * 0x20), 0x10, 8,
@@ -1252,8 +1252,8 @@ void C_GEAR_TintPalettes(CGearWork *work, int commEnabled)
                 MI_CpuCopy8(srcPal + i * 0x20, dstPal + i * 0x20, 0x20);
             }
         }
-        srcPal = (char *)PALANM_GetDefaultWork((char *)work->palAnm, 1);
-        dstPal = (char *)PALANM_GetTransWork((char *)work->palAnm, 1);
+        srcPal = (char *)PALANM_GetDefaultWork(work->palAnm, 1);
+        dstPal = (char *)PALANM_GetTransWork(work->palAnm, 1);
         for (i = 0; i < 14; i++) {
             if (0x3E & (1 << i)) {
                 PALANM_BlendColors((u16 *)(srcPal + i * 0x20), (u16 *)(srcPal + i * 0x20), 0x10, 8,
@@ -1615,7 +1615,7 @@ void C_GEAR_SetupBackgrounds(CGearWork *work)
 
 void C_GEAR_SetupSubScreenBlend(CGearWork *work)
 {
-    G2x_SetBlendAlpha_((unsigned int *)0x04001050, 2, 0x15, 9, 0x10);
+    G2x_SetBlendAlpha_((unsigned int *)REG_DB_BLDCNT_ADDR, 2, 0x15, 9, 0x10);
 }
 
 /*

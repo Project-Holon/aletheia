@@ -145,12 +145,11 @@
  *   d_021C86A8     0x021C86A8  data  a1
  */
 #include "viewer_types.h"
-#define REG_DB_DISPCNT  (*(volatile u32 *)0x04001000)
-#define REG_DB_WIN0H    (*(volatile u16 *)0x04001040)
-#define REG_DB_WIN0V    (*(volatile u16 *)0x04001044)
-#define REG_DB_WININ    (*(volatile u16 *)0x04001048)
-#define REG_DB_WINOUT   (*(volatile u16 *)0x0400104A)
-#define REG_DB_BLDCNT   (*(volatile u16 *)0x04001050)
+#include "../sdk_ioreg_reg.h"
+#define REG_DB_WIN0H    (*(volatile u16 *)REG_DB_WIN0H_ADDR)
+#define REG_DB_WIN0V    (*(volatile u16 *)REG_DB_WIN0V_ADDR)
+#define REG_DB_WININ    (*(volatile u16 *)REG_DB_WININ_ADDR)
+#define REG_DB_WINOUT   (*(volatile u16 *)REG_DB_WINOUT_ADDR)
 struct PmsDraw;
 struct Proc;
 struct Tcbl;
@@ -528,11 +527,11 @@ int VIEWER_MAIN_Create(void *man, int *state, ViewerArgs *args)
     BG_SYS_SetVramBanks((const struct DispVram *)d_021C8564);
     VIEWER_MAIN_InitBg();
     VIEWER_MAIN_LoadBgResources((ViewerWork *)p);
-    VIEWER_TEXT_InitActors((ViewerAnim *)(&p->anim), (u32)d_021C8564);
+    VIEWER_TEXT_InitActors((ViewerAnim *)(&p->anim), (uptr)d_021C8564);
     VIEWER_TEXT_BuildRowList(p, p->args->info);
     VIEWER_TEXT_CreateActor((ViewerAnim *)(&p->anim));
     VIEWER_TEXT_Init(p);
-    p->pmsDraw = PMS_DRAW_Create((u32)p->anim.unit, 1, (u32)p->printQue, (u32)p->font, 8, 1, 0x27);
+    p->pmsDraw = PMS_DRAW_Create((u32)p->anim.unit, 1, (uptr)p->printQue, (uptr)p->font, 8, 1, 0x27);
     VIEWER_TEXT_NoOp(p, p->bg[4], 1, p->strbuf1);
     if (p->args->decoMode == 2) {
         p->args->decoMode = 0;
@@ -1279,14 +1278,14 @@ void VIEWER_MAIN_SetWindowPlane(int side)
         REG_DB_BLDCNT = 0;
         REG_DB_DISPCNT &= ~0xE000;
     } else if (side == 0) {
-        G2x_SetBlendBrightness_(0x04001050, 0xC, -8);
+        G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, 0xC, -8);
         REG_DB_WIN0H = 0xE000;
         REG_DB_WIN0V = 0xA8;
         SetWnd0InsidePlane(0x1C, 1);
         SetWndOutsidePlane(0x1F, 0);
         REG_DB_DISPCNT = (REG_DB_DISPCNT & ~0xE000) | 0x2000;
     } else if (side == 1) {
-        G2x_SetBlendBrightness_(0x04001050, 0xC, -8);
+        G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, 0xC, -8);
         REG_DB_WIN0H = 0x20;
         REG_DB_WIN0V = 0xA8;
         SetWnd0InsidePlane(0x1C, 1);
@@ -1403,8 +1402,8 @@ void VIEWER_MAIN_InitBrightness(ViewerWork *p)
     m._01 = 0;
     m._10 = 0;
     m._11 = FX_Inv(p->scaleY);
-    G2x_SetBGyAffine_(0x04001020, &m, p->cx, p->cy, p->x, p->y);
-    G2x_SetBGyAffine_(0x04001030, &m, p->cx, p->cy, p->x, p->y);
+    G2x_SetBGyAffine_(REG_DB_BG2PA_ADDR, &m, p->cx, p->cy, p->x, p->y);
+    G2x_SetBGyAffine_(REG_DB_BG3PA_ADDR, &m, p->cx, p->cy, p->x, p->y);
     p->dirty = 0;
 }
 
@@ -1883,10 +1882,10 @@ void VIEWER_MAIN_InitLcdBrightness(void)
     m._10 = 0;
     m._11 = d;
     OS_WaitVBlankIntr();
-    G2x_SetBGyAffine_(0x04001020, &m, 0x80, 0x60, 0, 0);
-    G2x_SetBGyAffine_(0x04001030, &m, 0x80, 0x60, 0, 0);
+    G2x_SetBGyAffine_(REG_DB_BG2PA_ADDR, &m, 0x80, 0x60, 0, 0);
+    G2x_SetBGyAffine_(REG_DB_BG3PA_ADDR, &m, 0x80, 0x60, 0, 0);
     OS_WaitVBlankIntr();
-    G2x_SetBGyAffine_(0x04000030, &m, 0x80, 0, 0, 0);
+    G2x_SetBGyAffine_(REG_BG3PA_ADDR, &m, 0x80, 0, 0, 0);
 }
 
 
@@ -1898,7 +1897,7 @@ void VIEWER_MAIN_UploadBg(ViewerWork *p)
 
     BG_SYS_LoadTileData(7, (const void *)p->chr->data, p->chr->size, 0);
     s = p->scrn;
-    BG_SYS_DrawTileEx(7, 0x15, 2, 10, 11, (const void *)((u32)s + 0xC), 0x15, 2, s->w >> 3, s->h >> 3);
+    BG_SYS_DrawTileEx(7, 0x15, 2, 10, 11, (const void *)((uptr)s + 0xC), 0x15, 2, s->w >> 3, s->h >> 3);
     BG_SYS_PushTile(7);
 }
 

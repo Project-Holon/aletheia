@@ -84,6 +84,7 @@
  *   CTVT_CAMVIEW_IsWindowMoving 0x021B7B30 thumb ov172
  */
 #include "ctvt_camera_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/gfl_heap.h"
@@ -152,12 +153,12 @@ void CTVT_CAMVIEW_RequestShutterSound1(struct CtvtWork *unused, CtvtCamView *vie
 char *CTVT_CAMVIEW_Create(void *work, u16 heapId)
 {
     CtvtCamView *view;
-    u32 arcHandle;
+    uptr arcHandle;
     void *halfPicture;
     u8 i;
 
     view = GFL_HEAP_Alloc(heapId, 0xB4, 1, d_021C71E0, 0x67);
-    arcHandle = (unsigned int)COMM_TVT_SYS_GetArc(work);
+    arcHandle = (uptr)COMM_TVT_SYS_GetArc(work);
     if (COMM_TVT_SYS_IsNetIdle() == 1) {
         view->heapId = 0x6E;
         GFL_HEAP_CreateChildHeap(1, 0x6E, 0x80000);
@@ -165,7 +166,7 @@ char *CTVT_CAMVIEW_Create(void *work, u16 heapId)
         CTVT_CAMERA_SetSize((Camera *)view->camera, 5);
         CTVT_CAMERA_SelectCamera((Camera *)view->camera, 1);
         CTVT_CAMERA_AllocFrames((Camera *)view->camera, 2, (u16)((view->heapId & 0x7FFF) | 0x8000));
-        CTVT_CAMERA_SetFrameCallback((Camera *)view->camera, (void (*)(u32, u32))((u32)((void *)CTVT_CAMVIEW_OnCameraFrame)), (u32)work);
+        CTVT_CAMERA_SetFrameCallback((Camera *)view->camera, (void (*)(u32, u32))((uptr)((void *)CTVT_CAMVIEW_OnCameraFrame)), (uptr)work);
         CTVT_CAMERA_StartCapture(view->camera);
         view->spareBufA = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x76);
         view->spareBufB = GFL_HEAP_Alloc((u16)((view->heapId & 0x7FFF) | 0x8000), 0xC000, 1, d_021C71E0, 0x77);
@@ -208,7 +209,7 @@ void CTVT_CAMVIEW_Delete(u8 *unused, CtvtCamView *view)
     matrix[3] = FX_Inv(4096);
     matrix[1] = 0;
     matrix[2] = 0;
-    G2x_SetBGyAffine_(0x04000030, (union MtxFx22 *)matrix, 0, 0, 0, 0);
+    G2x_SetBGyAffine_(REG_BG3PA_ADDR, (union MtxFx22 *)matrix, 0, 0, 0, 0);
     GFL_HEAP_Free(view->screenBuf);
     GFL_HEAP_Free(view->noSignalHalf);
     GFL_HEAP_Free(view->noSignalFull);
@@ -262,8 +263,8 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
 {
     int screenSplit;
     u32 halfRes;
-    u32 members;
-    u32 dst;
+    uptr members;
+    uptr dst;
     int h;
     int bit;
     u8 i;
@@ -271,7 +272,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
 
     screenSplit = COMM_TVT_SYS_GetLayoutMode(work);
     halfRes = COMM_TVT_SYS_GetHalfRes(work);
-    members = (unsigned int)COMM_TVT_SYS_GetComm(work);
+    members = (uptr)COMM_TVT_SYS_GetComm(work);
     if (COMM_TVT_SYS_GetMemberCount(work) < 2)
         return;
     if (screenSplit == 0) {
@@ -326,7 +327,7 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                 }
                 m[1] = 0;
                 m[2] = 0;
-                G2x_SetBGyAffine_(0x04000030, (union MtxFx22 *)m, 0, 0, 0, 0);
+                G2x_SetBGyAffine_(REG_BG3PA_ADDR, (union MtxFx22 *)m, 0, 0, 0, 0);
                 for (i = 0; i < 4; i++) {
                     if (view->halfRes == 1) {
                         *(u16 *)((u8 *)view + 0x48 + i * 0x1C) = (u32)*(u16 *)((u8 *)view + 0x48 + i * 0x1C) >> 1;
@@ -369,22 +370,22 @@ void CTVT_CAMVIEW_UploadWindows(void *work, CtvtCamView *view)
                     h = (u16)(screenSplit == 1 ? 0x60 : 0x30);
                 }
                 if (CTVT_COMM_GetSlotReady(work, (char *)members, i) == 1 && APP_ENV_HasParentalControlBits() == 0) {
-                    dst = (u32)((char *)view->screenBuf + srcSlot * (w * h * 2));
+                    dst = (uptr)((char *)view->screenBuf + srcSlot * (w * h * 2));
                     DC_FlushRange((void *)dst, w * h * 2);
                 } else if (halfRes == 0) {
                     if (screenSplit == 1) {
-                        dst = (u32)view->noSignalFull;
+                        dst = (uptr)view->noSignalFull;
                         DC_FlushRange((void *)dst, 0xC000);
                     } else {
-                        dst = (u32)((char *)view->noSignalFull + 0x3000);
+                        dst = (uptr)((char *)view->noSignalFull + 0x3000);
                         DC_FlushRange((void *)dst, 0x6000);
                     }
                 } else {
                     if (screenSplit == 1) {
-                        dst = (u32)view->noSignalHalf;
+                        dst = (uptr)view->noSignalHalf;
                         DC_FlushRange((void *)dst, 0x3000);
                     } else {
-                        dst = (u32)((char *)view->noSignalHalf + 0xC00);
+                        dst = (uptr)((char *)view->noSignalHalf + 0xC00);
                         DC_FlushRange((void *)dst, 0x1800);
                     }
                 }
@@ -466,8 +467,8 @@ void CTVT_CAMVIEW_OnCameraFrame(char *frame, void *work)
         return;
     COMM_TVT_SYS_SetCameraBusy(work, 1);
     for (i = 0; i < h; i++)
-        MIi_CpuCopy32((void *)((u32)view->cropBuf + (y + i) * 0x100 + x * 2),
-                      (void *)((u32)view->screenBuf + w * h * 2 * slot + w * i * 2), w * 2);
+        MIi_CpuCopy32((void *)((uptr)view->cropBuf + (y + i) * 0x100 + x * 2),
+                      (void *)((uptr)view->screenBuf + w * h * 2 * slot + w * i * 2), w * 2);
     COMM_TVT_SYS_SetCameraBusy(work, 0);
     view->dirtyMask |= (u8)(1 << selfSlot);
 }
@@ -542,8 +543,8 @@ int CTVT_CAMVIEW_GetSlotBuffer(void *work, CtvtCamView *view, int slot)
 {
     int step = CTVT_CAMVIEW_GetSlotBufferStep(work, view);
     if (COMM_TVT_SYS_GetLayoutMode(work) == 1 && slot != 0)
-        return (int)view->screenBuf + step;
-    return (int)view->screenBuf + step * slot;
+        return (sptr)view->screenBuf + step;
+    return (sptr)view->screenBuf + step * slot;
 }
 
 /* Slot step from table gCtvtSlotStepTable; quartered for half resolution. */

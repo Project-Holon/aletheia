@@ -72,11 +72,11 @@ struct WMDataSharingInfo;
 #include "../types.h"
 
 /* Callback types of the work block (what the SDK calls back into). */
-typedef int (*WihJudgeAcceptFunc)(void *startParentCb, u32 now);
+typedef int (*WihJudgeAcceptFunc)(void *startParentCb, void *userArg);
 
 typedef void (*WihSlotCallback)(u16 aid);
 
-typedef void (*WihBeaconFoundCallback)(void *bssDesc, u32 now, u16 linkLevel);
+typedef void (*WihBeaconFoundCallback)(void *bssDesc, void *userArg, u16 linkLevel);
 
 typedef int (*WihJudgeScanFunc)(void *bssDesc);
 

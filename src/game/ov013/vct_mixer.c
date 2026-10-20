@@ -56,8 +56,10 @@
 #include "vct_types.h"
 
 /* Memory, time and error helpers. */
+#ifdef __MWERKS__
 /* A second name for MIi_CpuClearFast (no source records it): see VCT_MIXER_MixVoices. */
 extern void MIi_CpuClearFastAlias(int value, void *dst, u32 size);
+#endif
 
 #include "../arm9/mi_memory.h"
 
@@ -463,7 +465,11 @@ int VCT_MIXER_MixVoices(void *output, u32 length, u32 *sourceMask)
         }
     } else {
         mixed = 0;
+#ifdef __MWERKS__
         MIi_CpuClearFastAlias(mixed, output, length);
+#else
+        MIi_CpuClearFast(mixed, output, length);
+#endif
     }
 
     if (gVctSendState.echoSuppressEnabled != 0)

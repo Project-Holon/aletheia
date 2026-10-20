@@ -182,7 +182,7 @@ void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap)
     gInfoWin->linkActive = 0;
     gInfoWin->batteryLevel = UI_GetPowerState();
     if (gameData != 0) {
-        gInfoWin->wifiConfig = (u32)GAME_DATA_GetWifiList(gameData);
+        gInfoWin->wifiConfig = (uptr)GAME_DATA_GetWifiList(gameData);
         gInfoWin->wifiMode = GAME_DATA_IsConfigFlagSet(gameData);
     } else {
         gInfoWin->wifiConfig = 0;
@@ -321,7 +321,7 @@ int INFOWIN_Exit(void)
         gInfoWin = 0;
         return 0;
     } else {
-        return (int)gInfoWin;
+        return (sptr)gInfoWin;
     }
 }
 

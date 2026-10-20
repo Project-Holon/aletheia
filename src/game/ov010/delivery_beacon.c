@@ -97,7 +97,7 @@ int DELIVERY_BEACON_HasAllPieces(DeliveryBeacon *work);
 void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work);
 void DELIVERY_BEACON_DecodePieces(DeliveryBeacon *work);
 void DELIVERY_BEACON_StepStartScan(DeliveryBeacon *work);
-void DELIVERY_BEACON_OnSessionStarted(DeliveryBeacon *work);
+void DELIVERY_BEACON_OnSessionStarted(void *userArg);
 int DELIVERY_BEACON_Start(DeliveryBeacon *work);
 int DELIVERY_BEACON_HasAnyPiece(DeliveryBeacon *work);
 int DELIVERY_BEACON_TryComplete(DeliveryBeacon *work);
@@ -267,8 +267,10 @@ void DELIVERY_BEACON_StepStartScan(DeliveryBeacon *work) { GFL_NET_BeaconScanSta
  * Unlabelled tail-call thunk hidden in a .word run; witness for the
  * function pointer taken in DELIVERY_BEACON_Start.
  */
-void DELIVERY_BEACON_OnSessionStarted(DeliveryBeacon *work)
+void DELIVERY_BEACON_OnSessionStarted(void *userArg)
 {
+    DeliveryBeacon *work = userArg;
+
     DELIVERY_BEACON_SetStepAtLine(work, DELIVERY_BEACON_StepStartScan, 0x1DD);
 }
 
@@ -279,7 +281,7 @@ int DELIVERY_BEACON_Start(DeliveryBeacon *work)
     gDeliveryBeaconNetInit.gameKind = work->param.gameKind;
     work->lockedSender = DELIVERY_BEACON_NO_SENDER;
     DELIVERY_BEACON_CheckDestSize(work);
-    GFL_NET_StartSession(&gDeliveryBeaconNetInit, (u32)DELIVERY_BEACON_OnSessionStarted, (u32)work);
+    GFL_NET_StartSession(&gDeliveryBeaconNetInit, DELIVERY_BEACON_OnSessionStarted, work);
     DELIVERY_BEACON_SetStepAtLine(work, DELIVERY_BEACON_StepIdle, 0x1F2);
     return 1;
 }

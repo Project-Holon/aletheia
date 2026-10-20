@@ -229,6 +229,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../version.h"
+#include "../sdk_ioreg.h"
 #include "pokemontrade_types.h"
 
 
@@ -1581,15 +1582,15 @@ void POKETRADE_NEGO_StepShowNoOfferMessage(char *p)
     POKETRADE_PROC_SetStep(p, (sptr)POKETRADE_NEGO_StepWaitInputAfterMessage);
 }
 
-static inline void inside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)0x04001048 & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)0x04001048=(u16)tmp;}
+static inline void inside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)REG_DB_WININ_ADDR & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)REG_DB_WININ_ADDR=(u16)tmp;}
 
-static inline void outside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)0x0400104a & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)0x0400104a=(u16)tmp;}
+static inline void outside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)REG_DB_WINOUT_ADDR & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)REG_DB_WINOUT_ADDR=(u16)tmp;}
 
 /*
  * volatile: hardware WININ 0x04001048, WINOUT 0x0400104A and DISPCNT 0x04001000 read-modify-written at 0x021DEBE8/0x021DEBF8, 0x021DEC0C/0x021DEC18, 0x021DEC1A/0x021DEC22.
  */
 void POKETRADE_NEGO_SetupWindowRegsOffers(void *p) {
- G2x_SetBlendBrightness_(0x04001050,27,-8);
+ G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR,27,-8);
  inside(31,1);
  *(volatile u16 *)0x04001040=0x80ff;
  *(volatile u16 *)0x04001044=0xa9;

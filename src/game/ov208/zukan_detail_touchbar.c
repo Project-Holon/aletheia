@@ -649,7 +649,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadBarResources(struct Ov208Scene *p)
     MI_CpuFill8(&list, 0, sizeof(list));
     list.descs = descs;
     list.count = 9;
-    list.owner = (unsigned int)p->clactUnit;
+    list.owner = (uptr)p->clactUnit;
     list.channel = 1;
     list.pal = 0xd;
     list.objPal = 8;
@@ -768,10 +768,10 @@ void ZUKAN_DETAIL_TOUCHBAR_UpdateInput(struct Ov208Scene *m)
 void ZUKAN_DETAIL_TOUCHBAR_FreeAnimBuffer(u8 *p)
 {
     struct Ov208Pltt *pltt;
-    u32 file;
+    uptr file;
     u8 *data;
 
-    file = (u32)ARC_UTIL_LoadPaletteBlockFromArchive(0x9f, 3, (&pltt), ((struct Ov208Scene *)p)->heap);
+    file = (uptr)ARC_UTIL_LoadPaletteBlockFromArchive(0x9f, 3, (&pltt), ((struct Ov208Scene *)p)->heap);
     data = pltt->data;
     MI_CpuCopy8(data + 0x20, p + 0xb6, 0x20);
     MI_CpuCopy8(data + 0x60, p + 0xd6, 0x20);
@@ -855,7 +855,7 @@ s32 ZUKAN_DETAIL_TOUCHBAR_LoadPaletteTable(struct Ov208Scene *m)
         u8 b = b1 + ((b2 - b1) * t >> 12);
         m->palOut[i] = r | g << 5 | b << 10;
     }
-    return NNS_GfdRegisterNewVramTransferTask((void *)14, 0x1a0, (u32)m->palOut, 0x20);
+    return NNS_GfdRegisterNewVramTransferTask((void *)14, 0x1a0, (uptr)m->palOut, 0x20);
 }
 
 /*
@@ -932,7 +932,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadLeftArrowResources(struct Ov208Scene *p)
     MI_CpuFill8(&list, 0, sizeof(list));
     list.descs = descs;
     list.count = 1;
-    list.owner = (unsigned int)p->clactUnit;
+    list.owner = (uptr)p->clactUnit;
     list.channel = 1;
     list.pal = 0xd;
     list.objPal = 8;
@@ -987,7 +987,7 @@ void ZUKAN_DETAIL_TOUCHBAR_LoadRightArrowResources(struct Ov208Scene *p)
     MI_CpuFill8(&list, 0, sizeof(list));
     list.descs = descs;
     list.count = 6;
-    list.owner = (unsigned int)p->clactUnit;
+    list.owner = (uptr)p->clactUnit;
     list.channel = 1;
     list.pal = 0xd;
     list.objPal = 8;

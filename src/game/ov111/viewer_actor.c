@@ -309,7 +309,7 @@ void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p)
         pos.z = d_021C8AA0[i].z;
         pos.flags = 0;
         pos.pri = 0x24 - i;
-        p->actors.obj[i] = CLACT_CreateActor((struct Unit *)p->unit, (unsigned int)p->resSet.set[d_021C8AA0[i].cell], (unsigned int)p->resSet.set[d_021C8AA0[i].chr], (unsigned int)p->resSet.set[d_021C8AA0[i].anm], (const struct ActorInitParam *)&pos, 0, 0x27);
+        p->actors.obj[i] = CLACT_CreateActor((struct Unit *)p->unit, (uptr)p->resSet.set[d_021C8AA0[i].cell], (uptr)p->resSet.set[d_021C8AA0[i].chr], (uptr)p->resSet.set[d_021C8AA0[i].anm], (const struct ActorInitParam *)&pos, 0, 0x27);
         CLACT_SetActorAutoAnim(p->actors.obj[i], 1);
     }
 }
@@ -319,12 +319,12 @@ void VIEWER_ACTOR_CreateObjects(ViewerTextWork *p)
 
 void VIEWER_ACTOR_DeleteObjects(ViewerTextWork *p)
 {
-    CLACT_ReleaseCharacter((u32)p->resSet.named.chr2);
-    CLACT_ReleasePalette((u32)p->resSet.named.palette2);
-    CLACT_ReleaseCellAnim((u32)p->resSet.named.cellAnim2);
-    CLACT_ReleaseCharacter((u32)p->resSet.named.chr);
-    CLACT_ReleasePalette((u32)p->resSet.named.palette);
-    CLACT_ReleaseCellAnim((u32)p->resSet.named.cellAnim);
+    CLACT_ReleaseCharacter((uptr)p->resSet.named.chr2);
+    CLACT_ReleasePalette((uptr)p->resSet.named.palette2);
+    CLACT_ReleaseCellAnim((uptr)p->resSet.named.cellAnim2);
+    CLACT_ReleaseCharacter((uptr)p->resSet.named.chr);
+    CLACT_ReleasePalette((uptr)p->resSet.named.palette);
+    CLACT_ReleaseCellAnim((uptr)p->resSet.named.cellAnim);
     CLACT_DeleteUnit(p->unit);
     CLACT_ExitSystem();
 }
@@ -644,10 +644,10 @@ void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx)
         break;
     case 1:
         for (i = 0; i < 2; i++) {
-            VIEWER_ACTOR_PrintTextAt((ViewerTextWork *)p, i, idx, (int)str);
+            VIEWER_ACTOR_PrintTextAt((ViewerTextWork *)p, i, idx, (sptr)str);
         }
         if (p->rowEnabled[idx]) {
-            VIEWER_ACTOR_PrintTextAt((ViewerTextWork *)p, 2, idx, (int)str);
+            VIEWER_ACTOR_PrintTextAt((ViewerTextWork *)p, 2, idx, (sptr)str);
         }
         break;
     }
@@ -1124,7 +1124,7 @@ void VIEWER_ACTOR_LoadTexture(ViewerTextWork *p, int idx, int k)
     dst = p->res170[k]->data;
     tex = (ViewerTexInfo *)G3D_SYSTEM_GetResourceTex((void *)G3D_UTIL_GetResource(p->g3dUtil, 0));
     e = TexGetPltt(tex, idx);
-    NNS_GfdRegisterNewVramTransferTask((void *)1, (u32)(tex->plttData + *e * 8), (u32)(dst + d_021C8874[idx] * 32), 0x20);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, (uptr)(tex->plttData + *e * 8), (uptr)(dst + d_021C8874[idx] * 32), 0x20);
 }
 
 

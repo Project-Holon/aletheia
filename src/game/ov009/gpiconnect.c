@@ -162,7 +162,6 @@ struct SOCSockAddr;
 #include "gpi.h"
 #include "gsplatformutil.h"
 #include "gsmemory.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "gpioperation.h"
 #include "md5c.h"
@@ -287,7 +286,7 @@ int gpiStartConnect(void **connection, GPIOperation *operation)
     unsigned short peerPort;
     int error;
 
-    strncpy((u8 *)iconnection->mHeader, (const u8 *)g_021A4658, 16);
+    strncpy(iconnection->mHeader, g_021A4658, 16);
 
     if (!gsUdpEngineIsInitialized()) {
         peerPort = 6500;
@@ -466,7 +465,7 @@ int gpiSendLogin(void **connection, GPIConnectData *data)
         passphrase = data->partnerchallenge;
     else
         passphrase = iconnection->password;
-    GSMD5Digest((unsigned char *)passphrase, strlen((const u8 *)passphrase), data->passwordHash);
+    GSMD5Digest((unsigned char *)passphrase, strlen(passphrase), data->passwordHash);
 
     if (iconnection->partnerID != 0)
         OS_SPrintf(partnerBuffer, g_021A483C, iconnection->partnerID);
@@ -485,7 +484,7 @@ int gpiSendLogin(void **connection, GPIConnectData *data)
 
     OS_SPrintf(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
                   data->userChallenge, data->serverChallenge, data->passwordHash);
-    GSMD5Digest((unsigned char *)buffer, strlen((const u8 *)buffer), response);
+    GSMD5Digest((unsigned char *)buffer, strlen(buffer), response);
 
     if (iconnection->infoCaching) {
         gpiFindProfileByUser(connection, iconnection->nick, iconnection->email, &profile);
@@ -573,7 +572,7 @@ int gpiSendNewuser(void **connection, GPIConnectData *data)
     gpiAppendStringToBuffer(connection, (&iconnection->outputBuffer), iconnection->uniquenick);
 
     if (data->cdkey[0] != '\0') {
-        cdkeylen = strlen((const u8 *)data->cdkey);
+        cdkeylen = strlen(data->cdkey);
         Util_RandSeed(0x79707367);
         for (i = 0; i < cdkeylen; i++) {
             aRand = (char)Util_RandInt(0, 0xFF);
@@ -635,7 +634,7 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
 
     switch (operation->state) {
     case 1:
-        if (strncmp((const u8 *)input, (const u8 *)g_021A49A4, 5) != 0) {
+        if (strncmp(input, g_021A49A4, 5) != 0) {
             gpiSetError(connection, 1, g_021A49AC);
             __result__ = 3;
             gpiCallErrorCallback((void **)connection, __result__, 1);
@@ -660,7 +659,7 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
         }
         break;
     case 3:
-        if (strncmp((const u8 *)input, (const u8 *)g_021A49DC, 5) != 0) {
+        if (strncmp(input, g_021A49DC, 5) != 0) {
             gpiSetError(connection, 1, g_021A49AC);
             __result__ = 3;
             gpiCallErrorCallback((void **)connection, __result__, 1);
@@ -686,7 +685,7 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
         operation->state = 2;
         break;
     case 2:
-        if (strncmp((const u8 *)input, (const u8 *)g_021A4A14, 5) != 0) {
+        if (strncmp(input, g_021A4A14, 5) != 0) {
             gpiSetError(connection, 1, g_021A49AC);
             __result__ = 3;
             gpiCallErrorCallback((void **)connection, __result__, 1);
@@ -735,7 +734,7 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
 
         OS_SPrintf(buffer, g_021A4850, data->passwordHash, g_021A4860, user,
                       data->serverChallenge, data->userChallenge, data->passwordHash);
-        GSMD5Digest((unsigned char *)buffer, strlen((const u8 *)buffer), check);
+        GSMD5Digest((unsigned char *)buffer, strlen(buffer), check);
 
         if (!gpiValueForKey(input, g_021A4A30, buffer, sizeof(buffer))) {
             gpiSetError(connection, 1, g_021A49E4);

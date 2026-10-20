@@ -393,11 +393,11 @@ void HALL_OF_FAME_CreateTrainerSceneObjects(HallOfFameWork *work)
     if (!MYSTATUS_GetSex(work->args->myStatus))
         trainerGender = 0;
     handle = (u8 *)POKEGRA_OpenTrainerHandle(0x808d);
-    work->charIds[3] = POKEGRA_RegisterTrainerCgr((u8 *)((u32)handle), trainerGender, 0, HOF_HEAP_ID);
-    work->paletteIds[4] = POKEGRA_RegisterTrainerPalette((u8 *)((u32)handle), trainerGender, 0, 192, HOF_HEAP_ID);
+    work->charIds[3] = POKEGRA_RegisterTrainerCgr((u8 *)((uptr)handle), trainerGender, 0, HOF_HEAP_ID);
+    work->paletteIds[4] = POKEGRA_RegisterTrainerPalette((u8 *)((uptr)handle), trainerGender, 0, 192, HOF_HEAP_ID);
     work->cellAnimIds[3] = POKEGRA_RegisterTrainerCellAnim(trainerGender, 2, 0, HOF_HEAP_ID);
-    work->charIds[4] = POKEGRA_RegisterTrainerCgr((u8 *)((u32)handle), trainerGender, 1, HOF_HEAP_ID);
-    work->paletteIds[5] = POKEGRA_RegisterTrainerPalette((u8 *)((u32)handle), trainerGender, 1, 96, HOF_HEAP_ID);
+    work->charIds[4] = POKEGRA_RegisterTrainerCgr((u8 *)((uptr)handle), trainerGender, 1, HOF_HEAP_ID);
+    work->paletteIds[5] = POKEGRA_RegisterTrainerPalette((u8 *)((uptr)handle), trainerGender, 1, 96, HOF_HEAP_ID);
     work->cellAnimIds[4] = POKEGRA_RegisterTrainerCellAnim(trainerGender, 0, 1, HOF_HEAP_ID);
     ARC_TOOL_DeleteHandle(handle);
     work->actors[HOF_ACTOR_TRAINER_TOP] = HALL_OF_FAME_CreateActorFromTemplate(work, &gHallOfFameTrainerTopTemplate);

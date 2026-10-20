@@ -98,6 +98,7 @@
  *   WORLDTRADE_SUBLCD_MoveArrowToSlot 0x021FFD1C thumb ov135
  */
 #include "worldtrade_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/mi_memory.h"
 
@@ -314,7 +315,7 @@ int WORLDTRADE_LIST_Init(WorldtradeWork *p)
 {
     WORLDTRADE_LIST_CreateStrings(p);
     WORLDTRADE_LIST_SetupBgPlanes(-32 - p->scroll);
-    if (GXx_GetMasterBrightness_((vu16 *)0x0400106C) == 0) {
+    if (GXx_GetMasterBrightness_((vu16 *)REG_DB_MASTER_BRIGHT_ADDR) == 0) {
         WORLDTRADE_TITLE_ScrollBg(p, -32 - p->scroll, 1);
     } else {
         WORLDTRADE_TITLE_ScrollBg(p, -32 - p->scroll, 0);
@@ -337,9 +338,9 @@ int WORLDTRADE_LIST_Init(WorldtradeWork *p)
     *(vu16 *)0x04000304 |= 0x8000;
     GFL_NET_RefreshWmIconAtTopRight(1, 0x48);
     if (p->kind == 0x11) {
-        if (GXx_GetMasterBrightness_((vu16 *)0x0400006C) == -16 && GXx_GetMasterBrightness_((vu16 *)0x0400106C) != -16) {
+        if (GXx_GetMasterBrightness_((vu16 *)REG_MASTER_BRIGHT_ADDR) == -16 && GXx_GetMasterBrightness_((vu16 *)REG_DB_MASTER_BRIGHT_ADDR) != -16) {
             WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
-        } else if (GXx_GetMasterBrightness_((vu16 *)0x0400006C) != -16 && GXx_GetMasterBrightness_((vu16 *)0x0400106C) == -16) {
+        } else if (GXx_GetMasterBrightness_((vu16 *)REG_MASTER_BRIGHT_ADDR) != -16 && GXx_GetMasterBrightness_((vu16 *)REG_DB_MASTER_BRIGHT_ADDR) == -16) {
             WIPE_SYS_Start((void *)4, 1, 1, 0, 6, 1, 0x48);
         } else {
             WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x48);

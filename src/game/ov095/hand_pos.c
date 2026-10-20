@@ -105,7 +105,7 @@ struct BtlEventFactor *HAND_POS_AddFactor(int effectId, int position, u32 userPo
             if (HAND_POS_IsNotRegistered(effectId, position) == 0)
                 break;
             handlers = gHandPosEffectTable[i].getHandlers(&handlerCount);
-            factor = BTL_EVENT_AddFactor(BTL_EVENT_TYPE_POS_EFFECT, effectId, 1, 0, position, (u32)handlers, handlerCount);
+            factor = BTL_EVENT_AddFactor(BTL_EVENT_TYPE_POS_EFFECT, effectId, 1, 0, position, (uptr)handlers, handlerCount);
             if (factor != 0) {
                 for (i = 0; i < valueCount; i++)
                     BTL_EVENT_SetFactorWork(factor, i, values[i]);

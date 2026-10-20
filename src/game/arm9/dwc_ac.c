@@ -659,7 +659,7 @@ BOOL CheckDuplicate(void)
     num = wk->findListNum;
     for (i = 0; i < num; i++) {
         if (i != connectNo && wk->findList[i].b1 < 0x12 &&
-            strncmp((u8 *)ssid1, (u8 *)wk->bssDesc[i].bssid, wk->bssDesc[i].ssidLength) == 0) {
+            strncmp((const char *)ssid1, (const char *)wk->bssDesc[i].bssid, wk->bssDesc[i].ssidLength) == 0) {
             return 2;
         }
     }

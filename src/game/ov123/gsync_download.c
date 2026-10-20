@@ -176,7 +176,7 @@ int GSYNC_DOWNLOAD_InitAsync(GsyncDownloadWork *work)
     work->requestDone = 0;
     if (!DWC_NdInitAsync((DWCNdCallback)((DWCNdCallback)GSYNC_DOWNLOAD_SetRequestMode), (char *)sGsyncDownloadGameCode, (char *)sGsyncDownloadPassword))
         return 0;
-    DWC_RAP_SetErrorHookCallback((int (*)(u32, u32, u32, int))((int)GSYNC_DOWNLOAD_CleanupAsync), (int)work);
+    DWC_RAP_SetErrorHookCallback((int (*)(u32, u32, u32, int))((sptr)GSYNC_DOWNLOAD_CleanupAsync), (sptr)work);
     return 1;
 }
 

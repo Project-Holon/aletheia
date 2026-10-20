@@ -100,8 +100,6 @@ struct FieldState;
 
 #ifdef __MWERKS__
 extern u32 GFL_NET_Main(); /* original prototype; the DS passes an argument the definition does not take */
-#else
-#define GFL_NET_Main(unused) (GFL_NET_Main)()
 #endif
 
 int GFL_NET_ERR_PollNetState(void);
@@ -135,7 +133,11 @@ int GFL_NET_ERR_PollNetState(void)
     linkState = GFL_NET_GetGameKind();
     if ((unsigned int)linkState == (unsigned int)2) {
         if ((unsigned int)sWifiPollLatch == (unsigned int)0) {
+#ifdef __MWERKS__
             latched = GFL_NET_Main((int)sWifiPollLatch);
+#else
+            latched = GFL_NET_Main();
+#endif
             sWifiPollLatch = (unsigned char)latched;
             return latched;
         } else {
@@ -143,7 +145,11 @@ int GFL_NET_ERR_PollNetState(void)
             return 0;
         }
     } else {
+#ifdef __MWERKS__
         result = GFL_NET_Main((int)linkState);
+#else
+        result = GFL_NET_Main();
+#endif
         return result;
     }
 }
@@ -320,9 +326,9 @@ void WIFILIST_StoreFriendRecord(void *saveData, void *profile, void *friendData,
         MI_CpuCopy8(friendData, record, 0xc);
     }
     if (mode == 0) {
-        WIFILIST_StoreFriendProfile(saveBlock, profile, slot, (int)heapId, 1);
+        WIFILIST_StoreFriendProfile(saveBlock, profile, slot, (sptr)heapId, 1);
     } else if (mode == 1) {
-        WIFILIST_StoreFriendProfile(saveBlock, profile, slot, (int)heapId, 0);
+        WIFILIST_StoreFriendProfile(saveBlock, profile, slot, (sptr)heapId, 0);
     }
     WIFILIST_SetFriendInfoField(saveBlock, slot, 8, MYSTATUS_GetTrainerView(profile));
 }

@@ -39,7 +39,7 @@ extern int gBtlvCoreDsiOverlayLoaded;
 void BTLV_CORE_LoadDsiOverlay(void)
 {
     if (OS_GetConsoleType() & 0x02000000) {
-        GF_OVERLAY_Load((s32)ov140_id);
+        GF_OVERLAY_Load((sptr)ov140_id);
         gBtlvCoreDsiOverlayLoaded = 1;
     } else {
         gBtlvCoreDsiOverlayLoaded = 0;
@@ -49,7 +49,7 @@ void BTLV_CORE_LoadDsiOverlay(void)
 void BTLV_CORE_UnloadDsiOverlay(void)
 {
     if (gBtlvCoreDsiOverlayLoaded != 0) {
-        GF_OVERLAY_Unload((s32)ov140_id);
+        GF_OVERLAY_Unload((sptr)ov140_id);
         gBtlvCoreDsiOverlayLoaded = 0;
     }
 }

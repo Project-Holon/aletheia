@@ -191,6 +191,7 @@ struct Proc;
 struct TaskMenu;
 struct TaskMenuState;
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct IntrudeCommViewConfig { u32 w[8]; } IntrudeCommViewConfig;
 
@@ -580,7 +581,7 @@ void INTRUDE_COMM_VIEW_CreateActors(char *p)
  */
 void INTRUDE_COMM_VIEW_CreateResources(char *p)
 {
-    u32 arc;
+    uptr arc;
     void *resource;
     char *palette;
     ((IntrudeCommView *)p)->textBuf = STRBUF_Create(200, ((IntrudeCommView *)p)->heapId);
@@ -589,7 +590,7 @@ void INTRUDE_COMM_VIEW_CreateResources(char *p)
     ((IntrudeCommView *)p)->rowWin = (void *)BMP_WIN_Create(5, 16, 10, 10, 2, 13, 0);
     ((IntrudeCommView *)p)->font = GF_FONT_Create(23, 0, 0, 0, ((IntrudeCommView *)p)->heapId);
     ((IntrudeCommView *)p)->msgBank = MSGDATA_CreateFromArchive(0, 2, 23, ((IntrudeCommView *)p)->heapId);
-    arc = (u32)ARC_TOOL_CreateHandle(29, ((IntrudeCommView *)p)->heapId);
+    arc = (uptr)ARC_TOOL_CreateHandle(29, ((IntrudeCommView *)p)->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc, 0, 0, 0, 0, ((IntrudeCommView *)p)->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole((void *)arc, 1, 4, 0, 0, ((IntrudeCommView *)p)->heapId);
     resource = ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc, 1, &palette, ((IntrudeCommView *)p)->heapId);
@@ -613,10 +614,10 @@ void INTRUDE_COMM_VIEW_InitMenu(char *p)
 {
     IntrudeCommViewPair pair = d_021D575C;
     INTRUDE_COMM_VIEW_BuildRowList(2, (int *)&pair, (IntrudeCommView *)p, (Row *)d_021D5890, (const int *)d_021D5720, (const int *)d_021D5718);
-    ((IntrudeCommView *)p)->buttonMan = BUTTON_MAN_Create((u8 *)d_021D5728, (void (*)(s32, s32, s32))((int)INTRUDE_COMM_VIEW_InvokeCallback), (int)p, ((IntrudeCommView *)p)->heapId);
+    ((IntrudeCommView *)p)->buttonMan = BUTTON_MAN_Create((u8 *)d_021D5728, (void (*)(s32, s32, s32))((sptr)INTRUDE_COMM_VIEW_InvokeCallback), (sptr)p, ((IntrudeCommView *)p)->heapId);
     ((IntrudeCommView *)p)->invokeCallback = INTRUDE_COMM_VIEW_SelectRow;
     INTRUDE_COMM_VIEW_InitStatusText(p);
-    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_Update, 0x31b);
+    INTRUDE_COMM_VIEW_SetCallback(p, (uptr)INTRUDE_COMM_VIEW_Update, 0x31b);
 }
 
 void INTRUDE_COMM_VIEW_DeleteResources(char *p)
@@ -625,7 +626,7 @@ void INTRUDE_COMM_VIEW_DeleteResources(char *p)
     GF_FONT_SetDefaultTextColor();
     INTRUDE_COMM_VIEW_DeleteRows(p);
     BG_SYS_FreeTiles(5, 1, 0);
-    ranges = (u32)((IntrudeCommView *)p)->frameGfx;
+    ranges = (uptr)((IntrudeCommView *)p)->frameGfx;
     BG_SYS_FreeTileRun(5, (u16)ranges, (u16)(ranges >> 16));
     BG_SYS_FreeLayerBuf(5);
     BG_SYS_FreeLayerBuf(4);
@@ -661,12 +662,12 @@ void INTRUDE_COMM_VIEW_BeginExit(char *p)
     NET_WHPIPE_SetNotifyCallback(0, 0);
     if (((IntrudeCommView *)p)->state == 1 && GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(((IntrudeCommView *)p)->icaAnime)))
         GAME_COMM_RequestExitNoCallback((struct GameComm *)GAMESYSTEM_GetGameComm(((IntrudeCommView *)p)->icaAnime));
-    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_WaitExitWipe, 0x35e);
+    INTRUDE_COMM_VIEW_SetCallback(p, (uptr)INTRUDE_COMM_VIEW_WaitExitWipe, 0x35e);
 }
 
 void INTRUDE_COMM_VIEW_StartExit(char *p)
 {
-    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_BeginExit, 0x36f);
+    INTRUDE_COMM_VIEW_SetCallback(p, (uptr)INTRUDE_COMM_VIEW_BeginExit, 0x36f);
 }
 
 void INTRUDE_COMM_VIEW_Noop(void)
@@ -688,7 +689,7 @@ void INTRUDE_COMM_VIEW_AnimateSelectedRow(char *p)
     CLACT_SetActorAutoAnim((struct ClactActor *)base[i], 1);
     CLACT_ApplyActorAnimCommand((struct ClactActor *)base[i], (const struct ClactAnimCommand *)((const struct Cmd *)(&args)));
     CLACT_RestartActorAnim(base[i]);
-    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_Noop, 0x390);
+    INTRUDE_COMM_VIEW_SetCallback(p, (uptr)INTRUDE_COMM_VIEW_Noop, 0x390);
 }
 
 int INTRUDE_COMM_VIEW_SelectRow(int value, char *p)
@@ -702,18 +703,18 @@ int INTRUDE_COMM_VIEW_SelectRow(int value, char *p)
         ((IntrudeCommView *)p)->args->requestState = INTRUDE_COMM_GetRequestState(obj);
         ((IntrudeCommView *)p)->state = 0;
         GFL_USE_PlaySeDefaultVolume(0x73b);
-        INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_AnimateSelectedRow, 0x3c4);
+        INTRUDE_COMM_VIEW_SetCallback(p, (uptr)INTRUDE_COMM_VIEW_AnimateSelectedRow, 0x3c4);
         break;
     case 1:
     case 4:
         ((IntrudeCommView *)p)->state = 1;
         GFL_USE_PlaySeDefaultVolume(0x73b);
-        INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_AnimateSelectedRow, 0x3cd);
+        INTRUDE_COMM_VIEW_SetCallback(p, (uptr)INTRUDE_COMM_VIEW_AnimateSelectedRow, 0x3cd);
         break;
     case 2:
         GFL_USE_PlaySeDefaultVolume(0x73c);
         ((IntrudeCommView *)p)->state = 2;
-        INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_AnimateSelectedRow, 0x3d3);
+        INTRUDE_COMM_VIEW_SetCallback(p, (uptr)INTRUDE_COMM_VIEW_AnimateSelectedRow, 0x3d3);
         break;
     }
     return 1;
@@ -745,8 +746,8 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
 {
     int force = 0;
     int scratch = 0;
-    int object, mode, count;
-    object = (int)GAMESYSTEM_GetGameComm(((IntrudeCommView *)p)->icaAnime);
+    sptr object; int mode, count;
+    object = (sptr)GAMESYSTEM_GetGameComm(((IntrudeCommView *)p)->icaAnime);
     mode = INTRUDE_COMM_GetRequestState((struct GameComm *)object);
     if (!((IntrudeCommView *)p)->newLogSeen) {
         scratch = 0;
@@ -765,20 +766,20 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
         if (((IntrudeCommView *)p)->newLogSeen) INTRUDE_COMM_VIEW_DrawRowText(9, 5, force, 1, (IntrudeCommView *)p);
         else INTRUDE_COMM_VIEW_DrawRowText(9, 6, force, 1, (IntrudeCommView *)p);
     } else {
-        INTRUDE_COMM_VIEW_DeleteRowSlot(5, (u32)p); INTRUDE_COMM_VIEW_DeleteRowSlot(7, (u32)p); INTRUDE_COMM_VIEW_DeleteRowSlot(9, (u32)p);
+        INTRUDE_COMM_VIEW_DeleteRowSlot(5, (uptr)p); INTRUDE_COMM_VIEW_DeleteRowSlot(7, (uptr)p); INTRUDE_COMM_VIEW_DeleteRowSlot(9, (uptr)p);
     }
     if (mode == 2 && ((IntrudeCommView *)p)->peerCount != INTRUDE_COMM_CountEventPeers((void *)object)) ((IntrudeCommView *)p)->peerCacheMode = 0;
     if (((IntrudeCommView *)p)->peerCacheMode != mode) {
         switch (mode) {
         case 0:
             CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[5], 0);
-            INTRUDE_COMM_VIEW_ResetRowSlot(10, (u32)p);
+            INTRUDE_COMM_VIEW_ResetRowSlot(10, (uptr)p);
             MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank, 0, ((IntrudeCommView *)p)->textBuf);
             INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5840, data_021D5710, data_021D5714);
             break;
         case 1:
             CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[5], 0);
-            INTRUDE_COMM_VIEW_ResetRowSlot(10, (u32)p);
+            INTRUDE_COMM_VIEW_ResetRowSlot(10, (uptr)p);
             MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank, 15, ((IntrudeCommView *)p)->textBuf);
             INTRUDE_COMM_VIEW_RebuildRow(0, (IntrudeCommView *)p, &data_021D5860, data_021D5710, data_021D5714);
             break;
@@ -786,7 +787,7 @@ void INTRUDE_COMM_VIEW_UpdatePeerList(char *p)
             count = INTRUDE_COMM_CountEventPeers((void *)object);
             ((IntrudeCommView *)p)->peerCount = count;
             CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[5], 0);
-            INTRUDE_COMM_VIEW_ResetRowSlot(10, (u32)p);
+            INTRUDE_COMM_VIEW_ResetRowSlot(10, (uptr)p);
             WORDSET_SetSlotNumber(((IntrudeCommView *)p)->wordSet, 0, count, 1, 0, 1);
             MSGDATA_ReadString(((IntrudeCommView *)p)->msgBank, 16, ((IntrudeCommView *)p)->textBufAlt);
             WORDSET_CopyTaggedText(((IntrudeCommView *)p)->wordSet, ((IntrudeCommView *)p)->textBuf, ((IntrudeCommView *)p)->textBufAlt);
@@ -1006,23 +1007,23 @@ int INTRUDE_COMM_VIEW_Create(void *owner, void *unused, char *args)
     BG_SYS_SetSubVisiblePlanes(0);
     CLACT_InitSystem((const struct ClactSysInit *)data_021D5740, (const struct DispVramCfg *)data_021D58B0, ((IntrudeCommView *)p)->heapId);
     ((IntrudeCommView *)p)->clactUnit = CLACT_CreateUnit(40, 0, ((IntrudeCommView *)p)->heapId);
-    ((IntrudeCommView *)p)->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((u32)INTRUDE_COMM_VIEW_VBlankHandler), (void *)p, 0);
+    ((IntrudeCommView *)p)->vblankTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)INTRUDE_COMM_VIEW_VBlankHandler), (void *)p, 0);
     INTRUDE_COMM_VIEW_SetupBackgrounds(p);
     INTRUDE_COMM_VIEW_CreateResources(p);
     ((IntrudeCommView *)p)->wordSet = WORDSET_Create(11, 200, ((IntrudeCommView *)p)->heapId);
     ((IntrudeCommView *)p)->tcbl = TCBL_Create(((IntrudeCommView *)p)->heapId, ((IntrudeCommView *)p)->heapId, 1, 0);
     ((IntrudeCommView *)p)->printQueue = (void *)PRINTSYS_QUE_Create((u32)(((IntrudeCommView *)p)->heapId));
     ((IntrudeCommView *)p)->taskMenuRes = APP_TASKMENU_RES_Create(5, 13, (struct GFont *)(*(u32 *)&((IntrudeCommView *)p)->font), (struct PrintQueue *)((IntrudeCommView *)p)->printQueue, ((IntrudeCommView *)p)->heapId);
-    G2x_SetBlendAlpha_((void *)0x04001050, 4, 1, 15, 4);
+    G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR, 4, 1, 15, 4);
     WIPE_SYS_Start((void *)4, 1, 1, 0, 6, 1, ((IntrudeCommView *)p)->heapId);
     BG_SYS_SetSubVisiblePlanes(31);
-    INTRUDE_COMM_VIEW_SetCallback(p, (u32)INTRUDE_COMM_VIEW_InitMenu, 0x6cb);
+    INTRUDE_COMM_VIEW_SetCallback(p, (uptr)INTRUDE_COMM_VIEW_InitMenu, 0x6cb);
     ((IntrudeCommView *)p)->args = (IntrudeCommViewArgs *)args;
     GFL_NET_GetInitParam();
     ((IntrudeCommView *)p)->args->active = 1;
     ((IntrudeCommView *)p)->args->owner = ((IntrudeCommView *)p)->gameData;
     GFL_NET_RefreshWmIconAtTopRight(0, ((IntrudeCommView *)p)->heapId);
-    if (GFL_NET_GetRunState()) NET_WHPIPE_SetNotifyCallback((u32)INTRUDE_COMM_VIEW_StorePeerRecord, (u32)p);
+    if (GFL_NET_GetRunState()) NET_WHPIPE_SetNotifyCallback((uptr)INTRUDE_COMM_VIEW_StorePeerRecord, (uptr)p);
     UI_SetInputMode(1);
     return 1;
 }

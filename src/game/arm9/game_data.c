@@ -363,13 +363,13 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->season = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
     gameData->subscreenType = 0;
 
-    gameData->situation = (u32)PLAYER_LOCATION_GetData(gameData->saveControl);
+    gameData->situation = (uptr)PLAYER_LOCATION_GetData(gameData->saveControl);
     gameData->startLocation = PLAYER_LOCATION_Nop(gameData->situation);
     gameData->entranceLocation = PLAYER_LOCATION_Nop(gameData->situation);
     gameData->specialLocation = PLAYER_LOCATION_GetLocationA((struct Situation *)gameData->situation);
     gameData->escapeLocation = PLAYER_LOCATION_GetLocationB((struct PlayerLocationData *)gameData->situation);
 
-    gameData->bagCursor = (u32)BGM_INFO_Create(heapId);
+    gameData->bagCursor = (uptr)BGM_INFO_Create(heapId);
 
     for (i = 0; i < 5; i++) {
         GAME_DATA_InitPlayerWork(&gameData->playerWork[i]);
@@ -382,16 +382,16 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->eventData = eventData = (void *)EVENTDATA_SYSTEM_Create(heapId);
     EVENTDATA_SYSTEM_Clear(eventData);
     gameData->eventWork = GAME_DATA_GetEventWorkFromSave(gameData->saveControl);
-    gameData->fieldWork = (u32)MAP_MATRIX_Create(heapId);
+    gameData->fieldWork = (uptr)MAP_MATRIX_Create(heapId);
     gameData->occupyInfo = FLDMMDL_CreateSys(heapId, 0x40, SAVE_CONTROL_GetBlock(gameData->saveControl, 0x33));
-    gameData->bgmInfo = (u32)FIELD_SOUND_SYSTEM_Create(gameData, heapId);
+    gameData->bgmInfo = (uptr)FIELD_SOUND_SYSTEM_Create(gameData, heapId);
     gameData->moveModelSys = (void *)FIELD_STATUS_Create(heapId);
-    gameData->mapMatrix = (u32)MYITEM_SAVEDATA_CreateBagCursor(heapId);
+    gameData->mapMatrix = (uptr)MYITEM_SAVEDATA_CreateBagCursor(heapId);
     gameData->myItem = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x19);
     gameData->myParty = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x1A);
     gameData->config = SYSTEM_DATA_GetConfig(gameData->saveControl);
-    gameData->boxManager = (u32)BOX_SAVEDATA_CreateWordHolder(heapId, (u32)gameData->saveControl);
-    gameData->wifiList = (u32)WIFILIST_Create(heapId);
+    gameData->boxManager = (uptr)BOX_SAVEDATA_CreateWordHolder(heapId, (uptr)gameData->saveControl);
+    gameData->wifiList = (uptr)WIFILIST_Create(heapId);
 
     for (i = 0; i < 4; i++) {
         INTRUDE_InitOccupy((struct IntrudeSave *)gameData->battleRecSlot[i]);
@@ -405,14 +405,14 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->saveStatus = 0;
     SAVE_CONTROL_IsNewGame(gameData->saveControl);
 
-    gameData->fieldGimmick = (u32)FIELD_ENCOUNT_ST_Create(heapId);
+    gameData->fieldGimmick = (uptr)FIELD_ENCOUNT_ST_Create(heapId);
     PMS_DRAW_ClearWork(gameData->rtcWork);
     GAME_DATA_LoadFromSave(gameData);
     gameData->eventState = 0;
     gameData->currentEvent = 0;
-    gameData->pmsWork = (int)COMM_PLAYER_SUPPORT_Create((u32)heapId);
-    gameData->itemUseWork = (u32)BEACON_STATUS_Create(heapId, 0x8001);
-    gameData->musicalWork = (u32)CALENDER_Create(gameData, heapId);
+    gameData->pmsWork = (sptr)COMM_PLAYER_SUPPORT_Create((u32)heapId);
+    gameData->itemUseWork = (uptr)BEACON_STATUS_Create(heapId, 0x8001);
+    gameData->musicalWork = (uptr)CALENDER_Create(gameData, heapId);
     gameData->listCursor = 0;
     gameData->externalWork = 0;
 
@@ -1484,7 +1484,7 @@ void GAME_DATA_LoadFromSave(struct GameData *gd)
     struct UnionInfo *unionInfo;
     struct WifiList *fieldState;
     struct PlayTime *savedTime;
-    u32 situation;
+    uptr situation;
     if (SAVE_CONTROL_IsNewGame(gd->saveControl) == 1) {
         return;
     }
@@ -1530,7 +1530,7 @@ void GAME_DATA_WriteToSave(struct GameData *gd)
     struct UnionInfo *unionInfo;
     struct WifiList *fieldState;
     struct PlayTime *savedTime;
-    u32 situation;
+    uptr situation;
     player = GAME_DATA_GetMyPlayerWork(gd);
     SYSTEM_DATA_SetMyStatus(gd->saveControl, (struct MyStatusHolder *)player);
     PLAYER_LOCATION_SetRecordFromBuffer(gd->saveControl, (struct LocationRecordBuf *)player);

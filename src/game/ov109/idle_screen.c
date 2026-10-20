@@ -47,6 +47,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/bg_sys.h"
 
@@ -86,10 +87,10 @@ void IDLE_SCREEN_Run(void)
     BG_SYS_Create(1);
     vramBanks = sVramBanks;
     BG_SYS_SetVramBanks(&vramBanks);
-    MIi_CpuClear32(0, (void *)0x06000000, 0x80000);
-    MIi_CpuClear32(0, (void *)0x06200000, 0x20000);
-    MIi_CpuClear32(0, (void *)0x06400000, 0x40000);
-    MIi_CpuClear32(0, (void *)0x06600000, 0x20000);
+    MIi_CpuClear32(0, (void *)HW_BG_VRAM, 0x80000);
+    MIi_CpuClear32(0, (void *)HW_DB_BG_VRAM, 0x20000);
+    MIi_CpuClear32(0, (void *)HW_OBJ_VRAM, 0x40000);
+    MIi_CpuClear32(0, (void *)HW_DB_OBJ_VRAM, 0x20000);
     dispConfig = sDispConfig;
     BG_SYS_SetGraphicsMode(&dispConfig);
     templates = sTemplates;

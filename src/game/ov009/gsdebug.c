@@ -35,7 +35,6 @@ typedef struct {
 
 #include "screen.h"
 #include "gsplatformthread.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../arm9/os_printf.h"
 void gsiDebugCallback(int cat, int type, int level, const char *fmt, va_list args);

@@ -145,13 +145,13 @@ int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work)
         if (GAME_COMM_GetLastKind(GAMESYSTEM_GetGameComm(gameSystem)) == 2) {
             if (GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(gameSystem)) == 1) {
                 GFL_NET_ERR_RequestScreen();
-                child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (u32)ov021_id, (void *)(&sCommErrorSubProcData), gameSystem);
+                child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (uptr)ov021_id, (void *)(&sCommErrorSubProcData), gameSystem);
             } else {
                 child = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_COMM_ERROR_RunCommExit, 0);
             }
         } else {
             GFL_NET_ERR_RequestScreen();
-            child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (u32)ov021_id, (void *)(&sCommErrorSubProcData), gameSystem);
+            child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (uptr)ov021_id, (void *)(&sCommErrorSubProcData), gameSystem);
         }
         GAME_EVENT_CallEvent(event, child);
         (*seq)++;

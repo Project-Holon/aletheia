@@ -137,10 +137,10 @@ void FIELD_GIMMICK_TIME_EFFECT_Exit(unsigned char *fieldMap)
 
 void FIELD_GIMMICK_TIME_EFFECT_Update(int fieldMap)
 {
-    int expObj;
+    sptr expObj;
     FieldGimmickTimeEffectWork *work;
 
-    expObj = (int)FIELDMAP_GetExpObj((void *)fieldMap);
+    expObj = (sptr)FIELDMAP_GetExpObj((void *)fieldMap);
     work = FIELDMAP_GetCommonWork((void *)fieldMap, 1);
     if (work->isPlaying != 0) {
         FLD_EXP_OBJ_UpdateAnimes((struct FldExpObjCnt *)expObj);
@@ -160,10 +160,10 @@ void FIELD_GIMMICK_TIME_EFFECT_Update(int fieldMap)
 void FIELD_GIMMICK_TIME_EFFECT_StartEffect(int fieldMap)
 {
     int i;
-    int expObj;
+    sptr expObj;
     FieldGimmickTimeEffectWork *work;
 
-    expObj = (int)FIELDMAP_GetExpObj((void *)fieldMap);
+    expObj = (sptr)FIELDMAP_GetExpObj((void *)fieldMap);
     work = FIELDMAP_GetCommonWork((void *)fieldMap, 1);
     work->isPlaying = 1;
     FLD_EXP_OBJ_SetModelHidden((void *)expObj, 0, 0, 0);

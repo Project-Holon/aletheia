@@ -389,11 +389,11 @@ extern s16 FX_SinCosTable_[];
 int ZUKAN_DETAIL_INFO_Init(void *owner, int unused, u16 *heap)
 {
     struct Ov208InfoWork *s;
-    GF_OVERLAY_Load((u32)ov067_id);
-    GF_OVERLAY_Load((u32)ov206_id);
+    GF_OVERLAY_Load((uptr)ov067_id);
+    GF_OVERLAY_Load((uptr)ov206_id);
     s = ZUKAN_DETAIL_PROCSYS_AllocBuffer((struct Ov208Fsm *)owner, 0x120, *heap);
     MI_CpuFill8(s, 0, 0x120);
-    s->task = (void *)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((unsigned)ZUKAN_DETAIL_INFO_NoOp), (void *)((unsigned)s), 1);
+    s->task = (void *)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)ZUKAN_DETAIL_INFO_NoOp), (void *)((uptr)s), 1);
     s->pressedButton = 6;
     s->currentButton = 6;
     s->blinkRestart = 0;
@@ -423,7 +423,7 @@ int ZUKAN_DETAIL_INFO_Exit(char *first,unsigned unused,int owner,char *q,unsigne
     MSGDATA_Delete((struct MsgBank *)((struct Rec *)((struct Ov208InfoWork *)q)->msg0));
     ZUKAN_DETAIL_COMMON_FreeBlendWork((void *)(((struct Ov208InfoWork *)q)->blendSub));ZUKAN_DETAIL_COMMON_FreeBlendWork((void *)(((struct Ov208InfoWork *)q)->blendMain));
     TCB_DeleteTask((struct TcbTask *)((struct Node *)((struct Ov208InfoWork *)q)->task));ZUKAN_DETAIL_PROCSYS_FreeBuffer((char *)first);
-    GF_OVERLAY_Unload((int)ov206_id);GF_OVERLAY_Unload((int)ov067_id);return 1;
+    GF_OVERLAY_Unload((sptr)ov206_id);GF_OVERLAY_Unload((sptr)ov067_id);return 1;
 }
 
 /*
@@ -491,10 +491,10 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         actorUnit = ZUKAN_DETAIL_GRAPHIC_Reset3dState(ZUKAN_DETAIL_COMMON_GetDisplay(ctx));
         viewMode = ZUKAN_SAVE_GetViewMode(t);
         ZUKAN_DETAIL_INFO_GetPanelParams((const u16 *)h, (u8 *)p, ctx, &w[3], &w[2], &w[1], &w[0], &personality, &caught, tbl);
-        p->speciesInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 0, 1, actorUnit, (u32)p->font, ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
-        p->langInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 1, 1, actorUnit, (u32)p->font, ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (u32)p->msg0, (u32)p->msg1, (u32)p->msg2);
+        p->speciesInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 0, 1, actorUnit, (uptr)p->font, ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (uptr)p->msg0, (uptr)p->msg1, (uptr)p->msg2);
+        p->langInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 1, 1, actorUnit, (uptr)p->font, ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (uptr)p->msg0, (uptr)p->msg1, (uptr)p->msg2);
         ZUKAN_INFO_Show(p->langInfo);
-        ZUKAN_DETAIL_INFO_ResetButtons((int)h, (char *)p, ctx, (int *)tbl);
+        ZUKAN_DETAIL_INFO_ResetButtons((sptr)h, (char *)p, ctx, (int *)tbl);
         ZUKAN_DETAIL_INFO_LoadHighlightPalettes((u16 *)h, (u8 *)p, ctx);
         ZUKAN_DETAIL_INFO_StartHighlightBlink(h, (int *)p, ctx);
         break;
@@ -685,7 +685,7 @@ int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first,char *p,struct Ov208Ct
         if(((struct Ov208InfoWork *)p)->currentButton==6) {
             if((buttons&0x300)||(press&1)) {
                 for(i=0;i<6;i++) {
-                    if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct Obj **)((u32)p+(u32)i*20+0x1c)))!=0) {
+                    if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct Obj **)((uptr)p+(u32)i*20+0x1c)))!=0) {
                         ((struct Ov208InfoWork *)p)->pressedButton=i; changed=1; break;
                     }
                 }
@@ -693,14 +693,14 @@ int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first,char *p,struct Ov208Ct
         } else if((buttons&0x100)||(press&1)) {
             for(i=1;i<6;i++) {
                 next=(((struct Ov208InfoWork *)p)->currentButton+i)%6;
-                if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct Obj **)((u32)p+(u32)next*20+0x1c)))!=0) {
+                if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct Obj **)((uptr)p+(u32)next*20+0x1c)))!=0) {
                     ((struct Ov208InfoWork *)p)->pressedButton=next; changed=1; break;
                 }
             }
         } else if(buttons&0x200) {
             for(i=1;i<6;i++) {
                 next=(((struct Ov208InfoWork *)p)->currentButton+6-i)%6;
-                if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct Obj **)((u32)p+(u32)next*20+0x1c)))!=0) {
+                if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct Obj **)((uptr)p+(u32)next*20+0x1c)))!=0) {
                     ((struct Ov208InfoWork *)p)->pressedButton=next; changed=1; break;
                 }
             }
@@ -708,11 +708,11 @@ int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first,char *p,struct Ov208Ct
     }
     if(changed!=0) {
         ZUKAN_DETAIL_INFO_SelectLanguageButton(first,p,key,((struct Ov208InfoWork *)p)->pressedButton);
-        *(u32 *)((u32)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x2c)=1;
-        CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct Obj **)((u32)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x1c)),*(u16 *)((u32)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x26));
+        *(u32 *)((uptr)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x2c)=1;
+        CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct Obj **)((uptr)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x1c)),*(u16 *)((uptr)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x26));
         GFL_USE_PlaySeDefaultVolume(0x54a);
         UI_SetInputMode(0);
-        ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled((void *)((int)scene), 0);
+        ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled((void *)((sptr)scene), 0);
     }
     return changed;
 }
@@ -731,11 +731,11 @@ void ZUKAN_DETAIL_INFO_RefreshLanguagePanel(void *first,char *q,struct Ov208Ctx 
     index=((struct Ov208InfoWork *)q)->currentButton;
     if(index!=6) {
         if(p.arr[index]!=0) okay=0;
-        else {ZUKAN_DETAIL_INFO_ClearButtonHighlight((int)first, q, (unsigned)third);((struct Ov208InfoWork *)q)->currentButton=6;}
+        else {ZUKAN_DETAIL_INFO_ClearButtonHighlight((sptr)first, q, (uptr)third);((struct Ov208InfoWork *)q)->currentButton=6;}
     }
     if(okay) ZUKAN_INFO_Show(((struct Ov208InfoWork *)q)->langInfo);
     else ZUKAN_INFO_SetPokemonPage(((struct Ov208InfoWork *)q)->langInfo,p.d,p.c,p.b,p.a,p.y,p.x,((struct Ov208InfoWork *)q)->currentButton);
-    ZUKAN_DETAIL_INFO_ResetButtons((int)first,q,third,(int *)p.arr);
+    ZUKAN_DETAIL_INFO_ResetButtons((sptr)first,q,third,(int *)p.arr);
 }
 
 void ZUKAN_DETAIL_INFO_SelectLanguageButton(void *first,char *q,struct Ov208Ctx *third,int next)
@@ -748,7 +748,7 @@ void ZUKAN_DETAIL_INFO_SelectLanguageButton(void *first,char *q,struct Ov208Ctx 
             ZUKAN_INFO_SetPokemonPage(((struct Ov208InfoWork *)q)->langInfo,p.d,p.c,p.b,p.a,p.y,p.x,next);
             ZUKAN_INFO_Hide(((struct Ov208InfoWork *)q)->langInfo);
         } else ZUKAN_INFO_ShowPage(((struct Ov208InfoWork *)q)->langInfo,next);
-        ZUKAN_DETAIL_INFO_ClearButtonHighlight((int)first, q, (unsigned)third);((struct Ov208InfoWork *)q)->currentButton=next;
+        ZUKAN_DETAIL_INFO_ClearButtonHighlight((sptr)first, q, (uptr)third);((struct Ov208InfoWork *)q)->currentButton=next;
         ZUKAN_DETAIL_INFO_StartHighlightBlink(first,(int *)q,third);
     }
 }
@@ -874,16 +874,16 @@ void ZUKAN_DETAIL_INFO_GetPanelParams(const u16 *heap, u8 *p, struct Ov208Ctx *k
 void ZUKAN_DETAIL_INFO_LoadHighlightPalettes(u16 *heap, u8 *p, struct Ov208Ctx *ctx)
 {
     struct Ov208Pltt *pltt;
-    u32 file;
+    uptr file;
     u8 *data;
-    file = (u32)ARC_UTIL_LoadPaletteBlockFromArchive(159, 3, (void *)((u32)(&pltt)), *heap);
+    file = (uptr)ARC_UTIL_LoadPaletteBlockFromArchive(159, 3, (void *)((uptr)(&pltt)), *heap);
     data = pltt->data;
     MI_CpuCopy8(data + 0x20, p + 0xa8, 32);
     MI_CpuCopy8(data + 0x60, p + 0xc8, 32);
     GFL_HEAP_Free((void *)file);
     ((struct Ov208InfoWork *)p)->blinkPhase = 0;
     MI_CpuCopy8(p + 0xa8, p + 0xe8, 32);
-    NNS_GfdRegisterNewVramTransferTask((void *)14, 192, (u32)(p + 0xe8), 32);
+    NNS_GfdRegisterNewVramTransferTask((void *)14, 192, (uptr)(p + 0xe8), 32);
 }
 
 void ZUKAN_DETAIL_INFO_NoOpHighlight(int unused0, char *unused1, unsigned unused2)
@@ -954,6 +954,6 @@ void ZUKAN_DETAIL_INFO_UpdateHighlightBlink(struct Ov208Heap *heap, struct Ov208
                 | ((unsigned char)(b + ((ratio * ((unsigned char)((B & 0x7c00) >> 10) - b)) >> 12)) << 10));
         }
 
-        NNS_GfdRegisterNewVramTransferTask((void *)0xe, 0xc0, (int)e->dst, 0x20);
+        NNS_GfdRegisterNewVramTransferTask((void *)0xe, 0xc0, (sptr)e->dst, 0x20);
     }
 }

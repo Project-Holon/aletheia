@@ -149,14 +149,13 @@ struct GFLNetInitializeStruct;
 
 
 
-extern void GFL_NET_StartSession(struct GFLNetInitializeStruct *req, u32 transportArg, u32 userArg);
 struct WihContext;
 
 #include "../arm9/wih_dwc.h"
 struct WihContext;
 
 
-extern int GFL_NET_Exit(void (*callback)(void *work));
+#include "../arm9/net.h"
 
 
 #include "../arm9/net_err.h"
@@ -266,7 +265,7 @@ int GAME_BEACON_SEARCH_InitWait(int *seq, void *unused, GameBeaconSearchWork *wo
     switch (*seq) {
     case 0:
         GFL_HEAP_DumpReport(12);
-        GFL_NET_StartSession((struct GFLNetInitializeStruct *)(&GAME_BEACON_SEARCH_NetInit), (u32)GAME_BEACON_SEARCH_OnSessionStarted, (u32)work);
+        GFL_NET_StartSession((struct GFLNetInitializeStruct *)(&GAME_BEACON_SEARCH_NetInit), GAME_BEACON_SEARCH_OnSessionStarted, work);
         (*seq)++;
         break;
     case 1:
@@ -353,7 +352,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
                         request = GFL_HEAP_Alloc(0x8005, sizeof(GameBeaconConnectRequest), 1, GAME_BEACON_SEARCH_FileName, 0x154);
                         request->gameSystem = gameSystem;
                         MI_CpuCopy8(target->macAddress, request->macAddress, 6);
-                        GAME_COMM_RequestExit(gameComm, (GameCommExitFunc)GAME_BEACON_SEARCH_StartConnectEvent, (unsigned int)request);
+                        GAME_COMM_RequestExit(gameComm, (GameCommExitFunc)GAME_BEACON_SEARCH_StartConnectEvent, (uptr)request);
                         goto end; /* the connect path skips the target reset; bytes need the goto */
                     }
                 }
@@ -535,6 +534,6 @@ void GAME_BEACON_SEARCH_StartConnectEvent(void *arg, int cancel)
         event->gameSystem = gameSystem;
         event->gameComm = GAMESYSTEM_GetGameComm(gameSystem);
         MI_CpuCopy8(macAddress, event->macAddress, 6);
-        GAME_COMM_Start(gameComm, (u32)2, (u32)event);
+        GAME_COMM_Start(gameComm, (u32)2, (uptr)event);
     }
 }

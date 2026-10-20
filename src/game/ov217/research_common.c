@@ -210,7 +210,7 @@ u32 RESEARCH_COMMON_GetContext(u32 *common)
 /* Returns the shared resource data. */
 u32 RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common)
 {
-    return (u32)common->appResource;
+    return (uptr)common->appResource;
 }
 
 /* Returns the touch-rectangle table. */
@@ -332,7 +332,7 @@ u32 RESEARCH_COMMON_Exit(struct ResearchCommon *common)
     RESEARCH_COMMON_DeleteActor(common);
     RESEARCH_COMMON_DeleteClactUnit(common);
     RESEARCH_COMMON_ReleaseResources(common);
-    return RESEARCH_COMMON_ExitClact((u32)common);
+    return RESEARCH_COMMON_ExitClact((uptr)common);
 }
 
 /*
@@ -410,7 +410,7 @@ void RESEARCH_COMMON_ClearActor(struct ResearchCommon *common)
 void RESEARCH_COMMON_CreateActor(struct ResearchCommon *common)
 {
     struct ActorHeader header;
-    u32 unit, charId, paletteId, cellAnimId;
+    uptr unit; u32 charId, paletteId, cellAnimId;
     header.x = d_021C3F80.header.x;
     header.y = d_021C3F80.header.y;
     header.z = d_021C3F80.header.z;
@@ -551,5 +551,5 @@ u32 RESEARCH_COMMON_GetResourceId(struct ResearchCommon *common, u32 index)
 /* Returns CLACT unit index. */
 u32 RESEARCH_COMMON_GetClactUnit(struct ResearchCommon *common, u32 index)
 {
-    return (u32)common->clactUnits[index];
+    return (uptr)common->clactUnits[index];
 }

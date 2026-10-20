@@ -87,7 +87,7 @@ typedef struct Demo3dWork {
 
 struct Demo3dContext { unsigned short heapId, pad; void *view, *model; const Demo3dMethods *methods; void *work; int mode; };
 
-#define DISP3DCNT (*(volatile unsigned short *)0x04000060)
+#define DISP3DCNT (*(volatile unsigned short *)REG_DISP3DCNT_ADDR)
 struct ProcOwner;
 struct MsgBank;
 struct Demo3dGraphicCfg;
@@ -96,6 +96,7 @@ struct PrintSys;
 struct Rec;
 struct Proc;
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_gx.h"
 
@@ -146,7 +147,7 @@ int DEMO3D_Init(void *manager, int unused, Demo3dArg *p)
     int delta;
     unsigned one = 1;
     unsigned heap = 0x6c;
-    GF_OVERLAY_Load((int)ov067_id);
+    GF_OVERLAY_Load((sptr)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x6c, 0x130000);
     w = PROCSYS_AllocProcWork(manager, sizeof(Demo3dWork), 0x6c);
     MI_CpuFill8(w, 0, sizeof(Demo3dWork));
@@ -180,7 +181,7 @@ int DEMO3D_Exit(void *a, void *b, void *c, Demo3dWork *work)
     DEMO3D_GRAPHIC_Delete(work->view);
     PROCSYS_FreeProcWork(a);
     GFL_HEAP_DeleteChecked(0x6c);
-    GF_OVERLAY_Unload((int)ov067_id);
+    GF_OVERLAY_Unload((sptr)ov067_id);
     return 1;
 }
 
@@ -276,7 +277,7 @@ static inline void G3X_SetShading(GXShading shading) { DISP3DCNT = (unsigned sho
 
 static inline void G3X_AntiAlias(int enable) { if (enable) DISP3DCNT = (unsigned short)(DISP3DCNT & ~0x3000 | 16); else DISP3DCNT &= (unsigned short)~0x3010; }
 
-static inline void G3X_AlphaTest(int enable, int ref) { if (enable) { DISP3DCNT = (unsigned short)(DISP3DCNT & ~0x3000 | 4); *(volatile unsigned short *)0x04000340 = ref; } else DISP3DCNT &= (unsigned short)~0x3004; }
+static inline void G3X_AlphaTest(int enable, int ref) { if (enable) { DISP3DCNT = (unsigned short)(DISP3DCNT & ~0x3000 | 4); *(volatile unsigned short *)REG_ALPHA_TEST_REF_ADDR = ref; } else DISP3DCNT &= (unsigned short)~0x3004; }
 
 static inline void G3X_AlphaBlend(int enable) { if (enable) DISP3DCNT = (unsigned short)(DISP3DCNT & ~0x3000 | 8); else DISP3DCNT &= (unsigned short)~0x3008; }
 

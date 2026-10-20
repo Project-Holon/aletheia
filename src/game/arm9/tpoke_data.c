@@ -132,7 +132,7 @@ Tpoke *TPOKE_DATA_Create(u16 heap)
     u32 size;
 
     p = (Tpoke *)GFL_HEAP_Alloc(heap, 0x10, 1, sTpokeData82, 82);
-    p->handle = (int)ARC_UTIL_LoadMemberWithSize(0xd3, 0, 0, heap, &size);
+    p->handle = (sptr)ARC_UTIL_LoadMemberWithSize(0xd3, 0, 0, heap, &size);
     p->count = size >> 3;
     p->buf = ARC_TOOL_LoadMember(0x30, 0, heap);
     p->buf4 = (char *)p->buf + 4;
@@ -325,12 +325,12 @@ void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u16 heap)
 
 void TPOKE_DATA_ReadRecord(void *dest, void *arc)
 {
-    ARC_TOOL_ReadMember(arc, 0x5c, (u32)dest);
+    ARC_TOOL_ReadMember(arc, 0x5c, (uptr)dest);
 }
 
 void TPOKE_DATA_ReadParty(void *dest, void *arc)
 {
-    ARC_TOOL_ReadMember(arc, 0x5d, (u32)dest);
+    ARC_TOOL_ReadMember(arc, 0x5d, (uptr)dest);
 }
 
 /*

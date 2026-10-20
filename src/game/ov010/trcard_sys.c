@@ -412,7 +412,7 @@ int TRCARD_SYS_StateStartEditProc(TrainerCardWork *work)
     if (work->childProc == 0)
         work->childProc = PROCSYS_Create((u16)work->heapId);
     work->playerSave = GAME_DATA_GetSaveControl(work->param->saveData);
-    PROCSYS_Push(work->childProc, (u32)ov110_id, &gPmsInputProcData, &work->playerSave);
+    PROCSYS_Push(work->childProc, (uptr)ov110_id, &gPmsInputProcData, &work->playerSave);
     return 4;
 }
 
@@ -426,12 +426,12 @@ int TRCARD_SYS_StateWaitEditProc(TrainerCardWork *work)
 {
     TrainerCardProfile *profile;
     u16 *beacon;
-    int beaconSave;
+    sptr beaconSave;
 
     if (TRCARD_SYS_RunChildProc(&work->childProc) == 0)
         return 4;
     if (work->editedBeacon != 0) {
-        beaconSave = (s32)GREETING_SAVEDATA_GetFromSave((u32)GAME_DATA_GetSaveControl(work->param->saveData));
+        beaconSave = (sptr)GREETING_SAVEDATA_GetFromSave((uptr)GAME_DATA_GetSaveControl(work->param->saveData));
         profile = work->param->profile;
         beacon = work->editedBeacon;
         profile->beaconRecord[0] = beacon[0];
@@ -456,7 +456,7 @@ int TRCARD_SYS_StateStartBadgeProc(TrainerCardWork *work)
     if (work->childProc == 0)
         work->childProc = PROCSYS_Create((u16)work->heapId);
     work->playerSave = GAME_DATA_GetSaveControl(work->param->saveData);
-    PROCSYS_Push(work->childProc, (u32)ov110_id, &d_021C892C, work->param);
+    PROCSYS_Push(work->childProc, (uptr)ov110_id, &d_021C892C, work->param);
     return 6;
 }
 
@@ -536,7 +536,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     badges = GAME_DATA_GetMiscSave(save);
     saveClock = (SaveClock *)CONSOLE_STAMP_GetDailyClock(playerSave);
     records = RECORD_GetFromSave(playerSave);
-    beaconData = GREETING_SAVEDATA_GetFromSaveThunk((u32)playerSave);
+    beaconData = GREETING_SAVEDATA_GetFromSaveThunk((uptr)playerSave);
     zukan = ZUKAN_SAVE_GetFromGameData(save);
 
     if (MYSTATUS_IsNameEmpty(myStatus) == 0) {
@@ -572,7 +572,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     } else {
         out->outfit = (u32)MYSTATUS_GetTrainerView(myStatus);
         out->isLinkMode = 1;
-        out->playTimeSource = (u32)GAME_DATA_GetPlayTime((struct GameData *)save);
+        out->playTimeSource = (uptr)GAME_DATA_GetPlayTime((struct GameData *)save);
     }
     out->signatureColor = (u32)TRCARD_SIGN_GetColor(signature);
     out->signatureStyle = (u32)TRCARD_SIGN_GetStyle(signature);

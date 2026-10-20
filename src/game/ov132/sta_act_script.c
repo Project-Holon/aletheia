@@ -144,7 +144,7 @@ void *STA_ACT_SCRIPT_Create(u32 heap, void *owner)
     ((struct ScriptSystem *)p)->scene = owner;
     ((struct ScriptSystem *)p)->tcbBuffer = GFL_HEAP_Alloc(((struct ScriptSystem *)p)->heapId, TCB_GetTaskOffset(16), 0, d_021FDCEC, 0x43);
     ((struct ScriptSystem *)p)->tcb = TCB_Init(16, ((struct ScriptSystem *)p)->tcbBuffer);
-    NNS_FndInitList((int)(p + 0x38), 0);
+    NNS_FndInitList((sptr)(p + 0x38), 0);
     for (; i < 10; i++) *(void **)(p + 0xc + i * 4) = 0;
     return p;
 }

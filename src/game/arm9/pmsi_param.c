@@ -376,7 +376,7 @@ void PMSI_PARAM_GetUiInputMode(void)
     UI_GetInputMode();
 }
 
-void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode) { UI_SetInputMode((u32)inputMode); }
+void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode) { UI_SetInputMode((uptr)inputMode); }
 
 /*
  * pmsi_param.c: fill table[0..count) with amplitude * sin(phase), phase advancing

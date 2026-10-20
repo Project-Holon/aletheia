@@ -53,7 +53,7 @@ void BTL_EVENT_InitFactorList(void)
     u32 i;
     for (i = 0; i < BTL_EVENT_FACTOR_MAX; i++) {
         struct BtlEventFactor *factor = &gBtlEventFactorStorage[i];
-        BTL_EVENT_ClearFactor((int)factor);
+        BTL_EVENT_ClearFactor((sptr)factor);
         gBtlEventFactorFreePool[i] = factor;
     }
     gBtlEventFactorList.head = 0;
@@ -346,7 +346,7 @@ struct BtlEventFactor *BTL_EVENT_AllocFactor(void)
     return gBtlEventFactorList.freePool[i];
 }
 
-void BTL_EVENT_FreeFactor(void *factor) { if (gBtlEventFactorList.usedCount) { BTL_EVENT_ClearFactor((int)factor); gBtlEventFactorList.freePool[--gBtlEventFactorList.usedCount] = factor; } }
+void BTL_EVENT_FreeFactor(void *factor) { if (gBtlEventFactorList.usedCount) { BTL_EVENT_ClearFactor((sptr)factor); gBtlEventFactorList.freePool[--gBtlEventFactorList.usedCount] = factor; } }
 
 void BTL_EVENT_ClearFactor(int factor)
 {

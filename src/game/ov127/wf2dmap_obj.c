@@ -180,7 +180,7 @@ int WF2DMAP_OBJ_GetSlot(u8 *p, unsigned int i)
     case 8: return ((Wf2dmapObj *)p)->step;
     case 9: return ((Wf2dmapObj *)p)->stepCount;
     case 10: return ((Wf2dmapObj *)p)->updateCounter;
-    default: return (int)p;
+    default: return (sptr)p;
     }
 }
 
@@ -229,8 +229,8 @@ void WF2DMAP_OBJ_SetSlot(void *p, int i, int v)
 Wf2dmapPos WF2DMAP_OBJ_OffsetPos(Wf2dmapPos p,int i)
 {
  Wf2dmapPos *v=&p;
- v->x += *(signed char *)((unsigned)&sWf2dmapStepDelta.dx+i*2);
- v->y += *(signed char *)((unsigned)&sWf2dmapStepDelta.dy+i*2);
+ v->x += *(signed char *)((uptr)&sWf2dmapStepDelta.dx+i*2);
+ v->y += *(signed char *)((uptr)&sWf2dmapStepDelta.dy+i*2);
  return p;
 }
 
@@ -322,6 +322,6 @@ extern void (*sWf2dmapCommandTable)(char *,Wf2dmapPairU16,unsigned);
 
 void WF2DMAP_OBJ_ApplyCommand(char *p,char *q)
 {
- (*(void (**)(char *,Wf2dmapPairU16,unsigned))((unsigned)&sWf2dmapCommandTable+*(u16 *)(q+4)*4))(p,*(Wf2dmapPairU16 *)q,((Wf2dmapCmdDesc *)q)->value);
+ (*(void (**)(char *,Wf2dmapPairU16,unsigned))((uptr)&sWf2dmapCommandTable+*(u16 *)(q+4)*4))(p,*(Wf2dmapPairU16 *)q,((Wf2dmapCmdDesc *)q)->value);
  ((Wf2dmapObj *)p)->updateCounter=0;
 }

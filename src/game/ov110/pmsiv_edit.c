@@ -102,6 +102,7 @@
  *   PMS_WORD_LoadString 0x02024838 thumb
  */
 #include "pms_input_data_shared_types.h"
+#include "../sdk_ioreg.h"
 #include "pms_input_view_shared_types.h"
 #include "pmsiv_category_shared_types.h"
 #include "pmsiv_edit_shared_types.h"
@@ -387,7 +388,7 @@ void PMSIV_EDIT_Setup(struct PmsivEdit *p, void *arcHandle)
 
 vu16 GX_GetVCount(void)
 {
-    return *(vu16 *)0x04000006;
+    return *(vu16 *)REG_VCOUNT_ADDR;
 }
 
 void PMSIV_EDIT_UpdateFramePosition(void *task, struct PmsivEdit *p);
@@ -453,7 +454,7 @@ void PMSIV_EDIT_StartPanelScroll(struct PmsivEdit *p, u8 closing)
     p->scrollStep = 0;
     p->scrollClosing = closing;
     if (p->scrollTask) TCB_DeleteTask(p->scrollTask);
-    p->scrollTask = GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((u32)GX_GetVCount), (void *)((u32)p), 1);
+    p->scrollTask = GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((uptr)GX_GetVCount), (void *)((uptr)p), 1);
     p->unusedWord1A8 = 0;
     p->unusedWord1AC = 0;
     if (p->frameTask) TCB_DeleteTask(p->frameTask);
@@ -613,9 +614,9 @@ int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct BmpWin *window, u8 scree
     struct U16Vec *run;
     u16 wordId;
     int running, slotCount, x, y;
-    u32 font;
+    uptr font;
     run = PMS_INPUT_GetSentenceString((struct PmsInput *)p->input, PMSIV_EDIT_HEAP);
-    font = (u32)PMS_INPUT_VIEW_GetFont(p->view);
+    font = (uptr)PMS_INPUT_VIEW_GetFont(p->view);
     running = 1;
     slotCount = 0; y = 0; x = 0;
     PMSIV_EDIT_ParserInit(&p->parser, p);
@@ -724,10 +725,10 @@ void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct BmpWin *window, const P
 {
     PmsivEditScreenPos origin;
     PmsivEditScreenPos iconPos;
-    u32 font;
+    uptr font;
     u32 decoIndex;
     u32 surface;
-    font = (u32)PMS_INPUT_VIEW_GetFont(p->view);
+    font = (uptr)PMS_INPUT_VIEW_GetFont(p->view);
     if (wordId == 0xffff) return;
     PMSIV_EDIT_SlotPosToBoxOrigin((const short *)pos, (short *)&origin);
     if (PMSI_PARAM_IsDecoWord(wordId) != 0) {

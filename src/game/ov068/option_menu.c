@@ -188,6 +188,7 @@
  *   SAVE_CONTROL_WouldOverwriteSave  0x020071F0  thumb
  */
 #include "../arm9/arc_util.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/game_data.h"
 #include "../arm9/system_data.h"
 #include "../arm9/ui.h"
@@ -203,10 +204,10 @@ struct Unit;
 #include "option_menu_types.h"
 
 /* Display registers of the main (A) and sub (B) engine. */
-#define REG_A_DISPCNT_ADDR 0x04000000
-#define REG_A_BLDCNT_ADDR  0x04000050
-#define REG_B_DISPCNT_ADDR 0x04001000
-#define REG_B_BLDCNT_ADDR  0x04001050
+#define REG_A_DISPCNT_ADDR REG_DISPCNT_ADDR
+#define REG_A_BLDCNT_ADDR  REG_BLDCNT_ADDR
+#define REG_B_DISPCNT_ADDR REG_DB_DISPCNT_ADDR
+#define REG_B_BLDCNT_ADDR  REG_DB_BLDCNT_ADDR
 #define REG_A_DISPCNT (*(volatile u32 *)REG_A_DISPCNT_ADDR)
 #define REG_A_BLDCNT  (*(volatile u16 *)REG_A_BLDCNT_ADDR)
 #define REG_B_DISPCNT (*(volatile u32 *)REG_B_DISPCNT_ADDR)
@@ -523,7 +524,7 @@ int OPTION_MENU_Init(struct Proc *proc, int *seq, OptionMenuArgs *args)
     OptionMenuWork *work;
     struct GameData *gameData;
 
-    GF_OVERLAY_Load((u32)ov067_id);
+    GF_OVERLAY_Load((uptr)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 0x1c, 0x21000);
     work = PROCSYS_AllocProcWork(proc, sizeof(OptionMenuWork), 0x1c);
     MI_CpuFill8(work, 0, sizeof(OptionMenuWork));
@@ -565,7 +566,7 @@ int OPTION_MENU_Exit(struct Proc *proc, int *seq, void *args, OptionMenuWork *wo
     OPTION_MENU_ExitScreen(&work->screen);
     PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(0x1c);
-    GF_OVERLAY_Unload((int)ov067_id);
+    GF_OVERLAY_Unload((sptr)ov067_id);
     return 1;
 }
 
@@ -776,7 +777,7 @@ void OPTION_MENU_CreateLabelWindows(OptionMenuGfx *gfx)
         STRBUF_Delete(str);
     }
     charData = gfx->screenData->charData;
-    MIi_CpuCopy32((u32)charData, (u32)BMP_GetPixels((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)gfx->windows[OPTION_WINDOW_TITLE]))), 0x600);
+    MIi_CpuCopy32((uptr)charData, (uptr)BMP_GetPixels((struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)gfx->windows[OPTION_WINDOW_TITLE]))), 0x600);
     str = MSGDATA_AllocString(msgBank, 0);
     x = BMP_WIN_GetWidth((struct BmpWin *)gfx->windows[OPTION_WINDOW_TITLE]) * 4;
     x -= PRINTSYS_MeasureWidestLine(str, font, 0) >> 1;
@@ -836,7 +837,7 @@ void BLINK_PALANM_BlendStep(u16 *outColor, u16 *angle, int step, u32 paletteInde
     r = (u8)(r0 + (((r1 - r0) * weight) >> 12));
     g = (u8)(g0 + (((g1 - g0) * weight) >> 12));
     *outColor = (u16)((b << 10) | (r | (g << 5)));
-    (void *)NNS_GfdRegisterNewVramTransferTask((void *)15, (u32)(paletteIndex * 32 + slot * 2), (u32)outColor, 2);
+    (void *)NNS_GfdRegisterNewVramTransferTask((void *)15, (u32)(paletteIndex * 32 + slot * 2), (uptr)outColor, 2);
 }
 
 void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 heapId)
@@ -887,11 +888,11 @@ void OPTION_MENU_ExitSprites(OptionMenuSprites *sprites)
             CLACT_DeleteActor((struct ClactActor *)sprites->actors[i]);
         }
     }
-    CLACT_ReleasePalette((u32)sprites->plttRes);
-    CLACT_ReleaseCharacter((u32)sprites->mainCharRes);
-    CLACT_ReleaseCellAnim((u32)sprites->mainCellRes);
-    CLACT_ReleaseCharacter((u32)sprites->subCharRes);
-    CLACT_ReleaseCellAnim((u32)sprites->subCellRes);
+    CLACT_ReleasePalette((uptr)sprites->plttRes);
+    CLACT_ReleaseCharacter((uptr)sprites->mainCharRes);
+    CLACT_ReleaseCellAnim((uptr)sprites->mainCellRes);
+    CLACT_ReleaseCharacter((uptr)sprites->subCharRes);
+    CLACT_ReleaseCellAnim((uptr)sprites->subCellRes);
     CLACT_DeleteUnit(sprites->unit);
     CLACT_ExitSystem();
     MI_CpuFill8(sprites, 0, 0x54);

@@ -120,6 +120,7 @@
  *   _ll_udiv                     0x0209C00C  arm
  */
 #include "pokemontrade_types.h"
+#include "../sdk_ioreg_reg.h"
 
 #include "../ov067/touchbar.h"
 
@@ -138,7 +139,6 @@ struct G3dCamera;
 
 #define F32_TO_FX32(f) ((int)(((f) > 0) ? ((f) * 4096.0f + 0.5f) : ((f) * 4096.0f - 0.5f)))
 
-#define REG_VTX_16 (*(vu32 *)0x0400048C)
 
 #define REG(a) (*(volatile unsigned long *)(a))
 
@@ -858,34 +858,34 @@ void POKETRADE_3D_SetToonEdgeColors(int a, int b)
  */
 void POKETRADE_3D_DrawCubeFace(int z,int index,u16 a,int b)
 {
-    REG(0x04000444)=0;
-    REG(0x04000440)=1;
+    REG(REG_MTX_PUSH_ADDR)=0;
+    REG(REG_MTX_MODE_ADDR)=1;
     G3_RotY(FX_SinCosTable_[(b>>4)*2],FX_SinCosTable_[(b>>4)*2+1]);
-    REG(0x04000444)=0;
+    REG(REG_MTX_PUSH_ADDR)=0;
     G3_RotY(FX_SinCosTable_[(a>>4)*2],FX_SinCosTable_[(a>>4)*2+1]);
-    REG(0x04000470)=0;
-    REG(0x04000470)=0;
-    REG(0x04000470)=z;
+    REG(REG_MTX_TRANS_ADDR)=0;
+    REG(REG_MTX_TRANS_ADDR)=0;
+    REG(REG_MTX_TRANS_ADDR)=z;
     G3_RotY(FX_SinCosTable_[(gAnimeFrameCfg.a>>4)*2],FX_SinCosTable_[(gAnimeFrameCfg.a>>4)*2+1]);
     G3_RotX(FX_SinCosTable_[(gAnimeFrameCfg.b>>4)*2],FX_SinCosTable_[(gAnimeFrameCfg.b>>4)*2+1]);
-    REG(0x0400046c)=0x266;
-    REG(0x0400046c)=0x266;
-    REG(0x0400046c)=0x266;
-    REG(0x04000440)=3;
-    REG(0x04000454)=0;
-    REG(0x04000440)=2;
+    REG(REG_MTX_SCALE_ADDR)=0x266;
+    REG(REG_MTX_SCALE_ADDR)=0x266;
+    REG(REG_MTX_SCALE_ADDR)=0x266;
+    REG(REG_MTX_MODE_ADDR)=3;
+    REG(REG_MTX_IDENTITY_ADDR)=0;
+    REG(REG_MTX_MODE_ADDR)=2;
     POKETRADE_3D_SetToonEdgeColors(1,1);
-    REG(0x040004a8)=0x4d200000|(((u32)index*512+0x3000)>>3);
-    REG(0x040004ac)=512;
-    REG(0x040004a4)=0x1f0041|((u32)index<<24);
-    REG(0x04000500)=1;
+    REG(REG_TEXIMAGE_PARAM_ADDR)=0x4d200000|(((u32)index*512+0x3000)>>3);
+    REG(REG_TEXPLTT_BASE_ADDR)=512;
+    REG(REG_POLYGON_ATTR_ADDR)=0x1f0041|((u32)index<<24);
+    REG(REG_BEGIN_VTXS_ADDR)=1;
     POKETRADE_3D_SetCubeTexCoord(1); POKETRADE_3D_SetCubeNormal(0); POKETRADE_3D_EmitCubeVertex(2);
     POKETRADE_3D_SetCubeTexCoord(0); POKETRADE_3D_SetCubeNormal(0); POKETRADE_3D_EmitCubeVertex(0);
     POKETRADE_3D_SetCubeTexCoord(2); POKETRADE_3D_SetCubeNormal(0); POKETRADE_3D_EmitCubeVertex(4);
     POKETRADE_3D_SetCubeTexCoord(3); POKETRADE_3D_SetCubeNormal(0); POKETRADE_3D_EmitCubeVertex(6);
-    REG(0x04000504)=0;
-    REG(0x04000448)=1;
-    REG(0x04000448)=1;
+    REG(REG_END_VTXS_ADDR)=0;
+    REG(REG_MTX_POP_ADDR)=1;
+    REG(REG_MTX_POP_ADDR)=1;
 }
 
 static inline fx32 fraction(int x,int y) { return (fx32)((unsigned long long)((long long)x*65536)/y); }

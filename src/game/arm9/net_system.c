@@ -593,7 +593,7 @@ void GFL_NET_SYSTEM_ParentConnectHook(u32 netId)
 {
     GFLNetSession *initParam = GFL_NET_GetInitParam();
     GFLNetSession *session = GFL_NET_GetSession();
-    void (*hook)(u32, u32);
+    void (*hook)(void *, u32);
 
     GFL_NET_SYSTEM_ResetRecvBuffer(netId);
 
@@ -619,7 +619,7 @@ void GFL_NET_SYSTEM_ChildConnectHook(u32 netId)
 {
     GFLNetSession *initParam = GFL_NET_GetInitParam();
     GFLNetSession *session = GFL_NET_GetSession();
-    void (*hook)(u32, u32);
+    void (*hook)(void *, u32);
 
     GFL_NET_SYSTEM_ResetRecvBuffer(netId);
 

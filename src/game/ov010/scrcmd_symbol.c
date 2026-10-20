@@ -288,7 +288,7 @@ struct GameEvent *SCRCMD_SYMBOL_CreateViewEvent(struct GameSystem *gameSystem, s
 int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *work);
 
 /* Overlay ids are absolute symbols: the address of ovNNN_id is the id. */
-#define FS_OVERLAY_ID(name) ((u32)name##_id)
+#define FS_OVERLAY_ID(name) ((uptr)name##_id)
 
 extern u8 ov098_id[];
 extern u8 ov227_id[];
@@ -585,7 +585,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
         (*state)++;
         break;
     case 1: {
-        u32 heapId;
+        uptr heapId;
         struct PokemonParam *mon;
         SymbolKey key;
 
@@ -619,7 +619,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
         break;
     }
     case 5: {
-        u32 heapId;
+        uptr heapId;
         struct PokemonParam *mon;
         SymbolKey key;
 
@@ -638,7 +638,7 @@ int SCRCMD_SYMBOL_ViewEventMain(struct GameEvent *event, u32 *state, void *procW
             *work->resultOut = 0;
         GF_OVERLAY_Unload(FS_OVERLAY_ID(ov098));
         GF_OVERLAY_Load(FS_OVERLAY_ID(ov227));
-        work->resultScreen = EVENT_PDC_RETURN_CreateArgs((unsigned int)gameData, ok, (unsigned int)work->mon, work->heapId);
+        work->resultScreen = EVENT_PDC_RETURN_CreateArgs((uptr)gameData, ok, (uptr)work->mon, work->heapId);
         GAME_EVENT_CallProc(event, -1, d_021B98A4, work->resultScreen);
         MYITEM_SAVEDATA_RemoveItem(GAME_DATA_GetMyItem(gameData), SYMBOL_VIEW_ITEM_ID, 1, work->heapId);
         (*state)++;

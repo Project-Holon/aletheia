@@ -108,7 +108,7 @@ void DSPi_PipeCallbackForSound(void *userdata, int port, int peer)
     w[0] = (w[0] >> 16) | (w[0] << 16);
     w[1] = (w[1] >> 16) | (w[1] << 16);
     if ((w[0] & 0xF000) == 0x1000 && (w[0] & 0xF00) == 0x200) {
-        u32 z = 0;
+        uptr z = 0;
         OS_CreateAlarm(&data_027344D8.alarm);
         OS_SetAlarm(&data_027344D8.alarm, 0x3D5D, sound_handler, (void *)z);
         if (DSPi_SoundPriority == 0) {
@@ -124,7 +124,7 @@ void DSPi_PipeCallbackForSound(void *userdata, int port, int peer)
 void DSPi_PlaySoundEx(u8 *data, u32 size, u32 mode, int priority)
 {
     u32 msg[4];
-    int zero = 0;
+    sptr zero = 0;
     void *h = DSP_FindProcess((char *)zero);
     if (h == 0) {
         return;
@@ -136,7 +136,7 @@ void DSPi_PlaySoundEx(u8 *data, u32 size, u32 mode, int priority)
     DSP_SetPipeCallback(2, DSPi_PipeCallbackForSound, (void *)zero);
     data_027344D8.soundBusy = 1;
     msg[0] = SWAP16(mode | 0x1100);
-    msg[1] = SWAP16((u32)data);
+    msg[1] = SWAP16((uptr)data);
     msg[2] = SWAP16(size / 2);
     msg[3] = zero;
     DSP_WriteProcessPipe(h, 2, msg, 0x10);
@@ -180,7 +180,7 @@ u32 DSPi_PlayShutterSoundCore(u8 *p, u32 len)
 void DSPi_StopSoundCore(void)
 {
     u32 msg[4];
-    int zero = 0;
+    sptr zero = 0;
     void *h = DSP_FindProcess((char *)zero);
     if (h == 0 || data_027344D8.soundBusy == 0) {
         return;

@@ -428,7 +428,7 @@ u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *anime, struct VecFx32 *trans, u32 
         /* stand-in: the image adds the byte offset after the first load;
            transBuf[frame].x/.y/.z is 4 bytes longer, a VecFx32 pointer 4 bytes shorter */
         u32 offset = frame * sizeof(struct VecFx32);
-        u32 src = (u32)anime->transBuf;
+        u32 src = (uptr)anime->transBuf;
 
         trans->x = *(s32 *)(src + offset);
         src += offset;

@@ -1438,7 +1438,7 @@ void FLDMMDL_ACMD_MarkInit(Mmdl *mmdl, u32 markType, u32 reserved)
     AcmdMarkWork *work;
     work = FLDMMDL_InitMoveCmdWork(mmdl, sizeof(AcmdMarkWork));
     work->markType = markType;
-    work->effect = (u32)FLDEFF_GYOE_SetMMdl(FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl))), mmdl, markType, 1);
+    work->effect = (uptr)FLDEFF_GYOE_SetMMdl(FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl))), mmdl, markType, 1);
     FLDMMDL_IncAcmdSeq(mmdl);
 }
 
@@ -1750,7 +1750,7 @@ int FLDMMDL_ACMD_AnimeWaitEnd(Mmdl *mmdl)
 /* Leaves the hide effect: a hop along height table 0. */
 int FLDMMDL_ACMD_HideOffInit(Mmdl *mmdl)
 {
-    u32 effect;
+    uptr effect;
 
     FLDMMDL_InitMoveCmdWork(mmdl, sizeof(AcmdHideWork));
     effect = FLDMMDL_MOVE_GetHideEffect(mmdl);
@@ -1770,7 +1770,7 @@ int FLDMMDL_ACMD_HideOffInit(Mmdl *mmdl)
 int FLDMMDL_ACMD_HideOffMove(Mmdl *mmdl)
 {
     AcmdHideWork *work;
-    u32 effect;
+    uptr effect;
 
     work = FLDMMDL_GetMoveCmdWork(mmdl);
     {

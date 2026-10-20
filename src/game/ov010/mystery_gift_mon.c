@@ -307,7 +307,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
         goto out;
     }
     if (gift->nickname[0] != STRBUF_GetEosChar())
-        POKE_TOOL_SetPartyValue(mon, 0x74, (u32)gift->nickname);
+        POKE_TOOL_SetPartyValue(mon, 0x74, (uptr)gift->nickname);
     nature = gift->nature;
     if (nature == 0xFF)
         nature = (u8)GFL_USE_GetRandom(25);
@@ -320,9 +320,9 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
         goto out;
     }
     if (gift->otName[0] == STRBUF_GetEosChar())
-        POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)MYSTATUS_GetName(GAME_DATA_GetMyStatus(gameData)));
+        POKE_TOOL_SetPartyValue(mon, 0x8E, (uptr)MYSTATUS_GetName(GAME_DATA_GetMyStatus(gameData)));
     else
-        POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)gift->otName);
+        POKE_TOOL_SetPartyValue(mon, 0x8E, (uptr)gift->otName);
     if (gift->otGender <= 2)
         POKE_TOOL_SetPartyValue(mon, 0x9A, gift->otGender);
     else
@@ -330,7 +330,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
     if (gift->isEgg) {
         POKE_TOOL_SetPartyValue(mon, 0x4C, 1);
         eggName = MSGDATA_AllocString((struct MsgBank *)gSpeciesNameBank, 0x28A);
-        POKE_TOOL_SetPartyValue(mon, 0x73, (u32)eggName);
+        POKE_TOOL_SetPartyValue(mon, 0x73, (uptr)eggName);
         STRBUF_Delete(eggName);
         POKE_TOOL_SetPartyValue(mon, 9, 10);
     }

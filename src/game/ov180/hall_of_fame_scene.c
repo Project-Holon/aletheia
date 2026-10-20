@@ -175,6 +175,7 @@
  *   POKE_TOOL_EncodeBoxParam 0x02017DE4 thumb
  */
 #include "hall_of_fame.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/g3d_util.h"
 
 #define REG(a) (*(volatile u16 *)(a))
@@ -302,8 +303,8 @@ void HALL_OF_FAME_InitBackgrounds(void)
     BG_SYS_InitBgLayer(3, (const struct BgTemplate *)&bg, 2);
     BG_SYS_InitBgLayer(7, (const struct BgTemplate *)&bg, 2);
     BUTTON_MAN_RotScaleMtx22((union MtxFx22 *)&mtx, 0, (s32)4096, 4096, 0);
-    G2x_SetBGyAffine_(0x04000030, (union MtxFx22 *)(&mtx), 0, 0, 0, 0);
-    G2x_SetBGyAffine_(0x04001030, (union MtxFx22 *)(&mtx), 0, 0, 0, 0);
+    G2x_SetBGyAffine_(REG_BG3PA_ADDR, (union MtxFx22 *)(&mtx), 0, 0, 0, 0);
+    G2x_SetBGyAffine_(REG_DB_BG3PA_ADDR, (union MtxFx22 *)(&mtx), 0, 0, 0, 0);
     BG_SYS_ChangeScroll(3, 0, 160);
     BG_SYS_ChangeScroll(3, 3, 112);
     BG_SYS_ChangeScroll(7, 0, 160);
@@ -340,8 +341,8 @@ void HALL_OF_FAME_LoadBackgroundGraphics(void)
 
 void HALL_OF_FAME_SetupBlendRegs(void)
 {
-    G2x_SetBlendAlpha_((void *)0x04000050, 1, 46, 6, 10);
-    G2x_SetBlendAlpha_((void *)0x04001050, 1, 46, 6, 10);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 1, 46, 6, 10);
+    G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR, 1, 46, 6, 10);
 }
 
 void HALL_OF_FAME_InitText(HallOfFameWork *work)
@@ -420,12 +421,12 @@ void HALL_OF_FAME_Setup3dState(void)
 {
     unsigned i;
     BG_SYS_SetMainPlaneVisible(1, 1);
-    REG(0x04000008) = REG(0x04000008) & ~3;
-    REG(0x04000060) = (u16)((REG(0x04000060) & ~0x3002) | 2);
-    REG(0x04000060) &= (u16)~0x3010;
-    REG(0x04000060) &= (u16)~0x3004;
-    REG(0x04000060) = (u16)((REG(0x04000060) & ~0x3000) | 8);
-    REG(0x04000060) &= (u16)~0x3020;
+    REG(REG_BG0CNT_ADDR) = REG(REG_BG0CNT_ADDR) & ~3;
+    REG(REG_DISP3DCNT_ADDR) = (u16)((REG(REG_DISP3DCNT_ADDR) & ~0x3002) | 2);
+    REG(REG_DISP3DCNT_ADDR) &= (u16)~0x3010;
+    REG(REG_DISP3DCNT_ADDR) &= (u16)~0x3004;
+    REG(REG_DISP3DCNT_ADDR) = (u16)((REG(REG_DISP3DCNT_ADDR) & ~0x3000) | 8);
+    REG(REG_DISP3DCNT_ADDR) &= (u16)~0x3020;
     G3X_SetFog(0, 0, 0, 0);
     G3X_SetClearColor(0, 0, 32767, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xBFFF0000;
@@ -493,7 +494,7 @@ void HALL_OF_FAME_ExitParticleManager(void)
 
 void HALL_OF_FAME_CreateMonParticle(HallOfFameWork *work)
 {
-    work->monParticle = (void *)PARTICLE_CreateSystemDefault((int)work->monParticleWork, HOF_PARTICLE_WORK_SIZE, 1, HOF_HEAP_ID);
+    work->monParticle = (void *)PARTICLE_CreateSystemDefault((sptr)work->monParticleWork, HOF_PARTICLE_WORK_SIZE, 1, HOF_HEAP_ID);
     PARTICLE_SetupSystem(work->monParticle, (void *)PARTICLE_LoadArchiveMember(216, gHallOfFameEffectArchives[work->effectStyle], HOF_HEAP_ID), 1, 0);
 }
 
@@ -507,12 +508,12 @@ void HALL_OF_FAME_StartMonParticle(HallOfFameWork *work, int effect)
 {
     HofVec3 origin;
     origin = gHallOfFameMonEffectOrigin;
-    PARTICLE_StartEffect(work->monParticle, effect, (int)&origin);
+    PARTICLE_StartEffect(work->monParticle, effect, (sptr)&origin);
 }
 
 void HALL_OF_FAME_CreateBackdropParticle(HallOfFameWork *work)
 {
-    work->backdropParticle = (void *)PARTICLE_CreateSystemDefault((int)work->backdropParticleWork, HOF_PARTICLE_WORK_SIZE, 1, HOF_HEAP_ID);
+    work->backdropParticle = (void *)PARTICLE_CreateSystemDefault((sptr)work->backdropParticleWork, HOF_PARTICLE_WORK_SIZE, 1, HOF_HEAP_ID);
     PARTICLE_SetupSystem(work->backdropParticle, (void *)PARTICLE_LoadArchiveMember(216, 51, HOF_HEAP_ID), 1, 0);
 }
 
@@ -525,7 +526,7 @@ void HALL_OF_FAME_DeleteBackdropParticle(HallOfFameWork *work)
 void HALL_OF_FAME_StartBackdropParticle(HallOfFameWork *work, int effect)
 {
     int origin[3] = {0, 0, 0};
-    PARTICLE_StartEffect(work->backdropParticle, effect, (int)origin);
+    PARTICLE_StartEffect(work->backdropParticle, effect, (sptr)origin);
 }
 
 void HALL_OF_FAME_SetParticleCamera(HallOfFameWork *work, void *particle, int mode)
@@ -617,7 +618,7 @@ void HALL_OF_FAME_OnMonAnimDone(HallOfFameWork *work)
 void HALL_OF_FAME_StartMonAnimCallback(HallOfFameWork *work)
 {
     work->monAnimDone = 0;
-    MCSS_SetAnimCallback(work->monSprite, (unsigned int)work, (unsigned int)HALL_OF_FAME_OnMonAnimDone, 0);
+    MCSS_SetAnimCallback(work->monSprite, (uptr)work, (uptr)HALL_OF_FAME_OnMonAnimDone, 0);
 }
 
 int HALL_OF_FAME_RunState(HallOfFameWork *work)
@@ -642,8 +643,8 @@ int HALL_OF_FAME_StateInit(HallOfFameWork *work)
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
-    GXx_SetMasterBrightness_((void *)0x0400006c, -16);
-    GXx_SetMasterBrightness_((void *)0x0400106c, -16);
+    GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR, -16);
+    GXx_SetMasterBrightness_((void *)REG_DB_MASTER_BRIGHT_ADDR, -16);
     HALL_OF_FAME_InitGraphicsSystem();
     HALL_OF_FAME_InitText(work);
     HALL_OF_FAME_StartBgm(work);
@@ -656,8 +657,8 @@ int HALL_OF_FAME_StateExit(HallOfFameWork *work)
     HALL_OF_FAME_ReleaseWaveArc(work);
     HALL_OF_FAME_ExitText(work);
     HALL_OF_FAME_ExitGraphicsSystem();
-    GXx_SetMasterBrightness_((void *)0x0400006c, -16);
-    GXx_SetMasterBrightness_((void *)0x0400106c, -16);
+    GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR, -16);
+    GXx_SetMasterBrightness_((void *)REG_DB_MASTER_BRIGHT_ADDR, -16);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     BG_SYS_SetMainVisiblePlanes(0);
@@ -1219,7 +1220,7 @@ void HALL_OF_FAME_DeleteAllActors(HallOfFameWork *work)
 
 void HALL_OF_FAME_LoadMonActors(HallOfFameWork *work)
 {
-    int bank;
+    sptr bank;
     void *mon;
     u32 lock;
     if (work->actors[HOF_ACTOR_MON_TOP]) {
@@ -1234,7 +1235,7 @@ void HALL_OF_FAME_LoadMonActors(HallOfFameWork *work)
         HALL_OF_FAME_ReleasePalette(work, 1);
         HALL_OF_FAME_ReleaseCellAnim(work, 1);
     }
-    bank = (int)POKEGRA_OpenHandle(HOF_HEAP_ID);
+    bank = (sptr)POKEGRA_OpenHandle(HOF_HEAP_ID);
     mon = POKE_TOOL_CastToBoxParam(work->partyMons[work->monIndex]);
     lock = POKE_TOOL_DecodeBoxParam(mon);
     work->charIds[0] = POKEGRA_RegisterCgrPP(bank, mon, 0, 0, HOF_HEAP_ID);

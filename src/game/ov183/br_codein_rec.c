@@ -101,7 +101,7 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuAr
 {
     BrCodeinRecTriple t;
     BrCodeinRecDesc d;
-    int h,c;
+    sptr h, c;
     void *a,*b,*s,*owner,*tmp;
     int i;
     unsigned offset;
@@ -121,7 +121,7 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuAr
             WORDSET_SetSlotTag((struct WordSet *)a,0,(struct Strbuf *)(*(unsigned *)((char *)arg->entries+offset+0x10)),*(unsigned *)((char *)arg->entries+offset+0x20),1,2);
             WORDSET_CopyTaggedText((struct WordSet *)a,(struct Strbuf *)b,(struct Strbuf *)s);
         }else MSGDATA_ReadString((struct MsgBank *)c,9,(struct Strbuf *)b);
-        menu->button[i]=BR_BTN_CreateObject(&d,b,0xa0,1,arg->windowKind,(int)menu->oamSys,h,&t,menu->heapId);
+        menu->button[i]=BR_BTN_CreateObject(&d,b,0xa0,1,arg->windowKind,(sptr)menu->oamSys,h,&t,menu->heapId);
         d.y=d.y+0x28;
     }
     d.n=1;
@@ -136,7 +136,7 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuAr
     STRBUF_Delete(tmp);STRBUF_Delete(s);STRBUF_Delete(b);
 }
 
-void BR_CODEIN_DeleteMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg) { int i;if(menu->textWin){BR_UTIL_DeleteTextWin(menu->textWin,(int)arg->resource);menu->textWin=0;}for(i=0;i<4;i++){if(menu->button[i]){BR_BTN_DeleteObject(menu->button[i]);menu->button[i]=0;}}BR_RES_ReleaseSprite((struct BrRes *)arg->resource,1); }
+void BR_CODEIN_DeleteMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg) { int i;if(menu->textWin){BR_UTIL_DeleteTextWin(menu->textWin,(sptr)arg->resource);menu->textWin=0;}for(i=0;i<4;i++){if(menu->button[i]){BR_BTN_DeleteObject(menu->button[i]);menu->button[i]=0;}}BR_RES_ReleaseSprite((struct BrRes *)arg->resource,1); }
 
 int BR_CODEIN_HitTestOptionLeft(struct CodeinSoclWork *menu, int x, int y)
 {

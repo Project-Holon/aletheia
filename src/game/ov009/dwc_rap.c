@@ -144,7 +144,6 @@ int DWC_UpdateServersAsync(int unused, void *updateCallback, void *updateParam, 
 
 #include "../arm9/gf_standard.h"
 
-u32 GFL_NET_GetUserArg(void);
 
 int DWC_ConnectToAnybodyAsync(int topology, unsigned char maxEntry, char *addFilter, void *matchedCallback, void *matchedParam, void *newClientCallback, void *newClientParam, void *evalCallback, void *evalParam, void *attemptCallback, void *connectionUserData, void *attemptParam);
 
@@ -525,7 +524,7 @@ void DWC_RAP_SetRecvCallbacks(int serverFunc, int clientFunc)
  */
 void DWC_RAP_SetAcceptFriendCallback(void (*acceptFunc)(void))
 {
-    _pRapWork->acceptFriendFunc = (int (*)(int, u32))acceptFunc;
+    _pRapWork->acceptFriendFunc = (int (*)(int, void *))acceptFunc;
 }
 
 /*
@@ -570,10 +569,10 @@ int DWC_RAP_StartMatchWithKey(void *matchValue, int maxPlayers, int useFilter, i
     DWC_RAP_SetState(DWC_RAP_STATE_MATCHING);
     _pRapWork->maxPlayers = maxPlayers;
     if (DWC_ConnectToAnybodyAsync(2, maxPlayers, _pRapWork->matchFilter, (VoidFunc)DWC_RAP_OnMatched,
-                      (void *)GFL_NET_GetUserArg(), DWC_RAP_OnNewClientNop,
-                      (void *)GFL_NET_GetUserArg(), (VoidFunc)DWC_RAP_EvalCallbackAccept,
-                      (void *)GFL_NET_GetUserArg(), (VoidFunc)DWC_RAP_AttemptCallback,
-                      &_pRapWork->connectionUserData, (void *)GFL_NET_GetUserArg()) == 0)
+                      GFL_NET_GetUserArg(), DWC_RAP_OnNewClientNop,
+                      GFL_NET_GetUserArg(), (VoidFunc)DWC_RAP_EvalCallbackAccept,
+                      GFL_NET_GetUserArg(), (VoidFunc)DWC_RAP_AttemptCallback,
+                      &_pRapWork->connectionUserData, GFL_NET_GetUserArg()) == 0)
         return 0;
     _pRapWork->connectMode = 0;
     DWC_SetUserSendCallback((void (*)(int, unsigned char, void *))DWC_RAP_OnSendComplete, 0);
@@ -1449,14 +1448,14 @@ int DWC_RAP_StartFriendMatch(int friendIndex, int maxPlayers, int limitToTwo)
         entryCount = 2;
     _pRapWork->connectPending = 1;
     if (friendIndex < 0) {
-        started = DWC_SetupGameServer(2, entryCount, DWC_RAP_OnFriendServerMatched, (void *)GFL_NET_GetUserArg(), DWC_RAP_OnNewClient,
-                          (void *)GFL_NET_GetUserArg(), DWC_RAP_AttemptCallback, &_pRapWork->connectionUserData,
-                          (void *)GFL_NET_GetUserArg());
+        started = DWC_SetupGameServer(2, entryCount, DWC_RAP_OnFriendServerMatched, GFL_NET_GetUserArg(), DWC_RAP_OnNewClient,
+                          GFL_NET_GetUserArg(), DWC_RAP_AttemptCallback, &_pRapWork->connectionUserData,
+                          GFL_NET_GetUserArg());
         _pRapWork->connectMode = 1;
     } else {
         started = DWC_ConnectToGameServerAsync(2, friendIndex, (void (*)(int, int, int, int, int, void *))DWC_RAP_OnFriendClientMatched, 0, (void (*)(int, void *))DWC_RAP_OnNewClient,
-                          (void *)GFL_NET_GetUserArg(), (int (*)(unsigned char *, void *))DWC_RAP_AttemptCallback, (unsigned char *)&_pRapWork->connectionUserData,
-                          (void *)GFL_NET_GetUserArg());
+                          GFL_NET_GetUserArg(), (int (*)(unsigned char *, void *))DWC_RAP_AttemptCallback, (unsigned char *)&_pRapWork->connectionUserData,
+                          GFL_NET_GetUserArg());
         _pRapWork->connectMode = 2;
     }
     if (started == 0) {
@@ -1665,7 +1664,7 @@ void DWC_RAP_FlushDeletedFriends(void)
             GFLNetInitializeStruct *netInit = &GFL_NET_GetInitParam()->init;
             if (netInit->deleteFriendFunc != 0) {
                 DwcRapWork *entry = (DwcRapWork *)((int *)_pRapWork + slot);
-                u32 userArg = GFL_NET_GetUserArg();
+                void *userArg = GFL_NET_GetUserArg();
                 netInit->deleteFriendFunc(entry->deletedFriendIndex[0], entry->deletedFriendSrcIndex[0], userArg);
             }
             _pRapWork->deletedFriendIndex[slot] = -1;

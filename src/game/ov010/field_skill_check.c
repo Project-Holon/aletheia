@@ -244,7 +244,7 @@ int FIELD_SKILL_CHECK_FrontTile(struct GameData *gameData, struct FieldMap *fiel
     if (ZONEDATA_IsNormalFieldZone(GAME_DATA_GetPlayerZoneId(player)) == 0) {
         return 0;
     }
-    return FISHING_CheckFacingWater((u32)gameData, fieldMap, 0);
+    return FISHING_CheckFacingWater((uptr)gameData, fieldMap, 0);
 }
 
 /* Field skill check: normal field zone, except the zone of ZONEDATA_IsZone34. */

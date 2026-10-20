@@ -134,7 +134,7 @@ void DSPi_FileIOProc(void *arg)
     DspRing in;
     DspRing out;
     u32 msg[1];
-    u32 readA;
+    uptr readA;
     u32 readB;
     u32 seekPos;
     u32 seekOut;
@@ -327,7 +327,7 @@ DspRing *DSP_LoadPipe(DspRing *out, int ch, int dir)
     }
     OS_RestoreInterrupts(ints);
     if (ch >= 0 && ch < 8 && dir >= 0 && dir < 2) {
-        u32 addr = (u32)&data_02734528.base->ring[ch][dir];
+        u32 addr = (uptr)&data_02734528.base->ring[ch][dir];
         if (out == 0) {
             out = &data_02734574[ch][dir];
         }
@@ -344,7 +344,7 @@ DspRing *DSP_SyncPipe(DspRing *pipe)
 void DSP_FlushPipe(DspRing *pipe)
 {
     int id = pipe->id;
-    u32 addr = (u32)data_02734528.base + ((id & 0xFF) >> 1) * 0x14;
+    u32 addr = (uptr)data_02734528.base + ((id & 0xFF) >> 1) * 0x14;
     u32 dir = id & 1;
     u32 n;
 

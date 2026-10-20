@@ -751,8 +751,8 @@ int MBi_CommParentSendBlock(void)
 					pl->lifetime = 2;
 					trg->state = 1;
 					trg->src = (card_addr & ~31);
-					p_task->param[0] = (u32)trg;
-					p_task->param[1] = (u32)pl;
+					p_task->param[0] = (uptr)trg;
+					p_task->param[1] = (uptr)pl;
 					MBi_SetTask((struct MBiTaskInfo *)p_task, MBi_ReloadCache, 0, 4);
 				}
 			}

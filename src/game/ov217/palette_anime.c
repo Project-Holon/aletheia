@@ -92,7 +92,7 @@ u32 PALETTE_ANIME_Create(u32 heapId)
 {
     struct PaletteAnime *anime = PALETTE_ANIME_Alloc(heapId);
     PALETTE_ANIME_Clear(anime);
-    return (u32)anime;
+    return (uptr)anime;
 }
 
 /* Releases the copy buffer, then the object. */
@@ -312,7 +312,7 @@ void PALETTE_ANIME_StepHold(struct PaletteAnime *anime)
 /* Copies the original colours back over the live palette. */
 int PALETTE_ANIME_RestoreImpl(struct PaletteAnime *anime)
 {
-    return MI_CpuCopy8((int)anime->original, (int)anime->palette, anime->colorCount << 1);
+    return MI_CpuCopy8((sptr)anime->original, (sptr)anime->palette, anime->colorCount << 1);
 }
 
 /* Returns the running flag. */

@@ -20,6 +20,7 @@
  *   G3_LoadMtx43   0x0207D8E0  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 #include "../sdk_ioreg.h"
 
 #include "../sdk_fx.h"

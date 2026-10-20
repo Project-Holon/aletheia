@@ -1255,7 +1255,7 @@ void DWCi_Ndi_getMacAddress(char *macaddr)
  */
 unsigned long DWCi_Ndi_strlen(char *str)
 {
-    return strlen((unsigned char *)str);
+    return strlen(str);
 }
 
 /*
@@ -1263,7 +1263,7 @@ unsigned long DWCi_Ndi_strlen(char *str)
  */
 int DWCi_Ndi_strncmp(char *str1, char *str2, unsigned long size)
 {
-    return strncmp((unsigned char *)str1, (unsigned char *)str2, size);
+    return strncmp(str1, str2, size);
 }
 
 /*

@@ -118,13 +118,17 @@ typedef struct ScriptCmdPermit {
 } ScriptCmdPermit;
 
 extern int GFL_NET_GetRunState(void);
-extern int GFL_NET_Exit(void (*exitCallback)(u32));
+extern int GFL_NET_Exit(void (*exitCallback)(void *userArg));
 #include "../arm9/gfl_heap_wrap.h"
 struct GameSystem;
 struct GameData;
 #include "../arm9/gamesystem.h"
 #include "../arm9/game_data.h"
-int GFL_NET_IsSessionNull();
+#ifdef __MWERKS__
+int GFL_NET_IsSessionNull();    /* the original has no parameter list and is called with the Main result */
+#else
+int GFL_NET_IsSessionNull(void);
+#endif
 #include "../arm9/game_event.h"
 #include "../arm9/vm.h"
 struct PlayerWork;
@@ -385,7 +389,7 @@ GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 script
     GameEvent *event = GAME_EVENT_Create(fieldSys, 0, (GameEventFunc)SCRIPT_SYS_EventMain, 8);
     ScriptEventWork *eventWork = GAME_EVENT_GetWork(event);
     eventWork->scriptSys = SCRIPT_SYS_Create(4);
-    eventWork->scriptWork = SCRIPT_WORK_Create(4, fieldSys, event, scriptId, (int)parentWork, 0);
+    eventWork->scriptWork = SCRIPT_WORK_Create(4, fieldSys, event, scriptId, (sptr)parentWork, 0);
     SCRIPT_WORK_SetTargetObj(eventWork->scriptWork, target);
     SCRIPT_SYS_AddScript(eventWork->scriptWork, SCRIPT_SYS_GetZoneId(fieldSys), scriptId);
     return event;
@@ -459,7 +463,7 @@ void SCRIPT_SYS_RunScriptNow(void *fieldSys, void *scriptWork, u16 scriptId, int
     void *tempWork = 0;
     ScriptVm *vm;
     if (scriptWork == 0) {
-        tempWork = SCRIPT_WORK_Create(4, fieldSys, (GameEvent *)tempWork, scriptId, (int)tempWork, (struct ScriptWork *)mode);
+        tempWork = SCRIPT_WORK_Create(4, fieldSys, (GameEvent *)tempWork, scriptId, (sptr)tempWork, (struct ScriptWork *)mode);
         scriptWork = tempWork;
     }
     vm = SCRIPT_SYS_CreateVm(4, scriptWork, SCRIPT_SYS_GetZoneId(fieldSys), scriptId, mode);
@@ -660,7 +664,7 @@ u16 SCRIPT_SYS_GetScriptFileId(unsigned zoneId, unsigned scriptId, u16 *outFileI
  */
 u8 *SCRIPT_SYS_LoadScriptFile(int fileId, int heapId) {
     u8 *result = 0;
-    if (result == 0) result = (u8 *)ARC_UTIL_LoadMember(0x39, fileId, (int)result, heapId);
+    if (result == 0) result = (u8 *)ARC_UTIL_LoadMember(0x39, fileId, (sptr)result, heapId);
     return result;
 }
 
@@ -695,7 +699,11 @@ void SCRIPT_SYS_ForceExitNet(void)
         GFL_NET_ClearExitFlag();
         GFL_NET_Exit(0);
         GFL_NET_IRC_WIRELESS_Exit();
+#ifdef __MWERKS__
         while (GFL_NET_IsSessionNull(GFL_NET_Main()) == 0)
+#else
+        while ((GFL_NET_Main(), GFL_NET_IsSessionNull()) == 0)
+#endif
             ;
     }
     for (;;)

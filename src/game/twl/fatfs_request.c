@@ -70,7 +70,7 @@ void FATFSi_WaitForRequest(FATFSCommandBuffer *request);
 
 void FATFSi_SendToPXI(FATFSCommandBuffer *command) {
     DC_FlushRange(command, 0x800);
-    while (PXI_SendWordByFifo(0x14, (u32)command >> 5, 0) < 0) {
+    while (PXI_SendWordByFifo(0x14, (uptr)command >> 5, 0) < 0) {
     }
 }
 
@@ -84,7 +84,7 @@ u32 FATFSi_GetThreadHandle(void) {
     if (OS_GetProcMode() == 0x12) {
         return 0x80000000u;
     }
-    return (u32)OSi_ThreadInfo.current;
+    return (uptr)OSi_ThreadInfo.current;
 }
 
 FATFSCommandBuffer *FATFSi_AllocateCommandBuffer(u32 arg) {

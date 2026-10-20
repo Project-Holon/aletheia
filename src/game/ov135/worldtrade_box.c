@@ -135,6 +135,7 @@
  *   BOX_SAVEDATA_CountPokemonInBox  0x020078C4  thumb  arm9
  */
 #include "worldtrade_types.h"
+#include "../sdk_ioreg.h"
 
 struct ArcHandle;
 
@@ -465,7 +466,7 @@ int WORLDTRADE_BOX_Init(WorldtradeWork *p)
     WORLDTRADE_BOX_CreateWindows((WorldtradeWork *)p);
     WORLDTRADE_BOX_CreateActors((WorldtradeWork *)p);
     WORLDTRADE_SUBLCD_SetSlotActorPositions((WorldtradeWork *)p);
-    if (GXx_GetMasterBrightness_((u16 *)0x0400106c) == 0) {
+    if (GXx_GetMasterBrightness_((u16 *)REG_DB_MASTER_BRIGHT_ADDR) == 0) {
         WIPE_SYS_Start((void *)3, 1, 1, 0, 6, 1, 0x48);
     } else {
         WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x48);
@@ -487,7 +488,7 @@ void WORLDTRADE_BOX_Main(u8 *p)
 
 int WORLDTRADE_BOX_Exit(WorldtradeWork *p)
 {
-    if (GXx_GetMasterBrightness_((u16 *)0x0400106c)) {
+    if (GXx_GetMasterBrightness_((u16 *)REG_DB_MASTER_BRIGHT_ADDR)) {
         WORLDTRADE_SUBLCD_SetSlotActorPositionsLower((WorldtradeWork *)p);
     }
     WORLDTRADE_BOX_DeleteActors((WorldtradeWork *)(void *)p);

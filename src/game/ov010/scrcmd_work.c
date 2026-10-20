@@ -659,7 +659,7 @@ void SCRCMD_WORK_StartMenu(ScrcmdWork *work)
     }
     height = FIELD_MSGBG_GetMenuHeightChars(lines, header.fontHeight, header.lineSpacing, count > 6);
     FIELD_MSGBG_SetMenuHeaderRect(&header, (unsigned short)FIELD_MSGBG_GetMenuItemCount(menu->items), (unsigned short)menu->x, (unsigned short)menu->y, (unsigned short)width, (unsigned short)height);
-    menu->fieldMenu = (struct FieldMenu *)FIELD_MSGBG_CreateMenuFuncWork((void *)heap, &header, menu->items, (u32)SCRCMD_WORK_MenuCursorCallback, (u32)work, 0, menu->cursorPos, menu->cancelable);
+    menu->fieldMenu = (struct FieldMenu *)FIELD_MSGBG_CreateMenuFuncWork((void *)heap, &header, menu->items, (uptr)SCRCMD_WORK_MenuCursorCallback, (uptr)work, 0, menu->cursorPos, menu->cancelable);
 }
 
 void SCRCMD_WORK_DeleteMenu(ScrcmdMenu *menu)
@@ -974,14 +974,14 @@ int SCRCMD_WORK_CmdSetMapReplaceFlag(struct ScriptVm *vm, ScrcmdWork *work)
     struct MapMatrix *mapMatrix;
     int matrixId, heapId;
     u16 zoneId;
-    MAP_REPLACE_SetFlag((int)gameData, replaceId, enable);
+    MAP_REPLACE_SetFlag((sptr)gameData, replaceId, enable);
     if (applyNow != 0) {
         mapMatrix = (struct MapMatrix *)GAME_DATA_GetFieldWork(gameData);
         zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
         matrixId = ZONEDATA_GetMatrixId(zoneId);
         heapId = SCRCMD_WORK_GetHeapId(work);
         MAP_MATRIX_Load(mapMatrix, matrixId, zoneId, heapId);
-        MAP_MATRIX_ApplyReplace(mapMatrix, (s32)gameSystem, heapId);
+        MAP_MATRIX_ApplyReplace(mapMatrix, (sptr)gameSystem, heapId);
     }
     return 0;
 }
@@ -991,7 +991,7 @@ int SCRCMD_WORK_CmdCheckMapReplaceFlag(struct ScriptVm *vm, ScrcmdWork *work)
     struct GameData *gameData = SCRCMD_WORK_GetGameData(work);
     int replaceId = SCRIPT_WORK_ReadWorkValue(vm, work);
     u16 *ret = SCRIPT_WORK_ReadWorkPointer(vm, work);
-    *ret = MAP_REPLACE_CheckFlag((s32)gameData, replaceId);
+    *ret = MAP_REPLACE_CheckFlag((sptr)gameData, replaceId);
     return 0;
 }
 

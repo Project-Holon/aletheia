@@ -289,7 +289,7 @@ s32 REGULATION_Card_GetValue(struct RegulationCard *card, u32 id)
     case 11: return card->sameMatch;
     case 12: return card->cardType;
     }
-    return (int)card;
+    return (sptr)card;
 }
 
 void REGULATION_Card_SetValue(struct RegulationCard *card, u32 id, s32 value)

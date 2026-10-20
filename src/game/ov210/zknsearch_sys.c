@@ -33,6 +33,7 @@
  *   GFL_USE_AddHBlankTask  0x02005624  thumb  arm9
  */
 #include "../arm9/palanm.h"
+#include "../sdk_ioreg.h"
 #include "zknsearch_types.h"
 
 
@@ -101,7 +102,7 @@ u32 ZKNSEARCH_SYS_Delete(void *work)
 
 void ZKNSEARCH_SYS_RegisterVBlank(u8 *work)
 {
-    ((ZknSearchWork *)work)->vblank = (unsigned int)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(void))ZKNSEARCH_SYS_VBlankHandler), (void *)work, (unsigned int)0);
+    ((ZknSearchWork *)work)->vblank = (uptr)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(void))ZKNSEARCH_SYS_VBlankHandler), (void *)work, (unsigned int)0);
 }
 
 
@@ -124,13 +125,13 @@ void ZKNSEARCH_SYS_VBlankHandler(void *unused,unsigned char *work)
         BG_SYS_SetSubPlaneVisible(2,0);
         work[0x2b8]=0;
     }
-    *(volatile unsigned *)((unsigned)d_02FE0000+0x3ff8) |= 1;
+    *(volatile unsigned *)((uptr)d_02FE0000+0x3ff8) |= 1;
 }
 
 
 void ZKNSEARCH_SYS_RegisterHBlank(u8 *work)
 {
-    ((ZknSearchWork *)work)->hblank = (u32)GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((u32)ZKNSEARCH_SYS_HBlankHandler), (void *)((u32)work), 0);
+    ((ZknSearchWork *)work)->hblank = (uptr)GFL_USE_AddHBlankTask((void (*)(struct TcbTask *, void *))((uptr)ZKNSEARCH_SYS_HBlankHandler), (void *)((uptr)work), 0);
 }
 
 
@@ -149,7 +150,7 @@ u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *work)
  */
 void ZKNSEARCH_SYS_HBlankHandler(void *ctx, unsigned char *work)
 {
-    int v = *(volatile unsigned short *)0x04000006;
+    int v = *(volatile unsigned short *)REG_VCOUNT_ADDR;
     int b = work[0x2b9];
 
     if (b == 4) {

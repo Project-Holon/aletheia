@@ -254,7 +254,7 @@ char *EGG_DEMO_GRAPHIC_Create(unsigned mode,u16 heapId)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     EGG_DEMO_GRAPHIC_InitBg(work,heapId);
-    EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(work+4),(int)d_021F71C4,heapId);
+    EGG_DEMO_GRAPHIC_InitClact((unsigned char *)(work+4),(sptr)d_021F71C4,heapId);
     EGG_DEMO_GRAPHIC_InitG3d((void **)(work+8),heapId);
     ((struct EggDemoGraphic *)work)->vblankTask=(struct Node *)GFL_USE_AddMainTask((TcbFunc)EGG_DEMO_GRAPHIC_VBlank,(void *)work,0);
     return work;
@@ -313,7 +313,7 @@ void EGG_DEMO_GRAPHIC_InitBg(void *bgWork,u16 heapId)
  * lever: a named unsigned byte-address base keeps the table in r4 and
  * index in r5; the inline address swaps them, and word indexing adds lsl #2.
  */
-void EGG_DEMO_GRAPHIC_DeleteBg(void *bgWork){unsigned base=(unsigned)d_021F71F4;unsigned i;for(i=0;i<6;i++)BG_SYS_FreeLayerBuf((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(bgWork,0,4);}
+void EGG_DEMO_GRAPHIC_DeleteBg(void *bgWork){unsigned base=(uptr)d_021F71F4;unsigned i;for(i=0;i<6;i++)BG_SYS_FreeLayerBuf((unsigned char)(*(const unsigned *)(base+i*44)));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(bgWork,0,4);}
 
 /*
  * extent: two-byte alignment padding follows the body.
@@ -341,7 +341,7 @@ void EGG_DEMO_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
  */
 void EGG_DEMO_GRAPHIC_VBlankClact(void *unused){CLACT_VBlankSystem();}
 
-int EGG_DEMO_GRAPHIC_GetClactBank(void *clact){return (int)((struct EggDemoClact *)clact)->unit;}
+int EGG_DEMO_GRAPHIC_GetClactBank(void *clact){return (sptr)((struct EggDemoClact *)clact)->unit;}
 
 /*
  * evidence: 46440 heap extern widened; original stores full r1 at sp+4.

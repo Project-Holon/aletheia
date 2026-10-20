@@ -88,7 +88,7 @@ u32 PERCENTAGE_Create(u32 heapId, const struct PercentageTemplate *tmpl, struct 
     struct Percentage *pct = PERCENTAGE_Alloc(heapId);
     PERCENTAGE_ClearFields(pct, heapId);
     PERCENTAGE_Setup(pct, tmpl, unit);
-    return (u32)pct;
+    return (uptr)pct;
 }
 
 /* Deletes the actors, then frees the object. */

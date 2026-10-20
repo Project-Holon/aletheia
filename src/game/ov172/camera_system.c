@@ -279,10 +279,10 @@ Camera *CTVT_CAMERA_Create(int id)
     MI_CancelWram(2, 0);
     MI_CancelWram(2, 1);
     if (OS_IsRunOnTwl() != 0) DSPi_OpenStaticComponentG711Core((unsigned int *)buf);
-    if (OS_IsRunOnTwl() != 0) r = DSPi_LoadG711Core((unsigned int)buf, 0xFF, 0xFF);
+    if (OS_IsRunOnTwl() != 0) r = DSPi_LoadG711Core((uptr)buf, 0xFF, 0xFF);
     else r = 0;
     if (r == 0) OS_Terminate();
-    UI_SetIntrDataGlobal((u32)((void *)CTVT_CAMERA_OnPowerOff), (u32)p);
+    UI_SetIntrDataGlobal((uptr)((void *)CTVT_CAMERA_OnPowerOff), (uptr)p);
     return p;
 }
 
@@ -326,7 +326,7 @@ void CTVT_CAMERA_StartFrameDma(Camera *p)
     u32 height = CTVT_CAMERA_GetHeight(p);
     u32 offset = OS_IsRunOnTwl() == 1 ? CAMERA_GetBytesAtOnceCore(width) : 0;
     width *= 2;
-    MI_Camera_NDmaRecvAsync(1, (u32)p->frames[p->frameIndex], offset >> 2,
+    MI_Camera_NDmaRecvAsync(1, (uptr)p->frames[p->frameIndex], offset >> 2,
                  width * height, 0, CTVT_CAMERA_OnFrameDmaDone, 0);
 }
 
@@ -464,7 +464,7 @@ void CTVT_CAMERA_OnFrameDmaDone(void)
             p->skipNextFrame = 0;
         } else if (p->vsyncCount > 4) {
             if (p->frameCb != 0)
-                p->frameCb((u32)p->frames[p->frameIndex], p->frameCbArg);
+                p->frameCb((uptr)p->frames[p->frameIndex], p->frameCbArg);
             p->frameIndex = (p->frameIndex + 1) % p->frameCount;
         }
         if (p->capturing == 1) CTVT_CAMERA_StartFrameDma(p);

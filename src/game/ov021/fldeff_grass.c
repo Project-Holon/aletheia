@@ -207,7 +207,7 @@ void FLDEFF_GRASS_CreateSlots(FldeffGrass *grass)
     rec.kind = 1;
     fileTable = gFldeffGrassImageFiles + modelBase;
     for (i = 0; i < FLDEFF_GRASS_IMAGE_COUNT; i++) {
-        rec.resource = (u32)G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)arcHandle, fileTable[i * FLDEFF_GRASS_FILE_COLUMNS]);
+        rec.resource = (uptr)G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)arcHandle, fileTable[i * FLDEFF_GRASS_FILE_COLUMNS]);
         FIELD_EFFECT_ApplyPaletteTable(grass->fieldEffect, (void *)rec.resource);
         grass->slotId[i] = BILLBOARD_ACT_CreateSlots(grass->billboardAct, &rec, 1);
     }
@@ -271,7 +271,7 @@ void FLDEFF_GRASS_Init(FieldEffectObj *effect, GrassWork *work)
     FldeffGrassParam *param = FIELD_EFFECT_GetObjectParam(effect);
     struct BbActDesc desc;
     u16 kind;
-    u32 billboards;
+    uptr billboards;
     u16 entry;
 
     work->param = *param;
@@ -286,8 +286,8 @@ void FLDEFF_GRASS_Init(FieldEffectObj *effect, GrassWork *work)
     desc.color = 1;
     desc.pos = param->pos;
     desc.hook = 0;
-    desc.hookArg = (u32)work;
-    billboards = (u32)work->param.grass->billboardAct;
+    desc.hookArg = (uptr)work;
+    billboards = (uptr)work->param.grass->billboardAct;
     work->entry = BILLBOARD_ACT_CreateEntries((struct BbActSys *)billboards, 0, &desc, 1, 0);
     if (work->entry == 0xFFFF) {
         FIELD_EFFECT_DeleteObject(effect);
@@ -305,7 +305,7 @@ void FLDEFF_GRASS_Init(FieldEffectObj *effect, GrassWork *work)
 /* Grass effect exit: removes the billboard. */
 void FLDEFF_GRASS_Exit(FieldEffectObj *effect, GrassWork *work)
 {
-    u32 billboards = (u32)work->param.grass->billboardAct;
+    u32 billboards = (uptr)work->param.grass->billboardAct;
 
     if (work->entry != 0xFFFF)
         BILLBOARD_ACT_DeleteEntries((struct BbActSys *)billboards, work->entry, 1);
@@ -320,7 +320,7 @@ void FLDEFF_GRASS_Exit(FieldEffectObj *effect, GrassWork *work)
 /* Grass effect update: plays the animation, then keeps the grass while the model stays on the tile. */
 void FLDEFF_GRASS_Update(FieldEffectObj *effect, GrassWork *work)
 {
-    u32 billboards = (u32)work->param.grass->billboardAct;
+    u32 billboards = (uptr)work->param.grass->billboardAct;
     Mmdl *mmdl;
     u16 lastCommand;
 

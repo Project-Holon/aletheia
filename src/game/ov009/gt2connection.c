@@ -47,7 +47,6 @@
 #include "gt2socket.h"
 #include "gt2utility.h"
 #include "gsmemory.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "gt2auth.h"
 #include "gt2message.h"

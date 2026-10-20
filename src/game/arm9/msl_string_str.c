@@ -20,23 +20,23 @@
 
 #define K2 0x80808080
 
-int strlen(const u8 *s);
+size_t strlen(const char *str);
 
 char *strcpy(char *dst, const char *src);
 
-u8 *strncpy(u8 *dest, const u8 *src, u32 n);
+char *strncpy(char *destStr, const char *srcStr, size_t n);
 
 u8 *strcat(u8 *dest, const u8 *src);
 
 int strcmp(const char *s1, const char *s2);
 
-int strncmp(const u8 *s1, const u8 *s2, u32 n);
+int strncmp(const char *str1, const char *str2, size_t n);
 
-u8 *strchr(const u8 *s, int c);
+char *strchr(const char *str, int c);
 
 int strcspn(const u8 *s, const u8 *reject);
 
-u8 *strstr(const u8 *s1, const u8 *s2);
+char *strstr(const char *str1, const char *str2);
 
 /*
  * A plain byte-string length counter (strlen over a u8 buffer, not the C
@@ -47,8 +47,9 @@ u8 *strstr(const u8 *s1, const u8 *s2);
  *   python tools/match.py one --src src/matched/strlen.c \
  *       --func strlen --addr 0x0209477C --cc 1.1p1 --arm
  */
-int strlen(const u8 *s)
+size_t strlen(const char *str)
 {
+    const u8 *s = (const u8 *)str;
     int n = -1;
 
     do {
@@ -144,12 +145,14 @@ bytecopy:
  *   python tools/match.py tu --src src/matched/unit_02094860.c \
  *       --addr 0x02094860 --arm --cc 1.1p1
  */
-u8 *strncpy(u8 *dest, const u8 *src, u32 n)
+char *strncpy(char *destStr, const char *srcStr, size_t n)
 {
+    u8 *dest = (u8 *)destStr;
+    const u8 *src = (const u8 *)srcStr;
     u8 *d = dest;
 
     if (n == 0) {
-        return dest;
+        return destStr;
     }
 
     do {
@@ -157,16 +160,16 @@ u8 *strncpy(u8 *dest, const u8 *src, u32 n)
         *d++ = *src++;
         if (*prev == 0) {
             if (--n == 0) {
-                return dest;
+                return destStr;
             }
             do {
                 *d++ = 0;
             } while (--n != 0);
-            return dest;
+            return destStr;
         }
 
         if (--n == 0) {
-            return dest;
+            return destStr;
         }
     } while (1);
 }
@@ -315,8 +318,10 @@ byte_loop:
  *   python tools/match.py tu --src src/matched/unit_020949F4.c \
  *       --addr 0x020949F4 --arm --cc 1.1p1
  */
-int strncmp(const u8 *s1, const u8 *s2, u32 n)
+int strncmp(const char *str1, const char *str2, size_t n)
 {
+    const u8 *s1 = (const u8 *)str1;
+    const u8 *s2 = (const u8 *)str2;
     if (n != 0) {
         do {
             u8 c2 = *s2++;
@@ -333,18 +338,19 @@ int strncmp(const u8 *s1, const u8 *s2, u32 n)
     return 0;
 }
 
-u8 *strchr(const u8 *s, int c)
+char *strchr(const char *str, int c)
 {
+    const u8 *s = (const u8 *)str;
     u8 m = (u8)c;
     u8 ch;
 
     ch = *s++;
     while (ch != 0) {
         if (ch == m)
-            return (u8 *)s - 1;
+            return (char *)s - 1;
         ch = *s++;
     }
-    return m ? 0 : (u8 *)s - 1;
+    return m ? 0 : (char *)s - 1;
 }
 
 /*
@@ -431,14 +437,16 @@ int strcspn(const u8 *s, const u8 *reject)
  *   python tools/match.py one --src src/matched/strstr.c \
  *       --func strstr --addr 0x02094B20 --cc 1.1p1 --arm
  */
-u8 *strstr(const u8 *s1, const u8 *s2)
+char *strstr(const char *str1, const char *str2)
 {
+    const u8 *s1 = (const u8 *)str1;
+    const u8 *s2 = (const u8 *)str2;
     u8 c2;
     u8 c1;
     const u8 *p;
 
     if (s2 == 0 || (c2 = *s2) == 0) {
-        return (u8 *)s1;
+        return (char *)s1;
     }
 
     c1 = *s1;
@@ -460,7 +468,7 @@ u8 *strstr(const u8 *s1, const u8 *s2)
                 } while (sc1 != 0);
 
                 if (sc2 == 0) {
-                    return (u8 *)p - 1;
+                    return (char *)p - 1;
                 }
             }
             c1 = *p++;

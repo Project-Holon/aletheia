@@ -249,12 +249,12 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
     w->taskMenuRes = APP_TASKMENU_RES_Create(w->menuBgFrame, 10, (struct GFont *)w->font, (struct PrintQueue *)w->printQue, w->heapId);
     w->taskMenu = 0;
     w->yesNoMenu = 0;
-    w->keyCursor = (u32)APP_KEYCURSOR_CreateDefault(0xF, cursor, 1, w->heapId);
-    GF_OVERLAY_Load((int)ov021_id);
+    w->keyCursor = (uptr)APP_KEYCURSOR_CreateDefault(0xF, cursor, 1, w->heapId);
+    GF_OVERLAY_Load((sptr)ov021_id);
     if (useTalkWin == 1) {
         talk.heapId = heapId;
         talk.reserved = 0;
-        talk.font = (u32)w->font;
+        talk.font = (uptr)w->font;
         talk.bgPalette = 10;
         talk.bgFrame = bgFrame;
         talk.x = 12;
@@ -297,7 +297,7 @@ void MB_UTIL_MSG_Delete(MbMsgWork *work)
     GF_FONT_Delete(work->font);
     TCBL_Destroy((struct TcblSystem *)work->tcbl);
     GFL_HEAP_Free(work);
-    GF_OVERLAY_Unload((int)ov021_id);
+    GF_OVERLAY_Unload((sptr)ov021_id);
 }
 
 void MB_UTIL_MSG_Main(MbMsgWork *work)

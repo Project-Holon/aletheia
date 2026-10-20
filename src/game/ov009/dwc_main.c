@@ -153,7 +153,7 @@ extern void DWCi_InitGPProcessCount(void);
 extern void DWCi_ClearQR2Key(void);
 extern int memcmp(const void *a, const void *b, unsigned long n);
 extern char *strchr(const char *s, int c);
-extern char *strncpy(char *d, const char *s, unsigned long n);
+extern char *strncpy(char *dest, const char *src, unsigned long n);
 extern void DWCi_MatchGPRecvBuddyMsgCallback(int unused, int profileID, char *message);
 extern void DWCi_RecvCallback(void *connection, unsigned char *message, int size, int reliable);
 extern int DWCi_IsShutdownMatch(void);

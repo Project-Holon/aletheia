@@ -148,6 +148,7 @@
  *   TCBL_Create  0x0203101C  arm  arm9
  */
 #include "field_msgbg_types.h"
+#include "../sdk_ioreg.h"
 #include "talkmsgwin_types.h"
 
 /* Cursor y offsets per animation frame. */
@@ -155,8 +156,7 @@ typedef struct FieldMsgCursorOffsets {
     u16 offsetY[3];
 } FieldMsgCursorOffsets;
 
-#define REG_BLDCNT_ADDR 0x04000050
-#define REG_BG2CNT (*(volatile u16 *)0x0400000C)
+#define REG_BG2CNT (*(volatile u16 *)REG_BG2CNT_ADDR)
 
 #define PAD_BUTTON_AB 0x0003 /* A and B */
 
@@ -872,7 +872,7 @@ FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncPos(FieldMsgBg *msgBg, const FieldMenuH
 
 u32 FIELD_MSGBG_CreateMenuFunc(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items)
 {
-    return (int)FIELD_MSGBG_CreateMenuFuncPos(msgBg, header, items, 0, 0);
+    return (sptr)FIELD_MSGBG_CreateMenuFuncPos(msgBg, header, items, 0, 0);
 }
 
 FieldMenuFunc *FIELD_MSGBG_CreateMenuFuncWork(FieldMsgBg *msgBg, const FieldMenuHeader *header, struct BmpMenuWork *items, u32 moveCallback, u32 work,
@@ -948,7 +948,7 @@ u32 FIELD_MSGBG_GetMenuItemsMaxWidth(FieldMsgBg *msgBg, BmpMenuWork *items, u32 
     bestWidth = 0;
     bestIndex = 0;
     i = 0;
-    if ((u32)items->u.handle != -1) {
+    if ((uptr)items->u.handle != -1) {
         marginU16 = (u16)margin;
         do {
             u32 width;
@@ -962,7 +962,7 @@ u32 FIELD_MSGBG_GetMenuItemsMaxWidth(FieldMsgBg *msgBg, BmpMenuWork *items, u32 
             }
             items++;
             i++;
-        } while ((u32)items->u.handle != -1);
+        } while ((uptr)items->u.handle != -1);
     }
     *outIndex = bestIndex;
     return bestWidth;

@@ -127,7 +127,6 @@ extern int DWC_IsValidAID(unsigned char aid);
 extern int DWCi_IsValidAID(unsigned char aid);
 #include "../arm9/msl_string_str.h"
 #include "../arm9/mi_memory.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 extern int DWCi_NodeInfoList_GetCount(void);
 typedef unsigned long long OSTick;
@@ -350,7 +349,7 @@ int DWC_SetUserRecvTimeoutCallback(void (*cb)(unsigned char, void *), void *para
 
 void DWCs_EncodeHeader(TransHeader *header, unsigned short type, int size)
 {
-    strncpy((unsigned char *)header->magicStrings, (unsigned char *)gDwcTransHeaderMagic, 2);
+    strncpy(header->magicStrings, gDwcTransHeaderMagic, 2);
     header->type = type;
     header->size = size;
 }
@@ -617,7 +616,7 @@ void DWCi_SendUnreliable(unsigned char aidFrom, unsigned char aidTo, unsigned ch
         sendBuf = DWC_Alloc(4, size + 8);
         if (sendBuf == 0)
             return;
-        strncpy((unsigned char *)sendBuf, (unsigned char *)gDwcTransForwardMagic, 3);
+        strncpy((char *)sendBuf, gDwcTransForwardMagic, 3);
         sendBuf[3] = aidFrom;
         *(unsigned long *)(sendBuf + 4) = 1 << aidTo;
         MI_CpuCopy8(buffer, sendBuf + 8, size);
@@ -684,7 +683,7 @@ void DWCs_HandleUnreliableMessage(void *connection, void *message, int size)
         DWCi_SetError(6, 0xfffe8298);
         return;
     }
-    if (size >= 0x14u && strncmp((unsigned char *)message, (unsigned char *)gDwcTransMatchMagic, 4) == 0) {
+    if (size >= 0x14u && strncmp(message, gDwcTransMatchMagic, 4) == 0) {
         DWCi_HandleGT2UnreliableMatchCommandMessage(message, size);
         return;
     }

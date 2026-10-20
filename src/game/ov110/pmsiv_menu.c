@@ -394,7 +394,7 @@ static inline int Check(struct PmsivMenu *menu, int zero)
     value = PMSIV_MENU_IsEntryFinished(menu, zero);
     menu = 0;
     if (value) menu = (struct PmsivMenu *)1;
-    return (int)menu;
+    return (sptr)menu;
 }
 
 /*
@@ -521,7 +521,7 @@ void PMSIV_MENU_DeleteItems(struct PmsivMenu *menu)
  */
 void PMSIV_MENU_SetItemAnim(struct PmsivMenu *menu,int i,int flag)
 {
-    CLACT_SetActorAnimSeq((struct ClactActor *)menu->items[i], *(u8 *)((u32)gPmsivMenuItemAnimSeq+i*2+flag));
+    CLACT_SetActorAnimSeq((struct ClactActor *)menu->items[i], *(u8 *)((uptr)gPmsivMenuItemAnimSeq+i*2+flag));
 }
 
 void PMSIV_MENU_CreateExtraItems(struct PmsivMenu *menu) {
@@ -627,7 +627,7 @@ void PMSIV_MENU_UpdateBlend(struct PmsivMenu *menu)
     for (i = 0; i < PMSIV_MENU_BLEND_COLORS; i++) {
         lerp(&menu->blendColors[i], t, menu->baseColors[i], menu->targetColors[i]);
     }
-    NNS_GfdRegisterNewVramTransferTask((void *)14, (unsigned int)0x56, (unsigned int)menu->blendColors, 10);
+    NNS_GfdRegisterNewVramTransferTask((void *)14, (unsigned int)0x56, (uptr)menu->blendColors, 10);
 }
 
 void PMSIV_MENU_StartItemBlend(struct PmsivMenu *menu,int i)

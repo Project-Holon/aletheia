@@ -446,7 +446,7 @@ extern CameraTarget d_02172528;
 extern char d_021BA650[];
 extern char id_00000045[];
 extern char id_0000005D[];
-extern char d_021F03C4[];
+extern NetCommandEntry d_021F03C4[];
 extern const struct ProcData d_021EFDAC;
 extern char d_02172548[];
 
@@ -776,7 +776,7 @@ int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *
         (*state)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (s32)work->fieldMap, (s32)(&work->partyScreen), (s32)(&work->summary)));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (sptr)work->fieldMap, (sptr)(&work->partyScreen), (sptr)(&work->summary)));
         (*state)++;
         break;
     case 3:
@@ -886,7 +886,7 @@ GameEvent *NAMEIN_SETUP_StartEncounterScene(EncounterContext *ctx, GameSystem *g
     if (ctx->kind == 3 || ctx->kind == 8) {
         return NAMEIN_SETUP_StartEncounterTransition(ctx, gameSystem, fieldMap);
     }
-    return EVENT_BATTLE_CreateResultOnlyTask((s32)gameSystem, (s32)fieldMap, transitionInfo);
+    return EVENT_BATTLE_CreateResultOnlyTask((sptr)gameSystem, (sptr)fieldMap, transitionInfo);
 }
 
 int NAMEIN_SETUP_RunNameBalloonEvent(GameEvent *event, int *state, NameBalloonWork *work, u32 extra)
@@ -1002,16 +1002,16 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->npcId = npcId;
-    if (*(u16 *)((u32)records + 0xA0 + recordIndex * 0x120) == 0xFFFF) {
+    if (*(u16 *)((uptr)records + 0xA0 + recordIndex * 0x120) == 0xFFFF) {
         work->name = STRBUF_Create(0x300, 4);
         bank = MSGDATA_CreateFromArchive(0, 2, 0xB8, 4);
-        msgIndex = *(u16 *)((u32)records + 0xA2 + recordIndex * 0x120);
+        msgIndex = *(u16 *)((uptr)records + 0xA2 + recordIndex * 0x120);
         if (msgIndex >= 0x3AE)
             msgIndex = 0;
         MSGDATA_ReadString(bank, msgIndex, work->name);
         MSGDATA_Delete(bank);
     } else {
-        work->name = PMSI_PARAM_ToString((const struct PmsData *)((u32)records + 0xA0 + recordIndex * 0x120), 4);
+        work->name = PMSI_PARAM_ToString((const struct PmsData *)((uptr)records + 0xA0 + recordIndex * 0x120), 4);
     }
     FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(GAME_DATA_GetOccupyInfo(gameData), work->npcId), (struct VecFx32 *)(&work->pos));
     camera = FIELDMAP_GetCamera(fieldMap);
@@ -1039,7 +1039,7 @@ int NAMEIN_SETUP_RunHistoryScreenEvent(GameEvent *event, int *state, HistoryScre
         history = GAME_DATA_GetSaveBlock3B(work->gameData);
         work->historyTagA = BSUBWAY_SAVEDATA_GetHistoryTagA(history);
         work->historyTagB = BSUBWAY_SAVEDATA_GetHistoryTagB(history);
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(work->gameSystem, work->fieldMap, (int)id_00000045, d_021BA650, &work->gameData));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(work->gameSystem, work->fieldMap, (sptr)id_00000045, d_021BA650, &work->gameData));
         (*state)++;
         break;
     case 1:
@@ -1095,8 +1095,8 @@ int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, struct ProcSys **m
     int status = PROCSYS_Main(mywk[0]);
     switch (*seq) {
     case 0:
-        GF_OVERLAY_Load((s32)id_0000005D);
-        GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
+        GF_OVERLAY_Load((sptr)id_0000005D);
+        GFL_NET_COMMAND_AddCommandTable(0x100, d_021F03C4, 9, 0);
         GFL_NET_StartTimingSync((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8);
         *seq = 1;
         break;
@@ -1120,7 +1120,7 @@ int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, struct ProcSys **m
         break;
     case 4:
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
-        GF_OVERLAY_Unload((s32)id_0000005D);
+        GF_OVERLAY_Unload((sptr)id_0000005D);
         *seq = 5;
         break;
     case 5:

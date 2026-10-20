@@ -217,7 +217,7 @@ struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u16 
 {
     struct BrNet *net;
     GdsRapInitParams params;
-    GF_OVERLAY_Load((int)ov125_id);
+    GF_OVERLAY_Load((sptr)ov125_id);
     net=GFL_HEAP_Alloc(heapId,sizeof(struct BrNet),0,gBrNetSourceFile,0x97);
     MI_CpuFill8(net,0,sizeof(struct BrNet));
     net->gameData=gameData;
@@ -238,7 +238,7 @@ struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u16 
     net->profile=GDS_PROFILE_Create(heapId);
     GDS_PROFILE_Init(net->profile,gameData);
     net->task=BR_NET_CreateTask(net,BR_NET_StepIdle,heapId);
-    DWC_RAP_SetErrorHookCallback(BR_NET_OnRapError,(unsigned int)net);
+    DWC_RAP_SetErrorHookCallback(BR_NET_OnRapError,(uptr)net);
     return net;
 }
 
@@ -252,7 +252,7 @@ void BR_NET_Destroy(struct BrNet *net)
         net->rapActive = 0;
     }
     GFL_HEAP_Free(net);
-    GF_OVERLAY_Unload((int)ov125_id);
+    GF_OVERLAY_Unload((sptr)ov125_id);
 }
 
 void BR_NET_Main(struct BrNet *net)

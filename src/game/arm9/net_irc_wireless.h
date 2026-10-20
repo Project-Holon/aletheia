@@ -10,16 +10,16 @@ struct NetMacList;
 #include "../arm9/net_types.h"
 #include "../types.h"
 
-GFLNetInitializeStruct *GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct *src, u32 callbackArg);
+GFLNetInitializeStruct *GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct *src, void *callbackArg);
 void GFL_NET_IRC_WIRELESS_Destroy(void);
 void GFL_NET_IRC_WIRELESS_DestroyIfIdle(void);
 int GFL_NET_IRC_WIRELESS_IsActive(void);
 void GFL_NET_IRC_WIRELESS_SetSessionParamValue(unsigned int value);
-void *GFL_NET_IRC_WIRELESS_SetCallbacks(void (*onFinished)(u32), void (*onResult)(u32, int), void (*onReady)(u32));
+GFLNetUserFunc GFL_NET_IRC_WIRELESS_SetCallbacks(GFLNetUserFunc onFinished, void (*onResult)(void *, int), GFLNetUserFunc onReady);
 void GFL_NET_IRC_WIRELESS_AddMacAddress(const u8 *mac);
 void GFL_NET_IRC_WIRELESS_CopyMacAddress(void *dst, u32 slot);
-void GFL_NET_IRC_WIRELESS_OnSyncReady(void);
-void GFL_NET_IRC_WIRELESS_OnConnectEnd(u32 userArg);
+void GFL_NET_IRC_WIRELESS_OnSyncReady(void *userArg);
+void GFL_NET_IRC_WIRELESS_OnConnectEnd(void *userArg);
 void GFL_NET_IRC_WIRELESS_SetState(NetIrcWirelessLink *link, int state);
 void GFL_NET_IRC_WIRELESS_Main(void);
 void *GFL_NET_IRC_WIRELESS_GetBeaconData(void *beaconArg);

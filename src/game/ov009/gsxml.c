@@ -170,7 +170,7 @@ extern int gsUnicodeStringLen(const unsigned short *str);
 extern int gsiXmlUtilWriteUnicodeString(GSIXmlStreamWriter *stream, unsigned short *str);
 #include "../arm9/msl_printf.h"
 #include "gsstringutil.h"
-extern double atof(const char *s);
+#include "../arm9/msl_strtod.h"
 typedef int gsi_bool;
 #include "gslargeint.h"
 void *gsXmlCreateStreamWriter(const char **namespaces, int count);
@@ -234,9 +234,8 @@ extern char gGsXmlHex8Format[];       /* "%08x" */
 extern char gGsXmlEntityDecPrefix[];       /* "&#" */
 
 extern int strncmp(const char *s1, const char *s2, unsigned long n);
-extern const char *strncpy(const char *dest, const char *src, unsigned int n);
+extern char *strncpy(char *dest, const char *src, unsigned int n);
 extern char *strchr(const char *s, int c);
-extern int atoi(const char *s);
 /*
  * Number of halfwords before the terminating zero, less one.
  */

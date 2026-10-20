@@ -95,8 +95,6 @@ struct MenuTarget;
 
 #ifdef __MWERKS__
 extern void *PRINTSYS_QUE_Create(void *heapIdAsPtr); /* original prototype; the definition differs in argument width, pointer or integer, pointer type, return type */
-#else
-#define PRINTSYS_QUE_Create(heap) (PRINTSYS_QUE_Create)((u32)(uptr)(heap))
 #endif
 
 
@@ -468,7 +466,7 @@ void BMP_MENU_DrawCursor(BmpMenu *menu)
 
     if (menu->header.cursorMode != 1) {
         BMP_MENU_GetItemPixelPos(menu, &x, &y, menu->selected);
-        BMP_CURSOR_Draw((struct MenuCursor *)menu->cursor, (u32)x, (u32)y, (struct MenuTarget *)menu->header.util, menu->header.que, (u32)menu->header.fontH);
+        BMP_CURSOR_Draw((struct MenuCursor *)menu->cursor, (u32)x, (u32)y, (struct MenuTarget *)menu->header.util, menu->header.que, (uptr)menu->header.fontH);
     }
 }
 
@@ -523,7 +521,11 @@ BmpMenu *BMP_MENU_CreateYesNo(const WinDat *winData, u16 tileBase, u8 palette, u
     header.lineHeight = GF_FONT_GetLineHeight(header.fontH);
     header.xPad = 10;
     PrintUtil_Init(header.util, header.win);
+#ifdef __MWERKS__
     header.que = PRINTSYS_QUE_Create((void *)heapId);
+#else
+    header.que = PRINTSYS_QUE_Create((u32)(uptr)(void *)heapId);
+#endif
     header.committed = 0;
 
     menu = BMP_MENU_Add(&header, 0xE, 0, startPos, heapId, 2);

@@ -44,7 +44,7 @@ void WIFILOGIN_MSG_StepMessage2(u8 *p);
 void WIFILOGIN_MSG_StepWaitMessage2(u8 *p);
 void WIFILOGIN_MSG_StepWipe2(u8 *p);
 void WIFILOGIN_MSG_StepFinish(u8 *p);
-void WIFILOGIN_MSG_SetExitFlag(u8 *p);
+void WIFILOGIN_MSG_SetExitFlag(void *userArg);
 /* END mkheaders: generated region */
 
 #endif

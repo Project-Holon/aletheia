@@ -18,7 +18,7 @@ double sin(double x);
 double pow(double x, double y);
 int stricmp(const u8 *s1, const u8 *s2);
 int strnicmp(const u8 *s1, const u8 *s2, int n);
-int strcmp_nocase(const u8 *s1, const u8 *s2);
+int strcmp_nocase(const char *s1, const char *s2);
 /* END mkheaders: generated region */
 
 #endif

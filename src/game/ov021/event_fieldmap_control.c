@@ -74,6 +74,7 @@
  *   FIELD_PLAYER_GetDirDisp  0x021A3050  thumb  ov021
  */
 #include "fieldmap_types.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/bg_sys.h"
 
 #include "../types.h"
@@ -94,10 +95,9 @@ enum {
 #define FADE_SPEED_DEFAULT (-1)
 
 /* Hardware registers the default fade events write. */
-#define REG_BLDCNT_ADDR 0x04000050
-#define REG_BG2CNT (*(volatile u16 *)0x0400000C)
-#define REG_BLDALPHA (*(volatile u16 *)0x04000052)
-#define REG_DISPCAPCNT (*(volatile u32 *)0x04000064)
+#define REG_BG2CNT (*(volatile u16 *)REG_BG2CNT_ADDR)
+#define REG_BLDALPHA (*(volatile u16 *)REG_BLDALPHA_ADDR)
+#define REG_DISPCAPCNT (*(volatile u32 *)REG_DISP_CAPCNT_ADDR)
 
 /*
  * Work of the map change fade events (0x2C bytes, GAME_EVENT work). The
@@ -695,7 +695,7 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFad
         }
         BG_SYS_SetPlaneVisible(2, 0);
         GX_SetBankForLCDC(8);
-        MIi_CpuClearFast(0, (void *)0x06800000, 0x20000);
+        MIi_CpuClearFast(0, (void *)HW_LCDC_VRAM, 0x20000);
         GX_DisableBankForLCDC();
         GX_SetBankForBG(8);
         SYMBOL_MAP_StopBg2Scale();
@@ -766,7 +766,7 @@ int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(GameEvent *event, int *se
 
     switch (*seq) {
     case SEASON_FADE_STEP_START: {
-        GameEvent *scoreboardEvent = EL_SCOREBOARD_StartOnFieldWithCallback(gameSystem, fieldMap, work->seasonShown, work->seasonTarget, work->finishCallback, (int)work->finishCallbackArg);
+        GameEvent *scoreboardEvent = EL_SCOREBOARD_StartOnFieldWithCallback(gameSystem, fieldMap, work->seasonShown, work->seasonTarget, work->finishCallback, (sptr)work->finishCallbackArg);
         GAME_EVENT_CallEvent(event, scoreboardEvent);
         *seq = *seq + 1;
         break;

@@ -159,7 +159,7 @@ struct GFLNetHandle;
 
 void GFL_NET_SetupHeaps(u32 parentHeapId, u32 zero, u32 oldBaseHeapId, u32 newBaseHeapId);
 
-void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 userArg);
+void GFL_NET_StartSession(GFLNetInitializeStruct *req, GFLNetUserFunc callback, void *work);
 
 int GFL_NET_GetRunState(void);
 
@@ -167,7 +167,7 @@ int GFL_NET_IsSessionNull(void);
 
 void GFL_NET_EndSession(void);
 
-int GFL_NET_Exit(void (*exitCallback)(u32));
+int GFL_NET_Exit(GFLNetUserFunc exitCallback);
 
 void GFL_NET_ClearExitFlag(void);
 
@@ -187,7 +187,7 @@ void GFL_NET_BeaconScanStart(void);
 
 void GFL_NET_StartByNetType(void);
 
-void GFL_NET_StartChangeoverEx(u32 onFinished, u32 onResult, u32 onReady);
+void GFL_NET_StartChangeoverEx(GFLNetUserFunc onFinished, void (*onResult)(void *, int), GFLNetUserFunc onReady);
 
 void GFL_NET_SetGameKindOverride(int gameKind);
 
@@ -197,11 +197,11 @@ void GFL_NET_IRC_WIRELESS_SetSessionParam(unsigned int value);
 
 void GFL_NET_IRC_WIRELESS_Exit(void);
 
-void GFL_NET_StartChangeoverChild(u32 changeoverParam);
+void GFL_NET_StartChangeoverChild(GFLNetUserFunc changeoverParam);
 
 void GFL_NET_EndDeviceWrapper(int unused);
 
-void GFL_NET_StartChangeoverParent(u32 changeoverParam);
+void GFL_NET_StartChangeoverParent(GFLNetUserFunc changeoverParam);
 
 void GFL_NET_SetDeviceModeIfRunning(int mode);
 
@@ -265,9 +265,9 @@ u32 GFL_NET_GetFriendListNum(void);
 
 void GFL_NET_SetWaitMode(u32 waitMode);
 
-u32 GFL_NET_GetUserArg(void);
+void *GFL_NET_GetUserArg(void);
 
-void GFL_NET_SetUserArg(u32 userArg);
+void GFL_NET_SetUserArg(void *userArg);
 
 u32 GFL_NET_GetMaxConnectNum(void);
 
@@ -369,7 +369,7 @@ void GFL_NET_SetupHeaps(u32 parentHeapId, u32 zero, u32 oldBaseHeapId, u32 newBa
  * The beacon test is kept in a local (isBeacon); written inline it folds into
  * a range check and the code changes.
  */
-void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 userArg)
+void GFL_NET_StartSession(GFLNetInitializeStruct *req, GFLNetUserFunc callback, void *work)
 {
     GFLNetSession *session;
     u8 netType;
@@ -386,7 +386,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
     if (session->ops == 0)
         GF_PANIC_Fail(sNetFileName, 0x6f, str_020A7CA8);
     if (req->bNetType == 4)
-        req = (GFLNetInitializeStruct *)GFL_NET_IRC_WIRELESS_Create((const GFLNetInitializeStruct *)req, userArg);
+        req = (GFLNetInitializeStruct *)GFL_NET_IRC_WIRELESS_Create((const GFLNetInitializeStruct *)req, work);
     MI_CpuCopy8(req, session, 0x70);
     switch (req->bNetType) {
     case 1:
@@ -411,8 +411,8 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
         GF_PANIC_Fail(sNetFileName, 0x8e, str_020A7CE8);
         return;
     }
-    session->userArg = userArg;
-    GFL_NET_STATE_DeviceInitialize((void *)req->heapId, transportArg);
+    session->userArg = work;
+    GFL_NET_STATE_DeviceInitialize((void *)req->heapId, callback);
     GFL_NET_HANDLE_InitWork(session);
     GFL_NET_COMMAND_Init(req->gameKind << 8, req->recvFuncTable, req->recvFuncTableNum, session->userArg, req->heapId);
     netType = req->bNetType;
@@ -463,7 +463,7 @@ int GFL_NET_IsSessionNull(void)
 void GFL_NET_EndSession(void)
 {
     GFLNetSession *session = GFL_NET_GetSession();
-    void (*callback)(u32);
+    GFLNetUserFunc callback;
     u16 heapId;
     u16 wifiHeapId;
     u16 beaconHeapId;
@@ -521,7 +521,7 @@ void GFL_NET_EndSession(void)
  * early-return form shifts the code that follows. The net type byte is read
  * before the callback is stored.
  */
-int GFL_NET_Exit(void (*exitCallback)(u32))
+int GFL_NET_Exit(GFLNetUserFunc exitCallback)
 {
     GFLNetSession *session;
 
@@ -532,9 +532,9 @@ int GFL_NET_Exit(void (*exitCallback)(u32))
 
         session->exitCallback = exitCallback;
         if (netType == 1) {
-            GFL_NET_STATE_WifiLogout((u32)GFL_NET_EndSession);
+            GFL_NET_STATE_WifiLogout((uptr)GFL_NET_EndSession);
         } else {
-            GFL_NET_STATE_Exit((u32)GFL_NET_EndSession);
+            GFL_NET_STATE_Exit((uptr)GFL_NET_EndSession);
         }
         GFL_NET_WM_ICON_EasyEnd();
         return 1;
@@ -669,13 +669,13 @@ void GFL_NET_StartByNetType(void)
  * caller's finish callback. The result is handed to the state layer together
  * with the session's heap id and mode 1.
  */
-void GFL_NET_StartChangeoverEx(u32 onFinished, u32 onResult, u32 onReady)
+void GFL_NET_StartChangeoverEx(GFLNetUserFunc onFinished, void (*onResult)(void *, int), GFLNetUserFunc onReady)
 {
     GFLNetSession *session = GFL_NET_GetSession();
-    u32 handler = onFinished;
+    GFLNetUserFunc handler = onFinished;
 
     if (GFL_NET_IRC_WIRELESS_IsActive() == 1)
-        handler = (u32)GFL_NET_IRC_WIRELESS_SetCallbacks((void (*)(u32))onFinished, (void (*)(u32, int))onResult, (void (*)(u32))onReady);
+        handler = GFL_NET_IRC_WIRELESS_SetCallbacks(onFinished, onResult, onReady);
 
     GFL_NET_STATE_StartChangeover(session->init.heapId, handler, 1);
 }
@@ -697,7 +697,7 @@ void GFL_NET_IRC_WIRELESS_SetSessionParam(unsigned int value)
 
 void GFL_NET_IRC_WIRELESS_Exit(void){ GFL_NET_IRC_WIRELESS_Destroy(); }
 
-void GFL_NET_StartChangeoverChild(u32 changeoverParam)
+void GFL_NET_StartChangeoverChild(GFLNetUserFunc changeoverParam)
 {
     GFL_NET_STATE_StartChangeover(GFL_NET_GetSession()->init.heapId, changeoverParam, 1);
 }
@@ -708,7 +708,7 @@ void GFL_NET_EndDeviceWrapper(int unused)
     GFL_NET_STATE_EndDevice();
 }
 
-void GFL_NET_StartChangeoverParent(u32 changeoverParam)
+void GFL_NET_StartChangeoverParent(GFLNetUserFunc changeoverParam)
 {
     GFL_NET_STATE_StartChangeover(GFL_NET_GetSession()->init.heapId, changeoverParam, 0);
 }
@@ -1092,7 +1092,7 @@ void GFL_NET_SetWaitMode(u32 waitMode)
 /*
  * Returns the word at +0x34c of the net context, or 0 when there is none.
  */
-u32 GFL_NET_GetUserArg(void)
+void *GFL_NET_GetUserArg(void)
 {
     GFLNetSession *session = GFL_NET_GetSession();
 
@@ -1102,7 +1102,7 @@ u32 GFL_NET_GetUserArg(void)
 /*
  * Stores the argument at +0x34c of the net context, when there is one.
  */
-void GFL_NET_SetUserArg(u32 userArg)
+void GFL_NET_SetUserArg(void *userArg)
 {
     GFLNetSession *session = GFL_NET_GetSession();
 
@@ -1176,7 +1176,7 @@ void GFL_NET_CallErrorStateFunc(u32 errorCode)
         return;
     }
     session->init.errorStateFunc(
-        (u32)GFL_NET_HANDLE_GetCurrentHandle(), errorCode, session->userArg);
+        (uptr)GFL_NET_HANDLE_GetCurrentHandle(), errorCode, session->userArg);
 }
 
 /*
@@ -1191,7 +1191,7 @@ void GFL_NET_CallStateChangeFunc(u32 newState)
         return;
     }
     session->init.stateChangeFunc(
-        (u32)GFL_NET_HANDLE_GetCurrentHandle(), newState, session->userArg);
+        (uptr)GFL_NET_HANDLE_GetCurrentHandle(), newState, session->userArg);
 }
 
 GFLNetSession *GFL_NET_GetSession(void)
@@ -1234,7 +1234,7 @@ void GFL_NET_SetLoginOption(u8 loginOption)
 void *GFL_NET_AllocAligned(u32 heapId, u32 size, const char *fileName, u16 line)
 {
     u8 *rawBlock = (u8 *)GFL_HEAP_Alloc(heapId, ((size + 0x24) & ~0x1fu) + 0x20, 1, fileName, line);
-    u8 *alignedBlock = (u8 *)(((u32)rawBlock + 0x20) & ~0x1fu);
+    u8 *alignedBlock = (u8 *)(((uptr)rawBlock + 0x20) & ~0x1fu);
 
     *(void **)(alignedBlock - 4) = rawBlock;
     return alignedBlock;

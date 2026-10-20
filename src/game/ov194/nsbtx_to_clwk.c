@@ -97,9 +97,9 @@ void NAMEIN_GRAPHIC_BlitTexture(const char *src, int width, int x, int y, int w,
     unsigned outOffset;
     int i, j;
     unsigned step;
-    unsigned target;
+    uptr target;
     step = width * 4;
-    target = (unsigned)dst;
+    target = (uptr)dst;
     outOffset = 0;
     for (j = y; j < y + h; j++) {
         for (i = x; i < x + w; i++) {

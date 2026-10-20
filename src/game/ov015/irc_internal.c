@@ -32,6 +32,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct IRCParam {
     int reserved00;
@@ -107,9 +108,9 @@ unsigned char IRCi_CommWrite(struct IRCParam *param)
         ;
     *(volatile unsigned short *)0x040001A2 = *param->send;
     param->send++;
-    while (*(volatile unsigned short *)0x040001A0 & 0x80)
+    while (*(volatile unsigned short *)REG_MCCNT0_ADDR & 0x80)
         ;
-    tmp = *(volatile unsigned short *)0x040001A2;
+    tmp = *(volatile unsigned short *)REG_MCD0_ADDR;
     return tmp;
 }
 
@@ -124,7 +125,7 @@ void IRCi_CommRead(struct IRCParam *param)
     while ((OS_GetTick() - time) * 64000 / 0x82EA < 50)
         ;
     *(volatile unsigned short *)0x040001A2 = 0;
-    while (*(volatile unsigned short *)0x040001A0 & 0x80)
+    while (*(volatile unsigned short *)REG_MCCNT0_ADDR & 0x80)
         ;
     *param->recv = *(volatile unsigned short *)0x040001A2;
     param->recv++;
@@ -199,7 +200,7 @@ int IRCi_Read(u8 *buf)
     buf[0] = 0;
     CARD_LockBackup(gIrcLockId);
     OS_LockCard(gIrcLockId);
-    while (*(volatile u16 *)0x040001A0 & 0x80)
+    while (*(volatile u16 *)REG_MCCNT0_ADDR & 0x80)
         ;
     *(volatile u16 *)0x040001A0 = 0xA042;
     IRCi_CommWrite(((struct IRCParam *)&g_0217AC90b));
@@ -226,7 +227,7 @@ int IRCi_Read(u8 *buf)
     for (i = 0; (i < size) ? 1 : 0; i++) {
         buf[i] ^= 0xAA;
     }
-    while (*(volatile u16 *)0x040001A0 & 0x80)
+    while (*(volatile u16 *)REG_MCCNT0_ADDR & 0x80)
         ;
     OS_UnLockCard(gIrcLockId);
     CARD_UnlockBackup(gIrcLockId);
@@ -243,7 +244,7 @@ void IRCi_Write(unsigned char *data, unsigned char size)
     gIrcWriteBuffer[0] = 2;
     CARD_LockBackup(gIrcLockId);
     OS_LockCard(gIrcLockId);
-    while (*(volatile unsigned short *)0x040001A0 & 0x80)
+    while (*(volatile unsigned short *)REG_MCCNT0_ADDR & 0x80)
         ;
     *(volatile unsigned short *)0x040001A0 = 0xA042;
     IRCi_CommWrite(((IRCParam *)&g_0217AC90_b));
@@ -255,7 +256,7 @@ void IRCi_Write(unsigned char *data, unsigned char size)
             *(volatile unsigned short *)0x040001A0 = 0xA002;
         IRCi_CommWrite(((IRCParam *)&g_0217AC90_b));
     }
-    while (*(volatile unsigned short *)0x040001A0 & 0x80)
+    while (*(volatile unsigned short *)REG_MCCNT0_ADDR & 0x80)
         ;
     OS_UnLockCard(gIrcLockId);
     CARD_UnlockBackup(gIrcLockId);

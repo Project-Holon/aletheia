@@ -106,6 +106,7 @@
  *   _fsub                        0x0209CB8C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "field_place_name_types.h"
 
@@ -123,7 +124,6 @@ typedef struct NitroFileHeader NitroFileHeader;
 struct BgTemplate;
 struct FieldMsgContext;
 
-#define REG_BLDCNT_ADDR 0x04000050
 /* Address of the BG3 template table in the overlay data (a symbol here changes the literal pool relocation). */
 #define FIELD_PLACE_NAME_BG_TEMPLATE_ADDR 0x021DE334
 
@@ -406,7 +406,7 @@ int FIELD_PLACE_NAME_Cancel(FieldPlaceName *placeName)
 {
     FIELD_PLACE_NAME_SetState(placeName, FIELD_PLACE_NAME_STATE_IDLE);
     FIELD_PLACE_NAME_ClearZoneChangeRequest(placeName);
-    return (int)FIELD_PLACE_NAME_ClearForceShowRequest(placeName);
+    return (sptr)FIELD_PLACE_NAME_ClearForceShowRequest(placeName);
 }
 
 /* Rebuilds the BG window (used after another screen took the BG layer). */
@@ -755,7 +755,7 @@ int FIELD_PLACE_NAME_HasPlaceNameChanged(FieldPlaceName *placeName)
 void FIELD_PLACE_NAME_LoadMessage(FieldPlaceName *placeName)
 {
     int zoneId;
-    int myStatus;
+    sptr myStatus;
     unsigned int placeNameId;
     Strbuf *template;
 
@@ -770,7 +770,7 @@ void FIELD_PLACE_NAME_LoadMessage(FieldPlaceName *placeName)
     }
     if (FIELD_PLACE_NAME_UsesIntrudeTemplate(placeName, zoneId) != 0) {
         INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)GAMESYSTEM_GetGameComm(placeName->gameSystem));
-        myStatus = (s32)GAME_DATA_GetMyStatusByNetId(placeName->gameData, GAME_DATA_GetIntrudeIdByte(placeName->gameData));
+        myStatus = (sptr)GAME_DATA_GetMyStatusByNetId(placeName->gameData, GAME_DATA_GetIntrudeIdByte(placeName->gameData));
         template = MSGDATA_AllocString((struct MsgBank *)placeName->msgData, 3);
         MSGDATA_ReadString((struct MsgBank *)placeName->msgData, placeNameId, placeName->message);
         WORDSET_SetSlotMyStatus(placeName->wordSet, 0, (void *)myStatus);
@@ -794,7 +794,7 @@ int FIELD_PLACE_NAME_UsesIntrudeTemplate(FieldPlaceName *placeName, int zoneId)
     void *fieldStatus;
     int ownNetId;
 
-    intrudeId = (s32)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)GAMESYSTEM_GetGameComm(placeName->gameSystem));
+    intrudeId = (sptr)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)GAMESYSTEM_GetGameComm(placeName->gameSystem));
     fieldStatus = GAME_DATA_GetMoveModelSys(placeName->gameData);
     ownNetId = GAME_DATA_GetOwnNetId(placeName->gameData);
     if (intrudeId != 0) {

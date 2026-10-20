@@ -330,7 +330,7 @@ void ZKND_TBAR_SetButtonDrawEnable(struct Ov208Mgr *p, int enable)
     u32 i;
 
     for (i = 0; i < p->count; i++)
-        ZKND_TBAR_SetActorDrawEnable((void *)((u32)p + 0x28 + i * 0x38), enable);
+        ZKND_TBAR_SetActorDrawEnable((void *)((uptr)p + 0x28 + i * 0x38), enable);
 }
 
 /*
@@ -408,8 +408,8 @@ struct Ov208Rec *ZKND_TBAR_FindButtonActor(struct Ov208Mgr *p, int key)
     u32 i;
 
     for (i = 0; i < p->count; i++) {
-        if (key == ZKND_TBAR_GetButtonActorBase((char *)((u32)p + 0x28 + i * 0x38)))
-            return (struct Ov208Rec *)((u32)p + 0x28 + i * 0x38);
+        if (key == ZKND_TBAR_GetButtonActorBase((char *)((uptr)p + 0x28 + i * 0x38)))
+            return (struct Ov208Rec *)((uptr)p + 0x28 + i * 0x38);
     }
     return 0;
 }
@@ -451,7 +451,7 @@ void ZKND_TBAR_ReleaseButtonResources(char *p)
     CLACT_ReleasePalette(((struct Ov208Bg *)p)->palette);
     w = ((struct Ov208Bg *)p)->charRange;
     BG_SYS_FreeTileRun(((struct Ov208Bg *)p)->channel, (unsigned short)w, (unsigned short)(w >> 16));
-    MI_CpuFill8((void *)((int)p), 0, 0x14);
+    MI_CpuFill8((void *)((sptr)p), 0, 0x14);
 }
 
 int ZKND_TBAR_GetResourceSlot(int *p, int i)
@@ -463,11 +463,11 @@ void ZKND_TBAR_LoadCellArchive(void *narc, u32 fileId, u32 channel, u32 add, u8 
                          u8 srcH, u8 x, u8 y, u8 w, u8 h, u8 pal, u32 decompress, u16 heap)
 {
     struct Ov208Scrn *scr;
-    u32 file;
+    uptr file;
     int i;
     u16 *d;
 
-    file = (u32)ARC_UTIL_LoadHandleMember(narc, fileId, decompress, (u16)((heap & 0x7fff) | 0x8000));
+    file = (uptr)ARC_UTIL_LoadHandleMember(narc, fileId, decompress, (u16)((heap & 0x7fff) | 0x8000));
     NNS_G2dGetUnpackedScreenData((void *)file, (void **)(&scr));
     if (add != 0 && BG_SYS_GetColorMode((u8)channel) == 0) {
         d = scr->tiles;
@@ -518,7 +518,7 @@ void ZKND_TBAR_CreateButton(struct Ov208Rec *p, u32 owner, const int *res, struc
     }
     p->animSeq = p->desc.idleAnim;
     pos.animSeq = p->desc.idleAnim;
-    p->actor = (u32)CLACT_CreateActor((struct Unit *)owner, i, j, k, (struct ActorInitParam *)(&pos), prio, mode);
+    p->actor = (uptr)CLACT_CreateActor((struct Unit *)owner, i, j, k, (struct ActorInitParam *)(&pos), prio, mode);
     CLACT_SetActorAutoAnim((struct ClactActor *)p->actor, 1);
     switch (p->pressKind) {
     case 0:

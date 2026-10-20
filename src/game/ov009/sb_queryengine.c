@@ -356,7 +356,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
         }
         server->state |= 0x01 | 0x40;
     } else {
-        if (*data && strncmp((const u8 *)gSbQuerySplitNum, (const u8 *)data, 8) == 0) {
+        if (*data && strncmp(gSbQuerySplitNum, data, 8) == 0) {
             SBServerParseQR2FullKeysSplit(server, data, len);
             if (server->splitResponseBitmap != 0xFF)
                 return;
@@ -375,7 +375,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
 static void ParseSingleGOAReply(SBQueryEngine *engine,
                                 SBServer *server, char *data, int len)
 {
-    int isfinal = strstr((u8 *)data, (u8 *)gSbQueryFinal) != 0;
+    int isfinal = strstr(data, gSbQueryFinal) != 0;
     unsigned char flags;
 
     SBServerParseKeyVals(server, data);

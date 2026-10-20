@@ -65,6 +65,7 @@
  */
 
 #include "local_tvt_sys_shared_types.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/bg_sys.h"
 
 /* Opaque CLACT sprite actor, shared with the actor library. */
@@ -267,7 +268,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
         break;
     case 2:
         step=((struct LocalTvtChara *)q)->step*0x3000u;
-        LOCAL_TVT_CHARA_CopyTiles((int)p,(int *)q,base+step,pal+(step+(size*((struct LocalTvtChara *)q)->index+0x10000)),0x3000);
+        LOCAL_TVT_CHARA_CopyTiles((sptr)p,(int *)q,base+step,pal+(step+(size*((struct LocalTvtChara *)q)->index+0x10000)),0x3000);
         ((struct LocalTvtChara *)q)->step++;
         if(((struct LocalTvtChara *)q)->step*0x3000u>=size) {
             ((struct LocalTvtChara *)q)->state.valueU=3;
@@ -282,7 +283,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
         break;
     case 4:
         step=((struct LocalTvtChara *)q)->step*0x3000u;
-        LOCAL_TVT_CHARA_CopyTiles((int)p,(int *)q,base+step,pal+(step+(size*((struct LocalTvtChara *)q)->index+0x28000)),0x3000);
+        LOCAL_TVT_CHARA_CopyTiles((sptr)p,(int *)q,base+step,pal+(step+(size*((struct LocalTvtChara *)q)->index+0x28000)),0x3000);
         ((struct LocalTvtChara *)q)->step++;
         if(((struct LocalTvtChara *)q)->step*0x3000u>=size) {
             ((struct LocalTvtChara *)q)->state.valueU=5;
@@ -355,10 +356,10 @@ void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q)
     if (((struct LocalTvtSys *)p)->charaCount == 2) { step = 0x6000; base = 0; }
     else { step = 0x3000; base = 0x1c00; }
     LOCAL_TVT_CHARA_LoadPalette((char *)p, (char *)q, (d_021B7481 + 4)[((struct LocalTvtChara *)q)->charId * 3]);
-    LOCAL_TVT_CHARA_CopyTiles((int)p, (int *)q, base, step * ((struct LocalTvtChara *)q)->index + 0x10000, step);
+    LOCAL_TVT_CHARA_CopyTiles((sptr)p, (int *)q, base, step * ((struct LocalTvtChara *)q)->index + 0x10000, step);
     GFL_HEAP_Free(((struct LocalTvtChara *)q)->gfx.handlePtr);
     LOCAL_TVT_CHARA_LoadPalette((char *)p, (char *)q, d_021B7481[((struct LocalTvtChara *)q)->subId * 2] + ((struct LocalTvtSys *)p)->timeSlot * 2);
-    LOCAL_TVT_CHARA_CopyTiles((int)p, (int *)q, base, step * ((struct LocalTvtChara *)q)->index + 0x28000, step);
+    LOCAL_TVT_CHARA_CopyTiles((sptr)p, (int *)q, base, step * ((struct LocalTvtChara *)q)->index + 0x28000, step);
     GFL_HEAP_Free(((struct LocalTvtChara *)q)->gfx.handlePtr);
     ((struct LocalTvtChara *)q)->paletteHandle = CLACT_RegisterPaletteCompressed(((struct LocalTvtSys *)p)->arcHandle, (d_021B7481 + 5)[((struct LocalTvtChara *)q)->charId * 3], 0, (u16)((((struct LocalTvtChara *)q)->index * 2 + 4) << 5), ((struct LocalTvtSys *)p)->heapId);
     ((struct LocalTvtChara *)q)->charHandle = CLACT_RegisterCharacter(((struct LocalTvtSys *)p)->arcHandle, (d_021B7481 + 5)[((struct LocalTvtChara *)q)->charId * 3] + 1, 0, 0, ((struct LocalTvtSys *)p)->heapId);
@@ -384,7 +385,7 @@ void LOCAL_TVT_CHARA_LoadPalette(char *p, char *q, int id) {((struct LocalTvtCha
 void LOCAL_TVT_CHARA_CopyTiles(int a, int *b, int c, int d, int e)
 {
     MIi_CpuCopy32(*(int *)((char *)(((struct LocalTvtChara *)b)->tileSrc) + 0x14) + c,
-                  d + 0x06000000, e);
+                  d + HW_BG_VRAM, e);
 }
 
 void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)

@@ -244,7 +244,7 @@ extern unsigned char __lower_mapC[];
 extern char gSBMasterHostFormat[];
 extern char gSBNatNegMagic[];
 
-extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
+extern int strncmp(const char *s1, const char *s2, u32 n);
 extern int strcmp(const char *a, const char *b);
 /*
  * sdk:      prevKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
@@ -276,7 +276,7 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
         diff = strcmp(SBServerGetStringValueA((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), SBServerGetStringValueA((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
         break;
     case 3:
-        diff = strcmp_nocase((unsigned char *)(SBServerGetStringValueA((SBServer *)server1, prevsortkey, (char *)gSBEmptyString)), (unsigned char *)(SBServerGetStringValueA((SBServer *)server2, prevsortkey, (char *)gSBEmptyString)));
+        diff = strcmp_nocase((SBServerGetStringValueA((SBServer *)server1, prevsortkey, (char *)gSBEmptyString)), (SBServerGetStringValueA((SBServer *)server2, prevsortkey, (char *)gSBEmptyString)));
         break;
     default:
         return 0;
@@ -363,7 +363,7 @@ int StrNoCaseKeyCompare(void *entry1, void *entry2)
 	server1 = *(void **)entry1;
 	server2 = *(void **)entry2;
 	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
-	diff = strcmp_nocase((unsigned char *)(SBServerGetStringValueA(server1, currsortkey, (char *)gSBEmptyString)), (unsigned char *)(SBServerGetStringValueA(server2, currsortkey, (char *)gSBEmptyString)));
+	diff = strcmp_nocase((SBServerGetStringValueA(server1, currsortkey, (char *)gSBEmptyString)), (SBServerGetStringValueA(server2, currsortkey, (char *)gSBEmptyString)));
 	if (diff == 0)
 		return prevKeyCompare(server1, server2);
 	if (gSBSortContext.slist->sortascending == 0)
@@ -616,7 +616,7 @@ void ErrorDisconnect(SBServerList *slist)
 	if (len > 0 && len > (unsigned int)strlen((const char *)(q = gSBMasterHostname))) {
 		char *e = gSBMasterHostname;
 		char *s = (char *)slist->inbuffer;
-		if (strncmp((const u8 *)s, (const u8 *)e, (unsigned int)strlen((const char *)e)) == 0) {
+		if (strncmp(s, e, (unsigned int)strlen((const char *)e)) == 0) {
 			SBServerListSetLastError(slist, s + strlen((const char *)q));
 			slist->ListCallback(slist, 5, gSBNullServer, slist->instance);
 		}

@@ -357,7 +357,7 @@
  *   SAVE_CONTROL_INTR_Delete  0x021BD29C  thumb  ov088
  */
 
-#define reg_G3X_DISP3DCNT (*(volatile u16 *)0x04000060)
+#define reg_G3X_DISP3DCNT (*(volatile u16 *)REG_DISP3DCNT_ADDR)
 #define REG_G3X_DISP3DCNT_GO_MASK  0x00002000
 #define REG_G3X_DISP3DCNT_RO_MASK  0x00001000
 #define REG_G3X_DISP3DCNT_AAE_MASK 0x00000010
@@ -410,6 +410,7 @@ struct PtS;
 struct Vec2;
 struct Rec3;
 #include "../arm9/bmp.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/bmp_menu.h"
 #include "../arm9/bmp_menuwork.h"
 #include "../arm9/config.h"
@@ -842,10 +843,10 @@ extern char d_021BD5D4[];
 extern const struct RowInfo gStartMenuRowInfo[];
 extern char d_021BD818[];
 
-#define reg_G2_BLDCNT      (*(volatile u16 *)0x04000050)
-#define reg_G2S_DB_BLDCNT  (*(volatile u16 *)0x04001050)
-#define reg_GX_DISPCNT     (*(volatile u32 *)0x04000000)
-#define reg_GXS_DB_DISPCNT (*(volatile u32 *)0x04001000)
+#define reg_G2_BLDCNT      (*(volatile u16 *)REG_BLDCNT_ADDR)
+#define reg_G2S_DB_BLDCNT  (*(volatile u16 *)REG_DB_BLDCNT_ADDR)
+#define reg_GX_DISPCNT     (*(volatile u32 *)REG_DISPCNT_ADDR)
+#define reg_GXS_DB_DISPCNT (*(volatile u32 *)REG_DB_DISPCNT_ADDR)
 struct Sub02008700Obj;
 struct ProcSys;
 struct Ctrl;
@@ -1103,7 +1104,7 @@ int STARTMENU_TitleDemoMain(int unusedArg0, int unusedArg1, int unusedArg2, Titl
         STARTMENU_TitleDemoUpdateTimer(work);
         break;
     case 4:
-        if (PM_VOICE_IsSlotActive((unsigned int)work->fanfareHandle) == 0) {
+        if (PM_VOICE_IsSlotActive((uptr)work->fanfareHandle) == 0) {
             work->state = 5;
         }
         STARTMENU_TitleDemoUpdateParts(work);
@@ -1140,19 +1141,19 @@ int STARTMENU_TitleDemoExit(int procCtx, int unusedArg1, int unusedArg2, int *pr
     PROCSYS_FreeProcWork((struct Proc *)procCtx);
     GFL_HEAP_DeleteChecked(0x16);
     if (target == 0) {
-        PROCSYS_ReplaceGlobal((u32)ov088_id, (struct ProcData *)d_021BD66C, 0);
+        PROCSYS_ReplaceGlobal((uptr)ov088_id, (struct ProcData *)d_021BD66C, 0);
     } else if (target == 2) {
-        PROCSYS_ReplaceGlobal((u32)ov088_id, (struct ProcData *)d_021BD974, 0);
+        PROCSYS_ReplaceGlobal((uptr)ov088_id, (struct ProcData *)d_021BD974, 0);
     } else if (target == 3) {
-        PROCSYS_ReplaceGlobal((u32)ov168_id, (struct ProcData *)d_02184904, 0);
+        PROCSYS_ReplaceGlobal((uptr)ov168_id, (struct ProcData *)d_02184904, 0);
     }
     return 1;
 }
 
 void STARTMENU_ResetDisplayState(void)
 {
-    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
-    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_ADDR, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR, -16);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(u16 *)0x04000050 = 0;
@@ -1187,8 +1188,8 @@ void STARTMENU_CaptureInit(TitleDemoCapture *capture, int heap)
     BMP_WIN_Init(heap);
     G3D_SYSTEM_Init(0, 2, 0, 2, 0x1000, heap, 0);
     GF_FONT_InitTextColor();
-    capture->taskList = (int)TCBL_Create(heap, heap, 4, 0x20);
-    capture->vblankTask = (int)GFL_USE_AddMainTask((void *)STARTMENU_CaptureVblankTask, capture, 5);
+    capture->taskList = (sptr)TCBL_Create(heap, heap, 4, 0x20);
+    capture->vblankTask = (sptr)GFL_USE_AddMainTask((void *)STARTMENU_CaptureVblankTask, capture, 5);
     BG_SYS_SetLcdSwap(0);
     BG_SYS_ResetSubDisplay();
     capture->captureEva = 12;
@@ -1239,18 +1240,18 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
     BG_SYS_SetPlaneVisible(6, 1);
     BG_SYS_Init(5, 0, 1, 0);
     BG_SYS_SetTileEntry(5, 0, 0, 0, 0x20, 0x20, 0x11);
-    logo->textWindow = (u32)BMP_WIN_Create(5, 0, 0x13, 0x20, 2, 0xA, 0);
-    logo->textBitmap = (u32)BMP_WIN_GetBmp((struct BmpWin *)logo->textWindow);
+    logo->textWindow = (uptr)BMP_WIN_Create(5, 0, 0x13, 0x20, 2, 0xA, 0);
+    logo->textBitmap = (uptr)BMP_WIN_GetBmp((struct BmpWin *)logo->textWindow);
     BMP_Clear((struct Bmp *)logo->textBitmap, 0);
     BMP_WIN_MakeScreen((struct BmpWin *)logo->textWindow);
     BMP_WIN_TransferChars((struct BmpWin *)logo->textWindow);
     logo->windowDirty = 0;
     logo->textWindowCopy = logo->textWindow;
     BG_SYS_PushTile(5);
-    logo->font = (u32)GF_FONT_Create(0x17, 0, 0, 0, heap);
-    logo->printer = (u32)PRINTSYS_QUE_Create((u32)heap);
-    logo->msgBank = (u32)MSGDATA_CreateFromArchive(0, 2, 0xB5, heap);
-    logo->titleText = (u32)STRBUF_Create(0x40, heap);
+    logo->font = (uptr)GF_FONT_Create(0x17, 0, 0, 0, heap);
+    logo->printer = (uptr)PRINTSYS_QUE_Create((u32)heap);
+    logo->msgBank = (uptr)MSGDATA_CreateFromArchive(0, 2, 0xB5, heap);
+    logo->titleText = (uptr)STRBUF_Create(0x40, heap);
     MSGDATA_ReadString((struct MsgBank *)logo->msgBank, 1, (void *)logo->titleText);
     textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)logo->titleText, (struct GfFont *)logo->font, 0);
     PRINTSYS_PrintQueColor((void *)logo->printer, (struct Bmp *)logo->textBitmap, (s16)(0x80 - textWidth / 2), (s16)0, (struct Strbuf *)logo->titleText, (struct GfFont *)logo->font, 0x440);
@@ -1338,7 +1339,7 @@ void STARTMENU_Demo3dInit(TitleDemo3d *demo3d, u32 heap)
     fx32 left;
     fx32 right;
 
-    demo3d->renderer = (u32)G3D_UTIL_Create(7, 3, heap);
+    demo3d->renderer = (uptr)G3D_UTIL_Create(7, 3, heap);
     demo3d->modelId = G3D_UTIL_AddUnit((struct G3dUtil *)demo3d->renderer, (struct G3dUtilSetup *)d_021BD410);
     base = G3D_UTIL_GetUnitObjIdx((struct G3dUtil *)demo3d->renderer, demo3d->modelId);
     G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)G3D_UTIL_GetObject((struct G3dUtil *)demo3d->renderer, base), 0);
@@ -1356,8 +1357,8 @@ void STARTMENU_Demo3dInit(TitleDemo3d *demo3d, u32 heap)
     demo3d->camera = G3D_CAMERA_Create(1, top, bottom, left, right,
                            0x19A, 0x800000, 0x19A,
                            &d_021BD3EC, &d_021BD3F8, &d_021BD404, heap);
-    demo3d->anime = (u32)ICA_ANIME_CreateStream(heap, 0xA0, STARTMENU_DEMO_ANIME_FRAMES, 0xA);
-    demo3d->lightSet = (u32)G3D_LIGHT_CreateSlots((const struct LightSetDesc *)d_021BD3DC, heap);
+    demo3d->anime = (uptr)ICA_ANIME_CreateStream(heap, 0xA0, STARTMENU_DEMO_ANIME_FRAMES, 0xA);
+    demo3d->lightSet = (uptr)G3D_LIGHT_CreateSlots((const struct LightSetDesc *)d_021BD3DC, heap);
     G3D_LIGHT_ApplySlots((struct LightSlot *)demo3d->lightSet);
     BG_SYS_EnableBg0WithPriority(1);
     G3X_AntiAlias(1);
@@ -1425,7 +1426,7 @@ void STARTMENU_SpritesInit(TitleDemoSprites *sprites, int heap)
     void *archive;
     archive = ARC_TOOL_CreateHandle(0x1a, heap);
     CLACT_InitSystem((struct ClactSysInit *)gClActorInitParam, (struct DispVramCfg *)d_021BD508, heap);
-    sprites->unit = (int)CLACT_CreateUnit(0x40, 0, heap);
+    sprites->unit = (sptr)CLACT_CreateUnit(0x40, 0, heap);
     CLACT_SetUnitDefaultRenderer((void *)sprites->unit);
     sprites->charRes = CLACT_RegisterCharacter(archive, 5, 1, 1, heap);
     sprites->paletteRes = CLACT_RegisterPalette(archive, 4, 1, 0, heap);
@@ -1435,7 +1436,7 @@ void STARTMENU_SpritesInit(TitleDemoSprites *sprites, int heap)
     initData.animSeq = 0;
     initData.palOffset = 0;
     initData.priority = 0;
-    sprites->actor = (s32)CLACT_CreateActor((struct Unit *)sprites->unit, sprites->charRes, sprites->paletteRes, sprites->cellRes, (struct ActorInitParam *)(&initData), 1, heap);
+    sprites->actor = (sptr)CLACT_CreateActor((struct Unit *)sprites->unit, sprites->charRes, sprites->paletteRes, sprites->cellRes, (struct ActorInitParam *)(&initData), 1, heap);
     CLACT_SetActorAutoAnim((struct ClactActor *)sprites->actor, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     ARC_TOOL_DeleteHandle(archive);
@@ -1502,31 +1503,31 @@ int STARTMENU_MenuExit(int procCtx, int unusedArg1, int unusedArg2, StartMenuWor
         STARTMENU_ChangeToIntroProc();
         break;
     case 2:
-        PROCSYS_ReplaceGlobal((int)ov121_id, (struct ProcData *)d_021DF538, 0);
+        PROCSYS_ReplaceGlobal((sptr)ov121_id, (struct ProcData *)d_021DF538, 0);
         break;
     case 3:
         procArgs = GFL_HEAP_Alloc(1, 0x14, 0, d_021BDA00, 0x200);
         MI_CpuFill8(procArgs, 0, 0x14);
         ((StartMenuOv199Args *)procArgs)->selection = 0;
         ((StartMenuOv199Args *)procArgs)->fromTitleMenu = 1;
-        PROCSYS_ReplaceGlobal((int)ov199_id, (struct ProcData *)d_02213C4C, procArgs);
+        PROCSYS_ReplaceGlobal((sptr)ov199_id, (struct ProcData *)d_02213C4C, procArgs);
         break;
     case 4:
         PROCSYS_ReplaceGlobal(-1, (struct ProcData *)d_0209DEF0, 0);
         break;
     case 5:
-        PROCSYS_ReplaceGlobal((int)ov016_id, (struct ProcData *)d_021D77AC, 0);
+        PROCSYS_ReplaceGlobal((sptr)ov016_id, (struct ProcData *)d_021D77AC, 0);
         break;
     case 6:
-        PROCSYS_ReplaceGlobal((int)ov168_id, (struct ProcData *)d_02184904, 0);
+        PROCSYS_ReplaceGlobal((sptr)ov168_id, (struct ProcData *)d_02184904, 0);
         break;
     case 7:
         procArgs = GFL_HEAP_Alloc(1, 8, 1, d_021BDA00, 0x216);
         ((StartMenuOv107Args *)procArgs)->fromTitleMenu = 1;
-        PROCSYS_ReplaceGlobal((int)ov107_id, (struct ProcData *)d_021F6D78, procArgs);
+        PROCSYS_ReplaceGlobal((sptr)ov107_id, (struct ProcData *)d_021F6D78, procArgs);
         break;
     default:
-        PROCSYS_ReplaceGlobal((int)ov088_id, (struct ProcData *)d_021BD574, 0);
+        PROCSYS_ReplaceGlobal((sptr)ov088_id, (struct ProcData *)d_021BD574, 0);
         break;
     }
     return 1;
@@ -1967,7 +1968,7 @@ void STARTMENU_VblankTask(void)
 
 void STARTMENU_AddVblankTask(StartMenuWork *work)
 {
-    work->vblankTask = (int)GFL_USE_AddMainTask((void *)STARTMENU_VblankTask, work, 0);
+    work->vblankTask = (sptr)GFL_USE_AddMainTask((void *)STARTMENU_VblankTask, work, 0);
 }
 
 void STARTMENU_RemoveVblankTask(StartMenuWork *work)
@@ -2070,11 +2071,11 @@ void STARTMENU_DeleteBlinkPalette(StartMenuWork *work)
 void STARTMENU_CreateTextSystem(StartMenuWork *work)
 {
     work->msgBank = (void *)MSGDATA_CreateFromArchive(0, 2, 0xb3, 0xb);
-    work->font = (u32)GF_FONT_Create(0x17, 0, 0, 0, 0xb);
+    work->font = (uptr)GF_FONT_Create(0x17, 0, 0, 0, 0xb);
     work->wordSet = (void *)WORDSET_CreateDefault(0xb);
     work->printSys = (void *)PRINTSYS_QUE_Create((u32)0xb);
     work->stringBuf = (void *)STRBUF_Create(0x400, 0xb);
-    work->taskList = (u32)TCBL_Create(0xb, 0xb, 1, 4);
+    work->taskList = (uptr)TCBL_Create(0xb, 0xb, 1, 4);
     work->msgBoxFrame = (void *)APP_KEYCURSOR_CreateDefault(0xf, 1, 0, 0xb);
 }
 
@@ -2133,7 +2134,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
         zoneName = (void *)ZONEDATA_GetPlaceNameId(locationBuf[0]);
     }
     ZONEDATA_Exit();
-    WORDSET_SetSlotFromMsg59(work->wordSet, 0, (u32)zoneName);
+    WORDSET_SetSlotFromMsg59(work->wordSet, 0, (uptr)zoneName);
     WORDSET_CopyTaggedText(work->wordSet, work->stringBuf, msgStr);
     printSys = work->printSys;
     PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->windows[2].window), 0, 0, work->stringBuf, (struct GfFont *)work->font, 0x440);
@@ -2329,8 +2330,8 @@ void STARTMENU_DeleteFrameManager(StartMenuWork *work)
 
 void STARTMENU_StartBrightnessEffect(void)
 {
-    G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 16, 3);
-    G2x_SetBlendAlpha_((void *)0x04001050, 2, 4, 16, 3);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 4, 8, 16, 3);
+    G2x_SetBlendAlpha_((void *)REG_DB_BLDCNT_ADDR, 2, 4, 16, 3);
 }
 
 void STARTMENU_BuildRowList(StartMenuWork *work)
@@ -2455,9 +2456,9 @@ void STARTMENU_DrawRowFrame(StartMenuWork *work, u32 rowId, u32 tileY)
 {
     u8 tileYByte = tileY;
     u16 rowHeight = gStartMenuRowInfo[rowId].height;
-    u32 frameBuffer;
+    uptr frameBuffer;
     BG_SYS_DrawTileEx(2, 3, tileYByte, 0x1a, rowHeight, (work->rowBuffers[rowId]), 0, 0, 0x1a, rowHeight);
-    frameBuffer = (u32)BGWINFRM_GetFrameBuffer(work->frameManager, rowId);
+    frameBuffer = (uptr)BGWINFRM_GetFrameBuffer(work->frameManager, rowId);
     BG_SYS_DrawTileEx(1, 3, tileYByte, 0x1a, rowHeight, ((void *)frameBuffer), 0, 0, 0x1a, rowHeight);
     BG_SYS_MarkTileDirty(1);
     BG_SYS_MarkTileDirty(2);
@@ -2601,8 +2602,8 @@ void STARTMENU_ClearFrameBox(u8 x, u8 y, u8 w, u8 h, u8 bg)
 
 static inline void PrintMessageLine(StartMenuWork *work, u32 id, u32 pixelY, u16 color)
 {
-    u32 msgStr = (u32)MSGDATA_AllocString((struct MsgBank *)(work->msgBank), id);
-    u32 printSys = (unsigned int)work->printSys;
+    u32 msgStr = (uptr)MSGDATA_AllocString((struct MsgBank *)(work->msgBank), id);
+    u32 printSys = (uptr)work->printSys;
     PRINTSYS_PrintQueColor((void *)printSys, BMP_WIN_GetBmp((struct BmpWin *)work->descWindow), 0, pixelY, (struct Strbuf *)msgStr, (struct GfFont *)work->font, color);
     work->descWindowOpen = 1;
     STRBUF_Delete((struct Strbuf *)msgStr);
@@ -2666,13 +2667,13 @@ void STARTMENU_CloseInfoWindow(StartMenuWork *work)
 
 void STARTMENU_OpenNoticeWindow(StartMenuWork *work)
 {
-    u32 noticeBank = (u32)MSGDATA_CreateFromArchive(0, 2, 0xe8, 0x800b);
-    u32 msgStr;
-    u32 printSys;
+    u32 noticeBank = (uptr)MSGDATA_CreateFromArchive(0, 2, 0xe8, 0x800b);
+    uptr msgStr;
+    uptr printSys;
 
     work->descWindow = (void *)BMP_WIN_Create(0, 2, 2, 0x1e, 0x14, 5, 1);
-    msgStr = (u32)MSGDATA_AllocString((struct MsgBank *)noticeBank, 0x20);
-    printSys = (unsigned int)work->printSys;
+    msgStr = (uptr)MSGDATA_AllocString((struct MsgBank *)noticeBank, 0x20);
+    printSys = (uptr)work->printSys;
     PRINTSYS_PrintQueColor((void *)printSys, BMP_WIN_GetBmp((struct BmpWin *)work->descWindow), 0, 0, (struct Strbuf *)msgStr, (struct GfFont *)work->font, 0x440);
     work->descWindowOpen = 1;
     STRBUF_Delete((struct Strbuf *)msgStr);
@@ -2789,17 +2790,17 @@ int STARTMENU_RefreshSaveStatus(StartMenuWork *work)
 
 void STARTMENU_ChangeToIntroProc(void)
 {
-    PROCSYS_ReplaceGlobal((u32)ov088_id, (struct ProcData *)d_021BD818, 0);
+    PROCSYS_ReplaceGlobal((uptr)ov088_id, (struct ProcData *)d_021BD818, 0);
 }
 
 void STARTMENU_ReplaceWithBattleFlagProcWithSave(void)
 {
-    PROCSYS_ReplaceGlobal((u32)ov088_id, &gStartMenuBattleFlagProcData, (void *)1);
+    PROCSYS_ReplaceGlobal((uptr)ov088_id, &gStartMenuBattleFlagProcData, (void *)1);
 }
 
 void STARTMENU_ReplaceWithBattleFlagProcNoSave(void)
 {
-    PROCSYS_ReplaceGlobal((u32)ov088_id, &gStartMenuBattleFlagProcData, (void *)2);
+    PROCSYS_ReplaceGlobal((uptr)ov088_id, &gStartMenuBattleFlagProcData, (void *)2);
 }
 
 /*
@@ -2818,7 +2819,7 @@ int STARTMENU_NewGameIntroInit(struct Proc *proc)
 
     saveControl = SAVE_CONTROL_Get();
     work = PROCSYS_AllocProcWork(proc, 0x5c, 1);
-    work->saveIntr = SAVE_CONTROL_INTR_Create((s32)1, (s32)saveControl);
+    work->saveIntr = SAVE_CONTROL_INTR_Create((s32)1, (sptr)saveControl);
     SAVE_CONTROL_ResetToNewGame(saveControl);
     work->myStatus = MYSTATUS_Create(1);
     work->config = CONFIG_Create(1);
@@ -2829,17 +2830,17 @@ int STARTMENU_NewGameIntroInit(struct Proc *proc)
     work->procSys = PROCSYS_Create(1);
 
     nameInOverlayId = ov194_id;
-    GF_OVERLAY_Load((int)nameInOverlayId);
+    GF_OVERLAY_Load((sptr)nameInOverlayId);
     nameInCount = gNameInWaveArcCount;
     for (i = 0; i < nameInCount; i++)
         waveArcIds[i] = gNameInWaveArcIds[i];
-    GF_OVERLAY_Unload((int)nameInOverlayId);
+    GF_OVERLAY_Unload((sptr)nameInOverlayId);
 
-    GF_OVERLAY_Load((int)ov204_id);
+    GF_OVERLAY_Load((sptr)ov204_id);
     introCount = gIntroWaveArcCount;
     for (i = 0; i < introCount; i++)
         waveArcIds[nameInCount + i] = gIntroWaveArcIds[i];
-    GF_OVERLAY_Unload((int)ov204_id);
+    GF_OVERLAY_Unload((sptr)ov204_id);
 
     work->waveArcSet = (struct WaveArcSet *)GFL_USE_LoadWaveArcSet(waveArcIds, nameInCount + introCount);
     voiceHandle = PM_VOICE_Prepare(0x23c, 0, 0x40, 0, 0, 0, 0, 0);
@@ -2866,7 +2867,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
     busy = PROCSYS_Main(work->procSys);
     switch (*seq) {
     case 0:
-        PROCSYS_Push(work->procSys, (u32)ov204_id, &gIntroProcData, &work->introParam);
+        PROCSYS_Push(work->procSys, (uptr)ov204_id, &gIntroProcData, &work->introParam);
         *seq = 1;
         break;
     case 1:
@@ -2876,7 +2877,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
     case 2:
         work->nameInArgs->species = MYSTATUS_GetSex(work->startArg.myStatus);
         work->nameInArgs->saveIntr = work->saveIntr;
-        PROCSYS_Push(work->procSys, (u32)ov194_id, &gNameInProcData, work->nameInArgs);
+        PROCSYS_Push(work->procSys, (uptr)ov194_id, &gNameInProcData, work->nameInArgs);
         *seq = 3;
         break;
     case 3:
@@ -2886,7 +2887,7 @@ int STARTMENU_NewGameIntroMain(void *proc, int *seq, void *procWork, NewGameIntr
     case 4:
         STARTMENU_SetNewPlayerNameAndGender(work->myStatus, work->nameInArgs->name, MYSTATUS_GetSex(work->myStatus));
         work->introParam.phase = 7;
-        PROCSYS_Push(work->procSys, (u32)ov204_id, &gIntroProcData, &work->introParam);
+        PROCSYS_Push(work->procSys, (uptr)ov204_id, &gIntroProcData, &work->introParam);
         *seq = 6;
         break;
     case 6:
@@ -2919,12 +2920,12 @@ int STARTMENU_NewGameIntroEnd(struct Proc *proc, int *seq, void *procWork, NewGa
     GFL_HEAP_Free(work->config);
     PROCSYS_Delete((struct ProcSys *)work->procSys);
     if (SAVE_CONTROL_GetOutsideSaveLoaded(saveControl) == 1) {
-        GF_OVERLAY_Load((int)ov228_id);
+        GF_OVERLAY_Load((sptr)ov228_id);
         ov228Work = SAVE_OUTSIDE_Load(1);
         if (SAVE_OUTSIDE_IsLoaded(ov228Work) == 1)
             SAVE_OUTSIDE_CopyPayload(ov228Work, saveControl);
         SAVE_OUTSIDE_Free(ov228Work);
-        GF_OVERLAY_Unload((int)ov228_id);
+        GF_OVERLAY_Unload((sptr)ov228_id);
     }
     gameSystemWork = GAMESYSTEM_SetupInitWork(0, 0, (struct VecFx32 *)(&pos), 0);
     NAMEIN_SETUP_FreeArgs((struct NameInArgs *)work->nameInArgs);
@@ -3085,8 +3086,8 @@ int STARTMENU_ConfigPromptMain(int proc, int seq, NewGameStartArg *startArg, Con
  */
 void STARTMENU_ConfigPromptSetupGraphics(ConfigPromptWork *work)
 {
-    GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
-    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_ADDR, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR, -16);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     BG_SYS_SetVramBanks((const struct DispVram *)d_021BD8B8);
@@ -3118,26 +3119,26 @@ void STARTMENU_InitBgLayer(const void *bgTemplate, int bgId)
 
 void STARTMENU_ConfigPromptDrawQuestion(ConfigPromptWork *work)
 {
-    u32 msgArc;
-    u32 text;
+    uptr msgArc;
+    uptr text;
     u8 i;
 
-    msgArc = (u32)MSGDATA_CreateFromArchive(0, 2, 0xab, 0x39);
+    msgArc = (uptr)MSGDATA_CreateFromArchive(0, 2, 0xab, 0x39);
     work->selectedChoice = 0;
     work->questionWin = (void *)BMP_WIN_Create((int)5, (int)1, (u8)0x13, (int)0x1d, (int)4, (int)0, (int)1);
     BMP_WIN_MakeScreen((struct BmpWin *)work->questionWin);
-    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)work->questionWin)), 0xf);
-    text = (u32)MSGDATA_AllocString((struct MsgBank *)msgArc, work->question);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->questionWin)), 0xf);
+    text = (uptr)MSGDATA_AllocString((struct MsgBank *)msgArc, work->question);
     BMP_MENUWORK_DrawWindow(work->questionWin, 0, 1, 1);
-    PRINTSYS_Print((void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)work->questionWin)), 2, 2, (void *)text, work->font);
+    PRINTSYS_Print((void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->questionWin)), 2, 2, (void *)text, work->font);
     STRBUF_Delete((struct Strbuf *)text);
     BMP_WIN_TransferChars((struct BmpWin *)work->questionWin);
     for (i = 0; i < 2; i++) {
         work->choiceWin[i] = (void *)BMP_WIN_Create((int)1, (int)6, (u8)(i * 4 + 0xc), (int)0x14, (int)2, (int)0, (int)1);
         BMP_WIN_MakeScreen((struct BmpWin *)work->choiceWin[i]);
-        BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)work->choiceWin[i])), 0xf);
-        text = (u32)MSGDATA_AllocString((struct MsgBank *)msgArc, i + 5 + work->question * 2);
-        PRINTSYS_Print((void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)work->choiceWin[i])), 2, 2, (void *)text, work->font);
+        BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->choiceWin[i])), 0xf);
+        text = (uptr)MSGDATA_AllocString((struct MsgBank *)msgArc, i + 5 + work->question * 2);
+        PRINTSYS_Print((void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->choiceWin[i])), 2, 2, (void *)text, work->font);
         STRBUF_Delete((struct Strbuf *)text);
         BMP_WIN_TransferChars((struct BmpWin *)work->choiceWin[i]);
     }
@@ -3215,7 +3216,7 @@ s32 STARTMENU_ConfigPromptPulseColor(ConfigPromptWork *work)
     red = (u8)(0x19 + (halfSine * -0x14 >> 12));
     green = (u8)(0x1e + (halfSine * -0xf >> 12));
     work->pulseColor = red | (green << 5) | (blue << 10);
-    return NNS_GfdRegisterNewVramTransferTask((void *)0xf, 0x6c, (u32)(&work->pulseColor), 2);
+    return NNS_GfdRegisterNewVramTransferTask((void *)0xf, 0x6c, (uptr)(&work->pulseColor), 2);
 }
 
 int STARTMENU_LogoScreenInit(struct Proc *proc)
@@ -3262,12 +3263,12 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
         BG_SYS_InitBgLayer(1, (const struct BgTemplate *)d_021BD904, 0);
         BG_SYS_InitBgLayer(5, (const struct BgTemplate *)d_021BD924, 0);
         if (*variant == 1) {
-            GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, -16);
-            GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
+            GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_ADDR, -16);
+            GXx_SetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR, -16);
             work->state = 7;
         } else {
-            GXx_SetMasterBrightness_((volatile u16 *)0x0400006C, 16);
-            GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, 16);
+            GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_ADDR, 16);
+            GXx_SetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR, 16);
             work->state = 1;
         }
         break;
@@ -3413,7 +3414,7 @@ int STARTMENU_SaveEraseEnd(int proc)
 {
     PROCSYS_FreeProcWork((struct Proc *)proc);
     GFL_HEAP_DeleteChecked(0x81);
-    PROCSYS_ReplaceGlobal((u32)ov088_id, (struct ProcData *)d_021BD574, 0);
+    PROCSYS_ReplaceGlobal((uptr)ov088_id, (struct ProcData *)d_021BD574, 0);
     return 1;
 }
 
@@ -3505,9 +3506,9 @@ void STARTMENU_SaveEraseStepErase(SaveEraseWork *work, int *seq)
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(work->window));
         GFL_USE_SetVBlankHook(STARTMENU_SaveEraseUpdateTimeIcon, 0);
         saveControl = SAVE_CONTROL_Get();
-        GF_OVERLAY_Load((u32)ov228_id);
+        GF_OVERLAY_Load((uptr)ov228_id);
         SAVE_OUTSIDE_ClearFlash(0x81);
-        GF_OVERLAY_Unload((u32)ov228_id);
+        GF_OVERLAY_Unload((uptr)ov228_id);
         SAVE_CONTROL_EraseMainSave(saveControl);
         for (slot = 0; slot < 9; slot++) {
             if (SAVE_CONTROL_LoadExtraSave(saveControl, slot, 0x81) == 1)
@@ -3618,7 +3619,7 @@ void STARTMENU_SaveEraseStartMessage(SaveEraseWork *work, u32 messageId)
     void *window;
 
     MSGDATA_ReadString((struct MsgBank *)work->msgBank, messageId, work->stringBuf);
-    BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp((struct BmpWin *)work->window)), 15);
+    BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)work->window)), 15);
     BMP_MENUWORK_DrawWindow(work->window, 2, 1, 14);
     work->printJob = (void *)PRINTSYS_PrintStream(work->window, 0, 0, work->stringBuf, work->font, MSG_SPEED_GetWaitForSpeed(0), work->taskList, 10, 0x81, 15);
     work->printAdvanceLatched = 0;

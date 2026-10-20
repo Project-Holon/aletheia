@@ -40,7 +40,7 @@ void WIFILOGIN_COMMON_SetStateHandler(u8 *p, u32 handler) { ((struct WifiloginWo
 /* Flag the state when this console's aid is not the one the handle reports. */
 void WIFILOGIN_COMMON_CheckLocalAid(u32 localAid, u32 unused1, u32 unused2, u8 *state, u32 handle)
 {
-    if (handle == (u32)GFL_NET_HANDLE_GetCurrentHandle() && localAid != GFL_NET_SYSTEM_GetCurrentAid()) {
+    if (handle == (uptr)GFL_NET_HANDLE_GetCurrentHandle() && localAid != GFL_NET_SYSTEM_GetCurrentAid()) {
         ((struct WifiloginState *)state)->aidMismatch = 1;
     }
 }

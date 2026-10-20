@@ -180,8 +180,8 @@
  *   _SeSlots                     0x020AA294  data
  *   _SndTrackInfo                0x020AA414  data
  */
-#define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
-#define reg_IME      (*(volatile u16 *)0x04000208)
+#define reg_EXMEMCNT (*(volatile u16 *)REG_EXMEMCNT_ADDR)
+#define reg_IME      (*(volatile u16 *)REG_IME_ADDR)
 struct SaveCtrl;
 struct SaveData;
 struct Config;
@@ -189,6 +189,7 @@ struct TcbList;
 struct TcbTask;
 struct SndHeap;
 #include "../types.h"
+#include "../sdk_ioreg.h"
 #include "tcb_list.h"
 
 #include "../sdk_os.h"
@@ -609,8 +610,8 @@ void GFL_USE_InitGameSystems(void)
 {
     int netHeapId = 0xC;
 
-    GF_OVERLAY_Load((int)ov010_id);
-    GF_OVERLAY_Load((int)ov011_id);
+    GF_OVERLAY_Load((sptr)ov010_id);
+    GF_OVERLAY_Load((sptr)ov011_id);
     PRINTSYS_Init(0);
     GFL_NET_SetupHeaps(1, 0, 1, netHeapId);
     WIH_DWC_CreateFilterBuffer(netHeapId);
@@ -621,7 +622,7 @@ void GFL_USE_InitGameSystems(void)
     MSG_SPEED_SetSaveControl(SAVE_CONTROL_Get());
     GFL_NET_ERR_CreateHeap();
     GFL_NET_ERR_Init(8);
-    GF_PANIC_SetFailHook((u32)&GFL_NET_ERR_ExitAndHalt);
+    GF_PANIC_SetFailHook((uptr)&GFL_NET_ERR_ExitAndHalt);
     WORDSET_LoadSpeciesNameBank(0);
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();
@@ -736,7 +737,7 @@ void GFL_USE_InitSdk(void)
     NNS_GfdInitVramTransferTaskQueue(_TwlServiceBuf, 0x30);
     if (APP_ENV_IsRunOnTwl()) {
         _PreExitState[0] = 0;
-        _PreExitState[1] = (u32)GFL_USE_OnPreExit;
+        _PreExitState[1] = (uptr)GFL_USE_OnPreExit;
         _PreExitState[2] = 0;
         PM_AppendPreExitCallback((struct PMiGenCallbackInfo *)_PreExitCallbackInfo);
     }
@@ -836,7 +837,7 @@ void GFL_USE_InitSystem(void)
 {
     if (OS_IsRunOnTwl() == 0) {
         void *hi = (void *)OS_GetArenaHi(0);
-        OS_SetArenaLo(0, (u32)OS_InitAlloc(0, (void *)OS_GetArenaLo((u32)0), hi, 1));
+        OS_SetArenaLo(0, (uptr)OS_InitAlloc(0, (void *)OS_GetArenaLo((u32)0), hi, 1));
         _GflUse.extraHeap = OS_CreateExtraHeap(0);
         _GflUse.extraHeapBlock = OS_AllocFromHeap(0, _GflUse.extraHeap, 0x3F00);
     }
@@ -863,7 +864,7 @@ void GFL_USE_InitSystem(void)
     if (OS_GetConsoleType() & 0x81000000) {
         GF_PANIC_RegisterDefaultHandlers();
     } else {
-        GF_PANIC_SetHandlers(0, 0, (u32)GFL_USE_WaitInputReady);
+        GF_PANIC_SetHandlers(0, 0, (uptr)GFL_USE_WaitInputReady);
     }
 
     GF_OVERLAY_Init(0, 0x10, 4, 4);
@@ -877,7 +878,7 @@ void GFL_USE_InitSystem(void)
 
     GFL_USE_InitRandom();
     FADE_Create(0);
-    BACKUP_SYSTEM_Init(7, (u32)APP_POWER_ClearCallback, (u32)APP_POWER_SetCallback);
+    BACKUP_SYSTEM_Init(7, (uptr)APP_POWER_ClearCallback, (uptr)APP_POWER_SetCallback);
     TEXTPRINT_Init(0);
     GF_STANDARD_InitRtc();
     _GflUse.frameCount = 0;
@@ -1561,7 +1562,7 @@ void GFL_USE_InitSound(void)
     struct SndHeap *heap;
 
     NNS_SndInit();
-    heap = (struct SndHeap *)NNS_SndHeapCreate((unsigned int)_SndHeapBuf, 0x95AD0);
+    heap = (struct SndHeap *)NNS_SndHeapCreate((uptr)_SndHeapBuf, 0x95AD0);
     _SndState.heap = heap;
     NNS_SndArcInit((struct NNSSndArc *)_SndArc, _SndArcPath, (unsigned int *)heap, 0);
     GFL_USE_ResetSound(1);
@@ -1739,7 +1740,7 @@ int GFL_USE_IsLoaderBusy(void)
  */
 int GFL_USE_IsCardIrqEnabled(void)
 {
-    if (*(volatile u32 *)0x04000210 & 0x80000) {
+    if (*(volatile u32 *)REG_IE_ADDR & 0x80000) {
         return 1;
     }
     return 0;
@@ -1823,7 +1824,7 @@ u32 GFL_USE_PlayBgm(u32 bgmNo, u32 trackMask)
     if (GFL_USE_LoadBgmData(bgmNo) == 0) {
         return 0;
     }
-    started = NNS_SndArcPlayerStartSeqEx((u32)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_BGM, -1, -1, bgmNo);
+    started = NNS_SndArcPlayerStartSeqEx((uptr)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_BGM, -1, -1, bgmNo);
     if (started == 0) {
         return zero;
     }
@@ -1863,7 +1864,7 @@ void GFL_USE_PlayFanfare(u32 seqNo)
     if (GFL_USE_LoadBgmData(seqNo) == 0) {
         return;
     }
-    NNS_SndArcPlayerStartSeqEx((u32)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_FANFARE, -1, -1, seqNo);
+    NNS_SndArcPlayerStartSeqEx((uptr)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_FANFARE, -1, -1, seqNo);
 }
 
 void GFL_USE_SetBgmPaused(u32 value)
@@ -2113,7 +2114,7 @@ void GFL_USE_UpdateBgmChange(void)
         if (GFL_USE_IsLoaderDone() == 1) {
             NNS_SndArcSetReadChunkSize(0);
             GFL_USE_FinishBgmLoad(_SndState.changeBgm);
-            NNS_SndArcPlayerStartSeqEx((u32)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
+            NNS_SndArcPlayerStartSeqEx((uptr)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
             NNS_SndHandleSetVolume(handle, 0);
             _SndState.changePhase = BGM_CHANGE_FADE;
             return;
@@ -2172,7 +2173,7 @@ void GFL_USE_PlaySeInSlot(u32 seqNo, int slot)
         return;
     }
     _SeSlots[slot].seqNo = 0;
-    if (NNS_SndArcPlayerStartSeqEx((u32)(&_SeSlots[slot].handle), slot + 1, -1, -1, seqNo) == 1) {
+    if (NNS_SndArcPlayerStartSeqEx((uptr)(&_SeSlots[slot].handle), slot + 1, -1, -1, seqNo) == 1) {
         _SeSlots[slot].seqNo = seqNo;
     }
 }
@@ -2187,7 +2188,7 @@ void GFL_USE_PlaySe(u32 seqNo, u32 volume)
     }
     slot = GFL_USE_GetSeSlot(seqNo);
     _SeSlots[slot].seqNo = 0;
-    if (NNS_SndArcPlayerStartSeq((u32)(&_SeSlots[slot].handle), seqNo) != 1) {
+    if (NNS_SndArcPlayerStartSeq((uptr)(&_SeSlots[slot].handle), seqNo) != 1) {
         return;
     }
     _SeSlots[slot].seqNo = seqNo;
@@ -2314,7 +2315,7 @@ void GFL_USE_StartLoaderThread(u32 bgmNo, int mode)
         break;
     }
     OS_WakeupThreadDirect(&_WorkerThread);
-    _SndState.loaderThread = (u32)&_WorkerThread;
+    _SndState.loaderThread = (uptr)&_WorkerThread;
 }
 
 /* Destroy the loader thread when it was started and has not finished. */
@@ -2381,7 +2382,7 @@ u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort)
 
                 NNS_SndArcSetReadChunkSize(0);
                 GFL_USE_FinishBgmLoad(bgmNo);
-                NNS_SndArcPlayerStartSeqEx((u32)(GFL_USE_GetCurrentSndHandle()), 0, zero - 1, zero - 1, bgmNo);
+                NNS_SndArcPlayerStartSeqEx((uptr)(GFL_USE_GetCurrentSndHandle()), 0, zero - 1, zero - 1, bgmNo);
                 (*step)++;
                 return 1;
             }
@@ -2459,7 +2460,7 @@ int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 sr
 /* Start a sequence on the current handle. */
 void GFL_USE_StartSeq(u32 seqNo)
 {
-    NNS_SndArcPlayerStartSeq((u32)(GFL_USE_GetCurrentSndHandle()), seqNo);
+    NNS_SndArcPlayerStartSeq((uptr)(GFL_USE_GetCurrentSndHandle()), seqNo);
 }
 
 /* Same body as GFL_USE_StopBgm: stop the current sequence and drop its data. */

@@ -45,7 +45,6 @@ typedef union tagU4B {
     unsigned char b[4];
 } tagU4B;
 
-typedef unsigned int size_t;
 #include "msl_string_mem.h"
 extern void decodeSSID(char *ssid, unsigned char *buf);
 #include "mi_memory.h"

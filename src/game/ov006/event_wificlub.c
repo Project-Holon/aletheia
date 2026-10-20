@@ -199,7 +199,8 @@ void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work);
 void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hideFieldObjects);
 int EVENT_WIFICLUB_Create(int gameSystem, int fieldMap, int hideFieldObjects);
 int EVENT_WIFICLUB_Entry(int gameSystem, Pair *request);
-extern const char gNetSaveMainProc[],gNetSaveRetryProc[],d_021DCCA4[],d_021F03C4[],d_021C37E8[];
+extern const char gNetSaveMainProc[],gNetSaveRetryProc[],d_021DCCA4[],d_021C37E8[];
+extern NetCommandEntry d_021F03C4[];
 extern const char d_0215513C[],d_021E75C0[],d_02154C80[],d_02208C40[],d_021C7240[];
 extern char ov008_id[],ov067_id[],ov127_id[],ov115_id[],ov099_id[];
 extern char ov134_id[],ov093_id[],ov119_id[],ov195_id[],ov172_id[];
@@ -502,7 +503,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         } else {
             EVENT_WIFICLUB_SetBattleParty(work, (void *)GAMESYSTEM_GetGameData(gameSystem), step);
             GF_OVERLAY_Load((sptr)ov093_id);
-            GFL_NET_COMMAND_AddCommandTable(0x100, (uptr)d_021F03C4, 9, 0);
+            GFL_NET_COMMAND_AddCommandTable(0x100, d_021F03C4, 9, 0);
             GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 100, 10);
             ++*seq;
         }

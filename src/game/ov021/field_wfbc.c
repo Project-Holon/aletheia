@@ -212,9 +212,9 @@ int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, 
         patch = (struct LandDataPatch *)LAND_DATA_PATCH_Create(cell.blockId, (u16)((heapId & 0x7FFF) | 0x8000));
         offsetZ = cell.pos.offsetZ;
         offsetX = cell.pos.offsetX;
-        LAND_DATA_PATCH_OverwriteAttr((unsigned int)patch, attrBuf, offsetX * 8, offsetZ * 8, dstX, dstZ, 8, 8);
+        LAND_DATA_PATCH_OverwriteAttr((uptr)patch, attrBuf, offsetX * 8, offsetZ * 8, dstX, dstZ, 8, 8);
         if (offsetX == 0 && offsetZ == 0) {
-            modelNum = LAND_DATA_PATCH_AddBuildModels((unsigned int)patch, buildModelMan, mapBlockIndex, modelNum, dstX, dstZ);
+            modelNum = LAND_DATA_PATCH_AddBuildModels((uptr)patch, buildModelMan, mapBlockIndex, modelNum, dstX, dstZ);
         }
         LAND_DATA_PATCH_Delete((void **)patch);
     }

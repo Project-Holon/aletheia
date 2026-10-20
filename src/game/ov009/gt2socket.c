@@ -78,7 +78,6 @@ struct GTI2Connection;
 #include "gsplatformutil.h"
 #include "gt2utility.h"
 #include "gsmemory.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "darray.h"
 #include "gsplatformsocket.h"

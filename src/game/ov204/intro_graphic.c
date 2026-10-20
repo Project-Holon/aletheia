@@ -120,8 +120,9 @@
  *   G3D_LIGHT_DeleteSlots        0x02048C4C  arm
  */
 #include "intro_types.h"
+#include "../sdk_ioreg.h"
 
-#define REG3D (*(volatile unsigned short *)0x04000060)
+#define REG3D (*(volatile unsigned short *)REG_DISP3DCNT_ADDR)
 
 struct Proc;
 struct GfFont;
@@ -344,7 +345,7 @@ extern const struct LightSet d_021BFD54;
 int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args)
 {
     IntroGraphicWork *work;
-    GF_OVERLAY_Load((int)ov067_id);
+    GF_OVERLAY_Load((sptr)ov067_id);
     GFL_HEAP_CreateChildHeap(1, 111, 0x100000);
     work = PROCSYS_AllocProcWork(owner, 0x24, 111);
     MI_CpuFill8(work, 0, 0x24);
@@ -356,7 +357,7 @@ int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args)
     work->mcss = INTRO_MCSS_Create(work->heapId, ((IntroArgs *)work->args)->mode);
     work->g3d = INTRO_G3D_Create(work->display, ((IntroArgs *)work->args)->mode, work->heapId);
     work->particle = INTRO_PARTICLE_Create(work->display, work->heapId);
-    work->cmdWork = INTRO_CMD_Create(work->g3d, (unsigned)work->particle, (unsigned)work->mcss, work->args, (unsigned)work->display, work->heapId);
+    work->cmdWork = INTRO_CMD_Create(work->g3d, (uptr)work->particle, (uptr)work->mcss, work->args, (uptr)work->display, work->heapId);
     return 1;
 }
 
@@ -374,7 +375,7 @@ int INTRO_GRAPHIC_Delete(struct Proc *owner, int unused1, int unused2, char *p)
     heap = work->heapId;
     PROCSYS_FreeProcWork(owner);
     GFL_HEAP_DeleteChecked((unsigned)heap);
-    GF_OVERLAY_Unload((unsigned)ov067_id);
+    GF_OVERLAY_Unload((uptr)ov067_id);
     return 1;
 }
 
@@ -398,7 +399,7 @@ static inline void Shading(GXShading mode) { REG3D = (unsigned short)((REG3D & ~
 
 static inline void AntiAlias(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 0x10); else REG3D &= (unsigned short)~0x3010; }
 
-static inline void AlphaTest(BOOL enable, int ref) { if (enable) { REG3D = (unsigned short)((REG3D & ~0x3000) | 4); *(volatile unsigned short *)0x04000340 = ref; } else REG3D &= (unsigned short)~0x3004; }
+static inline void AlphaTest(BOOL enable, int ref) { if (enable) { REG3D = (unsigned short)((REG3D & ~0x3000) | 4); *(volatile unsigned short *)REG_ALPHA_TEST_REF_ADDR = ref; } else REG3D &= (unsigned short)~0x3004; }
 
 static inline void AlphaBlend(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 8); else REG3D &= (unsigned short)~0x3008; }
 
@@ -441,16 +442,16 @@ void *INTRO_GRAPHIC_CreateDisplay(int swap, int mode, u16 heap)
     if (mode==7) {
         BG_SYS_SetVramBanks(&d_021BFE4C);
         INTRO_GRAPHIC_InitBg7(disp,heap);
-        INTRO_GRAPHIC_InitClact(&disp->clact,(u32)&d_021BFE1C,heap);
+        INTRO_GRAPHIC_InitClact(&disp->clact,(uptr)&d_021BFE1C,heap);
         INTRO_GRAPHIC_InitCamera7(&disp->camera,heap);
     } else {
         BG_SYS_SetVramBanks(&d_021BFE1C);
         INTRO_GRAPHIC_InitBg(disp,heap);
-        INTRO_GRAPHIC_InitClact(&disp->clact,(u32)&d_021BFE1C,heap);
+        INTRO_GRAPHIC_InitClact(&disp->clact,(uptr)&d_021BFE1C,heap);
         INTRO_GRAPHIC_InitCamera(&disp->camera,heap);
     }
     GF_FONT_InitTextColor();
-    disp->vblank=GFL_USE_AddMainTask((TcbFunc)((u32)INTRO_GRAPHIC_VBlank),(void *)((u32)disp),0);
+    disp->vblank=GFL_USE_AddMainTask((TcbFunc)((uptr)INTRO_GRAPHIC_VBlank),(void *)((uptr)disp),0);
     return disp;
 }
 
@@ -576,7 +577,7 @@ void INTRO_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
 
 void INTRO_GRAPHIC_VBlankClact(void *unused){CLACT_VBlankSystem();}
 
-unsigned INTRO_GRAPHIC_GetClactBank(IntroClact *clact){return (unsigned)clact->bank;}
+unsigned INTRO_GRAPHIC_GetClactBank(IntroClact *clact){return (uptr)clact->bank;}
 
 /*
  * lever: the fourth 02048A24 argument is the pooled 0x1555 (earlier notes

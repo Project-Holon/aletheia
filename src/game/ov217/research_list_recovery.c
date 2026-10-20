@@ -49,7 +49,7 @@ void ListViewState_SetScrollY(struct ListViewState *state, u32 scrollY);
 /* Allocates a zero-filled state record. */
 u32 ListViewState_Create(u32 heapId)
 {
-    return (u32)GFL_HEAP_Alloc(heapId, 12, 1, (const char *)0x21C4034, 32);
+    return (uptr)GFL_HEAP_Alloc(heapId, 12, 1, (const char *)0x21C4034, 32);
 }
 
 void ListViewState_Destroy(void *state)

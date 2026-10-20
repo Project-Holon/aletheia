@@ -19,6 +19,7 @@
  *   MI_Copy36B   0x02082B60  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 #include "../sdk_ioreg.h"
 
 #include "../sdk_fx.h"

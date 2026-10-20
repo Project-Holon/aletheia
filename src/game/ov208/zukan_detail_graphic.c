@@ -72,9 +72,10 @@
  *   G3D_SYSTEM_DrawStart         0x02047964  arm
  */
 #include "../arm9/g3d_camera.h"
+#include "../sdk_ioreg.h"
 #include "zukan_detail_shared_types.h"
 
-#define REG60 (*(volatile u16 *)0x04000060)
+#define REG60 (*(volatile u16 *)REG_DISP3DCNT_ADDR)
 
 #include "../sdk_gx.h"
 
@@ -109,7 +110,7 @@ static inline void SetShading(GXShading shading) {REG60=(u16)((REG60 & ~0x3002)|
 
 static inline void AntiAlias(int enable) {if(enable)REG60=(u16)((REG60 & ~0x3000)|0x10);else REG60&=(u16)~0x3010;}
 
-static inline void AlphaTest(int enable,int ref) {if(enable){REG60=(u16)((REG60 & ~0x3000)|4);*(volatile u16 *)0x04000340=(u16)ref;}else REG60&=(u16)~0x3004;}
+static inline void AlphaTest(int enable,int ref) {if(enable){REG60=(u16)((REG60 & ~0x3000)|4);*(volatile u16 *)REG_ALPHA_TEST_REF_ADDR=(u16)ref;}else REG60&=(u16)~0x3004;}
 
 static inline void AlphaBlend(int enable) {if(enable)REG60=(u16)((REG60 & ~0x3000)|8);else REG60&=(u16)~0x3008;}
 
@@ -292,9 +293,9 @@ char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(unsigned display,unsigned short heap,i
     GF_FONT_InitTextColor();
     ((struct Ov208BgGfx *)p)->has3d=0;
     ZUKAN_DETAIL_GRAPHIC_CreateWindows(p,heap);
-    ZUKAN_DETAIL_GRAPHIC_InitActorSystem((unsigned char *)p+4,(int)d_021C8184,heap);
+    ZUKAN_DETAIL_GRAPHIC_InitActorSystem((unsigned char *)p+4,(sptr)d_021C8184,heap);
     if(threeD)ZUKAN_DETAIL_GRAPHIC_Init3dSystem(p,heap);
-    ((struct Ov208BgGfx *)p)->task=GFL_USE_AddMainTask((TcbFunc)((unsigned)ZUKAN_DETAIL_GRAPHIC_VBlankTransfer),(void *)((unsigned)p),0);
+    ((struct Ov208BgGfx *)p)->task=GFL_USE_AddMainTask((TcbFunc)((uptr)ZUKAN_DETAIL_GRAPHIC_VBlankTransfer),(void *)((uptr)p),0);
     return p;
 }
 
@@ -313,7 +314,7 @@ void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *p)
     *(volatile unsigned *)0x04000000 &= ~0xe000;
     *(volatile unsigned *)0x04001000 &= ~0xe000;
     MI_CpuFill8(p,0,0x14);
-    GFL_HEAP_Free((void *)((unsigned)p));
+    GFL_HEAP_Free((void *)((uptr)p));
 }
 
 void ZUKAN_DETAIL_GRAPHIC_DrawFrame(char *p)

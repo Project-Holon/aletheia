@@ -93,6 +93,7 @@
  *   CLACT_AddActorSurfacePos  0x0204B404  arm  arm9
  */
 #include "field_effect_types.h"
+#include "../sdk_ioreg.h"
 #include "../ov010/fldmmdl_types.h"
 
 struct BbActDesc;
@@ -318,7 +319,7 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
     SHORTCUT_MENU_InitList(menu, menu->savedState, menu->ownedMsgBank, menu->ownedFont,
         menu->ownedPrintSys, RECENT_ID_LIST_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(gameSystem)), menu->actors, textHeapId);
     BG_SYS_MarkTileDirty(1);
-    G2x_SetBlendAlpha_((u32 *)0x04000050, 2, 1, 12, 4);
+    G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 2, 1, 12, 4);
     switch (mode) {
     case 0:
         BG_SYS_ChangeScrollImmediate(1, 3, -0xC0);
@@ -638,7 +639,7 @@ int SHORTCUT_MENU_FinishPrint(ShortcutMenu *menu)
     int finished;
 
     if (menu->printBusy != 0) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, (void *)((int)BMP_WIN_GetBmp((struct BmpWin *)menu->printWindow))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, (void *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)menu->printWindow))) == 0) {
             BMP_WIN_TransferChars((struct BmpWin *)menu->printWindow);
             menu->printBusy = 0;
         }

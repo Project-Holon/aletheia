@@ -82,7 +82,7 @@ void AESi_InitRand(void) {
     OS_InitTick();
     data_02735AE8 = 0;
     data_02735AE0 = 1;
-    ctx.x = (u64)(u32)&ctx | ((u64)(u32)&ctx << 32);
+    ctx.x = (u64)(uptr)&ctx | ((u64)(uptr)&ctx << 32);
     ctx.mul = 0x5D588B656C078965ULL;
     ctx.add = 0x00269EC3ULL;
     OS_GetLowEntropyData(entropy);

@@ -152,7 +152,6 @@ extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap
 extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heap); /* original prototype; the definition differs in argument width, pointer type */
 #else
 #include "arc_tool.h"
-#define ARC_TOOL_LoadHandleMember(arc, member, heap) (ARC_TOOL_LoadHandleMember)((struct ArcHandle *)(arc), member, heap)
 #endif
 
 #include "msgdata.h"
@@ -383,7 +382,11 @@ void *FILE_UTIL_LoadArcMember(struct ArcFile *arc, u32 item, u32 heap)
         item = 0;
     }
 
+#ifdef __MWERKS__
     return ARC_TOOL_LoadHandleMember(arc, item, heap);
+#else
+    return ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc, item, heap);
+#endif
 }
 
 void *FILE_UTIL_LoadItemRecord(u32 item, u32 which, u32 heap)

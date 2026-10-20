@@ -526,7 +526,7 @@ void FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(Mmdl *mmdl, u32 attrNow, u32 attrOld
                 fldEffCtrl = FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl);
                 mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
                 FLDMMDL_SetMoveBitReflect(mmdl, 1);
-                FLDEFF_REFLECT_SetMMdl((u32)mmdlSys, (u32)mmdl, fldEffCtrl, 1);
+                FLDEFF_REFLECT_SetMMdl((uptr)mmdlSys, (uptr)mmdl, fldEffCtrl, 1);
             }
         }
     }
@@ -550,7 +550,7 @@ void FLDMMDL_RAIL_MOVE_MapAttrReflectProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld,
 /* Field effect control of the field map that owns the field model. */
 u32 FLDMMDL_RAIL_MOVE_GetFldEffCtrl(Mmdl *mmdl)
 {
-    return (u32)FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
+    return (uptr)FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
 }
 
 /* Anime command step: end of the command. */

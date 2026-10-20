@@ -133,14 +133,14 @@ void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nam
  */
 int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, NameInEventWork *work)
 {
-    int childEvent;
+    sptr childEvent;
 
     switch (*state) {
     case 0:
         if (work->mode != 0) {
-            childEvent = (int)FIELD_STATUS_CreateSubProcEvent((struct GameSystem *)work->gameSystem, (struct FieldMap *)work->fieldMap, (int)abs_id_C2, (void *)(&gNameInProcData), (void *)work->nameIn);
+            childEvent = (sptr)FIELD_STATUS_CreateSubProcEvent((struct GameSystem *)work->gameSystem, (struct FieldMap *)work->fieldMap, (sptr)abs_id_C2, (void *)(&gNameInProcData), (void *)work->nameIn);
         } else {
-            childEvent = (int)FIELD_STATUS_CreateSubProcNoFadeEvent((struct GameSystem *)work->gameSystem, (struct FieldMap *)work->fieldMap, (int)abs_id_C2, (void *)(&gNameInProcData), (void *)work->nameIn);
+            childEvent = (sptr)FIELD_STATUS_CreateSubProcNoFadeEvent((struct GameSystem *)work->gameSystem, (struct FieldMap *)work->fieldMap, (sptr)abs_id_C2, (void *)(&gNameInProcData), (void *)work->nameIn);
         }
         GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)childEvent);
         (*state)++;
@@ -154,7 +154,7 @@ int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, NameInEventWork 
 /* Creates the nickname event for a party member; returns the event. */
 int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, int mode)
 {
-    int event;
+    sptr event;
     NicknameEventWork *work;
     void *mon;
     void *gameData;
@@ -165,7 +165,7 @@ int SCRCMD_CreateNicknameEvent(void *gameSystem, u16 *result, int partyIndex, in
     if ((int)POKEPARTY_GetCount(GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem))) <= partyIndex) {
         partyIndex = 0;
     }
-    event = (int)GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_NicknameEventMain, 0x18);
+    event = (sptr)GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_NicknameEventMain, 0x18);
     work = GAME_EVENT_GetWork((struct GameEvent *)event);
     work->gameSystem = gameSystem;
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -195,7 +195,7 @@ int SCRCMD_NicknameEventMain(struct GameEvent *event, int *state, NicknameEventW
     case 1:
         nameIn = work->nameIn;
         if (nameIn->canceled != 1) {
-            POKE_TOOL_SetPartyValue(work->mon, POKE_TOOL_PARAM_NICKNAME_STRBUF, (u32)nameIn->name);
+            POKE_TOOL_SetPartyValue(work->mon, POKE_TOOL_PARAM_NICKNAME_STRBUF, (uptr)nameIn->name);
         }
         confirmed = 1;
         if (work->nameIn->canceled == 1) {
@@ -236,7 +236,7 @@ int SCRCMD_SubProcEventMain(struct GameEvent *event, int *state, SubProcEventWor
 
     switch (*state) {
     case 0:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent((struct GameSystem *)work->gameSystem, (struct FieldMap *)work->fieldMap, (int)ov171_id, (void *)gSubProcTable, (void *)&work->param));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent((struct GameSystem *)work->gameSystem, (struct FieldMap *)work->fieldMap, (sptr)ov171_id, (void *)gSubProcTable, (void *)&work->param));
         *state = *state + 1;
         break;
     case 1:

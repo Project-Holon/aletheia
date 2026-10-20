@@ -81,6 +81,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "pms_input_types.h"
+#include "../sdk_ioreg.h"
 #include "pmsiv_wordwin_types.h"
 #include "pms_input_view_shared_types.h"
 
@@ -93,17 +94,6 @@ struct PmsivWordwinPtS { short x, y; };
 
 #define IO_U32(addr) (*(volatile unsigned int *)(addr))
 
-#define REG_DISPCNT_ADDR 0x04000000
-
-#define REG_WIN0H_ADDR 0x04000042
-
-#define REG_WIN0V_ADDR 0x04000046
-
-#define REG_WININ_ADDR 0x04000048
-
-#define REG_WINOUT_ADDR 0x0400004a
-
-#define REG_BLDCNT_ADDR 0x04000050
 
 #include "../arm9/gfl_heap_wrap.h"
 
@@ -335,8 +325,8 @@ static inline void outside(Plane wnd,BOOL effect) {
 }
 
 static inline void wndpos(int x1,int y1,int x2,int y2) {
-    IO_U16(REG_WIN0H_ADDR)=(x1<<8)|x2;
-    IO_U16(REG_WIN0V_ADDR)=(y1<<8)|y2;
+    IO_U16(REG_WIN1H_ADDR)=(x1<<8)|x2;
+    IO_U16(REG_WIN1V_ADDR)=(y1<<8)|y2;
 }
 
 static inline void visible(Window wnd) {
@@ -543,11 +533,11 @@ void PMSIV_WORDWIN_ResetScroll(struct PmsivWordwin *p) { p->originY=0; p->firstS
 /* Draws one list cell at a height. */
 void PMSIV_WORDWIN_DrawCell(struct PmsivWordwin *p, u32 n, u32 y)
 {
-    u32 font;
+    uptr font;
     struct PmsivWordwinPt pos;
     u32 wrap, x;
     struct Bmp *dest;
-    font = (u32)PMS_INPUT_VIEW_GetFont(p->view);
+    font = (uptr)PMS_INPUT_VIEW_GetFont(p->view);
     if (n < 2 || n >= PMS_INPUT_GetListItemCount(p->input)) return;
     if (!PMS_INPUT_GetBrowseMode(p->input) && PMS_INPUT_GetCursorPos(p->input) == 11) {
         x = 24 + 112 * ((n - 2) & 1);
@@ -558,7 +548,7 @@ void PMSIV_WORDWIN_DrawCell(struct PmsivWordwin *p, u32 n, u32 y)
         CLACT_SetActorDrawEnable((struct ClactActor *)p->items[n], 1);
         return;
     }
-    PMS_INPUT_GetListWord(p->input, n - 2, (int)(p->wordText));
+    PMS_INPUT_GetListWord(p->input, n - 2, (sptr)(p->wordText));
     GF_FONT_SetDefaultTextColor();
     if (y <= 240) {
         PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)p->listWindow), 112 * ((n - 2) & 1), y, (struct Strbuf *)p->wordText, (void *)font);

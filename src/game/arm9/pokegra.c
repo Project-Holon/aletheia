@@ -505,7 +505,7 @@ void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex,
     case 0:
         break;
     case 1:
-        formCount = ARC_TOOL_GetMemberSize((u32)arcId, (u32)(index + sexFileOffset + 1));
+        formCount = ARC_TOOL_GetMemberSize((uptr)arcId, (u32)(index + sexFileOffset + 1));
         sex = 1;
         if (formCount == 0) {
             sex = 0;
@@ -762,7 +762,7 @@ int POKEGRA_RegisterPalette(int handle, int monsNo, int formNo, int sex, int rar
 u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir,
                   volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId)
 {
-    u32 charFile;
+    uptr charFile;
     u32 cgrIndex;
     u32 cgrArcIndex;
     u32 heap;
@@ -774,7 +774,7 @@ u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u3
     vramType = drawType;
     cgrIndex = CLACT_RegisterCharacter((void *)handle, cgrArcIndex, 1, vramType, heap);
     if (monsNo == 0x147) {
-        charFile = (u32)POKEGRA_LoadCharData((u32 *)(&charData), monsNo, formNo, sex, rare, dir, egg, personality, heapId);
+        charFile = (uptr)POKEGRA_LoadCharData((u32 *)(&charData), monsNo, formNo, sex, rare, dir, egg, personality, heapId);
         CLACT_TransferCharacter(cgrIndex, (struct NNSG2dCharacterData *)charData);
         GFL_HEAP_Free((void *)charFile);
     }
@@ -929,10 +929,10 @@ void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *
 
     file = ARC_TOOL_LoadHandleMember(handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), heapId);
     NNS_G2dGetUnpackedPaletteData(file, &palData);
-    CLACT_TransferPalette((u32)palDst, palData, 1);
+    CLACT_TransferPalette((uptr)palDst, palData, 1);
     GFL_HEAP_Free(file);
 
     file = ARC_UTIL_LoadScreenDataFromHandle((void *)handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, (&charData), heapId);
-    CLACT_TransferCharacter((int)charDst, charData);
+    CLACT_TransferCharacter((sptr)charDst, charData);
     GFL_HEAP_Free(file);
 }

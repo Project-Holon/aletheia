@@ -325,8 +325,8 @@ extern void GAME_DATA_SetEnterMode(struct GameData *gameData, u8 enterMode);
 extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 index);
 #include "../arm9/mystatus.h"
 extern u8 GAME_DATA_IsSaving(struct GameData *gd);
-extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 callback, u32 userArg);
-extern void GFL_NET_StartChangeoverParent(u32 changeoverParam);
+extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, GFLNetUserFunc callback, void *work);
+extern void GFL_NET_StartChangeoverParent(GFLNetUserFunc changeoverParam);
 extern void GFL_NET_ConnectMacAddressParent(void *macAddress);
 struct UnionInfo;
 extern struct UnionInfo *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
@@ -403,7 +403,7 @@ extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, u8 sendId, u32 command,
 #else
 extern u32 GFL_NET_SendData(struct GFLNetHandle*, u32, u32, u32, void*, u32, u32, u32);
 #endif
-extern int GFL_NET_Exit(void (*exitCallback)(IntrudeCommSys *work));
+extern int GFL_NET_Exit(GFLNetUserFunc exitCallback);
 extern int GFL_NET_IsSendQueueEntryOfHandle(GFLNetHandle *handle, u32 command);
 extern void *GAME_DATA_GetMyParty(struct GameData *gd);
 #include "../arm9/poke_tool_ext.h"
@@ -432,8 +432,8 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work);
 void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work);
 void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, int fieldObjectAddr);
 void INTRUDE_COMM_SuspendPlayers(int arg, IntrudeCommSys *work);
-void INTRUDE_COMM_OnSessionStarted(IntrudeCommSys *work);
-void INTRUDE_COMM_OnSessionExit(IntrudeCommSys *work);
+void INTRUDE_COMM_OnSessionStarted(void *userArg);
+void INTRUDE_COMM_OnSessionExit(void *userArg);
 IntrudeBeacon *INTRUDE_COMM_GetBeacon(IntrudeCommSys *work);
 void INTRUDE_COMM_InitBeacon(struct GameData *gameData, IntrudeBeacon *beacon, int maxConnect);
 int INTRUDE_COMM_RefreshBeacon(struct GameData *gameData, IntrudeBeacon *beacon);
@@ -659,7 +659,7 @@ extern const u16 gIntrudeCommValidObjCodes[];
 extern u16 gIntrudeCommValidProfileCodes[];
 extern IntrudePickRow gIntrudePickTable[];
 extern u8 d_02177010[];
-extern char d_021F03C4[];
+extern NetCommandEntry d_021F03C4[];
 extern u8 ov093_id[];
 extern char d_021EFDAC[];
 extern char sIntrudeLinkProcTable[];
@@ -728,7 +728,7 @@ int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSy
             if (INTRUDE_COMM_HasUnlockFlags((struct GameData *)gameData) == 0)
                 init->maxConnectNum = 2;
         }
-        GFL_NET_StartSession(init, (uptr)INTRUDE_COMM_OnSessionStarted, (uptr)work);
+        GFL_NET_StartSession(init, INTRUDE_COMM_OnSessionStarted, work);
         GFL_HEAP_Free(init);
         *state = *state + 1;
         break;
@@ -1132,8 +1132,10 @@ void INTRUDE_COMM_SuspendPlayers(int arg, IntrudeCommSys *work)
         COMM_PLAYER_Suspend(work->commPlayer);
 }
 
-void INTRUDE_COMM_OnSessionStarted(IntrudeCommSys *work)
+void INTRUDE_COMM_OnSessionStarted(void *userArg)
 {
+    IntrudeCommSys *work = userArg;
+
     work->step = 2;
     WIH_SetBeaconFoundCallback((uptr)INTRUDE_COMM_ScanCallback);
 }
@@ -1144,8 +1146,10 @@ void INTRUDE_COMM_OnSessionStarted(IntrudeCommSys *work)
  * pointer INTRUDE_COMM_Shutdown hands to GFL_NET_Exit, which is why it is filed
  * here, to give that pool word a matched witness.
  */
-void INTRUDE_COMM_OnSessionExit(IntrudeCommSys *work)
+void INTRUDE_COMM_OnSessionExit(void *userArg)
 {
+    IntrudeCommSys *work = userArg;
+
     work->step = 10;
 }
 
@@ -3652,7 +3656,7 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x15, 2) == 1) {
             GF_OVERLAY_Load((sptr)ov093_id);
             work->overlayLoaded = 1;
-            GFL_NET_COMMAND_AddCommandTable(0x100, (uptr)d_021F03C4, 9, 0);
+            GFL_NET_COMMAND_AddCommandTable(0x100, d_021F03C4, 9, 0);
             (*state)++;
         }
         break;

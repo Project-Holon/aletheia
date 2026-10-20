@@ -83,8 +83,8 @@ unsigned short PALANM_GetPairedCodeForFirst(int value);
 void PALANM_StopTimer(void);
 void PALANM_StartTimer(void);
 void PALANM_UpdateTimer(u8 *target);
-void *PALANM_Create(u32 heapId);
-u32 PALANM_Delete(void *ctx);
+PaletteFade *PALANM_Create(u32 heapId);
+u32 PALANM_Delete(PaletteFade *ctx);
 void PALANM_SetSlotBuffers(PaletteFade *fade, u32 slotIdx, void *rawBuf, void *workBuf, u32 size);
 void PALANM_AllocSlotBuffers(PaletteFade *fade, u32 slotIdx, u32 size, u32 heapId);
 void PALANM_FreeSlotBuffers(PaletteFade *fade, u32 slotIdx);
@@ -162,9 +162,9 @@ struct TcbTask;
 
 
 
-int PALANM_GetDefaultWork(char *p, int i);
+u16 *PALANM_GetDefaultWork(PaletteFade *p, int i);
 
-int PALANM_GetTransWork(char *p, int i);
+u16 *PALANM_GetTransWork(PaletteFade *p, int i);
 
 int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
@@ -206,9 +206,9 @@ u16 PALANM_GetColor(PaletteFadeWork *s, int idx, int which, u16 pos);
 
 void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight, u16 color);
 
-void PALANM_BlendChannel(PaletteFadeWork *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+void PALANM_BlendChannel(PaletteFade *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 
-void PALANM_BlendChannelMask(PaletteFadeWork *p, u32 idx, u16 m, u8 weight, u16 color);
+void PALANM_BlendChannelMask(PaletteFade *p, u32 idx, u16 m, u8 weight, u16 color);
 
 void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
 
@@ -354,10 +354,10 @@ void PALANM_UpdateTimer(u8 *target)
  *   python tools/match.py one --src src/matched/PALANM_Create.c \
  *       --func PALANM_Create --addr 0x02021518 --cc 1.1p1 --thumb
  */
-void *PALANM_Create(u32 heapId)
+PaletteFade *PALANM_Create(u32 heapId)
 {
-    void *ctx = GFL_HEAP_Alloc((u16)heapId, 0x120, 0, sPalAnmFileName, 88);
-    MI_CpuFill8(ctx, 0, 0x120);
+    PaletteFade *ctx = GFL_HEAP_Alloc((u16)heapId, sizeof(PaletteFade), 0, sPalAnmFileName, 88);
+    MI_CpuFill8(ctx, 0, sizeof(PaletteFade));
     return ctx;
 }
 
@@ -366,7 +366,7 @@ void *PALANM_Create(u32 heapId)
  * (`ldr r3,[pc,#0]; bx r3`; the pool word names 0x020307B0).  Disasm.py gave
  * it no func_ label because it has no prologue.
  */
-u32 PALANM_Delete(void *ctx)
+u32 PALANM_Delete(PaletteFade *ctx)
 {
     return GFL_HEAP_Free(ctx);
 }
@@ -602,9 +602,9 @@ void PALANM_CopyHwPaletteToSlot(PaletteFade *fade, u32 bank, u32 dstOffset, u32 
     PALANM_CopyToSlot(fade, palBase + dstOffset, bank, dstOffset, (u16)size);
 }
 
-int PALANM_GetDefaultWork(char *p, int i)
+u16 *PALANM_GetDefaultWork(PaletteFade *p, int i)
 {
-    return *(int *)(p + i * 0x14);
+    return p->work[i].defaultWork;
 }
 
 /*
@@ -613,9 +613,9 @@ int PALANM_GetDefaultWork(char *p, int i)
  *
  * Addresses are Black-image addresses.
  */
-int PALANM_GetTransWork(char *p, int i)
+u16 *PALANM_GetTransWork(PaletteFade *p, int i)
 {
-    return *(int *)(p + i * 0x14 + 4);
+    return p->work[i].transWork;
 }
 
 /*
@@ -1288,13 +1288,13 @@ void PALANM_BlendColors(u16 *src, u16 *dst, u32 count, int weight,
  * EXACT* only: 42 bytes compiled, the listing extent is 44 -- the two extra
  * bytes are the `00 00` alignment halfword at 0x02022002, not a follower.
  */
-void PALANM_BlendChannel(PaletteFadeWork *p, u32 idx, u32 c, u32 count,
+void PALANM_BlendChannel(PaletteFade *p, u32 idx, u32 c, u32 count,
                    u8 weight, u16 color)
 {
-    PALANM_BlendColors(p[idx].defaultWork + c, p[idx].transWork + c, count, weight, color);
+    PALANM_BlendColors(p->work[idx].defaultWork + c, p->work[idx].transWork + c, count, weight, color);
 }
 
-void PALANM_BlendChannelMask(PaletteFadeWork *p, u32 idx, u16 mask, u8 weight, u16 color)
+void PALANM_BlendChannelMask(PaletteFade *p, u32 idx, u16 mask, u8 weight, u16 color)
 {
     u32 i = 0;
 

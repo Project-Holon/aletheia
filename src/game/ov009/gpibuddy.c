@@ -126,7 +126,7 @@
 #include "gpi_types.h"
 extern void *__builtin__clear(void *dest, unsigned long size);
 extern int strcmp(const char *s1, const char *s2);
-extern char *strstr(const char *s, const char *t);
+extern char *strstr(const char *s1, const char *s2);
 #include "../arm9/msl_strtod.h"
 
 #define Error(connection, result, errorString) \

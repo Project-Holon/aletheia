@@ -115,7 +115,7 @@ typedef struct {
 
 void __prep_buffer(struct MslStream *stream);
 
-int __load_buffer(struct MslStream *stream, u32 *bytes_loaded, int mode);
+int __load_buffer(struct MslStream *stream, size_t *bytes_loaded, int mode);
 
 int __flush_buffer(struct MslStream *stream, u32 *bytes_flushed);
 
@@ -226,7 +226,7 @@ void __prep_buffer(struct MslStream *stream)
  *       --func __load_buffer --addr 0x020915C4 --cc 1.1p1 --arm
  *   EXACT, 140 bytes, 2 relocation sites, both resolved.
  */
-int __load_buffer(struct MslStream *stream, u32 *bytes_loaded, int mode)
+int __load_buffer(struct MslStream *stream, size_t *bytes_loaded, int mode)
 {
     u32 r;
 
@@ -950,7 +950,7 @@ u32 MSL_C_LIB_WideToNarrow(u8 *dst, const u16 *src, u32 max)
         k = MSL_C_LIB_CallFormatHook(&tmp, *src++);
         if (n + k > max)
             break;
-        strncpy(dst + n, (const u8 *)&tmp, k);
+        strncpy((char *)(dst + n), (const char *)&tmp, k);
         n += k;
     } while (n <= max);
 

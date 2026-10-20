@@ -57,7 +57,7 @@ Resources *PROF_WORD_Create(unsigned short heap)
     i = 0;
     sizes = p->size;
     for (; i < 7; i++) {
-        p->data[i] = (unsigned int)ARC_UTIL_LoadMemberWithSize(0xDD, i, 0, heap, (u32 *)&sizes[i]);
+        p->data[i] = (uptr)ARC_UTIL_LoadMemberWithSize(0xDD, i, 0, heap, (u32 *)&sizes[i]);
         GF_STANDARD_XorCryptEx((void *)p->data[i], p->size[i], 0x72012891);
     }
     return p;
@@ -73,7 +73,7 @@ void PROF_WORD_Delete(u8 *p)
     for (i = 0; i < 7; i++) {
         GFL_HEAP_Free((void *)(*(u32 *)(p + i * 4)));
     }
-    GFL_HEAP_Free((void *)((u32)p));
+    GFL_HEAP_Free((void *)((uptr)p));
 }
 
 int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
@@ -81,7 +81,7 @@ int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
     u16 buf[32]={0};
     u32 size;
     int i,result;
-    u32 data;
+    uptr data;
     MI_CpuCopy8(input,buf,64);
     for(i=0;i<32;i++) {
         u32 c=buf[i];
@@ -93,7 +93,7 @@ int PROF_WORD_FindMatch(const u32 *cache,const void *input,u16 heap)
     }
     for(i=0;i<7;i++) {
         if(cache==0) {
-            data=(unsigned int)ARC_UTIL_LoadMemberWithSize(0xdd,i,0,heap,(u32 *)&size);
+            data=(uptr)ARC_UTIL_LoadMemberWithSize(0xdd,i,0,heap,(u32 *)&size);
             GF_STANDARD_XorCryptEx((void *)data,size,0x72012891);
         } else {data=cache[i];size=cache[i+7];}
         { u32 currentHeap=heap; result=PROF_WORD_CompareChunks(buf,i,currentHeap,(const u16 *)data,size); }

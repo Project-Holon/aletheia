@@ -90,34 +90,33 @@
  *   BMP_Delete     0x020437AC  arm
  */
 #include "wifi_friend_shared_types.h"
+#include "../sdk_ioreg.h"
 
-#define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
+#define reg_GX_DISPCNT      (*(volatile u32 *)REG_DISPCNT_ADDR)
 
-#define reg_GXS_DB_DISPCNT  (*(volatile u32 *)0x04001000)
+#define reg_GXS_DB_DISPCNT  (*(volatile u32 *)REG_DB_DISPCNT_ADDR)
 
-#define reg_G2_WINOUT       (*(volatile u16 *)0x0400004A)
+#define reg_G2_WINOUT       (*(volatile u16 *)REG_WINOUT_ADDR)
 
-#define reg_G2S_DB_WINOUT   (*(volatile u16 *)0x0400104A)
+#define reg_G2S_DB_WINOUT   (*(volatile u16 *)REG_DB_WINOUT_ADDR)
 
 #include "touchpanel_shared_types.h"
 
-#define reg_PAD_KEYINPUT    (*(volatile u16 *)0x04000130)
+#define reg_PAD_KEYINPUT    (*(volatile u16 *)REG_KEYINPUT_ADDR)
 
-#define reg_GX_MASTER_BRIGHT   (*(volatile u16 *)0x0400006C)
+#define reg_GX_MASTER_BRIGHT   (*(volatile u16 *)REG_MASTER_BRIGHT_ADDR)
 
-#define reg_GXS_DB_MASTER_BRIGHT (*(volatile u16 *)0x0400106C)
+#define reg_GXS_DB_MASTER_BRIGHT (*(volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR)
 
-#define reg_G2_BG1CNT          (*(volatile u16 *)0x0400000A)
+#define reg_G2_BG1CNT          (*(volatile u16 *)REG_BG1CNT_ADDR)
 
-#define reg_G2_BG1OFS          (*(volatile u32 *)0x04000014)
+#define reg_G2_BG1OFS          (*(volatile u32 *)REG_BG1OFS_ADDR)
 
-#define reg_G2_BLDCNT          (*(volatile u16 *)0x04000050)
+#define reg_G2_BLDCNT          (*(volatile u16 *)REG_BLDCNT_ADDR)
 
-#define reg_G2S_DB_BLDCNT      (*(volatile u16 *)0x04001050)
+#define reg_G2S_DB_BLDCNT      (*(volatile u16 *)REG_DB_BLDCNT_ADDR)
 
-#define HW_BG_PLTT             0x05000000
 
-#define HW_DB_BG_PLTT          0x05000400
 
 /* net_err.c states (NetErrWork.state). */
 #define NET_ERR_STATE_IDLE      0   /* no error recorded */
@@ -297,7 +296,6 @@ extern u32 GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clearFlag, const void *file,
 extern NetErrInfo *GFL_NET_STATE_GetError(void); /* original prototype; the definition returns the address as u32 */
 #else
 #include "net_state.h"
-#define GFL_NET_STATE_GetError() ((NetErrInfo *)(uptr)(GFL_NET_STATE_GetError)())
 #endif
 
 
@@ -462,7 +460,7 @@ u32 GFL_NET_ERR_GetMessageId(NetErrInfo *info, u32 a);
 void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *eventMask, void *eventValue)
 {
     if (GFL_NET_IsNetTypeWifi() == 0 || DWC_RAP_GetVchatEnabled() == 0) {
-        GFL_USE_SetBgmTrackVolume((u32)eventMask, (u32)eventValue);
+        GFL_USE_SetBgmTrackVolume((uptr)eventMask, (uptr)eventValue);
     }
 }
 
@@ -522,7 +520,7 @@ void GFL_NET_ERR_DetectNetError(void)
     }
 
     {
-        NetErrInfo *errorInfo = GFL_NET_STATE_GetError();
+        NetErrInfo *errorInfo = (NetErrInfo *)(uptr)GFL_NET_STATE_GetError();
         u32 reasonCode = errorInfo->reasonCode;
 
         if (reasonCode - 0x3f0 <= 1) {
@@ -781,7 +779,7 @@ void GFL_NET_ERR_RecordError(void)
         return;
     }
     work->netType = GFL_NET_GetInitParam()->init.bNetType;
-    work->errorInfo = *GFL_NET_STATE_GetError();
+    work->errorInfo = *(NetErrInfo *)(uptr)GFL_NET_STATE_GetError();
     work->netErrorFlag = (u8)GFL_NET_STATE_GetErrorMode();
     netType = work->netType;
     if (netType == GFL_NET_TYPE_WIFI || netType == GFL_NET_TYPE_WIFI_LOBBY || netType == GFL_NET_TYPE_WIFI_GTS) {

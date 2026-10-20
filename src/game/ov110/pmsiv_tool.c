@@ -28,6 +28,7 @@
  *   PMS_INPUT_VIEW_AddVBlankTask 0x021B9BA4 thumb ov110
  */
 #include "pms_input_data_shared_types.h"
+#include "../sdk_ioreg.h"
 #include "pms_input_view_shared_types.h"
 #include "pmsiv_edit_shared_types.h"
 
@@ -147,7 +148,7 @@ void PMSIV_FADE_BlendTask(void *task, void *arg)
         level = fade->target >> 3;
     }
     if (level > 16) level = 16;
-    G2x_SetBlendAlpha_((void *)0x04000050, fade->planeMask, fade->secondPlaneMask, level, 16 - level);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, fade->planeMask, fade->secondPlaneMask, level, 16 - level);
 }
 
 /*

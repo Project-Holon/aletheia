@@ -136,7 +136,7 @@ MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback call
     u32 enabled;
     u8 flags;
 
-    if ((u32)param->buffer & 0x1f) {
+    if ((uptr)param->buffer & 0x1f) {
         return MIC_RESULT_ILLEGAL_PARAMETER;
     }
     if (param->size & 0x1f) {
@@ -370,10 +370,10 @@ BOOL MicStartAutoSampling(void *buf, u32 size, u32 span, u8 flags)
     if (PXI_SendWordByFifo(9, 0x02000000 | 0x4100 | flags, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(9, 0x10000 | ((u32)buf >> 16), 0) < 0) {
+    if (PXI_SendWordByFifo(9, 0x10000 | ((uptr)buf >> 16), 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(9, 0x20000 | ((u32)buf & 0xffff), 0) < 0) {
+    if (PXI_SendWordByFifo(9, 0x20000 | ((uptr)buf & 0xffff), 0) < 0) {
         return 0;
     }
     if (PXI_SendWordByFifo(9, 0x30000 | (size >> 16), 0) < 0) {

@@ -218,7 +218,7 @@ void FLDEFF_REFLECT_UpdateTask(u32 task, ReflectTaskWork *work)
         {
             VecFx32 pos = {0, 0, 0};
             FLDMMDL_BLACT_AddActorPosOrReserve(work->head.mmdlSys, FLDMMDL_GetObjCodeParam((void *)work->head.mmdl), &work->actorReq, &pos,
-                          (BlactAddActorHook)FLDEFF_REFLECT_UpdateActor, (u32)work);
+                          (BlactAddActorHook)FLDEFF_REFLECT_UpdateActor, (uptr)work);
         }
         work->actorAdded = 1;
     }
@@ -268,7 +268,7 @@ void FLDEFF_REFLECT_UpdateActor(u16 actId, ReflectTaskWork *work)
     s16 rot[4];
     u16 zoneId;
     struct BbActSys *bbActSys;
-    u32 board;
+    uptr board;
     int mmdlActId;
     struct Mmdl *mmdl;
     const MmdlObjCodeParam *objCode;
@@ -277,7 +277,7 @@ void FLDEFF_REFLECT_UpdateActor(u16 actId, ReflectTaskWork *work)
     u16 mmdlElem;
 
     bbActSys = work->head.bbActSys;
-    board = (unsigned int)BILLBOARD_ACT_GetBoard((struct BbActSys *)bbActSys);
+    board = (uptr)BILLBOARD_ACT_GetBoard((struct BbActSys *)bbActSys);
     mmdlActId = FLDMMDL_CallDrawGetProc((void *)work->head.mmdl, 0);
     if (actId == 0xFFFF) {
         return;

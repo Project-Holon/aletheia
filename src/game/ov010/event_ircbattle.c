@@ -201,7 +201,7 @@ extern u8 d_021D3FE8[];
 
 extern u8 d_021BB6A4[];
 
-extern u8 d_021F03C4[];
+extern NetCommandEntry d_021F03C4[];
 
 extern u8 d_021E75D8[];
 
@@ -261,7 +261,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         *step = 2;
         break;
     case 2:
-        GAMESYSTEM_CallProc(gameSys, (u32)ov021_id, d_021D3FE8, work);
+        GAMESYSTEM_CallProc(gameSys, (uptr)ov021_id, d_021D3FE8, work);
         (*step)++;
         break;
     case 3:
@@ -287,7 +287,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         work->menuArgs.linkParties[2] = work->linkParties[2];
         work->menuArgs.linkParties[3] = work->linkParties[3];
         work->menuArgs.mode = work->mode;
-        GAMESYSTEM_CallProc(gameSys, (u32)ov100_id, d_021BB6A4, &work->menuArgs);
+        GAMESYSTEM_CallProc(gameSys, (uptr)ov100_id, d_021BB6A4, &work->menuArgs);
         (*step)++;
         break;
     case 6:
@@ -314,8 +314,8 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         }
         break;
     case 7:
-        GF_OVERLAY_Load((u32)ov093_id);
-        GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
+        GF_OVERLAY_Load((uptr)ov093_id);
+        GFL_NET_COMMAND_AddCommandTable(0x100, d_021F03C4, 9, 0);
         GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 0x6e, 12);
         (*step)++;
         break;
@@ -327,7 +327,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
                 GFL_NET_ERR_ShowSimpleScreen();
             else
                 GFL_NET_ERR_HaltIfActive();
-            GF_OVERLAY_Unload((u32)ov093_id);
+            GF_OVERLAY_Unload((uptr)ov093_id);
             *step = 20;
         }
         break;
@@ -341,28 +341,28 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         case 1:
             work->ruleCategory = 1;
             work->ruleBase = 2;
-            BTL_SETUP_SetupCommSingle(work->setup, work->gameData, (u32)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
+            BTL_SETUP_SetupCommSingle(work->setup, work->gameData, (uptr)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
             break;
         case 2:
             work->ruleCategory = 1;
             work->ruleBase = 6;
-            BTL_SETUP_SetupCommDouble(work->setup, work->gameData, (u32)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
+            BTL_SETUP_SetupCommDouble(work->setup, work->gameData, (uptr)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
             break;
         case 3:
             work->ruleCategory = 1;
             work->ruleBase = 10;
-            BTL_SETUP_SetupCommTriple(work->setup, work->gameData, (u32)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
+            BTL_SETUP_SetupCommTriple(work->setup, work->gameData, (uptr)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
             break;
         case 4:
             work->ruleCategory = 1;
             work->ruleBase = 14;
-            BTL_SETUP_SetupCommRotation(work->setup, work->gameData, (u32)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
+            BTL_SETUP_SetupCommRotation(work->setup, work->gameData, (uptr)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
             break;
         case 5:
             ruleTable = d_0216FEE0;
             work->ruleCategory = 3;
             work->ruleBase = 18;
-            BTL_SETUP_SetupCommMulti(work->setup, work->gameData, (unsigned int)(GFL_NET_HANDLE_GetCurrentHandle()), 1,
+            BTL_SETUP_SetupCommMulti(work->setup, work->gameData, (uptr)(GFL_NET_HANDLE_GetCurrentHandle()), 1,
                           ruleTable.v[work->menuArgs.teamByNetId[GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())]], 4);
             work->setup->multiMode = 1;
             work->setup->rule = 1;
@@ -384,7 +384,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
                 GFL_NET_ERR_ShowSimpleScreen();
             else
                 GFL_NET_ERR_HaltIfActive();
-            GF_OVERLAY_Unload((u32)ov093_id);
+            GF_OVERLAY_Unload((uptr)ov093_id);
             *step = 20;
         } else if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 10, 12)) {
             if (GFL_NET_IsParentAid())
@@ -396,11 +396,11 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         break;
     case 11:
         MUSICAL_EVENT_BindParticipantSlots((struct MusicalEventWork *)work, gameSys);
-        GF_OVERLAY_Unload((u32)ov093_id);
+        GF_OVERLAY_Unload((uptr)ov093_id);
         recArgs.setup = work->setup;
         recArgs.slotData = work->recorderSlots;
         recArgs.flag = 1;
-        GAME_EVENT_CallEvent(parentEvent, GAME_EVENT_CreateOverlayEvent(gameSys, (u32)ov008_id, (GameEventCreatorFn)EVENT_BATTLE_REC_SAVE_Start, &recArgs));
+        GAME_EVENT_CallEvent(parentEvent, GAME_EVENT_CreateOverlayEvent(gameSys, (uptr)ov008_id, (GameEventCreatorFn)EVENT_BATTLE_REC_SAVE_Start, &recArgs));
         (*step)++;
         break;
     case 12:
@@ -416,7 +416,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
     case 13:
         work->pickArgs.gameData = work->gameData;
         work->pickArgs.partyList = work->ownParty;
-        GAMESYSTEM_CallProc(gameSys, (u32)ov119_id, d_021E75D8, &work->pickArgs);
+        GAMESYSTEM_CallProc(gameSys, (uptr)ov119_id, d_021E75D8, &work->pickArgs);
         (*step)++;
         break;
     case 14:
@@ -437,7 +437,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         detail->enabled = 1;
         detail->reserved10 = 0;
         work->detailArgs = detail;
-        GAMESYSTEM_CallProc(gameSys, (u32)ov195_id, d_02208C40, detail);
+        GAMESYSTEM_CallProc(gameSys, (uptr)ov195_id, d_02208C40, detail);
         (*step)++;
         break;
     case 16:
@@ -501,7 +501,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         break;
     case 26:
         work->recorderArg = work->gameSys;
-        GAMESYSTEM_CallProc(gameSys, (u32)ov101_id, d_021B74AC, &work->recorderArg);
+        GAMESYSTEM_CallProc(gameSys, (uptr)ov101_id, d_021B74AC, &work->recorderArg);
         (*step)++;
         break;
     case 27:

@@ -433,7 +433,7 @@ void NNSi_SndArcDisposeSymbol(void *buffer, u32 size, NNSSndArc *arc)
 NNSSndHeap *NNS_SndHeapCreate(u32 start, u32 size)
 {
     u32 end;
-    u32 alignedStart;
+    uptr alignedStart;
     u32 rest;
     NNSFndHeapHandle handle;
 
@@ -566,12 +566,12 @@ void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level)
 
 void NNSi_SndHeapLevelInit(NNSiSndHeapLevel *level)
 {
-    NNS_FndInitList((s32)(&level->blockList), 0);
+    NNS_FndInitList((sptr)(&level->blockList), 0);
 }
 
 int NNSi_SndHeapInit(NNSSndHeap *heap, NNSFndHeapHandle handle)
 {
-    NNS_FndInitList((s32)(&heap->levelList), 0xc);
+    NNS_FndInitList((sptr)(&heap->levelList), 0xc);
     heap->handle = handle;
     if (NNSi_SndHeapAllocLevel(heap)) {
         return 1;
@@ -749,10 +749,10 @@ u32 NNSi_SndArcLoadBank(u32 bankNo, u32 loadFlag, NNSSndHeap *heap, u32 isSetAdd
 {
     NNSSndArcBankInfo *bankInfo;
     NNSSndArcWaveArcInfo *waveArcInfo;
-    u32 bank;
+    uptr bank;
     int i;
     u32 wantIndividual;
-    u32 waveArc;
+    uptr waveArc;
     u32 result;
 
     bankInfo = NNS_SndArcGetBankInfo(bankNo);
@@ -856,8 +856,8 @@ u32 NNSi_SndArcLoadSeqFile(u32 fileId, NNSSndHeap *heap, u32 isSetAddress) {
     u32 address = NNS_SndArcGetFileAddress(fileId);
     if (address == 0) {
         if (isSetAddress == 0) arc = 0;
-        else arc = (u32)NNS_SndArcGetCurrent();
-        address = (u32)NNSi_SndArcLoadFile(fileId, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeSeq, arc, fileId, heap);
+        else arc = (uptr)NNS_SndArcGetCurrent();
+        address = (uptr)NNSi_SndArcLoadFile(fileId, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeSeq, arc, fileId, heap);
         if (isSetAddress != 0 && address != 0) NNS_SndArcSetFileAddress(fileId, address);
     }
     return address;
@@ -868,8 +868,8 @@ u32 NNSi_SndArcLoadSeqArcFile(u32 fileId, NNSSndHeap *heap, u32 isSetAddress) {
     u32 address = NNS_SndArcGetFileAddress(fileId);
     if (address == 0) {
         if (isSetAddress == 0) arc = 0;
-        else arc = (u32)NNS_SndArcGetCurrent();
-        address = (u32)NNSi_SndArcLoadFile(fileId, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeSeq, arc, fileId, heap);
+        else arc = (uptr)NNS_SndArcGetCurrent();
+        address = (uptr)NNSi_SndArcLoadFile(fileId, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeSeq, arc, fileId, heap);
         if (isSetAddress != 0 && address != 0) NNS_SndArcSetFileAddress(fileId, address);
     }
     return address;
@@ -880,8 +880,8 @@ u32 NNSi_SndArcLoadBankFile(u32 fileId, NNSSndHeap *heap, u32 isSetAddress) {
     u32 address = NNS_SndArcGetFileAddress(fileId);
     if (address == 0) {
         if (isSetAddress == 0) arc = 0;
-        else arc = (u32)NNS_SndArcGetCurrent();
-        address = (u32)NNSi_SndArcLoadFile(fileId, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeBank, arc, fileId, heap);
+        else arc = (uptr)NNS_SndArcGetCurrent();
+        address = (uptr)NNSi_SndArcLoadFile(fileId, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeBank, arc, fileId, heap);
         if (isSetAddress != 0 && address != 0) NNS_SndArcSetFileAddress(fileId, address);
     }
     return address;
@@ -892,8 +892,8 @@ u32 NNSi_SndArcLoadWaveArcFile(u32 fileId, NNSSndHeap *heap, u32 isSetAddress) {
     u32 address = NNS_SndArcGetFileAddress(fileId);
     if (address == 0) {
         if (isSetAddress == 0) arc = 0;
-        else arc = (u32)NNS_SndArcGetCurrent();
-        address = (u32)NNSi_SndArcLoadFile(fileId, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeWaveArc, arc, fileId, heap);
+        else arc = (uptr)NNS_SndArcGetCurrent();
+        address = (uptr)NNSi_SndArcLoadFile(fileId, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeWaveArc, arc, fileId, heap);
         if (isSetAddress != 0 && address != 0) NNS_SndArcSetFileAddress(fileId, address);
     }
     return address;
@@ -923,7 +923,7 @@ u32 NNSi_SndArcLoadWaveArcTable(u32 fileId, NNSSndHeap *heap, int isSetAddress)
         if (heap == 0)
             return 0;
         if (isSetAddress != 0)
-            arc = (u32)NNS_SndArcGetCurrent();
+            arc = (uptr)NNS_SndArcGetCurrent();
         else
             arc = 0;
         waveArc = NNS_SndHeapAlloc(heap, totalSize + 0x5c, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeWaveArcTable, arc, fileId);
@@ -936,8 +936,8 @@ u32 NNSi_SndArcLoadWaveArcTable(u32 fileId, NNSSndHeap *heap, int isSetAddress)
         MI_CpuFill8(waveArc->waveOffset, 0, tableSize);
         DC_StoreRange(waveArc, totalSize + 0x3c);
         if (isSetAddress != 0)
-            NNS_SndArcSetFileAddress(fileId, (u32)waveArc);
-        address = (u32)waveArc;
+            NNS_SndArcSetFileAddress(fileId, (uptr)waveArc);
+        address = (uptr)waveArc;
     }
     return address;
 }
@@ -947,10 +947,10 @@ u32 NNSi_SndArcLoadWaveArcTable(u32 fileId, NNSSndHeap *heap, int isSetAddress)
  * with the archive that loaded the block made current meanwhile.
  */
 void NNSi_SndArcForgetFileAddress(u32 buffer, NNSSndArc *arc, u32 fileId) {
-    u32 previousArc, irqState;
+    uptr previousArc; u32 irqState;
     if (arc == 0) return;
     irqState = OS_DisableInterrupts();
-    previousArc = (u32)NNS_SndArcSetCurrent(arc);
+    previousArc = (uptr)NNS_SndArcSetCurrent(arc);
     if (NNS_SndArcGetFileAddress(fileId) == buffer) NNS_SndArcSetFileAddress(fileId, 0);
     NNS_SndArcSetCurrent((NNSSndArc *)previousArc);
     OS_RestoreInterrupts(irqState);
@@ -959,14 +959,14 @@ void NNSi_SndArcForgetFileAddress(u32 buffer, NNSSndArc *arc, u32 fileId) {
 /* Dispose callback of a sequence file: forget the address, invalidate the range. */
 void NNSi_SndArcDisposeSeq(u8 *buffer, u32 size, NNSSndArc *arc, u32 fileId)
 {
-    NNSi_SndArcForgetFileAddress((u32)buffer, arc, fileId);
+    NNSi_SndArcForgetFileAddress((uptr)buffer, arc, fileId);
     SND_InvalidateSeqData(buffer, buffer + size);
 }
 
 /* Dispose callback of a bank file: the same plus the bank teardown. */
 void NNSi_SndArcDisposeBank(u8 *buffer, u32 size, NNSSndArc *arc, u32 fileId)
 {
-    NNSi_SndArcForgetFileAddress((u32)buffer, arc, fileId);
+    NNSi_SndArcForgetFileAddress((uptr)buffer, arc, fileId);
     SND_InvalidateBankData(buffer, buffer + size);
     SND_DestroyBank((SNDBankData *)buffer);
 }
@@ -992,7 +992,7 @@ void NNSi_SndArcDisposeWaveArcTable(int buffer, int size, NNSSndArc *arc, int fi
 
 /* Dispose callback of one individually loaded wave. */
 void NNSi_SndArcDisposeWave(u32 buffer, u32 size, SNDWaveArc *waveArc, u32 waveNo) {
-    if ((u32)SND_GetWaveDataAddress(waveArc, waveNo) == buffer) SND_SetWaveDataAddress(waveArc, waveNo, 0);
+    if ((uptr)SND_GetWaveDataAddress(waveArc, waveNo) == buffer) SND_SetWaveDataAddress(waveArc, waveNo, 0);
     SND_InvalidateWaveData((const void *)buffer, (const void *)(buffer + size));
 }
 
@@ -1029,9 +1029,9 @@ u32 NNSi_SndArcLoadWave(SNDWaveArc *waveArc, u32 waveNo, u32 fileId, NNSSndHeap 
   u32 *entry;
   void *buffer;
   u32 startOffset;
-  if ((u32)SND_GetWaveDataAddress(waveArc, waveNo) != 0)
+  if ((uptr)SND_GetWaveDataAddress(waveArc, waveNo) != 0)
     return 1;
-  lastWave = (u32)SNDi_GetBankWaveArcTable((char *)waveArc);
+  lastWave = (uptr)SNDi_GetBankWaveArcTable((char *)waveArc);
   lastWave = lastWave - 1;
   entry = &waveArc->waveOffset[waveArc->waveCount + waveNo];
   startOffset = (&waveArc->waveOffset[waveArc->waveCount + waveNo])[0];
@@ -1043,7 +1043,7 @@ u32 NNSi_SndArcLoadWave(SNDWaveArc *waveArc, u32 waveNo, u32 fileId, NNSSndHeap 
   length = end - offset;
   if (heap == 0)
     return 0;
-  buffer = NNS_SndHeapAlloc(heap, length + 0x20, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeWave, (u32)waveArc, waveNo);
+  buffer = NNS_SndHeapAlloc(heap, length + 0x20, (NNSSndHeapDisposeCallback)NNSi_SndArcDisposeWave, (uptr)waveArc, waveNo);
   if (buffer == 0)
     return 0;
   if (NNS_SndArcReadFile(fileId, buffer, length, offset) != length)
@@ -1113,7 +1113,7 @@ u32 NNS_SndArcPlayerSetup(NNSSndHeap *heap)
         NNS_SndPlayerSetAllocatableChannel(i, info->allocatableChannel);
         if (info->heapSize != 0 && heap != 0) {
             for (j = 0; j < info->playableSeqCount; j++) {
-                if ((struct NNSSndHeap *)NNS_SndPlayerCreateHeap(i, (struct NNSSndHeap *)heap, (u32)info->heapSize) == 0)
+                if ((struct NNSSndHeap *)NNS_SndPlayerCreateHeap(i, (struct NNSSndHeap *)heap, (uptr)info->heapSize) == 0)
                     return 0;
             }
         }

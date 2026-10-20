@@ -447,7 +447,7 @@ u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32
 
     switch (*seq) {
     case 0:
-        SAVE_CONTROL_CreateExtraSaveWithBuffer(save, (u32)id, (u32)heap, (u32)pBattleRec, 0x2000);
+        SAVE_CONTROL_CreateExtraSaveWithBuffer(save, (u32)id, (u32)heap, (uptr)pBattleRec, 0x2000);
         GAME_DATA_PartSaveStart(gameData, id);
         (*seq)++;
         break;
@@ -854,7 +854,7 @@ void BATTLE_REC_SetBodyCrc(struct BattleRecBody *body)
  */
 void BATTLE_REC_LoadToolOverlay(void)
 {
-    GF_OVERLAY_Load((u32)ov188_id);
+    GF_OVERLAY_Load((uptr)ov188_id);
 }
 
 /*
@@ -866,5 +866,5 @@ void BATTLE_REC_LoadToolOverlay(void)
  */
 void BATTLE_REC_UnloadToolOverlay(void)
 {
-    GF_OVERLAY_Unload((u32)ov188_id);
+    GF_OVERLAY_Unload((uptr)ov188_id);
 }

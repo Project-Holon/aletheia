@@ -621,10 +621,10 @@ void PRINTSYS_SubmitJob(struct PrintQueue *queue, struct PrintCtx *job, struct S
  */
 void PRINTSYS_Print(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font)
 {
-    u32 jobAddr;
+    uptr jobAddr;
 
     STRBUF_GetChars(str);
-    jobAddr = (u32)&_PrintJobWork;
+    jobAddr = (uptr)&_PrintJobWork;
     PRINTSYS_SetupJob((struct PrintCtx *)jobAddr, font, bmp, x, y);
     PRINTSYS_RunJob((struct PrintCtx *)jobAddr, str);
 }
@@ -647,10 +647,10 @@ void PRINTSYS_Print(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct Gf
  */
 void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color)
 {
-    u32 jobAddr;
+    uptr jobAddr;
 
     STRBUF_GetChars(str);
-    jobAddr = (u32)&_PrintJobWork;
+    jobAddr = (uptr)&_PrintJobWork;
     PRINTSYS_SetupJob((struct PrintCtx *)jobAddr, font, bmp, x, y);
     PRINTSYS_SetJobColor((struct PrintCtx *)jobAddr, color);
     PRINTSYS_RunJob((struct PrintCtx *)jobAddr, str);
@@ -2266,7 +2266,7 @@ void PRINTSYS_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struc
             node = next;
         }
         {
-            u16 offset = (u16)((u32)node - (u32)queue->data) + 0x1c;
+            u16 offset = (u16)((uptr)node - (uptr)queue->data) + 0x1c;
 
             if (offset >= queue->capacity) offset = 0;
             MI_CpuCopy8(&newRecord, queue->data + offset, 4);

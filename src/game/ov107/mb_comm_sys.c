@@ -271,6 +271,7 @@
  */
 
 #include "mb_comm_sys.h"
+#include "../sdk_ioreg_reg.h"
 
 #include "../types.h"
 
@@ -305,13 +306,9 @@ struct Placement {
 };
 
 /* Display registers and palette RAM touched directly by this screen. */
-#define REG_DISPCNT_MAIN (*(volatile u32 *)0x04000000)
-#define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
-#define REG_BLDCNT_MAIN (*(volatile u16 *)0x04000050)
-#define REG_BLDCNT_SUB (*(volatile u16 *)0x04001050)
-#define REG_POWCNT1 (*(volatile u16 *)0x04000304)
-#define PLTT_BG_MAIN ((volatile u16 *)0x05000000)
-#define PLTT_BG_SUB ((volatile u16 *)0x05000400)
+#define REG_POWCNT1 (*(volatile u16 *)REG_POWCNT1_ADDR)
+#define PLTT_BG_MAIN ((volatile u16 *)HW_BG_PLTT)
+#define PLTT_BG_SUB ((volatile u16 *)HW_DB_BG_PLTT)
 
 typedef struct MbPathPair {
     const char *inGame;
@@ -580,7 +577,7 @@ void MB_COMM_SYS_StartNetSession(MbNetState *net)
     MbCommRequest request = sMbCommSessionRequest;
 
     request.heapId = net->heapId;
-    GFL_NET_StartSession((GFLNetInitializeStruct *)&request, 0, (u32)net);
+    GFL_NET_StartSession((GFLNetInitializeStruct *)&request, 0, net);
     net->offer = 0;
     net->flagsA.bits.headerReceived = 0;
     net->childSaveCount = 0;
@@ -638,7 +635,7 @@ void MB_COMM_SYS_StartNet(MbNetState *net)
 /* Sets the timing sync range of the current handle and enters stage 4. */
 void MB_COMM_SYS_SetSyncRange(MbNetState *net)
 {
-    int handle = (int)GFL_NET_HANDLE_GetCurrentHandle();
+    int handle = (sptr)GFL_NET_HANDLE_GetCurrentHandle();
 
     GFL_NET_HANDLE_SetTimingSyncRange((void *)handle, 0x40, 4);
     net->netStage = 4;

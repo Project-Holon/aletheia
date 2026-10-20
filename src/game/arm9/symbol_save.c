@@ -424,7 +424,7 @@ u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 match
     s32 slotIndex;
     s32 recordIndex;
 
-    save = GFL_HEAP_Alloc((u32)heapId, 0x850, 1, sFileName_symbol_save, 0x1ac);
+    save = GFL_HEAP_Alloc((uptr)heapId, 0x850, 1, sFileName_symbol_save, 0x1ac);
     for (slotIndex = 0; slotIndex < 2; slotIndex++) {
         if (SAVE_CONTROL_ReadRecordFromFlash(saveData, 0x3d, slotIndex, save, 0x850) == 1) {
             SYMBOL_SAVE_FinalizeChecksum(save);

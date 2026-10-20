@@ -1042,7 +1042,7 @@ union BtlAction BTL_SERVER_GetActionTableEntry(BtlServerActionTable *table, u8 r
 }
 
 void BTL_SERVER_NotifyLevelUp(BtlServer *server, u32 *pokeParam) {
-    POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetMon((struct BtlPokeParam *)pokeParam),(u32)0x73,(u32)server->nameBuf);
+    POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetMon((struct BtlPokeParam *)pokeParam),(u32)0x73,(uptr)server->nameBuf);
     GAME_BEACON_SetPokeLevelUp(server->nameBuf);
 }
 

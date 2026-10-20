@@ -114,17 +114,18 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 #include "../sdk_fx.h"
 
 #include "../ov012/union_comm_types.h"
 #include "union_subdisp_types.h"
 #include "../arm9/key.h"
 
-#define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
-#define REG_WINOUT_SUB     (*(volatile u16 *)0x0400104A)
-#define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
+#define REG_DB_DISPCNT_SUB (*(volatile u32 *)REG_DB_DISPCNT_ADDR)
+#define REG_WINOUT_SUB     (*(volatile u16 *)REG_DB_WINOUT_ADDR)
+#define REG_DB_BLDCNT_SUB  (*(volatile u16 *)REG_DB_BLDCNT_ADDR)
 
-#define UNION_SUBDISP_VRAM_SUB_BG ((void *)0x06200000)
+#define UNION_SUBDISP_VRAM_SUB_BG ((void *)HW_DB_BG_VRAM)
 
 struct BgTemplate;
 

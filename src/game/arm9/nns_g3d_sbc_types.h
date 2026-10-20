@@ -23,14 +23,10 @@
 #define NNS_G3D_SBC_TYPES_H
 
 #include "nns_g3d_anm_calc_types.h"
+#include "../sdk_ioreg_reg.h"
 #include "nns_g3d_glb_types.h"
 
 /* Geometry engine ports. */
-#define GXFIFO           (*(volatile u32 *)0x04000400)
-#define REG_MTX_MODE     (*(volatile u32 *)0x04000440)
-#define REG_MTX_STORE    (*(volatile u32 *)0x0400044C)
-#define REG_MTX_RESTORE  (*(volatile u32 *)0x04000450)
-#define REG_MTX_IDENTITY (*(volatile u32 *)0x04000454)
 
 /* Geometry engine command ids used by the handlers. */
 #define GECMD_MTX_MODE    0x10

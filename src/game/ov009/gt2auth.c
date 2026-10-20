@@ -97,7 +97,7 @@ unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge)
     int keylen;
     int chalrand;
 
-    keylen = strlen((unsigned char *)gGt2AuthChallengeKey);
+    keylen = strlen(gGt2AuthChallengeKey);
     valid = gti2VerifyChallenge(challenge);
     for (i = 0; i < 32; i++)
     {

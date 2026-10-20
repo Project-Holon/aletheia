@@ -58,12 +58,12 @@
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   CLACT_SetActorDrawEnable 0x0204B3DC arm
  *   FADE_Start 0x0204E720 arm
- *   d0 0x021BB0D4 data a4
- *   d1 0x021BB0E0 data ov213
- *   d2 0x021BB068 data ov213
- *   d3 0x021BB074 data ov213
- *   d4 0x021BB080 data ov213
- *   d5 0x021BB098 data a4
+ *   gCommBtlDemoEffectPos0 0x021BB0D4 data a4
+ *   gCommBtlDemoEffectPos1 0x021BB0E0 data ov213
+ *   gCommBtlDemoEffectPos2 0x021BB068 data ov213
+ *   gCommBtlDemoEffectPos3 0x021BB074 data ov213
+ *   gCommBtlDemoEffectPos4 0x021BB080 data ov213
+ *   gCommBtlDemoEffectPos5 0x021BB098 data a4
  *   FADE_IsActive 0x0204E804 arm
  *   POKEPARTY_GetCount 0x0201AA18 thumb
  *   POKEPARTY_GetMember 0x0201AB28 thumb
@@ -139,9 +139,10 @@
  */
 
 #include "../arm9/nns_g3d_tex.h"
+#include "../sdk_ioreg.h"
 #include "comm_btl_demo_shared_types.h"
 
-#define REG3D (*(volatile unsigned short *)0x04000060)
+#define REG3D (*(volatile unsigned short *)REG_DISP3DCNT_ADDR)
 struct MsgData;
 struct PrintSys;
 struct ProcOwner;
@@ -428,7 +429,7 @@ extern char overlay_id[];
 extern const struct GfxEntry d_021BAF14[];
 extern int d_021BB004[];
 extern const struct AnimTable records;
-extern const struct Vec3i d0,d1,d2,d3,d4,d5;
+extern const struct Vec3i gCommBtlDemoEffectPos0, gCommBtlDemoEffectPos1, gCommBtlDemoEffectPos2, gCommBtlDemoEffectPos3, gCommBtlDemoEffectPos4, gCommBtlDemoEffectPos5;
 extern struct Vec3i zero;
 extern int d_021BB324[],d_021BB330[],d_021BB360[];
 extern const struct G3dUnitSetup d_021BB0F8[];
@@ -439,7 +440,7 @@ int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *a
 {
     struct CommBtlDemoMain *p;
     if(*state==1 && FADE_IsActive()==1) return 1;
-    GF_OVERLAY_Load((int)ov067_id);
+    GF_OVERLAY_Load((sptr)ov067_id);
     GFL_HEAP_CreateChildHeap(1,116,0x80000);
     p=PROCSYS_AllocProcWork(manager,0x49D8,116);
     MI_CpuFill8(p,0,0x49D8);
@@ -453,7 +454,7 @@ int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *a
     p->messages=MSGDATA_CreateFromArchive(0,2,65,p->heap);
     p->printQue=PRINTSYS_QUE_Create(p->heap);
     p->uiScene=UI_SCENE_Create(p->heap,(struct UiSceneEntry *)callbacks,3,COMM_BTL_DEMO_MAIN_GetModeIndex((const struct CommBtlDemoArgs *)args),p);
-    COMM_BTL_DEMO_MAIN_LoadGraphics((int)((char *)p+8),p->heap,p->args->soundKind);
+    COMM_BTL_DEMO_MAIN_LoadGraphics((sptr)((char *)p+8),p->heap,p->args->soundKind);
     COMM_BTL_DEMO_MAIN_InitGraphics((char *)p+0x24,p->graphic,p->heap);
     COMM_BTL_DEMO_MAIN_InitCursor((char *)p+0xC,p->graphic,p->heap);
     *(volatile u16 *)0x04000304 |= 0x8000;
@@ -466,14 +467,14 @@ int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *a
 int COMM_BTL_DEMO_MAIN_Delete(struct ProcOwner *owner,int unused,const void *cfg,char *p) {
 u16 heap;
 BG_SYS_ChangeScroll(3,0,0);
-if(*(int *)((unsigned)cfg+0x44)==2 || *(int *)((unsigned)cfg+0x44)==4)COMM_BTL_DEMO_MAIN_UpdateNetKind(p);
+if(*(int *)((uptr)cfg+0x44)==2 || *(int *)((uptr)cfg+0x44)==4)COMM_BTL_DEMO_MAIN_UpdateNetKind(p);
 UI_SCENE_Delete(((struct CommBtlDemoMain *)p)->uiScene);
 MSGDATA_Delete(((struct CommBtlDemoMain *)p)->messages);
 PRINTSYS_QUE_Delete(((struct CommBtlDemoMain *)p)->printQue);
 GF_FONT_Delete(((struct CommBtlDemoMain *)p)->font);
 COMM_BTL_DEMO_MAIN_DeleteCursor(p+0xc);COMM_BTL_DEMO_MAIN_DeleteGraphics(p+0x24);
 COMM_BTL_DEMO_GRAPHIC_Delete(((struct CommBtlDemoMain *)p)->graphic);
-heap=((struct CommBtlDemoMain *)p)->heap;PROCSYS_FreeProcWork((struct Proc *)owner);GFL_HEAP_DeleteChecked(heap);GF_OVERLAY_Unload((int)overlay_id);return 1;
+heap=((struct CommBtlDemoMain *)p)->heap;PROCSYS_FreeProcWork((struct Proc *)owner);GFL_HEAP_DeleteChecked(heap);GF_OVERLAY_Unload((sptr)overlay_id);return 1;
 }
 
 int COMM_BTL_DEMO_MAIN_Update(int a,int b,int c,char *p)
@@ -563,11 +564,11 @@ int COMM_BTL_DEMO_MAIN_Tick(u8 *task,char *p)
         COMM_BTL_DEMO_MAIN_UpdateObjectAnime((u8 *)p+0x24);
         if(((struct CommBtlDemoMain *)p)->stage==15) {
             GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(1,((struct CommBtlDemoMain *)p)->args->soundKind));
-            a=records.recA; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,0,(int)&a);
-            b=records.recD; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,1,(int)&b);
-            c=records.recB; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,2,(int)&c);
+            a=records.recA; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,0,(sptr)&a);
+            b=records.recD; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,1,(sptr)&b);
+            c=records.recB; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,2,(sptr)&c);
         } else if(((struct CommBtlDemoMain *)p)->stage==25) {
-            d=records.recC; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,3,(int)&d);
+            d=records.recC; COMM_BTL_DEMO_MAIN_StartEffect(p+0x24,3,(sptr)&d);
         } else if(((struct CommBtlDemoMain *)p)->stage==160) { FADE_Start(12,0,16,-3);
         } else if(((struct CommBtlDemoMain *)p)->stage==150) { GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(3,((struct CommBtlDemoMain *)p)->args->soundKind));
         } else if(((struct CommBtlDemoMain *)p)->stage==168) {return 1;
@@ -634,12 +635,12 @@ int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p)
         if((int)((struct CommBtlDemoMain *)p)->stage%180==0){
             if(((struct CommBtlDemoMain *)p)->variant==1){x=-0x2800;y=0x2000;}
             else{x=0x2800;y=-0x1800;}
-            effectPos0=d0;effectPos0.x=x;effectPos0.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),0,(int)(&effectPos0));
-            effectPos1=d1;effectPos1.x=x;effectPos1.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),1,(int)(&effectPos1));
-            effectPos2=d2;effectPos2.x=x;effectPos2.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),2,(int)(&effectPos2));
-            effectPos3=d3;effectPos3.x=x;effectPos3.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),3,(int)(&effectPos3));
-            effectPos4=d4;effectPos4.x=x;effectPos4.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),4,(int)(&effectPos4));
-            effectPos5=d5;effectPos5.x=x;effectPos5.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),5,(int)(&effectPos5));
+            effectPos0=gCommBtlDemoEffectPos0;effectPos0.x=x;effectPos0.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),0,(sptr)(&effectPos0));
+            effectPos1=gCommBtlDemoEffectPos1;effectPos1.x=x;effectPos1.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),1,(sptr)(&effectPos1));
+            effectPos2=gCommBtlDemoEffectPos2;effectPos2.x=x;effectPos2.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),2,(sptr)(&effectPos2));
+            effectPos3=gCommBtlDemoEffectPos3;effectPos3.x=x;effectPos3.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),3,(sptr)(&effectPos3));
+            effectPos4=gCommBtlDemoEffectPos4;effectPos4.x=x;effectPos4.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),4,(sptr)(&effectPos4));
+            effectPos5=gCommBtlDemoEffectPos5;effectPos5.x=x;effectPos5.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),5,(sptr)(&effectPos5));
         }
         (((struct CommBtlDemoMain *)p)->stage)++;break;
     }
@@ -735,7 +736,7 @@ void COMM_BTL_DEMO_MAIN_UpdateActorRow(struct CommBtlDemoActorRow *p, u32 time)
             else if(p->index==3){x=(i<<11)+0x1f00;y=0x300;}
         }
         pos=zero; pos.x=x; pos.y=y;
-        COMM_BTL_DEMO_MAIN_StartEffects(p->parent,(int)(&pos));
+        COMM_BTL_DEMO_MAIN_StartEffects(p->parent,(sptr)(&pos));
         if(COMM_BTL_DEMO_MAIN_HasVisibleActors(p->kind)) CLACT_SetActorDrawEnable(p->obj[i],1);
         else COMM_BTL_DEMO_MAIN_SetRowActorAnim(p,p->owner,p->types,p->actorCount-1-i);
     } else {
@@ -829,7 +830,7 @@ unsigned limit;
 void COMM_BTL_DEMO_MAIN_DrawRowText(struct CommBtlDemoRow *p, int a)
 {
     int z = 0;
-    int q;
+    sptr q;
 
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)p->window), z);
     if ((int)p->paletteKind == 0)
@@ -850,7 +851,7 @@ void COMM_BTL_DEMO_MAIN_InitRows(struct CommBtlDemoMain *p)
     if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(p->mode)) count=CountTwo;
     else count=CountFour;
     for(i=0;i<count;i++)
-        COMM_BTL_DEMO_MAIN_InitRowContext(&p->rows[i],p->mode,i,(char *)p->args+i*16,(char *)p+0xC,(char *)p+0x24,(int)p->font);
+        COMM_BTL_DEMO_MAIN_InitRowContext(&p->rows[i],p->mode,i,(char *)p->args+i*16,(char *)p+0xC,(char *)p+0x24,(sptr)p->font);
 }
 
 void COMM_BTL_DEMO_MAIN_DeleteRows(char *p){int i;enum Count count;if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(((struct CommBtlDemoMain *)p)->mode))count=CountTwo;else count=CountFour;p+=0x483C;for(i=0;i<count;i++)COMM_BTL_DEMO_MAIN_DeleteRowContext((struct CommBtlDemoRow *)(p+i*84));}
@@ -921,7 +922,7 @@ void COMM_BTL_DEMO_MAIN_ShowBattleActor(struct CommBtlDemoBattleContext *p,unsig
 
 void COMM_BTL_DEMO_MAIN_InitCursor(char *p, void *state, int heap)
 {
-    int resource;
+    sptr resource;
     UiSceneActorGfxConfig config;
     ((struct CommBtlDemoCursor *)p)->state = state;
     ((struct CommBtlDemoCursor *)p)->heap = heap;
@@ -945,7 +946,7 @@ void *COMM_BTL_DEMO_MAIN_CreateActor(char *p,int a,int b,unsigned short c){retur
 
 void *COMM_BTL_DEMO_MAIN_CreateSideActor(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=COMM_BTL_DEMO_MAIN_CreateActor(p,x,y,a);CLACT_SetActorDrawEnable(v,0);CLACT_SetActorDrawPriority(v,1);return v;}
 
-void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,int heap){G2x_SetBlendAlpha_((void *)0x04000050,1,31,0,0);((struct CommBtlDemoGfx *)p)->state=state;((struct CommBtlDemoGfx *)p)->heap=heap;((struct CommBtlDemoGfx *)p)->util=(struct Util *)G3D_UTIL_Create(16,20,heap);PARTICLE_InitManager(heap);}
+void COMM_BTL_DEMO_MAIN_InitGraphics(char *p,void *state,int heap){G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR,1,31,0,0);((struct CommBtlDemoGfx *)p)->state=state;((struct CommBtlDemoGfx *)p)->heap=heap;((struct CommBtlDemoGfx *)p)->util=(struct Util *)G3D_UTIL_Create(16,20,heap);PARTICLE_InitManager(heap);}
 
 void COMM_BTL_DEMO_MAIN_DeleteGraphics(char *p){COMM_BTL_DEMO_MAIN_UnloadObjectIfLoaded(p);COMM_BTL_DEMO_MAIN_DeleteEffectManager(p);G3D_UTIL_Delete((struct G3dUtil *)(((struct CommBtlDemoGfx *)p)->util));}
 
@@ -968,10 +969,10 @@ void COMM_BTL_DEMO_MAIN_DrawGraphics(unsigned char *p)
 void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code)
 {
     struct ParticleCameraParam config;
-    int resource;
+    sptr resource;
     u32 context;
     if(*(int *)&((struct CommBtlDemoGfx *)p)->particleSystem) COMM_BTL_DEMO_MAIN_DeleteEffect((char *)p,*(int *)&((struct CommBtlDemoGfx *)p)->particleSystem);
-    *(int *)&((struct CommBtlDemoGfx *)p)->particleSystem=(int)PARTICLE_CreateSystemDefault((int)(p+20),0x4800,1,((struct CommBtlDemoGfx *)p)->heap);
+    *(int *)&((struct CommBtlDemoGfx *)p)->particleSystem=(sptr)PARTICLE_CreateSystemDefault((sptr)(p+20),0x4800,1,((struct CommBtlDemoGfx *)p)->heap);
     config.f04=0x3000;
     config.f08=-0x3000;
     config.f00=2;
@@ -982,9 +983,9 @@ void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code)
     config.f1c=0;
     PARTICLE_ReleaseCamera((struct ParticleSys *)(*(int *)&((struct CommBtlDemoGfx *)p)->particleSystem));
     PARTICLE_InitCamera((struct ParticleSys *)(*(struct ParticleCamera * *)&((struct CommBtlDemoGfx *)p)->particleSystem),(struct ParticleCameraParams *)&config,0x2000,(Vec3 *)d_021BB330,(Vec3 *)d_021BB324,(Vec3 *)d_021BB360,((struct CommBtlDemoGfx *)p)->heap);
-    resource=(int)PARTICLE_LoadArchiveMember(0xB5,code,((struct CommBtlDemoGfx *)p)->heap);
+    resource=(sptr)PARTICLE_LoadArchiveMember(0xB5,code,((struct CommBtlDemoGfx *)p)->heap);
     ((struct CommBtlDemoGfx *)p)->resourceType=PARTICLE_RESOURCE_GetType((void *)resource);
-    context=(unsigned int)GFL_USE_GetMainTaskList();
+    context=(uptr)GFL_USE_GetMainTaskList();
     PARTICLE_SetupSystem((struct ParticleSys *)(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem),(void *)resource,0,context);
 }
 
@@ -1073,7 +1074,7 @@ static inline void Shading(GXShading mode) { REG3D = (unsigned short)((REG3D & ~
 
 static inline void AntiAlias(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 0x10); else REG3D &= (unsigned short)~0x3010; }
 
-static inline void AlphaTest(BOOL enable, int ref) { if (enable) { REG3D = (unsigned short)((REG3D & ~0x3000) | 4); *(volatile unsigned short *)0x04000340 = ref; } else REG3D &= (unsigned short)~0x3004; }
+static inline void AlphaTest(BOOL enable, int ref) { if (enable) { REG3D = (unsigned short)((REG3D & ~0x3000) | 4); *(volatile unsigned short *)REG_ALPHA_TEST_REF_ADDR = ref; } else REG3D &= (unsigned short)~0x3004; }
 
 static inline void AlphaBlend(BOOL enable) { if (enable) REG3D = (unsigned short)((REG3D & ~0x3000) | 8); else REG3D &= (unsigned short)~0x3008; }
 

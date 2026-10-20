@@ -575,7 +575,7 @@ void PARTY_SELECT_LIST_CreateMenu(PartySelectList *list)
 
     items = FIELD_MSGBG_CreateMenuItemsFromTable(d_021DB414, 3, list->msgData, list->heapId);
     list->menu = FIELD_MSGBG_CreateMenuFuncCallback(list->msgBg, &d_021DB42C, items, 0, 0,
-        (u32)PARTY_SELECT_LIST_MenuMoveCallback, (u32)PARTY_SELECT_LIST_MenuSelectCallback, (u32)list);
+        (uptr)PARTY_SELECT_LIST_MenuMoveCallback, (uptr)PARTY_SELECT_LIST_MenuSelectCallback, (uptr)list);
 }
 
 

@@ -61,7 +61,7 @@ int gpiProcessRegisterUniqueNick(void **connection, GPIOperation *operation, cha
 
     if (gpiCheckForError(connection, input, 1))
         return 4;
-    if (strncmp((const u8 *)input, (const u8 *)gGpiUniqueResponseN, 4) != 0) {
+    if (strncmp(input, gGpiUniqueResponseN, 4) != 0) {
         gpiSetError(connection, 1, gGpiUniqueErrorUnexpectedData);
         __result__ = 3;
         gpiCallErrorCallback((void **)connection, __result__, 1);
@@ -94,7 +94,7 @@ int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *in
 
     if (gpiCheckForError(connection, input, 1))
         return 4;
-    if (strncmp((const u8 *)input, (const u8 *)gGpiUniqueResponseC, 4) != 0) {
+    if (strncmp(input, gGpiUniqueResponseC, 4) != 0) {
         gpiSetError(connection, 1, gGpiUniqueErrorUnexpectedData);
         __result__ = 3;
         gpiCallErrorCallback((void **)connection, __result__, 1);

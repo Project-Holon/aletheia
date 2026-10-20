@@ -55,8 +55,8 @@ u32 OV230_IntegrityChain0(u32 (*hook)(u32), u32 hookArg)
     u32 sum;
 
     table[2] = 0;
-    table[0] = (u32)&OV230_CallSealedBody14[0x1600] + 0x320;
-    table[1] = (u32)&OV230_CallSealedBody8[0x1600] + 0x320;
+    table[0] = (uptr)&OV230_CallSealedBody14[0x1600] + 0x320;
+    table[1] = (uptr)&OV230_CallSealedBody8[0x1600] + 0x320;
     sum = 0x30EB87;
     p = table;
     do {
@@ -75,8 +75,8 @@ u32 OV230_IntegrityChain1(u32 (*hook)(u32), u32 hookArg)
     u32 sum;
 
     table[2] = 0;
-    table[0] = (u32)&OV230_CallSealedBody15[0x1600] + 0x320;
-    table[1] = (u32)&OV230_CallSealedBody9[0x1600] + 0x320;
+    table[0] = (uptr)&OV230_CallSealedBody15[0x1600] + 0x320;
+    table[1] = (uptr)&OV230_CallSealedBody9[0x1600] + 0x320;
     sum = 0x30EB87;
     p = table;
     do {
@@ -95,8 +95,8 @@ u32 OV230_IntegrityChain2(u32 (*hook)(u32), u32 hookArg)
     u32 sum;
 
     table[2] = 0;
-    table[0] = (u32)&OV230_CallSealedBody10[0x1600] + 0x320;
-    table[1] = (u32)&OV230_CallSealedBody6[0x1600] + 0x320;
+    table[0] = (uptr)&OV230_CallSealedBody10[0x1600] + 0x320;
+    table[1] = (uptr)&OV230_CallSealedBody6[0x1600] + 0x320;
     sum = 0x30EB87;
     p = table;
     do {
@@ -115,8 +115,8 @@ u32 OV230_IntegrityChain3(u32 (*hook)(u32), u32 hookArg)
     u32 sum;
 
     table[2] = 0;
-    table[0] = (u32)&OV230_CallSealedBody11[0x1600] + 0x320;
-    table[1] = (u32)&OV230_CallSealedBody7[0x1600] + 0x320;
+    table[0] = (uptr)&OV230_CallSealedBody11[0x1600] + 0x320;
+    table[1] = (uptr)&OV230_CallSealedBody7[0x1600] + 0x320;
     sum = 0x30EB87;
     p = table;
     do {
@@ -134,7 +134,7 @@ u32 OV230_IntegrityChain4(u32 (*hook)(u32), u32 hookArg)
     u32 *p;
     u32 sum;
 
-    table[0] = (u32)&OV230_CallSealedBody16[0x1600] + 0x320;
+    table[0] = (uptr)&OV230_CallSealedBody16[0x1600] + 0x320;
     table[1] = 0;
     sum = 0x30EB87;
     p = table;
@@ -153,7 +153,7 @@ u32 OV230_IntegrityChain5(u32 (*hook)(u32), u32 hookArg)
     u32 *p;
     u32 sum;
 
-    table[0] = (u32)&OV230_CallSealedBody17[0x1600] + 0x320;
+    table[0] = (uptr)&OV230_CallSealedBody17[0x1600] + 0x320;
     table[1] = 0;
     sum = 0x30EB87;
     p = table;

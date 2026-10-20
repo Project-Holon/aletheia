@@ -165,7 +165,7 @@ void FLDEFF_SHADOW_CreateSlot(FldeffShadow *shadow)
 {
     struct BbActRec rec;
 
-    rec.resource = (u32)G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)(FIELD_EFFECT_GetArcHandle(shadow->fieldEffect)), 0x2f);
+    rec.resource = (uptr)G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)(FIELD_EFFECT_GetArcHandle(shadow->fieldEffect)), 0x2f);
     rec.format = 2;
     rec.sizeS = 0x11;
     rec.sizeT = 0x10;
@@ -236,7 +236,7 @@ void FLDEFF_SHADOW_Init(FieldEffectObj *obj, FldeffShadowWork *work)
         desc.pos = zero;
     }
     desc.hook = 0;
-    desc.hookArg = (u32)work;
+    desc.hookArg = (uptr)work;
     work->entryId = BILLBOARD_ACT_CreateEntries(work->shadow->billboardAct, (u16)work->shadow->slotId, &desc, 1, 3);
     if (work->entryId == 0xFFFF) {
         FIELD_EFFECT_DeleteObject(obj);

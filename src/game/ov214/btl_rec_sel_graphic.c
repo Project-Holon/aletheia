@@ -177,9 +177,9 @@ char *BTL_REC_SEL_GRAPHIC_Create(u32 a,u32 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     BTL_REC_SEL_GRAPHIC_InitBg(p,heap);
-    BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)p+4,(int)config,heap);
+    BTL_REC_SEL_GRAPHIC_InitClact((unsigned char *)p+4,(sptr)config,heap);
     BTL_REC_SEL_GRAPHIC_InitG3d((u32 **)(p+8),heap);
-    ((struct BtlRecSelGraphic *)p)->vblankHandle=(unsigned int)GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,(unsigned int)0);
+    ((struct BtlRecSelGraphic *)p)->vblankHandle=(uptr)GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_GRAPHIC_VBlank,p,(unsigned int)0);
     return p;
 }
 

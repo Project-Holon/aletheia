@@ -224,6 +224,7 @@
  *   TCB_AddTask  0x02030DA8  arm  arm9
  */
 #include "pokemontrade_types.h"
+#include "../sdk_ioreg.h"
 
 #define FX32_ONE 4096
 #define FX_MUL(v1, v2) ((fx32)(((fx64)(v1) * (v2) + 0x800LL) >> 12))
@@ -243,7 +244,6 @@ struct Bmp;
 struct Bmp;
 struct Cmd;
 struct Chan02021FD8;
-struct PalAnmSlot;
 struct Node;
 #include "../types.h"
 
@@ -1077,7 +1077,7 @@ void POKETRADE_2D_CreateBoxIcon(char *p, int v, int a, int row, int flag)
     int kind;
     u16 pos[2];
     PointS16 pt;
-    enum { VRAM_BASE = 0x06600000 } vram;
+    enum { VRAM_BASE = HW_DB_OBJ_VRAM } vram;
     if (a == ((TradeWork *)p)->cursorSlot && UI_GetInputMode() == 0) {
         CLACT_SetActorDrawEnable(((void **)(p + row * 20 + 0xbb0))[((TradeWork *)p)->cursorColumn], 1);
     }
@@ -1400,13 +1400,13 @@ void POKETRADE_2D_SetupMainBgs(void *unused)
  BG_SYS_EnableBg0WithPriority(0);BG_SYS_SetPlaneVisible(0,1);BG_SYS_SetPriority(0,0);
 }
 
-static inline void shading(PokemontradeShading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }
+static inline void shading(PokemontradeShading s) { *(volatile u16 *)REG_DISP3DCNT_ADDR = (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3002) | (s << 1)); }
 
-static inline void antialias(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x10); else *(volatile u16 *)0x04000060 &= (u16)~0x3010; }
+static inline void antialias(int b) { if(b) *(volatile u16 *)REG_DISP3DCNT_ADDR = (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 0x10); else *(volatile u16 *)REG_DISP3DCNT_ADDR &= (u16)~0x3010; }
 
-static inline void blend(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 8); else *(volatile u16 *)0x04000060 &= (u16)~0x3008; }
+static inline void blend(int b) { if(b) *(volatile u16 *)REG_DISP3DCNT_ADDR = (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 8); else *(volatile u16 *)REG_DISP3DCNT_ADDR &= (u16)~0x3008; }
 
-static inline void edge(int b) { if(b) *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3000) | 0x20); else *(volatile u16 *)0x04000060 &= (u16)~0x3020; }
+static inline void edge(int b) { if(b) *(volatile u16 *)REG_DISP3DCNT_ADDR = (u16)((*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000) | 0x20); else *(volatile u16 *)REG_DISP3DCNT_ADDR &= (u16)~0x3020; }
 
 /*
  * volatile: 0x04000060 reread at 021E552E, 021E553E, 021E554A, 021E5556; 0x04000008 display register; 0x04000580 hardware store at 021E557A.
@@ -1977,7 +1977,7 @@ void POKETRADE_2D_DeleteFloatingIconActor(void *p)
 
 void POKETRADE_2D_SetupSubBlend(void *p)
 {
-    G2x_SetBlendAlpha_((u32 *)0x04001050, 0, 15, 8, 8);
+    G2x_SetBlendAlpha_((u32 *)REG_DB_BLDCNT_ADDR, 0, 15, 8, 8);
 }
 
 void POKETRADE_2D_CreateMarkerActor(char *p, int i) {
@@ -2293,8 +2293,8 @@ void POKETRADE_2D_FadePaletteBank(char *p, int bank, int mask)
     s=PALANM_Create(((TradeWork *)p)->heapId);
     PALANM_AllocSlotBuffers(s,bank,0x200,((TradeWork *)p)->heapId);
     PALANM_CopyHwPaletteToSlot(s,bank,0,0x200);
-    PALANM_BlendChannel((PaletteFadeWork *)s,bank,0,0x100,6,0);
-    buf=(char *)PALANM_GetTransWork((char *)s,bank);
+    PALANM_BlendChannel(s,bank,0,0x100,6,0);
+    buf=(char *)PALANM_GetTransWork(s,bank);
     for(i=0;i<16;i++) {
         if(mask & (1<<i)) {
             off=i*32;
@@ -2315,10 +2315,10 @@ void POKETRADE_2D_FadePaletteCopy(void *p, int capture, int bank, int mask)
 {
     if (capture != 0) {
         if (bank == 3)
-            MI_CpuCopy8((void *)0x05000600, ((TradeWork *)p)->subObjPaletteCopy,
+            MI_CpuCopy8((void *)HW_DB_OBJ_PLTT, ((TradeWork *)p)->subObjPaletteCopy,
                           0x200);
         else if (bank == 1)
-            MI_CpuCopy8((void *)0x05000400, ((TradeWork *)p)->subBgPaletteCopy,
+            MI_CpuCopy8((void *)HW_DB_BG_PLTT, ((TradeWork *)p)->subBgPaletteCopy,
                           0x200);
         POKETRADE_2D_FadePaletteBank(p, bank, mask);
         return;

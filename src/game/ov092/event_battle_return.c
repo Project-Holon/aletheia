@@ -359,7 +359,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
         if (args->battleParam->outcome == BATTLE_OUTCOME_CAUGHT) {
             work->caughtMon = POKEPARTY_GetMember((struct Party *)args->battleParam->opponentParty, args->battleParam->capturedIndex);
             MYSTATUS_NameToStrbuf((u16 *)myStatus, work->nameBuf);
-            POKE_TOOL_SetPartyValue(work->caughtMon, MON_PARAM_ORIGINAL_TRAINER_NAME, (u32)work->nameBuf);
+            POKE_TOOL_SetPartyValue(work->caughtMon, MON_PARAM_ORIGINAL_TRAINER_NAME, (uptr)work->nameBuf);
             partyCount = (int)POKEPARTY_GetCount((struct Party *)party);
             if (partyCount >= (int)POKEPARTY_GetCapacity((struct Party *)party)) {
                 box = BOX_SAVEDATA_GetCurrentBox((struct GameData *)boxManager); boxSlot = 0;
@@ -383,7 +383,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
             work->catchArgs.boxNo = work->boxNo;
             work->catchArgs.gameData = args->gameData;
             if (isNewSpecies) work->catchArgs.wasAlreadyCaught = 0; else work->catchArgs.wasAlreadyCaught = 1;
-            PROCSYS_Push((ProcSys *)work->procSys, (u32)ov207_id, (const ProcData *)&gCatchRegistrationProcData, (void *)&work->catchArgs);
+            PROCSYS_Push((ProcSys *)work->procSys, (uptr)ov207_id, (const ProcData *)&gCatchRegistrationProcData, (void *)&work->catchArgs);
             ++*seq;
         } else *seq = 4;
         break;
@@ -395,7 +395,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
         if (wantsNickname) {
             miscSave = MISC_GetBlock(GAME_DATA_GetSaveControl(args->gameData));
             work->nameInArgs = NAMEIN_SETUP_CreateCaptureArgs(work->heapId, work->caughtMon, MAX_NICKNAME_LENGTH, 0, work->boxFullMsg, boxManager, work->boxNo, miscSave);
-            PROCSYS_Push((ProcSys *)work->procSys, (u32)ov194_id, (const ProcData *)&data_021F5580, (void *)work->nameInArgs);
+            PROCSYS_Push((ProcSys *)work->procSys, (uptr)ov194_id, (const ProcData *)&data_021F5580, (void *)work->nameInArgs);
             ++*seq;
         } else *seq = 3;
         break;
@@ -405,7 +405,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
         if (busy != 1) {
         if (!NAMEIN_SETUP_IsCanceled(work->nameInArgs)) {
             NAMEIN_SETUP_CopyName(work->nameInArgs, work->nameBuf);
-            POKE_TOOL_SetPartyValue(work->caughtMon, MON_PARAM_NICKNAME, (u32)work->nameBuf);
+            POKE_TOOL_SetPartyValue(work->caughtMon, MON_PARAM_NICKNAME, (uptr)work->nameBuf);
             RECORD_AddOne(GAME_DATA_GetTrainerRecord(args->gameData), RECORD_NICKNAMED_COUNT);
         }
         NAMEIN_SETUP_FreeArgs(work->nameInArgs);
@@ -453,7 +453,7 @@ int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleR
                     evolutionRequest = GFL_HEAP_Alloc(work->heapId, 20, 0, (const char *)sSourceFileName, LINE_OF_HEAP_ALLOC);
                     evolutionRequest->gameData = args->gameData; evolutionRequest->party = scanParty; evolutionRequest->targetSpecies = species; evolutionRequest->partySlot = slot; evolutionRequest->evolveCondition = method; evolutionRequest->fromTrade = 0; evolutionRequest->fromField = 1;
                     work->evolutionRequest = evolutionRequest;
-                    PROCSYS_Push((ProcSys *)work->procSys, (u32)ov195_id, (const ProcData *)&data_02208C40, (void *)evolutionRequest);
+                    PROCSYS_Push((ProcSys *)work->procSys, (uptr)ov195_id, (const ProcData *)&data_02208C40, (void *)evolutionRequest);
                     *seq = 5;
                     break;
                 }

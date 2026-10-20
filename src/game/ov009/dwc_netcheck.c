@@ -142,7 +142,7 @@ extern char gDwcNetcheckLabelWait[];
 extern int strcmp(const char *a, const char *b);
 #include "dwc_cal.h"
 extern void DWCi_Netcheck_SetError(int error);
-extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
+extern char *strncpy(char *dest, const char *src, unsigned int n);
 #include "../arm9/dwc_backup.h"
 #include "dwc_auth.h"
 
@@ -398,7 +398,7 @@ static void DWCi_Netcheck_Thread(void *arg)
                 DWCi_Netcheck_SetError(4);
                 goto exit;
             }
-            strncpy((unsigned char *)DWCnetcheck_->url, (unsigned char *)body302, strlen(body302) + 1);
+            strncpy(DWCnetcheck_->url, body302, strlen(body302) + 1);
             break;
         default:
             DWC_Http_Destroy((char *)DWChttp_);
@@ -661,7 +661,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCi_Netcheck_SetError(4);
             goto exit;
         }
-        strncpy((unsigned char *)DWCnetcheck_->blurl, (unsigned char *)bodywayport, strlen(bodywayport) + 1);
+        strncpy(DWCnetcheck_->blurl, bodywayport, strlen(bodywayport) + 1);
         DWC_Http_Destroy((char *)DWChttp_);
         OS_Sleep(wait_sec);
     }

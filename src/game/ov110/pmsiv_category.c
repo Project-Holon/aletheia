@@ -102,15 +102,15 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "pms_input_data_shared_types.h"
+#include "../sdk_ioreg_reg.h"
 #include "pms_input_view_shared_types.h"
 #include "pmsiv_category_shared_types.h"
 #include "pmsiv_edit_shared_types.h"
 
-#define REG_DISPCNT (*(volatile u32 *)0x04000000)
-#define REG_WIN0H (*(volatile u16 *)0x04000040)
-#define REG_WIN0V (*(volatile u16 *)0x04000044)
-#define REG_WININ (*(volatile u16 *)0x04000048)
-#define REG_WINOUT (*(volatile u16 *)0x0400004a)
+#define REG_WIN0H (*(volatile u16 *)REG_WIN0H_ADDR)
+#define REG_WIN0V (*(volatile u16 *)REG_WIN0V_ADDR)
+#define REG_WININ (*(volatile u16 *)REG_WININ_ADDR)
+#define REG_WINOUT (*(volatile u16 *)REG_WINOUT_ADDR)
 
 #define PMSIV_CATEGORY_COUNT 12
 #define PMSIV_CATEGORY_HEAP 42
@@ -262,17 +262,17 @@ static inline void setWindowOutside(int layers, int effect)
 
 void PMSIV_CATEGORY_Setup(struct PmsivCategory *p, void *data)
 {
-    u32 bytes, q;
+    uptr bytes, q;
     ARC_UTIL_UploadBgPaletteFromHandle((void *)data, 27, 1, 0, 0, 0, PMSIV_CATEGORY_HEAP);
     bytes = ARC_UTIL_UploadBgCharFromHandle((void *)data, 15, 1, 0, 0, 0, PMSIV_CATEGORY_HEAP);
-    q = (u32)PMSIV_CATEGORY_MakeCategoryButtons(p, (u8 *)(bytes / 32));
-    q = (u32)PMSIV_CATEGORY_MakeKanaWindow(p, (u8 *)q);
+    q = (uptr)PMSIV_CATEGORY_MakeCategoryButtons(p, (u8 *)(bytes / 32));
+    q = (uptr)PMSIV_CATEGORY_MakeKanaWindow(p, (u8 *)q);
     PMSIV_CATEGORY_MakeTitleWindow(p, (u8 *)q);
     PMSIV_CATEGORY_MakeListWindow(p);
     BG_SYS_ChangeScrollImmediate(1, 0, -4);
     BG_SYS_ChangeScrollImmediate(1, 3, 16);
     PMSIV_CATEGORY_CreateCursor(p);
-    G2x_SetBlendBrightness_(0x04000050, 2, -10);
+    G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 2, -10);
     setWindowInside(31, 1);
     setWindowOutside(29, 1);
     REG_WIN0H = 255;
@@ -285,12 +285,12 @@ u8 *PMSIV_CATEGORY_MakeCategoryButtons(struct PmsivCategory *p, u8 *q)
 {
     int x, y;
     void *bank;
-    u32 font;
+    uptr font;
     int i;
     void *label;
     struct BmpWin *window;
     u32 width;
-    font = (u32)PMS_INPUT_VIEW_GetFont(p->view);
+    font = (uptr)PMS_INPUT_VIEW_GetFont(p->view);
     bank = MSGDATA_CreateFromArchive(0, 2, 145, PMSIV_CATEGORY_HEAP);
     x = 1;
     y = 9;
@@ -324,12 +324,12 @@ u8 *PMSIV_CATEGORY_MakeCategoryButtons(struct PmsivCategory *p, u8 *q)
  */
 u8 *PMSIV_CATEGORY_MakeKanaWindow(struct PmsivCategory *p, u8 *q)
 {
-    u32 keyCount, font;
+    u32 keyCount; uptr font;
     struct BmpWin *window;
     void *label;
     int i;
     int x, y;
-    font = (u32)PMS_INPUT_VIEW_GetFont(p->view);
+    font = (uptr)PMS_INPUT_VIEW_GetFont(p->view);
     window = BMP_WIN_Create(1, 1, 8, 30, 14, 12, 1);
     label = STRBUF_Create(4, PMSIV_CATEGORY_HEAP);
     BMP_Clear(BMP_WIN_GetBmp(window), 15);
@@ -510,7 +510,7 @@ int PMSIV_CATEGORY_IsBlendOutDone(struct PmsivCategory *p)
  */
 void PMSIV_CATEGORY_StartBlendIn(struct PmsivCategory *p)
 {
-    G2x_SetBlendAlpha_((void *)0x04000050, 2, 63, 0, 16);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 2, 63, 0, 16);
     BG_SYS_SetPlaneVisible(1, 1);
     PMSIV_FADE_StartBlend(&p->fade, 2, 63, 0, 124, 12);
 }
@@ -552,7 +552,7 @@ int PMSIV_CATEGORY_IsReady(struct PmsivCategory *p)
 
 void PMSIV_CATEGORY_DrawTitle(struct PmsivCategory *p)
 {
-    u32 font = (u32)PMS_INPUT_VIEW_GetFont(p->view);
+    u32 font = (uptr)PMS_INPUT_VIEW_GetFont(p->view);
     struct BmpWin *window = p->titleWindow;
     void *title = STRBUF_Create(14, PMSIV_CATEGORY_HEAP);
     PMS_INPUT_SetSearchArg((struct PmsInput *)p->input, title);
@@ -590,11 +590,11 @@ void PMSIV_CATEGORY_StartListScrollOut(struct PmsivCategory *p, u32 unused)
 
 void PMSIV_CATEGORY_DrawWordList(struct PmsivCategory *p, unsigned count)
 {
-    u32 printQue, font;
+    uptr printQue, font;
     void *word;
     int i, x, height, base;
-    printQue = (unsigned int)PMS_INPUT_VIEW_GetPrintQue(p->view);
-    font = (u32)PMS_INPUT_VIEW_GetFont(p->view);
+    printQue = (uptr)PMS_INPUT_VIEW_GetPrintQue(p->view);
+    font = (uptr)PMS_INPUT_VIEW_GetFont(p->view);
     word = STRBUF_Create(15, PMSIV_CATEGORY_HEAP);
     BMP_Clear(BMP_WIN_GetBmp(p->listWindow), 15);
     p->printWindow = p->listWindow;
@@ -602,7 +602,7 @@ void PMSIV_CATEGORY_DrawWordList(struct PmsivCategory *p, unsigned count)
     for (i = 0; i < count; i++) {
         if (i % 2 == 0) x = 8;
         else x = 128;
-        PMS_INPUT_GetInitialWord((struct PmsInput *)p->input, i, (int)word);
+        PMS_INPUT_GetInitialWord((struct PmsInput *)p->input, i, (sptr)word);
         PRINTSYS_PrintQueColor((void *)printQue, BMP_WIN_GetBmp(p->printWindow), (short)x, (short)((i / 2) * 16), word, (struct GfFont *)font, 1103);
         p->printPending = 1;
     }
@@ -619,14 +619,14 @@ void PMSIV_CATEGORY_DrawWordList(struct PmsivCategory *p, unsigned count)
 
 int PMSIV_CATEGORY_IsListReady(struct PmsivCategory *p, int waitForPrint)
 {
-    unsigned printQue;
+    uptr printQue;
     int printDone;
     int scrollDone;
-    printQue = (unsigned int)PMS_INPUT_VIEW_GetPrintQue(p->view);
+    printQue = (uptr)PMS_INPUT_VIEW_GetPrintQue(p->view);
     printDone = 1;
     if (waitForPrint) {
         if (p->printPending) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printQue, (void *)((unsigned)BMP_WIN_GetBmp(p->printWindow))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printQue, (void *)((uptr)BMP_WIN_GetBmp(p->printWindow))) == 0) {
                 BMP_WIN_TransferChars((struct BmpWin *)p->printWindow);
                 p->printPending = 0;
             }

@@ -72,7 +72,6 @@ typedef struct GSSoapTask {
 
 
 #include "../ov009/gsmemory.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../arm9/msl_string_str.h"
 #include "../arm9/os_printf.h"

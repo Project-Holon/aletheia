@@ -99,7 +99,7 @@ u32 *NAMEIN_GRAPHIC_CreateMembers(u16 heap)
     p = GFL_HEAP_Alloc(heap, 20, 0, d_021F5798, 147);
     MI_CpuFill8(p, 0, 20);
     for (; i < 5; i++)
-        p[i] = (u32)NAMEIN_GRAPHIC_LoadArcMember(i, heap);
+        p[i] = (uptr)NAMEIN_GRAPHIC_LoadArcMember(i, heap);
     return p;
 }
 
@@ -139,7 +139,7 @@ int NAMEIN_GRAPHIC_PickTable8(int p, int idx, unsigned short *tab, int val, unsi
 {
     unsigned char i;
 
-    WORDSET_CopyString((const u16 *)(p + 8 + 0x18 * idx), (u16 *)((int)tab), val);
+    WORDSET_CopyString((const u16 *)(p + 8 + 0x18 * idx), (u16 *)((sptr)tab), val);
     i = 0;
     while (i < 3 && tab[i] != 0x3000) {
         i++;
@@ -154,7 +154,7 @@ int NAMEIN_GRAPHIC_PickTableE(int p, int idx, unsigned short *tab, int val, unsi
 {
     unsigned char i;
 
-    WORDSET_CopyString((const u16 *)(p + 0xe + 0x18 * idx), (u16 *)((int)tab), val);
+    WORDSET_CopyString((const u16 *)(p + 0xe + 0x18 * idx), (u16 *)((sptr)tab), val);
     i = 0;
     while (i < 3 && tab[i] != 0x3000) {
         i++;

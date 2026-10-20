@@ -577,7 +577,7 @@ static inline u32 ModelSetGetFirstModel(ModelSetRes *set)
     if (set != 0) {
         slot = ModelSetGetOffsetSlot(set, 0);
         if (slot != 0)
-            return (u32)set + *slot;
+            return (uptr)set + *slot;
     }
     return 0;
 }
@@ -586,9 +586,9 @@ static inline u32 ModelSetGetFirstModel(ModelSetRes *set)
 u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj)
 {
     u32 pResMdl;
-    pResMdl = ModelSetGetFirstModel((struct ModelSetRes *)NNS_G3dGetMdlSet((s32)G3D_SYSTEM_GetResourceFile((void *)fileRes)));
+    pResMdl = ModelSetGetFirstModel((struct ModelSetRes *)NNS_G3dGetMdlSet((sptr)G3D_SYSTEM_GetResourceFile((void *)fileRes)));
     if (texRes != 0)
-        texRes = (u32)G3D_SYSTEM_GetResourceTex((void *)texRes);
+        texRes = (uptr)G3D_SYSTEM_GetResourceTex((void *)texRes);
     else
         texRes = 0;
     MI_CpuFill8(entry->anmObj, 0, 0x80);
@@ -730,7 +730,7 @@ void FIELD_GROUND_ANIME_TexAnmUpdate(GroundTexAnm *anm, s32 dt)
         } else if (anm->vramOffsets[group] != -1) {
             key = FIELD_GROUND_ANIME_KeyTableGetKey(&anm->keyTable, group, anm->times[group] >> 12);
             if (key.texIndex != anm->curKeys[group].texIndex || anm->needsFullUpload)
-                NNS_GfdRegisterNewVramTransferTask(0, anm->vramOffsets[group], (u32)FIELD_GROUND_ANIME_GetTexData(anm->animRes, key.texIndex), anm->texSizes[group]);
+                NNS_GfdRegisterNewVramTransferTask(0, anm->vramOffsets[group], (uptr)FIELD_GROUND_ANIME_GetTexData(anm->animRes, key.texIndex), anm->texSizes[group]);
             anm->curKeys[group] = key;
         }
     }
@@ -820,13 +820,13 @@ u8 *FIELD_GROUND_ANIME_GetTexData(void *animRes, u32 texIdx)
 /* Key data of table entry index. */
 u32 FIELD_GROUND_ANIME_GetTexAnmKeyData(GroundTexAnmTable *table, u32 index)
 {
-    return (u32)table + table->entries[index].keyDataOfs;
+    return (uptr)table + table->entries[index].keyDataOfs;
 }
 
 /* Texture animation file of table entry index. */
 u32 FIELD_GROUND_ANIME_GetTexAnmFile(GroundTexAnmTable *table, u32 index)
 {
-    return (u32)table + table->entries[index].animResOfs;
+    return (uptr)table + table->entries[index].animResOfs;
 }
 
 /*
@@ -892,11 +892,11 @@ u16 FIELD_GROUND_ANIME_KeyTableGetLastKeyFrame(GroundKeyTable *table, int group)
 void FIELD_GROUND_ANIME_KeyTableUnpack(u32 *keyFile, GroundKeyTable *out)
 {
     u32 count;
-    u32 p;
+    uptr p;
     u32 pad;
 
     count = *keyFile;
-    p = (u32)(keyFile + 1);
+    p = (uptr)(keyFile + 1);
     out->keyCount = count;
     out->keyFrames = (u16 *)p;
     p += count * 2;
@@ -1411,7 +1411,7 @@ void FIELD_GROUND_ANIME_PlayBuildModelForward(GroundAnimeWork *work)
     u16 seId;
     if (FIELD_GROUND_ANIME_HasBuildModel(work)) {
         FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 0, 0);
-        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, (s32)(&seId))) {
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, (sptr)(&seId))) {
             GFL_USE_PlaySeDefaultVolume(seId);
         }
     }
@@ -1423,7 +1423,7 @@ void FIELD_GROUND_ANIME_PlayBuildModelReverse(GroundAnimeWork *work)
     u16 seId;
     if (FIELD_GROUND_ANIME_HasBuildModel(work)) {
         FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 1, 0);
-        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, (s32)(&seId))) {
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, (sptr)(&seId))) {
             GFL_USE_PlaySeDefaultVolume(seId);
         }
     }

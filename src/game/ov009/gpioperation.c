@@ -48,7 +48,6 @@ typedef struct GPRegisterCdKeyResponseArg {
 
 #include "gsmemory.h"
 #include "gpiutility.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "gpicallback.h"
 #include "gsplatformsocket.h"

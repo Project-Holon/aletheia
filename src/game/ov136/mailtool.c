@@ -127,7 +127,7 @@ void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap)
     args->mode = 0;
     args->saveControl = GAME_DATA_GetSaveControl(a);
     args->mail = MAIL_Create((unsigned)((u16)heap));
-    POKE_TOOL_GetPartyValue(b, 0xA7, (u32)args->mail);
+    POKE_TOOL_GetPartyValue(b, 0xA7, (uptr)args->mail);
     return args;
 }
 
@@ -139,7 +139,7 @@ void *MAILTOOL_CreateArgsFromMail(void *a, void *b, unsigned heap)
     args->mode = 0;
     args->saveControl = GAME_DATA_GetSaveControl(a);
     args->mail = MAIL_Create((unsigned)((u16)heap));
-    MAIL_SetDesign(args->mail, (u32)b);
+    MAIL_SetDesign(args->mail, (uptr)b);
     return args;
 }
 
@@ -151,7 +151,7 @@ u32 MAILTOOL_IsMailSent(struct MailArgs *args)
 int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon)
 {
     if (MAILTOOL_IsMailSent(args) == 0) return 0;
-    POKE_TOOL_SetPartyValue(mon, 0xa7, (u32)args->mail);
+    POKE_TOOL_SetPartyValue(mon, 0xa7, (uptr)args->mail);
     return 1;
 }
 
@@ -229,7 +229,7 @@ int MAILTOOL_ProcMain(int unused, u32 *state, struct MailArgs *args, struct Mail
         }
         return 1;
     case 3:
-        GF_OVERLAY_Load((int)ov110_id);
+        GF_OVERLAY_Load((sptr)ov110_id);
         MAILTOOL_StartWordInput(proc, args);
         PROCSYS_Push((ProcSys *)proc->procSys, (u32)-1, (const ProcData *)D_021C775C, (void *)proc->pmsiParam);
         *state = 4;
@@ -246,7 +246,7 @@ int MAILTOOL_ProcMain(int unused, u32 *state, struct MailArgs *args, struct Mail
                 proc->draft->messageId = PMSI_PARAM_GetWord(proc->pmsiParam);
         }
         PMSI_PARAM_Delete(proc->pmsiParam);
-        GF_OVERLAY_Unload((int)ov110_id);
+        GF_OVERLAY_Unload((sptr)ov110_id);
         *state = 0;
         break;
     }

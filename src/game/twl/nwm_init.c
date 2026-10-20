@@ -95,7 +95,7 @@ u32 NWMi_InitCore(CamBuf *buf, u32 size, u32 mode) {
         OS_RestoreInterrupts(irq);
         return 5;
     }
-    if (((u32)buf & 0x1f) != 0) {
+    if (((uptr)buf & 0x1f) != 0) {
         OS_RestoreInterrupts(irq);
         return 5;
     }

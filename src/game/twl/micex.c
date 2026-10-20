@@ -75,7 +75,7 @@ MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallbac
     if (param->size == 0) {
         return 2;
     }
-    if (((u32)param->buffer & 0x1f) != 0 || (param->size & 0x1f) != 0) {
+    if (((uptr)param->buffer & 0x1f) != 0 || (param->size & 0x1f) != 0) {
         return 2;
     }
     switch (param->type) {
@@ -126,11 +126,11 @@ MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallbac
     }
     st->busy = 1;
     OS_RestoreInterrupts(irq);
-    st->cb = (u32)callback;
-    st->arg = (u32)arg;
-    st->fullCallback = (u32)param->full_callback;
-    st->fullArg = (u32)param->full_arg;
-    if (MicexStartLimitedSampling((u32)param->buffer, param->size, param->rate, flags) == 0) {
+    st->cb = (uptr)callback;
+    st->arg = (uptr)arg;
+    st->fullCallback = (uptr)param->full_callback;
+    st->fullArg = (uptr)param->full_arg;
+    if (MicexStartLimitedSampling((uptr)param->buffer, param->size, param->rate, flags) == 0) {
         st->busy = 0;
         return 3;
     }
@@ -147,7 +147,7 @@ u32 MICEXi_StopLimitedSampling(void) {
         return 5;
     }
     OS_InitMessageQueue((struct OSMessageQueue *)queue, (void **)(&buf), 1);
-    res = MICEXi_StopLimitedSamplingAsync((u32)MicexSyncCallback, (u32)queue);
+    res = MICEXi_StopLimitedSamplingAsync((uptr)MicexSyncCallback, (uptr)queue);
     msg = res;
     if (msg == 0) {
         OS_ReceiveMessage((struct OSMessageQueue *)queue, (void **)(&msg), 1);

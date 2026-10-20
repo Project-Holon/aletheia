@@ -547,7 +547,7 @@ void MYSTERY_DATA_Load(struct MysteryData *data, struct SaveControl *save, int m
         data->saveType = 1;
         return;
     }
-    GF_OVERLAY_Load((int)ov_id_E4);
+    GF_OVERLAY_Load((sptr)ov_id_E4);
     work = SAVE_OUTSIDE_Load(heapId);
     data->extraSave = work;
     data->buffer = SAVE_OUTSIDE_GetPayload(work);
@@ -592,7 +592,7 @@ void MYSTERY_DATA_Unload(struct MysteryData *data)
     switch (data->saveType) {
     case 0:
         SAVE_OUTSIDE_Free(data->extraSave);
-        GF_OVERLAY_Unload((int)ov_id_E4);
+        GF_OVERLAY_Unload((sptr)ov_id_E4);
         break;
     case 1:
         break;

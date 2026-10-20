@@ -42,7 +42,7 @@ int MYSTERY_NET_IsHandler(int *p, int value);
 void *MYSTERY_NET_GetBuffer(char *p);
 int MYSTERY_NET_GetBufferSize(void);
 int MYSTERY_NET_IsEqual(int a, int b);
-void MYSTERY_NET_FlagExit(char *p);
+void MYSTERY_NET_FlagExit(void *userArg);
 void MYSTERY_NET_OnNdAsyncDone(int a, int b);
 void MYSTERY_NET_MarkNdDone(void);
 int MYSTERY_NET_ParseHexValue(const signed char *p);

@@ -231,12 +231,12 @@ struct SaveControl *SAVE_CONTROL_Create(int heapId)
     ExtraSaveSlot slot;
     u32 *loadFlags;
 
-    GF_OVERLAY_Load((int)ov228_id);
+    GF_OVERLAY_Load((sptr)ov228_id);
     outsideSave = SAVE_OUTSIDE_Load(heapId);
     outsideLoaded = SAVE_OUTSIDE_IsLoaded(outsideSave);
     outsideBroken = SAVE_OUTSIDE_IsCorrupt(outsideSave);
     SAVE_OUTSIDE_Free(outsideSave);
-    GF_OVERLAY_Unload((int)ov228_id);
+    GF_OVERLAY_Unload((sptr)ov228_id);
     saveControl = (struct SaveControl *)GFL_HEAP_Alloc(heapId, 0x38, 1, _SaveControlFileName, 0x58);
     _pSaveControl = saveControl;
     saveControl->isNewGame = 1;
@@ -548,7 +548,7 @@ void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, u32 *diffSize, u3
  */
 int SAVE_CONTROL_ReadRecordFromFlash(struct SaveControl *saveControl, u32 recordId, u32 areaIndex, void *dest, u32 size)
 {
-    return BACKUP_SYSTEM_ReadRecordFromFlash(saveControl->mainSave, recordId, areaIndex, (u32)dest, size);
+    return BACKUP_SYSTEM_ReadRecordFromFlash(saveControl->mainSave, recordId, areaIndex, (uptr)dest, size);
 }
 
 /*
@@ -722,6 +722,6 @@ void SAVE_CONTROL_EraseOutsideSave(void)
 {
     u32 zero = 0;
 
-    BACKUP_SYSTEM_WriteFlash((u32)0x7F800, (u32)(&zero), 4);
-    BACKUP_SYSTEM_WriteFlash((u32)0x7FC00, (u32)(&zero), 4);
+    BACKUP_SYSTEM_WriteFlash((u32)0x7F800, (uptr)(&zero), 4);
+    BACKUP_SYSTEM_WriteFlash((u32)0x7FC00, (uptr)(&zero), 4);
 }

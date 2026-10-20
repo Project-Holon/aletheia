@@ -6,6 +6,7 @@
 
 #include "../ov101/compatible_irc_sys_types.h"
 #include "../types.h"
+#include "../arm9/net_types.h"
 
 void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
 void COMPATIBLE_IRC_SYS_Delete(void *sys);
@@ -23,7 +24,7 @@ int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
 int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
 int COMPATIBLE_IRC_SYS_SendToHandle(IrcSys *sys,u32 commandId,u32 size,u32 data);
 u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys,u32 commandId,u32 size,u32 data,u8 target,u32 e,u32 f,u32 g);
-void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys,u32 a,u32 b,u32 c,u32 d);
+void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys,u32 a,NetCommandEntry *b,u32 c,void *d);
 void COMPATIBLE_IRC_SYS_DeleteCommandTable(IrcSys *sys,u32 a);
 int COMPATIBLE_IRC_SYS_SendProfileRequest(IrcSys *sys,u32 a,u32 b);
 int COMPATIBLE_IRC_SYS_PollProfileRequest(IrcSys *sys);
@@ -37,8 +38,8 @@ int COMPATIBLE_IRC_SYS_GetRecvBuffer(void);
 int COMPATIBLE_IRC_SYS_GetRecvSize(void);
 int COMPATIBLE_IRC_SYS_IsEqual(int a, int b);
 void COMPATIBLE_IRC_SYS_ClearPartnerReady(IrcSys *sys);
-void COMPATIBLE_IRC_SYS_StartSessionCallback(void);
-void COMPATIBLE_IRC_SYS_ExitCallback(IrcSys *sys);
+void COMPATIBLE_IRC_SYS_StartSessionCallback(void *userArg);
+void COMPATIBLE_IRC_SYS_ExitCallback(void *userArg);
 void COMPATIBLE_IRC_SYS_RecvValueHandler(unsigned aid,int size,void *data,unsigned char *work);
 void COMPATIBLE_IRC_SYS_RecvValueAckHandler(int aid,int size,int data,IrcSys *work,unsigned handle);
 void COMPATIBLE_IRC_SYS_RecvOwnValueHandler(unsigned aid,int size,void *data,unsigned char *work,unsigned handle);

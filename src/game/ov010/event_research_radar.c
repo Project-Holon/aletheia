@@ -211,7 +211,7 @@ extern const char g_ResearchRadarFileName[];
 int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork *work)
 {
     struct GameSystem *gameSystem = work->gameSystem;
-    int transitionArg = work->transitionArg;
+    sptr transitionArg = work->transitionArg;
     switch (*state) {
     case 0:
         GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, (struct FieldMap *)transitionArg, 0, 0));
@@ -222,11 +222,11 @@ int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork
         *state = 2;
         break;
     case 2:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov217_id, gResearchTopProcData, work->param);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov217_id, gResearchTopProcData, work->param);
         *state = 3;
         break;
     case 3:
-        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)((int)FIELD_STATUS_CreateFieldOpenEvent(gameSystem)));
+        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)((sptr)FIELD_STATUS_CreateFieldOpenEvent(gameSystem)));
         *state = 4;
         break;
     case 4:
@@ -248,7 +248,7 @@ void *EVENT_RESEARCH_RADAR_CreateTopTask(void *gameSystem, void *transitionArg) 
     task = (struct GameTask *)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_RESEARCH_RADAR_TopTaskMain, 12);
     work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSystem = gameSystem;
-    work->transitionArg = (int)transitionArg;
+    work->transitionArg = (sptr)transitionArg;
     param = GFL_HEAP_Alloc(4, 4, 0, g_ResearchRadarFileName, 117);
     work->param = param;
     param->gameSystem = gameSystem;
@@ -263,7 +263,7 @@ int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWo
 {
     switch (*state) {
     case 0:
-        EVENT_RESEARCH_RADAR_LoadReportMsgData(work, (int)state, work, extra);
+        EVENT_RESEARCH_RADAR_LoadReportMsgData(work, (sptr)state, work, extra);
         EVENT_RESEARCH_RADAR_CreateInfoWindow(work);
         EVENT_RESEARCH_RADAR_CreateWordSet(work);
         EVENT_RESEARCH_RADAR_PrintReport(work);

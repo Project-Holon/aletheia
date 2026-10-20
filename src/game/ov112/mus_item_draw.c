@@ -322,7 +322,7 @@ McssActorElem *MUSICAL_MCSS_AddImage(McssActorPool *pool,int type,u32 id,int *v)
     int index;
     int data;
     MusItemDrawPair pair;
-    index=MUSICAL_MCSS_FindFreeActorIndex((u32)pool);
+    index=MUSICAL_MCSS_FindFreeActorIndex((uptr)pool);
     pool->entries[index].type=MUSICAL_MCSS_GetArcFileCount(type);
     pool->entries[index].data=MUSICAL_MCSS_GetElemPtr(pool->resource,type);
     data=MUSICAL_MCSS_GetElemSizeFlags((int *)pool->entries[index].data);
@@ -337,7 +337,7 @@ McssActorElem *MUSICAL_MCSS_AddImageNoVram(McssActorPool *pool, int type, u32 id
 {
     int index;
     MusItemDrawPair pair;
-    index=MUSICAL_MCSS_FindFreeActorIndex((u32)pool);
+    index=MUSICAL_MCSS_FindFreeActorIndex((uptr)pool);
     pool->entries[index].type=MUSICAL_MCSS_GetArcFileCount(type);
     pool->entries[index].data=MUSICAL_MCSS_GetElemPtr(pool->resource,type);
     MUSICAL_MCSS_GetElemSizeFlags((int *)pool->entries[index].data);
@@ -402,7 +402,7 @@ void MUSICAL_MCSS_TransferVram(char *p, char *e, void *unused)
     if (!((McssActorElem *)e)->bits.vramTransferred) {
         BILLBOARD_GetImagePlttVramOffset((struct BbBoard *)(*(void **)(p+4)),*(u32 *)(e+4),(s32 *)(&first));
         BILLBOARD_GetImagePlttKey((struct BbBoard *)(*(void **)(p+4)),*(u32 *)(e+4),(u32 *)(&second));
-        NNS_GfdRegisterNewVramTransferTask((void *)1,first,(u32)(p+18),((second & 0xffff0000) >> 16) * 8);
+        NNS_GfdRegisterNewVramTransferTask((void *)1,first,(uptr)(p+18),((second & 0xffff0000) >> 16) * 8);
         *(u16 *)e |= 8;
     }
 }
@@ -462,4 +462,4 @@ void MUSICAL_MCSS_GetElemOffset(u8 *elem, McssOffset *out)
     MUSICAL_MCSS_GetOffset(*(u8 * *)&((McssActorElem *)elem)->data, out);
 }
 
-u32 MUSICAL_MCSS_GetActorPoolResource(u8 *pool) { return (u32)((McssActorPool *)pool)->resource; }
+u32 MUSICAL_MCSS_GetActorPoolResource(u8 *pool) { return (uptr)((McssActorPool *)pool)->resource; }

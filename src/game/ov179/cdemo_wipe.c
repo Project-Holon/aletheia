@@ -66,13 +66,13 @@ void CDEMO_WIPE_StartFadeInWhite(char *p, u32 a, u32 b, u32 c)
 void CDEMO_WIPE_LoadPalette(void *obj, int a, int b)
 {
     void *ptr;
-    int t;
+    sptr t;
     char *p;
 
-    t = (int)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(((struct CdemoState *)obj)->arcHandle), b, (&ptr), 0x807f);
+    t = (sptr)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(((struct CdemoState *)obj)->arcHandle), b, (&ptr), 0x807f);
     p = (char *)obj + 8 + a * 0x2004;
     ((struct CdemoPaletteBlock *)p)->count = ((struct CdemoPaletteEntry *)ptr)->size;
-    MIi_CpuCopy32(((struct CdemoPaletteEntry *)ptr)->data, (int)p, ((struct CdemoPaletteBlock *)p)->count);
+    MIi_CpuCopy32(((struct CdemoPaletteEntry *)ptr)->data, (sptr)p, ((struct CdemoPaletteBlock *)p)->count);
     GFL_HEAP_Free((void *)t);
 }
 

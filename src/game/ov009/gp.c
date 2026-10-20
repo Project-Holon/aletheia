@@ -74,7 +74,6 @@ typedef int _GPResult;
 #include "gpibuffer.h"
 #include "gpiprofile.h"
 #include "gsmemory.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../arm9/msl_string_str.h"
 extern int gpiOthersBuddyList(void **connection, int *profiles, int numOfProfiles, int blocking, void (*callback)(void **, void *, void *), void *param);

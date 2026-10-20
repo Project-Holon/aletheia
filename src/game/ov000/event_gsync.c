@@ -73,6 +73,7 @@ struct Config;
 struct WifiList;
 struct FieldMap;
 #include "../types.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/ica_anime_shared_types.h"
 
 /* Parameter block read by the WiFi login overlay (ov115). */
@@ -203,7 +204,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         break;
     case 14:
         {
-            vu16 *regIme = (vu16 *)0x04000208;
+            vu16 *regIme = (vu16 *)REG_IME_ADDR;
             u16 prevIme = *regIme;
             *regIme = 1;
             (void)prevIme;

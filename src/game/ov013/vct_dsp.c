@@ -35,20 +35,21 @@
  *   gEchoReferenceFrame     0x021B4C8C  data a4
  */
 #include "vct_types.h"
+#include "../sdk_ioreg.h"
 
-#define reg_CP_SQRTCNT      (*(volatile u16 *)0x040002B0)
+#define reg_CP_SQRTCNT      (*(volatile u16 *)REG_SQRTCNT_ADDR)
 
-#define reg_CP_SQRT_RESULT  (*(volatile u32 *)0x040002B4)
+#define reg_CP_SQRT_RESULT  (*(volatile u32 *)REG_SQRT_RESULT_ADDR)
 
-#define reg_CP_SQRT_PARAM   (*(u32 *)0x040002B8)
+#define reg_CP_SQRT_PARAM   (*(u32 *)REG_SQRT_PARAM_ADDR)
 
-#define reg_CP_DIVCNT       (*(volatile u16 *)0x04000280)
+#define reg_CP_DIVCNT       (*(volatile u16 *)REG_DIVCNT_ADDR)
 
-#define reg_CP_DIV_NUMER    (*(u64 *)0x04000290)
+#define reg_CP_DIV_NUMER    (*(u64 *)REG_DIV_NUMER_ADDR)
 
-#define reg_CP_DIV_DENOM    (*(u64 *)0x04000298)
+#define reg_CP_DIV_DENOM    (*(u64 *)REG_DIV_DENOM_ADDR)
 
-#define reg_CP_DIV_RESULT_L (*(volatile u32 *)0x040002A0)
+#define reg_CP_DIV_RESULT_L (*(volatile u32 *)REG_DIV_RESULT_ADDR)
 
 /* Lever: the enum constant gives the hangover count its own type, so the cast to short keeps the smulbb. */
 typedef enum { HangoverFramesDefault } HangoverFrames;

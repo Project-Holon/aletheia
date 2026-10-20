@@ -115,7 +115,7 @@ s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAd
     }
 
     req = (NNSiGfdVramTransferTask *)NNSi_GfdGetTailVramTransferTask(&sVramTransferTaskQueue);
-    req->taskType = (u32)pTaskFunc;
+    req->taskType = (uptr)pTaskFunc;
     req->pSrc = srcAddr;
     req->offset = dstOffset;
     req->szByte = szByte;
@@ -128,8 +128,8 @@ u32 NNSi_GfdMergeAdjacentFreeBlocks(struct GfdLnkBlock **ppList, struct GfdLnkBl
     struct GfdLnkBlock *block = *ppList;
     struct GfdLnkBlock *nextBlock;
     u32 merged = 0;
-    u32 zeroA = merged;
-    u32 zeroB = merged;
+    uptr zeroA = merged;
+    uptr zeroB = merged;
 
     if (block != 0) {
         while (block != 0) {

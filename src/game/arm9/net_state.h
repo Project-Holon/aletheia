@@ -14,7 +14,7 @@ void GFL_NET_STATE_ChangeStateDebug(struct NetStateWork *work, void *state, u32 
 void GFL_NET_STATE_InitWork(u32 heapId);
 void GFL_NET_STATE_FreeWork(struct NetStateWork *work);
 void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work);
-void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback);
+void GFL_NET_STATE_DeviceInitialize(void *heapId, GFLNetUserFunc initCallback);
 void GFL_NET_STATE_ConnectMacDone(void);
 void GFL_NET_STATE_ExtendConnectTimer(void);
 void GFL_NET_STATE_ConnectMac(struct NetStateWork *work);
@@ -48,7 +48,7 @@ void GFL_NET_STATE_ChangeoverChildConnected(struct NetStateWork *work);
 void GFL_NET_STATE_ChangeoverStopChild(void);
 void GFL_NET_STATE_ChangeoverChildMain(struct NetStateWork *work);
 void GFL_NET_STATE_ChangeoverChildScan(struct NetStateWork *work);
-void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac);
+void GFL_NET_STATE_StartChangeover(u16 unusedArg, GFLNetUserFunc initCallback, u8 hasMac);
 void GFL_NET_STATE_ChangeoverRestart(struct NetStateWork *work);
 void GFL_NET_STATE_ChangeChangeoverMode(u8 mode, u8 hasMac, const void *mac);
 void GFL_NET_STATE_ChangeoverStopChildDevice(struct NetStateWork *work);

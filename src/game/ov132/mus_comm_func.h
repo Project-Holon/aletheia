@@ -19,7 +19,7 @@ void MUS_COMM_FUNC_SetHostFlag(char *p);
 void MUS_COMM_FUNC_InitCommandTable(char *p);
 void MUS_COMM_FUNC_InitWork(u8 *p, void *myStatusSrc, void *boxParamSrc, void *unused, void *hostEntry, u16 heap);
 void MUS_COMM_FUNC_DeleteBuffers(char *p);
-void MUS_COMM_FUNC_SetReady(char *p);
+void MUS_COMM_FUNC_SetReady(void *userArg);
 void MUS_COMM_FUNC_Update(char *p);
 void MUS_COMM_FUNC_SetTimingSync(int unused, int timingId);
 int MUS_COMM_FUNC_CheckTimingSync(char *p,int id);

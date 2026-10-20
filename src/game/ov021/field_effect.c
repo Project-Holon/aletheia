@@ -124,7 +124,7 @@ extern FieldEffectResourceDef gFieldEffectResourceDefs[];
 FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, int resourceCount, u16 heapId)
 {
     FieldEffectSys *sys;
-    int billboard;
+    sptr billboard;
     VecFx32 vec;
     u8 zero;
 
@@ -132,12 +132,12 @@ FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, int resourceCount, u16 heapI
     sys->resourceCount = resourceCount;
     sys->heapId = heapId;
     sys->fieldmap = fieldmap;
-    sys->arcHandle = (int)ARC_TOOL_CreateHandle(0x4b, heapId);
+    sys->arcHandle = (sptr)ARC_TOOL_CreateHandle(0x4b, heapId);
     ZONEDATA_GetAreaId(FIELDMAP_GetZoneId((struct FieldMap *)fieldmap));
     sys->modelBaseOffset = COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)FIELDMAP_GetGameSystem(fieldmap));
     sys->modelBaseOffsetAlt = ZONEDATA_GetAreaInnerOuter((void *)FIELDMAP_GetAreaData((struct FieldMap *)fieldmap));
     FIELD_EFFECT_InitResourceTable(sys);
-    billboard = (s32)BILLBOARD_ACT_GetBoard((struct BbActSys *)FIELDMAP_GetEffectBbdAct((struct FieldMap *)sys->fieldmap));
+    billboard = (sptr)BILLBOARD_ACT_GetBoard((struct BbActSys *)FIELDMAP_GetEffectBbdAct((struct FieldMap *)sys->fieldmap));
     BILLBOARD_SetQuadShape((u8 *)billboard, 0);
     vec = d_021D8F04;
     BILLBOARD_SetScale((u8 *)billboard, (struct Blk3 *)(&vec));
@@ -297,7 +297,7 @@ void FIELD_EFFECT_InitObjectSystem(FieldEffectSys *sys, int objectCount)
 {
     sys->objectCount = objectCount;
     sys->taskBuffer = GFL_HEAP_Alloc(sys->heapId, TCB_GetTaskOffset(objectCount), 0, d_021DE018, 0x1db);
-    sys->taskSys = (s32)TCB_Init(objectCount, sys->taskBuffer);
+    sys->taskSys = (sptr)TCB_Init(objectCount, sys->taskBuffer);
     sys->objMgr = FIELD_EFFECT_CreateObjectMgr(sys->heapId, sys->taskSys, objectCount);
 }
 

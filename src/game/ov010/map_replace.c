@@ -201,8 +201,8 @@ int MAP_REPLACE_GetFlagIndex(int selector)
 
 void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem)
 {
-    int eventWork = (int)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData((struct GameSystem *)gameSystem));
-    int fieldMap = (int)GAMESYSTEM_GetGameComm((struct GameSystem *)gameSystem);
+    int eventWork = (sptr)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData((struct GameSystem *)gameSystem));
+    int fieldMap = (sptr)GAMESYSTEM_GetGameComm((struct GameSystem *)gameSystem);
     int infoCode = COMM_PLAYER_SUPPORT_GetInfoCode((void *)gameSystem);
     int i;
     variant[0] = infoCode;
@@ -303,7 +303,7 @@ warpId = 1;
  * addressing: getter result converted to unsigned; scale/add modulo 32 bits
  * preserves the original muls/add address without assuming a valid array index.
  */
-u16 MAP_REPLACE_GetWarpFlagId(int warpId) { return *(u16 *)((unsigned)d_02170FF4 + (unsigned)MAP_REPLACE_WarpIdToIndex(warpId) * 20u); }
+u16 MAP_REPLACE_GetWarpFlagId(int warpId) { return *(u16 *)((uptr)d_02170FF4 + (unsigned)MAP_REPLACE_WarpIdToIndex(warpId) * 20u); }
 
 /*
  * extent: followed by independently matched MAP_REPLACE_FindFlyTargetIndex.c.

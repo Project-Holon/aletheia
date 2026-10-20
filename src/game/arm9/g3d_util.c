@@ -442,26 +442,26 @@ void G3D_UTIL_LoadUnitResources(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *
 
         switch (rec->type) {
         case 0:
-            out[slotno] = (u32)G3D_SYSTEM_CreateResourceArc(rec->arc, rec->dat);
+            out[slotno] = (uptr)G3D_SYSTEM_CreateResourceArc(rec->arc, rec->dat);
             break;
         case 1:
-            out[slotno] = (u32)G3D_SYSTEM_CreateResourcePath((char *)rec->arc, rec->dat);
+            out[slotno] = (uptr)G3D_SYSTEM_CreateResourcePath((char *)rec->arc, rec->dat);
             break;
         case 2:
             node = GFL_HEAP_Alloc(util->heapID, G3D_SYSTEM_GetResourceSize(), 0,
                                  g3d_util_file, 342);
             G3D_SYSTEM_InitResourceByFile(node,
-                          (u32 *)((u32)ARC_TOOL_LoadMember(rec->arc, rec->dat,
+                          (u32 *)((uptr)ARC_TOOL_LoadMember(rec->arc, rec->dat,
                                              util->heapID)));
-            out[slotno] = (u32)node;
+            out[slotno] = (uptr)node;
             break;
         case 3:
             node = GFL_HEAP_Alloc(util->heapID, G3D_SYSTEM_GetResourceSize(), 0,
                                  g3d_util_file, 355);
             G3D_SYSTEM_InitResourceByFile(node,
-                          (u32 *)((u32)ARC_TOOL_LoadMemberFromPath((const char *)rec->arc, rec->dat,
+                          (u32 *)((uptr)ARC_TOOL_LoadMemberFromPath((const char *)rec->arc, rec->dat,
                                              util->heapID)));
-            out[slotno] = (u32)node;
+            out[slotno] = (uptr)node;
             break;
         }
     }
@@ -492,7 +492,7 @@ void G3D_UTIL_LoadUnitResourcesFromArchive(G3dUtil *util, u16 unitIdx, const G3d
 
     for (i = 0; i < count; i++) {
         ((u32 *)util->res)[base + i] =
-            (u32)G3D_SYSTEM_CreateResourceArcHandle(arc, setup->resTbl[i].dat);
+            (uptr)G3D_SYSTEM_CreateResourceArcHandle(arc, setup->resTbl[i].dat);
     }
 }
 
@@ -683,7 +683,7 @@ void G3D_UTIL_BuildUnitObjectsLoaded(G3dUtil *util, u16 unitIdx, const G3dUtilSe
     void *anim;
     int i, j;
 
-    for (i = 0; i < objCount; i = (int)((char *)0 + i + 1)) {
+    for (i = 0; i < objCount; i = (sptr)((char *)0 + i + 1)) {
         objSetup = &setup->objTbl[i];
         model = useRes(util, resIdx, setup->objTbl[i].mdlResIdx);
         if (objSetup->texResIdx != setup->objTbl[i].mdlResIdx) {

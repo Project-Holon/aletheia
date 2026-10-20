@@ -176,8 +176,8 @@ int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     WIFIBATTLEMATCH_GRAPHIC_InitBg(p, heap);
-    WIFIBATTLEMATCH_GRAPHIC_InitClact(p + 1, (int)d_021E8B2C, heap);
-    ((struct WifibattlematchGraphic *)p)->vblankHandle = (unsigned int)GFL_USE_AddMainTask(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, (unsigned int)0);
+    WIFIBATTLEMATCH_GRAPHIC_InitClact(p + 1, (sptr)d_021E8B2C, heap);
+    ((struct WifibattlematchGraphic *)p)->vblankHandle = (uptr)GFL_USE_AddMainTask(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, (unsigned int)0);
     return p;
 }
 
@@ -261,9 +261,9 @@ void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *unused)
  */
 void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, int b, int c)
 {
-    MI_CpuFill8((void *)((int)p), 0, 4);
+    MI_CpuFill8((void *)((sptr)p), 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)d_021E8B10, (struct DispVramCfg *)b, c);
-    p[0] = (int)CLACT_CreateUnit(0x80, 0, c);
+    p[0] = (sptr)CLACT_CreateUnit(0x80, 0, c);
     CLACT_SetUnitDefaultRenderer((void *)p[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);

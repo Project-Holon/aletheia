@@ -28,6 +28,7 @@
  *   OV230_Crc32  0x02189004  arm  ov230d
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #pragma opt_propagation off
 
@@ -49,7 +50,7 @@ static inline void SetRomCommand(vu8 *regs, u32 offset)
 void OV230_ReadCardBytes(u8 *dst, u32 offset, s32 size)
 {
     u8 savedCmd[8];
-    u32 io = 1;
+    uptr io = 1;
     u32 romCtrl;
     s32 pos;
     u16 exmem;
@@ -59,7 +60,7 @@ void OV230_ReadCardBytes(u8 *dst, u32 offset, s32 size)
 
     maskBias = 5;
     io <<= 26;
-    exmem = *(vu16 *)0x04000204;
+    exmem = *(vu16 *)REG_EXMEMCNT_ADDR;
     *(vu16 *)0x04000204 &= ~0x800;
     romCtrl = (*(u32 *)((((((*(vu8 *)(io + 0x4000)) & 1) + 5) << 18) - 13) << 5) & ~0x07000000) | 0xA1000000;
     pos = -(s32)(offset & (0x204 - maskBias));
@@ -75,7 +76,7 @@ void OV230_ReadCardBytes(u8 *dst, u32 offset, s32 size)
     offset += pos;
     if (pos < size) {
         do {
-            SetRomCommand((vu8 *)0x04000000, offset);
+            SetRomCommand((vu8 *)REG_DISPCNT_ADDR, offset);
             *(vu32 *)(io + 0x1A4) = romCtrl;
             do {
                 if (*(vu32 *)(io + 0x1A4) & 0x800000) {

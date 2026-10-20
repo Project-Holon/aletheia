@@ -3525,7 +3525,7 @@ void WIFICLUB_StartNetSession(WifiClubWork *work, int startSession)
     else
         d_021C3B9C.heapSize = 0x5e400;
     if (startSession)
-        GFL_NET_StartSession(&d_021C3B9C, 0, (uptr)work);
+        GFL_NET_StartSession(&d_021C3B9C, 0, work);
     else
         GFL_NET_CopyInitParam(&d_021C3B9C);
 }
@@ -7543,7 +7543,7 @@ int WIFICLUB_ProcInit(void *procObj, int unused, WifiClubSession *session)
     GFL_HEAP_CreateChildHeap(1, 0x8021, 0xa4000);
     work = PROCSYS_AllocProcWork(procObj, 0x1360, 0x21);
     MI_CpuFill8(work, 0, 0x1360);
-    GFL_NET_SetUserArg((uptr)work);
+    GFL_NET_SetUserArg(work);
     work->localStatus = session->localStatus;
     work->saveData = session->saveData;
     work->gameData = session->gameData;

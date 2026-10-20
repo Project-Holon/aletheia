@@ -356,7 +356,7 @@ int SCRCMD_NETWORK_CmdLoadNpcTable(ScriptVm *vm, struct ScrcmdWork *scriptWork)
 {
     struct ScriptWork *scriptCtl = (struct ScriptWork *)SCRCMD_WORK_GetScriptWork(scriptWork);
 
-    SCRIPT_WORK_SetReturnFlag((struct ScriptWork *)scriptCtl, (unsigned int)ARC_UTIL_LoadMember(0xd1, 0, 0, 0x8004));
+    SCRIPT_WORK_SetReturnFlag((struct ScriptWork *)scriptCtl, (uptr)ARC_UTIL_LoadMember(0xd1, 0, 0, 0x8004));
     return 0;
 }
 
@@ -539,7 +539,7 @@ int SCRCMD_NETWORK_CommProcEventMain(struct GameEvent *event, u32 *seq, void *wo
     case 0:
         BRIGHTNESS_Set(-16, 0x37, 1);
         BRIGHTNESS_Set(-16, 0x3f, 2);
-        GAME_EVENT_CallProc(event, (u32)ov_id_00CD, d_021B9EC0, work);
+        GAME_EVENT_CallProc(event, (uptr)ov_id_00CD, d_021B9EC0, work);
         (*seq)++;
         break;
     case 1:

@@ -662,13 +662,13 @@ int SCRIPT_WORK_CmdReportSave(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameData *gameData = SCRCMD_WORK_GetGameData(cmdWork);
-    int mapId, effectHandle;
+    int mapId; sptr effectHandle;
     struct FieldMap *fieldMap;
     struct FieldMapState *mapState;
     fieldMap = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork));
     mapId = FIELDMAP_GetHeapId(fieldMap);
     mapState = (struct FieldMapState *)FIELDMAP_GetSubscreen(fieldMap);
-    effectHandle = (s32)FIELD_SAVEANIME_Create(mapId, fieldMap);
+    effectHandle = (sptr)FIELD_SAVEANIME_Create(mapId, fieldMap);
     FIELD_SAVEANIME_Start((struct FieldSaveAnime *)effectHandle);
     if (FIELD_SUBSCREEN_GetMode((struct FieldSubscreen *)mapState) == 7) {
         FIELD_SUBSCREEN_PrepareReportSave((struct FieldSubscreen *)mapState);

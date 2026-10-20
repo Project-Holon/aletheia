@@ -567,11 +567,6 @@ extern u32 BTL_CALC_MakeSickContPoke(int pokeId);
 extern u8 BTL_POKEPARAM_FindMoveSlot(struct BtlPokeParam *bpp, int moveId);
 extern int BTL_SICKCONT_IsKind1Index15(int sickCont);
 extern u32 BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickKind);
-#else
-/* The host build reads the condition word of the returned union. */
-#define BTL_CALC_MakeSickContPoke(x) (BTL_CALC_MakeSickContPoke(x).raw)
-#define BTL_POKEPARAM_GetSickContRaw(p, i) (BTL_POKEPARAM_GetSickContRaw(p, i).raw)
-#define BTL_SICKCONT_IsKind1Index15(x) (BTL_SICKCONT_IsKind1Index15((union SickCont){ (x) }))
 #endif
 void HAND_ITEM_GemMovePower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work, u8 gemType);
 void HAND_ITEM_GemMoveDamageEnd(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work);
@@ -1427,7 +1422,7 @@ int HAND_WAZA_AddMoveHandler(struct BtlPokeParam *bpp, u16 moveId, u32 subPriori
             if (HAND_WAZA_CanAddMoveHandler(ownerId, moveId, &alreadyAdded) != 0) {
                 handlers = gWazaHandlerRegistry[index].getHandlers(&handlerCount);
                 if (handlers != 0) {
-                    BTL_EVENT_AddFactor(BTL_EVENT_TYPE_WAZA, moveId, 0, subPriority, ownerId, (u32)handlers, handlerCount);
+                    BTL_EVENT_AddFactor(BTL_EVENT_TYPE_WAZA, moveId, 0, subPriority, ownerId, (uptr)handlers, handlerCount);
                     return 1;
                 }
             }
@@ -2152,7 +2147,11 @@ void HAND_WAZA_TrapAddNoEscape(struct BtlEventFactor *factor, struct BtlServerFl
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, BTL_CMD_KIND_ADD_SICK, pokeId);
             cmd->pokeId = targetId;
             cmd->sickKind = BTL_SICK_NO_ESCAPE;
+#ifdef __MWERKS__
             cmd->cont.raw = BTL_CALC_MakeSickContPoke((unsigned int)pokeId);
+#else
+            cmd->cont.raw = BTL_CALC_MakeSickContPoke((unsigned int)pokeId).raw;
+#endif
             BTL_SERVER_FLOW_InitMsgRecord(&cmd->message, BTL_STR_TYPE_POKE_NAME, 0x368);
             BTL_SERVER_FLOW_AppendMsgRecordArg((&cmd->message), targetId);
             BTL_SERVER_FLOW_CommitCmdRecord(flow, cmd);
@@ -5310,7 +5309,7 @@ void HAND_WAZA_MagicCoatOnExecuteCheck(struct BtlEventFactor *factor, struct Btl
             return;
         }
     } else if (BTL_MAIN_IsPokeSamePair(pokeId, userId) == 0) {
-        HAND_COMMON_EventRedirectMove(factor, flow, pokeId, (int)work);
+        HAND_COMMON_EventRedirectMove(factor, flow, pokeId, (sptr)work);
     }
 }
 
@@ -5334,7 +5333,7 @@ void HAND_WAZA_MagicCoatOnWazaExecute(struct BtlEventFactor *factor, struct BtlS
 /* Magic Coat: reflect the move back at its user. */
 void HAND_WAZA_MagicCoatOnWazaCounter(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
-    HAND_COMMON_EventCounterMove(factor, flow, pokeId, (int)work);
+    HAND_COMMON_EventCounterMove(factor, flow, pokeId, (sptr)work);
 }
 
 
@@ -5344,7 +5343,7 @@ void HAND_WAZA_MagicCoatOnWazaNotice(struct BtlEventFactor *factor, struct BtlSe
 {
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID)) {
         if (BTL_EVENT_OverwriteVar(BTL_EVAR_HANDLED_FLAG, 1) != 0)
-            HAND_COMMON_EventQueueMoveNotice(factor, flow, pokeId, (int)work);
+            HAND_COMMON_EventQueueMoveNotice(factor, flow, pokeId, (sptr)work);
     }
 }
 
@@ -6084,10 +6083,18 @@ void HAND_WAZA_PsychoShiftTransferStatus(BTL_EVENT_SIGNATURE)
         if (sickKind != 0) {
             targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST);
             if (((OneWordResult (*)(struct BtlPokeParam *))BTL_POKEPARAM_GetMajorStatusIndex)(BTL_SERVER_FLOW_GetPokeParam(flow, targetId)).value == 0) {
+#ifdef __MWERKS__
                 sickCont = BTL_POKEPARAM_GetSickContRaw(userBpp, sickKind);
+#else
+                sickCont = BTL_POKEPARAM_GetSickContRaw(userBpp, sickKind).raw;
+#endif
                 addSick = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_ADD_SICK, pokeId);
                 addSick->sickKind = sickKind;
+#ifdef __MWERKS__
                 if (sickKind == BTL_SICK_POISON && BTL_SICKCONT_IsKind1Index15(sickCont) != 0)
+#else
+                if (sickKind == BTL_SICK_POISON && BTL_SICKCONT_IsKind1Index15((union SickCont){ sickCont }) != 0)
+#endif
                     addSick->sickCont = BTL_SICKCONT_MakeKind1Index15();
                 else
                     addSick->sickCont.raw = ((int (*)(int))BTL_CALC_MakeDefaultSickCont)(sickKind);
@@ -9572,11 +9579,11 @@ int *HAND_WAZA_AddEchoedVoice(int *handlerCount)
  */
 void HAND_WAZA_EchoedVoiceSetPowerByStreak(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
-    int turnRecord, factorKey, turn, basePower;
+    sptr turnRecord; int factorKey, turn, basePower;
     u32 streak;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        turnRecord = (int)BTL_SERVER_FLOW_GetTurnRecord(flow);
+        turnRecord = (sptr)BTL_SERVER_FLOW_GetTurnRecord(flow);
         factorKey = BTL_EVENT_GetFactorKey(factor);
         turn = BTL_SERVER_FLOW_GetTurnCount(flow) - 1;
         streak = 0;
@@ -9608,12 +9615,12 @@ int *HAND_WAZA_AddRetaliate(int *handlerCount)
 /* Retaliate: double the power when an ally of the user fainted on the previous turn. */
 void HAND_WAZA_RetaliateDoublePowerAfterAllyFaint(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
-    int historyList;
+    sptr historyList;
     u32 faintCount;
     u8 i;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
-        historyList = (int)BTL_SERVER_FLOW_GetHistoryList(flow);
+        historyList = (sptr)BTL_SERVER_FLOW_GetHistoryList(flow);
         faintCount = BTL_DEADREC_GetCount((struct BtlDeadRec *)historyList, 1);
         for (i = 0; i < faintCount; i++) {
             if (BTL_MAIN_IsPokeSamePair(pokeId, BTL_DEADREC_GetPokeId((struct BtlDeadRec *)historyList, 1, i)) != 0) {
@@ -10355,12 +10362,12 @@ int *HAND_WAZA_AddRound(int *handlerCount)
 /* Round: when the turn record shows the move was used this turn, queue a record with the move key (the follow-up Round of an ally). */
 void HAND_WAZA_RoundRegisterUse(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work)
 {
-    int turnRecord;
+    sptr turnRecord;
     u16 factorKey;
     struct HandWazaCmdRoundUsed *cmd;
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID)) {
-        turnRecord = (int)BTL_SERVER_FLOW_GetTurnRecord(flow);
+        turnRecord = (sptr)BTL_SERVER_FLOW_GetTurnRecord(flow);
         factorKey = BTL_EVENT_GetFactorKey(factor);
         if (BTL_WAZAREC_GetUsedWazaCount((struct BtlWazaRec *)turnRecord, factorKey, BTL_SERVER_FLOW_GetTurnCount(flow)) == 1) {
             cmd = BTL_SERVER_FLOW_AllocCmdRecord(flow, HAND_WAZA_KIND_ROUND_USED, pokeId);

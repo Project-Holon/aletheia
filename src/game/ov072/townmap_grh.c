@@ -95,11 +95,8 @@
  *   TOWNMAP_TownGetField  0x021BA774  thumb
  */
 #include "townmap_grh_types.h"
+#include "../sdk_ioreg_reg.h"
 
-#define REG_BLDCNT      (*(volatile u16 *)0x04000050)
-#define REG_DB_BLDCNT   (*(volatile u16 *)0x04001050)
-#define REG_DISPCNT     (*(volatile u32 *)0x04000000)
-#define REG_DB_DISPCNT  (*(volatile u32 *)0x04001000)
 #define DISPCNT_WINDOW_BITS 0xE000
 
 #define TOWNMAP_GRH_BG_COUNT 7
@@ -372,7 +369,7 @@ TownMapGfx *TOWNMAP_GRH_Create(u16 heapId)
     TOWNMAP_GRH_ResetDisplay();
     TOWNMAP_GRH_InitBgLayers(gfx, heapId);
     TOWNMAP_GRH_InitSprites(&gfx->sprites, &sTownMapGrhVramBanks, heapId);
-    gfx->task = (u32)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))TOWNMAP_GRH_UpdateTask, (void *)gfx, 1);
+    gfx->task = (uptr)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))TOWNMAP_GRH_UpdateTask, (void *)gfx, 1);
     return gfx;
 }
 
@@ -386,7 +383,7 @@ void TOWNMAP_GRH_Delete(TownMapGfx *gfx)
 
 void TOWNMAP_GRH_DrawSprites(TownMapGfx *gfx)
 {
-    TOWNMAP_GRH_DrawClactSystem((int)&gfx->sprites);
+    TOWNMAP_GRH_DrawClactSystem((sptr)&gfx->sprites);
 }
 
 u8 TOWNMAP_GRH_GetBgId(TownMapGfx *gfx, u32 i)

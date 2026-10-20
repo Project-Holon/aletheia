@@ -131,6 +131,7 @@
  */
 
 #include "../version.h"
+#include "../sdk_ioreg.h"
 
 /* Black fades the credits to black, White to white. */
 #if VERSION == VERSION_WHITE
@@ -412,14 +413,14 @@ int STAFF_ROLL_RunState(char *p){STAFF_ROLL_UpdateInput((unsigned char *)p);((St
 
 int STAFF_ROLL_Setup(u8 *p)
 {
-    GF_OVERLAY_Load((int)ov067_id);
+    GF_OVERLAY_Load((sptr)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     BG_SYS_SetLcdSwap(1);
-    GXx_SetMasterBrightness_((void *)0x0400006c, -0x10);
-    GXx_SetMasterBrightness_((void *)0x0400106c, -0x10);
+    GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR, -0x10);
+    GXx_SetMasterBrightness_((void *)REG_DB_MASTER_BRIGHT_ADDR, -0x10);
     STAFF_ROLL_SetupVramBanks();
     STAFF_ROLL_SetupBackgrounds();
     STAFF_ROLL_LoadGraphics();
@@ -443,9 +444,9 @@ int STAFF_ROLL_Teardown(char *p) {
 if(GFL_USE_IsBgmFading()==1)return 2;
 if(GFL_USE_IsBgmPlaying()==1)GFL_USE_CancelChangeAndStopBgm();
 STAFF_ROLL_RemoveVblankTask(p);STAFF_ROLL_FreeRows(p);STAFF_ROLL_Exit3d(p);STAFF_ROLL_DeleteWindows(p);STAFF_ROLL_DeleteText(p);STAFF_ROLL_TeardownBackgrounds();
-GXx_SetMasterBrightness_((volatile u16 *)0x0400006c,FADE_LEVEL);GXx_SetMasterBrightness_((volatile u16 *)0x0400106c,FADE_LEVEL);
+GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_ADDR,FADE_LEVEL);GXx_SetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR,FADE_LEVEL);
 *(volatile u16 *)0x04000050=0;*(volatile u16 *)0x04001050=0;
-BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);GF_OVERLAY_Unload((int)overlay_id);return 5;
+BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);GF_OVERLAY_Unload((sptr)overlay_id);return 5;
 }
 
 #define COUNT(p) (*(unsigned *)((p) + 0x2E4))
@@ -480,7 +481,7 @@ int STAFF_ROLL_RunScript(char *p) {
     if(((StaffRoll *)p)->scriptState==0) {
         for(;;) {
             row=*(char * *)&((StaffRoll *)p)->entryTable+((StaffRoll *)p)->scriptIndex*16;
-            if(((StaffRoll *)p)->scriptIndex==*(u32 *)((u32)p+((StaffRoll *)p)->scriptRowIndex*8+0xbc)) {
+            if(((StaffRoll *)p)->scriptIndex==*(u32 *)((uptr)p+((StaffRoll *)p)->scriptRowIndex*8+0xbc)) {
                 STAFF_ROLL_BlitRow(p);
                 (((StaffRoll *)p)->scriptRowIndex)++;
                 *(u16 *)&((StaffRoll *)p)->scriptTimer=((StaffRollEntry *)row)->y;
@@ -575,7 +576,7 @@ void STAFF_ROLL_ReloadGraphics(void *unused, int mode)
 /*
  * volatile: SDK OS_SetIrqCheckFlag read-modify-write at 0x02FE3FF8.
  */
-void STAFF_ROLL_VblankTask(struct TcbTask *task, void *pArg) { char * p = pArg;STAFF_ROLL_FlushWindows(p);BG_SYS_Update();*(volatile unsigned *)((unsigned)SDK_AUTOLOAD_MAIN_TWL_START+0x3ff8) |=1;}
+void STAFF_ROLL_VblankTask(struct TcbTask *task, void *pArg) { char * p = pArg;STAFF_ROLL_FlushWindows(p);BG_SYS_Update();*(volatile unsigned *)((uptr)SDK_AUTOLOAD_MAIN_TWL_START+0x3ff8) |=1;}
 
 void STAFF_ROLL_AddVblankTask(char *p){((StaffRoll *)p)->vblankTask=GFL_USE_AddMainTask(STAFF_ROLL_VblankTask, p,0);}
 
@@ -615,8 +616,8 @@ void STAFF_ROLL_BuildRowList(char *p)
         } else {
             if (e->opcode == 5)
                 break;
-            if (e->opcode == 0 && e->text != 0xFFFF && ((StaffRollEntry *)((unsigned)ENTRIES(p) + (i + 1) * 16))->y == 0 &&
-                ((StaffRollEntry *)((unsigned)ENTRIES(p) + (i + 1) * 16))->opcode == 0 && ((StaffRollEntry *)((unsigned)ENTRIES(p) + (i + 1) * 16))->text != 0xFFFF) {
+            if (e->opcode == 0 && e->text != 0xFFFF && ((StaffRollEntry *)((uptr)ENTRIES(p) + (i + 1) * 16))->y == 0 &&
+                ((StaffRollEntry *)((uptr)ENTRIES(p) + (i + 1) * 16))->opcode == 0 && ((StaffRollEntry *)((uptr)ENTRIES(p) + (i + 1) * 16))->text != 0xFFFF) {
                 *(void **)(p + COUNT(p) * 8 + 0xB8) = BMP_Create(0x20, 2, 0x20, 0x8E);
                 *(int *)(p + COUNT(p) * 8 + 0xBC) = i;
                 COUNT(p)++;
@@ -641,7 +642,7 @@ void STAFF_ROLL_PrintNextRow(char *p)
     }
 }
 
-void STAFF_ROLL_BlitRow(char *p){struct Bmp *s=BMP_WIN_GetBmp(((StaffRoll *)p)->windowB);BMP_Blit(*(struct Bmp **)((unsigned)p+((StaffRoll *)p)->scriptRowIndex*8+0xb8),s,0,0,0,192,256,16,0);}
+void STAFF_ROLL_BlitRow(char *p){struct Bmp *s=BMP_WIN_GetBmp(((StaffRoll *)p)->windowB);BMP_Blit(*(struct Bmp **)((uptr)p+((StaffRoll *)p)->scriptRowIndex*8+0xb8),s,0,0,0,192,256,16,0);}
 
 void STAFF_ROLL_LoadRows(char *p)
 {
@@ -687,7 +688,7 @@ void STAFF_ROLL_SetWindowFlags(char *p, u32 flags)
 void STAFF_ROLL_FlushWindows(char *p){if(((StaffRoll *)p)->windowFlags&1)BMP_WIN_TransferChars((struct BmpWin *)((StaffRoll *)p)->windowA);if(((StaffRoll *)p)->windowFlags&2)BMP_WIN_TransferChars((struct BmpWin *)((StaffRoll *)p)->windowB);((StaffRoll *)p)->windowFlags=0;}
 
 static inline void AntiAlias(int enable) {
-    u32 tmp=*(volatile u16 *)0x04000060 & ~0x3000;
+    u32 tmp=*(volatile u16 *)REG_DISP3DCNT_ADDR & ~0x3000;
     if(enable) tmp|=0x10;
     else tmp&=~0x10;
     *(volatile u16 *)0x04000060=(u16)tmp;
@@ -712,7 +713,7 @@ void STAFF_ROLL_Init3d(char *p) {
     BG_SYS_EnableBg0WithPriority(2);
     STAFF_ROLL_InitLights((u8 *)(p+0x28));
     BG_SYS_SetMainPlaneVisible(1,0);
-    G2x_SetBlendBrightness_(0x04000050,1,FADE_LEVEL);
+    G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,1,FADE_LEVEL);
 }
 
 /*
@@ -827,9 +828,9 @@ void STAFF_ROLL_UpdateBrightness(char *p)
     if (v <= 0x10000) {
         ((StaffRoll *)p)->brightness = v + (((StaffRoll *)p)->fastFlag == 1 ? 0x400 : 0x100);
 #if VERSION == VERSION_WHITE
-        G2x_SetBlendBrightness_(0x04000050, 1, 0x10 - *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 1, 0x10 - *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000);
 #else
-        G2x_SetBlendBrightness_(0x04000050, 1, *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000 - 0x10);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 1, *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000 - 0x10);
 #endif
     }
 }
@@ -916,8 +917,8 @@ int STAFF_ROLL_StepFadeIn(char *p)
     int a, b;
     switch (((StaffRoll *)p)->fadeState) {
     case 0:
-        if (((StaffRoll *)p)->planeFlags & 1) G2x_SetBlendAlpha_((u32 *)0x04000050, 2, 0x21, 0, 16);
-        if (((StaffRoll *)p)->planeFlags & 2) G2x_SetBlendAlpha_((u32 *)0x04001050, 2, 0x21, 0, 16);
+        if (((StaffRoll *)p)->planeFlags & 1) G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 2, 0x21, 0, 16);
+        if (((StaffRoll *)p)->planeFlags & 2) G2x_SetBlendAlpha_((u32 *)REG_DB_BLDCNT_ADDR, 2, 0x21, 0, 16);
         ((StaffRoll *)p)->windowFlags = ((StaffRoll *)p)->planeFlags;
         ++((StaffRoll *)p)->fadeState;
         break;
@@ -927,11 +928,11 @@ int STAFF_ROLL_StepFadeIn(char *p)
         a = ((StaffRoll *)p)->slideProgress;
         if (a > 16) { a = 16; b = 0; }
         else b = 16 - a;
-        if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)0x04000052 = a | (b << 8);
-        if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)0x04001052 = a | (b << 8);
+        if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)REG_BLDALPHA_ADDR = a | (b << 8);
+        if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)REG_DB_BLDALPHA_ADDR = a | (b << 8);
         if (((StaffRoll *)p)->slideProgress >= 16) {
-            if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)0x04000050 = 0;
-            if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)0x04001050 = 0;
+            if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)REG_BLDCNT_ADDR = 0;
+            if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)REG_DB_BLDCNT_ADDR = 0;
             *(u8 *)&((StaffRoll *)p)->slideProgress = 0;
             ((StaffRoll *)p)->fadeState = 0;
             return 0;
@@ -946,8 +947,8 @@ int STAFF_ROLL_StepFadeOut(char *p)
     int a, b;
     switch (((StaffRoll *)p)->fadeState) {
     case 0:
-        if (((StaffRoll *)p)->planeFlags & 1) G2x_SetBlendAlpha_((u32 *)0x04000050, 2, 0x21, 16, 0);
-        if (((StaffRoll *)p)->planeFlags & 2) G2x_SetBlendAlpha_((u32 *)0x04001050, 2, 0x21, 16, 0);
+        if (((StaffRoll *)p)->planeFlags & 1) G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 2, 0x21, 16, 0);
+        if (((StaffRoll *)p)->planeFlags & 2) G2x_SetBlendAlpha_((u32 *)REG_DB_BLDCNT_ADDR, 2, 0x21, 16, 0);
         ++((StaffRoll *)p)->fadeState;
     case 1:
         if (((StaffRoll *)p)->fastFlag == 1) ((StaffRoll *)p)->slideProgress += 16;
@@ -955,8 +956,8 @@ int STAFF_ROLL_StepFadeOut(char *p)
         b = ((StaffRoll *)p)->slideProgress;
         if (b > 16) { a = 0; b = 16; }
         else a = 16 - b;
-        if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)0x04000052 = a | (b << 8);
-        if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)0x04001052 = a | (b << 8);
+        if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)REG_BLDALPHA_ADDR = a | (b << 8);
+        if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)REG_DB_BLDALPHA_ADDR = a | (b << 8);
         if (((StaffRoll *)p)->slideProgress >= 16) {
             if (((StaffRoll *)p)->planeFlags & 1) BMP_Clear(BMP_WIN_GetBmp(((StaffRoll *)p)->windowA), 0);
             if (((StaffRoll *)p)->planeFlags & 2) BMP_Clear(BMP_WIN_GetBmp(((StaffRoll *)p)->windowB), 0);
@@ -966,8 +967,8 @@ int STAFF_ROLL_StepFadeOut(char *p)
         }
         break;
     case 2:
-        if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)0x04000050 = 0;
-        if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)0x04001050 = 0;
+        if (((StaffRoll *)p)->planeFlags & 1) *(volatile u16 *)REG_BLDCNT_ADDR = 0;
+        if (((StaffRoll *)p)->planeFlags & 2) *(volatile u16 *)REG_DB_BLDCNT_ADDR = 0;
         ((StaffRoll *)p)->planeFlags = 0;
         ((StaffRoll *)p)->fadeState = 0;
         return 0;
@@ -986,10 +987,10 @@ int STAFF_ROLL_StepWindowSlide(char *p)
     switch (((StaffRoll *)p)->fadeState) {
     case 0:
         STAFF_ROLL_ReloadGraphics(p, 1);
-        G2x_SetBlendAlpha_((u32 *)0x04000050, 8, 0x20, 0, 16);
+        G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 8, 0x20, 0, 16);
         BG_SYS_SetMainPlaneVisible(8, 1);
-        GXx_SetMasterBrightness_((void *)0x0400006c, 0);
-        GXx_SetMasterBrightness_((void *)0x0400106c, 0);
+        GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR, 0);
+        GXx_SetMasterBrightness_((void *)REG_DB_MASTER_BRIGHT_ADDR, 0);
         *(u8 *)&((StaffRoll *)p)->slideProgress = 0;
         ++((StaffRoll *)p)->fadeState;
         break;
@@ -1114,7 +1115,7 @@ int STAFF_ROLL_CmdHidePlane(void)
     return 1;
 }
 
-int STAFF_ROLL_CmdQueueLight(u8 *p,u8 *q){u8 *s=(u8 *)((u32)p+0x28);STAFF_ROLL_QueueLight(s,q[7],((StaffRollEntry *)q)->y);STAFF_ROLL_SetLightMode(s,1);return 1;}
+int STAFF_ROLL_CmdQueueLight(u8 *p,u8 *q){u8 *s=(u8 *)((uptr)p+0x28);STAFF_ROLL_QueueLight(s,q[7],((StaffRollEntry *)q)->y);STAFF_ROLL_SetLightMode(s,1);return 1;}
 
 int STAFF_ROLL_CmdSetRecord(char *ctx, unsigned char *rec)
 {

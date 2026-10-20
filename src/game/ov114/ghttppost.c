@@ -75,7 +75,7 @@
 #include "../ov009/gsmemory.h"
 #include "ghttp_types.h"
 #include "../../matched/arm9_sdk/libc/string.h"
-extern u8 *strchr(const u8 *s, int c);
+extern char *strchr(const char *s, int c);
 
 #define GHI_DIME_PAD(total, len)                \
     {                                           \
@@ -570,7 +570,7 @@ GHIPostingResult ghiPostStringStateDoPosting(GHIPostState *state, GHIConnection 
         if (connection->encryptor.engine != 0)
             writeBuffer = &connection->encodeBuffer;
         for (c = string[0]; c != 0; c = string[++i]) {
-            if (strchr((const u8 *)sGhttpUrlSafeChars, c) != 0) {
+            if (strchr(sGhttpUrlSafeChars, c) != 0) {
                 result = ghiAppendCharToBuffer(writeBuffer, c);
             } else if (c == ' ') {
                 result = ghiAppendCharToBuffer(writeBuffer, '+');

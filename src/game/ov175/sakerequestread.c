@@ -74,7 +74,6 @@
 
 #include "../ov009/gsxml.h"
 #include "../ov009/gsmemory.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../ov009/gsstringutil.h"
 #include "../arm9/msl_string_str.h"

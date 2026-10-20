@@ -189,7 +189,7 @@ extern u8 d_02208C40[];
 FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId)
 {
     FldTradeHolder *holder;
-    int otName;
+    sptr otName;
     char nameBuf[0x100];
 
     holder = GFL_HEAP_Alloc((u16)heapId, 0x14, 1, d_021DE59C, 0x5d);
@@ -199,11 +199,11 @@ FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId)
     holder->mon = GFL_HEAP_Alloc((u16)heapId, 0xdc, 0, d_021DE59C, 0x65);
     holder->traderStatus = (void *)MYSTATUS_Create(heapId);
     MYSTATUS_Init((struct MyStatus *)holder->traderStatus);
-    otName = (int)FLD_TRADE_GetMessageString(heapId, holder->data->otNameMsgId);
+    otName = (sptr)FLD_TRADE_GetMessageString(heapId, holder->data->otNameMsgId);
     STRBUF_ToChars((struct Strbuf *)otName, (u16 *)nameBuf, 0x80);
     STRBUF_Delete((struct Strbuf *)otName);
     MYSTATUS_CopyName((u16 *)holder->traderStatus, (u16 *)nameBuf);
-    MYSTATUS_SetSex((int)holder->traderStatus, holder->data->otGender);
+    MYSTATUS_SetSex((sptr)holder->traderStatus, holder->data->otGender);
     return holder;
 }
 
@@ -237,15 +237,15 @@ void *FLD_TRADE_GetMessageString(u32 heapId, u32 msgId)
 void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData *data, u32 tradeId)
 {
     u32 personalRnd;
-    u32 str;
-    u32 personal;
+    uptr str;
+    uptr personal;
     u32 ability[3];
 
     personalRnd = POKE_TOOL_AdjustPersonalRnd(data->otId, data->species, data->formNo, data->gender, 0, 0);
     POKE_TOOL_SetupPartyParamEx(mon, data->species, data->level, data->otId, 0xFFFFFFFF, personalRnd);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_FORM, data->formNo);
-    FLD_TRADE_DumpPokemonParams((int)mon);
-    str = (u32)FLD_TRADE_GetMessageString(heapId, data->nicknameMsgId);
+    FLD_TRADE_DumpPokemonParams((sptr)mon);
+    str = (uptr)FLD_TRADE_GetMessageString(heapId, data->nicknameMsgId);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_NICKNAME_STRBUF, str);
     STRBUF_Delete((struct Strbuf *)str);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_HP, data->iv[0]);
@@ -254,7 +254,7 @@ void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData 
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_SPEED, data->iv[3]);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_SP_ATTACK, data->iv[4]);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_IV_SP_DEFENSE, data->iv[5]);
-    personal = (u32)POKE_PERSONAL_Create((u16)data->species, (u16)data->formNo, heapId);
+    personal = (uptr)POKE_PERSONAL_Create((u16)data->species, (u16)data->formNo, heapId);
     ability[0] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1A);
     ability[1] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1B);
     ability[2] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1C);
@@ -277,13 +277,13 @@ void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData 
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_CONTEST_SMART, data->contest[3]);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_CONTEST_TOUGH, data->contest[4]);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_HELD_ITEM, data->heldItem);
-    str = (u32)FLD_TRADE_GetMessageString(heapId, data->otNameMsgId);
+    str = (uptr)FLD_TRADE_GetMessageString(heapId, data->otNameMsgId);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_OT_NAME_STRBUF, str);
     STRBUF_Delete((struct Strbuf *)str);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_OT_GENDER, data->otGender);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_LANGUAGE, data->language);
-    SAVE_EVENT_Write(mon, 1, (u32)GAME_DATA_GetMyStatus(gameData), 0x7532, heapId);
-    FLD_TRADE_DumpPokemonParams((int)mon);
+    SAVE_EVENT_Write(mon, 1, (uptr)GAME_DATA_GetMyStatus(gameData), 0x7532, heapId);
+    FLD_TRADE_DumpPokemonParams((sptr)mon);
     POKE_TOOL_RecalcParam(mon);
 }
 
@@ -357,7 +357,7 @@ int FLD_TRADE_EventMain(void *event, u32 *seq, FldTradeEvent *work)
         holder = FLD_TRADE_Create(4, work->tradeId);
         work->holder = holder;
         FLD_TRADE_BuildPokemon(gameData, 4, holder->mon, holder->data, work->tradeId);
-        FLD_TRADE_DumpPokemonParams((int)work->holder->mon);
+        FLD_TRADE_DumpPokemonParams((sptr)work->holder->mon);
         FLD_TRADE_DumpTradeData(work->holder->data);
         *seq = 1;
         break;
@@ -368,7 +368,7 @@ int FLD_TRADE_EventMain(void *event, u32 *seq, FldTradeEvent *work)
         work->demoParam.sentMon = sentMon;
         work->demoParam.traderStatus = work->holder->traderStatus;
         work->demoParam.receivedMon = work->holder->mon;
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(gsys, (struct FieldMap *)demoFieldmap, (int)ov119_id, (void *)d_021E75A8, (void *)&work->demoParam));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(gsys, (struct FieldMap *)demoFieldmap, (sptr)ov119_id, (void *)d_021E75A8, (void *)&work->demoParam));
         *seq = 2;
         break;
     case 2:
@@ -390,7 +390,7 @@ int FLD_TRADE_EventMain(void *event, u32 *seq, FldTradeEvent *work)
             evolveParam->mode = 1;
             evolveParam->result = 0;
             work->evolveParam = evolveParam;
-            GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(gsys, (struct FieldMap *)fieldmap, (int)ov195_id, (void *)d_02208C40, (void *)evolveParam));
+            GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcEvent(gsys, (struct FieldMap *)fieldmap, (sptr)ov195_id, (void *)d_02208C40, (void *)evolveParam));
         }
         *seq = 4;
         break;

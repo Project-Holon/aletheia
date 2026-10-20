@@ -48,7 +48,7 @@ typedef struct NNSiFndFrmHeapHead {
 
 static inline NNSiFndFrmHeapHead *GetFrmHeapHeadPtrFromHeapHead(NNSiFndHeapHead *pHHead)
 {
-    return (NNSiFndFrmHeapHead *)((u32)pHHead + sizeof(NNSiFndHeapHead));
+    return (NNSiFndFrmHeapHead *)((uptr)pHHead + sizeof(NNSiFndHeapHead));
 }
 
 /* Kept local: the image passes the option word untruncated, so optFlag is u32 here while
@@ -95,15 +95,15 @@ NNSiFndHeapHead *NNSi_FndInitFrmHeap(NNSiFndHeapHead *pHeapHd, u32 heapEnd, u32 
 u32 NNSi_FndAllocFromFrmHeapHead(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align)
 {
     u32 amask = align - 1;
-    u32 p = (amask + (u32)pFrmHeapHd->headAllocator) & ~amask;
-    u32 e = size + p;
+    u32 p = (amask + (uptr)pFrmHeapHd->headAllocator) & ~amask;
+    uptr e = size + p;
     u32 sz;
 
-    if (e > (u32)pFrmHeapHd->tailAllocator) {
+    if (e > (uptr)pFrmHeapHd->tailAllocator) {
         return 0;
     }
 
-    sz = e - (u32)pFrmHeapHd->headAllocator;
+    sz = e - (uptr)pFrmHeapHd->headAllocator;
     if ((u8)((u32 *)pFrmHeapHd)[-1] & 1) {
         MIi_CpuClear32(0, pFrmHeapHd->headAllocator, sz);
     }
@@ -114,12 +114,12 @@ u32 NNSi_FndAllocFromFrmHeapHead(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 a
 
 u32 NNSi_FndAllocFromFrmHeapTail(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align)
 {
-    u32 v = ((u32)pFrmHeapHd->tailAllocator - size) & ~(align - 1);
+    u32 v = ((uptr)pFrmHeapHd->tailAllocator - size) & ~(align - 1);
     u32 clearedSize;
     u8 attribute;
-    if (v < (u32)pFrmHeapHd->headAllocator)
+    if (v < (uptr)pFrmHeapHd->headAllocator)
         return 0;
-    clearedSize = (u32)pFrmHeapHd->tailAllocator - v;
+    clearedSize = (uptr)pFrmHeapHd->tailAllocator - v;
     attribute = (u8)((u32 *)pFrmHeapHd)[-1];
     if (attribute & 1)
         MIi_CpuClear32(0, (void *)v, (u32)clearedSize);
@@ -151,8 +151,8 @@ void NNSi_FndResetFrmHeapState(NNSiFndHeapHead *pHeapHd)
  */
 void *NNS_FndCreateFrmHeap(void *mem, u32 size, u32 opt)
 {
-    u32 end = (size + (u32)mem) & ~3u;
-    u32 start = ((u32)mem + 3) & ~3u;
+    u32 end = (size + (uptr)mem) & ~3u;
+    u32 start = ((uptr)mem + 3) & ~3u;
     if (start > end || end - start < 0x30)
         return 0;
     return NNSi_FndInitFrmHeap((NNSiFndHeapHead *)start, end, opt);
@@ -184,7 +184,7 @@ int NNS_FndRecordStateForFrmHeap(NNSiFndHeapHead *pHeapHd, u32 tagName)
 {
     NNSiFndFrmHeapHead *pFrmHeapHd = GetFrmHeapHeadPtrFromHeapHead(pHeapHd);
     NNSiFndFrmHeapState *pState;
-    u32 savedHeadAllocator = (u32)pFrmHeapHd->headAllocator;
+    u32 savedHeadAllocator = (uptr)pFrmHeapHd->headAllocator;
 
     pState = (NNSiFndFrmHeapState *)NNSi_FndAllocFromFrmHeapHead(pFrmHeapHd, 0x10, 4);
     if (pState == 0) {

@@ -58,13 +58,14 @@
  *   data_04000208                0x04000208  data
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/os_thread.h"
 
 typedef void (*TwlCb)(u32);
 typedef void (*TwlFn)(void);
 typedef void (*CamPxiCallback)(u32 result, u32 arg);
 
-#define reg_04004004 (*(volatile u16 *)0x04004004)
+#define reg_04004004 (*(volatile u16 *)REG_SCFG_CLK_ADDR)
 
 typedef struct TwlShared {
     u8 pad[0x3FF8];

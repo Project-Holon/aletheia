@@ -156,7 +156,7 @@ char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     UN_SELECT_GRAPHIC_SetupBg(p, heap);
-    UN_SELECT_GRAPHIC_SetupClact((unsigned char *)(p + 4), (int)&d_021BAEF8, heap);
+    UN_SELECT_GRAPHIC_SetupClact((unsigned char *)(p + 4), (sptr)&d_021BAEF8, heap);
     UN_SELECT_GRAPHIC_SetupCamera((unsigned **)(p + 8), heap);
     ((struct UnSelectGraphic *)p)->proc = GFL_USE_AddMainTask(UN_SELECT_GRAPHIC_Task, p, 0);
     return p;
@@ -220,7 +220,7 @@ void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap)
     }
 }
 
-void UN_SELECT_GRAPHIC_CleanupBg(void *p){u32 base=(u32)d_021BAF28;u32 i;for(i=0;i<7;i++)BG_SYS_FreeLayerBuf(*(const u32 *)(base+i*44));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void UN_SELECT_GRAPHIC_CleanupBg(void *p){u32 base=(uptr)d_021BAF28;u32 i;for(i=0;i<7;i++)BG_SYS_FreeLayerBuf(*(const u32 *)(base+i*44));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 /*
  * extent: 2 zero alignment bytes at 021BAA1A.

@@ -132,7 +132,6 @@ typedef struct Pkt {
 extern NetWork *WCMi_GetSystemWork(void); /* original prototype; the definition differs in return type */
 #else
 #include "../ov009/wcm_system.h"
-#define WCMi_GetSystemWork() ((NetWork *)(WCMi_GetSystemWork)())
 #endif
 #include "../arm9/os_cache.h"
 #include "nwm_startscan.h"
@@ -229,7 +228,7 @@ typedef struct NWMCallback { unsigned short apiid; unsigned short retcode; } NWM
 
 u32 WCMi_NwmifStartupAsync(void)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
 
     switch (NWM_Init((struct CamBuf *)w->rxBuf, 0x3000, w->cmdArg & 0xff)) {
     case 3:
@@ -245,7 +244,7 @@ u32 WCMi_NwmifStartupAsync(void)
         return 7;
     case 0:
         w->txFlag = 0;
-        switch (NWM_LoadDevice((u32)WcmNwmcbCommon)) {
+        switch (NWM_LoadDevice((uptr)WcmNwmcbCommon)) {
         case 2:
             WCMi_SetPhase(2);
             w->phase = 1;
@@ -265,7 +264,7 @@ u32 WCMi_NwmifStartupAsync(void)
 
 u32 WCMi_NwmifCleanupAsync(void)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
 
     switch (NWM_Close(WcmNwmcbCommon)) {
     case 2:
@@ -284,7 +283,7 @@ u32 WCMi_NwmifCleanupAsync(void)
 
 int WCMi_NwmifBeginSearchAsync(u32 bssid, u32 essid, u32 option)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
 
     switch (w->state) {
     case 5:
@@ -316,7 +315,7 @@ int WCMi_NwmifBeginSearchAsync(u32 bssid, u32 essid, u32 option)
 
 u32 WCMi_NwmifConnectAsync(void)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
     TwlReq req;
     u32 ret;
     u32 flag;
@@ -358,7 +357,7 @@ u32 WCMi_NwmifConnectAsync(void)
 
 u32 WCMi_NwmifDisconnectAsync(void)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
 
     switch (NWM_UnsetReceivingFrameBuffer(WcmNwmcbUnsetRecvFrmBuf, 0)) {
     case 2:
@@ -377,7 +376,7 @@ u32 WCMi_NwmifDisconnectAsync(void)
 
 u32 WCMi_NwmifTerminateAsync(void)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
     u32 ret;
 
     switch (NWM_GetState()) {
@@ -457,7 +456,7 @@ u32 WCMi_NwmifGetAllowedChannel(void)
 
 void WcmNwmReset(void)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
     u16 tx;
 
     if (w->stopFlag != 0) {
@@ -520,7 +519,7 @@ void WcmNwmcbCommon(u16 *arg)
     u8 mac[6];
     u32 ret = 13;
     u32 flag;
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
 
     switch (arg[1]) {
     case 0:
@@ -599,7 +598,7 @@ void WcmNwmcbCommon(u16 *arg)
 void WcmNwmcbScanEx(SendPkt *p)
 {
     int status = 13;
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
     int i;
 
     switch (p->kind) {
@@ -666,7 +665,7 @@ void WcmNwmcbScanEx(SendPkt *p)
 
 void WcmNwmcbConnect(u16 *arg)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
     u32 cur = NWM_GetState();
 
     switch (arg[1]) {
@@ -757,7 +756,7 @@ exit_default:
 
 void WcmNwmcbDisconnect(u16 *arg)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
 
     switch (arg[1]) {
     case 0:
@@ -790,7 +789,7 @@ void WcmNwmcbDisconnect(u16 *arg)
 
 void WcmNwmcbSetRecvFrmBuf(Pkt *p)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
     int lv;
 
     switch (p->kind) {
@@ -830,7 +829,7 @@ void WcmNwmcbSetRecvFrmBuf(Pkt *p)
 
 void WcmNwmcbUnsetRecvFrmBuf(Pkt *p)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
     switch (p->kind) {
     case 0:
         if (w->state == 12) {
@@ -866,12 +865,12 @@ void WcmNwmcbUnsetRecvFrmBuf(Pkt *p)
 
 static void WcmEditScanExParam(u8 *mac, u8 *name, u32 opt)
 {
-    NetWork *w = WCMi_GetSystemWork();
+    NetWork *w = (NetWork *)WCMi_GetSystemWork();
     u32 id;
     int i;
 
     WCM_UpdateOption(opt);
-    w->sendBuf = (u32)w->recvBuf;
+    w->sendBuf = (uptr)w->recvBuf;
     w->sendLen = 0xc40;
     w->sendMask = (1 << WCMi_GetNextScanChannel(0)) >> 1;
     w->sendFlag = ((w->linkFlags & 0x300000) == 0x300000) ? 1 : 0;

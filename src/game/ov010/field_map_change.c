@@ -109,7 +109,7 @@ void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId)
  */
 int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused)
 {
-    return (int)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
+    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
 }
 
 /*
@@ -123,7 +123,7 @@ int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused)
  */
 int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused)
 {
-    return (int)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
+    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
 }
 
 /*
@@ -137,7 +137,7 @@ int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused)
  */
 int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused)
 {
-    return (int)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
+    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
 }
 
 /*
@@ -156,7 +156,7 @@ int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused)
  */
 int FIELD_MAP_CHANGE_ResetGimmickStateCase4(struct GameData *object, int unused)
 {
-    return (int)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
+    return (sptr)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
 }
 
 /*

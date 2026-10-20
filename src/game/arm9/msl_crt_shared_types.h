@@ -3,7 +3,6 @@
 
 #include "../types.h"
 
-typedef unsigned int   size_t;
 
 struct MslRefBlock {
     u32 reserved00;

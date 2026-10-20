@@ -60,22 +60,6 @@ EXCEPTIONS = [
     ("src/game/ov095/btlv_scd.c", "BTLV_EFFECT_GetPalanm"),
     # ov094 btlv_effect.c: the original file-local prototype takes the move as a word; the definition takes u16.
     ("src/game/ov094/btlv_effect.c", "WAZA_TOOL_GetDamageType"),
-    # ov009 (libdwc/GameSpy objects): the C library calls below keep the library prototype.
-    # The definition in arm9/msl_*.c is a stand-in type (u8*, u32 for a string, int for atof,
-    # u32 for rand) and the libc string.h that gives mwcc its strlen/strcpy intrinsics
-    # declares strlen(const char *); the fix belongs to the ARM9 definitions.
-    ("src/game/ov009/dwc_main.c", "memcmp"),
-    ("src/game/ov009/dwc_main.c", "strchr"),
-    ("src/game/ov009/dwc_main.c", "strlen"),
-    ("src/game/ov009/dwc_main.c", "strncpy"),
-    ("src/game/ov009/gpibuddy.c", "strstr"),
-    ("src/game/ov009/gpiinfo.c", "strlen"),
-    ("src/game/ov009/gpiinfo.c", "strncmp"),
-    ("src/game/ov009/gsplatformutil.c", "strlen"),
-    ("src/game/ov009/gsxml.c", "strchr"),
-    ("src/game/ov009/gsxml.c", "strncmp"),
-    ("src/game/ov009/gsxml.c", "strncpy"),
-    ("src/game/ov009/sb_server.c", "strcmp_nocase"),
     # arm9 callers that keep an original prototype the definition's header cannot serve yet (lane A9PROTO, 2026-10-20).
     # PRINTSYS_Print* width and pointer types: P3WIDTH sets x/y widths, callers hold font as u32
     ("src/game/arm9/bmp_menulist.c", "PRINTSYS_PrintQueColor"),

@@ -59,7 +59,7 @@ void FIELD_GIMMICK_Setup(FieldMap *fieldMap)
     gimmickId = GIMMICK_WORK_GetId((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))));
     if (gimmickId != -1) {
         if (gFieldGimmickOverlayIds[gimmickId] != 0) {
-            GF_OVERLAY_Load((int)gFieldGimmickOverlayIds[gimmickId]);
+            GF_OVERLAY_Load((sptr)gFieldGimmickOverlayIds[gimmickId]);
         }
         gFieldGimmickInitFuncs[gimmickId](fieldMap);
     }
@@ -78,7 +78,7 @@ void FIELD_GIMMICK_Exit(FieldMap *fieldMap)
             gFieldGimmickExitFuncs[gimmickId](fieldMap);
         }
         if (gFieldGimmickOverlayIds[gimmickId] != 0) {
-            GF_OVERLAY_Unload((int)gFieldGimmickOverlayIds[gimmickId]);
+            GF_OVERLAY_Unload((sptr)gFieldGimmickOverlayIds[gimmickId]);
         }
     }
 }

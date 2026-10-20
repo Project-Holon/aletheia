@@ -165,6 +165,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/pms_types.h"
 #include "../ov067/ui_scene_types.h"
@@ -178,12 +179,12 @@ struct Proc;
 
 #define PMS_SELECT_GRAPHIC_HEAP_ID 81
 
-#define REG_MASTER_BRIGHT_A_ADDR 0x0400006c
-#define REG_MASTER_BRIGHT_B_ADDR 0x0400106c
-#define REG_BLDCNT_A_ADDR 0x04000050
-#define REG_BLDCNT_B_ADDR 0x04001050
-#define REG_DISPCNT_A_ADDR 0x04000000
-#define REG_DISPCNT_B_ADDR 0x04001000
+#define REG_MASTER_BRIGHT_A_ADDR REG_MASTER_BRIGHT_ADDR
+#define REG_MASTER_BRIGHT_B_ADDR REG_DB_MASTER_BRIGHT_ADDR
+#define REG_BLDCNT_A_ADDR REG_BLDCNT_ADDR
+#define REG_BLDCNT_B_ADDR REG_DB_BLDCNT_ADDR
+#define REG_DISPCNT_A_ADDR REG_DISPCNT_ADDR
+#define REG_DISPCNT_B_ADDR REG_DB_DISPCNT_ADDR
 #define DISPCNT_WINDOW_ENABLE_MASK 0xe000
 
 /* State numbers of the main step. */
@@ -335,7 +336,7 @@ void PMS_SELECT_GRAPHIC_VBlankSceneActors(void *unit);
 int PMS_SELECT_GRAPHIC_ProcInit(struct Proc *owner, int unused, struct PmsSelectGraphicArgs *args)
 {
     struct PmsSelectGraphic *p;
-    GF_OVERLAY_Load((unsigned)overlay_id);
+    GF_OVERLAY_Load((uptr)overlay_id);
     GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_A_ADDR, -16);
     GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_B_ADDR, -16);
     GFL_HEAP_CreateChildHeap(1, PMS_SELECT_GRAPHIC_HEAP_ID, 0x1c000);
@@ -366,7 +367,7 @@ int PMS_SELECT_GRAPHIC_ProcExit(struct Proc *proc, int unused, int unused2, stru
     GF_FONT_Delete(p->font);
     PROCSYS_FreeProcWork(proc);
     GFL_HEAP_DeleteChecked(PMS_SELECT_GRAPHIC_HEAP_ID);
-    GF_OVERLAY_Unload((int)ov067_id);
+    GF_OVERLAY_Unload((sptr)ov067_id);
     return 1;
 }
 
@@ -444,7 +445,7 @@ int PMS_SELECT_GRAPHIC_ProcMain(void *unused, int *state, void *unused2, struct 
         break;
     case 13:
         PMS_SELECT_GRAPHIC_Teardown(p);
-        GF_OVERLAY_Unload((int)ov067_id);
+        GF_OVERLAY_Unload((sptr)ov067_id);
         PMS_SELECT_GRAPHIC_SetResult(state, p, 14);
         return 0;
     case 14:
@@ -452,7 +453,7 @@ int PMS_SELECT_GRAPHIC_ProcMain(void *unused, int *state, void *unused2, struct 
         return 0;
     case 15:
         if (running != 1 && PMS_SELECT_GRAPHIC_StepCloseEditScreen(&p->subState, p)) {
-            GF_OVERLAY_Load((u32)ov067_id);
+            GF_OVERLAY_Load((uptr)ov067_id);
             PMS_SELECT_GRAPHIC_Setup(p);
             PMS_SELECT_GRAPHIC_SetResult(state, p, 1);
         }
@@ -506,11 +507,11 @@ void PMS_SELECT_GRAPHIC_Setup(struct PmsSelectGraphic *p)
     p->scrollThumb = UI_SCENE_CreateActor(&p->actorGfx, actorUnit, 240, 16, 16, p->heapId);
     CLACT_SetActorBgPriority(p->scrollThumb, 1);
     CLACT_SetActorAutoAnim(p->scrollThumb, 1);
-    PMS_SELECT_GRAPHIC_CreateBg(&p->bg, p->heapId, (u32)p->font, p->printQueue, p->msgBank);
+    PMS_SELECT_GRAPHIC_CreateBg(&p->bg, p->heapId, (uptr)p->font, p->printQueue, p->msgBank);
     PMS_SELECT_GRAPHIC_ResetBgBlink(&p->bg);
     p->bg.decideFrames = 0;
     p->bg.decided = 0;
-    p->touchBar = PMS_SELECT_GRAPHIC_CreateTouchBar((int)p, PMS_SELECT_GRAPHIC_GetSceneActorUnit(p->scene), p->heapId);
+    p->touchBar = PMS_SELECT_GRAPHIC_CreateTouchBar((sptr)p, PMS_SELECT_GRAPHIC_GetSceneActorUnit(p->scene), p->heapId);
     p->taskMenuRes = APP_TASKMENU_RES_Create(0, 12, (struct GFont *)p->font, (struct PrintQueue *)p->printQueue, p->heapId);
     PMS_SELECT_GRAPHIC_CreateRows(p);
     GFL_NET_RefreshWmIconAtTopRight(1, p->heapId);
@@ -555,9 +556,9 @@ void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 fo
     ARC_UTIL_UploadPaletteFromHandleWhole(h, 0, 4, 0, 256, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 288, 32, heap);
     bg->palette[0] = 0x7fff;
-    NNS_GfdRegisterNewVramTransferTask((void *)15, 316, (u32)&bg->palette[0], 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)15, 316, (uptr)&bg->palette[0], 2);
     bg->palette[1] = 0x7fff;
-    NNS_GfdRegisterNewVramTransferTask((void *)15, 314, (u32)&bg->palette[1], 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)15, 314, (uptr)&bg->palette[1], 2);
     ARC_UTIL_UploadBgCharFromHandle(h, 10, 4, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 21, 4, 0, 0, 0, heap);
     bg->tileRange = ARC_UTIL_RegisterObjCharFromHandle(h, 10, 3, 0, 0, heap);
@@ -566,9 +567,9 @@ void PMS_SELECT_GRAPHIC_CreateBg(struct PmsSelectGraphicBg *bg, u16 heap, u32 fo
     bg->screenMem = ARC_UTIL_LoadPaletteDataFromHandle(h, 23, 0, (void **)&bg->screen, heap);
     ARC_UTIL_UploadPaletteFromHandle(h, 4, 4, 128, 256, 32, heap);
     bg->palette[2] = 0x294b;
-    NNS_GfdRegisterNewVramTransferTask((void *)31, 284, (u32)&bg->palette[2], 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)31, 284, (uptr)&bg->palette[2], 2);
     bg->palette[3] = 0x5694;
-    NNS_GfdRegisterNewVramTransferTask((void *)31, 286, (u32)&bg->palette[3], 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)31, 286, (uptr)&bg->palette[3], 2);
     ARC_UTIL_UploadBgCharFromHandle(h, 18, 5, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 24, 5, 0, 0, 0, heap);
     BG_SYS_FillTileMap(5, 0, 0, 32, 32, 8);
@@ -639,7 +640,7 @@ void PMS_SELECT_GRAPHIC_BlendBlinkColors(u16 *angle, u16 *out, const struct PmsS
     t = (FX_SinCosTable_[(*angle >> 4) * 2 + 1] + 0x1000) / 2;
     for (i = 0; i < count; i++) {
         BlendColor555(&out[i], t, recs[i].c, recs[i].d);
-        NNS_GfdRegisterNewVramTransferTask((void *)15, (recs[i].x << 5) + (recs[i].y << 1), (u32)(&out[i]), 2);
+        NNS_GfdRegisterNewVramTransferTask((void *)15, (recs[i].x << 5) + (recs[i].y << 1), (uptr)(&out[i]), 2);
     }
 }
 
@@ -742,7 +743,7 @@ void PMS_SELECT_GRAPHIC_CreateRows(struct PmsSelectGraphic *p)
 {
     int i;
     unsigned v;
-    p->pmsDraw = PMS_DRAW_Create((u32)PMS_SELECT_GRAPHIC_GetSceneActorUnit(p->scene), (int)0, (u32)p->printQueue, (u32)p->font, (int)8, (int)4, p->heapId);
+    p->pmsDraw = PMS_DRAW_Create((uptr)PMS_SELECT_GRAPHIC_GetSceneActorUnit(p->scene), (int)0, (uptr)p->printQueue, (uptr)p->font, (int)8, (int)4, p->heapId);
     p->filledCount = 0;
     for (i = 0; i < PMS_SELECT_GRAPHIC_MAX_ENTRIES; i++) {
         if (!PMSI_PARAM_IsComplete(PMS_WORD_GetSaveEntry(p->saveData, i), (u16)p->heapId)) break;
@@ -1021,7 +1022,7 @@ void PMS_SELECT_GRAPHIC_DrawSavedRow(struct PmsSelectGraphic *p, u8 row, u8 whic
         PMS_DRAW_SetNullColorPalette(p->pmsDraw, 13);
     }
     if (PMSI_PARAM_IsComplete((struct PmsData *)item, p->heapId) == 1) {
-        PMS_DRAW_Print((u32)p->pmsDraw, (u32)p->rowWindows[row], (struct BeaconDetailGraQuad *)item, row);
+        PMS_DRAW_Print((uptr)p->pmsDraw, (uptr)p->rowWindows[row], (struct BeaconDetailGraQuad *)item, row);
         p->rowPending[row] = 1;
     }
 }
@@ -1194,7 +1195,7 @@ struct PmsSelectGraphicScene *PMS_SELECT_GRAPHIC_CreateScene(unsigned arg, u16 h
     BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     PMS_SELECT_GRAPHIC_InitSceneBgs(scene, heap);
-    PMS_SELECT_GRAPHIC_InitSceneActors(&scene->actorUnit, (unsigned)gPmsSelectGraphicVramBanks, heap);
+    PMS_SELECT_GRAPHIC_InitSceneActors(&scene->actorUnit, (uptr)gPmsSelectGraphicVramBanks, heap);
     scene->drawTask = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))PMS_SELECT_GRAPHIC_SceneTask, (void *)scene, 0);
     return scene;
 }

@@ -328,10 +328,10 @@ void PDWACC_STATE_StateReceiveResponse(PdwaccProc *proc)
 void PDWACC_STATE_StateSendRequest(PdwaccProc *proc)
 {
     int workAreaSize;
-    unsigned workArea;
+    uptr workArea;
     if (GFL_NET_GetRunState()) {
         if (NHTTP_RAP_CreateRequest(9,proc->connection)) {
-            workArea = (unsigned int)SAVE_CONTROL_GetWorkArea(proc->saveControl,(u32 *)(&workAreaSize));
+            workArea = (uptr)SAVE_CONTROL_GetWorkArea(proc->saveControl,(u32 *)(&workAreaSize));
             NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(proc->connection),(void *)workArea,0x80000);
             if (!NHTTP_RAP_StartConnection(proc->connection)) {
                 PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateReceiveResponse,0x1f6);
@@ -355,7 +355,7 @@ void PDWACC_STATE_DestroyHttpConnection(PdwaccProc *proc) { if(proc->connection)
 int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param)
 {
     PdwaccProc *proc;
-    GF_OVERLAY_Load((int)ov114_id);
+    GF_OVERLAY_Load((sptr)ov114_id);
     proc=(PdwaccProc *) PROCSYS_AllocProcWork(procSys,0x74,param->heap);
     MI_CpuFill8(proc,0,0x74);
     proc->heap=param->heap;
@@ -364,7 +364,7 @@ int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param)
     proc->profileId=MYSTATUS_GetProfileId((struct MyStatus *)GAME_DATA_GetMyStatus(param->gameData));
     if(GFL_NET_GetRunState()) {
         proc->connection=NHTTP_RAP_Create(param->heap,proc->profileId,(char *)param->connectionArg);
-        DWC_RAP_SetErrorCallback((int (*)(u32, u32, u32, int))((int)PDWACC_STATE_DestroyHttpConnection),(int)proc);
+        DWC_RAP_SetErrorCallback((int (*)(u32, u32, u32, int))((sptr)PDWACC_STATE_DestroyHttpConnection),(sptr)proc);
     }
     proc->disp=PDWACC_DISP_Init(proc->heap);
     proc->message=PDWACC_MESSAGE_InitSystem(proc->heap,87);
@@ -425,6 +425,6 @@ int PDWACC_STATE_ProcExit(int procHandle, int unused0, int unused1, PdwaccProc *
     if (GFL_NET_GetRunState())
         DWC_RAP_SetErrorCallback(0, 0);
     PROCSYS_FreeProcWork((void *)procHandle);
-    GF_OVERLAY_Unload((int)ov114_id);
+    GF_OVERLAY_Unload((sptr)ov114_id);
     return 1;
 }

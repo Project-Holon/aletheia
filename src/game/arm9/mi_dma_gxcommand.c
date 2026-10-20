@@ -31,6 +31,7 @@
  *   MIi_DMAFastCallback            0x02082A1C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 #include "../sdk_ioreg.h"
 
 #include "../sdk_os.h"

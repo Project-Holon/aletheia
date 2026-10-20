@@ -154,7 +154,7 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
     p->task = (void *)GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))ZUKAN_DETAIL_MAIN_NoOp, (void *)p, 1);
 
     p->touchbar = ZUKAN_DETAIL_TOUCHBAR_Create(p->heap, ZUKAN_SAVE_GetDexObtained(ZUKAN_SAVE_GetFromGameData(args->src)));
-    p->headbar = ZUKAN_DETAIL_HEADBAR_Create(p->heap, (unsigned int)p->font);
+    p->headbar = ZUKAN_DETAIL_HEADBAR_Create(p->heap, (uptr)p->font);
     p->context = ZUKAN_DETAIL_COMMON_CreateContext(p->heap, args->src, p->display, p->font, p->printer, p->touchbar, p->headbar, args->extra, args->formNo, &args->shiny);
     p->node = 0;
     p->mem = 0;
@@ -192,7 +192,7 @@ int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *args, struc
     u32 v;
     if (*cnt <= 8)
         *cnt = *cnt + 1;
-    if (ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(work->node, (int)work->context) != 0) {
+    if (ZUKAN_DETAIL_PROCSYS_RunStateCallbacks(work->node, (sptr)work->context) != 0) {
         if (work->pendingMode != 0) {
             args->mode = work->pendingMode;
             ZUKAN_DETAIL_MAIN_SwitchScreen(args, work);
@@ -206,7 +206,7 @@ int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *args, struc
         v = ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(work->touchbar);
         if (v == 0)
             v = ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(work->touchbar);
-        ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(work->node, (int)work->context, v);
+        ZUKAN_DETAIL_PROCSYS_CallOwnerUpdate(work->node, (sptr)work->context, v);
         switch (v) {
         case 1: args->speciesStep = 0; break;
         case 2: args->speciesStep = 1; break;
@@ -222,7 +222,7 @@ int ZUKAN_DETAIL_MAIN_Main(void *unused, int *cnt, struct Ov208Args *args, struc
     ZUKAN_DETAIL_GRAPHIC_DrawFrame(work->display);
     ZUKAN_DETAIL_GRAPHIC_ApplyCamera(work->display);
     if (done == 0)
-        ZUKAN_DETAIL_PROCSYS_CallOwnerHook(work->node, (int)work->context);
+        ZUKAN_DETAIL_PROCSYS_CallOwnerHook(work->node, (sptr)work->context);
     ZUKAN_DETAIL_GRAPHIC_EndDraw3d(work->display);
     return 0;
 }

@@ -100,6 +100,7 @@
  *   INTRO_MCSS_AddSlot 0x021BF624 thumb ov204
  */
 #include "intro_types.h"
+#include "../sdk_ioreg.h"
 
 struct IntroGameState;
 
@@ -452,7 +453,7 @@ int INTRO_CMD_CmdSlotAlpha(char *p, int *state, unsigned *q)
 int INTRO_CMD_CmdPrintAndMepachi(char *p, int *state, unsigned *q)
 {
     IntroCmdWork *work = (IntroCmdWork *)p;
-    unsigned index = q[0];
+    uptr index = q[0];
     unsigned other = q[1];
     switch (*state) {
     case 0:
@@ -505,7 +506,7 @@ int INTRO_CMD_CmdSaveResume(char *a)
 int INTRO_CMD_CmdSaveNoOp(char *a)
 {
     IntroCmdWork *work = (IntroCmdWork *)a;
-    SAVE_CONTROL_INTR_NoOp((void *)((int)work->saveControl));
+    SAVE_CONTROL_INTR_NoOp((void *)((sptr)work->saveControl));
     return 1;
 }
 
@@ -577,7 +578,7 @@ int INTRO_CMD_CmdMoveVoice(u8 *p, u32 *q)
     return 0;
 }
 
-int INTRO_CMD_CmdParticle(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;G2x_SetBlendAlpha_((void*)0x04000050,1,9,0,0);INTRO_PARTICLE_StartEffect(work->particle,q[0],q[1],0);return 1;}
+int INTRO_CMD_CmdParticle(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;G2x_SetBlendAlpha_((void*)REG_BLDCNT_ADDR,1,9,0,0);INTRO_PARTICLE_StartEffect(work->particle,q[0],q[1],0);return 1;}
 
 int INTRO_CMD_CmdSetVisible(char *a, int b, int *p)
 {
@@ -661,31 +662,31 @@ int INTRO_CMD_CmdDrawTile(IntroCmdWork *p,u32 *q)
     switch (*q) {
     case 0:
         BG_SYS_SetPlaneVisible(2,1);
-        BG_SYS_DrawTileSub(2,0,8,64,2,(const void *)((u32)p->data),0,8,64,32);
+        BG_SYS_DrawTileSub(2,0,8,64,2,(const void *)((uptr)p->data),0,8,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 1:
-        BG_SYS_DrawTileSub(2,0,7,64,1,(const void *)((u32)p+0xA8),0,7,64,32);
-        BG_SYS_DrawTileSub(2,0,10,64,1,(const void *)((u32)p->data),0,10,64,32);
+        BG_SYS_DrawTileSub(2,0,7,64,1,(const void *)((uptr)p+0xA8),0,7,64,32);
+        BG_SYS_DrawTileSub(2,0,10,64,1,(const void *)((uptr)p->data),0,10,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 2:
-        BG_SYS_DrawTileSub(2,0,6,64,1,(const void *)((u32)p+0xA8),0,6,64,32);
-        BG_SYS_DrawTileSub(2,0,11,64,1,(const void *)((u32)p->data),0,11,64,32);
+        BG_SYS_DrawTileSub(2,0,6,64,1,(const void *)((uptr)p+0xA8),0,6,64,32);
+        BG_SYS_DrawTileSub(2,0,11,64,1,(const void *)((uptr)p->data),0,11,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 3:
-        BG_SYS_DrawTileSub(2,0,5,64,1,(const void *)((u32)p+0xA8),0,5,64,32);
-        BG_SYS_DrawTileSub(2,0,12,64,1,(const void *)((u32)p->data),0,12,64,32);
+        BG_SYS_DrawTileSub(2,0,5,64,1,(const void *)((uptr)p+0xA8),0,5,64,32);
+        BG_SYS_DrawTileSub(2,0,12,64,1,(const void *)((uptr)p->data),0,12,64,32);
         BG_SYS_MarkTileDirty(2);
         (*q)++;
         break;
     case 4:
-        BG_SYS_DrawTileSub(2,0,4,64,1,(const void *)((u32)p+0xA8),0,4,64,32);
-        BG_SYS_DrawTileSub(2,0,13,64,1,(const void *)((u32)p->data),0,13,64,32);
+        BG_SYS_DrawTileSub(2,0,4,64,1,(const void *)((uptr)p+0xA8),0,4,64,32);
+        BG_SYS_DrawTileSub(2,0,13,64,1,(const void *)((uptr)p->data),0,13,64,32);
         BG_SYS_MarkTileDirty(2);
         *q=0;
         return 1;
@@ -758,7 +759,7 @@ int INTRO_CMD_CreateActors(char *p)
     local=gIntroActorPos;
     for(i=0;i<3;i++){
         row=p+i*4;
-        work->actor[i]=(void *)CLACT_CreateActor((void *)INTRO_GRAPHIC_GetClactOwner((char *)work->display),(unsigned int)work->charHandle[i].ptr,(unsigned int)work->palHandle[i].ptr,(unsigned int)work->cellAnimHandle[i].ptr,(const struct ActorInitParam *)((char *)&local+i*8),0,work->heapId);
+        work->actor[i]=(void *)CLACT_CreateActor((void *)INTRO_GRAPHIC_GetClactOwner((char *)work->display),(uptr)work->charHandle[i].ptr,(uptr)work->palHandle[i].ptr,(uptr)work->cellAnimHandle[i].ptr,(const struct ActorInitParam *)((char *)&local+i*8),0,work->heapId);
         CLACT_SetActorDrawEnable(work->actor[i],0);
     }
     return 1;
@@ -788,7 +789,7 @@ int INTRO_CMD_CmdActorFadeIn(char *p, unsigned *state, unsigned *q)
     unsigned i;
     switch (*state) {
     case 0:
-        G2x_SetBlendAlpha_((unsigned int *)0x04000050, 0, 12, 0, 16);
+        G2x_SetBlendAlpha_((unsigned int *)REG_BLDCNT_ADDR, 0, 12, 0, 16);
         CLACT_SetActorObjMode(work->actor[q[0]], 1);
         CLACT_SetActorDrawEnable(work->actor[q[0]], 1);
         ++*state;
@@ -817,7 +818,7 @@ int INTRO_CMD_CmdActorFadeOut(char *p, unsigned *state, unsigned *q)
     unsigned i;
     switch (*state) {
     case 0:
-        G2x_SetBlendAlpha_((unsigned int *)0x04000050, 0, 12, 16, 0);
+        G2x_SetBlendAlpha_((unsigned int *)REG_BLDCNT_ADDR, 0, 12, 16, 0);
         for (i = 0; i < 3; i++)
             CLACT_SetActorObjMode(work->actor[i], 1);
         ++*state;
@@ -920,4 +921,4 @@ void INTRO_CMD_ClearCommand(IntroCmdWork *p, u8 i)
     p->slots[i].data[1] = 0;
 }
 
-IntroCommand *INTRO_CMD_GetScenarioRow(u32 n){return *(IntroCommand **)((u32)gIntroScenarioTables+n*4);}
+IntroCommand *INTRO_CMD_GetScenarioRow(u32 n){return *(IntroCommand **)((uptr)gIntroScenarioTables+n*4);}

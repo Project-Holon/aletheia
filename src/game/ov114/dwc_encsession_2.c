@@ -74,8 +74,8 @@ typedef struct {
     u32 size;
 } DWCEncPutHeader;
 
-extern int strncmp(u8 *s1, u8 *s2, u32 n);
-extern u8 *strncpy(u8 *dest, u8 *src, u32 n);
+extern int strncmp(const char *s1, const char *s2, u32 n);
+extern char *strncpy(char *dest, const char *src, u32 n);
 #include "../arm9/dwc_memfunc.h"
 #include "../ov009/gsplatformutil.h"
 #include "../arm9/dgt_sha1.h"
@@ -142,7 +142,7 @@ void DWCi_EncSessionCompleteCallback(char *buffer, int bufferLen, int result, vo
                     gDwcEncSession.hashPosition[i * 2 + 1] = hexDigits[hash[i] & 15];
                 }
                 gDwcEncSession.hashPosition[-strlen(sDwcEncSessionHash)] = '&';
-                strncpy((u8 *)gDwcEncSession.lastHash, (u8 *)gDwcEncSession.hashPosition, 41);
+                strncpy(gDwcEncSession.lastHash, gDwcEncSession.hashPosition, 41);
                 gDwcEncSession.state = 6;
             } else {
                 DWCi_EncSetError();
@@ -150,7 +150,7 @@ void DWCi_EncSessionCompleteCallback(char *buffer, int bufferLen, int result, vo
             DWCi_GsFree(buffer);
             break;
         case 7:
-            if (strncmp((u8 *)buffer, (u8 *)sDwcEncSessionError, strlen(sDwcEncSessionError)) == 0) {
+            if (strncmp(buffer, sDwcEncSessionError, strlen(sDwcEncSessionError)) == 0) {
                 DWCi_GsFree(buffer);
                 DWCi_EncSetError();
                 return;
@@ -247,12 +247,12 @@ void DWCi_EncSessionInitialize(int server, char *initData)
     }
 
     init = (DWCEncInitData *)initData;
-    strncpy((u8 *)secretKey, (u8 *)init->info.secretKey, 20);
+    strncpy(secretKey, init->info.secretKey, 20);
     secretKey[20] = '\0';
-    multiplier = strtoul((char *)strncpy((u8 *)buffer, (u8 *)init->info.multiplier, 8), 0, 16);
-    increment = strtoul((char *)strncpy((u8 *)buffer, (u8 *)init->info.increment, 8), 0, 16);
-    modulus = strtoul((char *)strncpy((u8 *)buffer, (u8 *)init->info.modulus, 8), 0, 16);
-    checksumMask = strtoul((char *)strncpy((u8 *)buffer, (u8 *)init->info.checksumMask, 8), 0, 16);
+    multiplier = strtoul((char *)strncpy(buffer, init->info.multiplier, 8), 0, 16);
+    increment = strtoul((char *)strncpy(buffer, init->info.increment, 8), 0, 16);
+    modulus = strtoul((char *)strncpy(buffer, init->info.modulus, 8), 0, 16);
+    checksumMask = strtoul((char *)strncpy(buffer, init->info.checksumMask, 8), 0, 16);
     DWCi_EncValidateKey(init->info.gameName, secretKey, multiplier, increment, modulus, checksumMask);
     DWC_InitGHTTP(0);
     gDwcEncSession.state = 3;

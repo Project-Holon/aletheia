@@ -102,7 +102,7 @@ void HALL_OF_FAME_VBlankMon(void)
 {
     CLACT_VBlankSystem();
     DOUBLE3DDISP_Delete();
-    *(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;
+    *(volatile u32 *)((uptr)SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;
 }
 
 /*
@@ -112,7 +112,7 @@ void HALL_OF_FAME_VBlankTrainer(void)
 {
     BG_SYS_Update();
     CLACT_VBlankSystem();
-    *(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;
+    *(volatile u32 *)((uptr)SDK_AUTOLOAD_DTCM_START + 0x3FF8) |= 1;
 }
 
 void HALL_OF_FAME_SetVramBanks(int subScreen)

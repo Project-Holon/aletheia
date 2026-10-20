@@ -144,6 +144,7 @@
  *   BG_SYS_MarkTileDirty  0x02041B6C  arm
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/touchpanel.h"
 #include "../arm9/gfl_use.h"
@@ -444,7 +445,7 @@ FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fiel
     menu->zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
     menu->eventWork = GAME_DATA_GetEventWork(gameData);
     menu->myStatus = GAME_DATA_GetMyStatus(gameData);
-    menu->mapInfo = (u32)FIELDMAP_GetMsgBg(fieldMap);
+    menu->mapInfo = (uptr)FIELDMAP_GetMsgBg(fieldMap);
     menu->cursorCol = 0;
     menu->cursorRow = 0;
     menu->cursorDirty = menu->keyCursorActive = UI_GetInputMode() ^ 1;
@@ -685,7 +686,7 @@ void FIELD_MENU_LoadGraphics(FieldMenu *menu, void *arcHandle, int layoutType, u
     struct ActorInitParam pos;
     FieldMenuSurfaceRect surfaceRect;
 
-    GXx_SetMasterBrightness_((volatile u16 *)0x0400106C, -16);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR, -16);
     BG_SYS_InitBgLayer(5, &gFieldMenuBgTemplate5, 0);
     BG_SYS_SetPlaneVisible(5, 1);
     BG_SYS_ClearSlot(5);
@@ -1060,9 +1061,9 @@ void FIELD_MENU_UpdateSelection(FieldMenu *menu)
 void FIELD_MENU_CreateItem(FieldMenu *menu, FieldMenuItem *item, const FieldMenuItemInit *init)
 {
     struct ActorInit setup;
-    u32 textColor;
+    uptr textColor;
 
-    textColor = (u32)FIELD_MSGBG_GetFont(FIELDMAP_GetMsgBg(menu->fieldMap));
+    textColor = (uptr)FIELD_MSGBG_GetFont(FIELDMAP_GetMsgBg(menu->fieldMap));
     item->inUse = 1;
     item->buttonId = init->buttonId;
     item->cursorX = init->cursorX;

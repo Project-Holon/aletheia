@@ -32,6 +32,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 
 typedef void (*PanicHookFunc)(void);
 
@@ -47,17 +48,15 @@ struct PanicHandlers {
     PanicHookFunc fail_hook;
 };
 
-#define REG_DISPCNT  (*(vu32 *)0x04000000)
 
-#define REG_BG0CNT   (*(vu16 *)0x04000008)
+#define REG_BG0CNT   (*(vu16 *)REG_BG0CNT_ADDR)
 
-#define REG_BG0OFS   (*(vu32 *)0x04000010)
+#define REG_BG0OFS   (*(vu32 *)REG_BG0OFS_ADDR)
 
-#define REG_BLDCNT   (*(vu16 *)0x04000050)
 
-#define REG_IME      (*(vu16 *)0x04000208)
+#define REG_IME      (*(vu16 *)REG_IME_ADDR)
 
-#define REG_POWCNT   (*(vu16 *)0x04000304)
+#define REG_POWCNT   (*(vu16 *)REG_POWCNT1_ADDR)
 
 #define BG_PLTT_1    (*(vu16 *)0x05000002)
 
@@ -228,7 +227,7 @@ void GF_PANIC_Init(void)
     GX_SetGraphicsMode(1, 0, 0);
 
     REG_BLDCNT = 0;
-    GXx_SetMasterBrightness_((volatile u16 *)0x0400006c, 0);
+    GXx_SetMasterBrightness_((volatile u16 *)REG_MASTER_BRIGHT_ADDR, 0);
 
     REG_DISPCNT = REG_DISPCNT & ~0xe000;
     REG_DISPCNT = (REG_DISPCNT & ~0x1f00) | 0x100;
@@ -340,5 +339,5 @@ void GF_PANIC_Die(void)
  */
 void GF_PANIC_RegisterDefaultHandlers(void)
 {
-    GF_PANIC_SetHandlers((u32)GF_PANIC_Init, (u32)GF_PANIC_Print, (u32)GF_PANIC_Die);
+    GF_PANIC_SetHandlers((uptr)GF_PANIC_Init, (uptr)GF_PANIC_Print, (uptr)GF_PANIC_Die);
 }

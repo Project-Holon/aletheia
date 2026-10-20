@@ -79,12 +79,12 @@
 
 void COLOSSEUM_AddCommandTable(UnionRoomWork *unionRoom);
 
-extern u32 gColosseumCommandTable[];
+extern NetCommandEntry gColosseumCommandTable[];
 
 /* Registers the colosseum network commands (base id 0x1500, 14 entries). */
 void COLOSSEUM_AddCommandTable(UnionRoomWork *unionRoom)
 {
-    GFL_NET_COMMAND_AddCommandTable((u32)0x1500, (uptr)gColosseumCommandTable, (u32)14, (uptr)unionRoom);
+    GFL_NET_COMMAND_AddCommandTable((u32)0x1500, gColosseumCommandTable, (u32)14, unionRoom);
 }
 
 /* Net command ids of the colosseum. The receive callbacks sit in the union

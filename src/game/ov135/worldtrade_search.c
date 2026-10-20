@@ -138,6 +138,7 @@
  *   G2x_SetBlendBrightness_  0x0207D658  arm  arm9
  */
 #include "worldtrade_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/mi_memory.h"
 
@@ -722,7 +723,7 @@ int WORLDTRADE_SEARCH_UpdateCursorVisibility(WorldtradeWork *p)
             WORLDTRADE_SEARCH_PrintMessage((u8 *)p, 38, 0, 0, 0xf0f);
         else
             WORLDTRADE_SEARCH_PrintMessage((u8 *)p, 8, 1, 0, 0xf0f);
-        if (GXx_GetMasterBrightness_((u16 *)0x0400006c) == -16) {
+        if (GXx_GetMasterBrightness_((u16 *)REG_MASTER_BRIGHT_ADDR) == -16) {
             WIPE_SYS_Start(0, 1, 1, 0, 16, 1, 0x48);
             *(int *)&p->state = 33;
         } else {
@@ -1682,7 +1683,7 @@ void WORLDTRADE_SEARCH_ScrollBgs(WorldtradeWork *p)
 void WORLDTRADE_SEARCH_SetBlendEffect(u32 brightness)
 {
     if (brightness != 0) {
-        G2x_SetBlendBrightness_(0x04000050, 0xa, brightness);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 0xa, brightness);
     } else {
         *(u16 *)0x04000050 = 0;
     }

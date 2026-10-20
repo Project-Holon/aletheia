@@ -381,7 +381,7 @@ int GURU2_RECEIPT_ProcInit(void *proc,u32 *state,u8 *ctx)
         BG_SYS_ClearMainPlanes(); BG_SYS_ClearSubPlanes();
         *(volatile u32 *)0x04000000&=0xffffe0ff;
         *(volatile u32 *)0x04001000&=0xffffe0ff;
-        GFL_HEAP_CreateChildHeap((u32)((void *)1),114,0x80000);
+        GFL_HEAP_CreateChildHeap((uptr)((void *)1),114,0x80000);
         arc=ARC_TOOL_CreateHandle(184,114);
         p=PROCSYS_AllocProcWork(proc,0x4874,114);
         MI_CpuFill8(p,0,0x4874);
@@ -396,9 +396,9 @@ int GURU2_RECEIPT_ProcInit(void *proc,u32 *state,u8 *ctx)
         GURU2_RECEIPT_LoadGraphics(p,arc);
         *(void **)(p+48)=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((void (*)(int, void *))GURU2_RECEIPT_VBlank),(void *)p,1);
         *(void **)(p+244)=TCBL_Create(114,114,32,32);
-        *(u32 *)(p+236)=(unsigned int)PRINTSYS_QUE_Create((unsigned int)114);
+        *(u32 *)(p+236)=(uptr)PRINTSYS_QUE_Create((unsigned int)114);
         GURU2_RECEIPT_InitStrings(p,arc); GURU2_RECEIPT_InitActors(p,arc); GURU2_RECEIPT_CreatePlayerActors(p); GURU2_RECEIPT_CreateWindows(p);
-        GURU2_COMM_RegisterCommands((u32)(*(void **)(ctx+24)));
+        GURU2_COMM_RegisterCommands((*(void **)(ctx+24)));
         GFL_NET_RefreshWmIconAtTopRight(1,114); ARC_TOOL_DeleteHandle(arc);
         (*state)++;
         break;
@@ -818,24 +818,24 @@ void GURU2_RECEIPT_InitBg(void)
 void GURU2_RECEIPT_InitStrings(u8 *p,void *arc)
 {
     int i;
-    u32 titleBuf;
+    uptr titleBuf;
     for(i=0;i<5;i++) {
-        *(u32 *)(p+i*4+68)=(u32)STRBUF_Create(8,114);
+        *(u32 *)(p+i*4+68)=(uptr)STRBUF_Create(8,114);
         *(u32 *)(p+i*8+312)=0; *(u32 *)(p+i*8+316)=0;
         *(u32 *)(p+i*4+352)=0;
     }
-    *(unsigned int *)&((struct Guru2Lobby *)p)->messageBuf=(u32)STRBUF_Create(180,114);
-    titleBuf=(u32)STRBUF_Create(40,114); *(unsigned int *)&((struct Guru2Lobby *)p)->titleBuf=titleBuf;
+    *(unsigned int *)&((struct Guru2Lobby *)p)->messageBuf=(uptr)STRBUF_Create(180,114);
+    titleBuf=(uptr)STRBUF_Create(40,114); *(unsigned int *)&((struct Guru2Lobby *)p)->titleBuf=titleBuf;
     *(unsigned int *)&((struct Guru2Lobby *)p)->stateIndex=0;
     MSGDATA_ReadString((struct MsgBank *)(*(unsigned int *)&((struct Guru2Lobby *)p)->msgData),17,(void *)titleBuf);
     GURU2_RECEIPT_LoadCharBuffer((char *)p,arc);
     *(unsigned int *)&((struct Guru2Lobby *)p)->paletteAnimEnabled=0; *(unsigned int *)&((struct Guru2Lobby *)p)->paletteAnimCounter=0; *(unsigned int *)&((struct Guru2Lobby *)p)->paletteAnimIndex=0;
-    *(unsigned int *)&((struct Guru2Lobby *)p)->paletteBlock=(u32)ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc,2,(p+40),114);
+    *(unsigned int *)&((struct Guru2Lobby *)p)->paletteBlock=(uptr)ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc,2,(p+40),114);
     ((struct Guru2Lobby *)p)->previousMemberCount=0; *(unsigned int *)&((struct Guru2Lobby *)p)->yesNoMenu=0;
     ((struct Guru2Comm *)((struct Guru2Lobby *)p)->comm)->expectedMemberCount=2;
 }
 
-void GURU2_RECEIPT_FreeStrings(u8 *p) {int i;GURU2_RECEIPT_FreeCharBuffer(p);GFL_HEAP_Free(((struct Guru2Lobby *)p)->paletteBlock);for(i=0;i<5;i++)STRBUF_Delete(*(void **)((u32)p+i*4+68));STRBUF_Delete(((struct Guru2Lobby *)p)->titleBuf);STRBUF_Delete(((struct Guru2Lobby *)p)->messageBuf);}
+void GURU2_RECEIPT_FreeStrings(u8 *p) {int i;GURU2_RECEIPT_FreeCharBuffer(p);GFL_HEAP_Free(((struct Guru2Lobby *)p)->paletteBlock);for(i=0;i<5;i++)STRBUF_Delete(*(void **)((uptr)p+i*4+68));STRBUF_Delete(((struct Guru2Lobby *)p)->titleBuf);STRBUF_Delete(((struct Guru2Lobby *)p)->messageBuf);}
 
 void GURU2_RECEIPT_ExitBg(void) {BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(5);BG_SYS_FreeLayerBuf(4);BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(0);BG_SYS_Delete();}
 
@@ -942,7 +942,7 @@ void GURU2_RECEIPT_CreatePlayerActors(u8 *p)
     s.e=1; s.d=0; s.c=0;
     for(i=0;i<5;i++) {
         s.a=gGuru2MemberPositionTable[i*2+2]; s.b=gGuru2MemberPositionTable[i*2+3];
-        *(u32 *)(p+i*4+156)=(u32)(struct Guru2ReceiptObj *)CLACT_CreateActor((struct Unit *)((void *)*(unsigned int *)&((struct Guru2Lobby *)p)->clactUnit),*(u32 *)(p+i*4+128),*(u32 *)(p+i*4+108),((struct Guru2Lobby *)p)->cellAnimId,(const struct ActorInitParam *)&s,0,114);
+        *(u32 *)(p+i*4+156)=(uptr)(struct Guru2ReceiptObj *)CLACT_CreateActor((struct Unit *)((void *)*(unsigned int *)&((struct Guru2Lobby *)p)->clactUnit),*(u32 *)(p+i*4+128),*(u32 *)(p+i*4+108),((struct Guru2Lobby *)p)->cellAnimId,(const struct ActorInitParam *)&s,0,114);
         CLACT_SetActorAutoAnim((struct ClactActor *)((struct ClactActor *)*(u32 *)(p+i*4+156)),1);
         CLACT_SetActorAnimSeq((struct ClactActor *)(*(u32 *)(p+i*4+156)),0);
         CLACT_SetActorDrawEnable((struct ClactActor *)((struct ClactActor *)*(u32 *)(p+i*4+156)),0);
@@ -955,13 +955,13 @@ void GURU2_RECEIPT_CreatePlayerActors(u8 *p)
  */
 void GURU2_RECEIPT_CreateWindows(struct Guru2Lobby *p) {
     BMP_WIN_Init(0x72);
-    *(u32 *)&p->cornerWindow=(unsigned int)BMP_WIN_Create((unsigned int)5,(unsigned int)26,(unsigned int)20,6,2,13,1);
+    *(u32 *)&p->cornerWindow=(uptr)BMP_WIN_Create((unsigned int)5,(unsigned int)26,(unsigned int)20,6,2,13,1);
     BMP_Clear(BMP_WIN_GetBmp(p->cornerWindow),0);
-    *(u32 *)&p->messageWindow=(unsigned int)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)19,27,4,13,1);
+    *(u32 *)&p->messageWindow=(uptr)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)19,27,4,13,1);
     BMP_Clear(BMP_WIN_GetBmp(p->messageWindow),15);
-    *(u32 *)&p->titleWindow=(unsigned int)BMP_WIN_Create((unsigned int)0,(unsigned int)3,(unsigned int)1,26,2,15,1);
+    *(u32 *)&p->titleWindow=(uptr)BMP_WIN_Create((unsigned int)0,(unsigned int)3,(unsigned int)1,26,2,15,1);
     GURU2_RECEIPT_PrintTitle(p->titleWindow,p->titleBuf,p->font);
-    *(u32 *)&p->memberWindow=(unsigned int)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)6,16,11,15,1);
+    *(u32 *)&p->memberWindow=(uptr)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)6,16,11,15,1);
     BMP_Clear(BMP_WIN_GetBmp(p->memberWindow),0);
     GURU2_RECEIPT_PrintMemberList(p->memberWindow, 0, 0x480, (Context *)p);
     p->activeWindow=p->titleWindow;
@@ -1403,7 +1403,7 @@ int GURU2_RECEIPT_UpdateMemberSlots(char *p) {
     for(i=0;i<5;i++) {
         slot=(u32 *)(p+i*8);
         slot[0x13c/4]=slot[0x138/4];
-        slot[0x138/4]=(u32)UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p),(u8)i);
+        slot[0x138/4]=(uptr)UNION_APP_GetMemberEntry(GURU2_RECEIPT_GetUnionApp((u8 *)p),(u8)i);
         record=(FrameRecord *)(p+i*16);
         record->previous=record->current;
         if (slot[0x138/4]) {
@@ -1511,7 +1511,7 @@ void GURU2_RECEIPT_UpdatePlayerActors(u8 *p)
     if(flag) GFL_USE_PlaySeDefaultVolume(0x676);
 }
 
-void GURU2_RECEIPT_LoadCharBuffer(char *p, void *unused) { ((struct Guru2Lobby *)p)->iconPaletteBlock=ARC_UTIL_LoadPaletteBlockFromArchive(32,0,(void *)((u32)(p+276)),114); }
+void GURU2_RECEIPT_LoadCharBuffer(char *p, void *unused) { ((struct Guru2Lobby *)p)->iconPaletteBlock=ARC_UTIL_LoadPaletteBlockFromArchive(32,0,(void *)((uptr)(p+276)),114); }
 
 void GURU2_RECEIPT_FreeCharBuffer(u8 *p)
 {
@@ -1521,10 +1521,10 @@ void GURU2_RECEIPT_FreeCharBuffer(u8 *p)
 void GURU2_RECEIPT_SetPlayerIcon(u8 *p, u8 *paletteData, int member, int outfit, int unused)
 {
     void *screenData;
-    int screenDataPtr;
+    sptr screenDataPtr;
     GX_LoadOBJPltt(*(u8 * *)&((struct NNSG2dPaletteData *)paletteData)->pRawData + gGuru2MemberPaletteIndex[outfit] * 32, member * 32, 32);
     screenData = ARC_UTIL_LoadScreenDataFromArchive(32, outfit + 1, 0, (void *)((&screenDataPtr)), 114);
-    CLACT_TransferCharacter((int)(*(void **)(p + (member + 5) * 4 + 0x6c)), (NNSG2dCharacterData *)screenDataPtr);
+    CLACT_TransferCharacter((sptr)(*(void **)(p + (member + 5) * 4 + 0x6c)), (NNSG2dCharacterData *)screenDataPtr);
     GFL_HEAP_Free(screenData);
 }
 

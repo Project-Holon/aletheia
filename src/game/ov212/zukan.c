@@ -282,7 +282,7 @@ void ZUKAN_StartProc211(struct ZukanWork *p)
     p->subWork=q;
     q->gameData=p->ctx->gameData;
     q->context=p->ctx->myStatus;
-    PROCSYS_Push((ProcSys *)p->proc,(unsigned)ov211_id,(const ProcData *)((unsigned)d_021BC8BC),(void *)((unsigned)p->subWork));
+    PROCSYS_Push((ProcSys *)p->proc,(uptr)ov211_id,(const ProcData *)((uptr)d_021BC8BC),(void *)((uptr)p->subWork));
     ZUKAN_SetResumeState(p,2);
 }
 
@@ -321,7 +321,7 @@ void ZUKAN_StartProc209(struct ZukanWork *p)
         q->ids=p->idList;
         q->count=p->count;
     }
-    PROCSYS_Push((ProcSys *)p->proc,(unsigned)ov209_id,(const ProcData *)((unsigned)d_021BE794),(void *)((unsigned)p->subWork));
+    PROCSYS_Push((ProcSys *)p->proc,(uptr)ov209_id,(const ProcData *)((uptr)d_021BE794),(void *)((uptr)p->subWork));
     ZUKAN_SetResumeState(p,4);
 }
 
@@ -376,7 +376,7 @@ void ZUKAN_StartProc210(struct ZukanWork *p)
     q->query=p->query;
     q->idList=0;
     q->count=0;
-    PROCSYS_Push((ProcSys *)p->proc,(unsigned)ov210_id,(const ProcData *)((unsigned)d_021C0714),(void *)((unsigned)p->subWork));
+    PROCSYS_Push((ProcSys *)p->proc,(uptr)ov210_id,(const ProcData *)((uptr)d_021C0714),(void *)((uptr)p->subWork));
     ZUKAN_SetResumeState(p,8);
 }
 
@@ -428,7 +428,7 @@ void ZUKAN_StartProc208(struct ZukanWork *p)
     for(i=0;i<q->count;i++){
         if(q->idList[i]==selected){q->index=i;break;}
     }
-    PROCSYS_Push((ProcSys *)p->proc,(unsigned)ov208_id,(const ProcData *)((unsigned)d_021C8108),(void *)((unsigned)q));
+    PROCSYS_Push((ProcSys *)p->proc,(uptr)ov208_id,(const ProcData *)((uptr)d_021C8108),(void *)((uptr)q));
     p->subWork=q;
     ZUKAN_SetResumeState(p,6);
 }

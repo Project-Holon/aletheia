@@ -336,7 +336,7 @@ int MB_ReadSegment(FSFile *file, void *buf, u32 len)
 
                 info.target = BUFROM(main.offset);
                 info.src = (u8 *)(BUFROM(main.ram_address) - info.target);
-                info.dst = (u8 *)((u32)p_cache->list[1].ptr - info.target);
+                info.dst = (u8 *)((uptr)p_cache->list[1].ptr - info.target);
                 info.size = len;
                 p_map = mbi_seg_header;
                 MBi_ReadSegmentHeader((MbSegmentHeaderInfo *)&info, 0x4000, 0x8000, 1);
@@ -347,7 +347,7 @@ int MB_ReadSegment(FSFile *file, void *buf, u32 len)
                     p_map++;
                 }
                 dst2 = (u8 *)p_cache->list[1].ptr;
-                dst2 += ((u32)&_start_AutoloadDoneCallback - BUFROM(main.ram_address));
+                dst2 += ((uptr)&_start_AutoloadDoneCallback - BUFROM(main.ram_address));
                 *(u32 *)dst2 = 0xE12FFF1E;
             }
         }
@@ -419,7 +419,7 @@ int MB_RegisterFile(struct MBGameRegistry *game_reg, void *buf)
         return 0;
     }
 
-    *(u32 *)(E(fileID) + 0xd40) = (u32)game_reg;
+    *(u32 *)(E(fileID) + 0xd40) = (uptr)game_reg;
     mdfi = (struct MbDownloadFileInfoHeader *)((unsigned char *)mbc + 0x1788 + fileID * 0x5D4);
     MBi_MakeDownloadFileInfo(mdfi, buf);
     MI_CpuCopy8((unsigned char *)game_reg + 0x1c, (unsigned char *)mdfi + 0xc4, 0x20);
@@ -434,9 +434,9 @@ int MB_RegisterFile(struct MBGameRegistry *game_reg, void *buf)
     MB_AddGameInfo((MbGameInfo *)((unsigned char *)mbc + 0x186c + fileID * 0x5D4));
     *(u8 *)(E(fileID) + 0xd1f) = update++;
     *(u16 *)(E(fileID) + 0xd4e) = 1;
-    *(u32 *)(E(fileID) + 0xd44) = (u32)buf;
-    *(u32 *)(E(fileID) + 0xd54) = (u32)buf + 0x1e8;
-    *(u32 *)(E(fileID) + 0xd58) = (u32)buf + 0x258;
+    *(u32 *)(E(fileID) + 0xd44) = (uptr)buf;
+    *(u32 *)(E(fileID) + 0xd54) = (uptr)buf + 0x1e8;
+    *(u32 *)(E(fileID) + 0xd58) = (uptr)buf + 0x258;
     if (*(u32 *)(*(u32 *)(E(fileID) + 0xd54) + 0x6c) != 0 && !MBi_IsTaskAvailable())
     {
         MBi_InitTaskInfo((unsigned char *)mbc + 0x7ce0);

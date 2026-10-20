@@ -3813,7 +3813,7 @@ int *HAND_ITEM_GetSmokeBallHandlers(int *count)
 /* Smoke Ball: guaranteed escape; forwards to the shared escape check (the second handler of the item is in the next file). */
 void HAND_ITEM_SmokeBall_AllowEscape(struct BtlEventFactor *factor, void *flow, int pokeId, void *work)
 {
-    HAND_COMMON_EventSetFlagIfAttacker((s32)factor, (s32)flow, (s32)pokeId, (s32)work);
+    HAND_COMMON_EventSetFlagIfAttacker((sptr)factor, (sptr)flow, (s32)pokeId, (sptr)work);
 }
 
 /* Smoke Ball (guess): after the escape check passes, show the escape message with its sound. */

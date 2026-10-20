@@ -332,12 +332,12 @@ void TR_TOOL_AdjustPersonality(u32 species, u32 form, int adjustFlags, u32 *pers
 {
     u32 genderAdjust = adjustFlags & 0xf;
     u32 abilityAdjust = (adjustFlags & 0xf0) >> 4;
-    u32 personal;
+    uptr personal;
 
     if (adjustFlags == 0)
         return;
 
-    personal = (u32)POKE_PERSONAL_Create((u16)species, (u16)form, heapId);
+    personal = (uptr)POKE_PERSONAL_Create((u16)species, (u16)form, heapId);
 
     if (genderAdjust != 0) {
         *personalityLow = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x14);

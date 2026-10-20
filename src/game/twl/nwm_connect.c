@@ -77,14 +77,14 @@ u32 NWM_Connect(void *callback, u32 authMode, const u16 *bssDesc) {
         return 5;
     }
     DC_StoreRange(bssDesc, len * 2);
-    NWMi_SetCallbackTable(8, (u32)callback);
-    msg.buf = (u32)DAT_027341cc;
+    NWMi_SetCallbackTable(8, (uptr)callback);
+    msg.buf = (uptr)DAT_027341cc;
     msg.len = 8;
     msg.idx = authMode;
     MI_CpuCopy8(bssDesc, DAT_027341cc, bssDesc[0]);
     DC_StoreRange((void *)msg.buf, 0x200);
     DC_StoreRange(&msg, 8);
-    r = NWMi_SendCommandDirect((unsigned int)(&msg), 8);
+    r = NWMi_SendCommandDirect((uptr)(&msg), 8);
     if (r == 0 || r == 2) {
         r = 2;
     }

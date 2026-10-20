@@ -325,7 +325,7 @@ BtlvGaugeWork *BTLV_GAUGE_Create(void *font, u16 heapId)
     work->statusPalRes[1] = CLACT_RegisterPalette(statusArc, APP_ICON_GetSealCellFileId(), 0, 0x120, work->heapId);
     PALANM_CopyHwPaletteToSlot(BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(work->statusPalRes[0], 0) >> 1), 0x20);
     PALANM_CopyHwPaletteToSlot(BTLV_EFFECT_GetPalanm(), 2, (u16)(CLACT_GetPaletteVramAddress(work->statusPalRes[1], 0) >> 1), 0x20);
-    PALANM_BlendChannelMask((PaletteFadeWork *)BTLV_EFFECT_GetPalanm(), 2, 0x200, 8, 0);
+    PALANM_BlendChannelMask(BTLV_EFFECT_GetPalanm(), 2, 0x200, 8, 0);
     ARC_TOOL_DeleteHandle(statusArc);
     work->screenData = ARC_UTIL_LoadScreenDataFromHandle((void *)work->arcHandle, (u32)0xa4, (u32)0, (&tileFile), work->heapId);
     work->tileGfx = tileFile->pixels;

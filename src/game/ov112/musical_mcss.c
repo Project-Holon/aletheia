@@ -69,6 +69,7 @@
  *   _fsub                        0x0209CB8C  arm
  */
 #include "musical_shot_sys_shared_types.h"
+#include "../sdk_ioreg.h"
 #include "mus_shot_photo_shared_types.h"
 #include "mus_item_draw_shared_types.h"
 #include "mus_poke_draw_shared_types.h"
@@ -438,7 +439,7 @@ static inline void LoadPose(Pose *r, char *src, int one)
 
 static inline void G3_TexImageParam(GXTexFmt texFmt, GXTexGen texGen, GXTexSizeS s, GXTexSizeT t, GXTexRepeat repeat, GXTexFlip flip, GXTexPlttColor0 pltt0, u32 addr)
 {
-    REG(0x040004A8) = (u32)((addr >> 3) | (texFmt << 26) | (texGen << 30) | (s << 20) |
+    REG(REG_TEXIMAGE_PARAM_ADDR) = (u32)((addr >> 3) | (texFmt << 26) | (texGen << 30) | (s << 20) |
                                   (t << 23) | (repeat << 16) | (flip << 18) | (pltt0 << 29));
 }
 
@@ -451,16 +452,16 @@ static inline void VEC_Set(struct MusItemDrawVec3 *a, int x, int y, int z)
 
 static inline void G3_Translate(int x, int y, int z)
 {
-    REG(0x04000470) = (u32)x;
-    REG(0x04000470) = (u32)y;
-    REG(0x04000470) = (u32)z;
+    REG(REG_MTX_TRANS_ADDR) = (u32)x;
+    REG(REG_MTX_TRANS_ADDR) = (u32)y;
+    REG(REG_MTX_TRANS_ADDR) = (u32)z;
 }
 
 static inline void G3_Scale(int x, int y, int z)
 {
-    REG(0x0400046C) = (u32)x;
-    REG(0x0400046C) = (u32)y;
-    REG(0x0400046C) = (u32)z;
+    REG(REG_MTX_SCALE_ADDR) = (u32)x;
+    REG(REG_MTX_SCALE_ADDR) = (u32)y;
+    REG(REG_MTX_SCALE_ADDR) = (u32)z;
 }
 
 /*
@@ -1214,12 +1215,12 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
     u8 flag;
     int pr;
 
-    REG(0x04000444) = 0;
-    REG(0x04000440) = 0;
-    REG(0x0400044C) = 0;
-    REG(0x04000440) = 3;
-    REG(0x04000454) = 0;
-    REG(0x04000440) = 2;
+    REG(REG_MTX_PUSH_ADDR) = 0;
+    REG(REG_MTX_MODE_ADDR) = 0;
+    REG(REG_MTX_STORE_ADDR) = 0;
+    REG(REG_MTX_MODE_ADDR) = 3;
+    REG(REG_MTX_IDENTITY_ADDR) = 0;
+    REG(REG_MTX_MODE_ADDR) = 2;
     if ((((McssRenderPool *)p)->bits.cameraBack) == 0)
         G3i_LookAt_((const VecFx32 *)&d_02148D8C, (const VecFx32 *)&d_02148D98, (const VecFx32 *)&d_02148DA4, 1, 0);
     else
@@ -1231,7 +1232,7 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
     for (i = 0; i < p[0]; i++) {
         if (((char **)p[1])[i] == 0 || ((McssMcAnim *)((char **)p[1])[i])->bits.stopped)
             continue;
-        REG(0x04000444) = 0;
+        REG(REG_MTX_PUSH_ADDR) = 0;
         obj = ((char **)p[1])[i];
         attr = (TexInfo *)(obj + 0x90);
         ctrl = obj + 0x28;
@@ -1296,7 +1297,7 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
             *(int *)(obj + 0x10C) = FX_Div(*(int *)(obj + 0x10C), *(int *)(obj + 0xD4));
             *(int *)(obj + 0x110) = FX_Div(*(int *)(obj + 0x110), *(int *)(obj + 0xD8));
         }
-        REG(0x0400044C) = 0x1D;
+        REG(REG_MTX_STORE_ADDR) = 0x1D;
         MUSICAL_MCSS_SetupG3();
         {
             G3_TexImageParam(attr->fmt, GX_TEXGEN_TEXCOORD, attr->s, attr->t, GX_TEXREPEAT_ST, GX_TEXFLIP_ST, attr->pltt0, attr->addr);
@@ -1356,9 +1357,9 @@ void MUSICAL_MCSS_DrawMC(int *p, void (*arg)(unsigned, McssMatrixInput *, MusPok
                 }
             }
         }
-        REG(0x04000448) = 1;
+        REG(REG_MTX_POP_ADDR) = 1;
     }
-    REG(0x04000448) = 1;
+    REG(REG_MTX_POP_ADDR) = 1;
 }
 
 static inline void G3_TexPlttBase(u32 addr, int fmt)
@@ -1558,9 +1559,9 @@ void MUSICAL_MCSS_LoadCellBank(u8 *renderPool,int index,u32 *res,u32 mode)
     NNSi_G2dInitVramHandle((u32 *)(q+144));
     NNSi_G2dInitVramHandleEx((u32 *)(q+180));
     ((McssMcAnim *)q)->cellBank=ARC_UTIL_LoadCellBankFromArchive(res[0],res[3],0,(q+4),((McssMcAnim *)q)->heapTag);
-    ((McssMcAnim *)q)->multiCellBank=ARC_UTIL_LoadMultiCellBankFromArchive(res[0],res[4],1,(u32)(q+20),((McssMcAnim *)q)->heapTag);
+    ((McssMcAnim *)q)->multiCellBank=ARC_UTIL_LoadMultiCellBankFromArchive(res[0],res[4],1,(uptr)(q+20),((McssMcAnim *)q)->heapTag);
     ((McssMcAnim *)q)->animBank=ARC_UTIL_LoadAnimBankFromArchive(res[0],res[5],0,(q+12),((McssMcAnim *)q)->heapTag);
-    ((McssMcAnim *)q)->multiAnimBank=ARC_UTIL_LoadMultiAnimBankFromArchive(res[0],res[6],0,(u32)(q+28),((McssMcAnim *)q)->heapTag);
+    ((McssMcAnim *)q)->multiAnimBank=ARC_UTIL_LoadMultiAnimBankFromArchive(res[0],res[6],0,(uptr)(q+28),((McssMcAnim *)q)->heapTag);
     sequence=(struct AnimSequence *)NNS_G2dGetAnimSequenceByIdx(*(struct AnimBank * *)&((McssMcAnim *)q)->animSequenceBank,0);
     MUSICAL_MCSS_InitMCAnim((char *)q,1);
     NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)(q+40),(struct AnimSequenceData *)sequence);
@@ -1576,7 +1577,7 @@ void MUSICAL_MCSS_LoadCellBank(u8 *renderPool,int index,u32 *res,u32 mode)
     job[4]=ARC_UTIL_LoadBgCharDataFromArchive(res[0],res[1],1,job,((McssMcAnim *)q)->heapTag);
     job[5]=ARC_UTIL_LoadPaletteBlockFromArchive(res[0],res[2],(job+1),(u16)(((McssMcAnim *)q)->heapTag));
     if(res[7]==6548) MCSS_TOOL_DrawSpindaSpots(*(u8 * *)&((McssSpindaRes *)((u8 *)job[0]))->spots,res[8]);
-    if(mode==1) GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((u32)MUSICAL_MCSS_FreeCellBank),(void *)((u32)job),0);
+    if(mode==1) GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MUSICAL_MCSS_FreeCellBank),(void *)((uptr)job),0);
     else MUSICAL_MCSS_FreeCellBank(0,job);
 }
 
@@ -1586,8 +1587,8 @@ void MUSICAL_MCSS_LoadCellBank(u8 *renderPool,int index,u32 *res,u32 mode)
 void MUSICAL_MCSS_FreeCellBank(void *a, void **p)
 {
     if(p[8]) ((McssMcAnim *)((char *)p[8]))->flags &= ~4u;
-    if(p[4]) { NNSi_G2dLoadVramResourceSub(p[0],(u32)p[6],0,p[2]); GFL_HEAP_Free(p[4]); }
-    if(p[1]) { NNSi_G2dLoadVramResourceBySel(p[1],(unsigned int)p[7],0,p[3]); GFL_HEAP_Free(p[5]); }
+    if(p[4]) { NNSi_G2dLoadVramResourceSub(p[0],(uptr)p[6],0,p[2]); GFL_HEAP_Free(p[4]); }
+    if(p[1]) { NNSi_G2dLoadVramResourceBySel(p[1],(uptr)p[7],0,p[3]); GFL_HEAP_Free(p[5]); }
     GFL_HEAP_Free(p);
     if(a) TCB_DeleteTask(a);
 }
@@ -1601,7 +1602,7 @@ void MUSICAL_MCSS_InitMCAnim(char *mcAnim, int kind)
 /*
  * volatile: Hardware register stores at listing 021F65F0,021F65F4,021F65FA.
  */
-void MUSICAL_MCSS_SetupG3(void) {*(volatile u32 *)0x040004c0=0x4210ffff;*(volatile u32 *)0x040004c4=0x4210;*(volatile u32 *)0x040004a4=0x001f00c0;}
+void MUSICAL_MCSS_SetupG3(void) {*(volatile u32 *)REG_DIF_AMB_ADDR=0x4210ffff;*(volatile u32 *)REG_SPE_EMI_ADDR=0x4210;*(volatile u32 *)REG_POLYGON_ATTR_ADDR=0x001f00c0;}
 
 /*
  * extent: 310-byte code; 021F6742 is two zero alignment bytes.

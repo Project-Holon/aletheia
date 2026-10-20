@@ -143,11 +143,11 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
  */
 int EVENT_NAMEIN_Main(struct GameEvent *event, int *seq, NameInEvent *work)
 {
-    int proc;
+    sptr proc;
 
     switch (*seq) {
     case 0:
-        proc = (int)FIELD_STATUS_CreateSubProcEvent(work->gameSystem, (struct FieldMap *)work->fieldMap, (int)abs_id_C2, (void *)(&gNameInProcData), (void *)&work->param);
+        proc = (sptr)FIELD_STATUS_CreateSubProcEvent(work->gameSystem, (struct FieldMap *)work->fieldMap, (sptr)abs_id_C2, (void *)(&gNameInProcData), (void *)&work->param);
         GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)proc);
         (*seq)++;
         break;

@@ -154,11 +154,11 @@ struct GFLNetHandle;
 struct NetNegotiationMsg;
 
 
-void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userData, u32 unusedArg);
+void GFL_NET_COMMAND_Init(u32 groupKey, NetCommandEntry *commandList, u32 listNum, void *userData, u32 unusedArg);
 
 void GFL_NET_COMMAND_Exit(void);
 
-void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
+void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, NetCommandEntry *commandList, u32 listNum, void *userData);
 
 void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey);
 
@@ -186,7 +186,7 @@ void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int
 
 void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, int unusedArg2, int handle);
 
-u32 GFL_NET_COMMAND_SetSendSlot(u32 handle, u32 destMask, u32 command, u32 totalSize, u32 dataAddr);
+u32 GFL_NET_COMMAND_SetSendSlot(GFLNetHandle *handle, u32 destMask, u32 command, u32 totalSize, void *dataAddr);
 
 u32 GFL_NET_COMMAND_SendNextSlot(void);
 
@@ -231,7 +231,7 @@ extern char  g_020A7B78[];
  *   python tools/match.py one --src src/matched/GFL_NET_COMMAND_Init.c \
  *       --func GFL_NET_COMMAND_Init --addr 0x0203A494 --cc 1.1p1 --arm
  */
-void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userData, u32 unusedArg)
+void GFL_NET_COMMAND_Init(u32 groupKey, NetCommandEntry *commandList, u32 listNum, void *userData, u32 unusedArg)
 {
     int memberIdx;
 
@@ -239,7 +239,7 @@ void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userDa
         _pCommandWork = GFL_HEAP_Alloc(0, 0x22c, 1, g_020A7AF8, 0x96);
     }
     GFL_NET_COMMAND_AddCommandTable(groupKey, commandList, listNum, userData);
-    g_020A7AE8.userData = (void *)userData;
+    g_020A7AE8.userData = userData;
     for (memberIdx = 0; memberIdx < 8; memberIdx++) {
         _pCommandWork->memberState[memberIdx] = 0;
     }
@@ -255,7 +255,7 @@ void GFL_NET_COMMAND_Exit(void)
     _pCommandWork = 0;
 }
 
-void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData)
+void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, NetCommandEntry *commandList, u32 listNum, void *userData)
 {
     struct NetCommandTable *tables = _pCommandWork->commandTables;
     int tableIdx;
@@ -266,9 +266,9 @@ void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum,
     for (tableIdx = 0; tableIdx < 4; tableIdx++) {
         if (tables[tableIdx].groupKey == 0 || tables[tableIdx].groupKey == groupKey) {
             tables[tableIdx].groupKey = groupKey;
-            _pCommandWork->commandTables[tableIdx].list = (NetCommandEntry *)commandList;
+            _pCommandWork->commandTables[tableIdx].list = commandList;
             _pCommandWork->commandTables[tableIdx].listNum = listNum;
-            _pCommandWork->commandTables[tableIdx].userData = (void *)userData;
+            _pCommandWork->commandTables[tableIdx].userData = userData;
             return;
         }
     }
@@ -574,7 +574,7 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, 
  *   python tools/match.py tu --src src/matched/unit_0203AA94.c \
  *       --addr 0x0203AA94 --arm
  */
-u32 GFL_NET_COMMAND_SetSendSlot(u32 handle, u32 destMask, u32 command, u32 totalSize, u32 dataAddr)
+u32 GFL_NET_COMMAND_SetSendSlot(GFLNetHandle *handle, u32 destMask, u32 command, u32 totalSize, void *dataAddr)
 {
     GFLNetSession *session;
     struct NetCommandWork *work;
@@ -610,8 +610,8 @@ u32 GFL_NET_COMMAND_SetSendSlot(u32 handle, u32 destMask, u32 command, u32 total
     slot->chunksSent = 0;
     slot->command = command;
     slot->destMask = destMask;
-    slot->dataAddr = (void *)dataAddr;
-    slot->handleId = GFL_NET_HANDLE_GetNetHandleID((void *)handle);
+    slot->dataAddr = dataAddr;
+    slot->handleId = GFL_NET_HANDLE_GetNetHandleID(handle);
     slot->state.bits.headerPending = 1;
     return slot->state.bits.headerPending;
 }

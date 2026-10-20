@@ -243,8 +243,6 @@
 #ifdef __MWERKS__
 #undef BTL_ID_IsBagItemUseBlocked
 extern int BTL_ID_IsBagItemUseBlocked(u16 itemId, u8 itemUseKind);
-#else
-#define BTL_ID_IsBagItemUseBlocked(itemId, itemUseKind) BTL_ID_IsBagItemUseBlocked(itemId)
 #endif
 #include "../ov095/btlv_scd.h"
 /* The original calls declare the slot arguments of these callees as words. */
@@ -509,21 +507,21 @@ extern const struct BtlvStateEntry gBtlvOpeningStepTable[];
 void BTLV_CORE_LoadOverlays(unsigned short heapId)
 {
     BTLV_CORE_InitDisplay(heapId);
-    GF_OVERLAY_Load((s32)ov094_id);
+    GF_OVERLAY_Load((sptr)ov094_id);
     GX_SetBankForLCDC(0x80);
-    GF_OVERLAY_Load((s32)ov095_id);
+    GF_OVERLAY_Load((sptr)ov095_id);
     if (GFL_NET_IsNetTypeWifi() == 0) {
-        GF_OVERLAY_Load((s32)ov096_id);
+        GF_OVERLAY_Load((sptr)ov096_id);
     }
 }
 
 void BTLV_CORE_UnloadOverlays(void)
 {
     BTLV_CORE_ExitDisplay();
-    GF_OVERLAY_Unload((s32)ov094_id);
-    GF_OVERLAY_Unload((s32)ov095_id);
+    GF_OVERLAY_Unload((sptr)ov094_id);
+    GF_OVERLAY_Unload((sptr)ov095_id);
     if (GFL_NET_IsNetTypeWifi() == 0) {
-        GF_OVERLAY_Unload((s32)ov096_id);
+        GF_OVERLAY_Unload((sptr)ov096_id);
     }
 }
 
@@ -655,7 +653,7 @@ int BTLV_CORE_StepOpeningEntry(struct BtlvCore *core, int *state, void *work)
 
     switch (*state) {
     case 0:
-        scene = BTLV_EFFECT_CreateSetupFromBattleMain((u8 *)core->context, (s32)core->sceneUnit, core->heapId);
+        scene = BTLV_EFFECT_CreateSetupFromBattleMain((u8 *)core->context, (sptr)core->sceneUnit, core->heapId);
         BTLV_EFFECT_Init(scene, core->fontSub, core->heapId);
         GFL_HEAP_Free(scene);
         BTLV_SCU_SetupDisplay(core->sceneUnit);
@@ -692,7 +690,7 @@ int BTLV_CORE_StepOpeningDemo(struct BtlvCore *core, int *state, BtlvDemoWork *d
 {
     switch (*state) {
     case 0: {
-        void *scene = BTLV_EFFECT_CreateSetupFromBattleMain((u8 *)core->context, (s32)core->sceneUnit, core->heapId);
+        void *scene = BTLV_EFFECT_CreateSetupFromBattleMain((u8 *)core->context, (sptr)core->sceneUnit, core->heapId);
         BTLV_EFFECT_Init(scene, core->fontSub, core->heapId);
         GFL_HEAP_Free(scene);
         BTLV_SCU_SetupDisplay(core->sceneUnit);
@@ -1501,7 +1499,7 @@ void BTLV_CORE_InitPartyWork(struct BtlvCore *core, BtlvPlistWork *plist, int mo
     plist->heapId = core->heapId;
     plist->fontMain = core->fontMain;
     plist->rule = BTL_MAIN_GetRule((struct BtlMain *)core->context);
-    plist->auxViewHandle = (s32)BTLV_SCD_GetInputFlags(core->auxView);
+    plist->auxViewHandle = (sptr)BTLV_SCD_GetInputFlags(core->auxView);
     plist->effectSys = BTLV_EFFECT_GetOwner();
     plist->effectSysAux = BTLV_EFFECT_GetPalanm();
     plist->gameData = (void *)BTL_MAIN_GetGameData((struct BtlMain *)core->context);
@@ -1550,13 +1548,13 @@ int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
     case 0:
         if ((u8)(core->plist.mode + 0xff) <= 1) BTLV_SCD_StartInputSlideIn(core->auxView, 0);
         else BTLV_SCD_StartInputSlideIn(core->auxView, 1);
-        GF_OVERLAY_Load((s32)ov196_id);
+        GF_OVERLAY_Load((sptr)ov196_id);
         core->subStep++;
         break;
     case 1:
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
-            GF_OVERLAY_Load((s32)ov198_id);
+            GF_OVERLAY_Load((sptr)ov198_id);
             B_PLIST_MAIN_Create((u8 *)(&core->plist));
             core->subStep++;
         }
@@ -1572,7 +1570,7 @@ int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
                     }
                 }
             }
-            GF_OVERLAY_Unload((s32)ov198_id);
+            GF_OVERLAY_Unload((sptr)ov198_id);
             BTLV_SCD_StartInputSlideOut(core->auxView);
             BTLV_SCD_OnSlideOutStart(core->auxView);
             core->subStep++;
@@ -1582,7 +1580,7 @@ int BTLV_CORE_PollPartyMenu(struct BtlvCore *core)
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) core->subStep++;
         break;
     default:
-        GF_OVERLAY_Unload((s32)ov196_id);
+        GF_OVERLAY_Unload((sptr)ov196_id);
         core->subStep = 0;
         return 1;
     }
@@ -1611,7 +1609,7 @@ void BTLV_CORE_StartBagMenu(struct BtlvCore *core, int isComm, u8 pointCounter, 
     core->bag.pointCounter = pointCounter;
     core->bag.lastItem = itemId;
     core->bag.selectedItem = 0;
-    core->bag.auxViewHandle = (s32)BTLV_SCD_GetInputFlags(core->auxView);
+    core->bag.auxViewHandle = (sptr)BTLV_SCD_GetInputFlags(core->auxView);
     core->bag.skipPartyPrompt = 0;
     core->bag.regulationRules = BTL_MAIN_GetRegulationRules((struct BtlMain *)core->context);
     flag = 0;
@@ -1657,35 +1655,39 @@ int BTLV_CORE_PollBagMenu(struct BtlvCore *core)
     case 0: break;
     case 1:
         BTLV_SCD_StartInputSlideIn(core->auxView, 1);
-        GF_OVERLAY_Load((s32)ov196_id);
+        GF_OVERLAY_Load((sptr)ov196_id);
         core->subStep = 2;
         break;
     case 2:
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
-            GF_OVERLAY_Load((s32)ov197_id);
+            GF_OVERLAY_Load((sptr)ov197_id);
             B_BAG_MAIN_Create((u8 *)(&core->bag));
             core->subStep = 3;
         }
         break;
     case 3:
         if (core->bag.done) {
-            GF_OVERLAY_Unload((s32)ov197_id);
+            GF_OVERLAY_Unload((sptr)ov197_id);
             if (core->bag.skipPartyPrompt == 0) core->subStep = 4;
             else core->subStep = 6;
         }
         break;
     case 4:
+#ifdef __MWERKS__
         if (core->bag.selectedItem && core->bag.selectedItemPage != 2 && !BTL_ID_IsBagItemUseBlocked(core->bag.selectedItem, core->bag.selectedItemPage)) {
+#else
+        if (core->bag.selectedItem && core->bag.selectedItemPage != 2 && !BTL_ID_IsBagItemUseBlocked(core->bag.selectedItem)) {
+#endif
             core->plist.itemId = core->bag.selectedItem;
-            GF_OVERLAY_Load((s32)ov198_id);
+            GF_OVERLAY_Load((sptr)ov198_id);
             B_PLIST_MAIN_Create((u8 *)(&core->plist));
             core->subStep = 5;
         } else core->subStep = 6;
         break;
     case 5:
         if (core->plist.done) {
-            GF_OVERLAY_Unload((s32)ov198_id);
+            GF_OVERLAY_Unload((sptr)ov198_id);
             core->subStep = 6;
         }
         break;
@@ -1696,7 +1698,7 @@ int BTLV_CORE_PollBagMenu(struct BtlvCore *core)
         break;
     case 7:
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
-            GF_OVERLAY_Unload((s32)ov196_id);
+            GF_OVERLAY_Unload((sptr)ov196_id);
             core->subStep = 0;
             return 1;
         }
@@ -2200,7 +2202,7 @@ void BTLV_CORE_EndWaitMessage(struct BtlvCore *core)
 
 void BTLV_CORE_StartSlotEffect25F(struct BtlvCore *core, u32 slot) { BTLV_SCU_StartPosCueEffect(core->sceneUnit, BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)core->context, slot)); }
 
-int BTLV_CORE_WaitSlotEffect25F(struct BtlvCore *core, u32 slot) { return BTLV_SCU_IsPosCueEffectDone((s32)core->sceneUnit, BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)core->context, slot)); }
+int BTLV_CORE_WaitSlotEffect25F(struct BtlvCore *core, u32 slot) { return BTLV_SCU_IsPosCueEffectDone((sptr)core->sceneUnit, BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)core->context, slot)); }
 
 void BTLV_CORE_StartMonSpriteLoad(struct BtlvCore *core, u32 slot, u32 mode) { BTLV_SCU_StartMonFormChange(core->sceneUnit, slot, mode); }
 
@@ -2422,20 +2424,20 @@ int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot)
     switch (core->subStep) {
     case 0:
         BTLV_SCD_StartInputSlideIn(core->auxView, 0);
-        GF_OVERLAY_Load((s32)ov196_id);
+        GF_OVERLAY_Load((sptr)ov196_id);
         core->subStep++;
         break;
     case 1:
         if (BTLV_SCD_IsInputSlideDone(core->auxView)) {
             BTLV_SCD_OnSlideInDone(core->auxView);
-            GF_OVERLAY_Load((s32)ov198_id);
+            GF_OVERLAY_Load((sptr)ov198_id);
             B_PLIST_MAIN_Create((u8 *)(&core->plist));
             core->subStep++;
         }
         break;
     case 2:
         if (core->plist.done) {
-            GF_OVERLAY_Unload((s32)ov198_id);
+            GF_OVERLAY_Unload((sptr)ov198_id);
             BTLV_SCD_StartInputSlideOut(core->auxView);
             BTLV_SCD_OnSlideOutStart(core->auxView);
             core->subStep++;
@@ -2446,7 +2448,7 @@ int BTLV_CORE_ProcMoveForgetScreen(struct BtlvCore *core, u8 *outSlot)
         break;
     default:
         *outSlot = core->plist.result;
-        GF_OVERLAY_Unload((s32)ov196_id);
+        GF_OVERLAY_Unload((sptr)ov196_id);
         core->subStep = 0;
         return 1;
     }

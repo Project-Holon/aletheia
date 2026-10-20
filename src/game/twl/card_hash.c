@@ -74,8 +74,8 @@ u32 CARD_CalcRomHashBufferLength(const void *romHeader)
     u8 *q = start;
     q += (hdr->c + 0x1f) & ~0x1f;
     q += ((hdr->b << 5) + 0x1f) & ~0x1f;
-    q += (((((per + 0xff + 0x500) & (u32)(start - 0x600)) << 2) + 0x1f) & ~0x1f);
-    return (u32)q + 0x260;
+    q += (((((per + 0xff + 0x500) & (uptr)(start - 0x600)) << 2) + 0x1f) & ~0x1f);
+    return (uptr)q + 0x260;
 }
 
 void CARDi_CompareHash(const u32 *expect, void *data, u32 len)
@@ -86,11 +86,11 @@ void CARDi_CompareHash(const u32 *expect, void *data, u32 len)
     u32 diff = 0;
 
     MI_CpuCopy8(data_02732E98, ctx, 0x64);
-    MSL_C_LIB_TwlCall3((u32)ctx, (u32)data, len);
-    MSL_C_LIB_TwlCall2((unsigned int)ctx, (unsigned int)digest);
+    MSL_C_LIB_TwlCall3((uptr)ctx, (uptr)data, len);
+    MSL_C_LIB_TwlCall2((uptr)ctx, (uptr)digest);
     MI_CpuCopy8(data_02732E34, ctx, 0x64);
-    MSL_C_LIB_TwlCall3((u32)ctx, (u32)digest, 0x14);
-    MSL_C_LIB_TwlCall2((unsigned int)ctx, (unsigned int)digest);
+    MSL_C_LIB_TwlCall3((uptr)ctx, (uptr)digest, 0x14);
+    MSL_C_LIB_TwlCall2((uptr)ctx, (uptr)digest);
     diff |= expect[0] ^ digest[0];
     diff |= expect[1] ^ digest[1];
     diff |= expect[2] ^ digest[2];
@@ -290,7 +290,7 @@ void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 siz
     psz = hdr->sectorSize;
     hsz = hdr->blockHashLength;
     start = (u8 *)((base + 0x1f) & ~0x1f);
-    size = (u32)(start + size) & ~0x1f;
+    size = (uptr)(start + size) & ~0x1f;
     obj->hash = start;
     l0 = start + ((hsz + 0x1f) & ~0x1f);
     obj->l0 = l0;
@@ -300,7 +300,7 @@ void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 siz
     obj->l2 = (Node16 *)l2;
     l3 = l2 + 0x200;
     obj->l3 = (Node *)l3;
-    if ((u32)(l3 + 0x60) > size) {
+    if ((uptr)(l3 + 0x60) > size) {
         OS_Terminate();
         return;
     }
@@ -324,17 +324,17 @@ void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 siz
         ipad[i] = data_0272EB9C[i] ^ 0x36;
         opad[i] = data_0272EB9C[i] ^ 0x5c;
     }
-    MSL_C_LIB_TwlCall1((unsigned int)data_02732E98);
-    MSL_C_LIB_TwlCall1((unsigned int)data_02732E34);
-    MSL_C_LIB_TwlCall3((u32)data_02732E98, (u32)ipad, 0x40);
-    MSL_C_LIB_TwlCall3((u32)data_02732E34, (u32)opad, 0x40);
+    MSL_C_LIB_TwlCall1((uptr)data_02732E98);
+    MSL_C_LIB_TwlCall1((uptr)data_02732E34);
+    MSL_C_LIB_TwlCall3((uptr)data_02732E98, (uptr)ipad, 0x40);
+    MSL_C_LIB_TwlCall3((uptr)data_02732E34, (uptr)opad, 0x40);
     obj->readCallback(obj->userData, obj->hash, obj->blockHashOffset, obj->blockHashLength);
     CARDi_CompareHash(hdr->digest, obj->hash, obj->blockHashLength);
     {
         Node16 *n = obj->l2;
         for (i = 0; (i < obj->sectorCacheCount) ? 1 : 0; i++) {
             n[i].next = n + (i - 1);
-            n[i].data = (u32)obj->l0 + i * obj->sectorSize;
+            n[i].data = (uptr)obj->l0 + i * obj->sectorSize;
             n[i].key = -1;
         }
     }
@@ -348,7 +348,7 @@ void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 siz
         for (i = 0; (i < obj->blockCacheCount) ? 1 : 0; i++) {
             m[i].next = m + (i + 1);
             m[i].key = -1;
-            m[i].buffer = (u32)obj->l1 + i * ((((int)per * 0x14 + 0xff + 0x500) & -0x600));
+            m[i].buffer = (uptr)obj->l1 + i * ((((int)per * 0x14 + 0xff + 0x500) & -0x600));
         }
         obj->cache_b = obj->l3;
         obj->l3[obj->blockCacheCount - 1].next = 0;

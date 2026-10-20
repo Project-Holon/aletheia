@@ -69,6 +69,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "circle_graph.h"
+#include "../sdk_ioreg.h"
 
 #include "../types.h"
 typedef double f64;
@@ -314,9 +315,9 @@ static inline void G3_PolygonAttr(int light, GXPolygonMode mode, GXCull cull, in
     *(volatile u32 *)0x040004a4 = light | (mode << 4) | (cull << 6) | (id << 24) | (alpha << 16) | misc;
 }
 
-static inline void G3_Begin(GXBegin primitive) { *(volatile u32 *)0x04000500 = primitive; }
+static inline void G3_Begin(GXBegin primitive) { *(volatile u32 *)REG_BEGIN_VTXS_ADDR = primitive; }
 
-static inline void G3_Color(u16 rgb) { *(volatile u32 *)0x04000480 = rgb; }
+static inline void G3_Color(u16 rgb) { *(volatile u32 *)REG_COLOR_ADDR = rgb; }
 
 static inline void G3_Vtx(s16 x, s16 y, s16 z)
 {
@@ -324,7 +325,7 @@ static inline void G3_Vtx(s16 x, s16 y, s16 z)
     *(volatile u32 *)0x0400048c = (u32)(u16)z;
 }
 
-static inline void G3_End(void) { *(volatile u32 *)0x04000504 = 0; }
+static inline void G3_End(void) { *(volatile u32 *)REG_END_VTXS_ADDR = 0; }
 
 /*
  * Draws the filled slices as triangles of three vertices each. The number
@@ -333,7 +334,7 @@ static inline void G3_End(void) { *(volatile u32 *)0x04000504 = 0; }
 void CircleGraph_DrawSlices(struct CircleGraph *graph)
 {
     int wedgeCount, i, index;
-    u32 firstWedge = (u32)graph;
+    u32 firstWedge = (uptr)graph;
     switch (graph->state) {
     case 0: wedgeCount = 0; break;
     case 1: wedgeCount = graph->frame * 100 / 120; firstWedge = 100 - wedgeCount; break;

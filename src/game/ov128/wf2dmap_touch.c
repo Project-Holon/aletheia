@@ -111,6 +111,7 @@
  *   GAME_DATA_GetMyStatus  0x02012944  thumb  arm9
  */
 #include "wf2dmap_ui_types.h"
+#include "../sdk_ioreg.h"
 
 struct Big;
 struct Sub020097BCObj;
@@ -328,7 +329,7 @@ int WF2DMAP_TOUCH_FriendKeyScreen(void *p, u8 *q, u8 *r, int heap)
 
 void WF2DMAP_TOUCH_DeleteScreenThunk(void *p, void *q, void *r)
 {
-    WF2DMAP_TOUCH_DeleteScreens(p, (int)q, r);
+    WF2DMAP_TOUCH_DeleteScreens(p, (sptr)q, r);
 }
 
 int WF2DMAP_TOUCH_GetFriendKeyInput(void *unused,int *q) {
@@ -395,17 +396,17 @@ void WF2DMAP_TOUCH_DrawFriendKey(u8 *p, u8 *q, u8 *ctx, u16 heap)
 {
     u8 *w1;
     void *buf2;
-    u32 gfx;
+    uptr gfx;
     u32 pal;
     u32 n;
-    u32 text;
+    uptr text;
     u64 key;
     Wf2dmapTouchTbl t;
     int x;
     int i;
     Wf2dmapFriend_CreateWindow(ctx, (u32 *)p, 3, 2, 10, 0x1e, 8, 10, 1, 0);
     Wf2dmapFriend_CreateWindow(ctx, (u32 *)(p + 8), 3, 9, 6, 0xe, 2, 10, 0xf1, 0);
-    text = (u32)STRBUF_Create(0xc0, heap);
+    text = (uptr)STRBUF_Create(0xc0, heap);
     buf2 = STRBUF_Create(0x80, heap);
     key = DWC_CreateFriendKey((struct DWCstAccUserData *)WIFILIST_GetWork((void *)GAME_DATA_GetWifiList(*(void **)(q + 4))));
     if (key != 0) {
@@ -596,9 +597,9 @@ void WF2DMAP_TOUCH_CreateEditWidgets(u8 *p, void *unused, u8 *q, u16 heap)
         Wf2dmapFriend_CreateWindow(q, (u32 *)(p + 0x118 + k * 8), 3, (u8)(x + 2), y + 1, 26, 18, 10, 0, 0);
     }
     for (i = 0; i < 3; i++) {
-        WF2DMAP_TOUCH_InitTileRecord((u32)(p + 20 + i * 0x4c), (int)q, (const u16 *)gWf2dmapEntryPositions[i], gWf2dmapTileValues[i], heap);
+        WF2DMAP_TOUCH_InitTileRecord((uptr)(p + 20 + i * 0x4c), (sptr)q, (const u16 *)gWf2dmapEntryPositions[i], gWf2dmapTileValues[i], heap);
         for (j = 0; j < 8; j++) {
-            WF2DMAP_TOUCH_SetTileRecordField((u32)(p + 20 + i * 0x4c), (int)q, j, gWf2dmapTileItemIds[j], gWf2dmapTileItemValues[j], heap);
+            WF2DMAP_TOUCH_SetTileRecordField((uptr)(p + 20 + i * 0x4c), (sptr)q, j, gWf2dmapTileItemIds[j], gWf2dmapTileItemValues[j], heap);
             *(void **)(p + 0x20 + j * 4) = p + 0x118;
             *(void **)(p + 0x6c + j * 4) = p + 0x120;
             *(void **)(p + 0xb8 + j * 4) = p + 0x120;
@@ -658,7 +659,7 @@ void WF2DMAP_TOUCH_CloseEditScreen(u8 *p,u8 *q)
     u16 *t;
     Wf2dmapFriend_SetActorDrawEnable(q,0);
     WF2DMAP_TOUCH_DrawCursorBg(p,q);
-    WF2DMAP_TOUCH_ClearTrainerScreens((u32)p);
+    WF2DMAP_TOUCH_ClearTrainerScreens((uptr)p);
     BG_SYS_SetTileEntry(2,0,0,0,32,32,0);
     BG_SYS_MarkTileDirty(2);
     t=*(u16 * *)&((Wf2dmapTouchEdit *)p)->widget[2].bitmap;
@@ -685,30 +686,30 @@ void WF2DMAP_TOUCH_CreateTrainerWidgets(u8 *p,u8 *q,u8 *ctx,u16 heap)
     int pos;
     struct ActorInitParam bounds;
     base=(struct WifiList *)GAME_DATA_GetWifiList(((Wf2dmapTouchFriendData *)q)->saveData);
-    WIFILIST_GetFriendInfoField(base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),9);
+    WIFILIST_GetFriendInfoField(base,*(u8 *)((uptr)q+((Wf2dmapTouchFriendData *)q)->index+24),9);
     for(i=0;i<10;i++) BMP_Clear(BMP_WIN_GetBmp(*(void **)(p+i*8+0x128)),0);
     offset=0x128;
     pos=BMP_WIN_GetDispWidth(*(void **)(p+offset));
     TOUCHBAR_PrintYesNoCancelLabels((void *)(p+offset),(void *)(*(u32 *)&((Wf2dmapTouchGfx *)ctx)->printWin),*(u32 *)&((Wf2dmapTouchGfx *)ctx)->palWin,
         (int)((u32)pos*8)/2,0,0x3C40,
-        *(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+0x38)+1,((Wf2dmapTouchFriendData *)q)->nextColor,heap);
+        *(u8 *)((uptr)q+((Wf2dmapTouchFriendData *)q)->index+0x38)+1,((Wf2dmapTouchFriendData *)q)->nextColor,heap);
     WF2DMAP_TOUCH_PrintItem(p+(offset+8),q,ctx,19,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+16),q,ctx,20,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+0x140,q,ctx,21,0,0,0x3C40);
-    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField(base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),2));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField(base,*(u8 *)((uptr)q+((Wf2dmapTouchFriendData *)q)->index+24),2));
     WF2DMAP_TOUCH_PrintItem(p+(offset+32),q,ctx,22,0,0,0x3C40);
-    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField(base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),3));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField(base,*(u8 *)((uptr)q+((Wf2dmapTouchFriendData *)q)->index+24),3));
     WF2DMAP_TOUCH_PrintItem(p+0x150,q,ctx,22,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+48),q,ctx,23,0,0,0x3C40);
-    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField(base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),4));
+    Wf2dmapFriend_SetWordSlot((char **)ctx,WIFILIST_GetFriendInfoField(base,*(u8 *)((uptr)q+((Wf2dmapTouchFriendData *)q)->index+24),4));
     WF2DMAP_TOUCH_PrintItem(p+0x160,q,ctx,24,0,0,0x3C40);
     WF2DMAP_TOUCH_PrintItem(p+(offset+=64),q,ctx,27,0,0,0x3C40);
-    if(Wf2dmapFriend_PrintTrainerStats(ctx,q,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24))!=0)
+    if(Wf2dmapFriend_PrintTrainerStats(ctx,q,*(u8 *)((uptr)q+((Wf2dmapTouchFriendData *)q)->index+24))!=0)
         WF2DMAP_TOUCH_PrintItem(p+0x170,q,ctx,28,0,0,0x3C40);
     else BMP_WIN_TransferChars(((Wf2dmapTouchEdit *)p)->trainerWindow[9].handle);
     for(i=0;i<10;i++) WF2DMAP_TOUCH_TransferScreen(*(char **)(p+i*8+0x128));
     bounds=gWf2dmapTrainerActorBounds;
-    id=CURSOR_MOVE_GetTableGroup(WIFILIST_GetFriendInfoField(base,*(u8 *)((u32)q+((Wf2dmapTouchFriendData *)q)->index+24),8));
+    id=CURSOR_MOVE_GetTableGroup(WIFILIST_GetFriendInfoField(base,*(u8 *)((uptr)q+((Wf2dmapTouchFriendData *)q)->index+24),8));
     archive=POKEGRA_OpenTrainerHandle(heap);
     ((Wf2dmapTouchEdit *)p)->cgr=POKEGRA_RegisterTrainerCgr(archive,id,0,heap);
     ((Wf2dmapTouchEdit *)p)->palette=POKEGRA_RegisterTrainerPalette(archive,id,0,192,heap);
@@ -742,10 +743,10 @@ void WF2DMAP_TOUCH_DrawSlider(u8 *p,u8 *q,int idx)
         return;
     }
     t=*(u16 * *)&((Wf2dmapTouchGfx *)q)->bmpDesc[1];
-    BG_SYS_DrawTileEx(2,*(const u8 *)((u32)gWf2dmapSliderTileX+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),20,
-        *(const u8 *)((u32)gWf2dmapSliderTileY+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),4,(void *)((u8 *)t+12),
-        *(const u8 *)((u32)gWf2dmapSliderTileX+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),
-        *(const u8 *)((u32)gWf2dmapSliderFlags+(u32)((Wf2dmapTouchEdit *)p)->direction),(u32)t[0]>>3,(u32)t[1]>>3);
+    BG_SYS_DrawTileEx(2,*(const u8 *)((uptr)gWf2dmapSliderTileX+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),20,
+        *(const u8 *)((uptr)gWf2dmapSliderTileY+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),4,(void *)((u8 *)t+12),
+        *(const u8 *)((uptr)gWf2dmapSliderTileX+((u32)((Wf2dmapTouchEdit *)p)->direction<<3)+(u32)idx),
+        *(const u8 *)((uptr)gWf2dmapSliderFlags+(u32)((Wf2dmapTouchEdit *)p)->direction),(u32)t[0]>>3,(u32)t[1]>>3);
     BG_SYS_MarkTileDirty(2);
 }
 
@@ -1082,7 +1083,7 @@ void WF2DMAP_TOUCH_PlayActorAnimA(char *p) {CLACT_SetActorAnimFrame(((Wf2dmapTou
 
 void WF2DMAP_TOUCH_PlayActorAnimB(char *p) {CLACT_SetActorAnimFrame(((Wf2dmapTouchGfx *)p)->actorB,0);CLACT_SetActorAnimSeq(((Wf2dmapTouchGfx *)p)->actorB,8);CLACT_SetActorAutoAnim(((Wf2dmapTouchGfx *)p)->actorB,1);}
 
-void WF2DMAP_TOUCH_SetScreenBrightness(int a) {if(a==1)G2x_SetBlendBrightness_(0x04000050,28,0);else G2x_SetBlendBrightness_(0x04000050,28,-8);}
+void WF2DMAP_TOUCH_SetScreenBrightness(int a) {if(a==1)G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,28,0);else G2x_SetBlendBrightness_(REG_BLDCNT_ADDR,28,-8);}
 
 void WF2DMAP_TOUCH_SetActorAnimSeq(char *p, int n) {CLACT_SetActorAnimFrame(((Wf2dmapFriendItemScreen *)p)->actor2,0);CLACT_SetActorAnimSeq(((Wf2dmapFriendItemScreen *)p)->actor2,n+2);}
 

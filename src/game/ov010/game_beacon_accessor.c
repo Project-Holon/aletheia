@@ -815,7 +815,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
 {
     struct Strbuf *buf;
     u8 printKind;
-    u32 value;
+    uptr value;
 
     WORDSET_ClearAllSlots(wordSet);
     buf = STRBUF_Create(0x21, heapId);

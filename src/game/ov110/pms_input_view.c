@@ -217,14 +217,11 @@
  */
 
 #include "pms_input_view_shared_types.h"
+#include "../sdk_ioreg_reg.h"
 
-#define REG_DISPCNT_MAIN (*(volatile u32 *)0x04000000)
-#define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
-#define REG_BLDCNT_MAIN (*(volatile u16 *)0x04000050)
-#define REG_BLDCNT_SUB (*(volatile u16 *)0x04001050)
-#define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)0x0400006C)
-#define REG_MASTER_BRIGHT_SUB ((volatile u16 *)0x0400106C)
-#define REG_POWCNT1 (*(volatile u16 *)0x04000304)
+#define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)REG_MASTER_BRIGHT_ADDR)
+#define REG_MASTER_BRIGHT_SUB ((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR)
+#define REG_POWCNT1 (*(volatile u16 *)REG_POWCNT1_ADDR)
 
 #define PMS_INPUT_VIEW_HEAP_ID 42
 #define PMS_INPUT_VIEW_TASK_COUNT 35
@@ -434,15 +431,15 @@ void PMS_INPUT_VIEW_EndTask(struct PmsInputViewTask *task)
 
 void PMS_INPUT_VIEW_TaskInit(void *tcb, struct PmsInputViewTask *task) {
     void *h;
-    REG_BLDCNT_MAIN=0;
-    REG_BLDCNT_SUB=0;
-    REG_DISPCNT_MAIN &= ~0xe000;
-    REG_DISPCNT_SUB &= ~0xe000;
+    REG_BLDCNT=0;
+    REG_DB_BLDCNT=0;
+    REG_DISPCNT &= ~0xe000;
+    REG_DB_DISPCNT &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
     BG_SYS_ClearMainPlanes();
     BG_SYS_ClearSubPlanes();
-    REG_DISPCNT_MAIN &= ~0x1f00;
-    REG_DISPCNT_SUB &= ~0x1f00;
+    REG_DISPCNT &= ~0x1f00;
+    REG_DB_DISPCNT &= ~0x1f00;
     h=ARC_TOOL_CreateHandle(43,42);
     PMS_INPUT_VIEW_InitDisplay(task);
     PMS_INPUT_VIEW_RegisterSpriteResources(task,h);
@@ -459,9 +456,9 @@ void PMS_INPUT_VIEW_TaskInit(void *tcb, struct PmsInputViewTask *task) {
     BG_SYS_SetPlaneVisible(6,0);
     ARC_UTIL_UploadPaletteFromHandle(h,4,4,128,160,32,42);
     task->view->helpBgColor[0]=0x294b;
-    NNS_GfdRegisterNewVramTransferTask((void *)31,(unsigned int)188,(unsigned int)(&task->view->helpBgColor[0]),2);
+    NNS_GfdRegisterNewVramTransferTask((void *)31,(unsigned int)188,(uptr)(&task->view->helpBgColor[0]),2);
     task->view->helpBgColor[1]=0x5694;
-    NNS_GfdRegisterNewVramTransferTask((void *)31,(unsigned int)190,(unsigned int)(&task->view->helpBgColor[1]),2);
+    NNS_GfdRegisterNewVramTransferTask((void *)31,(unsigned int)190,(uptr)(&task->view->helpBgColor[1]),2);
     ARC_UTIL_UploadBgCharFromHandle(h,18,7,0,0,0,42);
     ARC_UTIL_UploadBgPaletteFromHandle(h,24,7,0,0,0,42);
     BG_SYS_FillTileMap(7,0,0,32,32,5);

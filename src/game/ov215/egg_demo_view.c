@@ -577,7 +577,7 @@ void EGG_DEMO_VIEW_PlayAnim(char *work,unsigned flag,int enable)
     NNS_G2dRestartMCAnimation(obj);
     MCSS_ResetAnmStopFlag(((struct EggDemoView *)work)->pokeMcss);
     if(enable) {
-        NNS_G2dSetCellAnimationParam(obj,1,(int)work,(int)EGG_DEMO_VIEW_OnAnimStop);
+        NNS_G2dSetCellAnimationParam(obj,1,(sptr)work,(sptr)EGG_DEMO_VIEW_OnAnimStop);
         ((struct EggDemoView *)work)->animStopFlag=0;
     } else MCSS_TOOL_SetAnimeStopCallback((((struct EggDemoView *)work)->pokeMcss));
 }
@@ -606,7 +606,7 @@ char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *tab
     char *work;
     unsigned zero[3]={0};
     unsigned long long config;
-    int resource;
+    sptr resource;
     work=GFL_HEAP_Alloc(heap,0x481C,1,d_021F73F4,0x502);
     ((struct EggDemoParticles *)work)->frame=0;
     ((struct EggDemoParticles *)work)->index=0;
@@ -615,9 +615,9 @@ char *EGG_DEMO_VIEW_CreateParticles(unsigned heap,unsigned count,const void *tab
     ((struct EggDemoParticles *)work)->active=0;
     ((struct EggDemoParticles *)work)->life=-1;
     PARTICLE_InitManager(heap);
-    *(int *)&((struct EggDemoParticles *)work)->system=(int)PARTICLE_CreateSystemDefault((int)(work+12),0x4800,1,heap);
+    *(int *)&((struct EggDemoParticles *)work)->system=(sptr)PARTICLE_CreateSystemDefault((sptr)(work+12),0x4800,1,heap);
     config=d_021F7300;
-    resource=(int)PARTICLE_LoadArchiveMember((unsigned)config,(unsigned)(config>>32),heap);
+    resource=(sptr)PARTICLE_LoadArchiveMember((unsigned)config,(unsigned)(config>>32),heap);
     ((struct EggDemoParticles *)work)->resourceType=PARTICLE_RESOURCE_GetType((void *)resource);
     PARTICLE_SetupSystem(((struct EggDemoParticles *)work)->system,(void *)resource,1,0);
     return work;
@@ -642,7 +642,7 @@ void EGG_DEMO_VIEW_UpdateParticles(char *work)
             u16 frame=((struct EggDemoParticles *)work)->frame;
             u16 key=*(u16 *)(table+(int)index*4);
             if (frame!=key) break;
-            PARTICLE_StartEffect(*(void **)(work+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),(int)(&v));
+            PARTICLE_StartEffect(*(void **)(work+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),(sptr)(&v));
             (((struct EggDemoParticles *)work)->index)++;
         }
         (((struct EggDemoParticles *)work)->frame)++;

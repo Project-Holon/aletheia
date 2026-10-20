@@ -10,7 +10,7 @@ void *memcpy(void *dest, const void *src, size_t n);
 void *memmove(void *dest, const void *src, size_t n);
 void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
 u8 *memchr(u8 *s, u32 c, u32 n);
-int memcmp(const u8 *s1, const u8 *s2, u32 n);
+int memcmp(const void *buf1, const void *buf2, size_t n);
 void __fill_mem(u8 *dest, u32 val, u32 count);
 /* END mkheaders: generated region */
 

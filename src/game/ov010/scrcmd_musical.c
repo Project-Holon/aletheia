@@ -456,7 +456,7 @@ int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScrcmdWork *scriptWork)
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSys);
-    (s32)SCRIPT_WORK_ResetFieldParam(scriptCtl);
+    (sptr)SCRIPT_WORK_ResetFieldParam(scriptCtl);
     arg = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     mode = *vm->pc;
     vm->pc++;
@@ -486,7 +486,7 @@ int SCRCMD_MUSICAL_StartMusical(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         box->args->startMode = 0;
         box->args->saveBits = (MusicalHeadBits *)MUSICAL_SAVE_NoOp(musical);
         box->args->isOffline = 1;
-        SCRIPT_SYS_CallEvent((void *)scriptCtl, FIELD_STATUS_CreateSubProcCallbackEvent(gameSys, fieldMap, (u32)ov112_id, d_021F8360, box->args, SCRCMD_MUSICAL_FreeProcArgs, box));
+        SCRIPT_SYS_CallEvent((void *)scriptCtl, FIELD_STATUS_CreateSubProcCallbackEvent(gameSys, fieldMap, (uptr)ov112_id, d_021F8360, box->args, SCRCMD_MUSICAL_FreeProcArgs, box));
         return 1;
     }
 }
@@ -508,8 +508,8 @@ int SCRCMD_MUSICAL_ShowPartyMonMusical(ScriptVm *vm, struct ScrcmdWork *scriptWo
 
     GAMESYSTEM_GetFieldMap(gameSys);
     partyIndex = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
-    musicalSave = (u32)(struct MusicalSave *)GAME_DATA_GetSaveBlock2A(gameData);
-    musicalSystem = (u32)MUSICAL_MCSS_CreateMon((void *)(struct Pokemon *)POKEPARTY_GetMember((void *)(struct PokeParty *)GAME_DATA_GetMyParty(gameData), partyIndex), 4);
+    musicalSave = (uptr)(struct MusicalSave *)GAME_DATA_GetSaveBlock2A(gameData);
+    musicalSystem = (uptr)MUSICAL_MCSS_CreateMon((void *)(struct Pokemon *)POKEPARTY_GetMember((void *)(struct PokeParty *)GAME_DATA_GetMyParty(gameData), partyIndex), 4);
     task = GAME_EVENT_Create(gameSys, 0, SCRCMD_MUSICAL_TaskShowMusicalProc, 4);
     systemTask = GAME_EVENT_GetWork(task);
     MI_CpuFill8(systemTask, 0, 4);
@@ -942,7 +942,7 @@ int SCRCMD_MUSICAL_SelectPartyMon(ScriptVm *vm, struct ScrcmdWork *scriptWork)
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
     struct ScriptWork *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
 
-    SCRIPT_SYS_CallEvent((void *)scriptCtl, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent((s32)(SCRCMD_WORK_GetGameSystem(scriptWork)), (s32)partyIndexVar, (s32)resultVar));
+    SCRIPT_SYS_CallEvent((void *)scriptCtl, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent((sptr)(SCRCMD_WORK_GetGameSystem(scriptWork)), (sptr)partyIndexVar, (sptr)resultVar));
     return 1;
 }
 
@@ -993,7 +993,7 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         SCRCMD_MUSICAL_DeleteLinkWork(link, gameData);
         break;
     case 10:
-        SCRCMD_MUSICAL_BeginCommSession((int)link, gameSys, GAMESYSTEM_GetGameComm(gameSys), arg);
+        SCRCMD_MUSICAL_BeginCommSession((sptr)link, gameSys, GAMESYSTEM_GetGameComm(gameSys), arg);
         break;
     case 11:
         SCRCMD_MUSICAL_CloseCommSession(link);
@@ -1001,19 +1001,19 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         return 1;
     case 12:
         link->resultOut = resultVar;
-        link->entryMenu = (u32)COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(gameData), fieldMap, 2, 4, 4, 0, 1, 0);
+        link->entryMenu = (uptr)COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(gameData), fieldMap, 2, 4, 4, 0, 1, 0);
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitEntryMenuParent);
         return 1;
     case 13:
         link->resultOut = resultVar;
-        link->entryMenu = (u32)COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(gameData), fieldMap, 2, 4, 4, 1, 1, 0);
+        link->entryMenu = (uptr)COMM_ENTRY_MENU_Create(GAME_DATA_GetMyStatus(gameData), fieldMap, 2, 4, 4, 1, 1, 0);
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitEntryMenuChild);
         return 1;
     case 14:
         if (link->session == 0 || busy != 0)
             break;
         link->memberCount = arg;
-        MUS_COMM_FUNC_SetTimingSync((int)link->session, (u8)link->memberCount);
+        MUS_COMM_FUNC_SetTimingSync((sptr)link->session, (u8)link->memberCount);
         VM_SetWait(vm, SCRCMD_MUSICAL_WaitSetMemberCount);
         return 1;
     case 15:
@@ -1036,9 +1036,9 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         wait->link = link;
         link->resultOut = resultVar;
         link->gameData = gameData;
-        link->procWork = (u32)STA_SLOT_GetRecordTable(gameData);
+        link->procWork = (uptr)STA_SLOT_GetRecordTable(gameData);
         link->procMode = arg == 0 ? 9 : 10;
-        SCRIPT_SYS_CallEvent((void *)scriptCtl, FIELD_STATUS_CreateSubProcCallbackEvent(gameSys, fieldMap, (u32)ov100_id, d_021BB6A4, &link->gameData, SCRCMD_MUSICAL_LinkProcCallback, wait));
+        SCRIPT_SYS_CallEvent((void *)scriptCtl, FIELD_STATUS_CreateSubProcCallbackEvent(gameSys, fieldMap, (uptr)ov100_id, d_021BB6A4, &link->gameData, SCRCMD_MUSICAL_LinkProcCallback, wait));
         return 1;
     }
     case 19:
@@ -1078,15 +1078,15 @@ void SCRCMD_MUSICAL_CreateLinkWork(struct ScriptWork *unused, struct GameData *g
     link->owner = 0;
     link->session = 0;
     GAME_DATA_SetExternalWork(gameData, link);
-    GF_OVERLAY_Load((u32)ov132_id);
-    GF_OVERLAY_Load((u32)ov112_id);
+    GF_OVERLAY_Load((uptr)ov132_id);
+    GF_OVERLAY_Load((uptr)ov112_id);
 }
 
 /* Unload overlays 112 and 132, free the link work and detach it. */
 void SCRCMD_MUSICAL_DeleteLinkWork(MusicalLink *link, struct GameData *gameData)
 {
-    GF_OVERLAY_Unload((u32)ov112_id);
-    GF_OVERLAY_Unload((u32)ov132_id);
+    GF_OVERLAY_Unload((uptr)ov112_id);
+    GF_OVERLAY_Unload((uptr)ov132_id);
     GFL_HEAP_Free(link);
     GAME_DATA_SetExternalWork(gameData, 0);
 }
@@ -1437,7 +1437,7 @@ int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScrcmdWork *scriptWork)
         break;
     case 5:
         wordSet = (struct WordSet *)SCRIPT_WORK_GetWordSet(SCRCMD_WORK_GetScriptWork(scriptWork));
-        WORDSET_SetSlotFromMsg118(wordSet, 0, (u32)(void *)PDW_POSTMAN_GetUnreceivableItem(gameData, key, (void *)wifiList, *resultVar));
+        WORDSET_SetSlotFromMsg118(wordSet, 0, (uptr)(void *)PDW_POSTMAN_GetUnreceivableItem(gameData, key, (void *)wifiList, *resultVar));
         break;
     case 4:
         *resultVar = PDW_POSTMAN_CountUnreceivable(gameData, key, (struct PdwPostmanSave *)wifiList);

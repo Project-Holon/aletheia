@@ -53,11 +53,11 @@ u32 NWM_SetWPAPSK(void *callback, TwlReq *pskInfo) {
     default:
         return 5;
     }
-    NWMi_SetCallbackTable(0x12, (u32)callback);
+    NWMi_SetCallbackTable(0x12, (uptr)callback);
     msg.len = 0x12;
     msg.kind = pskInfo->kind;
     MI_CpuCopy8(pskInfo->data, msg.data, 0x20);
-    r = NWMi_SendCommandDirect((u32)(&msg), 0x24);
+    r = NWMi_SendCommandDirect((uptr)(&msg), 0x24);
     if (r == 0 || r == 2) {
         r = 2;
     }

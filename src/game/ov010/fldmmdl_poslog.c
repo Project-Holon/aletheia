@@ -136,7 +136,7 @@ int unused;
     int slot;
     ObjContext *ctx;
 
-    slot = FLDMMDL_GetMovedPosSlot((int)mmdl);
+    slot = FLDMMDL_GetMovedPosSlot((sptr)mmdl);
     if (slot != 30) {
         ctx = (void *)FLDMMDL_GetMmdlSys(mmdl);
         return FLDMMDL_IsMovedPosSet((const MovedPos *)(ctx->movedPosTable + slot * 12));
@@ -150,7 +150,7 @@ int FLDMMDL_GetMovedPos(void *mmdl, MovedPos *out)
     MovedPos *entry;
     ObjContext *ctx;
 
-    slot = FLDMMDL_GetMovedPosSlot((int)mmdl);
+    slot = FLDMMDL_GetMovedPosSlot((sptr)mmdl);
     if (slot != 30) {
         ctx = (void *)FLDMMDL_GetMmdlSys(mmdl);
         entry = (MovedPos *)(ctx->movedPosTable + slot * 12);
@@ -176,7 +176,7 @@ void FLDMMDL_StoreMovedPos(void *mmdl)
     MovedPos *entry;
     MovedPos curPos;
     ObjContext *ctx;
-    slot = FLDMMDL_GetMovedPosSlot((int)mmdl);
+    slot = FLDMMDL_GetMovedPosSlot((sptr)mmdl);
     if (slot != 30)
     {
         ctx = (void *)FLDMMDL_GetMmdlSys(mmdl);

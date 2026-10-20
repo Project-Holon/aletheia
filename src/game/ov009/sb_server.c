@@ -90,7 +90,7 @@ extern int strcmp_nocase(char *s1, char *s2);
 #include "../arm9/os_printf.h"
 extern char *SBServerGetStringValueA(SBServer *server, char *keyname,
                                      char *def);
-extern double atof(char *s);
+#include "../arm9/msl_strtod.h"
 #include "qr2regkeys.h"
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
 extern int strcmp_nocase(char *a, char *b);
@@ -145,7 +145,6 @@ extern char g_021A81AC[];
 extern unsigned char __lower_mapC[];
 
 extern int strcmp(const char *a, const char *b);
-extern int atoi(const char *s);
 extern int strnicmp(unsigned char *s1, unsigned char *s2, int n);
 int RefStringHash(void *elem, int numbuckets)
 {

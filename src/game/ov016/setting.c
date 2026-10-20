@@ -91,7 +91,6 @@ typedef struct aoss_secure_info {
 
 #include "../sdk_dwc.h"
 
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../arm9/util_wifiidtool.h"
 #include "str.h"

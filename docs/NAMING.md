@@ -393,8 +393,8 @@ How the last names were closed:
   `bx lr` of a getter in `arm9/particle.c`). They were removed from the matched
   layout, so the function count is 3 lower.
 - One second name stays on purpose: `MIi_CpuClearFastAlias` in
-  `ov013/vct_main.c` is a second extern for `MIi_CpuClearFast` (0x02082AC0).
-  The original has two calls to that address in `VCT_SESSION_MixVoices`; with
+  `ov013/vct_mixer.c` (DS build only, under `__MWERKS__`) is a second extern for `MIi_CpuClearFast` (0x02082AC0).
+  The original has two calls to that address in `VCT_MIXER_MixVoices`; with
   one name mwcc merges them and the code is 4 bytes short on every compiler
   build. See
   `docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md`.

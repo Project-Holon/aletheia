@@ -141,12 +141,12 @@ int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **
     p->state = 1;
     break;
   case 1:
-    p->count = ZUKAN_SEARCH_ENGINE_LoadFormIds((int)p->arc, p->query->mode, p->query->rule, heap, &p->ids);
+    p->count = ZUKAN_SEARCH_ENGINE_LoadFormIds((sptr)p->arc, p->query->mode, p->query->rule, heap, &p->ids);
     p->reject = GFL_HEAP_Alloc(heap, p->count, 1, site, 551);
     p->state = 2;
     break;
   case 2:
-    ZUKAN_SEARCH_ENGINE_LoadTables((u32)p->arc, heap, &p->count1, (u32 *)&p->table1, &p->count2, (u32 *)&p->table2, &p->count3, (u32 *)&p->table3, &p->count4, (u32 *)&p->table4);
+    ZUKAN_SEARCH_ENGINE_LoadTables((uptr)p->arc, heap, &p->count1, (u32 *)&p->table1, &p->count2, (u32 *)&p->table2, &p->count3, (u32 *)&p->table3, &p->count4, (u32 *)&p->table4);
     p->state = 3;
     break;
   case 3:
@@ -292,13 +292,13 @@ void ZUKAN_SEARCH_ENGINE_LoadTables(u32 archive, u32 heapId, u16 *count1, u32 *t
 {
     u32 buf;
 
-    *table1 = (u32)POKE_PERSONAL_LoadFormTable(heapId, 0);
+    *table1 = (uptr)POKE_PERSONAL_LoadFormTable(heapId, 0);
     *count1 = 0x28A;
-    *table2 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 1, 0, heapId, &buf);
+    *table2 = (uptr)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 1, 0, heapId, &buf);
     *count2 = buf;
-    *table3 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 2, 0, heapId, &buf);
+    *table3 = (uptr)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 2, 0, heapId, &buf);
     *count3 = buf;
-    *table4 = (u32)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 0, 0, heapId, &buf);
+    *table4 = (uptr)ARC_UTIL_LoadHandleMemberWithSize((void *)archive, 0, 0, heapId, &buf);
     *count4 = buf >> 1;
 }
 

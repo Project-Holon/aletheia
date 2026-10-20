@@ -267,33 +267,33 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
     w = PROCSYS_AllocProcWork(a, 0x2d4, 0x1e);
     MI_CpuFill8(w, 0, 0x2d4);
     *(u8 **)(w + 0x2c4) = args;
-    *(u32 *)(w + 0x2b0) = (u32)GF_FONT_Create(0x17, 0, 1, 0, 0x1e);
-    *(u32 *)(w + 0x2b4) = (u32)PRINTSYS_QUE_CreateEx(0x1000, 0x1e);
-    *(u32 *)(w + 0x2b8) = (u32)MSGDATA_CreateFromArchive(1, 2, 0x51, 0x1e);
-    *(u32 *)(w + 0x2bc) = (u32)WORDSET_CreateDefault(0x1e);
-    *(u32 *)w = (u32)NAMEIN_GRAPHIC_CreateDisplay(0, 0x1e);
-    *(u32 *)(w + 0x2c0) = (u32)BMP_OAM_CreateSys(0x1e, (void *)NAMEIN_GRAPHIC_GetDisplayHandle((unsigned char *)(*(u32 *)w)));
-    NAMEIN_GRAPHIC_LoadBgPalette((int)(w + 0x64), 0x1e);
+    *(u32 *)(w + 0x2b0) = (uptr)GF_FONT_Create(0x17, 0, 1, 0, 0x1e);
+    *(u32 *)(w + 0x2b4) = (uptr)PRINTSYS_QUE_CreateEx(0x1000, 0x1e);
+    *(u32 *)(w + 0x2b8) = (uptr)MSGDATA_CreateFromArchive(1, 2, 0x51, 0x1e);
+    *(u32 *)(w + 0x2bc) = (uptr)WORDSET_CreateDefault(0x1e);
+    *(u32 *)w = (uptr)NAMEIN_GRAPHIC_CreateDisplay(0, 0x1e);
+    *(u32 *)(w + 0x2c0) = (uptr)BMP_OAM_CreateSys(0x1e, (void *)NAMEIN_GRAPHIC_GetDisplayHandle((unsigned char *)(*(u32 *)w)));
+    NAMEIN_GRAPHIC_LoadBgPalette((sptr)(w + 0x64), 0x1e);
     s = NAMEIN_GRAPHIC_GetDisplayHandle((unsigned char *)(*(u32 *)w));
     NAMEIN_GRAPHIC_CreateActors((char *)(w + 4), s, 0x1e);
     h = *(u16 *)(args + 4);
     NAMEIN_GRAPHIC_InitIconActor(w + 0x264, NAMEIN_GRAPHIC_GetIconMode(*(u32 *)args, h), h, *(u16 *)(args + 6), s,
                   *(u32 *)(w + 0x2b0), *(u32 *)(w + 0x2b4), (void *)(*(u32 *)(w + 0x2b8)), *(u32 *)(w + 0x2c0), 0x1e);
-    *(u32 *)(w + 0x22c) = (u32)NAMEIN_GRAPHIC_CreateMembers(0x1e);
-    *(u32 *)(w + 0x2d0) = (u32)STRBUF_Clone((struct Strbuf *)(*(struct U16Vec **)(args + 0x20)), 0x1e);
+    *(u32 *)(w + 0x22c) = (uptr)NAMEIN_GRAPHIC_CreateMembers(0x1e);
+    *(u32 *)(w + 0x2d0) = (uptr)STRBUF_Clone((struct Strbuf *)(*(struct U16Vec **)(args + 0x20)), 0x1e);
     if (STRBUF_GetLength((struct Strbuf *)(*(struct U16Vec **)(w + 0x2d0))) != 0) {
         if (STRBUF_GetLength((struct Strbuf *)(*(struct U16Vec **)(w + 0x2d0))) > *(u32 *)(args + 0x18)
             || NAMEIN_GRAPHIC_IsNameCharValid(STRBUF_GetChars((struct Strbuf *)(*(struct U16Vec **)(w + 0x2d0))), 0x1e) == 0) {
             STRBUF_Clear((struct Strbuf *)(*(struct U16Vec **)(w + 0x2d0)));
         }
     }
-    NAMEIN_GRAPHIC_InitCallback(w + 0x2a0, (u32)w, (u32)NAMEIN_GRAPHIC_CallbackWaitDraw);
+    NAMEIN_GRAPHIC_InitCallback(w + 0x2a0, (uptr)w, (uptr)NAMEIN_GRAPHIC_CallbackWaitDraw);
     NAMEIN_GRAPHIC_InitInputField(w + 0x68, *(u32 *)(w + 0x2d0), (u8)*(u32 *)(args + 0x18), *(u32 *)(w + 0x2b0),
-                  *(u32 *)(w + 0x2b4), (u8 *)((u32)(w + 4)), 0x1e);
+                  *(u32 *)(w + 0x2b4), (u8 *)((uptr)(w + 4)), 0x1e);
     NAMEIN_GRAPHIC_InitGrid(w + 0xfc, mode, *(void **)(w + 0x2b0), *(void **)(w + 0x2b4), *(void **)(w + 0x22c), w + 4, 0x1e);
     NAMEIN_GRAPHIC_InitMsgBox(w + 0x230, *(u32 *)(w + 0x2b0), *(u32 *)(w + 0x2b8), *(u32 *)(w + 0x2b4), *(u32 *)(w + 0x2bc), 0x1e);
     NAMEIN_GRAPHIC_InitTcbl((char *)(w + 0x254), 0x1e);
-    *(u32 *)(w + 0x2cc) = (u32)PROF_WORD_Create(0x1e);
+    *(u32 *)(w + 0x2cc) = (uptr)PROF_WORD_Create(0x1e);
     if (*(u32 *)args == 1) {
         if (*(u32 *)(args + 8) == 0) {
             NAMEIN_GRAPHIC_PrintPokeMsg((char *)(w + 0x230), *(u32 *)args, *(u16 *)(args + 4), *(u16 *)(args + 6), 0x1e);
@@ -397,9 +397,9 @@ void NAMEIN_GRAPHIC_CreateActors(char *p,unsigned owner,u16 heap)
     }
 }
 
-void NAMEIN_GRAPHIC_DeleteActors(u8 *p) { int i; for(i=0;i<21;i++) { void *q=*(void **)((u32)p+(u32)i*4+12); if(q)CLACT_DeleteActor(q); } CLACT_ReleasePalette(((NameinGraphicActors *)p)->palette);CLACT_ReleaseCharacter((u32)(((NameinGraphicActors *)p)->character));CLACT_ReleaseCellAnim(((NameinGraphicActors *)p)->cellAnim); }
+void NAMEIN_GRAPHIC_DeleteActors(u8 *p) { int i; for(i=0;i<21;i++) { void *q=*(void **)((uptr)p+(u32)i*4+12); if(q)CLACT_DeleteActor(q); } CLACT_ReleasePalette(((NameinGraphicActors *)p)->palette);CLACT_ReleaseCharacter((u32)(((NameinGraphicActors *)p)->character));CLACT_ReleaseCellAnim(((NameinGraphicActors *)p)->cellAnim); }
 
-void *NAMEIN_GRAPHIC_GetActor(u8 *p,u32 i) { return *(void **)((u32)p+i*4+12); }
+void *NAMEIN_GRAPHIC_GetActor(u8 *p,u32 i) { return *(void **)((uptr)p+i*4+12); }
 
 void NAMEIN_GRAPHIC_InitCursor(u8 *a,void *b,void *c,u32 d)
 {
@@ -409,9 +409,9 @@ void NAMEIN_GRAPHIC_InitCursor(u8 *a,void *b,void *c,u32 d)
     u8 *q;
     int j;
     MI_CpuFill8(a,0,180);
-    ((NameinGraphicCursor *)a)->selected=(int)b;
-    for(i=0;i<2;i++) *(u32 *)(a+164+i*4)=(u32)NAMEIN_GRAPHIC_GetActor(c,i+18);
-    p=ARC_UTIL_LoadPaletteBlockFromArchive(118,2,(void *)((u32)(&x)),d);
+    ((NameinGraphicCursor *)a)->selected=(sptr)b;
+    for(i=0;i<2;i++) *(u32 *)(a+164+i*4)=(uptr)NAMEIN_GRAPHIC_GetActor(c,i+18);
+    p=ARC_UTIL_LoadPaletteBlockFromArchive(118,2,(void *)((uptr)(&x)),d);
     q=*(u8 * *)&((NameinGraphicGlyphSrc *)x)->glyphs;
     for(i=0;i<16;i++) *(u16 *)(a+i*2)=*(u16 *)(q+32+i*2);
     for(j=0;j<16;j++) *(u16 *)(a+32+j*2)=*(u16 *)(q+64+j*2);

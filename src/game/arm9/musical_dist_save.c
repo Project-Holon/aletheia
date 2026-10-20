@@ -337,7 +337,7 @@ u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *dist)
  */
 u32 MUSICAL_DIST_SAVE_GetPayload(struct MusicalDist *dist)
 {
-    return (u32)dist->payload;
+    return (uptr)dist->payload;
 }
 
 u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct MusicalDist *dist)

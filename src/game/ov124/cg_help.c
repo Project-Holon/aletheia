@@ -150,6 +150,7 @@ struct Vec2;
 struct Proc;
 struct Proc;
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 typedef struct { u32 a, b; u8 c, d, e, f; u32 g; u16 h, i, j, k, l, m; } CgHelpClactConfig;
 
@@ -409,7 +410,7 @@ void CG_HELP_InitDisplay(CgHelpWork *work)
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer5, 5, 0);
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer6, 6, 0);
     CG_HELP_SetupBgLayer((const struct BgTemplate *)gCgHelpBgTemplateLayer7, 7, 0);
-    G2x_SetBlendAlpha_((u32 *)0x04001050, 4, 8, 15, 4);
+    G2x_SetBlendAlpha_((u32 *)REG_DB_BLDCNT_ADDR, 4, 8, 15, 4);
     cfg = gClActorInitParam;
     cfg.h = 0x40;
     CLACT_InitSystem((const struct ClactSysInit *)((struct SysInit *)(&cfg)), (const struct DispVramCfg *)gCgHelpVramBanks, work->heapId);
@@ -503,15 +504,15 @@ void CG_HELP_InitWindows(CgHelpWork *work)
     BG_SYS_PushTile(5);
     BG_SYS_PushTile(4);
     work->textDirty = 0;
-    req.text = (u32)MSGDATA_AllocString(work->msgData, 24);
+    req.text = (uptr)MSGDATA_AllocString(work->msgData, 24);
     req.color = 0x39e3;
     req.flag = 0;
     work->nextButton = APP_TASKMENU_WIN_Create(work->menuRes, (struct TaskMenuItem *)(&req), 11, 21, 11, work->heapId);
     STRBUF_Delete((void *)req.text);
-    req.text = (u32)MSGDATA_AllocString(work->msgData, 26);
+    req.text = (uptr)MSGDATA_AllocString(work->msgData, 26);
     work->prevButton = APP_TASKMENU_WIN_Create(work->menuRes, (struct TaskMenuItem *)(&req), 0, 21, 11, work->heapId);
     STRBUF_Delete((void *)req.text);
-    req.text = (u32)MSGDATA_AllocString(work->msgData, 25);
+    req.text = (uptr)MSGDATA_AllocString(work->msgData, 25);
     req.flag = 1;
     work->closeButton = APP_TASKMENU_WIN_Create(work->menuRes, (struct TaskMenuItem *)(&req), 22, 21, 10, work->heapId);
     STRBUF_Delete((void *)req.text);
@@ -592,7 +593,7 @@ void CG_HELP_UpdatePageGraphics(CgHelpWork *work, u32 page)
     CLACT_SetActorAnimSeq(work->pageActor, gCgHelpPageAnimSeq[page]);
     CLACT_SetActorDrawEnable(work->pageActor, 1);
     if (page <= 7) {
-        NNS_GfdRegisterNewVramTransferTask((void *)31, 320, (u32)(work->charData->rawData + gCgHelpPageCharOffset[page] * 32), 32);
+        NNS_GfdRegisterNewVramTransferTask((void *)31, 320, (uptr)(work->charData->rawData + gCgHelpPageCharOffset[page] * 32), 32);
         q = GFL_HEAP_Alloc(work->heapId, 32, 1, gCgHelpFileName, 0x2ac);
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {

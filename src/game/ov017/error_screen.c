@@ -44,21 +44,20 @@
  *   BMP_Delete  0x020437AC  arm
  *   BG_SYS_SetSubVisiblePlanes  0x020435F4  arm
  */
-#define REG_BG1CNT_MAIN    (*(volatile u16 *)0x0400000A)
-#define REG_BG1HOFS_MAIN   (*(volatile u32 *)0x04000014)
-#define REG_BLDCNT_MAIN    (*(volatile u16 *)0x04000050)
-#define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)0x0400006C)
-#define REG_MASTER_BRIGHT_SUB  ((volatile u16 *)0x0400106C)
-#define REG_KEYINPUT       (*(volatile u16 *)0x04000130)
+#define REG_BG1CNT_MAIN    (*(volatile u16 *)REG_BG1CNT_ADDR)
+#define REG_BG1HOFS_MAIN   (*(volatile u32 *)REG_BG1OFS_ADDR)
+#define REG_MASTER_BRIGHT_MAIN ((volatile u16 *)REG_MASTER_BRIGHT_ADDR)
+#define REG_MASTER_BRIGHT_SUB  ((volatile u16 *)REG_DB_MASTER_BRIGHT_ADDR)
+#define REG_KEYINPUT       (*(volatile u16 *)REG_KEYINPUT_ADDR)
 #define REG_EXT_KEYINPUT   (*(volatile u16 *)0x02FFFFA8)
-#define PLTT_MAIN_BG       0x05000000
-#define REG_DISPCNT_MAIN       (*(volatile u32 *)0x04000000)
+#define PLTT_MAIN_BG       HW_BG_PLTT
 struct NitroFileHeader;
 struct Bmp;
 struct GfFont;
 struct MsgBank;
 struct Strbuf;
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 #include "../arm9/nns_g2d_res_types.h"
 
 #include "../arm9/app_env.h"
@@ -87,7 +86,6 @@ void ERROR_SCREEN_PrintMessage(int messageIndex);
 void ERROR_SCREEN_Teardown(void);
 
 /* Display and key registers touched by the error screen. */
-#define REG_DISPCNT_MAIN   (*(volatile u32 *)0x04000000)
 
 /* Held keys, A and B only matter here; the shared (ext) key word is merged in. */
 static inline u16 ReadKeys(void)
@@ -125,12 +123,12 @@ void ERROR_SCREEN_Setup(int messageIndex)
     GX_ResetBankForSubBG();
     GX_SetBankForBG(4);
     GX_SetGraphicsMode(1, 0, 0);
-    REG_DISPCNT_MAIN = (REG_DISPCNT_MAIN & 0xFFFFE0FF) | (1 << 9);
-    REG_DISPCNT_MAIN &= 0xFFFF1FFF;
+    REG_DISPCNT = (REG_DISPCNT & 0xFFFFE0FF) | (1 << 9);
+    REG_DISPCNT &= 0xFFFF1FFF;
     REG_BG1CNT_MAIN = (REG_BG1CNT_MAIN & 0x43) | 4;
     REG_BG1CNT_MAIN &= 0xFFBF;
     REG_BG1HOFS_MAIN = 0;
-    REG_BLDCNT_MAIN = 0;
+    REG_BLDCNT = 0;
     ERROR_SCREEN_LoadBackground();
     ERROR_SCREEN_PrintMessage(messageIndex);
     GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_MAIN, 0);
@@ -225,7 +223,7 @@ void ERROR_SCREEN_Teardown(void)
     MIi_CpuClear16(0, G2_GetBG1CharPtr(), 0x4000);
     MIi_CpuClear16(0, G2_GetBG1ScrPtr(), 0x800);
     MIi_CpuClear16(0x7FFF, (void *)PLTT_MAIN_BG, 0x20);
-    REG_DISPCNT_MAIN &= 0xFFFFE0FF;
+    REG_DISPCNT &= 0xFFFFE0FF;
     GX_ResetBankForSubBG();
     GX_ResetBankForBG();
     GXx_SetMasterBrightness_(REG_MASTER_BRIGHT_MAIN, 0);

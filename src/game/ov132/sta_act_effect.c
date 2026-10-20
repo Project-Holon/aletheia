@@ -119,9 +119,9 @@ char *STA_ACT_EFFECT_StartSystem(char *p, u32 memberIndex)
     u8 j;
     for (i = 0; i < 8; i++) if (*(int *)(p + i * 0x4848 + 4) == 0) q = (p + 4) + i * 0x4848;
     j = 0;
-    ((ActEffectSystem *)q)->system.p = (void *)PARTICLE_CreateSystemDefault((int)(q + 4), 0x4800, 0, ((ActEffectManager *)p)->heapId);
+    ((ActEffectSystem *)q)->system.p = (void *)PARTICLE_CreateSystemDefault((sptr)(q + 4), 0x4800, 0, ((ActEffectManager *)p)->heapId);
     v = (void *)PARTICLE_LoadArchiveMember(47, memberIndex, ((ActEffectManager *)p)->heapId);
-    PARTICLE_SetupSystem(((ActEffectSystem *)q)->system.p, v, 0, (unsigned int)GFL_USE_GetMainTaskList());
+    PARTICLE_SetupSystem(((ActEffectSystem *)q)->system.p, v, 0, (uptr)GFL_USE_GetMainTaskList());
     for (; j < 4; j++) *(int *)(q + j * 16 + 0x4808) = 0;
     ((ActEffectSystem *)q)->active.s = 1;
     return q;
@@ -143,7 +143,7 @@ static inline void set(StaActingVec *p, int x, int y, int z)
  */
 void STA_ACT_EFFECT_StartEffect(char *p, unsigned index, StaActingVec *pos)
 {
-    int a = PARTICLE_StartEffect(((ActEffectSystem *)p)->system.p, index, (int)pos);
+    int a = PARTICLE_StartEffect(((ActEffectSystem *)p)->system.p, index, (sptr)pos);
     if (a == 0 || index < 4) {
         ((ActEffectSystem *)p)->part[index].a = a;
         set(&((ActEffectSystem *)p)->part[index].v, pos->x, pos->y, pos->z);

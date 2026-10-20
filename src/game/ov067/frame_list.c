@@ -1230,11 +1230,11 @@ void FRAME_LIST_UploadRowTiles(FrameList *list, u32 item, u32 windowIndex)
 
 void FRAME_LIST_ScrollBgRows(FrameList *list, int windowIndex, s8 y)
 {
-    u32 frameBuffer;
+    uptr frameBuffer;
     u32 bgFrame;
     u16 tileRow;
 
-    frameBuffer = (u32)BGWINFRM_GetFrameBuffer((struct BgWinFrmWork *)list->frameMgr, windowIndex);
+    frameBuffer = (uptr)BGWINFRM_GetFrameBuffer((struct BgWinFrmWork *)list->frameMgr, windowIndex);
     bgFrame = BGWINFRM_GetBgFrame((struct BgWinFrmWork *)list->frameMgr, windowIndex);
     for (tileRow = 0; tileRow < list->params.rowHeight; tileRow++) {
         if (y < 0)

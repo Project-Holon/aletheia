@@ -832,7 +832,7 @@ int SCRCMD_PROC_FLD_StepShopTask(struct ScriptVm *vm, struct ScrcmdWork *cmdWork
         }
         break;
     case 4:
-        if (SCRCMD_PROC_FLD_StepShop((u32)gameSystem, &task->shop, task->shopKind, task->shopVariant)) {
+        if (SCRCMD_PROC_FLD_StepShop((uptr)gameSystem, &task->shop, task->shopKind, task->shopVariant)) {
             task->state++;
         }
         break;
@@ -1127,7 +1127,7 @@ int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 sh
     }
     PRINTSYS_QUE_Main((struct PrintQueue *)(shop->printSys));
     printSys = shop->printSys;
-    if (shop->printerBusy != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)shop->listWindow))) == 0) {
+    if (shop->printerBusy != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, (void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->listWindow))) == 0) {
         BMP_WIN_TransferChars((struct BmpWin *)shop->listWindow);
         shop->printerBusy = 0;
     }
@@ -1153,7 +1153,7 @@ void SCRCMD_PROC_FLD_SetItemSlot(ShopWork *shop, int slotIndex, int isTmShop, in
         WORDSET_SetSlotNumber(shop->wordSet, 0, itemId - 327, 2, 2, 1);
         WORDSET_SetSlotFromMsgCB(shop->wordSet, 1, FILE_UTIL_GetMachineMove((u16)itemId));
         WORDSET_CopyTaggedText(shop->wordSet, shop->textBuffer, shop->cancelText);
-        BMP_MENUWORK_AddStrItem((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), (u32)(shop->textBuffer), slotIndex, shop->heapId);
+        BMP_MENUWORK_AddStrItem((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), (uptr)(shop->textBuffer), slotIndex, shop->heapId);
     } else {
         BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), msgBank, itemId, slotIndex, shop->heapId);
     }
@@ -1190,7 +1190,7 @@ void SCRCMD_PROC_FLD_BuildItemListByBadges(ShopWork *shop, int shopKind, int sho
     shop->itemSlots = BMP_MENUWORK_Create(itemCount + 1, shop->heapId);
     for (row = 0; row < itemCount; row++) {
         itemId = (*(u16 **)((char *)d_021DE1A8 + tableOffset))[row];
-        SCRCMD_PROC_FLD_SetItemSlot(shop, row, shop->isTmShop, itemId, (int)msgBank);
+        SCRCMD_PROC_FLD_SetItemSlot(shop, row, shop->isTmShop, itemId, (sptr)msgBank);
         /* stand-in: the row is reached as base + row * 8 plus the field offset */
         rowBase = (ShopWork *)((char *)shop + row * 8);
         rowBase->items[0].itemId = itemId;
@@ -1198,7 +1198,7 @@ void SCRCMD_PROC_FLD_BuildItemListByBadges(ShopWork *shop, int shopKind, int sho
     }
     shop->itemCount = row;
     SCRCMD_PROC_FLD_LoadItemRows(shop->items, shop->itemCount);
-    BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + row * 8), (u32)(shop->shopMsgBank), 11, -2, shop->heapId);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + row * 8), (uptr)(shop->shopMsgBank), 11, -2, shop->heapId);
     MSGDATA_Delete(msgBank);
 }
 
@@ -1206,11 +1206,11 @@ void SCRCMD_PROC_FLD_BuildItemListFixed(ShopWork *shop, int tableIndex)
 {
     int row;
     ShopItem *table;
-    u32 msgBank;
+    uptr msgBank;
     int itemCount;
 
     row = 0;
-    msgBank = (u32)MSGDATA_CreateFromArchive(0, 2, 0x36, shop->heapId);
+    msgBank = (uptr)MSGDATA_CreateFromArchive(0, 2, 0x36, shop->heapId);
     table = d_021DE164[tableIndex];
     itemCount = d_021D9430[tableIndex];
     shop->itemSlots = BMP_MENUWORK_Create(itemCount + 1, shop->heapId);
@@ -1220,7 +1220,7 @@ void SCRCMD_PROC_FLD_BuildItemListFixed(ShopWork *shop, int tableIndex)
         shop->items[row].price = table[row].price;
     }
     shop->itemCount = row;
-    BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + row * 8), (u32)shop->shopMsgBank, 0xb, -2, shop->heapId);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + row * 8), (uptr)shop->shopMsgBank, 0xb, -2, shop->heapId);
     MSGDATA_Delete((struct MsgBank *)msgBank);
 }
 
@@ -1232,9 +1232,9 @@ void SCRCMD_PROC_FLD_BuildItemListFromRange(ShopWork *shop, int kind)
     FIELD_WFBC_DATA_LOCAL_FillPeopleListEntries((struct WfbcData *)shop->shopTable, (struct WfbcListEntry *)shop->items, &shop->itemCount, kind - 247, shop->heapId);
     shop->itemSlots = BMP_MENUWORK_Create(shop->itemCount + 1, shop->heapId);
     for (; row < shop->itemCount; row++) {
-        SCRCMD_PROC_FLD_SetItemSlot(shop, row, shop->isTmShop, shop->items[row].itemId, (int)msgBank);
+        SCRCMD_PROC_FLD_SetItemSlot(shop, row, shop->isTmShop, shop->items[row].itemId, (sptr)msgBank);
     }
-    BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + row * 8), (u32)(shop->shopMsgBank), 11, -2, shop->heapId);
+    BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + row * 8), (uptr)(shop->shopMsgBank), 11, -2, shop->heapId);
     MSGDATA_Delete(msgBank);
 }
 
@@ -1315,14 +1315,14 @@ void SCRCMD_PROC_FLD_LoadIconResources(ShopWork *shop)
 
 void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *shop, u32 itemId)
 {
-    u32 plttData;
-    u32 charData;
-    u32 charBuf;
-    u32 plttBuf;
+    uptr plttData;
+    uptr charData;
+    uptr charBuf;
+    uptr plttBuf;
 
     if (itemId <= 0x272) {
-        charBuf = (u32)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 2), (&charData), shop->heapId);
-        plttBuf = (u32)ARC_UTIL_LoadScreenDataFromHandle((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 1), 0, (&plttData), shop->heapId);
+        charBuf = (uptr)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 2), (&charData), shop->heapId);
+        plttBuf = (uptr)ARC_UTIL_LoadScreenDataFromHandle((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 1), 0, (&plttData), shop->heapId);
         CLACT_TransferPalette(shop->iconCharRes, (struct PaletteData *)charData, 1);
         CLACT_TransferCharacter(shop->iconPlttRes, (struct Sub0204A9D0 *)plttData);
         GFL_HEAP_Free((void *)charBuf);
@@ -1335,16 +1335,16 @@ void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *shop, u32 itemId)
 
 void SCRCMD_PROC_FLD_CreateShopActors(ShopWork *shop)
 {
-    shop->cursorActor = (int)CLACT_CreateActor((void *)shop->cellSystem, shop->cursorPlttRes, shop->arrowCharRes,
+    shop->cursorActor = (sptr)CLACT_CreateActor((void *)shop->cellSystem, shop->cursorPlttRes, shop->arrowCharRes,
                                         shop->cursorCellRes, &d_021D96E0, 0, shop->heapId);
-    shop->arrowUpActor = (int)CLACT_CreateActor((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
+    shop->arrowUpActor = (sptr)CLACT_CreateActor((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
                                         shop->arrowCellRes, &d_021D96E8, 0, shop->heapId);
-    shop->arrowDownActor = (int)CLACT_CreateActor((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
+    shop->arrowDownActor = (sptr)CLACT_CreateActor((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
                                         shop->arrowCellRes, &d_021D96F0, 0, shop->heapId);
-    shop->quantityArrowActor = (int)CLACT_CreateActor((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
+    shop->quantityArrowActor = (sptr)CLACT_CreateActor((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
                                         shop->arrowCellRes, &d_021D96F8, 0, shop->heapId);
     CLACT_SetActorAutoAnim((struct ClactActor *)shop->quantityArrowActor, 1);
-    shop->iconActor = (int)CLACT_CreateActor((void *)shop->cellSystem, shop->iconPlttRes, shop->iconCharRes,
+    shop->iconActor = (sptr)CLACT_CreateActor((void *)shop->cellSystem, shop->iconPlttRes, shop->iconCharRes,
                                         shop->iconCellRes, &d_021D9700, 0, shop->heapId);
     CLACT_SetActorDrawEnable((struct ClactActor *)shop->arrowUpActor, 0);
     CLACT_SetActorDrawEnable((struct ClactActor *)shop->arrowDownActor, 0);
@@ -1380,8 +1380,8 @@ void SCRCMD_PROC_FLD_InitShopWindows(ShopWork *shop)
     ShopWindowTemplate **templates;
     ShopWindowTemplate *template;
     int i;
-    u32 headerText;
-    u32 window;
+    uptr headerText;
+    uptr window;
 
     templates = d_021DE18C;
     if (shop->usesBattlePoints != 1) {
@@ -1391,8 +1391,8 @@ void SCRCMD_PROC_FLD_InitShopWindows(ShopWork *shop)
         template = templates[i];
         shop->windows[i] = BMP_WIN_Create((u8)template->bgId, template->x, template->y, template->width, template->height, (u8)template->paletteNum, 1);
     }
-    headerText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x14);
-    PRINTSYS_PrintColor((void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_HEADER])), 0, 0, (void *)headerText, (void *)(shop->fontInfo), 0x3C4F);
+    headerText = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x14);
+    PRINTSYS_PrintColor((void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_HEADER])), 0, 0, (void *)headerText, (void *)(shop->fontInfo), 0x3C4F);
     STRBUF_Delete((struct Strbuf *)headerText);
     shop->listWindow = shop->windows[SHOP_WIN_LIST];
     shop->printerBusy = 0;
@@ -1427,19 +1427,19 @@ void SCRCMD_PROC_FLD_FreeShopWindows(ShopWork *shop)
 
 void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
 {
-    u32 formatText, expandedText, bitmap, window;
+    uptr formatText, expandedText, bitmap, window;
 
     if (shop->usesBattlePoints == 1) {
-        formatText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x16);
-        expandedText = (u32)STRBUF_Create(10, shop->heapId);
+        formatText = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x16);
+        expandedText = (uptr)STRBUF_Create(10, shop->heapId);
         WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, BSUBWAY_SCOREDATA_GetBattlePoints((struct BsubwayScoreData *)(shop->battlePointData)), 4, 1, 1);
     } else {
-        formatText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x15);
-        expandedText = (u32)STRBUF_Create(10, shop->heapId);
+        formatText = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x15);
+        expandedText = (uptr)STRBUF_Create(10, shop->heapId);
         WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, MISC_GetMoney((struct MiscSave *)(shop->moneyData)), 7, 1, 1);
     }
     WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
-    bitmap = (u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_MONEY]);
+    bitmap = (uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_MONEY]);
     BMP_Clear((struct Bmp *)bitmap, 0);
     PRINTSYS_PrintColor((void *)bitmap, 0, 0, (void *)expandedText, (void *)(shop->fontInfo), 0x3C4F);
     window = shop->windows[SHOP_WIN_MONEY];
@@ -1459,14 +1459,14 @@ void SCRCMD_PROC_FLD_PrintMoneyWindow(ShopWork *shop)
  */
 void SCRCMD_PROC_FLD_PrintOwnedWindow(ShopWork *shop, u16 itemId)
 {
-    u32 formatText, expandedText, bitmap, window;
+    uptr formatText, expandedText, bitmap, window;
 
-    formatText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x17);
-    expandedText = (u32)STRBUF_Create(0x14, shop->heapId);
+    formatText = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x17);
+    expandedText = (uptr)STRBUF_Create(0x14, shop->heapId);
     BMP_MENUWORK_DrawWindow((void *)(shop->windows[SHOP_WIN_OWNED]), 2, 0xE4, 9);
     WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, MYITEM_SAVEDATA_GetItemQuantity((struct MyItem *)(shop->bagData), itemId, shop->heapId), 3, 0, 1);
     WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)expandedText, (void *)formatText);
-    bitmap = (u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_OWNED]);
+    bitmap = (uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_OWNED]);
     BMP_Clear((struct Bmp *)bitmap, 0xF);
     PRINTSYS_PrintColor((void *)bitmap, 0, 0, (void *)expandedText, (void *)(shop->fontInfo), 0x44F);
     window = shop->windows[SHOP_WIN_OWNED];
@@ -1479,14 +1479,14 @@ void SCRCMD_PROC_FLD_PrintOwnedWindow(ShopWork *shop, u16 itemId)
 
 void SCRCMD_PROC_FLD_PrintItemDescription(ShopWork *shop, u32 itemId)
 {
-    u32 bitmap;
-    u32 text;
-    u32 window;
+    uptr bitmap;
+    uptr text;
+    uptr window;
 
-    bitmap = (u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_DESCRIPTION]);
+    bitmap = (uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_DESCRIPTION]);
     BMP_Clear((struct Bmp *)bitmap, 0);
     if (itemId <= 0x272) {
-        text = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->itemMsgBank), itemId);
+        text = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->itemMsgBank), itemId);
         PRINTSYS_PrintColor((void *)bitmap, 0, 0, (void *)text, (void *)(shop->fontInfo), 0x3C40);
         STRBUF_Delete((struct Strbuf *)text);
     }
@@ -1498,12 +1498,12 @@ void SCRCMD_PROC_FLD_PrintItemDescription(ShopWork *shop, u32 itemId)
 
 void SCRCMD_PROC_FLD_PrintQuantityWindow(ShopWork *shop, u32 quantity, u32 price)
 {
-    u32 quantityFormat, totalFormat, text, bitmap, window;
+    uptr quantityFormat, totalFormat, text, bitmap, window;
 
-    quantityFormat = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x18);
-    totalFormat = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), d_021D945C[shop->usesBattlePoints]);
-    text = (u32)STRBUF_Create(0x14, shop->heapId);
-    bitmap = (u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_QUANTITY]);
+    quantityFormat = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x18);
+    totalFormat = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), d_021D945C[shop->usesBattlePoints]);
+    text = (uptr)STRBUF_Create(0x14, shop->heapId);
+    bitmap = (uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_QUANTITY]);
     BMP_Clear((struct Bmp *)bitmap, 0xF);
     BMP_MENUWORK_DrawWindow((void *)(shop->windows[SHOP_WIN_QUANTITY]), 2, 0xE4, 9);
     WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 0, quantity, 2, 0, 1);
@@ -1593,9 +1593,9 @@ void SCRCMD_PROC_FLD_PrintPriceEntry(u8 *listMenu, int row, u8 y)
         WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 0, 1);
         WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
         textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)(shop->textBuffer), (struct GfFont *)shop->fontInfo, 0);
-        windowWidth = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST])));
-        SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
-                      (u32)shop->textBuffer, shop->fontInfo, 0x31A0);
+        windowWidth = BMP_GetWidth((const struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST])));
+        SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
+                      (uptr)shop->textBuffer, shop->fontInfo, 0x31A0);
     }
 }
 
@@ -1614,16 +1614,16 @@ void SCRCMD_PROC_FLD_PrintUniqueItemEntry(u32 listMenu, int row, u8 y)
     if (row != -2) {
         if (MYITEM_SAVEDATA_HasItem((struct MyItem *)(shop->bagData), shop->items[row].itemId, 1, shop->heapId) != 0) {
             textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)(shop->soldOutText), (struct GfFont *)shop->fontInfo, 0);
-            windowWidth = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST])));
-            SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
-                          (u32)shop->soldOutText, shop->fontInfo, 0x31A0);
+            windowWidth = BMP_GetWidth((const struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST])));
+            SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
+                          (uptr)shop->soldOutText, shop->fontInfo, 0x31A0);
         } else {
             WORDSET_SetSlotNumber((struct WordSet *)(shop->wordSet), 1, shop->items[row].price, 5, 1, 1);
             WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)(shop->priceFormat));
             textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)(shop->textBuffer), (struct GfFont *)shop->fontInfo, 0);
-            windowWidth = BMP_GetWidth((const struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST])));
-            SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
-                          (u32)shop->textBuffer, shop->fontInfo, 0x31A0);
+            windowWidth = BMP_GetWidth((const struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST])));
+            SCRCMD_PROC_FLD_PrintListText((void *)(shop->printSys), (uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_LIST]), windowWidth - textWidth, y,
+                          (uptr)shop->textBuffer, shop->fontInfo, 0x31A0);
         }
     }
 }
@@ -1670,18 +1670,18 @@ int SCRCMD_PROC_FLD_ReturnZero(void)
 void SCRCMD_PROC_FLD_ShowItemMessage(ShopWork *shop, u32 messageId, u32 itemId, u32 plural)
 {
     u32 isPlural;
-    u32 messageText;
-    u32 window;
+    uptr messageText;
+    uptr window;
 
     if (messageId == 9 && plural != 0)
         isPlural = 1;
     else
         isPlural = 0;
-    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_MESSAGE])), 0xf);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_MESSAGE])), 0xf);
     BMP_MENUWORK_DrawWindow((void *)(shop->windows[SHOP_WIN_MESSAGE]), 0, 0xe4, 9);
     WORDSET_SetSlotFromBank((struct WordSet *)(shop->wordSet), 0, itemId, isPlural, 0);
     WORDSET_SetSlotFromMsg37((struct WordSet *)(shop->wordSet), 1, FILE_UTIL_GetItemParam((unsigned int)itemId, 5, shop->heapId));
-    messageText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), messageId);
+    messageText = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), messageId);
     WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
     STRBUF_Delete((struct Strbuf *)messageText);
     shop->messagePrinter = PRINTSYS_PrintStreamCallBack((struct BmpWin *)shop->windows[SHOP_WIN_MESSAGE], 0, 0, (struct Strbuf *)shop->textBuffer,
@@ -1718,16 +1718,16 @@ void SCRCMD_PROC_FLD_ShowConfirmMessage(ShopWork *shop, u32 isTmShop)
  */
 void SCRCMD_PROC_FLD_PrepareMessageWindow(u32 window)
 {
-BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)window)), 15);
+BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)window)), 15);
     BMP_MENUWORK_DrawWindow((void *)window, 0, 228, 9);
 }
 
 void SCRCMD_PROC_FLD_ShowMessage(ShopWork *shop, u32 messageId)
 {
-    u32 messageText;
-    u32 window;
+    uptr messageText;
+    uptr window;
 
-    messageText = (u32)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), messageId);
+    messageText = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), messageId);
     WORDSET_CopyTaggedText((struct WordSet *)(shop->wordSet), (void *)(shop->textBuffer), (void *)messageText);
     STRBUF_Delete((struct Strbuf *)messageText);
     shop->messagePrinter = PRINTSYS_PrintStreamCallBack((struct BmpWin *)shop->windows[SHOP_WIN_MESSAGE], 0, 0, (struct Strbuf *)shop->textBuffer,
@@ -1872,7 +1872,7 @@ int SCRCMD_PROC_FLD_CallWifiClubEvent(struct ScriptVm *vm, struct ScrcmdWork *cm
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     args.fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     args.reserved = 0;
-    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)abs_id_6, (void *)EVENT_WIFICLUB_Entry, (&args)));
+    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (uptr)abs_id_6, (void *)EVENT_WIFICLUB_Entry, (&args)));
     return 1;
 }
 
@@ -1886,7 +1886,7 @@ int SCRCMD_PROC_FLD_CallWorldTradeEvent(struct ScriptVm *vm, struct ScrcmdWork *
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     args.fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     args.reserved = 0;
-    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)abs_id_4, (void *)EVENT_WORLDTRADE_Entry, (&args)));
+    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (uptr)abs_id_4, (void *)EVENT_WORLDTRADE_Entry, (&args)));
     return 1;
 }
 
@@ -1905,7 +1905,7 @@ int SCRCMD_PROC_FLD_CallGtsNegoEvent(struct ScriptVm *vm, struct ScrcmdWork *cmd
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)abs_id_01, (u32 (*)(void *, u32))EVENT_GTSNEGO_Entry, GAMESYSTEM_GetFieldMap(gameSystem)));
+    SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent(gameSystem, (uptr)abs_id_01, (u32 (*)(void *, u32))EVENT_GTSNEGO_Entry, GAMESYSTEM_GetFieldMap(gameSystem)));
     return 1;
 }
 
@@ -1985,9 +1985,9 @@ int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     work->gameData = gameData;
     work->boxManager = GAME_DATA_GetBoxManager(gameData);
     work->party = GAME_DATA_GetMyParty(gameData);
-    work->myItem = (u32)GAME_DATA_GetMyItem(gameData);
+    work->myItem = (uptr)GAME_DATA_GetMyItem(gameData);
     work->myStatus = (unsigned char *)GAME_DATA_GetMyStatus(gameData);
-    work->saveStateA = (u32)SYSTEM_DATA_GetConfig(saveControl);
+    work->saveStateA = (uptr)SYSTEM_DATA_GetConfig(saveControl);
     work->saveStateB = ZUKAN_SAVE_IsNationalDexEnabled(saveStateSource);
     work->kind = kind;
     work->extraData = 0;
@@ -2000,7 +2000,7 @@ int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     handoff->gameData = gameData;
     handoff->resultVar = resultVar;
     handoff->work = work;
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, (int)fieldMap, (u32)ov170_id, (int)d_021EF78C, (int)work, (int)((void *)SCRCMD_PROC_FLD_FinishOv170Event), (int)handoff));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, (sptr)fieldMap, (uptr)ov170_id, (sptr)d_021EF78C, (sptr)work, (sptr)((void *)SCRCMD_PROC_FLD_FinishOv170Event), (sptr)handoff));
     return 1;
 }
 
@@ -2043,12 +2043,12 @@ int SCRCMD_PROC_FLD_SetGameClearEventAndEnd(struct ScriptVm *vm, struct ScrcmdWo
 
 int SCRCMD_PROC_FLD_ObtainCGearAndCallCommResetEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    u32 saveBlock;
+    uptr saveBlock;
     u32 eventArg;
     void *scriptWork;
     void *gameSystem;
 
-    saveBlock = (u32)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
+    saveBlock = (uptr)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(cmdWork)));
     eventArg = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
@@ -2066,7 +2066,7 @@ int SCRCMD_PROC_FLD_CallOv219Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (int)abs_id_DB, (void *)d_02185F0C, GAMESYSTEM_GetGameData(gameSystem)));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (sptr)abs_id_DB, (void *)d_02185F0C, GAMESYSTEM_GetGameData(gameSystem)));
     return 1;
 }
 
@@ -2113,7 +2113,7 @@ int SCRCMD_PROC_FLD_StartScriptedWildBattle(struct ScriptVm *vm, struct ScrcmdWo
     eventParam1 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     eventParam2 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     SCRIPT_WORK_GetGameSystem(scriptWork);
-    SCRIPT_SYS_CallEvent(scriptWork, (void *)FIELD_ENCOUNT_StartScriptedWild((unsigned int)FIELDMAP_GetEncount((struct FieldMap *)(((u32 *)SCRIPT_WORK_ResetFieldParam(scriptWork))[1])), eventParam0, (u8)eventParam1, eventParam2));
+    SCRIPT_SYS_CallEvent(scriptWork, (void *)FIELD_ENCOUNT_StartScriptedWild((uptr)FIELDMAP_GetEncount((struct FieldMap *)(((u32 *)SCRIPT_WORK_ResetFieldParam(scriptWork))[1])), eventParam0, (u8)eventParam1, eventParam2));
     return 1;
 }
 
@@ -2159,7 +2159,7 @@ int SCRCMD_PROC_FLD_StoreEffectEncountItemId(struct ScriptVm *vm, struct ScrcmdW
 int SCRCMD_PROC_FLD_SpawnMovePokemonIfInactive(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     void *gameData = SCRCMD_WORK_GetGameData(cmdWork);
-    u32 flagBlock = (u32)MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
+    u32 flagBlock = (uptr)MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     u8 flagIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
     if (MOVE_POKEMON_SAVE_IsEntryActive((struct MovePokemonSave *)flagBlock, flagIndex) == 0) {

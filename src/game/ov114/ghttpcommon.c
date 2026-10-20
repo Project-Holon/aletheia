@@ -38,7 +38,6 @@
 
 #include "ghttpbuffer.h"
 #include "../ov009/gsdebug.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../ov009/gsplatformutil.h"
 #include "ghttpEncryption.h"

@@ -247,7 +247,7 @@ struct BagMenu {
 struct BagWork {
     void *itemData;                    /* 0x000 BagMenu */
     void *tcbl;                        /* 0x004 Tcbl task */
-    void *palAnm;                      /* 0x008 PalAnmSlot */
+    void *palAnm;                      /* 0x008 PaletteFade */
     void *msgBank;                     /* 0x00C MsgBank */
     void *wordSet;                     /* 0x010 WordSet */
     void *strBuf;                      /* 0x014 U16Vec string buffer */
@@ -483,7 +483,7 @@ void B_BAG_MAIN_InitWindows(char *p) { ((struct BagWork *)p)->itemMsgWin=(void *
 /*
  * Declaring the table pointer before the counter restores r4/r5 allocation.
  */
-void B_BAG_MAIN_CreateWindows(char *p,u8 unused) { const u8 *q; u32 i; q=d_0220DA68; for(i=0;i<35;i++,q+=6) *(u32 *)(p+i*8+0x28)=(unsigned int)BMP_WIN_Create((unsigned int)q[0],(unsigned int)q[1],(unsigned int)q[2],q[3],q[4],q[5],1); }
+void B_BAG_MAIN_CreateWindows(char *p,u8 unused) { const u8 *q; u32 i; q=d_0220DA68; for(i=0;i<35;i++,q+=6) *(u32 *)(p+i*8+0x28)=(uptr)BMP_WIN_Create((unsigned int)q[0],(unsigned int)q[1],(unsigned int)q[2],q[3],q[4],q[5],1); }
 
 void B_BAG_MAIN_DeleteWindows(char *a)
 {
@@ -518,11 +518,11 @@ void B_BAG_MAIN_DrawPage(char *a, int which)
 void B_BAG_MAIN_PrintLabel(char *p,int i,int id,int y,u16 colour)
 {
     int handle=*(int *)(p+0x28+i*8);
-    int text=(int)MSGDATA_AllocString((struct MsgBank *)(((struct BagWork *)p)->msgBank),id);
+    int text=(sptr)MSGDATA_AllocString((struct MsgBank *)(((struct BagWork *)p)->msgBank),id);
     int width=PRINTSYS_MeasureWidestLine((struct Strbuf *)text,(struct GfFont *)(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth),0);
     int x=(BMP_WIN_GetWidth((struct BmpWin *)handle)*8-width)>>1;
-    int font=(int)((struct BagWork *)p)->printSys;
-    int surface=(int)BMP_WIN_GetBmp((struct BmpWin *)*(int *)(p+0x28+i*8));
+    int font=(sptr)((struct BagWork *)p)->printSys;
+    int surface=(sptr)BMP_WIN_GetBmp((struct BmpWin *)*(int *)(p+0x28+i*8));
     PRINTSYS_PrintQueColor((void *)font,(struct Bmp *)surface,(s16)x,(s16)y,(struct Strbuf *)text,(struct GfFont *)((((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth)),colour);
     (p+i*8)[0x2c]=1;
     STRBUF_Delete((struct Strbuf *)text);
@@ -568,12 +568,12 @@ void B_BAG_MAIN_DrawItemName(char *p,u32 i,int id,int w,int unused,int unused2)
     void *font;
     void *surface;
     u32 width;
-    int page;
+    sptr page;
     BMP_Clear(BMP_WIN_GetBmp(handle),0);
-    page=(u32)p+((u8 *)p)[0x533]*0x90;
+    page=(uptr)p+((u8 *)p)[0x533]*0x90;
     if(*(u16 *)(page+i*4+0x150)!=0){
         text=MSGDATA_AllocString(((struct BagWork *)p)->msgBank,*(u32 *)(d_0220DA38+id*8));
-        page=(u32)p+((u8 *)p)[0x533]*0x90;
+        page=(uptr)p+((u8 *)p)[0x533]*0x90;
         WORDSET_SetSlotFromMsg36(((struct BagWork *)p)->wordSet,0,*(u16 *)(page+i*4+0x150));
         WORDSET_CopyTaggedText(((struct BagWork *)p)->wordSet,((struct BagWork *)p)->strBuf,text);
         width=PRINTSYS_MeasureWidestLine(((struct BagWork *)p)->strBuf,(struct GfFont *)(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->printWidth),0);
@@ -604,11 +604,11 @@ void B_BAG_MAIN_DrawItemInfo(char *p, u32 i, int id, int w, int unused, int y, i
   u32 *printWidthPtr;
   char *strBufDst;
   BMP_Clear(BMP_WIN_GetBmp(handle), 0);
-  page = ((u32) p) + (((u8 *) p)[0x533] * 0x90);
+  page = ((uptr) p) + (((u8 *) p)[0x533] * 0x90);
   if (((*((u16 *) ((page + (i * 4)) + 0x152))) != 0) && ((*((int *) ((*((char **) p)) + 8))) != 1))
   {
     text = MSGDATA_AllocString(*((void **) (p + 0xC)), *((u32 *) (d_0220DA3C + (id * 8))));
-    page = ((u32) p) + (((u8 *) p)[0x533] * 0x90);
+    page = ((uptr) p) + (((u8 *) p)[0x533] * 0x90);
     WORDSET_SetSlotNumber(*((void **) (p + 0x10)), 0, *((u16 *) (((u32) (page + (i * 4))) + 0x152)), 3, 0, 1);
     strBufDst = p + 0x14;
     WORDSET_CopyTaggedText(*((void **) (p + 0x10)), *((void **) strBufDst), text);
@@ -689,7 +689,7 @@ void B_BAG_MAIN_DrawHeader(char *p)
 
 void B_BAG_MAIN_DrawInfoBox(char *p)
 {
-    BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp((struct BmpWin *)((struct BagWork *)p)->win[29].handle)),0);
+    BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)((struct BagWork *)p)->win[29].handle)),0);
     if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode!=1) {
         switch(((unsigned char *)p)[0x533]) {
         case 0:B_BAG_MAIN_PrintLabel(p,29,22,4,0x3c40);B_BAG_MAIN_PrintLabel(p,29,23,20,0x3c40);break;
@@ -798,7 +798,7 @@ void B_BAG_MAIN_StartItemMsg(char *p)
 
 void B_BAG_MAIN_UpdateTool(char *a)
 {
-    B_APP_TOOL_Update((BAppToolEntry *)(a + 0x28), (struct PrintSys *)((int)((struct BagWork *)a)->printSys), 0x23);
+    B_APP_TOOL_Update((BAppToolEntry *)(a + 0x28), (struct PrintSys *)((sptr)((struct BagWork *)a)->printSys), 0x23);
 }
 
 /*
@@ -806,7 +806,7 @@ void B_BAG_MAIN_UpdateTool(char *a)
  */
 void B_BAG_MAIN_ShowWindows(u8 *p)
 {
-    B_APP_TOOL_ShowWindows((char *)(p + 0x28), (unsigned char *)((u32)*(const void * *)(p + 0x59C)));
+    B_APP_TOOL_ShowWindows((char *)(p + 0x28), (unsigned char *)((uptr)*(const void * *)(p + 0x59C)));
 }
 
 /*
@@ -856,7 +856,7 @@ void B_BAG_MAIN_BuildPocketLists(u8 *p)
                         int c = d_0220DB3F[k];
                         u8 *q = p + c;
                         u32 e = c * 0x90;
-                        e = q[0x535] * 4 + (u32)(p + e);
+                        e = q[0x535] * 4 + (uptr)(p + e);
                         *(u16 *)(e + 0x150) = r[0];
                         *(u16 *)(e + 0x152) = r[1];
                         q[0x535]++;
@@ -1119,7 +1119,7 @@ void B_BAG_MAIN_LoadItemGraphic(char *p,u16 item,unsigned slot,unsigned offset)
     buffer=ARC_UTIL_LoadScreenDataFromHandle((void *)arc,FILE_UTIL_Get(item,first),0,(&data),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     CLACT_TransferCharacter(*(int *)(p+slot*4+0x544),data);
     GFL_HEAP_Free(buffer);
-    PALANM_LoadHandlePaletteToSlot(((struct BagWork *)p)->palAnm,(void *)((unsigned)arc),FILE_UTIL_Get(item,second),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,3,32,offset*16);
+    PALANM_LoadHandlePaletteToSlot(((struct BagWork *)p)->palAnm,(void *)((uptr)arc),FILE_UTIL_Get(item,second),((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,3,32,offset*16);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1142,7 +1142,7 @@ void B_BAG_MAIN_RegisterCursorGraphics(char *p)
     *(int *)(p + 0x560)=CLACT_RegisterCharacter(arc,13,1,1,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     *(int *)(p + 0x584)=CLACT_RegisterPalette(arc,14,1,224,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     *(int *)(p + 0x590)=CLACT_RegisterCellAnim(arc,15,16,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
-    PALANM_LoadHandlePaletteToSlot(((struct BagWork *)p)->palAnm,(void *)((unsigned)arc),14,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,3,32,112);
+    PALANM_LoadHandlePaletteToSlot(((struct BagWork *)p)->palAnm,(void *)((uptr)arc),14,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,3,32,112);
     ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1174,7 +1174,7 @@ struct ClactActor *B_BAG_MAIN_CreateItemActor(char *p,const int *indices)
  * Raw byte stride i*12 emits muls rather than the flat word-index shift/add.
  * The caller stores live r0 from C3B4; its owner declaration is void.
  */
-void B_BAG_MAIN_CreateItemActors(char *p) { u32 i; *(struct Unit * *)&((struct BagWork *)p)->itemUnit=CLACT_CreateUnit(67,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=(u32)B_BAG_MAIN_CreateItemActor(p,(const int *)((u32)d_0220DBBC+i*12)); }
+void B_BAG_MAIN_CreateItemActors(char *p) { u32 i; *(struct Unit * *)&((struct BagWork *)p)->itemUnit=CLACT_CreateUnit(67,0,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId); for(i=0;i<63;i++) *(u32 *)(p+i*4+0x424)=(uptr)B_BAG_MAIN_CreateItemActor(p,(const int *)((uptr)d_0220DBBC+i*12)); }
 
 void B_BAG_MAIN_DeleteItemGraphics(char *p)
 {
@@ -1206,7 +1206,7 @@ void B_BAG_MAIN_SetDisplayMode(char *p, int mode)
     }
 }
 
-void B_BAG_MAIN_DisplaySingle(char *p) { if(*(unsigned short *)(p + 0x540)!=0) { B_BAG_MAIN_LoadItemGraphic(p,*(unsigned short *)(p + 0x540),6,6); B_BAG_MAIN_PlaceActor((int)((struct BagWork *)p)->itemActors[6],(int)d_0220DB7C); } if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==2) B_BAG_MAIN_StartFingerCursor((u8 *)p,192,24); }
+void B_BAG_MAIN_DisplaySingle(char *p) { if(*(unsigned short *)(p + 0x540)!=0) { B_BAG_MAIN_LoadItemGraphic(p,*(unsigned short *)(p + 0x540),6,6); B_BAG_MAIN_PlaceActor((sptr)((struct BagWork *)p)->itemActors[6],(sptr)d_0220DB7C); } if(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode==2) B_BAG_MAIN_StartFingerCursor((u8 *)p,192,24); }
 
 void B_BAG_MAIN_DisplayList(char *p)
 {
@@ -1216,7 +1216,7 @@ void B_BAG_MAIN_DisplayList(char *p)
         if (item) {
             B_BAG_MAIN_LoadItemGraphic(p, item, i, i);
             B_BAG_MAIN_LoadItemPalette(p, item, i);
-            B_BAG_MAIN_PlaceActor(*(int *)(p + i * 4 + 0x424), (int)&d_0220DB88[i]);
+            B_BAG_MAIN_PlaceActor(*(int *)(p + i * 4 + 0x424), (sptr)&d_0220DB88[i]);
             if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
                 B_BAG_MAIN_DrawItemRow(p, i * 8 + 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct BBagMainPair *)(&d_0220DB88[i + 6]));
         }
@@ -1233,7 +1233,7 @@ void B_BAG_MAIN_DisplaySelected(char *p)
 {
     u16 item = B_BAG_MAIN_GetSlotItem(p, *(short *)(*(char * *)&((struct BagWork *)p)->itemData + *(unsigned char *)(p + 0x533) * 2 + 0x30));
     B_BAG_MAIN_LoadItemGraphic(p, item, 6, 6);
-    B_BAG_MAIN_PlaceActor((int)((struct BagWork *)p)->itemActors[6], (int)&d_0220DB80[0]);
+    B_BAG_MAIN_PlaceActor((sptr)((struct BagWork *)p)->itemActors[6], (sptr)&d_0220DB80[0]);
     if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 1)
         B_BAG_MAIN_DrawItemRow(p, 7, B_BAG_MAIN_GetItemFlag(item), 0, (const struct BBagMainPair *)(&d_0220DB80[1]));
     if (((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->mode == 2) B_BAG_MAIN_StartFingerCursor((u8 *)p, 0x68, 0x98);
@@ -1259,7 +1259,7 @@ void B_BAG_MAIN_DeleteFingerCursor(char *a)
 
 void B_BAG_MAIN_StartFingerCursor(u8 *p, u32 a, u32 b)
 {
-    BTLV_FINGER_CURSOR_Start((struct BtlvFingerCursor *)(u32)((struct BagWork *)p)->fingerCursor, a, b, 2, 6, 0x14);
+    BTLV_FINGER_CURSOR_Start((struct BtlvFingerCursor *)(uptr)((struct BagWork *)p)->fingerCursor, a, b, 2, 6, 0x14);
 }
 
 void B_BAG_MAIN_DeleteFingerCursorActor(char *a)
@@ -1277,7 +1277,7 @@ void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct BBagMainPair
     u16 i;
     s8 left,right;
     void **objects=(void **)(p+0x424);
-    B_BAG_MAIN_PlaceActor((int)objects[slot],(int)src);
+    B_BAG_MAIN_PlaceActor((sptr)objects[slot],(sptr)src);
     CLACT_SetActorAnimSeq(objects[slot],a);
     slot++;
     left=a;
@@ -1294,7 +1294,7 @@ void B_BAG_MAIN_DrawItemRow(char *p,u16 slot,u8 a,u8 b,const struct BBagMainPair
             else if(right>0) {CLACT_SetActorAnimSeq(*(void **)(p+slot*4+0x424),18);right--;}
             left--;
         } else {CLACT_SetActorAnimSeq(*(void **)(p+slot*4+0x424),17);left-=2;}
-        B_BAG_MAIN_PlaceActor(*(int *)(p+slot*4+0x424),(int)&v);
+        B_BAG_MAIN_PlaceActor(*(int *)(p+slot*4+0x424),(sptr)&v);
         v.x+=8;
         slot++;
     }
@@ -1369,7 +1369,7 @@ void B_BAG_MAIN_Main(void *task, char *p)
 int B_BAG_MAIN_StateInit(char *p)
 {
     d_04001050[0]=0;
-    GXx_SetMasterBrightness_((u16 *)((unsigned)d_04001050+0x1c),-16);
+    GXx_SetMasterBrightness_((u16 *)((uptr)d_04001050+0x1c),-16);
     ((struct BagWork *)p)->tcbl=TCBL_Create(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId,1,4);
     ((struct BagWork *)p)->toolActors=B_APP_TOOL_Create(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     B_BAG_MAIN_InitBg(p);
@@ -1403,7 +1403,7 @@ int B_BAG_MAIN_StateInit(char *p)
 int B_BAG_MAIN_StateInitOther(char *p)
 {
     d_04001050[0] = 0;
-    GXx_SetMasterBrightness_((u16 *)((unsigned)d_04001050 + 0x1c), -16);
+    GXx_SetMasterBrightness_((u16 *)((uptr)d_04001050 + 0x1c), -16);
     ((struct BagWork *)p)->tcbl = TCBL_Create(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 4);
     ((struct BagWork *)p)->toolActors = B_APP_TOOL_Create(((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     B_BAG_MAIN_InitBg(p);
@@ -1928,7 +1928,7 @@ void B_BAG_MAIN_LoadBgGraphics(char *p)
     ARC_UTIL_UploadBgCharFromHandle(handle, 0, 6, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(handle, 3, 6, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     ARC_UTIL_UploadBgPaletteFromHandle(handle, 2, 7, 0, 0, 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
-    PALANM_LoadHandlePaletteToSlot(*(struct PaletteFade * *)&((struct BagWork *)p)->palAnm, (void *)((u32)handle), 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 224, 0);
+    PALANM_LoadHandlePaletteToSlot(*(struct PaletteFade * *)&((struct BagWork *)p)->palAnm, (void *)((uptr)handle), 1, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId, 1, 224, 0);
     ARC_TOOL_DeleteHandle(handle);
     BMP_MENUWORK_LoadCharAndPltt(4, 1, 11, 0, ((struct BagMenu *)(*(char * *)&((struct BagWork *)p)->itemData))->heapId);
     PALANM_CopyHwPaletteToSlot(*(struct PaletteFade * *)&((struct BagWork *)p)->palAnm, 1, 176, 32);
@@ -1989,7 +1989,7 @@ void B_BAG_MAIN_PlaySe2(char **a, int b)
 
 void B_BAG_MAIN_CreateCursor(u8 *p, u32 index, u32 value)
 {
-    *(struct CursorMove * *)&((struct BagWork *)p)->cursor = (struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_0220DF9C[index], (struct CursorVtbl *)d_0220DF90[index], (u32)p, (u32)*(void * *)(p + 0x598), (u8)value, ((struct BagMenu *)(*(u8 * *)&((struct BagWork *)p)->itemData))->heapId);
+    *(struct CursorMove * *)&((struct BagWork *)p)->cursor = (struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_0220DF9C[index], (struct CursorVtbl *)d_0220DF90[index], (uptr)p, (uptr)*(void * *)(p + 0x598), (u8)value, ((struct BagMenu *)(*(u8 * *)&((struct BagWork *)p)->itemData))->heapId);
     CURSOR_MOVE_EnableInput((struct Cursor *)(*(struct CursorMove * *)&((struct BagWork *)p)->cursor));
     CURSOR_MOVE_SetMode((struct Cursor *)(*(struct CursorMove * *)&((struct BagWork *)p)->cursor));
     B_BAG_MAIN_LayoutCursor(p, value);
@@ -2035,7 +2035,7 @@ void B_BAG_MAIN_LayoutCursor(u8 *p, u32 idx)
 {
     void *t = CURSOR_MOVE_GetEntry((struct Cursor *)(*(void ** *)&((struct BagWork *)p)->cursor), idx);
 
-    B_APP_TOOL_LayoutActors((int *)(((struct BagWork *)p)->toolActors), (u8 *)((u32)t));
+    B_APP_TOOL_LayoutActors((int *)(((struct BagWork *)p)->toolActors), (u8 *)((uptr)t));
 }
 
 void B_BAG_MAIN_ShowCursorAt(u8 *p,u32 i){B_BAG_MAIN_LayoutCursor(p,i);B_BAG_MAIN_SetCursorVisible((char *)p,1);}

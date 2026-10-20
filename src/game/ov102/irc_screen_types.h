@@ -8,12 +8,6 @@
 #include "../ov101/compatible_irc_sys_types.h"
 #include "../sdk_ioreg_reg.h"
 
-/* Old names of the SDK registers, kept until ov103 uses the SDK names (tools/ioregnames.py removes them). */
-#define REG_DISPCNT_MAIN REG_DISPCNT
-#define REG_DISPCNT_SUB REG_DB_DISPCNT
-#define REG_BLDCNT_MAIN REG_BLDCNT
-#define REG_BLDCNT_SUB REG_DB_BLDCNT
-
 #include "../types.h"
 
 /* Handles of the sprite system; the actor table follows in each screen's own sprite set. */

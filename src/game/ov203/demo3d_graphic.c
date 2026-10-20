@@ -283,8 +283,8 @@ Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap)
     GF_FONT_InitTextColor();
     if (ctx->engineOn == 0) {
         DEMO3D_GRAPHIC_InitBg(ctx, heap);
-        DEMO3D_GRAPHIC_InitClact((Demo3dGraphicClact *)&ctx->clact, (int)d_021BFBC4, heap);
-        ctx->proc = GFL_USE_AddMainTask((TcbFunc)((unsigned)DEMO3D_GRAPHIC_VBlank), (void *)((unsigned)ctx), 0);
+        DEMO3D_GRAPHIC_InitClact((Demo3dGraphicClact *)&ctx->clact, (sptr)d_021BFBC4, heap);
+        ctx->proc = GFL_USE_AddMainTask((TcbFunc)((uptr)DEMO3D_GRAPHIC_VBlank), (void *)((uptr)ctx), 0);
     }
     DEMO3D_GRAPHIC_InitG3d((Demo3dGraphicG3d *)&ctx->g3dTag, heap);
     return ctx;
@@ -409,7 +409,7 @@ void DEMO3D_GRAPHIC_DrawClact(void *unused){CLACT_DrawSystem();}
 
 void DEMO3D_GRAPHIC_VBlankClact(u8 *unused) { CLACT_VBlankSystem(); }
 
-int DEMO3D_GRAPHIC_GetClactUnit(Demo3dGraphicClact *p){return (int)p->unit;}
+int DEMO3D_GRAPHIC_GetClactUnit(Demo3dGraphicClact *p){return (sptr)p->unit;}
 
 /*
  * lever: twin of ov204_func_021BE03C.c (3D setup, texSize 2, plttSize 4,
@@ -424,7 +424,7 @@ void DEMO3D_GRAPHIC_InitG3d(Demo3dGraphicG3d *p, u8 heap)
 
 void DEMO3D_GRAPHIC_DeleteG3d(Demo3dGraphicG3d *p)
 {
-    G3D_SYSTEM_Exit(G3D_LIGHT_DeleteSlots((void *)((int)p->lightSlots)));
+    G3D_SYSTEM_Exit(G3D_LIGHT_DeleteSlots((void *)((sptr)p->lightSlots)));
 }
 
 void DEMO3D_GRAPHIC_ApplyLookAt(void *a)

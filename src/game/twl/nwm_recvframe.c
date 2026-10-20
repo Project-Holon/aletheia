@@ -57,9 +57,9 @@ u32 NWM_SetReceivingFrameBuffer(void *callback, void *recvBuf, u32 recvBufSize, 
     }
     MIi_DmaFill32(w->h2280, recvBuf, 0, recvBufSize, 1);
     DC_StoreRange(recvBuf, recvBufSize);
-    NWMi_SetCallbackTable(0xA, (u32)NWMi_ReceivingFrameCallback);
-    NWMi_SetReceiveCallbackTable(protocol, (u32)callback);
-    r = NWMi_SendCommand(0xA, 3, (u32)recvBuf, recvBufSize, protocol);
+    NWMi_SetCallbackTable(0xA, (uptr)NWMi_ReceivingFrameCallback);
+    NWMi_SetReceiveCallbackTable(protocol, (uptr)callback);
+    r = NWMi_SendCommand(0xA, 3, (uptr)recvBuf, recvBufSize, protocol);
     if (r == 0) {
         r = 2;
     }
@@ -75,7 +75,7 @@ u32 NWM_UnsetReceivingFrameBuffer(void *callback, u32 protocol) {
     if (st != 0 && st != 2) {
         return st;
     }
-    NWMi_SetCallbackTable(0xC, (u32)callback);
+    NWMi_SetCallbackTable(0xC, (uptr)callback);
     NWMi_SetReceiveCallbackTable(protocol, 0);
     res = NWMi_SendCommand(0xC, 1, protocol);
     if (res == 0) {

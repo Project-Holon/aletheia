@@ -44,7 +44,6 @@ typedef unsigned long long OSTick;
 
 #include "../ov009/dwc_transport.h"
 
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 
 #include "vct_audio.h"

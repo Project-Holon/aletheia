@@ -41,7 +41,7 @@ u32 OV230_CheckCardImage0(void)
     u32 buffer[128];
     u32 crc[7];
     u16 lockId;
-    u32 offset;
+    uptr offset;
     u32 tag;
     int i;
 
@@ -80,7 +80,7 @@ u32 OV230_CheckCardImage1(void)
     u32 buffer[128];
     u32 crc[7];
     u16 lockId;
-    u32 offset;
+    uptr offset;
     u32 tag;
     int i;
 

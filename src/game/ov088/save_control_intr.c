@@ -67,7 +67,7 @@ void *SAVE_CONTROL_INTR_Create(int heapId, int saveControl)
     if (SAVE_CONTROL_HasFlashSave((const struct SaveControl *)saveControl) == 1) {
         intr->cancelled = 1;
     } else {
-        UI_SetIntrDataGlobal(0x021BD3B9, (int)intr);
+        UI_SetIntrDataGlobal(0x021BD3B9, (sptr)intr);
     }
     return intr;
 }
@@ -81,7 +81,7 @@ void SAVE_CONTROL_INTR_Delete(void *p)
 void SAVE_CONTROL_INTR_Start(SaveControlIntr *intr)
 {
     if (intr->cancelled != 1) {
-        SAVE_CONTROL_StartSave((struct SaveControl *)((int)intr->saveControl));
+        SAVE_CONTROL_StartSave((struct SaveControl *)((sptr)intr->saveControl));
         if (intr->cancelled == 0) {
             SYSTEM_DATA_SetActive(intr->saveControl);
             intr->outsideSaveLoaded = SAVE_CONTROL_GetOutsideSaveLoaded(intr->saveControl);

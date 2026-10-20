@@ -119,6 +119,7 @@
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm  arm9
  */
 #include "ctvt_types.h"
+#include "../sdk_ioreg.h"
 #include "../version.h"
 
 /* ARM9 library. */
@@ -193,7 +194,7 @@ int CTVT_DRAW_CheckLeave(CtvtWork *work, int *out);
 void CTVT_DRAW_ShowMessage(CtvtWork *work, CtvtDrawScene *scene, int msgId);
 void CTVT_DRAW_ClosePickers(CtvtWork *work, CtvtDrawScene *scene);
 
-#define REG_POWCNT1 (*(volatile u16 *)0x04000304)
+#define REG_POWCNT1 (*(volatile u16 *)REG_POWCNT1_ADDR)
 #define REG_BG_PLTT_COLOR13 (*(volatile u16 *)0x0500021A)
 
 /* Allocates the drawing board record and sets its pen defaults. */
@@ -227,7 +228,7 @@ void CTVT_DRAW_Init(CtvtWork *work, CtvtDrawScene *scene)
     u8 i;
     struct ArcHandle *arc;
     struct MsgBank *msgData;
-    u32 font;
+    uptr font;
     struct PrintQueue *printQue;
     struct Strbuf *text;
 
@@ -401,7 +402,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
     u16 heapId;
     CtvtCamView *camView;
     int flag;
-    int zero;
+    sptr zero;
     u8 i;
     struct PrintQueue *printQue;
     u32 sine;
@@ -598,7 +599,7 @@ int CTVT_DRAW_Main(CtvtWork *work, CtvtDrawScene *scene)
     sine = (s16)((s32)(sine + 0x1000) / 2);
     sine = (u8)(((s32)sine * -9 >> 12) + 0x1c);
     scene->fadeColor = sine | (sine << 5) | (sine << 10);
-    NNS_GfdRegisterNewVramTransferTask((void *)0xe, (u32)0xde, (u32)(&scene->fadeColor), 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)0xe, (u32)0xde, (uptr)(&scene->fadeColor), 2);
     return 3;
 }
 
@@ -769,8 +770,8 @@ void CTVT_DRAW_UpdateCanvasTouch(CtvtWork *work, CtvtDrawScene *scene)
     struct DrawCanvas *sprites1;
     u32 srcRow;
     u16 *bgBuf;
-    u32 srcOff;
-    u32 dstAddr;
+    uptr srcOff;
+    uptr dstAddr;
     u32 srcColor;
     u32 dstColor;
     u8 mode;
@@ -816,12 +817,12 @@ void CTVT_DRAW_UpdateCanvasTouch(CtvtWork *work, CtvtDrawScene *scene)
         if (scene->toolMode == 1) {
             bgBuf = G2_GetBG2ScrPtr();
             srcOff = y << 9;
-            srcRow = (x << 1) + (u32)bgBuf;
+            srcRow = (x << 1) + (uptr)bgBuf;
             G2_GetBG3ScrPtr();
             if (COMM_TVT_SYS_GetHalfRes(work) == 1) {
-                dstAddr = ((y >> 1) << 9) + ((x & ~1) + (u32)G2_GetBG3ScrPtr());
+                dstAddr = ((y >> 1) << 9) + ((x & ~1) + (uptr)G2_GetBG3ScrPtr());
             } else {
-                dstAddr = (y << 9) + ((x << 1) + (u32)G2_GetBG3ScrPtr());
+                dstAddr = (y << 9) + ((x << 1) + (uptr)G2_GetBG3ScrPtr());
             }
             srcColor = *(u16 *)(srcOff + srcRow);
             if (srcColor & 0x8000) {
@@ -948,7 +949,7 @@ void CTVT_DRAW_ShowHelp(CtvtWork *work, CtvtDrawScene *scene, int page)
     struct BmpWin *oldWin;
     struct MsgBank *msgData;
     struct PrintQueue *printQue;
-    u32 font;
+    uptr font;
 
     font = COMM_TVT_SYS_GetFont(work);
     msgData = COMM_TVT_SYS_GetMsgData(work);

@@ -95,12 +95,13 @@
  * animations and objects on top of them, and draws objects.
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../sdk_fx.h"
 
-#define reg_G3X_DISP3DCNT   (*(volatile u16 *)0x04000060)
-#define reg_G3_SWAP_BUFFERS (*(volatile u32 *)0x04000540)
-#define reg_G3_VIEWPORT     (*(volatile u32 *)0x04000580)
+#define reg_G3X_DISP3DCNT   (*(volatile u16 *)REG_DISP3DCNT_ADDR)
+#define reg_G3_SWAP_BUFFERS (*(volatile u32 *)REG_SWAP_BUFFERS_ADDR)
+#define reg_G3_VIEWPORT     (*(volatile u32 *)REG_VIEWPORT_ADDR)
 
 /* geometry command codes (G3OP_*) */
 #define G3OP_PUSH_MTX     0x11
@@ -298,7 +299,7 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
     if (texManMode == 0) {
         workSize = NNSi_GfdSizeToGranuleTex(texManSize << 7);
         _G3dSystem.work->texManagerWork = GFL_HEAP_Alloc(_G3dSystem.work->heapId, workSize, 0, G3D_SYSTEM_FileName, 0x7e);
-        NNSi_GfdInitTexVramManager(texManSize << 17, 0, (u32)_G3dSystem.work->texManagerWork, workSize, 1);
+        NNSi_GfdInitTexVramManager(texManSize << 17, 0, (uptr)_G3dSystem.work->texManagerWork, workSize, 1);
     } else {
         NNS_GfdInitVramManager((u16)texManSize, 1);
         _G3dSystem.work->texManagerWork = 0;
@@ -307,7 +308,7 @@ void G3D_SYSTEM_Init(u32 texManMode, u32 texManSize, u32 plttManMode, u32 plttMa
     if (plttManMode == 0) {
         workSize = NNSi_GfdSizeToGranulePltt(plttManSize << 9);
         _G3dSystem.work->plttManagerWork = GFL_HEAP_Alloc(_G3dSystem.work->heapId, workSize, 0, G3D_SYSTEM_FileName, 0x8d);
-        NNSi_GfdInitPlttVramManager(plttManSize << 14, (u32)_G3dSystem.work->plttManagerWork, workSize, 1);
+        NNSi_GfdInitPlttVramManager(plttManSize << 14, (uptr)_G3dSystem.work->plttManagerWork, workSize, 1);
     } else {
         NNS_GfdInitVramManager((u16)(plttManSize << 14), 1);
         _G3dSystem.work->texManagerWork = 0;
@@ -359,7 +360,7 @@ void G3D_SYSTEM_Exit(void)
         GFL_HEAP_Free(_G3dSystem.work->texManagerWork);
 
     if (NNS_G3dGeIsBufferExist() == 1) {
-        GFL_HEAP_FreeSystemChecked((u32)NNS_G3dGeReleaseBuffer());
+        GFL_HEAP_FreeSystemChecked((uptr)NNS_G3dGeReleaseBuffer());
     }
 
     GFL_HEAP_Free(_G3dSystem.work);
@@ -745,7 +746,7 @@ BOOL G3D_SYSTEM_FreeVramTexture(G3dResource *res)
     if (tex4x4Loaded)
         NNS_GfdDefaultFuncFreeTexVram(tex4x4Key);
     if ((tex->plttInfo.flag & 1) != 0 && tex->plttInfo.sizePltt != 0)
-        NNS_GfdDefaultFuncFreePlttVram((u32)NNS_G3dPlttReleasePlttKey(tex));
+        NNS_GfdDefaultFuncFreePlttVram((uptr)NNS_G3dPlttReleasePlttKey(tex));
     return 1;
 }
 
@@ -798,7 +799,7 @@ NNSG3dResTex *G3D_SYSTEM_GetResourceTex(G3dResource *res)
 BOOL G3D_SYSTEM_AllocTexVramKeys(NNSG3dResTex *tex, u32 *texKey, u32 *tex4x4Key)
 {
     u32 texSize = NNS_G3dTexGetRequiredSize(tex);
-    u32 tex4x4Size = NNS_G3dTex4x4GetRequiredSize((s32)tex);
+    u32 tex4x4Size = NNS_G3dTex4x4GetRequiredSize((sptr)tex);
 
     if (texSize != 0) {
         *texKey = NNS_GfdDefaultFuncAllocTexVram(texSize, 0, 0);
@@ -904,7 +905,7 @@ G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource 
     if (mdlIdx >= mdlSet->dict.numEntry) goto noEntry;
     ofsEntry = mdlSet->dict.ofsEntry;
     sizeUnit = *(u16 *)((u8 *)dict + ofsEntry);
-    entry = (u8 *)(sizeUnit * mdlIdx + (s32)((u8 *)dict + ofsEntry + 4));
+    entry = (u8 *)(sizeUnit * mdlIdx + (sptr)((u8 *)dict + ofsEntry + 4));
     goto join;
 noEntry:
     entry = 0;
@@ -926,7 +927,7 @@ have:
         NNS_G3dBindMdlTex(resMdl, tex);
         NNS_G3dBindMdlPltt(resMdl, tex);
     }
-    NNS_G3dRenderObjInit(render->rndObj, (u32)resMdl);
+    NNS_G3dRenderObjInit(render->rndObj, (uptr)resMdl);
     return render;
 }
 

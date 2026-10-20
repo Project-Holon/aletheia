@@ -159,7 +159,7 @@ void* CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
  BG_SYS_ClearSubPlanes();
  GF_FONT_InitTextColor();
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(p,heap);
- CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(int)g,heap);
+ CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(sptr)g,heap);
  CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(p+8),heap);
  *(void* *)&((struct ChihouZukanAwardGraphic *)p)->proc=GFL_USE_AddMainTask(CHIHOU_ZUKAN_AWARD_GRAPHIC_Task, p,0);
  return p;
@@ -217,7 +217,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupBg(void*p,u32 heap)
  }
 }
 
-void CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p){unsigned base=(unsigned)d_021BA250;unsigned i;for(i=0;i<2;i++)BG_SYS_FreeLayerBuf(*(unsigned *)(base+i*44));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
+void CHIHOU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p){unsigned base=(uptr)d_021BA250;unsigned i;for(i=0;i<2;i++)BG_SYS_FreeLayerBuf(*(unsigned *)(base+i*44));BMP_WIN_Exit();BG_SYS_Delete();MI_CpuFill8(p,0,4);}
 
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_Noop(void *p){}
 

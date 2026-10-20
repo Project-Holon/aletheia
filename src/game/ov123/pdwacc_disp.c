@@ -67,6 +67,7 @@
  *   GFL_USE_AddMainTask 0x020056A0 thumb
  */
 #include "pdwacc_disp_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/bg_sys.h"
 
@@ -178,7 +179,7 @@ PdwaccDispWork *PDWACC_DISP_Init(int heap)
     PdwaccDispWork *disp;
     disp=(PdwaccDispWork *) GFL_HEAP_Alloc(heap,0xb70,1,d_021DABFC,201);
     disp->heap=heap;
-    GF_OVERLAY_Load((int)ov067_id);
+    GF_OVERLAY_Load((sptr)ov067_id);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     BG_SYS_SetLcdSwap(1);
@@ -209,9 +210,9 @@ void PDWACC_DISP_Exit(PdwaccDispWork *disp)
         disp->palette.enabled=0;
     }
     resourceIndex=0;
-    do { if (disp->clactResources[resourceIndex]) CLACT_ReleasePalette((unsigned int)disp->clactResources[resourceIndex]); resourceIndex++; } while(resourceIndex<3);
-    for(;resourceIndex<6;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCharacter((unsigned int)disp->clactResources[resourceIndex]);
-    for(;resourceIndex<9;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCellAnim((unsigned int)disp->clactResources[resourceIndex]);
+    do { if (disp->clactResources[resourceIndex]) CLACT_ReleasePalette((uptr)disp->clactResources[resourceIndex]); resourceIndex++; } while(resourceIndex<3);
+    for(;resourceIndex<6;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCharacter((uptr)disp->clactResources[resourceIndex]);
+    for(;resourceIndex<9;resourceIndex++) if (disp->clactResources[resourceIndex]) CLACT_ReleaseCellAnim((uptr)disp->clactResources[resourceIndex]);
     if (disp->unusedTask) TCB_DeleteTask(disp->unusedTask);
     TCB_DeleteTask(disp->vblankTask);
     CLACT_DeleteUnit(disp->clactUnit);
@@ -223,7 +224,7 @@ void PDWACC_DISP_Exit(PdwaccDispWork *disp)
     BG_SYS_SetPlaneVisible(5,0);
     BG_SYS_Delete();
     GFL_HEAP_Free(disp);
-    GF_OVERLAY_Unload((int)ov_id);
+    GF_OVERLAY_Unload((sptr)ov_id);
 }
 
 /*
@@ -359,7 +360,7 @@ void PDWACC_DISP_LoadResources(PdwaccDispWork *disp)
     DC_FlushRange(disp->palette.blendedPalettes, sizeof(disp->palette.blendedPalettes));
     disp->palette.enabled = 1;
     disp->palette.task = GFL_USE_AddMainTask((void *)PDWACC_DISP_PaletteTask, &disp->palette, 0x14);
-    G2x_SetBlendAlpha_((void *)0x04000050, 1, 8, 8, 0x10);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 1, 8, 8, 0x10);
     disp->palette.bgLayer = 0;
     ARC_TOOL_DeleteHandle(archiveHandle);
 }
@@ -381,4 +382,4 @@ void PDWACC_DISP_PaletteTask(void *unused, PdwaccPaletteAnim *palette)
 /*
  * lever: A named unsigned cursor q preserves counter r4 and cursor r5.
  */
-void PDWACC_DISP_DeleteActors(PdwaccDispWork *disp) { int slotIndex; unsigned int actorCursor; for(slotIndex=0;slotIndex<PDWACC_ACTOR_COUNT;slotIndex++) { actorCursor=(unsigned int)disp+(unsigned)slotIndex*4; if(((PdwaccDispWork *)actorCursor)->actors[0]) { CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(((PdwaccDispWork *)actorCursor)->actors[0]))); ((PdwaccDispWork *)actorCursor)->actors[0]=0; } } }
+void PDWACC_DISP_DeleteActors(PdwaccDispWork *disp) { int slotIndex; unsigned int actorCursor; for(slotIndex=0;slotIndex<PDWACC_ACTOR_COUNT;slotIndex++) { actorCursor=(uptr)disp+(unsigned)slotIndex*4; if(((PdwaccDispWork *)actorCursor)->actors[0]) { CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(((PdwaccDispWork *)actorCursor)->actors[0]))); ((PdwaccDispWork *)actorCursor)->actors[0]=0; } } }

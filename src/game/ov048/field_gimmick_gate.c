@@ -432,7 +432,7 @@ int FIELD_GIMMICK_GATE_IsExtraSaveListOn(GateWork *work)
 /* Reads the values of the extra save list (count and one value per entry). */
 void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, int *count)
 {
-    int i;
+    sptr i;
     struct SaveControl *saveControl;
     struct ExtraSaveRecord *record;
     struct RecordTarget entry;

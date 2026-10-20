@@ -237,7 +237,7 @@ int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg)
         EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
     case GAME_CLEAR_STEP_CALL_HALL_OF_FAME:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov180_id, d_021B800C, &work->hallOfFameParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov180_id, d_021B800C, &work->hallOfFameParam);
         EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
     case GAME_CLEAR_STEP_WAIT_HALL_OF_FAME:
@@ -245,7 +245,7 @@ int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg)
             EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
     case GAME_CLEAR_STEP_CALL_STAFF_ROLL:
-        GAMESYSTEM_CallProc(gameSystem, (u32)ov181_id, d_021BAB24, &work->staffRollParam);
+        GAMESYSTEM_CallProc(gameSystem, (uptr)ov181_id, d_021BAB24, &work->staffRollParam);
         EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
     case GAME_CLEAR_STEP_WAIT_STAFF_ROLL:
@@ -261,7 +261,7 @@ int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg)
         EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
     case GAME_CLEAR_STEP_CALL_SAVE_SCREEN:
-        GAME_EVENT_CallProc(event, (u32)ov205_id, d_021B9E54, &work->saveScreenParam);
+        GAME_EVENT_CallProc(event, (uptr)ov205_id, d_021B9E54, &work->saveScreenParam);
         EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
     case GAME_CLEAR_STEP_WAIT_FRAMES:
@@ -272,7 +272,7 @@ int EVENT_GAMECLEAR_Main(struct GameEvent *event, u32 *seq, void *workArg)
         work->frameCount++;
         break;
     case GAME_CLEAR_STEP_CALL_THE_END:
-        GAME_EVENT_CallProc(event, (u32)ov182_id, d_021B9BA0, &work->theEndParam);
+        GAME_EVENT_CallProc(event, (uptr)ov182_id, d_021B9BA0, &work->theEndParam);
         GAMESYSTEM_SetAlwaysNetFlag(gameSystem, 0);
         EVENT_GAMECLEAR_AdvanceStep(work, seq);
         break;
@@ -309,7 +309,7 @@ void EVENT_GAMECLEAR_InitHallOfFameParam(GameClearWork *work)
 {
     work->hallOfFameParam.myParty = GAME_DATA_GetMyParty(work->gameData);
     work->hallOfFameParam.myStatus = GAME_DATA_GetMyStatus(work->gameData);
-    work->hallOfFameParam.playTime = (u32)GAME_DATA_GetPlayTime(work->gameData);
+    work->hallOfFameParam.playTime = (uptr)GAME_DATA_GetPlayTime(work->gameData);
 }
 
 /* Fills the staff roll and The End parameters from the config applied flag. */

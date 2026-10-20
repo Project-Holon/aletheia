@@ -6,15 +6,15 @@
 
 #include "../types.h"
 
-int strlen(const u8 *s);
+size_t strlen(const char *str);
 char *strcpy(char *dst, const char *src);
-u8 *strncpy(u8 *dest, const u8 *src, u32 n);
+char *strncpy(char *destStr, const char *srcStr, size_t n);
 u8 *strcat(u8 *dest, const u8 *src);
 int strcmp(const char *s1, const char *s2);
-int strncmp(const u8 *s1, const u8 *s2, u32 n);
-u8 *strchr(const u8 *s, int c);
+int strncmp(const char *str1, const char *str2, size_t n);
+char *strchr(const char *str, int c);
 int strcspn(const u8 *s, const u8 *reject);
-u8 *strstr(const u8 *s1, const u8 *s2);
+char *strstr(const char *str1, const char *str2);
 /* END mkheaders: generated region */
 
 #endif

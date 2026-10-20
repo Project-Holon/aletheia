@@ -87,7 +87,6 @@ struct FSFile;
 extern void CARDi_ReadRom(unsigned int dma, void *src, void *dst, unsigned int len, void (*cb)(void *), void *arg, int is_async);
 #include "../arm9/mi_uncompress.h"
 #include "../arm9/msl_string_str.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 void DWCi_ARClInit(void);
 void DWCi_ARClEnd(void);
@@ -243,8 +242,8 @@ static int cmpBack(char *str0, char *str1, int n)
 	int len0;
 	int len1;
 	int rs;
-	len0 = strlen((const u8 *)str0);
-	len1 = strlen((const u8 *)str1);
+	len0 = strlen(str0);
+	len1 = strlen(str1);
 	if (len0 < n || len1 < n)
 		return 0;
 	rs = memcmp((u8 *)(str0 + (len0 - n)), (u8 *)(str1 + (len1 - n)), n);

@@ -69,7 +69,6 @@
 #include "../types.h"
 
 static void Encode(unsigned char * output, unsigned int * input, unsigned int len);
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 extern void GSMD5Init(GSMD5_CTX * context);
 extern void GSMD5Final(unsigned char * digest, GSMD5_CTX * context);

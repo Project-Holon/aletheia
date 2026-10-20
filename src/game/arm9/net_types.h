@@ -7,6 +7,9 @@
 
 struct GFLNetSession;
 
+/* Callback that gets the session's user argument (the caller's work pointer). */
+typedef void (*GFLNetUserFunc)(void *userArg);
+
 /* Limits of the handle table (assert strings "netID < GFL_NET_HANDLE_MAX" and
  * "netID!=GFL_NET_NETID_SERVER" in net_handle.c). */
 #define GFL_NET_MACHINE_MAX 8
@@ -51,23 +54,23 @@ typedef struct GFLNetHandle {
 
 /* The caller's 0x70-byte initialisation block; the session starts with a copy. */
 typedef struct GFLNetInitializeStruct {
-    u32   recvFuncTable;
+    struct NetCommandEntry *recvFuncTable;
     u32   recvFuncTableNum;
-    void (*connectFunc)(u32 netID, u32 userArg);
+    void (*connectFunc)(void *userArg, u32 netID);
     void (*disconnectFunc)(int netID, u32 userArg);
-    u32  (*negotiationFunc)(u32 userArg);
-    u32  (*negotiationSizeFunc)(u32 userArg);
+    u32  (*negotiationFunc)(void *userArg);
+    u32  (*negotiationSizeFunc)(void *userArg);
     void *(*getBeaconDataFunc)(void *arg);
     void *(*getBeaconSizeFunc)(void *arg);
     int  (*compareBeaconFunc)(u8 gameKind, u8 beaconKind, u32 userData);
-    void (*stateChangeFunc)(u32 handle, u32 state, u32 userArg);
-    void (*errorStateFunc)(u32 handle, u32 state, u32 userArg);
-    void (*connectEndFunc)(u32 userArg);
-    void (*deviceReadyFunc)(u32 userArg);
+    void (*stateChangeFunc)(u32 handle, u32 state, void *userArg);
+    void (*errorStateFunc)(u32 handle, u32 state, void *userArg);
+    void (*connectEndFunc)(void *userArg);
+    void (*deviceReadyFunc)(void *userArg);
     u8    reserved34[8];
-    void (*deleteFriendFunc)(u32 deletedIndex, u32 srcIndex, u32 userArg);
-    u32  (*getFriendListFunc)(u32 userArg);
-    u32  (*getWifiUserDataFunc)(u32 userArg);
+    void (*deleteFriendFunc)(u32 deletedIndex, u32 srcIndex, void *userArg);
+    u32  (*getFriendListFunc)(void *userArg);
+    u32  (*getWifiUserDataFunc)(void *userArg);
     u32   heapSize;
     u8    reserved4C[4];
     u32   ggid;
@@ -98,7 +101,7 @@ typedef struct GFLNetInitializeStruct {
  */
 typedef struct GFLNetModeOps {
     void (*initLibrary)(u32 parentHeapId, u32 zero);                     /* 0: Wi-Fi only (DWC init) */
-    void (*setup)(u16 heapId, struct GFLNetSession *session, u32 wmParam, u32 userData);
+    void (*setup)(u16 heapId, struct GFLNetSession *session, u32 wmParam, void *userData);
     void (*begin)(u32 doneCallback);                                      /* 2: Wi-Fi login start / wireless immediate done */
     int  (*update)(u32 tick);                                             /* 3: per-frame step */
     u32  (*stepDisconnect)(u32 closeRequest, u32 zero);                   /* 4: request or advance a disconnect */
@@ -152,8 +155,8 @@ typedef struct GFLNetSession {
     GFLNetHandle handle[9];
     GFLNetModeOps *ops;
     u32  reserved344;
-    void (*exitCallback)(u32 userArg);
-    u32  userArg;
+    GFLNetUserFunc exitCallback;
+    void *userArg;
     u8   pad350[2];
     u8   errorCheckEnabled;
 } GFLNetSession;
@@ -180,14 +183,14 @@ struct NetMacList {
 /* Wireless link state wrapped around a caller's init block (0x10C bytes). */
 typedef struct NetIrcWirelessLink {
     GFLNetInitializeStruct init;
-    u32    callbackArg;
+    void  *callbackArg;
     u32    sessionParam;
     void *(*savedGetBeaconDataFunc)(void *arg);
     void *(*savedGetBeaconSizeFunc)(void *arg);
-    void (*savedConnectEndFunc)(u32 userArg);
-    void (*onFinishedFunc)(u32 arg);
-    void (*onResultFunc)(u32 arg, int flag);
-    void (*onReadyFunc)(u32 arg);
+    void (*savedConnectEndFunc)(void *userArg);
+    GFLNetUserFunc onFinishedFunc;
+    void (*onResultFunc)(void *arg, int flag);
+    GFLNetUserFunc onReadyFunc;
     struct NetMacList macs;
     u8     beaconCopy[0x4C];
     u8     timeoutCounter;

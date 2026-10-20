@@ -39,7 +39,7 @@ u32 NWM_LoadDevice(u32 callback) {
     u32 st = NWMi_CheckState(1, 1);
     u32 busy;
     u32 ret;
-    u32 b2;
+    uptr b2;
     if (st != 0 && st != 2) {
         return st;
     }
@@ -59,7 +59,7 @@ u32 NWM_LoadDevice(u32 callback) {
     NWMi_CheckFirmDataParamIntegrity();
     NWMi_SetCallbackTable(3, (u32)callback);
     NWMi_RegisterSleepCallback();
-    NWMi_PostExitInfo[0] = (u32)NWMi_ForceExit;
+    NWMi_PostExitInfo[0] = (uptr)NWMi_ForceExit;
     NWMi_PostExitInfo[1] = 0;
     PMi_InsertPostExitCallbackEx((struct PMiGenCallbackInfo *)NWMi_PostExitInfo, 0xFFFF);
     ret = NWMi_SendCommand(3, 4, *(u32 *)(base + 0x2274), *(u32 *)(base + 0x2278), *(u32 *)(base + 0x227C), 0);

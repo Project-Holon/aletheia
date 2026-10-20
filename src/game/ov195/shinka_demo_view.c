@@ -97,6 +97,7 @@
  *   _fgr                         0x0209BBB0  arm
  */
 #include "shinka_demo_graphic_shared_types.h"
+#include "../sdk_ioreg_reg.h"
 #include "shinka_demo_view_shared_types.h"
 
 #define W(n) (*(u32 *)(p+(n)))
@@ -107,35 +108,22 @@
 
 #define NODE(i) (*(void **)(p+0x50+(u32)(i)*4))
 
-#define REG_MTX_MODE     (*(vu32 *)0x04000440)
 
-#define REG_MTX_IDENTITY (*(vu32 *)0x04000454)
 
-#define REG_DIF_AMB      (*(vu32 *)0x040004C0)
 
-#define REG_SPE_EMI      (*(vu32 *)0x040004C4)
 
-#define REG_MTX_PUSH       (*(vu32 *)0x04000444)
 
-#define REG_MTX_POP        (*(vu32 *)0x04000448)
 
-#define REG_MTX_TRANS      (*(vu32 *)0x04000470)
 
-#define REG_NORMAL         (*(vu32 *)0x04000484)
 
-#define REG_TEXCOORD       (*(vu32 *)0x04000488)
 
-#define REG_VTX_16         (*(vu32 *)0x0400048C)
 
-#define REG_POLYGON_ATTR   (*(vu32 *)0x040004A4)
 
-#define REG_TEXIMAGE_PARAM (*(vu32 *)0x040004A8)
+#define REG_TEXIMAGE_PARAM (*(vu32 *)REG_TEXIMAGE_PARAM_ADDR)
 
-#define REG_TEXPLTT_BASE   (*(vu32 *)0x040004AC)
+#define REG_TEXPLTT_BASE   (*(vu32 *)REG_TEXPLTT_BASE_ADDR)
 
-#define REG_BEGIN_VTXS     (*(vu32 *)0x04000500)
 
-#define REG_END_VTXS       (*(vu32 *)0x04000504)
 
 #define G(n) (*(u32 *)(p+(n)))
 
@@ -145,7 +133,6 @@
 
 #define V(n) (*(ShinkaDemoViewVec *)(q+(n)))
 
-#define REG_MTX_SCALE      (*(vu32 *)0x0400046C)
 
 struct RecDC;
 
@@ -748,7 +735,7 @@ int SHINKA_DEMO_VIEW_TrySecondForm(int *p)
  */
 void SHINKA_DEMO_VIEW_InitMcss(char *owner)
 {
-    ((Owner *)owner)->sys = (void *)(u32)MCSS_Init((unsigned int)2, (unsigned int)(((Owner *)owner)->heap));
+    ((Owner *)owner)->sys = (void *)(uptr)MCSS_Init((unsigned int)2, (unsigned int)(((Owner *)owner)->heap));
     MCSS_SetTextureTransAdrs((void *)(((Owner *)owner)->sys), 0x30000);
     MCSS_SetOrthoMode((void *)(((Owner *)owner)->sys));
 }
@@ -1174,8 +1161,8 @@ Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 monsNo, u32 formNo, u32 sex, u32 isShiny, 
         }
     }
     BMP_ConvertToLinear(g->canvas, 0, heap);
-    NNS_GfdRegisterNewVramTransferTask(0, tex, (u32)BMP_GetPixels(g->canvas), 0x2000);
-    NNS_GfdRegisterNewVramTransferTask((void *)1, pltt, (u32)g->pltt->raw, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0, tex, (uptr)BMP_GetPixels(g->canvas), 0x2000);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, pltt, (uptr)g->pltt->raw, 0x20);
     return g;
 }
 
@@ -1751,7 +1738,7 @@ void SHINKA_DEMO_VIEW_ApplyGridPalette(Grid *p, int x)
         }
         p->pal[i] = r | (g << 5) | (b << 10);
     }
-    NNS_GfdRegisterNewVramTransferTask((void *)1, p->plttAddr, (u32)p->pal, 0x20);
+    NNS_GfdRegisterNewVramTransferTask((void *)1, p->plttAddr, (uptr)p->pal, 0x20);
 }
 
 int SHINKA_DEMO_VIEW_IsGridState0(char *grid, u16 unused)

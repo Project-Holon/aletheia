@@ -348,8 +348,8 @@ long SSP_ExifDecode(unsigned char *src, unsigned long src_size, int *cur, int op
     result = GetAPP1(src, src_size, c, (long *)cur, option);
 
     if (SSPiMakerNoteBufferAddr != 0)
-        SSPiMakerNoteBufferAddr = SSPiMakerNoteBufferAddr + (unsigned long)(src + 12);
+        SSPiMakerNoteBufferAddr = SSPiMakerNoteBufferAddr + (uptr)(src + 12);
     if (SSPiMakerNoteUserBufferAddr != 0)
-        SSPiMakerNoteUserBufferAddr = SSPiMakerNoteUserBufferAddr + (unsigned long)(src + 12);
+        SSPiMakerNoteUserBufferAddr = SSPiMakerNoteUserBufferAddr + (uptr)(src + 12);
     return result;
 }

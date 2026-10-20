@@ -26,9 +26,9 @@
  *   _ZZ18DWCi_GetMathRand32mE15stRandContext32  0x021AA848  data
  */
 #include "../../matched/arm9_sdk/libc/string.h"
-extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
-extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
-extern unsigned char *strchr(unsigned char *s, int c);
+extern int strncmp(const char *s1, const char *s2, unsigned int n);
+extern char *strncpy(char *dest, const char *src, unsigned int n);
+extern char *strchr(const char *s, int c);
 
 #define GAME_TYPES_U32_LONG
 #include "../types.h"
@@ -59,7 +59,7 @@ int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string
  */
 int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string, char sep)
 {
-    DWC_SetCommonKeyValueString(key, value, (char *)strchr((unsigned char *)string, 0), sep);
+    DWC_SetCommonKeyValueString(key, value, (char *)strchr(string, 0), sep);
     return strlen((const char *)string);
 }
 
@@ -72,33 +72,33 @@ int DWC_GetCommonValueString(char *key, char *value, char *string, char separato
     char *pSrcEnd;
     char *pSrcBegin;
 
-    pSrcBegin = (char *)strchr((unsigned char *)string, separator);
+    pSrcBegin = (char *)strchr(string, separator);
     if (pSrcBegin == 0)
         return -1;
     for (;;) {
-        if (strncmp((unsigned char *)(pSrcBegin + 1), (unsigned char *)key, strlen(key)) == 0) {
+        if (strncmp((pSrcBegin + 1), key, strlen(key)) == 0) {
             len = strlen(key);
             if (separator == *(char *)(len + (sptr)pSrcBegin + 1))
                 break;
         }
-        pSrcBegin = (char *)strchr((unsigned char *)(pSrcBegin + 1), separator);
+        pSrcBegin = (char *)strchr((pSrcBegin + 1), separator);
         if (pSrcBegin == 0)
             return -1;
-        pSrcBegin = (char *)strchr((unsigned char *)(pSrcBegin + 1), separator);
+        pSrcBegin = (char *)strchr((pSrcBegin + 1), separator);
         if (pSrcBegin == 0)
             return -1;
     }
-    pSrcBegin = (char *)strchr((unsigned char *)(pSrcBegin + 1), separator);
+    pSrcBegin = (char *)strchr((pSrcBegin + 1), separator);
     if (pSrcBegin == 0)
         return -1;
-    pSrcEnd = (char *)strchr((unsigned char *)(pSrcBegin + 1), separator);
+    pSrcEnd = (char *)strchr((pSrcBegin + 1), separator);
     if (pSrcEnd != 0)
         len = pSrcEnd - (pSrcBegin + 1);
     else
         len = strlen(pSrcBegin + 1);
     if (value == 0)
         return len;
-    strncpy((unsigned char *)value, (unsigned char *)(pSrcBegin + 1), len);
+    strncpy(value, (pSrcBegin + 1), len);
     value[len] = 0;
     return len;
 }

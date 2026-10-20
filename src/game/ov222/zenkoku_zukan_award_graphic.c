@@ -158,7 +158,7 @@ void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap)
  BG_SYS_ClearSubPlanes();
  GF_FONT_InitTextColor();
  ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(p,heap);
- ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(int)g,heap);
+ ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupClact((unsigned char*)p+4,(sptr)g,heap);
  ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera((u32**)(p+8),heap);
  *(void* *)&((struct ZenkokuZukanAwardGraphic *)p)->proc=GFL_USE_AddMainTask(ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task, p,0);
  return p;

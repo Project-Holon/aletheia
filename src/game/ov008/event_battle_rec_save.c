@@ -200,7 +200,7 @@ extern char ov213_id[];
 extern char ov214_id[];
 extern char d_021BB0B0[];
 extern char d_021F75EC[];
-extern char d_021F03C4[];
+extern NetCommandEntry d_021F03C4[];
 extern char d_021EFDAC[];
 extern char d_021BB474[];
 extern char d_0215513C[];
@@ -302,7 +302,7 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         ctx->overlayLoaded = 1;
         GF_OVERLAY_Load((uptr)ov093_id);
         ctx->cmdTableAdded = 1;
-        GFL_NET_COMMAND_AddCommandTable(0x100, (uptr)d_021F03C4, 9, 0);
+        GFL_NET_COMMAND_AddCommandTable(0x100, d_021F03C4, 9, 0);
         GFL_NET_StartTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), 0xC8);
         *stage = 7;
         break;

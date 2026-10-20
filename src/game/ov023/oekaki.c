@@ -201,6 +201,7 @@
  *   MYSTATUS_GetId  0x02008530  thumb  arm9
  */
 #include "../types.h"
+#include "../sdk_ioreg.h"
 /* The DS code passes the net handle to GFL_NET_ResetSendQueue (docs/ORIGINAL_BUGS.tsv). */
 #ifdef __MWERKS__
 #define GFL_NET_ResetSendQueue GFL_NET_ResetSendQueue_header
@@ -222,8 +223,8 @@ struct MsgBank;
 #include "oekaki_types.h"
 
 #define OEKAKI_HEAP_ID          0x28
-#define REG_MASTER_BRIGHT_A     0x0400006C
-#define REG_MASTER_BRIGHT_B     0x0400106C
+#define REG_MASTER_BRIGHT_A     REG_MASTER_BRIGHT_ADDR
+#define REG_MASTER_BRIGHT_B     REG_DB_MASTER_BRIGHT_ADDR
 
 struct BmpWin;
 struct Bmp;
@@ -295,7 +296,7 @@ void OEKAKI_FreeWork(OekakiWork *work);
 void OEKAKI_ResetDisplay(void);
 void OEKAKI_LoadBgGraphics(OekakiWork *work, void *archive);
 void OEKAKI_LoadSpriteResources(OekakiWork *work, void *archive);
-extern char gOekakiCommandTable[];
+extern NetCommandEntry gOekakiCommandTable[];
 extern OekakiSceneStep gOekakiSceneTable[];
 extern const struct DispVram gOekakiVramBanks;
 extern const struct DispConfig gOekakiDispConfig;
@@ -449,7 +450,7 @@ void OEKAKI_FillSendGroup(StrokeGroup *sendGroup, StrokeQueue *queue);
  */
 void OEKAKI_RegisterNetCommands(OekakiWork *work)
 {
-    GFL_NET_COMMAND_AddCommandTable(OEKAKI_CMD_CANVAS_CHUNK, (uptr)gOekakiCommandTable, 8, (uptr)work);
+    GFL_NET_COMMAND_AddCommandTable(OEKAKI_CMD_CANVAS_CHUNK, gOekakiCommandTable, 8, work);
 }
 
 /*
@@ -651,7 +652,7 @@ u32 OEKAKI_SendCanvasChunk(OekakiWork *work, int chunkIndex, int unused)
     work->sendChunk.checksum = sum;
     work->sendChunk.index = chunkIndex;
     joinedBits = (u32)UNION_APP_GetJoinedBits(work->param->app);
-    return GFL_NET_COMMAND_SetSendSlot((uptr)GFL_NET_HANDLE_GetNetHandle(0xff), joinedBits, OEKAKI_CMD_CANVAS_CHUNK, 0x3f0, (uptr)&work->sendChunk);
+    return GFL_NET_COMMAND_SetSendSlot(GFL_NET_HANDLE_GetNetHandle(0xff), joinedBits, OEKAKI_CMD_CANVAS_CHUNK, 0x3f0, &work->sendChunk);
 }
 
 CanvasChunk *OEKAKI_GetRecvChunk(int netId, OekakiWork *work)
@@ -1282,7 +1283,7 @@ int OEKAKI_StepStart(OekakiWork *p, int procState)
     OEKAKI_SetNextScene(p, 2);
     OEKAKI_CloseMenuIfOpen(p);
     GFL_USE_PlaySeDefaultVolume(0x54c);
-    G2x_SetBlendBrightness_(0x04000050, 14, -6);
+    G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 14, -6);
     OEKAKI_ApplyRemoteStrokes(p);
     return procState;
 }

@@ -64,7 +64,6 @@ struct GSIResolveHostnameInfo {
 #include "soc.h"
 #include "gsmemory.h"
 extern int strlen(char *s);
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 typedef unsigned long long OSTick;
 #include "../arm9/os_tick.h"

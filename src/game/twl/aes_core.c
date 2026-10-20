@@ -144,7 +144,7 @@ u32 AESi_CalcMac(void *src, u32 data, u32 length, void *mac, void (*callback)(u3
     req.length = length;
     req.zero = 0;
     req.kind = 7;
-    req.mac = (u32)mac;
+    req.mac = (uptr)mac;
     AESi_FlushRange((void *)data, length);
     AESi_InvalidateRange(mac, 0x10);
     AESi_PxiSendCmd(9, (unsigned char *)(&req), 0x24);

@@ -435,7 +435,7 @@ void B_PLIST_MAIN_SyncMoveActors(u8 *p)
       b = objects + offset;
       B_PLIST_DRAW_TransferCharacter((char *)p, *((void **) (b + 0x1ebc)), slot + i, entry[48]);
       tmp = (u8 *) d_02211DA0;
-      B_PLIST_DRAW_PlaceActor(*((u8 **) (b + 0x1ebc)), (u32) (tmp + offset));
+      B_PLIST_DRAW_PlaceActor(*((u8 **) (b + 0x1ebc)), (uptr) (tmp + offset));
     }
   }
 
@@ -444,7 +444,7 @@ void B_PLIST_MAIN_SyncMoveActors(u8 *p)
     offset = (base + i) * 4;
     b = p + 0x1ebc;
     B_PLIST_DRAW_TransferCharacter((char *)p, *((void **) (b + offset)), slot + i, WAZA_TOOL_GetParam(*((u16 *) ((*((u8 **) p)) + 38)), 0));
-    B_PLIST_DRAW_PlaceActor(*((u8 **) (b + offset)), (u32) (d_02211DA0 + i));
+    B_PLIST_DRAW_PlaceActor(*((u8 **) (b + offset)), (uptr) (d_02211DA0 + i));
   }
   ((struct B_PlistWork *)p)->winFlags.flipB ^= 1;
 }
@@ -565,7 +565,7 @@ void B_PLIST_MAIN_Create(u8 *p)
     TCB_AddTask((struct TcbSystem *)((struct B_PlistWork *)p)->task,(TcbFunc)B_PLIST_MAIN_Task,(void *)q,100);
     ((struct B_PlistWork *)q)->owner=(struct B_PlistHost *)p;
     if (p[0x1f]!=5) p[0x4b]=0;
-    else if (B_PLIST_MAIN_GetOwnerFlag18((char **)((unsigned)q))==1 && p[0x1c]==1) p[0x20]++;
+    else if (B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)q))==1 && p[0x1c]==1) p[0x20]++;
     ((struct B_PlistWork *)q)->palAnm=((struct B_PlistWork *)p)->palAnmSlot;
     ((struct B_PlistWork *)q)->state=0;
     q[0x2176]=p[0x20];
@@ -604,7 +604,7 @@ void B_PLIST_MAIN_Task(void *task,u8 *p)
 int B_PLIST_MAIN_Init(u8 *p)
 {
     d_04001050[0]=0;
-    GXx_SetMasterBrightness_((u16 *)((u32)d_04001050+28),-16);
+    GXx_SetMasterBrightness_((u16 *)((uptr)d_04001050+28),-16);
     ((struct B_PlistWork *)p)->tcbl=TCBL_Create(((struct B_PlistWork *)p)->owner->heapId,((struct B_PlistWork *)p)->owner->heapId,1,4);
     if((*(u8 **)p)[31]==4) p[0x2180]=6;
     else if((*(u8 **)p)[31]==5) p[0x2180]=4;
@@ -619,7 +619,7 @@ int B_PLIST_MAIN_Init(u8 *p)
     else *(u32 *)&((struct B_PlistWork *)p)->syncRequested=0;
     B_APP_TOOL_SetActorsVisible((char *)(*(u8 * *)&((struct B_PlistWork *)p)->appTool),(void *)(((struct B_PlistWork *)p)->syncRequested));
     if(p[0x2180]==0) {
-        if(B_PLIST_MAIN_IsBattleSlot((u32)p,B_PLIST_MAIN_GetOrderIndex(p,0))==1) (*(u8 **)p)[32]=1;
+        if(B_PLIST_MAIN_IsBattleSlot((uptr)p,B_PLIST_MAIN_GetOrderIndex(p,0))==1) (*(u8 **)p)[32]=1;
         B_PLIST_MAIN_CreateCursor(p,p[0x2180],(*(u8 **)p)[32]);
     } else if((*(u8 **)p)[31]==5) B_PLIST_MAIN_CreateCursor(p,p[0x2180],(*(u8 **)p)[75]);
     else B_PLIST_MAIN_CreateCursor(p,p[0x2180],0);
@@ -821,13 +821,13 @@ int B_PLIST_MAIN_HandleListSelect(u8 *p)
 int B_PLIST_MAIN_HandleMoveSelect(u8 *p)
 {
     u32 sel;
-    int row;
+    sptr row;
     u8 next;
     if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1)return 31;
     sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
     switch(sel){
     case 0: case 1: case 2: case 3:
-        row=(u32)p+B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4C;
+        row=(uptr)p+B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4C;
         if(*(u16 *)(row+sel*8+0x30)!=0){
             B_PLIST_MAIN_PlaySe((u8 **)p,1357);
             B_PLIST_ANM_StartPaletteAnim(p,(u8)(sel+14));
@@ -888,13 +888,13 @@ int B_PLIST_MAIN_HandleMoveSelect(u8 *p)
 int B_PLIST_MAIN_HandleSlotSelect(u8 *p)
 {
     u32 sel;
-    int row;
+    sptr row;
     if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1)return 31;
     sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
     switch(sel){
     case 0: case 1: case 2: case 3:
         if((*(u8 **)p)[0x4B]!=sel){
-            row=(u32)p+B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4C;
+            row=(uptr)p+B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4C;
             if(*(u16 *)(row+sel*8+0x30)!=0){
                 B_PLIST_MAIN_PlaySe((u8 **)p,1357);
                 (*(u8 **)p)[0x4B]=sel;
@@ -927,14 +927,14 @@ int B_PLIST_MAIN_HandleSlotSelect(u8 *p)
 int B_PLIST_MAIN_HandleSlotSelectFade(u8 *p)
 {
     u32 sel;
-    int row;
+    sptr row;
     if(PALANM_GetFadeRequestBits((const struct PaletteFade *)*(const char * *)&((struct B_PlistWork *)p)->palAnm)!=0)return 30;
     if(B_PLIST_MAIN_CheckCancel((u8 **)p)==1)return 31;
     sel=CURSOR_MOVE_PollRepeatInput((struct Cursor *)(*(struct Sound * *)&((struct B_PlistWork *)p)->cursorMove));
     switch(sel){
     case 0: case 1: case 2: case 3:
         if((*(u8 **)p)[0x4B]!=sel){
-            row=(u32)p+B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4C;
+            row=(uptr)p+B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20])*0x4C;
             if(*(u16 *)(row+sel*8+0x30)!=0){
                 B_PLIST_MAIN_PlaySe((u8 **)p,1357);
                 (*(u8 **)p)[0x4B]=sel;
@@ -1063,8 +1063,8 @@ int B_PLIST_MAIN_HandlePartySelect(u8 *p)
         u8 *row;
         tmp=(*(u8 **)p)[0x20];
         idx=B_PLIST_MAIN_GetOrderIndex(p,tmp);
-        row=(u8 *)((u32)p+idx*0x4c);
-        if(*(u16 *)((u32)((u32)((u8 *)((u32)p+idx*0x4c))+selection*8)+0x30)==0) break;
+        row=(u8 *)((uptr)p+idx*0x4c);
+        if(*(u16 *)((u32)((uptr)((u8 *)((uptr)p+idx*0x4c))+selection*8)+0x30)==0) break;
         (*(u8 **)p)[0x4b]=selection;
         (*(u8 **)p)[0x48]=idx;
         B_PLIST_MAIN_PlaySe((u8 **)p,1357);
@@ -1281,7 +1281,7 @@ int B_PLIST_MAIN_CheckBusyFlag(char *p)
 
 int B_PLIST_MAIN_BeginFadeOut(char *p)
 {
-    if (B_PLIST_MAIN_GetOwnerFlag18((char **)((unsigned)p))==1 && (*(u8 **)p)[0x20]!=6)
+    if (B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)p))==1 && (*(u8 **)p)[0x20]!=6)
         (*(u8 **)p)[0x20]/=2u;
     PALANM_RequestFade((struct PaletteFade *)(const struct PaletteFade *)((struct B_PlistWork *)p)->palAnm,10,0xffff,0,0,0x10,0,((struct B_PlistWork *)p)->owner->fadeContext);
     return 0x20;
@@ -1293,7 +1293,7 @@ int B_PLIST_MAIN_BeginFadeOut(char *p)
 
 u32 B_PLIST_MAIN_WaitFadeOut(u8 *p)
 {
-    if (PALANM_GetFadeRequestBits((const struct PaletteFade *)(const char *)(((u32)((struct B_PlistWork *)p)->palAnm))) == 0) {
+    if (PALANM_GetFadeRequestBits((const struct PaletteFade *)(const char *)(((uptr)((struct B_PlistWork *)p)->palAnm))) == 0) {
         return 0x21;
     }
     return 0x20;
@@ -1386,7 +1386,7 @@ void B_PLIST_MAIN_LoadGraphics(char *p)
     GFL_HEAP_Free(handle);
     PALANM_LoadArcPaletteToSlot(*(struct PaletteFade * *)&((struct B_PlistWork *)p)->palAnm,100,19,((struct B_PlistWork *)p)->owner->heapId,1,0x1e0,0);
     ARC_TOOL_DeleteHandle(owner);
-    MI_CpuCopy8((void *)(PALANM_GetDefaultWork(((struct B_PlistWork *)p)->palAnm,1)+0x180),p+0x1e78,32);
+    MI_CpuCopy8((void *)(PALANM_GetDefaultWork(((struct B_PlistWork *)p)->palAnm,1) + 0xc0),p+0x1e78,32);
     BMP_MENUWORK_LoadCharAndPltt(4,1,14,0,((struct B_PlistWork *)p)->owner->heapId);
     PALANM_CopyHwPaletteToSlot(*(struct PaletteFade * *)&((struct B_PlistWork *)p)->palAnm,1,0xe0,32);
     PALANM_LoadArcPaletteToSlot(*(struct PaletteFade * *)&((struct B_PlistWork *)p)->palAnm,23,5,((struct B_PlistWork *)p)->owner->heapId,1,32,0xd0);
@@ -1542,7 +1542,7 @@ int B_PLIST_MAIN_GetSlotState(u8 *p,int i) { if(!*(u16 *)(p+B_PLIST_MAIN_GetOrde
 u8 B_PLIST_MAIN_NextSelectable(u8 *p,int i,int delta)
 {
     int current=i;
-    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((unsigned)p))==1) {
+    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)p))==1) {
         struct Order order=d_02212130;
         u8 selected;
         for(i=0;i<6;i++) if(current==order.ids[i]) break;
@@ -1664,7 +1664,7 @@ int B_PLIST_MAIN_GetRowStatus(u8 *p)
 {
     int index=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[32]);
     u8 *q=p+4+76*index;
-    if(B_PLIST_MAIN_IsBattleSlot((u32)p,index)==1) return 1;
+    if(B_PLIST_MAIN_IsBattleSlot((uptr)p,index)==1) return 1;
     if(((struct B_PlistSlot *)q)->hp==0) return 2;
     if(B_PLIST_MAIN_IsSlotSelectable(p,(*(u8 **)p)[32])==1) return 3;
     if(B_PLIST_MAIN_IsRowFlagged(p)==1) return 5;
@@ -1749,7 +1749,7 @@ u32 B_PLIST_MAIN_IsBattleSlot(u32 a, u32 b)
 /*
  * lever: Group the unsigned address sum as base plus row, then column, then offset.
  */
-u32 B_PLIST_MAIN_CheckMoveUsable(u8 *p) { u8 *q;unsigned long i;int row;q=*(u8 * *)&((struct B_PlistWork *)p)->owner;i=q[75];if(i==4)return 0;row=(u32)p+q[32]*76;return WAZA_TOOL_IsHmMove(((struct B_PlistHost *)q)->config,*(u16 *)(row+i*8+48),((struct B_PlistHost *)q)->heapId); }
+u32 B_PLIST_MAIN_CheckMoveUsable(u8 *p) { u8 *q;unsigned long i;int row;q=*(u8 * *)&((struct B_PlistWork *)p)->owner;i=q[75];if(i==4)return 0;row=(uptr)p+q[32]*76;return WAZA_TOOL_IsHmMove(((struct B_PlistHost *)q)->config,*(u16 *)(row+i*8+48),((struct B_PlistHost *)q)->heapId); }
 
 
 
@@ -1942,7 +1942,7 @@ int B_PLIST_MAIN_PrintRowMessage(u8 *p)
     void *text;
     idx = B_PLIST_MAIN_GetOrderIndex(p, (*(u8 **)p)[0x20]);
     row = p + 4 + idx * 0x4c;
-    if (B_PLIST_MAIN_IsBattleSlot((u32)p, idx) == 1) {
+    if (B_PLIST_MAIN_IsBattleSlot((uptr)p, idx) == 1) {
         text = MSGDATA_AllocString(((struct B_PlistWork *)p)->msgBank, 0x5a);
         WORDSET_CopyTaggedText(((struct B_PlistWork *)p)->wordSet, ((struct B_PlistWork *)p)->strBuf, text);
         STRBUF_Delete(text);
@@ -2188,7 +2188,7 @@ int B_PLIST_MAIN_FinishSwap(u8 *p)
 int B_PLIST_MAIN_CanSwap(u8 *p)
 {
     u8 count,i,bound;
-    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((unsigned)p))==1) return 0;
+    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)p))==1) return 0;
     bound=(*(u8 **)p)[0x22];
     if(bound==1) return 0;
     count=0;
@@ -2206,7 +2206,7 @@ int B_PLIST_MAIN_CanSwap(u8 *p)
 int B_PLIST_MAIN_HasSwappable(u8 *p)
 {
     u8 i;
-    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((unsigned)p))==1) return 0;
+    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)p))==1) return 0;
     i=(*(u8 **)p)[0x22];
     if(i==1) return 0;
     for(;i<6;i++) {
@@ -2224,7 +2224,7 @@ int B_PLIST_MAIN_HasSwappable(u8 *p)
 void B_PLIST_MAIN_CommitSwap(u8 *p)
 {
     unsigned i;
-    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((unsigned)p))==1) {
+    if(B_PLIST_MAIN_GetOwnerFlag18((char **)((uptr)p))==1) {
         (*(u8 **)p)[0x48]=B_PLIST_MAIN_GetOrderIndex(p,(*(u8 **)p)[0x20]);
     } else {
         for(i=0;i<3;i++) {
@@ -2290,7 +2290,7 @@ void B_PLIST_MAIN_CreateCursor(u8 *p,u32 index,u32 b)
 {
     u32 offset=0x218C;
     struct CursorMove *result;
-    result=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_022122D4[index],(struct CursorVtbl *)d_022122A0,(u32)p,*(u32 *)(p+offset),b,((struct B_PlistWork *)p)->owner->heapId);
+    result=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_022122D4[index],(struct CursorVtbl *)d_022122A0,(uptr)p,*(u32 *)(p+offset),b,((struct B_PlistWork *)p)->owner->heapId);
     *(struct CursorMove **)(p+(offset-8))=result;
     CURSOR_MOVE_EnableInput((struct Cursor *)result);
     offset-=8;
@@ -2303,7 +2303,7 @@ void B_PLIST_MAIN_CreateCursor(u8 *p,u32 index,u32 b)
 
 u32 B_PLIST_MAIN_DeleteCursor(u8 *p)
 {
-    return CURSOR_MOVE_Delete((void *)(((u32)((struct B_PlistWork *)p)->cursorMove)));
+    return CURSOR_MOVE_Delete((void *)(((uptr)((struct B_PlistWork *)p)->cursorMove)));
 }
 
 
@@ -2338,7 +2338,7 @@ void B_PLIST_MAIN_LayoutCursorActors(u8 *p, u32 idx)
 {
     void *t = CURSOR_MOVE_GetEntry((struct Cursor *)(*(void ** *)&((struct B_PlistWork *)p)->cursorMove), idx);
 
-    B_APP_TOOL_LayoutActors((int *)(((u32)((struct B_PlistWork *)p)->appTool)), (u8 *)((u32)t));
+    B_APP_TOOL_LayoutActors((int *)(((uptr)((struct B_PlistWork *)p)->appTool)), (u8 *)((uptr)t));
 }
 
 

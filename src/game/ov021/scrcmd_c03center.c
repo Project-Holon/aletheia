@@ -90,7 +90,7 @@ extern u16 g_021EE724_ref;
 int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
     void *gameSystem;
-    u32 tcbSys;
+    uptr tcbSys;
     u32 heapId;
     u8 *camera;
     u8 *mmdlSys;
@@ -105,7 +105,7 @@ int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork 
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
     SCRCMD_WORK_GetGameData(work);
     gameSystem = GAMESYSTEM_GetFieldMap(gameSystem);
-    tcbSys = (u32)FIELDMAP_GetTcblSys(gameSystem);
+    tcbSys = (uptr)FIELDMAP_GetTcblSys(gameSystem);
     heapId = FIELDMAP_GetHeapId(gameSystem);
     camera = (u8 *)FIELDMAP_GetCamera(gameSystem);
     mmdlSys = (u8 *)FIELDMAP_GetMmdlSys(gameSystem);

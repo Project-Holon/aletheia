@@ -327,7 +327,7 @@ int SCRCMD_StartSubProcOv057(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     fieldMap = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork));
-    FIELD_SUBPROC_Start((int)abs_id_39, (struct FieldSubprocMgr *)FIELDMAP_GetMapFunc(fieldMap), (struct FieldSubprocTemplate *)d_021F3900);
+    FIELD_SUBPROC_Start((sptr)abs_id_39, (struct FieldSubprocMgr *)FIELDMAP_GetMapFunc(fieldMap), (struct FieldSubprocTemplate *)d_021F3900);
     return 0;
 }
 

@@ -9,9 +9,9 @@ struct NetCommandTable;
 #include "../types.h"
 #include "../arm9/net_types.h"
 
-void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userData, u32 unusedArg);
+void GFL_NET_COMMAND_Init(u32 groupKey, NetCommandEntry *commandList, u32 listNum, void *userData, u32 unusedArg);
 void GFL_NET_COMMAND_Exit(void);
-void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
+void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, NetCommandEntry *commandList, u32 listNum, void *userData);
 void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey);
 u32 GFL_NET_COMMAND_GetHeaderSize(u32 destMask);
 struct NetCommandTable *GFL_NET_COMMAND_GetCommandTable(u32 command);
@@ -25,7 +25,7 @@ u32 GFL_NET_COMMAND_GetHugeBuffer(u32 command, u32 netId, u32 size);
 void GFL_NET_COMMAND_NoProc(void);
 void GFL_NET_COMMAND_RecvHugeData(int netId, u32 byteCount, void *chunkData, int unusedArg, volatile int handle);
 void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, int unusedArg2, int handle);
-u32 GFL_NET_COMMAND_SetSendSlot(u32 handle, u32 destMask, u32 command, u32 totalSize, u32 dataAddr);
+u32 GFL_NET_COMMAND_SetSendSlot(GFLNetHandle *handle, u32 destMask, u32 command, u32 totalSize, void *dataAddr);
 u32 GFL_NET_COMMAND_SendNextSlot(void);
 void GFL_NET_COMMAND_Main(void);
 /* END mkheaders: generated region */

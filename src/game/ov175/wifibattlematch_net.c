@@ -1071,7 +1071,7 @@ extern const char ov177_id[];
 extern const char ov067_id[], ov114_id[];
 extern const char ov114_id[],ov067_id[];
 extern const char d_021E2EE0[], d_021E2EF8[];
-extern const u32 d_021E2C90[];
+extern NetCommandEntry d_021E2C90[];
 extern const char d_021E2EFC[];
 extern u32 g_021E2C8C[];
 extern const char *const d_021E2E10[];
@@ -4708,7 +4708,7 @@ char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 netId, void *save, u32 heapId, u1
     *(char **)(ctx + 0x190) = GFL_HEAP_Alloc(heap, 0x260, 0, d_021E2EE0, 0x2c0);
     MI_CpuFill8(*(void **)(ctx + 0x190), 0, 0x260);
     if (!GFL_NET_GetRunState()) GF_PANIC_Fail(d_021E2EF8, 0, d_021E2EF8);
-    GFL_NET_COMMAND_AddCommandTable(0x2400, (uptr)d_021E2C90, 6, (uptr)ctx);
+    GFL_NET_COMMAND_AddCommandTable(0x2400, d_021E2C90, 6, ctx);
     GFL_NET_SetWaitMode(0);
     DWC_RAP_SetErrorCallback((int (*)(u32, u32, u32, int))((sptr)WIFIBATTLEMATCH_NET_CleanupDownload), (sptr)ctx);
     DWC_RAP_SetErrorHookCallback((int (*)(u32, u32, u32, int))((sptr)WIFIBATTLEMATCH_NET_GetDownloadSize), (sptr)ctx);

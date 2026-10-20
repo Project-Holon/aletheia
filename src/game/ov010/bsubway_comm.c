@@ -67,7 +67,7 @@ void BSUBWAY_COMM_NetInit(void *arg);
 void *BSUBWAY_COMM_GetBeaconData(BsubwayScrWork *work);
 int BSUBWAY_COMM_GetBeaconSize(void);
 int BSUBWAY_COMM_CheckConnectService(int a, int b);
-void BSUBWAY_COMM_AddCommandTable(u32 work);
+void BSUBWAY_COMM_AddCommandTable(void *work);
 void BSUBWAY_COMM_DeleteCommandTable(void *work);
 void BSUBWAY_COMM_StartTimingSync(u16 timingNo);
 int BSUBWAY_COMM_CheckTimingSync(int timingNo);
@@ -91,7 +91,7 @@ void BSUBWAY_COMM_RecvWord5(u16 netId, int size, u16 *data, BsubwayScrWork *work
 void BSUBWAY_COMM_RecvWord6(u16 netId, int size, u16 *data, BsubwayScrWork *work);
 void BSUBWAY_COMM_RecvWord7(u16 netId, int size, u16 *data, BsubwayScrWork *work);
 extern u8 d_02172014[];
-extern const u32 d_02171FD4[];
+extern NetCommandEntry d_02171FD4[];
 
 /*
  * Tail call to ARM GFL_NET_StartSession with (&d_02172014, 0, arg). No lr-saving
@@ -99,7 +99,7 @@ extern const u32 d_02171FD4[];
  */
 void BSUBWAY_COMM_NetInit(void *arg)
 {
-    GFL_NET_StartSession((struct GFLNetInitializeStruct *)d_02172014, 0, (u32)arg);
+    GFL_NET_StartSession((struct GFLNetInitializeStruct *)d_02172014, 0, arg);
 }
 
 /*
@@ -132,9 +132,9 @@ int BSUBWAY_COMM_CheckConnectService(int a, int b)
  * Adds the net command table 0x2C00..0x2C08 with the work as callback
  * argument.  Trailing extent is already matched BSUBWAY_COMM_DeleteCommandTable.
  */
-void BSUBWAY_COMM_AddCommandTable(u32 work)
+void BSUBWAY_COMM_AddCommandTable(void *work)
 {
-    GFL_NET_COMMAND_AddCommandTable(0x2c00, (u32)d_02171FD4, 0x2c08, work);
+    GFL_NET_COMMAND_AddCommandTable(0x2c00, d_02171FD4, 0x2c08, work);
 }
 
 /*

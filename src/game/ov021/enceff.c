@@ -234,13 +234,13 @@ void ENCEFF_LoadOverlay(EncEffWork *eff, u32 overlayId)
 
 void ENCEFF_LoadOverlays4B4D(EncEffWork *eff)
 {
-    ENCEFF_LoadOverlay(eff, (u32)abs_id_4b);
-    ENCEFF_LoadOverlay(eff, (u32)abs_id_4d);
+    ENCEFF_LoadOverlay(eff, (uptr)abs_id_4b);
+    ENCEFF_LoadOverlay(eff, (uptr)abs_id_4d);
 }
 
 void ENCEFF_LoadOverlay4B(EncEffWork *eff)
 {
-    ENCEFF_LoadOverlay(eff, (u32)ov075_id);
+    ENCEFF_LoadOverlay(eff, (uptr)ov075_id);
 }
 
 /* Unloads the overlays in reverse order. */

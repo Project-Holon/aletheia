@@ -131,7 +131,7 @@ void STA_NET_UpdateTransferState(char *p)
         switch(*(u32 *)&((struct ActingHost *)p)->transferState) {
         case 0: break;
         case 1:
-            if(MUS_COMM_FUNC_SendCommandWait((int)p,7,((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->hostEntry))->chunkSize,0xff)==1) ((struct ActingHost *)p)->transferState=2;
+            if(MUS_COMM_FUNC_SendCommandWait((sptr)p,7,((struct HostEntry *)(*(char * *)&((struct ActingHost *)p)->hostEntry))->chunkSize,0xff)==1) ((struct ActingHost *)p)->transferState=2;
             break;
         case 2: break;
         case 3:
@@ -199,25 +199,25 @@ int STA_NET_IsTransferDone(char *p) {if(((struct HostEntry *)(*(char * *)&((stru
 int STA_NET_NotifyHostKind4(u8 *p)
 {
     void *q = ((struct ActingHost *)p)->hostEntry.p;
-    return MUS_COMM_FUNC_SendCommandWait((int)p, 4, (u32)(((struct HostEntry *)q)->slot1Size), 0xff);
+    return MUS_COMM_FUNC_SendCommandWait((sptr)p, 4, (uptr)(((struct HostEntry *)q)->slot1Size), 0xff);
 }
 
 int STA_NET_NotifyHostKind5(char *p)
 {
-    return MUS_COMM_FUNC_SendCommandWait((int)p, 5, *(int *)(((struct ActingHost *)p)->hostEntry.s + 0x24), 0xff);
+    return MUS_COMM_FUNC_SendCommandWait((sptr)p, 5, *(int *)(((struct ActingHost *)p)->hostEntry.s + 0x24), 0xff);
 }
 
 int STA_NET_NotifyHostKind6(char *p)
 {
-    return MUS_COMM_FUNC_SendCommandWait((int)p, 6, *(int *)(((struct ActingHost *)p)->hostEntry.s + 0x28), 0xff);
+    return MUS_COMM_FUNC_SendCommandWait((sptr)p, 6, *(int *)(((struct ActingHost *)p)->hostEntry.s + 0x28), 0xff);
 }
 
 int STA_NET_SendSlot1Command(u8 *p)
 {
     u32 *q = *(u32 * *)&((struct ActingHost *)p)->hostEntry;
-    u32 id;
+    uptr id;
     STA_SLOT_Noop(q[1], q[8], 2);
-    id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
+    id = (uptr)GFL_NET_HANDLE_GetNetHandle(255);
     return GFL_NET_SendData((struct GFLNetHandle *)id, 255, 0x1106, (*(u32 **)(p + 0x140))[8], (void *)((*(u32 **)(p + 0x140))[1]), 1, 0, 1);
 }
 
@@ -237,9 +237,9 @@ u32 STA_NET_GetSlot1Value(void *unused, u8 *p)
 int STA_NET_SendSlot2Command(u8 *p)
 {
     u32 *q = *(u32 * *)&((struct ActingHost *)p)->hostEntry;
-    u32 id;
+    uptr id;
     STA_SLOT_Noop(q[2], q[9], 1);
-    id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
+    id = (uptr)GFL_NET_HANDLE_GetNetHandle(255);
     return GFL_NET_SendData((struct GFLNetHandle *)id, 255, 0x1107, (*(u32 **)(p + 0x140))[9], (void *)((*(u32 **)(p + 0x140))[2]), 1, 0, 1);
 }
 
@@ -259,9 +259,9 @@ u32 STA_NET_GetSlot2Value(void *unused, u8 *p)
 int STA_NET_SendSlot3Command(u8 *p)
 {
     u32 *q = *(u32 * *)&((struct ActingHost *)p)->hostEntry;
-    u32 id;
+    uptr id;
     STA_SLOT_Noop(q[3], q[10], 0);
-    id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
+    id = (uptr)GFL_NET_HANDLE_GetNetHandle(255);
     return GFL_NET_SendData((struct GFLNetHandle *)id, 255, 0x1108, (*(u32 **)(p + 0x140))[10], (void *)((*(u32 **)(p + 0x140))[3]), 1, 0, 1);
 }
 
@@ -317,7 +317,7 @@ int STA_NET_SendRandomOrder(u8 *p)
         }
     }
     for (i = 0; i < 4; i++) result += slots[i] << (i * 4);
-    return MUS_COMM_FUNC_SendCommandWait((int)p, 1, result, 255);
+    return MUS_COMM_FUNC_SendCommandWait((sptr)p, 1, result, 255);
 }
 
 u32 STA_NET_SendKindA(char *p, int value)
@@ -325,11 +325,11 @@ u32 STA_NET_SendKindA(char *p, int value)
     return MUS_COMM_FUNC_SendCommand(p, 0xa, value, 0xff);
 }
 
-u32 STA_NET_GetCurrentSlotValue(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}
+u32 STA_NET_GetCurrentSlotValue(char *p) {return *(u8 *)((uptr)p+GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}
 
-u8 STA_NET_GetSlotValueByIndex(char *p, int index) {return *(u8 *)((u32)p+index*0x30+0x72);}
+u8 STA_NET_GetSlotValueByIndex(char *p, int index) {return *(u8 *)((uptr)p+index*0x30+0x72);}
 
-u32 STA_NET_GetSlotWordByIndex(char *p,u32 index){return *(u32 *)((u32)p+index*0x30+0x80);}
+u32 STA_NET_GetSlotWordByIndex(char *p,u32 index){return *(u32 *)((uptr)p+index*0x30+0x80);}
 
 /*
  * Unlabelled ov132 leaf hidden in a .word run: returns the word at +0x48.
@@ -359,9 +359,9 @@ int STA_NET_GetRecordsReceived(int *p)
     return p[0x57];
 }
 
-void STA_NET_SetState6Pair(char *p, u32 pairA, int pairB) {MUS_COMM_FUNC_SetTimingSync((int)p,0x40);((struct ActingHost *)p)->state=6;((struct ActingHost *)p)->pairValueA.s=pairA;((struct ActingHost *)p)->pairValueB.s=pairB;}
+void STA_NET_SetState6Pair(char *p, u32 pairA, int pairB) {MUS_COMM_FUNC_SetTimingSync((sptr)p,0x40);((struct ActingHost *)p)->state=6;((struct ActingHost *)p)->pairValueA.s=pairA;((struct ActingHost *)p)->pairValueB.s=pairB;}
 
-void STA_NET_BeginKind5Phase(char *p) {MUS_COMM_FUNC_SetTimingSync((int)p,0x42);((struct ActingHost *)p)->state=12;}
+void STA_NET_BeginKind5Phase(char *p) {MUS_COMM_FUNC_SetTimingSync((sptr)p,0x42);((struct ActingHost *)p)->state=12;}
 
 /*
  * The larger indexed follower at 021FD964 is parked separately at DIFF.

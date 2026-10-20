@@ -92,6 +92,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "mystery_net_types.h"
+#include "../sdk_ioreg.h"
 #include "mystery_util_shared_types.h"
 
 /*
@@ -661,11 +662,11 @@ void MYSTERY_UTIL_SetPosition(char *p, u32 a, u32 b, int c)
 
 int MYSTERY_UTIL_IsMessageDone(u8 *p)
 {
-    u32 q;
+    uptr q;
     if (((MysteryUtilWindow *)p)->variant == 0) {
-        q = (u32)((MysteryUtilWindow *)p)->printOwner;
+        q = (uptr)((MysteryUtilWindow *)p)->printOwner;
         if (p[4]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q, (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilWindow *)p)->bmpWin))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q, (void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilWindow *)p)->bmpWin))) == 0) {
                 BMP_WIN_TransferChars((struct BmpWin *)((MysteryUtilWindow *)p)->bmpWin);
                 p[4] = 0;
             }
@@ -674,7 +675,7 @@ int MYSTERY_UTIL_IsMessageDone(u8 *p)
         return 0;
     } else {
         if (p[4]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(((MysteryUtilWindow *)p)->printOwner), (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilWindow *)p)->bmpWin))) == 0)
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(((MysteryUtilWindow *)p)->printOwner), (void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilWindow *)p)->bmpWin))) == 0)
                 p[4] = 0;
         }
         if (p[4] == 0) return 1;
@@ -827,12 +828,12 @@ void MYSTERY_UTIL_DeleteMenuWindow(u8 *p)
  */
 void MYSTERY_UTIL_UpdateMenuWindow(u8 *p)
 {
-    u32 q;
+    uptr q;
     switch (((MysteryUtilMenuWindow *)p)->state) {
     case 2:
         q = ((MysteryUtilMenuWindow *)p)->elementSlot;
         if (p[0x20]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q, (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilMenuWindow *)p)->bmpWin2))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q, (void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilMenuWindow *)p)->bmpWin2))) == 0) {
                 BMP_WIN_TransferChars((struct BmpWin *)((MysteryUtilMenuWindow *)p)->bmpWin2);
                 p[0x20] = 0;
             }
@@ -841,7 +842,7 @@ void MYSTERY_UTIL_UpdateMenuWindow(u8 *p)
     case 0:
         q = ((MysteryUtilMenuWindow *)p)->elementSlot;
         if (p[0x20]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q, (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilMenuWindow *)p)->bmpWin2))) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q, (void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilMenuWindow *)p)->bmpWin2))) == 0) {
                 BMP_WIN_TransferChars((struct BmpWin *)((MysteryUtilMenuWindow *)p)->bmpWin2);
                 p[0x20] = 0;
             }
@@ -870,7 +871,7 @@ void MYSTERY_UTIL_SetMenuMessage(u8 *a, int b, int c, int d)
 
 void MYSTERY_UTIL_SetMenuMode(u8 *p,int mode)
 {
-    u32 q;
+    uptr q;
     BMP_Clear(BMP_WIN_GetBmp(((MysteryUtilMenuWindow *)p)->bmpWin),((MysteryUtilMenuWindow *)p)->height);
     if(((MysteryUtilMenuWindow *)p)->printStream) {
         PRINTSYS_PrintStreamDelete(((MysteryUtilMenuWindow *)p)->printStream);
@@ -943,7 +944,7 @@ void *MYSTERY_UTIL_CreateMenu(const u8 *p,u16 heap)
     cfg.itemCountAlt=((MysteryUtilMenuDef *)p)->count;
     cfg.bmpWin=*(u32 *)&((MysteryUtilMenu *)out)->bmpWin;
     cfg.menuTable=((MysteryUtilMenuDef *)p)->menuTable;
-    cfg.slotPointer=(u32)(out+8);
+    cfg.slotPointer=(uptr)(out+8);
     cfg.printOwner=((MysteryUtilMenuDef *)p)->printOwner;
     cfg.messageTable=((MysteryUtilMenuDef *)p)->messageTable;
     ((MysteryUtilMenu *)out)->menuList=BMP_MENULIST_Create((struct BmpMenuListTemplate *)((struct MenuTemplate *)(&cfg)),0,0,heap);
@@ -962,7 +963,7 @@ int MYSTERY_UTIL_UpdateMenu(char *p)
     u32 q = ((MysteryUtilMenu *)p)->printOwner;
     int r;
     if (((MysteryUtilMenu *)p)->winFlag) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q,(void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilMenu *)p)->bmpWin2))) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q,(void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilMenu *)p)->bmpWin2))) == 0) {
             BMP_WIN_TransferChars((struct BmpWin *)((MysteryUtilMenu *)p)->bmpWin2);
             ((MysteryUtilMenu *)p)->winFlag=0;
         }
@@ -984,11 +985,11 @@ void *MYSTERY_UTIL_CreateWindowList(void *a,const char *desc,u32 n,u16 b,u8 c,u3
     *(const char * *)&((MysteryUtilWindowList *)out)->desc=desc;
     ((MysteryUtilWindowList *)out)->count=n;
     ((MysteryUtilWindowList *)out)->printOwner=f;
-    ((MysteryUtilWindowList *)out)->msgBank=(int)e;
+    ((MysteryUtilWindowList *)out)->msgBank=(sptr)e;
     for(i=0;i<((MysteryUtilWindowList *)out)->count;i++) {
         const char *v=desc+i*24;
         MysteryUtilWindowSlot *slot=(MysteryUtilWindowSlot *)(out+i*4);
-        void *q=MYSTERY_UTIL_CreateWindow((u32)a,b,((MysteryUtilMenuEntry *)v)->u0.bytes[0],((MysteryUtilMenuEntry *)v)->u0.bytes[1],((MysteryUtilMenuEntry *)v)->u0.bytes[2],((MysteryUtilMenuEntry *)v)->u0.bytes[3],c,d,heap);
+        void *q=MYSTERY_UTIL_CreateWindow((uptr)a,b,((MysteryUtilMenuEntry *)v)->u0.bytes[0],((MysteryUtilMenuEntry *)v)->u0.bytes[1],((MysteryUtilMenuEntry *)v)->u0.bytes[2],((MysteryUtilMenuEntry *)v)->u0.bytes[3],c,d,heap);
         slot->window=q;
         MYSTERY_UTIL_SetPosition(q,((MysteryUtilMenuEntry *)v)->posX,((MysteryUtilMenuEntry *)v)->posY,((MysteryUtilMenuEntry *)v)->layoutMode);
         MYSTERY_UTIL_SetColor(slot->window,((MysteryUtilMenuEntry *)v)->color);
@@ -1073,7 +1074,7 @@ struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct Mys
     struct MysteryUtilDetailWindow *out = GFL_HEAP_Alloc(heap, 0x64, 0, (char *)d_021DFBA0, 0x4e7);
     MI_CpuFill8(out, 0, 0x64);
     out->count = in->count;
-    out->actor = (u32)in->actor;
+    out->actor = (uptr)in->actor;
     out->windowPalette = in->windowPalette;
     out->windowPalette2 = in->windowPalette2;
     out->paletteBank = in->paletteBank;
@@ -1089,7 +1090,7 @@ struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct Mys
         out->index = (v > out->count - 1) ? out->count - 1 : v;
     }
     for (i = 0; i < out->count; i++)
-        out->pal[i] = *(u16 *)(0x05000000 + in->paletteBank * 32 + (i + 10) * 2);
+        out->pal[i] = *(u16 *)(HW_BG_PLTT + in->paletteBank * 32 + (i + 10) * 2);
     out->blendColor = *(u16 *)(0x0500001E + in->paletteBank * 32);
     t = d_021DF7C0;
     for (i = 0; i < out->count; i++) {
@@ -1102,7 +1103,7 @@ struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct Mys
     c = in->windowPalette;
     w = in->bgLayer;
     /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
-    out->windowList = ((void *(*)())MYSTERY_UTIL_CreateWindowList)(0, (const char *)&t, out->count, w, c, in->printQueue, (u32)in->bank, in->font, heap);
+    out->windowList = ((void *(*)())MYSTERY_UTIL_CreateWindowList)(0, (const char *)&t, out->count, w, c, in->printQueue, (uptr)in->bank, in->font, heap);
     for (i = 0; i < out->count; i++)
         if (t.r[i].h) STRBUF_Delete(t.r[i].h);
     pt.x = d_021DF76C[out->index].x;
@@ -1166,7 +1167,7 @@ int MYSTERY_UTIL_SetVoice(u8 *p)
         if(((MysteryUtilVoiceSelect *)p)->target[i]!=((MysteryUtilVoiceSelect *)p)->current[i] && ((MysteryUtilVoiceSelect *)p)->phase>=0x7dff && ((MysteryUtilVoiceSelect *)p)->phase<=0x81ff)
             ((MysteryUtilVoiceSelect *)p)->current[i]=((MysteryUtilVoiceSelect *)p)->target[i];
         if(((MysteryUtilVoiceSelect *)p)->current[i])
-            MYSTERY_UTIL_BlendPalette((int)((void *)15),(u16 *)(p+0x1a+i*2),((MysteryUtilVoiceSelect *)p)->phase,(u8)(((MysteryUtilVoiceSelect *)p)->paletteBank),(u8)(i+10),*(u16 *)(p+0x12+i*2),((MysteryUtilVoiceSelect *)p)->blendColor);
+            MYSTERY_UTIL_BlendPalette((sptr)((void *)15),(u16 *)(p+0x1a+i*2),((MysteryUtilVoiceSelect *)p)->phase,(u8)(((MysteryUtilVoiceSelect *)p)->paletteBank),(u8)(i+10),*(u16 *)(p+0x12+i*2),((MysteryUtilVoiceSelect *)p)->blendColor);
     }
     return -1;
 }
@@ -1184,7 +1185,7 @@ void MYSTERY_UTIL_SetListValue(u8 *p,u32 i,u32 value)
     *(u32 *)(p+i*4+76)=value;
 }
 
-void *MYSTERY_UTIL_CreateTask(void *a,void *b,u16 heap) { u8 *p; p=GFL_HEAP_Alloc(heap,20,0,(char *)d_021DFBA0,0x61c); MI_CpuFill8(p,0,20); ((MysteryUtilTask *)p)->arg.ptr=a; MYSTERY_UTIL_SetTaskHandler((u32 *)p,(u32)b); return p; }
+void *MYSTERY_UTIL_CreateTask(void *a,void *b,u16 heap) { u8 *p; p=GFL_HEAP_Alloc(heap,20,0,(char *)d_021DFBA0,0x61c); MI_CpuFill8(p,0,20); ((MysteryUtilTask *)p)->arg.ptr=a; MYSTERY_UTIL_SetTaskHandler((u32 *)p,(uptr)b); return p; }
 
 void MYSTERY_UTIL_DeleteTask(void *p) { GFL_HEAP_Free(p); }
 
@@ -1300,7 +1301,7 @@ static inline u16 blend(u16 c1,u16 c2,s16 factor) {
  */
 s32 MYSTERY_UTIL_BlendPalette(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2) {
  *p=blend(c1,c2,(s16)((FX_SinCosTable_[((angle>>4)*2)+1]+0x1000)/2));
- return NNS_GfdRegisterNewVramTransferTask((void *)a,bank*32+index*2,(u32)p,2);
+ return NNS_GfdRegisterNewVramTransferTask((void *)a,bank*32+index*2,(uptr)p,2);
 }
 
 #pragma opt_loop_invariants off
@@ -1317,5 +1318,5 @@ void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank, const 
  int i=0;
  int factor=(FX_SinCosTable_[((angle>>4)*2)+1]+0x1000)/2;
  for(;i<16;i++) p[i]=blend(first[i],last[i],factor);
- NNS_GfdRegisterNewVramTransferTask(a,bank*32,(u32)p,32);
+ NNS_GfdRegisterNewVramTransferTask(a,bank*32,(uptr)p,32);
 }

@@ -120,7 +120,7 @@
  *   GFL_USE_PopBgm  0x02005E9C  thumb  arm9
  *   GFL_USE_IsBgmPlaying  0x02005F38  thumb  arm9
  */
-#define REG3D (*(volatile unsigned short *)0x04000060)
+#define REG3D (*(volatile unsigned short *)REG_DISP3DCNT_ADDR)
 struct Obj;
 struct Proc;
 struct GfFont;
@@ -137,6 +137,7 @@ struct Rec;
 struct Actor;
 struct PtS;
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/clact.h"
 #include "../arm9/bg_sys.h"
@@ -254,7 +255,7 @@ int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  u32 id;
  u16 heap;
  void *h;
- GFL_HEAP_CreateChildHeap((u32)((void*)1),131,0x30000);
+ GFL_HEAP_CreateChildHeap((uptr)((void*)1),131,0x30000);
  p=PROCSYS_AllocProcWork(owner,88,131);
  i=BG_MODE0;
  MI_CpuFill8(p,i,88);
@@ -262,9 +263,9 @@ int CHIHOU_ZUKAN_AWARD_Init(void *owner,void *unused,void *input)
  *(void**)(p+4)=input;
  *(void**)(p+8)=CHIHOU_ZUKAN_AWARD_GRAPHIC_Create(1,*(u16*)p);
  *(void**)(p+12)=GF_FONT_Create(23,0,0,0,*(u16*)p);
- *(u32*)(p+16)=(unsigned int)PRINTSYS_QUE_Create((unsigned int)*(u16*)p);
+ *(u32*)(p+16)=(uptr)PRINTSYS_QUE_Create((unsigned int)*(u16*)p);
  BG_SYS_SetPriority(1,1);BG_SYS_SetPriority(2,0);
- *(void**)(p+20)=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((u32)CHIHOU_ZUKAN_AWARD_Task),(void *)p,1);
+ *(void**)(p+20)=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)CHIHOU_ZUKAN_AWARD_Task),(void *)p,1);
  CHIHOU_ZUKAN_AWARD_LoadBgAssets((struct ChihouZukanAwardWork *)p);CHIHOU_ZUKAN_AWARD_SetupWindows((struct ChihouZukanAwardWork *)p);CHIHOU_ZUKAN_AWARD_SetupTiles((struct ChihouZukanAwardWork *)p);CHIHOU_ZUKAN_AWARD_CreateActor((struct ChihouZukanAwardWork *)p);
  settings=(char *)GAME_DATA_GetMyStatus(*(void**)(*(char**)(p+4)));
  *(volatile u16*)0x04001050=i;
@@ -354,9 +355,9 @@ void CHIHOU_ZUKAN_AWARD_Task(void) {}
 void CHIHOU_ZUKAN_AWARD_LoadBgAssets(struct ChihouZukanAwardWork *p)
 {
     void *h=ARC_TOOL_CreateHandle(0xCA,p->heap);
-    ARC_UTIL_UploadPaletteFromHandleWhole((void *)((unsigned)h),1,0,0,0x1E0,p->heap);
-    ARC_UTIL_UploadBgCharFromHandle((void *)((unsigned)h),4,1,0,0,0,p->heap);
-    ARC_UTIL_UploadBgPaletteFromHandle((void *)((unsigned)h),6,1,0,0,0,p->heap);
+    ARC_UTIL_UploadPaletteFromHandleWhole((void *)((uptr)h),1,0,0,0x1E0,p->heap);
+    ARC_UTIL_UploadBgCharFromHandle((void *)((uptr)h),4,1,0,0,0,p->heap);
+    ARC_UTIL_UploadBgPaletteFromHandle((void *)((uptr)h),6,1,0,0,0,p->heap);
     ARC_TOOL_DeleteHandle(h);
     BG_SYS_PushTile(1);
 }
@@ -367,7 +368,7 @@ void CHIHOU_ZUKAN_AWARD_SetupWindows(struct ChihouZukanAwardWork *p)
 {
     u8 i;
     char *msg;
-    u32 ws, x, t;
+    uptr ws, x, t;
     msg = (char *)GAME_DATA_GetMyStatus(p->args->owner);
     p->msgBank = 0;
     for (i = 0; i < 5; i++) {
@@ -383,19 +384,19 @@ void CHIHOU_ZUKAN_AWARD_SetupWindows(struct ChihouZukanAwardWork *p)
         BMP_Clear(BMP_WIN_GetBmp(p->windows[i]), 0);
         BMP_WIN_TransferChars(p->windows[i]);
     }
-    ws = (u32)WORDSET_CreateDefault(p->heap);
-    t = (u32)MSGDATA_AllocString(p->msgBank, 0);
-    x = (u32)STRBUF_Create(0x20, p->heap);
+    ws = (uptr)WORDSET_CreateDefault(p->heap);
+    t = (uptr)MSGDATA_AllocString(p->msgBank, 0);
+    x = (uptr)STRBUF_Create(0x20, p->heap);
     WORDSET_SetSlotMyStatus((struct WordSet *)ws, 0, msg);
     WORDSET_CopyTaggedText((struct WordSet *)ws, (void *)x, (void *)t);
     PRINTSYS_PrintQueColor(p->printQue, BMP_WIN_GetBmp(p->windows[2]), 0, 0, (struct Strbuf *)x, p->font, 0x440);
     STRBUF_Delete((struct Strbuf *)x);
     STRBUF_Delete((struct Strbuf *)t);
     WORDSET_Delete((struct WordSet *)ws);
-    t = (u32)MSGDATA_AllocString(p->msgBank, 1);
+    t = (uptr)MSGDATA_AllocString(p->msgBank, 1);
     PRINTSYS_PrintQueColor(p->printQue, BMP_WIN_GetBmp(p->windows[3]), 0, 0, (struct Strbuf *)t, p->font, 0x440);
     STRBUF_Delete((struct Strbuf *)t);
-    t = (u32)MSGDATA_AllocString(p->msgBank, 3);
+    t = (uptr)MSGDATA_AllocString(p->msgBank, 3);
     PRINTSYS_PrintQueColor(p->printQue, BMP_WIN_GetBmp(p->windows[4]), 0, 0, (struct Strbuf *)t, p->font, 0x440);
     STRBUF_Delete((struct Strbuf *)t);
     for (i = 1; i < 5; i++) {
@@ -459,9 +460,9 @@ void CHIHOU_ZUKAN_AWARD_SetupTiles(struct ChihouZukanAwardWork *p)
 void CHIHOU_ZUKAN_AWARD_CreateActor(struct ChihouZukanAwardWork *p)
 {
     void *h=ARC_TOOL_CreateHandle(0xCA,p->heap);
-    p->paletteId=CLACT_RegisterPaletteEx((void *)((unsigned)h),0,0,0,0,2,p->heap);
-    p->charId=CLACT_RegisterCharacter((void *)((unsigned)h),3,0,0,p->heap);
-    p->cellAnimId=CLACT_RegisterCellAnim((void *)((unsigned)h),8,9,p->heap);
+    p->paletteId=CLACT_RegisterPaletteEx((void *)((uptr)h),0,0,0,0,2,p->heap);
+    p->charId=CLACT_RegisterCharacter((void *)((uptr)h),3,0,0,p->heap);
+    p->cellAnimId=CLACT_RegisterCellAnim((void *)((uptr)h),8,9,p->heap);
     ARC_TOOL_DeleteHandle(h);
     p->actor=(struct Obj *)CLACT_CreateActor((void *)CHIHOU_ZUKAN_AWARD_GRAPHIC_GetActor((char *)p->graphic),p->charId,p->paletteId,p->cellAnimId,(struct ActorInitParam *)(&d_021BA140),0,p->heap);
     CLACT_SetActorDrawEnable((struct ClactActor *)p->actor,1);
@@ -524,7 +525,7 @@ static inline void Shading(GXShading mode) { REG3D=(unsigned short)((REG3D & ~0x
 
 static inline void AntiAlias(BOOL enable) { if(enable) REG3D=(unsigned short)((REG3D & ~0x3000)|0x10); else REG3D &= (unsigned short)~0x3010; }
 
-static inline void AlphaTest(BOOL enable,int ref) { if(enable) { REG3D=(unsigned short)((REG3D & ~0x3000)|4); *(volatile unsigned short *)0x04000340=ref; } else REG3D &= (unsigned short)~0x3004; }
+static inline void AlphaTest(BOOL enable,int ref) { if(enable) { REG3D=(unsigned short)((REG3D & ~0x3000)|4); *(volatile unsigned short *)REG_ALPHA_TEST_REF_ADDR=ref; } else REG3D &= (unsigned short)~0x3004; }
 
 static inline void AlphaBlend(BOOL enable) { if(enable) REG3D=(unsigned short)((REG3D & ~0x3000)|8); else REG3D &= (unsigned short)~0x3008; }
 

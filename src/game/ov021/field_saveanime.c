@@ -215,10 +215,10 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
     int x;
     int y;
     void *player;
-    u32 camera;
+    uptr camera;
 
     player = FIELDMAP_GetFieldPlayer(work->fieldMap);
-    camera = (u32)FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(work->fieldMap));
+    camera = (uptr)FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(work->fieldMap));
     G3D_CAMERA_Reset((struct G3dCamera *)camera);
     G3D_CAMERA_GetCamTarget(camera, &eye);
     G3D_CAMERA_GetEye(camera, &target);
@@ -253,7 +253,7 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
         y = 0x18;
     }
     work->bmpWin = (struct Descriptor *)BMP_WIN_Create(_SAVEANIME_BG_FRAME, (u8)x, (u8)y, 5, (u32)5, (u32)9, (u32)1);
-    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin)), 0);
+    BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin)), 0);
     BMP_WIN_TransferChars((struct BmpWin *)work->bmpWin);
     FIELD_SAVEANIME_DrawFrame(work, 0);
 }
@@ -283,12 +283,12 @@ void FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work)
 void FIELD_SAVEANIME_DrawFrame(FieldSaveAnime *work, u32 frame)
 {
     u32 charBase = BMP_WIN_GetCharOffset((struct BmpWin *)work->bmpWin);
-    u32 bmp = (u32)BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin);
-    u32 chars;
+    u32 bmp = (uptr)BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin);
+    uptr chars;
     u32 size;
 
     BMP_Blit(work->charData, (struct Bmp *)bmp, 0, frame << 5, work->ofsX, work->ofsY, 0x20, 0x20, 0xFFFF);
-    chars = (u32)BMP_GetPixels((const struct Bmp *)bmp);
+    chars = (uptr)BMP_GetPixels((const struct Bmp *)bmp);
     size = BMP_GetByteSize((const struct Bmp *)bmp);
     BG_SYS_LoadTileData(_SAVEANIME_BG_FRAME, (const void *)chars, size, charBase);
 }

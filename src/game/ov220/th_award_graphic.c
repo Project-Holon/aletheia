@@ -134,7 +134,7 @@ void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     TH_AWARD_GRAPHIC_SetupBg(p,heap);
-    TH_AWARD_GRAPHIC_SetupClact(p+4,(int)&d_021BA428,heap);
+    TH_AWARD_GRAPHIC_SetupClact(p+4,(sptr)&d_021BA428,heap);
     ((struct ThAwardGraphic *)p)->proc=(struct Node *)GFL_USE_AddMainTask((void *)TH_AWARD_GRAPHIC_Task,p,0);
     return p;
 }

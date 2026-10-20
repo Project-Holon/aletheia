@@ -34,6 +34,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_ioreg.h"
 
 #define PIN(g, i) (((volatile u16 (*)[8])data_02732F6C)[g][i])
 
@@ -90,19 +91,19 @@ u32 MIi_LockWramManagerDI(u16 *p);
 void MIi_UnlockWramManagerRI(u32 id, u32 irq);
 
 /* Register accessors: the argument is a register-block base. */
-u32 MIi_GetWramBank_A(u32 bank)
+u32 MIi_GetWramBank_A(uptr bank)
 {
-    return *(u8 *)(bank + 0x04004040);
+    return *(u8 *)(bank + REG_MI_MC_CNT1_ADDR);
 }
 
 u32 MIi_GetWramBank_B(u32 bank)
 {
-    return *(u8 *)(bank + 0x04004044);
+    return *(u8 *)(bank + REG_MI_MC_CNT2_ADDR);
 }
 
 u32 MIi_GetWramBank_C(u32 bank)
 {
-    return *(u8 *)(bank + 0x0400404C);
+    return *(u8 *)(bank + REG_MI_MC_CNT3_ADDR);
 }
 
 void MIi_SetWramBankMaster_A(u32 bank, u32 master)
@@ -128,21 +129,21 @@ void MIi_SetWramBankMaster(u32 type, u32 bank, u32 master)
 /* Register field writers: bit 7 of a byte register set or cleared by a flag. */
 void MIi_SetWramBankEnable_A(u32 bank, u32 enable)
 {
-    volatile u8 *p = (volatile u8 *)(bank + 0x04004040);
+    volatile u8 *p = (volatile u8 *)(bank + REG_MI_MC_CNT1_ADDR);
     u32 v = enable ? 0x80 : 0;
     *p = (*p & ~0x80) | v;
 }
 
 void MIi_SetWramBankEnable_B(u32 bank, u32 enable)
 {
-    volatile u8 *p = (volatile u8 *)(bank + 0x04004044);
+    volatile u8 *p = (volatile u8 *)(bank + REG_MI_MC_CNT2_ADDR);
     u32 v = enable ? 0x80 : 0;
     *p = (*p & ~0x80) | v;
 }
 
 void MIi_SetWramBankEnable_C(u32 bank, u32 enable)
 {
-    volatile u8 *p = (volatile u8 *)(bank + 0x0400404C);
+    volatile u8 *p = (volatile u8 *)(bank + REG_MI_MC_CNT3_ADDR);
     u32 v = enable ? 0x80 : 0;
     *p = (*p & ~0x80) | v;
 }
@@ -155,17 +156,17 @@ void MIi_SetWramBankEnable(u32 type, u32 bank, u32 enable)
 /* Register readers: the argument is a register-block base, the mask picks the field. */
 u32 MI_GetWramBankMaster_A(u32 bank)
 {
-    return *(u8 *)(bank + 0x04004040) & 1;
+    return *(u8 *)(bank + REG_MI_MC_CNT1_ADDR) & 1;
 }
 
 u32 MI_GetWramBankMaster_B(u32 bank)
 {
-    return *(u8 *)(bank + 0x04004044) & 3;
+    return *(u8 *)(bank + REG_MI_MC_CNT2_ADDR) & 3;
 }
 
 u32 MI_GetWramBankMaster_C(u32 bank)
 {
-    return *(u8 *)(bank + 0x0400404C) & 3;
+    return *(u8 *)(bank + REG_MI_MC_CNT3_ADDR) & 3;
 }
 
 u32 MI_GetWramBankMaster(u32 type, u32 bank)
@@ -175,17 +176,17 @@ u32 MI_GetWramBankMaster(u32 type, u32 bank)
 
 u32 MI_GetWramMapStart_A(void)
 {
-    return ((((*(volatile u32 *)0x04004054) & 0xFF0) >> 4) << 16) + 0x03000000;
+    return ((((*(volatile u32 *)REG_MI_MC_CNT4_ADDR) & 0xFF0) >> 4) << 16) + 0x03000000;
 }
 
 u32 MI_GetWramMapStart_B(void)
 {
-    return ((((*(volatile u32 *)0x04004058) & 0xFF8) >> 3) << 15) + 0x03000000;
+    return ((((*(volatile u32 *)REG_MI_MC_CNT5_ADDR) & 0xFF8) >> 3) << 15) + 0x03000000;
 }
 
 u32 MI_GetWramMapStart_C(void)
 {
-    return ((((*(volatile u32 *)0x0400405C) & 0xFF8) >> 3) << 15) + 0x03000000;
+    return ((((*(volatile u32 *)REG_MI_MC_CNT6_ADDR) & 0xFF8) >> 3) << 15) + 0x03000000;
 }
 
 u32 MI_GetWramMapStart(u32 type)

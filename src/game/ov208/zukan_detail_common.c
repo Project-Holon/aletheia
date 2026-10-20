@@ -82,6 +82,7 @@
  *   ZUKAN_DETAIL_COMMON_LoadBgPaletteRange  0x021BC9BC  thumb  ov208
  */
 #include "../arm9/tcb_list.h"
+#include "../sdk_ioreg.h"
 #include "zukan_detail_shared_types.h"
 
 struct PaletteFade;
@@ -321,7 +322,7 @@ void ZUKAN_DETAIL_COMMON_SelectNextSeenSpecies(struct Ov208Ctx *p)
 void ZUKAN_DETAIL_COMMON_SelectPrevSeenSpecies(struct Ov208Ctx *p)
 {
     u16 start = *p->cursorPtr;
-    u32 h = (u32)ZUKAN_SAVE_GetFromGameData(p->blk);
+    u32 h = (uptr)ZUKAN_SAVE_GetFromGameData(p->blk);
     do {
         if (*p->cursorPtr == 0)
             *p->cursorPtr = p->entryCount - 1;
@@ -422,9 +423,9 @@ void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(struct Ov208Blend *p)
 void ZUKAN_DETAIL_COMMON_ApplyBrightness(int flag, struct Ov208Blend *p)
 {
     if (flag == 0) {
-        G2x_SetBlendBrightnessExt_(0x04000050, p->plane1, p->plane2, p->brightness, 0, p->brightness - 0x10);
+        G2x_SetBlendBrightnessExt_(REG_BLDCNT_ADDR, p->plane1, p->plane2, p->brightness, 0, p->brightness - 0x10);
     } else {
-        G2x_SetBlendBrightnessExt_(0x04001050, p->plane1, p->plane2, p->brightness, 0, p->brightness - 0x10);
+        G2x_SetBlendBrightnessExt_(REG_DB_BLDCNT_ADDR, p->plane1, p->plane2, p->brightness, 0, p->brightness - 0x10);
     }
 }
 
@@ -458,7 +459,7 @@ void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(struct Ov208PalFade *p)
     PALANM_Delete(p->slots);
     TCB_Noop((struct TcbSystem *)p->tcb);
     GFL_HEAP_Free(p->memory);
-    GFL_HEAP_Free((void *)((unsigned)p));
+    GFL_HEAP_Free((void *)((uptr)p));
 }
 
 /*
@@ -599,7 +600,7 @@ void ZUKAN_DETAIL_COMMON_FreeBgPalette(struct Ov208Win *p)
 
     w = p->chrOfs;
     BG_SYS_FreeTileRun(p->layer, (unsigned short)w, (unsigned short)(w >> 16));
-    GFL_HEAP_Free((void *)((int)p));
+    GFL_HEAP_Free((void *)((sptr)p));
 }
 
 void ZUKAN_DETAIL_COMMON_TickFlashEffect(struct Ov208Win *p)

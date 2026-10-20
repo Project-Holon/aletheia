@@ -638,7 +638,7 @@ void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, st
     s32 pos;
     struct Party *enemy;
     u32 count;
-    u32 box;
+    uptr box;
     BTL_SETUP_Clear(param);
     BTL_SETUP_InitCommon(param, gd, sit);
     BTL_SETUP_SetPlayerParty(param, gd, heap);

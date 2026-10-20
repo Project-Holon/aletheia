@@ -334,12 +334,12 @@ void MBi_InitSendFixedBeacon(void)
 
 static void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u8 attribute)
 {
-    unsigned long lastAddr = (unsigned long)mbss.nowGInfop + 0x358;
+    unsigned long lastAddr = (uptr)mbss.nowGInfop + 0x358;
 
-    if ((unsigned long)mbss.nowFixedp + 0x62 <= lastAddr) {
+    if ((uptr)mbss.nowFixedp + 0x62 <= lastAddr) {
         bsendBuff.data.fixed.size = 0x62;
     } else {
-        bsendBuff.data.fixed.size = (u8)(lastAddr - (unsigned long)mbss.nowFixedp);
+        bsendBuff.data.fixed.size = (u8)(lastAddr - (uptr)mbss.nowFixedp);
         MI_CpuClear16((void *)((u8 *)bsendBuff.data.fixed.data + bsendBuff.data.fixed.size),
                        (unsigned long)(0x62 - bsendBuff.data.fixed.size));
     }

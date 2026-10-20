@@ -168,7 +168,7 @@ void WF2DMAP_SCRDRAW_SetScroll(char *surface,int x,int y)
     tx=x/8; ty=y/8; rx=x%8; ry=y%8;
     if(tx!=((Wf2dmapSurface *)surface)->tileX||ty!=((Wf2dmapSurface *)surface)->tileY) {
         ((Wf2dmapSurface *)surface)->tileY=ty; ((Wf2dmapSurface *)surface)->tileX=tx;
-        WF2DMAP_SCRDRAW_DrawTilesClipped(((Wf2dmapSurface *)surface)->surface,((Wf2dmapSurface *)surface)->layer,(unsigned int)(((Wf2dmapSurface *)surface)->size),-tx,-ty);
+        WF2DMAP_SCRDRAW_DrawTilesClipped(((Wf2dmapSurface *)surface)->surface,((Wf2dmapSurface *)surface)->layer,(uptr)(((Wf2dmapSurface *)surface)->size),-tx,-ty);
         BG_SYS_MarkTileDirty((u8)(((Wf2dmapSurface *)surface)->layer));
     }
     BG_SYS_ChangeScroll((u8)(((Wf2dmapSurface *)surface)->layer),(int)0,(int)rx);

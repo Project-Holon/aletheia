@@ -187,6 +187,7 @@
  *   _ll_udiv                     0x0209C00C  arm
  */
 #include "../arm9/game_data.h"
+#include "../sdk_ioreg.h"
 #include "zukan_detail_types.h"
 #include "zukan_detail_shared_types.h"
 #include "zukan_detail_form_types.h"
@@ -443,7 +444,7 @@ u32 ZUKAN_DETAIL_VOICE_Init(void *workAlloc, u32 unused, u16 *heapIdPtr, u32 unu
     voice->shownMs = 1;
     voice->bgmPhase = 0;
     ZUKAN_DETAIL_VOICE_FadeOutBgm(heapIdPtr, voice, ctx);
-    voice->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((unsigned)ZUKAN_DETAIL_VOICE_ApplyPendingDisplay), (void *)((unsigned)voice), 1);
+    voice->task = GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)ZUKAN_DETAIL_VOICE_ApplyPendingDisplay), (void *)((uptr)voice), 1);
     voice->blendTop = ZUKAN_DETAIL_COMMON_AllocBlendWork(*heapIdPtr);
     voice->blendBottom = ZUKAN_DETAIL_COMMON_AllocBlendWork(*heapIdPtr);
     ZUKAN_DETAIL_COMMON_InitBrightnessTarget(voice->blendTop);
@@ -595,7 +596,7 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
     }
     ZUKAN_DETAIL_COMMON_UpdateBlendFades(voice->blendTop, voice->blendBottom);
     ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(voice->palFade);
-    ZUKAN_DETAIL_VOICE_UpdateBgmFade((int)heapIdPtr, voice, ctx);
+    ZUKAN_DETAIL_VOICE_UpdateBgmFade((sptr)heapIdPtr, voice, ctx);
     return 0;
 }
 
@@ -719,11 +720,11 @@ void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, struct ZukanDetailVoice *voice
  */
 void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
-    int arc;
+    sptr arc;
     u8 i;
     struct ZukanDetailVoiceActorPos pos;
 
-    arc = (int)ARC_TOOL_CreateHandle(0x9f, *heapIdPtr);
+    arc = (sptr)ARC_TOOL_CreateHandle(0x9f, *heapIdPtr);
     i = 0;
     voice->gfxRes[1] = CLACT_RegisterPaletteEx((void *)arc, 3, 0, 0, 0, 4, *heapIdPtr);
     voice->gfxRes[0] = CLACT_RegisterCharacter((void *)arc, 0xd, 0, 0, *heapIdPtr);
@@ -782,24 +783,24 @@ void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *heapIdPtr, u8 *p, struct Ov208C
 {
     struct ZukanDetailVoiceAffineDesc desc;
     u32 gender, shiny, formNo;
-    u32 arc, spindaPersonality, species;
+    uptr arc; u32 spindaPersonality, species;
     void *zukanSave;
     species = ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx);
     spindaPersonality = 0;
     zukanSave = ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(ctx));
     ZUKAN_SAVE_GetViewGenderAndForm(zukanSave, species, &gender, &shiny, &formNo, *heapIdPtr);
     if (species == 327) spindaPersonality = ZUKAN_SAVE_GetSpindaPersonality(zukanSave, spindaPersonality);
-    arc = (unsigned int)POKEGRA_OpenHandle((unsigned int)(*heapIdPtr));
-    *(u32 *)((u32)p + 0x44 + slot * 4) = POKEGRA_RegisterCgr(arc, species, formNo, gender, shiny, 0, 0, spindaPersonality, 1, *heapIdPtr);
-    *(u32 *)((u32)p + 0x3c + slot * 4) = POKEGRA_RegisterPalette(arc, species, formNo, gender, shiny, 0, 0, 1, (u16)(slot << 5), *heapIdPtr);
-    *(u32 *)((u32)p + 0x4c + slot * 4) = POKEGRA_RegisterCellAnim(species, formNo, gender, shiny, 0, 0, 2, 1, *heapIdPtr);
+    arc = (uptr)POKEGRA_OpenHandle((unsigned int)(*heapIdPtr));
+    *(u32 *)((uptr)p + 0x44 + slot * 4) = POKEGRA_RegisterCgr(arc, species, formNo, gender, shiny, 0, 0, spindaPersonality, 1, *heapIdPtr);
+    *(u32 *)((uptr)p + 0x3c + slot * 4) = POKEGRA_RegisterPalette(arc, species, formNo, gender, shiny, 0, 0, 1, (u16)(slot << 5), *heapIdPtr);
+    *(u32 *)((uptr)p + 0x4c + slot * 4) = POKEGRA_RegisterCellAnim(species, formNo, gender, shiny, 0, 0, 2, 1, *heapIdPtr);
     ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(((struct ZukanDetailVoice *)p)->palFade, arc, POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(), species, formNo, gender, shiny, 0, 0), *heapIdPtr, 3, 32, (u16)(slot << 4), 0);
     ARC_TOOL_DeleteHandle((void *)arc);
     MI_CpuFill8(&desc, 0, 24);
     desc.x = 128; desc.y = 128; desc.z = 0; desc.animSeq = 0; desc.priority = 0; desc.palOffset = 0; desc.flipMode = 0;
     desc.scaleX = 4096; desc.scaleY = 4096; desc.rotation = 0; desc.drawMode = 2;
-    *(u32 *)((u32)p + 0x54 + slot * 4) = (u32)CLACT_CreateAffineActor((struct Unit *)(((struct ZukanDetailVoice *)p)->clactSys), *(u32 *)((u32)p + 0x44 + slot * 4), *(u32 *)((u32)p + 0x3c + slot * 4), *(u32 *)((u32)p + 0x4c + slot * 4), (const struct ActorInit *)((u32)(&desc)), 1, *heapIdPtr);
-    CLACT_SetActorObjMode((struct ClactActor *)((struct Actor *)(*(u32 *)((u32)p + 0x54 + slot * 4))), 0);
+    *(u32 *)((uptr)p + 0x54 + slot * 4) = (uptr)CLACT_CreateAffineActor((struct Unit *)(((struct ZukanDetailVoice *)p)->clactSys), *(u32 *)((uptr)p + 0x44 + slot * 4), *(u32 *)((uptr)p + 0x3c + slot * 4), *(u32 *)((uptr)p + 0x4c + slot * 4), (const struct ActorInit *)((uptr)(&desc)), 1, *heapIdPtr);
+    CLACT_SetActorObjMode((struct ClactActor *)((struct Actor *)(*(u32 *)((uptr)p + 0x54 + slot * 4))), 0);
     ((struct ZukanDetailVoice *)p)->scaleState = 0;
 }
 
@@ -1040,7 +1041,7 @@ void ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(u16 *heapIdPtr, struct ZukanDetailVoic
     ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(heapIdPtr, voice, ctx, voice->currentSlot);
     ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(heapIdPtr, (u8 *)voice, ctx, voice->currentSlot);
     ZUKAN_DETAIL_VOICE_DrawSpeciesName(heapIdPtr, voice, ctx);
-    ZUKAN_DETAIL_VOICE_StopVoice((int)heapIdPtr, voice, ctx);
+    ZUKAN_DETAIL_VOICE_StopVoice((sptr)heapIdPtr, voice, ctx);
     ZUKAN_DETAIL_VOICE_InitWaveformState(heapIdPtr, voice, ctx);
 }
 
@@ -1270,8 +1271,8 @@ void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *unused, struct ZukanDetailVoic
     }
     for (i = 0; i < 6; i++)
         CLACT_SetActorObjMode((struct ClactActor *)voice->actor[i], 0);
-    G2x_SetBlendAlpha_((unsigned int *)0x04000050, 4, 0x3f, 0x10, 8);
-    G2x_SetBlendAlpha_((unsigned int *)0x04001050, 0, 0x3f, 0xc, 4);
+    G2x_SetBlendAlpha_((unsigned int *)REG_BLDCNT_ADDR, 4, 0x3f, 0x10, 8);
+    G2x_SetBlendAlpha_((unsigned int *)REG_DB_BLDCNT_ADDR, 0, 0x3f, 0xc, 4);
 }
 
 void ZUKAN_DETAIL_VOICE_SetActorsAlphaMode(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)

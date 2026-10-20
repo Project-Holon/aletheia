@@ -85,11 +85,12 @@
  *   NNS_G3dGetTex  0x0206E964  arm  arm9
  */
 #include "field_g3d_mapper_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../types.h"
 
 #define HW_VBLANK_COUNT_BUF (*(volatile u32 *)0x02FFFC3C)
-#define REG_VCOUNT          (*(volatile u16 *)0x04000006)
+#define REG_VCOUNT          (*(volatile u16 *)REG_VCOUNT_ADDR)
 
 struct MapMatrix;
 struct BuildModelMan;
@@ -361,7 +362,7 @@ void FIELD_G3D_MAPPER_Draw(FieldG3dMapper *mapper, struct G3dCamera *camera, int
             drawPos.y = mapPos.y + mapper->originOffset.y;
             drawPos.z = mapPos.z + mapper->originOffset.z;
             FIELD_G3D_MAP_SetPos(mapper->slots[slotIndex].map, (struct VecFx32 *)(&drawPos));
-            drawn = FIELD_G3D_MAP_DrawWithModels(mapper->slots[slotIndex].map, (s32)camera);
+            drawn = FIELD_G3D_MAP_DrawWithModels(mapper->slots[slotIndex].map, (sptr)camera);
             FIELD_G3D_MAP_SetPos(mapper->slots[slotIndex].map, (struct VecFx32 *)(&mapPos));
             if (drawn != 0 && mapper->drawnCount < mapper->slotCount)
                 *drawnCount = *drawnCount + 1;
@@ -507,7 +508,7 @@ void FIELD_G3D_MAPPER_Setup(FieldG3dMapper *mapper, const FieldG3dMapperSetup *s
     for (i = 0; i < mapper->slotCount; i++) {
         FIELD_G3D_MAPPER_ResetCell(&mapper->slots[i].cell);
         FIELD_G3D_MAPPER_InitSlotRes(&mapper->slots[i].res, mapper, i, mapper->heapId);
-        config.userParam = (u32)&mapper->slots[i].res;
+        config.userParam = (uptr)&mapper->slots[i].res;
         map = FIELD_G3D_MAP_Create(&config, mapper->heapId);
         mapper->slots[i].map = map;
         FIELD_G3D_MAP_OpenArchive(map, mapper->mapArchiveId, mapper->heapId);

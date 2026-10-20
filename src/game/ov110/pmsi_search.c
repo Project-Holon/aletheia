@@ -252,7 +252,7 @@ int PMSI_SEARCH_Run(struct PmsiSearch *s)
             }
         }
         specialWords[specialCount] = PMS_INPUT_DATA_GetInvalidWordId(s->wordData);
-        s->hasResults = PMS_INPUT_DATA_FilterWordList((u32)s->wordData, (u32)specialWords, (u32)s->wordIds);
+        s->hasResults = PMS_INPUT_DATA_FilterWordList((uptr)s->wordData, (uptr)specialWords, (uptr)s->wordIds);
         if (s->hasResults) return 1;
         return 0;
     } else {
@@ -262,7 +262,7 @@ int PMSI_SEARCH_Run(struct PmsiSearch *s)
             normalWords[i] = PMS_INPUT_DATA_GetInitialWordId(s->wordData, initialId, s->results[i].wordIndex);
         }
         normalWords[matchCount] = PMS_INPUT_DATA_GetInvalidWordId(s->wordData);
-        s->hasResults = PMS_INPUT_DATA_FilterWordList((u32)s->wordData, (u32)normalWords, (u32)s->wordIds);
+        s->hasResults = PMS_INPUT_DATA_FilterWordList((uptr)s->wordData, (uptr)normalWords, (uptr)s->wordIds);
         if (s->hasResults) return 1;
         return 0;
     }
@@ -312,8 +312,8 @@ extern const u8 d_021C37B1[];
 
 void PMSI_SEARCH_GetKeyPosition(u32 i, int *column, int *row)
 {
-    *column = *(u8 *)((u32)&d_021C37AA.column + i * 10);
-    *row = *(u8 *)((u32)&d_021C37AA.row + i * 10);
+    *column = *(u8 *)((uptr)&d_021C37AA.column + i * 10);
+    *row = *(u8 *)((uptr)&d_021C37AA.row + i * 10);
 }
 
 u8 PMSI_SEARCH_GetKeyUp(u32 i)
@@ -333,7 +333,7 @@ u8 PMSI_SEARCH_GetKeyLeft(u32 i)
 
 int PMSI_SEARCH_GetKeyRight(int i)
 {
-    return *(const u8 *)((unsigned)d_021C37AF + i * 10);
+    return *(const u8 *)((uptr)d_021C37AF + i * 10);
 }
 
 u8 PMSI_SEARCH_GetKeyKind(u32 i)

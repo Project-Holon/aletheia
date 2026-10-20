@@ -374,7 +374,7 @@ BuildModelMan *FIELD_BUILDMODEL_Create(u16 heapId, void *fieldMap, u16 dateKey)
     BuildModelMan *man;
     int i;
     unsigned j;
-    int z = 0;
+    sptr z = 0;
 
     man = (BuildModelMan *)GFL_HEAP_Alloc(heapId, 0x13F8, 0, (char *)gBuildModelFileName, 0x193);
     man->heapId = heapId;
@@ -462,7 +462,7 @@ void FIELD_BUILDMODEL_LoadArea(BuildModelMan *man, int areaId, int mapHeader, in
 
 int FIELD_BUILDMODEL_GetPlacementByTableId(BuildModelMan *man, u32 tableId)
 {
-    return FIELD_BUILDMODEL_GetOffsetTarget((u32)man->archive, FIELD_BUILDMODEL_GetModelIndex(man, tableId));
+    return FIELD_BUILDMODEL_GetOffsetTarget((uptr)man->archive, FIELD_BUILDMODEL_GetModelIndex(man, tableId));
 }
 
 /*
@@ -470,7 +470,7 @@ int FIELD_BUILDMODEL_GetPlacementByTableId(BuildModelMan *man, u32 tableId)
  */
 u8 *FIELD_BUILDMODEL_GetModelDef(BuildModelMan *man, u32 index)
 {
-    return (u8 *)FIELD_BUILDMODEL_GetOffsetTarget((u32)man->archive, index);
+    return (u8 *)FIELD_BUILDMODEL_GetOffsetTarget((uptr)man->archive, index);
 }
 
 static inline void VEC_Set_(struct VecFx32 *v, int x, int y, int z)
@@ -792,7 +792,7 @@ void FIELD_BUILDMODEL_CreateAnimSets(BuildModelMan *man, BuildModelHandleTable *
             BuildModelAnimSet *sets = man->animSets;
             BuildModelModel *models = man->modelInfos;
             FIELD_BUILDMODEL_InitAnimSet(man, &sets[i], &models[i]);
-            out->handles[i][0] = (u32)sets[i].anim;
+            out->handles[i][0] = (uptr)sets[i].anim;
             out->handles[i][1] = 0;
         }
     }
@@ -864,14 +864,14 @@ void FIELD_BUILDMODEL_InitAnimSet(BuildModelMan *man, BuildModelAnimSet *out, Bu
 {
     u32 buf[BUILDMODEL_ANIM_SLOTS];
     u8 *anims;
-    u32 owner;
+    uptr owner;
     int i;
     u8 k;
     anims = FIELD_BUILDMODEL_GetModelAnimDefs(model->def);
-    owner = (u32)G3D_SYSTEM_CreateRender(model->resource, 0, man->g3dResources);
+    owner = (uptr)G3D_SYSTEM_CreateRender(model->resource, 0, man->g3dResources);
     for (i = 0; i < BUILDMODEL_ANIM_SLOTS; i++) {
         if (model->animResource[i] != 0)
-            buf[i] = (u32)G3D_SYSTEM_CreateAnime((struct G3dRender *)owner, (struct G3dResource *)model->animResource[i], 0);
+            buf[i] = (uptr)G3D_SYSTEM_CreateAnime((struct G3dRender *)owner, (struct G3dResource *)model->animResource[i], 0);
         else
             buf[i] = 0;
     }
@@ -1474,7 +1474,7 @@ int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(BuildModelNode *node, int out)
 int FIELD_BUILDMODEL_IsNodeSeBusy(BuildModelNode *node)
 {
     unsigned short v;
-    if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(node, (int)(&v)) == 0)
+    if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(node, (sptr)(&v)) == 0)
         return 0;
     return GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(v));
 }

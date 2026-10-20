@@ -428,7 +428,7 @@ int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayer *player, u16 dir, int h
                     int fillsHole = 0;
                     if (coverage == 3)
                         fillsHole = 1;
-                    return (int)FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(player, dir, boulder, fillsHole);
+                    return (sptr)FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(player, dir, boulder, fillsHole);
                 }
             }
         }
@@ -970,16 +970,16 @@ void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state)
 /* Belongs to the grid event file (see cuts). */
 u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(u8 *work, u32 direction)
 {
-    u32 mmdl;
-    u32 mapHandle;
+    uptr mmdl;
+    uptr mapHandle;
     int gridX;
     int gridZ;
 
-    mmdl = (u32)FIELD_PLAYER_GRID_GetMmdl((FieldPlayer *)work);
-    mapHandle = (u32)FLDMMDL_GetMmdlSys((void *)mmdl);
+    mmdl = (uptr)FIELD_PLAYER_GRID_GetMmdl((FieldPlayer *)work);
+    mapHandle = (uptr)FLDMMDL_GetMmdlSys((void *)mmdl);
     gridX = FLDMMDL_GetGridNowX((Mmdl *)mmdl);
     gridX += FLDMMDL_MOVE_GetDirAddGridX(direction);
     gridZ = FLDMMDL_GetGridNowZ((Mmdl *)mmdl);
     gridZ += FLDMMDL_MOVE_GetDirAddGridZ(direction);
-    return (u32)FLDMMDL_SysSearchGridPosHeight((struct MmdlSys *)mapHandle, (s16)gridX, (s16)gridZ, (u32)FLDMMDL_GetPosY((void *)mmdl), (u32)1, 0);
+    return (uptr)FLDMMDL_SysSearchGridPosHeight((struct MmdlSys *)mapHandle, (s16)gridX, (s16)gridZ, (u32)FLDMMDL_GetPosY((void *)mmdl), (u32)1, 0);
 }

@@ -60,6 +60,7 @@
  *   MUSICAL_SHOT_SYS_DrawScene 0x021F3C50 thumb ov112
  */
 #include "musical_shot_sys_shared_types.h"
+#include "../sdk_ioreg.h"
 #include "musical_shot_types.h"
 
 struct Proc;
@@ -165,7 +166,7 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
  GFL_HEAP_CreateChildHeap(1,74,1<<19);
  p=PROCSYS_AllocProcWork(owner,20,74);p->heap=74;
  if(save==0){
-  GF_OVERLAY_Load((u32)ov132_id);
+  GF_OVERLAY_Load((uptr)ov132_id);
   p->save=GFL_HEAP_Alloc(74,20,0,d_021F836C,110);
   length=ConfigSize;
   p->save->config=GFL_HEAP_Alloc(74,length,1,d_021F836C,111);
@@ -174,19 +175,19 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
   GF_STANDARD_GetCachedDate((struct RtcDate *)(&options));
   ((MusicalShotRecord *)cfg)->programId=3;((MusicalShotRecord *)cfg)->winnerMask=(u8)2;
   ((MusicalShotRecord *)cfg)->year=options.x;((MusicalShotRecord *)cfg)->month=options.y;((MusicalShotRecord *)cfg)->day=options.z;
-  *(u16 *)((u32)cfg+(length-0x4C))=0x30DD;
-  *(u16 *)((u32)cfg+(length-0x4A))=0x30B1;
-  *(u16 *)((u32)cfg+(length-0x48))=0x30C3;
-  *(u16 *)((u32)cfg+(length-0x46))=0x30BF;
-  *(u16 *)((u32)cfg+(length-0x44))=0x30FC;
-  *(u16 *)((u32)cfg+(length-0x42))=0x30EA;
-  *(u16 *)((u32)cfg+(length-0x40))=0x30E2;
-  *(u16 *)((u32)cfg+(length-0x3E))=0x30F3;
-  *(u16 *)((u32)cfg+(length-0x3C))=0x30B9;
-  *(u16 *)((u32)cfg+(length-0x3A))=0x30BF;
-  *(u16 *)((u32)cfg+(length-0x38))=0x30FC;
-  *(u16 *)((u32)cfg+(length-0x36))=0x30EA;
-  *(u16 *)((u32)cfg+(length-0x34))=STRBUF_GetEosChar();
+  *(u16 *)((uptr)cfg+(length-0x4C))=0x30DD;
+  *(u16 *)((uptr)cfg+(length-0x4A))=0x30B1;
+  *(u16 *)((uptr)cfg+(length-0x48))=0x30C3;
+  *(u16 *)((uptr)cfg+(length-0x46))=0x30BF;
+  *(u16 *)((uptr)cfg+(length-0x44))=0x30FC;
+  *(u16 *)((uptr)cfg+(length-0x42))=0x30EA;
+  *(u16 *)((uptr)cfg+(length-0x40))=0x30E2;
+  *(u16 *)((uptr)cfg+(length-0x3E))=0x30F3;
+  *(u16 *)((uptr)cfg+(length-0x3C))=0x30B9;
+  *(u16 *)((uptr)cfg+(length-0x3A))=0x30BF;
+  *(u16 *)((uptr)cfg+(length-0x38))=0x30FC;
+  *(u16 *)((uptr)cfg+(length-0x36))=0x30EA;
+  *(u16 *)((uptr)cfg+(length-0x34))=STRBUF_GetEosChar();
   ((MusicalShotRecord *)cfg)->performers[0].monsNo=643;((MusicalShotRecord *)cfg)->performers[1].monsNo=643;((MusicalShotRecord *)cfg)->performers[2].monsNo=643;((MusicalShotRecord *)cfg)->performers[3].monsNo=643;
   for(i=0;i<4;i++){
    u8 *q;
@@ -205,28 +206,28 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
   if(KEY_GetCont()&256)p->save->a=1;else p->save->a=0;
   p->save->c=0;
  }else p->save=(Save *)save;
- if(p->save->b==1)GF_OVERLAY_Load((u32)ov132_id);
- p->task=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((u32)MUSICAL_SHOT_SYS_VBlank),(void *)((u32)p),64);
+ if(p->save->b==1)GF_OVERLAY_Load((uptr)ov132_id);
+ p->task=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))((uptr)MUSICAL_SHOT_SYS_VBlank),(void *)((uptr)p),64);
  MUSICAL_SHOT_SYS_InitGraphics((u8 *)p);
  p->scene=MUSICAL_SHOT_SYS_CreateScene(p->save->config,p->heap);
- p->actors=MUSICAL_SHOT_INFO_Create((u32)p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
+ p->actors=MUSICAL_SHOT_INFO_Create((uptr)p->save->config,p->save->c,p->save->a,p->save->d,p->heap);
  WIPE_SYS_Start(0,1,1,0,6,1,p->heap);return 1;
 }
 
 int MUSICAL_SHOT_SYS_Exit(void *owner,void *arg,int flag,u8 *p) {
     if (!WIPE_SYS_EndCheck()) return 0;
-    GXx_SetMasterBrightness_((void *)0x0400006c,-16);
-    GXx_SetMasterBrightness_((void *)0x0400106c,-16);
-    G2x_SetBlendAlpha_((void *)0x04000050,0,0,31,31);
+    GXx_SetMasterBrightness_((void *)REG_MASTER_BRIGHT_ADDR,-16);
+    GXx_SetMasterBrightness_((void *)REG_DB_MASTER_BRIGHT_ADDR,-16);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR,0,0,31,31);
     MUSICAL_SHOT_INFO_Delete(((MusicalShotSysState *)p)->actors);
     MUSICAL_SHOT_SYS_DeleteScene(((MusicalShotSysState *)p)->scene);
     MUSICAL_SHOT_SYS_ExitGraphics(p);
     TCB_DeleteTask(((MusicalShotSysState *)p)->task);
-    if (((MusicalShotSysState *)p)->save->b==1) GF_OVERLAY_Unload((int)ov_abs_84);
+    if (((MusicalShotSysState *)p)->save->b==1) GF_OVERLAY_Unload((sptr)ov_abs_84);
     if (flag==0) {
         GFL_HEAP_Free(((MusicalShotSysState *)p)->save->config);
         GFL_HEAP_Free(((MusicalShotSysState *)p)->save);
-        GF_OVERLAY_Unload((int)ov_abs_84);
+        GF_OVERLAY_Unload((sptr)ov_abs_84);
     }
     PROCSYS_FreeProcWork(owner);
     GFL_HEAP_DeleteChecked(74);

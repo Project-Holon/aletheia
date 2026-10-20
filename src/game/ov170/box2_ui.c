@@ -440,7 +440,7 @@ void BOX2_UI_DrawSlot(BoxTask *task, int i)
     void *q = ARC_UTIL_LoadScreenDataFromArchive(0x74, 0x47, 1, (&t), 0x4c);
     MI_CpuCopy8(((BoxArcRes *)(t))->data, task->work->charPool[i], 0x400);
     GFL_HEAP_Free((void *)q);
-    BOX2_UI_ReplaceColorIndex((int)task, (unsigned char *)(task->work->charPool[i]), BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, i), 8, 0x400);
+    BOX2_UI_ReplaceColorIndex((sptr)task, (unsigned char *)(task->work->charPool[i]), BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, i), 8, 0x400);
     BOX2_UI_LoadMonIcon((int **)task, i, (unsigned char *)(task->work->charPool[i]));
 }
 
@@ -477,7 +477,7 @@ void BOX2_UI_DrawSlotByName(char *task, int a)
  */
 void BOX2_UI_UploadSlotChar(BoxTask *task, int a, int i)
 {
-    int q = (int)task->work;
+    int q = (sptr)task->work;
     int x = CLACT_GetActorCharacterIndex((struct ClactActor *)(*(int *)(q + i * 4 + 0x9E74)));
     CLACT_TransferCharacterPart(x, (void *)(q + 0x3E70 + a * 0x400), 0x400, 0, 0);
 }
@@ -768,7 +768,7 @@ void BOX2_UI_CreateCursor(char **work)
     case 5: i = 15; break;
     }
     BOX2_UI_DeleteCursorMove((int *)work);
-    ((BoxWork *)work[11])->cursorMove = CURSOR_MOVE_Create((struct CursorEntry *)d_021F02F0[i].a, (struct CursorVtbl *)d_021F02F0[i].b, (u32)work, f, ((unsigned *)work)[9], 0x4c);
+    ((BoxWork *)work[11])->cursorMove = CURSOR_MOVE_Create((struct CursorEntry *)d_021F02F0[i].a, (struct CursorVtbl *)d_021F02F0[i].b, (uptr)work, f, ((unsigned *)work)[9], 0x4c);
     CURSOR_MOVE_EnableInput(((BoxWork *)work[11])->cursorMove);
     BOX2_UI_UpdateCursor((char *)work, ((int *)work)[9]);
     BOX2_SEQ_SetCursorDraw(work, f);
@@ -779,7 +779,7 @@ void BOX2_UI_MoveCursor(char **work, int idx, int v)
 {
     int r = CURSOR_MOVE_GetState(((BoxWork *)work[11])->cursorMove);
     BOX2_UI_DeleteCursorMove((int *)work);
-    ((BoxWork *)work[11])->cursorMove = CURSOR_MOVE_Create((struct CursorEntry *)d_021F02F0[idx].a, (struct CursorVtbl *)d_021F02F0[idx].b, (u32)work, r, v, 0x4C);
+    ((BoxWork *)work[11])->cursorMove = CURSOR_MOVE_Create((struct CursorEntry *)d_021F02F0[idx].a, (struct CursorVtbl *)d_021F02F0[idx].b, (uptr)work, r, v, 0x4C);
     CURSOR_MOVE_EnableInput(((BoxWork *)work[11])->cursorMove);
     BOX2_UI_UpdateCursor((char *)work, v);
     BOX2_SEQ_SetCursorDraw(work, r);
@@ -836,7 +836,7 @@ void BOX2_UI_HideCursor(BoxTask *task)
 void BOX2_UI_SetCursorSeq(BoxTask *task, int a, int b)
 {
     BOX2_UI_MoveCursorBetweenIcons(task->work, a, b);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)((void *)&BOX2_MAIN_SceneApplyScroll));
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)((void *)&BOX2_MAIN_SceneApplyScroll));
 }
 
 /*
@@ -996,7 +996,7 @@ unsigned BOX2_UI_UpdateCursorInputC(BoxTask *task)
 void BOX2_UI_SetCursorSeqB(BoxTask *task, int a, int b)
 {
     BOX2_UI_MoveCursorBetweenIcons(task->work, a, b);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)((void *)&BOX2_MAIN_SceneApplyScroll));
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)((void *)&BOX2_MAIN_SceneApplyScroll));
 }
 
 void BOX2_UI_CursorTagC(void *a, int tag)
@@ -1106,7 +1106,7 @@ unsigned BOX2_UI_UpdateCursorInputD(BoxTask *task)
 void BOX2_UI_SetCursorSeqC(BoxTask *task, int a, int b)
 {
     BOX2_UI_MoveCursorBetweenIcons(task->work, a, b);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)((void *)&BOX2_MAIN_SceneApplyScroll));
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)((void *)&BOX2_MAIN_SceneApplyScroll));
 }
 
 void BOX2_UI_CursorTagD(void *a, int tag)
@@ -1204,7 +1204,7 @@ unsigned BOX2_UI_UpdateCursorInputE(BoxTask *task)
 void BOX2_UI_SetCursorSeqD(BoxTask *task, int a, int b)
 {
     BOX2_UI_MoveCursorBetweenIcons(task->work, a, b);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)((void *)&BOX2_MAIN_SceneApplyScroll));
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)((void *)&BOX2_MAIN_SceneApplyScroll));
 }
 
 void BOX2_UI_CursorTagE(void *a, int tag)
@@ -1252,7 +1252,7 @@ unsigned BOX2_UI_UpdateCursorInputF(BoxTask *task)
 void BOX2_UI_SetCursorSeqE(BoxTask *task, int a, int b)
 {
     BOX2_UI_MoveCursorBetweenIcons(task->work, a, b);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)((void *)&BOX2_MAIN_SceneApplyScroll));
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)((void *)&BOX2_MAIN_SceneApplyScroll));
 }
 
 void BOX2_UI_CursorTagF(void *a, int tag)
@@ -1264,7 +1264,7 @@ void BOX2_UI_CursorTagF(void *a, int tag)
 void BOX2_UI_SetCursorSeqF(BoxTask *task, int a, int b)
 {
     BOX2_UI_MoveCursorBetweenIcons(task->work, a, b);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)((void *)&BOX2_MAIN_SceneApplyScroll));
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)((void *)&BOX2_MAIN_SceneApplyScroll));
 }
 
 /*
@@ -1279,7 +1279,7 @@ void BOX2_UI_PlayAndUpdateCursorB(BoxTask *task, unsigned int a)
 void BOX2_UI_SetCursorSeqG(BoxTask *task, int a, int b)
 {
     BOX2_UI_MoveCursorBetweenIcons(task->work, a, b);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)((void *)&BOX2_MAIN_SceneApplyScroll));
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)((void *)&BOX2_MAIN_SceneApplyScroll));
 }
 
 void BOX2_UI_PlayAndUpdateCursorC(BoxTask *task, unsigned int a)
@@ -1293,7 +1293,7 @@ void BOX2_UI_PickIconSlot(BoxTask *task, int k, int v)
     if (k >= 1 && k <= 4) BOX2_UI_SetMiniIconVisible((BoxTask *)task, k-1, 1);
     else BOX2_UI_SetMiniIconVisible((BoxTask *)task, 0, 0);
     BOX2_UI_MoveCursorBetweenIcons(task->work, k, v);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)BOX2_MAIN_SceneApplyScroll);
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)BOX2_MAIN_SceneApplyScroll);
     task->work->heldSlot = k;
 }
 
@@ -1354,7 +1354,7 @@ unsigned BOX2_UI_UpdateCursorInputG(BoxTask *task)
 void BOX2_UI_SetCursorSeqH(BoxTask *task, int a, int b)
 {
     BOX2_UI_MoveCursorBetweenIcons(task->work, a, b);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)((void *)&BOX2_MAIN_SceneApplyScroll));
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)((void *)&BOX2_MAIN_SceneApplyScroll));
 }
 
 void BOX2_UI_CursorTagG(void *a, int tag)
@@ -1400,7 +1400,7 @@ unsigned BOX2_UI_UpdateCursorInputH(BoxTask *task)
 void BOX2_UI_SetCursorSeqI(BoxTask *task, int a, int b)
 {
     BOX2_UI_MoveCursorBetweenIcons(task->work, a, b);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)BOX2_MAIN_SceneApplyScroll);
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)BOX2_MAIN_SceneApplyScroll);
 }
 
 void BOX2_UI_CursorTagH(void *a, int tag)
@@ -1438,7 +1438,7 @@ unsigned BOX2_UI_CursorInputPage(BoxTask *task)
 void BOX2_UI_SetCursorSeqJ(BoxTask *task, int a, int b)
 {
     BOX2_UI_MoveCursorBetweenIcons(task->work, a, b);
-    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (int)BOX2_MAIN_SceneApplyScroll);
+    BOX2_MAIN_SetSeqParam((BoxWork *)task->work, (sptr)BOX2_MAIN_SceneApplyScroll);
 }
 
 /*

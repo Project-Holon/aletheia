@@ -303,7 +303,7 @@ void EVENTDATA_SYSTEM_LoadEncountData(EventDataSystem *system, int zoneId, int e
  *   python tools/match.py one --src src/matched/EVENTDATA_SYSTEM_GetSpecialScriptData.c \
  *       --func EVENTDATA_SYSTEM_GetSpecialScriptData --addr 0x02162450 --region ov010 --cc dsi/1.1p1 --thumb
  */
-u32 EVENTDATA_SYSTEM_GetSpecialScriptData(EventDataSystem *system) { return (u32)system->specialScripts; }
+u32 EVENTDATA_SYSTEM_GetSpecialScriptData(EventDataSystem *system) { return (uptr)system->specialScripts; }
 
 /*
  * Unlabelled thumb leaf (ldr r0,[r0,0x34]; bx lr), the sole blocker of
@@ -363,7 +363,7 @@ void EVENTDATA_SYSTEM_ReadEventFile(EventDataSystem *system, int zoneId)
 {
     int fileId;
     unsigned fileSize;
-    unsigned tableBase;
+    uptr tableBase;
     unsigned offset;
     const EventFileData *fileData;
 
@@ -372,7 +372,7 @@ void EVENTDATA_SYSTEM_ReadEventFile(EventDataSystem *system, int zoneId)
     ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)system->eventArc, fileId, 0, fileSize, &system->fileSize);
     offset = 0;
     fileData = &system->fileData;
-    tableBase = (unsigned)fileData + 4;
+    tableBase = (uptr)fileData + 4;
     system->specialScripts = (char *)fileData + system->fileSize;
     {
         u8 count = fileData->counts[0];
@@ -596,7 +596,7 @@ void EVENTDATA_SYSTEM_SetConnectGridPos(EventDataSystem *system, u32 index, u16 
  */
 u32 EVENTDATA_SYSTEM_GetNpcHeaders(EventDataSystem *system)
 {
-    return (u32)system->npcHeaders;
+    return (uptr)system->npcHeaders;
 }
 
 /*
@@ -874,7 +874,7 @@ void EVENTDATA_SYSTEM_SetBgEventGridPos(const EventDataSystem *system, u32 index
 {
     BgEventData *bgEvent;
     if (system->bgCount >= index && system->bgEvents != 0) {
-        bgEvent = (BgEventData *)((u32)system->bgEvents + index * 20u);
+        bgEvent = (BgEventData *)((uptr)system->bgEvents + index * 20u);
         if (bgEvent->posType == 0) {
             setBgEventGridPos(bgEvent, gridX, height, gridZ);
         }

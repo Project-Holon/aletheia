@@ -51,6 +51,7 @@
  *   WIFILIST_GetWork  0x02009860  thumb  arm9
  */
 #include "worldtrade_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/gfl_heap_wrap.h"
 
@@ -165,7 +166,7 @@ extern u8 tbl_021D654C[];
 /*
  * volatile: hardware read-modify-write at 021F89C6/021F89CA, 0x04000304.
  */
-int WORLDTRADE_ENTER_Init(WorldtradeWork *p) {WORLDTRADE_ExitPlanes(p);WORLDTRADE_ENTER_EmptyInitHook(p);*(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000);switch(p->kind){case 19:case 21:p->state=2;break;case 20:p->state=4;break;}return 1;}
+int WORLDTRADE_ENTER_Init(WorldtradeWork *p) {WORLDTRADE_ExitPlanes(p);WORLDTRADE_ENTER_EmptyInitHook(p);*(volatile u16 *)REG_POWCNT1_ADDR = (u16)(*(volatile u16 *)REG_POWCNT1_ADDR & ~0x8000);switch(p->kind){case 19:case 21:p->state=2;break;case 20:p->state=4;break;}return 1;}
 
 extern int (*const d_02203C1C[])(WorldtradeWork *);
 

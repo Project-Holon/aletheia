@@ -53,6 +53,7 @@
 #define reg_G3X_FOG_COLOR       (*(vu32 *)REG_FOG_COLOR_ADDR)
 #define reg_G3_SHININESS (*(vu32 *)REG_SHININESS_ADDR)
 #include "../types.h"
+#include "../sdk_ioreg_reg.h"
 #include "../sdk_ioreg.h"
 
 #include "../sdk_fx.h"

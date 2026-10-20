@@ -82,10 +82,11 @@
  *   DEMO3D_DATA_IsDouble3dDisplay 0x021BE938 thumb ov203
  */
 #include "../arm9/g3d_util.h"
+#include "../sdk_ioreg.h"
 #include "demo3d_graphic_shared_types.h"
 #include "demo3d_engine_shared_types.h"
 
-#define DISP (*(volatile u16 *)0x04000060)
+#define DISP (*(volatile u16 *)REG_DISP3DCNT_ADDR)
 
 struct Demo3dEngineConfig;
 
@@ -262,7 +263,7 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
     int left;
     int cnt;
     void *e;
-    u32 h;
+    uptr h;
 
     ctx = GFL_HEAP_Alloc(heap, 0x88, 1, d_021C3CE0, 0x79);
     ctx->graphic = owner;
@@ -299,7 +300,7 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
     ctx->animeOn = DEMO3D_DATA_IsDouble3dDisplay((void *)ctx->id);
     if (ctx->animeOn) {
         DOUBLE3DDISP_Init(heap);
-        GFL_USE_SetVBlankHook((void (*)(void *))((int)DEMO3D_GRAPHIC_DeleteDouble3d), 0);
+        GFL_USE_SetVBlankHook((void (*)(void *))((sptr)DEMO3D_GRAPHIC_DeleteDouble3d), 0);
     }
     ctx->scale[0] = 0;
     ctx->scale[1] = 0;
@@ -317,7 +318,7 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
         r = ((float)(ctx->data.frame << 12) - 0.5f);
     ICA_ANIME_SetFrame(ctx->anime, (int)r);
     n = ctx->count * 6;
-    ctx->table = (u32)G3D_UTIL_Create((u16)n, (u16)n, heap);
+    ctx->table = (uptr)G3D_UTIL_Create((u16)n, (u16)n, heap);
     e = DEMO3D_DATA_Create(heap);
     for (i = 0; i < ctx->count; i++) {
         DEMO3D_DATA_BuildTable(e, (const char *)(&ctx->data), i);
@@ -337,7 +338,7 @@ struct Demo3dEngineCtx *DEMO3D_ENGINE_Create(void *owner, struct Demo3dGraphicCf
             G3D_SYSTEM_SetObjectAnimeFrame((struct G3dObject *)h, k, &ang);
         }
     }
-    ctx->cmdSys = (unsigned int)DEMO3D_CMDSYS_Create((char *)ctx, (unsigned int)heap);
+    ctx->cmdSys = (uptr)DEMO3D_CMDSYS_Create((char *)ctx, (unsigned int)heap);
     return ctx;
 }
 
@@ -418,7 +419,7 @@ static inline void Anti(BOOL enable) {
 }
 
 static inline void Test(BOOL enable,int ref) {
-    if(enable) { DISP=(u16)((DISP & ~0x3000)|4); *(volatile u16 *)0x04000340=(u16)ref; }
+    if(enable) { DISP=(u16)((DISP & ~0x3000)|4); *(volatile u16 *)REG_ALPHA_TEST_REF_ADDR=(u16)ref; }
     else DISP &= (u16)~0x3004;
 }
 

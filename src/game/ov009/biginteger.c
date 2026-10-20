@@ -38,7 +38,6 @@
 #include "../arm9/mi_memory.h"
 extern u64 get48bits_3(u16 *s);
 extern u64 get48bits_2(u16 *s);
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 extern u64 get64bits(u16 *s);
 static void CPSi_big_modinv(unsigned short *c, unsigned short *a, unsigned short *n, int digits, unsigned short *tmp_var);

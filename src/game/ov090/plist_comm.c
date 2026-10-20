@@ -57,7 +57,7 @@ u32 PLIST_COMM_SendStatus(PartyListCommWork *work, u8 status, u16 selection);
 void PLIST_COMM_OnStatusReceived(int netId, int size, u8 *data, PartyListCommWork *work);
 void PLIST_COMM_StartSync(void *work, int syncNo);
 int PLIST_COMM_IsSyncDoneOrFinished(PartyListCommWork *work, int syncNo);
-extern u8 gPartyListCommandTable[];
+extern NetCommandEntry gPartyListCommandTable[];
 
 void PLIST_COMM_Start(PartyListCommWork *work)
 {
@@ -81,7 +81,7 @@ void PLIST_COMM_Update(PartyListCommWork *work)
         break;
     case 1:
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x2d) == 1) {
-            GFL_NET_COMMAND_AddCommandTable((u32)0x2d00, (u32)gPartyListCommandTable, (u32)1, (u32)work);
+            GFL_NET_COMMAND_AddCommandTable((u32)0x2d00, gPartyListCommandTable, (u32)1, work);
             work->syncStep = 2;
         }
         break;

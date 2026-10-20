@@ -55,7 +55,7 @@ int DWC_Auth_SetNasTimeDiff(char *datestr)
     long long serversec;
     char datestr2[30];
 
-    if (strlen((unsigned char *)datestr) != strlen((unsigned char *)gDwcNasTimeSample) ||
+    if (strlen(datestr) != strlen(gDwcNasTimeSample) ||
         datestr[7] != 0x20 || datestr[11] != 0x20 || datestr[16] != 0x20 ||
         datestr[19] != 0x3a || datestr[22] != 0x3a || datestr[25] != 0x20)
         goto fail;

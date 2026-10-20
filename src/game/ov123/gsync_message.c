@@ -72,6 +72,7 @@
  *   APP_KEYCURSOR_CreateDefault  0x02028590  thumb  arm9
  */
 #include "gsync_message_types.h"
+#include "../sdk_ioreg.h"
 #include "gsync_common_types.h"
 
 struct Blk;
@@ -233,8 +234,8 @@ GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank)
     work->msgData = MSGDATA_CreateFromArchive(0, 2, (u16)msgBank, work->heap);
     work->keyCursor = (void *)APP_KEYCURSOR_CreateDefault(15, 1, 1, work->heap);
     work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, (struct GFont *)work->font, (struct PrintQueue *)work->printQue, work->heap);
-    work->bg5Frame = (u32)(u32)BMP_MENUWORK_LoadFrameGfx((u32)5, 12, 0, work->heap);
-    work->bg6Frame = (u32)(u32)BMP_MENUWORK_LoadFrameGfx((u32)6, 12, 0, work->heap);
+    work->bg5Frame = (u32)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)5, 12, 0, work->heap);
+    work->bg6Frame = (u32)(uptr)BMP_MENUWORK_LoadFrameGfx((u32)6, 12, 0, work->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 352, 32, work->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 352, 32, work->heap);
     return work;
@@ -294,7 +295,7 @@ void GSYNC_MESSAGE_PrintStream(GsyncMessageWork *work, int instant)
     if (instant) {
         PRINTSYS_Print(BMP_WIN_GetBmp(win), 0, 0, work->msgBuf, work->font);
     } else {
-        work->printStream = PRINTSYS_PrintStream(win, (int)0, (int)0, work->msgBuf, work->font, (s32)(void *)((int)MSG_SPEED_GetWait()), work->tcbl, (int)2, work->heap, 15);
+        work->printStream = PRINTSYS_PrintStream(win, (int)0, (int)0, work->msgBuf, work->font, (sptr)(void *)((int)MSG_SPEED_GetWait()), work->tcbl, (int)2, work->heap, 15);
         PRINTSYS_CTRL_Init((PrintStreamCtrl *)work->streamWait, (int)6);
     }
     BMP_MENUWORK_DrawWindow(win, 1, (u16)(work->bg5Frame), 12);
@@ -367,10 +368,10 @@ int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout)
     work->menuItems[1].str = STRBUF_Create(100, work->heap);
     MSGDATA_ReadString(work->msgData, 5, work->menuItems[1].str);
     work->menuItems[1].msgColor = 0x39e0;
-    result = (int)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&tmpl), work->taskMenuRes);
+    result = (sptr)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&tmpl), work->taskMenuRes);
     STRBUF_Delete(work->menuItems[0].str);
     STRBUF_Delete(work->menuItems[1].str);
-    G2x_SetBlendBrightness_(0x04001050, 9, -8);
+    G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, 9, -8);
     return result;
 }
 

@@ -122,12 +122,12 @@ void MUSICAL_EVENT_SetPartyLevel50(void *party)
  */
 void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work)
 {
-    int battleBox;
+    sptr battleBox;
     void *member;
     int i;
     void *ownParty;
     void *boxParty;
-    battleBox = (int)BATTLE_BOX_GetFromSave(work->saveControl);
+    battleBox = (sptr)BATTLE_BOX_GetFromSave(work->saveControl);
     if (partySource == 0) {
         ownParty = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
         for (i = 0; i < (int)POKEPARTY_GetCount(ownParty); i++) {

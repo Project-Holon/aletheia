@@ -325,7 +325,7 @@ int PMS_INPUT_ProcInit(struct Proc *proc, int *seq, struct PmsiParam *param, voi
     struct PmsInput *input;
     switch (*seq) {
     case 0:
-        GF_OVERLAY_Load((int)ov067_id);
+        GF_OVERLAY_Load((sptr)ov067_id);
         GFL_HEAP_CreateChildHeap(1, 41, 0x18000);
         GFL_HEAP_CreateChildHeap(1, 42, 0x32000);
         input = PMS_INPUT_Create(proc, param);
@@ -389,7 +389,7 @@ int PMS_INPUT_ProcExit(struct Proc *proc, int unused, int args, struct PmsInput 
     PMS_INPUT_Destroy(input, proc);
     GFL_HEAP_DeleteChecked(41);
     GFL_HEAP_DeleteChecked(42);
-    GF_OVERLAY_Unload((int)ov067_id);
+    GF_OVERLAY_Unload((sptr)ov067_id);
     return 1;
 }
 
@@ -413,7 +413,7 @@ struct PmsInput *PMS_INPUT_Create(struct Proc *proc, struct PmsiParam *param)
     input->tasks = TCB_Init(5, taskBuf);
     input->data = PMS_INPUT_DATA_Create(41, input->param);
     input->view = PMS_INPUT_VIEW_Create(input, input->data);
-    input->buttonMan = BUTTON_MAN_Create((u8 *)gPmsInputButtonRects, (void (*)(s32, s32, s32))PMS_INPUT_OnButton, (int)input, 41);
+    input->buttonMan = BUTTON_MAN_Create((u8 *)gPmsInputButtonRects, (void (*)(s32, s32, s32))PMS_INPUT_OnButton, (sptr)input, 41);
     input->browseMode = PMS_BROWSE_CATEGORY;
     input->subHandler = 0;
     input->subState = 0;

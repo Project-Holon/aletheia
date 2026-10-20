@@ -151,7 +151,7 @@ void FLDEFF_RIPPLE_AddActor(RippleWork *work)
     rec.paletteId = 0x10;
     rec.kind = 1;
     res = G3D_SYSTEM_CreateResourceArcHandle(arc, 0x2e);
-    rec.resource = (u32)res;
+    rec.resource = (uptr)res;
     FIELD_EFFECT_ApplyPaletteTable(work->fieldEffect, (void *)rec.resource);
     work->actorId = BILLBOARD_ACT_CreateSlots(work->bbActSys, &rec, 1);
 }
@@ -180,13 +180,13 @@ void FLDEFF_RIPPLE_InitObj(FieldEffectObj *obj, RippleObjWork *work)
 {
     RippleStartParam *param = (RippleStartParam *)FIELD_EFFECT_GetObjectParam(obj);
     RippleWork *bbRes;
-    u32 actSys, entryId;
+    uptr actSys; u32 entryId;
     struct BbActDesc desc;
 
     work->res = param->work;
     FIELD_EFFECT_SetObjectPos(obj, &param->pos);
     bbRes = work->res;
-    actSys = (u32)bbRes->bbActSys;
+    actSys = (uptr)bbRes->bbActSys;
     desc.slot = bbRes->actorId;
     desc.width = 0x1000;
     desc.height = 0x1000;
@@ -195,7 +195,7 @@ void FLDEFF_RIPPLE_InitObj(FieldEffectObj *obj, RippleObjWork *work)
     desc.color = 1;
     desc.pos = param->pos;
     desc.hook = 0;
-    desc.hookArg = (u32)work;
+    desc.hookArg = (uptr)work;
     work->entryId = BILLBOARD_ACT_CreateEntries((struct BbActSys *)actSys, 0, &desc, 1, 3);
     if (work->entryId == 0xFFFF) {
         FIELD_EFFECT_DeleteObject(obj);
@@ -210,7 +210,7 @@ void FLDEFF_RIPPLE_InitObj(FieldEffectObj *obj, RippleObjWork *work)
 /* Exit: deletes the billboard entry unless the creation failed. */
 void FLDEFF_RIPPLE_ExitObj(FieldEffectObj *obj, RippleObjWork *work)
 {
-    u32 actSys = (u32)work->res->bbActSys;
+    u32 actSys = (uptr)work->res->bbActSys;
 
     if (work->entryId != 0xFFFF)
         BILLBOARD_ACT_DeleteEntries((struct BbActSys *)actSys, work->entryId, 1);

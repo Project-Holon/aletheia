@@ -336,7 +336,6 @@ extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 #include "scenesettest.h"
 #include "scenesetlistsave.h"
 #include "scenesetselectap.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../arm9/os_printf.h"
 void DWCi_SceneSetList(void);

@@ -79,13 +79,13 @@ u32 NWM_SetWEPKey(void *callback, u32 wepMode, u32 keyId, const u8 *wepKey, u16 
         return 5;
     }
     DC_StoreRange(wepKey, 0x50);
-    NWMi_SetCallbackTable(13, (u32)callback);
+    NWMi_SetCallbackTable(13, (uptr)callback);
     msg.len = 13;
     msg.w4 = keyId;
     msg.w6 = kind;
     msg.w2 = flags;
     MI_CpuCopy8(wepKey, msg.data, 0x50);
-    r = NWMi_SendCommandDirect((u32)(&msg), 0x58);
+    r = NWMi_SendCommandDirect((uptr)(&msg), 0x58);
     if (r == 0 || r == 2) {
         r = 2;
     }

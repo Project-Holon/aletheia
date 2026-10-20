@@ -636,7 +636,7 @@ void BR_UTIL_SetTextFromMessage(char *p,void *a,void *b,void *font,unsigned shor
     BrPair xy;
     void *owner;
     BMP_Clear(BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window),((BrUtilTextWin *)p)->clearColor);
-    MSGDATA_ReadString(a,(u32)b,((BrUtilTextWin *)p)->strbuf);
+    MSGDATA_ReadString(a,(uptr)b,((BrUtilTextWin *)p)->strbuf);
     BR_UTIL_AlignText(((BrUtilTextWin *)p)->alignMode, (BrPair *)(p+28), BMP_WIN_GetBmp(((BrUtilTextWin *)p)->window), ((BrUtilTextWin *)p)->strbuf, font, (BrPair *)&xy);
     owner=((BrUtilTextWin *)p)->owner;
     PRINTSYS_PrintQueColor(owner,BMP_WIN_GetBmp(((BrUtilTextWin *)p)->bmp),(short)xy.x,(short)xy.y,(((BrUtilTextWin *)p)->strbuf),font,value);
@@ -686,7 +686,7 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const BrUtilConfig *cfg,u16 heap)
     int size,mode,count;
     int limit;
     u16 resource;
-    int font;
+    sptr font;
     int i;
     size=cfg->count*4+0x8c;
     p=GFL_HEAP_Alloc(heap,size,0,d_02200D5C,0x1a1);
@@ -714,7 +714,7 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const BrUtilConfig *cfg,u16 heap)
         p->methods[0]=(void (*)(void))BR_UTIL_ScrollWithCursor;p->methods[1]=(void (*)(void))BR_UTIL_HasMultipleRows;p->methods[2]=(void (*)(void))BR_UTIL_UpdateRowSelection;
         if(p->cfg.cursor) BR_UTIL_StartEffect((char *)p->cfg.cursor,5,(const BrPair *)&d_02200B0C[p->index]);
     }
-    p->descriptor=(u32)BMP_WIN_Create(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
+    p->descriptor=(uptr)BMP_WIN_Create(cfg->bg,cfg->x,cfg->y,cfg->width,cfg->height,cfg->palette,1);
     BMP_WIN_MakeScreen((struct BmpWin *)p->descriptor);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)p->descriptor));
     i=0;
@@ -735,7 +735,7 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const BrUtilConfig *cfg,u16 heap)
         if(cfg->mode==0) arrow.y=i==0?16:128;
         else arrow.y=i==0?64:184;
         arrow.id=i;
-        p->handles[i]=(u32)CLACT_CreateActor((struct Unit *)((void *)cfg->manager),arrows.y,arrows.z,arrows.x,(const struct ActorInitParam *)&arrow,resource,heap);
+        p->handles[i]=(uptr)CLACT_CreateActor((struct Unit *)((void *)cfg->manager),arrows.y,arrows.z,arrows.x,(const struct ActorInitParam *)&arrow,resource,heap);
         CLACT_SetActorAutoAnim((struct ClactActor *)p->handles[i],1);CLACT_SetActorObjMode((struct ClactActor *)p->handles[i],1);
     }
     i=0;
@@ -745,7 +745,7 @@ BrUtilListMenu *BR_UTIL_CreateListMenu(const BrUtilConfig *cfg,u16 heap)
     if(!BR_RES_GetSprite((struct BrRes *)p->cfg.resources,6,(void *)&marks)) GF_PANIC_Fail((const char *)d_02200D68,0,(const char *)d_02200D68);
     for(i=2;i<4;i++) {
         mark.x=i==2?24:232;
-        p->handles[i]=(u32)CLACT_CreateActor((struct Unit *)((void *)p->cfg.manager),marks.y,marks.z,marks.x,(const struct ActorInitParam *)&mark,1,heap);
+        p->handles[i]=(uptr)CLACT_CreateActor((struct Unit *)((void *)p->cfg.manager),marks.y,marks.z,marks.x,(const struct ActorInitParam *)&mark,1,heap);
         CLACT_SetActorObjMode((struct ClactActor *)p->handles[i],1);
     }
     font=BR_RES_GetFont((struct BrRes *)p->cfg.resources);
@@ -826,13 +826,13 @@ void BR_UTIL_SetListItemBitmap(u8 *p, u16 i, u32 v)
 {
     if(i>=*(u32 *)(p+4))GF_PANIC_Fail(d_02200D68,0,d_02200D68);
     if(*(u32 *)(*(u32 *)p+i*8)!=0)GF_PANIC_Fail(d_02200D68,0,d_02200D68);
-    *(u32 *)((u32)p+i*4+0x8c)=v;
+    *(u32 *)((uptr)p+i*4+0x8c)=v;
 }
 
 u32 BR_UTIL_GetListItemBitmap(u8 *p, u16 i)
 {
     if(i>=((BrUtilListMenu *)p)->cfg.count)GF_PANIC_Fail(d_02200D68,0,d_02200D68);
-    return *(u32 *)((u32)p+i*4+0x8c);
+    return *(u32 *)((uptr)p+i*4+0x8c);
 }
 
 /*
@@ -857,11 +857,11 @@ void BR_UTIL_RefreshList(char *p)
 void BR_UTIL_DrawListRows(char *p,int start)
 {
     int i,height;
-    BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp((struct BmpWin *)*(int *)&((BrUtilListMenu *)p)->descriptor)),0);
+    BMP_Clear((struct Bmp *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)*(int *)&((BrUtilListMenu *)p)->descriptor)),0);
     for(i=start;i<start+((BrUtilListMenu *)p)->visible;i++) {
         if((unsigned)i<((BrUtilListMenu *)p)->cfg.count && ((BrUtilListView *)p)->bitmap[i]) {
             height=((BrUtilListMenu *)p)->cfg.spacing;
-            BR_UTIL_BlitRows(((BrUtilListView *)p)->bitmap[i],(int)BMP_WIN_GetBmp((struct BmpWin *)*(int *)&((BrUtilListMenu *)p)->descriptor),0,0,0,(i-start)*height,((BrUtilListMenu *)p)->cfg.width,height);
+            BR_UTIL_BlitRows(((BrUtilListView *)p)->bitmap[i],(sptr)BMP_WIN_GetBmp((struct BmpWin *)*(int *)&((BrUtilListMenu *)p)->descriptor),0,0,0,(i-start)*height,((BrUtilListMenu *)p)->cfg.width,height);
         }
     }
     BMP_WIN_TransferChars((struct BmpWin *)*(int *)&((BrUtilListMenu *)p)->descriptor);
@@ -963,7 +963,7 @@ void BR_UTIL_HandleRowTouch(char *p)
             BR_UTIL_StartEffect((char *)((BrUtilListMenu *)p)->cfg.other, 1, (const BrPair *)&pair);
         }
         GFL_USE_PlaySeDefaultVolume(0x703);
-        ((BrUtilListMenu *)p)->hitId=((int *)((int)((BrUtilListMenu *)p)->cfg.list+(result+((BrUtilListMenu *)p)->start)*8))[1];
+        ((BrUtilListMenu *)p)->hitId=((int *)((sptr)((BrUtilListMenu *)p)->cfg.list+(result+((BrUtilListMenu *)p)->start)*8))[1];
     }
 }
 
@@ -972,7 +972,7 @@ void BR_UTIL_HandleRowTouch(char *p)
  */
 void BR_UTIL_UpdateRowSelection(char *p)
 {
-    ((BrUtilListMenu *)p)->hitId=((int *)((int)((BrUtilListMenu *)p)->cfg.list+(((BrUtilListMenu *)p)->index+((BrUtilListMenu *)p)->start)*8))[1];
+    ((BrUtilListMenu *)p)->hitId=((int *)((sptr)((BrUtilListMenu *)p)->cfg.list+(((BrUtilListMenu *)p)->index+((BrUtilListMenu *)p)->start)*8))[1];
 }
 
 void *BR_UTIL_CreateTextWin(void *a, void *owner, u16 heap)
@@ -992,7 +992,7 @@ void BR_UTIL_DeleteTextWin(void *p, int res)
 
 void BR_UTIL_SetWindowText(char *p,char *q,void *text)
 {
-    u32 font;
+    uptr font;
     font=BR_RES_GetFont((struct BrRes *)q);
     BR_UTIL_SetTextFromMessage(p,(void *)BR_RES_GetMsgData((struct BrRes *)q),text,(void *)font,0x3dac);
 }
@@ -1295,7 +1295,7 @@ char *BR_UTIL_CreateProfileScreen(void *prof,char *q,void *unit,void *printQue,i
     MI_CpuFill8(p,0,0x44);
     *(char **)(p+0x1c)=q;
     font=(void *)BR_RES_GetFont((struct BrRes *)q);
-    *(void **)(p+0x20)=PMS_DRAW_Create((u32)unit,0,(u32)printQue,(u32)font,7,1,heap);
+    *(void **)(p+0x20)=PMS_DRAW_Create((uptr)unit,0,(uptr)printQue,(uptr)font,7,1,heap);
     PMS_DRAW_SetDecoPriority(*(void **)(p+0x20),0,1);
     BR_RES_LoadBgGraphics(*(void **)(p+0x1c),8,heap);
     bank=(void *)(u32)BR_RES_GetMsgData((struct BrRes *)q);
@@ -1460,7 +1460,7 @@ int BR_UTIL_MainProfileScreen(u8 *p)
 {
     int result=1;
     int i;
-    for(i=0;i<7;i++)if(*(void **)((u32)p+(u32)i*4)!=0)result &=BR_UTIL_FlushText(*(void **)((u32)p+(u32)i*4));
+    for(i=0;i<7;i++)if(*(void **)((uptr)p+(u32)i*4)!=0)result &=BR_UTIL_FlushText(*(void **)((uptr)p+(u32)i*4));
     PMS_DRAW_Main((struct PmsDraw *)(*(u8 * *)&((BrUtilListMenu *)p)->cfg.other));
     return result;
 }
@@ -1503,7 +1503,7 @@ int *BR_UTIL_SetTaskStep(int *p, int v)
 
 int BR_UTIL_ClearTaskStep(int *a)
 {
-    return (int)BR_UTIL_SetTaskStep(a, 0);
+    return (sptr)BR_UTIL_SetTaskStep(a, 0);
 }
 
 int BR_UTIL_IsTaskStep(int *p, int v)
@@ -1521,7 +1521,7 @@ char *BR_UTIL_CreateHandles(void *owner, char *resources, int index, int heap)
     p=GFL_HEAP_Alloc(heap,0x264,0,d_02200D5C,0x7CA);
     MI_CpuFill8(p,0,0x264);
     ((BrUtilEffect *)p)->resources=resources;((BrUtilEffect *)p)->index=index;
-    ((BrUtilEffect *)p)->task=BR_UTIL_CreateTask((int)p,(int)BR_UTIL_EffectIdle,heap);
+    ((BrUtilEffect *)p)->task=BR_UTIL_CreateTask((sptr)p,(sptr)BR_UTIL_EffectIdle,heap);
     BR_RES_LoadSprite((struct BrRes *)(((BrUtilEffect *)p)->resources),index+9,heap);
     MI_CpuFill8((void *)&pair,0,8);
     if(!BR_RES_GetSprite((struct BrRes *)(((BrUtilEffect *)p)->resources),index+9,(void *)&triple)) GF_PANIC_Fail((const char *)d_02200D68,0,(const char *)d_02200D68);
@@ -1563,17 +1563,17 @@ void BR_UTIL_StartEffect(char *p,u32 mode,const BrPair *pair)
         *(const BrPair * *)&((BrUtilEffect *)p)->target=pair;
     }
     ((BrUtilEffect *)p)->flag=0;
-    if(mode==0 && BR_UTIL_IsTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFlyIn)) GFL_USE_PlaySeDefaultVolume(0x701);
+    if(mode==0 && BR_UTIL_IsTaskStep(((BrUtilEffect *)p)->task,(sptr)BR_UTIL_EffectFlyIn)) GFL_USE_PlaySeDefaultVolume(0x701);
     switch(mode) {
-    case 0: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectIdle);break;
-    case 1: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectSpiral);break;
-    case 2: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFollow12);break;
-    case 3: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFollow6);break;
-    case 4: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFlyIn);break;
-    case 5: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectFlyInSlow);break;
-    case 6: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectNoop);break;
-    case 7: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectToTarget);break;
-    case 8: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(int)BR_UTIL_EffectToPoint);break;
+    case 0: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(sptr)BR_UTIL_EffectIdle);break;
+    case 1: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(sptr)BR_UTIL_EffectSpiral);break;
+    case 2: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(sptr)BR_UTIL_EffectFollow12);break;
+    case 3: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(sptr)BR_UTIL_EffectFollow6);break;
+    case 4: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(sptr)BR_UTIL_EffectFlyIn);break;
+    case 5: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(sptr)BR_UTIL_EffectFlyInSlow);break;
+    case 6: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(sptr)BR_UTIL_EffectNoop);break;
+    case 7: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(sptr)BR_UTIL_EffectToTarget);break;
+    case 8: BR_UTIL_SetTaskStep(((BrUtilEffect *)p)->task,(sptr)BR_UTIL_EffectToPoint);break;
     }
 }
 
@@ -1588,7 +1588,7 @@ void BR_UTIL_SetHandlesAnimSeq(u8 *p,u32 value)
     u16 narrow;
     i=0;
     narrow=value;
-    for(;i<12;i++)CLACT_SetActorAnimSeq(*(struct ClactActor **)((u32)p+(u32)i*4+0x1f8),narrow);
+    for(;i<12;i++)CLACT_SetActorAnimSeq(*(struct ClactActor **)((uptr)p+(u32)i*4+0x1f8),narrow);
 }
 
 void BR_UTIL_EffectIdle(void *unused,int *state,u8 *p)
@@ -1596,7 +1596,7 @@ void BR_UTIL_EffectIdle(void *unused,int *state,u8 *p)
     int i;
     switch(*state) {
     case 0:
-        for(i=0;i<12;i++)CLACT_SetActorDrawEnable(*(struct ClactActor **)((u32)p+(u32)i*4+0x1f8),0);
+        for(i=0;i<12;i++)CLACT_SetActorDrawEnable(*(struct ClactActor **)((uptr)p+(u32)i*4+0x1f8),0);
         ((BrUtilEffect *)p)->flag=1;
         *state=1;
         break;
@@ -1628,7 +1628,7 @@ void BR_UTIL_EffectSpiral(int unused,int *state,BrUtilEffect *p)
         if(p->timer++>15) *state=2;
         break;
     case 2:
-        BR_UTIL_SetTaskStep(p->task,(int)BR_UTIL_EffectIdle);
+        BR_UTIL_SetTaskStep(p->task,(sptr)BR_UTIL_EffectIdle);
         break;
     }
 }
@@ -1650,7 +1650,7 @@ void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilEffect *p)
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
         BR_UTIL_InitLine((int *)p->record[0],&p->positions[0],&d_02200AE8.first,0,50);
-        for(i=1;i<12;i++) BR_UTIL_Init((int *)p->record[i],(int)&p->positions[i-1],(int *)&p->positions[i],0x4000-i*0x666/2);
+        for(i=1;i<12;i++) BR_UTIL_Init((int *)p->record[i],(sptr)&p->positions[i-1],(int *)&p->positions[i],0x4000-i*0x666/2);
         *state=1;
     case 1:
         i=1;
@@ -1665,7 +1665,7 @@ void BR_UTIL_EffectFollow12(int unused,int *state,BrUtilEffect *p)
         p->timer++;
         if(done) *state=2;
         break;
-    case 2: BR_UTIL_SetTaskStep(p->task,(int)BR_UTIL_EffectIdle);break;
+    case 2: BR_UTIL_SetTaskStep(p->task,(sptr)BR_UTIL_EffectIdle);break;
     }
 }
 
@@ -1684,7 +1684,7 @@ void BR_UTIL_EffectFollow6(int unused,int *state,BrUtilEffect *p)
             CLACT_SetActorDrawEnable(p->handles[i],1);
         }
         BR_UTIL_InitLine((int *)p->record[0], (const BrPair *)(&p->positions[0]), (const BrPair *)(&d_02200AD0.second), 0, 36);
-        for(i=1;i<6;i++) BR_UTIL_Init((int *)p->record[i],(int)&p->positions[i-1],(int *)&p->positions[i],0x3800-i*0xb33/2);
+        for(i=1;i<6;i++) BR_UTIL_Init((int *)p->record[i],(sptr)&p->positions[i-1],(int *)&p->positions[i],0x3800-i*0xb33/2);
         *state=1;
     case 1:
         p->done[1]=BR_UTIL_StepLine((int *)p->record[0], (BrPair *)(&p->positions[0]), p->timer);
@@ -1793,7 +1793,7 @@ void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilEffect *p)
         for(i=0;i<6;i++) {
             BR_UTIL_StepOrbit((char *)p->record[i],(int *)&p->positions[i],p->timer);
             pos.x=p->positions[i].x;pos.y=p->positions[i].y;
-            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)((int)(p->handles[i]))), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos)), p->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)((sptr)(p->handles[i]))), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos)), p->index);
         }
         if(p->timer++>16) *state=2;
         break;
@@ -1802,19 +1802,19 @@ void BR_UTIL_EffectToTarget(int *obj,int *state,BrUtilEffect *p)
         break;
     case 3:
         for(i=0;i<6;i++)
-            BR_UTIL_Init((int *)p->record[i],(int)p->target,(const int *)&p->positions[i],0x4000-(i*0x99A)/2);
+            BR_UTIL_Init((int *)p->record[i],(sptr)p->target,(const int *)&p->positions[i],0x4000-(i*0x99A)/2);
         *state=4;
     case 4:
         all=1;
         for(i=0;i<6;i++) {
             all&=BR_UTIL_StepFollow((char *)p->record[i],(int *)&p->positions[i]);
             pos2.x=p->positions[i].x;pos2.y=p->positions[i].y;
-            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)((int)(p->handles[i]))), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos2)), p->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)((sptr)(p->handles[i]))), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos2)), p->index);
         }
         if(all) *state=5;
         break;
     case 5:
-        BR_UTIL_SetTaskStep(obj,(int)BR_UTIL_EffectIdle);
+        BR_UTIL_SetTaskStep(obj,(sptr)BR_UTIL_EffectIdle);
         break;
     }
 }
@@ -1857,12 +1857,12 @@ void BR_UTIL_EffectToPoint(int *task,int *state,char *p)
         for(;i<12;i++) {
             BR_UTIL_StepOrbit((char *)(start+i*32),(int *)&full,((BrUtilEffect *)p)->timer);
             pos.x=full.x;pos.y=full.y;
-            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)((int)(*(void **)(p+i*4+offset)))), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos)), ((BrUtilEffect *)p)->index);
+            CLACT_AddActorSurfacePos((struct ClactActor *)((void *)((sptr)(*(void **)(p+i*4+offset)))), (const struct ClactVec2 *)((const ShortPair *)((ShortPair *)&pos)), ((BrUtilEffect *)p)->index);
         }
         if((((BrUtilEffect *)p)->timer)++>60)*state=2;
         break;
     }
-    case 2:BR_UTIL_SetTaskStep(task,(int)BR_UTIL_EffectIdle);break;
+    case 2:BR_UTIL_SetTaskStep(task,(sptr)BR_UTIL_EffectIdle);break;
     }
 }
 

@@ -22,7 +22,6 @@
 
 #include "gsmemory.h"
 #include "../arm9/msl_string_str.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 int gti2AllocateBuffer(GTI2Buffer *buffer, int size);
 int gti2GetBufferFreeSpace(const int *p);
@@ -79,7 +78,7 @@ void gti2BufferWriteData(GTI2Buffer *buffer, unsigned char *data, int len)
     if ((data == 0) || (len == 0))
         return;
     if (len == -1)
-        len = strlen((unsigned char *)data);
+        len = strlen((const char *)data);
     memcpy(buffer->buffer + buffer->len, data, len);
     buffer->len += len;
 }

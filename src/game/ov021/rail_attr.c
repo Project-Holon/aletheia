@@ -76,7 +76,7 @@ void RAIL_ATTR_Load(RailAttr *attr, u32 dataId, u32 heapId)
     for (i = 0; i < attr->lineCount; i++) {
         RailAttrLine *line;
 
-        attr->lines[i] = (RailAttrLine *)((u32)attr->data + offset);
+        attr->lines[i] = (RailAttrLine *)((uptr)attr->data + offset);
         line = attr->lines[i];
         offset += line->width * line->length * 4 + 4;
     }

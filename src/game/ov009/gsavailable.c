@@ -60,7 +60,6 @@ struct SOCSockAddr;
 #include "../arm9/os_printf.h"
 static int get_sockaddrin(char *hostname, int port, struct SOCSockAddrIn *saddr);
 #include "../arm9/msl_string_str.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 static void SendPacket(void);
 extern int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
@@ -121,7 +120,7 @@ void GSIStartAvailableCheckA(char *gamename)
     if (gGsAvailableCheck.sock == -1)
         return;
     gGsAvailableCheck.packet[0] = 9;
-    len = strlen((const u8 *)gamename);
+    len = strlen(gamename);
     memcpy(gGsAvailableCheck.packet + 5, gamename, len + 1);
     gGsAvailableCheck.packetLen = len + 6;
     SendPacket();

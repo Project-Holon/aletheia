@@ -33,18 +33,17 @@
  *   wm_icon_HiddenOam                0x020A0810  data
  */
 #include "touchpanel_shared_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../types.h"
 
-#define REG_POWCNT          0x04000304
+#define REG_POWCNT          REG_POWCNT1_ADDR
 
-#define REG_DISPCNT         0x04000000
+#define REG_DISPCNT         REG_DISPCNT_ADDR
 
-#define REG_DB_DISPCNT      0x04001000
+#define REG_DB_DISPCNT      REG_DB_DISPCNT_ADDR
 
-#define HW_OAM              0x07000000
 
-#define HW_DB_OAM           0x07000400
 
 /* wm_icon.c: the wireless icon, 0x14 bytes */
 #include "../sdk_gx.h"
@@ -378,8 +377,8 @@ u32 GFL_NET_WM_ICON_EasySetLevel(u32 level)
 
     icon = _WmIconEasy.icon;
     if (icon == 0)
-        return (u32)icon;
-    return (u32)GFL_NET_WM_ICON_SetLevel(icon, level);
+        return (uptr)icon;
+    return (uptr)GFL_NET_WM_ICON_SetLevel(icon, level);
 }
 
 void GFL_NET_WM_ICON_EasySetScreen(u32 isTop, u32 heapId)

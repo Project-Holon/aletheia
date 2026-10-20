@@ -410,7 +410,7 @@ int SCRCMD_POKEMON_FLD_SelectPartyMon(struct ScriptVm *vm, struct ScrcmdWork *wo
 
     SCRIPT_WORK_ReadWorkValue(vm, work);
     scriptWork = SCRCMD_WORK_GetScriptWork(work);
-    SCRIPT_SYS_CallEvent(scriptWork, EVENT_POKE_STATUS_CreatePokeSelectEvent((int)SCRCMD_WORK_GetGameSystem(work), selectedSlotOut, resultOut));
+    SCRIPT_SYS_CallEvent(scriptWork, EVENT_POKE_STATUS_CreatePokeSelectEvent((sptr)SCRCMD_WORK_GetGameSystem(work), selectedSlotOut, resultOut));
     return 1;
 }
 
@@ -823,7 +823,7 @@ int SCRCMD_POKEMON_FLD_CheckMonTutorStatus(struct ScriptVm *vm, struct ScrcmdWor
         return 0;
     if (SCRCMD_POKEMON_FLD_CheckTutorGroup(mon, tutorKind) == 0) {
         *resultOut = 1;
-    } else if (SCRCMD_PROC_CheckMonKnowsMove((int)mon, SCRCMD_POKEMON_FLD_GetTutorMoveId(mon, tutorKind)) == 1) {
+    } else if (SCRCMD_PROC_CheckMonKnowsMove((sptr)mon, SCRCMD_POKEMON_FLD_GetTutorMoveId(mon, tutorKind)) == 1) {
         *resultOut = 3;
     } else if (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_FRIENDSHIP, 0) < SCRCMD_POKEMON_FLD_GetTutorFriendship(tutorKind)) {
         *resultOut = 2;
@@ -948,7 +948,7 @@ int SCRCMD_POKEMON_FLD_SelectMonMove(struct ScriptVm *vm, struct ScrcmdWork *wor
     mode = SCRIPT_WORK_ReadWorkValue(vm, work);
     scriptWork = SCRCMD_WORK_GetScriptWork(work);
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
-    SCRIPT_SYS_CallEvent(scriptWork, (void *)EVENT_POKE_STATUS_CreateMoveSelectEvent((int)gameSystem, (int)GAMESYSTEM_GetFieldMap(gameSystem), partySlot, (int)moveOut, (int)resultOut, mode == 0, mode));
+    SCRIPT_SYS_CallEvent(scriptWork, (void *)EVENT_POKE_STATUS_CreateMoveSelectEvent((sptr)gameSystem, (sptr)GAMESYSTEM_GetFieldMap(gameSystem), partySlot, (sptr)moveOut, (sptr)resultOut, mode == 0, mode));
     return 1;
 }
 
@@ -1174,13 +1174,13 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(struct ScrcmdWork *work, int
         mailSave = MAIL_GetBox(gameData);
         mail = MAIL_Create(SCRCMD_WORK_GetHeapId(work));
         mailSlot = MAIL_FindEmptySlot(mailSave, 0);
-        POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_MAIL, (u32)mail);
+        POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_MAIL, (uptr)mail);
         GAME_DATA_GetMyStatus(gameData);
         if (mailSlot >= 0) {
             MAIL_SetSlot(mailSave, 0, mailSlot, mail);
         }
         MAIL_Init(mail);
-        POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_MAIL, (u32)mail);
+        POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_MAIL, (uptr)mail);
         POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_HELD_ITEM, 0);
         GFL_HEAP_Free(mail);
     }
@@ -1275,7 +1275,7 @@ int SCRCMD_POKEMON_FLD_FindPartyLegend(void *gameData)
  */
 int SCRCMD_POKEMON_FLD_StartOv55SubProc(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
-    FIELD_SUBPROC_Start((int)ov055_id, (struct FieldSubprocMgr *)FIELDMAP_GetMapFunc((struct FieldMap *)SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work))->fieldSystem), (struct FieldSubprocTemplate *)gCrowdSubprocTemplate);
+    FIELD_SUBPROC_Start((sptr)ov055_id, (struct FieldSubprocMgr *)FIELDMAP_GetMapFunc((struct FieldMap *)SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(work))->fieldSystem), (struct FieldSubprocTemplate *)gCrowdSubprocTemplate);
     return 0;
 }
 
@@ -1297,7 +1297,7 @@ u32 SCRCMD_POKEMON_FLD_RegisterBirthdayEntry(struct ScriptVm *vm, struct ScrcmdW
     OwnerInfo owner;
 
     mysteryData = IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(gameData));
-    date = FIELD_CLOCK_GetDate((int)gameData);
+    date = FIELD_CLOCK_GetDate((sptr)gameData);
     OS_GetOwnerInfo((struct OSOwnerInfo *)(&owner));
     entryIndex = IRC_RANKING_FindClosestEntry(mysteryData, owner.birthMonth, owner.birthDay, date);
     flags = IRC_RANKING_GetEntryGender(mysteryData, entryIndex);
@@ -1356,7 +1356,7 @@ int SCRCMD_POKEMON_FLD_CountWarpEntries(WarpEntry *table)
  */
 int SCRCMD_POKEMON_FLD_SetWarpTable(struct ScriptVm *vm, struct ScrcmdWork *work)
 {
-    SCRCMD_WORK_SetFadeState(work, (u32)(vm->pc + VM_GetU32(vm)));
+    SCRCMD_WORK_SetFadeState(work, (uptr)(vm->pc + VM_GetU32(vm)));
     return 0;
 }
 
@@ -1365,8 +1365,8 @@ u32 SCRCMD_POKEMON_FLD_AddWarpMenuItems(struct ScriptVm *vm, struct ScrcmdWork *
 {
     WarpEntry *table = (WarpEntry *)SCRCMD_WORK_GetFadeState(work);
     void *scriptWork = SCRCMD_WORK_GetScriptWork(work);
-    int msgBuffer = (s32)SCRIPT_WORK_GetMsgBuffer(scriptWork);
-    int tempBuffer = (s32)SCRIPT_WORK_GetTempBuffer(scriptWork);
+    int msgBuffer = (sptr)SCRIPT_WORK_GetMsgBuffer(scriptWork);
+    int tempBuffer = (sptr)SCRIPT_WORK_GetTempBuffer(scriptWork);
     u16 currentMapId = SCRCMD_WORK_GetScriptId(work);
     u32 entryCount = SCRCMD_POKEMON_FLD_CountWarpEntries(table);
     u32 i = 0;

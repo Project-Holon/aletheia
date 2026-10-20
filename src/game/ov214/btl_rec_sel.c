@@ -168,7 +168,7 @@
  *   rects 0x021BB568 data a4
  */
 
-#define REG3D (*(volatile u16 *)0x04000060)
+#define REG3D (*(volatile u16 *)REG_DISP3DCNT_ADDR)
 struct ProcSystem;
 struct ClactActor;
 struct BigObj;
@@ -201,6 +201,7 @@ struct PaletteFade;
 struct PalAnmObj;
 struct S02021D50;
 #include "../arm9/arc_tool.h"
+#include "../sdk_ioreg.h"
 #include "../arm9/arc_util.h"
 #include "../arm9/bmp_menu.h"
 #include "../arm9/gfl_heap_wrap.h"
@@ -426,12 +427,12 @@ extern void BG_SYS_FreeLayerBuf(u8);
 extern u32 TCB_GetTaskOffset(u32);
 struct TcbSystem;
 extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
-extern void *PALANM_Create(u32);
+extern struct PaletteFade *PALANM_Create(u32);
 extern void PALANM_SetAutoTransfer(struct PaletteFade *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PaletteFade *slots, u32 idx, u32 size, u32 heap);
 extern void PALANM_CopyHwPaletteToSlot(struct PaletteFade *slots, u32 bank, u32 off, u32 size);
 extern void PALANM_FreeSlotBuffers(struct PaletteFade *,u32);
-extern u32 PALANM_Delete(void *);
+extern u32 PALANM_Delete(struct PaletteFade *);
 extern void TCB_Main(struct TcbSystem *sys);
 extern u32 PALANM_GetFadeRequestBits(const struct PaletteFade *);
 extern int PALANM_RequestFade(struct PaletteFade *,u16,u32,s16,u8,u8,u16,void *);
@@ -509,7 +510,7 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
     char *work;
     u8 layer;
     enum {K=3} k;
-    GF_OVERLAY_Load((int)ov67_id);
+    GF_OVERLAY_Load((sptr)ov67_id);
     GFL_HEAP_CreateChildHeap(1,0x75,0x50000);
     work=PROCSYS_AllocProcWork(manager,0x2f0,0x75);
     MI_CpuFill8(work,0,0x2f0);
@@ -523,25 +524,25 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
     ((struct BtlRecSel *)work)->printQue[3]=(void *)PRINTSYS_QUE_Create((unsigned int)(u32)((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->itemCount=MYITEM_SAVEDATA_HasItem(GAME_DATA_GetMyItem(*(void* *)&((struct BtlRecSelMgr *)mgr)->gameData),0x1d1,1,((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->exitRequest=0;
-    ((struct BtlRecSel *)work)->task=(unsigned int)GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_VBlank,work,(unsigned int)1);
+    ((struct BtlRecSel *)work)->task=(uptr)GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_VBlank,work,(unsigned int)1);
     *(void* *)&((struct BtlRecSel *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,19,((struct BtlRecSel *)work)->heap);
-    BTL_REC_SEL_InitBgRun((int)mgr,work);BTL_REC_SEL_ClearLayer(mgr,work);BTL_REC_SEL_InitSubBg((void **)mgr,work);
-    BTL_REC_SEL_InitWindows(mgr,(struct BtlRecSel *)work);BTL_REC_SEL_DrawWindow((int)mgr,work);BTL_REC_SEL_InitPalette((int)mgr,work);BTL_REC_SEL_CreateWindows((int)mgr,work);
+    BTL_REC_SEL_InitBgRun((sptr)mgr,work);BTL_REC_SEL_ClearLayer(mgr,work);BTL_REC_SEL_InitSubBg((void **)mgr,work);
+    BTL_REC_SEL_InitWindows(mgr,(struct BtlRecSel *)work);BTL_REC_SEL_DrawWindow((sptr)mgr,work);BTL_REC_SEL_InitPalette((sptr)mgr,work);BTL_REC_SEL_CreateWindows((sptr)mgr,work);
     BG_SYS_SetPriority(2,2);k=K;BG_SYS_SetPriority(k,1);BG_SYS_SetPriority(1,0);
     BG_SYS_SetPlaneVisible(2,1);BG_SYS_SetPlaneVisible(3,1);BG_SYS_SetPlaneVisible(1,1);
     BG_SYS_LoadPlttEntry(0,0);BG_SYS_LoadPlttEntry(4,0);FADE_Start(3,16,16,0);
     if(((struct BtlRecSel *)work)->itemCount){
         if(((struct BtlRecSelMgr *)mgr)->isMulti){
           if(((struct BtlRecSelMgr *)mgr)->recordExists){
-            BTL_REC_SEL_StartFade(state,(int)mgr,work,2,k,16,0,2,0);
+            BTL_REC_SEL_StartFade(state,(sptr)mgr,work,2,k,16,0,2,0);
             BTL_REC_SEL_SetEntryA(mgr,work,5,0,1);BTL_REC_SEL_StartTimer(mgr,work,60);
-            if(((struct BtlRecSelMgr *)mgr)->isWifi)BTL_REC_SEL_InitBgGfx1((int)mgr,(u8 *)work);
+            if(((struct BtlRecSelMgr *)mgr)->isWifi)BTL_REC_SEL_InitBgGfx1((sptr)mgr,(u8 *)work);
             ((struct BtlRecSel *)work)->busy=1;
-          }else {BTL_REC_SEL_StartFade(state,(int)mgr,work,15,k,16,0,2,0);}
-        }else {common:BTL_REC_SEL_StartFade(state,(int)mgr,work,15,k,16,0,2,0);}
-    }else if(((struct BtlRecSelMgr *)mgr)->isWifi){BTL_REC_SEL_StartFade(state,(int)mgr,work,15,k,16,0,2,0);}
+          }else {BTL_REC_SEL_StartFade(state,(sptr)mgr,work,15,k,16,0,2,0);}
+        }else {common:BTL_REC_SEL_StartFade(state,(sptr)mgr,work,15,k,16,0,2,0);}
+    }else if(((struct BtlRecSelMgr *)mgr)->isWifi){BTL_REC_SEL_StartFade(state,(sptr)mgr,work,15,k,16,0,2,0);}
     else ((struct BtlRecSel *)work)->exitRequest=1;
-    BTL_REC_SEL_CreateUiActor((int)mgr,(u8 *)work);BTL_REC_SEL_InitPalanm((int)mgr,work);BTL_REC_SEL_DeleteUiActor((int)mgr,(u8 *)work);
+    BTL_REC_SEL_CreateUiActor((sptr)mgr,(u8 *)work);BTL_REC_SEL_InitPalanm((sptr)mgr,work);BTL_REC_SEL_DeleteUiActor((sptr)mgr,(u8 *)work);
     GFL_NET_RefreshWmIconAtTopRight(1,((struct BtlRecSel *)work)->heap);
     return 1;
 }
@@ -568,7 +569,7 @@ int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work)
     BTL_REC_SEL_GRAPHIC_Delete(*(char * *)&((struct BtlRecSel *)work)->graphic);
     PROCSYS_FreeProcWork(mgr);
     GFL_HEAP_DeleteChecked(117);
-    GF_OVERLAY_Unload((int)ov067_id);
+    GF_OVERLAY_Unload((sptr)ov067_id);
     return 1;
 }
 
@@ -637,7 +638,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
     int side,index;
     long slot;
     u32 status0,status1,gfxId0,gfxId1,gfxId2;
-    u32 addr;
+    uptr addr;
     owner=GAME_DATA_GetSaveControl(((struct BtlRecSelMgr *)mgr)->gameData);
     KEY_GetTrg();
     switch(*state){
@@ -651,18 +652,18 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
         if((((struct BtlRecSel *)work)->fadeInstant)==1){if((((struct BtlRecSel *)work)->fadeState)==0||(((struct BtlRecSel *)work)->fadeState)==2)done=1;}
         else if(!FADE_IsActive())done=1;
         if(done){(((struct BtlRecSel *)work)->busy)=0;*state=(((struct BtlRecSel *)work)->nextState);}break;
-    case 2:BTL_REC_SEL_PrintEntry((int)mgr,work,(((struct BtlRecSel *)work)->entryA),0);*state=3;break;
+    case 2:BTL_REC_SEL_PrintEntry((sptr)mgr,work,(((struct BtlRecSel *)work)->entryA),0);*state=3;break;
     case 3:
-        if(!BTL_REC_SEL_WaitPrint((int)mgr,work))break;
-        BTL_REC_SEL_CreateYesNo((int)mgr,(u8 *)work);*state=(((struct BtlRecSel *)work)->nextStateA);break;
-    case 4:BTL_REC_SEL_PrintEntry((int)mgr,work,(((struct BtlRecSel *)work)->entryB),0);*state=(((struct BtlRecSel *)work)->nextStateB);break;
+        if(!BTL_REC_SEL_WaitPrint((sptr)mgr,work))break;
+        BTL_REC_SEL_CreateYesNo((sptr)mgr,(u8 *)work);*state=(((struct BtlRecSel *)work)->nextStateA);break;
+    case 4:BTL_REC_SEL_PrintEntry((sptr)mgr,work,(((struct BtlRecSel *)work)->entryB),0);*state=(((struct BtlRecSel *)work)->nextStateB);break;
     case 5:
         result=BMP_MENU_ProcessYesNo((struct BmpMenu *)(((struct BtlRecSel *)work)->yesNoMenu));
         if(result!=0xffffffff){
             UI_SetInputMode(0);
             if(result==0){
                 if(BATTLE_REC_VerifyAndCloseSave(owner,((struct BtlRecSel *)work)->heap,&status0,0)){
-                    (((struct BtlRecSel *)work)->busy)=1;BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,8,1,0,16,-2,1);break;
+                    (((struct BtlRecSel *)work)->busy)=1;BTL_REC_SEL_StartFade((char*)state,(sptr)mgr,work,8,1,0,16,-2,1);break;
                 }else{BTL_REC_SEL_ResetTimer((void*)mgr,work);*state=10;}
             }else BTL_REC_SEL_StartEntryA(state,(void*)mgr,work,6,3,1);
         }else if((((struct BtlRecSel *)work)->menuOpen)){BMP_MENU_DeleteYesNo((void*)(((struct BtlRecSel *)work)->yesNoMenu));*state=15;}
@@ -681,28 +682,28 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
             UI_SetInputMode(0);
             if(result==0)(((struct BtlRecSel *)work)->menuMode)=10;else (((struct BtlRecSel *)work)->menuMode)=15;
             BTL_REC_SEL_ResetTimer((void*)mgr,work);
-            BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,9,1,0,16,-2,1);break;
+            BTL_REC_SEL_StartFade((char*)state,(sptr)mgr,work,9,1,0,16,-2,1);break;
         }else if((((struct BtlRecSel *)work)->menuOpen)){
             BMP_MENU_DeleteYesNo((void*)(((struct BtlRecSel *)work)->yesNoMenu));(((struct BtlRecSel *)work)->menuMode)=15;
-            BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,9,1,0,16,-2,1);break;
+            BTL_REC_SEL_StartFade((char*)state,(sptr)mgr,work,9,1,0,16,-2,1);break;
         }
         break;
     case 8:
-        (((struct BtlRecSel *)work)->battleRec)=(u32)BATTLE_REC_LoadAlloc(owner,((struct BtlRecSel *)work)->heap,&status1,0);
-        BTL_REC_SEL_ClearLayer((void*)mgr,work);BTL_REC_SEL_ClearWindowWhite((int)mgr,work);
+        (((struct BtlRecSel *)work)->battleRec)=(uptr)BATTLE_REC_LoadAlloc(owner,((struct BtlRecSel *)work)->heap,&status1,0);
+        BTL_REC_SEL_ClearLayer((void*)mgr,work);BTL_REC_SEL_ClearWindowWhite((sptr)mgr,work);
         if(status1==1){
             record=BATTLE_REC_GetHeaderOf((void*)(((struct BtlRecSel *)work)->battleRec));
             (((struct BtlRecSel *)work)->headerParam)=BATTLE_REC_GetHeaderParam(record,3,0);
-            BTL_REC_SEL_SetMode((int)mgr,work);
+            BTL_REC_SEL_SetMode((sptr)mgr,work);
             for(slot=0;slot<12;slot++){
                 gfxId1=0;gfxId2=0;gfxId0=BATTLE_REC_GetHeaderParam(record,0,slot);
                 if(gfxId0){gfxId1=BATTLE_REC_GetHeaderParam(record,1,slot);gfxId2=BATTLE_REC_GetHeaderParam(record,6,slot);}
                 if((((struct BtlRecSel *)work)->mode)){
                     if(slot<6){
-                        addr=(u32)work+(u32)(slot%6)*40;
+                        addr=(uptr)work+(u32)(slot%6)*40;
                         *(u32*)(addr+0x1b4)=gfxId0;*(u32*)(addr+0x1b8)=gfxId1;*(u32*)(addr+0x1bc)=gfxId2;
                     }else{
-                        addr=(u32)work+(u32)(slot%6)*40;
+                        addr=(uptr)work+(u32)(slot%6)*40;
                         *(u32*)(addr+0xc4)=gfxId0;*(u32*)(addr+0xc8)=gfxId1;*(u32*)(addr+0xcc)=gfxId2;
                     }
                 }else{
@@ -710,25 +711,25 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
                     else if(slot<6){side=0;index=slot-3;}
                     else if(slot<9){side=1;index=slot-3;}
                     else{side=0;index=slot-6;}
-                    addr=(u32)work+(u32)side*240+(u32)index*40;
+                    addr=(uptr)work+(u32)side*240+(u32)index*40;
                     *(u32*)(addr+0xc4)=gfxId0;*(u32*)(addr+0xc8)=gfxId1;*(u32*)(addr+0xcc)=gfxId2;
                 }
             }
             BTL_REC_SEL_PrintList((void*)mgr,work);BTL_REC_SEL_InitCells((void*)mgr,(struct BtlRecSel *)work);
-            if((((struct BtlRecSel *)work)->mode))BTL_REC_SEL_InitBgGfx2((int)mgr,(u8 *)work);else BTL_REC_SEL_InitBgGfx3((int)mgr,(u8 *)work);
-            BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,2,1,16,0,-2,1);
+            if((((struct BtlRecSel *)work)->mode))BTL_REC_SEL_InitBgGfx2((sptr)mgr,(u8 *)work);else BTL_REC_SEL_InitBgGfx3((sptr)mgr,(u8 *)work);
+            BTL_REC_SEL_StartFade((char*)state,(sptr)mgr,work,2,1,16,0,-2,1);
             BTL_REC_SEL_SetEntryA((void*)mgr,work,7,6,0);
-        }else BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,10,1,16,0,-2,1);
+        }else BTL_REC_SEL_StartFade((char*)state,(sptr)mgr,work,10,1,16,0,-2,1);
         BATTLE_REC_Delete((void*)(((struct BtlRecSel *)work)->battleRec));break;
     case 9:
-        BTL_REC_SEL_ClearList((int)mgr,work);BTL_REC_SEL_DeleteCellActors((int)mgr,(int)work);BTL_REC_SEL_ClearLayer((void*)mgr,work);
-        BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,(((struct BtlRecSel *)work)->menuMode),1,16,0,-2,1);
-        BTL_REC_SEL_ClearWindowWhite((int)mgr,work);
-        if((((struct BtlRecSel *)work)->menuMode)==15 && (((struct BtlRecSel *)work)->itemCount) && (*(u32*)(mgr+4)) && !(*(u32*)(mgr+8))){BTL_REC_SEL_ClearWindowClear((int)mgr,work);BTL_REC_SEL_DrawWindowBorder((int)mgr,work);}
+        BTL_REC_SEL_ClearList((sptr)mgr,work);BTL_REC_SEL_DeleteCellActors((sptr)mgr,(sptr)work);BTL_REC_SEL_ClearLayer((void*)mgr,work);
+        BTL_REC_SEL_StartFade((char*)state,(sptr)mgr,work,(((struct BtlRecSel *)work)->menuMode),1,16,0,-2,1);
+        BTL_REC_SEL_ClearWindowWhite((sptr)mgr,work);
+        if((((struct BtlRecSel *)work)->menuMode)==15 && (((struct BtlRecSel *)work)->itemCount) && (*(u32*)(mgr+4)) && !(*(u32*)(mgr+8))){BTL_REC_SEL_ClearWindowClear((sptr)mgr,work);BTL_REC_SEL_DrawWindowBorder((sptr)mgr,work);}
         BTL_REC_SEL_ResetTimer((void*)mgr,work);break;
     case 10:BTL_REC_SEL_PrintQueEntry((void*)mgr,work,9);*state=11;break;
     case 11:
-        if(BTL_REC_SEL_TryShowEntry((int)mgr,(u8 *)work)){
+        if(BTL_REC_SEL_TryShowEntry((sptr)mgr,(u8 *)work)){
             (((struct BtlRecSel *)work)->timeIcon)=TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(),(void*)(((struct BtlRecSel *)work)->win1),15,16,((struct BtlRecSel *)work)->heap);
             (((struct BtlRecSel *)work)->saveState)=0;((struct BtlRecSel *)work)->saveArg0=0;((struct BtlRecSel *)work)->saveArg1=0;(((struct BtlRecSel *)work)->saveStatus)=0;
             *state=12;
@@ -737,26 +738,26 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
         if((((struct BtlRecSel *)work)->saveStatus)!=2 && (((struct BtlRecSel *)work)->saveStatus)!=3)(((struct BtlRecSel *)work)->saveStatus)=BATTLE_REC_BeginSave(((struct BtlRecSelMgr *)mgr)->gameData,((struct BtlRecSel *)work)->heap,(((struct BtlRecSelMgr *)mgr)->saveParam0),(((struct BtlRecSelMgr *)mgr)->saveParam1),0,&((struct BtlRecSel *)work)->saveArg0,&((struct BtlRecSel *)work)->saveArg1);
         if((u32)((((struct BtlRecSel *)work)->saveStatus)-2)<=1){
             BATTLE_REC_DecodeWork();TIME_ICON_Delete((u8*)(((struct BtlRecSel *)work)->timeIcon));
-            if((((struct BtlRecSel *)work)->saveStatus)==2){GFL_USE_PlaySeDefaultVolume(0x558);BTL_REC_SEL_StartEntryB((int*)state,(int)mgr,(int)work,13,10);(((struct BtlRecSel *)work)->waitTimer)=120;}
-            else if((((struct BtlRecSel *)work)->saveStatus)==3){BTL_REC_SEL_StartEntryB((int*)state,(int)mgr,(int)work,14,11);(((struct BtlRecSel *)work)->waitTimer)=120;}
+            if((((struct BtlRecSel *)work)->saveStatus)==2){GFL_USE_PlaySeDefaultVolume(0x558);BTL_REC_SEL_StartEntryB((int*)state,(sptr)mgr,(sptr)work,13,10);(((struct BtlRecSel *)work)->waitTimer)=120;}
+            else if((((struct BtlRecSel *)work)->saveStatus)==3){BTL_REC_SEL_StartEntryB((int*)state,(sptr)mgr,(sptr)work,14,11);(((struct BtlRecSel *)work)->waitTimer)=120;}
         }break;
-    case 13:if(BTL_REC_SEL_WaitPrint((int)mgr,work))*state=15;break;
-    case 14:if(BTL_REC_SEL_WaitPrint((int)mgr,work))*state=15;break;
+    case 13:if(BTL_REC_SEL_WaitPrint((sptr)mgr,work))*state=15;break;
+    case 14:if(BTL_REC_SEL_WaitPrint((sptr)mgr,work))*state=15;break;
     case 15:
         if((((struct BtlRecSel *)work)->itemCount)){
             if((((struct BtlRecSelMgr *)mgr)->isMulti)){
                 if((*(u32*)(mgr+4))){
                     if((*(u32*)(mgr+8)))gfxId0=12;
-                    else{BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,18,3,0,16,2,0);break;}
+                    else{BTL_REC_SEL_StartFade((char*)state,(sptr)mgr,work,18,3,0,16,2,0);break;}
                 }else if((*(u32*)(mgr+8)))gfxId0=13;else gfxId0=14;
             }else gfxId0=15;
         }else if((*(u32*)(mgr+8)))gfxId0=12;else{*state=18;break;}
-        if((*(u32*)(mgr+8)))BTL_REC_SEL_PrintQueEntry((void*)mgr,work,gfxId0);else BTL_REC_SEL_PrintEntry((int)mgr,work,gfxId0,1);
+        if((*(u32*)(mgr+8)))BTL_REC_SEL_PrintQueEntry((void*)mgr,work,gfxId0);else BTL_REC_SEL_PrintEntry((sptr)mgr,work,gfxId0,1);
         *state=16;break;
     case 16:
         done=0;
-        if((*(u32*)(mgr+8))){if(BTL_REC_SEL_TryShowEntry((int)mgr,(u8 *)work))done=1;}
-        else if(BTL_REC_SEL_WaitPrint((int)mgr,work))done=1;
+        if((*(u32*)(mgr+8))){if(BTL_REC_SEL_TryShowEntry((sptr)mgr,(u8 *)work))done=1;}
+        else if(BTL_REC_SEL_WaitPrint((sptr)mgr,work))done=1;
         if(done){
             if((*(u32*)(mgr+8))){
                 GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
@@ -770,11 +771,11 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
             if(!GFL_NET_ERR_GetErrorLevel())done=GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
             if(done)TIME_ICON_Delete((u8*)(((struct BtlRecSel *)work)->timeIcon));
         }
-        if(done)BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,18,3,0,16,2,0);
+        if(done)BTL_REC_SEL_StartFade((char*)state,(sptr)mgr,work,18,3,0,16,2,0);
         break;
     case 18:return 1;
     }
-    BTL_REC_SEL_MainTcbl((int)mgr,work);BTL_REC_SEL_TickTimer((void*)mgr,work);BTL_REC_SEL_ShowWindows((void*)mgr,(struct BtlRecSel *)work);BTL_REC_SEL_FadeMain((void*)mgr,(struct BtlRecSel *)work);
+    BTL_REC_SEL_MainTcbl((sptr)mgr,work);BTL_REC_SEL_TickTimer((void*)mgr,work);BTL_REC_SEL_ShowWindows((void*)mgr,(struct BtlRecSel *)work);BTL_REC_SEL_FadeMain((void*)mgr,(struct BtlRecSel *)work);
     PRINTSYS_QUE_Main((void*)(((struct BtlRecSel *)work)->printQue[0]));PRINTSYS_QUE_Main((void*)(((struct BtlRecSel *)work)->printQue[1]));PRINTSYS_QUE_Main((void*)(((struct BtlRecSel *)work)->printQue[2]));PRINTSYS_QUE_Main((void*)(((struct BtlRecSel *)work)->printQue[3]));
     BTL_REC_SEL_GRAPHIC_Draw((u8*)(((struct BtlRecSel *)work)->graphic));BTL_REC_SEL_GRAPHIC_Draw3d((u8*)(((struct BtlRecSel *)work)->graphic));BTL_REC_SEL_GRAPHIC_DrawEnd((char*)(((struct BtlRecSel *)work)->graphic));
     return 0;
@@ -833,7 +834,7 @@ void BTL_REC_SEL_InitWindows(void *unused, struct BtlRecSel *work)
     work->win1=(void *)BMP_WIN_Create(1,1,0x13,0x1e,4,0xc,0);
     BMP_Clear(BMP_WIN_GetBmp(work->win1),0xf);
     BMP_WIN_TransferChars(work->win1);
-    work->frameRun=(u32)BMP_MENUWORK_LoadFrameGfx((unsigned int)1,0xa,0,work->heap);
+    work->frameRun=(uptr)BMP_MENUWORK_LoadFrameGfx((unsigned int)1,0xa,0,work->heap);
     work->tcbl=(struct Tcbl *)TCBL_Create(work->heap,work->heap,1,0);
     GF_FONT_SetTextColor(1,2,0xf);
     BG_SYS_MarkTileDirty(1);
@@ -939,7 +940,7 @@ void BTL_REC_SEL_PrintQueEntry(void*mgr,char*work,unsigned entry)
     *(void* *)&((struct BtlRecSel *)work)->strbuf=MSGDATA_AllocString(*(void* *)&((struct BtlRecSel *)work)->msgBank,entry);
     *(int *)&((struct BtlRecSel *)work)->windowShown=0;
     PRINTSYS_PrintQue(*(void* *)&((struct BtlRecSel *)work)->printQue[0],BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->win1),0,0,*(void* *)&((struct BtlRecSel *)work)->strbuf,(struct GfFont *)(((struct BtlRecSel *)work)->font));
-    BTL_REC_SEL_TryShowEntry((int)mgr,(u8 *)work);
+    BTL_REC_SEL_TryShowEntry((sptr)mgr,(u8 *)work);
 }
 
 u32 BTL_REC_SEL_TryShowEntry(int unused,u8 *work){struct Descriptor *d;if(((struct BtlRecSel *)work)->windowShown==0){if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[0]),BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1)))==0){d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars((struct BmpWin *)d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));((struct BtlRecSel *)work)->windowShown=1;}}return ((struct BtlRecSel *)work)->windowShown;}
@@ -1112,13 +1113,13 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
 {
     int mode;
     int colorFlag;
-    int win;
-    int strbuf1;
-    int bmp1;
-    int font;
-    int strbuf2;
-    int buf;
-    int bmp2;
+    sptr win;
+    sptr strbuf1;
+    sptr bmp1;
+    sptr font;
+    sptr strbuf2;
+    sptr buf;
+    sptr bmp2;
 
     if (mgr->isWifi == 0)
         return;
@@ -1132,32 +1133,32 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
     }
 
     if (mode != e->lastMode) {
-        win = (int)BMP_WIN_GetBmp(e->winHandles[2]);
+        win = (sptr)BMP_WIN_GetBmp(e->winHandles[2]);
         BMP_Clear((struct Bmp *)win, 0);
-        win = (int)BMP_WIN_GetBmp(e->winHandles[3]);
+        win = (sptr)BMP_WIN_GetBmp(e->winHandles[3]);
         BMP_Clear((struct Bmp *)win, 0);
     } else if (v != e->lastValue) {
-        win = (int)BMP_WIN_GetBmp(e->winHandles[3]);
+        win = (sptr)BMP_WIN_GetBmp(e->winHandles[3]);
         BMP_Clear((struct Bmp *)win, 0);
     }
 
     if (mode != e->lastMode) {
         PRINTSYS_QUE_Clear(e->printQue[2]);
-        strbuf1 = (int)MSGDATA_AllocString(e->msgBank, 0x10);
-        bmp1 = (int)BMP_WIN_GetBmp(e->winHandles[2]);
+        strbuf1 = (sptr)MSGDATA_AllocString(e->msgBank, 0x10);
+        bmp1 = (sptr)BMP_WIN_GetBmp(e->winHandles[2]);
         PRINTSYS_PrintQueColor(e->printQue[2], (struct Bmp *)bmp1, 4, 1, (struct Strbuf *)strbuf1, (struct GfFont *)e->font, colorFlag);
         e->winShown[2] = 0;
         STRBUF_Delete((struct Strbuf *)strbuf1);
     }
 
     if (mode != e->lastMode || v != e->lastValue) {
-        font = (int)WORDSET_CreateDefault(e->heap);
-        strbuf2 = (int)MSGDATA_AllocString(e->msgBank, 0x12);
-        buf = (int)STRBUF_Create(8, e->heap);
+        font = (sptr)WORDSET_CreateDefault(e->heap);
+        strbuf2 = (sptr)MSGDATA_AllocString(e->msgBank, 0x12);
+        buf = (sptr)STRBUF_Create(8, e->heap);
         PRINTSYS_QUE_Clear(e->printQue[3]);
         WORDSET_SetSlotNumber((struct WordSet *)font, 1, v, 2, 2, 1);
         WORDSET_CopyTaggedText((struct WordSet *)font, (void *)buf, (void *)strbuf2);
-        bmp2 = (int)BMP_WIN_GetBmp(e->winHandles[3]);
+        bmp2 = (sptr)BMP_WIN_GetBmp(e->winHandles[3]);
         PRINTSYS_PrintQueColor(e->printQue[3], (struct Bmp *)bmp2, 2, 2, (struct Strbuf *)buf, (struct GfFont *)e->font, colorFlag);
         e->winShown[3] = 0;
         STRBUF_Delete((struct Strbuf *)buf);
@@ -1226,7 +1227,7 @@ void BTL_REC_SEL_DeleteCellActors(int unused, int workAddr)
 int BTL_REC_SEL_CreateActor(int sceneId,u16 heap,int mode,u8 shade,u32 gfxId0,u32 gfxId1,u32 gfxId2,u32 gfxId3,void*sceneWork,u8 x,u8 y,u8 flag,u8 bgPriority,u8 drawPriority)
 {
     In info;
-    int actorHandle;
+    sptr actorHandle;
     info.mode=mode;
     info.flag04=1;
     info.flag08=7;
@@ -1238,7 +1239,7 @@ int BTL_REC_SEL_CreateActor(int sceneId,u16 heap,int mode,u8 shade,u32 gfxId0,u3
     info.flag1d=0;
     info.shading=3;
     UI_SCENE_LoadActorGfx(sceneWork,(struct ActorGfxDesc *)(&info),(void *)sceneId,heap);
-    actorHandle=(s32)UI_SCENE_CreateActor(sceneWork,(void *)sceneId,x,y,flag,heap);
+    actorHandle=(sptr)UI_SCENE_CreateActor(sceneWork,(void *)sceneId,x,y,flag,heap);
     CLACT_SetActorBgPriority((struct ClactActor *)actorHandle,bgPriority);
     CLACT_SetActorDrawPriority((struct ClactActor *)actorHandle,drawPriority);
     CLACT_SetActorAutoAnim((struct ClactActor *)actorHandle,1);
@@ -1318,12 +1319,12 @@ void BTL_REC_SEL_InitSubBg(void **mgrRef,char *work)
     BG_SYS_PushTile(4);
 }
 
-static inline void GXS_SetVisibleWnd(int window){*(volatile u32 *)0x04001000=(*(volatile u32 *)0x04001000&~0xe000u)|(window<<13);}
+static inline void GXS_SetVisibleWnd(int window){*(volatile u32 *)REG_DB_DISPCNT_ADDR=(*(volatile u32 *)REG_DB_DISPCNT_ADDR&~0xe000u)|(window<<13);}
 
 /*
  * volatile: hardware registers 0x04001050 (021BAE30), 0x04001000 read/write (021BAE34/021BAE3A).
  */
-void BTL_REC_SEL_DeleteSubBg(int unused, char *work){int i;for(i=0;i<1u;i++)BG_SYS_FreeLayerBuf(d_021BB498[i][0]);*(volatile u16 *)0x04001050=0;GXS_SetVisibleWnd(0);}
+void BTL_REC_SEL_DeleteSubBg(int unused, char *work){int i;for(i=0;i<1u;i++)BG_SYS_FreeLayerBuf(d_021BB498[i][0]);*(volatile u16 *)REG_DB_BLDCNT_ADDR=0;GXS_SetVisibleWnd(0);}
 
 void BTL_REC_SEL_CreateUiActor(int unused,u8 *work){*(int *)&((struct BtlRecSel *)work)->actor=BTL_REC_SEL_CreateActor(BTL_REC_SEL_GRAPHIC_GetCamera(*(u8 * *)&((struct BtlRecSel *)work)->graphic),((struct BtlRecSel *)work)->heap,0,0,1,0,0,0,((struct BtlRecSel *)work)->uiSceneWork,0,0,0,1,1);}
 
@@ -1410,7 +1411,7 @@ static inline void G3X_AntiAlias(int enable)
 
 static inline void G3X_AlphaTest(int enable,int ref)
 {
-    if(enable) { REG3D=(u16)((REG3D & ~0x3000)|4); *(volatile u16 *)0x04000340=(u16)ref; }
+    if(enable) { REG3D=(u16)((REG3D & ~0x3000)|4); *(volatile u16 *)REG_ALPHA_TEST_REF_ADDR=(u16)ref; }
     else REG3D &= (u16)~(4|0x3000);
 }
 

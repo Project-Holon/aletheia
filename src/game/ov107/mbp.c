@@ -271,6 +271,7 @@
  */
 
 #include "mb_comm_sys.h"
+#include "../sdk_ioreg_reg.h"
 
 #include "../types.h"
 
@@ -305,13 +306,9 @@ struct Placement {
 };
 
 /* Display registers and palette RAM touched directly by this screen. */
-#define REG_DISPCNT_MAIN (*(volatile u32 *)0x04000000)
-#define REG_DISPCNT_SUB (*(volatile u32 *)0x04001000)
-#define REG_BLDCNT_MAIN (*(volatile u16 *)0x04000050)
-#define REG_BLDCNT_SUB (*(volatile u16 *)0x04001050)
-#define REG_POWCNT1 (*(volatile u16 *)0x04000304)
-#define PLTT_BG_MAIN ((volatile u16 *)0x05000000)
-#define PLTT_BG_SUB ((volatile u16 *)0x05000400)
+#define REG_POWCNT1 (*(volatile u16 *)REG_POWCNT1_ADDR)
+#define PLTT_BG_MAIN ((volatile u16 *)HW_BG_PLTT)
+#define PLTT_BG_SUB ((volatile u16 *)HW_DB_BG_PLTT)
 
 typedef struct MbPathPair {
     const char *inGame;
@@ -682,13 +679,13 @@ void MB_PARENT_SYS_EventCallback(u16 aid, u32 event, MbChildEvent *info)
         gMbParentSys.connectedMask |= (u16)(1 << aid);
         OS_RestoreInterrupts(irq);
         offset = 30 * (aid - 1);
-        *(u8 *)((u32)d_021F6EDE + offset) = info->mac[0];
-        *(u8 *)((u32)d_021F6EDF + offset) = info->mac[1];
-        *(u8 *)((u32)d_021F6EE0 + offset) = info->mac[2];
-        *(u8 *)((u32)d_021F6EE1 + offset) = info->mac[3];
-        *(u8 *)((u32)d_021F6EE2 + offset) = info->mac[4];
-        *(u8 *)((u32)d_021F6EE3 + offset) = info->mac[5];
-        *(u16 *)((u32)d_021F6EE4 + offset) = aid;
+        *(u8 *)((uptr)d_021F6EDE + offset) = info->mac[0];
+        *(u8 *)((uptr)d_021F6EDF + offset) = info->mac[1];
+        *(u8 *)((uptr)d_021F6EE0 + offset) = info->mac[2];
+        *(u8 *)((uptr)d_021F6EE1 + offset) = info->mac[3];
+        *(u8 *)((uptr)d_021F6EE2 + offset) = info->mac[4];
+        *(u8 *)((uptr)d_021F6EE3 + offset) = info->mac[5];
+        *(u16 *)((uptr)d_021F6EE4 + offset) = aid;
         break;
     case 3:
         if (MB_PARENT_SYS_GetChildStage(aid) == 6)
@@ -713,7 +710,7 @@ void MB_PARENT_SYS_EventCallback(u16 aid, u32 event, MbChildEvent *info)
         MB_PARENT_SYS_AcceptRequest(aid);
         userInfo = MB_CommGetChildUser(aid);
         if (userInfo)
-            MI_CpuCopy8(userInfo, (void *)((u32)gMbChildEntries + 30 * (aid - 1)), 22);
+            MI_CpuCopy8(userInfo, (void *)((uptr)gMbChildEntries + 30 * (aid - 1)), 22);
         break;
     case 14:
         gMbParentSys.requestedMask &= (u16)~(1 << aid);

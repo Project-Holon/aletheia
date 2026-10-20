@@ -11,7 +11,7 @@ struct Guru2Session;
 
 struct Guru2Comm *GURU2_COMM_Create(struct Guru2Session *session,int heap);
 void GURU2_COMM_Destroy(struct Guru2Comm *p);
-void GURU2_COMM_RegisterCommands(u32 work);
+void GURU2_COMM_RegisterCommands(void *work);
 void GURU2_COMM_Exit(struct Guru2Comm *p);
 int GURU2_COMM_SendWithHeader(struct Guru2Comm *p,u32 id,const void *data,u32 size);
 int GURU2_COMM_Send(struct Guru2Comm *p,u32 id,const void *data,u32 size);

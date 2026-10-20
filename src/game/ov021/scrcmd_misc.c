@@ -1035,7 +1035,7 @@ int SCRCMD_CreateMmdlIcaProc(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldParam->fieldSystem), &pos);
     icaWork = SCRCMD_MMDL_ICA_CreateProc(fieldParam->fieldSystem, mmdlId, &pos, heapId);
-    SCRIPT_WORK_SetReturnParam(scriptWork, (u32)icaWork);
+    SCRIPT_WORK_SetReturnParam(scriptWork, (uptr)icaWork);
     return 0;
 }
 
@@ -1062,7 +1062,7 @@ int SCRCMD_StartMmdlIcaAnime(ScriptVm *vm, ScrcmdWork *cmdWork)
 
 int SCRCMD_MMDL_ICA_WaitTask(u32 event, u32 state, MmdlIcaWaitWork *work, u32 arg)
 {
-    if (SCRCMD_MMDL_ICA_IsDone(work->ica, state, (u32)work, arg) == 1) {
+    if (SCRCMD_MMDL_ICA_IsDone(work->ica, state, (uptr)work, arg) == 1) {
         return 1;
     }
     return 0;
@@ -1358,8 +1358,8 @@ void EVENT_PERAP_RECORD_CreatePokeIcon(PerapRecordWork *work)
     box = (struct BoxPokemon *)POKE_TOOL_CastToBoxParam(work->partyMon);
     resHandle = POKEGRA_OpenHandle(0x15);
     savedState = POKE_TOOL_DecodeBoxParam(box);
-    work->charRes = POKEGRA_RegisterCgrPP((s32)resHandle, box, 0, 0, 0x15);
-    work->palRes = POKEGRA_RegisterPalettePP((s32)resHandle, box, 0, 0, 0x60, 0x15);
+    work->charRes = POKEGRA_RegisterCgrPP((sptr)resHandle, box, 0, 0, 0x15);
+    work->palRes = POKEGRA_RegisterPalettePP((sptr)resHandle, box, 0, 0, 0x60, 0x15);
     work->cellRes = POKEGRA_RegisterCellAnimPP(box, 0, 1, 0, 0x15);
     POKE_TOOL_EncodeBoxParam(box, savedState);
     ARC_TOOL_DeleteHandle(resHandle);
@@ -1694,7 +1694,7 @@ void SCRCMD_POKE_ICON_CreateIcon(PokeIconWork *work, int species, int form, int 
 
     work->clactUnit = CLACT_CreateUnit(1, 0, 0x8015);
     resHandle = POKEGRA_OpenHandle(0x8015);
-    work->charRes = POKEGRA_RegisterCgr((u32)resHandle, species, form, isEgg, gender, 0, 0, charFlags, 0, 0x8015);
+    work->charRes = POKEGRA_RegisterCgr((uptr)resHandle, species, form, isEgg, gender, 0, 0, charFlags, 0, 0x8015);
     work->palRes = POKEGRA_RegisterPalette(resHandle, species, form, isEgg, gender, 0, 0, 0, 0, 0x8015);
     ARC_TOOL_DeleteHandle(resHandle);
     work->cellRes = POKEGRA_RegisterCellAnim(species, form, isEgg, gender, 0, 0, 1, 0, 0x8015);

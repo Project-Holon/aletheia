@@ -125,7 +125,7 @@ int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work)
     param = GFL_HEAP_Alloc(4, 8, 0, (char *)d_021DE5A8, 0x44);
     param->result = 0;
     param->gameData = gameData;
-    SCRIPT_SYS_CallEvent( (void *)script, (void *)(FIELD_STATUS_CreateSubProcNoFadeCallbackEvent( (struct GameSystem *)gsys, (struct FieldMap *)((int)fieldmap), (u32)ov107_id, (void *)((int)d_021F6D78), (void *)((int)param), 0, (void *)((int)param))));
+    SCRIPT_SYS_CallEvent( (void *)script, (void *)(FIELD_STATUS_CreateSubProcNoFadeCallbackEvent( (struct GameSystem *)gsys, (struct FieldMap *)((sptr)fieldmap), (uptr)ov107_id, (void *)((sptr)d_021F6D78), (void *)((sptr)param), 0, (void *)((sptr)param))));
     return 1;
 }
 

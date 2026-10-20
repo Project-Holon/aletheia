@@ -82,7 +82,7 @@ void FIELD_TASK_Start(FieldTask *task)
 /* Returns the work block. */
 u32 FIELD_TASK_GetWork(FieldTask *task)
 {
-    return (u32)task->work;
+    return (uptr)task->work;
 }
 
 /* Returns 1 when the task has finished. */
@@ -110,7 +110,7 @@ void FIELD_TASK_SetRunning(FieldTask *task)
 int FIELD_TASK_SetFinished(FieldTask *task)
 {
     task->state = FIELD_TASK_STATE_FINISHED;
-    return (int)task;
+    return (sptr)task;
 }
 
 /* While running, calls the check callback and finishes the task when it returns 1. */

@@ -745,7 +745,7 @@ void FLDMMDL_MOVE_AttrEffectGround(Mmdl *mmdl, EventInfo *info)
                 kind = 1;
         }
         if (kind != 5)
-            FLDEFF_FOOTMARK_SetMMdl(mmdl, (int)info->effectCtrl, kind);
+            FLDEFF_FOOTMARK_SetMMdl(mmdl, (sptr)info->effectCtrl, kind);
     }
 }
 
@@ -879,11 +879,11 @@ void FLDMMDL_MOVE_AttrEffectLongGrassStart(Mmdl *mmdl, EventInfo *info)
     }
     attrOrKind = 1;
     reflectAttr = MAP_ATTR_GetTerrainId(reflectAttr);
-    mmdlSys = (int)FLDMMDL_GetMmdlSys(mmdl);
+    mmdlSys = (sptr)FLDMMDL_GetMmdlSys(mmdl);
     if (MAP_ATTR_IsMirrorFloor(reflectAttr) == 1 || MAP_ATTR_IsIce(reflectAttr) == 1) {
         attrOrKind = 2;
     }
-    FLDEFF_REFLECT_SetMMdl((u32)mmdlSys, (u32)mmdl, (u32)info->effectCtrl, attrOrKind);
+    FLDEFF_REFLECT_SetMMdl((u32)mmdlSys, (uptr)mmdl, (uptr)info->effectCtrl, attrOrKind);
     FLDMMDL_SetMoveBitReflect(mmdl, 1);
 }
 
@@ -1372,13 +1372,13 @@ void FLDMMDL_MOVE_StopAcmdWalkCodes(Mmdl *mmdl) { if ((u16)(FLDMMDL_GetMoveCode(
  * contract: ROM table at 0x02171480 holds {0,0,-1,1}. No caller
  * bounds assumption: unsigned32 address arithmetic preserves the image load.
  */
-s16 FLDMMDL_MOVE_GetDirAddGridX(int dir) { return (short)*(const int *)((unsigned)d_02171480+((unsigned)dir<<2)); }
+s16 FLDMMDL_MOVE_GetDirAddGridX(int dir) { return (short)*(const int *)((uptr)d_02171480+((unsigned)dir<<2)); }
 
 /*
  * contract: ROM table at 0x02171470 holds {-1,1,0,0}. No caller
  * bounds assumption: unsigned32 address arithmetic preserves the image load.
  */
-s16 FLDMMDL_MOVE_GetDirAddGridZ(int dir) { return (short)*(const int *)((unsigned)d_02171470+((unsigned)dir<<2)); }
+s16 FLDMMDL_MOVE_GetDirAddGridZ(int dir) { return (short)*(const int *)((uptr)d_02171470+((unsigned)dir<<2)); }
 
 void FLDMMDL_MOVE_AddDirVector(int dir, VecFx32 *pos, int amount)
 {

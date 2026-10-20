@@ -139,6 +139,7 @@
  *   TCB_Init  0x02030CBC  arm  arm9
  */
 #include "worldtrade_types.h"
+#include "../sdk_ioreg.h"
 #include "worldtrade_adapter.h"
 #include "../arm9/clact.h"
 #include "../arm9/gfl_use.h"
@@ -562,7 +563,7 @@ void WORLDTRADE_Nop(WorldtradeWork *p)
 
 static inline void SetWnd0InsidePlane(int wnd, int effect)
 {
-    u32 tmp = (*(vu16 *)0x04000048 & ~0x3F) | wnd;
+    u32 tmp = (*(vu16 *)REG_WININ_ADDR & ~0x3F) | wnd;
 
     if (effect) {
         tmp |= 0x20;
@@ -572,7 +573,7 @@ static inline void SetWnd0InsidePlane(int wnd, int effect)
 
 static inline void SetWndOutsidePlane(int wnd, int effect)
 {
-    u32 tmp = (*(vu16 *)0x0400004A & ~0x3F) | wnd;
+    u32 tmp = (*(vu16 *)REG_WINOUT_ADDR & ~0x3F) | wnd;
 
     if (effect) {
         tmp |= 0x20;
@@ -893,9 +894,9 @@ void WORLDTRADE_SetActorPos(u32 obj, u32 x, u32 y)
 void WORLDTRADE_SetBrightnessIn(u32 isMain)
 {
     if (isMain != 0) {
-        G2x_SetBlendBrightness_(0x04000050, 0x1e, -7);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 0x1e, -7);
     } else {
-        G2x_SetBlendBrightness_(0x04001050, 0x1e, -7);
+        G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, 0x1e, -7);
     }
 }
 
@@ -905,9 +906,9 @@ void WORLDTRADE_SetBrightnessIn(u32 isMain)
 void WORLDTRADE_SetBrightnessOut(u32 isMain)
 {
     if (isMain != 0) {
-        G2x_SetBlendBrightness_(0x04000050, 0x1b, -7);
+        G2x_SetBlendBrightness_(REG_BLDCNT_ADDR, 0x1b, -7);
     } else {
-        G2x_SetBlendBrightness_(0x04001050, 0x1b, -7);
+        G2x_SetBlendBrightness_(REG_DB_BLDCNT_ADDR, 0x1b, -7);
     }
 }
 

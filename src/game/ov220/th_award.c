@@ -274,7 +274,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     u16 variant;
     void *owner;
     u16 heap;
-    GFL_HEAP_CreateChildHeap((u32)((void *)1),131,0x50000);
+    GFL_HEAP_CreateChildHeap((uptr)((void *)1),131,0x50000);
     p=PROCSYS_AllocProcWork(host,0xB4,131);
     MI_CpuFill8(p,0,0xB4);
     p->heap=131;
@@ -295,7 +295,7 @@ int TH_AWARD_Init(void *host,void *unused,void *args)
     BG_SYS_ClearSubPlanes();GXS_SetGraphicsMode(0);BG_SYS_ClearSubBgPlanes();
     i=0;
     do {
-        const struct Row *r=(const struct Row *)((u32)bgtable+i*44);
+        const struct Row *r=(const struct Row *)((uptr)bgtable+i*44);
         u32 layer=r->id;
         BG_SYS_InitBgLayer((u8)layer,(const struct BgTemplate*)r->body,(u8)r->kind);
         BG_SYS_FreeSlot(layer);BG_SYS_SetPlaneVisible(layer,r->on);
@@ -349,7 +349,7 @@ int TH_AWARD_Main(void *unused, u32 *state, void *unused2, char *p)
             else {
                 GFL_USE_SetBgmPaused((void *)1);
                 GFL_USE_PushBgm();
-                GFL_USE_CancelChangeAndPlayBgm(*(const u32 *)((u32)sounds+((struct ThAwardWork *)p)->bgmIndex*12),0xFFFF);
+                GFL_USE_CancelChangeAndPlayBgm(*(const u32 *)((uptr)sounds+((struct ThAwardWork *)p)->bgmIndex*12),0xFFFF);
             }
         }
         if (flag) {FADE_Start(3,16,0,0);*state=1;}
@@ -451,7 +451,7 @@ void TH_AWARD_CreateSpeciesActors(char *p)
       param.x = *((const s16 *) (coords + i * 4));
       param.y = *((const s16 *) (coords + i * 4 + 2));
       slot = p + i * 4;
-      actor = CLACT_CreateActor((void *)TH_AWARD_GRAPHIC_GetActor(*((void **) (p + 8))), *((u32 *) (res + 0x1C)), *((u32 *) (p + 0x20)), *((u32 *) (res + 0x24)), (const void *)((u32) (&param)), 0, *((u16 *) p));
+      actor = CLACT_CreateActor((void *)TH_AWARD_GRAPHIC_GetActor(*((void **) (p + 8))), *((u32 *) (res + 0x1C)), *((u32 *) (p + 0x20)), *((u32 *) (res + 0x24)), (const void *)((uptr) (&param)), 0, *((u16 *) p));
       *((void **) (slot + 0x4C)) = actor;
       CLACT_SetActorAnimSeq(actor, 1);
       CLACT_SetActorAutoAnim(*((void **) (slot + 0x4C)), 0);
@@ -479,7 +479,7 @@ void TH_AWARD_CreateBgActors(struct ThAwardWork *p)
     u8 i=0;
     p->bgSlotCount=0;
     if(p->bgmIndex!=7){
-        p->bgSlotCount=*(const u8*)((u32)table+p->bgmIndex*12);
+        p->bgSlotCount=*(const u8*)((uptr)table+p->bgmIndex*12);
         if(*(volatile u8 *)&p->bgSlotCount){
             owner=ARC_TOOL_CreateHandle(201,p->heap);
             p->paletteId=CLACT_RegisterPaletteEx(owner,1,0,0,0,1,p->heap);
@@ -488,8 +488,8 @@ void TH_AWARD_CreateBgActors(struct ThAwardWork *p)
             ARC_TOOL_DeleteHandle(owner);
             MI_CpuFill8(&param,0,8);
             for(;i<p->bgSlotCount;i++){
-                param.x=*(const s16*)((u32)coords+(u32)i*4);
-                param.y=*(const s16*)((u32)coords+(u32)i*4+2);
+                param.x=*(const s16*)((uptr)coords+(u32)i*4);
+                param.y=*(const s16*)((uptr)coords+(u32)i*4+2);
                 p->bgActors[i]=CLACT_CreateActor((struct Unit *)TH_AWARD_GRAPHIC_GetActor(p->graphic),p->charId,p->paletteId,p->cellAnimId,(const struct ActorInitParam *)&param,0,p->heap);
                 CLACT_SetActorAnimSeq(p->bgActors[i],0);
                 CLACT_SetActorAutoAnim(p->bgActors[i],1);

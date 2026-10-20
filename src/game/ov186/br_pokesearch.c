@@ -357,7 +357,7 @@ void BR_POKESEARCH_DestroyBackButton(struct BrPokeSearch *ps)
 
 void BR_POKESEARCH_CreateGroupWindows(struct BrPokeSearch *ps)
 {
-    int font, msgData, i;
+    sptr font, msgData, i;
     unsigned color;
     unsigned char x, y;
     ps->listShown = 0;
@@ -481,7 +481,7 @@ int BR_POKESEARCH_HasSeenInGroup(struct ZukanSave *zukan, u32 group, const u16 *
     end=gBrPokeSearchGroupStart[group+1];
     found=0;
     for(i=gBrPokeSearchGroupStart[group];i<end;i++) {
-        if(ZUKAN_SAVE_IsSeen(zukan,*(const u16 *)((u32)speciesTable+i*2)))found=1;
+        if(ZUKAN_SAVE_IsSeen(zukan,*(const u16 *)((uptr)speciesTable+i*2)))found=1;
     }
     return found;
 }

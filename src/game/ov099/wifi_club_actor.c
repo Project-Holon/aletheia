@@ -224,7 +224,7 @@ void WIFICLUBACTOR_EndBlinkScript(WifiClubPaletteBlink *blink);
 void WIFICLUBACTOR_RequestBlinkRestart(WifiClubPaletteBlink *blink);
 void WIFICLUBACTOR_StartBlinkScript(WifiClubPaletteBlink *blink, u8 colorIndex);
 void WIFICLUBACTOR_RestartBlinkScript(WifiClubPaletteBlink *blink);
-u8 *WIFICLUBACTOR_GetCommandTable(void);
+NetCommandEntry *WIFICLUBACTOR_GetCommandTable(void);
 int WIFICLUBACTOR_GetCommandCount(void);
 void WIFICLUBACTOR_AddNetCommands(void *work);
 void WIFICLUBACTOR_RemoveNetCommands(void *unused);
@@ -274,13 +274,13 @@ void WIFICLUBACTOR_Exit(WifiClubActorSys *sys)
 {
     WF2DMAP_CMDQ_DeleteStore(sys->cmdQueue);
     WIFICLUBACTOR_ExitLayer(sys);
-    WIFICLUBACTOR_ExitBlink((int)sys, &sys->blink);
+    WIFICLUBACTOR_ExitBlink((sptr)sys, &sys->blink);
     WIFICLUBACTOR_FreeAllActors(sys);
     WIFICLUBACTOR_ExitSpriteManager(sys);
     WF2DMAP_OBJ_DeleteList(sys->entityMgr);
     WF2DMAP_MAP_DeleteGrid(sys->tileMap);
     WIFICLUBACTOR_ExitSprites(&sys->sprites);
-    WIFICLUBACTOR_NoOpExit((int)sys->reserved10);
+    WIFICLUBACTOR_NoOpExit((sptr)sys->reserved10);
     MI_CpuFill8(sys, 0, 0x5a0);
 }
 
@@ -437,7 +437,7 @@ void *WIFICLUBACTOR_SpawnSlotActor(WifiClubActorSys *sys, int graphic, int slotP
             return 0;
     }
     WIFICLUBACTOR_SpawnEntity(sys, &actor->entity, (short *)&spawn, slotPlusOne, graphic, 1, 4);
-    WIFICLUBACTOR_SetWaitState((int)sys, actor);
+    WIFICLUBACTOR_SetWaitState((sptr)sys, actor);
     WIFICLUBACTOR_AttachSprite(sys, actor, 0);
     return actor;
 }
@@ -535,7 +535,7 @@ void WIFICLUBACTOR_RestartBlink(WifiClubActorSys *sys)
 void WIFICLUBACTOR_TickBlink(WifiClubActorSys *sys)
 {
     if (OS_VBLANK_COUNT & 1) {
-        WIFICLUBACTOR_TickBlinkAll((int)sys, &sys->blink);
+        WIFICLUBACTOR_TickBlinkAll((sptr)sys, &sys->blink);
     }
 }
 
@@ -646,7 +646,7 @@ void WIFICLUBACTOR_InitLayer(WifiClubActorSys *sys, int heapId, int unused, int 
 {
     LayerParams params = d_021C289C;
     params.b[9] += (u8)mapIndex;
-    sys->layer = WF2DMAP_SCRDRAW_CreateBitmapDesc(sys->sprites.gfxArchive, (u32)sys->reserved10, (u8 *)(&params), heapId);
+    sys->layer = WF2DMAP_SCRDRAW_CreateBitmapDesc(sys->sprites.gfxArchive, (uptr)sys->reserved10, (u8 *)(&params), heapId);
 }
 
 
@@ -812,8 +812,8 @@ int WIFICLUBACTOR_IsCursorOnExit(WifiClubActorSys *sys)
 void WIFICLUBACTOR_FindSlotTile(WifiClubActorSys *sys, u16 *out, u32 slot)
 {
     u32 y, height, x, width;
-    u32 row = slot >> 3;
-    u32 column = slot & 7;
+    uptr row = slot >> 3;
+    uptr column = slot & 7;
     width = WF2DMAP_MAP_GetWidth(sys->tileMap);
     height = WF2DMAP_MAP_GetHeight(sys->tileMap);
     for (y = 0; y < height; y++) {
@@ -1185,7 +1185,7 @@ void WIFICLUBACTOR_TickBlinkFrame(WifiClubPaletteBlink *blink)
         }
         for (i = 0; i < 4; i++) {
             if (blink->colorMask & (1 << i)) {
-                NNS_GfdRegisterNewVramTransferTask((void *)0xf, (i + 1) * 2 + 0xe0, (u32)WIFICLUBACTOR_GetBlinkColors(blink, frame), 2);
+                NNS_GfdRegisterNewVramTransferTask((void *)0xf, (i + 1) * 2 + 0xe0, (uptr)WIFICLUBACTOR_GetBlinkColors(blink, frame), 2);
             }
         }
     }
@@ -1220,7 +1220,7 @@ void WIFICLUBACTOR_TickBlinkScript(WifiClubPaletteBlink *blink)
         frame = d_021C287C[blink->stepIndex].frame;
     }
     if (apply != 0) {
-        NNS_GfdRegisterNewVramTransferTask((void *)0xf, (blink->stepColor + 1) * 2 + 0xe0, (u32)WIFICLUBACTOR_GetBlinkColors(blink, frame), 2);
+        NNS_GfdRegisterNewVramTransferTask((void *)0xf, (blink->stepColor + 1) * 2 + 0xe0, (uptr)WIFICLUBACTOR_GetBlinkColors(blink, frame), 2);
     }
 }
 
@@ -1271,9 +1271,9 @@ void WIFICLUBACTOR_RestartBlinkScript(WifiClubPaletteBlink *blink)
 }
 
 
-u8 *WIFICLUBACTOR_GetCommandTable(void)
+NetCommandEntry *WIFICLUBACTOR_GetCommandTable(void)
 {
-    return data_021C28A8;
+    return (NetCommandEntry *)data_021C28A8;
 }
 
 
@@ -1285,7 +1285,7 @@ int WIFICLUBACTOR_GetCommandCount(void)
 
 void WIFICLUBACTOR_AddNetCommands(void *work)
 {
-    GFL_NET_COMMAND_AddCommandTable(0x0A00, (u32)WIFICLUBACTOR_GetCommandTable(), WIFICLUBACTOR_GetCommandCount(), (u32)work);
+    GFL_NET_COMMAND_AddCommandTable(0x0A00, WIFICLUBACTOR_GetCommandTable(), WIFICLUBACTOR_GetCommandCount(), work);
 }
 
 

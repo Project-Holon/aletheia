@@ -265,7 +265,7 @@ u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     MYSTERY_GRAPHIC_InitBg(p,heap);
-    MYSTERY_GRAPHIC_InitClact((void **)(p+4),(u32)d_021DF604,heap);
+    MYSTERY_GRAPHIC_InitClact((void **)(p+4),(uptr)d_021DF604,heap);
     ((MysteryGraphicWork *)p)->updateTask=GFL_USE_AddMainTask((void (*)(struct TcbTask *, void *))MYSTERY_GRAPHIC_VBlank,(void *)p,0);
     return p;
 }
@@ -391,7 +391,7 @@ unsigned MYSTERY_GRAPHIC_GetFirstWord(unsigned *p) { return *p; }
 void MYSTERY_GRAPHIC_InitCamera(u32 *p, u32 heap)
 {
     G3D_SYSTEM_Init(0, 1, 0, 1, 0, heap, MYSTERY_SetupDisplay3d);
-    p[0] = (u32)G3D_CAMERA_Create(2, 0x18000, -0x18000, -0x20000, 0x20000, 0x1000, 0x400000, 0,
+    p[0] = (uptr)G3D_CAMERA_Create(2, 0x18000, -0x18000, -0x20000, 0x20000, 0x1000, 0x400000, 0,
                          (VecFx32 *)d_021DF574, (VecFx32 *)d_021DF58C, (VecFx32 *)d_021DF580, heap);
     p[1] = 1;
 }

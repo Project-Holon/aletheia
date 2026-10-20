@@ -44,10 +44,11 @@
  *   GAMESYSTEM_GetFieldMap  0x0201210C  thumb
  */
 #include "../arm9/g3_util.h"
+#include "../sdk_ioreg.h"
 #include "../ov021/fieldmap_types.h"
 #include "enceff_screen_tex_types.h"
 
-#define REG_G3_TEXIMAGE_PARAM (*(volatile u32 *)0x040004A8)
+#define REG_G3_TEXIMAGE_PARAM (*(volatile u32 *)REG_TEXIMAGE_PARAM_ADDR)
 /*
  * Texture parameter for the captured screen: the count of texture banks in
  * use, as a texture address.
@@ -89,7 +90,7 @@ extern VecFx32 d_021F55F8;
 
 
 /* Display capture control and the geometry engine texture parameter port. */
-#define REG_DISPCAPCNT (*(volatile u32 *)0x04000064)
+#define REG_DISPCAPCNT (*(volatile u32 *)REG_DISP_CAPCNT_ADDR)
 
 
 /* Starts the effect with two white flashes before the capture. */

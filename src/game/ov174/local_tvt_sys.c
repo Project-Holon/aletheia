@@ -144,6 +144,7 @@
  *   LOCAL_TVT_CHARA_ClearState 0x021B7378 thumb ov174
  */
 #include "local_tvt_sys_shared_types.h"
+#include "../sdk_ioreg.h"
 
 struct BigObj;
 
@@ -448,9 +449,9 @@ void LOCAL_TVT_SYS_Delete(u8 *p)
     LOCAL_TVT_SYS_DeleteTextResources(p);
     for(i=0;i<((struct LocalTvtSys *)p)->charaCount;i++) if(((struct LocalTvtSys *)p)->chara[i]) LOCAL_TVT_CHARA_Delete(p,((struct LocalTvtSys *)p)->chara[i]);
     CLACT_DeleteActor(((struct LocalTvtSys *)p)->actor);
-    CLACT_ReleasePalette((unsigned int)(((struct LocalTvtSys *)p)->palette.ptr));
-    CLACT_ReleaseCharacter((unsigned int)(((struct LocalTvtSys *)p)->character.ptr));
-    CLACT_ReleaseCellAnim((unsigned int)(((struct LocalTvtSys *)p)->cellAnim.ptr));
+    CLACT_ReleasePalette((uptr)(((struct LocalTvtSys *)p)->palette.ptr));
+    CLACT_ReleaseCharacter((uptr)(((struct LocalTvtSys *)p)->character.ptr));
+    CLACT_ReleaseCellAnim((uptr)(((struct LocalTvtSys *)p)->cellAnim.ptr));
     CLACT_DeleteUnit(((struct LocalTvtSys *)p)->unit.ptr);
     ARC_TOOL_DeleteHandle(((struct LocalTvtSys *)p)->arcHandle);
     LOCAL_TVT_SYS_ExitSystem(p);
@@ -561,14 +562,14 @@ void LOCAL_TVT_SYS_SetupDisplay(u8 *p)
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B7410,2,2);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B7430,3,2);
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73F0,7,0);
-    MIi_CpuClear32(0,(void *)0x06000000,0x40000);
+    MIi_CpuClear32(0,(void *)HW_BG_VRAM,0x40000);
     c=gClActorInitParam;
     CLACT_InitSystem((struct ClactSysInit *)(&c),(struct DispVramCfg *)d_021B7450,((struct LocalTvtSys *)p)->heapId);
     BG_SYS_SetMainPlaneVisible(16,1);
     BG_SYS_SetSubPlaneVisible(16,1);
     ((struct LocalTvtSys *)p)->unit.ptr=CLACT_CreateUnit(16,0,((struct LocalTvtSys *)p)->heapId);
     CLACT_SetUnitDefaultRenderer(((struct LocalTvtSys *)p)->unit.ptr);
-    G2x_SetBlendAlpha_((void *)0x04000050,1,30,16,4);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR,1,30,16,4);
 }
 
 void LOCAL_TVT_SYS_ExitSystem(unsigned char *p) {CLACT_ExitSystem();BG_SYS_FreeLayerBuf(7);BG_SYS_FreeLayerBuf(3);BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(1);BG_SYS_FreeLayerBuf(0);BMP_WIN_Exit();BG_SYS_Delete();}
@@ -641,8 +642,8 @@ void LOCAL_TVT_SYS_CreateTextResources(u8 *p)
     ((struct LocalTvtSys *)p)->window.value = 0;
     ((struct LocalTvtSys *)p)->textBuf.value = 0;
     ((struct LocalTvtSys *)p)->wordSet.value = 0;
-    ((struct LocalTvtSys *)p)->printQueue.value = (unsigned int)PRINTSYS_QUE_Create((unsigned int)(((struct LocalTvtSys *)p)->heapId));
-    ((struct LocalTvtSys *)p)->keyCursor.value = (unsigned int)APP_KEYCURSOR_CreateDefault((unsigned int)0xf, (unsigned int)1, (unsigned int)1, ((struct LocalTvtSys *)p)->heapId);
+    ((struct LocalTvtSys *)p)->printQueue.value = (uptr)PRINTSYS_QUE_Create((unsigned int)(((struct LocalTvtSys *)p)->heapId));
+    ((struct LocalTvtSys *)p)->keyCursor.value = (uptr)APP_KEYCURSOR_CreateDefault((unsigned int)0xf, (unsigned int)1, (unsigned int)1, ((struct LocalTvtSys *)p)->heapId);
     GF_FONT_SetTextColor(1, 2, 0xf);
 }
 
@@ -715,7 +716,7 @@ void LOCAL_TVT_SYS_DeleteTextWindow(u8 *p)
  }
  if(((struct LocalTvtSys *)p)->printStream.ptr){PRINTSYS_PrintStreamDelete(((struct LocalTvtSys *)p)->printStream.ptr);((struct LocalTvtSys *)p)->printStream.ptr=0;}
  if(((struct LocalTvtSys *)p)->textBuf.ptr){STRBUF_Delete(((struct LocalTvtSys *)p)->textBuf.ptr);((struct LocalTvtSys *)p)->textBuf.ptr=0;}
- for(i=0;i<((struct LocalTvtSys *)p)->charaCount;i++) if(((struct LocalTvtSys *)p)->chara[i]) LOCAL_TVT_CHARA_ShowWindow((int)p,((struct LocalTvtSys *)p)->chara[i]);
+ for(i=0;i<((struct LocalTvtSys *)p)->charaCount;i++) if(((struct LocalTvtSys *)p)->chara[i]) LOCAL_TVT_CHARA_ShowWindow((sptr)p,((struct LocalTvtSys *)p)->chara[i]);
 }
 
 /*
@@ -734,7 +735,7 @@ void LOCAL_TVT_SYS_PrintMessage(u8 *p, int message)
  STRBUF_Delete(((struct LocalTvtSys *)p)->textBuf.ptr);((struct LocalTvtSys *)p)->textBuf.ptr=tmp;
  }
  speed=MSG_SPEED_GetWait();
- ((struct LocalTvtSys *)p)->printStream.value=(unsigned int)PRINTSYS_PrintStream((struct BmpWin *)((unsigned)((struct LocalTvtSys *)p)->window.ptr),0,0,(struct Strbuf *)((unsigned)((struct LocalTvtSys *)p)->textBuf.ptr),(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),speed,(struct Tcbl *)(((struct LocalTvtSys *)p)->textCtl.value),2,((struct LocalTvtSys *)p)->heapId,15);
+ ((struct LocalTvtSys *)p)->printStream.value=(uptr)PRINTSYS_PrintStream((struct BmpWin *)((uptr)((struct LocalTvtSys *)p)->window.ptr),0,0,(struct Strbuf *)((uptr)((struct LocalTvtSys *)p)->textBuf.ptr),(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),speed,(struct Tcbl *)(((struct LocalTvtSys *)p)->textCtl.value),2,((struct LocalTvtSys *)p)->heapId,15);
 }
 
 void LOCAL_TVT_SYS_RunStep(struct LocalTvtSys *o)

@@ -70,7 +70,7 @@ void LOADER_DECRYPT_DecodeBlocks(u32 *desc)
 
     header = desc - 3;
     header[0] = header[1] = header[2] = 0;
-    bssBase = (u32)gLoaderDecryptBssStart;
+    bssBase = (uptr)gLoaderDecryptBssStart;
     do {
         cursor = (u32 *)(desc[0] - 0x1600);
         byteCount = desc[1] - bssBase - 0x1600;

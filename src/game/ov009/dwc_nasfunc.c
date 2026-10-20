@@ -139,7 +139,7 @@ int DWC_SVLGetTokenAsync(char *svl, void *result)
         return 0;
     if (DWC_Svl_Init(DWC_Alloc, DWC_Free) == 0)
         return 0;
-    if (strlen((const u8 *)svl) == 0)
+    if (strlen(svl) == 0)
         flag = DWC_Svl_GetTokenAsync(gDwcNasTokenInitial, result);
     else
         flag = DWC_Svl_GetTokenAsync(svl, result);

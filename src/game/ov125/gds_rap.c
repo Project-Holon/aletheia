@@ -196,7 +196,7 @@ extern struct BattleRecSave *d_0214616C;
 
 int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
 {
-    GF_OVERLAY_Load((int)ov114_id);
+    GF_OVERLAY_Load((sptr)ov114_id);
     MI_CpuFill8(work, 0, sizeof(GdsRapWork));
     work->heapId = params->heapId;
     work->gameData = params->gameData;
@@ -232,7 +232,7 @@ void GDS_RAP_Exit(GdsRapWork *work)
     WORDSET_Delete(work->wordSet);
     MSGDATA_Delete((struct MsgBank *)work->msgData);
     GFL_HEAP_Free(work->replyBuffer);
-    GF_OVERLAY_Unload((int)ov114_id);
+    GF_OVERLAY_Unload((sptr)ov114_id);
 }
 
 int GDS_RAP_RequestUploadEntry(GdsRapWork *work, const GdsProfileBlock *profile, const GdsPayloadBlock *payload)

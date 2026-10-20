@@ -216,7 +216,7 @@ int GURU2_EntryStateOpenPartyList(struct Guru2Entry *p)
         GFL_NET_SetAutoExit(1);
         v=GURU2_PartyListArgsCreate(p,21,0);
         p->partyListParam=v;
-        PROCSYS_Push((ProcSys *)p->procHandle,(int)d_0000005B,(const ProcData *)gPartyListProcData,(void *)v);
+        PROCSYS_Push((ProcSys *)p->procHandle,(sptr)d_0000005B,(const ProcData *)gPartyListProcData,(void *)v);
         p->session->state=1;
         p->state=2;
     }
@@ -257,7 +257,7 @@ int GURU2_EntryStateAfterPartyList(struct Guru2Entry *p)
         p->statusParam->nationalDex=ZUKAN_SAVE_IsNationalDexEnabled(q);
         p->selectedSlot=sel;
         p->statusParam->cursor=sel;
-        PROCSYS_Push((ProcSys *)p->procHandle,(int)d_00000083,(const ProcData *)gPokeStatusProcData,(void *)p->statusParam);
+        PROCSYS_Push((ProcSys *)p->procHandle,(sptr)d_00000083,(const ProcData *)gPokeStatusProcData,(void *)p->statusParam);
         p->state=3;
     } else {
         p->session->selectedSlot=sel;
@@ -276,7 +276,7 @@ int GURU2_EntryStateReopenPartyList(struct Guru2Entry *p)
     GFL_HEAP_Free(p->statusParam);
     v=GURU2_PartyListArgsCreate(p,21,a);
     p->partyListParam=v;
-    PROCSYS_Push((ProcSys *)p->procHandle,(int)d_0000005B,(const ProcData *)gPartyListProcData,(void *)v);
+    PROCSYS_Push((ProcSys *)p->procHandle,(sptr)d_0000005B,(const ProcData *)gPartyListProcData,(void *)v);
     p->state=2;
     return 0;
 }

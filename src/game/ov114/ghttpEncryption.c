@@ -112,7 +112,6 @@ struct DArrayImplementation;
 #include "../ov009/darray.h"
 struct DArrayImplementation;
 #include "../ov009/ssl.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../ov009/socl_ssl.h"
 int ghttpSetRequestEncryptionEngine(int request, int engine);
@@ -188,7 +187,7 @@ int ghttpSetRequestEncryptionEngine(int request, int engine)
         return 0;
     if (engine == 0)
     {
-        if (strncmp((u8 *)connection->URL, (u8 *)sGhttpHttps, 8) == 0)
+        if (strncmp(connection->URL, sGhttpHttps, 8) == 0)
             return 0;
     }
     connection->encryptor.engine = engine;

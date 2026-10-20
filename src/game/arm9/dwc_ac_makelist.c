@@ -148,7 +148,7 @@ unsigned char DWCi_AC_CheckFreespot(WMBssDesc *bssdesc)
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
 
     if (wk->connectType == 0 || wk->connectType == 6) {
-        if (strncmp((unsigned char *)bssdesc->ssid, (unsigned char *)FREESPOT_SSID, 8) == 0) {
+        if (strncmp((const char *)bssdesc->ssid, (const char *)FREESPOT_SSID, 8) == 0) {
             return 0x14;
         }
     }

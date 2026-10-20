@@ -27,7 +27,7 @@ extern void DC_InvalidateRange(u32, u32);
 
 u32 NWM_Open(void *callback) {
     u32 r;
-    u32 base;
+    uptr base;
     u32 busy;
     if (NWMi_CheckEnableFlag() == 0) {
         return 7;
@@ -50,7 +50,7 @@ u32 NWM_Open(void *callback) {
     if (busy == 1) {
         return 3;
     }
-    NWMi_SetCallbackTable(5, (u32)callback);
+    NWMi_SetCallbackTable(5, (uptr)callback);
     NWMi_GetSystemWork();
     r = NWMi_SendCommand(5, 0);
     if (r == 0 || r == 2) {

@@ -113,7 +113,6 @@ typedef struct {
 
 #include "gsplatformsocket.h"
 #include "gsmemory.h"
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 #include "../arm9/msl_string_str.h"
 #include "../arm9/msl_strtod.h"
@@ -393,15 +392,15 @@ int ProcessInBuffer(char *buff, int len)
 void ProcessStatement(char *buff, int len)
 {
     buff[len] = 0;
-    if (strncmp((const u8 *)buff, (const u8 *)gGstatsKeySecPauthr, 8) == 0)
+    if (strncmp(buff, gGstatsKeySecPauthr, 8) == 0)
         ProcessPlayerAuth(buff, len);
-    else if (strncmp((const u8 *)buff, (const u8 *)gGstatsKeySecGetpidr, 9) == 0)
+    else if (strncmp(buff, gGstatsKeySecGetpidr, 9) == 0)
         ProcessGetPid(buff, len);
-    else if (strncmp((const u8 *)buff, (const u8 *)gGstatsKeySecGetpidr, 9) == 0)
+    else if (strncmp(buff, gGstatsKeySecGetpidr, 9) == 0)
         ProcessGetPid(buff, len);
-    else if (strncmp((const u8 *)buff, (const u8 *)gGstatsKeySecGetpdr, 8) == 0)
+    else if (strncmp(buff, gGstatsKeySecGetpdr, 8) == 0)
         ProcessGetData(buff, len);
-    else if (strncmp((const u8 *)buff, (const u8 *)gGstatsKeySecSetpdr, 8) == 0)
+    else if (strncmp(buff, gGstatsKeySecSetpdr, 8) == 0)
         ProcessSetData(buff, len);
 }
 
@@ -447,7 +446,7 @@ void ProcessGetData(char *buf, int len)
     if (reqindex == -1)
         return;
     length = atoi(value_for_key_safe(buf, gGstatsKeyLength));
-    data = (char *)strstr((unsigned char *)buf, (unsigned char *)gGstatsKeyData);
+    data = (char *)strstr(buf, gGstatsKeyData);
     if (data == 0) {
         data = gGstatsEmptyString;
         length = 0;
@@ -565,10 +564,10 @@ char *value_for_key(char *s, char *key)
     gGstatsConn.bufIndex ^= 1;
     strcat((u8 *)keyspec, (const u8 *)key);
     strcat((u8 *)keyspec, (const u8 *)gGstatsKeyBackslash);
-    pos = (char *)strstr((unsigned char *)s, (unsigned char *)keyspec);
+    pos = (char *)strstr(s, keyspec);
     if (pos == 0)
         return 0;
-    pos += strlen((const u8 *)keyspec);
+    pos += strlen(keyspec);
     value = gGstatsValueBuffers + gGstatsConn.bufIndex * 256;
     pos2 = value;
     while (*pos != 0 && *pos != 0x5c)

@@ -559,7 +559,7 @@ int FLD_BTL_INST_TOOL_PokeListEventMain(GameEvent *event, u32 *seq, PartySelectE
         (*seq)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (int)work->fieldMap, (int)(&work->listParam), (int)(&work->statusParam)));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (sptr)work->fieldMap, (sptr)(&work->listParam), (sptr)(&work->statusParam)));
         (*seq)++;
         break;
     case 3:
@@ -703,7 +703,7 @@ struct BattleSetupParam *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem
         playerPos = 0;
         if (GFL_NET_SYSTEM_GetCurrentAid() != 0)
             playerPos = 2;
-        BTL_SETUP_SetupCommAiMulti(bs, gameData, (u32)netHandle, 1, playerPos, 0, 0, 4);
+        BTL_SETUP_SetupCommAiMulti(bs, gameData, (uptr)netHandle, 1, playerPos, 0, 0, 4);
         break;
     }
     BTL_SETUP_AllocRecordBuffer(bs, 4);
@@ -917,7 +917,7 @@ void FLD_BTL_INST_TOOL_BattleMonToPokemon(const BattleMon *src, PokemonParam *mo
         name[i] = nick[i];
     name[i - 1] = eos;
     STRBUF_SetString(nickBuf, name);
-    POKE_TOOL_SetPartyValue(mon, 0x73, (u32)nickBuf);
+    POKE_TOOL_SetPartyValue(mon, 0x73, (uptr)nickBuf);
     STRBUF_Delete(nickBuf);
     POKE_TOOL_SetPartyValue(mon, 0xC, src->lang);
     POKE_TOOL_SetPartyValue(mon, 0x9E, POKE_TOOL_CalcLevel(mon));
@@ -1220,7 +1220,7 @@ int FLD_BTL_INST_TOOL_CommResetEventMain(GameEvent *event, int *step, CommResetW
         (*step)++;
         break;
     case COMM_RESET_REQUEST_FIELD_RESET:
-        FIELD_SUBSCREEN_RequestModeWithCallback(subscreen, 8, (void (*)(int))FLD_BTL_INST_TOOL_SetDoneFlag, (u32)work);
+        FIELD_SUBSCREEN_RequestModeWithCallback(subscreen, 8, (void (*)(int))FLD_BTL_INST_TOOL_SetDoneFlag, (uptr)work);
         (*step)++;
         break;
     case COMM_RESET_WAIT_DONE:
@@ -1409,7 +1409,7 @@ int FLD_BTL_INST_TOOL_TrialHouseAwardEventMain(GameEvent *event, int *step)
     work = GAME_EVENT_GetWork(event);
     switch (*step) {
     case 0:
-        GAME_EVENT_CallProc(event, (unsigned int)ov220_id, (void *)d_021BA39C, &work->param);
+        GAME_EVENT_CallProc(event, (uptr)ov220_id, (void *)d_021BA39C, &work->param);
         (*step)++;
         break;
     case 1:

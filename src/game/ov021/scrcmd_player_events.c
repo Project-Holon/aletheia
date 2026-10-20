@@ -252,16 +252,16 @@ int SCRCMD_SAVEANIME_Start(void *vm, void *scriptWork)
  */
 u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c)
 {
-    u32 task = (u32)GAME_EVENT_Create((void *)a, 0, (GameEventFunc)RAIL_SLIPDOWN_UpdateTask, 4);
+    u32 task = (uptr)GAME_EVENT_Create((void *)a, 0, (GameEventFunc)RAIL_SLIPDOWN_UpdateTask, 4);
     u32 *effectSlot = GAME_EVENT_GetWork((void *)task);
     void *fieldMap;
     void *player;
 
-    GF_OVERLAY_Load((int)ov063_id);
+    GF_OVERLAY_Load((sptr)ov063_id);
     fieldMap = FIELDMAP_GetFieldPlayer((void *)b);
     player = FIELD_PLAYER_GetMmdl((void *)fieldMap);
     FIELD_PLAYER_SetDirDisp(fieldMap, c);
-    *effectSlot = (u32)RAIL_SLIPDOWN_Create((void *)a, (void *)b, (struct Mmdl *)player, 1);
+    *effectSlot = (uptr)RAIL_SLIPDOWN_Create((void *)a, (void *)b, (struct Mmdl *)player, 1);
     return task;
 }
 
@@ -273,7 +273,7 @@ void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c)
     void *task = GAME_EVENT_Create(a, 0, (GameEventFunc)RAIL_SLIPDOWN_UpdateTask, 4);
     void **effectSlot = GAME_EVENT_GetWork(task);
 
-    GF_OVERLAY_Load((u32)ov063_id);
+    GF_OVERLAY_Load((uptr)ov063_id);
     *effectSlot = RAIL_SLIPDOWN_Create((void *)a, (void *)b, (struct Mmdl *)c, 0);
     return task;
 }
@@ -288,7 +288,7 @@ int RAIL_SLIPDOWN_UpdateTask(void *task)
 
     if (RAIL_SLIPDOWN_IsDone(*effectSlot) != 0) {
         RAIL_SLIPDOWN_Delete(*effectSlot);
-        GF_OVERLAY_Unload((u32)ov063_id);
+        GF_OVERLAY_Unload((uptr)ov063_id);
         return 1;
     }
     return 0;

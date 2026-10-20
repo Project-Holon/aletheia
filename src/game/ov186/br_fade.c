@@ -46,6 +46,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "br_types.h"
+#include "../sdk_ioreg.h"
 
 #include "../arm9/fade.h"
 
@@ -199,7 +200,7 @@ void BR_FADE_BlendFull(struct BrFade *fade, int planeMask)
 void BR_FADE_SetBlendLevel(int unused, int planeMask, int level)
 {
     if (planeMask & 1) {
-        G2x_SetBlendAlpha_((unsigned int *)0x04000050, 7, 31, level, 16 - level);
+        G2x_SetBlendAlpha_((unsigned int *)REG_BLDCNT_ADDR, 7, 31, level, 16 - level);
         if (level == 0) {
             BG_SYS_SetMainPlaneVisible(1, 0);
             BG_SYS_SetMainPlaneVisible(2, 0);
@@ -211,7 +212,7 @@ void BR_FADE_SetBlendLevel(int unused, int planeMask, int level)
         }
     }
     if (planeMask & 2) {
-        G2x_SetBlendAlpha_((unsigned int *)0x04001050, 3, 7, level, 16 - level);
+        G2x_SetBlendAlpha_((unsigned int *)REG_DB_BLDCNT_ADDR, 3, 7, level, 16 - level);
         if (level == 0) {
             BG_SYS_SetSubPlaneVisible(1, 0);
             BG_SYS_SetSubPlaneVisible(2, 0);
@@ -304,8 +305,8 @@ int BR_FADE_StepBlend(struct BrFade *fade,int *state)
         int evA,evB,duration;
         if(fade->direction==0){evA=0;evB=16;}
         else if(fade->direction==1){evA=16;evB=0;}
-        if(fade->planeMask&1)G2x_SetBlendAlpha_((unsigned int *)0x04000050,7,31,evA,evB);
-        if(fade->planeMask&2)G2x_SetBlendAlpha_((unsigned int *)0x04001050,3,7,evA,evB);
+        if(fade->planeMask&1)G2x_SetBlendAlpha_((unsigned int *)REG_BLDCNT_ADDR,7,31,evA,evB);
+        if(fade->planeMask&2)G2x_SetBlendAlpha_((unsigned int *)REG_DB_BLDCNT_ADDR,3,7,evA,evB);
         fade->frame=0;
         duration=fade->durationParam;
         if(duration==0)duration=16/FADE_GetSpeed();
@@ -391,7 +392,7 @@ int BR_FADE_StepSubPlane3(struct BrFade *fade,int *state)
         if(fade->direction==0){evA=0;evB=16;}
         else if(fade->direction==1){evA=16;evB=0;}
         FADE_Start(4,start,end,fade->durationParam);
-        G2x_SetBlendAlpha_((unsigned int *)0x04001050,3,7,evA,evB);
+        G2x_SetBlendAlpha_((unsigned int *)REG_DB_BLDCNT_ADDR,3,7,evA,evB);
         fade->frame=0;
         duration=fade->durationParam;
         if(duration==0)duration=16/FADE_GetSpeed();

@@ -157,6 +157,7 @@
  *   BSUBWAY_WIFIDATA_GetTrainerBit  0x0200DDD0  thumb  arm9
  */
 #include "ov116_types.h"
+#include "../sdk_ioreg.h"
 
 struct IcaAnime;
 struct U16Vec;
@@ -361,7 +362,7 @@ void WIFI_BSUBWAY_GRAPHIC_SetupTextParam(struct WifiBsubwayWork *p, u32 heap)
     void *obj;
     obj = CODEIN_PARAM_Create(heap, 2, 10, 2, d_021D8574);
     p->codeInParam = obj;
-    GAMESYSTEM_CallProc(p->parent->proc, (u32)ov129_id, d_021DA62C, obj);
+    GAMESYSTEM_CallProc(p->parent->proc, (uptr)ov129_id, d_021DA62C, obj);
 }
 
 void WIFI_BSUBWAY_GRAPHIC_DeleteTextParam(struct WifiBsubwayWork *p)
@@ -388,13 +389,13 @@ u32 WIFI_BSUBWAY_GRAPHIC_ParseCodeIn(struct WifiBsubwayWork *p) {
 }
 
 void WIFI_BSUBWAY_GRAPHIC_StartSaveProc(struct WifiBsubwayWork *p) {
-    p->saveControl0=(unsigned int)p->saveControl;
+    p->saveControl0=(uptr)p->saveControl;
     p->saveValue0=0;
     p->saveFlag=1;
     p->saveValue1=1;
     p->saveSize=44;
     p->saveBuffer=p->saveData;
-    GAMESYSTEM_CallProc(p->parent->proc,(u32)ov115_id,gNetSaveMainProc,&p->saveControl0);
+    GAMESYSTEM_CallProc(p->parent->proc,(uptr)ov115_id,gNetSaveMainProc,&p->saveControl0);
 }
 
 /*
@@ -405,11 +406,11 @@ void WIFI_BSUBWAY_GRAPHIC_Noop(void *work) { }
 int WIFI_BSUBWAY_GRAPHIC_GetSaveState(struct WifiBsubwayWork *p) { return p->saveState; }
 
 void WIFI_BSUBWAY_GRAPHIC_StartRetryProc(struct WifiBsubwayWork *p) {
-    p->retryControl0=(unsigned int)p->saveControl;
+    p->retryControl0=(uptr)p->saveControl;
     p->retryValue0=0;
     p->retryValue1=1;
     p->retryValue2=1;
-    GAMESYSTEM_CallProc(p->parent->proc,(u32)ov115_id,gNetSaveRetryProc,&p->retryControl0);
+    GAMESYSTEM_CallProc(p->parent->proc,(uptr)ov115_id,gNetSaveRetryProc,&p->retryControl0);
 }
 
 void WIFI_BSUBWAY_GRAPHIC_NoopRetry(void *work) { }
@@ -478,7 +479,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(struct WifiBsubwayWork *p,short heap)
             if(BSUBWAY_WIFIDATA_GetTrainerBit(p->saveBlock3B,box,n,(struct Stamp *)record)!=0) { p->state=14; break; }
             WIFI_BSUBWAY_StartPlayerDownload((u8 *)&p->trainers,(u8 *)&p->async,p->codeInValue);
             v=WIFI_BSUBWAY_GetPlayerIndex((u8 *)&p->trainers); WIFI_BSUBWAY_GRAPHIC_SetWord(&p->graphic,0,v,(u32)WIFI_BSUBWAY_GetTransferState((u8 *)&p->trainers));
-            WIFI_BSUBWAY_GRAPHIC_SetWord(&p->graphic,1,WIFI_BSUBWAY_GetRoomNumber((u8 *)&p->trainers),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(&p->graphic,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(&p->graphic); ++p->state;
+            WIFI_BSUBWAY_GRAPHIC_SetWord(&p->graphic,1,WIFI_BSUBWAY_GetRoomNumber((u8 *)&p->trainers),(uptr)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(&p->graphic,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(&p->graphic); ++p->state;
         } break;
     case 9: if(WIFI_BSUBWAY_FinishPlayerDownload((u8 *)&p->trainers,(u8 *)&p->async)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(&p->graphic)!=0) ++p->state; break;
     case 10: WIFI_BSUBWAY_NormalizeTrainers((u8 *)&p->trainers); WIFI_BSUBWAY_SaveTrainers((u8 *)&p->trainers,p->saveBlock3B); WIFI_BSUBWAY_SaveHistory((u8 *)&p->trainers,p->saveBlock3B); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++p->state; break;
@@ -528,7 +529,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepRetry(struct WifiBsubwayWork *p,short heap)
             if(n<1 || n>(u32)v) { p->state=19; break; }
             WIFI_BSUBWAY_StartPlayerDownload((u8 *)&p->trainers,(u8 *)&p->async,n);
             v=WIFI_BSUBWAY_GetPlayerIndex((u8 *)&p->trainers); WIFI_BSUBWAY_GRAPHIC_SetWord(&p->graphic,0,v,(u32)WIFI_BSUBWAY_GetTransferState((u8 *)&p->trainers));
-            WIFI_BSUBWAY_GRAPHIC_SetWord(&p->graphic,1,WIFI_BSUBWAY_GetRoomNumber((u8 *)&p->trainers),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(&p->graphic,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(&p->graphic); ++p->state;
+            WIFI_BSUBWAY_GRAPHIC_SetWord(&p->graphic,1,WIFI_BSUBWAY_GetRoomNumber((u8 *)&p->trainers),(uptr)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(&p->graphic,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(&p->graphic); ++p->state;
         } break;
     case 14: if(WIFI_BSUBWAY_FinishPlayerDownload((u8 *)&p->trainers,(u8 *)&p->async)!=0 && WIFI_BSUBWAY_GRAPHIC_UpdatePrintStream(&p->graphic)!=0) ++p->state; break;
     case 15: WIFI_BSUBWAY_NormalizeTrainers((u8 *)&p->trainers); WIFI_BSUBWAY_SaveHistory((u8 *)&p->trainers,p->saveBlock3B); WIFI_BSUBWAY_GRAPHIC_StartSave(p); ++p->state; break;
@@ -550,7 +551,7 @@ void WIFI_BSUBWAY_GRAPHIC_InitBt(struct WifiBsubwayWork *p) {
     MYSTATUS_SetProfileIdOnce(p->myStatus,(u32)WIFILIST_GetGsProfileId(p->wifiList));
     b=(void *)MYSTATUS_GetProfileId(p->myStatus);
     value=DWC_CreateFriendKey(a);
-    DPW_BT_Init((unsigned int)b,(u32)value,(u32)(value>>32),0);
+    DPW_BT_Init((uptr)b,(u32)value,(u32)(value>>32),0);
     DPW_BT_GetServerStateAsync();
     WIFI_BSUBWAY_AsyncReset((u8 *)&p->async);
     p->dpwActive=1;
@@ -692,7 +693,7 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) 
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 5, 0, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 0, 0, j, heap), j, j, heap);
     ARC_UTIL_UploadBgPaletteAddFromHandle(arc, 7, 3, 0, (u16)ARC_UTIL_RegisterObjCharFromHandle(arc, 4, 3, 0, j, heap), j, j, heap);
     MI_CpuFill8(&p->animCallback, 0, 0x970);
-    blk = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 2, (void *)(unsigned int)(&res), (u16)heap);
+    blk = ARC_UTIL_LoadPaletteBlockFromHandle(arc, 2, (void *)(uptr)(&res), (u16)heap);
     MI_CpuCopy8(res->fC, p->pad014, 0x1e0);
     MI_CpuCopy8(res->fC, p->palette, 0x1e0);
     GFL_HEAP_Free(blk);
@@ -722,13 +723,13 @@ void WIFI_BSUBWAY_GRAPHIC_SetupBgAnim(struct WifiBsubwayGraphic *p, short heap) 
     DC_FlushRange(p->palette, 0x780);
     p->animEnabled = 1;
     p->animCallback = GFL_USE_AddMainTask((void *)WIFI_BSUBWAY_GRAPHIC_StepBgAnim, &p->animCallback, 0x14);
-    G2x_SetBlendAlpha_((void *)0x04000050, 1, 8, 8, 0x10);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 1, 8, 8, 0x10);
     p->animPhase = 0;
     ARC_TOOL_DeleteHandle(arc);
     BG_SYS_CreateRun(1, 0x20, 0);
     BG_SYS_CreateRun(2, 0x20, 0);
-    p->frameGfxA = (unsigned int)BMP_MENUWORK_LoadFrameGfx((u32)(void *)1, 0xd, 0, heap);
-    p->frameGfxB = (unsigned int)BMP_MENUWORK_LoadFrameGfx((u32)(void *)2, 0xd, 0, heap);
+    p->frameGfxA = (uptr)BMP_MENUWORK_LoadFrameGfx((uptr)(void *)1, 0xd, 0, heap);
+    p->frameGfxB = (uptr)BMP_MENUWORK_LoadFrameGfx((uptr)(void *)2, 0xd, 0, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x180, 0x20, heap);
 }
 
@@ -762,9 +763,9 @@ void WIFI_BSUBWAY_GRAPHIC_PrintMessage(struct WifiBsubwayGraphic *p,unsigned int
  if(p->printStream!=0) {PRINTSYS_PrintStreamDelete(p->printStream); p->printStream=0;}
  MSGDATA_ReadString((struct MsgBank *)p->msgBank,a,(struct Strbuf *)p->strbufA);
  WORDSET_CopyTaggedText((struct WordSet *)p->wordSet,(struct Strbuf *)p->strbufB,(struct Strbuf *)p->strbufA);
- BMP_Clear((struct Bmp *)((struct CharBuf *)((unsigned int)BMP_WIN_GetBmp((struct BmpWin *)(struct Descriptor *)p->window))),15);
+ BMP_Clear((struct Bmp *)((struct CharBuf *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)(struct Descriptor *)p->window))),15);
  GF_FONT_SetTextColor(1,2,15);
- p->printStream=PRINTSYS_PrintStream((struct BmpWin *)((unsigned int)p->window),0,0,(struct Strbuf *)((unsigned int)p->strbufB),(struct GfFont *)((unsigned int)p->font),MSG_SPEED_GetWait(),(struct Tcbl *)((unsigned int)p->tcbl),2,p->heapId,15);
+ p->printStream=PRINTSYS_PrintStream((struct BmpWin *)((uptr)p->window),0,0,(struct Strbuf *)((uptr)p->strbufB),(struct GfFont *)((uptr)p->font),MSG_SPEED_GetWait(),(struct Tcbl *)((uptr)p->tcbl),2,p->heapId,15);
  BMP_MENUWORK_DrawWindow((void *)p->window,1,(u16)p->frameGfxA,13);
  BMP_WIN_TransferChars((struct BmpWin *)p->window);
 }

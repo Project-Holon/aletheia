@@ -90,7 +90,7 @@ struct NetStateWork {
     MATHRandContext64 random;
     u32  pad24;
     void (*exitCallback)(void);
-    void (*initCallback)(u32 a);
+    GFLNetUserFunc initCallback;
     NetErrorInfo errorInfo;
     u8   aMacAddress[6];
     u16  timer;
@@ -182,7 +182,7 @@ void GFL_NET_STATE_FreeWork(struct NetStateWork *work);
 
 void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work);
 
-void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback);
+void GFL_NET_STATE_DeviceInitialize(void *heapId, GFLNetUserFunc initCallback);
 
 void GFL_NET_STATE_ConnectMacDone(void);
 
@@ -250,7 +250,7 @@ void GFL_NET_STATE_ChangeoverChildMain(struct NetStateWork *work);
 
 void GFL_NET_STATE_ChangeoverChildScan(struct NetStateWork *work);
 
-void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac);
+void GFL_NET_STATE_StartChangeover(u16 unusedArg, GFLNetUserFunc initCallback, u8 hasMac);
 
 void GFL_NET_STATE_ChangeoverRestart(struct NetStateWork *work);
 
@@ -549,11 +549,11 @@ void GFL_NET_STATE_DeviceInitialized(struct NetStateWork *work)
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_Idle, 0, 0x12f);
 }
 
-void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback)
+void GFL_NET_STATE_DeviceInitialize(void *heapId, GFLNetUserFunc initCallback)
 {
     UI_SetKeepAwakeFlagsGlobal(4);
     GFL_NET_STATE_InitWork((uptr)heapId);
-    _pNetState->initCallback = (void (*)(u32))initCallback;
+    _pNetState->initCallback = initCallback;
     GFL_NET_STATE_ChangeStateDebug(_pNetState, (void *)GFL_NET_STATE_DeviceInitialized, 0, 0x13F);
 }
 
@@ -1124,7 +1124,7 @@ void GFL_NET_STATE_ChangeoverChildScan(struct NetStateWork *work)
     session->ops->begin(0);
 }
 
-void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac)
+void GFL_NET_STATE_StartChangeover(u16 unusedArg, GFLNetUserFunc initCallback, u8 hasMac)
 {
     GFLNetSession *pNetIni = GFL_NET_GetInitParam();
     struct NetStateWork *work;
@@ -1136,7 +1136,7 @@ void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac)
 
     if (pNetIni->init.bNetType == 3 || pNetIni->init.bNetType == 4) {
         GFL_NET_SYSTEM_ConnectDevice(0);
-        _pNetState->initCallback = (void (*)(u32))initCallback;
+        _pNetState->initCallback = initCallback;
         work = _pNetState;
         seedState = work->random.x;
         multiplier = work->random.mul;
@@ -1150,7 +1150,7 @@ void GFL_NET_STATE_StartChangeover(u16 unusedArg, u32 initCallback, u8 hasMac)
         } else {
             GFL_NET_SYSTEM_StartBeaconScan(1, 0x200);
         }
-        _pNetState->initCallback = (void (*)(u32))initCallback;
+        _pNetState->initCallback = initCallback;
         work = _pNetState;
         GFL_NET_STATE_ChangeStateDebug(work, (void *)GFL_NET_STATE_ChangeoverChildMain, delay, delay + 0x3B4);
     }

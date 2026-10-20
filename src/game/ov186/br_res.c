@@ -511,11 +511,11 @@ void BR_RES_ReleaseUiPalette(struct BrRes *res, int screen)
     res->paletteId[screen] = -1;
 }
 
-unsigned BR_RES_GetFont(struct BrRes *res) { return (unsigned)res->font; }
+unsigned BR_RES_GetFont(struct BrRes *res) { return (uptr)res->font; }
 
 int BR_RES_GetMsgData(struct BrRes *res)
 {
-    return (int)res->msgData;
+    return (sptr)res->msgData;
 }
 
 /*
@@ -523,7 +523,7 @@ int BR_RES_GetMsgData(struct BrRes *res)
  */
 int BR_RES_GetWordSet(struct BrRes *res)
 {
-    return (int)res->wordSet;
+    return (sptr)res->wordSet;
 }
 
 /*
@@ -561,4 +561,4 @@ unsigned short BR_RES_GetCharFileId(unsigned palSet) { if(palSet>=8)GF_PANIC_Fai
 
 unsigned short BR_RES_GetScreenFileId(unsigned palSet) { if(palSet>=8)GF_PANIC_Fail(d_02200D48,0,d_02200D48);return d_02200880[palSet]; }
 
-u16 BR_RES_GetSetParam(u32 palSet){if(palSet>=8)GF_PANIC_Fail(d_02200D48,0,d_02200D48);return *(const u32*)((u32)d_022008E0+palSet*4);}
+u16 BR_RES_GetSetParam(u32 palSet){if(palSet>=8)GF_PANIC_Fail(d_02200D48,0,d_02200D48);return *(const u32*)((uptr)d_022008E0+palSet*4);}

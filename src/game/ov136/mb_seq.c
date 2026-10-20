@@ -257,6 +257,7 @@
  *   MYITEM_SAVEDATA_RemoveItem  0x02007F1C  thumb  arm9
  */
 #include "mail_types.h"
+#include "../sdk_ioreg.h"
 #include "../ov091/pokelist_types.h"
 #include "mailview_shared_types.h"
 
@@ -370,7 +371,7 @@ struct MbSeqTouchRect {
 typedef enum { ACTIVE = 1 } Active;
 
 /* Offset of listIndex in MailBoxView: the original indexes from the view base plus the column. */
-#define MAILBOXVIEW_LISTINDEX ((u32)&((struct MailBoxView *)0)->listIndex)
+#define MAILBOXVIEW_LISTINDEX ((uptr)&((struct MailBoxView *)0)->listIndex)
 
 struct MailBoxMenuHandlers {
     int (*onFirst)(struct MailBoxProc *);
@@ -710,7 +711,7 @@ void MB_SEQ_LoadFrameCharData(struct MailBoxProc *p)
     ARC_UTIL_UploadBgCharFromHandle(handle, 0x26, 1, 0, 0, 1, 0x66);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)handle, 0x25, 3, 0, 0, 1, 0x66);
     ARC_UTIL_UploadPaletteFromHandleWhole((void *)handle, 0x27, 0, 0, 0, 0x66);
-    buf = ARC_UTIL_LoadBgCharDataFromHandle((void *)handle, (unsigned int)0x26, (unsigned int)1, (void *)((unsigned int)(&charData)), 0x66);
+    buf = ARC_UTIL_LoadBgCharDataFromHandle((void *)handle, (unsigned int)0x26, (unsigned int)1, (void *)((uptr)(&charData)), 0x66);
     tiles = charData->tiles;
     MIi_CpuCopyFast(tiles + 0x100, p->view->blankTile[0], 0x20);
     MIi_CpuCopyFast(tiles + 0x100, p->view->blankTile[1], 0x20);
@@ -1059,7 +1060,7 @@ void MB_SEQ_CreatePmsDraw(struct MailBoxProc *p)
 {
     p->view->pmsPrintQue = (struct PrintQue *)PRINTSYS_QUE_Create(102);
     p->view->pmsClactUnit = CLACT_CreateUnit(8,2,102);
-    p->view->pmsDraw = PMS_DRAW_Create((unsigned int)p->view->pmsClactUnit,(unsigned int)1,(unsigned int)p->view->pmsPrintQue,(unsigned int)p->font,4,4,102);
+    p->view->pmsDraw = PMS_DRAW_Create((uptr)p->view->pmsClactUnit,(unsigned int)1,(uptr)p->view->pmsPrintQue,(uptr)p->font,4,4,102);
     PMS_DRAW_SetNullColorPalette(p->view->pmsDraw,0);
 }
 
@@ -1264,7 +1265,7 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
     for (i = 0; i < 3; i++) {
         sentence = MAIL_GetMessage(p->view->mails[p->selectedMail], (u8)i);
         if (PMSI_PARAM_IsEnabled((unsigned short *)sentence)) {
-            PMS_DRAW_Print((u32)p->view->pmsDraw, (u32)(p->view->win[i + 27]), (struct BeaconDetailGraQuad *)sentence, (u8)i);
+            PMS_DRAW_Print((uptr)p->view->pmsDraw, (uptr)(p->view->win[i + 27]), (struct BeaconDetailGraQuad *)sentence, (u8)i);
             win = p->view->win[i + 27];
             BMP_WIN_TransferChars(win);
             BMP_WIN_MakeScreen(win);
@@ -1275,7 +1276,7 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
     p->view->closingWord.sentenceId = 0;
     p->view->closingWord.word[0] = MAIL_GetMessageId(p->view->mails[p->selectedMail]);
     if (p->view->closingWord.word[0] != 0) {
-        PMS_DRAW_Print((u32)p->view->pmsDraw, (u32)p->view->win[30], (struct BeaconDetailGraQuad *)&p->view->closingWord, 3);
+        PMS_DRAW_Print((uptr)p->view->pmsDraw, (uptr)p->view->win[30], (struct BeaconDetailGraQuad *)&p->view->closingWord, 3);
     }
     BMP_Clear(BMP_WIN_GetBmp(p->view->win[31]), 0);
     STRBUF_SetString(p->view->msgBuf, MAIL_GetWriterName(p->view->mails[p->selectedMail]));
@@ -2195,7 +2196,7 @@ void MB_SEQ_SetButtonsEnabled(struct MailBoxView *view, int on)
         MB_SEQ_SetActorObjMode(view, 1, 1);
         MB_SEQ_SetActorObjMode(view, 3, 1);
         MB_SEQ_SetActorObjMode(view, 7, 1);
-        G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 4, 12);
+        G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 4, 8, 4, 12);
     } else {
         MB_SEQ_SetActorObjMode(view, 0, 0);
         MB_SEQ_SetActorObjMode(view, 1, 0);
@@ -2211,7 +2212,7 @@ void MB_SEQ_SetDetailButtons(struct MailBoxView *view)
     MB_SEQ_SetActorObjMode(view, 1, 1);
     MB_SEQ_SetActorObjMode(view, 3, 0);
     MB_SEQ_SetActorObjMode(view, 7, 0);
-    G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 4, 12);
+    G2x_SetBlendAlpha_((void *)REG_BLDCNT_ADDR, 4, 8, 4, 12);
 }
 
 void MB_SEQ_LoadMailDetail(struct MailBoxProc *p)
@@ -2286,7 +2287,7 @@ int MB_SEQ_PushPartyList(struct MailBoxProc *p)
     u32 partyIndex = p->partyIndex;
     ((PokelistArg *)p->childArgs)->selectedIndex = partyIndex;
     /* the overlay id is the address of the linker symbol ov091_id */
-    PROCSYS_Push(p->procSys, (u32)ov091_id, &gPartyListProcData, p->childArgs);
+    PROCSYS_Push(p->procSys, (uptr)ov091_id, &gPartyListProcData, p->childArgs);
     return 0;
 }
 
@@ -2397,7 +2398,7 @@ void MB_SEQ_CreateTouchSelect(struct MailBoxProc *p)
     } else {
         column = p->selectedColumn;
     }
-    p->view->select = (struct TouchSelect *)CURSOR_MOVE_Create((struct CursorEntry *)d_021C7E40, (struct CursorVtbl *)d_021C7E1C, (unsigned int)p, 1, column, 102);
+    p->view->select = (struct TouchSelect *)CURSOR_MOVE_Create((struct CursorEntry *)d_021C7E40, (struct CursorVtbl *)d_021C7E1C, (uptr)p, 1, column, 102);
     MB_SEQ_MoveCursorToPosition(p, column);
 }
 

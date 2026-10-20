@@ -124,7 +124,7 @@ void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int ce
     pos.x=0;pos.y=0;pos.mode=0;pos.space=1;
     for(i=0;i<4;i++) {
         pos.z=i;
-        tool->actors[i]=(int)CLACT_CreateActor((struct Unit *)owner,charRes,palRes,cellRes,(const struct ActorInitParam *)&pos,1,tool->heapId);
+        tool->actors[i]=(sptr)CLACT_CreateActor((struct Unit *)owner,charRes,palRes,cellRes,(const struct ActorInitParam *)&pos,1,tool->heapId);
         CLACT_SetActorPaletteOffset((struct ClactActor *)tool->actors[i],0,1);
         CLACT_SetActorAutoAnim((struct ClactActor *)tool->actors[i],1);
     }
@@ -151,7 +151,7 @@ void B_APP_TOOL_SetActorsVisible(char *p, void *visible)
         unsigned int i;
         for (i = 0; i < 4; i++)
         {
-            CLACT_SetActorDrawEnable((void *)tool->actors[i], (unsigned int)visible);
+            CLACT_SetActorDrawEnable((void *)tool->actors[i], (uptr)visible);
         }
         tool->visible = visible;
     }
@@ -190,7 +190,7 @@ void B_APP_TOOL_Update(BAppToolEntry *p, struct PrintSys *printSys, unsigned n)
     unsigned i;
     PRINTSYS_QUE_Main((struct PrintQueue *)printSys);
     for(i=0;i<n;i++) {
-        if(p[i].active && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys,(void *)((int)BMP_WIN_GetBmp((struct BmpWin *)p[i].handle)))==0) {
+        if(p[i].active && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys,(void *)((sptr)BMP_WIN_GetBmp((struct BmpWin *)p[i].handle)))==0) {
             BMP_WIN_TransferChars((struct BmpWin *)p[i].handle);
             p[i].active=0;
         }

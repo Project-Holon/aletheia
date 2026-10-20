@@ -150,7 +150,6 @@ extern void ArrayFree(struct DArrayImplementation *array);
 extern void gpiDestroyPeer(void **connection, GPIPeer *peer);
 extern int gsUdpEngineThink(void);
 static int gpiProcessPeer(void **connection, GPIPeer *peer);
-typedef unsigned int size_t;
 #include "../arm9/msl_string_mem.h"
 extern struct DArrayImplementation *ArrayNew(int elemSize, int numElems, void (*freeFn)(void *));
 #include "gpioperation.h"
@@ -291,11 +290,11 @@ int gpiProcessPeerInitiatingConnection(void **connection, GPIPeer *peer)
 
     case 0x68:
         if (peer->inputBuffer.buffer)
-            str = (char *)strstr((unsigned char *)peer->inputBuffer.buffer, (unsigned char *)gGpiPeerKeyFinal);
+            str = (char *)strstr(peer->inputBuffer.buffer, gGpiPeerKeyFinal);
         if (str) {
             *str = 0;
             str = peer->inputBuffer.buffer;
-            if (!strncmp((const u8 *)str, (const u8 *)gGpiPeerKeyANack, 7)) {
+            if (!strncmp(str, gGpiPeerKeyANack, 7)) {
                 peer->nackCount++;
                 if (peer->nackCount > 1) {
                     gpiSetErrorString(connection, gGpiPeerErrorBuddyAuth);
@@ -306,7 +305,7 @@ int gpiProcessPeerInitiatingConnection(void **connection, GPIPeer *peer)
                     if (__result__ != 0)
                         return __result__;
                 }
-            } else if (strncmp((const u8 *)str, (const u8 *)gGpiPeerKeyAAck, 6)) {
+            } else if (strncmp(str, gGpiPeerKeyAAck, 6)) {
                 gpiSetErrorString(connection, gGpiPeerErrorParsing);
                 return 3;
             }
@@ -354,12 +353,12 @@ int gpiProcessPeerAcceptingConnection(void **connection, GPIPeer *peer)
         return 0;
     }
 
-    str = (char *)(unsigned char *)strstr((unsigned char *)((const unsigned char *)peer->inputBuffer.buffer), (unsigned char *)((const unsigned char *)gGpiPeerKeyFinal));
+    str = (char *)strstr(peer->inputBuffer.buffer, gGpiPeerKeyFinal);
     if (str) {
         *str = '\0';
 
         str = peer->inputBuffer.buffer;
-        if (strncmp((const unsigned char *)str, (const unsigned char *)gGpiPeerKeyAuth, 6) == 0) {
+        if (strncmp(str, gGpiPeerKeyAuth, 6) == 0) {
             if (!gpiValueForKey(str, gGpiPeerKeyPid, intValue, sizeof(intValue))) {
                 peer->state = 0x6A;
                 return 0;
@@ -377,7 +376,7 @@ int gpiProcessPeerAcceptingConnection(void **connection, GPIPeer *peer)
             }
 
             OS_SPrintf(buffer, gGpiPeerSigFmt, iconnection->password, iconnection->profileid, pid);
-            GSMD5Digest((unsigned char *)buffer, strlen((const u8 *)buffer), sigCheck);
+            GSMD5Digest((unsigned char *)buffer, strlen(buffer), sigCheck);
 
             if (strcmp(sig, sigCheck) != 0) {
                 gpiAppendStringToBuffer(connection, (&peer->outputBuffer), gGpiPeerKeyANack);
@@ -904,7 +903,7 @@ int gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message)
         return 3;
     if (message == 0)
         return 3;
-    len = strlen((const u8 *)message);
+    len = strlen(message);
     {
         GPIMessage gpiMessage = {0};
         gpiMessage.type = type;
@@ -1012,7 +1011,7 @@ int gpiPeerFinishTransferMessage(void **connection, GPIPeer *peer, char *message
     if (message == 0)
         message = gGpiPeerEmptyMsg;
     if (len == -1)
-        len = strlen((const u8 *)message);
+        len = strlen(message);
     OS_SPrintf(buffer, gGpiPeerLenMsgFmt, len);
     result = gpiSendOrBufferString(connection, peer, buffer);
     if (result != 0)

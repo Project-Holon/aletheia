@@ -408,7 +408,7 @@ int DELIVERY_IRC_StartNet(DeliveryIrcWork *work)
     if (GFL_NET_GetRunState() != 0)
         return 0;
     d_02172868[7] = work->param.netCommandBase;
-    GFL_NET_StartSession((struct GFLNetInitializeStruct *)d_02172808, 0, (u32)work);
+    GFL_NET_StartSession((struct GFLNetInitializeStruct *)d_02172808, 0, work);
     return 1;
 }
 
