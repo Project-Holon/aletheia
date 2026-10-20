@@ -138,24 +138,19 @@ typedef struct RTCRawAlarm {
     u32 dummy2:8;
 } RTCRawAlarm;
 
-void PXI_Init(void);
-BOOL PXI_IsCallbackReady(int fifotag, int proc);
+#include "pxi_fifo.h"
 void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
-OSIntrMode OS_DisableInterrupts(void);
-OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-BOOL RTCi_ReadRawDateAsync(void);
+#include "os_system.h"
+#include "internal.h"
 RTCResult RTC_GetDateAsync(RTCDate *date, RTCCallback callback, void *arg);
 void RtcWaitBusy(void);
 void RtcGetResultCallback(RTCResult result, void *arg);
-BOOL RTCi_ReadRawTimeAsync(void);
 RTCResult RTC_GetTimeAsync(RTCTime *time, RTCCallback callback, void *arg);
-BOOL RTCi_ReadRawDateTimeAsync(void);
 RTCResult RTC_GetDateTimeAsync(RTCDate *date, RTCTime *time, RTCCallback callback, void *arg);
 extern void rtcWork(void);
-extern RTCWeek RTC_GetDayOfWeek(RTCDate *date);
-extern int RTCi_WriteRawStatus2Async(void);
-extern int OS_IsRunOnTwl(void);
-extern u32 RTCEXi_CommonCallback(void);
+#include "convert.h"
+#include "os_emulator.h"
+#include "../twl/external_ex.h"
 extern void g_0215142C(void);
 void RTC_Init(void);
 RTCResult RTC_GetDate(RTCDate *date);

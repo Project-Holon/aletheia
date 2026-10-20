@@ -60,51 +60,38 @@ struct Sys {
     struct SleepCb cb20;
 };
 
-extern void SND_Init(void);
+#include "snd_main.h"
 
-extern void PM_PrependPreSleepCallback(void *info);
+#include "pm.h"
 
-extern void PM_AppendPostSleepCallback(void *info);
 
-extern void NNS_SndWaveOutInit(void);
+#include "nns_snd_waveout.h"
 
-extern void NNSi_SndMainReset(void);
+#include "nns_snd_main.h"
 
-extern void NNS_SndPlayerInit(void);
+#include "nns_snd_player.h"
 
-extern const struct SNDCommand *SND_RecvCommandReply(u32 flags);
+#include "snd_command.h"
 
-extern void NNS_SndPlayerMain(void);
 
-extern void NNS_SndMain(void);
 
-extern void NNSi_SndArcPlayerUpdate(void);
+#include "nns_snd_arcplayer.h"
 
-extern void SND_SetMasterVolume(int volume);
+#include "snd_interface.h"
 
-extern void SND_SetMasterPan(int pan);
 
-extern void SND_ResetMasterPan(void);
 
-extern int SND_IsFinishedCommandTag(u32 tag);
 
-extern void SND_ReadDriverInfo(struct SNDDriverInfo *info);
 
-extern u32  SND_GetCurrentCommandTag(void);
 
-extern void DC_InvalidateRange(void *p, u32 n);
+#include "os_cache.h"
 
-extern int SND_FlushCommand(u32 flags);
 
-extern int SND_ReadTrackInfo(struct SNDDriverInfo *, int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
+#include "snd_work.h"
 
-extern void NNS_SndStartTimer(void);
 
-extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
 
-extern void SND_WaitForCommandProc(u32 a);
 
-extern void NNSi_SndCaptureReset(void);
 
 void NNS_SndInit(void);
 

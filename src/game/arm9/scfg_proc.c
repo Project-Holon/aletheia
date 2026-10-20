@@ -35,10 +35,10 @@ typedef struct SCFGFuseInfo {
     void *callbackArg;
 } SCFGFuseInfo;
 
-OSIntrMode OS_DisableInterrupts(void);
-OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-void SCFGi_SwitchCpuSpeed(int cpuSpeed);
-void OS_Terminate(void);
+#include "os_system.h"
+typedef int SCFGCpuSpeed;
+#include "../arm9_autoload0_ITCM/scfg_proc.h"
+#include "os_terminate_processor.h"
 void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, int err));
 void SCFGi_CommonCallback(int tag, u32 data, int err);
 void SCFG_Init(void);

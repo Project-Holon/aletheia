@@ -1,7 +1,7 @@
 /*
  * file:     keyboard.c
  * unit:     yes
- * function: DWCi_KBlInit, DWCi_KBlEnd, DWCi_KBlGet, DWCi_KBlSetErase, DWCi_KBlSetInput, DWCi_KBlIsInit, DWCi_KeyboardTaskStart0, DWCi_KeyboardTaskStart1, DWCi_KeyboardTaskStart2, DWCi_KeyboardTaskStart3, DWCi_KeyboardTaskStart4, taskMain, touchTriger, touchRelease, pushCaps, pushShift, touch, exchangeBack, key, disp, DWCi_KeyboardChangePage, DWCi_KeyboardChangeColor, DWCi_KeyboardDispFocus, DWCi_KeyboardMoveFocus, DWCi_KeyboardTaskEnd0, DWCi_KeyboardTaskEnd1, DWCi_KeyboardTaskEnd2, DWCi_KeyboardTaskEnd3, DWCi_KeyboardTaskEnd4, DWCi_KeyboardTaskEnd5
+ * function: DWCi_KBlInit, DWCi_KBlEnd, DWCi_KBlGet, DWCi_KBlSetErase, DWCi_KBlSetInput, DWCi_KBlIsInit, taskStart0, taskStart1, taskStart2, taskStart3, taskStart4, taskMain, touchTriger, touchRelease, pushCaps, pushShift, touch, exchangeBack, key, disp, changePage, changeColor, dispFocus, moveFocus, taskEnd0, taskEnd1, taskEnd2, taskEnd3, taskEnd4, taskEnd5
  * address:  0x021BD8D8
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -138,7 +138,8 @@ extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
 extern void *DWCi_CELLlForm(int lcd, int num, int head);
 struct CellInfo;
 extern void DWCi_CELLlDelete(struct CellInfo *p);
-extern GXOamAttr *DWCi_CELLlGetObj(void *cell, int idx);
+union GXOamAttr;
+extern GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
 extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 extern void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
@@ -146,7 +147,8 @@ extern void DWCi_CELLlSetPalette(unsigned char *obj, int idx, unsigned int v, un
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 extern void DWCi_Coord2Rect(COORD *coord, COORD *size, RECT *rect);
 extern void *DWCi_FNTlFormEx(int lcd, int width, int height, int head, int *obj, int font);
-extern void DWCi_FNTlDelete(void *canvas);
+struct Canvas;
+extern void DWCi_FNTlDelete(struct Canvas *a);
 extern void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio);
 extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);

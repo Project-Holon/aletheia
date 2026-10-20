@@ -156,34 +156,21 @@ typedef struct VramResourceIndices {
     u16 *items;
 } VramResourceIndices;
 
-extern void MIi_CpuCopy16(void *src, u32 dest);
-extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
-extern void DC_FlushRange(const void *startAddr, u32 nBytes);         /* DC_FlushRange */
-extern void GX_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GX_LoadOAM */
-extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);  /* GXS_LoadOAM */
-extern void DC_InvalidateRange(const void *startAddr, u32 nBytes);          /* DC_InvalidateRange */
-extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL flag);  /* MIi_DmaFill32 */
-extern void MIi_CpuClear32(u32 data, void *dest, u32 size);            /* MIi_CpuClear32 */
-extern void GX_BeginLoadTex(void);
-extern void GX_LoadTex(void *src, u32 off, u32 n);
-extern void GX_EndLoadTex(void);
-extern void GX_LoadOBJ(void *src, u32 off, u32 n);
-extern void GXS_LoadOBJ(void *src, u32 off, u32 n);
-extern void GX_BeginLoadOBJExtPltt(u32 a);
-extern void GX_LoadOBJExtPltt(u32 a, u32 b, u32 c);
-extern void GX_EndLoadOBJExtPltt(void);
-extern void GX_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
-extern void GXS_BeginLoadOBJExtPltt(u32 a);
-extern void GXS_LoadOBJExtPltt(u32 a, u32 b, u32 c);
-extern void GXS_EndLoadOBJExtPltt(void);
-extern void GXS_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
-extern void GX_BeginLoadTexPltt(void);
-extern void GX_LoadTexPltt(void *pSrc, u32 destSlotAddr, u32 szByte);
-extern void GX_EndLoadTexPltt(void);
-void NNSi_G2dCpuLoadOamSub(void *src, u32 offset);
-void NNSi_G2dCpuLoadOamMain(void *src, u32 offset);
+#include "mi_memory.h"
+#include "os_cache.h"
+         /* DC_FlushRange */
+#include "gx_load2d.h"
+  /* GX_LoadOAM */
+  /* GXS_LoadOAM */
+          /* DC_InvalidateRange */
+#include "mi_dma.h"
+  /* MIi_DmaFill32 */
+            /* MIi_CpuClear32 */
+#include "gx_load3d.h"
+void NNSi_G2dCpuLoadOamSub(void *src, u32 offset, u32 size);
+void NNSi_G2dCpuLoadOamMain(void *src, u32 offset, u32 size);
 void NNS_G2dInitOamManagerModule(void);
-u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, u16 count, u32 which);
+u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, int count, int which);
 u32 NNSi_G2dEntryOamManagerOam(struct OamWindow *win, GXOamAttr *src, u32 mode);
 u16 NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx);
 void NNS_G2dApplyOamManagerToHW(NNSG2dOamManagerInstance *pMan, u32 bound);
@@ -236,9 +223,9 @@ extern u32 GXi_DmaId;                  /* GXi_DmaId */
  *       --func NNSi_G2dCpuLoadOamSub --addr 0x02063054 --arm \
  *       --flags "-O4,p -proc arm7tdmi"
  */
-void NNSi_G2dCpuLoadOamSub(void *src, u32 offset)
+void NNSi_G2dCpuLoadOamSub(void *src, u32 offset, u32 size)
 {
-    MIi_CpuCopy16(src, offset + 0x400 + 0x7000000);
+    MIi_CpuCopy16(src, (void *)(offset + 0x400 + 0x7000000), size);
 }
 
 /*
@@ -264,9 +251,9 @@ void NNSi_G2dCpuLoadOamSub(void *src, u32 offset)
  *   python tools/match.py one --src src/matched/NNSi_G2dCpuLoadOamMain.c \
  *       --func NNSi_G2dCpuLoadOamMain --addr 0x02063068 --cc 1.1p1 --arm
  */
-void NNSi_G2dCpuLoadOamMain(void *src, u32 offset)
+void NNSi_G2dCpuLoadOamMain(void *src, u32 offset, u32 size)
 {
-    MIi_CpuCopy16(src, offset + 0x07000000);
+    MIi_CpuCopy16(src, (void *)(offset + 0x07000000), size);
 }
 
 /*
@@ -346,7 +333,7 @@ static inline u32 IsFree(u16 *tbl, u16 first, u16 last)
  *   python3 tools/match.py one --src src/matched/NNSi_G2dReserveOamManagerSpan.c
  *       --func NNSi_G2dReserveOamManagerSpan --addr 0x02063138 --arm --cc ../2.0/sp2
  */
-u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, u16 count, u32 which)
+u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, int count, int which)
 {
     OamCache *bank = &g_02146BC8[which];
     u16 last = first + (count - 1);
@@ -987,13 +974,13 @@ void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 offset, int sel, V
     u32 a = self->src;
     u32 b = self->size;
 
-    DC_FlushRange((const void *)a, b);
+    DC_FlushRange((void *)(const void *)a, b);
 
     switch (sel) {
     case 1:
         if (self->handle != 0) {
-            GX_BeginLoadOBJExtPltt(self->handle);
-            GX_LoadOBJExtPltt(a, offset, b);
+            GX_BeginLoadOBJExtPltt();
+            GX_LoadOBJExtPltt((const void *)a, offset, b);
             GX_EndLoadOBJExtPltt();
         } else {
             GX_LoadOBJPltt((void *)a, offset, b);
@@ -1001,8 +988,8 @@ void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 offset, int sel, V
         break;
     case 2:
         if (self->handle != 0) {
-            GXS_BeginLoadOBJExtPltt(self->handle);
-            GXS_LoadOBJExtPltt(a, offset, b);
+            GXS_BeginLoadOBJExtPltt();
+            GXS_LoadOBJExtPltt((const void *)a, offset, b);
             GXS_EndLoadOBJExtPltt();
         } else {
             GXS_LoadOBJPltt((void *)a, offset, b);
@@ -1103,12 +1090,12 @@ void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *l
             a = self->src;
             d = step * i;
             t = step * list->items[i];
-            DC_FlushRange((const void *)a, self->size);
+            DC_FlushRange((void *)(const void *)a, self->size);
             switch (sel) {
             case 1:
                 if (self->handle != 0) {
-                    GX_BeginLoadOBJExtPltt(self->handle);
-                    GX_LoadOBJExtPltt(a + d, base + t, step);
+                    GX_BeginLoadOBJExtPltt();
+                    GX_LoadOBJExtPltt((const void *)(a + d), base + t, step);
                     GX_EndLoadOBJExtPltt();
                 } else {
                     GX_LoadOBJPltt((void *)(a + d), base + t, step);
@@ -1116,8 +1103,8 @@ void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *l
                 break;
             case 2:
                 if (self->handle != 0) {
-                    GXS_BeginLoadOBJExtPltt(self->handle);
-                    GXS_LoadOBJExtPltt(a + d, base + t, step);
+                    GXS_BeginLoadOBJExtPltt();
+                    GXS_LoadOBJExtPltt((const void *)(a + d), base + t, step);
                     GXS_EndLoadOBJExtPltt();
                 } else {
                     GXS_LoadOBJPltt((void *)(a + d), base + t, step);

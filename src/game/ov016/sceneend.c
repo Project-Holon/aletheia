@@ -27,10 +27,11 @@
  *   gCommentWork  0x021DE598  data
  */
 #include "../types.h"
+typedef _Bool bool;
 
-extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
+extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_ChangeScene(unsigned int v);
-extern int DWCi_EFFlCheck(int lcd);
+extern bool DWCi_EFFlCheck(int lcd);
 extern void DWCi_TSKlOperate(int kind, unsigned char flag);
 extern void DWCi_CEINlRelease(int lcd);
 extern void DWCi_HLlEnd(void);

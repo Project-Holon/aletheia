@@ -1,0 +1,11 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "EVENT_GTSNEGO_Main", "black_address": "0x021542C0", "white_address": "0x021542E0", "size": 672, "diff": "constant", "source": "src/game/ov001/event_gtsnego.c", "version_switch": false, "status": "EXACT"},
+  {"name": "EVENT_GTSNEGO_InitWork", "black_address": "0x02154560", "white_address": "0x02154580", "size": 268, "diff": "constant", "source": "src/game/ov001/event_gtsnego.c", "version_switch": false, "status": "EXACT"},
+  {"name": "EVENT_GTSNEGO_Create", "black_address": "0x0215466C", "white_address": "0x0215468C", "size": 40, "diff": "constant", "source": "src/game/ov001/event_gtsnego.c", "version_switch": false, "status": "EXACT"},
+  {"name": "EVENT_GTSNEGO_Entry", "black_address": "0x02154694", "white_address": "0x021546B4", "size": 4, "diff": "constant", "source": "src/game/ov001/event_gtsnego.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

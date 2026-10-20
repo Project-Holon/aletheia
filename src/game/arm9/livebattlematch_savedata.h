@@ -3,6 +3,8 @@
 
 /* Public functions of livebattlematch_savedata.c, prototypes copied from their definitions. */
 
+#include "../types.h"
+
 void LIVEBATTLEMATCH_SAVE_InitRecord(void *buffer);
 u8 LIVEBATTLEMATCH_SAVE_GetCounter(const u8 *keys, u32 index);
 void LIVEBATTLEMATCH_SAVE_AddCounter(u8 *keys, u32 index, int delta);

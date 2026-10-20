@@ -1,11 +1,14 @@
 #ifndef GAME_ARM9_GF_FONT_H
 #define GAME_ARM9_GF_FONT_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gf_font.c, prototypes copied from their definitions. */
 
 struct GfFont;
 struct BitReader;
 struct WordSet;
+
+#include "../types.h"
 
 struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 u32 GF_FONT_Delete(struct GfFont *font);
@@ -38,5 +41,6 @@ void GF_FONT_DecodeGlyph8x16(const u8 *src, u32 lastGroupBits, u16 *dst);
 void GF_FONT_DecodeGlyph16x8(const u8 *src, u32 lastGroupBits, u16 *dst);
 void GF_FONT_DecodeGlyph16x16(const u8 *src, u32 lastGroupBits, u16 *dst);
 struct WordSet *WORDSET_CreateDefault(u16 heapId);
+/* END mkheaders: generated region */
 
 #endif

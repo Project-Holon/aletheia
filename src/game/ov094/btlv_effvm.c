@@ -4294,6 +4294,7 @@ int BTLV_EFFVM_EvalCondition(BtlvEffVmWork *work, unsigned int key)
     case 56: return work->flags.bit.cameraLocked;
     case 57: return work->defenderPos;
     }
+    /* key above 57 leaves r0 = work (first argument); `return (int)work;` changes the bytes (docs/DEBT.tsv, missing-return) */
 }
 
 /*

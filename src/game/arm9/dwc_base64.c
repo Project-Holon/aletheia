@@ -19,8 +19,7 @@
  */
 #include "../types.h"
 
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
+#include "mi_memory.h"
 int DWC_Base64Encode(const char *src, u32 srclen, char *dst, u32 dstlen);
 int DWC_Base64Decode(const char *src, u32 srclen, char *dst, u32 dstlen);
 extern char *DWCi_base64_table;

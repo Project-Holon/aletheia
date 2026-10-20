@@ -28,14 +28,11 @@
 
 #define WIFI_HISTORY_COUNTRY_MAX 0xE9
 
-/* One player met over Wi-Fi: the player's MyStatus bytes. */
-struct PlayerRecord {
-    u8 data[0x20];
-};
+#include "comm_player_support_shared_types.h"
 
 /* One slot of the 20-entry history table (0x28 bytes). */
 struct HistoryEntry {
-    struct PlayerRecord record;     /* 0x00 */
+    struct MyStatus record;     /* 0x00 */
     u16 meetCount;                  /* 0x20 */
     u16 swapCount;                  /* 0x22 */
     u8  rank;                       /* 0x24 */
@@ -62,13 +59,12 @@ struct WifiHistory {
     u8 countryRegionState[0xFF0];   /* 0x348, 16 bytes per country row */
 };
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
-extern void MYSTATUS_SetNationAndArea(struct MyStatus *status, u8 country, u8 region);
+#include "mystatus.h"
 
 extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct WifiHistory *history);
 
-extern u8 MYSTATUS_GetNation(const struct MyStatus *status);
 
 extern u32 WIFI_HISTORY_IsCountryVisited(const struct WifiHistory *history, u32 country);
 
@@ -104,11 +100,10 @@ void WIFI_HISTORY_SetEntryField(struct WifiHistory *history, int index, u32 fiel
 
 struct HistoryEntry *WIFI_HISTORY_GetEntry(struct WifiHistory *history, int index);
 
-void WIFI_HISTORY_GetEntries(void);
+struct HistoryEntry *WIFI_HISTORY_GetEntries(struct WifiHistory *history);
 
 u32 WIFI_HISTORY_MarkCountryVisited(struct WifiHistory *history, u32 country);
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the
@@ -429,8 +424,9 @@ struct HistoryEntry *WIFI_HISTORY_GetEntry(struct WifiHistory *history, int inde
     return &history->entries[index];
 }
 
-void WIFI_HISTORY_GetEntries(void)
+struct HistoryEntry *WIFI_HISTORY_GetEntries(struct WifiHistory *history)
 {
+    return (struct HistoryEntry *)history;
 }
 
 u32 WIFI_HISTORY_MarkCountryVisited(struct WifiHistory *history, u32 country)

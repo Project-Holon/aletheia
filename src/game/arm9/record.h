@@ -6,6 +6,8 @@
 struct RecordBlock;
 struct SaveControl;
 
+#include "../types.h"
+
 u32 RECORD_GetSize(void);
 void RECORD_Init(struct RecordBlock *record);
 struct RecordBlock *RECORD_GetFromSave(struct SaveControl *control);

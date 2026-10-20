@@ -28,14 +28,12 @@ struct MetTrainersSave {
     u8  bitmap[0x20];       /* +0x84 */
 };
 
-extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+#include "mi_memory.h"
 struct SaveControl;
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
 u32 MET_TRAINERS_GetSize(void);
 

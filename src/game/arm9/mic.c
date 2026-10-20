@@ -55,30 +55,9 @@
 #define HW_MIC_LAST_ADDRESS (*(u32 *)0x02FFFF90)
 #define MIC_PXI_STOP_AUTO_SAMPLING 0x03004200
 #include "../types.h"
+#include "../sdk_os.h"
 
-typedef enum MICResult
-{
-    MIC_RESULT_SUCCESS = 0,
-    MIC_RESULT_BUSY,
-    MIC_RESULT_ILLEGAL_PARAMETER,
-    MIC_RESULT_SEND_ERROR,
-    MIC_RESULT_INVALID_COMMAND,
-    MIC_RESULT_ILLEGAL_STATUS,
-    MIC_RESULT_FATAL_ERROR
-} MICResult;
-
-typedef void (*MICCallback)(MICResult result, void *arg);
-
-typedef struct MICAutoParam
-{
-    int type;
-    void *buffer;
-    u32 size;
-    u32 rate;
-    BOOL loop_enable;
-    MICCallback full_callback;
-    void *full_arg;
-} MICAutoParam;
+#include "mic.h"
 
 typedef struct MICWork
 {
@@ -98,13 +77,10 @@ typedef struct MicBss
     MICWork micWork;
 } MicBss;
 
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32 state);
-extern BOOL OSi_IsCodecTwlMode(void);
-extern void PXI_Init(void);
-extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
+#include "os_system.h"
+#include "os_systemwork.h"
+#include "pxi_fifo.h"
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
-extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
 extern void MicCommonCallback(int tag, u32 data, BOOL err);
 extern BOOL MicStartAutoSampling(void *buf, u32 size, u32 span, u8 flags);
 extern BOOL MicStopAutoSampling(void);
@@ -115,7 +91,7 @@ extern MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg);
 extern MICResult MIC_StopAutoSampling(void);
 extern MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
 extern MICResult MICEXi_StartLimitedSampling(const MICAutoParam *param);
-extern u32 MICEXi_StopLimitedSampling(void);
+#include "../twl/micex.h"
 extern void micWork(void);
 void MIC_Init(void);
 MICResult MIC_StartAutoSampling(MICAutoParam *param);

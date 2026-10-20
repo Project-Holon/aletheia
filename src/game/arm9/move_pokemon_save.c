@@ -45,12 +45,12 @@ struct MovePokemonSave {
     u8  pad32[2];
 };                                      /* 0x34 */
 
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
+#include "mi_memory.h"
 struct SaveControl;
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
-extern u32 GFL_USE_GetRandomBelow(u32 range);
+#include "gfl_use.h"
 
 u32 MOVE_POKEMON_SAVE_GetSize(void);
 

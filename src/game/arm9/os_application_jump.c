@@ -36,12 +36,8 @@ typedef struct OsArgumentBss {
 
 extern OsArgumentBss g_02151384;
 
-extern void OS_InitDeliverArgInfo(OSDeliverArgInfo *info, int binSize);
-extern s32 OS_DecodeDeliverArg(void);
-extern u64 OS_GetTitleIdFromDeliverArg(void);
-extern u64 OSi_SearchTitleIdFromList(u64 titleId, u64 mask);
-extern s32 OS_EncodeDeliverArg(void);
-extern void OS_SetDeliverArgStateInvalid(void);
+#include "os_argument.h"
+#include "../twl/os_argument.h"
 extern u64 s_prevTitleId;
 
 void OSi_InitPrevTitleId(void)

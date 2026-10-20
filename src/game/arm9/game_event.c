@@ -41,22 +41,17 @@ struct OverlayEventWork {
     u32   reserved[2];
 };
 
-extern u32 GFL_HEAP_Free(void *memory);
+#include "gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern int GF_OVERLAY_Load(int overlayId);
+#include "gf_overlay.h"
 
 //P
-extern void  GF_OVERLAY_Unload(s32 overlayId);
 
-void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+#include "gamesystem.h"
 
-u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 
-struct GameEvent *GAMESYSTEM_GetEvent(const struct GameSystem *gameSystem);
 
-void GAMESYSTEM_SetEvent(struct GameSystem *gameSystem, struct GameEvent *event);
 
 struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 

@@ -41,17 +41,17 @@ struct MyStatusHolder {
 
 #define BLOCK_ID_1B 0x1B
 
-extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
+#include "mi_memory.h"
 struct SaveControl;
 
 /* Save-block lookup: returns the block with the given id. */
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
-void CONFIG_Init(struct Config *config);
+#include "config.h"
 
-void MYSTATUS_Init(struct MyStatus *mystatus);
+#include "mystatus.h"
 
-void PLAYTIME_Init(struct PlayTime *playtime);
+#include "playtime.h"
 
 /*
  * Save block 0x1B.  Every accessor reaches the block with

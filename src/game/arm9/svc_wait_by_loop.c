@@ -14,8 +14,10 @@
  *           stub).  A Thumb `asm` function: swi, then return.
  */
 
+#include "../types.h"
+
 /* hand-written in the original: SVC_WaitByLoop, SVC stub in the arm9 secure area (swi 3; bx lr) */
-asm void SVC_WaitByLoop(void)
+asm void SVC_WaitByLoop(s32 count)
 {
     swi 3
     bx lr

@@ -18,13 +18,15 @@
  *   SHA1_ROUND_CONSTANTS  0x02081E6C  data
  */
 
+#include "dgt_sha1.h"
+
 /* the four round constants (5A827999 6ED9EBA1 8F1BBCDC CA62C1D6): values from the user's ROM (tools/gendata.py) */
 const unsigned long SHA1_ROUND_CONSTANTS[4] = {
 #include "../../../build/gen/words_sha1_02081E6C.inc"
 };
 
 /* hand-written in the original: MATHi_SHA1ProcessBlock, asm-only SDK object (sha1.s, no DWARF, no .comment; pc-relative round constants in a $d block) */
-asm void MATHi_SHA1Transform(void)
+asm void MATHi_SHA1Transform(MATHSHA1Context *context)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, r12, lr}
     mov r11, r0

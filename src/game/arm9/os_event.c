@@ -24,10 +24,8 @@
 
 #include "../sdk_os_thread.h"
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern void OS_SleepThread(OSThreadQueue *queue);
-extern void OS_WakeupThread(OSThreadQueue *queue);
+#include "os_system.h"
+#include "os_thread.h"
 void OS_InitEvent(OSEvent *event);
 u32 OS_WaitEventEx(OSEvent *event, u32 pattern, OSEventMode mode, u32 clearBit);
 void OS_SignalEvent(OSEvent *event, u32 setPattern);

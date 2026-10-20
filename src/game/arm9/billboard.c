@@ -65,9 +65,9 @@ struct Blob28 { u32 w[7]; };   /* 28 bytes, align 4 -> ldm/stm 16 + 12 */
 
 void BILLBOARD_DeleteAllImages(struct BbBoard *board);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../sdk_nnsfnd.h"
+#include "gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void *BILLBOARD_Create(u8 *src, void *heap);
 
@@ -396,59 +396,46 @@ typedef void (*FreeVramFn)(u32 key);
 
 struct Quad { fx16 y0, y1, x0, x1; };
 
-extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *resource);
+#include "g3d_system.h"
 
-extern u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *resource);
 
-extern u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *resource);
 
-extern struct G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
 
-extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *resource);
 
-extern struct NNSG3dResTex *G3D_SYSTEM_GetResourceTex(struct G3dResource *resource);
 
-extern void GFL_HEAP_CheckAllocator(void *p, u32 size);
 
-extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *resource);
 
-extern void G3D_SYSTEM_DeleteResource(struct G3dResource *resource);
 
-extern void G3X_Reset(void);
+typedef int GXFogBlend;
+typedef int GXFogSlope;
+#include "g3x.h"
 
-extern void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL draw, MtxFx43 *mtx);
+#include "g3_util.h"
 
-extern void MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
+#include "fx_mtx43.h"
 
-extern int  MTX_Inverse43(const MtxFx43 *pSrc, MtxFx43 *pDst);
 
-extern void MI_Copy36B(const void *pSrc, void *pDest);
+#include "mi_memory.h"
 
-extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+#include "fx_vec.h"
 
-extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
 
-extern void MTX_Identity33_(MtxFx33 *pDst);
+#include "fx_mtx33.h"
 
-extern void MTX_RotY33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
 
-extern fx32 FX_Div(fx32 numer, fx32 denom);
+#include "fx_cp.h"
 
-extern void G3_MultTransMtx33(const MtxFx33 *mtx, const VecFx32 *trans);
+#include "g3imm.h"
 
-extern void G3_RotZ(fx32 s, fx32 c);
 struct G3dCamera;
 
-extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
+#include "g3d_camera.h"
 
-extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
 
-extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
 struct Rgb555;
 
-extern void G3D_LIGHT_GetDirection(struct LightSlot *slots, u8 i, struct Rgb555 *out);
+#include "g3d_light.h"
 
-extern void G3D_LIGHT_GetColor(struct LightSlot *lights, u8 lightIndex, u16 *outColor);
 
 int BILLBOARD_FindFreeImage(struct BbBoard *board, int *outIndex);
 
@@ -472,7 +459,7 @@ void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int index);
 
 void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset);
 
-void BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, int index, int *outPlttVramOffset);
+int BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, int index, int *outPlttVramOffset);
 
 void BILLBOARD_GetImageTexKey(struct BbBoard *board, int index, u32 *outTexVramKey);
 
@@ -800,7 +787,7 @@ void BILLBOARD_DeleteAllImages(struct BbBoard *board)
 void BILLBOARD_GetImageVramAddr(struct BbBoard *board, int index, int *outTexVramOffset){ *outTexVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 12)); }
 
 /* Palette VRAM byte offset of one record, through an out-parameter. */
-void BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, int index, int *outPlttVramOffset){ *outPlttVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 16)); }
+int BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, int index, int *outPlttVramOffset){ return *outPlttVramOffset = (int)*(int *)(((index * 0x28 + (int)board->images) + 16)); }
 
 /*
  * Texture VRAM key getter through an out-parameter on one 0x28-byte record;

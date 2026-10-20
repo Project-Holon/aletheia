@@ -78,8 +78,7 @@ typedef struct SNDTrackInfo {
     unsigned char channel[16];
 } SNDTrackInfo;
 
-extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
-extern void DC_FlushRange(const void *startAddr, unsigned long nBytes);
+#include "os_cache.h"
 u32 SND_GetPlayerStatus(void);
 unsigned long SND_GetChannelStatus(void);
 BOOL SND_ReadTrackInfo(SNDDriverInfo *driverInfo, int playerNo, int trackNo, SNDTrackInfo *trackInfo);

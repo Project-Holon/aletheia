@@ -1,7 +1,7 @@
 /*
  * file:     backup_system.c
  * unit:     yes
- * function: BACKUP_SYSTEM_Init, BACKUP_SYSTEM_CreateCore, BACKUP_SYSTEM_Create, BACKUP_SYSTEM_CreateWithWork, BACKUP_SYSTEM_Delete, BACKUP_SYSTEM_GetWork, BACKUP_SYSTEM_GetRecordWork, BACKUP_SYSTEM_ClearWork, BACKUP_SYSTEM_GetDiffSize, BACKUP_SYSTEM_Erase, BACKUP_SYSTEM_Load, BACKUP_SYSTEM_StartSave, BACKUP_SYSTEM_MainSave, BACKUP_SYSTEM_CancelSave, BACKUP_SYSTEM_InitLinkedSave, BACKUP_SYSTEM_MainLinkedSave, BACKUP_SYSTEM_LoadLinked, BACKUP_SYSTEM_GetWrittenSize, BACKUP_SYSTEM_IsFlashBusy, BACKUP_SYSTEM_CalcCrcTableCrc, BACKUP_SYSTEM_GetAreaAddr, BACKUP_SYSTEM_GetCrcTable, BACKUP_SYSTEM_GetFooter, BACKUP_SYSTEM_CheckFooter, BACKUP_SYSTEM_SetFooter, BACKUP_SYSTEM_SetSaveCount, BACKUP_SYSTEM_GetFooterInfo, BACKUP_SYSTEM_GetRecordCount, BACKUP_SYSTEM_LoadDoubleCopy, BACKUP_SYSTEM_LoadSingleCopy, BACKUP_SYSTEM_WriteFooterBody, BACKUP_SYSTEM_WriteFooterLastByte, BACKUP_SYSTEM_InitSaveSeq, BACKUP_SYSTEM_CalcDiffSize, BACKUP_SYSTEM_CompareRecordStep, BACKUP_SYSTEM_WriteRecord, BACKUP_SYSTEM_WriteCrcTable, BACKUP_SYSTEM_SaveSeqMain, BACKUP_SYSTEM_EndSave, BACKUP_SYSTEM_CancelSaveSeq, BACKUP_SYSTEM_EraseFooter, BACKUP_SYSTEM_IncRecordCount, BACKUP_SYSTEM_UpdateRecordCrc, BACKUP_SYSTEM_GetBlockArea, BACKUP_SYSTEM_SetBlockArea, BACKUP_SYSTEM_SwapBlockAreas, BACKUP_SYSTEM_ClearBlockAreas, BACKUP_SYSTEM_FillBlockAreas, BACKUP_SYSTEM_WriteFlash, BACKUP_SYSTEM_WriteFlashAsync, BACKUP_SYSTEM_CheckFlashAsync, BACKUP_SYSTEM_ReadFlash, BACKUP_SYSTEM_ReadRecordFromFlash
+ * function: BACKUP_SYSTEM_Init, BACKUP_SYSTEM_CreateCore, BACKUP_SYSTEM_Create, BACKUP_SYSTEM_CreateWithWork, BACKUP_SYSTEM_Delete, BACKUP_SYSTEM_GetWork, BACKUP_SYSTEM_GetRecordWork, BACKUP_SYSTEM_ClearWork, BACKUP_SYSTEM_GetDiffSize, BACKUP_SYSTEM_Erase, BACKUP_SYSTEM_Load, BACKUP_SYSTEM_StartSave, BACKUP_SYSTEM_MainSave, BACKUP_SYSTEM_CancelSave, BACKUP_SYSTEM_InitLinkedSave, BACKUP_SYSTEM_MainLinkedSave, BACKUP_SYSTEM_LoadLinked, BACKUP_SYSTEM_GetWrittenSize, BACKUP_SYSTEM_IsFlashBusy, BACKUP_SYSTEM_CalcCrcTableCrc, BACKUP_SYSTEM_GetAreaAddr, BACKUP_SYSTEM_GetCrcTable, BACKUP_SYSTEM_GetFooter, BACKUP_SYSTEM_CheckFooter, BACKUP_SYSTEM_SetFooter, BACKUP_SYSTEM_SetSaveCount, BACKUP_SYSTEM_GetFooterInfo, BACKUP_SYSTEM_LoadDoubleCopy, BACKUP_SYSTEM_LoadSingleCopy, BACKUP_SYSTEM_WriteFooterBody, BACKUP_SYSTEM_WriteFooterLastByte, BACKUP_SYSTEM_InitSaveSeq, BACKUP_SYSTEM_CalcDiffSize, BACKUP_SYSTEM_CompareRecordStep, BACKUP_SYSTEM_WriteRecord, BACKUP_SYSTEM_WriteCrcTable, BACKUP_SYSTEM_SaveSeqMain, BACKUP_SYSTEM_EndSave, BACKUP_SYSTEM_CancelSaveSeq, BACKUP_SYSTEM_EraseFooter, BACKUP_SYSTEM_IncRecordCount, BACKUP_SYSTEM_UpdateRecordCrc, BACKUP_SYSTEM_GetBlockArea, BACKUP_SYSTEM_SetBlockArea, BACKUP_SYSTEM_SwapBlockAreas, BACKUP_SYSTEM_ClearBlockAreas, BACKUP_SYSTEM_FillBlockAreas, BACKUP_SYSTEM_WriteFlash, BACKUP_SYSTEM_WriteFlashAsync, BACKUP_SYSTEM_CheckFlashAsync, BACKUP_SYSTEM_ReadFlash, BACKUP_SYSTEM_ReadRecordFromFlash
  * address:  0x020316C8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -131,18 +131,14 @@ typedef struct SaveRecordFooter {
     u16 crc;          /* CRC of the payload */
 } SaveRecordFooter;
 
-extern void *GFL_HEAP_Alloc(u16 heap_id, u32 size, int align, const char *file,
-                         u16 line);
-extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
-extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
+/* Kept local: the heap id is a u16 here (gfl_heap_wrap.h takes u32). */
+extern void *GFL_HEAP_Alloc(u16 heap_id, u32 size, int align, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *mem);
-extern void  UI_SetKeepAwakeFlagsGlobal(u8 flags);
-extern void UI_ClearKeepAwakeFlagsGlobal(u8 v);
-extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
-extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
-extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 size);
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
+#include "crc.h"
+#include "gf_panic.h"
+#include "ui.h"
+#include "gf_standard.h"
 void BACKUP_SYSTEM_Init(u32 heap_id, u32 read_error_func, u32 write_error_func);
 BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
 BackupSaveData *BACKUP_SYSTEM_Create(const SaveDataParam *param, u32 heap_id);
@@ -196,22 +192,10 @@ int BACKUP_SYSTEM_CheckFlashAsync(u16 lock_id, u32 *success);
 int BACKUP_SYSTEM_ReadFlash(u32 flash_addr, u32 dst, u32 size);
 int BACKUP_SYSTEM_ReadRecordFromFlash(BackupSaveData *sv, u32 id, u32 area_index, u32 dst, u32 size);
 /* flash_access.c */
-int FLASH_ACCESS_Identify(u32 unused_arg);
-u32 FLASH_ACCESS_Write(u32 flash_addr, u32 src, u32 size, u32 write_error_func);
-int FLASH_ACCESS_Read(u32 flash_addr, u32 dst, u32 size, void (*read_error_func)(void));
-u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_error);
-int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 write_error_func);
-void FLASH_ACCESS_CancelWrite(u16 lock_id);
-void *FLASH_ACCESS_GetBusyFlag(void);
+#include "flash_access.h"
 struct SaveBlockDef;
 /* savedata.c */
-SaveDataTable *SAVEDATA_CreateTable(unsigned short heap_id, struct SaveBlockDef *table, unsigned int table_max, unsigned int size_limit, unsigned int header_size, unsigned int block_overhead, unsigned int footer_size);
-void SAVEDATA_DeleteTable(SaveDataTable *table);
-void SAVEDATA_InitBuffer(u32 buffer_addr, struct SaveDataTable *svdt);
-u32 SAVEDATA_GetBlockOffset(SaveDataTable *table, u32 id);
-u32 SAVEDATA_GetBlockSize(SaveDataTable *table, u32 id);
-u32 SAVEDATA_GetTableMax(SaveDataTable *table);
-u32 SAVEDATA_GetTotalSize(SaveDataTable *table);
+#include "savedata.h"
 extern BackupSystem *svsys;
 extern const char str_020A7848[];
 extern const u8 str_020A7858[];
@@ -754,7 +738,7 @@ void * BACKUP_SYSTEM_IsFlashBusy(void)
  */
 u16 BACKUP_SYSTEM_CalcCrcTableCrc(BackupSaveData *sv, u8 *buf)
 {
-    return MATH_CalcCRC16CCITT(svsys->crc_table,
+    return MATH_CalcCRC16CCITT((MATHCRC16Table *)(svsys->crc_table),
                                buf + (sv->data_size - 0x10 - sv->crc_table_size),
                                sv->crc_table_size);
 }
@@ -1030,13 +1014,13 @@ int BACKUP_SYSTEM_LoadDoubleCopy(BackupSaveData *sv, u32 heap_id, u32 mode, u32 
                 && rec2->crc != crc_table[id])
                 break;
             if (rec1->crc == crc_table[id]) {
-                if (rec1->crc != MATH_CalcCRC16CCITT(svsys->crc_table, work1 + ofs, size))
+                if (rec1->crc != MATH_CalcCRC16CCITT((MATHCRC16Table *)(svsys->crc_table), work1 + ofs, size))
                     BACKUP_SYSTEM_SetBlockArea(sv, id, 1);
             } else {
                 BACKUP_SYSTEM_SetBlockArea(sv, id, 1);
             }
             if (rec2->crc == crc_table[id]) {
-                if (rec2->crc != MATH_CalcCRC16CCITT(svsys->crc_table, work2 + ofs, size)) {
+                if (rec2->crc != MATH_CalcCRC16CCITT((MATHCRC16Table *)(svsys->crc_table), work2 + ofs, size)) {
                     if (BACKUP_SYSTEM_GetBlockArea(sv, id) == 1)
                         break;
                     BACKUP_SYSTEM_SetBlockArea(sv, id, 2);
@@ -1154,7 +1138,7 @@ int BACKUP_SYSTEM_LoadSingleCopy(BackupSaveData *sv, int mode, int link_count)
         if (rec->crc != *(u16 *)(crc_table + id * 2))
             goto done;
         if (rec->crc == *(u16 *)(crc_table + id * 2)) {
-            if (rec->crc != MATH_CalcCRC16CCITT(svsys->crc_table, work + ofs, size)) {
+            if (rec->crc != MATH_CalcCRC16CCITT((MATHCRC16Table *)(svsys->crc_table), work + ofs, size)) {
                 BACKUP_SYSTEM_SetBlockArea(sv, id, 1);
                 goto done;
             }
@@ -1421,7 +1405,7 @@ u16 BACKUP_SYSTEM_WriteRecord(BackupSaveData *sv, u32 id, u32 area, u32 pass)
     ofs = SAVEDATA_GetBlockOffset(sv->table, id);
     size = SAVEDATA_GetBlockSize(sv->table, id);
     record = BACKUP_SYSTEM_GetRecordWork(sv, id);
-    FLASH_ACCESS_StartWrite(area_addr + ofs, (u32)record, size + 4, (void *)svsys->write_error_func);
+    return FLASH_ACCESS_StartWrite(area_addr + ofs, (u32)record, size + 4, (void *)svsys->write_error_func);
 }
 
 /*
@@ -1701,7 +1685,7 @@ u16 BACKUP_SYSTEM_UpdateRecordCrc(BackupSaveData *sv, u32 id)
     size = SAVEDATA_GetBlockSize(sv->table, id);
     work = sv->svwk;
     record_footer = (SaveRecordFooter *)(work + (ofs + size));
-    record_footer->crc = MATH_CalcCRC16CCITT(svsys->crc_table, work + ofs, size);
+    record_footer->crc = MATH_CalcCRC16CCITT((MATHCRC16Table *)(svsys->crc_table), work + ofs, size);
     return record_footer->crc;
 }
 

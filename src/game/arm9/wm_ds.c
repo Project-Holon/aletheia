@@ -55,19 +55,12 @@ typedef struct WMDataSharingInfo {
 
 #include "../sdk_os.h"
 
-extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
-extern u16 WM_GetAID(void);
-extern u16 WM_GetConnectedAIDs(void);
-extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
-extern u8 MATH_CountPopulation(u32 x);
-extern WMErrCode WM_SetPortCallback(u16 port, WMCallbackFunc callback, void *arg);
-extern WMErrCode WM_SetMPDataToPortEx(WMCallbackFunc callback, void *arg, u16 *sendData,
-                                      u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
-extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
-extern void *WMi_GetSystemWork(void);
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
+#include "wm_system.h"
+#include "mi_memory.h"
+#include "math.h"
+#include "wm_sync.h"
+#include "wm_mp.h"
+#include "os_system.h"
 WMErrCode WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 dataLength, BOOL doubleMode);
 WMErrCode WM_EndDataSharing(WMDataSharingInfo *dsInfo);
 WMErrCode WM_StepDataSharing(WMDataSharingInfo *dsInfo, const u16 *sendData, WMDataSet *receiveData);

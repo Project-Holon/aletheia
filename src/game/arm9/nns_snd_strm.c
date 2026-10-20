@@ -54,31 +54,17 @@ typedef struct SndStrmChannel {
     s32 volumeOffset;
 } SndStrmChannel;
 
-extern void NNS_FndInitList(s32 list, s32 offset);
+#include "nns_fnd_expheap.h"
 struct NNSSndStrm;
-extern void NNSi_SndStrmStart(struct NNSSndStrm *strm);
-extern int NNSi_SndWaveOutLockChannels(int mask);
-extern void SND_CHANNEL_UnlockChannels(u32 mask);
-extern s32  NNSi_SndWaveOutAllocSlot(void);
-extern void SND_SetupChannelPcm(s32 chNo, s32 format, void *dataaddr, s32 loop, s32 loopStart, s32 loopLen, s32 volume, s32 shift, s32 timer, s32 pan);
+#include "nns_snd_main.h"
+#include "nns_snd_waveout.h"
+#include "snd_interface.h"
 extern void SND_SetupAlarm(s32 chan, u32 a, u32 b, void (*cb)(void *), void *arg);
-extern void NNS_FndAppendListObject(NNSFndList *list, void *node);
-extern u32  OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32 tok);
-extern void SND_StartTimer(u32, u32, u32, u32);
-extern void PM_PrependPreSleepCallback(void *);
-extern void PM_AppendPostSleepCallback(void *);
-extern unsigned short SND_CalcChannelVolume(int dB);
-extern void SND_SetChannelVolume(u32 chBitMask, int volume, int shift);
-extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
-extern void PM_DeletePreSleepCallback(void *p);
-extern void PM_DeletePostSleepCallback(void *p);
-extern u32  SND_GetCurrentCommandTag(void);
-extern s32 SND_FlushCommand(u32 a);
-extern void SND_WaitForCommandProc(u32 a);
-extern void NNS_SndWaveOutFreeChannel(u32 timerNo);
+#include "os_system.h"
+#include "pm.h"
+#include "snd_util.h"
+#include "snd_command.h"
 struct DList;
-extern void NNS_FndRemoveListObject(struct DList *list, void *elem);
 void NNS_SndStrmInit(SndStrm *strm);
 int NNS_SndStrmAllocChannel(SndStrm *strm, int numChannels, const u8 *channelList);
 void NNS_SndStrmFreeChannel(SndStrm *strm);
@@ -280,8 +266,8 @@ void NNS_SndStrmStop(SndStrm *strm)
     if (strm->isStarted) {
         u32 saved;
         SND_StopTimer(strm->channelMask, 0, 1u << strm->timerNo, 0);
-        PM_DeletePreSleepCallback(&strm->alarm[0]);
-        PM_DeletePostSleepCallback(&strm->alarm[1]);
+        PM_DeletePreSleepCallback((PMGenCallbackInfo *)&strm->alarm[0]);
+        PM_DeletePostSleepCallback((PMGenCallbackInfo *)&strm->alarm[1]);
         strm->isStarted = 0;
         saved = SND_GetCurrentCommandTag();
         SND_FlushCommand(1);

@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_GF_STANDARD_H
 #define GAME_ARM9_GF_STANDARD_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gf_standard.c, prototypes copied from their definitions. */
 
 struct Lcg64;
@@ -8,6 +9,8 @@ struct RtcRequest;
 struct RtcDate;
 struct RtcTime;
 struct RtcDateSigned;
+
+#include "../types.h"
 
 void GF_STANDARD_Init(u32 heapId);
 s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
@@ -38,5 +41,6 @@ short GF_STANDARD_CosFromDegreesWrapped(s32 x);
 u16 GF_STANDARD_DegToAngle(int x);
 int GF_STANDARD_CalcAngle(int ax, int ay, int bx, int by, int cx, int cy, int radius);
 s32 GF_STANDARD_SignedDistanceToLine(s32 ax, s32 ay, s32 bx, s32 by, s32 cx, s32 cy);
+/* END mkheaders: generated region */
 
 #endif

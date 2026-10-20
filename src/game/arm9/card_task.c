@@ -27,50 +27,14 @@
 
 #include "../sdk_os.h"
 
-typedef struct CARDiCommandArg
-{
-    int result;
-} CARDiCommandArg;
-
-typedef struct CARDDmaInterface CARDDmaInterface;
-
-typedef struct CARDiCommon
-{
-    CARDiCommandArg *cmd;
-    u32 flag;
-    u32 priority;
-    u32 flush_threshold_ic;
-    u32 flush_threshold_dc;
-    s32 lock_owner;
-    int lock_ref;
-    OSThreadQueue lock_queue[1];
-    int lock_target;
-    u8 thread[1216];
-    void (*task_func)(struct CARDiCommon *);
-    void (*callback)(void *);
-    void *callback_arg;
-    OSThreadQueue busy_q[1];
-    u32 src;
-    u32 dst;
-    u32 len;
-    u32 dma;
-    CARDDmaInterface *DmaCall;
-    int req_type;
-    int req_retry;
-    int req_mode;
-    OSThread *current_thread_9;
-} CARDiCommon;
+#include "card_common.h"
 
 #include "../sdk_card.h"
 
-extern BOOL OS_SetThreadPriority(OSThread *thread, u32 prio);
-extern void OS_WakeupThreadDirect(OSThread *thread);
+#include "os_thread.h"
 extern void CARDi_EndTask(CARDiCommon *p);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_SleepThread(OSThreadQueue *queue);
-extern u32 OS_RestoreInterrupts(u32 state);
+#include "os_system.h"
 extern BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async);
-extern void OS_WakeupThread(OSThreadQueue *queue);
 void CARDi_OldTypeTaskThread(void);
 BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg);
 extern CARDiCommon cardi_common;
@@ -84,10 +48,10 @@ BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async)
 
     if (async)
     {
-        (void)OS_SetThreadPriority((OSThread *)p->thread, p->priority);
+        (void)OS_SetThreadPriority(p->thread.context, p->priority);
         p->task_func = task;
         p->flag |= 8;
-        OS_WakeupThreadDirect((OSThread *)p->thread);
+        OS_WakeupThreadDirect(p->thread.context);
     }
     else
     {

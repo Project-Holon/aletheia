@@ -55,33 +55,23 @@ struct BmpWin {
     struct Bmp *bmp;         /* +0x0c */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u8 BG_SYS_GetColorMode(int channel);
+#include "bg_sys.h"
 
-extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 
-extern u32 BG_SYS_ReserveTileRun(u32 layer, u32 offset, u32 units);
 
-extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
-extern u8 BG_SYS_GetTileBytes(int channel);
 
-extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
-extern u8 BG_SYS_GetType(int channel);
 
-extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
 
-extern void BG_SYS_SetTileEntry(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
 
-struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
+typedef short s16_p07;
+#include "bmp.h"
 
-void BMP_Delete(struct Bmp *bmp);
 
-void *BMP_GetPixels(const struct Bmp *bmp);
 
 void BMP_WIN_Init(u16 heapId);
 

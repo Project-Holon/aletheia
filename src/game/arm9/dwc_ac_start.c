@@ -98,20 +98,11 @@ typedef struct tagACWORK {
     u16 activeScanTime;
 } ACWORK;
 
-extern void *DWCi_AC_GetMemPtr(u32 name);
+#include "dwc_ac.h"
 
-typedef struct WCMConfig {
-    s32 dmano;
-    void *pbdbuffer;
-    s32 nbdbuffer;
-    s32 nbdmode;
-} WCMConfig;
-
-extern s32 WCM_GetPhase(void);
-extern int DWCi_AC_MakeSearchList(int type);
-extern s32 WCM_StartupAsync(WCMConfig *config, void (*notify)(void *));
-extern void DWCi_AC_SetError(int error);
-extern void DWCi_AC_CallBackWCM(void *notice);
+#include "../ov009/wcm_system.h"
+#include "dwc_ac_makelist.h"
+#include "dwc_ac_callback.h"
 
 u8 DWCi_AC_Start(void)
 {
@@ -126,7 +117,7 @@ u8 DWCi_AC_Start(void)
         config.nbdbuffer = 0;
         config.nbdmode = 0;
         DWCi_AC_MakeSearchList(0);
-        result = WCM_StartupAsync(&config, DWCi_AC_CallBackWCM);
+        result = WCM_StartupAsync(&config, (void (*)(void *))DWCi_AC_CallBackWCM);
         if (result == 1 || result >= 4) {
             DWCi_AC_SetError(1);
             return 0x11;

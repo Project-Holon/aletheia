@@ -39,6 +39,13 @@ header per module.  This tool rebuilds that:
     python tools/mkheaders.py --dry-run --region ov231    one region, per file
     python tools/mkheaders.py --apply --region ov231 [--report OUT.tsv] [--jobs N]
 
+--apply needs --files or --region (or --all for the whole tree).  The generated part of a
+header sits between BEGIN and END marker comments; a regeneration replaces only that
+region and keeps everything else byte for byte.  A header with the old one-line marker
+gets the markers: its prototypes are replaced, its other lines stay.  A header whose
+regeneration would remove a struct, union, enum or typedef definition is refused and
+reported.
+
 --apply writes the headers of every file in the selected regions and rewrites
 every .c file in them (callers in other regions are not touched, so the
 headers of a region stay valid for later conversions).  --files LIST restricts
@@ -317,6 +324,8 @@ def qualify_includes(path):
     raw = open(path, encoding="latin1", newline="").read()
     reg = region_of(path)
     folder = os.path.dirname(path)
+    if os.path.abspath(folder) == os.path.abspath(GAME):
+        return False        # root headers resolve bare names through -i src/game
 
     def fix(m):
         if os.path.isfile(os.path.join(folder, m.group(2))):
@@ -417,13 +426,119 @@ def marker(f):
     return "/* Public functions of %s.c, prototypes copied from their definitions. */" % stem_of(f)
 
 
+BEGIN = "/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */"
+END = "/* END mkheaders: generated region */"
+OLD_MARKER = re.compile(r"^/\* Public functions of \w+\.c, prototypes copied from their definitions\. \*/$", re.M)
+
+
+def statements(code):
+    """Top-level statements of cleaned text: (first line, last line, text), 0-based lines."""
+    out, depth, start, line = [], 0, None, 0
+    buf = []
+    for ch in code:
+        if ch == "\n":
+            line += 1
+        if start is None:
+            if ch.isspace():
+                continue
+            start = line
+        buf.append(ch)
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0 and not re.match(r"\s*(typedef|struct|union|enum)\b", "".join(buf)):
+                out.append((start, line, "".join(buf)))
+                buf, start = [], None
+        elif ch == ";" and depth == 0:
+            out.append((start, line, "".join(buf)))
+            buf, start = [], None
+    return out
+
+
+def type_defs(text):
+    """Set of ('typedef', name) and (kind, tag) for the type definitions in header text."""
+    found = set()
+    for _a, _b, st in statements(pc_clean_text(text)):
+        st = st.strip()
+        for m in re.finditer(r"\b(struct|union|enum)\s+(\w+)\s*\{", st):
+            found.add((m.group(1), m.group(2)))
+        if not st.startswith("typedef"):
+            continue
+        m = re.search(r"\(\s*\*+\s*(\w+)\s*\)", st)
+        if m:
+            found.add(("typedef", m.group(1)))
+        elif "}" in st:
+            tail = st[st.rindex("}") + 1:].rstrip(";")
+            found.update(("typedef", n) for n in re.findall(r"[A-Za-z_]\w*", tail))
+        else:
+            head = re.sub(r"\[[^\]]*\]", "", st.rstrip(";"))
+            ids = re.findall(r"[A-Za-z_]\w*", head)
+            if ids:
+                found.add(("typedef", ids[-1]))
+    return found
+
+
+def lost_types(old, new):
+    """Type definitions present in old and missing from new, sorted."""
+    return sorted(type_defs(old) - type_defs(new))
+
+
+def region_lines(f, info, inc, fwd):
+    lines = [BEGIN, marker(f), ""]
+    for s in fwd:
+        lines.append("%s;" % s)
+    lines += info["locs"]
+    if fwd or info["locs"]:
+        lines.append("")
+    for h in inc:
+        lines.append('#include "%s"' % header_inc(h))
+    if inc:
+        lines.append("")
+    lines += [d.proto for d in info["ok"]]
+    lines.append(END)
+    return lines
+
+
+def add_markers(existing, region):
+    """Header with the old one-line marker: the prototypes and the marker are replaced by the
+    region (put where the marker stood); includes and forward declarations stay unless the region
+    writes them again; every other line stays."""
+    lines = existing.split("\n")
+    drop = set()
+    for a, b, st in statements(pc_clean_text(existing)):
+        t = st.strip()
+        if "(" in t and "{" not in t and t.endswith(";") and not re.match(r"(typedef|struct|union|enum)\b", t):
+            drop.update(range(a, b + 1))
+    mk = OLD_MARKER.search(existing)
+    mk_line = existing.count("\n", 0, mk.start())
+    new = {l.strip() for l in region}
+    keep = []
+    for i, l in enumerate(lines):
+        if i == mk_line:
+            keep.extend(region)
+            continue
+        if i in drop:
+            continue
+        if l.strip() in new and (l.startswith("#include") or re.match(r"(struct|union|enum) \w+;$", l)):
+            continue
+        keep.append(l)
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(keep))
+
+
 def header_text(f, info, existing=None):
-    """Text of a new header, or the merged text of an existing one (one written by this tool is redone)."""
-    if existing is not None and marker(f) in existing:
-        existing = None
+    """Text of a new header, or the merged text of an existing one.
+    A header with the BEGIN and END markers has only that region replaced.  A header with the old
+    one-line marker gets the markers and keeps all its other lines.  Any other header is merged into."""
     own = os.path.basename(info["path"])
     inc = [h for h in info["headers"] if os.path.basename(h) != own]
     fwd = list(info["fwd"])
+    if existing is not None and BEGIN in existing and END in existing:
+        i = existing.index(BEGIN)
+        j = existing.index(END, i) + len(END)
+        return existing[:i] + "\n".join(region_lines(f, info, inc, fwd)) + existing[j:]
+    if existing is not None and OLD_MARKER.search(existing):
+        return add_markers(existing, region_lines(f, info, inc, fwd))
     if existing is not None:
         have = set(re.findall(r"\b(\w+)\s*\(", pc_clean_text(existing)))
         add = [d.proto for d in info["ok"] if d.name not in have]
@@ -436,17 +551,7 @@ def header_text(f, info, existing=None):
             return existing.rstrip("\n") + "\n" + pre + "\n".join(add) + "\n"
         return existing[:i] + pre + "\n".join(add) + "\n\n" + existing[i:]
     g = guard_of(f)
-    lines = ["#ifndef %s" % g, "#define %s" % g, "", marker(f), ""]
-    for s in fwd:
-        lines.append("%s;" % s)
-    lines += info["locs"]
-    if fwd or info["locs"]:
-        lines.append("")
-    for h in inc:
-        lines.append('#include "%s"' % header_inc(h))
-    if inc:
-        lines.append("")
-    lines += [d.proto for d in info["ok"]]
+    lines = ["#ifndef %s" % g, "#define %s" % g, ""] + region_lines(f, info, inc, fwd)
     lines += ["", "#endif"]
     return "\n".join(lines) + "\n"
 
@@ -887,9 +992,12 @@ def main():
     ap.add_argument("--skipped", help="TSV of functions left out of their header")
     ap.add_argument("--jobs", type=int, default=4)
     ap.add_argument("--no-inject", action="store_true", help="do not add missing base typedefs")
+    ap.add_argument("--all", action="store_true", help="with --apply: the whole tree, no --region or --files")
     a = ap.parse_args()
     if not (a.dry_run or a.apply):
         ap.error("give --dry-run or --apply")
+    if a.apply and not (a.files or a.region or a.all):
+        ap.error("--apply needs --files or --region (or --all for the whole tree)")
     files = sorted(ph.files_under([GAME]))
     idx = Index(files)
     regions = set(a.region) if a.region else None
@@ -949,6 +1057,7 @@ def main():
         return
 
     wrote = 0
+    refused = []
     need = {f for f, i in hdrs.items() if i["ok"] and regions and region_of(f) in regions}
     for plan in plans.values():
         need.update(r[3].file for r in plan.removals)
@@ -959,10 +1068,18 @@ def main():
         hp = i["path"]
         ex = open(hp, encoding="latin1", newline="").read() if os.path.exists(hp) else None
         text = header_text(f, i, ex)
+        if ex is not None and ex != text:
+            lost = lost_types(ex, text)
+            if lost:
+                print("REFUSED  %s: would remove %s" % (rel(hp), ", ".join("%s %s" % x for x in lost)))
+                refused.append(rel(hp))
+                continue
         if ex != text:
             write(hp, text)
             wrote += 1
     print("headers written: %d" % wrote)
+    if refused:
+        print("headers refused (would remove a type definition): %d" % len(refused))
     closure = set()
     for f in need:
         if hdrs[f]["ok"]:

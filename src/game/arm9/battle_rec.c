@@ -43,11 +43,9 @@
 
 #define BATTLE_REC_MAGIC 0xE281
 
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap);
 
@@ -61,27 +59,20 @@ extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *save, u32 i
 
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *save, u32 id, u32 arg);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *mem);
 
-extern u32 GF_STANDARD_Checksum(const u8 *data, u32 size);
+#include "gf_standard.h"
 
-extern u16 GF_STANDARD_CalcCrc16(const u8 *data, u32 size);
 
-extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 
-extern void GF_STANDARD_XorCryptEx(void *data, u32 size, u32 code);
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+#include "game_data.h"
 
-extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
 
-extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
 
-extern int GF_OVERLAY_Load(s32 handle);
+#include "gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(s32 handle);
 
 struct BattleRecSave *BATTLE_REC_Create(u32 heap);
 

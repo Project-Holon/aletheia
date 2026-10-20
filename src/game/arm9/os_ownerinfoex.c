@@ -47,17 +47,17 @@ typedef struct OSiNvramSystemWork {
     u8 *twlSettings;
 } OSiNvramSystemWork;
 
-extern BOOL OS_IsRunOnTwl(void);
-extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern BOOL OS_IsAvailableWireless_ltdmain(void);
-extern BOOL OS_IsForceDisableWireless_ltdmain(void);
+#include "os_emulator.h"
+#include "mi_memory.h"
+#include "../twl/os_ownerInfoEx.h"
+#include "os_ownerinfoex.h"
 char *OSi_GetOwnerInfoExBuffer(void);
 void OS_GetOwnerInfoEx(OSOwnerInfoEx *info);
 BOOL OS_IsAvailableWireless(void);
 BOOL OS_IsAgreeEULA(void);
 u8 OS_GetAgreedEULAVersion(void);
 u8 OS_GetROMHeaderEULAVersion(void);
-const void *OS_GetParentalControlInfoPtr(void);
+const OSParentalControlInfo *OS_GetParentalControlInfoPtr(void);
 BOOL OS_IsForceDisableWireless(void);
 extern char g_020A5CE8[];
 
@@ -144,10 +144,10 @@ u8 OS_GetROMHeaderEULAVersion(void)
 /*
  * sdk:      OS_GetParentalControlInfoPtr (os_ownerinfoex.o)
  */
-const void *OS_GetParentalControlInfoPtr(void)
+const OSParentalControlInfo *OS_GetParentalControlInfoPtr(void)
 {
     if (OS_IsRunOnTwl()) {
-        return OSi_TWL_SETTINGS + 0x94;
+        return (const OSParentalControlInfo *)(OSi_TWL_SETTINGS + 0x94);
     }
     return 0;
 }

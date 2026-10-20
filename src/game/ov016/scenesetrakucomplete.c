@@ -1,7 +1,7 @@
 /*
  * file:     scenesetrakucomplete.c
  * unit:     yes
- * function: DWCi_SceneSetRakuComplete, initGraphics, DWCi_SceneSetRakuCompleteProcInit, procInit1, DWCi_SceneSetRakuComplete_procScene, DWCi_SceneSetRakuComplete_draw, endScene, endScene1, wait
+ * function: DWCi_SceneSetRakuComplete, initGraphics, procInit, procInit1, DWCi_SceneSetRakuComplete_procScene, DWCi_SceneSetRakuComplete_draw, endScene, endScene1, wait
  * address:  0x021CB0A8
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -68,8 +68,8 @@ typedef _Bool bool;
 
 extern void DWCi_HLlLoadSet(void);
 extern void DWCi_CMNlMsgDraw(int msgId);
-extern void DWCi_SNDlPlay(int no);
-extern void DWCi_ChangeScene(void (*scene)());
+extern void DWCi_SNDlPlay(u32 v);
+extern void DWCi_ChangeScene(u32 v);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern bool DWCi_EFFlCheck(int lcd);
@@ -104,7 +104,7 @@ void DWCi_SceneSetRakuComplete(void)
     DWCi_HLlLoadSet();
     DWCi_CMNlMsgDraw(0x26);
     DWCi_SNDlPlay(0x10);
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((u32)procInit);
 }
 
 static void initGraphics(void)
@@ -121,13 +121,13 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((u32)procInit1);
 }
 
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
-        DWCi_ChangeScene(DWCi_SceneSetRakuComplete_procScene);
+        DWCi_ChangeScene((u32)DWCi_SceneSetRakuComplete_procScene);
 }
 
 /*
@@ -154,7 +154,7 @@ static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((u32)endScene1);
 }
 
 static void endScene1(void)
@@ -169,11 +169,11 @@ static void endScene1(void)
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 0);
     DWCi_SetParam2_(0, 1);
-    DWCi_ChangeScene(DWCi_SceneSetTestConfirm);
+    DWCi_ChangeScene((u32)DWCi_SceneSetTestConfirm);
 }
 
 static void wait(void)
 {
     if (++Count >= 120)
-        DWCi_ChangeScene(endScene);
+        DWCi_ChangeScene((u32)endScene);
 }

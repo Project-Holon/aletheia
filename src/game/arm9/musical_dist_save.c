@@ -68,51 +68,41 @@ struct BlockImage {
 struct GameData;
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "game_data.h"
 
-extern void *GFL_HEAP_Alloc(u32 heap_id, u32 size, int clear, const char *file_name, u16 line);
+#include "gfl_heap_wrap.h"
 
 extern u32   SAVE_CONTROL_LoadExtraSaveWithBuffer(void *save_ctrl, u32 block_id, u32 heap_id, void *buf, u32 size);
 
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 slot, u32 recordId);
 
-extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
 
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
 
-extern u32 GFL_HEAP_Free(void *mem);
 
-extern void GAME_DATA_PartSaveStart(struct GameData *gd, u32 blockId);
 
-extern int GAME_DATA_PartSaveMain(struct GameData *gd, s32 blockId);
 struct MusicalSave;
 
-extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
+#include "musical_save.h"
 
-extern void MUSICAL_SAVE_SetHasDistData(struct MusicalSave *musical, u8 value);
 
-extern u8 *MUSICAL_SAVE_GetStageData(struct MusicalSave *musical);
 
-extern void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u16 heapID);
+#include "arc_tool.h"
 
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int file_id, int decompress, u32 heap_id, u32 *out_size);
+#include "arc_util.h"
 
-extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heap_id);
+#include "msgdata.h"
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void  STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
+#include "strbuf.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void  ARC_TOOL_DeleteHandle(void *narc);
 
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
+#include "gf_standard.h"
 
 struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *game_sys, u32 heap_id);
 

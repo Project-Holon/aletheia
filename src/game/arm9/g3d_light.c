@@ -49,12 +49,15 @@ struct LightSlot {
     u16           color;
 };
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
+#include "nns_g3d_anm_calc_types.h"
+#include "nns_g3d_anm_types.h"
+#include "../sdk_fx.h"
+#include "../sdk_nnsfnd.h"
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct G3dLight;
 
-void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
+#include "g3d_system.h"
 
 struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *s, u16 heap);
 

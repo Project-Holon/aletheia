@@ -20,10 +20,9 @@
 
 struct WMDataSharingInfo;
 
-extern WMErrCode WM_StartDataSharing(struct WMDataSharingInfo *dsInfo, unsigned short port, unsigned short aidBitmap, unsigned short dataLength, int doubleMode);
+#include "wm_ds.h"
 struct WMDataSharingInfo;
 
-extern WMErrCode WM_EndDataSharing(struct WMDataSharingInfo *dsInfo);
 WMErrCode WM_EndKeySharing(void *dsInfo);
 WMErrCode WM_StartKeySharing(void *dsInfo, u16 port)
 {

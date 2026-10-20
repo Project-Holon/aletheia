@@ -58,7 +58,7 @@
  *   NNSi_G2dMakeCharObjArea              0x020691E0  arm
  *   NNSi_G2dCharCanvasDrawChar  0x02068EA0  arm  arm9
  */
-struct Ctx;
+struct NNSG2dCanvas;
 struct Fnt2;
 #include "../types.h"
 
@@ -89,7 +89,7 @@ typedef struct {
     void (*pfnClear)(void *cnv, int color);
 } CharFmt;
 
-typedef struct {
+typedef struct Canvas {
     unsigned char chr0[0x14];
     CharFmt *pFmt;
     TextCanvas text;
@@ -115,12 +115,12 @@ typedef struct {
 
 typedef int bool_0;
 
-typedef struct {
-    signed char a;
-    signed char b;
-} Pair;
+typedef struct Step {
+    signed char dx;
+    signed char dy;
+} Step;
 
-typedef struct {
+typedef struct NNSG2dCharWidths {
     signed char left;
     signed char glyphWidth;
     signed char charWidth;
@@ -146,24 +146,29 @@ extern void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e);
 extern u32 G2S_GetBG0ScrPtr(void);
 extern void *G2_GetBG0ScrPtr(void);
 extern void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
-extern void *DWCi_TSKlForm(int kind, void (*f)(void *), void *w, unsigned char prio);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*f)(void *), void *w, unsigned char prio);
 extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
 extern void GX_LoadBG0Char(void *pSrc, unsigned long offset, unsigned long szByte);
 extern void GXS_LoadBG0Char(void *pSrc, unsigned long offset, unsigned long szByte);
-extern void DWCi_TSKlDeleteByIndex(int a, void *task);
+extern void DWCi_TSKlDeleteByIndex(u32 taskIdx, struct TCB *task);
 extern void *G2_GetBG0CharPtr(void);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern void NNSi_G2dCalcTextBox(TextCanvas *tc, int x, int y, int color, u32 flag, u16 *txt, Pair p);
-extern s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, struct Fnt2 **font, int x, int y, int cl, u16 code);
-extern int NNS_G2dFontGetGlyphIndex(void *font, u16 c);
-extern CharWidths *NNS_G2dFontGetCharWidthsFromIndex(void *font, int idx);
+struct NNSG2dTextCtx;
+extern void NNSi_G2dCalcTextBox(struct NNSG2dTextCtx *tc, int x, int y, int color, u32 flag, u32 txt, Step p);
+struct NNSG2dCanvas;
+extern s8 NNSi_G2dCharCanvasDrawChar(struct NNSG2dCanvas *ctx, struct NNSG2dFont *font, s32 x, s32 y, s32 cl, u16 code);
+extern u16 NNS_G2dFontGetGlyphIndex(struct NNSG2dFont *pFont, u16 charCode);
+extern struct NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(struct NNSG2dFont *font, u32 idx);
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font);
-extern void NNSi_G2dAlignTextVertical(TextCanvas *tc, int x, int y, int w, int h, int color, u32 flag, u16 *txt, Pair p);
-extern void *DWCi_CELLlGetObj(void *cell, int idx);
+extern void NNSi_G2dAlignTextVertical(struct NNSG2dTextCtx *tc, int x, int y, int w, u32 h, u32 color, u32 flag, u32 txt, Step p);
+struct CellInfo;
+union GXOamAttr;
+extern union GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
 extern void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
 extern void DWCi_CELLlSetPalette(unsigned char *obj, int idx, unsigned int v, unsigned int w);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
-extern void NNSi_G2dMakeCharObjArea(void *oam, int w, int h, int x, int y, int a, int name, int b);
+extern s32 NNSi_G2dMakeCharObjArea(union GXOamAttr *oam, s32 areaWidth, s32 areaHeight, s32 x, s32 y, s32 color, s32 charName, s32 vramShift);
 void DWCi_FNTlInit(void);
 void DWCi_FNTlEnd(void);
 void *DWCi_FNTlFormEx(int lcd, int width, int height, bool_0 head, int *obj, int font);
@@ -356,31 +361,31 @@ void DWCi_FNTlDeleteBgLcd(int a)
 void DWCi_FNTlDraw(void *canvas, int x, int y, int color, u32 flag, u16 *txt)
 {
     Canvas *cnv = canvas;
-    Pair p = {0, 0};
+    Step p = {0, 0};
     switch (cnv->text.pFont->res->glyph->type) {
     case 0:
     case 7:
-        p.a = 1;
+        p.dx = 1;
         break;
     case 1:
     case 2:
-        p.b = 1;
+        p.dy = 1;
         break;
     case 3:
     case 4:
-        p.a = -1;
+        p.dx = -1;
         break;
     case 5:
     case 6:
-        p.b = -1;
+        p.dy = -1;
         break;
     }
-    NNSi_G2dCalcTextBox(&cnv->text, x, y, color, flag, txt, p);
+    NNSi_G2dCalcTextBox((struct NNSG2dTextCtx *)&cnv->text, x, y, color, flag, (u32)txt, p);
 }
 
 int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short chr, int font)
 {
-    return NNSi_G2dCharCanvasDrawChar((struct Ctx *)canvas, (struct Fnt2 **)&gFontWork->font[font], x, y, color, chr);
+    return NNSi_G2dCharCanvasDrawChar((struct NNSG2dCanvas *)canvas, (struct NNSG2dFont *)&gFontWork->font[font], x, y, color, chr);
 }
 
 /*
@@ -394,10 +399,10 @@ void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval, 
         return;
     do {
         f = &gFontWork->font[font];
-        idx = NNS_G2dFontGetGlyphIndex(f, *txt);
+        idx = NNS_G2dFontGetGlyphIndex((struct NNSG2dFont *)f, *txt);
         if (idx == 0xffff)
             idx = ((u16 *)f->res)[1];
-        DWCi_FNTlDrawCharEx(canvas, x + ((interval - NNS_G2dFontGetCharWidthsFromIndex(f, idx)->charWidth) >> 1), y, color, *txt, font);
+        DWCi_FNTlDrawCharEx(canvas, x + ((interval - NNS_G2dFontGetCharWidthsFromIndex((struct NNSG2dFont *)f, idx)->charWidth) >> 1), y, color, *txt, font);
         txt++;
         x += interval;
     } while (*txt != 0);
@@ -409,26 +414,26 @@ void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval, 
 void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt)
 {
     Canvas *cnv = canvas;
-    Pair p = {0, 0};
+    Step p = {0, 0};
     switch (cnv->text.pFont->res->glyph->type) {
     case 0:
     case 7:
-        p.a = 1;
+        p.dx = 1;
         break;
     case 1:
     case 2:
-        p.b = 1;
+        p.dy = 1;
         break;
     case 3:
     case 4:
-        p.a = -1;
+        p.dx = -1;
         break;
     case 5:
     case 6:
-        p.b = -1;
+        p.dy = -1;
         break;
     }
-    NNSi_G2dAlignTextVertical(&cnv->text, x, y, w, h, color, flag, txt, p);
+    NNSi_G2dAlignTextVertical((struct NNSG2dTextCtx *)&cnv->text, x, y, w, h, color, flag, (u32)txt, p);
 }
 
 void DWCi_FNTlClear(Canvas *cnv, int color)

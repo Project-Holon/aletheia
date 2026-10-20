@@ -28,14 +28,14 @@
 
 typedef void (*MIDmaCallback)(void *arg);
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-void MIi_DmaSetParameters(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode);
+#include "os_system.h"
+#include "../arm9_autoload0_ITCM/mi_dma.h"
 void MIi_CheckDma0SourceAddress(u32 dmaNo, u32 src, u32 size, u32 dir);
 void MI_WaitDma(u32 dmaNo);
-void OSi_EnterDmaCallback(u32 dmaNo, MIDmaCallback callback, void *arg);
+typedef unsigned int OSIrqMask;
+#include "os_interrupt.h"
 void MI_StopDma(u32 dmaNo);
-void OS_Terminate(void);
+#include "os_terminate_processor.h"
 void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
 void MIi_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable);
 void MIi_DmaCopy16(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable);

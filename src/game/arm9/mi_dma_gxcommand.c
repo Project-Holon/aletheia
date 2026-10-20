@@ -53,19 +53,14 @@ typedef struct MIiGXDmaParams {
     void (*fifoFunc)(void);
 } MIiGXDmaParams;
 
-void MIi_CheckDma0SourceAddress(u32 dmaNo, u32 src, u32 size, u32 dir);
-void MI_WaitDma(u32 dmaNo);
-OSIntrMode OS_DisableInterrupts(void);
-OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
+#include "mi_dma.h"
+#include "os_system.h"
 void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
-u32 OS_EnableIrqMask(u32 intr);
+typedef unsigned int OSIrqMask;
+#include "os_interrupt.h"
 void MIi_FIFOCallback(void);
-void OSi_EnterDmaCallback(u32 dmaNo, MIDmaCallback callback, void *arg);
-void MIi_DmaSetParameters(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode);
-u32 OS_ResetRequestIrqMask(u32 intr);
+#include "../arm9_autoload0_ITCM/mi_dma.h"
 void MIi_DMACallback(void *arg);
-u32 OS_DisableIrqMask(u32 intr);
-void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType);
 void MIi_DMAFastCallback(void *arg);
 void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg);
 void MIi_FIFOCallback(void);

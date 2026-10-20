@@ -91,7 +91,7 @@ long WCM_CountApList(void)
         OS_RestoreInterrupts(e);
         return count;
     }
-    if (((WCMApListHeader *)w->config.pbdbuffer) != 0 && w->config.nbdbuffer > 12)
+    if (((WCMApListHeader *)w->config.pbdbuffer) != 0 && (unsigned long)w->config.nbdbuffer > 12)
         count = ((WCMApListHeader *)w->config.pbdbuffer)->count;
     OS_RestoreInterrupts(e);
     return count;
@@ -242,7 +242,7 @@ static WCMApList *WcmGetOldestApList(void)
 
     w = WCMi_GetSystemWork();
     pHeader = ((WCMApListHeader *)w->config.pbdbuffer);
-    if (pHeader != 0 && w->config.nbdbuffer > 12)
+    if (pHeader != 0 && (unsigned long)w->config.nbdbuffer > 12)
         return pHeader->head;
     return 0;
 }
@@ -258,7 +258,7 @@ static WCMApList *WcmSearchApList(unsigned char *bssid)
     pHeader = ((WCMApListHeader *)w->config.pbdbuffer);
     if (bssid == 0)
         return p;
-    if (pHeader != 0 && w->config.nbdbuffer > 12) {
+    if (pHeader != 0 && (unsigned long)w->config.nbdbuffer > 12) {
         p = pHeader->head;
         while (p != 0) {
             if (WCM_CompareBssID(p->bssDesc.bssid, bssid))
@@ -278,7 +278,7 @@ static WCMApList *WcmSearchIndexedApList(unsigned long index)
     w = WCMi_GetSystemWork();
     p = 0;
     pHeader = ((WCMApListHeader *)w->config.pbdbuffer);
-    if (pHeader != 0 && w->config.nbdbuffer > 12) {
+    if (pHeader != 0 && (unsigned long)w->config.nbdbuffer > 12) {
         p = pHeader->head;
         while (p != 0) {
             if (p->index == index)

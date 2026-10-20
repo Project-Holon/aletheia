@@ -52,18 +52,17 @@ struct IrcRankSave {
     u32 reserved : 24;
 };
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-struct RtcDateSigned;
+#include "gf_standard_types.h"
 
-extern s32  GF_STANDARD_GetDayOfYear(struct RtcDateSigned *d);
+#include "gf_standard.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 
-extern u32  GFL_USE_GetRandom(u32 range);
+#include "gfl_use.h"
 
-extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
+#include "wordset.h"
 
 struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
 

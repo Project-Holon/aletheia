@@ -56,15 +56,13 @@
 
 extern u32 GXi_DmaId;
 
-extern void MI_NDmaCopy(int ch, int src, int dst, int size);
+#include "../twl/mi_ndma.h"
 
-extern void MIi_DmaCopy16(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable);
+#include "mi_dma.h"
 
-extern void MIi_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable);
 
-extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
+#include "mi_memory.h"
 
-extern void MIi_CpuCopy32(const void *srcp, void *destp, u32 size);
 
 static inline void MI_DmaCopy16(u32 dmaNo, const void *src, void *dest, u32 size)
 {
@@ -143,7 +141,7 @@ void GX_LoadOBJ(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)(ptr + offset), szByte);
 }
 
-extern void *G2_GetBG0ScrPtr(void);
+#include "gx_bgcnt.h"
 
 void GXS_LoadOBJ(const void *pSrc, u32 offset, u32 szByte);
 
@@ -163,7 +161,6 @@ void GX_LoadBG0Scr(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern u32 G2S_GetBG0ScrPtr(void);
 
 void GXS_LoadBG0Scr(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -172,7 +169,6 @@ void GXS_LoadBG0Scr(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2_GetBG1ScrPtr(void);
 
 void GX_LoadBG1Scr(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -181,7 +177,6 @@ void GX_LoadBG1Scr(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern u32 G2S_GetBG1ScrPtr(void);
 
 void GXS_LoadBG1Scr(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -190,7 +185,6 @@ void GXS_LoadBG1Scr(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2_GetBG2ScrPtr(void);
 
 void GX_LoadBG2Scr(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -199,7 +193,6 @@ void GX_LoadBG2Scr(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2S_GetBG2ScrPtr(void);
 
 void GXS_LoadBG2Scr(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -208,7 +201,6 @@ void GXS_LoadBG2Scr(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2_GetBG3ScrPtr(void);
 
 void GX_LoadBG3Scr(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -217,7 +209,6 @@ void GX_LoadBG3Scr(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2S_GetBG3ScrPtr(void);
 
 void GXS_LoadBG3Scr(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -226,7 +217,6 @@ void GXS_LoadBG3Scr(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2_GetBG0CharPtr(void);
 
 void GX_LoadBG0Char(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -235,7 +225,6 @@ void GX_LoadBG0Char(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern u32 G2S_GetBG0CharPtr(void);
 
 void GXS_LoadBG0Char(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -244,7 +233,6 @@ void GXS_LoadBG0Char(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2_GetBG1CharPtr(void);
 
 void GX_LoadBG1Char(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -253,7 +241,6 @@ void GX_LoadBG1Char(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern u32 G2S_GetBG1CharPtr(void);
 
 void GXS_LoadBG1Char(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -262,7 +249,6 @@ void GXS_LoadBG1Char(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2_GetBG2CharPtr(void);
 
 void GX_LoadBG2Char(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -271,7 +257,6 @@ void GX_LoadBG2Char(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2S_GetBG2CharPtr(void);
 
 void GXS_LoadBG2Char(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -280,7 +265,6 @@ void GXS_LoadBG2Char(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2_GetBG3CharPtr(void);
 
 void GX_LoadBG3Char(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -289,7 +273,6 @@ void GX_LoadBG3Char(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2S_GetBG3CharPtr(void);
 
 void GXS_LoadBG3Char(const void *pSrc, u32 offset, u32 szByte)
 {
@@ -312,17 +295,17 @@ typedef struct {
     int subOBJExtPltt;
 } GXLoad2DState;
 
-extern void MI_NDmaCopyAsync(int ch, unsigned int src, unsigned int dst, unsigned int size, MIDmaCallback callback, unsigned int arg);
 
 extern void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable);
 
-extern void MI_WaitNDma(int ch);
 
-extern void MI_WaitDma(u32 dmaNo);
 
-extern int GX_ResetBankForBGExtPltt(void);
+typedef int GXVRam;
+typedef int GXVRamBG;
+typedef int GXVRamOBJ;
+typedef int GXVRamTex;
+#include "gx_vramcnt.h"
 
-extern void GX_SetBankForBGExtPltt(int bank);
 
 void GX_BeginLoadBGExtPltt(void);
 
@@ -400,11 +383,8 @@ void GX_EndLoadBGExtPltt(void)
     sSubBGExtPltt.bgExtPlttLCDCOffset = 0;
 }
 
-extern int GX_ResetBankForOBJExtPltt(void);
 
-extern void GX_SetBankForOBJExtPltt(int bank);
 
-extern void *GX_ResetBankForSubBGExtPltt(void);
 
 void GX_BeginLoadOBJExtPltt(void);
 
@@ -450,7 +430,6 @@ void *GXS_BeginLoadBGExtPltt(void)
     return (void *)(sSubBGExtPltt.subBGExtPltt = (int)GX_ResetBankForSubBGExtPltt());
 }
 
-extern void GX_SetBankForSubBGExtPltt(int bank);
 
 void GXS_LoadBGExtPltt(const void *pSrc, u32 destSlotAddr, u32 szByte);
 
@@ -468,9 +447,7 @@ void GXS_EndLoadBGExtPltt(void)
     sSubBGExtPltt.subBGExtPltt = 0;
 }
 
-extern void *GX_ResetBankForSubOBJExtPltt(void);
 
-extern void GX_SetBankForSubOBJExtPltt(int bank);
 
 void *GXS_BeginLoadOBJExtPltt(void);
 
@@ -480,7 +457,7 @@ void GXS_EndLoadOBJExtPltt(void);
 
 void *GXS_BeginLoadOBJExtPltt(void)
 {
-    void *p = GX_ResetBankForSubOBJExtPltt();
+    void *p = (void *)GX_ResetBankForSubOBJExtPltt();
     sSubBGExtPltt.subOBJExtPltt = (int)p;
     return p;
 }

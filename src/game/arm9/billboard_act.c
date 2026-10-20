@@ -63,7 +63,7 @@ struct BbActEntry;
  */
 typedef u32 (*BbActUploadFn)(u32 kind, u32 dst, u32 src, u32 size);
 
-typedef void (*BbActEntryHook)(struct BbActSys *sys, int entryIndex, u32 arg);
+#include "billboard_act_types.h"
 
 /* 28-byte board setup block: the two counts, then fixed data from rodata. */
 struct BbActBoardInit {
@@ -80,15 +80,6 @@ struct BbActSlot {
 };
 
 /* Request record for BILLBOARD_ACT_CreateSlots (create slots). */
-struct BbActRec {
-    u32 resource;
-    u8  format;
-    u8  sizeS;
-    u8  sizeT;
-    u8  paletteId;
-    u32 kind;                /* 0: board image, 1: board image plus commit, 2: external payload */
-};
-
 /* Animation command: a frame index, two flip flags and one argument. */
 struct BbActCmd {
     u16 frame : 14;          /* values 0x3FFC..0x3FFF are control commands */
@@ -124,19 +115,6 @@ struct BbActEntry {
 };
 
 /* Creation record for one entry (0x24 bytes). */
-struct BbActDesc {
-    u16 slot;                /* 0x00: slot index, relative to the base slot */
-    s16 width;               /* 0x02 */
-    s16 height;              /* 0x04 */
-    u8  layer;               /* 0x06 */
-    u8  pad07;
-    u32 flags;               /* 0x08 */
-    u32 color;               /* 0x0C */
-    Vec3 pos;                /* 0x10 */
-    BbActEntryHook hook;     /* 0x1C */
-    u32 hookArg;             /* 0x20 */
-};
-
 /* The billboard_act system object (0x24 bytes). */
 struct BbActSys {
     u16 heapId;                    /* 0x00 */
@@ -155,7 +133,10 @@ struct BbActSys {
 
 typedef int (*BbActControlFn)(struct BbActEntry *entry, struct BbActCmd *cmd);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "nns_g3d_anm_calc_types.h"
+#include "nns_g3d_anm_types.h"
+#include "../sdk_nnsfnd.h"
+#include "gfl_heap_wrap.h"
 
 extern void *BILLBOARD_Create(u8 *src, void *heap);
 
@@ -167,7 +148,6 @@ extern void BILLBOARD_Delete(void *p);
 
 extern u32 AREAMAN_Delete(void *areaman);
 
-extern u32 GFL_HEAP_Free(void *p);
 
 extern s32 AREAMAN_Alloc(struct AreaMan *pool, u32 count);
 
@@ -178,11 +158,11 @@ extern void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 boardId);
 extern void BILLBOARD_DeleteImage(struct BbBoard *board, int boardId);
 struct G3dResource;
 
-extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
+#include "g3d_system.h"
 
 extern int AREAMAN_Free(struct AreaMan *pool, u32 start, s32 count);
 
-extern s32  BILLBOARD_AddElem(struct BbBoard *board, u32 boardId, s16 width, s16 height, const Vec3 *pos, u8 layer, u32 color, u32 mode);
+extern s32  BILLBOARD_AddElem(struct BbBoard *board, u32 boardId, s16 width, s16 height, const VecFx32 *pos, u8 layer, u32 color, u32 mode);
 
 extern int BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemId, const u32 *flags);
 
@@ -192,13 +172,11 @@ extern void BILLBOARD_SetElemFlipS(struct BbBoard *board, u32 elemId, u32 *flipX
 
 extern void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemId, u32 *flipY);
 
-extern void *G3D_SYSTEM_GetTexDataAddr(struct G3dResource *res);
 
 extern void BILLBOARD_GetImageVramAddr(struct BbBoard *board, s32 index, s32 *outTexVramOffset);
 
 extern void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, s32 frame, s32 *outOffset, s32 *outFrameSize, u8 useFrameIndex);
 
-extern int G3D_SYSTEM_GetPlttDataAddr(u32 payload);
 
 extern u32 BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, u16 boardId, u32 *palDst);
 struct LightSlot;
@@ -725,7 +703,7 @@ void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot,
  */
 u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot)
 {
-    u32 paletteSrc = G3D_SYSTEM_GetPlttDataAddr(slot->payload);
+    u32 paletteSrc = (u32)G3D_SYSTEM_GetPlttDataAddr((G3dResource *)(slot->payload));
     u32 paletteDst;
     u32 result = BILLBOARD_GetImagePlttVramOffset(sys->board, slot->boardId, &paletteDst);
     BbActUploadFn uploadFn = sys->uploadFn;

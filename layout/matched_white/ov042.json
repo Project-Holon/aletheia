@@ -1,0 +1,14 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_BUTTON_STATES_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 332, "diff": "constant", "source": "src/game/ov042/field_gimmick_button_states.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BUTTON_STATES_Exit", "black_address": "0x021F380C", "white_address": "0x021F382C", "size": 28, "diff": "constant", "source": "src/game/ov042/field_gimmick_button_states.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BUTTON_STATES_Update", "black_address": "0x021F3828", "white_address": "0x021F3848", "size": 12, "diff": "constant", "source": "src/game/ov042/field_gimmick_button_states.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent", "black_address": "0x021F3834", "white_address": "0x021F3854", "size": 84, "diff": "constant", "source": "src/game/ov042/field_gimmick_button_states.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent", "black_address": "0x021F3888", "white_address": "0x021F38A8", "size": 76, "diff": "constant", "source": "src/game/ov042/field_gimmick_button_states.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BUTTON_STATES_EventSetState", "black_address": "0x021F38D4", "white_address": "0x021F38F4", "size": 172, "diff": "constant", "source": "src/game/ov042/field_gimmick_button_states.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BUTTON_STATES_EventPlayOneShot", "black_address": "0x021F3980", "white_address": "0x021F39A0", "size": 4, "diff": "constant", "source": "src/game/ov042/field_gimmick_button_states.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

@@ -36,7 +36,7 @@ typedef void (*OSIrqFunction)(void);
 
 #include "../sdk_os.h"
 
-extern void OSi_EnterNDmaCallback_ltdmain(u32 dmaNo, void (*callback)(void *), void *arg);
+#include "../twl/os_interrupt.h"
 void OS_InitIrqTable(void);
 void OS_SetIrqFunction(OSIrqMask intrBit, OSIrqFunction function);
 OSIrqFunction OS_GetIrqFunction(OSIrqMask intrBit);
@@ -124,7 +124,7 @@ void OSi_EnterDmaCallback(u32 dmaNo, void (*callback)(void *), void *arg)
 
 void OSi_EnterNDmaCallback(u32 dmaNo, void (*callback)(void *), void *arg)
 {
-    OSi_EnterNDmaCallback_ltdmain(dmaNo, callback, arg);
+    OSi_EnterNDmaCallback_ltdmain(dmaNo, (u32)callback, (u32)arg);
 }
 
 void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void *), void *arg)

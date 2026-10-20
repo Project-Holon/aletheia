@@ -33,23 +33,17 @@
 
 #define OBJ_MAPPING_MASK 0x300010
 
-extern u32   POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 id, u32 arg);
+#include "poke_tool.h"
 
-extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
 
-extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
 
-extern u32   POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
 
-extern u32   POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, u32 wasDecoded);
 
-extern u32   ARC_TOOL_GetMemberSize(u32 arcId, u32 dataId);
+#include "arc_tool.h"
 
-u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 field);
 
-u32 POKEPARTY_GetCount(const struct Party *party);
+#include "pokeparty.h"
 
-struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
 u8 POKE_TOOL_IsPPRestorable(struct PokemonParam *pp, u32 slot);
 
@@ -77,7 +71,7 @@ int POKE_TOOL_GetIconCellEntryId(void);
 
 int POKE_TOOL_GetIconCellEntryIdSub(void);
 
-u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
+#include "waza_tool.h"
 
 extern const u8 _IconPaletteTable[];
 

@@ -41,13 +41,20 @@ the captured objects did not change.  Steps 2 to 5 are the same.
 
 --version white builds white.nds.  The layout is build/white/layout/layout.json and the extract
 extract_white/ (both made from the user's White dump by ndsrom.py extract and delink.py).  The regions
-are the plain-mode links of `gamelink.py N --version white` (tools/whitelink.py runs them all) in
-build/gamelink/<region>_white/: their gaps (data, padding, the secure-area filler) are read from
-that extract.  Data mode and ONELINK do not exist for White yet.  Overlay 230 is sealed again by
-ovcrypt.encrypt (the White view).  Header, ARM7, banner, file system, the DSi block (the White
-dump's DSi area is one repeated filler page, there is nothing to re-encrypt) and the game data
-files are taken from the extract.  Output defaults to build/rom/white.nds and
-build/rom/report_white.json.
+are data-mode links like Black's: `datagen.py companions N --version white` writes the data tails as C
+with Black's structure and White's values (build/datac_white/), `gamelink.py N --data --version white`
+links them (build/gamelink_data/<region>_white/), arm9data.py, the ITCM pads and overlay 230 follow the
+same way; the DSi block (twl) is linked from src/game/twl (build/gamelink/twl_white/).  --onelink does
+not exist for White.  Overlay 230 is sealed again by ovcrypt.encrypt (the White view).  Header, ARM7,
+banner, file system and the game data files are taken from the extract.  Output defaults to
+build/rom/white.nds and build/rom/report_white.json.
+
+The DSi block (both games): arm9i.bin is rebuilt from the twl link.  The decrypted block of the extract
+gets its code range replaced by the link (the data blob between the files stays image bytes and is
+listed), is compressed again with tools/blz.py (BLZ, as the SDK does), and its first 0x4000 bytes are
+enciphered again with AES-CTR (tools/modcrypt.py).  The key constant comes from ALETHEIA_DSI_KEY; with no
+key the file of the extract is used and the run says so.  The digest tables are not computed again (the
+code is the original, so they stay valid).
 
 Nothing is written to src/ or to a tracked file; everything goes to build/.
 """
@@ -108,18 +115,24 @@ def code_overlay_ids(lay):
     return code, stub
 
 
-def link_itcm():
+def vflag(white):
+    return ["--version", "white"] if white else []
+
+
+def link_itcm(white=False):
     """ITCM: the block starts with 0x20 bytes before its first function and ends at a
     multiple of 32 after the last one.  That is linker alignment padding: a first link
     leaves the two ranges as gaps, they are written as two zero arrays (C, build/datac/itcm)
     and the block is linked again with no gap.  (The link compares the result with the
     original, so a pad that was not zero would fail.)"""
-    os.makedirs(ITCM_C, exist_ok=True)
-    for f in os.listdir(ITCM_C):
+    itcm_c = os.path.join(BUILD, "datac_white" if white else "datac", "itcm")
+    os.makedirs(itcm_c, exist_ok=True)
+    for f in os.listdir(itcm_c):
         if f.startswith("itcm_pad_"):
-            os.remove(os.path.join(ITCM_C, f))
-    sh([PY, "tools/gamelink.py", "itcm", "--extra=build/datac/itcm"])
-    j = json.load(open(os.path.join(GL, "itcm", "ov.json")))
+            os.remove(os.path.join(itcm_c, f))
+    extra = "--extra=" + os.path.relpath(itcm_c, ROOT).replace(os.sep, "/")
+    sh([PY, "tools/gamelink.py", "itcm", extra] + vflag(white))
+    j = json.load(open(os.path.join(GL, "itcm_white" if white else "itcm", "ov.json")))
     for k, (a, b) in enumerate(j["gaps"]):
         name = "%d" % k
         text = ("/*\n * file:     itcm_pad_NAME.c\n * address:  0xADDR\n"
@@ -129,16 +142,16 @@ def link_itcm():
                 "/* linker alignment padding of the ITCM block, written by tools/romlink.py */\n"
                 "const unsigned int itcm_pad_NAME[COUNT] = { 0 };\n")
         text = text.replace("NAME", name).replace("ADDR", "%08X" % a).replace("COUNT", str((b - a) // 4))
-        with open(os.path.join(ITCM_C, "itcm_pad_%s.c" % name), "w", newline="\n") as fh:
+        with open(os.path.join(itcm_c, "itcm_pad_%s.c" % name), "w", newline="\n") as fh:
             fh.write(text)
-    r = sh([PY, "tools/gamelink.py", "itcm", "--extra=build/datac/itcm"])
+    r = sh([PY, "tools/gamelink.py", "itcm", extra] + vflag(white))
     return r.stdout + r.stderr
 
 
 OV230_C = os.path.join(BUILD, "datac", "ov230")
 
 
-def link_ov230_blobs(lay):
+def link_ov230_blobs(lay, white=False):
     """Overlay 230: the bytes of its decrypted view that no src/game file writes.  The view
     (tools/ovcrypt.py) has the first-layer ranges and the second-layer bodies opened; the link
     of src/game/ov230 is compared with it and tools/ovcrypt.py encrypt() seals both layers again
@@ -149,19 +162,27 @@ def link_ov230_blobs(lay):
     so a wrong word fails it.  When every body is matched there are no gaps."""
     import ovcrypt
     o = next(x for x in lay["overlays"] if x["id"] == 230)
-    view = ovcrypt.load(ROOT)
-    os.makedirs(OV230_C, exist_ok=True)
-    for f in os.listdir(OV230_C):
+    if white:
+        import white_map
+        view = ovcrypt.view_for(os.path.join(ROOT, "extract_white"), o)
+    else:
+        view = ovcrypt.load(ROOT)
+    oc = os.path.join(BUILD, "datac_white" if white else "datac", "ov230")
+    sfx = "_white" if white else ""
+    os.makedirs(oc, exist_ok=True)
+    for f in os.listdir(oc):
         if f.startswith("sealed_blob_"):
-            os.remove(os.path.join(OV230_C, f))
-    extra = "--extra=build/datac/ov230"
-    sh([PY, "tools/gamelink.py", "230", "--data", extra])
-    j = json.load(open(os.path.join(GLD, "ov230", "ov.json")))
-    with open(os.path.join(GLD, "ov230", "blobs.json"), "w") as fh:
+            os.remove(os.path.join(oc, f))
+    extra = "--extra=" + os.path.relpath(oc, ROOT).replace(os.sep, "/")
+    sh([PY, "tools/gamelink.py", "230", "--data", extra] + vflag(white))
+    j = json.load(open(os.path.join(GLD, "ov230" + sfx, "ov.json")))
+    with open(os.path.join(GLD, "ov230" + sfx, "blobs.json"), "w") as fh:
         json.dump([list(x) for x in j["gaps"]], fh)
     for a, b in j["gaps"]:
         name = "OV230_SealedBlob_%08X" % a
-        words = struct.unpack_from("<%dI" % ((b - a) // 4), view.data, a - o["ram_start"])
+        # gaps are in Black addresses; the view of White is read at the White address
+        woff = (white_map.to_white(a) if white else a) - o["ram_start"]
+        words = struct.unpack_from("<%dI" % ((b - a) // 4), view.data, woff)
         text = ("/*\n * file:     sealed_blob_%08X.c\n * function: %s\n * address:  0x%08X\n"
                 " * region:   ov230d\n * compiler: dsi/1.1p1\n * flags:    -O4,p\n * lang:     c99\n"
                 " * isa:      arm\n * status:   EXACT\n *\n * symbols:\n *   %s  0x%08X  arm  ov230d\n */\n"
@@ -169,33 +190,36 @@ def link_ov230_blobs(lay):
                 " second-layer bytes and data words of the decrypted view that no src/game file holds */\n"
                 "asm void %s(void)\n{\n%s\n}\n") % (a, name, a, name, a, name,
                                                    "\n".join("    DCD     0x%08X" % w for w in words))
-        with open(os.path.join(OV230_C, "sealed_blob_%08X.c" % a), "w", newline="\n") as fh:
+        with open(os.path.join(oc, "sealed_blob_%08X.c" % a), "w", newline="\n") as fh:
             fh.write(text)
-    r = sh([PY, "tools/gamelink.py", "230", "--data", extra])
+    r = sh([PY, "tools/gamelink.py", "230", "--data", extra] + vflag(white))
     return r.stdout + r.stderr
 
 
-def relink_all(lay, jobs, only=None):
+def relink_all(lay, jobs, only=None, white=False):
     code, _stub = code_overlay_ids(lay)
     log = []
     t = time.time()
-    r = sh([PY, "tools/datamode_all.py", "--jobs", str(jobs)] + [str(i) for i in (only or [])])
+    v = vflag(white)
+    r = sh([PY, "tools/datamode_all.py", "--jobs", str(jobs)] + v + [str(i) for i in (only or [])])
     log.append(r.stdout.strip())
     if not only or 230 in only:
-        log.append(link_ov230_blobs(lay).strip()[-300:])
-    r = sh([PY, "tools/arm9data.py"])
+        log.append(link_ov230_blobs(lay, white).strip()[-300:])
+    r = sh([PY, "tools/arm9data.py"] + v)
     log.append(r.stdout.strip()[-400:])
-    r = sh([PY, "tools/gamelink.py", "arm9_main", "--data", "--extra=build/datac/arm9"])
+    r = sh([PY, "tools/gamelink.py", "arm9_main", "--data",
+            "--extra=build/datac%s/arm9" % ("_white" if white else "")] + v)
     log.append(r.stdout.strip()[-300:])
-    log.append(link_itcm().strip()[-300:])
+    log.append(link_itcm(white).strip()[-300:])
+    log.append(link_twl_region(white).strip()[-300:])
     print("relink: %.0f s" % (time.time() - t))
     return log
 
 
 def region_dir(name):
     if VERSION == "white":
-        return os.path.join(GL, name + "_white")
-    return os.path.join(GL if name == "itcm" else GLD, name)
+        return os.path.join(GL if name in ("itcm", "twl") else GLD, name + "_white")
+    return os.path.join(GL if name in ("itcm", "twl") else GLD, name)
 
 
 def newest_source(name):
@@ -347,6 +371,41 @@ def autoload_pieces(lay, ext, itcm_len):
     return pieces
 
 
+def link_twl_region(white):
+    """The DSi block (region twl): the link of src/game/twl (tools/twllink.py), plain mode.  Its
+    data blob (0x02707CB4..0x0272E9E8) is a gap of the link and comes from the image."""
+    r = sh([PY, "tools/twllink.py"] + (["--version=white"] if white else []))
+    return (r.stdout + r.stderr).strip()[-300:]
+
+
+def build_arm9i(lay, ext, man, white, relink, problems):
+    """arm9i.bin from the twl link: the decrypted block of the extract with its code replaced by
+    the link, compressed again (BLZ, as the SDK does), and the first 0x4000 bytes enciphered again
+    with the AES-CTR key of the cart (tools/modcrypt.py; the key constant comes from
+    ALETHEIA_DSI_KEY or --dsi-key, never from the repository).  -> (bytes or None, note, gaps).
+    Without a key the file of the extract is used and the note says so."""
+    import blz
+    import modcrypt
+    tw = lay["twl"]
+    data, info = load_region("twl", tw["code_size"])
+    if relink or data is None or info.get("stale") or not info["ok"]:
+        print(link_twl_region(white).splitlines()[-1][:120])
+        data, info = load_region("twl", tw["code_size"])
+    if data is None or not info["ok"]:
+        problems.append("twl: %s" % info.get("why"))
+        return None, "twl link not usable", []
+    dec = bytearray(open(os.path.join(ext, tw["decompressed_file"]), "rb").read())
+    dec[tw["src_offset"]:tw["src_offset"] + tw["code_size"]] = data
+    comp = blz.compress(bytes(dec), 0)
+    header = open(os.path.join(ext, "header.bin"), "rb").read()
+    rom_off = struct.unpack_from("<I", header, 0x1C0)[0]
+    try:
+        const, _src = modcrypt.load_constant()
+    except modcrypt.KeyMissing as exc:
+        return None, "no DSi key (%s): arm9i.bin taken from the extract" % exc, info["gaps"]
+    return modcrypt.decrypt_region(header, rom_off, comp, const), "linked, compressed, modcrypt applied", info["gaps"]
+
+
 def stub_overlay(o):
     """An overlay with no code: code_size zero bytes (its one static initialiser entry is the
     terminator word)."""
@@ -407,13 +466,8 @@ def main(argv=None):
     t0 = time.time()
     if a.relink and a.onelink:
         raise SystemExit("--relink and --onelink are different link methods; pick one")
-    if a.relink and white:
-        r = sh([PY, "tools/whitelink.py", "--jobs", str(a.jobs)])
-        print(r.stdout.strip()[-400:])
-        r = sh([PY, "tools/gamelink.py", "arm9_main", "itcm", "--version", "white"])
-        print(r.stdout.strip()[-400:])
-    elif a.relink:
-        for line in relink_all(lay, a.jobs):
+    if a.relink:
+        for line in relink_all(lay, a.jobs, white=white):
             print(line)
     one_imgs = None
     if a.onelink:
@@ -453,7 +507,7 @@ def main(argv=None):
     for oid in code_ids:
         o = next(x for x in lay["overlays"] if x["id"] == oid)
         ovdata[oid], ovinfo[oid] = get("ov%03d" % oid, o["code_size"])
-    if problems and not a.image_fallback:
+    if problems and not a.image_fallback and not all(p.startswith("twl") for p in problems):
         print("regions not usable:")
         for p in problems:
             print("  " + p)
@@ -494,6 +548,19 @@ def main(argv=None):
     if not same_dec:
         n, rng = diff_ranges(dec, img9)
         print("  %d bytes differ, first ranges %s" % (n, [(hex(x), hex(y)) for x, y in rng]))
+
+    # --- the DSi block ---
+    a9i, a9i_note, a9i_gaps = build_arm9i(lay, ext, man, white, a.relink, problems)
+    if a9i is not None:
+        with open(os.path.join(PACK, "arm9i.bin"), "wb") as fh:
+            fh.write(a9i)
+        orig_a9i = open(os.path.join(ext, "arm9i.bin"), "rb").read()
+        print("arm9i.bin from source: %d bytes, %s the original (%s)" % (
+            len(a9i), "identical to" if a9i == orig_a9i else "DIFFERENT from", a9i_note))
+    else:
+        print("arm9i.bin: " + a9i_note)
+        if os.path.exists(os.path.join(PACK, "arm9i.bin")):
+            os.remove(os.path.join(PACK, "arm9i.bin"))
 
     # --- pack ---
     container, packed, iters = bld.pack_arm9(lay, dec)
@@ -570,7 +637,7 @@ def main(argv=None):
         print("per file: no file differs")
 
     # --- bytes that did not come from our source ---
-    over = {"arm9.bin"} | {o["file"] for o in lay["overlays"]}
+    over = {"arm9.bin"} | {o["file"] for o in lay["overlays"]} | ({"arm9i.bin"} if a9i is not None else set())
     rows = []
     tot_pre = 0
     groups = {}
@@ -601,7 +668,7 @@ def main(argv=None):
             # bytes of the decrypted view that no src/game file writes: link_ov230_blobs() fills
             # them with generated asm so the link has no gap, but they are not from our source
             try:
-                for g0, g1 in json.load(open(os.path.join(GLD, "ov230", "blobs.json"))):
+                for g0, g1 in json.load(open(os.path.join(GLD, "ov230" + ("_white" if white else ""), "blobs.json"))):
                     gap_lines.append(("ov230 generated blob %08X" % g0, g1 - g0))
                     gaps_total += g1 - g0
             except (OSError, ValueError):
@@ -609,6 +676,9 @@ def main(argv=None):
         for g0, g1 in inf["standin"]:
             gap_lines.append(("ov%03d .bss stand-in %08X" % (oid, g0), g1 - g0))
             gaps_total += g1 - g0
+    for g0, g1 in a9i_gaps:
+        gap_lines.append(("twl gap %08X (data blob of the DSi block)" % g0, g1 - g0))
+        gaps_total += g1 - g0
     gen_total = 0
     gen_lines = []
     for nm, off, data, origin in pieces:

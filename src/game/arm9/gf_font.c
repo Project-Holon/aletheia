@@ -62,13 +62,12 @@ typedef void (*FormatInitFunc)(struct GfFont *font, u32 tilesWide, u32 tilesHigh
 
 typedef void (*FormatExitFunc)(struct GfFont *font);
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+#include "mi_memory.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+#include "gfl_heap_wrap.h"
 
 extern struct ArcFile *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
-extern u32 GFL_HEAP_Free(void *block);
 struct ArcHandle;
 
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
@@ -146,7 +145,7 @@ void GF_FONT_DecodeGlyph16x16(const u8 *src, u32 lastGroupBits, u16 *dst);
 
 struct WordSet *WORDSET_CreateDefault(u16 heapId);
 
-struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId);
+#include "wordset.h"
 
 extern const char gGfFontFileName[];
 

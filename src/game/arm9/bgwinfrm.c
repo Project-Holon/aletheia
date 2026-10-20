@@ -62,35 +62,26 @@ struct BgWinFrmWork {
     u32 heapId;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
+#include "mi_memory.h"
 
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
+#include "arc_util.h"
 
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 member, u32 alloc, void **out,
-                           u16 heap);
 
-extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
+#include "bg_sys.h"
 
 extern void (*BgWinFrmScreenTransFuncs[])(u32);
 
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 struct BmpWin;
 
-extern u16 BMP_WIN_GetCharOffset(struct BmpWin *win);
+#include "bmp_win.h"
 
-extern u8 BMP_WIN_GetPalette(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 
 struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heapId);
 

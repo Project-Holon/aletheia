@@ -41,15 +41,15 @@ typedef struct BarScreen {
     u16 barCells[0x60];         /* +0x540 rows 21..23 */
 } BarScreen;
 
-extern u32 GFL_HEAP_Free(void *memory);
+#include "gfl_heap_wrap.h"
 
-extern u32 BG_SYS_GetBuf(int bgFrame);
+#include "bg_sys.h"
 
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+#include "mi_memory.h"
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "poke_tool.h"
 
 u32 APP_ICON_GetArchiveId(void);
 

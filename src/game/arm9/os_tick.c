@@ -33,15 +33,14 @@ typedef struct OsTickBss {
     vu64 OSi_TickCounter;
 } OsTickBss;
 
-extern void OSi_SetTimerReserved(int timerNum);
+#include "os_timer.h"
 extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
-extern u32 OS_EnableIrqMask(u32 intr);
+typedef unsigned int OSIrqMask;
+#include "os_interrupt.h"
 extern void OSi_CountUpTick(void);
-extern void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void), void *arg);
 void OS_InitTick(void);
 BOOL OS_IsTickAvailable(void);
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
+#include "os_system.h"
 OSTick OS_GetTick(void);
 unsigned short OS_GetTickLo(void);
 extern OsTickBss g_02151330;
@@ -95,7 +94,7 @@ void OSi_CountUpTick(void)
         g_02151330.OSi_NeedResetTimer = 0;
     }
 
-    OSi_EnterTimerCallback(0, OSi_CountUpTick, 0);
+    OSi_EnterTimerCallback(0, (void (*)(void *))OSi_CountUpTick, 0);
 }
 
 OSTick OS_GetTick(void)

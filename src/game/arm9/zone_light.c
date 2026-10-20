@@ -39,18 +39,14 @@ struct LightTableEntry {
     u8  pad1[4];
 };
 
-extern u32 ZONEDATA_GetLightId(u32 id);
+#include "zonedata.h"
 
-extern u32 ZONEDATA_GetAreaId(u32 id);
 
-extern void *ZONEDATA_CreateAreaData(u16 heap, u32 zoneLightId, u32 season);
 struct AreaData;
 
-extern u8 ZONEDATA_GetAreaLightType(struct AreaData *areaData);
 
-extern u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "gfl_heap_wrap.h"
 
 extern u32   ARC_TOOL_GetMemberSize(u32 archive, u32 member);
 
@@ -58,7 +54,7 @@ extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
 
 extern void  VEC_Fx16Normalize(void *dest, const void *src);
 
-extern u8 TIMEZONE_GetLight(int season, int key);
+#include "timezone.h"
 
 void ZONEDATA_GetTimeLightColors(u32 zoneId, u32 hour, u32 minute, u32 lightTableId, u32 season, u16 *outColors, u16 heapId);
 

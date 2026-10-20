@@ -40,14 +40,9 @@
  */
 #include "../types.h"
 
-/* Index of one 3D sound source of the iss_3ds_sys object (16 slots). */
-typedef enum { ISS_3DS_SOURCE_FIRST, ISS_3DS_SOURCE_MAX = 16 } Iss3dsSourceIndex;
-
 struct ArcFile;
 
-struct Vec {
-    s32 x, y, z;
-};
+#include "../sdk_fx.h"
 
 /*
  * One 8-byte record of the zone table (archive 0x88). A track mask is a
@@ -79,51 +74,12 @@ struct IssZone {
     u16 padding16;
 };
 
-/* One 3D sound source: a point that drives the volume and pan of some tracks. */
-struct Iss3dsSource {
-    u32 active;
-    struct Vec pos;
-    s32 radius;                 /* distance beyond which the source is silent */
-    s32 amplitude;              /* volume at the source position */
-    u16 trackMask;
-    u16 padding1A;
-};
-
-/* The part of the iss_3ds_sys object that this file reads. */
-struct Iss3dsSys {
-    u8  padding00[4];
-    u32 enabled;
-    u8  targetVolume;           /* master volume the ramp moves toward */
-    u8  volume;                 /* current master volume (0..0x7f) */
-    u8  volumeStep;             /* ramp step of volume per update */
-    u8  padding0B;
-    struct Vec listenerPos;
-    struct Vec listenerTarget;  /* point the listener looks at */
-    struct Iss3dsSource sources[ISS_3DS_SOURCE_MAX];
-    s32 volumeLevel[ISS_3DS_SOURCE_MAX];    /* per-source volume, ramped */
-    s32 panLevel[ISS_3DS_SOURCE_MAX];       /* per-source pan, ramped */
-    struct IssZoneRecord *records;
-    u8  recordCount;
-    u8  activeRecord;           /* 0xff: none */
-};
-
-extern void VEC_Subtract(const struct Vec *a, const struct Vec *b,
-                         struct Vec *out);
-extern s32  VEC_Mag(const struct Vec *v);
-extern u32 FX_Div(u32 numerator, u32 denominator);
-extern void VEC_Normalize(const struct Vec *v, struct Vec *out);
-extern void VEC_CrossProduct(const struct Vec *a, const struct Vec *b,
-                             struct Vec *out);
-extern s32  VEC_DotProduct(const struct Vec *a, const struct Vec *b);
-extern void GFL_USE_SetBgmTrackParams(u32 trackMask, u32 paramKind, u32 unused, u32 value);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern u16 ARC_TOOL_GetHandleFileCount(void *archive);
+#include "fx_vec.h"
+#include "fx_cp.h"
+#include "gfl_use.h"
+#include "gfl_heap_wrap.h"
+#include "arc_tool.h"
 struct ArcHandle;
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
-extern void   ARC_TOOL_DeleteHandle(void *archive);
-extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volume);
 struct IssZone *ISS_ZONE_SYS_Create(u32 heapId);
 void ISS_ZONE_SYS_Delete(struct IssZone *zone);
 void ISS_ZONE_SYS_Update(struct IssZone *zone);

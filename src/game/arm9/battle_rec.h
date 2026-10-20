@@ -9,6 +9,8 @@ struct GameData;
 struct BattleRecHeader;
 struct BattleRecBody;
 
+#include "../types.h"
+
 struct BattleRecSave *BATTLE_REC_Create(u32 heap);
 void BATTLE_REC_AllocWork(u32 heap);
 void BATTLE_REC_FreeWork(void);

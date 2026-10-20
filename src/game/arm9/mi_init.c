@@ -19,10 +19,10 @@
  *   MI_StopDma                     0x020825F0  arm
  */
 
-void MI_SetWramBank(unsigned int bank);
-int OS_IsRunOnTwl(void);
-void MI_InitNDma(void);
-void MI_StopDma(unsigned long dmaNo);
+#include "mi_wram.h"
+#include "os_emulator.h"
+#include "../twl/mi_ndma.h"
+#include "mi_dma.h"
 
 void MI_Init(void)
 {

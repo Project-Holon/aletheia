@@ -29,7 +29,8 @@
    object forms its own base (0x02FFFC00 + 0x3A8) for this halfword. */
 #define BUTTON_XY_BUF    (*(u16 *)0x02FFFFA8)
 
-extern u16 OS_GetTickLo(void);
+typedef unsigned long long OSTick;
+#include "os_tick.h"
 extern volatile u64 OSi_TickCounter;
 
 void OS_GetLowEntropyData(u32 *buffer)

@@ -55,23 +55,19 @@ typedef struct PrintStreamCtrl {
     u32 inputType;              /* +0x04 bit 1 keys, bit 2 touch, bit 10 no fast-forward */
 } PrintStreamCtrl;
 
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern u32 KEY_GetTrg(void);
+#include "key.h"
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "gfl_use.h"
 
-extern u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer);
+#include "printsys.h"
 
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
 
-extern int TOUCHPANEL_GetTrg(void);
+#include "touchpanel.h"
 
-extern unsigned int KEY_GetCont(void);
 
-extern int TOUCHPANEL_GetCont(void);
 
 struct KeyCursor *APP_KEYCURSOR_Create(u32 id, u32 live, u32 flip, u16 heap, void *pixels);
 
@@ -204,13 +200,7 @@ struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u1
     return APP_KEYCURSOR_Create(id, isLive, isFlip, heapId, (void *)_KeyCursorDefaultPixels);
 }
 
-struct Bmp {
-    void *pixels;
-    u16   width;
-    u16   height;
-    u16   depth;
-    u16   kind;
-};
+#include "bmp_shared_types.h"
 
 /* Cursor work: one 2x2-tile bitmap and the blink state of one text cursor. */
 struct KeyCursor {
@@ -225,35 +215,26 @@ struct KeyCursor {
 
 /* Field skill availability flags (0x18 bytes, filled by FIELD_SKILL_CHECK_FillUseFlags): bit i of
  * usableMask is set when field skill i can be used.  Only the mask is touched here. */
-struct FieldSkillUseFlags {
-    u8  pad_00[0x14];
-    u32 usableMask;
-};
+#include "app_keycursor_types.h"
 
 struct Descriptor;
 
 struct TextPrinter;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+typedef short s16_p07;
+#include "bmp.h"
 
-extern void BMP_Delete(struct Bmp *bmp);
 
-extern u16  BMP_GetWidth(const struct Bmp *bmp);
 
-extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
 struct BmpWin;
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "bmp_win.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern u32 GFL_HEAP_Free(void *p);
 
 void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 

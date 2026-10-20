@@ -66,14 +66,12 @@ struct OverlayInfo {
     u32 procTarget;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void  MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern int FS_UnloadOverlay(s32 target, u32 id);
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
-extern u32 FS_SetDefaultDMA(u32 dma_no);
-extern int FS_LoadOverlay(s32 target, u32 id);
+#include "gfl_heap_wrap.h"
+#include "mi_memory.h"
+#include "fs_overlay.h"
+#include "gf_panic.h"
+#include "fs_proc_rom.h"
 struct FSOverlayInfo;
-extern int FS_LoadOverlayInfo(struct FSOverlayInfo *p_ovi, u32 target, u32 id);
 
 void GF_OVERLAY_Init(u32 heapId, int mainCount, int itcmCount, int twlCount);
 void GF_OVERLAY_ReleaseSlot(struct OverlaySlot *slot);

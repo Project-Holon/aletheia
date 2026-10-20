@@ -43,13 +43,7 @@ void ARC_TOOL_SetTable(void **entries, u32 count)
     ARC_TOOL_gArchiveTable.useRecords = 0;
 }
 
-struct ArcFile;
-
 #include "../sdk_fs.h"
-
-struct ArcFile {
-    u8 file[0x48];
-};
 
 struct ArcRecord {
     u32          start;
@@ -72,29 +66,24 @@ struct ArcHandleRaw {
     u8 raw[0x50];
 };
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void FS_ReadFile(struct ArcHandle *arc, void *dst, u32 size);
 
-extern void FS_CloseFile(void *p);
 
-extern void FS_InitFile(void *file);
 
-extern void FS_OpenFile(struct ArcFile *arc, u32 value);
 
-extern void FS_CreateFileFromMemory(void *file, void *src, u32 size);
+#include "fs_proc_mem.h"
+#include "fs_file.h"
 
-extern int FS_SeekFile(struct ArcHandle *arc, u32 pos, u32 origin);
 
-extern void GF_PANIC_FailPrintf(const char *file, u32 line, const char *msg, ...);
+#include "gf_panic.h"
 
 void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archive_id, u32 member, u32 offset, u32 size);
 
 void *ARC_TOOL_LoadMemberRangeImpl(u32 archive_id, u32 member, u16 heap, u32 offset, u32 size);
 
-void ARC_TOOL_OpenArchive(struct ArcFile *arc, u32 id);
+void ARC_TOOL_OpenArchive(FSFile *arc, u32 id);
 
 u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 member, u32 base, u32 size);
 
@@ -112,7 +101,7 @@ u32 ARC_TOOL_GetArchiveFileCount(u32 a);
 
 u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 
-void *ARC_TOOL_CreateHandle(u32 id, u16 heap);
+void *ARC_TOOL_CreateHandle(u32 id, unsigned int heap);
 
 void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u16 heap);
 
@@ -120,7 +109,7 @@ void ARC_TOOL_ReadHandleHeader(struct ArcHandle *arc);
 
 void ARC_TOOL_DeleteHandle(void *arc);
 
-void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 member, u16 heap);
+void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 member, u32 heap);
 
 void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 member, void *dst);
 
@@ -134,7 +123,7 @@ u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 member);
 
 void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst);
 
-int ARC_TOOL_SeekHandle(struct FSFile *file, long offset);
+int ARC_TOOL_SeekHandle(struct FSFile *file, u32 offset);
 
 u16 ARC_TOOL_GetHandleFileCount(void *obj);
 
@@ -193,10 +182,10 @@ extern const char arc_tool_msg_member_bounds[];
 void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archiveID, u32 memberIdx, u32 offset,
                    u32 size)
 {
-    struct ArcFile h;
+    FSFile h;
 
     ARC_TOOL_OpenArchive(&h, archiveID);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)(&h), dst, ARC_TOOL_SeekMember((struct ArcHandle *)&h, memberIdx, offset, size));
+    FS_ReadFile(&h, dst, ARC_TOOL_SeekMember((struct ArcHandle *)&h, memberIdx, offset, size));
     FS_CloseFile(&h);
 }
 
@@ -221,14 +210,14 @@ void ARC_TOOL_ReadMemberRangeImpl(void *dst, u32 archiveID, u32 memberIdx, u32 o
 void *ARC_TOOL_LoadMemberRangeImpl(u32 archiveID, u32 memberIdx, u16 heapID, u32 offset,
                     u32 size)
 {
-    struct ArcFile h;
+    FSFile h;
     u32 memberSize;
     void *buf;
 
     ARC_TOOL_OpenArchive(&h, archiveID);
     memberSize = ARC_TOOL_SeekMember((struct ArcHandle *)&h, memberIdx, offset, size);
     buf = GFL_HEAP_Alloc(heapID, memberSize, 0, (char *)arc_tool_file, 0xbb);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)(&h), buf, memberSize);
+    FS_ReadFile(&h, buf, memberSize);
     FS_CloseFile(&h);
     return buf;
 }
@@ -317,11 +306,11 @@ void *ARC_TOOL_LoadMemberRangeImpl(u32 archiveID, u32 memberIdx, u16 heapID, u32
  * (both halves were also verified individually as `one` before folding them
  * into this unit: ARC_TOOL_OpenArchive 88 bytes, ARC_TOOL_SeekMember 280 bytes.)
  */
-void ARC_TOOL_OpenArchive(struct ArcFile *arc, u32 archiveID)
+void ARC_TOOL_OpenArchive(FSFile *arc, u32 archiveID)
 {
     FS_InitFile(arc);
     if (ARC_TOOL_gArchiveTable.useRecords == 0) {
-        FS_OpenFile(arc, ARC_TOOL_gArchiveTable.entries[archiveID]);
+        FS_OpenFile(arc, (const char *)(ARC_TOOL_gArchiveTable.entries[archiveID]));
     } else {
         u32 *tbl = (u32 *)ARC_TOOL_gArchiveTable.entries;
         struct ArcRecord *rec = (struct ArcRecord *)tbl + archiveID;
@@ -340,25 +329,25 @@ u32 ARC_TOOL_SeekMember(struct ArcHandle *arc, u32 memberIdx, u32 skip, u32 size
     u32 fatOffset;
     u32 off;
 
-    FS_SeekFile(arc, 0xc, 0);
-    FS_ReadFile(arc, &tmp, 2);
+    FS_SeekFile(&arc->file, 0xc, 0);
+    FS_ReadFile(&arc->file, &tmp, 2);
     fatOffset = tmp;
 
-    FS_SeekFile(arc, fatOffset + 4, 0);
-    FS_ReadFile(arc, &info, 6);
+    FS_SeekFile(&arc->file, fatOffset + 4, 0);
+    FS_ReadFile(&arc->file, &info, 6);
     if (info.count <= memberIdx) {
         GF_PANIC_FailPrintf(arc_tool_file, 0xfb, arc_tool_msg_member_range, info.count,
                       memberIdx);
     }
 
     off = fatOffset + info.offset;
-    FS_SeekFile(arc, off + 4, 0);
-    FS_ReadFile(arc, &tmp, 4);
+    FS_SeekFile(&arc->file, off + 4, 0);
+    FS_ReadFile(&arc->file, &tmp, 4);
     off += tmp;
-    FS_SeekFile(arc, fatOffset + 0xc + memberIdx * 8, 0);
+    FS_SeekFile(&arc->file, fatOffset + 0xc + memberIdx * 8, 0);
 
-    FS_ReadFile(arc, range, 8);
-    FS_SeekFile(arc, skip + (off + 8 + range[0]), 0);
+    FS_ReadFile(&arc->file, range, 8);
+    FS_SeekFile(&arc->file, skip + (off + 8 + range[0]), 0);
 
     if (size == 0) {
         size = range[1] - range[0];
@@ -478,15 +467,15 @@ void *ARC_TOOL_LoadMemberRange(u32 archiveID, u32 memberIdx, u16 heapID, u32 off
  */
 void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 memberIdx, u16 heapID)
 {
-    struct ArcFile file;
+    FSFile file;
     void *p;
     u32 size;
 
     FS_InitFile(&file);
-    ((void (*)(struct ArcFile *f, const char *path))FS_OpenFile)(&file, path);
+    FS_OpenFile(&file, path);
     size = ARC_TOOL_SeekMember((struct ArcHandle *)(&file), memberIdx, 0, 0);
     p = GFL_HEAP_Alloc(heapID, size, 0, (char *)arc_tool_file, 0x182);
-    ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)(&file), p, size);
+    FS_ReadFile(&file, p, size);
     FS_CloseFile(&file);
     return p;
 }
@@ -498,12 +487,12 @@ u32 ARC_TOOL_GetArchiveFileCount(u32 archiveID)
     u16 header[3];
 
     headerSize = 0;
-    ARC_TOOL_OpenArchive((struct ArcFile *)buf, archiveID);
-    FS_SeekFile((struct ArcHandle *)buf, 0xc, 0);
+    ARC_TOOL_OpenArchive((FSFile *)buf, archiveID);
+    FS_SeekFile((FSFile *)buf, 0xc, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)buf, &headerSize, 2);
-    FS_SeekFile((struct ArcHandle *)buf, headerSize + 4, 0);
+    FS_SeekFile((FSFile *)buf, headerSize + 4, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)buf, header, 6);
-    FS_CloseFile(buf);
+    FS_CloseFile((FSFile *)buf);
     return header[2];
 }
 
@@ -512,9 +501,9 @@ u32 ARC_TOOL_GetMemberSize(u32 archiveID, u32 memberIdx)
     char buf[0x48];
     u32 size;
 
-    ARC_TOOL_OpenArchive((struct ArcFile *)buf, archiveID);
+    ARC_TOOL_OpenArchive((FSFile *)buf, archiveID);
     size = ARC_TOOL_SeekMember((struct ArcHandle *)buf, memberIdx, 0, 0);
-    FS_CloseFile(buf);
+    FS_CloseFile((FSFile *)buf);
     return size;
 }
 
@@ -525,7 +514,7 @@ u32 ARC_TOOL_GetMemberSize(u32 archiveID, u32 memberIdx)
  * pair is the usual ABS32 into the packed string area plus a pooled 0x209,
  * which is not an ARM rotated immediate.
  */
-void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID)
+void *ARC_TOOL_CreateHandle(u32 archiveID, unsigned int heapID)
 {
     void *rec = GFL_HEAP_Alloc(heapID, 0x50, 0, (char *)arc_tool_file, 0x209);
 
@@ -579,13 +568,13 @@ void ARC_TOOL_ReadHandleHeader(struct ArcHandle *arc)
     u32 off;
 
     arc->fatOffset = 0;
-    FS_SeekFile((struct ArcHandle *)arc, 0xc, 0);
+    FS_SeekFile(&arc->file, 0xc, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &arc->fatOffset, 2);
-    FS_SeekFile((struct ArcHandle *)arc, arc->fatOffset + 4, 0);
+    FS_SeekFile(&arc->file, arc->fatOffset + 4, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &scan, 6);
     arc->count = scan.fileCount;
     off = arc->fatOffset + scan.fatSize;
-    FS_SeekFile((struct ArcHandle *)arc, off + 4, 0);
+    FS_SeekFile(&arc->file, off + 4, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &scan.nameTableSize, 4);
     arc->imageBase = off + scan.nameTableSize;
 }
@@ -625,7 +614,7 @@ void ARC_TOOL_DeleteHandle(void *handle)
  *   python tools/match.py one --src src/matched/ARC_TOOL_LoadHandleMember.c \
  *       --func ARC_TOOL_LoadHandleMember --addr 0x02049250 --cc 1.1p1 --arm
  */
-void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID)
+void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u32 heapID)
 {
     u32 range[2];
     void *buf;
@@ -635,9 +624,9 @@ void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID
                       arc->count, memberIdx);
     }
 
-    FS_SeekFile((struct ArcHandle *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
+    FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
-    FS_SeekFile((struct ArcHandle *)arc, arc->imageBase + 8 + range[0], 0);
+    FS_SeekFile(&arc->file, arc->imageBase + 8 + range[0], 0);
 
     buf = GFL_HEAP_Alloc(heapID, range[1] - range[0], 0, (char *)arc_tool_file, 619);
     if (buf != 0) {
@@ -667,9 +656,9 @@ void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst)
                       arc->count, memberIdx);
     }
 
-    FS_SeekFile((struct ArcHandle *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
+    FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
-    FS_SeekFile((struct ArcHandle *)arc, arc->imageBase + 8 + range[0], 0);
+    FS_SeekFile(&arc->file, arc->imageBase + 8 + range[0], 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, dst, range[1] - range[0]);
 }
 
@@ -694,7 +683,7 @@ u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx)
                       arc->count, memberIdx);
     }
 
-    FS_SeekFile((struct ArcHandle *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
+    FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
     return range[1] - range[0];
 }
@@ -727,9 +716,9 @@ void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 of
                       arc->count, memberIdx);
     }
 
-    FS_SeekFile((struct ArcHandle *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
+    FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &start, 4);
-    FS_SeekFile((struct ArcHandle *)arc, offset + (arc->imageBase + 8 + start), 0);
+    FS_SeekFile(&arc->file, offset + (arc->imageBase + 8 + start), 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, dst, size);
 }
 
@@ -755,7 +744,7 @@ void ARC_TOOL_GetHandleMemberOffsetOut(struct ArcHandle *arc, u32 memberIdx, u32
                       arc->count, memberIdx);
     }
 
-    FS_SeekFile((struct ArcHandle *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
+    FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &start, 4);
     *out = arc->imageBase + 8 + start;
 }
@@ -781,7 +770,7 @@ u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 memberIdx)
                       arc->count, memberIdx);
     }
 
-    FS_SeekFile((struct ArcHandle *)arc, arc->fatOffset + 0xc + memberIdx * 8, 0);
+    FS_SeekFile(&arc->file, arc->fatOffset + 0xc + memberIdx * 8, 0);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, &start, 4);
     return arc->imageBase + 8 + start;
 }
@@ -803,9 +792,9 @@ void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst)
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, dst, size);
 }
 
-int ARC_TOOL_SeekHandle(struct FSFile *file, long offset)
+int ARC_TOOL_SeekHandle(struct FSFile *file, u32 offset)
 {
-    return FS_SeekFile((struct ArcHandle *)file, offset, 0);
+    return FS_SeekFile((FSFile *)file, offset, 0);
 }
 
 u16 ARC_TOOL_GetHandleFileCount(void *arc)

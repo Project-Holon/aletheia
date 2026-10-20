@@ -67,57 +67,37 @@ struct HeapBlockReport {
 /* Callback of the heap block walker. */
 typedef void (*HeapVisitFunc)(void *block, int *heap, u32 userParam);
 
-extern u32  GFL_HEAP_Delete(u32 heapId);
+#include "gfl_heap.h"
 
-extern u16  GFL_HEAP_GetLastError(void);
 
-extern void OS_Terminate(void);
+#include "os_terminate_processor.h"
 
-extern void *GFL_HEAP_AllocMemory(u32 heapId, u32 size);
 
-extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern u32 GFL_HEAP_FreeMemory(void *p);
 
-extern u32 GFL_HEAP_InitAllocator(void *p, u32 heapId, s32 size);
 
-extern u32 GFL_HEAP_ResizeMemory(void *p, u32 size);
 
-extern void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
 
-extern u32 GFL_HEAP_IsHeapValid(u32 heapId);
 
-extern void *GFL_HEAP_GetBlockName(void *p);
 
-extern void *GFL_HEAP_GetHeapHandle(u32 heapId);
 
-extern int NNSi_FndGetListTotalSize(int *p);
+#include "nns_fnd_expheap.h"
 
-extern s32 NNSi_FndGetListAllocatableSize(struct Heap *heap, s32 x);
 
-extern u16 GFL_HEAP_GetBlockHeapId(void *p);
 
-extern u16 GFL_HEAP_GetAllocCountById(u32 heapId);
 
-extern int NNSi_FndGetMBlockSize(char *p);
 
-extern u32 GF_STANDARD_GetStringLength(const u8 *s);
+#include "gf_standard.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
-extern u32 GFL_HEAP_GetHeapSize(u32 heapId);
 
-extern void *GFL_HEAP_GetAllocatableSize(u32 heapId);
 
-extern void MSL_C_LIB_SetTwlFlag(int x);
+#include "msl_crt.h"
 
-extern void NNSi_FndWalkHeapBlocks(int *p, HeapVisitFunc visitor, int ctx);
 
-extern signed int GFL_HEAP_InitSystemHeap(u32 size);
 
-extern void *GFL_HEAP_AllocSystem(u32 size);
 
-extern int GFL_HEAP_FreeSystem(u32 idx);
 
 void GFL_HEAP_DeleteChecked(u32 heapId);
 
@@ -868,7 +848,7 @@ void GFL_HEAP_DumpReport(u32 heapId)
     GFL_HEAP_GetAllocatableSize(heapId);
     GFL_HEAP_GetAllocCountById(heapId);
     MSL_C_LIB_SetTwlFlag(1);
-    NNSi_FndWalkHeapBlocks(GFL_HEAP_GetHeapHandle(heapId), GFL_HEAP_WalkBlocksCallback, 0);
+    NNSi_FndWalkHeapBlocks(GFL_HEAP_GetHeapHandle(heapId), (void (*)(void *, void *, int))GFL_HEAP_WalkBlocksCallback, 0);
     MSL_C_LIB_SetTwlFlag(0);
 }
 

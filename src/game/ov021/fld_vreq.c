@@ -1,7 +1,7 @@
 /*
  * file:     fld_vreq.c
  * unit:     yes
- * function: FLD_VREQ_Create, FLD_VREQ_Delete, FLD_VREQ_VBlank, FLD_VREQ_SetBgVisible, FLD_VREQ_SetSubMasterBrightness, FLD_VREQ_SetMainBlendAlpha, FLD_VREQ_SetMainBlendBrightnessExt, FLD_VREQ_SetMainBlendAlphaEv, FLD_VREQ_SetSubBlendAlpha, FLD_VREQ_ApplyBlendNone, FLD_VREQ_ApplyBlendAlpha, FLD_VREQ_ApplyBlendBrightness, FLD_VREQ_ApplyBlendControl, FLD_VREQ_ApplyChangeBlendBrightness
+ * function: FLD_VREQ_Create, FLD_VREQ_Delete, FLD_VREQ_VBlank, FLD_VREQ_SetBgVisible, FLD_VREQ_SetSubMasterBrightness, FLD_VREQ_SetMainBlendAlpha, FLD_VREQ_SetMainBlendBrightnessExt, FLD_VREQ_SetMainBlendAlphaEv, FLD_VREQ_SetSubBlendAlpha, FLD_VREQ_ApplyBlendNone, FLD_VREQ_ApplyBlendAlpha, FLD_VREQ_ApplyBlendBrightness, FLD_VREQ_ApplyBlendControl, FLD_VREQ_ApplyBlendAlphaEv, FLD_VREQ_ApplyChangeBlendBrightness
  * address:  0x021D317C
  * region:   ov021
  * compiler: dsi/1.1p1

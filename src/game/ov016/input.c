@@ -39,14 +39,9 @@
  *   GX_DispOn  0x0207D46C  arm
  *   GX_DispOff  0x0207D42C  arm
  */
-struct TPCalibrateParam;
-struct TPData;
-typedef struct {
-    unsigned short x;
-    unsigned short y;
-    unsigned short touch;
-    unsigned short validity;
-} TPData;
+#include "../types.h"
+
+#include "../arm9/tp.h"
 
 typedef struct tagCOORD {
     unsigned short x;
@@ -74,8 +69,6 @@ typedef struct {
     InputWork *work;
 } InputStatics;
 
-#include "../types.h"
-
 typedef _Bool bool;
 
 typedef struct {
@@ -97,7 +90,8 @@ extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern int TP_GetUserInfo(struct TPCalibrateParam *calibrate);
 extern void  OS_Terminate(void);
 extern void TP_SetCalibrateParam(const struct TPCalibrateParam *param);
-extern void  TP_RequestAutoSamplingStartAsync(int a, int b, void *c, int d);
+struct TPData;
+extern void  TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, struct TPData *samplingBufs, u16 bufSize);
 extern void TP_WaitBusy(unsigned int command_flgs);
 extern unsigned int TP_CheckError(unsigned int command_flgs);
 extern void TP_RequestAutoSamplingStopAsync(void);
@@ -136,7 +130,7 @@ void DWCi_IPTlInit(void)
     if (TP_GetUserInfo((struct TPCalibrateParam *)buf) == 0)
         OS_Terminate();
     TP_SetCalibrateParam((const struct TPCalibrateParam *)buf);
-    TP_RequestAutoSamplingStartAsync(0, 4, gInputStatics.work, 5);
+    TP_RequestAutoSamplingStartAsync(0, 4, (struct TPData *)gInputStatics.work, 5);
     TP_WaitBusy(2);
     if (TP_CheckError(2) != 0)
         OS_Terminate();

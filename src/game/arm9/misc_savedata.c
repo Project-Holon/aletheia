@@ -25,13 +25,13 @@ typedef struct Tally {
     u16 total16[150];   /* 0x154 */
 } Tally;
 
-extern u8 QUESTIONNAIRE_GetFirstAnswerMessageOffset(u32 id);
+#include "../ov010/questionnaire.h"
 
 int MISC_SAVEDATA_GetStatusByte(int tally, int index);
 
 u16 MISC_SAVEDATA_GetHalfword(const u16 *p, int i);
 
-void MISC_SAVEDATA_AddHalfwordClamped(char *p, int idx, int v);
+void MISC_SAVEDATA_AddHalfwordClamped(char *p, s32 idx, s32 v);
 
 u32 MISC_SAVEDATA_GetTallyWord(u8 *p, int i);
 
@@ -41,7 +41,7 @@ u32 MISC_SAVEDATA_IsTallyFull(u8 *p, u32 a, u32 count);
 
 u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 fieldId, u32 index);
 
-void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, int delta);
+void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, s32 delta);
 
 int MISC_SAVEDATA_GetScoreValue(int tally, int fieldId, int index);
 
@@ -59,7 +59,7 @@ u16 MISC_SAVEDATA_GetHalfword(const u16 *array, int index)
     return array[index];
 }
 
-void MISC_SAVEDATA_AddHalfwordClamped(char *tally, int index, int delta)
+void MISC_SAVEDATA_AddHalfwordClamped(char *tally, s32 index, s32 delta)
 {
     unsigned short *cell = (unsigned short *)(tally + index * 2);
     *cell = *cell + (unsigned short)delta;
@@ -123,7 +123,7 @@ u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 fieldId, u32 index)
  * r4` where the original has `adds r1, r4, r2`.  The fourth parameter is
  * signed (the guard is `ble`, not `bls`).
  */
-void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, int delta)
+void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, s32 delta)
 {
     u8 *base;
     u32 offset;

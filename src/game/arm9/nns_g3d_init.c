@@ -21,8 +21,10 @@
 
 #include "../types.h"
 
-extern void G3X_Init(void);
-extern void NNS_G3dGlbInit(void);
+typedef int GXFogBlend;
+typedef int GXFogSlope;
+#include "g3x.h"
+#include "nns_g3d_glb.h"
 
 /*
  * NNS_G3dInit shape: initialise the geometry engine, reset the NNS_G3dGlb

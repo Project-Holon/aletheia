@@ -50,24 +50,19 @@ typedef struct MEMCHECKEX {
     MATHCRC16Table tbl;
 } MEMCHECKEX;
 
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern s32  NCFGi_InitBackupMemory(void);
-extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, u16 poly);
+#include "mi_memory.h"
+typedef int NVRAMResult;
+#include "ncfg_backup.h"
+#include "crc.h"
 extern int  readAllSlots(NCFGConfig *config);
 extern s32  checkConfig(NCFGConfig *config, MATHCRC16Table *tbl);
 extern int  readAllExSlots(NCFGConfigEx *configEx);
 extern s32  checkConfigEx(NCFGConfigEx *configEx, MATHCRC16Table *tbl);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern u16  MATH_CalcCRC16(MATHCRC16Table *table, void *data, u32 dataLength);
-extern int  NCFGi_CheckApInfo(NCFGApInfo *info);
+#include "ncfg_check.h"
 extern void initPage(NCFGConfig *config, int page);
 extern int  writeAllSlots(NCFGConfig *config, MATHCRC16Table *tbl);
-extern int  NCFGi_CheckApInfoEx(NCFGApInfo *info, NCFGApInfoEx *infoEx);
 extern void initPageEx(NCFGConfigEx *configEx, int page);
 extern int  writeAllExSlots(NCFGConfigEx *configEx, MATHCRC16Table *tbl);
-extern s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index);
-extern s32 NCFG_WriteBackupMemory(s32 index, void *buf, u32 size);
 u32 NCFG_ReadConfig(NCFGConfig *config);
 s32 NCFG_CheckConfig(void *work);
 s32 NCFG_CheckConfigEx(void *work);

@@ -160,11 +160,11 @@ extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HLlLoad(int idx);
 extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
 extern void DWCi_CMNlStep(int step);
-extern void DWCi_ChangeScene(void (*scene)(void));
+void DWCi_ChangeScene(unsigned int v);
 extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern unsigned char *DWCi_Char(unsigned char *name);
 extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
-extern void *DWCi_CEINlSetExCell(int lcd, int idx, int head);
+extern void *DWCi_CEINlSetExCell(s32 lcd, s32 idx, bool head);
 extern void GX_LoadOBJPltt(void *, unsigned long, unsigned long);
 extern void GX_LoadBG2Char(void *, unsigned long, unsigned long);
 extern void GX_LoadBGPltt(void *, unsigned long, unsigned long);
@@ -191,9 +191,9 @@ extern void DWCi_SETTINGlSetSetting(int idx);
 extern void DWCi_SceneEnd(void);
 extern void DWCi_STEPlEnd(void);
 extern bool DWCi_EFFlWait(int frame);
-extern SETTINGINFO *DWCi_SETTIGNlGet(void);
+extern char *DWCi_SETTIGNlGet(void);
 extern void DWCi_BTNlEnd(void);
-extern int DWCi_STEPlIsEnd(void);
+extern bool DWCi_STEPlIsEnd(void);
 extern int DWCi_BTNlIsEnd(void);
 extern void DWCi_FOCUSlDelete(void);
 extern int DWCi_COMMENTlDelete(void);
@@ -209,13 +209,15 @@ extern void DWCi_SceneSetList(void);
 extern void DWCi_SceneSetUsbReady(void);
 extern void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
 extern void DWCi_FOCUSlDisp(int kind, int x0, int x1, int y);
-extern GXOamAttr *DWCi_CELLlGetObj(void *cell, int idx);
+struct CellInfo;
+union GXOamAttr;
+extern GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
 extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 extern s8 DWCi_WINlGet(void);
 extern void DWCi_SETTINGlErasePage(int page);
-extern void DWCi_CELLlDelete(void *cell);
+extern void DWCi_CELLlDelete(struct CellInfo *p);
 extern void DWCi_WINlEnd(void);
 extern int DWCi_WINlIsInit(void);
 extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
@@ -269,7 +271,7 @@ void DWCi_SceneSetSelectAp(void)
     DWCi_CMNlStep(0);
     initObj();
     dispFocus();
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((unsigned int)procInit);
 }
 
 /*
@@ -347,7 +349,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x14, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x14);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((unsigned int)procInit1);
 }
 
 static void procInit1(void)
@@ -357,7 +359,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(0);
-    DWCi_ChangeScene(procInit2);
+    DWCi_ChangeScene((unsigned int)procInit2);
 }
 
 static void procInit2(void)
@@ -369,7 +371,7 @@ static void procInit2(void)
         return;
     }
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene((unsigned int)procScene);
 }
 
 static void procScene(void)
@@ -424,7 +426,7 @@ static void button(void)
             break;
         case 1:
             DWCi_BTNlDisable();
-            DWCi_ChangeScene(DWCi_SceneEnd);
+            DWCi_ChangeScene((unsigned int)DWCi_SceneEnd);
             return;
         }
         break;
@@ -443,7 +445,7 @@ static void button(void)
 
             dispPushClear();
             DWCi_BTNlDisable();
-            DWCi_ChangeScene(procErase);
+            DWCi_ChangeScene((unsigned int)procErase);
             return;
         }
         if (scenesetselectap_bss.FocusPos <= 2)
@@ -454,7 +456,7 @@ static void button(void)
     default:
         return;
     }
-    DWCi_ChangeScene(endScene);
+    DWCi_ChangeScene((unsigned int)endScene);
 }
 
 static void endScene(void)
@@ -464,7 +466,7 @@ static void endScene(void)
     }
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((unsigned int)endScene1);
 }
 
 static void endScene1(void)
@@ -473,13 +475,13 @@ static void endScene1(void)
         return;
     }
     if (scenesetselectap_bss.MemSssa->mode == 1) {
-        if (scenesetselectap_bss.FocusPos == 3 || DWCi_SETTIGNlGet()->setting != 0xFF) {
+        if (scenesetselectap_bss.FocusPos == 3 || ((SETTINGINFO *)DWCi_SETTIGNlGet())->setting != 0xFF) {
             DWCi_BTNlEnd();
         }
     }
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x14, 8);
-    DWCi_ChangeScene(endScene2);
+    DWCi_ChangeScene((unsigned int)endScene2);
 }
 
 /*
@@ -515,24 +517,24 @@ static void endScene2(void)
 
     if (scenesetselectap_bss.MemSssa->mode == 2) {
         DWCi_SetParam_(0, 0);
-        DWCi_ChangeScene(DWCi_SceneMenu);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneMenu);
     } else {
         switch (scenesetselectap_bss.FocusPos) {
         case 0:
         case 1:
         case 2:
             DWCi_SetParam_(2, 0);
-            if (DWCi_SETTIGNlGet()->setting == 0xff) {
-                DWCi_ChangeScene(DWCi_SceneSetSelectWay);
+            if (((SETTINGINFO *)DWCi_SETTIGNlGet())->setting == 0xff) {
+                DWCi_ChangeScene((unsigned int)DWCi_SceneSetSelectWay);
             } else {
                 DWCi_SetParam2_(0, 0);
                 DWCi_SetListReturn(0);
-                DWCi_ChangeScene(DWCi_SceneSetList);
+                DWCi_ChangeScene((unsigned int)DWCi_SceneSetList);
             }
             break;
         case 3:
             DWCi_SetParam_(2, 1);
-            DWCi_ChangeScene(DWCi_SceneSetUsbReady);
+            DWCi_ChangeScene((unsigned int)DWCi_SceneSetUsbReady);
             break;
         }
     }
@@ -679,7 +681,7 @@ static void procErase(void)
         return;
     }
     DWCi_WINlEnd();
-    DWCi_ChangeScene(procErase1);
+    DWCi_ChangeScene((unsigned int)procErase1);
 }
 
 static void procErase1(void)
@@ -688,7 +690,7 @@ static void procErase1(void)
         return;
     }
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene((unsigned int)procScene);
 }
 
 static void dispPush(void)

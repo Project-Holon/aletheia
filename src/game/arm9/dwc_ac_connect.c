@@ -96,20 +96,15 @@ typedef struct {
     unsigned short activeScanTime;
 } ACWORK;
 
-extern unsigned char DWCi_AC_GetPhase(void);
-extern void *DWCi_AC_GetMemPtr(unsigned long name);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern long WCM_GetPhase(void);
-extern long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option);
-extern unsigned long long OS_GetTick(void);
-extern void DWCi_AC_SetError(int error);
-extern unsigned char DWCi_AC_GetSearchListNum(void);
-extern int DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc);
-extern unsigned char DWCi_AC_CheckFreespot(WMBssDesc *bssdesc);
-extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
-extern void DWCi_AC_GetNintendoUSBWepKey(char *ssid, unsigned char *wep);
-extern void DWCi_AC_GetNintendoShopWepKey(char *ssid, unsigned char *wep);
+#include "dwc_ac.h"
+#include "mi_memory.h"
+#include "../ov009/wcm_system.h"
+typedef unsigned long long OSTick;
+#include "os_tick.h"
+#include "dwc_ac_makelist.h"
+#include "dwc_ac_beacon.h"
+#include "msl_string_str.h"
+#include "dwc_ac_shop_usb.h"
 unsigned char DWCi_AC_ConnectAP(void);
 unsigned char ConnectStart(ACWORK *wk);
 static unsigned char ConnectAP(ACWORK *wk);

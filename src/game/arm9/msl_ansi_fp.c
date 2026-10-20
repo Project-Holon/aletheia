@@ -88,23 +88,19 @@ typedef void (*DecFromStr)(decimal2 *d, const char *s, s16 exp);
 
 extern double _dsub(double a, double b);
 
-extern double frexp(double x, int *eptr);
+#include "msl_fdlibm.h"
 
-extern double ldexp(double x, int n);
 
-extern double copysign(double x, double y);                        /* copysign */
+                        /* copysign */
 
-extern double pow(double x, double y);                        /* pow */
+                        /* pow */
 
-u32 MSL_C_LIB_PopCount64(u64 x);
+#include "msl_stdio.h"
 
-int __signbitd(double x);
 
-int __fpclassifyd(double x);
 
-void MSL_C_LIB_IncrementDigits(u8 *dec, int idx);
+#include "msl_wchar.h"
 
-void MSL_C_LIB_SetPrecision(DB *dec, int precision);
 
 void __ull2dec(decimal2 *result, u64 val);
 

@@ -447,6 +447,7 @@ int FIELDMAP_CTRL_HYBRID_FindRailLocation(FieldMap *fieldMap, FieldMapCtrlHybrid
     u16 locations[8];   /* [0..3]: stepped location (unused), [4..7]: hit location */
     struct RailManager *railManager;
     u16 *outWords = (u16 *)outLocation;
+    int ret;
 
     railManager = FIELD_NOGRID_MAPPER_GetRailMan(FIELDMAP_GetNogridMapper(fieldMap));
     FIELD_PLAYER_GetPos(work->player, &segBottom);
@@ -454,12 +455,14 @@ int FIELDMAP_CTRL_HYBRID_FindRailLocation(FieldMap *fieldMap, FieldMapCtrlHybrid
     segTop.y = segBottom.y + 0x4000;
     segTop.z = segBottom.z;
     segBottom.y = segBottom.y - 0x4000;
-    if (FIELD_RAIL_FindSegmentLocation(railManager, &segBottom, &segTop, (RailLocation *)&locations[4], &hitPos) != 0)
-        FIELD_RAIL_TryStepLocation(railManager, (RailLocation *)&locations[4], ZONEDATA_DirToRailKey(dir), (RailLocation *)locations);
+    ret = FIELD_RAIL_FindSegmentLocation(railManager, &segBottom, &segTop, (RailLocation *)&locations[4], &hitPos);
+    if (ret != 0)
+        ret = FIELD_RAIL_TryStepLocation(railManager, (RailLocation *)&locations[4], ZONEDATA_DirToRailKey(dir), (RailLocation *)locations);
     outWords[0] = locations[4];
     outWords[1] = locations[5];
     outWords[2] = locations[6];
     outWords[3] = locations[7];
+    return ret;
 }
 
 /*

@@ -46,19 +46,17 @@ struct PerapVoice {
 
 #define SPECIES_CHATOT 0x1B9
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern void MIi_CpuClear32(u32 value, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "poke_tool.h"
 struct Party;
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "pokeparty.h"
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
 extern const char _PerapVoiceFileName[];
 
@@ -68,7 +66,7 @@ void PERAPVOICE_ClearRecorded(struct PerapVoice *voice);
 
 u32 PERAPVOICE_IsRecorded(struct PerapVoice *voice);
 
-void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
 /*
  * "perapvoice.c" starts here (Perap is the Japanese name of Chatot).

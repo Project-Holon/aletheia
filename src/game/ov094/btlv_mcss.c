@@ -2492,6 +2492,7 @@ int BTLV_MCSS_CalcSlotScale(BtlvMcssWork *work, int pos, int mode)
         case 13:
             return gBtlvMcssSlotScaleTrainer[pos - 8];
         }
+        return (int)work;
     } else {
         if (pos < 8) {
             if (pos & 1)

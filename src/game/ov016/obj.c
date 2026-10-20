@@ -40,7 +40,7 @@ extern void *DWCi_QUElPopBack(void *queue);
 extern void DWCi_QUElPushBack(void *que, void *elem);
 void DWCi_OBJlInit(void);
 void DWCi_OBJlEnd(void);
-void DWCi_OBJlFormGx(unsigned int i);
+union GXOamAttr *DWCi_OBJlFormGx(unsigned int i);
 void DWCi_OBJlDelete(unsigned int *obj);
 char *DWCi_OBJlGetOam(unsigned int a, unsigned int b);
 extern char *gObjWork;
@@ -89,10 +89,10 @@ void DWCi_OBJlEnd(void)
  *   python tools/match.py one --src src/matched/DWCi_OBJlFormGx.c \
  *       --func DWCi_OBJlFormGx --addr 0x021D6F18 --region ov016 --cc dsi/1.1p1 --arm
  */
-void DWCi_OBJlFormGx(unsigned int i)
+union GXOamAttr *DWCi_OBJlFormGx(unsigned int i)
 {
     char *p = *(char **)0x021DE6A8;
-    DWCi_QUElPopBack(*(void **)(p + (i << 2) + 0x800));
+    return (union GXOamAttr *)DWCi_QUElPopBack(*(void **)(p + (i << 2) + 0x800));
 }
 
 

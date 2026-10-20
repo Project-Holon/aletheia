@@ -18,8 +18,8 @@
  *   is_init                          0x02150e04 data
  *   .bss                             0x02150e04 data
  */
-extern void FSi_InitRomArchive(unsigned long default_dma_no);
-extern void FSi_InitOverlay(void);
+#include "fs_proc_rom.h"
+#include "fs_overlay.h"
 void FS_Init(unsigned long default_dma_no);
 int FS_IsAvailable(void);
 asm void MTX_Identity22_(void);

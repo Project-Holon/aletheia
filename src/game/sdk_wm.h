@@ -298,4 +298,23 @@ typedef struct WMStartScanExCallback {
     unsigned short linkLevel[16];
 } WMStartScanExCallback;
 
+/* Wireless connection manager (WCM): start-up parameters and notification record. */
+typedef struct WCMConfig {
+    long dmano;
+    void *pbdbuffer;
+    long nbdbuffer;
+    long nbdmode;
+} WCMConfig;
+
+typedef union WCMNoticeParameter {
+    long n;
+    void *p;
+} WCMNoticeParameter;
+
+typedef struct WCMNotice {
+    short notify;
+    short result;
+    WCMNoticeParameter parameter[3];
+} WCMNotice;
+
 #endif

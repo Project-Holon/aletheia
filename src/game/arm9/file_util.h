@@ -1,13 +1,15 @@
 #ifndef GAME_ARM9_FILE_UTIL_H
 #define GAME_ARM9_FILE_UTIL_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of file_util.c, prototypes copied from their definitions. */
 
-#include "../sdk_fs.h"
-
+struct FSFile;
 struct ArcFile;
 struct ItemRecord;
 struct ItemExt;
+
+#include "../types.h"
 
 void FILE_UTIL_OpenById(struct FSFile *file, u32 archiveId);
 void *FILE_UTIL_LoadRange(u32 archiveId, u32 heap, u32 offset, u32 size);
@@ -31,5 +33,6 @@ u8 FILE_UTIL_GetMachineIndex(u16 machineId);
 u32 FILE_UTIL_IsMailItem(u16 itemId);
 u8 FILE_UTIL_GetItemSlot(u16 itemId);
 u16 FILE_UTIL_GetItemId(u32 idx);
+/* END mkheaders: generated region */
 
 #endif

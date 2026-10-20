@@ -53,11 +53,7 @@
 #include "../types.h"
 #include "../sdk_os.h"
 
-typedef struct SNDCommand {
-    struct SNDCommand *next;
-    int id;
-    u32 arg[4];
-} SNDCommand;
+#include "snd_command.h"
 
 #include "snd_shared_types.h"
 
@@ -77,29 +73,25 @@ typedef struct {
 typedef void (*PXIFifoCallback)(int tag, u32 data, BOOL err);
 
 extern void InitPXI(void);
-extern void SNDi_InitSharedWork(SNDSharedWork *work);
+#include "snd_work.h"
 extern SNDCommand *SND_AllocCommand(u32 flags);
 extern void SND_PushCommand(SNDCommand *command);
 extern BOOL SND_FlushCommand(u32 flags);
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern u32 SNDi_GetFinishedCommandTag(void);
-extern void OS_SpinWaitSysCycles(u32 cycle);
+#include "os_system.h"
 extern BOOL IsCommandAvailable(void);
 extern SNDCommand *AllocCommand(void);
 extern int SND_CountWaitingCommand(void);
 extern const SNDCommand *SND_RecvCommandReply(u32 flags);
 extern void RequestCommandProc(void);
-extern void DC_FlushRange(const void *startAddr, u32 nBytes);
-extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
+#include "os_cache.h"
+#include "pxi_fifo.h"
 extern BOOL SND_IsFinishedCommandTag(u32 tag);
 extern int SND_CountFreeCommand(void);
 extern int SND_CountReservedCommand(void);
-extern void SNDi_CallAlarmHandler(int msg);
+#include "snd_alarm.h"
 extern void PXI_SetFifoRecvCallback(int fifotag, PXIFifoCallback callback);
-extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
 extern void PxiFifoCallback(int tag, u32 data, BOOL err);
-extern BOOL OS_IsRunOnEmulator(void);
+#include "os_emulator.h"
 void SND_CommandInit(void);
 void SND_WaitForCommandProc(u32 tag);
 u32 SND_GetCurrentCommandTag(void);

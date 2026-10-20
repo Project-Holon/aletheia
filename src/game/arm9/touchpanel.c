@@ -48,51 +48,25 @@
 
 #define TOUCHPANEL_HIT_SKIP     0xfd
 
-/* One entry of a touch hit table: a rectangle, or a circle when the first
- * byte is TOUCHPANEL_HIT_CIRCLE.  TOUCHPANEL_HIT_END ends the table. */
-typedef union {
-    struct {
-        u8 top;
-        u8 bottom;
-        u8 left;
-        u8 right;
-    } rect;
-    struct {
-        u8 code;
-        u8 x;
-        u8 y;
-        u8 r;
-    } circle;
-} TouchHitTable;
 
-extern UiCtx *UI_GetContext(void);
+#include "ui.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+#include "mi_memory.h"
 
-extern void TP_Init(void);
 struct TPCalibrateParam;
 
-extern int  TP_GetUserInfo(struct TPCalibrateParam *calibrate);
 
-extern void TP_SetCalibrateParam(struct TPCalibrateParam *param);
 
-extern void TP_RequestSamplingAsync(void);
 
-extern u32  TP_WaitRawResult(TPData *result);
 
 extern void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData *samplingBufs, u16 bufSize);
 
-extern void TP_RequestAutoSamplingStopAsync(void);
 
-extern void TP_GetLatestRawPointInAuto(TPData *result);
 
-extern void TP_GetCalibratedPoint(TPData *disp, const TPData *raw);
 
-extern void TP_WaitBusy(u32 command);
 
-extern u32  TP_CheckError(u32 command);
 
 /* touchpanel.c */
 TouchPanelWork *TOUCHPANEL_GetWork(void);

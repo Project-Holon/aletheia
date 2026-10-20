@@ -24,10 +24,11 @@
 
 #include "../types.h"
 
+typedef void *(*NNSiFndAllocMethod)(void *self, u32 size);
 typedef void (*NNSiFndMethod)(void *self, u32 value);
 
 typedef struct NNSiFndVTable {
-    NNSiFndMethod method0;
+    NNSiFndAllocMethod method0;
     NNSiFndMethod method1;
 } NNSiFndVTable;
 
@@ -52,7 +53,7 @@ typedef struct NNSGfdTexVramSlot {
     u32 base;      /* 0x14 */
 } NNSGfdTexVramSlot;
 
-void NNS_FndAllocFromAllocator(NNSiFndObject *pObject, u32 value);
+void *NNS_FndAllocFromAllocator(NNSiFndObject *pObject, u32 value);
 
 void NNS_FndFreeToAllocator(NNSiFndObject *pObject, u32 value);
 
@@ -122,9 +123,9 @@ extern NNSGfdTexVramSlot *g_020A8158[5];
  *       --addr 0x02061330 --arm
  *   EXACT, 40 bytes, 2 functions, 0 relocation sites.
  */
-void NNS_FndAllocFromAllocator(NNSiFndObject *o, u32 x)
+void *NNS_FndAllocFromAllocator(NNSiFndObject *o, u32 x)
 {
-    o->vtable->method0(o, x);
+    return o->vtable->method0(o, x);
 }
 
 void NNS_FndFreeToAllocator(NNSiFndObject *o, u32 x)

@@ -63,75 +63,38 @@ struct Block {
     u8  pad_0c[0x3c];
 };
 
-struct RtcDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-};
+#include "gf_standard_types.h"
 
-struct RtcTime {
-    u32 hour;
-    u32 minute;
-    u32 second;
-};
+#include "gfl_heap_wrap.h"
 
-struct RtcRequest {
-    u32            hasResult;
-    u32            busy;
-    s32            frameCount;
-    u32            result;
-    struct RtcDate date;
-    struct RtcTime time;
-    struct RtcDate stagedDate;
-    struct RtcTime stagedTime;
-};
+#include "crc.h"
 
-struct RtcDateSigned {
-    s32 year;
-    u32 month;
-    s32 day;
-    s32 week;
-};
+#include "std_string.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
-                          u16 tag);
 
-extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
-
-extern int STD_CompareString(const char *s1, const char *s2);
-
-extern u16 MATH_CalcCRC16CCITT(struct MATHCRC16Table *table, void *data, u32 dataLength);
-
-extern void OS_GetLowEntropyData(u32 *buffer);
+#include "os_entropy.h"
 struct MATHSHA1Context;
 
-extern void MATH_SHA1Init(struct MATHSHA1Context *context);
+#include "dgt_sha1.h"
 
-extern void MATH_SHA1Update(struct MATHSHA1Context *context, void *input, u32 length);
 
-extern void MATH_SHA1GetHash(struct MATHSHA1Context *context, void *digest);
 
-extern void MI_CpuCopy8(void *in, void *out, u32 n);
+#include "mi_memory.h"
 
-extern void RTC_Init(void);
+typedef int RTCResult;
+#include "external.h"
 
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 
 extern u32  RTC_GetDateTimeAsync(struct RtcDate *date, struct RtcTime *time,
                           void (*done)(u32, struct RtcRequest *),
                           struct RtcRequest *arg);
 
-extern long long RTC_ConvertDateTimeToSecond(struct RTCDate *date, struct RTCTime *time);
+#include "convert.h"
 
-extern s32 RTC_ConvertDateToDay(struct RTCDate *date);
 
-extern void VEC_Subtract(const struct VecFx32 *a, const struct VecFx32 *b,
-                         struct VecFx32 *out);
+#include "fx_vec.h"
 
-extern void VEC_Normalize(const struct VecFx32 *a, struct VecFx32 *out);
 
-extern fx32 VEC_DotProduct(const struct VecFx32 *a, const struct VecFx32 *b);
 
 void GF_STANDARD_Init(u32 heapId);
 

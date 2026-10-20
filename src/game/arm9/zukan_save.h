@@ -1,9 +1,12 @@
 #ifndef GAME_ARM9_ZUKAN_SAVE_H
 #define GAME_ARM9_ZUKAN_SAVE_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of zukan_save.c, prototypes copied from their definitions. */
 
 struct ZukanSave;
+
+#include "../types.h"
 
 u32 ZUKAN_SAVE_IsInvalidSpecies(u32 species);
 void ZUKAN_SAVE_SetLanguageFlag(struct ZukanSave *pZukan, u32 species, u32 language);
@@ -47,5 +50,6 @@ u16 ZUKAN_SAVE_CountCaughtNationalCounted(struct ZukanSave *pZukan);
 int ZUKAN_SAVE_CountCaughtRegionalCounted(struct ZukanSave *pZukan, int heap);
 u16 ZUKAN_SAVE_CountSeenRegionalCounted(struct ZukanSave *pZukan, u32 heap);
 u32 ZUKAN_SAVE_HasLanguageFlag(struct ZukanSave *pZukan, u32 species, u32 language);
+/* END mkheaders: generated region */
 
 #endif

@@ -37,15 +37,7 @@ struct StrbufStatics {
     char file[1];    /* 0x020A7E80, the "strbuf.c" file name handed to the allocator */
 };
 
-#define STRBUF_MAGIC 0xB6F8D2ECu
-
-/* A bounded string of u16 characters; chars[] holds capacity entries plus the end code. */
-struct Strbuf {
-    u16 capacity;    /* +0x00 */
-    u16 length;      /* +0x02 */
-    u32 magic;       /* +0x04, STRBUF_MAGIC while live */
-    u16 chars[1];    /* +0x08 */
-};
+#include "strbuf_types.h"
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 

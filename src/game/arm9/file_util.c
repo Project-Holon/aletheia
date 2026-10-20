@@ -132,23 +132,17 @@ struct ItemRecord {
     } u;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 
-extern void *GFL_USE_GetArcPath(u32 archiveId);
+#include "gfl_use.h"
 
-extern void  FS_InitFile(struct FSFile *file);
+#include "fs_file.h"
 
-extern void  FS_OpenFile(struct FSFile *file, void *path);
 
-extern void  FS_CloseFile(struct FSFile *file);
 
-extern u32   FS_SeekFile(struct FSFile *file, int offset, u32 origin);
 
-extern u32   FS_ReadFile(struct FSFile *file, void *dst, u32 size);
 
-extern u32   FS_GetLength(struct FSFile *file);
 
 extern u32   ITEM_GFX_GetRowIndex(u32 item);
 
@@ -158,12 +152,10 @@ extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap
 
 extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heap);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "msgdata.h"
 struct Strbuf;
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 void FILE_UTIL_OpenById(struct FSFile *file, u32 archiveId);
 

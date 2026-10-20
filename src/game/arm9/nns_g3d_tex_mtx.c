@@ -51,7 +51,7 @@ extern void FX_DivAsync(s32 numer, s32 denom);
 
 extern s32  FX_GetDivResult(void);
 
-extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
+#include "nns_g3d_ge.h"
 
 void NNSi_G3dTexMtxScaleRotTrans(TexMtx *pTexMtx, NNSG3dMatAnmResult *pMatAnm);
 
@@ -594,7 +594,7 @@ struct DST {
     s32 _31;
 };
 
-typedef struct Obj {
+typedef struct TexMtxObj {
     u32 flag;
     u8  pad04[0x18 - 4];
     s32 scaleS;
@@ -606,9 +606,9 @@ typedef struct Obj {
     u8  pad2c[0x30 - 0x2c];
     volatile s32 magW;
     volatile s32 magH;
-} Obj;
+} TexMtxObj;
 
-typedef struct Rec {
+typedef struct TexMtxRec {
     u32 hdr;
     s32 texMtxMode;
     s32 _00;
@@ -628,9 +628,9 @@ typedef struct Rec {
     s32 _32;
     s32 _33;
     s32 posMtxMode;
-} Rec;
+} TexMtxRec;
 
-typedef void (*Fill)(s32 *out, Obj *o);
+typedef void (*Fill)(s32 *out, TexMtxObj *o);
 
 void NNSi_G3dTexMtxScaleRot_Max(struct DST *d, struct SRC *s);
 
@@ -640,7 +640,7 @@ void NNSi_G3dTexMtxScale_Max(struct DST *d, struct SRC *s);
 
 void NNSi_G3dTexMtxIdentity_Max(struct DST *d);
 
-void NNSi_G3dSendTexMtx_Max(Obj *o);
+void NNSi_G3dSendTexMtx_Max(TexMtxObj *o);
 
 extern Fill data_020A8478[];
 
@@ -929,9 +929,9 @@ void NNSi_G3dTexMtxIdentity_Max(struct DST *d)
  * not evidence either way.  Under the pin the same C is 392 bytes,
  * 0 mismatches.
  */
-void NNSi_G3dSendTexMtx_Max(Obj *o)
+void NNSi_G3dSendTexMtx_Max(TexMtxObj *o)
 {
-    Rec r;
+    TexMtxRec r;
     s32 zero;
     s32 three = 3;
     s32 two = 2;

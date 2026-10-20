@@ -51,63 +51,44 @@
 #include "../types.h"
 #include "net_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "gf_panic.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+#include "net_system.h"
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "net_handle.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, int n);
+#include "mi_memory.h"
 
-extern void OS_GetMacAddress(u8 *macAddress);
+#include "os_ownerinfo.h"
 
-extern s32 GF_STANDARD_CompareBytes(const u8 *lhs, const u8 *rhs, u32 size);
+#include "gf_standard.h"
 
-extern void UI_SetKeepAwakeFlagsGlobal(u8 flags);
+#include "ui.h"
 
-extern void UI_ClearKeepAwakeFlagsGlobal(u8 v);
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
 
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
 
-int GFL_NET_HANDLE_GetNegotiationNum(void);
 
-int GFL_NET_HANDLE_CheckNegotiation(void);
 
-u32 GFL_NET_STATE_SetErrorMode(u8 mode);
+#include "net_state.h"
 
-void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 userArg);
+#include "net.h"
 
-int GFL_NET_GetRunState(void);
 
-int GFL_NET_Exit(void (*exitCallback)(u32));
 
-u32 GFL_NET_GetScanResult(u32 index);
 
-void *GFL_NET_GetScanResultMac(u32 index);
 
-void GFL_NET_ConnectMacAddressParent(void *context);
 
-void GFL_NET_ConnectMacAddressChild(void *context);
 
-void GFL_NET_BeaconScanStart(void);
 
-void GFL_NET_StartByNetType(void);
 
-void GFL_NET_StartChangeoverChild(u32 changeoverParam);
 
-void GFL_NET_SetLinkTimeout(u32 frames);
 
-u32 GFL_NET_IsIdle(void);
 
-int GFL_NET_SendToHandle(GFLNetHandle *handle, u32 command, u32 size, const void *data);
 
-GFLNetSession *GFL_NET_GetSession(void);
 
 GFLNetInitializeStruct *GFL_NET_IRC_WIRELESS_Create(const GFLNetInitializeStruct *src, u32 callbackArg);
 

@@ -52,16 +52,7 @@ struct NNSGfdVramRing {
     u16 count;        /* 0x0c */
 };
 
-extern void GX_BeginLoadTex(void);
-extern void GX_LoadTex(void *pSrc, u32 destSlotAddr, u32 szByte);
-extern void GX_EndLoadTex(void);
-extern void GX_BeginLoadTexPltt(void);
-extern void GX_LoadTexPltt(void *pSrc, u32 destSlotAddr, u32 szByte);
-extern void GX_EndLoadTexPltt(void);
-extern void GX_BeginLoadClearImage(void);
-extern void GX_LoadClearImageColor(void *pSrc, u32 szByte);
-extern void GX_EndLoadClearImage(void);
-extern void GX_LoadClearImageDepth(void *pSrc, u32 szByte);
+#include "gx_load3d.h"
 u32 NNS_GfdAllocVram(u32 size, u32 flag, u32 dir);
 void NNSi_GfdGetVramManagerWork(struct Arena02146B74 *dst);
 void NNSi_GfdSetVramManagerWork(void *pWork);
@@ -73,16 +64,7 @@ void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c);
 extern struct Arena02146B74 g_02146B74;
-extern void GX_LoadBG0Char(void *pSrc, u32 offset, u32 szByte);
-extern void GX_LoadBG1Char(void *pSrc, u32 offset, u32 szByte);
-extern void GX_LoadBG2Char(void *pSrc, u32 offset, u32 szByte);
-extern void GX_LoadBG3Char(void *pSrc, u32 offset, u32 szByte);
-extern void GX_LoadBG0Scr(void *pSrc, u32 offset, u32 szByte);
-extern void GX_LoadBG1Scr(void *pSrc, u32 offset, u32 szByte);
-extern void GX_LoadBG2Scr(void *pSrc, u32 offset, u32 szByte);
-extern void GX_LoadBG3Scr(void *pSrc, u32 offset, u32 szByte);
-extern void GX_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
-extern void GX_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
+#include "gx_load2d.h"
 void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadBG1Char(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadBG2Char(u32 a, u32 b, u32 c);

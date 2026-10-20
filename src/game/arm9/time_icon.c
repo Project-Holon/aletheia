@@ -71,9 +71,8 @@ struct TimeIcon {
     u32 isActive;               /* 0x18 */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct TcbSystem;
 struct TcbTask;
 
@@ -84,11 +83,12 @@ struct TcblTask;
 extern struct TcblTask *TCBL_AddTask(struct TcblSystem *tcbl, void (*callback)(struct TcblNode *, void *), unsigned int workSize, unsigned int priority);
 struct TcblTask;
 
-extern void *TCBL_GetWork(struct TcblTask *task);
+#include "tcbl.h"
 
-extern u32 GFL_USE_GetRandom(u32 range);
+#include "gfl_use.h"
 
-extern struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 heapId);
+typedef short s16_p07;
+#include "bmp.h"
 
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
@@ -106,24 +106,20 @@ extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u32 width,
 
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern void BG_SYS_MarkTileDirty(u32 bgLayer);
+#include "bg_sys.h"
 
-extern void BMP_Delete(struct Bmp *bmp);
 
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "tcb_list.h"
 
-extern void TCBL_DeleteTask(struct TcblTask *task);
 
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
 
 struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, volatile u16 heapId);
 

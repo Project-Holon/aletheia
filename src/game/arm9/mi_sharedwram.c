@@ -15,8 +15,8 @@
  *   MIi_InitWramManager 0x02730468 arm twl
  */
 
-extern int OS_IsRunOnTwl(void);
-extern void MIi_InitWramManager(void);
+#include "os_emulator.h"
+#include "../twl/mi_sharedWram.h"
 
 void MI_InitWramManager(void)
 {

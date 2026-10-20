@@ -39,9 +39,8 @@ struct BrightnessChange {
     u32 active;
 };
 
-extern void  MI_CpuFill8(void *p, u32 v, u32 n);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
+#include "mi_memory.h"
+#include "g2.h"
 void BRIGHTNESS_ChangeStep(struct BrightnessChange *p);
 void BRIGHTNESS_ChangeInit(struct BrightnessChange *p, u16 steps, s16 from, s16 to, u32 plane, u32 screenMask);
 void BRIGHTNESS_ChangeRequest(u16 steps, s16 from, s16 to, u32 plane, u32 mask);

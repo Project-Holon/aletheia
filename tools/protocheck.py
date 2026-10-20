@@ -349,7 +349,7 @@ def compare(ret_d, par_d, ret_x, par_x):
 SCALAR_TEXT = {"char", "u8", "s8", "u16", "s16", "u32", "s32", "u64", "s64", "float", "double", "void"}
 
 
-KEYWORD_FORM = {"u8": "unsigned char", "s8": "char", "u16": "unsigned short", "s16": "short",
+KEYWORD_FORM = {"u8": "unsigned char", "s8": "signed char", "u16": "unsigned short", "s16": "short",
                 "u32": "unsigned int", "s32": "int", "u64": "unsigned long long", "s64": "long long"}
 
 
@@ -370,7 +370,11 @@ def canon_text(types, c, code="", vis=None):
     """Source text of a canonical type, or None if it cannot be written in this file."""
     base = c.rstrip("*")
     n = len(c) - len(base)
-    if base in SCALAR_TEXT:
+    if base == "bool":
+        # bool is a per-file typedef (typedef _Bool bool;), so only a file that declares it can spell it
+        if not re.search(r"\btypedef\s+_Bool\s+bool\s*;", code or ""):
+            return None
+    elif base in SCALAR_TEXT:
         if vis is not None and base in KEYWORD_FORM and base not in vis:
             base = KEYWORD_FORM[base]
     elif base.startswith(("struct ", "union ")) and base not in types.anon:
@@ -563,6 +567,8 @@ CONV = re.compile(r"illegal implicit conversion from '([^']*)' to '([^']*)'")
 def err_type_canon(types, text):
     """Canonical type of a type spelled in an mwcc message, or None."""
     t = text.strip()
+    if "(" in t and t.endswith(")") and not t.startswith(("struct", "union")):
+        return "@fnptr"          # a function or function pointer type: one kind, as in canon()
     if "(" in t or t == "void":
         return None
     t = re.sub(r"\[[^\]]*\]", " *", t)

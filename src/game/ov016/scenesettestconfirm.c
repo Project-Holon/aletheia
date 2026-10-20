@@ -117,7 +117,7 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_ChangeScene(void (*scene)(void));
+extern void DWCi_ChangeScene(unsigned int v);
 extern int DWCi_MOVlIsEnd(void);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern int DWCi_COMMENTlDelete(void);
@@ -125,18 +125,18 @@ extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SceneOptMenu(void);
 extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_CMNlButton(int kind);
-extern char DWCi_BTNlGet(void);
+extern signed char DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void DWCi_BTNlDisable(void);
-extern void DWCi_BTNlSet(char v);
-extern void DWCi_SNDlPlay(int no);
+extern void DWCi_BTNlSet(signed char v);
+extern void DWCi_SNDlPlay(unsigned int v);
 extern void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
 extern int DWCi_TPlCheckTrigger(unsigned short *a);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern int DWCi_IPTlCheckRepeat(unsigned int f);
 extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
 extern void DWCi_SceneEnd(void);
-extern void DWCi_WINlInitEx(int msg, int type, unsigned char dark, int n, int num);
+extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 extern signed char DWCi_WINlGet(void);
 extern void DWCi_WINlEnd(void);
 extern int DWCi_WINlIsInit(void);
@@ -172,7 +172,7 @@ void DWCi_SceneSetTestConfirm(void)
         DWCi_HLlLoadSet();
     if (prm == 1)
         DWCi_SETTINGlSet();
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((unsigned int)procInit);
 }
 
 
@@ -203,7 +203,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x14, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x14);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((unsigned int)procInit1);
 }
 
 
@@ -223,7 +223,7 @@ static void procInit1(void)
         return;
     DWCi_GetParam2_(0, (unsigned int *)((void **)&prm));
     DWCi_WINlInitEx(msg.m[prm], 1, 1, -1, 0);
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene((unsigned int)procScene);
 }
 
 
@@ -242,7 +242,7 @@ static void procScene(void)
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
     DWCi_SNDlPlay(6);
-    DWCi_ChangeScene(endScene);
+    DWCi_ChangeScene((unsigned int)endScene);
 }
 
 
@@ -275,7 +275,7 @@ static void endScene(void)
     if (DWCi_WINlIsInit())
         return;
     DWCi_EFFlFade(3, 0, 20, 8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((unsigned int)endScene1);
 }
 
 
@@ -291,5 +291,5 @@ static void endScene1(void)
         return;
     DWCi_GXlInvisible(0, 20);
     DWCi_SetParam_(0, (unsigned int)(1));
-    DWCi_ChangeScene(DWCi_SceneSetTest);
+    DWCi_ChangeScene((unsigned int)DWCi_SceneSetTest);
 }

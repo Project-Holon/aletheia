@@ -50,17 +50,14 @@
  */
 typedef int i32;
 
-extern double fabs(double x);
+#include "msl_fdlibm.h"
 
-extern double frexp(double x, int *eptr);
 
-extern double ldexp(double x, int n);
 
-extern double sqrt(double x);
+#include "cw_runtime.h"
 
 extern double scalbn(double x, int n);
 
-extern int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const i32 *ipio2);
 
 double __ieee754_pow(double x, double y);
 

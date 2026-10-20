@@ -1,7 +1,7 @@
 /*
  * file:     poke_summary_anim.c
  * unit:     yes
- * function: POKE_SUMMARY_ANIM_ShowTextKind7, POKE_SUMMARY_ANIM_ShowTextKind8, POKE_SUMMARY_ANIM_ShowTextKind4, POKE_SUMMARY_ANIM_ShowTextKind5
+ * function: POKE_SUMMARY_ANIM_ShowTextKind7, POKE_SUMMARY_ANIM_ShowTextKind8, POKE_SUMMARY_ANIM_ShowTextKind4, POKE_SUMMARY_ANIM_ShowTextKind5, POKE_SUMMARY_ANIM_Finish
  * address:  0x021B75E0
  * region:   ov173
  * compiler: dsi/1.1p1

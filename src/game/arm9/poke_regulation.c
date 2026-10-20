@@ -49,20 +49,7 @@ struct Strbuf;
 
 #include "../types.h"
 
-/* Battle regulation data (0x534 bytes in the save; only the fields read here). */
-struct Regulation {
-    u8 reserved0[2];
-    u8 minPartySize;
-    u8 maxPartySize;
-    u8 levelValue;
-    u8 levelRule;
-    u8 reserved6[2];
-    u8 speciesClause;
-    u8 itemClause;
-    u8 bannedSpecies[0x52];
-    u8 otherRules[0x4F];
-    u8 battleMode;
-};
+#include "regulation_types.h"
 
 /* Regulation summary: the message bank, one label and one rule line per
  * entry, and the battle mode used to pick the last line. */
@@ -635,17 +622,17 @@ struct Strbuf *POKE_REGULATION_BuildPartySizeLine(const struct Regulation *reg, 
     u32 messageId;
     struct Strbuf *line;
 
-    if (reg->minPartySize == 1 && reg->maxPartySize == 6) {
+    if (reg->numLo == 1 && reg->numHi == 6) {
         messageId = 6;
-    } else if (reg->minPartySize == reg->maxPartySize) {
+    } else if (reg->numLo == reg->numHi) {
         messageId = 7;
-    } else if (reg->minPartySize > 1 && reg->maxPartySize == 6) {
+    } else if (reg->numLo > 1 && reg->numHi == 6) {
         messageId = 8;
     } else {
         messageId = 9;
     }
-    WORDSET_SetSlotNumber(wordSet, 0, reg->minPartySize, 1, 0, 1);
-    WORDSET_SetSlotNumber(wordSet, 1, reg->maxPartySize, 1, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, reg->numLo, 1, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 1, reg->numHi, 1, 0, 1);
     line = STRBUF_Create(0x40, heapId);
     MSGDATA_ReadString(text->bank, messageId, scratch);
     WORDSET_CopyTaggedText(wordSet, line, scratch);
@@ -674,22 +661,22 @@ struct Strbuf *POKE_REGULATION_BuildLevelLine(const struct Regulation *reg, stru
     u32 messageId;
     struct Strbuf *line;
 
-    if (reg->levelRule == 0) {
+    if (reg->levelRange == 0) {
         messageId = 6;
-    } else if (reg->levelRule == 4) {
+    } else if (reg->levelRange == 4) {
         messageId = 0xb;
-    } else if (reg->levelRule == 1) {
+    } else if (reg->levelRange == 1) {
         messageId = 0xd;
-    } else if (reg->levelRule == 2) {
+    } else if (reg->levelRange == 2) {
         messageId = 0xc;
-    } else if (reg->levelRule == 3) {
+    } else if (reg->levelRange == 3) {
         messageId = 0xe;
-    } else if (reg->levelRule == 5) {
+    } else if (reg->levelRange == 5) {
         messageId = 0xf;
     } else {
         messageId = 6;
     }
-    WORDSET_SetSlotNumber(wordSet, 0, reg->levelValue, 3, 0, 1);
+    WORDSET_SetSlotNumber(wordSet, 0, reg->level, 3, 0, 1);
     line = STRBUF_Create(0x40, heapId);
     MSGDATA_ReadString(text->bank, messageId, scratch);
     WORDSET_CopyTaggedText(wordSet, line, scratch);
@@ -702,7 +689,7 @@ struct Strbuf *POKE_REGULATION_GetBannedSpeciesLine(const struct Regulation *reg
     u32 messageId;
 
     for (i = 0; i < 0x52; i++) {
-        if (reg->bannedSpecies[i] != 0)
+        if (reg->vetoPokeBit[i] != 0)
             break;
     }
     messageId = 0x10;
@@ -715,7 +702,7 @@ struct Strbuf *POKE_REGULATION_GetSpeciesClauseLine(const struct Regulation *reg
 {
     u32 messageId = 0x12;
 
-    if (reg->speciesClause != 1)
+    if (reg->bothPoke != 1)
         messageId = 0x13;
     return MSGDATA_AllocString(text->bank, messageId);
 }
@@ -724,7 +711,7 @@ struct Strbuf *POKE_REGULATION_GetItemClauseLine(const struct Regulation *reg, s
 {
     u32 messageId = 0x14;
 
-    if (reg->itemClause != 1)
+    if (reg->bothItem != 1)
         messageId = 0x15;
     return MSGDATA_AllocString(text->bank, messageId);
 }
@@ -760,7 +747,7 @@ struct RegulationText *POKE_REGULATION_CreateText(const struct Regulation *reg, 
     text = (struct RegulationText *)GFL_HEAP_Alloc(heapId, 0x38, 1, poke_regulation_File, 0x312);
     text->bank = MSGDATA_CreateFromArchive(0, 2, 0xa5, heapId);
     scratch = STRBUF_Create(0x40, heapId);
-    regulationMode = reg->battleMode;
+    regulationMode = reg->shooter;
     if (regulationMode == 2)
         text->battleMode = battleMode;
     else

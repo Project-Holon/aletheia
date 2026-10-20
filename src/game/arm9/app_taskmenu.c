@@ -54,10 +54,11 @@
 #include "beacon_status_shared_types.h"
 
 #include "../types.h"
+#include "app_taskmenu.h"
 
 struct BmpWin;          /* BG bitmap window */
 
-struct Bmp;             /* bitmap of a window */
+#include "bmp_shared_types.h"
 
 struct PrintQueue;      /* deferred text print queue */
 
@@ -88,26 +89,6 @@ typedef struct TaskMenuRes {
     struct GFont *font;         /* +0x10 */
     struct PrintQueue *printQue;/* +0x14 */
 } TaskMenuRes;
-
-/* One menu entry (0xC bytes). */
-typedef struct TaskMenuItem {
-    struct StrBuf *str;         /* +0x00 */
-    u16 msgColor;               /* +0x04 print colour */
-    u32 type;                   /* +0x08 frame style; 1 is the back/cancel entry */
-} TaskMenuItem;
-
-/* Caller-filled template of a task menu (0x14 bytes). */
-typedef struct TaskMenuInitWork {
-    u32 heapId;                 /* +0x00 */
-    u8 itemNum;                 /* +0x04 */
-    u8 pad_05[3];
-    const TaskMenuItem *itemWork; /* +0x08 */
-    u32 posType;                /* +0x0C 0: (charPosX, charPosY) is the top left; else the bottom right */
-    u8 charPosX;                /* +0x10 */
-    u8 charPosY;                /* +0x11 */
-    u8 width;                   /* +0x12 in characters, 13 when 0 */
-    u8 height;                  /* +0x13 per entry, 3 when 0 */
-} TaskMenuInitWork;
 
 /* A task menu: one window per entry, a cursor and the decide animation (0x38 bytes). */
 typedef struct TaskMenuWork {
@@ -141,75 +122,55 @@ typedef struct TaskMenuWin {
     u16 activeColor1;           /* +0x1E */
 } TaskMenuWin;
 
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *memory);
 
-extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *printQue);
+#include "printsys.h"
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *printQue, struct Bmp *bmp);
 
-extern void BG_SYS_MarkTileDirty(u32 bgFrame);
+#include "bg_sys.h"
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#include "bmp_win.h"
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 struct GfFont;
 struct Strbuf;
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
-extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 palNo);
 
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte);
+#include "nns_gfd_vram_transfer.h"
 
-extern u8 UI_GetInputMode(void);
+#include "ui.h"
 
-extern u32 KEY_GetTrg(void);
+#include "key.h"
 
-extern unsigned int KEY_GetRepeat(void);
 
-extern void UI_SetInputMode(u8 isTouch);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "gfl_use.h"
 
-extern int TOUCHPANEL_HitTrg(const void *hitTbl);
+#include "touchpanel.h"
 
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
+#include "arc_util.h"
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 datId, u32 pltType, u32 offset, u32 size, u16 heapId);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
-extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
 
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
 
-extern void *BMP_GetPixels(const struct Bmp *bmp);
+typedef short s16_p07;
+#include "bmp.h"
 
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 n);
 
-u32 APP_ICON_GetArchiveId(void);
+#include "app_icon.h"
 
 TaskMenuWork *APP_TASKMENU_OpenMenu(TaskMenuInitWork *init, TaskMenuRes *res);
 
@@ -714,7 +675,7 @@ void APP_TASKMENU_UpdateTouch(TaskMenuWork *menu)
         hitTbl[i * 4 + 3] = (u8)(((posX + menu->init.width) << 3) - 1);
     }
     hitTbl[i * 4] = 0xff;
-    hit = TOUCHPANEL_HitTrg(hitTbl);
+    hit = TOUCHPANEL_HitTrg((const TouchHitTable *)hitTbl);
     if (hit == ~0) {
         return;
     }

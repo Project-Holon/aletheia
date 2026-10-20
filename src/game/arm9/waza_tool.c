@@ -72,11 +72,10 @@ union WazaSickCont {
     s16 value;
 };
 
-extern void  ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 dataId);
+#include "arc_tool.h"
 
-extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int fromTail, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32   GFL_HEAP_Free(void *ptr);
 
 u32 WAZA_TOOL_GetParam(u16 move, u32 param);
 

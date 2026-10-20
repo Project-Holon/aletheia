@@ -27,7 +27,7 @@ struct HistoryOwner;
 
 /* One slot of the 20-entry history table (0x28 bytes). */
 struct HistoryEntry {
-    struct PlayerRecord record;     /* 0x00 */
+    struct MyStatus record;     /* 0x00 */
     u8 reserved20[6];               /* 0x20 */
     u8 : 3;                         /* 0x26 */
     u8 isMarked : 1;
@@ -37,16 +37,13 @@ struct HistoryEntry {
 };
 struct MyStatus;
 
-extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
+#include "mystatus.h"
 
-extern struct HistoryEntry *WIFI_HISTORY_GetEntries(struct HistoryOwner *owner);
+#include "wifi_history.h"
 
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 struct WifiHistory;
 
-extern u32 WIFI_HISTORY_MarkCountryVisited(struct WifiHistory *history, u32 country);
 
-extern void WIFI_HISTORY_IncrementVisitedCountryCount(struct WifiHistory *history);
 
 u32 COMM_HISTORY_InsertIfNationSet(struct HistoryOwner *owner, struct HistoryEntry *entry);
 
@@ -110,7 +107,7 @@ u32 COMM_HISTORY_InsertOrReplace(struct HistoryOwner *owner, struct HistoryEntry
     u32 index;
     u32 value;
 
-    table = WIFI_HISTORY_GetEntries(owner);
+    table = WIFI_HISTORY_GetEntries((struct WifiHistory *)owner);
     index = COMM_HISTORY_FindByKeys(table, entry);
 
     if (index != 0x14) {
@@ -280,7 +277,7 @@ void COMM_HISTORY_RemoveAt(struct HistoryEntry *table, u32 index)
  */
 void COMM_HISTORY_StoreAndNotify(struct HistoryOwner *owner, struct HistoryEntry *entry, u32 mark)
 {
-    struct HistoryEntry *table = WIFI_HISTORY_GetEntries(owner);
+    struct HistoryEntry *table = WIFI_HISTORY_GetEntries((struct WifiHistory *)owner);
     u32 key;
 
     COMM_HISTORY_StoreAt(table, entry, mark);

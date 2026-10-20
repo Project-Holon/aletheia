@@ -33,35 +33,24 @@
  */
 #include "iss_sys_shared_types.h"
 
-/* The enum type keeps the slot counter out of constant folding (see
- * docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md). */
-typedef enum {
-    ISS_3DS_SLOT_FIRST,
-    ISS_3DS_SLOT_LIMIT = ISS_3DS_SLOT_COUNT
-} Iss3dsSlotIndex;
+#include "gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "gfl_use.h"
 
-extern u16 GFL_USE_GetBgmNo(void);
+Iss3dsSys;
 
-struct Iss3dsSound;
+extern void ISS_3DS_SYS_UpdateImpl(Iss3dsSys *sys);
 
-extern void ISS_3DS_SYS_UpdateImpl(struct Iss3dsSound *sys);
+extern void ISS_3DS_SYS_OnZoneChangeImpl(Iss3dsSys *sys);
 
-extern void ISS_3DS_SYS_OnZoneChangeImpl(struct Iss3dsSound *sys);
+#include "arc_tool.h"
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-
-extern u16 ARC_TOOL_GetHandleFileCount(void *arc);
 struct ArcHandle;
 
-extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
 
-extern void ARC_TOOL_DeleteHandle(void *arc);
 
-extern void ISS_3DS_SYS_SilenceActiveTracks(struct Iss3dsSound *sys);
+extern void ISS_3DS_SYS_SilenceActiveTracks(Iss3dsSys *sys);
 
 Iss3dsSys *ISS_3DS_SYS_Create(u32 heapId);
 
@@ -81,7 +70,7 @@ void ISS_3DS_SYS_StartSource(Iss3dsSys *sys, int slot, int radius, int amp);
 
 int ISS_3DS_SYS_IsSourceActive(Iss3dsSys *sys, int slot);
 
-void ISS_3DS_SYS_SetSourcePos(Iss3dsSys *sys, int slot, const IssVec3 *pos);
+void ISS_3DS_SYS_SetSourcePos(Iss3dsSys *sys, int slot, const VecFx32 *pos);
 
 void ISS_3DS_SYS_SetCamera(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget);
 
@@ -99,7 +88,7 @@ void ISS_3DS_SYS_ResetSources(Iss3dsSys *sys);
 
 void ISS_3DS_SYS_StartSourceImpl(Iss3dsSys *sys, int slot, int radius, int amp);
 
-void ISS_3DS_SYS_SetSourcePosImpl(Iss3dsSys *sys, int slot, const IssVec3 *pos);
+void ISS_3DS_SYS_SetSourcePosImpl(Iss3dsSys *sys, int slot, const VecFx32 *pos);
 
 void ISS_3DS_SYS_SetCameraImpl(Iss3dsSys *sys, const int *cameraPos, const int *cameraTarget);
 
@@ -109,7 +98,7 @@ void ISS_3DS_SYS_LeaveImpl(Iss3dsSys *sys);
 
 extern const char ISS_3DS_SYS_FileName[];
 
-static inline void ISS_3DS_SYS_SetVec3(IssVec3 *dst, int x, int y, int z)
+static inline void ISS_3DS_SYS_SetVec3(VecFx32 *dst, int x, int y, int z)
 {
     dst->x = x;
     dst->y = y;
@@ -123,9 +112,9 @@ Iss3dsSys *ISS_3DS_SYS_Create(u32 heapId)
 
     sys->heapId = (u16)heapId;
     sys->entered = 0;
+    sys->targetVolume = 0x7f;
     sys->volume = 0x7f;
-    sys->maxVolume = 0x7f;
-    sys->fadeSpeed = 4;
+    sys->volumeStep = 4;
     sys->cameraPos.x = 0;
     sys->cameraPos.y = 0;
     sys->cameraPos.z = 0;
@@ -150,7 +139,7 @@ void ISS_3DS_SYS_Delete(Iss3dsSys *sys)
  * update, enter, leave and zone change. */
 void ISS_3DS_SYS_Update(Iss3dsSys *sys)
 {
-    ISS_3DS_SYS_UpdateImpl((struct Iss3dsSound *)sys);
+    ISS_3DS_SYS_UpdateImpl(sys);
 }
 
 void ISS_3DS_SYS_Enter(Iss3dsSys *sys)
@@ -165,7 +154,7 @@ void ISS_3DS_SYS_Leave(Iss3dsSys *sys)
 
 void ISS_3DS_SYS_OnZoneChange(Iss3dsSys *sys)
 {
-    ISS_3DS_SYS_OnZoneChangeImpl((struct Iss3dsSound *)sys);
+    ISS_3DS_SYS_OnZoneChangeImpl(sys);
 }
 
 /* Stores the volume, clamped to 0x7f. */
@@ -174,7 +163,7 @@ void ISS_3DS_SYS_SetVolume(Iss3dsSys *sys, u32 volume)
     if (volume > 0x7f) {
         volume = 0x7f;
     }
-    sys->volume = (u8)volume;
+    sys->targetVolume = (u8)volume;
 }
 
 /* Starts a sound source in a free slot. */
@@ -186,10 +175,10 @@ void ISS_3DS_SYS_StartSource(Iss3dsSys *sys, int slot, int radius, int amp)
 /* Returns the active flag of a slot. */
 int ISS_3DS_SYS_IsSourceActive(Iss3dsSys *sys, int slot)
 {
-    return sys->slots[slot].active;
+    return sys->sources[slot].active;
 }
 
-void ISS_3DS_SYS_SetSourcePos(Iss3dsSys *sys, int slot, const IssVec3 *pos)
+void ISS_3DS_SYS_SetSourcePos(Iss3dsSys *sys, int slot, const VecFx32 *pos)
 {
     ISS_3DS_SYS_SetSourcePosImpl(sys, slot, pos);
 }
@@ -240,6 +229,7 @@ Iss3dsSys *ISS_3DS_SYS_SetTableIndex(Iss3dsSys *sys, u32 index)
     } else {
         return sys;
     }
+    return sys;
 }
 
 /* Finds the table entry for a BGM; 0xff when there is none. */
@@ -268,31 +258,31 @@ u8 ISS_3DS_SYS_FindTableIndex(const Iss3dsSys *sys, u32 bgmId)
  * an enum, and the level stores write 0 rather than the counter. */
 void ISS_3DS_SYS_ResetSources(Iss3dsSys *sys)
 {
-    Iss3dsSlotIndex i;
+    Iss3dsSourceIndex i;
 
-    for (i = 0; i < ISS_3DS_SLOT_COUNT; i++) {
-        sys->slots[i].active = 0;
-        sys->slots[i].amp = 0x7f;
-        sys->slots[i].trackMask = 1 << i;
-        sys->slotLevelA[i] = 0;
-        sys->slotLevelB[i] = 0;
+    for (i = 0; i < ISS_3DS_SOURCE_MAX; i++) {
+        sys->sources[i].active = 0;
+        sys->sources[i].amplitude = 0x7f;
+        sys->sources[i].trackMask = 1 << i;
+        sys->volumeLevel[i] = 0;
+        sys->panLevel[i] = 0;
     }
 }
 
 void ISS_3DS_SYS_StartSourceImpl(Iss3dsSys *sys, int slot, int radius, int amp)
 {
-    Iss3dsSlot *s = &sys->slots[slot];
+    Iss3dsSource *s = &sys->sources[slot];
 
     if (s->active != 1) {
         s->active = 1;
         s->radius = radius;
-        s->amp = amp;
+        s->amplitude = amp;
     }
 }
 
-void ISS_3DS_SYS_SetSourcePosImpl(Iss3dsSys *sys, int slot, const IssVec3 *pos)
+void ISS_3DS_SYS_SetSourcePosImpl(Iss3dsSys *sys, int slot, const VecFx32 *pos)
 {
-    Iss3dsSlot *s = &sys->slots[slot];
+    Iss3dsSource *s = &sys->sources[slot];
 
     if (s->active != 0) {
         ISS_3DS_SYS_SetVec3(&s->pos, pos->x, pos->y, pos->z);
@@ -313,7 +303,7 @@ void ISS_3DS_SYS_EnterImpl(Iss3dsSys *sys)
     }
     sys->entered = 1;
     ISS_3DS_SYS_SetTableIndex(sys, ISS_3DS_SYS_FindTableIndex(sys, GFL_USE_GetBgmNo()));
-    ISS_3DS_SYS_SilenceActiveTracks((struct Iss3dsSound *)sys);
+    ISS_3DS_SYS_SilenceActiveTracks(sys);
 }
 
 /* Leave: clears the entered flag (the test is redundant but original). */
@@ -324,103 +314,47 @@ void ISS_3DS_SYS_LeaveImpl(Iss3dsSys *sys)
     }
 }
 
-/*
- * Moved from iss_zone_sys.c (wave 12 MP-7): the iss_3ds_sys.c per-source view
- * of the same 0x26c-byte sound object that Iss3dsSys above reads, plus the
- * per-source volume and pan ramps that step it.  The view is the same layout
- * under other field names (enabled/entered, targetVolume/maxVolume,
- * sources/slots, volumeLevel/slotLevelA, panLevel/slotLevelB,
- * records/table, recordCount/tableCount, activeRecord/tableIndex).
- */
-#include "../types.h"
+/* Per-source volume and pan ramps (moved here from iss_zone_sys.c). */
 
-struct Vec {
-    s32 x, y, z;
-};
+#include "fx_vec.h"
 
-/* One 8-byte zone record of the record table at the end of the object. */
-struct IssZoneRecord {
-    u16 key;
-    u16 audibleMask;
-    u16 mutedMask;
-    u16 fadeSteps;
-};
 
-typedef enum { ISS_3DS_SOURCE_FIRST, ISS_3DS_SOURCE_MAX = 16 } Iss3dsSourceIndex;
+#include "fx_cp.h"
 
-/* One 3D sound source: a point that drives the volume and pan of some tracks. */
-struct Iss3dsSource {
-    u32 active;
-    struct Vec pos;
-    s32 radius;
-    s32 amplitude;
-    u16 trackMask;
-    u16 padding1A;
-};
 
-/* The per-source view of the iss_3ds_sys object that the moved code reads. */
-struct Iss3dsSound {
-    u8  padding00[4];
-    u32 enabled;
-    u8  targetVolume;
-    u8  volume;
-    u8  volumeStep;
-    u8  padding0B;
-    struct Vec listenerPos;
-    struct Vec listenerTarget;
-    struct Iss3dsSource sources[ISS_3DS_SOURCE_MAX];
-    s32 volumeLevel[ISS_3DS_SOURCE_MAX];
-    s32 panLevel[ISS_3DS_SOURCE_MAX];
-    struct IssZoneRecord *records;
-    u8  recordCount;
-    u8  activeRecord;
-};
 
-extern void VEC_Subtract(const struct Vec *a, const struct Vec *b, struct Vec *out);
 
-extern s32  VEC_Mag(const struct Vec *v);
 
-extern u32  FX_Div(u32 numerator, u32 denominator);
 
-extern void VEC_Normalize(const struct Vec *v, struct Vec *out);
+void ISS_3DS_SYS_UpdateImpl(Iss3dsSys *sys);
 
-extern void VEC_CrossProduct(const struct Vec *a, const struct Vec *b, struct Vec *out);
+void ISS_3DS_SYS_OnZoneChangeImpl(Iss3dsSys *sys);
 
-extern s32  VEC_DotProduct(const struct Vec *a, const struct Vec *b);
+void ISS_3DS_SYS_SilenceActiveTracks(Iss3dsSys *sys);
 
-extern void GFL_USE_SetBgmTrackParams(u32 trackMask, u32 paramKind, u32 unused, u32 value);
+void ISS_3DS_SYS_StepSourceVolume(Iss3dsSys *sys, int sourceIndex);
 
-extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volume);
+void ISS_3DS_SYS_StepSourcePan(Iss3dsSys *sys, int sourceIndex);
 
-void ISS_3DS_SYS_UpdateImpl(struct Iss3dsSound *sys);
+s32 ISS_3DS_SYS_CalcSourceVolume(Iss3dsSource *source, const struct VecFx32 *cameraPos);
 
-void ISS_3DS_SYS_OnZoneChangeImpl(struct Iss3dsSound *sys);
+void ISS_3DS_SYS_RampVolumeUp(Iss3dsSys *sys, u32 sourceIndex, s32 cap);
 
-void ISS_3DS_SYS_SilenceActiveTracks(struct Iss3dsSound *sys);
+void ISS_3DS_SYS_RampVolumeDown(Iss3dsSys *sys, u32 sourceIndex, s32 cap);
 
-void ISS_3DS_SYS_StepSourceVolume(struct Iss3dsSound *sys, int sourceIndex);
+void ISS_3DS_SYS_ApplySourceVolume(Iss3dsSys *sys, u32 sourceIndex);
 
-void ISS_3DS_SYS_StepSourcePan(struct Iss3dsSound *sys, int sourceIndex);
+s32 ISS_3DS_SYS_CalcSourcePan(const Iss3dsSource *source, const struct VecFx32 *cameraPos, const struct VecFx32 *cameraTarget);
 
-s32 ISS_3DS_SYS_CalcSourceVolume(struct Iss3dsSource *source, const struct Vec *listenerPos);
+void ISS_3DS_SYS_RampPanDown(Iss3dsSys *sys, u32 sourceIndex, s32 cap);
 
-void ISS_3DS_SYS_RampVolumeUp(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap);
+void ISS_3DS_SYS_RampPanUp(Iss3dsSys *sys, u32 sourceIndex, s32 cap);
 
-void ISS_3DS_SYS_RampVolumeDown(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap);
+void ISS_3DS_SYS_ApplySourcePan(Iss3dsSys *sys, u32 sourceIndex);
 
-void ISS_3DS_SYS_ApplySourceVolume(struct Iss3dsSound *sys, u32 sourceIndex);
+void ISS_3DS_SYS_StepMasterVolume(Iss3dsSys *sys);
 
-s32 ISS_3DS_SYS_CalcSourcePan(const struct Iss3dsSource *source, const struct Vec *listenerPos, const struct Vec *listenerTarget);
-
-void ISS_3DS_SYS_RampPanDown(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap);
-
-void ISS_3DS_SYS_RampPanUp(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap);
-
-void ISS_3DS_SYS_ApplySourcePan(struct Iss3dsSound *sys, u32 sourceIndex);
-
-void ISS_3DS_SYS_StepMasterVolume(struct Iss3dsSound *sys);
-
-u32 ISS_3DS_SYS_ScaleVolume(struct Iss3dsSound *sys, u32 level, void *unused);
+u32 ISS_3DS_SYS_ScaleVolume(Iss3dsSys *sys, u32 level, void *unused);
 
 /*
  * iss_3ds_sys.c per-frame step: returns when +0x04 is zero, then runs the
@@ -432,11 +366,11 @@ u32 ISS_3DS_SYS_ScaleVolume(struct Iss3dsSound *sys, u32 level, void *unused);
  * counter (docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md),
  * the same lever as its sibling ISS_3DS_SYS_ResetSources.
  */
-void ISS_3DS_SYS_UpdateImpl(struct Iss3dsSound *sys)
+void ISS_3DS_SYS_UpdateImpl(Iss3dsSys *sys)
 {
     Iss3dsSourceIndex i;
 
-    if (sys->enabled == 0) {
+    if (sys->entered == 0) {
         return;
     }
     ISS_3DS_SYS_StepMasterVolume(sys);
@@ -454,18 +388,18 @@ void ISS_3DS_SYS_UpdateImpl(struct Iss3dsSound *sys)
  * iss_3ds_sys.c: a bare tail-call thunk to ISS_3DS_SYS_ResetSources (ldr r3, [pc, #0];
  * bx r3; .word 0x0202BA25), the target of the thunk at 0x0202B90C.
  */
-void ISS_3DS_SYS_OnZoneChangeImpl(struct Iss3dsSound *sys)
+void ISS_3DS_SYS_OnZoneChangeImpl(Iss3dsSys *sys)
 {
     ISS_3DS_SYS_ResetSources((Iss3dsSys *)sys);
 }
 
 /* Silences the tracks of the active record, when there is one. */
-void ISS_3DS_SYS_SilenceActiveTracks(struct Iss3dsSound *sys)
+void ISS_3DS_SYS_SilenceActiveTracks(Iss3dsSys *sys)
 {
-    u8 record = sys->activeRecord;
+    u8 record = sys->tableIndex;
 
     if (record != 0xff) {
-        GFL_USE_SetBgmTrackVolume(sys->records[record].mutedMask, 0);
+        GFL_USE_SetBgmTrackVolume(sys->table[record].mutedMask, 0);
     }
 }
 
@@ -479,16 +413,16 @@ void ISS_3DS_SYS_SilenceActiveTracks(struct Iss3dsSound *sys)
  * Callee arity is read from the callee bodies: both clamp helpers compare
  * against r2, so they are declared (sys, index, cap).
  */
-void ISS_3DS_SYS_StepSourceVolume(struct Iss3dsSound *sys, int sourceIndex)
+void ISS_3DS_SYS_StepSourceVolume(Iss3dsSys *sys, int sourceIndex)
 {
-    struct Iss3dsSource *sources = sys->sources;
+    Iss3dsSource *sources = sys->sources;
     s32 target;
     s32 level;
 
     if (sources[sourceIndex].active == 0) {
         return;
     }
-    target = ISS_3DS_SYS_CalcSourceVolume(&sources[sourceIndex], &sys->listenerPos);
+    target = ISS_3DS_SYS_CalcSourceVolume(&sources[sourceIndex], &sys->cameraPos);
     level  = sys->volumeLevel[sourceIndex];
     if (level < target) {
         ISS_3DS_SYS_RampVolumeUp(sys, sourceIndex, target);
@@ -499,16 +433,16 @@ void ISS_3DS_SYS_StepSourceVolume(struct Iss3dsSound *sys, int sourceIndex)
     }
 }
 
-void ISS_3DS_SYS_StepSourcePan(struct Iss3dsSound *sys, int sourceIndex)
+void ISS_3DS_SYS_StepSourcePan(Iss3dsSys *sys, int sourceIndex)
 {
-    struct Iss3dsSource *sources = sys->sources;
+    Iss3dsSource *sources = sys->sources;
     s32 target;
     s32 level;
 
     if (sources[sourceIndex].active == 0) {
         return;
     }
-    target = ISS_3DS_SYS_CalcSourcePan(&sources[sourceIndex], &sys->listenerPos, &sys->listenerTarget);
+    target = ISS_3DS_SYS_CalcSourcePan(&sources[sourceIndex], &sys->cameraPos, &sys->cameraTarget);
     level  = sys->panLevel[sourceIndex];
     if (target < level) {
         ISS_3DS_SYS_RampPanDown(sys, sourceIndex, target);
@@ -530,13 +464,13 @@ void ISS_3DS_SYS_StepSourcePan(struct Iss3dsSound *sys, int sourceIndex)
  * The compare is signed (bge), so the radius field is s32 and the
  * `mag >= radius` arm is the one written first.
  */
-s32 ISS_3DS_SYS_CalcSourceVolume(struct Iss3dsSource *source, const struct Vec *listenerPos)
+s32 ISS_3DS_SYS_CalcSourceVolume(Iss3dsSource *source, const struct VecFx32 *cameraPos)
 {
-    struct Vec delta;
+    struct VecFx32 delta;
     s32 distance;
     float ratio;
 
-    VEC_Subtract(&source->pos, listenerPos, &delta);
+    VEC_Subtract(&source->pos, cameraPos, &delta);
     distance = VEC_Mag(&delta);
     if (source->radius < distance) {
         return 0;
@@ -557,7 +491,7 @@ s32 ISS_3DS_SYS_CalcSourceVolume(struct Iss3dsSource *source, const struct Vec *
  * compares the bound against the computed value (`cmp r2, r1`), which is
  * what `if (cap < v)` compiles to, not `if (v > cap)`.
  */
-void ISS_3DS_SYS_RampVolumeUp(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap)
+void ISS_3DS_SYS_RampVolumeUp(Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
     s32 *levels = sys->volumeLevel;
     s32 level = levels[sourceIndex] + 0x10;
@@ -568,7 +502,7 @@ void ISS_3DS_SYS_RampVolumeUp(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap)
     levels[sourceIndex] = level;
 }
 
-void ISS_3DS_SYS_RampVolumeDown(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap)
+void ISS_3DS_SYS_RampVolumeDown(Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
     s32 *levels = sys->volumeLevel;
     s32 level = levels[sourceIndex] - 0x10;
@@ -580,7 +514,7 @@ void ISS_3DS_SYS_RampVolumeDown(struct Iss3dsSound *sys, u32 sourceIndex, s32 ca
 }
 
 /* Applies the master volume to the source's level and sets its tracks' volume. */
-void ISS_3DS_SYS_ApplySourceVolume(struct Iss3dsSound *sys, u32 sourceIndex)
+void ISS_3DS_SYS_ApplySourceVolume(Iss3dsSys *sys, u32 sourceIndex)
 {
     u8 *slot = (u8 *)sys + sourceIndex * 4;
     int volume = ISS_3DS_SYS_ScaleVolume(sys, (u8)*(int *)(slot + 0x1E4), slot);
@@ -603,25 +537,25 @@ void ISS_3DS_SYS_ApplySourceVolume(struct Iss3dsSound *sys, u32 sourceIndex)
  * The 4096.0f divisor is the pool word 0x45800000 at 0x0202BDCC; 0x43000000
  * is 128.0f, materialised as movs #0x43 / lsls #0x18 rather than pooled.
  */
-s32 ISS_3DS_SYS_CalcSourcePan(const struct Iss3dsSource *source, const struct Vec *listenerPos,
-                  const struct Vec *listenerTarget)
+s32 ISS_3DS_SYS_CalcSourcePan(const Iss3dsSource *source, const struct VecFx32 *cameraPos,
+                  const struct VecFx32 *cameraTarget)
 {
-    struct Vec facing;
-    struct Vec toSource;
-    struct Vec horizontal;
-    struct Vec up;
-    struct Vec verticalPart;
-    struct Vec right;
-    struct Vec upAxis;
-    struct Vec facingUnit;
-    struct Vec listener;
-    struct Vec target;
-    struct Vec sourcePos;
+    struct VecFx32 facing;
+    struct VecFx32 toSource;
+    struct VecFx32 horizontal;
+    struct VecFx32 up;
+    struct VecFx32 verticalPart;
+    struct VecFx32 right;
+    struct VecFx32 upAxis;
+    struct VecFx32 facingUnit;
+    struct VecFx32 listener;
+    struct VecFx32 target;
+    struct VecFx32 sourcePos;
     s32 height;
     s32 pan;
 
-    listener = *listenerPos;
-    target = *listenerTarget;
+    listener = *cameraPos;
+    target = *cameraTarget;
     sourcePos = source->pos;
     VEC_Subtract(&target, &listener, &facing);
     VEC_Subtract(&sourcePos, &listener, &toSource);
@@ -659,7 +593,7 @@ s32 ISS_3DS_SYS_CalcSourcePan(const struct Iss3dsSource *source, const struct Ve
  * one-function unit rather than with `one`: this function is followed by two
  * bytes of inter-section padding before the next label.
  */
-void ISS_3DS_SYS_RampPanDown(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap)
+void ISS_3DS_SYS_RampPanDown(Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
     s32 *levels = sys->panLevel;
     s32 level = levels[sourceIndex] - 0x20;
@@ -675,7 +609,7 @@ void ISS_3DS_SYS_RampPanDown(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap)
  * 0x224) with step 0x20. Matched as a one-function unit rather than with
  * `one`, for the same trailing-padding reason as ISS_3DS_SYS_RampPanDown.
  */
-void ISS_3DS_SYS_RampPanUp(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap)
+void ISS_3DS_SYS_RampPanUp(Iss3dsSys *sys, u32 sourceIndex, s32 cap)
 {
     s32 *levels = sys->panLevel;
     s32 level = levels[sourceIndex] + 0x20;
@@ -690,7 +624,7 @@ void ISS_3DS_SYS_RampPanUp(struct Iss3dsSound *sys, u32 sourceIndex, s32 cap)
  * Sets the pan of one source's tracks (trackMask halfword at +0x3c of the
  * object) to its panLevel (+0x224 array).
  */
-void ISS_3DS_SYS_ApplySourcePan(struct Iss3dsSound *sys, u32 sourceIndex)
+void ISS_3DS_SYS_ApplySourcePan(Iss3dsSys *sys, u32 sourceIndex)
 {
     GFL_USE_SetBgmTrackParams(sys->sources[sourceIndex].trackMask, 0x100, 0,
                   sys->panLevel[sourceIndex]);
@@ -700,7 +634,7 @@ void ISS_3DS_SYS_ApplySourcePan(struct Iss3dsSound *sys, u32 sourceIndex)
  * Moves the master volume one step toward targetVolume: a full step when
  * the distance is at least volumeStep, the exact distance otherwise.
  */
-void ISS_3DS_SYS_StepMasterVolume(struct Iss3dsSound *sys)
+void ISS_3DS_SYS_StepMasterVolume(Iss3dsSys *sys)
 {
     int target = sys->targetVolume;
     int current = sys->volume;
@@ -734,7 +668,7 @@ void ISS_3DS_SYS_StepMasterVolume(struct Iss3dsSound *sys)
  * Returns (volume * level) / 0x7f truncated to a byte: the source level
  * scaled by the master volume. The third argument is unused.
  */
-u32 ISS_3DS_SYS_ScaleVolume(struct Iss3dsSound *sys, u32 level, void *unused)
+u32 ISS_3DS_SYS_ScaleVolume(Iss3dsSys *sys, u32 level, void *unused)
 {
     return (u8)((sys->volume * level) / 0x7f);
 }

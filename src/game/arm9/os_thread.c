@@ -85,40 +85,32 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern int OS_GetProcMode(void);
-extern BOOL OS_SaveContext(OSContext *context);
-extern void OS_LoadContext(OSContext *context);
+#include "os_system.h"
+#include "os_context.h"
 extern OSSwitchThreadCallback OS_SetSwitchThreadCallback(OSSwitchThreadCallback callback);
 extern void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *stack,
                             u32 stackSize, u32 prio);
 void OSi_IdleThreadProc(void);
 extern int OSi_GetUnusedThreadId(void);
 extern void OSi_InsertThreadToList(OSThread *thread);
-extern void OS_InitContext(OSContext *context, u32 newpc, u32 newsp);
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
+#include "mi_memory.h"
 void OS_SetThreadDestructor(OSThread *thread, void (*dtor)(void *));
 extern void OSi_ExitThread(void *arg);
 extern void OSi_ExitThread_Destroy(void);
 extern u32 OS_DisableScheduler(void);
 extern u32 OS_EnableScheduler(void);
-extern void OSi_UnlockAllMutex(OSThread *thread);
+#include "os_mutex.h"
 extern OSThread *OSi_RemoveSpecifiedLinkFromQueue(OSThreadQueue *queue, OSThread *thread);
 extern void OSi_RemoveThreadFromList(OSThread *thread);
 extern void OS_RescheduleThread(void);
-extern void OS_Terminate(void);
+#include "os_terminate_processor.h"
 extern void OSi_CancelThreadAlarmForSleep(OSThread *thread);
 void OS_KillThreadWithPriority(OSThread *thread, void *arg, u32 prio);
 extern void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg);
 extern BOOL OS_SetThreadPriority(OSThread *thread, u32 prio);
-void OS_CancelAlarm(struct OSiAlarm *alarm);
-extern void OS_CreateAlarm(OSAlarm *alarm);
-extern void OS_SetAlarm(OSAlarm *alarm, u64 tick, OSAlarmHandler handler, void *arg);
+#include "os_alarm.h"
 extern void OSi_SleepAlarmCallback(void *arg);
 extern void OS_WakeupThreadDirect(OSThread *thread);
-extern OSIntrMode OS_EnableInterrupts(void);
-extern void OS_Halt(void);
 void OSi_InsertLinkToQueue(OSThreadQueue *queue, OSThread *thread);
 OSThread *OSi_RemoveLinkFromQueue(OSThreadQueue *queue);
 OSMutex *OSi_RemoveMutexLinkFromQueue(OSMutexQueue *queue);

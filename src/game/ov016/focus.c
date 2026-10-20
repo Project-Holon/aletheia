@@ -26,6 +26,7 @@
 #include "../../matched/include/G_MemFocus.h"
 
 #include "../types.h"
+typedef _Bool bool;
 
 typedef struct {
     void *cell[4];
@@ -34,7 +35,7 @@ typedef struct {
 extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
 void DWCi_FOCUSlDelete(void);
 extern void DWCi_HEAPlFree_(void **mem);
-extern void *DWCi_CEINlSetExCell(int lcd, int idx, int head);
+extern void *DWCi_CEINlSetExCell(s32 lcd, s32 idx, bool head);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 struct CellInfo;

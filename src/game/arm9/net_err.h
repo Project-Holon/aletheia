@@ -1,7 +1,10 @@
 #ifndef GAME_ARM9_NET_ERR_H
 #define GAME_ARM9_NET_ERR_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of net_err.c, prototypes copied from their definitions. */
+
+#include "../types.h"
 
 void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *eventMask, void *eventValue);
 void GFL_NET_ERR_CreateHeap(void);
@@ -30,5 +33,6 @@ void GFL_NET_ERR_RestoreDisplay(BOOL keepDark);
 BOOL GFL_NET_ERR_IsActive(void);
 void GFL_NET_ERR_LoadScreenGraphics(u32 screenIndex);
 void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage);
+/* END mkheaders: generated region */
 
 #endif

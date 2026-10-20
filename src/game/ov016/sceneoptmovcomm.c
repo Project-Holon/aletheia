@@ -38,6 +38,7 @@
  *   DWCi_MOVlEnd  0x021C115C  arm  ov016
  */
 #include "../types.h"
+typedef _Bool bool;
 
 typedef struct {
     u16 priority : 2;
@@ -50,10 +51,10 @@ extern void DWCi_ICONlInit(int type);
 extern void DWCi_SNDlPlay(unsigned int v);
 extern void DWCi_ChangeScene(unsigned int v);
 void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
+extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
-extern int DWCi_EFFlCheck(int lcd);
-extern void DWCi_MOVlChangeCallback(void (*callback)(int));
+extern bool DWCi_EFFlCheck(int lcd);
+extern void DWCi_MOVlChangeCallback(u32 v);
 extern int  DWCi_MOVlIsEnd(void);
 extern void DWCi_ICONlEnd(void);
 extern void DWCi_ANIMElEnd(void);
@@ -116,7 +117,7 @@ static void procInit1(void)
 {
 	if (DWCi_EFFlCheck(0))
 		return;
-	DWCi_MOVlChangeCallback(DWCi_SceneOptMovCommCbMov);
+	DWCi_MOVlChangeCallback((u32)DWCi_SceneOptMovCommCbMov);
 	DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovComm_procScene);
 }
 

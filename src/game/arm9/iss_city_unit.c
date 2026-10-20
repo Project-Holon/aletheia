@@ -26,11 +26,10 @@
  */
 #include "iss_city_sys_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sourceFile, u16 sourceLine);
+#include "gfl_heap_wrap.h"
 
 extern void *ARC_TOOL_LoadMemberRange(u32 archiveId, u32 memberIndex, u32 heapId, u32 mode, u32 size);
 
-extern u32 GFL_HEAP_Free(void *block);
 
 struct IssCityUnit *ISS_CITY_UNIT_Create(u32 heapId, u32 memberIndex);
 

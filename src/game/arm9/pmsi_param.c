@@ -82,28 +82,24 @@ struct SpecialWordTable {
     u16 words[12];
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "mi_memory.h"
 struct SaveControl;
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
-extern void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save);
+#include "save_control.h"
+#include "game_data.h"
 struct EventWork;
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, int flagId);
-extern u8 UI_GetInputMode(void);
-extern void UI_SetInputMode(void *);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void WORDSET_SetSlotPmsWord(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_SetSlotMarkerFlag(struct WordSet *p, u32 i, u32 v);
+#include "zonedata.h"
+#include "ui.h"
+#include "gf_font.h"
+#include "wordset.h"
 struct Strbuf;
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern struct MsgBank *MSGDATA_CreateFromArchive(int resident, int arcId, u32 fileId, u16 heapId);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 PRINTSYS_CountControlTag(struct Strbuf *text);
+extern struct MsgBank *MSGDATA_CreateFromArchive(int resident, int arcId, u32 fileId, u16 heapId);
+#include "printsys.h"
 struct PmsiParam *PMSI_PARAM_Create(u32 inputMode, u32 unused, void *initialSentence, u32 optionFlag, void *saveControl, u32 heapId);
 void PMSI_PARAM_Delete(void *obj);
 void PMSI_PARAM_SetWord(struct PmsiParam *obj, u16 word);
@@ -154,8 +150,7 @@ u32 PMSI_PARAM_Validate(struct PmsData *sentence, u32 allowEmpty, u32 heapId);
 u32 PMSI_PARAM_ValidateWord(u16 *word, u32 allowEmpty, u32 allowDeco);
 u32 PMSI_PARAM_ValidateDecoValue(u32 *decoId, u32 allowZero);
 int PMSI_PARAM_IsSpecialWord(u32 word);
-int PMS_WORD_SplitWordId(u32 word, u32 *wordGroup, u32 *wordIndex);
-void *PMS_WORD_GetSaveData(struct WinPanel020071CCCtrl *ctrl);
+#include "pms_word.h"
 
 extern u8 file_020A745C[];
 extern const s16 FX_SinCosTable_[];
@@ -379,7 +374,7 @@ void PMSI_PARAM_GetUiInputMode(void)
     UI_GetInputMode();
 }
 
-void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode) { UI_SetInputMode(inputMode); }
+void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode) { UI_SetInputMode((u32)inputMode); }
 
 /*
  * pmsi_param.c: fill table[0..count) with amplitude * sin(phase), phase advancing

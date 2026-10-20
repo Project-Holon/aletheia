@@ -91,18 +91,18 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_ChangeScene(void (*scene)(void));
+extern void DWCi_ChangeScene(u32 v);
 extern void DWCi_CMNlButton(int kind);
 extern void DWCi_CMNlMsgDraw(int msgId);
-extern bool DWCi_COMMENTlDispEx(int messageId, int n, int num);
+extern s32 DWCi_COMMENTlDispEx(int messageId, int n, int num);
 extern void DWCi_HLlLoad(int idx);
-extern char DWCi_BTNlGet(void);
+extern s8 DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void DWCi_BTNlDisable(void);
 extern void DWCi_BTNlEnd(void);
-extern void DWCi_SNDlPlay(int no);
+extern void DWCi_SNDlPlay(u32 v);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
-extern char DWCi_WINlGet(void);
+extern s8 DWCi_WINlGet(void);
 extern void DWCi_WINlEnd(void);
 extern int DWCi_WINlIsInit(void);
 extern int DWCi_MOVlIsEnd();
@@ -139,7 +139,7 @@ void DWCi_SceneOptMovFailure(void)
     initGraphics();
     DWCi_CMNlMsgDraw(0x20);
     gSceneOptMovFailureState[0] = DWCi_COMMENTlDispEx(0x3C, -1, 0);
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((u32)procInit);
 }
 
 static void initGraphics(void)
@@ -163,7 +163,7 @@ static void procInit(void)
         DWCi_EFFlFade(2, 1, 1, 8);
         DWCi_GXlVisible(1, 1);
     }
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((u32)procInit1);
 }
 
 static void procScene(void);
@@ -179,7 +179,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(3);
-    DWCi_ChangeScene(procInit2);
+    DWCi_ChangeScene((u32)procInit2);
 }
 
 static void procInit2(void)
@@ -189,7 +189,7 @@ static void procInit2(void)
     if (!DWCi_MOVlIsEnd())
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(DWCi_SceneOptMovFailure_procScene);
+    DWCi_ChangeScene((u32)DWCi_SceneOptMovFailure_procScene);
 }
 
 void DWCi_SceneOptMovFailure_procScene(void)
@@ -226,7 +226,7 @@ static void button(void)
         gSceneOptMovFailureState[1] = 0;
         DWCi_SNDlPlay(7);
     }
-    DWCi_ChangeScene(endScene);
+    DWCi_ChangeScene((u32)endScene);
 }
 
 /*
@@ -236,7 +236,7 @@ static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((u32)endScene1);
 }
 
 /*
@@ -250,7 +250,7 @@ static void endScene1(void)
     if (!gSceneOptMovFailureState[1])
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene(endScene2);
+    DWCi_ChangeScene((u32)endScene2);
 }
 
 /*
@@ -272,9 +272,9 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 0x15);
     if (!gSceneOptMovFailureState[1]) {
         DWCi_SetParam_(0, 1);
-        DWCi_ChangeScene(DWCi_SceneOptMenu);
+        DWCi_ChangeScene((u32)DWCi_SceneOptMenu);
     } else {
         DWCi_SetParam_(0, 1);
-        DWCi_ChangeScene(DWCi_SceneOptMovWait);
+        DWCi_ChangeScene((u32)DWCi_SceneOptMovWait);
     }
 }

@@ -74,7 +74,7 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_ChangeScene(void (*scene)(void));
+extern void DWCi_ChangeScene(u32 v);
 extern int DWCi_MOVlIsEnd(void);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern int DWCi_COMMENTlDelete(void);
@@ -110,7 +110,7 @@ void DWCi_SceneSetUsbComplete(void)
     DWCi_HLlLoad(8);
     DWCi_CMNlMsgDraw(41);
     DWCi_SNDlPlay(16);
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((u32)procInit);
 }
 
 static void initGraphics(void)
@@ -133,14 +133,14 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 21, 8);
     DWCi_GXlVisible(0, 21);
-    DWCi_ChangeScene(DWCi_SceneSetUsbComplete_procInit1);
+    DWCi_ChangeScene((u32)DWCi_SceneSetUsbComplete_procInit1);
 }
 
 void DWCi_SceneSetUsbComplete_procInit1(void)
 {
     if (DWCi_EFFlCheck(0))
         return;
-    DWCi_ChangeScene(DWCi_SceneSetUsbCompleteCallback);
+    DWCi_ChangeScene((u32)DWCi_SceneSetUsbCompleteCallback);
 }
 
 /*
@@ -178,7 +178,7 @@ static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene(DWCi_SceneSetUsbComplete_endScene1);
+    DWCi_ChangeScene((u32)DWCi_SceneSetUsbComplete_endScene1);
 }
 
 void DWCi_SceneSetUsbComplete_endScene1(void)
@@ -193,11 +193,11 @@ void DWCi_SceneSetUsbComplete_endScene1(void)
     DWCi_GXlInvisible(0, 21);
     DWCi_SetParam_(0, 0);
     DWCi_SetParam2_(0, (unsigned int)(2));
-    DWCi_ChangeScene(DWCi_SceneSetTestConfirm);
+    DWCi_ChangeScene((u32)DWCi_SceneSetTestConfirm);
 }
 
 static void wait(void)
 {
     if (++gSceneSetUsbCompleteWaitCount >= 120)
-        DWCi_ChangeScene(endScene);
+        DWCi_ChangeScene((u32)endScene);
 }

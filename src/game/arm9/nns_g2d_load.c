@@ -65,61 +65,12 @@ struct Tbl {
     u8  **offsets;              /* 0x04  itself an offset until fixed up     */
 };
 
-/*
- * The NNS G2D cell-animation types, shared with
- * nns_g2d_multi_cell_animation.c (S/shared_types.tsv row R5a3): one animation
- * frame's content, a sequence of frames, the per-frame callback functor, and
- * the controller that walks the sequence.
- */
-typedef struct AnimFrameData {
-    void *pContent;
-    u16 frames;
-    u16 pad;
-} AnimFrameData;
+#include "nns_g2d_anim_types.h"
 
-typedef struct AnimSequenceData {
-    u16 numFrames;
-    u16 loopStartFrameIdx;
-    u32 animType;
-    u32 playMode;
-    AnimFrameData *pAnmFrameArray;
-} AnimSequenceData;
-
-typedef struct AnimCallBack {
-    u32 type;
-    u32 param;
-    void *pFunc;
-    u16 frameIdx;
-    u16 pad;
-} AnimCallBack;
-
-typedef struct AnimCtrl {
-    AnimFrameData *pCurrent;         /* +0x00  current frame cursor                 */
-    AnimFrameData *pActiveCurrent;   /* +0x04  last frame with a non-zero length    */
-    BOOL bReverse;                   /* +0x08  reverse playback                     */
-    BOOL bActive;                    /* +0x0C  controller active                    */
-    fx32 currentTime;                /* +0x10  elapsed time in FX (12.12) units     */
-    fx32 speed;                      /* +0x14  playback speed in FX units           */
-    u32 overriddenPlayMode;          /* +0x18  play-mode override, 0 = use sequence */
-    AnimSequenceData *pAnimSequence; /* +0x1C  selected animation sequence          */
-    AnimCallBack callBack;           /* +0x20  per-frame callback functor           */
-} AnimCtrl;
-
-struct Owner {
-    u8  pad_00[0xc];
-    u32 base;
-};
-
-struct Node {
-    u32           cursor;
-    u8            pad_04[0x18];
-    struct Owner *pOwner;
-};
 
 struct NodeRec;
-struct NNSG2dAnimController;
-extern void NNS_G2dResetCellAnimation(struct NNSG2dAnimController *pAnimCtrl);
-extern s32 abs(s32 x);
+#include "nns_g2d_cell_animation.h"
+#include "msl_crt.h"
 BOOL NNS_G2dGetUnpackedScreenData(void *file, void **out);
 void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature);
 void NNSi_G2dFixupOffsets(struct Tbl *t);
@@ -128,8 +79,8 @@ int NNSi_G2dSetCellAnimationFrame(void *p, u32 i);
 struct NodeRec *NNSi_G2dGetCellAnimationCurrentSequence(AnimCtrl *anim);
 BOOL NNS_G2dTickAnimCtrl(AnimCtrl *p, fx32 frames);
 int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i);
-u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n);
-int NNS_G2dInitAnimCtrl(struct AnimCtrl *pAnimCtrl);
+u16 NNSi_G2dGetCellAnimFrameIdx(const AnimCtrl *n);
+int NNS_G2dInitAnimCtrl(AnimCtrl *pAnimCtrl);
 void NNSi_G2dResetCellAnimationState(AnimCallBack *callBack);
 
 BOOL NNS_G2dGetUnpackedScreenData(void *file, void **out)
@@ -326,7 +277,7 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
 {
     u32 mode = getMode(s);
     if (mode == 3 || mode == 4 ? 1 : 0) {
-        AnimSequenceData *seq;
+        const AnimSequenceData *seq;
         u32 pos;
         s->bReverse ^= 1;
         seq = s->pAnimSequence;
@@ -337,7 +288,7 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
             }
             mode = getMode(s);
             if (mode == 2 || mode == 4) {
-                NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)s);
+                NNS_G2dResetCellAnimation((AnimCtrl *)s);
             } else {
                 s->bActive = 0;
             }
@@ -348,14 +299,14 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
         }
         mode = getMode(s);
         if (mode == 2 || mode == 4) {
-            NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)s);
+            NNS_G2dResetCellAnimation((AnimCtrl *)s);
         } else {
             s->bActive = 0;
         }
     }
 
     {
-        AnimSequenceData *seq = s->pAnimSequence;
+        const AnimSequenceData *seq = s->pAnimSequence;
         u32 pos = (u32)s->pCurrent;
         u32 bound = (u32)seq->pAnmFrameArray + (seq->numFrames << 3) - 8;
         if (pos > bound) {
@@ -371,7 +322,7 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
 int NNSi_G2dSetCellAnimationFrame(void *p, u32 i)
 {
     AnimCtrl *s = (AnimCtrl *)p;
-    AnimSequenceData *seq = s->pAnimSequence;
+    const AnimSequenceData *seq = s->pAnimSequence;
     AnimFrameData *e;
 
     if (i < seq->numFrames) {
@@ -534,12 +485,12 @@ int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i)
  *   python tools/match.py one --src src/matched/NNSi_G2dGetCellAnimFrameIdx.c \
  *       --func NNSi_G2dGetCellAnimFrameIdx --addr 0x02062F1C --cc 1.1p1 --arm
  */
-u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n)
+u16 NNSi_G2dGetCellAnimFrameIdx(const AnimCtrl *n)
 {
-    return (u16)((n->cursor - n->pOwner->base) >> 3);
+    return (u16)(((u32)n->pCurrent - (u32)n->pAnimSequence->pAnmFrameArray) >> 3);
 }
 
-int NNS_G2dInitAnimCtrl(struct AnimCtrl *pAnimCtrl)
+int NNS_G2dInitAnimCtrl(AnimCtrl *pAnimCtrl)
 {
     AnimCtrl *c = (AnimCtrl *)pAnimCtrl;
     NNSi_G2dResetCellAnimationState(&c->callBack);

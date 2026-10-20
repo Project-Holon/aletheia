@@ -25,17 +25,11 @@ typedef void (*SNDAlarmHandler)(void *arg);
 
 #include "../types.h"
 
-typedef struct SNDCommand {
-    struct SNDCommand *next;
-    int id;
-    u32 arg[4];
-} SNDCommand;
+#include "snd_command.h"
 
 extern void PushCommand_impl(int id, u32 value0, u32 value1, u32 value2, u32 value3);
-extern void SNDi_IncAlarmId(int alarmNo);
+#include "snd_alarm.h"
 extern unsigned char SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg);
-extern SNDCommand *SND_AllocCommand(u32 flags);
-extern void SND_PushCommand(SNDCommand *command);
 void SND_StopSeq(int playerNo);
 void SND_PrepareSeq(int playerNo, const void *base, u32 offset, struct SNDBankData *bank);
 void SND_StartPreparedSeq(u32 playerNo);

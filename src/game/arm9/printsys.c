@@ -174,24 +174,22 @@ struct TextPrinter {
 };
 
 extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int fromTail, const char *file, u16 line);
-
 extern u32   GFL_HEAP_Free(void *ptr);
 
-extern void  STRBUF_SetEosChar(u16 eosChar);
 
-extern struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u32 heap);
+#include "strbuf.h"
 
-extern void  GF_FONT_GetTextColor(u8 *letter, u8 *shadow, u8 *background);
 
-extern u32   GF_FONT_IsTextColorDifferent(u32 letter, u32 shadow, u32 background);
+#include "gf_font.h"
 
-extern void  GF_FONT_SetTextColor(u32 letter, u32 shadow, u32 background);
 
-extern u64   OS_GetTick(void);
+
+typedef unsigned long long OSTick;
+#include "os_tick.h"
 
 struct PrintCtx *PRINTSYS_GetNextRecord(struct PrintQueue *queue, struct PrintCtx *job);
 
-extern int   GFL_NET_GetNegotiationNum(void);
+#include "net.h"
 
 u32 PRINTSYS_GetAllocSize(struct Strbuf *text);
 
@@ -199,34 +197,26 @@ u32 PRINTSYS_GetQueueFreeSpace(const struct PrintQueue *queue);
 
 void PRINTSYS_EnqueuePrint(struct PrintQueue *queue, struct PrintCtx *job, struct Strbuf *str);
 
-extern u16  *STRBUF_GetChars(struct Strbuf *str);
 
-extern u8    BMP_GetTileBytes(struct Bmp *bmp);
 
-extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern void  BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
 
-extern void  GF_FONT_ReadGlyph(struct GfFont *font, u16 ch, void *dst, u8 *metrics);
 
-extern void  BMP_BlitPaletteOffset(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 w, u32 h, u16 colorKey, u16 paletteBase);
 
 u32 PRINTSYS_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next);
 
-extern u16   BMP_GetWidth(const struct Bmp *bmp);
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "bmp_win.h"
 
 extern struct TcblNode *TCBL_AddTask(struct Tcbl *tcbl, void *func, u32 workSize, u32 priority);
 struct TcblTask;
 
-extern void *TCBL_GetWork(struct TcblTask *task);
+#include "tcbl.h"
 
 void PRINTSYS_Task(void *task, struct TextPrinter *printer);
 
-extern void  TCBL_DeleteTask(struct TcblTask *task);
 
-extern signed char MSG_SPEED_GetWaitForSpeed(u32 speed);
+#include "msg_speed.h"
 
 void PRINTSYS_Init(u32 heap);
 
@@ -306,6 +296,16 @@ extern const char printsys_File[];
 
 extern struct PrintCtx _PrintJobWork;
 
+typedef short s16_p07;
+extern struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u32 heap);
+extern u16   BMP_GetWidth(const struct Bmp *bmp);
+extern void  BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
+extern void  BMP_BlitPaletteOffset(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 w, u32 h, u16 colorKey, u16 paletteBase);
+extern u8    BMP_GetTileBytes(struct Bmp *bmp);
+extern u16 BMP_GetHeight(const struct Bmp *bmp);
+extern void *BMP_GetPixels(const struct Bmp *bmp);
+extern void BMP_Clear(struct Bmp *bmp, u8 fillColor);
 void PRINTSYS_Init(u32 heap)
 {
     STRBUF_SetEosChar(0xFFFF);
@@ -1322,25 +1322,16 @@ u32 PRINTSYS_PrintStreamIsOverrideSpeed(const struct TextPrinter *printer)
 
 #include "../types.h"
 
-extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 
-extern void BMP_Clear(struct Bmp *bmp, u8 fillColor);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *target);
 
-extern signed char MSG_SPEED_GetSlowerWait(void);
 
-extern signed char MSG_SPEED_GetFasterWait(void);
 
-extern void STRBUF_Clear(struct Strbuf *text);
 
-extern void STRBUF_AppendChar(struct Strbuf *text, u16 value);
 
-extern u16 STRBUF_GetLength(struct Strbuf *text);
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+#include "mi_memory.h"
 
 void PRINTSYS_Apply(struct TextPrinter *printer);
 
@@ -1378,9 +1369,7 @@ u32 PRINTSYS_GetAlignedSize(struct Strbuf *text);
 
 void *PRINTSYS_Copy(struct PrintQueue *queue, const u8 *src, u16 length, u16 unit);
 
-u32 GF_FONT_GetCharWidth(struct GfFont *font, u16 ch);
 
-u32 GF_FONT_GetLineHeight(struct GfFont *font);
 
 static inline u32 TagGroupOrNone(u16 code, const u16 *tag)
 {

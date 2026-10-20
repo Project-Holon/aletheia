@@ -47,7 +47,7 @@ typedef struct {
 
 typedef void (*MoveCallback)(int);
 
-typedef struct MoveWork {
+typedef struct Wk {
 	unsigned char body[0x1e280];
 	unsigned char childInfo[0x18];
 	MoveCallback callback;
@@ -60,7 +60,8 @@ typedef struct MoveWork {
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
 extern unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx);
 extern unsigned char kDWCi_Language(void);
-extern void DWCi_MOVInit(void *wm, MovData *md);
+struct Wk;
+extern void DWCi_MOVInit(struct Wk *wm, MovData *md);
 extern int DWCi_MOVStartAdmitChild(void);
 extern void OS_Terminate(void);
 struct TCB;
@@ -69,7 +70,8 @@ extern int DWCi_MOVFinalize(void);
 extern int DWCi_MOVStartDownloadandBootChild(void);
 extern void DWCi_MOVFramework(void);
 extern void DWCi_MOVGetStatus(unsigned char *stt, unsigned char *change_f);
-extern void *DWCi_GetChildInfo(void);
+struct MBUserInfo;
+extern struct MBUserInfo *DWCi_GetChildInfo(void);
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern void DWCi_HEAPlFree_(void **mem);

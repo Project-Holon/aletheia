@@ -1,0 +1,14 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "PLIST_COMM_Start", "black_address": "0x021B6100", "white_address": "0x021B6120", "size": 8, "diff": "same", "source": "src/game/ov090/plist_comm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PLIST_COMM_End", "black_address": "0x021B6108", "white_address": "0x021B6128", "size": 12, "diff": "constant", "source": "src/game/ov090/plist_comm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PLIST_COMM_Update", "black_address": "0x021B6114", "white_address": "0x021B6134", "size": 112, "diff": "constant", "source": "src/game/ov090/plist_comm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PLIST_COMM_SendStatus", "black_address": "0x021B6184", "white_address": "0x021B61A4", "size": 64, "diff": "constant", "source": "src/game/ov090/plist_comm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PLIST_COMM_OnStatusReceived", "black_address": "0x021B61C4", "white_address": "0x021B61E4", "size": 36, "diff": "constant", "source": "src/game/ov090/plist_comm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PLIST_COMM_StartSync", "black_address": "0x021B61E8", "white_address": "0x021B6208", "size": 20, "diff": "constant", "source": "src/game/ov090/plist_comm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PLIST_COMM_IsSyncDoneOrFinished", "black_address": "0x021B61FC", "white_address": "0x021B621C", "size": 4, "diff": "constant", "source": "src/game/ov090/plist_comm.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

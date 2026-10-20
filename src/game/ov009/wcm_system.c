@@ -65,13 +65,7 @@ typedef struct WCMWepDesc {
     u8 key[80];
 } WCMWepDesc;
 
-typedef struct WCMNotice {
-    short notify;
-    short result;
-    void *para0;
-    void *para1;
-    long para2;
-} WCMNotice;
+#include "../sdk_wm.h"
 
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -130,9 +124,9 @@ extern void WCMi_ResetKeepAliveAlarm(void);
 long WCM_InitEx(void *buf, long len, unsigned char deviceId);
 void WcmKeepAliveAlarm(void);
 
-void WCM_Init(void *buf, long len)
+long WCM_Init(void *buf, long len)
 {
-    WCM_InitEx(buf, len, 1);
+    return WCM_InitEx(buf, len, 1);
 }
 
 static unsigned char WCMi_OverridedDeviceId = 0;
@@ -777,9 +771,9 @@ void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, long pa
         return;
     notice.notify = notify;
     notice.result = result;
-    notice.para0 = para0;
-    notice.para1 = para1;
-    notice.para2 = para2;
+    notice.parameter[0].p = para0;
+    notice.parameter[1].p = para1;
+    notice.parameter[2].n = para2;
     w->notify(&notice);
 }
 

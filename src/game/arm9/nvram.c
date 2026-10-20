@@ -53,16 +53,7 @@
 
 #include "../sdk_os_thread.h"
 
-typedef enum NVRAMResult {
-    NVRAM_RESULT_SUCCESS = 0,
-    NVRAM_RESULT_BUSY,
-    NVRAM_RESULT_ILLEGAL_PARAMETER,
-    NVRAM_RESULT_SEND_ERROR,
-    NVRAM_RESULT_INVALID_COMMAND,
-    NVRAM_RESULT_ILLEGAL_STATUS,
-    NVRAM_RESULT_FATAL_ERROR,
-    NVRAM_RESULT_UNKNOWN
-} NVRAMResult;
+#include "nvram.h"
 
 typedef enum NVRAMLock {
     NVRAM_LOCK_OFF = 0,
@@ -93,33 +84,20 @@ typedef struct NvramBss {
     u8 nvramTemp[32];
 } NvramBss;
 
-u32 OS_DisableInterrupts(void);
-u32 OS_RestoreInterrupts(u32 state);
-void PXI_Init(void);
-BOOL PXI_IsCallbackReady(int fifotag, int proc);
+#include "os_system.h"
+#include "pxi_fifo.h"
 void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
-void MIi_CpuClearFast(u32 data, void *destp, u32 size);
-BOOL OS_IsTickAvailable(void);
-void OS_InitTick(void);
-BOOL OS_IsAlarmAvailable(void);
-void OS_InitAlarm(void);
-void OS_CreateAlarm(OSAlarm *alarm);
-extern void OS_WakeupThread(OSThreadQueue *queue);
-void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, long msgCount);
-BOOL OS_ReceiveMessage(OSMessageQueue *mq, OSMessage *msg, long flags);
-void OS_SleepThread(OSThreadQueue *queue);
-void OS_Sleep(u32 msec);
-void OS_Terminate(void);
+#include "mi_memory.h"
+#include "os_tick.h"
+#include "os_alarm.h"
+#include "os_thread.h"
+#include "os_message.h"
+#include "os_terminate_processor.h"
 void NVRAMi_SyncCallback(NVRAMResult result, void *arg);
 NVRAMResult NVRAMi_ReadAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
-extern OSTick OS_GetTick(void);
-extern void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern void DC_StoreRange(void *startAddr, u32 nBytes);
+#include "os_cache.h"
 NVRAMResult NVRAMi_WriteAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
 NVRAMResult NVRAMi_VerifyAsync(u32 address, u32 size, void *pData, NVRAMCallback callback, void *arg);
-int OS_SendMessage(struct OSMessageQueue *mq, void *msg, long flags);
-extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
 void NVRAMi_Init(void);
 void NVRAMi_ReadCallback(u32 data, BOOL err);
 NVRAMResult NVRAMi_Read(u32 address, u32 size, void *pData);

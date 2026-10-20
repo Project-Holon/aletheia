@@ -18,8 +18,10 @@
  *   (none)
  */
 
+#include "rc4.h"
+
 /* hand-written in the original: CRYPTO_RC4Encrypt, asm-only SDK object (rc4s-arm4cw.s, no DWARF, no .comment) */
-asm void CRYPTO_RC4Encrypt(void)
+asm void CRYPTO_RC4Encrypt(CRYPTORC4Context *context, const void *in, u32 length, void *out)
 {
     stmfd sp!, {r4-r9, lr}
     ldrb r7, [r0]

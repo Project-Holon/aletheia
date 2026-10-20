@@ -25,27 +25,7 @@
 #define OSi_TRUNC(n, a)     (((u32)(n)) & ~((a) - 1))
 #include "../types.h"
 
-typedef struct Cell Cell;
-
-struct Cell {
-    Cell *prev;
-    Cell *next;
-    long size;
-};
-
-typedef struct HeapDesc {
-    long size;
-    Cell *free;
-    Cell *allocated;
-} HeapDesc;
-
-typedef struct OSHeapInfo {
-    volatile int currentHeap;
-    int numHeaps;
-    void *arenaStart;
-    void *arenaEnd;
-    HeapDesc *heapArray;
-} OSHeapInfo;
+#include "os_alloc.h"
 
 #include "../sdk_os.h"
 
@@ -55,11 +35,10 @@ typedef struct OsAllocData {
     OSArenaId OSi_ExtraHeapArenaId;
 } OsAllocData;
 
-extern unsigned int OS_DisableInterrupts(void);
+#include "os_system.h"
 
-extern unsigned int OS_RestoreInterrupts(unsigned int state);
 
-extern BOOL OS_IsRunOnTwl(void);
+#include "os_emulator.h"
 
 Cell *DLAddFront(Cell *r0, Cell *r1);
 Cell *DLExtract(Cell *list, Cell *node);

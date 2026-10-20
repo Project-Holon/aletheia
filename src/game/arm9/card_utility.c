@@ -26,16 +26,11 @@
  */
 #include "../types.h"
 
-typedef struct CARDDmaInterface CARDDmaInterface;
+#include "card_common.h"
 
-extern BOOL OS_IsRunOnTwl(void);
-extern void OS_Terminate(void);
-extern void IC_InvalidateAll(void);
-extern void IC_InvalidateRange(void *p, unsigned int size);
-extern void DC_FlushAll(void);
-extern void DC_StoreRange(void *startAddr, u32 nBytes);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern void DC_WaitWriteBufferEmpty(void);
+#include "os_emulator.h"
+#include "os_terminate_processor.h"
+#include "os_cache.h"
 CARDDmaInterface *CARDi_GetDmaInterface(u32 channel);
 void CARDi_ICInvalidateSmart(void *p, unsigned int a, unsigned int b);
 void CARDi_DCInvalidateSmart(void *buffer, u32 length, u32 threshold);

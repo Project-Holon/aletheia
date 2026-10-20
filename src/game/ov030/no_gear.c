@@ -1,7 +1,7 @@
 /*
  * file:     no_gear.c
  * unit:     yes
- * function: NO_GEAR_StoreStepFunc, NO_GEAR_SetStepFunc, NO_GEAR_LoadGraphics, NO_GEAR_SetupBackgrounds, NO_GEAR_Init, NO_GEAR_ReleaseGraphics, NO_GEAR_Step, NO_GEAR_Create, NO_GEAR_Update, NO_GEAR_Destroy
+ * function: NO_GEAR_StoreStepFunc, NO_GEAR_SetStepFunc, NO_GEAR_LoadGraphics, NO_GEAR_SetupBackgrounds, NO_GEAR_Init, NO_GEAR_ReleaseGraphics, NO_GEAR_Step, NO_GEAR_Create, NO_GEAR_Update, NO_GEAR_Hook, NO_GEAR_Destroy
  * address:  0x021EFEC0
  * region:   ov030
  * compiler: dsi/1.1p1

@@ -23,7 +23,8 @@
 
 #include "../sdk_os.h"
 
-extern u32 OS_DisableIrqMask(u32 intr);
+typedef unsigned int OSIrqMask;
+#include "os_interrupt.h"
 void OSi_IrqCallback(int dmaNo);
 void OSi_IrqDma0(void);
 void OSi_IrqDma1(void);

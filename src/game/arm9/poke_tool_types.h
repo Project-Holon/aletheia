@@ -8,9 +8,20 @@
  * bytes).  Uses only built-in types.
  */
 
-/* Mail attached to a party Pokemon, 0x38 bytes (layout in mail.c). */
+#include "../types.h"
+#include "../arm9/pms_types.h"
+
+/* Mail attached to a party Pokemon, 0x38 bytes (functions in mail.c). */
 struct Mail {
-    unsigned char data[0x38];
+    u32 writerId;
+    u8  gender;
+    u8  language;
+    u8  version;
+    u8  design;                     /* 0..11, 0xFF when empty */
+    u16 writerName[8];
+    u16 icon[3];
+    u16 messageId;
+    struct PmsData message[3];
 };
 
 /* Block A of the box area (0x20 bytes). */

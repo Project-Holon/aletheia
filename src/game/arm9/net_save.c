@@ -105,30 +105,22 @@ struct NetSaveProcWork {
     u32 state;                              /* +0x1D4 */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern u32 GFL_HEAP_Free(void *task);
-extern u32  GFL_NET_ERR_GetErrorLevel(void);
+#include "net_handle.h"
+#include "net_err.h"
 struct GameData;
-extern void GAME_DATA_SaveCancel(struct GameData *gd);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
-extern int GAME_DATA_SaveStart(struct GameData *gd);
-extern int  GAME_DATA_SaveMain(struct GameData *gd);
-extern u32  GFL_USE_GetRandom(u32 frames);
-extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heapId, u32 size);
+#include "game_data.h"
+#include "gfl_use.h"
+#include "gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern void  MI_CpuFill8(void *dst, int val, unsigned n);
-extern struct GameData *GAME_DATA_Create(u16 heapId);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
+#include "procsys.h"
+#include "mi_memory.h"
+#include "game_sync.h"
 struct CgearSaveBlock;
-extern u8 BLOCK20_SAVEDATA_GetPending(struct CgearSaveBlock *block);
+#include "block20_savedata.h"
 extern void PROCSYS_PushGlobal(u32 overlayId, const void *procData, void *arg);
-extern u32 GFL_NET_ERR_ShowScreen(u32 mode);
-extern int GFL_NET_GetRunState(void);
+#include "net.h"
 
 void GFL_NET_SAVE_SetStep(struct NetSaveTask *task, void (*step)(struct NetSaveTask *task));
 struct NetSaveTask *GFL_NET_SAVE_Create(u32 heapId, u32 gameData);

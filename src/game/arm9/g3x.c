@@ -67,15 +67,10 @@ extern void G3X_ResetMtxStack(void);
 extern void GXi_NopClearFifo128_(void *pDest);
 extern int G3X_GetMtxStackLevelPV(s32 *level);
 extern int G3X_GetMtxStackLevelPJ(s32 *level);
-extern void MI_Copy64B(const void *pSrc, void *pDest);
-extern void MI_Copy36B(const void *pSrc, void *pDest);
-extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
-extern void MI_Copy32B(const void *src, void *dst);
-extern void MI_NDmaFillAsync(int ch, unsigned int dst, unsigned int data, unsigned int size, MIDmaCallback callback, unsigned int arg);
-extern void MI_NDmaFill(s32 ch, s32 dst, s32 data, s32 size);
+#include "mi_memory.h"
+#include "../twl/mi_ndma.h"
 extern void MIi_DmaFill32Async(u32 dmaNo, void *dest, u32 data, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable);
-extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
+#include "mi_dma.h"
 void G3X_Init(void);
 void G3X_Reset(void);
 void G3X_SetFog(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset);
@@ -224,7 +219,7 @@ int G3X_GetClipMtx(MtxFx44 *m)
     if (reg_G3X_GXSTAT & 0x08000000) {
         return -1;
     } else {
-        MI_Copy64B((const void *)REG_CLIPMTX_RESULT_0_ADDR, m);
+        MI_Copy64B((void *)(const void *)REG_CLIPMTX_RESULT_0_ADDR, m);
         return 0;
     }
 }

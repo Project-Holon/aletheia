@@ -4,11 +4,14 @@
 mwcc `asm` function bodies and `asm { }` blocks are hand-written ARM, not C:
 they are blanked before the check (function bodies become `{}`, blocks `;`).
 Each file runs through tools/gcc-arm's arm-none-eabi-gcc with
--fsyntax-only -std=gnu99 -fshort-wchar -Werror=implicit-function-declaration.
+-S -o /dev/null -std=gnu99 -fshort-wchar -Werror=implicit-function-declaration.
 
 A failure whose only errors are static-assert / size-check failures that come
 from the host ABI (EABI aligns 64-bit members to 8 bytes, mwcc does not) is
 counted apart as "abi" with the reason; every other failure is FAIL.
+
+-Wreturn-type is on: "control reaches end of non-void function" is counted per
+file as its own class (not a FAIL); phase checks drive the total to 0.
 
 usage: python tools/hostcheck.py [--tree src/game] [-v] [FILE ...]
 """
@@ -27,9 +30,27 @@ GCC = glob.glob(os.path.join(HERE, 'gcc-arm', '*', 'bin', 'arm-none-eabi-gcc.exe
                 + '') or glob.glob(os.path.join(HERE, 'gcc-arm', '*', 'bin', 'arm-none-eabi-gcc'))
 BS = chr(92)
 ALL = False
+RETCOUNT = {}
+RETLINES = {}
 SDK_INCLUDE = os.path.join(ROOT, 'sdk', 'TwlSDK', 'include')
-FLAGS = ['-fsyntax-only', '-std=gnu99', '-fshort-wchar', '-w',
+FLAGS = ['-S', '-o', os.devnull, '-std=gnu99', '-fshort-wchar', '-Wno-all', '-Wno-extra', '-Wreturn-type',
          '-Werror=implicit-function-declaration', '-x', 'c']
+# Documented exceptions: "path:function" pairs whose missing return is kept on
+# purpose (the DS bytes need it) and tracked as missing-return rows in docs/DEBT.tsv.
+RET_EXCEPTIONS = {
+    ('src/game/arm9/gpower.c', 'GPOWER_ApplyCaptureRate'),
+    ('src/game/arm9/iss_switch_set.c', 'ISS_SWITCH_SET_UpdateSwitches'),
+    ('src/game/arm9/mcss.c', 'MCSS_SetAnimCallback'),
+    ('src/game/arm9/os_spinlock.c', 'OS_LockByWord'),
+    ('src/game/arm9/save_control.c', 'SAVE_CONTROL_StartSave'),
+    ('src/game/arm9/zonedata.c', 'ZONEDATA_GetChangedZoneId'),
+    ('src/game/ov016/rakuraku.c', 'DWCi_RAKUlGetState'),
+    ('src/game/ov094/btlv_effvm.c', 'BTLV_EFFVM_EvalCondition'),
+    ('src/game/ov096/tr_ai.c', 'TR_AI_GetPosition'),
+    ('src/game/ov210/zknsearch_main.c', 'ZKNSEARCH_MAIN_ShowResultActors'),
+}
+FUNC_RE = re.compile(r"In function '([^']*)'")
+RET_RE = re.compile(r'^(.*?):(\d+):\d+: warning: control reaches end of non-void function')
 ABI_RE = re.compile(r'static assertion failed|size of array .* is negative|'
                     r'(?:negative|zero) size|size of array is negative', re.I)
 
@@ -111,7 +132,7 @@ def blank_asm(text):
             if head.strip() == '':
                 out.append(';' + nl)            # asm { ... } block statement
             else:
-                out.append(head + '{}' + nl)     # asm function definition
+                out.append(head + '{__builtin_unreachable();}' + nl)     # asm function definition
             i = p; continue
         out.append(c); i += 1
     return ''.join(out)
@@ -124,6 +145,18 @@ def check(path):
     cmd = [GCC[0]] + FLAGS + ['-iquote', d, '-I', d, '-I', SDK_INCLUDE, '-']
     p = subprocess.run(cmd, input=src.encode('latin1'), stdout=subprocess.PIPE,
                        stderr=subprocess.STDOUT, cwd=ROOT)
+    out = p.stdout.decode('latin1', 'replace')
+    rel = os.path.relpath(path, ROOT).replace(BS, '/')
+    fn, lines = None, []
+    for l in out.split(chr(10)):
+        mf = FUNC_RE.search(l)
+        if mf:
+            fn = mf.group(1)
+        m = RET_RE.match(l)
+        if m and (rel, fn) not in RET_EXCEPTIONS:
+            lines.append(m.group(2))
+    RETCOUNT[path] = len(lines)
+    RETLINES[path] = lines
     errs = [l for l in p.stdout.decode('latin1', 'replace').split('\n') if ' error:' in l]
     if p.returncode == 0 and not errs:
         return path, 'PASS', ''
@@ -158,6 +191,14 @@ def main():
     print('--- failure classes')
     for k, v in classes.most_common():
         print('%4d %s' % (v, k))
+    tot = 0
+    print('--- control reaches end of non-void function (per file)')
+    for path, n in sorted(RETCOUNT.items()):
+        if n:
+            tot += n
+            print('%4d %s%s' % (n, os.path.relpath(path, ROOT).replace(BS, '/'),
+                              ' (line ' + ', '.join(RETLINES[path]) + ')' if a.v else ''))
+    print('missing-return total %d' % tot)
     print('total %d: PASS %d, abi %d, FAIL %d' % (len(files), cnt['PASS'], cnt['abi'], cnt['FAIL']))
     return 1 if cnt['FAIL'] else 0
 

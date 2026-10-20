@@ -60,22 +60,12 @@ typedef struct WMStartConnectReq {
     u16 authMode;
 } WMStartConnectReq;
 
-extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
-extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
-extern void WMi_RegisterSleepCallback(void);
-extern void *WMi_GetSystemWork(void);
-extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
+#include "wm_system.h"
 extern WMErrCode WMi_InitializeEx(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags);
-extern WMErrCode WM_Init(void *wmSysBuf, u16 dmaNo);
-extern WMErrCode WMi_CheckIdle(void);
-extern BOOL OS_IsRunOnTwl(void);
-extern BOOL WMi_CheckEnableFlag(void);
+#include "os_emulator.h"
 extern BOOL WmCheckParentParameter(WMParentParam *param);
-extern void DC_StoreRange(void *startAddr, u32 nBytes);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern WMErrCode WMi_SendCommandDirect(void *data, u32 length);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
+#include "os_cache.h"
+#include "mi_memory.h"
 WMErrCode WM_Enable(WMCallbackFunc callback);
 WMErrCode WMi_EnableEx(WMCallbackFunc callback, u32 miscFlags);
 WMErrCode WM_Disable(WMCallbackFunc callback);

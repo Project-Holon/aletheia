@@ -84,11 +84,10 @@ typedef struct {
     unsigned short activeScanTime;
 } ACWORK;
 
-extern void *DWCi_AC_GetMemPtr(unsigned long name);
-extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
-extern int OS_IsRunOnTwl(void);
-extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
+#include "dwc_ac.h"
+#include "mi_memory.h"
+#include "os_emulator.h"
+#include "msl_string_str.h"
 int DWCi_AC_MakeSearchList(int type);
 unsigned char DWCi_AC_CheckFreespot(WMBssDesc *bssdesc);
 unsigned char DWCi_AC_GetSearchListNum(void);

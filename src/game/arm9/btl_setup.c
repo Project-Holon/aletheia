@@ -70,7 +70,7 @@ struct StrBuf;
 
 struct NetHandle;
 
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gd);
+#include "game_data.h"
 
 extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *save);
 
@@ -130,25 +130,15 @@ extern void CONFIG_Copy(struct Config *src, struct Config *dest);
 
 extern const char sBtlSetupFileName[];
 
-u32 GAME_DATA_GetMapMatrix(const struct GameData *gd);
 
-void *GAME_DATA_GetMyItem(const struct GameData *gd);
 
-void *GAME_DATA_GetMyParty(const struct GameData *gd);
 
-u32 GAME_DATA_GetBoxManager(const struct GameData *gd);
 
-struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-void *GAME_DATA_GetEventWork(const struct GameData *gd);
 
-u8 GAME_DATA_GetSeason(const struct GameData *gd);
 
-struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
-int GAME_DATA_GetPmsWork(struct GameData *gd);
 
-void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 
 struct BattleSetupParam *BTL_SETUP_Create(u32 heap);
 

@@ -60,69 +60,51 @@ struct PackedLimits {
     u32 invalidFromCode;
 };
 
-extern u16 *STRBUF_GetChars(struct Strbuf *text);
+#include "strbuf.h"
 
-extern void STRBUF_Clear(struct Strbuf *text);
 
-extern void STRBUF_AppendChar(struct Strbuf *text, u16 value);
 
-extern u16 STRBUF_GetLength(struct Strbuf *text);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "poke_tool.h"
 struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
 
-extern void STRBUF_Delete(struct Strbuf *text);
 
-extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 isResident, u32 archiveId, u32 fileId, u32 heapId);
+#include "msgdata.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 entryIndex, struct Strbuf *dest);
 
-extern u32 PMSI_PARAM_ValidateWord(u16 *value, u32 mode, u32 flag);
+#include "pmsi_param.h"
 
-extern u32 PMSI_PARAM_ValidateDecoValue(u32 *value, u32 mode);
 
-extern void PMS_WORD_LoadString(u32 id, void *dest, u16 heap);
+#include "pms_word.h"
 
-extern u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
 
-extern void MYSTATUS_NameToStrbuf(u16 *name, struct Strbuf *buf);
+#include "mystatus.h"
 
-extern u32 NATION_AREA_GetAreaMsgBank(u32 value);
+#include "bmp_oam.h"
 
-extern u32 TPOKE_DATA_GetRecordField(void *source, u32 index);
+#include "tpoke_data.h"
 struct GameData;
 
-extern void BOX_SAVEDATA_GetBoxName(struct GameData *gameData, u32 box, struct Strbuf *dest);
-
-extern u16  STRBUF_GetEosChar(void);
+#include "box_savedata.h"
 
 
-extern void STRBUF_Append(struct Strbuf *dst, struct Strbuf *src);
 
-u32 PRINTSYS_GetTagChar(void);
 
-u32 PRINTSYS_IsWordSlotTag(const u16 *tag);
+#include "printsys.h"
 
-void PRINTSYS_AppendTag(struct Strbuf *text, u32 group, u32 kind, u16 paramCount, const u16 *params);
 
-u32 PRINTSYS_GetTagParam(const u16 *tag, u32 paramIndex);
 
-u16 *PRINTSYS_SkipTag(u16 *tag);
+
 
 struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId);
 

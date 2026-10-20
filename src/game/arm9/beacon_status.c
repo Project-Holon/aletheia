@@ -42,27 +42,21 @@ typedef struct BeaconStatus {
     u8 pad_B0F;
 } BeaconStatus;
 
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 struct Strbuf;
 
-extern struct Strbuf *STRBUF_Create(u32 length, u32 heapId);
+#include "strbuf.h"
 struct MsgBank;
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 loadType, u32 arcId, u32 datId, u32 heapId);
+#include "msgdata.h"
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
 
-extern void STRBUF_SetString(struct Strbuf *strbuf, u16 *srcChars);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 GFL_HEAP_Free(void *memory);
 
 BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId);
 

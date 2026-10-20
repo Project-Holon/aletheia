@@ -48,17 +48,16 @@ typedef struct NNSiFndAllocator {
     u32 heapParam2;
 } NNSiFndAllocator;
 
-extern void MIi_CpuClear32(u32 val, void *dst, u32 size);
+#include "mi_memory.h"
 
-extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align);
+#include "nns_fnd_expheap.h"
 
-extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 
-extern u32 NNS_FndAllocFromFrmHeapEx(char *p, int size, int align);
+#include "nns_fnd_frameheap.h"
 
-extern void *OS_AllocFromHeap(s32 id, s32 heap, s32 size);
+#include "../sdk_os.h"
+#include "os_alloc.h"
 
-extern void OS_FreeToHeap(int id, int heap, void *ptr);
 
 NNSiFndUnitBlock *NNSi_FndPopFreeBlock(NNSiFndUnitBlock **pFreeList);
 

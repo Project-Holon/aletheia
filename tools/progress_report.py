@@ -42,7 +42,10 @@ unit per line, so the file changes only when a figure changes.
 
 usage
     python tools/progress_report.py [--out progress/report.json] [--jobs N]
-                                    [--no-relink] [--check]
+                                    [--no-relink] [--check] [--version white]
+
+--version white writes progress/report_white.json: the same units, with White addresses and
+the White verdicts of layout/matched_white (tools/whitetrack.py; see white_report).
 
 By default linkstats is run first (it relinks only regions whose sources
 changed; build/linkstats/cache.json).  --no-relink uses the cache as it is.
@@ -263,6 +266,57 @@ def build(cache):
                 categories=cats)
 
 
+def white_report(report):
+    """The same report for the White build.  The units, function names and sizes are Black's
+    (same source files); each function is matched when layout/matched_white (tools/whitetrack.py)
+    says EXACT, its address is the White address, and a function the tracking has no row for
+    follows its Black verdict when the region's White link passes.  A unit is complete when its
+    Black verdict is complete and every function is matched in White.  Only EXACT counts as
+    matched (every record is EXACT today)."""
+    import whitetrack
+    import white_map
+    track = {}
+    for region in {u["metadata"]["module_name"] for u in report["units"]}:
+        p = os.path.join(whitetrack.OUT, "%s.json" % region)
+        if os.path.exists(p):
+            for r in json.load(open(p, encoding="utf-8"))["functions"]:
+                track[(region, int(r["black_address"], 16))] = r
+    rows = whitetrack.read_rows()
+    linked = {}
+    for u in report["units"]:
+        region = u["metadata"]["module_name"]
+        if region not in linked:
+            st = whitetrack.link_state(region)
+            linked[region] = not isinstance(st, str)
+        done = []
+        for f in u["functions"]:
+            a = f["metadata"]["virtual_address"]
+            t = track.get((region, a))
+            if t is not None:
+                ok = t["status"] == "EXACT"
+                wa = int(t["white_address"], 16) if t.get("white_address") else a
+            else:
+                ok = linked[region] and f["fuzzy_match_percent"] == 100.0 and not u["metadata"]["auto_generated"]
+                r = rows.get(region, {}).get(a)
+                try:
+                    wa = r[0] if r and r[0] is not None else white_map.to_white(a, region if region.startswith("ov") else None)
+                except KeyError:
+                    wa = a
+            f["fuzzy_match_percent"] = 100.0 if ok else 0.0
+            f["metadata"]["virtual_address"] = wa
+            done.append(ok)
+        tot = sum(f["size"] for f in u["functions"])
+        mat = sum(f["size"] for f, ok in zip(u["functions"], done) if ok)
+        real = not u["metadata"]["auto_generated"]
+        comp = bool(u["metadata"]["complete"]) and all(done) and linked[region]
+        u["metadata"]["complete"] = comp
+        u["measures"] = measures(tot, mat, tot if comp else 0, len(done), sum(done), int(real), int(real and comp))
+    for c in report["categories"]:
+        c["measures"] = add([u["measures"] for u in report["units"] if c["id"] in u["metadata"]["progress_categories"]])
+    report["measures"] = add([u["measures"] for u in report["units"]])
+    return report
+
+
 def dumps(report):
     """Deterministic text: the header indented, one unit per line."""
     r = pbjson(report)
@@ -297,8 +351,14 @@ def main(argv=None):
     ap.add_argument("--jobs", type=int, default=max(1, min(8, (os.cpu_count() or 2) - 1)))
     ap.add_argument("--no-relink", action="store_true", help="use build/linkstats/cache.json as it is")
     ap.add_argument("--check", action="store_true", help="exit 1 if --out is out of date")
+    ap.add_argument("--version", choices=("black", "white"), default="black",
+                    help="white: figures for the White build (progress/report_white.json)")
     a = ap.parse_args(argv)
+    if a.version == "white" and a.out == DEFAULT_OUT:
+        a.out = os.path.join(ROOT, "progress", "report_white.json")
     report = build(refresh(a.jobs, not a.no_relink))
+    if a.version == "white":
+        report = white_report(report)
     text = dumps(report)
     print(headline(report))
     if a.check:

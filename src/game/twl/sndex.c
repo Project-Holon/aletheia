@@ -34,8 +34,8 @@
  *   SNDEXi_PreSleepInfo  0x0273448C  data
  */
 #include "../types.h"
+#include "sndex.h"
 
-typedef void (*Cb)(u32, void *);
 
 typedef struct {
     u8 chan;

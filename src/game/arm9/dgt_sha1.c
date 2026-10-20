@@ -42,10 +42,9 @@ typedef struct MATHSHA1Context {
 
 #include "../sdk_math.h"
 
-extern void MATHi_SHA1Transform(MATHSHA1Context *context);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern void MATHi_CalcHMAC(void *mac, const void *message, u32 message_length, const void *key, u32 key_length, MATHiHMACFuncs *funcs);
+#include "sha1.h"
+#include "mi_memory.h"
+#include "dgt_hmac.h"
 int MATHi_SetOverlayTableMode(int flag);
 void MATH_SHA1Init(MATHSHA1Context *context);
 void MATH_SHA1Update(MATHSHA1Context *context, const void *input, u32 length);

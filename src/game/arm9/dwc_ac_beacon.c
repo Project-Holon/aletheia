@@ -104,20 +104,16 @@ typedef struct {
     unsigned char b[4];
 } WPATAG;
 
-extern void *DWCi_AC_GetMemPtr(unsigned long name);
-extern unsigned char DWCi_AC_GetPhase(void);
-extern void DWCi_AC_SetStealthChannel(unsigned short channel);
-extern int DWCi_AC_CheckNintendoUsbAP(char *ssid);
-extern int DWCi_AC_CheckNintendoShopAP(char *ssid);
-extern int OS_IsRunOnTwl(void);
-extern unsigned char *NWM_GetInfoElements(unsigned char *bssDesc, unsigned char elementId);
-extern unsigned char *NWM_GetVenderInfoElements(unsigned char *bssDesc, unsigned int elementId, void *oui);
+#include "dwc_ac.h"
+#include "dwc_ac_search.h"
+#include "dwc_ac_shop_usb.h"
+#include "os_emulator.h"
+#include "../twl/nwm_startscan.h"
 extern int DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc);
 extern int strncmp(const char *s1, const char *s2, unsigned long n) __attribute__((pure));
-extern void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc);
-extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
+#include "../ov009/wcm_aplist.h"
+#include "mi_memory.h"
 extern int DWCi_AC_IsSupportWPA(WMBssDesc *bssDesc);
-extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
 void DWCi_AC_GetBeacon(WMBssDesc *bssdesc);
 int CompareList(WMBssDesc *bssdesc, unsigned char num, ACSL *list);
 int CompareListDiff(WMBssDesc *bssdesc, ACWORK *wk);

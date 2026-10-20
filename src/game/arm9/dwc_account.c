@@ -43,16 +43,7 @@
  *   DWC_Acc_FriendKeyToGsProfileId   0x020593b8 arm
  *   DWCi_GetGamecode  0x0205A10C  arm
  */
-struct DWCstAccLoginId;
-struct DWCstAccUserData;
-typedef struct {
-    unsigned int id;
-    unsigned int low;
-} DWCstAccLoginId;
-
-struct DWCstAccLoginId {
-    unsigned long data[3];
-};
+#include "dwc_account.h"
 
 struct DWCstAccFriendKeyData {
     int pad;
@@ -75,37 +66,21 @@ typedef union DWCstAccFriendData DWCstAccFriendData;
 
 #include "../sdk_math.h"
 
-struct DWCstAccUserData {
-    unsigned long size;
-    struct DWCstAccLoginId pseudo;
-    struct DWCstAccLoginId authentic;
-    int gs_profile_id;
-    unsigned long flag;
-    unsigned long gamecode;
-    unsigned long reserved[5];
-    unsigned long crc32;
-};
-
 #include "../sdk_dwc.h"
 
 extern unsigned long DWCi_Acc_GetFlag_DataType(void *frienddata);
-extern void MATHi_CRC8InitTable(struct MATHCRC8Table *table, unsigned char poly);
-extern unsigned char MATH_CalcCRC8(struct MATHCRC8Table *table, void *data, unsigned long dataLength);
-extern void MATH_MD5Init(struct MATHMD5Context *context);
-extern void MATH_MD5Update(struct MATHMD5Context *context, void *input, unsigned long length);
-extern void MATH_MD5GetHash(struct MATHMD5Context *context, void *digest);
+#include "crc.h"
+#include "dgt_md5.h"
 extern unsigned long long DWC_Acc_CreateFriendKey(int gs_profile_id, unsigned long gamecode, int method);
 extern int DWC_Acc_CheckFriendKey(unsigned long long friendkey, unsigned long gamecode, int method);
 extern void DWCi_Acc_U64ToString32(unsigned long long num, int bitnum, char *result);
-extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern void MATHi_CRC32InitTableRev(struct MATHCRC32Table *table, unsigned long poly);
-extern unsigned long MATH_CalcCRC32(struct MATHCRC32Table *table, void *data, unsigned long dataLength);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
+#include "os_printf.h"
+#include "mi_memory.h"
 extern void DWCi_Acc_CreateTempLoginId(struct DWCstAccLoginId *loginid);
-extern void DWC_Auth_GetId(DWCAuthWiFiId *id);
-extern void OS_GetLowEntropyData(unsigned long *buffer);
+#include "util_wifiidtool.h"
+#include "os_entropy.h"
 extern int DWC_IsValidFriendData(void *p);
-extern void *DWCi_GetGamecode(void);
+#include "dwc_init.h"
 void DWCi_Acc_CreateUserData(struct DWCstAccUserData *userdata, unsigned long gamecode);
 extern int DWCi_Acc_IsValidLoginId(void *loginid);
 extern int DWC_Acc_FriendKeyToGsProfileId(unsigned long long friendkey, unsigned long gamecode);
@@ -166,12 +141,12 @@ int DWCi_Acc_SetMaskBits(unsigned long *ptr, unsigned long data, unsigned long s
 
 unsigned long long DWCi_Acc_GetUserId(struct DWCstAccLoginId *loginId)
 {
-    return ((unsigned long long)(loginId->data[0] & 0x7ff) << 32) | loginId->data[1];
+    return ((unsigned long long)(loginId->id_data & 0x7ff) << 32) | loginId->userid_lo32;
 }
 
 unsigned long DWCi_Acc_GetPlayerId(struct DWCstAccLoginId *loginId)
 {
-    return loginId->data[2];
+    return loginId->playerid;
 }
 
 unsigned long long DWCi_Acc_GetFriendKey(struct DWCstAccFriendKeyData *data)
@@ -186,13 +161,13 @@ int DWCi_Acc_GetGsProfileId(struct DWCstAccGsProfileIdData *data)
 
 void DWCi_Acc_SetUserId(struct DWCstAccLoginId *loginId, unsigned long long userId)
 {
-    DWCi_Acc_SetMaskBits(&loginId->data[0], (unsigned long)(userId >> 32), 0, 0x7ff);
-    loginId->data[1] = (unsigned long)userId;
+    DWCi_Acc_SetMaskBits(&loginId->id_data, (unsigned long)(userId >> 32), 0, 0x7ff);
+    loginId->userid_lo32 = (unsigned long)userId;
 }
 
 void DWCi_Acc_SetPlayerId(struct DWCstAccLoginId *loginId, int playerId)
 {
-    loginId->data[2] = playerId;
+    loginId->playerid = playerId;
 }
 
 void DWCi_Acc_SetFriendKey(struct DWCstAccFriendKeyData *data, unsigned long long friendKey)
@@ -452,7 +427,7 @@ void DWCi_Acc_CreateTempLoginId(struct DWCstAccLoginId *loginid)
     MATHRandContext32 context;
     unsigned long i;
 
-    OS_GetLowEntropyData(buffer);
+    OS_GetLowEntropyData((u32 *)buffer);
     for (i = 1; i < 8; i++) {
         buffer[i] ^= buffer[i - 1];
     }

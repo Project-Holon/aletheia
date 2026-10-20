@@ -29,9 +29,8 @@ struct CGearSave {
     u8  reserved[3];
 };
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 extern const u8 CGEAR_SAVE_DefaultPanels[0x24];
 

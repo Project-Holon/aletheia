@@ -25,7 +25,7 @@ struct ZukanSkinSave {
     u32 valid;          /* +0x6200 */
 };
 
-extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+#include "mi_memory.h"
 
 u32 ZUKAN_SKIN_SAVE_GetSize(void);
 

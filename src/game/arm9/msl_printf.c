@@ -79,13 +79,12 @@ typedef struct {
     u8  digits[1];
 } Ctr;
 
-extern double fabs(double x);
+#include "msl_fdlibm.h"
 
-u32 MSL_C_LIB_WideToNarrow(u8 *dst, const u16 *src, u32 max);
+#include "msl_stdio.h"
 
-void *memcpy(void *dest, const void *src, size_t n);
+#include "msl_string_mem.h"
 
-u8 *memchr(u8 *s, u32 c, u32 n);
 
 const uchar *parse_format(const uchar *format_string, va_list *arg, print_format *format);
 
@@ -107,13 +106,12 @@ u32 vsnprintf(u8 *dst, u32 n, const u8 *format, u8 *ap);
 
 u32 sprintf(char *dst, char *fmt, ...);
 
-void MSL_C_LIB_CallExitHook(u32 a, u32 b, u32 c);
+#include "msl_stdlib.h"
 
-int strlen(const u8 *s);
+#include "msl_string_str.h"
 
-u8 *strchr(const u8 *s, int c);
 
-void __dtoa(const decform *f, double x, decimal *p);
+#include "msl_ansi_fp.h"
 
 extern const unsigned short __ctype_map[];
 

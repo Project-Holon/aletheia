@@ -33,8 +33,10 @@ for White.  The sources are compiled with VERSION=VERSION_WHITE (src/game/versio
 match.compile_tu).  The link is planned in Black addresses, as always; every address written
 to the linker command file goes through tools/white_map.py (overlay RAM +0x20, ARM9 callees
 at their White address), the gaps are read from extract_white/, and the result is compared
-with White's overlay image.  An address the map cannot place fails the run.  Only the plain
-overlay link is supported (no --data), and only an overlay whose size is the same in both.
+with White's overlay image.  An address the map cannot place fails the run.  --data works for
+White with the companions of `datagen.py companions N --version white` (and arm9data.py
+--version white): Black's structure of the tail, White's values; the tail segments of an overlay
+whose code moved come from White's layout.
 
 usage
     python tools/gamelink.py 12 11 14        # overlay ids
@@ -761,8 +763,6 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
     end = base + len(img)
     wbase, wimg = base, img
     if VERSION == "white":
-        if data:
-            return dict(ov=ovid, ok=False, why="--version white: only the plain link is supported")
         wbase, wimg = white_overlay_info(ovid)
         if len(wimg) != len(img) and ovid not in (88, "arm9_main"):
             return dict(ov=ovid, ok=False, why="--version white: the overlay is 0x%X bytes in Black and 0x%X in White" % (len(img), len(wimg)))
@@ -802,7 +802,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
         data_sinit = dj.get("sinit", [])
         data_nosinit = bool(dj.get("nosinit"))         # arm9_main: .rodata and .data follow each other
         data_fixed = {k: int(v, 16) for k, v in dj.get("fixed", {}).items()}   # companion stem -> address
-        pub = os.path.join(OUT + "_data", region_name(ovid))
+        pub = os.path.join(OUT + "_data", region_name(ovid) + ("_white" if VERSION == "white" else ""))
         work = os.path.join(OUT + "_data", "%s_%d" % (region_name(ovid), os.getpid()))
     shutil.rmtree(work, ignore_errors=True)
     os.makedirs(work)
@@ -1162,7 +1162,9 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 # White: code and data moved inside the overlay, and the files have their White
                 # size.  Lay the files out at their White starts and read the gaps off that; the
                 # Black twin of each gap (for classifying callees) is the inverse mapping.
-                occw = sorted((W(a), W(a) + (b - a), a) for a, b in occ)
+                # the data tail runs to the end of White's image (its length differs from Black's)
+                occw = sorted((W(a), (wend if data_tail and (a, b) == (data_tail[0], data_tail[3]) else W(a) + (b - a)), a)
+                              for a, b in occ)
                 cur = wbase
                 for a, b, _a0 in occw:
                     if a > cur:
@@ -1285,8 +1287,25 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
                 mem.append((tag, p["addr"], p["size"] if pas == 2 else p["wroom"]))
                 sect.append(" .%s : { t%d.o (%s)%s } > %s" % (tag, i, p["sec"], " . = ALIGN(4);" if p.get("pad") else "", tag))
             names.append("t%d.o" % i)
+        wtail_mem = {}
         if data_tail:
             t0, s0, s1, e0 = data_tail
+            if VERSION == "white" and ovid == "arm9_main":
+                # the ARM9 data tail ends at White's end of the static module
+                wtail_mem["dtail"] = (W(t0), wend)
+            elif VERSION == "white" and OWN_OVERLAY and OWN_OVERLAY["region"] != "arm9":
+                # an overlay whose code moved: its tail segments come from White's layout (the
+                # static-initialiser table, the end of the image), not from Black's sizes
+                _lw = json.load(open(os.path.join(ROOT, "build", "white", "layout", "layout.json"), encoding="utf-8"))
+                _ow = [o_ for o_ in _lw["overlays"] if o_["id"] == ovid][0]
+                _ob = [o_ for o_ in json.load(open(os.path.join(ROOT, "layout", "layout.json"), encoding="utf-8"))["overlays"]
+                       if o_["id"] == ovid][0]
+                if not data_nosinit:
+                    _s1w = _ow["static_init_end"]
+                    if s1 != _ob["static_init_end"]:
+                        _s1w = (_s1w + 31) & ~31
+                    wtail_mem["dtail"] = (W(t0), _s1w)
+                    wtail_mem["ddata"] = (_s1w, wend)
 
             def tail_of(sname):
                 out_ = []
@@ -1320,7 +1339,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
         for j, (ti, nm, a, b, _nb) in enumerate(dgroups):
             mem.append(("d%d" % j, a, b - a))
             sect.append(" .d%d : { t%d.o (%s) } > d%d" % (j, ti, nm, j))
-        gw = {}
+        gw = dict(wtail_mem)
         for i, (g0, g1) in enumerate(gaps):
             if gaps_w:
                 gw["g%d" % i] = gaps_w[i]
@@ -1534,7 +1553,7 @@ def _link_overlay(ovid, interworking=True, absolute_only=False, verbose=True, sk
             sha1=hashlib.sha1(bytes(out)).hexdigest(), version=VERSION)))
     tail_diff = None
     if data_tail:
-        bad = [i for i in range(data_tail[0] - base, data_tail[3] - base) if out[i] != img[i] or not got[i]]
+        bad = [i for i in range(data_tail[0] - base, data_tail[3] - base) if out[i] != wimg[i] or not got[i]]
         tail_diff = (len(bad), [hex(base + b) for b in bad[:8]])
     return dict(ov=ovid, ok=whole and not code_diff, tail_diff=tail_diff, files=len(tus), code_bytes=sum(t["size"] for t in tus),
                 gap_bytes=sum(g1 - g0 for g0, g1 in gaps), size=len(img),

@@ -1,11 +1,14 @@
 #ifndef GAME_ARM9_WORDSET_H
 #define GAME_ARM9_WORDSET_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of wordset.c, prototypes copied from their definitions. */
 
 struct WordSet;
 struct WordTag;
 struct Strbuf;
+
+#include "../types.h"
 
 struct WordSet *WORDSET_Create(u32 slotCount, u32 textCapacity, u16 heapId);
 u32 WORDSET_Delete(struct WordSet *words);
@@ -57,5 +60,6 @@ void WORDSET_CopyString(const u16 *src, u16 *dst, u32 maxLength);
 u32 WORDSET_IsStringEqual(const u16 *left, const u16 *right);
 u32 WORDSET_IsPackedString(struct Strbuf *text);
 void WORDSET_AppendUnpackedString(struct Strbuf *dst, struct Strbuf *src);
+/* END mkheaders: generated region */
 
 #endif

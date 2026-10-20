@@ -1,0 +1,26 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "ZUKAN_SEARCH_PROC_Create", "black_address": "0x021BC240", "white_address": "0x021BC260", "size": 44, "diff": "constant", "source": "src/game/ov211/zukan_search_proc.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_PROC_IsDone", "black_address": "0x021BC26C", "white_address": "0x021BC28C", "size": 20, "diff": "same", "source": "src/game/ov211/zukan_search_proc.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_PROC_Delete", "black_address": "0x021BC280", "white_address": "0x021BC2A0", "size": 16, "diff": "constant", "source": "src/game/ov211/zukan_search_proc.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_PROC_Update", "black_address": "0x021BC290", "white_address": "0x021BC2B0", "size": 32, "diff": "constant", "source": "src/game/ov211/zukan_search_proc.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_SetupVram", "black_address": "0x021BC2B0", "white_address": "0x021BC2D0", "size": 40, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_VBlank", "black_address": "0x021BC2D8", "white_address": "0x021BC2F8", "size": 28, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_RegisterVBlank", "black_address": "0x021BC2F4", "white_address": "0x021BC314", "size": 24, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_UnregisterVBlank", "black_address": "0x021BC30C", "white_address": "0x021BC32C", "size": 12, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_InitBg", "black_address": "0x021BC318", "white_address": "0x021BC338", "size": 292, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_DeleteBg", "black_address": "0x021BC43C", "white_address": "0x021BC45C", "size": 56, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_LoadGraphics", "black_address": "0x021BC474", "white_address": "0x021BC494", "size": 316, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_LoadSaveGraphics", "black_address": "0x021BC5B0", "white_address": "0x021BC5D0", "size": 192, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_Init", "black_address": "0x021BC670", "white_address": "0x021BC690", "size": 92, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_Delete", "black_address": "0x021BC6CC", "white_address": "0x021BC6EC", "size": 44, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_WaitWipe", "black_address": "0x021BC6F8", "white_address": "0x021BC718", "size": 20, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_WaitWipeExit", "black_address": "0x021BC70C", "white_address": "0x021BC72C", "size": 20, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_HandleInput", "black_address": "0x021BC720", "white_address": "0x021BC740", "size": 128, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_Update", "black_address": "0x021BC7A0", "white_address": "0x021BC7C0", "size": 240, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ZUKAN_SEARCH_SCREEN_Tick", "black_address": "0x021BC890", "white_address": "0x021BC8B0", "size": 4, "diff": "constant", "source": "src/game/ov211/zukan_search_screen.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

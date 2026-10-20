@@ -19,12 +19,7 @@
 
 #include "../types.h"
 
-typedef struct CRYPTORC4Context {
-    u8 i;
-    u8 j;
-    u8 padding[2];
-    u8 s[256];
-} CRYPTORC4Context;
+#include "rc4.h"
 
 void CRYPTO_RC4Init(CRYPTORC4Context *context, void *key, u32 keyLength)
 {

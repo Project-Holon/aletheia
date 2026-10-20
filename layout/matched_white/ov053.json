@@ -1,0 +1,24 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 116, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_Exit", "black_address": "0x021F3734", "white_address": "0x021F3754", "size": 68, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_Update", "black_address": "0x021F3778", "white_address": "0x021F3798", "size": 176, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_CreateSoundObjs", "black_address": "0x021F3828", "white_address": "0x021F3848", "size": 336, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_LoadWaitLimits", "black_address": "0x021F3978", "white_address": "0x021F3998", "size": 68, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_LoadBgmFade", "black_address": "0x021F39BC", "white_address": "0x021F39DC", "size": 20, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_SaveAnimeFrames", "black_address": "0x021F39D0", "white_address": "0x021F39F0", "size": 52, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_RestoreAnimeFrames", "black_address": "0x021F3A04", "white_address": "0x021F3A24", "size": 52, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_StartWait", "black_address": "0x021F3A38", "white_address": "0x021F3A58", "size": 36, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_RestartAnime", "black_address": "0x021F3A5C", "white_address": "0x021F3A7C", "size": 16, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_ApplyBgmVolume", "black_address": "0x021F3A6C", "white_address": "0x021F3A8C", "size": 16, "diff": "same", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_UpdateBgmFade", "black_address": "0x021F3A7C", "white_address": "0x021F3A9C", "size": 36, "diff": "same", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_GetBgmTargetVolume", "black_address": "0x021F3AA0", "white_address": "0x021F3AC0", "size": 112, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume", "black_address": "0x021F3B10", "white_address": "0x021F3B30", "size": 16, "diff": "same", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_LowerBgmVolume", "black_address": "0x021F3B20", "white_address": "0x021F3B40", "size": 16, "diff": "same", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_ClearSlideSe", "black_address": "0x021F3B30", "white_address": "0x021F3B50", "size": 16, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_UpdateSlideSe", "black_address": "0x021F3B40", "white_address": "0x021F3B60", "size": 4, "diff": "constant", "source": "src/game/ov053/field_gimmick_sound_objs.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

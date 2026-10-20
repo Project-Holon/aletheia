@@ -1,11 +1,14 @@
 #ifndef GAME_ARM9_POKEPARTY_H
 #define GAME_ARM9_POKEPARTY_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of pokeparty.c, prototypes copied from their definitions. */
 
 struct Party;
 struct PokemonParam;
 struct SaveControl;
+
+#include "../types.h"
 
 struct Party *POKEPARTY_Create(u32 heap);
 void POKEPARTY_Init(struct Party *party);
@@ -32,5 +35,6 @@ void POKEPARTY_SetSlotFlag(struct Party *party, u32 pos, u32 set);
 struct Party *POKEPARTY_GetSaveData(struct SaveControl *save);
 u32 POKEPARTY_IsBattleReady(struct PokemonParam *member);
 u32 POKEPARTY_IsNotEgg(struct PokemonParam *member);
+/* END mkheaders: generated region */
 
 #endif

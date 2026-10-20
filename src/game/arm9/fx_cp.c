@@ -42,14 +42,14 @@ extern u32 FX_GetDivResult(void);
 extern void FX_InvAsync(fx32 denom);
 extern fx32 FX_GetSqrtResult(void);
 extern void FX_SqrtAsync(fx32 x);
-u32 FX_Div(u32 numer, u32 denom);
+fx32 FX_Div(fx32 numer, fx32 denom);
 fx32 FX_Inv(fx32 denom);
 fx64 FX_InvFx64c(fx32 denom);
 fx32 FX_Sqrt(fx32 x);
 fx32 FX_InvSqrt(fx32 x);
 u64 FX_GetDivResultFx64c(void);
 u32 FX_GetDivResult(void);
-void FX_DivAsync(u32 numer, u32 denom);
+void FX_DivAsync(s32 numer, s32 denom);
 s32 FX_DivS32(s32 numer, s32 denom);
 fx32 FX_ModS32(fx32 a, fx32 b);
 
@@ -64,7 +64,7 @@ fx32 FX_ModS32(fx32 a, fx32 b);
  *   python tools/match.py one --src src/matched/FX_Div.c \
  *       --func FX_Div --addr 0x0207C768 --cc 1.1p1 --arm
  */
-u32 FX_Div(u32 numer, u32 denom)
+fx32 FX_Div(fx32 numer, fx32 denom)
 {
     FX_DivAsync(numer, denom);
     return FX_GetDivResult();
@@ -221,7 +221,7 @@ fx32 FX_GetSqrtResult(void)
  * the 32-bit denominator is the second argument.  The paired reader is
  * FX_GetDivResult, which waits on DIVCNT bit 15 and rounds the result.
  */
-void FX_DivAsync(u32 numer, u32 denom)
+void FX_DivAsync(s32 numer, s32 denom)
 {
     vu32 *base = (vu32 *)0x04000280;
 

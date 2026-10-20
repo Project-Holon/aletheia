@@ -42,13 +42,12 @@ struct IssSwitchSys {
     struct IssSwitchSet *activeSet;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
+#include "arc_tool.h"
 
-extern u16 GFL_USE_GetBgmNo(void);
+#include "gfl_use.h"
 
 u8 *ISS_SWITCH_SYS_Create(u16 heapId);
 
@@ -108,27 +107,17 @@ u32 ISS_SWITCH_SYS_IsOn(u32 *sys);
 
 void ISS_SWITCH_SYS_ResetActiveSet(void *sys);
 
-u32 ISS_SWITCH_SET_Create(void *heapId);
+#include "iss_switch_set.h"
 
-void ISS_SWITCH_SET_Delete(void *set);
 
-u32 ISS_SWITCH_SET_Load(void *set, u32 datId, u32 heapId);
 
-u32 ISS_SWITCH_SET_Main(void *set);
 
-u32 ISS_SWITCH_SET_SwitchOn(void *set, u32 switchIdx);
 
-u32 ISS_SWITCH_SET_SwitchOff(void *set, u32 switchIdx);
 
-void ISS_SWITCH_SET_ResetSwitch(void *set);
 
-u32 ISS_SWITCH_SET_GetBgmNo(void *set);
 
-u32 ISS_SWITCH_SET_IsValidZone(void *set, void *zoneId);
 
-u32 ISS_SWITCH_SET_IsSwitchOn(void *set, u32 switchIdx);
 
-void ISS_SWITCH_SET_UpdateVolume(void *set);
 
 extern const char IssSwitchSysFileName[];
 

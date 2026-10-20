@@ -1,7 +1,7 @@
 /*
  * file:     sceneoptinfo.c
  * unit:     yes
- * function: DWCi_SceneOptInfo, initGraphics, DWCi_SceneOptInfoDrawInfo, DWCi_SceneOptInfoProcInit, DWCi_SceneOptInfoProcInit1, DWCi_SceneOptInfoProcInit2, DWCi_SceneOptInfo_procScene, input, DWCi_SceneOptInfo_draw, button, DWCi_SceneOptInfoEndScene, DWCi_SceneOptInfoEndScene1, DWCi_SceneOptInfoEndScene2
+ * function: DWCi_SceneOptInfo, initGraphics, drawInfo, procInit, procInit1, procInit2, DWCi_SceneOptInfo_procScene, input, DWCi_SceneOptInfo_draw, button, endScene, endScene1, endScene2
  * address:  0x021C255C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -62,6 +62,7 @@
  *   DWCi_SceneOptMenu   0x021C2A3C  arm
  */
 #include "../types.h"
+typedef _Bool bool;
 
 typedef struct {
     u16 priority : 2;
@@ -75,7 +76,7 @@ struct tagDWCWiFiInfo {
 
 void DWCi_HLlLoad(int idx);
 int DWCi_COMMENTlDispEx(int messageId, int n, int num);
-void DWCi_ChangeScene(void (*scene)(void));
+void DWCi_ChangeScene(u32 v);
 void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 void *DWCi_FNTlFormBgEx(int lcd, int font);
 void OS_GetMacAddress(unsigned char *macAddress);
@@ -84,18 +85,18 @@ int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, unsigned char *src
 void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
 void DWCi_BM_GetWiFiInfo(struct tagDWCWiFiInfo *buf);
 void DWCi_FNTlRenewBg(int x);
-int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
+bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 void DWCi_GXlVisible(int lcd, int plane);
-int DWCi_EFFlCheck(int lcd);
+bool DWCi_EFFlCheck(int lcd);
 void DWCi_CMNlButton(int kind);
-int DWCi_BTNlGet(void);
+s8 DWCi_BTNlGet(void);
 void DWCi_BTNlEnable(void);
 void DWCi_SceneOptInfo_procScene(void);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern void DWCi_BTNlSet(signed char v);
-void DWCi_SNDlPlay(int no);
+void DWCi_SNDlPlay(u32 v);
 void DWCi_BTNlDisable(void);
-int DWCi_EFFlWait(int frame);
+bool DWCi_EFFlWait(int frame);
 void DWCi_BTNlEnd(void);
 int DWCi_BTNlIsEnd(void);
 void DWCi_FNTlDeleteBgLcd(int lcd);
@@ -127,7 +128,7 @@ void DWCi_SceneOptInfo(void)
     DWCi_HLlLoad(0x11);
     DWCi_COMMENTlDispEx(0x3a, -1, 0);
     drawInfo();
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((u32)procInit);
 }
 
 static void initGraphics(void)
@@ -181,7 +182,7 @@ void procInit(void)
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((u32)procInit1);
 }
 
 void procInit1(void)
@@ -189,14 +190,14 @@ void procInit1(void)
     if (DWCi_EFFlCheck(1)) return;
     if (DWCi_EFFlCheck(0)) return;
     DWCi_CMNlButton(2);
-    DWCi_ChangeScene(procInit2);
+    DWCi_ChangeScene((u32)procInit2);
 }
 
 void procInit2(void)
 {
     if (DWCi_BTNlGet() == -2) return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(DWCi_SceneOptInfo_procScene);
+    DWCi_ChangeScene((u32)DWCi_SceneOptInfo_procScene);
 }
 
 void DWCi_SceneOptInfo_procScene(void)
@@ -220,14 +221,14 @@ void button(void)
 {
     if (DWCi_BTNlGet() != 0) return;
     DWCi_SNDlPlay(7);
-    DWCi_ChangeScene(endScene);
+    DWCi_ChangeScene((u32)endScene);
 }
 
 void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((u32)endScene1);
 }
 
 void endScene1(void)
@@ -236,7 +237,7 @@ void endScene1(void)
     DWCi_BTNlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene(endScene2);
+    DWCi_ChangeScene((u32)endScene2);
 }
 
 void endScene2(void)
@@ -249,5 +250,5 @@ void endScene2(void)
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 1);
-    DWCi_ChangeScene(DWCi_SceneOptMenu);
+    DWCi_ChangeScene((u32)DWCi_SceneOptMenu);
 }

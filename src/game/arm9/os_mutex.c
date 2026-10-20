@@ -49,12 +49,9 @@ typedef struct OsThreadBss {
     u32 OSi_IdleThreadStack[50];
 } OsThreadBss;
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
+#include "os_system.h"
 extern BOOL OS_TryLockMutex(OSMutex *mutex);
-extern void OS_SleepThread(OSThreadQueue *queue);
-extern OSMutex *OSi_RemoveMutexLinkFromQueue(OSMutexQueue *queue);
-extern void OS_WakeupThread(OSThreadQueue *queue);
+#include "os_thread.h"
 extern void OSi_EnqueueTail(OSThread *thread, OSMutex *mutex);
 extern void OSi_DequeueItem(OSThread *thread, OSMutex *mutex);
 void OS_InitMutex(OSMutex *mutex);

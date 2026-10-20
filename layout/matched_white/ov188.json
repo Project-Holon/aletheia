@@ -1,0 +1,23 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "BATTLE_REC_TOOL_PackMon", "black_address": "0x021EE920", "white_address": "0x021EE940", "size": 720, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_UnpackMon", "black_address": "0x021EEBF0", "white_address": "0x021EEC10", "size": 648, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_PackSetup", "black_address": "0x021EEE78", "white_address": "0x021EEE98", "size": 48, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_UnpackSetup", "black_address": "0x021EEEA8", "white_address": "0x021EEEC8", "size": 48, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_PackParty", "black_address": "0x021EEED8", "white_address": "0x021EEEF8", "size": 84, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_UnpackParty", "black_address": "0x021EEF2C", "white_address": "0x021EEF4C", "size": 120, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_PackParties", "black_address": "0x021EEFA4", "white_address": "0x021EEFC4", "size": 64, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_UnpackParties", "black_address": "0x021EEFE4", "white_address": "0x021EF004", "size": 48, "diff": "same", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_PackPlayers", "black_address": "0x021EF014", "white_address": "0x021EF034", "size": 124, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_UnpackPlayers", "black_address": "0x021EF090", "white_address": "0x021EF0B0", "size": 100, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_PackPlayerProfile", "black_address": "0x021EF0F4", "white_address": "0x021EF114", "size": 76, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_UnpackPlayerProfile", "black_address": "0x021EF140", "white_address": "0x021EF160", "size": 108, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_PackInputLog", "black_address": "0x021EF1AC", "white_address": "0x021EF1CC", "size": 44, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_UnpackInputLog", "black_address": "0x021EF1D8", "white_address": "0x021EF1F8", "size": 28, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_PackBattleRules", "black_address": "0x021EF1F4", "white_address": "0x021EF214", "size": 224, "diff": "constant", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BATTLE_REC_TOOL_UnpackBattleRules", "black_address": "0x021EF2D4", "white_address": "0x021EF2F4", "size": 4, "diff": "same", "source": "src/game/ov188/battle_rec_tool.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

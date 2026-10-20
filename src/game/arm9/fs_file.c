@@ -29,12 +29,9 @@
 #include "../sdk_fs.h"
 
 extern int FSi_DecrementSjisPosition(const char *str, int pos);
-extern int STD_GetStringLength(const char *str);
-extern BOOL FSi_SendCommand(FSFile *file, u32 command, BOOL blocking);
-extern FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath);
-extern BOOL FSi_GetFileLengthIfProc(FSFile *file, u32 *length);
-extern BOOL FSi_GetFilePositionIfProc(FSFile *file, u32 *position);
-extern int FS_SetCurrentDirectory(const char *path);
+#include "std_string.h"
+#include "fs_archive.h"
+#include "fs_proc_default.h"
 int FSi_IncrementSjisPositionToSlash(const char *str, int pos);
 int FSi_DecrementSjisPositionToSlash(const char *str, int pos);
 int FSi_TrimSjisTrailingSlash(char *str);

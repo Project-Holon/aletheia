@@ -20,9 +20,8 @@
 #include "../types.h"
 #include "greeting_savedata_shared_types.h"
 
-extern void PMSI_PARAM_SetDefaultGreeting(void *obj);
+#include "pmsi_param.h"
 
-extern void PMSI_PARAM_SetDefaultSentence(void *slot, u32 idx);
 
 u32 GREETING_SAVEDATA_GetSize(void);
 
@@ -54,9 +53,9 @@ u32 GREETING_SAVEDATA_GetSize(void)
 void GREETING_SAVEDATA_Init(void *greetings)
 {
     PMSI_PARAM_SetDefaultGreeting(greetings);
-    PMSI_PARAM_SetDefaultSentence((u8 *)greetings + 8, 0);
-    PMSI_PARAM_SetDefaultSentence((u8 *)greetings + 0x10, 1);
-    PMSI_PARAM_SetDefaultSentence((u8 *)greetings + 0x18, 2);
+    PMSI_PARAM_SetDefaultSentence((struct PmsData *)((u8 *)greetings + 8), 0);
+    PMSI_PARAM_SetDefaultSentence((struct PmsData *)((u8 *)greetings + 0x10), 1);
+    PMSI_PARAM_SetDefaultSentence((struct PmsData *)((u8 *)greetings + 0x18), 2);
     greetings = (u8 *)greetings + 0x20;
     PMSI_PARAM_SetDefaultSentence(greetings, 3);
 }
@@ -67,9 +66,8 @@ struct QuadRecord {
 };
 struct SaveControl;
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
 void *GREETING_SAVEDATA_GetFromSaveThunk(u32 a);
 

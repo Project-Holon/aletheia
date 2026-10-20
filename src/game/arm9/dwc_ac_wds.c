@@ -39,23 +39,9 @@
 
 #include "../sdk_math.h"
 
-typedef struct CRYPTORC4Context {
-    unsigned char data[0x108];
-} CRYPTORC4Context;
+#include "rc4.h"
 
-typedef struct WDSApInfo {
-    unsigned char ssid[32];
-    unsigned char apnum[10];
-    unsigned short hotspotid;
-    unsigned char hotspotname[24];
-    unsigned char wepkey[32];
-    unsigned char channel;
-    unsigned char encryptflag;
-    unsigned char infoflag;
-    unsigned char reserve[5];
-    unsigned short mtu;
-    unsigned short crc;
-} WDSApInfo;
+#include "dwc_ac_wds.h"
 
 typedef struct WDSWork {
     unsigned char wmwork[3840];
@@ -73,30 +59,14 @@ typedef struct WDSWork {
     CRYPTORC4Context rc4context;
 } WDSWork;
 
-typedef struct WDSBriefApInfo {
-    int isvalid;
-    unsigned short rssi;
-    WDSApInfo apinfo;
-} WDSBriefApInfo;
-
-extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
-extern int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable,
-                                const WMBssDesc *bssDesc, WDSApInfo *apinfo);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, unsigned short poly);
-extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
-extern int WM_End(void (*callback)(void *));
-extern unsigned short WM_GetAllowedChannel(void);
-extern unsigned short WM_GetDispersionScanPeriod(void);
-extern int WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
+#include "os_cache.h"
+#include "mi_memory.h"
+#include "crc.h"
+#include "wm_standard.h"
+#include "wm_sync.h"
 extern void WDSScanCallback(void *arg);
-extern int WM_EndScan(void (*callback)(void *));
-extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern int WDS_GetApInfoByIndex(int index, WDSBriefApInfo *briefapinfo);
-extern void CRYPTO_RC4Init(CRYPTORC4Context *context, const void *key, unsigned long key_len);
-extern void CRYPTO_RC4Encrypt(CRYPTORC4Context *context, const void *in, unsigned long length, void *out);
-extern void MATHi_CRC16UpdateRev(MATHCRC16Table *table, unsigned short *context, const void *input, unsigned long length);
-extern unsigned short MATH_CalcCRC16(MATHCRC16Table *table, const void *data, unsigned long dataLength);
+#include "rc4s_arm4cw.h"
 extern int IsValidApnum(unsigned char *apnum);
 unsigned char WDSGetRssi8(unsigned char rssi);
 unsigned long WDS_GetWorkAreaSize(void);

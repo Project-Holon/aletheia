@@ -1,0 +1,12 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_CONNECT_MARKERS_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 148, "diff": "constant", "source": "src/game/ov061/field_gimmick_connect_markers.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CONNECT_MARKERS_Exit", "black_address": "0x021F3754", "white_address": "0x021F3774", "size": 24, "diff": "constant", "source": "src/game/ov061/field_gimmick_connect_markers.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CONNECT_MARKERS_Update", "black_address": "0x021F376C", "white_address": "0x021F378C", "size": 252, "diff": "constant", "source": "src/game/ov061/field_gimmick_connect_markers.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady", "black_address": "0x021F3868", "white_address": "0x021F3888", "size": 36, "diff": "same", "source": "src/game/ov061/field_gimmick_connect_markers.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers", "black_address": "0x021F388C", "white_address": "0x021F38AC", "size": 4, "diff": "constant", "source": "src/game/ov061/field_gimmick_connect_markers.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

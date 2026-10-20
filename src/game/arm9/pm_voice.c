@@ -43,7 +43,8 @@
  *   _ll_udiv                     0x0209C00C  arm
  */
 #include "pm_voice_shared_types.h"
-extern int GFL_USE_IsLoaderBusy(void);
+typedef struct SNDInstPos SNDInstPos;
+#include "gfl_use.h"
 
 #include "../types.h"
 
@@ -64,11 +65,6 @@ struct SndChannel;
 struct SaveData;
 
 struct SaveBlock;
-
-struct SndArcWaveArcEntry {
-    u32 fileId : 24;
-    u32 flags : 8;
-};
 
 /* Channel pair numbers for one voice slot, from a table in the ROM. */
 struct PmVoiceChannelPair {
@@ -128,53 +124,39 @@ struct PmVoiceSystem {
     u8  masterVolume;           /* AC */
 };
 
-extern void  OS_Sleep(u32 msec);
+#include "os_thread.h"
 
-extern void *NNS_SndArcGetWaveArcInfo(int waveArcNo);
+#include "nns_snd_arc.h"
 
 /* Calls into the voice channel layer and the other data readers. */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 struct NNSSndWaveOutHandle;
 
-extern int   NNS_SndWaveOutIsPlaying(struct NNSSndWaveOutHandle *handle);
+#include "nns_snd_waveout.h"
 
-extern struct NNSSndWaveOutHandle *NNS_SndWaveOutAllocChannel(u32 channelNo);
 
-extern int   NNS_SndWaveOutStart(struct NNSSndWaveOutHandle *handle, int format, void *waveData, int loopFlag, int loopStart, int loopEnd, int sampleRate, int volume, int playFreq, int pan);
 
-extern u32   NNS_SndArcGetFileSize(u32 fileId);
 
-extern int   NNS_SndArcReadFile(u32 fileId, void *dst, int length, u32 offset);
 
-extern void *SNDi_GetBankWaveArcTable(char *file);
+#include "snd_bank.h"
 
-extern void  NNS_SndWaveOutStop(struct NNSSndWaveOutHandle *handle);
 
-extern void  NNS_SndWaveOutWaitIdle(struct NNSSndWaveOutHandle *handle);
 
-extern void  NNSi_SndWaveOutUnlockChannel(u32 *channelNoPtr);
 
-extern void  NNS_SndWaveOutSetVolume(struct NNSSndWaveOutHandle *handle, unsigned int volume);
 
-extern void  NNS_SndWaveOutSetSpeed(struct NNSSndWaveOutHandle *handle, int speed);
 
-extern u32   GFL_USE_GetRandom(u32 limit);
 struct PerapVoice;
 
-extern u32   PERAPVOICE_IsRecorded(struct PerapVoice *voice);
+#include "perapvoice.h"
 
-extern u8   *PERAPVOICE_GetSamples(struct PerapVoice *perapVoice);
 
-extern void  PERAPVOICE_Unpack(s8 *dest, s8 *src);
 
-extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 member);
+#include "arc_tool.h"
 struct SaveControl;
 
-extern struct SaveControl *SAVE_CONTROL_Get(void);
+#include "save_control.h"
 
-extern struct PerapVoice *PERAPVOICE_GetFromSave(struct SaveControl *saveControl);
 
 /* voice mixer */
 void PM_VOICE_Init(u16 heapId,
@@ -459,7 +441,7 @@ void PM_VOICE_ClearSlot(struct PmVoice *voice)
  */
 int PM_VOICE_LoadWave(struct PmVoice *voice, u32 waveId)
 {
-    struct SndArcWaveArcEntry *entry;
+    NNSSndArcWaveArcInfo *entry;
     struct PmWaveFile *file;
     struct PmWave *wave;
     u32 fileSize;
@@ -470,11 +452,11 @@ int PM_VOICE_LoadWave(struct PmVoice *voice, u32 waveId)
     if (entry == 0) {
         return 0;
     }
-    fileSize = NNS_SndArcGetFileSize(entry->fileId);
+    fileSize = NNS_SndArcGetFileSize(entry->bits.fileId);
     if (fileSize == 0) {
         return 0;
     }
-    bytesRead = NNS_SndArcReadFile(entry->fileId, voice->buffer, fileSize, 0);
+    bytesRead = NNS_SndArcReadFile(entry->bits.fileId, voice->buffer, fileSize, 0);
     if (bytesRead == -1) {
         return 0;
     }

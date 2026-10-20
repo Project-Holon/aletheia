@@ -78,12 +78,13 @@ extern void FS_InitFile(FSFile *file);
 extern int FS_OpenFile(FSFile *file, const char *path);
 extern void OS_Terminate(void);
 extern long OS_GetLockID(void);
-extern void *FS_GetFileImageTop(char *p);
+struct FSFile;
+extern u32 FS_GetFileImageTop(struct FSFile *file);
 extern long FS_ReadFile(FSFile *file, void *buffer, long length);
 extern int FS_CloseFile(FSFile *file);
 extern void FS_InitArchive(FSArchive *arc);
 extern int FS_RegisterArchiveName(FSArchive *arc, const char *name, u32 name_len);
-extern void FS_SetArchiveProc(FSArchive *arc, int (*proc)(FSFile *, u32), u32 flags);
+extern void FS_SetArchiveProc(void *arc, u32 proc, u32 flags);
 extern int FS_LoadArchive(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fnt, u32 fnt_size,
                          int (*read_func)(FSArchive *, void *, u32, u32),
                          int (*write_func)(FSArchive *, void *, u32, u32));
@@ -143,14 +144,14 @@ void DWCi_ARClInit(void)
     if (!FS_OpenFile(&file, "rom:/dwc/utility.bin"))
         OS_Terminate();
     MemArchive->lockId = OS_GetLockID();
-    base = (u32)FS_GetFileImageTop((char *)(&file));
+    base = (u32)FS_GetFileImageTop((struct FSFile *)(&file));
     FS_ReadFile(&file, &fnt, sizeof(fnt));
     FS_ReadFile(&file, &fat, sizeof(fat));
     FS_CloseFile(&file);
     FS_InitArchive(&MemArchive->archive);
     if (!FS_RegisterArchiveName(&MemArchive->archive, sArchiveTable1, 3))
         OS_Terminate();
-    FS_SetArchiveProc(&MemArchive->archive, (int (*)(FSFile *, u32))userProc, 0x602);
+    FS_SetArchiveProc(&MemArchive->archive, (u32)((int (*)(FSFile *, u32))userProc), 0x602);
     if (!FS_LoadArchive(&MemArchive->archive, base, fat.offset, fat.length, fnt.offset, fnt.length,
                        (int (*)(FSArchive *, void *, u32,  u32))cbRead, (int (*)(FSArchive *, void *, u32,  u32))DWCi_ARClCbWrite))
         OS_Terminate();

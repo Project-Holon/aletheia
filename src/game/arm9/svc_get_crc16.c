@@ -14,8 +14,10 @@
  *           stub).  A Thumb `asm` function: swi, then return.
  */
 
+#include "../types.h"
+
 /* hand-written in the original: SVC_GetCRC16, SVC stub in the arm9 secure area (swi 0xe; bx lr) */
-asm void SVC_GetCRC16(void)
+asm u16 SVC_GetCRC16(u16 start, const void *datap, u32 size)
 {
     swi 0xe
     bx lr

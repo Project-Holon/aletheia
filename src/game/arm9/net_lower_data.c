@@ -86,18 +86,11 @@ struct NetLdataCommand {
     u32 size : 30;
 };
 
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
-extern void GF_PANIC_FailPrintf(const char *file, u32 line, const char *fmt, ...);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clearFlag, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *block);
-extern int  GFL_NET_GetRunState(void);
-extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
-extern int  GFL_NET_SYSTEM_GetParentRingDataSize(void);
-extern int  GFL_NET_SYSTEM_GetChildRingDataSize(void);
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 netId);
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *pNet);
-extern u32 GFL_NET_SendDataMask(struct GFLNetHandle *handle, unsigned int targetMask, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
+#include "gf_panic.h"
+#include "gfl_heap_wrap.h"
+#include "net.h"
+#include "net_system.h"
+#include "net_handle.h"
 extern char sSrcFileName[];
 extern char sAssertWorkIsNull[];
 extern char sAssertWorkNotNull[];
@@ -250,7 +243,7 @@ int GFL_NET_LOWER_DATA_IsPostComplete(unsigned int netId)
  */
 void GFL_NET_LOWER_DATA_MainSend(void)
 {
-    GFLNetInitializeStruct *netInit;
+    GFLNetSession *netInit;
     int chunkSize;
 
     if (_pNetLdataWork == 0 || _pNetLdataWork->sendData == 0) {
@@ -267,9 +260,9 @@ void GFL_NET_LOWER_DATA_MainSend(void)
         if (_pNetLdataWork->sendArmed == 1) {
             netInit = GFL_NET_GetInitParam();
             if (_pNetLdataWork->isParent == 1) {
-                chunkSize = netInit->parentSendSize - GFL_NET_SYSTEM_GetParentRingDataSize();
+                chunkSize = netInit->init.parentSendSize - GFL_NET_SYSTEM_GetParentRingDataSize();
             } else {
-                chunkSize = netInit->childSendSize - GFL_NET_SYSTEM_GetChildRingDataSize();
+                chunkSize = netInit->init.childSendSize - GFL_NET_SYSTEM_GetChildRingDataSize();
             }
             chunkSize -= NET_LDATA_HEADER_SIZE;
             if (chunkSize > 0x10) {
@@ -342,7 +335,7 @@ u32 GFL_NET_LOWER_DATA_GetPostEndAddress(u32 netId)
  */
 void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32 pNetHandle)
 {
-    GFLNetInitializeStruct *netInit;
+    GFLNetSession *netInit;
     struct NetLdataPostWork *postWork;
 
     if (netId == NET_LDATA_NETID_SERVER) {
@@ -358,7 +351,7 @@ void GFL_NET_LOWER_DATA_RecvChunk(u32 netId, u32 size, u32 pData, u32 pWork, u32
         return;
     }
 
-    if ((u32)GFL_NET_HANDLE_GetCurrentHandle() != pNetHandle && netInit->bMPMode == 0) {
+    if ((u32)GFL_NET_HANDLE_GetCurrentHandle() != pNetHandle && netInit->init.bMPMode == 0) {
         return;
     }
 
@@ -395,7 +388,7 @@ int GFL_NET_LOWER_DATA_SendControl(int kind)
  */
 void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand *pData, u32 pWork, u32 pNetHandle)
 {
-    GFLNetInitializeStruct *netInit;
+    GFLNetSession *netInit;
 
     if (netId == NET_LDATA_NETID_SERVER) {
         netId = 0;
@@ -410,7 +403,7 @@ void GFL_NET_LOWER_DATA_RecvControl(u32 netId, u32 size, struct NetLdataCommand 
     }
 
     if (pNetHandle != (u32)GFL_NET_HANDLE_GetCurrentHandle()) {
-        if (netInit->bMPMode == 0) {
+        if (netInit->init.bMPMode == 0) {
             return;
         }
     }

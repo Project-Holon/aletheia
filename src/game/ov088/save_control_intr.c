@@ -27,7 +27,7 @@
  *   SAVE_CONTROL_MainSave  0x02007168  thumb
  *   SAVE_CONTROL_CancelSave  0x020071A8  thumb
  */
-extern int SAVE_CONTROL_CancelSave(struct SaveControl *saveControl);
+extern void SAVE_CONTROL_CancelSave(struct SaveControl *saveControl);
 
 struct Sub020071E4Ctrl;
 struct Sub02007168;

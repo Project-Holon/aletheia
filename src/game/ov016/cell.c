@@ -68,7 +68,7 @@ typedef struct tagMEMCELL {
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void *DWCi_QUElFormEx(long size, void *data, long dataSize);
 extern struct ListCB *DWCi_LSTlForm(void);
-extern GXOamAttr *DWCi_OBJlGetOam(int lcd, int idx);
+extern char *DWCi_OBJlGetOam(u32 a, u32 b);
 extern void DWCi_LSTlPushFront(char *p, void *ob);
 extern void DWCi_LSTlPushBack(char *p, void *ob);
 struct tagLISTCB;
@@ -108,8 +108,8 @@ void DWCi_CELLlInit(void)
     for (i = 0; i < 2; i++) {
         gCellWork->c[i].queue = DWCi_QUElFormEx(0x20, &gCellWork->c[i], 0x10);
         gCellWork->c[i].list = DWCi_LSTlForm();
-        gCellWork->c[i].head.obj = DWCi_OBJlGetOam(i, 0x40);
-        gCellWork->c[i].tail.obj = DWCi_OBJlGetOam(i, 0x7F) + 1;
+        gCellWork->c[i].head.obj = (union GXOamAttr *)DWCi_OBJlGetOam(i, 0x40);
+        gCellWork->c[i].tail.obj = (union GXOamAttr *)DWCi_OBJlGetOam(i, 0x7F) + 1;
         DWCi_LSTlPushFront(gCellWork->c[i].list, &gCellWork->c[i].head);
         DWCi_LSTlPushBack(gCellWork->c[i].list, &gCellWork->c[i].tail);
     }

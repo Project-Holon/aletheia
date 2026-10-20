@@ -1,7 +1,7 @@
 /*
  * file:     clact.c
  * unit:     yes
- * function: CLACT_InitSystem, CLACT_ExitSystem, CLACT_DrawSystem, CLACT_VBlankSystem, CLACT_FlushOamIfPending, CLACT_RegisterCharacter, CLACT_RegisterEmptyCharacter, CLACT_ReleaseCharacter, CLACT_TransferCharacter, CLACT_TransferCharacterPart, CLACT_GetCharacterProxy, CLACT_GetCharacterVramAddress, CLACT_RegisterPalette, CLACT_RegisterPaletteEx, CLACT_RegisterPaletteCompressed, CLACT_ReleasePalette, CLACT_TransferPalette, CLACT_GetPaletteProxy, CLACT_RegisterCellAnim, CLACT_ReleaseCellAnim, CLACT_CreateRenderer, CLACT_DeleteRenderer, CLACT_SetSurfacePos, CLACT_GetSurfacePos, CLACT_SetRendererCulling, CLACT_CreateUnit, CLACT_DeleteUnit, CLACT_SetUnitDrawEnable, CLACT_GetUnitDrawEnable, CLACT_SetUnitRenderer, CLACT_SetUnitDefaultRenderer, CLACT_CreateActor, CLACT_CreateAffineActor, CLACT_DeleteActor, CLACT_SetActorDrawEnable, CLACT_GetActorDrawEnable, CLACT_AddActorSurfacePos, CLACT_GetActorSurfacePos, CLACT_SetActorSurfacePosAxis, CLACT_GetActorSurfacePosAxis, CLACT_SetActorPos, CLACT_GetActorPos, CLACT_SetActorPosAxis, CLACT_GetActorPosAxis, CLACT_SetActorAffineMode, CLACT_SetActorAffineOriginAxis, CLACT_SetActorScale, CLACT_GetActorScale, CLACT_SetActorScaleAxis, CLACT_GetActorScaleAxis, CLACT_SetActorRotation, CLACT_GetActorRotation, CLACT_SetActorFlip, CLACT_GetActorFlip, CLACT_SetActorObjMode, CLACT_GetActorObjMode, CLACT_SetActorPaletteOffset, CLACT_GetActorPaletteOffset, CLACT_SetActorPaletteProxy, CLACT_GetActorPaletteProxy, CLACT_SetActorImageProxy, CLACT_GetActorImageProxy, CLACT_GetActorCharacterIndex, CLACT_GetActorPaletteIndex, CLACT_SetActorDrawPriority, CLACT_GetActorDrawPriority, CLACT_SetActorBgPriority, CLACT_GetActorBgPriority, CLACT_SetActorAnimSeq, CLACT_GetActorAnimSeq, CLACT_ChangeActorAnimSeq, CLACT_SetActorAnimFrame, CLACT_AddActorAnimFrame, CLACT_GetActorAnimFrame, CLACT_SetActorAnimIndex, CLACT_GetActorAnimSeqCount, CLACT_SetActorAutoAnim, CLACT_GetActorAutoAnim, CLACT_SetActorAutoAnimSpeed, CLACT_StartActorAnim, CLACT_StopActorAnim, CLACT_IsActorAnimActive, CLACT_RestartActorAnim, CLACT_SetActorAnimLoopCount, CLACT_ApplyActorAnimCommand, CLACT_ResetActorAnimCommand, CLACT_SetActorVisible, CLACT_InitDefaultRenderer, CLACT_SetPaletteBaseOffsets, CLACT_SetSystemActive, CLACT_IsSystemActive, CLACT_SetOamPending, CLACT_IsOamPending, CLACT_ResetOamIfPending, CLACT_DrawAllUnits, CLACT_LinkUnit, CLACT_UnlinkUnit, CLACT_InitOamManagers, CLACT_ExitOamManagers, CLACT_ApplyOamManagers, CLACT_ResetOamManagers, CLACT_InitOamManager, CLACT_ApplyOamManager, CLACT_ResetOamManager, CLACT_InitRenderer, CLACT_ExitRenderer, CLACT_SetSurfaceCulling, CLACT_InitSurface, CLACT_SetSurfaceType, CLACT_EntryOam, CLACT_EntryOamMain, CLACT_EntryOamSub, CLACT_EntryAffineMain, CLACT_EntryAffineSub, CLACT_IsAffineCellInView, CLACT_IsCellInView, CLACT_CullOam, CLACT_IsRectInView, CLACT_InitTransferPool, CLACT_ExitTransferPool, CLACT_AllocTransferEntries, CLACT_FreeTransferEntries, CLACT_ExecuteTransfers, CLACT_GetFreeTransferEntry, CLACT_RequestTransfer, CLACT_SetTransferEntry, CLACT_ExecuteTransfer, CLACT_GetFreeActor, CLACT_DrawUnit, CLACT_LinkActor, CLACT_UnlinkActor, CLACT_FindActorBefore, CLACT_FindActorAfter, CLACT_ClearActor, CLACT_DrawActor, CLACT_SetupActorDraw, CLACT_ApplyActorTransform, CLACT_UpdateActorAutoAnim, CLACT_ApplyActorInit, CLACT_ApplyActorResources, CLACT_GetSurfaceOrigin, CLACT_InitActorRequest, CLACT_CreateActorCore, CLACT_CreateActorFull, CLACT_InitAnimCtl, CLACT_ExitAnimCtl, CLACT_GetAnimCtlKind, CLACT_InitCellAnimCtl, CLACT_InitMultiCellAnimCtl, CLACT_InitVramAnimCtl, CLACT_ExitCellAnimCtl, CLACT_ExitMultiCellAnimCtl, CLACT_ExitVramAnimCtl, CLACT_SetAnimSeq, CLACT_SetCellAnimSeq, CLACT_SetMultiCellAnimSeq, CLACT_SetVramAnimSeq, CLACT_SetAnimFrame, CLACT_AddAnimFrame, CLACT_GetAnimCtrl, CLACT_GetAnimObject, CLACT_SetAnimIndex, CLACT_SetVramAnimIndex, CLACT_SetAnimSpeed, CLACT_SetVramAnimSpeed, CLACT_SetCellAnimIndex, CLACT_SetMultiCellAnimIndex, CLACT_ResetAnim, CLACT_ResetCellAnim, CLACT_ResetMultiCellAnim, CLACT_ResetVramAnim, CLACT_GetCellUserAttr, CLACT_GetMultiCellUserAttr, CLACT_GetVramCellUserAttr, CLACT_GetCellUserAttrTable, CLACT_GetMultiCellUserAttrTable, CLACT_GetVramCellUserAttrTable, CLACT_GetCellBankCount, CLACT_GetMultiCellBankCount, CLACT_GetVramCellBankCount, CLACT_ApplyAnimCommand, CLACT_ResetAnimCommand, CLACT_InitResources, CLACT_ExitResources, CLACT_IsVramTypeCompatible, CLACT_LoadArchiveData, CLACT_AllocCharacterTable, CLACT_SetupCharacterVram, CLACT_FreeCharacterTable, CLACT_UpdateObjMapping, CLACT_AllocPaletteTable, CLACT_TransferPaletteData, CLACT_TransferPaletteDataEx, CLACT_FreePaletteTable, CLACT_AllocCellAnimTable, CLACT_LoadCellAnimBanks, CLACT_FreeCellAnimTable, CLACT_SetupCharacter
+ * function: CLACT_InitSystem, CLACT_ExitSystem, CLACT_DrawSystem, CLACT_VBlankSystem, CLACT_FlushOamIfPending, CLACT_RegisterCharacter, CLACT_RegisterEmptyCharacter, CLACT_ReleaseCharacter, CLACT_TransferCharacter, CLACT_TransferCharacterPart, CLACT_GetCharacterProxy, CLACT_GetCharacterVramAddress, CLACT_RegisterPalette, CLACT_RegisterPaletteEx, CLACT_RegisterPaletteCompressed, CLACT_ReleasePalette, CLACT_TransferPalette, CLACT_GetPaletteProxy, CLACT_GetPaletteVramAddress, CLACT_RegisterCellAnim, CLACT_ReleaseCellAnim, CLACT_CreateRenderer, CLACT_DeleteRenderer, CLACT_SetSurfacePos, CLACT_GetSurfacePos, CLACT_SetRendererCulling, CLACT_CreateUnit, CLACT_DeleteUnit, CLACT_SetUnitDrawEnable, CLACT_GetUnitDrawEnable, CLACT_SetUnitRenderer, CLACT_SetUnitDefaultRenderer, CLACT_CreateActor, CLACT_CreateAffineActor, CLACT_DeleteActor, CLACT_SetActorDrawEnable, CLACT_GetActorDrawEnable, CLACT_AddActorSurfacePos, CLACT_GetActorSurfacePos, CLACT_SetActorSurfacePosAxis, CLACT_GetActorSurfacePosAxis, CLACT_SetActorPos, CLACT_GetActorPos, CLACT_SetActorPosAxis, CLACT_GetActorPosAxis, CLACT_SetActorAffineMode, CLACT_SetActorAffineOrigin, CLACT_SetActorAffineOriginAxis, CLACT_SetActorScale, CLACT_GetActorScale, CLACT_SetActorScaleAxis, CLACT_GetActorScaleAxis, CLACT_SetActorRotation, CLACT_GetActorRotation, CLACT_SetActorFlip, CLACT_GetActorFlip, CLACT_SetActorObjMode, CLACT_GetActorObjMode, CLACT_SetActorPaletteOffset, CLACT_GetActorPaletteOffset, CLACT_SetActorPaletteProxy, CLACT_GetActorPaletteProxy, CLACT_SetActorImageProxy, CLACT_GetActorImageProxy, CLACT_GetActorCharacterIndex, CLACT_GetActorPaletteIndex, CLACT_SetActorDrawPriority, CLACT_GetActorDrawPriority, CLACT_SetActorBgPriority, CLACT_GetActorBgPriority, CLACT_SetActorAnimSeq, CLACT_GetActorAnimSeq, CLACT_ChangeActorAnimSeq, CLACT_SetActorAnimFrame, CLACT_AddActorAnimFrame, CLACT_GetActorAnimFrame, CLACT_SetActorAnimIndex, CLACT_GetActorAnimSeqCount, CLACT_SetActorAutoAnim, CLACT_GetActorAutoAnim, CLACT_SetActorAutoAnimSpeed, CLACT_StartActorAnim, CLACT_StopActorAnim, CLACT_IsActorAnimActive, CLACT_RestartActorAnim, CLACT_SetActorAnimLoopCount, CLACT_ApplyActorAnimCommand, CLACT_ResetActorAnimCommand, CLACT_SetActorVisible, CLACT_InitDefaultRenderer, CLACT_SetPaletteBaseOffsets, CLACT_SetSystemActive, CLACT_IsSystemActive, CLACT_SetOamPending, CLACT_IsOamPending, CLACT_ResetOamIfPending, CLACT_DrawAllUnits, CLACT_LinkUnit, CLACT_UnlinkUnit, CLACT_InitOamManagers, CLACT_ExitOamManagers, CLACT_ApplyOamManagers, CLACT_ResetOamManagers, CLACT_InitOamManager, CLACT_ApplyOamManager, CLACT_ResetOamManager, CLACT_InitRenderer, CLACT_ExitRenderer, CLACT_SetSurfaceCulling, CLACT_InitSurface, CLACT_SetSurfaceType, CLACT_EntryOam, CLACT_EntryOamMain, CLACT_EntryOamSub, CLACT_EntryAffineMain, CLACT_EntryAffineSub, CLACT_IsAffineCellInView, CLACT_IsCellInView, CLACT_CullOam, CLACT_IsRectInView, CLACT_InitTransferPool, CLACT_ExitTransferPool, CLACT_AllocTransferEntries, CLACT_FreeTransferEntries, CLACT_ExecuteTransfers, CLACT_GetFreeTransferEntry, CLACT_RequestTransfer, CLACT_SetTransferEntry, CLACT_ExecuteTransfer, CLACT_GetFreeActor, CLACT_DrawUnit, CLACT_LinkActor, CLACT_UnlinkActor, CLACT_FindActorBefore, CLACT_FindActorAfter, CLACT_ClearActor, CLACT_DrawActor, CLACT_SetupActorDraw, CLACT_ApplyActorTransform, CLACT_UpdateActorAutoAnim, CLACT_ApplyActorInit, CLACT_ApplyActorResources, CLACT_GetSurfaceOrigin, CLACT_InitActorRequest, CLACT_CreateActorCore, CLACT_CreateActorFull, CLACT_InitAnimCtl, CLACT_ExitAnimCtl, CLACT_GetAnimCtlKind, CLACT_InitCellAnimCtl, CLACT_InitMultiCellAnimCtl, CLACT_InitVramAnimCtl, CLACT_ExitCellAnimCtl, CLACT_ExitMultiCellAnimCtl, CLACT_ExitVramAnimCtl, CLACT_SetAnimSeq, CLACT_SetCellAnimSeq, CLACT_SetMultiCellAnimSeq, CLACT_SetVramAnimSeq, CLACT_SetAnimFrame, CLACT_AddAnimFrame, CLACT_AddCellAnimFrame, CLACT_AddMultiCellAnimFrame, CLACT_AddVramAnimFrame, CLACT_GetAnimCtrl, CLACT_GetCellAnimCtrl, CLACT_GetMultiCellAnimCtrl, CLACT_GetVramAnimCtrl, CLACT_GetAnimObject, CLACT_GetCellAnimObject, CLACT_GetMultiCellAnimObject, CLACT_GetVramAnimObject, CLACT_SetAnimIndex, CLACT_SetVramAnimIndex, CLACT_SetAnimSpeed, CLACT_SetVramAnimSpeed, CLACT_SetCellAnimIndex, CLACT_SetMultiCellAnimIndex, CLACT_SetCellAnimSpeed, CLACT_SetMultiCellAnimSpeed, CLACT_ResetAnim, CLACT_ResetCellAnim, CLACT_ResetMultiCellAnim, CLACT_ResetVramAnim, CLACT_GetCellUserAttr, CLACT_GetMultiCellUserAttr, CLACT_GetVramCellUserAttr, CLACT_GetCellUserAttrTable, CLACT_GetMultiCellUserAttrTable, CLACT_GetVramCellUserAttrTable, CLACT_GetCellBankCount, CLACT_GetMultiCellBankCount, CLACT_GetVramCellBankCount, CLACT_ApplyAnimCommand, CLACT_ResetAnimCommand, CLACT_InitResources, CLACT_ExitResources, CLACT_IsVramTypeCompatible, CLACT_LoadArchiveData, CLACT_AllocCharacterTable, CLACT_SetupCharacterVram, CLACT_FreeCharacterTable, CLACT_UpdateObjMapping, CLACT_AllocPaletteTable, CLACT_TransferPaletteData, CLACT_TransferPaletteDataEx, CLACT_FreePaletteTable, CLACT_AllocCellAnimTable, CLACT_LoadCellAnimBanks, CLACT_FreeCellAnimTable, CLACT_SetupCharacter
  * address:  0x0204A48C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -119,11 +119,11 @@
 #define CONV(d, v) do { s32 _t = (s16)(v); if (_t > 0) { (d) = (f32)(_t << 12) + 0.5f; } else { (d) = (f32)(_t << 12) - 0.5f; } } while (0)
 struct Unit;
 struct Renderer;
-struct Res;
-struct Actor;
+struct ClactRes;
+struct ClactActor;
 struct ArcFile;
 struct NitroFileHeader;
-struct VramAllocator;
+struct VmanBank;
 struct PaletteCompInfo;
 struct VramTransferTask;
 struct CellAnim;
@@ -131,6 +131,8 @@ struct MultiCellAnim;
 struct CellXferState;
 struct AnimSequence;
 #include "../types.h"
+#include "nns_g2d_res_types.h"
+#include "nns_g2d_anim_types.h"
 
 /* NNSG2dImageProxy (0x24) */
 struct ImageProxy {
@@ -148,16 +150,6 @@ struct VramBlock {
     u32 hi;
 };
 
-/* NNSG2dCharacterData (0x18) */
-struct CharData {
-    u16   height;      /* 0x00 */
-    u16   width;       /* 0x02 */
-    u32   pixel_fmt;   /* 0x04 */
-    u32   mapping;     /* 0x08 */
-    u32   char_fmt;    /* 0x0c */
-    u32   size;        /* 0x10 */
-    void *raw;         /* 0x14 */
-};
 
 /* NNSG2dPaletteData (0x10) */
 struct PaletteData {
@@ -211,7 +203,7 @@ typedef struct {
 } UserExtBlock;
 
 /* Head of an NNS G2d data bank (cell, animation or multi-cell). */
-struct MultiCellBank {
+struct ClactBankHead {
     u16           count;              /* 0x00 */
     u8            pad_02[0x0e];
     UserExtBlock *mc_user_ext;        /* 0x10 */
@@ -222,34 +214,24 @@ struct MultiCellBank {
 struct CellSlot {
     void               *cell_file;    /* 0x00 */
     void               *anim_file;    /* 0x04 */
-    struct MultiCellBank *cell_bank;    /* 0x08 */
-    struct MultiCellBank *anim_bank;    /* 0x0c */
+    struct ClactBankHead *cell_bank;    /* 0x08 */
+    struct ClactBankHead *anim_bank;    /* 0x0c */
     u32                 free;         /* 0x10 */
 };
 
 /* Per-actor animation controller, 0x7c. */
 struct AnimCtl {
     u32                 kind;         /* 0x00 */
-    struct MultiCellBank *cell_bank;    /* 0x04 */
-    struct MultiCellBank *anim_bank;    /* 0x08 */
+    struct ClactBankHead *cell_bank;    /* 0x04 */
+    struct ClactBankHead *anim_bank;    /* 0x08 */
     u8                  anim[0x30];   /* 0x0c */
     u32                 cur_cell;     /* 0x3c */
     u8                  xfer_state[0x24]; /* 0x40 */
     u32                 xfer_handle;  /* 0x64 */
     u8                  pad_68[8];
-    struct MultiCellBank *mc_bank;      /* 0x70 */
-    struct MultiCellBank *mc_anim_bank; /* 0x74 */
+    struct ClactBankHead *mc_bank;      /* 0x70 */
+    struct ClactBankHead *mc_anim_bank; /* 0x74 */
     void               *mc_work;      /* 0x78 */
-};
-
-/* NNSG2dAnimController view. */
-struct AnimCtrl {
-    u8  pad_00[8];
-    u32 loop_count;    /* 0x08 */
-    u32 active;        /* 0x0c */
-    u32 frame;         /* 0x10 */
-    u8  pad_14[4];
-    u32 loop_limit;    /* 0x18 */
 };
 
 struct ActorInit {
@@ -271,11 +253,11 @@ struct ActorReq {
     u16                 pltt_idx;     /* 0x02 */
     struct CharSlot    *char_slot;    /* 0x04 */
     struct PlttSlot    *pltt_slot;    /* 0x08 */
-    struct MultiCellBank *cell_bank;    /* 0x0c */
-    struct MultiCellBank *anim_bank;    /* 0x10 */
-    struct MultiCellBank *mc_bank;      /* 0x14 */
-    struct MultiCellBank *mc_anim_bank; /* 0x18 */
-    const struct CharData *xfer_chars; /* 0x1c */
+    struct ClactBankHead *cell_bank;    /* 0x0c */
+    struct ClactBankHead *anim_bank;    /* 0x10 */
+    struct ClactBankHead *mc_bank;      /* 0x14 */
+    struct ClactBankHead *mc_anim_bank; /* 0x18 */
+    const NNSG2dCharacterData *xfer_chars; /* 0x1c */
 };
 
 struct Pt16 {
@@ -288,9 +270,9 @@ struct Pair32 {
     u32 y;
 };
 
-struct Actor {
-    struct Actor       *next;         /* 0x00 */
-    struct Actor       *prev;         /* 0x04 */
+struct ClactActor {
+    struct ClactActor       *next;         /* 0x00 */
+    struct ClactActor       *prev;         /* 0x04 */
     struct Unit        *owner;        /* 0x08 */
     struct Pt16         pos;          /* 0x0c */
     struct Pt16         origin;       /* 0x10 */
@@ -320,8 +302,8 @@ struct Actor {
 };
 
 struct Unit {
-    struct Actor    *actors;          /* 0x00 */
-    struct Actor    *head;            /* 0x04 */
+    struct ClactActor    *actors;          /* 0x00 */
+    struct ClactActor    *head;            /* 0x04 */
     struct Renderer *renderer;        /* 0x08 */
     u16              count;           /* 0x0c */
     u8               source      : 4; /* 0x0e */
@@ -331,9 +313,9 @@ struct Unit {
     struct Unit     *prev;            /* 0x14 */
 };
 
-struct Res {
-    struct VramAllocator *vram_main;  /* 0x00 */
-    struct VramAllocator *vram_sub;   /* 0x04 */
+struct ClactRes {
+    struct VmanBank *vram_main;  /* 0x00 */
+    struct VmanBank *vram_sub;   /* 0x04 */
     struct CharSlot      *chars;      /* 0x08 */
     struct PlttSlot      *pltts;      /* 0x0c */
     struct CellSlot      *cells;      /* 0x10 */
@@ -445,7 +427,7 @@ struct SurfaceInit {
     u32 extra_func_sel;
 };
 
-struct Vec2 {
+struct ClactVec2 {
     s16 x;
     s16 y;
 };
@@ -470,10 +452,10 @@ struct Sys {
     u32                  active;      /* 0x0f8 */
     u32                  oam_pending; /* 0x0fc */
     struct Unit         *units;       /* 0x100 */
-    struct Res           res;         /* 0x104 */
+    struct ClactRes           res;         /* 0x104 */
 };
 
-struct SysInit {
+struct ClactSysInit {
     s16 surface_pos[4];  /* 0x00 */
     u8  oam_main_base;   /* 0x08 */
     u8  oam_main_count;  /* 0x09 */
@@ -542,25 +524,23 @@ struct CompHeader {
     u32 header;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
-                          u16 tag);
-extern void  MI_CpuFill8(void *dst, int fill, u32 size);
-extern u32 GFL_HEAP_Free(void *p);
-extern void NNS_G2dUpdateCellTransferStateManager(void);
+#include "gfl_heap_wrap.h"
+#include "mi_memory.h"
+#include "nns_g2d_cell_transfer.h"
 struct VmanHandle;
 extern int VMAN_IsHandleInvalid(struct VmanHandle *handle);
 struct VmanBank;
+extern void NNS_G2dEndRendering(void);
+/* Kept local: clact.c passes the heap id as a full word (vman.h takes u16). */
+extern struct VmanBank *VMAN_Create(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
 extern void VMAN_Free(struct VmanBank *bank, struct VmanHandle *handle);
 extern int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i);
 extern int NNSi_G2dGetVramHandleValue(int *p, int i);
-extern void DC_FlushRange(void *a, u32 b);
-extern void GX_LoadOBJ(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GXS_LoadOBJ(void *pSrc, unsigned int offset, unsigned int szByte);
+#include "os_cache.h"
+#include "gx_load2d.h"
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern int NNSi_G2dIsVramHandleSetEx(char *p, int i);
 extern int NNSi_G2dGetVramHandleEx(char *p, int i);
-extern void GX_LoadOBJPltt(void *pSrc, unsigned int offset, unsigned int szByte);
-extern void GXS_LoadOBJPltt(void *pSrc, unsigned int offset, unsigned int szByte);
 struct Node;
 extern u16 NNSi_G2dGetCellAnimFrameIdx(struct Node *n);
 extern void NNS_G2dInitOamManagerModule(void);
@@ -573,19 +553,17 @@ extern void NNS_G2dInitRenderer(struct NNSG2dRendererInstance *pRend);
 struct NNSG2dRenderSurface;
 extern void NNS_G2dSetRendererTargetSurface(struct NNSG2dRendererInstance *pRend, struct NNSG2dRenderSurface *pNew);
 extern void NNS_G2dInitRenderSurface(struct Surface *p);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32  NNSi_G2dEntryOamManagerOam(struct OamManager *win, struct OamEntry *entry, u32 mode);
 extern void NNS_G2dEntryOamManagerAffine(struct OamManager *pMan, u32 mtx);
 extern void  NNS_G2dInitCellTransferStateManager(struct VramTransferTask *recs, u32 n, void *cb);
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
+#include "gf_panic.h"
 extern void NNSi_G2dInitVramHandle(u32 *p);
 extern void NNSi_G2dInitVramHandleEx(u32 *p);
 extern void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy);
 extern void NNS_G2dBeginRendering(struct NNSG2dRendererInstance *obj);
-extern void NNS_G2dEndRendering();
+
 struct NNSG2dRndCoreInstance;
-extern void NNS_G2dSetRndCoreAffineOverwriteMode(struct NNSG2dRndCoreInstance *pRnd, unsigned int mode);
-extern void NNS_G2dSetRndCoreFlipMode(struct NNSG2dRndCoreInstance *pRnd, int bFlipH, int bFlipV);
+#include "nns_g2d_renderer_core.h"
 extern void NNS_G2dTranslate(s32 x, s32 y, s32 z);
 extern void NNS_G2dScale(s32 x, s32 y, s32 z);
 extern void NNS_G2dRotZ(s32 a, s32 b);
@@ -598,14 +576,12 @@ struct AnimSequenceData;
 extern struct AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, unsigned int idx);
 struct CellDataBank;
 extern void NNS_G2dInitCellAnimation(struct CellAnim *pCellAnim, struct AnimSequenceData *pAnimSeq, struct CellDataBank *pCellDataBank);
-extern int NNSi_G2dGetCellTransferStateIndex(void);
 extern void NNS_G2dInitCellAnimationVramTransfered(struct CellAnim *pCellAnim, struct AnimSequenceData *pAnimSeq, struct CellDataBank *pCellDataBank, unsigned int stateIdx, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f);
-struct MultiCellBank;
-extern int NNS_G2dGetMCWorkAreaSize(struct MultiCellBank *pBank, u32 kind);
-struct MultiCellBank;
-extern void NNS_G2dInitMCAnimation(struct MultiCellAnim *pMCAnim, void *pBuf, struct AnimBank *pAnimBank, struct CellDataBank *pCellDataBank, struct MultiCellBank *pBank, int kind);
+struct ClactBankHead;
+extern int NNS_G2dGetMCWorkAreaSize(struct ClactBankHead *pBank, u32 kind);
+struct ClactBankHead;
+extern void NNS_G2dInitMCAnimation(struct MultiCellAnim *pMCAnim, void *pBuf, struct AnimBank *pAnimBank, struct CellDataBank *pCellDataBank, struct ClactBankHead *pBank, int kind);
 extern void NNS_G2dSetAnimSequenceToMCAnimation(struct MultiCellAnim *pMCAnim, struct AnimSequenceData *pAnimSeq);
-extern void NNSi_G2dResetCellTransferState(u32 idx);
 extern void  NNS_G2dSetCellAnimationSequence(struct CellAnim *pCellAnim, struct AnimSequenceData *pAnimSeq);
 extern void NNS_G2dTickCellAnimation(struct CellAnim *anim, s32 frames);
 extern void NNS_G2dTickMCAnimation(struct MultiCellAnim *pMCAnim, int frames);
@@ -616,11 +592,9 @@ extern void NNS_G2dSetMCAnimationSpeed(struct MultiCellAnim *pMCAnim, int speed)
 extern void NNS_G2dRestartCellAnimation(struct CellAnim *anim);
 struct MCInstance;
 extern void NNSi_G2dSetMCInstanceCurrentFrameZero(struct MCInstance *pMCInst);
-extern void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, int func);
-extern void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 a, u32 b, u16 tag);
-extern struct VramAllocator *VMAN_Create(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
+#include "nns_g2d_cell_animation.h"
 extern void VMAN_Delete(struct VmanBank *bank);
-extern void MI_UncompressLZ8(const void *src, void *dest);
+#include "mi_uncompress.h"
 extern void  VMAN_InvalidateHandle(struct VmanHandle *handle);
 extern int VMAN_Alloc(struct VmanBank *bank, unsigned int size, struct VmanHandle *out);
 extern u32 VMAN_GetOffset(struct VmanBank *bank, unsigned int *units_ptr);
@@ -634,20 +608,19 @@ extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **ou
 struct VramHandleSel;
 struct VramResourceSel;
 extern void NNSi_G2dLoadVramResourceBySel(struct VramResourceSel *self, unsigned int offset, int sel, struct VramHandleSel *out);
-extern u16 GX_GetBankForOBJExtPltt(void);
-extern u16 GX_GetBankForSubOBJExtPltt(void);
-extern void GX_SetBankForLCDC(int banks);
-extern void GX_SetBankForOBJExtPltt(int objExtPltt);
-extern void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
+typedef int GXVRamBG;
+typedef int GXVRamOBJ;
+typedef int GXVRamTex;
+#include "gx_vramcnt.h"
 struct VramHandleList;
 struct VramResourceIndices;
 struct VramResourceList;
 extern void NNSi_G2dLoadVramResourceList(struct VramResourceList *self, struct VramResourceIndices *list, unsigned int base, int sel, struct VramHandleList *out);
-extern int NNS_G2dGetUnpackedCellBank(int a, struct MultiCellBank **out);
-extern s32 NNS_G2dGetUnpackedAnimBankEx(void *handle, struct MultiCellBank **slot);
+extern int NNS_G2dGetUnpackedCellBank(int a, struct ClactBankHead **out);
+extern s32 NNS_G2dGetUnpackedAnimBankEx(void *handle, struct ClactBankHead **slot);
 extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
-extern void  SYSTEMFONT_Load(u32 a);
-void CLACT_InitSystem(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
+#include "systemfont.h"
+void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
 void CLACT_ExitSystem(void);
 void CLACT_DrawSystem(void);
 void CLACT_VBlankSystem(void);
@@ -655,7 +628,7 @@ void CLACT_FlushOamIfPending(void);
 s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
 s32 CLACT_RegisterEmptyCharacter(u32 size, u32 vram_mode, u16 heapId);
 void CLACT_ReleaseCharacter(u32 idx);
-void CLACT_TransferCharacter(int idx, struct CharData *char_data);
+void CLACT_TransferCharacter(int idx, NNSG2dCharacterData *char_data);
 void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int target);
 void CLACT_GetCharacterProxy(u32 idx, struct ImageProxy *out);
 int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
@@ -670,8 +643,8 @@ s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, 
 void CLACT_ReleaseCellAnim(u32 idx);
 struct Renderer *CLACT_CreateRenderer(const struct SurfaceInit *inits, u32 count, u32 heap_id);
 void CLACT_DeleteRenderer(struct Renderer *renderer);
-void CLACT_SetSurfacePos(struct Renderer *renderer, int idx, struct Vec2 *pos);
-void CLACT_GetSurfacePos(struct Renderer *renderer, u32 surface_idx, struct Vec2 *out);
+void CLACT_SetSurfacePos(struct Renderer *renderer, int idx, struct ClactVec2 *pos);
+void CLACT_GetSurfacePos(struct Renderer *renderer, u32 surface_idx, struct ClactVec2 *out);
 void CLACT_SetRendererCulling(struct Renderer *renderer, int enable);
 struct Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId);
 u32 CLACT_DeleteUnit(struct Unit *unit);
@@ -679,63 +652,63 @@ void CLACT_SetUnitDrawEnable(struct Unit *unit, u32 enable);
 u32 CLACT_GetUnitDrawEnable(struct Unit *unit);
 void CLACT_SetUnitRenderer(struct Unit *unit, void *renderer);
 void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
-struct Actor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
-struct Actor *CLACT_CreateAffineActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
-void CLACT_DeleteActor(struct Actor *actor);
-void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
-u32 CLACT_GetActorDrawEnable(struct Actor *actor);
-void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32 which);
-void CLACT_GetActorSurfacePos(struct Actor *actor, struct Vec2 *out, u16 space);
-void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
-s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis);
-void CLACT_SetActorPos(struct Actor *actor, const struct Pt16 *pos);
-void CLACT_GetActorPos(const struct Actor *actor, struct Pt16 *out);
-void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
-s16 CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis);
-void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
-void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt16 *origin);
-void CLACT_SetActorAffineOriginAxis(struct Actor *actor, signed short value, u32 axis);
-void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src);
-void CLACT_GetActorScale(const struct Actor *actor, struct Pair32 *out_scale);
-void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which);
-u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which);
-void CLACT_SetActorRotation(struct Actor *actor, u16 value);
-u16 CLACT_GetActorRotation(const struct Actor *actor);
-void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
-u32 CLACT_GetActorFlip(const struct Actor *actor, u32 which);
-void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-u32 CLACT_GetActorObjMode(const struct Actor *actor);
-void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
-u32 CLACT_GetActorPaletteOffset(struct Actor *actor);
-void CLACT_SetActorPaletteProxy(struct Actor *actor, const struct PaletteProxy *proxy);
+struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
+struct ClactActor *CLACT_CreateAffineActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
+void CLACT_DeleteActor(struct ClactActor *actor);
+void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
+u32 CLACT_GetActorDrawEnable(struct ClactActor *actor);
+void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u32 which);
+void CLACT_GetActorSurfacePos(struct ClactActor *actor, struct ClactVec2 *out, u16 space);
+void CLACT_SetActorSurfacePosAxis(struct ClactActor *actor, s16 value, u32 space, u32 axis);
+s16 CLACT_GetActorSurfacePosAxis(struct ClactActor *actor, u32 space, u32 axis);
+void CLACT_SetActorPos(struct ClactActor *actor, const struct Pt16 *pos);
+void CLACT_GetActorPos(const struct ClactActor *actor, struct Pt16 *out);
+void CLACT_SetActorPosAxis(struct ClactActor *actor, signed short value, u32 axis);
+s16 CLACT_GetActorPosAxis(const struct ClactActor *actor, u32 axis);
+void CLACT_SetActorAffineMode(struct ClactActor *actor, u32 value);
+void CLACT_SetActorAffineOrigin(struct ClactActor *actor, const struct Pt16 *origin);
+void CLACT_SetActorAffineOriginAxis(struct ClactActor *actor, signed short value, u32 axis);
+void CLACT_SetActorScale(struct ClactActor *actor, struct Pair32 *src);
+void CLACT_GetActorScale(const struct ClactActor *actor, struct Pair32 *out_scale);
+void CLACT_SetActorScaleAxis(struct ClactActor *actor, u32 value, u32 which);
+u32 CLACT_GetActorScaleAxis(const struct ClactActor *actor, u32 which);
+void CLACT_SetActorRotation(struct ClactActor *actor, u16 value);
+u16 CLACT_GetActorRotation(const struct ClactActor *actor);
+void CLACT_SetActorFlip(struct ClactActor *actor, u32 which, u32 set);
+u32 CLACT_GetActorFlip(const struct ClactActor *actor, u32 which);
+void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
+u32 CLACT_GetActorObjMode(const struct ClactActor *actor);
+void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 pltt_op);
+u32 CLACT_GetActorPaletteOffset(struct ClactActor *actor);
+void CLACT_SetActorPaletteProxy(struct ClactActor *actor, const struct PaletteProxy *proxy);
 void CLACT_GetActorPaletteProxy(const char *actor_base, struct PaletteProxy *dst);
 void CLACT_SetActorImageProxy(char *actor_base, const struct ImageProxy *proxy);
 void CLACT_GetActorImageProxy(const char *actor_base, struct ImageProxy *dst);
-u16 CLACT_GetActorCharacterIndex(struct Actor *actor);
-u16 CLACT_GetActorPaletteIndex(struct Actor *actor);
-void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
-int CLACT_GetActorDrawPriority(struct Actor *actor);
-void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
-u32 CLACT_GetActorBgPriority(struct Actor *actor);
-void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
-u16 CLACT_GetActorAnimSeq(struct Actor *actor);
-void CLACT_ChangeActorAnimSeq(struct Actor *actor, u16 anim_seq);
-void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
-void CLACT_AddActorAnimFrame(struct Actor *actor, u32 frames);
-u32 CLACT_GetActorAnimFrame(struct Actor *actor);
-void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx);
-u16 CLACT_GetActorAnimSeqCount(struct Actor *actor);
-void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
-u32 CLACT_GetActorAutoAnim(struct Actor *actor);
-void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, u32 speed);
-void CLACT_StartActorAnim(struct Actor *actor);
-void CLACT_StopActorAnim(struct Actor *actor);
-u32 CLACT_IsActorAnimActive(struct Actor *actor);
-void CLACT_RestartActorAnim(struct Actor *actor);
-void CLACT_SetActorAnimLoopCount(struct Actor *actor, u32 loop_limit);
-void CLACT_ApplyActorAnimCommand(struct Actor *actor, const struct Cmd *cmd);
-void CLACT_ResetActorAnimCommand(struct Actor *actor);
-void CLACT_SetActorVisible(struct Actor *actor, u32 visible);
+u16 CLACT_GetActorCharacterIndex(struct ClactActor *actor);
+u16 CLACT_GetActorPaletteIndex(struct ClactActor *actor);
+void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority);
+int CLACT_GetActorDrawPriority(struct ClactActor *actor);
+void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
+u32 CLACT_GetActorBgPriority(struct ClactActor *actor);
+void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
+u16 CLACT_GetActorAnimSeq(struct ClactActor *actor);
+void CLACT_ChangeActorAnimSeq(struct ClactActor *actor, u16 anim_seq);
+void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
+void CLACT_AddActorAnimFrame(struct ClactActor *actor, u32 frames);
+u32 CLACT_GetActorAnimFrame(struct ClactActor *actor);
+void CLACT_SetActorAnimIndex(struct ClactActor *actor, u32 anim_idx);
+u16 CLACT_GetActorAnimSeqCount(struct ClactActor *actor);
+void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
+u32 CLACT_GetActorAutoAnim(struct ClactActor *actor);
+void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 speed);
+void CLACT_StartActorAnim(struct ClactActor *actor);
+void CLACT_StopActorAnim(struct ClactActor *actor);
+u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
+void CLACT_RestartActorAnim(struct ClactActor *actor);
+void CLACT_SetActorAnimLoopCount(struct ClactActor *actor, u32 loop_limit);
+void CLACT_ApplyActorAnimCommand(struct ClactActor *actor, const struct Cmd *cmd);
+void CLACT_ResetActorAnimCommand(struct ClactActor *actor);
+void CLACT_SetActorVisible(struct ClactActor *actor, u32 visible);
 void CLACT_InitDefaultRenderer(struct Renderer *renderer, const s16 *src, u32 heap_id);
 void CLACT_SetPaletteBaseOffsets(u32 pltt_proxy, u16 base_offset, u32 pltt_op);
 void CLACT_SetSystemActive(u32 active);
@@ -776,23 +749,23 @@ struct TransferEntry *CLACT_GetFreeTransferEntry(struct TransferPool *pool);
 u32 CLACT_RequestTransfer(u32 kind, u32 dest, u32 src, u32 size);
 void CLACT_SetTransferEntry(struct TransferEntry *entry, u32 entry_kind, u32 dest, u32 src, u32 size);
 void CLACT_ExecuteTransfer(struct TransferEntry *entry);
-struct Actor *CLACT_GetFreeActor(struct Unit *unit);
+struct ClactActor *CLACT_GetFreeActor(struct Unit *unit);
 void CLACT_DrawUnit(struct Unit *unit);
-void CLACT_LinkActor(struct Unit *unit, struct Actor *actor);
-void CLACT_UnlinkActor(struct Unit *unit, struct Actor *actor);
-void *CLACT_FindActorBefore(struct Actor *head, u32 priority);
-struct Actor *CLACT_FindActorAfter(struct Actor *head, u32 priority);
-void CLACT_ClearActor(struct Actor *actor);
-void CLACT_DrawActor(struct Actor *actor, struct Renderer *renderer);
-void CLACT_SetupActorDraw(struct Actor *actor, struct Renderer *renderer);
-void CLACT_ApplyActorTransform(struct Actor *actor);
-void CLACT_UpdateActorAutoAnim(struct Actor *actor);
-void CLACT_ApplyActorInit(struct Actor *actor, const struct ActorInit *init, u32 space);
-void CLACT_ApplyActorResources(struct Actor *actor, const struct ActorReq *req);
-void CLACT_GetSurfaceOrigin(struct Actor *actor, u32 surface_idx, u16 *out);
-void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct MultiCellBank *anim_bank);
-struct Actor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
-struct Actor *CLACT_CreateActorFull(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
+void CLACT_LinkActor(struct Unit *unit, struct ClactActor *actor);
+void CLACT_UnlinkActor(struct Unit *unit, struct ClactActor *actor);
+void *CLACT_FindActorBefore(struct ClactActor *head, u32 priority);
+struct ClactActor *CLACT_FindActorAfter(struct ClactActor *head, u32 priority);
+void CLACT_ClearActor(struct ClactActor *actor);
+void CLACT_DrawActor(struct ClactActor *actor, struct Renderer *renderer);
+void CLACT_SetupActorDraw(struct ClactActor *actor, struct Renderer *renderer);
+void CLACT_ApplyActorTransform(struct ClactActor *actor);
+void CLACT_UpdateActorAutoAnim(struct ClactActor *actor);
+void CLACT_ApplyActorInit(struct ClactActor *actor, const struct ActorInit *init, u32 space);
+void CLACT_ApplyActorResources(struct ClactActor *actor, const struct ActorReq *req);
+void CLACT_GetSurfaceOrigin(struct ClactActor *actor, u32 surface_idx, u16 *out);
+void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct ClactBankHead *anim_bank);
+struct ClactActor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
+struct ClactActor *CLACT_CreateActorFull(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
 void CLACT_InitAnimCtl(struct AnimCtl *anim_ctl, void *req, u32 heap_id);
 void CLACT_ExitAnimCtl(struct AnimCtl *anim_ctl);
 s32 CLACT_GetAnimCtlKind(const struct ActorReq *req);
@@ -811,11 +784,11 @@ void *CLACT_AddAnimFrame(struct AnimCtl *anim_ctl, u32 speed);
 void CLACT_AddCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames);
 void CLACT_AddMultiCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames);
 void CLACT_AddVramAnimFrame(struct AnimCtl *anim_ctl, s32 frames);
-struct AnimCtrl *CLACT_GetAnimCtrl(struct AnimCtl *anim_ctl);
+AnimCtrl *CLACT_GetAnimCtrl(struct AnimCtl *anim_ctl);
 void *CLACT_GetCellAnimCtrl(struct AnimCtl *anim_ctl);
 void *CLACT_GetMultiCellAnimCtrl(struct AnimCtl *anim_ctl);
 void *CLACT_GetVramAnimCtrl(struct AnimCtl *anim_ctl);
-struct AnimCtrl *CLACT_GetAnimObject(struct AnimCtl *anim_ctl);
+AnimCtrl *CLACT_GetAnimObject(struct AnimCtl *anim_ctl);
 void *CLACT_GetCellAnimObject(struct AnimCtl *anim_ctl);
 void *CLACT_GetMultiCellAnimObject(struct AnimCtl *anim_ctl);
 void *CLACT_GetVramAnimObject(struct AnimCtl *anim_ctl);
@@ -842,25 +815,25 @@ u16 CLACT_GetMultiCellBankCount(struct AnimCtl *anim_ctl);
 u16 CLACT_GetVramCellBankCount(struct AnimCtl *anim_ctl);
 void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd);
 void CLACT_ResetAnimCommand(struct AnimCtl *anim_ctl);
-void CLACT_InitResources(struct Res *res, u32 heapId, const struct DispVramCfg *cfg, const struct Caps *caps);
-void CLACT_ExitResources(struct Res *res);
+void CLACT_InitResources(struct ClactRes *res, u32 heapId, const struct DispVramCfg *cfg, const struct Caps *caps);
+void CLACT_ExitResources(struct ClactRes *res);
 u32 CLACT_IsVramTypeCompatible(u32 mode, u32 bank_idx);
 void *CLACT_LoadArchiveData(void *archive, u32 file_idx, u32 compressed, u32 heapId);
 void *CLACT_AllocCharacterTable(u32 heapId, u32 count);
-void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_data, struct CharXferInfo *xfer_override, u32 vram_mode);
+void CLACT_SetupCharacterVram(struct ClactRes *res, u32 idx, NNSG2dCharacterData *char_data, struct CharXferInfo *xfer_override, u32 vram_mode);
 void CLACT_FreeCharacterTable(void *chars);
-void CLACT_UpdateObjMapping(struct CharData *char_data, int screen);
+void CLACT_UpdateObjMapping(NNSG2dCharacterData *char_data, int screen);
 void *CLACT_AllocPaletteTable(u32 heapId, u32 count);
-void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_mode, u32 vram_offset, u16 first_color, u16 color_count);
-void CLACT_TransferPaletteDataEx(struct Res *res, int idx, void *file, void *vram_mode, u32 vram_offset);
+void CLACT_TransferPaletteData(struct ClactRes *res, int idx, void *file, void *vram_mode, u32 vram_offset, u16 first_color, u16 color_count);
+void CLACT_TransferPaletteDataEx(struct ClactRes *res, int idx, void *file, void *vram_mode, u32 vram_offset);
 void CLACT_FreePaletteTable(void *pltts);
 struct CellSlot *CLACT_AllocCellAnimTable(u32 heap_id, u32 count);
-s32 CLACT_LoadCellAnimBanks(struct Res *res, s32 idx, void *cell_file, void *anim_file);
+s32 CLACT_LoadCellAnimBanks(struct ClactRes *res, s32 idx, void *cell_file, void *anim_file);
 void CLACT_FreeCellAnimTable(void *cells);
-void CLACT_SetupCharacter(struct Res *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info);
+void CLACT_SetupCharacter(struct ClactRes *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info);
 extern struct Sys *g_ClactSystem;
 extern const char s_clact_c[];
-extern const struct CharData g_ClactEmptyCharTemplate;
+extern const NNSG2dCharacterData g_ClactEmptyCharTemplate;
 extern struct ClactTables gClactTables;
 extern SurfaceFuncs  g_ClactSurfaceFuncTable[];
 extern u32  g_ClactSurfaceModeTable[];
@@ -906,7 +879,7 @@ extern AnimResetFn g_ClactAnimResetFuncs[];
  *   python tools/match.py one --src src/pending/CLACT_InitSystem.c \
  *       --func CLACT_InitSystem --addr 0x0204A48C --cc 1.1p1 --arm
  */
-void CLACT_InitSystem(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId)
+void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId)
 {
     u16 dims[6];
     int i;
@@ -968,7 +941,7 @@ void CLACT_ExitSystem(void)
     CLACT_ExitOamManagers(&g_ClactSystem->oam_mgrs);
     CLACT_ExitRenderer(&g_ClactSystem->renderer);
     CLACT_ExitTransferPool(&g_ClactSystem->transfer);
-    CLACT_ExitResources((struct Res *)((u8 *)g_ClactSystem + 0x104));
+    CLACT_ExitResources((struct ClactRes *)((u8 *)g_ClactSystem + 0x104));
     GFL_HEAP_Free(g_ClactSystem);
     g_ClactSystem = 0;
 }
@@ -1065,7 +1038,7 @@ void CLACT_FlushOamIfPending(void)
 s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id)
 {
     struct Sys   *sys;
-    struct Res *res;
+    struct ClactRes *res;
     struct CharSlot  *slot;
     u32 i;
     u32 file;
@@ -1122,10 +1095,10 @@ found:
 s32 CLACT_RegisterEmptyCharacter(u32 size, u32 vram_mode, u16 heapId)
 {
     struct Sys   *sys;
-    struct Res *res;
+    struct ClactRes *res;
     struct CharSlot  *slot;
     u32 i;
-    struct CharData char_data;
+    NNSG2dCharacterData char_data;
 
     sys   = g_ClactSystem;
     res = &sys->res;
@@ -1141,16 +1114,16 @@ found:
     if (i != (u32)-1) {
         slot = &sys->res.chars[i];
         char_data = g_ClactEmptyCharTemplate;
-        char_data.mapping = *(volatile u32 *)0x04000000 & 0x00300010;
-        char_data.size = size;
-        char_data.raw = GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), size, 1, s_clact_c, 0x3c8);
+        char_data.mapingType = *(volatile u32 *)0x04000000 & 0x00300010;
+        char_data.szByte = size;
+        char_data.pRawData = GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), size, 1, s_clact_c, 0x3c8);
 
-        CLACT_SetupCharacterVram((struct Res *)(&g_ClactSystem->res), i, (struct CharData *)(&char_data), 0, vram_mode);
+        CLACT_SetupCharacterVram((struct ClactRes *)(&g_ClactSystem->res), i, (NNSG2dCharacterData *)(&char_data), 0, vram_mode);
 
         slot->free = 0;
         slot->data = 0;
         slot->data_shared = 0;
-        GFL_HEAP_Free(char_data.raw);
+        GFL_HEAP_Free(char_data.pRawData);
         return i;
     }
     return -1;
@@ -1212,19 +1185,19 @@ void CLACT_ReleaseCharacter(u32 idx)
     g_ClactSystem->res.chars[idx].vram_size = 0;
 }
 
-void CLACT_TransferCharacter(int idx, struct CharData *char_data)
+void CLACT_TransferCharacter(int idx, NNSG2dCharacterData *char_data)
 {
     if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
         void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
-        DC_FlushRange((void *)char_data->raw, char_data->size);
-        GX_LoadOBJ((void *)char_data->raw, (unsigned int)vram_addr, char_data->size);
+        DC_FlushRange((void *)char_data->pRawData, char_data->szByte);
+        GX_LoadOBJ((void *)char_data->pRawData, (unsigned int)vram_addr, char_data->szByte);
     }
     if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
         return;
     {
         void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
-        DC_FlushRange((void *)char_data->raw, char_data->size);
-        GXS_LoadOBJ((void *)char_data->raw, (unsigned int)vram_addr, char_data->size);
+        DC_FlushRange((void *)char_data->pRawData, char_data->szByte);
+        GXS_LoadOBJ((void *)char_data->pRawData, (unsigned int)vram_addr, char_data->szByte);
     }
 }
 
@@ -1305,7 +1278,7 @@ s32 CLACT_RegisterPalette(void *archive, u32 file_idx, u32 vram_mode, u32 vram_o
  */
 s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id)
 {
-    struct Res *res;
+    struct ClactRes *res;
     u32 i;
     u32 file;
 
@@ -1325,7 +1298,7 @@ found:
 
     file = (u32)ARC_TOOL_LoadHandleMember(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
 
-    CLACT_TransferPaletteData((struct Res *)(&g_ClactSystem->res), i, (void *)file, (void *)vram_mode, vram_offset, first_color, color_count);
+    CLACT_TransferPaletteData((struct ClactRes *)(&g_ClactSystem->res), i, (void *)file, (void *)vram_mode, vram_offset, first_color, color_count);
     GFL_HEAP_Free((void *)file);
 
     return i;
@@ -1366,7 +1339,7 @@ found:
  */
 int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id)
 {
-    struct Res *res = &g_ClactSystem->res;
+    struct ClactRes *res = &g_ClactSystem->res;
     u32 i;
     void *file;
     struct PlttSlot *slots;
@@ -1381,7 +1354,7 @@ found:
     if (i == (u32)-1)
         return (int)i;
     file = ARC_TOOL_LoadHandleMember(archive, file_idx, (u16)((heap_id & 0x7fff) | 0x8000));
-    CLACT_TransferPaletteDataEx((struct Res *)(&g_ClactSystem->res), i, file, (void *)vram_mode, vram_offset);
+    CLACT_TransferPaletteDataEx((struct ClactRes *)(&g_ClactSystem->res), i, file, (void *)vram_mode, vram_offset);
     GFL_HEAP_Free(file);
     return (int)i;
 }
@@ -1528,7 +1501,7 @@ int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate)
  */
 s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id)
 {
-    struct Res *res = &g_ClactSystem->res;
+    struct ClactRes *res = &g_ClactSystem->res;
     struct CellSlot *slot;
     s32 idx;
 
@@ -1622,7 +1595,7 @@ void CLACT_DeleteRenderer(struct Renderer *renderer)
  * 0x0204B0C8); witness for ov021 FIELD_MENU_UpdateActorsForScroll. Writes a 16-bit x/y pair,
  * scaled to fx32, into entry idx (0x48 bytes each) of the table at +0x98.
  */
-void CLACT_SetSurfacePos(struct Renderer *renderer, int idx, struct Vec2 *pos)
+void CLACT_SetSurfacePos(struct Renderer *renderer, int idx, struct ClactVec2 *pos)
 {
     int x = pos->x;
     int y = pos->y;
@@ -1647,7 +1620,7 @@ void CLACT_SetSurfacePos(struct Renderer *renderer, int idx, struct Vec2 *pos)
  *   python tools/match.py one --src src/matched/CLACT_GetSurfacePos.c \
  *       --func CLACT_GetSurfacePos --addr 0x0204B0C8 --cc 1.1p1 --arm
  */
-void CLACT_GetSurfacePos(struct Renderer *renderer, u32 surface_idx, struct Vec2 *out)
+void CLACT_GetSurfacePos(struct Renderer *renderer, u32 surface_idx, struct ClactVec2 *out)
 {
     struct Surface *surface = &renderer->surfaces[surface_idx];
 
@@ -1693,7 +1666,7 @@ struct Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId)
     unit = GFL_HEAP_Alloc(heapId, sizeof(struct Unit), 0, s_clact_c, 0x6eb);
     MI_CpuFill8(unit, 0, sizeof(struct Unit));
 
-    unit->actors = GFL_HEAP_Alloc(heapId, count * sizeof(struct Actor), 0,
+    unit->actors = GFL_HEAP_Alloc(heapId, count * sizeof(struct ClactActor), 0,
                                 s_clact_c, 0x6ef);
     unit->count = count;
     unit->priority = priority;
@@ -1822,7 +1795,7 @@ void CLACT_SetUnitDefaultRenderer(struct Unit *unit)
  *   python tools/match.py one --src src/matched/CLACT_CreateActor.c \
  *       --func CLACT_CreateActor --addr 0x0204B294 --cc 1.1p1 --arm
  */
-struct Actor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx,
+struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx,
                         const struct ActorInit *init, u16 space, u16 heap_id)
 {
     struct ActorReq req;
@@ -1846,7 +1819,7 @@ struct Actor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u
  *   python tools/match.py one --src src/matched/CLACT_CreateAffineActor.c \
  *       --func CLACT_CreateAffineActor --addr 0x0204B324 --cc 1.1p1 --arm
  */
-struct Actor *CLACT_CreateAffineActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id)
+struct ClactActor *CLACT_CreateAffineActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id)
 {
     struct ActorReq req;
 
@@ -1870,7 +1843,7 @@ struct Actor *CLACT_CreateAffineActor(struct Unit *unit, u32 char_idx, u32 pltt_
  * Verified with:
  *   python tools/match.py one --src src/matched/CLACT_DeleteActor.c  *       --func CLACT_DeleteActor --addr 0x0204B3B4 --cc 1.1p1 --arm
  */
-void CLACT_DeleteActor(struct Actor *actor)
+void CLACT_DeleteActor(struct ClactActor *actor)
 {
     CLACT_UnlinkActor(actor->owner, actor);
     CLACT_ExitAnimCtl((&actor->ctl));
@@ -1904,20 +1877,20 @@ void CLACT_DeleteActor(struct Actor *actor)
  *   python tools/match.py tu --src src/matched/unit_0204B3DC.c \
  *       --addr 0x0204B3DC --arm
  */
-void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value)
+void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value)
 {
     actor->enabled = value;
 }
 
-u32 CLACT_GetActorDrawEnable(struct Actor *actor)
+u32 CLACT_GetActorDrawEnable(struct ClactActor *actor)
 {
     return actor->enabled;
 }
 
-void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32 which)
+void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u32 which)
 {
-    struct Vec2 pos;
-    struct Vec2 dest;
+    struct ClactVec2 pos;
+    struct ClactVec2 dest;
 
     CLACT_GetSurfaceOrigin(actor, which, (u16 *)(&pos));
     dest.x = delta->x + pos.x;
@@ -1938,9 +1911,9 @@ void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32
  *   python tools/match.py one --src src/matched/CLACT_GetActorSurfacePos.c \
  *       --func CLACT_GetActorSurfacePos --addr 0x0204B454 --cc 1.1p1 --arm
  */
-void CLACT_GetActorSurfacePos(struct Actor *actor, struct Vec2 *out, u16 space)
+void CLACT_GetActorSurfacePos(struct ClactActor *actor, struct ClactVec2 *out, u16 space)
 {
-    struct Vec2 origin;
+    struct ClactVec2 origin;
 
     CLACT_GetSurfaceOrigin(actor, space, (u16 *)&origin);
     CLACT_GetActorPos(actor, (struct Pt16 *)out);
@@ -1961,9 +1934,9 @@ void CLACT_GetActorSurfacePos(struct Actor *actor, struct Vec2 *out, u16 space)
  * expression) lets 1.1p1 narrow straight into r1 and elide the copy, four
  * bytes short.
  */
-void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis)
+void CLACT_SetActorSurfacePosAxis(struct ClactActor *actor, s16 value, u32 space, u32 axis)
 {
-    struct Vec2 origin;
+    struct ClactVec2 origin;
 
     CLACT_GetSurfaceOrigin(actor, space, (unsigned short *)&origin);
 
@@ -1984,9 +1957,9 @@ void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32
  *   python tools/match.py one --src src/matched/CLACT_GetActorSurfacePosAxis.c \
  *       --func CLACT_GetActorSurfacePosAxis --addr 0x0204B4EC --cc 1.1p1 --arm
  */
-s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis)
+s16 CLACT_GetActorSurfacePosAxis(struct ClactActor *actor, u32 space, u32 axis)
 {
-    struct Vec2 origin;
+    struct ClactVec2 origin;
     s16        pos_value;
     s16        origin_value;
 
@@ -2013,7 +1986,7 @@ s16 CLACT_GetActorSurfacePosAxis(struct Actor *actor, u32 space, u32 axis)
  *   python tools/match.py one --src src/matched/CLACT_SetActorPos.c \
  *       --func CLACT_SetActorPos --addr 0x0204B528 --cc 1.1p1 --arm
  */
-void CLACT_SetActorPos(struct Actor *actor, const struct Pt16 *pos)
+void CLACT_SetActorPos(struct ClactActor *actor, const struct Pt16 *pos)
 {
     actor->pos.x = pos->x;
     actor->pos.y = pos->y;
@@ -2027,7 +2000,7 @@ void CLACT_SetActorPos(struct Actor *actor, const struct Pt16 *pos)
  *   python tools/match.py one --src src/matched/CLACT_GetActorPos.c \
  *       --func CLACT_GetActorPos --addr 0x0204B53C --cc 1.1p1 --arm
  */
-void CLACT_GetActorPos(const struct Actor *actor, struct Pt16 *out)
+void CLACT_GetActorPos(const struct ClactActor *actor, struct Pt16 *out)
 {
     out->x = actor->pos.x;
     out->y = actor->pos.y;
@@ -2043,7 +2016,7 @@ void CLACT_GetActorPos(const struct Actor *actor, struct Pt16 *out)
  *   python tools/match.py one --src src/matched/CLACT_SetActorPosAxis.c \
  *       --func CLACT_SetActorPosAxis --addr 0x0204B550 --cc 1.1p1 --arm
  */
-void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis)
+void CLACT_SetActorPosAxis(struct ClactActor *actor, signed short value, u32 axis)
 {
     if (axis == 0) {
         actor->pos.x = value;
@@ -2068,7 +2041,7 @@ void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis)
  *   python tools/match.py one --src src/matched/CLACT_GetActorPosAxis.c \
  *       --func CLACT_GetActorPosAxis --addr 0x0204B560 --cc 1.1p1 --arm
  */
-s16 CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis)
+s16 CLACT_GetActorPosAxis(const struct ClactActor *actor, u32 axis)
 {
     if (axis == 0) {
         return actor->pos.x;
@@ -2097,12 +2070,12 @@ s16 CLACT_GetActorPosAxis(const struct Actor *actor, u32 axis)
  *   python tools/match.py tu --src src/matched/unit_0204B570.c \
  *       --addr 0x0204B570 --cc 1.1p1 --arm
  */
-void CLACT_SetActorAffineMode(struct Actor *actor, u32 value)
+void CLACT_SetActorAffineMode(struct ClactActor *actor, u32 value)
 {
     actor->affine_mode = value;
 }
 
-void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt16 *origin)
+void CLACT_SetActorAffineOrigin(struct ClactActor *actor, const struct Pt16 *origin)
 {
     actor->origin.x = origin->x;
     actor->origin.y = origin->y;
@@ -2131,7 +2104,7 @@ void CLACT_SetActorAffineOrigin(struct Actor *actor, const struct Pt16 *origin)
  *   python tools/match.py tu --src src/matched/unit_0204B59C.c \
  *       --addr 0x0204B59C --arm
  */
-void CLACT_SetActorAffineOriginAxis(struct Actor *actor, signed short value, u32 axis)
+void CLACT_SetActorAffineOriginAxis(struct ClactActor *actor, signed short value, u32 axis)
 {
     if (axis == 0) {
         actor->origin.x = value;
@@ -2144,14 +2117,14 @@ void CLACT_SetActorAffineOriginAxis(struct Actor *actor, signed short value, u32
  * Unlabelled ARM leaf: copy two words from src into the pair at +0x14/+0x18
  * of dst.  `ldr r2,[r1]; ldr r1,[r1,#4]; str r2,[r0,#0x14]; str r1,[r0,#0x18]`.
  */
-void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src)
+void CLACT_SetActorScale(struct ClactActor *actor, struct Pair32 *src)
 {
     struct Pair32 scale_copy = *src;
 
     actor->scale = scale_copy;
 }
 
-void CLACT_GetActorScale(const struct Actor *actor, struct Pair32 *out_scale)
+void CLACT_GetActorScale(const struct ClactActor *actor, struct Pair32 *out_scale)
 {
     out_scale->x = actor->scale.x;
     out_scale->y = actor->scale.y;
@@ -2170,7 +2143,7 @@ void CLACT_GetActorScale(const struct Actor *actor, struct Pair32 *out_scale)
  *   python tools/match.py tu --src src/matched/unit_0204B5D4.c \
  *       --addr 0x0204B5D4 --cc 1.1p1 --arm
  */
-void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which)
+void CLACT_SetActorScaleAxis(struct ClactActor *actor, u32 value, u32 which)
 {
     if (which == 0) {
         actor->scale.x = value;
@@ -2179,7 +2152,7 @@ void CLACT_SetActorScaleAxis(struct Actor *actor, u32 value, u32 which)
     }
 }
 
-u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which)
+u32 CLACT_GetActorScaleAxis(const struct ClactActor *actor, u32 which)
 {
     if (which == 0) {
         return actor->scale.x;
@@ -2203,12 +2176,12 @@ u32 CLACT_GetActorScaleAxis(const struct Actor *actor, u32 which)
  *   python tools/match.py tu --src src/matched/unit_0204B5F4.c \
  *       --addr 0x0204B5F4 --cc 1.1p1 --arm
  */
-void CLACT_SetActorRotation(struct Actor *actor, u16 value)
+void CLACT_SetActorRotation(struct ClactActor *actor, u16 value)
 {
     actor->angle = value;
 }
 
-u16 CLACT_GetActorRotation(const struct Actor *actor)
+u16 CLACT_GetActorRotation(const struct ClactActor *actor)
 {
     return actor->angle;
 }
@@ -2222,7 +2195,7 @@ u16 CLACT_GetActorRotation(const struct Actor *actor)
  *   python tools/match.py one --src src/matched/CLACT_SetActorFlip.c \
  *       --func CLACT_SetActorFlip --addr 0x0204B604 --cc 1.1p1 --arm
  */
-void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set)
+void CLACT_SetActorFlip(struct ClactActor *actor, u32 which, u32 set)
 {
     u32 mask = (which == 0) ? 1 : 2;
 
@@ -2249,7 +2222,7 @@ void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set)
  *   python tools/match.py one --src src/matched/CLACT_GetActorFlip.c \
  *       --func CLACT_GetActorFlip --addr 0x0204B658 --cc 1.1p1 --arm
  */
-u32 CLACT_GetActorFlip(const struct Actor *actor, u32 which)
+u32 CLACT_GetActorFlip(const struct ClactActor *actor, u32 which)
 {
     u32 result = 0;
 
@@ -2296,7 +2269,7 @@ u32 CLACT_GetActorFlip(const struct Actor *actor, u32 which)
  *   python tools/match.py tu --src src/matched/unit_0204B688.c \
  *       --addr 0x0204B688 --cc 1.1p1 --arm
  */
-void CLACT_SetActorObjMode(struct Actor *actor, u32 value)
+void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value)
 {
     actor->obj_mode = value;
 
@@ -2310,7 +2283,7 @@ void CLACT_SetActorObjMode(struct Actor *actor, u32 value)
     }
 }
 
-u32 CLACT_GetActorObjMode(const struct Actor *actor)
+u32 CLACT_GetActorObjMode(const struct ClactActor *actor)
 {
     return actor->obj_mode;
 }
@@ -2341,13 +2314,13 @@ u32 CLACT_GetActorObjMode(const struct Actor *actor)
  *   python tools/match.py tu --src src/matched/unit_0204B6F4.c \
  *       --addr 0x0204B6F4 --arm
  */
-void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op)
+void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 pltt_op)
 {
     actor->pltt_offset = offset;
     actor->pltt_op = pltt_op;
 }
 
-u32 CLACT_GetActorPaletteOffset(struct Actor *actor)
+u32 CLACT_GetActorPaletteOffset(struct ClactActor *actor)
 {
     return (unsigned char)actor->pltt_offset;
 }
@@ -2378,7 +2351,7 @@ u32 CLACT_GetActorPaletteOffset(struct Actor *actor)
  *   python tools/match.py one --src src/matched/CLACT_SetActorPaletteProxy.c \
  *       --func CLACT_SetActorPaletteProxy --addr 0x0204B728 --cc 1.1p1 --arm
  */
-void CLACT_SetActorPaletteProxy(struct Actor *actor, const struct PaletteProxy *proxy)
+void CLACT_SetActorPaletteProxy(struct ClactActor *actor, const struct PaletteProxy *proxy)
 {
     NNSi_G2dIsVramHandleSetEx((char *)proxy, 1);
     NNSi_G2dIsVramHandleSetEx((char *)proxy, 2);
@@ -2443,7 +2416,7 @@ void CLACT_GetActorImageProxy(const char *actor_base, struct ImageProxy *dst)
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  It sits
  * between the literal pool of CLACT_GetActorImageProxy and CLACT_SetActorDrawPriority.
  */
-u16 CLACT_GetActorCharacterIndex(struct Actor *actor)
+u16 CLACT_GetActorCharacterIndex(struct ClactActor *actor)
 {
     return actor->char_idx;
 }
@@ -2452,7 +2425,7 @@ u16 CLACT_GetActorCharacterIndex(struct Actor *actor)
  * Same as CLACT_GetActorCharacterIndex one field up, at +0x5e.  Unlabelled leaf for the
  * same reason.
  */
-u16 CLACT_GetActorPaletteIndex(struct Actor *actor)
+u16 CLACT_GetActorPaletteIndex(struct ClactActor *actor)
 {
     return actor->pltt_idx;
 }
@@ -2461,24 +2434,24 @@ u16 CLACT_GetActorPaletteIndex(struct Actor *actor)
  * Field at +0x60 is an 8-bit bitfield in a whole word: the original is a
  * word load, and/bic/orr, word store, never a ldrb/strb.
  */
-void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority)
+void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority)
 {
     actor->draw_priority = priority;
     CLACT_UnlinkActor(actor->owner, actor);
     CLACT_LinkActor(actor->owner, actor);
 }
 
-int CLACT_GetActorDrawPriority(struct Actor *actor)
+int CLACT_GetActorDrawPriority(struct ClactActor *actor)
 {
     return (u8)actor->draw_priority & 0xff;
 }
 
-void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority)
+void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority)
 {
     actor->bg_priority = priority;
 }
 
-u32 CLACT_GetActorBgPriority(struct Actor *actor)
+u32 CLACT_GetActorBgPriority(struct ClactActor *actor)
 {
     return (u8)actor->bg_priority;
 }
@@ -2500,7 +2473,7 @@ u32 CLACT_GetActorBgPriority(struct Actor *actor)
  * Verified with:
  *   python tools/match.py one --src src/matched/CLACT_SetActorAnimSeq.c  *       --func CLACT_SetActorAnimSeq --addr 0x0204B878 --cc 1.1p1 --arm
  */
-void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value)
+void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value)
 {
     actor->anim_seq = value;
     CLACT_SetAnimSeq((&actor->ctl), value);
@@ -2538,12 +2511,12 @@ void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value)
  *   python tools/match.py tu --src src/matched/unit_0204B898.c \
  *       --addr 0x0204B898 --arm
  */
-u16 CLACT_GetActorAnimSeq(struct Actor *actor)
+u16 CLACT_GetActorAnimSeq(struct ClactActor *actor)
 {
     return actor->anim_seq;
 }
 
-void CLACT_ChangeActorAnimSeq(struct Actor *actor, u16 anim_seq)
+void CLACT_ChangeActorAnimSeq(struct ClactActor *actor, u16 anim_seq)
 {
     if (anim_seq == actor->anim_seq) {
         return;
@@ -2566,7 +2539,7 @@ void CLACT_ChangeActorAnimSeq(struct Actor *actor, u16 anim_seq)
  * Verified with:
  *   python tools/match.py one --src src/matched/CLACT_SetActorAnimFrame.c  *       --func CLACT_SetActorAnimFrame --addr 0x0204B8C4 --cc 1.1p1 --arm
  */
-void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame)
+void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame)
 {
     CLACT_SetAnimFrame((&actor->ctl), frame);
 }
@@ -2587,7 +2560,7 @@ void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame)
  * Verified with:
  *   python tools/match.py one --src src/matched/CLACT_AddActorAnimFrame.c  *       --func CLACT_AddActorAnimFrame --addr 0x0204B8D4 --cc 1.1p1 --arm
  */
-void CLACT_AddActorAnimFrame(struct Actor *actor, u32 frames)
+void CLACT_AddActorAnimFrame(struct ClactActor *actor, u32 frames)
 {
     CLACT_SetAnimSpeed((&actor->ctl), frames);
     CLACT_AddAnimFrame((&actor->ctl), 0x1000);
@@ -2609,12 +2582,12 @@ void CLACT_AddActorAnimFrame(struct Actor *actor, u32 frames)
  *   python tools/match.py one --src src/matched/CLACT_GetActorAnimFrame.c \
  *       --func CLACT_GetActorAnimFrame --addr 0x0204B8F4 --cc 1.1p1 --arm
  */
-u32 CLACT_GetActorAnimFrame(struct Actor *actor)
+u32 CLACT_GetActorAnimFrame(struct ClactActor *actor)
 {
-    return CLACT_GetAnimObject(&actor->ctl)->frame;
+    return CLACT_GetAnimObject(&actor->ctl)->currentTime;
 }
 
-void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx)
+void CLACT_SetActorAnimIndex(struct ClactActor *actor, u32 anim_idx)
 {
     CLACT_SetAnimIndex(&actor->ctl, anim_idx);
 }
@@ -2634,7 +2607,7 @@ void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx)
  * Verified with:
  *   python tools/match.py one --src src/matched/CLACT_GetActorAnimSeqCount.c  *       --func CLACT_GetActorAnimSeqCount --addr 0x0204B918 --cc 1.1p1 --arm
  */
-u16 CLACT_GetActorAnimSeqCount(struct Actor *actor)
+u16 CLACT_GetActorAnimSeqCount(struct ClactActor *actor)
 {
     return NNSi_G2dGetCellAnimFrameIdx((struct Node *)(CLACT_GetAnimObject(&actor->ctl)));
 }
@@ -2650,12 +2623,12 @@ u16 CLACT_GetActorAnimSeqCount(struct Actor *actor)
  *   python tools/match.py tu --src src/matched/unit_0204B92C.c \
  *       --addr 0x0204B92C --arm
  */
-void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable)
+void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable)
 {
     actor->auto_anim = enable;
 }
 
-u32 CLACT_GetActorAutoAnim(struct Actor *actor)
+u32 CLACT_GetActorAutoAnim(struct ClactActor *actor)
 {
     return actor->auto_anim;
 }
@@ -2671,7 +2644,7 @@ u32 CLACT_GetActorAutoAnim(struct Actor *actor)
  *   python tools/match.py one --src src/matched/CLACT_SetActorAutoAnimSpeed.c \
  *       --func CLACT_SetActorAutoAnimSpeed --addr 0x0204B954 --cc 1.1p1 --arm
  */
-void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, u32 speed)
+void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 speed)
 {
     actor->auto_anim_speed = speed;
 }
@@ -2688,9 +2661,9 @@ void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, u32 speed)
  *   python tools/match.py one --src src/matched/CLACT_StartActorAnim.c \
  *       --func CLACT_StartActorAnim --addr 0x0204B95C --cc 1.1p1 --arm
  */
-void CLACT_StartActorAnim(struct Actor *actor)
+void CLACT_StartActorAnim(struct ClactActor *actor)
 {
-    CLACT_GetAnimCtrl(&actor->ctl)->active = 1;
+    CLACT_GetAnimCtrl(&actor->ctl)->bActive = 1;
 }
 
 /*
@@ -2705,9 +2678,9 @@ void CLACT_StartActorAnim(struct Actor *actor)
  *   python tools/match.py one --src src/matched/CLACT_StopActorAnim.c \
  *       --func CLACT_StopActorAnim --addr 0x0204B974 --cc 1.1p1 --arm
  */
-void CLACT_StopActorAnim(struct Actor *actor)
+void CLACT_StopActorAnim(struct ClactActor *actor)
 {
-    CLACT_GetAnimCtrl(&actor->ctl)->active = 0;
+    CLACT_GetAnimCtrl(&actor->ctl)->bActive = 0;
 }
 
 /*
@@ -2719,9 +2692,9 @@ void CLACT_StopActorAnim(struct Actor *actor)
  *   python tools/match.py one --src src/matched/CLACT_IsActorAnimActive.c \
  *       --func CLACT_IsActorAnimActive --addr 0x0204B98C --cc 1.1p1 --arm
  */
-u32 CLACT_IsActorAnimActive(struct Actor *actor)
+u32 CLACT_IsActorAnimActive(struct ClactActor *actor)
 {
-    return CLACT_GetAnimObject(&actor->ctl)->active;
+    return CLACT_GetAnimObject(&actor->ctl)->bActive;
 }
 
 /*
@@ -2739,9 +2712,9 @@ u32 CLACT_IsActorAnimActive(struct Actor *actor)
  *   python tools/match.py one --src src/pending/CLACT_RestartActorAnim.c \
  *       --func CLACT_RestartActorAnim --addr 0x0204B9A0 --cc 1.1p1 --arm
  */
-void CLACT_RestartActorAnim(struct Actor *actor)
+void CLACT_RestartActorAnim(struct ClactActor *actor)
 {
-    CLACT_GetAnimCtrl(&actor->ctl)->active = 1;
+    CLACT_GetAnimCtrl(&actor->ctl)->bActive = 1;
     CLACT_ResetAnim(&actor->ctl);
 }
 
@@ -2773,27 +2746,27 @@ void CLACT_RestartActorAnim(struct Actor *actor)
  *   python tools/match.py tu --src src/matched/unit_0204B9C4.c \
  *       --addr 0x0204B9C4 --cc 1.1p1 --arm
  */
-void CLACT_SetActorAnimLoopCount(struct Actor *actor, u32 loop_limit)
+void CLACT_SetActorAnimLoopCount(struct ClactActor *actor, u32 loop_limit)
 {
-    struct AnimCtrl *anim_ctrl;
+    AnimCtrl *anim_ctrl;
 
     actor->loop_limit = loop_limit;
 
     anim_ctrl = CLACT_GetAnimCtrl(&actor->ctl);
     if (loop_limit == 0) {
-        anim_ctrl->loop_count = 0;
-        anim_ctrl->loop_limit = 0;
+        anim_ctrl->bReverse = 0;
+        anim_ctrl->overriddenPlayMode = 0;
     } else {
-        anim_ctrl->loop_limit = loop_limit;
+        anim_ctrl->overriddenPlayMode = loop_limit;
     }
 }
 
-void CLACT_ApplyActorAnimCommand(struct Actor *actor, const struct Cmd *cmd)
+void CLACT_ApplyActorAnimCommand(struct ClactActor *actor, const struct Cmd *cmd)
 {
     CLACT_ApplyAnimCommand(&actor->ctl, cmd);
 }
 
-void CLACT_ResetActorAnimCommand(struct Actor *actor)
+void CLACT_ResetActorAnimCommand(struct ClactActor *actor)
 {
     CLACT_ResetAnimCommand(&actor->ctl);
 }
@@ -2813,7 +2786,7 @@ void CLACT_ResetActorAnimCommand(struct Actor *actor)
  *   python tools/match.py one --src src/matched/CLACT_SetActorVisible.c \
  *       --func CLACT_SetActorVisible --addr 0x0204BA20 --cc 1.1p1 --arm
  */
-void CLACT_SetActorVisible(struct Actor *actor, u32 visible)
+void CLACT_SetActorVisible(struct ClactActor *actor, u32 visible)
 {
     if (visible == 0) {
         actor->hidden = 1;
@@ -4004,7 +3977,7 @@ void CLACT_ExecuteTransfer(struct TransferEntry *entry)
  *   python tools/match.py one --src src/matched/CLACT_GetFreeActor.c \
  *       --func CLACT_GetFreeActor --addr 0x0204C8E4 --cc 1.1p1 --arm
  */
-struct Actor *CLACT_GetFreeActor(struct Unit *unit)
+struct ClactActor *CLACT_GetFreeActor(struct Unit *unit)
 {
     int i;
 
@@ -4040,7 +4013,7 @@ struct Actor *CLACT_GetFreeActor(struct Unit *unit)
  */
 void CLACT_DrawUnit(struct Unit *unit)
 {
-    struct Actor *actor;
+    struct ClactActor *actor;
 
     if (unit->draw_enable == 0) {
         return;
@@ -4069,9 +4042,9 @@ void CLACT_DrawUnit(struct Unit *unit)
  *   python tools/match.py one --src src/matched/CLACT_LinkActor.c \
  *       --func CLACT_LinkActor --addr 0x0204C98C --cc 1.1p1
  */
-void CLACT_LinkActor(struct Unit *unit, struct Actor *actor)
+void CLACT_LinkActor(struct Unit *unit, struct ClactActor *actor)
 {
-    struct Actor *insert_after;
+    struct ClactActor *insert_after;
 
     if (unit->head == 0) {
         unit->head = actor;
@@ -4111,7 +4084,7 @@ void CLACT_LinkActor(struct Unit *unit, struct Actor *actor)
  * arms of that inner if write the head, which is why the store is a
  * conditional pair rather than one unconditional store.
  */
-void CLACT_UnlinkActor(struct Unit *unit, struct Actor *actor)
+void CLACT_UnlinkActor(struct Unit *unit, struct ClactActor *actor)
 {
     if (unit->head == actor) {
         if (actor->next == actor) {
@@ -4144,9 +4117,9 @@ void CLACT_UnlinkActor(struct Unit *unit, struct Actor *actor)
  *   python tools/match.py one --src src/matched/CLACT_FindActorBefore.c \
  *       --func CLACT_FindActorBefore --addr 0x0204CA74 --cc 1.1p1 --arm
  */
-void *CLACT_FindActorBefore(struct Actor *head, u32 priority)
+void *CLACT_FindActorBefore(struct ClactActor *head, u32 priority)
 {
-    struct Actor *cur = head;
+    struct ClactActor *cur = head;
 
     do {
         if (CLACT_GetActorDrawPriority(cur) > priority) {
@@ -4176,9 +4149,9 @@ void *CLACT_FindActorBefore(struct Actor *head, u32 priority)
  *   python tools/match.py one --src src/matched/CLACT_FindActorAfter.c \
  *       --func CLACT_FindActorAfter --addr 0x0204CAAC --cc 1.1p1 --arm
  */
-struct Actor *CLACT_FindActorAfter(struct Actor *head, u32 priority)
+struct ClactActor *CLACT_FindActorAfter(struct ClactActor *head, u32 priority)
 {
-    struct Actor *cur = head;
+    struct ClactActor *cur = head;
 
     do {
         if (CLACT_GetActorDrawPriority(cur) <= priority) {
@@ -4212,7 +4185,7 @@ struct Actor *CLACT_FindActorAfter(struct Actor *head, u32 priority)
  *   python tools/match.py one --src src/matched/CLACT_ClearActor.c \
  *       --func CLACT_ClearActor --addr 0x0204CAE4 --cc 1.1p1 --arm
  */
-void CLACT_ClearActor(struct Actor *actor)
+void CLACT_ClearActor(struct ClactActor *actor)
 {
     MI_CpuFill8(actor, 0, 0xe4);
     actor->auto_anim_speed = 0x1000;
@@ -4268,7 +4241,7 @@ void CLACT_ClearActor(struct Actor *actor)
  *   python tools/match.py one --src src/pending/CLACT_DrawActor.c \
  *       --func CLACT_DrawActor --addr 0x0204CB44 --cc 1.1p1 --arm
  */
-void CLACT_DrawActor(struct Actor *actor, struct Renderer *renderer)
+void CLACT_DrawActor(struct ClactActor *actor, struct Renderer *renderer)
 {
     if (actor->enabled == 0)
         return;
@@ -4302,7 +4275,7 @@ void CLACT_DrawActor(struct Actor *actor, struct Renderer *renderer)
  *   python tools/match.py one --src src/matched/CLACT_SetupActorDraw.c \
  *       --func CLACT_SetupActorDraw --addr 0x0204CBB0 --cc 1.1p1 --arm
  */
-void CLACT_SetupActorDraw(struct Actor *actor, struct Renderer *renderer)
+void CLACT_SetupActorDraw(struct ClactActor *actor, struct Renderer *renderer)
 {
     u32 flip_x, flip_y, flags;
     int inv_mask;
@@ -4363,7 +4336,7 @@ void CLACT_SetupActorDraw(struct Actor *actor, struct Renderer *renderer)
  * (this file was matched earlier as `0.5f - t' / `t += 0.5f' against swapped
  * _fsub/_fadd addresses; 0x0209C95C is the add, 0x0209CB8C the subtract).
  */
-void CLACT_ApplyActorTransform(struct Actor *actor)
+void CLACT_ApplyActorTransform(struct ClactActor *actor)
 {
     f32 y_f, x_f;
     s32 trig_idx;
@@ -4434,7 +4407,7 @@ void CLACT_ApplyActorTransform(struct Actor *actor)
  *   python tools/match.py one --src src/matched/CLACT_UpdateActorAutoAnim.c \
  *       --func CLACT_UpdateActorAutoAnim --addr 0x0204CEB4 --cc 1.1p1 --arm
  */
-void CLACT_UpdateActorAutoAnim(struct Actor *actor)
+void CLACT_UpdateActorAutoAnim(struct ClactActor *actor)
 {
     if (actor->auto_anim == 1) {
         CLACT_AddActorAnimFrame(actor, actor->auto_anim_speed);
@@ -4461,7 +4434,7 @@ void CLACT_UpdateActorAutoAnim(struct Actor *actor)
  *   python tools/match.py one --src src/matched/CLACT_ApplyActorInit.c \
  *       --func CLACT_ApplyActorInit --addr 0x0204CED8 --cc 1.1p1 --arm
  */
-void CLACT_ApplyActorInit(struct Actor *actor, const struct ActorInit *init, u32 space)
+void CLACT_ApplyActorInit(struct ClactActor *actor, const struct ActorInit *init, u32 space)
 {
     CLACT_SetActorSurfacePosAxis(actor, init->x, space, 0);
     CLACT_SetActorSurfacePosAxis(actor, init->y, space, 1);
@@ -4493,7 +4466,7 @@ void CLACT_ApplyActorInit(struct Actor *actor, const struct ActorInit *init, u32
  *   python tools/match.py one --src src/matched/CLACT_ApplyActorResources.c \
  *       --func CLACT_ApplyActorResources --addr 0x0204CF40 --cc 1.1p1 --arm
  */
-void CLACT_ApplyActorResources(struct Actor *actor, const struct ActorReq *req)
+void CLACT_ApplyActorResources(struct ClactActor *actor, const struct ActorReq *req)
 {
     CLACT_SetActorImageProxy((char *)actor, (const struct ImageProxy *)req->char_slot);
     CLACT_SetActorPaletteProxy(actor, (const struct PaletteProxy *)req->pltt_slot);
@@ -4515,14 +4488,14 @@ void CLACT_ApplyActorResources(struct Actor *actor, const struct ActorReq *req)
  *   python tools/match.py one --src src/matched/CLACT_GetSurfaceOrigin.c \
  *       --func CLACT_GetSurfaceOrigin --addr 0x0204CF74 --cc 1.1p1 --arm
  */
-void CLACT_GetSurfaceOrigin(struct Actor *actor, u32 surface_idx, u16 *out)
+void CLACT_GetSurfaceOrigin(struct ClactActor *actor, u32 surface_idx, u16 *out)
 {
     if (surface_idx == 0xFFFF) {
         out[0] = 0;
         out[1] = 0;
         return;
     }
-    CLACT_GetSurfacePos(actor->owner->renderer, surface_idx, (struct Vec2 *)out);
+    CLACT_GetSurfacePos(actor->owner->renderer, surface_idx, (struct ClactVec2 *)out);
 }
 
 /*
@@ -4541,7 +4514,7 @@ void CLACT_GetSurfaceOrigin(struct Actor *actor, u32 surface_idx, u16 *out)
  *   python tools/match.py one --src src/matched/CLACT_InitActorRequest.c \
  *       --func CLACT_InitActorRequest --addr 0x0204CFA4 --cc 1.1p1 --arm
  */
-void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct MultiCellBank *anim_bank)
+void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct ClactBankHead *anim_bank)
 {
     req->char_idx = char_idx;
     req->pltt_idx = pltt_idx;
@@ -4584,9 +4557,9 @@ void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, st
  *   python tools/match.py one --src src/matched/CLACT_CreateActorCore.c \
  *       --func CLACT_CreateActorCore --addr 0x0204CFDC --cc 1.1p1 --arm
  */
-struct Actor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id)
+struct ClactActor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id)
 {
-    struct Actor *actor = CLACT_GetFreeActor(unit);
+    struct ClactActor *actor = CLACT_GetFreeActor(unit);
 
     actor->owner = unit;
     CLACT_InitAnimCtl(&actor->ctl, req, heap_id);
@@ -4628,9 +4601,9 @@ struct Actor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInit *i
  *   python tools/match.py one --src src/matched/CLACT_CreateActorFull.c \
  *       --func CLACT_CreateActorFull --addr 0x0204D048 --cc 1.1p1 --arm
  */
-struct Actor *CLACT_CreateActorFull(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id)
+struct ClactActor *CLACT_CreateActorFull(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id)
 {
-    struct Actor *actor = CLACT_CreateActorCore(unit, init, req, space, heap_id);
+    struct ClactActor *actor = CLACT_CreateActorCore(unit, init, req, space, heap_id);
 
     CLACT_SetActorAffineOriginAxis(actor, init->origin_x, 0);
     CLACT_SetActorAffineOriginAxis(actor, init->origin_x, 1);
@@ -4749,10 +4722,10 @@ void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq 
     u32 zero = 0;
     u32 two;
     u32 anim_data, main_vram_addr, sub_vram_addr;
-    const struct CharData *chars;
+    const NNSG2dCharacterData *chars;
 
     {
-        struct MultiCellBank *anim_bank = req->anim_bank;
+        struct ClactBankHead *anim_bank = req->anim_bank;
         void *cell_bank = req->cell_bank;
         anim_ctl->cell_bank = cell_bank;
         anim_ctl->anim_bank = anim_bank;
@@ -4764,7 +4737,7 @@ void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq 
     two = 2;
     sub_vram_addr = NNSi_G2dGetVramHandleValue((int *)req->char_slot, two);
     NNS_G2dInitCellAnimationVramTransfered((struct CellAnim *)anim_ctl->anim, (struct AnimSequenceData *)anim_data, (struct CellDataBank *)anim_ctl->cell_bank, anim_ctl->xfer_handle,
-                  two - 3, main_vram_addr, sub_vram_addr, (int)chars->raw, zero, chars->size);
+                  two - 3, main_vram_addr, sub_vram_addr, (int)chars->pRawData, zero, chars->szByte);
 }
 
 /*
@@ -4793,7 +4766,7 @@ void CLACT_InitVramAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req,
     anim_ctl->mc_anim_bank = req->mc_anim_bank;
 
     anim_ctl->mc_work = GFL_HEAP_Alloc(heap_id, NNS_G2dGetMCWorkAreaSize(req->mc_bank, 1), 0, s_clact_c, 0x171d);
-    NNS_G2dInitMCAnimation((struct MultiCellAnim *)anim_ctl->anim, anim_ctl->mc_work, (struct AnimBank *)anim_ctl->anim_bank, (struct CellDataBank *)anim_ctl->cell_bank, (struct MultiCellBank *)anim_ctl->mc_bank, 1);
+    NNS_G2dInitMCAnimation((struct MultiCellAnim *)anim_ctl->anim, anim_ctl->mc_work, (struct AnimBank *)anim_ctl->anim_bank, (struct CellDataBank *)anim_ctl->cell_bank, (struct ClactBankHead *)anim_ctl->mc_bank, 1);
     NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->mc_anim_bank, 0));
 }
 
@@ -4958,7 +4931,7 @@ void CLACT_SetVramAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
  */
 void CLACT_SetAnimFrame(struct AnimCtl *anim_ctl, u32 value)
 {
-    CLACT_GetAnimCtrl(anim_ctl)->frame = value;
+    CLACT_GetAnimCtrl(anim_ctl)->currentTime = value;
     CLACT_AddAnimFrame(anim_ctl, 0);
 }
 
@@ -5007,7 +4980,7 @@ void CLACT_AddVramAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
  *   python tools/match.py tu --src src/matched/unit_0204D410.c \
  *       --addr 0x0204D410 --arm
  */
-struct AnimCtrl *CLACT_GetAnimCtrl(struct AnimCtl *anim_ctl)
+AnimCtrl *CLACT_GetAnimCtrl(struct AnimCtl *anim_ctl)
 {
     return g_ClactAnimFuncTable[7][anim_ctl->kind](anim_ctl);
 }
@@ -5040,7 +5013,7 @@ void *CLACT_GetVramAnimCtrl(struct AnimCtl *anim_ctl)
  *   python tools/match.py tu --src src/matched/unit_0204D444.c \
  *       --addr 0x0204D444 --arm
  */
-struct AnimCtrl *CLACT_GetAnimObject(struct AnimCtl *anim_ctl)
+AnimCtrl *CLACT_GetAnimObject(struct AnimCtl *anim_ctl)
 {
     return g_ClactAnimFuncTable[1][anim_ctl->kind](anim_ctl);
 }
@@ -5431,7 +5404,7 @@ void CLACT_ResetAnimCommand(struct AnimCtl *anim_ctl)
  *   python tools/match.py one --src src/pending/CLACT_InitResources.c \
  *       --func CLACT_InitResources --addr 0x0204D7E0 --cc 1.1p1 --arm
  */
-void CLACT_InitResources(struct Res *res, u32 heapId, const struct DispVramCfg *cfg,
+void CLACT_InitResources(struct ClactRes *res, u32 heapId, const struct DispVramCfg *cfg,
                    const struct Caps *caps)
 {
     res->vram_main    = VMAN_Create(heapId, 1, cfg->main_obj_bank, caps->n_main_blocks << 5,
@@ -5479,7 +5452,7 @@ void CLACT_InitResources(struct Res *res, u32 heapId, const struct DispVramCfg *
  *   python tools/match.py one --src src/pending/CLACT_ExitResources.c \
  *       --func CLACT_ExitResources --addr 0x0204D8AC --cc 1.1p1 --arm
  */
-void CLACT_ExitResources(struct Res *res)
+void CLACT_ExitResources(struct ClactRes *res)
 {
     u32 i;
 
@@ -5633,7 +5606,7 @@ void *CLACT_AllocCharacterTable(u32 heapId, u32 count)
  * Finally the sink pointer is published at +0x28 (null when not overridden)
  * and the key is packed into the low 31 bits of the word at +0x3C.
  */
-void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_data, struct CharXferInfo *xfer_override,
+void CLACT_SetupCharacterVram(struct ClactRes *res, u32 idx, NNSG2dCharacterData *char_data, struct CharXferInfo *xfer_override,
                    u32 vram_mode)
 {
     struct CharSlot *slot;
@@ -5645,7 +5618,7 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
     slot = &res->chars[idx];
 
     if (xfer_override == 0) {
-        vram_size = char_data->size;
+        vram_size = char_data->szByte;
         has_override = 0;
     } else {
         has_override = (xfer_override->size != 0);
@@ -5660,10 +5633,10 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
         if (VMAN_Alloc((struct VmanBank *)res->vram_main, vram_size, (struct VmanHandle *)&slot->main_block) != 0) {
             vram_offset = VMAN_GetOffset((struct VmanBank *)res->vram_main, (u32 *)&slot->main_block);
             vram_kind = 1;
-            CLACT_UpdateObjMapping((struct CharData *)char_data, (int)vram_kind);
+            CLACT_UpdateObjMapping((NNSG2dCharacterData *)char_data, (int)vram_kind);
             if (has_override != 0) {
                 NNSi_G2dSetupVramResource((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
-            } else if (char_data->mapping != 0) {
+            } else if (char_data->mapingType != 0) {
                 NNSi_G2dLoadVramResourceMain((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
             } else {
                 NNSi_G2dLoadVramResourceSub((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
@@ -5675,10 +5648,10 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
         if (VMAN_Alloc((struct VmanBank *)res->vram_sub, vram_size, (struct VmanHandle *)&slot->sub_block) != 0) {
             vram_offset = VMAN_GetOffset((struct VmanBank *)res->vram_sub, (u32 *)&slot->sub_block);
             vram_kind = 2;
-            CLACT_UpdateObjMapping((struct CharData *)char_data, (int)vram_kind);
+            CLACT_UpdateObjMapping((NNSG2dCharacterData *)char_data, (int)vram_kind);
             if (has_override != 0) {
                 NNSi_G2dSetupVramResource((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
-            } else if (char_data->mapping != 0) {
+            } else if (char_data->mapingType != 0) {
                 NNSi_G2dLoadVramResourceMain((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
             } else {
                 NNSi_G2dLoadVramResourceSub((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
@@ -5696,11 +5669,11 @@ void CLACT_FreeCharacterTable(void *chars)
     GFL_HEAP_Free(chars);
 }
 
-void CLACT_UpdateObjMapping(struct CharData *char_data, int screen)
+void CLACT_UpdateObjMapping(NNSG2dCharacterData *char_data, int screen)
 {
     u32 mapping_bits = (screen == 1) ? (*(vu32 *)0x04000000 & 0x00300010) : (*(vu32 *)0x04001000 & 0x00300010);
-    if (char_data->mapping != mapping_bits) {
-        char_data->mapping = mapping_bits;
+    if (char_data->mapingType != mapping_bits) {
+        char_data->mapingType = mapping_bits;
     }
 }
 
@@ -5760,7 +5733,7 @@ void *CLACT_AllocPaletteTable(u32 heapId, u32 count)
  *    local before the OR (`u32 free_bit = slot->bits & 0x80000000;`), which is what
  *    loads +0x14 before pltt_data->size.
  */
-void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_mode,
+void CLACT_TransferPaletteData(struct ClactRes *res, int idx, void *file, void *vram_mode,
                   u32 vram_offset, u16 first_color, u16 color_count)
 {
     struct PaletteData *pltt_data;
@@ -5845,7 +5818,7 @@ void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_
  * bytes out.  `off = idx * sizeof(struct PlttSlot)` as a byte-offset local and
  * the entry re-derived from res->pltts at the end are CLACT_TransferPaletteData's pins.
  */
-void CLACT_TransferPaletteDataEx(struct Res *res, int idx, void *file, void *vram_mode, u32 vram_offset)
+void CLACT_TransferPaletteDataEx(struct ClactRes *res, int idx, void *file, void *vram_mode, u32 vram_offset)
 {
     void *pltt_data;
     void *pltt_hdr;
@@ -5945,7 +5918,7 @@ struct CellSlot *CLACT_AllocCellAnimTable(u32 heap_id, u32 count)
  *   python tools/match.py one --src src/matched/CLACT_LoadCellAnimBanks.c \
  *       --func CLACT_LoadCellAnimBanks --addr 0x0204E074 --cc 1.1p1 --arm
  */
-s32 CLACT_LoadCellAnimBanks(struct Res *res, s32 idx, void *cell_file, void *anim_file)
+s32 CLACT_LoadCellAnimBanks(struct ClactRes *res, s32 idx, void *cell_file, void *anim_file)
 {
     struct CellSlot *slot = &res->cells[idx];
 
@@ -5988,13 +5961,13 @@ void CLACT_FreeCellAnimTable(void *cells)
  *   python tools/match.py one --src src/matched/CLACT_SetupCharacter.c \
  *       --func CLACT_SetupCharacter --addr 0x0204E0D0 --cc 1.1p1 --arm
  */
-void CLACT_SetupCharacter(struct Res *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info)
+void CLACT_SetupCharacter(struct ClactRes *res, s32 idx, u32 handle, u32 vram_mode, u32 xfer_info)
 {
     u32 char_data_addr;
     struct CharSlot *slot;
 
     if (NNS_G2dGetUnpackedCharacterData((struct NitroFileHeader *)handle, (void **)(&char_data_addr)) != 0) {
-        CLACT_SetupCharacterVram((struct Res *)res, idx, (struct CharData *)char_data_addr, (struct CharXferInfo *)xfer_info, vram_mode);
+        CLACT_SetupCharacterVram((struct ClactRes *)res, idx, (NNSG2dCharacterData *)char_data_addr, (struct CharXferInfo *)xfer_info, vram_mode);
         slot = &res->chars[idx];
         slot->free = 0;
     }

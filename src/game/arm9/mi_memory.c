@@ -21,27 +21,27 @@
  */
 #include "../types.h"
 
-asm void MIi_CpuClear16(void);
-asm void MIi_CpuCopy16(void);
-asm void MIi_CpuClear32(void);
-asm void MIi_CpuCopy32(void);
-asm void MIi_CpuSend32(void);
-asm void MIi_CpuClearFast(void);
-asm void MIi_CpuCopyFast(void);
-asm void MI_Copy32B(void);
-asm void MI_Copy36B(void);
-asm void MI_Copy48B(void);
+asm void MIi_CpuClear16(u16 data, void *destp, u32 size);
+asm void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
+asm void MIi_CpuClear32(u32 data, void *destp, u32 size);
+asm void MIi_CpuCopy32(const void *srcp, void *destp, u32 size);
+asm void MIi_CpuSend32(const void *srcp, void *destp, u32 size);
+asm void MIi_CpuClearFast(u32 data, void *destp, u32 size);
+asm void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size);
+asm void MI_Copy32B(const void *pSrc, void *pDest);
+asm void MI_Copy36B(const void *pSrc, void *pDest);
+asm void MI_Copy48B(const void *pSrc, void *pDest);
 asm void MI_Copy64B(void *pSrc, void *pDest);
-asm void MI_CpuFill8(void);
-asm void MI_CpuFill(void);
-asm void MI_CpuCopy8(void);
+asm void MI_CpuFill8(void *dest, u8 data, u32 size);
+asm void MI_CpuFill(void *dest, u8 data, u32 size);
+asm void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 int MI_CpuComp8(const void *mem1, const void *mem2, u32 size);
-asm void MI_CpuCopy(void);
-asm void MI_CpuMove(void);
+asm void MI_CpuCopy(const void *src, void *dest, u32 size);
+asm void MI_CpuMove(const void *srcp, void *dstp, u32 size);
 asm void MI_Zero36B(void *dst);
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MIi_CpuClear16(void)
+asm void MIi_CpuClear16(u16 data, void *destp, u32 size)
 {
     mov r3, #0
 loc_02082A4C:
@@ -53,7 +53,7 @@ loc_02082A4C:
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MIi_CpuCopy16(void)
+asm void MIi_CpuCopy16(const void *srcp, void *destp, u32 size)
 {
     mov ip, #0
 loc_02082A64:
@@ -66,7 +66,7 @@ loc_02082A64:
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MIi_CpuClear32(void)
+asm void MIi_CpuClear32(u32 data, void *destp, u32 size)
 {
     add ip, r1, r2
 loc_02082A80:
@@ -77,7 +77,7 @@ loc_02082A80:
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MIi_CpuCopy32(void)
+asm void MIi_CpuCopy32(const void *srcp, void *destp, u32 size)
 {
     add ip, r1, r2
 loc_02082A94:
@@ -89,7 +89,7 @@ loc_02082A94:
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MIi_CpuSend32(void)
+asm void MIi_CpuSend32(const void *srcp, void *destp, u32 size)
 {
     add ip, r0, r2
 loc_02082AAC:
@@ -107,7 +107,7 @@ loc_02082AAC:
  * void MIi_CpuClearFast(u32 data, void *destp, u32 size).
  * hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction
  */
-asm void MIi_CpuClearFast(void)
+asm void MIi_CpuClearFast(u32 data, void *destp, u32 size)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, r9}
     add r9, r1, r2
@@ -139,7 +139,7 @@ asm void MIi_CpuClearFast(void)
  * void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size).
  * hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction
  */
-asm void MIi_CpuCopyFast(void)
+asm void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size)
 {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10}
     add r10, r1, r2
@@ -166,7 +166,7 @@ asm void MIi_CpuCopyFast(void)
  * void MI_Copy32B(void *pSrc, void *pDest).
  * hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction
  */
-asm void MI_Copy32B(void)
+asm void MI_Copy32B(const void *pSrc, void *pDest)
 {
     ldmia r0!, {r2, r3, r12}
     stmia r1!, {r2, r3, r12}
@@ -178,7 +178,7 @@ asm void MI_Copy32B(void)
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MI_Copy36B(void)
+asm void MI_Copy36B(const void *pSrc, void *pDest)
 {
     ldmia r0!, {r2, r3, ip}
     stmia r1!, {r2, r3, ip}
@@ -190,7 +190,7 @@ asm void MI_Copy36B(void)
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MI_Copy48B(void)
+asm void MI_Copy48B(const void *pSrc, void *pDest)
 {
     ldmia r0!, {r2, r3, r12}
     stmia r1!, {r2, r3, r12}
@@ -224,7 +224,7 @@ asm void MI_Copy64B(void *pSrc, void *pDest)
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MI_CpuFill8(void)
+asm void MI_CpuFill8(void *dest, u8 data, u32 size)
 {
     cmp r2, #0
     bxeq lr
@@ -277,7 +277,7 @@ asm void MI_CpuFill8(void)
  * void MI_CpuFill(void *dstp, u8 data, u32 size).
  * hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction
  */
-asm void MI_CpuFill(void)
+asm void MI_CpuFill(void *dest, u8 data, u32 size)
 {
     cmp r2, #0
     bxeq lr
@@ -344,7 +344,7 @@ asm void MI_CpuFill(void)
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MI_CpuCopy8(void)
+asm void MI_CpuCopy8(const void *srcp, void *dstp, u32 size)
 {
     cmp r2, #0
     bxeq lr
@@ -453,7 +453,7 @@ int MI_CpuComp8(const void *mem1, const void *mem2, u32 size)
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MI_CpuCopy(void)
+asm void MI_CpuCopy(const void *src, void *dest, u32 size)
 {
     cmp r2, #8
     bgt @_2082EFC
@@ -660,7 +660,7 @@ asm void MI_CpuCopy(void)
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MI_CpuMove(void)
+asm void MI_CpuMove(const void *srcp, void *dstp, u32 size)
 {
     cmp r2, #0
     subnes r3, r0, r1

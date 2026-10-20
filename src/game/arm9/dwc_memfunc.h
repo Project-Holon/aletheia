@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_DWC_MEMFUNC_H
 #define GAME_ARM9_DWC_MEMFUNC_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of dwc_memfunc.c, prototypes copied from their definitions. */
 
 void *DWCi_GetAllocateHeader(char *p);
@@ -15,5 +16,6 @@ void *DWCi_GsMalloc(unsigned long size);
 void *DWCi_GsRealloc(void *ptr, unsigned long size);
 void DWCi_GsFree(void *ptr);
 void *DWCi_GsMemalign(unsigned long boundary, unsigned long size);
+/* END mkheaders: generated region */
 
 #endif

@@ -32,6 +32,7 @@
  *   SVC_WaitByLoop 0x02004490  thumb
  */
 #include "../types.h"
+#include "../sdk_os.h"
 
 typedef struct CARDPulledOutState {
     u32 slot_reset_count;
@@ -39,22 +40,20 @@ typedef struct CARDPulledOutState {
     BOOL (*callback)(void);
 } CARDPulledOutState;
 
-extern void PXI_Init(void);
+#include "pxi_fifo.h"
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
 extern void CARDi_PulledOutCallback(int tag, u32 data, BOOL err);
-extern void CARDi_NotifyEvent(u32 event, void *arg);
+#include "card_hook.h"
 extern void CARD_TerminateForPulledOut(void);
-extern void OS_Terminate(void);
-extern u32 PM_ForceToPowerOff(void);
-extern BOOL OS_IsRunOnTwl(void);
-extern void PMi_ExecutePostExitCallbackList(void);
+#include "os_terminate_processor.h"
+#include "pm.h"
+#include "os_emulator.h"
+#include "../twl/pm.h"
 extern void CARDi_SendtoPxi(u32 data, u32 wait);
-extern void MI_StopAllDma(void);
-extern void MI_StopAllNDma(void);
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32 state);
-extern int PXI_SendWordByFifo(int fifotag, unsigned int data, int err);
-extern void SVC_WaitByLoop(u32);
+#include "mi_dma.h"
+#include "../twl/mi_ndma.h"
+#include "os_system.h"
+#include "svc_wait_by_loop.h"
 void CARD_InitPulledOutCallback(void);
 void CARD_SetPulledOutCallback(int (*callback)(void));
 void *CARD_IsPulledOut(void);

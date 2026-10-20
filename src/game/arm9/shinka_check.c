@@ -46,21 +46,20 @@ struct EvolutionData {
 
 extern void  ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 dataId);
 
-extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
+#include "poke_tool.h"
 
-extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int fromTail, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32   GFL_HEAP_Free(void *ptr);
 
 extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heap);
 
 extern u32   FILE_UTIL_GetItemParam(u32 item, u32 param, u16 heap);
 
-extern u32   TIMEZONE_IsNight(u32 timezone);
+#include "timezone.h"
 
 extern void  ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 dataId, void *dst);
 
-u32 POKEPARTY_HasSpecies(struct Party *party, u32 species);
+#include "pokeparty.h"
 
 u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg, u8 timezone, u32 *methodOut, u16 heap);
 

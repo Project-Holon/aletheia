@@ -23,16 +23,15 @@
  */
 #include "config_shared_types.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 /* The debug allocator: heap, size, clear, __FILE__ string, __LINE__. */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern void KEY_SetControlModeTable(const void *arg);
+#include "key.h"
 
-extern u8 MSGDATA_SetLanguage(u32 flag);
+#include "msgdata.h"
 
 extern char g_save_block_table[];
 
@@ -42,7 +41,7 @@ void CONFIG_Init(struct Config *config);
 
 void CONFIG_InitKeyControlTable(void)
 {
-    KEY_SetControlModeTable(g_save_block_table);
+    KEY_SetControlModeTable((const KeyConvEntry *)g_save_block_table);
 }
 
 void *CONFIG_Create(int heap_id)
@@ -124,9 +123,9 @@ void CONFIG_SetTextLanguage(struct Config *config, unsigned int value)
 }
 
 /* Calls MSGDATA_SetLanguage with textLanguage as it stands. */
-u8 CONFIG_ApplyTextLanguage(const struct Config *config)
+void CONFIG_ApplyTextLanguage(const struct Config *config)
 {
-    return MSGDATA_SetLanguage((u8)config->textLanguage);
+    MSGDATA_SetLanguage((u8)config->textLanguage);
 }
 
 int CONFIG_GetButtonMode(const struct Config *config)

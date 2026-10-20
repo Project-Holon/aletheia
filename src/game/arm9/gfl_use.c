@@ -191,6 +191,7 @@ struct SndHeap;
 #include "../types.h"
 
 #include "../sdk_os.h"
+#include "nns_snd_types.h"
 
 /* 64 bit linear congruential generator: seed = mul * seed + add. */
 struct GflRandom {
@@ -234,38 +235,15 @@ struct GflUseState {
 /* Sequence number whose buffers the sound code installs by hand. */
 #define SEQ_PRELOADED_BGM    0x3F2
 
-struct SndSeq;
-
 /* The driver's per-track status record (26 bytes), read back each frame. */
 struct SNDTrackInfo {
     u8 raw[0x1A];
-};
-
-/* Handle on a playing sequence; the sound library fills the pointer. */
-struct SndHandle {
-    struct SndSeq *seq;
 };
 
 /* One sound effect slot: the sequence started there and its handle. */
 struct SeSlot {
     u32 seqNo;
     struct SndHandle handle;
-};
-
-/* Entries of the sound archive info tables (only the parts read here). */
-struct SndArcSeqEntry {
-    u32 fileId;
-    u16 bankNo;
-};
-
-struct SndArcBankEntry {
-    u32 fileId;
-    u16 waveArc[4];             /* 0xFFFF: unused */
-};
-
-struct SndArcWaveArcEntry {
-    u32 fileId : 24;
-    u32 flags : 8;
 };
 
 /* One level of the sound heap stack (BGM data loaded on top of the level below). */
@@ -317,180 +295,86 @@ struct SndWaveSetHeader {
 };
 
 extern void OS_SetIrqFunction(u32 mask, void (*fn)(void));
-extern u32  OS_EnableIrqMask(u32 mask);
-extern s32 GX_HBlankIntr(BOOL enable);
-extern s32 GX_VBlankIntr(BOOL enable);
-extern u32  OS_EnableInterrupts(void);
-extern void G3D_SYSTEM_SwapBuffersMain(void);
-extern BOOL OS_IsThreadTerminated(OSThread *thread);
-extern void OS_SleepThreadDirect(OSThread *thread, void *queue);
-extern void OS_WaitIrq(BOOL clear, u32 mask);
-extern void OS_WakeupThreadDirect(OSThread *thread);
-extern int GFL_NET_SYSTEM_GetConnectNum(void);
-extern u32 GFL_NET_IsNetTypeBeacon(void);
-extern u32 GFL_NET_IsNetTypeWifi(void);
-extern void MI_WaitDma(u32 mode);
-extern int GF_OVERLAY_Load(int overlayId);
-extern void PRINTSYS_Init(u32 heap);
-extern void GFL_NET_SetupHeaps(u32 netType, u32 flagB, u32 flagC, u32 heapId);
-extern void WIH_DWC_CreateFilterBuffer(u32 heapId);
-extern void WIH_DWC_ResetFilterState(void);
+typedef unsigned int OSIrqMask;
+#include "os_interrupt.h"
+#include "gx.h"
+#include "os_system.h"
+#include "os_thread.h"
+#include "os_irqhandler.h"
+#include "net_system.h"
+#include "net.h"
+#include "mi_dma.h"
+#include "bg_sys.h"
+#include "dma_channels.h"
+#include "fade.h"
+#include "gf_overlay.h"
+#include "printsys.h"
+#include "wih_dwc.h"
 extern void PROCSYS_PushGlobal(int mode, u32 table, u32 option);
 struct SaveControl;
-extern struct SaveControl *SAVE_CONTROL_Create(int heapId);
-extern struct SaveControl *SAVE_CONTROL_Get(void);
-extern struct Config *SYSTEM_DATA_GetConfig(void *save);
-extern u8 CONFIG_ApplyTextLanguage(const struct Config *config);
-extern void MSG_SPEED_SetSaveControl(struct SaveControl *save);
-extern void GFL_NET_ERR_CreateHeap(void);
-extern void GFL_NET_ERR_Init(u32 kind);
-extern void GF_PANIC_SetFailHook(u32 handler);
-extern void WORDSET_LoadSpeciesNameBank(u16 heapId);
-extern void POKE_TOOL_InitSystem(u32 heapId);
-extern void PM_VOICE_Init(u16 heapId, u32 loadVoiceFn, u32 getVoiceFn);
-extern void CONFIG_InitKeyControlTable(void);
-extern void GAME_BEACON_Create(u32 heapId);
-extern void GPOWER_Init(void);
-extern void GFL_NET_ERR_ExitAndHalt(void);
-extern void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *out);
-extern u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data, u32 *dataSize, u32 *sampleRate, u32 *frequency, char *volume);
-extern void BRIGHTNESS_ChangeMain(void);
-extern void WIPE_SYS_Main(void);
-extern void GFL_NET_ERR_DetectNetError(void);
+#include "save_control.h"
+#include "system_data.h"
+#include "config.h"
+#include "msg_speed.h"
+#include "net_err.h"
+#include "gf_panic.h"
+#include "wordset.h"
+#include "poke_tool.h"
+#include "game_beacon.h"
+#include "gpower.h"
+#include "brightness.h"
+#include "wipe.h"
 extern void GFL_USE_UpdateSound(void);
-extern void PM_VOICE_StopFinished(void);
-extern void GAME_BEACON_Update(void);
-extern void GPOWER_CountDownTimers(void);
-extern unsigned int CONFIG_GetSoundMode(const struct Config *config);
 extern void GFL_USE_SetStereoOutput(u32 stereo);
-extern void OS_Init(void);
-extern void OS_InitTick(void);
-extern void OS_InitAlarm(void);
-extern void RTC_Init(void);
-extern void GX_Init(void);
-extern void FX_Init(void);
-extern u32  OS_GetConsoleType(void);
-extern void SCFG_SetCpuSpeed(int speed);
-extern void FS_Init(int dma);
-extern void *FS_TryLoadTable(int a, void *b);
-extern void *OS_AllocFromArenaLo(int id, void *size, int align);
-extern void NNS_GfdInitVramTransferTaskQueue(void *buf, u32 capacity);
-extern u32 APP_ENV_IsRunOnTwl(void);
+#include "os_init.h"
+#include "os_tick.h"
+#include "os_alarm.h"
+typedef int RTCResult;
+#include "external.h"
+#include "fx.h"
+#include "os_emulator.h"
+#include "scfg_proc.h"
+#include "fs_api.h"
+#include "nns_gfd_vram_load.h"
+#include "app_env.h"
 struct PMiGenCallbackInfo;
 extern void PM_AppendPreExitCallback(struct PMiGenCallbackInfo *info);
-extern u32 PM_GetAmp(s32 *swBuf);
-extern u32 PM_SetAmp(u32 status);
-extern u32 UI_TestSoftResetInhibitGlobal(u32 mode);
-extern u32 PM_GetAutoExit(void);
-extern void PM_ReadyToExit(void);
+#include "pm.h"
+#include "../twl/pm.h"
 /* ARM, and attested by a branch to it from an overlay. */
-extern void NNS_GfdDoVramTransfer(void);
-extern void CTRDG_DummyInit(void);
-extern void PM_SetAutoExit(u32 enable);
-extern s32 OS_IsRunOnTwl(void);
-extern u32 OS_GetArenaHi(u32 id);
-extern u32 OS_GetArenaLo(u32 id);
-extern void *OS_InitAlloc(s32 id, void *arenaStart, void *arenaEnd, s32 maxHeaps);
-extern void  OS_SetArenaLo(u32 arenaId, u32 newLo);
-extern s32 OS_CreateExtraHeap(s32 id);
-extern void *OS_AllocFromHeap(s32 id, s32 heap, s32 size);
-extern void GFL_HEAP_Init(u8 *specs, u32 staticCount, u32 heapIdCount, u32 extraSize);
-extern void  GFL_HEAP_InitSystemHeapChecked(u32 size);
-extern void  GFL_HEAP_CreateChildHeap(u32 arenaId, u32 heapId, u32 size);
-extern void  GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 heapId);
-extern void  GF_STANDARD_Init(u32 mode);
-extern void ARC_TOOL_SetTable(void **entries, u32 count);
-extern void UI_Create(u32 heapId, u8 mode);
-extern void  GF_PANIC_RegisterDefaultHandlers(void);
-extern void GF_PANIC_SetHandlers(u32 mode, u32 flags, u32 waitCallback);
-extern void GF_OVERLAY_Init(u32 heapId, int n0, int n1, int n2);
-extern void  PROCSYS_CreateGlobal(s32 heapId);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, unsigned short line);
-extern u32   TCB_GetTaskOffset(u32 capacity);
+#include "nns_gfd_vram_transfer.h"
+#include "ctrdg_proc.h"
+#include "os_alloc.h"
+#include "gfl_heap.h"
+#include "gfl_heap_wrap.h"
+#include "gf_standard.h"
+#include "arc_tool.h"
+#include "procsys.h"
 struct TcbSystem;
-extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
-extern void  FADE_Create(u32 heapId);
-extern void BACKUP_SYSTEM_Init(u32 kind, u32 callbackA, u32 callbackB);
-extern void  TEXTPRINT_Init(u32 heapId);
-extern void  GF_STANDARD_InitRtc(void);
-extern void FADE_SetSpeed(s32 speed);
-extern void  APP_POWER_ClearCallback(void);
-extern void APP_POWER_SetCallback(u32 on);
-extern void UI_Update(void);
-extern int GFL_NET_ERR_PollNetState(void);
-extern int PROCSYS_MainGlobal(void);
-extern void GF_STANDARD_UpdateRtc(void);
-extern int TCB_Main(struct TcbList *list);
+#include "fade.h"
+#include "backup_system.h"
+#include "textprint.h"
+#include "app_power.h"
+#include "wifi_friend.h"
 struct TcbTask;
 extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*callback)(struct Tcb *, void *), void *work, unsigned int priority);
-extern int BG_SYS_Update(int);
-extern int DMA_UpdateChannels(int);
-extern int FADE_Update(int);
-extern void  GF_STANDARD_RandSeed(u32 seed);
 struct Lcg64;
-extern void GF_STANDARD_SeedLcg64(struct Lcg64 *out);
-extern unsigned int KEY_GetCont(void);
+#include "key.h"
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
-extern void NNS_SndSetMasterVolume(s32 volume);
+#include "nns_snd_system.h"
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
-extern void UI_SetResumeAndSuspendHooks(u32 onCallback, u32 offCallback, u32 arg);
-extern u32  UI_GetSuspendHookGlobal(void);
-extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
-extern void NNS_SndHandleInit(struct SndHandle *handle);
-extern void NNS_SndHandleReleaseSeq(struct SndHandle *handle);
 struct NNSSndHeap;
-extern int   NNS_SndHeapSaveState(struct NNSSndHeap *heap);
-extern void  NNS_SndHeapLoadState(struct NNSSndHeap *heap, s32 level);
-extern u32 NNS_SndArcLoadSeqEx(u32 seqNo, u32 loadFlag, struct NNSSndHeap *heap);
-extern struct SndWaveSetHeader *NNS_SndHeapAlloc(struct SndHeap *heap, u32 size, u32 flagA, u32 flagB, u32 flagC);
-extern u32   NNS_SndArcLoadSeq(u32 seqNo, struct NNSSndHeap *heap);
-extern void NNS_SndInit(void);
-extern struct NNSSndHeap *NNS_SndHeapCreate(unsigned int start, unsigned int size);
 struct NNSSndArc;
-extern unsigned int NNS_SndArcInit(struct NNSSndArc *arc, char *path, unsigned int *heap, unsigned int loadSymbols);
-extern void SNDEXi_Init(void);
-extern u32 NNS_SndArcPlayerSetup(struct NNSSndHeap *heap);
-extern void *NNS_SndArcGetGroupInfo(int index);
-extern s32 NNS_SndArcLoadGroup(u32 groupNo, struct NNSSndHeap *heap);
+#include "nns_snd_main.h"
 /* Sound manager calls carried over from pm_voice.c. */
-extern void  NNS_SndBoot(void);
-extern u32   NNS_SndReadDriverInfo(void);
-extern int   NNS_SndHandleReadTrackInfo(struct SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
-extern void  NNS_SndHeapDestroy(struct NNSSndHeap *heap);
-extern void  NNS_SndSetMasterPan(u32 monoFlag);
-extern void  NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
-extern void  NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrames);
-extern void  NNS_SndHandlePauseSeq(struct SndHandle *handle, u32 value);
-extern void  NNS_SndHandleMoveVolume(struct SndHandle *handle, u32 volume, u32 frames);
-extern void  NNS_SndHandleSetVolume(struct SndHandle *handle, int volume);
-extern void  NNS_SndHandleSetTrackPause(struct SndHandle *handle, u32 trackMask, u32 mute);
-extern void  NNS_SndHandleSetTrackMute(struct SndHandle *handle, u32 trackMask, u32 mute);
-extern void  NNS_SndHandleSetTrackVolume(struct SndHandle *handle, u32 trackMask, int volumeIndex);
-extern void  NNS_SndHandleSetTrackPitch(struct SndHandle *handle, u32 trackMask, u32 pitch);
-extern void  NNS_SndHandleSetTrackPan(struct SndHandle *handle, u32 trackMask, u32 pan);
-extern void  NNS_SndHandleSetTrackModDepth(struct SndHandle *handle, u32 trackMask, u32 depth);
-extern void  NNS_SndHandleSetTrackModSpeed(struct SndHandle *handle, u32 trackMask, u32 speed);
-extern void  NNS_SndHandleStop(struct SndHandle *handle, u32 tempoRatio);
-extern s32   NNS_SndPlayerCountPlayingSeqBySeqNo(u32 seqNo);
-extern u16   NNS_SndPlayerGetActiveSeqCount(u32 playerNo);
-extern void  NNS_SndArcSetReadChunkSize(int loadFlags);
-extern void  OS_Sleep(u32 msec);
-extern struct SndArcSeqEntry  *NNS_SndArcGetSeqInfo(int seqNo);
-extern struct SndArcBankEntry *NNS_SndArcGetBankInfo(int bankNo);
-extern void *NNS_SndArcGetWaveArcInfo(int waveArcNo);
-extern u8   *NNS_SndArcGetSeqParam(int seqNo);
-extern u32   NNS_SndArcPlayerStartSeq(u32 handle, u32 seqNo);
-extern u32   NNS_SndArcPlayerStartSeqEx(u32 handle, s32 playerNo, s32 bankNo, s32 priority, u32 seqNo);
-extern u32   NNS_SndArcLoadWaveArc(u32 waveArcNo, struct NNSSndHeap *heap);
-extern void  NNS_SndArcSetFileAddress(u32 fileId, u32 address);
-extern u32   NNS_SndArcGetFileAddress(u32 fileId);
+#include "nns_snd_arcplayer.h"
 struct SNDWaveData;
 struct SNDWaveArc;
-extern void  SND_SetWaveDataAddress(struct SNDWaveArc *waveArc, s32 index, struct SNDWaveData *address);
-extern struct SNDWaveData *SND_GetWaveDataAddress(struct SNDWaveArc *waveArc, s32 index);
-extern void  OS_CreateThread(OSThread *thread, void (*entry)(void *), void *arg,
-                           void *stack, u32 size, u32 prio);
-extern void  OS_DestroyThread(OSThread *thread);
+#include "nns_g3d_anm_calc_types.h"
+#include "nns_g3d_anm_types.h"
+#include "../sdk_fx.h"
+#include "../sdk_nnsfnd.h"
+#include "snd_bank.h"
 extern struct SNDTrackInfo _SndTrackInfo[];
 extern struct SeSlot _SeSlots[];
 extern void GFL_USE_InitSeSlots(void);
@@ -566,6 +450,33 @@ extern struct SndState _SndState;
 extern char _SndArcPath[];
 extern char _SndArc[];
 
+#include "g3d_system.h"
+#include "pm_voice.h"
+#include "fs_proc_rom.h"
+#include "os_arena.h"
+#include "ui.h"
+#include "tcb_list.h"
+extern void  NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
+extern void  NNS_SndHandleSetTrackModSpeed(struct SndHandle *handle, u32 trackMask, u32 speed);
+extern void  NNS_SndHandleSetTrackPan(struct SndHandle *handle, u32 trackMask, u32 pan);
+extern void NNS_SndHandleReleaseSeq(struct SndHandle *handle);
+extern int   NNS_SndHandleReadTrackInfo(struct SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
+extern void  NNS_SndHandleSetTrackPitch(struct SndHandle *handle, u32 trackMask, u32 pitch);
+extern void  NNS_SndHandleSetTrackVolume(struct SndHandle *handle, u32 trackMask, int volumeIndex);
+extern void  NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrames);
+extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
+extern void  NNS_SndHandlePauseSeq(struct SndHandle *handle, u32 value);
+extern void  NNS_SndHandleStop(struct SndHandle *handle, u32 tempoRatio);
+extern void  NNS_SndHandleSetTrackPause(struct SndHandle *handle, u32 trackMask, u32 mute);
+extern void  NNS_SndHandleSetTrackMute(struct SndHandle *handle, u32 trackMask, u32 mute);
+extern void  NNS_SndHandleSetVolume(struct SndHandle *handle, int volume);
+extern void  NNS_SndHandleSetTrackModDepth(struct SndHandle *handle, u32 trackMask, u32 depth);
+extern s32   NNS_SndPlayerCountPlayingSeqBySeqNo(u32 seqNo);
+extern void  NNS_SndHandleMoveVolume(struct SndHandle *handle, u32 volume, u32 frames);
+extern u16   NNS_SndPlayerGetActiveSeqCount(u32 playerNo);
+extern void NNS_SndHandleInit(struct SndHandle *handle);
+#include "nns_snd_arc.h"
+#include "../twl/sndex.h"
 static inline u16 OS_EnableIrq(void)
 {
     u16 prep = reg_IME;
@@ -711,7 +622,7 @@ void GFL_USE_InitGameSystems(void)
     WORDSET_LoadSpeciesNameBank(0);
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();
-    PM_VOICE_Init(1, (u32)&PM_VOICE_GetCryIndex, (u32)&PM_VOICE_PrepareCry);
+    PM_VOICE_Init(1, (void (*)(u32,  u32,  u32 *))&PM_VOICE_GetCryIndex, (u32 (*)(u32,  u32,  void **, u8 **, u32 *, u32 *, u32 *, s8 *))&PM_VOICE_PrepareCry);
     GFL_USE_ApplySoundModeFromConfig(SYSTEM_DATA_GetConfig((struct SaveData *)SAVE_CONTROL_Get()));
     CONFIG_InitKeyControlTable();
     GAME_BEACON_Create(1);
@@ -801,7 +712,7 @@ void GFL_USE_ApplySoundModeFromConfig(const struct Config *config)
 void GFL_USE_InitSdk(void)
 {
     u32 amp;
-    void *tableSize;
+    u32 tableSize;
 
     OS_Init();
     OS_InitTick();
@@ -818,7 +729,7 @@ void GFL_USE_InitSdk(void)
     *(volatile u16 *)0x04000208 = 1;
     FS_Init(1);
     tableSize = FS_TryLoadTable(0, 0);
-    FS_TryLoadTable((int)OS_AllocFromArenaLo(0, tableSize, 4), tableSize);
+    FS_TryLoadTable((void *)OS_AllocFromArenaLo(0, (u32)tableSize, 4), tableSize);
     NNS_GfdInitVramTransferTaskQueue(_TwlServiceBuf, 0x30);
     if (APP_ENV_IsRunOnTwl()) {
         _PreExitState[0] = 0;
@@ -1015,7 +926,7 @@ void GFL_USE_NoOpFrameHook(void)
 
 void GFL_USE_RunHBlankTasks(void)
 {
-    TCB_Main(_GflUse.runtime->hblankTasks);
+    TCB_Main((struct TcbSystem *)(_GflUse.runtime->hblankTasks));
 }
 
 struct Tcb *GFL_USE_AddHBlankTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
@@ -1048,7 +959,10 @@ void GFL_USE_ClearVBlankHook(void)
 
 void GFL_USE_RunMainTasks(void)
 {
-    FADE_Update(DMA_UpdateChannels(BG_SYS_Update(TCB_Main(_GflUse.runtime->mainTasks))));
+    TCB_Main((struct TcbSystem *)(_GflUse.runtime->mainTasks));
+    BG_SYS_Update();
+    DMA_UpdateChannels();
+    FADE_Update();
     _GflUse.frameCount++;
 }
 
@@ -1299,7 +1213,7 @@ void GFL_USE_UnmuteSound(void)
 
 void GFL_USE_SetSleepVolumeHooks(void)
 {
-    UI_SetResumeAndSuspendHooks((u32)GFL_USE_MuteSound, (u32)GFL_USE_UnmuteSound, 0);
+    UI_SetResumeAndSuspendHooks((UiCb)GFL_USE_MuteSound, (UiCb)GFL_USE_UnmuteSound, 0);
 }
 
 /*
@@ -1324,10 +1238,10 @@ void GFL_USE_SetSleepVolumeHooks(void)
  */
 int GFL_USE_IsMuteHookActive(void)
 {
-    u32 hook;
+    UiCb hook;
 
     hook = UI_GetSuspendHookGlobal();
-    return hook == (u32)GFL_USE_MuteSound;
+    return hook == (UiCb)GFL_USE_MuteSound;
 }
 
 /*
@@ -1593,7 +1507,7 @@ struct SndWaveSetHeader *GFL_USE_LoadWaveArcSet(const u32 *waveArcIds, u32 count
     savedState = slot->baseState;
     GFL_USE_EndSndSlot();
     i = 0;
-    header = NNS_SndHeapAlloc(*_SndStack.heapPtr, 8, 0, 0, 0);
+    header = NNS_SndHeapAlloc((NNSSndHeap *)*_SndStack.heapPtr, 8, 0, 0, 0);
     for (i = 0; i < count; i++) {
         NNS_SndArcLoadSeq(waveArcIds[i], (struct NNSSndHeap *)(*_SndStack.heapPtr));
     }
@@ -2491,8 +2405,8 @@ u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort)
  */
 int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo)
 {
-    struct SndArcSeqEntry *seq;
-    struct SndArcBankEntry *bank;
+    NNSSndArcSeqInfo *seq;
+    NNSSndArcBankInfo *bank;
     u32 seqFileId;
     u16 bankNo;
     u32 bankFileId;
@@ -2505,8 +2419,8 @@ int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo)
     bankFileId = bank->fileId;
     GFL_USE_SaveSeqBankState();
     for (i = 0; i < 4; i++) {
-        if (bank->waveArc[i] != 0xFFFF) {
-            if (NNS_SndArcLoadWaveArc(bank->waveArc[i], (struct NNSSndHeap *)_SndState.heap) == 0) {
+        if (bank->waveArcNo[i] != 0xFFFF) {
+            if (NNS_SndArcLoadWaveArc(bank->waveArcNo[i], (struct NNSSndHeap *)_SndState.heap) == 0) {
                 return 0;
             }
         }
@@ -2524,14 +2438,14 @@ int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo)
  */
 int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 srcWaveIndex)
 {
-    struct SndArcWaveArcEntry *entry;
+    NNSSndArcWaveArcInfo *entry;
     u32 *waveArcData;
 
     entry = NNS_SndArcGetWaveArcInfo(waveArcNo);
     if (entry == 0) {
         return 0;
     }
-    waveArcData = (u32 *)NNS_SndArcGetFileAddress(entry->fileId);
+    waveArcData = (u32 *)NNS_SndArcGetFileAddress(entry->bits.fileId);
     if (waveArcData == 0) {
         return 0;
     }

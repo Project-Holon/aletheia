@@ -1,7 +1,7 @@
 /*
  * file:     dwc_mov_wh.c
  * unit:     yes
- * function: DWCi_MOV_WH_MemInit, DWCi_MOV_WH_ChangeSysState, DWCi_MOV_WH_SetError, DWCi_MOV_WH_StateInSetParentParam, DWCi_MOV_WH_StateOutSetParentParam, DWCi_MOV_WH_StateInSetParentWEPKey, DWCi_MOV_WH_StateOutSetParentWEPKey, DWCi_MOV_WH_StateInStartParent, DWCi_MOV_WH_StateOutStartParent, DWCi_MOV_WH_StateInStartParentMP, DWCi_MOV_WH_StateOutStartParentMP, DWCi_MOV_WH_StateInStartParentKeyShare, DWCi_MOV_WH_StateInEndParentKeyShare, DWCi_MOV_WH_StateInEndParentMP, DWCi_MOV_WH_StateOutEndParentMP, DWCi_MOV_WH_StateInEndParent, DWCi_MOV_WH_StateOutEndParent, DWCi_MOV_WH_StateInEndChildKeyShare, DWCi_MOV_WH_StateInEndChildMP, DWCi_MOV_WH_StateOutEndChildMP, DWCi_MOV_WH_StateInEndChild, DWCi_MOV_WH_StateOutEndChild, DWCi_MOV_WH_StateInReset, DWCi_MOV_WH_StateOutReset, DWCi_MOV_WH_StateOutEnd, DWCi_MOV_WH_SetGgid, DWCi_MOV_WH_GetBitmap, DWCi_MOV_WH_GetSystemState, DWCi_MOV_WH_StartMeasureChannel, DWCi_MOV_WH_StateInMeasureChannel, DWCi_MOV_WH_StateOutMeasureChannel, DWCi_DwcMovWhWHi_MeasureChannel, DWCi_MOV_WH_GetMeasureChannel, DWCi_DwcMovWhSelectChannel, DWCi_MOV_WH_Initialize, DWCi_MOV_WH_IndicateHandler, DWCi_MOV_WH_StateInInitialize, DWCi_MOV_WH_StateOutInitialize, DWCi_MOV_WH_ParentConnect, DWCi_MOV_WH_SetJudgeAcceptFunc, DWCi_MOV_WH_GetSharedDataAdr, DWCi_MOV_WH_StepDS, DWCi_MOV_WH_Reset, DWCi_MOV_WH_Finalize, DWCi_MOV_WH_End
+ * function: DWCi_MOV_WH_MemInit, DWCi_MOV_WH_ChangeSysState, DWCi_MOV_WH_SetError, DWCi_MOV_WH_StateInSetParentParam, DWCi_MOV_WH_StateOutSetParentParam, DWCi_MOV_WH_StateInSetParentWEPKey, DWCi_MOV_WH_StateOutSetParentWEPKey, DWCi_MOV_WH_StateInStartParent, DWCi_MOV_WH_StateOutStartParent, DWCi_MOV_WH_StateInStartParentMP, DWCi_MOV_WH_StateOutStartParentMP, DWCi_MOV_WH_StateInStartParentKeyShare, DWCi_MOV_WH_StateInEndParentKeyShare, DWCi_MOV_WH_StateInEndParentMP, DWCi_MOV_WH_StateOutEndParentMP, DWCi_MOV_WH_StateInEndParent, DWCi_MOV_WH_StateOutEndParent, DWCi_MOV_WH_StateInEndChildKeyShare, DWCi_MOV_WH_StateInEndChildMP, DWCi_MOV_WH_StateOutEndChildMP, DWCi_MOV_WH_StateInEndChild, DWCi_MOV_WH_StateOutEndChild, DWCi_MOV_WH_StateInReset, DWCi_MOV_WH_StateOutReset, DWCi_MOV_WH_StateOutEnd, DWCi_MOV_WH_SetGgid, DWCi_MOV_WH_GetBitmap, DWCi_MOV_WH_GetSystemState, DWCi_MOV_WH_StartMeasureChannel, DWCi_MOV_WH_StateInMeasureChannel, DWCi_MOV_WH_StateOutMeasureChannel, WHi_MeasureChannel, DWCi_MOV_WH_GetMeasureChannel, SelectChannel, DWCi_MOV_WH_Initialize, DWCi_MOV_WH_IndicateHandler, DWCi_MOV_WH_StateInInitialize, DWCi_MOV_WH_StateOutInitialize, DWCi_MOV_WH_ParentConnect, DWCi_MOV_WH_SetJudgeAcceptFunc, DWCi_MOV_WH_GetSharedDataAdr, DWCi_MOV_WH_StepDS, DWCi_MOV_WH_Reset, DWCi_MOV_WH_Finalize, DWCi_MOV_WH_End
  * address:  0x021D298C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -132,7 +132,10 @@ typedef struct {
     u32 reserved12a4;
 } Wh;
 
-extern int WM_SetParentParameter(int, int);
+struct WMParentParam;
+struct WMDataSharingInfo;
+struct WMDataSet;
+extern int WM_SetParentParameter(void (*)(void), struct WMParentParam *);
 void DWCi_MOV_WH_SetError(unsigned int v);
 extern int WM_SetWEPKey(void (*callback)(void *), unsigned short wepmode, unsigned short *wepkey);
 extern int WM_StartParent(void (*callback)(void *));
@@ -153,17 +156,17 @@ extern int WM_MeasureChannel(void (*callback)(void *), unsigned short ccaMode, u
                              unsigned short channel, unsigned short measureTime);
 extern void OS_Terminate(void);
 int DWCi_MOV_WH_StateInInitialize(void);
-extern int WM_Initialize(int, int, int);
+extern int WM_Initialize(void *, void (*)(void), unsigned short);
 extern int WM_SetIndCallback(void (*callback)(void *));
 extern unsigned short WM_GetDispersionBeaconPeriod(void);
 int DWCi_MOV_WH_StateInSetParentParam(void);
-extern void WM_GetSharedDataAddress(void *, void *, int);
+extern u16 *WM_GetSharedDataAddress(struct WMDataSharingInfo *, struct WMDataSet *, u16);
 struct WMDataSet;
 struct WMDataSharingInfo;
 extern int WM_StepDataSharing(struct WMDataSharingInfo *dsInfo, u16 *sendData, struct WMDataSet *receiveData);
 int DWCi_MOV_WH_StateInEndChildKeyShare(void);
 int DWCi_MOV_WH_StateInEndParentKeyShare(void);
-extern int WM_End(int);
+extern int WM_End(void (*)(void));
 void DWCi_MOV_WH_MemInit(void *mw);
 void DWCi_MOV_WH_SetGgid(unsigned int v);
 unsigned short DWCi_MOV_WH_GetBitmap(void);
@@ -173,7 +176,7 @@ unsigned short DWCi_MOV_WH_GetMeasureChannel(void);
 int DWCi_MOV_WH_Initialize(void);
 int DWCi_MOV_WH_ParentConnect(int mode, unsigned short tgid, unsigned short channel);
 void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v);
-void DWCi_MOV_WH_GetSharedDataAdr(int a);
+u16 *DWCi_MOV_WH_GetSharedDataAdr(u16 a);
 int DWCi_MOV_WH_StepDS(void *data);
 void DWCi_MOV_WH_Reset(void);
 void DWCi_MOV_WH_Finalize(void);
@@ -267,7 +270,7 @@ int DWCi_MOV_WH_StateInSetParentParam(void)
     int rs;
 
     DWCi_MOV_WH_ChangeSysState(3);
-    rs = WM_SetParentParameter((int)0x021D2AA8, g[1]);
+    rs = WM_SetParentParameter((void (*)(void))0x021D2AA8, (struct WMParentParam *)g[1]);
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -919,7 +922,7 @@ int DWCi_MOV_WH_StateInInitialize(void)
     int rs;
 
     DWCi_MOV_WH_ChangeSysState(3);
-    rs = WM_Initialize(g[1] + 0x80, (int)0x021D371C, 2);
+    rs = WM_Initialize((void *)(g[1] + 0x80), (void (*)(void))0x021D371C, 2);
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -999,12 +1002,12 @@ void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v)
  * Tail-call WM_GetSharedDataAddress with two views of the block behind 0x021DE660.
  * Addresses are Black-image addresses.
  */
-void DWCi_MOV_WH_GetSharedDataAdr(int a)
+u16 *DWCi_MOV_WH_GetSharedDataAdr(u16 a)
 {
     int *g = (int *)0x021DE660;
     char *p = (char *)g[1];
 
-    WM_GetSharedDataAddress(p + 0x13e0, p + 0x1c00, a);
+    return WM_GetSharedDataAddress((struct WMDataSharingInfo *)(p + 0x13e0), (struct WMDataSet *)(p + 0x1c00), a);
 }
 
 int DWCi_MOV_WH_StepDS(void *data)
@@ -1085,7 +1088,7 @@ int DWCi_MOV_WH_End(void)
     if (*(int *)(g[1] + 0x40) != 1)
         OS_Terminate();
     DWCi_MOV_WH_ChangeSysState(3);
-    if (WM_End((int)0x021D3200) == 2)
+    if (WM_End((void (*)(void))0x021D3200) == 2)
         return 1;
     DWCi_MOV_WH_ChangeSysState(9);
     return 0;

@@ -1,7 +1,7 @@
 /*
  * file:     keyboard10.c
  * unit:     yes
- * function: DWCi_KB10lInit, DWCi_KB10lEnd, DWCi_KB10lGet, DWCi_KB10lSetErase, DWCi_KB10lSetInput, DWCi_KB10lSetShift, DWCi_KB10lIsInit, DWCi_Keyboard10TaskStart0, DWCi_Keyboard10TaskStart1, DWCi_Keyboard10TaskStart2, DWCi_Keyboard10TaskStart3, DWCi_Keyboard10TaskStart4, taskMain, touchTriger, touchRelease, touch, DWCi_Keyboard10ExchangeBack, key, disp, changeColor, dispFocus, DWCi_Keyboard10MoveFocus, DWCi_Keyboard10TaskEnd0, DWCi_Keyboard10TaskEnd1, DWCi_Keyboard10TaskEnd2, DWCi_Keyboard10TaskEnd3, DWCi_Keyboard10TaskEnd4, DWCi_Keyboard10TaskEnd5
+ * function: DWCi_KB10lInit, DWCi_KB10lEnd, DWCi_KB10lGet, DWCi_KB10lSetErase, DWCi_KB10lSetInput, DWCi_KB10lSetShift, DWCi_KB10lIsInit, taskStart0, taskStart1, taskStart2, taskStart3, taskStart4, taskMain, touchTriger, touchRelease, touch, DWCi_Keyboard10ExchangeBack, key, disp, changeColor, dispFocus, moveFocus, taskEnd0, taskEnd1, taskEnd2, taskEnd3, taskEnd4, taskEnd5
  * address:  0x021BF390
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -155,7 +155,8 @@ extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
 extern void *DWCi_CELLlForm(int lcd, int num, int head);
 struct CellInfo;
 extern void DWCi_CELLlDelete(struct CellInfo *p);
-extern GXOamAttr *DWCi_CELLlGetObj(void *cell, int idx);
+union GXOamAttr;
+extern GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
 extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 extern void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
@@ -163,7 +164,8 @@ extern void DWCi_CELLlSetPalette(unsigned char *obj, int idx, unsigned int v, un
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 extern void DWCi_Coord2Rect(COORD *coord, COORD *size, RECT *rect);
 extern void *DWCi_FNTlFormEx(int lcd, int width, int height, int head, int *obj, int font);
-extern void DWCi_FNTlDelete(void *canvas);
+struct Canvas;
+extern void DWCi_FNTlDelete(struct Canvas *a);
 extern void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio);
 extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
@@ -681,7 +683,7 @@ static void dispFocus(void)
     g = gKeyboard10Work;
     if (g->focusIndex > 0xb)
         sel = 0x45;
-    v = (int)DWCi_CELLlGetObj((char *)g->focusCell, 0);
+    v = (int)DWCi_CELLlGetObj((struct CellInfo *)g->focusCell, 0);
     DWCi_CEINlSet(0, sel, (GXOamAttr *)v);
     g = gKeyboard10Work;
     DWCi_CELLlSetPriority((void *)g->focusCell, -1, 2);

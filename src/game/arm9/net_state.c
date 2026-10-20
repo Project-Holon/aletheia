@@ -114,91 +114,61 @@ struct NetStateWork {
 
 #include "../sdk_rtc.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
+#include "mi_memory.h"
 
-extern void GFL_NET_SYSTEM_SetError(void);
+#include "net_system.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "gf_panic.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
-extern int   GFL_NET_SYSTEM_GetChildBitmap(void);
 
-extern int  GFL_NET_SYSTEM_IsError(void);
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "net_handle.h"
 
-extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-extern int GFL_NET_SYSTEM_ClampNetId(int slot);
 
-extern void OS_GetMacAddress(u8 *);
+#include "os_ownerinfo.h"
 
-extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
+typedef int RTCResult;
+#include "external.h"
 
-extern void GF_STANDARD_RandSeed(u32 seed);
+#include "gf_standard.h"
 
-extern u32 GF_STANDARD_Rand(void);
 
 extern void GFL_NET_STATE_Idle(void);
 
-extern void UI_SetKeepAwakeFlagsGlobal(u8 flags);
+#include "ui.h"
 
-extern void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
-extern void UI_ClearSoftResetInhibitGlobal(u32 v);
 
-extern void UI_SetSoftResetInhibitGlobal(u8 mask);
 
-extern void GFL_NET_SYSTEM_SetNoSend(void);
 
-extern void GFL_NET_SYSTEM_ResetError(void);
 
-void GFL_NET_WM_ICON_EasyEnd(void);
+#include "wm_icon.h"
 
-int GFL_NET_SYSTEM_InitWork(u32 packetSize, u32 heap, u32 c);
 
-int GFL_NET_SYSTEM_InitDevice(u32 packetSize, u32 heapId);
 
-u32 GFL_NET_SYSTEM_SetDeviceOption(u32 p);
 
-u32 GFL_NET_SYSTEM_ConnectDevice(u8 renewTgid);
 
-u32 GFL_NET_SYSTEM_StartParent(u8 renewTgid, u16 packetSize, u32 sendArg0, u32 sendArg1);
 
-u32 GFL_NET_SYSTEM_StartBeaconScan(u32 sendArg, u16 packetSize);
 
-int GFL_NET_SYSTEM_EndDevice(u32 p);
 
-u32 GFL_NET_SYSTEM_ConnectToParent(u32 beaconArg0, u32 beaconArg1, u16 packetSize, u32 beaconArg2);
 
-void GFL_NET_SYSTEM_FreeWork(void);
 
-void GFL_NET_SYSTEM_ResetAll(void);
 
-int GFL_NET_SYSTEM_IsDeviceReady(void);
 
-void GFL_NET_HANDLE_InitWork(GFLNetSession *unused);
 
-void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused);
 
-u32 GFL_NET_HANDLE_IsNegotiationDone(GFLNetHandle *handle);
 
-int GFL_NET_HANDLE_GetNegotiationNum(void);
 
-int GFL_NET_HANDLE_CheckNegotiation(void);
 
-void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userData, u32 unusedArg);
+#include "net_command.h"
 
-void GFL_NET_COMMAND_Exit(void);
 
 void GFL_NET_STATE_ChangeState(struct NetStateWork *work, void *state, u32 timer);
 
@@ -382,19 +352,14 @@ void GFL_NET_STATE_FatalError(void);
 
 int GFL_NET_STATE_IsFatalError(void);
 
-int GFL_NET_Exit(void (*a0)(u32));
+#include "net.h"
 
-int GFL_NET_SendToHandle(GFLNetHandle *a, u32 b, u32 c, const void *d);
 
-u32 GFL_NET_GetUserArg(void);
 
-void GFL_NET_CallDeviceReadyFunc(void);
 
-GFLNetSession *GFL_NET_GetSession(void);
 
-GFLNetSession *GFL_NET_GetInitParam(void);
 
-int GFL_NET_IRC_WIRELESS_IsActive(void);
+#include "net_irc_wireless.h"
 
 extern struct NetStateWork *_pNetState;
 

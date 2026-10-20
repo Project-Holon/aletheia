@@ -7,7 +7,7 @@
 #ifndef NNS_SND_TYPES_H
 #define NNS_SND_TYPES_H
 
-#include "nns_snd_arc_types.h"
+#include "../arm9/nns_snd_arc_types.h"
 
 #include "../types.h"
 

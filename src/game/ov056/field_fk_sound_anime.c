@@ -1,7 +1,7 @@
 /*
  * file:     field_fk_sound_anime.c
  * unit:     yes
- * function: FIELD_FK_SOUND_ANIME_InitFrameSound, FIELD_FK_SOUND_ANIME_UpdateFrameSound, FIELD_FK_SOUND_ANIME_InitAmbientSoundA, FIELD_FK_SOUND_ANIME_ExitAmbientSoundA, FIELD_FK_SOUND_ANIME_UpdateAmbientSoundA, FIELD_FK_SOUND_ANIME_InitAmbientSoundB, FIELD_FK_SOUND_ANIME_ExitAmbientSoundB, FIELD_FK_SOUND_ANIME_UpdateAmbientSoundB, FIELD_FK_SOUND_ANIME_Create, FIELD_FK_SOUND_ANIME_Delete, FIELD_FK_SOUND_ANIME_Step, FIELD_FK_SOUND_ANIME_PlaySe, FIELD_FK_SOUND_ANIME_StopSe
+ * function: FIELD_FK_SOUND_ANIME_InitFrameSound, FIELD_FK_SOUND_ANIME_ExitFrameSound, FIELD_FK_SOUND_ANIME_UpdateFrameSound, FIELD_FK_SOUND_ANIME_InitAmbientSoundA, FIELD_FK_SOUND_ANIME_ExitAmbientSoundA, FIELD_FK_SOUND_ANIME_UpdateAmbientSoundA, FIELD_FK_SOUND_ANIME_InitAmbientSoundB, FIELD_FK_SOUND_ANIME_ExitAmbientSoundB, FIELD_FK_SOUND_ANIME_UpdateAmbientSoundB, FIELD_FK_SOUND_ANIME_Create, FIELD_FK_SOUND_ANIME_Delete, FIELD_FK_SOUND_ANIME_Step, FIELD_FK_SOUND_ANIME_PlaySe, FIELD_FK_SOUND_ANIME_StopSe
  * address:  0x021F3E94
  * region:   ov056
  * compiler: dsi/1.1p1

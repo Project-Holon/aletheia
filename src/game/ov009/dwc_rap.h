@@ -1,7 +1,10 @@
 #ifndef GAME_OV009_DWC_RAP_H
 #define GAME_OV009_DWC_RAP_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of dwc_rap.c, prototypes copied from their definitions. */
+
+#include "../types.h"
 
 void DWC_RAP_SetState(int state);
 int DWC_RAP_IsWorkAllocated(void);
@@ -80,5 +83,6 @@ int DWC_RAP_IsDisconnected(void);
 void DWC_RAP_StoreErrorOnDisconnect(u32 enabled);
 void DWC_RAP_SetErrorCallback(int (*errorFunc)(u32, u32, u32, int), u32 errorArg);
 void DWC_RAP_SetErrorHookCallback(int (*hookFunc)(u32, u32, u32, int), u32 hookArg);
+/* END mkheaders: generated region */
 
 #endif

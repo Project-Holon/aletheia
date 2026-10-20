@@ -34,9 +34,9 @@ typedef struct DmaChannel {
 
 #define REG_DMA_CNT(ch) (*(volatile u32 *)(0x040000B8 + (ch) * 12))
 
-extern u32  OS_DisableInterrupts(void);
+#include "../sdk_os.h"
+#include "os_system.h"
 
-extern void OS_RestoreInterrupts(u32 state);
 
 void DMA_UpdateChannels(void);
 

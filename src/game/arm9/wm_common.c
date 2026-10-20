@@ -17,8 +17,8 @@
 
 #include "../types.h"
 
-extern BOOL OS_IsRunOnTwl(void);
-extern u32 NWMi_CheckInitialized(void);
+#include "os_emulator.h"
+#include "../twl/nwm_init.h"
 
 u32 NWM_CheckInitialized(void)
 {

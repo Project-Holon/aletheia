@@ -64,18 +64,9 @@ typedef struct NNSSndWaveOutHandle {
     u32 commandTag;  /* 0x10  SND command tag to wait for */
 } NNSSndWaveOutHandle;
 
-extern void SND_LockChannel(u32 chBitMask, u32 flags);
-extern void SND_UnlockChannel(u32 channelMask, u32 flags);
-extern void SND_SetupChannelPcm(int chNo, int format, const void *dataaddr, int loop, int loopStart, int loopLen, int volume, int shift, int timer, int pan);
-extern void SND_StartTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
-extern u32  SND_GetCurrentCommandTag(void);
-extern void SND_StopTimer(u32 chan, u32 a, u32 b, u32 c);
-extern void SND_SetChannelVolume(u32 chBitMask, int volume, int shift);
-extern void SND_SetChannelTimer(u32 chBitMask, int timer);
-extern int SND_IsFinishedCommandTag(u32 tag);
-extern u32 SND_GetChannelStatus(void);
-extern int SND_FlushCommand(unsigned int flags);
-extern void SND_WaitForCommandProc(u32 tag);
+#include "snd_interface.h"
+#include "snd_command.h"
+#include "snd_work.h"
 int NNSi_SndWaveOutLockChannels(int mask);
 void SND_CHANNEL_UnlockChannels(u32 channelMask);
 void SND_CHANNEL_ClearClaimedMask(u32 channelMask);

@@ -20,8 +20,7 @@
  *   ARC_TOOL_ReadMemberRange  0x02048F74  arm
  */
 #include "../types.h"
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
+#include "gfl_heap_wrap.h"
 
 struct BgmInfoTable {
     u8   count;
@@ -29,7 +28,7 @@ struct BgmInfoTable {
     u16 *bgmId;
     u8  *issMode;
 };
-extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
+#include "arc_tool.h"
 void BGM_INFO_Load(struct BgmInfoTable *table, u32 heapId);
 struct BgmInfoTable *BGM_INFO_Create(u32 heapId);
 extern const char bgm_info_File[];

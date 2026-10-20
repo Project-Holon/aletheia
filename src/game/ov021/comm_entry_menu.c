@@ -601,7 +601,7 @@ int COMM_ENTRY_IsOtherMemberConnected(int mask);
 void COMM_ENTRY_StartNetCommands(CommEntryMenu *menu);
 void COMM_ENTRY_EndNetCommands(void);
 CommEntryRoster *COMM_ENTRY_GetRosterBuffer(u32 netId, CommEntryMenu *menu);
-int COMM_ENTRY_RecvJoinRequest(u32 netId, u32 size, CommEntryJoinRequest *request, CommEntryMenu *menu);
+void COMM_ENTRY_RecvJoinRequest(u32 netId, u32 size, CommEntryJoinRequest *request, CommEntryMenu *menu);
 u32 COMM_ENTRY_SendJoinRequest(const void *myStatus, u32 isChild, u32 netMode);
 void COMM_ENTRY_RecvJoinAccept(u32 netId, u32 size, const void *parentMyStatus, CommEntryMenu *menu);
 u32 COMM_ENTRY_SendJoinAccept(u32 index, u32 netMode, const void *myStatus);
@@ -615,7 +615,7 @@ void COMM_ENTRY_RecvAccept(u32 netId, u32 size, const void *data, CommEntryMenu 
 int COMM_ENTRY_SendAccept(int netMode);
 void COMM_ENTRY_RecvCancel(u32 netId, u32 size, const void *data, CommEntryMenu *menu);
 int COMM_ENTRY_SendCancel(int netMode);
-int COMM_ENTRY_RecvRoster(u32 netId, u32 size, const CommEntryRoster *roster, CommEntryMenu *menu);
+void COMM_ENTRY_RecvRoster(u32 netId, u32 size, const CommEntryRoster *roster, CommEntryMenu *menu);
 u32 COMM_ENTRY_SendRoster(const CommEntryRoster *roster, u32 recipients, int netMode);
 
 extern const char d_021DE5E8[];
@@ -2197,7 +2197,7 @@ CommEntryRoster *COMM_ENTRY_GetRosterBuffer(u32 netId, CommEntryMenu *menu)
 }
 
 /* Receive of the join request: the packet holds MyStatus, MAC and the child flag. */
-int COMM_ENTRY_RecvJoinRequest(u32 netId, u32 size, CommEntryJoinRequest *request, CommEntryMenu *menu)
+void COMM_ENTRY_RecvJoinRequest(u32 netId, u32 size, CommEntryJoinRequest *request, CommEntryMenu *menu)
 {
     COMM_ENTRY_MENU_AddMember(menu, netId, request, request->isChild, request->mac);
 }
@@ -2212,7 +2212,7 @@ u32 COMM_ENTRY_SendJoinRequest(const void *myStatus, u32 isChild, u32 netMode)
     OS_GetMacAddress(packet.mac);
     packet.isChild = isChild;
     if (netMode == 1)
-        GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), COMM_ENTRY_NET_ALL, COMM_ENTRY_CMD_JOIN_REQUEST, sizeof(CommEntryJoinRequest), &packet, 0, 0, 0);
+        return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), COMM_ENTRY_NET_ALL, COMM_ENTRY_CMD_JOIN_REQUEST, sizeof(CommEntryJoinRequest), &packet, 0, 0, 0);
     else
         return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0, COMM_ENTRY_CMD_JOIN_REQUEST, sizeof(CommEntryJoinRequest), &packet, 0, 0, 0);
 }
@@ -2230,10 +2230,10 @@ u32 COMM_ENTRY_SendJoinAccept(u32 index, u32 netMode, const void *myStatus)
 
     if (netMode == 1) {
         handle = GFL_NET_HANDLE_GetNetHandle(COMM_ENTRY_NET_ALL);
-        GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_ACCEPT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
+        return GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_ACCEPT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
     } else {
         handle = GFL_NET_HANDLE_GetCurrentHandle();
-        GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_ACCEPT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
+        return GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_ACCEPT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
     }
 }
 
@@ -2250,10 +2250,10 @@ u32 COMM_ENTRY_SendJoinRedirect(u32 index, u32 netMode, const void *myStatus)
 
     if (netMode == 1) {
         handle = GFL_NET_HANDLE_GetNetHandle(COMM_ENTRY_NET_ALL);
-        GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_REDIRECT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
+        return GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_REDIRECT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
     } else {
         handle = GFL_NET_HANDLE_GetCurrentHandle();
-        GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_REDIRECT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
+        return GFL_NET_SendData(handle, index, COMM_ENTRY_CMD_JOIN_REDIRECT, MYSTATUS_GetSize(), myStatus, 0, 0, 0);
     }
 }
 
@@ -2281,7 +2281,7 @@ void COMM_ENTRY_RecvReady(u32 netId, u32 size, const void *data, CommEntryMenu *
 u32 COMM_ENTRY_SendReady(u32 netMode)
 {
     if (netMode == 1)
-        GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), COMM_ENTRY_NET_ALL, COMM_ENTRY_CMD_READY, 0, 0, 0, 0, 0);
+        return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), COMM_ENTRY_NET_ALL, COMM_ENTRY_CMD_READY, 0, 0, 0, 0, 0);
     else
         return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(), 0, COMM_ENTRY_CMD_READY, 0, 0, 0, 0, 0);
 }
@@ -2317,10 +2317,11 @@ int COMM_ENTRY_SendCancel(int netMode)
 }
 
 /* Receive of the roster: the parent only returns the menu, a child stores the roster. */
-int COMM_ENTRY_RecvRoster(u32 netId, u32 size, const CommEntryRoster *roster, CommEntryMenu *menu)
+void COMM_ENTRY_RecvRoster(u32 netId, u32 size, const CommEntryRoster *roster, CommEntryMenu *menu)
 {
     if (GFL_NET_IsParentAid() == 1) {
-        return (int)COMM_ENTRY_MENU_AckSend(menu);
+        COMM_ENTRY_MENU_AckSend(menu);
+        return;
     }
     COMM_ENTRY_MENU_SetNameBuffer(menu, roster);
 }
@@ -2332,9 +2333,9 @@ u32 COMM_ENTRY_SendRoster(const CommEntryRoster *roster, u32 recipients, int net
 
     if (netMode == 1) {
         handle = GFL_NET_HANDLE_GetNetHandle(COMM_ENTRY_NET_ALL);
-        GFL_NET_SendDataMask(handle, recipients, COMM_ENTRY_CMD_ROSTER, COMM_ENTRY_GetRosterSize(), roster, 0, 0, 1);
+        return GFL_NET_SendDataMask(handle, recipients, COMM_ENTRY_CMD_ROSTER, COMM_ENTRY_GetRosterSize(), roster, 0, 0, 1);
     } else {
         handle = GFL_NET_HANDLE_GetCurrentHandle();
-        GFL_NET_SendDataMask(handle, recipients, COMM_ENTRY_CMD_ROSTER, COMM_ENTRY_GetRosterSize(), roster, 0, 0, 1);
+        return GFL_NET_SendDataMask(handle, recipients, COMM_ENTRY_CMD_ROSTER, COMM_ENTRY_GetRosterSize(), roster, 0, 0, 1);
     }
 }

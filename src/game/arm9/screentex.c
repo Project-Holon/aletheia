@@ -48,6 +48,7 @@
  */
 
 #include "../types.h"
+#include "../sdk_os.h"
 
 /* One entry per display-capture target: LCDC bank mask, capture control
  * bits (shifted into REG_DISPCAPCNT) and the VRAM address of the bank. */
@@ -65,45 +66,43 @@ typedef struct {
     MtxFx33  rotation;
 } CameraBlock;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "nns_g3d_anm_calc_types.h"
+#include "nns_g3d_anm_types.h"
+#include "../sdk_nnsfnd.h"
+#include "gfl_heap_wrap.h"
 
-extern u32 G3D_SYSTEM_GetResourceSize(void);
+#include "g3d_system.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
+#include "mi_memory.h"
 struct G3dResource;
 
-extern void G3D_SYSTEM_InitResourceByKind(struct G3dResource *res, u32 kind, void *file);
 
-extern unsigned char *NNS_G3dGetTex(unsigned char *p);
+#include "nns_g3d_res.h"
 
-extern int NNS_G3dTexGetRequiredSize(void *pTex);
+#include "nns_g3d_tex.h"
 
-extern u16 GX_GetBankForTex(void);
+typedef int GXVRam;
+typedef int GXVRamBG;
+typedef int GXVRamOBJ;
+typedef int GXVRamTex;
+#include "gx_vramcnt.h"
 
-extern void NNS_G3dTexSetTexKey(char *p, int a, int b);
 
-extern void GX_SetBankForLCDC(int lcdc);
 
-extern void GX_SetBankForTex(int tex);
 
-extern void MIi_CpuCopyFast(u32 src, u32 dst, u32 size);
 
-extern void OS_WaitVBlankIntr(void);
+#include "os_system.h"
 
-extern void GX_DisableBankForLCDC(void);
 
-extern int GX_ResetBankForTex(void);
 struct G3dObjectStatus;
 struct G3dObject;
 
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
-extern void MTX_PerspectiveW(fx32 a, fx32 b, fx32 c, fx32 d, fx32 e, fx32 f, void *g);
+#include "fx_mtx44.h"
 
-extern void MTX_LookAt(const VecFx32 *cam, const VecFx32 *tgt,
-                       const VecFx32 *up, void *mtx);
+#include "fx_mtx43.h"
 
-extern void MTX_RotX33_(void *mtx, fx32 sinv, fx32 cosv);
+#include "fx_mtx33.h"
 
 void *SCREENTEX_Create(u32 heapId, u32 slotCount);
 
@@ -238,7 +237,7 @@ void SCREENTEX_CaptureDisplay(u32 captureIndex, u32 copyIndex)
 
     if (captureIndex != copyIndex) {
         currentTexBank = GX_ResetBankForTex();
-        MIi_CpuCopyFast(SCREENTEX_CaptureBanks[captureIndex].vramAddress, SCREENTEX_CaptureBanks[copyIndex].vramAddress, 0xC << 13);
+        MIi_CpuCopyFast((const void *)(SCREENTEX_CaptureBanks[captureIndex].vramAddress), (void *)(SCREENTEX_CaptureBanks[copyIndex].vramAddress), 0xC << 13);
         GX_DisableBankForLCDC();
         GX_SetBankForTex(currentTexBank);
     }
@@ -297,7 +296,7 @@ void SCREENTEX_SetupCamera(void *dst)
     SCREENTEX_CameraPositionOut = cam;
     SCREENTEX_CameraTargetOut = tgt;
     SCREENTEX_CameraUpOut = up;
-    MTX_LookAt(&cam, &tgt, &up, g_renderStateDrawParams);
+    MTX_LookAt(&cam, &tgt, &up, (MtxFx43 *)g_renderStateDrawParams);
     SCREENTEX_CameraState[31] &= ~0xe8u;
     MTX_RotX33_(&block.rotation, SCREENTEX_RotationSinCos[0], SCREENTEX_RotationSinCos[1]);
     G3D_SYSTEM_DrawObject((void *)dst, (struct G3dObjectStatus *)block.params);

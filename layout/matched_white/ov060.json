@@ -1,0 +1,20 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 100, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_Exit", "black_address": "0x021F3724", "white_address": "0x021F3744", "size": 40, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_Update", "black_address": "0x021F374C", "white_address": "0x021F376C", "size": 108, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_StartEffectAt", "black_address": "0x021F37B8", "white_address": "0x021F37D8", "size": 32, "diff": "same", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_IsEffectActive", "black_address": "0x021F37D8", "white_address": "0x021F37F8", "size": 12, "diff": "same", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_PlaceModels", "black_address": "0x021F37E4", "white_address": "0x021F3804", "size": 108, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_HideGaugeModels", "black_address": "0x021F3850", "white_address": "0x021F3870", "size": 32, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_ToGaugeStep", "black_address": "0x021F3870", "white_address": "0x021F3890", "size": 16, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_ShowGauges", "black_address": "0x021F3880", "white_address": "0x021F38A0", "size": 184, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_GetIntrudeCommSys", "black_address": "0x021F3938", "white_address": "0x021F3958", "size": 24, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_SetupEffect", "black_address": "0x021F3950", "white_address": "0x021F3970", "size": 76, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_ShowEffect", "black_address": "0x021F399C", "white_address": "0x021F39BC", "size": 88, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_GAUGE_EFFECT_UpdateEffect", "black_address": "0x021F39F4", "white_address": "0x021F3A14", "size": 4, "diff": "constant", "source": "src/game/ov060/field_gimmick_gauge_effect.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

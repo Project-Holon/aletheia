@@ -44,25 +44,19 @@
 #include "../types.h"
 typedef long long fx64c;
 
-extern void MTX_Identity43_(MtxFx43 *);
-extern void MTX_Identity44_(MtxFx44 *);
-extern void MTX_Identity33_(MtxFx33 *);
-extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 nParams);
-extern void MTX_Inverse33(const MtxFx33 *src, MtxFx33 *dst);
-extern void MTX_Inverse43(const MtxFx43 *src, MtxFx43 *dst);
-extern void MI_Copy64B(const void *src, void *dst);
-extern fx64c FX_InvFx64c(fx32 v);
-extern void MTX_Concat43(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab);
-extern void MTX_ScaleApply43(const MtxFx43 *src, MtxFx43 *dst, fx32 x, fx32 y, fx32 z);
-extern void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst);
-extern void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
+#include "fx_mtx43.h"
+#include "fx_mtx44.h"
+#include "fx_mtx33.h"
+#include "nns_g3d_ge.h"
+#include "mi_memory.h"
+#include "fx_cp.h"
 void NNS_G3dGlbInit(void);
 void NNS_G3dGlbFlush(void);
 void NNS_G3dGlbFlushP(void);
 void NNS_G3dGlbFlushWVP(void);
 void NNS_G3dGlbBaseTrans(const VecFx32 *pTrans);
 void NNS_G3dGlbBaseScale(const VecFx32 *pScale);
-void NNS_G3dGlbLightVector(int lightId, int x, int y, int z);
+void NNS_G3dGlbLightVector(int lightId, s16 x, s16 y, s16 z);
 void NNS_G3dGlbLightColor(int lightId, u32 lightColor);
 void NNS_G3dGlbMaterialColorDiffAmb(u32 diffuse, u32 ambient, u32 isSetVtxColor);
 void NNS_G3dGlbMaterialColorSpecEmi(u32 specular, u32 emission, u32 isShininess);
@@ -238,7 +232,7 @@ void NNS_G3dGlbBaseScale(const VecFx32 *pScale)
  * value shifted right by three) plus the light index at bits 30..31 into one
  * word of the lightVec array.
  */
-void NNS_G3dGlbLightVector(int lightId, int x, int y, int z)
+void NNS_G3dGlbLightVector(int lightId, s16 x, s16 y, s16 z)
 {
     NNS_G3dGlb.lightVec[lightId] = (u32)(((x >> 3) & 0x3FF) | (((y >> 3) & 0x3FF) << 10)
                                          | (((z >> 3) & 0x3FF) << 20) | (lightId << 30));
@@ -311,7 +305,7 @@ int MTX_Inverse44(const MtxFx44 *pSrc, MtxFx44 *pDst)
     int i, j, k, r;
     fx32 max;
 
-    MI_Copy64B(pSrc, &tmp);
+    MI_Copy64B((void *)pSrc, &tmp);
     MTX_Identity44_(pDst);
 
     for (i = 0; i < 4; ++i) {

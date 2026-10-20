@@ -1,7 +1,7 @@
 /*
  * file:     setting.c
  * unit:     yes
- * function: DWCi_SETTIGNlInit, DWCi_SETTIGNlEnd, DWCi_SETTIGNlGet, DWCi_SETTINGlSetIpAuto, DWCi_SETTINGlSetDnsAuto, DWCi_SETTINGlSetSsid, DWCi_SETTINGlSetWep, DWCi_SETTINGlSetIp, DWCi_SETTINGlSetNetMask, DWCi_SETTINGlSetGateway, DWCi_SETTINGlSetDnsP, DWCi_SETTINGlSetDnsS, DWCi_SETTINGlGetSsid, DWCi_SETTINGlGetIp, DWCi_SETTINGlGetNetMask, DWCi_SETTINGlGetGateway, DWCi_SETTINGlGetDnsP, DWCi_SETTINGlGetDnsS, DWCi_SETTINGlGetSetType, DWCi_SETTINGlSetSetting, DWCi_SETTINGlSet, DWCi_SETTINGlSetRaku, DWCi_SETTINGlSetAoss, DWCi_SETTINGlGetMemMap, DWCi_SETTINGlErasePage, DWCi_SETTINGlEraseAll, write, DWCi_SETTINGlConvAddress, ascii2hex
+ * function: DWCi_SETTIGNlInit, DWCi_SETTIGNlEnd, DWCi_SETTIGNlGet, DWCi_SETTINGlSetIpAuto, DWCi_SETTINGlSetDnsAuto, DWCi_SETTINGlSetSsid, DWCi_SETTINGlSetWep, DWCi_SETTINGlSetIp, DWCi_SETTINGlSetNetMask, DWCi_SETTINGlSetGateway, DWCi_SETTINGlSetDnsP, DWCi_SETTINGlSetDnsS, DWCi_SETTINGlGetSsid, DWCi_SETTINGlGetIp, DWCi_SETTINGlGetNetMask, DWCi_SETTINGlGetGateway, DWCi_SETTINGlGetDnsP, DWCi_SETTINGlGetDnsS, DWCi_SETTINGlGetSetType, DWCi_SETTINGlSetSetting, DWCi_SETTINGlSet, DWCi_SETTINGlSetRaku, DWCi_SETTINGlSetAoss, DWCi_SETTINGlGetMemMap, DWCi_SETTINGlErasePage, DWCi_SETTINGlEraseAll, writeSettingPage, DWCi_SETTINGlConvAddress, ascii2hex
  * address:  0x021CF3B0
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -45,7 +45,7 @@ typedef _Bool bool;
 
 #include "../sdk_ncfg.h"
 
-typedef struct tagDWCMemMap { NCFGSlotInfo page[4]; } DWCMemMap;
+#include "../arm9/dwc_backup.h"
 
 typedef struct tagSETTINGINFO {
     NCFGApInfo     ap;                /* 0x00 */
@@ -97,7 +97,7 @@ extern int DWCi_BACKUPlRead(void *mem);
 extern int DWCi_BACKUPlWritePage(DWCMemMap *data, int *page, void *work);
 extern int DWCi_STRlNLen(unsigned char *s, int maxlen);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern unsigned char *DWCi_BACKUPlConvWifiInfo(DWCWiFiInfo *info);
+extern unsigned char *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info);
 extern unsigned char DWCi_BACKUPlConvMaskCidr(unsigned char *mask);
 extern unsigned short MATH_CalcCRC16(MATHCRC16Table *table, void *data, unsigned long dataLength);
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);

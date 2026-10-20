@@ -45,14 +45,13 @@ typedef union tagU4B {
     unsigned char b[4];
 } tagU4B;
 
-extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+typedef unsigned int size_t;
+#include "msl_string_mem.h"
 extern void decodeSSID(char *ssid, unsigned char *buf);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
+#include "mi_memory.h"
 extern void makeUsbWepKey(unsigned char *seed, unsigned char *wepkey);
 extern int db64(char *src, unsigned char *dest, unsigned long srcsize, unsigned long destsize);
-extern void MATH_MD5Init(MATHMD5Context *context);
-extern void MATH_MD5Update(MATHMD5Context *context, const void *input, unsigned long length);
-extern void MATH_MD5GetHash(MATHMD5Context *context, void *digest);
+#include "dgt_md5.h"
 extern long codetovalue(unsigned char c);
 int DWCi_AC_CheckNintendoShopAP(char *ssid);
 void DWCi_AC_GetNintendoShopWepKey(char *ssid, unsigned char *wep);

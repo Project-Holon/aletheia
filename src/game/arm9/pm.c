@@ -63,19 +63,14 @@
 #define REG_IME         (*(volatile u16 *)0x04000208)
 #define REG_IF          (*(volatile u32 *)0x04000214)
 #define reg_GX_POWCNT (*(vu16 *)0x04000304)
-struct PMiGenCallbackInfo;
 #include "../types.h"
+
+#include "pm.h"
+#include "../twl/pm.h"
 
 #include "../sdk_os.h"
 
 typedef void (*PMCallback)(u32 result, void *arg);
-
-typedef struct PMiGenCallbackInfo {
-    void (*callback)(void *);
-    void *arg;
-    int priority;
-    struct PMiGenCallbackInfo *next;
-} PMGenCallbackInfo;
 
 typedef struct PMiWork {
     volatile BOOL lock;
@@ -100,38 +95,25 @@ typedef struct PmBss {
 
 typedef u32 OSIrqMask;
 
-extern int OS_GetProcMode(void);
-extern int OS_GetCpsrIrq(void);
-extern void PXIi_HandlerRecvFifoNotEmpty(void);
-extern void PXI_Init(void);
-extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
+#include "os_system.h"
+#include "pxi_fifo.h"
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
-extern void SVC_WaitByLoop(int count);
+#include "svc_wait_by_loop.h"
 extern void PMi_CommonCallback(int tag, u32 data, BOOL err);
-void PMi_ProceedToExit(u32 factor);
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern void OS_SpinWaitSysCycles(u32 cycle);
 extern void PMi_DummyCallback(u32 result, void *arg);
-extern BOOL OS_IsRunOnTwl(void);
+#include "os_emulator.h"
 extern void PMi_ExecuteList(PMGenCallbackInfo *listp);
-extern void MI_StopAllDma(void);
-extern void MI_StopAllNDma(void);
-extern void OS_Halt(void);
+#include "mi_dma.h"
+#include "../twl/mi_ndma.h"
+#include "os_terminate_processor.h"
 unsigned int PMi_SetAmp(unsigned int status);
 int PM_GetLCDPower(void);
 unsigned int PMi_GetACAdapterCore(void *buf);
-extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
-extern void MI_WaitDma(u32 dmaNo);
-extern void MI_StopDma(u32 dmaNo);
-extern void PMi_PreSleepForNdma(int ch);
-extern OSIrqMask OS_DisableIrqMask(OSIrqMask intr);
-extern BOOL OS_IsTickAvailable(void);
-extern OSIrqMask OS_SetIrqMask(OSIrqMask intr);
-extern u16 OS_GetBootType(void);
-extern BOOL CTRDG_IsExisting(void);
-extern u16 GX_IsDispOn(void);
-extern void GX_DispOff(void);
+#include "os_interrupt.h"
+#include "os_tick.h"
+#include "os_systemwork.h"
+#include "ctrdg.h"
+#include "gx.h"
 void PMi_InsertList(PMGenCallbackInfo **listp, PMGenCallbackInfo *info, int priority, int compare);
 void PMi_WaitBusy(void);
 void PMi_CallCallbackAndUnlock(u32 result);

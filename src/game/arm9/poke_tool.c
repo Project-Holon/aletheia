@@ -88,189 +88,7 @@ enum {
 
 /* Parameter ids of the get/set switch below (the selector of
  * POKE_TOOL_GetPartyValue and the other accessors). */
-enum PokeToolParam {
-    POKE_TOOL_PARAM_PERSONALITY = 0x00,
-    POKE_TOOL_PARAM_PARTY_DECODED = 0x01,
-    POKE_TOOL_PARAM_BOX_DECODED = 0x02,
-    POKE_TOOL_PARAM_CHECKSUM_FAILED = 0x03,
-    POKE_TOOL_PARAM_CHECKSUM = 0x04,
-    POKE_TOOL_PARAM_SPECIES = 0x05,
-    POKE_TOOL_PARAM_HELD_ITEM = 0x06,
-    POKE_TOOL_PARAM_OT_ID = 0x07,
-    POKE_TOOL_PARAM_EXP = 0x08,
-    POKE_TOOL_PARAM_FRIENDSHIP = 0x09,
-    POKE_TOOL_PARAM_ABILITY = 0x0A,
-    POKE_TOOL_PARAM_MARKINGS = 0x0B,
-    POKE_TOOL_PARAM_LANGUAGE = 0x0C,
-    POKE_TOOL_PARAM_EV_HP = 0x0D,
-    POKE_TOOL_PARAM_EV_ATTACK = 0x0E,
-    POKE_TOOL_PARAM_EV_DEFENSE = 0x0F,
-    POKE_TOOL_PARAM_EV_SPEED = 0x10,
-    POKE_TOOL_PARAM_EV_SP_ATTACK = 0x11,
-    POKE_TOOL_PARAM_EV_SP_DEFENSE = 0x12,
-    POKE_TOOL_PARAM_CONTEST_COOL = 0x13,
-    POKE_TOOL_PARAM_CONTEST_BEAUTY = 0x14,
-    POKE_TOOL_PARAM_CONTEST_CUTE = 0x15,
-    POKE_TOOL_PARAM_CONTEST_SMART = 0x16,
-    POKE_TOOL_PARAM_CONTEST_TOUGH = 0x17,
-    POKE_TOOL_PARAM_CONTEST_SHEEN = 0x18,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_CHAMPION = 0x19,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_ABILITY = 0x1A,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_GREAT_ABILITY = 0x1B,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_DOUBLE_ABILITY = 0x1C,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_MULTI_ABILITY = 0x1D,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_PAIR_ABILITY = 0x1E,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_WORLD_ABILITY = 0x1F,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_ALERT = 0x20,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_SHOCK = 0x21,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_DOWNCAST = 0x22,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_CAREFUL = 0x23,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_RELAX = 0x24,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_SNOOZE = 0x25,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_SMILE = 0x26,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_GORGEOUS = 0x27,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_ROYAL = 0x28,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_GORGEOUS_ROYAL = 0x29,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_ARTIST = 0x2A,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_FOOTPRINT = 0x2B,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_RECORD = 0x2C,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_HISTORY = 0x2D,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_LEGEND = 0x2E,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_RED = 0x2F,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_GREEN = 0x30,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_BLUE = 0x31,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_FESTIVAL = 0x32,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_CARNIVAL = 0x33,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_CLASSIC = 0x34,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_PREMIER = 0x35,
-    POKE_TOOL_PARAM_MOVE1 = 0x36,
-    POKE_TOOL_PARAM_MOVE2 = 0x37,
-    POKE_TOOL_PARAM_MOVE3 = 0x38,
-    POKE_TOOL_PARAM_MOVE4 = 0x39,
-    POKE_TOOL_PARAM_PP1 = 0x3A,
-    POKE_TOOL_PARAM_PP2 = 0x3B,
-    POKE_TOOL_PARAM_PP3 = 0x3C,
-    POKE_TOOL_PARAM_PP4 = 0x3D,
-    POKE_TOOL_PARAM_PP_UP1 = 0x3E,
-    POKE_TOOL_PARAM_PP_UP2 = 0x3F,
-    POKE_TOOL_PARAM_PP_UP3 = 0x40,
-    POKE_TOOL_PARAM_PP_UP4 = 0x41,
-    POKE_TOOL_PARAM_MAX_PP1 = 0x42,
-    POKE_TOOL_PARAM_MAX_PP2 = 0x43,
-    POKE_TOOL_PARAM_MAX_PP3 = 0x44,
-    POKE_TOOL_PARAM_MAX_PP4 = 0x45,
-    POKE_TOOL_PARAM_IV_HP = 0x46,
-    POKE_TOOL_PARAM_IV_ATTACK = 0x47,
-    POKE_TOOL_PARAM_IV_DEFENSE = 0x48,
-    POKE_TOOL_PARAM_IV_SPEED = 0x49,
-    POKE_TOOL_PARAM_IV_SP_ATTACK = 0x4A,
-    POKE_TOOL_PARAM_IV_SP_DEFENSE = 0x4B,
-    POKE_TOOL_PARAM_IS_EGG = 0x4C,
-    POKE_TOOL_PARAM_RIBBON_HOENN_COOL = 0x4D,
-    POKE_TOOL_PARAM_RIBBON_HOENN_COOL_SUPER = 0x4E,
-    POKE_TOOL_PARAM_RIBBON_HOENN_COOL_HYPER = 0x4F,
-    POKE_TOOL_PARAM_RIBBON_HOENN_COOL_MASTER = 0x50,
-    POKE_TOOL_PARAM_RIBBON_HOENN_BEAUTY = 0x51,
-    POKE_TOOL_PARAM_RIBBON_HOENN_BEAUTY_SUPER = 0x52,
-    POKE_TOOL_PARAM_RIBBON_HOENN_BEAUTY_HYPER = 0x53,
-    POKE_TOOL_PARAM_RIBBON_HOENN_BEAUTY_MASTER = 0x54,
-    POKE_TOOL_PARAM_RIBBON_HOENN_CUTE = 0x55,
-    POKE_TOOL_PARAM_RIBBON_HOENN_CUTE_SUPER = 0x56,
-    POKE_TOOL_PARAM_RIBBON_HOENN_CUTE_HYPER = 0x57,
-    POKE_TOOL_PARAM_RIBBON_HOENN_CUTE_MASTER = 0x58,
-    POKE_TOOL_PARAM_RIBBON_HOENN_SMART = 0x59,
-    POKE_TOOL_PARAM_RIBBON_HOENN_SMART_SUPER = 0x5A,
-    POKE_TOOL_PARAM_RIBBON_HOENN_SMART_HYPER = 0x5B,
-    POKE_TOOL_PARAM_RIBBON_HOENN_SMART_MASTER = 0x5C,
-    POKE_TOOL_PARAM_RIBBON_HOENN_TOUGH = 0x5D,
-    POKE_TOOL_PARAM_RIBBON_HOENN_TOUGH_SUPER = 0x5E,
-    POKE_TOOL_PARAM_RIBBON_HOENN_TOUGH_HYPER = 0x5F,
-    POKE_TOOL_PARAM_RIBBON_HOENN_TOUGH_MASTER = 0x60,
-    POKE_TOOL_PARAM_RIBBON_HOENN_CHAMPION = 0x61,
-    POKE_TOOL_PARAM_RIBBON_HOENN_WINNING = 0x62,
-    POKE_TOOL_PARAM_RIBBON_HOENN_VICTORY = 0x63,
-    POKE_TOOL_PARAM_RIBBON_HOENN_ARTIST = 0x64,
-    POKE_TOOL_PARAM_RIBBON_HOENN_EFFORT = 0x65,
-    POKE_TOOL_PARAM_RIBBON_HOENN_MARINE = 0x66,
-    POKE_TOOL_PARAM_RIBBON_HOENN_LAND = 0x67,
-    POKE_TOOL_PARAM_RIBBON_HOENN_SKY = 0x68,
-    POKE_TOOL_PARAM_RIBBON_HOENN_COUNTRY = 0x69,
-    POKE_TOOL_PARAM_RIBBON_HOENN_NATIONAL = 0x6A,
-    POKE_TOOL_PARAM_RIBBON_HOENN_EARTH = 0x6B,
-    POKE_TOOL_PARAM_RIBBON_HOENN_WORLD = 0x6C,
-    POKE_TOOL_PARAM_FATEFUL_ENCOUNTER = 0x6D,
-    POKE_TOOL_PARAM_GENDER = 0x6E,
-    POKE_TOOL_PARAM_FORM = 0x6F,
-    POKE_TOOL_PARAM_NATURE = 0x70,
-    POKE_TOOL_PARAM_HIDDEN_ABILITY = 0x71,
-    POKE_TOOL_PARAM_SPARE_WORD = 0x72,
-    POKE_TOOL_PARAM_NICKNAME_STRBUF = 0x73,
-    POKE_TOOL_PARAM_NICKNAME = 0x74,
-    POKE_TOOL_PARAM_HAS_NICKNAME = 0x75,
-    POKE_TOOL_PARAM_SPARE_BYTE = 0x76,
-    POKE_TOOL_PARAM_ORIGIN_GAME = 0x77,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_COOL_NORMAL = 0x78,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_COOL_GREAT = 0x79,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_COOL_ULTRA = 0x7A,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_COOL_MASTER = 0x7B,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_BEAUTY_NORMAL = 0x7C,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_BEAUTY_GREAT = 0x7D,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_BEAUTY_ULTRA = 0x7E,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_BEAUTY_MASTER = 0x7F,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_CUTE_NORMAL = 0x80,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_CUTE_GREAT = 0x81,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_CUTE_ULTRA = 0x82,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_CUTE_MASTER = 0x83,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_SMART_NORMAL = 0x84,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_SMART_GREAT = 0x85,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_SMART_ULTRA = 0x86,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_SMART_MASTER = 0x87,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_TOUGH_NORMAL = 0x88,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_TOUGH_GREAT = 0x89,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_TOUGH_ULTRA = 0x8A,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_TOUGH_MASTER = 0x8B,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_EXTRA = 0x8C,
-    POKE_TOOL_PARAM_OT_NAME_STRBUF = 0x8D,
-    POKE_TOOL_PARAM_OT_NAME = 0x8E,
-    POKE_TOOL_PARAM_EGG_YEAR = 0x8F,
-    POKE_TOOL_PARAM_EGG_MONTH = 0x90,
-    POKE_TOOL_PARAM_EGG_DAY = 0x91,
-    POKE_TOOL_PARAM_MET_YEAR = 0x92,
-    POKE_TOOL_PARAM_MET_MONTH = 0x93,
-    POKE_TOOL_PARAM_MET_DAY = 0x94,
-    POKE_TOOL_PARAM_EGG_LOCATION = 0x95,
-    POKE_TOOL_PARAM_MET_LOCATION = 0x96,
-    POKE_TOOL_PARAM_POKERUS = 0x97,
-    POKE_TOOL_PARAM_BALL = 0x98,
-    POKE_TOOL_PARAM_MET_LEVEL = 0x99,
-    POKE_TOOL_PARAM_OT_GENDER = 0x9A,
-    POKE_TOOL_PARAM_ENCOUNTER_TYPE = 0x9B,
-    POKE_TOOL_PARAM_BALL_EXTRA = 0x9C,
-    POKE_TOOL_PARAM_STATUS_CONDITION = 0x9D,
-    POKE_TOOL_PARAM_LEVEL = 0x9E,
-    POKE_TOOL_PARAM_CAPSULE_INDEX = 0x9F,
-    POKE_TOOL_PARAM_HP = 0xA0,
-    POKE_TOOL_PARAM_MAX_HP = 0xA1,
-    POKE_TOOL_PARAM_ATTACK = 0xA2,
-    POKE_TOOL_PARAM_DEFENSE = 0xA3,
-    POKE_TOOL_PARAM_SPEED = 0xA4,
-    POKE_TOOL_PARAM_SP_ATTACK = 0xA5,
-    POKE_TOOL_PARAM_SP_DEFENSE = 0xA6,
-    POKE_TOOL_PARAM_MAIL = 0xA7,
-    POKE_TOOL_PARAM_NO_DATA = 0xA8,
-    POKE_TOOL_PARAM_SPECIES_EXISTS = 0xA9,
-    POKE_TOOL_PARAM_IS_EGG_CHECKED = 0xAA,
-    POKE_TOOL_PARAM_SPECIES_OR_EGG = 0xAB,
-    POKE_TOOL_PARAM_PACKED_IVS = 0xAC,
-    POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN = 0xAD,
-    POKE_TOOL_PARAM_TYPE1 = 0xAE,
-    POKE_TOOL_PARAM_TYPE2 = 0xAF,
-    POKE_TOOL_PARAM_NICKNAME_STRBUF_KEEP_FLAG = 0xB0,
-    POKE_TOOL_PARAM_NICKNAME_KEEP_FLAG = 0xB1,
-    POKE_TOOL_PARAM_RIBBON_SINNOH_FIRST = POKE_TOOL_PARAM_RIBBON_SINNOH_CHAMPION,
-    POKE_TOOL_PARAM_RIBBON_HOENN_FIRST = POKE_TOOL_PARAM_RIBBON_HOENN_COOL,
-    POKE_TOOL_PARAM_RIBBON_CONTEST_FIRST = POKE_TOOL_PARAM_RIBBON_CONTEST_COOL_NORMAL
-};
+#include "poke_tool_param.h"
 
 /* One entry of a species' level-up table; the table ends at 0xFFFF/0xFFFF. */
 struct LevelUpMove {
@@ -283,15 +101,7 @@ struct RotomFormMoves {
     u16 moves[6];
 };
 
-/* The leading part of the personal data of one species/form. */
-struct PersonalData {
-    u8 baseHp;
-    u8 baseAttack;
-    u8 baseDefense;
-    u8 baseSpeed;
-    u8 baseSpAttack;
-    u8 baseSpDefense;
-};
+#include "poke_personal_types.h"
 
 /* Cache of the last personal data record fetched (poke_regulation.c). */
 struct PersonalCache {
@@ -306,50 +116,43 @@ struct Strbuf;
 
 struct MyStatus;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *ptr);
 
-extern void POKE_PERSONAL_OpenHandle(u32 heapId);
+#include "poke_personal.h"
 
-extern struct Mail *MAIL_Create(int heapId);
+#include "mail.h"
 
-extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
+#include "mi_memory.h"
 
 void POKE_CRYPTO_XorBlock(u16 *data, u32 size, u32 seed);
 
 struct PersonalData *POKE_TOOL_GetPersonalData(u32 species, u16 form);
 
-extern u32   GFL_USE_GetRandom(u32 range);
+#include "gfl_use.h"
 
-extern u32   GF_STANDARD_Rand(void);
+#include "gf_standard.h"
 struct MsgBank;
 
-extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
+#include "msgdata.h"
 
-extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *personal, u32 field);
 
 u32 POKE_TOOL_GetPersonalAbilityCount(const struct PersonalData *personal);
 
-extern void SAVE_EVENT_WriteMode(u32 box, u32 mode, u32 trainer, u32 location, u32 arg);
+#include "save_event.h"
 
-extern u32  POKE_PERSONAL_IsFixedGender(u32 genderRatio);
 
 u16 POKE_CRYPTO_Checksum(const u16 *data, u32 size);
 
-extern void POKE_PERSONAL_LoadDataDirect(u32 species, s32 form, void *dst);
 
-extern u32 WAZA_TOOL_GetParam(u16 move, u32 field);
+#include "waza_tool.h"
 
-extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUps);
 
-extern u32 MYSTATUS_GetId(const struct MyStatus *status);
+#include "mystatus.h"
 
-extern u8 MYSTATUS_GetSex(const struct MyStatus *status);
 
-extern void MYSTATUS_CopyNameChars(u16 *src, u16 *dest, u32 n);
 
-extern u32 WORDSET_IsStringEqual(const u16 *a, const u16 *b);
+#include "wordset.h"
 
 void POKE_TOOL_LoadExpTable(u32 growthRate, u32 *dest);
 
@@ -361,19 +164,15 @@ void *POKE_TOOL_GetBoxSubstruct(struct BoxPokemon *box, u32 personality, u32 blo
 
 u32 POKE_TOOL_ApplyNatureModifier(u32 nature, u32 stat, u32 statIndex);
 
-extern void MAIL_Copy(const struct Mail *src, struct Mail *dest);
 
 u32 POKE_TOOL_GetPlateType(u32 item);
 
-extern void WORDSET_CopyString(const u16 *src, u16 *dest, u32 count);
 
-extern void STRBUF_SetString(struct Strbuf *dest, const u16 *src);
+#include "strbuf.h"
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
 u32 POKE_TOOL_HasNickname(struct BoxPokemon *box);
 
-extern void STRBUF_ToChars(struct Strbuf *src, u16 *dest, u32 count);
 
 extern const char sPokeToolFile[];
 
@@ -529,7 +328,7 @@ void POKE_TOOL_SetNature(struct PokemonParam *pp, u32 nature);
 
 void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 
-struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+struct BoxPokemon *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 
 struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
@@ -1173,7 +972,7 @@ u32 POKE_TOOL_HatchBoxEgg(struct BoxPokemon *box, u32 trainer, u32 location, u32
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_FRIENDSHIP, 0x78);
     MSGDATA_ReadUnits((struct MsgBank *)gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NICKNAME, (u32)gNameBuf);
-    SAVE_EVENT_WriteMode((u32)box, 2, trainer, location, arg);
+    SAVE_EVENT_WriteMode((struct SaveData *)box, 2, (const struct MyStatus *)trainer, location, arg);
     return POKE_TOOL_EncodeBoxParam(box, didDecode);
 }
 
@@ -2204,9 +2003,9 @@ void POKE_TOOL_RecalcParam(struct PokemonParam *pp)
  * carries a label in the generated listing.  POKE_TOOL_CastToBoxParam is reached from
  * POKE_TOOL_SetDefaultName, which is what attests the pair's addresses.
  */
-struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon)
+struct BoxPokemon *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon)
 {
-    return mon;
+    return (struct BoxPokemon *)mon;
 }
 
 struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp)
@@ -3676,7 +3475,7 @@ struct PartyPokemon {
     u32 words[0x37];
 };
 
-extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 memberId);
+#include "arc_tool.h"
 
 u16 POKE_CRYPTO_NextRandom(u32 *state);
 
@@ -3684,7 +3483,7 @@ s8 POKE_TOOL_GetNatureModifier(u32 nature, u32 statIndex);
 
 void POKE_TOOL_SetDefaultName(struct PokemonParam *mon);
 
-void POKE_TOOL_SetNameFromSpecies(struct PokemonParam *mon);
+void POKE_TOOL_SetNameFromSpecies(struct BoxPokemon *mon);
 
 void POKE_TOOL_SetLevelAndRecalc(struct PokemonParam *mon, u32 level);
 
@@ -3698,7 +3497,6 @@ u32 POKE_TOOL_NormalizeForm(u16 species, u16 form);
 
 int POKE_TOOL_FilterSpecies(u16 species, int value);
 
-void POKE_PERSONAL_LoadData(u32 species, int form, void *dst);
 
 extern const s8 func_02019B04_Table[][5];
 
@@ -3891,12 +3689,12 @@ void POKE_TOOL_SetDefaultName(struct PokemonParam *mon)
     POKE_TOOL_SetNameFromSpecies(POKE_TOOL_CastToBoxParam(mon));
 }
 
-void POKE_TOOL_SetNameFromSpecies(struct PokemonParam *mon)
+void POKE_TOOL_SetNameFromSpecies(struct BoxPokemon *mon)
 {
-    u32 species = POKE_TOOL_GetBoxValue(&mon->box, 5, 0);
+    u32 species = POKE_TOOL_GetBoxValue(mon, 5, 0);
 
     MSGDATA_ReadUnits((struct MsgBank *)gSpeciesNameBank, species, gNameBuf, 0x20);
-    POKE_TOOL_SetBoxValue(&mon->box, 0x74, (u32)gNameBuf);
+    POKE_TOOL_SetBoxValue(mon, 0x74, (u32)gNameBuf);
 }
 
 void POKE_TOOL_LoadExpTable(u32 growthRate, u32 *dest)

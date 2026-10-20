@@ -157,68 +157,28 @@ typedef struct {
 
 #include "g3d_system_types.h"
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
-extern unsigned int GFL_HEAP_Free(void *memory);
-extern void  GFL_HEAP_InitAllocatorChecked(void *block, u32 heapId, s32 newSize);
-extern void  GFL_HEAP_CheckAllocator(void *memory, u32 newSize);
-extern void *GFL_HEAP_AllocSystemChecked(u32 size);
-extern int   GFL_HEAP_FreeSystemChecked(u32 buffer);
-extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u16 heapId);
-extern void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 dataId, u16 heapId);
-extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 dataId, u16 heapId);
-extern void  NNS_GfdInitVramManager(u32 size, u32 useAsDefault);
-extern int   NNSi_GfdSizeToGranuleTex(int numBlocks);
-extern void  NNSi_GfdInitTexVramManager(u32 size, u32 size4x4, u32 work, u32 workSize, u32 useAsDefault);
-extern int   NNSi_GfdSizeToGranulePltt(int numBlocks);
-extern void  NNSi_GfdInitPlttVramManager(u32 size, u32 work, u32 workSize, u32 useAsDefault);
+#include "gfl_heap_wrap.h"
+#include "arc_tool.h"
+#include "nns_gfd_vram_manager.h"
+#include "nns_gfd_lnk_vram_man.h"
 extern void  NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *anm, const NNSG3dResMdl *resMdl, NNSG3dResTex *tex);
-extern void  NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, u32 resMdl);
-extern void  NNS_G3dRenderObjAddAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
-extern void  NNS_G3dRenderObjRemoveAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
-extern s32 NNS_G3dTexGetRequiredSize(void *pTex);
-extern s32 NNS_G3dTex4x4GetRequiredSize(s32 pTex);
-extern void  NNS_G3dTexSetTexKey(NNSG3dResTex *pTex, s32 texKey, s32 tex4x4Key);
-extern void  NNS_G3dTexLoad(NNSG3dResTex *pTex, u32 exec);
-extern void  NNS_G3dTexReleaseTexKey(NNSG3dResTex *tex, u32 *texKey, u32 *tex4x4Key);
-extern u32   NNS_G3dPlttGetRequiredSize(NNSG3dResTex *tex);
-extern void  NNS_G3dPlttSetPlttKey(NNSG3dResTex *tex, u32 plttKey);
-extern void  NNS_G3dPlttLoad(NNSG3dResTex *tex, BOOL exec);
-extern void *NNS_G3dPlttReleasePlttKey(NNSG3dResTex *tex);
-extern s32 NNS_G3dBindMdlTex(const NNSG3dResMdl *pMdl, NNSG3dResTex *pTex);
-extern s32 NNS_G3dBindMdlPltt(const NNSG3dResMdl *pMdl, NNSG3dResTex *pTex);
-extern void  NNS_G3dGlbInit(void);
-extern void  NNS_G3dGlbFlush(void);
-extern void  NNS_G3dGlbFlushP(void);
-extern void  NNS_G3dGlbFlushWVP(void);
-extern void  NNS_G3dGlbBaseTrans(VecFx32 *trans);
-extern void  NNS_G3dGlbBaseScale(VecFx32 *scale);
-extern void  NNS_G3dGlbLightVector(int lightIdx, s16 x, s16 y, s16 z);
-extern void  NNS_G3dGlbLightColor(int lightIdx, u32 color);
-extern void  NNS_G3dDraw(NNSG3dRenderObj *rndObj);
-extern s32 NNS_G3dGeIsBufferExist(void);
-extern void  NNS_G3dGeSetBuffer(u32 *cmdBuffer);
-extern void *NNS_G3dGeReleaseBuffer(void);
-extern void  NNS_G3dGeFlushBuffer(void);
-extern void  NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 numParams);
-extern void  NNS_G3dInit(void);
-extern void *NNS_G3dAllocRenderObj(NNSFndAllocator *allocator);
-extern void  NNS_G3dFreeRenderObj(NNSFndAllocator *pAllocator, void *pRenderObj);
+#include "nns_g3d_tex.h"
+#include "nns_g3d_glb.h"
+#include "nns_g3d_sbc.h"
+#include "nns_g3d_ge.h"
+#include "nns_g3d_init.h"
+#include "nns_g3d_mdl.h"
 extern NNSG3dAnmObj *NNS_G3dAllocAnmObj(NNSFndAllocator *allocator, void *anm, const NNSG3dResMdl *resMdl);
-extern void  NNS_G3dFreeAnmObj(NNSFndAllocator *pAllocator, void *pAnmObj);
 extern NNSG3dResMdlSet *NNS_G3dGetMdlSet(void *file);
 extern NNSG3dResTex *NNS_G3dGetTex(void *file);
 extern u8 *NNS_G3dGetAnmByIdx(u8 *pFile, u32 resIdx);
-extern void  MTX_FrustumW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
-extern void  MTX_PerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
-extern void  MTX_OrthoW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
-extern void  G3X_Reset(void);
-extern int   G3X_GetBoxTestResult(s32 *result);
-extern void  G3X_InitMtxStack(void);
-extern void  G3X_SetFog(BOOL enable, int mode, int slope, int offset);
-extern void  G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog);
-extern void  MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
-extern void  MI_Copy36B(const void *src, void *dst);
-extern void  DC_FlushRange(void *addr, u32 size);
+#include "fx_mtx44.h"
+typedef int GXFogBlend;
+typedef int GXFogSlope;
+#include "g3x.h"
+#include "fx_mtx43.h"
+#include "mi_memory.h"
+#include "os_cache.h"
 
 extern G3dSystem _G3dSystem;
 extern char G3D_SYSTEM_FileName[];

@@ -1,0 +1,18 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "MIi_DmaSetParameters", "black_address": "0x01FF8020", "white_address": "0x01FF8020", "size": 208, "diff": "constant", "source": "src/game/arm9_autoload0_ITCM/mi_dma.c", "version_switch": false, "status": "EXACT"},
+  {"name": "OS_IrqHandler", "black_address": "0x01FF80F0", "white_address": "0x01FF80F0", "size": 88, "diff": "same", "source": "src/game/arm9_autoload0_ITCM/os_irqhandler.c", "version_switch": false, "status": "EXACT"},
+  {"name": "OS_IrqHandler_ThreadSwitch", "black_address": "0x01FF8148", "white_address": "0x01FF8148", "size": 352, "diff": "constant", "source": "src/game/arm9_autoload0_ITCM/os_irqhandler.c", "version_switch": false, "status": "EXACT"},
+  {"name": "OSi_VerifyStaticSegmentHash", "black_address": "0x01FF82A8", "white_address": "0x01FF82A8", "size": 196, "diff": "same", "source": "src/game/arm9_autoload0_ITCM/os_reset.c", "version_switch": false, "status": "EXACT"},
+  {"name": "OSi_VerifyStaticSegments", "black_address": "0x01FF836C", "white_address": "0x01FF836C", "size": 168, "diff": "same", "source": "src/game/arm9_autoload0_ITCM/os_reset.c", "version_switch": false, "status": "EXACT"},
+  {"name": "OSi_DoResetSystem", "black_address": "0x01FF8414", "white_address": "0x01FF8414", "size": 76, "diff": "constant", "source": "src/game/arm9_autoload0_ITCM/os_reset.c", "version_switch": false, "status": "EXACT"},
+  {"name": "OSi_DoBoot", "black_address": "0x01FF8460", "white_address": "0x01FF8460", "size": 204, "diff": "same", "source": "src/game/arm9_autoload0_ITCM/os_reset.c", "version_switch": false, "status": "EXACT"},
+  {"name": "OSi_CpuClear32", "black_address": "0x01FF852C", "white_address": "0x01FF852C", "size": 20, "diff": "same", "source": "src/game/arm9_autoload0_ITCM/os_reset.c", "version_switch": false, "status": "EXACT"},
+  {"name": "OSi_ReloadRomData", "black_address": "0x01FF8540", "white_address": "0x01FF8540", "size": 448, "diff": "same", "source": "src/game/arm9_autoload0_ITCM/os_reset.c", "version_switch": false, "status": "EXACT"},
+  {"name": "OSi_ReadCardRom32", "black_address": "0x01FF8700", "white_address": "0x01FF8700", "size": 212, "diff": "same", "source": "src/game/arm9_autoload0_ITCM/os_reset.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SCFGi_SwitchCpuSpeed", "black_address": "0x01FF87D4", "white_address": "0x01FF87D4", "size": 4, "diff": "same", "source": "src/game/arm9_autoload0_ITCM/scfg_proc.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

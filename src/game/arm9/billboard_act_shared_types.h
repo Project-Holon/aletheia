@@ -3,8 +3,9 @@
 
 #include "../types.h"
 
-typedef struct Vec3 {
-    s32 x, y, z;
-} Vec3;
+#include "../sdk_fx.h"
+
+/* particle.c still spells VecFx32 as Vec3. */
+typedef VecFx32 Vec3;
 
 #endif

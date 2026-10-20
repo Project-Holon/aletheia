@@ -40,17 +40,12 @@
 
 struct Ctx;
 
-struct Pair {
+struct ZoneWeatherPair {
     u16 a;
     u16 b;
 };
 
-struct RtcDate {
-    u32 year;
-    u32 month;
-    u32 day;
-    u32 week;
-};
+#include "gf_standard_types.h"
 struct GameSystem;
 struct GameData;
 
@@ -105,7 +100,7 @@ s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, u32 gameData, u32 zoneId);
 
 u32 WEATHER_GetBirthdayWeather(void *a, void *b, u32 c);
 
-extern struct Pair gTbl_0209FFF4[];
+extern struct ZoneWeatherPair gTbl_0209FFF4[];
 
 /*
  * note:     wave 16: promoted.  0x021647E8 is the unlabelled ov010 tail-call

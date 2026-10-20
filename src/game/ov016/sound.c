@@ -67,7 +67,7 @@ extern void taskSound(void);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern void DWCi_HEAPlFree_(void **mem);
 extern u32 NNS_SndArcPlayerStartSeqArc(u32 a, u32 b, u32 c);
-extern void NNS_SndHandleSetVolume(char *, unsigned int);
+extern void NNS_SndHandleSetVolume(struct SndHandle *, int);
 extern void NNS_SndHandleSetTrackPitch(struct SndHandle *handle, unsigned int trackMask, unsigned int value);
 extern void NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrame);
 extern void NNS_SndBoot(void);
@@ -128,7 +128,7 @@ void DWCi_SNDlPlay(unsigned int v)
  */
 void DWCi_SNDlSetVolume(unsigned int v)
 {
-    NNS_SndHandleSetVolume(*(char **)0x021DE648 + 0xa0, v);
+    NNS_SndHandleSetVolume((struct SndHandle *)(*(char **)0x021DE648 + 0xa0), v);
 }
 
 /*

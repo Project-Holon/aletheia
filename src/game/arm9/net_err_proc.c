@@ -69,32 +69,29 @@ typedef struct NetSaveDeleteWork {
 } NetSaveDeleteWork;
 struct GameData;
 
-extern void GAME_DATA_Delete(struct GameData *gameData);
+#include "game_data.h"
 
-extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
+#include "gfl_heap_wrap.h"
 struct Proc;
 
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
+#include "procsys.h"
 
-extern void  BG_SYS_SetMainVisiblePlanes(u32 a);
+#include "bg_sys.h"
 
-extern void  BG_SYS_SetSubVisiblePlanes(u32 a);
 
-extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
+#include "gfl_heap.h"
 
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
-extern void  MI_CpuFill8(void *dst, int val, unsigned n);
+#include "mi_memory.h"
 
-extern void *PROCSYS_Create(int heapId);
 
 extern unsigned int PROCSYS_Main(void *p);
 
 extern void PROCSYS_Push(u32 h, void *ovl, void *proc, void *arg);
 
-extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
+#include "net_err.h"
 
-extern int DWC_UpdateConnection(void);
+#include "dwc_connectinet.h"
 
 int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work);
 
@@ -112,7 +109,7 @@ extern u8 d_0220B294[];
 
 extern u8 gNetSaveRetryProc[];
 
-extern void OS_ResetSystem(u32 parameter);
+#include "os_reset.h"
 int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work){ GAME_DATA_Delete((struct GameData *)((NetSaveDeleteWork *)(char *)(work))->gameData); PROCSYS_FreeProcWork((struct Proc *)((proc + 0) + 0)); GFL_HEAP_DeleteChecked(0x67); OS_ResetSystem(0); return 1; }
 
 /*

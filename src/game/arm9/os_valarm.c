@@ -48,19 +48,17 @@ typedef struct OsVAlarmBss {
     OSVAlarmQueue OSi_VAlarmQueue;
 } OsVAlarmBss;
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
+#include "os_system.h"
 extern void OSi_SetNextVAlarm(OSVAlarm *alarm);
-extern u32 OS_DisableIrqMask(u32 intr);
+typedef unsigned int OSIrqMask;
+#include "os_interrupt.h"
 extern void OSi_AppendVAlarm(OSVAlarm *alarm);
-extern void OS_Terminate(void);
+#include "os_terminate_processor.h"
 extern s32 OSi_GetVFrame(s32 vcount);
 extern void OSi_InsertVAlarm(OSVAlarm *alarm);
 extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
-extern void GX_SetVCountEqVal(s32 val);
-extern u32 OS_EnableIrqMask(u32 intr);
+#include "gx.h"
 extern void OSi_VAlarmHandler(void);
-extern u32 OS_ResetRequestIrqMask(u32 intr);
 extern int OSi_CompareVCount(OSVAlarm *alarm, s32 currentVFrame, s32 currentVCount);
 extern void OSi_DetachVAlarm(OSVAlarm *alarm);
 void OS_InitVAlarm(void);

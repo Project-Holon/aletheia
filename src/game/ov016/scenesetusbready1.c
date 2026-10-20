@@ -1,7 +1,7 @@
 /*
  * file:     scenesetusbready1.c
  * unit:     yes
- * function: DWCi_IsFold, DWCi_SceneSetUsbReady1, initGraphics, procInit, DWCi_SceneSetUsbReady1ProcInit1, DWCi_SceneSetUsbReady1ProcInit2, DWCi_SceneSetUsbReady1Update, input, DWCi_SceneSetUsbReady1UpdateNop, button, endScene, DWCi_SceneSetUsbReady1EndScene1, DWCi_SceneSetUsbReady1EndScene2, cbUsb, procNotFound, DWCi_SceneSetUsbReady1ProcNotFound1, procBoth, DWCi_SceneSetUsbReady1ProcBoth1
+ * function: DWCi_IsFold, DWCi_SceneSetUsbReady1, initGraphics, procInit, procInit1, procInit2, DWCi_SceneSetUsbReady1Update, input, DWCi_SceneSetUsbReady1UpdateNop, button, endScene, endScene1, endScene2, cbUsb, procNotFound, procNotFound1, procBoth, procBoth1
  * address:  0x021CE050
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -121,7 +121,7 @@ extern int DWCi_COMMENTlDelete(void);
 extern void DWCi_CMNlStep(int step);
 extern void DWCi_CMNlMsgDraw(int msgId);
 extern void DWCi_CMNlButton(int kind);
-extern char DWCi_BTNlGet(void);
+extern s8 DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void DWCi_BTNlDisable(void);
 extern int DWCi_BTNlIsEnd(void);
@@ -132,15 +132,15 @@ extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
-extern void DWCi_ChangeScene(void (*scene)());
+extern void DWCi_ChangeScene(u32 v);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern void DWCi_SNDlPlay(int no);
+extern void DWCi_SNDlPlay(u32 v);
 extern void DWCi_SNDlStop(void);
-extern char DWCi_WINlGet(void);
+extern s8 DWCi_WINlGet(void);
 extern void DWCi_WINlEnd(void);
-extern bool DWCi_WINlIsInit(void);
+extern s32 DWCi_WINlIsInit(void);
 extern int DWCi_USBAPlEnd(void);
-extern void DWCi_USBAPlSetCallback(void (*callback)(int));
+extern void DWCi_USBAPlSetCallback(u32 v);
 extern void DWCi_ANIMElEnd(void);
 extern void DWCi_SceneSetSelectAp(void);
 extern void DWCi_SceneSetUsbReady(void);
@@ -201,7 +201,7 @@ void DWCi_SceneSetUsbReady1(void)
     DWCi_ANIMElInitEx(0);
     DWCi_USBAPlBegin(cbUsb);
     DWCi_SNDlPlay(11);
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((u32)procInit);
 }
 
 static void initGraphics(void)
@@ -227,7 +227,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((u32)procInit1);
 }
 
 static void procInit1(void)
@@ -235,7 +235,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(2);
-    DWCi_ChangeScene(procInit2);
+    DWCi_ChangeScene((u32)procInit2);
 }
 
 static void procInit2(void)
@@ -243,7 +243,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(DWCi_SceneSetUsbReady1Update);
+    DWCi_ChangeScene((u32)DWCi_SceneSetUsbReady1Update);
 }
 
 void DWCi_SceneSetUsbReady1Update(void)
@@ -277,14 +277,14 @@ static void button(void)
     Choose = 2;
     DWCi_SNDlStop();
     DWCi_SNDlPlay(7);
-    DWCi_ChangeScene(endScene);
+    DWCi_ChangeScene((u32)endScene);
 }
 
 static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((u32)endScene1);
 }
 
 static void endScene1(void)
@@ -295,7 +295,7 @@ static void endScene1(void)
     if (Choose == 2 || Choose == 3)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene(endScene2);
+    DWCi_ChangeScene((u32)endScene2);
 }
 
 static void endScene2(void)
@@ -316,13 +316,13 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 0x15);
     if (Choose == 2) {
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene(DWCi_SceneSetSelectAp);
+        DWCi_ChangeScene((u32)DWCi_SceneSetSelectAp);
     } else if (Choose == 3) {
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene(DWCi_SceneSetUsbReady);
+        DWCi_ChangeScene((u32)DWCi_SceneSetUsbReady);
     } else {
         DWCi_SetParam_(0, 0);
-        DWCi_ChangeScene(DWCi_SceneSetUsbComplete);
+        DWCi_ChangeScene((u32)DWCi_SceneSetUsbComplete);
     }
 }
 
@@ -340,25 +340,25 @@ static void cbUsb(int state)
         DWCi_SNDlPlay(0x12);
         DWCi_WINlInitEx(0x10, 1, 1, -1, 0);
         DWCi_BTNlDisable();
-        DWCi_ChangeScene(procNotFound);
+        DWCi_ChangeScene((u32)procNotFound);
         break;
     case 1:
         gSceneSetUsbReady1UsbState = 1;
         DWCi_SNDlStop();
-        DWCi_ChangeScene(endScene);
+        DWCi_ChangeScene((u32)endScene);
         break;
     case 2:
         DWCi_SNDlStop();
         DWCi_USBAPlSetCallback(0);
         DWCi_WINlInitEx(0x11, 0, 1, -1, 0);
         DWCi_BTNlDisable();
-        DWCi_ChangeScene(procBoth);
+        DWCi_ChangeScene((u32)procBoth);
         break;
     case 3:
         gSceneSetUsbReady1UsbState = 2;
         DWCi_SNDlStop();
         DWCi_SNDlPlay(9);
-        DWCi_ChangeScene(endScene);
+        DWCi_ChangeScene((u32)endScene);
         break;
     }
 }
@@ -369,7 +369,7 @@ static void procNotFound(void)
         return;
     DWCi_SNDlPlay(6);
     DWCi_WINlEnd();
-    DWCi_ChangeScene(procNotFound1);
+    DWCi_ChangeScene((u32)procNotFound1);
 }
 
 static void procConfirm(void);
@@ -378,7 +378,7 @@ static void procNotFound1(void)
 {
     if (DWCi_WINlIsInit())
         return;
-    DWCi_ChangeScene(endScene);
+    DWCi_ChangeScene((u32)endScene);
 }
 
 static void procBoth(void)
@@ -396,7 +396,7 @@ static void procBoth(void)
         return;
     }
     DWCi_WINlEnd();
-    DWCi_ChangeScene(procBoth1);
+    DWCi_ChangeScene((u32)procBoth1);
 }
 
 static void procBoth1(void)
@@ -404,12 +404,12 @@ static void procBoth1(void)
     if (DWCi_WINlIsInit())
         return;
     if (Choose == 1) {
-        DWCi_ChangeScene(endScene);
+        DWCi_ChangeScene((u32)endScene);
         return;
     }
     DWCi_SNDlPlay(11);
     DWCi_BTNlEnable();
     Choose = 0;
-    DWCi_USBAPlSetCallback(cbUsb);
-    DWCi_ChangeScene(DWCi_SceneSetUsbReady1Update);
+    DWCi_USBAPlSetCallback((u32)cbUsb);
+    DWCi_ChangeScene((u32)DWCi_SceneSetUsbReady1Update);
 }

@@ -63,7 +63,7 @@ struct GfdLnkBlockList {
 extern u32 NNSi_GfdGetHeadVramTransferTask(u8 *p);
 extern u32 NNSi_GfdPopVramTransferTask(struct GfdTransferTaskQueue *p);
 extern void NNSi_GfdRunVramTransferTask(u32 *s);
-extern int NNSi_GfdRingIsFull(u8 *p);
+#include "nns_gfd_vram_man.h"
 extern u32 NNSi_GfdGetTailVramTransferTask(u8 *p);
 extern int NNSi_GfdPushVramTransferTask(char *p);
 extern int NNSi_GfdAllocLnkVram(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, u32 *pAddr, u32 size, u32 alignment);

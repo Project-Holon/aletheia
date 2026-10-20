@@ -32,11 +32,10 @@ struct Fader {
     u8  mute;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void NNS_SndPlayerSetPlayerVolume(u32 channel, u32 level);
+#include "nns_snd_player.h"
 
 struct Fader *PLAYER_VOLUME_FADER_Create(void *a, int v);
 
@@ -46,7 +45,7 @@ void PLAYER_VOLUME_FADER_Update(struct Fader *s);
 
 void PLAYER_VOLUME_FADER_SetTarget(struct Fader *s, u8 level, u16 frames);
 
-void PLAYER_VOLUME_FADER_SetMute(struct Fader *s, u8 mute);
+void PLAYER_VOLUME_FADER_SetMute(struct Fader *s, int mute);
 
 void PLAYER_VOLUME_FADER_Init(struct Fader *s);
 
@@ -103,7 +102,7 @@ void PLAYER_VOLUME_FADER_SetTarget(struct Fader *s, u8 level, u16 frames)
     }
 }
 
-void PLAYER_VOLUME_FADER_SetMute(struct Fader *s, u8 mute)
+void PLAYER_VOLUME_FADER_SetMute(struct Fader *s, int mute)
 {
     s->mute = mute;
     PLAYER_VOLUME_FADER_Apply(s);

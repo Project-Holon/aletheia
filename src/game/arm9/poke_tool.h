@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_POKE_TOOL_H
 #define GAME_ARM9_POKE_TOOL_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of poke_tool.c, prototypes copied from their definitions. */
 
 struct PokemonParam;
@@ -8,6 +9,8 @@ struct BoxPokemon;
 struct MyStatus;
 struct PersonalData;
 struct PartyPokemon;
+
+#include "../types.h"
 
 void POKE_TOOL_InitSystem(u32 heapId);
 u32 POKE_TOOL_GetBoxParamSize(void);
@@ -74,7 +77,7 @@ u8 POKE_TOOL_GetNature(struct PokemonParam *pp);
 u8 POKE_TOOL_GetBoxNature(struct BoxPokemon *box);
 void POKE_TOOL_SetNature(struct PokemonParam *pp, u32 nature);
 void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
-struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+struct BoxPokemon *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 u32 POKE_TOOL_GetGenderPersonalityByte(int species, u16 form, int ratioMode);
 u32 POKE_TOOL_AdjustPersonalRnd(u32 otId, u16 species, u16 form, u8 ratioMode, u8 shinyWanted, int genderMode);
@@ -108,7 +111,7 @@ u32 POKE_TOOL_HasNickname(struct BoxPokemon *box);
 u32 POKE_TOOL_ApplyNatureModifier(u32 nature, u32 stat, u32 statIndex);
 s8 POKE_TOOL_GetNatureModifier(u32 nature, u32 statIndex);
 void POKE_TOOL_SetDefaultName(struct PokemonParam *mon);
-void POKE_TOOL_SetNameFromSpecies(struct PokemonParam *mon);
+void POKE_TOOL_SetNameFromSpecies(struct BoxPokemon *mon);
 void POKE_TOOL_LoadExpTable(u32 growthRate, u32 *dest);
 u32 POKE_TOOL_GetExpValue(u32 growthRate, u32 level);
 u32 POKE_TOOL_GetPlateType(u32 item);
@@ -122,5 +125,6 @@ unsigned int POKE_TOOL_GetPlateTypeForwarder(unsigned int item);
 u32 POKE_TOOL_GetBoxParamIndex(u32 paramId);
 u32 POKE_TOOL_NormalizeForm(u16 species, u16 form);
 int POKE_TOOL_FilterSpecies(u16 species, int value);
+/* END mkheaders: generated region */
 
 #endif

@@ -12,13 +12,15 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
+#include "../types.h"
+
 asm void DC_FlushAll(void);
-asm void DC_InvalidateRange(void);
-asm void DC_StoreRange(void);
+asm void DC_InvalidateRange(void *startAddr, u32 nBytes);
+asm void DC_StoreRange(void *startAddr, u32 nBytes);
 asm void DC_FlushRange(void *startAddr, unsigned long nBytes);
 asm void DC_WaitWriteBufferEmpty(void);
 asm void IC_InvalidateAll(void);
-asm void IC_InvalidateRange(void);
+asm void IC_InvalidateRange(void *startAddr, u32 nBytes);
 
 /*
  * sdk:      DC_FlushAll (libos.TWL.HYB.a os_cache.o)
@@ -45,7 +47,7 @@ asm void DC_FlushAll(void)
 }
 
 /* hand-written in the original: mcr p15 cache and write buffer operations, one SDK line-table row per instruction */
-asm void DC_InvalidateRange(void)
+asm void DC_InvalidateRange(void *startAddr, u32 nBytes)
 {
     add	r1, r1, r0
     bic	r0, r0, #0x1f
@@ -58,7 +60,7 @@ loc_020862C0:
 }
 
 /* hand-written in the original: mcr p15 cache and write buffer operations, one SDK line-table row per instruction */
-asm void DC_StoreRange(void)
+asm void DC_StoreRange(void *startAddr, u32 nBytes)
 {
     add	r1, r1, r0
     bic	r0, r0, #0x1f
@@ -106,7 +108,7 @@ asm void IC_InvalidateAll(void)
 }
 
 /* hand-written in the original: mcr p15 cache and write buffer operations, one SDK line-table row per instruction */
-asm void IC_InvalidateRange(void)
+asm void IC_InvalidateRange(void *startAddr, u32 nBytes)
 {
     add	r1, r1, r0
     bic	r0, r0, #0x1f

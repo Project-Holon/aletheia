@@ -1,0 +1,13 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_MODELS_A_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 44, "diff": "same", "source": "src/game/ov049/field_gimmick_models_a.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_A_Exit", "black_address": "0x021F36EC", "white_address": "0x021F370C", "size": 28, "diff": "same", "source": "src/game/ov049/field_gimmick_models_a.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_A_Update", "black_address": "0x021F3708", "white_address": "0x021F3728", "size": 12, "diff": "constant", "source": "src/game/ov049/field_gimmick_models_a.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_A_PlaceModels", "black_address": "0x021F3714", "white_address": "0x021F3734", "size": 336, "diff": "constant", "source": "src/game/ov049/field_gimmick_models_a.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_A_InitExtra", "black_address": "0x021F3864", "white_address": "0x021F3884", "size": 4, "diff": "same", "source": "src/game/ov049/field_gimmick_models_a.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_A_ExitExtra", "black_address": "0x021F3868", "white_address": "0x021F3888", "size": 4, "diff": "constant", "source": "src/game/ov049/field_gimmick_models_a.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

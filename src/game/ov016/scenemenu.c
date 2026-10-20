@@ -1,7 +1,7 @@
 /*
  * file:     scenemenu.c
  * unit:     yes
- * function: DWCi_SceneMenu, initGraphics, procInit, DWCi_SceneMenuProcInit1, DWCi_SceneMenuProcInit2, DWCi_SceneMenu_procScene, input, DWCi_SceneMenu_draw, button, DWCi_SceneMenuEndScene, DWCi_SceneMenuEndScene1, endScene2, DWCi_SceneMenuMoveFocus, DWCi_SceneMenuDispPushButton
+ * function: DWCi_SceneMenu, initGraphics, procInit, procInit1, procInit2, DWCi_SceneMenu_procScene, input, DWCi_SceneMenu_draw, button, endScene, endScene1, endScene2, moveFocus, dispPushButton
  * address:  0x021C1984
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -126,13 +126,13 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_ChangeScene(void (*scene)(void));
+extern void DWCi_ChangeScene(u32 v);
 extern void DWCi_CMNlButton(int kind);
-extern char DWCi_BTNlGet(void);
+extern s8 DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void DWCi_BTNlDisable(void);
-extern void DWCi_BTNlSet(char v);
-extern void DWCi_SNDlPlay(int no);
+extern void DWCi_BTNlSet(s8 v);
+extern void DWCi_SNDlPlay(u32 v);
 extern void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
 extern int DWCi_TPlCheckTrigger(unsigned short *a);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
@@ -191,7 +191,7 @@ void DWCi_SceneMenu(void)
     i = gSceneMenuWork.focusPos;
     DWCi_FOCUSlDisp4(sSceneMenuFocusX0[i][0], sSceneMenuFocusX1[i][0],
                   sSceneMenuFocusY0[i][0], sSceneMenuFocusY1[i][0]);
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((u32)procInit);
 }
 
 /*
@@ -231,7 +231,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x14, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x14);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((u32)procInit1);
 }
 
 static void procInit1(void)
@@ -241,7 +241,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(0);
-    DWCi_ChangeScene(procInit2);
+    DWCi_ChangeScene((u32)procInit2);
 }
 
 static void procInit2(void)
@@ -249,7 +249,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(DWCi_SceneMenu_procScene);
+    DWCi_ChangeScene((u32)DWCi_SceneMenu_procScene);
 }
 
 void DWCi_SceneMenu_procScene(void)
@@ -295,12 +295,12 @@ static void button(void)
     switch (DWCi_BTNlGet()) {
     case 0:
         DWCi_SNDlPlay(7);
-        DWCi_ChangeScene(DWCi_SceneEnd);
+        DWCi_ChangeScene((u32)DWCi_SceneEnd);
         break;
     case 1:
         DWCi_SNDlPlay(6);
         dispPushButton();
-        DWCi_ChangeScene(endScene);
+        DWCi_ChangeScene((u32)endScene);
         break;
     }
 }
@@ -309,7 +309,7 @@ static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((u32)endScene1);
 }
 
 static void endScene1(void)
@@ -318,7 +318,7 @@ static void endScene1(void)
         return;
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x16, 8);
-    DWCi_ChangeScene(endScene2);
+    DWCi_ChangeScene((u32)endScene2);
 }
 
 static void endScene2(void)
@@ -335,11 +335,11 @@ static void endScene2(void)
     switch (gSceneMenuWork.focusPos) {
     case 0:
         DWCi_SetParam_(1, 0);
-        DWCi_ChangeScene(DWCi_SceneSetSelectAp);
+        DWCi_ChangeScene((u32)DWCi_SceneSetSelectAp);
         return;
     case 1:
         DWCi_SetParam_(0, 0);
-        DWCi_ChangeScene(DWCi_SceneOptMenu);
+        DWCi_ChangeScene((u32)DWCi_SceneOptMenu);
         return;
     }
 }

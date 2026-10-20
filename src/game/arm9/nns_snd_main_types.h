@@ -1,7 +1,7 @@
 #ifndef NNS_SND_MAIN_TYPES_H
 #define NNS_SND_MAIN_TYPES_H
 
-#include "nns_snd_arc_types.h"
+#include "../arm9/nns_snd_arc_types.h"
 
 /* Global sound system state at 0x0214E9FC. */
 typedef struct NNSSndSystem {

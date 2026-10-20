@@ -53,7 +53,7 @@ struct SaveData;
 
 #include "../types.h"
 
-typedef struct { u32 w[3]; } DWCFriendData;
+#include "wifilist_types.h"
 
 extern int GFL_NET_GetGameKind(void);
 

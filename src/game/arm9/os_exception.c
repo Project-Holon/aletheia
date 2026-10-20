@@ -34,10 +34,9 @@ typedef struct OsExceptionBss {
     u32 OSi_ExceptionHookStack[8];
 } OsExceptionBss;
 
-extern BOOL OS_IsRunOnTwl(void);
+#include "os_emulator.h"
 extern void OSi_ExceptionHandler(void);
-extern void OS_EnableProtectionUnit(void);
-extern void OS_DisableProtectionUnit(void);
+#include "os_protectionunit.h"
 void OS_InitException(void);
 asm void OSi_GetAndDisplayContext(void);
 asm void OSi_SetExContext(void);

@@ -95,11 +95,11 @@ enum hex_scan_states {
     hex_exp_digit_loop     = 0x0100
 };
 
-extern double fabs(double x);
+#include "msl_fdlibm.h"
 
-double nan(const char *tagp);
+#include "msl_crt.h"
 
-int MSL_C_LIB_StrReadProc(u32 *state, u32 ch, u32 mode);
+#include "msl_stdlib.h"
 
 double __strtold(int max_width, int (*ReadProc)(void *, int, int), void *ReadProcArg, int *chars_scanned, int *overflow);
 
@@ -121,7 +121,7 @@ int atoi(u32 s);
 
 long long atoll(u32 s);
 
-double __dec2num(const decimal2 *d);
+#include "msl_ansi_fp.h"
 
 extern const unsigned short __ctype_map[];
 

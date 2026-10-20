@@ -38,15 +38,15 @@ struct BoxMonSlot {
     u32 experience;             /* +0x1c */
 };
 
-extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+#include "mi_memory.h"
 struct PokemonParam;
 
-extern u32  POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "poke_tool.h"
 struct MsgBank;
 
-extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
+#include "msgdata.h"
 
-extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
+#include "wordset.h"
 
 u32 MON_SNAPSHOT_GetSize(void);
 

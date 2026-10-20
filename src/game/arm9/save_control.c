@@ -126,78 +126,51 @@ struct SaveControl {
 };
 
 /* Callees in other files, under their current names. */
-extern int GF_OVERLAY_Load(int overlayId);
+#include "gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(int overlayId);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *memory);
 
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *message);
+#include "gf_panic.h"
 struct SaveDataParam;
 
-extern struct BackupSaveData *BACKUP_SYSTEM_Create(struct SaveDataParam *param, u32 heap_id);
+#include "backup_system.h"
 
-extern struct BackupSaveData *BACKUP_SYSTEM_CreateWithWork(struct SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
 
-extern void BACKUP_SYSTEM_Delete(struct BackupSaveData *backup);
 
-extern u8 *BACKUP_SYSTEM_GetWork(struct BackupSaveData *backup, u32 *size);
 
-extern u8 *BACKUP_SYSTEM_GetRecordWork(struct BackupSaveData *backup, u32 recordId);
 
-extern void BACKUP_SYSTEM_ClearWork(struct BackupSaveData *backup);
 
-extern void BACKUP_SYSTEM_GetDiffSize(struct BackupSaveData *backup, u32 *diffSize, u32 *totalSize);
 
-extern int BACKUP_SYSTEM_Erase(struct BackupSaveData *backup, u32 heapId);
 
-extern int BACKUP_SYSTEM_Load(struct BackupSaveData *backup, u32 heapId);
 
-extern int BACKUP_SYSTEM_StartSave(struct BackupSaveData *backup);
 
-extern int BACKUP_SYSTEM_MainSave(struct BackupSaveData *backup);
 
-extern void BACKUP_SYSTEM_CancelSave(struct BackupSaveData *backup);
 
-extern void BACKUP_SYSTEM_InitLinkedSave(struct BackupSaveData *mainSave, struct BackupSaveData *extraSave, u32 *linkCount);
 
-extern int BACKUP_SYSTEM_MainLinkedSave(struct BackupSaveData *mainSave, struct BackupSaveData *extraSave);
 
-extern int BACKUP_SYSTEM_LoadLinked(struct BackupSaveData *backup, u32 heapId, u32 linkCount);
 
-extern u32 BACKUP_SYSTEM_GetWrittenSize(struct BackupSaveData *backup);
 
-extern void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, u32 src, u32 size);
 
-extern int BACKUP_SYSTEM_ReadRecordFromFlash(struct BackupSaveData *backup, u32 recordId, u32 areaIndex, u32 dest, u32 size);
 
-extern void *SAVE_OUTSIDE_Load(u32 heapId);
+#include "../ov228/save_outside.h"
 
 extern u8 SAVE_OUTSIDE_IsLoaded(struct SaveOutside *outside);
 
 extern int SAVE_OUTSIDE_IsCorrupt(struct SaveOutside *outside);
 
-extern void SAVE_OUTSIDE_Free(void *p);
 
-extern u8 SYSTEM_DATA_IsActive(void *save);
+#include "system_data.h"
 
-extern void SYSTEM_DATA_SetActive(void *save);
 
-extern void SYSTEM_DATA_ClearActive(struct SaveControl *save);
 
-extern int SYSTEM_DATA_IsMarked(void *save, u32 index);
 
-extern void SYSTEM_DATA_SetMark(void *save, u32 index);
 
-extern void SYSTEM_DATA_ClearMark(void *save, u32 index);
 
-extern u32 *SYSTEM_DATA_GetWordSlot(void *save, u32 index);
 
-extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
+#include "musical_save.h"
 
-extern void MUSICAL_SAVE_SetHasDistData(struct MusicalSave *musical, u8 hasDistData);
 
 /* Data: symbols at fixed addresses (see the symbols block above). */
 extern u8 ov228_id[]; /* absolute symbol: overlay id 228, see the note at the constructor */
@@ -414,7 +387,7 @@ int SAVE_CONTROL_StartSave(struct SaveControl *saveControl)
     wasActive = SYSTEM_DATA_IsActive(saveControl);
     saveControl->wasActiveBeforeSave = wasActive;
     SYSTEM_DATA_ClearActive(saveControl);
-    return BACKUP_SYSTEM_StartSave(saveControl->mainSave);
+    BACKUP_SYSTEM_StartSave(saveControl->mainSave);
 }
 
 /*
@@ -450,13 +423,11 @@ u32 SAVE_CONTROL_MainSave(struct SaveControl *saveControl)
 }
 
 /* Cancel the running save and restore the system data "active" flag. */
-int SAVE_CONTROL_CancelSave(struct SaveControl *saveControl)
+void SAVE_CONTROL_CancelSave(struct SaveControl *saveControl)
 {
     BACKUP_SYSTEM_CancelSave(saveControl->mainSave);
     if ((unsigned int)saveControl->wasActiveBeforeSave == (unsigned int)1) {
         SYSTEM_DATA_SetActive(saveControl);
-    } else {
-        return saveControl->wasActiveBeforeSave;
     }
 }
 
@@ -607,7 +578,7 @@ u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 hea
     if (SYSTEM_DATA_IsMarked(saveControl, slot) == 0) {
         return 0;
     }
-    BACKUP_SYSTEM_LoadLinked(saveControl->extraSaves[slot], heapId, *SYSTEM_DATA_GetWordSlot(saveControl, slot));
+    return BACKUP_SYSTEM_LoadLinked(saveControl->extraSaves[slot], heapId, *SYSTEM_DATA_GetWordSlot(saveControl, slot));
 }
 
 /*

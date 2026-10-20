@@ -1,7 +1,7 @@
 /*
  * file:     sceneoptmovuser.c
  * unit:     yes
- * function: DWCi_SceneOptMovUser, initGraphics, procInit, DWCi_SceneOptMovUserProcInit1, DWCi_SceneOptMovUserProcInit2, DWCi_SceneOptMovUserProcScene, DWCi_SceneOptMovUser_input, DWCi_SceneOptMovUser_draw, DWCi_SceneOptMovUserEndScene, DWCi_SceneOptMovUserEndScene1, DWCi_SceneOptMovUserEndScene2, cbMov
+ * function: DWCi_SceneOptMovUser, initGraphics, procInit, procInit1, procInit2, procScene, DWCi_SceneOptMovUser_input, DWCi_SceneOptMovUser_draw, endScene, endScene1, endScene2, cbMov
  * address:  0x021C4110
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -63,15 +63,15 @@ extern void MIi_CpuClear16();
 extern void MIi_CpuCopy16();
 extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
 extern void DWCi_FNTlRenewBg(int x);
-extern void DWCi_WINlInitEx(int msg, int type, unsigned char dark, int n, int num);
+extern void DWCi_WINlInitEx(s32 msg, s32 type, bool dark, s32 n, s32 num);
 void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_ChangeScene(void (*scene)());
+extern void DWCi_ChangeScene(u32 v);
 extern bool DWCi_EFFlCheck(int lcd);
-extern int DWCi_WINlGet(void);
+extern s8 DWCi_WINlGet(void);
 extern void DWCi_SNDlPlay(unsigned int v);
-extern void DWCi_MOVlChangeCallback(void (*callback)(int));
+extern void DWCi_MOVlChangeCallback(u32 v);
 extern void DWCi_WINlEnd(void);
 extern int DWCi_WINlIsInit(void);
 extern void DWCi_MOVlAdmitChild();
@@ -119,9 +119,9 @@ void DWCi_SceneOptMovUser(void)
     MIi_CpuCopy16(info->name, buf, info->nameLength * 2);
     DWCi_FNTlDrawRect(bg, 8, 0x35, 0xF0, 0x1C, 2, 0x480, buf);
     DWCi_FNTlRenewBg((int)bg);
-    DWCi_MOVlChangeCallback(cbMov);
+    DWCi_MOVlChangeCallback((u32)cbMov);
     DWCi_WINlInitEx(0x1D, 4, 0, -1, 0);
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((u32)procInit);
 }
 
 static void initGraphics(void)
@@ -138,20 +138,20 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((u32)procInit1);
 }
 
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
-        DWCi_ChangeScene(procInit2);
+        DWCi_ChangeScene((u32)procInit2);
 }
 
 static void procInit2(void)
 {
     if (DWCi_WINlGet() == -2)
         return;
-    DWCi_ChangeScene(procScene);
+    DWCi_ChangeScene((u32)procScene);
 }
 
 
@@ -174,7 +174,7 @@ static void procScene(void)
     }
     DWCi_MOVlChangeCallback(0);
     DWCi_WINlEnd();
-    DWCi_ChangeScene(endScene);
+    DWCi_ChangeScene((u32)endScene);
 }
 
 /*
@@ -208,7 +208,7 @@ static void endScene(void)
     if (Error[1] == 0)
         DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((u32)endScene1);
 }
 
 static void endScene1(void)
@@ -221,7 +221,7 @@ static void endScene1(void)
         DWCi_MOVlAdmitChild();
     else
         DWCi_MOVlEnd();
-    DWCi_ChangeScene(endScene2);
+    DWCi_ChangeScene((u32)endScene2);
 }
 
 static void endScene2(void)
@@ -238,15 +238,15 @@ static void endScene2(void)
     }
     DWCi_SetParam_(0, 1);
     if (Error[0]) {
-        DWCi_ChangeScene(DWCi_SceneOptMovFailure);
+        DWCi_ChangeScene((u32)DWCi_SceneOptMovFailure);
         return;
     }
     if (Error[1] == 0) {
         DWCi_GXlInvisible(1, 1);
-        DWCi_ChangeScene(DWCi_SceneOptMenu);
+        DWCi_ChangeScene((u32)DWCi_SceneOptMenu);
         return;
     }
-    DWCi_ChangeScene(DWCi_SceneOptMovComm);
+    DWCi_ChangeScene((u32)DWCi_SceneOptMovComm);
 }
 
 static void cbMov(int state)

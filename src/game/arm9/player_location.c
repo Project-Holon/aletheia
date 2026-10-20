@@ -21,6 +21,7 @@
 #include "config_shared_types.h"
 
 #include "../types.h"
+#include "zonedata_types.h"
 
 /* A three-word position, moved as one ldm/stm unit. */
 struct Position {
@@ -62,9 +63,9 @@ struct LocationRecordBuf {
 /* Save block 0x1C, 0x9C bytes. */
 struct PlayerLocationData {
     u8  reserved00[0x38];
-    u8  location_a[0x1C];
-    u8  location_b[0x1C];
-    u8  short_data[2];
+    struct Location location_a;
+    struct Location location_b;
+    u16 short_data;
     u8  flashActive;
     u8  season;
     u8  weatherId;
@@ -78,16 +79,15 @@ struct PlayerLocationData {
 
 #define BLOCK_ID_1C 0x1C
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 struct FieldStatus;
 
-extern void FIELD_STATUS_SetFlashActive(struct FieldStatus *fs, u8 flashActive);
+#include "field_status.h"
 
-extern u8 FIELD_STATUS_IsFlashActive(struct FieldStatus *fs);
 struct SaveControl;
 
 /* Save-block lookup: returns the block with the given id. */
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
 struct PlayerLocationData *PLAYER_LOCATION_GetData(void *save);
 
@@ -111,23 +111,24 @@ void PLAYER_LOCATION_Init(struct PlayerLocationData *location_data)
     location_data->zone_id = 0x1AB;
 }
 
-void PLAYER_LOCATION_Nop(void)
+struct Location *PLAYER_LOCATION_Nop(u32 situation)
 {
+    return (struct Location *)situation;
 }
 
-void *PLAYER_LOCATION_GetLocationA(struct PlayerLocationData *location_data)
+struct Location *PLAYER_LOCATION_GetLocationA(struct PlayerLocationData *location_data)
 {
-    return location_data->location_a;
+    return &location_data->location_a;
 }
 
-void *PLAYER_LOCATION_GetLocationB(struct PlayerLocationData *location_data)
+struct Location *PLAYER_LOCATION_GetLocationB(struct PlayerLocationData *location_data)
 {
-    return location_data->location_b;
+    return &location_data->location_b;
 }
 
-void *PLAYER_LOCATION_GetShortData(struct PlayerLocationData *location_data)
+u16 *PLAYER_LOCATION_GetShortData(struct PlayerLocationData *location_data)
 {
-    return location_data->short_data;
+    return &location_data->short_data;
 }
 
 struct PlayerLocationData *PLAYER_LOCATION_GetData(void *save)

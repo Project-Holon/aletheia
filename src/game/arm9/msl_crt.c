@@ -40,34 +40,27 @@
  */
 #include "msl_crt_shared_types.h"
 
-extern int OSi_IsRunOnTwl(void);
+#include "os_emulator.h"
 
-extern void OS_Terminate(void);
+#include "os_terminate_processor.h"
 #include "../sdk_os.h"
 
-extern void OS_LockMutex(struct OSMutex *mutex);
-
-extern int OS_TryLockMutex(struct OSMutex *mutex);
-
-extern void OS_UnlockMutex(struct OSMutex *mutex);
-
-extern int MSL_CONSOLE_IO_RegisterDestructor(int a);
+#include "os_mutex.h"
 
 
-extern void *OS_AllocFromHeap(int id, int heap, int size);
 
-extern void OS_FreeToHeap(int id, int heap, void *ptr);
-
-long OS_ReferentSize(int id, void *ptr);
+#include "msl_console_io.h"
 
 
-void SHA1_HMAC_Init(u32 ctx);
+#include "os_alloc.h"
 
-void SHA1_HMAC_Update(u32 ctx, u32 data, u32 len);
 
-void SHA1_HMAC_GetHash(u32 ctx, u32 digest);
 
-void SHA1_HMAC_Calc(u8 *digest, void *data, u32 data_len, void *key, u32 key_len);
+
+#include "../twl/sha1_hmac.h"
+
+
+
 
 void MSL_C_LIB_EmptyStub(void);
 
@@ -109,11 +102,10 @@ void MSL_C_LIB_NopBufferHookA(int a, void *b);
 
 void MSL_C_LIB_NopBufferHookB(int a, void *b);
 
-int MSL_C_LIB_FlushStream(struct MslStream *stream);
+#include "msl_stdio.h"
 
-void *memcpy(void *dest, const void *src, size_t n);
+#include "msl_string_mem.h"
 
-void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
 
 extern u8 gMslTwlFlag;
 
@@ -149,7 +141,7 @@ void MSL_C_LIB_TwlCall1(u32 ctx)
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_Init(ctx);
+    SHA1_HMAC_Init((void *)ctx);
 }
 
 /*
@@ -164,7 +156,7 @@ void MSL_C_LIB_TwlCall3(u32 ctx, u32 data, u32 len)
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_Update(ctx, data, len);
+    SHA1_HMAC_Update((void *)ctx, (const void *)data, len);
 }
 
 /*
@@ -179,7 +171,7 @@ void MSL_C_LIB_TwlCall2(u32 ctx, u32 digest)
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_GetHash(ctx, digest);
+    SHA1_HMAC_GetHash((void *)ctx, (void *)digest);
 }
 
 /*

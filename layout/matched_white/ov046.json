@@ -1,0 +1,28 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 376, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_InitModel", "black_address": "0x021F3838", "white_address": "0x021F3858", "size": 156, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_InitUnitPose", "black_address": "0x021F38D4", "white_address": "0x021F38F4", "size": 304, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_Exit", "black_address": "0x021F3A04", "white_address": "0x021F3A24", "size": 36, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_Update", "black_address": "0x021F3A28", "white_address": "0x021F3A48", "size": 96, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_StartButtonEvent", "black_address": "0x021F3A88", "white_address": "0x021F3AA8", "size": 72, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent", "black_address": "0x021F3AD0", "white_address": "0x021F3AF0", "size": 72, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent", "black_address": "0x021F3B18", "white_address": "0x021F3B38", "size": 68, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent", "black_address": "0x021F3B5C", "white_address": "0x021F3B7C", "size": 108, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_CalcUnitPose", "black_address": "0x021F3BC8", "white_address": "0x021F3BE8", "size": 32, "diff": "same", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_GetRotateAnim", "black_address": "0x021F3BE8", "white_address": "0x021F3C08", "size": 20, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_ButtonEventProc", "black_address": "0x021F3BFC", "white_address": "0x021F3C1C", "size": 144, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_LeverEventProc", "black_address": "0x021F3C8C", "white_address": "0x021F3CAC", "size": 180, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_RotateEventProc", "black_address": "0x021F3D40", "white_address": "0x021F3D60", "size": 168, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_PlayAnimEventProc", "black_address": "0x021F3DE8", "white_address": "0x021F3E08", "size": 276, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_HopEventProc", "black_address": "0x021F3EFC", "white_address": "0x021F3F1C", "size": 172, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_SetExteriorHidden", "black_address": "0x021F3FA8", "white_address": "0x021F3FC8", "size": 120, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_FindMmdlByObjId", "black_address": "0x021F4020", "white_address": "0x021F4040", "size": 68, "diff": "same", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_SetMmdlVanish", "black_address": "0x021F4064", "white_address": "0x021F4084", "size": 20, "diff": "same", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_ApplyPoseLines", "black_address": "0x021F4078", "white_address": "0x021F4098", "size": 96, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ROTATING_ROOM_IsPosInside", "black_address": "0x021F40D8", "white_address": "0x021F40F8", "size": 4, "diff": "constant", "source": "src/game/ov046/field_gimmick_rotating_room.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

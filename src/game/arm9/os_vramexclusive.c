@@ -23,9 +23,8 @@
 
 #include "../sdk_os.h"
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern int OSi_CountLeadingZeros(unsigned int value);
+#include "os_system.h"
+#include "os_clz.h"
 void OSi_InitVramExclusive(void);
 void OSi_UnlockVram(u16 bank, u16 lockId);
 extern char SDK_AUTOLOAD_DTCM_START[];

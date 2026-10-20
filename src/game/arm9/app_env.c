@@ -20,32 +20,16 @@
  *   OS_GetOwnerInfo  0x02087C88  arm
  */
 #include "comm_player_support_shared_types.h"
+#include "os_ownerinfo.h"
 
-/* Hardware capability word (DSi/wireless flags) behind OS_GetParentalControlInfoPtr. */
-struct DeviceInfo {
-    u32 bit0:1;
-    u32 pad:4;
-    u32 bit5:1;
-};
 
-/* Owner info record behind OS_GetOwnerInfo: only bytes 2 and 3 are read. */
-struct OwnerInfo {
-    u8 reserved00;
-    u8 reserved01;
-    u8 favoriteColor;
-    u8 birthMonth;
-    u8 rest[0x50];
-};
 
-extern s32 OS_IsRunOnTwl(void);
+#include "os_emulator.h"
 
-extern struct DeviceInfo *OS_GetParentalControlInfoPtr(void);
 
-extern s32 OS_IsAvailableWireless(void);
+#include "os_ownerinfoex.h"
 
-extern int OS_IsAgreeEULA(void);
 
-extern void OS_GetOwnerInfo(struct OwnerInfo *info);
 
 u32 APP_ENV_IsRunOnTwl(void);
 
@@ -72,7 +56,7 @@ u32 APP_ENV_IsRunOnTwl(void)
 int APP_ENV_HasParentalControlBits(void)
 {
     if (APP_ENV_IsRunOnTwl()) {
-        if (OS_GetParentalControlInfoPtr()->bit0 && OS_GetParentalControlInfoPtr()->bit5) {
+        if (OS_GetParentalControlInfoPtr()->wirelessOn && OS_GetParentalControlInfoPtr()->parentalWirelessOn) {
             return 1;
         }
         return 0;
@@ -112,11 +96,11 @@ u32 APP_ENV_IsEulaAgreed(void)
  * as the base of the two loads, which is what a named local rather than
  * a re-taken address looks like here.
  */
-void APP_ENV_GetOwnerColorAndBirthMonth(u8 *outFavoriteColor, u8 *outBirthMonth)
+void APP_ENV_GetOwnerColorAndBirthMonth(u8 *outBirthMonth, u8 *outBirthDay)
 {
-    struct OwnerInfo info;
+    OSOwnerInfo info;
 
     OS_GetOwnerInfo(&info);
-    *outFavoriteColor = info.favoriteColor;
-    *outBirthMonth = info.birthMonth;
+    *outBirthMonth = info.birthday.month;
+    *outBirthDay = info.birthday.day;
 }

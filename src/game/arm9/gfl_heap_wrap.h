@@ -1,7 +1,10 @@
 #ifndef GAME_ARM9_GFL_HEAP_WRAP_H
 #define GAME_ARM9_GFL_HEAP_WRAP_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gfl_heap_wrap.c, prototypes copied from their definitions. */
+
+#include "../types.h"
 
 void GFL_HEAP_DeleteChecked(u32 heapId);
 void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -23,5 +26,6 @@ void GFL_HEAP_DumpReport(u32 heapId);
 void GFL_HEAP_InitSystemHeapChecked(u32 size);
 void *GFL_HEAP_AllocSystemChecked(u32 size);
 int GFL_HEAP_FreeSystemChecked(u32 idx);
+/* END mkheaders: generated region */
 
 #endif

@@ -1,0 +1,11 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "LOADER_ENTRY_Start", "black_address": "0x021889B0", "white_address": "0x021889D0", "size": 52, "diff": "constant", "source": "src/game/ov230/loader_entry.c", "version_switch": false, "status": "EXACT"},
+  {"name": "LOADER_DECRYPT_SyncCacheRange", "black_address": "0x021889E4", "white_address": "0x02188A04", "size": 40, "diff": "same", "source": "src/game/ov230/loader_decrypt.c", "version_switch": false, "status": "EXACT"},
+  {"name": "LOADER_DECRYPT_ClassifyOpcode", "black_address": "0x02188A0C", "white_address": "0x02188A2C", "size": 60, "diff": "same", "source": "src/game/ov230/loader_decrypt.c", "version_switch": false, "status": "EXACT"},
+  {"name": "LOADER_DECRYPT_DecodeBlocks", "black_address": "0x02188A48", "white_address": "0x02188A68", "size": 616, "diff": "constant", "source": "src/game/ov230/loader_decrypt.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

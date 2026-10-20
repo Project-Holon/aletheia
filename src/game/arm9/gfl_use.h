@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_GFL_USE_H
 #define GAME_ARM9_GFL_USE_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gfl_use.c, prototypes copied from their definitions. */
 
 struct Config;
@@ -10,6 +11,8 @@ struct GflRandom;
 struct SndHeap;
 struct SndHandle;
 struct SndWaveSetHeader;
+
+#include "../types.h"
 
 void NitroMain(void);
 int GFL_USE_IsNetQuiet(void);
@@ -122,5 +125,6 @@ int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 sr
 void GFL_USE_StartSeq(u32 seqNo);
 void GFL_USE_StopSeqAndUnload(void);
 void GFL_USE_ClearPreloadedBgmBuffers(void);
+/* END mkheaders: generated region */
 
 #endif

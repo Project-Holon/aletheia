@@ -26,11 +26,7 @@
 
 #define NULL ((void *)0)
 
-/* Bag. */
-struct BagSlot {
-    u16 itemId;
-    u16 quantity;
-};
+#include "myitem_savedata_types.h"
 
 #define BAG_POCKET_ITEMS 0
 
@@ -76,17 +72,14 @@ struct MyItem {
     u8 reserved[0x28];                             /* 998 */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern u32 FILE_UTIL_GetItemParam(u32 itemId, u32 param, u32 heapId);
+#include "file_util.h"
 
-extern u32 FILE_UTIL_IsMachineItem(u32 itemId);
 
-extern u32 FILE_UTIL_GetId(u32 itemId);
 
 extern const char _MyItemSavedataFileName[];
 

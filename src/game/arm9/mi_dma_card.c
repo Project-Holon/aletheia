@@ -26,12 +26,10 @@
 #define MI_DMA_ENABLE    0x80000000
 #define MI_DMA_REGADDR(dmaNo, reg) (((dmaNo) * 12) + (reg))
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
+#include "os_system.h"
 
-void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType);
-void MIi_CheckDma0SourceAddress(u32 dmaNo, u32 src, u32 size, u32 dir);
-void MIi_DmaSetParameters(u32 dmaNo, u32 src, u32 dest, u32 ctrl, u32 mode);
+#include "mi_dma.h"
+#include "../arm9_autoload0_ITCM/mi_dma.h"
 
 static inline void MIi_Wait(vu32 *dmaCntp)
 {

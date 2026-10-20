@@ -80,75 +80,26 @@
 
 #include "../sdk_card.h"
 
-typedef struct CARDiCommandArg
-{
-    int result;
-    CARDBackupType type;
-    u32 id;
-    u32 src;
-    u32 dst;
-    u32 len;
-    CARDBackupTypeInfo spec;
-} CARDiCommandArg;
+#include "card_common.h"
 
-typedef struct CARDDmaInterface CARDDmaInterface;
-
-typedef struct CARDiCommon
-{
-    CARDiCommandArg *cmd;
-    volatile u32 flag;
-    u32 priority;
-    u32 flush_threshold_ic;
-    u32 flush_threshold_dc;
-    s32 lock_owner;
-    int lock_ref;
-    OSThreadQueue lock_queue[1];
-    int lock_target;
-    u8 thread[1216];
-    void (*task_func)(struct CARDiCommon *);
-    void (*callback)(void *);
-    void *callback_arg;
-    OSThreadQueue busy_q[1];
-    u32 src;
-    u32 dst;
-    u32 len;
-    u32 dma;
-    CARDDmaInterface *DmaCall;
-    int req_type;
-    int req_retry;
-    int req_mode;
-    OSThread *current_thread_9;
-} CARDiCommon;
-
-extern void OS_WakeupThreadDirect(OSThread *thread);
-extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
-extern void OS_SpinWaitSysCycles(u32 cycle);
-extern void DC_FlushRange(void *startAddr, u32 nBytes);
-extern void DC_WaitWriteBufferEmpty(void);
-extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_SleepThread(OSThreadQueue *queue);
-extern u32 OS_RestoreInterrupts(u32 state);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
+#include "os_thread.h"
+#include "pxi_fifo.h"
+#include "os_system.h"
+#include "os_cache.h"
 BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_count);
-extern void OSi_ReferSymbol(const void *symbol);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void CARD_CheckEnabled(void);
-extern u32 CARDi_GetAccessLevel(void);
-extern void OS_Terminate(void);
-extern BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, void (*callback)(void *), void *callback_arg);
+#include "crt0.h"
+#include "mi_memory.h"
+#include "card_api.h"
+#include "os_terminate_processor.h"
+#include "card_task.h"
 extern void CARDi_BeginBackupCommand(u32 level, void (*callback)(void *), void *arg);
-extern BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async);
 extern void CARDi_RequestStreamCommandCore(CARDiCommon *p);
 extern void CARDi_IdentifyBackupCore(CARDiCommon *p);
-extern void CARDi_WaitAsync(void);
-extern int CARDi_TryWaitAsync(void);
 void CARDi_OnFifoRecv(int tag, u32 data, BOOL err);
 BOOL CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void (*callback)(void *), void *arg, BOOL is_async, int req_type, int req_retry, int req_mode);
 BOOL CARD_IdentifyBackup(int type);
 u32 CARD_GetBackupSectorSize(void);
-void CARD_WaitBackupAsync(void);
+BOOL CARD_WaitBackupAsync(void);
 u32 CARD_TryWaitBackupAsync(void);
 void CARD_CancelBackupAsync(void);
 extern CARDiCommon cardi_common;
@@ -235,7 +186,7 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *p)
     int retry_count = p->req_retry;
     u32 size = sizeof(CARDi_backup_cache_page_buf);
 
-    OSi_ReferSymbol(cardi_backup_assert);
+    OSi_ReferSymbol((void *)cardi_backup_assert);
     if (req_type == CARD_REQ_ERASE_SECTOR_BACKUP)
     {
         size = CARD_GetBackupSectorSize();
@@ -473,7 +424,7 @@ void CARDi_IdentifyBackupCore(CARDiCommon *p)
  */
 void CARDi_BeginBackupCommand(u32 level, void (*callback)(void *), void *arg)
 {
-    OSi_ReferSymbol(cardi_backup_assert);
+    OSi_ReferSymbol((void *)cardi_backup_assert);
     CARD_CheckEnabled();
     if ((level & CARDi_GetAccessLevel()) != level)
     {
@@ -520,7 +471,7 @@ u32 CARD_GetBackupSectorSize(void)
     return cardi_common.cmd->spec.sect_size;
 }
 
-void CARD_WaitBackupAsync(void){ CARDi_WaitAsync(); }
+BOOL CARD_WaitBackupAsync(void){ return CARDi_WaitAsync(); }
 
 /*
  * Eight bytes of code and its own pool word: a bare tail call, the shortest

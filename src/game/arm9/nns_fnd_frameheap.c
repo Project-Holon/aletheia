@@ -51,10 +51,12 @@ static inline NNSiFndFrmHeapHead *GetFrmHeapHeadPtrFromHeapHead(NNSiFndHeapHead 
     return (NNSiFndFrmHeapHead *)((u32)pHHead + sizeof(NNSiFndHeapHead));
 }
 
-extern void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *pHint, u32 heapStart, u32 heapEnd);
+/* Kept local: the image passes the option word untruncated, so optFlag is u32 here while
+   nns_fnd_expheap.h declares the stored form u16. */
+extern void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHeapHd, u32 signature, void *heapStart, void *heapEnd, u32 optFlag);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 extern void NNSi_FndFinalizeHeap(void *heap);
-NNSiFndHeapHead *NNSi_FndInitFrmHeap(NNSiFndHeapHead *pHeapHd, u32 heapStart, u32 heapEnd);
+NNSiFndHeapHead *NNSi_FndInitFrmHeap(NNSiFndHeapHead *pHeapHd, u32 heapEnd, u32 optFlag);
 u32 NNSi_FndAllocFromFrmHeapHead(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align);
 u32 NNSi_FndAllocFromFrmHeapTail(NNSiFndFrmHeapHead *pFrmHeapHd, u32 size, u32 align);
 void NNSi_FndResetFrmHeapHead(NNSiFndHeapHead *pHeapHd);
@@ -75,9 +77,9 @@ BOOL NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName);
  * loads above the stores (17 bytes out, docs/notes/pkt_02060FA4.c.txt).
  * Under ../2.0/sp2 the same C is 68 bytes, 0 mismatches.
  */
-NNSiFndHeapHead *NNSi_FndInitFrmHeap(NNSiFndHeapHead *pHeapHd, u32 heapStart, u32 heapEnd)
+NNSiFndHeapHead *NNSi_FndInitFrmHeap(NNSiFndHeapHead *pHeapHd, u32 heapEnd, u32 optFlag)
 {
-    NNSi_FndInitHeapHead(pHeapHd, 0x46524D48, (char *)pHeapHd + 0x30, heapStart, heapEnd);
+    NNSi_FndInitHeapHead(pHeapHd, 0x46524D48, (char *)pHeapHd + 0x30, (void *)heapEnd, optFlag);
     GetFrmHeapHeadPtrFromHeapHead(pHeapHd)->headAllocator = pHeapHd->heapStart;
     GetFrmHeapHeadPtrFromHeapHead(pHeapHd)->tailAllocator = pHeapHd->heapEnd;
     GetFrmHeapHeadPtrFromHeapHead(pHeapHd)->pState = 0;

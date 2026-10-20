@@ -36,43 +36,21 @@
 
 #include "../sdk_os.h"
 
-typedef struct Cell Cell;
+#include "os_alloc.h"
 
-struct Cell {
-    Cell *prev;
-    Cell *next;
-    long size;
-};
-
-typedef struct HeapDesc {
-    long size;
-    Cell *free;
-    Cell *allocated;
-} HeapDesc;
-
-typedef struct OSHeapInfo {
-    volatile int currentHeap;
-    int numHeaps;
-    void *arenaStart;
-    void *arenaEnd;
-    HeapDesc *heapArray;
-} OSHeapInfo;
-
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern u32 OS_GetConsoleType(void);
+#include "os_system.h"
+#include "os_emulator.h"
 extern void OS_SetArenaHi(u32 arenaId, u32 newHi);
 extern void OS_SetArenaLo(u32 arenaId, u32 newLo);
-extern BOOL OS_IsRunOnTwl(void);
-extern void OS_SetProtectionRegionEx(int regionNo, u32 address, u32 sizeDef);
-extern void OSi_InitArenaEx_ltdmain(void);
+#include "os_protectionregion.h"
+#include "../twl/os_arena.h"
 void OS_InitArena(void);
 void OS_InitArenaEx(void);
 u32 OS_GetArenaHi(u32 idx);
 u32 OS_GetArenaLo(u32 idx);
 void *OS_GetInitArenaHi(int id);
 void *OS_GetInitArenaLo(int id);
-u32 OS_AllocFromArenaLo(u32 r7, u32 r6, u32 r5);
+u32 OS_AllocFromArenaLo(int r7, u32 r6, int r5);
 typedef struct OsArenaBss {
     u32 isInitialized;
     u32 exArenaEnabled;
@@ -265,7 +243,7 @@ void OS_SetArenaLo(u32 arenaId, u32 newLo)
     *(u32 *)((arenaId << 2) + 0x02FFFDA0) = newLo;
 }
 
-u32 OS_AllocFromArenaLo(u32 arenaId, u32 size, u32 alignment)
+u32 OS_AllocFromArenaLo(int arenaId, u32 size, int alignment)
 {
     u32 lo = OS_GetArenaLo(arenaId);
     u32 inv;

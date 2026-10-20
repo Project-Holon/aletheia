@@ -1,17 +1,19 @@
 #ifndef GAME_ARM9_GAMESYSTEM_H
 #define GAME_ARM9_GAMESYSTEM_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gamesystem.c, prototypes copied from their definitions. */
 
 struct Proc;
 struct GameSystem;
 struct GameInitWork;
-struct Vec3;
+struct VecFx32;
 struct GameData;
 struct PlayerWork;
 struct GameEvent;
 struct GameComm;
 
+#include "../types.h"
 #include "../arm9/ica_anime_shared_types.h"
 
 u32 GAMESYSTEM_CallIfSet(u32 (*func)(void));
@@ -22,7 +24,7 @@ void GAMESYSTEM_ApplyTamperPenaltyRepeat(void);
 u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam);
 u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
 u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
-struct GameInitWork *GAMESYSTEM_SetupInitWork(u32 mode, u16 zoneId, struct Vec3 *position, int direction);
+struct GameInitWork *GAMESYSTEM_SetupInitWork(u32 mode, u16 zoneId, struct VecFx32 *position, int direction);
 u32 GAMESYSTEM_GetWorkSize(void);
 void GAMESYSTEM_Init(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
 void GAMESYSTEM_Exit(struct GameSystem *gameSystem);
@@ -61,5 +63,6 @@ void GAMESYSTEM_ReleaseSleepCallback(struct GameSystem *gameSystem);
 int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem);
 void GAMESYSTEM_RegisterSleepCheck(struct GameSystem *gameSystem);
 void GAMESYSTEM_ReleaseSleepCheck(struct GameSystem *gameSystem);
+/* END mkheaders: generated region */
 
 #endif

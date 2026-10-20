@@ -28,10 +28,9 @@
 #define GAME_TYPES_U32_LONG
 #define GAME_TYPES_S32_LONG
 #include "../types.h"
+#include "../sdk_os.h"
 
-typedef void *(*ACAllocFunc)(u32 name, s32 size);
-
-typedef void (*ACFreeFunc)(u32 name, void *ptr, s32 size);
+#include "dwc_ac.h"
 
 typedef struct tagACHOLD {
     ACAllocFunc alloc;
@@ -103,22 +102,6 @@ typedef struct tagACWORK {
     u16 activeScanTime;
 } ACWORK;
 
-typedef struct tagDWCACOption {
-    u8 connectType;
-    u8 skipNetCheck : 4;
-    u8 useDSWireless : 4;
-} DWCACOption;
-
-typedef struct tagDWCACConfig {
-    ACAllocFunc alloc;
-    ACFreeFunc free;
-    u8 dmaNo;
-    u8 powerMode;
-    DWCACOption option;
-    s32 rwin;
-    u8 wontExecuteEULACheck;
-} DWCACConfig;
-
 #include "../sdk_dwc.h"
 
 typedef struct ACMem {
@@ -130,46 +113,34 @@ typedef struct ACMem {
 } ACMem;
 
 extern void *DWCi_AC_GetMemPtr(u32 name);
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
+#include "mi_memory.h"
 extern void *DWCi_AC_Alloc(u32 name, s32 size);
-extern BOOL DWCi_BM_GetApInfo(void *buf);
-extern BOOL OS_IsRunOnTwl(void);
-extern BOOL DWCi_BM_GetApInfoEx(void *buf);
-extern s32 WCM_InitEx(void *buf, s32 len, u8 deviceId);
-extern s32 WCM_Init(void *buf, s32 len);
+#include "dwc_backup.h"
+#include "os_emulator.h"
+#include "../ov009/wcm_system.h"
 extern void DWCi_AC_FreeAll(void);
 extern BOOL CheckEULA(void);
 extern BOOL CheckWirelessPowerON(void);
-extern u8 DWCi_AC_Start(void);
+#include "dwc_ac_start.h"
 extern void DWCi_AC_SetError(int error);
-extern u32 OS_DisableInterrupts(void);
-extern u8 DWCi_AC_SearchAP(void);
+#include "os_system.h"
+#include "dwc_ac_search.h"
 extern void DWCi_AC_SetPhase(u8 phase);
-extern u32 OS_RestoreInterrupts(u32 state);
-extern u8 DWCi_AC_ConnectAP(void);
-extern u8 DWCi_AC_ConnectRetryAP(void);
-extern u8 DWCi_AC_ConnectTest(void);
-extern u8 DWCi_AC_Error(void);
+#include "dwc_ac_connect.h"
+#include "dwc_ac_retry.h"
+#include "dwc_ac_test.h"
+#include "dwc_ac_error.h"
 extern BOOL CheckDuplicate(void);
 extern void Free_Disused(void);
-extern int DWCi_AC_GetResult(void);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern int DWCi_AC_CloseNetwork(u8 *phase);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
+#include "dwc_ac_close.h"
 extern void DWC_AC_SetSpecifyAp(void *ssid, void *wep, int wepMode);
-extern int DWCi_AC_CheckNintendoShopAP(void *ssid, int len);
-extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
+#include "dwc_ac_shop_usb.h"
 extern u8 DWCi_ConvConnectAPType(u8 type);
-extern u8 *WCM_GetApEssid(u16 *length);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern BOOL DWCi_AC_GetPostalCode(char *ssid, u8 *pos);
+#include "../ov009/wcm_cpsif.h"
+#include "os_cache.h"
 extern void DWCi_AC_Free(u32 name, void *ptr, s32 size);
-extern int strncmp(u8 *s1, u8 *s2, u32 n);
-extern BOOL OS_IsAgreeEULA(void);
-extern u8 OS_GetAgreedEULAVersion(void);
-extern u8 OS_GetROMHeaderEULAVersion(void);
-extern BOOL OS_IsAvailableWireless(void);
-extern BOOL OS_IsForceDisableWireless(void);
+#include "msl_string_str.h"
+#include "os_ownerinfoex.h"
 BOOL DWC_AC_Create(DWCACConfig *config);
 int DWC_AC_Process(void);
 int DWC_AC_GetStatus(void);
@@ -443,7 +414,7 @@ int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len)
 {
     if (len != 32)
         return 0;
-    return DWCi_AC_CheckNintendoShopAP(ssid, len);
+    return DWCi_AC_CheckNintendoShopAP(ssid);
 }
 
 /*

@@ -1,7 +1,7 @@
 /*
  * file:     egg_demo_menu.c
  * unit:     yes
- * function: EGG_DEMO_MENU_FadeInBgm, EGG_DEMO_MENU_Create, EGG_DEMO_MENU_Delete, EGG_DEMO_MENU_Main, EGG_DEMO_MENU_Draw, EGG_DEMO_MENU_SetText, EGG_DEMO_MENU_WaitText, EGG_DEMO_MENU_InitDialog, EGG_DEMO_MENU_Noop, EGG_DEMO_MENU_ProcessDialog, EGG_DEMO_MENU_CreateDialog, EGG_DEMO_MENU_InitGraphics
+ * function: EGG_DEMO_MENU_FadeInBgm, EGG_DEMO_MENU_Create, EGG_DEMO_MENU_Delete, EGG_DEMO_MENU_Main, EGG_DEMO_MENU_Draw, EGG_DEMO_MENU_SetText, EGG_DEMO_MENU_WaitText, EGG_DEMO_MENU_InitDialog, EGG_DEMO_MENU_Noop, EGG_DEMO_MENU_ProcessDialog, EGG_DEMO_MENU_CreateDialog, EGG_DEMO_MENU_GetDialogResult, EGG_DEMO_MENU_InitGraphics
  * address:  0x021F604C
  * region:   ov215
  * compiler: dsi/1.1p1

@@ -98,9 +98,8 @@ typedef struct tagACWORK {
     u16 activeScanTime;
 } ACWORK;
 
-extern void *DWCi_AC_GetMemPtr(u32 name);
-extern int DWCi_AC_CloseNetwork(u8 *phase);
-extern int DWCi_AC_GetError(void);
+#include "dwc_ac.h"
+#include "dwc_ac_close.h"
 extern int GetNotFoundInet(ACHOLD *hd);
 u8 DWCi_AC_Error(void);
 int DWCi_AC_GetResult(void);

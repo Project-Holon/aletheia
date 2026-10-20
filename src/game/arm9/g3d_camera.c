@@ -20,18 +20,15 @@
  *   G3D_SYSTEM_SetLookAt 0x02046B40 arm
  */
 #include "g3d_util_shared_types.h"
+#include "../sdk_fx.h"
 
-typedef struct {
-    u32 x;
-    u32 y;
-    u32 z;
-} Vec3;
+#include "nns_g3d_anm_calc_types.h"
+#include "nns_g3d_anm_types.h"
+#include "../sdk_nnsfnd.h"
+#include "gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 
-extern u32 GFL_HEAP_Free(void *p);
-
-u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, Vec3 *eye, Vec3 *a10, Vec3 *a11, u16 heap);
+u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, VecFx32 *eye, VecFx32 *a10, VecFx32 *a11, u16 heap);
 
 u32 G3D_CAMERA_Delete(void *ptr);
 
@@ -53,7 +50,7 @@ extern char  g3d_camera_file[];
  *       --func G3D_CAMERA_Create --addr 0x02048A24 --cc 1.1p1 --arm
  */
 u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags,
-                   Vec3 *eye, Vec3 *target, Vec3 *up, u16 heapID)
+                   VecFx32 *eye, VecFx32 *target, VecFx32 *up, u16 heapID)
 {
     u32 *p = (u32 *)GFL_HEAP_Alloc(heapID, 0x44, 0, g3d_camera_file, 0x38);
 
@@ -65,9 +62,9 @@ u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32
     p[5] = scale;
     p[6] = roll;
     p[7] = flags;
-    *(Vec3 *)(p + 8) = *eye;
-    *(Vec3 *)(p + 11) = *target;
-    *(Vec3 *)(p + 14) = *up;
+    *(VecFx32 *)(p + 8) = *eye;
+    *(VecFx32 *)(p + 11) = *target;
+    *(VecFx32 *)(p + 14) = *up;
     return p;
 }
 
@@ -93,10 +90,9 @@ struct G3dCamera {
 };
 struct G3dProjection;
 
-void G3D_SYSTEM_SetProjection(struct G3dProjection *proj);
+#include "g3d_system.h"
 struct G3dLookAt;
 
-void G3D_SYSTEM_SetLookAt(struct G3dLookAt *lookAt);
 
 void G3D_CAMERA_Reset(struct G3dCamera *l);
 

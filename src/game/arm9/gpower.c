@@ -64,27 +64,23 @@ typedef struct GPowerState {
 
 extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u32 heapId);
 
-extern u32 GFL_HEAP_Free(void *memory);
+#include "gfl_heap_wrap.h"
 struct Party;
 
-extern void POKE_TOOL_HealParty(struct Party *party);
+#include "poke_tool_ext.h"
 
-extern u32 POKEPARTY_FindFirstBattleReady(struct Party *party);
+#include "pokeparty.h"
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
-extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *pp);
+#include "poke_tool.h"
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 
-extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, u32 didDecode);
 
-extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
+#include "waza_tool.h"
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
 void GPOWER_Init(void);
 

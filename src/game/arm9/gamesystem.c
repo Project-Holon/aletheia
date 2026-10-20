@@ -86,13 +86,13 @@
 #include "script_vm_types.h"
 #include "vm_shared_types.h"
 #include "ica_anime_shared_types.h"
-int GFL_NET_IRC_WIRELESS_IsActive(void);
+#include "net_irc_wireless.h"
 
 struct WirelessSave;
 
 struct GameInitWork {
     u32 mode;
-    struct Vec3 position;
+    struct VecFx32 position;
     u16 zoneId;
     u16 direction;
 };
@@ -106,117 +106,95 @@ struct GameSystemGlobal {
 
 extern void PROCSYS_Delete(struct ProcSys *procSys);
 
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
+#include "procsys.h"
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
-extern u32 GF_STANDARD_Rand(void);
+#include "gf_standard.h"
 
-extern void *GFL_USE_AddMainTask(u32 task, u32 work, u32 priority);
+#include "gfl_use.h"
 
-extern void GFL_HEAP_CreateChildHeap(unsigned int parentHeapId, unsigned int heapId, unsigned int size);
+#include "gfl_heap.h"
 
-extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
+#include "gfl_heap_wrap.h"
 
-extern int GF_OVERLAY_Load(int overlayId);
+#include "gf_overlay.h"
 
-extern u32   OV230_CallSealedBody0(void (*hook)(void), void (*hookArg)(void), u32 unused);
+#include "../ov230/sealed_call_stubs_a.h"
 
-extern u32   OV230_CallSealedBody3(void (*hook)(void), void (*hookArg)(void), u32 unused);
 
-extern u32   OV230_CallSealedBody4(void (*hook)(void), void (*hookArg)(void), u32 unused);
 
 //P
-extern void  GF_OVERLAY_Unload(s32 overlayId);
 
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
-extern struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam);
+#include "../ov010/event_wifi_proc.h"
 struct GameData;
 
-extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
+#include "game_data.h"
 
-extern u32 MISC_CountBadges(struct MiscSave *miscSave);
+#include "beacon.h"
 
 extern void GAMESYSTEM_Delete(struct GameSystem *gameSystem);
 
-extern void OS_ResetSystem(u32 mode);
+#include "os_reset.h"
 
-extern void *PROCSYS_Create(int heapId);
 struct VecSet;
 
-extern struct VecSet *GAME_COMM_Create(u32 heapId, void *gameData);
+#include "game_comm.h"
 
 extern void *ISS_SYS_Create(struct GameData *gameData, unsigned int heapId);
 
-extern void ZONEDATA_Init(u32 heapId);
+#include "zonedata.h"
 
 extern void ISS_SYS_Delete(void *issSystem);
 
-extern void GAME_COMM_Delete(struct VecSet *obj);
 
-extern void ZONEDATA_Exit(void);
 
-extern void GAME_BEACON_Setup(struct GameData *gameData);
+#include "game_beacon.h"
 
-extern void PALANM_StopTimer(void);
+#include "palanm.h"
 
-extern u8 GAME_DATA_IsWalkCountEnabled(const struct GameData *gameData);
 
-extern void UI_SetFrameRate(u8 value);
+#include "ui.h"
 
-extern u8 GAME_DATA_IncWalkCount(struct GameData *gameData);
 
 extern void GAMESYSTEM_UpdateAutoComm(struct GameSystem *gameSystem);
 
-extern void GAME_COMM_Update(struct GameComm *gameComm);
 
 extern unsigned int PROCSYS_Main(struct ProcSys *procSys);
 
-extern u32 GAME_DATA_GetBgmInfo(const struct GameData *gameData);
 struct FieldSoundSystem;
 
-extern void FIELD_SOUND_SYSTEM_Update(struct FieldSoundSystem *s);
+#include "field_sound_system.h"
 
 extern void ISS_SYS_Update(void *issSystem);
 
-extern void PALANM_UpdateTimer(u8 *target);
 
-extern u32 GFL_NET_ERR_ShowScreen(u32 mode);
+#include "net_err.h"
 
 extern void PROCSYS_Push(struct ProcSys *procSys, u32 overlayId, void *procData, void *param);
 
-extern u32 GAME_DATA_IsConfigFlagSet(const struct GameData *gameData);
 
-extern void GAME_DATA_SetConfigFlag(struct GameData *gameData, int on);
 
-extern u16   GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
 
-extern u32 ZONEDATA_IsNoGameEventZone(u32 zoneId);
 
-extern u32   GFL_NET_ERR_GetErrorLevel(void);
 
-extern int INTRUDE_COMM_CheckEntryAllowed(struct GameSystem *gameSystem);
+#include "../ov010/intrude_comm_query.h"
 
 extern int   DWCi_IsFold(void);
 
-extern int UI_IsPowerConnected(void);
 struct CgearSaveBlock;
 
-extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlockFromSys(void *p);
+#include "block20_savedata.h"
 struct CGearSave;
 
-extern u8 CGEAR_SAVE_GetObtained(struct CGearSave *save);
+#include "cgear_save.h"
 
-extern int GFL_NET_GetRunState(void);
+#include "net.h"
 
-extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 
-extern void GAME_COMM_Start(struct GameComm *comm, u32 kind, u32 param);
 
-extern void UI_SetWakePoweredHookGlobal(void (*callback)(struct GameSystem *), void *arg);
 
-extern void UI_SetKeepAwakePred(int (*callback)(struct GameSystem *), void *arg);
 
 u32 GAMESYSTEM_CallIfSet(u32 (*func)(void));
 
@@ -234,7 +212,7 @@ u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, u32 initParam, struct GameS
 
 u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
 
-struct GameInitWork *GAMESYSTEM_SetupInitWork(u32 mode, u16 zoneId, struct Vec3 *position, int direction);
+struct GameInitWork *GAMESYSTEM_SetupInitWork(u32 mode, u16 zoneId, struct VecFx32 *position, int direction);
 
 u32 GAMESYSTEM_GetWorkSize(void);
 
@@ -308,17 +286,12 @@ void GAMESYSTEM_RegisterSleepCheck(struct GameSystem *gameSystem);
 
 void GAMESYSTEM_ReleaseSleepCheck(struct GameSystem *gameSystem);
 
-int GAME_EVENT_Control(struct GameSystem *gameSystem);
+#include "game_event.h"
 
-int GAME_EVENT_IsRunning(struct GameSystem *gameSystem);
 
-int GAME_EVENT_StartByCreator(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg);
 
-struct GameData *GAME_DATA_Create(u16 heapId);
 
-void GAME_DATA_Delete(struct GameData *gameData);
 
-struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
 extern struct GameSystemGlobal _GameSystemGlobal;
 
@@ -388,7 +361,7 @@ void GAMESYSTEM_RandTwice(void)
  */
 void GAMESYSTEM_ApplyTamperPenalty(void)
 {
-    GFL_USE_AddMainTask((u32)GAMESYSTEM_RandTwice, 0, 0x7f);
+    GFL_USE_AddMainTask((void (*)(struct Tcb *, void *))GAMESYSTEM_RandTwice, 0, 0x7f);
     _GameSystemGlobal.tamperCount += 1;
 }
 
@@ -417,7 +390,7 @@ void GAMESYSTEM_ProbeHeapCreate(void)
  */
 void GAMESYSTEM_ApplyTamperPenaltyRepeat(void)
 {
-    GFL_USE_AddMainTask((u32)GAMESYSTEM_RandTwice, 0, 0x7f);
+    GFL_USE_AddMainTask((void (*)(struct Tcb *, void *))GAMESYSTEM_RandTwice, 0, 0x7f);
     _GameSystemGlobal.tamperCount += 1;
 }
 
@@ -548,7 +521,7 @@ u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSy
  * 0x02146250 (the address of +0x08, used both for the 0x14-byte clear and
  * for the return value), 0x02146248 and 0x02146254 (= +0x0C, the destination
  * of the twelve-byte record copy).  So the struct is
- * `{ u32 mode; Vec3 position; u16 zoneId; u16 direction; }` and the function
+ * `{ u32 mode; VecFx32 position; u16 zoneId; u16 direction; }` and the function
  * clears +0x08..+0x1C, stores two scalars, copies the record in and stores
  * one more scalar.
  *
@@ -560,7 +533,7 @@ u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSy
  *   python tools/match.py one --src src/matched/GAMESYSTEM_SetupInitWork.c \
  *       --func GAMESYSTEM_SetupInitWork --addr 0x02011EEC --cc 1.1p1 --thumb
  */
-struct GameInitWork *GAMESYSTEM_SetupInitWork(u32 mode, u16 zoneId, struct Vec3 *position, int direction)
+struct GameInitWork *GAMESYSTEM_SetupInitWork(u32 mode, u16 zoneId, struct VecFx32 *position, int direction)
 {
     MI_CpuFill8(&_GameSystemGlobal.initWork, 0, sizeof(struct GameInitWork));
     _GameSystemGlobal.initWork.mode = mode;
@@ -715,7 +688,8 @@ int GAMESYSTEM_Main(struct GameSystem *gameSystem)
     return 0;
 }
 
-extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);   /* overlay-resident */
+#include "../ov021/fieldmap.h"
+   /* overlay-resident */
 
 /*
  * Three nested tests sharing one epilogue: the object is driven through
@@ -1083,7 +1057,7 @@ void GAMESYSTEM_OnSleep(struct GameSystem *gameSystem)
  */
 void GAMESYSTEM_RegisterSleepCallback(struct GameSystem *gameSystem)
 {
-    UI_SetWakePoweredHookGlobal(GAMESYSTEM_OnSleep, gameSystem);
+    UI_SetWakePoweredHookGlobal((UiCb)GAMESYSTEM_OnSleep, gameSystem);
 }
 
 void GAMESYSTEM_ReleaseSleepCallback(struct GameSystem *gameSystem)
@@ -1123,7 +1097,7 @@ int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem)
  */
 void GAMESYSTEM_RegisterSleepCheck(struct GameSystem *gameSystem)
 {
-    UI_SetKeepAwakePred(GAMESYSTEM_IsSleepBlocked, gameSystem);
+    UI_SetKeepAwakePred((UiPred)GAMESYSTEM_IsSleepBlocked, gameSystem);
 }
 
 void GAMESYSTEM_ReleaseSleepCheck(struct GameSystem *gameSystem)

@@ -22,9 +22,8 @@
 
 /* The user settings copy in system work at 0x02FFFC80, as far as the
    reads here reach. */
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern BOOL OS_IsRunOnTwl(void);
-extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
+#include "os_emulator.h"
 void OS_GetMacAddress(u8 *macAddress);
 void OS_GetOwnerInfo(OSOwnerInfo *info);
 long long OS_GetOwnerRtcOffset(void);

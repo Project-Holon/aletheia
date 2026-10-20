@@ -1,0 +1,18 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "NO_GEAR_StoreStepFunc", "black_address": "0x021EFEC0", "white_address": "0x021EFEE0", "size": 4, "diff": "same", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"},
+  {"name": "NO_GEAR_SetStepFunc", "black_address": "0x021EFEC4", "white_address": "0x021EFEE4", "size": 8, "diff": "constant", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"},
+  {"name": "NO_GEAR_LoadGraphics", "black_address": "0x021EFECC", "white_address": "0x021EFEEC", "size": 136, "diff": "constant", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"},
+  {"name": "NO_GEAR_SetupBackgrounds", "black_address": "0x021EFF54", "white_address": "0x021EFF74", "size": 260, "diff": "constant", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"},
+  {"name": "NO_GEAR_Init", "black_address": "0x021F0058", "white_address": "0x021F0078", "size": 36, "diff": "constant", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"},
+  {"name": "NO_GEAR_ReleaseGraphics", "black_address": "0x021F007C", "white_address": "0x021F009C", "size": 72, "diff": "constant", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"},
+  {"name": "NO_GEAR_Step", "black_address": "0x021F00C4", "white_address": "0x021F00E4", "size": 4, "diff": "same", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"},
+  {"name": "NO_GEAR_Create", "black_address": "0x021F00C8", "white_address": "0x021F00E8", "size": 48, "diff": "constant", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"},
+  {"name": "NO_GEAR_Update", "black_address": "0x021F00F8", "white_address": "0x021F0118", "size": 28, "diff": "constant", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"},
+  {"name": "NO_GEAR_Hook", "black_address": "0x021F0114", "white_address": "0x021F0134", "size": 4, "diff": "same", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"},
+  {"name": "NO_GEAR_Destroy", "black_address": "0x021F0118", "white_address": "0x021F0138", "size": 4, "diff": "constant", "source": "src/game/ov030/no_gear.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

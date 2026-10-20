@@ -1,0 +1,13 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_TIME_EFFECT_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 260, "diff": "constant", "source": "src/game/ov065/field_gimmick_time_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_TIME_EFFECT_Exit", "black_address": "0x021F37C4", "white_address": "0x021F37E4", "size": 24, "diff": "constant", "source": "src/game/ov065/field_gimmick_time_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_TIME_EFFECT_Update", "black_address": "0x021F37DC", "white_address": "0x021F37FC", "size": 128, "diff": "constant", "source": "src/game/ov065/field_gimmick_time_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_TIME_EFFECT_StartEffect", "black_address": "0x021F385C", "white_address": "0x021F387C", "size": 96, "diff": "constant", "source": "src/game/ov065/field_gimmick_time_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent", "black_address": "0x021F38BC", "white_address": "0x021F38DC", "size": 20, "diff": "constant", "source": "src/game/ov065/field_gimmick_time_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_TIME_EFFECT_WaitEffectEventMain", "black_address": "0x021F38D0", "white_address": "0x021F38F0", "size": 4, "diff": "constant", "source": "src/game/ov065/field_gimmick_time_effect.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

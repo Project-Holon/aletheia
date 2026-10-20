@@ -61,11 +61,9 @@ typedef struct {
     void *nextProcWork;
 } ProcSys;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void OS_Halt(void *p);
-extern u32 GFL_HEAP_Free(void *block);
-extern int GF_OVERLAY_Load(s32 handle);
-extern void GF_OVERLAY_Unload(s32 handle);
+#include "gfl_heap_wrap.h"
+#include "os_terminate_processor.h"
+#include "gf_overlay.h"
 void PROCSYS_CreateGlobal(int heapId);
 int PROCSYS_MainGlobal(void);
 void PROCSYS_PushGlobal(u32 overlayId, const ProcData *data, void *procWork);
@@ -255,7 +253,7 @@ u32 PROCSYS_MainInternal(ProcSys *sys)
 void PROCSYS_DeleteInternal(ProcSys *sys)
 {
     if (sys->current != 0) {
-        OS_Halt(sys->current);
+        OS_Halt();
     }
     GFL_HEAP_Free(sys);
 }

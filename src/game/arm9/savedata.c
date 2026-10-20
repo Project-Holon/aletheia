@@ -62,10 +62,8 @@ struct SaveDataTable {
     u32 footer_size;                /* +0x18 */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heap_id, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-extern void MIi_CpuClear32(u32 v, void *dst, u32 n);
+#include "gfl_heap_wrap.h"
+#include "mi_memory.h"
 
 struct SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, struct SaveBlockDef *table, u32 table_max, u32 size_limit,
                                     u32 header_size, u32 block_overhead, u32 footer_size);
@@ -77,8 +75,7 @@ u32 SAVEDATA_GetBlockOffset(struct SaveDataTable *svdt, u32 gmdataid);
 u32 SAVEDATA_GetBlockSize(struct SaveDataTable *svdt, u32 gmdataid);
 u32 SAVEDATA_GetTableMax(struct SaveDataTable *svdt);
 u32 SAVEDATA_GetTotalSize(struct SaveDataTable *svdt);
-void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
-void GF_PANIC_FailPrintf(const char *file, u32 line, const char *fmt, ...);
+#include "gf_panic.h"
 
 extern const char savedata_File[];
 extern const u8 savedata_AssertIdInRange[];

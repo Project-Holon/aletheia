@@ -120,79 +120,52 @@ enum {
     ISS_MODE_COUNT = 9
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern IssRoadSys *ISS_ROAD_SYS_Create(struct Location *player, u32 heapId);
+#include "iss_road_sys.h"
 struct PlayerWork;
 
-extern IssCitySys *ISS_CITY_SYS_Create(struct PlayerWork *player, u32 heapId);
+#include "iss_city_sys.h"
 
-extern IssDungeonSys *ISS_DUNGEON_SYS_Create(struct GameData *gameData, struct PlayerWork *player, u32 heapId);
+#include "iss_dungeon_sys.h"
 struct IssZone;
 
-extern struct IssZone *ISS_ZONE_SYS_Create(u32 heapId);
+#include "iss_zone_sys.h"
 
-extern u8 *ISS_SWITCH_SYS_Create(u16 heapId);
+#include "iss_switch_sys.h"
 
-extern void ISS_ROAD_SYS_Delete(void *road);
 
-extern void ISS_CITY_SYS_Delete(IssCitySys *city);
 
-extern void ISS_DUNGEON_SYS_Delete(IssDungeonSys *dungeon);
 
-extern void ISS_ZONE_SYS_Delete(struct IssZone *zone);
 
-extern void ISS_SWITCH_SYS_Delete(u8 *sys);
 
-extern void ISS_ROAD_SYS_Update(IssRoadSys *road);
 
-extern void ISS_CITY_SYS_Update(IssCitySys *city);
 
-extern void ISS_DUNGEON_SYS_Update(IssDungeonSys *dungeon);
 
-extern void ISS_ZONE_SYS_Update(struct IssZone *zone);
 
-extern void ISS_SWITCH_SYS_Main(u8 *sys);
 
-extern void ISS_ROAD_SYS_Start(IssRoadSys *road);
 
-extern void ISS_CITY_SYS_Start(IssCitySys *city);
 
-extern void ISS_DUNGEON_SYS_Start(IssDungeonSys *dungeon);
 
-extern void ISS_SWITCH_SYS_On(u8 *sys);
 
-extern void ISS_ROAD_SYS_Stop(IssRoadSys *road);
 
-extern void ISS_CITY_SYS_Stop(IssCitySys *city);
 
-extern void ISS_DUNGEON_SYS_Stop(IssDungeonSys *dungeon);
 
-extern void ISS_ZONE_SYS_Stop(struct IssZone *zone);
 
-extern void ISS_SWITCH_SYS_Off(u32 *sys);
 
-extern void ISS_ZONE_SYS_Start(struct IssZone *zone, u16 key);
 
-extern void ISS_CITY_SYS_NotifyZoneChange(IssCitySys *city, u32 zoneId);
 
-extern void ISS_DUNGEON_SYS_SetTargetAreaId(IssDungeonSys *dungeon, u16 zoneId);
 
-extern void ISS_ZONE_SYS_SwitchZone(struct IssZone *zone, u32 key);
 
-extern void ISS_SWITCH_SYS_ZoneChange(u32 *sys, u32 zoneId);
 
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(const GameData *gameData);
+#include "game_data.h"
 
-extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
 
-extern u16 GFL_USE_GetBgmNo(void);
+#include "gfl_use.h"
 
-extern u32 GAME_DATA_GetBagCursor(const GameData *gameData);
 
-extern u8 BGM_INFO_GetIssMode(const BgmInfoTable *table, u16 bgmId);
+#include "bgm_info.h"
 
 IssSys *ISS_SYS_Create(GameData *gameData, u32 heapId);
 
@@ -298,17 +271,12 @@ u32 ISS_SYS_HasBgmChanged(IssSys *iss);
 
 void ISS_SYS_SwitchMode(IssSys *iss);
 
-Iss3dsSys *ISS_3DS_SYS_Create(u32 heapId);
+#include "iss_3ds_sys.h"
 
-void ISS_3DS_SYS_Delete(Iss3dsSys *sys);
 
-void ISS_3DS_SYS_Update(Iss3dsSys *sys);
 
-void ISS_3DS_SYS_Enter(Iss3dsSys *sys);
 
-void ISS_3DS_SYS_Leave(Iss3dsSys *sys);
 
-void ISS_3DS_SYS_OnZoneChange(Iss3dsSys *sys);
 
 extern const char ISS_SYS_FileName[];
 

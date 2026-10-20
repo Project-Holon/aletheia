@@ -17,7 +17,7 @@
  */
 
 /* hand-written in the original: swpb byte stores and r12/lr as loop temporaries (VRAM-safe decompressor) */
-asm void MI_UncompressLZ8(void)
+asm void MI_UncompressLZ8(const void *srcp, void *destp)
 {
     stmfd sp!, {r4, r5, r6, r7, lr}
     ldr r5, [r0], #4

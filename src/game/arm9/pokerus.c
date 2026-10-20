@@ -24,19 +24,15 @@
  */
 #include "pokeparty_shared_types.h"
 
-extern struct BoxPokemon *POKE_TOOL_CastToBoxParam(struct PokemonParam *pp);
+#include "poke_tool.h"
 
-extern u32   POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 id, u32 arg);
 
-extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
 
-extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
 
-extern u32   GF_STANDARD_Rand(void);
+#include "gf_standard.h"
 
-u32 POKEPARTY_GetCount(const struct Party *party);
+#include "pokeparty.h"
 
-struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
 void POKERUS_TryInfectParty(struct Party *party);
 

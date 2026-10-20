@@ -1912,7 +1912,7 @@ int OPTION_MENU_IsChoiceSelected(const OptionSettings *settings, int choiceIndex
  */
 u32 OPTION_MENU_GetTextSpeedWait(const OptionSettings *settings)
 {
-    MSG_SPEED_GetWait();
+    return MSG_SPEED_GetWait();
 }
 
 /* Returns the index of the setting changed since the last call and clears it. */

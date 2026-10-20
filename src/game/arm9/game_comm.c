@@ -135,17 +135,15 @@ typedef struct GameComm {
 /* the finish arm clears its fields through an enum-typed zero */
 typedef enum { Z0 } E;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "game_data.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "strbuf.h"
 
-extern void MYSTATUS_NameToStrbuf(u16 *name, struct Strbuf *buf);
+#include "mystatus.h"
 
-extern void STRBUF_Delete(struct Strbuf *vec);
 
-extern u32 GFL_HEAP_Free(void *p);
 
 void GAME_COMM_SetSeqState(GameCommSeq *seq, u32 state);
 
@@ -315,15 +313,11 @@ void GAME_COMM_CallHandler(GameComm *comm, u32 arg)
 }
 
 /* The comm request object of the game system: start, exit, player status and info message queue. */
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 
-extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 netId);
 
-extern int MYSTATUS_IsNameEmpty(const struct MyStatus *status);
 
-extern u32 MYSTATUS_GetSex(const struct MyStatus *status);
 
 void GAME_COMM_CallKindNotify(GameComm *comm, u32 arg);
 

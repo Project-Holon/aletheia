@@ -66,7 +66,7 @@ typedef struct {
     u8 language;
 } MovData;
 
-typedef struct {
+typedef struct Wk {
     u8 sSendBuf[256];
     u8 sRecvBuf[256];
     u16 data_seq_num;
@@ -121,14 +121,15 @@ extern void DWCi_MOV_WH_Reset(void);
 extern void OS_Terminate(void);
 extern void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid);
 extern u16 DWCi_MOV_MBP_GetState(void);
-extern void DWCi_MOV_MBP_Start(void *gameInfo, u16 channel);
+extern void DWCi_MOV_MBP_Start(MBGameRegistry *gameInfo, u16 channel);
 extern u16 DWCi_MOV_MBP_GetChildBmp(int bmpType);
 extern int DWCi_MOV_MBP_IsBootableAll(void);
 extern void DWCi_MOV_MBP_StartRebootAll(void);
 extern void DWCi_MOV_MBP_Cancel(void);
 extern void DWCi_MOV_WH_SetJudgeAcceptFunc(unsigned int v);
 extern int DWCi_MOV_WH_ParentConnect(int mode, u16 tgid, u16 channel);
-extern void *DWCi_MOV_MBP_GetChildInfo(u16 child_aid);
+struct DWCi_MOV_MBPChildInfo;
+extern struct DWCi_MOV_MBPChildInfo *DWCi_MOV_MBP_GetChildInfo(u16 child_aid);
 extern u16 DWCi_MOV_MBP_GetPlayerNo(u8 *macAddress);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern int DWCi_MOV_WH_StepDS(void *data);
@@ -458,7 +459,7 @@ static void _DWCi_MOV_WaitandDownloadandBoot_Child(void)
 {
     switch (DWCi_MOV_MBP_GetState()) {
     case 1:
-        DWCi_MOV_MBP_Start((char *)gDwcMoveidWork + 0x2b4 + 0x800, *(u16 *)((char *)gDwcMoveidWork + 0x600 + 0x4a));
+        DWCi_MOV_MBP_Start((MBGameRegistry *)((char *)gDwcMoveidWork + 0x2b4 + 0x800), *(u16 *)((char *)gDwcMoveidWork + 0x600 + 0x4a));
         return;
     case 2:
         if (DWCi_MOV_MBP_GetChildBmp(2) != 0) {

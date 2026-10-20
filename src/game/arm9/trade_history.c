@@ -35,23 +35,18 @@ struct TradeHistory {
     u32 tradeCount;
 };
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern void MI_CpuMove(const void *src, void *dest, u32 size);
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 
-extern u32  MYSTATUS_GetId(const struct MyStatus *status);
+#include "mystatus.h"
 
-extern int  MYSTATUS_GetSize(void);
+#include "config.h"
 
-extern u8   MYSTATUS_GetTrainerView(const struct MyStatus *status);
 
-extern void MYSTATUS_SetTrainerView(struct MyStatus *status, u8 value);
 
-extern u8   MYSTATUS_GetRomCode(const struct MyStatus *status);
 
 u32 TRADE_HISTORY_GetSize(void);
 

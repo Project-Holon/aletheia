@@ -1,0 +1,10 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_62_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 120, "diff": "constant", "source": "src/game/ov062/field_gimmick_62.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_62_Exit", "black_address": "0x021F3738", "white_address": "0x021F3758", "size": 16, "diff": "constant", "source": "src/game/ov062/field_gimmick_62.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_62_Update", "black_address": "0x021F3748", "white_address": "0x021F3768", "size": 4, "diff": "constant", "source": "src/game/ov062/field_gimmick_62.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

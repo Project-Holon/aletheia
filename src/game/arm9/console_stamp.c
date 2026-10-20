@@ -55,22 +55,18 @@ struct ConsoleStamp {
     u8  reserved[0x14];
 };
 
-extern u64 RTC_ConvertDateTimeToSecond(const struct RTCDate *date,
-                                       const struct RTCTime *time);
+#include "convert.h"
 
-extern u32 RTC_ConvertDateToDay(const struct RTCDate *date);
 
-extern void OS_GetMacAddress(u8 *mac);
+#include "os_ownerinfo.h"
 
-extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 
-extern s64  OS_GetOwnerRtcOffset(void);
 
-extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *control, u32 blockId);
+#include "save_control.h"
 
-extern void GF_STANDARD_CopyCachedRtc(struct RTCDate *date, struct RTCTime *time);
+#include "gf_standard.h"
 
 /* Forward declarations of functions defined further down. */
 void DAILY_CLOCK_Init(struct DailyClock *clock);
@@ -165,7 +161,7 @@ u8 CONSOLE_STAMP_GetBirthdayDay(const struct ConsoleStamp *stamp)
 void DAILY_CLOCK_Init(struct DailyClock *clock)
 {
     clock->started = 1;
-    GF_STANDARD_CopyCachedRtc(&clock->date, &clock->time);
+    GF_STANDARD_CopyCachedRtc((struct RtcDate *)&clock->date, (struct RtcTime *)&clock->time);
     clock->dayCount = RTC_ConvertDateToDay(&clock->date);
     clock->startSecond = RTC_ConvertDateTimeToSecond(&clock->date, &clock->time);
     clock->usedMinutes = 0;
@@ -199,6 +195,6 @@ void DAILY_CLOCK_Spend(struct DailyClock *clock, u32 minutes)
 void DAILY_CLOCK_Refill(struct DailyClock *clock)
 {
     clock->remainingMinutes = DAILY_MINUTES_MAX;
-    GF_STANDARD_CopyCachedRtc(&clock->date, &clock->time);
+    GF_STANDARD_CopyCachedRtc((struct RtcDate *)&clock->date, (struct RtcTime *)&clock->time);
     clock->dayCount = RTC_ConvertDateToDay(&clock->date);
 }

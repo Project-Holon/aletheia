@@ -125,68 +125,36 @@ typedef struct FieldSoundSystem {
     u32 pauseMask;                  /* 0xB4 */
 } FieldSoundSystem;
 
-/* Records read through the lookup chain of the validity check. */
-typedef struct SoundEventRecord {
-    u32 checkId;
-    u16 groupIndex;
-} SoundEventRecord;
+#include "../sdk_fx.h"
+#include "gfl_heap_wrap.h"
 
-typedef struct SoundGroupRecord {
-    u32 checkId;
-    u16 entryId[4];
-} SoundGroupRecord;
+#include "player_volume_fader.h"
 
-typedef struct SoundEntryRecord {
-    u32 checkId : 24;
-} SoundEntryRecord;
+#include "ringtone_sys.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_use.h"
 
-extern struct Fader *PLAYER_VOLUME_FADER_Create(void *a, int v);
 
-extern Ringtone *RINGTONE_SYS_Create(u32 heapId, struct Fader *volumeFader);
 
-extern void GFL_USE_SetSeqStartFilter(int (*hook)(u32 id));
 
-extern void GFL_USE_CancelChangeAndStopBgm(void);
 
-extern void RINGTONE_SYS_Delete(Ringtone *p);
 
-extern void PLAYER_VOLUME_FADER_Delete(void *ptr);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void RINGTONE_SYS_Update(Ringtone *p);
 
-extern void PLAYER_VOLUME_FADER_Update(struct Fader *s);
 
-extern void PLAYER_VOLUME_FADER_SetTarget(struct Fader *s, u8 level, u16 frames);
+#include "../ov021/scrcmd_misc.h"
 
-extern void RINGTONE_SYS_Start(Ringtone *p);
 
-extern void RINGTONE_SYS_Stop(Ringtone *p);
 
-extern int FIELD_SOUND_SYSTEM_FindSlotSound(u32 id);
 
-extern int FIELD_SOUND_SYSTEM_IsSlotSoundTracked(u32 id);
 
-extern int GFL_USE_GetSeSlot(u32 seqNo);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
-extern void GFL_USE_PlaySeWithVolume(u32 id, u32 who);
+#include "nns_snd_arc.h"
 
-extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
 
-extern void GFL_USE_StopSeSlot(int i);
 
-extern void *NNS_SndArcGetSeqInfo(int index);
-
-extern u32 NNS_SndArcGetFileAddress(u32 idx);
-
-extern void *NNS_SndArcGetBankInfo(int index);
-
-extern SoundEntryRecord *NNS_SndArcGetWaveArcInfo(u32 id);
 
 void FIELD_SOUND_SYSTEM_PopBgm(FieldSoundSystem *fieldSound);
 
@@ -637,23 +605,23 @@ int FIELD_SOUND_SYSTEM_IsKnownSoundId(u32 soundId)
 /* Walks the record chain (event, group, entries) of the index and checks each link. */
 u32 FIELD_SOUND_SYSTEM_IsSoundRecordChainValid(int soundIndex)
 {
-    SoundEventRecord *eventRec;
+    NNSSndArcSeqInfo *eventRec;
     int i;
-    SoundGroupRecord *groupRec;
+    NNSSndArcBankInfo *groupRec;
 
     eventRec = NNS_SndArcGetSeqInfo(soundIndex);
-    if (NNS_SndArcGetFileAddress(eventRec->checkId) == 0) {
+    if (NNS_SndArcGetFileAddress(eventRec->fileId) == 0) {
         return 0;
     }
 
-    groupRec = NNS_SndArcGetBankInfo(eventRec->groupIndex);
-    if (NNS_SndArcGetFileAddress(groupRec->checkId) == 0) {
+    groupRec = NNS_SndArcGetBankInfo(eventRec->bankNo);
+    if (NNS_SndArcGetFileAddress(groupRec->fileId) == 0) {
         return 0;
     }
 
     for (i = 0; i < 4; i++) {
-        if (groupRec->entryId[i] != 0xffff) {
-            if (NNS_SndArcGetFileAddress(NNS_SndArcGetWaveArcInfo(groupRec->entryId[i])->checkId) == 0) {
+        if (groupRec->waveArcNo[i] != 0xffff) {
+            if (NNS_SndArcGetFileAddress(NNS_SndArcGetWaveArcInfo(groupRec->waveArcNo[i])->bits.fileId) == 0) {
                 return 0;
             }
         }
@@ -1166,25 +1134,17 @@ typedef struct ZoneBgmOverride {
     u32 bgmNo;
 } ZoneBgmOverride;
 
-extern int GFL_USE_IsBgmFading(void);
 
-extern void GFL_USE_FadeInBgmFull(u32 frames);
 
-extern void GFL_USE_SetBgmPaused(u32 value);
 
-extern void GFL_USE_FadeOutBgm(u32 frames);
 
-extern int GFL_USE_PushBgm(void);
 
-extern int GFL_USE_PopBgm(void);
 
-extern u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort);
 
-extern void GFL_NET_SetDeviceModeIfRunning(int a);
+#include "net.h"
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 frames);
 
-extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
+#include "game_data.h"
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
@@ -1192,26 +1152,19 @@ extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct
 
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern u32 GAME_DATA_GetBgmInfo(const struct GameData *gameData);
 
-extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 
 extern struct Iss3dsSys *ISS_SYS_Get3dsSys(struct IssSys *iss);
 
-extern void ISS_3DS_SYS_SetVolume(struct Iss3dsSys *iss3ds, u32 volume);
+#include "iss_3ds_sys.h"
 
-extern u32 ZONEDATA_GetBgmId(u32 zoneId, u32 season);
+#include "zonedata.h"
 
-extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 struct EventWork;
 
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 
-extern u32 ZONEDATA_IsRideBgmEnabled(u32 zoneId);
 
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
-extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
 
 extern const TrainerClassBgm sTrainerClassBgmTable[];
 

@@ -127,15 +127,14 @@ struct NetPacketSpan {
     u16 remaining;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
+#include "mi_memory.h"
 
 extern void GFL_NET_SYSTEM_SetError(void);
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "gf_panic.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
@@ -143,19 +142,17 @@ extern int   GFL_NET_SYSTEM_GetChildBitmap(void);
 
 extern int  GFL_NET_SYSTEM_IsError(void);
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "net_handle.h"
 
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
+#include "gf_standard.h"
 
 extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-extern void MI_CpuCopy8(const void *src, void *dst, int n);
 
 extern int GFL_NET_SYSTEM_ClampNetId(int netId);
 
-extern void GFL_NET_STATE_Idle(void);
+#include "net_state.h"
 
 extern void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
@@ -164,37 +161,25 @@ extern void GFL_NET_SYSTEM_SetNoSend(void);
 extern void GFL_NET_SYSTEM_ResetError(void);
 struct NetRingBuff;
 
-void GFL_NET_RING_BUFF_Init(struct NetRingBuff *ring, u8 *buf, s32 size);
+#include "net_ring_buff.h"
 
-void GFL_NET_RING_BUFF_Write(NetRingBuff *r, const u8 *src, int len);
 
-int GFL_NET_RING_BUFF_Read(NetRingBuff *p, unsigned char *dst, u32 len, u32 max);
 
-u32 GFL_NET_RING_BUFF_ReadByte(NetRingBuff *a);
 
-u32 GFL_NET_RING_BUFF_ReadU16(NetRingBuff *a);
 
-int GFL_NET_RING_BUFF_GetDataSize(NetRingBuff *p);
 
-void GFL_NET_RING_BUFF_EndChange(NetRingBuff *r);
 
-int GFL_NET_QUEUE_IsEmpty(NetQueue *p);
+#include "net_queue.h"
 
-int GFL_NET_QUEUE_Put(NetQueue *queue, u32 command, const u8 *data, u32 size, u32 sendArg, u32 useRing, u32 queueArg);
 struct NetSendBuf;
 struct NetQueue;
 
-int GFL_NET_QUEUE_FillSendBuffer(struct NetQueue *queue, struct NetSendBuf *out);
 
-void GFL_NET_QUEUE_Init(NetQueue *p, u32 n, NetRingBuff *a, u32 b);
 
-void GFL_NET_QUEUE_Reset(NetQueue *p);
 
-void GFL_NET_QUEUE_Exit(NetQueue *queue);
 
-int GFL_NET_QUEUE_IsCommandQueued(NetQueue *p, int v);
 
-u32 GFL_NET_WM_ICON_EasySetLevel(u32 a);
+#include "wm_icon.h"
 
 void GFL_NET_SYSTEM_SetDebugByte(u8 phase, int line);
 
@@ -290,7 +275,7 @@ void GFL_NET_SYSTEM_ProcessChildRecv(void);
 
 int GFL_NET_SYSTEM_IsConnectMember(u32 netId);
 
-u32 GFL_NET_SYSTEM_GetConnectNum(void);
+int GFL_NET_SYSTEM_GetConnectNum(void);
 
 int GFL_NET_SYSTEM_IsDeviceReady(void);
 
@@ -302,35 +287,22 @@ int GFL_NET_SYSTEM_IsSendQueueEmpty(void);
 
 void GFL_NET_SYSTEM_SetWaitMode(u32 mode);
 
-u32 GFL_NET_COMMAND_GetHeaderSize(u32 commandOption);
+#include "net_command.h"
 
-void GFL_NET_COMMAND_CallCommand(u32 a, u32 b, int c, u32 d, u32 e, u32 f);
 
-int GFL_NET_COMMAND_IsCommandValid(unsigned int idx);
 
-int GFL_NET_COMMAND_IsHugeCommand(unsigned int idx);
 
-u32 GFL_NET_COMMAND_GetHugeBuffer(u32 command, u32 senderID, u32 totalSize);
 
-void GFL_NET_COMMAND_Main(void);
 
-void GFL_NET_STATE_WifiMatchStart(void);
 
-u32 GFL_NET_STATE_GetErrorMode(void);
 
-void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
-u32 GFL_NET_STATE_GetError(void);
 
-int GFL_NET_SendToHandle(GFLNetHandle *a, u32 b, u32 c, const void *d);
+#include "net.h"
 
-u32 GFL_NET_GetMaxConnectNum(void);
 
-u32 GFL_NET_GetChildSendSize(void);
 
-GFLNetSession *GFL_NET_GetSession(void);
 
-GFLNetSession *GFL_NET_GetInitParam(void);
 
 extern u8 _NetPhase[];  /* [0] MP parent phase (1 receive, 2 wait, 3 done, 4 send); [1] send phase (0 idle, 2 receiving, 4 ready) */
 
@@ -1944,7 +1916,7 @@ int GFL_NET_SYSTEM_IsConnectMember(u32 netId)
  *   python tools/match.py one --src src/matched/GFL_NET_SYSTEM_GetConnectNum.c \
  *       --func GFL_NET_SYSTEM_GetConnectNum --addr 0x020392B8 --cc 1.1p1 --arm
  */
-u32 GFL_NET_SYSTEM_GetConnectNum(void)
+int GFL_NET_SYSTEM_GetConnectNum(void)
 {
     int count;
     int i;

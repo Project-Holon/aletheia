@@ -141,56 +141,42 @@ typedef struct {
     u16       objCount;
 } Setup;
 
+/* Kept local: the heap id is a u16 here (gfl_heap_wrap.h takes u32). */
 extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, int line);
-
 extern u32 GFL_HEAP_Free(void *p);
 
-unsigned int G3D_SYSTEM_GetResourceSize(void);
+
+#include "nns_g3d_anm_calc_types.h"
+#include "nns_g3d_anm_types.h"
+#include "../sdk_fx.h"
+#include "../sdk_nnsfnd.h"
+#include "g3d_system.h"
 
 void G3D_SYSTEM_InitResourceByFile(struct G3dNodeInit *out, u32 *tag);
 struct G3dResource;
 
-struct G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
 struct ArcHandle;
 
-struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 
-struct G3dResource *G3D_SYSTEM_CreateResourcePath(char *path, unsigned int dataId);
 
-void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 
-u32 G3D_SYSTEM_CheckResourceType(struct G3dResource *res, unsigned int kind);
 
-int G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
 
-int G3D_SYSTEM_FreeVramTexture(struct G3dResource *res);
 
-int G3D_SYSTEM_IsTextureInVram(struct G3dResource *res);
 struct G3dRender;
 
-struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *mdlRes, unsigned int mdlIdx, struct G3dResource *texRes);
 
-void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
 
-struct G3dResource *G3D_SYSTEM_GetRenderMdlRes(struct G3dRender *render);
 
-struct G3dResource *G3D_SYSTEM_GetRenderTexRes(struct G3dRender *render);
 struct G3dAnime;
 
-struct G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, unsigned int anmIdx);
 
-void G3D_SYSTEM_DeleteAnime(struct G3dAnime *anime);
 struct G3dObject;
 
-struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **anmTbl, int anmCount);
 
-void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
 
-struct G3dRender *G3D_SYSTEM_GetObjectRender(struct G3dObject *obj);
 
-struct G3dAnime *G3D_SYSTEM_GetObjectAnime(struct G3dObject *obj, int anmIdx);
 
-u16 G3D_SYSTEM_GetObjectAnimeCount(struct G3dObject *obj);
 
 Util *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID);
 
@@ -224,9 +210,8 @@ u32 G3D_UTIL_GetResource(Util *util, int i);
 
 u32 G3D_UTIL_GetObject(Util *util, int i);
 
-void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u16 heap);
+#include "arc_tool.h"
 
-void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 a, u16 heap);
 
 extern const char g3d_util_file[];
 

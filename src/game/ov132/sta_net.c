@@ -1,7 +1,7 @@
 /*
  * file:     sta_net.c
  * unit:     yes
- * function: STA_NET_FindRecValueByKey, STA_NET_BeginTransfer, STA_NET_UpdateTransferState, STA_NET_SendChunk, STA_NET_AdvanceChunk, STA_NET_GetChunkPtr, STA_NET_IsTransferDone, STA_NET_NotifyHostKind4, STA_NET_NotifyHostKind5, STA_NET_NotifyHostKind6, STA_NET_SendSlot1Command, STA_NET_SendSlot2Command, STA_NET_SendSlot3Command, STA_NET_GetSlot1Done, STA_NET_GetSlot3Done, STA_NET_SendRandomOrder, STA_NET_SendKindA, STA_NET_GetCurrentSlotValue, STA_NET_GetSlotValueByIndex, STA_NET_GetRole, STA_NET_GetBoxesReceived, STA_NET_GetRecordsReceived, STA_NET_SetState6Pair, STA_NET_BeginKind5Phase
+ * function: STA_NET_FindRecValueByKey, STA_NET_BeginTransfer, STA_NET_UpdateTransferState, STA_NET_SendChunk, STA_NET_AdvanceChunk, STA_NET_GetChunkPtr, STA_NET_IsTransferDone, STA_NET_NotifyHostKind4, STA_NET_NotifyHostKind5, STA_NET_NotifyHostKind6, STA_NET_SendSlot1Command, STA_NET_SetSlot1Done, STA_NET_GetSlot1Value, STA_NET_SendSlot2Command, STA_NET_SetSlot2Done, STA_NET_GetSlot2Value, STA_NET_SendSlot3Command, STA_NET_SetSlot3Done, STA_NET_GetSlot3Value, STA_NET_GetSlot1Done, STA_NET_GetSlot3Done, STA_NET_SendRandomOrder, STA_NET_SendKindA, STA_NET_GetCurrentSlotValue, STA_NET_GetSlotValueByIndex, STA_NET_GetSlotWordByIndex, STA_NET_GetRole, STA_NET_GetBoxesReceived, STA_NET_GetRecordsReceived, STA_NET_SetState6Pair, STA_NET_BeginKind5Phase, STA_NET_SetState18Value, STA_NET_GetPairA, STA_NET_GetPairB
  * address:  0x021FD4F8
  * region:   ov132
  * compiler: dsi/1.1p1

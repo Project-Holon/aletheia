@@ -15,7 +15,7 @@
  * Own object: EXACT only with ../2.0/sp2; DIFF with 1.1p1 and dsi/1.2 (the
  * builds of nns_gfd_vram_transfer.c before it) and with ../1.2/sp2.  Not one file with
  * nns_gfd_vram_load_3.c: nns_gfd_vram_transfer.c lies between them.
- * One struct Cfg for g_02146B94 (two symbols at one address kept, the image has
+ * One struct LnkVramManCfg for g_02146B94 (two symbols at one address kept, the image has
  * two pool words), one struct HeapB for g_02146BB0.
  *
  * symbols:
@@ -67,7 +67,7 @@ typedef struct Node0206207C {
     struct Node0206207C *pBlkNext;
 } Node0206207C;
 
-struct Cfg
+struct LnkVramManCfg
 {
   u32 head_a;
   u32 head_b;
@@ -101,14 +101,10 @@ struct HeapB
 struct GfdLnkRange;
 struct GfdLnkBlock;
 
-extern u32 NNSi_GfdMergeAdjacentFreeBlocks(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, struct GfdLnkRange *range);
-extern int NNSi_GfdAllocBlockUnaligned(struct GfdLnkBlock **ppList, struct GfdLnkBlock **ppPool, unsigned int *pAddr, unsigned int size);
-extern void NNSi_GfdClearBlockListHead(struct GfdLnkBlock **ppHead);
+#include "nns_gfd_vram_transfer.h"
 struct GfdLnkBlock;
-extern struct GfdLnkBlock *NNSi_GfdInitBlockPool(struct GfdLnkBlock *blocks, u32 count);
 struct GfdLnkBlockPool;
 struct GfdLnkBlockList;
-extern u32 NNSi_GfdAddBlock(struct GfdLnkBlockList *list, struct GfdLnkBlockPool *pool, u32 start, u32 size);
 BOOL NNSi_GfdAllocLnkVram(Blk **list, Blk **pool, u32 *pRet, u32 size, u32 alignment);
 void NNSi_GfdMergeFreeBlockList(u32 *pp, u32 *arg);
 int NNSi_GfdFreeLnkVram(void *headp, void *freep, int addr, int szByte);
@@ -122,8 +118,8 @@ void NNSi_GfdInitPlttVramManager(u32 szByte, u32 pManagementWork, u32 szByteMana
 u32 NNS_GfdAllocPlttVram(u32 size, u32 flag);
 int NNS_GfdFreePlttVram(u32 id);
 void NNSi_GfdInitPlttVramHeap(void);
-extern struct Cfg g_02146B94;
-extern struct Cfg g_02146B94_blk;
+extern struct LnkVramManCfg g_02146B94;
+extern struct LnkVramManCfg g_02146B94_blk;
 extern u32 g_02146B98;
 extern u32 g_02146B9C;
 extern const struct Rgns g_020A17A8;

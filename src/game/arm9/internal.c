@@ -25,7 +25,7 @@ typedef unsigned int   u32_2;
 #include "../types.h"
 
 extern int RtcSendPxiCommand(unsigned long command);
-int PXI_SendWordByFifo(int fifotag, unsigned long data, BOOL err);
+#include "pxi_fifo.h"
 int RTCi_ReadRawDateTimeAsync(void);
 int RTCi_ReadRawDateAsync(void);
 int RTCi_ReadRawTimeAsync(void);

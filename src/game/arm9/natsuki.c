@@ -28,21 +28,19 @@
 #include "pokeparty_shared_types.h"
 #include "../types.h"
 
-extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
+#include "poke_tool.h"
 
-extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
 
-extern u32   GF_STANDARD_Rand(void);
+#include "gf_standard.h"
 
-extern u32   FILE_UTIL_GetItemParam(u32 item, u32 sel, u32 heap);
+#include "file_util.h"
 
-extern u32   ZONEDATA_GetPlaceNameId(u32 zoneId);
+#include "zonedata.h"
 
-extern int   GPOWER_ApplyFriendshipBonus(int delta);
+#include "gpower.h"
 
-u32 POKEPARTY_GetCount(const struct Party *party);
+#include "pokeparty.h"
 
-struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
 void NATSUKI_Calc(struct PokemonParam *pp, int type, int zoneId, u16 heap);
 

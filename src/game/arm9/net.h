@@ -1,8 +1,10 @@
 #ifndef GAME_ARM9_NET_H
 #define GAME_ARM9_NET_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of net.c, prototypes copied from their definitions. */
 
+#include "../types.h"
 #include "../arm9/net_types.h"
 
 void GFL_NET_SetupHeaps(u32 parentHeapId, u32 zero, u32 oldBaseHeapId, u32 newBaseHeapId);
@@ -34,10 +36,10 @@ u32 GFL_NET_IRC_WIRELESS_Step(void);
 void GFL_NET_IRC_WIRELESS_SetRetryRequest(int retryRequest);
 int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
 void GFL_NET_SetLinkTimeout(u32 frames);
-u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
+u8 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 int GFL_NET_GetNegotiationNum(void);
 u32 GFL_NET_IsConnectMember(u32 index);
-void GFL_NET_SetAcceptConnection(u32 unusedArg, void *eventArg);
+void GFL_NET_SetAcceptConnection(void *unusedArg, void *eventArg);
 u32 GFL_NET_IsIdle(void);
 void GFL_NET_SetIconPos(u16 iconX, u16 iconY);
 u32 GFL_NET_IsNetTypeBeacon(void);
@@ -81,5 +83,6 @@ u32 GFL_NET_CheckError(void);
 void GFL_NET_RefreshWmIconAt(u32 iconX, u32 iconY);
 void GFL_NET_RefreshWmIconAtOrigin(void);
 void GFL_NET_SetErrorCheckEnabled(u32 enable);
+/* END mkheaders: generated region */
 
 #endif

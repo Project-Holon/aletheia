@@ -30,26 +30,26 @@
 
 struct PartyRingSave;
 
-struct Rec;
+struct DendouRec;
 
 struct Sav;
 
 struct U16Vec;
 
-struct Rec;
+struct DendouRec;
 
 struct Date;
 
 struct Strbuf;
 
-struct Entry;
+struct DendouEntry;
 
 struct RecordTarget;
 
 struct RecordDate;
 
-/* One 0x3c-byte party member snapshot of struct Rec. */
-struct Entry {
+/* One 0x3c-byte party member snapshot of struct DendouRec. */
+struct DendouEntry {
     u16 species;
     u8  level;
     u8  form : 6;
@@ -61,8 +61,8 @@ struct Entry {
     u16 traits[4];
 };
 
-struct Rec {
-    struct Entry e[6];
+struct DendouRec {
+    struct DendouEntry e[6];
     u16 year;
     u8  month;
     u8  day;
@@ -76,7 +76,7 @@ struct Date {
 
 /* Save block with a ring of 15 dated party snapshots (0x155C bytes). */
 struct PartyRingSave {
-    struct Rec entries[15];   /* +0x000 */
+    struct DendouRec entries[15];   /* +0x000 */
     u32 writeIndex;           /* +0x1554 slot the next snapshot goes to */
     u32 recordCount;          /* +0x1558 saturating total, stops at 9999 */
 };
@@ -94,7 +94,7 @@ struct RecordTarget {
     u16   traits[4];    /* +0x14 */
 };
 
-/* The date unpacked from a struct Rec at +0x168. */
+/* The date unpacked from a struct DendouRec at +0x168. */
 struct RecordDate {
     u32 year;
     u32 month;
@@ -102,29 +102,22 @@ struct RecordDate {
     u32 reserved;
 };
 
-extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+#include "mi_memory.h"
 struct PokemonParam;
 
-extern u32  POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "poke_tool.h"
 struct Party;
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "pokeparty.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "strbuf.h"
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
-extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *pp);
 
-extern void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
 
-extern u16   STRBUF_GetEosChar(void);
 
-extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, u32 didDecode);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 
 u32 DENDOU_SAVEDATA_GetSize(void);
 
@@ -134,13 +127,13 @@ void DENDOU_SAVEDATA_Clear(void *p);
 
 void DENDOU_SAVEDATA_InitRecord(void *block);
 
-void DENDOU_SAVEDATA_SetRecord(struct Rec *rec, void *party, struct Date *date, u32 heap);
+void DENDOU_SAVEDATA_SetRecord(struct DendouRec *rec, void *party, struct Date *date, u32 heap);
 
 void DENDOU_SAVEDATA_AppendRecord(struct PartyRingSave *obj, void *party, void *date, u32 heap);
 
 int DENDOU_SAVEDATA_GetMemberCount(char *p);
 
-void DENDOU_SAVEDATA_ExportMember(const struct Entry *base, int idx, struct RecordTarget *dst);
+void DENDOU_SAVEDATA_ExportMember(const struct DendouEntry *base, int idx, struct RecordTarget *dst);
 
 void DENDOU_SAVEDATA_GetRecordDate(const u8 *o, struct RecordDate *out);
 
@@ -191,7 +184,7 @@ void DENDOU_SAVEDATA_InitRecord(void *block)
  * u16) and OT name (0x8d, 8 u16) through an 11-char string buffer, or the
  * terminator from STRBUF_GetEosChar in both name slots when the buffer could not
  * be allocated.  The date record (first three words) goes to +0x168.
- * The layout of struct Entry is the one DENDOU_SAVEDATA_ExportMember (EXACT*) reads back.
+ * The layout of struct DendouEntry is the one DENDOU_SAVEDATA_ExportMember (EXACT*) reads back.
  *
  * Levers: the loop counter i is initialised AFTER the memset and before
  * n (both zeroes are then scheduled across the call with i first, which is
@@ -201,7 +194,7 @@ void DENDOU_SAVEDATA_InitRecord(void *block)
  * EXACT* only because the 402 compiled bytes stop two short of the listing
  * extent at a "movs r0, r0" alignment filler; no byte differs.
  */
-void DENDOU_SAVEDATA_SetRecord(struct Rec *rec, void *party, struct Date *date, u32 heap)
+void DENDOU_SAVEDATA_SetRecord(struct DendouRec *rec, void *party, struct Date *date, u32 heap)
 {
     int count = POKEPARTY_GetCount(party);
     void *buf = STRBUF_Create(11, heap);
@@ -215,7 +208,7 @@ void DENDOU_SAVEDATA_SetRecord(struct Rec *rec, void *party, struct Date *date, 
         void *mon = POKEPARTY_GetMember(party, i);
         u32 saved = POKE_TOOL_DecodePartyParam(mon);
         if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 0) {
-            struct Entry *e = &rec->e[n];
+            struct DendouEntry *e = &rec->e[n];
             rec->e[n].species = POKE_TOOL_GetPartyValue(mon, 5, 0);
             e->level = POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
             e->form = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
@@ -267,7 +260,7 @@ void DENDOU_SAVEDATA_AppendRecord(struct PartyRingSave *obj, void *party, void *
 {
     if (obj->recordCount < 9999) {
         u32 slot;
-        DENDOU_SAVEDATA_SetRecord((struct Rec *)((u8 *)obj + obj->writeIndex * 0x16c), party, date, heap);
+        DENDOU_SAVEDATA_SetRecord((struct DendouRec *)((u8 *)obj + obj->writeIndex * 0x16c), party, date, heap);
         slot = obj->writeIndex + 1;
         obj->writeIndex = slot;
         if (slot >= 15) {
@@ -330,9 +323,9 @@ int DENDOU_SAVEDATA_GetMemberCount(char *records)
  *   python tools/match.py one --src src/matched/DENDOU_SAVEDATA_ExportMember.c \
  *       --func DENDOU_SAVEDATA_ExportMember --addr 0x0200EC2C --cc 1.1p1 --thumb
  */
-void DENDOU_SAVEDATA_ExportMember(const struct Entry *records, int index, struct RecordTarget *dst)
+void DENDOU_SAVEDATA_ExportMember(const struct DendouEntry *records, int index, struct RecordTarget *dst)
 {
-    const struct Entry *s = records + index;
+    const struct DendouEntry *s = records + index;
     int i;
 
     dst->species = s->species;
@@ -361,9 +354,9 @@ void DENDOU_SAVEDATA_ExportMember(const struct Entry *records, int index, struct
  */
 void DENDOU_SAVEDATA_GetRecordDate(const u8 *record, struct RecordDate *out)
 {
-    out->year = ((const struct Rec *)record)->year;
-    out->month = ((const struct Rec *)record)->month;
-    out->day = ((const struct Rec *)record)->day;
+    out->year = ((const struct DendouRec *)record)->year;
+    out->month = ((const struct DendouRec *)record)->month;
+    out->day = ((const struct DendouRec *)record)->day;
     out->reserved = 0;
 }
 
@@ -412,7 +405,7 @@ void DENDOU_SAVEDATA_ExportRingMember(void *ring, u32 index, void *recordIndex, 
 
     if (slot < 0)
         slot += 0xf;
-    DENDOU_SAVEDATA_ExportMember((const struct Entry *)((u8 *)ring + slot * 0x16c), (int)recordIndex, target);
+    DENDOU_SAVEDATA_ExportMember((const struct DendouEntry *)((u8 *)ring + slot * 0x16c), (int)recordIndex, target);
 }
 
 /*

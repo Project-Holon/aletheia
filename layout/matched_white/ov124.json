@@ -1,0 +1,24 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "CG_HELP_Setup", "black_address": "0x021D4240", "white_address": "0x021D4260", "size": 64, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_Teardown", "black_address": "0x021D4280", "white_address": "0x021D42A0", "size": 32, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_Main", "black_address": "0x021D42A0", "white_address": "0x021D42C0", "size": 336, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_VBlank", "black_address": "0x021D43F0", "white_address": "0x021D4410", "size": 8, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_InitDisplay", "black_address": "0x021D43F8", "white_address": "0x021D4418", "size": 268, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_ExitDisplay", "black_address": "0x021D4504", "white_address": "0x021D4524", "size": 48, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_SetupBgLayer", "black_address": "0x021D4534", "white_address": "0x021D4554", "size": 36, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_LoadActorResources", "black_address": "0x021D4558", "white_address": "0x021D4578", "size": 320, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_FreeActorResources", "black_address": "0x021D4698", "white_address": "0x021D46B8", "size": 36, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_InitWindows", "black_address": "0x021D46BC", "white_address": "0x021D46DC", "size": 416, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_FreeWindows", "black_address": "0x021D485C", "white_address": "0x021D487C", "size": 72, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_HandleTouchInput", "black_address": "0x021D48A4", "white_address": "0x021D48C4", "size": 156, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_DrawPageText", "black_address": "0x021D4940", "white_address": "0x021D4960", "size": 136, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_UpdatePageGraphics", "black_address": "0x021D49C8", "white_address": "0x021D49E8", "size": 332, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_ProcInit", "black_address": "0x021D4B14", "white_address": "0x021D4B34", "size": 112, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_ProcExit", "black_address": "0x021D4B84", "white_address": "0x021D4BA4", "size": 48, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CG_HELP_ProcMain", "black_address": "0x021D4BB4", "white_address": "0x021D4BD4", "size": 4, "diff": "constant", "source": "src/game/ov124/cg_help.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

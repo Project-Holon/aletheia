@@ -32,17 +32,17 @@ struct MusicalShot {
     u8  extraData[0xE0];
 };
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 struct ProcLinkReturnList;
 
-extern void EVENT_FIELD_PROCLINK_InitEventdataSystem(struct ProcLinkReturnList *list);
+typedef int Bool;
+#include "../ov010/event_field_proclink.h"
 
-extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *title);
+#include "../ov010/event_field_proclink_return.h"
 struct ProcLinkRequest;
 
-extern void EVENT_FIELD_PROCLINK_InitReturnHeader(struct ProcLinkRequest *request);
 
 u32 MUSICAL_SHOT_GetSize(void);
 

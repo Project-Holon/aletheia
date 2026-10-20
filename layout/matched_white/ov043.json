@@ -1,0 +1,23 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 632, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_Exit", "black_address": "0x021F3938", "white_address": "0x021F3958", "size": 36, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_Update", "black_address": "0x021F395C", "white_address": "0x021F397C", "size": 48, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent", "black_address": "0x021F398C", "white_address": "0x021F39AC", "size": 156, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent", "black_address": "0x021F3A28", "white_address": "0x021F3A48", "size": 152, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_LiftEventMain", "black_address": "0x021F3AC0", "white_address": "0x021F3AE0", "size": 696, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_ElevatorEventMain", "black_address": "0x021F3D78", "white_address": "0x021F3D98", "size": 340, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_IsLiftArrived", "black_address": "0x021F3ECC", "white_address": "0x021F3EEC", "size": 32, "diff": "same", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_IsInLiftZone", "black_address": "0x021F3EEC", "white_address": "0x021F3F0C", "size": 76, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_ShowLiftAnime", "black_address": "0x021F3F38", "white_address": "0x021F3F58", "size": 132, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_GetLiftAnimeIndex", "black_address": "0x021F3FBC", "white_address": "0x021F3FDC", "size": 44, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_UpdateBigLift", "black_address": "0x021F3FE8", "white_address": "0x021F4008", "size": 396, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_ShowElevatorIdleAnime", "black_address": "0x021F4174", "white_address": "0x021F4194", "size": 68, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_StartCameraShake", "black_address": "0x021F41B8", "white_address": "0x021F41D8", "size": 88, "diff": "same", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_UpdateCameraShake", "black_address": "0x021F4210", "white_address": "0x021F4230", "size": 152, "diff": "same", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop", "black_address": "0x021F42A8", "white_address": "0x021F42C8", "size": 4, "diff": "constant", "source": "src/game/ov043/field_gimmick_lift_elevator.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

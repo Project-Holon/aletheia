@@ -76,47 +76,24 @@
 
 #include "../sdk_card.h"
 
-typedef struct CARDRomHeader
-{
-    u8 head[0x40];
-    CARDRomRegion fnt;
-    CARDRomRegion fat;
-    u8 pad50[0x42];
-    u16 twl_ltd_area_rom_offset;
-} CARDRomHeader;
-
 typedef struct FSiRomState
 {
     u32 default_dma_no;
     s32 card_lock_id;
 } FSiRomState;
 
-extern char *FS_GetArchiveName(FSArchive *arc);
-extern int STD_CompareString(const char *str1, const char *str2);
-extern int OS_IsRunOnTwl(void);
-extern void *CARD_IsPulledOut(void);
-extern void FS_NotifyArchiveAsyncEnd(FSArchive *arc, FSResult ret);
+#include "fs_archive.h"
+#include "std_string.h"
+#include "os_emulator.h"
+#include "card_pullout.h"
 extern void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len,
                           void (*callback)(void *), void *arg, int is_async);
-extern void CARD_LockRom(u16 lock_id);
-extern void CARD_UnlockRom(u32 id);
-extern CARDRomHeader *CARD_GetOwnRomHeader(void);
-extern void CARD_Init(void);
-extern s32 OS_GetLockID(void);
-extern void FS_InitArchive(FSArchive *p_arc);
-extern BOOL FS_RegisterArchiveName(FSArchive *p_arc, const char *name, u32 name_len);
-extern u16 OS_GetBootType(void);
-extern void FS_SetArchiveProc(FSArchive *arc, FS_ARCHIVE_PROC_FUNC proc, u32 flags);
-extern BOOL FS_LoadArchive(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fnt, u32 fnt_size,
-                           FS_ARCHIVE_READ_FUNC read_func,
-                           FS_ARCHIVE_WRITE_FUNC write_func);
-extern BOOL FS_SetCurrentDirectory(const char *path);
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32 state);
-extern BOOL FS_SuspendArchive(FSArchive *p_arc);
-extern BOOL FS_ResumeArchive(FSArchive *arc);
-extern u32 FS_LoadArchiveTables(struct FSArchive *p_arc, void *p_mem, u32 max_size);
-extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
+#include "card_api.h"
+#include "os_spinlock.h"
+#include "os_systemwork.h"
+#include "fs_proc_default.h"
+#include "os_system.h"
+#include "fs_file.h"
 int FSi_IsUnreadableRomOffset(FSArchive *arc, u32 offset);
 FSResult FSi_RomArchiveProc(FSFile *file, FSCommandType cmd);
 FSResult FSi_EmptyArchiveProc(FSFile *file, FSCommandType cmd);
@@ -125,7 +102,7 @@ FSResult FSi_WriteDummyCallback(FSArchive *p_arc, const void *src, u32 pos, u32 
 BOOL FSi_OverrideRomArchive(FSArchive *arc);
 void FSi_InitRomArchive(u32 default_dma_no);
 u32 FS_SetDefaultDMA(u32 dma_no);
-void FS_TryLoadTable(void *p_mem, void *size);
+u32 FS_TryLoadTable(void *p_mem, u32 size);
 BOOL FS_CreateFileFromRom(FSFile *p_file, u32 offset, u32 size);
 extern FSiRomState fsi_default_dma_no;
 extern FSArchive fsi_arc_rom;
@@ -144,7 +121,7 @@ int FSi_IsUnreadableRomOffset(FSArchive *arc, u32 offset)
     int result = 0;
 
     if (STD_CompareString(FS_GetArchiveName(arc), fsi_str_rom) == 0 && !OS_IsRunOnTwl()) {
-        CARDRomHeader *header = CARD_GetOwnRomHeader();
+        const CARDRomHeader *header = CARD_GetOwnRomHeader();
         if (offset >= (u32)header->twl_ltd_area_rom_offset * 0x80000) {
             result = 1;
         }
@@ -246,7 +223,7 @@ void FSi_InitRomArchive(u32 default_dma_no)
         const CARDRomRegion *const fnt = CARD_GetRomRegionFNT();
         const CARDRomRegion *const fat = CARD_GetRomRegionFAT();
 
-        FS_SetArchiveProc(&fsi_arc_rom, FSi_RomArchiveProc, 0x682);
+        FS_SetArchiveProc(&fsi_arc_rom, (u32)FSi_RomArchiveProc, 0x682);
         if ((fnt->offset != 0xFFFFFFFF) && (fnt->offset != 0) &&
             (fat->offset != 0xFFFFFFFF) && (fat->offset != 0))
         {
@@ -260,7 +237,7 @@ void FSi_InitRomArchive(u32 default_dma_no)
     }
     if (!FS_IsArchiveLoaded(&fsi_arc_rom))
     {
-        FS_SetArchiveProc(&fsi_arc_rom, FSi_EmptyArchiveProc, 0xFFFFFFFF);
+        FS_SetArchiveProc(&fsi_arc_rom, (u32)FSi_EmptyArchiveProc, 0xFFFFFFFF);
         (void)FS_LoadArchive(&fsi_arc_rom, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
     }
     (void)FS_SetCurrentDirectory(fsi_str_root);
@@ -284,9 +261,9 @@ u32 FS_SetDefaultDMA(u32 dma_no)
     return bak_dma_no;
 }
 
-void FS_TryLoadTable(void *p_mem, void *size)
+u32 FS_TryLoadTable(void *p_mem, u32 size)
 {
-    FS_LoadArchiveTables(&fsi_arc_rom, p_mem, (u32)size);
+    return FS_LoadArchiveTables(&fsi_arc_rom, p_mem, size);
 }
 
 /*

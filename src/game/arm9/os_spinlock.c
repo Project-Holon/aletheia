@@ -41,14 +41,11 @@ typedef struct OSLockWord {
     volatile u16 extension;
 } OSLockWord;
 
-extern void SVC_WaitByLoop(int v);
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern OSIntrMode OS_DisableInterrupts_IrqAndFiq(void);
-extern OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state);
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
+#include "svc_wait_by_loop.h"
+#include "os_system.h"
+#include "mi_memory.h"
 extern void OSi_SyncWithOtherProc(int direction, volatile u8 *regs);
-extern u32 MI_SwapWord(u32 setData, volatile u32 *destp);
+#include "mi_swap.h"
 extern s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
 extern void OSi_FreeCartridgeBus(void);
 int OS_LockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
@@ -59,12 +56,12 @@ s32 OS_UnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
 s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
 s32 OS_TryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
 s32 OS_UnlockCartridge(u16 lockID);
-asm void OS_UnLockCartridge(int lockID);
+asm void OS_UnLockCartridge(u16 lockID);
 s32 OS_TryLockCartridge(u16 lockID);
 void OSi_AllocateCartridgeBus(void);
 int OS_LockCard(unsigned short lockID);
 s32 OS_UnlockCard(u16 lockID);
-asm void OS_UnLockCard(void);
+asm void OS_UnLockCard(u16 lockID);
 s32 OS_TryLockCard(u16 lockID);
 void OSi_FreeCardBus(void);
 unsigned short OS_ReadOwnerOfLockWord(char *lock);
@@ -215,7 +212,7 @@ s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), 
         enabled = OS_DisableInterrupts();
     }
 
-    lastLockFlag = (s32)MI_SwapWord(lockID, &lockp->lockFlag);
+    lastLockFlag = (s32)MI_SwapWord(lockID, (int *)&lockp->lockFlag);
 
     if (!lastLockFlag) {
         if (ctrlFuncp) {
@@ -249,7 +246,7 @@ s32 OS_UnlockCartridge(u16 lockID)
 }
 
 /* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
-asm void OS_UnLockCartridge(int lockID)
+asm void OS_UnLockCartridge(u16 lockID)
 {
     ldr r1, =OS_UnlockCartridge
     bx r1
@@ -293,7 +290,7 @@ s32 OS_UnlockCard(u16 lockID)
 }
 
 /* hand-written in the original: ldr r1, =target; bx r1 stub, a compiled tail call uses ip */
-asm void OS_UnLockCard(void)
+asm void OS_UnLockCard(u16 lockID)
 {
     ldr r1, =OS_UnlockCard
     bx	r1

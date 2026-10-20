@@ -6,6 +6,7 @@
 #define NNS_SND_ARC_TYPES_H
 
 #include "../types.h"
+#include "../arm9/snd_bank.h"
 
 /* Load flags of the NNSi_SndArcLoad* functions. */
 #define NNS_SND_ARC_LOAD_SEQ    0x1
@@ -141,19 +142,6 @@ typedef struct NNSSndArcGroupInfo {
     u32 count;
     NNSSndArcGroupItem items[1];
 } NNSSndArcGroupInfo;
-
-/*
- * Wave archive in memory. After NNSi_SndArcLoadWaveArcTable the first
- * waveCount slots of waveTable hold the loaded wave addresses and the next
- * waveCount slots hold the original file offsets.
- */
-typedef struct SNDWaveArc {
-    u8  pad00[8];
-    u32 fileSize;
-    u8  pad0c[0x2c];
-    u32 waveCount;
-    u32 waveTable[1];
-} SNDWaveArc;
 
 /* Cursor and record of the bank wave iterator. */
 typedef struct SNDBankWaveIter {

@@ -1,9 +1,11 @@
 #ifndef GAME_ARM9_KEY_H
 #define GAME_ARM9_KEY_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of key.c, prototypes copied from their definitions. */
 
 #include "../arm9/touchpanel_shared_types.h"
+#include "../types.h"
 
 KeyWork *KEY_Create(u32 heapId);
 void KEY_MainSys(UiCtx *ui);
@@ -25,5 +27,6 @@ void KEY_ClearFrameRateWork(UiCtx *ui);
 void KEY_SetTrg(UiCtx *ui, int trg, int trg30);
 void KEY_SetCont(UiCtx *ui, int cont, int cont30);
 void KEY_SetRepeat(UiCtx *ui, int repeat, int repeat30);
+/* END mkheaders: generated region */
 
 #endif

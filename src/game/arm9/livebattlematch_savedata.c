@@ -27,20 +27,19 @@
 
 #include "../types.h"
 
-extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+#include "mi_memory.h"
 struct SaveControl;
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
-extern void  OS_GetMacAddress(u8 *macAddress);
+#include "os_ownerinfo.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
+#include "gf_standard.h"
 
-extern void BSUBWAY_SAVEDATA_InitStats(void *p);
+typedef unsigned short StatRow;
+#include "bsubway_savedata.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
 void LIVEBATTLEMATCH_SAVE_InitRecord(void *obj);
 

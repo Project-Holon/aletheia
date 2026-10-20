@@ -27,15 +27,15 @@ extern void OS_SpinWaitCpuCycles(u32 cycle);
 asm OSIntrMode OS_EnableInterrupts(void);
 asm OSIntrMode OS_DisableInterrupts(void);
 asm OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-asm void OS_DisableInterrupts_IrqAndFiq(void);
-asm void OS_RestoreInterrupts_IrqAndFiq(void);
+asm OSIntrMode OS_DisableInterrupts_IrqAndFiq(void);
+asm OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state);
 asm unsigned int OS_GetCpsrIrq(void);
 asm unsigned int OS_GetProcMode(void);
 void OS_SpinWaitSysCycles(u32 cycle);
-extern void OS_Halt(void);
+#include "os_terminate_processor.h"
 extern char SDK_AUTOLOAD_DTCM_START[];
-extern void SVC_WaitByLoop(int v);
-extern void OS_WaitIrq(int clear, u32 irqFlags);
+#include "svc_wait_by_loop.h"
+#include "os_irqhandler.h"
 
 /* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
 asm OSIntrMode OS_EnableInterrupts(void)
@@ -69,7 +69,7 @@ asm OSIntrMode OS_RestoreInterrupts(OSIntrMode state)
 }
 
 /* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
-asm void OS_DisableInterrupts_IrqAndFiq(void)
+asm OSIntrMode OS_DisableInterrupts_IrqAndFiq(void)
 {
     mrs	r0, cpsr
     orr	r1, r0, #0xc0
@@ -79,7 +79,7 @@ asm void OS_DisableInterrupts_IrqAndFiq(void)
 }
 
 /* hand-written in the original: mrs/msr on CPSR, one SDK line-table row per instruction */
-asm void OS_RestoreInterrupts_IrqAndFiq(void)
+asm OSIntrMode OS_RestoreInterrupts_IrqAndFiq(OSIntrMode state)
 {
     mrs	r1, cpsr
     bic	r2, r1, #0xc0

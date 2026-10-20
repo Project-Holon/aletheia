@@ -35,7 +35,7 @@
 
 typedef void (*PanicHookFunc)(void);
 
-struct Bmp;
+#include "bmp_shared_types.h"
 
 struct CharBuf;
 
@@ -74,31 +74,32 @@ struct PanicHandlers {
 
 #define BG_PLTT_2    (*(vu16 *)0x05000004)
 
-extern int GX_ResetBankForBG(void);
+typedef int GXVRam;
+typedef int GXVRamBG;
+typedef int GXVRamOBJ;
+typedef int GXVRamTex;
+#include "gx_vramcnt.h"
 
-extern void GX_SetBankForBG(int bg);
 
-extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
+#include "gx.h"
 
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
-extern void TEXTPRINT_Init(u32 fontId);
+#include "textprint.h"
 
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
+typedef short s16_p07;
+#include "bmp.h"
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
 extern void TEXTPRINT_PrintText(const char *text, struct DebugConsole *console);
 
-extern void *G2_GetBG0ScrPtr(void);
+#include "gx_bgcnt.h"
 
-extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern void DC_FlushRange(void *addr, u32 size);
+#include "os_cache.h"
 
-extern void GX_LoadBG0Char(const void *src, u32 offset, u32 size);
+#include "gx_load2d.h"
 
-extern void OS_Terminate(void);
+#include "os_terminate_processor.h"
 
 void GF_PANIC_SetHandlers(u32 initFunc, u32 printFunc, u32 dieFunc);
 

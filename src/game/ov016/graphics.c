@@ -29,7 +29,7 @@
     } while (0)
 #include "../types.h"
 
-typedef struct {
+typedef struct tagRect {
     u16 x1;
     u16 y1;
     u16 x2;
@@ -38,7 +38,7 @@ typedef struct {
 
 void DWCi_GXlVisible(int lcd, int plane);
 void DWCi_GXlInvisible(int lcd, int plane);
-void DWCi_GXlSetWndPosition(int lcd, int wnd, Rect *r);
+void DWCi_GXlSetWndPosition(int lcd, int wnd, struct tagRect *r);
 void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, int effect);
 
 void DWCi_GXlVisible(int lcd, int plane)
@@ -83,7 +83,7 @@ static inline void SetWin(u16 *reg, u16 x1, u16 y1, u16 x2, u16 y2)
 /*
  * sdk:      DWCi_GXlSetWndPosition (libdwcutil.TWL.HYB.a(graphics.o))
  */
-void DWCi_GXlSetWndPosition(int lcd, int wnd, Rect *r)
+void DWCi_GXlSetWndPosition(int lcd, int wnd, struct tagRect *r)
 {
     if (lcd == 1) {
         if (wnd == 0)

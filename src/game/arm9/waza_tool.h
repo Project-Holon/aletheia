@@ -1,9 +1,12 @@
 #ifndef GAME_ARM9_WAZA_TOOL_H
 #define GAME_ARM9_WAZA_TOOL_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of waza_tool.c, prototypes copied from their definitions. */
 
 struct WazaData;
+
+#include "../types.h"
 
 u32 WAZA_TOOL_GetParam(u16 move, u32 param);
 u32 WAZA_TOOL_GetDataParam(const struct WazaData *data, u32 param);
@@ -24,5 +27,6 @@ u32 WAZA_TOOL_IsDamaging(u16 move);
 void WAZA_TOOL_CreateCache(s32 count, u32 heap);
 void WAZA_TOOL_DeleteCache(void);
 u32 WAZA_TOOL_IsCacheCreated(void);
+/* END mkheaders: generated region */
 
 #endif

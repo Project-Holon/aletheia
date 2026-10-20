@@ -48,9 +48,8 @@ struct TcblSystem {
     struct TcblTask   *freeList;
 };
 
-void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-u32 GFL_HEAP_Free(void *block);
 
 u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 

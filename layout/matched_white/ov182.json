@@ -1,0 +1,29 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "THE_END_GRAPHIC_Init", "black_address": "0x021B95A0", "white_address": "0x021B95C0", "size": 172, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_Exit", "black_address": "0x021B964C", "white_address": "0x021B966C", "size": 112, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_Main", "black_address": "0x021B96BC", "white_address": "0x021B96DC", "size": 200, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_DummyTask", "black_address": "0x021B9784", "white_address": "0x021B97A4", "size": 4, "diff": "same", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_LoadGraphics", "black_address": "0x021B9788", "white_address": "0x021B97A8", "size": 136, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_Dummy", "black_address": "0x021B9810", "white_address": "0x021B9830", "size": 4, "diff": "same", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_StartFade", "black_address": "0x021B9814", "white_address": "0x021B9834", "size": 44, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_Setup3d", "black_address": "0x021B9840", "white_address": "0x021B9860", "size": 164, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_Create", "black_address": "0x021B98E4", "white_address": "0x021B9904", "size": 168, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_Delete", "black_address": "0x021B998C", "white_address": "0x021B99AC", "size": 92, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_Update", "black_address": "0x021B99E8", "white_address": "0x021B9A08", "size": 20, "diff": "same", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_VBlankTask", "black_address": "0x021B99FC", "white_address": "0x021B9A1C", "size": 20, "diff": "same", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_InitWindows", "black_address": "0x021B9A10", "white_address": "0x021B9A30", "size": 96, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_ExitWindows", "black_address": "0x021B9A70", "white_address": "0x021B9A90", "size": 56, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_Dummy2", "black_address": "0x021B9AA8", "white_address": "0x021B9AC8", "size": 4, "diff": "same", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_RefreshDisplay", "black_address": "0x021B9AAC", "white_address": "0x021B9ACC", "size": 8, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_InitActors", "black_address": "0x021B9AB4", "white_address": "0x021B9AD4", "size": 64, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_DeleteActors", "black_address": "0x021B9AF4", "white_address": "0x021B9B14", "size": 28, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_DrawActors", "black_address": "0x021B9B10", "white_address": "0x021B9B30", "size": 8, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_VBlankActors", "black_address": "0x021B9B18", "white_address": "0x021B9B38", "size": 8, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_InitCamera", "black_address": "0x021B9B20", "white_address": "0x021B9B40", "size": 108, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "THE_END_GRAPHIC_DeleteCamera", "black_address": "0x021B9B8C", "white_address": "0x021B9BAC", "size": 4, "diff": "constant", "source": "src/game/ov182/the_end_graphic.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

@@ -19,9 +19,9 @@
 #include "comm_player_support_shared_types.h"
 #include "save_event_shared_types.h"
 
-extern u32 POKE_TOOL_GetBoxValue(struct SaveData *save, u32 varId, u32 defaultValue);
+#include "poke_tool.h"
 
-extern u32 FILE_UTIL_IsHmMove(u16 value);
+#include "file_util.h"
 
 unsigned int PLACE_NAME_GetBank(unsigned int id);
 
@@ -71,7 +71,7 @@ int POKE_TOOL_HasNoHmMove(struct SaveData *save, int unused)
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (FILE_UTIL_IsHmMove((u16)POKE_TOOL_GetBoxValue(save, i + 0x36, 0)) != 0) {
+        if (FILE_UTIL_IsHmMove((u16)POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, i + 0x36, 0)) != 0) {
             return 0;
         }
     }

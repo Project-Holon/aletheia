@@ -64,30 +64,26 @@ struct SymbolRec {
     u32 status   : 3;
 };
 
-extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
+#include "mi_memory.h"
 
-extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../sdk_fx.h"
+#include "gfl_heap_wrap.h"
 
-extern u32 GF_STANDARD_Checksum(u8 *p, u32 len);
+#include "gf_standard.h"
 
-extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 
-extern void GF_STANDARD_XorCryptEx(void *p, unsigned int size, unsigned int seed);
 struct SaveControl;
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
-extern u32 GFL_HEAP_Free(void *p);
 
 extern u32   SAVE_CONTROL_ReadRecordFromFlash(void *a, u32 b, u32 c, void *d, u32 e);
 
-extern int   GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
 
-extern u8 QUESTIONNAIRE_GetAnswerBitOffset(u32 id);
+#include "../ov010/comm_player.h"
 
-extern u8 QUESTIONNAIRE_GetAnswerBitWidth(u32 id);
+#include "../ov010/questionnaire.h"
 
 void SYMBOL_SAVE_UpdateChecksum(struct SymbolSave *save);
 

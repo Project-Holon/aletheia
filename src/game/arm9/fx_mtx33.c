@@ -15,8 +15,8 @@
 #include "../types.h"
 #include "../sdk_fx.h"
 
-asm void MTX_Identity33_(void);
-asm void MTX_Copy33To44_(void);
+asm void MTX_Identity33_(MtxFx33 *pDst);
+asm void MTX_Copy33To44_(const MtxFx33 *pSrc, MtxFx44 *pDst);
 
 /*
  * sdk:      MTX_Identity33_ (libfx.TWL.HYB.a fx_mtx33.o)
@@ -25,7 +25,7 @@ asm void MTX_Copy33To44_(void);
  * void MTX_Identity33_(MtxFx33 *pDst)
  * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
-asm void MTX_Identity33_(void)
+asm void MTX_Identity33_(MtxFx33 *pDst)
 {
     mov r2, #0x1000
     str r2, [r0, #0x20]
@@ -45,7 +45,7 @@ asm void MTX_Identity33_(void)
  * void MTX_Copy33To44_(const MtxFx33 *pSrc, MtxFx44 *pDst)
  * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
-asm void MTX_Copy33To44_(void)
+asm void MTX_Copy33To44_(const MtxFx33 *pSrc, MtxFx44 *pDst)
 {
     stmfd sp!, {r4}
     mov r12, #0
@@ -97,12 +97,12 @@ void MTX_ScaleApply33(const MtxFx33 *pSrc, MtxFx33 *pDst, fx32 x, fx32 y, fx32 z
 
 #pragma thumb on
 
-asm void MTX_RotX33_(void);
-asm void MTX_RotY33_(void);
-asm void MTX_RotZ33_(void);
+asm void MTX_RotX33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
+asm void MTX_RotY33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
+asm void MTX_RotZ33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal);
 
 /* hand-written in the original: fx_mtx33.o (libfx) has one .debug_line row per instruction for MTX_RotX33_ (lines 151-163, 165), mov/lsl of 0x1000 on two lines, no DW_TAG_variable; the C ScaleApply33 beside it interleaves lines */
-asm void MTX_RotX33_(void)
+asm void MTX_RotX33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal)
 {
     mov r3, #1
     lsl r3, r3, #12
@@ -121,7 +121,7 @@ asm void MTX_RotX33_(void)
 }
 
 /* hand-written in the original: fx_mtx33.o (libfx) has one .debug_line row per instruction for MTX_RotY33_ (lines 172-184, 186), mov/lsl of 0x1000 on two lines, no DW_TAG_variable; the C ScaleApply33 beside it interleaves lines */
-asm void MTX_RotY33_(void)
+asm void MTX_RotY33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal)
 {
     str r2, [r0]
     str r2, [r0, #0x20]
@@ -140,7 +140,7 @@ asm void MTX_RotY33_(void)
 }
 
 /* hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction */
-asm void MTX_RotZ33_(void)
+asm void MTX_RotZ33_(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal)
 {
     stmia r0!, {r2}
     mov r3, #0
@@ -158,9 +158,8 @@ asm void MTX_RotZ33_(void)
 
 #pragma thumb reset
 
-void FX_InvAsync(fx32 denom);
-unsigned int FX_GetDivResult(void);
-void MI_Copy36B(const void *pSrc, void *pDest);
+#include "fx_cp.h"
+#include "mi_memory.h"
 void MTX_RotAxis33(MtxFx33 *pDst, const VecFx32 *vec, fx32 sinVal, fx32 cosVal);
 int MTX_Inverse33(const MtxFx33 *pSrc, MtxFx33 *pDst);
 void MTX_Concat33(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);

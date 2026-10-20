@@ -116,29 +116,25 @@ typedef struct tagACWORK {
     u16 activeScanTime;
 } ACWORK;
 
-extern void *DWCi_AC_GetMemPtr(u32 name);
-extern u8 DWCi_AC_GetPhase(void);
-extern s32 WCM_GetPhase(void);
-extern u16 WCM_GetAllowedChannel(void);
-extern BOOL OS_IsRunOnTwl(void);
+#include "dwc_ac.h"
+#include "../ov009/wcm_system.h"
+#include "os_emulator.h"
 extern u8 SearchAround1stLap(ACWORK *wk);
 extern u8 SearchEndCheck(ACWORK *wk, u8 phase);
 extern u8 SearchAround(ACWORK *wk);
 extern u8 SearchDifferChannel(ACWORK *wk);
 extern u8 SearchStealth(ACWORK *wk);
-extern void DWCi_AC_SetError(int error);
-extern u64 OS_GetTick(void);
-extern void WCM_SearchAsync(void *bssid, void *essid, u32 option);
+typedef unsigned long long OSTick;
+#include "os_tick.h"
 extern s8 GetStartChannel(int lap);
-extern int DWCi_AC_MakeSearchList(int type);
+#include "dwc_ac_makelist.h"
 extern s8 GetNextAroundChannel(s8 now_ch);
 extern u8 NextSearchCheck(ACWORK *wk, u8 phase);
 extern s8 GetNextStealthChannel(void);
 extern u8 CheckStartStealthSearch(ACWORK *wk);
 static u8 SearchAround2ndLap(ACWORK *wk);
 extern void DWCi_AC_SearchReStart(u8 phase);
-extern BOOL DWCi_AC_IsSupportWPA(WMBssDesc *bssDesc);
-extern long WCM_EndSearchAsync(void);
+#include "dwc_ac_beacon.h"
 u8 DWCi_AC_SearchAP(void);
 void DWCi_AC_SetStealthChannel(unsigned short channel);
 extern const u32 DWC_AC_SEARCH_CHANNEL[13];

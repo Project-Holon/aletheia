@@ -70,17 +70,16 @@ typedef struct CTRDGRomCycle {
     MICartridgeRomCycle2nd c2;
 } CTRDGRomCycle;
 
-extern void SVC_CpuSet(u32 *out, void *p, u32 v);
+#include "svc_cpu_set.h"
 extern u16 OS_GetLockID(void);
 extern void CTRDGi_LockByProcessor(u32 lockID, u32 *info);
-extern u32 OS_DisableInterrupts(void);
+#include "os_system.h"
 extern unsigned short OS_ReadOwnerOfLockWord(char *lock);
 extern u32 OS_TryLockCartridge(u32 lockID);
-extern void OS_RestoreInterrupts(u32 state);
-extern void SVC_WaitByLoop(u32 cycles);
+#include "svc_wait_by_loop.h"
 extern void OS_UnLockCartridge(u16 lockID);
 
-extern int PXI_SendWordByFifo(int fifotag, unsigned int data, int err);
+#include "pxi_fifo.h"
 BOOL CTRDG_IsExistedAtInit(void);
 void CTRDGi_InitCommon(void);
 BOOL CTRDG_IsExisting(void);

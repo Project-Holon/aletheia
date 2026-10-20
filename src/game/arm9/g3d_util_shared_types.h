@@ -4,9 +4,10 @@
 struct ArcHandle;
 
 #include "../types.h"
+#include "../sdk_fs.h"
 
 struct ArcHandle {
-    u8  file[0x48];
+    FSFile file;
     u32 imageBase;
     u16 fatOffset;
     u16 count;

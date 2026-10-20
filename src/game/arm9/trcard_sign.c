@@ -51,14 +51,13 @@ struct TrainerCardSignature {
     u16 badgeTimer[16];
 };
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
-extern u64 RTC_ConvertDateTimeToSecond(const struct RTCDate *date,
-                                       const struct RTCTime *time);
+#include "convert.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *control, u32 blockId);
+#include "save_control.h"
 
-extern void GF_STANDARD_CopyCachedRtc(struct RTCDate *date, struct RTCTime *time);
+#include "gf_standard.h"
 
 /*
  * Save block 0x21, 0x658 bytes.  The original file opens with the four bytes
@@ -179,7 +178,7 @@ void TRCARD_SIGN_SetBadgeDate(struct TrainerCardSignature *card, u32 badge, u32 
     struct RTCTime time;
     u64 second;
 
-    GF_STANDARD_CopyCachedRtc(&date, &time);
+    GF_STANDARD_CopyCachedRtc((struct RtcDate *)&date, (struct RtcTime *)&time);
     second = RTC_ConvertDateTimeToSecond(&date, &time);
 
     card->badgeDate[badge].year = year;

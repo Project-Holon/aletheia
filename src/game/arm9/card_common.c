@@ -41,77 +41,29 @@
  *   cardi_arg  0x021501A0  data
  *   CARDi_OnFifoRecv  0x020763BC  arm
  */
-struct CARDiCommon;
 #include "../types.h"
+
+#include "card_common.h"
 
 #include "../sdk_os.h"
 
 #include "../sdk_card.h"
 
-typedef struct CARDiCommandArg
-{
-    u8 data[0x60];
-} CARDiCommandArg;
-
-typedef struct CARDDmaInterface CARDDmaInterface;
-
-typedef struct CARDiCommon
-{
-    CARDiCommandArg *cmd;
-    u32 flag;
-    u32 priority;
-    u32 flush_threshold_ic;
-    u32 flush_threshold_dc;
-    s32 lock_owner;
-    int lock_ref;
-    OSThreadQueue lock_queue[1];
-    CARDTarget lock_target;
-    u8 thread[1216];
-    void (*task_func)(struct CARDiCommon *);
-    void (*callback)(void *);
-    void *callback_arg;
-    OSThreadQueue busy_q[1];
-    u32 src;
-    u32 dst;
-    u32 len;
-    u32 dma;
-    CARDDmaInterface *DmaCall;
-    int req_type;
-    int req_retry;
-    int req_mode;
-    OSThread *current_thread_9;
-} CARDiCommon;
-
-typedef struct {
-    u32 keyAndSlotAccess    : 5;
-    u32 gameCardPowerOn     : 1;
-    u32 sharedFileAccess    : 2;
-    u32 gameCardNitroMode   : 1;
-    u32 sdAndPhotoAccess    : 6;
-    u32 backupAccess        : 1;
-    u32 romAccess           : 1;
-    u32 reserved            : 15;
-} TwlAccessControl;
-
-typedef struct { u8 pad00[0x1b4]; TwlAccessControl access; } TwlRomHeader;
-
-extern u32 OS_DisableInterrupts(void);
-extern void OS_Terminate(void);
-extern void OS_SleepThread(OSThreadQueue *queue);
-extern u32 OS_RestoreInterrupts(u32 state);
-extern void OS_WakeupThread(OSThreadQueue *queue);
-extern u16 OS_GetBootType(void);
-extern BOOL OS_IsRunOnTwl(void);
-extern void *CARD_GetOwnRomHeaderTWL(void);
-extern int CARDi_WaitForTask(struct CARDiCommon *p, int restart, void (*callback)(void *), void *callback_arg);
-extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
-extern void DC_FlushRange(void *startAddr, u32 nBytes);
+#include "os_system.h"
+#include "os_terminate_processor.h"
+#include "os_thread.h"
+#include "os_systemwork.h"
+#include "os_emulator.h"
+#include "card_api.h"
+#include "card_task.h"
+#include "mi_memory.h"
+#include "os_cache.h"
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
-extern void CARDi_OnFifoRecv(int tag, u32 data, BOOL err);
+#include "card_backup.h"
 void CARDi_LockResource(s32 owner, CARDTarget target);
 void CARDi_UnlockResource(s32 owner, CARDTarget target);
 u32 CARDi_GetAccessLevel(void);
-void CARDi_WaitAsync(void);
+BOOL CARDi_WaitAsync(void);
 int CARDi_TryWaitAsync(void);
 void CARDi_InitResourceLock(void);
 void CARDi_InitCommand(void);
@@ -177,7 +129,7 @@ void CARDi_UnlockResource(s32 owner, CARDTarget target)
 u32 CARDi_GetAccessLevel(void)
 {
     u32 accessLevel = 0;
-    TwlRomHeader *romHeader;
+    const CARDRomHeaderTWL *romHeader;
     BOOL accessGranted;
     if (OS_GetBootType() == 1) {
         accessLevel = 7;
@@ -186,21 +138,21 @@ u32 CARDi_GetAccessLevel(void)
     } else {
         romHeader = CARD_GetOwnRomHeaderTWL();
         accessGranted = 0;
-        if (romHeader->access.gameCardNitroMode) {
+        if (romHeader->access_control.gameCardNitroMode) {
             accessLevel |= 4;
             accessGranted = 1;
-        } else if (romHeader->access.gameCardPowerOn) {
+        } else if (romHeader->access_control.gameCardPowerOn) {
             accessGranted = 1;
         }
         if (accessGranted) {
-            if (romHeader->access.backupAccess) accessLevel |= 1;
-            if (romHeader->access.romAccess) accessLevel |= 2;
+            if (romHeader->access_control.backupAccess) accessLevel |= 1;
+            if (romHeader->access_control.romAccess) accessLevel |= 2;
         }
     }
     return accessLevel;
 }
 
-void CARDi_WaitAsync(void) { CARDi_WaitForTask(&cardi_common, 0, 0, 0); }
+BOOL CARDi_WaitAsync(void) { return CARDi_WaitForTask(&cardi_common, 0, 0, 0); }
 
 /*
  * Unlabelled leaf: disasm.py only labels a prologue that saves lr, and this

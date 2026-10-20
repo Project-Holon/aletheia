@@ -52,18 +52,18 @@ typedef struct {
 /* One 8-byte entry of the container's entry table.  TPOKE_DATA_FindEntryIndex matches
  * key/type/subtype and returns the entry index; the u16 at +6 indexes the
  * container's 0x1c-byte record table. */
-struct Item {
+struct TPokeDataItem {
     u16 key;
     u16 type;
     u16 subtype;
     u16 recordIndex;
 };
 
-/* The container p: an entry table (8-byte Item records, count entries) and a
+/* The container p: an entry table (8-byte TPokeDataItem records, count entries) and a
  * base address of 0x1c-byte records.  The matched files viewed the entry table
  * at +0x00 and the record base at +0x08. */
 struct Container {
-    const struct Item *entries;
+    const struct TPokeDataItem *entries;
     u32 pad04;
     int records;
     u32 count;
@@ -101,38 +101,29 @@ struct TrainerKindRecord {
     u16 group : 5;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int   ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, int heapID, u32 *out);
-extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
-extern u32 GFL_HEAP_Free(void *p);
+#include "gfl_heap_wrap.h"
+#include "arc_util.h"
+#include "arc_tool.h"
 extern u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 type, u32 subtype);
-extern u32   ARC_TOOL_GetMemberSize(u32 a, u32 b);
-extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 struct ArcHandle;
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
-extern void  ARC_TOOL_DeleteHandle(void *h);
 u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype);
 int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex);
 u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
-u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u16 heap);
+#include "msgdata.h"
 struct Strbuf;
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void STRBUF_Clear(struct Strbuf *strbuf);
-extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
-void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap);
+#include "strbuf.h"
+void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u16 heap);
 void TPOKE_DATA_ReadRecord(void *dest, void *arc);
 void TPOKE_DATA_ReadParty(void *dest, void *arc);
 u8 TPOKE_DATA_GetGenderValue(u32 idx);
 u8 TPOKE_DATA_FindTrainerType(u32 key);
 u8 TPOKE_DATA_GetTrainerKind(u32 key);
 u32 TPOKE_DATA_GetTrainerGroup(u32 key);
-extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern void  PMSI_PARAM_ClearSentence(void *p);
-extern u32 FLDMMDL_ObjCodeToTableIndex(u32 x);
-Tpoke *TPOKE_DATA_Create(int heap);
+#include "mi_memory.h"
+#include "pmsi_param.h"
+#include "fldmmdl_save.h"
+Tpoke *TPOKE_DATA_Create(u16 heap);
 void TPOKE_Delete(Tpoke *tpoke);
 u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtype);
 int TPOKE_DATA_IsRecordKindTwo(u32 unused, struct Container *c, u32 type, u32 subtype, u16 e);
@@ -140,13 +131,13 @@ extern const char sTpokeData82[];
 extern const u8 gTpokeDataGenderValueTable[];
 extern const struct TrainerKindRecord gTpokeDataTrainerKindTable[];
 
-Tpoke *TPOKE_DATA_Create(int heap)
+Tpoke *TPOKE_DATA_Create(u16 heap)
 {
     Tpoke *p;
     u32 size;
 
     p = (Tpoke *)GFL_HEAP_Alloc(heap, 0x10, 1, sTpokeData82, 82);
-    p->handle = ARC_UTIL_LoadMemberWithSize(0xd3, 0, 0, heap, &size);
+    p->handle = (int)ARC_UTIL_LoadMemberWithSize(0xd3, 0, 0, heap, &size);
     p->count = size >> 3;
     p->buf = ARC_TOOL_LoadMember(0x30, 0, heap);
     p->buf4 = (char *)p->buf + 4;
@@ -281,7 +272,7 @@ u32 TPOKE_DATA_GetRecordField(void *a, u32 idx)
     return r;
 }
 
-u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap)
+u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u16 heap)
 {
     u16   rec[4];
     void *h;
@@ -308,7 +299,7 @@ u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap)
     return found;
 }
 
-void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap)
+void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u16 heap)
 {
     u16   rec[4];
     void *h;

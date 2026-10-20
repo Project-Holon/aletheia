@@ -30,12 +30,7 @@
 #define SAVE_BLOCK_RECORD                 0x26
 
 /* ---- Save block 0x26: counters with ceilings, sealed by a checksum (0x1E0) ---- */
-struct RecordBlock {
-    u32 wordCounters[0x47];         /* counters 0x00..0x46 */
-    u16 halfCounters[0x60];         /* counters 0x47..0xA6 */
-    u16 checksum;                   /* over +4..+0x1DC */
-    u16 cryptSeed;                  /* high half of the seal key */
-};
+#include "record_types.h"
 
 /* Counter pair: the source counter is folded into the target and cleared. */
 struct CounterPair {

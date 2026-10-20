@@ -92,13 +92,10 @@ extern u32 GFL_HEAP_Free(void *p);
 struct Mon;
 struct Party;
 struct PartyMon;
-extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
+#include "pokeparty.h"
 struct PokemonParam;
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 extern u32   POKE_TOOL_GetPartyParamSize(void);
-extern void TPOKE_DATA_ReadRecord(void *dest, void *arc);
-extern void TPOKE_DATA_ReadParty(void *dest, void *arc);
-extern u8    TPOKE_DATA_GetGenderValue(u32 cls);
+#include "tpoke_data.h"
 extern void  TR_TOOL_AdjustPersonality(u32 species, u32 form, int ability, u32 *gender, u16 heap);
 extern void  TR_TOOL_FinalizePartyMember(u32 id, void *mon, u32 form, u32 ability);
 extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
@@ -106,9 +103,7 @@ extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 v
 extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, u16 move, u32 slot);
 struct Personal;
 struct PersonalData;
-extern struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
+#include "poke_personal.h"
 extern u32  POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 struct BoxPokemon;
 extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
@@ -126,11 +121,9 @@ typedef struct {
 } TrTrainerInfo;
 
 struct MsgBank;
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "msgdata.h"
 struct Strbuf;
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern u32 MSGDATA_Delete(struct MsgBank *rec);
-extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
 extern void  PMSI_PARAM_ClearSentence(void *p);
 void TR_TOOL_LoadTrainerInfo(u32 id, TrTrainerInfo *out, u16 heap);
 

@@ -54,19 +54,15 @@ typedef struct {
     u16 szBlk1;
 } GXTexStartAddr;
 
-extern int GX_ResetBankForTex(void);
-extern int GX_ResetBankForTexPltt(void);
-extern void GX_SetBankForTex(int tex);
-extern void GX_SetBankForTexPltt(int texPltt);
-extern void GX_SetBankForClearImage(int clrImg);
-extern void MI_NDmaCopy(int ch, int src, int dst, int size);
-extern void MI_NDmaCopyAsync(int ch, unsigned int src, unsigned int dst, unsigned int size, MIDmaCallback callback, unsigned int arg);
-extern void MIi_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable);
+typedef int GXVRam;
+typedef int GXVRamBG;
+typedef int GXVRamOBJ;
+typedef int GXVRamTex;
+#include "gx_vramcnt.h"
+#include "../twl/mi_ndma.h"
+#include "mi_dma.h"
 extern void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable);
-extern void MIi_CpuCopy32(const void *srcp, void *destp, u32 size);
-extern void MI_WaitNDma(int ch);
-extern void MI_WaitDma(u32 dmaNo);
-extern int GX_ResetBankForClearImage(void);
+#include "mi_memory.h"
 void GX_BeginLoadTex(void);
 void GX_LoadTex(void *pSrc, u32 destSlotAddr, u32 szByte);
 void GX_EndLoadTex(void);

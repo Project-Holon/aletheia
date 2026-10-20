@@ -173,11 +173,10 @@ void ISS_SWITCH_SET_Init(struct IssSwitchSet *set)
     }
 }
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
+#include "arc_tool.h"
 
 u32 ISS_SWITCH_SET_GetZoneCount(struct IssSwitchSet *set);
 
@@ -185,25 +184,16 @@ u32 ISS_SWITCH_SET_GetZone(struct IssSwitchSet *set, u32 idx);
 
 u32 ISS_SWITCH_SET_GetSwitch(struct IssSwitchSet *set, u32 idx);
 
-void *ISS_SWITCH_Create(u32 heapId);
+#include "iss_switch.h"
 
-u32 ISS_SWITCH_Delete(void *sw);
 
-u32 ISS_SWITCH_Setup(void *sw, u16 fadeFrames, u16 trackBits);
 
-u32 ISS_SWITCH_IsOn(void *sw);
 
-u32 ISS_SWITCH_On(void *sw);
 
-u32 ISS_SWITCH_Off(void *sw);
 
-u32 ISS_SWITCH_ForceOn(void *sw);
 
-u32 ISS_SWITCH_ForceOff(void *sw);
 
-void ISS_SWITCH_Main(void *sw);
 
-void ISS_SWITCH_SetVolume(void *sw, u32 maxVolume);
 
 extern const char IssSwitchSetFileName[];
 

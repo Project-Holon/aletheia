@@ -30,13 +30,12 @@ struct WorldTradeData {
     u32 lastSearchId;
 };
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 
-extern u32  POKE_TOOL_GetPartyParamSize(void);
+#include "poke_tool.h"
 
 struct WorldTradeData *WORLDTRADE_GetFromSave(struct SaveControl *save);
 

@@ -45,35 +45,30 @@ struct Double3Ddisp {
     union OamEntry oam[12];
 };
 
-extern void GX_ResetBankForSubOBJ(void);
+typedef int GXVRam;
+typedef int GXVRamBG;
+typedef int GXVRamOBJ;
+typedef int GXVRamTex;
+#include "gx_vramcnt.h"
 
-extern void GX_SetBankForSubBG(int sub_bg);
 
-extern void GX_SetBankForLCDC(s32 lcdc);
 
-extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
+#include "gx.h"
 
-extern void GXS_SetGraphicsMode(u32 v);
 
-extern int GX_ResetBankForSubBG(void);
 
-extern void GX_SetBankForSubOBJ(int sub_obj);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern const char double3Ddisp_File[];
 
-extern void DC_FlushRange(void *p, u32 n);
+#include "os_cache.h"
 
-extern void GXS_LoadOAM(void *p, u32 off, u32 n);
+#include "gx_load2d.h"
 
-extern void GX_DisableBankForLCDC(void);
 
-extern void GX_DisableBankForSubBG(void);
 
-extern void GX_DisableBankForSubOBJ(void);
 
 void DOUBLE3DDISP_Init(u32 heap);
 

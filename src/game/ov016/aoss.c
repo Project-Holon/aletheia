@@ -1,7 +1,7 @@
 /*
  * file:     aoss.c
  * unit:     yes
- * function: AOSS_MALLOC, AOSS_FREE, AOSSi_Init, AOSS_Init_old, DWCi_AossAoss_IP_sta, aoss_release, aoss_data_init, aoss_set_error, aoss_get_error, AOSS_seq_data_copy, DWCi_AossAoss_check_str, DWCi_AossCheckAP, AOSS_set_APInfo, DWCi_AossMakeSendSeqID, AOSS_StatusExclusion, DWCi_AossRecvMessage, DWCi_AossAstsSetInitRes, DWCi_AossAstsSetSecureRes, DWCi_AossAstsRestartRes, DWCi_AossDecodePacket, DWCi_AossCheckSeqID, DWCi_AossCheckRecvSeqID, DWCi_AossGetProductInfo, DWCi_AossAoss_get_bin, DWCi_AossGetWEPData, DWCi_AossGetWPAData, GetBssidData, GetSecurityData, GetSecurityType, DWCi_AossSendMessage, DWCi_AossAstsSetInitReq, DWCi_AossAstsSetSecureReq, DWCi_AossAstsRestartReq, DWCi_AossSetStaData, DWCi_AossPacketDataSet, DWCi_AossSetPacketHeader, DWCi_AossSendPacketUDP, DWCi_AossEncodeRC4, DWCi_AossDecodeRC4, DWCi_AossRC4init, DWCi_AossRC4encrypt, DWCi_AossArcfour_byte, DWCi_AossCrc, DWCi_AossUpdate_crc, DWCi_AossMake_crc_table, DWCi_AossCryptSeqNo, DWCi_AossMakeKey, DWCi_AossAddKey, DWCi_AossRotate, Alloc, Free, AOSS_SetIPAddr, AOSS_Disconnect, AOSS_Memcmp, AOSS_Memcpy, AOSS_Memset, AOSS_Recvfrom, AOSS_Select, AOSS_Sendto, AOSS_Setsockopt, AOSS_Socket, AOSS_Bind, AOSS_Close, AOSS_Htonl, AOSS_Htons, AOSS_Ntohl, AOSS_Ntohs, AOSS_Strlen, AOSS_Rand, AOSS_FD_ZERO, AOSS_FD_SET
+ * function: AOSS_MALLOC, AOSS_FREE, AOSSi_Init, AOSS_Init_old, aoss_IP_sta, aoss_release, aoss_data_init, aoss_set_error, aoss_get_error, AOSS_seq_data_copy, aoss_check_str, checkAP, AOSS_set_APInfo, MakeSendSeqID, AOSS_StatusExclusion, RecvMessage, AstsSetInitRes, AstsSetSecureRes, AstsRestartRes, DecodePacket, CheckSeqID, CheckRecvSeqID, GetProductInfo, aoss_get_bin, GetWEPData, GetWPAData, GetBssidData, GetSecurityData, GetSecurityType, SendMessage, AstsSetInitReq, AstsSetSecureReq, AstsRestartReq, SetStaData, PacketDataSet, SetPacketHeader, SendPacketUDP, EncodeRC4, DecodeRC4, RC4init, RC4encrypt, arcfour_byte, crc, update_crc, make_crc_table, CryptSeqNo, MakeKey, AddKey, Rotate, Alloc, Free, AOSS_SetIPAddr, AOSS_Disconnect, AOSS_Memcmp, AOSS_Memcpy, AOSS_Memset, AOSS_Recvfrom, AOSS_Select, AOSS_Sendto, AOSS_Setsockopt, AOSS_Socket, AOSS_Bind, AOSS_Close, AOSS_Htonl, AOSS_Htons, AOSS_Ntohl, AOSS_Ntohs, AOSS_Strlen, AOSS_Rand, AOSS_FD_ZERO, AOSS_FD_SET
  * address:  0x021B61B0
  * region:   ov016
  * compiler: dsi/../2.0/sp1p2
@@ -102,13 +102,7 @@ typedef struct AOSS_BSS {
     unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
 } AOSS_BSS;
 
-typedef struct {
-    unsigned char  pad00[0x10];
-    unsigned long  addr;       /* +0x10 */
-    unsigned long  netmask;    /* +0x14 */
-    unsigned long  router;     /* +0x18 */
-    unsigned char  pad1C[0x58 - 0x1C];
-} SOCConfig;
+#include "../sdk_soc.h"
 
 typedef struct {
     int       s_sFd;
@@ -364,7 +358,7 @@ void AOSS_FREE(void *mem);
 extern int AOSSi_WLANGetBSSList(WLLA_BSS_LIST **bssList);
 extern void AOSSi_Sleep(u32 msec);
 extern int AOSSi_WLANConnect(WLLA_CONNECT_PARAM *conParam, WLLA_LINK_STAT *linkStat);
-void *AOSS_Memcpy(void *dest, void *src, int n);
+void AOSS_Memcpy(void *dest, void *src, int n);
 int AOSS_Strlen(char *s);
 extern int AOSSi_Status(int stat);
 int AOSS_Sendto(int s, void *msg, int len, int flags, void *to, int tolen);
@@ -375,7 +369,8 @@ extern int AOSSi_Disconnect(void);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern int SOC_RecvFrom(int s, int buf, int len, int flags, unsigned char *sockFrom);
-extern int SOC_Poll(SOCPollFD *fds, unsigned int nfds, unsigned long long timeout);
+struct PollFD;
+extern int SOC_Poll(struct PollFD *fds, unsigned int nfds, long long timeout);
 extern int SOC_SendTo(int, void *, int, int, void *);
 extern int SOC_Socket(int domain, int type, int protocol);
 extern int SOC_Bind(int s, void *addr, int addrlen);
@@ -430,7 +425,7 @@ void Rotate(unsigned char *mac, int maclen, char *wBuff);
 int AOSS_SetIPAddr(unsigned long ip, unsigned long sm, unsigned long gw);
 int AOSS_Disconnect(void);
 int AOSS_Memcmp(void *s1, void *s2, int n);
-void *AOSS_Memset(void *s, int c, int n);
+void AOSS_Memset(void *s, int c, int n);
 int AOSS_Recvfrom(int s, void *buf, int len, int flags, void *from, int *fromlen);
 int AOSS_Select(int nfds, SOCPollFD *readfds, void *writefds, void *exceptfds, struct timeval *timeout);
 int AOSS_Setsockopt(int s, int level, int optname, void *optval, int optlen);
@@ -1945,9 +1940,9 @@ static void Free(int a, int b)
 
 int AOSS_SetIPAddr(unsigned long ip, unsigned long sm, unsigned long gw)
 {
-    aoss_data.soconfig.addr = AOSS_Htonl(ip);
-    aoss_data.soconfig.netmask = AOSS_Htonl(sm);
-    aoss_data.soconfig.router = AOSS_Htonl(gw);
+    aoss_data.soconfig.addr.addr = AOSS_Htonl(ip);
+    aoss_data.soconfig.netmask.addr = AOSS_Htonl(sm);
+    aoss_data.soconfig.router.addr = AOSS_Htonl(gw);
     if (SOC_Startup(&aoss_data.soconfig) < 0)
         return -1;
     while (CPSMyIp == 0)
@@ -1975,12 +1970,12 @@ int AOSS_Memcmp(void *s1, void *s2, int n)
     return diff;
 }
 
-void *AOSS_Memcpy(void *dest, void *src, int n)
+void AOSS_Memcpy(void *dest, void *src, int n)
 {
     MI_CpuCopy8(src, dest, n);
 }
 
-void *AOSS_Memset(void *s, int c, int n)
+void AOSS_Memset(void *s, int c, int n)
 {
     MI_CpuFill8(s, (u8)c, (u32)n);
 }
@@ -2000,7 +1995,7 @@ int AOSS_Select(int nfds, SOCPollFD *readfds, void *writefds, void *exceptfds, s
     timuout_tic = 0;
     timuout_tic += ((unsigned long long)timeout->tv_sec * 0x01ff6210) >> 6;
     timuout_tic += ((unsigned long long)timeout->tv_usec * 0x01ff6210) >> 6;
-    return SOC_Poll(fds, 1, timuout_tic);
+    return SOC_Poll((struct PollFD *)fds, 1, (long long)timuout_tic);
 }
 
 int AOSS_Sendto(int s, void *msg, int len, int flags, void *to, int tolen)
@@ -2019,6 +2014,7 @@ int AOSS_Sendto(int s, void *msg, int len, int flags, void *to, int tolen)
  */
 int AOSS_Setsockopt(int s, int level, int optname, void *optval, int optlen)
 {
+    return s;
 }
 
 /*

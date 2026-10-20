@@ -1,7 +1,7 @@
 /*
  * file:     plist_message.c
  * unit:     yes
- * function: PLIST_MESSAGE_Create, PLIST_MESSAGE_Destroy, PLIST_MESSAGE_Update, PLIST_MESSAGE_OpenWindow, PLIST_MESSAGE_CloseWindow, PLIST_MESSAGE_IsWindowOpen, PLIST_MESSAGE_PrintText, PLIST_MESSAGE_StartStream, PLIST_MESSAGE_IsIdle, PLIST_MESSAGE_StreamCallback, PLIST_MESSAGE_CreateWordSet, PLIST_MESSAGE_DestroyWordSet, PLIST_MESSAGE_SetWordSetPokemon, PLIST_MESSAGE_SetWordSetItem, PLIST_MESSAGE_SetWordSetMove, PLIST_MESSAGE_SetWordSetValue, PLIST_MESSAGE_SetWordSetNumber, PLIST_MESSAGE_SetWordSetString, PLIST_MESSAGE_RedrawWindow, PLIST_MESSAGE_LoadWindowFrame, PLIST_MESSAGE_RequestPrompt, PLIST_MESSAGE_DrawKeyCursorMark
+ * function: PLIST_MESSAGE_Create, PLIST_MESSAGE_Destroy, PLIST_MESSAGE_Update, PLIST_MESSAGE_OpenWindow, PLIST_MESSAGE_CloseWindow, PLIST_MESSAGE_IsWindowOpen, PLIST_MESSAGE_PrintText, PLIST_MESSAGE_StartStream, PLIST_MESSAGE_IsIdle, PLIST_MESSAGE_StreamCallback, PLIST_MESSAGE_CreateWordSet, PLIST_MESSAGE_DestroyWordSet, PLIST_MESSAGE_SetWordSetPokemon, PLIST_MESSAGE_SetWordSetItem, PLIST_MESSAGE_SetWordSetItemAlt, PLIST_MESSAGE_SetWordSetMove, PLIST_MESSAGE_SetWordSetValue, PLIST_MESSAGE_SetWordSetNumber, PLIST_MESSAGE_SetWordSetString, PLIST_MESSAGE_RedrawWindow, PLIST_MESSAGE_LoadWindowFrame, PLIST_MESSAGE_RequestPrompt, PLIST_MESSAGE_DrawKeyCursorMark
  * address:  0x021BB594
  * region:   ov091
  * compiler: dsi/1.1p1

@@ -42,11 +42,10 @@ struct AreaMan {
 
 #define AREAMAN_GUARD_WORD 0x573C765A
 
-extern void *GFL_HEAP_Alloc(u32 heap_id, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "gfl_heap_wrap.h"
+#include "mi_memory.h"
 
-struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id);
+struct AreaMan *AREAMAN_Create(u32 area_count, u32 heap_id);
 u32 AREAMAN_Delete(void *areaman);
 s32 AREAMAN_Alloc(struct AreaMan *areaman, u32 len);
 s32 AREAMAN_AllocUp(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
@@ -81,7 +80,7 @@ extern const u8 _LowBitsMask[];
  * cleared.  The pool word for the file name holds 0x020A7958 ("areaman.c"),
  * which is what anchors this range.
  */
-struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id)
+struct AreaMan *AREAMAN_Create(u32 area_count, u32 heap_id)
 {
     struct AreaMan *areaman;
     u32 n;

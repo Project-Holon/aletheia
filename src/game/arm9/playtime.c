@@ -26,14 +26,14 @@
 
 #include "../sdk_rtc.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void RTC_GetDate(struct RTCDate *date);
+typedef int RTCResult;
+#include "external.h"
 
-extern void RTC_GetTime(struct RTCTime *time);
 
 /* The debug allocator: heap, size, clear, __FILE__ string, __LINE__. */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
 extern const char playtime_file_name[];
 

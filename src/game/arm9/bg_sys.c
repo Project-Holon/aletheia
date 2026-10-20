@@ -136,14 +136,8 @@
 
 struct AreaMan;
 
-struct Mtx22;
-
-struct DispConfig {
-    u32 dispMode;    /* +0x00 GX_SetGraphicsMode display mode */
-    u32 bgMode;      /* +0x04 GX_SetGraphicsMode BG mode */
-    u32 subBgMode;   /* +0x08 sub engine mode, GXS_SetGraphicsMode */
-    u32 bg0As;       /* +0x0c GX_SetGraphicsMode BG0 area */
-};
+#include "../sdk_fx.h"
+#include "bg_sys.h"
 
 struct BgLayer {
     void *buf;            /* 0x00 */
@@ -176,31 +170,12 @@ struct BgSys {
     u32       tileDataSize[8];  /* +0x1b0 layer tile data size in bytes */
 };
 
-struct BgTemplate {
-    u32 scrollX;        /* +0x00 BGxOFS horizontal scroll */
-    u32 scrollY;        /* +0x04 BGxOFS vertical scroll */
-    u32 bufSize;        /* +0x08 */
-    u32 baseTile;       /* +0x0c tile data offset for LoadTileLayer */
-    u8  screenSize;     /* +0x10 BGxCNT screen size code */
-    u8  colorMode;      /* +0x11 BGxCNT bit 7 color mode */
-    u8  screenBase;     /* +0x12 BGxCNT screen base block */
-    u8  charBase;       /* +0x13 BGxCNT character base block */
-    u32 tileDataSize;   /* +0x14 layer tile data size in bytes */
-    u8  extPltt;        /* +0x18 BGxCNT bit 13 extended palette, text layers */
-    u8  priority;       /* +0x19 BGxCNT bits 0-1 priority */
-    u8  areaOver;       /* +0x1a BGxCNT bit 13 display area overflow, affine layers */
-    u8  pad_1b;         /* +0x1b never read */
-    u32 mosaic;         /* +0x1c BGxCNT bit 6 mosaic enable */
-};
-
 /* TwlSDK nitro/gx/gx_bgcnt.h parameter types; only the type matters here */
 #include "../sdk_gx.h"
 
 typedef enum { SA0 = 0 } GXBGScrSizeAffine;
 
 #include "../types.h"
-
-struct Mtx22 { u32 w[4]; };
 
 /* Offset view of the head of the BgSys block at a layer's 0x2c stride: the
  * single live byte at +0x1C is that layer's BgLayer.type blit kind. */
@@ -218,28 +193,20 @@ struct BgTileSource {
     u32 sizeWord;   /* +0x00 */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
-                          u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *dst, u32 value, u32 size);
+#include "mi_memory.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id);
+#include "areaman.h"
 
-extern u32 AREAMAN_Delete(void *a);
 
-extern s32 AREAMAN_AllocUp(struct AreaMan *p, u32 start, u32 limit, u32 len);
 
-extern s32 AREAMAN_AllocDown(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
 
-extern s32 AREAMAN_AllocAt(struct AreaMan *p, u32 start, u32 len);
 
-extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
-extern void GX_SetGraphicsMode(s32 dispMode, s32 bgMode, s32 bg0_2d3d);
+#include "gx.h"
 
-extern void GXS_SetGraphicsMode(u32 a);
 
 void BG_SYS_ClearMainBgPlanes(void);
 
@@ -259,27 +226,22 @@ extern void BG_SYS_SetScrollField(struct BgLayer *p, u32 op, u32 value);
 
 extern void BG_SYS_SetupLayer(u32 bgId, u32 offset, u32 size);
 
-extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
 
-extern void GFL_NET_SetIrcParams(u32 x, u32 y);
+#include "net.h"
 
-extern void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c);
+extern void BG_SYS_SetScrollRegs(u32 layer, MtxFx22 *a, u32 b, u32 c);
 
-extern void G2x_SetBGyAffine_(void *reg, struct Mtx22 *a, u32 b, u32 c, u32 x, u32 y);
+#include "g2.h"
 
-extern void MI_UncompressLZ8(void *dest, const void *src, u32 size);
+#include "mi_uncompress.h"
 
-extern void MIi_CpuCopy32(void *dest, const void *src, u32 size);
 
-extern void MIi_CpuCopy16(void *dest, const void *src, u32 size);
 
-extern void  MIi_CpuClearFast(u32 value, void *dst, u32 size);
 
-extern void DC_FlushRange(void *, u32);
+#include "os_cache.h"
 
-extern void GX_LoadBGPltt(void *, u32, u32);
+#include "gx_load2d.h"
 
-extern void GXS_LoadBGPltt(void *, u32, u32);
 
 extern void BG_SYS_GetScreenSizeInTiles(u32 mode, u8 *a, u8 *b);
 
@@ -287,23 +249,16 @@ extern void BG_SYS_PushTile(u32 index);
 
 extern void BG_SYS_MarkTileDirty(u32 bit);
 
-extern void *G2_GetBG0CharPtr(void);
+#include "gx_bgcnt.h"
 
-extern void *G2_GetBG1CharPtr(void);
 
-extern void *G2_GetBG2CharPtr(void);
 
-extern void *G2_GetBG3CharPtr(void);
 
-extern u32 G2S_GetBG0CharPtr(void);
 
-extern u32 G2S_GetBG1CharPtr(void);
 
-extern void *G2S_GetBG2CharPtr(void);
 
-extern void *G2S_GetBG3CharPtr(void);
 
-extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
+#include "button_man.h"
 
 extern void BG_SYS_SetAffineField(struct BgLayer *p, u32 op, u16 value);
 
@@ -311,41 +266,23 @@ extern void BG_SYS_Apply(struct BgLayer *p, u32 op, u32 value);
 
 extern void BG_SYS_ApplyCenterOp(struct BgLayer *p, u32 op, u32 value);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
-extern void GX_LoadBG0Scr(const void *src, u32 offset, u32 size);
 
-extern void GX_LoadBG1Scr(const void *src, u32 offset, u32 size);
 
-extern void GX_LoadBG2Scr(const void *src, u32 offset, u32 size);
 
-extern void GX_LoadBG3Scr(const void *src, u32 offset, u32 size);
 
-extern void GXS_LoadBG0Scr(const void *src, u32 offset, u32 size);
 
-extern void GXS_LoadBG1Scr(const void *src, u32 offset, u32 size);
 
-extern void GXS_LoadBG2Scr(const void *src, u32 offset, u32 size);
 
-extern void GXS_LoadBG3Scr(const void *src, u32 offset, u32 size);
 
-extern void GX_LoadBG0Char(const void *src, u32 offset, u32 size);
 
-extern void GX_LoadBG1Char(const void *src, u32 offset, u32 size);
 
-extern void GXS_LoadBG1Char(const void *src, u32 offset, u32 size);
 
-extern void GX_LoadBG2Char(const void *src, u32 offset, u32 size);
 
-extern void GXS_LoadBG0Char(const void *src, u32 offset, u32 size);
 
-extern void GXS_LoadBG2Char(const void *src, u32 offset, u32 size);
 
-extern void GX_LoadBG3Char(const void *src, u32 offset, u32 size);
 
-extern void GXS_LoadBG3Char(const void *src, u32 offset, u32 size);
 
 void BG_SYS_Create(u16 heapId);
 
@@ -375,9 +312,9 @@ u32 BG_SYS_GetScrollX(u32 layer);
 
 u32 BG_SYS_GetScrollY(u32 layer);
 
-void BG_SYS_SetScroll(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e);
+void BG_SYS_SetScroll(u32 layer, u32 a, u32 b, MtxFx22 *c, u32 d, u32 e);
 
-void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c);
+void BG_SYS_SetScrollRegs(u32 layer, MtxFx22 *a, u32 b, u32 c);
 
 void BG_SYS_SetupMemory(void *dest, const void *src, u32 size);
 
@@ -399,7 +336,7 @@ void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
 void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
-void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
+void BG_SYS_LoadPltt(u32 r7, void *r6, u16 r5, u16 r4);
 
 void BG_SYS_LoadPlttEntry(u32 bgId, u32 color);
 
@@ -1266,7 +1203,7 @@ u32 BG_SYS_GetScrollY(u32 layer)
     return g_02146A44->bgs[layer].scrollY;
 }
 
-void BG_SYS_SetScroll(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e)
+void BG_SYS_SetScroll(u32 layer, u32 a, u32 b, MtxFx22 *c, u32 d, u32 e)
 {
     BG_SYS_SetScrollField(&g_02146A44->bgs[layer], a, b);
     BG_SYS_SetScrollRegs(layer, c, d, e);
@@ -1300,7 +1237,7 @@ void BG_SYS_SetScroll(u32 layer, u32 a, u32 b, struct Mtx22 *c, u32 d, u32 e)
  *   python tools/match.py one --src src/matched/BG_SYS_SetScrollRegs.c \
  *       --func BG_SYS_SetScrollRegs --addr 0x02040860 --cc 1.1p1 --arm
  */
-void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c)
+void BG_SYS_SetScrollRegs(u32 layer, MtxFx22 *a, u32 b, u32 c)
 {
     switch (layer) {
     case 0:
@@ -1308,11 +1245,11 @@ void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c)
     case 1:
         break;
     case 2:
-        G2x_SetBGyAffine_((void *)0x04000020, a, b, c,
+        G2x_SetBGyAffine_((u32)(void *)0x04000020, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 3:
-        G2x_SetBGyAffine_((void *)0x04000030, a, b, c,
+        G2x_SetBGyAffine_((u32)(void *)0x04000030, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 4:
@@ -1320,11 +1257,11 @@ void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c)
     case 5:
         break;
     case 6:
-        G2x_SetBGyAffine_((void *)0x04001020, a, b, c,
+        G2x_SetBGyAffine_((u32)(void *)0x04001020, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     case 7:
-        G2x_SetBGyAffine_((void *)0x04001030, a, b, c,
+        G2x_SetBGyAffine_((u32)(void *)0x04001030, a, b, c,
                       g_02146A44->bgs[layer].scrollX, g_02146A44->bgs[layer].scrollY);
         break;
     }
@@ -1333,16 +1270,16 @@ void BG_SYS_SetScrollRegs(u32 layer, struct Mtx22 *a, u32 b, u32 c)
 void BG_SYS_SetupMemory(void *dest, const void *src, u32 size)
 {
     if (size == 0) {
-        MI_UncompressLZ8(dest, src, size);
+        MI_UncompressLZ8(dest, (void *)src);
         return;
     }
 
     if (((u32)dest & 3) == 0 && ((u32)src & 3) == 0 && ((u16)size % 4) == 0) {
-        MIi_CpuCopy32(dest, src, size);
+        MIi_CpuCopy32(dest, (void *)src, size);
         return;
     }
 
-    MIi_CpuCopy16(dest, src, size);
+    MIi_CpuCopy16(dest, (void *)src, size);
 }
 
 /*
@@ -1628,7 +1565,7 @@ void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile)
     }
 }
 
-void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset)
+void BG_SYS_LoadPltt(u32 bgId, void *src, u16 size, u16 offset)
 {
     DC_FlushRange(src, size);
     if (bgId < 4) {
@@ -1693,6 +1630,7 @@ u16 BG_SYS_GetTileMapEntry(u8 x, u8 y, u8 code)
     case 5:
         return 0;
     }
+    return x;
 }
 
 /*
@@ -2331,11 +2269,11 @@ void BG_SYS_CommitScroll(void)
             W(0x04000018) = (SLOT(2).scrollX & m)
                           | (hm & (SLOT(2).scrollY << 16));
         } else {
-            struct Mtx22 t;
+            MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(2).rotation,
-                          (const void *)SLOT(2).scaleX,
-                          (const void *)SLOT(2).scaleY, 2);
-            G2x_SetBGyAffine_((void *)0x04000020, &t,
+                          (long int)(const void *)SLOT(2).scaleX,
+                          (long int)(const void *)SLOT(2).scaleY, 2);
+            G2x_SetBGyAffine_((u32)(void *)0x04000020, &t,
                           SLOT(2).centerX, SLOT(2).centerY,
                           SLOT(2).scrollX, SLOT(2).scrollY);
         }
@@ -2345,11 +2283,11 @@ void BG_SYS_CommitScroll(void)
             W(0x0400001c) = (SLOT(3).scrollX & m)
                           | (hm & (SLOT(3).scrollY << 16));
         } else {
-            struct Mtx22 t;
+            MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(3).rotation,
-                          (const void *)SLOT(3).scaleX,
-                          (const void *)SLOT(3).scaleY, 2);
-            G2x_SetBGyAffine_((void *)0x04000030, &t,
+                          (long int)(const void *)SLOT(3).scaleX,
+                          (long int)(const void *)SLOT(3).scaleY, 2);
+            G2x_SetBGyAffine_((u32)(void *)0x04000030, &t,
                           SLOT(3).centerX, SLOT(3).centerY,
                           SLOT(3).scrollX, SLOT(3).scrollY);
         }
@@ -2367,11 +2305,11 @@ void BG_SYS_CommitScroll(void)
             W(0x04001018) = (SLOT(6).scrollX & m)
                           | (hm & (SLOT(6).scrollY << 16));
         } else {
-            struct Mtx22 t;
+            MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(6).rotation,
-                          (const void *)SLOT(6).scaleX,
-                          (const void *)SLOT(6).scaleY, 2);
-            G2x_SetBGyAffine_((void *)0x04001020, &t,
+                          (long int)(const void *)SLOT(6).scaleX,
+                          (long int)(const void *)SLOT(6).scaleY, 2);
+            G2x_SetBGyAffine_((u32)(void *)0x04001020, &t,
                           SLOT(6).centerX, SLOT(6).centerY,
                           SLOT(6).scrollX, SLOT(6).scrollY);
         }
@@ -2381,11 +2319,11 @@ void BG_SYS_CommitScroll(void)
             W(0x0400101c) = (SLOT(7).scrollX & m)
                           | (hm & (SLOT(7).scrollY << 16));
         } else {
-            struct Mtx22 t;
+            MtxFx22 t;
             BUTTON_MAN_RotScaleMtx22(&t, SLOT(7).rotation,
-                          (const void *)SLOT(7).scaleX,
-                          (const void *)SLOT(7).scaleY, 2);
-            G2x_SetBGyAffine_((void *)0x04001030, &t,
+                          (long int)(const void *)SLOT(7).scaleX,
+                          (long int)(const void *)SLOT(7).scaleY, 2);
+            G2x_SetBGyAffine_((u32)(void *)0x04001030, &t,
                           SLOT(7).centerX, SLOT(7).centerY,
                           SLOT(7).scrollX, SLOT(7).scrollY);
         }
@@ -2681,9 +2619,9 @@ void BG_SYS_SetScrollField(struct BgLayer *p, u32 op, u32 value)
  */
 void BG_SYS_ResetAffineMatrix(u32 layer)
 {
-    struct Mtx22 p;
+    MtxFx22 p;
 
-    BUTTON_MAN_RotScaleMtx22(&p, 0, (const void *)0x1000, (const void *)0x1000, 0);
+    BUTTON_MAN_RotScaleMtx22(&p, 0, (long int)(const void *)0x1000, (long int)(const void *)0x1000, 0);
     BG_SYS_SetScrollRegs(layer, &p, 0, 0);
 }
 
@@ -3440,28 +3378,13 @@ void BG_SYS_ApplyCenterOp(struct BgLayer *bg, u32 opcode, u32 operand)
     }
 }
 
-struct DispVram {
-    GXVRam main_bg;             /* +0x00 */
-    GXVRam main_bg_expltt;      /* +0x04 */
-    GXVRam sub_bg;              /* +0x08 */
-    GXVRam sub_bg_expltt;       /* +0x0C */
-    GXVRam main_obj;            /* +0x10 */
-    GXVRam main_obj_expltt;     /* +0x14 */
-    GXVRam sub_obj;             /* +0x18 */
-    GXVRam sub_obj_expltt;      /* +0x1C */
-    GXVRam teximage;            /* +0x20 */
-    GXVRam texpltt;             /* +0x24 */
-    GXOBJVRamModeChar main_mapping;     /* +0x28 */
-    GXOBJVRamModeChar sub_mapping;      /* +0x2C */
-};
+typedef int GXVRamBG;
+typedef int GXVRamOBJ;
+typedef int GXVRamTex;
+#include "gx_vramcnt.h"
 
-extern void GX_SetBankForLCDC(s32 lcdc);
 
-extern void GX_DisableBankForLCDC(void);
 
-extern int GX_ResetBankForBG(void);
-
-extern void GX_DispOn(void);
 
 void BG_SYS_ClearGraphicsMemory(u32 keepBanks);
 
@@ -3512,43 +3435,38 @@ void BG_SYS_ClearGraphicsMemory(u32 keepBanks)
     MIi_CpuClearFast(0, (void *)0x05000400, 0x400);
 }
 
-extern void GX_ResetBankForBGExtPltt(void);   /* GX_ResetBankForBGExtPltt */
+   /* GX_ResetBankForBGExtPltt */
 
-extern int GX_ResetBankForSubBG(void);
 
-extern void GX_ResetBankForSubBGExtPltt(void);   /* GX_ResetBankForSubBGExtPltt */
+   /* GX_ResetBankForSubBGExtPltt */
 
-extern void GX_ResetBankForOBJ(void);
 
-extern void GX_ResetBankForOBJExtPltt(void);   /* GX_ResetBankForOBJExtPltt */
+   /* GX_ResetBankForOBJExtPltt */
 
-extern void GX_ResetBankForSubOBJ(void);
 
-extern void GX_ResetBankForSubOBJExtPltt(void);   /* GX_ResetBankForSubOBJExtPltt */
+   /* GX_ResetBankForSubOBJExtPltt */
 
-extern int GX_ResetBankForTex(void);
 
-extern void GX_ResetBankForTexPltt(void);
 
-extern void GX_SetBankForBG(GXVRam v);   /* GX_SetBankForBG */
+   /* GX_SetBankForBG */
 
-extern void GX_SetBankForBGExtPltt(GXVRam v);   /* GX_SetBankForBGExtPltt */
+   /* GX_SetBankForBGExtPltt */
 
-extern void GX_SetBankForSubBG(GXVRam v);   /* GX_SetBankForSubBG */
+   /* GX_SetBankForSubBG */
 
-extern void GX_SetBankForSubBGExtPltt(GXVRam v);   /* GX_SetBankForSubBGExtPltt */
+   /* GX_SetBankForSubBGExtPltt */
 
-extern void GX_SetBankForOBJ(GXVRam v);   /* GX_SetBankForOBJ */
+   /* GX_SetBankForOBJ */
 
-extern void GX_SetBankForOBJExtPltt(GXVRam v);   /* GX_SetBankForOBJExtPltt */
+   /* GX_SetBankForOBJExtPltt */
 
-extern void GX_SetBankForSubOBJ(GXVRam v);   /* GX_SetBankForSubOBJ */
+   /* GX_SetBankForSubOBJ */
 
-extern void GX_SetBankForSubOBJExtPltt(GXVRam v);   /* GX_SetBankForSubOBJExtPltt */
+   /* GX_SetBankForSubOBJExtPltt */
 
-extern void GX_SetBankForTex(GXVRam v);   /* GX_SetBankForTex */
+   /* GX_SetBankForTex */
 
-extern void GX_SetBankForTexPltt(GXVRam v);   /* GX_SetBankForTexPltt */
+   /* GX_SetBankForTexPltt */
 
 #define reg_GX_DISPCNT      (*(volatile u32 *)0x04000000)
 

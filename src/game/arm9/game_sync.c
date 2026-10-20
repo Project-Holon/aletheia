@@ -25,9 +25,9 @@ struct GameSyncData {
     u8 data[0x1338];
 };
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
-extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
+#include "mi_memory.h"
 
 struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
 
@@ -40,7 +40,6 @@ static inline void MI_CpuClear32(void *dest, u32 size)
     MIi_CpuClear32(0, dest, size);
 }
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 /*
  * Part of a translation unit, matched as one byte range.  Written from the

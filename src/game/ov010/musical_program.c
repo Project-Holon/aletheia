@@ -158,7 +158,7 @@ MusicalShowProgram *MUSICAL_PROGRAM_Create(u32 heapId, MusicalSystemHead *musica
  */
 int MUSICAL_PROGRAM_Delete(MusicalShowProgram *program){
 
-    GFL_HEAP_Free(program);
+    return GFL_HEAP_Free(program);
 }
 
 /*

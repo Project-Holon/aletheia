@@ -92,80 +92,66 @@ struct OverlayLaunchWork {
     u32 mode;       /* 0x04 */
 };
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "gfl_heap_wrap.h"
 
-extern void STRBUF_Delete(struct Strbuf *str);
+#include "strbuf.h"
 
-extern void BMP_Delete(struct Bmp *bmp);
+typedef short s16_p07;
+#include "bmp.h"
 
-extern void SAVE_CONTROL_Delete(void);
+#include "save_control.h"
 
-extern int GFL_NET_GetRunState(void);
+#include "net.h"
 
-extern void GFL_NET_ClearExitFlag(void);
 
-extern int GFL_NET_Exit(int enable);
 
-extern void GFL_NET_IRC_WIRELESS_Exit(void);
 
-extern u32 GFL_NET_Main(void);
 
-extern int GFL_NET_IsSessionNull(void);
 
-extern void UI_ClearSoftResetInhibitGlobal(u32 stage);
+#include "ui.h"
 
-extern void GFL_USE_PollPowerExit(void);
+#include "gfl_use.h"
 
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
+#include "gx.h"
 
-extern long GX_HBlankIntr(int enable);
 
-extern long GX_VBlankIntr(int enable);
 
-extern int GX_ResetBankForBG(void);
+typedef int GXVRam;
+typedef int GXVRamBG;
+typedef int GXVRamOBJ;
+typedef int GXVRamTex;
+#include "gx_vramcnt.h"
 
-extern int GX_ResetBankForSubBG(void);
 
-extern void GX_SetBankForBG(s32 bg);
 
-extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0Is3d);
 
-extern void *G2_GetBG1CharPtr(void);
+#include "gx_bgcnt.h"
 
-extern void MIi_CpuClear32(u32 value, u32 dest, u32 size);
+#include "mi_memory.h"
 
-extern int ARC_UTIL_LoadMember(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID);
+#include "arc_util.h"
 struct NitroFileHeader;
 
-extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
+#include "nns_g2d_anim_bank.h"
 
-extern void DC_FlushRange(u32 addr, u32 size);
+#include "os_cache.h"
 
-extern void MIi_CpuCopy16(u32 src, u32 dest, u32 size);
 
-extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
+#include "nns_g2d_load.h"
 
-extern void *G2_GetBG1ScrPtr(void);
 
-extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
 
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
-extern void MIi_CpuClear16(u32 value, u32 dest, u32 size);
 
-extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 
-extern struct GfFont *GF_FONT_Create(int fontId, int spacingX, int spacingY, int colorMode, u32 heapId);
+#include "gf_font.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "msgdata.h"
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font, u16 color);
+#include "printsys.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
 extern void PROCSYS_PushGlobal(u32 ovl, u32 proc, u32 arg);
 
@@ -332,24 +318,24 @@ void APP_POWER_LoadShutdownScreen(void)
     u32 charSize;
     u32 screenSize;
 
-    MIi_CpuClear32(0, (u32)G2_GetBG1CharPtr(), 0x4000);
+    MIi_CpuClear32(0, (void *)G2_GetBG1CharPtr(), 0x4000);
     res = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
     if (NNS_G2dGetUnpackedCharacterDataEx((struct NitroFileHeader *)res, (void **)(&chars)) != 0) {
-        DC_FlushRange(chars[5], chars[4]);
-        MIi_CpuCopy16(chars[5], (u32)G2_GetBG1CharPtr(), charSize = chars[4]);
+        DC_FlushRange((void *)(chars[5]), chars[4]);
+        MIi_CpuCopy16((const void *)(chars[5]), (void *)G2_GetBG1CharPtr(), charSize = chars[4]);
     }
     GFL_HEAP_Free((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 2, 0, 7);
     if (NNS_G2dGetUnpackedScreenData((void *)res, (void **)(&screen)) != 0) {
-        DC_FlushRange((u32)screen + 0xc, screen[2]);
-        MIi_CpuCopy16((u32)screen + 0xc, (u32)G2_GetBG1ScrPtr(), screenSize = screen[2]);
+        DC_FlushRange((void *)((u32)screen + 0xc), screen[2]);
+        MIi_CpuCopy16((const void *)((u32)screen + 0xc), (void *)G2_GetBG1ScrPtr(), screenSize = screen[2]);
     }
     GFL_HEAP_Free((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
     NNS_G2dGetUnpackedPaletteCompressInfo((struct NitroFileHeader *)res, (void **)(&paletteHeader));
     if (NNS_G2dGetUnpackedPaletteData((struct NitroFileHeader *)res, (void **)(&palette)) != 0) {
-        DC_FlushRange(palette[3], 0x20);
-        MIi_CpuCopy16(palette[3], 0x05000000, 0x20);
+        DC_FlushRange((void *)(palette[3]), 0x20);
+        MIi_CpuCopy16((const void *)(palette[3]), (void *)0x05000000, 0x20);
     }
     GFL_HEAP_Free((void *)res);
 }
@@ -386,7 +372,7 @@ void APP_POWER_DrawShutdownScreen(u32 messageId)
             tile = tile + 1;
         }
     }
-    MIi_CpuClear16(0x7777, (u32)G2_GetBG1CharPtr() + 0x400, 0x3C00);
+    MIi_CpuClear16(0x7777, (void *)((u32)G2_GetBG1CharPtr() + 0x400), 0x3C00);
     bmp = BMP_CreateFromVram((void *)((u32)G2_GetBG1CharPtr() + 0x400), 0x1e, 0x10, 0x20, 7);
     font = GF_FONT_Create(0x17, 0, 0, 0, 7);
     msgBank = MSGDATA_CreateFromArchive(0, 2, 2, 7);

@@ -46,27 +46,22 @@ struct BagParam {
     int   cycleFlag;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 struct GameData;
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "game_data.h"
 
-extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
+#include "system_data.h"
 struct MyStatus;
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern unsigned int GAME_DATA_GetMapMatrix(struct GameData *gd);
 
-extern void *GAME_DATA_GetMyItem(struct GameData *gd);
 
-extern void  MI_CpuCopy8(void *src, void *dst, int n);
+#include "mi_memory.h"
 struct PlayerWork;
 
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
-extern u32 GAME_DATA_GetPlayerObjectCode(struct PlayerWork *player);
 
 void *BAG_PARAM_Create(const struct BigObj *gameData, u8 *itemCheck, int mode, int heapId);
 

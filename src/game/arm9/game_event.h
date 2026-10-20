@@ -1,12 +1,14 @@
 #ifndef GAME_ARM9_GAME_EVENT_H
 #define GAME_ARM9_GAME_EVENT_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of game_event.c, prototypes copied from their definitions. */
 
 struct GameEvent;
 struct GameSystem;
 
 #include "../arm9/ica_anime_shared_types.h"
+#include "../types.h"
 
 struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 int GAME_EVENT_RunFunc(struct GameEvent *event);
@@ -25,5 +27,6 @@ struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 void *GAME_EVENT_GetWork(struct GameEvent *event);
 u32 *GAME_EVENT_GetSeq(struct GameEvent *event);
 struct GameEvent *GAME_EVENT_GetParent(struct GameEvent *event);
+/* END mkheaders: generated region */
 
 #endif

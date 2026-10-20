@@ -1,9 +1,12 @@
 #ifndef GAME_ARM9_STRBUF_H
 #define GAME_ARM9_STRBUF_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of strbuf.c, prototypes copied from their definitions. */
 
 struct Strbuf;
+
+#include "../types.h"
 
 void STRBUF_SetEosChar(u16 eosChar);
 struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
@@ -22,5 +25,6 @@ u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 u16 STRBUF_GetEosChar(void);
 void STRBUF_Append(struct Strbuf *dst, struct Strbuf *src);
 void STRBUF_AppendChar(struct Strbuf *strbuf, u16 ch);
+/* END mkheaders: generated region */
 
 #endif

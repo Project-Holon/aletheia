@@ -1,10 +1,12 @@
 #ifndef GAME_ARM9_NET_COMMAND_H
 #define GAME_ARM9_NET_COMMAND_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of net_command.c, prototypes copied from their definitions. */
 
 struct NetCommandTable;
 
+#include "../types.h"
 #include "../arm9/net_types.h"
 
 void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userData, u32 unusedArg);
@@ -26,5 +28,6 @@ void GFL_NET_COMMAND_RecvHugeBuffer(int netId, int unusedArg, const u8 *header, 
 u32 GFL_NET_COMMAND_SetSendSlot(u32 handle, u32 destMask, u32 command, u32 totalSize, u32 dataAddr);
 u32 GFL_NET_COMMAND_SendNextSlot(void);
 void GFL_NET_COMMAND_Main(void);
+/* END mkheaders: generated region */
 
 #endif

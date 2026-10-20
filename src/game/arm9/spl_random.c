@@ -1,7 +1,7 @@
 /*
  * file:     spl_random.c
  * unit:     yes
- * function: SPLRandom_VecFx32_XY
+ * function: SPLRandom_VecFx32_XY, SPLRandom_VecFx32
  * address:  0x0205841C
  * packet:   pkt_020583CC
  * region:   arm9
@@ -25,7 +25,7 @@
 #include "../sdk_fx.h"
 
 extern int g_02146A8C;
-extern void VEC_Normalize(const VecFx32 *src, VecFx32 *dst);
+#include "fx_vec.h"
 
 void SPLRandom_VecFx32_XY(volatile VecFx32 *v)
 {

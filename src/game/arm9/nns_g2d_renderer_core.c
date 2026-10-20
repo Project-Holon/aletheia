@@ -152,69 +152,12 @@ typedef enum {
     GX_OAM_EFFECT_AFFINE_DOUBLE = 0x0300
 } GXOamEffect;
 
-typedef struct { fx32 x; fx32 y; } NNSG2dFVec2;
-
 #include "../sdk_fx.h"
-
-typedef struct { fx32 _00, _01, _10, _11, _20, _21; } MtxFx32;
+#include "nns_g2d_renderer_core.h"
 
 typedef enum { OAM_FLIP_NONE = 0, OAM_FLIP_H = 1, OAM_FLIP_V = 2, OAM_FLIP_HV = 3 } OAM_FLIP;
 
-typedef struct { u16 attr0; u16 attr1; u16 attr2; } NNSG2dCellOAMAttrData;
-
-typedef struct { u16 numOAMAttrs; u16 cellAttr; NNSG2dCellOAMAttrData *pOamAttrArray; } NNSG2dCellData;
-
-typedef struct { MtxFx22 m22; u16 affineIndex[4][2]; } NNSG2dRndCore2DMtxCache;
-
-typedef void (*DrawOamCB)(struct NNSG2dRndCoreInstance *pRend, const NNSG2dCellData *pCell, u16 oamIdx);
-
-typedef void (*DrawCellCB)(struct NNSG2dRndCoreInstance *pRend, const NNSG2dCellData *pCell);
-
-typedef struct {
-    struct { NNSG2dFVec2 posTopLeft; NNSG2dFVec2 sizeView; } viewRect;
-    BOOL bActive;
-    u32 type;
-    DrawCellCB pBeforeDrawCellBackFunc;
-    DrawCellCB pAfterDrawCellBackFunc;
-    DrawOamCB pBeforeDrawOamBackFunc;
-    DrawOamCB pAfterDrawOamBackFunc;
-} NNSG2dRndCoreSurface;
-
-typedef BOOL (*OamRegisterFunc)(const GXOamAttr *pOam, u16 affineIndex, BOOL bDoubleAffine);
-
-typedef u16 (*OamAffineRegisterFunc)(const MtxFx22 *mtx);
-
-typedef struct NNSG2dRndCoreInstance {
-    NNSG2dRndCoreSurface *pCurrentTargetSurface;
-    u32 affineOverwriteMode;
-    const NNSG2dImageProxy *pImgProxy;
-    const NNSG2dPaletteProxy *pPltProxy;
-    u32 base2DCharOffset;
-    u32 baseTexAddr3D;
-    u32 basePltAddr3D;
-    OamRegisterFunc pFuncOamRegister;
-    OamAffineRegisterFunc pFuncOamAffineRegister;
-    u32 flipFlag;
-    NNSG2dRndCore2DMtxCache *pCurrentMtxCacheFor2D;
-    const MtxFx32 *pCurrentMxt;
-    BOOL bDrawEnable;
-    fx32 zFor3DSoftwareSprite;
-    GXOamAttr currentOam;
-    MtxFx43 mtx;
-} NNSG2dRndCoreInstance;
-
-typedef struct CellTransferState {
-    u32          baseAddrOfVram[3]; /* +0x00 */
-    u32          szDst;             /* +0x0c */
-    const void  *pSrcNCGR;          /* +0x10 */
-    const void  *pSrcNCBR;          /* +0x14 */
-    u32          szSrcData;         /* +0x18 */
-    BOOL         bActive;           /* +0x1c */
-    u32          bDrawn;            /* +0x20 */
-    u32          bTransferRequested;/* +0x24 */
-    u32          srcOffset;         /* +0x28 */
-    u32          szByte;            /* +0x2c */
-} CellTransferState;
+#include "nns_g2d_cell_transfer.h"
 
 extern void G3_LoadMtx43(void *m);
 extern void MIi_CpuClear16(u16 data, void *dest, u32 size);

@@ -69,11 +69,10 @@ struct TrainerExport {
     u8  pokemon[0xB4];
 };
 
-extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
+#include "mi_memory.h"
 
-extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
 u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct BsubwaySave *save);
 

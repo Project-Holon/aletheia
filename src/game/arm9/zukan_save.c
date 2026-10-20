@@ -64,33 +64,26 @@ struct ZukanSave {
 struct GameData;
 struct SaveControl;                                                 
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "game_data.h"
 
-extern u32 GFL_HEAP_Free(void *mem);
+#include "gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 struct PersonalData;
 
-extern struct PersonalData *POKE_PERSONAL_Create(u32 a, int b, u32 c);
+#include "poke_personal.h"
 
-extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
 
-extern void POKE_PERSONAL_Delete(struct PersonalData *data);
 struct PokemonParam;
 
-extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *pp);
+#include "poke_tool.h"
 
-extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, u32 didDecode);
 
-extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern u8    POKE_TOOL_GetGender(struct PokemonParam *pp);
 
-extern u32   POKE_TOOL_IsShiny(struct PokemonParam *pp);
 
-extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 
 extern int ZUKAN_SAVE_CountCaughtRegionalCounted(struct ZukanSave *pZukan, int heap);
 

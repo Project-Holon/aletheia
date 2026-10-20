@@ -84,15 +84,7 @@ typedef struct {
     DWCstInetControl *stpInetCntl;
 } INETBSS;
 
-typedef struct {
-    void *(*alloc)(unsigned long name, long size);
-    void (*free)(unsigned long name, void *ptr, long size);
-    unsigned char dmaNo;
-    unsigned char powerMode;
-    unsigned char option[2];
-    long rwin;
-    unsigned char wontExecuteEULACheck;
-} DWCACConfig;
+#include "dwc_ac.h"
 
 typedef struct {
     int aptype;
@@ -105,14 +97,11 @@ typedef struct {
 
 #include "../sdk_wm.h"
 
-typedef struct { unsigned char data[0x104]; } CRYPTORC4Context;
+#include "rc4.h"
 
 #include "../sdk_math.h"
 
-typedef struct {
-    unsigned char head[0x20];
-    char fullapinfo[0x50];
-} WDSApInfo;
+#include "dwc_ac_wds.h"
 
 typedef struct {
     CRYPTORC4Context rc4context;
@@ -121,43 +110,23 @@ typedef struct {
     WDSApInfo apinfo;
 } DWCCheckNintendoZoneWork;
 
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void CPS_SetSslHandshakePriority(int len);
-extern int OS_IsRunOnTwl(void);
-extern int DWC_AC_Create(DWCACConfig *config);
-extern void DWCi_SetError(int error, int errorCode);
-extern void *DWC_Alloc(unsigned long name, long size);
-extern void DWC_Free(unsigned long name, void *ptr, long size);
+#include "mi_memory.h"
+#include "../ov009/ssl.h"
+#include "os_emulator.h"
+#include "dwc_error.h"
+#include "dwc_memfunc.h"
 extern void DWC_ConnectInetAsync(void);
 extern int DWC_GetInetStatus(void);
-extern void DWC_AC_SetSpecifyApEx(void *ssid, void *wep, int wepMode, unsigned short mtu, char *apSpotInfo, int overrideType);
-extern int DWC_AC_ProcessGetWDSInfo(void);
-extern void DWC_AC_CleanupGetWDSInfo(void);
-extern void DWCi_AC_InvalidatePriorityWPA(void);
-extern int DWC_AC_Process(void);
-extern long WCM_GetPhase(void);
-extern int DWC_AC_GetStatus(void);
-extern unsigned long CPS_GetSslHandshakePriority(void);
+#include "dwc_ac_nintendospot.h"
+#include "../ov009/wcm_system.h"
 struct tagDWCWDSData;
-extern int DWC_AC_StartupGetWDSInfo(struct tagDWCWDSData *nspotInfo, unsigned short dmaNo);
-extern void DWC_AC_CancelGetWDSInfo(void);
-extern int DWC_AC_Destroy(void);
-extern void OS_Sleep(unsigned long msec);
-extern int WCM_GetLinkLevel(void);
-extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
-extern unsigned char DWC_AC_GetApType(void);
-extern unsigned long OS_DisableInterrupts(void);
-extern unsigned char *WCM_GetApMacAddress(void);
-extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
-extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern unsigned char *WCM_GetApEssid(unsigned short *length);
-extern int DWC_AC_GetApSpotInfo(unsigned char *apSpotInfo);
-extern unsigned int DWC_AC_GetSecuritySetting(void);
-extern int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len);
-extern int DWCi_AC_GetPostalCode(char *ssid, unsigned char *pos);
-extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, unsigned short poly);
-extern int WDS_DecryptWMBssDesc(CRYPTORC4Context *rc4context, unsigned short *crcContext, MATHCRC16Table *crcTable, WMBssDesc *bssdesc, WDSApInfo *apinfo);
-extern int WDS_IsAvailableForAutoConnect(WDSApInfo *apinfo);
+#include "os_thread.h"
+#include "../ov009/wcm_util.h"
+#include "os_system.h"
+#include "../ov009/wcm_cpsif.h"
+#include "os_cache.h"
+#include "dwc_ac_shop_usb.h"
+#include "crc.h"
 extern int DWC_CheckWiFiStation(void *ssid, unsigned short len, DWCApInfo *apinfo);
 extern int DWC_CheckNintendoZone(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo);
 extern void DWC_ProcessInet(void);
@@ -245,8 +214,8 @@ void DWC_ConnectInetAsync(void)
         inp.dmaNo = g_02146AD4.stpInetCntl->dmaNo;
         inp.powerMode = g_02146AD4.stpInetCntl->powerMode;
         inp.rwin = g_02146AD4.stpInetCntl->rwin;
-        inp.alloc = DWC_Alloc;
-        inp.free = DWC_Free;
+        inp.alloc = (ACAllocFunc)DWC_Alloc;
+        inp.free = (ACFreeFunc)DWC_Free;
         inp.wontExecuteEULACheck = g_02146AD4.stpInetCntl->wontExecuteEULACheck;
         g_02146AD4.stpInetCntl->state = 2;
         if (!DWC_AC_Create(&inp)) {
@@ -611,7 +580,7 @@ int DWC_CheckNintendoZone(void *work, WMBssDesc *bssdesc, DWCApInfo *apinfo)
             && WDS_IsAvailableForAutoConnect(&pwork->apinfo)) {
             if (apinfo != 0) {
                 apinfo->aptype = 8;
-                DWCi_DivideFullApinfo(pwork->apinfo.fullapinfo, apinfo);
+                DWCi_DivideFullApinfo((char *)pwork->apinfo.apnum, apinfo);
             }
             return 1;
         }

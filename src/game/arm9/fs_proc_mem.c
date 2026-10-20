@@ -31,51 +31,15 @@
 
 #include "../types.h"
 
-typedef struct FSFile FSFile;
+#include "../sdk_fs.h"
 
-typedef struct FSArchive
-{
-    u8 pad00[4];
-    struct FSArchive *next;
-    u8 pad08[0xc];
-    u32 flag;
-} FSArchive;
-
-typedef struct FSDirEntryOut
-{
-    u32 id;
-    unsigned short attr;
-    unsigned short reserved;
-    u32 size;
-    u32 is_directory;
-    u32 name_len;
-    char name[1];
-} FSDirEntryOut;
-
-struct FSFile
-{
-    u8 pad00[8];
-    u32 id;
-    u8 pad0c[0x18];
-    u32 imageTop;
-    FSArchive *cur_arc;
-    u8 pad2c[4];
-    FSDirEntryOut *entry;
-    u32 skip_string;
-};
-
-extern char *FS_GetArchiveName(FSArchive *arc);
-extern int STD_GetStringLength(const char *s);
-extern int STD_TSPrintf(char *dst, char *fmt, ...);
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32 state);
-extern void FS_InitArchive(FSArchive *p_arc);
-extern void FS_SetArchiveProc(FSArchive *arc, int (*proc)(FSFile *, u32), u32 flags);
-extern BOOL FS_LoadArchive(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fnt, u32 fnt_size,
-                           int (*read_func)(FSArchive *, void *, u32, u32),
-                           int (*write_func)(FSArchive *, void *, u32, u32));
-extern void OS_Terminate(void);
-extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
+#include "fs_archive.h"
+#include "std_string.h"
+#include "std_sprintf.h"
+#include "os_system.h"
+#include "fs_proc_default.h"
+#include "os_terminate_processor.h"
+#include "fs_file.h"
 u32 FS_GetFileImageTop(FSFile *file);
 int FSi_MemArchiveProc(FSFile *p_file, u32 cmd);
 void FSi_InitMemArchive(void);
@@ -85,18 +49,18 @@ extern FSArchive fsi_arc_mem;
 
 u32 FS_GetFileImageTop(FSFile *file)
 {
-    return file->imageTop;
+    return file->prop.file.top;
 }
 
 int FSi_MemArchiveProc(FSFile *p_file, u32 cmd)
 {
     switch (cmd) {
     case 3: {
-        FSDirEntryOut *entry;
+        FSDirEntry *entry;
         FSArchive *arc;
         char *name;
-        arc = p_file->cur_arc;
-        entry = p_file->entry;
+        arc = (FSArchive *)p_file->prop.dir.pos.pos;
+        entry = p_file->arg.readdir.p_entry;
         if (arc == 0) {
             entry->name_len = 0;
             entry->is_directory = 0;
@@ -105,14 +69,14 @@ int FSi_MemArchiveProc(FSFile *p_file, u32 cmd)
         name = FS_GetArchiveName(arc);
         entry->name_len = STD_GetStringLength(name) + 1;
         entry->is_directory = 1;
-        if (p_file->skip_string == 0) {
+        if (p_file->arg.readdir.skip_string == 0) {
             STD_TSPrintf(entry->name, "%s:", name);
-            entry->id = p_file->id;
-            entry->attr = 0;
-            entry->reserved = 0;
-            entry->size = 0;
+            entry->dir_id.arc = p_file->arc;
+            entry->dir_id.own_id = 0;
+            entry->dir_id.index = 0;
+            entry->dir_id.pos = 0;
         }
-        p_file->cur_arc = arc->next;
+        p_file->prop.dir.pos.pos = (u32)arc->next;
         return 0;
     }
     case 2:
@@ -140,7 +104,7 @@ void FSi_InitMemArchive(void)
     if (!fsi_mem_init || !FS_IsArchiveLoaded(&fsi_arc_mem))
     {
         FS_InitArchive(&fsi_arc_mem);
-        FS_SetArchiveProc(&fsi_arc_mem, FSi_MemArchiveProc, 0xFFFFFFFF);
+        FS_SetArchiveProc(&fsi_arc_mem, (u32)FSi_MemArchiveProc, 0xFFFFFFFF);
         if (!FS_LoadArchive(&fsi_arc_mem, 0, 0, 0, 0, 0, 0, 0))
         {
             OS_Terminate();

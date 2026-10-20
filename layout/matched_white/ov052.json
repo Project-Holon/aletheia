@@ -1,0 +1,19 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_BSUBWAY_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 100, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_Update", "black_address": "0x021F3724", "white_address": "0x021F3744", "size": 76, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_Exit", "black_address": "0x021F3770", "white_address": "0x021F3790", "size": 80, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_StartTrain", "black_address": "0x021F37C0", "white_address": "0x021F37E0", "size": 76, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_GetTrainEffect", "black_address": "0x021F380C", "white_address": "0x021F382C", "size": 56, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_InitTrain", "black_address": "0x021F3844", "white_address": "0x021F3864", "size": 60, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_ExitTrain", "black_address": "0x021F3880", "white_address": "0x021F38A0", "size": 12, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_HaltTrainSway", "black_address": "0x021F388C", "white_address": "0x021F38AC", "size": 52, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_InitTrainSway", "black_address": "0x021F38C0", "white_address": "0x021F38E0", "size": 36, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_ExitTrainSway", "black_address": "0x021F38E4", "white_address": "0x021F3904", "size": 12, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_UpdateTrainSway", "black_address": "0x021F38F0", "white_address": "0x021F3910", "size": 168, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_BSUBWAY_FindZoneEntry", "black_address": "0x021F3998", "white_address": "0x021F39B8", "size": 4, "diff": "constant", "source": "src/game/ov052/field_gimmick_bsubway.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

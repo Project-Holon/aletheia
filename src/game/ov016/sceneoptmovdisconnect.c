@@ -1,7 +1,7 @@
 /*
  * file:     sceneoptmovdisconnect.c
  * unit:     yes
- * function: DWCi_SceneOptMovDisconnect, initGraphics, DWCi_SceneOptMovDisconnectProcInit, DWCi_SceneOptMovDisconnectProcInit1, DWCi_SceneOptMovDisconnect_procScene, DWCi_SceneOptMovDisconnect_draw, DWCi_SceneOptMovDisconnectEndScene, DWCi_SceneOptMovDisconnectEndScene1, wait
+ * function: DWCi_SceneOptMovDisconnect, initGraphics, procInit, procInit1, DWCi_SceneOptMovDisconnect_procScene, DWCi_SceneOptMovDisconnect_draw, endScene, endScene1, wait
  * address:  0x021C3B8C
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -42,8 +42,8 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_ChangeScene(void (*scene)());
-extern bool DWCi_MOVlIsEnd(void);
+extern void DWCi_ChangeScene(unsigned int v);
+extern int DWCi_MOVlIsEnd(void);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern int DWCi_COMMENTlDelete(void);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
@@ -69,7 +69,7 @@ void DWCi_SceneOptMovDisconnect(void)
     *(unsigned char *)0x021DE5BC = 0;
     initGraphics();
     DWCi_CMNlMsgDraw(0x21);
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((unsigned int)procInit);
 }
 
 
@@ -89,7 +89,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((unsigned int)procInit1);
 }
 
 
@@ -99,7 +99,7 @@ static void procInit1(void)
         return;
     if (!DWCi_MOVlIsEnd())
         return;
-    DWCi_ChangeScene(DWCi_SceneOptMovDisconnect_procScene);
+    DWCi_ChangeScene((unsigned int)DWCi_SceneOptMovDisconnect_procScene);
 }
 
 
@@ -135,7 +135,7 @@ static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((unsigned int)endScene1);
 }
 
 
@@ -150,12 +150,12 @@ static void endScene1(void)
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 1);
-    DWCi_ChangeScene(DWCi_SceneOptMenu);
+    DWCi_ChangeScene((unsigned int)DWCi_SceneOptMenu);
 }
 
 
 static void wait(void)
 {
     if (++Count >= 120)
-        DWCi_ChangeScene(endScene);
+        DWCi_ChangeScene((unsigned int)endScene);
 }

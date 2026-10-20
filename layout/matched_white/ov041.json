@@ -1,0 +1,20 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_CANNONS_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 248, "diff": "constant", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_Exit", "black_address": "0x021F37B8", "white_address": "0x021F37D8", "size": 28, "diff": "constant", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_Update", "black_address": "0x021F37D4", "white_address": "0x021F37F4", "size": 12, "diff": "constant", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_CreateLaunchEvent", "black_address": "0x021F37E0", "white_address": "0x021F3800", "size": 164, "diff": "constant", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_EventLaunch", "black_address": "0x021F3884", "white_address": "0x021F38A4", "size": 1632, "diff": "constant", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_FindCannonAt", "black_address": "0x021F3EE4", "white_address": "0x021F3F04", "size": 52, "diff": "constant", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_GetFirstAnimeSlot", "black_address": "0x021F3F18", "white_address": "0x021F3F38", "size": 44, "diff": "same", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_FacingToRingIndex", "black_address": "0x021F3F44", "white_address": "0x021F3F64", "size": 44, "diff": "same", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_TurnRingDirection", "black_address": "0x021F3F70", "white_address": "0x021F3F90", "size": 80, "diff": "constant", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_GetCannonDirection", "black_address": "0x021F3FC0", "white_address": "0x021F3FE0", "size": 24, "diff": "constant", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_StartBounce", "black_address": "0x021F3FD8", "white_address": "0x021F3FF8", "size": 20, "diff": "same", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_ResetBounce", "black_address": "0x021F3FEC", "white_address": "0x021F400C", "size": 20, "diff": "same", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_CANNONS_UpdateBounce", "black_address": "0x021F4000", "white_address": "0x021F4020", "size": 4, "diff": "constant", "source": "src/game/ov041/field_gimmick_cannons.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

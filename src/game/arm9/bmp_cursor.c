@@ -27,26 +27,23 @@
  */
 #include "bmp_menulist_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "bmp_win.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "strbuf.h"
 
-extern void BMP_Delete(struct Bmp *bmp);
+typedef short s16_p07;
+#include "bmp.h"
 struct GfFont;
 struct PrintQueue;
 
-extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font);
+#include "printsys.h"
 
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
 
-extern struct Bmp *BMP_CreateFromBuffer(const void *pixels, u32 widthTiles, u32 heightTiles, u32 sizeBytes, u16 heap);
 
 struct MenuCursor *BMP_CURSOR_Create(u32 heap);
 
@@ -112,5 +109,5 @@ void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget 
 
 void BMP_CURSOR_SetTileBitmap(struct MenuCursor *cursor, int heap)
 {
-    cursor->tile = BMP_CreateFromBuffer(BMP_CURSOR_TileData, 1, 1, 0x20, heap);
+    cursor->tile = BMP_CreateFromBuffer((void *)BMP_CURSOR_TileData, 1, 1, 0x20, heap);
 }

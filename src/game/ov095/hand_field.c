@@ -1,7 +1,7 @@
 /*
  * file:     hand_field.c
  * unit:     yes
- * function: HAND_FIELD_AddFactor, HAND_FIELD_RemoveFactor, HAND_FIELD_GravityOverrideGroundImmunity, HAND_FIELD_GetHandlersWaterSport, HAND_FIELD_WaterSportWeakenFire, HAND_FIELD_GetHandlersMudSport, HAND_FIELD_MudSportWeakenElectric, HAND_FIELD_GetHandlersUseCounter, HAND_FIELD_UseCounterIncrement, HAND_FIELD_GetHandlersWonderRoom, HAND_FIELD_GetHandlersMagicRoom, HAND_FIELD_RoomMarkerNoop
+ * function: HAND_FIELD_AddFactor, HAND_FIELD_RemoveFactor, HAND_FIELD_GetHandlersWeatherMarker, HAND_FIELD_WeatherMarkerNoop, HAND_FIELD_GetHandlersTrickRoom, HAND_FIELD_TrickRoomReverseSpeed, HAND_FIELD_GetHandlersGravity, HAND_FIELD_GravityBoostAccuracy, HAND_FIELD_GravityOverrideGroundImmunity, HAND_FIELD_GetHandlersWaterSport, HAND_FIELD_WaterSportWeakenFire, HAND_FIELD_GetHandlersMudSport, HAND_FIELD_MudSportWeakenElectric, HAND_FIELD_GetHandlersUseCounter, HAND_FIELD_UseCounterIncrement, HAND_FIELD_GetHandlersWonderRoom, HAND_FIELD_GetHandlersMagicRoom, HAND_FIELD_RoomMarkerNoop
  * address:  0x06898020
  * region:   ov095
  * compiler: dsi/1.1p1

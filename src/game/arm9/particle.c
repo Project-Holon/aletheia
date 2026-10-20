@@ -89,9 +89,7 @@
  */
 #include "billboard_act_shared_types.h"
 
-typedef struct Mtx33 {
-    s32 m[9];
-} Mtx33;
+#include "../sdk_fx.h"
 
 /* Saved 3D engine state (32 bytes) that DrawSystem restores after drawing. */
 typedef struct SavedGxState {
@@ -114,17 +112,7 @@ struct ParticleEngine {
     int effectCount;
 };
 
-/* Projection setup for the system camera. */
-struct ParticleCameraParams {
-    u32 projType;
-    u32 fovSin;
-    u32 fovCos;
-    u32 aspect;
-    u32 orthoExtent;
-    u32 nearZ;
-    u32 farZ;
-    u32 projScale;
-};
+#include "particle_types.h"
 
 #define PARTICLE_LOAD_TEX_BULK    1   /* texture handles managed as one table */
 
@@ -254,7 +242,7 @@ extern void NNS_G3dGeFlushBuffer(void);
 
 extern void MI_Copy36B(const void *src, void *dst);
 
-extern void MTX_Identity33_(Mtx33 *p);
+extern void MTX_Identity33_(MtxFx33 *p);
 
 extern int SPL_EMITTER_FreeTexNode(struct ParticleEngine *engine);
 
@@ -966,14 +954,14 @@ void PARTICLE_ApplyLoadHandlersTask(struct TaskNode *task, struct ParticleSys *s
 void PARTICLE_DrawSystem(struct ParticleSys *sys)
 {
     SavedGxState savedState;
-    Mtx33    savedMtx;
+    MtxFx33    savedMtx;
 
     if (sys->camera != 0) {
         G3D_SYSTEM_GetProjection((struct G3dProjection *)(&savedState));
         G3D_SYSTEM_GetLookAt((struct G3dLookAt *)(&savedMtx));
         {
             Vec3  viewVec = sDefaultViewVec;
-            Mtx33 identity;
+            MtxFx33 identity;
             Vec3  zeroVec = {0, 0, 0};
             MTX_Identity33_(&identity);
             NNS_G3dGlbBaseTrans(&zeroVec);
@@ -1224,7 +1212,7 @@ int PARTICLE_ReleaseCamera(struct ParticleSys *sys)
 }
 
 /* ---- ParticleMan/ParticleSys accessor head, moved from button_man.c
- * (0x02051774..0x02051B84).  Vec3 and Mtx33 are already defined above; the
+ * (0x02051774..0x02051B84).  Vec3 and MtxFx33 are already defined above; the
  * remaining object views and callees are declared here. ---- */
 typedef struct {
     u16 x, y, z;

@@ -26,8 +26,7 @@
 
 #include "../sdk_math.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 void MATH_MD5Init(MATHMD5Context *context);
 void MATH_MD5Update(MATHMD5Context *context, const void *input, u32 length);
 void MATH_MD5GetHash(MATHMD5Context *context, void *digest);

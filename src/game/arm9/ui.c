@@ -1,7 +1,7 @@
 /*
  * file:     ui.c
  * unit:     yes
- * function: UI_Create, UI_Main, UI_Update, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, UI_SetSuspendHook, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, UI_SetResumeHook, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, UI_SetSoftResetInhibit, UI_SetSoftResetInhibitGlobal, UI_ClearSoftResetInhibit, UI_ClearSoftResetInhibitGlobal, UI_TestSoftResetInhibit, UI_TestSoftResetInhibitGlobal, UI_SetIntrData, UI_SetIntrDataGlobal, UI_GetPointerValue, UI_GetContext, UI_RunSleepHook, UI_RunWakeHook, UI_RunSuspendHook, UI_RunResumeHook, UI_PollPower, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ResetFrameCounterOf, UI_SetFrameRateOf, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
+ * function: UI_Create, UI_Main, UI_Update, UI_SetKeepAwakeFlags, UI_SetKeepAwakeFlagsGlobal, UI_ClearKeepAwakeFlags, UI_ClearKeepAwakeFlagsGlobal, UI_TestKeepAwakeFlags, UI_TestKeepAwakeFlagsGlobal, UI_SetSleepHook, UI_SetSleepHookGlobal, UI_SetWakeHook, UI_SetWakeHookGlobal, UI_SetKeepAwakePred, UI_SetSuspendHook, UI_SetResumeAndSuspendHooks, UI_GetSuspendHook, UI_GetSuspendHookGlobal, UI_SetResumeHook, UI_SetWakePoweredHook, UI_SetWakePoweredHookGlobal, UI_SetSoftResetInhibit, UI_SetSoftResetInhibitGlobal, UI_ClearSoftResetInhibit, UI_ClearSoftResetInhibitGlobal, UI_TestSoftResetInhibit, UI_TestSoftResetInhibitGlobal, UI_SetIntrData, UI_SetIntrDataGlobal, UI_GetPointerValue, UI_GetContext, UI_RunSleepHook, UI_RunWakeHook, UI_RunSuspendHook, UI_RunResumeHook, UI_PollPower, DWCi_IsFold, UI_IsPowerConnected, UI_RunWakePoweredHook, UI_IsSleepInhibited, UI_SetBottomBackLight, UI_ServiceLidSleep, UI_SoftReset, UI_GetInputMode, UI_SetInputMode, UI_ResetFrameCounterOf, UI_SetFrameRateOf, UI_GetFrameRateOf, UI_SetFrameRate, UI_GetFrameRate, UI_ResetFrameCounter, UI_ChangeFrameRate, UI_GetPowerState, UI_ApplyInputBounds
  * address:  0x02034E24
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -70,101 +70,59 @@
  *   CARD_TryWaitBackupAsync  0x02076B8C  arm
  */
 #define SYS_TICK_COUNTER (*(volatile u32 *)0x02FFFC3C)
-struct UiCtx;
 #include "../types.h"
 
-typedef void (*UiCb)(void *);
+#include "touchpanel_shared_types.h"
 
-typedef int  (*UiPred)(void *);
-
-typedef void (*UiIntrFunc)(u32);
-
-/* The UI context pointed at by gUiState.ctx (0x021469BC).  touchpanel.c and the
- * areaman tick UI_Main are all views of this one object; the fields
- * follow the names those files use (keyWork/tpWork/onWake..resumeArmed). */
-struct UiCtx {
-    void   *keyWork;          /* 0x00 KEY_Create result */
-    void   *tpWork;           /* 0x04 TOUCHPANEL_Create result */
-    UiIntrFunc intrData;      /* 0x08 per-frame interrupt callback */
-    u32     intrArg;          /* 0x0C its argument */
-    UiCb    onWake;           /* 0x10 */
-    UiCb    onSleep;          /* 0x14 */
-    UiCb    onResume;         /* 0x18 */
-    UiCb    onSuspend;        /* 0x1C */
-    UiCb    onWakePowered;    /* 0x20 */
-    UiPred  keepAwakePred;    /* 0x24 */
-    void   *sleepWakeArg;     /* 0x28 */
-    void   *suspendResumeArg; /* 0x2C */
-    void   *wakePoweredArg;   /* 0x30 */
-    void   *keepAwakeArg;     /* 0x34 */
-    u8      keepAwakeFlags;   /* 0x38 */
-    u8      softResetInhibit;          /* 0x39 */
-    u8      reserved3A;       /* 0x3A */
-    u8      backlightState;   /* 0x3B */
-    u8      inputMode;        /* 0x3C */
-    u8      frameRate;        /* 0x3D */
-    u8      frameCounter;     /* 0x3E */
-    u8      powerState;       /* 0x3F */
-    u8      mode;             /* 0x40 */
-    u8      resumeArmed;      /* 0x41 */
-    u8      reserved42;       /* 0x42 */
-    u8      suspended;        /* 0x43 */
-};
-
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
-extern void *KEY_Create(u32 heap);
-extern void *TOUCHPANEL_Create(u32 heap);
-extern unsigned int PM_GetBackLight(int *top, int *bottom);
-extern void KEY_Main(void);
-extern void TOUCHPANEL_Main(void);
+#include "gfl_heap_wrap.h"
+#include "mi_memory.h"
+#include "key.h"
+#include "touchpanel.h"
+#include "pm.h"
 extern void UI_ServiceLidSleep(void);
 extern void UI_ApplyInputBounds(int inputObj);
-extern unsigned int KEY_GetCont(void);
 extern void UI_SoftReset(u32 x);
-extern void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg);
-extern void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg);
-extern void UI_SetSoftResetInhibit(struct UiCtx *p, u8 mask);
-extern u32 UI_TestSoftResetInhibit(struct UiCtx *p, u32 mask);
-extern void OS_Terminate(void);
-extern int OS_IsRunOnTwl(void);
-extern unsigned int PM_GetBattery(int *batteryBuf);
-extern unsigned int PM_GetBatteryLevel(void *isConnectedBuf);
+extern void UI_SetSuspendHook(UiCtx *p, UiCb fn, void *arg);
+extern void UI_SetResumeHook(UiCtx *p, UiCb fn, void *arg);
+extern void UI_SetSoftResetInhibit(UiCtx *p, u8 mask);
+extern u32 UI_TestSoftResetInhibit(UiCtx *p, u32 mask);
+#include "os_terminate_processor.h"
+#include "os_emulator.h"
 void UI_Create(u32 heap, u8 mode);
-void UI_Main(struct UiCtx *p);
+void UI_Main(UiCtx *p);
 void UI_Update(void);
-void UI_SetKeepAwakeFlags(struct UiCtx *p, u8 flags);
+void UI_SetKeepAwakeFlags(UiCtx *p, u8 flags);
 void UI_SetKeepAwakeFlagsGlobal(u8 flags);
-void UI_ClearKeepAwakeFlags(struct UiCtx *p, unsigned char flags);
+void UI_ClearKeepAwakeFlags(UiCtx *p, unsigned char flags);
 void UI_ClearKeepAwakeFlagsGlobal(u8 v);
-u32 UI_TestKeepAwakeFlags(struct UiCtx *p, u8 flags);
+u32 UI_TestKeepAwakeFlags(UiCtx *p, u8 flags);
 u32 UI_TestKeepAwakeFlagsGlobal(u8 flags);
-void UI_SetSleepHook(struct UiCtx *o, UiCb a, void *b);
+void UI_SetSleepHook(UiCtx *o, UiCb a, void *b);
 void UI_SetSleepHookGlobal(UiCb a, void *b);
-void UI_SetWakeHook(struct UiCtx *o, UiCb a, void *b);
+void UI_SetWakeHook(UiCtx *o, UiCb a, void *b);
 void UI_SetWakeHookGlobal(UiCb a, void *b);
 void UI_SetKeepAwakePred(UiPred fn, void *arg);
-void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg);
+void UI_SetSuspendHook(UiCtx *p, UiCb fn, void *arg);
 void UI_SetResumeAndSuspendHooks(UiCb a, UiCb b, void *c);
-UiCb UI_GetSuspendHook(struct UiCtx *p);
+UiCb UI_GetSuspendHook(UiCtx *p);
 UiCb UI_GetSuspendHookGlobal(void);
-void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg);
-void UI_SetWakePoweredHook(struct UiCtx *p, UiCb fn, void *arg);
+void UI_SetResumeHook(UiCtx *p, UiCb fn, void *arg);
+void UI_SetWakePoweredHook(UiCtx *p, UiCb fn, void *arg);
 void UI_SetWakePoweredHookGlobal(UiCb fn, void *arg);
 void UI_SetSoftResetInhibitGlobal(u8 mask);
-void UI_ClearSoftResetInhibit(struct UiCtx *p, u32 mask);
+void UI_ClearSoftResetInhibit(UiCtx *p, u32 mask);
 void UI_ClearSoftResetInhibitGlobal(u32 v);
 u32 UI_TestSoftResetInhibitGlobal(u32 mask);
-void UI_SetIntrData(struct UiCtx *p, u32 a, u32 b);
+void UI_SetIntrData(UiCtx *p, u32 a, u32 b);
 void UI_SetIntrDataGlobal(u32 a, u32 b);
 u32 UI_GetPointerValue(u32 *p);
-struct UiCtx *UI_GetContext(void);
-void UI_RunSleepHook(struct UiCtx *p);
-void UI_RunWakeHook(struct UiCtx *p);
-void UI_RunSuspendHook(struct UiCtx *p);
-void UI_RunResumeHook(struct UiCtx *p);
+UiCtx *UI_GetContext(void);
+void UI_RunSleepHook(UiCtx *p);
+void UI_RunWakeHook(UiCtx *p);
+void UI_RunSuspendHook(UiCtx *p);
+void UI_RunResumeHook(UiCtx *p);
 void UI_PollPower(void);
-static int DWCi_IsFold(void);
+int DWCi_IsFold(void);
 extern const char s_UiFile[];
 /* The UI singleton.  ui.c reads the context pointer at +0x00; the input
  * bounds callback UI_ApplyInputBounds dispatches through lives at +0x04.  Both
@@ -180,7 +138,7 @@ typedef struct {
 } UiInputCorner;
 
 typedef struct {
-    struct UiCtx *ctx;                                             /* 0x00 */
+    UiCtx *ctx;                                             /* 0x00 */
     int (*getInputBounds)(UiInputCorner *lower, UiInputCorner *upper); /* 0x04 */
 } UiState;
 
@@ -242,12 +200,12 @@ extern UiState gUiState;
  */
 void UI_Create(u32 heap, u8 mode)
 {
-    struct UiCtx *p;
+    UiCtx *p;
     u32 a;
     u32 b;
 
-    p = GFL_HEAP_Alloc(heap, sizeof(struct UiCtx), 0, s_UiFile, 58);
-    MI_CpuFill8(p, 0, sizeof(struct UiCtx));
+    p = GFL_HEAP_Alloc(heap, sizeof(UiCtx), 0, s_UiFile, 58);
+    MI_CpuFill8(p, 0, sizeof(UiCtx));
 
     p->keyWork = KEY_Create(heap);
     p->tpWork = TOUCHPANEL_Create(heap);
@@ -300,7 +258,7 @@ void UI_Create(u32 heap, u8 mode)
  *   python tools/match.py one --src src/pending/UI_Main.c \
  *       --func UI_Main --addr 0x02034EF8 --cc 1.1p1 --arm
  */
-void UI_Main(struct UiCtx *p)
+void UI_Main(UiCtx *p)
 {
     p->frameCounter++;
 
@@ -340,7 +298,7 @@ void UI_Update(void)
     UI_Main(gUiState.ctx);
 }
 
-void UI_SetKeepAwakeFlags(struct UiCtx *p, u8 flags)
+void UI_SetKeepAwakeFlags(UiCtx *p, u8 flags)
 {
     p->keepAwakeFlags |= flags;
 }
@@ -350,7 +308,7 @@ void UI_SetKeepAwakeFlagsGlobal(u8 flags)
     UI_SetKeepAwakeFlags(gUiState.ctx, flags);
 }
 
-void UI_ClearKeepAwakeFlags(struct UiCtx *p, unsigned char flags)
+void UI_ClearKeepAwakeFlags(UiCtx *p, unsigned char flags)
 {
     p->keepAwakeFlags &= (unsigned char)~flags;
 }
@@ -360,7 +318,7 @@ void UI_ClearKeepAwakeFlagsGlobal(u8 v)
     UI_ClearKeepAwakeFlags(gUiState.ctx, v);
 }
 
-u32 UI_TestKeepAwakeFlags(struct UiCtx *p, u8 flags)
+u32 UI_TestKeepAwakeFlags(UiCtx *p, u8 flags)
 {
     return (p->keepAwakeFlags & flags) != 0;
 }
@@ -373,7 +331,7 @@ u32 UI_TestKeepAwakeFlagsGlobal(u8 flags)
 /*
  * Setter: stores two values into an object at +0x14 and +0x28.
  */
-void UI_SetSleepHook(struct UiCtx *o, UiCb a, void *b)
+void UI_SetSleepHook(UiCtx *o, UiCb a, void *b)
 {
     o->onSleep = a;
     o->sleepWakeArg = b;
@@ -390,7 +348,7 @@ void UI_SetSleepHookGlobal(UiCb a, void *b)
 /*
  * Setter: stores two values into an object at +0x10 and +0x28.
  */
-void UI_SetWakeHook(struct UiCtx *o, UiCb a, void *b)
+void UI_SetWakeHook(UiCtx *o, UiCb a, void *b)
 {
     o->onWake = a;
     o->sleepWakeArg = b;
@@ -428,7 +386,7 @@ void UI_SetKeepAwakePred(UiPred fn, void *arg)
  *   python tools/match.py one --src src/matched/UI_SetSuspendHook.c \
  *       --func UI_SetSuspendHook --addr 0x02035080 --cc 1.1p1 --arm
  */
-void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg)
+void UI_SetSuspendHook(UiCtx *p, UiCb fn, void *arg)
 {
     p->onSuspend = fn;
     p->suspendResumeArg = arg;
@@ -436,7 +394,7 @@ void UI_SetSuspendHook(struct UiCtx *p, UiCb fn, void *arg)
 
 void UI_SetResumeAndSuspendHooks(UiCb a, UiCb b, void *c)
 {
-    struct UiCtx *g = gUiState.ctx;
+    UiCtx *g = gUiState.ctx;
 
     if (g->resumeArmed != 0) {
         if (g->onResume != 0) {
@@ -461,7 +419,7 @@ void UI_SetResumeAndSuspendHooks(UiCb a, UiCb b, void *c)
  * is the same shape, where the stub in between makes a `matched` entry useless
  * - here the pool word names the leaf directly, so the entry is the unblock).
  */
-UiCb UI_GetSuspendHook(struct UiCtx *p)
+UiCb UI_GetSuspendHook(UiCtx *p)
 {
     return p->onSuspend;
 }
@@ -497,13 +455,13 @@ UiCb UI_GetSuspendHookGlobal(void)
  *   python tools/match.py tu --src src/matched/unit_02035120.c \
  *       --addr 0x02035120 --arm
  */
-void UI_SetResumeHook(struct UiCtx *p, UiCb fn, void *arg)
+void UI_SetResumeHook(UiCtx *p, UiCb fn, void *arg)
 {
     p->onResume = fn;
     p->suspendResumeArg = arg;
 }
 
-void UI_SetWakePoweredHook(struct UiCtx *p, UiCb fn, void *arg)
+void UI_SetWakePoweredHook(UiCtx *p, UiCb fn, void *arg)
 {
     p->onWakePowered = fn;
     p->wakePoweredArg = arg;
@@ -529,7 +487,7 @@ void UI_SetWakePoweredHookGlobal(UiCb fn, void *arg)
  *   python tools/match.py one --src src/pending/UI_SetSoftResetInhibit.c \
  *       --func UI_SetSoftResetInhibit --addr 0x0203515C --cc 1.1p1 --arm
  */
-void UI_SetSoftResetInhibit(struct UiCtx *p, u8 mask)
+void UI_SetSoftResetInhibit(UiCtx *p, u8 mask)
 {
     p->softResetInhibit |= mask;
 }
@@ -549,7 +507,7 @@ void UI_SetSoftResetInhibitGlobal(u8 mask)
  *   python tools/match.py one --src src/pending/UI_ClearSoftResetInhibit.c \
  *       --func UI_ClearSoftResetInhibit --addr 0x02035188 --cc 1.1p1 --arm
  */
-void UI_ClearSoftResetInhibit(struct UiCtx *p, u32 mask)
+void UI_ClearSoftResetInhibit(UiCtx *p, u32 mask)
 {
     p->softResetInhibit &= ~mask;
 }
@@ -569,7 +527,7 @@ void UI_ClearSoftResetInhibitGlobal(u32 v)
  *   python tools/match.py one --src src/pending/UI_TestSoftResetInhibit.c \
  *       --func UI_TestSoftResetInhibit --addr 0x020351BC --cc 1.1p1 --arm
  */
-u32 UI_TestSoftResetInhibit(struct UiCtx *p, u32 mask)
+u32 UI_TestSoftResetInhibit(UiCtx *p, u32 mask)
 {
     return (p->softResetInhibit & mask) != 0;
 }
@@ -590,7 +548,7 @@ u32 UI_TestSoftResetInhibitGlobal(u32 mask)
  *   python tools/match.py one --src src/pending/UI_SetIntrData.c \
  *       --func UI_SetIntrData --addr 0x020351EC --cc 1.1p1 --arm
  */
-void UI_SetIntrData(struct UiCtx *p, u32 a, u32 b)
+void UI_SetIntrData(UiCtx *p, u32 a, u32 b)
 {
     p->intrData = (UiIntrFunc)a;
     p->intrArg = b;
@@ -635,7 +593,7 @@ u32 UI_GetPointerValue(u32 *p)
  *   python tools/match.py one --src src/matched/UI_GetContext.c \
  *       --func UI_GetContext --addr 0x02035224 --cc 1.1p1 --arm
  */
-struct UiCtx *UI_GetContext(void)
+UiCtx *UI_GetContext(void)
 {
     if (gUiState.ctx == 0) {
         OS_Terminate();
@@ -652,7 +610,7 @@ struct UiCtx *UI_GetContext(void)
  * Verified with:
  *   python tools/match.py one --src src/matched/UI_RunSleepHook.c \n *       --func UI_RunSleepHook --addr 0x0203524C --cc 1.1p1 --arm
  */
-void UI_RunSleepHook(struct UiCtx *p)
+void UI_RunSleepHook(UiCtx *p)
 {
     if (p->onSleep != 0) {
         p->onSleep(p->sleepWakeArg);
@@ -666,7 +624,7 @@ void UI_RunSleepHook(struct UiCtx *p)
  * Verified with:
  *   python tools/match.py one --src src/matched/UI_RunWakeHook.c \n *       --func UI_RunWakeHook --addr 0x02035268 --cc 1.1p1 --arm
  */
-void UI_RunWakeHook(struct UiCtx *p)
+void UI_RunWakeHook(UiCtx *p)
 {
     if (p->onWake != 0) {
         p->onWake(p->sleepWakeArg);
@@ -681,7 +639,7 @@ void UI_RunWakeHook(struct UiCtx *p)
  * Verified with:
  *   python tools/match.py one --src src/matched/UI_RunSuspendHook.c \n *       --func UI_RunSuspendHook --addr 0x02035284 --cc 1.1p1 --arm
  */
-void UI_RunSuspendHook(struct UiCtx *p)
+void UI_RunSuspendHook(UiCtx *p)
 {
     if (p->onSuspend != 0) {
         p->onSuspend(p->suspendResumeArg);
@@ -701,7 +659,7 @@ void UI_RunSuspendHook(struct UiCtx *p)
  * Verified with:
  *   python tools/match.py one --src src/matched/UI_RunResumeHook.c \n *       --func UI_RunResumeHook --addr 0x020352AC --cc 1.1p1 --arm
  */
-void UI_RunResumeHook(struct UiCtx *p)
+void UI_RunResumeHook(UiCtx *p)
 {
     if (p->onResume != 0 && p->resumeArmed != 0) {
         p->onResume(p->suspendResumeArg);
@@ -759,50 +717,36 @@ void UI_PollPower(void)
         gUiState.ctx->powerState = 1;
 }
 
-static int DWCi_IsFold(void)
+int DWCi_IsFold(void)
 {
     return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
 }
 
-extern unsigned int PM_SetBackLight(int target, int sw);
-extern void TOUCHPANEL_AutoSamplingStop(void);
-extern void PM_GoSleepMode(u32 trigger, u32 logic, u16 keyPattern);
-extern void TOUCHPANEL_AutoSamplingRestart(void);
-extern void UI_RunSuspendHook(struct UiCtx *ui);
-extern struct UiCtx *UI_GetContext(void);
-extern void GXx_SetMasterBrightness_(unsigned short *reg, int brightness);
-extern u32 CARD_TryWaitBackupAsync(void);
-extern void OS_ResetSystem(u32 param);
-extern void OS_WaitIrq(int clear, unsigned int irqFlags);
-extern void FADE_Update(void);
+extern void UI_RunSuspendHook(UiCtx *ui);
+extern UiCtx *UI_GetContext(void);
+#include "gx.h"
+#include "card_backup.h"
+#include "os_reset.h"
+#include "os_irqhandler.h"
+#include "fade.h"
 int UI_IsPowerConnected(void);
-void UI_RunWakePoweredHook(struct UiCtx *ui);
-int UI_IsSleepInhibited(struct UiCtx *ui);
+void UI_RunWakePoweredHook(UiCtx *ui);
+int UI_IsSleepInhibited(UiCtx *ui);
 void UI_SetBottomBackLight(u32 backlightState);
 void UI_ServiceLidSleep(void);
 void UI_SoftReset(u32 resetParam);
 u8 UI_GetInputMode(void);
-void UI_SetInputMode(u8 value);
-void UI_ResetFrameCounterOf(struct UiCtx *ui);
-void UI_SetFrameRateOf(struct UiCtx *unused, u8 value);
-u8 UI_GetFrameRateOf(struct UiCtx *ui);
+void UI_SetInputMode(u32 value);
+void UI_ResetFrameCounterOf(UiCtx *ui);
+void UI_SetFrameRateOf(UiCtx *unused, u8 value);
+u8 UI_GetFrameRateOf(UiCtx *ui);
 void UI_SetFrameRate(u8 value);
 u8 UI_GetFrameRate(void);
 void UI_ResetFrameCounter(void);
 void UI_ChangeFrameRate(u8 value);
 int UI_GetPowerState(void);
 void UI_ApplyInputBounds(int inputObj);
-void TOUCHPANEL_ClearFrameRateWork(struct UiCtx *ui);
-void TOUCHPANEL_SetPoint(struct UiCtx *ui, unsigned short x, unsigned short y, unsigned short x30, unsigned short y30);
-void TOUCHPANEL_SetTrg(struct UiCtx *ui, int trg, int trg30);
-void TOUCHPANEL_SetCont(struct UiCtx *ui, int cont, int cont30);
-void KEY_ClearFrameRateWork(struct UiCtx *ui);
-void KEY_SetTrg(struct UiCtx *ui, int trg, int trg30);
-void KEY_SetCont(struct UiCtx *ui, int cont, int cont30);
-void KEY_SetRepeat(struct UiCtx *ui, int repeat, int repeat30);
-int GFL_NET_Exit(void (*hook)(u32));
-u32 GFL_NET_Main(void);
-u32 GFL_NET_IsIdle(void);
+#include "net.h"
 
 /*
  * The "is the lid state low enough to keep running" predicate: normalise
@@ -831,7 +775,7 @@ int UI_IsPowerConnected(void)
  * Verified with:
  *   python tools/match.py one --src src/matched/UI_RunWakePoweredHook.c \n *       --func UI_RunWakePoweredHook --addr 0x020353C8 --cc 1.1p1 --arm
  */
-void UI_RunWakePoweredHook(struct UiCtx *ui)
+void UI_RunWakePoweredHook(UiCtx *ui)
 {
     if (ui->onWakePowered == 0) {
         return;
@@ -851,7 +795,7 @@ void UI_RunWakePoweredHook(struct UiCtx *ui)
  * Verified with:
  *   python tools/match.py one --src src/matched/UI_IsSleepInhibited.c \n *       --func UI_IsSleepInhibited --addr 0x020353F8 --cc 1.1p1 --arm
  */
-int UI_IsSleepInhibited(struct UiCtx *ui)
+int UI_IsSleepInhibited(UiCtx *ui)
 {
     if (ui->keepAwakeFlags != 0) {
         return 1;
@@ -914,7 +858,7 @@ void UI_SetBottomBackLight(u32 backlightState)
  */
 void UI_ServiceLidSleep(void)
 {
-    struct UiCtx *ui;
+    UiCtx *ui;
 
     ui = UI_GetContext();
 
@@ -968,7 +912,7 @@ void UI_ServiceLidSleep(void)
  */
 void UI_SoftReset(u32 resetParam)
 {
-    struct UiCtx *ui;
+    UiCtx *ui;
 
     ui = UI_GetContext();
     GXx_SetMasterBrightness_((unsigned short *)0x0400006C, 0x10);
@@ -1029,22 +973,22 @@ u8 UI_GetInputMode(void)
     return gUiState.ctx->inputMode;
 }
 
-void UI_SetInputMode(u8 value)
+void UI_SetInputMode(u32 value)
 {
     gUiState.ctx->inputMode = value;
 }
 
-void UI_ResetFrameCounterOf(struct UiCtx *ui)
+void UI_ResetFrameCounterOf(UiCtx *ui)
 {
     ui->frameCounter = 0;
 }
 
-void UI_SetFrameRateOf(struct UiCtx *unused, u8 value)
+void UI_SetFrameRateOf(UiCtx *unused, u8 value)
 {
     gUiState.ctx->frameRate = value;
 }
 
-u8 UI_GetFrameRateOf(struct UiCtx *ui)
+u8 UI_GetFrameRateOf(UiCtx *ui)
 {
     return ui->frameRate;
 }
@@ -1092,10 +1036,10 @@ void UI_ApplyInputBounds(int inputObj)
     if (gUiState.getInputBounds(&lower, &upper) == 0) {
         return;
     }
-    KEY_SetTrg((struct UiCtx *)inputObj, lower.keyParam0, upper.keyParam0);
-    KEY_SetCont((struct UiCtx *)inputObj, lower.keyParam1, upper.keyParam1);
-    KEY_SetRepeat((struct UiCtx *)inputObj, lower.keyParam2, upper.keyParam2);
+    KEY_SetTrg((UiCtx *)inputObj, lower.keyParam0, upper.keyParam0);
+    KEY_SetCont((UiCtx *)inputObj, lower.keyParam1, upper.keyParam1);
+    KEY_SetRepeat((UiCtx *)inputObj, lower.keyParam2, upper.keyParam2);
     TOUCHPANEL_SetPoint((void *)inputObj, lower.touchX, lower.touchY, upper.touchX, upper.touchY);
-    TOUCHPANEL_SetTrg((struct UiCtx *)inputObj, lower.touchFlagA, upper.touchFlagA);
-    TOUCHPANEL_SetCont((struct UiCtx *)inputObj, lower.touchFlagB, upper.touchFlagB);
+    TOUCHPANEL_SetTrg((UiCtx *)inputObj, lower.touchFlagA, upper.touchFlagA);
+    TOUCHPANEL_SetCont((UiCtx *)inputObj, lower.touchFlagB, upper.touchFlagB);
 }

@@ -23,7 +23,7 @@
 
 #include "../types.h"
 
-extern fx32 FX_Div(fx32 numer, fx32 denom);
+#include "fx_cp.h"
 extern const s16 FX_AtanIdxTable_[129];
 
 u16 FX_Atan2Idx(fx32 y, fx32 x)

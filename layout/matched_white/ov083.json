@@ -1,0 +1,18 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "GPOWER_EVENT_CreateActivateEvent", "black_address": "0x021F5260", "white_address": "0x021F5280", "size": 204, "diff": "constant", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"},
+  {"name": "GPOWER_EVENT_CreateTimeoutScriptEvent", "black_address": "0x021F532C", "white_address": "0x021F534C", "size": 20, "diff": "same", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"},
+  {"name": "GPOWER_EVENT_CreateFlashEvent", "black_address": "0x021F5340", "white_address": "0x021F5360", "size": 40, "diff": "constant", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"},
+  {"name": "GPOWER_EVENT_CreateListEvent", "black_address": "0x021F5368", "white_address": "0x021F5388", "size": 40, "diff": "constant", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"},
+  {"name": "GPOWER_EVENT_InitListWork", "black_address": "0x021F5390", "white_address": "0x021F53B0", "size": 112, "diff": "constant", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"},
+  {"name": "GPOWER_EVENT_FreeListWork", "black_address": "0x021F5400", "white_address": "0x021F5420", "size": 44, "diff": "constant", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"},
+  {"name": "GPOWER_EVENT_FlashMain", "black_address": "0x021F542C", "white_address": "0x021F544C", "size": 92, "diff": "constant", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"},
+  {"name": "GPOWER_EVENT_RestoreParty", "black_address": "0x021F5488", "white_address": "0x021F54A8", "size": 68, "diff": "constant", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"},
+  {"name": "GPOWER_EVENT_ListMain", "black_address": "0x021F54CC", "white_address": "0x021F54EC", "size": 160, "diff": "constant", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"},
+  {"name": "GPOWER_EVENT_PrintPowerRow", "black_address": "0x021F556C", "white_address": "0x021F558C", "size": 104, "diff": "constant", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"},
+  {"name": "GPOWER_EVENT_PrintPowerList", "black_address": "0x021F55D4", "white_address": "0x021F55F4", "size": 4, "diff": "constant", "source": "src/game/ov083/gpower_event.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

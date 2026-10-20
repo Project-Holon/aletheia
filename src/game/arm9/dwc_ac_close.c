@@ -28,17 +28,11 @@
  *   SOCLiConfigPtr  0x021A1CD8  data  ov009
  */
 extern int DisConnectAP(void);
-extern void DWC_Netcheck_Abort(void);
-extern void DWC_Netcheck_Destroy(void);
-extern int WCM_GetPhase(void);
-extern int WCM_Finish(void);
-extern int WCM_CleanupAsync(void);
-extern long WCM_EndSearchAsync(void);
-extern int WCM_DisconnectAsync(void);
-extern int WCM_TerminateAsync(void);
-extern void DWCi_AC_SetError(int error);
-extern int SOCL_CalmDown(void);
-extern int SOC_Cleanup(void);
+#include "../ov009/dwc_netcheck.h"
+#include "../ov009/wcm_system.h"
+#include "dwc_ac.h"
+#include "../ov009/socl_cleanup.h"
+#include "../ov009/soc.h"
 int DWCi_AC_CloseNetwork(unsigned char *phase);
 int DisConnectAP(void);
 int CloseSocket(void);

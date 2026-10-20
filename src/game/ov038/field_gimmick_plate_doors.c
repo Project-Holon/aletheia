@@ -320,6 +320,7 @@ int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int gameSystem, int cellX, int cell
     int exactCell;
     int fieldInfo; /* int-typed on purpose: pointer local changes codegen; holds the field map, the player, then the facing */
     int workOrDoor;
+    int event;
     FieldGimmickPlateDoorsRuntime *runtime;
 
     fieldInfo = (int)GAMESYSTEM_GetFieldMap((void *)gameSystem);
@@ -333,11 +334,11 @@ int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int gameSystem, int cellX, int cell
     if (workOrDoor < 7) {
         if (exactCell != 0) {
             if (doorOpen == 1)
-                GAME_EVENT_Create((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor, 0);
+                event = (int)GAME_EVENT_Create((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor, 0);
             else
-                GAME_EVENT_Create((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor, 0);
+                event = (int)GAME_EVENT_Create((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor, 0);
         } else {
-            GAME_EVENT_Create((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide, 0);
+            event = (int)GAME_EVENT_Create((void *)gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide, 0);
         }
     } else {
         return 0;
@@ -349,6 +350,7 @@ int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int gameSystem, int cellX, int cell
     runtime->acmdList = 0;
     runtime->acmdDone = 0;
     runtime->acmdActive = 0;
+    return event;
 }
 
 /*

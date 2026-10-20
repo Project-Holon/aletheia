@@ -1,0 +1,17 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "WEATHER_SANDSTORM_Begin", "black_address": "0x021EE740", "white_address": "0x021EE760", "size": 100, "diff": "constant", "source": "src/game/ov027/weather_sandstorm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "WEATHER_SANDSTORM_BeginParticles", "black_address": "0x021EE7A4", "white_address": "0x021EE7C4", "size": 112, "diff": "constant", "source": "src/game/ov027/weather_sandstorm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "WEATHER_SANDSTORM_BeginPlain", "black_address": "0x021EE814", "white_address": "0x021EE834", "size": 116, "diff": "constant", "source": "src/game/ov027/weather_sandstorm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "WEATHER_SANDSTORM_Run", "black_address": "0x021EE888", "white_address": "0x021EE8A8", "size": 76, "diff": "constant", "source": "src/game/ov027/weather_sandstorm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "WEATHER_SANDSTORM_EndParticles", "black_address": "0x021EE8D4", "white_address": "0x021EE8F4", "size": 52, "diff": "same", "source": "src/game/ov027/weather_sandstorm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "WEATHER_SANDSTORM_EndFade", "black_address": "0x021EE908", "white_address": "0x021EE928", "size": 104, "diff": "same", "source": "src/game/ov027/weather_sandstorm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "WEATHER_SANDSTORM_EndFinish", "black_address": "0x021EE970", "white_address": "0x021EE990", "size": 32, "diff": "same", "source": "src/game/ov027/weather_sandstorm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "WEATHER_SANDSTORM_UpdateParticle", "black_address": "0x021EE990", "white_address": "0x021EE9B0", "size": 116, "diff": "constant", "source": "src/game/ov027/weather_sandstorm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "WEATHER_SANDSTORM_SpawnParticles", "black_address": "0x021EEA04", "white_address": "0x021EEA24", "size": 240, "diff": "constant", "source": "src/game/ov027/weather_sandstorm.c", "version_switch": false, "status": "EXACT"},
+  {"name": "WEATHER_SANDSTORM_ScrollBillboards", "black_address": "0x021EEAF4", "white_address": "0x021EEB14", "size": 4, "diff": "constant", "source": "src/game/ov027/weather_sandstorm.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

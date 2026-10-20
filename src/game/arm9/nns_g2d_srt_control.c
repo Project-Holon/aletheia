@@ -1,7 +1,7 @@
 /*
  * file:     nns_g2d_srt_control.c
  * unit:     yes
- * function: NNSi_G2dSrtcInitTable, NNS_G2dSetSRTTranslate, NNS_G2dSetSRTRotate, NNS_G2dSetSRTScale, NNSi_G2dSrtcInitControl, NNSi_G2dSrtcResetSrtData
+ * function: NNSi_G2dSrtcInitTable, NNSi_G2dSrtcSetTable, NNSi_G2dSrtcGetTable, NNS_G2dSetSRTTranslate, NNS_G2dSetSRTRotate, NNS_G2dSetSRTScale, NNSi_G2dSrtcInitControl, NNSi_G2dSrtcResetSrtData
  * address:  0x020640B0
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -15,27 +15,18 @@
  * symbols:
  *   MIi_CpuClear16  0x02082A48  arm
  */
-#include "../types.h"
+#include "nns_g2d_anim_types.h"
 
-struct NNSG2dSRTControl {
-    u32 mode;
-    s32 scaleX;
-    s32 scaleY;
-    s16 transX;
-    s16 transY;
-    u16 rotZ;
-    u16 dirtyFlags;
-};
 
-extern void MIi_CpuClear16(u32 data, void *dest, u32 size);
+#include "mi_memory.h"
 void NNSi_G2dSrtcInitTable(s32 *tbl);
 void NNSi_G2dSrtcSetTable(s32 *tbl, u32 i, u32 v);
 s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i);
-void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 x, u16 y);
-void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 rotZ);
-void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 scaleX, u32 scaleY);
-void NNSi_G2dSrtcInitControl(struct NNSG2dSRTControl *pSrtCtrl, u32 mode);
-int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl);
+void NNS_G2dSetSRTTranslate(SRTControl *obj, s16 x, s16 y);
+void NNS_G2dSetSRTRotate(SRTControl *obj, u16 rotZ);
+void NNS_G2dSetSRTScale(SRTControl *obj, u32 scaleX, u32 scaleY);
+void NNSi_G2dSrtcInitControl(SRTControl *pSrtCtrl, u32 mode);
+int NNSi_G2dSrtcResetSrtData(SRTControl *pSrtCtrl);
 
 /*
  * The per-node SRT control block of the NNS G2D cell-animation module, and
@@ -99,7 +90,7 @@ s32 NNSi_G2dSrtcGetTable(const s32 *tbl, u32 i)
     return tbl[i];
 }
 
-void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 x, u16 y)
+void NNS_G2dSetSRTTranslate(SRTControl *obj, s16 x, s16 y)
 {
     if (obj->mode != 1) return;
     obj->dirtyFlags |= 8;
@@ -107,14 +98,14 @@ void NNS_G2dSetSRTTranslate(struct NNSG2dSRTControl *obj, u16 x, u16 y)
     obj->transY = y;
 }
 
-void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 rotZ)
+void NNS_G2dSetSRTRotate(SRTControl *obj, u16 rotZ)
 {
     if (obj->mode != 1) return;
     obj->dirtyFlags |= 4;
     obj->rotZ = rotZ;
 }
 
-void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 scaleX, u32 scaleY)
+void NNS_G2dSetSRTScale(SRTControl *obj, u32 scaleX, u32 scaleY)
 {
     if (obj->mode != 1) return;
     obj->dirtyFlags |= 2;
@@ -122,13 +113,13 @@ void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 scaleX, u32 scaleY)
     obj->scaleY = scaleY;
 }
 
-void NNSi_G2dSrtcInitControl(struct NNSG2dSRTControl *pSrtCtrl, u32 mode)
+void NNSi_G2dSrtcInitControl(SRTControl *pSrtCtrl, u32 mode)
 {
     pSrtCtrl->mode = mode;
     NNSi_G2dSrtcResetSrtData(pSrtCtrl);
 }
 
-int NNSi_G2dSrtcResetSrtData(struct NNSG2dSRTControl *pSrtCtrl)
+int NNSi_G2dSrtcResetSrtData(SRTControl *pSrtCtrl)
 {
     MIi_CpuClear16(0, &pSrtCtrl->scaleX, 0x18);
     pSrtCtrl->scaleX = 0x1000;

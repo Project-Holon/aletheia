@@ -51,17 +51,13 @@
  *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  */
 #include "bmp_menuwork_shared_types.h"
+#include "bmp_menu_types.h"
 
 struct BmpCursor;
 
 struct GfFont;
 
 #include "../types.h"
-
-typedef struct {
-    struct BmpWin *win;     /* +0x00 */
-    u8    printed;          /* +0x04  set after an item was printed */
-} PrintUtil;
 
 typedef struct {
     BmpMenuWork *items;     /* +0x00 */
@@ -97,66 +93,46 @@ typedef struct {
     u16 reserved36;
 } BmpMenu;
 
-typedef struct {
-    u8  bgFrame; /* +0 */
-    u8  x;       /* +1 */
-    u8  y;       /* +2 */
-    u8  palette; /* +3 */
-    u16 charBase; /* +4  callers pass it as base */
-} WinDat;
+#include "bmp_win.h"
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
+#include "bg_sys.h"
 
-extern void BG_SYS_PushTile(u32 index);
+#include "gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-
-extern u32 GFL_HEAP_Free(void *p);
 struct MenuCursor;
 
-extern struct MenuCursor *BMP_CURSOR_Create(u32 heap);
+#include "bmp_cursor.h"
 
-extern void BMP_CURSOR_SetTileBitmap(struct MenuCursor *cursor, s32 heap);
 
-extern void BMP_CURSOR_Delete(struct MenuCursor *cursor);
 
-extern u32  KEY_GetTrg(void);
+#include "key.h"
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-struct Bmp;
+#include "gfl_use.h"
+#include "bmp_shared_types.h"
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *p);
-struct Bmp;
-
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
+typedef short s16_p07;
+#include "bmp.h"
 struct Strbuf;
 
 extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
 extern void PRINTSYS_PrintQue(void *que, void *bitmap, u32 x, u32 y, const void *str, struct GfFont *font);
 struct MenuTarget;
 
-extern void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target, void *printer, u32 param);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "msgdata.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 
-extern struct GfFont *GF_FONT_Create(int fontKind, int flagA, int flagB, int flagC, u32 heapId);
+#include "gf_font.h"
 
-extern u32 GF_FONT_GetLineHeight(struct GfFont *p);
 
 extern void *PRINTSYS_QUE_Create(void *heapIdAsPtr);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 struct PrintQueue;
 
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
@@ -165,19 +141,13 @@ extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
 extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, u16 tileBase, u32 palette);
+#include "bmp_menuwork.h"
 
-void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
 
-BmpMenuWork *BMP_MENUWORK_Create(u32 count, u32 heapId);
 
-u32 BMP_MENUWORK_Delete(void *items);
 
-void BMP_MENUWORK_AddMsgItem(BmpMenuWork *items, struct MsgBank *bank, u32 msgId, u32 param, u32 heapId);
 
 BmpMenu *BMP_MENU_Create(const BmpMenuHeader *header, u8 originX, u8 originY, u8 startPos, u16 heapId, u32 cancelMask);
 
@@ -475,7 +445,7 @@ u32 BMP_MENU_GetMaxItemWidth(BmpMenu *menu)
 static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, const void *str, struct GfFont *font)
 {
     PRINTSYS_PrintQue(que, BMP_WIN_GetBmp(util->win), x, y, str, font);
-    util->printed = 1;
+    util->transReq = 1;
 }
 
 /*
@@ -483,7 +453,7 @@ static inline void PrintUtil_Print(PrintUtil *util, void *que, s32 x, s32 y, con
  *   BMP_MENU_DrawItems  clear the window bitmap to 0xFF and print every item of
  *                  the numColumns * itemsPerColumn grid (column-major index j + i * itemsPerColumn)
  *                  through the print-util inline (the BMP_CURSOR_Draw shape:
- *                  print via PRINTSYS_PrintQue, then util->printed = 1).
+ *                  print via PRINTSYS_PrintQue, then util->transReq = 1).
  *   BMP_MENU_DrawCursor  unless the cursor-display bitfield (+0x0B bits 4..5) is 1,
  *                  place the cursor at the pixel position of the current item.
  *   BMP_MENU_GetItemPixelPos  item index -> pixel position: column = pos / itemsPerColumn, row =
@@ -544,7 +514,7 @@ void BMP_MENU_GetItemPixelPos(BmpMenu *menu, u8 *outX, u8 *outY, u8 itemPos)
 static inline void PrintUtil_Init(PrintUtil *util, void *cell)
 {
     util->win = cell;
-    util->printed = 0;
+    util->transReq = 0;
 }
 
 /*

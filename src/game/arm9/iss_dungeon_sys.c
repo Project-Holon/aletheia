@@ -63,22 +63,19 @@ typedef struct IssDungeonSys {
     u16 trackValue[4];
 } IssDungeonSys;
 
-extern void GFL_USE_SetBgmTrackParams(u32 a, u32 b, u32 c, u32 d);
+#include "gfl_use.h"
 struct SndHandle;
 
-extern struct SndHandle *GFL_USE_GetBgmHandle(void);
 
-extern void NNS_SndHandleSetTrackPitch(struct SndHandle *handle, u32 trackMask, u32 value);
+#include "nns_snd_player.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
+#include "arc_tool.h"
 
-extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u8 GAME_DATA_GetSeason(const struct GameData *gd);
+#include "game_data.h"
 
 void ISS_DUNGEON_SYS_ApplyTrack(DungeonSoundRecord *record, u32 trackIndex);
 

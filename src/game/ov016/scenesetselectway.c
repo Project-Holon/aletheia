@@ -1,7 +1,7 @@
 /*
  * file:     scenesetselectway.c
  * unit:     yes
- * function: DWCi_SceneSetSelectWay, initGraphics, DWCi_SceneSetSelectWayProcInit, procInit1, procInit2, DWCi_SceneSetSelectWay_procScene, input, DWCi_SceneSetSelectWay_draw, button, endScene, endScene1, endScene2, moveFocus, DWCi_SceneSetSelectWayDispPush
+ * function: DWCi_SceneSetSelectWay, initGraphics, procInit, procInit1, procInit2, DWCi_SceneSetSelectWay_procScene, input, DWCi_SceneSetSelectWay_draw, button, endScene, endScene1, endScene2, moveFocus, DWCi_SceneSetSelectWayDispPush
  * address:  0x021CC998
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -135,9 +135,9 @@ extern unsigned char DWCi_Language(void);
 extern void DWCi_HLlLoadSet(void);
 extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
 extern void DWCi_CMNlStep(int step);
-extern bool DWCi_Flag(unsigned long flag);
+extern s32 DWCi_Flag(unsigned long flag);
 extern void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
-extern void DWCi_ChangeScene(void (*scene)(void));
+extern void DWCi_ChangeScene(u32 v);
 extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern unsigned char *DWCi_Char(unsigned char *name);
 extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
@@ -164,7 +164,7 @@ extern void DWCi_ARClRelease(void *file);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
-extern void DWCi_SetListReturn(int scene);
+extern void DWCi_SetListReturn(u8 v);
 extern void DWCi_SceneSetSelectAp(void);
 extern void DWCi_SceneSetSearch(void);
 extern void DWCi_SceneSetAossButton(void);
@@ -224,7 +224,7 @@ void DWCi_SceneSetSelectWay(void)
                      gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].right,
                      gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].top,
                      gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].bottom);
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((u32)procInit);
 }
 
 /*
@@ -266,7 +266,7 @@ static void procInit(void)
     DWCi_EFFlFade(2, 0, 0x14, 8);
     DWCi_GXlVisible(1, 1);
     DWCi_GXlVisible(0, 0x14);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((u32)procInit1);
 }
 
 static void procInit1(void)
@@ -276,7 +276,7 @@ static void procInit1(void)
     if (DWCi_EFFlCheck(0))
         return;
     DWCi_CMNlButton(0);
-    DWCi_ChangeScene(procInit2);
+    DWCi_ChangeScene((u32)procInit2);
 }
 
 static void procInit2(void)
@@ -284,7 +284,7 @@ static void procInit2(void)
     if (DWCi_BTNlGet() == -2)
         return;
     DWCi_BTNlEnable();
-    DWCi_ChangeScene(DWCi_SceneSetSelectWay_procScene);
+    DWCi_ChangeScene((u32)DWCi_SceneSetSelectWay_procScene);
 }
 
 void DWCi_SceneSetSelectWay_procScene(void)
@@ -357,7 +357,7 @@ static void button(void)
     default:
         return;
     }
-    DWCi_ChangeScene(endScene);
+    DWCi_ChangeScene((u32)endScene);
 }
 
 /*
@@ -370,7 +370,7 @@ static void endScene(void)
 {
     DWCi_BTNlDisable();
     DWCi_EFFlWait(8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((u32)endScene1);
 }
 
 /*
@@ -387,7 +387,7 @@ static void endScene1(void)
         DWCi_BTNlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 20, 8);
-    DWCi_ChangeScene(endScene2);
+    DWCi_ChangeScene((u32)endScene2);
 }
 
 static void endScene2(void)
@@ -405,27 +405,27 @@ static void endScene2(void)
     DWCi_GXlInvisible(0, 0x14);
     if (gSceneSetSelectWayFocus.flag == 0) {
         DWCi_SetParam_(2, 0);
-        DWCi_ChangeScene(DWCi_SceneSetSelectAp);
+        DWCi_ChangeScene((u32)DWCi_SceneSetSelectAp);
         return;
     }
     switch (gSceneSetSelectWayFocus.cur) {
     case 0:
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene(DWCi_SceneSetSearch);
+        DWCi_ChangeScene((u32)DWCi_SceneSetSearch);
         break;
     case 1:
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene(DWCi_SceneSetAossButton);
+        DWCi_ChangeScene((u32)DWCi_SceneSetAossButton);
         break;
     case 2:
         DWCi_SetParam_(2, 1);
-        DWCi_ChangeScene(DWCi_SceneSetRakuReady);
+        DWCi_ChangeScene((u32)DWCi_SceneSetRakuReady);
         break;
     case 3:
         DWCi_SetParam_(2, 0);
         DWCi_SetParam2_(0, 0);
         DWCi_SetListReturn(1);
-        DWCi_ChangeScene(DWCi_SceneSetList);
+        DWCi_ChangeScene((u32)DWCi_SceneSetList);
         break;
     }
 }

@@ -232,7 +232,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7(GameSystem *gameSyste
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEventEffect8(GameSystem *gameSystem, FieldMap *fieldMap);
 GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(GameSystem *gameSystem, FieldMap *fieldMap);
 GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOutByFacing(GameSystem *gameSystem, FieldMap *fieldMap);
-void EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(GameSystem *gameSystem, FieldMap *fieldMap);
+GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(GameSystem *gameSystem, FieldMap *fieldMap);
 
 int EVENT_FIELDMAP_CONTROL_RunFadeOut(GameEvent *event, int *seq, FieldFadeWork *work);
 int EVENT_FIELDMAP_CONTROL_RunFadeIn(GameEvent *event, int *seq, FieldFadeWork *work);
@@ -320,8 +320,7 @@ GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *
     case 8:
         return EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(gameSystem, fieldMap);
     case 9:
-        EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(gameSystem, fieldMap);
-        break;
+        return EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(gameSystem, fieldMap);
     }
 }
 
@@ -610,22 +609,18 @@ GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOutByFacing(GameSystem *gameSystem, F
 /*
  * Fade-in for effect 9, the twin of EVENT_FIELDMAP_CONTROL_StartFadeOutByFacing.
  */
-void EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(GameSystem *gameSystem, FieldMap *fieldMap)
+GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeInByFacing(GameSystem *gameSystem, FieldMap *fieldMap)
 {
     switch (FIELD_PLAYER_GetDirDisp(FIELDMAP_GetFieldPlayer(fieldMap))) {
     case 2:
     default:
-        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7(gameSystem, fieldMap);
-        break;
+        return EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect7(gameSystem, fieldMap);
     case 3:
-        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(gameSystem, fieldMap);
-        break;
+        return EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect8(gameSystem, fieldMap);
     case 0:
-        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5(gameSystem, fieldMap);
-        break;
+        return EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect5(gameSystem, fieldMap);
     case 1:
-        EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6(gameSystem, fieldMap);
-        break;
+        return EVENT_FIELDMAP_CONTROL_CreateFadeInEventEffect6(gameSystem, fieldMap);
     }
 }
 

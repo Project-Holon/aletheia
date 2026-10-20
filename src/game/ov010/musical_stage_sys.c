@@ -225,7 +225,7 @@ int MUSICAL_STAGE_SYS_Delete(MusicalStage *stage){
         if (stage->performers[i] != 0 && stage->performers[i]->origin == MUSICAL_PERFORMER_NPC)
             GFL_HEAP_Free(stage->performers[i]);
     }
-    GFL_HEAP_Free(stage);
+    return GFL_HEAP_Free(stage);
 }
 
 /*

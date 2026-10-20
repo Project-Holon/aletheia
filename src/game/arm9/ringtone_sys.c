@@ -43,23 +43,20 @@ enum RingtoneEvent {
     RINGTONE_EVENT_SLEEP = 3
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void UI_SetResumeAndSuspendHooks(void (*onSleep)(void), void (*onWake)(void), void *c);
+#include "ui.h"
 
-extern int GFL_USE_IsSeSlotBusy(u32 slot);
+#include "gfl_use.h"
 
-extern void GFL_USE_StopSeSlot(int slot);
 
-extern void GFL_USE_PlaySeInSlot(u32 seqNo, int slot);
 
-extern void NNS_SndSetMasterVolume(int volume);
+#include "nns_snd_system.h"
 
-extern void NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
+#include "nns_snd_player.h"
 
-extern void PLAYER_VOLUME_FADER_SetMute(struct Fader *fader, int mute);
+#include "player_volume_fader.h"
 
 extern const char sRingtoneSysFileName[];
 
@@ -140,7 +137,7 @@ void RINGTONE_SYS_Stop(Ringtone *ringtone)
 void RINGTONE_SYS_RegisterSleepCallbacks(void)
 {
     if (gRingtone != 0) {
-        UI_SetResumeAndSuspendHooks(RINGTONE_SYS_OnSleep, RINGTONE_SYS_OnWake, gRingtone);
+        UI_SetResumeAndSuspendHooks((UiCb)RINGTONE_SYS_OnSleep, (UiCb)RINGTONE_SYS_OnWake, gRingtone);
     }
 }
 

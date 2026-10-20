@@ -18,29 +18,20 @@
  */
 #include "wifilist_tail_shared_types.h"
 #include "../types.h"
+#include "musical_save_types.h"
 
 /*
  * Save block 0x2A, the musical save (0x2A4 bytes): a 100-entry prop
  * collection held as two bitmaps (owned, new), outfit and program tables,
  * and counters.
  */
-struct MusicalOutfit {
-    u8 pokeSlot;                          /* 10: none */
-    u8 props[5];
-};
-
-struct MusicalProgram {
-    u8 state;                             /* 4: initial */
-    u8 data[3];
-};
-
 struct MusicalSave {
     u32 showcaseMonsNo : 16;
     u32 shotState : 5;
     u32 showcaseFlags : 11;
     u8  showcase[0x1AC];
-    struct MusicalOutfit outfits[8];
-    struct MusicalProgram programs[10];
+    MusicalOutfit outfits[8];
+    MusicalProgram programs[10];
     u8  stageData[0x4A];
     u16 showCount;
     u16 topRankCount;
@@ -55,9 +46,9 @@ struct MusicalSave {
     u8  reserved[4];
 };
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 
 u32 MUSICAL_SAVE_GetSize(void);
 
@@ -67,7 +58,7 @@ struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
 
 void MUSICAL_SAVE_InitOutfits(struct MusicalSave *musical);
 
-struct MusicalOutfit *MUSICAL_SAVE_GetOutfits(struct MusicalSave *musical);
+MusicalOutfit *MUSICAL_SAVE_GetOutfits(struct MusicalSave *musical);
 
 u32 MUSICAL_SAVE_IsShowActive(struct MusicalSave *musical);
 
@@ -85,7 +76,7 @@ u32 MUSICAL_SAVE_CountOwnedProps(struct MusicalSave *musical);
 
 u32 MUSICAL_SAVE_HasAllProps(struct MusicalSave *musical);
 
-struct MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *musical, u32 index);
+MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *musical, u32 index);
 
 u16 MUSICAL_SAVE_GetShowCount(struct MusicalSave *musical);
 
@@ -168,7 +159,7 @@ void MUSICAL_SAVE_InitOutfits(struct MusicalSave *musical)
     }
 }
 
-struct MusicalOutfit *MUSICAL_SAVE_GetOutfits(struct MusicalSave *musical)
+MusicalOutfit *MUSICAL_SAVE_GetOutfits(struct MusicalSave *musical)
 {
     return musical->outfits;
 }
@@ -299,7 +290,7 @@ u32 MUSICAL_SAVE_HasAllProps(struct MusicalSave *musical)
     return 0;
 }
 
-struct MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *musical, u32 index)
+MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *musical, u32 index)
 {
     return &musical->programs[index];
 }

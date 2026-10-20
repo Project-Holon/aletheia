@@ -31,38 +31,30 @@
 #include "comm_player_support_shared_types.h"
 #include "save_event_shared_types.h"
 
-extern void STRBUF_Delete(struct Strbuf *str);
+#include "strbuf.h"
 
-extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
+#include "gf_standard.h"
 struct MyStatus;
 
-extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+#include "mystatus.h"
 struct PokemonParam;
 
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+#include "poke_tool.h"
 struct BoxPokemon;
 
-extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
 
-extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, u32 didDecode);
 
-extern u32 POKE_TOOL_IsBoxOwnedByPlayer(struct BoxPokemon *box, struct MyStatus *myStatus);
 
-extern void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, u32 value);
 
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
 
-extern u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
+#include "zonedata.h"
 
-extern struct Strbuf *MYSTATUS_CreateNameStrbuf(u16 *name, s32 heap_id);
 
-extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
-extern u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *box);
 
-void SAVE_EVENT_Write(void *gameData, u32 mode, const struct PlayerRecord *record, u32 eventId, u16 index);
+void SAVE_EVENT_Write(void *gameData, u32 mode, const struct MyStatus *record, u32 eventId, u16 index);
 
-void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct PlayerRecord *record, u32 eventId, u32 index);
+void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct MyStatus *record, u32 eventId, u32 index);
 
 void SAVE_EVENT_StoreTodayDate(struct SaveData *save);
 
@@ -76,7 +68,7 @@ void SAVE_EVENT_StoreVariant(struct SaveData *save, u32 eventId, u32 year, u32 m
 
 void SAVE_EVENT_CopyVariant(struct SaveData *save, u32 variant);
 
-void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct PlayerRecord *record, u32 index);
+void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct MyStatus *record, u32 index);
 
 void SAVE_EVENT_CopyDoneFlag(struct SaveData *save);
 
@@ -90,7 +82,7 @@ void SAVE_EVENT_CommitStage(void *gameData, u32 stage);
 
 void SAVE_EVENT_AdvanceStage(struct SaveData *save, u32 stage);
 
-void SAVE_EVENT_Write(void *gameData, u32 mode, const struct PlayerRecord *record, u32 eventId, u16 index)
+void SAVE_EVENT_Write(void *gameData, u32 mode, const struct MyStatus *record, u32 eventId, u16 index)
 {
     SAVE_EVENT_WriteMode((struct SaveData *)POKE_TOOL_CastToBoxParam(gameData), mode, record, eventId, index);
 }
@@ -106,7 +98,7 @@ void SAVE_EVENT_Write(void *gameData, u32 mode, const struct PlayerRecord *recor
  * The call at +0x58 is attested by SAVE_EVENT_SetDoneFlag (same shard).  0x7532 is
  * a plain constant.
  */
-void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct PlayerRecord *record, u32 eventId, u32 index)
+void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct MyStatus *record, u32 eventId, u32 index)
 {
     u32 savedFlag = POKE_TOOL_DecodeBoxParam((struct BoxPokemon *)save);
 
@@ -228,7 +220,7 @@ void SAVE_EVENT_CopyVariant(struct SaveData *save, u32 variant)
  * Stores the record's name (variable 0x8d), key (0x9a) and kind (7) and
  * frees the name string.
  */
-void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct PlayerRecord *record, u32 index)
+void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct MyStatus *record, u32 index)
 {
     struct Strbuf *name = (struct Strbuf *)MYSTATUS_CreateNameStrbuf((u16 *)record, index);
     u32 kind = MYSTATUS_GetId((struct MyStatus *)record);

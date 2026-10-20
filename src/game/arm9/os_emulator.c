@@ -37,7 +37,7 @@ typedef struct OsSystemBss {
     int isChecked;
 } OsSystemBss;
 
-extern u16 OS_GetBootType(void);
+#include "os_systemwork.h"
 u32 OS_GetConsoleType(void);
 int OS_IsRunOnEmulator(void);
 int OS_IsRunOnTwl(void);

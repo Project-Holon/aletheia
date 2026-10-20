@@ -1,0 +1,25 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "REPORT_Create", "black_address": "0x021EFEC0", "white_address": "0x021EFEE0", "size": 116, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_Delete", "black_address": "0x021EFF34", "white_address": "0x021EFF54", "size": 40, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_ShowPartyIcons", "black_address": "0x021EFF5C", "white_address": "0x021EFF7C", "size": 88, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_UpdateWindows", "black_address": "0x021EFFB4", "white_address": "0x021EFFD4", "size": 144, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_IsReady", "black_address": "0x021F0044", "white_address": "0x021F0064", "size": 20, "diff": "same", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_PrepareSave", "black_address": "0x021F0058", "white_address": "0x021F0078", "size": 68, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_CheckSaveCounter", "black_address": "0x021F009C", "white_address": "0x021F00BC", "size": 32, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_StartSaveAnim", "black_address": "0x021F00BC", "white_address": "0x021F00DC", "size": 52, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_IsSaveAnimDone", "black_address": "0x021F00F0", "white_address": "0x021F0110", "size": 24, "diff": "same", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_StopSaveAnim", "black_address": "0x021F0108", "white_address": "0x021F0128", "size": 12, "diff": "same", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_InitBgs", "black_address": "0x021F0114", "white_address": "0x021F0134", "size": 228, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_ExitBgs", "black_address": "0x021F01F8", "white_address": "0x021F0218", "size": 48, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_LoadBgGraphics", "black_address": "0x021F0228", "white_address": "0x021F0248", "size": 92, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_InitWindows", "black_address": "0x021F0284", "white_address": "0x021F02A4", "size": 1148, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_ExitWindows", "black_address": "0x021F0700", "white_address": "0x021F0720", "size": 36, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_InitActors", "black_address": "0x021F0724", "white_address": "0x021F0744", "size": 524, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_ExitActors", "black_address": "0x021F0930", "white_address": "0x021F0950", "size": 140, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"},
+  {"name": "REPORT_UpdateSaveAnim", "black_address": "0x021F09BC", "white_address": "0x021F09DC", "size": 4, "diff": "constant", "source": "src/game/ov034/report.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

@@ -15,8 +15,8 @@ gamelink.py knows overlays, `itcm` and `arm9_main`; this module adds the region
 `twl` to its region table (overlay_info, SRC_DIR) without editing gamelink.py.
 
 usage
-    python tools/twllink.py
-Output is in build/gamelink/twl/.
+    python tools/twllink.py [--version=white]
+Output is in build/gamelink/twl/ (White: build/gamelink/twl_white/).
 """
 
 from __future__ import annotations
@@ -33,10 +33,11 @@ import gamelink         # noqa: E402
 REGION = "twl"
 
 
-def twl_block():
-    """(ram_start, code bytes) of the twl block, from the extracted image."""
-    t = json.load(open(os.path.join(ROOT, "layout", "layout.json"), encoding="utf-8"))["twl"]
-    img = open(os.path.join(ROOT, "extract", t["decompressed_file"]), "rb").read()
+def twl_block(white=False):
+    """(ram_start, code bytes) of the twl block, from the extracted image (White: extract_white/)."""
+    lay = os.path.join(ROOT, "build", "white", "layout", "layout.json") if white         else os.path.join(ROOT, "layout", "layout.json")
+    t = json.load(open(lay, encoding="utf-8"))["twl"]
+    img = open(os.path.join(ROOT, "extract_white" if white else "extract", t["decompressed_file"]), "rb").read()
     return t["ram_start"], img[t["src_offset"]:t["src_offset"] + t["code_size"]]
 
 
@@ -46,12 +47,19 @@ def install():
         return
     gamelink.SRC_DIR.setdefault(REGION, "twl")
     orig = gamelink.overlay_info
+    orig_w = gamelink.white_overlay_info
 
     def overlay_info(ovid):
         if ovid == REGION:
             return twl_block()
         return orig(ovid)
+
+    def white_overlay_info(ovid):
+        if ovid == REGION:
+            return twl_block(True)
+        return orig_w(ovid)
     gamelink.overlay_info = overlay_info
+    gamelink.white_overlay_info = white_overlay_info
     gamelink._twl_installed = True
 
 
@@ -63,7 +71,10 @@ def link_twl(**kw):
 def main(argv):
     mode = {}
     for a in argv:
-        if a == "--absolute":
+        if a in ("--version=white", "--version=black"):
+            gamelink.VERSION = a[10:]
+            os.environ["ALETHEIA_VERSION"] = a[10:]
+        elif a == "--absolute":
             mode["absolute_only"] = True
         elif a.startswith("--skip="):
             mode["skip"] = tuple(x for x in a[7:].split(",") if x)

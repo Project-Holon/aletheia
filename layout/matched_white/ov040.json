@@ -1,0 +1,14 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_FLAG_ANIME_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 188, "diff": "constant", "source": "src/game/ov040/field_gimmick_flag_anime.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_FLAG_ANIME_Exit", "black_address": "0x021F377C", "white_address": "0x021F379C", "size": 28, "diff": "constant", "source": "src/game/ov040/field_gimmick_flag_anime.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_FLAG_ANIME_Update", "black_address": "0x021F3798", "white_address": "0x021F37B8", "size": 12, "diff": "constant", "source": "src/game/ov040/field_gimmick_flag_anime.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_FLAG_ANIME_SetFlag", "black_address": "0x021F37A4", "white_address": "0x021F37C4", "size": 36, "diff": "constant", "source": "src/game/ov040/field_gimmick_flag_anime.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_FLAG_ANIME_GetFlag", "black_address": "0x021F37C8", "white_address": "0x021F37E8", "size": 36, "diff": "constant", "source": "src/game/ov040/field_gimmick_flag_anime.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_FLAG_ANIME_CreateEvent", "black_address": "0x021F37EC", "white_address": "0x021F380C", "size": 48, "diff": "constant", "source": "src/game/ov040/field_gimmick_flag_anime.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_FLAG_ANIME_EventPlayAnime", "black_address": "0x021F381C", "white_address": "0x021F383C", "size": 4, "diff": "constant", "source": "src/game/ov040/field_gimmick_flag_anime.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

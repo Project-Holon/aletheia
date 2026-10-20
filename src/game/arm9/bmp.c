@@ -23,8 +23,8 @@
  *   MI_CpuFill8  0x02082BCC  arm
  */
 #include "bmp_shared_types.h"
+#include "nns_g2d_res_types.h"
 
-struct CharData;
 
 /*
  * Where a bitmap's pixels live (Bmp.storage).  A VRAM destination cannot be
@@ -36,33 +36,20 @@ enum {
     BMP_STORAGE_VRAM     = 2    /* caller's buffer in VRAM, halfword writes only */
 };
 
-/* Unpacked character resource (the NNS_G2d character data record). */
-struct CharData {
-    u16   heightTiles;       /* +0x00 */
-    u16   widthTiles;        /* +0x02 */
-    u32   pixelFormat;       /* +0x04, 3 = 4bpp, 4 = 8bpp */
-    u32   mappingType;       /* +0x08 */
-    u32   characterFormat;   /* +0x0C */
-    u32   size;              /* +0x10, byte size of rawData */
-    void *rawData;           /* +0x14 */
-};
-
 typedef signed short   s16_p07;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern int ARC_UTIL_LoadMember(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID);
+#include "arc_util.h"
 struct NitroFileHeader;
 
-extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
+#include "nns_g2d_anim_bank.h"
 
-extern void  OS_Terminate(void);
+#include "os_terminate_processor.h"
 
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u16 heapId);
 
@@ -84,7 +71,7 @@ void BMP_CopyPixels(const struct Bmp *src, struct Bmp *dst);
 
 struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 heapId);
 
-void BMP_InitFromCharData(struct Bmp *bmp, struct CharData *charData, u32 heapId);
+void BMP_InitFromCharData(struct Bmp *bmp, NNSG2dCharacterData *charData, u32 heapId);
 
 u8 BMP_GetTileBytes(struct Bmp *bmp);
 
@@ -339,7 +326,7 @@ struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 h
 {
     struct Bmp *bmp;
     void       *resource;
-    struct CharData *charData;
+    NNSG2dCharacterData *charData;
 
     bmp = (struct Bmp *)GFL_HEAP_Alloc(heapId, sizeof(struct Bmp), 0, bmp_File, 266);
     resource = (void *)ARC_UTIL_LoadMember(arcId, memberId, compressed, (u16)((heapId & 0x7FFF) | 0x8000));
@@ -384,13 +371,13 @@ struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 h
  *   python tools/match.py tu --src src/matched/unit_02043900.c \
  *       --addr 0x02043900 --cc 1.1p1 --arm
  */
-void BMP_InitFromCharData(struct Bmp *bmp, struct CharData *charData, u32 heapId)
+void BMP_InitFromCharData(struct Bmp *bmp, NNSG2dCharacterData *charData, u32 heapId)
 {
-    bmp->width = charData->widthTiles * 8;
-    bmp->height = charData->heightTiles * 8;
-    bmp->pixels = GFL_HEAP_Alloc(heapId, charData->size, 0, bmp_File, 321);
+    bmp->width = charData->W * 8;
+    bmp->height = charData->H * 8;
+    bmp->pixels = GFL_HEAP_Alloc(heapId, charData->szByte, 0, bmp_File, 321);
     bmp->storage = BMP_STORAGE_OWNED;
-    switch (charData->pixelFormat) {
+    switch (charData->pixelFmt) {
     case 3:
         bmp->tileBytes = BMP_TILE_BYTES_4BPP;
         break;
@@ -398,7 +385,7 @@ void BMP_InitFromCharData(struct Bmp *bmp, struct CharData *charData, u32 heapId
         bmp->tileBytes = BMP_TILE_BYTES_8BPP;
         break;
     }
-    MIi_CpuCopy32(charData->rawData, bmp->pixels, charData->size);
+    MIi_CpuCopy32(charData->pRawData, bmp->pixels, charData->szByte);
 }
 
 /*

@@ -114,12 +114,14 @@ extern u64 OS_GetTick(void);
 extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
 extern int WM_ReadStatus(struct WMStatus *statusBuf);
 extern u16 WM_GetDispersionScanPeriod(void);
-extern void OS_GetOwnerInfo(OwnerT *info);
+struct OSOwnerInfo;
+extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
 struct TCB;
 extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
 extern void DWCi_HEAPlFree_(void **mem);
-extern int WM_StartScanEx();
+struct WMScanExParam;
+extern int WM_StartScanEx(void (*)(void *), struct WMScanExParam *);
 extern enum WMErrCode WM_Reset(void (*)(void *));
 extern enum WMErrCode WM_End(void (*)(void *));
 extern void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, struct TCB *task);
@@ -175,7 +177,7 @@ int DWCi_USBAPlBegin(void (*callback)(int))
     gUsbapWork->param = sUsbApScanParam;
     gUsbapWork->param.scanBuf = gUsbapWork->scanBuf;
     gUsbapWork->param.maxChannelTime = WM_GetDispersionScanPeriod();
-    OS_GetOwnerInfo(&owner);
+    OS_GetOwnerInfo((struct OSOwnerInfo *)(&owner));
     MI_CpuCopy8(sUsbApSsid, gUsbapWork->param.ssid, 8);
     gUsbapWork->param.ssid[9] = 1;
     MI_CpuCopy8(owner.nickName, &gUsbapWork->param.ssid[12], owner.nickNameLength * 2);
@@ -193,7 +195,7 @@ fail:
  */
 static int startScan(void)
 {
-    int rs = WM_StartScanEx(cbWm, &gUsbapWork->param);
+    int rs = WM_StartScanEx(cbWm, (struct WMScanExParam *)&gUsbapWork->param);
     return rs == 2;
 }
 

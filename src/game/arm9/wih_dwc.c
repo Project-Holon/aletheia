@@ -48,6 +48,7 @@
  */
 
 #include "../types.h"
+#include "net_types.h"
 
 /* One 0xC0-byte beacon record (a WMBssDesc) that the ov014 receive callback queues */
 struct WihBssDesc {
@@ -97,14 +98,6 @@ struct WihSsidInfo {
     u8  rest[0x3C];    /* +0x04 */
 };
 
-/* the connection state block GFL_NET_GetInitParam returns (fields used here) */
-struct GFLNetSession {
-    u8 unused00[0x62];
-    u8 slotCount;
-    u8 unused63[4];
-    u8 connectState;
-};
-
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void *GFL_NET_AllocAligned(u32 heapId, u32 size, const char *file, u16 line);
 extern u32  DWC_GetParseWMBssDescWorkSize(void);
@@ -115,7 +108,6 @@ extern void GF_OVERLAY_Unload(int handle);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern u32 GF_STANDARD_GetStringLength(const u8 *s);
 extern s32 GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
-struct GFLNetSession;
 extern struct GFLNetSession *GFL_NET_GetInitParam(void);
 extern int  GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_GetScanResult(u32 slot);
@@ -544,10 +536,10 @@ u32 WIH_DWC_PollStatus(void *searchKey)
 
     if (WIH_DWC_FindSlotByKey(searchKey) != -1)
         flags |= 8;
-    if (netState->connectState == 2 && GFL_NET_GetNegotiationNum() > 1)
+    if (netState->init.gameKind == 2 && GFL_NET_GetNegotiationNum() > 1)
         flags |= 4;
 
-    for (slot = 0; slot < netState->slotCount; slot++) {
+    for (slot = 0; slot < netState->init.friendListNum; slot++) {
         if (GFL_NET_GetScanResult(slot) != 0) {
             slotState = NET_WHPIPE_GetEntryKind(slot);
             if (slotState >= 0x14 && slotState <= 0x1B)

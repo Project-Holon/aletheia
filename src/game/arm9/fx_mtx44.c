@@ -25,10 +25,7 @@ typedef long long fx64c;
 
 #include "../sdk_fx.h"
 
-void FX_InvAsync(fx32 denom);
-u64 FX_GetDivResultFx64c(void);
-u32 FX_Div(u32 numer, u32 denom);
-u32 FX_GetDivResult(void);
+#include "fx_cp.h"
 asm void MTX_Identity44_(MtxFx44 *pDst);
 asm void MTX_Copy44To43_(MtxFx44 *pSrc, MtxFx43 *pDst);
 void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);

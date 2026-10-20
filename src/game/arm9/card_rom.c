@@ -82,50 +82,13 @@
 #define MI_DMA_MAX_NUM         3
 #include "../types.h"
 
-typedef struct CARDRomHeaderTWL
-{
-    u8 ntr[0x1B4];
-    struct
-    {
-        u32 bit00_04 : 5;
-        u32 bit05 : 1;
-        u32 bit06_07 : 2;
-        u32 bit08 : 1;
-        u32 bit09_31 : 23;
-    } access_control;
-} CARDRomHeaderTWL;
-
 #include "../sdk_os.h"
 
 #include "../sdk_card.h"
 
-typedef struct CARDiCommandArg
-{
-    int result;
-    CARDBackupType type;
-    u32 id;
-    u32 src;
-    u32 dst;
-    u32 len;
-    CARDBackupTypeInfo spec;
-} CARDiCommandArg;
+#include "card_common.h"
 
-typedef struct CARDDmaInterface
-{
-    void (*Recv)(u32 channel, const void *src, void *dst, u32 len);
-    void (*Stop)(u32 channel);
-} CARDDmaInterface;
-
-typedef struct CARDTransferInfo
-{
-    u32 command;
-    void (*callback)(void *);
-    void *userdata;
-    u32 src;
-    u32 dst;
-    u32 len;
-    u32 work;
-} CARDTransferInfo;
+#include "card_rom.h"
 
 typedef int (*CARDiReadRomFunc)(void *userdata, void *buffer, u32 offset, u32 length);
 
@@ -134,33 +97,6 @@ typedef struct CARDiRomCacheState
     BOOL enable_dc_invalidation;
     u32 cached_page;
 } CARDiRomCacheState;
-
-typedef struct CARDiCommon
-{
-    CARDiCommandArg *cmd;
-    volatile u32 flag;
-    u32 priority;
-    u32 flush_threshold_ic;
-    u32 flush_threshold_dc;
-    s32 lock_owner;
-    int lock_ref;
-    OSThreadQueue lock_queue[1];
-    int lock_target;
-    u8 thread[1216];
-    void (*task_func)(struct CARDiCommon *);
-    void (*callback)(void *);
-    void *callback_arg;
-    OSThreadQueue busy_q[1];
-    u32 src;
-    u32 dst;
-    u32 len;
-    u32 dma;
-    const CARDDmaInterface *DmaCall;
-    int req_type;
-    int req_retry;
-    int req_mode;
-    OSThread *current_thread_9;
-} CARDiCommon;
 
 typedef struct CARDiRomState
 {
@@ -173,55 +109,36 @@ typedef struct CARDiRomState
 
 typedef void (*MIDmaCallback)(void *);
 
-typedef struct CARDRomHeader
-{
-    u8 pad00[0x80];
-    u32 rom_size;
-} CARDRomHeader;
-
-extern void *CARD_GetOwnRomHeaderTWL(void);
-extern BOOL OS_IsRunOnTwl(void);
-extern u16 OS_GetBootType(void);
+#include "card_api.h"
+#include "../twl/card_rom.h"
+#include "os_emulator.h"
+#include "os_systemwork.h"
 extern BOOL CARDi_IsNormalMode(void);
 extern void CARDi_SetRomOp(u32 command, u32 offset);
 extern u32 CARDi_ReadRomStatusCore(void);
 extern void CARDi_RefreshRomCore(void);
-extern BOOL OS_IsAlarmAvailable(void);
-extern void OS_Sleep(u32 msec);
+#include "os_alarm.h"
+#include "os_thread.h"
 extern void CARDi_StartRomPageTransfer(u32 offset);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
+#include "mi_memory.h"
 extern u32 CARDi_ReadRomIDCore(void);
-extern void CARDi_CheckPulledOutCore(u32 id);
-extern u32 OS_DisableIrqMask(u32 intr);
-extern u32 OS_ResetRequestIrqMask(u32 intr);
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32 state);
+#include "card_pullout.h"
+typedef unsigned int OSIrqMask;
+#include "os_interrupt.h"
+#include "os_system.h"
 extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
-extern u32 OS_EnableIrqMask(u32 intr);
 extern void CARDi_DmaReadPageCallback(void);
 extern void CARDi_RefreshRom(u32 warn_mask);
-extern void CARDi_EndTask(CARDiCommon *p);
-extern void *OS_GetDTCMAddress(void);
-extern void CARD_CheckEnabled(void);
-extern u32 CARDi_GetAccessLevel(void);
-extern void OS_Terminate(void);
-extern BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, MIDmaCallback callback, void *callback_arg);
-extern const CARDDmaInterface *CARDi_GetDmaInterface(u32 channel);
+#include "card_task.h"
+#include "os_tcm.h"
+#include "os_terminate_processor.h"
+#include "card_utility.h"
 extern BOOL CARDi_IsRomDmaAvailable(u32 dma, void *dst, u32 src, u32 len);
-extern void CARDi_ICInvalidateSmart(void *buffer, u32 length, u32 threshold);
-extern void CARDi_DCInvalidateSmart(void *buffer, u32 length, u32 threshold);
 extern void CARDi_ReadRomWithDMA(CARDTransferInfo *info);
-extern BOOL CARDi_ExecuteOldTypeTask(void (*task)(CARDiCommon *), BOOL async);
 extern void CARDi_DmaReadDone(void *arg);
 extern int CARDi_ReadRomWithCPU(void *userdata, void *buffer, u32 offset, u32 length);
 extern void CARDi_ReadRomSyncCore(CARDiCommon *c);
-extern const CARDRomHeader *CARD_GetOwnRomHeader(void);
-extern s32 OS_GetLockID(void);
-extern void CARD_LockRom(u16 lock_id);
-extern void CARD_UnlockRom(u16 lock_id);
-extern void OS_ReleaseLockID(u16 lockID);
-extern void CARDi_InitRomHash(void);
-extern void CARDi_WaitAsync(void);
+#include "os_spinlock.h"
 void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len, MIDmaCallback callback, void *arg, BOOL is_async);
 void CARDi_InitRom(void);
 void CARD_WaitRomAsync(void);
@@ -258,8 +175,8 @@ BOOL CARDi_IsNormalMode(void)
 
     return OS_IsRunOnTwl() &&
            (OS_GetBootType() != 1) &&
-           oh->access_control.bit05 &&
-           !oh->access_control.bit08;
+           oh->access_control.gameCardPowerOn &&
+           !oh->access_control.gameCardNitroMode;
 }
 
 /*

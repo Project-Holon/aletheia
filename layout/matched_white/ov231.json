@@ -1,0 +1,13 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "CARD_SPI_RunCommand", "black_address": "0x02180820", "white_address": "0x02180840", "size": 228, "diff": "constant", "source": "src/game/ov231/card_spi.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CARD_SPI_WaitNotBusy", "black_address": "0x02180904", "white_address": "0x02180924", "size": 16, "diff": "same", "source": "src/game/ov231/card_spi.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CARD_SPI_SetControl", "black_address": "0x02180914", "white_address": "0x02180934", "size": 16, "diff": "same", "source": "src/game/ov231/card_spi.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CARD_SPI_ExchangeByte", "black_address": "0x02180924", "white_address": "0x02180944", "size": 96, "diff": "constant", "source": "src/game/ov231/card_spi.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CARD_SPI_ReceiveByte", "black_address": "0x02180984", "white_address": "0x021809A4", "size": 84, "diff": "constant", "source": "src/game/ov231/card_spi.c", "version_switch": false, "status": "EXACT"},
+  {"name": "CARD_SPI_CheckCardId", "black_address": "0x021809D8", "white_address": "0x021809F8", "size": 4, "diff": "same", "source": "src/game/ov231/card_spi.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

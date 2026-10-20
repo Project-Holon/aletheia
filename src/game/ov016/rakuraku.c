@@ -1,7 +1,7 @@
 /*
  * file:     rakuraku.c
  * unit:     yes
- * function: DWCi_RAKUlInit, DWCi_RAKUlEnd, DWCi_RAKUlGetState, DWCi_RAKUlSetResult, DWCi_RakurakuCbConfig, DWCi_RakurakuMemAlloc, DWCi_RAKUl_memFree
+ * function: DWCi_RAKUlInit, DWCi_RAKUlEnd, DWCi_RAKUlGetState, DWCi_RAKUlSetResult, cbConfig, memAlloc, DWCi_RAKUl_memFree
  * address:  0x021C1488
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -99,6 +99,7 @@ int DWCi_RAKUlGetState(void)
 	case 7:
 		return 4;
 	}
+	/* states above 7 skip every case and leave r0 as the caller had it; a `return 0;` here changes the bytes (docs/DEBT.tsv, missing-return) */
 }
 
 /*

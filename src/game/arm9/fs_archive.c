@@ -51,19 +51,16 @@ typedef struct FSiArchiveBss {
     FSDirPos current_dir_pos;
 } FSiArchiveBss;
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern void OS_WakeupThread(OSThreadQueue *queue);
-extern void OS_SleepThread(OSThreadQueue *queue);
-extern void FS_InitFile(FSFile *file);
+#include "os_system.h"
+#include "os_thread.h"
+#include "fs_file.h"
 extern void FSi_ExecuteAsyncCommand(FSFile *file);
-extern void OS_Terminate(void);
+#include "os_terminate_processor.h"
 extern void FSi_ExecuteSyncCommand(FSFile *file);
 extern char *FS_GetArchiveName(FSArchive *arc);
-extern int STD_CompareNString(const char *str1, const char *str2, int len);
+#include "std_string.h"
 extern FSArchive *FS_NormalizePath(const char *path, u32 *baseid, char *relpath);
-extern int STD_CopyLString(char *destp, const char *srcp, int siz);
-extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
+#include "mi_memory.h"
 void FS_InitArchive(FSArchive *p_arc);
 extern FSArchive *FS_FindArchive(const char *name, int name_len);
 BOOL FS_RegisterArchiveName(FSArchive *p_arc, const char *name, u32 name_len);
@@ -717,8 +714,6 @@ int FSi_CopySafeString(char *dst, int dstlen, const char *src, int srclen, BOOL 
 extern char current_dir_path[260];    /* current_dir_path */
 extern const char fsi_str_slash[]; /* "/" */
 
-extern int FSi_DecrementSjisPositionToSlash(const char *str, int pos);
-extern int FSi_TrimSjisTrailingSlash(char *str);
 
 static inline BOOL FSi_IsSlash(u32 c)
 {

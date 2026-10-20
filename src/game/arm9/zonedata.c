@@ -48,6 +48,7 @@
 struct ArcHandle;
 
 #include "../sdk_fx.h"
+#include "zonedata_types.h"
 
 /* One 0x30 byte zone header: sub-file 0 of a/0/1/2, 427 records. */
 struct ZoneHeader {
@@ -127,30 +128,6 @@ struct AreaData {
     u8  billboardColor; /* 0x09 */
 };
 
-/* Rail position, the second form of Location.pos. */
-struct RailLocation {
-    u16 railIndex;  /* 0x00 */
-    u8  type;       /* 0x02 */
-    u8  key;        /* 0x03 */
-    s16 widthGrid;  /* 0x04 */
-    u16 lineGrid;   /* 0x06 */
-    u8  pad08[4];
-};
-
-/* A warp destination (0x1c bytes). */
-struct Location {
-    u32 type;           /* 0x00: 0 exit, 1 direct */
-    u16 zoneId;         /* 0x04 */
-    s16 exitId;         /* 0x06 */
-    u16 dir;            /* 0x08 */
-    u16 exitOffset;     /* 0x0a */
-    u32 posType;        /* 0x0c: 0 vector, 1 rail */
-    union {
-        VecFx32 vec;
-        struct RailLocation rail;
-    } pos;              /* 0x10 */
-};
-
 /* Event flags and work values (0x3ea bytes). */
 struct EventWork {
     u16 work[0x13e];        /* 0x000, work ids 0x4000.. */
@@ -159,23 +136,17 @@ struct EventWork {
     u8  pad3E9;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern struct ArcHandle *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 
-extern void *ARC_UTIL_LoadMemberWithSize(u32 arcId, u32 member, int compressed, u32 heapId, u32 *size);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void ARC_TOOL_DeleteHandle(void *handle);
 
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *handle, u32 member, u32 offset, u32 size, void *dst);
 
-extern void *FILE_UTIL_LoadRange(u32 arcId, u32 heapId, u32 offset, u32 size);
+#include "file_util.h"
 
-extern u32 MI_CpuFill8(void *dst, u32 value, u32 size);
 
-void ZONEDATA_Init(u32 heap);
+void ZONEDATA_Init(u16 heap);
 
 void ZONEDATA_Exit(void);
 
@@ -187,7 +158,7 @@ struct ZoneHeader *ZONEDATA_GetHeader(u32 id);
 
 u32 ZONEDATA_IsChangedZoneInTable(u32 id, const u16 *table, int count);
 
-u32 ZONEDATA_GetAreaId(u32 id);
+u16 ZONEDATA_GetAreaId(u32 id);
 
 u32 ZONEDATA_GetMatrixId(u32 id);
 
@@ -297,7 +268,7 @@ u8 ZONEDATA_GetMapSubType(u32 id);
 
 u32 ZONEDATA_IsParentZoneD6(u32 id);
 
-void *ZONEDATA_CreateAreaData(u32 heapId, u16 areaId, u32 season);
+void *ZONEDATA_CreateAreaData(u16 heapId, u16 areaId, u32 season);
 
 u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
 
@@ -345,7 +316,7 @@ u32 ZONEDATA_DirToExitDir(u32 dir);
 
 u32 ZONEDATA_GetEventWorkSize(void);
 
-u32 ZONEDATA_InitEventWork(struct EventWork *ev);
+void ZONEDATA_InitEventWork(struct EventWork *ev);
 
 u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 
@@ -444,7 +415,11 @@ extern const u8 _DirToRailKeyTable[];
  *   python tools/match.py one --src src/pending/ZONEDATA_Init.c \
  *       --func ZONEDATA_Init --addr 0x020139B0 --cc 1.1p1 --thumb
  */
-void ZONEDATA_Init(u32 heap)
+#include "arc_tool.h"
+#include "arc_util.h"
+/* Kept local: ZONEDATA_InitEventWork tail-returns the call, so MI_CpuFill8 is declared with a result here. */
+#include "mi_memory.h"
+void ZONEDATA_Init(u16 heap)
 {
     u32 size;
     u32 size2;
@@ -607,7 +582,7 @@ u32 ZONEDATA_IsChangedZoneInTable(u32 id, const u16 *table, int count)
     return 0;
 }
 
-u32 ZONEDATA_GetAreaId(u32 id)
+u16 ZONEDATA_GetAreaId(u32 id)
 {
     const struct ZoneHeader *r = ZONEDATA_GetHeader(id);
     return r->areaId;
@@ -1342,12 +1317,12 @@ u32 ZONEDATA_IsParentZoneD6(u32 id)
  *   python tools/match.py one --src src/matched/ZONEDATA_CreateAreaData.c \
  *       --func ZONEDATA_CreateAreaData --addr 0x0201407C --cc 1.1p1 --thumb
  */
-void *ZONEDATA_CreateAreaData(u32 heapId, u16 areaId, u32 season)
+void *ZONEDATA_CreateAreaData(u16 heapId, u16 areaId, u32 season)
 {
     u16 record = areaId;
 
-    if (ZONEDATA_IsSeasonArea(areaId) != 0) {
-        record = (u16)(areaId + (u16)season);
+    if (ZONEDATA_IsSeasonArea(record) != 0) {
+        record = (u16)(record + (u16)season);
     }
     if (record >= 282) {
         record = 0;
@@ -1381,7 +1356,7 @@ void *ZONEDATA_CreateAreaData(u32 heapId, u16 areaId, u32 season)
  */
 u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData)
 {
-    GFL_HEAP_Free(areaData);
+    return GFL_HEAP_Free(areaData);
 }
 
 u16 ZONEDATA_GetAreaTexSetId(const struct AreaData *areaData)
@@ -1677,9 +1652,9 @@ u32 ZONEDATA_GetEventWorkSize(void)
     return 0x3EA;
 }
 
-u32 ZONEDATA_InitEventWork(struct EventWork *ev)
+void ZONEDATA_InitEventWork(struct EventWork *ev)
 {
-    return MI_CpuFill8(ev, 0, 0x3EA);
+    MI_CpuFill8(ev, 0, 0x3EA);
 }
 
 /*

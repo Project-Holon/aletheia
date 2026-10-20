@@ -45,53 +45,31 @@ struct MyStatus;
 
 /* ---- Mail ---- */
 
-/* Easy-chat phrase (PMS data), eight bytes. */
-struct PmsData {
-    u16 sentenceType;
-    u16 sentenceId;
-    u16 word[2];
-};
-
-struct Mail {
-    u32 writerId;
-    u8  gender;
-    u8  language;
-    u8  version;
-    u8  design;                     /* 0..11, 0xFF when empty */
-    u16 writerName[8];
-    u16 icon[3];
-    u16 messageId;
-    struct PmsData message[3];
-};
+#include "poke_tool_types.h"
+#include "pms_types.h"
 
 struct MailBox {
     struct Mail mail[MAIL_BOX_CAPACITY];
 };
 
-extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *control, u32 blockId);
+#include "save_control.h"
 
-extern u16  STRBUF_GetEosChar(void);
+#include "strbuf.h"
 
-extern void PMSI_PARAM_ClearSentence(struct PmsData *pms);
+#include "pmsi_param.h"
 
-extern void PMSI_PARAM_Copy(struct PmsData *dest, const struct PmsData *src);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
-                           u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "game_data.h"
 
-extern void *MYSTATUS_GetName(void *mystatus);
+#include "mystatus.h"
 
-extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 
-extern u8  MYSTATUS_GetSex(const struct MyStatus *status);
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
 extern const u8 GAME_LANGUAGE_Code;
 

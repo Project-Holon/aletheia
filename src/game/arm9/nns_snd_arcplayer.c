@@ -47,7 +47,7 @@
  *   OS_UnlockMutex  0x02086078  arm
  */
 
-struct Entry;
+struct SndArcPlayerEntry;
 #include "nns_snd_types.h"
 
 struct Table;
@@ -102,7 +102,7 @@ struct DListElem {
 };
 
 /* One record of the archive's sequence info table (0xC bytes each). */
-struct Entry {
+struct SndArcPlayerEntry {
     u32 seqOffset;      /* 0x0: FAT offset, 0xffffffff marks a free record */
     u16 bankNo;         /* 0x4 */
     u8  initialVolume;  /* 0x6 */
@@ -112,46 +112,26 @@ struct Entry {
     u8  padA[2];
 };
 
-struct Table { u8 pad00[0x1c]; u32 count; struct Entry arr[]; };
+struct Table { u8 pad00[0x1c]; u32 count; struct SndArcPlayerEntry arr[]; };
 
-extern void *NNS_SndArcGetSeqInfo(int index);
-extern void *NNS_SndArcGetSeqArcInfo(int index);
-extern u32   NNS_SndArcGetFileAddress(u32 a);
+#include "nns_snd_arc.h"
 struct SndHandle;
 struct SndSeqPlayer;
-extern struct SndSeqPlayer *NNSi_SndPlayerAllocSeqPlayer(struct SndHandle *handle, s32 playerNo, s32 priority);
+#include "nns_snd_player.h"
 struct NNSSndHeap;
-extern struct NNSSndHeap *NNSi_SndPlayerAllocHeap(s32 playerNo, struct SndSeqPlayer *seqPlayer);
-extern u32   NNSi_SndArcLoadBank(u32 bankNo, u32 loadFlag, struct NNSSndHeap *heap, u32 isSetAddress, u32 *outAddress);
-extern u32 NNSi_SndArcLoadSeq(u32 seqNo, u32 loadFlag, struct NNSSndHeap *heap, u32 isSetAddress, u32 *outAddress);
-extern void  NNSi_SndPlayerFreeSeqPlayer(struct SndSeqPlayer *seqPlayer);
-extern void NNSi_SndPlayerStartSeqPlayer(struct SndSeqPlayer *seqPlayer, void *seqBase, u32 seqOffset, void *bankData);
-extern void NNS_SndHandleSetInitialVolume(struct SndHandle *handle, u8 volume);
-extern void NNS_SndHandlePause(struct SndHandle *handle, u32 value);
-extern void  NNSi_SndHandleSetSeqNo(u32 a, u32 b);
-extern void NNSi_SndHandleSetSeqArc(struct SndHandle *handle, u32 seqArcNo, u32 seqArcIndex);
-extern void NNS_SndStrmStart(SndStrm *a);
-extern void NNS_SndStrmSetVolume(SndStrm *, s32);
-extern s32 NNS_SndFaderGet(SndFader *o);
-extern void NNS_SndFaderUpdate(SndFader *obj);
-extern int NNS_SndFaderIsFinished(SndFader *obj);
+#include "nns_snd_strm.h"
+#include "nns_snd_fader.h"
 #include "../sdk_os.h"
 
-extern void OS_LockMutex(struct OSMutex *mutex);
-extern void OS_UnlockMutex(struct OSMutex *mutex);
-extern void NNSi_SndStrmStopIfSetup(SndStrm *o);
-extern void NNS_SndStrmFreeChannel(SndStrm *x);
+#include "os_mutex.h"
 struct NNSFndList;
-extern void NNS_FndAppendListObject(struct NNSFndList *list, void *object);
-extern u32  OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32);
-extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
-extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
+#include "nns_fnd_expheap.h"
+#include "os_system.h"
 u32 NNS_SndArcPlayerStartSeq(u32 handle, u32 seqNo);
 u32 NNS_SndArcPlayerStartSeqEx(u32 handle, int playerNo, int bankNo, int priority, u32 seqNo);
 u32 NNS_SndArcPlayerStartSeqArc(u32 handle, u32 arcIndex, u32 index);
-u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct Entry *entry, u32 seqNo);
-u32 NNSi_SndArcPlayerStartSeqArc(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct Entry *entry, struct SndBlock *block, u32 arcIndex, u32 index);
+u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct SndArcPlayerEntry *entry, u32 seqNo);
+u32 NNSi_SndArcPlayerStartSeqArc(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct SndArcPlayerEntry *entry, struct SndBlock *block, u32 arcIndex, u32 index);
 void NNSi_SndArcPlayerUpdate(void);
 void NNSi_SndTrackDetachObject(struct SndTrack *track);
 void NNSi_SndTrackStop(struct SndTrack *track);
@@ -159,7 +139,7 @@ void NNSi_SndTrackClose(struct SndTrack *track);
 void NNSi_SndTrackReleaseRef(struct SndTrack *track);
 void NNSi_SndTrackListUnlinkByValue(void *list, u32 value);
 void NNSi_SndTrackListUnlinkElem(void *elem);
-struct Entry *NNSi_SndArcGetSeqEntry(struct Table *table, int index);
+struct SndArcPlayerEntry *NNSi_SndArcGetSeqEntry(struct Table *table, int index);
 void NNSi_SndFaderReset(SndFader *fader);
 extern struct SndTrack data_0214EAC0[4];
 extern const s16 data_020A5D08[];
@@ -172,7 +152,7 @@ extern u8  g_02150190[];
 
 u32 NNS_SndArcPlayerStartSeq(u32 handle, u32 seqNo)
 {
-    struct Entry *entry = NNS_SndArcGetSeqInfo(seqNo);
+    struct SndArcPlayerEntry *entry = (struct SndArcPlayerEntry *)NNS_SndArcGetSeqInfo(seqNo);
 
     if (entry == 0) return 0;
     return NNSi_SndArcPlayerStartSeq(handle, (entry)->playerNo, (entry)->bankNo, (entry)->priority,
@@ -184,7 +164,7 @@ u32 NNS_SndArcPlayerStartSeq(u32 handle, u32 seqNo)
 
 u32 NNS_SndArcPlayerStartSeqEx(u32 handle, int playerNo, int bankNo, int priority, u32 seqNo)
 {
-    struct Entry *entry = NNS_SndArcGetSeqInfo(seqNo);
+    struct SndArcPlayerEntry *entry = (struct SndArcPlayerEntry *)NNS_SndArcGetSeqInfo(seqNo);
 
     if (entry == 0) return 0;
     if (priority < 0) priority = entry->priority;
@@ -221,7 +201,7 @@ u32 NNS_SndArcPlayerStartSeqArc(u32 handle, u32 arcIndex, u32 index)
 {
     struct SndMedia *media;
     u32 blockAddr;
-    struct Entry *entry;
+    struct SndArcPlayerEntry *entry;
 
     media = NNS_SndArcGetSeqArcInfo(arcIndex);
     if (media == 0) {
@@ -261,7 +241,7 @@ u32 NNS_SndArcPlayerStartSeqArc(u32 handle, u32 arcIndex, u32 index)
  *   EXACT, 252 bytes, 10 of 10 relocation sites resolved (sp2p2 EXACT too,
  *   dsi/1.1p1 260 bytes DIFF).
  */
-u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct Entry *entry, u32 seqNo)
+u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct SndArcPlayerEntry *entry, u32 seqNo)
 {
     void *seqPlayer;
     u32 heap;
@@ -284,7 +264,7 @@ u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority
     NNSi_SndPlayerStartSeqPlayer(seqPlayer, (void *)((u8 *)block + block->dataOffset), 0, (void *)slot);
     NNS_SndHandleSetInitialVolume((struct SndHandle *)handle, entry->initialVolume);
     NNS_SndHandlePause((struct SndHandle *)handle, entry->pauseFlag);
-    NNSi_SndHandleSetSeqNo(handle, seqNo);
+    NNSi_SndHandleSetSeqNo((struct SndHandle *)handle, seqNo);
     return 1;
 }
 
@@ -327,7 +307,7 @@ u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority
  *   python3 tools/match.py one --src src/matched/NNSi_SndArcPlayerStartSeqArc.c \
  *       --func NNSi_SndArcPlayerStartSeqArc --addr 0x02075794 --arm --cc ../2.0/sp2
  */
-u32 NNSi_SndArcPlayerStartSeqArc(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct Entry *entry, struct SndBlock *block, u32 arcIndex, u32 index)
+u32 NNSi_SndArcPlayerStartSeqArc(u32 handle, u32 playerNo, u32 bankNo, u32 priority, struct SndArcPlayerEntry *entry, struct SndBlock *block, u32 arcIndex, u32 index)
 {
     void *seqPlayer;
     u32 heap;
@@ -581,9 +561,9 @@ void NNSi_SndTrackListUnlinkElem(void *elem)
  *  * compared against a `u32` count gives; the -1 element test is the
  *  * R_ARM_ABS32-free third guard the tail ends on. No relocations at all.
  */
-struct Entry *NNSi_SndArcGetSeqEntry(struct Table *table, int index)
+struct SndArcPlayerEntry *NNSi_SndArcGetSeqEntry(struct Table *table, int index)
 {
-    struct Entry *entry;
+    struct SndArcPlayerEntry *entry;
 
     if (index < 0) return 0;
     if (index >= table->count) return 0;

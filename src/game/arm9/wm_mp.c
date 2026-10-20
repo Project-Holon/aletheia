@@ -71,17 +71,10 @@ typedef struct WMStartMPReq {
 
 #include "../sdk_os.h"
 
-extern void *WMi_GetSystemWork(void);
-extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern int WM_GetMPReceiveBufferSize(void);
-extern int WM_GetMPSendBufferSize(void);
-extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-extern void MIi_CpuCopy32(const void *srcp, void *destp, u32 size);
-extern WMErrCode WMi_SendCommandDirect(void *data, u32 length);
-extern void DC_StoreRange(void *startAddr, u32 nBytes);
-extern WMErrCode WMi_SendCommand(WMApiid id, u16 paramNum, ...);
+#include "wm_system.h"
+#include "os_cache.h"
+#include "wm_sync.h"
+#include "mi_memory.h"
 WMErrCode WMi_StartMP(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, WMMPTmpParam *tmpParam);
 WMErrCode WM_StartMPEx(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode, BOOL ignoreFatalError);
 WMErrCode WM_StartMP(WMCallbackFunc callback, u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq);

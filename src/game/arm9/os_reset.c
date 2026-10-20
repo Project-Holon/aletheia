@@ -34,21 +34,19 @@
 
 #include "../sdk_os.h"
 
-extern void PXI_Init(void);
-extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
+#include "pxi_fifo.h"
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
-extern void OSi_CommonCallback(int tag, u32 data, BOOL err);
-extern BOOL OS_IsRunOnTwl(void);
-extern void OS_Terminate(void);
-extern void PMi_ExecutePostExitCallbackList(void);
-extern s32 OS_GetLockID(void);
-extern void CARD_LockRom(u16 lockID);
-extern u32 OS_SetIrqMask(u32 intr);
-extern u32 OS_ResetRequestIrqMask(u32 intr);
-extern void MI_StopAllDma(void);
-extern void MI_StopAllNDma(void);
-extern void OSi_SendToPxi(u16 data);
-extern void OSi_DoResetSystem(void);
+#include "os_pxi.h"
+#include "os_emulator.h"
+#include "os_terminate_processor.h"
+#include "../twl/pm.h"
+#include "os_spinlock.h"
+#include "card_api.h"
+typedef unsigned int OSIrqMask;
+#include "os_interrupt.h"
+#include "mi_dma.h"
+#include "../twl/mi_ndma.h"
+#include "../arm9_autoload0_ITCM/os_reset.h"
 void OS_InitReset(void);
 void OS_ResetSystem(u32 parameter);
 extern char SDK_AUTOLOAD_DTCM_START[];

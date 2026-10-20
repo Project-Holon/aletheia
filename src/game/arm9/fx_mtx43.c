@@ -18,15 +18,15 @@
 #include "../types.h"
 #include "../sdk_fx.h"
 
-asm void MTX_Identity43_(void);
-asm void MTX_Copy43To44_(void);
+asm void MTX_Identity43_(MtxFx43 *pDst);
+asm void MTX_Copy43To44_(const MtxFx43 *pSrc, MtxFx44 *pDst);
 
 /*
  * sdk:      MTX_Identity43_ (libfx.TWL.HYB.a fx_mtx43.o)
  * asm:      fixed-register stm with writeback (stmia r0!, {r2, r3}); no C spelling.
  * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
-asm void MTX_Identity43_(void)
+asm void MTX_Identity43_(MtxFx43 *pDst)
 {
     mov r2, #0x1000
     mov r3, #0
@@ -45,7 +45,7 @@ asm void MTX_Identity43_(void)
  * asm:      fixed-register ldm/stm block copy with writeback (ldmia r0!, stmia r1!); no C spelling.
  * hand-written in the original: register-passed matrix helper, one SDK line-table row per instruction
  */
-asm void MTX_Copy43To44_(void)
+asm void MTX_Copy43To44_(const MtxFx43 *pSrc, MtxFx44 *pDst)
 {
     stmfd sp!, {r4}
     mov r12, #0
@@ -82,7 +82,7 @@ asm void MTX_Scale43_(void)
 
 #pragma thumb reset
 
-extern void MTX_ScaleApply33(const MtxFx33 *pSrc, MtxFx33 *pDst, fx32 x, fx32 y, fx32 z);
+#include "fx_mtx33.h"
 
 void MTX_ScaleApply43(const MtxFx43 *pSrc, MtxFx43 *pDst, fx32 x, fx32 y, fx32 z)
 {
@@ -114,13 +114,9 @@ asm void MTX_RotY43_(void)
 
 #pragma thumb reset
 
-extern void MTX_RotAxis33(void *m, void *v, fx32 sinVal, fx32 cosVal);
-void FX_InvAsync(fx32 denom);
-unsigned int FX_GetDivResult(void);
-void MI_Copy48B(const void *pSrc, void *pDest);
-extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
-extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
-extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
+#include "fx_cp.h"
+#include "mi_memory.h"
+#include "fx_vec.h"
 void MTX_RotAxis43(void *m, void *v, fx32 sinVal, fx32 cosVal);
 int MTX_Inverse43(const MtxFx43 *pSrc, MtxFx43 *pDst);
 void MTX_Concat43(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab);

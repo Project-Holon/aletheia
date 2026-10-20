@@ -58,9 +58,9 @@
 
 #include "../types.h"
 
-extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
+#include "mi_memory.h"
 struct SaveControl;
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 id);
+#include "save_control.h"
 
 /*
  * The save block with id 0x36.  ids[0..24] hold small ids and the value 25
@@ -118,7 +118,7 @@ void RECENT_ID_LIST_SAVEDATA_SetId(u8 *ids, u32 id, u32 enabled)
     RECENT_ID_LIST_SAVEDATA_CompactIds(ids);
 }
 
-u32 RECENT_ID_LIST_SAVEDATA_ContainsId(const u8 *ids, u8 id)
+u32 RECENT_ID_LIST_SAVEDATA_ContainsId(const u8 *ids, u32 id)
 {
     s32 i;
 

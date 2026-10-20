@@ -21,15 +21,14 @@
 
 #include "../types.h"
 
-extern void CTRDGi_InitCommon(void);
+#include "ctrdg.h"
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
-extern void CTRDGi_SendtoPxi(u32 data);
-extern void MSL_C_LIB_EmptyStub(int tag, u32 data, BOOL err);
+#include "msl_crt.h"
 
 void CTRDG_DummyInit(void)
 {
     CTRDGi_InitCommon();
     PXI_SetFifoRecvCallback(13, 0);
-    PXI_SetFifoRecvCallback(13, MSL_C_LIB_EmptyStub);
+    PXI_SetFifoRecvCallback(13, (void (*)(int,  u32,  BOOL))MSL_C_LIB_EmptyStub);
     CTRDGi_SendtoPxi(1);
 }

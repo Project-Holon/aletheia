@@ -20,11 +20,10 @@
  */
 #include "script_vm_types.h"
 
-extern u32 GFL_HEAP_Free(void *memory);
+#include "gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void VM_Reset(ScriptVm *vm);
 

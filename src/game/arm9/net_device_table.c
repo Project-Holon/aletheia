@@ -29,15 +29,14 @@
 
 #include "../types.h"
 
-extern void GF_OVERLAY_Unload(s32 handle);
+#include "gf_overlay.h"
 
-extern int GF_OVERLAY_Load(s32 handle);
 
-extern void *GFL_NET_DEVWIFI_GetDeviceTable(void);
+#include "../ov009/net_devwifi.h"
 
-extern void *GFL_NET_DEVWIRELESS_GetDeviceTable(void);
+#include "../ov014/net_devwireless.h"
 
-extern void *IRCNET_GetHandlerTable(void);
+#include "../ov015/ircnet.h"
 
 int NET_DEVICE_TABLE_Select(u32 sel);
 

@@ -58,38 +58,29 @@ struct BattleBoxSave {
     u16 padding;
 };
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "pokeparty.h"
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
+#include "poke_tool.h"
 
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 
-extern u32 GFL_HEAP_Free(void *mem);
+#include "gfl_heap_wrap.h"
 struct MsgBank;
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "msgdata.h"
 
-extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void POKE_TOOL_ClearBoxParam(struct BoxPokemon *box);
 
-extern struct Party *POKEPARTY_Create(u32 heap);
 
-extern void POKEPARTY_InitEx(struct Party *party, s32 capacity);
 
-extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 
-extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
-extern struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, u16 heapId);
 
 u32 BATTLE_BOX_GetSize(void);
 

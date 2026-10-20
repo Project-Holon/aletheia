@@ -1,7 +1,7 @@
 /*
  * file:     egg_demo_main.c
  * unit:     yes
- * function: EGG_DEMO_MAIN_Create, EGG_DEMO_MAIN_Delete, EGG_DEMO_MAIN_Update, EGG_DEMO_MAIN_OnVBlank, EGG_DEMO_MAIN_Init, EGG_DEMO_MAIN_DeleteResources, EGG_DEMO_MAIN_LoadGraphics, EGG_DEMO_MAIN_Noop, EGG_DEMO_MAIN_InitActors, EGG_DEMO_MAIN_DeleteActors, EGG_DEMO_MAIN_StartActorAnims, EGG_DEMO_MAIN_AreActorAnimsDone, EGG_DEMO_MAIN_StartFadeOutBgm, EGG_DEMO_MAIN_NoopB, EGG_DEMO_MAIN_UpdateBgm, EGG_DEMO_MAIN_IsBgmFadeOut, EGG_DEMO_MAIN_PlayBgm, EGG_DEMO_MAIN_LoadBgm1, EGG_DEMO_MAIN_PushBgm, EGG_DEMO_MAIN_PopBgm, EGG_DEMO_MAIN_LoadBgm2, EGG_DEMO_MAIN_StopBgm
+ * function: EGG_DEMO_MAIN_Create, EGG_DEMO_MAIN_Delete, EGG_DEMO_MAIN_Update, EGG_DEMO_MAIN_OnVBlank, EGG_DEMO_MAIN_Init, EGG_DEMO_MAIN_DeleteResources, EGG_DEMO_MAIN_LoadGraphics, EGG_DEMO_MAIN_Noop, EGG_DEMO_MAIN_InitActors, EGG_DEMO_MAIN_DeleteActors, EGG_DEMO_MAIN_StartActorAnims, EGG_DEMO_MAIN_AreActorAnimsDone, EGG_DEMO_MAIN_StartFadeOutBgm, EGG_DEMO_MAIN_NoopB, EGG_DEMO_MAIN_UpdateBgm, EGG_DEMO_MAIN_IsBgmFadeOut, EGG_DEMO_MAIN_PlayBgm, EGG_DEMO_MAIN_IsBgmPlaying, EGG_DEMO_MAIN_LoadBgm1, EGG_DEMO_MAIN_IsBgm1Loaded, EGG_DEMO_MAIN_PushBgm, EGG_DEMO_MAIN_PopBgm, EGG_DEMO_MAIN_LoadBgm2, EGG_DEMO_MAIN_IsBgm2Loading, EGG_DEMO_MAIN_StopBgm, EGG_DEMO_MAIN_IsBgmStopped
  * address:  0x021F57E0
  * region:   ov215
  * compiler: dsi/1.1p1

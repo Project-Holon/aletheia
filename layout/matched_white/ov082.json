@@ -1,0 +1,24 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FLD_FACEUP_Create", "black_address": "0x021F5260", "white_address": "0x021F5280", "size": 216, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_OpenEventMain", "black_address": "0x021F5338", "white_address": "0x021F5358", "size": 124, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_SetupBg", "black_address": "0x021F53B4", "white_address": "0x021F53D4", "size": 412, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_StartClose", "black_address": "0x021F5550", "white_address": "0x021F5570", "size": 40, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_Delete", "black_address": "0x021F5578", "white_address": "0x021F5598", "size": 20, "diff": "same", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_ResumeLipSync", "black_address": "0x021F558C", "white_address": "0x021F55AC", "size": 20, "diff": "same", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_CloseEventMain", "black_address": "0x021F55A0", "white_address": "0x021F55C0", "size": 168, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_Release", "black_address": "0x021F5648", "white_address": "0x021F5668", "size": 120, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_SaveBgPriorities", "black_address": "0x021F56C0", "white_address": "0x021F56E0", "size": 24, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_SaveVisiblePlanes", "black_address": "0x021F56D8", "white_address": "0x021F56F8", "size": 12, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_RestoreBgPriorities", "black_address": "0x021F56E4", "white_address": "0x021F5704", "size": 24, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_RestoreVisiblePlanes", "black_address": "0x021F56FC", "white_address": "0x021F571C", "size": 12, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_StepFadeIn", "black_address": "0x021F5708", "white_address": "0x021F5728", "size": 64, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_UpdateTaskMain", "black_address": "0x021F5748", "white_address": "0x021F5768", "size": 144, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_VBlankUpload", "black_address": "0x021F57D8", "white_address": "0x021F57F8", "size": 104, "diff": "constant", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_StepAnim", "black_address": "0x021F5840", "white_address": "0x021F5860", "size": 128, "diff": "same", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FLD_FACEUP_InitAnim", "black_address": "0x021F58C0", "white_address": "0x021F58E0", "size": 4, "diff": "same", "source": "src/game/ov082/fld_faceup.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

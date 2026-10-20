@@ -49,31 +49,25 @@ extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetTileEntry(u32 bgId, u32 tile, u8 x, u8 y, u8 width, u8 height,
                           u32 palette);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
+#include "bmp_win.h"
 
-extern u8 BMP_WIN_GetPosX(struct BmpWin *p);
 
-extern u8 BMP_WIN_GetPosY(struct BmpWin *p);
 
-extern u8 BMP_WIN_GetDispWidth(struct BmpWin *p);
 
-extern u8 BMP_WIN_GetDispHeight(struct BmpWin *p);
 
 extern void BG_SYS_PushTile(u32 index);
 
 extern void BG_SYS_MarkTileDirty(u32 bit);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct MsgBank;
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "msgdata.h"
 
-extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
+#include "strbuf.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 u8 BMP_MENUWORK_GetCharFileId(int index);
 

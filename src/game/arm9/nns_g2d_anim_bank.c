@@ -19,22 +19,9 @@
 struct AnimBank;
 struct NitroFileHeader;
 struct Tbl;
-struct CellDataBank;
 #include "../types.h"
 
-typedef struct AnimFrameData {              /* stride 8 */
-    void *pContent;             /* +0x00  offset into the frame-data pool   */
-    u16 frames;                 /* +0x04                                    */
-    u16 pad;
-} AnimFrameData;
-
-typedef struct AnimSequenceData {           /* stride 0x10 */
-    u16 numFrames;              /* +0x00 */
-    u16 loopStartFrameIdx;      /* +0x02 */
-    u32 animType;               /* +0x04 */
-    u32 playMode;               /* +0x08 */
-    AnimFrameData *pAnmFrameArray; /* +0x0c */
-} AnimSequenceData;
+#include "nns_g2d_anim_types.h"
 
 struct MultiCellNode {          /* stride 0x0c */
     u16 numCells;               /* +0x00 */
@@ -64,12 +51,6 @@ struct AnimBank {
     u8 *pSubBank;                  /* +0x14 */
 };
 
-struct CellDataBank {
-    u16 numCells;
-    u16 bankAttr;
-    void *pCells;
-};
-
 struct CellData {
     u16 numOam;
     u16 cellAttr;
@@ -83,59 +64,24 @@ struct CellDataEx {
     s16 t, l, b, r;
 };
 
-/* The 'RAHC' (NCGR) character-data body: only the +0x14 self-relative offset
- * is touched by the fixup; the rest of the header is not read here. */
-struct NNSG2dCharacterData {
-    u8  pad_00[0x14];
-    u32 pCharData;      /* +0x14  offset, becomes a pointer */
-};
-
-/* The 'TTLP' (NCLR) palette-data body: only the +0x0c self-relative offset
- * is touched by the fixup. */
-struct NNSG2dPaletteData {
-    u8  pad_00[0x0c];
-    u32 pRawData;       /* +0x0c  offset, becomes a pointer */
-};
-
-/* The 'PMCP' palette-compress-map body: only the +0x04 self-relative offset
- * is touched by the fixup. */
-struct NNSG2dPaletteCompressInfo {
-    u8  pad_00[0x04];
-    u32 pVramTransfer;  /* +0x04  offset, becomes a pointer */
-};
-
-struct MultiCellData {
-    u16 numNodes;
-    u16 pad02;
-    u32 nodeOffset;
-};
-
-struct MultiCellBank {
-    u16 numMultiCell;
-    u16 pad02;
-    struct MultiCellData *pArray;
-    u32 nodeBase;
-    u32 reserved0C;
-    u8 *pAnimBank;
-};
+#include "nns_g2d_res_types.h"
 struct NNSG2dBinaryFileHeader;
 
-extern void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature);
-extern void NNSi_G2dFixupOffsets(struct Tbl *t);
-int NNS_G2dGetUnpackedAnimBank(u32 a, u32 *out);
-void NNS_G2dGetUnpackedAnimBankEx(u32 a, u32 *out);
-void NNSi_G2dGetUnpackedAnimBank(u32 a, u32 *out);
+#include "nns_g2d_load.h"
+int NNS_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out);
+int NNS_G2dGetUnpackedAnimBankEx(struct NitroFileHeader *file, void **out);
+int NNSi_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out);
 void NNSi_G2dUnpackAnimBank(volatile struct AnimBank *bank);
-AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
-void *NNSi_G2dGetCellDataBankOamBase(struct CellDataBank *bank);
+const AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(const struct AnimBank *bank, u32 idx);
+void *NNSi_G2dGetCellDataBankOamBase(CellDataBank *bank);
 void NNSi_G2dFixupCellAnimBankTbl(void *p);
 int NNS_G2dGetUnpackedCellBank(void *a, int *out);
-void *NNS_G2dGetCellDataByIdx(struct CellDataBank *bank, u32 idx);
+void *NNS_G2dGetCellDataByIdx(CellDataBank *bank, u32 idx);
 void NNSi_G2dUnpackCellBank(int *p);
 int NNS_G2dGetUnpackedMultiCellBank(void *a, u32 *out);
 void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank);
-void NNSi_G2dUnpackMultiCellBank(volatile struct MultiCellBank *bank);
-struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u32 idx);
+void NNSi_G2dUnpackMultiCellBank(volatile MultiCellBank *bank);
+MultiCellData *NNS_G2dGetMultiCellDataByIdx(MultiCellBank *bank, u32 idx);
 s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 void NNSi_G2dFixupCharacterData(u8 *block);
 s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
@@ -153,22 +99,22 @@ void NNSi_G2dFixupPaletteData(u8 *block);
  * file closes on its own as soon as 0x02062688 is matched, which makes the site
  * `matched` instead of `label`.
  */
-int NNS_G2dGetUnpackedAnimBank(u32 a, u32 *out)
+int NNS_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out)
 {
-    u32 r = (u32)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)a, 0x41424E4B);
+    u32 r = (u32)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)file, 0x41424E4B);
 
     if (r == 0) {
         *out = 0;
         return 0;
     }
     NNSi_G2dUnpackAnimBank((volatile struct AnimBank *)(r + 8));
-    *out = r + 8;
+    *out = (void *)(r + 8);
     return 1;
 }
 
-void NNS_G2dGetUnpackedAnimBankEx(u32 a, u32 *out){ NNS_G2dGetUnpackedAnimBank(a, out); }
+int NNS_G2dGetUnpackedAnimBankEx(struct NitroFileHeader *file, void **out){ return NNS_G2dGetUnpackedAnimBank(file, out); }
 
-void NNSi_G2dGetUnpackedAnimBank(u32 a, u32 *out){ NNS_G2dGetUnpackedAnimBank(a, out); }
+int NNSi_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out){ return NNS_G2dGetUnpackedAnimBank(file, out); }
 
 /*
  * NANR bank fixup ('KNBA' body, NitroSystem NNSi_G2dUnpackNAN shape): turn
@@ -281,7 +227,7 @@ void NNSi_G2dUnpackAnimBank(volatile struct AnimBank *bank)
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G2dGetAnimSequenceByIdx.c  *       --func NNS_G2dGetAnimSequenceByIdx --addr 0x020627D8 --cc 1.1p1
  */
-AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx)
+const AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(const struct AnimBank *bank, u32 idx)
 {
     if (bank->numSequences > idx) {
         return &bank->pSequences[idx];
@@ -290,7 +236,7 @@ AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx)
     return 0;
 }
 
-void *NNSi_G2dGetCellDataBankOamBase(struct CellDataBank *bank)
+void *NNSi_G2dGetCellDataBankOamBase(CellDataBank *bank)
 {
     if (bank->bankAttr & 1) {
         return (struct CellDataEx *)bank->pCells + bank->numCells;
@@ -341,7 +287,7 @@ int NNS_G2dGetUnpackedCellBank(void *a, int *out)
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G2dGetCellDataByIdx.c  *       --func NNS_G2dGetCellDataByIdx --addr 0x0206285C --cc 1.1p1
  */
-void *NNS_G2dGetCellDataByIdx(struct CellDataBank *bank, u32 idx)
+void *NNS_G2dGetCellDataByIdx(CellDataBank *bank, u32 idx)
 {
     if (idx >= bank->numCells) {
         return 0;
@@ -371,9 +317,9 @@ void NNSi_G2dUnpackCellBank(int *p)
     u16 i;
     int base;
     p[1] = (int)((char *)p[1] + (int)p);
-    base = (int)NNSi_G2dGetCellDataBankOamBase((struct CellDataBank *)p);
-    for (i = 0; i < ((struct CellDataBank *)p)->numCells; i++) {
-        int *e = NNS_G2dGetCellDataByIdx((struct CellDataBank *)p, i);
+    base = (int)NNSi_G2dGetCellDataBankOamBase((CellDataBank *)p);
+    for (i = 0; i < ((CellDataBank *)p)->numCells; i++) {
+        int *e = NNS_G2dGetCellDataByIdx((CellDataBank *)p, i);
         e[1] = (int)((char *)e[1] + base);
     }
     if (p[3] != 0) {
@@ -403,7 +349,7 @@ int NNS_G2dGetUnpackedMultiCellBank(void *a, u32 *out)
         *out = 0;
         return 0;
     }
-    NNSi_G2dUnpackMultiCellBank((volatile struct MultiCellBank *)(r + 8));
+    NNSi_G2dUnpackMultiCellBank((volatile MultiCellBank *)(r + 8));
     *out = r + 8;
     return 1;
 }
@@ -455,24 +401,24 @@ void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank)
  *   python3 tools/match.py one --src src/matched/NNSi_G2dUnpackMultiCellBank.c \
  *       --func NNSi_G2dUnpackMultiCellBank --addr 0x0206296C --cc 1.1p1 --arm
  */
-void NNSi_G2dUnpackMultiCellBank(volatile struct MultiCellBank *bank)
+void NNSi_G2dUnpackMultiCellBank(volatile MultiCellBank *bank)
 {
     u16 i;
     u16 n;
-    struct MultiCellData *array;
+    MultiCellData *array;
     u8 *anim;
     u32 tmp;
 
-    bank->pArray = (struct MultiCellData *)((u32)bank->pArray + (u32)bank);
+    bank->pArray = (MultiCellData *)((u32)bank->pArray + (u32)bank);
     bank->nodeBase = bank->nodeBase + (u32)bank;
 
     i = 0;
     n = bank->numMultiCell;
-    array = (struct MultiCellData *)*(volatile u32 *)&bank->pArray;
+    array = (MultiCellData *)*(volatile u32 *)&bank->pArray;
 
     while (i < n) {
-        tmp = array[i].nodeOffset + bank->nodeBase;
-        array[i].nodeOffset = tmp;
+        tmp = (u32)array[i].pHierDataArray + bank->nodeBase;
+        array[i].pHierDataArray = (HierData *)tmp;
         n = bank->numMultiCell;
         i++;
     }
@@ -508,7 +454,7 @@ void NNSi_G2dUnpackMultiCellBank(volatile struct MultiCellBank *bank)
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G2dGetMultiCellDataByIdx.c  *       --func NNS_G2dGetMultiCellDataByIdx --addr 0x020629E8 --cc 1.1p1
  */
-struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u32 idx)
+MultiCellData *NNS_G2dGetMultiCellDataByIdx(MultiCellBank *bank, u32 idx)
 {
     if (idx < bank->numMultiCell) {
         return &bank->pArray[idx];
@@ -549,7 +495,7 @@ s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out)
  */
 void NNSi_G2dFixupCharacterData(u8 *block)
 {
-    ((struct NNSG2dCharacterData *)block)->pCharData = ((struct NNSG2dCharacterData *)block)->pCharData + (u32)block;
+    ((NNSG2dCharacterData *)block)->pRawData = (void *)((u32)((NNSG2dCharacterData *)block)->pRawData + (u32)block);
 }
 
 /*
@@ -584,7 +530,7 @@ s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out)
  */
 void NNSi_G2dFixupCharacterDataEx(u8 *block)
 {
-    ((struct NNSG2dCharacterData *)block)->pCharData = ((struct NNSG2dCharacterData *)block)->pCharData + (u32)block;
+    ((NNSG2dCharacterData *)block)->pRawData = (void *)((u32)((NNSG2dCharacterData *)block)->pRawData + (u32)block);
 }
 
 /*
@@ -641,7 +587,7 @@ s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **o
  */
 void NNSi_G2dFixupPaletteCompressInfo(u8 *block)
 {
-    ((struct NNSG2dPaletteCompressInfo *)block)->pVramTransfer = ((struct NNSG2dPaletteCompressInfo *)block)->pVramTransfer + (u32)block;
+    ((NNSG2dPaletteCompressInfo *)block)->pVramTransfer = (void *)((u32)((NNSG2dPaletteCompressInfo *)block)->pVramTransfer + (u32)block);
 }
 
 /*
@@ -654,5 +600,5 @@ void NNSi_G2dFixupPaletteCompressInfo(u8 *block)
  */
 void NNSi_G2dFixupPaletteData(u8 *block)
 {
-    ((struct NNSG2dPaletteData *)block)->pRawData = ((struct NNSG2dPaletteData *)block)->pRawData + (u32)block;
+    ((NNSG2dPaletteData *)block)->pRawData = (void *)((u32)((NNSG2dPaletteData *)block)->pRawData + (u32)block);
 }

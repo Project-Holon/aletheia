@@ -124,51 +124,35 @@
 
 #include "net_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern void *MI_CpuFill8(void *dst, int val, u32 size);
+#include "mi_memory.h"
 
-extern void GFL_NET_SYSTEM_SetError(void);
+#include "net_system.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "gf_panic.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
-extern int   GFL_NET_SYSTEM_GetChildBitmap(void);
 
-extern int  GFL_NET_SYSTEM_IsError(void);
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+#include "net_handle.h"
 
-extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
-extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-extern int GFL_NET_SYSTEM_ClampNetId(int slot);
 
-extern void GFL_NET_STATE_Idle(void);
+#include "net_state.h"
 
-extern void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
-extern void GFL_NET_SYSTEM_SetNoSend(void);
 
-extern void GFL_NET_SYSTEM_ResetError(void);
 
-int GFL_NET_SYSTEM_InitWork(u32 packetSize, u32 heap, u32 c);
 
-int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 isQueued, u32 handleId, u32 destMask, u32 isChunk);
 
-int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *a);
 struct GFLNetHandle;
 
-u32 GFL_NET_HANDLE_IsNegotiationDone(struct GFLNetHandle *handle);
 struct NetNegotiationMsg;
 
-void GFL_NET_HANDLE_RecvNegotiation(u32 netID, u32 size, struct NetNegotiationMsg *msg, u32 work, struct GFLNetHandle *handle);
 
 void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userData, u32 unusedArg);
 
@@ -208,7 +192,7 @@ u32 GFL_NET_COMMAND_SendNextSlot(void);
 
 void GFL_NET_COMMAND_Main(void);
 
-GFLNetSession *GFL_NET_GetInitParam(void);
+#include "net.h"
 
 extern struct NetSysWork *_pNetSys;
 

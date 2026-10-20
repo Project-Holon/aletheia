@@ -29,18 +29,7 @@
  */
 #include "pm_voice_shared_types.h"
 
-typedef void (*MICCallback)(u32 result, void *arg);
-
-/* The microphone sampling request (the SDK's MICAutoParam). */
-struct MICAutoParam {
-    u32 type;
-    void *buffer;
-    u32 size;
-    u32 rate;
-    u32 loop_enable;
-    MICCallback full_callback;
-    void *full_arg;
-};
+#include "mic.h"
 
 /* Microphone work area (0x28 bytes) allocated by SND_MIC_Init. */
 struct SndMic {
@@ -57,26 +46,22 @@ struct SndMic {
 };
 
 /* Calls into the voice channel layer and the other data readers. */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 
-extern void  MI_CpuFill8(void *p, u32 value, u32 size);
+#include "mi_memory.h"
 
-extern unsigned int PM_SetAmp(unsigned int on);
+#include "pm.h"
 
-extern unsigned int PM_SetAmpGain(unsigned int gain);
 
-extern void  MIC_Init(void);
 
-extern int   OS_IsRunOnTwl(void);
+#include "os_emulator.h"
 
-extern u32 SNDEXi_SetIirFilter(u32 target, u16 *coefficients);
+#include "../twl/sndex.h"
 
-extern u32   MIC_StartLimitedSampling(const struct MICAutoParam *param);
 struct PerapVoice;
 
-extern void  PERAPVOICE_Pack(struct PerapVoice *voice, char *src);
+#include "perapvoice.h"
 
 /* microphone (snd_mic.c part of this file) */
 void SND_MIC_Init(u16 heapId);
@@ -175,7 +160,7 @@ u32 SND_MIC_IsLimitReached(void)
  */
 u32 SND_MIC_StartSampling(const struct MICAutoParam *param)
 {
-    u32 result = MIC_StartLimitedSampling(param);
+    u32 result = MIC_StartLimitedSampling((MICAutoParam *)param);
 
     _SndMic->sampling = 1;
     _SndMic->param = *param;

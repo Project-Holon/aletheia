@@ -53,14 +53,11 @@ typedef struct OsTerminateBss {
     BOOL terminated;
 } OsTerminateBss;
 
-extern OSProcMode OS_GetProcMode(void);
-extern OSIntrMode OS_EnableInterrupts(void);
-extern BOOL OS_IsRunOnTwl(void);
-extern BOOL FATFSi_IsInitialized(void);
-extern BOOL FATFS_UnmountAll(void);
-extern void OSi_SendToPxi(u16 data);
+#include "os_system.h"
+#include "os_emulator.h"
+#include "../twl/fatfs_api.h"
+#include "os_pxi.h"
 extern void OSi_DisableInterruptsAndHalt(void);
-extern void OS_DisableInterrupts(void);
 extern void OS_Halt(void);
 void OS_Terminate(void);
 void OSi_DisableInterruptsAndHalt(void);

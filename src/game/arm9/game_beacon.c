@@ -85,6 +85,7 @@ struct QuestionnaireSave;
 struct PmsSave;
 
 #include "../types.h"
+#include "zonedata_types.h"
 
 /* Per-action priority and display time. */
 typedef struct GameBeaconActionInfo {
@@ -100,29 +101,27 @@ struct WarpLocation {
 
 #include "../sdk_os.h"
 
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, unsigned int size);
 
-extern void OS_GetOwnerInfo(OSOwnerInfo *info);
+#include "os_ownerinfo.h"
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern u32 MYSTATUS_GetSex(const struct MyStatus *status);
+#include "mystatus.h"
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "gf_panic.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern int  GFL_NET_GetRunState(void);
+#include "net.h"
 
 extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
 
-extern u16 PLAYTIME_GetHours(const struct PlayTime *playTime);
+#include "playtime.h"
 
-extern u8 PLAYTIME_GetMinutes(const struct PlayTime *playTime);
 
-extern void NET_WHPIPE_PublishBeacon(void);
+#include "../ov014/net_whpipe.h"
 
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
@@ -157,10 +156,9 @@ extern u32 MISC_GetThanksCount(struct MiscSave *misc);
 
 extern u16 *MISC_GetGreetMessage(struct MiscSave *misc);
 
-extern void *GREETING_SAVEDATA_GetFromSaveThunk(u32 saveData);
+#include "greeting_savedata.h"
 struct QuadRecord;
 
-extern void GREETING_SAVEDATA_GetSentence(struct QuadRecord *src, s32 idx, struct QuadRecord *dst);
 
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
@@ -174,25 +172,19 @@ extern struct WarpLocation *GAME_DATA_GetSpecialLocation(const struct GameData *
 
 extern u32 SYMBOL_MAP_ResolveZoneId();
 
-extern u16 MYSTATUS_GetIdLow16(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetNation(const struct MyStatus *status);
 
-extern u8 MYSTATUS_GetArea(const struct MyStatus *status);
 
-extern void *MYSTATUS_GetName(void *mystatus);
 
 extern u16   STRBUF_GetEosChar(void);
 
 extern void STRBUF_ToChars(const struct Strbuf *str, u16 *codes, u32 count);
 
-extern int   GF_OVERLAY_Load(signed int overlayId);
+#include "gf_overlay.h"
 
-extern int   CARD_SPI_CheckCardId(void);
+#include "../ov231/card_spi.h"
 
-extern void  GF_OVERLAY_Unload(int overlayId);
 
 extern void *GFL_USE_AddHBlankTask(void (*func)(void), u32 arg, u32 priority);
 
@@ -710,7 +702,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     struct PlayTime *playTime;
     GameBeaconPms pms;
     OSOwnerInfo ownerInfo;
-    u16 *codes;
+    const u16 *codes;
     u16 eomCode;
     int i;
 

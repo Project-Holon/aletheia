@@ -25,10 +25,8 @@
 
 #include "../sdk_os_thread.h"
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern void OS_SleepThread(OSThreadQueue *queue);
-extern void OS_WakeupThread(OSThreadQueue *queue);
+#include "os_system.h"
+#include "os_thread.h"
 void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
 BOOL OS_SendMessage(OSMessageQueue *mq, OSMessage msg, s32 flags);
 BOOL OS_ReceiveMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags);

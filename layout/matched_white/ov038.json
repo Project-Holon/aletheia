@@ -1,0 +1,22 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 756, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_Exit", "black_address": "0x021F39B4", "white_address": "0x021F39D4", "size": 36, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_Update", "black_address": "0x021F39D8", "white_address": "0x021F39F8", "size": 48, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_FindDoor", "black_address": "0x021F3A08", "white_address": "0x021F3A28", "size": 128, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent", "black_address": "0x021F3A88", "white_address": "0x021F3AA8", "size": 180, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor", "black_address": "0x021F3B3C", "white_address": "0x021F3B5C", "size": 704, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor", "black_address": "0x021F3DFC", "white_address": "0x021F3E1C", "size": 324, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide", "black_address": "0x021F3F40", "white_address": "0x021F3F60", "size": 316, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor", "black_address": "0x021F407C", "white_address": "0x021F409C", "size": 264, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent", "black_address": "0x021F4184", "white_address": "0x021F41A4", "size": 44, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent", "black_address": "0x021F41B0", "white_address": "0x021F41D0", "size": 44, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent", "black_address": "0x021F41DC", "white_address": "0x021F41FC", "size": 36, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch", "black_address": "0x021F4200", "white_address": "0x021F4220", "size": 188, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_EventPressPlate", "black_address": "0x021F42BC", "white_address": "0x021F42DC", "size": 516, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_PLATE_DOORS_EventScripted", "black_address": "0x021F44C0", "white_address": "0x021F44E0", "size": 4, "diff": "constant", "source": "src/game/ov038/field_gimmick_plate_doors.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

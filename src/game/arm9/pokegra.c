@@ -195,7 +195,6 @@ s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 rare
     return index + dirOffset + 8;
 }
 
-struct NNSG2dCharacterData;
 
 struct Sub0204A9D0;
 
@@ -204,15 +203,7 @@ struct ArcFile;
 struct NitroFileHeader;
 
 /* NitroSystem character data header (the real NNS layout). */
-struct NNSG2dCharacterData {
-    u16 H;
-    u16 W;
-    u32 pixelFmt;
-    u32 mapingType;
-    u32 characterFmt;
-    u32 szByte;
-    void *pRawData;
-};
+#include "nns_g2d_res_types.h"
 
 typedef enum { POKEGRA_DIR_OFFSET_FRONT } PokegraDirOffset;
 
@@ -266,7 +257,7 @@ void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId);
 
 void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId);
 
-void POKEGRA_DrawSpindaSpots(struct NNSG2dCharacterData *charData, u32 personality);
+void POKEGRA_DrawSpindaSpots(NNSG2dCharacterData *charData, u32 personality);
 
 u32 POKEGRA_GetTrainerArcID(void *isBack);
 
@@ -322,7 +313,7 @@ extern const u8 TrainerGraIndexTable[];
 
 void POKEGRA_ConvertCharTo2D(void *charData, u32 heapId)
 {
-    u8 *raw = ((struct NNSG2dCharacterData *)charData)->pRawData;
+    u8 *raw = ((NNSG2dCharacterData *)charData)->pRawData;
     u8 *work;
     u32 rowBytes;
     int i;
@@ -360,7 +351,7 @@ void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId)
     s32 i;
     s32 offset;
 
-    raw = ((struct NNSG2dCharacterData *)charData)->pRawData;
+    raw = ((NNSG2dCharacterData *)charData)->pRawData;
     work = (u8 *)GFL_HEAP_Alloc((u16)((heapId & 0x7fff) | 0x8000), 0x1200,
                               1, PokegraFileName, 313);
     MIi_CpuCopyFast(raw, work, 0x1200);
@@ -404,7 +395,7 @@ void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId)
  * quotient locals cx/cy (second pass) and `j = 0` above the terminator test
  * (first pass) stand.
  */
-void POKEGRA_DrawSpindaSpots(struct NNSG2dCharacterData *charData, u32 personality)
+void POKEGRA_DrawSpindaSpots(NNSG2dCharacterData *charData, u32 personality)
 {
     u8 *raw = charData->pRawData;
     int i;
@@ -724,7 +715,7 @@ void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex,
     file = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), arcIndex, 1, outCharData, heapId);
     if (monsNo == 0x147) {
         POKEGRA_ConvertCharTo2D((void *)(*outCharData), heapId);
-        POKEGRA_DrawSpindaSpots((struct NNSG2dCharacterData *)(*outCharData), personality);
+        POKEGRA_DrawSpindaSpots((NNSG2dCharacterData *)(*outCharData), personality);
         POKEGRA_ConvertCharTo1D((u32 *)(*outCharData), heapId);
     }
     return file;

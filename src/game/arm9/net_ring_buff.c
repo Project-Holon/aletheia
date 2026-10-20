@@ -23,9 +23,9 @@
 #include "touchpanel_shared_types.h"
 #include "net_types.h"
 
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
+#include "gf_panic.h"
 
-extern void GFL_NET_SYSTEM_SetError(void);
+#include "net_system.h"
 
 /* net_ring_buff.c */
 void GFL_NET_RING_BUFF_Init(NetRingBuff *ring, u8 *buf, int size);

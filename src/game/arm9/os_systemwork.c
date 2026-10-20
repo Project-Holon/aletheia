@@ -28,7 +28,7 @@ typedef struct OsSystemWorkBss {
     BOOL initialized;
 } OsSystemWorkBss;
 
-extern BOOL OS_IsRunOnTwl(void);
+#include "os_emulator.h"
 u16 OS_GetBootType(void);
 void *OS_GetBootInfo(void);
 BOOL OSi_IsCodecTwlMode(void);

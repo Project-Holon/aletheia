@@ -31,7 +31,7 @@ extern int NCFGi_CheckApInfo(NCFGApInfo *info);
 extern int  NCFGi_CheckAddress(u8 *address);
 extern void NCFGi_ConvMaskAddr(int mask, u8 *buf);
 extern int  NCFGi_CheckIp(u8 *ip, u8 *mask);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
+#include "mi_memory.h"
 int NCFGi_CheckApInfoEx(NCFGApInfo *info, NCFGApInfoEx *infoEx);
 
 /*

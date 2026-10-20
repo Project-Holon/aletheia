@@ -85,21 +85,18 @@ struct MiscSave {
     u8  unusedTail[8];
 };
 
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 struct MsgBank;
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "msgdata.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
+#include "strbuf.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 u32 MISC_GetSize(void);
 
@@ -175,7 +172,7 @@ u8 MISC_GetResearchMissionIndex(struct MiscSave *beacon);
 
 void MISC_SetResearchMissionIndex(struct MiscSave *beacon, u8 count);
 
-int MISC_GetRecentId(struct MiscSave *beacon, u32 index);
+int MISC_GetRecentId(struct MiscSave *beacon, u8 index);
 
 void MISC_SetRecentId(struct MiscSave *beacon, u8 index, u8 id);
 
@@ -496,7 +493,7 @@ void MISC_SetResearchMissionIndex(struct MiscSave *beacon, u8 count)
     beacon->entryCount = count;
 }
 
-int MISC_GetRecentId(struct MiscSave *beacon, u32 index)
+int MISC_GetRecentId(struct MiscSave *beacon, u8 index)
 {
     return beacon->recentIds[index];
 }

@@ -26,15 +26,11 @@
  *   OS_Terminate                   0x02088234  arm
  */
 #include "../types.h"
+#include "../sdk_os.h"
 
 typedef void (*TPRecvCallback)(int command, int result, u16 index);
 
-typedef struct TPData {
-    u16 x;
-    u16 y;
-    u16 touch;
-    u16 validity;
-} TPData;
+#include "tp.h"
 
 typedef union TPRawData {
     struct {
@@ -46,13 +42,6 @@ typedef union TPRawData {
     };
     u16 halfs[2];
 } TPRawData;
-
-typedef struct TPCalibrateParam {
-    s16 x0;
-    s16 y0;
-    s16 xDotSize;
-    s16 yDotSize;
-} TPCalibrateParam;
 
 typedef struct TPiCalibrateParam {
     long x0;
@@ -93,20 +82,10 @@ typedef struct NvTpPoints {
     u8 dy2;
 } NvTpPoints;
 
-typedef struct NvTpData {
-    s16 x0;
-    s16 y0;
-    s16 xDotSize;
-    s16 yDotSize;
-} NvTpData;
-
-void PXI_Init(void);
-BOOL PXI_IsCallbackReady(int fifotag, int proc);
+#include "pxi_fifo.h"
 void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 void TPi_TpCallback(int tag, u32 data, BOOL err);
-u32 OS_DisableInterrupts(void);
-u32 OS_RestoreInterrupts(u32 state);
-int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
+#include "os_system.h"
 void TP_Init(void);
 BOOL TP_GetUserInfo(TPCalibrateParam *calibrate);
 void TP_SetCalibrateParam(const TPCalibrateParam *param);
@@ -121,7 +100,7 @@ void TP_GetCalibratedPoint(TPData *disp, const TPData *raw);
 void TP_WaitBusy(unsigned int command_flgs);
 unsigned int TP_CheckError(unsigned int command_flgs);
 extern TpBss g_02152FA4;
-extern void OS_Terminate(void);
+#include "os_terminate_processor.h"
 
 #define tpState g_02152FA4
 

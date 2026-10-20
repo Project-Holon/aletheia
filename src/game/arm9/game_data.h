@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_GAME_DATA_H
 #define GAME_ARM9_GAME_DATA_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of game_data.c, prototypes copied from their definitions. */
 
 struct GameData;
@@ -10,9 +11,11 @@ struct FieldState;
 struct Location;
 struct MyStatus;
 struct PlayerPosition;
-struct RailLocationWords;
+struct RailLocation;
 struct SaveControl;
 struct PlayTime;
+
+#include "../types.h"
 
 struct GameData *GAME_DATA_Create(u16 heapId);
 void GAME_DATA_Delete(struct GameData *gameData);
@@ -71,8 +74,8 @@ u32 GAME_DATA_GetItemUseWork(const struct GameData *gd);
 void GAME_DATA_InitPlayerWork(struct PlayerWork *player);
 void GAME_DATA_SetPlayerPosition(struct PlayerWork *player, const struct PlayerPosition *pos);
 struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
-void GAME_DATA_SetPlayerRail(struct PlayerWork *player, const struct RailLocationWords *rail);
-struct RailLocationWords *GAME_DATA_GetPlayerRail(struct PlayerWork *player);
+void GAME_DATA_SetPlayerRail(struct PlayerWork *player, const struct RailLocation *rail);
+struct RailLocation *GAME_DATA_GetPlayerRail(struct PlayerWork *player);
 void GAME_DATA_SetPlayerMoveForm(struct PlayerWork *player, u8 form);
 u8 GAME_DATA_GetPlayerMoveForm(const struct PlayerWork *player);
 struct PlayerWork *GAME_DATA_SetPlayerZoneId(struct PlayerWork *player, u16 zoneId);
@@ -136,5 +139,6 @@ u32 GAME_DATA_AddPlayTime(struct GameData *gd, u32 limit);
 struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd);
 void *GAME_DATA_GetSaveBlock43(struct GameData *gd);
 void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save);
+/* END mkheaders: generated region */
 
 #endif

@@ -51,15 +51,12 @@
  *   g_020A16A0                       0x020A16A0 data
  *   SOC_SetResolver                  0x0215f7e8 arm
  */
-struct SOCConfig;
+#include "../sdk_soc.h"
+
 typedef struct ACFL {
     unsigned char state;
     unsigned char pad[3];
 } ACFL;
-
-typedef void *(*SOCAlloc)(unsigned long, long);
-
-typedef void (*SOCFree)(unsigned long, void *, long);
 
 typedef struct ACHOLD {
     SOCAlloc alloc;
@@ -123,55 +120,27 @@ typedef struct ACWORK {
     unsigned short activeScanTime;
 } ACWORK;
 
-typedef struct SOCConfig {
-    unsigned long vendor;
-    SOCAlloc alloc;
-    SOCFree free;
-    unsigned long flag;
-    unsigned long addr;
-    unsigned long netmask;
-    unsigned long router;
-    unsigned long dns1;
-    unsigned long dns2;
-    unsigned long timeWaitBuffer;
-    unsigned long reassemblyBuffer;
-    unsigned long mtu;
-    unsigned long rwin;
-    unsigned char rest[0x58 - 0x34];
-} SOCConfig;
-
 #include "../sdk_soc.h"
 
-extern void *DWCi_AC_GetMemPtr(unsigned long name);
-extern unsigned char DWCi_AC_GetPhase(void);
-extern long WCM_GetPhase(void);
+#include "dwc_ac.h"
+#include "../ov009/wcm_system.h"
 extern unsigned char ConnectTestStart(ACWORK *wk);
 extern unsigned char GetIPAddress(ACWORK *wk);
 static unsigned char ConnectTestCreate(void);
 extern unsigned char ConnectTestProcess(ACWORK *wk);
 static unsigned char ConnectTestEnd(ACWORK *wk);
 static unsigned char ConnectTestRetry(void);
-extern void DWC_Netcheck_Abort(void);
-extern void DWC_Netcheck_Destroy(void);
+#include "../ov009/dwc_netcheck.h"
 extern void MakeSOCConfig(ACHOLD *hd, ACWORK *wk, struct SOCConfig *sc);
-extern int SOC_Startup(struct SOCConfig *config);
-extern void DWCi_AC_SetError(int error);
-extern unsigned char DWCi_ConvConnectAPType(unsigned char type);
-extern int OS_IsRunOnTwl(void);
-extern long SOC_GetHostID(void);
+#include "../ov009/soc.h"
+#include "os_emulator.h"
 extern void CheckSetDNS(ACWORK *wk);
-extern unsigned long long OS_GetTick(void);
-extern int DWC_Netcheck_Create(DWCNetcheckParam *param);
-extern int DWC_Netcheck_GetError(void);
-extern int DWC_Netcheck_GetReturnCode(void);
-extern void DWCi_AC_SetApType(unsigned char type);
-extern void DWCi_AC_CopyExSetting(unsigned char type);
-extern int SOCL_CalmDown(void);
-extern int SOC_Cleanup(void);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
+typedef unsigned long long OSTick;
+#include "os_tick.h"
+#include "../ov009/socl_cleanup.h"
+#include "mi_memory.h"
 extern unsigned long ConvAddress(unsigned char *add);
 static unsigned long ConvNetMask(unsigned char netmask);
-extern int SOC_SetResolver(unsigned int *dns1, unsigned int *dns2);
 unsigned char DWCi_AC_ConnectTest(void);
 extern int SOCLiYieldWait;
 extern int CPSNoIpReason;
@@ -402,18 +371,18 @@ void MakeSOCConfig(ACHOLD *hd, ACWORK *wk, SOCConfig *sc)
     }
     if (info->ip[0] != 0) {
         sc->flag = 0;
-        sc->addr = ConvAddress(info->ip);
-        sc->netmask = ConvNetMask(info->netmask);
-        sc->router = ConvAddress(info->gateway);
-        sc->dns1 = ConvAddress(info->dns[0]);
-        sc->dns2 = ConvAddress(info->dns[1]);
+        sc->addr.addr = ConvAddress(info->ip);
+        sc->netmask.addr = ConvNetMask(info->netmask);
+        sc->router.addr = ConvAddress(info->gateway);
+        sc->dns1.addr = ConvAddress(info->dns[0]);
+        sc->dns2.addr = ConvAddress(info->dns[1]);
     } else {
         sc->flag = 1;
-        sc->addr = 0;
-        sc->netmask = 0;
-        sc->router = 0;
-        sc->dns1 = 0;
-        sc->dns2 = 0;
+        sc->addr.addr = 0;
+        sc->netmask.addr = 0;
+        sc->router.addr = 0;
+        sc->dns1.addr = 0;
+        sc->dns2.addr = 0;
     }
     if (OS_IsRunOnTwl()) {
         if (info->mtu == 0) {
@@ -508,5 +477,5 @@ void CheckSetDNS(ACWORK *wk)
     }
     dns1.addr = ConvAddress(info->dns[0]);
     dns2.addr = ConvAddress(info->dns[1]);
-    SOC_SetResolver((unsigned int *)(&dns1), (unsigned int *)(&dns2));
+    SOC_SetResolver((long unsigned int *)(unsigned int *)(&dns1), (long unsigned int *)(unsigned int *)(&dns2));
 }

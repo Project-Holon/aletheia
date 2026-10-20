@@ -1,0 +1,11 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "ENCEFF_BuildBlockFlip", "black_address": "0x021F5A80", "white_address": "0x021F5AA0", "size": 60, "diff": "constant", "source": "src/game/ov079/enceff_block_flip.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ENCEFF_StartBlockFlip", "black_address": "0x021F5ABC", "white_address": "0x021F5ADC", "size": 40, "diff": "constant", "source": "src/game/ov079/enceff_block_flip.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ENCEFF_StepBlockFlip", "black_address": "0x021F5AE4", "white_address": "0x021F5B04", "size": 64, "diff": "same", "source": "src/game/ov079/enceff_block_flip.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ENCEFF_StepFlipCell", "black_address": "0x021F5B24", "white_address": "0x021F5B44", "size": 4, "diff": "same", "source": "src/game/ov079/enceff_block_flip.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

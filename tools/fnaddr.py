@@ -148,12 +148,32 @@ def _key(path):
     return ab if rel.startswith("../") else rel
 
 
+def _header_stamp():
+    """(count, newest mtime, total size) of the headers a source may include.
+    A header edit changes a prototype or type and so a compiled layout, so
+    the stamp of a source covers them too."""
+    if "h" not in _CACHE:
+        n = new = tot = 0
+        for d, _dirs, files in os.walk(os.path.join(ROOT, "src", "game")):
+            for f in files:
+                if f.endswith(".h"):
+                    try:
+                        st = os.stat(os.path.join(d, f))
+                    except OSError:
+                        continue
+                    n += 1
+                    new = max(new, st.st_mtime_ns)
+                    tot += st.st_size
+        _CACHE["h"] = (n, new, tot)
+    return _CACHE["h"]
+
+
 def _stamp(path):
     try:
         st = os.stat(path)
     except OSError:
         return None
-    return (st.st_mtime_ns, st.st_size)
+    return (st.st_mtime_ns, st.st_size) + _header_stamp()
 
 
 def layouts(paths, region_of=None, jobs=None):

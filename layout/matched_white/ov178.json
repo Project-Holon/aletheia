@@ -1,0 +1,21 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "PARTY_STATUS_Create", "black_address": "0x021E5440", "white_address": "0x021E5460", "size": 140, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_Destroy", "black_address": "0x021E54CC", "white_address": "0x021E54EC", "size": 88, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_Update", "black_address": "0x021E5524", "white_address": "0x021E5544", "size": 464, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_SetupDisplay", "black_address": "0x021E56F4", "white_address": "0x021E5714", "size": 236, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_InitRecord", "black_address": "0x021E57E0", "white_address": "0x021E5800", "size": 88, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_CreateSub", "black_address": "0x021E5838", "white_address": "0x021E5858", "size": 80, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_DestroySub", "black_address": "0x021E5888", "white_address": "0x021E58A8", "size": 52, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_UpdateSub", "black_address": "0x021E58BC", "white_address": "0x021E58DC", "size": 52, "diff": "same", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_Noop", "black_address": "0x021E58F0", "white_address": "0x021E5910", "size": 4, "diff": "same", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_NetSync", "black_address": "0x021E58F4", "white_address": "0x021E5914", "size": 336, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_DestroySubWork", "black_address": "0x021E5A44", "white_address": "0x021E5A64", "size": 44, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_CreateSubWork", "black_address": "0x021E5A70", "white_address": "0x021E5A90", "size": 32, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_NetSync2", "black_address": "0x021E5A90", "white_address": "0x021E5AB0", "size": 140, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"},
+  {"name": "PARTY_STATUS_ExitSubWork", "black_address": "0x021E5B1C", "white_address": "0x021E5B3C", "size": 4, "diff": "constant", "source": "src/game/ov178/party_status.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

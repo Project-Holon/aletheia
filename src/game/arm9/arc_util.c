@@ -84,9 +84,9 @@ struct PaletteBlock {
 
 typedef void (*GfxLoadFn)(u32 data, u32 dest, u32 size);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "gfl_heap_wrap.h"
 
-extern void  DC_FlushRange(void *addr, u32 size);
+#include "os_cache.h"
 
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 
@@ -101,7 +101,7 @@ extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **
 
 extern u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 offset, u32 add, u32 size, u32 flag);
 
-extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
+#include "nns_g2d_load.h"
 
 extern u8 BG_SYS_GetColorMode(int channel);
 
@@ -123,21 +123,14 @@ extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, v
 
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
-extern void GX_BeginLoadBGExtPltt(void);
+#include "gx_load2d.h"
 
-extern void GX_EndLoadBGExtPltt(void);
 
-extern void *GXS_BeginLoadBGExtPltt(void);
 
-extern void GXS_EndLoadBGExtPltt(void);
 
-extern void GX_BeginLoadOBJExtPltt(void);
 
-extern void GX_EndLoadOBJExtPltt(void);
 
-extern void *GXS_BeginLoadOBJExtPltt(void);
 
-extern void GXS_EndLoadOBJExtPltt(void);
 
 extern int NNS_G2dGetUnpackedCellBank(void *a, s32 *out);
 
@@ -159,7 +152,7 @@ u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 s
 
 u32 ARC_UTIL_RegisterObjChar(void *buf, u32 bgId, u32 size);
 
-u32 ARC_UTIL_UploadScreenFromHandle(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u32 heapID, u16 allocFlags);
+u32 ARC_UTIL_UploadScreenFromHandle(void *arc, u32 memberIdx, int kind, int dest, int size, int heapID, u16 allocFlags);
 
 u32 ARC_UTIL_UploadScreen(void *buf, u32 kind, u32 dest, u32 size);
 
@@ -177,7 +170,7 @@ u32 ARC_UTIL_UploadBgPalette(void *file, u32 channel, u32 offset, u32 add, u32 s
 
 void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, int c, int d, int e, u16 f);
 
 void ARC_UTIL_UploadPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
@@ -431,7 +424,7 @@ fail:
  *   python tools/match.py one --src src/pending/ARC_UTIL_UploadScreenFromHandle.c \
  *       --func ARC_UTIL_UploadScreenFromHandle --addr 0x02049800 --cc 1.1p1 --arm
  */
-u32 ARC_UTIL_UploadScreenFromHandle(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u32 heapID, u16 allocFlags)
+u32 ARC_UTIL_UploadScreenFromHandle(void *arc, u32 memberIdx, int kind, int dest, int size, int heapID, u16 allocFlags)
 {
     return ARC_UTIL_UploadScreen(ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, allocFlags), kind, dest, size);
 }
@@ -624,7 +617,7 @@ void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 archiveID, u32 memberIdx, u32 ki
     ARC_UTIL_UploadPaletteFromArchive(archiveID, memberIdx, kind, 0, dest, size, flags);
 }
 
-void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags)
+void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, int kind, int dest, int size, u16 flags)
 {
     ARC_UTIL_UploadPaletteFromHandle(arc, memberIdx, kind, 0, dest, size, flags);
 }
@@ -955,19 +948,15 @@ struct LzHeader {
     u32 sizeAndType;
 };
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 
-extern void MI_UncompressLZ8(const void *src, void *dest);
+#include "mi_uncompress.h"
 
-void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
+#include "arc_tool.h"
 
-u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 
-void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 member, void *dst);
 
-u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 member);
 
-int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, u16 heapID, u32 *out);
+void *ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, u16 heapID, u32 *out);
 
 void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
@@ -1008,23 +997,23 @@ int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, u16 heapID
  * ARC_TOOL_GetMemberSize returns is written through the fifth (stack) argument and
  * the same three arc_util.c line numbers appear, shifted by 43.
  */
-int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, u16 heapID, u32 *out)
+void *ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, u16 heapID, u32 *out)
 {
-    int buf;
-    int outBuf;
+    void *buf;
+    void *outBuf;
 
     *out = ARC_TOOL_GetMemberSize(archiveID, memberIdx);
     if (decompress != 0) {
-        buf = (int)GFL_HEAP_Alloc((u16)((heapID & 0x7fff) | 0x8000), *out, 0, (char *)arc_util_file, 1642);
+        buf = GFL_HEAP_Alloc((u16)((heapID & 0x7fff) | 0x8000), *out, 0, (char *)arc_util_file, 1642);
     } else {
-        buf = (int)GFL_HEAP_Alloc(heapID, *out, 0, (char *)arc_util_file, 1646);
+        buf = GFL_HEAP_Alloc(heapID, *out, 0, (char *)arc_util_file, 1646);
     }
-    ARC_TOOL_ReadMember((void *)buf, archiveID, memberIdx);
+    ARC_TOOL_ReadMember(buf, archiveID, memberIdx);
     if (decompress != 0) {
         *out = ((struct LzHeader *)buf)->sizeAndType >> 8;
-        outBuf = (int)GFL_HEAP_Alloc(heapID, *out, 0, (char *)arc_util_file, 1656);
-        ((int (*)(int a0, int a1))MI_UncompressLZ8)(buf, outBuf);
-        GFL_HEAP_Free((void *)buf);
+        outBuf = GFL_HEAP_Alloc(heapID, *out, 0, (char *)arc_util_file, 1656);
+        MI_UncompressLZ8(buf, outBuf);
+        GFL_HEAP_Free(buf);
         buf = outBuf;
     }
     return buf;

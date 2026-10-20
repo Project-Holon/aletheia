@@ -26,17 +26,15 @@ struct SaveControl;
 
 typedef u32 (*PartyMemberPredicate)(struct PokemonParam *member);
 
-extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
+#include "poke_tool.h"
 
-extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int fromTail, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32   GFL_HEAP_Free(void *ptr);
 
-extern void  MIi_CpuClearFast(u32 value, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void  POKE_TOOL_ClearPartyParam(struct PokemonParam *pp);
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 
 struct Party *POKEPARTY_Create(u32 heap);
 

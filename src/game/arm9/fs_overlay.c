@@ -54,13 +54,6 @@
 
 #include "../sdk_card.h"
 
-typedef struct CARDRomHeader
-{
-    u8 pad00[0x50];
-    CARDRomRegion main_ovt;
-    CARDRomRegion sub_ovt;
-} CARDRomHeader;
-
 typedef void (*FSOverlayFunc)(void);
 
 typedef struct FSOverlayInfoHeader
@@ -104,29 +97,20 @@ typedef struct FSOverlayEndCallback
     void *arg;
 } FSOverlayEndCallback;
 
-extern u16 OS_GetBootType(void);
-extern BOOL OS_IsRunOnTwl(void);
-extern FSArchive *FS_FindArchive(const char *name, int name_len);
-extern void IC_InvalidateRange(void *startAddr, u32 nBytes);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern void DC_FlushRange(void *startAddr, u32 nBytes);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern void FS_InitFile(FSFile *file);
-extern BOOL FS_OpenFileFast(FSFile *file, FSFileID id);
-extern const CARDRomHeader *CARD_GetOwnRomHeader(void);
-extern BOOL FS_CreateFileFromRom(FSFile *p_file, u32 offset, u32 size);
-extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
-extern BOOL FS_CloseFile(FSFile *file);
-extern u32 FS_GetFileImageTop(FSFile *file);
-extern u32 FS_GetFileLength(FSFile *file);
-extern void MSL_C_LIB_TwlCall5(u32 digest, u32 data, u32 dataLen, u32 key, u32 keyLen);
-extern s32 MATHi_SetOverlayTableMode(s32 flag);
-extern void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
-extern void OS_Terminate(void);
-extern void MIi_UncompressBackward(void *bottom);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32 e);
+#include "os_systemwork.h"
+#include "os_emulator.h"
+#include "fs_archive.h"
+#include "os_cache.h"
+#include "mi_memory.h"
+#include "fs_file.h"
+#include "card_api.h"
+#include "fs_proc_rom.h"
+#include "fs_proc_mem.h"
+#include "msl_crt.h"
+#include "dgt_sha1.h"
+#include "os_terminate_processor.h"
+#include "crt0.h"
+#include "os_system.h"
 extern const u8 fsi_def_digest_key[64];
 extern const char fsi_str_rom[];
 extern u8 SDK_OVERLAY_NUMBER[];

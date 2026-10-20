@@ -50,20 +50,18 @@ struct IntrudeSave {
     u64 playSeconds;
 };
 
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 struct IntrudeSaveSlot;
 
-extern void INTRUDE_COMM_ResetOutcomes(struct IntrudeSaveSlot *save);
+#include "../ov011/intrude_comm.h"
 
-extern u16 STRBUF_GetEosChar(void);
+#include "strbuf.h"
 
-extern u16 PLAYTIME_GetHours(const struct PlayTime *time);
+#include "playtime.h"
 
-extern u8 PLAYTIME_GetMinutes(const struct PlayTime *time);
 
-extern u8 PLAYTIME_GetSeconds(const struct PlayTime *time);
 
 u32 INTRUDE_GetSize(void);
 

@@ -53,41 +53,16 @@
 #include "nns_snd_types.h"
 
 struct SNDTrackInfo;
-extern NNSSndHeap *NNS_SndHeapCreate(u32 start, u32 size);
-extern void *NNS_SndHeapAlloc(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback callback, u32 data1, u32 data2);
-extern void NNS_FndAppendListObject(NNSFndList *list, void *object);
+#include "nns_snd_arc.h"
+#include "nns_fnd_expheap.h"
 struct DList;
-extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
-extern void NNSi_SndFaderSet(SndFader *fader, s32 target, u32 frames);
-extern void SND_SetPlayerChannelPriority(s32 playerNo, s32 prio);
-extern void SND_SetTrackMute(int playerNo, u32 trackBitMask, int flag);
-extern void SND_SetTrackMuteEx(int playerNo, u32 trackBitMask, int mute);
-extern void SND_SetTrackVolume(s32 playerNo, u32 trackBitMask, s32 volume);
-extern void SND_SetTrackPitch(s32 playerNo, u32 trackBitMask, s32 pitch);
-extern void SND_SetTrackPan(s32 playerNo, u32 trackBitMask, s32 pan);
-extern void SND_SetTrackModDepth(s32 playerNo, u32 trackBitMask, u32 depth);
-extern void SND_SetTrackModSpeed(s32 playerNo, u32 trackBitMask, u32 speed);
-extern void SND_SetPlayerTempoRatio(s32 playerNo, s32 ratio);
-extern int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
-extern void NNS_FndRemoveListObject(struct DList *list, void *elem);
-extern void NNS_FndInitList(s32 list, s32 offset);
-extern void NNS_FndInsertListObject(struct DList *list, void *before, void *elem);
-extern void NNS_SndHeapClear(NNSSndHeap *heap);
-extern void NNS_SndHeapDestroy(NNSSndHeap *heap);
-extern u32 SND_GetPlayerStatus(void);
-extern int SND_IsFinishedCommandTag(u32 tag);
-extern void NNS_SndFaderUpdate(SndFader *fader);
-extern s32 NNS_SndFaderGet(SndFader *fader);
-extern int NNS_SndFaderIsFinished(SndFader *fader);
-extern int NNSi_SndFaderReset(SndFader *fader, int value);
-extern void SND_SetPlayerVolume(s32 playerNo, s32 volume);
-extern void SND_StartPreparedSeq(u32 playerNo);
-extern void SND_StopSeq(int playerNo);
-extern void SND_PauseSeq(int playerNo, int flag);
+#include "nns_snd_fader.h"
+#include "snd_interface.h"
+#include "nns_snd_system.h"
+#include "snd_work.h"
+#include "snd_command.h"
+#include "nns_snd_arcplayer.h"
 struct SNDBankData;
-extern void SND_PrepareSeq(s32 playerNo, void *base, u32 offset, struct SNDBankData *bank);
-extern void SND_SetTrackAllocatableChannel(int playerNo, u32 trackBitMask, u32 chBitMask);
-extern u32  SND_GetCurrentCommandTag(void);
 void NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
 void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int playableSeqCount);
 void NNS_SndPlayerSetAllocatableChannel(u32 playerNo, u32 channelMask);
@@ -98,7 +73,7 @@ void NNS_SndHandleInit(SndHandle *handle);
 void NNS_SndHandleReleaseSeq(SndHandle *handle);
 u16 NNS_SndPlayerGetActiveSeqCount(u32 playerNo);
 s32 NNS_SndPlayerCountPlayingSeqBySeqNo(u32 seqNo);
-void NNS_SndHandleSetVolume(SndHandle *handle, u8 volume);
+void NNS_SndHandleSetVolume(SndHandle *handle, int volume);
 void NNS_SndHandleSetInitialVolume(SndHandle *handle, u8 volume);
 void NNS_SndHandleMoveVolume(SndHandle *handle, u32 volume, u32 frames);
 void NNS_SndHandlePause(SndHandle *handle, u32 value);
@@ -110,7 +85,7 @@ void NNS_SndHandleSetTrackPan(SndHandle *handle, u32 trackMask, u32 value);
 void NNS_SndHandleSetTrackModDepth(SndHandle *handle, u32 trackMask, u32 value);
 void NNS_SndHandleSetTrackModSpeed(SndHandle *handle, u32 trackMask, u32 value);
 void NNS_SndHandleStop(SndHandle *handle, u32 value);
-void NNSi_SndHandleSetSeqNo(SndHandle *handle, u16 seqNo);
+void NNSi_SndHandleSetSeqNo(SndHandle *handle, u32 seqNo);
 void NNSi_SndHandleSetSeqArc(SndHandle *handle, u32 seqArcNo, u32 seqArcIndex);
 int NNS_SndHandleReadTrackInfo(SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
 void NNS_SndPlayerInit(void);
@@ -263,7 +238,7 @@ s32 NNS_SndPlayerCountPlayingSeqBySeqNo(u32 seqNo)
 
 
 /* Sets the sequence's own volume (index into the decibel table). */
-void NNS_SndHandleSetVolume(SndHandle *handle, u8 volume)
+void NNS_SndHandleSetVolume(SndHandle *handle, int volume)
 {
     if (handle->player) handle->player->volume = volume;
 }
@@ -380,7 +355,7 @@ void NNS_SndHandleStop(SndHandle *handle, u32 value)
 
 
 /* Records that the handle's sequence player plays the plain sequence seqNo. */
-void NNSi_SndHandleSetSeqNo(SndHandle *handle, u16 seqNo)
+void NNSi_SndHandleSetSeqNo(SndHandle *handle, u32 seqNo)
 {
     if (handle->player != 0) {
         handle->player->seqType = SND_SEQ_TYPE_SEQ;
@@ -661,7 +636,7 @@ void NNSi_SndSeqPlayerResetState(SndSeqPlayer *seqPlayer)
     seqPlayer->appliedVolume = 0;
     seqPlayer->initialVolume = 0x7f;
     seqPlayer->volume = 0x7f;
-    NNSi_SndFaderReset(&seqPlayer->volumeFader, 0x7f);
+    NNSi_SndFaderReset(&seqPlayer->volumeFader);
     NNSi_SndFaderSet(&seqPlayer->volumeFader, 0x7f00, 1);
 }
 

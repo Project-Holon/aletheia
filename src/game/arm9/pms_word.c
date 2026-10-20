@@ -51,16 +51,16 @@ typedef struct Group {
     int count;
 } Group;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "mi_memory.h"
 struct SaveControl;
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern struct MsgBank *MSGDATA_CreateFromArchive(int resident, int arcId, u32 fileId, u16 heapId);
 struct Strbuf;
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void STRBUF_Clear(struct Strbuf *strbuf);
+#include "strbuf.h"
 struct PmsWordSys *PMS_WORD_Create(u32 heapId);
 void PMS_WORD_Delete(struct PmsWordSys *p);
 void PMS_WORD_GetString(struct PmsWordSys *p, u32 id, void *dest);

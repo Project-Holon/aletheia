@@ -3,10 +3,29 @@
 
 /* Public functions of dwc_account.c, prototypes copied from their definitions. */
 
-struct DWCstAccLoginId;
 struct DWCstAccFriendKeyData;
 struct DWCstAccGsProfileIdData;
-struct DWCstAccUserData;
+
+typedef struct DWCstAccLoginId
+{
+    unsigned long id_data;
+    unsigned long userid_lo32;
+    unsigned long playerid;
+} DWCstAccLoginId;
+
+typedef struct DWCstAccUserData
+{
+    unsigned long size;
+    DWCstAccLoginId pseudo;
+    DWCstAccLoginId authentic;
+    int gs_profile_id;
+    unsigned long flag;
+    unsigned long gamecode;
+    unsigned long reserved[5];
+    unsigned long crc32;
+} DWCstAccUserData;
+
+#include "../types.h"
 
 int DWCi_Acc_SetMaskBits(unsigned long *ptr, unsigned long data, unsigned long shift, unsigned long mask);
 unsigned long long DWCi_Acc_GetUserId(struct DWCstAccLoginId *loginId);

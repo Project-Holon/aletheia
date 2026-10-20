@@ -11,6 +11,9 @@ values come from the image at run time; nothing generated is committed.
                                                       every object with the image
   python tools/datagen.py companions 12 [--out=DIR]   companion files <stem>.zdata.c for
                                                       tools/gamelink.py --data (see below)
+  python tools/datagen.py companions 12 --version white
+                                                      the same for White: Black's structure, values
+                                                      from extract_white/ (build/datac_white/ov012)
 
 Pointers are written as (char *)&name + addend where name is the registry name
 of the target (a defined object of the same file, or an extern from the
@@ -262,6 +265,246 @@ FP_RE = r"^[ \t]*extern\s+(?P<ret>[^;()=]*?)\(\s*\*\s*(?P<c>const\s+)?%s\s*\[[^\
 DECL_RE = r"^[ \t]*extern\s+(?P<pre>[^;()=]*?)\b%s\s*(?P<arr>\[[^\]]*\])?\s*;[ \t]*$"
 DATAC_OUT = os.path.join(ROOT, "build", "datac")
 DATAC_GEN = os.path.join(ROOT, "build", "gen", "datac")
+# White (--version white): the structure of the tail (objects, owners, names) is Black's, the values
+# are read from White's extract; build/datac_white and build/gen/datac_white hold the result
+WHITE = False
+DATAC_OUT_WHITE = os.path.join(ROOT, "build", "datac_white")
+DATAC_GEN_WHITE = os.path.join(ROOT, "build", "gen", "datac_white")
+
+
+def white_overlay_image(rg):
+    """(White overlay image, White layout record) of region ovNNN, from extract_white/."""
+    lw = json.load(open(os.path.join(ROOT, "build", "white", "layout", "layout.json"), encoding="utf-8"))
+    o = [x for x in lw["overlays"] if "ov%03d" % x["id"] == rg][0]
+    with open(os.path.join(ROOT, "extract_white", o["decompressed_file"].replace("/", os.sep)), "rb") as fh:
+        return fh.read()[:o["code_size"]], o
+
+
+
+class Gen:
+    def __init__(self, region, R, image, base):
+        self.region = region
+        self.R = R
+        self.img = image
+        self.base = base
+        self.objs = R["objects"]
+        self.sym = {}                 # address -> (name, defined?)
+        for o in self.objs:
+            self.sym[int(o["addr"], 16)] = (o["name"], True)
+        for e in R["externs"]:
+            self.sym.setdefault(int(e["addr"], 16), (e["name"], False))
+
+    def ref(self, v):
+        if v == 0:
+            return "0"
+        if v in self.sym:
+            a, add = v, 0
+        elif (v - 1) in self.sym:
+            a, add = v - 1, 1
+        else:
+            raise SystemExit("%s: pointer %08X has no registry target" % (self.region, v))
+        name = self.sym[a][0]
+        return "(char *)&%s%s" % (name, " + %d" % add if add else "")
+
+    def obj_bytes(self, o):
+        a = int(o["addr"], 16)
+        return self.img[a - self.base:a - self.base + o["size"]]
+
+    def emit(self):
+        decl = []
+        defs = []
+        for e in self.R["externs"]:
+            decl.append("extern char %s[];" % e["name"])
+        for o in self.objs:
+            n = o["name"]
+            k = o["kind"]
+            b = self.obj_bytes(o)
+            size = o["size"]
+            if k == "zero":
+                decl.append("extern unsigned char %s[%d];" % (n, size))
+                defs.append("unsigned char %s[%d] = {0};" % (n, size))
+            elif k == "string":
+                decl.append("extern char %s[%d];" % (n, size))
+                defs.append("char %s[%d] = %s;" % (n, size, cstring(b)))
+            elif k == "raw":
+                decl.append("extern unsigned char %s[%d];" % (n, size))
+                defs.append("unsigned char %s[%d] = {%s};" % (n, size, ",".join("0x%02X" % c for c in b)))
+            elif k == "numeric":
+                e = o["elem"]
+                vals = struct.unpack("<%d%s" % (o["count"], FMT[e]), b)
+                decl.append("extern %s %s[%d];" % (CTYPE[e], n, o["count"]))
+                defs.append("%s %s[%d] = {%s};" % (CTYPE[e], n, o["count"], ",".join("0x%X" % v for v in vals)))
+            elif k == "pointer_table":
+                words = struct.unpack("<%dI" % (size // 4), b)
+                decl.append("extern void *%s[%d];" % (n, len(words)))
+                defs.append("void *%s[%d] = {%s};" % (n, len(words), ",".join(self.ref(w) for w in words)))
+            elif k == "struct":
+                words = struct.unpack("<%dI" % (size // 4), b)
+                tag = n + "_t"
+                fl = []
+                init = []
+                i = 0
+                for fi, (t, c) in enumerate(o["fields"]):
+                    seg = words[i:i + c]
+                    i += c
+                    if t == "ptr":
+                        fl.append("void *f%d[%d];" % (fi, c))
+                        init.append("{%s}" % ",".join(self.ref(w) for w in seg))
+                    else:
+                        fl.append("unsigned long f%d[%d];" % (fi, c))
+                        init.append("{%s}" % ",".join("0x%X" % w for w in seg))
+                decl.append("struct %s { %s };" % (tag, " ".join(fl)))
+                decl.append("extern struct %s %s;" % (tag, n))
+                defs.append("struct %s %s = {%s};" % (tag, n, ",".join(init)))
+            else:
+                raise SystemExit("bad kind %r" % k)
+        return PROLOGUE + "\n".join(decl) + "\n\n" + "\n".join(defs) + "\n"
+
+
+def gen_region(layout, reg, region):
+    base, img, _l = datareg.region_image(layout, region)
+    g = Gen(region, reg[region], img, base)
+    text = g.emit()
+    os.makedirs(OUT_DIR, exist_ok=True)
+    path = os.path.join(OUT_DIR, "%s_data.c" % region)
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(text)
+    return g, path, img, base
+
+
+# --------------------------------------------------------------------------
+# round trip
+# --------------------------------------------------------------------------
+
+def check_region(layout, reg, region, version="1.1p1", flags=("-O4,p",)):
+    import match
+    from libmatch import Obj, SHT_PROGBITS
+    g, path, img, base = gen_region(layout, reg, region)
+    name2addr = {n: a for a, (n, _d) in g.sym.items()}
+    wd = tempfile.mkdtemp(prefix="datagen_")
+    obj, cmd, text, rc = match.compile_tu(path, version, list(flags), False, "c99", wd,
+                                         sdk_include=False)
+    if not obj:
+        print(text[-3000:])
+        raise SystemExit("%s: compile failed rc=%s" % (region, rc))
+    with open(obj, "rb") as fh:
+        o = Obj("tu.o", fh.read())
+    syms, _ = match.read_symbols(o)
+    bysym = {}
+    for nm, val, size, typ, bind, shndx in syms:
+        if shndx and shndx < len(o.sections):
+            bysym[nm] = (val, size, shndx)
+    relocs = {}
+    for i in range(len(o.sections)):
+        if o.sections[i][1] == SHT_PROGBITS:
+            relocs[i] = match.section_relocs(o, i)
+    res = defaultdict(Counter)
+    fails = []
+    for ob in g.objs:
+        k = ob["kind"]
+        a = int(ob["addr"], 16)
+        exp = g.obj_bytes(ob)
+        ent = bysym.get(ob["name"])
+        if ent is None:
+            res[k]["missing"] += 1
+            fails.append((ob["addr"], k, "symbol missing"))
+            continue
+        val, size, shndx = ent
+        sec = o.sections[shndx]
+        if sec[1] == SHT_PROGBITS:
+            got = bytearray(o.section_data(shndx)[val:val + ob["size"]])
+        else:
+            got = bytearray(ob["size"])          # NOBITS: zero
+        why = None
+        for off, rt, sn, ad in relocs.get(shndx, []):
+            if val <= off < val + ob["size"]:
+                if rt != 2 or sn not in name2addr:
+                    why = "reloc %d %s" % (rt, sn)
+                    break
+                struct.pack_into("<I", got, off - val, (name2addr[sn] + ad) & 0xFFFFFFFF)
+        if why is None and len(got) != len(exp):
+            why = "size %d != %d" % (len(got), len(exp))
+        if why is None and bytes(got) != exp:
+            why = "bytes differ"
+        if why is None:
+            res[k]["ok"] += 1
+        else:
+            res[k]["fail"] += 1
+            fails.append((ob["addr"], k, why))
+    return res, fails
+
+
+# ---------------------------------------------------------------------------
+# companions: the data tail of an overlay as C next to its src/game files
+#
+#   python tools/datagen.py companions 12 13 [--out=DIR]
+#   python tools/gamelink.py 12 --data --extra=build/datac/ov012
+#
+# For overlay ovNNN:
+#   1. cut the data tail (registry range, or the end of the files' code when
+#      that is later, .. overlay end) into objects at every known start: registry starts, literal-pool targets of the overlay code,
+#      data names of the file headers, the borders of the data sections the
+#      code files define themselves (string literals, statics: they stay in
+#      their file), the static-initialiser table;
+#   2. .rodata = tail start .. table, .data = ALIGN(32) after it .. end;
+#      an all-zero piece of .data is merged into its neighbour (mwccarm puts a
+#      zero object in .bss), its names become linker aliases at an offset; an
+#      unnamed all-zero piece at the end is the ALIGN(32) padding of the overlay;
+#      .bss is cut the same way at code references;
+#   3. owner of an object = the file whose code refers to it (else the file of
+#      a function it points at, else the file of an object that points at it,
+#      else the file of an own section just passed, else its neighbour); owners must rise in link
+#      order per section, otherwise a blocker is noted; a run of one owner
+#      that starts below the alignment of its types goes to the owner before;
+#   4. every owner file gets a companion <stem>.zdata.c with the header of the
+#      file (same address, compiler, flags) and the definitions in layout order
+#      after an anchor function (mwccarm keeps definition order after a function;
+#      before one it sorts data by size).  Initialisers are #included from
+#      build/gen/datac/ovNNN/*.inc, made here from the user's own extract.
+#      Objects below an own section of the owner file that lies inside their
+#      run go to <stem>.zpre.c, which links before the file;
+#   5. DIR/datalink.json holds the tail borders, the linker aliases (every
+#      other name a file uses for an object address) and the entries of the
+#      static-initialiser table (function names, or addresses of gap code),
+#      and "own": per file its own data sections (object section index,
+#      address), from the .lcf regions dN of the plain link.
+# A function pointer is written as the plain function name: the linker sets the
+# Thumb bit itself.  Nothing written here is committed (build/ is gitignored).
+
+SCALAR = {
+    "char": (1, True), "signed char": (1, True), "unsigned char": (1, False),
+    "s8": (1, True), "u8": (1, False),
+    "short": (2, True), "signed short": (2, True), "unsigned short": (2, False),
+    "s16": (2, True), "u16": (2, False),
+    "int": (4, True), "signed int": (4, True), "unsigned int": (4, False), "unsigned": (4, False),
+    "long": (4, True), "unsigned long": (4, False), "s32": (4, True), "u32": (4, False),
+    "fx32": (4, True), "fx16": (2, True),
+}
+PLAIN = ("char", "signed char", "unsigned char", "short", "unsigned short", "int", "unsigned int",
+         "unsigned", "long", "unsigned long", "signed short", "signed int")
+FP_RE = r"^[ \t]*extern\s+(?P<ret>[^;()=]*?)\(\s*\*\s*(?P<c>const\s+)?%s\s*\[[^\]]*\]\s*\)\s*(?P<args>\([^;]*\))\s*;[ \t]*$"
+DECL_RE = r"^[ \t]*extern\s+(?P<pre>[^;()=]*?)\b%s\s*(?P<arr>\[[^\]]*\])?\s*;[ \t]*$"
+DATAC_OUT = os.path.join(ROOT, "build", "datac")
+DATAC_GEN = os.path.join(ROOT, "build", "gen", "datac")
+# White (--version white): the structure of the tail (objects, owners, names) is Black's, the values
+# are read from White's extract; build/datac_white and build/gen/datac_white hold the result
+WHITE = False
+DATAC_OUT_WHITE = os.path.join(ROOT, "build", "datac_white")
+DATAC_GEN_WHITE = os.path.join(ROOT, "build", "gen", "datac_white")
+
+
+def white_overlay_image(rg):
+    """(White overlay image, White layout record) of region ovNNN, from extract_white/."""
+    lw = json.load(open(os.path.join(ROOT, "build", "white", "layout", "layout.json"), encoding="utf-8"))
+    o = [x for x in lw["overlays"] if "ov%03d" % x["id"] == rg][0]
+    with open(os.path.join(ROOT, "extract_white", o["decompressed_file"].replace("/", os.sep)), "rb") as fh:
+        return fh.read()[:o["code_size"]], o
+
+
+def white_ptr_word(kind, black_word, target_addr):
+    """The word White holds for a pointer that Black holds as `black_word` (a Thumb bit stays)."""
+    import white_map
+    return white_map.to_white(black_word)
 
 
 def _gl():
@@ -601,9 +844,42 @@ def companions(rg, out=None, relink=False):
         ob["inner_names"] = [(n, a - ob["addr"]) for a in ob["inner"]
                              for nms in hdr_names.get(a, {}).values() for n in nms]
 
+    # ---- White: the values come from White's image (same offsets), a pointer stays a symbol
+    # only when White holds the word that the Black pointer maps to
+    if WHITE:
+        import white_map
+        wimg, wo = white_overlay_image(rg)
+        irregular = rg in white_map.IRREGULAR       # code moved inside the overlay: the tail moves by blocks
+        if len(wimg) != len(img) and not irregular:
+            raise RuntimeError("%s: %d bytes in Black, %d in White" % (rg, len(img), len(wimg)))
+        reg_ = rg if irregular else None
+
+        def wmap(a_):
+            return white_map.to_white(a_, reg_)
+        for ob in objs:
+            if ob["data"] is None:
+                continue
+            wa = wmap(ob["addr"]) - wo["ram_start"]
+            ob["wdata"] = wimg[wa:wa + ob["size"]]
+            if len(ob["wdata"]) != ob["size"]:
+                raise RuntimeError("%s: object %08X does not fit White's image" % (rg, ob["addr"]))
+            ob["wraw"] = set()
+            for k in list(ob["ptrs"]):
+                bw = struct.unpack_from("<I", ob["data"], 4 * k)[0]
+                ww = struct.unpack_from("<I", ob["wdata"], 4 * k)[0]
+                try:
+                    ok_ = wmap(bw) == ww if base <= bw < end else white_map.to_white(bw) == ww
+                except KeyError:
+                    ok_ = False
+                if ob["ptrs"][k][0] == "ext" and bw >= white_map._load()["black_end"]:
+                    ok_ = False       # a function of another overlay: its place depends on the overlay
+                if not ok_:
+                    del ob["ptrs"][k]
+                    ob["wraw"].add(k)
+
     # ---- emit
-    out = out or os.path.join(DATAC_OUT, rg)
-    gen = os.path.join(DATAC_GEN, rg)
+    out = out or os.path.join(DATAC_OUT_WHITE if WHITE else DATAC_OUT, rg)
+    gen = os.path.join(DATAC_GEN_WHITE if WHITE else DATAC_GEN, rg)
     for dd in (out, gen):
         if os.path.isdir(dd):
             for f in os.listdir(dd):
@@ -720,7 +996,8 @@ def companions(rg, out=None, relink=False):
                 stats["ptr_" + kind] = stats.get("ptr_" + kind, 0) + 1
                 return nm
 
-            words = [struct.unpack_from("<I", ob["data"], 4 * k)[0] for k in range(ob["size"] // 4)] \
+            vdata = ob.get("wdata", ob["data"])      # the values to write (White: from White's image)
+            words = [struct.unpack_from("<I", vdata, 4 * k)[0] for k in range(ob["size"] // 4)] \
                 if ob["addr"] % 4 == 0 and ob["size"] % 4 == 0 else None
             if fp and words is not None:
                 et = "void (*)(void)"
@@ -729,7 +1006,8 @@ def companions(rg, out=None, relink=False):
                     if k in ob["ptrs"]:
                         vals.append("(%s)%s" % (et, ref(k)))
                     elif w:
-                        blockers.append("%s[%d]: 0x%08X has no symbol (code outside every file)" % (name, k, w))
+                        if k not in ob.get("wraw", ()):
+                            blockers.append("%s[%d]: 0x%08X has no symbol (code outside every file)" % (name, k, w))
                         vals.append("(%s)0x%X" % (et, w))
                     else:
                         vals.append("0")
@@ -756,7 +1034,7 @@ def companions(rg, out=None, relink=False):
                 sz, sg = SCALAR[base_t]
                 fmt = {1: "b", 2: "h", 4: "i"}[sz]
                 fmt = fmt if sg else fmt.upper()
-                vals = [str(v) if sg else "0x%X" % v for v in struct.unpack("<%d%s" % (ob["size"] // sz, fmt), ob["data"])]
+                vals = [str(v) if sg else "0x%X" % v for v in struct.unpack("<%d%s" % (ob["size"] // sz, fmt), vdata)]
                 write_inc(ob, vals)
                 bt2 = base_t if base_t in PLAIN else (
                     {1: "signed char", 2: "short", 4: "long"}[sz] if sg else
@@ -765,9 +1043,9 @@ def companions(rg, out=None, relink=False):
                 defs.append("%s%s %s[%d] = {\n#include \"%s\"\n};" % (cq, bt2, name, ob["size"] // sz, inc(ob)))
                 stats["typed"] += 1
             else:
-                if ob["data"] == bytes(len(ob["data"])) and not cq:
+                if vdata == bytes(len(vdata)) and not cq:
                     blockers.append("%s: all-zero object in .data (mwccarm would put it in .bss)" % name)
-                write_inc(ob, ["0x%02X" % c for c in ob["data"]])
+                write_inc(ob, ["0x%02X" % c for c in vdata])
                 fwd.append("extern %sunsigned char %s[%d];" % (cq, name, ob["size"]))
                 defs.append("%sunsigned char %s[%d] = {\n#include \"%s\"\n};" % (cq, name, ob["size"], inc(ob)))
                 stats["raw"] += 1
@@ -797,7 +1075,11 @@ def main():
     ap.add_argument("--region", action="append")
     ap.add_argument("--out", help="companions: output directory (one overlay)")
     ap.add_argument("--relink", action="store_true", help="companions: redo the plain gamelink link first")
+    ap.add_argument("--version", choices=("black", "white"), default="black",
+                    help="companions: white = structure of Black, values of extract_white/ (build/datac_white)")
     a = ap.parse_args()
+    global WHITE
+    WHITE = a.version == "white"
     if a.cmd == "companions":
         rc = 0
         for i in a.ids or [r[2:] for r in (a.region or [])]:

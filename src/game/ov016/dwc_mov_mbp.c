@@ -50,7 +50,7 @@
 
 #include "../sdk_mb.h"
 
-typedef struct {
+typedef struct DWCi_MOV_MBPChildInfo {
     u8 user[0x16];
     u8 macAddress[6];
     u16 playerNo;

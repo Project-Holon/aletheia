@@ -56,21 +56,14 @@ typedef struct WMMpRecvHeader {
 
 #include "../sdk_rtc.h"
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern WMErrCode WMi_CheckInitialized(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern WMArm9Buf *WMi_GetSystemWork(void);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void OS_GetMacAddress(u8 *macAddress);
-extern u16 WM_GetConnectedAIDs(void);
-extern u16 WM_GetAID(void);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size);
-extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
-extern BOOL OS_IsRunOnTwl(void);
-extern BOOL WMi_CheckEnableFlag(void);
-extern void RTC_Init(void);
-extern int RTC_GetTime(RTCTime *time);
+#include "os_system.h"
+#include "wm_system.h"
+#include "mi_memory.h"
+#include "os_ownerinfo.h"
+#include "os_cache.h"
+#include "os_emulator.h"
+typedef int RTCResult;
+#include "external.h"
 WMErrCode WM_SetIndCallback(WMCallbackFunc callback);
 WMErrCode WM_SetPortCallback(u16 port, WMCallbackFunc callback, void *arg);
 WMErrCode WM_ReadStatus(struct WMStatus *statusBuf);

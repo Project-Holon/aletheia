@@ -141,15 +141,14 @@ struct BagCursor;
 
 struct Situation;
 
-extern u32 GFL_HEAP_Free(void *memory);
+#include "gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct SaveControl *SAVE_CONTROL_Get(void);
+#include "save_control.h"
 
-extern u8    COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
+#include "comm_player_support.h"
 
 extern struct Situation *PLAYER_LOCATION_GetData(struct SaveControl *saveControl);
 
@@ -161,17 +160,16 @@ struct PlayerLocationData;
 extern void *PLAYER_LOCATION_GetLocationB(struct PlayerLocationData *location_data);
 struct BgmInfoTable;
 
-extern struct BgmInfoTable *BGM_INFO_Create(u32 heapId);
+#include "bgm_info.h"
 
 void GAME_DATA_InitPlayerWork(struct PlayerWork *player);
 
-extern int MYSTATUS_GetSize(void);
+#include "config.h"
 
 struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern struct MyStatus *SYSTEM_DATA_GetMyStatus(void *save);
+#include "system_data.h"
 
-extern void *MI_CpuCopy8(void *dst, const void *src, u32 size);
 struct EventDataSystem;
 
 extern struct EventDataSystem *EVENTDATA_SYSTEM_Create(int heapId);
@@ -181,66 +179,55 @@ extern void EVENTDATA_SYSTEM_Clear(struct EventDataSystem *system);
 void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save);
 struct MapMatrix;
 
-extern struct MapMatrix *MAP_MATRIX_Create(int heapId);
+#include "../ov010/map_matrix.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
-extern void *FLDMMDL_CreateSys(int heapId, int count, int saveBlock);
+#include "../ov010/fldmmdl.h"
 
-extern struct BgmInfo *FIELD_SOUND_SYSTEM_Create(struct GameData *gameData, u32 heapId);
+#include "field_sound_system.h"
 
 extern u32   FIELD_STATUS_Create(int heapId);
 
-extern void *MYITEM_SAVEDATA_CreateBagCursor(u32 heapId);
+#include "myitem_savedata.h"
 
-extern struct Config *SYSTEM_DATA_GetConfig(void *save);
 
-extern u32 *BOX_SAVEDATA_CreateWordHolder(u32 heapId, u32 saveControl);
+#include "box_savedata.h"
 struct WifiList;
 
-extern struct WifiList *WIFILIST_Create(int heapId);
+#include "wifilist.h"
 struct IntrudeSave;
 
-extern void INTRUDE_InitOccupy(struct IntrudeSave *intrude);
+#include "intrude.h"
 struct ProcLinkReturnList;
 
-extern void  EVENT_FIELD_PROCLINK_InitEventdataSystem(struct ProcLinkReturnList *list);
+typedef int Bool;
+#include "../ov010/event_field_proclink.h"
 
 extern void *PLAYTIME_Create(u32 heapId);
 
-extern u8 SAVE_CONTROL_IsNewGame(struct SaveControl *save);
 
-extern void *FIELD_ENCOUNT_ST_Create(u32 heapId);
+#include "../ov010/field_encount_st.h"
 
-extern void  PMS_DRAW_ClearWork(void *rtcWork);
+#include "pms_draw.h"
 
 void GAME_DATA_LoadFromSave(struct GameData *gd);
 struct CommPlayerSupport;
 
-extern struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId);
 struct BeaconStatus;
 
-extern struct BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId);
+#include "beacon_status.h"
 struct CalenderWork;
 
-extern struct CalenderWork *CALENDER_Create(struct GameData *gameData, u32 heapId);
+#include "../ov010/calender.h"
 
-extern void CALENDER_Delete(struct CalenderWork *calender);
 
-extern void BEACON_STATUS_Delete(struct BeaconStatus *bs);
 
-extern void COMM_PLAYER_SUPPORT_Delete(void *pmsWork);
 
-extern void FIELD_ENCOUNT_ST_Delete(void *fieldGimmick);
 
-extern void BGM_INFO_Free(struct BgmInfoTable *table);
 
-extern void BOX_SAVEDATA_Delete(void *boxManager);
 struct MmdlSys;
 
-extern void FLDMMDL_DeleteSys(struct MmdlSys *sys);
 
-extern void MAP_MATRIX_Delete(struct MapMatrix *matrix);
 
 extern void EVENTDATA_SYSTEM_Delete(struct EventDataSystem *system);
 struct FieldStatus;
@@ -248,19 +235,15 @@ struct FieldStatus;
 extern void FIELD_STATUS_Delete(struct FieldStatus *fs);
 struct FieldSoundSystem;
 
-extern void FIELD_SOUND_SYSTEM_Delete(struct FieldSoundSystem *s);
 
 struct MusicalShot;
 
-extern struct MusicalShot *MUSICAL_SHOT_GetFromSave(struct SaveControl *save);
+#include "musical_shot.h"
 
-extern u16 *MUSICAL_SHOT_GetTitle(struct MusicalShot *shot);
 
-extern u8 *MUSICAL_SHOT_GetExtraData(struct MusicalShot *shot);
 struct ZoneFlagSetting;
 
 
-extern int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(struct ZoneFlagSetting *setting);
 
 extern u16 *PLAYER_LOCATION_GetShortData(struct Situation *situation);
 
@@ -400,7 +383,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     EVENTDATA_SYSTEM_Clear(eventData);
     gameData->eventWork = GAME_DATA_GetEventWorkFromSave(gameData->saveControl);
     gameData->fieldWork = (u32)MAP_MATRIX_Create(heapId);
-    gameData->occupyInfo = FLDMMDL_CreateSys(heapId, 0x40, (u32)SAVE_CONTROL_GetBlock(gameData->saveControl, 0x33));
+    gameData->occupyInfo = FLDMMDL_CreateSys(heapId, 0x40, SAVE_CONTROL_GetBlock(gameData->saveControl, 0x33));
     gameData->bgmInfo = (u32)FIELD_SOUND_SYSTEM_Create(gameData, heapId);
     gameData->moveModelSys = (void *)FIELD_STATUS_Create(heapId);
     gameData->mapMatrix = (u32)MYITEM_SAVEDATA_CreateBagCursor(heapId);
@@ -695,62 +678,46 @@ struct UnionInfo;
 
 struct FieldSaveData;
 
-extern unsigned int CONFIG_GetBattleFlag(struct Config *config);
 
-extern void CONFIG_SetBattleFlag(struct Config *config, int on);
 
-extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys);
+#include "recent_id_list_savedata.h"
 
-extern void RECENT_ID_LIST_SAVEDATA_SetId(u8 *ids, u32 id, u32 enabled);
 
-extern void *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(void *sys);
 
-extern void RECENT_ID_LIST_SAVEDATA_ContainsId(void *flags, u32 id);
 struct MyStatusHolder;
 
-extern void SYSTEM_DATA_CopyMyStatus(void *save, struct MyStatusHolder *dest);
 struct LocationRecordBuf;
 
 extern void PLAYER_LOCATION_CopyRecordToBuffer(void *save, struct LocationRecordBuf *dest);
 
-extern void FLDMMDL_LoadSaveTable(struct MmdlSys *sys, u8 *records);
+#include "fldmmdl_save.h"
 
-extern void INTRUDE_LoadOccupy(struct SaveControl *save, u16 *dest);
 struct MusicalShotPhoto;
 
-extern void MUSICAL_SHOT_CopyPhotoRev(struct MusicalShotPhoto *src, struct MusicalShotPhoto *dest);
 struct GimmickWork;
 
-extern void GIMMICK_WORK_Load(struct SaveControl *save, struct GimmickWork *dest);
+#include "gimmick.h"
 
 extern void PLAYER_LOCATION_WriteFlashActiveTo(struct PlayerLocationData *location_data, void *dest);
 
 extern void PLAYER_LOCATION_GetSeason(struct PlayerLocationData *location_data, u8 *out);
 
-extern struct WifiList *WIFILIST_GetFromSave(struct SaveControl *save);
 
-extern void WIFILIST_Copy(struct WifiList *src, struct WifiList *dest);
 
 extern void PLAYER_LOCATION_GetWeatherId(struct PlayerLocationData *location_data, u8 *out);
 
-extern void SAVE_SYNC_Load(void *src, void *dest);
+#include "save_sync_savedata.h"
 struct PlayTime;
 
-extern struct PlayTime *SYSTEM_DATA_GetPlayTime(void *save);
 
 extern void PLAYTIME_Copy(struct PlayTime *dest, const struct PlayTime *src);
 
-extern void SYSTEM_DATA_SetMyStatus(void *save, struct MyStatusHolder *src);
 
 extern void PLAYER_LOCATION_SetRecordFromBuffer(void *save, struct LocationRecordBuf *src);
 
-extern void FLDMMDL_StoreSaveTable(struct MmdlSys *producer, u8 *records);
 
-extern void INTRUDE_StoreOccupy(struct SaveControl *save, const u16 *src);
 
-extern void MUSICAL_SHOT_CopyPhoto(struct MusicalShotPhoto *dest, struct MusicalShotPhoto *src);
 
-extern void GIMMICK_WORK_Save(struct GimmickWork *src, struct SaveControl *save);
 
 extern void PLAYER_LOCATION_ReadFlashActiveFrom(struct PlayerLocationData *location_data, void *src);
 
@@ -758,25 +725,20 @@ extern void PLAYER_LOCATION_SetSeason(struct PlayerLocationData *location_data, 
 
 extern void PLAYER_LOCATION_SetWeatherId(struct PlayerLocationData *location_data, u8 value);
 
-extern void SAVE_SYNC_Store(void *src, void *saveData);
 
 extern void PLAYTIME_SetStampNow(struct PlayTime *playTime);
 
-extern void WIH_DWC_PauseTimers(void);
+#include "wih_dwc.h"
 
 extern void UI_SetSoftResetInhibitGlobal();
 
-extern int SAVE_CONTROL_StartSave(struct SaveControl *save);
 
-extern int  GFL_USE_IsLoaderBusy(void);
+#include "gfl_use.h"
 
-extern u32 SAVE_CONTROL_MainSave(struct SaveControl *save);
 
 extern void UI_ClearSoftResetInhibitGlobal(u32 v);
 
-extern void WIH_DWC_ResumeTimers(void);
 
-extern int SAVE_CONTROL_CancelSave(struct SaveControl *save);
 
 extern u32 UI_TestKeepAwakeFlagsGlobal(u8 flags);
 
@@ -784,24 +746,22 @@ extern void UI_ClearKeepAwakeFlagsGlobal(u8 v);
 
 extern void UI_SetKeepAwakeFlagsGlobal(u8 flags);
 
-extern void SAVE_CONTROL_BeginExtraSaveWrite(struct SaveControl *save, u32 blockId);
 
-extern int SAVE_CONTROL_StepExtraSaveWrite(struct SaveControl *save, u32 blockId);
 struct MiscSave;
 
-extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
+#include "beacon.h"
 struct TradeHistory;
 
-extern struct TradeHistory *TRADE_HISTORY_GetFromSave(struct SaveControl *save);
+#include "trade_history.h"
 struct TrainerCardSignature;
 
-extern struct TrainerCardSignature *TRCARD_SIGN_GetFromSave(struct SaveControl *save);
+#include "trcard_sign.h"
 struct GameSyncData;
 
-extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *save);
+#include "game_sync.h"
 struct PerapVoice;
 
-extern struct PerapVoice *PERAPVOICE_GetFromSave(struct SaveControl *save);
+#include "perapvoice.h"
 
 extern u32 PLAYTIME_AddSeconds(struct PlayTime *playTime, u32 limit);
 
@@ -867,9 +827,9 @@ void GAME_DATA_SetPlayerPosition(struct PlayerWork *player, const struct PlayerP
 
 struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
 
-void GAME_DATA_SetPlayerRail(struct PlayerWork *player, const struct RailLocationWords *rail);
+void GAME_DATA_SetPlayerRail(struct PlayerWork *player, const struct RailLocation *rail);
 
-struct RailLocationWords *GAME_DATA_GetPlayerRail(struct PlayerWork *player);
+struct RailLocation *GAME_DATA_GetPlayerRail(struct PlayerWork *player);
 
 void GAME_DATA_SetPlayerMoveForm(struct PlayerWork *player, u8 form);
 
@@ -1213,11 +1173,11 @@ void GAME_DATA_InitPlayerWork(struct PlayerWork *player)
     player->direction = 0;
     player->moveForm = 0;
     player->status.id = 0;
-    player->rail.part.type = 0;
-    player->rail.part.key = 0;
-    player->rail.part.lineIndex = 0;
-    player->rail.part.sideGrid = 0;
-    player->rail.part.frontGrid = 0;
+    player->rail.type = 0;
+    player->rail.key = 0;
+    player->rail.railIndex = 0;
+    player->rail.lineGrid = 0;
+    player->rail.widthGrid = 0;
     player->palaceZoneId = 0xFFFF;
 }
 
@@ -1231,14 +1191,14 @@ struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player)
     return &player->position;
 }
 
-void GAME_DATA_SetPlayerRail(struct PlayerWork *player, const struct RailLocationWords *rail)
+void GAME_DATA_SetPlayerRail(struct PlayerWork *player, const struct RailLocation *rail)
 {
-    player->rail.all = *rail;
+    player->rail = *rail;
 }
 
-struct RailLocationWords *GAME_DATA_GetPlayerRail(struct PlayerWork *player)
+struct RailLocation *GAME_DATA_GetPlayerRail(struct PlayerWork *player)
 {
-    return &player->rail.all;
+    return &player->rail;
 }
 
 void GAME_DATA_SetPlayerMoveForm(struct PlayerWork *player, u8 form)

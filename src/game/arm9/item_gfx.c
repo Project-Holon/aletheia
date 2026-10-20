@@ -29,7 +29,7 @@ u16 ITEM_GFX_GetItemId(u32 row);
 
 u32 ITEM_GFX_GetExtraValue(u32 itemId);
 
-u32 ITEM_GFX_GetRowIndex(u16 itemId);
+u32 ITEM_GFX_GetRowIndex(u32 itemId);
 
 extern struct ItemGfxExtra sItemGfxExtraTable[];
 
@@ -81,7 +81,7 @@ u32 ITEM_GFX_GetExtraValue(u32 itemId)
  * Row index of the entry whose item id matches, 0 when there is none.
  * Unsigned loop here, signed in ITEM_GFX_GetExtraValue.
  */
-u32 ITEM_GFX_GetRowIndex(u16 itemId)
+u32 ITEM_GFX_GetRowIndex(u32 itemId)
 {
     u32 i;
 

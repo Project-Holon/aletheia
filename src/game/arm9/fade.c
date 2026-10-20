@@ -32,9 +32,9 @@ typedef struct Fade {
     s32 speed;    /* 0x1c */
 } Fade;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  MI_CpuFill8(void *dst, u32 val, u32 size);
-extern void  GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
+#include "gfl_heap_wrap.h"
+#include "mi_memory.h"
+#include "gx.h"
 void FADE_Create(u32 heap);
 void FADE_Update(void);
 s32 FADE_GetSpeed(void);

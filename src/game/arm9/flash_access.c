@@ -34,19 +34,10 @@
 
 typedef void (*FlashErrorFunc)(u32 no_response);
 
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
-extern int  OS_GetLockID(u32 lock_arg);
-extern void CARD_LockBackup(u16 lock_id);
-extern int  CARD_IdentifyBackup(int type);
-extern void CARD_UnlockBackup(u16 lock_id);
-extern void OS_ReleaseLockID(u16 lock_id);
-extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback,
-                                       void *arg, int is_async, int req_type,
-                                       int req_retry, int req_mode);
-extern int  CARD_WaitBackupAsync(void);
-extern int CARD_GetResultCode(void);
-extern u32  CARD_TryWaitBackupAsync(void);
-extern void CARD_CancelBackupAsync(void);
+#include "gf_panic.h"
+#include "os_spinlock.h"
+#include "card_api.h"
+#include "card_backup.h"
 int FLASH_ACCESS_Identify(u32 unused_arg);
 u32 FLASH_ACCESS_Write(u32 flash_addr, u32 ram_src, u32 size, u32 on_error);
 int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void));
@@ -72,7 +63,7 @@ extern u32 _AccessBusy;
  */
 int FLASH_ACCESS_Identify(u32 unused_arg)
 {
-    int lock_id = OS_GetLockID(unused_arg);
+    int lock_id = OS_GetLockID();
     u32 type;
 
     if (lock_id == -3) {
@@ -118,7 +109,7 @@ u32 FLASH_ACCESS_Write(u32 flash_addr, u32 ram_src, u32 size, u32 on_error)
  */
 int FLASH_ACCESS_Read(u32 flash_addr, u32 ram_dst, u32 size, void (*on_error)(void))
 {
-    int lock_id = OS_GetLockID(flash_addr);
+    int lock_id = OS_GetLockID();
     int result;
 
     if (lock_id == -3) {
@@ -155,7 +146,7 @@ void FLASH_ACCESS_OnWriteDone(void)
  */
 u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_error)
 {
-    int lock_id = OS_GetLockID(flash_addr);
+    int lock_id = OS_GetLockID();
     u32 probe;
 
     if (lock_id == -3) {
@@ -169,7 +160,7 @@ u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_erro
     }
 
     _WriteDone = 0;
-    CARDi_RequestStreamCommand(ram_src, flash_addr, size, FLASH_ACCESS_OnWriteDone, 0, 1, 7, 10, 2);
+    CARDi_RequestStreamCommand(ram_src, flash_addr, size, (void (*)(void *))FLASH_ACCESS_OnWriteDone, 0, 1, 7, 10, 2);
     return (u16)lock_id;
 }
 

@@ -123,7 +123,7 @@ typedef enum {
     GX_VRAM_TEX_012_ACD = 0x0d
 } GXVRamTex;
 
-extern void OSi_UnlockVram(u16 bank, u16 lockId);
+#include "os_vramexclusive.h"
 extern int disableBankForX_(u16 *g3bit);
 void GX_SetBankForBG(GXVRamBG bg);
 void GX_SetBankForOBJ(GXVRamOBJ obj);
@@ -140,16 +140,16 @@ void GX_SetBankForSubBGExtPltt(int sub_bgExtPltt);
 void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
 int resetBankForX_(u16 *g3bit);
 int GX_ResetBankForBG(void);
-void GX_ResetBankForOBJ(void);
-void GX_ResetBankForBGExtPltt(void);
-void GX_ResetBankForOBJExtPltt(void);
+int GX_ResetBankForOBJ(void);
+int GX_ResetBankForBGExtPltt(void);
+int GX_ResetBankForOBJExtPltt(void);
 int GX_ResetBankForTex(void);
-void GX_ResetBankForTexPltt(void);
-void GX_ResetBankForClearImage(void);
+int GX_ResetBankForTexPltt(void);
+int GX_ResetBankForClearImage(void);
 int GX_ResetBankForSubBG(void);
-void GX_ResetBankForSubOBJ(void);
-void GX_ResetBankForSubBGExtPltt(void);
-void GX_ResetBankForSubOBJExtPltt(void);
+int GX_ResetBankForSubOBJ(void);
+int GX_ResetBankForSubBGExtPltt(void);
+int GX_ResetBankForSubOBJExtPltt(void);
 GXVRam GX_DisableBankForBG(void);
 GXVRam GX_DisableBankForOBJ(void);
 GXVRam GX_DisableBankForBGExtPltt(void);
@@ -657,40 +657,40 @@ int resetBankForX_(u16 *g3bit)
 
 int GX_ResetBankForBG(void){ return resetBankForX_((u16 *)((int)0x2150E4E)); }
 
-void GX_ResetBankForOBJ(void){ resetBankForX_((u16 *)((int)0x2150E50)); }
+int GX_ResetBankForOBJ(void){ return resetBankForX_((u16 *)((int)0x2150E50)); }
 
-void GX_ResetBankForBGExtPltt(void)
+int GX_ResetBankForBGExtPltt(void)
 {
     reg_GX_DISPCNT &= ~0x40000000;
-    resetBankForX_((u16 *)((int)0x2150E5A));
+    return resetBankForX_((u16 *)((int)0x2150E5A));
 }
 
-void GX_ResetBankForOBJExtPltt(void)
+int GX_ResetBankForOBJExtPltt(void)
 {
     reg_GX_DISPCNT &= ~0x80000000;
-    resetBankForX_((u16 *)((int)0x2150E5C));
+    return resetBankForX_((u16 *)((int)0x2150E5C));
 }
 
 int GX_ResetBankForTex(void){ return resetBankForX_((void *)0x02150E54); }
 
-void GX_ResetBankForTexPltt(void){ resetBankForX_((u16 *)((int)0x2150E56)); }
+int GX_ResetBankForTexPltt(void){ return resetBankForX_((u16 *)((int)0x2150E56)); }
 
-void GX_ResetBankForClearImage(void){ resetBankForX_((u16 *)((int)0x2150E58)); }
+int GX_ResetBankForClearImage(void){ return resetBankForX_((u16 *)((int)0x2150E58)); }
 
 int GX_ResetBankForSubBG(void){ return resetBankForX_((u16 *)((int)0x2150E5E)); }
 
-void GX_ResetBankForSubOBJ(void){ resetBankForX_((u16 *)((int)0x2150E60)); }
+int GX_ResetBankForSubOBJ(void){ return resetBankForX_((u16 *)((int)0x2150E60)); }
 
-void GX_ResetBankForSubBGExtPltt(void)
+int GX_ResetBankForSubBGExtPltt(void)
 {
     reg_GXS_DB_DISPCNT &= ~0x40000000;
-    resetBankForX_((u16 *)((int)0x2150E62));
+    return resetBankForX_((u16 *)((int)0x2150E62));
 }
 
-void GX_ResetBankForSubOBJExtPltt(void)
+int GX_ResetBankForSubOBJExtPltt(void)
 {
     reg_GXS_DB_DISPCNT &= ~0x80000000;
-    resetBankForX_((u16 *)((int)0x2150E64));
+    return resetBankForX_((u16 *)((int)0x2150E64));
 }
 
 /*

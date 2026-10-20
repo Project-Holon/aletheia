@@ -1,7 +1,7 @@
 /*
  * file:     bsubway_comm.c
  * unit:     yes
- * function: BSUBWAY_COMM_NetInit, BSUBWAY_COMM_GetBeaconData, BSUBWAY_COMM_AddCommandTable, BSUBWAY_COMM_DeleteCommandTable, BSUBWAY_COMM_StartTimingSync, BSUBWAY_COMM_CheckTimingSync, BSUBWAY_COMM_SetSendPlayerData, BSUBWAY_COMM_SetSendTrainerData, BSUBWAY_COMM_SetSendRetireSelect, BSUBWAY_COMM_SetSendPlayMode, BSUBWAY_COMM_SetSendWord5, BSUBWAY_COMM_SetSendWord6, BSUBWAY_COMM_SetSendWord7, BSUBWAY_COMM_SetSendData, BSUBWAY_COMM_SendData, BSUBWAY_COMM_SetRecvMode, BSUBWAY_COMM_IsRecvEnd, BSUBWAY_COMM_RecvPlayerData, BSUBWAY_COMM_RecvTrainerData, BSUBWAY_COMM_RecvRetireSelect, BSUBWAY_COMM_RecvMyStatus, BSUBWAY_COMM_RecvPlayMode, BSUBWAY_COMM_RecvWord5, BSUBWAY_COMM_RecvWord6, BSUBWAY_COMM_RecvWord7
+ * function: BSUBWAY_COMM_NetInit, BSUBWAY_COMM_GetBeaconData, BSUBWAY_COMM_GetBeaconSize, BSUBWAY_COMM_CheckConnectService, BSUBWAY_COMM_AddCommandTable, BSUBWAY_COMM_DeleteCommandTable, BSUBWAY_COMM_StartTimingSync, BSUBWAY_COMM_CheckTimingSync, BSUBWAY_COMM_SetSendPlayerData, BSUBWAY_COMM_SetSendTrainerData, BSUBWAY_COMM_SetSendRetireSelect, BSUBWAY_COMM_SetSendPlayMode, BSUBWAY_COMM_SetSendWord5, BSUBWAY_COMM_SetSendWord6, BSUBWAY_COMM_SetSendWord7, BSUBWAY_COMM_SetSendData, BSUBWAY_COMM_SendData, BSUBWAY_COMM_SetRecvMode, BSUBWAY_COMM_IsRecvEnd, BSUBWAY_COMM_RecvPlayerData, BSUBWAY_COMM_RecvTrainerData, BSUBWAY_COMM_RecvRetireSelect, BSUBWAY_COMM_RecvMyStatus, BSUBWAY_COMM_RecvPlayMode, BSUBWAY_COMM_RecvWord5, BSUBWAY_COMM_RecvWord6, BSUBWAY_COMM_RecvWord7
  * address:  0x02167AB0
  * region:   ov010
  * compiler: dsi/1.1p1

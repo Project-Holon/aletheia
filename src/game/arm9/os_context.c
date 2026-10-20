@@ -21,12 +21,11 @@
 
 #include "../sdk_os.h"
 
-extern void CP_SaveContext(void);
-extern void CPi_RestoreContext(void);
-extern int OS_IsRunOnTwl(void);
+#include "cp_context.h"
+#include "os_emulator.h"
 asm void OS_InitContext(OSContext *context, u32 newpc, u32 newsp);
-asm void OS_SaveContext(void);
-asm void OS_LoadContext(void);
+asm BOOL OS_SaveContext(OSContext *context);
+asm void OS_LoadContext(OSContext *context);
 
 /*
  * sdk:      OS_InitContext (os_context.o)
@@ -68,7 +67,7 @@ asm void OS_InitContext(OSContext *context, u32 newpc, u32 newsp)
 }
 
 /* hand-written in the original: stm of the register file and mrs, one SDK line-table row per instruction */
-asm void OS_SaveContext(void)
+asm BOOL OS_SaveContext(OSContext *context)
 {
     stmfd sp!, {r0, lr}
     add r0, r0, #0x48
@@ -91,7 +90,7 @@ asm void OS_SaveContext(void)
 }
 
 /* hand-written in the original: ldm of the register file and msr, one SDK line-table row per instruction */
-asm void OS_LoadContext(void)
+asm void OS_LoadContext(OSContext *context)
 {
     stmfd sp!, {r0, lr}
     add r0, r0, #0x48

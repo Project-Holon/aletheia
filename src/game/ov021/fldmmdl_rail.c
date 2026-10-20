@@ -1,7 +1,7 @@
 /*
  * file:     fldmmdl_rail.c
  * unit:     yes
- * function: FLDMMDL_RAIL_SetLocation, FLDMMDL_RAIL_GetNextLocation, FLDMMDL_RAIL_GetNowLocation, FLDMMDL_RAIL_GetRailWork, FLDMMDL_RAIL_UpdateRailWork, FLDMMDL_RAIL_SetMoveRequest, FLDMMDL_RAIL_GetHitBitsLocation, FLDMMDL_RAIL_GetHitBitsDirNoAttr, FLDMMDL_RAIL_GetHitBitsDir, FLDMMDL_RAIL_CheckHitMmdl, FLDMMDL_RAIL_SearchMmdlByLocation, FLDMMDL_RAIL_GetFrontLocation, FLDMMDL_RAIL_GetLocationByDir, FLDMMDL_RAIL_SetGridPosByDir, FLDMMDL_RAIL_GetDrawOffset, FLDMMDL_RAIL_GetDrawOffsetByDir, FLDMMDL_RAIL_StayInit, FLDMMDL_RAIL_StayMove, FLDMMDL_RAIL_StayDelete, FLDMMDL_RAIL_AcquireRailWorkBody, FLDMMDL_RAIL_DirToRailKey, FLDMMDL_RAIL_RailKeyToDir, FLDMMDL_RAIL_InitMoveWork, FLDMMDL_RAIL_CheckOutsideHomeArea, FLDMMDL_RAIL_GetTableLength, FLDMMDL_RAIL_GetRandomTableEntry, FLDMMDL_RAIL_GetRandomDirOfKind, FLDMMDL_RAIL_GetDirListOfKind, FLDMMDL_RAIL_InitRailWork, FLDMMDL_RAIL_StoreNowLocation, FLDMMDL_RAIL_ReleaseRailWork, FLDMMDL_RAIL_AcquireRailWork, FLDMMDL_RAIL_StoreLocation, FLDMMDL_RAIL_ApplyStoredLocation, FLDMMDL_RAIL_LookAroundInit, FLDMMDL_RAIL_LookAroundMoveBody, FLDMMDL_RAIL_LookAroundDeleteBody, FLDMMDL_RAIL_WanderInit, FLDMMDL_RAIL_WanderMoveBody, FLDMMDL_RAIL_WanderDeleteBody, FLDMMDL_RAIL_ShuttleInitBody, FLDMMDL_RAIL_ShuttleMoveBody, FLDMMDL_RAIL_ShuttleDeleteBody
+ * function: FLDMMDL_RAIL_SetLocation, FLDMMDL_RAIL_GetNextLocation, FLDMMDL_RAIL_GetNowLocation, FLDMMDL_RAIL_GetRailWork, FLDMMDL_RAIL_UpdateRailWork, FLDMMDL_RAIL_SetMoveRequest, FLDMMDL_RAIL_GetHitBitsLocation, FLDMMDL_RAIL_GetHitBitsDirNoAttr, FLDMMDL_RAIL_GetHitBitsDir, FLDMMDL_RAIL_CheckHitMmdl, FLDMMDL_RAIL_SearchMmdlByLocation, FLDMMDL_RAIL_GetFrontLocation, FLDMMDL_RAIL_GetLocationByDir, FLDMMDL_RAIL_SetGridPosByDir, FLDMMDL_RAIL_GetDrawOffset, FLDMMDL_RAIL_GetDrawOffsetByDir, FLDMMDL_RAIL_StayInit, FLDMMDL_RAIL_StayMove, FLDMMDL_RAIL_StayDelete, FLDMMDL_RAIL_AcquireRailWorkBody, FLDMMDL_RAIL_LookAroundInitKind0, FLDMMDL_RAIL_LookAroundInitKind1, FLDMMDL_RAIL_LookAroundInitKind2, FLDMMDL_RAIL_LookAroundInitKind3, FLDMMDL_RAIL_LookAroundInitKind4, FLDMMDL_RAIL_LookAroundInitKind5, FLDMMDL_RAIL_LookAroundInitKind6, FLDMMDL_RAIL_LookAroundInitKind7, FLDMMDL_RAIL_LookAroundInitKind8, FLDMMDL_RAIL_LookAroundInitKind9, FLDMMDL_RAIL_LookAroundInitKind10, FLDMMDL_RAIL_LookAroundMove, FLDMMDL_RAIL_LookAroundDelete, FLDMMDL_RAIL_WanderInitKind0, FLDMMDL_RAIL_WanderInitKind9, FLDMMDL_RAIL_WanderMove, FLDMMDL_RAIL_WanderDelete, FLDMMDL_RAIL_ShuttleInit, FLDMMDL_RAIL_ShuttleMove, FLDMMDL_RAIL_ShuttleDelete, FLDMMDL_RAIL_DirToRailKey, FLDMMDL_RAIL_RailKeyToDir, FLDMMDL_RAIL_InitMoveWork, FLDMMDL_RAIL_CheckOutsideHomeArea, FLDMMDL_RAIL_GetTableLength, FLDMMDL_RAIL_GetRandomTableEntry, FLDMMDL_RAIL_GetRandomDirOfKind, FLDMMDL_RAIL_GetDirListOfKind, FLDMMDL_RAIL_InitRailWork, FLDMMDL_RAIL_StoreNowLocation, FLDMMDL_RAIL_ReleaseRailWork, FLDMMDL_RAIL_AcquireRailWork, FLDMMDL_RAIL_StoreLocation, FLDMMDL_RAIL_ApplyStoredLocation, FLDMMDL_RAIL_LookAroundInit, FLDMMDL_RAIL_LookAroundMoveBody, FLDMMDL_RAIL_LookAroundDeleteBody, FLDMMDL_RAIL_WanderInit, FLDMMDL_RAIL_WanderMoveBody, FLDMMDL_RAIL_WanderDeleteBody, FLDMMDL_RAIL_ShuttleInitBody, FLDMMDL_RAIL_ShuttleMoveBody, FLDMMDL_RAIL_ShuttleDeleteBody
  * address:  0x0219E2C0
  * region:   ov021
  * compiler: dsi/1.1p1
@@ -255,14 +255,14 @@ void FLDMMDL_RAIL_LookAroundInitKind7(Mmdl *mmdl);
 void FLDMMDL_RAIL_LookAroundInitKind8(Mmdl *mmdl);
 void FLDMMDL_RAIL_LookAroundInitKind9(Mmdl *mmdl);
 void FLDMMDL_RAIL_LookAroundInitKind10(Mmdl *mmdl);
-int FLDMMDL_RAIL_LookAroundMove(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundMove(Mmdl *mmdl);
 int FLDMMDL_RAIL_LookAroundDelete(Mmdl *mmdl);
 void FLDMMDL_RAIL_WanderInitKind0(Mmdl *mmdl);
 void FLDMMDL_RAIL_WanderInitKind9(Mmdl *mmdl);
-int FLDMMDL_RAIL_WanderMove(Mmdl *mmdl);
+void FLDMMDL_RAIL_WanderMove(Mmdl *mmdl);
 int FLDMMDL_RAIL_WanderDelete(Mmdl *mmdl);
 void FLDMMDL_RAIL_ShuttleInit(Mmdl *mmdl);
-int FLDMMDL_RAIL_ShuttleMove(Mmdl *mmdl);
+void FLDMMDL_RAIL_ShuttleMove(Mmdl *mmdl);
 int FLDMMDL_RAIL_ShuttleDelete(Mmdl *mmdl);
 u32 FLDMMDL_RAIL_DirToRailKey(int dir);
 u32 FLDMMDL_RAIL_RailKeyToDir(int key);
@@ -279,13 +279,13 @@ void FLDMMDL_RAIL_AcquireRailWork(RailMoveWork *work, Mmdl *mmdl);
 void FLDMMDL_RAIL_StoreLocation(RailMoveWork *work, const RailLocation *loc);
 void FLDMMDL_RAIL_ApplyStoredLocation(RailMoveWork *work, Mmdl *mmdl);
 void FLDMMDL_RAIL_LookAroundInit(Mmdl *mmdl, u16 kind);
-int FLDMMDL_RAIL_LookAroundMoveBody(Mmdl *mmdl);
+void FLDMMDL_RAIL_LookAroundMoveBody(Mmdl *mmdl);
 int FLDMMDL_RAIL_LookAroundDeleteBody(Mmdl *mmdl);
 void FLDMMDL_RAIL_WanderInit(Mmdl *mmdl, u32 kind);
-int FLDMMDL_RAIL_WanderMoveBody(Mmdl *mmdl);
+void FLDMMDL_RAIL_WanderMoveBody(Mmdl *mmdl);
 int FLDMMDL_RAIL_WanderDeleteBody(Mmdl *mmdl);
 void FLDMMDL_RAIL_ShuttleInitBody(Mmdl *mmdl);
-int FLDMMDL_RAIL_ShuttleMoveBody(Mmdl *mmdl);
+void FLDMMDL_RAIL_ShuttleMoveBody(Mmdl *mmdl);
 int FLDMMDL_RAIL_ShuttleDeleteBody(Mmdl *mmdl);
 
 extern u8 d_021D84D4[][4];       /* [slope kind][direction] -> angle index */
@@ -621,17 +621,17 @@ void FLDMMDL_RAIL_LookAroundInitKind8(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(
 void FLDMMDL_RAIL_LookAroundInitKind9(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 9); }
 void FLDMMDL_RAIL_LookAroundInitKind10(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundInit(mmdl, 10); }
 
-int FLDMMDL_RAIL_LookAroundMove(Mmdl *mmdl) { return FLDMMDL_RAIL_LookAroundMoveBody(mmdl); }
+void FLDMMDL_RAIL_LookAroundMove(Mmdl *mmdl) { FLDMMDL_RAIL_LookAroundMoveBody(mmdl); }
 int FLDMMDL_RAIL_LookAroundDelete(Mmdl *mmdl) { return FLDMMDL_RAIL_LookAroundDeleteBody(mmdl); }
 
 void FLDMMDL_RAIL_WanderInitKind0(Mmdl *mmdl) { FLDMMDL_RAIL_WanderInit(mmdl, 0); }
 void FLDMMDL_RAIL_WanderInitKind9(Mmdl *mmdl) { FLDMMDL_RAIL_WanderInit(mmdl, 9); }
 
-int FLDMMDL_RAIL_WanderMove(Mmdl *mmdl) { return FLDMMDL_RAIL_WanderMoveBody(mmdl); }
+void FLDMMDL_RAIL_WanderMove(Mmdl *mmdl) { FLDMMDL_RAIL_WanderMoveBody(mmdl); }
 int FLDMMDL_RAIL_WanderDelete(Mmdl *mmdl) { return FLDMMDL_RAIL_WanderDeleteBody(mmdl); }
 
 void FLDMMDL_RAIL_ShuttleInit(Mmdl *mmdl) { FLDMMDL_RAIL_ShuttleInitBody(mmdl); }
-int FLDMMDL_RAIL_ShuttleMove(Mmdl *mmdl) { return FLDMMDL_RAIL_ShuttleMoveBody(mmdl); }
+void FLDMMDL_RAIL_ShuttleMove(Mmdl *mmdl) { FLDMMDL_RAIL_ShuttleMoveBody(mmdl); }
 int FLDMMDL_RAIL_ShuttleDelete(Mmdl *mmdl) { return FLDMMDL_RAIL_ShuttleDeleteBody(mmdl); }
 
 /* Model direction to rail key. */
@@ -794,7 +794,7 @@ void FLDMMDL_RAIL_LookAroundInit(Mmdl *mmdl, u16 kind)
 }
 
 /* Look around move: turn to a random direction of the kind after each wait. */
-int FLDMMDL_RAIL_LookAroundMoveBody(Mmdl *mmdl)
+void FLDMMDL_RAIL_LookAroundMoveBody(Mmdl *mmdl)
 {
     RailLookAroundWork *work;
 
@@ -832,7 +832,7 @@ void FLDMMDL_RAIL_WanderInit(Mmdl *mmdl, u32 kind)
 
 /* Wander move: idle, wait, then step to a random direction of the kind unless
  * the step is blocked, leaves the rail or leaves the home area. */
-int FLDMMDL_RAIL_WanderMoveBody(Mmdl *mmdl)
+void FLDMMDL_RAIL_WanderMoveBody(Mmdl *mmdl)
 {
     RailWanderWork *work;
     u32 dir;
@@ -912,7 +912,7 @@ void FLDMMDL_RAIL_ShuttleInitBody(Mmdl *mmdl)
 /* Shuttle move: walk in the move direction; when blocked, leaves the rail or
  * leaves the area, turn around and walk back to the home cell, then turn
  * around again. */
-int FLDMMDL_RAIL_ShuttleMoveBody(Mmdl *mmdl)
+void FLDMMDL_RAIL_ShuttleMoveBody(Mmdl *mmdl)
 {
     RailShuttleWork *work;
     u32 hitBits;

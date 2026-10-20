@@ -1,0 +1,28 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "C_GEAR_POWER_ONOFF_Create", "black_address": "0x021EFEC0", "white_address": "0x021EFEE0", "size": 108, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_Delete", "black_address": "0x021EFF2C", "white_address": "0x021EFF4C", "size": 16, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_Update", "black_address": "0x021EFF3C", "white_address": "0x021EFF5C", "size": 60, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_InitScreen", "black_address": "0x021EFF78", "white_address": "0x021EFF98", "size": 92, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_ExitScreen", "black_address": "0x021EFFD4", "white_address": "0x021EFFF4", "size": 56, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_InitBgs", "black_address": "0x021F000C", "white_address": "0x021F002C", "size": 244, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_ExitBgs", "black_address": "0x021F0100", "white_address": "0x021F0120", "size": 64, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_CreateTaskMenuRes", "black_address": "0x021F0140", "white_address": "0x021F0160", "size": 28, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_DeleteTaskMenuRes", "black_address": "0x021F015C", "white_address": "0x021F017C", "size": 12, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_InitWindows", "black_address": "0x021F0168", "white_address": "0x021F0188", "size": 176, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_ExitWindows", "black_address": "0x021F0218", "white_address": "0x021F0238", "size": 60, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_PrintMessage", "black_address": "0x021F0254", "white_address": "0x021F0274", "size": 68, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_ResetAndPrintMessage", "black_address": "0x021F0298", "white_address": "0x021F02B8", "size": 100, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_OpenYesNoMenu", "black_address": "0x021F02FC", "white_address": "0x021F031C", "size": 68, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_CloseMenu", "black_address": "0x021F0340", "white_address": "0x021F0360", "size": 20, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_UpdateMenu", "black_address": "0x021F0354", "white_address": "0x021F0374", "size": 16, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_GetMenuResult", "black_address": "0x021F0364", "white_address": "0x021F0384", "size": 12, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_IsMenuDecided", "black_address": "0x021F0370", "white_address": "0x021F0390", "size": 12, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_StepTurnOn", "black_address": "0x021F037C", "white_address": "0x021F039C", "size": 236, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_StepTurnOff", "black_address": "0x021F0468", "white_address": "0x021F0488", "size": 212, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"},
+  {"name": "C_GEAR_POWER_ONOFF_RunMessageStep", "black_address": "0x021F053C", "white_address": "0x021F055C", "size": 4, "diff": "constant", "source": "src/game/ov035/c_gear_power_onoff.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

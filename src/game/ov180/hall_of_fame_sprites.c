@@ -1,7 +1,7 @@
 /*
  * file:     hall_of_fame_sprites.c
  * unit:     yes
- * function: HALL_OF_FAME_LoadUiPalette, HALL_OF_FAME_DeleteTextPlate, HALL_OF_FAME_DeleteAllTextPlates, HALL_OF_FAME_PrintToPlate, HALL_OF_FAME_CreateMonPlates, HALL_OF_FAME_PrintMonInfo, HALL_OF_FAME_CreateTrainerPlates, HALL_OF_FAME_UpdatePlatePositions, HALL_OF_FAME_LoadUiResources, HALL_OF_FAME_CreateMonSceneObjects, HALL_OF_FAME_DeleteMonSceneObjects, HALL_OF_FAME_DrawMonScene, HALL_OF_FAME_CreateTrainerSceneObjects, HALL_OF_FAME_DeleteTrainerSceneObjects, HALL_OF_FAME_DrawTrainerScene, HALL_OF_FAME_SpawnSparkles
+ * function: HALL_OF_FAME_LoadUiPalette, HALL_OF_FAME_DeleteTextPlate, HALL_OF_FAME_DeleteAllTextPlates, HALL_OF_FAME_PrintToPlate, HALL_OF_FAME_CreateMonPlates, HALL_OF_FAME_PrintMonInfo, HALL_OF_FAME_CreateTrainerPlates, HALL_OF_FAME_UpdatePlatePositions, HALL_OF_FAME_SetPlateEnabled, HALL_OF_FAME_LoadUiResources, HALL_OF_FAME_CreateMonSceneObjects, HALL_OF_FAME_DeleteMonSceneObjects, HALL_OF_FAME_DrawMonScene, HALL_OF_FAME_CreateTrainerSceneObjects, HALL_OF_FAME_DeleteTrainerSceneObjects, HALL_OF_FAME_DrawTrainerScene, HALL_OF_FAME_SpawnSparkles
  * address:  0x021B7750
  * region:   ov180
  * compiler: dsi/1.1p1

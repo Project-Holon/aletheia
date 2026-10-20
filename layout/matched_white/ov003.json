@@ -1,0 +1,10 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "EVENT_MENUPROC_Main", "black_address": "0x021542C0", "white_address": "0x021542E0", "size": 188, "diff": "constant", "source": "src/game/ov003/event_menuproc.c", "version_switch": false, "status": "EXACT"},
+  {"name": "EVENT_MENUPROC_Create", "black_address": "0x0215437C", "white_address": "0x0215439C", "size": 64, "diff": "constant", "source": "src/game/ov003/event_menuproc.c", "version_switch": false, "status": "EXACT"},
+  {"name": "EVENT_MENUPROC_Entry", "black_address": "0x021543BC", "white_address": "0x021543DC", "size": 4, "diff": "constant", "source": "src/game/ov003/event_menuproc.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

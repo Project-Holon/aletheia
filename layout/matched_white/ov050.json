@@ -1,0 +1,19 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_MODELS_B_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 44, "diff": "same", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_Exit", "black_address": "0x021F36EC", "white_address": "0x021F370C", "size": 28, "diff": "same", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_Update", "black_address": "0x021F3708", "white_address": "0x021F3728", "size": 12, "diff": "constant", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_StartModel0Anime", "black_address": "0x021F3714", "white_address": "0x021F3734", "size": 48, "diff": "constant", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_StopModel0Anime", "black_address": "0x021F3744", "white_address": "0x021F3764", "size": 20, "diff": "constant", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_IsModel0AnimeDone", "black_address": "0x021F3758", "white_address": "0x021F3778", "size": 48, "diff": "constant", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_HideModel1", "black_address": "0x021F3788", "white_address": "0x021F37A8", "size": 48, "diff": "constant", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_ShowModel1", "black_address": "0x021F37B8", "white_address": "0x021F37D8", "size": 80, "diff": "constant", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_IsModel1AnimeDone", "black_address": "0x021F3808", "white_address": "0x021F3828", "size": 52, "diff": "constant", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_InitModels", "black_address": "0x021F383C", "white_address": "0x021F385C", "size": 84, "diff": "constant", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_InitExtra", "black_address": "0x021F3890", "white_address": "0x021F38B0", "size": 4, "diff": "same", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_MODELS_B_ExitExtra", "black_address": "0x021F3894", "white_address": "0x021F38B4", "size": 4, "diff": "constant", "source": "src/game/ov050/field_gimmick_models_b.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

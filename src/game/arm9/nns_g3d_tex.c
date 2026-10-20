@@ -78,15 +78,10 @@ typedef struct { u16 offset; u8 numIdx; u8 flag; } NNSG3dResPlttToMatIdx;
 
 /* Data record of the texture dictionary. */
 /* Data record of the palette dictionary. */
-extern void MIi_CpuClear32(u32 val, void *dst, u32 len);
-extern void GX_BeginLoadTex(void);
-extern void GX_LoadTex(void *src, u32 off, u32 n);
-extern void GX_EndLoadTex(void);
-extern void GX_BeginLoadTexPltt(void);
-extern void GX_LoadTexPltt(const void *pSrc, u32 destSlotAddr, u32 szByte);
-extern void GX_EndLoadTexPltt(void);
-extern u32 FX_Div(u32 a, u32 b);
-extern void *NNS_G3dGetResDataByName(const NNSG3dResDict *dict, const NNSG3dResName *name);
+#include "mi_memory.h"
+#include "gx_load3d.h"
+#include "fx_cp.h"
+#include "nns_g3d_res.h"
 void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *resAnm, u32 resMdl, u32 resTex);
 void NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, u32 resMdl);
 void NNSi_G3dAnmObjInsertByPriority(NNSG3dAnmObj **head, NNSG3dAnmObj *item);
@@ -437,7 +432,7 @@ void NNS_G3dPlttLoad(NNSG3dResTex *pTex, BOOL exec)
         szByte       = (u32)pTex->plttInfo.sizePltt << 3;
         pPlttData    = (u8 *)pTex + pTex->plttInfo.ofsPlttData;
         destSlotAddr = (pTex->plttInfo.vramKey & 0xffff) << 3;
-        GX_LoadTexPltt(pPlttData, destSlotAddr, szByte);
+        GX_LoadTexPltt((void *)pPlttData, destSlotAddr, szByte);
     }
     pTex->plttInfo.flag |= 1;
     if (exec) {

@@ -36,19 +36,13 @@
  */
 #include "../../matched/include/G_APC_BSS.h"
 
-struct WCMNotice;
-typedef struct {
-    long  dmano;
-    void *pbdbuffer;
-    long  nbdbuffer;
-    long  nbdmode;
-} WCMConfig;
-
 /*
  * apc.o's .bss statics from 0x021DCF80 (the ten words before apci_bssid_buf): the
  * vendor object addresses them through apci_WCMBuffer's pool word plus an offset, so
  * they are declared as one object in the object's own order; members are the vendor names.
  */
+#include "../sdk_wm.h"
+
 typedef struct {
     void          *apci_WCMBuffer;        /* +0x00 */
     unsigned long  apci_search_option;    /* +0x04 */
@@ -61,16 +55,6 @@ typedef struct {
     void          *apci_wmbssdesc;        /* +0x20 */
     unsigned char *apci_Wep;              /* +0x24 */
 } APC_BSS;
-
-typedef union {
-    void *p;
-} WCMNoticeParameter;
-
-typedef struct WCMNotice {
-    short              notify;
-    short              result;
-    WCMNoticeParameter parameter[3];
-} WCMNotice;
 
 struct wlla_ssid {
     unsigned long Len;

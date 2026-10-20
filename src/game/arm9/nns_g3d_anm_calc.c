@@ -64,21 +64,16 @@
 #define VOLATILE_MATANM(p) ((volatile NNSG3dMatAnmResult *)(p))
 #define VOLATILE_JNTANM(p) ((volatile NNSG3dJntAnmResult *)(p))
 
-extern void MIi_CpuClear16(u32 val, void *dst, u32 n);
-extern void MI_Zero36B(void *p);
+#include "mi_memory.h"
 extern void VEC_Normalize(const int *src, int *dst);
-s32 NNS_G3dGetResDictIdxByName(const NNSG3dResDict *pDict, const NNSG3dResName *pName);
-extern void *NNS_G3dGetResDataByName(const NNSG3dResDict *pDict, const NNSG3dResName *pName);
+#include "nns_g3d_res.h"
 extern u32 FX_Div(u32 numer, u32 denom);
-extern const NNSG3dResTexPatAnmFV *NNSi_G3dTexPatAnmGetFrameValue(const NNSG3dResTexPatAnm *pPatAnm, u32 dataIdx, u32 frame);
-extern const NNSG3dResName *NNSi_G3dGetTexPatAnmTexNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 texIdx);
-extern const NNSG3dResName *NNSi_G3dGetTexPatAnmPlttNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 plttIdx);
-extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
+#include "nns_g3d_anm_texpat.h"
+#include "nns_g3d_ge.h"
 extern void FX_DivAsync(s32 num, s32 den);
 extern s32  FX_GetDivResult(void);
 extern void FX_DivAsync(fx32 numer, fx32 denom);
 extern fx32 FX_GetDivResult(void);
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, const NNSG3dResJntAnm *pJntAnm, const NNSG3dResMdl *pMdl);
 void NNSi_G3dAnmCalcNsBca(NNSG3dJntAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx);
 void NNSi_G3dGetNodeTransFromMdl(NNSG3dJntAnmResult *pResult);

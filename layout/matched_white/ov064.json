@@ -1,0 +1,19 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 208, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_Exit", "black_address": "0x021F3790", "white_address": "0x021F37B0", "size": 28, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_Update", "black_address": "0x021F37AC", "white_address": "0x021F37CC", "size": 12, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect", "black_address": "0x021F37B8", "white_address": "0x021F37D8", "size": 148, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent", "black_address": "0x021F384C", "white_address": "0x021F386C", "size": 292, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_StartArcEffect", "black_address": "0x021F3970", "white_address": "0x021F3990", "size": 212, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt", "black_address": "0x021F3A44", "white_address": "0x021F3A64", "size": 124, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent", "black_address": "0x021F3AC0", "white_address": "0x021F3AE0", "size": 28, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent", "black_address": "0x021F3ADC", "white_address": "0x021F3AFC", "size": 28, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent", "black_address": "0x021F3AF8", "white_address": "0x021F3B18", "size": 180, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached", "black_address": "0x021F3BAC", "white_address": "0x021F3BCC", "size": 44, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped", "black_address": "0x021F3BD8", "white_address": "0x021F3BF8", "size": 4, "diff": "constant", "source": "src/game/ov064/field_gimmick_arc_effect.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

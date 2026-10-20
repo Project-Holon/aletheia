@@ -67,19 +67,17 @@ struct Cursor {
     u32 ctx;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_FreeMemory(void *p);
+#include "gfl_heap.h"
 
-extern void UI_SetInputMode(u8 v);
+#include "ui.h"
 
-extern u32 KEY_GetTrg(void);
+#include "key.h"
 
-extern void UI_SetInputMode(u8 v);
 
-extern unsigned int KEY_GetRepeat(void);
 
-extern int TOUCHPANEL_HitTrg(const void *key);
+#include "touchpanel.h"
 
 extern struct CursorTableRow gCursorMoveTable[];
 
@@ -389,7 +387,7 @@ int CURSOR_MOVE_PollTouch(struct Cursor *obj, int *out)
         key[1] = e->tag[1];
         key[2] = e->tag[2];
         key[3] = e->tag[3];
-        if (TOUCHPANEL_HitTrg(key) != -1) {
+        if (TOUCHPANEL_HitTrg((const TouchHitTable *)key) != -1) {
             res = 1;
             if (CURSOR_MOVE_TestSkipBit(bitmap, i) == 1) {
                 obj->prev = obj->cur;

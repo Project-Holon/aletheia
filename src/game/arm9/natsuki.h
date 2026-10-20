@@ -6,6 +6,8 @@
 struct PokemonParam;
 struct Party;
 
+#include "../types.h"
+
 void NATSUKI_Calc(struct PokemonParam *pp, int type, int zoneId, u16 heap);
 void NATSUKI_CalcUseItem(struct PokemonParam *pp, int item, u16 zoneId, u16 heap);
 void NATSUKI_CalcWalk(struct PokemonParam *pp, int zoneId, u16 heap);

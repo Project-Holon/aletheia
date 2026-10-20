@@ -75,32 +75,30 @@ typedef struct {
     u32 palette;
 } WmIconArcData;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
+#include "gf_panic.h"
 
-extern u16 GX_GetBankForOBJ(void);
+typedef int GXVRamBG;
+typedef int GXVRamOBJ;
+typedef int GXVRamTex;
+#include "gx_vramcnt.h"
 
-extern u16 GX_GetBankForSubOBJ(void);
 
-extern void GX_LoadOAM(const void *src, u32 offset, u32 size);
+#include "gx_load2d.h"
 
-extern void GXS_LoadOAM(const void *src, u32 offset, u32 size);
 
-extern u32  WM_ICON_GetArcId(void);
+#include "wm_icon_arc.h"
 struct NetDeviceHeader;
 
-extern void WM_ICON_InitArcData(struct NetDeviceHeader *hdr);
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "arc_tool.h"
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 dataId, int palType, int offset, int size, int heapId);
 
 extern void ARC_UTIL_UploadScreenFromHandle(void *arc, u32 dataId, int engine, int offset, int size, int heapID, int heapId);
 
-extern void ARC_TOOL_DeleteHandle(void *arc);
 
 /* wm_icon.c */
 WmIcon *GFL_NET_WM_ICON_Create(u32 unused, u32 heapId, u32 x, u32 y, u32 iconVariant, WmIcon *icon, u32 screen, u32 screenChanged, u32 level);

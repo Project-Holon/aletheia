@@ -43,15 +43,12 @@ typedef struct OsAlarmBss {
     OSAlarmQueue OSi_AlarmQueue;
 } OsAlarmBss;
 
-extern OSTick OS_GetTick(void);
-extern void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void *), void *arg);
-extern OSIrqMask OS_EnableIrqMask(OSIrqMask intr);
+#include "os_tick.h"
+#include "os_interrupt.h"
 extern void OSi_AlarmHandler(void *arg);
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern void OSi_SetTimerReserved(int timerNum);
-extern u32 OS_DisableIrqMask(u32 intr);
-extern void OS_Terminate(void);
+#include "os_system.h"
+#include "os_timer.h"
+#include "os_terminate_processor.h"
 void OSi_SetTimer(OSAlarm *alarm);
 void OS_InitAlarm(void);
 BOOL OS_IsAlarmAvailable(void);

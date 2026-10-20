@@ -75,27 +75,12 @@
 
 #include "../sdk_os_thread.h"
 
-typedef struct CARDRomHeader {
-    u8 pad[0x80];
-    u32 rom_size;
-} CARDRomHeader;
-
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern FSResult FSi_WaitForArchiveCompletion(FSFile *file, FSResult result);
-extern int FSi_IncrementSjisPositionToSlash(const char *str, int pos);
-extern void FS_InitFile(FSFile *file);
-extern char *FS_GetArchiveName(FSArchive *arc);
-extern int STD_GetStringLength(const char *str);
-extern BOOL FSi_IsUnreadableRomOffset(FSArchive *arc, u32 offset);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void *CARD_GetRomHeader(void);
-extern BOOL FS_MountArchive(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl, u32 reserved);
-extern BOOL FS_UnmountArchive(FSArchive *arc);
-extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
-extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
-extern BOOL FS_CloseFile(FSFile *file);
-extern BOOL FS_SuspendArchive(FSArchive *arc);
-extern BOOL FS_ResumeArchive(FSArchive *arc);
+#include "mi_memory.h"
+#include "fs_archive.h"
+#include "fs_file.h"
+#include "std_string.h"
+#include "fs_proc_rom.h"
+#include "card_api.h"
 FSResult FSi_ReadTable(FSiSyncReadParam *p, void *dst, u32 len);
 void FSi_SeekDirDirect(FSFile *file, u32 id);
 FSResult FSi_SeekDirDefault(FSFile *file);
@@ -972,7 +957,7 @@ BOOL FS_LoadArchive(FSArchive *arc, u32 base, u32 fat, u32 fat_size, u32 fnt, u3
     context->read_func = read_func ? read_func : FSi_ReadMemCallback;
     context->write_func = write_func ? write_func : (FS_ARCHIVE_WRITE_FUNC)FSi_WriteMemCallback;
     context->load_mem = 0;
-    return FS_MountArchive(arc, context, &FSiArchiveProcInterface, 0);
+    return FS_MountArchive(arc, context, &FSiArchiveProcInterface);
 }
 
 BOOL FS_UnloadArchive(FSArchive *arc)

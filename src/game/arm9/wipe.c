@@ -72,15 +72,12 @@ struct TcbSystem;
 struct TcbTask;
 extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, PaletteFade *), void *work, unsigned int priority);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
-extern void GXS_LoadBGPltt(void *a, u32 b, u32 c);
-extern s32 FADE_GetSpeed(void);
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
-extern u32 GFL_HEAP_Free(void *p);
+#include "tcb_list.h"
+#include "gx_load2d.h"
+#include "fade.h"
+#include "gx.h"
+#include "gfl_use.h"
+#include "gfl_heap_wrap.h"
 void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 void WIPE_SYS_Main(void);
 u32 WIPE_SYS_EndCheck(void);
@@ -106,12 +103,7 @@ void WIPE_RequestClearHBlankSlot(u32 slots, u32 slotIdx, u32 heapId);
 void WIPE_SetHBlankSlotTask(void *task, u32 *args);
 void WIPE_ClearHBlankSlotTask(struct Node *task, u32 *args);
 void WIPE_DummyHBlank(void *ctx);
-u16 WIPE_SUB_ResolveColor(struct WipeSys *obj, u16 value);
-u16 WIPE_SUB_GetEndColor(struct WipeSys *p);
-void WIPE_SUB_RequestBrightnessReset(struct WipePanel *s);
-void WIPE_SUB_ApplyEndBrightness(struct WipePanel *s);
-void WIPE_SUB_ClearSys(struct WipeSys *p);
-void WIPE_SUB_SetWindowVisible(u32 val, u32 engine);
+#include "wipe_sub.h"
 
 extern struct WipeSys g_wipeSys;
 extern FuncPtr g_wipePatternHandlers[];
@@ -656,7 +648,7 @@ void WIPE_HBlankSlotsTask(void *task, struct WipeHBlankSlots *p)
 void WIPE_SetHBlankSlot(struct WipeHBlankSlots *p, void *ctx, Handler fn, u32 idx)
 {
     if (p->active[0] == 0 && p->active[1] == 0)
-        g_wipeSys.hblankTask = GFL_USE_AddHBlankTask((u32)WIPE_HBlankSlotsTask, (u32)p, 0);
+        g_wipeSys.hblankTask = GFL_USE_AddHBlankTask((void (*)(struct Tcb *, void *))WIPE_HBlankSlotsTask, (void *)p, 0);
 
     p->work[idx] = ctx;
     if (fn != 0)

@@ -45,26 +45,19 @@ typedef struct {
     u16 nvramBuf2[16];
 } NCFGBackupBss;
 
-typedef enum NVRAMResult {
-    NVRAM_RESULT_SUCCESS = 0,
-    NVRAM_RESULT_BUSY = 1
-} NVRAMResult;
+#include "nvram.h"
 
-extern void NVRAMi_Init(void);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
+#include "os_cache.h"
 extern NVRAMResult ReadNVRAM(u32 address, u32 size, void *pData);
 extern s32  NCFGi_InitBackupMemory(void);
 extern int  getSlotInfo(s32 index, u32 *address, u32 *size);
-extern void DC_StoreRange(void *startAddr, u32 nBytes);
 extern NVRAMResult WriteNVRAM(u32 address, u32 size, void *pData);
 extern NVRAMResult VerifyNVRAM(u32 address, u32 size, void *pData);
 extern u8  NCFG_GetFormatVersion(void);
-extern NVRAMResult NVRAMi_Read(u32 address, u32 size, void *pData);
-extern BOOL OS_IsTickAvailable(void);
-extern BOOL OS_IsAlarmAvailable(void);
-extern void OS_Sleep(u32 msec);
-extern NVRAMResult NVRAMi_Write(u32 address, u32 size, void *pData);
-extern NVRAMResult NVRAMi_Verify(u32 address, u32 size, void *pData);
+typedef unsigned long long OSTick;
+#include "os_tick.h"
+#include "os_alarm.h"
+#include "os_thread.h"
 s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index);
 s32 NCFG_WriteBackupMemory(s32 index, void *buf, u32 size);
 extern u32 BaseAddress;

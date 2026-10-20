@@ -36,10 +36,9 @@ typedef struct OsArgumentBss {
     OSDeliverArgInfo *sBufferPtr;
 } OsArgumentBss;
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-extern u16 SVC_GetCRC16(u32 start, const void *data, u32 size);
+#include "mi_memory.h"
+#include "svc_get_crc16.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 void OS_SetDeliverArgStateInvalid(void);
 u64 OS_GetTitleIdFromDeliverArg(void);

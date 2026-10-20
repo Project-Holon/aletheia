@@ -19,6 +19,7 @@
  *   CARDiHookChain  0x02150720  data
  */
 #include "../types.h"
+#include "../sdk_os.h"
 typedef struct CARDHookContext
 {
   struct CARDHookContext *next;
@@ -30,8 +31,7 @@ extern struct
 {
   CARDHookContext *chain;
 } cardi_hook_state;
-extern u32 OS_DisableInterrupts(void);
-extern u32 OS_RestoreInterrupts(u32 state);
+#include "os_system.h"
 void CARDi_NotifyEvent(u32 event, void *arg)
 {
     u32 bak = OS_DisableInterrupts();

@@ -2,48 +2,47 @@
 #define ISS_SYS_SHARED_TYPES_H
 
 #include "../types.h"
+#include "../sdk_fx.h"
 
-typedef struct {
-    int x, y, z;
-} IssVec3;
+/* Index of one 3D sound source of the 3D sound subsystem (16 sources).  The enum type
+ * keeps loop counters out of constant folding (see
+ * docs/idioms/an-enum-type-keeps-values-out-of-constant-folding.md). */
+typedef enum { ISS_3DS_SOURCE_FIRST, ISS_3DS_SOURCE_MAX = 16 } Iss3dsSourceIndex;
 
-/* One entry of the 3D sound table: the BGM that uses it and the sound it plays. */
-typedef struct {
+/* One entry of the BGM table (archive 0xb9): the BGM and the tracks that go silent in it. */
+typedef struct Iss3dsTableEntry {
     u32 bgmId;
-    u32 soundId;
+    u16 mutedMask;      /* tracks silenced while this BGM plays */
+    u16 reserved06;
 } Iss3dsTableEntry;
 
-enum {
-    ISS_3DS_SLOT_COUNT = 16
-};
-
-/* One positional sound source. */
-typedef struct {
+/* One 3D sound source: a point that drives the volume and pan of some tracks. */
+typedef struct Iss3dsSource {
     u32 active;
-    IssVec3 pos;
-    int radius;
-    int amp;
+    struct VecFx32 pos;
+    s32 radius;                 /* distance beyond which the source is silent */
+    s32 amplitude;              /* volume at the source position */
     u16 trackMask;
-    u16 reserved;
-} Iss3dsSlot;
+    u16 reserved1A;
+} Iss3dsSource;
 
 /* 3D sound subsystem, 0x26c bytes. */
-typedef struct {
+typedef struct Iss3dsSys {
     u16 heapId;
     u16 reserved02;
-    u32 entered;
-    u8 volume;
-    u8 maxVolume;
-    u8 fadeSpeed;
+    u32 entered;                /* 1 between Enter and Leave */
+    u8 targetVolume;            /* master volume the ramp moves toward (0..0x7f) */
+    u8 volume;                  /* current master volume */
+    u8 volumeStep;              /* ramp step of volume per update */
     u8 reserved0B;
-    IssVec3 cameraPos;
-    IssVec3 cameraTarget;
-    Iss3dsSlot slots[ISS_3DS_SLOT_COUNT];
-    u32 slotLevelA[ISS_3DS_SLOT_COUNT];
-    u32 slotLevelB[ISS_3DS_SLOT_COUNT];
+    struct VecFx32 cameraPos;   /* listener position */
+    struct VecFx32 cameraTarget;    /* point the listener looks at */
+    Iss3dsSource sources[ISS_3DS_SOURCE_MAX];
+    s32 volumeLevel[ISS_3DS_SOURCE_MAX];    /* per-source volume, ramped */
+    s32 panLevel[ISS_3DS_SOURCE_MAX];       /* per-source pan, ramped */
     Iss3dsTableEntry *table;
     u8 tableCount;
-    u8 tableIndex;
+    u8 tableIndex;              /* 0xff: none */
 } Iss3dsSys;
 
 #endif

@@ -48,15 +48,11 @@ typedef int i32;
 
 #include "../types.h"
 
-extern double scalbn(double x, int n);
+#include "msl_fdlibm_pow.h"
 extern double _dsub(double x, double y);
-extern int _d2s(double x);
-extern double __kernel_cos(double x, double y);
+#include "cw_runtime.h"
 extern double __kernel_sin(double x, double y, int iy);
-extern int __ieee754_rem_pio2(double x, double *y);
-extern int __fpclassifyd(double x);
-extern double __ieee754_pow(double x, double y);
-extern int MSL_C_LIB_StrNICmp(const u8 *s1, const u8 *s2, int n);
+#include "msl_stdio.h"
 int __kernel_rem_pio2(double *x, double *y, int e0, int nx, int prec, const int *ipio2);
 double copysign(double x, double y);
 double cos(double x);
@@ -69,9 +65,6 @@ double pow(double x, double y);
 int stricmp(const u8 *s1, const u8 *s2);
 int strnicmp(const u8 *s1, const u8 *s2, int n);
 int strcmp_nocase(const u8 *s1, const u8 *s2);
-asm void _double_arith_prelude(void);
-asm void __dmul(void);
-asm void _d2f(void);
 extern const int init_jk[];
 extern const double PIo2[];
 extern const u8 __tolower_map[];

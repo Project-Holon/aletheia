@@ -194,6 +194,8 @@ def to_white(a, region=None):
     """White address of the Black address `a` (a Thumb function keeps its low bit).
     `region`: the overlay `a` belongs to, when it is one whose code moved inside it."""
     bit = a & 1
+    if (a & ~1) >= MAIN_MEMORY_END:
+        return a            # the DSi block (0x02700000..), DTCM, WRAM, IO, VRAM: the same in both games
     if region and region.startswith("ov") and a >= 0x02100000:
         try:
             return to_white_ov(region, a & ~1) | bit
@@ -222,6 +224,8 @@ def to_black(a):
     """Inverse for the overlay RAM window only (every overlay loads 0x20 higher in White)."""
     m = _load()
     d = m["white_end"] - m["black_end"]
+    if MAIN_MEMORY_END <= a:
+        return a            # the DSi block and everything above main memory: not moved
     if a >= m["white_end"]:
         return a - d
     raise KeyError("0x%08X is not in the overlay window" % a)

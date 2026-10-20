@@ -12,8 +12,8 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  */
-asm void GX_SendFifo48B(void);
-asm void GX_SendFifo64B(void);
+asm void GX_SendFifo48B(const void *pSrc);
+asm void GX_SendFifo64B(const void *pSrc);
 
 /*
  * sdk:      GX_SendFifo48B (libgx.TWL.HYB.a gxasm.o)
@@ -23,7 +23,7 @@ asm void GX_SendFifo64B(void);
  * void GX_SendFifo48B(const void *pSrc, void *pDest)
  * hand-written in the original: ldm/stm FIFO burst, one SDK line-table row per instruction
  */
-asm void GX_SendFifo48B(void)
+asm void GX_SendFifo48B(const void *pSrc)
 {
     ldmia r0!, {r2, r3, r12}
     stmia r1, {r2, r3, r12}
@@ -44,7 +44,7 @@ asm void GX_SendFifo48B(void)
  * void GX_SendFifo64B(const void *pSrc, void *pDest)
  * hand-written in the original: ldm/stm FIFO burst, one SDK line-table row per instruction
  */
-asm void GX_SendFifo64B(void)
+asm void GX_SendFifo64B(const void *pSrc)
 {
     stmfd sp!, {r4, r5, r6, r7, r8}
     ldmia r0!, {r2, r3, r4, r5, r6, r7, r8, r12}

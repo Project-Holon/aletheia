@@ -27,13 +27,9 @@
 
 #include "../sdk_wm.h"
 
-extern void *WMi_GetSystemWork(void);
-extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern void DC_StoreRange(void *startAddr, u32 nBytes);
-extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
-extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
+#include "wm_system.h"
+#include "os_cache.h"
+#include "mi_memory.h"
 WMErrCode WM_SetDCFData(WMCallbackFunc callback, const u8 *destAdr, const u16 *sendData, u16 sendDataSize);
 WMErrCode WM_EndDCF(WMCallbackFunc callback);
 

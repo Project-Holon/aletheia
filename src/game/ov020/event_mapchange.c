@@ -357,7 +357,7 @@ extern void GX_SetBankForLCDC(int a);
 extern void MIi_CpuClearFast(int v, u32 a, u32 b);
 extern void GX_DisableBankForLCDC(void);
 extern int COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
-extern u8 COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value);
+extern void COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value);
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern struct GameEvent *EL_SCOREBOARD_StartStandalone(struct GameSystem *gameSystem, int fromSeason, int toSeason);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);

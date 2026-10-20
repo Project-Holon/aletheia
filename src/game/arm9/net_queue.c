@@ -32,23 +32,18 @@
 #include "net_types.h"
 #include "../types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
+#include "gf_panic.h"
 
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-void GFL_NET_RING_BUFF_Write(NetRingBuff *ring, const u8 *pDataArea, int size);
+#include "net_ring_buff.h"
 
-int GFL_NET_RING_BUFF_Read(NetRingBuff *ring, u8 *dst, u32 size, u32 max);
 
-int GFL_NET_RING_BUFF_GetFreeSize(NetRingBuff *ring);
 
-void GFL_NET_RING_BUFF_EndChange(NetRingBuff *ring);
 
 /* net_queue.c */
 NetQueueNode *GFL_NET_QUEUE_GetFreeNode(NetQueue *queue);

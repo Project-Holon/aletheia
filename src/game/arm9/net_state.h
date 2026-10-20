@@ -1,10 +1,12 @@
 #ifndef GAME_ARM9_NET_STATE_H
 #define GAME_ARM9_NET_STATE_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of net_state.c, prototypes copied from their definitions. */
 
 struct NetStateWork;
 
+#include "../types.h"
 #include "../arm9/net_types.h"
 
 void GFL_NET_STATE_ChangeState(struct NetStateWork *work, void *state, u32 timer);
@@ -17,7 +19,7 @@ void GFL_NET_STATE_ConnectMacDone(void);
 void GFL_NET_STATE_ExtendConnectTimer(void);
 void GFL_NET_STATE_ConnectMac(struct NetStateWork *work);
 void GFL_NET_STATE_StartConnectMac(void);
-void GFL_NET_STATE_ConnectMacAddress(int mac, int anyParent);
+void GFL_NET_STATE_ConnectMacAddress(void *mac, int anyParent);
 void GFL_NET_STATE_BeaconScanIdle(void);
 void GFL_NET_STATE_StartBeaconScan(void);
 void GFL_NET_STATE_BeaconScan(void);
@@ -98,5 +100,6 @@ void GFL_NET_STATE_SetWifiError(void);
 u32 GFL_NET_STATE_GetError(void);
 void GFL_NET_STATE_FatalError(void);
 int GFL_NET_STATE_IsFatalError(void);
+/* END mkheaders: generated region */
 
 #endif

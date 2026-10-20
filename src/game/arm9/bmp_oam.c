@@ -52,9 +52,9 @@
 
 #include "../types.h"
 
-struct Actor;
+struct ClactActor;
 
-struct Bmp;
+#include "bmp_shared_types.h"
 
 /* Initial position and flags handed to the actor creator. */
 struct ActorInitParam {
@@ -83,7 +83,7 @@ struct BmpOamSys {
 /* One bitmap shown as a rows x cols grid of 32x16 OBJ actors. */
 struct BmpOam {
     const struct Bmp *bmp;
-    struct Actor     *act[24];
+    struct ClactActor     *act[24];
     u32               engine;
     u32               res[24];
     u16               space;
@@ -109,60 +109,39 @@ struct ModeEntry {
     u32 resEntryId;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+#include "arc_tool.h"
 
-extern void ARC_TOOL_DeleteHandle(void *arcTool);
 
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
+typedef short s16_p07;
+#include "bmp.h"
 
-extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern s32 CLACT_RegisterEmptyCharacter(u32 size, u32 engine, u16 heapId);
+#include "clact.h"
 
-extern struct Actor *CLACT_CreateActor(void *clact, u32 charRes, u32 animResId, s32 resSlot,
-                                   const struct ActorInitParam *initParam, u16 space, u16 heapId);
 
-extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 palette, u32 flag);
 
-extern void CLACT_SetActorVisible(struct Actor *actor, u32 visible);
 
-extern void CLACT_ReleaseCharacter(u32 charRes);
 
-extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int enabled);
 
-extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
 
-extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 
-extern void  DC_FlushRange(void *buf, u32 size);
+#include "os_cache.h"
 
-extern int CLACT_GetCharacterVramAddress(u32 charRes, u32 engine);
 
-extern void  GX_LoadOBJ(void *src, u32 off, u32 n);
+#include "gx_load2d.h"
 
-extern void  GXS_LoadOBJ(void *src, u32 off, u32 n);
 
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct OamPos *out, u16 space);
 
-extern void CLACT_AddActorSurfacePos(struct Actor *actor, const struct OamPos *pos, u32 space);
 
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 objMode);
 
-extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 drawPriority);
 
-extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 bgPriority);
 
-extern s32 CLACT_RegisterCellAnim(void *arcTool, u32 arcId, u32 entryId, u32 heapId);
 
-extern void CLACT_ReleaseCellAnim(u32 resSlot);
 
 struct BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact);
 
@@ -326,7 +305,7 @@ struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const struct BmpOamParam *p
             actorParam.drawPriority = param->drawPriority;
             actorParam.bgPriority = param->bgPriority;
             {
-                struct Actor *actor = CLACT_CreateActor(sys->clact, cell->res[0], animResId, sys->slot[mapMode], &actorParam,
+                struct ClactActor *actor = CLACT_CreateActor(sys->clact, cell->res[0], animResId, sys->slot[mapMode], (const struct ActorInit *)&actorParam,
                                                   param->space, sys->heapId);
                 u32 palette = (u8)param->palette;
                 cell->act[0] = actor;
@@ -387,7 +366,7 @@ int BMP_OAM_GetEnabled(const struct BmpOam *bmpOam)
  */
 void BMP_OAM_UploadChars(struct BmpOam *bmpOam)
 {
-    void (*loadObj)(void *, u32, u32);
+    void (*loadObj)(const void *, u32, u32);
     u8 *pixels;
     s32 tileCols;
     s32 tileRows;
@@ -453,7 +432,7 @@ void BMP_OAM_GetPos(struct BmpOam *bmpOam, s16 *outX, s16 *outY)
 {
     struct OamPos pos;
 
-    CLACT_GetActorSurfacePos(bmpOam->act[0], &pos, bmpOam->space);
+    CLACT_GetActorSurfacePos(bmpOam->act[0], (struct ClactVec2 *)&pos, bmpOam->space);
     *outX = pos.x;
     *outY = pos.y;
 }
@@ -473,7 +452,7 @@ void BMP_OAM_SetPos(struct BmpOam *bmpOam, s16 x, s16 y)
         for (colIdx = 0; colIdx < bmpOam->cols; colIdx++) {
             pos.x = (s16)(x + (colIdx << 5));
             pos.y = (s16)(y + (rowIdx << 4));
-            CLACT_AddActorSurfacePos(bmpOam->act[colIdx + rowIdx * bmpOam->cols], &pos, bmpOam->space);
+            CLACT_AddActorSurfacePos(bmpOam->act[colIdx + rowIdx * bmpOam->cols], (const struct ClactVec2 *)&pos, bmpOam->space);
         }
     }
 }

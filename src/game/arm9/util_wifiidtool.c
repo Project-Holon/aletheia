@@ -40,18 +40,16 @@ typedef union tagUNI64 {
 
 #include "../sdk_dwc.h"
 
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
-extern void RTC_Init(void);
-extern int  RTC_GetDate(RTCDate *date);
-extern int  RTC_GetTime(RTCTime *time);
-extern s64  RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
-extern int  OS_IsTickAvailable(void);
-extern u64  OS_GetTick(void);
-extern void OS_GetMacAddress(u8 *macAddress);
+#include "mi_memory.h"
+#include "dwc_backup.h"
+typedef int RTCResult;
+#include "external.h"
+#include "convert.h"
+typedef unsigned long long OSTick;
+#include "os_tick.h"
+#include "os_ownerinfo.h"
 extern u64  DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit);
 extern int DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *wifiinfo);
-extern int DWCi_BM_SetWiFiInfo(DWCWiFiInfo *info, void *work);
 int DWCi_AUTH_MakeWiFiID(void *work);
 int DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *wifiinfo, void *work);
 int DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *wifiinfo);

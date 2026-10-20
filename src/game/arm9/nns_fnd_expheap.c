@@ -122,8 +122,8 @@ struct Heap {
     struct HeapBlock *head;
 };
 
-extern void           MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern s32 abs(s32 x);
+#include "mi_memory.h"
+#include "msl_crt.h"
 void NNS_FndInitList(int list, int offset);
 void NNSi_FndSetFirstObject(volatile struct DList *list, void *elem);
 void NNS_FndAppendListObject(NNSFndList *list, void *object);

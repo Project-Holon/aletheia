@@ -45,11 +45,10 @@ typedef void (*PXIFifoCallback)(int tag, u32 data, BOOL err);
 
 typedef enum PXIFifoTag { PXI_FIFO_TAG_EX = 0, PXI_MAX_FIFO_TAG = 32 } PXIFifoTag;
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern u32 OS_ResetRequestIrqMask(u32 intr);
+#include "os_system.h"
+typedef unsigned int OSIrqMask;
+#include "os_interrupt.h"
 extern void OS_SetIrqFunction(u32 intrBit, void (*function)(void));
-extern u32 OS_EnableIrqMask(u32 intr);
 void PXIi_HandlerRecvFifoNotEmpty(void);
 void PXI_Init(void);
 void PXI_InitFifo(void);

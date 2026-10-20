@@ -20,7 +20,7 @@
 
 typedef char *va_list;
 
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
+#include "mi_memory.h"
 char *STD_CopyString(char *destp, const char *srcp);
 int STD_CopyLString(char *destp, const char *srcp, int siz);
 char *STD_SearchString(const char *srcp, const char *str);

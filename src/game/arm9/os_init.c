@@ -49,25 +49,24 @@
  *   PM_Init  0x0208B8B0  arm
  *   OSi_InitPrevTitleId  0x020883D4  arm
  */
-extern void PXI_Init(void);
-extern void OS_InitArena(void);
-extern void OS_InitLock(void);
-extern void OS_InitArenaEx(void);
-extern void OS_InitIrqTable(void);
-extern void OS_SetIrqStackChecker(void);
-extern void OS_InitException(void);
-extern void MI_Init(void);
-extern void OS_InitVAlarm(void);
-extern void OSi_InitVramExclusive(void);
-extern void OS_InitThread(void);
-extern void OS_InitReset(void);
-extern void GFL_USE_CtrdgDummyInit(void);
-extern void CARD_Init(void);
-extern void MI_InitWramManager(void);
-extern int  OS_IsRunOnTwl(void);
-extern void SCFG_Init(void);
-extern void PM_Init(void);
-extern void OSi_InitPrevTitleId(void);
+#include "pxi_fifo.h"
+#include "os_arena.h"
+#include "os_spinlock.h"
+typedef unsigned int OSIrqMask;
+#include "os_interrupt.h"
+#include "os_exception.h"
+#include "mi_init.h"
+#include "os_valarm.h"
+#include "os_vramexclusive.h"
+#include "os_thread.h"
+#include "os_reset.h"
+#include "gfl_use.h"
+#include "card_api.h"
+#include "mi_sharedwram.h"
+#include "os_emulator.h"
+#include "scfg_proc.h"
+#include "pm.h"
+#include "os_application_jump.h"
 asm void OSi_WaitVCount0(void);
 void OS_Init(void);
 void OSi_InitCommon(void);

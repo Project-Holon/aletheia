@@ -1,7 +1,7 @@
 /*
  * file:     nns_g3d_mdl.c
  * unit:     yes
- * function: NNS_G3dAllocRenderObj, NNS_G3dFreeRenderObj, NNS_G3dAllocAnmObj, NNS_G3dFreeAnmObj, NNS_G3dMdlSetMdlLightEnableFlag, NNS_G3dMdlSetMdlPolygonIDAll
+ * function: NNS_G3dAllocRenderObj, NNS_G3dFreeRenderObj, NNS_G3dAllocAnmObj, NNS_G3dFreeAnmObj, NNS_G3dMdlSetMdlLightEnableFlag, NNS_G3dMdlSetMdlPolygonMode, NNS_G3dMdlSetMdlCullMode, NNS_G3dMdlSetMdlPolygonID, NNS_G3dMdlSetMdlAlpha, NNS_G3dMdlSetMdlPolygonIDAll
  * address:  0x0206E348
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -63,10 +63,9 @@ typedef struct {
 #define POLYATTR_ID_SHIFT      24
 #define POLYATTR_ID_MASK       0x3f000000u
 
-extern void *NNS_FndAllocFromAllocator(struct NNSFndAllocator *pAllocator, u32 size);
+#include "nns_gfd_vram_manager.h"
 struct NNSiFndObject;
-extern void NNS_FndFreeToAllocator(struct NNSiFndObject *o, u32 x);
-extern u32 GetTaggedPayloadSize(const u8 *pAnm, const ResMdl *pMdl);
+#include "nns_g2d_font.h"
 void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator);
 void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj);
 void *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl);
@@ -79,7 +78,7 @@ void NNS_G3dMdlSetMdlAlpha(ResMdl *pMdl, u32 matIdx, u32 alpha);
 void NNS_G3dMdlSetMdlPolygonIDAll(ResMdl *pMdl, u32 polygonId);
 
 /* NNS_G3dAllocRenderObj: 0x54 bytes from the allocator. */
-void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator){ return NNS_FndAllocFromAllocator(pAllocator, 0x54); }
+void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator){ return NNS_FndAllocFromAllocator((NNSiFndObject *)pAllocator, 0x54); }
 
 /* NNS_G3dFreeRenderObj */
 void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){ NNS_FndFreeToAllocator((struct NNSiFndObject *)pAllocator, (u32)pRenderObj); }
@@ -95,7 +94,7 @@ void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){
  */
 void *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const u8 *pAnm, const ResMdl *pMdl)
 {
-    return NNS_FndAllocFromAllocator(pAllocator, GetTaggedPayloadSize(pAnm, pMdl));
+    return NNS_FndAllocFromAllocator((NNSiFndObject *)pAllocator, GetTaggedPayloadSize(pAnm, (const TaggedNode *)pMdl));
 }
 
 /* NNS_G3dFreeAnmObj */

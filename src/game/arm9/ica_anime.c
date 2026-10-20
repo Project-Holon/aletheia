@@ -47,7 +47,7 @@ struct IcaAnime;
 
 struct ArcFile;
 
-struct Mtx33;
+#include "../sdk_fx.h"
 
 /*
  * ICA camera animation (0x38 bytes): per-frame translate, rotate and scale
@@ -63,18 +63,17 @@ struct IcaAnime {
     s32 frame;
     s32 bufTopFrame;
     s32 bufFrameNum;
-    struct Vec3 *transBuf;
-    struct Vec3 *rotBuf;
-    struct Vec3 *scaleBuf;
+    struct VecFx32 *transBuf;
+    struct VecFx32 *rotBuf;
+    struct VecFx32 *scaleBuf;
     u32 hasTrans;
     u32 hasRot;
     u32 hasScale;
     u32 bufAllocated;
 };
 
-extern u32 GFL_HEAP_Free(void *memory);
+#include "gfl_heap_wrap.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void ARC_TOOL_DeleteHandle(void *handle);
 
@@ -83,17 +82,15 @@ struct ArcHandle;
 
 extern void  ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 
-extern void G3D_CAMERA_SetEye(void *camera, struct Vec3 *position);
+#include "g3d_camera.h"
 
-extern void G3D_CAMERA_SetCamUp(void *camera, struct Vec3 *up);
 
-extern void G3D_CAMERA_SetCamTarget(void *camera, struct Vec3 *target);
 
-extern void BUTTON_MAN_MakeRotMtxXYZ(int angleX, int angleY, int angleZ, struct Mtx33 *out);
+#include "button_man.h"
 
-extern void MTX_MultVec33(struct Vec3 *vec, struct Vec3 *mtx, struct Vec3 *out);
+extern void MTX_MultVec33(struct VecFx32 *vec, struct VecFx32 *mtx, struct VecFx32 *out);
 
-extern void VEC_Add(struct Vec3 *lhs, struct Vec3 *rhs, struct Vec3 *out);
+#include "fx_vec.h"
 
 struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u32 dataId, void *buffer, u32 bufferSize);
 
@@ -115,13 +112,13 @@ u32 ICA_ANIME_GetFrameNum(struct IcaAnime *anime);
 
 u32 ICA_ANIME_GetFrame(struct IcaAnime *anime);
 
-u32 ICA_ANIME_GetTranslate(struct IcaAnime *anime, struct Vec3 *trans);
+u32 ICA_ANIME_GetTranslate(struct IcaAnime *anime, struct VecFx32 *trans);
 
-u32 ICA_ANIME_GetRotate(struct IcaAnime *anime, struct Vec3 *rot);
+u32 ICA_ANIME_GetRotate(struct IcaAnime *anime, struct VecFx32 *rot);
 
-u32 ICA_ANIME_GetScale(struct IcaAnime *anime, struct Vec3 *scale);
+u32 ICA_ANIME_GetScale(struct IcaAnime *anime, struct VecFx32 *scale);
 
-u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *anime, struct Vec3 *trans, u32 frame);
+u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *anime, struct VecFx32 *trans, u32 frame);
 
 void ICA_ANIME_Clear(struct IcaAnime *anime);
 
@@ -141,9 +138,9 @@ void ICA_ANIME_SetCameraTarget(void *camera, struct IcaAnime *anime);
 
 extern const char _IcaAnimeFileName[];
 
-extern struct Vec3 _IcaCameraForward;
+extern struct VecFx32 _IcaCameraForward;
 
-extern struct Vec3 _IcaCameraUp;
+extern struct VecFx32 _IcaCameraUp;
 
 /*
  * ica_anime.c's 0x38-byte-object constructor: allocate, shared init, the
@@ -372,7 +369,7 @@ u32 ICA_ANIME_GetFrame(struct IcaAnime *anime)
  *   python tools/match.py tu --src src/matched/unit_02011610.c \
  *       --addr 0x02011610 --thumb
  */
-u32 ICA_ANIME_GetTranslate(struct IcaAnime *anime, struct Vec3 *trans)
+u32 ICA_ANIME_GetTranslate(struct IcaAnime *anime, struct VecFx32 *trans)
 {
     if (anime->hasTrans != 0) {
         *trans = anime->transBuf[(anime->frame >> 12) - anime->bufTopFrame];
@@ -381,7 +378,7 @@ u32 ICA_ANIME_GetTranslate(struct IcaAnime *anime, struct Vec3 *trans)
     return 0;
 }
 
-u32 ICA_ANIME_GetRotate(struct IcaAnime *anime, struct Vec3 *rot)
+u32 ICA_ANIME_GetRotate(struct IcaAnime *anime, struct VecFx32 *rot)
 {
     if (anime->hasRot != 0) {
         *rot = anime->rotBuf[(anime->frame >> 12) - anime->bufTopFrame];
@@ -390,7 +387,7 @@ u32 ICA_ANIME_GetRotate(struct IcaAnime *anime, struct Vec3 *rot)
     return 0;
 }
 
-u32 ICA_ANIME_GetScale(struct IcaAnime *anime, struct Vec3 *scale)
+u32 ICA_ANIME_GetScale(struct IcaAnime *anime, struct VecFx32 *scale)
 {
     if (anime->hasScale != 0) {
         *scale = anime->scaleBuf[(anime->frame >> 12) - anime->bufTopFrame];
@@ -400,7 +397,7 @@ u32 ICA_ANIME_GetScale(struct IcaAnime *anime, struct Vec3 *scale)
 }
 
 /*
- * Copy frame `idx % count` of the transBuf Vec3 table out to dst when the table
+ * Copy frame `idx % count` of the transBuf VecFx32 table out to dst when the table
  * length at +0x18 equals the count at +0x0C; returns 1, else 0.  EXACT* because
  * the listing extent (56) includes the 2-byte `movs r0, r0` pad after the
  * second epilogue; the 54 code bytes are exact.
@@ -424,21 +421,21 @@ u32 ICA_ANIME_GetScale(struct IcaAnime *anime, struct Vec3 *scale)
  *   python tools/match.py one --src src/matched/ICA_ANIME_GetTranslateAt.c \
  *       --func ICA_ANIME_GetTranslateAt --addr 0x02011688 --cc 1.1p1 --thumb
  */
-u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *anime, struct Vec3 *trans, u32 frame)
+u32 ICA_ANIME_GetTranslateAt(struct IcaAnime *anime, struct VecFx32 *trans, u32 frame)
 {
     u32 frameNum = anime->frameNum;
 
     frame %= frameNum;
     if (anime->bufFrameNum == frameNum) {
         /* stand-in: the image adds the byte offset after the first load;
-           transBuf[frame].x/.y/.z is 4 bytes longer, a Vec3 pointer 4 bytes shorter */
-        u32 offset = frame * sizeof(struct Vec3);
+           transBuf[frame].x/.y/.z is 4 bytes longer, a VecFx32 pointer 4 bytes shorter */
+        u32 offset = frame * sizeof(struct VecFx32);
         u32 src = (u32)anime->transBuf;
 
         trans->x = *(s32 *)(src + offset);
         src += offset;
-        trans->y = ((struct Vec3 *)src)->y;
-        trans->z = ((struct Vec3 *)src)->z;
+        trans->y = ((struct VecFx32 *)src)->y;
+        trans->z = ((struct VecFx32 *)src)->z;
         return 1;
     }
     return 0;
@@ -507,15 +504,15 @@ void ICA_ANIME_AllocBuffer(struct IcaAnime *anime, int bufFrameNum)
 {
     anime->bufFrameNum = bufFrameNum;
     if (anime->hasTrans != 0) {
-        anime->transBuf = GFL_HEAP_Alloc(anime->heapId, bufFrameNum * sizeof(struct Vec3),
+        anime->transBuf = GFL_HEAP_Alloc(anime->heapId, bufFrameNum * sizeof(struct VecFx32),
                                         0, _IcaAnimeFileName, 0x25c);
     }
     if (anime->hasRot != 0) {
-        anime->rotBuf = GFL_HEAP_Alloc(anime->heapId, bufFrameNum * sizeof(struct Vec3),
+        anime->rotBuf = GFL_HEAP_Alloc(anime->heapId, bufFrameNum * sizeof(struct VecFx32),
                                       0, _IcaAnimeFileName, 0x260);
     }
     if (anime->hasScale != 0) {
-        anime->scaleBuf = GFL_HEAP_Alloc(anime->heapId, bufFrameNum * sizeof(struct Vec3),
+        anime->scaleBuf = GFL_HEAP_Alloc(anime->heapId, bufFrameNum * sizeof(struct VecFx32),
                                         0, _IcaAnimeFileName, 0x264);
     }
     anime->bufAllocated = 1;
@@ -523,7 +520,7 @@ void ICA_ANIME_AllocBuffer(struct IcaAnime *anime, int bufFrameNum)
 
 /*
  * Carve the caller's buffer into the translate, rotate and scale tracks
- * (bufFrameNum Vec3 each), only for the tracks the header enables.
+ * (bufFrameNum VecFx32 each), only for the tracks the header enables.
  * bufferSize is the caller's byte budget: if it is smaller than
  * bufFrameNum * 12 times the number of enabled tracks nothing is written and
  * the call answers 0.  bufFrameNum is recorded in the object.
@@ -539,7 +536,7 @@ int ICA_ANIME_SetBuffer(struct IcaAnime *anime, int bufFrameNum, u8 *buffer, int
     int track;
 
     needSize = 0;
-    trackSize = bufFrameNum * sizeof(struct Vec3);
+    trackSize = bufFrameNum * sizeof(struct VecFx32);
     track = 0;
     if (anime->hasTrans != 0) {
         needSize += trackSize;
@@ -554,15 +551,15 @@ int ICA_ANIME_SetBuffer(struct IcaAnime *anime, int bufFrameNum, u8 *buffer, int
         return 0;
     }
     if (anime->hasTrans != 0) {
-        anime->transBuf = (struct Vec3 *)buffer;
+        anime->transBuf = (struct VecFx32 *)buffer;
         track++;
     }
     if (anime->hasRot != 0) {
-        anime->rotBuf = (struct Vec3 *)(buffer + trackSize * track);
+        anime->rotBuf = (struct VecFx32 *)(buffer + trackSize * track);
         track++;
     }
     if (anime->hasScale != 0) {
-        anime->scaleBuf = (struct Vec3 *)(buffer + trackSize * track);
+        anime->scaleBuf = (struct VecFx32 *)(buffer + trackSize * track);
         track++;
     }
     anime->bufFrameNum = bufFrameNum;
@@ -576,7 +573,7 @@ int ICA_ANIME_SetBuffer(struct IcaAnime *anime, int bufFrameNum, u8 *buffer, int
  * anime->frameNum; the file offset is 8 + 12 * index per enabled track and
  * the read size 12 * anime->bufFrameNum per enabled track.  The floats are
  * read into a scratch buffer (ARC_TOOL_ReadHandleMemberRange, fifth argument = destination),
- * converted with the TwlSDK FX_F32_TO_FX32 macro into the three Vec3 tables
+ * converted with the TwlSDK FX_F32_TO_FX32 macro into the three VecFx32 tables
  * (hasScale gates scaleBuf, hasRot rotBuf, hasTrans transBuf), then freed;
  * anime->bufTopFrame = frame >> 12.
  *
@@ -663,7 +660,7 @@ void ICA_ANIME_LoadFrames(struct IcaAnime *anime, s32 frame)
  *     `(u16)(u32)(65535.0f * (h / 360.0f))' the lsls/lsrs #0x10 pair
  *     after each _ffixu disappears (about 10 bytes short).
  *   - the scratch the two MTX_MultVec33 calls share is 36 bytes, not
- *     12: `struct Vec3 rotMtx[3]'.  With a plain `struct Vec3' the whole
+ *     12: `struct VecFx32 rotMtx[3]'.  With a plain `struct VecFx32' the whole
  *     frame comes out `sub sp, #0x68' instead of `sub sp, #0x80' and
  *     nothing else differs, so the 24 extra bytes are real declared
  *     storage above 0x5c that this function never reads back.
@@ -676,14 +673,14 @@ void ICA_ANIME_LoadFrames(struct IcaAnime *anime, s32 frame)
  */
 void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime)
 {
-    struct Vec3 rotMtx[3];
-    struct Vec3 rotDeg;
-    struct Vec3 forward;
-    struct Vec3 up;
-    struct Vec3 position;
-    struct Vec3 target;
-    struct Vec3 rotForward;
-    struct Vec3 rotUp;
+    struct VecFx32 rotMtx[3];
+    struct VecFx32 rotDeg;
+    struct VecFx32 forward;
+    struct VecFx32 up;
+    struct VecFx32 position;
+    struct VecFx32 target;
+    struct VecFx32 rotForward;
+    struct VecFx32 rotUp;
     u16 angleX;
     u16 angleY;
     u16 angleZ;
@@ -713,7 +710,7 @@ void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime)
     angleX = (u16)(u32)(65535.0f * (degX / 360.0f));
     angleY = (u16)(u32)(65535.0f * (degY / 360.0f));
     angleZ = (u16)(u32)(65535.0f * (degZ / 360.0f));
-    BUTTON_MAN_MakeRotMtxXYZ(angleX, angleY, angleZ, (struct Mtx33 *)rotMtx);
+    BUTTON_MAN_MakeRotMtxXYZ(angleX, angleY, angleZ, (MtxFx33 *)rotMtx);
 
     MTX_MultVec33(&forward, rotMtx, &rotForward);
     MTX_MultVec33(&up, rotMtx, &rotUp);
@@ -737,7 +734,7 @@ void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime)
  */
 void ICA_ANIME_SetCameraPos(void *camera, struct IcaAnime *anime)
 {
-    struct Vec3 position;
+    struct VecFx32 position;
 
     ICA_ANIME_GetTranslate(anime, &position);
     G3D_CAMERA_SetEye(camera, &position);
@@ -752,7 +749,7 @@ void ICA_ANIME_SetCameraPos(void *camera, struct IcaAnime *anime)
  */
 void ICA_ANIME_SetCameraTarget(void *camera, struct IcaAnime *anime)
 {
-    struct Vec3 target;
+    struct VecFx32 target;
 
     ICA_ANIME_GetTranslate(anime, &target);
     G3D_CAMERA_SetCamTarget(camera, &target);

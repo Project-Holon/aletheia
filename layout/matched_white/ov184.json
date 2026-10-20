@@ -1,0 +1,18 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "BR_DOWNLOAD_Create", "black_address": "0x021F8480", "white_address": "0x021F84A0", "size": 156, "diff": "constant", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BR_DOWNLOAD_Delete", "black_address": "0x021F851C", "white_address": "0x021F853C", "size": 96, "diff": "constant", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BR_DOWNLOAD_Main", "black_address": "0x021F857C", "white_address": "0x021F859C", "size": 96, "diff": "constant", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BR_DOWNLOAD_StepFadeIn", "black_address": "0x021F85DC", "white_address": "0x021F85FC", "size": 72, "diff": "constant", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BR_DOWNLOAD_StepClose", "black_address": "0x021F8624", "white_address": "0x021F8644", "size": 76, "diff": "same", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BR_DOWNLOAD_HandleTouch", "black_address": "0x021F8670", "white_address": "0x021F8690", "size": 124, "diff": "constant", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BR_DOWNLOAD_DownloadTask", "black_address": "0x021F86EC", "white_address": "0x021F870C", "size": 440, "diff": "constant", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BR_DOWNLOAD_Begin3d", "black_address": "0x021F88A4", "white_address": "0x021F88C4", "size": 60, "diff": "same", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BR_DOWNLOAD_End3d", "black_address": "0x021F88E0", "white_address": "0x021F8900", "size": 60, "diff": "same", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BR_DOWNLOAD_CreateButtons", "black_address": "0x021F891C", "white_address": "0x021F893C", "size": 180, "diff": "constant", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"},
+  {"name": "BR_DOWNLOAD_ResetSlots", "black_address": "0x021F89D0", "white_address": "0x021F89F0", "size": 4, "diff": "constant", "source": "src/game/ov184/br_download.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

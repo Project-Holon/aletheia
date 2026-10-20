@@ -14,61 +14,24 @@
  * (anchor btl_setup.c) and the builders BTL_SETUP_SetupWild..BTL_SETUP_SetupCommRotation fill.
  */
 
-/* A map position kept by the game data object (0x1C bytes). */
-struct Location {
-    unsigned int words[7];
-};
+#include "../types.h"
+#include "../arm9/zonedata_types.h"
 
 /* World position of a player (three fixed-point words). */
-struct PlayerPosition {
-    unsigned int x;
-    unsigned int y;
-    unsigned int z;
-};
+typedef struct PlayerPosition {
+    u32 x;
+    u32 y;
+    u32 z;
+} PlayerPosition;
 
-/* Rail position: copied as four halfwords, cleared field by field. */
-struct RailLocationWords {
-    unsigned short words[4];
-};
-
-union RailLocation {
-    struct RailLocationWords all;
-    struct {
-        unsigned short lineIndex;
-        unsigned char  type;
-        unsigned char  key;
-        unsigned short frontGrid;
-        unsigned short sideGrid;
-    } part;
-};
-
-/*
- * The 0x20-byte player record (MyStatus). GAME_DATA returns the address of
- * PlayerWork.status as the player's status (GAME_DATA_GetMyStatus,
- * GAME_DATA_GetMyStatusPlayer); the player work constructor clears id,
- * language and sex.
- */
-#ifndef MYSTATUS_STRUCT_DEFINED
-#define MYSTATUS_STRUCT_DEFINED
-struct MyStatus {
-    unsigned short name[8];
-    unsigned int   id;
-    unsigned int   profile_id;
-    unsigned char  nation;
-    unsigned char  area;
-    unsigned char  language;
-    unsigned char  rom_code;
-    unsigned char  trainer_view;
-    unsigned char  sex;
-};
-#endif
+#include "../arm9/mystatus_types.h"
 
 /* One player's position record (0x44 bytes, five in GameData). */
 struct PlayerWork {
     unsigned short       zoneId;
     unsigned short       railZoneId;
-    struct PlayerPosition position;
-    union RailLocation   rail;
+    PlayerPosition        position;
+    RailLocation         rail;
     unsigned short       direction;
     unsigned char        posType;
     unsigned char        moveForm;

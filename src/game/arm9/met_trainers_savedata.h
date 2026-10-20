@@ -5,6 +5,8 @@
 
 struct MetTrainersSave;
 
+#include "../types.h"
+
 u32 MET_TRAINERS_GetSize(void);
 void MET_TRAINERS_Init(void *block);
 void *MET_TRAINERS_GetFromSave(void *saveData);

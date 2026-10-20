@@ -1,0 +1,28 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "SUBWAY_MAP_GRAPHIC_Init", "black_address": "0x021B95A0", "white_address": "0x021B95C0", "size": 376, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_Exit", "black_address": "0x021B9718", "white_address": "0x021B9738", "size": 112, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_Main", "black_address": "0x021B9788", "white_address": "0x021B97A8", "size": 152, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_TaskNoop", "black_address": "0x021B9820", "white_address": "0x021B9840", "size": 4, "diff": "same", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_LoadCommonAssets", "black_address": "0x021B9824", "white_address": "0x021B9844", "size": 116, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets", "black_address": "0x021B9898", "white_address": "0x021B98B8", "size": 4, "diff": "same", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_Setup3d", "black_address": "0x021B989C", "white_address": "0x021B98BC", "size": 164, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_CreateScreen", "black_address": "0x021B9940", "white_address": "0x021B9960", "size": 168, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_DeleteScreen", "black_address": "0x021B99E8", "white_address": "0x021B9A08", "size": 92, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_DrawScreen", "black_address": "0x021B9A44", "white_address": "0x021B9A64", "size": 20, "diff": "same", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_VBlankScreen", "black_address": "0x021B9A58", "white_address": "0x021B9A78", "size": 20, "diff": "same", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_CreateBg", "black_address": "0x021B9A6C", "white_address": "0x021B9A8C", "size": 96, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_DeleteBg", "black_address": "0x021B9ACC", "white_address": "0x021B9AEC", "size": 56, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_DrawBg", "black_address": "0x021B9B04", "white_address": "0x021B9B24", "size": 4, "diff": "same", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_VBlankBg", "black_address": "0x021B9B08", "white_address": "0x021B9B28", "size": 8, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_CreateClactUnit", "black_address": "0x021B9B10", "white_address": "0x021B9B30", "size": 64, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_DeleteClactUnit", "black_address": "0x021B9B50", "white_address": "0x021B9B70", "size": 28, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_DrawClactUnit", "black_address": "0x021B9B6C", "white_address": "0x021B9B8C", "size": 8, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_VBlankClactUnit", "black_address": "0x021B9B74", "white_address": "0x021B9B94", "size": 8, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_CreateCamera", "black_address": "0x021B9B7C", "white_address": "0x021B9B9C", "size": 108, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SUBWAY_MAP_GRAPHIC_DeleteCamera", "black_address": "0x021B9BE8", "white_address": "0x021B9C08", "size": 4, "diff": "constant", "source": "src/game/ov224/subway_map_graphic.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

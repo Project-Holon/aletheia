@@ -54,18 +54,15 @@ typedef struct {
     u8  bgColor : 4;
 } TextParam;
 
-extern int SYSTEMFONT_GetGlyphHeight(void);  /* glyph height */
-extern int SYSTEMFONT_GetGlyphWidth(void);  /* full-width space width */
-extern void  SYSTEMFONT_SetColors(u32 fgColor, u32 bgColor);
-extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
-extern u16   STRBUF_GetEosChar(void);  /* string terminator code */
-extern void SYSTEMFONT_GetGlyph(int glyphIndex, u8 *glyphOut);
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
-extern void BMP_Delete(struct Bmp *bmp);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *block);
+#include "systemfont.h"
+  /* glyph height */
+  /* full-width space width */
+typedef short s16_p07;
+#include "bmp.h"
+#include "strbuf.h"
+  /* string terminator code */
+#include "gfl_heap_wrap.h"
 void TEXTPRINT_Init(u32 fontId);
-extern void SYSTEMFONT_Load(u32 fontId);
 void TEXTPRINT_PrintCodes(const u16 *codes, TextParam *console);
 void TEXTPRINT_PrintText(char *text, TextParam *console);
 void TEXTPRINT_SjisToGlyphCodes(char *text, u16 *out, int maxCodes);

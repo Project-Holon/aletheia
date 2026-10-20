@@ -60,11 +60,10 @@ typedef struct NetDeviceRecord {
     u8  moveSubProcWork[0x10];   /* 0x40: Mmdl.moveSubProcWork */
 } NetDeviceRecord;
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
-extern void FLDMMDL_LoadObjCodeParam(const MmdlSys *sys, u32 objCode, MmdlObjCodeParam *out);
+#include "../ov010/fldmmdl.h"
 
 u32 FLDMMDL_GetSaveTableSize(void);
 

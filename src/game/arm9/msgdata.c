@@ -53,14 +53,8 @@
 struct ArcFile;
 struct Strbuf;
 #include "../types.h"
+#include "strbuf_types.h"
 
-/* String buffer (strbuf.c): capacity in code units, used length, tag, units. */
-struct Strbuf {
-    u16 capacity;
-    u16 length;
-    u32 magic;
-    u16 chars[1];
-};
 
 /* One message entry: offset of the encrypted units inside the language
  * section (resident: inside the loaded bank) and the unit count. */
@@ -117,24 +111,12 @@ struct MsgBankLoad {
     u8 resident;
 };
 
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
-                          u16 tag);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+#include "gfl_heap_wrap.h"
+#include "arc_tool.h"
 struct ArcHandle;
-extern u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 memberIdx);
-extern void ARC_TOOL_DeleteHandle(void *handle);
 struct ArcHandleRaw;
-extern void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst);
-extern void ARC_TOOL_SeekHandle(void *stream, u32 pos);
-extern void STRBUF_Clear(struct Strbuf *vec);
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-u16 STRBUF_GetLength(struct Strbuf *vec);
-void STRBUF_Truncate(struct Strbuf *vec, u32 length);
-void STRBUF_SetChars(struct Strbuf *buf, const void *src, u32 n);
-u16 *STRBUF_GetChars(struct Strbuf *vec);
-u16 STRBUF_GetEosChar(void);
+#include "strbuf.h"
+#include "mi_memory.h"
 extern void g_02146A54(void);
 struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 u32 MSGDATA_Delete(struct MsgBank *bank);

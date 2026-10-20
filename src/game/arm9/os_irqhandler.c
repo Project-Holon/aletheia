@@ -30,9 +30,8 @@ extern char SDK_AUTOLOAD_DTCM_START[];
 
 #include "../sdk_os_thread.h"
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern void OS_SleepThread(OSThreadQueue *queue);
+#include "os_system.h"
+#include "os_thread.h"
 extern OSThreadQueue OSi_IrqThreadQueue;
 
 void OS_WaitIrq(BOOL clear, u32 irqFlags)

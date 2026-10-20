@@ -99,9 +99,9 @@
 
 #define reg_G2S_DB_WINOUT   (*(volatile u16 *)0x0400104A)
 
-#define reg_PAD_KEYINPUT    (*(volatile u16 *)0x04000130)
+#include "touchpanel_shared_types.h"
 
-#define HW_BUTTON_XY_BUF    (*(volatile u16 *)0x02FFFFA8)
+#define reg_PAD_KEYINPUT    (*(volatile u16 *)0x04000130)
 
 #define reg_GX_MASTER_BRIGHT   (*(volatile u16 *)0x0400006C)
 
@@ -157,6 +157,7 @@
 struct NitroResFile;
 
 #include "../types.h"
+#include "net_types.h"
 
 typedef union {
     u32 raw;
@@ -191,12 +192,6 @@ typedef union {
         u16 screenSize:2;
     };
 } GXBg01Control;
-
-/* The part of the net init parameters (GFL_NET_GetInitParam) this file reads. */
-typedef struct {
-    u8 pad_00[0x65];
-    u8 bNetType;
-} GFLNetInitializeStruct;
 
 /* The error record the net library keeps (GFL_NET_STATE_GetError returns it). */
 typedef struct {
@@ -276,118 +271,91 @@ struct NitroPlttData {
 
 struct Strbuf;
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "strbuf.h"
 
-extern u32  GFL_NET_IsNetTypeWifi(void);
+#include "net.h"
 
-extern s16 DWC_RAP_GetVchatEnabled(void);
+#include "../ov009/dwc_rap.h"
 
-extern void GFL_USE_SetBgmTrackVolume(u32 eventMask, u32 eventValue);
+#include "gfl_use.h"
 
-extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
+#include "gfl_heap.h"
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
 extern u32 GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clearFlag, const void *file, u8 line);
 
-extern int GFL_NET_GetRunState(void);
 
-extern u32  GFL_NET_CheckError(void);
 
-extern int GFL_NET_SYSTEM_IsError(void);
+#include "net_system.h"
 
 extern u32  GFL_NET_STATE_GetErrorMode(void);
 
-extern void GFL_NET_ClearBeaconCallbacks(void);
 
-extern GFLNetInitializeStruct *GFL_NET_GetInitParam(void);
 
 extern NetErrInfo *GFL_NET_STATE_GetError(void);
 
-extern int DWC_RAP_GetErrorMessageClass(int errorCode, int errorType);
 
-extern u32 GFL_NET_Main();
 
-extern void OS_WaitIrq(int clear, u32 irqFlags);
+#include "os_irqhandler.h"
 
-extern void GFL_USE_StopAllSe(void);
 
-extern BOOL GX_VBlankIntr(BOOL on);
+#include "gx.h"
 
-extern void GFL_NET_WM_ICON_EasyObjWindowOn(void);
+#include "wm_icon.h"
 
-extern u32 GFL_NET_WM_ICON_EasyGetEngine(void);
 
-extern int WIH_DWC_PollSystem(void);
+#include "wih_dwc.h"
 
-extern void GFL_NET_WM_ICON_EasyObjWindowOff(void);
 
-extern void GXS_SetGraphicsMode(u32 bgMode);
 
 extern void UI_ClearSoftResetInhibitGlobal(u32 mode);
 
-extern void GFL_USE_PollPowerExit(void);
 
-extern int   GFL_NET_IsSessionNull(void);
 
 extern u32 GFL_HEAP_Free(void *block);
 
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern void GFL_NET_ClearExitFlag(void);
 
-extern int GFL_NET_Exit(int arg);
 
-extern void GFL_NET_IRC_WIRELESS_Exit(void);
 
-extern s32 WIH_GetSysState(void);
+#include "../ov014/wih.h"
 
-extern void GFL_NET_RequestDisconnect(void);
 
-extern s32 GX_HBlankIntr(BOOL on);
 
 extern void GFL_NET_ERR_DrawWindow(u32 screenIndex, u32 isWifiLink);
 
-extern int  GXx_GetMasterBrightness_(volatile u16 *reg);
 
-extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
-extern int GX_ResetBankForBG(void);
+typedef int GXVRamBG;
+typedef int GXVRamOBJ;
+typedef int GXVRamTex;
+#include "gx_vramcnt.h"
 
-extern int GX_ResetBankForSubBG(void);
 
-extern void GX_SetBankForBG(s32 bg);
 
-extern void GX_SetGraphicsMode(s32 dispMode, s32 bgMode, s32 bg0_2d3d);
 
-extern void *G2_GetBG1CharPtr(void);
+#include "gx_bgcnt.h"
 
-extern void *G2_GetBG1ScrPtr(void);
 
-extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
-extern u32  BG_SYS_GetSubVisiblePlanes(void);
+#include "bg_sys.h"
 
-extern void BG_SYS_SetSubVisiblePlanes(u32 visiblePlane);
 
-extern void GFL_NET_GetIrcParams(u32 *x, u32 *y);
 
-extern void GX_SetBankForSubBG(s32 sub_bg);
 
-extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
 
-extern int ARC_UTIL_LoadMember(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID);
+#include "arc_util.h"
 struct NitroFileHeader;
 
-extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
+#include "nns_g2d_anim_bank.h"
 
-extern void DC_FlushRange(void *p, u32 size);
+#include "os_cache.h"
 
-extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
+#include "nns_g2d_load.h"
 
-extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
 
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
 void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *eventMask, void *eventValue);
 
@@ -445,13 +413,13 @@ extern NetErrWork gNetErrWork;
 
 extern struct NetErrScreenRes sNetErrScreenRes[];
 
-extern u32 APP_ENV_IsRunOnTwl(void);
+#include "app_env.h"
 
 extern const u16 sNetErrMessageIdsDS[];
 
 extern const u16 sNetErrMessageIdsTwl[];
 
-struct Bmp;
+#include "bmp_shared_types.h"
 
 struct WordSet;
 
@@ -459,33 +427,25 @@ struct MsgBank;
 
 struct GfFont;
 
-extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 
-extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+typedef short s16_p07;
+#include "bmp.h"
 
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
+#include "gf_font.h"
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+#include "msgdata.h"
 
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flag);
+#include "wordset.h"
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+#include "printsys.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern u32 WORDSET_Delete(struct WordSet *wordSet);
 
-extern void BMP_Delete(struct Bmp *bmp);
 
 u32 GFL_NET_ERR_GetMessageId(NetErrInfo *info, u32 a);
 
@@ -551,8 +511,8 @@ void GFL_NET_ERR_DetectNetError(void)
     GFL_NET_ERR_RecordError();
 
     {
-        GFLNetInitializeStruct *netInit = GFL_NET_GetInitParam();
-        u8 netType = netInit->bNetType;
+        GFLNetSession *netInit = GFL_NET_GetInitParam();
+        u8 netType = netInit->init.bNetType;
         if (netType != GFL_NET_TYPE_WIFI && netType != GFL_NET_TYPE_WIFI_LOBBY && netType != GFL_NET_TYPE_WIFI_GTS) {
             return;
         }
@@ -707,12 +667,12 @@ static inline void GXS_SetVisibleWnd(int window)
 
 static inline BOOL PAD_DetectFold(void)
 {
-    return (BOOL)((HW_BUTTON_XY_BUF & 0x8000) >> 15);
+    return (BOOL)(((*(volatile u16 *)HW_BUTTON_XY_BUF) & 0x8000) >> 15);
 }
 
 static inline u16 PAD_Read(void)
 {
-    return (u16)(((reg_PAD_KEYINPUT | HW_BUTTON_XY_BUF) ^ 0x2FFF) & 0x2FFF);
+    return (u16)(((reg_PAD_KEYINPUT | (*(volatile u16 *)HW_BUTTON_XY_BUF)) ^ 0x2FFF) & 0x2FFF);
 }
 
 /* Drop one direction of each opposing D-pad pair (bits 5/6 and 4/7 shifted). */
@@ -817,7 +777,7 @@ void GFL_NET_ERR_RecordError(void)
     if (GFL_NET_IsSessionNull() != 0) {
         return;
     }
-    work->netType = GFL_NET_GetInitParam()->bNetType;
+    work->netType = GFL_NET_GetInitParam()->init.bNetType;
     work->errorInfo = *GFL_NET_STATE_GetError();
     work->netErrorFlag = (u8)GFL_NET_STATE_GetErrorMode();
     netType = work->netType;
@@ -895,11 +855,11 @@ void GFL_NET_ERR_ResetState(void)
  */
 u32 GFL_NET_ERR_WaitLinkClosed(void)
 {
-    GFLNetInitializeStruct *netInit;
+    GFLNetSession *netInit;
     u32 waiting;
 
     if (GFL_NET_GetRunState() != 0) {
-        netInit = (GFLNetInitializeStruct *)GFL_NET_GetInitParam();
+        netInit = GFL_NET_GetInitParam();
         GFL_NET_ClearExitFlag();
         GFL_NET_Exit(0);
         GFL_NET_IRC_WIRELESS_Exit();
@@ -907,7 +867,7 @@ u32 GFL_NET_ERR_WaitLinkClosed(void)
 
         for (;;) {
             if (netInit != 0) {
-                u8 netType = netInit->bNetType;
+                u8 netType = netInit->init.bNetType;
                 if (netType == GFL_NET_TYPE_WIRELESS || netType == GFL_NET_TYPE_IRC) {
                     if (WIH_GetSysState() == 0xa) {
                         return 0;

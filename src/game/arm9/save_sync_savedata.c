@@ -21,14 +21,12 @@
 #include "../types.h"
 #include "greeting_savedata_shared_types.h"
 
-extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+#include "mi_memory.h"
 struct SaveControl;
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
-extern void  MIi_CpuCopy32(void *dest, const void *src, u32 size);
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
 int SAVE_SYNC_GetSize(void);
 

@@ -1,6 +1,7 @@
 #ifndef GAME_ARM9_ZONEDATA_H
 #define GAME_ARM9_ZONEDATA_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of zonedata.c, prototypes copied from their definitions. */
 
 struct ZoneHeader;
@@ -8,15 +9,16 @@ struct AreaData;
 struct Location;
 struct EventWork;
 
-#include "../arm9/billboard_types.h"
+#include "../types.h"
+#include "../sdk_fx.h"
 
-void ZONEDATA_Init(u32 heap);
+void ZONEDATA_Init(u16 heap);
 void ZONEDATA_Exit(void);
 void ZONEDATA_SetChangeZoneEnable(u32 index, u8 on);
 u16 ZONEDATA_GetChangedZoneId(u32 key);
 struct ZoneHeader *ZONEDATA_GetHeader(u32 id);
 u32 ZONEDATA_IsChangedZoneInTable(u32 id, const u16 *table, int count);
-u32 ZONEDATA_GetAreaId(u32 id);
+u16 ZONEDATA_GetAreaId(u32 id);
 u32 ZONEDATA_GetMatrixId(u32 id);
 u32 ZONEDATA_GetMapType(u32 id);
 u32 ZONEDATA_GetScriptArcId(u32 id);
@@ -71,7 +73,7 @@ u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
 u32 ZONEDATA_IsRawZone176Or17A(u32 id);
 u8 ZONEDATA_GetMapSubType(u32 id);
 u32 ZONEDATA_IsParentZoneD6(u32 id);
-void *ZONEDATA_CreateAreaData(u32 heapId, u16 areaId, u32 season);
+void *ZONEDATA_CreateAreaData(u16 heapId, u16 areaId, u32 season);
 u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
 u16 ZONEDATA_GetAreaTexSetId(const struct AreaData *areaData);
 u32 ZONEDATA_GetAreaItaAnimeId(const struct AreaData *areaData);
@@ -95,7 +97,7 @@ void ZONEDATA_SetGameStartLocation(struct Location *loc);
 u32 ZONEDATA_ExitDirToDir(u32 exitDir);
 u32 ZONEDATA_DirToExitDir(u32 dir);
 u32 ZONEDATA_GetEventWorkSize(void);
-u32 ZONEDATA_InitEventWork(struct EventWork *ev);
+void ZONEDATA_InitEventWork(struct EventWork *ev);
 u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 void ZONEDATA_SetEventFlag(struct EventWork *ev, int flagId);
 void ZONEDATA_ResetEventFlag(struct EventWork *ev, int flagId);
@@ -106,5 +108,6 @@ void ZONEDATA_ClearEventWorkRange(struct EventWork *ev, u32 firstWorkId, u32 end
 void ZONEDATA_ClearTimeFlags(struct EventWork *ev);
 u8 ZONEDATA_PopTimeFlagsCleared(struct EventWork *ev);
 u8 ZONEDATA_DirToRailKey(int dir);
+/* END mkheaders: generated region */
 
 #endif

@@ -25,61 +25,35 @@
  * symbols:
  *   NNS_G2dTickAnimCtrl  0x02062D4C  arm
  */
-#include "cell_anim_types.h"
+#include "nns_g2d_anim_types.h"
 
-struct NNSG2dAnimController;
 #include "../types.h"
 
-typedef struct NNSG2dAnimFrameData {
-    void *pContent;
-    u16 frames;
-    u16 pad16;
-} NNSG2dAnimFrameData;
 
-typedef struct NNSG2dAnimSequence {
-    u16 numFrames;
-    u16 loopStartFrameIdx;
-    u32 animType;
-    u32 animPlayMode;
-    NNSG2dAnimFrameData *pAnmFrameArray;
-} NNSG2dAnimSequence;
 
-typedef struct NNSG2dAnimController {
-    const NNSG2dAnimFrameData *pCurrent;
-    const NNSG2dAnimFrameData *pActiveCurrent;
-    BOOL bReverse;
-    BOOL bActive;
-    fx32 currentTime;
-    fx32 speed;
-    u32 overriddenPlayMode;
-    const NNSG2dAnimSequence *pAnimSequence;
-} NNSG2dAnimController;
+#include "nns_g2d_load.h"
+void NNS_G2dResetCellAnimation(AnimCtrl *pAnimCtrl);
+void NNS_G2dSetCellAnimationBank(CellAnim *anim, void *bank);
+void NNS_G2dSetCellAnimationParam(CellAnim *anim, int type, int param, int func);
+void NNS_G2dSetCellAnimationParamTagged(CellAnim *anim, u32 param, u32 func, u16 frameIdx);
+s32 NNS_G2dIsCellAnimationBoundingBox(CellAnim *anim);
 
-struct AnimCtrl;
-
-extern BOOL NNS_G2dTickAnimCtrl(struct AnimCtrl *p, s32 frames);
-void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl);
-void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank);
-void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, int func);
-void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 param, u32 func, u16 frameIdx);
-s32 NNS_G2dIsCellAnimationBoundingBox(struct CellAnim *anim);
-
-static inline BOOL IsForward_(const NNSG2dAnimController *pAnimCtrl)
+static inline BOOL IsForward_(const AnimCtrl *pAnimCtrl)
 {
     return (BOOL)((pAnimCtrl->speed > 0) ^ pAnimCtrl->bReverse);
 }
 
-static inline const NNSG2dAnimFrameData *GetFrameBegin_(const NNSG2dAnimSequence *pSeq)
+static inline const AnimFrameData *GetFrameBegin_(const AnimSequenceData *pSeq)
 {
     return pSeq->pAnmFrameArray + pSeq->loopStartFrameIdx;
 }
 
-static inline const NNSG2dAnimFrameData *GetFrameEnd_(const NNSG2dAnimSequence *pSeq)
+static inline const AnimFrameData *GetFrameEnd_(const AnimSequenceData *pSeq)
 {
     return pSeq->pAnmFrameArray + pSeq->numFrames;
 }
 
-void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl)
+void NNS_G2dResetCellAnimation(AnimCtrl *pAnimCtrl)
 {
     if (IsForward_(pAnimCtrl)) {
         pAnimCtrl->pCurrent = GetFrameBegin_(pAnimCtrl->pAnimSequence);
@@ -88,7 +62,7 @@ void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl)
     }
     pAnimCtrl->pActiveCurrent = pAnimCtrl->pCurrent;
     pAnimCtrl->currentTime = 0;
-    NNS_G2dTickAnimCtrl((struct AnimCtrl *)pAnimCtrl, 0);
+    NNS_G2dTickAnimCtrl(pAnimCtrl, 0);
 }
 
 /*
@@ -99,18 +73,18 @@ void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl)
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G2dSetCellAnimationBank.c  *       --func NNS_G2dSetCellAnimationBank --addr 0x02062FF0 --cc 1.1p1
  */
-void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank)
+void NNS_G2dSetCellAnimationBank(CellAnim *anim, void *bank)
 {
-    anim->bank = bank;
-    NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)anim);
+    anim->animCtrl.pAnimSequence = bank;
+    NNS_G2dResetCellAnimation(&anim->animCtrl);
 }
 
-void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, int func)
+void NNS_G2dSetCellAnimationParam(CellAnim *anim, int type, int param, int func)
 {
-    anim->callBackFunc = func;
-    anim->callBackParam = param;
-    anim->callBackType = type;
-    anim->callBackFrameIdx = 0;
+    anim->animCtrl.callBack.pFunc = (void *)func;
+    anim->animCtrl.callBack.param = param;
+    anim->animCtrl.callBack.type = type;
+    anim->animCtrl.callBack.frameIdx = 0;
 }
 
 /*
@@ -121,12 +95,12 @@ void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, in
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G2dSetCellAnimationParamTagged.c  *       --func NNS_G2dSetCellAnimationParamTagged --addr 0x02063018 --cc 1.1p1
  */
-void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 param, u32 func, u16 frameIdx)
+void NNS_G2dSetCellAnimationParamTagged(CellAnim *anim, u32 param, u32 func, u16 frameIdx)
 {
-    anim->callBackType = 2;
-    anim->callBackFunc = func;
-    anim->callBackParam = param;
-    anim->callBackFrameIdx = frameIdx;
+    anim->animCtrl.callBack.type = 2;
+    anim->animCtrl.callBack.pFunc = (void *)func;
+    anim->animCtrl.callBack.param = param;
+    anim->animCtrl.callBack.frameIdx = frameIdx;
 }
 
 /*
@@ -139,12 +113,12 @@ void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 param, u32 fu
  * Verified with:
  *   python tools/match.py one --src src/matched/NNS_G2dIsCellAnimationBoundingBox.c  *       --func NNS_G2dIsCellAnimationBoundingBox --addr 0x02063030 --cc 1.1p1
  */
-s32 NNS_G2dIsCellAnimationBoundingBox(struct CellAnim *anim)
+s32 NNS_G2dIsCellAnimationBoundingBox(CellAnim *anim)
 {
-    u32 attr = anim->attrOverride;
+    u32 attr = anim->animCtrl.overriddenPlayMode;
 
     if (attr == 0) {
-        attr = anim->bank->attr;
+        attr = anim->animCtrl.pAnimSequence->playMode;
     }
 
     if (attr == 2 || attr == 4) {

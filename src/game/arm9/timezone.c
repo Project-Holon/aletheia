@@ -20,11 +20,7 @@
 #include "script_vm_types.h"
 
 /* RTC time as GF_STANDARD_GetCachedTime fills it. */
-struct RtcTime {
-    u32 hour;
-    u32 minute;
-    u32 second;
-};
+#include "gf_standard_types.h"
 
 extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
 

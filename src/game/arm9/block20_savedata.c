@@ -86,12 +86,11 @@ struct CgearSaveBlock {
     u8  reservedTail[3];
 };
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 id);
+#include "save_control.h"
 struct GameData;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern u32 POKE_TOOL_GetPartyParamSize(void);
-extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
-extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "game_data.h"
+#include "poke_tool.h"
+#include "mi_memory.h"
 void BLOCK20_SAVEDATA_SetEntry(struct CgearSaveBlock *block, int index, u16 id, u8 value);
 u8   BLOCK20_SAVEDATA_GetEntryValue(const struct CgearSaveBlock *block, int index);
 void BLOCK20_SAVEDATA_SetDateStamp(struct CgearSaveBlock *block, u32 value);

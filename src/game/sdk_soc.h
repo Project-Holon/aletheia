@@ -24,4 +24,35 @@ typedef struct SOCHostEnt {
     u8 **addrList;
 } SOCHostEnt;
 
+typedef void *(*SOCAlloc)(unsigned long name, long size);
+typedef void (*SOCFree)(unsigned long name, void *ptr, long size);
+
+typedef long long SOCTime;
+
+/* Start-up parameters of the socket layer. */
+typedef struct SOCConfig {
+    u16 vendor;
+    u16 version;
+    SOCAlloc alloc;
+    SOCFree free;
+    unsigned long flag;
+    SOCInAddr addr;
+    SOCInAddr netmask;
+    SOCInAddr router;
+    SOCInAddr dns1;
+    SOCInAddr dns2;
+    long timeWaitBuffer;
+    long reassemblyBuffer;
+    long mtu;
+    long rwin;
+    SOCTime r2;
+    const char *peerid;
+    const char *passwd;
+    const char *serviceName;
+    const char *hostName;
+    long rdhcp;
+    long udpSendBuff;
+    long udpRecvBuff;
+} SOCConfig;
+
 #endif

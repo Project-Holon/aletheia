@@ -77,13 +77,12 @@ typedef struct TexImageParamCmd {
 extern void MIi_CpuClearFast(u32 value, void *pDst, u32 size);
 extern void MIi_CpuClear32(u32 value, void *pDst, u32 size);
 extern void MI_Zero36B(void *pDst);
-extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
-extern void VEC_CrossProduct(const VecFx32 *pA, const VecFx32 *pB, VecFx32 *pAxB);
-extern void G3_MultMtx43(void *m);
-extern void G3_MultMtx33(void *m);
-extern int  G3X_GetVectorMtx(MtxFx33 *pMtx);
-extern void G3_LoadMtx43(const void *pMtx);
-extern void NNS_G3dGeResetGX(void *pPosVecMtx, void *pVecMtx);
+#include "fx_vec.h"
+#include "g3imm.h"
+typedef int GXFogBlend;
+typedef int GXFogSlope;
+#include "g3x.h"
+#include "nns_g3d_ge.h"
 void NNSi_G3dSbcRun(NNSG3dRS *pRS);
 void NNSi_G3dRenderObjRunSbc(NNSG3dRS *pRS, NNSG3dRenderObj *pRenderObj);
 void NNSi_G3dAnmObjMarkExistMap(u32 *pExistMap, NNSG3dAnmObj *pAnmObj);

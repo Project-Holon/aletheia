@@ -68,23 +68,6 @@ typedef struct {
 	signed char flag;
 } Sock;
 
-typedef struct SOCConfig {
-    unsigned short vendor;
-    unsigned short version;
-    void *(*alloc)(u32, long);
-    void (*free)(u32, void *, long);
-    u32 flag;
-    u32 addr;
-    u32 netmask;
-    u32 router;
-    u32 dns1;
-    u32 dns2;
-    long timeWaitBuffer;
-    long reassemblyBuffer;
-    long mtu;
-    long rwin;
-} SOCConfig;
-
 typedef struct SOCLConfig {
     int use_dhcp;
     u32 my_ip;
@@ -102,9 +85,9 @@ typedef struct SOCLConfig {
 
 typedef struct SOCStatics {
     u32 hostip;
-    void (*FreeFunc_SOC)(u32, void *, long);
+    SOCFree FreeFunc_SOC;
     char pad8[4];
-    void *(*AllocFunc_SOC)(u32, long);
+    SOCAlloc AllocFunc_SOC;
     char pad10[8];
     unsigned char *addrList[2];
     char *hostent_name;
@@ -398,11 +381,11 @@ static void FreeFunc_SOCL(void *ptr)
 int SOC_Startup(const SOCConfig *config)
 {
     gSocStatics.soclConfig.use_dhcp = (config->flag == 1);
-    gSocStatics.soclConfig.my_ip = SWAP32(config->addr);
-    gSocStatics.soclConfig.net_mask = SWAP32(config->netmask);
-    gSocStatics.soclConfig.gateway_ip = SWAP32(config->router);
-    gSocStatics.soclConfig.dns_ip0 = SWAP32(config->dns1);
-    gSocStatics.soclConfig.dns_ip1 = SWAP32(config->dns2);
+    gSocStatics.soclConfig.my_ip = SWAP32(config->addr.addr);
+    gSocStatics.soclConfig.net_mask = SWAP32(config->netmask.addr);
+    gSocStatics.soclConfig.gateway_ip = SWAP32(config->router.addr);
+    gSocStatics.soclConfig.dns_ip0 = SWAP32(config->dns1.addr);
+    gSocStatics.soclConfig.dns_ip1 = SWAP32(config->dns2.addr);
     gSocStatics.soclConfig.alloc = AllocFunc_SOCL;
     gSocStatics.soclConfig.free = FreeFunc_SOCL;
     gSocStatics.AllocFunc_SOC = config->alloc;

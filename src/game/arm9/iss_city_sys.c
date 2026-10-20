@@ -55,17 +55,15 @@ struct IssCitySys {
     u8 currentUnit;         /* index into units, or ISS_CITY_UNIT_NONE */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sourceFile, u16 sourceLine);
+#include "gfl_heap_wrap.h"
 
-extern u32 ARC_TOOL_GetArchiveFileCount(u32 archiveId);
+#include "arc_tool.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 
-extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player);
+#include "game_data.h"
 
-extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
 
-extern void GFL_USE_SetBgmTrackVolume(u32 soundTarget, u32 volume);
+#include "gfl_use.h"
 
 struct IssCitySys *ISS_CITY_SYS_Create(struct PlayerWork *player, u32 heapId);
 
@@ -143,13 +141,10 @@ void ISS_CITY_SYS_ApplyVolume(struct IssCitySys *sys);
 
 int ISS_CITY_SYS_CalcOutputVolume(struct IssCitySys *sys);
 
-struct IssCityUnit *ISS_CITY_UNIT_Create(u32 heapId, u32 memberIndex);
+#include "iss_city_unit.h"
 
-void ISS_CITY_UNIT_Delete(struct IssCityUnit *unit);
 
-u32 ISS_CITY_UNIT_GetZoneId(struct IssCityUnit *unit);
 
-u8 ISS_CITY_UNIT_CalcVolume(const struct IssCityUnit *unit, const s32 *playerPos);
 
 extern const char ISS_CITY_SYS_sSourceFileName[];
 

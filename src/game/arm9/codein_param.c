@@ -33,13 +33,13 @@ struct CodeinParam {
     struct Strbuf *text;
 };
 
+extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
+extern void STRBUF_Delete(struct Strbuf *str);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u16 heapId);
 
-extern void STRBUF_Delete(struct Strbuf *str);
 
-extern u32 GFL_HEAP_Free(void *p);
 
 struct CodeinParam *CODEIN_PARAM_Create(u32 heapId, u32 mode, u32 initialPage, u32 maxLength, u32 *values);
 

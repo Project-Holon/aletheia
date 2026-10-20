@@ -1,0 +1,12 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "ERROR_SCREEN_ShowAndWait", "black_address": "0x021B6100", "white_address": "0x021B6120", "size": 248, "diff": "constant", "source": "src/game/ov017/error_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ERROR_SCREEN_Setup", "black_address": "0x021B61F8", "white_address": "0x021B6218", "size": 160, "diff": "constant", "source": "src/game/ov017/error_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ERROR_SCREEN_LoadBackground", "black_address": "0x021B6298", "white_address": "0x021B62B8", "size": 208, "diff": "constant", "source": "src/game/ov017/error_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ERROR_SCREEN_PrintMessage", "black_address": "0x021B6368", "white_address": "0x021B6388", "size": 180, "diff": "constant", "source": "src/game/ov017/error_screen.c", "version_switch": false, "status": "EXACT"},
+  {"name": "ERROR_SCREEN_Teardown", "black_address": "0x021B641C", "white_address": "0x021B643C", "size": 4, "diff": "constant", "source": "src/game/ov017/error_screen.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

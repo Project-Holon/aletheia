@@ -198,28 +198,9 @@ typedef struct ATERMSET_BSS ATERMSET_BSS;
  */
 typedef struct ATERMSET_DATA ATERMSET_DATA;
 
-typedef union {
-    void *p;
-} WCMNoticeParameter;
-
-typedef struct WCMNotice {
-    short              notify;
-    short              result;
-    WCMNoticeParameter parameter[3];
-} WCMNotice;
-
-struct WCMConfig {
-    long  dmano;
-    void *pbdbuffer;
-    long  nbdbuffer;
-    long  nbdmode;
-};
-
 #include "../sdk_wm.h"
 
 #include "../sdk_os.h"
-
-typedef struct SOCConfig SOCConfig;
 
 #include "../sdk_soc.h"
 

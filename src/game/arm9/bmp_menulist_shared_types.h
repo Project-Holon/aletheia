@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-struct Bmp;
+#include "../arm9/bmp_shared_types.h"
 
 struct BmpWin;
 

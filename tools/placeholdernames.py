@@ -48,6 +48,7 @@ ACCEPTED = [
     ("src/game/arm9/nns_g2d_renderer_core.c", "v0 v1", "texture coordinates u0/v0 and u1/v1"),
     ("src/game/arm9/touchpanel_shared_types.h", "x30", "calibration point coordinate, pairs with y30"),
     ("src/game/arm9/tp.c", "x0 tmp32", "SDK TPCalibrateParam field and the SDK's own local"),
+    ("src/game/arm9/tp.h", "x0", "SDK TPCalibrateParam field (the struct now lives in tp.h)"),
     ("src/game/ov009/gsplatformsocket.c", "fd", "POSIX pollfd member"),
     ("src/game/ov009/soc.c", "fd", "POSIX pollfd member"),
     ("src/game/ov016/aoss.c", "fd", "POSIX pollfd member"),

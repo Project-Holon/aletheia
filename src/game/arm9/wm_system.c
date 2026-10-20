@@ -54,12 +54,7 @@
 
 #include "../sdk_wm.h"
 
-typedef struct PMiGenCallbackInfo {
-    void (*callback)(void *);
-    void *arg;
-    int priority;
-    struct PMiGenCallbackInfo *next;
-} PMGenCallbackInfo;
+#include "pm.h"
 
 /* wm_system.o .bss, addressed section-relative from one pool word */
 typedef struct WmSystemBss {
@@ -78,40 +73,26 @@ struct WMSystemWork {
 };
 
 extern WMErrCode WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize);
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern BOOL OS_IsRunOnTwl(void);
-extern u32 NWM_CheckInitialized(void);
-extern BOOL OS_IsOnVram(void *ptr);
-extern BOOL OS_IsOnExtendedMainMemory(void *ptr);
-extern void PXI_Init(void);
-extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
-extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
-extern void DC_StoreRange(void *startAddr, u32 nBytes);
-extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
-extern void OS_InitMessageQueue(OSMessageQueue *mq, void **msgArray, s32 msgCount);
-extern BOOL OS_SendMessage(OSMessageQueue *mq, OSMessage msg, s32 flags);
+#include "os_system.h"
+#include "os_emulator.h"
+#include "wm_common.h"
+#include "os_alloc.h"
+#include "pxi_fifo.h"
+#include "os_cache.h"
+#include "mi_dma.h"
+#include "os_message.h"
 extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
-extern BOOL OS_ReceiveMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags);
-extern BOOL OS_JamMessage(OSMessageQueue *mq, OSMessage msg, s32 flags);
-extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern void OS_Terminate(void);
+#include "mi_memory.h"
+#include "os_terminate_processor.h"
 extern void WMi_DeleteSleepCallback(void);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
-extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, s32 priority);
-extern void PM_DeletePreSleepCallback(struct PMiGenCallbackInfo *info);
-extern BOOL OS_IsAvailableWireless(void);
-extern BOOL OS_IsForceDisableWireless(void);
+#include "os_ownerinfoex.h"
 WMErrCode WM_Init(void *wmSysBuf, u16 dmaNo);
 WMErrCode WM_Finish(void);
 void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 u32 *WmGetCommandBuffer4Arm7(void);
 WMErrCode WMi_SendCommand(WMApiid id, u16 paramNum, ...);
 WMErrCode WMi_SendCommandDirect(void *data, u32 length);
-void *WMi_GetSystemWork(void);
+WMArm9Buf *WMi_GetSystemWork(void);
 WMErrCode WMi_CheckInitialized(void);
 WMErrCode WMi_CheckIdle(void);
 WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
@@ -342,9 +323,9 @@ WMErrCode WMi_SendCommandDirect(void *data, u32 length)
  *   python tools/match.py one --src src/matched/WMi_GetSystemWork.c \
  *       --func WMi_GetSystemWork --addr 0x0208E4BC --arm
  */
-void *WMi_GetSystemWork(void)
+WMArm9Buf *WMi_GetSystemWork(void)
 {
-    return gWmSystemWork.work;
+    return (WMArm9Buf *)gWmSystemWork.work;
 }
 
 WMErrCode WMi_CheckInitialized(void)

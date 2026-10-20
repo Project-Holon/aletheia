@@ -249,7 +249,7 @@ int GFL_NET_IRC_WIRELESS_GetRetryCount(void);
 
 void GFL_NET_SetLinkTimeout(u32 frames);
 
-u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
+u8 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 
 int GFL_NET_GetNegotiationNum(void);
 
@@ -811,7 +811,7 @@ void GFL_NET_SetLinkTimeout(u32 frames)
  * called from GFL_NET_IsSendQueueEntryOfHandle (outside this range), which is what attests the
  * `bl` here as a real function rather than a wildcarded relocation.
  */
-u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle)
+u8 GFL_NET_GetHandleNetID(GFLNetHandle *handle)
 {
     return GFL_NET_HANDLE_GetNetHandleID(handle) & 0xff;
 }

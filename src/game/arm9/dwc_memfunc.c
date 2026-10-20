@@ -29,7 +29,7 @@ typedef struct { DWCiMemFree free; DWCiMemAlloc alloc; } DWCiMemFunc;
 
 extern void *DWC_AllocEx(int name, unsigned long size, int tag);
 
-extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
+#include "mi_memory.h"
 void *DWCi_GetAllocateHeader(char *p);
 void *DWCi_SetAllocateHeader(void *ptr, unsigned long size);
 void DWCi_SetMemFunc(DWCiMemAlloc alloc, DWCiMemFree free);

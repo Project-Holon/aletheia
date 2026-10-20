@@ -74,7 +74,7 @@
 
 struct PmsDrawRes;
 
-struct Actor;
+struct ClactActor;
 
 struct PmsDraw;
 
@@ -84,9 +84,9 @@ struct Cfg;
 
 struct Bmp;
 
-struct PtS;
+struct ClactVec2;
 
-struct Vec2;
+struct ClactVec2;
 
 struct PmsPos;
 
@@ -120,7 +120,7 @@ struct PmsElem {
     void *bmpWin;
     u8    printing;
     u8    pad05[3];
-    struct Actor *decoActor[2];
+    struct ClactActor *decoActor[2];
     s32   scrollX;
     s32   scrollY;
     union PmsFlags flags;
@@ -144,6 +144,7 @@ struct PmsDraw {
 };
 
 #include "../types.h"
+#include "pms_types.h"
 
 struct PmsPoint { s16 x; s16 y; };
 
@@ -164,7 +165,6 @@ struct PmsDrawRes {
 
 struct DecoPos  { u16 x; u16 y; };
 
-typedef struct { u16 sentenceType; u16 sentenceId; u16 word[2]; } PmsData;
 
 typedef struct { s32 x; s32 y; } PmsOffset;
 
@@ -173,115 +173,97 @@ struct ItemValueEntry {
     u16 registerFlag : 6;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 struct BmpWin;
 
-extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
+#include "bmp_win.h"
 
-extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 
-extern u32 CLACT_RegisterPaletteEx(void *h, u32 file_idx, u32 engine, u32 vram_offset, u32 s0, u32 s1, u32 s2);
-
+struct ActorInit;
+struct ClactActor;
+struct ClactVec2;
+struct Pt16;
+struct Unit;
 extern u32 CLACT_RegisterCharacter(void *h, u32 file_idx, u32 compressed, u32 engine, u32 s0);
-
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-
+void CLACT_ReleaseCharacter(u32 idx);
+extern u32 CLACT_RegisterPaletteEx(void *h, u32 file_idx, u32 engine, u32 vram_offset, u32 s0, u32 s1, u32 s2);
+void CLACT_ReleasePalette(u32 idx);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
+void CLACT_ReleaseCellAnim(u32 idx);
+struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInit *init, u16 space, u16 heap_id);
+void CLACT_DeleteActor(struct ClactActor *actor);
+void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
+void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u32 which);
+void CLACT_GetActorSurfacePos(struct ClactActor *actor, struct ClactVec2 *out, u16 space);
+void CLACT_SetActorPos(struct ClactActor *actor, const struct Pt16 *pos);
+void CLACT_GetActorPos(const struct ClactActor *actor, struct Pt16 *out);
+void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
+void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
+void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
+u16 CLACT_GetActorAnimSeq(struct ClactActor *actor);
+void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
+void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 speed);
 
-extern void  ARC_TOOL_DeleteHandle(void *h);
 
-extern void  MI_CpuFill8(void *p, u32 v, u32 n);
+#include "arc_tool.h"
 
-extern void CLACT_SetActorObjMode(struct Actor *actor, u32 val);
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_CopyPixels(struct Bmp *dst, const struct Bmp *src);
+#include "mi_memory.h"
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+typedef short s16_p07;
+#include "bmp.h"
 
-extern void BG_SYS_MarkTileDirty(u32 bit);
 
-extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
-extern void CLACT_AddActorSurfacePos(struct Actor *p, const struct Vec2 *delta, u32 which);
 
-extern u16 CLACT_GetActorAnimSeq(struct Actor *p);
+#include "bg_sys.h"
 
-extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
 
-extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
 
-extern void CLACT_ReleasePalette(u32 i);
 
-extern void CLACT_ReleaseCharacter(u32 i);
 
-extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern struct Actor *CLACT_CreateActor(void *a, u32 b, u32 c, u32 d,
-                                const void *e, u16 f, u16 g);
 
-extern void CLACT_SetActorAutoAnim(struct Actor *p, u32 v);
 
-extern u8 UI_GetFrameRate(void);
 
-extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 
-extern u8 BG_SYS_GetPriority(u32 layer);
 
-extern void  CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
+#include "ui.h"
 
-extern void CLACT_DeleteActor(struct Actor *p);
+
+
+
 struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+#include "printsys.h"
 
-extern u32 BG_SYS_GetChannelScrollX(u8 channel);
 
-extern u32 BG_SYS_GetChannelScrollY(u8 channel);
 struct Pt16;
 
-extern void CLACT_GetActorPos(struct Actor *actor, struct Pt16 *out);
 
-extern void CLACT_SetActorPos(struct Actor *actor, struct Pt16 *pos);
 
-extern void PMSI_PARAM_Copy(struct Rec8 *dst, const struct Rec8 *src);
+#include "pmsi_param.h"
 
-extern u32 PMSI_PARAM_Validate(struct PmsData *p, u32 allowEmpty, u32 heapId);
 
-extern void *PMSI_PARAM_GetSourceString(const struct PmsData *obj, u32 heapId);
 struct Strbuf;
 
-extern u32   PRINTSYS_CountControlTag(struct Strbuf *text);
 
-extern u32 PMSI_PARAM_IsDecoWordAt(struct Container *p, u32 idx);
 
-extern u16 PMSI_PARAM_GetWordId(PmsData *sentence, u32 index);
 
-extern void *PMSI_PARAM_ToStringWords(u16 *slots, u32 heap, int count);
 struct GfFont;
 
-extern u32 PRINTSYS_MeasureText(struct Strbuf *text, u8 markerId, struct GfFont *font, u32 spacing);
 
-extern u32   PRINTSYS_SearchIndex(struct Strbuf *text, u8 markerId);
 
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
-extern void  BMP_FillRect(u32 a, u32 b, s16 c, u32 d, u32 e, u8 f);
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "strbuf.h"
 
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern void BG_SYS_PushTile(u32 index);
 
 struct PmsDraw *PMS_DRAW_Create(u32 clunit, u32 drawType, u32 printQue, u32 font, u8 plttOffset, u8 elemMax, u16 heapId);
 
@@ -546,7 +528,7 @@ void PMS_DRAW_Copy(struct PmsDraw *wk, u32 srcId, u32 dstId)
     dst = &wk->elems[dstId];
     dx = BMP_WIN_GetPosX(dst->bmpWin) - BMP_WIN_GetPosX(src->bmpWin);
     dy = BMP_WIN_GetPosY(dst->bmpWin) - BMP_WIN_GetPosY(src->bmpWin);
-    BMP_CopyPixels((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)src->bmpWin)), (const struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)dst->bmpWin)));
+    BMP_CopyPixels((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)src->bmpWin)), (struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)dst->bmpWin)));
     bmpWin = dst->bmpWin;
     BMP_WIN_TransferChars(bmpWin);
     BMP_WIN_MakeScreen(bmpWin);
@@ -554,10 +536,10 @@ void PMS_DRAW_Copy(struct PmsDraw *wk, u32 srcId, u32 dstId)
 
     for (i = 0; i < 2; i++) {
         surface = PMS_DRAW_GetFrameSurface(BMP_WIN_GetBgLayer(src->bmpWin));
-        CLACT_GetActorSurfacePos(src->decoActor[i], (struct PtS *)&pt, (u16)surface);
+        CLACT_GetActorSurfacePos(src->decoActor[i], (struct ClactVec2 *)&pt, (u16)surface);
         pt.x += dx * 8;
         pt.y += dy * 8;
-        CLACT_AddActorSurfacePos(dst->decoActor[i], (const struct Vec2 *)(&pt), (u16)surface);
+        CLACT_AddActorSurfacePos(dst->decoActor[i], (const struct ClactVec2 *)(&pt), (u16)surface);
         CLACT_SetActorAnimSeq(dst->decoActor[i], CLACT_GetActorAnimSeq(src->decoActor[i]));
         CLACT_SetActorDrawEnable(dst->decoActor[i], src->isDeco[i]);
     }
@@ -720,7 +702,7 @@ void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId)
     void *actor;
     u32 one;
 
-    actor = CLACT_CreateActor((void *)res->clunit, res->cgrIndex, res->plttIndex, res->cellAnmIndex, &init, (u16)res->drawType, heapId);
+    actor = CLACT_CreateActor((void *)res->clunit, res->cgrIndex, res->plttIndex, res->cellAnmIndex, (const struct ActorInit *)&init, (u16)res->drawType, heapId);
     CLACT_SetActorDrawEnable(actor, 0);
     one = 1;
     CLACT_SetActorAutoAnim(actor, 1);
@@ -748,7 +730,7 @@ void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, 
     pt.x = (u16)pos.x;
     pt.y = (u16)pos.y;
     frame = BMP_WIN_GetBgLayer((struct BmpWin *)bmpWin);
-    CLACT_AddActorSurfacePos(actor, (const struct Vec2 *)(&pt), (u16)PMS_DRAW_GetFrameSurface(frame));
+    CLACT_AddActorSurfacePos(actor, (const struct ClactVec2 *)(&pt), (u16)PMS_DRAW_GetFrameSurface(frame));
     CLACT_SetActorBgPriority(actor, BG_SYS_GetPriority(frame));
     CLACT_SetActorAnimSeq(actor, (u16)(wordId - 1));
 }
@@ -871,7 +853,7 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
     u16 heapID;
     int wordCount;
 
-    PMSI_PARAM_Copy((struct Rec8 *)(&pmsCopy), (const struct Rec8 *)param);
+    PMSI_PARAM_Copy((struct PmsData *)(&pmsCopy), (const struct PmsData *)param);
     param = &pmsCopy;
     PMSI_PARAM_Validate((struct PmsData *)(&pmsCopy), 1, heapId);
     elem->bmpWin = bmpWin;
@@ -880,13 +862,13 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
     str = PMSI_PARAM_GetSourceString((const struct PmsData *)param, heapID);
     wordCount = (u8)PRINTSYS_CountControlTag(str);
     for (i = 0; i < wordCount; i++) {
-        if (PMSI_PARAM_IsDecoWordAt((struct Container *)param, i)) {
+        if (PMSI_PARAM_IsDecoWordAt((const struct PmsData *)param, i)) {
             elem->isDeco[i] = 1;
         } else if (PMSI_PARAM_GetWordId((void *)param, i) == 0xffff) {
             isBlank[i] = 1;
         }
     }
-    word = PMSI_PARAM_ToStringWords((u16 *)param, heapID, wordCount);
+    word = PMSI_PARAM_ToStringWords((const struct PmsData *)param, heapID, wordCount);
     BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin)), nullColorPalette);
     PRINTSYS_PrintQueColor(printQue, (struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)elem->bmpWin), (s16)offset->x, (s16)offset->y, (struct Strbuf *)word, (struct GfFont *)font, color);
     elem->printing = 1;
@@ -898,7 +880,7 @@ void PMS_DRAW_PrintElem(struct PmsElem *elem, void *printQue, u32 font, struct D
         } else if (isBlank[i] == 1) {
             u32 x = PRINTSYS_MeasureText(word, i, (void *)font, 0);
             u32 y = PRINTSYS_SearchIndex(word, i);
-            BMP_FillRect((u32)BMP_WIN_GetBmp((struct BmpWin *)bmpWin), x, y << 4, 0x54, 0x10, nullColorPalette);
+            BMP_FillRect((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)bmpWin), x, (s16)(y << 4), 0x54, 0x10, nullColorPalette);
         }
     }
     STRBUF_Delete(word);

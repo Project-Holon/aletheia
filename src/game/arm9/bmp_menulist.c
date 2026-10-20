@@ -50,11 +50,11 @@ struct BmpMenuList;
  * The template the caller hands to the constructor.  It is copied over the
  * first 0x34 bytes of BmpMenuList, so it has no field names of its own.
  */
-struct MenuTemplate {
+struct BmpMenuListTemplate {
     u32 w[13];
 };
 
-struct MenuItem {
+struct BmpMenuListItem {
     void *text;
     u32   value;
 };
@@ -73,7 +73,7 @@ struct MenuFlags {
 };
 
 struct BmpMenuList {
-    struct MenuItem *items;
+    struct BmpMenuListItem *items;
     MenuCursorNotify onCursor;
     MenuDrawHook     drawHook;
     struct BmpWin   *win;
@@ -116,41 +116,33 @@ struct BmpMenuList {
     u8 noCancel;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "bmp_win.h"
 
-extern void BMP_Clear(struct Bmp *bmp, u8 color);
+typedef short s16_p07;
+#include "bmp.h"
 
-extern u32  KEY_GetTrg(void);
+#include "key.h"
 
-extern unsigned int KEY_GetRepeat(void);
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+#include "gfl_use.h"
 
-extern u32 GFL_HEAP_Free(void *block);
 
 extern void PRINTSYS_PrintQueColor(void *printer, struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
 
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
 
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern u8 BG_SYS_GetColorMode(int channel);
+#include "bg_sys.h"
 
-struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
+struct BmpMenuList *BMP_MENULIST_Create(struct BmpMenuListTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
 
 s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
 
@@ -202,22 +194,19 @@ u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
 
 void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled);
 
-struct MenuCursor *BMP_CURSOR_Create(u32 heap);
+#include "bmp_cursor.h"
 
-void BMP_CURSOR_Delete(struct MenuCursor *cursor);
 
-void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target, void *printer, u32 param);
 
-void BMP_CURSOR_SetTileBitmap(struct MenuCursor *cursor, int heap);
 
 extern const char BMP_MENULIST_FILE_NAME[];
 
-struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap)
+struct BmpMenuList *BMP_MENULIST_Create(struct BmpMenuListTemplate *menuTemplate, u16 scroll, u16 row, u32 heap)
 {
     struct BmpMenuList *menu;
 
     menu = (struct BmpMenuList *)GFL_HEAP_Alloc(heap, 0x50, 1, BMP_MENULIST_FILE_NAME, 0x69);
-    *(struct MenuTemplate *)menu = *menuTemplate;
+    *(struct BmpMenuListTemplate *)menu = *menuTemplate;
     menu->cursor = BMP_CURSOR_Create(heap);
     menu->scroll = scroll;
     menu->row = row;

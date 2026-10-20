@@ -42,7 +42,7 @@
 struct BitReader;
 struct Pen;
 struct NNSG2dFont;
-struct Ctx;
+struct NNSG2dCanvas;
 struct NitroFileHeader;
 #include "../types.h"
 
@@ -194,7 +194,7 @@ struct Pen {
     const void *vtable; /* +0x14 */
 };
 
-struct Ctx { u8 reserved[0x14]; void **vt; };
+struct NNSG2dCanvas { u8 reserved[0x14]; void **vt; };
 
 typedef union {
     u32 raw;
@@ -220,11 +220,11 @@ typedef struct {
 } Hdr;
 
 typedef struct {
-    struct Ctx *pCanvas;
+    struct NNSG2dCanvas *pCanvas;
     NNSG2dFont *pFont;
     s32 hSpace;
     s32 vSpace;
-} Ctx;
+} NNSG2dTextCtx;
 
 typedef NNSG2dTextRect Ext;
 
@@ -235,7 +235,7 @@ typedef struct {
     u32 fileSize;    /* +0x08 */
     u16 headerSize;  /* +0x0C byte offset of the first block header */
     u16 numBlocks;   /* +0x0E block count */
-} Res;
+} NftrFileHeader;
 
 typedef struct {
     u32 signature;   /* +0x00 block FourCC */
@@ -266,10 +266,10 @@ typedef struct TaggedNode {
     u8 entryCountM;
 } TaggedNode;
 
-extern void MIi_CpuClearFast(u32 data, void *dst, int size);
+#include "mi_memory.h"
 struct NNSG2dBinaryFileHeader;
-extern void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature);
-extern void OS_Terminate(void);
+#include "nns_g2d_load.h"
+#include "os_terminate_processor.h"
 u16 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u16 charCode);
 void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, void *pResource);
 u16 NNS_G2dFontGetGlyphIndex(const NNSG2dFont *pFont, u16 charCode);
@@ -288,19 +288,19 @@ void NNSi_G2dSurfaceFillTiled(struct Surface *s, u32 arg);
 void NNSi_G2dSurfaceFillRect(struct SurfaceTiled *s, u32 arg, int x, int y, int w, int h);
 void NNSi_G2dSurfaceFillRectSwizzled(struct SurfaceSwizzled *s, u32 arg, int x, int y, int w, int h);
 void NNSi_G2dInitPen(struct Pen *p, void *charBase, int areaWidth, int areaHeight, int dstBpp, const void *vtable, int param);
-s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int cl, u16 code);
+s8 NNSi_G2dCharCanvasDrawChar(struct NNSG2dCanvas *ctx, NNSG2dFont *font, int x, int y, int cl, u16 code);
 void NNSi_G2dInitPenSimple(int pen, int charBase, int areaWidth, int areaHeight, int dstBpp);
 void NNS_G2dCharCanvasInitForVRAM(void *pCC, void *charBase, int areaWidth, int areaHeight, int colorMode);
 void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
 void NNSi_G2dFillScrCharArea(u16 *pScrBase, int w, int h, int scnWidth, int charNo, int cplt);
 u32 NNSi_G2dCalcCharAreaSize(u32 areaWidth, u32 areaHeight);
 int NNSi_G2dMakeCharObjArea(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, int color, int charName, int vramShift);
-void NNSi_G2dDrawTextLine(Ctx *ctx, s32 x, s32 y, s32 w2, const void *s, const void **last, Step st);
-void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w, s32 w2, u32 flags, const void *s, Step st);
-void NNSi_G2dCalcTextBox(Ctx *ctx, s32 x, s32 y, s32 w, u32 flags, u32 s, Step st);
-void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w, u32 h, u32 w2, u32 flags, u32 s, Step st);
-u32 NNS_G2dFontLoad(Res *res, void **out);
-void NNSi_G2dFontFixupSections(Res *base);
+void NNSi_G2dDrawTextLine(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w2, const void *s, const void **last, Step st);
+void NNSi_G2dDrawTextRotated(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w, s32 w2, u32 flags, const void *s, Step st);
+void NNSi_G2dCalcTextBox(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w, u32 flags, u32 s, Step st);
+void NNSi_G2dAlignTextVertical(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w, u32 h, u32 w2, u32 flags, u32 s, Step st);
+u32 NNS_G2dFontLoad(NftrFileHeader *res, void **out);
+void NNSi_G2dFontFixupSections(NftrFileHeader *base);
 u32 NNSi_G2dBitReaderRead(struct BitReader *reader, int nBits);
 u16 NNSi_G2dReadCharUTF16(CharCursor *cursor);
 u32 GetTaggedPayloadSize(const u8 *tag, const TaggedNode *node);
@@ -356,7 +356,7 @@ u16 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u16 charCode)
  */
 void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, void *pResource)
 {
-    NNS_G2dFontLoad((Res *)pResource, (void **)pFont);
+    NNS_G2dFontLoad((NftrFileHeader *)pResource, (void **)pFont);
     pFont->cbCharSpliter = (u16 (*)(const void **))NNSi_G2dReadCharUTF16;
 }
 
@@ -1394,7 +1394,7 @@ void NNSi_G2dInitPen(struct Pen *p, void *charBase, int areaWidth, int areaHeigh
  *   python tools/match.py one --src src/matched/NNSi_G2dCharCanvasDrawChar.c \
  *       --func NNSi_G2dCharCanvasDrawChar --addr 0x02068EA0 --cc ../2.0/sp2 --arm
  */
-s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, int cl, u16 code)
+s8 NNSi_G2dCharCanvasDrawChar(struct NNSG2dCanvas *ctx, NNSG2dFont *font, int x, int y, int cl, u16 code)
 {
     s8 *out[2];
     u32 idx;
@@ -1429,7 +1429,7 @@ s8 NNSi_G2dCharCanvasDrawChar(struct Ctx *ctx, NNSG2dFont *font, int x, int y, i
         y -= g[0] + font->pRes->pGlyph->cellHeight;
         break;
     }
-    ((void (*)(struct Ctx *, void *, int, int, int, s8 **))ctx->vt[0])(ctx, font, x, y, cl, out);
+    ((void (*)(struct NNSG2dCanvas *, void *, int, int, int, s8 **))ctx->vt[0])(ctx, font, x, y, cl, out);
     return out[0][2];
 }
 
@@ -1745,7 +1745,7 @@ int NNSi_G2dMakeCharObjArea(GXOamAttr *oam, int areaWidth, int areaHeight, int x
  * The two trailing `signed char`s are ONE 2-byte struct passed by value, the
  * same Step the whole cluster forwards (see NNSi_G2dAlignTextVertical's header).
  */
-void NNSi_G2dDrawTextLine(Ctx *ctx, s32 x, s32 y, s32 w2,
+void NNSi_G2dDrawTextLine(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w2,
                    const void *s, const void **last, Step st)
 {
     const void *cur;
@@ -1804,7 +1804,7 @@ done:
  * line offset in r6/r7. Declared the other way round the same 360 bytes come
  * out with those four registers swapped, 21 concrete bytes out.
  */
-void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w,
+void NNSi_G2dDrawTextRotated(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w,
                    s32 w2, u32 flags, const void *s, Step st)
 {
     const void *cur;
@@ -1878,7 +1878,7 @@ void NNSi_G2dDrawTextRotated(Ctx *ctx, s32 x, s32 y, s32 w,
  * only one of which is read again. Both copies must be `volatile` or 1.1p1
  * and 2.0 alike dead-store-eliminate them and the frame comes out 0x18.
  */
-void NNSi_G2dCalcTextBox(Ctx *ctx, s32 x, s32 y, s32 w,
+void NNSi_G2dCalcTextBox(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w,
                    u32 flags, u32 s, Step st)
 {
     volatile Ext box2;
@@ -1958,7 +1958,7 @@ void NNSi_G2dCalcTextBox(Ctx *ctx, s32 x, s32 y, s32 w,
  * `pen += extent * dx` through the two `mla`s, then everything is
  * forwarded verbatim to NNSi_G2dDrawTextRotated.
  */
-void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w,
+void NNSi_G2dAlignTextVertical(NNSG2dTextCtx *ctx, s32 x, s32 y, s32 w,
                    u32 h, u32 w2, u32 flags, u32 s, Step st)
 {
     s32 n;
@@ -1978,21 +1978,21 @@ void NNSi_G2dAlignTextVertical(Ctx *ctx, s32 x, s32 y, s32 w,
     NNSi_G2dDrawTextRotated(ctx, x, y, w, w2, flags, (const void *)s, st);
 }
 
-static inline BOOL IsNftr(const Res *r)
+static inline BOOL IsNftr(const NftrFileHeader *r)
 {
     if (r != 0 && r->signature == 0x4e465452u)
         return 1;
     return 0;
 }
 
-static inline BOOL VerAtLeast(const Res *r, u16 v)
+static inline BOOL VerAtLeast(const NftrFileHeader *r, u16 v)
 {
     if (r != 0 && r->version >= v)
         return 1;
     return 0;
 }
 
-static inline BOOL IsValid(const Res *r, u16 v)
+static inline BOOL IsValid(const NftrFileHeader *r, u16 v)
 {
     return r != 0 ? (IsNftr(r) && VerAtLeast(r, v)) : 0;
 }
@@ -2018,7 +2018,7 @@ static inline BOOL IsValid(const Res *r, u16 v)
  *   EXACT, 460 bytes, 3 of 3 relocation sites resolved.
  *   ../2.0/sp2p2: EXACT as well; dsi/1.1p1: 452 bytes, DIFF.
  */
-u32 NNS_G2dFontLoad(Res *res, void **out)
+u32 NNS_G2dFontLoad(NftrFileHeader *res, void **out)
 {
     BOOL legacy = 0;
     u8 *finf;
@@ -2062,7 +2062,7 @@ u32 NNS_G2dFontLoad(Res *res, void **out)
  * `continue` and `goto` spellings all fold the same way under 1.1p1.
  * ../2.0/sp2 keeps the compare: 220 bytes, 0 mismatches.
  */
-void NNSi_G2dFontFixupSections(Res *base)
+void NNSi_G2dFontFixupSections(NftrFileHeader *base)
 {
     Section *s;
     s32 i;

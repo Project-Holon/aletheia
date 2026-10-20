@@ -38,12 +38,12 @@ typedef struct {
     u32 dmaId;
 } GXDataState;
 
-extern void GX_InitGXState(void);
-extern s32 OS_GetLockID(void);
-extern void OS_Terminate(void);
-extern void MI_NDmaFill(s32 ch, s32 dst, s32 data, s32 size);
-extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
-extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
+#include "gxstate.h"
+#include "os_spinlock.h"
+#include "os_terminate_processor.h"
+#include "../twl/mi_ndma.h"
+#include "mi_dma.h"
+#include "mi_memory.h"
 void GX_Init(void);
 void GX_SetVCountEqVal(s32 val);
 extern GXBssState sDispMode;
@@ -80,7 +80,7 @@ extern GXDataState sIsDispOn;
 #define reg_G2S_DB_BG3PA    (*(vu16 *)0x04001030)
 
 #define reg_G2S_DB_BG3PD    (*(vu16 *)0x04001036)
-extern void PMi_SetDispOffCount(void);
+#include "pm.h"
 long GX_HBlankIntr(int enable);
 long GX_VBlankIntr(int enable);
 u16 GX_IsDispOn(void);

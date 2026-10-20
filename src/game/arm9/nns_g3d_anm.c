@@ -21,11 +21,9 @@
  */
 #include "nns_g3d_anm_types.h"
 
-extern void MIi_CpuClearFast(u32 val, void *dst, u32 len);
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 len);
-extern s32  FX_Div(s32 num, s32 den);
-extern void VEC_CrossProduct(const s32 *a, const s32 *b, s32 *c);
-extern void VEC_Normalize(const s32 *a, s32 *b);
+#include "mi_memory.h"
+#include "fx_cp.h"
+#include "fx_vec.h"
 int NNSi_G3dAnmBlendMat(void *pResult, const NNSG3dAnmObj *pAnmObj, u32 matIdx);
 void NNSi_G3dAnmBlendJntVec(volatile s32 *dst, const s32 *src, s32 weight, int isOne);
 int NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 jntIdx);
@@ -226,18 +224,18 @@ int NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *pResult, const NNSG3dAnmObj *pAnmObj
         numSampled++;
     } while (cur != 0);
 
-    VEC_CrossProduct(pResult->rot[0], pResult->rot[1], pResult->rot[2]);
+    VEC_CrossProduct((const VecFx32 *)(pResult->rot[0]), (const VecFx32 *)(pResult->rot[1]), (VecFx32 *)(pResult->rot[2]));
     if (pResult->rot[0][0] == 0 && pResult->rot[0][1] == 0 && pResult->rot[0][2] == 0) {
         MIi_CpuCopy32(firstRow0, pResult->rot[0], 0xc);
     } else {
-        VEC_Normalize(pResult->rot[0], pResult->rot[0]);
+        VEC_Normalize((const VecFx32 *)(pResult->rot[0]), (VecFx32 *)(pResult->rot[0]));
     }
     if (pResult->rot[2][0] == 0 && pResult->rot[2][1] == 0 && pResult->rot[2][2] == 0) {
         MIi_CpuCopy32(firstRow2, pResult->rot[2], 0xc);
     } else {
-        VEC_Normalize(pResult->rot[2], pResult->rot[2]);
+        VEC_Normalize((const VecFx32 *)(pResult->rot[2]), (VecFx32 *)(pResult->rot[2]));
     }
-    VEC_CrossProduct(pResult->rot[2], pResult->rot[0], pResult->rot[1]);
+    VEC_CrossProduct((const VecFx32 *)(pResult->rot[2]), (const VecFx32 *)(pResult->rot[0]), (VecFx32 *)(pResult->rot[1]));
     return 1;
 }
 

@@ -18,36 +18,7 @@
  *   DC_StoreRange     0x020862D4  arm
  */
 
-typedef struct SNDWaveArc SNDWaveArc;
-
-typedef struct SNDWaveArcLink {
-    SNDWaveArc *waveArc;
-    struct SNDWaveArcLink *next;
-} SNDWaveArcLink;
-
-struct SNDWaveArc {
-    unsigned char fileHeader[0x10];
-    unsigned char blockHeader[0x8];
-    SNDWaveArcLink *topLink;
-    unsigned long reserved[7];
-    unsigned long waveCount;
-    unsigned long waveOffset[];
-};
-
-typedef struct SNDBankData {
-    unsigned char fileHeader[0x10];
-    unsigned char blockHeader[0x8];
-    SNDWaveArcLink waveArcLink[4];
-    unsigned long instCount;
-    unsigned long instOffset[];
-} SNDBankData;
-
-typedef struct SNDWaveData SNDWaveData;
-
-typedef struct SNDInstPos {
-    unsigned int prgNo;
-    unsigned int index;
-} SNDInstPos;
+#include "snd_bank.h"
 
 #include "../types.h"
 
@@ -77,9 +48,8 @@ typedef struct {
     SNDInstData instOffset[1];
 } SNDDrumSet;
 
-extern void SNDi_LockMutex(void);
-extern void SNDi_UnlockMutex(void);
-extern void DC_StoreRange(const void *startAddr, unsigned long nBytes);
+#include "snd_main.h"
+#include "os_cache.h"
 void SND_AssignWaveArc(SNDBankData *bank, int index, SNDWaveArc *waveArc);
 void SND_DestroyBank(SNDBankData *bank);
 void SND_DestroyWaveArc(SNDWaveArc *waveArc);

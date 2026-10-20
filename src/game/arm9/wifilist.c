@@ -42,6 +42,7 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  */
 #include "game_sync_shared_types.h"
+#include "wifilist_types.h"
 #include "wifi_history_shared_types.h"
 
 #define WIFILIST_FRIEND_MAX 32
@@ -51,9 +52,6 @@ struct Strbuf;
 struct U16Vec;
 
 /* Save block 0x1E: the Wi-Fi friend list (same layout as in mystery_data.c). */
-struct DWCFriendData {
-    u8 data[0xC];
-};
 
 struct WifiFriendInfo {
     u8  nameData[0x1C];
@@ -72,7 +70,7 @@ struct WifiFriendInfo {
 
 struct WifiList {
     u8 userData[0x40];                                      /* DWC user data */
-    struct DWCFriendData friendData[WIFILIST_FRIEND_MAX];   /* 0x040 */
+    DWCFriendData friendData[WIFILIST_FRIEND_MAX];   /* 0x040 */
     struct WifiFriendInfo friendInfo[WIFILIST_FRIEND_MAX];  /* 0x1C0 */
     u8 reserved[4];                                         /* 0x7C0 */
 };
@@ -113,7 +111,7 @@ u32 WIFILIST_GetFriendInfoField(const struct WifiList *list, u32 index, u32 fiel
 
 void WIFILIST_SetFriendInfoField(struct WifiList *list, u32 index, u32 field, u32 value);
 
-struct DWCFriendData *WIFILIST_GetDwcFriendData(struct WifiList *list, int index);
+DWCFriendData *WIFILIST_GetDwcFriendData(struct WifiList *list, int index);
 
 struct WifiFriendInfo *WIFILIST_GetFriendInfo(struct WifiList *list, int index);
 
@@ -349,7 +347,7 @@ void WIFILIST_SetFriendInfoField(struct WifiList *list, u32 index, u32 field, u3
     }
 }
 
-struct DWCFriendData *WIFILIST_GetDwcFriendData(struct WifiList *list, int index)
+DWCFriendData *WIFILIST_GetDwcFriendData(struct WifiList *list, int index)
 {
     return &list->friendData[index];
 }
@@ -451,7 +449,7 @@ u32 WIFILIST_GetFriendListEnd(struct WifiList *list)
 void WIFILIST_RemoveFriendSlot(struct WifiList *list, u32 slot)
 {
     struct WifiFriendInfo *infos;
-    struct DWCFriendData *friends;
+    DWCFriendData *friends;
 
     if (slot >= 0x20) {
         return;

@@ -43,8 +43,8 @@ struct CommPlayerSupport {
     u32 mode;                       /* 0x00 */
     u32 prevMode;                   /* 0x04, set by COMM_PLAYER_SUPPORT_SavePreviousAndSuspend */
     u32 stashedMode;                /* 0x08, set by COMM_PLAYER_SUPPORT_StashMode */
-    struct PlayerRecord current;    /* 0x0c */
-    struct PlayerRecord previous;   /* 0x2c */
+    struct MyStatus current;    /* 0x0c */
+    struct MyStatus previous;   /* 0x2c */
 };
 
 /*
@@ -52,41 +52,36 @@ struct CommPlayerSupport {
  * has met) that follow it at +0x22.
  */
 struct PeerBook {
-    struct PlayerRecord record;     /* 0x00 */
+    struct MyStatus record;     /* 0x00 */
     u8 reserved20[2];               /* 0x20 */
     u8 macs[3][6];                  /* 0x22 */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void MI_CpuFill8(void *p, u32 value, u32 size);
+#include "mi_memory.h"
 struct MyStatus;
 
-extern void MYSTATUS_Init(struct MyStatus *mystatus);
+#include "mystatus.h"
 struct GameSystem;
 struct GameComm;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+#include "gamesystem.h"
 
-extern int INTRUDE_COMM_GetAreaSlotFlag(struct GameComm *comm);
+#include "../ov010/intrude_comm_query.h"
 
-extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
+#include "gf_standard.h"
 
-extern u8 GAME_DATA_SetSeason(s32 handle, u8 value);
+#include "game_data.h"
 struct GameData;
 
-extern int GAME_DATA_GetIntrudeCount(struct GameData *gd);
 
-extern u8 GAME_DATA_GetSeason(struct GameData *gd);
 struct WifiList;
 
-extern int WIFILIST_FindFriendByStatus(struct WifiList *list, struct MyStatus *status, u32 *outSlot);
+#include "wifilist.h"
 
-extern void *MYSTATUS_GetName(void *mystatus);
 
-extern u16 MYSTATUS_GetIdLow16(struct MyStatus *mystatus);
 
 struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId);
 
@@ -94,9 +89,9 @@ void COMM_PLAYER_SUPPORT_Delete(void *support);
 
 void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support);
 
-void COMM_PLAYER_SUPPORT_SetModeAndCurrent(struct CommPlayerSupport *support, u32 mode, const struct PlayerRecord *record);
+void COMM_PLAYER_SUPPORT_SetModeAndCurrent(struct CommPlayerSupport *support, u32 mode, const struct MyStatus *record);
 
-struct PlayerRecord *COMM_PLAYER_SUPPORT_GetCurrent(struct CommPlayerSupport *support);
+struct MyStatus *COMM_PLAYER_SUPPORT_GetCurrent(struct CommPlayerSupport *support);
 
 u32 COMM_PLAYER_SUPPORT_GetMode(struct CommPlayerSupport *support);
 
@@ -106,7 +101,7 @@ void COMM_PLAYER_SUPPORT_StashMode(struct CommPlayerSupport *support);
 
 int COMM_PLAYER_SUPPORT_HasSavedMode(const struct CommPlayerSupport *support);
 
-struct PlayerRecord *COMM_PLAYER_SUPPORT_GetActiveRecord(struct CommPlayerSupport *support);
+struct MyStatus *COMM_PLAYER_SUPPORT_GetActiveRecord(struct CommPlayerSupport *support);
 
 int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info);
 
@@ -118,13 +113,13 @@ u8 COMM_PLAYER_SUPPORT_NextSeason(u8 season);
 
 u8 COMM_PLAYER_SUPPORT_PrevSeason(s32 season);
 
-u8 COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value);
+void COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value);
 
 int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct PlayerLookup *lookup, const u8 *mac);
 
-u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(const struct PlayerRecord *record);
+u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(const struct MyStatus *record);
 
-u16 COMM_PLAYER_SUPPORT_GetRecordField(const struct PlayerRecord *record);
+u16 COMM_PLAYER_SUPPORT_GetRecordField(const struct MyStatus *record);
 
 extern const char comm_player_support_File[];
 
@@ -158,7 +153,7 @@ void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support)
 }
 
 /* Sets the mode word and copies a 32-byte record into the current slot. */
-void COMM_PLAYER_SUPPORT_SetModeAndCurrent(struct CommPlayerSupport *support, u32 mode, const struct PlayerRecord *record)
+void COMM_PLAYER_SUPPORT_SetModeAndCurrent(struct CommPlayerSupport *support, u32 mode, const struct MyStatus *record)
 {
     support->mode = mode;
     support->current = *record;
@@ -168,7 +163,7 @@ void COMM_PLAYER_SUPPORT_SetModeAndCurrent(struct CommPlayerSupport *support, u3
  * Returns the current record.  Leaf accessor matched to give overlay call
  * sites a `matched` witness.
  */
-struct PlayerRecord *COMM_PLAYER_SUPPORT_GetCurrent(struct CommPlayerSupport *support)
+struct MyStatus *COMM_PLAYER_SUPPORT_GetCurrent(struct CommPlayerSupport *support)
 {
     return &support->current;
 }
@@ -203,7 +198,7 @@ int COMM_PLAYER_SUPPORT_HasSavedMode(const struct CommPlayerSupport *support)
 }
 
 /* The saved record when a previous mode is set, else the current record. */
-struct PlayerRecord *COMM_PLAYER_SUPPORT_GetActiveRecord(struct CommPlayerSupport *support)
+struct MyStatus *COMM_PLAYER_SUPPORT_GetActiveRecord(struct CommPlayerSupport *support)
 {
     if (support->prevMode != 0)
         return &support->previous;
@@ -285,9 +280,9 @@ u8 COMM_PLAYER_SUPPORT_PrevSeason(s32 season)
     return (u8)((season + 3) % 4);
 }
 
-u8 COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value)
+void COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value)
 {
-    return GAME_DATA_SetSeason(handle, (u8)value);
+    GAME_DATA_SetSeason((struct GameData *)handle, (u8)value);
 }
 
 /*
@@ -335,13 +330,13 @@ int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct Playe
  * MYSTATUS_GetName (the u16 pointer accessor), the caller's argument passed
  * through untouched ("ldr r3, [pc]; bx r3").  Called from the overlays only.
  */
-u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(const struct PlayerRecord *record)
+u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(const struct MyStatus *record)
 {
-    return MYSTATUS_GetName((void *)record);
+    return (u16 *)MYSTATUS_GetName(record);
 }
 
 /* Forwarding leaf: pool-word tail call to MYSTATUS_GetIdLow16 (the u16 getter). */
-u16 COMM_PLAYER_SUPPORT_GetRecordField(const struct PlayerRecord *record)
+u16 COMM_PLAYER_SUPPORT_GetRecordField(const struct MyStatus *record)
 {
     return MYSTATUS_GetIdLow16((struct MyStatus *)record);
 }

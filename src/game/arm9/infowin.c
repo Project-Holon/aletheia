@@ -54,9 +54,10 @@
  */
 struct Node;
 struct BigObj;
-struct RtcTime;
-
 #include "../types.h"
+#include "net_types.h"
+
+#include "gf_standard_types.h"
 
 typedef struct {
     u16 paletteBits;
@@ -107,19 +108,6 @@ struct InfoWin {
     void *task;
 };
 
-struct GFLNetSession {
-    u8 leading[0x65];
-    u8 connState;
-    u8 connPhase;
-    u8 connEvent;
-};
-
-struct Cfg {
-    u32 a;
-    u32 b;
-    u32 c;
-};
-
 struct Sel6 { u8 v[6]; };
 
 struct Ofs6 { u16 v[6]; };
@@ -136,37 +124,29 @@ struct TcbTask;
 
 extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, PaletteFade *), void *work, unsigned int priority);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "tcb_list.h"
+#include "gfl_heap_wrap.h"
 extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
-extern u32 GFL_HEAP_Free(void *p);
-extern void MI_CpuFill8(void *dst, u8 data, u32 size);
-extern int UI_GetPowerState(void);
+#include "mi_memory.h"
+#include "ui.h"
 struct GameData;
 struct FieldState;
-extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
+#include "game_data.h"
 struct GameData;
-extern u32 GAME_DATA_IsConfigFlagSet(struct GameData *gd);
-extern int   GFL_NET_GetRunState(void);
-struct GFLNetSession;
-extern struct GFLNetSession *GFL_NET_GetInitParam(void);
-extern int   GFL_NET_GetNegotiationNum(void);
-extern u32 GFL_NET_IsNetTypeWifi(void);
-extern u32 WIH_DWC_PollStatus(void *key);
-extern int   GAME_BEACON_GetNextNewLogIndex(int *p);
+#include "net.h"
+#include "wih_dwc.h"
+#include "game_beacon.h"
 extern void BG_SYS_FreeTileRun(u32 a, u32 b, u32 c);
 extern int  BG_SYS_LoadPltt(u32 a, const void *b, u16 c, u16 d);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+#include "arc_tool.h"
 extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
 extern void  ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void  ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void  ARC_TOOL_DeleteHandle(void *a);
 extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
+#include "gf_standard.h"
 extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern void BG_SYS_PushTile(u32 index);
-extern u8 UI_GetFrameRate(void);
-extern int  OS_IsRunOnTwl(void);
+#include "os_emulator.h"
 void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap);
 void INFOWIN_Update(void);
 int INFOWIN_Exit(void);
@@ -226,7 +206,7 @@ void INFOWIN_Update(void)
 {
     int flag = 0;
     u8 n = 0;
-    struct GFLNetSession *link = 0;
+    GFLNetSession *link = 0;
     u32 bits;
     int idx;
 
@@ -294,7 +274,7 @@ void INFOWIN_Update(void)
             gInfoWin->linkActive = 0;
         }
     } else if (link != 0) {
-        if (link->connState == 3) {
+        if (link->init.bNetType == 3) {
             if (((gInfoWin->redrawFlags & 0x200) ? 1 : 0) == 0) {
                 gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 4);
                 gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 0x200);
@@ -303,14 +283,14 @@ void INFOWIN_Update(void)
             gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 4);
             gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags & 0xFDFF);
         }
-        if (link->connState == 0 || link->connState == 4 || link->connState == 5) {
+        if (link->init.bNetType == 0 || link->init.bNetType == 4 || link->init.bNetType == 5) {
             if (((gInfoWin->redrawFlags & 0x400) ? 1 : 0) == 0) {
                 gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 0x10);
                 gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 0x400);
                 gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags & 0xF7FF);
                 gInfoWin->blinkCount = 0;
             }
-            if (link->connEvent == 2) {
+            if (link->init.gameKind == 2) {
                 gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 0x10);
                 gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 0x400);
                 gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 0x800);
@@ -321,7 +301,7 @@ void INFOWIN_Update(void)
             gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags & 0xF7FF);
             gInfoWin->blinkCount = 0;
         }
-        if (link->connState == 1 || link->connState == 2 || link->connState == 6) {
+        if (link->init.bNetType == 1 || link->init.bNetType == 2 || link->init.bNetType == 6) {
             if (gInfoWin->linkActive == 0) {
                 gInfoWin->redrawFlags = (u16)(gInfoWin->redrawFlags | 8);
                 gInfoWin->linkActive = 1;
@@ -517,14 +497,14 @@ void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
 
 void INFOWIN_UpdateClock(void)
 {
-    struct Cfg cfg;
+    struct RtcTime time;
     u32 v;
 
-    GF_STANDARD_GetCachedTime((struct RtcTime *)(&cfg));
-    v = cfg.c & 1;
+    GF_STANDARD_GetCachedTime(&time);
+    v = time.second & 1;
 
-    if (cfg.a != gInfoWin->hour) {
-        gInfoWin->hour = cfg.a;
+    if (time.hour != gInfoWin->hour) {
+        gInfoWin->hour = time.hour;
         if (gInfoWin->hour >= 0xc) {
             gInfoWin->isPm = 1;
         } else {
@@ -533,8 +513,8 @@ void INFOWIN_UpdateClock(void)
         gInfoWin->redrawFlags |= 1;
     }
 
-    if (cfg.b != gInfoWin->minute) {
-        gInfoWin->minute = cfg.b;
+    if (time.minute != gInfoWin->minute) {
+        gInfoWin->minute = time.minute;
         gInfoWin->redrawFlags |= 1;
     }
 

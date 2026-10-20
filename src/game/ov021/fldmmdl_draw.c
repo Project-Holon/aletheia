@@ -1092,15 +1092,14 @@ void FLDMMDL_DRAW_AddHeightOffset(Mmdl *mmdl, VecFx32 *pos)
     pos->y += FIELDMAP_GetCameraPitchScale(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
 }
 
-/* Display direction as a table index. The matched bytes leave the result of the
- * called function in r0 and have no return statement. */
+/* Display direction as a table index. */
 u32 FLDMMDL_DRAW_GetDirIndex(Mmdl *mmdl){
     u32 viewAngle = FLDMMDL_SysGetAreaId(FLDMMDL_GetMmdlSys(mmdl));
     u32 dirDisp = FLDMMDL_GetDirDisp(mmdl);
     if (FLDMMDL_CheckStatusBit(mmdl, 0x2000))
-        FLDMMDL_RAIL_MOVE_GetDirByAngle(mmdl, viewAngle);
+        return FLDMMDL_RAIL_MOVE_GetDirByAngle(mmdl, viewAngle);
     else
-        FLDMMDL_MOVE_GetRelativeDirCode(dirDisp, viewAngle);
+        return FLDMMDL_MOVE_GetRelativeDirCode(dirDisp, viewAngle);
 }
 
 /* Sets animation enable and visibility of the actor from the state of the model. */

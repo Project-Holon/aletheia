@@ -45,29 +45,25 @@ struct TrialHouseDelivery {
     u16 checksum;   /* +0x5C6 */
 };
 
-extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+#include "mi_memory.h"
 
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
+#include "gf_standard.h"
 struct GameData;
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "game_data.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 
-extern void GAME_DATA_PartSaveStart(struct GameData *gd, unsigned int blockId);
 
-extern int GAME_DATA_PartSaveMain(struct GameData *gd, int blockId);
 
-extern void OS_WaitIrq(int clear, u32 mask);
+#include "os_irqhandler.h"
 
 extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, u32 slot);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 u32 BATTLE_EXAMINATION_GetBlockSize(void);
 

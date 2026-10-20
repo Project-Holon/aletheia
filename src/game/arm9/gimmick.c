@@ -28,11 +28,10 @@ struct GimmickWork {
     u8  subWork[0x10];
 };
 
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern void MIi_CpuCopy32(const void *src, void *dest, u32 size);
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 
 u32 GIMMICK_WORK_GetSize(void);
 

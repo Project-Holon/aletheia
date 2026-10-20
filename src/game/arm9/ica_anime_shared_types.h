@@ -53,6 +53,6 @@ struct GameEvent {
 };
 
 
-struct Vec3 { s32 x; s32 y; s32 z; };
+#include "../sdk_fx.h"
 
 #endif

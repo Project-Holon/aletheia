@@ -27,20 +27,17 @@
 
 struct Strbuf;
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 /* The debug allocator: heap, size, clear, __FILE__ string, __LINE__. */
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
+#include "wordset.h"
 
-extern void STRBUF_SetString(struct Strbuf *strbuf, const u16 *src);
+#include "strbuf.h"
 
-extern void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 n);
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern char mystatus_file_name[];
 
@@ -95,9 +92,9 @@ void MYSTATUS_NameFromStrbuf(u16 *out, struct Strbuf *buf)
     STRBUF_ToChars(buf, out, 8);
 }
 
-const void *MYSTATUS_GetName(const void *mystatus)
+const u16 *MYSTATUS_GetName(const struct MyStatus *mystatus)
 {
-    return mystatus;
+    return mystatus->name;
 }
 
 void MYSTATUS_CopyNameChars(const u16 *src, u16 *dest, u32 n)
@@ -155,7 +152,7 @@ void MYSTATUS_SetSex(struct MyStatus *mystatus, u8 sex)
     mystatus->sex = sex;
 }
 
-u8 MYSTATUS_GetSex(const struct MyStatus *mystatus)
+u32 MYSTATUS_GetSex(const struct MyStatus *mystatus)
 {
     return mystatus->sex;
 }

@@ -47,13 +47,7 @@ struct Strbuf;
 
 #define BOX_EXPAND_STEP 8
 
-/* One stored Pokemon, 0x88 bytes (4-aligned so that a copy is an ldm/stm loop). */
-struct BoxPokemon {
-    u32 personality;
-    u16 flags;
-    u16 checksum;
-    u8 blocks[0x80];
-};
+#include "poke_tool_types.h"
 
 struct BoxName {
     u16 chars[0x14];
@@ -72,28 +66,22 @@ struct BoxSaveHeader {
 
 #define MON_DATA_EXISTS 0xA9 /* nonzero when the slot holds a Pokemon */
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *memory);
 
-extern void GF_PANIC_Fail(const char *file, u32 line, const char *message);
+#include "gf_panic.h"
 
-extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *mon, u32 field, u32 arg);
+#include "poke_tool.h"
 
-extern void POKE_TOOL_ClearBoxParam(struct BoxPokemon *mon);
 
-extern void POKE_TOOL_RecoverBoxAllPP(struct BoxPokemon *mon);
 struct MsgBank;
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
+#include "msgdata.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
 
-extern void STRBUF_SetString(struct Strbuf *dest, const u16 *src);
+#include "strbuf.h"
 
-extern void STRBUF_ToChars(const struct Strbuf *src, u16 *dest, u32 length);
 
 extern const char _BoxEmptyString[];             /* assert text of box_savedata.c, empty */
 
@@ -113,7 +101,7 @@ int BOX_SAVEDATA_CountPokemonInBox(struct GameData *gameData, u32 box);
 
 int BOX_SAVEDATA_CountNonEggPokemonInBox(struct GameData *gameData, u32 box);
 
-void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+#include "save_control.h"
 
 /*
  * "box_savedata.c" starts here.  It starts at 0x02007454 and not at the
@@ -530,7 +518,7 @@ void BOX_SAVEDATA_SetBoxName(struct GameData *gameData, u32 box, const struct St
         box = header->currentBox;
     }
     if (box < MAX_BOXES) {
-        STRBUF_ToChars(name, header->names[box].chars, 0x14);
+        STRBUF_ToChars((struct Strbuf *)name, header->names[box].chars, 0x14);
     }
 }
 

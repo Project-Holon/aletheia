@@ -77,45 +77,36 @@ struct MysteryGiftPacket {
     u16 crc;
 };
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 
-extern u8   SAVE_CONTROL_HasFlashSave(const struct SaveControl *save);
 
-extern u16  GF_STANDARD_CalcCrc16(u8 *src, u32 len);
+#include "gf_standard.h"
 
-extern u32  GF_STANDARD_Checksum(u8 *p, u32 len);
 
-extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 
-extern void GF_STANDARD_XorCryptEx(void *data, u32 size, u32 key);
 
 extern void SAVE_OUTSIDE_Prepare(void *extraSave);
 
-extern int  GAME_DATA_SaveStart(struct GameData *gameData);
+#include "game_data.h"
 
 extern int  SAVE_OUTSIDE_WriteAsync(void *extraSave);
 
-extern int  GAME_DATA_SaveMain(struct GameData *gameData);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32  GFL_HEAP_Free(void *p);
 
-extern int  GF_OVERLAY_Load(int overlayId);
+#include "gf_overlay.h"
 
-extern void GF_OVERLAY_Unload(int overlayId);
 
-extern void *SAVE_OUTSIDE_Load(u32 heapId);
+#include "../ov228/save_outside.h"
 
 extern u8   SAVE_OUTSIDE_IsLoaded(u8 *extraSave);
 
 extern void *SAVE_OUTSIDE_GetPayload(u8 *extraSave);
 
-extern void SAVE_OUTSIDE_Free(void *extraSave);
 
 u32 MYSTERY_DATA_GetWorkSize(void);
 

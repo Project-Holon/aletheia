@@ -31,52 +31,9 @@
 
 #include "../sdk_fx.h"
 
-typedef struct { fx32 _00, _01, _10, _11, _20, _21; } MtxFx32;
+#include "nns_g2d_renderer_core.h"
 
-typedef struct { MtxFx22 m22; u16 affineIndex[4][2]; } NNSG2dRndCore2DMtxCache;
-
-typedef struct MCMMtxState {
-    u16 mtxCacheIdx;
-    u16 groupID;
-    u16 stateType;
-    u16 pad16;
-} MCMMtxState;
-
-typedef struct NNSG2dRenderSurface NNSG2dRenderSurface;
-
-struct NNSG2dRenderSurface {
-    u8   viewRect[0x10];
-    int  isActive;
-    int  type;
-    u8   pad_18[0x10];
-    int  pFuncOamRegister;
-    int  pFuncOamAffineRegister;
-    NNSG2dRenderSurface *pNextSurface;
-    int  (*pFuncVisibilityCulling)(void *pCellData, MtxFx32 *pMtx, void *pSurface);
-    void (*pBeforeDrawCellBackFunc)(void *pRend, void *pSurface, void *pCellData, MtxFx32 *pMtx);
-    void (*pAfterDrawCellBackFunc)(void *pRend, void *pSurface, void *pCellData, MtxFx32 *pMtx);
-    void (*pBeforeDrawOamBackFunc)(void *pRend, void *pSurface, void *pCellData, void *pOam, MtxFx32 *pMtx);
-    void (*pAfterDrawOamBackFunc)(void *pRend, void *pSurface, void *pCellData, void *pOam, MtxFx32 *pMtx);
-};
-
-typedef struct NNSG2dRndCoreInstance {
-    u8   pad_00[0x70];
-    NNSG2dRenderSurface *pTargetSurfaceList;
-    NNSG2dRenderSurface *pCurrentTargetSurface;
-    int  currentCell;
-    u32  flag;
-} NNSG2dRndCoreInstance;
-
-typedef struct NNSG2dRendererInstance {
-    NNSG2dRndCoreInstance rendererCore;
-    fx32 spriteZoffsetStep;
-    u32  overwriteEnableFlag;
-    u16  overwritePriority;
-    u16  overwritePlttNo;
-    int  overwriteObjMode;
-    int  overwriteMosaicFlag;
-    u16  overwritePlttNoOffset;
-} NNSG2dRendererInstance;
+#include "nns_g2d_renderer_types.h"
 
 struct RendererBss {
     u16 currentMtxCachePos_;
@@ -121,7 +78,7 @@ struct CellDrawState {
     u32 cullResult;
 };
 
-extern void MIi_CpuClearFast(u32 data, void *dest, u32 size);
+#include "mi_memory.h"
 void NNSi_G2dMCEnumAnimBank(MCAnimBank *bank, int (*visit)(void *, void *, void *, int), void *ctx);
 void NNSi_G2dRendererResetMtxSlot(void);
 void NNSi_G2dMCMLoadCurrentMtxToCache(void);
@@ -403,7 +360,7 @@ static inline MtxFx32 *GetMtxEarly(void)
  */
 void NNSi_G2dRendererBeforeDrawCell(struct CellDrawState *pDrawState, void *pCellData)
 {
-    NNSG2dRenderSurface *v = g_02147B88.pCurrentInstance_->rendererCore.pCurrentTargetSurface;
+    NNSG2dRenderSurface *v = g_02147B88.pCurrentInstance_->pCurrentTargetSurface;
 
     if (v->pFuncVisibilityCulling != 0) {
         if (v->pFuncVisibilityCulling(pCellData, GetMtx(), v) == 0) {
@@ -443,7 +400,7 @@ void NNSi_G2dRendererBeforeDrawCell(struct CellDrawState *pDrawState, void *pCel
 void NNSi_G2dRendererAfterDrawCell(void *pDrawState, void *pCellData)
 {
     NNSG2dRendererInstance *o = g_02147B88.pCurrentInstance_;
-    NNSG2dRenderSurface *v = o->rendererCore.pCurrentTargetSurface;
+    NNSG2dRenderSurface *v = o->pCurrentTargetSurface;
 
     if (v->pAfterDrawCellBackFunc == 0)
         return;

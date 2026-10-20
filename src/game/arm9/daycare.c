@@ -39,9 +39,9 @@ struct DaycareSave {
     u32 eggReady;
 };
 
-extern void MI_CpuFill8(void *dest, u8 value, u32 size);
+#include "mi_memory.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 
 void DAYCARE_SetEggReady(struct DaycareSave *daycare);
 

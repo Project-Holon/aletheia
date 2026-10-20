@@ -902,8 +902,8 @@ int WORLDTRADE_INPUT_MenuUpdate(Menu *p)
 
 /*
  * Touch hit test against the rectangle table of screen mode `mode`
- * (0..7; modes 0/2 and 5/7 share a table). Any other mode falls off the
- * end and hands back the first argument still in r0.
+ * (0..7; modes 0/2 and 5/7 share a table). Any other mode hands back the
+ * first argument, which r0 still holds.
  */
 int WORLDTRADE_INPUT_CheckTouch(Menu *p, int mode)
 {
@@ -923,6 +923,7 @@ int WORLDTRADE_INPUT_CheckTouch(Menu *p, int mode)
     case 7:
         return TOUCHPANEL_HitTrg(tbl_02203284);
     }
+    return (int)p;
 }
 
 /*

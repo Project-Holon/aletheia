@@ -19,22 +19,13 @@
 
 #include "../sdk_wm.h"
 
-typedef struct WCMNotice {
-    short notify;
-    short result;
-    union {
-        int n;
-        void *p;
-    } parameter[3];
-} WCMNotice;
-
 typedef struct ACWORK {
     unsigned char pad[0x14C4];
     unsigned char wcmResult;
 } ACWORK;
 
-extern void *DWCi_AC_GetMemPtr(unsigned long name);
-extern void DWCi_AC_GetBeacon(WMBssDesc *bssdesc);
+#include "dwc_ac.h"
+#include "dwc_ac_beacon.h"
 
 void DWCi_AC_CallBackWCM(WCMNotice *notice)
 {

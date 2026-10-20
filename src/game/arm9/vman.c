@@ -50,19 +50,15 @@ struct UnitSizeEntry {
     u32 unit_size;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heap_id, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
 struct AreaMan;
 
-struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id);
+#include "areaman.h"
 
-u32 AREAMAN_Delete(void *areaman);
 
-s32 AREAMAN_Alloc(struct AreaMan *areaman, u32 len);
 
-void AREAMAN_Free(struct AreaMan *areaman, u32 start, s32 len);
 
 u32 VMAN_GetBankSetSize(u32 bank_flags);
 

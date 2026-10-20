@@ -61,7 +61,7 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_ChangeScene(void (*scene)());
+extern void DWCi_ChangeScene(unsigned int v);
 extern int DWCi_MOVlIsEnd(void);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern int DWCi_COMMENTlDelete(void);
@@ -69,7 +69,7 @@ extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SceneOptMenu(void);
 extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 extern void DWCi_STEPlEnd(void);
-extern int DWCi_STEPlIsEnd(void);
+extern bool DWCi_STEPlIsEnd(void);
 extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
 extern void DWCi_SceneSetList(void);
 extern void DWCi_SceneMenu(void);
@@ -97,7 +97,7 @@ void DWCi_SceneSetTestCompletet(void)
     gSceneSetTestCompleteWaitCount = 0;
     initGraphics();
     DWCi_CMNlMsgDraw(45);
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((unsigned int)procInit);
 }
 
 
@@ -123,7 +123,7 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene(DWCi_SceneSetTestCompletet_procInit1);
+    DWCi_ChangeScene((unsigned int)DWCi_SceneSetTestCompletet_procInit1);
 }
 
 
@@ -131,7 +131,7 @@ void DWCi_SceneSetTestCompletet_procInit1(void)
 {
     if (DWCi_EFFlCheck(0))
         return;
-    DWCi_ChangeScene(DWCi_SceneSetTestCompletet_procScene);
+    DWCi_ChangeScene((unsigned int)DWCi_SceneSetTestCompletet_procScene);
 }
 
 
@@ -177,7 +177,7 @@ static void endScene(void)
         DWCi_STEPlEnd();
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 21, 8);
-    DWCi_ChangeScene(DWCi_SceneSetTestCompletet_endScene1);
+    DWCi_ChangeScene((unsigned int)DWCi_SceneSetTestCompletet_endScene1);
 }
 
 
@@ -198,10 +198,10 @@ void DWCi_SceneSetTestCompletet_endScene1(void)
     DWCi_GetParam2_(0, (unsigned int *)((void **)&scene));
     if (scene == 0) {
         DWCi_SetParam2_(0, 0);
-        DWCi_ChangeScene(DWCi_SceneSetList);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneSetList);
         return;
     }
-    DWCi_ChangeScene(DWCi_SceneMenu);
+    DWCi_ChangeScene((unsigned int)DWCi_SceneMenu);
 }
 
 
@@ -220,8 +220,8 @@ static void wait(void)
     DWCi_GetParam2_(0, (unsigned int *)((void **)&scene));
     r = DWCi_Entry();
     if (r != 0 && r == 1 && scene != 0) {
-        DWCi_ChangeScene(DWCi_SceneEnd);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneEnd);
         return;
     }
-    DWCi_ChangeScene(endScene);
+    DWCi_ChangeScene((unsigned int)endScene);
 }

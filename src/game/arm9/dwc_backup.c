@@ -44,9 +44,7 @@ typedef struct tagMEMSWI {
     MATHCRC16Table tbl;
 } MEMSWI;
 
-typedef struct tagDWCMemMap {
-    NCFGSlotInfo page[4];
-} DWCMemMap;
+#include "dwc_backup.h"
 
 /* dwc_backup.o's statics from Address on, in their laid-out order: the object writes
  * Wifi[5], Wifi[10] and Wifi[11] off the .bss+0 literal while the copies take Wifi's own */
@@ -57,13 +55,12 @@ typedef struct {
 
 extern int ReadSlotInfo(NCFGSlotInfo *buf, int offset, unsigned long num);
 extern int ReadSlotInfoEx(NCFGSlotInfoEx *buf, int offset, unsigned long num);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern s32 NCFG_ReadBackupMemory(void *buf, u32 size, s32 index);
-extern int NCFG_WriteBackupMemory(int index, void *buf, unsigned long size);
+#include "mi_memory.h"
+typedef int NVRAMResult;
+#include "ncfg_backup.h"
 extern u8  *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info);
-extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, u16 poly);
-extern void OS_Terminate(void);
-extern u16  MATH_CalcCRC16(MATHCRC16Table *table, void *data, u32 dataLength);
+#include "crc.h"
+#include "os_terminate_processor.h"
 int DWCi_BM_GetApInfo(void *buf);
 int DWCi_BM_GetApInfoEx(void *buf);
 void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);

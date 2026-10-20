@@ -1,0 +1,25 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "SP_POKE_GIMMICK_LoadModelScene", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 172, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_ExitPairA", "black_address": "0x021F376C", "white_address": "0x021F378C", "size": 28, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_UpdatePairA", "black_address": "0x021F3788", "white_address": "0x021F37A8", "size": 12, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_InitPairB", "black_address": "0x021F3794", "white_address": "0x021F37B4", "size": 172, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_ExitPairB", "black_address": "0x021F3840", "white_address": "0x021F3860", "size": 28, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_UpdatePairB", "black_address": "0x021F385C", "white_address": "0x021F387C", "size": 12, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_Init", "black_address": "0x021F3868", "white_address": "0x021F3888", "size": 280, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_Exit", "black_address": "0x021F3980", "white_address": "0x021F39A0", "size": 44, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_Update", "black_address": "0x021F39AC", "white_address": "0x021F39CC", "size": 12, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_StartMove", "black_address": "0x021F39B8", "white_address": "0x021F39D8", "size": 232, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_ShowAndPlay", "black_address": "0x021F3AA0", "white_address": "0x021F3AC0", "size": 160, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_StartWaitAnimeProgress", "black_address": "0x021F3B40", "white_address": "0x021F3B60", "size": 40, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_StartWaitAnimeEnd", "black_address": "0x021F3B68", "white_address": "0x021F3B88", "size": 40, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_MoveEventMain", "black_address": "0x021F3B90", "white_address": "0x021F3BB0", "size": 220, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_WaitAnimeProgressEventMain", "black_address": "0x021F3C6C", "white_address": "0x021F3C8C", "size": 76, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_WaitAnimeEndEventMain", "black_address": "0x021F3CB8", "white_address": "0x021F3CD8", "size": 68, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_StartSwapNpc", "black_address": "0x021F3CFC", "white_address": "0x021F3D1C", "size": 160, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"},
+  {"name": "SP_POKE_GIMMICK_SwapNpcEventMain", "black_address": "0x021F3D9C", "white_address": "0x021F3DBC", "size": 4, "diff": "constant", "source": "src/game/ov059/sp_poke_gimmick.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

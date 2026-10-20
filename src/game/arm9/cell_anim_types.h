@@ -1,39 +1,7 @@
 #ifndef GAME_ARM9_CELL_ANIM_TYPES_H
 #define GAME_ARM9_CELL_ANIM_TYPES_H
 
-/* Cell animation object (0x58 bytes in MultiCellAnim, see nns_g2d_multi_cell_animation_2.c). */
-
-struct O02064140;
-struct CellDataBank;
-
-struct CellAnimHdr {
-    unsigned char  pad00[4];
-    unsigned short count;
-};
-
-struct CellBank {
-    unsigned int frameCounts;
-    unsigned int animType;
-    unsigned int attr;
-};
-
-struct CellAnim {
-    unsigned int        pCurrent;
-    struct CellAnimHdr *hdr;
-    unsigned int        bReverse;
-    unsigned int        active;
-    unsigned char       pad10[0x18 - 0x10];
-    unsigned int        attrOverride;
-    struct CellBank    *bank;
-    unsigned int        callBackType;
-    unsigned int        callBackParam;
-    unsigned int        callBackFunc;
-    unsigned short      callBackFrameIdx;
-    unsigned char       pad2e[2];
-    int                 pCurrentCell;
-    struct CellDataBank *dataBank;
-    int                 transferStateHandle;
-    unsigned char       sub3c[0x1c];
-};
+/* The cell animation types live in nns_g2d_anim_types.h. */
+#include "nns_g2d_anim_types.h"
 
 #endif

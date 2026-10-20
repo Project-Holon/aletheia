@@ -99,14 +99,10 @@ typedef struct tagACWORK {
     u16 activeScanTime;
 } ACWORK;
 
-extern void *DWCi_AC_GetMemPtr(u32 name);
+#include "dwc_ac.h"
 
-extern s32 WCM_GetPhase(void);
-extern void DWCi_AC_SearchReStart(u8 phase);
-extern long WCM_EndSearchAsync(void);
-extern s32 WCM_DisconnectAsync(void);
-extern s32 WCM_TerminateAsync(void);
-extern void DWCi_AC_SetError(int error);
+#include "../ov009/wcm_system.h"
+#include "dwc_ac_search.h"
 
 u8 DWCi_AC_ConnectRetryAP(void)
 {

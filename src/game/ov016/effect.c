@@ -1,7 +1,7 @@
 /*
  * file:     effect.c
  * unit:     yes
- * function: DWCi_EFFlInit, DWCi_EFFlEnd, DWCi_EFFlCheck, DWCi_EFFlFade, taskFade, DWCi_EFFlWait, DWCi_EffectTaskWait
+ * function: DWCi_EFFlInit, DWCi_EFFlEnd, DWCi_EFFlCheck, DWCi_EFFlFade, taskFade, DWCi_EFFlWait, taskWait
  * address:  0x021D551C
  * region:   ov016
  * compiler: dsi/1.1p1

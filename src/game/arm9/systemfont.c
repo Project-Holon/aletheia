@@ -43,13 +43,9 @@ struct SystemFont {
     u32 isBuiltin;         /* 1: data is the built-in table, 0: allocated and read from a file */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void  FS_InitFile(struct FSFile *file);
-extern u32   FS_OpenFile(struct FSFile *file, u32 fontFile);
-extern u32   FS_GetLength(struct FSFile *file);
-extern s32   FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
-extern void  FS_CloseFile(struct FSFile *file);
-extern void  OS_Terminate(void);
+#include "gfl_heap_wrap.h"
+#include "fs_file.h"
+#include "os_terminate_processor.h"
 void SYSTEMFONT_Load(u32 fontFile);
 void SYSTEMFONT_GetGlyph(int idx, u8 *out);
 u32 SYSTEMFONT_ExpandRowBits(u32 rowBits);
@@ -113,7 +109,7 @@ void SYSTEMFONT_Load(u32 fontFile)
 
     if (fontFile != 0) {
         FS_InitFile(&file);
-        if (FS_OpenFile(&file, fontFile) == 1) {
+        if (FS_OpenFile(&file, (const char *)fontFile) == 1) {
             size = FS_GetLength(&file);
             gSystemFont->data = GFL_HEAP_Alloc(0, size, 0, systemfont_File,
                                               77);

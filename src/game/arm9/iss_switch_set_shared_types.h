@@ -1,7 +1,7 @@
 #ifndef ISS_SWITCH_SET_SHARED_TYPES_H
 #define ISS_SWITCH_SET_SHARED_TYPES_H
 
-#include "iss_switch_sys_shared_types.h"
+#include "../arm9/iss_switch_sys_shared_types.h"
 
 #include "../types.h"
 

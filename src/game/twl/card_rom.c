@@ -47,20 +47,11 @@ struct Hook {
     void *callback;
 };
 
-struct CARDTransferInfo {
-    int command;
-    void (*callback)(void *);
-    u32 userdata;
-    u32 src;
-    u32 dst;
-    u32 len;
-    int work;
-};
+#include "../arm9/card_rom.h"
 
 extern struct SysState data_02150200;
 extern struct CARDTransferInfo data_02732DA8;
 extern void DC_FlushRange(u32, u32);
-struct CARDTransferInfo;
 extern void CARDi_ReadRomWithDMA(struct CARDTransferInfo *info);
 extern void CARD_NotifyRomHashReadAsync(void *);
 extern struct Hook data_02150840;
@@ -94,7 +85,7 @@ u32 CARDi_ReadCardWithHashInternalAsync(u32 userdata, u32 buffer, u32 offset, u3
     } else {
         DC_FlushRange(buffer, length);
         data_02732DA8.callback = CARD_NotifyRomHashReadAsync;
-        data_02732DA8.userdata = userdata;
+        data_02732DA8.userdata = (void *)userdata;
         data_02732DA8.src = offset;
         data_02732DA8.dst = buffer;
         data_02732DA8.len = length;

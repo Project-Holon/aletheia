@@ -8,13 +8,8 @@ struct WordSet;
 struct WordTag;
 
 #include "../types.h"
+#include "strbuf_types.h"
 
-struct Strbuf {
-    u16 capacity;
-    u16 length;
-    u32 magic;
-    u16 chars[1];
-};
 
 struct WordTag {
     u8 reserved00[3];

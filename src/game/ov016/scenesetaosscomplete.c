@@ -59,7 +59,7 @@
 typedef _Bool bool;
 
 extern void DWCi_HLlLoadSet();
-extern void DWCi_CMNlMsgDraw();
+extern void DWCi_CMNlMsgDraw(int msgId);
 extern void DWCi_SNDlPlay(unsigned int v);
 extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern void GX_LoadBG2Scr(void *src, unsigned long offset, unsigned long size);
@@ -67,7 +67,7 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_GXlInvisible(int lcd, int plane);
-extern void DWCi_ChangeScene(void (*scene)(void));
+extern void DWCi_ChangeScene(unsigned int v);
 extern int DWCi_MOVlIsEnd(void);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern int DWCi_COMMENTlDelete(void);
@@ -98,7 +98,7 @@ void DWCi_SceneSetAossComplete(void)
     DWCi_HLlLoadSet();
     DWCi_CMNlMsgDraw(0x23);
     DWCi_SNDlPlay(0x10);
-    DWCi_ChangeScene(procInit);
+    DWCi_ChangeScene((unsigned int)procInit);
 }
 
 
@@ -119,14 +119,14 @@ static void procInit(void)
 {
     DWCi_EFFlFade(2, 0, 0x15, 8);
     DWCi_GXlVisible(0, 0x15);
-    DWCi_ChangeScene(procInit1);
+    DWCi_ChangeScene((unsigned int)procInit1);
 }
 
 
 static void procInit1(void)
 {
     if (!DWCi_EFFlCheck(0))
-        DWCi_ChangeScene(DWCi_SceneSetAossComplete_procScene);
+        DWCi_ChangeScene((unsigned int)DWCi_SceneSetAossComplete_procScene);
 }
 
 
@@ -162,7 +162,7 @@ static void endScene(void)
 {
     DWCi_EFFlFade(3, 1, 1, 8);
     DWCi_EFFlFade(3, 0, 0x15, 8);
-    DWCi_ChangeScene(endScene1);
+    DWCi_ChangeScene((unsigned int)endScene1);
 }
 
 
@@ -178,12 +178,12 @@ static void endScene1(void)
     DWCi_GXlInvisible(0, 0x15);
     DWCi_SetParam_(0, 0);
     DWCi_SetParam2_(0, 1);
-    DWCi_ChangeScene(DWCi_SceneSetTestConfirm);
+    DWCi_ChangeScene((unsigned int)DWCi_SceneSetTestConfirm);
 }
 
 
 static void wait(void)
 {
     if (++gSceneSetAossCompleteWork >= 120)
-        DWCi_ChangeScene(endScene);
+        DWCi_ChangeScene((unsigned int)endScene);
 }

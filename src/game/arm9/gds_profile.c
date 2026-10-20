@@ -1,7 +1,7 @@
 /*
  * file:     gds_profile.c
  * unit:     yes
- * function: GDS_PROFILE_Create, GDS_PROFILE_Delete, GDS_PROFILE_Init, GDS_PROFILE_CreateNameStr, GDS_PROFILE_GetEggFlag, GDS_PROFILE_GetSpecies, GDS_PROFILE_GetFormSpecies, GDS_PROFILE_GetNicknameFlag, GDS_PROFILE_GetValidatedCountry, GDS_PROFILE_GetValidatedRegion, GDS_PROFILE_ExportRecord, GDS_PROFILE_GetLanguage, BSUBWAY_PLAYDATA_Init, BSUBWAY_PLAYDATA_SetFlag01, BSUBWAY_PLAYDATA_GetField, BSUBWAY_PLAYDATA_SetField, BSUBWAY_PLAYDATA_ClearRound, BSUBWAY_PLAYDATA_IncRound, BSUBWAY_PLAYDATA_GetRound, BSUBWAY_SCOREDATA_GetSize, BSUBWAY_SCOREDATA_Init, BSUBWAY_SCOREDATA_AddBattlePoints, BSUBWAY_SCOREDATA_SubBattlePoints, BSUBWAY_WIFIDATA_GetSize, BSUBWAY_WIFIDATA_Init, BSUBWAY_WIFIDATA_SetTrainerBit, BSUBWAY_WIFIDATA_ClearStampAndBitmap, BSUBWAY_WIFIDATA_IsStampNewer, BSUBWAY_WIFIDATA_GetTrainerBit
+ * function: GDS_PROFILE_Create, GDS_PROFILE_Delete, GDS_PROFILE_Init, GDS_PROFILE_CreateNameStr, GDS_PROFILE_GetEggFlag, GDS_PROFILE_GetSpecies, GDS_PROFILE_GetFormSpecies, GDS_PROFILE_GetNicknameFlag, GDS_PROFILE_GetBadEggFlag, GDS_PROFILE_GetValidatedCountry, GDS_PROFILE_GetValidatedRegion, GDS_PROFILE_ExportRecord, GDS_PROFILE_GetBirthMonth, GDS_PROFILE_GetTrainerSprite, GDS_PROFILE_GetLanguage, BSUBWAY_PLAYDATA_GetSize, BSUBWAY_PLAYDATA_Init, BSUBWAY_PLAYDATA_SetFlag01, BSUBWAY_PLAYDATA_GetFlag01, BSUBWAY_PLAYDATA_GetField, BSUBWAY_PLAYDATA_SetField, BSUBWAY_PLAYDATA_AddCounters, BSUBWAY_PLAYDATA_ClearRound, BSUBWAY_PLAYDATA_IncRound, BSUBWAY_PLAYDATA_GetRound, BSUBWAY_SCOREDATA_GetSize, BSUBWAY_SCOREDATA_Init, BSUBWAY_SCOREDATA_AddBattlePoints, BSUBWAY_SCOREDATA_SubBattlePoints, BSUBWAY_SCOREDATA_GetBattlePoints, BSUBWAY_SCOREDATA_MapPlayMode, BSUBWAY_SCOREDATA_GetWinCount, BSUBWAY_SCOREDATA_GetMaxWinCount, BSUBWAY_SCOREDATA_UpdateMaxWinCount, BSUBWAY_SCOREDATA_SetWinCount, BSUBWAY_SCOREDATA_ResetClearCount, BSUBWAY_SCOREDATA_SetFirstClear, BSUBWAY_SCOREDATA_HasCleared, BSUBWAY_SCOREDATA_IncClearCount, BSUBWAY_SCOREDATA_GetRepeatClearCount, BSUBWAY_SCOREDATA_AccessFlag, BSUBWAY_SCOREDATA_IncLevel, BSUBWAY_SCOREDATA_DecLevel, BSUBWAY_SCOREDATA_GetLevel, BSUBWAY_SCOREDATA_UpdateStreak, BSUBWAY_SCOREDATA_SetRecordBlob, BSUBWAY_SCOREDATA_GetRecordBlob, BSUBWAY_SCOREDATA_CalcRecordScore, BSUBWAY_SCOREDATA_GetRecordScore, BSUBWAY_SCOREDATA_GetRecordScoreTier, BSUBWAY_WIFIDATA_GetSize, BSUBWAY_WIFIDATA_Init, BSUBWAY_WIFIDATA_SetTrainerBit, BSUBWAY_WIFIDATA_ClearStampAndBitmap, BSUBWAY_WIFIDATA_IsStampNewer, BSUBWAY_WIFIDATA_GetTrainerBit
  * address:  0x0200D59C
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -53,6 +53,7 @@ struct SaveDataObj;
 struct RecordData;
 struct Strbuf;
 #include "../types.h"
+#include "os_ownerinfo.h"
 
 struct GdsMonRecord {
     u8 isEgg : 1;
@@ -80,12 +81,6 @@ struct GdsProfile {
     u16 pad7E;
 };
 
-struct OwnerInfo {
-    u8 favoriteColor;
-    u8 pad01;
-    u8 birthMonth;
-    u8 rest[0x51];
-};
 
 struct StoredMon {
     u8  reserved00[0x14];
@@ -172,40 +167,25 @@ struct Stamp {
     u32 tag;
 };
 
-extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern void OS_GetOwnerInfo(void *info);
-extern u16   STRBUF_GetEosChar(void);
-extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
+#include "mi_memory.h"
+#include "gfl_heap_wrap.h"
+#include "strbuf.h"
+#include "gf_standard.h"
 struct GameData;
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
-extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
+#include "game_data.h"
 struct WifiHistory;
-extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
-extern void *GREETING_SAVEDATA_GetFromSaveThunk(u32 a);
+#include "wifi_history.h"
+#include "greeting_savedata.h"
 struct QuadRecord;
-extern void GREETING_SAVEDATA_GetSentence(struct QuadRecord *src, s32 idx, struct QuadRecord *dst);
-extern const void *MYSTATUS_GetName(const void *p);
-extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
-extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
-extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
-extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *obj);
-extern u8 MYSTATUS_GetNation(const struct MyStatus *obj);
-extern u8 MYSTATUS_GetArea(const struct MyStatus *obj);
+#include "mystatus.h"
+#include "wordset.h"
 struct MiscSave;
-extern void MISC_GetMonRecord(struct MiscSave *misc, u32 *species, u32 *form, u32 *isEgg, u32 *gender);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *src, u32 length);
-extern int POKE_TOOL_FilterSpecies(u16 a, int b);
-extern u32 NATION_AREA_SanitizeNation(u32 a, u32 b, u32 c);
-extern u32 NATION_AREA_SanitizeArea(u32 a, u32 b, u32 c);
-extern int PMS_WORD_SplitWordId(u32 v, u32 *bankIndex, u32 *wordIndex);
-extern void  PMSI_PARAM_InitSentence(void *rec, u32 n);
-extern u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+#include "beacon.h"
+#include "poke_tool.h"
+#include "bmp_oam.h"
+#include "pms_word.h"
+#include "pmsi_param.h"
 struct GdsProfile *GDS_PROFILE_Create(u32 heap);
 void GDS_PROFILE_Delete(struct GdsProfile *profile);
 void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys);
@@ -352,7 +332,7 @@ void GDS_PROFILE_Delete(struct GdsProfile *profile)
  */
 void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
 {
-    struct OwnerInfo info;
+    OSOwnerInfo info;
     u32 species;
     u32 form;
     u32 isEgg;
@@ -383,7 +363,7 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
         profile->record[i] = STRBUF_GetEosChar();
     }
     GREETING_SAVEDATA_GetSentence((struct QuadRecord *)recordEnv, 0, (struct QuadRecord *)profile->record);
-    profile->birthMonth = info.birthMonth;
+    profile->birthMonth = info.birthday.month;
     profile->trainerSprite = MYSTATUS_GetTrainerView(trainerRec);
     profile->gameVersion = PM_VERSION_ID;
     profile->language = 2;
@@ -541,7 +521,7 @@ void *GDS_PROFILE_ExportRecord(struct GdsProfileRaw *p, struct GdsRecord *out, u
         }
     chk:
         if (n > 0) {
-            PMSI_PARAM_InitSentence(out, 4);
+            PMSI_PARAM_InitSentence((struct PmsData *)out, 4);
             out->word02 = 0;
             out->word04 = PMS_WORD_MakeWordId(0x95, 0x1D);
             out->word06 = 0xFFFF;

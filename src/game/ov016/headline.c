@@ -50,7 +50,7 @@ typedef struct {
     unsigned char pad[0xF4];
     unsigned char idx;
 } SETTINGINFO;
-extern SETTINGINFO *DWCi_SETTIGNlGet(void);
+extern char *DWCi_SETTIGNlGet(void);
 extern void DC_FlushRange(void *addr, unsigned long n);
 extern void DWCi_TSKlDelete(int kind, void *task);
 void DWCi_HLlInit(void);
@@ -107,13 +107,13 @@ void DWCi_HLlLoad(int idx)
 
 void DWCi_HLlLoadSet(void)
 {
-    DWCi_HLlLoad(DWCi_SETTIGNlGet()->idx + 5);
+    DWCi_HLlLoad(((SETTINGINFO *)DWCi_SETTIGNlGet())->idx + 5);
 }
 
 
 void DWCi_HLlLoadList(void)
 {
-    DWCi_HLlLoad(DWCi_SETTIGNlGet()->idx + 2);
+    DWCi_HLlLoad(((SETTINGINFO *)DWCi_SETTIGNlGet())->idx + 2);
 }
 
 

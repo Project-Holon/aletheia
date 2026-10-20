@@ -1,0 +1,27 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "POKETRADE_DEMO_COMMON_StepFade", "black_address": "0x021D4240", "white_address": "0x021D4260", "size": 80, "diff": "constant", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_DEMO_COMMON_CompareSideMon", "black_address": "0x021D4290", "white_address": "0x021D42B0", "size": 188, "diff": "constant", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_DEMO_COMMON_ShowUnitActor", "black_address": "0x021D434C", "white_address": "0x021D436C", "size": 124, "diff": "constant", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_DEMO_COMMON_LoadUnitResources", "black_address": "0x021D43C8", "white_address": "0x021D43E8", "size": 108, "diff": "constant", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_DEMO_COMMON_ReleaseUnit", "black_address": "0x021D4434", "white_address": "0x021D4454", "size": 76, "diff": "constant", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_DEMO_COMMON_PassThrough", "black_address": "0x021D4480", "white_address": "0x021D44A0", "size": 4, "diff": "same", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_DEMO_COMMON_SetFrame", "black_address": "0x021D4484", "white_address": "0x021D44A4", "size": 12, "diff": "same", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_DEMO_COMMON_SetFinishFlag", "black_address": "0x021D4490", "white_address": "0x021D44B0", "size": 12, "diff": "same", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_DEMO_COMMON_StepCompareMons", "black_address": "0x021D449C", "white_address": "0x021D44BC", "size": 132, "diff": "constant", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_DEMO_COMMON_StepWaitSync", "black_address": "0x021D4520", "white_address": "0x021D4540", "size": 36, "diff": "constant", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_DEMO_COMMON_StepStartSlides", "black_address": "0x021D4544", "white_address": "0x021D4564", "size": 288, "diff": "constant", "source": "src/game/ov117/pokemontrade_demo_common.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_IRCDEMO_StepStartPlayback", "black_address": "0x021D4664", "white_address": "0x021D4684", "size": 444, "diff": "constant", "source": "src/game/ov117/pokemontrade_ircdemo.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_IRCDEMO_PrintMessage", "black_address": "0x021D4820", "white_address": "0x021D4840", "size": 208, "diff": "constant", "source": "src/game/ov117/pokemontrade_ircdemo.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_IRCDEMO_StepMessage", "black_address": "0x021D48F0", "white_address": "0x021D4910", "size": 212, "diff": "constant", "source": "src/game/ov117/pokemontrade_ircdemo.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_IRCDEMO_StepEndScene", "black_address": "0x021D49C4", "white_address": "0x021D49E4", "size": 48, "diff": "constant", "source": "src/game/ov117/pokemontrade_ircdemo.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_IRCDEMO_SetMonSlide", "black_address": "0x021D49F4", "white_address": "0x021D4A14", "size": 84, "diff": "constant", "source": "src/game/ov117/pokemontrade_ircdemo.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_IRCDEMO_CreateOfferSlide", "black_address": "0x021D4A48", "white_address": "0x021D4A68", "size": 320, "diff": "constant", "source": "src/game/ov117/pokemontrade_ircdemo.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_IRCDEMO_StepStartCompare", "black_address": "0x021D4B88", "white_address": "0x021D4BA8", "size": 108, "diff": "constant", "source": "src/game/ov117/pokemontrade_ircdemo.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_IRCDEMO_StepSetup", "black_address": "0x021D4BF4", "white_address": "0x021D4C14", "size": 244, "diff": "constant", "source": "src/game/ov117/pokemontrade_ircdemo.c", "version_switch": false, "status": "EXACT"},
+  {"name": "POKETRADE_IRCDEMO_UpdateScene", "black_address": "0x021D4CE8", "white_address": "0x021D4D08", "size": 4, "diff": "constant", "source": "src/game/ov117/pokemontrade_ircdemo.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

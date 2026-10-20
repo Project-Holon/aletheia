@@ -1,0 +1,30 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_D06_FindStoneTableRow", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 32, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_GetStonePositions", "black_address": "0x021F36E0", "white_address": "0x021F3700", "size": 12, "diff": "same", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_GetStoneCount", "black_address": "0x021F36EC", "white_address": "0x021F370C", "size": 12, "diff": "same", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_FindPanelTable", "black_address": "0x021F36F8", "white_address": "0x021F3718", "size": 32, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_GetPanelPositions", "black_address": "0x021F3718", "white_address": "0x021F3738", "size": 12, "diff": "same", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_GetPanelCount", "black_address": "0x021F3724", "white_address": "0x021F3744", "size": 12, "diff": "same", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_Init", "black_address": "0x021F3730", "white_address": "0x021F3750", "size": 312, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_Exit", "black_address": "0x021F3868", "white_address": "0x021F3888", "size": 56, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_Update", "black_address": "0x021F38A0", "white_address": "0x021F38C0", "size": 4, "diff": "same", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_CheckPushStone", "black_address": "0x021F38A4", "white_address": "0x021F38C4", "size": 180, "diff": "same", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_CreateSlideEvent", "black_address": "0x021F3958", "white_address": "0x021F3978", "size": 160, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_EventSlideStone", "black_address": "0x021F39F8", "white_address": "0x021F3A18", "size": 188, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_EventStoneBlocked", "black_address": "0x021F3AB4", "white_address": "0x021F3AD4", "size": 144, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_AddStone", "black_address": "0x021F3B44", "white_address": "0x021F3B64", "size": 68, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_AttachStone", "black_address": "0x021F3B88", "white_address": "0x021F3BA8", "size": 60, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_ScanSlide", "black_address": "0x021F3BC4", "white_address": "0x021F3BE4", "size": 192, "diff": "same", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_GetSlideSteps", "black_address": "0x021F3C84", "white_address": "0x021F3CA4", "size": 20, "diff": "same", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_IsStoneNextToPanel", "black_address": "0x021F3C98", "white_address": "0x021F3CB8", "size": 52, "diff": "same", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_AddPanelPulse", "black_address": "0x021F3CCC", "white_address": "0x021F3CEC", "size": 56, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_TriggerPanelPulse", "black_address": "0x021F3D04", "white_address": "0x021F3D24", "size": 52, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_AddStoneMmdl", "black_address": "0x021F3D38", "white_address": "0x021F3D58", "size": 52, "diff": "same", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_GetWork", "black_address": "0x021F3D6C", "white_address": "0x021F3D8C", "size": 40, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_D06_GetGimmickId", "black_address": "0x021F3D94", "white_address": "0x021F3DB4", "size": 4, "diff": "constant", "source": "src/game/ov051/field_gimmick_d06.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

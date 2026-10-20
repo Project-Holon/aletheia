@@ -16,13 +16,6 @@ typedef struct WCMPrivacy {
     unsigned char reserved[2];
 } WCMPrivacy;
 
-typedef struct WCMConfig {
-    unsigned long dmano;
-    void *pbdbuffer;
-    unsigned long nbdbuffer;
-    unsigned long nbdmode;
-} WCMConfig;
-
 #include "../sdk_wm.h"
 
 typedef struct WCMApList {

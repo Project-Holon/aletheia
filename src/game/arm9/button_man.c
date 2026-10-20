@@ -51,38 +51,28 @@
  */
 #include "../types.h"
 
-typedef struct {
-    s32 x, y, z;
-} Vec3;
-
-typedef struct {
-    s32 m[4];
-} Mtx22;
-
-typedef struct {
-    s32 m[9];
-} Mtx33;
+#include "../sdk_fx.h"
 
 /* Segment p0 -> dir with a capsule radius. */
 typedef struct {
-    Vec3 p0;
-    Vec3 dir;
+    VecFx32 p0;
+    VecFx32 dir;
     s32  radius;
-} Seg;
+} ButtonSegment;
 
 typedef struct {
-    Vec3 c;
+    VecFx32 c;
     s32  r;
 } Sphere;
 
 /* Result block of the segment-versus-sphere test. */
 typedef struct {
     u32  hit;
-    Vec3 n;
+    VecFx32 n;
     s32  d;
 } HitInfo;
 
-struct Slot {
+struct ButtonSlot {
     u8  kind;               /* index into g_020A15E8: 0 idle, 1 pressed */
     u8  state;
     u16 count;
@@ -93,50 +83,40 @@ struct ButtonMan {
     u32          n;         /* +0x04 */
     void       (*cb)(s32, s32, s32);  /* +0x08 */
     s32          arg;       /* +0x0C */
-    struct Slot *slots;     /* +0x10 */
+    struct ButtonSlot *slots;     /* +0x10 */
 };
 
+/* Kept local: the heap id is a u16 here (gfl_heap_wrap.h takes u32). */
 extern void *GFL_HEAP_Alloc(u16 id, u32 size, u32 flags, void *file, u32 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern s32 TOUCHPANEL_GetCont(void);
-extern int TOUCHPANEL_HitCont(const void *p);
-extern int TOUCHPANEL_HitTrg(const void *p);
-extern s32 TOUCHPANEL_GetTrg(void);
-extern void MTX_Rot22_(Mtx22 *mtx, s32 sinVal, s32 cosVal);
-extern void MTX_ScaleApply22(const Mtx22 *src, Mtx22 *dst, s32 x, s32 y);
-extern long FX_Inv(long v);
-extern void VEC_Subtract(const Vec3 *a, const Vec3 *b, Vec3 *d);
-extern int  VEC_DotProduct(const Vec3 *a, const Vec3 *b);
-extern int  VEC_Mag(const Vec3 *v);
-extern void VEC_Normalize(const Vec3 *v, Vec3 *d);
-extern u32 FX_Div(u32 numer, u32 denom);
-extern void MTX_Identity33_(Mtx33 *m);
-extern void MTX_RotX33_(Mtx33 *m, s16 sinv, s16 cosv);
-extern void MTX_RotY33_(Mtx33 *m, s16 sinv, s16 cosv);
-extern void MTX_RotZ33_(Mtx33 *m, s16 sinv, s16 cosv);
-extern void MTX_Concat33(const Mtx33 *a, const Mtx33 *b, Mtx33 *dst);
-extern u16 FX_Atan2Idx(int y, int x);
-extern u16 STRBUF_GetEosChar(void);
+#include "touchpanel.h"
+#include "fx_mtx22.h"
+extern void MTX_ScaleApply22(const MtxFx22 *src, MtxFx22 *dst, s32 x, s32 y);
+#include "fx_cp.h"
+#include "fx_vec.h"
+#include "fx_mtx33.h"
+#include "fx_atanidx.h"
+#include "strbuf.h"
 struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap);
-void BUTTON_MAN_ClearSlot(struct Slot *slot);
+void BUTTON_MAN_ClearSlot(struct ButtonSlot *slot);
 void BUTTON_MAN_Delete(struct ButtonMan *bm);
 s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
-int BUTTON_MAN_SlotHandlerIdle(struct Slot *p, int a, int b);
-int BUTTON_MAN_SlotHandlerPressed(struct Slot *p, u32 x);
-void BUTTON_MAN_SlotSetKind(struct Slot *p, int a);
-void BUTTON_MAN_RotScaleMtx22(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode);
-void BUTTON_MAN_InitSphere(Sphere *dst, Vec3 *src, unsigned radius);
-u32 BUTTON_MAN_SegmentSphereTest(Seg *seg, Sphere *b, HitInfo *out);
-void BUTTON_MAN_InitSegment(Seg *p, Vec3 *q, Vec3 *r, u32 v);
-void BUTTON_MAN_ScaleVec(const Vec3 *v, int s, Vec3 *dst);
-void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, Mtx33 *dst);
-void BUTTON_MAN_MakeLookAtMtx(const Vec3 *v, Mtx33 *dst);
+int BUTTON_MAN_SlotHandlerIdle(struct ButtonSlot *p, int a, int b);
+int BUTTON_MAN_SlotHandlerPressed(struct ButtonSlot *p, u32 x);
+void BUTTON_MAN_SlotSetKind(struct ButtonSlot *p, int a);
+void BUTTON_MAN_RotScaleMtx22(MtxFx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode);
+void BUTTON_MAN_InitSphere(Sphere *dst, VecFx32 *src, unsigned radius);
+u32 BUTTON_MAN_SegmentSphereTest(ButtonSegment *seg, Sphere *b, HitInfo *out);
+void BUTTON_MAN_InitSegment(ButtonSegment *p, VecFx32 *q, VecFx32 *r, u32 v);
+void BUTTON_MAN_ScaleVec(const VecFx32 *v, int s, VecFx32 *dst);
+void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, MtxFx33 *dst);
+void BUTTON_MAN_MakeLookAtMtx(const VecFx32 *v, MtxFx33 *dst);
 void BUTTON_MAN_ConvertUcs2ToSjis(u8 *a, u8 *b, u32 n);
 int BUTTON_MAN_Ucs2CharToSjis(u16 *src, char *dst, u32 *stop);
 extern char g_020A7FCC[];
 extern s16 FX_SinCosTable_[];
 
-extern s32 (*const g_020A15E8[])(struct Slot *, s32, s32);
+extern s32 (*const g_020A15E8[])(struct ButtonSlot *, s32, s32);
 
 struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 arg, int heap)
 {
@@ -169,7 +149,7 @@ struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*cb)(s32, s32, s32), s32 ar
     return r;
 }
 
-void BUTTON_MAN_ClearSlot(struct Slot *slot)
+void BUTTON_MAN_ClearSlot(struct ButtonSlot *slot)
 {
     slot->kind = 0;
     slot->state = 0;
@@ -213,8 +193,8 @@ s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c)
     a = 0;
     h = TOUCHPANEL_GetCont();
     if (h != 0) {
-        a = TOUCHPANEL_HitCont(c->rects);
-        b = TOUCHPANEL_HitTrg(c->rects);
+        a = TOUCHPANEL_HitCont((const TouchHitTable *)(c->rects));
+        b = TOUCHPANEL_HitTrg((const TouchHitTable *)(c->rects));
         sel = TOUCHPANEL_GetTrg();
 
         for (i = 0; i < c->n; i++) {
@@ -248,7 +228,7 @@ s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c)
  *   python tools/match.py one --src src/matched/BUTTON_MAN_SlotHandlerIdle.c \
  *       --func BUTTON_MAN_SlotHandlerIdle --addr 0x02051DE8 --cc 1.1p1 --arm
  */
-int BUTTON_MAN_SlotHandlerIdle(struct Slot *p, int a, int b)
+int BUTTON_MAN_SlotHandlerIdle(struct ButtonSlot *p, int a, int b)
 {
     if (p->state == 0 || b == 0)
         return -1;
@@ -267,7 +247,7 @@ int BUTTON_MAN_SlotHandlerIdle(struct Slot *p, int a, int b)
  *   python tools/match.py one --src src/matched/BUTTON_MAN_SlotHandlerPressed.c \
  *       --func BUTTON_MAN_SlotHandlerPressed --addr 0x02051E10 --cc 1.1p1 --arm
  */
-int BUTTON_MAN_SlotHandlerPressed(struct Slot *p, u32 x)
+int BUTTON_MAN_SlotHandlerPressed(struct ButtonSlot *p, u32 x)
 {
     if (p->state != 0) {
         u16 v = p->count;
@@ -289,7 +269,7 @@ int BUTTON_MAN_SlotHandlerPressed(struct Slot *p, u32 x)
  *   python tools/match.py one --src src/matched/BUTTON_MAN_SlotSetKind.c \
  *       --func BUTTON_MAN_SlotSetKind --addr 0x02051E64 --cc 1.1p1 --arm
  */
-void BUTTON_MAN_SlotSetKind(struct Slot *p, int a)
+void BUTTON_MAN_SlotSetKind(struct ButtonSlot *p, int a)
 {
     p->kind = (u8)a;
     p->count = 0;
@@ -309,7 +289,7 @@ void BUTTON_MAN_SlotSetKind(struct Slot *p, int a)
  * register residue) and the table as the extern data symbol; the old
  * "label wall" on MTX_Rot22_/MTX_ScaleApply22 is now carried by the sdk class.
  */
-void BUTTON_MAN_RotScaleMtx22(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode)
+void BUTTON_MAN_RotScaleMtx22(MtxFx22 *mtx, u32 ang, long scaleX, long scaleY, u8 mode)
 {
     if (mode == 1)
         ang = (u16)((ang * 0xFFFF) >> 8);
@@ -320,7 +300,7 @@ void BUTTON_MAN_RotScaleMtx22(Mtx22 *mtx, u32 ang, long scaleX, long scaleY, u8 
     MTX_ScaleApply22(mtx, mtx, FX_Inv(scaleX), FX_Inv(scaleY));
 }
 
-void BUTTON_MAN_InitSphere(Sphere *dst, Vec3 *src, unsigned radius)
+void BUTTON_MAN_InitSphere(Sphere *dst, VecFx32 *src, unsigned radius)
 {
     dst->c = *src;
     dst->r = radius;
@@ -339,12 +319,12 @@ void BUTTON_MAN_InitSphere(Sphere *dst, Vec3 *src, unsigned radius)
  * AFTER the limit is loaded (`d = VEC_Mag(..); lim = ..; res.d = d;`).
  * Comparing res.d itself reloads it from the stack at the join.
  */
-u32 BUTTON_MAN_SegmentSphereTest(Seg *seg, Sphere *b, HitInfo *out)
+u32 BUTTON_MAN_SegmentSphereTest(ButtonSegment *seg, Sphere *b, HitInfo *out)
 {
     HitInfo      res;    /* sp+0x24: res.hit, n, d -- copied out as one block */
-    Vec3 sd;     /* sp+0x18 */
-    Vec3 bc;     /* sp+0x0c */
-    Vec3 tmp;    /* sp+0x00 */
+    VecFx32 sd;     /* sp+0x18 */
+    VecFx32 bc;     /* sp+0x0c */
+    VecFx32 tmp;    /* sp+0x00 */
     int t;
     int d;
     int lim;
@@ -389,7 +369,7 @@ done:
  *   python tools/match.py one --src src/matched/BUTTON_MAN_InitSegment.c \
  *       --func BUTTON_MAN_InitSegment --addr 0x0205207C --cc 1.1p1 --arm
  */
-void BUTTON_MAN_InitSegment(Seg *p, Vec3 *q, Vec3 *r, u32 v)
+void BUTTON_MAN_InitSegment(ButtonSegment *p, VecFx32 *q, VecFx32 *r, u32 v)
 {
     p->p0 = *q;
     p->dir = *r;
@@ -416,7 +396,7 @@ void BUTTON_MAN_InitSegment(Seg *p, Vec3 *q, Vec3 *r, u32 v)
  *   python tools/match.py one --src src/matched/BUTTON_MAN_ScaleVec.c \
  *       --func BUTTON_MAN_ScaleVec --addr 0x020520A4 --cc 1.1p1 --arm
  */
-void BUTTON_MAN_ScaleVec(const Vec3 *v, int s, Vec3 *dst)
+void BUTTON_MAN_ScaleVec(const VecFx32 *v, int s, VecFx32 *dst)
 {
     dst->x = (int)((((s64)v->x * s) + 0x800) >> 12);
     dst->y = (int)((((s64)v->y * s) + 0x800) >> 12);
@@ -448,9 +428,9 @@ void BUTTON_MAN_ScaleVec(const Vec3 *v, int s, Vec3 *dst)
  *
  * Addresses are Black-image addresses.
  */
-void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, Mtx33 *dst)
+void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, MtxFx33 *dst)
 {
-    Mtx33 tmp;
+    MtxFx33 tmp;
     int i;
 
     MTX_Identity33_(dst);
@@ -496,11 +476,11 @@ void BUTTON_MAN_MakeRotMtxXYZ(int ax, int ay, int az, Mtx33 *dst)
  *
  * Addresses are Black-image addresses.
  */
-void BUTTON_MAN_MakeLookAtMtx(const Vec3 *v, Mtx33 *dst)
+void BUTTON_MAN_MakeLookAtMtx(const VecFx32 *v, MtxFx33 *dst)
 {
-    Vec3         flat;
-    Mtx33        mx;
-    Mtx33        my;
+    VecFx32         flat;
+    MtxFx33        mx;
+    MtxFx33        my;
     int          i;
     int          run;
 

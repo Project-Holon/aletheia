@@ -22,9 +22,8 @@
 
 #include "../sdk_fx.h"
 
-extern void GX_SendFifo64B(const void *src);
-extern void GX_SendFifo48B(const void *src);
-extern void MI_Copy36B(const void *pSrc, void *pDest);
+#include "gxasm.h"
+#include "mi_memory.h"
 void G3_LoadMtx44(const void *m);
 void G3_LoadMtx43(const void *m);
 void G3_MultMtx44(const void *m);

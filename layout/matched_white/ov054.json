@@ -1,0 +1,16 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_B_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 68, "diff": "constant", "source": "src/game/ov054/field_gimmick_sound_objs_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_B_Exit", "black_address": "0x021F3704", "white_address": "0x021F3724", "size": 56, "diff": "constant", "source": "src/game/ov054/field_gimmick_sound_objs_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_B_Update", "black_address": "0x021F373C", "white_address": "0x021F375C", "size": 120, "diff": "constant", "source": "src/game/ov054/field_gimmick_sound_objs_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_B_CreateSoundObjs", "black_address": "0x021F37B4", "white_address": "0x021F37D4", "size": 192, "diff": "constant", "source": "src/game/ov054/field_gimmick_sound_objs_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_B_LoadWaitLimits", "black_address": "0x021F3874", "white_address": "0x021F3894", "size": 60, "diff": "constant", "source": "src/game/ov054/field_gimmick_sound_objs_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_B_SaveAnimeFrames", "black_address": "0x021F38B0", "white_address": "0x021F38D0", "size": 52, "diff": "constant", "source": "src/game/ov054/field_gimmick_sound_objs_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_B_ExitSoundObjs", "black_address": "0x021F38E4", "white_address": "0x021F3904", "size": 52, "diff": "constant", "source": "src/game/ov054/field_gimmick_sound_objs_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_B_StartWait", "black_address": "0x021F3918", "white_address": "0x021F3938", "size": 36, "diff": "constant", "source": "src/game/ov054/field_gimmick_sound_objs_b.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SOUND_OBJS_B_RestartAnime", "black_address": "0x021F393C", "white_address": "0x021F395C", "size": 4, "diff": "constant", "source": "src/game/ov054/field_gimmick_sound_objs_b.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

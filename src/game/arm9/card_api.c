@@ -47,6 +47,7 @@
 #include "../types.h"
 
 #include "../sdk_os.h"
+#include "../sdk_card.h"
 
 typedef struct CARDEventListener
 {
@@ -58,80 +59,35 @@ typedef struct CARDEventListener
     u8 padding[2];
 } CARDEventListener;
 
-typedef struct CARDiCommandArg
-{
-    int result;
-} CARDiCommandArg;
-
-typedef struct CARDDmaInterface CARDDmaInterface;
-
-typedef struct CARDiCommon
-{
-    CARDiCommandArg *cmd;
-    u32 flag;
-    u32 priority;
-    u32 flush_threshold_ic;
-    u32 flush_threshold_dc;
-    s32 lock_owner;
-    int lock_ref;
-    OSThreadQueue lock_queue[1];
-    int lock_target;
-    struct
-    {
-        u8 thread[0xC0];
-        u8 stack[0x400];
-    } thread;
-    void (*task_func)(struct CARDiCommon *);
-    void (*callback)(void *);
-    void *callback_arg;
-    OSThreadQueue busy_q[1];
-    u32 src;
-    u32 dst;
-    u32 len;
-    u32 dma;
-    CARDDmaInterface *DmaCall;
-    int req_type;
-    int req_retry;
-    int req_mode;
-    OSThread *current_thread_9;
-} CARDiCommon;
+#include "card_common.h"
 
 typedef struct CARDiRomState
 {
     u32 rom_base;
 } CARDiRomState;
 
-extern void OS_SignalEvent(OSEvent *event, u32 setPattern);
-extern void OS_SetVAlarm(OSVAlarm *alarm, s16 count, s16 delay, void (*handler)(void *), void *arg);
+#include "os_event.h"
+#include "os_valarm.h"
 extern BOOL OS_TryLockCard(u16 lockID);
-extern u16 OS_GetBootType(void);
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern void CARDi_InitResourceLock(void);
-extern void OS_CreateThread(OSThread *thread, void (*CARDi_PeekEventListener)(void *), void *arg, void *stack, u32 stackSize, u32 prio);
-extern void OS_WakeupThreadDirect(OSThread *thread);
-extern void CARDi_InitCommand(void);
-extern void CARDi_InitRom(void);
+#include "os_systemwork.h"
+#include "mi_memory.h"
+#include "os_thread.h"
+#include "card_rom.h"
 extern void CARD_Enable(BOOL enable);
-extern void CARD_InitPulledOutCallback(void);
+#include "card_pullout.h"
 extern void CARDi_OldTypeTaskThread(void *arg);
-extern void OS_Terminate(void);
-extern void CARDi_LockResource(s32 owner, int target);
-extern void OS_InitEvent(OSEvent *event);
-extern void OS_CreateVAlarm(OSVAlarm *alarm);
+#include "os_terminate_processor.h"
 extern void CARDi_PeekEventListener(void *arg);
-extern u32 OS_WaitEventEx(OSEvent *event, u32 pattern, int mode, u32 clearBit);
 extern int OS_UnlockCard(unsigned int id);
-extern void CARDi_UnlockResource(s32 owner, int target);
-extern u32 CARD_TryWaitBackupAsync(void);
-extern void CARD_WaitBackupAsync(void);
+#include "card_backup.h"
 BOOL CARDi_LockBusCondition(void *userdata);
 void CARD_Init(void);
 BOOL CARD_IsEnabled(void);
 void CARD_CheckEnabled(void);
 int CARD_GetResultCode(void);
 void *CARD_GetRomHeader(void);
-void *CARD_GetOwnRomHeader(void);
-void *CARD_GetOwnRomHeaderTWL(void);
+const CARDRomHeader *CARD_GetOwnRomHeader(void);
+const CARDRomHeaderTWL *CARD_GetOwnRomHeaderTWL(void);
 void CARD_LockRom(u16 lock_id);
 void CARD_UnlockRom(unsigned int id);
 void CARD_LockBackup(s32 owner);
@@ -196,9 +152,9 @@ void CARD_Init(void)
     p->callback = 0;
     p->callback_arg = 0;
     OS_InitThreadQueue(p->busy_q);
-    OS_CreateThread((OSThread *)p->thread.thread, CARDi_OldTypeTaskThread, 0,
+    OS_CreateThread(p->thread.context, CARDi_OldTypeTaskThread, 0,
                     p->thread.stack + sizeof(p->thread.stack), sizeof(p->thread.stack), p->priority);
-    OS_WakeupThreadDirect((OSThread *)p->thread.thread);
+    OS_WakeupThreadDirect(p->thread.context);
     CARDi_InitCommand();
     CARDi_InitRom();
     if (OS_GetBootType() == 1)
@@ -235,14 +191,14 @@ void *CARD_GetRomHeader(void)
     return (void *)0x02FFFA80;
 }
 
-void *CARD_GetOwnRomHeader(void)
+const CARDRomHeader *CARD_GetOwnRomHeader(void)
 {
-    return (void *)0x02FFFE00;
+    return (const CARDRomHeader *)0x02FFFE00;
 }
 
-void *CARD_GetOwnRomHeaderTWL(void)
+const CARDRomHeaderTWL *CARD_GetOwnRomHeaderTWL(void)
 {
-    return (void *)0x02FFE000;
+    return (const CARDRomHeaderTWL *)0x02FFE000;
 }
 
 /*

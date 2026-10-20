@@ -103,20 +103,15 @@ typedef struct {
 } MslFormatHookHolder;
 #include "../sdk_os.h"
 
-extern void OS_LockMutex(struct OSMutex *mutex);
-
-extern int OS_TryLockMutex(struct OSMutex *mutex);
-
-extern void OS_UnlockMutex(struct OSMutex *mutex);
+#include "os_mutex.h"
 
 
-int MSL_C_LIB_FlushAllGated(void);
 
-int MSL_C_LIB_FlushAll(void);
 
-void MSL_C_LIB_NopBufferHookA(int a, void *b);
+#include "msl_crt.h"
 
-void MSL_C_LIB_NopBufferHookB(int a, void *b);
+
+
 
 void __prep_buffer(struct MslStream *stream);
 
@@ -158,11 +153,11 @@ u32 MSL_C_LIB_CallFormatHook(u32 *dst, u32 c);
 
 u32 MSL_C_LIB_WideToNarrow(u8 *dst, const u16 *src, u32 max);
 
-void *memcpy(void *dest, const void *src, size_t n);
+#include "msl_string_mem.h"
 
-u8 *strncpy(u8 *dest, const u8 *src, u32 n);
+#include "msl_string_str.h"
 
-int fwide(u8 *stream, int orientation);
+#include "msl_wchar.h"
 
 extern struct MslRefBlock gMslRefToken;
 

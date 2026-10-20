@@ -1,0 +1,18 @@
+{
+ "tool": "tools/whitetrack.py",
+ "version": 1,
+ "note": "White per-function tracking: addresses, names, sizes and status only, no game bytes",
+ "functions": [
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_Init", "black_address": "0x021F36C0", "white_address": "0x021F36E0", "size": 312, "diff": "constant", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_Exit", "black_address": "0x021F37F8", "white_address": "0x021F3818", "size": 36, "diff": "constant", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_Update", "black_address": "0x021F381C", "white_address": "0x021F383C", "size": 48, "diff": "constant", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent", "black_address": "0x021F384C", "white_address": "0x021F386C", "size": 60, "diff": "constant", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_StartSwitchToggleEvent", "black_address": "0x021F3888", "white_address": "0x021F38A8", "size": 60, "diff": "constant", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet", "black_address": "0x021F38C4", "white_address": "0x021F38E4", "size": 68, "diff": "constant", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_IsRequirementMet", "black_address": "0x021F3908", "white_address": "0x021F3928", "size": 48, "diff": "constant", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_SetSwitchModelPose", "black_address": "0x021F3938", "white_address": "0x021F3958", "size": 112, "diff": "constant", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_IsSwitchOn", "black_address": "0x021F39A8", "white_address": "0x021F39C8", "size": 16, "diff": "same", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_SecondarySwitchEventProc", "black_address": "0x021F39B8", "white_address": "0x021F39D8", "size": 176, "diff": "constant", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"},
+  {"name": "FIELD_GIMMICK_SWITCH_TOGGLE_SwitchToggleEventProc", "black_address": "0x021F3A68", "white_address": "0x021F3A88", "size": 4, "diff": "constant", "source": "src/game/ov045/field_gimmick_switch_toggle.c", "version_switch": false, "status": "EXACT"}
+ ]
+}

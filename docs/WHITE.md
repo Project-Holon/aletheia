@@ -235,37 +235,24 @@ in ov088, zone data init and BGM id in the ARM9, a tail call in `crt0`). The ARM
 link for White (`gamelink.py arm9_main itcm --version white`); the SVC thunks of the secure area sit at
 other offsets in White and are placed by their swi number, the two compressed-end build-info values come
 from White's layout. `extract_white` was re-made from the current white.nds (the old one came from a
-different dump). Still open: ov010 (`event_battle`, 3 words), data mode for White.
+different dump). Data mode for White is done in wave 20 (see the last section).
 
 ## White ROM from src/game (wave 19, WHITE5)
 
 `python tools/romlink.py --version white` builds `build/rom/white.nds`: layout from
-`build/white/layout/layout.json`, extract `extract_white/`, regions from the plain-mode links in
-`build/gamelink/<region>_white/` (`--relink` runs `whitelink.py` and the ARM9 and ITCM links first),
-overlay 230 sealed again by `ovcrypt.encrypt`, report in `build/rom/report_white.json`. Data mode and
-`--onelink` do not exist for White: the gaps inside regions (data tails, padding, the secure-area
-filler) come from the image. With every region taken from a link the result is IDENTICAL to the
-original (SHA-1 0c43d714...) as soon as all overlays pass; with `--image-fallback` a region that does
-not link keeps its image bytes and is listed. Today ov010 is the only overlay that fails
-(`event_battle.c`, see below).
+`build/white/layout/layout.json`, extract `extract_white/`, regions from the data-mode links in
+`build/gamelink_data/<region>_white/` (ITCM and the DSi block in `build/gamelink/<region>_white/`;
+`--relink` runs them all first), overlay 230 sealed again by `ovcrypt.encrypt`, report in
+`build/rom/report_white.json`. `--onelink` does not exist for White. The result is IDENTICAL to the
+verified dump (SHA-1 bc696a0d...) when every region passes; with `--image-fallback` a region that does
+not link keeps its image bytes and is listed.
 
-The DSi block needs no re-encryption: White's DSi area in this dump is one repeated filler page (see "The
-DSi region"), `ndsrom.py` stores it as it is, and its extract and build round-trip byte-identical for both
-games (Black 26ad0b99..., White 0c43d714...); no change to `ndsrom.py` was needed.
-
-Secure area, 0x02004600: Black has libsyscall filler there (noise around the SVC thunks, thunk `swi 0x0E`
-at 0x02004632). White has a 92-byte ARM routine (17 instructions and 6 pool words, the thunk moved to
-0x0200465C) that compares a word at 0x02187F84 with a constant, stores five words at offsets 8, 0x148,
-0xA8 and 0x1E8 of that block when it matches, then sets one byte at 0x02180A00+0xA, and returns; the White
-crt0 `_exit` tail-calls it in place of `bx lr`. That is 92 + 4 = 96 bytes, the exact size of the difference
-between two dumps of the same cartridge. It is not game code: it writes overlay-area RAM at startup, which
-no SDK function does, and it exists only in this dump. It is treated like Black's secure-area filler (image
-data, never source); the branch stays in `crt0.c` under the White switch with a comment, so the build
-matches this image.
+The secure area of the verified dump holds libsyscall filler like Black's (see "Verified retail dump"):
+the earlier 92-byte routine at 0x02004600 came from the first dump tool and is gone from `crt0.c`.
 
 ## Not done
 
-- ARM9i / TWL region: not in the dump (see "The DSi region").
+- ARM9i / TWL region: built from src/game/twl, see "Data mode and the DSi block"; the data blob between its files is still image bytes.
 - Function rows inside the ARM9 secure area (first 0x800 bytes of the module). They are
   encrypted with the game code as key, so they differ by construction; they are
   excluded from the alignment.
@@ -368,3 +355,39 @@ No change is needed to `ndsrom.py`, `delink.py`, the DSi handling or the overlay
 is byte-identical with the verified No-Intro dump (SHA-1 bc696a0dfb448c7b3a8a206f0f8214411a039208).
 The secure-area patch branch of the earlier dump is gone from crt0.c; White's startup returns with
 `bx lr` as Black's does.
+
+## Data mode and the DSi block (wave 20, WHITE7)
+
+White now builds in data mode like Black: the data tails of every overlay and of the ARM9 static
+module are C generated from `extract_white/`, and `romlink.py --version white --relink` links them.
+
+How the companions are made (`datagen.py companions N --version white`, `arm9data.py --version white`;
+output in `build/datac_white/`, `build/gen/datac_white/`, never committed):
+
+- The structure of a tail (objects, owner files, names, link order) is Black's. It is the same source
+  in both games, so the objects are the same ones.
+- The values come from White's image. Each Black object is read at its White address: the same offset
+  for an overlay that only moved by 0x20, the block map of `white_map.to_white_ov` for the six overlays
+  whose code moved (ov021, ov088, ov172, ov181, ov203, ov204), `white_map.to_white` for the ARM9.
+- A pointer stays a symbol (`&name + addend`) only when White holds the word the Black pointer maps
+  to. A pointer into another overlay is a plain constant (its place depends on which overlay is
+  loaded). Every other White-specific word is a constant too.
+- ARM9: White has 8 bytes of data (before the object at 0x020A6500) that Black has not. They become one raw
+  object (`dgw_020A6518`) that follows the object before it. The secure area is generated from White's
+  thunk positions (`white_map.secure_map`) and its own filler bytes.
+- `gamelink.py N --data --version white`: the tail segments (`dtail`, `ddata`) of an overlay whose
+  code moved come from White's layout (static-initialiser table, end of the image), and the ARM9 tail
+  ends at White's end of the static module.
+- `white_map.to_white` and `to_black` leave every address from 0x02400000 up (the DSi block, DTCM, IO)
+  as it is. Before, the DSi block was moved by 0x20 like an overlay.
+
+The DSi block (`twl`, both games): `tools/twllink.py [--version=white]` links `src/game/twl`. White's
+DSi code is Black's code (the same 48 files link byte-identical in both games; only the ARM9 callees
+move). `romlink.py` rebuilds `arm9i.bin` from that link: the code range of the decrypted block is
+replaced, the block is compressed again with `tools/blz.py`, and the first 0x4000 bytes are enciphered
+again with AES-CTR (`tools/modcrypt.py`, key constant from `ALETHEIA_DSI_KEY`). The result equals the
+original file for Black and for White. The 159,147 bytes of data between the files stay image bytes
+(listed in the report under `twl gap`). The digest tables are not computed again: the code is the
+original, so they stay valid.
+
+Per-function White tracking: docs/WHITE_TRACKING.md, tools/whitetrack.py, layout/matched_white/, progress/report_white.json.

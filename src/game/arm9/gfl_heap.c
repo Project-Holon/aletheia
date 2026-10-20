@@ -50,6 +50,7 @@ struct ExpHeap;
 struct HeapAllocator;
 struct HeapSpec;
 #include "../types.h"
+#include "../sdk_os.h"
 
 /* One heap of the manager (16 bytes). */
 struct HeapRecord {
@@ -108,31 +109,18 @@ struct SystemHeapState {
     s32 heapHandle;     /* OS heap handle, -1 = not created */
 };
 
-extern u32 OS_AllocFromArenaLo(u32 heap, u32 size, u32 align);
-extern void *NNS_FndAllocFromExpHeapEx(struct ExpHeap *heap, u32 size, s32 align);
+#include "os_arena.h"
+#include "nns_fnd_expheap.h"
 int GFL_HEAP_CreateChildHeapImpl(u32 parentHeapId, u32 newHeapId, u32 size);
 int GFL_HEAP_RegisterBlockHeapImpl(void *block, u32 size, u32 newHeapId);
-extern void *NNS_FndCreateExpHeapEx(void *start, u32 size, u16 attr);
 int GFL_HEAP_AddRecord(u32 parentHeap, u32 heapId, u32 block, u32 size);
-extern void  NNSi_FndDestroyExpHeap(void *block);
-extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
-extern u32 OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32 state);
+#include "os_system.h"
 struct NNSG2dCellBank;
-extern void NNS_FndInitAllocatorForExpHeap(struct NNSG2dCellBank *s, u32 a, u32 b);
+#include "nns_gfd_vram_manager.h"
 struct HeapHead;
-extern u32 NNS_FndResizeForMBlockExpHeap(struct HeapHead *heap, void *memBlock, u32 size);
-extern int NNSi_FndGetMBlockSize(char *p);
-extern int NNSi_FndGetListTotalSize(int *p);
 struct Heap;
-extern s32 NNSi_FndGetListAllocatableSize(struct Heap *heap, s32 x);
 extern void SDK_AUTOLOAD_MAIN_TWL_START(void);
-extern u32 OS_GetArenaLo(u32 id);
-extern void OS_SetArenaHi(u32 arenaId, u32 newHi);
-extern void OS_SetArenaLo(u32 arenaId, u32 newLo);
-extern void *OS_InitAlloc(s32 id, void *arenaStart, void *arenaEnd, s32 maxHeaps);
-extern s32 OS_CreateHeap(s32 id, void *start, void *end);
-extern void *OS_AllocFromHeap(s32 id, s32 heap, s32 size);
+#include "os_alloc.h"
 u32 GFL_HEAP_Delete(u32 heapHandle);
 void *GFL_HEAP_AllocMemory(u32 heapId, u32 size);
 u32 GFL_HEAP_FreeMemory(void *mem);
@@ -149,10 +137,8 @@ u32 GFL_HEAP_IsHeapValid(u32 heapId);
 u16 GFL_HEAP_GetLastError(void);
 BOOL GFL_HEAP_InitSystemHeap(u32 size);
 void *GFL_HEAP_AllocSystem(u32 size);
-extern void OS_FreeToHeap(s32 id, s32 heap, void *ptr);
 extern int GFL_HEAP_InitManager(const struct HeapSpec *specs, u16 staticCount, u16 heapIdCount, u32 extraSize);
-extern u32 OS_GetArenaHi(u32 a);
-extern void OS_Terminate(void);
+#include "os_terminate_processor.h"
 void *GFL_HEAP_GetHeap(u32 heapId);
 u32 GFL_HEAP_GetParentHeap(u32 heapId);
 u32 GFL_HEAP_GetBlock(u32 heapId);

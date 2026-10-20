@@ -1,7 +1,7 @@
 /*
  * file:     window.c
  * unit:     yes
- * function: DWCi_WINlInitEx, DWCi_WINlEnd, DWCi_WINlGet, DWCi_WINlIsInit, taskV, taskMove, taskMain, taskMain1, disp, dispCell, pushButton, DWCi_WindowTaskEnd, taskEnd1, taskEnd2, taskEnd3
+ * function: DWCi_WINlInitEx, DWCi_WINlEnd, DWCi_WINlGet, DWCi_WINlIsInit, taskV, taskMove, taskMain, taskMain1, disp, dispCell, pushButton, taskEnd, taskEnd1, taskEnd2, taskEnd3
  * address:  0x021D1208
  * region:   ov016
  * compiler: dsi/1.1p1
@@ -120,7 +120,8 @@ extern int DWCi_CMNlFontFlag(void);
 extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, u16 *txt);
 extern void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio);
 extern void DWCi_GXlSetWndPlane(int lcd, int wnd, int plane, int effect);
-extern void DWCi_GXlSetWndPosition(int lcd, int wnd, void *r);
+struct tagRect;
+extern void DWCi_GXlSetWndPosition(int lcd, int wnd, struct tagRect *r);
 struct TCB;
 extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 void DWCi_TSKlDelete(int kind, void *task);
@@ -131,15 +132,17 @@ extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void DWCi_Coord2Rect(const struct tagCOORD *coord, const struct tagCOORD *size, struct tagRECT *rect);
 extern int DWCi_TPlCheckTrigger(u16 *a);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
-extern void DWCi_InputRect(int x0, int y0, int x1, int y1, RectT *r);
+extern void DWCi_InputRect(int x0, int y0, int x1, int y1, u16 *r);
 struct CellInfo;
 extern unsigned char DWCi_CELLlGetState(struct CellInfo *cell);
 extern void DWCi_CELLlSetEffect(void *cell, int idx, Eff eff, int affine);
-extern char *DWCi_CELLlGetObj(char *p, unsigned int i);
-extern void DWCi_CEINlSet();
+union GXOamAttr;
+extern union GXOamAttr *DWCi_CELLlGetObj(struct CellInfo *p, u32 i);
+extern void DWCi_CEINlSet(s32 lcd, s32 idx, union GXOamAttr *obj);
 void DWCi_TSKlChangeFunc(void *task, void (*func)(void *));
 extern void DWCi_CELLlDelete(struct CellInfo *p);
-extern void DWCi_FNTlDelete(char *a);
+struct Canvas;
+extern void DWCi_FNTlDelete(struct Canvas *a);
 extern void DWCi_HEAPlFree_(void **mem);
 void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 void DWCi_WINlEnd(void);
@@ -227,7 +230,7 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
     DWCi_GXlSetWndPlane(0, 0, 0x1f, 0);
     DWCi_GXlSetWndPlane(0, 1, 0x1f, EFF[gWindowWork->type]);
     DWCi_GXlSetWndPlane(0, 3, 0x1f, 1);
-    DWCi_GXlSetWndPosition(0, 1, sWindowTable3);
+    DWCi_GXlSetWndPosition(0, 1, (struct tagRect *)sWindowTable3);
 
     disp(0xc0);
     *(volatile unsigned long *)0x04000000 = (*(volatile unsigned long *)0x04000000 & ~0xE000) | 0x6000;
@@ -408,8 +411,8 @@ static void disp(int y)
     x2 = sWindowTable12[gWindowWork->type][0];
     if (y1 > 0xc0)
         y1 = 0xc0;
-    DWCi_InputRect(x1, y0, x1 + x2, y1, &r);
-    DWCi_GXlSetWndPosition(0, 0, &r);
+    DWCi_InputRect(x1, y0, x1 + x2, y1, (u16 *)&r);
+    DWCi_GXlSetWndPosition(0, 0, (struct tagRect *)&r);
 }
 
 /*

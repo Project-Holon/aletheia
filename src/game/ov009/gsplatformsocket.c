@@ -265,7 +265,7 @@ int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, in
 
 int setsockopt(int s, int level, int optname, void *optval, int optlen)
 {
-    CheckRcode(0, -1);
+    return CheckRcode(0, -1);
 }
 
 

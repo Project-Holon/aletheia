@@ -44,23 +44,7 @@ typedef struct tagDWCWDSData {
     char apnum[10];
 } DWCWDSData;
 
-typedef struct WDSApInfo {
-    u8 ssid[32];
-    u8 apnum[10];
-    u8 pad0[0x44 - 0x2a];
-    u8 wep[32];
-    u8 pad1;
-    u8 wepMode;
-    u8 pad2[0x6c - 0x66];
-    u16 mtu;
-    u8 pad3[0x72 - 0x6e];
-} WDSApInfo;
-
-typedef struct WDSBriefApInfo {
-    int isvalid;
-    u16 rssi;
-    WDSApInfo apinfo;
-} WDSBriefApInfo;
+#include "dwc_ac_wds.h"
 
 typedef struct DWCWDSWork {
     DWCWDSData *nspotInfoBuf;
@@ -76,23 +60,15 @@ typedef struct NSpotState {
     int gAppstate;
 } NSpotState;
 
-extern u32 WDS_GetWorkAreaSize(void);
-extern void *DWC_Alloc(int name, u32 size);
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern BOOL WDS_Initialize(void *wdsWork, void (*callback)(void *), u16 dmaNo);
-extern BOOL WDS_StartScan(void (*callback)(void *));
-extern u64 OS_GetTick(void);
-extern BOOL WDS_EndScan(void (*callback)(void *));
-extern BOOL WDS_GetApInfoAll(WDSBriefApInfo *briefapinfo);
-extern BOOL WDS_IsAvailableForAutoConnect(WDSApInfo *apinfo);
-extern BOOL WDS_End(void (*callback)(void *));
-extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
+#include "dwc_memfunc.h"
+#include "mi_memory.h"
+typedef unsigned long long OSTick;
+#include "os_tick.h"
 extern void WDS_Initialize_CB(void);
 extern void WDS_StartScan_CB(void);
 extern void WDS_EndScan_CB(void);
 extern void WDS_End_CB(void);
 extern void WDS_Error_End_CB(void);
-extern void DWC_Free(s32 name, void *ptr, u32 size);
 BOOL DWC_AC_StartupGetWDSInfo(DWCWDSData *nspotInfo, u16 dmaNo);
 int DWC_AC_ProcessGetWDSInfo(void);
 void DWC_AC_CancelGetWDSInfo(void);
@@ -186,10 +162,10 @@ int DWC_AC_ProcessGetWDSInfo(void)
         }
         MI_CpuCopy8(s_nspot.gDwcWdsWork->briefapinfo[s_nspot.gDwcWdsWork->selectedIndex].apinfo.ssid,
                     s_nspot.gDwcWdsWork->nspotInfoBuf->ssid, 32);
-        MI_CpuCopy8(s_nspot.gDwcWdsWork->briefapinfo[s_nspot.gDwcWdsWork->selectedIndex].apinfo.wep,
+        MI_CpuCopy8(s_nspot.gDwcWdsWork->briefapinfo[s_nspot.gDwcWdsWork->selectedIndex].apinfo.wepkey,
                     s_nspot.gDwcWdsWork->nspotInfoBuf->wep, 32);
         s_nspot.gDwcWdsWork->nspotInfoBuf->wepMode =
-            s_nspot.gDwcWdsWork->briefapinfo[s_nspot.gDwcWdsWork->selectedIndex].apinfo.wepMode;
+            s_nspot.gDwcWdsWork->briefapinfo[s_nspot.gDwcWdsWork->selectedIndex].apinfo.encryptflag;
         s_nspot.gDwcWdsWork->nspotInfoBuf->mtu =
             s_nspot.gDwcWdsWork->briefapinfo[s_nspot.gDwcWdsWork->selectedIndex].apinfo.mtu;
         MI_CpuCopy8(s_nspot.gDwcWdsWork->briefapinfo[s_nspot.gDwcWdsWork->selectedIndex].apinfo.apnum,

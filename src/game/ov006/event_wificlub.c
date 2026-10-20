@@ -1,7 +1,7 @@
 /*
  * file:     event_wificlub.c
  * unit:     yes
- * function: EVENT_WIFICLUB_SetupBattle, EVENT_WIFICLUB_BuildBattleEntry, EVENT_WIFICLUB_ResetSound, EVENT_WIFICLUB_Main, EVENT_WIFICLUB_FreeWork, EVENT_WIFICLUB_InitWork, EVENT_WIFICLUB_Create, EVENT_WIFICLUB_Entry
+ * function: EVENT_WIFICLUB_SetupBattle, EVENT_WIFICLUB_BuildBattleEntry, EVENT_WIFICLUB_SetBattleParty, EVENT_WIFICLUB_ResetSound, EVENT_WIFICLUB_Main, EVENT_WIFICLUB_FreeWork, EVENT_WIFICLUB_InitWork, EVENT_WIFICLUB_Create, EVENT_WIFICLUB_Entry
  * address:  0x021542C0
  * region:   ov006
  * compiler: dsi/1.1p1

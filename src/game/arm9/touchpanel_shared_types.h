@@ -11,19 +11,30 @@
  *   wm_icon.c        0x02036BD4..0x02037224  wireless signal icon
  */
 #include "../types.h"
+#include "../arm9/tp.h"
 
 #define HW_BUTTON_XY_BUF    0x02FFFFA8
 
 /* ui.c: UI frame rate values (UiCtx.frameRate) */
 #define UI_FRAMERATE_30     30
 
-/* SDK touch panel sample */
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 touch;
-    u16 validity;
-} TPData;
+/* One entry of a touch hit table: a rectangle, or a circle when the first
+ * byte is TOUCHPANEL_HIT_CIRCLE.  TOUCHPANEL_HIT_END ends the table. */
+typedef union {
+    struct {
+        u8 top;
+        u8 bottom;
+        u8 left;
+        u8 right;
+    } rect;
+    struct {
+        u8 code;
+        u8 x;
+        u8 y;
+        u8 r;
+    } circle;
+} TouchHitTable;
+
 
 /* touchpanel.c work, 0x7c bytes (held by UiCtx.tpWork and _pTouchPanelWork) */
 typedef struct {
@@ -82,12 +93,42 @@ typedef struct {
 } KeyWork;
 
 /* ui.c system object; only the members this file uses */
+typedef void (*UiCb)(void *);
+
+typedef int  (*UiPred)(void *);
+
+typedef void (*UiIntrFunc)(u32);
+
+/* The UI context pointed at by gUiState.ctx (0x021469BC).  touchpanel.c and the
+ * areaman tick UI_Main are all views of this one object; the fields
+ * follow the names those files use (keyWork/tpWork/onWake..resumeArmed). */
 typedef struct UiCtx {
-    KeyWork        *keyWork;     /* 0x00 */
-    TouchPanelWork *tpWork;      /* 0x04 */
-    u8              uiState[0x35]; /* 0x08: callbacks and flags of ui.c */
-    u8              frameRate;   /* 0x3D: 60 or UI_FRAMERATE_30 */
-    u8              frameCounter; /* 0x3E */
+    KeyWork *keyWork;        /* 0x00 KEY_Create result */
+    TouchPanelWork *tpWork;         /* 0x04 TOUCHPANEL_Create result */
+    UiIntrFunc intrData;      /* 0x08 per-frame interrupt callback */
+    u32     intrArg;          /* 0x0C its argument */
+    UiCb    onWake;           /* 0x10 */
+    UiCb    onSleep;          /* 0x14 */
+    UiCb    onResume;         /* 0x18 */
+    UiCb    onSuspend;        /* 0x1C */
+    UiCb    onWakePowered;    /* 0x20 */
+    UiPred  keepAwakePred;    /* 0x24 */
+    void   *sleepWakeArg;     /* 0x28 */
+    void   *suspendResumeArg; /* 0x2C */
+    void   *wakePoweredArg;   /* 0x30 */
+    void   *keepAwakeArg;     /* 0x34 */
+    u8      keepAwakeFlags;   /* 0x38 */
+    u8      softResetInhibit;          /* 0x39 */
+    u8      reserved3A;       /* 0x3A */
+    u8      backlightState;   /* 0x3B */
+    u8      inputMode;        /* 0x3C */
+    u8      frameRate;        /* 0x3D */
+    u8      frameCounter;     /* 0x3E */
+    u8      powerState;       /* 0x3F */
+    u8      mode;             /* 0x40 */
+    u8      resumeArmed;      /* 0x41 */
+    u8      reserved42;       /* 0x42 */
+    u8      suspended;        /* 0x43 */
 } UiCtx;
 
 #endif

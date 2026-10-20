@@ -27,8 +27,8 @@ typedef struct OsPxiBss {
 
 #include "../sdk_os.h"
 
-extern void OS_Terminate(void);
-extern int PXI_SendWordByFifo(int fifotag, u32 data, int err);
+#include "os_terminate_processor.h"
+#include "pxi_fifo.h"
 BOOL OS_IsResetOccurred(void);
 void OSi_CommonCallback(int tag, u32 data, BOOL err);
 void OSi_SendToPxi(u16 data);

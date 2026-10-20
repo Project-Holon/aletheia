@@ -1,7 +1,10 @@
 #ifndef GAME_ARM9_GF_PANIC_H
 #define GAME_ARM9_GF_PANIC_H
 
+/* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of gf_panic.c, prototypes copied from their definitions. */
+
+#include "../types.h"
 
 void GF_PANIC_SetHandlers(u32 initFunc, u32 printFunc, u32 dieFunc);
 void GF_PANIC_SetFailHook(u32 failHook);
@@ -11,5 +14,6 @@ void GF_PANIC_Init(void);
 void GF_PANIC_Print(char *text);
 void GF_PANIC_Die(void);
 void GF_PANIC_RegisterDefaultHandlers(void);
+/* END mkheaders: generated region */
 
 #endif

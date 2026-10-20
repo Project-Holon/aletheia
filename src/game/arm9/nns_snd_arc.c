@@ -1,6 +1,7 @@
 /*
  * file:     nns_snd_arc.c
  * unit:     yes
+ * function: NNS_SndArcSetCurrent, NNS_SndArcGetCurrent, NNS_SndArcGetSeqParam, NNS_SndArcGetSeqInfo, NNS_SndArcGetSeqArcInfo, NNS_SndArcGetBankInfo, NNS_SndArcGetWaveArcInfo, NNS_SndArcGetPlayerInfo, NNS_SndArcGetGroupInfo, NNS_SndArcGetFileSize, NNS_SndArcReadFile, NNS_SndArcGetFileAddress, NNS_SndArcSetFileAddress, NNS_SndArcSetReadChunkSize, NNSi_SndArcDisposeInfo, NNSi_SndArcDisposeFat, NNSi_SndArcDisposeSymbol, NNS_SndHeapCreate, NNS_SndHeapDestroy, NNS_SndHeapClear, NNS_SndHeapAlloc, NNS_SndHeapSaveState, NNS_SndHeapLoadState, NNSi_SndHeapLevelInit, NNSi_SndHeapInit, NNSi_SndHeapAllocLevel, NNSi_SndHeapFlushCommands, NNS_SndArcLoadGroup, NNS_SndArcLoadSeq, NNS_SndArcLoadWaveArc, NNS_SndArcLoadSeqEx, NNSi_SndArcLoadGroup, NNSi_SndArcLoadSeq, NNSi_SndArcLoadSeqArc, NNSi_SndArcLoadBank, NNSi_SndArcLoadWaveArc, NNSi_SndArcLoadFile, NNSi_SndArcLoadSeqFile, NNSi_SndArcLoadSeqArcFile, NNSi_SndArcLoadBankFile, NNSi_SndArcLoadWaveArcFile, NNSi_SndArcLoadWaveArcTable, NNSi_SndArcForgetFileAddress, NNSi_SndArcDisposeSeq, NNSi_SndArcDisposeBank, NNSi_SndArcDisposeWaveArc, NNSi_SndArcDisposeWaveArcTable, NNSi_SndArcDisposeWave, NNSi_SndArcLoadWave, NNSi_SndArcLoadBankWaves, NNS_SndArcPlayerSetup
  * address:  0x020742E4
  * region:   arm9
  * compiler: dsi/../2.0/sp2
@@ -55,44 +56,18 @@
  */
 #include "nns_snd_arc_types.h"
 
-extern int  FS_SeekFile(struct FSFile *file, long offset, int origin);
-extern s32  FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
-extern void *NNS_FndCreateFrmHeap(void *start, u32 size, u32 optFlag);
-extern void NNS_FndDestroyFrmHeap(void *heap);
+#include "fs_file.h"
+#include "nns_fnd_frameheap.h"
 struct DList;
-extern void *NNS_FndGetPrevListObject(struct DList *list, void *elem);
-extern void NNS_FndRemoveListObject(struct DList *list, void *elem);
-extern void NNS_FndFreeToFrmHeap(void *heap, int flags);
-extern unsigned int NNS_FndAllocFromFrmHeapEx(char *p, int size, int align);
-extern void NNS_FndAppendListObject(NNSFndList *list, void *object);
-extern int  NNS_FndRecordStateForFrmHeap(NNSFndHeapHandle heap, u32 tagName);
-extern int  NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName);
-extern void NNS_FndInitList(s32 list, s32 offset);
-extern u32  SND_GetCurrentCommandTag(void);
-extern s32 SND_FlushCommand(u32 block);
-extern void SND_WaitForCommandProc(u32 tag);
-struct SNDWaveArc;
-struct SNDBankData;
-extern void SND_AssignWaveArc(struct SNDBankData *bank, s32 index, struct SNDWaveArc *waveArc);
-extern void DC_StoreRange(void *addr, u32 size);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void MI_CpuFill8(void *dst, u8 value, u32 size);
-extern u32  OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(u32 irqState);
-extern void SND_InvalidateSeqData(const void *start, const void *end);
-extern void SND_InvalidateBankData(const void *start, const void *end);
-extern void SND_DestroyBank(struct SNDBankData *bank);
-extern void SND_InvalidateWaveData(const void *start, const void *end);
-extern void SND_DestroyWaveArc(SNDWaveArc *waveArc);
-extern u32  SND_GetWaveDataAddress(u32 waveArc, u32 waveNo);
-extern void SND_SetWaveDataAddress(u32 waveArc, u32 waveNo, u32 address);
-extern void *SNDi_GetBankWaveArcTable(char *waveArc);
-extern void SND_GetFirstInstDataPos(SNDBankWaveIter *iter, u32 bank, u32 waveArcNo, u32 fileId);
-extern u32  SND_GetNextInstData(u32 bank, SNDBankWaveRecord *record, SNDBankWaveIter *iter);
-extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
-extern void NNS_SndPlayerSetAllocatableChannel(u32 playerNo, u32 channelMask);
+#include "nns_fnd_expheap.h"
+#include "snd_command.h"
+#include "os_cache.h"
+#include "mi_memory.h"
+#include "os_system.h"
+#include "snd_interface.h"
+extern u32  SND_GetNextInstData(u32 bank, SNDBankWaveRecord *record, SNDInstPos *pos);
+#include "nns_snd_player.h"
 struct NNSSndHeap;
-extern u32  NNS_SndPlayerCreateHeap(s32 playerNo, struct NNSSndHeap *heap, u32 size);
 
 extern NNSSndArc *gNNSSndCurrentArc;
 extern SNDWaveArc gNNSSndArcWaveArcHeader;
@@ -100,11 +75,11 @@ extern SNDWaveArc d_0214EA54_hdr;
 
 NNSSndArc *NNS_SndArcSetCurrent(NNSSndArc *newArc);
 NNSSndArc *NNS_SndArcGetCurrent(void);
-void *NNS_SndArcGetSeqParam(int entryNo);
-void *NNS_SndArcGetSeqInfo(int entryNo);
+u8 *NNS_SndArcGetSeqParam(int entryNo);
+NNSSndArcSeqInfo *NNS_SndArcGetSeqInfo(int entryNo);
 void *NNS_SndArcGetSeqArcInfo(int entryNo);
-void *NNS_SndArcGetBankInfo(int entryNo);
-void *NNS_SndArcGetWaveArcInfo(int entryNo);
+NNSSndArcBankInfo *NNS_SndArcGetBankInfo(int entryNo);
+NNSSndArcWaveArcInfo *NNS_SndArcGetWaveArcInfo(int entryNo);
 void *NNS_SndArcGetPlayerInfo(int entryNo);
 void *NNS_SndArcGetGroupInfo(int entryNo);
 u32 NNS_SndArcGetFileSize(u32 fileId);
@@ -162,16 +137,16 @@ NNSSndArc *NNS_SndArcGetCurrent(void)
     return gNNSSndCurrentArc;
 }
 
-void *NNS_SndArcGetSeqParam(int entryNo)
+u8 *NNS_SndArcGetSeqParam(int entryNo)
 {
     void *ptr = NNS_SndArcGetSeqInfo(entryNo);
     if (ptr == 0) {
         return 0;
     }
-    return (char *)ptr + 4;
+    return (u8 *)ptr + 4;
 }
 
-void *NNS_SndArcGetSeqInfo(int entryNo)
+NNSSndArcSeqInfo *NNS_SndArcGetSeqInfo(int entryNo)
 {
     NNSSndArc *arc = gNNSSndCurrentArc;
     NNSSndArcInfoHeader *infoHeader = arc->infoBlock;
@@ -197,7 +172,7 @@ void *NNS_SndArcGetSeqInfo(int entryNo)
     if (offset == 0) {
         return 0;
     }
-    return (char *)infoBase + offset;
+    return (NNSSndArcSeqInfo *)((char *)infoBase + offset);
 }
 
 void *NNS_SndArcGetSeqArcInfo(int entryNo)
@@ -229,7 +204,7 @@ void *NNS_SndArcGetSeqArcInfo(int entryNo)
     return (char *)infoBase + offset;
 }
 
-void *NNS_SndArcGetBankInfo(int entryNo)
+NNSSndArcBankInfo *NNS_SndArcGetBankInfo(int entryNo)
 {
     NNSSndArc *arc = gNNSSndCurrentArc;
     NNSSndArcInfoHeader *infoHeader = arc->infoBlock;
@@ -255,10 +230,10 @@ void *NNS_SndArcGetBankInfo(int entryNo)
     if (offset == 0) {
         return 0;
     }
-    return (char *)infoBase + offset;
+    return (NNSSndArcBankInfo *)((char *)infoBase + offset);
 }
 
-void *NNS_SndArcGetWaveArcInfo(int entryNo)
+NNSSndArcWaveArcInfo *NNS_SndArcGetWaveArcInfo(int entryNo)
 {
     NNSSndArc *arc = gNNSSndCurrentArc;
     NNSSndArcInfoHeader *infoHeader = arc->infoBlock;
@@ -284,7 +259,7 @@ void *NNS_SndArcGetWaveArcInfo(int entryNo)
     if (offset == 0) {
         return 0;
     }
-    return (char *)infoBase + offset;
+    return (NNSSndArcWaveArcInfo *)((char *)infoBase + offset);
 }
 
 void *NNS_SndArcGetPlayerInfo(int entryNo)
@@ -801,7 +776,7 @@ u32 NNSi_SndArcLoadBank(u32 bankNo, u32 loadFlag, NNSSndHeap *heap, u32 isSetAdd
                 if (NNSi_SndArcLoadBankWaves((SNDWaveArc *)waveArc, bank, (u32)i, waveArcInfo->bits.fileId, heap) == 0) return 9;
             }
             if (bank != 0 && waveArc != 0) {
-                SND_AssignWaveArc((struct SNDBankData *)bank, (u32)i, (struct SNDWaveArc *)waveArc);
+                SND_AssignWaveArc((SNDBankData *)bank, (u32)i, (SNDWaveArc *)waveArc);
             }
         }
     }
@@ -957,8 +932,8 @@ u32 NNSi_SndArcLoadWaveArcTable(u32 fileId, NNSSndHeap *heap, int isSetAddress)
         bytesRead = NNS_SndArcReadFile(fileId, waveArc, tableSize + 0x3c, 0);
         if (bytesRead != tableSize + 0x3c)
             return 0;
-        MI_CpuCopy8(waveArc->waveTable, &waveArc->waveTable[waveArc->waveCount], tableSize);
-        MI_CpuFill8(waveArc->waveTable, 0, tableSize);
+        MI_CpuCopy8(waveArc->waveOffset, &waveArc->waveOffset[waveArc->waveCount], tableSize);
+        MI_CpuFill8(waveArc->waveOffset, 0, tableSize);
         DC_StoreRange(waveArc, totalSize + 0x3c);
         if (isSetAddress != 0)
             NNS_SndArcSetFileAddress(fileId, (u32)waveArc);
@@ -993,7 +968,7 @@ void NNSi_SndArcDisposeBank(u8 *buffer, u32 size, NNSSndArc *arc, u32 fileId)
 {
     NNSi_SndArcForgetFileAddress((u32)buffer, arc, fileId);
     SND_InvalidateBankData(buffer, buffer + size);
-    SND_DestroyBank((struct SNDBankData *)buffer);
+    SND_DestroyBank((SNDBankData *)buffer);
 }
 
 /*
@@ -1017,7 +992,7 @@ void NNSi_SndArcDisposeWaveArcTable(int buffer, int size, NNSSndArc *arc, int fi
 
 /* Dispose callback of one individually loaded wave. */
 void NNSi_SndArcDisposeWave(u32 buffer, u32 size, SNDWaveArc *waveArc, u32 waveNo) {
-    if (SND_GetWaveDataAddress((u32)waveArc, waveNo) == buffer) SND_SetWaveDataAddress((u32)waveArc, waveNo, 0);
+    if ((u32)SND_GetWaveDataAddress(waveArc, waveNo) == buffer) SND_SetWaveDataAddress(waveArc, waveNo, 0);
     SND_InvalidateWaveData((const void *)buffer, (const void *)(buffer + size));
 }
 
@@ -1036,7 +1011,7 @@ void NNSi_SndArcDisposeWave(u32 buffer, u32 size, SNDWaveArc *waveArc, u32 waveN
  *
  * The dead pointer `entry` is load-bearing: it is assigned the table-entry
  * address and never read; both reads are spelled as fresh
- * `(&waveArc->waveTable[...])[0]` / `[1]` expressions. Dropping the
+ * `(&waveArc->waveOffset[...])[0]` / `[1]` expressions. Dropping the
  * assignment, or reading through it, moves the whole frame down one
  * callee-saved register and adds an instruction. Likewise
  * `lastWave = SNDi_GetBankWaveArcTable(waveArc); lastWave = lastWave - 1;`
@@ -1054,16 +1029,16 @@ u32 NNSi_SndArcLoadWave(SNDWaveArc *waveArc, u32 waveNo, u32 fileId, NNSSndHeap 
   u32 *entry;
   void *buffer;
   u32 startOffset;
-  if (SND_GetWaveDataAddress((u32)waveArc, waveNo) != 0)
+  if ((u32)SND_GetWaveDataAddress(waveArc, waveNo) != 0)
     return 1;
   lastWave = (u32)SNDi_GetBankWaveArcTable((char *)waveArc);
   lastWave = lastWave - 1;
-  entry = &waveArc->waveTable[waveArc->waveCount + waveNo];
-  startOffset = (&waveArc->waveTable[waveArc->waveCount + waveNo])[0];
+  entry = &waveArc->waveOffset[waveArc->waveCount + waveNo];
+  startOffset = (&waveArc->waveOffset[waveArc->waveCount + waveNo])[0];
   if (waveNo < lastWave)
-    end = (&waveArc->waveTable[waveArc->waveCount + waveNo])[1];
+    end = (&waveArc->waveOffset[waveArc->waveCount + waveNo])[1];
   else
-    end = waveArc->fileSize;
+    end = waveArc->fileHeader.fileSize;
   offset = startOffset;
   length = end - offset;
   if (heap == 0)
@@ -1074,7 +1049,7 @@ u32 NNSi_SndArcLoadWave(SNDWaveArc *waveArc, u32 waveNo, u32 fileId, NNSSndHeap 
   if (NNS_SndArcReadFile(fileId, buffer, length, offset) != length)
     return 0;
   DC_StoreRange(buffer, length);
-  SND_SetWaveDataAddress((u32)waveArc, waveNo, (u32)buffer);
+  SND_SetWaveDataAddress(waveArc, waveNo, (const SNDWaveData *)buffer);
   return 1;
 }
 
@@ -1096,10 +1071,10 @@ u32 NNSi_SndArcLoadWave(SNDWaveArc *waveArc, u32 waveNo, u32 fileId, NNSSndHeap 
 u32 NNSi_SndArcLoadBankWaves(SNDWaveArc *waveArc, u32 bank, u32 waveArcNo, u32 fileId, NNSSndHeap *heap)
 {
     SNDBankWaveRecord record;
-    SNDBankWaveIter iter;
-    SNDBankWaveIter firstIter;
+    SNDInstPos iter;
+    SNDInstPos firstIter;
 
-    SND_GetFirstInstDataPos(&firstIter, bank, waveArcNo, fileId);
+    firstIter = SND_GetFirstInstDataPos((const void *)bank);
     iter = firstIter;
     if (bank == 0) return 0;
     if (SND_GetNextInstData(bank, &record, &iter) != 0) {

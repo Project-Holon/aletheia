@@ -3,6 +3,8 @@
 
     python tools/arm9data.py [--out=DIR] [--relink] [--data-start=0xADDR]
     python tools/gamelink.py arm9_main --data --extra=build/datac/arm9
+    python tools/arm9data.py --version white        # Black's structure, White's values (build/datac_white/arm9)
+    python tools/gamelink.py arm9_main --data --extra=build/datac_white/arm9 --version white
 
 Same design as `datagen.py companions` for the overlays (see there and
 docs/restructure/BUILD_FROM_GAME.md "Data mode"), for the module that starts at
@@ -44,6 +46,7 @@ import datareg   # noqa: E402
 import datagen   # noqa: E402
 
 RG = "arm9"
+WHITE = False     # --version white: Black's structure, White's values (build/datac_white/arm9)
 DATA_START = 0x020A6C58          # first .data object (the greedy owner order restarts here)
 
 
@@ -336,9 +339,74 @@ def companions(out=None, relink=False, data_start=DATA_START):
         ob["inner_names"] = [(n, a - ob["addr"]) for a in ob["inner"]
                              for nms in hdr_names.get(a, {}).values() for n in nms]
 
+    # ---- White: the values come from White's static module (each object at its White address), a
+    # pointer stays a symbol only when White holds the word the Black pointer maps to
+    if WHITE:
+        import white_map
+        lw = json.load(open(os.path.join(ROOT, "build", "white", "layout", "layout.json"), encoding="utf-8"))["arm9"]["static"]
+        wimg = open(os.path.join(ROOT, "extract_white", "arm9_dec.bin"), "rb").read()
+        wimg = wimg[lw["src_offset"]:lw["src_offset"] + lw["size"]]
+        wbase = lw["ram_start"]
+        # pointers name their target object by index; inserting objects below would shift them
+        for ob in objs:
+            for k_, (kind_, j_, off_) in list(ob["ptrs"].items()):
+                if kind_ == "obj":
+                    ob["ptrs"][k_] = (kind_, objs[j_], off_)
+        # White-only data: a range of White's tail that no object and no own section of Black
+        # maps to (a constant that only a changed function uses) becomes one raw object that
+        # follows the object before it
+        cover = sorted((white_map.to_white(ob["addr"]), white_map.to_white(ob["addr"]) + ob["size"], k)
+                       for k, ob in enumerate(objs) if ob["data"] is not None)
+        own_w = [(white_map.to_white(a_), white_map.to_white(a_) + (b_ - a_)) for a_, b_ in own_occ]
+        prev_end, extra, white_only_n = white_map.to_white(t0), [], 0
+        for wa_, we_, k in sorted(cover + [(a_, b_, -1) for a_, b_ in own_w]):
+            if wa_ > prev_end:
+                extra.append((prev_end, wa_, k))
+            prev_end = max(prev_end, we_)
+        wend_ = lw["ram_start"] + lw["size"]
+        if prev_end < wend_:
+            blockers.append("White tail ends %d bytes after the last Black object" % (wend_ - prev_end))
+        for ga, gb, k in reversed(extra):
+            if gb - ga < 4 and wimg[ga - wbase:gb - wbase] == bytes(gb - ga):
+                continue          # alignment padding: the link makes it
+            if k < 0:
+                blockers.append("White-only range %08X..%08X before an own section" % (ga, gb))
+                continue
+            nxt = objs[k]
+            pv = objs[k - 1]
+            objs.insert(k, dict(addr=nxt["addr"], size=gb - ga, sec=nxt["sec"], data=bytes(gb - ga), inner=[],
+                                ptrs={}, owner=pv["owner"], direct=[], ptrown=[], refown=[], names={},
+                                name="dgw_%08X" % ga, src_name="dgw_%08X" % ga, inner_names=[], wonly=True,
+                                wdata=wimg[ga - wbase:gb - wbase], wraw=set()))
+            white_only_n += 1
+        for ob in objs:
+            if ob["data"] is None or ob.get("wonly"):
+                continue
+            wa = white_map.to_white(ob["addr"])
+            we = white_map.to_white(ob["addr"] + ob["size"] - 1) + 1
+            if we - wa != ob["size"]:
+                blockers.append("%08X: %d bytes in Black, %d in White" % (ob["addr"], ob["size"], we - wa))
+                ob["wdata"] = ob["data"]
+                ob["wraw"] = set()
+                continue
+            ob["wdata"] = wimg[wa - wbase:wa - wbase + ob["size"]]
+            ob["wraw"] = set()
+            for k in list(ob["ptrs"]):
+                bw = struct.unpack_from("<I", ob["data"], 4 * k)[0]
+                ww = struct.unpack_from("<I", ob["wdata"], 4 * k)[0]
+                try:
+                    ok_ = white_map.to_white(bw) == ww
+                except KeyError:
+                    ok_ = False
+                if ob["ptrs"][k][0] == "ext" and bw >= white_map._load()["black_end"]:
+                    ok_ = False       # a function of an overlay: its place depends on the overlay
+                if not ok_:
+                    del ob["ptrs"][k]
+                    ob["wraw"].add(k)
+
     # ---- emit
-    out = out or os.path.join(datagen.DATAC_OUT, RG)
-    gen = os.path.join(datagen.DATAC_GEN, RG)
+    out = out or os.path.join(datagen.DATAC_OUT_WHITE if WHITE else datagen.DATAC_OUT, RG)
+    gen = os.path.join(datagen.DATAC_GEN_WHITE if WHITE else datagen.DATAC_GEN, RG)
     for dd in (out, gen):
         if os.path.isdir(dd):
             for f in os.listdir(dd):
@@ -348,6 +416,8 @@ def companions(out=None, relink=False, data_start=DATA_START):
     stats = dict(objects=len(objs), bytes=sum(x["size"] for x in objs if x["sec"] != ".bss"),
                  bss_bytes=sum(x["size"] for x in objs if x["sec"] == ".bss"), typed=0, raw=0, bss=0,
                  shifted=shifted)
+    if WHITE:
+        stats["white_only"] = white_only_n
     aliases = {}
     by_owner = {}
     defined = Counter(ob["name"] for ob in objs)
@@ -399,7 +469,7 @@ def companions(out=None, relink=False, data_start=DATA_START):
     stats["companions"] = len(by_owner)
 
     def inc(ob):
-        return ("%s/%08X.inc" % (gen, ob["addr"])).replace("\\", "/")
+        return ("%s/%08X%s.inc" % (gen, ob["addr"], "_w" if ob.get("wonly") else "")).replace("\\", "/")
 
     def write_inc(ob, vals):
         with open(inc(ob), "w", newline="\n") as fh:
@@ -432,7 +502,7 @@ def companions(out=None, relink=False, data_start=DATA_START):
             def ref(k, ob=ob):
                 kind, nm, off = ob["ptrs"][k]
                 if kind == "obj":
-                    nm = objs[nm]["name"]
+                    nm = (nm if isinstance(nm, dict) else objs[nm])["name"]
                     if nm not in own_names:
                         ext.add("extern char %s[];" % nm)
                     return "((char *)&%s + %d)" % (nm, off) if off else "&%s" % nm
@@ -440,7 +510,8 @@ def companions(out=None, relink=False, data_start=DATA_START):
                 stats["ptr_" + kind] = stats.get("ptr_" + kind, 0) + 1
                 return nm
 
-            words_ = [struct.unpack_from("<I", ob["data"], 4 * k)[0] for k in range(ob["size"] // 4)] \
+            vdata = ob.get("wdata", ob["data"])        # the values to write (White: from White's image)
+            words_ = [struct.unpack_from("<I", vdata, 4 * k)[0] for k in range(ob["size"] // 4)] \
                 if ob["addr"] % 4 == 0 and ob["size"] % 4 == 0 else None
             if fp and words_ is not None:
                 et = "void (*)(void)"
@@ -449,7 +520,8 @@ def companions(out=None, relink=False, data_start=DATA_START):
                     if k in ob["ptrs"]:
                         vals.append("(%s)%s" % (et, ref(k)))
                     elif w:
-                        blockers.append("%s[%d]: 0x%08X has no symbol (code outside every file)" % (name, k, w))
+                        if k not in ob.get("wraw", ()):
+                            blockers.append("%s[%d]: 0x%08X has no symbol (code outside every file)" % (name, k, w))
                         vals.append("(%s)0x%X" % (et, w))
                     else:
                         vals.append("0")
@@ -476,7 +548,7 @@ def companions(out=None, relink=False, data_start=DATA_START):
                 sz, sg = datagen.SCALAR[base_t]
                 fmt = {1: "b", 2: "h", 4: "i"}[sz]
                 fmt = fmt if sg else fmt.upper()
-                vals = [str(v) if sg else "0x%X" % v for v in struct.unpack("<%d%s" % (ob["size"] // sz, fmt), ob["data"])]
+                vals = [str(v) if sg else "0x%X" % v for v in struct.unpack("<%d%s" % (ob["size"] // sz, fmt), vdata)]
                 write_inc(ob, vals)
                 bt2 = base_t if base_t in datagen.PLAIN else (
                     {1: "signed char", 2: "short", 4: "long"}[sz] if sg else
@@ -485,9 +557,9 @@ def companions(out=None, relink=False, data_start=DATA_START):
                 add_def("%s%s %s[%d] = {\n#include \"%s\"\n};" % (cq, bt2, name, ob["size"] // sz, inc(ob)))
                 stats["typed"] += 1
             else:
-                if ob["data"] == bytes(len(ob["data"])) and not cq:
+                if vdata == bytes(len(vdata)) and not cq:
                     blockers.append("%s: all-zero object in .data (mwccarm would put it in .bss)" % name)
-                write_inc(ob, ["0x%02X" % c for c in ob["data"]])
+                write_inc(ob, ["0x%02X" % c for c in vdata])
                 fwd.append("extern %sunsigned char %s[%d];" % (cq, name, ob["size"]))
                 add_def("%sunsigned char %s[%d] = {\n#include \"%s\"\n};" % (cq, name, ob["size"], inc(ob)))
                 stats["raw"] += 1
@@ -576,6 +648,13 @@ def secure_area(out, base, img, bsecs):
             os.remove(os.path.join(out, f))
     used = sorted((x["addr"], x["addr"] + x["size"]) for x in bsecs
                   if re.fullmatch(r"t\d+(_\d+)?", x["name"]) and base <= x["addr"] < SECURE_END)
+    if WHITE:
+        # White: the thunks sit at other offsets (white_map.secure_map); the filler between them is
+        # White's own bytes.  The arrays carry White addresses (an address that is no Black thunk
+        # start maps to itself).
+        import white_map
+        used = sorted((white_map.to_white(a_), white_map.to_white(a_) + (b_ - a_)) for a_, b_ in used)
+        img = open(os.path.join(ROOT, "extract_white", "arm9_dec.bin"), "rb").read()[:SECURE_END - base]
     gaps = []
     cur = base
     for a, b in used + [(SECURE_END, SECURE_END)]:
@@ -590,6 +669,11 @@ def secure_area(out, base, img, bsecs):
             parts.append((a, a + 12, True))
             a += 12
         parts.append((a, b, False))
+    if WHITE:
+        import white_map
+        clash = [hex(a) for a, _b, _m in parts if str(a) in white_map._load().get("secure_map", {})]
+        if clash:
+            raise RuntimeError("White secure area: a filler array starts at the Black address of a thunk %s" % clash)
     for a, b, mark in parts:
         n = "secure_area_%X" % (a - base)
         text = ["/*",
@@ -631,7 +715,10 @@ def main():
     ap.add_argument("--out")
     ap.add_argument("--relink", action="store_true", help="redo the plain gamelink link first")
     ap.add_argument("--data-start", default=hex(DATA_START), help="address of the first .data object")
+    ap.add_argument("--version", choices=("black", "white"), default="black")
     a = ap.parse_args()
+    global WHITE
+    WHITE = a.version == "white"
     r = companions(a.out, a.relink, int(a.data_start, 16))
     print("arm9 -> %s %s, %d blockers" % (os.path.relpath(r["out"], ROOT), r["stats"], len(r["blockers"])))
     for b in r["blockers"][:20]:

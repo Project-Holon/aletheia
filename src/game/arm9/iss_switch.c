@@ -32,9 +32,8 @@
 #include "iss_switch_sys_shared_types.h"
 #include "iss_switch_set_shared_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
 void *ISS_SWITCH_Create(u32 heapId);
 
@@ -131,7 +130,7 @@ void ISS_SWITCH_SetVolume(void *sw, u32 maxVolume)
     ISS_SWITCH_ApplyVolume(sw, maxVolume);
 }
 
-extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volumeIndex);
+#include "gfl_use.h"
 
 void ISS_SWITCH_CountUpFade(struct IssSwitch *sw);
 
@@ -201,6 +200,7 @@ u32 ISS_SWITCH_SetParam(struct IssSwitch *sw, u16 fadeFrames, u16 trackBits)
 {
     sw->fadeFrames = fadeFrames;
     sw->trackBits = trackBits;
+    return (u32)sw;
 }
 
 void ISS_SWITCH_CountUpFade(struct IssSwitch *sw)
@@ -247,32 +247,46 @@ void ISS_SWITCH_UpdateOff(void *sw)
 
 u32 ISS_SWITCH_UpdateFadeIn(void *sw)
 {
+    u32 r;
+
     ISS_SWITCH_CountUpFade(sw);
-    if (ISS_SWITCH_IsFadeEnd(sw) == 1) {
-        ISS_SWITCH_SetState(sw, 0);
+    if ((r = ISS_SWITCH_IsFadeEnd(sw)) == 1) {
+        r = (u32)ISS_SWITCH_SetState(sw, 0);
     }
+    return r;
 }
 
 u32 ISS_SWITCH_UpdateFadeOut(void *sw)
 {
+    u32 r;
+
     ISS_SWITCH_CountUpFade(sw);
-    if (ISS_SWITCH_IsFadeEnd(sw) == 1) {
-        ISS_SWITCH_SetState(sw, 1);
+    if ((r = ISS_SWITCH_IsFadeEnd(sw)) == 1) {
+        r = (u32)ISS_SWITCH_SetState(sw, 1);
     }
+    return r;
 }
 
 u32 ISS_SWITCH_StartFadeIn(void *sw)
 {
-    if (ISS_SWITCH_IsOnState(sw) != 1) {
-        ISS_SWITCH_SetState(sw, 2);
+    u32 r;
+
+    r = ISS_SWITCH_IsOnState(sw);
+    if (r != 1) {
+        r = (u32)ISS_SWITCH_SetState(sw, 2);
     }
+    return r;
 }
 
 u32 ISS_SWITCH_StartFadeOut(void *sw)
 {
-    if (ISS_SWITCH_IsOffState(sw) != 1) {
-        ISS_SWITCH_SetState(sw, 3);
+    u32 r;
+
+    r = ISS_SWITCH_IsOffState(sw);
+    if (r != 1) {
+        r = (u32)ISS_SWITCH_SetState(sw, 3);
     }
+    return r;
 }
 
 /*

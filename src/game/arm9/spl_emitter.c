@@ -133,9 +133,9 @@ struct ScaledVecSource;
 struct InterpState;
 struct RandomVecSource;
 struct VramHeapNode;
-struct Cfg;
+struct SplEmitterCfg;
 struct RigObject;
-struct Vec3;
+#include "../sdk_fx.h"
 typedef struct SPLNode { struct SPLNode *next; struct SPLNode *prev; } SPLNode;
 
 typedef struct SPLList { SPLNode *first; int count; SPLNode *last; } SPLList;
@@ -919,7 +919,7 @@ struct VramSub14
   u32 mode;
 };
 
-struct Cfg
+struct SplEmitterCfg
 {
   struct VramResourceHeader *resource;
   s32 reserved0;
@@ -927,13 +927,6 @@ struct Cfg
   s32 reserved2;
   s32 reserved3;
   struct VramSub14 *sub14;
-};
-
-struct Vec3
-{
-  s32 x;
-  s32 y;
-  s32 z;
 };
 
 struct ResourceSetup
@@ -946,7 +939,7 @@ struct ResourceSetup
   s32 childParticlesFirst;
   s32 childParticlesCount;
   s32 childParticlesLast;
-  struct Cfg *resource;
+  struct SplEmitterCfg *resource;
   s32 state;
   s32 posX;
   s32 posY;
@@ -1240,7 +1233,7 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s);
 void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s);
 void SPL_EMITTER_SetTextureParam(SPLTexture *tex);
 void SPL_EMITTER_Noop(SPLTexture *tex);
-void SPL_EMITTER_SetupResource(volatile struct ResourceSetup *o, struct Cfg *cfg, const struct Vec3 *pos);
+void SPL_EMITTER_SetupResource(volatile struct ResourceSetup *o, struct SplEmitterCfg *cfg, const VecFx32 *pos);
 void SPL_EMITTER_UpdateParticles(SPLManager *mgr, SPLEmitter *emtr);
 void SPL_EMITTER_UpdateSubB(struct RigObject *o);
 void SPL_EMITTER_UpdateSubX(struct RigObject *o);
@@ -3543,7 +3536,7 @@ void SPL_EMITTER_Noop(SPLTexture *tex)
  *   1. `volatile struct VramResourceHeader *r` for the cached descriptor pointer around the
  *      +0x50/+0x52/+0x54 halfword copies.  Without volatile the two `ldrh`
  *      for axisX/axisY swap registers (the note's residue, 4 instructions).
- *   2. `const struct Vec3 *pos`, NOT `const volatile`.  With volatile the
+ *   2. `const VecFx32 *pos`, NOT `const volatile`.  With volatile the
  *      three position adds and the descriptor chain that feeds them are 10
  *      instructions of register naming out.
  *   3. `pos->x + o->resource->resource->emitterBasePosX`, position FIRST.  Field-first is the
@@ -3559,10 +3552,10 @@ void SPL_EMITTER_Noop(SPLTexture *tex)
  *   python tools/match.py one --src src/matched/SPL_EMITTER_SetupResource.c \
  *       --func SPL_EMITTER_SetupResource --addr 0x02053A60 --arm --cc ../1.2/sp2
  */
-void SPL_EMITTER_SetupResource(volatile struct ResourceSetup *o, struct Cfg *cfg, const struct Vec3 *pos)
+void SPL_EMITTER_SetupResource(volatile struct ResourceSetup *o, struct SplEmitterCfg *cfg, const VecFx32 *pos)
 {
   volatile struct VramResourceHeader *r;
-  struct Cfg *c;
+  struct SplEmitterCfg *c;
   o->resource = cfg;
   o->state = 0;
   o->posX = pos->x + o->resource->resource->emitterBasePosX;
@@ -4561,7 +4554,7 @@ int SPL_EMITTER_AllocResource(char *p, int b, int c)
 
     if (((SPLManager *)p)->inactiveEmitters.first != 0) {
         r = SPLList_PopFront((SPLList *)(p + 0x10));
-        SPL_EMITTER_SetupResource(r, (void *)((u32)((SPLManager *)p)->resources + (b << 5)), (const struct Vec3 *)c);
+        SPL_EMITTER_SetupResource(r, (void *)((u32)((SPLManager *)p)->resources + (b << 5)), (const VecFx32 *)c);
         SPLList_PushFront((SPLList *)(p + 4), (SPLNode *)r);
         if ((*(u32 *)(*(u32 *)(*(u32 *)&((SPLEmitter *)r)->resource)) << 0x11 >> 0x1f) != 0)
             r = 0;
@@ -4595,7 +4588,7 @@ int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*fn)(void *))
         struct AllocScratch scratch = { 0, 0, 0 };
 
         r = SPLList_PopFront((SPLList *)(p + 0x10));
-        SPL_EMITTER_SetupResource(r, (void *)((u32)((SPLManager *)p)->resources + (b << 5)), (const struct Vec3 *)(&scratch));
+        SPL_EMITTER_SetupResource(r, (void *)((u32)((SPLManager *)p)->resources + (b << 5)), (const VecFx32 *)(&scratch));
         if (fn != 0)
             fn(r);
         SPLList_PushFront((SPLList *)(p + 4), (SPLNode *)r);

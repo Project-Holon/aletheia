@@ -11,8 +11,10 @@
  * status:   EXACT*
  */
 
+#include "../types.h"
+
 /* hand-written in the original: SVC_CpuSet, SVC stub in the arm9 secure area (swi 0xb; bx lr) */
-asm void SVC_CpuSet(void)
+asm void SVC_CpuSet(const void *srcp, void *destp, u32 cpuSetParam)
 {
     swi 0xb
     bx lr

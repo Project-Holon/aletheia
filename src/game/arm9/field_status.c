@@ -47,7 +47,7 @@ struct FieldMap;
 
 struct FieldSoundSystem;
 
-typedef int (*GameEventFunc)(struct GameEvent *event, u32 *seq, void *work);
+#include "ica_anime_shared_types.h"
 
 /* Field status (0x14 bytes). */
 struct FieldStatus {
@@ -104,11 +104,10 @@ struct ProcPairWork {
     u8 *secondParam;                /* 0x0c */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+#include "gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 GAME_DATA_GetBgmInfo(struct GameData *gameData);
+#include "game_data.h"
 
 extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
 
@@ -126,21 +125,19 @@ extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *child);
 
-extern u32 FIELD_SOUND_SYSTEM_IsBusy(struct FieldSoundSystem *fieldSound);
+#include "field_sound_system.h"
 
-extern void EVENT_WIFI_PROC_LoadOv020(void);
+#include "../ov010/event_wifi_proc.h"
 
-extern void EVENT_WIFI_PROC_UnloadOv020(void);
 
-extern void FIELDMAP_RequestClose(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 
-extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);
 
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait);
 
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait, int restoreBg, u8 seasonShown, u8 seasonTarget);
 
-void FIELD_STATUS_Create(u32 heapId);
+struct FieldStatus *FIELD_STATUS_Create(int heapId);
 
 void FIELD_STATUS_Delete(struct FieldStatus *fs);
 
@@ -218,11 +215,12 @@ extern u8 ov131_id[];
  * bc 72 0a 02 at 0x02014440, and the one "differing byte" was bit 5 of that
  * address, not a register choice.
  */
-void FIELD_STATUS_Create(u32 heapId)
+struct FieldStatus *FIELD_STATUS_Create(int heapId)
 {
     struct FieldStatus *fs = GFL_HEAP_Alloc(heapId, 0x14, 1, sFieldStatusFile, 0x33);
 
     fs->procAction = 0;
+    return fs;
 }
 
 /*

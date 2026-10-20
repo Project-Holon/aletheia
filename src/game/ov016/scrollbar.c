@@ -62,17 +62,18 @@ typedef struct {
 } ScrollBar;
 
 #include "../types.h"
+typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 
-typedef struct {
+typedef struct tagCOORD {
 	unsigned short x;
 	unsigned short y;
 } COORD;
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_InputCoord(int a, int b, unsigned short *p);
-extern void *DWCi_CEINlSetExCell(int a, int kind, int c);
+extern void *DWCi_CEINlSetExCell(s32 lcd, s32 idx, bool head);
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int prio);
 struct TCB;

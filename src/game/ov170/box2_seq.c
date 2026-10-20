@@ -2783,7 +2783,7 @@ int BOX2_SEQ_StateWaitPrint(int task)
 {
     if (PRINTSYS_QUE_IsFinished((const struct PrintSys *)(*(int *)(*(int *)&((BoxTask *)task)->work + 0x8c))) == 0)
         return 0xc;
-    BOX2_SEQ_StartWipeWhite((void *)task, *(int *)(*(int *)&((BoxTask *)task)->work + 0xA198));
+    return BOX2_SEQ_StartWipeWhite((void *)task, *(int *)(*(int *)&((BoxTask *)task)->work + 0xA198));
 }
 
 int BOX2_SEQ_StateSetMenu(unsigned char *task)
