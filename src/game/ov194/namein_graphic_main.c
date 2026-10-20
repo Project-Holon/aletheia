@@ -288,8 +288,13 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
         }
     }
     NAMEIN_GRAPHIC_InitCallback(w + 0x2a0, (uptr)w, (uptr)NAMEIN_GRAPHIC_CallbackWaitDraw);
+#ifdef __MWERKS__
     NAMEIN_GRAPHIC_InitInputField(w + 0x68, *(u32 *)(w + 0x2d0), (u8)*(u32 *)(args + 0x18), *(u32 *)(w + 0x2b0),
                   *(u32 *)(w + 0x2b4), (u8 *)((uptr)(w + 4)), 0x1e);
+#else
+    NAMEIN_GRAPHIC_InitInputField(w + 0x68, *(u32 *)(w + 0x2d0), (u8)*(u32 *)(args + 0x18), *(struct GfFont **)(w + 0x2b0),
+                  *(u32 *)(w + 0x2b4), (u8 *)((uptr)(w + 4)), 0x1e);
+#endif
     NAMEIN_GRAPHIC_InitGrid(w + 0xfc, mode, *(void **)(w + 0x2b0), *(void **)(w + 0x2b4), *(void **)(w + 0x22c), w + 4, 0x1e);
     NAMEIN_GRAPHIC_InitMsgBox(w + 0x230, *(u32 *)(w + 0x2b0), *(u32 *)(w + 0x2b8), *(u32 *)(w + 0x2b4), *(u32 *)(w + 0x2bc), 0x1e);
     NAMEIN_GRAPHIC_InitTcbl((char *)(w + 0x254), 0x1e);

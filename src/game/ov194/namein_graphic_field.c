@@ -157,7 +157,8 @@ struct PrintQueue;
 extern int NAMEIN_GRAPHIC_SymbolGetValue(NameinGraphicPair *,NameinGraphicPair *);
 #include "namein_graphic.h"
 int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b);
-void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f);
+#include "namein_graphic_field.h"
+void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, NameinFontArg c, int d, u8 *e, int f);
 void NAMEIN_GRAPHIC_DeleteInputField(u8 *p);
 int NAMEIN_GRAPHIC_RefreshInputField(u8 *p);
 int NAMEIN_GRAPHIC_Backspace(unsigned char *p);
@@ -232,7 +233,7 @@ int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx
  *   unknown-memory set G, so the b and c spills alias and b gets a store-store edge to c
  *   (release count 2); with a pointer c only b is in G, a and b tie and a goes first.
  */
-void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f)
+void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, NameinFontArg c, int d, u8 *e, int f)
 {
     u16 pos[2];
     int i;
@@ -240,7 +241,11 @@ void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int
     int base;
     MI_CpuFill8(p, 0, 0x94);
     i = 0;
+#ifdef __MWERKS__
     *(int *)(p + 0x34) = c;
+#else
+    *(struct GfFont **)(p + 0x34) = c;
+#endif
     *(u16 *)(p + 0x22) = b;
     *(int *)(p + 0x38) = d;
     h = (sptr)BMP_WIN_Create(0, 8, 2, 0x18, 2, 15, 1);

@@ -10,7 +10,15 @@ struct Strbuf;
 #include "../ov194/namein_graphic_shared_types.h"
 
 int NAMEIN_GRAPHIC_FadeCellColor(u16 *out, u16 *phase, u32 step, u32 row, u8 idx, u16 a, u16 b);
-void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, u16 c, int d, u8 *e, int f);
+/* NameinFontArg: the DS code passes the font pointer through a halfword parameter (original
+ * prototype); a host build needs the whole pointer. See docs/ORIGINAL_BUGS.tsv. */
+#ifdef __MWERKS__
+typedef u16 NameinFontArg;
+#else
+struct GfFont;
+typedef struct GfFont *NameinFontArg;
+#endif
+void NAMEIN_GRAPHIC_InitInputField(u8 *p, int a, u16 b, NameinFontArg c, int d, u8 *e, int f);
 void NAMEIN_GRAPHIC_DeleteInputField(u8 *p);
 int NAMEIN_GRAPHIC_RefreshInputField(u8 *p);
 int NAMEIN_GRAPHIC_Backspace(unsigned char *p);
