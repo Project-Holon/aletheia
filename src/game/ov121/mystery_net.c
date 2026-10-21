@@ -93,6 +93,7 @@
 
 #include "../types.h"
 #include "../arm9/item.h"
+#include "../arm9/move.h"
 
 #include "../arm9/gfl_heap_wrap.h"
 
@@ -915,7 +916,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct MysteryNetRec *r, void *gs, u16 he
             POKE_TOOL_SetDefaultMoves(mon);
             for (i = 0; i < 4; i++) {
                 u16 m = mv[i];
-                if (m != 0 && m < 0x230) {
+                if (m != 0 && m < MOVE_LAST + 1) {
                     if (POKE_TOOL_AddMove(mon, m) == 0xffff)
                         POKE_TOOL_PushMove(mon, m);
                 }

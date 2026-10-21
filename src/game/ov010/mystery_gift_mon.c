@@ -43,6 +43,7 @@
 
 #include "../types.h"
 #include "../arm9/item.h"
+#include "../arm9/move.h"
 #ifdef __MWERKS__
 #define POKE_TOOL_Create POKE_TOOL_Create_header
 #endif
@@ -266,7 +267,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
     POKE_TOOL_SetDefaultMoves(mon);
     for (i = 0; i < 4; i++) {
         move = moves[i];
-        if (move != 0 && move < 0x230) {
+        if (move != 0 && move < MOVE_LAST + 1) {
             if (POKE_TOOL_AddMove(mon, move) == 0xFFFF)
                 POKE_TOOL_PushMove(mon, move);
         }

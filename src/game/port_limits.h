@@ -9,7 +9,8 @@
 #include "types.h"
 
 enum BwLimitId {
-    BW_LIMIT_ITEM_LAST
+    BW_LIMIT_ITEM_LAST,
+    BW_LIMIT_MOVE_LAST /* append only, the port mirrors these numbers */
 };
 
 #ifdef __MWERKS__

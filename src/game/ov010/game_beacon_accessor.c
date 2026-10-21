@@ -731,6 +731,7 @@ struct WordSet;
 
 #include "../types.h"
 #include "../arm9/item.h"
+#include "../arm9/move.h"
 
 /* How the value of an action is registered for printing. */
 enum BeaconPrintKind {
@@ -956,10 +957,10 @@ int GAME_BEACON_ACCESSOR_IsDistributionItemNoInvalid(GameBeaconInfo *info)
     return 0;
 }
 
-/* Move number at +0x34 must be 1..0x22F. */
+/* Move number at +0x34 must be 1..MOVE_LAST. */
 int GAME_BEACON_ACCESSOR_IsActionMoveNoInvalid(GameBeaconInfo *info)
 {
-    if (info->actionData.value == 0 || info->actionData.value >= 0x230)
+    if (info->actionData.value == 0 || info->actionData.value >= MOVE_LAST + 1)
         return 1;
     return 0;
 }

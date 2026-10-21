@@ -208,6 +208,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "mystery_net_types.h"
+#include "../arm9/move.h"
 #include "../sdk_ioreg.h"
 #include "mystery_album_types.h"
 #include "mystery_util_shared_types.h"
@@ -2277,7 +2278,7 @@ struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(MysteryAlbumCard *card, s
             POKE_TOOL_SetDefaultMoves(mon);
             for (i = 0; i < 4; i++) {
                 u16 m = mv[i];
-                if (m != 0 && m < 0x230) {
+                if (m != 0 && m < MOVE_LAST + 1) {
                     if (POKE_TOOL_AddMove(mon, m) == 0xffff)
                         POKE_TOOL_PushMove(mon, m);
                 }

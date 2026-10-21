@@ -77,6 +77,7 @@
 #define BTL_SICKCONT_MakeKind4 BTL_SICKCONT_MakeKind4Header
 #endif
 #include "btl_calc_types.h"
+#include "../arm9/move.h"
 #include "../arm9/btl_setup_types.h"
 #include "btl_main_types.h"
 
@@ -273,7 +274,7 @@ extern u8 gBtlCalcHitCountThresholds[6];
 /* Money lost on defeat per level point, by badge count (0 to 8). */
 extern u8 gBtlCalcDefeatMoneyScales[];
 
-void BTL_CALC_Init(BtlRngState *rng, unsigned int heapId) { gBtlCalcWork.workTable=GFL_HEAP_Alloc(heapId,0x460,1,(const char *)gBtlCalcFileName,0x50); gBtlCalcWork.rng=*rng; }
+void BTL_CALC_Init(BtlRngState *rng, unsigned int heapId) { gBtlCalcWork.workTable=GFL_HEAP_Alloc(heapId,(MOVE_LAST+1)*sizeof(u16),1,(const char *)gBtlCalcFileName,0x50); gBtlCalcWork.rng=*rng; }
 
 void BTL_CALC_SetRngState(const BtlRngState *rng) { gBtlCalcWork.rng = *rng; }
 
@@ -584,9 +585,6 @@ void BTL_CALC_MakeSickContFromKind(int kind, struct BtlPokeParam *attacker, unio
  */
 int BTL_CALC_FindMajorSick(struct BtlPokeParam *bpp) { int sick; int index=0; for (;;) { sick=BTL_ID_GetItemCuredSick(index++); if(sick==0) return sick; if(BTL_POKEPARAM_HasSick(bpp,sick)) return sick; } }
 
-/* Number of move ids (0 is not a move). */
-#define BTL_MOVE_ID_LIMIT 0x230
-
 /* BattleSetupParam.competitor value of a trainer battle. */
 #define BTL_COMPETITOR_TRAINER 1
 
@@ -602,7 +600,7 @@ u16 BTL_CALC_PickRandomMoveExcluding(const u16 *excludedMoves, int excludedCount
     u16 moveId;
     u16 count = 0;
 
-    for (moveId = 1; moveId < BTL_MOVE_ID_LIMIT; moveId++) {
+    for (moveId = 1; moveId < MOVE_LAST + 1; moveId++) {
         if (BTL_CALC_ContainsU16(excludedMoves, excludedCount, moveId) == 0)
             gBtlCalcWork.workTable[count++] = moveId;
     }

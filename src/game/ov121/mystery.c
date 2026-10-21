@@ -244,6 +244,7 @@ struct Vec2;
 struct Pt;
 #include "../types.h"
 #include "../arm9/item.h"
+#include "../arm9/move.h"
 
 typedef struct { s16 x,y,z; u8 a,b; } MysteryActorPos;
 
@@ -1812,7 +1813,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         POKE_TOOL_SetPartyValue(allocated,6,H(16));POKE_TOOL_SetDefaultMoves(allocated);
         for(i=0;i<4;i++) {
             value=*(u16 *)((u8 *)&work.move[0]+i*2);
-            if(value!=0 && value<560 && POKE_TOOL_AddMove(allocated,value)==65535) POKE_TOOL_PushMove(allocated,value);
+            if(value!=0 && value<MOVE_LAST+1 && POKE_TOOL_AddMove(allocated,value)==65535) POKE_TOOL_PushMove(allocated,value);
         }
         if(D(8)==0 && ability==2) POKE_TOOL_SetAbility(allocated,species,desc[28]);
         POKE_TOOL_SetPartyValue(allocated,111,desc[28]);
