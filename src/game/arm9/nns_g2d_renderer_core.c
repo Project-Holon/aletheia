@@ -160,13 +160,9 @@ typedef enum { OAM_FLIP_NONE = 0, OAM_FLIP_H = 1, OAM_FLIP_V = 2, OAM_FLIP_HV = 
 
 #include "nns_g2d_cell_transfer.h"
 
-extern void G3_LoadMtx43(void *m);
-extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
-extern BOOL NNSi_G2dIsVramHandleSet(unsigned int *p, unsigned int i);
-extern int NNSi_G2dGetVramHandleValue(int *p, int i);
-extern BOOL NNSi_G2dIsVramHandleSetEx(char *p, int i);
-extern int NNSi_G2dGetVramHandleEx(char *p, int i);
-extern CellTransferState *NNSi_G2dGetCellTransferState(u32 stateIdx);
+#include "g3imm.h"
+#include "mi_memory.h"
+#include "nns_g2d_oam_manager.h"
 void NNSi_G2dCalcSpriteParams(const GXOamAttr *pOam, const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr, SpriteParams *pResult);
 void NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(u32 enabled);
 void NNS_G2dResetOamSoftEmuAutoZOffset(void);

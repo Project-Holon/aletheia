@@ -14,7 +14,7 @@ struct Strbuf;
 #include "../types.h"
 
 struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, GPowerActivateParam *param);
-struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem);
+struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem, void *arg);
 struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem);
 struct GameEvent *GPOWER_EVENT_CreateListEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 void GPOWER_EVENT_InitListWork(GPowerListWork *work, struct GameSystem *gameSystem, struct FieldMap *fieldMap);

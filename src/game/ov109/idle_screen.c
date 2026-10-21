@@ -108,7 +108,7 @@ void IDLE_SCREEN_Run(void)
     BG_SYS_SetMainPlaneVisible(4, 1);
     *(vu32 *)0x04000000 = (*(vu32 *)0x04000000 & 0xFFCFFFEF) | 0x10;
     *(vu32 *)0x04001000 = (*(vu32 *)0x04001000 & 0xFFCFFFEF) | 0x10;
-    ARC_UTIL_UploadBgCharFromArchive((void *)0x16, (void *)1, (void *)2, 0, 0, 0, 1);
+    ARC_UTIL_UploadBgCharFromArchive(0x16, 1, 2, 0, 0, 0, 1);
     ARC_UTIL_UploadBgPaletteFromArchive(0x16, 2, 2, 0, 0, 0, 1);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x16, 0, 0, 0, 0x100, 1);
     BG_SYS_ResetSubDisplay();

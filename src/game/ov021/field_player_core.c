@@ -101,11 +101,16 @@ struct VecFx32;
 struct Mmdl;
 #include "fieldmap.h"
 #include "../arm9/gamesystem.h"
-extern u16 GAME_DATA_GetPlayerPalaceZoneId(const struct PlayerWork *playerWork);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define GAME_DATA_SetPlayerPalaceZoneId GAME_DATA_SetPlayerPalaceZoneId_header
+#endif
+#include "../arm9/game_data.h"
+#ifdef __MWERKS__
+#undef GAME_DATA_SetPlayerPalaceZoneId
+extern u32 GAME_DATA_SetPlayerPalaceZoneId(struct PlayerWork *, u32);
+#endif
 struct MmdlHeader;
-extern u32 GAME_DATA_SetPlayerPalaceZoneId(struct PlayerWork *playerWork, u32 objCode);
-extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *playerWork);
-extern void GAME_DATA_SetPlayerObjectCode(struct PlayerWork *playerWork, u32 formCode);
 struct BlactSys;
 struct BbActSys;
 #include "fldmmdl_blact.h"
@@ -119,7 +124,6 @@ struct FieldEffectSys;
 #include "fldeff_bubble.h"
 #include "../ov010/fldmmdl_move.h"
 #include "fldmmdl_draw.h"
-extern u32 GAME_DATA_GetBgmInfo(struct GameData *gameData);
 struct FieldSoundSystem;
 #include "../arm9/field_sound_system.h"
 

@@ -5,20 +5,21 @@
 /* Public functions of subway_map_graphic.c, prototypes copied from their definitions. */
 
 struct Proc;
+struct TcbTask;
 
 #include "../types.h"
 
 int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args);
 int SUBWAY_MAP_GRAPHIC_Exit(void *a,int b,int c,char *p);
 int SUBWAY_MAP_GRAPHIC_Main(void *a,unsigned *state,int b,char *p);
-void SUBWAY_MAP_GRAPHIC_TaskNoop(void);
+void SUBWAY_MAP_GRAPHIC_TaskNoop(struct TcbTask *unused, void *unused2);
 void SUBWAY_MAP_GRAPHIC_LoadCommonAssets(u16 *work);
 void SUBWAY_MAP_GRAPHIC_ReleaseCommonAssets(char *unused);
 void SUBWAY_MAP_GRAPHIC_Setup3d(void);
 void *SUBWAY_MAP_GRAPHIC_CreateScreen(u32 swap, u32 heap);
 void SUBWAY_MAP_GRAPHIC_DeleteScreen(char *p);
 void SUBWAY_MAP_GRAPHIC_DrawScreen(void *p);
-void SUBWAY_MAP_GRAPHIC_VBlankScreen(void *unused, char *p);
+void SUBWAY_MAP_GRAPHIC_VBlankScreen(struct TcbTask *unused, void *work_);
 void SUBWAY_MAP_GRAPHIC_CreateBg(void *p, u32 heap);
 void SUBWAY_MAP_GRAPHIC_DeleteBg(void *p);
 void SUBWAY_MAP_GRAPHIC_DrawBg(void *work);

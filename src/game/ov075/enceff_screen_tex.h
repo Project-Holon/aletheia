@@ -6,6 +6,7 @@
 
 struct GameEvent;
 struct GameSystem;
+struct TcbTask;
 
 #include "../sdk_fx.h"
 #include "../ov075/enceff_screen_tex_types.h"
@@ -17,7 +18,7 @@ struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, Vec
 void ENCEFF_DrawScreenTexEffect(EncEffScreenTexWork *work);
 int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
 void ENCEFF_RequestScreenCapture(EncEffScreenTexWork *work);
-void ENCEFF_ScreenCaptureTask(void *task, int *captureDone);
+void ENCEFF_ScreenCaptureTask(struct TcbTask *task, void *work_);
 u32 ENCEFF_GetScreenTexParam(void);
 int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenTexWork *work);
 /* END mkheaders: generated region */

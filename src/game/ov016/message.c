@@ -22,7 +22,10 @@
  *   DWCi_ARClRelease  0x021D4C68  arm  ov016
  *   DWCi_QUElPushBack  0x021D546C  arm  ov016
  */
-#include "../../matched/include/G_MemMsg.h"
+struct MemMsg {
+    unsigned char pad_0[0x60];
+    void *queue;
+};
 
 typedef struct {
 	int a;

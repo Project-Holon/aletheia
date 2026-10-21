@@ -75,7 +75,6 @@ struct SymbolRec {
 
 struct SaveControl;
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 #include "save_control.h"
 
 

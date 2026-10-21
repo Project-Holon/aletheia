@@ -124,7 +124,7 @@ struct IntrudeSave;
 extern u8 GPOWER_GetActiveIdByType(int type);
 extern u32 GPOWER_GetMinutesLeftByType(u32 type);
 struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, GPowerActivateParam *param);
-struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem);
+struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem, void *arg);
 struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem);
 struct GameEvent *GPOWER_EVENT_CreateListEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 void GPOWER_EVENT_InitListWork(GPowerListWork *work, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
@@ -173,7 +173,7 @@ struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem
     return event;
 }
 
-struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem)
+struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem, void *arg)
 {
     return SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x28BA, 0, GPOWER_EVENT_HEAP_ID);
 }

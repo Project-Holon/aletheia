@@ -94,7 +94,12 @@
  *   input                            0x021C4BDC  arm
  *   DWCi_IPTlUpdate  0x021D656C  arm
  */
-#include "../../matched/include/G_SCENESETAOSSBUTT_BSS.h"
+struct SCENESETAOSSBUTT_BSS {
+    unsigned char Choose;
+    unsigned char pad_1[0x1];
+    unsigned short Count;
+    void *Task;
+};
 #include "../sdk_ioreg.h"
 #include "../arm9/gx_load2d.h"
 

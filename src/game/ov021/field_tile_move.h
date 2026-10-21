@@ -45,7 +45,7 @@ void FIELD_TILE_MOVE_SlideStartStep(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlideFinishBump(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlideSelectSlideEntry(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlideSelectBumpEntry(TileSlideWork *work);
-int FIELD_TILE_MOVE_SlideShowSurfPokemon(TileSlideWork *work);
+void FIELD_TILE_MOVE_SlideShowSurfPokemon(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlidePlayBumpSe(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlidePlayBumpEffectSe(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlidePlayLoopSe(TileSlideWork *work);

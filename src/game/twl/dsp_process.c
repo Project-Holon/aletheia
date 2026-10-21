@@ -118,14 +118,7 @@ typedef struct Ent {
     u32 pad18[3];
     u32 flags;
 } Ent;
-/* Pipe control block of the DSP data RAM, 10 bytes. */
-typedef struct DspRing {
-    u16 base;
-    u16 size;
-    u16 rd;
-    u16 wr;
-    u16 id;
-} DspRing;
+#include "dsp_pipe_types.h"
 
 static inline u32 clz32(u32 x)
 {

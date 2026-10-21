@@ -426,7 +426,11 @@ typedef void (*FieldMapDrawFunc)(FieldMap *fieldMap);
 typedef int (*FieldMapDrawEndFunc)(FieldMap *fieldMap);
 
 #include "../arm9/gamesystem.h"
-unsigned short GAME_DATA_GetPlayerZoneId(const struct PlayerWork *x);
+/* GAME_DATA_GetEventState is declared u8 * in the ARM9 header but its callers read the 32-bit slot; kept until the header returns u32 *. */
+#define GAME_DATA_GetEventState GAME_DATA_GetEventState_header
+#include "../arm9/game_data.h"
+#undef GAME_DATA_GetEventState
+extern u32 *GAME_DATA_GetEventState(struct GameData *gameData);
 #include "field_event_check.h"
 #include "../arm9/arc_tool.h"
 #include "../arm9/billboard.h"
@@ -495,19 +499,29 @@ unsigned short GAME_DATA_GetPlayerZoneId(const struct PlayerWork *x);
 struct Proc;
 u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-u16 ZONEDATA_GetAreaId(u32 id);
+/* Original DS prototype: the DS code passes plain ints and takes the area data as a struct pointer; the host build uses the header. */
+#ifdef __MWERKS__
+#define ZONEDATA_CreateAreaData ZONEDATA_CreateAreaData_header
+#define ZONEDATA_SetExitLocation ZONEDATA_SetExitLocation_header
+#define ZONEDATA_GetLightId ZONEDATA_GetLightId_header
+#define ZONEDATA_GetCameraAreaId ZONEDATA_GetCameraAreaId_header
+#endif
+#include "../arm9/zonedata.h"
+#ifdef __MWERKS__
+#undef ZONEDATA_CreateAreaData
+#undef ZONEDATA_SetExitLocation
+#undef ZONEDATA_GetLightId
+#undef ZONEDATA_GetCameraAreaId
+extern int ZONEDATA_GetLightId(unsigned short id);
+extern unsigned short ZONEDATA_GetCameraAreaId(unsigned short id);
+extern void ZONEDATA_SetExitLocation(struct Location *loc, u16 zoneId, u16 exitId, u16 dir, u16 exitOffset, u32 x, u32 y, u32 z);
+extern struct AreaData *ZONEDATA_CreateAreaData(int heapId, int areaId, int infoCode);
+#endif
 struct PlayerInfo;
-struct AreaData *ZONEDATA_CreateAreaData(int heapId, int areaId, int infoCode);
-u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
+#include "../arm9/bg_sys.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
-                          u32 fifoSize, u32 heap, void (*setup)(void));
-extern u8 GAME_DATA_GetSeason(const struct GameData *p);
+#include "../arm9/clact.h"
 struct FieldG3dMapper;
 #include "field_g3d_mapper.h"
 #include "field_g3dobj.h"
@@ -516,13 +530,9 @@ extern u32 TCB_GetTaskOffset(u32 idx);
 struct TcbSystem;
 extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
 struct FldVReq;
-extern u32 ZONEDATA_IsUnionRoom(u32 id);
-extern u32 ZONEDATA_IsZone96Pair(u32 id);
 struct FieldMsgContext;
 struct FieldPlaceName;
-extern void *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
 struct FieldSkillMapEff;
-extern u8 ZONEDATA_GetCameraId(u32 id);
 struct FldSceneArea;
 #include "field_wfbc.h"
 #include "fld_scenearea.h"
@@ -531,133 +541,95 @@ struct FldSceneAreaLoader;
 struct FieldNogridMapper;
 struct FieldPalaceSys;
 struct BuildModelMan;
-extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
 struct BuildModelMan;
 struct FieldG3dObjCtrl;
 struct Location;
-extern void ZONEDATA_SetExitLocation(struct Location *loc, u16 zoneId, u16 exitId, u16 dir, u16 exitOffset, u32 x, u32 y, u32 z);
 struct FieldG3dMapperSetup;
-extern int ZONEDATA_GetSpecialKind(u16 key);
 struct FieldEffectSys;
 struct UnionEffWork;
-extern u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *p);
-extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *p);
-extern u32 ZONEDATA_IsBikeEnabled(u32 id);
-extern void GAME_DATA_SetPlayerObjectCode(struct PlayerWork *p, u32 v);
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 struct FieldMap;
 struct FieldPlayer;
 struct FldExpObjCnt;
-extern struct FieldFog *FIELD_FOG_Create(u16 heapId);
-extern u32 ZONEDATA_GetFogId(u32 id);
-extern int ZONEDATA_GetLightId(unsigned short id);
-extern u8 ZONEDATA_GetAreaLightType(struct AreaData *areaData);
+/* Original DS prototype: the DS code passes the three fog values to FIELD_FOG_Reflect; the host build uses the header. */
+#ifdef __MWERKS__
+#define FIELD_FOG_Reflect FIELD_FOG_Reflect_header
+#endif
+#include "field_fog.h"
+#ifdef __MWERKS__
+#undef FIELD_FOG_Reflect
+extern void FIELD_FOG_Reflect(FieldFog *fog, u32 fogEnable, u32 fogSlope, u32 fogOffset);
+#endif
 struct LightSlot;
-extern u32 GAME_DATA_GetBgmInfo(const struct GameData *p);
-extern struct WeatherSys *WEATHER_Create(struct FieldCamera *camera, struct FieldLight *light, struct FieldFog *fog, struct FieldZoneFog *zoneFog, int weatherParam, int zoneId, int heapId);
-extern u8 GAME_DATA_GetWeatherId(const struct GameData *p);
-extern void WEATHER_SetImmediate(struct WeatherSys *weather, int a, int f);
-extern u8 GAME_DATA_GetSubscreenType(const struct GameData *p);
+/* Original DS prototype: the DS code passes plain ints for the zone and heap ids; the host build uses the header. */
+#ifdef __MWERKS__
+#define WEATHER_Create WEATHER_Create_header
+#endif
+#include "weather.h"
+#ifdef __MWERKS__
+#undef WEATHER_Create
+extern WeatherSys *WEATHER_Create(struct FieldCamera *camera, struct FieldLight *light, struct FieldFog *fog, struct FieldZoneFog *zoneFog, struct FieldSoundSystem *soundSys, int zoneId, int heapId);
+#endif
 struct FieldSubscreen;
 extern void GAME_COMM_CallHandler(struct GameComm *comm, u32 arg);
 struct FieldSubprocMgr;
 struct FieldMap;
 struct EncEffWork;
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 struct DaycareSave;
 struct SodateyaWork;
 struct MmdlSys;
-extern int WEATHER_IsTaskActive(struct WeatherSys *weather);
-extern void WEATHER_Update(struct WeatherSys *sys, u16 frames);
-extern void CLACT_DrawSystem(void);
-extern void GAME_DATA_SetWalkCountEnabled(struct GameData *p, u8 v);
 struct GameEvent;
-extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 extern void TCB_Main(struct TcbSystem *sys);
-extern u32 *GAME_DATA_GetEventState(struct GameData *gameData);
 struct PleasureBoatWork;
-void G3D_SYSTEM_ResetDrawCounts(void);
-extern void GAME_DATA_ResetWalkCount(struct GameData *p);
+/* Original DS prototype: the DS code passes plain unsigned values; the host build uses the header. */
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_Init_header
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
+extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u32 fifoSize, u32 heap, void (*setup)(void));
+#endif
 extern void GAME_COMM_CallKindNotify(struct GameComm *comm, u32 arg);
-extern void GAME_DATA_SetSubscreenType(struct GameData *p, u32 v);
-extern void WEATHER_Delete(struct WeatherSys *weather);
-extern void FIELD_FOG_Delete(struct FieldFog *fog);
 extern void TCB_Noop(struct TcbSystem *tcblSys);
 struct TcbTask;
 extern void TCB_DeleteTask(struct TcbTask *task);
-extern void CLACT_ExitSystem(void);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
-extern u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId);
+#include "../arm9/zone_weather.h"
 struct FieldMapCtrlHybridWork;
-extern void BG_SYS_Create(u16 heap);
-extern void BG_SYS_LoadPltt(u32 a, void *b, u32 c, u32 d);
-extern u32 BG_SYS_SetLcdSwap(u32 swap);
-extern void BG_SYS_ResetSubDisplay(void);
-extern void BG_SYS_SetGraphicsMode(const struct DispConfig *cfg);
-extern const struct DispConfig sBgModeSetup;
-extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, u32 ang, const void *v1, const void *v2, u8 mode);
-extern void G2x_SetBGyAffine_(u32 a, void *buf, u32 b, u32 c, u32 d, u32 e);
-extern void BG_SYS_EnableBg0WithPriority(u32 a);
-extern u32 BG_SYS_Delete(u32);
-extern u32 G3D_SYSTEM_Exit(u32);
-extern u32 NNS_G3dGeFlushBuffer(u32);
+extern struct DispConfig sBgModeSetup;
+#include "../arm9/button_man.h"
+#include "../arm9/g2.h"
+#include "../arm9/nns_g3d_ge.h"
 extern void G3X_SetFog(int enable, int fogMode, int fogSlope, int fogOffset);
 extern void G3X_SetFogTable(void *a);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void G3X_SetEdgeColorTable(void *a);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, void (*transCallback)(int, int, void *, int), int heapId);
 struct BbBoard;
 struct Blk3;
 struct LightSetDesc;
 struct LightSlotValue;
-extern struct LightSlotValue *G3D_LIGHT_CreateSlots(struct LightSetDesc *set, u16 heapID);
-extern void G3D_LIGHT_ApplySlots(struct G3dLightSlots *g3dLight);
-extern void FIELD_FOG_Main(struct FieldFog *fog);
-void G3D_SYSTEM_DrawStart(void);
-void G3D_SYSTEM_ApplyLookAt(void);
-void G3D_SYSTEM_DrawEnd(int x);
-extern u32 G3D_LIGHT_DeleteSlots(void *slots);
-void CLACT_VBlankSystem(void);
-extern u8 ZONEDATA_GetAreaEdgeMarkType(struct AreaData *areaData);
-extern u32 ZONEDATA_IsRawZoneGroup121To13C(u32 a);
-extern u8 ZONEDATA_GetAreaBillboardColor(struct AreaData *areaData);
+#include "../arm9/g3d_light.h"
 struct FieldBbdColor;
-extern void *GAME_DATA_GetOccupyInfo(const struct GameData *gameData);
-extern void *GAME_DATA_GetEventData(const struct GameData *gameData);
 struct EventDataSystem;
-extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
-extern VecFx32 *GAME_DATA_GetPlayerPosition(struct PlayerWork *playerWork);
-extern void ZONEDATA_GetLocationVec(const FieldMapLocation *location, VecFx32 *out);
-extern void ZONEDATA_SetLocationVec(FieldMapLocation *location, const VecFx32 *pos);
-extern void GAME_BEACON_SetZone(u32 zoneId, struct GameData *gameData);
-void *GAME_DATA_GetEventWork(const struct GameData *p);
+#include "../arm9/game_beacon.h"
 struct MmdlHeader;
-extern void ISS_SYS_ChangeZone(u32 a, u16 b);
-extern void FIELD_SOUND_SYSTEM_PostZoneBgmChange(void *a, void *b, u16 c);
-int WEATHER_StoreZoneWeatherId(struct GameSystem *gameSystem, int zoneId);
-void WEATHER_RequestChange(struct WeatherSys *sys, u16 weatherId);
-extern struct PlayerWork *GAME_DATA_SetPlayerZoneId(struct PlayerWork *p, u16 v);
-unsigned short ZONEDATA_GetCameraAreaId(unsigned short id);
-extern int ZONEDATA_IsZoneInTableDFC0(int v);
+#include "../arm9/iss_sys.h"
+/* Original DS prototype: the DS code passes the zone id as a halfword; the host build uses the header. */
+#ifdef __MWERKS__
+#define FIELD_SOUND_SYSTEM_PostZoneBgmChange FIELD_SOUND_SYSTEM_PostZoneBgmChange_header
+#endif
+#include "../arm9/field_sound_system.h"
+#ifdef __MWERKS__
+#undef FIELD_SOUND_SYSTEM_PostZoneBgmChange
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmChange(struct FieldSoundSystem *soundSys, struct GameData *gameData, u16 zoneId);
+#endif
 struct UnionInfo;
-extern struct UnionInfo *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
-extern u8 *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 idx);
 struct FieldWfbc;
-extern int ZONEDATA_GetSecondSpecialKind(u16 id);
-extern int ZONEDATA_HasSpecialKind(int zoneId);
 extern u32 GAME_COMM_GetLastKind(struct GameComm *comm);
 extern u32 GAME_COMM_IsTransition(struct GameComm *comm);
-extern void FIELD_FOG_Reflect(struct FieldFog *fog, u32 fogEnable, u32 fogSlope, u32 fogOffset);
-extern u32 NNS_G3dGlbFlush(void);
-extern void WEATHER_Draw(struct WeatherSys *weather);
-extern u8 ZONEDATA_GetMapChangeType(u32 id);
-extern u32 ZONEDATA_GetMapType(u32 id);
-extern u16 ZONEDATA_GetAreaTexSetId(struct AreaData *areaData);
-extern u32 ZONEDATA_GetAreaItaAnimeId(struct AreaData *areaData);
-extern u32 ZONEDATA_GetAreaItpAnimeId(struct AreaData *areaData);
+#include "../arm9/nns_g3d_glb.h"
 int FIELDMAP_ProcInit(struct GfProc *proc, int *seq, struct GameSystem *gameSystem);
 int FIELDMAP_ProcMain(struct GfProc *proc, int *seq, struct GameSystem *gameSystem, FieldMapProcWork *work);
 int FIELDMAP_ProcExit(struct GfProc *proc, int *seq, struct GameSystem *gameSystem, FieldMapProcWork *work);
@@ -716,7 +688,7 @@ void FIELDMAP_SetBgMode(void);
 void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap);
 void FIELDMAP_ResetBgAffineHideMsg(FieldMap *fieldMap);
 struct FldVReq *FIELDMAP_GetVReq(FieldMap *fieldMap);
-int FIELDMAP_ExitBgSystem(FieldMap *fieldMap);
+void FIELDMAP_ExitBgSystem(FieldMap *fieldMap);
 void FIELDMAP_SetupG3d(void);
 void FIELDMAP_CreateG3dResources(FieldMap *fieldMap);
 void FIELDMAP_UpdateG3d(FieldMap *fieldMap);
@@ -780,7 +752,7 @@ const FieldMapCtrlFuncs *FIELDMAP_GetCtrlFuncs(int zoneId);
 extern char sFieldMapHeapBuffer[];
 extern char sFieldMapSourceName[];
 extern u8 sVramBankSetup[];
-extern u8 sClactSetup[];
+extern const struct ClactSysInit sClactSetup;
 extern u8 abs_id_19[];
 extern u8 abs_id_18[];
 extern int sFieldEffectTaskCount;
@@ -902,7 +874,7 @@ int FIELDMAP_SeqInitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
     u16 heapId = fieldMap->heapId;
     BG_SYS_SetVramBanks((const struct DispVram *)sVramBankSetup);
     FIELDMAP_InitBgSystem(fieldMap);
-    CLACT_InitSystem((struct SysInit *)sClactSetup, (struct DispVramCfg *)sVramBankSetup, 0x89);
+    CLACT_InitSystem(&sClactSetup, (struct DispVramCfg *)sVramBankSetup, 0x89);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     BMP_WIN_Init(heapId);
@@ -1000,9 +972,9 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         FIELD_ZONEFOG_SetUp(fieldMap->zoneFog, value, ZONEDATA_GetLightId(fieldMap->zoneId), 1);
         value = ZONEDATA_GetAreaLightType(fieldMap->areaData);
         season = GF_STANDARD_GetSecondsOfDay();
-        fieldMap->light = FIELD_LIGHT_Create(value, season, COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)gameSystem), fieldMap->fog, (struct LightSlot *)fieldMap->g3dLight, fieldMap->heapId);
+        fieldMap->light = FIELD_LIGHT_Create(value, season, COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)gameSystem), fieldMap->fog, fieldMap->g3dLight, fieldMap->heapId);
         value = GAME_DATA_GetBgmInfo(fieldMap->gameData);
-        fieldMap->weather = WEATHER_Create(fieldMap->camera, fieldMap->light, fieldMap->fog, fieldMap->zoneFog, value, COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)gameSystem), 0x92);
+        fieldMap->weather = WEATHER_Create(fieldMap->camera, fieldMap->light, fieldMap->fog, fieldMap->zoneFog, (struct FieldSoundSystem *)(uptr)value, COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)gameSystem), 0x92);
         WEATHER_SetImmediate(fieldMap->weather, (u16)((int)GAME_DATA_GetWeatherId(fieldMap->gameData)), 0x92);
         FIELD_GIMMICK_Setup(fieldMap);
         break;
@@ -1489,20 +1461,20 @@ void FIELDMAP_SetBgMode(void)
 
 void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap)
 {
-    u32 affineMtx[4];
+    MtxFx22 affineMtx;
 
-    BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)affineMtx, 0, (const void *)0x1000, (const void *)0x1000, 0);
-    G2x_SetBGyAffine_(REG_BG2PA_ADDR, affineMtx, 0, 0, 0, 0);
+    BUTTON_MAN_RotScaleMtx22(&affineMtx, 0, 0x1000, 0x1000, 0);
+    G2x_SetBGyAffine_(REG_BG2PA_ADDR, &affineMtx, 0, 0, 0, 0);
     BG_SYS_EnableBg0WithPriority(3);
     FIELD_MSGBG_SetupBg(fieldMap->msgBg);
 }
 
 void FIELDMAP_ResetBgAffineHideMsg(FieldMap *fieldMap)
 {
-    u32 affineMtx[4];
+    MtxFx22 affineMtx;
 
-    BUTTON_MAN_RotScaleMtx22((struct Mtx22 *)affineMtx, 0, (const void *)0x1000, (const void *)0x1000, 0);
-    G2x_SetBGyAffine_(REG_BG2PA_ADDR, affineMtx, 0, 0, 0, 0);
+    BUTTON_MAN_RotScaleMtx22(&affineMtx, 0, 0x1000, 0x1000, 0);
+    G2x_SetBGyAffine_(REG_BG2PA_ADDR, &affineMtx, 0, 0, 0, 0);
     BG_SYS_EnableBg0WithPriority(3);
     FIELD_MSGBG_SetupBgDelayed(fieldMap->msgBg);
 }
@@ -1512,9 +1484,12 @@ struct FldVReq *FIELDMAP_GetVReq(FieldMap *fieldMap)
     return fieldMap->vreq;
 }
 
-int FIELDMAP_ExitBgSystem(FieldMap *fieldMap)
+void FIELDMAP_ExitBgSystem(FieldMap *fieldMap)
 {
-    return BG_SYS_Delete(G3D_SYSTEM_Exit(NNS_G3dGeFlushBuffer(BG_SYS_SetLcdSwap(1))));
+    BG_SYS_SetLcdSwap(1);
+    NNS_G3dGeFlushBuffer();
+    G3D_SYSTEM_Exit();
+    BG_SYS_Delete();
 }
 
 void FIELDMAP_SetupG3d(void)
@@ -1558,7 +1533,7 @@ void FIELDMAP_CreateG3dResources(FieldMap *fieldMap)
     cameraUp = sCameraUp;
     fieldMap->g3dCamera = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
                                         &sCameraPos, &cameraUp, &sCameraTarget, heapId);
-    fieldMap->g3dLight = (struct G3dLightSlots *)G3D_LIGHT_CreateSlots((struct LightSetDesc *)sLightSetup, fieldMap->heapId);
+    fieldMap->g3dLight = (struct LightSlot *)G3D_LIGHT_CreateSlots((struct LightSetDesc *)sLightSetup, fieldMap->heapId);
     G3D_CAMERA_Reset(fieldMap->g3dCamera);
     G3D_LIGHT_ApplySlots(fieldMap->g3dLight);
 }
@@ -1595,7 +1570,8 @@ void FIELDMAP_DrawStart(FieldMap *fieldMap)
 
 void FIELDMAP_DrawEnd(FieldMap *fieldMap)
 {
-    G3D_SYSTEM_DrawEnd(sDrawEndFuncs[fieldMap->drawMode](fieldMap));
+    sDrawEndFuncs[fieldMap->drawMode](fieldMap);
+    G3D_SYSTEM_DrawEnd();
 }
 
 void FIELDMAP_DeleteG3dResources(FieldMap *fieldMap)
@@ -1712,13 +1688,13 @@ int FIELDMAP_CheckPlayerMoved(FieldMap *fieldMap)
 {
     VecFx32 lastPos;
     FieldMapLocation *location;
-    VecFx32 *playerPos;
+    PlayerPosition *playerPos;
 
     location = &fieldMap->location;
     playerPos = GAME_DATA_GetPlayerPosition(GAME_DATA_GetMyPlayerWork(GAMESYSTEM_GetGameData(fieldMap->gameSystem)));
-    ZONEDATA_GetLocationVec(location, &lastPos);
+    ZONEDATA_GetLocationVec((Location *)location, &lastPos);
     if (playerPos->x != lastPos.x || playerPos->z != lastPos.z) {
-        ZONEDATA_SetLocationVec(location, playerPos);
+        ZONEDATA_SetLocationVec((Location *)location, (VecFx32 *)playerPos);
         return 1;
     }
     return 0;
@@ -1733,7 +1709,7 @@ u32 FIELDMAP_CheckZoneBoundary(FieldMap *fieldMap)
 
     location = &fieldMap->location;
     mapMatrix = (struct MapMatrix *)GAME_DATA_GetFieldWork(fieldMap->gameData);
-    ZONEDATA_GetLocationVec(location, &pos);
+    ZONEDATA_GetLocationVec((Location *)location, &pos);
     if (MAP_MATRIX_IsInRangeByPos(mapMatrix, pos.x, pos.z) == 1) {
         zoneId = MAP_MATRIX_GetZoneIdByPos(mapMatrix, pos.x, pos.z);
         if (zoneId != 0xFFFF && zoneId != (s16)location->zoneId)
@@ -1758,7 +1734,7 @@ void FIELDMAP_ChangeZone(FieldMap *fieldMap)
     mapMatrix = (struct MapMatrix *)GAME_DATA_GetFieldWork(fieldMap->gameData);
     GFL_NET_SetDeviceModeIfRunning(2);
     EFFECT_ENCOUNT_Reset(fieldMap->encount);
-    ZONEDATA_GetLocationVec(location, &pos);
+    ZONEDATA_GetLocationVec((Location *)location, &pos);
     zoneId = MAP_MATRIX_GetZoneIdByPos(mapMatrix, pos.x, pos.z);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
     FLDMMDL_SysDeleteZoneChangeMmdl(mmdlSys);
@@ -1775,7 +1751,7 @@ void FIELDMAP_ChangeZone(FieldMap *fieldMap)
     if (fieldMap->placeName != 0 && GAMESYSTEM_IsEventActive(fieldMap->gameSystem) == 0)
         FIELD_PLACE_NAME_OnZoneChange(fieldMap->placeName, zoneId);
     location->zoneId = (s16)zoneId;
-    GAME_BEACON_SetZone((u16)zoneId, gameData);
+    GAME_BEACON_SetZone((u16)zoneId, (uptr)gameData);
     MAP_REPLACE_SetArriveFlag(gameData, zoneId);
     SCRIPT_SYS_RunZoneChangeScript(fieldMap->gameSystem, (s32)4);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
@@ -1805,7 +1781,7 @@ void FIELDMAP_ChangeZoneSound(FieldMap *fieldMap, unsigned int zoneId)
     issSys = (void *)GAMESYSTEM_GetIssSystem(fieldMap->gameSystem);
     bgmInfo = (void *)GAME_DATA_GetBgmInfo(gameData);
     objCode = GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetMyPlayerWork(gameData));
-    ISS_SYS_ChangeZone((uptr)issSys, zoneId);
+    ISS_SYS_ChangeZone(issSys, zoneId);
     if (objCode != 2)
         FIELD_SOUND_SYSTEM_PostZoneBgmChange(bgmInfo, gameData, zoneId);
 }
@@ -1814,7 +1790,7 @@ void FIELDMAP_ChangeZoneWeather(FieldMap *fieldMap, int zoneId)
 {
     struct WeatherSys *weather = FIELDMAP_GetWeather(fieldMap);
     unsigned short weatherId;
-    WEATHER_StoreZoneWeatherId(fieldMap->gameSystem, zoneId);
+    WEATHER_StoreZoneWeatherId((struct Ctx *)fieldMap->gameSystem, zoneId);
     weatherId = (int)GAME_DATA_GetWeatherId(fieldMap->gameData);
     if (weatherId != 0xF)
         WEATHER_RequestChange(weather, weatherId);
@@ -1962,7 +1938,11 @@ void *FIELDMAP_GetCommonWork(FieldMap *fieldMap, int id)
 
 void FIELDMAP_ReflectFog(FieldMap *fieldMap, u32 fogEnable, u32 fogSlope, u32 fogOffset)
 {
+#ifdef __MWERKS__
     FIELD_FOG_Reflect(fieldMap->fog, fogEnable, fogSlope, fogOffset);
+#else
+    FIELD_FOG_Reflect(fieldMap->fog);
+#endif
     FIELD_LIGHT_Reflect(fieldMap->light, 0);
     G3D_CAMERA_Reset(fieldMap->g3dCamera);
     G3D_LIGHT_ApplySlots(fieldMap->g3dLight);
@@ -1983,7 +1963,8 @@ void FIELDMAP_Draw3dNormal(FieldMap *fieldMap)
     proj.m[3][2] += FX_MUL(proj.m[2][2], fieldMap->projDepthOffset);
     MIi_CpuCopyFast(&proj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
-    NNS_G3dGeFlushBuffer(NNS_G3dGlbFlush());
+    NNS_G3dGlbFlush();
+    NNS_G3dGeFlushBuffer();
     FIELD_EFFECT_Draw(fieldMap->effect);
     FIELD_G3DOBJ_DrawAll(fieldMap->g3dObjCtrl);
     BILLBOARD_ACT_Draw(fieldMap->mmdlBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
@@ -1994,7 +1975,8 @@ void FIELDMAP_Draw3dNormal(FieldMap *fieldMap)
     proj.m[3][2] += FX_MUL(proj.m[2][2], fieldMap->projDepthOffset / 2);
     MIi_CpuCopyFast(&proj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
-    NNS_G3dGeFlushBuffer(NNS_G3dGlbFlush());
+    NNS_G3dGlbFlush();
+    NNS_G3dGeFlushBuffer();
     BILLBOARD_ACT_Draw(fieldMap->effectBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
     MIi_CpuCopyFast(&savedProj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;

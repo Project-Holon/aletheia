@@ -284,7 +284,7 @@ char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap,unsigned dexFlags)
     p->prevKind=1;p->kind=0;p->arrowKind=0;p->scrollIdx=0;
     BG_SYS_ChangeScrollImmediate(1,3,-24);BG_SYS_SetPriority(1,0);
     p->bgPriority=0;p->bgDirty=0;
-    p->clactUnit=(struct Bank *)CLACT_CreateUnit(16,0,p->heap);
+    p->clactUnit=(struct Unit *)CLACT_CreateUnit(16,0,p->heap);
     CLACT_SetUnitDefaultRenderer((struct Unit *)p->clactUnit);
     p->mgr=0;ZUKAN_DETAIL_TOUCHBAR_LoadResources(p);
     ZKND_TBAR_SetTouchEnable(p->mgr,0);

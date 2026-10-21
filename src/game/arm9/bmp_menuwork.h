@@ -13,7 +13,7 @@ struct U16Vec;
 
 u8 BMP_MENUWORK_GetCharFileId(int index);
 u8 BMP_MENUWORK_GetPlttFileId(int index);
-void BMP_MENUWORK_LoadChar(u32 layer, u32 tileOffset, u32 frameId, u32 heapId);
+void BMP_MENUWORK_LoadChar(u32 layer, u32 tileOffset, u32 frameId, u16 heapId);
 void BMP_MENUWORK_LoadPltt(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 void BMP_MENUWORK_LoadCharAndPltt(u32 layer, u32 tileOffset, u32 palSlot, u32 frameId, u16 heapId);
 void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);

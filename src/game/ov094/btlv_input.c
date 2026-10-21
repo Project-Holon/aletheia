@@ -637,11 +637,11 @@ struct BtlvMcssWork;
 
 #include "btlv_mcss.h"
 
-BtlvInput *BTLV_INPUT_CreateDefault(int a, int b, int c, int d, int e, u16 k);
+BtlvInput *BTLV_INPUT_CreateDefault(void *infoWinParam, int battleType, PaletteFade *palAnm, void *font, u8 *cursorVisible, u16 heap);
 
-BtlvInput *BTLV_INPUT_CreateWithMode(int a, int b, int c, int d, int e, int f, int g, u16 k);
+BtlvInput *BTLV_INPUT_CreateWithMode(void *infoWinParam, int battleType, int seMode, PaletteFade *palAnm, void *font, u8 *cursorVisible, int visibilityMode, u16 heap);
 
-BtlvInput *BTLV_INPUT_Create(int a, int b, int c, int d, int e, int f, int g, int h, u16 heap);
+BtlvInput *BTLV_INPUT_Create(void *infoWinParam, int battleType, int seMode, PaletteFade *palAnm, void *font, u8 *cursorVisible, int visibilityMode, int infoWinEnabled, u16 heap);
 
 void BTLV_INPUT_Delete(BtlvInput *input);
 
@@ -665,11 +665,11 @@ int BTLV_INPUT_IsScreenBusy(BtlvInput *input);
 
 void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg);
 
-int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, BtlvInputTouchTable *c, int x);
+int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, BtlvInputTouchTable *table, s8 (*neighbours)[12]);
 
 int BTLV_INPUT_StepFingerDemo(BtlvInput *input);
 
-int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, int *out);
+int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, u32 *out);
 
 int BTLV_INPUT_IsInputBlocked(BtlvInput *input);
 
@@ -911,17 +911,17 @@ extern const Five d_0220A558, d_0220A56C, d_0220A544;
 
 extern const BtlvInputTargetAnim d_0220A580;
 
-BtlvInput *BTLV_INPUT_CreateDefault(int infoWinParam, int battleType, int palAnm, int font, int cursorVisible, u16 heap)
+BtlvInput *BTLV_INPUT_CreateDefault(void *infoWinParam, int battleType, PaletteFade *palAnm, void *font, u8 *cursorVisible, u16 heap)
 {
     return BTLV_INPUT_Create(infoWinParam, battleType, 0, palAnm, font, cursorVisible, 0, 0, heap);
 }
 
-BtlvInput *BTLV_INPUT_CreateWithMode(int infoWinParam, int battleType, int seMode, int palAnm, int font, int cursorVisible, int visibilityMode, u16 heap)
+BtlvInput *BTLV_INPUT_CreateWithMode(void *infoWinParam, int battleType, int seMode, PaletteFade *palAnm, void *font, u8 *cursorVisible, int visibilityMode, u16 heap)
 {
     return BTLV_INPUT_Create(infoWinParam, battleType, seMode, palAnm, font, cursorVisible, visibilityMode, 1, heap);
 }
 
-BtlvInput *BTLV_INPUT_Create(int infoWinParam, int battleType, int seMode, int palAnm, int font, int cursorVisible, int visibilityMode, int infoWinEnabled, u16 heap)
+BtlvInput *BTLV_INPUT_Create(void *infoWinParam, int battleType, int seMode, PaletteFade *palAnm, void *font, u8 *cursorVisible, int visibilityMode, int infoWinEnabled, u16 heap)
 {
     BtlvInput *input;
     BtlvInputVisibilityTask *r;
@@ -931,14 +931,14 @@ BtlvInput *BTLV_INPUT_Create(int infoWinParam, int battleType, int seMode, int p
     input->heap = heap;
     input->taskMgrMem = GFL_HEAP_Alloc(input->heap, TCB_GetTaskOffset(8), 1, d_0220AEB0, 0x39e);
     input->taskMgr = TCB_Init(8, input->taskMgrMem);
-    input->infoWinParam = (void *)infoWinParam;
-    input->font = (void *)font;
+    input->infoWinParam = infoWinParam;
+    input->font = font;
     input->battleType = battleType;
     input->seMode = seMode;
-    input->cursorVisible = (u8 *)cursorVisible;
+    input->cursorVisible = cursorVisible;
     input->flags.prevCursor = 15;
     input->infoWinEnabled = infoWinEnabled;
-    input->palAnm = (void *)palAnm;
+    input->palAnm = palAnm;
     input->resCommonChr = -1;
     input->resCommonPal = -1;
     input->resCommonCell = -1;
@@ -1390,7 +1390,7 @@ void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg)
     input->screen = mode;
 }
 
-int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, BtlvInputTouchTable *table, int neighbours)
+int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, BtlvInputTouchTable *table, s8 (*neighbours)[12])
 {
     int r;
     int k;
@@ -1432,7 +1432,7 @@ int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, BtlvInputTouchTable *table, i
     }
 
     k = TOUCHPANEL_HitTrg(table->key);
-    r = BTLV_INPUT_ProcessButtonSelection(input, (const BtlvInputSection *)table, (s8 (*)[12])neighbours, (u8 *)0, k, input->transformed);
+    r = BTLV_INPUT_ProcessButtonSelection(input, (const BtlvInputSection *)table, neighbours, (u8 *)0, k, input->transformed);
     if (r != -1) {
         keys = KEY_GetCont();
         if (input->enabled[r] == 0 && (!(keys & 0x200) || input->screen != 2)) {
@@ -1506,7 +1506,7 @@ int BTLV_INPUT_StepFingerDemo(BtlvInput *input)
     return r;
 }
 
-int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, int *out)
+int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, u32 *out)
 {
     int i;
     int a;

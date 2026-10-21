@@ -89,8 +89,8 @@
 #include "pokelist_types.h"
 #include "plist_plate_types.h"
 
-struct Obj;
-struct Bank;
+struct ClactActor;
+struct Unit;
 struct Descriptor;
 struct WordSet;
 struct MsgBank;
@@ -130,9 +130,8 @@ struct BoxPokemon;
 #include "../arm9/gf_font.h"
 #include "../arm9/wordset.h"
 extern u8 BGWINFRM_ScaleRatio(u32 a, u32 b, u32 c);
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
+#include "../arm9/bmp.h"
 extern void BMP_WIN_SetPosX(struct BmpWin *win, u8 posX);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
 struct Pokemon;
 struct Regulation;
 #include "../arm9/poke_regulation.h"
@@ -207,8 +206,8 @@ PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon)
     surface.areaHeight = 0xc0;
     surface.priority = 0;
     surface.bgPriority = 0;
-    plate->clactUnit = (struct Obj *)CLACT_CreateRenderer((struct SurfaceInit *)(&surface.areaLeft), 1, work->heapId);
-    plate->clactBank = (struct Bank *)CLACT_CreateUnit(6, 0, work->heapId);
+    plate->clactUnit = (struct ClactActor *)CLACT_CreateRenderer((struct SurfaceInit *)(&surface.areaLeft), 1, work->heapId);
+    plate->clactBank = (struct Unit *)CLACT_CreateUnit(6, 0, work->heapId);
     CLACT_SetUnitRenderer((struct Unit *)plate->clactBank, (void *)plate->clactUnit);
     PLIST_PLATE_CreateActors(work, plate);
     PLIST_PLATE_CreateMonIcon(work, plate);
@@ -287,13 +286,13 @@ void PLIST_PLATE_CreateActors(PokelistWork *work, PlistPlate *plate)
     PlistPlateActorSpec hpBarSpec;
     PlistPlateActorSpec itemSpec;
     PlistPlateActorSpec statusSpec;
-    struct Obj *actor;
+    struct ClactActor *actor;
     frameSpec.x = 16;
     frameSpec.y = 16;
     frameSpec.depth = 0;
     frameSpec.animation = 1;
     frameSpec.bgPriority = 2;
-    actor = (struct Obj *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[1], work->charRes[0], work->cellRes[1], (struct ActorInitParam *)(&frameSpec), 0, work->heapId);
+    actor = (struct ClactActor *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[1], work->charRes[0], work->cellRes[1], (struct ActorInitParam *)(&frameSpec), 0, work->heapId);
     plate->frameActor = actor;
     CLACT_SetActorAutoAnim((struct ClactActor *)actor, 1);
     hpBarSpec.x = 0x54;
@@ -301,13 +300,13 @@ void PLIST_PLATE_CreateActors(PokelistWork *work, PlistPlate *plate)
     hpBarSpec.depth = 0;
     hpBarSpec.animation = 0;
     hpBarSpec.bgPriority = 2;
-    plate->hpBarActor = (struct Obj *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[6], work->charRes[5], work->cellRes[6], (struct ActorInitParam *)(&hpBarSpec), 0, work->heapId);
+    plate->hpBarActor = (struct ClactActor *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[6], work->charRes[5], work->cellRes[6], (struct ActorInitParam *)(&hpBarSpec), 0, work->heapId);
     itemSpec.x = 32;
     itemSpec.y = 24;
     itemSpec.depth = 0;
     itemSpec.animation = 0;
     itemSpec.bgPriority = 2;
-    actor = (struct Obj *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[3], work->charRes[2], work->cellRes[3], (struct ActorInitParam *)(&itemSpec), 0, work->heapId);
+    actor = (struct ClactActor *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[3], work->charRes[2], work->cellRes[3], (struct ActorInitParam *)(&itemSpec), 0, work->heapId);
     plate->itemIconActor = actor;
     CLACT_SetActorDrawEnable((struct ClactActor *)actor, 0);
     statusSpec.x = 32;
@@ -315,7 +314,7 @@ void PLIST_PLATE_CreateActors(PokelistWork *work, PlistPlate *plate)
     statusSpec.depth = 0;
     statusSpec.animation = 0;
     statusSpec.bgPriority = 2;
-    actor = (struct Obj *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[5], work->charRes[4], work->cellRes[5], (struct ActorInitParam *)(&statusSpec), 0, work->heapId);
+    actor = (struct ClactActor *)CLACT_CreateActor((struct Unit *)plate->clactBank, work->palRes[5], work->charRes[4], work->cellRes[5], (struct ActorInitParam *)(&statusSpec), 0, work->heapId);
     plate->statusIconActor = actor;
     CLACT_SetActorDrawEnable((struct ClactActor *)actor, 0);
 }
@@ -337,7 +336,7 @@ void PLIST_PLATE_CreateMonIcon(PokelistWork *work, PlistPlate *plate)
     spec.animation = 0;
     spec.bgPriority = 2;
     {
-        struct Obj *actor = (struct Obj *)CLACT_CreateActor((struct Unit *)plate->clactBank, plate->iconResource, work->charRes[6],
+        struct ClactActor *actor = (struct ClactActor *)CLACT_CreateActor((struct Unit *)plate->clactBank, plate->iconResource, work->charRes[6],
                                           work->cellRes[7], (struct ActorInitParam *)(&spec), 0, work->heapId);
         plate->monIconActor = actor;
         CLACT_SetActorPaletteOffset((struct ClactActor *)actor, palette, 1);

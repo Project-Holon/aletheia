@@ -116,11 +116,15 @@ typedef struct G3dResTexView {
 struct G3dResource;
 #include "../arm9/nns_g3d_res.h"
 #include "../arm9/palanm.h"
-extern u16 MAP_MATRIX_GetWidth(const struct MapMatrix *matrix);
-extern u16 MAP_MATRIX_GetHeight(const struct MapMatrix *matrix);
-extern int MAP_MATRIX_GetCount(const struct MapMatrix *matrix);
-extern u32 *MAP_MATRIX_GetMapGrid(struct MapMatrix *matrix);
-extern void MAP_MATRIX_SetSize(struct MapMatrix *matrix, u8 width, u8 height);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define MAP_MATRIX_SetSize MAP_MATRIX_SetSize_header
+#endif
+#include "../ov010/map_matrix.h"
+#ifdef __MWERKS__
+#undef MAP_MATRIX_SetSize
+extern void MAP_MATRIX_SetSize(struct MapMatrix *, u8, u8);
+#endif
 
 #include "../ov010/field_g3d_map.h"
 struct FieldG3dMap;

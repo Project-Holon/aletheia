@@ -100,7 +100,7 @@ typedef struct FieldMap FieldMap;
 typedef struct GameData GameData;
 typedef struct GameEvent GameEvent;
 typedef struct FieldSoundSystem FieldSoundSystem;
-typedef struct TrainerRecord TrainerRecord;
+typedef struct RecordBlock TrainerRecord;
 typedef struct MyItem MyItem;
 typedef struct IssSystem IssSystem;
 typedef struct IssSwitchSys IssSwitchSys;
@@ -149,18 +149,34 @@ struct TrainerEyeWork;
 #include "../arm9/game_data.h"
 #include "fieldmap.h"
 #include "../arm9/zonedata.h"
-extern u32 RECORD_AddOne(TrainerRecord *record, int index);
+#include "../arm9/record.h"
 #include "../arm9/vm.h"
 #include "../arm9/gfl_use.h"
 #include "../arm9/game_event.h"
 #include "../arm9/pm_voice.h"
 #include "../arm9/iss_switch_sys.h"
 struct SaveBlock;
-extern u16 MYITEM_SAVEDATA_AddItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
-extern u16 MYITEM_SAVEDATA_RemoveItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
-extern u16 MYITEM_SAVEDATA_CanAddItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
-extern u16 MYITEM_SAVEDATA_HasItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
-extern u16 MYITEM_SAVEDATA_GetItemQuantity(MyItem *myItem, u32 itemNo, u32 heapId);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define MYITEM_SAVEDATA_AddItem MYITEM_SAVEDATA_AddItem_header
+#define MYITEM_SAVEDATA_CanAddItem MYITEM_SAVEDATA_CanAddItem_header
+#define MYITEM_SAVEDATA_GetItemQuantity MYITEM_SAVEDATA_GetItemQuantity_header
+#define MYITEM_SAVEDATA_HasItem MYITEM_SAVEDATA_HasItem_header
+#define MYITEM_SAVEDATA_RemoveItem MYITEM_SAVEDATA_RemoveItem_header
+#endif
+#include "../arm9/myitem_savedata.h"
+#ifdef __MWERKS__
+#undef MYITEM_SAVEDATA_AddItem
+#undef MYITEM_SAVEDATA_CanAddItem
+#undef MYITEM_SAVEDATA_GetItemQuantity
+#undef MYITEM_SAVEDATA_HasItem
+#undef MYITEM_SAVEDATA_RemoveItem
+extern u16 MYITEM_SAVEDATA_AddItem(struct MyItem *, u32, u32, u32);
+extern u16 MYITEM_SAVEDATA_CanAddItem(struct MyItem *, u32, u32, u32);
+extern u16 MYITEM_SAVEDATA_GetItemQuantity(struct MyItem *, u32, u32);
+extern u16 MYITEM_SAVEDATA_HasItem(struct MyItem *, u32, u32, u32);
+extern u16 MYITEM_SAVEDATA_RemoveItem(struct MyItem *, u32, u32, u32);
+#endif
 #include "../arm9/file_util.h"
 
 int SCRCMD_CreateTrainerEye(ScriptVm *vm, ScrcmdWork *cmdWork);

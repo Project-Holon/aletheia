@@ -214,9 +214,7 @@ struct Proc;
 #include "../arm9/procsys.h"
 #include "../arm9/strbuf.h"
 #include "../ov010/fld_btl_inst_tool_shared_types.h"
-extern void PROCSYS_Delete(ProcSys *sys);
 #include "../arm9/gfl_heap_wrap.h"
-extern unsigned int PROCSYS_Main(ProcSys *sys);
 #include "../arm9/game_data.h"
 #include "../arm9/zukan_save.h"
 struct Party;
@@ -229,13 +227,12 @@ struct Party;
 #include "../arm9/msgdata.h"
 #include "../arm9/zonedata.h"
 #include "../arm9/save_event.h"
-extern void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
 #include "../ov010/namein_setup.h"
 #include "../arm9/record.h"
 #include "../arm9/gfl_use.h"
 extern u16 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *mon, u32 mode, u32 zoneId, u8 season, u32 *method, u16 heapId);
 #include "../ov010/fldmmdl_poslog.h"
-extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
+#include "../arm9/arc_tool.h"
 int EVENT_BATTLE_RETURN_Init(struct ProcObj *proc);
 int EVENT_BATTLE_RETURN_Exit(struct ProcObj *proc, u32 seq, u32 pwk, struct EventBattleReturnWork *work);
 int EVENT_BATTLE_RETURN_Main(struct ProcObj *proc, u32 *seq, struct EventBattleReturnArgs *args, struct EventBattleReturnWork *work);

@@ -124,8 +124,8 @@ struct TcbTask;
 
 struct TcbTask;
 #include "tcb_list.h"
+#include "gfl_use.h"
 #include "gfl_heap_wrap.h"
-extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
 #include "mi_memory.h"
 #include "ui.h"
 struct GameData;
@@ -138,9 +138,8 @@ struct GameData;
 extern void BG_SYS_FreeTileRun(u32 a, u32 b, u32 c);
 extern int  BG_SYS_LoadPltt(u32 a, const void *b, u16 c, u16 d);
 #include "arc_tool.h"
+#include "arc_util.h"
 extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
-extern void  ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void  ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 #include "gf_standard.h"
 extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
@@ -149,10 +148,10 @@ extern void BG_SYS_PushTile(u32 index);
 void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap);
 void INFOWIN_Update(void);
 int INFOWIN_Exit(void);
-void INFOWIN_DrawTask(void);
+void INFOWIN_DrawTask(struct TcbTask *task, void *work);
 void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h);
 int INFOWIN_LoadCharacters(int tile, const void *src, int count);
-void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c);
+void INFOWIN_LoadGraphics(u32 a, u32 b, u16 c);
 void INFOWIN_UpdateClock(void);
 
 extern struct InfoWin *gInfoWin;
@@ -178,7 +177,7 @@ void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap)
     gInfoWin->bgFrame = bgFrame;
     gInfoWin->palette = palette;
     INFOWIN_LoadGraphics(bgFrame, palette, heap);
-    gInfoWin->task = GFL_USE_AddMainTask((void (*)(void *))INFOWIN_DrawTask, gInfoWin, 1);
+    gInfoWin->task = GFL_USE_AddMainTask(INFOWIN_DrawTask, gInfoWin, 1);
     gInfoWin->linkActive = 0;
     gInfoWin->batteryLevel = UI_GetPowerState();
     if (gameData != 0) {
@@ -335,7 +334,7 @@ int INFOWIN_Exit(void)
  *           `k = (c) ? a : b` for all three tile selectors; the draw call
  *           in each arm of block 0x10; `done = 1` after the block-0 draw.
  */
-void INFOWIN_DrawTask(void)
+void INFOWIN_DrawTask(struct TcbTask *task, void *work)
 {
     struct InfoWinDrawBuffer buf;
     int done;
@@ -475,7 +474,7 @@ int INFOWIN_LoadCharacters(int tile, const void *src, int count)
     return BG_SYS_LoadPltt(gInfoWin->bgFrame, src, count * 2, (tile + (gInfoWin->palette << 4)) * 2);
 }
 
-void INFOWIN_LoadGraphics(u32 a, u32 b, u32 c)
+void INFOWIN_LoadGraphics(u32 a, u32 b, u16 c)
 {
     void *env;
     u32 sel = 0;

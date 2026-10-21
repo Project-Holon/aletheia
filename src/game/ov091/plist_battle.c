@@ -89,7 +89,7 @@
  *   PLIST_DEMO_DeleteParticles  0x021BDBE0  thumb
  *   PM_VOICE_Play  0x02006984  thumb  arm9
  */
-struct Obj;
+struct ClactActor;
 struct MsgBank;
 struct U16Vec;
 struct Descriptor;

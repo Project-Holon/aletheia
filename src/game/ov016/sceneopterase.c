@@ -64,7 +64,9 @@
  *   DWCi_SceneOptErase_draw  0x021C20FC  arm
  *   button  0x021C2100  arm
  */
-#include "../../matched/include/G_SCENEOPTERASE_BSS.h"
+struct SCENEOPTERASE_BSS {
+    unsigned char Choose;
+};
 #include "../sdk_ioreg.h"
 
 typedef _Bool bool;

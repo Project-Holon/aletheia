@@ -65,7 +65,7 @@
 
 struct BackupSaveData;   /* backup_system.c: one flash save area (main or extra) */
 
-struct SaveOutside;      /* ov228 save_outside.c: the small save outside the main area */
+struct SaveOutsideWork;
 
 struct MusicalSave;
 
@@ -156,9 +156,7 @@ struct SaveDataParam;
 
 #include "../ov228/save_outside.h"
 
-extern u8 SAVE_OUTSIDE_IsLoaded(struct SaveOutside *outside);
 
-extern int SAVE_OUTSIDE_IsCorrupt(struct SaveOutside *outside);
 
 
 #include "system_data.h"
@@ -223,7 +221,7 @@ void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
 struct SaveControl *SAVE_CONTROL_Create(int heapId)
 {
     struct SaveControl *saveControl;
-    struct SaveOutside *outsideSave;
+    struct SaveOutsideWork *outsideSave;
     u8 outsideLoaded;
     int outsideBroken;
     int loadResult;

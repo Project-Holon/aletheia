@@ -70,32 +70,24 @@
 #include "../arm9/billboard_act.h"
 struct G3dResource;
 #include "../arm9/billboard.h"
-extern u32 FLDMMDL_SysGetHeapId(MmdlSys *sys);
+/* Original DS prototype: the DS code passes the code change as an extra argument; the host build uses the header. */
+#ifdef __MWERKS__
+#define FLDMMDL_CheckStatusBitUse FLDMMDL_CheckStatusBitUse_header
+#endif
+#include "../ov010/fldmmdl.h"
+#ifdef __MWERKS__
+#undef FLDMMDL_CheckStatusBitUse
+extern int FLDMMDL_CheckStatusBitUse(Mmdl *mmdl, BlactCodeChange *change);
+#endif
 struct MmdlSys;
-extern void FLDMMDL_SysSetBlActCont(struct MmdlSys *sys, void *blActCont);
 struct Blk3;
-extern BlactSys *FLDMMDL_SysGetBlActCont(MmdlSys *sys);
 #include "../arm9/gfl_heap_wrap.h"
-extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
-extern void FLDMMDL_LoadObjCodeParam(MmdlSys *sys, u32 code, MmdlObjCodeParam *out);
-extern u16 FLDMMDL_GetCachedObjCodeCount(MmdlSys *sys);
-extern void FLDMMDL_GetCachedObjCodeParam(struct MmdlSys *sys, u32 no, MmdlObjCodeParam *out);
 struct BbActCmd;
-extern MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(Mmdl *mmdl);
 struct VecFx32;
 struct Mmdl;
 #include "fldmmdl_acmd.h"
-extern int FLDMMDL_CheckSameObjCodeOther(Mmdl *mmdl, u32 code);
-extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
-extern void *FLDMMDL_GetObjCodeParamBlActRes(const MmdlObjCodeParam *param);
-extern void *FLDMMDL_SysGetResArcHandle(MmdlSys *sys);
 struct ArcHandle;
-extern u16 FLDMMDL_SysGetMmdlMax(MmdlSys *sys);
-extern void FLDMMDL_CallDrawProc(Mmdl *mmdl);
 #include "../arm9/mi_memory.h"
-extern int FLDMMDL_CallDrawGetProc(Mmdl *mmdl, unsigned int kind);
-extern void FLDMMDL_ChangeObjCode(Mmdl *mmdl, u32 code);
-extern int FLDMMDL_CheckStatusBitUse(Mmdl *mmdl, BlactCodeChange *change);
 
 int FLDMMDL_BLACT_AddVramSlot(struct BbActSys *sys, void *res, u32 mdlSize, u32 texSize);
 void FLDMMDL_BLACT_DeleteVramSlot(struct BbActSys *sys, u32 slotIndex);
@@ -1004,8 +996,14 @@ void FLDMMDL_BLACT_UpdateCodeChange(BlactSys *cont, BlactCodeChange *change)
 {
     Mmdl *mmdl;
     unsigned short oldCode;
+    int inUse;
     mmdl = change->mmdl;
-    if (FLDMMDL_CheckStatusBitUse(mmdl, change) == 0) {
+#ifdef __MWERKS__
+    inUse = FLDMMDL_CheckStatusBitUse(mmdl, change);
+#else
+    inUse = FLDMMDL_CheckStatusBitUse(mmdl);
+#endif
+    if (inUse == 0) {
         FLDMMDL_BLACT_DeleteActorRes(cont, mmdl, change->oldBlactId, change->oldCode);
         BILLBOARD_ACT_DeleteEntries(cont->bbdActSys, change->oldBlactId, 1);
         change->mmdl = 0;

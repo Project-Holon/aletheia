@@ -40,7 +40,7 @@ typedef struct SCFGFuseInfo {
 typedef int SCFGCpuSpeed;
 #include "../arm9_autoload0_ITCM/scfg_proc.h"
 #include "os_terminate_processor.h"
-void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, int err));
+#include "pxi_fifo.h"
 void SCFGi_CommonCallback(int tag, u32 data, int err);
 void SCFG_Init(void);
 void SCFG_SetCpuSpeed(int cpuSpeed);

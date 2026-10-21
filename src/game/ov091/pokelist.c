@@ -457,8 +457,8 @@ struct Actor;
 struct PrintSys;
 struct Cfg;
 struct Light;
-struct Bank;
-struct Obj;
+struct Unit;
+struct ClactActor;
 struct GfFont;
 struct MsgBank;
 struct Rec;
@@ -512,7 +512,7 @@ typedef struct {
     u8 drawArea;
 } PokelistActorTemplate;
 
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+#include "../arm9/gfl_heap.h"
 struct PokemonParam;
 struct Regulation;
 struct GFont;
@@ -537,266 +537,106 @@ struct ClactVec2;
 #include "plist_menu_types.h"
 #include "plist_message_types.h"
 #include "plist_plate_types.h"
-extern void *PROCSYS_AllocProcWork(Proc *proc, u32 size, u32 heapId);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct Party *POKEPARTY_Create(u32 heap);
-extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/pokeparty.h"
 struct PokemonParam;
-extern struct PokemonParam *POKE_TOOL_Create(u16 species, u16 level, u64 id, u16 heap);
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
-extern u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *member);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 KEY_GetCont(void);
-extern void *POKE_REGULATION_Load(int a, int b);
-extern u32 GFL_USE_GetRandomBelow(u32 range);
+#include "../arm9/poke_tool.h"
+#include "../arm9/key.h"
+#include "../arm9/poke_regulation.h"
+#include "../arm9/gfl_use.h"
 struct Regulation;
-extern int POKE_REGULATION_FindValidOrder(const struct Regulation *reg, struct Party *party, char *picked);
-extern void UI_SetInputMode(u32 value);
-extern void PROCSYS_FreeProcWork(Proc *proc);
-extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern u32 POKEPARTY_GetCount(const struct Party *party);
-extern u8 UI_GetInputMode(void);
-extern u16 FILE_UTIL_GetMachineMove(u16 id);
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
-extern PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon);
-extern PlistPlate *PLIST_PLATE_CreateEmpty(PokelistWork *work, int slot);
+#include "../arm9/ui.h"
+#include "../arm9/file_util.h"
+#include "plist_plate.h"
 struct PrintQueue;
 struct GFont;
 struct TaskMenuRes;
-extern TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern void PLIST_MENU_InitTimer(PokelistWork *work);
+#include "plist_menu.h"
 struct TcbTask;
-extern struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority);
 struct PokelistWork;
 struct PlistMessage;
-extern PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work);
+#include "plist_message.h"
 struct PlistMenu;
-extern PlistMenu *PLIST_MENU_Create(PokelistWork *work);
-extern void BG_SYS_MarkTileDirty(u32 id);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
+#include "../arm9/net.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void PLIST_MENU_DeleteTaskMenuWin(void *win);
-extern void PLIST_MENU_Delete(PokelistWork *work, PlistMenu *menu);
-extern void PLIST_MESSAGE_Destroy(PokelistWork *work, PlistMessage *msg);
 struct BmpWin;
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void APP_TASKMENU_RES_Delete(TaskMenuRes *res);
-extern void PLIST_MENU_ExitTimer(PokelistWork *work);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern u32 WIPE_SYS_EndCheck(void);
-extern void PLIST_PLATE_StartHpAnim(PokelistWork *work, PlistPlate *plate);
-extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern int PLIST_PLATE_StepHpAnim(PokelistWork *work, PlistPlate *plate);
+#include "../arm9/bmp_win.h"
+#include "../arm9/wipe.h"
 struct PartyListCommWork;
-extern u32 PLIST_COMM_SendStatus(PartyListCommWork *work, u8 status, u16 selection);
-extern void PLIST_MESSAGE_OpenWindow(PokelistWork *work, PlistMessage *msg, u32 kind);
-extern void PLIST_MESSAGE_PrintText(PokelistWork *work, PlistMessage *msg, u32 messageId);
-extern void PLIST_MESSAGE_RequestPrompt(PokelistWork *work, PlistMessage *msg);
-extern void PLIST_MENU_UpdateLevelUp(PokelistWork *work);
-extern void PLIST_BATTLE_StartEffect(PokelistWork *work);
-extern void PLIST_BATTLE_UpdateEffect(PokelistWork *work);
-extern void PLIST_BATTLE_FinishEffect(PokelistWork *work);
-extern void PLIST_COMM_StartSync(void *work, int syncNo);
-extern int PLIST_COMM_IsSyncDoneOrFinished(PartyListCommWork *work, int syncNo);
+#include "plist_battle.h"
 extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
-extern void PLIST_PLATE_Update(PokelistWork *work, PlistPlate *plate);
-extern void PLIST_MESSAGE_Update(PokelistWork *work, PlistMessage *msg);
-extern void PLIST_MENU_UpdateTimer(PokelistWork *work);
-extern void PLIST_MENU_UpdateTaskMenuWin(void *win);
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void CLACT_DrawSystem(void);
-extern void MIi_CpuCopy16(void *src, void *dst, u32 size);
-extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
+#include "../arm9/mi_memory.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
 extern void CLACT_VBlankSystem(void);
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
-extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
-extern void WIPE_ResetWndMask(void *win);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_Create(u16 heapId);
-extern void BMP_WIN_Init(u16 heapId);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 struct DispVramCfg;
 struct SysInit;
 extern void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void NNS_GfdResetVramTransferTaskQueue(void);
-extern void GX_SetGraphicsMode(int,int,int);
+#include "../arm9/nns_gfd_vram_load.h"
+#include "../arm9/gx.h"
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
-extern int G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, int);
+struct VecFx32;
+struct G3dCamera;
+extern struct G3dCamera *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, struct VecFx32 *eye, struct VecFx32 *target, struct VecFx32 *up, u16 heapID);
 struct G3dCamera;
 extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
-extern void PARTICLE_InitManager(u32 heap);
+#include "../arm9/particle.h"
 extern void CLACT_ExitSystem(void);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern void PARTICLE_ExitManager(void);
 extern u32 G3D_CAMERA_Delete(void *camera);
 extern void G3D_SYSTEM_Exit(void);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BG_SYS_FreeSlot(u8 idx);
-extern void BG_SYS_PushTile(u32 index);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+struct ActorInitParam;
+extern struct ClactActor *CLACT_CreateActor(struct Unit *owner, unsigned int i, unsigned int j, unsigned int k, struct ActorInitParam *position, unsigned short space, unsigned short heap);
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern u32 CLACT_DeleteUnit(struct Unit *unit);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
+#include "../arm9/gf_font.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/arc_util.h"
 extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
-extern void GF_FONT_SetDefaultTextColor(void);
 extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, unsigned int heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, int kind, int dest, int size, u16 flags);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *h, u32 memberIdx, u32 heapID, void **out, u16 heap);
+#include "../arm9/arc_tool.h"
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern void ARC_TOOL_DeleteHandle(void *h);
 extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
-extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern int POKE_TOOL_GetIconCellArcId(void);
-extern int POKE_TOOL_GetIconCellEntryId(void);
-extern u32 APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetStatusAnimFileId(void);
-extern u32 APP_ICON_GetStatusFrameFileId(void);
-extern u32 APP_ICON_GetStatusExtraFileId(void);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern int APP_ICON_GetNoneFileId(void);
-extern int APP_ICON_GetGearCellFileId(int a);
-extern int APP_ICON_GetGearPaletteFileId(int a);
-extern int APP_ICON_GetGearAnimFileId(int a);
-extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
-extern u32 APP_ICON_GetMoveKindAnimFileId(void);
-extern u32 APP_ICON_GetStatusCellFileId(u32 a);
-extern u32 APP_ICON_GetStatusPaletteFileId(u32 a);
-extern u32 APP_ICON_GetItemCellFileId(void);
-extern u32 APP_ICON_GetItemPaletteFileId(void);
-extern u32 APP_ICON_GetItemAnimFileId(u32 a);
-extern u32 APP_ICON_GetItemFrameFileId(u32 a);
-extern u32 APP_ICON_GetSealCellFileId(void);
-extern u32 APP_ICON_GetSealPaletteFileId(void);
-extern u32 APP_ICON_GetSealAnimFileId(u32 a);
-extern u32 APP_ICON_GetSealFrameFileId(u32 a);
+#include "../arm9/poke_tool_ext.h"
+#include "../arm9/app_icon.h"
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
-extern u32 FILE_UTIL_IsMailItem(u16);
 struct Mail;
-extern struct Mail *MAIL_CreateSlotCopy(struct Mail *box, u32 boxKind, int index, u32 heapId);
-extern void MAIL_ClearSlot(struct Mail *box, u32 boxKind, int index);
-extern int PLIST_MENU_IsSpecialItemKind(PokelistWork *work, int id);
-extern int PLIST_DEMO_CheckItemUsable(void *a, u32 id, int slot, u32 heap);
-extern int PLIST_MENU_StartItemUse(PokelistWork *work,int);
-extern int PLIST_DEMO_UseItemOnMon(void *mon, u16 item, u16 moveSlot, u16 arg, int heap);
-extern int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused);
-extern void PLIST_DEMO_ApplyShayminSkyForm(PokelistWork *work, void *m);
-extern void PLIST_MENU_ShowItemUsedThenContinue(PokelistWork *work);
-extern void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg);
-extern void PLIST_MESSAGE_SetWordSetPokemon(struct PokelistWork *unused, PlistMessage *msg, u32 index, void *mon);
-extern void PLIST_MESSAGE_SetWordSetItem(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId);
-extern void PLIST_MESSAGE_SetWordSetItemAlt(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId);
-extern void PLIST_MESSAGE_SetWordSetMove(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 moveId);
-extern void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg);
-extern void PLIST_DEMO_ApplyGiratinaOriginForm(PokelistWork *work, void *m);
-extern int PLIST_MENU_CreateButtonWindow(PokelistWork *work, int unused, int id, int r3, u8 y, int disabled);
-extern int PLIST_MENU_ItemRestoresHp(PokelistWork *work, u32 itemId);
-extern int PLIST_MENU_FindItemTarget(PokelistWork *work);
-extern void PLIST_MENU_ShowItemUsedThenClose(PokelistWork *work);
-extern void PLIST_MESSAGE_CloseWindow(PokelistWork *work, PlistMessage *msg);
-extern void PLIST_DEMO_ApplyGiratinaAlteredForm(PokelistWork *work, void *m);
-extern void PLIST_BATTLE_RefreshOpponentMessage(PokelistWork *work);
-extern int PLIST_MENU_GetItemUseMessage(PokelistWork *work, int id);
-extern int MUSICAL_MCSS_GetMonValue(void *p);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
-extern void PLIST_MENU_ButtonWinSetDecide(void *win, int value);
+#include "../arm9/mail.h"
+#include "plist_demo.h"
+#include "../ov112/musical_mcss.h"
 extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
-extern int  POKE_REGULATION_CheckSelection(u32 reg, u32 party, u32 order);
-extern void PLIST_MESSAGE_SetWordSetNumber(struct PokelistWork *unused, PlistMessage *msg, u32 index, int number, unsigned char digits);
-extern u32  KEY_GetTrg(void);
-extern u32 KEY_GetRepeat(void);
 extern u32 CLACT_GetActorDrawEnable(struct ClactActor *actor);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void BG_SYS_ClearLayerEx(int channel, u16 val);
-extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
-extern int TOUCHPANEL_GetTrg(void);
-extern u32 FILE_UTIL_GetId(u32 id);
-extern u32 POKE_TOOL_CheckTmCompat(struct PokemonParam *pp, int tmIndex);
-extern int   MAIL_FindEmptySlot(void *obj, int v);
-extern struct Mail *MAIL_Create(int heapId);
-extern void MAIL_SetSlot(struct Mail *box, u32 boxKind, int index, const struct Mail *src);
-extern u16 POKE_TOOL_AddMove(struct PokemonParam *pp, u16 move);
-extern u32 POKE_TOOL_AddMoveAlt(struct PokemonParam *pp, u16 move);
-extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, u16 move, u32 slot);
-extern void POKE_TOOL_ReplaceMoveSlot(struct PokemonParam *pp, u16 move, u8 slot);
-extern void NATSUKI_Calc(struct PokemonParam *pp, int type, int zoneId, u16 heap);
-extern int TOUCHPANEL_HitTrg(const TouchHitTable *tbl);
+#include "../arm9/g2.h"
+#include "../arm9/zonedata.h"
+#include "../arm9/touchpanel.h"
+#include "../arm9/natsuki.h"
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u32 which);
 extern void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
 struct FieldSkillInfo;
-extern int MOVE_POKEMON_IsSkillBlocked(int skillIndex, FieldSkillInfo *info);
-extern u32 POKEPARTY_SwapMembers(struct Party *party, u32 pos1, u32 pos2, u32 heap);
-extern u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, u32 mode, u32 arg, u8 timezone, u32 *methodOut, u16 heap);
+#include "../ov010/move_pokemon.h"
+#include "../arm9/shinka_check.h"
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 struct WordSet;
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+#include "../arm9/wordset.h"
 struct MyItem;
-extern u32 MYITEM_SAVEDATA_GetItemQuantity(struct MyItem *bag, u16 itemId, u16 heapId);
-extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
-extern u32 MYITEM_SAVEDATA_AddItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/myitem_savedata.h"
 extern const PokelistMenuItems d_021BEC0C, d_021BEC1C;
 extern PokelistButtonRects d_021BEC2C;
-extern void PLIST_PLATE_SetSelected(PokelistWork *work, PlistPlate *plate, int selected);
-extern void PLIST_PLATE_SetSlideOffset(PokelistWork *work, const PlistPlate *plate, int slideX);
-extern void PLIST_PLATE_ClearSlideTrail(PokelistWork *work, PlistPlate *plate, int slideX);
-extern void PLIST_PLATE_SetMon(PokelistWork *work, PlistPlate *plate, void *mon, int slideX);
-extern void PLIST_PLATE_Redraw(PokelistWork *work, PlistPlate *plate);
-extern int PLIST_PLATE_IsOccupied(void *unused, PlistPlate *plate);
 struct PlistPlatePos;
-extern void PLIST_PLATE_GetCenterPos(void *unused, PlistPlate *plate, PlistPlatePos *out);
 struct PlistPlateRect;
-extern void PLIST_PLATE_GetTouchRect(PokelistWork *work, PlistPlate *plate, PlistPlateRect *out);
-extern int PLIST_PLATE_GetLabelState(PlistPlate *plate);
-extern void PLIST_PLATE_SetLabelState(PokelistWork *work, PlistPlate *plate, int labelState);
-extern u16 PLIST_PLATE_GetHp(PokelistWork *work, PlistPlate *plate);
-extern int PLIST_PLATE_IsEgg(PokelistWork *work, PlistPlate *plate);
-extern int PLIST_PLATE_CheckSelection(PokelistWork *work, PlistPlate *plate);
-extern void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messageId, u32 waitForKey);
-extern int PLIST_MESSAGE_IsIdle(PokelistWork *work, PlistMessage *msg);
-extern void PLIST_MENU_OpenFixed(PokelistWork *work, PlistMenu *menu);
-extern void PLIST_MENU_Open(PokelistWork *work, PlistMenu *menu, int *items);
-extern void PLIST_MENU_Close(PokelistWork *work, PlistMenu *menu);
-extern void PLIST_MENU_Update(PokelistWork *work, PlistMenu *menu);
-extern unsigned int PLIST_MENU_GetSelectedCommand(PokelistWork *work, PlistMenu *menu);
-extern void PLIST_MENU_SetTaskMenuWinActive(void *win, int active);
-extern void PLIST_MENU_ApplyArceusPlateForm(void *unused, void *mon, int itemId);
-extern void PLIST_MENU_ApplyGenesectDriveForm(struct PokelistWork *unused, void *mon, int itemId);
-extern void PLIST_MENU_BeginExitWait(PokelistWork *work);
-extern int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *mon);
-extern int PLIST_DEMO_CheckGiratinaToAltered(PokelistWork *work, void *mon);
-extern void PLIST_PLATE_Delete(void *unused, PlistPlate *plate);
 int POKELIST_Init(struct Proc *procObj, int *seq, PokelistArg *arg, PokelistWork *work);
 int POKELIST_Exit(int procObj, int procArg, int procState, PokelistWork *work);
 int POKELIST_Main(int procObj, int procArg, int procState, PokelistWork *work);
@@ -1476,7 +1316,7 @@ void POKELIST_SetupLight(PokelistWork *work)
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x20;
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x10;
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 8;
-    r = G3D_CAMERA_Create(2, 0, 0x50D7, 0, 0x6BCA, 0x1000, 0x80000, 0, d_021BEAB8, d_021BEAD0, d_021BEAC4, work->heapId);
+    r = (s32)G3D_CAMERA_Create(2, 0, 0x50D7, 0, 0x6BCA, 0x1000, 0x80000, 0, (struct VecFx32 *)d_021BEAB8, (struct VecFx32 *)d_021BEAD0, (struct VecFx32 *)d_021BEAC4, work->heapId);
     work->light = r;
     G3D_CAMERA_Reset((struct G3dCamera *)r);
     G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 4, 0x1e, 0x10, 10);
@@ -1520,8 +1360,8 @@ void POKELIST_CreateClactUnit(PokelistWork *work)
 {
     PokelistActorTemplate cursorTemplate;
     PokelistActorTemplate buttonTemplate;
-    struct Obj *x;
-    struct Bank *bank;
+    struct ClactActor *x;
+    struct Unit *bank;
 
     bank = CLACT_CreateUnit(10, 8, work->heapId);
     work->clactUnit = bank;
@@ -1532,9 +1372,9 @@ void POKELIST_CreateClactUnit(PokelistWork *work)
     cursorTemplate.priority = 10;
     cursorTemplate.drawArea = 3;
     work->cursorActor = CLACT_CreateActor(work->clactUnit, work->palRes[0],
-                                        work->charRes[0], work->cellRes[0], &cursorTemplate, 0, work->heapId);
+                                        work->charRes[0], work->cellRes[0], (struct ActorInitParam *)(&cursorTemplate), 0, work->heapId);
     work->swapMarkerActor = CLACT_CreateActor(work->clactUnit, work->palRes[0],
-                                        work->charRes[0], work->cellRes[0], &cursorTemplate, 0, work->heapId);
+                                        work->charRes[0], work->cellRes[0], (struct ActorInitParam *)(&cursorTemplate), 0, work->heapId);
     CLACT_SetActorAutoAnim((struct ClactActor *)work->cursorActor, 1);
     CLACT_SetActorAutoAnim((struct ClactActor *)work->swapMarkerActor, 1);
     CLACT_SetActorDrawEnable((struct ClactActor *)work->cursorActor, 0);
@@ -1545,13 +1385,13 @@ void POKELIST_CreateClactUnit(PokelistWork *work)
     buttonTemplate.priority = 0;
     buttonTemplate.drawArea = 0;
     x = CLACT_CreateActor(work->clactUnit, work->palRes[2],
-                      work->charRes[1], work->cellRes[2], &buttonTemplate, 0, work->heapId);
+                      work->charRes[1], work->cellRes[2], (struct ActorInitParam *)(&buttonTemplate), 0, work->heapId);
     work->backButtonActor = x;
     CLACT_SetActorAutoAnim((struct ClactActor *)x, 1);
     buttonTemplate.x = 0xc4;
     buttonTemplate.animNo = 0;
     x = CLACT_CreateActor(work->clactUnit, work->palRes[2],
-                      work->charRes[1], work->cellRes[2], &buttonTemplate, 0, work->heapId);
+                      work->charRes[1], work->cellRes[2], (struct ActorInitParam *)(&buttonTemplate), 0, work->heapId);
     work->switchButtonActor = x;
     CLACT_SetActorAutoAnim((struct ClactActor *)x, 1);
 }

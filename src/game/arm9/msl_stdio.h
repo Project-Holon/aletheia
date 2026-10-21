@@ -14,7 +14,7 @@ typedef struct FILE FILE;
 #include "../arm9/msl_crt_shared_types.h"
 
 void __prep_buffer(struct MslStream *stream);
-int __load_buffer(struct MslStream *stream, u32 *bytes_loaded, int mode);
+int __load_buffer(struct MslStream *stream, size_t *bytes_loaded, int mode);
 int __flush_buffer(struct MslStream *stream, u32 *bytes_flushed);
 int fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream);
 size_t __fread(void *ptr, size_t memb_size, size_t num_memb, FILE *file);

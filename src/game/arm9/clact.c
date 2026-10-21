@@ -204,35 +204,27 @@ typedef struct {
     UserAttrTable tbl;
 } UserExtBlock;
 
-/* Head of an NNS G2d data bank (cell, animation or multi-cell). */
-struct ClactBankHead {
-    u16           count;              /* 0x00 */
-    u8            pad_02[0x0e];
-    UserExtBlock *mc_user_ext;        /* 0x10 */
-    UserExtBlock *user_ext;           /* 0x14 */
-};
-
 /* Registered cell and animation bank pair, 0x14. */
 struct CellSlot {
     void               *cell_file;    /* 0x00 */
     void               *anim_file;    /* 0x04 */
-    struct ClactBankHead *cell_bank;    /* 0x08 */
-    struct ClactBankHead *anim_bank;    /* 0x0c */
+    struct CellDataBank *cell_bank;    /* 0x08 */
+    struct AnimBank *anim_bank;    /* 0x0c */
     u32                 free;         /* 0x10 */
 };
 
 /* Per-actor animation controller, 0x7c. */
 struct AnimCtl {
     u32                 kind;         /* 0x00 */
-    struct ClactBankHead *cell_bank;    /* 0x04 */
-    struct ClactBankHead *anim_bank;    /* 0x08 */
+    struct CellDataBank *cell_bank;    /* 0x04 */
+    struct AnimBank *anim_bank;    /* 0x08 */
     u8                  anim[0x30];   /* 0x0c */
     u32                 cur_cell;     /* 0x3c */
     u8                  xfer_state[0x24]; /* 0x40 */
     u32                 xfer_handle;  /* 0x64 */
     u8                  pad_68[8];
-    struct ClactBankHead *mc_bank;      /* 0x70 */
-    struct ClactBankHead *mc_anim_bank; /* 0x74 */
+    struct MultiCellBank *mc_bank;      /* 0x70 */
+    struct AnimBank *mc_anim_bank; /* 0x74 */
     void               *mc_work;      /* 0x78 */
 };
 
@@ -242,10 +234,10 @@ struct ActorReq {
     u16                 pltt_idx;     /* 0x02 */
     struct CharSlot    *char_slot;    /* 0x04 */
     struct PlttSlot    *pltt_slot;    /* 0x08 */
-    struct ClactBankHead *cell_bank;    /* 0x0c */
-    struct ClactBankHead *anim_bank;    /* 0x10 */
-    struct ClactBankHead *mc_bank;      /* 0x14 */
-    struct ClactBankHead *mc_anim_bank; /* 0x18 */
+    struct CellDataBank *cell_bank;    /* 0x0c */
+    struct AnimBank *anim_bank;    /* 0x10 */
+    struct MultiCellBank *mc_bank;      /* 0x14 */
+    struct AnimBank *mc_anim_bank; /* 0x18 */
     const NNSG2dCharacterData *xfer_chars; /* 0x1c */
 };
 
@@ -533,26 +525,11 @@ struct MultiCellDrawCmd;
 extern void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellDrawCmd *c);
 struct AnimBank;
 struct AnimSequenceData;
-extern struct AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, unsigned int idx);
 struct CellDataBank;
-extern void NNS_G2dInitCellAnimation(struct CellAnim *pCellAnim, struct AnimSequenceData *pAnimSeq, struct CellDataBank *pCellDataBank);
-extern void NNS_G2dInitCellAnimationVramTransfered(struct CellAnim *pCellAnim, struct AnimSequenceData *pAnimSeq, struct CellDataBank *pCellDataBank, unsigned int stateIdx, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f);
-struct ClactBankHead;
-extern int NNS_G2dGetMCWorkAreaSize(struct ClactBankHead *pBank, u32 kind);
-struct ClactBankHead;
-extern void NNS_G2dInitMCAnimation(struct MultiCellAnim *pMCAnim, void *pBuf, struct AnimBank *pAnimBank, struct CellDataBank *pCellDataBank, struct ClactBankHead *pBank, int kind);
-extern void NNS_G2dSetAnimSequenceToMCAnimation(struct MultiCellAnim *pMCAnim, struct AnimSequenceData *pAnimSeq);
-extern void  NNS_G2dSetCellAnimationSequence(struct CellAnim *pCellAnim, struct AnimSequenceData *pAnimSeq);
-extern void NNS_G2dTickCellAnimation(struct CellAnim *anim, s32 frames);
-extern void NNS_G2dTickMCAnimation(struct MultiCellAnim *pMCAnim, int frames);
-extern void NNS_G2dSetCellAnimationCurrentFrame(struct CellAnim *anim, u32 i);
-extern void NNS_G2dSetMCAnimationCurrentFrame(struct MultiCellAnim *pMCAnim, unsigned int frameIdx);
-extern void NNS_G2dSetCellAnimationSpeed(struct CellAnim *pCellAnim, int speed);
-extern void NNS_G2dSetMCAnimationSpeed(struct MultiCellAnim *pMCAnim, int speed);
-extern void NNS_G2dRestartCellAnimation(struct CellAnim *anim);
+#include "nns_g2d_multi_cell_animation.h"
 struct MCInstance;
-extern void NNSi_G2dSetMCInstanceCurrentFrameZero(struct MCInstance *pMCInst);
 #include "nns_g2d_cell_animation.h"
+#include "nns_g2d_anim_bank.h"
 extern void VMAN_Delete(struct VmanBank *bank);
 #include "mi_uncompress.h"
 extern void  VMAN_InvalidateHandle(struct VmanHandle *handle);
@@ -573,8 +550,6 @@ struct VramHandleList;
 struct VramResourceIndices;
 struct VramResourceList;
 extern void NNSi_G2dLoadVramResourceList(struct VramResourceList *self, struct VramResourceIndices *list, unsigned int base, int sel, struct VramHandleList *out);
-extern int NNS_G2dGetUnpackedCellBank(int a, struct ClactBankHead **out);
-extern s32 NNS_G2dGetUnpackedAnimBankEx(void *handle, struct ClactBankHead **slot);
 extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 #include "systemfont.h"
 void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
@@ -720,7 +695,7 @@ void CLACT_UpdateActorAutoAnim(struct ClactActor *actor);
 void CLACT_ApplyActorInit(struct ClactActor *actor, const struct ActorInitParam *init, u32 space);
 void CLACT_ApplyActorResources(struct ClactActor *actor, const struct ActorReq *req);
 void CLACT_GetSurfaceOrigin(struct ClactActor *actor, u32 surface_idx, u16 *out);
-void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct ClactBankHead *anim_bank);
+void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, struct CellDataBank *cell_bank, struct AnimBank *anim_bank);
 struct ClactActor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInitParam *init, struct ActorReq *req, u32 space, u16 heap_id);
 struct ClactActor *CLACT_CreateActorFull(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
 void CLACT_InitAnimCtl(struct AnimCtl *anim_ctl, void *req, u32 heap_id);
@@ -4471,7 +4446,7 @@ void CLACT_GetSurfaceOrigin(struct ClactActor *actor, u32 surface_idx, u16 *out)
  *   python tools/match.py one --src src/matched/CLACT_InitActorRequest.c \
  *       --func CLACT_InitActorRequest --addr 0x0204CFA4 --cc 1.1p1 --arm
  */
-void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct ClactBankHead *anim_bank)
+void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, struct CellDataBank *cell_bank, struct AnimBank *anim_bank)
 {
     req->char_idx = char_idx;
     req->pltt_idx = pltt_idx;
@@ -4658,7 +4633,7 @@ void CLACT_InitCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req)
 {
     anim_ctl->cell_bank = req->cell_bank;
     anim_ctl->anim_bank = req->anim_bank;
-    NNS_G2dInitCellAnimation((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, 0), (struct CellDataBank *)anim_ctl->cell_bank);
+    NNS_G2dInitCellAnimation((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, 0), anim_ctl->cell_bank);
 }
 
 /*
@@ -4682,18 +4657,18 @@ void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq 
     const NNSG2dCharacterData *chars;
 
     {
-        struct ClactBankHead *anim_bank = req->anim_bank;
-        void *cell_bank = req->cell_bank;
+        struct AnimBank *anim_bank = req->anim_bank;
+        struct CellDataBank *cell_bank = req->cell_bank;
         anim_ctl->cell_bank = cell_bank;
         anim_ctl->anim_bank = anim_bank;
     }
     anim_ctl->xfer_handle = NNSi_G2dGetCellTransferStateIndex();
     chars = req->xfer_chars;
-    anim_data = (uptr)NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, zero);
+    anim_data = (uptr)NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, zero);
     main_vram_addr = NNSi_G2dGetVramHandleValue((int *)req->char_slot, 1);
     two = 2;
     sub_vram_addr = NNSi_G2dGetVramHandleValue((int *)req->char_slot, two);
-    NNS_G2dInitCellAnimationVramTransfered((struct CellAnim *)anim_ctl->anim, (struct AnimSequenceData *)anim_data, (struct CellDataBank *)anim_ctl->cell_bank, anim_ctl->xfer_handle,
+    NNS_G2dInitCellAnimationVramTransfered((struct CellAnim *)anim_ctl->anim, (struct AnimSequenceData *)anim_data, anim_ctl->cell_bank, anim_ctl->xfer_handle,
                   two - 3, main_vram_addr, sub_vram_addr, (sptr)chars->pRawData, zero, chars->szByte);
 }
 
@@ -4723,8 +4698,8 @@ void CLACT_InitVramAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req,
     anim_ctl->mc_anim_bank = req->mc_anim_bank;
 
     anim_ctl->mc_work = GFL_HEAP_Alloc(heap_id, NNS_G2dGetMCWorkAreaSize(req->mc_bank, 1), 0, s_clact_c, 0x171d);
-    NNS_G2dInitMCAnimation((struct MultiCellAnim *)anim_ctl->anim, anim_ctl->mc_work, (struct AnimBank *)anim_ctl->anim_bank, (struct CellDataBank *)anim_ctl->cell_bank, (struct ClactBankHead *)anim_ctl->mc_bank, 1);
-    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->mc_anim_bank, 0));
+    NNS_G2dInitMCAnimation((struct MultiCellAnim *)anim_ctl->anim, anim_ctl->mc_work, anim_ctl->anim_bank, anim_ctl->cell_bank, anim_ctl->mc_bank, 1);
+    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->mc_anim_bank, 0));
 }
 
 /*
@@ -4835,7 +4810,7 @@ void CLACT_SetAnimSeq(struct AnimCtl *anim_ctl, u32 anim_seq)
  */
 void CLACT_SetCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
-    NNS_G2dSetCellAnimationSequence((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, idx));
+    NNS_G2dSetCellAnimationSequence((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, idx));
 }
 
 /*
@@ -4850,7 +4825,7 @@ void CLACT_SetCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
  */
 void CLACT_SetMultiCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
-    NNS_G2dSetCellAnimationSequence((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, idx));
+    NNS_G2dSetCellAnimationSequence((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, idx));
 }
 
 /*
@@ -4865,7 +4840,7 @@ void CLACT_SetMultiCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
  */
 void CLACT_SetVramAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
-    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->mc_anim_bank, idx));
+    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->mc_anim_bank, idx));
 }
 
 /*
@@ -5181,7 +5156,7 @@ void CLACT_ResetVramAnim(void *anim_base)
 
 void *CLACT_GetCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 {
-    UserExtBlock *block = anim_ctl->anim_bank->user_ext;
+    UserExtBlock *block = (UserExtBlock *)anim_ctl->anim_bank->pSubBank;
     UserAttrTable *table;
     if (block == 0 || block->tag != 0x55414154) {
         block = 0;
@@ -5198,7 +5173,7 @@ void *CLACT_GetCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 
 void *CLACT_GetMultiCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 {
-    UserExtBlock *block = anim_ctl->anim_bank->user_ext;
+    UserExtBlock *block = (UserExtBlock *)anim_ctl->anim_bank->pSubBank;
     UserAttrTable *table;
     if (block == 0 || block->tag != 0x55414154) {
         block = 0;
@@ -5215,7 +5190,7 @@ void *CLACT_GetMultiCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 
 void *CLACT_GetVramCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 {
-    UserExtBlock *block = anim_ctl->mc_anim_bank->user_ext;
+    UserExtBlock *block = (UserExtBlock *)anim_ctl->mc_anim_bank->pSubBank;
     UserAttrTable *table;
     if (block == 0 || block->tag != 0x55414154) {
         block = 0;
@@ -5232,7 +5207,7 @@ void *CLACT_GetVramCellUserAttr(struct AnimCtl *anim_ctl, u32 idx)
 
 UserAttrTable *CLACT_GetCellUserAttrTable(struct AnimCtl *anim_ctl)
 {
-    UserExtBlock *block = anim_ctl->cell_bank->user_ext;
+    UserExtBlock *block = (UserExtBlock *)anim_ctl->cell_bank->pUserExt;
     if (block == 0 || block->tag != 0x55434154) {
         block = 0;
     }
@@ -5241,7 +5216,7 @@ UserAttrTable *CLACT_GetCellUserAttrTable(struct AnimCtl *anim_ctl)
 
 UserAttrTable *CLACT_GetMultiCellUserAttrTable(struct AnimCtl *anim_ctl)
 {
-    UserExtBlock *block = anim_ctl->cell_bank->user_ext;
+    UserExtBlock *block = (UserExtBlock *)anim_ctl->cell_bank->pUserExt;
     if (block == 0 || block->tag != 0x55434154) {
         block = 0;
     }
@@ -5250,7 +5225,7 @@ UserAttrTable *CLACT_GetMultiCellUserAttrTable(struct AnimCtl *anim_ctl)
 
 UserAttrTable *CLACT_GetVramCellUserAttrTable(struct AnimCtl *anim_ctl)
 {
-    UserExtBlock *block = anim_ctl->mc_bank->mc_user_ext;
+    UserExtBlock *block = (UserExtBlock *)anim_ctl->mc_bank->pAnimBank;
     if (block == 0 || block->tag != 0x55434154) {
         block = 0;
     }
@@ -5879,7 +5854,7 @@ s32 CLACT_LoadCellAnimBanks(struct ClactRes *res, s32 idx, void *cell_file, void
 {
     struct CellSlot *slot = &res->cells[idx];
 
-    if (NNS_G2dGetUnpackedCellBank((sptr)cell_file, &slot->cell_bank) != 0) {
+    if (NNS_G2dGetUnpackedCellBank(cell_file, &slot->cell_bank) != 0) {
         if (NNS_G2dGetUnpackedAnimBankEx(anim_file, &slot->anim_bank) != 0) {
             slot->free = 0;
             return 1;

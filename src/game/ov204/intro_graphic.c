@@ -197,102 +197,42 @@ struct LightSetDesc;
 #include "../arm9/procsys.h"
 #include "../arm9/tcb_list.h"
 #include "../ov021/scrcmd_msgwin.h"
-extern int GF_OVERLAY_Load(s32 handle);
-extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size);
-extern void *PROCSYS_AllocProcWork(Proc *proc, u32 size, u32 heapId);
-extern void MI_CpuFill8(void *, unsigned, unsigned);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
-extern void *INTRO_MCSS_Create(unsigned int heap, int kind);
-extern char *INTRO_G3D_Create(void *owner, int kind, u32 heap);
-extern char *INTRO_PARTICLE_Create(void *owner, unsigned heap);
-extern char *INTRO_CMD_Create(void *, unsigned, unsigned, char *, unsigned, unsigned short);
-extern void INTRO_PARTICLE_Delete(char *);
-extern void INTRO_MCSS_Delete(u8 *p);
-extern void INTRO_G3D_Delete(char *);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void INTRO_CMD_Delete(u8 *p);
-extern void PROCSYS_FreeProcWork(Proc *proc);
-extern void GFL_HEAP_DeleteChecked(u32 heapId);
-extern void GF_OVERLAY_Unload(s32 handle);
-extern int INTRO_CMD_Main(char *p);
-extern void INTRO_G3D_UpdateIdleAnim(char *p);
-extern void INTRO_MCSS_Main(u8 *p);
-extern void INTRO_PARTICLE_Main(void *unused);
-extern void INTRO_G3D_Draw(char *p);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void G3X_SetFog(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset);
-extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog);
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_font.h"
+#include "../arm9/msgdata.h"
+#include "intro_mcss.h"
+#include "intro_g3d.h"
+#include "intro_particle.h"
+#include "intro_cmd.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/g3x.h"
 struct G3dLight;
 extern void G3D_SYSTEM_SetLight(u32 lightIdx, const G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 sortMode, u32 bufferMode);
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
-extern void BG_SYS_ClearGraphicsMemory(u32);
-extern void BG_SYS_SetLcdSwap(u32);
-extern void BG_SYS_ResetSubDisplay(void);
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
-extern void BG_SYS_SetVramBanks(const struct DispVram *);
-extern void GF_FONT_InitTextColor(void);
-extern struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_Create(u16 heapId);
-extern void BMP_WIN_Init(u32 heapId);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(u8 idx);
-extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
-extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern u32 BG_SYS_GetMainVisiblePlanes(void);
-extern void BG_SYS_ChangeScroll(u32, u32, u32);
-extern void BG_SYS_Update(void);
+#include "../arm9/bmp_win.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Unit *CLACT_CreateUnit(int count, u8 priority, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_DeleteUnit(struct Unit *unit);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
+#include "../arm9/clact.h"
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u16 fifoSize, u16 heap, void (*setupFn)(void));
-extern struct G3dCamera *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, VecFx32 *eye, VecFx32 *target, VecFx32 *up, u16 heapID);
+#include "../arm9/g3d_camera.h"
 struct G3dCamera;
-extern void G3D_CAMERA_SetFar(struct G3dCamera *camera, const u32 *in);
-extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, const u32 *in);
 struct LightSetDesc;
 struct LightSlotValue;
-extern struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *set, u16 heapID);
-extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
-extern u32 G3D_LIGHT_DeleteSlots(void *slots);
-extern u32 G3D_CAMERA_Delete(void *ptr);
+#include "../arm9/g3d_light.h"
 extern void G3D_SYSTEM_Exit(void);
                                                                         
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
 struct IntroCommand;
-extern IntroCommand *INTRO_CMD_GetScenarioRow(u32 n);
-extern void INTRO_MSG_DrawMenuList(char *);
-extern int INTRO_CMD_AddCommand(IntroCmdWork *, IntroCommand *);
-extern void INTRO_MSG_CreateMenuList(char *p, u32 *entries, u32 count, int flag);
-extern void INTRO_MSG_MainMenuList(u8 *p);
-extern int INTRO_MSG_GetMenuChoice(u8 *p, int *out);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, unsigned int heapID);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, int kind, u32 dest, int size, u16 flags);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *,u32,u32,void **,u16);
-extern void MIi_CpuCopy16(const void *,void *,u32);
-extern void ARC_TOOL_DeleteHandle(void *);
+#include "intro_msg.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
 int INTRO_GRAPHIC_Create(struct Proc *owner, int unused, char *args);
 int INTRO_GRAPHIC_Delete(struct Proc *owner, int unused1, int unused2, char *p);
 int INTRO_GRAPHIC_Main(int a, int b, int c, void *p);

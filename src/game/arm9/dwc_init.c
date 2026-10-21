@@ -55,17 +55,17 @@ typedef struct {
     int initFlag;
 } DWCInitState;
 
-extern void OSi_ReferSymbol(const void *symbol);
+#include "crt0.h"
 extern int  DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCiMemAlloc alloc, DWCiMemFree free);
-extern void  OS_InitTick(void);
-extern void  OS_InitAlarm(void);
-extern void  RTC_Init(void);
-extern int   DWC_BM_Init(void *work);
-extern int   DWC_Auth_CheckWiFiIDNeedCreate(void);
-extern int   DWCi_AUTH_MakeWiFiID(void *work);
-extern int   DWCi_Auth_InitInterface(int auth_server);
-extern void  gsiMemoryCallbacksSet(void *(*p_malloc)(unsigned long), void (*p_free)(void *),
-                                   void *(*p_realloc)(void *, unsigned long), void *(*p_memalign)(unsigned long, unsigned long));
+typedef unsigned long long OSTick;
+#include "os_tick.h"
+#include "os_alarm.h"
+typedef int RTCResult;
+#include "external.h"
+#include "dwc_bm_init.h"
+#include "util_wifiidtool.h"
+#include "../ov009/dwc_auth_interface.h"
+#include "../ov009/gsmemory.h"
 extern char id_string_production[68];
 extern u32  dwci_gamecode;
 extern char gcd_gamename[];

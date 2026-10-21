@@ -22,7 +22,7 @@
 #include "../types.h"
 
 #include "ctrdg.h"
-extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
+#include "pxi_fifo.h"
 #include "msl_crt.h"
 
 void CTRDG_DummyInit(void)

@@ -159,8 +159,23 @@
  */
 #include "../arm9/printsys.h"
 #include "../sdk_ioreg.h"
-#include "../../matched/include/G_Template.h"
-#include "../../matched/include/G_Config.h"
+struct UnSelectPageState {
+    unsigned char pad_0[0x18];
+    unsigned char page;
+    unsigned char pad19;
+    unsigned short start;
+    unsigned char pad_1C[0x8];
+    void *owner;
+};
+struct UnSelectActorDesc {
+    unsigned int a;
+    unsigned int b;
+    unsigned int c;
+    unsigned int d;
+    unsigned int e;
+    unsigned short f;
+    unsigned short g;
+};
 
 struct Node;
 struct TaskMenuState;
@@ -201,9 +216,9 @@ struct UnSelectTaskMenuTmpl { u32 heapId; u8 count; u8 pad05[3]; const void *unk
 
 typedef struct Obj Obj;
 
-typedef struct Template Template;
+typedef struct UnSelectPageState UnSelectPageState;
 
-typedef struct Config Config;
+typedef struct UnSelectActorDesc UnSelectActorDesc;
 
 struct Row0 {char pad[0x294];void *item;};
 
@@ -312,12 +327,10 @@ struct Strbuf;
 #include "../arm9/strbuf.h"
 struct TaskMenuInitWork;
 struct TaskMenuWork;
-extern void BRIGHTNESS_ChangeReset(u32 mask);
-extern int BRIGHTNESS_ChangeRequest(int a, int b, int c, int d, int e);
+#include "../arm9/brightness.h"
 #include "../arm9/bmp_menuwork.h"
 #include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 struct TcblSystem;
 #include "../arm9/tcbl.h"
 struct BmpWin;
@@ -326,16 +339,9 @@ struct Bmp;
 typedef short s16_p07;
 #include "../arm9/bmp.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 #include "../arm9/wordset.h"
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void TOUCHBAR_PrintAligned(struct TouchBarWindow *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern u32 PRINTSYS_CountLine(struct Strbuf *text);
 #include "../arm9/msg_speed.h"
-extern u32 PRINTSYS_PrintStreamGetState(const struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
 #include "../arm9/key.h"
 #include "../arm9/touchpanel.h"
 #include "../arm9/gfl_use.h"
@@ -350,7 +356,6 @@ struct GFont;
 #include "../arm9/g2.h"
 #include "../arm9/net.h"
 extern int TOUCHBAR_GetPressedButtonIdIfDone(TouchBar *bar);
-extern int BRIGHTNESS_IsFinished(int a);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -422,12 +427,12 @@ void UN_SELECT_SetupDisplay(void);
 extern char ov067_id[];
 extern const Table d_021BAC20;
 extern char d_021BB088[];
-extern struct Template d_021BB060;
-extern struct Template template_021BB060;
+extern struct UnSelectPageState d_021BB060;
+extern struct UnSelectPageState template_021BB060;
 extern int tbl_021BAC80[];
 extern char d_021BAB20[];
-extern struct Config d_021BAB68;
-extern const Config d_021BABC8, d_021BAB98, d_021BABB0, d_021BAB80;
+extern struct UnSelectActorDesc d_021BAB68;
+extern const UnSelectActorDesc d_021BABC8, d_021BAB98, d_021BABB0, d_021BAB80;
 extern const unsigned short d_021BAED8[];
 
 int UN_SELECT_SceneCreate(void *owner,int *state,char *input,u8 *p)
@@ -1041,7 +1046,7 @@ void UN_SELECT_ReleaseActors(char *p){if(((struct UnSelectWork *)p)->characterId
 
 void UN_SELECT_SetupActors(char *p)
 {
-    Config a,b,c,d,e;
+    UnSelectActorDesc a,b,c,d,e;
     void *manager,*item;
     int i,j;
     manager=(void *)UN_SELECT_GRAPHIC_GetActor(((struct UnSelectWork *)p)->graphic);
@@ -1085,7 +1090,7 @@ void UN_SELECT_DeleteActor(char *p)
     }
 }
 
-struct Obj *UN_SELECT_CreateActor(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor((struct Unit *)owner,((struct Config *)p)->c,((struct Config *)p)->d,((struct Config *)p)->e,(const struct ActorInitParam *)((uptr)p),((struct Config *)p)->g,122);CLACT_SetActorAutoAnim((struct ClactActor *)r,1);return r;}
+struct Obj *UN_SELECT_CreateActor(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor((struct Unit *)owner,((struct UnSelectActorDesc *)p)->c,((struct UnSelectActorDesc *)p)->d,((struct UnSelectActorDesc *)p)->e,(const struct ActorInitParam *)((uptr)p),((struct UnSelectActorDesc *)p)->g,122);CLACT_SetActorAutoAnim((struct ClactActor *)r,1);return r;}
 
 void UN_SELECT_SetActorVisible(char *ctx)
 {

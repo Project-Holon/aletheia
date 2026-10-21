@@ -67,9 +67,24 @@
  *   DWCi_HEAPlFree_  0x021D6438  arm  ov016
  *   gMemWindow   0x021DE658  data
  */
-#include "../../matched/include/G_MemWinT.h"
+struct MemWinT {
+    void *cellWin;
+    void *cellChar;
+    void *button[2];
+    void *canv;
+    void *task;
+    unsigned short countWait;
+    signed char count;
+    signed char input;
+    unsigned char type;
+    unsigned char wait;
+    unsigned char dark;
+};
 #include "../sdk_ioreg.h"
-#include "../../matched/include/G_CoordT.h"
+struct CoordT {
+    unsigned short x;
+    unsigned short y;
+};
 
 struct tagCOORD;
 struct tagRECT;

@@ -77,7 +77,6 @@ extern u32 GFL_HEAP_Free(void *p);
 #endif
 #include "touchpanel.h"
 #include "fx_mtx22.h"
-extern void MTX_ScaleApply22(const MtxFx22 *src, MtxFx22 *dst, s32 x, s32 y);
 #include "fx_cp.h"
 #include "fx_vec.h"
 #include "fx_mtx33.h"

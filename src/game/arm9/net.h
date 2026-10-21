@@ -6,6 +6,7 @@
 
 #include "../types.h"
 #include "../arm9/net_types.h"
+#include "../arm9/net_types.h"
 
 void GFL_NET_SetupHeaps(u32 parentHeapId, u32 zero, u32 oldBaseHeapId, u32 newBaseHeapId);
 void GFL_NET_StartSession(GFLNetInitializeStruct *req, GFLNetUserFunc callback, void *work);

@@ -196,13 +196,13 @@ struct PmsDraw;
 
 typedef struct {u16 x,y,id;u8 flag,pad;} BrUtilRequest;
 
-typedef struct {void *text;int id;} BrUtilItem;
+typedef struct BrMenuItem BrUtilItem;
 
-typedef struct {BrUtilItem *list;u32 count;u8 x,y,width,height,palette,bg,spacing,pad;int mode;char *resources;u32 manager,cursor,other;u16 *selection;} BrUtilConfig;
+typedef struct BrListMenuConfig BrUtilConfig;
 
 typedef struct {u8 top,bottom,left,right;} Area;
 
-typedef struct {BrUtilConfig cfg;u32 handles[4],descriptor;u16 selected,last,index,start,visible;u16 pad46;int hitId;signed char dragDir;u8 scroll,pad4e[2];void (*methods[3])(void);Area areas[10];int dragActive;u16 dragY;u8 pad8A[2];void *bitmaps[];} BrUtilListMenu;
+typedef struct BrListMenu {BrUtilConfig cfg;u32 handles[4],descriptor;u16 selected,last,index,start,visible;u16 pad46;int hitId;signed char dragDir;u8 scroll,pad4e[2];void (*methods[3])(void);Area areas[10];int dragActive;u16 dragY;u8 pad8A[2];void *bitmaps[];} BrUtilListMenu;
 
 /* One text window: window descriptor, owner, string buffer and layout, 0x24 bytes. */
 typedef struct {

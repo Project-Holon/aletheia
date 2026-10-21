@@ -41,15 +41,6 @@ struct AnimBankPair {
     u32 framesOffset;
 };
 
-struct AnimBank {
-    u16 numSequences;              /* +0x00 */
-    u16 numTotalFrames;            /* +0x02 */
-    AnimSequenceData *pSequences;  /* +0x04 */
-    AnimFrameData *pFrames;        /* +0x08 */
-    u8 *pPool;                     /* +0x0c */
-    u32 pStringBank;               /* +0x10  label bank offset (NNSG2dAnimBankData), never read here */
-    u8 *pSubBank;                  /* +0x14 */
-};
 
 struct CellData {
     u16 numOam;
@@ -68,17 +59,17 @@ struct CellDataEx {
 struct NNSG2dBinaryFileHeader;
 
 #include "nns_g2d_load.h"
-int NNS_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out);
-int NNS_G2dGetUnpackedAnimBankEx(struct NitroFileHeader *file, void **out);
-int NNSi_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out);
+int NNS_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, struct AnimBank **out);
+int NNS_G2dGetUnpackedAnimBankEx(struct NitroFileHeader *file, struct AnimBank **out);
+int NNSi_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, struct AnimBank **out);
 void NNSi_G2dUnpackAnimBank(volatile struct AnimBank *bank);
 const AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(const struct AnimBank *bank, u32 idx);
 void *NNSi_G2dGetCellDataBankOamBase(CellDataBank *bank);
 void NNSi_G2dFixupCellAnimBankTbl(void *p);
-int NNS_G2dGetUnpackedCellBank(void *a, int *out);
+int NNS_G2dGetUnpackedCellBank(void *a, CellDataBank **out);
 void *NNS_G2dGetCellDataByIdx(CellDataBank *bank, u32 idx);
 void NNSi_G2dUnpackCellBank(int *p);
-int NNS_G2dGetUnpackedMultiCellBank(void *a, u32 *out);
+int NNS_G2dGetUnpackedMultiCellBank(void *a, MultiCellBank **out);
 void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank);
 void NNSi_G2dUnpackMultiCellBank(volatile MultiCellBank *bank);
 MultiCellData *NNS_G2dGetMultiCellDataByIdx(MultiCellBank *bank, u32 idx);
@@ -99,7 +90,7 @@ void NNSi_G2dFixupPaletteData(u8 *block);
  * file closes on its own as soon as 0x02062688 is matched, which makes the site
  * `matched` instead of `label`.
  */
-int NNS_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out)
+int NNS_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, struct AnimBank **out)
 {
     u32 r = (uptr)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)file, 0x41424E4B);
 
@@ -108,13 +99,13 @@ int NNS_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out)
         return 0;
     }
     NNSi_G2dUnpackAnimBank((volatile struct AnimBank *)(r + 8));
-    *out = (void *)(r + 8);
+    *out = (struct AnimBank *)(r + 8);
     return 1;
 }
 
-int NNS_G2dGetUnpackedAnimBankEx(struct NitroFileHeader *file, void **out){ return NNS_G2dGetUnpackedAnimBank(file, out); }
+int NNS_G2dGetUnpackedAnimBankEx(struct NitroFileHeader *file, struct AnimBank **out){ return NNS_G2dGetUnpackedAnimBank(file, out); }
 
-int NNSi_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out){ return NNS_G2dGetUnpackedAnimBank(file, out); }
+int NNSi_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, struct AnimBank **out){ return NNS_G2dGetUnpackedAnimBank(file, out); }
 
 /*
  * NANR bank fixup ('KNBA' body, NitroSystem NNSi_G2dUnpackNAN shape): turn
@@ -250,7 +241,7 @@ void NNSi_G2dFixupCellAnimBankTbl(void *p)
     NNSi_G2dFixupOffsets((struct Tbl *)((u8 *)p + 8));
 }
 
-int NNS_G2dGetUnpackedCellBank(void *a, int *out)
+int NNS_G2dGetUnpackedCellBank(void *a, CellDataBank **out)
 {
     char *o = (char *)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)a, 0x4345424b);
     if (o == 0) {
@@ -258,7 +249,7 @@ int NNS_G2dGetUnpackedCellBank(void *a, int *out)
         return 0;
     }
     NNSi_G2dUnpackCellBank((int *)(o + 8));
-    *out = (sptr)(o + 8);
+    *out = (CellDataBank *)(o + 8);
     return 1;
 }
 
@@ -341,7 +332,7 @@ void NNSi_G2dUnpackCellBank(int *p)
  * `bl NNSi_G2dUnpackMultiCellBank` at 0x02062934, and this call is the only branch to
  * 0x0206296C in the image.  The `bl NNS_G2dFindBinaryBlock` site resolves (`label x40`).
  */
-int NNS_G2dGetUnpackedMultiCellBank(void *a, u32 *out)
+int NNS_G2dGetUnpackedMultiCellBank(void *a, MultiCellBank **out)
 {
     u32 r = (uptr)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)a, 0x4D43424B);
 
@@ -350,7 +341,7 @@ int NNS_G2dGetUnpackedMultiCellBank(void *a, u32 *out)
         return 0;
     }
     NNSi_G2dUnpackMultiCellBank((volatile MultiCellBank *)(r + 8));
-    *out = r + 8;
+    *out = (MultiCellBank *)(r + 8);
     return 1;
 }
 

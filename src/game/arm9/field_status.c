@@ -109,21 +109,15 @@ struct ProcPairWork {
 
 #include "game_data.h"
 
-extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
+#include "gamesystem.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *procWork);
 
-extern void GAMESYSTEM_CallFieldProc(struct GameSystem *gameSystem);
 
-extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
+#include "game_event.h"
 
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *child);
 
 #include "field_sound_system.h"
 
@@ -133,9 +127,8 @@ extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *chil
 #include "../ov021/fieldmap.h"
 
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait);
+#include "../ov021/event_fieldmap_control.h"
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int wait, int restoreBg, u8 seasonShown, u8 seasonTarget);
 
 struct FieldStatus *FIELD_STATUS_Create(int heapId);
 

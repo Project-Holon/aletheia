@@ -11,6 +11,7 @@ typedef struct IcaAnime IcaAnime;
 
 #include "../arm9/script_vm_types.h"
 #include "../ov021/scrcmd_misc_types.h"
+#include "../arm9/mic.h"
 #include "../ov020/event_mapchange_types.h"
 #include "../types.h"
 #include "../sdk_fx.h"
@@ -38,7 +39,7 @@ int SCRCMD_ResetSubscreenMode(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_SUBSCREEN_ResetModeTask(u32 *eventWords, int *seq);
 GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap, u32 partySlot);
 int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work);
-void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done);
+void EVENT_PERAP_RECORD_OnRecorded(MICResult result, void *arg);
 void EVENT_PERAP_RECORD_PauseMmdls(PerapRecordWork *work);
 void EVENT_PERAP_RECORD_ResumeMmdls(PerapRecordWork *work);
 void EVENT_PERAP_RECORD_CreatePokeIcon(PerapRecordWork *work);

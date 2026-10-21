@@ -152,10 +152,10 @@ struct FieldNogridMapper;
 #include "field_nogrid_mapper.h"
 #include "../arm9/fx_atanidx.h"
 #include "map_attr.h"
-extern void FLDEFF_GRASS_Start(u32 fldEffCtrl, Mmdl *mmdl, u32 animate, int arg);
+#include "fldeff_grass.h"
 #include "fldeff_footmark.h"
-extern void FLDEFF_SHADOW_Start(Mmdl *mmdl, u32 fldEffCtrl);
-extern u32 FLDEFF_KEMURI_StartFacing(Mmdl *mmdl, u32 fldEffCtrl);
+#include "fldeff_shadow.h"
+#include "fldeff_kemuri.h"
 #include "../ov010/fldmmdl_move.h"
 #include "fldeff_reflect.h"
 struct FieldMap;
@@ -188,10 +188,10 @@ void FLDMMDL_RAIL_MOVE_MapAttrFootMarkProc1(Mmdl *mmdl, u32 attrNow, u32 attrOld
 void FLDMMDL_RAIL_MOVE_MapAttrShadowProc0(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
 void FLDMMDL_RAIL_MOVE_MapAttrShadowProc12(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
 void FLDMMDL_RAIL_MOVE_MapAttrEndNopProc(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-int FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+void FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
 void FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
 void FLDMMDL_RAIL_MOVE_MapAttrReflectProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-u32 FLDMMDL_RAIL_MOVE_GetFldEffCtrl(Mmdl *mmdl);
+struct FieldEffectSys *FLDMMDL_RAIL_MOVE_GetFldEffCtrl(Mmdl *mmdl);
 int FLDMMDL_RAIL_MOVE_AcEnd(Mmdl *mmdl);
 int FLDMMDL_RAIL_MOVE_AcNextStep(Mmdl *mmdl);
 void FLDMMDL_RAIL_MOVE_AcDirSet(Mmdl *mmdl, u32 dir);
@@ -471,7 +471,7 @@ void FLDMMDL_RAIL_MOVE_MapAttrGrassProc12(Mmdl *mmdl, u32 attrNow, u32 attrOld, 
 
 void FLDMMDL_RAIL_MOVE_MapAttrFootMarkProc1(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
-    u32 fldEffCtrl;
+    struct FieldEffectSys *fldEffCtrl;
     int cycle;
     if (attrOld != _ATTR_NONE && (MAP_ATTR_GetFlags(attrOld) & _ATTRFLAG_FOOTMARK)) {
         fldEffCtrl = FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl);
@@ -501,15 +501,15 @@ void FLDMMDL_RAIL_MOVE_MapAttrEndNopProc(Mmdl *mmdl, u32 attrNow, u32 attrOld, M
 {
 }
 
-int FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
+void FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
-    return FLDEFF_KEMURI_StartFacing(mmdl, FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl));
+    FLDEFF_KEMURI_StartFacing(mmdl, FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl));
 }
 
 void FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param)
 {
     u32 reflectAttr;
-    u32 fldEffCtrl;
+    struct FieldEffectSys *fldEffCtrl;
     void *mmdlSys;
     if (param->reflectType != 0 && FLDMMDL_CheckMoveBitReflect(mmdl) == 0) {
         reflectAttr = _ATTR_NONE;
@@ -526,7 +526,7 @@ void FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(Mmdl *mmdl, u32 attrNow, u32 attrOld
                 fldEffCtrl = FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl);
                 mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
                 FLDMMDL_SetMoveBitReflect(mmdl, 1);
-                FLDEFF_REFLECT_SetMMdl((uptr)mmdlSys, (uptr)mmdl, fldEffCtrl, 1);
+                FLDEFF_REFLECT_SetMMdl(mmdlSys, mmdl, fldEffCtrl, 1);
             }
         }
     }
@@ -548,9 +548,9 @@ void FLDMMDL_RAIL_MOVE_MapAttrReflectProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld,
 }
 
 /* Field effect control of the field map that owns the field model. */
-u32 FLDMMDL_RAIL_MOVE_GetFldEffCtrl(Mmdl *mmdl)
+struct FieldEffectSys *FLDMMDL_RAIL_MOVE_GetFldEffCtrl(Mmdl *mmdl)
 {
-    return (uptr)FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
+    return FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
 }
 
 /* Anime command step: end of the command. */

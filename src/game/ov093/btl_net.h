@@ -6,8 +6,8 @@
 
 struct BtlRuleExchange;
 struct Party;
-struct BtlNetTrainerPacket;
-struct BtlNetTrainerData;
+struct BtlTrainerPacket;
+struct BattleTrainerData;
 struct BtlNetMsgSlot;
 
 #include "../types.h"
@@ -48,15 +48,15 @@ void *BTL_NET_AllocPlayerInfoBuf(int netId, int unused, u32 size);
 void BTL_NET_RecvPlayerInfoDone(int netId, void *buf);
 int BTL_NET_IsPlayerInfoReceived(void);
 void *BTL_NET_GetPlayerInfo(u8 clientId);
-u32 BTL_NET_SendRelayedPlayerInfo(void *trainerData);
+u32 BTL_NET_SendRelayedPlayerInfo(struct BattleTrainerData *trainerData);
 u32 BTL_NET_AllocRelayedPlayerInfoBuf(void *unused0, int unused1, int size);
 void BTL_NET_RecvRelayedPlayerInfoDone(int unused, void *buf);
 int BTL_NET_IsRelayedPlayerInfoReceived(void);
 void *BTL_NET_GetRelayedPlayerInfo(void);
 void BTL_NET_FreeRelayedPlayerInfo(void);
 void BTL_NET_FreeAfterPlayerInfoUse(void);
-struct BtlNetTrainerPacket *BTL_NET_BuildPlayerInfoPacket(struct BtlNetTrainerData *trainerData, u32 heapId);
-void BTL_NET_FreePlayerInfoPacket(void *packet);
+struct BtlTrainerPacket *BTL_NET_BuildPlayerInfoPacket(struct BattleTrainerData *trainerData, u32 heapId);
+void BTL_NET_FreePlayerInfoPacket(struct BtlTrainerPacket *packet);
 void BTL_NET_FreeRecvBuffers(void);
 void BTL_NET_BeginSync(int stage);
 int BTL_NET_PollSync(int stage);

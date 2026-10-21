@@ -5,8 +5,8 @@
    PLIST_PLATE_Create, 0x44 bytes) and the small structs only plist_plate.c uses.
    The including file defines u8, u16, u32, s8, s16 and includes pokelist_types.h first. */
 
-struct Obj;
-struct Bank;
+struct ClactActor;
+struct Unit;
 struct Descriptor;
 
 /* Values the plate reads with POKE_TOOL_GetPartyValue; same ids as enum PokeToolParam in poke_tool.c. */
@@ -75,14 +75,14 @@ typedef struct PlistPlate {
     int textPending;                 /* 0x18: text printed, waiting for the print to finish */
     int labelState;                  /* 0x1C */
     struct Descriptor *window;       /* 0x20 */
-    struct Obj *clactUnit;           /* 0x24 */
-    struct Bank *clactBank;          /* 0x28 */
+    struct ClactActor *clactUnit;           /* 0x24 */
+    struct Unit *clactBank;          /* 0x28 */
     s32 iconResource;                /* 0x2C */
-    struct Obj *monIconActor;        /* 0x30 */
-    struct Obj *frameActor;          /* 0x34 */
-    struct Obj *hpBarActor;          /* 0x38 */
-    struct Obj *itemIconActor;       /* 0x3C */
-    struct Obj *statusIconActor;     /* 0x40 */
+    struct ClactActor *monIconActor;        /* 0x30 */
+    struct ClactActor *frameActor;          /* 0x34 */
+    struct ClactActor *hpBarActor;          /* 0x38 */
+    struct ClactActor *itemIconActor;       /* 0x3C */
+    struct ClactActor *statusIconActor;     /* 0x40 */
 } PlistPlate;
 typedef char PlistPlate_SizeCheck[(sizeof(PlistPlate) == 0x44) ? 1 : -1];
 

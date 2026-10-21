@@ -6,7 +6,7 @@
 
 struct Strbuf;
 struct TaskMenu;
-struct Bank;
+struct Unit;
 
 #define PLIST_MENU_MAX_ENTRIES 8
 

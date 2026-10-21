@@ -1119,7 +1119,6 @@ typedef struct FieldSoundTaskWork {
     u16 lowParam;                   /* 0x0E fade out frames */
 } FieldSoundTaskWork;
 
-typedef int (*FieldSoundTaskFunc)(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
 
 /* BGM played when a trainer of a class spots the player. */
 typedef struct TrainerClassBgm {
@@ -1146,15 +1145,14 @@ typedef struct ZoneBgmOverride {
 
 #include "game_data.h"
 
-extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, FieldSoundTaskFunc func, u32 workSize);
-
-extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+#include "gamesystem.h"
 
 
+#include "game_event.h"
 
-extern struct Iss3dsSys *ISS_SYS_Get3dsSys(struct IssSys *iss);
+
+
+#include "iss_sys.h"
 
 #include "iss_3ds_sys.h"
 
@@ -1204,73 +1202,73 @@ u32 FIELD_SOUND_SYSTEM_StepBgmLoading(FieldSoundSystem *fieldSound);
 
 u32 FIELD_SOUND_SYSTEM_IsSaving(FieldSoundSystem *fieldSound);
 
-int FIELD_SOUND_SYSTEM_FadeInTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_FadeInTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeInTask(struct GameSystem *gameSystem, u32 fadeInFrames);
 
-int FIELD_SOUND_SYSTEM_FadeOutTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_FadeOutTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutTask(struct GameSystem *gameSystem, u32 fadeOutFrames);
 
-int FIELD_SOUND_SYSTEM_PushTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_PushTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartPushTask(struct GameSystem *gameSystem, u32 fadeOutFrames);
 
-int FIELD_SOUND_SYSTEM_PopAndWaitTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_PopAndWaitTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *gameSystem, u32 fadeOutFrames, u32 fadeInFrames);
 
-int FIELD_SOUND_SYSTEM_PopTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_PopTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartPopTask(struct GameSystem *gameSystem, u32 fadeOutFrames, u32 fadeInFrames);
 
-int FIELD_SOUND_SYSTEM_PopAllTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_PopAllTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAllTask(struct GameSystem *gameSystem, u16 fadeInFrames);
 
-int FIELD_SOUND_SYSTEM_PushAndChangeTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_PushAndChangeTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndChangeTask(struct GameSystem *gameSystem, u32 bgmNo, u32 fadeOutFrames, u32 fadeInFrames);
 
-int FIELD_SOUND_SYSTEM_PushAndPlayTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_PushAndPlayTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gameSystem, u32 bgmNo);
 
-int FIELD_SOUND_SYSTEM_ChangeTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_ChangeTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartChangeTask(struct GameSystem *gameSystem, u32 bgmNo, u32 fadeOutFrames, u32 fadeInFrames);
 
-int FIELD_SOUND_SYSTEM_FadeOutAndResetTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_FadeOutAndResetTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
-int FIELD_SOUND_SYSTEM_FadeOutAndPlayTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_FadeOutAndPlayTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(struct GameSystem *gameSystem, u32 bgmNo);
 
-int FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(struct GameSystem *gameSystem, u32 bgmNo, u16 fadeOutFrames);
 
-int FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(struct GameSystem *gameSystem, u16 fadeOutFrames);
 
-int FIELD_SOUND_SYSTEM_PushAndPlayWaitTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_PushAndPlayWaitTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(struct GameSystem *gameSystem, u32 bgmNo);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(struct GameSystem *gameSystem, u16 fadeOutFrames);
 
-int FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(struct GameSystem *gameSystem, u32 bgmNo);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(struct GameSystem *gameSystem);
 
-int FIELD_SOUND_SYSTEM_WaitSettledTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_WaitSettledTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitSettledTask(struct GameSystem *gameSystem);
 
-int FIELD_SOUND_SYSTEM_WaitAcceptRequestTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work);
+int FIELD_SOUND_SYSTEM_WaitAcceptRequestTask(struct GameEvent *event, u32 *seq, void *taskWork);
 
 struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(struct GameSystem *gameSystem);
 
@@ -1585,8 +1583,9 @@ u32 FIELD_SOUND_SYSTEM_IsSaving(FieldSoundSystem *fieldSound)
  */
 
 /* Task body: post a fade in request, then finish. */
-int FIELD_SOUND_SYSTEM_FadeInTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_FadeInTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -1612,8 +1611,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeInTask(struct GameSystem *gameSyst
 }
 
 /* Task body: post a fade out request, then finish. */
-int FIELD_SOUND_SYSTEM_FadeOutTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_FadeOutTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -1639,8 +1639,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutTask(struct GameSystem *gameSys
 }
 
 /* Task body: post a push request, wait until the sound system has handled it, then finish. */
-int FIELD_SOUND_SYSTEM_PushTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_PushTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -1671,8 +1672,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPushTask(struct GameSystem *gameSystem
 }
 
 /* Task body: post a pop request, wait until the sound system has handled it, then finish. */
-int FIELD_SOUND_SYSTEM_PopAndWaitTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_PopAndWaitTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -1704,8 +1706,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *game
 }
 
 /* Task body: post a pop request and finish on the next tick. */
-int FIELD_SOUND_SYSTEM_PopTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_PopTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -1736,8 +1739,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPopTask(struct GameSystem *gameSystem,
  * stack (counting the queued requests) and posts one pop for each, the last one
  * with the fade in.
  */
-int FIELD_SOUND_SYSTEM_PopAllTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_PopAllTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
     s32 depth;
     s32 lastIndex;
@@ -1773,8 +1777,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAllTask(struct GameSystem *gameSyst
 }
 
 /* Task body: push the current BGM, then change to a new one (fade out, load, fade in), in the same tick. */
-int FIELD_SOUND_SYSTEM_PushAndChangeTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_PushAndChangeTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -1803,8 +1808,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndChangeTask(struct GameSystem *g
 }
 
 /* Task body: push the current BGM (6 frame fade out), then play a new one at once, in the same tick. */
-int FIELD_SOUND_SYSTEM_PushAndPlayTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_PushAndPlayTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -1832,8 +1838,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gam
 }
 
 /* Task body: post one change request (fade out, load, fade in) with all three stored parameters. */
-int FIELD_SOUND_SYSTEM_ChangeTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_ChangeTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -1865,8 +1872,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartChangeTask(struct GameSystem *gameSyst
  * game data (drains the queue and starts over), then finish. The game data is
  * looked up before the switch although only the third step uses it.
  */
-int FIELD_SOUND_SYSTEM_FadeOutAndResetTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_FadeOutAndResetTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     struct GameData *gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     FieldSoundSystem *fieldSound = work->fieldSound;
 
@@ -1891,8 +1899,9 @@ int FIELD_SOUND_SYSTEM_FadeOutAndResetTask(struct GameEvent *event, u32 *seq, Fi
 }
 
 /* Task body: fade out (6 frames), play a new BGM at once, finish when the sound system is idle. */
-int FIELD_SOUND_SYSTEM_FadeOutAndPlayTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_FadeOutAndPlayTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -1922,8 +1931,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(struct GameSystem *
 }
 
 /* Task body: like FIELD_SOUND_SYSTEM_FadeOutAndPlayTask with the fade out length taken from the work block. */
-int FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_FadeOutAndPlayWithFadeTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -1958,8 +1968,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(struct Game
  * first tick. 1001 does not fit a Thumb immediate, so it is a pool word.
  * It is a BGM number, so it may differ in the White version.
  */
-int FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_FadeOutAndPlayFixedBgmTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     if (*seq == 0) {
@@ -1982,8 +1993,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(struct Game
 }
 
 /* Task body: push the current BGM (6 frame fade out), play a new one at once, finish when the sound system is idle. */
-int FIELD_SOUND_SYSTEM_PushAndPlayWaitTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_PushAndPlayWaitTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -2030,8 +2042,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(struct GameSystem 
  * already holds a BGM (the stack has one entry), only fade out instead of
  * pushing. Then wait until the sound system is idle, post the play request, finish.
  */
-int FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_PushOrFadeOutAndPlayTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -2083,8 +2096,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(struct GameSystem *
 }
 
 /* Task body: wait until the sound system has left its transitional states. */
-int FIELD_SOUND_SYSTEM_WaitSettledTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_WaitSettledTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {
@@ -2110,8 +2124,9 @@ struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitSettledTask(struct GameSystem *gam
 }
 
 /* Task body: wait until the sound system takes another request. */
-int FIELD_SOUND_SYSTEM_WaitAcceptRequestTask(struct GameEvent *event, u32 *seq, FieldSoundTaskWork *work)
+int FIELD_SOUND_SYSTEM_WaitAcceptRequestTask(struct GameEvent *event, u32 *seq, void *taskWork)
 {
+    FieldSoundTaskWork *work = taskWork;
     FieldSoundSystem *fieldSound = work->fieldSound;
 
     switch (*seq) {

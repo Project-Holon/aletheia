@@ -219,7 +219,7 @@ int FIELD_PLAYER_TryPushBoulder(FieldPlayer *player, int a, int b, int c)
     int pushed = 0;
 
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0)
-        pushed = FIELD_PLAYER_GRID_EVENT_TryPushBoulder((struct FieldPlayer *)player->grid, a, b, c);
+        pushed = FIELD_PLAYER_GRID_EVENT_TryPushBoulder(player->grid, a, b, c);
     return pushed;
 }
 
@@ -485,18 +485,17 @@ struct Mmdl *FIELD_PLAYER_SearchFrontMmdl(FieldPlayer *player)
     return FLDMMDL_RAIL_SearchMmdlByLocation( (MmdlSys *)mmdlSys, (RailLocation *)&v[3], 0);
 }
 
-void FIELD_PLAYER_SearchFrontMmdlHeight(FieldPlayer *player, u32 limit)
+struct Mmdl *FIELD_PLAYER_SearchFrontMmdlHeight(FieldPlayer *player, u32 limit)
 {
     s16 v[8];
     struct MmdlSys *mmdlSys = FIELDMAP_GetMmdlSys(player->fieldMap);
 
     if (FIELDMAP_GetMoveKind(player->fieldMap) == 0) {
         FIELD_PLAYER_GetFrontGridPos(player, &v[2], &v[1], &v[0]);
-        FLDMMDL_SysSearchGridPosHeight(mmdlSys, v[2], v[0], v[1] << 16, limit, 0);
-        return;
+        return FLDMMDL_SysSearchGridPosHeight(mmdlSys, v[2], v[0], v[1] << 16, limit, 0);
     }
     FLDMMDL_RAIL_GetFrontLocation( (Mmdl *)(FIELD_PLAYER_CORE_GetMmdl( (FieldPlayerCore *)player->core)), (RailLocation *)&v[3]);
-    FLDMMDL_RAIL_SearchMmdlByLocation( (MmdlSys *)mmdlSys, (RailLocation *)&v[3], 0);
+    return FLDMMDL_RAIL_SearchMmdlByLocation( (MmdlSys *)mmdlSys, (RailLocation *)&v[3], 0);
 }
 
 void FIELD_PLAYER_GetGridPosInDir(FieldPlayer *player, u32 dir, s16 *gridX, s16 *gridY, s16 *gridZ)

@@ -130,58 +130,43 @@ struct SubwayMapScreen {u32 bgState; struct SubwayMapClactUnit clactUnit; void *
 
 struct SubwayMapGraphicRecord { u32 id; u32 bg[8]; u32 kind; u32 visible; };
 
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Proc *,u32,u32);
-extern void MI_CpuFill8(void *,u32,u32);
-extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+#include "../arm9/printsys.h"
 extern void BG_SYS_SetPriority(int,u16);
-extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *),void *,u32);
+#include "../arm9/gfl_use.h"
 extern void BG_SYS_ClearSubPlanes(void);
-extern void GXS_SetGraphicsMode(u32);
+#include "../arm9/gx.h"
 extern void BG_SYS_ClearSubBgPlanes(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
-extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_PushTile(u32);
-extern void FADE_Start(u32,int,int,int);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
+#include "../arm9/fade.h"
+#include "../arm9/net.h"
 extern void BG_SYS_FreeLayerBuf(u32 i);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void PROCSYS_FreeProcWork(struct Proc *);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern int FADE_IsActive(void);
-extern u32 KEY_GetTrg(void);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+#include "../arm9/tcb_list.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/key.h"
+#include "../arm9/touchpanel.h"
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
-extern void G3X_SetFog(int,int,int,int);
-extern void G3X_SetClearColor(u16,int,int,int,int);
+#include "../arm9/g3x.h"
 struct G3dLight;
 extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
-extern void GF_FONT_InitTextColor(void);
-extern u32 GFL_HEAP_Free(void *p);
-extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_Create(u32);
-extern void BMP_WIN_Init(u32);
+#include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;

@@ -26,7 +26,11 @@
  *   WM_GetLinkLevel  0x0208EE9C  arm
  *   DWCi_CEINlSet  0x021D52D4  arm  ov016
  */
-#include "../../matched/include/G_MemIcon.h"
+struct MemIcon {
+    void *obj;
+    void *task;
+    signed char type;
+};
 #include "../sdk_ioreg.h"
 
 #include "gx_oam_types.h"

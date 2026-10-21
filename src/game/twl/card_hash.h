@@ -4,13 +4,13 @@
 #include "../types.h"
 #include "../arm9/os_thread.h"
 
-typedef struct Node {
-    struct Node *next;
+typedef struct CardHashNode {
+    struct CardHashNode *next;
     u32 key;
     u32 offset;
     u32 data;
     u32 buffer;
-} Node;
+} CardHashNode;
 
 typedef struct Node16 {
     struct Node16 *next;
@@ -44,18 +44,18 @@ typedef struct {
     int (*readCallback)(void *, void *, u32, u32);
     int (*asyncReadCallback)(void *, void *, u32, u32);
     OSThread *thread;
-    Node *cur;
-    Node *free_a;
-    Node *used_a;
-    Node *cache_a;
-    Node *free_b;
-    Node *used_b;
-    Node *cache_b;
+    CardHashNode *cur;
+    CardHashNode *free_a;
+    CardHashNode *used_a;
+    CardHashNode *cache_a;
+    CardHashNode *free_b;
+    CardHashNode *used_b;
+    CardHashNode *cache_b;
     u8 *hash;
     u8 *l0;
     u8 *l1;
     Node16 *l2;
-    Node *l3;
+    CardHashNode *l3;
 } CardHash;
 
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
@@ -67,7 +67,7 @@ u32 CARD_CalcRomHashBufferLength(const void *romHeader);
 void CARDi_CompareHash(const u32 *expect, void *data, u32 len);
 void CARDi_StartLoading(CardHash *obj);
 void CARD_NotifyRomHashReadAsync(void *arg);
-Node *CARDi_TouchRomHashBlock(CardHash *obj, u32 sector);
+CardHashNode *CARDi_TouchRomHashBlock(CardHash *obj, u32 sector);
 u32 CARDi_TouchRomHashSector(CardHash *obj, u32 addr);
 void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 size, int (*cb34)(void *, void *, u32, u32), int (*cb38)(void *, void *, u32, u32), void *arg30);
 void CARDi_ReadRomHashImageDirect(CardHash *obj, u8 *buf, u32 off, u32 len);

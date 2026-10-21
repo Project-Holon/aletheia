@@ -88,10 +88,21 @@
  *   FX_ModS32  0x0207C994  arm
  *   gSceneOptMenuPushPalette  0x021DA4B0  data
  */
-#include "../../matched/include/G_SCENEMENU_BSS.h"
+#include "scenemenu_types.h"
 #include "../sdk_ioreg.h"
-#include "../../matched/include/G_FocusPosT.h"
-#include "../../matched/include/G_RectT.h"
+struct FocusPosT {
+    unsigned char idx;
+    unsigned char flag;
+    unsigned char pad_2[0x2];
+    void *ptr;
+    void *obj;
+};
+struct RectT {
+    unsigned short l;
+    unsigned short t;
+    unsigned short r;
+    unsigned short b;
+};
 
 #define BG_PRIORITY_3(reg) (*(vu16 *)(reg) = (u16)((*(vu16 *)(reg) & ~3) | 3))
 struct tagDWCWiFiInfo;
@@ -102,12 +113,6 @@ struct tagDWCWiFiInfo;
 typedef _Bool bool;
 
 #include "dwcutil_types.h"
-
-/* scenemenu.o .bss at 0x021DE59C, members at their vendor offsets */
-typedef struct {
-    unsigned char  FocusPos;          /* 0x00 */
-    void          *Palette;           /* 0x04 */
-} SCENEMENU_BSS;
 
 /* scenemenu.o .rodata at 0x021DA478, members at their vendor offsets */
 typedef struct {

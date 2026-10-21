@@ -54,23 +54,12 @@ struct FieldMap;
 #include "../arm9/gpower.h"
 struct G3dUtilSetup;
 struct FldExpObjCnt;
-extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
-extern void FLD_EXP_OBJ_SetModelHidden(struct FldExpObjCnt *expObj, int unit, int model, int hidden);
+#include "../ov021/fld_exp_obj.h"
 struct FldExpObjAnime;
-extern void *FLD_EXP_OBJ_GetAnime(struct FldExpObjCnt *cnt, s32 unitIdx, u16 modelIdx, u16 animeIdx);
-extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, s32 loop);
-extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, s32 paused);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObjCnt *expObj, int unit, u16 model, u16 animeIdx, int enabled);
-extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, u16 unitIdx);
-extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
 #include "../arm9/gamesystem.h"
 #include "../ov021/field_player.h"
-extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, int model);
-extern void FLD_EXP_OBJ_SetAnimeFrame(struct FldExpObjCnt *expObj, int unit, int model, u16 animeIdx, int frame);
 struct GameSystem;
 #include "../arm9/game_event.h"
-extern int FLD_EXP_OBJ_GetAnimeFrame(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 animeIdx);
-extern int FLD_EXP_OBJ_GetAnimeLastFrame(struct FldExpObjAnime *anime);
 #include "../arm9/gfl_use.h"
 #include "../arm9/fade.h"
 extern int FIELD_GIMMICK_ARC_EFFECT_IsArcAnimeStopped(void *event, int *unusedSeq);
@@ -79,7 +68,7 @@ void FIELD_GIMMICK_ARC_EFFECT_Exit(void *fieldMap);
 void FIELD_GIMMICK_ARC_EFFECT_Update(void *fieldMap);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(void *gameSystem);
 int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(void *event, int *seq);
-void FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int frameCount);
+struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int frameCount);
 void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *gameSystem, VecFx32 *pos);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *gameSystem);
 struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *gameSystem);
@@ -87,7 +76,6 @@ int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq);
 int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(void *event, int *unusedSeq);
 extern char gArcEffectPlayerUnitSetup[];
 extern char gArcEffectDefaultUnitSetup[];
-extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpObjAnime *anime);
 
 void FIELD_GIMMICK_ARC_EFFECT_Init(void *fieldMap)
 {
@@ -146,7 +134,7 @@ struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(void *gameSystem)
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL) = playerPos;
+    FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL)->trans = playerPos;
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, 0);
     for (animeIdx = 0; animeIdx < FIELD_GIMMICK_ARC_EFFECT_PLAYER_ANIME_COUNT; animeIdx++) {
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, (u16)animeIdx), 0);
@@ -216,7 +204,7 @@ int FIELD_GIMMICK_ARC_EFFECT_PlayerEffectEvent(void *event, int *seq)
 }
 
 /* Starts the arc effect: the arc model flies from startPos to endPos in frameCount frames, rising by arcHeight at the middle. */
-void FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int frameCount)
+struct GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int frameCount)
 {
     int animeIdx;
     void *fieldMap;
@@ -227,7 +215,7 @@ void FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *st
     work = FIELDMAP_GetCommonWork(fieldMap, FIELD_GIMMICK_ARC_EFFECT_WORK_ID);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     GFL_USE_PlaySeDefaultVolume(0x566);
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL) = *startPos;
+    FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL)->trans = *startPos;
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, 0);
     for (animeIdx = 0; animeIdx < FIELD_GIMMICK_ARC_EFFECT_ARC_ANIME_COUNT; animeIdx++) {
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, (u16)animeIdx), 1);
@@ -239,7 +227,7 @@ void FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(void *gameSystem, const VecFx32 *st
     work->arcFrameCount = frameCount;
     work->arcFrame = 0;
     work->arcHeight = arcHeight;
-    GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent, 0);
+    return GAME_EVENT_Create((struct GameSystem *)gameSystem, 0, (GameEventFunc)FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent, 0);
 }
 
 /* Shows the arc model at pos and plays its animes. */
@@ -250,7 +238,7 @@ void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *gameSystem, VecFx32 *pos)
 
     expObj = FIELDMAP_GetExpObj(GAMESYSTEM_GetFieldMap(gameSystem));
     GFL_USE_PlaySeDefaultVolume(0x567);
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL) = *pos;
+    FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL)->trans = *pos;
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, 0);
     for (animeIdx = 0; animeIdx < FIELD_GIMMICK_ARC_EFFECT_ARC_ANIME_COUNT; animeIdx++) {
         FLD_EXP_OBJ_SetAnimePaused(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, (u16)animeIdx), 0);
@@ -303,7 +291,7 @@ int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq)
     if (frame >= (frameCount + 1) / 2)
         frame = frameCount - frame;
     pos.y += work->arcHeight * frame / frameCount;
-    *FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL) = pos;
+    FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL)->trans = pos;
     if (work->arcFrame >= work->arcFrameCount)
         return 1;
     return 0;

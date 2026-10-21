@@ -6,6 +6,7 @@
 
 struct CommBtlDemoArgs;
 struct ProcOwner;
+struct UiScene;
 struct CommBtlDemoMain;
 struct CommBtlDemoActorRow;
 struct CommBtlDemoRow;
@@ -17,18 +18,18 @@ int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *a
 int COMM_BTL_DEMO_MAIN_Delete(struct ProcOwner *owner,int unused,const void *cfg,char *p);
 int COMM_BTL_DEMO_MAIN_Update(int a,int b,int c,char *p);
 void COMM_BTL_DEMO_MAIN_LoadGraphics(int a,u16 heap,int index);
-void COMM_BTL_DEMO_MAIN_Exit(u8 *task, char *p);
+void COMM_BTL_DEMO_MAIN_Exit(struct UiScene *task, char *p);
 int COMM_BTL_DEMO_MAIN_Step(void *unused, struct CommBtlDemoMain *p);
 void COMM_BTL_DEMO_MAIN_SetupFirstSide(struct CommBtlDemoMain *p);
 void COMM_BTL_DEMO_MAIN_SetupSecondSide(struct CommBtlDemoMain *p);
 int COMM_BTL_DEMO_MAIN_GetSoundId(int a, int b);
-int COMM_BTL_DEMO_MAIN_Tick(u8 *task,char *p);
-int COMM_BTL_DEMO_MAIN_Exit2(u8 *task,void *p);
+int COMM_BTL_DEMO_MAIN_Tick(struct UiScene *task,char *p);
+int COMM_BTL_DEMO_MAIN_Exit2(struct UiScene *task,void *p);
 int COMM_BTL_DEMO_MAIN_LayoutRows(int unused,char *p);
-int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p);
-int COMM_BTL_DEMO_MAIN_UpdateExit(u8 *task,char *p);
-int COMM_BTL_DEMO_MAIN_UpdateEnd(void *state,char *p);
-int COMM_BTL_DEMO_MAIN_UpdateFadeOut(void *a,void *b);
+int COMM_BTL_DEMO_MAIN_UpdateBattle(struct UiScene *state,unsigned char *p);
+int COMM_BTL_DEMO_MAIN_UpdateExit(struct UiScene *task,char *p);
+int COMM_BTL_DEMO_MAIN_UpdateEnd(struct UiScene *state,char *p);
+int COMM_BTL_DEMO_MAIN_UpdateFadeOut(struct UiScene *a,char *b);
 int COMM_BTL_DEMO_MAIN_GetModeIndex(const struct CommBtlDemoArgs *p);
 int COMM_BTL_DEMO_MAIN_IsFullPartyMode(u32 x);
 int COMM_BTL_DEMO_MAIN_HasVisibleActors(u32 x);

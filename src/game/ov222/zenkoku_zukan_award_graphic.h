@@ -4,13 +4,15 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of zenkoku_zukan_award_graphic.c, prototypes copied from their definitions. */
 
+struct TcbTask;
+
 #include "../types.h"
 
 void*ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
 u32 ZENKOKU_ZUKAN_AWARD_GRAPHIC_GetActor(char *p);
-void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task(void *unused, char *p);
+void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Task(struct TcbTask *unused, void *work_);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupBg(void *p,u32 heap);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_CleanupBg(void *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Noop(void *p);

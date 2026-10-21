@@ -15,7 +15,6 @@ typedef struct MslStringScan {
 #include "../types.h"
 
 u32 rand(void);
-void qsort(void *table_base, size_t num_members, size_t member_size, int (*compare_members)(const void *, const void *));
 void srand(u32 v);
 int MSL_C_LIB_StrReadProc(MslStringScan *state, u32 ch, u32 mode);
 void MSL_C_LIB_CallExitHook(u32 a, u32 b, u32 c);

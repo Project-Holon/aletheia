@@ -245,22 +245,21 @@ struct BrPoint {
 
 /* One list entry: name string and the value the list reports when it is chosen. */
 struct BrMenuItem {
-    const void *str;
-    u32 value;
+    void *text;
+    int id;
 };
 
 /* Parameter block of the list menu (40 bytes), copied from a template and filled in. */
 struct BrListMenuConfig {
-    struct BrMenuItem *items;
-    u32 itemCount;
-    u32 template2;            /* values from the template, not touched by the caller */
-    u32 template3;
-    u32 template4;
-    struct BrRes *res;
-    u32 uiParamA;
-    u32 listParam;
-    struct BrTapFx *tapFx;
-    u32 template9;
+    struct BrMenuItem *list;
+    u32 count;
+    u8 x, y, width, height, palette, bg, spacing, pad;
+    int mode;
+    struct BrRes *resources;
+    uptr manager;             /* actor unit for the list marks */
+    uptr cursor;              /* cursor effect */
+    uptr other;               /* second effect, or the PMS draw */
+    u16 *selection;           /* start and index are written back here */
 };
 
 #define BR_POKESEARCH_GROUP_COUNT 9

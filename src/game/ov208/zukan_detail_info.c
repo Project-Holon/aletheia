@@ -230,7 +230,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 
 extern void CLACT_ReleaseCharacter(u32 i);
 
-extern struct Obj *CLACT_CreateActor(u32 owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+extern struct ClactActor *CLACT_CreateActor(u32 owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 
@@ -272,13 +272,10 @@ extern void ZUKAN_INFO_Delete(char *);
 
 
 
-extern int ZUKAN_DETAIL_TOUCHBAR_GetMode(struct Ov208Scene *p);
+#include "zukan_detail_touchbar.h"
 
-extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(struct Ov208Scene *p, u32 mode, u32 kind, u32 flag);
 
-extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(struct Ov208Scene *p, int scrollIdx);
 
-extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(struct Ov208Scene *p, u32 kind);
 
 
 #include "zukan_detail_headbar.h"
@@ -293,14 +290,12 @@ extern void ZUKAN_INFO_Show(struct ZukanInfo *p);
 
 
 
-extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(struct Ov208Scene *p);
 
 
 
 extern void ZUKAN_INFO_Update(char *p);
 
 
-extern void GAME_DATA_SetRecentId(struct GameData *gd, u32 id, u32 on);
 
 
 extern void ZUKAN_INFO_SetPokemon(char *p, u16 species, u16 form, u16 gender, u16 rare, int personalParam, int showCurrent);
@@ -323,15 +318,10 @@ extern u32 ZUKAN_SAVE_HasLanguageFlag(struct ZukanSave *pZukan, u32 species, u32
 
 #include "zukan_detail_graphic.h"
 
-void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(struct Ov208Scene *p, int v);
 
-void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(struct Ov208Scene *p, int b);
 
-int ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(char *p);
 
-void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(struct Ov208Scene *p, u32 on);
 
-int ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot(char *p);
 
 int ZUKAN_DETAIL_INFO_Init(void *owner, int unused, u16 *heap);
 
@@ -685,7 +675,7 @@ int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first,char *p,struct Ov208Ct
         if(((struct Ov208InfoWork *)p)->currentButton==6) {
             if((buttons&0x300)||(press&1)) {
                 for(i=0;i<6;i++) {
-                    if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct Obj **)((uptr)p+(u32)i*20+0x1c)))!=0) {
+                    if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct ClactActor **)((uptr)p+(u32)i*20+0x1c)))!=0) {
                         ((struct Ov208InfoWork *)p)->pressedButton=i; changed=1; break;
                     }
                 }
@@ -693,14 +683,14 @@ int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first,char *p,struct Ov208Ct
         } else if((buttons&0x100)||(press&1)) {
             for(i=1;i<6;i++) {
                 next=(((struct Ov208InfoWork *)p)->currentButton+i)%6;
-                if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct Obj **)((uptr)p+(u32)next*20+0x1c)))!=0) {
+                if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct ClactActor **)((uptr)p+(u32)next*20+0x1c)))!=0) {
                     ((struct Ov208InfoWork *)p)->pressedButton=next; changed=1; break;
                 }
             }
         } else if(buttons&0x200) {
             for(i=1;i<6;i++) {
                 next=(((struct Ov208InfoWork *)p)->currentButton+6-i)%6;
-                if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct Obj **)((uptr)p+(u32)next*20+0x1c)))!=0) {
+                if(CLACT_GetActorDrawEnable((struct ClactActor *)(*(struct ClactActor **)((uptr)p+(u32)next*20+0x1c)))!=0) {
                     ((struct Ov208InfoWork *)p)->pressedButton=next; changed=1; break;
                 }
             }
@@ -709,7 +699,7 @@ int ZUKAN_DETAIL_INFO_HandleKeyLanguageSelect(void *first,char *p,struct Ov208Ct
     if(changed!=0) {
         ZUKAN_DETAIL_INFO_SelectLanguageButton(first,p,key,((struct Ov208InfoWork *)p)->pressedButton);
         *(u32 *)((uptr)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x2c)=1;
-        CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct Obj **)((uptr)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x1c)),*(u16 *)((uptr)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x26));
+        CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct ClactActor **)((uptr)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x1c)),*(u16 *)((uptr)p+*(u32 *)&((struct Ov208InfoWork *)p)->pressedButton*20+0x26));
         GFL_USE_PlaySeDefaultVolume(0x54a);
         UI_SetInputMode(0);
         ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled((void *)((sptr)scene), 0);
@@ -788,7 +778,7 @@ void ZUKAN_DETAIL_INFO_CreateLanguageButtons(u16 *heap, char *p, struct Ov208Ctx
         pos.y = t[1];
         pos.z = ((struct Ov208InfoWork *)q)->buttons[0].idleAnim;
         ((struct Ov208InfoWork *)q)->buttons[0].actor = CLACT_CreateActor(owner, ((struct Ov208InfoWork *)p)->charRes, ((struct Ov208InfoWork *)p)->palRes, ((struct Ov208InfoWork *)p)->cellRes, &pos, flag, *heap);
-        CLACT_SetActorAutoAnim((struct ClactActor *)((struct Obj *)((struct Ov208InfoWork *)q)->buttons[0].actor), 1);
+        CLACT_SetActorAutoAnim((struct ClactActor *)((struct ClactActor *)((struct Ov208InfoWork *)q)->buttons[0].actor), 1);
         CLACT_SetActorObjMode((struct ClactActor *)((struct Actor *)((struct Ov208InfoWork *)q)->buttons[0].actor), 1);
         i = (u8)(i + 1);
     } while ((u32)i < 6);
@@ -802,7 +792,7 @@ void ZUKAN_DETAIL_INFO_DeleteLanguageButtons(int unused, char *q, u32 heap)
     unsigned char i;
 
     for (i = 0; i < 6; i++)
-        CLACT_DeleteActor((struct ClactActor *)((struct Obj *)(*(int *)(q + i * 0x14 + 0x1c))));
+        CLACT_DeleteActor((struct ClactActor *)((struct ClactActor *)(*(int *)(q + i * 0x14 + 0x1c))));
     CLACT_ReleaseCharacter(((struct Ov208InfoWork *)q)->charRes);
     CLACT_ReleaseCellAnim(((struct Ov208InfoWork *)q)->cellRes);
 }
@@ -824,7 +814,7 @@ void ZUKAN_DETAIL_INFO_UpdateButtonPressAnim(void *unused, char *p, struct Ov208
                 *(unsigned *)(states + i * 20) = 3;
             break;
         case 3:
-            CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct Obj **)(p + i * 20 + 0x1c)), *(u16 *)(p + i * 20 + 0x24));
+            CLACT_SetActorAnimSeq((struct ClactActor *)(*(struct ClactActor **)(p + i * 20 + 0x1c)), *(u16 *)(p + i * 20 + 0x24));
             *(unsigned *)(states + i * 20) = 0;
             ((struct Ov208InfoWork *)p)->pressedButton = 6;
             ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(scene, 1);
@@ -838,9 +828,9 @@ void ZUKAN_DETAIL_INFO_ResetButtons(int unused, char *q, struct Ov208Ctx *c, int
     unsigned char i;
 
     for (i = 0; i < 6; i++) {
-        CLACT_SetActorDrawEnable((struct ClactActor *)((struct Obj *)*(int *)(q + i * 0x14 + 0x1c)), tbl[i]);
+        CLACT_SetActorDrawEnable((struct ClactActor *)((struct ClactActor *)*(int *)(q + i * 0x14 + 0x1c)), tbl[i]);
         *(int *)(q + i * 0x14 + 0x2c) = 0;
-        CLACT_SetActorAnimSeq((struct ClactActor *)((struct Obj *)(*(int *)(q + i * 0x14 + 0x1c))), *(unsigned short *)(q + i * 0x14 + 0x24));
+        CLACT_SetActorAnimSeq((struct ClactActor *)((struct ClactActor *)(*(int *)(q + i * 0x14 + 0x1c))), *(unsigned short *)(q + i * 0x14 + 0x24));
     }
     ((struct Ov208InfoWork *)q)->pressedButton = 6;
 }
@@ -910,7 +900,7 @@ void ZUKAN_DETAIL_INFO_ClearButtonHighlight(int unused, char *p, unsigned unused
 
     if (i == 6)
         return;
-    CLACT_SetActorPaletteOffset((struct ClactActor *)((struct Obj *)(*(int *)(p + i * 0x14 + 0x1c))), 0, 0);
+    CLACT_SetActorPaletteOffset((struct ClactActor *)((struct ClactActor *)(*(int *)(p + i * 0x14 + 0x1c))), 0, 0);
     ((struct Ov208InfoWork *)p)->blinkRestart = 0;
 }
 
@@ -925,7 +915,7 @@ void ZUKAN_DETAIL_INFO_UpdateHighlightBlink(struct Ov208Heap *heap, struct Ov208
         int v = e->currentButton;
 
         if (v != 6)
-            CLACT_SetActorPaletteOffset((struct ClactActor *)((struct Obj *)(*(int *)((char *)e + v * 0x14 + 0x1c))), 2, 0);
+            CLACT_SetActorPaletteOffset((struct ClactActor *)((struct ClactActor *)(*(int *)((char *)e + v * 0x14 + 0x1c))), 2, 0);
         e->blinkRestart = 0;
     }
 

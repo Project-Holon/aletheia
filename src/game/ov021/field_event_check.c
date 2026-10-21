@@ -432,36 +432,34 @@ typedef int Bool;
 #include "../arm9/mi_memory.h"
 #include "../ov010/script_sys.h"
 #include "fieldmap.h"
-extern void *GAME_DATA_GetEventData(struct GameData *gameData);
-extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern u32 *GAME_DATA_GetEventState(void *p);
-extern void *GAME_DATA_GetEventWork(struct GameData *gd);
-extern int GAME_DATA_GetSymbolMapFlag(struct GameData *gd);
-extern void GAME_DATA_SetEntranceLocation(struct GameData *gameData, struct Location *location);
-extern void *GAME_DATA_GetMoveModelSys(struct GameData *gd);
-extern void *GAME_DATA_GetMyParty(struct GameData *gd);
-extern int GAME_DATA_GetIntrudeCount(struct GameData *gd);
-extern u32 GAME_DATA_GetBgmInfo(struct GameData *gd);
+/* GAME_DATA_GetEventState is declared u8 * in the ARM9 header but its callers read the 32-bit slot; kept until the header returns u32 *. */
+#define GAME_DATA_GetEventState GAME_DATA_GetEventState_header
+#include "../arm9/game_data.h"
+#undef GAME_DATA_GetEventState
+extern u32 *GAME_DATA_GetEventState(struct GameData *gd);
 #include "pleasure_boat.h"
 #include "event_trainer_eye.h"
-extern u32 ZONEDATA_IsNormalFieldZone(u32 id);
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
-extern u32 ZONEDATA_IsEntralink(u32 id);
-extern void ZONEDATA_SetExitRailLocation(struct Location *loc, u16 zoneId, s32 exitId, u16 dir, u16 exitOffset, u16 railIndex, u16 lineGrid, s16 widthGrid);
-extern int ZONEDATA_IsZoneInTableDFC0(int zoneId);
-extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
-extern void ZONEDATA_SetExitLocation(void *p, u16 a, s16 b, u16 c, u16 d, u32 e, u32 f, u32 g);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define ZONEDATA_SetExitLocation ZONEDATA_SetExitLocation_header
+#endif
+#include "../arm9/zonedata.h"
+#ifdef __MWERKS__
+#undef ZONEDATA_SetExitLocation
+extern void ZONEDATA_SetExitLocation(struct Location *, u16, s16, u16, u16, u32, u32, u32);
+#endif
 #include "field_player.h"
 #include "map_attr.h"
 #include "../ov010/intrude_comm_query.h"
-extern int INTRUDE_FIELD_FindRemotePlayerAhead(struct IntrudeCommSys *work, struct FieldPlayer *player, s32 *outIndex);
-extern void *INTRUDE_FIELD_CreateNoticeEvent(void *a, FieldMap *fieldMap);
-extern int INTRUDE_FIELD_CreateTileEvent(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player);
-extern void *INTRUDE_FIELD_CreateEdgeTask(void *a, void *b, void *c, int *d, u16 e, int f);
-extern int INTRUDE_FIELD_IsStartRequested(struct IntrudeCommSys *work);
-extern int INTRUDE_FIELD_IsDisconnectNeeded(struct GameSystem *gameSystem, s32 zoneId);
-extern int INTRUDE_FIELD_TryStartOfferEvent(struct GameSystem *gameSystem, struct IntrudeCommSys *work, struct FieldPlayer *player);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define INTRUDE_FIELD_CreateEdgeTask INTRUDE_FIELD_CreateEdgeTask_header
+#endif
+#include "../ov018/intrude_field.h"
+#ifdef __MWERKS__
+#undef INTRUDE_FIELD_CreateEdgeTask
+extern struct GameEvent * INTRUDE_FIELD_CreateEdgeTask(struct GameSystem *, struct FieldMap *, struct FieldPlayer *, int *, u16, int);
+#endif
 #include "../ov018/intrude_subdisp.h"
 #include "../arm9/game_comm.h"
 #include "../ov011/intrude_comm.h"
@@ -501,10 +499,15 @@ s16 FLDMMDL_MOVE_GetDirAddGridZ(u16 dir);
 #include "../ov012/union_main.h"
 #include "../ov019/union_oneself.h"
 #include "../ov019/union_chara.h"
-u32 FLDMMDL_RAIL_SearchMmdlByLocation(u32 o, u32 k, u32 flag);
-extern int FLDMMDL_RAIL_GetFrontLocation(void *, RailLocation *);
-extern void FLDMMDL_RAIL_GetNextLocation(struct Mmdl *mmdl, RailLocation *outLoc);
-extern int FLDMMDL_RAIL_GetHitBitsDirNoAttr(u32 a, u32 b);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define FLDMMDL_RAIL_GetHitBitsDirNoAttr FLDMMDL_RAIL_GetHitBitsDirNoAttr_header
+#endif
+#include "fldmmdl_rail.h"
+#ifdef __MWERKS__
+#undef FLDMMDL_RAIL_GetHitBitsDirNoAttr
+extern int FLDMMDL_RAIL_GetHitBitsDirNoAttr(Mmdl *, u32);
+#endif
 #include "../arm9/key.h"
 #include "../arm9/field_status.h"
 #include "../arm9/field_sound_system.h"
@@ -518,9 +521,7 @@ extern int FLDMMDL_RAIL_GetHitBitsDirNoAttr(u32 a, u32 b);
 #include "../arm9/natsuki.h"
 #include "scrcmd_misc.h"
 #include "../arm9/move_pokemon_save.h"
-struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, u32 (*fn)(void *, u32), void *arg);
-void *GAME_EVENT_GetWork(struct GameEvent *event);
+#include "../arm9/game_event.h"
 #include "field_tile_move.h"
 #include "field_gimmick.h"
 #include "../ov038/field_gimmick_plate_doors.h"
@@ -582,11 +583,11 @@ int FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, void *gameSyste
 void FIELD_EVENT_CHECK_SetEntranceFromRailConnect(FieldEventInput *input, int connectId, RailLocation *location);
 int FIELD_EVENT_CHECK_StartRailConnectEvent(FieldEventInput *input, FieldMap *fieldMap, int connectId, RailLocation *location);
 int FIELD_EVENT_CHECK_IsRailFrontFree(void *player, FieldEventInput *input);
-int FIELD_EVENT_CHECK_LedgeJumpTaskMain(void *task, int *seq, LedgeJumpWork *work);
+int FIELD_EVENT_CHECK_LedgeJumpTaskMain(struct GameEvent *task, u32 *seq, void *arg);
 int FIELD_EVENT_CHECK_CreateLedgeJumpTask(int unused, void *gameSystem, FieldMap *fieldMap, int dir, int jumpTwoTiles);
 int FIELD_EVENT_CHECK_CheckLedgeJump(FieldEventInput *input, void *gameSystem, FieldMap *fieldMap);
 int FIELD_EVENT_CHECK_SearchGridFrontMmdl(FieldEventInput *input, FieldMap *fieldMap);
-int FIELD_EVENT_CHECK_SearchRailFrontMmdl(FieldEventInput *input, FieldMap *fieldMap);
+struct Mmdl *FIELD_EVENT_CHECK_SearchRailFrontMmdl(FieldEventInput *input, FieldMap *fieldMap);
 u16 FIELD_EVENT_CHECK_GetFrontTileMessage(FieldEventInput *input, FieldMap *fieldMap);
 int FIELD_EVENT_CHECK_FindPartyMemberWithMove(void *gameData, u32 move);
 int FIELD_EVENT_CHECK_CountAlivePartyMembers(void *gameSystem);
@@ -718,7 +719,7 @@ int FIELD_EVENT_CHECK_CheckGridEvents(void *gameSystem, FieldMap *fieldMap, int 
 
                 FIELD_PLAYER_ResetMoveWork(input.player);
                 *outResetEncount = 1;
-                return FLDMMDL_CreateTalkScriptEvent((uptr)gameSystem, (uptr)fieldMap, eventId, (uptr)mmdl, frontMmdl, input.heapId);
+                return FLDMMDL_CreateTalkScriptEvent((uptr)gameSystem, (uptr)fieldMap, eventId, (uptr)mmdl, (uptr)frontMmdl, input.heapId);
             }
         }
         scriptId = EVENTDATA_SYSTEM_SearchBgEventScriptIdTalk(input.eventData, (void *)GAME_DATA_GetEventWork(input.gameData), &frontPos, facing);
@@ -923,18 +924,18 @@ int FIELD_EVENT_CHECK_CheckRailEvents(void *gameSystem, FieldMap *fieldMap)
     if (result != 0)
         return result;
     if (input.aPressed) {
-        int frontMmdl = FIELD_EVENT_CHECK_SearchRailFrontMmdl(&input, fieldMap);
+        struct Mmdl *frontMmdl = FIELD_EVENT_CHECK_SearchRailFrontMmdl(&input, fieldMap);
         void *eventWork;
         u16 dirDisp;
 
         if (frontMmdl != 0) {
-            u32 eventId = FLDMMDL_GetEventId((void *)frontMmdl);
+            u32 eventId = FLDMMDL_GetEventId(frontMmdl);
 
             if (SCRIPT_SYS_IsZoneScriptId(eventId) == 1) {
                 void *mmdl = FIELD_PLAYER_GetMmdl(input.player);
 
                 FIELD_PLAYER_ResetMoveWork(input.player);
-                return FLDMMDL_CreateTalkScriptEvent((uptr)gameSystem, (uptr)fieldMap, eventId, (uptr)mmdl, frontMmdl, input.heapId);
+                return FLDMMDL_CreateTalkScriptEvent((uptr)gameSystem, (uptr)fieldMap, eventId, (uptr)mmdl, (uptr)frontMmdl, input.heapId);
             }
         }
         eventWork = (void *)GAME_DATA_GetEventWork(input.gameData);
@@ -1448,7 +1449,7 @@ struct GameEvent *FIELD_EVENT_CHECK_CreateGPowerExpireEvent(void *gameSystem)
     if (GPOWER_GetExpiringPowerId() == 0x30) {
         return 0;
     }
-    return GAME_EVENT_CreateOverlayEvent(gameSystem, (uptr)abs_id_83, (u32 (*)(void *, u32))GPOWER_EVENT_CreateTimeoutScriptEvent, 0);
+    return GAME_EVENT_CreateOverlayEvent(gameSystem, (uptr)abs_id_83, GPOWER_EVENT_CreateTimeoutScriptEvent, 0);
 }
 
 /*
@@ -1514,10 +1515,10 @@ int FIELD_EVENT_CHECK_StartConnectEvent(FieldEventInput *input, FieldMap *fieldM
  */
 void FIELD_EVENT_CHECK_SetEntranceFromGridConnect(FieldEventInput *input, int connectId, VecFx32 *pos)
 {
-    u8 location[0x1C];
+    Location location;
 
-    ZONEDATA_SetExitLocation(location, FIELDMAP_GetZoneId(input->fieldMap), connectId, 0, 0, pos->x, pos->y, pos->z);
-    GAME_DATA_SetEntranceLocation(input->gameData, (struct Location *)location);
+    ZONEDATA_SetExitLocation(&location, FIELDMAP_GetZoneId(input->fieldMap), connectId, 0, 0, pos->x, pos->y, pos->z);
+    GAME_DATA_SetEntranceLocation(input->gameData, &location);
 }
 
 /*
@@ -1700,7 +1701,7 @@ int FIELD_EVENT_CHECK_CheckRailSignBoard(FieldEventInput *input, void *gameSyste
         int moveState = input->moveState;
         if (moveState == 0 || moveState == 3) {
             if (RAIL_ATTR_IsSignBoard(MAP_ATTR_GetTerrainId(input->tileAttr))) {
-                if (FLDMMDL_RAIL_GetHitBitsDirNoAttr((uptr)playerMmdl, inputDir) & 3)
+                if (FLDMMDL_RAIL_GetHitBitsDirNoAttr(playerMmdl, inputDir) & 3)
                     return RAIL_SLIPDOWN_StartAtPlayer((uptr)gameSystem, (uptr)fieldMap, inputDir);
             }
         }
@@ -1724,13 +1725,14 @@ int FIELD_EVENT_CHECK_StartRailConnectEvent(FieldEventInput *input, FieldMap *fi
 
 int FIELD_EVENT_CHECK_IsRailFrontFree(void *player, FieldEventInput *input)
 {
-    if ((FLDMMDL_RAIL_GetHitBitsDirNoAttr((uptr)FIELD_PLAYER_GetMmdl(player), input->facingDir) & 3) == 0)
+    if ((FLDMMDL_RAIL_GetHitBitsDirNoAttr(FIELD_PLAYER_GetMmdl(player), input->facingDir) & 3) == 0)
         return 1;
     return 0;
 }
 
-int FIELD_EVENT_CHECK_LedgeJumpTaskMain(void *task, int *seq, LedgeJumpWork *work)
+int FIELD_EVENT_CHECK_LedgeJumpTaskMain(struct GameEvent *task, u32 *seq, void *arg)
 {
+    LedgeJumpWork *work = arg;
     void *player = FIELDMAP_GetFieldPlayer(work->fieldMap);
     void *playerMmdl;
     int acmdCode;
@@ -1831,11 +1833,11 @@ int FIELD_EVENT_CHECK_SearchGridFrontMmdl(FieldEventInput *input, FieldMap *fiel
     return (sptr)FLDMMDL_SysSearchGridPosHeight((struct MmdlSys *)mmdlSys, gridPos[2], gridPos[0], FLDMMDL_GetPosY(playerMmdl), 0x10000, 0);
 }
 
-int FIELD_EVENT_CHECK_SearchRailFrontMmdl(FieldEventInput *input, FieldMap *fieldMap)
+struct Mmdl *FIELD_EVENT_CHECK_SearchRailFrontMmdl(FieldEventInput *input, FieldMap *fieldMap)
 {
     RailLocation frontLocation;
     if (FLDMMDL_RAIL_GetFrontLocation(FIELD_PLAYER_GetMmdl(input->player), &frontLocation) != 0)
-        return FLDMMDL_RAIL_SearchMmdlByLocation((uptr)FIELDMAP_GetMmdlSys(fieldMap), (uptr)&frontLocation, 0);
+        return FLDMMDL_RAIL_SearchMmdlByLocation(FIELDMAP_GetMmdlSys(fieldMap), &frontLocation, 0);
     return 0;
 }
 

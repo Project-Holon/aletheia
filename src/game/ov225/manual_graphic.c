@@ -90,7 +90,7 @@ struct Big;
 struct Data;
 struct Owner;
 struct ManualMenuList;
-struct Bank;
+struct Unit;
 struct Cfg;
 #include "../types.h"
 #include "../sdk_ioreg.h"
@@ -131,75 +131,48 @@ struct ManualScreen { u32 bgState; struct ManualClactUnit clactUnit; u32 reserve
 
 struct ManualGraphicRecord { u32 id; u32 bg[8]; u32 kind; u32 visible; };
 
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *,u32,u32);
-extern void *MANUAL_COMMON_CreateData(void *,u16);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "manual_common.h"
 extern void BG_SYS_SetPriority(int,u16);
 struct TcbTask;
 extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void *,char *),void *,u32);
-extern void FADE_Start(u32,int,int,int);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
-extern char *MANUAL_COMMON_CreateDialog(char *,char *);
-extern void MANUAL_COMMON_DeleteDialog(char *p);
-extern void MANUAL_CATEGORY_DeleteList(char *p);
-extern void MANUAL_CATEGORY_DeleteDetailList(char *p);
-extern void MANUAL_CATEGORY_DeleteOption(char *p);
-extern void MANUAL_COMMON_DeleteData(char *p);
+#include "../arm9/fade.h"
+#include "../arm9/net.h"
+#include "manual_top.h"
+#include "manual_category.h"
+#include "manual_title.h"
+#include "manual_explain.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern int FADE_IsActive(void);
-extern int MANUAL_COMMON_UpdateDialog(char *);
-extern char *MANUAL_CATEGORY_CreateList(char *,char *);
-extern int MANUAL_CATEGORY_IsListFinished(char *);
-extern int MANUAL_CATEGORY_IsDetailFinished(char *);
-extern u16 MANUAL_COMMON_GetEntryValue3(char *,int);
-extern u16 MANUAL_COMMON_GetEntryValue2(char *,int);
-extern int MANUAL_COMMON_GetSaveValue(void *unused, int id, void *save);
-extern void MANUAL_COMMON_SetSaveValue(void *unused, int code, struct Big *save);
-extern u16 MANUAL_COMMON_GetEntryValue0(char *,int);
-extern u16 MANUAL_COMMON_GetEntryPair1(char *,int,int);
-extern int MANUAL_COMMON_IsValidKey(char *unused, u32 key);
-extern u16 MANUAL_COMMON_GetEntryPair0(char *,int,int);
-extern char *MANUAL_CATEGORY_CreateOption(char *,char *);
-extern int MANUAL_CATEGORY_UpdateOption(char *);
+#include "../arm9/tcb_list.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "manual_data.h"
 struct ManualDetailOwner;
 struct ManualData;
-extern struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner *p, struct ManualData *data);
-extern void MANUAL_COMMON_DrawData(char *);
-extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void GF_FONT_InitTextColor(void);
-extern u32 GFL_HEAP_Free(void *p);
-extern void GF_FONT_SetDefaultTextColor(void);
+#include "../arm9/gf_font.h"
 extern void BG_SYS_Create(u32);
-extern void BMP_WIN_Init(u32);
+#include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8, u8);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
-struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
+struct ClactSysInit;
+struct ClactSysInit;
+#include "../arm9/clact.h"
+struct Unit;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
 int MANUAL_GRAPHIC_Init(void *proc, void *unused, struct ManualGraphicArgs *args);
 int MANUAL_GRAPHIC_Exit(void *proc, void *a, void *b, char *work);
 int MANUAL_GRAPHIC_Main(void *a,u32 *state,void *unused,char *p);
@@ -461,7 +434,7 @@ void MANUAL_GRAPHIC_VBlankBg(void *unused) { BG_SYS_Update(); }
 void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *clact, int arg, int heap)
 {
     MI_CpuFill8(clact, 0, 4);
-    CLACT_InitSystem((struct SysInit *)0x021BBE00, (struct DispVramCfg *)arg, heap);
+    CLACT_InitSystem((struct ClactSysInit *)0x021BBE00, (struct DispVramCfg *)arg, heap);
     ((struct ManualClactUnit *)clact)->unit = (sptr)CLACT_CreateUnit(0x80, 0, heap);
     CLACT_SetUnitDefaultRenderer((void *)((struct ManualClactUnit *)clact)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -470,7 +443,7 @@ void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *clact, int arg, int heap)
 
 void MANUAL_GRAPHIC_DeleteClactUnit(char *clact)
 {
-    CLACT_DeleteUnit((struct Bank *)(((struct ManualClactUnit *)clact)->unit));
+    CLACT_DeleteUnit((struct Unit *)(((struct ManualClactUnit *)clact)->unit));
     CLACT_ExitSystem();
     MI_CpuFill8(clact, 0, 4);
 }

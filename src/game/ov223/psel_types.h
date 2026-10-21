@@ -9,7 +9,7 @@
 
 #include "../types.h"
 
-struct Obj;
+struct ClactActor;
 
 /* One palette fade slot (0x94 bytes). */
 typedef struct {

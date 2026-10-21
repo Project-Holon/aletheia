@@ -7,7 +7,7 @@
 
 #include "zukan_detail_shared_types.h"
 
-struct Obj;
+struct ClactActor;
 struct Bmp;
 struct Descriptor;
 struct Ov208Win;
@@ -42,7 +42,7 @@ struct ZukanDetailVoice {
     /* 0x3C */ unsigned int palRes[ZUKAN_DETAIL_VOICE_SLOT_COUNT];
     /* 0x44 */ unsigned int charRes[ZUKAN_DETAIL_VOICE_SLOT_COUNT];
     /* 0x4C */ unsigned int cellRes[ZUKAN_DETAIL_VOICE_SLOT_COUNT];
-    /* 0x54 */ struct Obj *pokemonActor[ZUKAN_DETAIL_VOICE_SLOT_COUNT];
+    /* 0x54 */ struct ClactActor *pokemonActor[ZUKAN_DETAIL_VOICE_SLOT_COUNT];
     /* 0x5C */ int currentSlot;
     /* 0x60 */ unsigned int scaleState;           /* 0 idle, 1 growing, 2 held, 3 shrinking */
     /* 0x64 */ unsigned int voiceHandle;
@@ -54,7 +54,7 @@ struct ZukanDetailVoice {
     /* 0x7C */ struct Ov208Win *headerWin;
     /* 0x80 */ struct Ov208Win *footerWin;
     /* 0x84 */ int gfxRes[6];                     /* char, palette, cell of two actor sets */
-    /* 0x9C */ struct Obj *actor[ZUKAN_DETAIL_VOICE_ACTOR_COUNT];
+    /* 0x9C */ struct ClactActor *actor[ZUKAN_DETAIL_VOICE_ACTOR_COUNT];
     /* 0xB8 */ unsigned int bgmPhase;             /* 0 none, 1 fading out, 2 pushed, 3 restored */
     /* 0xBC */ void *task;
     /* 0xC0 */ void *blendTop;

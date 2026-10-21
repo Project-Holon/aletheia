@@ -113,7 +113,7 @@ int SCRCMD_SHOP_StartShop(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
     task->shop.heapId = 0x15;
     task->shop.bagData = (uptr)GAME_DATA_GetMyItem(gameData);
     task->shop.battlePointData = (uptr)SAVE_CONTROL_GetBlock(GAME_DATA_GetSaveControl(gameData), 0x3a);
-    task->shop.recordData = (uptr)GAME_DATA_GetTrainerRecord(gameData);
+    task->shop.recordData = GAME_DATA_GetTrainerRecord(gameData);
     task->shop.shopTable = shopTable;
     switch (shopId) {
     case 0xFF:

@@ -161,9 +161,9 @@ struct ParticleMan {
 };
 
 #include "gfl_heap_wrap.h"
+extern struct ParticleEngine *SPL_EMITTER_AllocNodeFromHeap(void *(*alloc)(u32 size), u32 effectLimit, u32 particleLimit, u32 limitA, u32 limitB, u32 maxResIndex);
 
 
-extern struct ParticleEngine *SPL_EMITTER_AllocNodeFromHeap(u32 engineId, u32 effectLimit, u32 particleLimit, u32 limitA, u32 limitB, u32 maxResIndex);
 
 #include "mi_memory.h"
 
@@ -333,7 +333,7 @@ extern Vec3 sDefaultCameraTarget;
 
 extern Vec3 sDefaultCameraUp;
 
-extern const u32 sSystemEngineIds[];
+extern void *(*const sSystemEngineIds[])(u32 size); /* per-slot allocator callbacks */
 
 extern Vec3 sDefaultViewVec;
 
@@ -405,7 +405,7 @@ struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 
  *
  * WHAT CLOSED IT (docs/notes/pkt_02050C30.c.txt: size-exact at 392 with 37
  * bytes out inside the final argument setup, permuter exhausted): the
- * per-slot table 0x020A15A8 is CONST, `extern const u32 sSystemEngineIds[];`.
+ * per-slot table 0x020A15A8 is CONST (a table of allocator function pointers).
  * Without const the element load may not move above the two argument stores
  * to the outgoing area (they could alias it), so the compiler schedules the
  * truncations and stores first; const lets it issue the table base load

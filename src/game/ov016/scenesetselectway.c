@@ -89,10 +89,16 @@
  *   g_021DA85E     0x021DA85E  data
  *   gSceneSetSelectWayPushPalette     0x021DA7D4  data
  */
-#include "../../matched/include/G_FocusState.h"
+struct FocusState {
+    signed char last;
+    signed char cur;
+    unsigned char flag;
+    unsigned char pad;
+    void *screen;
+};
 #include "../sdk_ioreg.h"
 #include "../arm9/gx_load2d.h"
-#include "../../matched/include/G_SCENEMENU_BSS.h"
+#include "scenemenu_types.h"
 
 typedef _Bool bool;
 
@@ -112,12 +118,6 @@ typedef struct {
     u8 pad14;
     u8 pad15;
 } T22;
-
-/* scenemenu.o .bss at 0x021DE59C, members at their vendor offsets */
-typedef struct {
-    unsigned char  FocusPos;          /* 0x00 */
-    void          *Palette;           /* 0x04 */
-} SCENEMENU_BSS;
 
 /* scenemenu.o .rodata at 0x021DA478, members at their vendor offsets */
 typedef struct {

@@ -85,9 +85,9 @@ typedef struct ZukanNicknameWork {
     unsigned int textId;
     unsigned int textParam;
     unsigned int display;
-    unsigned int font;
+    struct GfFont *font;
     unsigned int gfx;
-    unsigned int textId2;
+    void *infoWinParam;
     void *bmpWin;
     void *printStream;
     void *strbuf;
@@ -119,12 +119,12 @@ struct Cfg;
 struct PaletteFade;
 struct PaletteFade;
 struct PaletteFade;
-struct Obj;
+struct ClactActor;
 #include "../arm9/bmp_menuwork.h"
 #include "../types.h"
 
 #include "../arm9/printsys.h"
-typedef struct Obj Obj;
+typedef struct ClactActor Obj;
 
 typedef struct {
     int primaryText;
@@ -162,7 +162,7 @@ extern void PALANM_TransferPalettes(struct PaletteFade *p);
 extern void PALANM_SetAutoTransfer(struct PaletteFade *o, int v);
 struct BtlvInput;
 #include "../ov094/btlv_input.h"
-char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h);
+char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,struct GfFont *f,u32 g,void *h);
 void ZUKAN_NICKNAME_Delete(ZukanNicknameWork *p);
 int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p);
 void ZUKAN_NICKNAME_SetupScreen(ZukanNicknameWork *p);
@@ -173,13 +173,13 @@ void ZUKAN_NICKNAME_DeleteKeyboard(ZukanNicknameWork *p);
 void ZUKAN_NICKNAME_UpdateInfoWindow(ZukanNicknameWork *a);
 extern char file_0220BC38[];
 extern char overlay94[];
-extern char d_0220BBEC[];
-extern char d_0220BBF8[];
+extern BtlvInputTouchTable d_0220BBEC;
+extern s8 d_0220BBF8[][12];
 
 /*
  * ABI: 0201CCE4 is a void forwarder in its matched source; caller stores live r0, so declare its observed word return.
  */
-char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h)
+char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,struct GfFont *f,u32 g,void *h)
 {
     ZukanNicknameWork *p;
     struct WordSet *ws;
@@ -196,7 +196,7 @@ char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u
     p->display=e;
     p->font=f;
     p->gfx=g;
-    p->textId2=h;
+    p->infoWinParam=h;
     p->state=0;
     p->mode=2;
     p->counter=0;
@@ -218,7 +218,7 @@ char *ZUKAN_NICKNAME_Create(u16 heap,u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u
     p->bmpWin=(void *)BMP_WIN_Create(3,1,19,30,4,9,1);
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&p->bmpWin)),15);
     GF_FONT_SetTextColor(1,2,15);
-    *(u32 *)&p->printStream=(uptr)PRINTSYS_PrintStream(p->bmpWin,0,0,p->strbuf,(struct GfFont *)p->font,MSG_SPEED_GetWait(),p->tcbl,(u32)2,p->heapId,15);
+    *(u32 *)&p->printStream=(uptr)PRINTSYS_PrintStream(p->bmpWin,0,0,p->strbuf,p->font,MSG_SPEED_GetWait(),p->tcbl,(u32)2,p->heapId,15);
     p->lineBuf=BMP_MENUWORK_LoadFrameGfx(3,8,0,p->heapId);
     enabled=1;
     if(UI_GetInputMode()!=0) enabled=0;
@@ -286,7 +286,7 @@ int ZUKAN_NICKNAME_Main(ZukanNicknameWork *p)
             p->strbuf=STRBUF_Create(64,p->heapId);
             WORDSET_CopyTaggedText(ws,p->strbuf,p->nameStr);
             WORDSET_Delete(ws);
-            *(u32 *)&p->printStream=(uptr)PRINTSYS_PrintStream(p->bmpWin,0,0,p->strbuf,(struct GfFont *)p->font,MSG_SPEED_GetWait(),p->tcbl,(u32)2,p->heapId,15);
+            *(u32 *)&p->printStream=(uptr)PRINTSYS_PrintStream(p->bmpWin,0,0,p->strbuf,p->font,MSG_SPEED_GetWait(),p->tcbl,(u32)2,p->heapId,15);
             p->state=3;
         } else p->state=5;
         break;
@@ -338,7 +338,7 @@ void ZUKAN_NICKNAME_InitKeyboard(ZukanNicknameWork *p)
     PALANM_SetAutoTransfer(p->palAnm,1);
     PALANM_AllocSlotBuffers(p->palAnm,1,480,p->heapId);
     PALANM_AllocSlotBuffers(p->palAnm,3,480,p->heapId);
-    p->input=BTLV_INPUT_CreateDefault((sptr)(void *)p->textId2,0,(sptr)(void *)p->palAnm,(sptr)(void *)p->font,(sptr)&p->soundEnabled,p->heapId);
+    p->input=BTLV_INPUT_CreateDefault(p->infoWinParam,0,p->palAnm,p->font,&p->soundEnabled,p->heapId);
     p->pauseFlag=0;
 }
 
@@ -371,7 +371,7 @@ void ZUKAN_NICKNAME_UpdateInfoWindow(ZukanNicknameWork *a)
         break;
     case 2:
         {
-            int r5 = BTLV_INPUT_ProcessTouchInput((struct BtlvInput *)a->input, (struct BtlvInputTouchTable *)d_0220BBEC, (sptr)d_0220BBF8);
+            int r5 = BTLV_INPUT_ProcessTouchInput((struct BtlvInput *)a->input, &d_0220BBEC, d_0220BBF8);
             if (r5 == -1)
                 break;
             BTLV_INPUT_ChangeScreen((struct BtlvInput *)a->input, 0, 0);

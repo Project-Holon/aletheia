@@ -76,9 +76,7 @@ typedef struct TexImageParamCmd {
     u32 param1;
 } TexImageParamCmd;
 
-extern void MIi_CpuClearFast(u32 value, void *pDst, u32 size);
-extern void MIi_CpuClear32(u32 value, void *pDst, u32 size);
-extern void MI_Zero36B(void *pDst);
+#include "mi_memory.h"
 #include "fx_vec.h"
 #include "g3imm.h"
 typedef int GXFogBlend;

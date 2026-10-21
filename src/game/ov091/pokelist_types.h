@@ -6,8 +6,8 @@
    Handles are kept as int/u32 (the original code passed them to both int and pointer
    parameters). Layout from the census of pokelist.c; the plist_* files may name more. */
 
-struct Obj;
-struct Bank;
+struct ClactActor;
+struct Unit;
 struct PlistPlate;
 struct PokelistWork;
 typedef void (*PokelistFn)(struct PokelistWork *work);
@@ -130,12 +130,12 @@ typedef struct PokelistWork {
     int charRes[8];                   /* 0x178 */
     int palRes[7];                    /* 0x198 */
     int cellRes[8];                   /* 0x1B4 */
-    struct Bank *clactUnit;                    /* 0x1D4 */
-    struct Obj *cursorActor;                  /* 0x1D8 */
-    struct Obj *swapMarkerActor;              /* 0x1DC */
-    struct Obj *backButtonActor;              /* 0x1E0 */
-    struct Obj *switchButtonActor;            /* 0x1E4 */
-    struct Obj *pressedButtonActor;           /* 0x1E8 */
+    struct Unit *clactUnit;                    /* 0x1D4 */
+    struct ClactActor *cursorActor;                  /* 0x1D8 */
+    struct ClactActor *swapMarkerActor;              /* 0x1DC */
+    struct ClactActor *backButtonActor;              /* 0x1E0 */
+    struct ClactActor *switchButtonActor;            /* 0x1E4 */
+    struct ClactActor *pressedButtonActor;           /* 0x1E8 */
     void *actorSystem;            /* 0x1EC: owner of the party list actors */
     int timerDigit[3];            /* 0x1F0 */
     void *timerLabelWindow;       /* 0x1FC: "time left" caption */

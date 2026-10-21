@@ -33,7 +33,7 @@ struct UnionEff;
 struct FieldPalaceSys;
 struct FieldSkillMapEff;
 struct G3dCamera;
-struct G3dLightSlots;
+struct LightSlot;
 struct TcbTask;
 struct BbActSys;
 struct FieldmapFunc;
@@ -146,7 +146,7 @@ typedef struct FieldMap {
     struct FieldPalaceSys *palaceSys;       /* 0x09C FIELD_PALACE_SYS_Create */
     struct FieldSkillMapEff *mapEff;        /* 0x0A0 FIELDSKILL_MAPEFF_Create */
     struct G3dCamera *g3dCamera;            /* 0x0A4 G3D_CAMERA_Create */
-    struct G3dLightSlots *g3dLight;         /* 0x0A8 G3D_LIGHT_CreateSlots */
+    struct LightSlot *g3dLight;             /* 0x0A8 G3D_LIGHT_CreateSlots */
     struct TcbTask *vblankTcb;              /* 0x0AC FIELDMAP_VBlankTask */
     struct BbActSys *mmdlBbdAct;            /* 0x0B0 billboards of the move models */
     struct BbActSys *effectBbdAct;          /* 0x0B4 shadows and effects (half depth offset) */
@@ -160,7 +160,7 @@ typedef struct FieldMap {
     unsigned int frameCount;                /* 0x0CC */
     unsigned short zoneId;                  /* 0x0D0: zone the map was built for */
     unsigned short zoneIdPad;               /* 0x0D2: alignment, never read */
-    FieldMapLocation location;              /* 0x0D4: location.zoneId is the current zone */
+    FieldMapLocation location;            /* 0x0D4: location.zoneId is the current zone */
     const VecFx32 *targetPos;               /* 0x0F0: position the camera follows */
     VecFx32 nowPos;                         /* 0x0F4 */
     int cameraPitchScale;                   /* 0x100 FIELDMAP_CalcCameraPitchScale */

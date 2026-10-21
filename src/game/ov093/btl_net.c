@@ -39,6 +39,7 @@
  *   BTL_NET_FreeAfterPlayerInfoUse  0x021D4A04  thumb
  */
 #include "btl_net_types.h"
+#include "btl_main_types.h"
 
 struct NetHandle;
 struct Strbuf;
@@ -139,24 +140,6 @@ typedef union {
     } h;
 } BtlNetPacketHeader;
 
-/* Trainer slot of the battle setup (0x28 bytes, BattleTrainerData in btl_setup_types.h). */
-struct BtlNetTrainerData {
-    u32 trainerId;
-    u32 trainerType;
-    u32 aiFlags;
-    u16 itemIds[4];
-    struct Strbuf *name;
-    u8 winWord[8];
-    u8 loseWord[8];
-};
-
-/* A trainer slot with its name copied in, so it can be sent (BtlTrainerPacket). */
-struct BtlNetTrainerPacket {
-    struct BtlNetTrainerData trainer;
-    u16 nameChars[0x20];
-    u32 nameLength;
-};
-
 #include "../arm9/gfl_heap_wrap.h"
 struct GFLNetHandle;
 #include "../arm9/net.h"
@@ -211,15 +194,15 @@ void *BTL_NET_AllocPlayerInfoBuf(int netId, int unused, u32 size);
 void BTL_NET_RecvPlayerInfoDone(int netId, void *buf);
 int BTL_NET_IsPlayerInfoReceived(void);
 void *BTL_NET_GetPlayerInfo(u8 clientId);
-u32 BTL_NET_SendRelayedPlayerInfo(void *trainerData);
+u32 BTL_NET_SendRelayedPlayerInfo(struct BattleTrainerData *trainerData);
 u32 BTL_NET_AllocRelayedPlayerInfoBuf(void *unused0, int unused1, int size);
 void BTL_NET_RecvRelayedPlayerInfoDone(int unused, void *buf);
 int BTL_NET_IsRelayedPlayerInfoReceived(void);
 void *BTL_NET_GetRelayedPlayerInfo(void);
 void BTL_NET_FreeRelayedPlayerInfo(void);
 void BTL_NET_FreeAfterPlayerInfoUse(void);
-struct BtlNetTrainerPacket *BTL_NET_BuildPlayerInfoPacket(struct BtlNetTrainerData *trainerData, u32 heapId);
-void BTL_NET_FreePlayerInfoPacket(void *packet);
+struct BtlTrainerPacket *BTL_NET_BuildPlayerInfoPacket(struct BattleTrainerData *trainerData, u32 heapId);
+void BTL_NET_FreePlayerInfoPacket(struct BtlTrainerPacket *packet);
 void BTL_NET_FreeRecvBuffers(void);
 void BTL_NET_BeginSync(int stage);
 int BTL_NET_PollSync(int stage);
@@ -654,13 +637,13 @@ void *BTL_NET_GetPlayerInfo(u8 clientId)
 }
 
 /* Forward a trainer record to everyone (RELAY_PLAYER_INFO) and free the packet. */
-u32 BTL_NET_SendRelayedPlayerInfo(void *trainerData)
+u32 BTL_NET_SendRelayedPlayerInfo(struct BattleTrainerData *trainerData)
 {
-    void *packet;
+    struct BtlTrainerPacket *packet;
     u32 result;
 
-    packet = (void *)BTL_NET_BuildPlayerInfoPacket((struct BtlNetTrainerData *)trainerData, BTL_NET_TAIL_HEAP(gBtlNet->heapId));
-    result = GFL_NET_SendData(gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_RELAY_PLAYER_INFO, sizeof(struct BtlNetTrainerPacket), packet, 0, 1, 0);
+    packet = BTL_NET_BuildPlayerInfoPacket(trainerData, BTL_NET_TAIL_HEAP(gBtlNet->heapId));
+    result = GFL_NET_SendData(gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_RELAY_PLAYER_INFO, sizeof(struct BtlTrainerPacket), packet, 0, 1, 0);
     BTL_NET_FreePlayerInfoPacket(packet);
     return result;
 }
@@ -714,11 +697,11 @@ void BTL_NET_FreeAfterPlayerInfoUse(void)
 }
 
 /* Copy a trainer record and its name into a new packet for sending. */
-struct BtlNetTrainerPacket *BTL_NET_BuildPlayerInfoPacket(struct BtlNetTrainerData *trainerData, u32 heapId)
+struct BtlTrainerPacket *BTL_NET_BuildPlayerInfoPacket(struct BattleTrainerData *trainerData, u32 heapId)
 {
-    struct BtlNetTrainerPacket *packet = GFL_HEAP_Alloc(heapId, sizeof(struct BtlNetTrainerPacket), 1, gBtlNetSourceName, 0x349);
+    struct BtlTrainerPacket *packet = GFL_HEAP_Alloc(heapId, sizeof(struct BtlTrainerPacket), 1, gBtlNetSourceName, 0x349);
 
-    MI_CpuCopy8(trainerData, packet, sizeof(struct BtlNetTrainerData));
+    MI_CpuCopy8(trainerData, packet, sizeof(struct BattleTrainerData));
     MIi_CpuClear16(STRBUF_GetEosChar(), packet->nameChars, sizeof(packet->nameChars));
     if (trainerData->name != 0) {
         packet->nameLength = STRBUF_GetLength((struct Strbuf *)trainerData->name);
@@ -728,7 +711,7 @@ struct BtlNetTrainerPacket *BTL_NET_BuildPlayerInfoPacket(struct BtlNetTrainerDa
 }
 
 /* Free a packet made by the function above. */
-void BTL_NET_FreePlayerInfoPacket(void *packet)
+void BTL_NET_FreePlayerInfoPacket(struct BtlTrainerPacket *packet)
 {
     GFL_HEAP_Free(packet);
 }

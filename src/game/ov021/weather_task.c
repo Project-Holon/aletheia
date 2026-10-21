@@ -96,12 +96,8 @@ typedef struct ClactActor Actor;
 #include "../arm9/gfl_heap_wrap.h"
 #include "field_fog.h"
 #include "field_zonefog.h"
-extern u32 FIELD_LIGHT_ChangeTable(FieldLight *light, u32 arcId, u32 memberId, u32 frames);
-void FIELD_LIGHT_ReloadZoneTable(FieldLight *light);
-extern void FIELD_LIGHT_StartColorFade(FieldLight *light, u32 color, u32 frames, u32 returnFrames);
-extern int FIELD_LIGHT_IsColorFading(FieldLight *light);
+#include "field_light.h"
 #include "field_camera.h"
-extern void FIELD_LIGHT_StartColorFadeHold(FieldLight *light, u32 color, u32 frames);
 #include "field_3dbg.h"
 struct Field3dbgBillboard;
 struct G3dCamera;
@@ -123,13 +119,13 @@ void WEATHER_TASK_Update(WeatherTaskSys *task, u16 heapId);
 void WEATHER_TASK_Start(WeatherTaskSys *task, const WeatherKindDef *kind, u8 startMode, u32 updatesParticles, u32 variant, u32 useSoundSys, u32 reserved);
 void WEATHER_TASK_RequestEnd(WeatherTaskSys *task, u32 updatesParticles, u32 variant);
 void WEATHER_TASK_ForceEnd(WeatherTaskSys *task);
-int WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId);
-int WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, u32 memberId);
+void WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId);
+void WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, u32 memberId);
 void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
 void WEATHER_TASK_FlashLight(WeatherTaskSys *task, u32 color, u32 frames, u32 returnFrames);
 int WEATHER_TASK_IsLightFlashing(WeatherTaskSys *task);
 int WEATHER_TASK_GetCameraSettingId(WeatherTaskSys *task);
-void WEATHER_TASK_SetLightColor(WeatherTaskSys *task, u32 color, u32 frames);
+void WEATHER_TASK_SetLightColor(WeatherTaskSys *task, u16 color, u32 frames);
 void WEATHER_TASK_SetBillboardVisible(WeatherTaskSys *task, unsigned int value, int layer);
 void WEATHER_TASK_SetBillboardScaleX(WeatherTaskSys *task, unsigned int value, int layer);
 void WEATHER_TASK_SetBillboardScaleY(WeatherTaskSys *task, unsigned int value, int layer);
@@ -389,16 +385,16 @@ void WEATHER_TASK_ForceEnd(WeatherTaskSys *task)
 
 
 /* Starts a light change that takes 60 frames. */
-int WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId)
+void WEATHER_TASK_FadeLight(WeatherTaskSys *task, int arcId, int memberId)
 {
-    return FIELD_LIGHT_ChangeTable(task->light, arcId, memberId, 60);
+    FIELD_LIGHT_ChangeTable(task->light, arcId, memberId, 60);
 }
 
 
 /* Sets a light in one frame. */
-int WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, u32 memberId)
+void WEATHER_TASK_SetLight(WeatherTaskSys *task, int arcId, u32 memberId)
 {
-    return FIELD_LIGHT_ChangeTable(task->light, arcId, memberId, 1);
+    FIELD_LIGHT_ChangeTable(task->light, arcId, memberId, 1);
 }
 
 
@@ -427,7 +423,7 @@ int WEATHER_TASK_GetCameraSettingId(WeatherTaskSys *task)
 }
 
 
-void WEATHER_TASK_SetLightColor(WeatherTaskSys *task, u32 color, u32 frames)
+void WEATHER_TASK_SetLightColor(WeatherTaskSys *task, u16 color, u32 frames)
 {
     FIELD_LIGHT_StartColorFadeHold(task->light, color, frames);
 }

@@ -102,68 +102,48 @@ struct Unit;
 struct G3dCamera;
 #include "../arm9/tcb_list.h"
 #include "../ov021/scrcmd_msgwin.h"
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *,int,int);
+#include "../arm9/mi_memory.h"
 
-extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void BG_SYS_SetLcdSwap(u32 swap);
 
-extern void BG_SYS_ResetSubDisplay(void);
 
-extern void BG_SYS_ClearMainPlanes(void);
 
-extern void BG_SYS_ClearSubPlanes(void);
 
-extern void GF_FONT_InitTextColor(void);
+#include "../arm9/gf_font.h"
 struct TcbTask;
 
-extern struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
 
-extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void BG_SYS_Create(u16 heapId);
 
-extern void BMP_WIN_Init(u32 heapId);
+#include "../arm9/bmp_win.h"
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void BG_SYS_FreeSlot(u8);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void BMP_WIN_Exit(void);
 
-extern void BG_SYS_Delete(void);
 
-extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
 
 
 
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 
 
 
 
-extern void EGG_DEMO_MENU_InitGraphics(void);
+
+#include "egg_demo_menu.h"
 
 extern void G3D_SYSTEM_Init(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void (*)(void));
 

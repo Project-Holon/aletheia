@@ -60,8 +60,10 @@
  *   WM_GetSharedDataAddress  0x02090B18  arm  arm9
  *   WM_EndKeySharing  0x02090BB8  arm  arm9
  */
-#include "../../matched/include/G_DWC_MOV_WH_BSS.h"
-#include "../../matched/include/G_DWC_MOV_WH_BSS.h"
+struct DWC_MOV_WH_BSS {
+    void (*wh_trace)();
+    void *wh;
+};
 
 /*
  * dwc_mov_wh.o's .bss (sDwcMovWhWhTrace, wh) at 0x021DE660, one object in the vendor order.

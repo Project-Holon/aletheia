@@ -130,56 +130,37 @@ typedef struct TcbTask AnimeTask;
 #define FLDMMDL_PAUSE_FLAG_TARGET        0x04
 #define FLDMMDL_PAUSE_FLAG_PARTNER       0x08
 
-extern MmdlSys *SCRCMD_WORK_GetOccupyInfo(ScrcmdWork *cmdWork);
-extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
-extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
-extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
+#include "../ov010/scrcmd_work.h"
 #include "../ov010/script_work.h"
 struct ScriptWork;
 #include "../ov010/script_sys.h"
 struct ScriptVm;
 #include "../ov010/script_work_cmd.h"
-extern void SCRCMD_WORK_AddAnimeTask(ScrcmdWork *cmdWork, AnimeTask *animeTask);
-extern u32 SCRCMD_WORK_CheckAnimeTasks(ScrcmdWork *cmdWork);
 extern u16 VM_ReadU16(ScriptVm *vm);
 extern u32 VM_GetU32(ScriptVm *vm);
 extern void VM_SetWait(ScriptVm *vm, int (*waitFunc)(ScriptVm *vm, ScrcmdWork *cmdWork));
 #include "../arm9/gamesystem.h"
 #include "../arm9/game_data.h"
 #include "../arm9/gfl_use.h"
-extern short FLDMMDL_GetGridNowX(Mmdl *mmdl);
-extern short FLDMMDL_GetGridNowZ(Mmdl *mmdl);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
-extern void FLDMMDL_ChangeMoveCode(Mmdl *mmdl, int moveCode);
-extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
-extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
-extern u32 FLDMMDL_GetRealObjCode(void *evWork, u32 objCode);
-extern Mmdl *FLDMMDL_AddMmdlParam(MmdlSys *sys, s16 gridX, s16 gridZ, int dir, int objId, int objCode, int moveCode, int zoneId);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define FLDMMDL_AddMmdlParam FLDMMDL_AddMmdlParam_header
+#define FLDMMDL_ChangeMoveCode FLDMMDL_ChangeMoveCode_header
+#define FLDMMDL_InitGridPosition FLDMMDL_InitGridPosition_header
+#endif
+#include "../ov010/fldmmdl.h"
+#ifdef __MWERKS__
+#undef FLDMMDL_AddMmdlParam
+#undef FLDMMDL_ChangeMoveCode
+#undef FLDMMDL_InitGridPosition
+extern Mmdl * FLDMMDL_AddMmdlParam(MmdlSys *, s16, s16, int, int, int, int, int);
+extern void FLDMMDL_ChangeMoveCode(Mmdl *, int);
+extern void FLDMMDL_InitGridPosition(Mmdl *, s16, s16, s16, u32);
+#endif
 struct MmdlHeader;
 struct MmdlSys;
 struct Mmdl;
-extern Mmdl *FLDMMDL_AddMmdlHeaderById(struct MmdlSys *sys, struct MmdlHeader *header, s32 zoneId, s32 count, void *evWork, u32 objId);
-extern void FLDMMDL_OnMoveBitMovePause(Mmdl *mmdl);
-extern void FLDMMDL_DeleteMmdl(Mmdl *mmdl);
-extern void FLDMMDL_InitGridPosition(Mmdl *mmdl, s16 gridX, s16 gridY, s16 gridZ, u32 dir);
-extern u16 FLDMMDL_GetEventFlag(Mmdl *mmdl);
-extern int FLDMMDL_GetParam(Mmdl *mmdl, int no);
-extern void FLDMMDL_SetStatusBitZoneDeleteOff(Mmdl *mmdl, int flag);
-extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
-extern void FLDMMDL_SysPauseMove(MmdlSys *sys);
-extern void FLDMMDL_OffMoveBitMovePause(Mmdl *mmdl);
-extern void FLDMMDL_SysResumeMove(MmdlSys *sys);
-extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 drawStatus);
-extern Mmdl *FLDMMDL_SysSearchGridPosHeight(MmdlSys *sys, u32 gridX, u32 gridZ, s32 posY, s32 range, u32 flag);
-extern Mmdl *FLDMMDL_SysSearchMoveCode(MmdlSys *sys, u32 moveCode);
-extern Mmdl *FLDMMDL_SysSearchObjId(MmdlSys *sys, u32 objId);
-extern Mmdl *FLDMMDL_SysSearchPlayer(MmdlSys *sys);
 struct VecFx32;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct VecFx32 *out);
-extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct VecFx32 *pos);
-extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct VecFx32 *offset);
 #include "../ov010/fldmmdl_move.h"
 #include "../ov010/eventdata_system.h"
 typedef int Bool;
@@ -188,14 +169,7 @@ typedef int Bool;
 #include "fldmmdl_acmd.h"
 #include "fldmmdl_movecode.h"
 #include "fldmmdl_rail.h"
-extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
-extern void FIELD_PLAYER_GetPos(FieldPlayer *player, VecFx32 *outPos);
-extern void FIELD_PLAYER_StartFormChange(FieldPlayer *player, u32 code);
-extern int FIELD_PLAYER_StepFormChange(FieldPlayer *player);
-extern u16 FIELD_PLAYER_GetDirDisp(FieldPlayer *player);
-extern u32 FIELD_PLAYER_GetFormCode(FieldPlayer *player);
-extern int FIELD_PLAYER_CheckFormModel(FieldPlayer *player);
-extern Mmdl *FIELD_PLAYER_SearchFrontMmdlHeight(FieldPlayer *player, u32 limit);
+#include "field_player.h"
 #include "field_rail.h"
 extern void FIELD_RAIL_WORK_GetLocation(RailWork *work, RailLocation *outLocation);
 #include "scrcmd_player_events.h"

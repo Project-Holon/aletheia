@@ -5,7 +5,6 @@
 /* Public functions of btlv_bg.c, prototypes copied from their definitions. */
 
 struct TcbTask;
-struct TcbTask;
 
 #include "../ov094/btlv_bg_types.h"
 #include "../types.h"

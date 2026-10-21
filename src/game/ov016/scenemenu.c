@@ -81,7 +81,7 @@
  *   DWCi_SceneMenu_draw  0x021C1CF8  arm
  *   button  0x021C1CFC  arm
  */
-#include "../../matched/include/G_SCENEMENU_BSS.h"
+#include "scenemenu_types.h"
 #include "../sdk_ioreg.h"
 #include "../arm9/gx_load2d.h"
 
@@ -96,12 +96,6 @@ typedef struct {
 typedef _Bool bool;
 
 #include "dwcutil_types.h"
-
-/* scenemenu.o .bss at 0x021DE59C, members at their vendor offsets */
-typedef struct {
-    unsigned char  FocusPos;          /* 0x00 */
-    void          *Palette;           /* 0x04 */
-} SCENEMENU_BSS;
 
 /* scenemenu.o .rodata at 0x021DA478, members at their vendor offsets */
 typedef struct {

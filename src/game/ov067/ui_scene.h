@@ -6,7 +6,7 @@
 
 struct UiScene;
 struct UiSceneEntry;
-struct ClactActor;
+struct Actor;
 
 #include "../types.h"
 #include "../ov067/ui_scene_types.h"

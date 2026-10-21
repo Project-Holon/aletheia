@@ -39,13 +39,7 @@
 #include "../types.h"
 #include "../sdk_ioreg.h"
 
-/* per-channel NDMA configuration, 16 bytes */
-typedef struct {
-    int intervalTimer;
-    int prescaler;
-    int blockSize;
-    int blockWordCount;
-} NdmaConfig;
+#include "mi_ndma_types.h"
 
 typedef struct {
     u32 src;

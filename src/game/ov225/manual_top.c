@@ -250,7 +250,7 @@ void MANUAL_COMMON_CreateDialogWindows(char *dialog)
         *(unsigned *)(dialog + i * 4 + 0xc) = (uptr)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)(*(unsigned *)&((struct ManualDialog *)dialog)->resource), (struct TaskMenuItem *)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
         STRBUF_Delete(entries[i].resource);
     }
-    if (UI_GetInputMode() == 0) APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct Obj **)(dialog + *(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner * 4 + 0xc)), 1);
+    if (UI_GetInputMode() == 0) APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct ClactActor **)(dialog + *(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner * 4 + 0xc)), 1);
 }
 
 void MANUAL_COMMON_SetDialogBgMode(char *dialog) { BG_SYS_MarkTileDirty(4); }

@@ -99,7 +99,7 @@ struct Proc;
 struct Node;
 struct PrintSys;
 struct Proc;
-struct Bank;
+struct Unit;
 struct Cfg;
 #include "../arm9/arc_tool.h"
 #include "../sdk_ioreg.h"
@@ -132,7 +132,7 @@ typedef struct ZukanTorokuWork {
 /* The 16-byte display object made by ZUKAN_TOROKU_GRAPHIC_CreateDisplay. */
 typedef struct ZukanTorokuDisplay {
     u32 reserved0;          /* 0x00, cleared only */
-    struct Bank *actors;    /* 0x04, CLACT unit; also returned by GetDisplay */
+    struct Unit *actors;    /* 0x04, CLACT unit; also returned by GetDisplay */
     u32 reserved8;          /* 0x08, cleared only */
     void *vblankTask;       /* 0x0C, vblank callback task */
 } ZukanTorokuDisplay;
@@ -152,82 +152,53 @@ typedef char ZukanTorokuWork_size_check[(sizeof(ZukanTorokuWork) == 0x34) ? 1 : 
 typedef char ZukanTorokuDisplay_size_check[(sizeof(ZukanTorokuDisplay) == 0x10) ? 1 : -1];
 typedef char ZukanTorokuBgEntry_size_check[(sizeof(ZukanTorokuBgEntry) == 44) ? 1 : -1];
 
-extern int GF_OVERLAY_Load(int);
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *,int,int);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern void *ZUKAN_INFO_CreateFromMon(u16,void *,u32,u32,u32,u32,u8,u32,u32,u32,u32,u32,u32);
-extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
+#include "../arm9/printsys.h"
+#include "../ov206/zukan_info.h"
+extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, struct GfFont *f, u32 g, void *h);
+#include "../arm9/net.h"
 extern struct TcbTask *GFL_USE_AddMainTask(u32,u32,u32);
-extern void FADE_Start(u32,int,int,int);
+#include "../arm9/fade.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 struct ZukanNicknameWork;
 extern void ZUKAN_NICKNAME_Delete(struct ZukanNicknameWork *p);
-extern void ZUKAN_INFO_Delete(char *p);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern void GF_OVERLAY_Unload(int);
-extern void ZUKAN_INFO_Update(char *);
+#include "../arm9/gfl_heap_wrap.h"
 extern int ZUKAN_NICKNAME_Main(struct ZukanNicknameWork *p);
-extern int FADE_IsActive(void);
-extern void ZUKAN_INFO_Start(char *);
-extern int TOUCHPANEL_GetTrg(void);
-extern u32 KEY_GetTrg(void);
-extern void ZUKAN_INFO_NotifyMoveDone(char *);
-extern int ZUKAN_INFO_IsMoving(char *);
-extern int ZUKAN_INFO_IsDone(char *);
-extern void G2x_SetBlendBrightnessExt_(u32,int,int,int,int,int);
-extern void ZUKAN_INFO_ClearDisplay(char *);
-extern void ZUKAN_INFO_NotifyFadeDone(char *);
+#include "../arm9/touchpanel.h"
+#include "../arm9/key.h"
+#include "../arm9/g2.h"
 extern void ZUKAN_NICKNAME_SetupScreen(struct ZukanNicknameWork *p);
 extern int ZUKAN_NICKNAME_GetResult(struct ZukanNicknameWork *p);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void BG_SYS_ClearSlot(u8 i);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void GF_FONT_InitTextColor(void);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_Create(int);
-extern void BMP_WIN_Init(u32);
+#include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct ClactSysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
-extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Unit *bank);
+#include "../arm9/clact.h"
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
 int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args);
 int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,ZukanTorokuWork *work);
 int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork *work);
@@ -245,8 +216,8 @@ void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap);
 void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display);
-void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Bank **actors, int a, int b);
-void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Bank**p);
+void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Unit **actors, int a, int b);
+void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Unit**p);
 void ZUKAN_TOROKU_GRAPHIC_DrawActors(void*p);
 void ZUKAN_TOROKU_GRAPHIC_VBlankActors(void*p);
 u32 ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p);
@@ -273,7 +244,7 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
     mode=0;
     if(args[0]!=0) mode=1;
     work->menu=ZUKAN_INFO_CreateFromMon(work->heapId,(void *)args[1],args[2],1,mode,0,0,ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(uptr)work->font,work->printQueue,0,0,0);
-    work->nickname=ZUKAN_NICKNAME_Create(work->heapId,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(uptr)work->font,work->printQueue,args[6]);
+    work->nickname=ZUKAN_NICKNAME_Create(work->heapId,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(struct GfFont *)((uptr)work->font),work->printQueue,(void *)args[6]);
     GFL_NET_RefreshWmIconAtTopRight(0,work->heapId);
     if(work->state==1) ZUKAN_TOROKU_GRAPHIC_CreateBg(work);
     work->task=GFL_USE_AddMainTask((uptr)ZUKAN_TOROKU_GRAPHIC_ClearTask,(uptr)work,1);
@@ -419,7 +390,7 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
     BG_SYS_ClearSubPlanes();
     GF_FONT_InitTextColor();
     ZUKAN_TOROKU_GRAPHIC_InitBg(display,heap);
-    ZUKAN_TOROKU_GRAPHIC_InitActors((struct Bank **)&display->actors,(sptr)d_0220BAE8,heap);
+    ZUKAN_TOROKU_GRAPHIC_InitActors((struct Unit **)&display->actors,(sptr)d_0220BAE8,heap);
     display->vblankTask=(void *)GFL_USE_AddMainTask((uptr)((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank), (uptr)display, 0);
     return display;
 }
@@ -473,17 +444,17 @@ void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display){}
 
 void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display){BG_SYS_Update();}
 
-void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Bank **actors, int a, int b)
+void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Unit **actors, int a, int b)
 {
     MI_CpuFill8(actors, 0, 4);
     CLACT_InitSystem((struct ClactSysInit *)0x0220BACC, (struct DispVramCfg *)a, b);
-    *actors = (struct Bank *)CLACT_CreateUnit(0x80, 0, b);
+    *actors = (struct Unit *)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((struct Unit *)(*actors));
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
 
-void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Bank**p){CLACT_DeleteUnit(*p);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
+void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Unit**p){CLACT_DeleteUnit(*p);CLACT_ExitSystem();MI_CpuFill8(p,0,4);}
 
 void ZUKAN_TOROKU_GRAPHIC_DrawActors(void*p){CLACT_DrawSystem();}
 

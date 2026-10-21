@@ -2836,11 +2836,11 @@ int EVENT_COMM_COMMON_SearchFoundEventMain(struct GameEvent *event, int *seq, vo
 /* Message event after a link battle: thanks the player whose support record is active. */
 struct GameEvent *EVENT_COMM_COMMON_CreateSupportMsgEvent(struct GameSystem *gameSystem, u32 heapId)
 {
-    void *pmsWork;
+    struct CommPlayerSupport *pmsWork;
     struct GameEvent *event;
     EventCommSupportMsgWork *work;
 
-    pmsWork = (void *)GAME_DATA_GetPmsWork(GAMESYSTEM_GetGameData(gameSystem));
+    pmsWork = GAME_DATA_GetPmsWork(GAMESYSTEM_GetGameData(gameSystem));
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_COMM_COMMON_SupportMsgEventMain, sizeof(EventCommSupportMsgWork));
     work = GAME_EVENT_GetWork(event);
     work->myStatus = MYSTATUS_Create(heapId);

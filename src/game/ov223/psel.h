@@ -10,7 +10,7 @@ typedef struct Main Main;
 
 #include "../types.h"
 
-void PSEL_SetAnimFrame(int anime, int frame);
+int PSEL_SetAnimFrame(int anime, int frame);
 struct PselRecord *PSEL_CreateRecords(u32 heap,u32 count);
 void PSEL_DeleteRecords(void *p);
 int PSEL_Init(void *a,int unused,void *c);

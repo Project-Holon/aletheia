@@ -147,7 +147,7 @@ struct ScriptWork;
 struct ScriptVm;
 struct GameSystem;
 struct GameData;
-struct OccupyInfo;
+struct MmdlSys;
 struct MsgBank;
 struct WordSet;
 struct Strbuf;
@@ -155,7 +155,7 @@ struct BmpMenuWork;
 struct BmpMenuList;
 struct FieldMenu;
 struct FieldMsgWindow;
-struct AnimeTask;
+struct TcbTask;
 
 #include "../ov021/field_msgbg_types.h"
 
@@ -180,9 +180,9 @@ typedef struct ScrcmdCommonWork {
     struct ScriptWork *scriptWork;  /* 0x000 */
     struct GameSystem *gameSystem;  /* 0x004 */
     struct GameData *gameData;      /* 0x008 */
-    struct OccupyInfo *occupyInfo;  /* 0x00C */
+    struct MmdlSys *occupyInfo;     /* 0x00C: the move model system */
     void *targetObject;             /* 0x010 */
-    struct AnimeTask *animeTasks[8]; /* 0x014 */
+    struct TcbTask *animeTasks[8]; /* 0x014 */
     ScrcmdMenu menu;                /* 0x034 */
     u8 wordSetWork[0x28];           /* 0x0D4 */
     void *msgWindow; /* 0x0FC */
@@ -269,14 +269,11 @@ extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern void *GAME_DATA_GetTrainerCardSign(struct GameData *gameData);
 extern void *GAME_DATA_GetEventData(struct GameData *gameData);
 extern u32 GAME_DATA_GetLastBattleResult(struct GameData *gameData);
-extern u32 ZONEDATA_GetMatrixId(u32 zoneId);
+#include "../arm9/zonedata.h"
 #ifdef __MWERKS__
 extern void ZONEDATA_SetDirectLocation(struct Location *location, int zoneId, s16 direction, u32 x, u32 y, u32 z); /* original prototype; the definition differs in argument sign, argument width */
 #else
-extern void ZONEDATA_SetDirectLocation(struct Location*, u16, s16, u32, u32, u32);
 #endif
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
-extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
 
 /* save data */
 #include "../arm9/system_data.h"
@@ -430,7 +427,7 @@ struct GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *work)
     return work->common->gameData;
 }
 
-struct OccupyInfo *SCRCMD_WORK_GetOccupyInfo(ScrcmdWork *work)
+struct MmdlSys *SCRCMD_WORK_GetOccupyInfo(ScrcmdWork *work)
 {
     return work->common->occupyInfo;
 }
@@ -545,7 +542,7 @@ void SCRCMD_WORK_SetFadeState(ScrcmdWork *work, int state)
     work->common->fadeState = state;
 }
 
-void SCRCMD_WORK_AddAnimeTask(ScrcmdWork *work, struct AnimeTask *task)
+void SCRCMD_WORK_AddAnimeTask(ScrcmdWork *work, struct TcbTask *task)
 {
     int i;
     ScrcmdCommonWork *common = work->common;

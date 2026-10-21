@@ -2091,13 +2091,17 @@ void FLDMMDL_MOVE_DeleteLookFellow(void) {}
 /* Forget the other model being watched. */
 #ifdef __MWERKS__
 void FLDMMDL_MOVE_ClearFellowTracking(void)
+{
+    MmdlLookWork *work = GET_MOVE_PROC_WORK(0);
+    work->tracking = 0;
+}
 #else
 void FLDMMDL_MOVE_ClearFellowTracking(Mmdl *mmdl)
-#endif
 {
     MmdlLookWork *work = GET_MOVE_PROC_WORK(mmdl);
     work->tracking = 0;
 }
+#endif
 
 /* Look at another model, step 0: turn when it has moved. */
 int FLDMMDL_MOVE_LookFellowTurn(Mmdl *mmdl, MmdlLookWork *work)

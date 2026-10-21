@@ -111,17 +111,14 @@ typedef struct TileSlideWork {
 #include "../arm9/gfl_use.h"
 #include "../arm9/game_event.h"
 #include "fieldmap.h"
-extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
-extern void FIELD_PLAYER_GetPos(FieldPlayer *player, VecFx32 *outPos);
+#include "field_player.h"
 struct FieldG3dMapper;
 #include "map_attr.h"
 #include "../ov010/fldmmdl_move.h"
-extern u32 FIELD_PLAYER_GetRideEffect(FieldPlayer *player);
-extern u32 FLDEFF_NAMIPOKE_SetWakeEnabled(u32 namipoke, int visible);
+#include "fldeff_namipoke.h"
 struct FieldEffectCont;
 struct FieldEffectSys;
 #include "field_effect.h"
-extern void FLDEFF_NAMIPOKE_SPLASH_StartAtPos(struct FieldEffectSys *fieldEffect, s32 type, VecFx32 *pos);
 
 TileSpinEntry *FIELD_TILE_MOVE_FindSpinEntry(u16 attr);
 int FIELD_TILE_MOVE_HasSpinEntry(u16 attr);
@@ -150,7 +147,7 @@ void FIELD_TILE_MOVE_SlideStartStep(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlideFinishBump(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlideSelectSlideEntry(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlideSelectBumpEntry(TileSlideWork *work);
-int FIELD_TILE_MOVE_SlideShowSurfPokemon(TileSlideWork *work);
+void FIELD_TILE_MOVE_SlideShowSurfPokemon(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlidePlayBumpSe(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlidePlayBumpEffectSe(TileSlideWork *work);
 void FIELD_TILE_MOVE_SlidePlayLoopSe(TileSlideWork *work);
@@ -471,9 +468,9 @@ void FIELD_TILE_MOVE_SlideSelectBumpEntry(TileSlideWork *work)
 }
 
 /* Shows the player's surf Pokemon again. */
-int FIELD_TILE_MOVE_SlideShowSurfPokemon(TileSlideWork *work)
+void FIELD_TILE_MOVE_SlideShowSurfPokemon(TileSlideWork *work)
 {
-    return FLDEFF_NAMIPOKE_SetWakeEnabled(FIELD_PLAYER_GetRideEffect(work->player), 1);
+    FLDEFF_NAMIPOKE_SetWakeEnabled(FIELD_PLAYER_GetRideEffect(work->player), 1);
 }
 
 /* Stops the slide loop SE and plays the bump SE. */

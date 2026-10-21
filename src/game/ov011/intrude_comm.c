@@ -368,10 +368,10 @@ u32 GFL_NET_SendDataMask(GFLNetHandle *handle, u32 sendMask, u32 command, u32 si
 void GFL_NET_SetAcceptConnection(void *unusedArg, void *eventArg);
 u32 GFL_NET_IsConnectMember(u32 netId);
 extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
-int GAME_DATA_GetPmsWork(struct GameData *gameData);
 void *GAME_DATA_GetMoveModelSys(const struct GameData *p);
 #include "../arm9/field_status.h"
 struct CommPlayerSupport;
+struct CommPlayerSupport *GAME_DATA_GetPmsWork(struct GameData *gameData);
 #include "../arm9/comm_player_support.h"
 u8 *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 index);
 struct WfbcData;
@@ -1888,15 +1888,15 @@ int INTRUDE_COMM_SendPeerFlags(struct IntrudeCommSys *unused, u8 netId, int flag
 void INTRUDE_COMM_RecvSupportMode(int netId, int size, int *mode, IntrudeCommSys *work)
 {
     struct GameData *gameData;
-    sptr support;
+    struct CommPlayerSupport *support;
     int supportState;
     gameData = GAME_COMM_GetGameData(work->gameComm);
     support = GAME_DATA_GetPmsWork(gameData);
     if (work->peerMask & (1 << netId)) {
         if (FIELD_STATUS_GetSeasonDispFlag(GAME_DATA_GetMoveModelSys((const struct GameData *)gameData)) == 1) {
-            supportState = COMM_PLAYER_SUPPORT_GetMode((struct CommPlayerSupport *)support);
+            supportState = COMM_PLAYER_SUPPORT_GetMode(support);
             if (supportState == 0 || supportState == 3) {
-                COMM_PLAYER_SUPPORT_SetModeAndCurrent((struct CommPlayerSupport *)support, *mode, GAME_DATA_GetMyStatusPlayer(gameData, netId));
+                COMM_PLAYER_SUPPORT_SetModeAndCurrent(support, *mode, GAME_DATA_GetMyStatusPlayer(gameData, netId));
             }
         }
     }

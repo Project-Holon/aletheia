@@ -71,7 +71,7 @@ struct FieldMsgWin;
 struct FieldMsgCursor;
 struct MsgBank;
 struct WordSet;
-struct StrBuf;
+struct Strbuf;
 struct BmpWin;
 struct Bitmap;
 struct MyItem;
@@ -103,8 +103,8 @@ typedef struct PdwPostmanListWin {
     struct FieldMsgWin *msgWin;
     struct FieldMsgCursor *cursor;
     struct WordSet *wordSet;
-    struct StrBuf *strBuf;
-    struct StrBuf *expandBuf;
+    struct Strbuf *strBuf;
+    struct Strbuf *expandBuf;
     int itemCount;
     PdwPostmanItem *items;
 } PdwPostmanListWin;
@@ -127,7 +127,15 @@ typedef struct PdwPostmanEventWork {
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/msgdata.h"
 struct Strbuf;
-extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define WORDSET_CreateDefault WORDSET_CreateDefault_header
+#endif
+#include "../arm9/gf_font.h"
+#ifdef __MWERKS__
+#undef WORDSET_CreateDefault
+extern struct WordSet * WORDSET_CreateDefault(u32);
+#endif
 #include "../arm9/wordset.h"
 struct Strbuf;
 #include "../arm9/strbuf.h"
@@ -135,22 +143,32 @@ struct Strbuf;
 struct Bmp;
 #include "../arm9/bg_sys.h"
 struct MsgBank;
-extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgBank *msgData, unsigned short x, unsigned short y, unsigned short width, unsigned short height);
-extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *msgWin);
-extern void FIELD_MSGBG_MsgWinPrintStr(struct FieldMsgWin *msgWin, int x, u16 y, struct StrBuf *str);
-extern int FIELD_MSGBG_IsMsgWinTransDone(struct FieldMsgWin *msgWin);
-extern void FIELD_MSGBG_ClearMsgWin(struct FieldMsgWin *msgWin);
-extern struct BmpWin *FIELD_MSGBG_GetMsgWinBmpWin(struct FieldMsgWin *msgWin);
-extern struct FieldMsgCursor *FIELD_MSGBG_CreateCursor(struct FieldMsgBg *msgBg);
-extern void FIELD_MSGBG_DeleteCursor(struct FieldMsgCursor *cursor);
-extern void FIELD_MSGBG_AnimateCursor(struct FieldMsgCursor *cursor, struct Bmp *bmp, u32 color);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define FIELD_MSGBG_MsgWinPrintStr FIELD_MSGBG_MsgWinPrintStr_header
+#endif
+#include "field_msgbg.h"
+#ifdef __MWERKS__
+#undef FIELD_MSGBG_MsgWinPrintStr
+extern void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *, int, u16, struct Strbuf *);
+#endif
 #include "../arm9/key.h"
 #include "../arm9/gfl_use.h"
 #include "../arm9/game_data.h"
 struct CgearSaveBlock;
 #include "../arm9/block20_savedata.h"
-extern int MYITEM_SAVEDATA_CanAddItem(struct MyItem *bag, u32 itemId, u32 count, u32 heapId);
-extern int MYITEM_SAVEDATA_AddItem(struct MyItem *bag, int itemId, int count, int heapId);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define MYITEM_SAVEDATA_AddItem MYITEM_SAVEDATA_AddItem_header
+#define MYITEM_SAVEDATA_CanAddItem MYITEM_SAVEDATA_CanAddItem_header
+#endif
+#include "../arm9/myitem_savedata.h"
+#ifdef __MWERKS__
+#undef MYITEM_SAVEDATA_AddItem
+#undef MYITEM_SAVEDATA_CanAddItem
+extern int MYITEM_SAVEDATA_AddItem(struct MyItem *, int, int, int);
+extern int MYITEM_SAVEDATA_CanAddItem(struct MyItem *, u32, u32, u32);
+#endif
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 struct GameSyncData;
@@ -189,8 +207,8 @@ PdwPostmanListWin *PDW_POSTMAN_CreateListWin(struct FieldMap *fieldMap, PdwPostm
     listWin->itemCount = itemCount;
     listWin->msgData = MSGDATA_CreateFromArchive(0, 3, 0x13B, heapId);
     listWin->wordSet = WORDSET_CreateDefault(heapId);
-    listWin->strBuf = (struct StrBuf *)STRBUF_Create(0x80, heapId);
-    listWin->expandBuf = (struct StrBuf *)STRBUF_Create(0x80, heapId);
+    listWin->strBuf = STRBUF_Create(0x80, heapId);
+    listWin->expandBuf = STRBUF_Create(0x80, heapId);
     height = (itemCount * PDW_POSTMAN_LINE_HEIGHT + 7) & ~7;
     listWin->msgWin = FIELD_MSGBG_CreateMsgWin(FIELDMAP_GetMsgBg(fieldMap), (struct MsgBank *)listWin->msgData, 1, 1, 0x15, (u16)(height / 8));
     return listWin;

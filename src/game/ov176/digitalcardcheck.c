@@ -620,9 +620,9 @@ void DIGITALCARDCHECK_InitRecord(int *p)
             MI_CpuFill8((void *)&rec, 0, 0xac);
             MI_CpuCopy8((const void *)(REGULATION_Card_GetCupName((struct RegulationCard *)obj)), (void *)&rec, 0x92);
             table = (u16 (*)[3])LIVEBATTLEMATCH_SAVE_GetStats((sptr)stats);
-            rec.count0 = BSUBWAY_SAVEDATA_GetStat((StatRow *)table, 10, 0);
-            total = BSUBWAY_SAVEDATA_GetStat((StatRow *)table, 10, 1);
-            rec.v.total = total + BSUBWAY_SAVEDATA_GetStat((StatRow *)table, 10, 2);
+            rec.count0 = BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)table, 10, 0);
+            total = BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)table, 10, 1);
+            rec.v.total = total + BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)table, 10, 2);
             rec.user = (u8 *)MYSTATUS_GetTrainerView((const struct MyStatus *)win);
             a = REGULATION_Card_GetValue((struct RegulationCard *)obj, 6); b = REGULATION_Card_GetValue((struct RegulationCard *)obj, 5); c = REGULATION_Card_GetValue((struct RegulationCard *)obj, 4);
             rec.color0 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);

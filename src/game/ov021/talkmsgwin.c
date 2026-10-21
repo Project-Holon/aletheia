@@ -1035,7 +1035,7 @@ u32 TALKMSGWIN_LoadFrameGraphics(TalkMsgWinSys *sys, TalkMsgWinParam *param)
         break;
     }
     ARC_UTIL_UploadPaletteFromArchiveWhole(5, 0, screenSelect, param->framePalette << 5, 0x20, param->heapId);
-    return ARC_UTIL_UploadBgCharFromArchive((void *)5, (void *)5, (void *)param->bgLayer, (void *)param->frameBaseTile, 0, 0, param->heapId);
+    return ARC_UTIL_UploadBgCharFromArchive(5, 5, param->bgLayer, param->frameBaseTile, 0, 0, param->heapId);
 }
 
 /* Uploads the balloon texture and palette into the VRAM blocks of the system's keys. */
@@ -1074,7 +1074,7 @@ void TALKMSGWIN_ReloadFrameGraphics(TalkMsgWinSys *sys)
         break;
     }
     ARC_UTIL_UploadPaletteFromArchiveWhole(5, 0, screenSelect, (u32)sys->param.framePalette << 5, 0x20, sys->param.heapId);
-    ARC_UTIL_UploadBgCharFromArchive((void *)5, (void *)5, (void *)sys->param.bgLayer, (void *)sys->param.frameBaseTile, 0, 0, sys->param.heapId);
+    ARC_UTIL_UploadBgCharFromArchive(5, 5, sys->param.bgLayer, sys->param.frameBaseTile, 0, 0, sys->param.heapId);
 }
 
 /*

@@ -135,24 +135,28 @@ typedef struct FldTradeEvent {
     FldTradeEvolveParam *evolveParam;   /* 0x58 */
 } FldTradeEvent;
 
-extern void *MYSTATUS_Create(int heap_id);
+#include "../arm9/mystatus.h"
 struct MyStatus;
-extern void MYSTATUS_Init(struct MyStatus *mystatus);
 struct Strbuf;
-extern void MYSTATUS_CopyName(u16 *dest, u16 *src);
-extern void MYSTATUS_SetSex(int, u32);
 struct PokemonParam;
 struct PersonalData;
 struct GameData;
 #include "../arm9/game_data.h"
-extern void SAVE_EVENT_Write(void *mon, u32 mode, u32 record, u32 eventId, u16 index);
+#include "../arm9/save_event.h"
 struct PokemonParam;
 struct GameSystem;
 struct FieldMap;
 struct GameEvent;
 #include "../arm9/field_status.h"
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_Alloc_header
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+extern void * GFL_HEAP_Alloc(u16, u32, u32, const char *, u32);
+#endif
 #include "../arm9/arc_tool.h"
 #include "../arm9/strbuf.h"
 #include "../arm9/msgdata.h"
@@ -203,7 +207,7 @@ FldTradeHolder *FLD_TRADE_Create(u32 heapId, u32 tradeId)
     STRBUF_ToChars((struct Strbuf *)otName, (u16 *)nameBuf, 0x80);
     STRBUF_Delete((struct Strbuf *)otName);
     MYSTATUS_CopyName((u16 *)holder->traderStatus, (u16 *)nameBuf);
-    MYSTATUS_SetSex((sptr)holder->traderStatus, holder->data->otGender);
+    MYSTATUS_SetSex((struct MyStatus *)holder->traderStatus, holder->data->otGender);
     return holder;
 }
 
@@ -282,7 +286,7 @@ void FLD_TRADE_BuildPokemon(void *gameData, u16 heapId, void *mon, FldTradeData 
     STRBUF_Delete((struct Strbuf *)str);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_OT_GENDER, data->otGender);
     POKE_TOOL_SetPartyValue(mon, POKE_TOOL_PARAM_LANGUAGE, data->language);
-    SAVE_EVENT_Write(mon, 1, (uptr)GAME_DATA_GetMyStatus(gameData), 0x7532, heapId);
+    SAVE_EVENT_Write(mon, 1, GAME_DATA_GetMyStatus(gameData), 0x7532, heapId);
     FLD_TRADE_DumpPokemonParams((sptr)mon);
     POKE_TOOL_RecalcParam(mon);
 }

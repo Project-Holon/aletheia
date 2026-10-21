@@ -117,10 +117,8 @@ struct Demo3dGraphic;
 extern void DEMO3D_GRAPHIC_Delete(Demo3dGraphic *ctx);
 #include "../arm9/gfl_heap_wrap.h"
 extern void DEMO3D_GRAPHIC_Draw(Demo3dGraphic *p);
-extern u32 WIPE_SYS_EndCheck(void);
-extern void WIPE_SetMstBrightColor(u32 color);
+#include "../arm9/wipe.h"
 #include "../arm9/fade.h"
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 #include "../arm9/key.h"
 #include "../arm9/g3x.h"
 struct G3dLight;

@@ -126,7 +126,7 @@ ReflectEffectWork *FLDEFF_REFLECT_Init(int fieldEffectCtrl, int heapId);
 void FLDEFF_REFLECT_Delete(u32 fieldEffectCtrl, u8 *effWork);
 void FLDEFF_REFLECT_InitResource(void);
 void FLDEFF_REFLECT_DeleteResource(void *effWork);
-void FLDEFF_REFLECT_SetMMdl(u32 mmdlSys, u32 mmdl, u32 fieldEffectCtrl, u32 type);
+void FLDEFF_REFLECT_SetMMdl(struct MmdlSys *mmdlSys, struct Mmdl *mmdl, struct FieldEffectSys *fieldEffectCtrl, u32 type);
 void FLDEFF_REFLECT_InitTask(u32 task, ReflectTaskWork *work);
 void FLDEFF_REFLECT_DeleteTask(int task, ReflectTaskWork *work);
 void FLDEFF_REFLECT_UpdateTask(u32 task, ReflectTaskWork *work);
@@ -164,16 +164,16 @@ void FLDEFF_REFLECT_DeleteResource(void *effWork)
 {
 }
 
-void FLDEFF_REFLECT_SetMMdl(u32 mmdlSys, u32 mmdl, u32 fieldEffectCtrl, u32 type)
+void FLDEFF_REFLECT_SetMMdl(struct MmdlSys *mmdlSys, struct Mmdl *mmdl, struct FieldEffectSys *fieldEffectCtrl, u32 type)
 {
     ReflectTaskHead head;
 
     head.type = type;
-    head.mmdl = (struct Mmdl *)mmdl;
-    head.mmdlSys = (struct MmdlSys *)mmdlSys;
-    head.bbActSys = (struct BbActSys *)FLDMMDL_BLACT_GetBbActSys((struct BlactSys *)FLDMMDL_SysGetBlActCont((void *)mmdlSys));
-    head.effWork = (ReflectEffectWork *)FIELD_EFFECT_GetResource((struct FieldEffectSys *)fieldEffectCtrl, 6);
-    FIELD_EFFECT_AddObject((struct FieldEffectSys *)fieldEffectCtrl, (struct FieldEffectObjFuncs *)gReflectTaskHeader, (VecFx32 *)0, 0, &head, 0);
+    head.mmdl = mmdl;
+    head.mmdlSys = mmdlSys;
+    head.bbActSys = (struct BbActSys *)FLDMMDL_BLACT_GetBbActSys((struct BlactSys *)FLDMMDL_SysGetBlActCont(mmdlSys));
+    head.effWork = (ReflectEffectWork *)FIELD_EFFECT_GetResource(fieldEffectCtrl, 6);
+    FIELD_EFFECT_AddObject(fieldEffectCtrl, (struct FieldEffectObjFuncs *)gReflectTaskHeader, (VecFx32 *)0, 0, &head, 0);
 }
 
 void FLDEFF_REFLECT_InitTask(u32 task, ReflectTaskWork *work)

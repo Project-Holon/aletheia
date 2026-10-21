@@ -75,4 +75,7 @@ void BR_UTIL_Init(int *p, int a, const int *values, int duration);
 int BR_UTIL_StepFollow(char *p,int *out);
 /* END mkheaders: generated region */
 
+/* Not in the generated region: its definition takes a file-local typedef. */
+struct BrListMenu *BR_UTIL_CreateListMenu(const struct BrListMenuConfig *cfg, u16 heap);
+
 #endif

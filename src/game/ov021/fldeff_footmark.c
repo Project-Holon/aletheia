@@ -226,7 +226,7 @@ struct BbBoard;
 
 #include "../arm9/billboard.h"
 
-void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, int fieldEffectCtrl, int type);
+void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffectCtrl, int type);
 
 void FLDEFF_FOOTMARK_InitTask(int task, FootmarkTaskWork *work);
 
@@ -238,7 +238,7 @@ void FLDEFF_FOOTMARK_DrawTask(void);
 
 extern int gFootmarkTaskHeader;
 
-void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, int fieldEffectCtrl, int type)
+void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffectCtrl, int type)
 {
     sptr effWork;
     int dir;
@@ -247,7 +247,7 @@ void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, int fieldEffectCtrl, int type)
     VecFx32 pos;
     FootmarkTaskHead head;
 
-    effWork = FIELD_EFFECT_GetResource((struct FieldEffectSys *)fieldEffectCtrl, 5);
+    effWork = FIELD_EFFECT_GetResource(fieldEffectCtrl, 5);
     head.effWork = (FootmarkEffectWork *)effWork;
     dir = FLDMMDL_GetDirDisp((void *)mmdl);
     oldDir = FLDMMDL_GetDirDispOld((void *)mmdl);
@@ -264,7 +264,7 @@ void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, int fieldEffectCtrl, int type)
         pos.y -= ((FootmarkEffectWork *)effWork)->snowHeightOffset;
     }
     head.resNo = resNo;
-    FIELD_EFFECT_AddObject((struct FieldEffectSys *)fieldEffectCtrl, (struct FieldEffectObjFuncs *)(&gFootmarkTaskHeader), &pos, 0, &head, 0);
+    FIELD_EFFECT_AddObject(fieldEffectCtrl, (struct FieldEffectObjFuncs *)(&gFootmarkTaskHeader), &pos, 0, &head, 0);
 }
 
 void FLDEFF_FOOTMARK_InitTask(int task, FootmarkTaskWork *work)

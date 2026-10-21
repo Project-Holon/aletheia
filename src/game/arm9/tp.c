@@ -84,7 +84,6 @@ typedef struct NvTpPoints {
 } NvTpPoints;
 
 #include "pxi_fifo.h"
-void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 void TPi_TpCallback(int tag, u32 data, BOOL err);
 #include "os_system.h"
 void TP_Init(void);

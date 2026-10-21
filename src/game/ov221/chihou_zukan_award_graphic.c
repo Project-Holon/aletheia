@@ -81,23 +81,21 @@ struct ChihouZukanAwardGraphic {
 
 typedef struct {u32 x,y,z;} ChihouZukanAwardGraphicVec3;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuFill8(void*,int,u32);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void GF_FONT_InitTextColor(void);
-extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *),void *,u32);
+#include "../arm9/gf_font.h"
+#include "../arm9/gfl_use.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 extern void CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(int*);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_Create(u32);
-extern void BMP_WIN_Init(u32);
+#include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
@@ -109,7 +107,8 @@ struct DispVramCfg;
 struct SysInit;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void CHIHOU_ZUKAN_AWARD_Setup3d(void);
+typedef int Bool;
+#include "chihou_zukan_award.h"
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void(*)(void));
 extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct VecFx32 *,struct VecFx32 *,struct VecFx32 *,u32);
 extern u32 G3D_CAMERA_Delete(void *ptr);

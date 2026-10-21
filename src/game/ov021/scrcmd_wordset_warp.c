@@ -119,20 +119,18 @@ typedef void (*WordSetRegisterFn)(WordSet *wordSet, u32 slot, u32 value);
 #include "field_nogrid_mapper.h"
 #include "field_player.h"
 #include "fldeff_gyoe.h"
-extern Sodateya *FIELDMAP_GetSodateya(FieldMap *fieldMap);
-extern PokemonParam *SODATEYA_GetPokemon(Sodateya *sodateya, u32 index);
-extern GameEvent *EVENT_MAPCHANGE_CreateWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const VecFx32 *pos, u16 dir, int seasonFadeAllowed);
-extern GameEvent *EVENT_MAPCHANGE_CreateWarpEventPlain(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const VecFx32 *pos, u16 dir);
-extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
+#include "fieldmap.h"
+#include "sodateya.h"
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define EVENT_MAPCHANGE_CreateWarpEventPlain EVENT_MAPCHANGE_CreateWarpEventPlain_header
+#endif
+#include "../ov020/event_mapchange.h"
+#ifdef __MWERKS__
+#undef EVENT_MAPCHANGE_CreateWarpEventPlain
+extern GameEvent * EVENT_MAPCHANGE_CreateWarpEventPlain(GameSystem *, FieldMap *, int, const VecFx32 *, u16);
+#endif
 #include "../ov010/eventdata_system.h"
-extern GameEvent *EVENT_MAPCHANGE_CreateWarpEventWithTargetPos(GameSystem *gameSystem, FieldMap *fieldMap, const VecFx32 *targetPos, u16 zoneId, const VecFx32 *pos);
-extern GameEvent *EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const VecFx32 *pos, u16 dir);
-extern GameEvent *EVENT_MAPCHANGE_CreateFixedZoneEvent(GameSystem *gameSystem, FieldMap *fieldMap);
-extern GameEvent *EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, const VecFx32 *pos, u16 dir);
-extern FieldNogridMapper *FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
-extern GameEvent *EVENT_MAPCHANGE_CreateRailWarpEvent(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const RailLocation *rail, u16 dir, int seasonFadeAllowed);
-extern GameEvent *EVENT_MAPCHANGE_CreateRailWarpEventWithTransition(GameSystem *gameSystem, FieldMap *fieldMap, int zoneId, const RailLocation *rail, u16 dir, int seasonFadeAllowed);
 
 int SCRCMD_BufferPlayerName(ScriptVm *vm, ScrcmdWork *cmdWork);
 int SCRCMD_BufferEntryCommon(ScriptVm *vm, ScrcmdWork *cmdWork, WordSetRegisterFn registerFn);

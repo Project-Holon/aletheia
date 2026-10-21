@@ -10,7 +10,7 @@ void MIi_CpuClear16(u16 data, void *destp, u32 size);
 void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
 void MIi_CpuClear32(u32 data, void *destp, u32 size);
 void MIi_CpuCopy32(const void *srcp, void *destp, u32 size);
-void MIi_CpuSend32(const void *srcp, void *destp, u32 size);
+void MIi_CpuSend32(const void *srcp, volatile void *destp, u32 size);
 void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size);
 void MI_Copy32B(const void *pSrc, void *pDest);

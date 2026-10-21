@@ -2569,14 +2569,14 @@ void ZUKAN_DETAIL_FORM_UpdateCursorMarkers(u16 *unused, struct Ov208Form *p, str
     if (show && multi) {
         pos.x = 0;
         pos.y = 0;
-        CLACT_AddActorSurfacePos((struct ClactActor *)((struct Obj *)(p->act[2])), (const struct ClactVec2 *)((const struct Vec2 *)(&pos)), 0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)((struct ClactActor *)(p->act[2])), (const struct ClactVec2 *)((const struct Vec2 *)(&pos)), 0);
         pos.x = 0x80;
         pos.y = 0;
-        CLACT_AddActorSurfacePos((struct ClactActor *)((struct Obj *)(p->act[3])), (const struct ClactVec2 *)((const struct Vec2 *)(&pos)), 0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)((struct ClactActor *)(p->act[3])), (const struct ClactVec2 *)((const struct Vec2 *)(&pos)), 0);
     } else if (show) {
         pos.x = 0x40;
         pos.y = 0;
-        CLACT_AddActorSurfacePos((struct ClactActor *)((struct Obj *)(p->act[2])), (const struct ClactVec2 *)((const struct Vec2 *)(&pos)), 0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)((struct ClactActor *)(p->act[2])), (const struct ClactVec2 *)((const struct Vec2 *)(&pos)), 0);
     }
     if (p->ents[p->sel].mode == 2)
         v = 1;
@@ -2613,7 +2613,7 @@ void ZUKAN_DETAIL_FORM_UpdateScrollMarkers(u16 *heap, struct Ov208Form *p, struc
         ZUKAN_DETAIL_FORM_GetScrollSlotRange((u16)(p->count - 1), n, 0, &mid, 0);
         pos.x = mid;
         pos.y = 0x30;
-        CLACT_AddActorSurfacePos((struct ClactActor *)((struct Obj *)(p->act[1])), (const struct ClactVec2 *)((const struct Vec2 *)(&pos)), 0);
+        CLACT_AddActorSurfacePos((struct ClactActor *)((struct ClactActor *)(p->act[1])), (const struct ClactVec2 *)((const struct Vec2 *)(&pos)), 0);
         CLACT_SetActorDrawEnable((struct ClactActor *)p->act[0], 1);
         CLACT_SetActorDrawEnable((struct ClactActor *)p->act[1], 1);
         p->scrollKeyMoved = 0;

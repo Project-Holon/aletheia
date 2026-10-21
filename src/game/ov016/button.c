@@ -38,7 +38,17 @@
  *   DWCi_HEAPlFree_  0x021d6438  arm  ov016
  *   gMemButton  0x021DE508  data
  */
-#include "../../matched/include/G_tagMEMBTN.h"
+struct tagMEMBTN {
+    void *cellButton[2];
+    void *cellBack;
+    void *task;
+    void *release;
+    unsigned short count;
+    signed char input;
+    unsigned char kind;
+    unsigned char disable;
+    unsigned char end;
+};
 
 struct tagCOORD;
 struct tagRECT;

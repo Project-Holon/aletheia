@@ -4,6 +4,7 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of box2_main.c, prototypes copied from their definitions. */
 
+struct TcbTask;
 struct Ov170Ctx;
 struct BoxTask;
 struct BoxMover;

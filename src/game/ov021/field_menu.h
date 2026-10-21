@@ -14,6 +14,7 @@ typedef struct FieldMenuItemInit FieldMenuItemInit;
 #include "../types.h"
 
 FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fieldMap, int slideIn);
+struct TcbTask;
 void FIELD_MENU_NotifyParentOnExit(FieldMenu *menu);
 void FIELD_MENU_Delete(FieldMenu *menu);
 void FIELD_MENU_ShowBgLayers(void);
@@ -25,7 +26,7 @@ void FIELD_MENU_LoadFrameBg(int heapId, int hideFrame);
 u32 FIELD_MENU_GetLayoutType(void *gameData, void *eventWork, u32 zoneId);
 int FIELD_MENU_CountLayoutButtons(int layoutType);
 void FIELD_MENU_CreateItems(FieldMenu *menu, void *arcHandle, int layoutType);
-void FIELD_MENU_ColorTask(void *taskHandle, FieldMenu *menu);
+void FIELD_MENU_ColorTask(struct TcbTask *taskHandle, void *work);
 void FIELD_MENU_SetScrolledOut(FieldMenu *menu);
 int FIELD_MENU_GetSelectedButtonId(FieldMenu *menu);
 void FIELD_MENU_SelectButton(FieldMenu *menu, u32 buttonId);

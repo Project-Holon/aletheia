@@ -175,8 +175,8 @@ extern const struct PdcViewParams gPdcViewParams;
 extern const struct DispVram gPdcDispVram;
 extern struct DispConfig gPdcDispConfig;
 extern const struct ClactSysInit gPdcClactInit;
-extern char gPdcMenuLayoutA[];
-extern char gPdcMenuLayoutB[];
+extern BtlvInputTouchTable gPdcMenuLayoutA;
+extern s8 gPdcMenuLayoutB[][12];
 extern char ov196_id[], ov197_id[];
 
 struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
@@ -198,7 +198,7 @@ struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
     BTLV_EFFECT_Init(screen, sys->msgFont, sys->heapId);
     GFL_HEAP_Free(screen);
     gameData = PDC_GetGameData(args);
-    sys->menu = BTLV_INPUT_CreateDefault((sptr)gameData, (int)0, (sptr)BTLV_EFFECT_GetPalanm(), (sptr)sys->font, (sptr)(&sys->menuWork), sys->heapId);
+    sys->menu = BTLV_INPUT_CreateDefault(gameData, 0, BTLV_EFFECT_GetPalanm(), sys->font, (u8 *)&sys->menuWork, sys->heapId);
     sys->tcbl = (struct Tcbl *)TCBL_Create(heapId, heapId, 64, 128);
     sys->mon = PDC_GetMon(args);
     sys->msg = PDC_MSG_Create(sys->font, PDC_GetConfig(args), sys->tcbl, sys->heapId);
@@ -324,7 +324,7 @@ int PDC_MAIN_StepConfirm(struct PdcSys *sys)
         }
         break;
     case 2:
-        choice = BTLV_INPUT_ProcessTouchInput(sys->menu, (BtlvInputTouchTable *)gPdcMenuLayoutA, (sptr)gPdcMenuLayoutB);
+        choice = BTLV_INPUT_ProcessTouchInput(sys->menu, &gPdcMenuLayoutA, gPdcMenuLayoutB);
         if (choice != -1) {
             if (choice != 0)
                 PDC_MAIN_SetStep(sys, PDC_MAIN_StepDeclined);

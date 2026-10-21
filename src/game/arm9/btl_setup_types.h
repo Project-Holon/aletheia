@@ -15,6 +15,8 @@
  */
 
 #include "../types.h"
+
+struct CommPlayerSupport;
 #include "../arm9/zonedata_types.h"
 
 /* World position of a player (three fixed-point words). */
@@ -42,6 +44,7 @@ struct PlayerWork {
 };
 
 struct PlayTime;
+struct PlayerLocationData;
 struct Party;
 struct Config;
 struct SaveControl;
@@ -50,7 +53,7 @@ struct GameData {
     struct SaveControl *saveControl;
     struct PlayerWork playerWork[5];
     void            *eventData;
-    unsigned int     situation;
+    struct PlayerLocationData *situation;
     struct Location *startLocation;
     struct Location *entranceLocation;
     struct Location *specialLocation;
@@ -89,7 +92,7 @@ struct GameData {
     unsigned char    rtcWork[4];
     unsigned char    fieldSave[0x94];
     unsigned int     eventState;
-    int              pmsWork;
+    struct CommPlayerSupport *pmsWork;
     void            *currentEvent;
     unsigned int     itemUseWork;
     unsigned int     musicalWork;
@@ -152,7 +155,7 @@ struct BattleSetupParam {
     unsigned int             mapMatrix;
     void                    *zukanWork;
     void                    *trainerRecord;
-    int                      pmsWork;
+    struct CommPlayerSupport *pmsWork;
     unsigned short           limitTimeGame;
     unsigned short           limitTimeCommand;
     unsigned char            regulationRules[7];

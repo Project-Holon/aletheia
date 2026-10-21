@@ -5,6 +5,7 @@
 /* Public functions of br_graphic.c, prototypes copied from their definitions. */
 
 struct BrGraphic;
+struct TcbTask;
 struct BrActorSys;
 
 #include "../types.h"
@@ -13,7 +14,7 @@ void *BR_GRAPHIC_Create(unsigned mode,int vramSetting,u16 heapId);
 void BR_GRAPHIC_Destroy(struct BrGraphic *gfx);
 void BR_GRAPHIC_Draw(struct BrGraphic *gfx);
 u32 BR_GRAPHIC_GetActorUnit(struct BrGraphic *gfx);
-void BR_GRAPHIC_VBlankTask(struct TcbTask *taskId, void *gfx);
+void BR_GRAPHIC_VBlankTask(struct TcbTask *taskId, void *gfxArg);
 void BR_GRAPHIC_InitBgWindows(void *bgState,u16 heapId);
 void BR_GRAPHIC_ExitBgWindows(void *bgState);
 void BR_GRAPHIC_DrawBg(void *bgState);

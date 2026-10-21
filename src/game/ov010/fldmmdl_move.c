@@ -745,7 +745,7 @@ void FLDMMDL_MOVE_AttrEffectGround(Mmdl *mmdl, EventInfo *info)
                 kind = 1;
         }
         if (kind != 5)
-            FLDEFF_FOOTMARK_SetMMdl(mmdl, (sptr)info->effectCtrl, kind);
+            FLDEFF_FOOTMARK_SetMMdl(mmdl, info->effectCtrl, kind);
     }
 }
 
@@ -883,7 +883,7 @@ void FLDMMDL_MOVE_AttrEffectLongGrassStart(Mmdl *mmdl, EventInfo *info)
     if (MAP_ATTR_IsMirrorFloor(reflectAttr) == 1 || MAP_ATTR_IsIce(reflectAttr) == 1) {
         attrOrKind = 2;
     }
-    FLDEFF_REFLECT_SetMMdl((u32)mmdlSys, (uptr)mmdl, (uptr)info->effectCtrl, attrOrKind);
+    FLDEFF_REFLECT_SetMMdl((struct MmdlSys *)mmdlSys, mmdl, info->effectCtrl, attrOrKind);
     FLDMMDL_SetMoveBitReflect(mmdl, 1);
 }
 

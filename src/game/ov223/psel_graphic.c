@@ -169,12 +169,12 @@ struct Node;
 struct PrintSys;
 #include "../arm9/bg_sys_types.h"
 
-struct Bank;
+struct Unit;
 struct Cfg;
 struct Light;
 struct PselWork;
 
-typedef struct Obj Obj;
+typedef struct ClactActor Obj;
 
 struct PselGraphicItem { void *text; u16 color; unsigned value; };
 
@@ -204,25 +204,20 @@ typedef enum { TOON, HIGHLIGHT } Shading;
 struct PselGraphicEntry { unsigned id; char fields[32]; unsigned a,b; };
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *, unsigned);
+#include "../arm9/msgdata.h"
 struct TaskMenuRes;
 struct TaskMenuInitWork;
 struct TaskMenuWork;
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
-extern unsigned APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
-extern void MI_CpuCopy8(const void *, void *, unsigned);
-extern u32 GFL_HEAP_Free(void *p);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern int NNS_GfdRegisterNewVramTransferTask(void *, unsigned, unsigned, int);
-extern struct GfFont *GF_FONT_Create(int, int, int, int, unsigned);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/strbuf.h"
+#include "../arm9/arc_tool.h"
+#include "../arm9/arc_util.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/nns_gfd_vram_transfer.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+#include "../arm9/printsys.h"
 extern void BG_SYS_SetPriority(int, u16);
 struct TcbTask;
 extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void *, char *), void *work, u32 priority);
@@ -236,11 +231,10 @@ extern void PSEL_SetupListAnime(u8 *p);
 extern void PSEL_InitBgLayers(u16 *p);
 extern void PSEL_DeleteBgLayers(unsigned short *);
 extern void PSEL_ClearWin2(char *p);
-extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/g2.h"
 extern void PSEL_UpdateListAnime(char *p);
-extern void FADE_Start(unsigned, int, int, int);
-extern int FADE_IsActive(void);
-extern u32 KEY_GetTrg(void);
+#include "../arm9/fade.h"
+#include "../arm9/key.h"
 extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void PSEL_ClearWin3(char *p);
@@ -270,13 +264,12 @@ extern void PSEL_ShowTaskRes(char *),PSEL_UpdateTaskResWin(char *),PSEL_SetTaskR
 extern u32 PSEL_IsTaskResFinished(char *);
 extern void PSEL_SetAnimTarget(char *,int,int),PSEL_StepAnim(char *);
 extern int PSEL_IsAnimTargetReached(char *);
-extern void UI_SetInputMode(u32);
+#include "../arm9/ui.h"
 extern void PSEL_UpdateSubWindow(char *);
 extern void PSEL_SetAnimTargetIndex(char *,u32);
 extern void PSEL_ClearWin(char *);
 extern void PSEL_PrintSubWindow(char *p, int idx);
-extern u8 UI_GetInputMode(void);
-extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
+#include "../arm9/pm_voice.h"
 extern void PSEL_NopBgUpdate(char *);
 extern void PSEL_ClearBgLayerEx(char *);
 extern void PSEL_DeleteActors(char *);
@@ -287,45 +280,32 @@ extern void PSEL_DeleteWin(char *p);
 extern void PSEL_NopBgWindows(int *);
 extern void PSEL_DeleteG3dUtil(int *);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
+#include "../arm9/tcb_list.h"
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void G3X_SetFog(int,int,int,int);
-extern void G3X_SetClearColor(unsigned short,int,int,int,int);
+#include "../arm9/g3x.h"
 struct G3dLight;
 extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuFill8(void *,int,int);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void GF_FONT_InitTextColor(void);
-extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_Create(int);
-extern void BMP_WIN_Init(u32);
+#include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
-struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
+struct ClactSysInit;
+struct ClactSysInit;
+#include "../arm9/clact.h"
+struct Unit;
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
 extern void G3D_SYSTEM_Init(int,int,int,int,int,int,void (*)(void));
 extern int G3D_CAMERA_Create(int,int,int,int,int,int,int,int,const int *,const int *,const int *,int);
 extern u32 G3D_CAMERA_Delete(void *ptr);
@@ -1230,7 +1210,7 @@ void PSEL_GRAPHIC_UpdateBg(void *unused) {BG_SYS_Update();}
 void PSEL_GRAPHIC_InitClact(int *out, int a, int b)
 {
     MI_CpuFill8(out, 0, 4);
-    CLACT_InitSystem((struct SysInit *)(&d_021BC944), (struct DispVramCfg *)a, b);
+    CLACT_InitSystem((struct ClactSysInit *)(&d_021BC944), (struct DispVramCfg *)a, b);
     *out = (sptr)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((void *)*out);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -1244,7 +1224,7 @@ void PSEL_GRAPHIC_InitClact(int *out, int a, int b)
 
 void PSEL_GRAPHIC_ExitClact(char *bank)
 {
-    CLACT_DeleteUnit((struct Bank *)((struct PselHandle *)bank)->value);
+    CLACT_DeleteUnit((struct Unit *)((struct PselHandle *)bank)->value);
     CLACT_ExitSystem();
     MI_CpuFill8(bank, 0, 4);
 }

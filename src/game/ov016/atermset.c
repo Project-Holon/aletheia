@@ -120,9 +120,59 @@
 #include "../ov009/wcm_system.h"
 #include "../ov009/wcm_aplist.h"
 #include "../ov009/soc.h"
-#include "../../matched/include/G__ATERMApConfigParam.h"
-#include "../../matched/include/G_ATERMSET_DATA.h"
-#include "../../matched/include/G_ATERMSET_BSS.h"
+struct _ATERMApConfigParam {
+    char ssid[32];
+    int auth_mode;
+    int wepkeyid;
+    char wepkey[4][32];
+    char wpakey[64];
+};
+struct ATERMSET_DATA {
+    unsigned char *lpElementData;
+    int bDebug;
+    unsigned long gThreadStackSize;
+    unsigned long gAtermApTimeout;
+    int gMaxBssIdList;
+};
+struct WCMConfig;
+struct WMBssDesc;
+struct _ATERMApConfigState;
+struct ATERMSET_BSS {
+    unsigned char btAutoResult;
+    unsigned char pad_1[0x3];
+    void * (*gAtermAlloc)(unsigned long);
+    struct WCMConfig *apci_IWConfig;
+    void (*gAtermFree)(void *);
+    int bAtermApCanceled;
+    int cbFrameData;
+    int gAPId;
+    int AutoPhase;
+    int bApConnect;
+    int bSO_Startup;
+    unsigned char *apci_Wep;
+    int apci_state;
+    unsigned long long *gThreadStack;
+    int cbElementData;
+    int gAtermApState;
+    unsigned char *apci_IWBuffer;
+    unsigned char *apc_work;
+    unsigned char *apci_bssid_ptr;
+    unsigned char *apci_essid_ptr;
+    struct WMBssDesc *apci_wmbssdesc;
+    int bDualCfg;
+    unsigned char *atermapc_work;
+    unsigned long apci_connect_option;
+    struct WMBssDesc *ap_list;
+    unsigned long apci_search_option;
+    int gAtermThreadId;
+    int event_set_ptr;
+    int event_get_ptr;
+    int gMaxApList;
+    int bInitAtermApNetwork;
+    int gAtermApResult;
+    void (*gAtermNotify)(struct _ATERMApConfigState *);
+    void (*apci_user_callback)();
+};
 extern void *__builtin__clear(void *dest, unsigned long size);
 
 #define APCI_CALLBACK(event)                                  \

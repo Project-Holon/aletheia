@@ -10,17 +10,17 @@ struct AnimBank;
 #include "../arm9/nns_g2d_anim_types.h"
 #include "../types.h"
 
-int NNS_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out);
-int NNS_G2dGetUnpackedAnimBankEx(struct NitroFileHeader *file, void **out);
-int NNSi_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, void **out);
+int NNS_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, struct AnimBank **out);
+int NNS_G2dGetUnpackedAnimBankEx(struct NitroFileHeader *file, struct AnimBank **out);
+int NNSi_G2dGetUnpackedAnimBank(struct NitroFileHeader *file, struct AnimBank **out);
 void NNSi_G2dUnpackAnimBank(volatile struct AnimBank *bank);
 const AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(const struct AnimBank *bank, u32 idx);
 void *NNSi_G2dGetCellDataBankOamBase(CellDataBank *bank);
 void NNSi_G2dFixupCellAnimBankTbl(void *p);
-int NNS_G2dGetUnpackedCellBank(void *a, int *out);
+int NNS_G2dGetUnpackedCellBank(void *a, CellDataBank **out);
 void *NNS_G2dGetCellDataByIdx(CellDataBank *bank, u32 idx);
 void NNSi_G2dUnpackCellBank(int *p);
-int NNS_G2dGetUnpackedMultiCellBank(void *a, u32 *out);
+int NNS_G2dGetUnpackedMultiCellBank(void *a, MultiCellBank **out);
 void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank);
 void NNSi_G2dUnpackMultiCellBank(volatile MultiCellBank *bank);
 MultiCellData *NNS_G2dGetMultiCellDataByIdx(MultiCellBank *bank, u32 idx);

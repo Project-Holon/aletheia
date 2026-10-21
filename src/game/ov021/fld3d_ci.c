@@ -226,13 +226,12 @@ struct PokemonParam;
 struct FieldMap;
 struct MmdlSys;
 
-extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+#include "fieldmap.h"
 
 #include "../ov010/fldmmdl.h"
 
 struct FieldPlayer;
 
-extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 struct Mmdl;
 
 #include "field_player.h"
@@ -240,57 +239,46 @@ struct Mmdl;
 
 
 
-extern void FIELDMAP_SetUpdateStopped(struct FieldMap *fieldMap, s32 stopped);
 
-extern void BG_SYS_SetPriority(int idx, unsigned short val);
+#include "../arm9/bg_sys.h"
 
-extern void BG_SYS_SetGraphicsMode(void *dispConfig);
 
 #include "../arm9/gx_vramcnt.h"
 
 #include "../arm9/g2.h"
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-
-extern u32 FIELDMAP_GetFog(u8 *p);
-
-extern int FIELD_FOG_SetFlag(u32 a, u32 b);
 
 
-extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, s32 drawMode);
+#include "field_fog.h"
 
-extern int GFL_USE_IsLoaderBusy(void);
+
+
+#include "../arm9/gfl_use.h"
 
 
 #include "../arm9/g3x.h"
 
-extern u32 FIELDMAP_GetLight(u8 *p);
 
-extern void FIELD_LIGHT_Reflect(u8 *p, int force);
+#include "field_light.h"
 
-extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int priority);
 struct FieldMsgBg;
 
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 struct FieldPlaceName;
 
-extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
 
 #include "field_msgbg.h"
 
 #include "field_place_name.h"
 
 
-extern void BG_SYS_FreeSlot(u8 idx);
 
 
 
 
 
-u16 PARTICLE_RESOURCE_GetType(void *res);
+#include "../arm9/particle.h"
 
 
-int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 
 #include "../arm9/arc_tool.h"
 
@@ -298,11 +286,8 @@ struct TcbTask;
 
 #include "../arm9/tcb_list.h"
 
-extern u8 BG_SYS_GetPriority(u32 layer);
 
-u32 BG_SYS_GetMainVisiblePlanes(void);
 
-extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 
 
 typedef short s16_p07;
@@ -339,7 +324,7 @@ struct G3dResource;
 
 
 
-extern unsigned char *NNS_G3dGetTex(unsigned char *p);
+#include "../arm9/nns_g3d_res.h"
 
 struct MyStatus;
 
@@ -347,7 +332,6 @@ struct MyStatus;
 #include "../arm9/mystatus.h"
 
 
-extern int NNS_G3dGetResDataByName(void *dict, Fld3dCiNameKey *key);
 
 #include "../arm9/std_string.h"
 struct MsgBank;
@@ -357,14 +341,21 @@ struct WordSet;
 
 #include "../arm9/gf_font.h"
 
-extern void *STRBUF_Create(u32 size, u16 heap);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define STRBUF_Create STRBUF_Create_header
+#endif
+#include "../arm9/strbuf.h"
+#ifdef __MWERKS__
+#undef STRBUF_Create
+extern struct Strbuf * STRBUF_Create(u32, u16);
+#endif
 struct Strbuf;
 
 
 #include "../arm9/wordset.h"
 
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 
 struct GfFont;
@@ -379,7 +370,6 @@ struct TexKey;
 
 
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 #include "fld_particle.h"
 
@@ -417,7 +407,7 @@ void FLD3D_CI_EndSequence(Fld3dCi *ci, Fld3dCiSeq *seq);
 
 void FLD3D_CI_StartTrack(Fld3dCi *ci, int track);
 
-void FLD3D_CI_FollowTargetCallback(Fld3dCiFollow *follow);
+void FLD3D_CI_FollowTargetCallback(void *arg);
 
 void FLD3D_CI_LoadSequence(Fld3dCiSeq *seq, u32 sequenceId, u32 heapId);
 
@@ -425,7 +415,7 @@ void FLD3D_CI_FreeSequence(Fld3dCiSeq *seq);
 
 void FLD3D_CI_StartScreenCapture(Fld3dCi *ci);
 
-void FLD3D_CI_CaptureTask(void *task, u32 *done);
+void FLD3D_CI_CaptureTask(struct TcbTask *task, void *arg);
 
 void FLD3D_CI_SaveLayerPriorities(Fld3dCi *ci);
 
@@ -475,7 +465,7 @@ void FLD3D_CI_InitEventWork(Fld3dCi *ci, Fld3dCiEventWork *work);
 
 void FLD3D_CI_PlayCueSound(Fld3dCi *ci);
 
-void FLD3D_CI_DisplayRestoreTask(void *task, u32 *done);
+void FLD3D_CI_DisplayRestoreTask(struct TcbTask *task, void *arg);
 
 extern u8 d_021DE3D8;
 
@@ -493,7 +483,7 @@ extern u32 d_021DA7F4[];
 
 extern unsigned char abs_id_4A[];
 
-extern const Fld3dCiBgMode d_021DA710;
+extern const DispConfig d_021DA710;
 
 extern char d_021DE3E4[];
 
@@ -513,7 +503,7 @@ extern char d_021DE448[];
 
 extern Fld3dCiCue *d_021DA720[];
 
-extern const Fld3dCiDispSetup d_021DA700;
+extern const DispConfig d_021DA700;
 
 static inline void *MakeCamera(int kind, int fovSin, int fovCos, int aspect, int orthoExtent, int nearClip, int farClip, int scaleW, VecFx32 *pos, const VecFx32 *upsrc, VecFx32 *target, int heapId)
 {
@@ -715,7 +705,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
     int doneC;
     uptr modelSys;
     uptr particleSys;
-    Fld3dCiBgMode bgMode;
+    DispConfig bgMode;
 
     ci = work->ci;
     gameSystem = GAME_EVENT_GetGameSystem(event);
@@ -820,7 +810,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         (*state)++;
         break;
     case 9:
-        FIELD_LIGHT_Reflect((u8 *)FIELDMAP_GetLight(fieldMap), 1);
+        FIELD_LIGHT_Reflect(FIELDMAP_GetLight(fieldMap), 1);
         ci->displayRestoreDone = 0;
         GFL_USE_AddMainTask(FLD3D_CI_DisplayRestoreTask, &ci->displayRestoreDone, 0);
         (*state)++;
@@ -998,7 +988,7 @@ void FLD3D_CI_EndSequence(Fld3dCi *ci, Fld3dCiSeq *seq)
  */
 void FLD3D_CI_StartTrack(Fld3dCi *ci, int track)
 {
-    PARTICLE_StartEffectWithCallback((int *)(ci->effect), track, (sptr)FLD3D_CI_FollowTargetCallback, 0);
+    PARTICLE_StartEffectWithCallback(ci->effect, track, FLD3D_CI_FollowTargetCallback, 0);
 }
 
 /*
@@ -1007,8 +997,9 @@ void FLD3D_CI_StartTrack(Fld3dCi *ci, int track)
  * scheduled differently (34 differ); the struct-typed accesses keep the
  * zero-initialiser stores ahead of the loads, as in the original.
  */
-void FLD3D_CI_FollowTargetCallback(Fld3dCiFollow *follow)
+void FLD3D_CI_FollowTargetCallback(void *arg)
 {
+    Fld3dCiFollow *follow = arg;
     VecFx32 offset = { 0, 0, 0 };
     offset.z = 0x40;
     follow->pos.x = offset.x + (*follow->target)->pos.x;
@@ -1140,8 +1131,9 @@ void FLD3D_CI_StartScreenCapture(Fld3dCi *ci)
 /*
  * VBlank task: arms display capture, ends itself, flags completion.
  */
-void FLD3D_CI_CaptureTask(void *task, u32 *done)
+void FLD3D_CI_CaptureTask(struct TcbTask *task, void *arg)
 {
+    u32 *done = arg;
     *(volatile u32 *)0x04000064 = 0x81330010;
     TCB_DeleteTask(task);
     if (done != 0)
@@ -1523,32 +1515,32 @@ int FLD3D_CI_GetPlttDataOffset(Fld3dCiTexBlock *texBlock, Fld3dCiPlttDictEntry *
 int FLD3D_CI_FindTexture(Fld3dCiTexBlock *texBlock, const char *name)
 {
     Fld3dCiNameKey key;
-    sptr entry;
+    void *entry;
 
     FLD3D_CI_CopyName((char *)&key, name);
     if (texBlock != 0)
-        entry = NNS_G3dGetResDataByName((u8 *)texBlock + 0x3C, &key);
+        entry = NNS_G3dGetResDataByName((const NNSG3dResDict *)((u8 *)texBlock + 0x3C), (NNSG3dResName *)&key);
     else
         entry = 0;
     if (entry == 0)
         return 0;
-    return FLD3D_CI_GetTexDataOffset(texBlock, (Fld3dCiTexDictEntry *)entry);
+    return FLD3D_CI_GetTexDataOffset(texBlock, entry);
 }
 
 /* Looks a palette up by name and returns its data offset. */
 int FLD3D_CI_FindPalette(Fld3dCiTexBlock *texBlock, const char *name)
 {
     Fld3dCiNameKey key;
-    sptr entry;
+    void *entry;
 
     FLD3D_CI_CopyName((char *)&key, name);
     if (texBlock != 0 && texBlock->plttDictOffset != 0)
-        entry = NNS_G3dGetResDataByName((u8 *)texBlock + texBlock->plttDictOffset, &key);
+        entry = NNS_G3dGetResDataByName((const NNSG3dResDict *)((u8 *)texBlock + texBlock->plttDictOffset), (NNSG3dResName *)&key);
     else
         entry = 0;
     if (entry == 0)
         return 0;
-    return FLD3D_CI_GetPlttDataOffset(texBlock, (Fld3dCiPlttDictEntry *)entry);
+    return FLD3D_CI_GetPlttDataOffset(texBlock, entry);
 }
 
 /*
@@ -1682,9 +1674,10 @@ void FLD3D_CI_PlayCueSound(Fld3dCi *ci)
 /*
  * VBlank task: applies the saved display setup, ends itself, flags completion.
  */
-void FLD3D_CI_DisplayRestoreTask(void *task, u32 *done)
+void FLD3D_CI_DisplayRestoreTask(struct TcbTask *task, void *arg)
 {
-    Fld3dCiDispSetup setup;
+    u32 *done = arg;
+    DispConfig setup;
     BG_SYS_SetPlaneVisible(0, 1);
     setup = d_021DA700;
     BG_SYS_SetGraphicsMode(&setup);

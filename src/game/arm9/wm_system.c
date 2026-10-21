@@ -81,7 +81,6 @@ extern WMErrCode WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize);
 #include "os_cache.h"
 #include "mi_dma.h"
 #include "os_message.h"
-extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 #include "mi_memory.h"
 #include "os_terminate_processor.h"
 extern void WMi_DeleteSleepCallback(void);

@@ -266,41 +266,28 @@ typedef struct MictestWork {
     int heapId;
 } MictestWork;
 
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *,int,u32);
-extern u32 TCB_GetTaskOffset(u32);
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/mi_memory.h"
+#include "../arm9/gfl_heap_wrap.h"
 struct TcbSystem;
-extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
-extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *),void *,u32);
-extern void GFL_USE_FadeOutBgm(u32 a);
-extern u32 GFL_HEAP_Free(void *p);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(u32 heap);
-extern void GFL_USE_FadeInBgmFull(u32 a);
+#include "../arm9/gfl_use.h"
 struct TcbSystem;
-extern void TCB_Main(struct TcbSystem *sys);
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
-extern u32 WIPE_SYS_EndCheck(void);
+#include "../arm9/wipe.h"
 extern int MICTEST_CheckTouchOrKey(void);
-extern u32 SND_MIC_IsLimitReached(void);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/snd_mic.h"
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void WIPE_ResetWndMask(void *win);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void NNS_GfdDoVramTransfer(void);
+#include "../arm9/nns_gfd_vram_transfer.h"
 struct DispVramCfg;
 struct SysInit;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 APP_ICON_GetArchiveId(void);
-extern void ARC_TOOL_DeleteHandle(void *);
+#include "../arm9/app_icon.h"
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u8);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u16 heapId);
@@ -308,40 +295,29 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_FreeLayerBuf(u32 v);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 extern void BG_SYS_Update(void);
-extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, u16 fileId, unsigned int heapId);
+#include "../arm9/msgdata.h"
 struct BmpWin;
 extern struct BmpWin *BMP_WIN_CreateAt(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned int charOffset);
 struct Bmp;
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+#include "../arm9/bmp.h"
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
+#include "../arm9/strbuf.h"
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_PushTile(unsigned);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void SND_MIC_Init(u16 heap);
-extern void UI_SetKeepAwakeFlagsGlobal(unsigned char flags);
-extern void SND_MIC_Exit(void);
-extern void UI_ClearKeepAwakeFlagsGlobal(unsigned char v);
-extern void SND_MIC_AddElapsed(u32 n);
+#include "../arm9/ui.h"
 struct MICAutoParam;
-extern int MIC_StartLimitedSampling(struct MICAutoParam *param);
-extern int MIC_StopLimitedSampling(void);
-extern u32 GFL_USE_GetRandom(u32 range);
+#include "../arm9/mic.h"
 struct TcbTask;
 struct TcblSystem;
-extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
-extern int GF_STANDARD_SinFromDegrees(u32 x);
-extern u32 KEY_GetTrg(void);
+#include "../arm9/tcbl.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/key.h"
 
 enum Result MICTEST_Create(struct Proc *proc);
 int MICTEST_Exit(int a, int b, int c, MictestWork *p);
@@ -708,9 +684,9 @@ void MICTEST_InitBgTiles(MictestRender *unused, int heap)
     ARC_UTIL_UploadPaletteFromArchiveWhole(106, 1, 4, 0, 32, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 416, 32, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 416, 32, heap);
-    ARC_UTIL_UploadBgCharFromArchive((void *)106, (void *)4, (void *)5, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgCharFromArchive(106, 4, 5, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(106, 5, 5, 0, 0, 0, heap);
-    ARC_UTIL_UploadBgCharFromArchive((void *)106, (void *)2, (void *)1, 0, 0, 0, heap);
+    ARC_UTIL_UploadBgCharFromArchive(106, 2, 1, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(106, 3, 1, 0, 0, 0, heap);
 }
 

@@ -117,7 +117,6 @@ struct Bmp;
 struct CursorMoveObj;
 struct Sound;
 struct TouchHitTable;
-typedef struct { short x, y; int b, c, d, e; short f, g; } Box2UiDesc;
 
 #include "../types.h"
 
@@ -142,7 +141,7 @@ typedef struct { unsigned char a,b,c,d; } Bytes;
 
 typedef struct { Bytes first, second; } Box2UiObject;
 
-extern void *BOX2_SEQ_CreateActorFromDesc(char *w, Box2UiDesc *s);
+extern void *BOX2_SEQ_CreateActorFromDesc(char *w, const Box2SeqDesc *s);
 #include "box2_seq.h"
 struct BgWinFrmWork;
 #include "../arm9/bgwinfrm.h"
@@ -309,7 +308,7 @@ void BOX2_UI_RepenTopBar(struct BgWinFrmWork *mgr);
 unsigned BOX2_UI_UpdateTopBarMove(BoxTask *p);
 void BOX2_UI_PutInfoBar(struct BgWinFrmWork *mgr);
 void BOX2_UI_CloseInfoBar(struct BgWinFrmWork *mgr);
-extern const Box2UiDesc d_021EFD1C;
+extern const Box2SeqDesc d_021EFD1C;
 extern const unsigned char g_021EFCEC[];
 extern const short d_021EFCD8[];
 extern const U32Pair d_021F02F0[];
@@ -327,13 +326,13 @@ extern const unsigned char d_021F0F58[];
 
 void BOX2_UI_CreatePartyActors(BoxWork *work)
 {
-    Box2UiDesc t;
-    Box2UiDesc base = d_021EFD1C;
+    Box2SeqDesc t;
+    Box2SeqDesc base = d_021EFD1C;
     unsigned i;
     for (i = 0; i < 6; i++) {
         t = base;
         t.y += (short)(i * 0x22);
-        t.c = i + 0x39;
+        t.a = i + 0x39;
         work->partyActors[i] = BOX2_SEQ_CreateActorFromDesc((char *)work, &t);
     }
 }
@@ -396,8 +395,8 @@ void BOX2_UI_SetCloseButtonPos(BoxWork *a)
 
 void BOX2_UI_RefreshBoxHeader(BoxTask *task)
 {
-    Box2UiDesc t;
-    Box2UiDesc base = d_021EFD1C;
+    Box2SeqDesc t;
+    Box2SeqDesc base = d_021EFD1C;
     short i;
     int a, y;
     for (i = 0; i < 6; i++) {

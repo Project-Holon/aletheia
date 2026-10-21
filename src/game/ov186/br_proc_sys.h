@@ -5,7 +5,6 @@
 /* Public functions of br_proc_sys.c, prototypes copied from their definitions. */
 
 struct BrProcQuery;
-struct Context;
 
 #include "../types.h"
 
@@ -14,8 +13,6 @@ int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p);
 int BR_PROC_SYS_Main(int sys,int *state,int unused,int *p);
 void BR_PROC_SYS_BuildBasicRecord(int *out,int *source,int unused,int type);
 void BR_PROC_SYS_NoopA(void);
-void BR_PROC_SYS_SetupWindow(struct Context *p);
-void BR_PROC_SYS_FlushWindows(struct Context *p);
 void BR_PROC_SYS_BuildChoiceRecord(int *out,int *source,int *ctx,int type);
 void BR_PROC_SYS_BuildBattleRecord(int *out,int *source,const char *ctx,int type);
 void BR_PROC_SYS_SetPendingFlag(u32 *a, u32 *b);
@@ -46,5 +43,10 @@ void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index);
 void BR_PROC_SYS_InitEntry(char *p,int a,int b);
 void BR_PROC_SYS_ClearEntry(void *p);
 /* END mkheaders: generated region */
+
+/* Context is private to br_proc_sys.c, so mkheaders skips these two. */
+struct Context;
+void BR_PROC_SYS_SetupWindow(struct Context *p);
+void BR_PROC_SYS_FlushWindows(struct Context *p);
 
 #endif

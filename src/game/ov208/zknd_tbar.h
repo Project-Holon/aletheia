@@ -9,7 +9,7 @@ struct Ov208ActList;
 struct Ov208Rec;
 struct Ov208Bg;
 struct Ov208ActDesc;
-struct Obj;
+struct ClactActor;
 
 #include "../types.h"
 
@@ -42,7 +42,7 @@ void ZKND_TBAR_DeleteButton(char *p);
 int ZKND_TBAR_UpdateButtonTouch(char *p);
 int ZKND_TBAR_IsButtonAnimating(int *p);
 int ZKND_TBAR_GetButtonActorBase(char *p);
-void ZKND_TBAR_SetActorDrawEnable(struct Obj **p, unsigned int enable);
+void ZKND_TBAR_SetActorDrawEnable(struct ClactActor **p, unsigned int enable);
 unsigned ZKND_TBAR_GetActorDrawEnable(int *p);
 void ZKND_TBAR_SetActorAnimSeq(char *p, int enabled);
 void ZKND_TBAR_SetPressedAnim(char *p, int keyMask);

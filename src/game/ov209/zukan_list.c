@@ -357,14 +357,13 @@ enum Position { POSITION_ZERO=0 };
 
 #include "../arm9/gfl_heap_wrap.h"
 
-extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *),void *,unsigned);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
 
 #include "../arm9/tcb_list.h"
 
 extern void BG_SYS_Update(void),CLACT_VBlankSystem(void);
 
-extern void PALANM_TransferPalettes(struct PaletteFade *);
 
 struct ZukanSave;
 #include "../arm9/net_types.h"
@@ -372,7 +371,6 @@ struct ZukanSave;
 #include "../ov067/frame_list_types.h"
 #include "../ov218/un_select.h"
 #include "../types.h"
-extern struct TcbTask *GFL_USE_AddHBlankTask(TcbFunc callback, void *work, u32 priority);
 
 
 
@@ -406,9 +404,7 @@ extern struct TcbTask *GFL_USE_AddHBlankTask(TcbFunc callback, void *work, u32 p
 
 struct TcbList;
 
-extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
-extern int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 
 #include "../arm9/g2.h"
 
@@ -436,13 +432,10 @@ struct ZukanSave;
 
 extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct ZukanSave *pZukan);
 
-extern FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId);
+#include "../ov067/frame_list.h"
 
-extern void FRAME_LIST_CopyMapToBuffer(FrameList *list, void *source, u32 fileIndex, u32 memberIndex, u32 mapSlot);
 
-extern void FRAME_LIST_LoadPalettes(FrameList *list, u8 *palettes, u32 firstSlot, u32 srcSlot, u32 slotCount);
 
-extern void FRAME_LIST_AddItem(FrameList *list, unsigned mapIndex, unsigned value);
 
 extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, u16 species);
 
@@ -450,13 +443,9 @@ extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, u16 species);
 
 
 
-extern void FRAME_LIST_Delete(FrameList *list);
 
-extern u32 FRAME_LIST_GetItemValue(FrameList *list, int index);
 
-extern int FRAME_LIST_GetScrollPos(FrameList *list);
 
-extern int FRAME_LIST_GetCursor(FrameList *list);
 
 extern void ZUKAN_LIST_UpdateActors(struct ZukanList *),ZUKAN_LIST_FlushWindows(struct ZukanList *),ZUKAN_TickCounter(u32,u32,u8 *);
 
@@ -469,7 +458,6 @@ extern void ZUKAN_LIST_UpdateActors(struct ZukanList *),ZUKAN_LIST_FlushWindows(
 
 #include "../arm9/net.h"
 
-extern u32 PALANM_GetFadeRequestBits(const PaletteFade *ptr);
 
 
 struct GameData;
@@ -481,32 +469,25 @@ struct ZknSearchActorTemplate;
 struct Unit;
 #include "../arm9/touchpanel_shared_types.h"
 #include "../types.h"
-extern int FRAME_LIST_UpdateInit(FrameList *list);
 
-extern int FRAME_LIST_Update(FrameList *list);
 
 extern int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p);
 
-extern int FRAME_LIST_GetSelectedIndex(FrameList *list);
 
-extern void FRAME_LIST_SetCursor(FrameList *list, int row);
 
 #include "../arm9/ui.h"
 
 
-extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 extern u32 ZUKAN_SAVE_GetViewMode(struct ZukanSave *pZukan);
 
 extern void ZUKAN_SAVE_SetViewMode(struct ZukanSave *pZukan, u32 value);
 
-extern void FRAME_LIST_SetRowPalette(FrameList *list, int row, u32 pltt);
 
 
 extern void ZUKAN_SAVE_SetLastViewedSpecies(struct ZukanSave *,u16);
 
 
-extern void GAME_DATA_SetRecentId(struct GameData *gd, u32 id, u32 on);
 
 #include "../arm9/bmp_win.h"
 struct BmpWin;
@@ -542,7 +523,6 @@ extern u16 ZUKAN_SAVE_CountSeenRegional(struct ZukanSave *pZukan, u32 heap);
 extern u16 ZUKAN_SAVE_CountCaughtRegional(struct ZukanSave *pZukan, u32 heap);
 
 
-extern struct PrintSys *FRAME_LIST_GetPrinter(FrameList *list);
 
 
 
@@ -565,17 +545,12 @@ struct SysInit;
 
 
 
-extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
+#include "../arm9/poke_tool_ext.h"
 
-extern int POKE_TOOL_GetIconPaletteArcId(void);
 
-extern int POKE_TOOL_GetIconCellArcId(void);
 
-extern int POKE_TOOL_GetIconCellArcIdSub(void);
 
-extern int POKE_TOOL_GetIconCellEntryId(void);
 
-extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 
 
 
@@ -613,12 +588,9 @@ struct PersonalData;
 
 
 
-extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 female, u32 isEgg);
 
 
-extern int FRAME_LIST_ClampToScrollBar(FrameList *list, unsigned int touchY);
 
-extern int FRAME_LIST_CanScrollDown(FrameList *list);
 
 int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg);
 
@@ -1934,9 +1906,7 @@ void ZUKAN_LIST_UpdateArrowActors(struct ZukanList *p,int flag)
 
 #include "../arm9/key.h"
 
-extern void FRAME_LIST_HideCursor(FrameList *list);
 
-extern void FRAME_LIST_ShowCursor(FrameList *list);
 
 int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
 {

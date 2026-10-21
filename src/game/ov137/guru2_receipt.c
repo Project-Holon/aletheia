@@ -205,8 +205,6 @@ struct UnionAppWork;
 #include "../ov022/union_app.h"
 
 
-extern void BG_SYS_ClearMainPlanes(void);
-extern void BG_SYS_ClearSubPlanes(void);
 
 #include "../arm9/gfl_heap.h"
 
@@ -864,7 +862,7 @@ void GURU2_RECEIPT_LoadGraphics(void *p,void *arc)
     ARC_UTIL_UploadBgPaletteFromHandle(arc,13,1,0,1536,0,114);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,114);
     ARC_UTIL_UploadPaletteFromArchiveWhole(30,13,4,0,352,114);
-    ARC_UTIL_UploadBgCharFromArchive((void *)30,(void *)14,(void *)6,0,0,0,114);
+    ARC_UTIL_UploadBgCharFromArchive(30,14,6,0,0,0,114);
     ARC_UTIL_UploadBgPaletteFromArchive(30,3,6,0,0,0,114);
     BMP_MENUWORK_LoadCharAndPltt(0,1,10,0,114);
     BMP_MENUWORK_LoadCharAndPltt(0,31,11,0,114);

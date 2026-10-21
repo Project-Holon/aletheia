@@ -5,6 +5,7 @@
 /* Public functions of demo3d_data.c, prototypes copied from their definitions. */
 
 struct Demo3dDataConfig;
+struct TcbTask;
 struct CaptureConfig;
 struct TcblNode;
 struct Demo3dBgmFadeWork;
@@ -31,7 +32,7 @@ void DEMO3D_DATA_DeleteCapture(int a);
 void *DEMO3D_DATA_CreateTask(void *manager, const Demo3dDataConfig *source);
 void DEMO3D_DATA_DeleteTask(int *s,unsigned a,unsigned b,unsigned c);
 void DEMO3D_DATA_ApplyCapture(void *task, const int *ctx);
-void DEMO3D_DATA_FinishTask(void *node,int *s);
+void DEMO3D_DATA_FinishTask(struct TcbTask *node, void *work_);
 void DEMO3D_DATA_StartCapture(CaptureConfig *s);
 void DEMO3D_DATA_PlaySe(void *unused,int ignored,int *s);
 void DEMO3D_DATA_StopSe(u32 a, u32 b, int *c);

@@ -7,6 +7,7 @@
 struct Proc;
 struct MyStatus;
 struct Strbuf;
+struct TcbTask;
 
 #include "../ov088/startmenu_types.h"
 #include "../types.h"
@@ -125,7 +126,7 @@ void STARTMENU_SaveEraseStepOpenFirstYesNo(SaveEraseWork *work, int *seq);
 void STARTMENU_SaveEraseStepFirstConfirm(SaveEraseWork *work, int *seq);
 void STARTMENU_SaveEraseStepOpenSecondYesNo(SaveEraseWork *work, int *seq);
 void STARTMENU_SaveEraseStepSecondConfirm(SaveEraseWork *work, int *seq);
-void STARTMENU_SaveEraseUpdateTimeIcon(void);
+void STARTMENU_SaveEraseUpdateTimeIcon(struct TcbTask *unused, void *unused2);
 void STARTMENU_SaveEraseStepErase(SaveEraseWork *work, int *seq);
 void STARTMENU_SaveEraseStepTeardown(SaveEraseWork *work, int *seq);
 void STARTMENU_SaveEraseClearVram(void);

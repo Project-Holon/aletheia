@@ -334,7 +334,7 @@ struct PokemonParam;
 extern u8 ov231_id[];
 extern int (*gSetupSeqKind3Steps[7])(struct BtlMain *, u32 *);
 #include "btl_server_types.h"
-#include "../../matched/include/G_StateData.h"
+#include "btl_levelup_scan_types.h"
 struct Blk34;
 struct PartyMon;
 struct BtlPosTable;
@@ -1741,7 +1741,7 @@ int BTL_MAIN_CheckEventOverlayAllowed(struct BtlMain *main)
 /*
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: ldr r1, [r0]; ldr r0, [r1]; cmp r0, #1; bhi loc_021B863C; ldr r0, [r1, #0x70]; bx lr; movs r0, #0; bx lr.
  */
-u32 BTL_MAIN_GetPmsWork(struct BtlMain *main)
+struct CommPlayerSupport *BTL_MAIN_GetPmsWork(struct BtlMain *main)
 {
     struct BattleSetupParam *setup = main->setup;
     if (setup->competitor <= 1)
@@ -1796,9 +1796,9 @@ u32 BTL_MAIN_GetZukanSeenCount(struct BtlMain *main)
     return ZUKAN_SAVE_CountCaughtNational((struct ZukanSave *)(main->setup->zukanWork));
 }
 
-u32 BTL_MAIN_GetGameData(struct BtlMain *main)
+struct GameData *BTL_MAIN_GetGameData(struct BtlMain *main)
 {
-    return (uptr)main->setup->gameData;
+    return main->setup->gameData;
 }
 
 void BTL_MAIN_RegisterZukanSeen(struct BtlMain *main, unsigned char doRegister, void *mon) { if(BTL_MAIN_GetCompetitor(main)<=1 && doRegister!=0) ZUKAN_SAVE_RegisterSeen(main->setup->zukanWork,BTL_POKEPARAM_GetMon(mon)); }
@@ -3313,7 +3313,7 @@ int BTL_MAIN_GetTrainerHandle(struct BtlMain *main, int slot)
  */
 struct MyStatus *BTL_MAIN_UpdateCommPlayerSupport(struct BtlMain *main)
 {
-    return COMM_PLAYER_SUPPORT_GetCurrent((struct CommPlayerSupport *)main->setup->pmsWork);
+    return COMM_PLAYER_SUPPORT_GetCurrent(main->setup->pmsWork);
 }
 
 /*

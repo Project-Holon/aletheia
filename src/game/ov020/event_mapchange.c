@@ -2372,7 +2372,7 @@ int EVENT_MAPCHANGE_RunIntrudeSessionEvent(GameEvent *event, int *state, MapChan
         }
         GAME_DATA_SetIntrudeCount(work->gameData, 1);
         /* likely original mismatch: the definition takes u8, the original caller passes the u16 result untruncated */
-        ((void (*)(struct GameData *, u32))GAME_DATA_SetOwnNetId)(work->gameData, GFL_NET_SYSTEM_GetCurrentAid());
+        GAME_DATA_SetOwnNetId(work->gameData, GFL_NET_SYSTEM_GetCurrentAid());
         GAME_EVENT_CallEvent(event, EVENT_MAPCHANGE_CreateIntrudeArriveEvent(work->gameSystem, work->fieldMap, &work->location));
         *state = 2;
         break;

@@ -334,7 +334,15 @@ struct PrintQueue;
 #include "../arm9/printsys.h"
 #include "../arm9/arc_tool.h"
 #include "../arm9/net.h"
-extern u32 BG_SYS_SetPlaneVisible(u8 layer, u8 visible);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define BG_SYS_MarkTileDirty BG_SYS_MarkTileDirty_header
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_MarkTileDirty
+extern void BG_SYS_MarkTileDirty(u8);
+#endif
 struct Actor;
 #include "../arm9/clact.h"
 #include "field_subscreen.h"
@@ -343,24 +351,38 @@ struct FieldSubscreen;
 struct TcbTask;
 #include "../arm9/wipe.h"
 struct Renderer;
-extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
-extern void BG_SYS_FreeLayerBuf(u32 layer);
-extern void BG_SYS_PushTile(u32 layer);
 #include "../arm9/gx.h"
-extern void BG_SYS_ChangeScroll(u32 layer, u32 type, u32 value);
 #include "../arm9/app_icon.h"
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *template, u32 type);
-extern void BG_SYS_ClearSlot(u8 layer);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 heapId);
-extern void ARC_UTIL_UploadBgCharFromHandle(void *arcHandle, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heapId);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arcHandle, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heapId);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define ARC_UTIL_LoadPaletteDataFromHandle ARC_UTIL_LoadPaletteDataFromHandle_header
+#define ARC_UTIL_UploadBgCharFromHandle ARC_UTIL_UploadBgCharFromHandle_header
+#define ARC_UTIL_UploadPaletteFromHandleWhole ARC_UTIL_UploadPaletteFromHandleWhole_header
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_LoadPaletteDataFromHandle
+#undef ARC_UTIL_UploadBgCharFromHandle
+#undef ARC_UTIL_UploadPaletteFromHandleWhole
+extern void * ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u32);
+extern void ARC_UTIL_UploadBgCharFromHandle(void *, u32, u32, u32, u32, u32, u32);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u32);
+#endif
 #include "../arm9/msgdata.h"
 struct SurfaceInit;
-extern u32 ZONEDATA_IsUnionRoom(u32 zoneId);
-extern u32 ZONEDATA_IsZone96Pair(u16 zoneId);
-extern u32 ZONEDATA_IsZone34(u16 zoneId);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define ZONEDATA_IsZone34 ZONEDATA_IsZone34_header
+#define ZONEDATA_IsZone96Pair ZONEDATA_IsZone96Pair_header
+#endif
+#include "../arm9/zonedata.h"
+#ifdef __MWERKS__
+#undef ZONEDATA_IsZone34
+#undef ZONEDATA_IsZone96Pair
+extern u32 ZONEDATA_IsZone34(u16);
+extern u32 ZONEDATA_IsZone96Pair(u16);
+#endif
 struct EventWork;
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 struct MsgBank;
 #include "../arm9/strbuf.h"
 struct Strbuf;
@@ -375,9 +397,6 @@ struct BmpWin;
 struct Bmp;
 typedef short s16_p07;
 #include "../arm9/bmp.h"
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arcHandle, u32 a, u32 b, void **out, u32 heapId);
-extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
-extern void BG_SYS_MarkTileDirty(u8 layer);
 
 extern const struct BgTemplate gFieldMenuBgTemplate5;
 extern const struct BgTemplate gFieldMenuBgTemplate6;

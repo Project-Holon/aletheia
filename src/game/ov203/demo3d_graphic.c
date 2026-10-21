@@ -99,64 +99,44 @@ struct Unit;
 struct LightSlotValue;
 struct LightSetDesc;
 #include "../arm9/tcb_list.h"
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void MI_CpuFill8(void *, unsigned, unsigned);
+#include "../arm9/mi_memory.h"
 
-extern void BG_SYS_ClearGraphicsMemory(u32 keepBanks);
 
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
-extern void BG_SYS_SetLcdSwap(u32 swap);
 
-extern void BG_SYS_ResetSubDisplay(void);
 
-extern void BG_SYS_ClearMainPlanes(void);
 
-extern void BG_SYS_ClearSubPlanes(void);
 
-extern void GF_FONT_InitTextColor(void);
+#include "../arm9/gf_font.h"
 
-extern struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
 
-extern void GF_FONT_SetDefaultTextColor(void);
 
-extern u32 GFL_HEAP_Free(void *p);
 
 extern void G3D_LIGHT_SetColor(struct LightSlot *slots, u32 i, u16 *in);
 
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *);
 
-extern void VEC_Fx16Normalize(const VecFx16 *pSrc, VecFx16 *pDst);
+#include "../arm9/fx_vec.h"
 
 extern void G3D_LIGHT_SetDirection(struct LightSlot *slots, u32 i, struct Rgb555 *in);
 
-extern void BG_SYS_Create(u16 heapId);
 
-extern void BMP_WIN_Init(u32 heapId);
+#include "../arm9/bmp_win.h"
 
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void BG_SYS_FreeSlot(u8 idx);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 
-extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
-extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void BMP_WIN_Exit(void);
 
-extern void BG_SYS_Delete(void);
 
-extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
 
@@ -166,9 +146,7 @@ extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
 
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 extern u32 CLACT_DeleteUnit(struct Unit *unit);
 
@@ -184,7 +162,7 @@ struct LightSlotValue;
 
 extern struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *set, u16 heapID);
 
-extern void DEMO3D_SetupGx(void);
+#include "demo3d.h"
 
 extern u32 G3D_LIGHT_DeleteSlots(void *slots);
 
@@ -196,9 +174,9 @@ extern void G3D_SYSTEM_ApplyLookAt(void);
 
 extern void G3D_SYSTEM_DrawEnd(void);
 
-extern void DOUBLE3DDISP_Delete(void);
+#include "../arm9/double3Ddisp.h"
 
-extern u32 G3D_CAMERA_Delete(void *ptr);
+#include "../arm9/g3d_camera.h"
 
 Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned swap, void *config, u8 heap);
 
@@ -250,7 +228,7 @@ void DEMO3D_GRAPHIC_DeleteDouble3d(void);
 
 void DEMO3D_GRAPHIC_DeleteCamera(void *p);
 
-int DEMO3D_DATA_IsDouble3dDisplay(void *a);
+#include "demo3d_data.h"
 
 extern const char d_021C3CCC[];
 

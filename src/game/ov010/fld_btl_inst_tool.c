@@ -381,7 +381,7 @@ struct PartyPokemon;
 #ifdef __MWERKS__
 extern void *ARC_UTIL_LoadMember(int archiveId, int member, int flag, int heapId); /* original prototype; the definition differs in argument width */
 #else
-extern void*ARC_UTIL_LoadMember(s32, s32, s32, u16);
+#include "../arm9/arc_util.h"
 #endif
 
 #include "../arm9/gfl_use.h"

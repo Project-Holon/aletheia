@@ -422,71 +422,51 @@ struct BeaconDetailGraSlotTask {
     u8 step; u8 pad_01[2]; u8 index; u8 direction; u8 flags; u8 pad_06[2]; int wait; u8 pad_0C[4]; void *owner; int *counter;
 };
 
-extern int GF_OVERLAY_Load(int);
-extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gfl_heap.h"
 struct Proc;
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
+#include "../arm9/procsys.h"
 extern void MI_CpuFill8(void *,int,int);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void GF_OVERLAY_Unload(int);
+#include "../arm9/gfl_heap_wrap.h"
 struct TcblSystem;
 extern void TCBL_Main(struct TcblSystem *tcbl);
 struct PrintQueue;
 extern unsigned PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern unsigned PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
-extern void FADE_Start(unsigned,int,int,int);
-extern int FADE_IsActive(void);
+#include "../arm9/fade.h"
 extern int TOUCHBAR_GetPressedButtonIdIfDone(struct TouchBar *);
 struct GameBeaconInfo;
-extern struct GameBeaconInfo *GAME_BEACON_ACCESSOR_AllocInfo(u32);
-extern u32 GAME_DATA_GetItemUseWork(const struct GameData *);
+#include "../ov010/game_beacon_accessor.h"
+#include "../arm9/game_data.h"
 struct BeaconStatus;
 struct GameBeaconInfoTable;
-extern u8 GAME_BEACON_ACCESSOR_TableGetCount(struct GameBeaconInfoTable *table);
-extern int GAME_BEACON_ACCESSOR_TableRingGet(struct GameBeaconInfoTable *table, struct GameBeaconInfo *info, unsigned short *receiveTime, int offset);
-extern int GAME_BEACON_ACCESSOR_IsInfoInvalid(struct GameBeaconInfo *info);
-extern int GAME_BEACON_ACCESSOR_IsDistributionAction(struct GameBeaconInfo *info);
-extern signed char MSG_SPEED_GetWait(void);
+#include "../arm9/msg_speed.h"
 struct TownMapInfoRow;
 extern struct TownMapInfoRow *TOWNMAP_GRH_LoadTownInfo(int);
 extern void TOWNMAP_GRH_FreeTownInfo(struct TownMapInfoRow *info);
-extern u32 GFL_HEAP_Free(void *p);
 extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
-extern void GF_FONT_SetTextColor(unsigned,unsigned,unsigned);
+#include "../arm9/gf_font.h"
 extern struct PrintQueue *PRINTSYS_QUE_CreateEx(unsigned short,unsigned);
-extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
-extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned,unsigned,u16,unsigned);
+#include "../arm9/wordset.h"
+#include "../arm9/msgdata.h"
 struct Strbuf;
-extern struct Strbuf *STRBUF_Create(unsigned,unsigned);
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
-extern unsigned int WORDSET_Delete(struct WordSet *p);
-extern u32 GF_FONT_Delete(struct GfFont *font);
+#include "../arm9/strbuf.h"
 extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern void GF_FONT_SetDefaultTextColor(void);
 extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_PushTile(u32);
 struct ArcHandle;
-extern int NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *,void **);
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/nns_g2d_anim_bank.h"
+#include "../arm9/g2.h"
 extern struct TouchBar *TOUCHBAR_Create(struct TouchBarParams *,int);
 extern void TOUCHBAR_Delete(struct TouchBar *);
 extern void TOUCHBAR_Update(struct TouchBar *p);
-extern void *POKEGRA_OpenTrainerHandle(unsigned int heapId);
-extern int NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *,void **);
-extern int POKEGRA_RegisterTrainerCellAnim(unsigned int unusedArg, unsigned int mapping, unsigned int drawType, unsigned short heapId);
 extern unsigned BMP_WIN_Create(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
 struct BmpWin;
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+#include "../arm9/bmp.h"
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern unsigned char BMP_WIN_GetBgLayer(struct BmpWin *win);
@@ -497,18 +477,16 @@ extern void PMS_DRAW_SetPrintColor(struct PmsDraw *,u16);
 extern void PMS_DRAW_SetFollowBgScroll(struct PmsDraw *,u32);
 extern void PMS_DRAW_Delete(struct PmsDraw *wk);
 extern void PMS_DRAW_Main(struct PmsDraw *);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void GF_FONT_InitTextColor(void);
 struct TcbTask;
 extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void *,void *), void *work, unsigned int priority);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(u32);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
@@ -525,62 +503,27 @@ struct SurfaceInit;
 struct Renderer;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
+#include "../arm9/net.h"
 extern int TOUCHBAR_GetPressedButtonIdIfPressing(struct TouchBar *);
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 struct GameSystem;
-extern unsigned GAMESYSTEM_IsNetOffBySleep(struct GameSystem *gameSystem);
-extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+#include "../arm9/gamesystem.h"
+#include "../arm9/touchpanel.h"
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void DC_FlushRange(void *,unsigned);
-extern void GX_LoadBGPltt(void *,unsigned,unsigned);
-extern void GXS_LoadBGPltt(void *,unsigned,unsigned);
-extern void GX_LoadOBJPltt(void *,unsigned,unsigned);
-extern void GXS_LoadOBJPltt(void *,unsigned,unsigned);
+#include "../arm9/os_cache.h"
+#include "../arm9/gx_load2d.h"
 extern void TOUCHBAR_SetButtonEnabled(struct TouchBar *p, unsigned int id, int v);
-extern unsigned int GAME_BEACON_ACCESSOR_GetPmVersion(struct GameBeaconInfo *info);
-extern unsigned GAME_BEACON_ACCESSOR_GetDetailsType(struct GameBeaconInfo *info);
-extern unsigned short GAME_BEACON_ACCESSOR_GetDetailsMonsNo(struct GameBeaconInfo *info);
-extern unsigned short GAME_BEACON_ACCESSOR_GetDetailsTrainerNo(struct GameBeaconInfo *info);
-extern unsigned short GAME_BEACON_ACCESSOR_GetZoneId(struct GameBeaconInfo *info);
-extern u32 ZONEDATA_GetPlaceNameId(u32 id);
-extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
-extern void WORDSET_SetSlotPokeData(struct WordSet *words, unsigned int slot, void *source);
-extern void WORDSET_SetSlotFromMsgBE(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern void BMP_FillRect(struct Bmp *bmp, unsigned int x, unsigned int y, unsigned int w, unsigned short h, unsigned char value);
+#include "../arm9/zonedata.h"
 extern u32 PMS_DRAW_IsActive(const struct BeaconDetailGraPmsDraw *, u32);
 extern void PMS_DRAW_SetVisible(struct PmsDraw *wk, int id, unsigned int visible);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
-extern void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(unsigned short *rgb, struct GameBeaconInfo *info);
-extern void PALANM_BlendColors(u16 *,u16 *,u32,int,u16);
-extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct GameBeaconInfo *info, struct Strbuf *name);
-extern unsigned char GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerSecond(struct GameBeaconInfo *info);
-extern void STRBUF_Clear(struct Strbuf *strbuf);
-extern void WORDSET_SetSlotFromMsg38(struct WordSet *,u32,u32);
-extern unsigned char GAME_BEACON_ACCESSOR_GetQuestionnaireAnswerFirst(struct GameBeaconInfo *info);
-extern void WORDSET_SetSlotFromMsg2B(struct WordSet *,u32,u32);
-extern void GAME_BEACON_ACCESSOR_GetPlayTime(struct GameBeaconInfo *info, unsigned short *hours, unsigned short *minutes);
-extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
-extern u8 GAME_BEACON_ACCESSOR_GetNation(struct GameBeaconInfo *info);
-extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,u32,u32);
-extern u8 GAME_BEACON_ACCESSOR_GetArea(struct GameBeaconInfo *info);
-extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *,u32,u32,u32);
-extern u32 GAME_BEACON_ACCESSOR_GetPassCount(struct GameBeaconInfo *info);
-extern u32 GAME_BEACON_ACCESSOR_GetThanksCount(struct GameBeaconInfo *info);
+#include "../arm9/palanm.h"
 extern u32 PMS_DRAW_IsActive(const struct BeaconDetailGraPmsDraw *,u32);
 extern void PMS_DRAW_Clear(struct PmsDraw *wk, int id, unsigned int isTrans);
 struct GameBeaconPms;
-extern void GAME_BEACON_ACCESSOR_GetDetailsPms(struct GameBeaconInfo *info, struct GameBeaconPms *pms);
 extern void PMS_DRAW_Print(u32,u32,struct BeaconDetailGraQuad *,u32);
-extern u8 GAME_BEACON_ACCESSOR_GetTrainerAppearance(struct GameBeaconInfo *info);
-extern u32 CURSOR_MOVE_GetTableGroup(u32);
-extern void POKEGRA_LoadTrainerGraphics(void *set, u32 id, void *dstA, void *dstB, volatile u16 which);
-extern u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(struct GameBeaconInfo *info);
-extern unsigned short GAME_BEACON_ACCESSOR_GetTownmapRootZoneId(struct GameBeaconInfo *info);
+#include "../arm9/cursor_move.h"
 extern int TOWNMAP_GRH_FindRecordIndex(struct TownMapInfoRow *info, int id);
 extern u16 TOWNMAP_GRH_GetTownInfoValue(struct TownMapInfoRow *,int,int);
 struct TcblTask;
@@ -588,7 +531,6 @@ extern struct TcblTask *TCBL_AddTask(struct TcblSystem *tcbl, void (*)(struct Tc
 extern void *TCBL_GetWork(struct TcblTask *task);
 extern void TCBL_DeleteTask(struct TcblTask *task);
 extern void TOUCHBAR_SetAllButtonsEnabled(struct TouchBar *, u32);
-extern int TOUCHPANEL_GetTrg(void);
 extern void PRINTSYS_PrintQueColor(struct PrintQueue *, struct Bmp *, u32, u32, struct Strbuf *, struct GfFont *, u16);
 extern void BEACON_DETAIL_GRA_PrintWaitTask(int,int **);
 int BEACON_DETAIL_GRA_Init(struct ProcOwner *obj,int unused1,void *config);

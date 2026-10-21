@@ -68,46 +68,19 @@
 #include "scrcmd_proc_fld_types.h"
 #include "fieldmap_types.h"
 #include "scrcmd_proc_fld_shared_types.h"
+#include "../ov010/field_encount_st_types.h"
+#include "field_camera_types.h"
 
 struct Blk021D2D50;
 
-/* One wild encounter entry: species and form in 4 bytes. */
-typedef struct EncounterSlot {
-    u16 species : 11;
-    u16 form : 5;
-    u16 reserved;
-} EncounterSlot;
-
-/* 0xE8-byte encounter table record filled by FIELD_ENCOUNT_ST_LoadEncountData. */
-typedef struct EncounterRecord {
-    u8  reserved00[5];
-    u8  hasSetA;
-    u8  hasSetB;
-    u8  reserved07[0xc0 - 7];
-    EncounterSlot setA[5];
-    EncounterSlot setB[5];
-} EncounterRecord;
-
-/* Field region record read from archive 0xA3 (0x2C bytes). */
-typedef struct FieldRegionRecord {
-    u16 areaWidth;
-    u16 areaHeight;
-    u32 areaFlags;
-    VecFx32 origin;
-    LayerFlags layers;
-} FieldRegionRecord;
-
-/* Field region parameter block (0x48 bytes) handed to the field region object. */
-typedef struct FieldRegionParam {
-    u32 reserved00[3];
-    VecFx32 origin;         /* 0x0c */
-    u32 reserved18[3];
-    u16 areaWidth;          /* 0x24 */
-    u16 areaHeight;         /* 0x26 */
-    u32 areaFlags;          /* 0x28 */
-    u32 reserved2C;
-    LayerFlags layers;      /* 0x30: six layer enable flags */
-} FieldRegionParam;
+/* Camera move record read from archive 0xA3 (0x2C bytes): the goal pose and the channels to move. */
+typedef struct CameraMoveRecord {
+    u16 pitch;
+    u16 yaw;
+    u32 distance;
+    VecFx32 target;
+    FieldCameraMoveChannels channels;
+} CameraMoveRecord;
 
 /* Custom event record built from eight script values. */
 typedef struct CustomEventParam {
@@ -138,20 +111,22 @@ struct FieldCamera;
 
 #include "fieldmap.h"
 
-extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define FIELD_CAMERA_StartMove FIELD_CAMERA_StartMove_header
+#endif
+#include "field_camera.h"
+#ifdef __MWERKS__
+#undef FIELD_CAMERA_StartMove
+extern void FIELD_CAMERA_StartMove(FieldCamera *, FieldCameraMoveRequest *, int);
+#endif
 
-extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
 
-extern int FIELD_CAMERA_IsMoving(struct FieldCamera *camera);
 struct FieldCameraMoveChannels;
 
-extern void FIELD_CAMERA_StartMoveToSaved(struct FieldCamera *camera, struct FieldCameraMoveChannels *channels, u16 frames);
 
-extern void FIELD_CAMERA_ResumeTargetTrace(struct FieldCamera *camera);
 
-extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
 
-extern void FIELD_CAMERA_PopState(struct FieldCamera *camera);
 
 #include "../arm9/gfl_heap_wrap.h"
 
@@ -167,7 +142,15 @@ struct GameData;
 
 
 
-extern int FIELD_ENCOUNT_ST_LoadEncountData(EncounterRecord *r, void *h, u32 k, u32 x);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define FIELD_ENCOUNT_ST_LoadEncountData FIELD_ENCOUNT_ST_LoadEncountData_header
+#endif
+#include "../ov010/field_encount_st.h"
+#ifdef __MWERKS__
+#undef FIELD_ENCOUNT_ST_LoadEncountData
+extern int FIELD_ENCOUNT_ST_LoadEncountData(EncountRow *, struct ArcFile *, u32, u32);
+#endif
 
 #include "../arm9/game_data.h"
 #include "../arm9/vm.h"
@@ -179,23 +162,18 @@ extern int FIELD_ENCOUNT_ST_LoadEncountData(EncounterRecord *r, void *h, u32 k, 
 
 
 
-extern int FIELD_CAMERA_HasDelay(struct FieldCamera *camera);
 
 #include "field_nogrid_mapper.h"
 
 
 #include "../arm9/game_event.h"
 
-extern void FIELD_CAMERA_PushState(struct FieldCamera *camera);
-
-extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
 
 
 
-extern void FIELD_CAMERA_StartMove(u8 *a, void *p, int n);
 
 
-extern void FIELD_CAMERA_StartMoveToSetting(struct FieldCamera *camera, u16 frames);
+
 struct CameraShakeParams;
 struct GameEvent;
 
@@ -204,7 +182,6 @@ struct GameEvent;
 
 
 
-extern void FIELD_CAMERA_SetSetting(struct FieldCamera *camera, u32 settingId);
 struct FieldmapFunc;
 
 struct FieldSubprocTemplate;
@@ -272,7 +249,7 @@ extern u32 g_021F435C[];
  */
 int SCRCMD_PROC_FLD_StoreRandomUniqueEntry(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    EncounterRecord record;
+    EncountRow record;
     u32 season;
     u16 tableIndex;
     void *archive;
@@ -373,60 +350,60 @@ return 0;
 
 int SCRCMD_PROC_FLD_StartCameraMoveFromStream(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    FieldRegionParam param;
-    void *fieldRegion;
+    FieldCameraMoveRequest param;
+    FieldCamera *camera;
 
-    fieldRegion = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
-    param.areaWidth = VM_ReadU16(vm);
-    param.areaHeight = VM_ReadU16(vm);
-    param.areaFlags = VM_GetU32(vm);
-    param.origin.x = VM_GetU32(vm);
-    param.origin.y = VM_GetU32(vm);
-    param.origin.z = VM_GetU32(vm);
-    param.layers.flag[0] = 0;
-    param.layers.flag[1] = 1;
-    param.layers.flag[2] = 1;
-    param.layers.flag[3] = 1;
-    param.layers.flag[4] = 0;
-    param.layers.flag[5] = 1;
-    FIELD_CAMERA_StartMove(fieldRegion, &param, VM_ReadU16(vm));
+    camera = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    param.goal.pitch = VM_ReadU16(vm);
+    param.goal.yaw = VM_ReadU16(vm);
+    param.goal.distance = VM_GetU32(vm);
+    param.goal.target.x = VM_GetU32(vm);
+    param.goal.target.y = VM_GetU32(vm);
+    param.goal.target.z = VM_GetU32(vm);
+    param.channels.shift = 0;
+    param.channels.pitch = 1;
+    param.channels.yaw = 1;
+    param.channels.distance = 1;
+    param.channels.fov = 0;
+    param.channels.target = 1;
+    FIELD_CAMERA_StartMove(camera, &param, VM_ReadU16(vm));
     return 0;
 }
 
 int SCRCMD_PROC_FLD_StartCameraMoveFromArchive(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    FieldRegionRecord record;
-    FieldRegionParam param;
-    void *fieldRegion;
+    CameraMoveRecord record;
+    FieldCameraMoveRequest param;
+    FieldCamera *camera;
     int memberIndex;
     int regionIndex;
 
-    fieldRegion = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    camera = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
     memberIndex = VM_ReadU16(vm);
     regionIndex = VM_ReadU16(vm);
     ARC_TOOL_ReadMember(&record, 0xa3, memberIndex);
-    param.areaWidth = record.areaWidth;
-    param.areaHeight = record.areaHeight;
-    param.areaFlags = record.areaFlags;
-    param.origin = record.origin;
-    param.layers = record.layers;
-    FIELD_CAMERA_StartMove(fieldRegion, &param, regionIndex);
+    param.goal.pitch = record.pitch;
+    param.goal.yaw = record.yaw;
+    param.goal.distance = record.distance;
+    param.goal.target = record.target;
+    param.channels = record.channels;
+    FIELD_CAMERA_StartMove(camera, &param, regionIndex);
     return 0;
 }
 
 int SCRCMD_PROC_FLD_StartCameraMoveToSaved(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    LayerFlags layers;
+    FieldCameraMoveChannels layers;
     void *fieldRegion = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
     u16 regionIndex = VM_ReadU16(vm);
 
-    layers.flag[0] = 1;
-    layers.flag[1] = 1;
-    layers.flag[2] = 1;
-    layers.flag[3] = 1;
-    layers.flag[4] = 1;
-    layers.flag[5] = 1;
-    FIELD_CAMERA_StartMoveToSaved(fieldRegion, (struct FieldCameraMoveChannels *)&layers, regionIndex);
+    layers.shift = 1;
+    layers.pitch = 1;
+    layers.yaw = 1;
+    layers.distance = 1;
+    layers.fov = 1;
+    layers.target = 1;
+    FIELD_CAMERA_StartMoveToSaved(fieldRegion, &layers, regionIndex);
     return 0;
 }
 

@@ -137,7 +137,7 @@ struct Descriptor;
 struct WordSet;
 struct Strbuf;
 struct TaskMenu;
-struct Bank;
+struct Unit;
 
 /* Palette RAM slot the timer palette is copied to. */
 #define TIMER_PALETTE_DST ((void *)0x05000440)

@@ -38,9 +38,8 @@
 
 struct U16Vec;
 
-extern void ARC_UTIL_UploadBgCharFromArchive(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u32 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 archiveID, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags);
-extern u32 ARC_UTIL_RegisterObjCharFromArchive(u32 archiveID, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
+
+#include "arc_util.h"
 
 #ifdef __MWERKS__
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
@@ -71,7 +70,7 @@ u8 BMP_MENUWORK_GetCharFileId(int index);
 
 u8 BMP_MENUWORK_GetPlttFileId(int index);
 
-void BMP_MENUWORK_LoadChar(u32 layer, u32 tileOffset, u32 frameId, u32 heapId);
+void BMP_MENUWORK_LoadChar(u32 layer, u32 tileOffset, u32 frameId, u16 heapId);
 
 void BMP_MENUWORK_LoadPltt(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 
@@ -169,7 +168,7 @@ u8 BMP_MENUWORK_GetPlttFileId(int index)
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201F554.c  *       --addr 0x0201F554 --thumb
  */
-void BMP_MENUWORK_LoadChar(u32 layer, u32 tileOffset, u32 frameId, u32 heapId)
+void BMP_MENUWORK_LoadChar(u32 layer, u32 tileOffset, u32 frameId, u16 heapId)
 {
     ARC_UTIL_UploadBgCharFromArchive(5, BMP_MENUWORK_GetCharFileId(frameId), layer, tileOffset, 0, 0, heapId);
 }

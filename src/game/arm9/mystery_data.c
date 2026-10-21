@@ -68,7 +68,7 @@ struct MysteryDataFooter {
 struct MysteryData {
     u8   *buffer;
     u32   saveType;                       /* 1: main save block, 0: extra save */
-    void *extraSave;                      /* overlay 228 work for saveType 0 */
+    struct SaveOutsideWork *extraSave;                     /* overlay 228 work for saveType 0 */
 };
 
 /* A received gift packet: 0x2CE bytes of body and their CRC. */
@@ -88,11 +88,9 @@ struct MysteryGiftPacket {
 
 
 
-extern void SAVE_OUTSIDE_Prepare(void *extraSave);
 
 #include "game_data.h"
 
-extern int  SAVE_OUTSIDE_WriteAsync(void *extraSave);
 
 
 #include "gfl_heap_wrap.h"
@@ -103,9 +101,7 @@ extern int  SAVE_OUTSIDE_WriteAsync(void *extraSave);
 
 #include "../ov228/save_outside.h"
 
-extern u8   SAVE_OUTSIDE_IsLoaded(u8 *extraSave);
 
-extern void *SAVE_OUTSIDE_GetPayload(u8 *extraSave);
 
 
 u32 MYSTERY_DATA_GetWorkSize(void);

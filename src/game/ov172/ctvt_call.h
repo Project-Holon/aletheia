@@ -4,6 +4,7 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of ctvt_call.c, prototypes copied from their definitions. */
 
+struct TcbTask;
 struct BgTemplate;
 
 #include "../types.h"
@@ -26,7 +27,7 @@ void CTVT_CALL_PrintTimeMessage(void *ctx, char *st, unsigned long msgId);
 void CTVT_CALL_WorkInit(char *self);
 void CTVT_CALL_WorkDelete(u8 *p);
 int CTVT_CALL_WorkMain(char *ctx);
-void CTVT_CALL_VBlank(struct TcbTask *unused, void *ctx);
+void CTVT_CALL_VBlank(struct TcbTask *unused, void *ctxArg);
 void CTVT_CALL_InitDisplay(u8 *p);
 void CTVT_CALL_ExitDisplay(void *work);
 void CTVT_CALL_InitBgLayer(const struct BgTemplate *tmpl, u8 bgId, u32 type);

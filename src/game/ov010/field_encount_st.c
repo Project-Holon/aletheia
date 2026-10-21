@@ -30,11 +30,8 @@
 
 struct ArcFile;
 
-/* Reads the 0xE8-byte encounter table row of a zone. */
-typedef struct EncountRow {
-    u8 data0[7];
-    u8 flags;                             /* 0x07: 0x80 set after load */
-} EncountRow;
+#include "field_encount_st_types.h"
+typedef struct EncountRow EncountRow;
 
 /* Field gimmick work (GAME_DATA_GetFieldGimmick). */
 typedef struct FieldGimmickWork {

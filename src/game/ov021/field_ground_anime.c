@@ -210,31 +210,11 @@ typedef struct ModelSetRes {
     u16 ofsEntry;
 } ModelSetRes;
 
-typedef struct Dict {
-    u8 revision;
-    u8 numEntry;
-    u16 sizeDictBlk;
-    u16 dummy;
-    u16 ofsEntry;
-} Dict;
-
 typedef struct DictEntryHdr {
     u16 sizeUnit;
     u16 ofsName;
     u8 data[4];
 } DictEntryHdr;
-
-/* NNS texture block (partial): VRAM key, texel data offset and name dictionary. */
-typedef struct TexRes {
-    u8 header[8];
-    u32 vramKey;
-    u16 sizeTex;
-    u16 ofsDict;
-    u32 flag;
-    u32 ofsTex;
-    u8 tex4x4PlttInfo[0x3C - 0x18];
-    Dict dict;
-} TexRes;
 
 #include "../sdk_fx.h"
 
@@ -261,13 +241,12 @@ typedef struct GroundAnimeArgs {
 #define GROUND_ANIME_STEP_MAX 9
 
 /* Task work (0x3C bytes). steps lists the machine states to run in order, ending with the end state. */
+#include "entrance_camera_types.h"
 typedef struct GroundAnimeWork {
     GroundAnimeArgs *args;
     void *bgmInfo;
     void *entrance;
-    int entranceParam;
-    int isEnter;
-    int isExit;
+    EntranceCameraRequest entranceRequest;
     u16 frameCounter;
     u8 playerMoveMode;
     u8 reserved1B;
@@ -307,60 +286,47 @@ typedef struct GroundAnimeWork {
 
 #define SE_GROUND_ANIME_DOOR 0x559
 
-extern unsigned char *NNS_G3dGetAnmByIdx(unsigned char *pFile, unsigned int resIdx);
+#include "../arm9/nns_g3d_res.h"
 struct G3dResource;
-extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *res);
-extern s32 NNS_G3dGetMdlSet(s32 pFile);
-extern TexRes *G3D_SYSTEM_GetResourceTex(void *resource);
+#include "../arm9/g3d_system.h"
 extern void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 pResMdl, u32 pResTex);
-extern unsigned int G3D_SYSTEM_GetResourceSize(void);
 extern void G3D_SYSTEM_InitResourceByFile(void *out, void *file);
-extern int NNS_G3dGetResDictIdxByName(const Dict *dict, const void *name);
 #include "../ov010/fldmmdl.h"
-extern void *FIELDMAP_GetFieldPlayer(void *p);
-extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+#include "fieldmap.h"
+#include "field_player.h"
 #include "../arm9/game_event.h"
 struct GameEvent;
 struct GameData;
 struct FieldMap;
-extern void *ENTRANCE_CAMERA_Create(struct FieldMap *fieldMap);
+#include "entrance_camera.h"
 struct FieldCamera;
 
-extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
 struct FieldTaskManager;
-extern struct FieldTaskManager *FIELDMAP_GetTaskManager(struct FieldMap *fieldMap);
-extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
-extern void ENTRANCE_CAMERA_Setup(void *entrance, int *param);
 #include "../arm9/field_sound_system.h"
 struct GameSystem;
 typedef int Bool;
 #include "../ov010/event_field_proclink.h"
 struct EntranceCamera;
-extern int ENTRANCE_CAMERA_IsActive(struct EntranceCamera *work);
-extern int ENTRANCE_CAMERA_IsInstant(struct EntranceCamera *work);
-extern void ENTRANCE_CAMERA_Start(struct EntranceCamera *work);
-extern void ENTRANCE_CAMERA_Restore(struct EntranceCamera *work);
-extern void ENTRANCE_CAMERA_Delete(struct EntranceCamera *work);
 struct FieldSoundSystem;
 struct FieldPlayer;
-extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
-extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
-extern void FIELD_PLAYER_GetMoveOffsetInDir(struct FieldPlayer *player, s32 dir, s32 *out);
 struct Mmdl;
 struct FieldNogridMapper;
-extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(struct FieldMap *fieldMap);
 struct RailManager;
-extern int FIELD_PLAYER_GetNogridLocationByDir(struct FieldPlayer *player, u32 a, void *b);
-extern void FIELD_RAIL_GetLocationPos(void *rail, int *in, VecFx32 *out);
+#include "field_rail.h"
 struct FieldG3dMapper;
-extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 struct BuildModelMan;
 struct BuildModelMan;
 struct BuildModelNode;
 #include "field_buildmodel.h"
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, u32 one, char *file, u32 line);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_Alloc_header
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+extern void * GFL_HEAP_Alloc(u16, u32, u32, const char *, u32);
+#endif
 #include "../arm9/arc_util.h"
 #include "../arm9/mi_memory.h"
 #include "../arm9/nns_g3d_tex.h"
@@ -748,7 +714,7 @@ int FIELD_GROUND_ANIME_TexAnmIsActive(GroundTexAnm *anm)
     return 0;
 }
 
-static inline void *DictGetByIdx(const Dict *dict, u32 idx)
+static inline void *DictGetByIdx(const NNSG3dResDict *dict, u32 idx)
 {
     if (dict && idx < dict->numEntry) {
         const DictEntryHdr *hdr = (const DictEntryHdr *)((const u8 *)dict + dict->ofsEntry);
@@ -757,7 +723,7 @@ static inline void *DictGetByIdx(const Dict *dict, u32 idx)
     return 0;
 }
 
-static inline void *DictGetNameByIdx(const Dict *dict, u32 idx)
+static inline void *DictGetNameByIdx(const NNSG3dResDict *dict, u32 idx)
 {
     if (dict && idx < dict->numEntry) {
         const DictEntryHdr *hdr = (const DictEntryHdr *)((const u8 *)dict + dict->ofsEntry);
@@ -772,36 +738,36 @@ static inline void *DictGetNameByIdx(const Dict *dict, u32 idx)
  */
 int FIELD_GROUND_ANIME_GetModelTexVramOffset(void *modelRes, void *animRes, u32 animTexIdx)
 {
-    TexRes *modelTex;
-    TexRes *animTex;
+    NNSG3dResTex *modelTex;
+    NNSG3dResTex *animTex;
     void *texName;
     int modelTexIdx;
     u32 *texParam;
 
     modelTex = G3D_SYSTEM_GetResourceTex(modelRes);
     animTex = G3D_SYSTEM_GetResourceTex(animRes);
-    texName = animTex ? DictGetNameByIdx(&animTex->dict, animTexIdx) : 0;
+    texName = animTex ? DictGetNameByIdx(&animTex->dictTex, animTexIdx) : 0;
     if (modelTex) {
-        modelTexIdx = NNS_G3dGetResDictIdxByName(&modelTex->dict, texName);
+        modelTexIdx = NNS_G3dGetResDictIdxByName(&modelTex->dictTex, texName);
     } else {
         modelTexIdx = -1;
     }
     if (modelTexIdx < 0) {
         return -1;
     }
-    texParam = modelTex ? DictGetByIdx(&modelTex->dict, modelTexIdx) : 0;
-    return ((*texParam << 16) >> 13) + ((modelTex->vramKey << 16) >> 13);
+    texParam = modelTex ? DictGetByIdx(&modelTex->dictTex, modelTexIdx) : 0;
+    return ((*texParam << 16) >> 13) + ((modelTex->texInfo.vramKey << 16) >> 13);
 }
 
 /* Byte size of texture texIdx: width * height divided by the pixels per byte of its format. */
 u32 FIELD_GROUND_ANIME_GetTexSize(void *animRes, u32 texIdx)
 {
-    TexRes *tex;
+    NNSG3dResTex *tex;
     u32 *texParam;
     u32 param;
 
     tex = G3D_SYSTEM_GetResourceTex(animRes);
-    texParam = tex ? DictGetByIdx(&tex->dict, texIdx) : 0;
+    texParam = tex ? DictGetByIdx(&tex->dictTex, texIdx) : 0;
     param = *texParam;
     return (u32)(gTexDimensionTable[(param & 0x700000) >> 20] * gTexDimensionTable[(param & 0x3800000) >> 23]) / gTexPixelsPerByteTable[(param & 0x1C000000) >> 26];
 }
@@ -809,12 +775,12 @@ u32 FIELD_GROUND_ANIME_GetTexSize(void *animRes, u32 texIdx)
 /* Texel data of texture texIdx. */
 u8 *FIELD_GROUND_ANIME_GetTexData(void *animRes, u32 texIdx)
 {
-    TexRes *tex;
+    NNSG3dResTex *tex;
     u32 *texParam;
 
     tex = G3D_SYSTEM_GetResourceTex(animRes);
-    texParam = tex ? DictGetByIdx(&tex->dict, texIdx) : 0;
-    return (u8 *)tex + tex->ofsTex + ((*texParam & 0xFFFF) << 3);
+    texParam = tex ? DictGetByIdx(&tex->dictTex, texIdx) : 0;
+    return (u8 *)tex + tex->texInfo.ofsTex + ((*texParam & 0xFFFF) << 3);
 }
 
 /* Key data of table entry index. */
@@ -949,9 +915,9 @@ void *FIELD_GROUND_ANIME_CreateA(GroundAnimeArgs *args)
     w->playerMoveMode = FIELD_GROUND_ANIME_GetPlayerMoveMode(args->fieldMap);
     w->stepIndex = 0;
     w->entrance = ENTRANCE_CAMERA_Create(args->fieldMap);
-    w->entranceParam = args->enterEntranceParam;
-    w->isEnter = 1;
-    w->isExit = 0;
+    w->entranceRequest.entranceType = args->enterEntranceParam;
+    w->entranceRequest.phase = 1;
+    w->entranceRequest.usePlayerPos = 0;
     FIELD_GROUND_ANIME_GetPlayerPos(args->fieldMap, &w->entryPos);
     FIELD_GROUND_ANIME_CreateBuildModel(w);
     FIELD_GROUND_ANIME_SetupStepsA(w);
@@ -1069,7 +1035,7 @@ int FIELD_GROUND_ANIME_MainA(void *task, int *state, GroundAnimeWork *work)
         }
         break;
     case GROUND_A_START_ENTRANCE:
-        ENTRANCE_CAMERA_Setup(work->entrance, &work->entranceParam);
+        ENTRANCE_CAMERA_Setup(work->entrance, &work->entranceRequest);
         FIELD_SOUND_SYSTEM_PostFadeIn(bgmInfo, gameData);
         FIELD_GROUND_ANIME_CallEnterEvent(task, work);
         *state = FIELD_GROUND_ANIME_GetNextStep(work);
@@ -1147,9 +1113,9 @@ void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args)
     work->playerMoveMode = FIELD_GROUND_ANIME_GetPlayerMoveMode(args->fieldMap);
     work->stepIndex = 0;
     work->entrance = ENTRANCE_CAMERA_Create(args->fieldMap);
-    work->entranceParam = args->exitEntranceParam;
-    work->isEnter = 0;
-    work->isExit = 1;
+    work->entranceRequest.entranceType = args->exitEntranceParam;
+    work->entranceRequest.phase = 0;
+    work->entranceRequest.usePlayerPos = 1;
     FIELD_GROUND_ANIME_GetEntryPosByMapKind(args->fieldMap, &work->entryPos);
     FIELD_GROUND_ANIME_CreateBuildModel(work);
     FIELD_GROUND_ANIME_SetupStepsB(work);
@@ -1207,7 +1173,7 @@ int FIELD_GROUND_ANIME_MainB(void *task, int *state, GroundAnimeWork *work)
 
     switch (*state) {
     case GROUND_B_START_ENTRANCE:
-        ENTRANCE_CAMERA_Setup(work->entrance, &work->entranceParam);
+        ENTRANCE_CAMERA_Setup(work->entrance, &work->entranceRequest);
         *state = FIELD_GROUND_ANIME_GetNextStep(work);
         FIELD_GROUND_ANIME_AdvanceStep(work);
         if (work->chainSteps != 0) {
@@ -1343,13 +1309,13 @@ void FIELD_GROUND_ANIME_GetRailEntryPos(void *fieldMap, VecFx32 *out)
     int moveMode;
     void *rail;
     VecFx32 worldPos;
-    int railPos[2];
+    RailLocation railPos;
 
     player = FIELDMAP_GetFieldPlayer(fieldMap);
     moveMode = FIELD_PLAYER_GetDirDisp(player);
     rail = FIELD_NOGRID_MAPPER_GetRailMan(FIELDMAP_GetNogridMapper(fieldMap));
-    FIELD_PLAYER_GetNogridLocationByDir(player, moveMode, railPos);
-    FIELD_RAIL_GetLocationPos(rail, railPos, &worldPos);
+    FIELD_PLAYER_GetNogridLocationByDir(player, moveMode, &railPos);
+    FIELD_RAIL_GetLocationPos(rail, &railPos, &worldPos);
     *out = worldPos;
 }
 

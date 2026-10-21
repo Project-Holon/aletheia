@@ -5,6 +5,7 @@
 /* Public functions of research_top.c, prototypes copied from their definitions. */
 
 struct ResearchObjC;
+struct TcbTask;
 
 #include "../types.h"
 
@@ -98,7 +99,7 @@ void RESEARCH_TOP_InitOverlayBackgrounds(char *obj);
 void RESEARCH_TOP_ExitOverlayBackgrounds(u32 obj);
 void RESEARCH_TOP_LoadBackground6(char *obj);
 void RESEARCH_TOP_DummyBg7(u32 unused);
-void RESEARCH_TOP_UpdateBackground7(void *obj);
+u32 RESEARCH_TOP_UpdateBackground7(void *obj);
 void RESEARCH_TOP_ShowBackground7(u32 obj);
 void RESEARCH_TOP_LoadBackground2(char *obj);
 void RESEARCH_TOP_DummyBg3(u32 unused);
@@ -123,7 +124,7 @@ void RESEARCH_TOP_CreatePaletteAnime(char *obj);
 void RESEARCH_TOP_DestroyPaletteAnime(int *obj);
 void RESEARCH_TOP_BindPaletteAnime(char *obj);
 void RESEARCH_TOP_RestorePaletteAnime(char *obj);
-void RESEARCH_TOP_UpdateVBlank(void);
+void RESEARCH_TOP_UpdateVBlank(struct TcbTask *unused, void *unused2);
 void RESEARCH_TOP_RegisterVBlank(void *obj);
 void RESEARCH_TOP_UnregisterVBlank(void);
 void RESEARCH_TOP_RestartNetwork(u32 obj);

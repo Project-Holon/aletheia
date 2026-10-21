@@ -79,10 +79,9 @@
 
 #include "../sdk_gx.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
@@ -93,9 +92,8 @@ struct Unit;
 #include "../arm9/g3d_system_types.h"
 #include "../arm9/tcb_list.h"
 #include "../ov021/scrcmd_msgwin.h"
-extern void G3X_SetFog(BOOL enable, GXFogBlend fogMode, GXFogSlope fogSlope, int fogOffset);
+#include "../arm9/g3x.h"
 
-extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, BOOL fog);
 struct G3dLight;
 
 extern void G3D_SYSTEM_SetLight(u32 lightIdx, const G3dLight *light);
@@ -141,9 +139,8 @@ void ZUKAN_DETAIL_GRAPHIC_Init3dSettings(void)
 
 struct Light;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
+#include "../arm9/mi_memory.h"
 
 extern void BG_SYS_ClearGraphicsMemory(u32 keepBanks);
 
@@ -157,15 +154,14 @@ extern void BG_SYS_ClearMainPlanes(void);
 
 extern void BG_SYS_ClearSubPlanes(void);
 
-extern void GF_FONT_InitTextColor(void);
+#include "../arm9/gf_font.h"
 
-extern struct TcbTask *GFL_USE_AddMainTask(TcbFunc callback, void *work, u32 priority);
+#include "../arm9/gfl_use.h"
 
-extern void GF_FONT_SetDefaultTextColor(void);
 
 extern void BG_SYS_Create(u16 heapId);
 
-extern void BMP_WIN_Init(u32 heapId);
+#include "../arm9/bmp_win.h"
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
@@ -177,7 +173,6 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Delete(void);
 
@@ -204,14 +199,12 @@ extern void CLACT_VBlankSystem(void);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
 
 
-extern u32 G3D_CAMERA_Delete(void *ptr);
 
 extern void G3D_SYSTEM_Exit(void);
 
 extern void G3D_SYSTEM_DrawStart(void);
 struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -428,7 +421,7 @@ void ZUKAN_DETAIL_GRAPHIC_InitActorSystem(unsigned char *p, int resCfg, int heap
 
 void ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(char *p)
 {
-    CLACT_DeleteUnit((struct Unit *)((struct Bank *)(((struct Ov208ActorSystem *)p)->unit)));
+    CLACT_DeleteUnit((struct Unit *)((struct Unit *)(((struct Ov208ActorSystem *)p)->unit)));
     CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }

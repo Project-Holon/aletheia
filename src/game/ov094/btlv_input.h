@@ -14,11 +14,12 @@ typedef struct BtlvInputPartyInfo BtlvInputPartyInfo;
 typedef struct BtlvInputSection BtlvInputSection;
 
 #include "../ov094/btlv_input_shared_types.h"
+#include "../arm9/palanm.h"
 #include "../types.h"
 
-BtlvInput *BTLV_INPUT_CreateDefault(int infoWinParam, int battleType, int palAnm, int font, int cursorVisible, u16 heap);
-BtlvInput *BTLV_INPUT_CreateWithMode(int infoWinParam, int battleType, int seMode, int palAnm, int font, int cursorVisible, int visibilityMode, u16 heap);
-BtlvInput *BTLV_INPUT_Create(int infoWinParam, int battleType, int seMode, int palAnm, int font, int cursorVisible, int visibilityMode, int infoWinEnabled, u16 heap);
+BtlvInput *BTLV_INPUT_CreateDefault(void *infoWinParam, int battleType, PaletteFade *palAnm, void *font, u8 *cursorVisible, u16 heap);
+BtlvInput *BTLV_INPUT_CreateWithMode(void *infoWinParam, int battleType, int seMode, PaletteFade *palAnm, void *font, u8 *cursorVisible, int visibilityMode, u16 heap);
+BtlvInput *BTLV_INPUT_Create(void *infoWinParam, int battleType, int seMode, PaletteFade *palAnm, void *font, u8 *cursorVisible, int visibilityMode, int infoWinEnabled, u16 heap);
 void BTLV_INPUT_Delete(BtlvInput *input);
 void BTLV_INPUT_UpdateInfoWindow(BtlvInput *input);
 void BTLV_INPUT_InfoWindowTask(struct TcbTask *unused, void *arg);
@@ -30,9 +31,9 @@ void BTLV_INPUT_StartPaletteFadeTask(BtlvInput *input, int flag);
 void BTLV_INPUT_StartScreenFadeTask(BtlvInput *input);
 int BTLV_INPUT_IsScreenBusy(BtlvInput *input);
 void BTLV_INPUT_ChangeScreen(BtlvInput *input, int mode, void *arg);
-int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, BtlvInputTouchTable *table, int neighbours);
+int BTLV_INPUT_ProcessTouchInput(BtlvInput *input, BtlvInputTouchTable *table, s8 (*neighbours)[12]);
 int BTLV_INPUT_StepFingerDemo(BtlvInput *input);
-int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, int *out);
+int BTLV_INPUT_ProcessKeyInput(BtlvInput *input, u8 *key, u32 *out);
 int BTLV_INPUT_IsInputBlocked(BtlvInput *input);
 int BTLV_INPUT_GetScreen(BtlvInput *input);
 void BTLV_INPUT_LoadCommonGraphics(BtlvInput *input);

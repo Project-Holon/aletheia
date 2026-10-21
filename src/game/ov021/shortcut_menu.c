@@ -222,20 +222,12 @@ struct TcbTask;
 struct BmpWin;
 #include "../arm9/bmp_win.h"
 struct BmpMenuList;
-extern u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr);
-extern void BMP_MENULIST_GetPos(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
-extern u16 BMP_MENULIST_GetRowY(struct BmpMenuList *menu, u32 row);
+#include "../arm9/bmp_menulist.h"
 #include "../arm9/ui.h"
-extern void BMP_MENULIST_GetListIndex(struct BmpMenuList *menu, u16 *outIndex);
 #include "../arm9/key.h"
-extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
-extern u32 BMP_MENULIST_GetItemValue(struct BmpMenuList *menu, u32 index);
 struct Bmp;
-extern u16 BMP_MENULIST_GetCursorY(struct BmpMenuList *menu);
 #include "../arm9/bmp_menuwork.h"
 struct MenuTemplate;
-extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
-extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
 /* Retain the mode used to store f59 for the helper's second argument. */
 ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedState, u16 textHeapId, u16 heapId);
 void SHORTCUT_MENU_Delete(ShortcutMenu *menu);
@@ -776,7 +768,7 @@ void SHORTCUT_MENU_CreateList(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 he
     tmpl.windowRef = &menu->printWindow;
     tmpl.printSys = menu->printSys;
     tmpl.font = menu->font;
-    menu->list = BMP_MENULIST_Create((struct MenuTemplate *)(&tmpl), scroll, cursor, heapId);
+    menu->list = BMP_MENULIST_Create((struct BmpMenuListTemplate *)(&tmpl), scroll, cursor, heapId);
 }
 
 /*

@@ -80,8 +80,15 @@ typedef void (*FieldCameraEnterFunc)(FieldCamera *camera);
 
 #include "../arm9/mi_memory.h"
 #include "../arm9/arc_tool.h"
-extern u32 GFL_HEAP_Free(void *);
-extern void *GFL_HEAP_Alloc(u16, u32, u32, const void *, u32);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define GFL_HEAP_Alloc GFL_HEAP_Alloc_header
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#undef GFL_HEAP_Alloc
+extern void * GFL_HEAP_Alloc(u16, u32, u32, const char *, u32);
+#endif
 #include "../arm9/fx_vec.h"
 #include "../arm9/g3d_camera.h"
 #include "../arm9/fx_asinacosidx.h"

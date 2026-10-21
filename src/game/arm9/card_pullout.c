@@ -41,7 +41,6 @@ typedef struct CARDPulledOutState {
 } CARDPulledOutState;
 
 #include "pxi_fifo.h"
-extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
 extern void CARDi_PulledOutCallback(int tag, u32 data, BOOL err);
 #include "card_hook.h"
 extern void CARD_TerminateForPulledOut(void);

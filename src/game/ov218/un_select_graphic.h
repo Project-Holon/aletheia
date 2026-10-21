@@ -4,13 +4,15 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of un_select_graphic.c, prototypes copied from their definitions. */
 
+struct TcbTask;
+
 #include "../types.h"
 
 char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap);
 void UN_SELECT_GRAPHIC_Delete(char *ctx);
 void UN_SELECT_GRAPHIC_Update(char *p);
 u32 UN_SELECT_GRAPHIC_GetActor(char *p);
-void UN_SELECT_GRAPHIC_Task(void *unused, char *p);
+void UN_SELECT_GRAPHIC_Task(struct TcbTask *unused, void *work_);
 void UN_SELECT_GRAPHIC_SetupBg(char *ctx, unsigned heap);
 void UN_SELECT_GRAPHIC_CleanupBg(void *p);
 void UN_SELECT_GRAPHIC_Noop(void *work);

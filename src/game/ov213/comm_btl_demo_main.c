@@ -314,10 +314,8 @@ extern int UI_SCENE_Step(struct UiScene *s);
 #include "../arm9/arc_util.h"
 extern void UI_SCENE_SetNextScene(struct UiScene *scene, int nextSceneIndex);
 extern u32 G3D_UTIL_GetObject(struct G3dUtil *, int);
-extern u32 UI_SCENE_GetPhaseFrame(const u8 *);
-extern void UI_SCENE_AdvancePhaseFrame(u8 *);
-extern u32 UI_SCENE_GetPhaseFrame(const unsigned char*);
-extern void UI_SCENE_AdvancePhaseFrame(unsigned char*);
+extern u32 UI_SCENE_GetPhaseFrame(const struct UiScene *scene);
+extern void UI_SCENE_AdvancePhaseFrame(struct UiScene *scene);
 #include "../arm9/gfl_use.h"
 struct Party;
 #include "../arm9/pokeparty.h"
@@ -365,18 +363,18 @@ int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *a
 int COMM_BTL_DEMO_MAIN_Delete(struct ProcOwner *owner,int unused,const void *cfg,char *p);
 int COMM_BTL_DEMO_MAIN_Update(int a,int b,int c,char *p);
 void COMM_BTL_DEMO_MAIN_LoadGraphics(int a,u16 heap,int index);
-void COMM_BTL_DEMO_MAIN_Exit(u8 *task, char *p);
+void COMM_BTL_DEMO_MAIN_Exit(struct UiScene *task, char *p);
 int COMM_BTL_DEMO_MAIN_Step(void *unused, struct CommBtlDemoMain *p);
 void COMM_BTL_DEMO_MAIN_SetupFirstSide(struct CommBtlDemoMain *p);
 void COMM_BTL_DEMO_MAIN_SetupSecondSide(struct CommBtlDemoMain *p);
 int COMM_BTL_DEMO_MAIN_GetSoundId(int a, int b);
-int COMM_BTL_DEMO_MAIN_Tick(u8 *task,char *p);
-int COMM_BTL_DEMO_MAIN_Exit2(u8 *task,void *p);
+int COMM_BTL_DEMO_MAIN_Tick(struct UiScene *task,char *p);
+int COMM_BTL_DEMO_MAIN_Exit2(struct UiScene *task,void *p);
 int COMM_BTL_DEMO_MAIN_LayoutRows(int unused,char *p);
-int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p);
-int COMM_BTL_DEMO_MAIN_UpdateExit(u8 *task,char *p);
-int COMM_BTL_DEMO_MAIN_UpdateEnd(void *state,char *p);
-int COMM_BTL_DEMO_MAIN_UpdateFadeOut(void *a,void *b);
+int COMM_BTL_DEMO_MAIN_UpdateBattle(struct UiScene *state,unsigned char *p);
+int COMM_BTL_DEMO_MAIN_UpdateExit(struct UiScene *task,char *p);
+int COMM_BTL_DEMO_MAIN_UpdateEnd(struct UiScene *state,char *p);
+int COMM_BTL_DEMO_MAIN_UpdateFadeOut(struct UiScene *a,char *b);
 int COMM_BTL_DEMO_MAIN_GetModeIndex(const struct CommBtlDemoArgs *p);
 int COMM_BTL_DEMO_MAIN_IsFullPartyMode(u32 x);
 int COMM_BTL_DEMO_MAIN_HasVisibleActors(u32 x);
@@ -502,10 +500,10 @@ void COMM_BTL_DEMO_MAIN_LoadGraphics(int a,u16 heap,int index)
     ARC_TOOL_DeleteHandle(p);
 }
 
-void COMM_BTL_DEMO_MAIN_Exit(u8 *task, char *p) {
+void COMM_BTL_DEMO_MAIN_Exit(struct UiScene *task, char *p) {
     COMM_BTL_DEMO_MAIN_DeleteRows(p);
     COMM_BTL_DEMO_MAIN_DeleteBattleContext((struct CommBtlDemoBattleContext *)(p + 0x498C));
-    UI_SCENE_SetNextScene((struct UiScene *)task,65534);
+    UI_SCENE_SetNextScene(task,65534);
 }
 
 int COMM_BTL_DEMO_MAIN_Step(void *unused, struct CommBtlDemoMain *p) { COMM_BTL_DEMO_MAIN_InitRows(p); return 1; }
@@ -530,7 +528,7 @@ int COMM_BTL_DEMO_MAIN_GetSoundId(int a, int b)
     return *(int *)((char *)d_021BB004 + a * 8 + b * 4);
 }
 
-int COMM_BTL_DEMO_MAIN_Tick(u8 *task,char *p)
+int COMM_BTL_DEMO_MAIN_Tick(struct UiScene *task,char *p)
 {
     u32 state;
     struct AnimRecord a,b,c,d;
@@ -577,7 +575,7 @@ int COMM_BTL_DEMO_MAIN_Tick(u8 *task,char *p)
     return 0;
 }
 
-int COMM_BTL_DEMO_MAIN_Exit2(u8 *task,void *p) {COMM_BTL_DEMO_MAIN_DeleteRows((char *)p);UI_SCENE_SetNextScene((struct UiScene *)task,65534);return 1;}
+int COMM_BTL_DEMO_MAIN_Exit2(struct UiScene *task,void *p) {COMM_BTL_DEMO_MAIN_DeleteRows((char *)p);UI_SCENE_SetNextScene(task,65534);return 1;}
 
 int COMM_BTL_DEMO_MAIN_LayoutRows(int unused,char *p)
 {
@@ -596,7 +594,7 @@ int COMM_BTL_DEMO_MAIN_LayoutRows(int unused,char *p)
     return 1;
 }
 
-int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p)
+int COMM_BTL_DEMO_MAIN_UpdateBattle(struct UiScene *state,unsigned char *p)
 {
     int stage,x,y,index;
     struct Vec3i effectPos0,effectPos1,effectPos2,effectPos3,effectPos4,effectPos5;
@@ -607,7 +605,7 @@ int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p)
         if(COMM_BTL_DEMO_MAIN_IsFullPartyMode(((struct CommBtlDemoMain *)p)->mode))COMM_BTL_DEMO_MAIN_LoadObject(p+0x24,1);
         else COMM_BTL_DEMO_MAIN_LoadObject(p+0x24,3);
         COMM_BTL_DEMO_MAIN_InitEffect(p+0x24,0xd);
-        COMM_BTL_DEMO_MAIN_MarkRowsDone((char *)p);UI_SCENE_AdvancePhaseFrame((unsigned char *)state);break;
+        COMM_BTL_DEMO_MAIN_MarkRowsDone((char *)p);UI_SCENE_AdvancePhaseFrame(state);break;
     case 1:
         if(COMM_BTL_DEMO_MAIN_UpdateObjectAnime(p+0x24)==0){
             if(((struct CommBtlDemoMain *)p)->variant==2)return 1;
@@ -645,9 +643,9 @@ int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p)
     return 0;
 }
 
-int COMM_BTL_DEMO_MAIN_UpdateExit(u8 *task,char *p) {if(((struct CommBtlDemoMain *)p)->variant==2){GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(4,((struct CommBtlDemoMain *)p)->args->soundKind));UI_SCENE_SetNextScene((struct UiScene *)task,2);return 1;}COMM_BTL_DEMO_MAIN_Exit(task,p);return 1;}
+int COMM_BTL_DEMO_MAIN_UpdateExit(struct UiScene *task,char *p) {if(((struct CommBtlDemoMain *)p)->variant==2){GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(4,((struct CommBtlDemoMain *)p)->args->soundKind));UI_SCENE_SetNextScene(task,2);return 1;}COMM_BTL_DEMO_MAIN_Exit(task,p);return 1;}
 
-int COMM_BTL_DEMO_MAIN_UpdateEnd(void *state,char *p)
+int COMM_BTL_DEMO_MAIN_UpdateEnd(struct UiScene *state,char *p)
 {
     int stage;
     stage=UI_SCENE_GetPhaseFrame(state);
@@ -664,7 +662,7 @@ int COMM_BTL_DEMO_MAIN_UpdateEnd(void *state,char *p)
     return 0;
 }
 
-int COMM_BTL_DEMO_MAIN_UpdateFadeOut(void *a,void *b) {if(FADE_IsActive()==1)return 0;COMM_BTL_DEMO_MAIN_Exit(a,b);return 1;}
+int COMM_BTL_DEMO_MAIN_UpdateFadeOut(struct UiScene *a,char *b) {if(FADE_IsActive()==1)return 0;COMM_BTL_DEMO_MAIN_Exit(a,b);return 1;}
 
 int COMM_BTL_DEMO_MAIN_GetModeIndex(const struct CommBtlDemoArgs *p) {switch(p->partyMode){case 1:case 3:return 0;case 2:case 4:return 1;case 0:default:return 0;}}
 

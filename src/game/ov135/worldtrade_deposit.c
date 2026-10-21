@@ -568,7 +568,7 @@ void WORLDTRADE_DEPOSIT_LoadBgGraphics(WorldtradeWork *p)
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1A0, 0x20, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 14, 0, 0x48);
     BMP_MENUWORK_LoadCharAndPltt(0, 31, 11, 0, 0x48);
-    ARC_UTIL_UploadBgCharFromArchive((void *)0x60, (void *)9, (void *)1, 0, 0, 1, 0x48);
+    ARC_UTIL_UploadBgCharFromArchive(0x60, 9, 1, 0, 0, 1, 0x48);
     ARC_UTIL_UploadBgPaletteFromArchive(0x60, 20, 1, 0, 0x600, 1, 0x48);
     ARC_UTIL_UploadBgCharFromHandle(h, 12, 2, 0, 0, 1, 0x48);
     WORLDTRADE_TITLE_LoadSubBgSwap(p);

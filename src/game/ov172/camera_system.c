@@ -124,11 +124,11 @@ typedef unsigned int OSIrqMask;
 
 
 
-void CAMERA_SetVsyncCallbackCore(void *);
+void CAMERA_SetVsyncCallbackCore(void (*callback)(u32));
 
-void CAMERA_SetBufferErrorCallbackCore(void *);
+void CAMERA_SetBufferErrorCallbackCore(void (*callback)(u32));
 
-void CAMERA_SetRebootCallbackCore(void *);
+void CAMERA_SetRebootCallbackCore(void (*callback)(u32));
 
 #include "../twl/camera.h"
 

@@ -6076,6 +6076,12 @@ void HAND_WAZA_PsychoShiftTransferStatus(BTL_EVENT_SIGNATURE)
     int sickCont;
     struct HandExAddSick *addSick;
     struct HandExCureSick *cureSick;
+    /*
+     * The calls below keep their call-site types. This handler calls the status getter as a one-word
+     * struct return (the compiler reserves a frame word) and the default condition as a plain word.
+     * The rest of the file calls both through the shared prototypes, so one file-scope view cannot
+     * hold both (tools/tuboundary.py only finds weak evidence for a TU split here).
+     */
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         userBpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
@@ -6092,12 +6098,15 @@ void HAND_WAZA_PsychoShiftTransferStatus(BTL_EVENT_SIGNATURE)
                 addSick->sickKind = sickKind;
 #ifdef __MWERKS__
                 if (sickKind == BTL_SICK_POISON && BTL_SICKCONT_IsKind1Index15(sickCont) != 0)
-#else
-                if (sickKind == BTL_SICK_POISON && BTL_SICKCONT_IsKind1Index15((union SickCont){ sickCont }) != 0)
-#endif
                     addSick->sickCont = BTL_SICKCONT_MakeKind1Index15();
                 else
                     addSick->sickCont.raw = ((int (*)(int))BTL_CALC_MakeDefaultSickCont)(sickKind);
+#else
+                if (sickKind == BTL_SICK_POISON && BTL_SICKCONT_IsKind1Index15((union SickCont){ sickCont }) != 0)
+                    addSick->sickCont = BTL_SICKCONT_MakeKind1Index15();
+                else
+                    addSick->sickCont.raw = ((int (*)(int))BTL_CALC_MakeDefaultSickCont)(sickKind);
+#endif
                 addSick->pokeId = targetId;
                 addSick->suppressMessage = 1;
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, addSick);

@@ -217,6 +217,47 @@ def scan_file(path):
     return out
 
 
+def branches(cbody):
+    """Split a guard body at its own #else / #elif (nested #if blocks stay whole); drop directives.
+    Continuation lines of a #define are directives too."""
+    out = [[]]
+    depth = 0
+    cont = False
+    for ln in cbody:
+        if cont:
+            cont = ln.rstrip().endswith("\\")
+            continue
+        m = DIRECTIVE.match(ln)
+        if m:
+            d = m.group(1)
+            if d in ("if", "ifdef", "ifndef"):
+                depth += 1
+            elif d == "endif":
+                depth -= 1
+            elif d in ("else", "elif") and depth == 0:
+                out.append([])
+        elif ln.lstrip().startswith("#"):
+            cont = ln.rstrip().endswith("\\")
+        else:
+            out[-1].append(ln)
+    return [chr(10).join(b) for b in out]
+
+
+def split_problem(g):
+    """A reason when a branch of the guard is not made of whole statements, else None."""
+    for b in branches(g["cbody"]):
+        code = b.strip()
+        if not code:
+            continue
+        if code.count("{") != code.count("}"):
+            return "unbalanced braces"
+        if code.count("(") != code.count(")"):
+            return "unbalanced parentheses"
+        if code[-1] not in ";}":
+            return "branch ends inside a statement"
+    return None
+
+
 def kind_guess(g):
     text = "\n".join(g["cbody"])
     if re.search(r"\breturn\b", text):
@@ -433,10 +474,15 @@ def main(argv=None):
         else:
             for line in new:
                 print(line)
+    bad = [(g, split_problem(g)) for g in guards]
+    bad = [(g, w) for g, w in bad if w]
+    print("guards that split a statement: %d" % len(bad))
+    for g, w in bad:
+        print("  %s:%d-%d %s" % (g["file"], g["start"], g["end"], w))
     print("rows with no guard: %d" % len(orphan))
     for r in orphan:
         print("  row %d: %s:%s %s (%s)" % (r["n"], r["file"], r["line"] or "", r["func"], r["kind"]))
-    return 1 if unmatched or orphan else 0
+    return 1 if unmatched or orphan or bad else 0
 
 
 if __name__ == "__main__":

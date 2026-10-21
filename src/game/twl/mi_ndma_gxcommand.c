@@ -30,12 +30,7 @@
 #include "../sdk_ioreg_reg.h"
 #include "../sdk_ioreg.h"
 
-typedef struct {
-    int intervalTimer;
-    int prescaler;
-    int blockSize;
-    int blockWordCount;
-} NdmaConfig;
+#include "mi_ndma_types.h"
 
 typedef void (*IrqHandler)(void);
 
@@ -55,7 +50,6 @@ extern NdmaConfig data_02732EFC[];
 typedef unsigned int OSIntrMode;
 #include "../arm9/os_system.h"
 #include "mi_ndma.h"
-extern void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, NdmaConfig *cfg, int words, u32 flags);
 typedef unsigned int OSIrqMask;
 #include "../arm9/os_interrupt.h"
 extern IrqHandler OS_GetIrqFunction(u32);

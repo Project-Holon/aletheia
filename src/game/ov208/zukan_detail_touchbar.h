@@ -5,6 +5,7 @@
 /* Public functions of zukan_detail_touchbar.c, prototypes copied from their definitions. */
 
 struct Ov208Scene;
+struct TcbTask;
 
 #include "../types.h"
 
@@ -26,7 +27,7 @@ int ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(char *p);
 void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(struct Ov208Scene *p, u32 on);
 int ZUKAN_DETAIL_TOUCHBAR_GetCurrentSlot(char *p);
 void ZUKAN_DETAIL_TOUCHBAR_SetBgPriority(char *p, unsigned char priority);
-void ZUKAN_DETAIL_TOUCHBAR_FlushBar(int unused, char *p);
+void ZUKAN_DETAIL_TOUCHBAR_FlushBar(struct TcbTask *unused, void *p);
 void ZUKAN_DETAIL_TOUCHBAR_LoadResources(struct Ov208Scene *p);
 void ZUKAN_DETAIL_TOUCHBAR_ReleaseResources(char *p);
 void ZUKAN_DETAIL_TOUCHBAR_OffsetActorPos(char *p,short offset);

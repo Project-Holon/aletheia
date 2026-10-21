@@ -1558,10 +1558,10 @@ void MUSICAL_MCSS_LoadCellBank(u8 *renderPool,int index,u32 *res,u32 mode)
     ((McssMcAnim *)q)->flags |= 4;
     NNSi_G2dInitVramHandle((u32 *)(q+144));
     NNSi_G2dInitVramHandleEx((u32 *)(q+180));
-    ((McssMcAnim *)q)->cellBank=ARC_UTIL_LoadCellBankFromArchive(res[0],res[3],0,(q+4),((McssMcAnim *)q)->heapTag);
-    ((McssMcAnim *)q)->multiCellBank=ARC_UTIL_LoadMultiCellBankFromArchive(res[0],res[4],1,(uptr)(q+20),((McssMcAnim *)q)->heapTag);
-    ((McssMcAnim *)q)->animBank=ARC_UTIL_LoadAnimBankFromArchive(res[0],res[5],0,(q+12),((McssMcAnim *)q)->heapTag);
-    ((McssMcAnim *)q)->multiAnimBank=ARC_UTIL_LoadMultiAnimBankFromArchive(res[0],res[6],0,(uptr)(q+28),((McssMcAnim *)q)->heapTag);
+    ((McssMcAnim *)q)->cellBank=ARC_UTIL_LoadCellBankFromArchive(res[0],res[3],0,(struct CellDataBank **)(q+4),((McssMcAnim *)q)->heapTag);
+    ((McssMcAnim *)q)->multiCellBank=ARC_UTIL_LoadMultiCellBankFromArchive(res[0],res[4],1,(struct AnimBank **)(q+20),((McssMcAnim *)q)->heapTag);
+    ((McssMcAnim *)q)->animBank=ARC_UTIL_LoadAnimBankFromArchive(res[0],res[5],0,(struct MultiCellBank **)(q+12),((McssMcAnim *)q)->heapTag);
+    ((McssMcAnim *)q)->multiAnimBank=ARC_UTIL_LoadMultiAnimBankFromArchive(res[0],res[6],0,(struct AnimBank **)(q+28),((McssMcAnim *)q)->heapTag);
     sequence=(struct AnimSequence *)NNS_G2dGetAnimSequenceByIdx(*(struct AnimBank * *)&((McssMcAnim *)q)->animSequenceBank,0);
     MUSICAL_MCSS_InitMCAnim((char *)q,1);
     NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)(q+40),(struct AnimSequenceData *)sequence);

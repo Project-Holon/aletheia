@@ -1799,12 +1799,7 @@ void POKETRADE_SAVE_PrintStatValues(int a, int b, int c, int d, char *p)
         MSGDATA_ReadString((*(void * *)&((TradeWork *)p)->messageBank), 0x28, (*(void * *)&((TradeWork *)p)->infoTextIn));
         WORDSET_SetSlotNumber((*(void * *)&((TradeWork *)p)->wordSet), 0, POKE_TOOL_GetPartyValue((void *)a, t.v[i], 0), 3, 1, 1);
         WORDSET_CopyTaggedText((*(void * *)&((TradeWork *)p)->wordSet), (*(void * *)&((TradeWork *)p)->infoTextOut), (*(void * *)&((TradeWork *)p)->infoTextIn));
-#ifdef __MWERKS__
-        /* The original prototype took x as s16. */
-        ((void (*)(struct Bmp *, s16, s16, struct Strbuf *, struct GfFont *))PRINTSYS_Print)(BMP_WIN_GetBmp((struct BmpWin *)b), (short)c, (short)(d + i * 16), (*(void * *)&((TradeWork *)p)->infoTextOut), ((TradeWork *)p)->font);
-#else
         PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)b), (short)c, (short)(d + i * 16), (*(void * *)&((TradeWork *)p)->infoTextOut), ((TradeWork *)p)->font);
-#endif
     }
 }
 

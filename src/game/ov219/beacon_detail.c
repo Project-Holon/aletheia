@@ -390,66 +390,52 @@ typedef struct {
     void *object[6];             /* 0xC3A4 */
 } BeaconDetailWork;
 
-extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
-extern void MI_CpuFill8(void *,u32,u32);
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
 struct GameData;
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 struct WifiHistory;
 extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
-extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
-extern u8 MYSTATUS_GetArea(struct MyStatus *mystatus);
+#include "../arm9/mystatus.h"
 extern u8 WIFI_HISTORY_GetMode(struct WifiHistory *history);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void BG_SYS_SetLcdSwap(u32);
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+#include "../arm9/tcbl.h"
 struct KeyCursor;
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u16);
+#include "../arm9/app_keycursor.h"
 struct PrintQueue;
 extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
+#include "../arm9/net.h"
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void TCBL_Main(struct TcblSystem *tcbl);
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 struct TaskMenuWin;
-extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, unsigned int isActive);
-extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int isDecide);
-extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
-extern u32 KEY_GetTrg(void);
-extern u32 KEY_GetCont(void);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/key.h"
 extern int TOUCHPANEL_HitCont(const union TouchHitTable *a);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u16 heapId);
-extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 struct Bmp;
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+#include "../arm9/bmp.h"
 struct BmpWin;
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
-extern u32 WIPE_SYS_EndCheck(void);
+#include "../arm9/wipe.h"
 extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 struct BmpMenuList;
-extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
-extern int NATION_AREA_GetDefaultNation(void);
-extern int NATION_AREA_GetAreaTable(u32 key, u32 *outWord, u32 *outByte);
-extern u32 NATION_AREA_GetAreaMsgBank(u32 a);
+#include "../arm9/bmp_oam.h"
 extern void WIFI_HISTORY_InitLanguageRegion(struct WifiHistory *a, struct MyStatus *b, u32 c, u32 d);
-extern void GAME_BEACON_SetNationArea(u8 a, u8 b);
-extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/game_beacon.h"
+#include "../arm9/gfl_use.h"
 extern void PRINTSYS_QUE_Clear(struct PrintSys *),PRINTSYS_QUE_Delete(struct PrintSys *);
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
 extern unsigned WORDSET_Delete(struct WordSet *);
 extern void BEACON_DETAIL_ExitGraphics(int),PROCSYS_FreeProcWork(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
 extern void GX_SetBankForLCDC(unsigned),MIi_CpuClearFast(unsigned,void *,unsigned),GX_DisableBankForLCDC(void);
@@ -460,64 +446,45 @@ extern void BG_SYS_EnableBg0WithPriority(unsigned),BMP_WIN_Init(unsigned),BG_SYS
 extern int BMP_WIN_Exit(int);
 extern int G3D_SYSTEM_Exit(int);
 extern void BG_SYS_Delete(int);
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *,int,int,u32,u32 *);
-extern u32 GFL_HEAP_Free(void *p);
-extern int NATION_AREA_GetNationRecordCount(void);
+#include "../arm9/gfl_heap_wrap.h"
 extern u32 NATION_AREA_GetAreaListArcMember(u32),NATION_AREA_GetNationIdByIndex(u32);
 extern u32 WIFI_HISTORY_GetCountryRegionState(struct WifiHistory *history, int country, int region);
-extern u32 NATION_AREA_FindRecordIndex(u32);
 extern int TOUCHPANEL_HitTrg(const union TouchHitTable *);
 extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 extern void GF_FONT_GetTextColor(u8 *,u8 *,u8 *),GF_FONT_SetTextColor(u32,u32,u32);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32),BG_SYS_ClearSlot(u32);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
+#include "../arm9/bmp_menuwork.h"
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 struct Strbuf;
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *,unsigned);
 struct GFont;
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(unsigned short bgFrame, unsigned short palNo, struct GFont *font, struct PrintQueue *printQue, unsigned short heapId);
 struct TaskMenuItem;
-extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, unsigned short charPosX, unsigned short charPosY, unsigned char width, unsigned short heapId);
-extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
 extern void BG_SYS_MarkTileDirty(u32);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BG_SYS_FreeLayerBuf(unsigned);
-extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PRINTSYS_PrintQue(struct PrintSys *,unsigned,unsigned,unsigned,void *,unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
-extern signed char MSG_SPEED_GetWait(void);
-extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *,u32,u32,struct Strbuf *,struct GfFont *,u32,struct Tcbl *,u32,u16,u16);
+#include "../arm9/msg_speed.h"
+struct TextPrinter;
+extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
 struct TextPrinter;
 extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
 extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void *BMP_MENUWORK_Create(u32,u32);
-extern void BMP_MENUWORK_AddMsgItem(struct BmpMenuWork *table, struct MsgBank *a, u32 b, u32 tag, u32 heap);
-extern u32 GF_FONT_GetLineHeight(struct GfFont *font);
 struct BeaconDetailMenuTemplate;
-extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, s32 heap);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
-extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, unsigned short *outScroll, unsigned short *outRow);
-extern u32 BMP_MENUWORK_Delete(void *p);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,unsigned,unsigned),WORDSET_SetSlotFromKeyedMessage(struct WordSet *,unsigned,unsigned,unsigned);
 extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *),WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 extern void *G3D_SYSTEM_CreateResourceArc(unsigned,unsigned),*G3D_SYSTEM_CreateRender(void *,unsigned,void *),*G3D_SYSTEM_CreateObject(unsigned,unsigned *,int);
 struct G3dResource;
 extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
-extern unsigned int G3D_LIGHT_DeleteSlots(void *);
+#include "../arm9/g3d_light.h"
 struct G3dObject;
 extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
 struct G3dRender;
@@ -527,8 +494,6 @@ extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 struct G3dCamera;
 struct LightSetDesc;
 struct LightSlotValue;
-extern struct LightSlotValue *G3D_LIGHT_CreateSlots(struct LightSetDesc *set, unsigned short heapID);
-extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern void MTX_RotY33_(Matrix *,int,int),MTX_RotX33_(Matrix *,int,int),MTX_RotZ33_(Matrix *,int,int);
 extern void MTX_Concat33(const union MtxFx33 *,const union MtxFx33 *,union MtxFx33 *);
 extern void VEC_Subtract(const BeaconDetailVec *,const BeaconDetailVec *,BeaconDetailVec *),VEC_Normalize(const BeaconDetailVec *,BeaconDetailVec *),VEC_MultAdd(long,const BeaconDetailVec *,const BeaconDetailVec *,BeaconDetailVec *);
@@ -540,8 +505,8 @@ extern void MTX_Identity33_(M33 *);
 struct G3dObjectStatus;
 extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 extern unsigned BEACON_DETAIL_GetRecordIndex(unsigned),NATION_AREA_GetAreaMsgBankByIndex(unsigned);
-extern u16 GF_STANDARD_DegToAngle(int x);
-extern int FX_Sqrt(int x);
+#include "../arm9/gf_standard.h"
+#include "../arm9/fx_cp.h"
 int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx);
 int BEACON_DETAIL_Main(void *unused, char *state, int unused2, char *ctx);
 void BEACON_DETAIL_WinActivate(u8 *p,u32 i);

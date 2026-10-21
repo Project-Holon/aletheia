@@ -95,7 +95,6 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 dataId, int pal
 
 extern void ARC_UTIL_UploadScreenFromHandle(void *arc, u32 dataId, int engine, int offset, int size, int heapID, int heapId);
 
-
 /* wm_icon.c */
 WmIcon *GFL_NET_WM_ICON_Create(u32 unused, u32 heapId, u32 x, u32 y, u32 iconVariant, WmIcon *icon, u32 screen, u32 screenChanged, u32 level);
 

@@ -83,36 +83,33 @@ typedef struct UnSelectGraphicRecord { unsigned bg; unsigned config[8]; unsigned
 
 typedef struct UnSelectGraphicVec3 { unsigned x, y, z; } UnSelectGraphicVec3;
 
-extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
-extern void MI_CpuFill8(void *, int, int);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_SetLcdSwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void GF_FONT_InitTextColor(void);
-extern struct TcbTask *GFL_USE_AddMainTask(void (*)(struct TcbTask *, void *), void *, unsigned);
+#include "../arm9/gf_font.h"
+#include "../arm9/gfl_use.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 extern void UN_SELECT_GRAPHIC_DeleteCamera(int *);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_Create(unsigned);
-extern void BMP_WIN_Init(unsigned);
+#include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(unsigned char);
 extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 extern void BG_SYS_FreeLayerBuf(u8);
-extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void UN_SELECT_SetupDisplay(void);
+#include "un_select.h"
 extern void G3D_SYSTEM_Init(unsigned, unsigned, unsigned, unsigned, unsigned short, unsigned, void (*)(void));
 extern struct G3dCamera *G3D_CAMERA_Create(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, const struct VecFx32 *, const struct VecFx32 *, const struct VecFx32 *, unsigned);
 extern u32 G3D_CAMERA_Delete(void *ptr);

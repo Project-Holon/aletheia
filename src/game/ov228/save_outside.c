@@ -45,29 +45,15 @@ struct HeapManager;
 /* 0xCC-byte payload chunk (three of them follow the 256-byte head) */
 struct SaveOutsideChunk { u32 w[51]; };
 
-/* the ov228 flash save work object (0x380 bytes) */
-typedef struct {
-    u32 magic;             /* 0x000 0xA10F49AE */
-    u32 counter;           /* 0x004 save generation, newer wins */
-    u16 crc;               /* 0x008 CRC over 0x00C..0x374 */
-    u8 payload[0x368];     /* 0x00C */
-    u32 state;             /* 0x374 0 ok, 1..3 the load outcome */
-    u8 loaded;             /* 0x378 1 once a copy was loaded */
-    u8 phase;              /* 0x379 async write step */
-    u8 copyIndex;          /* 0x37A which flash copy is being written */
-    u8 pad37B;             /* 0x37B padding, never read */
-    u16 token;             /* 0x37C BACKUP_SYSTEM_WriteFlashAsync token */
-    u16 pad37E;            /* 0x37E padding, never read */
-} SaveOutsideWork;
 
+#include "save_outside.h"
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/backup_system.h"
 #include "../arm9/gf_standard.h"
 #include "../arm9/mi_memory.h"
 struct SaveControl;
 #include "../arm9/save_control.h"
-extern void MYSTERY_DATA_DecryptBuffer(u8 *buffer, u32 saveType);
-extern void MYSTERY_DATA_EncryptBuffer(u8 *buffer, u32 saveType);
+#include "../arm9/mystery_data.h"
 void *SAVE_OUTSIDE_Load(u32 heap);
 void SAVE_OUTSIDE_Free(void *p);
 void SAVE_OUTSIDE_Prepare(SaveOutsideWork *work);

@@ -298,40 +298,30 @@ struct Rect {u16 h[4];};
 
 #include "../sdk_gx.h"
 
-extern int GF_OVERLAY_Load(int);
-extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
-extern void MI_CpuFill8(void*,u32,u32);
+#include "../arm9/gf_overlay.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
+#include "../arm9/mi_memory.h"
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
-extern void FADE_Start(u32,int,int,int);
-extern char *BTL_REC_SEL_GRAPHIC_Create(u32,u32);
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/fade.h"
+#include "btl_rec_sel_graphic.h"
+#include "../arm9/gf_font.h"
 struct PrintQueue;
 extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 struct GameData;
-extern void *GAME_DATA_GetMyItem(struct GameData *gd);
+#include "../arm9/game_data.h"
 struct MyItem;
-extern u32 MYITEM_SAVEDATA_HasItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
+#include "../arm9/myitem_savedata.h"
 struct TcbTask;
 extern struct TcbTask *GFL_USE_AddMainTask(void(*)(void*),void*,u32);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
-extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
+#include "../arm9/net.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
 extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void BTL_REC_SEL_GRAPHIC_Delete(char *p);
-extern void PROCSYS_FreeProcWork(struct Proc *p);
-extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void GF_OVERLAY_Unload(int handle);
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern u32 KEY_GetTrg(void);
-extern int FADE_IsActive(void);
+#include "../arm9/key.h"
 extern u32 BATTLE_REC_VerifyAndCloseSave(struct SaveControl *save, unsigned int heap, unsigned int *result, unsigned int id);
 struct BattleRecSave;
 extern struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, unsigned int heap, unsigned int *result, unsigned int id);
@@ -347,102 +337,64 @@ extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin
 extern u32 BATTLE_REC_BeginSave(struct GameData *gameData, unsigned short heap, unsigned int modeIndex, unsigned int battleCount, unsigned int id, unsigned short *seq, unsigned short *subSeq);
 extern void BATTLE_REC_DecodeWork(void),TIME_ICON_Delete(u8*),GFL_USE_PlaySeDefaultVolume(u32);
 struct GFLNetHandle;
-extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
+#include "../arm9/net_handle.h"
+#include "../arm9/net_err.h"
 extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void BTL_REC_SEL_GRAPHIC_Draw(u8*),BTL_REC_SEL_GRAPHIC_Draw3d(u8*),BTL_REC_SEL_GRAPHIC_DrawEnd(char*);
-extern void *GFL_HEAP_Alloc(u32,u32,int,const char*,u16);
-extern void BG_SYS_LoadPltt(u32,void*,u32,u32);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
-extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+extern void BG_SYS_LoadPltt(u32 bgId, void *src, u16 size, u16 offset);
+#include "../arm9/bmp_win.h"
 struct Bmp;
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void *BMP_MENUWORK_LoadFrameGfx(unsigned int layer, unsigned int palSlot, unsigned int frameId, unsigned short heapId);
+#include "../arm9/bmp.h"
+#include "../arm9/bmp_menuwork.h"
 struct TcblSystem;
-extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void BG_SYS_MarkTileDirty(u32);
 struct TextPrinter;
 extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 struct Strbuf;
-extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
+#include "../arm9/strbuf.h"
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern u8 UI_GetFrameRate(void);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
-extern unsigned char BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern signed char MSG_SPEED_GetWait(void);
-extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *,unsigned,unsigned,struct Strbuf *,struct GfFont *,unsigned,struct Tcbl *,unsigned,u16,u16);
+#include "../arm9/msg_speed.h"
+extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
 extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
 extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern unsigned int KEY_GetCont(void);
-extern int TOUCHPANEL_GetCont(void);
-extern int TOUCHPANEL_GetTrg(void);
+#include "../arm9/touchpanel.h"
 extern void PRINTSYS_PrintQue(void *queue, struct Bmp *bmp, unsigned int x, short y, void *str, struct GfFont *font);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern unsigned BG_SYS_CreateRun(unsigned,unsigned,unsigned);
-extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
 extern void PRINTSYS_PrintQueColor(struct PrintQueue *, struct Bmp *, unsigned, unsigned, struct Strbuf *, struct GfFont *, int);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u32 BTL_REC_SEL_GRAPHIC_GetCamera(u8 *);
-extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32);
-extern int POKE_TOOL_GetIconCellArcId(void);
-extern int POKE_TOOL_GetIconCellEntryId(void);
+#include "../arm9/wordset.h"
+#include "../arm9/poke_tool_ext.h"
 extern void UI_SCENE_LoadActorGfx(struct ActorGfxSet *,struct ActorGfxDesc *,void *,u16);
 extern struct Actor *UI_SCENE_CreateActor(struct ActorGfxSet *,void *,u16,u16,u8,u16);
 struct Actor;
-extern u32 POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
 extern void UI_SCENE_FreeActorGfx(struct ActorGfxSet *p);
-extern unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
-extern void ARC_TOOL_DeleteHandle(void *);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 extern void BG_SYS_ChangeScroll(u32,u32,u32);
 extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 struct MyStatus;
-extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void GXS_SetGraphicsMode(u32);
+#include "../arm9/gx.h"
 extern void BG_SYS_ClearSubBgPlanes(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_FreeLayerBuf(u8);
-extern u32 TCB_GetTaskOffset(u32);
 struct TcbSystem;
-extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
 extern struct PaletteFade *PALANM_Create(u32);
 extern void PALANM_SetAutoTransfer(struct PaletteFade *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PaletteFade *slots, u32 idx, u32 size, u32 heap);
 extern void PALANM_CopyHwPaletteToSlot(struct PaletteFade *slots, u32 bank, u32 off, u32 size);
 extern void PALANM_FreeSlotBuffers(struct PaletteFade *,u32);
 extern u32 PALANM_Delete(struct PaletteFade *);
-extern void TCB_Main(struct TcbSystem *sys);
 extern u32 PALANM_GetFadeRequestBits(const struct PaletteFade *);
 extern int PALANM_RequestFade(struct PaletteFade *,u16,u32,s16,u8,u8,u16,void *);
 extern void PALANM_TransferPalettes(struct PaletteFade *);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
-extern void G3X_SetFog(int,int,int,int);
-extern void G3X_SetClearColor(u16,int,int,int,int);
+#include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
-extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
+#include "../arm9/g3d_system.h"
 int BTL_REC_SEL_Create(void *manager,char *state,char * const obj);
 int BTL_REC_SEL_Delete(void *owner,int unused,int state,char *p);
 int BTL_REC_SEL_Main(void *unused,u32 *state,const char *obj,char *p);

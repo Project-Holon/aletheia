@@ -172,16 +172,16 @@ struct Proc;
 struct Proc;
 struct PrintSys;
 struct Arg;
-struct Rec;
+struct G3dUtil;
 struct G3dSys;
 struct PselRecord;
 struct Ctx;
 struct IcaAnime;
-struct Util;
-struct Setup;
+struct G3dUtil;
+struct G3dUtilSetup;
 struct AnmCtl;
 struct Owner;
-struct Obj;
+struct ClactActor;
 struct Pair;
 struct Actor;
 struct Node;
@@ -222,8 +222,8 @@ typedef struct FxPair { int x, y; } FxPair;
 
 typedef struct PselEntry {
     u8 pad0[0x18];
-    struct Obj *baseActor;
-    struct Obj *animActor;
+    struct ClactActor *baseActor;
+    struct ClactActor *animActor;
     u8 pad20[0x84 - 0x20];
     u16 frame;
     u16 pad86;
@@ -254,17 +254,20 @@ extern int ICA_ANIME_SetFrame(int, int);
 #include "../arm9/mi_memory.h"
 #include "../arm9/ui.h"
 struct PrintQueue;
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+#include "../arm9/printsys.h"
+#include "../arm9/g3d_system.h"
 #include "psel_graphic.h"
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void *G3D_UTIL_GetObject(u8 *,int);
+struct G3dUtil;
+extern u32 G3D_UTIL_GetObject(struct G3dUtil *util, s32 objIdx);
 struct G3dObjectStatus;
 struct G3dObject;
-#include "../arm9/g3d_system.h"
-extern int G3D_UTIL_Create(int, int, u16);
-extern void G3D_UTIL_Delete(struct Rec *);
-extern u16 G3D_UTIL_AddUnit(void *, const void *);
-extern u32 G3D_UTIL_GetUnitObjIdx(u8 *util, int i);
+                               
+extern struct G3dUtil *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapID);
+extern void G3D_UTIL_Delete(struct G3dUtil *util);
+struct G3dUtilSetup;
+extern u16 G3D_UTIL_AddUnit(struct G3dUtil *util, struct G3dUtilSetup *setup);
+extern u32 G3D_UTIL_GetUnitObjIdx(struct G3dUtil *util, s32 unitIdx);
 extern struct IcaAnime *ICA_ANIME_CreateStream(u32 heap, u32 b, u32 c, u32 d);
 extern void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32),PSEL_DeleteRecords(void *),ICA_ANIME_Delete(struct IcaAnime *);
@@ -272,14 +275,11 @@ extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, signed int v);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
 /* B908 reads only r0, forwarding its live r1 to D478; legacy r2/r3 unused. */
 #include "../arm9/clact.h"
-extern void *POKEGRA_OpenHandle(u32 heapId);
-extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
-extern s32 POKEGRA_RegisterPalette(u32,s32,s32,s32,u32,s32,s32,s32,u16,u16);
-extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
+#include "../arm9/pokegra.h"
 #include "../arm9/arc_tool.h"
 struct Pair32;
 #include "../arm9/g2.h"
-extern void BG_SYS_LoadPltt(unsigned,void *,unsigned,unsigned);
+extern void BG_SYS_LoadPltt(u32 bgId, void *src, u16 size, u16 offset);
 typedef short s16_p07;
 #include "../arm9/bmp.h"
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
@@ -295,23 +295,14 @@ struct TcblSystem;
 struct BmpWin;
 #include "../arm9/bmp_win.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 struct Strbuf;
 #include "../arm9/strbuf.h"
-extern unsigned PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 struct GfFont;
-extern unsigned PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 struct GfFont;
-extern unsigned PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font);
-extern signed char MSG_SPEED_GetWait(void);
-extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u32, u32);
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
+#include "../arm9/msg_speed.h"
 #include "../arm9/key.h"
 #include "../arm9/touchpanel.h"
 #include "../arm9/wordset.h"
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 struct GFont;
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
 extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
@@ -388,7 +379,7 @@ void PSEL_SetTaskResActive(char *p);
 u32 PSEL_IsTaskResFinished(char *p);
 extern const char sPselSite[];
 extern const u8 d_021BC7AC[];
-extern const struct Setup sPselSetup;
+extern const struct G3dUtilSetup sPselSetup;
 extern const PselVec sPselPositions[];
 extern u16 sPselTable[][5];
 extern const struct TableRow d_021BC790[];
@@ -509,7 +500,7 @@ void PSEL_Task(void *unused,char *p)
     ((struct PselWork *)p)->flags=0;
 }
 
-void PSEL_DrawObjects(char *p) { u16 i;for(i=0;i<((struct PselWork *)p)->recordCount;i++){char *q=(char *)((struct PselWork *)p)->records+(u32)i*68;if(((struct PselWork *)q)->animStream)G3D_SYSTEM_DrawObject(G3D_UTIL_GetObject(*(u8 * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)q)->heapId),(struct G3dObjectStatus *)(q+4));} }
+void PSEL_DrawObjects(char *p) { u16 i;for(i=0;i<((struct PselWork *)p)->recordCount;i++){char *q=(char *)((struct PselWork *)p)->records+(u32)i*68;if(((struct PselWork *)q)->animStream)G3D_SYSTEM_DrawObject((G3dObject *)(uptr)G3D_UTIL_GetObject((struct G3dUtil *)(*(u8 * *)&((struct PselWork *)p)->g3dUtil),((struct PselWork *)q)->heapId),(struct G3dObjectStatus *)(q+4));} }
 
 void PSEL_CreateG3dUtil(char *p)
 {
@@ -517,7 +508,7 @@ void PSEL_CreateG3dUtil(char *p)
     ((struct PselWork *)p)->recordCount = 0;
 }
 
-void PSEL_DeleteG3dUtil(int *p) { G3D_UTIL_Delete(*(struct Rec * *)&((struct PselWork *)p)->g3dUtil); }
+void PSEL_DeleteG3dUtil(int *p) { G3D_UTIL_Delete(*(struct G3dUtil * *)&((struct PselWork *)p)->g3dUtil); }
 
 void PSEL_SetupListAnime(u8 *p)
 {
@@ -527,7 +518,7 @@ void PSEL_SetupListAnime(u8 *p)
     u8 *rec;
     u32 r;
     void *h;
-    *(u16 *)(p + 0x2C) = G3D_UTIL_AddUnit(*(void **)(p + 0x28), d_021BC7AC);
+    *(u16 *)(p + 0x2C) = G3D_UTIL_AddUnit(*(void **)(p + 0x28), (struct G3dUtilSetup *)d_021BC7AC);
     *(u16 *)(p + 0x3A) = 1;
     *(void **)(p + 0x3C) = PSEL_CreateRecords(*(u16 *)p, *(u16 *)(p + 0x3A));
     r = G3D_UTIL_GetUnitObjIdx(*(void **)(p + 0x28), *(u16 *)(p + 0x2C));
@@ -555,7 +546,7 @@ void PSEL_UpdateListAnime(char *p)
     u32 n;
     u16 i,j;
     for(i=0;i<((struct PselWork *)p)->recordCount;i++) {
-        obj=(int *)G3D_UTIL_GetObject(*(unsigned char * *)&((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+i*68));
+        obj=(int *)G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct PselWork *)p)->g3dUtil),*(u16 *)(*(char * *)&((struct PselWork *)p)->records+i*68));
         n=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)obj);
         for(j=0;j<n;j++) G3D_SYSTEM_LoopObjectAnimeFrame((struct G3dObject *)obj,j,2048);
     }
@@ -570,11 +561,11 @@ void PSEL_SetupSelectAnime(char *p)
     u32 base,count;
     int *obj;
     struct PselRecord *r;
-    ((struct PselWork *)p)->unitId2=G3D_UTIL_AddUnit(*(struct Util * *)&((struct PselWork *)p)->g3dUtil,&sPselSetup);
+    ((struct PselWork *)p)->unitId2=G3D_UTIL_AddUnit(*(struct G3dUtil * *)&((struct PselWork *)p)->g3dUtil,(struct G3dUtilSetup *)(&sPselSetup));
     ((struct PselWork *)p)->recordCount=4;
     *(struct PselRecord * *)&((struct PselWork *)p)->records=PSEL_CreateRecords(((struct PselWork *)p)->heapId,((struct PselWork *)p)->recordCount);
     n=0;
-    base=G3D_UTIL_GetUnitObjIdx(*(u8 * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)p)->unitId2);
+    base=G3D_UTIL_GetUnitObjIdx((struct G3dUtil *)(*(u8 * *)&((struct PselWork *)p)->g3dUtil),((struct PselWork *)p)->unitId2);
     for(i=0;i<4;i++) {
         *(u16 *)(p+i*2+50)=n;
         r=*(struct PselRecord * *)&((struct PselWork *)p)->records+n;
@@ -583,7 +574,7 @@ void PSEL_SetupSelectAnime(char *p)
         if(i+1>=2&&i+1<=4)r->translation=*(sPselPositions+i-1);
         n++;
     }
-    obj=(int *)G3D_UTIL_GetObject(*(u8 * *)&((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
+    obj=(int *)G3D_UTIL_GetObject((struct G3dUtil *)(*(u8 * *)&((struct PselWork *)p)->g3dUtil),*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
     count=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)obj);
     for(j=0;j<count;j++)G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)obj,j);
     ((struct PselWork *)p)->animStream=ICA_ANIME_CreateStream(((struct PselWork *)p)->heapId,205,36,10);
@@ -598,7 +589,7 @@ void PSEL_UpdateSelectAnime(char *p)
     int *obj;
     u32 n;
     u16 j;
-    obj=(int *)G3D_UTIL_GetObject(*(unsigned char * *)&((struct PselWork *)p)->g3dUtil,*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
+    obj=(int *)G3D_UTIL_GetObject((struct G3dUtil *)(*(unsigned char * *)&((struct PselWork *)p)->g3dUtil),*(u16 *)(*(char * *)&((struct PselWork *)p)->records+((struct PselWork *)p)->selIndex*68));
     n=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)obj);
     for(j=0;j<n;j++) G3D_SYSTEM_LoopObjectAnimeFrame((struct G3dObject *)obj,j,2048);
     ICA_ANIME_IncFrameLoop(((struct PselWork *)p)->animStream,2048);
@@ -1047,11 +1038,11 @@ void PSEL_CreateUnits2(char *p)
     PSEL_SetActorPosition(p,0);
 }
 
-void PSEL_DeleteActors(char *p) {u32 off;off=0x224;CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct Obj **)(p+off))));CLACT_ReleaseCellAnim(*(u32 *)(p+off-4));CLACT_ReleaseCharacter(*(u32 *)(p+off-12));off-=8;CLACT_ReleasePalette(*(u32 *)(p+off));}
+void PSEL_DeleteActors(char *p) {u32 off;off=0x224;CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct ClactActor **)(p+off))));CLACT_ReleaseCellAnim(*(u32 *)(p+off-4));CLACT_ReleaseCharacter(*(u32 *)(p+off-12));off-=8;CLACT_ReleasePalette(*(u32 *)(p+off));}
 
-void PSEL_SetActorPosition(char *p,int flag) {PselVec2 pos;if(flag) {PSEL_UpdateActorPosition(p);}else {pos.x=400;pos.y=300;CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct Obj * *)&((struct PselWork *)p)->fade.state.actor),(const struct ClactVec2 *)&pos,0);}}
+void PSEL_SetActorPosition(char *p,int flag) {PselVec2 pos;if(flag) {PSEL_UpdateActorPosition(p);}else {pos.x=400;pos.y=300;CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct PselWork *)p)->fade.state.actor),(const struct ClactVec2 *)&pos,0);}}
 
-void PSEL_UpdateActorPosition(char *p) {PselVec2 pos;u32 idx,off;off=0x228;idx=*(u32 *)(p+off);off-=4;pos.x=d_021BC716[idx].x;pos.y=d_021BC716[idx].y;CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct Obj **)(p+off)),(const struct ClactVec2 *)&pos,0);}
+void PSEL_UpdateActorPosition(char *p) {PselVec2 pos;u32 idx,off;off=0x228;idx=*(u32 *)(p+off);off-=4;pos.x=d_021BC716[idx].x;pos.y=d_021BC716[idx].y;CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor **)(p+off)),(const struct ClactVec2 *)&pos,0);}
 
 void PSEL_CreateBmpWindows(u16 *p)
 {
@@ -1196,7 +1187,7 @@ void PSEL_DeleteWin(char *p)
     for (i = 0; i < 3; i++)
         BMP_WIN_Delete((struct BmpWin *)(*(struct Descriptor **)(p + 0x238 + i * 4)));
     TCBL_Destroy((struct TcblSystem *)(*(struct S02031140 * *)&((struct PselWork *)p)->tcbl));
-    MSGDATA_Delete((struct MsgBank *)(*(struct Rec * *)&((struct PselWork *)p)->msgBank));
+    MSGDATA_Delete((struct MsgBank *)(*(struct G3dUtil * *)&((struct PselWork *)p)->msgBank));
 }
 
 void PSEL_UpdateTcbl(int *p)
@@ -1253,8 +1244,8 @@ void PSEL_SetMode(char *p, int idx)
         x = ((int)(W - w)) / 2;
     if (H > h)
         y = ((int)(H - h)) / 2;
-    *(u32 *)(p + 0x250) = PRINTSYS_PrintStream((uptr)desc, x, y, *(u32 *)(p + 0x258), *(u32 *)(p + 0x18), MSG_SPEED_GetWait(),
-                                         *(u32 *)(p + 0x254), 2, *(u16 *)p, 0);
+    *(u32 *)(p + 0x250) = (u32)PRINTSYS_PrintStream((struct BmpWin *)((uptr)desc), x, y, (struct Strbuf *)(*(u32 *)(p + 0x258)), (struct GfFont *)(*(u32 *)(p + 0x18)), MSG_SPEED_GetWait(),
+                                         (struct Tcbl *)(*(u32 *)(p + 0x254)), (u32)2, *(u16 *)p, 0);
     BMP_WIN_TransferChars((struct BmpWin *)desc);
     BMP_WIN_MakeScreen((struct BmpWin *)desc);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)desc));
@@ -1406,6 +1397,6 @@ void PSEL_UpdateTaskResWin(char *p)
     APP_TASKMENU_WIN_Update((struct TaskMenuWin *)(*(u8 * *)&((struct PselWork *)p)->win));
 }
 
-void PSEL_SetTaskResActive(char *p) {u32 off;off=0x260;APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct Obj **)(p+off)),1);APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)(*(char **)(p+off)),1);}
+void PSEL_SetTaskResActive(char *p) {u32 off;off=0x260;APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct ClactActor **)(p+off)),1);APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)(*(char **)(p+off)),1);}
 
 u32 PSEL_IsTaskResFinished(char *p) {return APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)(*(u8 * *)&((struct PselWork *)p)->win));}

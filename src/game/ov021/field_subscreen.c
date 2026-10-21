@@ -164,14 +164,25 @@ typedef struct FieldSubscreenMode {
     u32 reserved18;
 } FieldSubscreenMode;
 
-u32 C_GEAR_Nop(u32 a);
+/* Original DS prototypes: the DS code called these with arguments the header does not have; the host build uses the header. */
+#ifdef __MWERKS__
+#define C_GEAR_Nop C_GEAR_Nop_header
+#define C_GEAR_Update C_GEAR_Update_header
+#define C_GEAR_HandleCommand C_GEAR_HandleCommand_header
+#endif
+#include "../ov029/c_gear.h"
+#ifdef __MWERKS__
+#undef C_GEAR_Nop
+#undef C_GEAR_Update
+#undef C_GEAR_HandleCommand
+extern u32 C_GEAR_Nop(u32 a);
+extern u32 C_GEAR_Update(u32, u32);
+extern int C_GEAR_HandleCommand();
+#endif
 u32 FIELD_3DBG_ExitCGear(FieldSubscreen *work);
 struct CGearWork;
-extern int C_GEAR_Restart(struct CGearWork *work);
-extern u32 C_GEAR_Update(u32, u32);
 u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active);
 /* Unprototyped on purpose: the caller passes the work pointer as a third argument; a two-parameter prototype changes the bytes. */
-int C_GEAR_HandleCommand();
 struct GameSystem;
 struct PlayerWork;
 #include "../arm9/gamesystem.h"
@@ -179,20 +190,43 @@ struct PlayerWork;
 struct GameData;
 struct FieldSubscreen;
 struct NoGearWork;
-extern struct NoGearWork *NO_GEAR_Create(void *cgearSave, struct FieldSubscreen *subscreen, struct GameSystem *gameSystem);
-struct NoGearWork;
-extern void NO_GEAR_Destroy(struct NoGearWork *work);
+/* Original DS prototypes: the DS code called these with arguments the header does not have; the host build uses the header. */
+#ifdef __MWERKS__
+#define NO_GEAR_Hook NO_GEAR_Hook_header
+#endif
+#include "../ov030/no_gear.h"
+#ifdef __MWERKS__
+#undef NO_GEAR_Hook
 extern void NO_GEAR_Hook(void *noGear);
-extern void NO_GEAR_Update(struct NoGearWork *work);
+#endif
+struct NoGearWork;
 #include "../arm9/bg_sys.h"
 #include "field_menu.h"
-extern void INFOWIN_Init(u8 bgId, u8 paletteId, void *gameData, u16 heapId);
-extern int INFOWIN_Exit(void);
+/* Original DS prototypes: the DS code called these with arguments the header does not have; the host build uses the header. */
+#ifdef __MWERKS__
+#define INFOWIN_Update INFOWIN_Update_header
+#endif
+#include "../arm9/infowin.h"
+#ifdef __MWERKS__
+#undef INFOWIN_Update
 extern void INFOWIN_Update(u32 value);
+#endif
 extern u32 FIELD_SUBSCREEN_GetMode(FieldSubscreen *work);
-extern void ARC_UTIL_UploadPaletteFromHandle(struct ArchiveHandle *handle, u32 fileId, u32 type, u32 offset, u32 srcOffset, u32 size, u32 heapId);
-extern void ARC_UTIL_UploadBgCharFromHandle(struct ArchiveHandle *handle, u32 fileId, u32 bgId, u32 offset, u32 size, u32 mode, u32 heapId);
-extern void ARC_UTIL_UploadBgPaletteAddFromHandle(struct ArchiveHandle *handle, u32 fileId, u32 bgId, u32 x, u32 y, u32 width, u32 height, u32 heapId);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadBgCharFromHandle ARC_UTIL_UploadBgCharFromHandle_header
+#define ARC_UTIL_UploadBgPaletteAddFromHandle ARC_UTIL_UploadBgPaletteAddFromHandle_header
+#define ARC_UTIL_UploadPaletteFromHandle ARC_UTIL_UploadPaletteFromHandle_header
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_UploadBgCharFromHandle
+#undef ARC_UTIL_UploadBgPaletteAddFromHandle
+#undef ARC_UTIL_UploadPaletteFromHandle
+extern void ARC_UTIL_UploadBgCharFromHandle(void *, u32, u32, u32, u32, u32, u32);
+extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *, u32, u32, u32, u32, u32, u32, u32);
+extern void ARC_UTIL_UploadPaletteFromHandle(void *, u32, u32, u32, u32, u32, u32);
+#endif
 struct FldVReq;
 #include "fld_vreq.h"
 #include "../arm9/arc_tool.h"
@@ -265,17 +299,20 @@ struct FieldMap;
 #include "../arm9/cgear_save.h"
 struct SaveControl;
 struct CgearSaveBlock;
-extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *cgearSaveBase);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define BLOCK20_SAVEDATA_SetPanelState BLOCK20_SAVEDATA_SetPanelState_header
+#endif
+#include "../arm9/block20_savedata.h"
+#ifdef __MWERKS__
+#undef BLOCK20_SAVEDATA_SetPanelState
+extern void BLOCK20_SAVEDATA_SetPanelState(struct CGearSave *, u32);
+#endif
 struct CGearSave;
 #include "../arm9/zonedata.h"
 #include "field_msgbg.h"
 #include "../arm9/gf_overlay.h"
-extern u8 BLOCK20_SAVEDATA_GetPanelState(struct CGearSave *save);
-extern void BLOCK20_SAVEDATA_SetPanelState(void *cgearSave, u32 commState);
 struct HexMap;
-extern struct CGearWork *C_GEAR_Create(struct HexMap *hexMap, s32 parentWork, struct GameSystem *gameSystem, s32 introMode);
-extern struct CGearWork *C_GEAR_Open(struct HexMap *hexMap, s32 parentWork, struct GameSystem *gameSystem, void (*callback)(int), s32 callbackArg, s32 introMode);
-extern void C_GEAR_Destroy(struct CGearWork *work);
 void FIELD_SUBSCREEN_SetPanelResult(FieldSubscreen *work, int result);
 void FIELD_SUBSCREEN_InitCGear(FieldSubscreen *work);
 void FIELD_SUBSCREEN_InitCGearWithCallback(FieldSubscreen *work);
@@ -504,7 +541,15 @@ void FIELD_SUBSCREEN_ExitCGear(FieldSubscreen *work)
     GF_OVERLAY_Unload((sptr)abs_id_1d);
 }
 
-u32 FIELD_3DBG_ExitCGear(FieldSubscreen *work) { return C_GEAR_Nop((uptr)work->cgear); }
+u32 FIELD_3DBG_ExitCGear(FieldSubscreen *work)
+{
+#ifdef __MWERKS__
+    return C_GEAR_Nop((uptr)work->cgear);
+#else
+    C_GEAR_Nop();
+    return (uptr)work->cgear; /* the DS leaves the argument in r0 */
+#endif
+}
 
 u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active)
 {
@@ -521,12 +566,21 @@ u32 FIELD_SUBSCREEN_UpdateCGear(FieldSubscreen *work, u32 active)
             }
         }
     }
+#ifdef __MWERKS__
     return C_GEAR_Update((uptr)work->cgear, active);
+#else
+    C_GEAR_Update((CGearWork *)work->cgear, (u8)active);
+    return 0;
+#endif
 }
 
 int FIELD_SUBSCREEN_HandleCGearInput(FieldSubscreen *work, int button)
 {
+#ifdef __MWERKS__
     return C_GEAR_HandleCommand(work->cgear, button, work);
+#else
+    return (int)(uptr)C_GEAR_HandleCommand((CGearWork *)work->cgear, button);
+#endif
 }
 
 /*
@@ -557,7 +611,14 @@ void FIELD_SUBSCREEN_ExitNoGear(FieldSubscreen *work)
 }
 
 /* Mode 5 slot at table offset 0x14: calls the panel's empty hook. */
-void FIELD_SUBSCREEN_NoGearHook(FieldSubscreen *work) { NO_GEAR_Hook(work->cgear); }
+void FIELD_SUBSCREEN_NoGearHook(FieldSubscreen *work)
+{
+#ifdef __MWERKS__
+    NO_GEAR_Hook(work->cgear);
+#else
+    NO_GEAR_Hook();
+#endif
+}
 
 /* Mode 5 update. */
 void FIELD_SUBSCREEN_UpdateNoGear(FieldSubscreen *work) { NO_GEAR_Update(work->cgear); }
@@ -610,7 +671,12 @@ void FIELD_SUBSCREEN_ExitMenu(FieldSubscreen *work)
 /* Mode 1 update. */
 void FIELD_SUBSCREEN_UpdateMenu(FieldSubscreen *work)
 {
+#ifdef __MWERKS__
     INFOWIN_Update(FIELD_MENU_Update((struct FieldMenu *)work->cgear));
+#else
+    FIELD_MENU_Update((struct FieldMenu *)work->cgear);
+    INFOWIN_Update();
+#endif
 }
 
 /* Mode 1 update outside transitions. */

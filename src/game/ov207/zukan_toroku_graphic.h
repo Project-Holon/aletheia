@@ -6,7 +6,7 @@
 
 struct ZukanTorokuWork;
 struct ZukanTorokuDisplay;
-struct Bank;
+struct Unit;
 typedef struct ZukanTorokuWork ZukanTorokuWork;
 typedef struct ZukanTorokuDisplay ZukanTorokuDisplay;
 
@@ -29,8 +29,8 @@ void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap);
 void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display);
-void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Bank **actors, int a, int b);
-void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Bank**p);
+void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Unit **actors, int a, int b);
+void ZUKAN_TOROKU_GRAPHIC_DeleteActors(struct Unit**p);
 void ZUKAN_TOROKU_GRAPHIC_DrawActors(void*p);
 void ZUKAN_TOROKU_GRAPHIC_VBlankActors(void*p);
 u32 ZUKAN_TOROKU_GRAPHIC_GetWord(u32*p);

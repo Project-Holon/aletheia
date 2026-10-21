@@ -139,7 +139,6 @@ typedef struct RTCRawAlarm {
 } RTCRawAlarm;
 
 #include "pxi_fifo.h"
-void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 #include "os_system.h"
 #include "internal.h"
 RTCResult RTC_GetDateAsync(RTCDate *date, RTCCallback callback, void *arg);

@@ -142,7 +142,7 @@ extern void *GAME_EVENT_GetWork(GameEvent *event);
 
 /* Event work of the boulder drop (0x24 bytes). */
 typedef struct BoulderDropWork {
-    FieldPlayer *player;
+    FieldPlayerGrid *player;
     u16 dir;
     u16 fillsHole;       /* 1 when the boulder covers the whole hole */
     s16 frame;
@@ -184,7 +184,7 @@ typedef struct JumpWork {
     FieldPlayer *player;
     FieldMap *fieldMap;
     GameSystem *gameSystem;
-    u32 effectHandle;
+    FieldEffectObj *effectHandle;
 } JumpWork;
 
 
@@ -193,7 +193,7 @@ typedef struct JumpWork {
 
 
 
-extern void *TCBL_IsDeletePending(struct TcbTask *task);
+#include "../arm9/tcbl.h"
 
 
 
@@ -234,35 +234,7 @@ void FLDMMDL_SetAcmd(Mmdl *mmdl, u32 acmd); /* original prototype: the definitio
 
 
 
-extern void FIELD_PLAYER_StartFormChange(FieldPlayer *player, u32 value);
-
-extern int FIELD_PLAYER_StepFormChange(FieldPlayer *player);
-
-extern void FIELD_PLAYER_SetRideEffect(FieldPlayer *player, u32 value);
-
-extern FieldPlayerAnim *FIELD_PLAYER_GetRideEffect(FieldPlayer *player);
-
-extern FieldMap *FIELD_PLAYER_GetFieldMap(FieldPlayer *player);
-
-extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
-
-extern void FIELD_PLAYER_SetGridHopLanded(FieldPlayer *player, int value);
-
-extern struct FieldPlayerGrid *FIELD_PLAYER_GetGrid(FieldPlayer *player);
-
-
-
-
-
-extern int FIELD_PLAYER_GRID_GetDirChangeKind(struct FieldPlayerGrid *grid, s32 dir);
-
-extern int FIELD_PLAYER_GRID_CheckCoreAction(FieldPlayer *player, int dir);
-
-extern int FIELD_PLAYER_GRID_StopTurnOrBlocked(struct FieldPlayerGrid *grid);
-
-extern FieldPlayerCore *FIELD_PLAYER_GRID_GetCore(FieldPlayer *player);
-
-extern void *FIELD_PLAYER_GRID_GetMmdl(FieldPlayer *player);
+#include "field_player.h"
 
 
 
@@ -274,34 +246,56 @@ extern void *FIELD_PLAYER_GRID_GetMmdl(FieldPlayer *player);
 
 
 
-extern u32 FLDEFF_NAMIPOKE_Start(FieldEffectSys *effects, u32 dir, VecFx32 *pos, Mmdl *mmdl, int value);
 
-extern void FLDEFF_NAMIPOKE_SetFollowMode(FieldPlayerAnim *anim, u8 value);
+/* Original DS prototype: the DS code passes the direction as well; the host build uses the header. */
+#ifdef __MWERKS__
+#define FIELD_PLAYER_GRID_CheckCoreAction FIELD_PLAYER_GRID_CheckCoreAction_header
+#endif
+#include "field_player_grid.h"
+#ifdef __MWERKS__
+#undef FIELD_PLAYER_GRID_CheckCoreAction
+extern int FIELD_PLAYER_GRID_CheckCoreAction(FieldPlayerGrid *grid, u16 dir);
+#endif
 
-extern u32 FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FieldEffectSys *effects, u32 kind, FieldPlayerAnim *anim);
 
-extern int FLDEFF_NAMIPOKE_SPLASH_IsFinished(struct FieldEffectObj *effect);
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include "fldeff_namipoke.h"
+
+
+
 
 extern void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state);
 
-extern u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(u8 *work, u32 dir);
+extern u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(FieldPlayerGrid *work, u32 dir);
 
 
 extern u8 gFileFieldPlayerGridEvent;
 
-int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayer *player, int unused, int keyDir, int flags);
+int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayerGrid *player, int unused, int keyDir, int flags);
 
-int FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayer *player, u16 dir, u32 flags);
+int FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayerGrid *player, u16 dir, u32 flags);
 
 int FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(Mmdl *boulder, u32 dir, G3dMapper *map);
 
-int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayer *player, u16 dir, int hitResult);
+int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayerGrid *player, u16 dir, int hitResult);
 
-GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayer *player, u32 dir, Mmdl *boulder, u32 fillsHole);
+GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayerGrid *player, u32 dir, Mmdl *boulder, u32 fillsHole);
 
 int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, BoulderDropWork *work);
 
-void FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
+struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
 
 int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcbTask *task);
 
@@ -309,7 +303,7 @@ void FIELD_PLAYER_GRID_EVENT_DeleteHopTask(struct TcbTask *task);
 
 void FIELD_PLAYER_GRID_EVENT_HopTask(struct TcbTask *task, HopWork *work);
 
-void FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
+struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId);
 
 int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcbTask *task);
 
@@ -334,16 +328,22 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work);
 /*
  * Tries to start the boulder drop for the tile the player faces.
  */
-int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayer *player, int unused, int keyDir, int flags)
+int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayerGrid *player, int unused, int keyDir, int flags)
 {
     FieldPlayerCore *core;
     u16 dir;
     int result;
+    int possible;
 
     core = FIELD_PLAYER_GRID_GetCore(player);
     FIELD_PLAYER_GRID_GetMmdl(player);
     dir = FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(core, keyDir);
-    if (FIELD_PLAYER_GRID_CheckCoreAction(player, dir) == 0)
+#ifdef __MWERKS__
+    possible = FIELD_PLAYER_GRID_CheckCoreAction(player, dir);
+#else
+    possible = FIELD_PLAYER_GRID_CheckCoreAction(player);
+#endif
+    if (possible == 0)
         return 0;
     result = FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(player, dir, flags);
     if (result == 0)
@@ -354,7 +354,7 @@ int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayer *player, int unused, int 
 /*
  * Runs the boulder drop check when bit 0 of the flags is set.
  */
-int FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayer *player, u16 dir, u32 flags)
+int FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayerGrid *player, u16 dir, u32 flags)
 {
     int result = 0;
     int hitResult = FIELD_PLAYER_GRID_GetDirChangeKind((struct FieldPlayerGrid *)player, dir);
@@ -409,14 +409,14 @@ int FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(Mmdl *boulder, u32 dir, G3dMapper *m
     return 0;
 }
 
-int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayer *player, u16 dir, int hitResult)
+int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayerGrid *player, u16 dir, int hitResult)
 {
     Mmdl *boulder;
     u32 coverage;
     u32 moveHit;
 
     if (hitResult == 1) {
-        boulder = (Mmdl *)FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr((u8 *)player, dir);
+        boulder = (Mmdl *)FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(player, dir);
         if (boulder != 0) {
             if (FLDMMDL_IsMovedPosObjCode(FLDMMDL_GetObjCode(boulder)) == 1) {
                 coverage = FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(boulder, dir, FIELDMAP_GetG3dMapper(FIELD_PLAYER_CORE_GetFieldMap(FIELD_PLAYER_GRID_GetCore(player))));
@@ -436,7 +436,7 @@ int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayer *player, u16 dir, int h
     return 0;
 }
 
-GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayer *player, u32 dir, Mmdl *boulder, u32 fillsHole)
+GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayerGrid *player, u32 dir, Mmdl *boulder, u32 fillsHole)
 {
     FieldPlayerCore *core;
     GameEvent *event;
@@ -532,7 +532,7 @@ int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, Boulder
     return 0;
 }
 
-void FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId)
+struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId)
 {
     HopWork *work;
 
@@ -543,17 +543,17 @@ void FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 dir, u32 att
     work->gameSystem = (struct GameSystem *)FIELD_PLAYER_GetGrid(player);
     if (MAP_ATTR_IsLongHopEdge(MAP_ATTR_GetTerrainId(attr)) == 1)
         work->isLong = 1;
-    TCB_AddTask((struct TcbSystem *)(FIELDMAP_GetTcblSys(work->fieldMap)), (TcbFunc)FIELD_PLAYER_GRID_EVENT_HopTask, work, 0);
+    return TCB_AddTask((struct TcbSystem *)(FIELDMAP_GetTcblSys(work->fieldMap)), (TcbFunc)FIELD_PLAYER_GRID_EVENT_HopTask, work, 0);
 }
 
 int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcbTask *task)
 {
-    return ((HopWork *)TCBL_IsDeletePending(task))->done;
+    return ((HopWork *)TCBL_IsDeletePending((struct TcblSystem *)task))->done;
 }
 
 void FIELD_PLAYER_GRID_EVENT_DeleteHopTask(struct TcbTask *task)
 {
-    GFL_HEAP_Free(TCBL_IsDeletePending(task));
+    GFL_HEAP_Free((void *)TCBL_IsDeletePending((struct TcblSystem *)task));
     TCB_DeleteTask(task);
 }
 
@@ -626,7 +626,7 @@ void FIELD_PLAYER_GRID_EVENT_HopTask(struct TcbTask *task, HopWork *work)
     }
 }
 
-void FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId)
+struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 attr, u32 heapId)
 {
     JumpWork *work;
     Mmdl *mmdl;
@@ -646,17 +646,17 @@ void FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 dir, u32 at
     if (aheadHeight > start.y)
         work->targetHigher = 1;
     work->gameSystem = (struct GameSystem *)FIELD_PLAYER_GetGrid(work->player);
-    TCB_AddTask((struct TcbSystem *)(FIELDMAP_GetTcblSys(work->fieldMap)), (TcbFunc)FIELD_PLAYER_GRID_EVENT_RunStateTable, work, 0);
+    return TCB_AddTask((struct TcbSystem *)(FIELDMAP_GetTcblSys(work->fieldMap)), (TcbFunc)FIELD_PLAYER_GRID_EVENT_RunStateTable, work, 0);
 }
 
 int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcbTask *task)
 {
-    return ((JumpWork *)TCBL_IsDeletePending(task))->done;
+    return ((JumpWork *)TCBL_IsDeletePending((struct TcblSystem *)task))->done;
 }
 
 void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(struct TcbTask *task)
 {
-    GFL_HEAP_Free(TCBL_IsDeletePending(task));
+    GFL_HEAP_Free((void *)TCBL_IsDeletePending((struct TcblSystem *)task));
     TCB_DeleteTask(task);
 }
 
@@ -675,7 +675,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpStart(JumpWork *work)
 {
     u32 effectKind;
     Mmdl *mmdl;
-    FieldPlayerAnim *playerAnim;
+    FieldEffectObj *playerAnim;
     FieldEffectSys *effects;
     VecFx32 pos;
     VecFx32 nearPos;
@@ -718,7 +718,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpApproach(JumpWork *work)
 {
     VecFx32 pos;
     Mmdl *mmdl;
-    FieldPlayerAnim *playerAnim;
+    FieldEffectObj *playerAnim;
 
     mmdl = FIELD_PLAYER_GetMmdl(work->player);
     FLDMMDL_GetPos(mmdl, &pos);
@@ -731,7 +731,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpApproach(JumpWork *work)
         work->frame = 0;
         work->drawOffset.y = 0;
         work->state = work->state + 1;
-        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)work->effectHandle);
+        FIELD_EFFECT_DeleteObject(work->effectHandle);
         playerAnim = FIELD_PLAYER_GetRideEffect(work->player);
         {
             /* both branches give 2 */
@@ -762,7 +762,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpRise(JumpWork *work)
         work->velocityY = 0x6000;
         work->gravity = work->gravity / 0xb;
         FIELDMAP_TCB_CAMERA_ZOOM_Create(work->fieldMap, 0x10, (u32)-0x8000 << 2);
-        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)work->effectHandle);
+        FIELD_EFFECT_DeleteObject(work->effectHandle);
     }
     FLDMMDL_SetPos(mmdl, &pos);
     return 0;
@@ -811,7 +811,7 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpArc(JumpWork *work)
 int FIELD_PLAYER_GRID_EVENT_JumpUpLand(JumpWork *work)
 {
     Mmdl *mmdl;
-    FieldPlayerAnim *playerAnim;
+    FieldEffectObj *playerAnim;
 
     mmdl = FIELD_PLAYER_GetMmdl(work->player);
     FLDMMDL_SetStatusBitHeightGetOff(mmdl, 0);
@@ -828,9 +828,9 @@ int FIELD_PLAYER_GRID_EVENT_JumpUpWaitEffect(JumpWork *work)
 {
     FieldEffectSys *effects;
 
-    if (work->effectHandle != 0 && FLDEFF_NAMIPOKE_SPLASH_IsFinished((struct FieldEffectObj *)work->effectHandle) == 1) {
+    if (work->effectHandle != 0 && FLDEFF_NAMIPOKE_SPLASH_IsFinished(work->effectHandle) == 1) {
         effects = FIELDMAP_GetEffect(work->fieldMap);
-        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)work->effectHandle);
+        FIELD_EFFECT_DeleteObject(work->effectHandle);
         FIELD_EFFECT_FreeResource(effects, 9);
         FIELD_PLAYER_SetGridHopLanded(work->player, 1);
         work->effectHandle = 0;
@@ -843,7 +843,7 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work)
 {
     Mmdl *mmdl;
     u32 effectKind;
-    FieldPlayerAnim *playerAnim;
+    FieldEffectObj *playerAnim;
     FieldEffectSys *effects;
     VecFx32 nowPos;
     VecFx32 pos;
@@ -894,7 +894,7 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work)
             work->frame = 0;
             work->drawOffset.y = 0;
             work->state = work->state + 1;
-            FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)work->effectHandle);
+            FIELD_EFFECT_DeleteObject(work->effectHandle);
             playerAnim = FIELD_PLAYER_GetRideEffect(work->player);
             {
                 /* both branches give 2 */
@@ -915,7 +915,7 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work)
             work->stepX = (work->target.x - nowPos.x) / 16;
             work->stepZ = (work->target.z - nowPos.z) / 16;
             FIELDMAP_TCB_CAMERA_ZOOM_Create(work->fieldMap, 0x10, -0x20000);
-            FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)work->effectHandle);
+            FIELD_EFFECT_DeleteObject(work->effectHandle);
             playerAnim = FIELD_PLAYER_GetRideEffect(work->player);
             FLDEFF_NAMIPOKE_SetFollowMode(playerAnim, 1);
             work->effectHandle = FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FIELDMAP_GetEffect(work->fieldMap), 0, playerAnim);
@@ -932,7 +932,7 @@ void FIELD_PLAYER_GRID_EVENT_UpdateJumpDown(JumpWork *work)
             effects = FIELDMAP_GetEffect(work->fieldMap);
             FLDMMDL_SetStatusBitHeightGetOff(mmdl, 0);
             FLDMMDL_InitPosition(mmdl, &work->target, work->dir);
-            FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)work->effectHandle);
+            FIELD_EFFECT_DeleteObject(work->effectHandle);
             FIELD_EFFECT_FreeResource(effects, 9);
             FIELD_PLAYER_SetGridHopLanded(work->player, 1);
             work->effectHandle = 0;
@@ -968,14 +968,14 @@ void FIELD_PLAYER_GRID_EVENT_RunStateTable(void *work, u16 *state)
 }
 
 /* Belongs to the grid event file (see cuts). */
-u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(u8 *work, u32 direction)
+u32 FIELD_PLAYER_GRID_EVENT_GetFrontTileAttr(FieldPlayerGrid *work, u32 direction)
 {
     uptr mmdl;
     uptr mapHandle;
     int gridX;
     int gridZ;
 
-    mmdl = (uptr)FIELD_PLAYER_GRID_GetMmdl((FieldPlayer *)work);
+    mmdl = (uptr)FIELD_PLAYER_GRID_GetMmdl(work);
     mapHandle = (uptr)FLDMMDL_GetMmdlSys((void *)mmdl);
     gridX = FLDMMDL_GetGridNowX((Mmdl *)mmdl);
     gridX += FLDMMDL_MOVE_GetDirAddGridX(direction);

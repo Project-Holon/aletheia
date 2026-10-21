@@ -30,15 +30,14 @@
 
 #include "arc_tool.h"
 
-extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int fromTail, const char *file, u16 line);
-
-extern u32   GFL_HEAP_Free(void *ptr);
+#include "gfl_heap_wrap.h"
 
 
 
 
 
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, s32 fileID, s32 decompress, u32 heapID, u32 *out_size);
+
+#include "arc_util.h"
 
 void POKE_PERSONAL_OpenHandle(u32 heap);
 

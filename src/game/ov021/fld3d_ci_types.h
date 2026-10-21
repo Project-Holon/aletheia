@@ -179,7 +179,5 @@ typedef struct Fld3dCiCue {
 } Fld3dCiCue;
 
 typedef struct Fld3dCiNameKey { u32 v[4]; } Fld3dCiNameKey;
-typedef struct Fld3dCiDispSetup { u32 v[4]; } Fld3dCiDispSetup;
-typedef struct Fld3dCiBgMode { int a, b, c, d; } Fld3dCiBgMode;
 
 #endif

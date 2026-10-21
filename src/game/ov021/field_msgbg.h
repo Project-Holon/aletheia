@@ -89,7 +89,7 @@ void FIELD_MSGBG_MakeListHeader(BmpMenuListHeader *listHeader, const FieldMenuHe
 FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);
 int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);
 FieldMsgStream *FIELD_MSGBG_CreateMsgStreamColor(FieldMsgBg *msgBg, struct Strbuf *str, struct BmpWin *bmpWin, u32 x, u16 y, u32 wait, u16 clearColor);
-u8 FIELD_MSGBG_MsgStreamCallback(u32 code);
+FieldMsgStreamCbRet FIELD_MSGBG_MsgStreamCallback(FieldMsgStreamCbArg code);
 FieldMsgStream *FIELD_MSGBG_CreateMsgStream(FieldMsgBg *msgBg, struct Strbuf *str, struct BmpWin *bmpWin, u32 x, u16 y, u32 wait);
 int FIELD_MSGBG_DeleteMsgStream(FieldMsgStream *stream);
 int FIELD_MSGBG_MsgStreamMain(FieldMsgStream *stream);

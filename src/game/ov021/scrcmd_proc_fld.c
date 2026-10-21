@@ -357,16 +357,14 @@ struct PrintQueue;
 #include "../arm9/printsys.h"
 struct BmpWin;
 
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 #include "../arm9/bg_sys.h"
 struct BmpMenuList;
 
-extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
+#include "../arm9/bmp_menulist.h"
 struct TextPrinter;
 
 
@@ -380,44 +378,44 @@ struct TextPrinter;
 
 
 
-extern u32 RECORD_AddCounter(struct Sub02008C20Obj *obj, int i, u32 delta);
+#include "../arm9/record.h"
 
-extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 struct ClactActor;
 
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int value);
-
-
-extern void BMP_MENULIST_Redraw(struct BmpMenuList *menu);
-
-extern u32 BMP_MENU_CreateYesNo(const void *a, u32 b, u32 c, u32 d, u32 e);
-
-extern u32 BMP_MENU_ProcessYesNo(u8 *p);
+#include "../arm9/clact.h"
 
 
 
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+#include "../arm9/bmp_menu.h"
+
+
+
+
 
 struct TcblSystem;
 
 #include "../arm9/tcbl.h"
 
-extern u32 FILE_UTIL_IsMachineItem(u32 id);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define FILE_UTIL_GetMachineMove FILE_UTIL_GetMachineMove_header
+#endif
+#include "../arm9/file_util.h"
+#ifdef __MWERKS__
+#undef FILE_UTIL_GetMachineMove
+extern int FILE_UTIL_GetMachineMove(u32);
+#endif
 
 #include "../arm9/wordset.h"
 
-extern int FILE_UTIL_GetMachineMove(u32 a);
 
 
 
-extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
-
-extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
+#include "../arm9/bmp_menuwork.h"
 
 
-extern void *BMP_MENUWORK_Create(u32, u32);
 
-extern u32 FILE_UTIL_GetItemParam(unsigned int item, unsigned int sel, unsigned int heap);
+
 
 #include "../arm9/gpower.h"
 
@@ -426,7 +424,6 @@ struct WfbcData;
 
 #include "../ov020/field_wfbc_data_local.h"
 
-extern u32 BMP_MENUWORK_Delete(void *p);
 
 #include "../arm9/gf_font.h"
 
@@ -443,71 +440,47 @@ extern u32 BMP_MENUWORK_Delete(void *p);
 
 
 
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
 
 
-extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern unsigned FILE_UTIL_Get(unsigned a, unsigned b);
 
 
 
 struct PaletteData;
-extern void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
 
-extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, unsigned int enable);
 
-extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void CLACT_SetUnitDrawEnable(struct Unit *bank, u32 mode);
 
-extern void CLACT_ReleaseCellAnim(u32 i);
 
-extern void CLACT_ReleaseCharacter(u32 i);
 
-extern void CLACT_ReleasePalette(u32 i);
 
-extern u32 CLACT_DeleteUnit(struct Unit *bank);
 
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct GfFont;
 
 
 
 
 
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
 typedef short s16_p07;
 #include "../arm9/bmp.h"
 
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 
-extern u32 BMP_MENUWORK_CountItems(struct Slot *s);
 struct MenuTemplate;
 
-extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, unsigned short scroll, unsigned short row, unsigned int heap);
-
-
-extern u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
 
 
 
 
-extern void BMP_MENULIST_GetPos(struct BmpMenuList *menu, unsigned short *outScroll, unsigned short *outRow);
 
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, unsigned short *outScroll, unsigned short *outRow);
+
+
 
 
 
@@ -559,7 +532,7 @@ struct ZukanSave;
 
 
 
-extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int callback, int callbackWork);
+#include "../arm9/field_status.h"
 
 
 #include "event_namein.h"
@@ -577,7 +550,6 @@ struct CGearSave;
 
 #include "../ov010/fld_btl_inst_tool.h"
 
-extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, unsigned int overlayId, void *procData, void *procWork);
 
 #include "scrcmd_sub_proc_events.h"
 
@@ -588,7 +560,15 @@ struct ScriptFieldParam;
 struct FieldEncount;
 
 
-extern u32 FIELD_ENCOUNT_StartScriptedWild(u32 a, u32 b, u32 c, u32 d);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define FIELD_ENCOUNT_StartScriptedWild FIELD_ENCOUNT_StartScriptedWild_header
+#endif
+#include "field_encount.h"
+#ifdef __MWERKS__
+#undef FIELD_ENCOUNT_StartScriptedWild
+extern u32 FIELD_ENCOUNT_StartScriptedWild(FieldEncount *, u32, u32, u32);
+#endif
 
 #include "event_fieldmap_control.h"
 
@@ -710,7 +690,7 @@ int SCRCMD_PROC_FLD_CallWorldTradeEvent(struct ScriptVm *vm, struct ScrcmdWork *
 
 int SCRCMD_PROC_FLD_CallGtsNegoEvent(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-void SCRCMD_PROC_FLD_FinishOv170Event(volatile Ov170EventHandoff *handoff);
+void SCRCMD_PROC_FLD_FinishOv170Event(void *arg);
 
 int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
@@ -744,7 +724,7 @@ u16 SCRCMD_PROC_FLD_AddUniqueU16(u16 *values, u16 count, u16 value);
 
 extern const LayerFlags d_021D9738;
 
-extern const u8 d_021D9440[];
+extern const struct WinDat d_021D9440;
 
 extern u8 d_021D946C[];
 
@@ -756,15 +736,15 @@ extern ShopItem *d_021DE164[];
 
 extern u8 d_021D9430[];
 
-extern const ShopActorPlacement d_021D96E0;
+extern const struct ActorInitParam d_021D96E0;
 
-extern const ShopActorPlacement d_021D96E8;
+extern const struct ActorInitParam d_021D96E8;
 
-extern const ShopActorPlacement d_021D96F0;
+extern const struct ActorInitParam d_021D96F0;
 
-extern const ShopActorPlacement d_021D96F8;
+extern const struct ActorInitParam d_021D96F8;
 
-extern const ShopActorPlacement d_021D9700;
+extern const struct ActorInitParam d_021D9700;
 
 extern ShopWindowTemplate *d_021DE18C[];
 
@@ -1021,12 +1001,12 @@ void SCRCMD_PROC_FLD_PayPrice(ShopWork *shop, u32 cost)
 {
     if (shop->usesBattlePoints == 0) {
         MISC_SubMoney((struct MiscSave *)(shop->moneyData), cost);
-        RECORD_AddCounter((struct Sub02008C20Obj *)(shop->recordData), 0x16, cost);
+        RECORD_AddCounter(shop->recordData, 0x16, cost);
     } else {
         BSUBWAY_SCOREDATA_SubBattlePoints((struct BsubwayScoreData *)(shop->battlePointData), cost);
-        RECORD_AddCounter((struct Sub02008C20Obj *)(shop->recordData), 0x22, cost);
+        RECORD_AddCounter(shop->recordData, 0x22, cost);
     }
-    RECORD_AddOne((struct Sub02008C20Obj *)(shop->recordData), 0x15);
+    RECORD_AddOne(shop->recordData, 0x15);
 }
 
 /*
@@ -1067,7 +1047,7 @@ int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 sh
         SCRCMD_PROC_FLD_SetQuantityMask(1);
         BMP_WIN_MakeScreen((struct BmpWin *)(shop->windows[SHOP_WIN_LIST]));
         CLACT_SetActorDrawEnable((struct ClactActor *)shop->quantityArrowActor, 0);
-        shop->yesNoMenu = BMP_MENU_CreateYesNo(d_021D9440, 1, 9, 0, shop->heapId);
+        shop->yesNoMenu = BMP_MENU_CreateYesNo(&d_021D9440, 1, 9, 0, shop->heapId);
         if (shop->isTmShop != 1) {
             SCRCMD_PROC_FLD_PrintOwnedWindow(shop, shop->itemId);
         }
@@ -1077,11 +1057,11 @@ int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 sh
         SCRCMD_PROC_FLD_SetQuantityMask(1);
         BMP_WIN_MakeScreen((struct BmpWin *)(shop->windows[SHOP_WIN_LIST]));
         CLACT_SetActorDrawEnable((struct ClactActor *)shop->quantityArrowActor, 0);
-        shop->yesNoMenu = BMP_MENU_CreateYesNo(d_021D9440, 1, 9, 0, shop->heapId);
+        shop->yesNoMenu = BMP_MENU_CreateYesNo(&d_021D9440, 1, 9, 0, shop->heapId);
         shop->state = SHOP_STATE_YESNO_POLL;
         break;
     case SHOP_STATE_YESNO_POLL:
-        selection = BMP_MENU_ProcessYesNo((u8 *)(shop->yesNoMenu));
+        selection = BMP_MENU_ProcessYesNo(shop->yesNoMenu);
         if (selection == -1) {
         } else if (selection == 0) {
             shop->state = SHOP_STATE_PURCHASE;
@@ -1106,7 +1086,7 @@ int SCRCMD_PROC_FLD_StepShop(u32 gameSystem, ShopWork *shop, u32 shopKind, u8 sh
         if (shop->itemId == 4 && *(s16 *)&shop->quantity >= 10) {
             SCRCMD_PROC_FLD_ShowItemMessage(shop, 15, shop->itemId, *(s16 *)&shop->quantity > 1);
             MYITEM_SAVEDATA_AddItem((struct MyItem *)(shop->bagData), 12, 1, shop->heapId);
-            RECORD_AddOne((struct Sub02008C20Obj *)(shop->recordData), 0x1F);
+            RECORD_AddOne(shop->recordData, 0x1F);
             shop->state = SHOP_STATE_MESSAGE_WAIT;
             shop->nextState = SHOP_STATE_LIST_RESUME;
         } else {
@@ -1153,9 +1133,9 @@ void SCRCMD_PROC_FLD_SetItemSlot(ShopWork *shop, int slotIndex, int isTmShop, in
         WORDSET_SetSlotNumber(shop->wordSet, 0, itemId - 327, 2, 2, 1);
         WORDSET_SetSlotFromMsgCB(shop->wordSet, 1, FILE_UTIL_GetMachineMove((u16)itemId));
         WORDSET_CopyTaggedText(shop->wordSet, shop->textBuffer, shop->cancelText);
-        BMP_MENUWORK_AddStrItem((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), (uptr)(shop->textBuffer), slotIndex, shop->heapId);
+        BMP_MENUWORK_AddStrItem((struct BmpMenuWork *)((char *)shop->itemSlots + slotIndex * 8), (const struct U16Vec *)shop->textBuffer, slotIndex, shop->heapId);
     } else {
-        BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + slotIndex * 8), msgBank, itemId, slotIndex, shop->heapId);
+        BMP_MENUWORK_AddMsgItem((struct BmpMenuWork *)((char *)shop->itemSlots + slotIndex * 8), (struct MsgBank *)msgBank, itemId, slotIndex, shop->heapId);
     }
 }
 
@@ -1198,7 +1178,7 @@ void SCRCMD_PROC_FLD_BuildItemListByBadges(ShopWork *shop, int shopKind, int sho
     }
     shop->itemCount = row;
     SCRCMD_PROC_FLD_LoadItemRows(shop->items, shop->itemCount);
-    BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + row * 8), (uptr)(shop->shopMsgBank), 11, -2, shop->heapId);
+    BMP_MENUWORK_AddMsgItem((struct BmpMenuWork *)((char *)shop->itemSlots + row * 8), shop->shopMsgBank, 11, -2, shop->heapId);
     MSGDATA_Delete(msgBank);
 }
 
@@ -1220,7 +1200,7 @@ void SCRCMD_PROC_FLD_BuildItemListFixed(ShopWork *shop, int tableIndex)
         shop->items[row].price = table[row].price;
     }
     shop->itemCount = row;
-    BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + row * 8), (uptr)shop->shopMsgBank, 0xb, -2, shop->heapId);
+    BMP_MENUWORK_AddMsgItem((struct BmpMenuWork *)((char *)shop->itemSlots + row * 8), shop->shopMsgBank, 0xb, -2, shop->heapId);
     MSGDATA_Delete((struct MsgBank *)msgBank);
 }
 
@@ -1234,7 +1214,7 @@ void SCRCMD_PROC_FLD_BuildItemListFromRange(ShopWork *shop, int kind)
     for (; row < shop->itemCount; row++) {
         SCRCMD_PROC_FLD_SetItemSlot(shop, row, shop->isTmShop, shop->items[row].itemId, (sptr)msgBank);
     }
-    BMP_MENUWORK_AddMsgItem((struct Slot *)((char *)shop->itemSlots + row * 8), (uptr)(shop->shopMsgBank), 11, -2, shop->heapId);
+    BMP_MENUWORK_AddMsgItem((struct BmpMenuWork *)((char *)shop->itemSlots + row * 8), shop->shopMsgBank, 11, -2, shop->heapId);
     MSGDATA_Delete(msgBank);
 }
 
@@ -1324,7 +1304,7 @@ void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *shop, u32 itemId)
         charBuf = (uptr)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 2), (&charData), shop->heapId);
         plttBuf = (uptr)ARC_UTIL_LoadScreenDataFromHandle((void *)(shop->iconArchive), FILE_UTIL_Get(itemId, 1), 0, (&plttData), shop->heapId);
         CLACT_TransferPalette(shop->iconCharRes, (struct PaletteData *)charData, 1);
-        CLACT_TransferCharacter(shop->iconPlttRes, (struct Sub0204A9D0 *)plttData);
+        CLACT_TransferCharacter(shop->iconPlttRes, (struct NNSG2dCharacterData *)plttData);
         GFL_HEAP_Free((void *)charBuf);
         GFL_HEAP_Free((void *)plttBuf);
         CLACT_SetActorDrawEnable((struct ClactActor *)shop->iconActor, 1);
@@ -1335,16 +1315,16 @@ void SCRCMD_PROC_FLD_UpdateItemIcon(ShopWork *shop, u32 itemId)
 
 void SCRCMD_PROC_FLD_CreateShopActors(ShopWork *shop)
 {
-    shop->cursorActor = (sptr)CLACT_CreateActor((void *)shop->cellSystem, shop->cursorPlttRes, shop->arrowCharRes,
+    shop->cursorActor = CLACT_CreateActor(shop->cellSystem, shop->cursorPlttRes, shop->arrowCharRes,
                                         shop->cursorCellRes, &d_021D96E0, 0, shop->heapId);
-    shop->arrowUpActor = (sptr)CLACT_CreateActor((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
+    shop->arrowUpActor = CLACT_CreateActor(shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
                                         shop->arrowCellRes, &d_021D96E8, 0, shop->heapId);
-    shop->arrowDownActor = (sptr)CLACT_CreateActor((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
+    shop->arrowDownActor = CLACT_CreateActor(shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
                                         shop->arrowCellRes, &d_021D96F0, 0, shop->heapId);
-    shop->quantityArrowActor = (sptr)CLACT_CreateActor((void *)shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
+    shop->quantityArrowActor = CLACT_CreateActor(shop->cellSystem, shop->arrowPlttRes, shop->arrowCharRes,
                                         shop->arrowCellRes, &d_021D96F8, 0, shop->heapId);
     CLACT_SetActorAutoAnim((struct ClactActor *)shop->quantityArrowActor, 1);
-    shop->iconActor = (sptr)CLACT_CreateActor((void *)shop->cellSystem, shop->iconPlttRes, shop->iconCharRes,
+    shop->iconActor = CLACT_CreateActor(shop->cellSystem, shop->iconPlttRes, shop->iconCharRes,
                                         shop->iconCellRes, &d_021D9700, 0, shop->heapId);
     CLACT_SetActorDrawEnable((struct ClactActor *)shop->arrowUpActor, 0);
     CLACT_SetActorDrawEnable((struct ClactActor *)shop->arrowDownActor, 0);
@@ -1389,7 +1369,7 @@ void SCRCMD_PROC_FLD_InitShopWindows(ShopWork *shop)
     }
     for (i = 0; i < SHOP_WIN_COUNT; i++) {
         template = templates[i];
-        shop->windows[i] = BMP_WIN_Create((u8)template->bgId, template->x, template->y, template->width, template->height, (u8)template->paletteNum, 1);
+        shop->windows[i] = (uptr)BMP_WIN_Create((u8)template->bgId, template->x, template->y, template->width, template->height, (u8)template->paletteNum, 1);
     }
     headerText = (uptr)MSGDATA_AllocString((struct MsgBank *)(shop->shopMsgBank), 0x14);
     PRINTSYS_PrintColor((void *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)shop->windows[SHOP_WIN_HEADER])), 0, 0, (void *)headerText, (void *)(shop->fontInfo), 0x3C4F);
@@ -1562,7 +1542,7 @@ void SCRCMD_PROC_FLD_CreateItemListMenu(ShopWork *shop)
     listTemplate.activeWindowRef = &shop->listWindow;
     listTemplate.printSys = shop->printSys;
     listTemplate.fontInfo = shop->fontInfo;
-    shop->listMenu = BMP_MENULIST_Create((struct MenuTemplate *)(&listTemplate), 0, 0, shop->heapId);
+    shop->listMenu = BMP_MENULIST_Create((struct BmpMenuListTemplate *)(&listTemplate), 0, 0, shop->heapId);
 }
 
 void SCRCMD_PROC_FLD_PrintListText(void *printSys, u32 bitmap, int x, int y, u32 text, u32 fontInfo, u16 colorBits)
@@ -1638,7 +1618,7 @@ void SCRCMD_PROC_FLD_OnListCursorMove(u32 listMenu, u32 row)
     BMP_MENULIST_GetPos((struct BmpMenuList *)listMenu, &cursorPos[1], &cursorPos[0]);
     cursorPos[2] = 0xAC;
     cursorPos[3] = cursorPos[0] * 16 + 0x16;
-    CLACT_AddActorSurfacePos((struct Obj *)(shop->cursorActor), (const struct Vec2 *)(&cursorPos[2]), 0);
+    CLACT_AddActorSurfacePos(shop->cursorActor, (const struct ClactVec2 *)(&cursorPos[2]), 0);
     if (row < 0x28) {
         items = shop->items;
         SCRCMD_PROC_FLD_PrintItemDescription(shop, items[row].itemId);
@@ -1909,8 +1889,9 @@ int SCRCMD_PROC_FLD_CallGtsNegoEvent(struct ScriptVm *vm, struct ScrcmdWork *cmd
     return 1;
 }
 
-void SCRCMD_PROC_FLD_FinishOv170Event(volatile Ov170EventHandoff *handoff)
+void SCRCMD_PROC_FLD_FinishOv170Event(void *arg)
 {
+    volatile Ov170EventHandoff *handoff = arg;
     u32 resultFlag;
     u32 result;
     Ov170EventWork *work;
@@ -2000,7 +1981,7 @@ int SCRCMD_PROC_FLD_CallOv170Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     handoff->gameData = gameData;
     handoff->resultVar = resultVar;
     handoff->work = work;
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, (sptr)fieldMap, (uptr)ov170_id, (sptr)d_021EF78C, (sptr)work, (sptr)((void *)SCRCMD_PROC_FLD_FinishOv170Event), (sptr)handoff));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gameSystem, fieldMap, (uptr)ov170_id, (void *)d_021EF78C, work, SCRCMD_PROC_FLD_FinishOv170Event, handoff));
     return 1;
 }
 
@@ -2113,7 +2094,7 @@ int SCRCMD_PROC_FLD_StartScriptedWildBattle(struct ScriptVm *vm, struct ScrcmdWo
     eventParam1 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     eventParam2 = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     SCRIPT_WORK_GetGameSystem(scriptWork);
-    SCRIPT_SYS_CallEvent(scriptWork, (void *)FIELD_ENCOUNT_StartScriptedWild((uptr)FIELDMAP_GetEncount((struct FieldMap *)(((u32 *)SCRIPT_WORK_ResetFieldParam(scriptWork))[1])), eventParam0, (u8)eventParam1, eventParam2));
+    SCRIPT_SYS_CallEvent(scriptWork, (void *)FIELD_ENCOUNT_StartScriptedWild(FIELDMAP_GetEncount((struct FieldMap *)(((u32 *)SCRIPT_WORK_ResetFieldParam(scriptWork))[1])), eventParam0, (u8)eventParam1, eventParam2));
     return 1;
 }
 

@@ -20,7 +20,7 @@ int FIELD_PLAYER_GRID_PlayTileSound(FieldPlayerGrid *grid, int unused, VecFx32 *
 void FIELD_PLAYER_GRID_PlayStepSound(FieldPlayerGrid *grid, int result, int dir);
 int FIELD_PLAYER_GRID_GetMoveResult(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
 int FIELD_PLAYER_GRID_GetDirChangeKind(FieldPlayerGrid *grid, int dir);
-void FIELD_PLAYER_GRID_CheckCoreAction(FieldPlayerGrid *grid);
+int FIELD_PLAYER_GRID_CheckCoreAction(FieldPlayerGrid *grid);
 int FIELD_PLAYER_GRID_GetMoveResultOnFoot(FieldPlayerGrid *grid, FieldPlayerGridMoveRequest *request);
 int FIELD_PLAYER_GRID_GetStandResultOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);
 int FIELD_PLAYER_GRID_GetWalkResultOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldPlayerGridMoveRequest *request);

@@ -6,6 +6,9 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of dwc_auth_interface.c, prototypes copied from their definitions. */
 
+#include "../sdk_dwc.h"
+#include "../sdk_dwc.h"
+
 int DWCi_Auth_InitInterface(int authServer);
 void DWCi_Auth_InitAdapterParam(void);
 int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, DWCAuthAlloc allocator, DWCAuthFree deallocator);

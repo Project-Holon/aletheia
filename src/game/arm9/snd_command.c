@@ -89,7 +89,6 @@ extern BOOL SND_IsFinishedCommandTag(u32 tag);
 extern int SND_CountFreeCommand(void);
 extern int SND_CountReservedCommand(void);
 #include "snd_alarm.h"
-extern void PXI_SetFifoRecvCallback(int fifotag, PXIFifoCallback callback);
 extern void PxiFifoCallback(int tag, u32 data, BOOL err);
 #include "os_emulator.h"
 void SND_CommandInit(void);

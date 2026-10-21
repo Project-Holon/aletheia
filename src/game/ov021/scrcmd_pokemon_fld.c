@@ -219,7 +219,6 @@ typedef struct OwnerInfo {
     u8 nameAndComment[0x50];
 } OwnerInfo;
 
-typedef struct { int x, y, z; } Vec3;
 
 /* One entry of a warp list placed in the script data (10 bytes); the first halfword 0xFFFF ends the list. */
 typedef struct WarpEntry {
@@ -252,43 +251,67 @@ typedef struct ScrcmdKeyValueEntry {
 #include "fieldmap.h"
 #include "../arm9/gfl_heap_wrap.h"
 struct ScriptVm;
-extern void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int a, u16 *b, u16 *c);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define EVENT_POKE_STATUS_CreatePokeSelectMoveEvent EVENT_POKE_STATUS_CreatePokeSelectMoveEvent_header
+#endif
+#include "../ov010/event_poke_status.h"
+#ifdef __MWERKS__
+#undef EVENT_POKE_STATUS_CreatePokeSelectMoveEvent
+extern void * EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(struct GameSystem *, u16 *, u16 *, u8, u32);
+#endif
 #include "../ov010/scrcmd_proc.h"
 #include "../arm9/game_data.h"
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 paramId, u32 arg);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define POKE_TOOL_CreateFromBoxParam POKE_TOOL_CreateFromBoxParam_header
+#endif
+#include "../arm9/poke_tool.h"
+#ifdef __MWERKS__
+#undef POKE_TOOL_CreateFromBoxParam
+extern struct PokemonParam * POKE_TOOL_CreateFromBoxParam(struct PokemonParam *, u32);
+#endif
 #include "../arm9/beacon.h"
-extern int POKEPARTY_GetCount(const struct Party *party);
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define POKEPARTY_GetCount POKEPARTY_GetCount_header
+#endif
+#include "../arm9/pokeparty.h"
+#ifdef __MWERKS__
+#undef POKEPARTY_GetCount
+extern int POKEPARTY_GetCount(const struct Party *);
+#endif
 struct ScriptWork;
 #include "../ov010/script_work.h"
 #include "../arm9/wordset.h"
 #include "../arm9/zukan_save.h"
-extern u32 POKE_TOOL_CheckTutorCompat(struct PokemonParam *pp, s32 tutorIndex);
-extern void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(void *t, u16 *o1, u16 *o2, u8 c, u32 v);
-extern u32 POKE_TOOL_CheckTmCompat(struct PokemonParam *pp, s32 tmIndex);
-extern u32 POKE_TOOL_GetHiddenPowerType(struct PokemonParam *pp);
 #include "scrcmd_sub_proc_events.h"
-extern int EVENT_POKE_STATUS_CreateMoveSelectEvent(int a, int b, int c, int d, int e, int f, unsigned short g);
 #include "../ov010/symbol_map.h"
 struct FldTradeHolder;
 #include "fld_trade.h"
-extern u32 MYITEM_SAVEDATA_CountUsedSlotsInPocket(struct MyItem *bag, u32 pocket);
+#include "../arm9/myitem_savedata_types.h"
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define MYITEM_SAVEDATA_AddItem MYITEM_SAVEDATA_AddItem_header
+#define MYITEM_SAVEDATA_GetSlot MYITEM_SAVEDATA_GetSlot_header
+#define MYITEM_SAVEDATA_HasItem MYITEM_SAVEDATA_HasItem_header
+#endif
+#include "../arm9/myitem_savedata.h"
+#ifdef __MWERKS__
+#undef MYITEM_SAVEDATA_AddItem
+#undef MYITEM_SAVEDATA_GetSlot
+#undef MYITEM_SAVEDATA_HasItem
+extern void MYITEM_SAVEDATA_AddItem(struct MyItem *, u32, int, u32);
+extern struct BagSlot * MYITEM_SAVEDATA_GetSlot(struct MyItem *, int, u16);
+extern int MYITEM_SAVEDATA_HasItem(struct MyItem *, u32, u32, u32);
+#endif
 #include "../arm9/gfl_use.h"
-extern u16 *MYITEM_SAVEDATA_GetSlot(void *, int, u16);
 struct BoxMonSlot;
 #include "../arm9/mon_snapshot_savedata.h"
 #include "../arm9/strbuf.h"
-extern u32 POKE_TOOL_GetPartyParamSize(void);
 #include "../arm9/mi_memory.h"
-extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
-extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
-extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 struct BoxPokemon;
-extern void *POKE_TOOL_CreateFromBoxParam(struct BoxMon *p, u32 heap);
-extern void POKEPARTY_SetMember(struct Party *party, u32 pos, struct PokemonParam *member);
-extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 #include "../arm9/mystatus.h"
-extern u32 POKEPARTY_SwapMembers(struct Party *p, u32 i, u32 j, u32 heap);
 struct FieldmapFunc;
 struct FieldSubprocTemplate;
 struct FieldSubprocMgr;
@@ -296,11 +319,11 @@ struct FieldSubproc;
 #include "fieldmap_func.h"
 struct IrcRankSave;
 #include "../arm9/irc_ranking.h"
-extern void *FIELD_CLOCK_GetDate(int gameData);
+#include "../ov010/field_clock.h"
 #include "../arm9/os_ownerinfo.h"
 struct IrcRankEntry;
 #include "../arm9/vm.h"
-extern int EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(void *, void *, int, Vec3 *, int);
+#include "../ov020/event_mapchange.h"
 #include "../arm9/mystery_data.h"
 struct MysteryCard;
 #include "pdw_postman.h"
@@ -317,11 +340,8 @@ int SCRCMD_POKEMON_FLD_IsLibertyPassGift(MysteryGiftCard *card, int giftType);
 #include "../ov010/eventdata_system.h"
 struct GiftMon;
 #include "../ov010/mystery_gift_mon.h"
-extern u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *mon);
-extern void MYITEM_SAVEDATA_AddItem(struct MyItem *bag, u32 itemId, int count, u32 heapId);
 #include "../arm9/intrude.h"
 #include "../arm9/arc_util.h"
-extern int MYITEM_SAVEDATA_HasItem(struct MyItem *bag, u32 itemId, u32 count, u32 heapId);
 Mmdl *SCRCMD_POKEMON_FLD_FindDeliveryMmdl(struct FieldMap *fieldMap);
 int SCRCMD_POKEMON_FLD_FindDeliveryNpcObjId(struct GameData *gameData);
 struct PokemonParam *SCRCMD_POKEMON_FLD_CreateGiftMon(ScrcmdWork *work, MysteryGiftCard *card);
@@ -345,8 +365,6 @@ int SCRCMD_POKEMON_FLD_CheckTableItemInBag(struct ScriptVm *vm, ScrcmdWork *work
 int SCRCMD_POKEMON_FLD_RegisterTableValueNumber(struct ScriptVm *vm, ScrcmdWork *work);
 int SCRCMD_POKEMON_FLD_AddTableValueToPoints(struct ScriptVm *vm, ScrcmdWork *work);
 extern const u8 sScrcmdTableFileIds[];
-extern int FIELD_CLOCK_GetMonth(struct GameData *gameData);
-extern int FIELD_CLOCK_GetDay(struct GameData *gameData);
 int SCRCMD_POKEMON_FLD_GetDailyGift(void *core, void *work);
 int SCRCMD_POKEMON_FLD_IsSpecialDate(u32 month, int day);
 int SCRCMD_POKEMON_FLD_GetDailyGiftIndex(void *core, void *work);
@@ -1057,7 +1075,7 @@ u32 SCRCMD_POKEMON_FLD_GetRandomBagPocketValue(struct ScriptVm *vm, struct Scrcm
     if (itemCount == 0)
         value = 0;
     else
-        value = FILE_UTIL_GetMachineMove(*MYITEM_SAVEDATA_GetSlot(bag, pocket, randomIndex));
+        value = FILE_UTIL_GetMachineMove(MYITEM_SAVEDATA_GetSlot(bag, pocket, randomIndex)->itemId);
     *valueOut = value;
     return 0;
 }
@@ -1188,7 +1206,7 @@ void SCRCMD_POKEMON_FLD_SwapPartyMonWithBoxedLegend(struct ScrcmdWork *work, int
         POKE_TOOL_ChangeForm(mon, 0);
         POKE_TOOL_RecalcParam(mon);
     }
-    boxedPartyMon = POKE_TOOL_CreateFromBoxParam((struct BoxMon *)BOX_SAVEDATA_GetPokemon(boxManager, boxPos[1], boxPos[0]), heapId);
+    boxedPartyMon = POKE_TOOL_CreateFromBoxParam((struct PokemonParam *)BOX_SAVEDATA_GetPokemon(boxManager, boxPos[1], boxPos[0]), heapId);
     POKEPARTY_SetMember(party, partySlot, boxedPartyMon);
     GFL_HEAP_Free(boxedPartyMon);
     BOX_SAVEDATA_SetPokemon(boxManager, boxPos[1], boxPos[0], (struct BoxPokemon *)POKE_TOOL_CastToBoxParam(mon));
@@ -1297,7 +1315,7 @@ u32 SCRCMD_POKEMON_FLD_RegisterBirthdayEntry(struct ScriptVm *vm, struct ScrcmdW
     OwnerInfo owner;
 
     mysteryData = IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(gameData));
-    date = FIELD_CLOCK_GetDate((sptr)gameData);
+    date = FIELD_CLOCK_GetDate(gameData);
     OS_GetOwnerInfo((struct OSOwnerInfo *)(&owner));
     entryIndex = IRC_RANKING_FindClosestEntry(mysteryData, owner.birthMonth, owner.birthDay, date);
     flags = IRC_RANKING_GetEntryGender(mysteryData, entryIndex);
@@ -1392,7 +1410,7 @@ u32 SCRCMD_POKEMON_FLD_WarpToEntry(struct ScriptVm *vm, struct ScrcmdWork *work)
         void *scriptWork = SCRCMD_WORK_GetScriptWork(work);
         void *gameSystem = SCRIPT_WORK_GetGameSystem(scriptWork);
         void *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-        Vec3 position;
+        VecFx32 position;
         u32 gridY = entry->gridY;
         u32 gridZ = entry->gridZ;
         u32 mapId = entry->mapId;

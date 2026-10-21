@@ -265,15 +265,6 @@
 
 #include "ircbattlemenu_types.h"
 
-/* Init data of one cell actor (CLACT_CreateActor). */
-typedef struct ClactActorInit {
-    u16 posX;
-    u16 posY;
-    u16 anim;
-    u8 softPri;
-    u8 bgPri;
-} ClactActorInit;
-
 /* Init data of a task menu (TaskMenuInitWork in app_taskmenu.c). */
 typedef struct TaskMenuInit {
     u32 heapId;
@@ -301,15 +292,8 @@ struct WifiList;
 struct Bmp;
 struct TaskNode;
 
-extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 charRes, u32 plttRes, u32 cellRes, const ClactActorInit *init, u16 drawArea, u16 heapId);
+#include "../arm9/clact.h"
 struct ClactActor;
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
-extern void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
-extern void CLACT_ReleasePalette(u32 res);
-extern void CLACT_ReleaseCharacter(u32 res);
-extern void CLACT_ReleaseCellAnim(u32 res);
 struct Strbuf;
 #include "../arm9/strbuf.h"
 struct MsgBank;
@@ -321,39 +305,29 @@ struct TaskMenuWork;
 struct TextPrinter;
 struct KeyCursor;
 #include "../arm9/app_keycursor.h"
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
+#include "../arm9/printsys.h"
 #include "../arm9/touchpanel.h"
-extern void GFL_USE_PlaySeDefaultVolume(u32 seqNo);
+#include "../arm9/gfl_use.h"
 #include "../arm9/bmp_win.h"
 typedef short s16_p07;
 #include "../arm9/bmp.h"
 #include "../arm9/gf_font.h"
 #include "../arm9/msg_speed.h"
-extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u32 wait, struct Tcbl *tcbl, u32 pri, u32 heapId, u32 back);
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
 #include "../arm9/bmp_menuwork.h"
 #include "../arm9/game_data.h"
 struct SaveControl;
 #include "../arm9/save_control.h"
-extern void CLACT_VBlankSystem(void);
 #include "../arm9/gfl_heap.h"
 struct Proc;
 #include "../arm9/procsys.h"
 #include "../arm9/mi_memory.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Unit *CLACT_CreateUnit(int actorMax, u8 pri, u32 heapId);
 struct Tcb;
-extern struct Tcb *GFL_USE_AddMainTask(void (*task)(void), void *work, u32 pri);
 #include "../arm9/gfl_heap_wrap.h"
 struct TcblSystem;
 #include "../arm9/tcbl.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 struct GFont;
 #include "../arm9/wipe.h"
 #include "../ov010/event_ircbattle.h"
@@ -362,15 +336,9 @@ struct GFont;
 #include "../arm9/net.h"
 struct FieldState;
 #include "../arm9/wih_dwc.h"
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern void CLACT_DrawSystem(void);
 #include "../arm9/time_icon.h"
-extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 struct TcbTask;
 #include "../arm9/tcb_list.h"
-extern u32 CLACT_DeleteUnit(struct Unit *unit);
-extern void CLACT_ExitSystem(void);
 
 extern const ActorRow5 sMainMenuActorPosX;
 extern const ActorRow5 sMainMenuActorPosY;
@@ -380,7 +348,7 @@ extern const ActorRow3 sSubMenuActorPosY;
 extern const ActorRow3 sSubMenuActorAnim;
 extern u8 sVramBank[];
 extern const DispSetup sGraphicsMode;
-extern u8 gClActorInitParam[];
+extern const struct ClactSysInit gClActorInitParam;
 extern u8 sIrcBattleMenuFileName[];
 
 /* Window description of a button window (position and size in characters). */
@@ -394,13 +362,6 @@ typedef struct IrcBattleWinDesc {
 /* Message ids of the buttons of a menu. */
 typedef struct MsgIdRow2 { u32 id[2]; } MsgIdRow2;
 typedef struct MsgIdRow4 { u32 id[4]; } MsgIdRow4;
-
-/* Request passed to the cell actor animation: runs callback(work) when the animation ends. */
-typedef struct ClactAnimEndHook {
-    u16 type;
-    IrcBattleMenuWork *work;
-    void (*callback)(IrcBattleMenuWork *work);
-} ClactAnimEndHook;
 
 /* Palette resource data (rawData at +0xC). */
 struct PaletteData {
@@ -421,8 +382,6 @@ struct PartyInfo;
 #include "../arm9/palanm.h"
 #include "../arm9/gx_load2d.h"
 struct TcblList;
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
-extern u32 PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font);
 struct ButtonMan;
 extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
 extern struct ButtonMan *BUTTON_MAN_Create(u8 *rects, void (*callback)(u32 index, int event, IrcBattleMenuWork *work), s32 arg, s32 heap);
@@ -436,11 +395,6 @@ struct Party;
 struct BattleBoxSave;
 #include "../arm9/battle_box.h"
 struct BoxMonGroup;
-extern s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
-extern s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
-extern s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
-extern void CLACT_ApplyActorAnimCommand(struct ClactActor *actor, const ClactAnimEndHook *hook);
-extern void CLACT_RestartActorAnim(struct ClactActor *actor);
 extern const BgTemplate sBgTemplateMain0;
 extern const BgTemplate sBgTemplateMain1;
 extern const BgTemplate sBgTemplateSub0;
@@ -530,7 +484,7 @@ void IRCBATTLEMENU_SeqSaveStart(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqWaitTouchExit(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqSaveYesNo(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqSaveQuestionWait(IrcBattleMenuWork *work);
-void IRCBATTLEMENU_VBlankTask(void);
+void IRCBATTLEMENU_VBlankTask(struct TcbTask *task, void *arg);
 int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param);
 u32 IRCBATTLEMENU_Main(u32 proc, u32 seq, u32 param, IrcBattleMenuWork *work);
 int IRCBATTLEMENU_Exit(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param, IrcBattleMenuWork *work);
@@ -890,13 +844,13 @@ void IRCBATTLEMENU_SeqIdleTop(IrcBattleMenuWork *work)
 /* Sequence: plays the press animation of the touched top menu button, then runs IRCBATTLEMENU_HookTopMenuPressed. */
 void IRCBATTLEMENU_SeqPressTopButton(IrcBattleMenuWork *work)
 {
-    ClactAnimEndHook hook;
+    struct ClactAnimCommand hook;
     u32 i;
 
     i = work->touchIndex;
-    hook.type = 0;
-    hook.work = work;
-    hook.callback = IRCBATTLEMENU_HookTopMenuPressed;
+    hook.op = 0;
+    hook.param = (uptr)work;
+    hook.func = (uptr)IRCBATTLEMENU_HookTopMenuPressed;
     if (i == 5) {
         i = 0;
     } else if (i == 6) {
@@ -1011,16 +965,16 @@ void IRCBATTLEMENU_SeqIdleKind(IrcBattleMenuWork *work)
 /* Sequence: plays the press animation of the kind menu button, then runs IRCBATTLEMENU_HookKindMenuPressed. */
 void IRCBATTLEMENU_SeqPressKindButton(IrcBattleMenuWork *work)
 {
-    ClactAnimEndHook hook;
+    struct ClactAnimCommand hook;
     int i;
 
     i = 0;
     if (work->mode == 5) {
         i = 1;
     }
-    hook.type = 0;
-    hook.work = work;
-    hook.callback = IRCBATTLEMENU_HookKindMenuPressed;
+    hook.op = 0;
+    hook.param = (uptr)work;
+    hook.func = (uptr)IRCBATTLEMENU_HookKindMenuPressed;
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[i]);
@@ -1041,11 +995,11 @@ void IRCBATTLEMENU_SeqIdleKindBack(IrcBattleMenuWork *work)
 /* Sequence: plays the press animation of the pressed button, then runs IRCBATTLEMENU_HookKindBackPressed. */
 void IRCBATTLEMENU_SeqPressKindBack(IrcBattleMenuWork *work)
 {
-    ClactAnimEndHook hook;
+    struct ClactAnimCommand hook;
 
-    hook.type = 0;
-    hook.work = work;
-    hook.callback = IRCBATTLEMENU_HookKindBackPressed;
+    hook.op = 0;
+    hook.param = (uptr)work;
+    hook.func = (uptr)IRCBATTLEMENU_HookKindBackPressed;
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[work->touchIndex], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[work->touchIndex], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[work->touchIndex]);
@@ -1117,13 +1071,13 @@ void IRCBATTLEMENU_SeqIdleParty(IrcBattleMenuWork *work)
 void IRCBATTLEMENU_SeqPressPartyButton(IrcBattleMenuWork *work)
 {
     ActorRow3 actorIndex = sPartyMenuActorIndex;
-    ClactAnimEndHook hook;
+    struct ClactAnimCommand hook;
     int i;
 
     i = actorIndex.v[work->partyMode];
-    hook.type = 0;
-    hook.work = work;
-    hook.callback = IRCBATTLEMENU_HookPartyMenuPressed;
+    hook.op = 0;
+    hook.param = (uptr)work;
+    hook.func = (uptr)IRCBATTLEMENU_HookPartyMenuPressed;
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[i]);
@@ -1199,7 +1153,7 @@ void IRCBATTLEMENU_SeqIdleRule(IrcBattleMenuWork *work)
 /* Sequence: plays the press animation of the rule menu button for the chosen mode, then runs IRCBATTLEMENU_HookRuleMenuPressed. */
 void IRCBATTLEMENU_SeqPressRuleButton(IrcBattleMenuWork *work)
 {
-    ClactAnimEndHook hook;
+    struct ClactAnimCommand hook;
     int i;
 
     switch (work->mode) {
@@ -1219,9 +1173,9 @@ void IRCBATTLEMENU_SeqPressRuleButton(IrcBattleMenuWork *work)
         i = 4;
         break;
     }
-    hook.type = 0;
-    hook.work = work;
-    hook.callback = IRCBATTLEMENU_HookRuleMenuPressed;
+    hook.op = 0;
+    hook.param = (uptr)work;
+    hook.func = (uptr)IRCBATTLEMENU_HookRuleMenuPressed;
     CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 1);
     CLACT_ApplyActorAnimCommand(work->menuActors[i], &hook);
     CLACT_RestartActorAnim((struct ClactActor *)work->menuActors[i]);
@@ -1305,16 +1259,16 @@ void IRCBATTLEMENU_CreateTopMenuActors(IrcBattleMenuWork *work)
     ActorRow5 posX = sTopMenuActorPosX;
     ActorRow5 posY = sTopMenuActorPosY;
     ActorRow5 anim = sTopMenuActorAnim;
-    ClactActorInit init;
+    struct ActorInitParam init;
     int i;
 
     IRCBATTLEMENU_DeleteMenuActors(work);
     for (i = 0; i < 5; i++) {
-        init.posX = posX.v[i];
-        init.posY = posY.v[i];
-        init.anim = anim.v[i];
-        init.softPri = 0;
-        init.bgPri = 1;
+        init.x = posX.v[i];
+        init.y = posY.v[i];
+        init.anim_seq = anim.v[i];
+        init.draw_priority = 0;
+        init.bg_priority = 1;
         work->menuActors[i] = CLACT_CreateActor(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
         CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 0);
         CLACT_SetActorDrawEnable((struct ClactActor *)work->menuActors[i], 1);
@@ -1328,16 +1282,16 @@ void IRCBATTLEMENU_CreateKindMenuActors(IrcBattleMenuWork *work)
     ActorRow3 posX = sKindMenuActorPosX;
     ActorRow3 posY = sKindMenuActorPosY;
     ActorRow3 anim = sKindMenuActorAnim;
-    ClactActorInit init;
+    struct ActorInitParam init;
     int i;
 
     IRCBATTLEMENU_DeleteMenuActors(work);
     for (i = 0; i < 3; i++) {
-        init.posX = posX.v[i];
-        init.posY = posY.v[i];
-        init.anim = anim.v[i];
-        init.softPri = 0;
-        init.bgPri = 1;
+        init.x = posX.v[i];
+        init.y = posY.v[i];
+        init.anim_seq = anim.v[i];
+        init.draw_priority = 0;
+        init.bg_priority = 1;
         work->menuActors[i] = CLACT_CreateActor(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
         CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 0);
         CLACT_SetActorDrawEnable((struct ClactActor *)work->menuActors[i], 1);
@@ -1354,16 +1308,16 @@ void IRCBATTLEMENU_CreateMainMenuActors(IrcBattleMenuWork *work)
     ActorRow5 posX = sMainMenuActorPosX;
     ActorRow5 posY = sMainMenuActorPosY;
     ActorRow5 anim = sMainMenuActorAnim;
-    ClactActorInit init;
+    struct ActorInitParam init;
     int i;
 
     IRCBATTLEMENU_DeleteMenuActors(work);
     for (i = 0; i < 5; i++) {
-        init.posX = posX.v[i];
-        init.posY = posY.v[i];
-        init.anim = anim.v[i];
-        init.softPri = 0;
-        init.bgPri = 1;
+        init.x = posX.v[i];
+        init.y = posY.v[i];
+        init.anim_seq = anim.v[i];
+        init.draw_priority = 0;
+        init.bg_priority = 1;
         work->menuActors[i] = CLACT_CreateActor(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
         CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 0);
         CLACT_SetActorDrawEnable((struct ClactActor *)work->menuActors[i], 1);
@@ -1377,16 +1331,16 @@ void IRCBATTLEMENU_CreateSubMenuActors(IrcBattleMenuWork *work)
     ActorRow3 posX = sSubMenuActorPosX;
     ActorRow3 posY = sSubMenuActorPosY;
     ActorRow3 anim = sSubMenuActorAnim;
-    ClactActorInit init;
+    struct ActorInitParam init;
     int i;
 
     IRCBATTLEMENU_DeleteMenuActors(work);
     for (i = 0; i < 3; i++) {
-        init.posX = posX.v[i];
-        init.posY = posY.v[i];
-        init.anim = anim.v[i];
-        init.softPri = 0;
-        init.bgPri = 1;
+        init.x = posX.v[i];
+        init.y = posY.v[i];
+        init.anim_seq = anim.v[i];
+        init.draw_priority = 0;
+        init.bg_priority = 1;
         work->menuActors[i] = CLACT_CreateActor(work->clactUnit, work->res[3], work->res[1], work->res[5], &init, 1, work->heapId);
         CLACT_SetActorAutoAnim((struct ClactActor *)work->menuActors[i], 0);
         CLACT_SetActorDrawEnable((struct ClactActor *)work->menuActors[i], 1);
@@ -1597,7 +1551,7 @@ void IRCBATTLEMENU_SeqSaveQuestionWait(IrcBattleMenuWork *work)
 }
 
 /* VBlank task: tail call into the ARM9 cell actor system. */
-void IRCBATTLEMENU_VBlankTask(void)
+void IRCBATTLEMENU_VBlankTask(struct TcbTask *task, void *arg)
 {
     CLACT_VBlankSystem();
 }
@@ -1621,7 +1575,7 @@ int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param
     }
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
-    CLACT_InitSystem((struct SysInit *)gClActorInitParam, (struct DispVramCfg *)sVramBank, work->heapId);
+    CLACT_InitSystem(&gClActorInitParam, (struct DispVramCfg *)sVramBank, work->heapId);
     work->clactUnit = CLACT_CreateUnit(0x28, 0, work->heapId);
     work->vblankTask = (uptr)GFL_USE_AddMainTask(IRCBATTLEMENU_VBlankTask, work, 0);
     IRCBATTLEMENU_InitBgLayers(work);

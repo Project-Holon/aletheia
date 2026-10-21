@@ -25,6 +25,7 @@
 #include "nns_g3d_anm_calc_types.h"
 #include "../sdk_ioreg_reg.h"
 #include "nns_g3d_glb_types.h"
+#include "mi_memory.h"
 
 /* Geometry engine ports. */
 
@@ -60,7 +61,6 @@ extern void NNS_G3dGeSendDL(const u32 *pDisplayList, u32 size);
 extern void MTX_Copy43To44_(const MtxFx43 *pSrc, MtxFx44 *pDst);
 extern void MTX_Concat44(const MtxFx44 *pA, const MtxFx44 *pB, MtxFx44 *pAB);
 extern fx32 VEC_Mag(const VecFx32 *pVec);
-extern void MIi_CpuSend32(const void *pSrc, volatile void *pDst, u32 size);
 
 /* Index into a dictionary: the data address of entry idx, or 0. */
 static inline void *NNSi_G3dGetResDataByIdx(const NNSG3dResDict *pDict, u32 idx)

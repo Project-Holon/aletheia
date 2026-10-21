@@ -1502,7 +1502,7 @@ void BTLV_CORE_InitPartyWork(struct BtlvCore *core, BtlvPlistWork *plist, int mo
     plist->auxViewHandle = (sptr)BTLV_SCD_GetInputFlags(core->auxView);
     plist->effectSys = BTLV_EFFECT_GetOwner();
     plist->effectSysAux = BTLV_EFFECT_GetPalanm();
-    plist->gameData = (void *)BTL_MAIN_GetGameData((struct BtlMain *)core->context);
+    plist->gameData = BTL_MAIN_GetGameData((struct BtlMain *)core->context);
     plist->choiceLocked = 0;
     isNotComm = 0;
     if (BTL_MAIN_GetCompetitor((struct BtlMain *)core->context) != 3) isNotComm = 1;
@@ -1674,16 +1674,22 @@ int BTLV_CORE_PollBagMenu(struct BtlvCore *core)
         }
         break;
     case 4:
+        /* The DS code passes the item page as a second argument; the definition takes one and ignores it. */
 #ifdef __MWERKS__
         if (core->bag.selectedItem && core->bag.selectedItemPage != 2 && !BTL_ID_IsBagItemUseBlocked(core->bag.selectedItem, core->bag.selectedItemPage)) {
-#else
-        if (core->bag.selectedItem && core->bag.selectedItemPage != 2 && !BTL_ID_IsBagItemUseBlocked(core->bag.selectedItem)) {
-#endif
             core->plist.itemId = core->bag.selectedItem;
             GF_OVERLAY_Load((sptr)ov198_id);
             B_PLIST_MAIN_Create((u8 *)(&core->plist));
             core->subStep = 5;
         } else core->subStep = 6;
+#else
+        if (core->bag.selectedItem && core->bag.selectedItemPage != 2 && !BTL_ID_IsBagItemUseBlocked(core->bag.selectedItem)) {
+            core->plist.itemId = core->bag.selectedItem;
+            GF_OVERLAY_Load((sptr)ov198_id);
+            B_PLIST_MAIN_Create((u8 *)(&core->plist));
+            core->subStep = 5;
+        } else core->subStep = 6;
+#endif
         break;
     case 5:
         if (core->plist.done) {

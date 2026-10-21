@@ -82,12 +82,10 @@ extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 #include "../arm9/gx_vramcnt.h"
 struct G3dResource;
 #include "../arm9/g3d_system.h"
-extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+#include "../ov021/fieldmap.h"
 struct G3dRender;
 struct G3dAnime;
 struct G3dObject;
-extern s32 FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
-extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, s32 drawMode);
 #include "../arm9/gfl_use.h"
 void *ENCEFF_BuildModelSceneKind00(void *gameSystem, struct FieldMap *fieldMap, int useSubScreen);
 void *ENCEFF_BuildModelSceneKind01(void *gameSystem, struct FieldMap *fieldMap, int useSubScreen);

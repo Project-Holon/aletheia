@@ -45,6 +45,23 @@ typedef struct SNDBankData {
 
 typedef struct SNDWaveData SNDWaveData;
 
+/* Parameters of one bank instrument (wave number and wave archive number in wave[]). */
+typedef struct SNDInstParam {
+    u16 wave[2];
+    u8 originalKey;
+    u8 attack;
+    u8 decay;
+    u8 sustain;
+    u8 release;
+    u8 pan;
+} SNDInstParam;
+
+/* One instrument record of a bank (12 bytes). */
+typedef struct SNDInstData {
+    u8 type;
+    SNDInstParam param;
+} SNDInstData;
+
 typedef struct SNDInstPos {
     u32 prgNo;
     u32 index;
@@ -57,5 +74,8 @@ SNDInstPos SND_GetFirstInstDataPos(const void *bank);
 void *SNDi_GetBankWaveArcTable(char *bank);
 void SND_SetWaveDataAddress(SNDWaveArc *waveArc, int index, const SNDWaveData *address);
 const SNDWaveData *SND_GetWaveDataAddress(const SNDWaveArc *waveArc, int index);
+
+struct SNDWaveData;
+BOOL SND_GetNextInstData(const SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos);
 
 #endif

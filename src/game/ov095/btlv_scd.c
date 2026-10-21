@@ -134,23 +134,9 @@
 #endif
 #include "btlv_scd_types.h"
 
-/* Services of the input module (ov094), which draws the touch screen menus. */
-extern struct BtlvInput *BTLV_INPUT_CreateWithMode(u32 gameData, u32 rule, u32 competitor, int bgMode, void *fontMain, u8 *inputFlags, int viewParam, u16 heapId);
-extern void BTLV_INPUT_Delete(struct BtlvInput *input);
-extern void BTLV_INPUT_StartScreenFadeTask(struct BtlvInput *input);
-extern int BTLV_INPUT_IsScreenBusy(struct BtlvInput *input);
-extern void BTLV_INPUT_StartPaletteFadeTask(struct BtlvInput *input, u32 mode);
-extern void BTLV_INPUT_ChangeScreen(struct BtlvInput *input, int screen, void *payload);
-extern int BTLV_INPUT_ProcessTouchInput(struct BtlvInput *input, const void *regionsA, const void *regionsB);
-extern int BTLV_INPUT_StepFingerDemo(struct BtlvInput *input);
-extern int BTLV_INPUT_ProcessKeyInput(struct BtlvInput *input, u8 *outKey, u32 *outValue);
-extern int BTLV_INPUT_IsInputBlocked(struct BtlvInput *input);
-extern int BTLV_INPUT_GetScreen(struct BtlvInput *input);
-
-/* Services of the battle viewer effects (ov094). */
-extern int BTLV_EFFECT_GetPalanm(void);
-extern void BTLV_EFFECT_GaugeSelectSlot(int sel);
-extern void BTLV_EFFECT_StartIntroEffect(void);
+/* Services of the input module and the effects (ov094). */
+#include "../ov094/btlv_input.h"
+#include "../ov094/btlv_effect.h"
 
 /* Services of the battle main module. */
 
@@ -197,20 +183,20 @@ extern u32 WAZA_TOOL_GetParam(u16 move, u32 param);
 extern u8 gBtlvScdFileName[];
 extern u8 gBtlvScdActionButtonByRegion[];
 extern u8 gBtlvScdViewPosByRegion[];
-extern char gBtlvScdMoveRegionsDoubleA[];
-extern char gBtlvScdChoiceRegionsA[];
-extern char gBtlvScdActionRegionsA[];
-extern char gBtlvScdMoveRegionsSingleA[];
-extern char gBtlvScdCounterRegionsA[];
-extern char gBtlvScdCounterRegionsB[];
-extern char gBtlvScdChoiceRegionsB[];
-extern char gBtlvScdActionRegionsB[];
-extern char gBtlvScdMoveRegionsSingleB[];
-extern char gBtlvScdMoveRegionsDoubleB[];
-extern const char *const gBtlvScdTargetRegionsSingleB[][15];
-extern const char *const gBtlvScdTargetRegionsSingleA[][15];
-extern const char *const gBtlvScdTargetRegionsDoubleA[][15];
-extern const char *const gBtlvScdTargetRegionsDoubleB[][15];
+extern BtlvInputTouchTable gBtlvScdMoveRegionsDoubleA;
+extern BtlvInputTouchTable gBtlvScdChoiceRegionsA;
+extern BtlvInputTouchTable gBtlvScdActionRegionsA;
+extern BtlvInputTouchTable gBtlvScdMoveRegionsSingleA;
+extern BtlvInputTouchTable gBtlvScdCounterRegionsA;
+extern s8 gBtlvScdCounterRegionsB[][12];
+extern s8 gBtlvScdChoiceRegionsB[][12];
+extern s8 gBtlvScdActionRegionsB[][12];
+extern s8 gBtlvScdMoveRegionsSingleB[][12];
+extern s8 gBtlvScdMoveRegionsDoubleB[][12];
+extern s8 (*const gBtlvScdTargetRegionsSingleB[][15])[12];
+extern BtlvInputTouchTable *const gBtlvScdTargetRegionsSingleA[][15];
+extern BtlvInputTouchTable *const gBtlvScdTargetRegionsDoubleA[][15];
+extern s8 (*const gBtlvScdTargetRegionsDoubleB[][15])[12];
 
 BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlSide *pokeCon, void *taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId);
 void BTLV_SCD_CreateInput(BtlvAuxView *view);
@@ -297,16 +283,16 @@ BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, 
 /* Creates the input module of the touch screen and shows the sub screen plane. */
 void BTLV_SCD_CreateInput(BtlvAuxView *view)
 {
-    u32 gameData;
+    struct GameData *gameData;
     u32 rule;
     u32 competitor;
-    int bgMode;
+    PaletteFade *palAnm;
 
     gameData = BTL_MAIN_GetGameData(view->mainModule);
     rule = BTL_MAIN_GetRule(view->mainModule);
     competitor = BTL_MAIN_GetCompetitor(view->mainModule);
-    bgMode = BTLV_EFFECT_GetPalanm();
-    view->input = BTLV_INPUT_CreateWithMode(gameData, rule, competitor, bgMode, view->fontMain, &view->inputFlags, view->viewParam, view->heapId);
+    palAnm = BTLV_EFFECT_GetPalanm();
+    view->input = BTLV_INPUT_CreateWithMode(gameData, rule, competitor, palAnm, view->fontMain, &view->inputFlags, view->viewParam, view->heapId);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     BTLV_SCD_Nop(view);
 }
@@ -663,7 +649,7 @@ int BTLV_SCD_WaitActionTouchStep(int *state, BtlvAuxView *view)
 
     switch (*state) {
     case 0:
-        touched = BTLV_INPUT_ProcessTouchInput(view->input, gBtlvScdActionRegionsA, gBtlvScdActionRegionsB);
+        touched = BTLV_INPUT_ProcessTouchInput(view->input, &gBtlvScdActionRegionsA, gBtlvScdActionRegionsB);
         if (touched == -1)
             break;
         button = gBtlvScdActionButtonByRegion[touched];
@@ -728,13 +714,13 @@ int BTLV_SCD_OpenMoveMenuStep(int *state, BtlvAuxView *view)
 int BTLV_SCD_WaitMoveTouchStep(int *state, BtlvAuxView *view)
 {
     int choice;
-    const char *regionsA;
-    const char *regionsB;
+    BtlvInputTouchTable *regionsA;
+    s8 (*regionsB)[12];
     int slotFlag;
 
     choice = BTL_MAIN_GetViewPosOfSlot(view->mainModule, BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)));
-    if (BTL_MAIN_GetRule(view->mainModule) == 2 && choice != 4) regionsA = gBtlvScdMoveRegionsDoubleA;
-    else regionsA = gBtlvScdMoveRegionsSingleA;
+    if (BTL_MAIN_GetRule(view->mainModule) == 2 && choice != 4) regionsA = &gBtlvScdMoveRegionsDoubleA;
+    else regionsA = &gBtlvScdMoveRegionsSingleA;
     if (BTL_MAIN_GetRule(view->mainModule) == 2 && choice != 4) regionsB = gBtlvScdMoveRegionsDoubleB;
     else regionsB = gBtlvScdMoveRegionsSingleB;
     choice = BTLV_INPUT_ProcessTouchInput(view->input, regionsA, regionsB);
@@ -951,7 +937,8 @@ int BTLV_SCD_WaitTargetTouchStep(int *state, BtlvAuxView *view)
 {
     u8 kind, row, targetPos;
     int userViewPos, stopIndex, choice;
-    const char *regionsA, *regionsB;
+    BtlvInputTouchTable *regionsA;
+    s8 (*regionsB)[12];
 
     if (*state == 0) {
         userViewPos = BTL_MAIN_GetViewPosOfSlot(view->mainModule, BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)));
@@ -1079,7 +1066,7 @@ int BTLV_SCD_PollChoiceScreen(BtlvAuxView *view, u32 *outChoice)
 
     switch (view->choiceStep) {
     case 0:
-        touched = BTLV_INPUT_ProcessTouchInput(view->input, gBtlvScdChoiceRegionsA, gBtlvScdChoiceRegionsB);
+        touched = BTLV_INPUT_ProcessTouchInput(view->input, &gBtlvScdChoiceRegionsA, gBtlvScdChoiceRegionsB);
         if (touched == -1)
             break;
         view->choiceIndex = touched;
@@ -1145,5 +1132,5 @@ void BTLV_SCD_ShowCounterScreen(BtlvAuxView *view, void *payload)
 /* Polls the touch regions of the counter screen. */
 int BTLV_SCD_PollCounterTouch(BtlvAuxView *view)
 {
-    return BTLV_INPUT_ProcessTouchInput(view->input, gBtlvScdCounterRegionsA, gBtlvScdCounterRegionsB);
+    return BTLV_INPUT_ProcessTouchInput(view->input, &gBtlvScdCounterRegionsA, gBtlvScdCounterRegionsB);
 }

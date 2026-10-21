@@ -319,11 +319,7 @@ void FIELD_MSGBG_MakeListHeader(BmpMenuListHeader *listHeader, const FieldMenuHe
 FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(FieldMsgBg *msgBg, u32 cursorPos);
 int FIELD_MSGBG_YesNoMenuMain(FieldMenuFunc *menu);
 FieldMsgStream *FIELD_MSGBG_CreateMsgStreamColor(FieldMsgBg *msgBg, struct Strbuf *str, struct BmpWin *bmpWin, u32 x, u16 y, u32 wait, u16 clearColor);
-#ifdef __MWERKS__
-int FIELD_MSGBG_MsgStreamCallback(int code); /* original prototype: the callback type of PRINTSYS_PrintStreamCallBack is u8 (*)(u32) */
-#else
-u8 FIELD_MSGBG_MsgStreamCallback(u32 code);
-#endif
+FieldMsgStreamCbRet FIELD_MSGBG_MsgStreamCallback(FieldMsgStreamCbArg code);
 FieldMsgStream *FIELD_MSGBG_CreateMsgStream(FieldMsgBg *msgBg, struct Strbuf *str, struct BmpWin *bmpWin, u32 x, u16 y, u32 wait);
 int FIELD_MSGBG_DeleteMsgStream(FieldMsgStream *stream);
 int FIELD_MSGBG_MsgStreamMain(FieldMsgStream *stream);
@@ -1073,11 +1069,7 @@ FieldMsgStream *FIELD_MSGBG_CreateMsgStreamColor(FieldMsgBg *msgBg, struct Strbu
     return stream;
 }
 
-#ifdef __MWERKS__
-int FIELD_MSGBG_MsgStreamCallback(int code)
-#else
-u8 FIELD_MSGBG_MsgStreamCallback(u32 code)
-#endif
+FieldMsgStreamCbRet FIELD_MSGBG_MsgStreamCallback(FieldMsgStreamCbArg code)
 {
     switch (code) {
     case 3:
@@ -1858,7 +1850,7 @@ void FIELD_MSGBG_LoadBgWinGraphics(u32 frame, u32 palSlot, u32 winType, u16 heap
 {
     if (winType >= 4)
         winType = 0;
-    ARC_UTIL_UploadBgCharFromArchive((void *)5, (void *)6, (void *)frame, (void *)0x33, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromArchive(5, 6, frame, 0x33, 0, 0, heapId);
     ARC_UTIL_UploadPaletteFromArchive(5, 1, 0, winType << 5, palSlot << 5, 0x20, heapId);
 }
 
@@ -2219,7 +2211,7 @@ void FIELD_MSGBG_AnimateCursorOnFrame(FieldMsgCursor *cursor, struct Bmp *bmp, s
 
 void FIELD_MSGBG_LoadSysWindowFrameGraphics(u16 heapId)
 {
-    ARC_UTIL_UploadBgCharFromArchive((void *)5, (void *)10, (void *)1, (void *)0x1F, 0, 0, heapId);
+    ARC_UTIL_UploadBgCharFromArchive(5, 10, 1, 0x1F, 0, 0, heapId);
 }
 
 /* Draws a one-tile frame around a window (tiles 0x1F..0x30, palette 13). */

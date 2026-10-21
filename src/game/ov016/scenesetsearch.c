@@ -91,7 +91,11 @@
  *   procConfirm                      0x021C22AC  arm
  *   sceneopterase_bss                0x021DE5A4  data
  */
-#include "../../matched/include/G_SearchBss.h"
+struct SearchBss {
+    unsigned char Choose;
+    unsigned char pad;
+    unsigned short Count;
+};
 #include "../sdk_ioreg.h"
 #include "../arm9/gx_load2d.h"
 

@@ -13,6 +13,7 @@ struct MyStatus;
 struct PlayerPosition;
 struct RailLocation;
 struct SaveControl;
+struct CommPlayerSupport;
 struct PlayTime;
 
 #include "../types.h"
@@ -122,7 +123,7 @@ void *GAME_DATA_GetSaveBlock3A(struct GameData *gd);
 void *GAME_DATA_GetSaveBlock3B(struct GameData *gd);
 void *GAME_DATA_GetMiscSave(struct GameData *gd);
 void *GAME_DATA_GetTradeHistory(struct GameData *gd);
-int GAME_DATA_GetPmsWork(struct GameData *gd);
+struct CommPlayerSupport *GAME_DATA_GetPmsWork(struct GameData *gd);
 void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 u8 *GAME_DATA_GetSaveSyncBlock(struct GameData *gd);
 void *GAME_DATA_GetSaveBlock2A(struct GameData *gd);
@@ -135,7 +136,7 @@ void *GAME_DATA_GetGameSync(struct GameData *gd);
 void *GAME_DATA_GetPerapVoiceSave(struct GameData *gd);
 void GAME_DATA_SetSymbolMapFlag(struct GameData *gd, u8 flag);
 int GAME_DATA_GetSymbolMapFlag(struct GameData *gd);
-u32 GAME_DATA_AddPlayTime(struct GameData *gd, u32 limit);
+void GAME_DATA_AddPlayTime(struct GameData *gd, u32 limit);
 struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd);
 void *GAME_DATA_GetSaveBlock43(struct GameData *gd);
 void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save);

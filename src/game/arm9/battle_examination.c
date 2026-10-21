@@ -65,7 +65,6 @@ extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *sv, u32 id, 
 
 #include "os_irqhandler.h"
 
-extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, u32 slot);
 
 
 

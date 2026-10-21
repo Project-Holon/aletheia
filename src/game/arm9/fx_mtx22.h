@@ -9,6 +9,7 @@
 
 void MTX_Scale22_(MtxFx22 *pDst, fx32 x, fx32 y);
 void MTX_Rot22_(MtxFx22 *dst, fx32 sin, fx32 cos);
+void MTX_ScaleApply22(const MtxFx22 *pSrc, MtxFx22 *pDst, fx32 x, fx32 y);
 /* END mkheaders: generated region */
 
 #endif

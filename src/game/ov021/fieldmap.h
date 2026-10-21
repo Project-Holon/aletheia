@@ -103,7 +103,7 @@ void FIELDMAP_SetBgMode(void);
 void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap);
 void FIELDMAP_ResetBgAffineHideMsg(FieldMap *fieldMap);
 struct FldVReq *FIELDMAP_GetVReq(FieldMap *fieldMap);
-int FIELDMAP_ExitBgSystem(FieldMap *fieldMap);
+void FIELDMAP_ExitBgSystem(FieldMap *fieldMap);
 void FIELDMAP_SetupG3d(void);
 void FIELDMAP_CreateG3dResources(FieldMap *fieldMap);
 void FIELDMAP_UpdateG3d(FieldMap *fieldMap);

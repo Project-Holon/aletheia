@@ -57,15 +57,6 @@ typedef struct ShopMaskRect {
     u32 h;
 } ShopMaskRect;
 
-/* Cell actor placement (6 bytes + 2 flag bytes). */
-typedef struct ShopActorPlacement {
-    u16 x;
-    u16 y;
-    u16 animIndex;
-    u8 priority;
-    u8 flags;
-} ShopActorPlacement;
-
 /* List menu template built by ShopWork list setup (0x34 bytes). */
 typedef struct ShopListTemplate {
     void *items;
@@ -109,7 +100,7 @@ typedef struct ShopWork {
     u32 fontInfo;                   /* 0x008: print parameter block */
     u32 moneyData;                  /* 0x00C */
     u32 bagData;                    /* 0x010 */
-    u32 recordData;                 /* 0x014 */
+    struct RecordBlock *recordData; /* 0x014 */
     u32 battlePointData;            /* 0x018 */
     void *shopTable;                /* 0x01C */
     ShopItem items[40];             /* 0x020 */
@@ -117,8 +108,8 @@ typedef struct ShopWork {
     u8 isTmShop;                    /* 0x162 */
     u8 usesBattlePoints;            /* 0x163 */
     u32 windows[SHOP_WIN_COUNT];    /* 0x164 */
-    void *itemSlots;                /* 0x180: list menu entries */
-    u32 yesNoMenu;               /* 0x184 */
+    struct BmpMenuWork *itemSlots;  /* 0x180: list menu entries */
+    struct BmpMenu *yesNoMenu;      /* 0x184 */
     void *shopMsgBank;              /* 0x188 */
     void *itemMsgBank;              /* 0x18C */
     void *wordSet;                  /* 0x190 */
@@ -126,7 +117,7 @@ typedef struct ShopWork {
     void *textBuffer;               /* 0x198 */
     void *cancelText;               /* 0x19C */
     void *soldOutText;               /* 0x1A0 */
-    void *listMenu;                  /* 0x1A4 */
+    struct BmpMenuList *listMenu;   /* 0x1A4 */
     u32 listWindow;                 /* 0x1A8 */
     u8 printerBusy;                 /* 0x1AC */
     u8 pad1AD[3];
@@ -134,11 +125,11 @@ typedef struct ShopWork {
     void *tcbList;                  /* 0x1B4 */
     void *messagePrinter;            /* 0x1B8 */
     void *cellSystem;                /* 0x1BC */
-    int cursorActor;                /* 0x1C0 */
-    int arrowUpActor;               /* 0x1C4 */
-    int arrowDownActor;             /* 0x1C8 */
-    int quantityArrowActor;         /* 0x1CC */
-    int iconActor;                  /* 0x1D0 */
+    struct ClactActor *cursorActor;                /* 0x1C0 */
+    struct ClactActor *arrowUpActor;               /* 0x1C4 */
+    struct ClactActor *arrowDownActor;             /* 0x1C8 */
+    struct ClactActor *quantityArrowActor;         /* 0x1CC */
+    struct ClactActor *iconActor;                  /* 0x1D0 */
     u32 arrowCharRes;             /* 0x1D4 */
     u32 cursorPlttRes;            /* 0x1D8 */
     u32 cursorCellRes;            /* 0x1DC */

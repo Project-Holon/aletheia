@@ -67,13 +67,11 @@
 #include "zukan_detail_types.h"
 #include "zukan_detail_shared_types.h"
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern void ARC_TOOL_DeleteHandle(void *h);
 
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
@@ -99,38 +97,29 @@ struct Ov208Pos {
     u8  layer;
 };
 
-extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,unsigned short);
 
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
-
-
-extern u32  APP_ICON_GetArchiveId(void);
+#include "../arm9/mi_memory.h"
 
 
-extern u32  APP_ICON_GetStatusAnimFileId(void);
-
-
-extern u32  APP_ICON_GetStatusFrameFileId(void);
-
-extern u32  APP_ICON_GetStatusDataFileId(void);
-
-extern u32  APP_ICON_GetMoveKindPaletteFileId(void);
-
-
-extern u32  APP_ICON_GetMoveKindAnimFileId(void);
-
-
-extern u32  APP_ICON_GetStatusCellFileId(u32 a);
-
-extern u32  APP_ICON_GetStatusPaletteFileId(u32 a);
+#include "../arm9/app_icon.h"
 
 
 
 
 
-extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned short heapID);
 
-extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
+
+
+
+
+
+
+
+
+
+
+
+#include "../arm9/nns_g2d_load.h"
 
 extern u8 BG_SYS_GetColorMode(int channel);
 
@@ -147,15 +136,15 @@ struct Actor;
 
 
 
-extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+#include "../arm9/touchpanel.h"
 
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
 
 
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+#include "../arm9/gfl_use.h"
 
 struct Ov208Mgr *ZKND_TBAR_CreateButtonList(struct Ov208ActList *list, u16 heap);
 
@@ -215,7 +204,7 @@ int ZKND_TBAR_IsButtonAnimating(int *p);
 
 int ZKND_TBAR_GetButtonActorBase(char *p);
 
-void ZKND_TBAR_SetActorDrawEnable(struct Obj **p, unsigned int v);
+void ZKND_TBAR_SetActorDrawEnable(struct ClactActor **p, unsigned int v);
 
 unsigned ZKND_TBAR_GetActorDrawEnable(int *p);
 
@@ -361,7 +350,7 @@ void ZKND_TBAR_SetButtonAnimSeq(struct Ov208Mgr *mgr, int key, int enabled)
 
 void ZKND_TBAR_SetButtonVisible(struct Ov208Mgr *mgr, int key, int visible)
 {
-    ZKND_TBAR_SetActorDrawEnable((struct Obj **)ZKND_TBAR_FindButtonActor(mgr, key), visible);
+    ZKND_TBAR_SetActorDrawEnable((struct ClactActor **)ZKND_TBAR_FindButtonActor(mgr, key), visible);
 }
 
 int ZKND_TBAR_GetButtonVisible(struct Ov208Mgr *mgr, int key)
@@ -581,7 +570,7 @@ int ZKND_TBAR_GetButtonActorBase(char *p)
  * Loads the word at [p] and tail-calls the function at 0x0204B3DC with it and
  * the second argument.
  */
-void ZKND_TBAR_SetActorDrawEnable(struct Obj **p, unsigned int enable)
+void ZKND_TBAR_SetActorDrawEnable(struct ClactActor **p, unsigned int enable)
 {
     CLACT_SetActorDrawEnable((struct ClactActor *)(*p), enable);
 }

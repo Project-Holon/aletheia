@@ -137,9 +137,9 @@ void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int gameSystem, u16 *retDecided, u
     return event;
 }
 
-void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(int gameSystem, int retDecided, int retSlot, int fieldIndex, unsigned short moveId)
+void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(struct GameSystem *gameSystem, u16 *retDecided, u16 *retSlot, int fieldIndex, unsigned short moveId)
 {
-    void *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData((struct GameSystem *)gameSystem));
+    void *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem));
     PokeListParam *listParam = GFL_HEAP_Alloc(4, 0x98, 1, d_021728CC, 0x66);
     void *event;
     PokeListEventWork *work;
@@ -149,14 +149,14 @@ void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(int gameSystem, int retDecided
     listParam->selectedSlot = 0;
     listParam->fieldIndex = fieldIndex;
     listParam->argValue2 = moveId;
-    event = (struct Desc *)GAME_EVENT_Create((void *)gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
+    event = (struct Desc *)GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
     work = GAME_EVENT_GetWork(event);
-    work->gameSystem = (void *)gameSystem;
-    work->fieldMap = GAMESYSTEM_GetFieldMap((void *)gameSystem);
+    work->gameSystem = gameSystem;
+    work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     work->listParam = listParam;
     work->statusParam = 0;
-    work->retDecided = (u16 *)retDecided;
-    work->retSlot = (u16 *)retSlot;
+    work->retDecided = retDecided;
+    work->retSlot = retSlot;
     return event;
 }
 

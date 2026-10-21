@@ -19,8 +19,12 @@
  *   g_021F7008     0x021F7008  data
  *   MI_CpuCopy8  0x02082D44  arm
  */
-#include "../../matched/include/G_piece.h"
-#include "../../matched/include/G_piece.h"
+struct MbBlockPiece {
+    int f0;
+    unsigned char *buf;
+    int size;
+    int max;
+};
 
 #include "../types.h"
 
@@ -34,8 +38,8 @@ void MBi_ClearParentPieceBuffer(u16 child_aid);
 u8 *MBi_MakeParentSendBuffer(const MBCommParentBlockHeader *hdr, u8 *sendbuf);
 u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, MBCommChildBlockHeader *hdr, u16 child_id);
 u8 *MBi_ReceiveRequestDataPiece(MBCommChildBlockHeader *hdr, u16 child);
-extern struct piece d_021F7008;
-extern struct piece g_021F7008;
+extern struct MbBlockPiece d_021F7008;
+extern struct MbBlockPiece g_021F7008;
 
 void MBi_SetChildMPMaxSize(u16 childMaxSize)
 {

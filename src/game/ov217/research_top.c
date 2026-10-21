@@ -225,42 +225,34 @@ struct ResearchProc {
     u32 listViewState;
 };
 
-extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
+#include "../arm9/procsys.h"
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 extern void BG_SYS_SetLcdSwap(u32 swap);
 
-extern void PROCSYS_FreeProcWork(struct Proc *);
 struct GameSystem;
 
-extern u32 GAMESYSTEM_IsNetOffBySleep(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 struct ResearchCommon;
 
-extern void RESEARCH_COMMON_SetInputFlag(struct ResearchCommon *common);
 
-extern u32 WIH_DWC_PollStatus(void *key);
+#include "../arm9/wih_dwc.h"
 struct GameData;
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 struct FieldState;
 
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-
-extern void RESEARCH_COMMON_SetScreen(struct ResearchCommon *common, unsigned int screen);
+#include "../arm9/net.h"
 
 
-extern u32 RESEARCH_COMMON_Destroy(struct ResearchCommon *common);
 
-extern u32 ListViewState_Create(u32 heapId);
+
+#include "research_list_recovery.h"
 struct ListViewState;
 
-extern void ListViewState_Reset(struct ListViewState *state);
 
-extern void ListViewState_Destroy(void *state);
 
 extern void BG_SYS_Create(unsigned short heapId);
 
@@ -274,73 +266,57 @@ extern u32 BG_SYS_Delete();
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, u32 heap);
 
 
-extern int NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *, void **);
+#include "../arm9/nns_g2d_anim_bank.h"
 
-extern void BG_SYS_LoadPltt(u32, void *, u32, u32);
+extern void BG_SYS_LoadPltt(u32 bgId, void *src, u16 size, u16 offset);
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *, void **);
 
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
-extern int NNS_G2dGetUnpackedScreenData(void *, void **);
+#include "../arm9/nns_g2d_load.h"
 
 extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
 
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
 extern void BG_SYS_FillTileMap(int index, int x0, int y0, int w, int h, int pal);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
-extern u32 GFL_HEAP_Free(void *p);
 
 extern void BG_SYS_PushTile(u32);
 
-extern u32 RESEARCH_COMMON_GetHeapId(struct ResearchCommon *common);
 
-extern void RESEARCH_COMMON_UpdatePaletteAnime(unsigned);
 
 extern void CLACT_DrawSystem();
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
 extern int TOUCHPANEL_HitTrg(const union TouchHitTable *);
 
-extern void * RESEARCH_COMMON_GetTouchRects(struct ResearchCommon *common);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-extern int FADE_IsActive(void);
+#include "../arm9/fade.h"
 
-extern void RESEARCH_COMMON_StopPaletteAnime(u32 common);
 
-extern void RESEARCH_COMMON_RestorePaletteAnime(u32 common);
 struct RingQueue;
 
-extern void RingQueue_Push(struct RingQueue *queue, int value);
+#include "queue.h"
 
-extern u32 RingQueue_Pop(struct RingQueue *queue);
 
-extern int RingQueue_IsEmpty(struct RingQueue *queue);
 
-extern u32 RESEARCH_COMMON_GetPreviousScreen(struct ResearchCommon *common);
 
-extern u32 RESEARCH_COMMON_GetEntryHandled(struct ResearchCommon *common);
 
-extern void RESEARCH_COMMON_SetEntryHandled(struct ResearchCommon *common, unsigned int value);
 
-extern u8 GAME_BEACON_PopQuestionnaireUpdated(void);
+#include "../arm9/game_beacon.h"
 struct BgTextLabel;
 
-extern void BgTextLabel_SetPalette(struct BgTextLabel *label, unsigned char palette);
+#include "bg_font.h"
 
-extern void RESEARCH_COMMON_StartPaletteAnime(struct ResearchCommon *common, unsigned int index);
 struct Actor;
 
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int value);
@@ -351,42 +327,31 @@ extern void CLACT_SetActorAutoAnim(struct ClactActor *p, unsigned int v);
 
 extern void CLACT_SetActorAutoAnimSpeed(struct ClactActor *a, u32 v);
 
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 struct PaletteAnime;
 
-extern void PALETTE_ANIME_Start(struct PaletteAnime *anime, unsigned int mode, unsigned short color);
+#include "palette_anime.h"
 
-extern void PALETTE_ANIME_Stop(struct PaletteAnime *anime);
 
-extern void PALETTE_ANIME_Update(struct PaletteAnime *anime);
 
-extern unsigned RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common);
 
 struct EventWork;
 
-extern unsigned ZONEDATA_CheckEventFlag(struct EventWork *ev, int flagId);
+#include "../arm9/zonedata.h"
 
-extern u32 RESEARCH_COMMON_GetInputFlag(struct ResearchCommon *common);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern int RingQueue_Create(int capacity, int heapId);
 
-extern void RingQueue_Destroy(struct RingQueue *queue);
 
 extern void G2x_SetBlendAlpha_(volatile unsigned *,unsigned,unsigned,unsigned,unsigned);
 
-extern void BMP_WIN_Init(u32);
+#include "../arm9/bmp_win.h"
 
-extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
@@ -395,11 +360,8 @@ extern u32 BG_SYS_ClearSlot();
 extern void BG_SYS_FreeTiles(u32, u32, u32);
 struct BgTextLabelConfig;
 
-extern struct BgTextLabel *BgTextLabel_Create(struct BgTextLabelConfig *config, unsigned int font, unsigned int msgBank, unsigned int heapId);
 
-u32 BgTextLabel_PrintMessage(struct BgTextLabel *label, unsigned int msgIndex);
 
-extern void BgTextLabel_Destroy(struct BgTextLabel *label);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
@@ -423,13 +385,9 @@ extern struct ClactActor *CLACT_CreateActor(struct Unit *,unsigned int,unsigned 
 
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 
-extern u32 PALETTE_ANIME_Create(u32 heapId);
 
-extern u32 PALETTE_ANIME_Destroy(struct PaletteAnime *anime);
 
-extern void PALETTE_ANIME_Bind(struct PaletteAnime *anime, unsigned short *palette, unsigned short *original, int colorCount);
 
-extern int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -675,25 +633,17 @@ void RESEARCH_TOP_UnregisterVBlank(void);
 
 void RESEARCH_TOP_RestartNetwork(u32 obj);
 
-u32 RESEARCH_LIST_Create(u32 owner, u32 listView);
+#include "research_list.h"
 
-u32 RESEARCH_LIST_Destroy(void *list);
 
-void RESEARCH_LIST_Update(void *self);
 
-u32 RESEARCH_LIST_GetVisible(void *p);
 
-u32 RESEARCH_LIST_GetActive(void *p);
 
-void *RESEARCH_GRAPH_Create(void *p);
+#include "research_graph.h"
 
-u32 RESEARCH_GRAPH_Destroy(void *graph);
 
-void RESEARCH_GRAPH_Update(unsigned char *p);
 
-u32 RESEARCH_GRAPH_GetVisible(void *p);
 
-u32 RESEARCH_GRAPH_GetActive(void *p);
 
 extern int d_021C2E30;
 

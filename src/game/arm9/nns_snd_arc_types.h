@@ -149,13 +149,7 @@ typedef struct SNDBankWaveIter {
     u32 end;
 } SNDBankWaveIter;
 
-typedef struct SNDBankWaveRecord {
-    u8  type;
-    u8  pad01;
-    u16 waveNo;
-    u16 waveArcNo;
-    u16 pad06;
-    u32 pad08;
-} SNDBankWaveRecord;
+
+
 
 #endif

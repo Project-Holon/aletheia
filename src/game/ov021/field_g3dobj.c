@@ -119,7 +119,7 @@ u16 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecF
 
 void FIELD_G3DOBJ_DeleteObject(FieldG3dObjCtrl *ctrl, int objIdx);
 
-VecFx32 *FIELD_G3DOBJ_GetObjectTrans(FieldG3dObjCtrl *ctrl, int objIdx);
+struct G3dObjectStatus *FIELD_G3DOBJ_GetObjectTrans(FieldG3dObjCtrl *ctrl, int objIdx);
 
 void FIELD_G3DOBJ_SetObjectTrans(FieldG3dObjCtrl *ctrl, int objIdx, VecFx32 *pos);
 
@@ -234,9 +234,9 @@ void FIELD_G3DOBJ_DrawAll(FieldG3dObjCtrl *ctrl)
         if (obj->kind == FIELD_G3DOBJ_ACTIVE) {
             if (obj->manualDraw == 0 && obj->hidden == 0) {
                 if (obj->culling == 1)
-                    G3D_SYSTEM_DrawObjectCulling(obj->object, (struct G3dObjectStatus *)(&obj->trans));
+                    G3D_SYSTEM_DrawObjectCulling(obj->object, &obj->status);
                 else
-                    G3D_SYSTEM_DrawObject(obj->object, (struct G3dObjectStatus *)(&obj->trans));
+                    G3D_SYSTEM_DrawObject(obj->object, &obj->status);
             }
             obj->redrawFlag = 0;
         }
@@ -294,12 +294,12 @@ u16 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecF
                 obj->modelIdx = modelIdx;
                 obj->kind = FIELD_G3DOBJ_PENDING;
                 obj->culling = 1;
-                obj->scale.x = 0x1000;
-                obj->scale.y = 0x1000;
-                obj->scale.z = 0x1000;
+                obj->status.scale.x = 0x1000;
+                obj->status.scale.y = 0x1000;
+                obj->status.scale.z = 0x1000;
                 if (pos != 0)
-                    obj->trans = *pos;
-                MTX_Identity33_(&obj->rotate);
+                    obj->status.trans = *pos;
+                MTX_Identity33_(&obj->status.rotate);
             } else {
                 FIELD_G3DOBJ_CreateObject(obj, res, resIdx, modelIdx, ctrl->heapId, pos, 1);
             }
@@ -320,14 +320,14 @@ void FIELD_G3DOBJ_DeleteObject(FieldG3dObjCtrl *ctrl, int objIdx)
     ctrl->ready = 1;
 }
 
-VecFx32 *FIELD_G3DOBJ_GetObjectTrans(FieldG3dObjCtrl *ctrl, int objIdx)
+struct G3dObjectStatus *FIELD_G3DOBJ_GetObjectTrans(FieldG3dObjCtrl *ctrl, int objIdx)
 {
-    return &ctrl->objTbl[objIdx].trans;
+    return &ctrl->objTbl[objIdx].status;
 }
 
 void FIELD_G3DOBJ_SetObjectTrans(FieldG3dObjCtrl *ctrl, int objIdx, VecFx32 *pos)
 {
-    ctrl->objTbl[objIdx].trans = *pos;
+    ctrl->objTbl[objIdx].status.trans = *pos;
 }
 
 void FIELD_G3DOBJ_SetObjectHidden(FieldG3dObjCtrl *ctrl, int objIdx, int hidden)
@@ -423,9 +423,9 @@ void FIELD_G3DOBJ_DrawObject(FieldG3dObjCtrl *ctrl, int objIdx)
     FieldG3dObj *obj = &ctrl->objTbl[objIdx];
     if (obj->kind == FIELD_G3DOBJ_ACTIVE && obj->hidden == 0) {
         if (obj->culling == 1)
-            G3D_SYSTEM_DrawObjectCulling(obj->object, (struct G3dObjectStatus *)(&obj->trans));
+            G3D_SYSTEM_DrawObjectCulling(obj->object, &obj->status);
         else
-            G3D_SYSTEM_DrawObject(obj->object, (struct G3dObjectStatus *)(&obj->trans));
+            G3D_SYSTEM_DrawObject(obj->object, &obj->status);
     }
 }
 
@@ -540,13 +540,13 @@ void FIELD_G3DOBJ_CreateObject(FieldG3dObj *obj, FieldG3dObjRes *res, u16 resIdx
             G3D_SYSTEM_EnableObjectAnime(obj->object, (u16)i);
     }
     if (pos != 0)
-        obj->trans = *pos;
+        obj->status.trans = *pos;
     if (initDefaults != 0) {
         obj->culling = 1;
-        obj->scale.x = 0x1000;
-        obj->scale.y = 0x1000;
-        obj->scale.z = 0x1000;
-        MTX_Identity33_(&obj->rotate);
+        obj->status.scale.x = 0x1000;
+        obj->status.scale.y = 0x1000;
+        obj->status.scale.z = 0x1000;
+        MTX_Identity33_(&obj->status.rotate);
     }
     obj->kind = FIELD_G3DOBJ_ACTIVE;
 }

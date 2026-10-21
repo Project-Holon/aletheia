@@ -2272,7 +2272,7 @@ int BTLV_EFFVM_CmdLoadBgPalette(struct ScriptVm *vm, BtlvEffVmWork *work)
 
     fileId = VM_GetU32(vm);
     BG_SYS_SetPriority(3, 1);
-    ARC_UTIL_UploadBgCharFromArchive((void *)0x5f, (void *)(fileId + 1), (void *)3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
+    ARC_UTIL_UploadBgCharFromArchive(0x5f, (fileId + 1), 3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     ARC_UTIL_UploadBgPaletteFromArchive(0x5f, fileId, 3, 0, 0, 0, (work->heapId & 0x7fff) | 0x8000);
     PALANM_LoadArcPaletteToSlotAt(BTLV_EFFECT_GetPalanm(), (int)0x5f, (int)(fileId + 2), (u16)((work->heapId & 0x7fff) | 0x8000), (int)0, (int)0, (int)0x80, (int)0);
     work->bg3ScrollX = BG_SYS_GetScrollX(3);

@@ -13,6 +13,7 @@ typedef struct FieldSaveAnime FieldSaveAnime;
 
 FieldSaveAnime *FIELD_SAVEANIME_Create(u32 heapId, void *fieldMap);
 int FIELD_SAVEANIME_Delete(FieldSaveAnime *work);
+struct TcbTask;
 void FIELD_SAVEANIME_Start(FieldSaveAnime *work);
 void FIELD_SAVEANIME_Stop(FieldSaveAnime *work);
 void FIELD_SAVEANIME_LoadResource(FieldSaveAnime *work, u32 heapId);
@@ -22,7 +23,7 @@ u32 FIELD_SAVEANIME_DeleteWindow(FieldSaveAnime *work);
 void FIELD_SAVEANIME_ShowWindow(FieldSaveAnime *work);
 void FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work);
 void FIELD_SAVEANIME_DrawFrame(FieldSaveAnime *work, u32 frame);
-void FIELD_SAVEANIME_AnimTask(void *tcb, FieldSaveAnime *work);
+void FIELD_SAVEANIME_AnimTask(struct TcbTask *tcb, void *arg);
 /* END mkheaders: generated region */
 
 #endif

@@ -76,11 +76,6 @@ typedef struct FieldEffectSys FieldEffectSys;           /* field effect system (
 typedef struct FieldEffectObj FieldEffectObj;           /* one running effect (field_effect.c) */
 typedef struct FieldEffectObjFuncs FieldEffectObjFuncs; /* callback table: work size, init, exit, update, draw */
 
-/* Resource description the field 3D object system builds a model from (9 words). */
-typedef struct FieldG3dResDesc {
-    u32 w[9];
-} FieldG3dResDesc;
-
 /* Ids of the resources in the field effect system. */
 #define FLDEFF_ID_NAMIPOKE        3
 #define FLDEFF_ID_NAMIPOKE_SPLASH 9
@@ -203,27 +198,24 @@ struct Mmdl;
 struct VecFx32;
 #include "fldmmdl_acmd.h"
 #include "fldmmdl_rail.h"
-extern void VEC_Fx16Normalize(s16 *in, s16 *out);
-extern s32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
+#include "../arm9/fx_vec.h"
 #include "../arm9/button_man.h"
 #include "../arm9/gfl_heap_wrap.h"
 #include "field_effect.h"
 struct FieldG3dObjResDesc;
-extern void FIELD_G3DOBJ_InitResDesc(struct FieldG3dObjResDesc *desc);
-extern int FIELD_G3DOBJ_SetResDescModel(FieldG3dResDesc *desc, ArcHandle *arc, u32 modelFile);
-extern void FIELD_G3DOBJ_SetResDescAnimeArc(struct FieldG3dObjResDesc *desc, u32 arc);
-extern void FIELD_G3DOBJ_AddResDescAnimeFile(struct FieldG3dObjResDesc *desc, u16 file);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define FIELD_G3DOBJ_AddObject FIELD_G3DOBJ_AddObject_header
+#define FIELD_G3DOBJ_SetResDescModel FIELD_G3DOBJ_SetResDescModel_header
+#endif
+#include "field_g3dobj.h"
+#ifdef __MWERKS__
+#undef FIELD_G3DOBJ_AddObject
+#undef FIELD_G3DOBJ_SetResDescModel
+extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *, u32, u32, VecFx32 *);
+extern int FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *, u32, u32);
+#endif
 struct FieldG3dObjCtrl;
-extern int FIELD_G3DOBJ_AddResourceDefaultPal(struct FieldG3dObjCtrl *ctrl, struct FieldG3dObjResDesc *desc, s32 mode);
-extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjSys *g3dObjSys, u32 resId, u32 modelIdx, u32 pos);
-extern void FIELD_G3DOBJ_SetObjectManualDraw(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 manualDraw);
-extern u32 FIELD_G3DOBJ_DeleteObject(FieldG3dObjSys *g3dObjSys, u32 objId);
-extern void FIELD_G3DOBJ_DeleteResource(struct FieldG3dObjCtrl *ctrl, s32 resIdx);
-extern G3dObjectStatus *FIELD_G3DOBJ_GetObjectTrans(FieldG3dObjSys *g3dObjSys, u32 objId);
-extern void FIELD_G3DOBJ_SetObjectHidden(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 hidden);
-extern int FIELD_G3DOBJ_LoopAnimeFrame(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 speed);
-extern int FIELD_G3DOBJ_IncAnimeFrame(struct FieldG3dObjCtrl *ctrl, s32 objIdx, s32 speed);
-extern void FIELD_G3DOBJ_DrawObject(struct FieldG3dObjCtrl *ctrl, s32 objIdx);
 
 NamipokeRes *FLDEFF_NAMIPOKE_Create(FieldEffectSys *fieldEffect, int heapId);
 void FLDEFF_NAMIPOKE_Delete(FieldEffectSys *fieldEffect, NamipokeRes *res);
@@ -245,11 +237,11 @@ NamipokeSplashRes *FLDEFF_NAMIPOKE_SPLASH_Create(FieldEffectSys *fieldEffect, in
 void FLDEFF_NAMIPOKE_SPLASH_Delete(FieldEffectSys *fieldEffect, NamipokeSplashRes *res);
 void FLDEFF_NAMIPOKE_SPLASH_LoadResources(NamipokeSplashRes *res);
 void FLDEFF_NAMIPOKE_SPLASH_FreeResources(NamipokeSplashRes *res);
-void FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FieldEffectSys *fieldEffect, int type, FieldEffectObj *parent);
+FieldEffectObj *FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FieldEffectSys *fieldEffect, int type, FieldEffectObj *parent);
 void FLDEFF_NAMIPOKE_SPLASH_StartAtPos(FieldEffectSys *fieldEffect, int type, const VecFx32 *pos);
 int FLDEFF_NAMIPOKE_SPLASH_IsFinished(FieldEffectObj *effect);
 void FLDEFF_NAMIPOKE_SPLASH_Init(FieldEffectObj *effect, NamipokeSplashWork *work);
-int FLDEFF_NAMIPOKE_SPLASH_Exit(FieldEffectObj *effect, NamipokeSplashWork *work, u32 unused0, u32 unused1);
+void FLDEFF_NAMIPOKE_SPLASH_Exit(FieldEffectObj *effect, NamipokeSplashWork *work, u32 unused0, u32 unused1);
 void FLDEFF_NAMIPOKE_SPLASH_Update(FieldEffectObj *effect, NamipokeSplashWork *work);
 void FLDEFF_NAMIPOKE_SPLASH_Draw(FieldEffectObj *effect, NamipokeSplashWork *work);
 extern char sFldeffNamipokeFileName[];                           /* source file name for the heap allocator */
@@ -286,20 +278,20 @@ void FLDEFF_NAMIPOKE_Delete(FieldEffectSys *fieldEffect, NamipokeRes *res)
 /* Loads the wave model, and the wake model with its two animations. */
 void FLDEFF_NAMIPOKE_LoadResources(NamipokeRes *res)
 {
-    FieldG3dResDesc desc;
+    FieldG3dObjResDesc desc;
     FieldG3dObjSys *g3dObjSys = FIELD_EFFECT_GetFieldMapData(res->fieldEffect);
     ArcHandle *arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
-    FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)(&desc));
-    FIELD_G3DOBJ_SetResDescModel(&desc, arc, 0x31);
-    res->waveResId = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (struct FieldG3dObjResDesc *)(&desc), 0);
+    FIELD_G3DOBJ_InitResDesc(&desc);
+    FIELD_G3DOBJ_SetResDescModel(&desc, (uptr)arc, 0x31);
+    res->waveResId = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, &desc, 0);
     res->waveObjId = FIELD_G3DOBJ_AddObject(g3dObjSys, res->waveResId, 0, 0);
     FIELD_G3DOBJ_SetObjectManualDraw((struct FieldG3dObjCtrl *)g3dObjSys, res->waveObjId, 1);
-    FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)(&desc));
-    FIELD_G3DOBJ_SetResDescModel(&desc, arc, 0x36);
-    FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)(&desc), (uptr)arc);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)(&desc), 0x6b);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)(&desc), 0x85);
-    res->wakeResId = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (struct FieldG3dObjResDesc *)(&desc), 0);
+    FIELD_G3DOBJ_InitResDesc(&desc);
+    FIELD_G3DOBJ_SetResDescModel(&desc, (uptr)arc, 0x36);
+    FIELD_G3DOBJ_SetResDescAnimeArc(&desc, (uptr)arc);
+    FIELD_G3DOBJ_AddResDescAnimeFile(&desc, 0x6b);
+    FIELD_G3DOBJ_AddResDescAnimeFile(&desc, 0x85);
+    res->wakeResId = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, &desc, 0);
     res->wakeObjId = FIELD_G3DOBJ_AddObject(g3dObjSys, res->wakeResId, 0, 0);
     FIELD_G3DOBJ_SetObjectManualDraw((struct FieldG3dObjCtrl *)g3dObjSys, res->wakeObjId, 1);
 }
@@ -567,8 +559,8 @@ void FLDEFF_NAMIPOKE_UpdateRail(FieldEffectObj *effect, NamipokeWork *work)
     VecFx32 drawOffset = {0, 0, 0};
     VecFx32 pos;
     VecFx32 mmdlPos;
-    s16 baseDir[3];
-    s16 faceDir[3];
+    VecFx16 baseDir;
+    VecFx16 faceDir;
     NamipokeWake *wake;
     s32 distance;
     s32 scale;
@@ -576,12 +568,12 @@ void FLDEFF_NAMIPOKE_UpdateRail(FieldEffectObj *effect, NamipokeWork *work)
     if (work->followMode == NAMIPOKE_MODE_STATIC)
         return;
     work->facing = FLDMMDL_GetDirDisp(work->param.mmdl);
-    FLDMMDL_RAIL_GetDrawOffsetByDir(work->param.mmdl, 0, baseDir);
-    FLDMMDL_RAIL_GetDrawOffsetByDir(work->param.mmdl, work->facing, faceDir);
-    baseDir[1] = 0;
-    VEC_Fx16Normalize(baseDir, baseDir);
-    faceDir[1] = 0;
-    VEC_Fx16Normalize(faceDir, faceDir);
+    FLDMMDL_RAIL_GetDrawOffsetByDir(work->param.mmdl, 0, (s16 *)&baseDir);
+    FLDMMDL_RAIL_GetDrawOffsetByDir(work->param.mmdl, work->facing, (s16 *)&faceDir);
+    baseDir.y = 0;
+    VEC_Fx16Normalize(&baseDir, &baseDir);
+    faceDir.y = 0;
+    VEC_Fx16Normalize(&faceDir, &faceDir);
     if (work->followMode == NAMIPOKE_MODE_BOB) {
         work->bobHeight += work->bobStep;
         if (work->bobHeight >= NAMIPOKE_BOB_MAX) {
@@ -591,9 +583,9 @@ void FLDEFF_NAMIPOKE_UpdateRail(FieldEffectObj *effect, NamipokeWork *work)
             work->bobHeight = NAMIPOKE_BOB_MIN;
             work->bobStep = -work->bobStep;
         }
-        drawOffset.x = FX_Mul(-baseDir[0], 0x7000);
+        drawOffset.x = FX_Mul(-baseDir.x, 0x7000);
         drawOffset.y = work->bobHeight + 0x5000;
-        drawOffset.z = FX_Mul(-baseDir[2], 0x7000);
+        drawOffset.z = FX_Mul(-baseDir.z, 0x7000);
         FLDMMDL_SetDrawOffsetOutside(work->param.mmdl, (struct VecFx32 *)(&drawOffset));
     }
     FLDMMDL_ACMD_GetDrawPos(work->param.mmdl, (struct VecFx32 *)(&pos));
@@ -615,28 +607,28 @@ void FLDEFF_NAMIPOKE_UpdateRail(FieldEffectObj *effect, NamipokeWork *work)
             wake->dir = work->facing;
             wake->tailPos = mmdlPos;
         } else if (mmdlPos.x == wake->lastPos.x && mmdlPos.y == wake->lastPos.y && mmdlPos.z == wake->lastPos.z) {
-            wake->tailPos.x += FX_Mul(faceDir[0], NAMIPOKE_WAKE_TAIL_STEP);
-            wake->tailPos.z += FX_Mul(faceDir[2], NAMIPOKE_WAKE_TAIL_STEP);
+            wake->tailPos.x += FX_Mul(faceDir.x, NAMIPOKE_WAKE_TAIL_STEP);
+            wake->tailPos.z += FX_Mul(faceDir.z, NAMIPOKE_WAKE_TAIL_STEP);
             wake->tailPos.y = mmdlPos.y;
-            if (faceDir[0] > 0) {
+            if (faceDir.x > 0) {
                 if (wake->tailPos.x > mmdlPos.x)
                     wake->tailPos.x = mmdlPos.x;
-            } else if (faceDir[0] < 0) {
+            } else if (faceDir.x < 0) {
                 if (wake->tailPos.x < mmdlPos.x)
                     wake->tailPos.x = mmdlPos.x;
             }
-            if (faceDir[2] > 0) {
+            if (faceDir.z > 0) {
                 if (wake->tailPos.z > mmdlPos.z)
                     wake->tailPos.z = mmdlPos.z;
-            } else if (faceDir[2] < 0) {
+            } else if (faceDir.z < 0) {
                 if (wake->tailPos.z < mmdlPos.z)
                     wake->tailPos.z = mmdlPos.z;
             }
         }
         distance = VEC_Distance(&mmdlPos, &wake->tailPos);
         if (distance >= NAMIPOKE_WAKE_MAX_LENGTH) {
-            wake->tailPos.x = mmdlPos.x - FX_Mul(faceDir[0], NAMIPOKE_WAKE_MAX_LENGTH);
-            wake->tailPos.z = mmdlPos.z - FX_Mul(faceDir[2], NAMIPOKE_WAKE_MAX_LENGTH);
+            wake->tailPos.x = mmdlPos.x - FX_Mul(faceDir.x, NAMIPOKE_WAKE_MAX_LENGTH);
+            wake->tailPos.z = mmdlPos.z - FX_Mul(faceDir.z, NAMIPOKE_WAKE_MAX_LENGTH);
         }
         scale = FLDEFF_NAMIPOKE_GetWakeScale(distance);
         if (scale <= 0x28) {
@@ -658,18 +650,18 @@ void FLDEFF_NAMIPOKE_DrawRail(FieldEffectObj *effect, NamipokeWork *work)
     VecFx32 backward;
     MtxFx33 forwardMtx;
     MtxFx33 backwardMtx;
-    s16 faceDir[3];
+    VecFx16 faceDir;
     NamipokeWake *wake = &work->wake;
     FieldG3dObjSys *g3dObjSys;
     G3dObjectStatus *status;
 
-    FLDMMDL_RAIL_GetDrawOffsetByDir(work->param.mmdl, work->facing, faceDir);
-    forward.x = faceDir[0];
+    FLDMMDL_RAIL_GetDrawOffsetByDir(work->param.mmdl, work->facing, (s16 *)&faceDir);
+    forward.x = faceDir.x;
     forward.y = 0;
-    forward.z = faceDir[2];
-    backward.x = -faceDir[0];
+    forward.z = faceDir.z;
+    backward.x = -faceDir.x;
     backward.y = 0;
-    backward.z = -faceDir[2];
+    backward.z = -faceDir.z;
     BUTTON_MAN_MakeLookAtMtx(&forward, &forwardMtx);
     BUTTON_MAN_MakeLookAtMtx(&backward, &backwardMtx);
     g3dObjSys = FIELD_EFFECT_GetFieldMapData(work->param.res->fieldEffect);
@@ -726,43 +718,43 @@ void FLDEFF_NAMIPOKE_SPLASH_Delete(FieldEffectSys *fieldEffect, NamipokeSplashRe
 /* Loads the five splash models, each with two animations. */
 void FLDEFF_NAMIPOKE_SPLASH_LoadResources(NamipokeSplashRes *res)
 {
-    FieldG3dResDesc buf;
+    FieldG3dObjResDesc buf;
     FieldG3dObjSys *g3dObjSys;
     ArcHandle *arc;
     uptr desc;
     g3dObjSys = FIELD_EFFECT_GetFieldMapData(res->fieldEffect);
     arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     desc = (uptr)&buf;
-    FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)(&buf));
-    FIELD_G3DOBJ_SetResDescModel((FieldG3dResDesc *)desc, arc, 0x37);
-    FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)desc, (uptr)arc);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)desc, 0x80);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)desc, 0x6c);
-    res->modelResId[0] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (struct FieldG3dObjResDesc *)desc, 0);
-    FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)(&buf));
-    FIELD_G3DOBJ_SetResDescModel((FieldG3dResDesc *)desc, arc, 0x3a);
-    FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)desc, (uptr)arc);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)desc, 0x6f);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)desc, 0x63);
-    res->modelResId[1] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (struct FieldG3dObjResDesc *)desc, 0);
-    FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)(&buf));
-    FIELD_G3DOBJ_SetResDescModel((FieldG3dResDesc *)desc, arc, 0x39);
-    FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)desc, (uptr)arc);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)desc, 0x6e);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)desc, 0x62);
-    res->modelResId[3] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (struct FieldG3dObjResDesc *)desc, 0);
-    FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)(&buf));
-    FIELD_G3DOBJ_SetResDescModel((FieldG3dResDesc *)desc, arc, 0x3b);
-    FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)desc, (uptr)arc);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)desc, 0x70);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)desc, 0x64);
-    res->modelResId[2] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (struct FieldG3dObjResDesc *)desc, 0);
-    FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)(&buf));
-    FIELD_G3DOBJ_SetResDescModel((FieldG3dResDesc *)desc, arc, 0x38);
-    FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)desc, (uptr)arc);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)desc, 0x6d);
-    FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)desc, 0x61);
-    res->modelResId[4] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (struct FieldG3dObjResDesc *)desc, 0);
+    FIELD_G3DOBJ_InitResDesc(&buf);
+    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, (uptr)arc, 0x37);
+    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, (uptr)arc);
+    FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x80);
+    FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x6c);
+    res->modelResId[0] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (FieldG3dObjResDesc *)desc, 0);
+    FIELD_G3DOBJ_InitResDesc(&buf);
+    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, (uptr)arc, 0x3a);
+    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, (uptr)arc);
+    FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x6f);
+    FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x63);
+    res->modelResId[1] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (FieldG3dObjResDesc *)desc, 0);
+    FIELD_G3DOBJ_InitResDesc(&buf);
+    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, (uptr)arc, 0x39);
+    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, (uptr)arc);
+    FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x6e);
+    FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x62);
+    res->modelResId[3] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (FieldG3dObjResDesc *)desc, 0);
+    FIELD_G3DOBJ_InitResDesc(&buf);
+    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, (uptr)arc, 0x3b);
+    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, (uptr)arc);
+    FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x70);
+    FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x64);
+    res->modelResId[2] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (FieldG3dObjResDesc *)desc, 0);
+    FIELD_G3DOBJ_InitResDesc(&buf);
+    FIELD_G3DOBJ_SetResDescModel((FieldG3dObjResDesc *)desc, (uptr)arc, 0x38);
+    FIELD_G3DOBJ_SetResDescAnimeArc((FieldG3dObjResDesc *)desc, (uptr)arc);
+    FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x6d);
+    FIELD_G3DOBJ_AddResDescAnimeFile((FieldG3dObjResDesc *)desc, 0x61);
+    res->modelResId[4] = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)g3dObjSys, (FieldG3dObjResDesc *)desc, 0);
 }
 
 void FLDEFF_NAMIPOKE_SPLASH_FreeResources(NamipokeSplashRes *res)
@@ -777,7 +769,7 @@ void FLDEFF_NAMIPOKE_SPLASH_FreeResources(NamipokeSplashRes *res)
 }
 
 /* Starts a splash of the type that follows another effect and ends with it. */
-void FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FieldEffectSys *fieldEffect, int type, FieldEffectObj *parent)
+FieldEffectObj *FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FieldEffectSys *fieldEffect, int type, FieldEffectObj *parent)
 {
     NamipokeSplashStartParam param;
 
@@ -785,7 +777,7 @@ void FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FieldEffectSys *fieldEffect, int type,
     param.type = type;
     param.parent = parent;
     param.deleteWhenDone = 0;
-    FIELD_EFFECT_AddObject(fieldEffect, &sNamipokeSplashFuncs, 0, 0, &param, 1);
+    return FIELD_EFFECT_AddObject(fieldEffect, &sNamipokeSplashFuncs, 0, 0, &param, 1);
 }
 
 /* Starts a splash of the type at a position; it ends with its animation. */
@@ -859,9 +851,9 @@ moveToParent:
 }
 
 /* Splash exit: deletes the model object. */
-int FLDEFF_NAMIPOKE_SPLASH_Exit(FieldEffectObj *effect, NamipokeSplashWork *work, u32 unused0, u32 unused1)
+void FLDEFF_NAMIPOKE_SPLASH_Exit(FieldEffectObj *effect, NamipokeSplashWork *work, u32 unused0, u32 unused1)
 {
-    return FIELD_G3DOBJ_DeleteObject(FIELD_EFFECT_GetFieldMapData(work->param.res->fieldEffect), work->objId);
+    FIELD_G3DOBJ_DeleteObject(FIELD_EFFECT_GetFieldMapData(work->param.res->fieldEffect), work->objId);
 }
 
 /* Splash update: plays the animation and follows the parent. */

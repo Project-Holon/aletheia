@@ -222,22 +222,35 @@ struct PokemonParam;
 
 #include "../arm9/poke_tool.h"
 struct DaycareSave;
-extern u32 DAYCARE_IsSlotInUse(struct DaycareSave *daycare, u32 slot);
-extern void DAYCARE_SwapSlots(struct DaycareSave *daycare, s32 slotA, s32 slotB);
-extern int DAYCARE_GetInUseCount(void *dayCare);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define DAYCARE_GetInUseCount DAYCARE_GetInUseCount_header
+#endif
+#include "../arm9/daycare.h"
+#ifdef __MWERKS__
+#undef DAYCARE_GetInUseCount
+extern int DAYCARE_GetInUseCount(struct DaycareSave *);
+#endif
 #include "../arm9/gfl_use.h"
 #include "../arm9/game_data.h"
 #include "fieldmap.h"
 #include "../arm9/gamesystem.h"
 struct GameData;
 struct PokeParam;
-extern struct PokeParam *DAYCARE_GetSlotMon(struct DaycareSave *daycare, s32 slot);
 #include "../arm9/perapvoice.h"
 #include "../arm9/mi_memory.h"
 struct PersonalData;
 #include "../arm9/poke_personal.h"
 #include "../arm9/mystatus.h"
-extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heapId);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define ARC_TOOL_LoadMember ARC_TOOL_LoadMember_header
+#endif
+#include "../arm9/arc_tool.h"
+#ifdef __MWERKS__
+#undef ARC_TOOL_LoadMember
+extern void * ARC_TOOL_LoadMember(u32, u32, u32);
+#endif
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/file_util.h"
 struct BoxPokemon;
@@ -246,7 +259,6 @@ struct Strbuf;
 #include "../arm9/msgdata.h"
 #include "../arm9/save_event.h"
 #include "../arm9/poke_tool_ext.h"
-extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
 extern void *gSpeciesNameBank;
 
 int SODATEYA_MonKnowsMove(void *mon, u32 move);
@@ -305,18 +317,11 @@ extern MoveSlotIdTable sSodateyaTmMoveSlotIds;
 extern const StatTable sSodateyaEggIvIds;
 struct Party;
 #include "../arm9/pokeparty.h"
-extern void DAYCARE_SetSlotMon(struct DaycareSave *daycare, s32 slot, struct PokeParam *mon);
-extern u32 DAYCARE_GetSlotSteps(struct DaycareSave *daycare, u32 slot);
-extern void DAYCARE_ClearSlot(struct DaycareSave *daycare, s32 slot);
 #include "../arm9/zukan_save.h"
 struct ZukanSave;
-extern u32 DAYCARE_GetEggReady(struct DaycareSave *daycare);
 #include "../ov010/game_beacon_set.h"
-extern void DAYCARE_ClearEggReady(struct DaycareSave *daycare);
 #include "../ov010/formchange_season.h"
 struct DaycareSlot;
-extern void DAYCARE_AddSteps(struct DaycareSlot *slots, u32 steps);
-extern void DAYCARE_SetEggReady(struct DaycareSave *daycare);
 struct EventWork;
 #include "../arm9/zonedata.h"
 SodateyaWork *SODATEYA_Create(u32 heapId, void *fieldMap, void *dayCare);

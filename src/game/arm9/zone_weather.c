@@ -49,42 +49,34 @@ struct ZoneWeatherPair {
 struct GameSystem;
 struct GameData;
 
-extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+#include "gamesystem.h"
 
-extern u32 GAME_DATA_GetMusicalWork(struct GameData *gd);
+#include "game_data.h"
 
-extern s32 MOVE_POKEMON_FindEntryByZone(struct GameData *gameData, s32 zoneId);
+#include "../ov010/move_pokemon.h"
 struct CalenderWork;
 
-extern u32 CALENDER_GetWeatherThunk(struct CalenderWork *calender, u32 zoneId);
+#include "../ov010/calender.h"
 
-extern u32 ZONEDATA_GetWeatherId(u32 id);
+#include "zonedata.h"
 
-extern void GAME_DATA_SetWeatherId(struct GameData *gd, u8 value);
 
-extern int MOVE_POKEMON_IsAnyEntryActive(struct GameData *gameData);
 
-extern u8 GAME_DATA_GetWeatherId(struct GameData *gd);
 
-extern void *GAME_DATA_GetEventWork(struct GameData *gd);
 struct GameComm;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
-extern int ZONEDATA_IsZoneGroup118To13C(u32 key);
 struct EventWork;
 
-extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 
-extern s32 INTRUDE_COMM_GetAreaOwnerVersion(struct GameComm *comm);
+#include "../ov010/intrude_comm_query.h"
 
-extern u32 GPOWER_GetSpecialPowerId(void);
+#include "gpower.h"
 
-extern u32 ZONEDATA_IsRawZone176Or17A(u32 id);
 
-extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
+#include "gf_standard.h"
 
-extern void APP_ENV_GetOwnerColorAndBirthMonth(u8 *out1, u8 *out2);
+#include "app_env.h"
 
 u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId);
 
@@ -139,8 +131,7 @@ u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId)
     return (u8)ZONEDATA_GetWeatherId((u16)zoneId);
 }
 
-extern u8 GAME_DATA_GetSeason(struct GameData *gd);
-extern u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
+#include "comm_player_support.h"
 int WEATHER_IsSeasonSynced(int gameData){ int season, clockSeason; season = GAME_DATA_GetSeason((struct GameData *)gameData); clockSeason = COMM_PLAYER_SUPPORT_GetSeasonFromClock(); if ((unsigned int)((season + 0)) == (unsigned int)(clockSeason)) {  return 1; } else {  return 0; } }
 
 void WEATHER_StoreZoneWeatherId(struct Ctx *fieldSys, u32 zoneId)

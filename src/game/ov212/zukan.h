@@ -8,7 +8,7 @@ struct Proc;
 struct ZukanParam;
 struct ZukanWork;
 struct Blk37;
-struct Obj;
+struct ClactActor;
 struct ZknSearchActorTemplate;
 
 #include "../types.h"
@@ -34,7 +34,7 @@ void ZUKAN_InitQuery(struct Blk37 *p, u8 *out);
 void ZUKAN_StartWipeIn(u32 heap);
 void ZUKAN_StartWipeOut(u32 heap);
 void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
-struct Obj *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap);
+struct ClactActor *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap);
 /* END mkheaders: generated region */
 
 #endif

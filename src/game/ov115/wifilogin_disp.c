@@ -600,11 +600,13 @@ void WIFILOGIN_DISP_StepCancelWait(u8 *p) {
  */
 void WIFILOGIN_DISP_StepCheckAccount(u8 *p)
 {
+    int wireless;
 #ifdef __MWERKS__
-    if(APP_ENV_IsWirelessAvailable(p)==0) {
+    wireless = APP_ENV_IsWirelessAvailable(p);
 #else
-    if(APP_ENV_IsWirelessAvailable()==0) {
+    wireless = APP_ENV_IsWirelessAvailable();
 #endif
+    if(wireless==0) {
         WIFILOGIN_MSG_CloseMessage((u8 *)((sptr)(((struct WifiloginWork *)p)->message)));
         WIFILOGIN_MSG_PrintMessage(((struct WifiloginWork *)p)->message,39);
         ((struct WifiloginWork *)p)->state->aidMismatch=1;

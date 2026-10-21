@@ -274,7 +274,22 @@ struct Unit;
 #include "../arm9/palanm.h"
 #include "../arm9/touchpanel.h"
 #include "../arm9/bmp_oam.h"
-#include "../../matched/include/G_Bg.h"
+struct ResearchGraphBg {
+    unsigned int a;
+    unsigned int b;
+    unsigned int c;
+    unsigned int d;
+    unsigned char e;
+    unsigned char f;
+    unsigned char g;
+    unsigned char h;
+    unsigned int i;
+    unsigned char j;
+    unsigned char k;
+    unsigned char l;
+    unsigned char m;
+    unsigned int n;
+};
 #include "research_shared_types.h"
 
 struct MessageView;
@@ -363,67 +378,55 @@ struct ArrowCreateArgs { u32 charId; u32 paletteId; u32 cellId; u16 space; u16 a
 struct PercentageCreateArgs { u32 charIndex; u32 paletteIndex; u32 cellAnimIndex; u16 priority; u16 digitAnimSeq; u16 signAnimSeq; };
 struct GameSystem;
 
-extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
+#include "../arm9/gamesystem.h"
 
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
+#include "../arm9/net.h"
 
 
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern int NNS_G2dGetUnpackedScreenData(void *, void **);
+#include "../arm9/nns_g2d_load.h"
 
-extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
+extern void BG_SYS_DrawTile(u32 index, void *src, u8 dx, u8 dy, u8 cw, u8 ch);
 
 extern int BG_SYS_PushTile(int);
 
-extern void ARC_TOOL_DeleteHandle(void *);
 
 extern void BG_SYS_FillTileMap(unsigned char index, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char pal);
 struct ResearchCommon;
 
-extern u32 RESEARCH_COMMON_GetHeapId(struct ResearchCommon *common);
+#include "research_common.h"
 
-extern void RESEARCH_COMMON_UpdatePaletteAnime(unsigned);
 
 extern void CLACT_DrawSystem();
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
 
-extern void * RESEARCH_COMMON_GetTouchRects(struct ResearchCommon *common);
 
 extern u32 GFL_USE_PlaySeDefaultVolume(u32 a);
 
-extern int FADE_IsActive(void);
+#include "../arm9/fade.h"
 
-extern void RESEARCH_COMMON_StopPaletteAnime(u32 common);
 
-extern void RESEARCH_COMMON_RestorePaletteAnime(u32 common);
 struct RingQueue;
 
-extern void RingQueue_Push(struct RingQueue *queue, int value);
+#include "queue.h"
 
-extern u32 RingQueue_Pop(struct RingQueue *queue);
 
-extern int RingQueue_IsEmpty(struct RingQueue *queue);
 
-extern u32 RESEARCH_COMMON_GetPreviousScreen(struct ResearchCommon *common);
 
-extern u32 RESEARCH_COMMON_GetEntryHandled(struct ResearchCommon *common);
 
-extern void RESEARCH_COMMON_SetEntryHandled(struct ResearchCommon *common, unsigned int value);
 
-extern u8 GAME_BEACON_PopQuestionnaireUpdated(void);
+#include "../arm9/game_beacon.h"
 
-extern void RESEARCH_COMMON_StartPaletteAnime(struct ResearchCommon *common, unsigned int index);
 struct Actor;
 
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int value);
 
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, unsigned int enable);
 
-extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 struct PaletteAnime;
 
 extern void PALETTE_ANIME_Start(struct PaletteAnime *anime, unsigned int mode, unsigned short color);
@@ -432,27 +435,19 @@ extern void PALETTE_ANIME_Stop(struct PaletteAnime *anime);
 
 extern void PALETTE_ANIME_Update(struct PaletteAnime *anime);
 
-extern unsigned RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common);
 
-extern u32 RESEARCH_COMMON_GetInputFlag(struct ResearchCommon *common);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 
-extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
+#include "../arm9/msgdata.h"
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern int RingQueue_Create(int capacity, int heapId);
 
-extern void RingQueue_Destroy(struct RingQueue *queue);
 
-extern void BMP_WIN_Init(u32);
+#include "../arm9/bmp_win.h"
 
-extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
@@ -462,11 +457,9 @@ extern void BG_SYS_FreeTiles(u32, u32, u32);
 struct BgTextLabelConfig;
 struct BgTextLabel;
 
-extern struct BgTextLabel *BgTextLabel_Create(struct BgTextLabelConfig *config, unsigned int font, unsigned int msgBank, unsigned int heapId);
+#include "bg_font.h"
 
-u32 BgTextLabel_PrintMessage(struct BgTextLabel *label, unsigned int msgIndex);
 
-extern void BgTextLabel_Destroy(struct BgTextLabel *label);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
@@ -496,22 +489,19 @@ extern int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
 
 extern void CLACT_VBlankSystem(void);
 
-extern u32 KEY_GetCont(void);
 struct GameData;
 struct SaveControl;
 
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+#include "../arm9/game_data.h"
 
-extern void *SYMBOL_SAVE_GetBitBlock(void *saveData);
+#include "../arm9/symbol_save.h"
 
-extern int MISC_SAVEDATA_GetStatusByte(int tally, int index);
+#include "../arm9/misc_savedata.h"
 struct BmpOam;
 
-extern void BMP_OAM_SetPalette(struct BmpOam *bmpOam, unsigned int palette);
 
 extern void CLACT_AddActorSurfacePos(struct ClactActor *p,const struct ClactVec2 *delta,u32 which);
 
-extern void BgTextLabel_SetVisible(struct BgTextLabel *label, int visible);
 
 
 
@@ -521,28 +511,21 @@ extern u32 PALETTE_ANIME_IsRunning();
 
 extern void BG_SYS_Update();
 
-extern void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, unsigned int enabled);
 struct TcbList;
 
 extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+#include "../arm9/bmp.h"
 
-extern struct Bmp *BMP_CreateFromArchive(u32,u32,u32,u32);
 
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
 struct Strbuf;
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *,u32);
 
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 struct BmpOamSys;
 
-extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 
-extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
 
-extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
 
 
 
@@ -553,10 +536,10 @@ struct TcbTask;
 extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void), void *work, unsigned int priority);
 struct TcbTask;
 
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 struct Arrow;
 
-extern void ARROW_Update(struct Arrow *arrow);
+#include "arrow.h"
 
 void RESEARCH_GRAPH_InitOverlayBackgrounds(char *p);
 
@@ -605,11 +588,9 @@ int RESEARCH_GRAPH_GetCommKindOrStart(u8 *graph);
 extern int GFL_USE_IsAnySeBusy(void);
 struct CircleGraph;
 
-extern void CircleGraph_SetEnabled(struct CircleGraph *graph, unsigned int enabled);
+#include "circle_graph.h"
 
-extern void CircleGraph_QueueDrawSlow(struct CircleGraph *graph);
 
-extern void CircleGraph_QueueDrawMedium(struct CircleGraph *graph);
 
 u32 RESEARCH_GRAPH_ExitOverlayBackgrounds();
 
@@ -647,87 +628,55 @@ void RESEARCH_GRAPH_UnregisterVBlank(u8 *graph);
 
 void RESEARCH_GRAPH_ClearNotifyFlag(unsigned char *graph);
 
-extern void CircleGraph_QueueErase(struct CircleGraph *graph);
 
-extern void CircleGraph_HoldUpdate(struct CircleGraph *graph, unsigned int frames);
 
-extern void CircleGraph_QueueDrawFast(struct CircleGraph *graph);
 
-extern u8 CircleGraph_GetSliceKey(struct CircleGraph *graph, unsigned char index);
 struct GraphTable;
 
-extern u32 GRAPHTABLE_FindEntry(struct GraphTable *table, unsigned char key, unsigned char entryId);
+#include "graph_table.h"
 
-extern u8 CircleGraph_FindSliceIndex(struct CircleGraph *graph, unsigned char key);
 
-extern void CircleGraph_SetCenterDepth(struct CircleGraph *graph, int z);
 struct CircleGraphInput;
 
-extern void CircleGraph_SetSlices(struct CircleGraph *graph, struct CircleGraphInput *inputs, int count);
 
-extern void CircleGraph_Update(struct CircleGraph *graph);
 
-extern void CircleGraph_Draw(struct CircleGraph *graph);
 
-extern unsigned GRAPHTABLE_GetEntryRed(struct GraphTable *table, unsigned int group, unsigned int entry);
 
-extern unsigned GRAPHTABLE_GetEntryGreen(struct GraphTable *table, unsigned int group, unsigned int entry);
 
-extern unsigned GRAPHTABLE_GetEntryBlue(struct GraphTable *table, unsigned int group, unsigned int entry);
 
-extern void ARROW_Reset(struct Arrow *arrow);
 
-extern u8 CircleGraph_GetPercentByKey(struct CircleGraph *graph, unsigned char key);
 
-extern void CircleGraph_GetLabelPositionByKey(struct CircleGraph *graph, unsigned char key, int *px, int *py);
 
-extern void ARROW_Layout(struct Arrow *arrow, int tipX, int tipY, int cornerX, int endY);
 
-extern void ARROW_Start(struct Arrow *arrow);
 
-extern u8 CircleGraph_GetPercentByIndex(struct CircleGraph *graph, unsigned char index);
 
-extern void CircleGraph_GetLabelPositionByIndex(struct CircleGraph *graph, unsigned char index, int *px, int *py);
 struct Percentage;
 
-extern void PERCENTAGE_SetValue(struct Percentage *pct, unsigned int value);
+#include "percentage.h"
 
-extern void PERCENTAGE_SetPosition(struct Percentage *pct, unsigned int x, unsigned int y);
 
-extern void PERCENTAGE_SetVisible(struct Percentage *pct, unsigned int visible);
 
 u32 RESEARCH_GRAPH_ClampByte(s32 v);
 
-extern void BgTextLabel_PrintText(struct BgTextLabel *label, void *text);
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/strbuf.h"
 
-extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+#include "../arm9/wordset.h"
 
-extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
 extern void CLACT_SetActorAnimLoopCount(struct ClactActor *,unsigned);
 
-extern u32 RESEARCH_COMMON_GetContext(u32 *p);
 
-extern int CircleGraph_IsAnimating(struct CircleGraph *graph);
 struct SymbolBitSave;
 
-extern unsigned char *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save);
 
-extern u32 SYMBOL_SAVE_ReadBitField(const u8 *, int);
 
-extern u32 GRAPHTABLE_GetEntryId(struct GraphTable *table, unsigned int group, unsigned char entry);
 
-extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd);
 
-extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
+#include "../arm9/playtime.h"
 
-extern u16 MISC_SAVEDATA_GetHalfword(const u16 *, int);
 
 void RESEARCH_GRAPH_ClearLabels(void *p);
 
@@ -741,38 +690,25 @@ void RESEARCH_GRAPH_ClearPalAnm(void *p);
 
 void RESEARCH_GRAPH_ClearPaletteAnime(void *p);
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 
-extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern struct CircleGraph *CircleGraph_Create(u32 heapId);
 
-extern u32 CircleGraph_Destroy(struct CircleGraph *graph);
 
 extern void MI_CpuFill8(u32, u32, u32);
 
-extern u32 MISC_SAVEDATA_GetTallyWord(u8 *p, int i);
 
-extern u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 fieldId, u32 index);
 
-extern int MISC_SAVEDATA_GetScoreValue(int tally, int fieldId, int index);
 struct ArrowResources;
 
-extern struct Arrow *ARROW_Create(unsigned int heapId, struct ArrowResources *resources);
 
-extern u32 ARROW_Destroy(struct Arrow *arrow);
 struct ClactUnit;
 struct PercentageTemplate;
 
-extern u32 PERCENTAGE_Create(unsigned int heapId, struct PercentageTemplate *tmpl, struct ClactUnit *unit);
 
-extern u32 PERCENTAGE_Destroy(struct Percentage *pct);
 
-extern void G3X_Init(void);
+#include "../arm9/g3x.h"
 
-extern void G3X_InitMtxStack(void);
 
-extern void G3X_SetEdgeColorTable(const void *);
 
 void *RESEARCH_GRAPH_Create(void *p);
 
@@ -1108,7 +1044,7 @@ extern u8 d_021C367C[];
 
 extern u8 d_021C3D44[][17];
 
-extern struct Bg d_021C386C;
+extern struct ResearchGraphBg d_021C386C;
 
 extern u8 d_021C3900[];
 
@@ -2465,7 +2401,7 @@ void RESEARCH_GRAPH_LoadBackground(char *graph)
     }
     file=ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc,id,((struct ResearchObjB *)graph)->heapId);
     NNS_G2dGetUnpackedScreenData(file,&out);
-    BG_SYS_DrawTile(2,(uptr)out+12,0,0,32,32);
+    BG_SYS_DrawTile(2,(void *)((uptr)out+12),0,0,32,32);
     BG_SYS_PushTile(2);
     GFL_HEAP_Free(file);
     ARC_TOOL_DeleteHandle(arc);
@@ -2771,6 +2707,9 @@ u32 RESEARCH_GRAPH_TransferPalettes(u32 unusedArg, u32 graph)
     BG_SYS_Update();
     CLACT_VBlankSystem();
     PALANM_TransferPalettes((struct PaletteFade *)((struct ResearchObjB *)graph)->palAnm);
+#ifndef __MWERKS__
+    return 0;
+#endif
 }
 
 void RESEARCH_GRAPH_CheckQuestionnaireUpdated(char *graph)
@@ -2982,7 +2921,7 @@ u8 RESEARCH_GRAPH_GetFirstSaveGroup(u8 *graph)
     void *base;
     int i;
     base=SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct GameData *)RESEARCH_GRAPH_GetAppResource(graph)));
-    for (i=0;i<3;i++) bytes[i]=MISC_SAVEDATA_GetStatusByte((sptr)base,i);
+    for (i=0;i<3;i++) bytes[i]=MISC_SAVEDATA_GetStatusByte((void *)((sptr)base),i);
     b=bytes[1];
     c=bytes[2];
     a=bytes[0];
@@ -3280,9 +3219,9 @@ void RESEARCH_GRAPH_BuildGraphTable(char *graph)
     h = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct GameData *)RESEARCH_GRAPH_GetAppResource((u8 *)graph)));
     first = RESEARCH_GRAPH_GetFirstSaveGroup((u8 *)graph);
     i = 0;
-    grp[0] = MISC_SAVEDATA_GetStatusByte((sptr)h, 0);
-    grp[1] = MISC_SAVEDATA_GetStatusByte((sptr)h, 1);
-    grp[2] = MISC_SAVEDATA_GetStatusByte((sptr)h, 2);
+    grp[0] = MISC_SAVEDATA_GetStatusByte((void *)((sptr)h), 0);
+    grp[1] = MISC_SAVEDATA_GetStatusByte((void *)((sptr)h), 1);
+    grp[2] = MISC_SAVEDATA_GetStatusByte((void *)((sptr)h), 2);
     cnt[0] = d_021C367C[grp[0]];
     cnt[1] = d_021C367C[grp[1]];
     cnt[2] = d_021C367C[grp[2]];
@@ -3445,7 +3384,7 @@ extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+#include "../arm9/g2.h"
 
 extern u32 BG_SYS_FreeLayerBuf();
 
@@ -3453,7 +3392,6 @@ extern void CLACT_ReleasePalette(u32 i);
 
 extern struct ClactActor *CLACT_CreateActor(struct Unit *owner, unsigned int i, unsigned int j, unsigned int k, const struct ActorInitParam *position, unsigned short space, unsigned short heap);
 
-extern void BMP_Delete(struct Bmp *);
 
 extern struct DispConfig d_021C366C;
 
@@ -3516,7 +3454,7 @@ void RESEARCH_GRAPH_LoadBackground6(char *graph)
     h = ARC_TOOL_CreateHandle(192, ((struct ResearchObjB *)graph)->heapId);
     blob = ARC_TOOL_LoadHandleMember((struct ArcHandle *)h, 13, ((struct ResearchObjB *)graph)->heapId);
     NNS_G2dGetUnpackedScreenData(blob, &out);
-    BG_SYS_DrawTile(6, (uptr)((char *)out + 12), 0, 0, 32, 24);
+    BG_SYS_DrawTile(6, (void *)((uptr)((char *)out + 12)), 0, 0, 32, 24);
     BG_SYS_PushTile(6);
     GFL_HEAP_Free((void *)((uptr)blob));
     ARC_TOOL_DeleteHandle(h);
@@ -3558,7 +3496,7 @@ void RESEARCH_GRAPH_LoadBackground2(char *graph)
     h = ARC_TOOL_CreateHandle(192, ((struct ResearchObjB *)graph)->heapId);
     blob = ARC_TOOL_LoadHandleMember((struct ArcHandle *)h, 7, ((struct ResearchObjB *)graph)->heapId);
     NNS_G2dGetUnpackedScreenData(blob, &out);
-    BG_SYS_DrawTile(2, (uptr)((char *)out + 12), 0, 0, 32, 32);
+    BG_SYS_DrawTile(2, (void *)((uptr)((char *)out + 12)), 0, 0, 32, 32);
     BG_SYS_PushTile(2);
     GFL_HEAP_Free((void *)((uptr)blob));
     ARC_TOOL_DeleteHandle(h);
@@ -3810,17 +3748,13 @@ struct PaletteAnimeBind {
     u8 pad[11];
 };
 
-extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
 
 struct GameComm;
 
-extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
-extern void GAME_COMM_RequestExitNoCallback(struct GameComm *comm);
+#include "../arm9/game_comm.h"
 
-extern u32 GAME_COMM_GetKind(struct GameComm *comm);
 
-extern void GAME_COMM_SetNotifyFlag(struct GameComm *comm, unsigned int flag);
 
 extern const struct Tab d_021C3C54;
 

@@ -12,9 +12,6 @@ typedef void (*TcbFunc)(struct TcbTask *task, void *work);
 struct TcbTask *TCB_AddTask(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority);
 struct TcbTask *TCB_InsertTask(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority);
 
-
-
-
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of tcb_list.c, prototypes copied from their definitions. */
 

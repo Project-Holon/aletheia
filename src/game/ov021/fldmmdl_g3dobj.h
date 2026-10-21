@@ -21,7 +21,7 @@ u16 FLDMMDL_G3DOBJ_FindResIdx(MmdlG3dObjCont *cont, u16 code);
 u32 FLDMMDL_G3DOBJ_LoadRes(u32 mmdlSys, MmdlG3dObjCont *cont, u32 code, u16 *resParam);
 void FLDMMDL_G3DOBJ_DeleteResByCode(MmdlG3dObjCont *cont, u16 code);
 u32 FLDMMDL_G3DOBJ_AddObj(struct Mmdl *mmdl);
-void FLDMMDL_G3DOBJ_DelObj(u32 mmdl, u32 objIdx);
+void FLDMMDL_G3DOBJ_DelObj(struct Mmdl *mmdl, u32 objIdx);
 /* END mkheaders: generated region */
 
 #endif

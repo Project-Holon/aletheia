@@ -61,7 +61,11 @@
  *   DWCi_TSKlDelete                  0x021D7724  arm
  *   keyboard_bss                     0x021DE55C  data
  */
-#include "../../matched/include/G_KEYBOARD_DATA.h"
+struct KEYBOARD_DATA {
+    unsigned char *KEY_OUT[3];
+    unsigned short *KEY_CHR[3];
+    int SKEY_TOUCH_SND[4];
+};
 
 typedef _Bool bool;
 

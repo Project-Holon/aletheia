@@ -1180,10 +1180,7 @@ struct AllocScratch {
 #include "spl_random.h"
 #include "g3imm.h"
 #include "mi_memory.h"
-extern void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
-extern u32 MTX_Scale43_(void *, s32, s32, s32);
-extern void MTX_Concat43(const void *, const void *, void *);
-extern void MTX_Identity43_(void *);
+#include "fx_mtx43.h"
 #include "gx_load3d.h"
 void SPLList_PushFront(SPLList *list, SPLNode *node);
 SPLNode *SPLList_PopFront(SPLList *list);

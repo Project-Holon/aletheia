@@ -1102,8 +1102,7 @@ struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct Mys
     }
     c = in->windowPalette;
     w = in->bgLayer;
-    /* stand-in: unprototyped call; the prototype's u16/u8 parameters narrow the arguments and change the bytes */
-    out->windowList = ((void *(*)())MYSTERY_UTIL_CreateWindowList)(0, (const char *)&t, out->count, w, c, in->printQueue, (uptr)in->bank, in->font, heap);
+    out->windowList = MYSTERY_UTIL_CreateWindowList(0, (const char *)&t, out->count, w, c, in->printQueue, (struct MsgBank *)in->bank, in->font, heap);
     for (i = 0; i < out->count; i++)
         if (t.r[i].h) STRBUF_Delete(t.r[i].h);
     pt.x = d_021DF76C[out->index].x;

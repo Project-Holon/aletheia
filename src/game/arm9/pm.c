@@ -96,7 +96,6 @@ typedef u32 OSIrqMask;
 
 #include "os_system.h"
 #include "pxi_fifo.h"
-extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
 #include "svc_wait_by_loop.h"
 extern void PMi_CommonCallback(int tag, u32 data, BOOL err);
 extern void PMi_DummyCallback(u32 result, void *arg);
@@ -107,7 +106,6 @@ extern void PMi_ExecuteList(PMGenCallbackInfo *listp);
 #include "os_terminate_processor.h"
 unsigned int PMi_SetAmp(unsigned int status);
 int PM_GetLCDPower(void);
-u32 PMi_GetBatteryLevelCore(u16 *levelBuf);
 #include "os_interrupt.h"
 #include "os_tick.h"
 #include "os_systemwork.h"

@@ -35,7 +35,11 @@
  *   DWCi_HEAPlFree2  0x021D647C  arm
  */
 #define GAME_TYPES_U32_LONG
-#include "../../matched/include/G_AossCtl.h"
+struct AossCtl {
+    unsigned char status;
+    unsigned char pad_1[0x3];
+    void *work;
+};
 
 #include "../types.h"
 

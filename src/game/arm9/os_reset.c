@@ -35,7 +35,6 @@
 #include "../sdk_os.h"
 
 #include "pxi_fifo.h"
-extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
 #include "os_pxi.h"
 #include "os_emulator.h"
 #include "os_terminate_processor.h"

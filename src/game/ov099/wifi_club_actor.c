@@ -113,7 +113,7 @@ typedef struct {
     u8 frame;           /* palette frame to write */
 } PaletteStep;
 
-extern u32 WIFICLUB_GetMessageIdByIndex(int mapIndex);
+#include "wifi_club.h"
 struct Wf2dmapMapGrid;
 #include "../ov127/wf2dmap_map.h"
 #include "../ov127/wf2dmap_objdraw.h"
@@ -709,7 +709,7 @@ void WIFICLUBACTOR_LoadPalette(void *unused, u32 heapId, u32 clactResArc, u32 pa
     u32 zero = 0;
     ARC_UTIL_UploadPaletteFromArchiveWhole(paletteArc, 7, 0, 0, 0x100, heapId);
     BG_SYS_LoadPlttEntry(0, 0);
-    ARC_UTIL_UploadBgCharFromArchive((void *)paletteArc, (void *)0x10, 0, 0, zero, zero, heapId);
+    ARC_UTIL_UploadBgCharFromArchive(paletteArc, 0x10, 0, 0, zero, zero, heapId);
 }
 
 

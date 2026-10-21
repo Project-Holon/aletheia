@@ -43,7 +43,7 @@ int INTRUDE_FIELD_CreateTileEvent(struct FieldMap *fieldMap, struct GameSystem *
 struct GameEvent *INTRUDE_FIELD_CreateEdgeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct FieldPlayer *player, int *posX, u16 moveDir, u16 facingDir);
 struct GameEvent *INTRUDE_FIELD_CreateExitConfirmEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *work);
 int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfirmWork *work);
-struct GameEvent *INTRUDE_FIELD_CreateNoticeEvent(struct GameSystem *gameSystem, VecFx32 *pos);
+struct GameEvent *INTRUDE_FIELD_CreateNoticeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 int INTRUDE_FIELD_EventNotice(struct GameEvent *event, u32 *seq, NoticeEventWork *work);
 int INTRUDE_FIELD_IsAtAreaEdge(const VecFx32 *pos);
 int INTRUDE_FIELD_IsInEdgeMargin(const VecFx32 *pos);

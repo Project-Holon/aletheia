@@ -308,11 +308,11 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
         break;
     case 1:
         if (args->returnImmediately == 1) {
-            COMM_PLAYER_SUPPORT_Init((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
+            COMM_PLAYER_SUPPORT_Init(GAME_DATA_GetPmsWork((struct GameData *)gameData));
             return 1;
         }
         if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetLastBattleResult(gameData), 0) == 1) {
-            COMM_PLAYER_SUPPORT_Init((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
+            COMM_PLAYER_SUPPORT_Init(GAME_DATA_GetPmsWork((struct GameData *)gameData));
             GAME_EVENT_ChangeEvent(event, SCRCMD_NETWORK_CreateCommProcEvent(gameSystem));
         } else {
             GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 0, 0, 1, 0, 0));
@@ -320,12 +320,12 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
         (*state)++;
         break;
     case 2:
-        if (COMM_PLAYER_SUPPORT_HasSavedMode((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData)) == 1)
+        if (COMM_PLAYER_SUPPORT_HasSavedMode(GAME_DATA_GetPmsWork((struct GameData *)gameData)) == 1)
             GAME_EVENT_CallEvent(event, EVENT_COMM_COMMON_CreateSupportMsgEvent(gameSystem, 4));
         (*state)++;
         break;
     case 3:
-        COMM_PLAYER_SUPPORT_Init((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
+        COMM_PLAYER_SUPPORT_Init(GAME_DATA_GetPmsWork((struct GameData *)gameData));
         return 1;
     }
     return 0;
@@ -568,7 +568,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         break;
     case 3:
         FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData), 1);
-        COMM_PLAYER_SUPPORT_Init((struct CommPlayerSupport *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
+        COMM_PLAYER_SUPPORT_Init(GAME_DATA_GetPmsWork((struct GameData *)gameData));
         GAME_EVENT_CallProc(event, (uptr)ov093_id, (void *)d_021EFDAC, (void *)work->btlSetup);
         (*state)++;
         break;
@@ -581,7 +581,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
     case 5:
         GF_OVERLAY_Load((sptr)ov230_id);
         FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData), 0);
-        COMM_PLAYER_SUPPORT_StashMode((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
+        COMM_PLAYER_SUPPORT_StashMode(GAME_DATA_GetPmsWork((struct GameData *)gameData));
         (*state)++;
         break;
     case 6: {

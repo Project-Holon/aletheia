@@ -931,15 +931,15 @@ void VIEWER_MAIN_LoadBgResources(ViewerWork *p)
         VIEWER_MAIN_ClearBgSlot((ViewerWork *)p, p->info->rowIndex);
     }
     VIEWER_MAIN_UploadBg((ViewerWork *)p);
-    ARC_UTIL_UploadBgCharFromArchive((void *)0x28, (void *)(VIEWER_MAIN_GetBgParamA(p->info->kind)), (void *)6, 0, 0, 0, p->heap);
+    ARC_UTIL_UploadBgCharFromArchive(0x28, (VIEWER_MAIN_GetBgParamA(p->info->kind)), 6, 0, 0, 0, p->heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x28, VIEWER_MAIN_GetBgParamB(p->info->kind), 6, 0, 0, 0, p->heap);
-    ARC_UTIL_UploadBgCharFromArchive((void *)0x28, (void *)0x1E, (void *)5, 0, 0, 0, p->heap);
+    ARC_UTIL_UploadBgCharFromArchive(0x28, 0x1E, 5, 0, 0, 0, p->heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x28, 0x28, 5, 0, 0, 0, p->heap);
-    ARC_UTIL_UploadBgCharFromArchive((void *)0x28, (void *)0x1E, (void *)3, 0, 0, 0, p->heap);
+    ARC_UTIL_UploadBgCharFromArchive(0x28, 0x1E, 3, 0, 0, 0, p->heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x28, 0x28, 3, 0, 0, 0, p->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x28, 0xF, 0, 0, 0x20, p->heap);
     VIEWER_MAIN_CopyBg3(p->info->bitmap, p->pix);
-    ARC_UTIL_UploadBgCharFromArchive((void *)(APP_ICON_GetArchiveId()), (void *)(APP_ICON_GetStatusFrameFileId()), (void *)4, 0, 0, 0, p->heap);
+    ARC_UTIL_UploadBgCharFromArchive((APP_ICON_GetArchiveId()), (APP_ICON_GetStatusFrameFileId()), 4, 0, 0, 0, p->heap);
     ARC_UTIL_UploadBgPaletteFromArchive(APP_ICON_GetArchiveId(), APP_ICON_GetStatusDataFileId(), 4, 0, 0, 0, p->heap);
     BG_SYS_FillTileMap(4, 0, 0x15, 0x20, 3, 0xC);
     BG_SYS_PushTile(4);

@@ -388,14 +388,14 @@ void MANUAL_COMMON_CreateListWorkMenu(char *work)
     NNS_GfdRegisterNewVramTransferTask((void *)31, 186, work + 0x4c, 2);
     MANUAL_COMMON_RebuildListWindows(work);
     if (UI_GetInputMode() == 0) {
-        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct Obj **)(work + MANUAL_COMMON_GetCursorIndex((u16 **)work) * 4 + 0xc)), 1);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct ClactActor **)(work + MANUAL_COMMON_GetCursorIndex((u16 **)work) * 4 + 0xc)), 1);
         ((struct ManualListWork *)work)->dirty = 0;
     }
 }
 
 void MANUAL_COMMON_SetListWorkBgMode(struct ManualListWork *work) { BG_SYS_MarkTileDirty(4); }
 
-void MANUAL_COMMON_DeleteListWorkAssets(char *work) { u8 i; MANUAL_COMMON_DeleteListWorkMenu(work); for(i=0;i<8;i++) CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct Obj **)(work+i*4+0x60)))); CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualListWork *)work)->actor))); CLACT_ReleaseCellAnim(((struct ManualListWork *)work)->reg2); CLACT_ReleaseCharacter(((struct ManualListWork *)work)->reg0); CLACT_ReleasePalette(((struct ManualListWork *)work)->reg1); }
+void MANUAL_COMMON_DeleteListWorkAssets(char *work) { u8 i; MANUAL_COMMON_DeleteListWorkMenu(work); for(i=0;i<8;i++) CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct ClactActor **)(work+i*4+0x60)))); CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor))); CLACT_ReleaseCellAnim(((struct ManualListWork *)work)->reg2); CLACT_ReleaseCharacter(((struct ManualListWork *)work)->reg0); CLACT_ReleasePalette(((struct ManualListWork *)work)->reg1); }
 
 void MANUAL_COMMON_DeleteListWorkMenu(char *work) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue[1]); for(i=0;i<8;i++) if(*(u8 **)(work+i*4+12)) APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)(*(u8 **)(work+i*4+12))); APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(*(struct TaskMenuState * *)&((struct ManualListWork *)work)->resource)); BG_SYS_MarkTileDirty(5); }
 
@@ -446,7 +446,7 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
                     y=MANUAL_COMMON_IndexToY(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(*(struct ManualListState **)work)->top);
                     delta[3].x=240;
                     delta[3].y=y;
-                    CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct Obj * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[3])), 1);
+                    CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[3])), 1);
                 }
                 APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
                 ((struct ManualListWork *)work)->dirty=0;
@@ -464,7 +464,7 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
                     y=MANUAL_COMMON_IndexToY(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(*(struct ManualListState **)work)->top);
                     delta[2].x=240;
                     delta[2].y=y;
-                    CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct Obj * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[2])), 1);
+                    CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[2])), 1);
                 }
                 APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
                 ((struct ManualListWork *)work)->dirty=0;
@@ -480,7 +480,7 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
                         y=MANUAL_COMMON_IndexToY(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(*(struct ManualListState **)work)->top);
                         delta[1].x=240;
                         delta[1].y=y;
-                        CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct Obj * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[1])), 1);
+                        CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[1])), 1);
                     }
                     APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
                     ((struct ManualListWork *)work)->dirty=0;
@@ -499,7 +499,7 @@ int MANUAL_COMMON_UpdateListWorkInput(char *work)
                         y=MANUAL_COMMON_IndexToY(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(*(struct ManualListState **)work)->top);
                         delta[0].x=240;
                         delta[0].y=y;
-                        CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct Obj * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[0])), 1);
+                        CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)((const struct ManualClactPos *)(&delta[0])), 1);
                     }
                     APP_TASKMENU_WIN_SetActive(*(void **)(work+MANUAL_COMMON_GetCursorIndex((u16 **)work)*4+0xc),1);
                     ((struct ManualListWork *)work)->dirty=0;
@@ -528,7 +528,7 @@ int MANUAL_COMMON_UpdateListWorkDrag(char *work)
     struct ManualPoint drag;
     u32 clickx,clicky;
     struct ManualPoint click;
-    if(CLACT_GetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct Obj * *)&((struct ManualListWork *)work)->actor)))==0) return 0;
+    if(CLACT_GetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor)))==0) return 0;
     if(((struct ManualListWork *)work)->dragging) {
         if(TOUCHPANEL_GetPointCont(&dragx,&dragy)) {
             int offset;
@@ -541,7 +541,7 @@ int MANUAL_COMMON_UpdateListWorkDrag(char *work)
             drag.y=offset;
             if(drag.y<17) drag.y=17;
             else if(drag.y>135) drag.y=135;
-            CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct Obj * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)&drag, 1);
+            CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)&drag, 1);
             selection=MANUAL_COMMON_HitToIndex(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(u16)dragy);
             if(selection!=((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top) {
                 ((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top=selection;
@@ -569,7 +569,7 @@ int MANUAL_COMMON_UpdateListWorkDrag(char *work)
             click.y=offset;
             if(click.y<17) click.y=17;
             else if(click.y>135) click.y=135;
-            CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct Obj * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)&click, 1);
+            CLACT_AddActorSurfacePos((struct ClactActor *)(*(struct ClactActor * *)&((struct ManualListWork *)work)->actor), (const struct ClactVec2 *)&click, 1);
             selection=MANUAL_COMMON_HitToIndex(work,(u16)(MANUAL_COMMON_GetScrollTop((u16 **)work)+1),(u16)clicky);
             if(selection!=((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top) {
                 ((struct ManualListState *)(*(char * *)&((struct ManualListWork *)work)->owner))->top=selection;

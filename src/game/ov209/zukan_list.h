@@ -6,6 +6,7 @@
 
 struct ProcSystem;
 struct ZukanList;
+struct TcbTask;
 
 #include "../types.h"
 
@@ -14,7 +15,7 @@ int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, int work);
 int ZUKAN_LIST_ProcExit(void *p);
 void ZUKAN_LIST_StartVBlankTask(struct ZukanList *p);
 void ZUKAN_LIST_StopVBlankTask(struct ZukanList *p);
-void ZUKAN_LIST_VBlankTask(void *unused,struct ZukanList *p);
+void ZUKAN_LIST_VBlankTask(struct TcbTask *unused, void *work_);
 void ZUKAN_LIST_StartHBlankTask(struct ZukanList *p);
 void ZUKAN_LIST_StopHBlankTask(struct ZukanList *p);
 void ZUKAN_LIST_HBlankTask(void);

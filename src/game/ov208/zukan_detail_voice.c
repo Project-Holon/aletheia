@@ -263,13 +263,10 @@ struct Ov208Blend;
 
 struct Ov208Scene;
 
-extern int ZUKAN_DETAIL_TOUCHBAR_GetMode(struct Ov208Scene *p);
+#include "zukan_detail_touchbar.h"
 
-extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(struct Ov208Scene *p, u32 mode, u32 kind, u32 flag);
 
-extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(struct Ov208Scene *p, int scrollIdx);
 
-extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(struct Ov208Scene *p, u32 kind);
 
 
 #include "zukan_detail_headbar.h"
@@ -277,12 +274,10 @@ struct Ov208Icon;
 
 
 
-extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(struct Ov208Scene *p);
 
 
 struct GameData;
 
-extern void GAME_DATA_SetRecentId(struct GameData *gd, u32 id, u32 on);
 
 
 extern void ZUKAN_SAVE_GetViewGenderAndForm(struct ZukanSave *, u32, u32 *, u32 *, u32 *, u16);
@@ -336,13 +331,9 @@ struct Pair32;
 
 
 
-void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(struct Ov208Scene *p, int v);
 
-void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(struct Ov208Scene *p, int b);
 
-int ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(char *p);
 
-void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(struct Ov208Scene *p, u32 on);
 
 struct Ov208Win;
 struct Ov208PalFade;
@@ -742,7 +733,7 @@ void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heapIdPtr, struct ZukanDetailVoi
         pos.z = row[2];
         pos.animSeq = row[3];
         pos.priority = row[4];
-        voice->actor[i] = (struct Obj *)CLACT_CreateActor((struct Unit *)voice->clactSys, voice->gfxRes[row[5]], voice->gfxRes[row[6]], voice->gfxRes[row[7]], (struct ActorInitParam *)(&pos), row[8], *heapIdPtr);
+        voice->actor[i] = (struct ClactActor *)CLACT_CreateActor((struct Unit *)voice->clactSys, voice->gfxRes[row[5]], voice->gfxRes[row[6]], voice->gfxRes[row[7]], (struct ActorInitParam *)(&pos), row[8], *heapIdPtr);
         CLACT_SetActorDrawEnable((struct ClactActor *)voice->actor[i], 1);
         CLACT_SetActorObjMode((struct ClactActor *)voice->actor[i], 1);
         i++;

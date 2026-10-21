@@ -110,10 +110,8 @@ typedef struct MmdlRestFrames {
     u8 frames[4];
 } MmdlRestFrames;
 
-extern MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(Mmdl *mmdl);
-extern MmdlDrawWork *FLDMMDL_GetDrawProcWork(Mmdl *mmdl);
+#include "../ov010/fldmmdl.h"
 struct Mmdl;
-extern void *FLDMMDL_GetBlActCont(Mmdl *mmdl);
 #include "../arm9/billboard.h"
 #include "../arm9/billboard_act.h"
 #include "../arm9/fx_vec.h"
@@ -128,30 +126,12 @@ extern void *FLDMMDL_GetBlActCont(Mmdl *mmdl);
 #include "fldmmdl_acmd.h"
 #include "fldmmdl_blact.h"
 #include "fldmmdl_rail_move.h"
-extern void *FLDMMDL_InitDrawProcWork(Mmdl *mmdl, int size);
 struct VecFx32;
-extern u16 FLDMMDL_GetDrawStatus(Mmdl *mmdl);
-extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
-extern void MTX_LookAt(VecFx32 *camPos, VecFx32 *camUp, VecFx32 *camTarget, s32 *outMtx43);
-extern void MTX_Inverse33(s32 *mtx33, s32 *outMtx33);
-extern void MTX_MultVec33(VecFx32 *vec, s32 *mtx33, VecFx32 *out);
-extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
+#include "../arm9/fx_mtx43.h"
+#include "../arm9/fx_mtx33.h"
 struct MmdlSys;
-extern void *FLDMMDL_SysGetFieldMap(MmdlSys *sys);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern void FLDMMDL_GetDrawOffset(struct Mmdl *mmdl, struct VecFx32 *out);
-extern short FLDMMDL_GetGridNowX(Mmdl *mmdl);
-extern u16 FLDMMDL_GetZoneId(Mmdl *mmdl);
-extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
 struct FieldPlayer;
-extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct VecFx32 *offset);
-extern int FLDMMDL_CallDrawGetProc(Mmdl *mmdl, unsigned int kind);
-extern u32 FLDMMDL_SysGetAreaId(MmdlSys *sys);
-extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
-extern int FLDMMDL_CheckStatusBitVanish(Mmdl *mmdl);
-extern u32 FLDMMDL_G3DOBJ_AddObj(struct Mmdl *mmdl);
-extern u32 FLDMMDL_G3DOBJ_GetObjCtrl(u32 mmdl);
-extern void FLDMMDL_G3DOBJ_DelObj(Mmdl *mmdl, u32 objIdx);
+#include "fldmmdl_g3dobj.h"
 
 void FLDMMDL_DRAW_RotateByCamera(struct G3dCamera *camera, VecFx32 *vec, VecFx32 *out);
 int FLDMMDL_DRAW_GetFrameOffsetZero(Mmdl *mmdl, u32 listIndex, u32 cursor, VecFx32 *out);
@@ -215,7 +195,7 @@ void FLDMMDL_DRAW_InitDirAnime(Mmdl *mmdl)
 /* Draw procedure remove: releases the billboard actor. */
 void FLDMMDL_DRAW_DeleteDirAnime(Mmdl *mmdl, u32 kind)
 {
-    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, FLDMMDL_GetDrawProcWork(mmdl)->blactId);
+    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, ((MmdlDrawWork *)FLDMMDL_GetDrawProcWork(mmdl))->blactId);
 }
 
 /* Draw procedure draw: direction and animation state, then the position. */
@@ -237,7 +217,7 @@ void FLDMMDL_DRAW_DrawDirAnime(Mmdl *mmdl)
 /* Draw procedure getParam: the billboard actor id. */
 int FLDMMDL_DRAW_GetBlactIdDirAnime(Mmdl *mmdl, u32 kind)
 {
-    return FLDMMDL_GetDrawProcWork(mmdl)->blactId;
+    return ((MmdlDrawWork *)FLDMMDL_GetDrawProcWork(mmdl))->blactId;
 }
 
 void FLDMMDL_DRAW_DrawDirAnimeMoving(Mmdl *mmdl)
@@ -280,7 +260,7 @@ void FLDMMDL_DRAW_InitDirAnimeB(Mmdl *mmdl)
 
 void FLDMMDL_DRAW_DeleteDirAnimeB(Mmdl *mmdl, u32 kind)
 {
-    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, FLDMMDL_GetDrawProcWork(mmdl)->blactId);
+    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, ((MmdlDrawWork *)FLDMMDL_GetDrawProcWork(mmdl))->blactId);
 }
 
 void FLDMMDL_DRAW_DrawDirAnimeB(Mmdl *mmdl)
@@ -405,7 +385,7 @@ void FLDMMDL_DRAW_DrawWalkAnimeB(Mmdl *mmdl)
 
 int FLDMMDL_DRAW_GetBlactIdWalkAnime(Mmdl *mmdl, u32 kind)
 {
-    return FLDMMDL_GetDrawProcWork(mmdl)->blactId;
+    return ((MmdlDrawWork *)FLDMMDL_GetDrawProcWork(mmdl))->blactId;
 }
 
 /* Two-frame model: anime 0 or 1 selects the list index; larger values fall back to 0. */
@@ -466,7 +446,7 @@ void FLDMMDL_DRAW_DrawThreeFrame(Mmdl *mmdl)
 
 void FLDMMDL_DRAW_SetState(Mmdl *mmdl, int state)
 {
-    FLDMMDL_GetDrawProcWork(mmdl)->state = state;
+    ((MmdlDrawWork *)FLDMMDL_GetDrawProcWork(mmdl))->state = state;
 }
 
 /* Rotates vec by the inverse of the view rotation of the camera, into out. */
@@ -475,15 +455,15 @@ void FLDMMDL_DRAW_RotateByCamera(struct G3dCamera *camera, VecFx32 *vec, VecFx32
     VecFx32 camPos;
     VecFx32 camUp;
     VecFx32 camTarget;
-    s32 viewMtx43[12];
-    s32 viewMtx33[9];
+    MtxFx43 viewMtx43;
+    MtxFx33 viewMtx33;
     G3D_CAMERA_GetEye(camera, &camPos);
     G3D_CAMERA_GetCamUp(camera, &camUp);
     G3D_CAMERA_GetCamTarget(camera, &camTarget);
-    MTX_LookAt(&camPos, &camUp, &camTarget, viewMtx43);
-    MI_Copy36B(viewMtx43, viewMtx33);
-    MTX_Inverse33(viewMtx33, viewMtx33);
-    MTX_MultVec33(vec, viewMtx33, out);
+    MTX_LookAt(&camPos, &camUp, &camTarget, &viewMtx43);
+    MI_Copy36B(&viewMtx43, &viewMtx33);
+    MTX_Inverse33(&viewMtx33, &viewMtx33);
+    MTX_MultVec33(vec, &viewMtx33, out);
 }
 
 /* Draw procedure frame offset: none. */
@@ -632,7 +612,7 @@ void FLDMMDL_DRAW_InitFixedState(Mmdl *mmdl)
 
 void FLDMMDL_DRAW_DeleteFixedState(Mmdl *mmdl, u32 kind)
 {
-    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, FLDMMDL_GetDrawProcWork(mmdl)->blactId);
+    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, ((MmdlDrawWork *)FLDMMDL_GetDrawProcWork(mmdl))->blactId);
 }
 
 /* Walking model: the state follows the direction; FLDMMDL_DRAW_UpdateWalkOffset moves the draw offset. */
@@ -770,7 +750,7 @@ int FLDMMDL_DRAW_CheckStepFrame(MmdlDrawWork *work, int dir, MmdlObjCodeParam *p
 
 int FLDMMDL_DRAW_GetBlactIdFixedState(Mmdl *mmdl, u32 kind)
 {
-    return FLDMMDL_GetDrawProcWork(mmdl)->blactId;
+    return ((MmdlDrawWork *)FLDMMDL_GetDrawProcWork(mmdl))->blactId;
 }
 
 void FLDMMDL_DRAW_InitDirAnimeC(Mmdl *mmdl)
@@ -782,7 +762,7 @@ void FLDMMDL_DRAW_InitDirAnimeC(Mmdl *mmdl)
 
 void FLDMMDL_DRAW_DeleteDirAnimeC(Mmdl *mmdl, u32 kind)
 {
-    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, FLDMMDL_GetDrawProcWork(mmdl)->blactId);
+    FLDMMDL_BLACT_DeleteActorMmdl(mmdl, ((MmdlDrawWork *)FLDMMDL_GetDrawProcWork(mmdl))->blactId);
 }
 
 /* Models with several animation patterns, chosen by object code (0xD3 to 0xD6, 0x79). */
@@ -864,7 +844,7 @@ draw:
 
 int FLDMMDL_DRAW_GetBlactIdMultiPattern(Mmdl *mmdl, u32 kind)
 {
-    return FLDMMDL_GetDrawProcWork(mmdl)->blactId;
+    return ((MmdlDrawWork *)FLDMMDL_GetDrawProcWork(mmdl))->blactId;
 }
 
 /* Reads list index and cursor for object codes 0xD3 and 0xD5; other codes report 0 and 0. Returns 0 without an actor. */
@@ -1134,7 +1114,7 @@ void FLDMMDL_DRAW_DrawEffect(Mmdl *mmdl)
 /* G3D object draw procedure remove. */
 void FLDMMDL_DRAW_DeleteEffect(Mmdl *mmdl)
 {
-    FLDMMDL_G3DOBJ_DelObj(mmdl, FLDMMDL_GetDrawProcWork(mmdl)->blactId);
+    FLDMMDL_G3DOBJ_DelObj(mmdl, ((MmdlDrawWork *)FLDMMDL_GetDrawProcWork(mmdl))->blactId);
 }
 
 void FLDMMDL_DRAW_DeleteEffectAlias(Mmdl *mmdl) { FLDMMDL_DRAW_DeleteEffect(mmdl); }

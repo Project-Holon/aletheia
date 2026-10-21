@@ -64,52 +64,40 @@ struct RegulationText {
 typedef struct Strbuf *(*RegulationLineFn)(const struct Regulation *, struct WordSet *,
                                            struct RegulationText *, struct Strbuf *, u16);
 
-extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 memberId);
 struct PokemonParam;
 
-extern u32  POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "poke_tool.h"
 
-extern u32 REGULATION_GetRuleValue(const struct Regulation *reg, u32 ruleId);
+#include "regulation.h"
 
-extern u32 REGULATION_GetVetoBit(const struct Regulation *reg, u32 ruleId, s32 value);
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "pokeparty.h"
 
-extern void MI_CpuFill8(void *dst, u8 v, u32 n);
+#include "mi_memory.h"
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
-extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 
 #ifdef __MWERKS__
-extern void *ARC_TOOL_LoadMember(unsigned int archiveId, unsigned int memberId, unsigned int heapId); /* original prototype; the definition differs in argument width */
+extern void *ARC_TOOL_LoadMember(unsigned int archiveId, unsigned int memberId, unsigned int heapId); /* original prototype; the definition differs in argument width */
 #else
 #include "arc_tool.h"
 #endif
 
-extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 number, u32 digits, u32 padMode, u32 flags);
+#include "wordset.h"
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "strbuf.h"
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+#include "msgdata.h"
 
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *format);
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern void STRBUF_Delete(struct Strbuf *str);
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 GFL_HEAP_Free(void *p);
 
-void POKE_TOOL_SetDefaultName(struct PokemonParam *mon);
 
-void POKE_TOOL_SetLevelAndRecalc(struct PokemonParam *mon, u32 level);
 
 int POKE_REGULATION_IsInSpeciesTable(unsigned short species);
 

@@ -29,10 +29,10 @@ void FLDMMDL_RAIL_MOVE_MapAttrFootMarkProc1(Mmdl *mmdl, u32 attrNow, u32 attrOld
 void FLDMMDL_RAIL_MOVE_MapAttrShadowProc0(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
 void FLDMMDL_RAIL_MOVE_MapAttrShadowProc12(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
 void FLDMMDL_RAIL_MOVE_MapAttrEndNopProc(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-int FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
+void FLDMMDL_RAIL_MOVE_MapAttrGroundSmokeProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
 void FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
 void FLDMMDL_RAIL_MOVE_MapAttrReflectProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld, MmdlObjCodeParam *param);
-u32 FLDMMDL_RAIL_MOVE_GetFldEffCtrl(Mmdl *mmdl);
+struct FieldEffectSys *FLDMMDL_RAIL_MOVE_GetFldEffCtrl(Mmdl *mmdl);
 int FLDMMDL_RAIL_MOVE_AcEnd(Mmdl *mmdl);
 int FLDMMDL_RAIL_MOVE_AcNextStep(Mmdl *mmdl);
 void FLDMMDL_RAIL_MOVE_AcDirSet(Mmdl *mmdl, u32 dir);

@@ -5,6 +5,9 @@
 /* Public functions of fldeff_reflect.c, prototypes copied from their definitions. */
 
 struct ReflectEffectWork;
+struct MmdlSys;
+struct Mmdl;
+struct FieldEffectSys;
 struct ReflectTaskWork;
 typedef struct ReflectEffectWork ReflectEffectWork;
 typedef struct ReflectTaskWork ReflectTaskWork;
@@ -15,7 +18,7 @@ ReflectEffectWork *FLDEFF_REFLECT_Init(int fieldEffectCtrl, int heapId);
 void FLDEFF_REFLECT_Delete(u32 fieldEffectCtrl, u8 *effWork);
 void FLDEFF_REFLECT_InitResource(void);
 void FLDEFF_REFLECT_DeleteResource(void *effWork);
-void FLDEFF_REFLECT_SetMMdl(u32 mmdlSys, u32 mmdl, u32 fieldEffectCtrl, u32 type);
+void FLDEFF_REFLECT_SetMMdl(struct MmdlSys *mmdlSys, struct Mmdl *mmdl, struct FieldEffectSys *fieldEffectCtrl, u32 type);
 void FLDEFF_REFLECT_InitTask(u32 task, ReflectTaskWork *work);
 void FLDEFF_REFLECT_DeleteTask(int task, ReflectTaskWork *work);
 void FLDEFF_REFLECT_UpdateTask(u32 task, ReflectTaskWork *work);

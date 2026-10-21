@@ -2426,15 +2426,15 @@ void WIFIBATTLEMATCH_NET_SetupBoxRecord(u32 *task, u32 mode)
         MI_CpuFill8((void *)&desc,0,20);
         if(mode==0) {
             desc.kind=REC(task)[1]; flag=1;
-            desc.count=BSUBWAY_SAVEDATA_GetStat((StatRow *)(CTX(task)[4]),REC(task)[1]+5,0);
-            desc.a=BSUBWAY_SAVEDATA_GetStat((StatRow *)(CTX(task)[4]),REC(task)[1]+5,1);
-            desc.b=BSUBWAY_SAVEDATA_GetStat((StatRow *)(CTX(task)[4]),REC(task)[1]+5,2);
+            desc.count=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(CTX(task)[4]),REC(task)[1]+5,0);
+            desc.a=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(CTX(task)[4]),REC(task)[1]+5,1);
+            desc.b=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(CTX(task)[4]),REC(task)[1]+5,2);
             desc.total=desc.a+desc.b;
             if(desc.count==0 && desc.total==0) desc.count=1500;
         } else if(mode==1) {
             desc.kind=REC(task)[1]; flag=0; desc.count=0;
-            desc.a=BSUBWAY_SAVEDATA_GetStat((StatRow *)(CTX(task)[4]),REC(task)[1],1);
-            desc.b=BSUBWAY_SAVEDATA_GetStat((StatRow *)(CTX(task)[4]),REC(task)[1],2);
+            desc.a=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(CTX(task)[4]),REC(task)[1],1);
+            desc.b=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(CTX(task)[4]),REC(task)[1],2);
             desc.total=desc.a+desc.b;
         }
         desc.name=MYSTATUS_GetTrainerView((const struct MyStatus *)sys);
@@ -2572,10 +2572,10 @@ int WIFIBATTLEMATCH_NET_GetSetBsubwayStat(u32 save, u32 kind, u32 obj)
         statC = statRecord[0x34 / 4];
         break;
     }
-    changed = (statA != BSUBWAY_SAVEDATA_GetStat((StatRow *)save, kind + 5, 0) || statB != BSUBWAY_SAVEDATA_GetStat((StatRow *)save, kind + 5, 1) || statC != BSUBWAY_SAVEDATA_GetStat((StatRow *)save, kind + 5, 2));
-    BSUBWAY_SAVEDATA_SetStat((u16 *)save, kind + 5, 0, statA);
-    BSUBWAY_SAVEDATA_SetStat((u16 *)save, kind + 5, 1, statB);
-    BSUBWAY_SAVEDATA_SetStat((u16 *)save, kind + 5, 2, statC);
+    changed = (statA != BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)save, kind + 5, 0) || statB != BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)save, kind + 5, 1) || statC != BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)save, kind + 5, 2));
+    BSUBWAY_SAVEDATA_SetStat((BsubwayStatRow *)save, kind + 5, 0, statA);
+    BSUBWAY_SAVEDATA_SetStat((BsubwayStatRow *)save, kind + 5, 1, statB);
+    BSUBWAY_SAVEDATA_SetStat((BsubwayStatRow *)save, kind + 5, 2, statC);
     return changed;
 }
 
@@ -2677,13 +2677,13 @@ void WIFIBATTLEMATCH_NET_CopyBoxSave(u32 *record,u32 *task)
     GREETING_SAVEDATA_GetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSaveThunk(profile)),0,(struct QuadRecord *)((char *)(record+14)));
     ctx=(u32 *)task[16];
     if(ctx[0]==0) {
-        record[10]=BSUBWAY_SAVEDATA_GetStat((StatRow *)ctx[4],((u32 *)ctx[2])[1]+5,1);
+        record[10]=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)ctx[4],((u32 *)ctx[2])[1]+5,1);
         ctx=(u32 *)task[16];
-        record[11]=BSUBWAY_SAVEDATA_GetStat((StatRow *)ctx[4],((u32 *)ctx[2])[1]+5,2);
+        record[11]=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)ctx[4],((u32 *)ctx[2])[1]+5,2);
     } else {
-        record[10]=BSUBWAY_SAVEDATA_GetStat((StatRow *)ctx[4],((u32 *)ctx[2])[1],1);
+        record[10]=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)ctx[4],((u32 *)ctx[2])[1],1);
         ctx=(u32 *)task[16];
-        record[11]=BSUBWAY_SAVEDATA_GetStat((StatRow *)ctx[4],((u32 *)ctx[2])[1],2);
+        record[11]=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)ctx[4],((u32 *)ctx[2])[1],2);
     }
     record[18]=WIFILIST_GetGsProfileId((void *)GAME_DATA_GetWifiList((const struct GameData *)save));
 }
@@ -2695,15 +2695,15 @@ void WIFIBATTLEMATCH_NET_CopyBsubwayStat(u32 *record, u32 *task)
 {
     u32 *params = (u32 *)task[16];
     if (params[0] == 0) {
-        record[10] = BSUBWAY_SAVEDATA_GetStat((StatRow *)params[4], ((u32 *)params[2])[1] + 5, 1);
+        record[10] = BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)params[4], ((u32 *)params[2])[1] + 5, 1);
         params = (u32 *)task[16];
-        record[11] = BSUBWAY_SAVEDATA_GetStat((StatRow *)params[4], ((u32 *)params[2])[1] + 5, 2);
+        record[11] = BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)params[4], ((u32 *)params[2])[1] + 5, 2);
         params = (u32 *)task[16];
-        record[13] = BSUBWAY_SAVEDATA_GetStat((StatRow *)params[4], ((u32 *)params[2])[1] + 5, 0);
+        record[13] = BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)params[4], ((u32 *)params[2])[1] + 5, 0);
     } else {
-        record[10] = BSUBWAY_SAVEDATA_GetStat((StatRow *)params[4], ((u32 *)params[2])[1], 1);
+        record[10] = BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)params[4], ((u32 *)params[2])[1], 1);
         params = (u32 *)task[16];
-        record[11] = BSUBWAY_SAVEDATA_GetStat((StatRow *)params[4], ((u32 *)params[2])[1], 2);
+        record[11] = BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)params[4], ((u32 *)params[2])[1], 2);
     }
 }
 
@@ -3061,7 +3061,7 @@ void WIFIBATTLEMATCH_NET_CompStepReconcileEntryState(int *sys,int *state,char *c
         party=(uptr)REGULATION_GetParty((struct BattleCompetitionSave *)BATTLE_COMPETITION_GetFromSave((struct SaveControl *)((void *)save)),0);
         MI_CpuCopy8((const void *)(comp+0x10c),(void *)W(comp, 0x108),0x160);
         BATTLE_BOX_ClearLockFlags((struct BattleBoxSave *)box,1);REGULATION_Card_SetValue((struct RegulationCard *)((struct BattleCompetitionSave *)W(comp, 0x108)),10,1);
-        BSUBWAY_SAVEDATA_SetStat((StatRow *)((u16 *)ctx[4]),10,0,0);BSUBWAY_SAVEDATA_SetStat((StatRow *)((u16 *)ctx[4]),10,1,0);BSUBWAY_SAVEDATA_SetStat((StatRow *)((u16 *)ctx[4]),10,2,0);
+        BSUBWAY_SAVEDATA_SetStat((BsubwayStatRow *)((BsubwayStatRow *)ctx[4]),10,0,0);BSUBWAY_SAVEDATA_SetStat((BsubwayStatRow *)((BsubwayStatRow *)ctx[4]),10,1,0);BSUBWAY_SAVEDATA_SetStat((BsubwayStatRow *)((BsubwayStatRow *)ctx[4]),10,2,0);
         REGULATION_InitParty((struct RegulationParty *)party);GAME_DATA_SaveStart((struct GameData *)*(u32 *)ctx[2]);*state=44;break;
     case 44:result=GAME_DATA_SaveMain((struct GameData *)(unsigned char *)*(u32 *)ctx[2]);if(result==2)*state=37;else if(result==3)*state=45;break;
     case 45:WIFIBATTLEMATCH_UTIL_PrintMessage((WifibattlematchUtilWork *)((int *)W(comp, 0x2c)),(void *)(W(comp, 0x14)),0x40,1);WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((uptr)sys),55);*state=56;break;
@@ -3070,7 +3070,7 @@ void WIFIBATTLEMATCH_NET_CompStepReconcileEntryState(int *sys,int *state,char *c
     case 48:
         result=WIFIBATTLEMATCH_NET_GdbGetMyRecords(H(comp));if(result==1){*(u32 *)CTX(comp)[8]=0x708;*state=49;}
         if(result!=0)switch(WIFIBATTLEMATCH_NET_HandleNetError(H(comp),(void *)1,0)){case 1:case 2:WIFIBATTLEMATCH_UTIL_SetCallback((WifibattlematchCallback *)sys,(sptr)WIFIBATTLEMATCH_NET_CompCleanup);break;}break;
-    case 49:if(((u32 *)CTX(comp)[13])[4]!=BSUBWAY_SAVEDATA_GetStat((StatRow *)ctx[4],10,0))*state=50;else *state=55;break;
+    case 49:if(((u32 *)CTX(comp)[13])[4]!=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)ctx[4],10,0))*state=50;else *state=55;break;
     case 50:WIFIBATTLEMATCH_UTIL_PrintMessage((WifibattlematchUtilWork *)((int *)W(comp, 0x2c)),(void *)(W(comp, 0x14)),0x3a,2);WIFIBATTLEMATCH_UTIL_SetRequest((s32 *)((uptr)sys),51);*state=56;break;
     case 51:WIFIBATTLEMATCH_NET_GetSetCompStat(comp,(void *)ctx[13]);GAME_DATA_SaveStart((struct GameData *)*(u32 *)ctx[2]);*state=52;break;
     case 52:if(GAME_DATA_SaveMain((struct GameData *)(unsigned char *)*(u32 *)ctx[2])==2)*state=55;break;
@@ -4283,9 +4283,9 @@ void WIFIBATTLEMATCH_NET_SetupCompStatusWindow(struct WifiBattleMatchCompWork *o
         cardValC = REGULATION_Card_GetValue((struct RegulationCard *)((struct BattleCompetitionSave *)card), 7);
         prof.date2 = (cardValC << 24) | ((cardValB << 24) >> 8) | ((cardValA << 24) >> 16);
         prof.statusFlag = MYSTATUS_GetTrainerView((const struct MyStatus *)sys);
-        prof.hA0 = BSUBWAY_SAVEDATA_GetStat((StatRow *)obj->ctx->bsubwaySave, 10, 0);
-        cardValA = BSUBWAY_SAVEDATA_GetStat((StatRow *)obj->ctx->bsubwaySave, 10, 1);
-        prof.uA4 = cardValA + BSUBWAY_SAVEDATA_GetStat((StatRow *)obj->ctx->bsubwaySave, 10, 2);
+        prof.hA0 = BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)obj->ctx->bsubwaySave, 10, 0);
+        cardValA = BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)obj->ctx->bsubwaySave, 10, 1);
+        prof.uA4 = cardValA + BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)obj->ctx->bsubwaySave, 10, 2);
         prof.hAA = REGULATION_Card_GetValue((struct RegulationCard *)((struct BattleCompetitionSave *)card), 11);
         if (prof.uA4 == 0 && prof.hA0 == 0)
             prof.hA0 = 1500;
@@ -4670,13 +4670,13 @@ int WIFIBATTLEMATCH_NET_GetSetCompStat(char *obj, u32 *rec)
 {
     int changed = 0;
 
-    if (rec[4] != BSUBWAY_SAVEDATA_GetStat((StatRow *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 0)
-        || rec[2] != BSUBWAY_SAVEDATA_GetStat((StatRow *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 1)
-        || rec[3] != BSUBWAY_SAVEDATA_GetStat((StatRow *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 2))
+    if (rec[4] != BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 0)
+        || rec[2] != BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 1)
+        || rec[3] != BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 2))
         changed = 1;
-    BSUBWAY_SAVEDATA_SetStat((u16 *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 0, rec[4]);
-    BSUBWAY_SAVEDATA_SetStat((u16 *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 1, rec[2]);
-    BSUBWAY_SAVEDATA_SetStat((u16 *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 2, rec[3]);
+    BSUBWAY_SAVEDATA_SetStat((BsubwayStatRow *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 0, rec[4]);
+    BSUBWAY_SAVEDATA_SetStat((BsubwayStatRow *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 1, rec[2]);
+    BSUBWAY_SAVEDATA_SetStat((BsubwayStatRow *)(((struct WifiBattleMatchParams *)(*(char * *)&((struct WifiBattleMatchCompWork *)obj)->ctx))->bsubwaySave), 10, 2, rec[3]);
     return changed;
 }
 

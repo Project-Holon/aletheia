@@ -695,16 +695,21 @@ int SCRIPT_SYS_IsChildScript(int mode)
 
 void SCRIPT_SYS_ForceExitNet(void)
 {
+    int session;
     if (GFL_NET_GetRunState() != 0) {
         GFL_NET_ClearExitFlag();
         GFL_NET_Exit(0);
         GFL_NET_IRC_WIRELESS_Exit();
+        for (;;) {
 #ifdef __MWERKS__
-        while (GFL_NET_IsSessionNull(GFL_NET_Main()) == 0)
+            session = GFL_NET_IsSessionNull(GFL_NET_Main());
 #else
-        while ((GFL_NET_Main(), GFL_NET_IsSessionNull()) == 0)
+            GFL_NET_Main();
+            session = GFL_NET_IsSessionNull();
 #endif
-            ;
+            if (session != 0)
+                break;
+        }
     }
     for (;;)
         GFL_USE_PollPowerExit();

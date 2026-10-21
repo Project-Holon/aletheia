@@ -53,7 +53,7 @@ void FIELD_PLAYER_ClearRememberedObjCode(FieldPlayer *player);
 int FIELD_PLAYER_CheckFormModel(FieldPlayer *player);
 int FIELD_PLAYER_CheckAnimePaused(FieldPlayer *player);
 struct Mmdl *FIELD_PLAYER_SearchFrontMmdl(FieldPlayer *player);
-void FIELD_PLAYER_SearchFrontMmdlHeight(FieldPlayer *player, u32 limit);
+struct Mmdl *FIELD_PLAYER_SearchFrontMmdlHeight(FieldPlayer *player, u32 limit);
 void FIELD_PLAYER_GetGridPosInDir(FieldPlayer *player, u32 dir, s16 *gridX, s16 *gridY, s16 *gridZ);
 void FIELD_PLAYER_GetPosInDir(FieldPlayer *player, int dir, VecFx32 *out);
 void FIELD_PLAYER_GetFrontGridPos(FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ);

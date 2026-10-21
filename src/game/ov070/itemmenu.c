@@ -406,146 +406,89 @@ typedef struct ItemMenuArgs {
 } ItemMenuArgs;
 struct TaskMenuWork;
 
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
-extern void GAME_BEACON_SetItemUse(u16 id);
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/game_beacon.h"
 extern u32 FILE_UTIL_GetItemParam(u16 a, u32 sel, u32 id);
 struct FieldSkillUseFlags;
-extern u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(const struct FieldSkillUseFlags *flags, u32 skillIndex);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
-extern u8 UI_GetInputMode(void);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
+#include "../arm9/app_keycursor.h"
+#include "../arm9/msgdata.h"
+#include "../arm9/wordset.h"
 #include "../arm9/palanm.h"
 extern unsigned int FILE_UTIL_IsMailItem(u16 v);
 struct PrintQueue;
 extern int TOUCHPANEL_GetCont(void);
 struct ButtonMan;
 extern s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
-extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *p);
-extern u32 KEY_GetTrg(void);
+#include "../arm9/blink_palanm.h"
+#include "../arm9/key.h"
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int se);
-extern void MI_CpuFill8(void *p, int v, int n);
-extern unsigned int KEY_GetRepeat(void);
+#include "../arm9/mi_memory.h"
 extern int GFL_USE_IsAnySeBusy(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern u16 FILE_UTIL_GetMachineMove(u16 id);
-extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern u8 FILE_UTIL_GetMachineIndex(u16 id);
-extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 MISC_AddMoney(struct MiscSave *p, u32 v);
+#include "../arm9/beacon.h"
 struct MyItem;
 extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
 extern u32 MYITEM_SAVEDATA_GetItemQuantity(struct MyItem *bag, u16 itemId, u16 heapId);
 extern int TOUCHPANEL_HitCont(const union TouchHitTable *p);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 extern void MYITEM_SAVEDATA_CopyPocket(struct MyItem *bag, void *buffer, u32 pocket, s32 toBuffer);
 extern void *FILE_UTIL_CreateItemArcHandle(u32 a);
 struct ArcFile;
 extern void *FILE_UTIL_LoadArcMember(struct ArcFile *arc, u32 item, u32 heap);
 struct ItemRecord;
 extern u32 FILE_UTIL_GetItemRecordParam(struct ItemRecord *record, u32 prop);
-extern u32 GFL_HEAP_Free(void *p);
-extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void MATH_QSort(void *head, u32 num, u32 width, int (*comp)(SortEntry *, SortEntry *), void *buf);
-extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *p);
-extern u32 ITEM_GetRegisterFlagId(u32 id);
+#include "../arm9/pms_draw.h"
 extern void *FILE_UTIL_LoadItemRecord(unsigned int item, unsigned int which, unsigned int heap);
-extern void PALANM_TransferPalettes(struct PaletteFade *p);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
-extern u32 WIPE_SYS_EndCheck(void);
+#include "../arm9/wipe.h"
 struct TcblSystem;
-extern void TCBL_Main(struct TcblSystem *tcbl);
+#include "../arm9/tcbl.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+#include "../arm9/tcb_list.h"
 extern void MYITEM_SAVEDATA_SetLastFieldPocket(struct BagCursor *p, u16 v);
 extern void MYITEM_SAVEDATA_SetFieldPocketCursor(struct BagCursor *p, int i, s16 a, s16 b);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *s);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void STRBUF_Delete(struct Strbuf *vec);
-extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 BMP_WIN_Delete(struct BmpWin *d);
+#include "../arm9/strbuf.h"
+#include "../arm9/bmp_win.h"
 struct GfFont;
-extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void APP_KEYCURSOR_Delete(struct KeyCursor *keyCursor);
+#include "../arm9/gf_font.h"
 extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
-extern void BMP_WIN_Exit(void);
-extern int KEY_SetRepeatSpeed(int speed, int wait);
-extern void PROCSYS_FreeProcWork(struct Proc *a);
-extern void GFL_HEAP_DeleteChecked(unsigned int a);
-extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heap);
-extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcStart, u32 dstStart);
-extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *p);
+#include "../arm9/procsys.h"
 extern int TOUCHPANEL_HitTrg(const union TouchHitTable *p);
-extern int GAME_DATA_GetIntrudeCount(const struct GameData *p);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, s32 c, u32 d, s32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
-extern void BMP_WIN_Init(u32);
-extern void GF_FONT_InitTextColor(void);
 struct DispVramCfg;
 struct SysInit;
-extern void GF_FONT_SetDefaultTextColor(void);
-extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
+#include "../arm9/bmp_menuwork.h"
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern u32 APP_ICON_GetArchiveId(void);
-extern u32 APP_ICON_GetTouchBarFileId(void);
-extern u32 APP_ICON_GetTypePaletteFileId(u32 a);
-extern u32 APP_ICON_GetTypeAnimFileId(u32 a);
-extern u32 APP_ICON_GetMoveKindCellFileId(u32 a);
-extern u32 APP_ICON_GetTypeCellFileId(u32 a);
-extern u8 APP_ICON_GetMoveKindPaletteOffset(u8 i);
-extern u8 APP_ICON_GetTypePaletteOffset(int i);
+#include "../arm9/app_icon.h"
 extern int WAZA_TOOL_GetDamageType(u16);
 extern u8 WAZA_TOOL_GetType(u16 move);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void BMP_WIN_TransferChars(struct BmpWin *d);
-extern void BMP_WIN_ClearScreen(struct BmpWin *d);
+#include "../arm9/bmp.h"
 extern u32 FILE_UTIL_GetId(u32 id);
 extern void FILE_UTIL_ReadStringAlt(void *dst, u32 entry, u32 heap);
-extern void BMP_Delete(struct Bmp *p);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern u32 FILE_UTIL_Get(unsigned short, int);
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
-extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern u32 FILE_UTIL_IsMachineItem(u32 id);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
-extern void *BMP_GetPixels(const struct Bmp *bmp);
-extern u32 BMP_GetByteSize(const struct Bmp *bmp);
-extern void DC_FlushRange(void *, u32);
-extern void GX_LoadOBJ(void *pSrc, u32 offset, u32 szByte);
+#include "../arm9/os_cache.h"
+#include "../arm9/gx_load2d.h"
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
-extern u32 SCROLLBAR_GetPosFromValue(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "../arm9/comm_history.h"
 struct TaskMenuInitWork;
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
-extern signed char MSG_SPEED_GetWait(void);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
+#include "../arm9/msg_speed.h"
 struct TextPrinter;
-extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
-extern unsigned int KEY_GetCont(void);
-extern void WORDSET_SetSlotFromMsg37(struct WordSet *p, u32 i, u32 v);
-extern u32 MISC_GetMoney(struct MiscSave *);
 extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
 #include "../arm9/nns_g2d_load.h"
 struct TcbList;
 extern struct TcbList *GFL_USE_GetMainTaskList(void);
-extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern void KEY_GetRepeatSpeed(u32 *speed, u32 *wait);
+#include "../arm9/g2.h"
+#include "../arm9/gfl_heap.h"
 #ifdef __MWERKS__
 /* original prototypes: the DS code calls CompactAllPockets with a second argument and reads the pocket as int */
 extern int MYITEM_SAVEDATA_GetLastFieldPocket(struct BagCursor *p);
@@ -554,16 +497,10 @@ extern void MYITEM_SAVEDATA_CompactAllPockets();
 #include "../arm9/myitem_savedata.h"
 #endif
 extern void MYITEM_SAVEDATA_GetFieldPocketCursor(struct BagCursor *p, int i, s16 *a, s16 *b);
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
-extern struct GfFont *GF_FONT_Create(s32 archiveId, s32 fileId, s32 format, s32 isFixedWidth, u32 heapId);
 extern struct ButtonTask *BUTTON_MAN_Create();
 extern struct TcblTask *GFL_USE_AddMainTask();
-extern struct TcblSystem *TCBL_Create(u16 heapId, u16 workHeapId, u32 taskCount, u32 workSize);
 struct GFont;
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern void GFL_NET_RefreshWmIconAtTopRight(u32 restartParamA, u32 restartParamB);
+#include "../arm9/net.h"
 void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work);
 void ITEMMENU_TaskSelectItem(ItemMenuWork *work);
 void ITEMMENU_TaskBagMain(ItemMenuWork *work);
@@ -724,17 +661,10 @@ struct BagSlot;
 extern BagSlot *MYITEM_SAVEDATA_GetSlot(struct MyItem *bag, u32 pocket, u32 index);
 extern unsigned int MYITEM_SAVEDATA_CountUsedSlots(const BagSlot *items, unsigned int maxCount);
 extern u32 MYITEM_SAVEDATA_CountUsedSlotsInPocket(struct MyItem *bag, u32 pocket);
-extern void WORDSET_SetSlotFromMsg36(struct WordSet *words, u32 slot, u32 entryIndex);
-extern void WORDSET_SetSlotFromBank(struct WordSet *words, u32 slot, u32 entryIndex, u32 useFirstBank, u32 useSecondBank);
-extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
-extern u32 SCROLLBAR_GetValueFromPos(u32 range, u32 position, u32 thumbSize, u32 trackSize, u32 flags);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 struct SaveControl;
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
-extern void *MOVE_POKEMON_SAVE_GetBlock(void *fieldSave);
+#include "../arm9/move_pokemon_save.h"
 struct MovePokemonSave;
-extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct MovePokemonSave *pSave);
-extern void MOVE_POKEMON_SAVE_SetCooldown(struct MovePokemonSave *pSave, u8 cooldown);
 void ITEMMENU_SetTask(ItemMenuWork *work, ItemMenuTaskFn taskFn);
 void ITEMMENU_ForceRedrawList(ItemMenuWork *work);
 void ITEMMENU_RedrawList(ItemMenuWork *work);

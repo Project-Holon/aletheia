@@ -276,7 +276,6 @@ typedef enum { YCoordMin = -2147483647, YCoordMax = 2147483647 } YCoord;
 struct TcbList;
 #include "../arm9/gfl_use.h"
 struct GameData;
-extern int PALANM_RequestFade(PaletteFade *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 #include "../arm9/g2.h"
 #include "../arm9/msgdata.h"
 #include "../arm9/gf_font.h"
@@ -298,7 +297,6 @@ struct ZukanSave;
 #include "../arm9/zukan_save.h"
 #include "../arm9/net.h"
 #include "zknsearch_sys.h"
-extern u32 PALANM_GetFadeRequestBits(const PaletteFade *ptr);
 extern int ZUKAN_SEARCH_ENGINE_Create(struct Search *, struct Query *, int);
 extern void ZUKAN_SEARCH_ENGINE_ReleaseWork(int);
 extern int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
@@ -310,7 +308,6 @@ struct Cursor;
 #include "zknsearch_result.h"
 #include "zknsearch_list.h"
 #include "zknsearch_cond.h"
-extern void GAME_DATA_SetRecentId(struct GameData *gd, u32 id, u32 on);
 #include "../arm9/bmp_win.h"
 struct BmpWin;
 struct Bmp;

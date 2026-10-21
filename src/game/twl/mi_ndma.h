@@ -5,8 +5,11 @@
 /* Public functions of mi_ndma.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../twl/mi_ndma_types.h"
 
 u32 MIi_GetControlData(u32 type);
+void MIi_NDma_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, NdmaConfig *cfg, int words, u32 flags);
+void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, NdmaConfig *cfg, int words, u32 flags);
 void MI_InitNDma(void);
 void MI_NDmaFill(int ch, int dst, int data, int size);
 void MI_NDmaCopy(int ch, int src, int dst, int size);

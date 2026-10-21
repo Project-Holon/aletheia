@@ -5,6 +5,7 @@
 /* Public functions of egg_demo_main.c, prototypes copied from their definitions. */
 
 struct Proc;
+struct TcbTask;
 struct EggDemoWork;
 
 #include "../types.h"
@@ -12,7 +13,7 @@ struct EggDemoWork;
 int EGG_DEMO_MAIN_Create(void *owner,int unused,u32 args);
 int EGG_DEMO_MAIN_Delete(struct Proc *task,int unused,u32 args,char *work);
 int EGG_DEMO_MAIN_Update(u32 unused0,u32 unused1,u32 *args,u32 *work);
-void EGG_DEMO_MAIN_OnVBlank(void *unused, char *work);
+void EGG_DEMO_MAIN_OnVBlank(struct TcbTask *unused, void *work);
 void EGG_DEMO_MAIN_Init(int args,char *work);
 void EGG_DEMO_MAIN_DeleteResources(u32 args,char *work);
 void EGG_DEMO_MAIN_LoadGraphics(int unused, char *work);

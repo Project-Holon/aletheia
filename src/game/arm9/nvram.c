@@ -86,7 +86,6 @@ typedef struct NvramBss {
 
 #include "os_system.h"
 #include "pxi_fifo.h"
-void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
 #include "mi_memory.h"
 #include "os_tick.h"
 #include "os_alarm.h"

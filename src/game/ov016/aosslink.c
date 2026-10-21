@@ -63,7 +63,12 @@
  */
 #include "../types.h"
 #include "../sdk_os.h"
-#include "../../matched/include/G_AOSSLINK_BSS.h"
+struct AOSSLINK_BSS {
+    void * (*AOSSi_Alloc)(unsigned long);
+    void (*aoss_callback)(int);
+    void *aoss_workbuffer;
+    void (*AOSSi_Free)(void *);
+};
 
 #include "wlla_types.h"
 

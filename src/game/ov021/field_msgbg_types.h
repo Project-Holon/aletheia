@@ -240,4 +240,13 @@ typedef struct FieldSpWin {
     FieldMsgCursor cursor;        /* 0x10 */
 } FieldSpWin;
 
+/* The DS code declares the stream callback as int (int); the SDK callback type is u8 (u32). */
+#ifdef __MWERKS__
+typedef int FieldMsgStreamCbRet;
+typedef int FieldMsgStreamCbArg;
+#else
+typedef u8 FieldMsgStreamCbRet;
+typedef u32 FieldMsgStreamCbArg;
+#endif
+
 #endif

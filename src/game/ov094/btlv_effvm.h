@@ -6,7 +6,6 @@
 
 struct ScriptVm;
 struct TcbTask;
-struct TcbTask;
 
 #include "../types.h"
 #include "../ov094/btlv_effvm_types.h"

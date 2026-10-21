@@ -13,7 +13,7 @@ struct Node;
 struct WordSet;
 struct StrObj;
 struct Cfg;
-struct Bank;
+struct Unit;
 #include "../arm9/bg_sys_types.h"
 
 struct Light;
@@ -23,7 +23,7 @@ struct CharBuf;
 struct MsgBank;
 struct Rec;
 struct U16Vec;
-struct Obj;
+struct ClactActor;
 struct Vec2;
 struct Actor;
 struct Ov208Buf;

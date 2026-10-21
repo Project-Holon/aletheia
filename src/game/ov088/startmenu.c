@@ -537,7 +537,7 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_Create(int);
-extern void BMP_WIN_Init(int);
+extern void BMP_WIN_Init(u32 heapId);
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, void (*)(struct TcbTask *, void *));
 extern void GF_FONT_InitTextColor(void);
 extern struct TcblSystem *TCBL_Create(int, int, int, int);
@@ -552,7 +552,7 @@ extern void G3D_SYSTEM_Exit(void);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern u32 ARC_UTIL_UploadBgCharFromArchive(void *, void *, void *, void *, u32 e, u32 f, u32 g);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void BG_SYS_PushTile(u32 layer);
@@ -1226,12 +1226,12 @@ void STARTMENU_LogoInit(TitleDemoLogo *logo, u32 heap)
     BG_SYS_InitBgLayer(5, &d_021BD490, 0);
     BG_SYS_InitBgLayer(7, &d_021BD430, 0);
     BG_SYS_InitBgLayer(6, &d_021BD450, 0);
-    ARC_UTIL_UploadBgCharFromArchive((void *)0x1A, (void *)9, (void *)3, 0, 0, 1, heap);
+    ARC_UTIL_UploadBgCharFromArchive(0x1A, 9, 3, 0, 0, 1, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x1A, 10, 3, 0, 0, 1, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x1A, 8, 0, 0, 0, heap);
     BG_SYS_PushTile(3);
     BG_SYS_SetPlaneVisible(3, 1);
-    ARC_UTIL_UploadBgCharFromArchive((void *)0x1A, (void *)0, (void *)7, 0, 0x8000, 1, heap);
+    ARC_UTIL_UploadBgCharFromArchive(0x1A, 0, 7, 0, 0x8000, 1, heap);
     ARC_UTIL_UploadBgPaletteFromArchive(0x1A, 1, 7, 0, 0, 1, heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x1A, 2, 4, 0, 0, heap);
     BG_SYS_PushTile(7);
@@ -3274,10 +3274,10 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
         break;
     case 1:
         zero = Z0;
-        ARC_UTIL_UploadBgCharFromArchive((void *)0x1a, (void *)0xc, (void *)1, 0, 0, 1, 0x16);
+        ARC_UTIL_UploadBgCharFromArchive(0x1a, 0xc, 1, 0, 0, 1, 0x16);
         ARC_UTIL_UploadBgPaletteFromArchive(0x1a, 0xd, 1, 0, 0, 1, 0x16);
         ARC_UTIL_UploadPaletteFromArchiveWhole(0x1a, 0xb, 0, 0, 0, 0x16);
-        ARC_UTIL_UploadBgCharFromArchive((void *)0x1a, (void *)0xc, (void *)5, 0, 0, 1, 0x16);
+        ARC_UTIL_UploadBgCharFromArchive(0x1a, 0xc, 5, 0, 0, 1, 0x16);
         ARC_UTIL_UploadBgPaletteFromArchive(0x1a, 0xe, 5, 0, 0, 1, 0x16);
         ARC_UTIL_UploadPaletteFromArchiveWhole(0x1a, 0xb, 4, 0, 0, 0x16);
         BG_SYS_SetPlaneVisible(1, 1);
@@ -3316,10 +3316,10 @@ int STARTMENU_LogoScreenMain(int proc, int seq, int *variant, LogoScreenWork *wo
         }
         break;
     case 7:
-        ARC_UTIL_UploadBgCharFromArchive((void *)0xa4, (void *)1, (void *)1, 0, 0x8000, 0, 0x16);
+        ARC_UTIL_UploadBgCharFromArchive(0xa4, 1, 1, 0, 0x8000, 0, 0x16);
         ARC_UTIL_UploadBgPaletteFromArchive(0xa4, 2, 1, 0, 0, 0, 0x16);
         ARC_UTIL_UploadPaletteFromArchiveWhole(0xa4, 0, 0, 0, 0, 0x16);
-        ARC_UTIL_UploadBgCharFromArchive((void *)0xa4, (void *)3, (void *)5, 0, 0x8000, 0, 0x16);
+        ARC_UTIL_UploadBgCharFromArchive(0xa4, 3, 5, 0, 0x8000, 0, 0x16);
         ARC_UTIL_UploadBgPaletteFromArchive(0xa4, 4, 5, 0, 0, 0, 0x16);
         ARC_UTIL_UploadPaletteFromArchiveWhole(0xa4, 0, 4, 0, 0, 0x16);
         BG_SYS_PushTile(1);

@@ -107,10 +107,6 @@ typedef struct Fld3dCi Fld3dCi;
 
 typedef struct MyStatus MyStatus;
 
-typedef struct ZoneStartLocation {
-    u8 data[0x1C];
-} ZoneStartLocation;
-
 /* Wipe event work (wipe with a 3D cut-in and a map change). */
 typedef struct CameraAnimFlags {
     u32 apply[6];
@@ -130,9 +126,9 @@ typedef struct CameraAnimParam {
 
 typedef struct WipeMapChangeWork {
     GameSystem *gameSystem;
-    u32 savedCameraBits;
+    const VecFx32 *savedCameraTarget;
     u32 zoneId;
-    ZoneStartLocation startLocation;
+    Location startLocation;
     u32 cutInIdBefore;
     u32 cutInIdAfter;
 } WipeMapChangeWork;
@@ -215,28 +211,20 @@ struct FieldMap;
 struct FieldNogridMapper;
 
 
-extern void FIELD_CAMERA_SetAreasEnabled(FieldCamera *camera, u32 value);
+#include "field_camera.h"
 struct FieldCamera;
 
-extern VecFx32 *FIELD_CAMERA_GetTraceTarget(FieldCamera *camera);
 
-extern void FIELD_CAMERA_EndDelay(FieldCamera *camera);
 
-extern u32 FIELD_CAMERA_IsDelayEnabled(FieldCamera *camera);
 
 #include "field_nogrid_mapper.h"
 
-extern void FIELD_CAMERA_StopTargetTrace(FieldCamera *camera);
 
-extern void FIELD_CAMERA_PushState(FieldCamera *camera);
 
-extern void FIELD_CAMERA_PushStateConstrained(FieldCamera *camera);
 struct FieldCameraMoveRequest;
 struct FieldCamera;
 
-extern void FIELD_CAMERA_StartMove(struct FieldCamera *camera, struct FieldCameraMoveRequest *request, u16 frames);
 
-extern int FIELD_CAMERA_IsMoving(FieldCamera *camera);
 
 
 
@@ -244,12 +232,19 @@ extern int FIELD_CAMERA_IsMoving(FieldCamera *camera);
 struct Mmdl;
 
 
-extern void FIELD_CAMERA_PopState(FieldCamera *camera);
 struct GameEvent;
 
 #include "event_fieldmap_control.h"
 
-extern GameEvent *EVENT_MAPCHANGE_CreateWarpEventToLocation(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, ZoneStartLocation *location, u16 flag);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define EVENT_MAPCHANGE_CreateWarpEventToLocation EVENT_MAPCHANGE_CreateWarpEventToLocation_header
+#endif
+#include "../ov020/event_mapchange.h"
+#ifdef __MWERKS__
+#undef EVENT_MAPCHANGE_CreateWarpEventToLocation
+extern GameEvent * EVENT_MAPCHANGE_CreateWarpEventToLocation(GameSystem *, FieldMap *, u16, const Location *, u16);
+#endif
 struct FieldPlaceName;
 
 
@@ -262,11 +257,8 @@ struct FieldPlaceName;
 
 struct FieldCameraMoveChannels;
 
-extern void FIELD_CAMERA_StartMoveToSaved(struct FieldCamera *camera, struct FieldCameraMoveChannels *channels, u16 frames);
 
-extern void FIELD_CAMERA_SetTraceTarget(FieldCamera *camera, u32 bits);
 
-extern void FIELD_CAMERA_RestartDelay(FieldCamera *camera);
 
 
 
@@ -452,7 +444,7 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unuse
         cutInIdAfter = 19;
     }
     work->cutInIdAfter = cutInIdAfter;
-    ZONEDATA_SetZoneStartLocation((struct Location *)(&work->startLocation), (unsigned short)zoneId);
+    ZONEDATA_SetZoneStartLocation(&work->startLocation, (unsigned short)zoneId);
     return event;
 }
 
@@ -479,12 +471,12 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
     switch (*seq) {
     case 0:
         FIELD_CAMERA_SetAreasEnabled(camera, 0);
-        work->savedCameraBits = (uptr)FIELD_CAMERA_GetTraceTarget(camera);
+        work->savedCameraTarget = FIELD_CAMERA_GetTraceTarget(camera);
         FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;
     case 1:
-        if (work->savedCameraBits != 0 && FIELD_CAMERA_IsDelayEnabled(camera) != 0)
+        if (work->savedCameraTarget != 0 && FIELD_CAMERA_IsDelayEnabled(camera) != 0)
             break;
         FIELD_NOGRID_MAPPER_SetActive((struct FieldNogridMapper *)bg, 0);
         FIELD_CAMERA_StopTargetTrace(camera);
@@ -528,12 +520,12 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         break;
     case 5:
         FIELD_PLACE_NAME_Cancel(FIELDMAP_GetPlaceName(fieldMap));
-        work->savedCameraBits = (uptr)FIELD_CAMERA_GetTraceTarget(camera);
+        work->savedCameraTarget = FIELD_CAMERA_GetTraceTarget(camera);
         FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;
     case 6:
-        if (work->savedCameraBits != 0 && FIELD_CAMERA_IsDelayEnabled(camera) != 0)
+        if (work->savedCameraTarget != 0 && FIELD_CAMERA_IsDelayEnabled(camera) != 0)
             break;
         FIELD_NOGRID_MAPPER_SetActive((struct FieldNogridMapper *)bg, 0);
         FIELD_CAMERA_StopTargetTrace(camera);
@@ -593,8 +585,8 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
     case 10:
         if (FIELD_CAMERA_IsMoving(camera) != 0)
             break;
-        if (work->savedCameraBits != 0)
-            FIELD_CAMERA_SetTraceTarget(camera, work->savedCameraBits);
+        if (work->savedCameraTarget != 0)
+            FIELD_CAMERA_SetTraceTarget(camera, work->savedCameraTarget);
         FIELD_CAMERA_RestartDelay(camera);
         FIELD_NOGRID_MAPPER_SetActive((struct FieldNogridMapper *)bg, 1);
         FIELD_CAMERA_PopState(camera);

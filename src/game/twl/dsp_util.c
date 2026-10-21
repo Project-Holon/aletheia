@@ -27,14 +27,7 @@
 #include "../types.h"
 #include "../arm9/os_alarm.h"
 
-/* Pipe control block of the DSP data RAM, 10 bytes. */
-typedef struct DspRing {
-    u16 base;
-    u16 size;
-    u16 rd;
-    u16 wr;
-    u16 id;
-} DspRing;
+#include "dsp_pipe_types.h"
 
 typedef void (*DspCb)(void *, int, int);
 

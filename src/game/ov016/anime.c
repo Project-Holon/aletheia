@@ -26,7 +26,12 @@
  *   FX_DivS32  0x0207C958  arm
  *   DWCi_CEINlSet  0x021D52D4  arm  ov016
  */
-#include "../../matched/include/G_Ani.h"
+struct Ani {
+    void *task;
+    void *obj;
+    unsigned char color;
+    unsigned char cnt;
+};
 #include "task.h"
 
 #include "../types.h"

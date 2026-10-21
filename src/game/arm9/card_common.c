@@ -58,7 +58,7 @@
 #include "card_task.h"
 #include "mi_memory.h"
 #include "os_cache.h"
-extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
+#include "pxi_fifo.h"
 #include "card_backup.h"
 void CARDi_LockResource(s32 owner, CARDTarget target);
 void CARDi_UnlockResource(s32 owner, CARDTarget target);

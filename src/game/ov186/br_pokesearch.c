@@ -72,7 +72,6 @@ struct Strbuf;
 
 #include "../arm9/strbuf.h"
 
-extern u32 TOUCHPANEL_GetPointTrg(unsigned int *x, unsigned int *y);
 
 #include "../arm9/gfl_use.h"
 
@@ -101,36 +100,25 @@ struct PrintQueue;
 #include "br_btn.h"
 
 
-extern void BR_UTIL_MainListMenu(char *p);
 
-extern int BR_UTIL_GetListMenuHitId(char *p);
 
-extern int BR_UTIL_IsEffectDone(char *p);
 
 #include "br_fade.h"
 #include "br_member_count.h"
 
 
-extern int BR_UTIL_FlushText(unsigned char *p);
 
 
 
 
-extern void *BR_UTIL_Create(unsigned short plane, unsigned int a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
-
-extern void BR_UTIL_SetTextLayout(unsigned char *p, unsigned int a, unsigned int b, unsigned int c);
-
-extern void BR_UTIL_SetTextFromMessage(char *p, void *a, void *b, void *font, unsigned short value);
-
-extern void BR_UTIL_Delete(unsigned char *p);
 
 
 
-extern struct BrListMenu *BR_UTIL_CreateListMenu(struct BrListMenuConfig *config, u32 heapId);
 
-extern void BR_UTIL_DeleteListMenu(char *p);
 
-extern u32 BMP_MENUWORK_Delete(void *items);
+
+
+
 
 #include "../arm9/zukan_save.h"
 
@@ -433,12 +421,12 @@ void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
     }
     STRBUF_Delete((struct Strbuf *)str);
     cfg=gBrPokeSearchListConfig;
-    cfg.items=ps->menuItems;
-    cfg.itemCount=ps->seenCount;
-    cfg.res=ps->res;
-    cfg.uiParamA=ps->uiParamA;
-    cfg.listParam=ps->listParam;
-    cfg.tapFx=ps->tapFx;
+    cfg.list=ps->menuItems;
+    cfg.count=ps->seenCount;
+    cfg.resources=ps->res;
+    cfg.manager=ps->uiParamA;
+    cfg.cursor=ps->listParam;
+    cfg.other=(uptr)ps->tapFx;
     ps->listMenu=BR_UTIL_CreateListMenu(&cfg,ps->heapId);
 }
 

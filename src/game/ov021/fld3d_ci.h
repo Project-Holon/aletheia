@@ -23,11 +23,11 @@ int FLD3D_CI_UpdateTrackB(Fld3dCi *ci);
 void FLD3D_CI_SetupSequence(void *event, Fld3dCi *ci, Fld3dCiSeq *seq, int sequenceId);
 void FLD3D_CI_EndSequence(Fld3dCi *ci, Fld3dCiSeq *seq);
 void FLD3D_CI_StartTrack(Fld3dCi *ci, int track);
-void FLD3D_CI_FollowTargetCallback(Fld3dCiFollow *follow);
+void FLD3D_CI_FollowTargetCallback(void *arg);
 void FLD3D_CI_LoadSequence(Fld3dCiSeq *seq, u32 sequenceId, u32 heapId);
 void FLD3D_CI_FreeSequence(Fld3dCiSeq *seq);
 void FLD3D_CI_StartScreenCapture(Fld3dCi *ci);
-void FLD3D_CI_CaptureTask(void *task, u32 *done);
+void FLD3D_CI_CaptureTask(struct TcbTask *task, void *arg);
 void FLD3D_CI_SaveLayerPriorities(Fld3dCi *ci);
 void FLD3D_CI_SaveVisiblePlanes(Fld3dCi *ci);
 void FLD3D_CI_RestoreLayerPriorities(Fld3dCi *ci);
@@ -52,7 +52,7 @@ void *FLD3D_CI_StartMessageSequence(void *gameSystem, Fld3dCi *ci, u32 nameMsgId
 void FLD3D_CI_DarkenCapturedScreen(u32 unused);
 void FLD3D_CI_InitEventWork(Fld3dCi *ci, Fld3dCiEventWork *work);
 void FLD3D_CI_PlayCueSound(Fld3dCi *ci);
-void FLD3D_CI_DisplayRestoreTask(void *task, u32 *done);
+void FLD3D_CI_DisplayRestoreTask(struct TcbTask *task, void *arg);
 /* END mkheaders: generated region */
 
 #endif

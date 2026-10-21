@@ -168,7 +168,7 @@ void RESEARCH_GRAPH_InitOverlayBackgrounds(char *graph);
 u32 RESEARCH_GRAPH_ExitOverlayBackgrounds();
 void RESEARCH_GRAPH_LoadBackground6(char *graph);
 void RESEARCH_GRAPH_DummyBg7();
-void RESEARCH_GRAPH_UpdateBackground7();
+u32 RESEARCH_GRAPH_UpdateBackground7();
 void RESEARCH_GRAPH_ShowBackground7();
 void RESEARCH_GRAPH_LoadBackground2(char *graph);
 void RESEARCH_GRAPH_DummyBg3();

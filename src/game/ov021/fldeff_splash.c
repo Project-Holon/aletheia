@@ -390,7 +390,7 @@ void FLDEFF_SPLASH_DrawModelObj(FieldEffectObj *obj, SplashModelWork *work)
 {
     u16 objIdx = work->objIdx;
     struct FieldG3dObjCtrl *g3dObjCtrl = FIELD_EFFECT_GetFieldMapData((struct FieldEffectSys *)work->param.res->sys);
-    VecFx32 *dst = (VecFx32 *)FIELD_G3DOBJ_GetObjectTrans(g3dObjCtrl, objIdx);
+    VecFx32 *dst = &FIELD_G3DOBJ_GetObjectTrans(g3dObjCtrl, objIdx)->trans;
     VecFx32 pos;
 
     FIELD_EFFECT_GetObjectPos(obj, &pos);

@@ -23,7 +23,10 @@
  *   DWCi_TSKlAct  0x021D75D0  arm  ov016
  *   sInterruptTable     0x02FE0000  data
  */
-#include "../../matched/include/G_ItrState.h"
+struct ItrState {
+    void (*func)(void);
+    unsigned long mask;
+};
 #include "../sdk_ioreg.h"
 
 typedef struct ItrState ItrState;

@@ -41,4 +41,13 @@ typedef struct PlistMessage {
 } PlistMessage;
 typedef char PlistMessage_SizeCheck[(sizeof(PlistMessage) == 0x38) ? 1 : -1];
 
+/* The DS code declares the stream callback as int (int); the SDK callback type is u8 (u32). */
+#ifdef __MWERKS__
+typedef int PlistStreamCbRet;
+typedef int PlistStreamCbArg;
+#else
+typedef u8 PlistStreamCbRet;
+typedef u32 PlistStreamCbArg;
+#endif
+
 #endif

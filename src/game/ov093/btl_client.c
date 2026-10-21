@@ -760,7 +760,7 @@
  *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "btl_server_types.h"
-#include "../../matched/include/G_StateData.h"
+#include "btl_levelup_scan_types.h"
 #include "../types.h"
 #include "btl_client_types.h"
 #include "btl_main_types.h"
@@ -1291,7 +1291,7 @@ extern const CodeEntry gServerCommandHandlers[];
 extern Pair16 gWeatherEffects[5];
 extern u16 gEffortValueParams[];
 extern union DView gExpGainWork;
-extern struct StateData sLevelUpMoveScan;
+extern struct LevelUpMoveScan sLevelUpMoveScan;
 extern const u16 gCatchShakeMessages[];
 extern u8 gBtlClientItemSlotLimits[];
 extern BtlClientItemStatCheck gBtlClientItemStatChecks[];

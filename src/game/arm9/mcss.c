@@ -338,11 +338,11 @@ typedef struct McssWork {
     void *fadeTask;                     /* 0x004 */
     void *paletteTask;                  /* 0x008 */
     void *cellFile;                     /* 0x00C */
-    void *cellBank;                     /* 0x010 */
+    struct CellDataBank *cellBank;      /* 0x010 */
     void *multiCellFile;                /* 0x014 */
-    void *multiCellBank;                /* 0x018 */
+    struct MultiCellBank *multiCellBank; /* 0x018 */
     void *cellAnimFile;                 /* 0x01C */
-    void *cellAnimBank;                 /* 0x020 */
+    struct AnimBank *cellAnimBank;      /* 0x020 */
     void *multiCellAnimFile;            /* 0x024 */
     struct AnimBank *multiCellAnimBank; /* 0x028 */
     McssCellHeader *cellHeader;         /* 0x02C */
@@ -383,11 +383,11 @@ typedef struct McssWork {
 #include "gfl_heap_wrap.h"
 
 extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
 
 #include "nns_g2d_oam_manager.h"
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
 #include "gfl_use.h"
 
@@ -444,23 +444,24 @@ struct AnimSequenceData;
 
 
 extern void  PALANM_BlendColors(void *src, void *dst, u16 count, int fadeLevel, u16 fadeColor);
-
-
-
-extern void *ARC_UTIL_LoadCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
-extern void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
-extern void *ARC_UTIL_LoadAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
-extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
+/* The original calls pass the heap as a word to the Archive loaders. */
+extern void *ARC_UTIL_LoadCellBankFromArchive(u32 arcId, u32 member, u32 flag, struct CellDataBank **out, u32 heap);
+extern void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 arcId, u32 member, u32 flag, struct AnimBank **out, u32 heap);
+extern void *ARC_UTIL_LoadAnimBankFromArchive(u32 arcId, u32 member, u32 flag, struct MultiCellBank **out, u32 heap);
+extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 arcId, u32 member, u32 flag, struct AnimBank **out, u32 heap);
 extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, struct CellDataBank **unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, struct AnimBank **unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, struct MultiCellBank **unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, struct AnimBank **unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
+
+
+
 struct ArcHandle;
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 struct VramHandle;
 struct VramResource;
 
@@ -2484,14 +2485,14 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     NNSi_G2dInitVramHandleEx((u32 *)&work->plttProxy);
 
     work->cellFile = ARC_UTIL_LoadCellBankFromHandle(arcHandle, (u32)addWork->cellMember, (u32)0,
-                                   (uptr)(&work->cellBank),
+                                   &work->cellBank,
                                    (u16)work->heapId);
-    work->cellAnimFile = ARC_UTIL_LoadMultiCellBankFromHandle(arcHandle, (u32)addWork->cellAnimMember, (u32)1, (uptr)(&work->cellAnimBank),
+    work->cellAnimFile = ARC_UTIL_LoadMultiCellBankFromHandle(arcHandle, (u32)addWork->cellAnimMember, (u32)1, &work->cellAnimBank,
                                        (u16)work->heapId);
     flag = 1;
-    work->multiCellFile = ARC_UTIL_LoadAnimBankFromHandle(arcHandle, (u32)addWork->multiCellMember, (u32)0, (uptr)(&work->multiCellBank),
+    work->multiCellFile = ARC_UTIL_LoadAnimBankFromHandle(arcHandle, (u32)addWork->multiCellMember, (u32)0, &work->multiCellBank,
                                         (u16)work->heapId);
-    work->multiCellAnimFile = ARC_UTIL_LoadMultiAnimBankFromHandle(arcHandle, (u32)addWork->multiCellAnimMember, (u32)0, (uptr)(&work->multiCellAnimBank),
+    work->multiCellAnimFile = ARC_UTIL_LoadMultiAnimBankFromHandle(arcHandle, (u32)addWork->multiCellAnimMember, (u32)0, &work->multiCellAnimBank,
                                             (u16)work->heapId);
     MCSS_SetAnimeIndex(work, 0);
 

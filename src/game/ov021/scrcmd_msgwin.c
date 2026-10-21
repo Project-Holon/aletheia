@@ -256,18 +256,25 @@ struct ScriptWork;
 #include "../arm9/wordset.h"
 #include "fieldmap.h"
 struct FieldMsgWindow;
-extern void TIME_ICON_Delete(TimeIcon *timeIcon);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define TIME_ICON_Create TIME_ICON_Create_header
+#endif
+#include "../arm9/time_icon.h"
+#ifdef __MWERKS__
+#undef TIME_ICON_Create
+extern struct TimeIcon * TIME_ICON_Create(struct TcbList *, struct BmpWin *, u32, u32, u32);
+#endif
 struct MsgBank;
 #include "../arm9/msgdata.h"
 struct TcbList;
-extern TimeIcon *TIME_ICON_Create(MainTaskList *taskList, BmpWin *bmpWin, u32 x, u32 y, u32 heapId);
 #include "../arm9/game_data.h"
 #include "../arm9/strbuf.h"
 struct MiscSave;
 #include "../arm9/beacon.h"
 #include "../arm9/g3d_camera.h"
 #include "../arm9/fx_vec.h"
-extern void NNS_G3dWorldPosToScrPos(VecFx32 *pos, u32 *x, u32 *z);
+#include "../arm9/nns_g3d_util.h"
 #include "../arm9/fx_mtx43.h"
 #include "../arm9/mi_memory.h"
 #include "../arm9/fx_mtx33.h"
@@ -701,7 +708,7 @@ int SCRCMD_MSGWIN_CmdSetTimeIcon(ScriptVm *vm, ScrcmdWork *cmdWork)
     }
     if (noTimeIcon == 0) {
         BmpWin *bmpWin = FIELD_MSGBG_GetInfoSysWinBmpWin((struct FieldSysWin *)SCRCMD_WORK_GetMsgWindow(cmdWork));
-        SCRCMD_WORK_SetTimeIcon(cmdWork, TIME_ICON_Create((struct MainTaskList *)GFL_USE_GetMainTaskList(), bmpWin, 0xf, 0x10, heapId));
+        SCRCMD_WORK_SetTimeIcon(cmdWork, TIME_ICON_Create(GFL_USE_GetMainTaskList(), bmpWin, 0xf, 0x10, heapId));
     }
     return 0;
 }
@@ -853,7 +860,7 @@ void SCRCMD_MSGWIN_CalcBalloonOffset(const VecFx32 *mmdlPos, VecFx32 *out, G3dCa
     pos.x += shift.x;
     pos.y += shift.y;
     pos.z += shift.z;
-    NNS_G3dWorldPosToScrPos(&pos, &tileX, &tileZ);
+    NNS_G3dWorldPosToScrPos(&pos, (s32 *)&tileX, (s32 *)&tileZ);
     chunkX = tileX >> 3;
     if (chunkX < 10) {
         column = 0;

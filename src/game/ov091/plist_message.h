@@ -19,11 +19,7 @@ int PLIST_MESSAGE_IsWindowOpen(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_PrintText(PokelistWork *work, PlistMessage *msg, u32 messageId);
 void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messageId, u32 waitForKey);
 int PLIST_MESSAGE_IsIdle(PokelistWork *work, PlistMessage *msg);
-#ifdef __MWERKS__
-int PLIST_MESSAGE_StreamCallback(int command);
-#else
-u8 PLIST_MESSAGE_StreamCallback(u32 command);
-#endif
+PlistStreamCbRet PLIST_MESSAGE_StreamCallback(PlistStreamCbArg command);
 void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_SetWordSetPokemon(struct PokelistWork *unused, PlistMessage *msg, u32 index, void *mon);

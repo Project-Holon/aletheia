@@ -44,7 +44,21 @@
  *   PM_GetLEDPattern  0x0208C6C0  arm
  *   PMi_SendLEDPatternCommand  0x0208C6A4  arm
  */
-#include "../../matched/include/G_VRAMBANK.h"
+struct VRAMBANK {
+    int bg;
+    int obj;
+    int bgExt;
+    int objExt;
+    int tex;
+    int texPltt;
+    int clrImg;
+    int subBg;
+    int subObj;
+    int subBgExt;
+    int subObjExt;
+    int arm7;
+    int lcdc;
+};
 #include "../sdk_ioreg.h"
 #include "../arm9/gx_vramcnt.h"
 

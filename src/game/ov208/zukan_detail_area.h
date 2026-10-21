@@ -6,6 +6,7 @@
 
 struct Ov208Ctx;
 struct Ov208AreaState;
+struct TcbTask;
 
 #include "../types.h"
 
@@ -14,7 +15,7 @@ u32 ZUKAN_DETAIL_AREA_Init(void *fsm,u32 seq,u16 *heap,u32 workArg,struct Ov208C
 u32 ZUKAN_DETAIL_AREA_Exit(void *fsm, u32 seq, void *heap, char *p, struct Ov208Ctx *key);
 int ZUKAN_DETAIL_AREA_Main(void *proc, int *seq, u16 *heap, u8 *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_AREA_HandleKeyEvent(void *proc, void *seq, void *heap, struct Ov208AreaState *st, struct Ov208Ctx *obj, int key);
-void ZUKAN_DETAIL_AREA_ApplyPendingEffect(void *unused, char *p);
+void ZUKAN_DETAIL_AREA_ApplyPendingEffect(struct TcbTask *unused, void *p);
 void ZUKAN_DETAIL_AREA_BuildTownOrderTable(u16 *unused, char *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_AREA_LoadMapGraphics(u16 *heap, u8 *p, struct Ov208Ctx *key);
 void ZUKAN_DETAIL_AREA_NoOpLoad(u16 *heap, u8 *p, struct Ov208Ctx *key);

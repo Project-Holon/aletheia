@@ -19,8 +19,9 @@
  *   GFL_HEAP_Alloc     0x02030734  arm
  */
 #include "../types.h"
+#include "bsubway_savedata.h"
 
-struct HistoryEntry {
+struct BsubwayHistoryEntry {
     u16 id;
     u8  name[0x12];
     u8  scoreLe[4];
@@ -28,7 +29,7 @@ struct HistoryEntry {
 };
 
 struct HistoryBuf {
-    struct HistoryEntry entries[30];
+    struct BsubwayHistoryEntry entries[30];
 };
 
 /* One 0xF0 byte stored team entry. */
@@ -55,7 +56,6 @@ struct BsubwaySave {
     struct HistoryBuf history;
 };
 
-typedef u16 StatRow[3];
 
 /* One exported battle subway record: 0x30 byte header then the 0xB4 byte body. */
 struct TrainerExport {
@@ -96,13 +96,13 @@ struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u
 
 u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct HistoryBuf *history);
 
-u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct HistoryEntry *entry);
+u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct BsubwayHistoryEntry *entry);
 
 void BSUBWAY_SAVEDATA_InitStats(void *stats);
 
-u32 BSUBWAY_SAVEDATA_GetStat(StatRow *stats, u32 row, u32 col);
+u32 BSUBWAY_SAVEDATA_GetStat(BsubwayStatRow *stats, u32 row, u32 col);
 
-void BSUBWAY_SAVEDATA_SetStat(StatRow *stats, int row, int col, int value);
+void BSUBWAY_SAVEDATA_SetStat(BsubwayStatRow *stats, int row, int col, int value);
 
 void BSUBWAY_SAVEDATA_IncStat(u8 *stats, int row, int col);
 
@@ -248,7 +248,7 @@ u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct HistoryBuf *history)
     return count;
 }
 
-u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct HistoryEntry *entry)
+u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct BsubwayHistoryEntry *entry)
 {
     return entry->scoreLe[0] | (entry->scoreLe[1] << 8) | (entry->scoreLe[2] << 16)
            | (entry->scoreLe[3] << 24);
@@ -265,12 +265,12 @@ void BSUBWAY_SAVEDATA_InitStats(void *stats)
  * compares, so the value is an int). Seeded from ov175 (0x021D62E8,
  * 0x021D6502, 0x021D9DA2 and their siblings).
  */
-u32 BSUBWAY_SAVEDATA_GetStat(StatRow *stats, u32 row, u32 col)
+u32 BSUBWAY_SAVEDATA_GetStat(BsubwayStatRow *stats, u32 row, u32 col)
 {
     return stats[row][col];
 }
 
-void BSUBWAY_SAVEDATA_SetStat(StatRow *stats, int row, int col, int value)
+void BSUBWAY_SAVEDATA_SetStat(BsubwayStatRow *stats, int row, int col, int value)
 {
     if (value > 0xFFFF) {
         value = 0xFFFF;

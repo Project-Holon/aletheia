@@ -65,7 +65,6 @@ struct DList;
 #include "mi_memory.h"
 #include "os_system.h"
 #include "snd_interface.h"
-extern u32  SND_GetNextInstData(u32 bank, SNDBankWaveRecord *record, SNDInstPos *pos);
 #include "nns_snd_player.h"
 struct NNSSndHeap;
 
@@ -1070,19 +1069,19 @@ u32 NNSi_SndArcLoadWave(SNDWaveArc *waveArc, u32 waveNo, u32 fileId, NNSSndHeap 
  */
 u32 NNSi_SndArcLoadBankWaves(SNDWaveArc *waveArc, u32 bank, u32 waveArcNo, u32 fileId, NNSSndHeap *heap)
 {
-    SNDBankWaveRecord record;
+    SNDInstData record;
     SNDInstPos iter;
     SNDInstPos firstIter;
 
     firstIter = SND_GetFirstInstDataPos((const void *)bank);
     iter = firstIter;
     if (bank == 0) return 0;
-    if (SND_GetNextInstData(bank, &record, &iter) != 0) {
+    if (SND_GetNextInstData((const SNDBankData *)bank, &record, &iter) != 0) {
         do {
-            if (record.type == 1 && waveArcNo == record.waveArcNo) {
-                if (NNSi_SndArcLoadWave(waveArc, record.waveNo, fileId, heap) == 0) return 0;
+            if (record.type == 1 && waveArcNo == record.param.wave[1]) {
+                if (NNSi_SndArcLoadWave(waveArc, record.param.wave[0], fileId, heap) == 0) return 0;
             }
-        } while (SND_GetNextInstData(bank, &record, &iter) != 0);
+        } while (SND_GetNextInstData((const SNDBankData *)bank, &record, &iter) != 0);
     }
     return 1;
 }

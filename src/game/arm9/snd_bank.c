@@ -23,21 +23,6 @@
 #include "../types.h"
 
 typedef struct {
-    u16 wave[2];
-    u8 originalKey;
-    u8 attack;
-    u8 decay;
-    u8 sustain;
-    u8 release;
-    u8 pan;
-} SNDInstParam;
-
-typedef struct {
-    u8 type;
-    SNDInstParam param;
-} SNDInstData;
-
-typedef struct {
     u8 key[8];
     SNDInstData instOffset[1];
 } SNDKeySplit;

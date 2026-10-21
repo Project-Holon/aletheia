@@ -25,7 +25,7 @@ asm void MIi_CpuClear16(u16 data, void *destp, u32 size);
 asm void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
 asm void MIi_CpuClear32(u32 data, void *destp, u32 size);
 asm void MIi_CpuCopy32(const void *srcp, void *destp, u32 size);
-asm void MIi_CpuSend32(const void *srcp, void *destp, u32 size);
+asm void MIi_CpuSend32(const void *srcp, volatile void *destp, u32 size);
 asm void MIi_CpuClearFast(u32 data, void *destp, u32 size);
 asm void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size);
 asm void MI_Copy32B(const void *pSrc, void *pDest);
@@ -89,7 +89,7 @@ loc_02082A94:
 }
 
 /* hand-written in the original: hand-scheduled memory routine with ldm/stm, one SDK line-table row per instruction */
-asm void MIi_CpuSend32(const void *srcp, void *destp, u32 size)
+asm void MIi_CpuSend32(const void *srcp, volatile void *destp, u32 size)
 {
     add ip, r0, r2
 loc_02082AAC:

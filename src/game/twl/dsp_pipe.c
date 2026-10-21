@@ -46,14 +46,7 @@ static inline BOOL FS_IsFile(FSFile *f)
     return (f->stat & 0x10) ? 1 : 0;
 }
 
-/* Pipe control block of the DSP data RAM, 10 bytes. */
-typedef struct DspRing {
-    u16 base;
-    u16 size;
-    u16 rd;
-    u16 wr;
-    u16 id;
-} DspRing;
+#include "dsp_pipe_types.h"
 
 typedef struct DspPipeInfo {
     DspRing ring[8][2];

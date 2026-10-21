@@ -77,33 +77,19 @@ struct BgTextLabel {
     u32 visible;
 };
 
-extern u32 GFL_HEAP_Free(void *mem);
+#include "../arm9/gfl_heap_wrap.h"
 struct MsgBank;
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+#include "../arm9/msgdata.h"
 struct GfFont;
 struct Bmp;
 #include "../arm9/strbuf_types.h"
 #include "../ov094/btlv_input_shared_types.h"
 #include "../ov099/wifi_club_work.h"
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct BmpWin *win);
-extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void BMP_WIN_ClearScreen(struct BmpWin *win);
-extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 palette);
-extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
-extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
-extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
-extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
-extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
+#include "../arm9/bmp.h"
+#include "../arm9/bg_sys.h"
 extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
 struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, u32 font, u32 msgBank, u32 heapId);

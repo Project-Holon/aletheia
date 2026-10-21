@@ -5,8 +5,9 @@
 /* Public functions of mi_sharedWram.c, prototypes copied from their definitions. */
 
 #include "../types.h"
+#include "../types.h"
 
-u32 MIi_GetWramBank_A(u32 bank);
+u32 MIi_GetWramBank_A(uptr bank);
 u32 MIi_GetWramBank_B(u32 bank);
 u32 MIi_GetWramBank_C(u32 bank);
 void MIi_SetWramBankMaster_A(u32 bank, u32 master);

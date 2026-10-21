@@ -75,7 +75,20 @@
  *   OS_SpinWaitSysCycles  0x02087A04  arm  arm9
  *   OS_Terminate  0x02088234  arm  arm9
  */
-#include "../../matched/include/G_Ae90.h"
+struct ExifMakerNoteConfig {
+    unsigned short tag;
+    unsigned short type;
+    unsigned int count;
+    signed char f8;
+    unsigned char pad9;
+    signed short fa;
+    unsigned int fc;
+    unsigned int f10;
+    unsigned int f14;
+    unsigned char field18[30];
+    char str[30];
+    unsigned int field54;
+};
 
 #define PUT(v)  (sExifencDst[encode_file_size++] = (unsigned char)(v))
 #include "../sdk_rtc.h"
@@ -207,7 +220,7 @@ extern const char gExifMake[];
 extern const char gExifModel[];
 extern const char gExifVersion[];
 extern const char gExifFlashpixVersion[];
-extern struct Ae90 gExifMakerNoteConfig;
+extern struct ExifMakerNoteConfig gExifMakerNoteConfig;
 extern char gExifMakerNoteConfigData[];
 extern const char gExifInteropIndex[];
 extern const char gExifRelatedImageFormat[];

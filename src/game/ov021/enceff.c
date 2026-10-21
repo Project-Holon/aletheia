@@ -93,7 +93,15 @@ enum {
 
 
 
-extern u16 ZONEDATA_GetParentZoneId(u32 zoneId);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define ZONEDATA_GetParentZoneId ZONEDATA_GetParentZoneId_header
+#endif
+#include "../arm9/zonedata.h"
+#ifdef __MWERKS__
+#undef ZONEDATA_GetParentZoneId
+extern u16 ZONEDATA_GetParentZoneId(u32);
+#endif
 
 
 #include "field_player.h"
@@ -110,7 +118,6 @@ extern u16 ZONEDATA_GetParentZoneId(u32 zoneId);
 struct AreaData;
 
 
-extern u8 ZONEDATA_GetAreaInnerOuter(struct AreaData *areaData);
 
 extern char d_021DE5FC[];
 
@@ -209,6 +216,9 @@ void ENCEFF_RunUpdate(EncEffWork *eff)
 void *ENCEFF_AllocWork(EncEffWork *eff, u32 size, u32 heapId)
 {
     eff->effectWork = GFL_HEAP_Alloc(heapId, size, 1, d_021DE5FC, 0xe3);
+#ifndef __MWERKS__
+    return eff->effectWork; /* the DS leaves the allocation in r0 */
+#endif
 }
 
 void ENCEFF_FreeWork(EncEffWork *eff)

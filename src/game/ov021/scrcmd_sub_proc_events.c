@@ -95,10 +95,17 @@ struct PokemonParam;
 struct MiscSave;
 #include "../arm9/beacon.h"
 #include "../arm9/poke_tool.h"
-extern int *NAMEIN_SETUP_CreateArgs(int kind, int mode, int species, int form, int maxLength, int flags, void *nameSave);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define NAMEIN_SETUP_CreateArgs NAMEIN_SETUP_CreateArgs_header
+#endif
+#include "../ov010/namein_setup.h"
+#ifdef __MWERKS__
+#undef NAMEIN_SETUP_CreateArgs
+extern NameInArgs * NAMEIN_SETUP_CreateArgs(int, int, int, int, int, Strbuf *, void *);
+#endif
 #include "../arm9/record.h"
 struct NameInArgs;
-extern void NAMEIN_SETUP_FreeArgs(struct NameInArgs *args);
 
 void *SCRCMD_CreateNameInEvent(void *gameSystem, void *fieldMap, NameInArgs *nameIn, u32 mode);
 int SCRCMD_NameInEventMain(struct GameEvent *event, int *state, NameInEventWork *work);

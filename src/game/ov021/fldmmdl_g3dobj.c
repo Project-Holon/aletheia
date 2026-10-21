@@ -50,28 +50,20 @@ typedef struct {
     MmdlG3dObjRes *resTable;
 } MmdlG3dObjCont;
 struct MmdlSys;
-extern u32 FLDMMDL_SysGetHeapId(struct MmdlSys *sys);
+#include "../ov010/fldmmdl.h"
 #include "../arm9/gfl_heap_wrap.h"
 struct Mmdl;
-extern struct MmdlSys *FLDMMDL_GetMmdlSys(struct Mmdl *mmdl);
-extern void *FLDMMDL_GetObjCodeParam(void *p);
-extern int FLDMMDL_CheckSameObjCodeOther(struct Mmdl *mmdl, u32 objCode);
-extern u16 FLDMMDL_GetObjCode(struct Mmdl *mmdl);
-extern void *FLDMMDL_SysGetResArcHandle(struct MmdlSys *sys);
-extern u16 FLDMMDL_SysGetMmdlMax(struct MmdlSys *sys);
-extern void FLDMMDL_SysSetG3dObjCont(struct MmdlSys *sys, void *g3dObjCont);
-extern void *FLDMMDL_SysGetG3dObjCont(struct MmdlSys *sys);
 struct FieldG3dObjCtrl;
-extern void FIELD_G3DOBJ_DeleteResource(struct FieldG3dObjCtrl *ctrl, int resIdx);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define FIELD_G3DOBJ_AddObject FIELD_G3DOBJ_AddObject_header
+#endif
+#include "field_g3dobj.h"
+#ifdef __MWERKS__
+#undef FIELD_G3DOBJ_AddObject
+extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *, u32, u32, VecFx32 *);
+#endif
 struct FieldG3dObjResDesc;
-extern void FIELD_G3DOBJ_InitResDesc(struct FieldG3dObjResDesc *desc);
-extern void FIELD_G3DOBJ_SetResDescModel(struct FieldG3dObjResDesc *desc, u32 arc, u32 file);
-extern void FIELD_G3DOBJ_SetResDescAnimeArc(struct FieldG3dObjResDesc *desc, unsigned int arc);
-extern void FIELD_G3DOBJ_AddResDescAnimeFile(struct FieldG3dObjResDesc *desc, unsigned short file);
-extern int FIELD_G3DOBJ_AddResourceDefaultPal(struct FieldG3dObjCtrl *ctrl, struct FieldG3dObjResDesc *desc, int mode);
-extern u8 *FLDMMDL_GetObjCodeParamMdlRes(u8 *p);
-extern u16 FIELD_G3DOBJ_AddObject(u32, u32, u32, u32);
-extern void FIELD_G3DOBJ_DeleteObject(struct FieldG3dObjCtrl *ctrl, int objIdx);
 void FLDMMDL_G3DOBJ_Create(int a, int b);
 void FLDMMDL_G3DOBJ_Delete(struct MmdlSys *a);
 u32 FLDMMDL_G3DOBJ_GetObjCtrl(u32 a);
@@ -82,7 +74,7 @@ u16 FLDMMDL_G3DOBJ_FindResIdx(MmdlG3dObjCont *cont, u16 code);
 u32 FLDMMDL_G3DOBJ_LoadRes(u32 mmdlSys, MmdlG3dObjCont *cont, u32 code, u16 *resParam);
 void FLDMMDL_G3DOBJ_DeleteResByCode(MmdlG3dObjCont *cont, u16 code);
 u32 FLDMMDL_G3DOBJ_AddObj(struct Mmdl *a);
-void FLDMMDL_G3DOBJ_DelObj(u32 a, u32 b);
+void FLDMMDL_G3DOBJ_DelObj(struct Mmdl *mmdl, u32 objIdx);
 extern unsigned char d_021DDD80[];
 
 void FLDMMDL_G3DOBJ_Create(int mmdlSys, int objCtrl)
@@ -197,25 +189,25 @@ void FLDMMDL_G3DOBJ_DeleteResByCode(MmdlG3dObjCont *cont, u16 code)
 }
 u32 FLDMMDL_G3DOBJ_AddObj(struct Mmdl *mmdl)
 {
-    u16 *objCode;
+    MmdlObjCodeParam *objCode;
     uptr mmdlSys;
     MmdlG3dObjCont *cont;
     u32 resIdx;
-    objCode = FLDMMDL_GetObjCodeParam((void *)mmdl);
+    objCode = FLDMMDL_GetObjCodeParam(mmdl);
     mmdlSys = (uptr)FLDMMDL_GetMmdlSys((void *)mmdl);
     cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)mmdlSys);
-    resIdx = FLDMMDL_G3DOBJ_FindResIdx(cont, *objCode);
+    resIdx = FLDMMDL_G3DOBJ_FindResIdx(cont, objCode->code);
     if (resIdx == 0xFFFF) {
-        resIdx = FLDMMDL_G3DOBJ_LoadRes(mmdlSys, cont, *objCode, (u16 *)FLDMMDL_GetObjCodeParamMdlRes((u8 *)objCode));
+        resIdx = FLDMMDL_G3DOBJ_LoadRes(mmdlSys, cont, objCode->code, FLDMMDL_GetObjCodeParamMdlRes(objCode));
     }
-    return FIELD_G3DOBJ_AddObject(cont->objCtrl, resIdx, 0, 0);
+    return FIELD_G3DOBJ_AddObject((struct FieldG3dObjCtrl *)cont->objCtrl, resIdx, 0, 0);
 }
-void FLDMMDL_G3DOBJ_DelObj(u32 mmdl, u32 objIdx)
+void FLDMMDL_G3DOBJ_DelObj(struct Mmdl *mmdl, u32 objIdx)
 {
-    MmdlG3dObjCont *cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)FLDMMDL_GetMmdlSys((void *)mmdl));
-    u16 code = FLDMMDL_GetObjCode((void *)mmdl);
+    MmdlG3dObjCont *cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)FLDMMDL_GetMmdlSys(mmdl));
+    u16 code = FLDMMDL_GetObjCode(mmdl);
     FIELD_G3DOBJ_DeleteObject((struct FieldG3dObjCtrl *)cont->objCtrl, objIdx);
-    if (FLDMMDL_CheckSameObjCodeOther((void *)mmdl, code) == 0) {
+    if (FLDMMDL_CheckSameObjCodeOther(mmdl, code) == 0) {
         FLDMMDL_G3DOBJ_DeleteResByCode(cont, code);
     }
 }

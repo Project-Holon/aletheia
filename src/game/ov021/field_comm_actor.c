@@ -96,33 +96,22 @@ typedef struct SubscreenChangeEventWork {
 
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/mi_memory.h"
-extern short FLDMMDL_GetGridNowY(Mmdl *mmdl);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define FLDMMDL_SetDrawStatus FLDMMDL_SetDrawStatus_header
+#endif
+#include "../ov010/fldmmdl.h"
+#ifdef __MWERKS__
+#undef FLDMMDL_SetDrawStatus
+extern void FLDMMDL_SetDrawStatus(Mmdl *, int);
+#endif
 #include "../ov010/fldmmdl_move.h"
 struct Mmdl;
-extern void FLDMMDL_DeleteMmdl(Mmdl *mmdl);
-extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
-extern void FLDMMDL_InitPosition(Mmdl *mmdl, const VecFx32 *pos, int dir);
-extern void FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
-extern void FLDMMDL_SetStatusBitAttrGetOff(Mmdl *mmdl, int flag);
-extern void FLDMMDL_SetStatusBitZoneDeleteOff(Mmdl *mmdl, int flag);
-extern void FLDMMDL_SetStatusBitFellowHit(Mmdl *mmdl, int flag);
-extern void FLDMMDL_SetMoveBitSysPauseOff(Mmdl *mmdl, int flag);
-extern void FLDMMDL_SetMoveBitAttrEffectOff(Mmdl *mmdl, int flag);
-extern void *FLDMMDL_InitMoveProcWork(Mmdl *mmdl, int size);
-extern void *FLDMMDL_GetMoveProcWork(Mmdl *mmdl);
-extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
-extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
-extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, int status);
-extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, int flag);
 #include "fieldmap.h"
 #include "../arm9/game_event.h"
 #include "field_subscreen.h"
 #include "../arm9/gamesystem.h"
-extern void FLDMMDL_SysPauseMove(MmdlSys *mmdlSys);
 #include "../arm9/game_data.h"
-extern void FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
 FieldCommActorCtrl *FIELD_COMM_ACTOR_CTRL_Create(int actorMax, MmdlSys *mmdlSys, int heapId, int useRunAnime);
 void FIELD_COMM_ACTOR_CTRL_Delete(FieldCommActorCtrl *ctrl);
 void FIELD_COMM_ACTOR_CTRL_AddActor(FieldCommActorCtrl *ctrl, int id, int objCode, const u16 *dir, const VecFx32 *pos, const int *vanish);

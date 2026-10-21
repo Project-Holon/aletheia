@@ -57,7 +57,7 @@ struct S020314B8;
 
 struct ProcSys;
 
-struct Obj;
+struct ClactActor;
 
 /*
  * Arguments the field proclink builds and hands to the zukan proc. Layout
@@ -124,16 +124,13 @@ struct ZukanDetailArgs {
 #include "../arm9/mi_memory.h"
 
 
-extern unsigned int PROCSYS_Main(ProcSys *sys);
 
-extern void PROCSYS_Delete(ProcSys *sys);
 
 
 #include "../arm9/gfl_heap_wrap.h"
 
 
 
-extern void PROCSYS_Push(ProcSys *sys, u32 overlayId, const ProcData *data, void *procWork);
 
 #include "../arm9/zukan_save.h"
 struct ZukanSave;
@@ -147,7 +144,7 @@ struct ZukanSave;
 
 #include "../arm9/bg_sys.h"
 
-extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+extern struct ClactActor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
 int ZUKAN_Create(struct Proc *obj,int unused,struct ZukanParam *ctx);
 
@@ -191,7 +188,7 @@ void ZUKAN_StartWipeOut(u32 heap);
 
 void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
 
-struct Obj *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap);
+struct ClactActor *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap);
 
 #include "zukan_search_engine.h"
 
@@ -508,6 +505,6 @@ void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter) {
     if(*counter==4) { BG_SYS_ChangeScroll(a,1,1); BG_SYS_ChangeScroll(b,1,1); *counter=0; }
 }
 
-struct Obj *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap) {
+struct ClactActor *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap) {
     return CLACT_CreateActor((void *)bank,t->charIdx,t->palIdx,t->cellIdx,t,t->y,heap);
 }

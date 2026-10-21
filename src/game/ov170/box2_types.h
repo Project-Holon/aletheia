@@ -252,4 +252,18 @@ typedef struct Box2Entry {
     unsigned short slot;
 } Box2Entry;
 
+/* Actor placement record read by BOX2_SEQ_CreateActorFromDesc (0x18 bytes). */
+typedef struct {
+    short x;
+    short y;
+    unsigned char pad4[2];
+    unsigned char b6;
+    unsigned char b7;
+    int a;
+    int b;
+    int c;
+    unsigned short e;
+    unsigned short d;
+} Box2SeqDesc;
+
 #endif

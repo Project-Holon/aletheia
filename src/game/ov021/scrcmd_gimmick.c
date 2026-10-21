@@ -31,7 +31,7 @@
  *   FIELD_GIMMICK_FLAG_ANIME_CreateEvent  0x021F37EC  thumb  ov040
  *   FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent  0x021F3834  thumb
  *   FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent  0x021F3888  thumb  ov042
- *   FIELD_GIMMICK_CART_LANES_UnlockLane  0x021F4184  thumb  ov039
+ *   FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent  0x021F4184  thumb  ov038
  *   FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent  0x021F41B0  thumb  ov038
  *   FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent  0x021F41DC  thumb  ov038
  *   FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent  0x021F398C  thumb  ov043
@@ -59,12 +59,9 @@ struct FieldMap;
 #include "../ov010/script_sys.h"
 #include "../arm9/gamesystem.h"
 #include "../arm9/vm.h"
-extern struct GameEvent *FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(struct GameSystem *gameSystem, u32 switchId);
-extern void FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(struct GameSystem *gameSystem, u32 laneId);
-extern void FIELD_GIMMICK_CART_LANES_TransferSound(struct GameSystem *gameSystem);
+#include "../ov039/field_gimmick_cart_lanes.h"
 #include "../ov040/field_gimmick_flag_anime.h"
 #include "../ov042/field_gimmick_button_states.h"
-extern struct GameEvent *FIELD_GIMMICK_CART_LANES_UnlockLane(struct GameSystem *gameSystem, u16 laneId);
 #include "../ov038/field_gimmick_plate_doors.h"
 #include "../ov043/field_gimmick_lift_elevator.h"
 #include "../ov044/field_gimmick_lift.h"
@@ -225,12 +222,12 @@ int SCRCMD_FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(ScriptVm *vm, struct S
     return 1;
 }
 
-/* Script command: start the ov039 second event for a script variable value. */
+/* Script command: start the ov038 switch event for a script variable value. */
 int SCRCMD_FIELD_GIMMICK_CART_LANES_UnlockLane(ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
-    struct GameEvent *event = FIELD_GIMMICK_CART_LANES_UnlockLane(gameSystem, *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork));
+    struct GameEvent *event = FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent(gameSystem, *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork));
 
     if (event == 0) {
         return 1;

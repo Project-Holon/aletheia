@@ -712,18 +712,6 @@ typedef struct {
 
 typedef struct {unsigned a,b,c,d,e,f,g;} Template;
 
-typedef struct {
-    short x;
-    short y;
-    unsigned char pad4[2];
-    unsigned char b6;
-    unsigned char b7;
-    int a;
-    int b;
-    int c;
-    unsigned short e;
-    unsigned short d;
-} Box2SeqDesc;
 
 typedef struct {
     Box2SeqDesc a[13];

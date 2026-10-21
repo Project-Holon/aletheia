@@ -318,13 +318,12 @@ struct Ov208AreaWork {
     unsigned int overlayCommitted;          /* 0x434 */
 };
 
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
-extern void ARC_TOOL_DeleteHandle(void *h);
+#include "../arm9/arc_tool.h"
 
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
@@ -334,7 +333,6 @@ extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
 
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 
 extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 
@@ -348,7 +346,6 @@ extern u32 BG_SYS_GetScrollY(u32 layer);
 
 
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
 
 
 
@@ -358,19 +355,13 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fi
 
 extern void BG_SYS_MarkTileDirty(u32 layer);
 
-void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon *p, int kind);
+#include "zukan_detail_headbar.h"
 
-int ZUKAN_DETAIL_HEADBAR_GetIconKind(struct Ov208Icon *p);
 
-void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(struct Ov208Icon *p);
 
-void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon *p);
 
-extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 
-extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
 #define WP(o) (*(void **)(p + (o)))
 
@@ -444,7 +435,7 @@ typedef struct {
 
 typedef enum { ONE = 1 } One;
 
-extern void MI_CpuFill8(void *p, u32 v, u32 n);
+#include "../arm9/mi_memory.h"
 
 extern void BG_SYS_InitBgLayer(u8 bgId, const struct BgTemplate *tmpl, u8 type);
 
@@ -468,33 +459,27 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 
 
 
-extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+#include "../arm9/touchpanel.h"
 
 
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 
 
 
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 
-extern u32 KEY_GetRepeat(void);
 
 
-extern int GF_OVERLAY_Load(s32 handle);
+#include "../arm9/gf_overlay.h"
 
-extern void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Fsm *p, u32 size, u32 heap);
+#include "zukan_detail_procsys.h"
 
-extern void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap);
 
 
 
-extern void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *);
 
-extern void ZUKAN_DETAIL_PROCSYS_FreeBuffer(char *);
 
-extern void GF_OVERLAY_Unload(int);
 
 
 
@@ -506,7 +491,7 @@ extern void GF_OVERLAY_Unload(int);
 
 
 
-extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
+#include "../arm9/gx.h"
 
 
 
@@ -524,43 +509,33 @@ extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
 
 
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 
 
 
 
-extern int  SYMBOL_MAP_CheckEventFlag(void *gameData, u32 msg);
+#include "../ov010/symbol_map.h"
 
 
 
-extern void ARC_UTIL_UploadPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
 
-extern int POKE_TOOL_GetIconPaletteArcId(void);
+#include "../arm9/poke_tool_ext.h"
 
 
-extern int POKE_TOOL_GetIconCellArcIdSub(void);
 
-extern int POKE_TOOL_GetIconCellEntryIdSub(void);
 
-extern u32  POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 
-extern u32  POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 
 
 
-extern u32  SYMBOL_MAP_ResolveZoneId(void *gameData, u32 b);
 
 
 
 
 
-extern u8 UI_GetInputMode(void);
 
-extern unsigned int KEY_GetCont(void);
 
 
 
@@ -571,39 +546,27 @@ extern void ZUKAN_DETAIL_AREA_FinishHideOverlay(u16 *heap, u8 *p, struct Ov208Ct
 
 
 
-extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 
 
-extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern u32 ZONEDATA_GetPlaceNameId(u32 id);
+#include "../arm9/zonedata.h"
 
 
-extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
-extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
 extern void ZUKAN_DETAIL_AREA_SetPlayerMarkerVisible(u16 *, u8 *, struct Ov208Ctx *, int);
 
 
 
-int ZUKAN_DETAIL_GRAPHIC_Reset3dState(char *p);
+#include "zukan_detail_graphic.h"
 
-void ZUKAN_DETAIL_TOUCHBAR_SetMode(struct Ov208Scene *p, u32 mode, u32 kind, u32 flag);
 
-int ZUKAN_DETAIL_TOUCHBAR_GetMode(struct Ov208Scene *p);
 
-void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(struct Ov208Scene *p, int v);
 
-void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(struct Ov208Scene *p);
 
-void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(struct Ov208Scene *p, u32 kind);
 
-void ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq(struct Ov208Scene *p, int b);
 
-int ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive(char *p);
 
-void ZUKAN_DETAIL_TOUCHBAR_SetSlotsEnabled(struct Ov208Scene *p, u32 on);
 
 void ZUKAN_DETAIL_AREA_SetHeapId(u16 *p, u16 v);
 

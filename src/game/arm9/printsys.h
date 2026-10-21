@@ -6,8 +6,8 @@
 
 struct PrintQueue;
 struct Bmp;
-struct Strbuf;
 struct GfFont;
+struct Strbuf;
 struct PrintCtx;
 struct TextPrinter;
 struct BmpWin;

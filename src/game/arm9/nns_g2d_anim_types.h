@@ -29,6 +29,17 @@ typedef struct AnimSequenceData {
     AnimFrameData *pAnmFrameArray; /* +0x0c */
 } AnimSequenceData;
 
+/* Animation bank: the 'KNBA' block body (NNSG2dAnimBankData). */
+struct AnimBank {
+    u16 numSequences;              /* +0x00 */
+    u16 numTotalFrames;            /* +0x02 */
+    AnimSequenceData *pSequences;  /* +0x04 */
+    AnimFrameData *pFrames;        /* +0x08 */
+    u8 *pPool;                     /* +0x0c */
+    u32 pStringBank;               /* +0x10  label bank offset (NNSG2dAnimBankData), never read here */
+    u8 *pSubBank;                  /* +0x14 */
+};
+
 /* Per-frame callback functor. */
 typedef struct AnimCallBack {
     u32 type;
@@ -93,6 +104,8 @@ typedef struct CellDataBank {
     void *pCells;                           /* +0x04 */
     u32 reserved08;                         /* +0x08 */
     CellVramTransferData *pVramTransferData; /* +0x0C */
+    u32 reserved10;
+    u8 *pUserExt;                           /* +0x14  user extended cell attributes, or 0 */
 } CellDataBank;
 
 /* One cell animation instance (0x58 bytes). */

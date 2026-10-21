@@ -474,33 +474,28 @@ struct FieldSubprocMgr;
 
 #include "../arm9/ui.h"
 
-extern u32 SND_MIC_Init(u32 heapId);
+#include "../arm9/snd_mic.h"
 
-extern TcbList *GFL_USE_GetMainTaskList(u32 mic);
+#include "../arm9/gfl_use.h"
 
 
 #include "../arm9/time_icon.h"
 
-extern void SND_MIC_AddElapsed(u32 ticks);
 
-extern u32 SND_MIC_IsLimitReached(void);
 
 
 #include "../arm9/field_sound_system.h"
 
 
-extern u32 SND_MIC_StartRecording(void *callback, void *arg);
 
 #include "../arm9/msgdata.h"
 
 
 
 
-extern void SND_MIC_Exit(void);
 
 
 
-extern void SND_MIC_StoreRecording(PerapVoice *perapVoice);
 struct SaveBlock;
 
 #include "../arm9/pm_voice.h"
@@ -518,14 +513,25 @@ struct SaveBlock;
 
 #include "../arm9/poke_tool.h"
 
-extern void *POKEGRA_OpenHandle(u32 heapId);
+/* Original DS prototype: the DS code passes the archive handle pointer and unsigned integers; the host build uses the header. */
+#ifdef __MWERKS__
+#define POKEGRA_RegisterPalette POKEGRA_RegisterPalette_header
+#define POKEGRA_RegisterCgr POKEGRA_RegisterCgr_header
+#define POKEGRA_RegisterCellAnim POKEGRA_RegisterCellAnim_header
+#endif
+#include "../arm9/pokegra.h"
+#ifdef __MWERKS__
+#undef POKEGRA_RegisterPalette
+#undef POKEGRA_RegisterCgr
+#undef POKEGRA_RegisterCellAnim
+extern u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, u32 drawType, u16 heapId);
+extern u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 mapping, u32 unusedArg, u16 heapId);
+extern int POKEGRA_RegisterPalette(u32 handle, u32 species, u32 form, u32 isEgg, u32 gender, u32 e, u32 f, u32 g, unsigned short h, unsigned short heapId);
+#endif
 
 
-extern int POKEGRA_RegisterCgrPP(s32 handle, void *pp, s32 dir, s32 drawType, u16 heapId);
 
-extern int POKEGRA_RegisterPalettePP(s32 handle, void *pp, s32 dir, s32 drawType, u16 palOffset, u16 heapId);
 
-extern u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
 
 struct ActorInit;
 
@@ -555,11 +561,8 @@ extern GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptI
 #include "field_task_manager.h"
 
 
-extern void GFL_USE_PlaySeDefaultVolume(u32 seqNo);
 
-extern int GFL_USE_GetSeSlot(u32 seqNo);
 
-extern int GFL_USE_IsSeSlotBusy(u32 slot);
 
 
 
@@ -583,13 +586,9 @@ struct ConsoleStamp;
 
 
 
-extern u32 GFL_USE_GetRandom(u32 limit);
 
-extern u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, u32 drawType, u16 heapId);
 
-extern int POKEGRA_RegisterPalette(void *handle, u32 species, u32 form, u32 isEgg, u32 gender, u32 e, u32 f, u32 g, unsigned short h, unsigned short heapId);
 
-extern u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 mapping, u32 unusedArg, u16 heapId);
 
 #include "../arm9/key.h"
 
@@ -655,17 +654,21 @@ struct EventRec;
 
 
 
-extern GameEvent *SP_POKE_GIMMICK_StartSwapNpc(GameSystem *gameSystem, VecFx32 *pos, u32 removeObjectId, u32 addObjectId);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define SP_POKE_GIMMICK_StartSwapNpc SP_POKE_GIMMICK_StartSwapNpc_header
+#endif
+#include "../ov059/sp_poke_gimmick.h"
+#ifdef __MWERKS__
+#undef SP_POKE_GIMMICK_StartSwapNpc
+extern struct GameEvent * SP_POKE_GIMMICK_StartSwapNpc(struct GameSystem *, VecFx32 *, u32, u32);
+#endif
 
-extern GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect(void *gameSystem);
+#include "../ov064/field_gimmick_arc_effect.h"
 
-extern GameEvent *FIELD_GIMMICK_ARC_EFFECT_StartArcEffect(GameSystem *gameSystem, const VecFx32 *startPos, const VecFx32 *endPos, int arcHeight, int arcParam);
 
-extern void FIELD_GIMMICK_ARC_EFFECT_ShowArcModelAt(void *gameSystem, VecFx32 *pos);
 
-extern GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitEndEvent(void *gameSystem);
 
-extern GameEvent *FIELD_GIMMICK_ARC_EFFECT_CreateWaitPeakEvent(void *gameSystem);
 
 int SCRCMD_CheckWifiListFlags(ScriptVm *vm, ScrcmdWork *cmdWork);
 
@@ -709,7 +712,7 @@ GameEvent *EVENT_PERAP_RECORD_Create(GameSystem *gameSystem, FieldMap *fieldMap,
 
 int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work);
 
-void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done);
+void EVENT_PERAP_RECORD_OnRecorded(MICResult result, void *arg);
 
 void EVENT_PERAP_RECORD_PauseMmdls(PerapRecordWork *work);
 
@@ -1238,7 +1241,8 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
     case 4:
         if (FIELD_MSGBG_SysWinMain(work->sysWin) == 1) {
             UI_SetKeepAwakeFlagsGlobal(8);
-            taskList = GFL_USE_GetMainTaskList(SND_MIC_Init(21));
+            SND_MIC_Init(21);
+            taskList = GFL_USE_GetMainTaskList();
             work->timeIcon = TIME_ICON_Create(taskList, FIELD_MSGBG_GetSysWinBmpWin(work->sysWin), 15, 16, 21);
             *seq = 5;
         }
@@ -1332,8 +1336,9 @@ int EVENT_PERAP_RECORD_Main(GameEvent *event, int *seq, PerapRecordWork *work)
  *
  * Addresses are Black-image addresses.
  */
-void EVENT_PERAP_RECORD_OnRecorded(void *unused, int *done)
+void EVENT_PERAP_RECORD_OnRecorded(MICResult result, void *arg)
 {
+    int *done = arg;
     *done = 1;
 }
 
@@ -1695,7 +1700,7 @@ void SCRCMD_POKE_ICON_CreateIcon(PokeIconWork *work, int species, int form, int 
     work->clactUnit = CLACT_CreateUnit(1, 0, 0x8015);
     resHandle = POKEGRA_OpenHandle(0x8015);
     work->charRes = POKEGRA_RegisterCgr((uptr)resHandle, species, form, isEgg, gender, 0, 0, charFlags, 0, 0x8015);
-    work->palRes = POKEGRA_RegisterPalette(resHandle, species, form, isEgg, gender, 0, 0, 0, 0, 0x8015);
+    work->palRes = POKEGRA_RegisterPalette((uptr)resHandle, species, form, isEgg, gender, 0, 0, 0, 0, 0x8015);
     ARC_TOOL_DeleteHandle(resHandle);
     work->cellRes = POKEGRA_RegisterCellAnim(species, form, isEgg, gender, 0, 0, 1, 0, 0x8015);
     actorParam = gPokeIconActorParam;

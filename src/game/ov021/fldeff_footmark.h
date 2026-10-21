@@ -6,6 +6,7 @@
 
 struct FootmarkEffectWork;
 struct Mmdl;
+struct FieldEffectSys;
 struct FootmarkTaskWork;
 typedef struct FootmarkEffectWork FootmarkEffectWork;
 typedef struct FootmarkTaskWork FootmarkTaskWork;
@@ -17,7 +18,7 @@ void FLDEFF_FOOTMARK_Delete(u32 unused, FootmarkEffectWork *effWork);
 void FLDEFF_FOOTMARK_InitResource(FootmarkEffectWork *effWork);
 void FLDEFF_FOOTMARK_DeleteResource(FootmarkEffectWork *effWork);
 int FLDEFF_FOOTMARK_GetSlotIndex(FootmarkEffectWork *effWork, int type, int dir, int oldDir);
-void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, int fieldEffectCtrl, int type);
+void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffectCtrl, int type);
 void FLDEFF_FOOTMARK_InitTask(int task, FootmarkTaskWork *work);
 void FLDEFF_FOOTMARK_DeleteTask(int task, FootmarkTaskWork *work);
 void FLDEFF_FOOTMARK_UpdateTask(int task, FootmarkTaskWork *work);

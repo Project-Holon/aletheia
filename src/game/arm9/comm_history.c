@@ -25,16 +25,7 @@
 
 struct HistoryOwner;
 
-/* One slot of the 20-entry history table (0x28 bytes). */
-struct HistoryEntry {
-    struct MyStatus record;     /* 0x00 */
-    u8 reserved20[6];               /* 0x20 */
-    u8 : 3;                         /* 0x26 */
-    u8 isMarked : 1;
-    u8 isOccupied : 1;
-    u8 : 3;
-    u8 reserved27;                  /* 0x27 */
-};
+#include "wifi_history_shared_types.h"
 struct MyStatus;
 
 #include "mystatus.h"

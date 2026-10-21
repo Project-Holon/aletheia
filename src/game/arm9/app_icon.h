@@ -25,7 +25,7 @@ u32 APP_ICON_GetStatusAnimFileId(void);
 u32 APP_ICON_GetStatusFrameFileId(void);
 u32 APP_ICON_GetStatusDataFileId(void);
 u32 APP_ICON_GetStatusExtraFileId(void);
-void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffset, u32 palNo);
+void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u16 heapId, int charOffset, u32 palNo);
 u32 APP_ICON_GetItemCellFileId(void);
 u32 APP_ICON_GetItemPaletteFileId(void);
 u32 APP_ICON_GetItemAnimFileId(u32 mapping);

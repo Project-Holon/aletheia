@@ -34,7 +34,18 @@
  *   MI_CpuCopy8           0x02082D44  arm
  *   WCM_Init              0x02164D64  arm
  */
-#include "../../matched/include/G_APC_BSS.h"
+struct APC_BSS {
+    void *apci_WCMBuffer;
+    unsigned long apci_search_option;
+    void *apci_WCMConfig;
+    unsigned long apci_connect_option;
+    unsigned char *apci_bssid_ptr;
+    unsigned char *apci_essid_ptr;
+    int apci_state;
+    void (*apci_user_callback)(int, void *);
+    void *apci_wmbssdesc;
+    unsigned char *apci_Wep;
+};
 #include "../ov009/wcm_system.h"
 #include "../ov009/wcm_aplist.h"
 

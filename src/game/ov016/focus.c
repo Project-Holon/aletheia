@@ -23,7 +23,9 @@
  *   sFocusCellIds                       0x021DA084  data
  *   DWCi_CELLlDelete                 0x021D4F60  arm  ov016
  */
-#include "../../matched/include/G_MemFocus.h"
+struct MemFocus {
+    void *cell[4];
+};
 
 #include "../types.h"
 typedef _Bool bool;

@@ -76,7 +76,7 @@ struct Ov208Slot {
     unsigned int obj;
 };
 
-struct Bank;
+struct Unit;
 struct Node;
 
 /*
@@ -103,7 +103,7 @@ struct Ov208Scene {
     int scrollIdx;
     unsigned char step;
     unsigned char pad25[3];
-    struct Bank *clactUnit;
+    struct Unit *clactUnit;
     struct Node *task;
     struct Ov208Mgr *mgr;
     unsigned int slotsEnabled;

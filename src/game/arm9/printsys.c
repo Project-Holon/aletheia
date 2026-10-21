@@ -171,8 +171,7 @@ struct TextPrinter {
     struct PrintCtx ctx;
 };
 
-extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int fromTail, const char *file, u16 line);
-extern u32   GFL_HEAP_Free(void *ptr);
+#include "gfl_heap_wrap.h"
 
 
 #include "strbuf.h"

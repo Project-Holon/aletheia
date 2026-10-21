@@ -69,31 +69,27 @@ struct BattleCompetitionSave {
     struct RegulationParty parties[2];
 };
 
-extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+#include "mi_memory.h"
 
-extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern u16  GF_STANDARD_CalcCrc16(u8 *src, u32 len);
+#include "gf_standard.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "gfl_heap_wrap.h"
 
-extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
+#include "msgdata.h"
 struct Strbuf;
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
-extern u32  MSGDATA_Delete(struct MsgBank *bank);
 
-extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+#include "strbuf.h"
 
-extern u32 POKEPARTY_GetCount(struct Party *party);
+#include "pokeparty.h"
 struct PokemonParam;
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+#include "poke_tool.h"
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+#include "save_control.h"
 
 u32 REGULATION_GetCompetitionSize(void);
 
@@ -107,11 +103,11 @@ void REGULATION_GetCupName(struct Regulation *rule, void *dest);
 
 void *REGULATION_CreateCupName(struct Regulation *rule, u32 heapId);
 
-u32 REGULATION_GetRuleValue(struct Regulation *rule, u32 id);
+u32 REGULATION_GetRuleValue(const struct Regulation *rule, u32 id);
 
 void REGULATION_SetRuleValue(struct Regulation *rule, u32 id, s32 value);
 
-u32 REGULATION_GetVetoBit(struct Regulation *rule, u32 id, s32 bit);
+u32 REGULATION_GetVetoBit(const struct Regulation *rule, u32 id, s32 bit);
 
 void REGULATION_GetShooterSettings(struct Regulation *rule, struct ShooterSettings *out);
 
@@ -180,7 +176,7 @@ void *REGULATION_CreateCupName(struct Regulation *rule, u32 heapId)
     return name;
 }
 
-u32 REGULATION_GetRuleValue(struct Regulation *rule, u32 id)
+u32 REGULATION_GetRuleValue(const struct Regulation *rule, u32 id)
 {
     u32 value = 0;
     switch (id) {
@@ -234,7 +230,7 @@ void REGULATION_SetRuleValue(struct Regulation *rule, u32 id, s32 value)
     }
 }
 
-u32 REGULATION_GetVetoBit(struct Regulation *rule, u32 id, s32 bit)
+u32 REGULATION_GetVetoBit(const struct Regulation *rule, u32 id, s32 bit)
 {
     s32 byte = bit / 8;
     s32 shift = bit % 8;

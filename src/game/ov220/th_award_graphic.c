@@ -70,29 +70,26 @@ struct ThAwardGraphic {
     struct Node *proc;     /* +0x0C task proc from GFL_USE_AddMainTask */
 };
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MI_CpuFill8(void *,unsigned,unsigned);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/mi_memory.h"
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_SetLcdSwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern void GF_FONT_InitTextColor(void);
-extern struct TcbTask *GFL_USE_AddMainTask(void *,void *,int);
+#include "../arm9/gf_font.h"
+#include "../arm9/gfl_use.h"
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 GFL_HEAP_Free(void *p);
+#include "../arm9/tcb_list.h"
 extern u32 TH_AWARD_GRAPHIC_GetValue(u32*);
 extern void BG_SYS_Create(unsigned);
-extern void BMP_WIN_Init(unsigned);
+#include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(unsigned char);
 extern void BG_SYS_SetPlaneVisible(unsigned char, unsigned char);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;

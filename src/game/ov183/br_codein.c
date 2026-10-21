@@ -335,9 +335,9 @@ typedef u16 Row[3];
 
 struct CodeinRecordData { u8 pad[0x1718]; int count; u32 selected; };
 
-typedef struct {void *text;int id;} BrCodeinItem;
+typedef struct BrMenuItem BrCodeinItem;
 
-typedef struct {BrCodeinItem *list;u32 count;u8 x,y,width,height,palette,bg,spacing,pad;int mode;char *resources;u32 manager,cursor,other;u16 *selection;} CodeinListMenuConfig;
+typedef struct BrListMenuConfig CodeinListMenuConfig;
 
 typedef struct {u32 words[10];} CfgTpl;
 
@@ -416,6 +416,10 @@ typedef union CodeinProfileConfig {u64 wide;Point pair;} CodeinProfileConfig;
 typedef struct Table {int head[4];SOCLResource pair;} Table;
 
 #include "../ov186/br_proc_sys.h"
+/* The window context is private to br_proc_sys.c. */
+struct Context;
+extern void BR_PROC_SYS_SetupWindow(struct Context *context);
+extern void BR_PROC_SYS_FlushWindows(struct Context *context);
 #include "../arm9/procsys.h"
 #include "../arm9/mi_memory.h"
 #include "../arm9/printsys.h"
@@ -477,7 +481,6 @@ extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32),POKE_TOOL_CalcIconPalette
 typedef unsigned short StatRow;
 #include "../arm9/bsubway_savedata.h"
 #include "../arm9/gf_font.h"
-extern void *BR_UTIL_CreateListMenu(const CodeinListMenuConfig *,u16);
 typedef short s16_p07;
 #include "../arm9/bmp.h"
 #include "../arm9/poke_tool_ext.h"
@@ -2518,11 +2521,11 @@ void BR_CODEIN_ResultSetupRowA(struct CodeinResultWork *work,char *arg)
         BR_UTIL_SetTextLayout((u8 *)(((struct CodeinResultRowSlot *)slot)->rowText),0,1,0);
         switch(i) {
         case 0: WORDSET_SetSlotMyStatus((struct WordSet *)words,0,(void *)(GAME_DATA_GetMyStatus((struct GameData *)((*(void * *)&((struct CodeinArgA *)arg)->uiRes))))); break;
-        case 7: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((StatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),5,0),4,1,1); break;
-        case 8: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((StatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),6,0),4,1,1); break;
-        case 9: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((StatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),7,0),4,1,1); break;
-        case 10: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((StatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),8,0),4,1,1); break;
-        case 11: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((StatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),9,0),4,1,1); break;
+        case 7: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),5,0),4,1,1); break;
+        case 8: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),6,0),4,1,1); break;
+        case 9: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),7,0),4,1,1); break;
+        case 10: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),8,0),4,1,1); break;
+        case 11: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),9,0),4,1,1); break;
         default: text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value); flag=0; break;
         }
         if(flag) {
@@ -2552,8 +2555,8 @@ void BR_CODEIN_ResultSetupRowB(struct CodeinResultWork *work,char *arg)
         slot=(char *)work+i*4;
         ((struct CodeinResultRowSlot *)slot)->rowText=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,(void *)work->printQue,work->heapId);
         BR_UTIL_SetTextLayout((u8 *)(((struct CodeinResultRowSlot *)slot)->rowText),0,1,0);
-        if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat((StatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),i-3,1);flag=1;}
-        else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat((StatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),i-8,2);flag=1;}
+        if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),i-3,1);flag=1;}
+        else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),i-8,2);flag=1;}
         else {text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
             base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
@@ -2583,8 +2586,8 @@ void BR_CODEIN_ResultSetupRowC(struct CodeinResultWork *work,char *arg)
         slot=(char *)work+i*4;
         ((struct CodeinResultRowSlot *)slot)->rowText=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,(void *)work->printQue,work->heapId);
         BR_UTIL_SetTextLayout((u8 *)(((struct CodeinResultRowSlot *)slot)->rowText),0,1,0);
-        if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat((StatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),i-8,1);flag=1;}
-        else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat((StatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),i-13,2);flag=1;}
+        if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),i-8,1);flag=1;}
+        else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat((BsubwayStatRow *)(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave),i-13,2);flag=1;}
         else {text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
             base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
@@ -3094,7 +3097,7 @@ void BR_CODEIN_SearchCreateList(BrCodeinMenu *menu,char *base,char *res,u32 mgr,
     *(CfgTpl *)&cfg=d_021E3700;
     cfg.list=(BrCodeinItem *)menu->list;
     cfg.count=*(u32 *)(base+0x1718);
-    cfg.resources=res;
+    cfg.resources=(struct BrRes *)res;
     cfg.manager=mgr;
     cfg.cursor=menu->c;
     cfg.other=menu->d;

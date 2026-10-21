@@ -71,7 +71,7 @@ struct Light;
 struct Descriptor;
 struct Cfg;
 #include "../types.h"
-typedef struct { int x, y, z; } V;
+typedef struct VecFx32 V;
 
 /* One frame of the save icon animation: character frame and its length. */
 typedef struct FieldSaveAnimeStep {
@@ -82,10 +82,10 @@ typedef struct FieldSaveAnimeStep {
 /* Save icon shown over the player while the game saves. */
 typedef struct FieldSaveAnime {
     void *fieldMap;                 /* 0x00 */
-    struct Descriptor *bmpWin;      /* 0x04: 4x4 tile window on BG 3 */
+    struct BmpWin *bmpWin;      /* 0x04: 4x4 tile window on BG 3 */
     u16 ofsX;                       /* 0x08: pixel offset inside the tile */
     u16 ofsY;                       /* 0x0A */
-    struct Node *tcb;               /* 0x0C: animation task */
+    struct TcbTask *tcb;             /* 0x0C: animation task */
     struct Bmp *charData;           /* 0x10: icon frames */
     int frameCount;                 /* 0x14 */
     u32 step;                       /* 0x18: index into sFieldSaveAnimeSteps */
@@ -96,7 +96,7 @@ typedef struct FieldSaveAnime {
 
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/bg_sys.h"
-extern void *GFL_USE_AddMainTask(void *, void *, int);
+#include "../arm9/gfl_use.h"
 struct TcbTask;
 #include "../arm9/tcb_list.h"
 #include "../arm9/arc_tool.h"
@@ -108,26 +108,24 @@ struct MyStatus;
 typedef short s16_p07;
 #include "../arm9/bmp.h"
 #include "field_camera.h"
-extern void ARC_UTIL_UploadPaletteFromHandle(void *h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u32 heap);
+/* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadPaletteFromHandle ARC_UTIL_UploadPaletteFromHandle_header
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_UploadPaletteFromHandle
+extern void ARC_UTIL_UploadPaletteFromHandle(void *, u32, u32, u32, u32, u32, u32);
+#endif
 struct FieldPlayer;
 struct FieldCamera;
 struct G3dCamera;
 #include "field_player.h"
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
-extern void G3D_CAMERA_GetCamTarget(u32 l, V *out);
-extern void G3D_CAMERA_GetEye(u32 l, V *out);
-extern void VEC_Subtract(const V *a, const V *b, V *c);
-extern void VEC_Normalize(const V *a, V *b);
-extern void VEC_CrossProduct(const V *a, const V *b, V *c);
-extern void NNS_G3dWorldPosToScrPos(V *a, int *x, int *y);
+#include "../arm9/g3d_camera.h"
+#include "../arm9/fx_vec.h"
+#include "../arm9/nns_g3d_util.h"
 struct BmpWin;
-extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
-extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u16 BMP_WIN_GetCharOffset(struct BmpWin *win);
+#include "../arm9/bmp_win.h"
 extern char d_021DE684[];
 extern const u32 d_021DB97C[];
 extern const V d_021DB984;
@@ -143,7 +141,7 @@ u32 FIELD_SAVEANIME_DeleteWindow(FieldSaveAnime *work);
 void FIELD_SAVEANIME_ShowWindow(FieldSaveAnime *work);
 void FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work);
 void FIELD_SAVEANIME_DrawFrame(FieldSaveAnime *work, u32 frame);
-void FIELD_SAVEANIME_AnimTask(void *tcb, FieldSaveAnime *work);
+void FIELD_SAVEANIME_AnimTask(struct TcbTask *tcb, void *arg);
 
 FieldSaveAnime *FIELD_SAVEANIME_Create(u32 heapId, void *fieldMap)
 {
@@ -174,7 +172,7 @@ void FIELD_SAVEANIME_Start(FieldSaveAnime *work)
 void FIELD_SAVEANIME_Stop(FieldSaveAnime *work)
 {
     if (work->tcb != 0) {
-        TCB_DeleteTask((struct TcbTask *)work->tcb);
+        TCB_DeleteTask(work->tcb);
         work->tcb = 0;
         FIELD_SAVEANIME_HideWindow(work);
     }
@@ -214,12 +212,12 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
     V eye;
     int x;
     int y;
-    void *player;
-    uptr camera;
+    struct FieldPlayer *player;
+    struct G3dCamera *camera;
 
     player = FIELDMAP_GetFieldPlayer(work->fieldMap);
-    camera = (uptr)FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(work->fieldMap));
-    G3D_CAMERA_Reset((struct G3dCamera *)camera);
+    camera = FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(work->fieldMap));
+    G3D_CAMERA_Reset(camera);
     G3D_CAMERA_GetCamTarget(camera, &eye);
     G3D_CAMERA_GetEye(camera, &target);
     VEC_Subtract(&eye, &target, &dir);
@@ -229,7 +227,7 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
     VEC_CrossProduct(&flatDir, &d_021DB984, &side);
     VEC_CrossProduct(&dir, &side, &up);
     VEC_Normalize(&up, &up);
-    FIELD_PLAYER_GetPos(player, (struct VecFx32 *)&pos);
+    FIELD_PLAYER_GetPos(player, &pos);
     pos.x += (int)(((long long)up.x * -0x1C000 + 0x800) >> 12);
     pos.y += (int)(((long long)up.y * -0x1C000 + 0x800) >> 12);
     pos.z += (int)(((long long)up.z * -0x1C000 + 0x800) >> 12);
@@ -252,7 +250,7 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
     if (y > 0x18) {
         y = 0x18;
     }
-    work->bmpWin = (struct Descriptor *)BMP_WIN_Create(_SAVEANIME_BG_FRAME, (u8)x, (u8)y, 5, (u32)5, (u32)9, (u32)1);
+    work->bmpWin = BMP_WIN_Create(_SAVEANIME_BG_FRAME, (u8)x, (u8)y, 5, (u32)5, (u32)9, (u32)1);
     BMP_Clear((struct Bmp *)((uptr)BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin)), 0);
     BMP_WIN_TransferChars((struct BmpWin *)work->bmpWin);
     FIELD_SAVEANIME_DrawFrame(work, 0);
@@ -267,7 +265,7 @@ u32 FIELD_SAVEANIME_DeleteWindow(FieldSaveAnime *work)
 
 void FIELD_SAVEANIME_ShowWindow(FieldSaveAnime *work)
 {
-    BMP_WIN_MakeScreen((struct Cfg *)work->bmpWin);
+    BMP_WIN_MakeScreen(work->bmpWin);
     BG_SYS_MarkTileDirty(_SAVEANIME_BG_FRAME);
     BG_SYS_SetPlaneVisible(_SAVEANIME_BG_FRAME, 1);
 }
@@ -298,8 +296,9 @@ void FIELD_SAVEANIME_DrawFrame(FieldSaveAnime *work, u32 frame)
  * words for +0 and +2) is contested: another overlay in the window starts
  * an object at 0x021DB990 and this function has no overlay_id site.
  */
-void FIELD_SAVEANIME_AnimTask(void *tcb, FieldSaveAnime *work)
+void FIELD_SAVEANIME_AnimTask(struct TcbTask *tcb, void *arg)
 {
+    FieldSaveAnime *work = arg;
     int count = work->frameCount + 1;
     u16 duration = sFieldSaveAnimeSteps[work->step].duration;
 

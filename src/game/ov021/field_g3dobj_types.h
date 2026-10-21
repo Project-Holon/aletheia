@@ -52,9 +52,7 @@ typedef struct FieldG3dObj {
     u32 reserved : 26;
     u16 resIdx;                            /* index in FieldG3dObjCtrl.resTbl */
     u16 modelIdx;                          /* model inside the resource */
-    VecFx32 trans;
-    VecFx32 scale;
-    MtxFx33 rotate;
+    G3dObjectStatus status;                /* trans, scale, rotate */
     G3dObject *object;
     G3dAnime *anime[FIELD_G3DOBJ_ANIME_MAX];
 } FieldG3dObj;

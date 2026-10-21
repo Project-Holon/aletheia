@@ -38,11 +38,11 @@ NamipokeSplashRes *FLDEFF_NAMIPOKE_SPLASH_Create(FieldEffectSys *fieldEffect, in
 void FLDEFF_NAMIPOKE_SPLASH_Delete(FieldEffectSys *fieldEffect, NamipokeSplashRes *res);
 void FLDEFF_NAMIPOKE_SPLASH_LoadResources(NamipokeSplashRes *res);
 void FLDEFF_NAMIPOKE_SPLASH_FreeResources(NamipokeSplashRes *res);
-void FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FieldEffectSys *fieldEffect, int type, FieldEffectObj *parent);
+FieldEffectObj *FLDEFF_NAMIPOKE_SPLASH_StartOnEffect(FieldEffectSys *fieldEffect, int type, FieldEffectObj *parent);
 void FLDEFF_NAMIPOKE_SPLASH_StartAtPos(FieldEffectSys *fieldEffect, int type, const VecFx32 *pos);
 int FLDEFF_NAMIPOKE_SPLASH_IsFinished(FieldEffectObj *effect);
 void FLDEFF_NAMIPOKE_SPLASH_Init(FieldEffectObj *effect, NamipokeSplashWork *work);
-int FLDEFF_NAMIPOKE_SPLASH_Exit(FieldEffectObj *effect, NamipokeSplashWork *work, u32 unused0, u32 unused1);
+void FLDEFF_NAMIPOKE_SPLASH_Exit(FieldEffectObj *effect, NamipokeSplashWork *work, u32 unused0, u32 unused1);
 void FLDEFF_NAMIPOKE_SPLASH_Update(FieldEffectObj *effect, NamipokeSplashWork *work);
 void FLDEFF_NAMIPOKE_SPLASH_Draw(FieldEffectObj *effect, NamipokeSplashWork *work);
 /* END mkheaders: generated region */

@@ -8,8 +8,10 @@
 
 int OS_SPrintf(char *dst, const char *fmt, ...);
 int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
+/* END mkheaders: generated region */
+
+/* va_list functions: kept by hand because tools/mkheaders.py skips va_list parameters. */
 int OS_VSPrintf(char *dst, const char *fmt, va_list vlist);
 int OS_VSNPrintf(char *dst, unsigned int len, const char *format, va_list vlist);
-/* END mkheaders: generated region */
 
 #endif

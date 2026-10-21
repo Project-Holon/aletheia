@@ -6,6 +6,7 @@
 
 struct BrBtn;
 struct Button;
+struct MsgBank;
 typedef struct Button Button;
 
 #include "../types.h"

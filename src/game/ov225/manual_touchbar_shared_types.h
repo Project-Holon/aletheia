@@ -3,7 +3,7 @@
 
 struct Node;
 
-struct Obj;
+struct ClactActor;
 
 struct U16Vec;
 

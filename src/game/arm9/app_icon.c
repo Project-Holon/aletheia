@@ -44,8 +44,8 @@ typedef struct BarScreen {
 #include "gfl_heap_wrap.h"
 
 #include "bg_sys.h"
+#include "arc_util.h"
 
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
 
 #include "mi_memory.h"
 
@@ -83,7 +83,7 @@ u32 APP_ICON_GetStatusDataFileId(void);
 
 u32 APP_ICON_GetStatusExtraFileId(void);
 
-void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffset, u32 palNo);
+void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u16 heapId, int charOffset, u32 palNo);
 
 u32 APP_ICON_GetItemCellFileId(void);
 
@@ -251,7 +251,7 @@ u32 APP_ICON_GetStatusExtraFileId(void)
  * and the +0xC is added on its own, which is the image. The re-base is
  * `(palNo << 12) + (charOffset + (cell & 0xfff))`.
  */
-void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u32 heapId, int charOffset, u32 palNo)
+void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, u16 heapId, int charOffset, u32 palNo)
 {
     BarScreen *scrn;
     void *file;
