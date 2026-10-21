@@ -12326,3 +12326,19 @@ a fully composed two-sprite scene over a sky/water backdrop) and
 `a_1_4_3_23.png` (24 distinct colors, a grass/track scene with lane
 markers). All four confirmed coherent by direct visual inspection. README
 updated with the true pairing and distinct-color counts for all four.
+
+## Town map (overlay ov072)
+
+The Town Map and Fly screens draw Unova from two archives, loaded in
+`src/game/ov072/townmap_grh.c`:
+
+- `a/0/8/5` (archive id 0x55): palette member 0; terrain is character data
+  member 7 with screen member 0x10; the route and town layer is character
+  data member 5 with screen member 0x11.
+- `a/0/8/6` (archive id 0x56) member 0: the spot table, read by
+  `TOWNMAP_GRH_LoadTownInfo`. 61 rows of 27 u16: column 0 zone id; 2-3 marker
+  x, y; 4-5 centre x, y; 6-9 hit segment; 10 segment width; 11 kind (0 city,
+  1 route, 2 and up other places); 12 fly flag; 17-23 description message
+  ids; 25-26 label position. The other columns are not mapped yet.
+
+Layout found by the kenon session and checked by rendering from the ROM.
