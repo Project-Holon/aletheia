@@ -51,11 +51,10 @@ start, unlike NMCR/NMAR below):
                                   not exercised, every cell here is simple)
     0x04  u32  cell_data_ofs    byte offset (from KBEC data start) to the
                                  cell array
-    0x08  u32  mapping_type     OBJ character mapping mode (4 = 1D, 256B
-                                 boundary per the NNS_G2D enum -- see the
-                                 tile-addressing note below, which found
-                                 this declared boundary is NOT what the
-                                 pixels actually use)
+    0x08  u32  mapping_type     OBJ character mapping mode: 0-3 = 1D with
+                                 a 32 << mapping_type byte unit, 4 = 2D (the
+                                 tile-addressing note below shows the 2D
+                                 addressing these pixels use)
     0x0C  u32  reserved
 
 Cell array: `num_cells` entries of 8 bytes each (`num_oam(u16),

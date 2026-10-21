@@ -1659,10 +1659,11 @@ is the standard NNS_G2D toolkit shape for a *poseable, multi-part* sprite
 Parsed the generic NCER `KBEC` (CEBK reversed) block header (public NDS
 format shape, no project code copied):
 
-- **11 cells, 17 OAMs total**, `mapping_type = 4` (1D OBJ character mapping,
-  256-byte-per-index-step boundary -- the standard NNS_G2D `mappingType`
-  enum where 0 = 2D and 1..4 = 1D with boundary `32 << (mappingType-1)`
-  bytes; type 4 -> boundary 256B). Cells are the "simple" (non-extended)
+- **11 cells, 17 OAMs total**, `mapping_type = 4` (2D OBJ character
+  mapping: values 0..3 are 1D with a `32 << mappingType` byte unit, 4 is 2D;
+  `a/0/8/3`'s three copies of one cell bank with mapping 0/1/2 and tile
+  indices 16/8/4 confirm the 1D units, and the 2D addressing note in
+  `tools/assets/rig.py` confirms type 4). Cells are the "simple" (non-extended)
   form (`cell_info` bit0 clear -- no per-cell bounding-box rectangle), 8
   bytes each: `num_oam(u16), cell_attr(u16), oam_ofs(u32)`. The OAM array
   follows immediately after the cell array, 6 bytes/OAM (3x u16, standard
