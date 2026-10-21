@@ -220,7 +220,7 @@ extern void STRBUF_Delete(struct Strbuf *vec);
 extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
+extern u32 TCB_DeleteTask(struct TcbTask *task);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);

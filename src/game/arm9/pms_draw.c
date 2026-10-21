@@ -186,9 +186,8 @@ struct ClactActor;
 struct ClactVec2;
 struct Pt16;
 struct Unit;
-extern u32 CLACT_RegisterCharacter(void *h, u32 file_idx, u32 compressed, u32 engine, u32 s0);
+#include "clact.h"
 void CLACT_ReleaseCharacter(u32 idx);
-extern u32 CLACT_RegisterPaletteEx(void *h, u32 file_idx, u32 engine, u32 vram_offset, u32 s0, u32 s1, u32 s2);
 void CLACT_ReleasePalette(u32 idx);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 void CLACT_ReleaseCellAnim(u32 idx);
@@ -305,7 +304,7 @@ u32 PMS_DRAW_GetDecoCelIndex(u32 engine);
 
 u32 PMS_DRAW_GetDecoAnmIndex(u32 engine);
 
-void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u32 heapId);
+void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u16 heapId);
 
 void PMS_DRAW_ReleaseResources(struct PmsDrawRes *res);
 
@@ -645,7 +644,7 @@ u32 PMS_DRAW_GetDecoAnmIndex(u32 engine)
  * unequal shift pair lsls #0x15 / lsrs #0x10 -- a narrowing cast folded
  * with the shift, not an 11-bit bitfield.
  */
-void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u32 heapId)
+void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u16 heapId)
 {
     u32 cgrDatId;
     u32 celDatId;

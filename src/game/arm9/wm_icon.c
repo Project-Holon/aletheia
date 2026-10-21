@@ -91,9 +91,18 @@ struct NetDeviceHeader;
 
 #include "arc_tool.h"
 
+/* Original DS prototypes: the caller passes the palette offset and the flags as plain ints; the host build uses the header. */
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadPaletteFromHandleWhole ARC_UTIL_UploadPaletteFromHandleWhole_header
+#define ARC_UTIL_UploadScreenFromHandle ARC_UTIL_UploadScreenFromHandle_header
+#endif
+#include "arc_util.h"
+#ifdef __MWERKS__
+#undef ARC_UTIL_UploadPaletteFromHandleWhole
+#undef ARC_UTIL_UploadScreenFromHandle
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 dataId, int palType, int offset, int size, int heapId);
-
 extern void ARC_UTIL_UploadScreenFromHandle(void *arc, u32 dataId, int engine, int offset, int size, int heapID, int heapId);
+#endif
 
 /* wm_icon.c */
 WmIcon *GFL_NET_WM_ICON_Create(u32 unused, u32 heapId, u32 x, u32 y, u32 iconVariant, WmIcon *icon, u32 screen, u32 screenChanged, u32 level);

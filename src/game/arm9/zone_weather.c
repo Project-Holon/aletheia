@@ -234,7 +234,7 @@ s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, u32 gameData, u32 zoneId)
 u32 WEATHER_GetBirthdayWeather(void *fieldSys, void *gameData, u32 zoneId)
 {
     u8 buf[2];
-    struct RtcDate date;
+    RTCDate date;
 
     if (!ZONEDATA_IsRawZone176Or17A((u16)zoneId)) {
         goto fail;

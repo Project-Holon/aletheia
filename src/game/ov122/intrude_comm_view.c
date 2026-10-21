@@ -921,7 +921,7 @@ void INTRUDE_COMM_VIEW_OnScanResult(char *p)
             INTRUDE_COMM_VIEW_SetFoundPeerMac(p, index);
         }
         STRBUF_Delete(text);
-        FIELD_SOUND_SYSTEM_StartRingtone((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(((IntrudeCommView *)p)->gameData));
+        FIELD_SOUND_SYSTEM_StartRingtone(GAME_DATA_GetBgmInfo(((IntrudeCommView *)p)->gameData));
         if (CLACT_GetActorAnimSeq(((IntrudeCommView *)p)->actors[3]) == 15)
             CLACT_SetActorAnimSeq(((IntrudeCommView *)p)->actors[3], 16);
         if (CLACT_GetActorAnimSeq(((IntrudeCommView *)p)->actors[1]) == 11) {
@@ -929,7 +929,7 @@ void INTRUDE_COMM_VIEW_OnScanResult(char *p)
             CLACT_SetActorAnimSeq(((IntrudeCommView *)p)->actors[1], 19);
         }
     } else {
-        FIELD_SOUND_SYSTEM_StopRingtone((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(((IntrudeCommView *)p)->gameData));
+        FIELD_SOUND_SYSTEM_StopRingtone(GAME_DATA_GetBgmInfo(((IntrudeCommView *)p)->gameData));
         CLACT_SetActorDrawEnable(((IntrudeCommView *)p)->actors[4], 0);
         BMP_Clear(BMP_WIN_GetBmp(((IntrudeCommView *)p)->rowWin), 0);
         BMP_WIN_TransferChars(((IntrudeCommView *)p)->rowWin);

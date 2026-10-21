@@ -69,7 +69,7 @@ struct GameData {
     void            *occupyInfo;
     void            *eventWork;
     unsigned int     fieldWork;
-    unsigned int     bgmInfo;
+    struct FieldSoundSystem *bgmInfo;
     void            *moveModelSys;
     unsigned int     lastBattleResult;
     unsigned int     saveStatus;
@@ -88,10 +88,10 @@ struct GameData {
     unsigned char    slotFlags[4];
     unsigned char    battleRecSlot[4][0x10];
     unsigned char    unionInfo[2][0x1E8];
-    unsigned int     fieldGimmick;
+    void            *fieldGimmick;
     unsigned char    rtcWork[4];
     unsigned char    fieldSave[0x94];
-    unsigned int     eventState;
+    void            *eventState;
     struct CommPlayerSupport *pmsWork;
     void            *currentEvent;
     unsigned int     itemUseWork;

@@ -910,7 +910,7 @@ int FIELD_PLAYER_CORE_FormStepSlot8Done(FieldPlayerCore *core)
 void FIELD_PLAYER_CORE_PostZoneBgmChange(FieldPlayerCore *core)
 {
     struct GameData *gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(core->fieldMap));
-    u32 bgmId = GAME_DATA_GetBgmInfo(gameData);
+    struct FieldSoundSystem *bgmId = GAME_DATA_GetBgmInfo(gameData);
 
-    FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade((struct FieldSoundSystem *)bgmId, gameData, (u16)(int)FIELDMAP_GetZoneId(core->fieldMap));
+    FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade(bgmId, gameData, (u16)(int)FIELDMAP_GetZoneId(core->fieldMap));
 }

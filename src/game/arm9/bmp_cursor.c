@@ -49,7 +49,7 @@ struct MenuCursor *BMP_CURSOR_Create(u32 heap);
 
 void BMP_CURSOR_Delete(struct MenuCursor *cursor);
 
-void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target, void *printer, u32 param);
+void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target, struct PrintQueue *printer, struct GfFont *font);
 
 void BMP_CURSOR_SetTileBitmap(struct MenuCursor *cursor, int heap);
 
@@ -95,10 +95,10 @@ void BMP_CURSOR_Delete(struct MenuCursor *cursor)
  * afterwards.
  */
 void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target,
-                   void *printer, u32 param)
+                   struct PrintQueue *printer, struct GfFont *font)
 {
     if (cursor->mode == 1) {
-        PRINTSYS_PrintQue(printer, BMP_WIN_GetBmp(target->win), (s16)x, (s16)y, cursor->aux, (struct GfFont *)param);
+        PRINTSYS_PrintQue(printer, BMP_WIN_GetBmp(target->win), (s16)x, (s16)y, cursor->aux, font);
         target->dirty = 1;
     } else if (cursor->tile != 0) {
         BMP_Blit(cursor->tile, BMP_WIN_GetBmp(target->win), 0, 0,

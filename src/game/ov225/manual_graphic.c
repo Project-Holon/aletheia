@@ -157,7 +157,12 @@ extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 #include "../arm9/gf_font.h"
+/* The DS code was built against other parameter widths for BG_SYS_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_Create(u32);
+#else
+#include "../arm9/bg_sys.h"
+#endif
 #include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);

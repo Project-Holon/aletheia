@@ -162,7 +162,7 @@ struct PrintQueue;
 #include "../ov206/zukan_info.h"
 extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, struct GfFont *f, u32 g, void *h);
 #include "../arm9/net.h"
-extern struct TcbTask *GFL_USE_AddMainTask(u32,u32,u32);
+#include "../arm9/gfl_use.h"
 #include "../arm9/fade.h"
 struct TcbTask;
 #include "../arm9/tcb_list.h"
@@ -186,7 +186,12 @@ extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
+/* The DS code was built against other parameter widths for BG_SYS_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_Create(int);
+#else
+#include "../arm9/bg_sys.h"
+#endif
 #include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -204,14 +209,14 @@ int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,ZukanTorokuWork *work);
 int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork *work);
 void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work);
 void ZUKAN_TOROKU_GRAPHIC_DeleteBg(ZukanTorokuWork *work);
-void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, ZukanTorokuWork *work);
+void ZUKAN_TOROKU_GRAPHIC_ClearTask(struct TcbTask *task, void *taskWork);
 void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap);
 void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_Draw(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_Update(void *unused);
 void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *unused);
 u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display);
-void ZUKAN_TOROKU_GRAPHIC_VBlank(void*unused,ZukanTorokuDisplay *display);
+void ZUKAN_TOROKU_GRAPHIC_VBlank(struct TcbTask *task, void *taskWork);
 void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap);
 void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display);
@@ -247,7 +252,7 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
     work->nickname=ZUKAN_NICKNAME_Create(work->heapId,args[1],args[3],args[4],args[5],ZUKAN_TOROKU_GRAPHIC_GetDisplay(work->display),(struct GfFont *)((uptr)work->font),work->printQueue,(void *)args[6]);
     GFL_NET_RefreshWmIconAtTopRight(0,work->heapId);
     if(work->state==1) ZUKAN_TOROKU_GRAPHIC_CreateBg(work);
-    work->task=GFL_USE_AddMainTask((uptr)ZUKAN_TOROKU_GRAPHIC_ClearTask,(uptr)work,1);
+    work->task=GFL_USE_AddMainTask(ZUKAN_TOROKU_GRAPHIC_ClearTask,work,1);
     FADE_Start(3,16,0,2);
     return 1;
 }
@@ -361,8 +366,9 @@ void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work)
 
 void ZUKAN_TOROKU_GRAPHIC_DeleteBg(ZukanTorokuWork *work){u32 v,hi;v=work->bgHandle;hi=v>>16;BG_SYS_FreeTileRun(1,(u16)v,(u16)hi);}
 
-void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, ZukanTorokuWork *work)
+void ZUKAN_TOROKU_GRAPHIC_ClearTask(struct TcbTask *task, void *taskWork)
 {
+    ZukanTorokuWork *work = taskWork;
     if (work->bgActive != 0)
     {
         BG_SYS_SetPlaneVisible(0, 0);
@@ -391,7 +397,7 @@ void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap)
     GF_FONT_InitTextColor();
     ZUKAN_TOROKU_GRAPHIC_InitBg(display,heap);
     ZUKAN_TOROKU_GRAPHIC_InitActors((struct Unit **)&display->actors,(sptr)d_0220BAE8,heap);
-    display->vblankTask=(void *)GFL_USE_AddMainTask((uptr)((void (*)(void *, void *))ZUKAN_TOROKU_GRAPHIC_VBlank), (uptr)display, 0);
+    display->vblankTask=GFL_USE_AddMainTask(ZUKAN_TOROKU_GRAPHIC_VBlank, display, 0);
     return display;
 }
 
@@ -420,7 +426,7 @@ void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *unused){}
 
 u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display){return ZUKAN_TOROKU_GRAPHIC_GetWord((u32*)&display->actors);}
 
-void ZUKAN_TOROKU_GRAPHIC_VBlank(void*unused,ZukanTorokuDisplay *display){ZUKAN_TOROKU_GRAPHIC_ResetDisplay(display);ZUKAN_TOROKU_GRAPHIC_VBlankActors(&display->actors);}
+void ZUKAN_TOROKU_GRAPHIC_VBlank(struct TcbTask *task, void *taskWork){ZukanTorokuDisplay *display=taskWork;ZUKAN_TOROKU_GRAPHIC_ResetDisplay(display);ZUKAN_TOROKU_GRAPHIC_VBlankActors(&display->actors);}
 
 void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap)
 {

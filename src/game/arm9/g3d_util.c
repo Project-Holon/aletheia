@@ -171,7 +171,7 @@ void G3D_UTIL_FreeUnitObjects(G3dUtil *util, u32 unitIdx);
 
 u32 G3D_UTIL_GetUnitObjIdx(G3dUtil *util, int i);
 
-u32 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int i);
+u16 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int i);
 
 u32 G3D_UTIL_GetResource(G3dUtil *util, int i);
 
@@ -784,7 +784,7 @@ u32 G3D_UTIL_GetUnitObjIdx(G3dUtil *util, int unitIdx)
     return util->unit[unitIdx].objIdx;
 }
 
-u32 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int unitIdx)
+u16 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int unitIdx)
 {
     return util->unit[unitIdx].objCount;
 }

@@ -213,7 +213,7 @@ struct Sub02009470Obj;
 struct Tcbl;
 struct Proc;
 struct WordSet;
-struct PrintSys;
+struct PrintQueue;
 struct BmpMenuList;
 struct BeaconDetailMenuTemplate;
 struct Descriptor;
@@ -226,7 +226,7 @@ struct BeaconLightCfg;
 struct GfFont;
 struct TaskMenuRes;
 struct TaskMenuState;
-struct U16Vec;
+struct Strbuf;
 struct Ctx;
 struct Rec3;
 struct Font;
@@ -398,9 +398,7 @@ struct SaveControl;
 #include "../arm9/game_data.h"
 struct MyStatus;
 struct WifiHistory;
-extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
 #include "../arm9/mystatus.h"
-extern u8 WIFI_HISTORY_GetMode(struct WifiHistory *history);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void BG_SYS_SetLcdSwap(u32);
 struct TcblSystem;
@@ -408,10 +406,9 @@ struct TcblSystem;
 struct KeyCursor;
 #include "../arm9/app_keycursor.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+#include "../arm9/printsys.h"
 #include "../arm9/net.h"
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 struct TaskMenuWin;
 #include "../arm9/app_taskmenu.h"
 #include "../arm9/key.h"
@@ -419,36 +416,54 @@ extern int TOUCHPANEL_HitCont(const union TouchHitTable *a);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
+/* The DS code was built against other parameter widths for MSGDATA_CreateFromArchive (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
+#define MSGDATA_CreateFromArchive MSGDATA_CreateFromArchive_header
+#endif
+#include "../arm9/msgdata.h"
+#ifdef __MWERKS__
+#undef MSGDATA_CreateFromArchive
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u16 heapId);
+#endif
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 struct Bmp;
 #include "../arm9/bmp.h"
 struct BmpWin;
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern u32 MSGDATA_Delete(struct MsgBank *bank);
 #include "../arm9/wipe.h"
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 struct BmpMenuList;
 #include "../arm9/bmp_oam.h"
+/* The DS code was built against other parameter widths for WIFI_HISTORY_InitLanguageRegion (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
+#define WIFI_HISTORY_InitLanguageRegion WIFI_HISTORY_InitLanguageRegion_header
+#endif
+#include "../arm9/wifi_history.h"
+#ifdef __MWERKS__
+#undef WIFI_HISTORY_InitLanguageRegion
 extern void WIFI_HISTORY_InitLanguageRegion(struct WifiHistory *a, struct MyStatus *b, u32 c, u32 d);
+#endif
 #include "../arm9/game_beacon.h"
 #include "../arm9/gfl_use.h"
-extern void PRINTSYS_QUE_Clear(struct PrintSys *),PRINTSYS_QUE_Delete(struct PrintSys *);
 extern unsigned WORDSET_Delete(struct WordSet *);
 extern void BEACON_DETAIL_ExitGraphics(int),PROCSYS_FreeProcWork(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
 extern void GX_SetBankForLCDC(unsigned),MIi_CpuClearFast(unsigned,void *,unsigned),GX_DisableBankForLCDC(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(unsigned),BG_SYS_SetGraphicsMode(struct DispConfig *);
+/* The DS code was built against other parameter widths for G3D_SYSTEM_Init (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_Init_header
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+#undef G3D_SYSTEM_Init
 extern void G3D_SYSTEM_Init(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void (*)(void));
+#endif
 extern void BG_SYS_EnableBg0WithPriority(unsigned),BMP_WIN_Init(unsigned),BG_SYS_ResetSubDisplay(void);
-extern int BMP_WIN_Exit(int);
-extern int G3D_SYSTEM_Exit(int);
-extern void BG_SYS_Delete(int);
+extern void BMP_WIN_Exit(void);
+extern void BG_SYS_Delete(void);
 #include "../arm9/gfl_heap_wrap.h"
 extern u32 NATION_AREA_GetAreaListArcMember(u32),NATION_AREA_GetNationIdByIndex(u32);
-extern u32 WIFI_HISTORY_GetCountryRegionState(struct WifiHistory *history, int country, int region);
 extern int TOUCHPANEL_HitTrg(const union TouchHitTable *);
 extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
@@ -459,38 +474,24 @@ extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32),BG_SYS_ClearSl
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
 struct Strbuf;
-extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *,unsigned);
 struct GFont;
 struct TaskMenuItem;
 extern void BG_SYS_MarkTileDirty(u32);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BG_SYS_FreeLayerBuf(unsigned);
-extern void PRINTSYS_PrintQue(struct PrintSys *,unsigned,unsigned,unsigned,void *,unsigned);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
+#include "../arm9/strbuf.h"
 #include "../arm9/msg_speed.h"
 struct TextPrinter;
-extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
 struct TextPrinter;
-extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 struct BeaconDetailMenuTemplate;
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,unsigned,unsigned),WORDSET_SetSlotFromKeyedMessage(struct WordSet *,unsigned,unsigned,unsigned);
-extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *),WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
-extern void *G3D_SYSTEM_CreateResourceArc(unsigned,unsigned),*G3D_SYSTEM_CreateRender(void *,unsigned,void *),*G3D_SYSTEM_CreateObject(unsigned,unsigned *,int);
 struct G3dResource;
-extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
 #include "../arm9/g3d_light.h"
 struct G3dObject;
-extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
 struct G3dRender;
-extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
-extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *res);
-extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 struct G3dCamera;
 struct LightSetDesc;
 struct LightSlotValue;
@@ -498,12 +499,8 @@ extern void MTX_RotY33_(Matrix *,int,int),MTX_RotX33_(Matrix *,int,int),MTX_RotZ
 extern void MTX_Concat33(const union MtxFx33 *,const union MtxFx33 *,union MtxFx33 *);
 extern void VEC_Subtract(const BeaconDetailVec *,const BeaconDetailVec *,BeaconDetailVec *),VEC_Normalize(const BeaconDetailVec *,BeaconDetailVec *),VEC_MultAdd(long,const BeaconDetailVec *,const BeaconDetailVec *,BeaconDetailVec *);
 extern long VEC_Mag(const struct VecFx32 *);
-extern void G3D_SYSTEM_DrawStart(void);
-extern void G3D_SYSTEM_DrawEnd(void);
-extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MTX_Identity33_(M33 *);
 struct G3dObjectStatus;
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 extern unsigned BEACON_DETAIL_GetRecordIndex(unsigned),NATION_AREA_GetAreaMsgBankByIndex(unsigned);
 #include "../arm9/gf_standard.h"
 #include "../arm9/fx_cp.h"
@@ -1044,7 +1041,9 @@ void BEACON_DETAIL_InitGraphics(unsigned heap)
  */
 void BEACON_DETAIL_ExitGraphics(int a)
 {
-    BG_SYS_Delete(G3D_SYSTEM_Exit(BMP_WIN_Exit(a)));
+    BMP_WIN_Exit();
+    G3D_SYSTEM_Exit();
+    BG_SYS_Delete();
 }
 
 /*
@@ -1259,7 +1258,7 @@ void BEACON_DETAIL_DeleteMainScreen(char *p)
 {
     BEACON_DETAIL_DeleteTaskMenuWin((u8 *)p,0);BEACON_DETAIL_DeleteTaskMenuWin((u8 *)p,1);
     APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(*(struct TaskMenuState * *)&((BeaconDetailWork *)p)->taskMenu.ptr));
-    STRBUF_Delete((struct Strbuf *)(*(struct U16Vec * *)&((BeaconDetailWork *)p)->strbufA));STRBUF_Delete((struct Strbuf *)(*(struct U16Vec * *)&((BeaconDetailWork *)p)->strbufB));
+    STRBUF_Delete((struct Strbuf *)(*(struct Strbuf * *)&((BeaconDetailWork *)p)->strbufA));STRBUF_Delete((struct Strbuf *)(*(struct Strbuf * *)&((BeaconDetailWork *)p)->strbufB));
     ((BeaconDetailWork *)p)->win[0]=0;((BeaconDetailWork *)p)->win[1]=0;
     BMP_WIN_Delete((struct BmpWin *)(*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp1C));
     BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(3);BG_SYS_FreeLayerBuf(7);
@@ -1269,10 +1268,10 @@ void BEACON_DETAIL_DeleteMainScreen(char *p)
 
 void BEACON_DETAIL_DrawTextRecord(char *p,BeaconMessage *out,struct Descriptor *d,void *text,u8 x,u8 y)
 {
-    struct PrintSys *print;
+    struct PrintQueue *print;
     out->bmp=d;out->active=0;
-    print=*(struct PrintSys * *)&((BeaconDetailWork *)p)->printQue.ptr;
-    PRINTSYS_PrintQue(print,(uptr)BMP_WIN_GetBmp((struct BmpWin *)d),x,y,text,((BeaconDetailWork *)p)->font.id);
+    print=*(struct PrintQueue * *)&((BeaconDetailWork *)p)->printQue.ptr;
+    PRINTSYS_PrintQue(print,BMP_WIN_GetBmp((struct BmpWin *)d),x,y,text,(struct GfFont *)((BeaconDetailWork *)p)->font.ptr);
     out->active=1;
 }
 
@@ -1577,7 +1576,7 @@ void BEACON_DETAIL_CloseMenu(u8*p){BMP_MENUWORK_DrawWindowBorder(*(void* *)&((Be
  */
 void BEACON_DETAIL_DrawCurrentArea(char *p)
 {
-    struct U16Vec *dst,*src;
+    struct Strbuf *dst,*src;
     dst=STRBUF_Create(1024,(u16)(((BeaconDetailWork *)p)->heapId));src=STRBUF_Create(1024,(u16)(((BeaconDetailWork *)p)->heapId));
     *(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp40=(struct Descriptor *)BEACON_DETAIL_CreateBmpWin(d_02185DCB,1);
     WORDSET_SetSlotFromMsgE7(*(struct WordSet * *)&((BeaconDetailWork *)p)->wordSet,0,((BeaconDetailWork *)p)->nation);
@@ -1780,7 +1779,7 @@ int BEACON_DETAIL_FindNearestRecord(char *p, u32 *out)
  */
 void BEACON_DETAIL_DrawCurrentInfo(char *p)
 {
-    struct U16Vec *buffer;
+    struct Strbuf *buffer;
     u32 selected;
     if(((BeaconDetailWork *)p)->detailOpen==0) {
         buffer=STRBUF_Create(1024,(u16)(((BeaconDetailWork *)p)->heapId));
@@ -1789,7 +1788,7 @@ void BEACON_DETAIL_DrawCurrentInfo(char *p)
         BEACON_DETAIL_DrawTextRecord(p,&((BeaconDetailWork *)p)->msg20,((BeaconDetailWork *)p)->bmp1C,buffer,0,0);
         STRBUF_Delete((struct Strbuf *)buffer);
     } else {
-        struct U16Vec *first,*second;
+        struct Strbuf *first,*second;
         if(BEACON_DETAIL_FindNearestRecord(p,&selected)) {
             first=STRBUF_Create(64,(u16)(((BeaconDetailWork *)p)->heapId));
             second=STRBUF_Create(64,(u16)(((BeaconDetailWork *)p)->heapId));
@@ -1814,13 +1813,13 @@ void BEACON_DETAIL_Create3DObjects(char *p, void *arc)
     ((BeaconDetailWork *)p)->resArc[0]=G3D_SYSTEM_CreateResourceArc(197,0);
     G3D_SYSTEM_TransVramTexture((struct G3dResource *)(*(int * *)&((BeaconDetailWork *)p)->resArc[0]));
     ((BeaconDetailWork *)p)->render[0]=G3D_SYSTEM_CreateRender(((BeaconDetailWork *)p)->resArc[0],0,((BeaconDetailWork *)p)->resArc[0]);
-    ((BeaconDetailWork *)p)->object[0]=G3D_SYSTEM_CreateObject(*(unsigned *)&((BeaconDetailWork *)p)->render[0],0,0);
+    ((BeaconDetailWork *)p)->object[0]=G3D_SYSTEM_CreateObject((G3dRender *)((BeaconDetailWork *)p)->render[0],0,0);
     for(i=0;i<4;i++) {
         row=p+d_02185E18[i].index*4;
         ((BeaconDetailWork *)row)->resArc[1]=G3D_SYSTEM_CreateResourceArc(197,d_02185E18[i].member);
         G3D_SYSTEM_TransVramTexture((struct G3dResource *)(*(int * *)&((BeaconDetailWork *)row)->resArc[1]));
         ((BeaconDetailWork *)row)->render[1]=G3D_SYSTEM_CreateRender(((BeaconDetailWork *)row)->resArc[1],0,((BeaconDetailWork *)row)->resArc[1]);
-        ((BeaconDetailWork *)row)->object[1]=G3D_SYSTEM_CreateObject(*(unsigned *)&((BeaconDetailWork *)row)->render[1],0,0);
+        ((BeaconDetailWork *)row)->object[1]=G3D_SYSTEM_CreateObject((G3dRender *)((BeaconDetailWork *)row)->render[1],0,0);
     }
     BEACON_DETAIL_CreateCamera(p);
     BEACON_DETAIL_CreateLight(p);

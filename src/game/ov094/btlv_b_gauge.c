@@ -18,7 +18,7 @@
  *   BTLV_B_GAUGE_CreatePartyBallBar  0x02208DAC  thumb  ov094
  *   BTLV_B_GAUGE_DeletePartyBallBar 0x02209068 thumb ov094
  *   BTLV_B_GAUGE_IsPartyBallBarActive 0x022090A4 thumb ov094
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetOwnedWork   0x02030EE8  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
@@ -279,5 +279,5 @@ void BTLV_B_GAUGE_TaskPartyBallBar(struct TcbTask *task, void *arg)
 /* Delete callback of the party ball bar task: marks the bar as no longer running. */
 void BTLV_B_GAUGE_PartyBallBarTaskDeleted(void *task)
 {
-    ((BtlvPartyBallTaskArg *)TCBL_IsDeletePending(task))->bar->active = 0;
+    ((BtlvPartyBallTaskArg *)TCBL_GetOwnedWork(task))->bar->active = 0;
 }

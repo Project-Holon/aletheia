@@ -7,13 +7,13 @@ typedef struct FieldSaveAnime FieldSaveAnime;
 /* Public functions of field_saveanime.c, prototypes copied from their definitions. */
 
 struct FieldSaveAnime;
+struct TcbTask;
 typedef struct FieldSaveAnime FieldSaveAnime;
 
 #include "../types.h"
 
 FieldSaveAnime *FIELD_SAVEANIME_Create(u32 heapId, void *fieldMap);
 int FIELD_SAVEANIME_Delete(FieldSaveAnime *work);
-struct TcbTask;
 void FIELD_SAVEANIME_Start(FieldSaveAnime *work);
 void FIELD_SAVEANIME_Stop(FieldSaveAnime *work);
 void FIELD_SAVEANIME_LoadResource(FieldSaveAnime *work, u32 heapId);

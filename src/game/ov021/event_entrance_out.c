@@ -232,7 +232,7 @@ u32 EVENT_ENTRANCE_OUT_RunFadeSe(GameEvent *event, int *seq, EntranceOutWork *wo
 /* Posts the fade in of the zone music replaced by the "in" event. */
 void EVENT_ENTRANCE_OUT_PostBgmFadeIn(EntranceOutWork *work)
 {
-    FIELD_SOUND_SYSTEM_PostFadeIn((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(work->param->gameData), work->param->gameData);
+    FIELD_SOUND_SYSTEM_PostFadeIn(GAME_DATA_GetBgmInfo(work->param->gameData), work->param->gameData);
 }
 
 /* Starts the music fade in. */

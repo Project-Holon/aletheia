@@ -79,7 +79,7 @@ extern int SOCLi_BindCallBack(void *arg);
 
 #include "../arm9/os_mutex.h"
 #include "cps_network.h"
-int SOCL_Bind(int s, unsigned short local_port);
+int SOCL_Bind(sptr s, unsigned short local_port);
 int SOCL_Connect(int s, unsigned short remote_port, unsigned long remote_ip);
 int SOCLi_BindCallBack(void *arg);
 extern unsigned long gCpsMyIp;

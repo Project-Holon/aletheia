@@ -264,7 +264,7 @@ int COMM_PLAYER_SUPPORT_IsSeasonChanged(struct PlayerInfo *info, u16 *outStored,
  */
 u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void)
 {
-    struct RtcDate date;
+    RTCDate date;
 
     GF_STANDARD_GetCachedDate(&date);
     return (u8)((date.month - 1) & 3);

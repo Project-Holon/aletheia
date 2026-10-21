@@ -18,7 +18,7 @@
  *   SCRIPT_WORK_CheckFlag  0x02159190  thumb  ov010
  *   SCRCMD_WORK_GetHeapId  0x0215A5CC  thumb  ov010
  *   TPOKE_DATA_ReadRecordString  0x0202A310  thumb
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   SCRCMD_WORK_GetWordSetWork  0x0215A63C  thumb  ov010
  *   MI_CpuFill8  0x02082BCC  arm
@@ -58,7 +58,7 @@ extern u32 SCRIPT_WORK_GetMsgBuffer(u8 *p);
 extern int SCRIPT_WORK_CheckFlag(int);
 extern u16 SCRCMD_WORK_GetHeapId(void *a0);
 extern void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap);
-extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern void *SCRCMD_WORK_GetMmdlSys(void *p);
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 struct Q;
 extern u8 *SCRCMD_WORK_GetWordSetWork(u8 *p);
@@ -97,7 +97,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(void *a, int b)
         return 1;
     }
     TPOKE_DATA_ReadRecordString(k0, k1, (void *)m, SCRCMD_WORK_GetHeapId((void *)b));
-    if (FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo((void *)b), k2) == 0) {
+    if (FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys((void *)b), k2) == 0) {
         k2 = 0xff;
     }
     s = (S *)SCRCMD_WORK_GetWordSetWork((u8 *)b);
@@ -105,7 +105,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(void *a, int b)
     MI_CpuFill8(s, 0, 0x28);
     s->id = k2;
     x = FIELDMAP_GetFieldPlayer((struct Obj00020 *)q[1]);
-    y = (int)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    y = (int)SCRCMD_WORK_GetMmdlSys((void *)b);
     z = FIELD_PLAYER_GetMmdl((void *)x);
     FLDMMDL_GetPos(FLDMMDL_SysSearchObjId((void *)y, s->id), (struct VecFx32 *)&v);
     r = SCRCMD_MSGWIN_GetBalloonSide((u32)z, (struct Q *)(&v));

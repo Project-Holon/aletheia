@@ -5,13 +5,14 @@
 /* Public functions of rail_slipdown.c, prototypes copied from their definitions. */
 
 struct Mmdl;
+struct TcbTask;
 
 #include "../ov063/rail_slipdown_types.h"
 
 RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer);
 void RAIL_SLIPDOWN_Delete(RailSlipdown *slipdown);
 int RAIL_SLIPDOWN_IsDone(RailSlipdown *slipdown);
-void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown);
+void RAIL_SLIPDOWN_TaskMain(struct TcbTask *tcb, void *work);
 /* END mkheaders: generated region */
 
 #endif

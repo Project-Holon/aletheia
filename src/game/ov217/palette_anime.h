@@ -15,7 +15,7 @@ void PALETTE_ANIME_Update(struct PaletteAnime *anime);
 void PALETTE_ANIME_Start(struct PaletteAnime *anime, u32 mode, u16 color);
 void PALETTE_ANIME_Stop(struct PaletteAnime *anime);
 int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
-void PALETTE_ANIME_IsRunning(struct PaletteAnime *anime, u32 unused);
+u32 PALETTE_ANIME_IsRunning(struct PaletteAnime *anime, u32 unused);
 void PALETTE_ANIME_StartImpl(struct PaletteAnime *anime, u32 mode, u16 color);
 void PALETTE_ANIME_StopImpl(struct PaletteAnime *anime);
 void PALETTE_ANIME_UpdateImpl(struct PaletteAnime *anime);

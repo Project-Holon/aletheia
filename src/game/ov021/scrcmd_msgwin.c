@@ -104,7 +104,7 @@
  *   FIELD_MSGBG_DeleteTalkWin  0x021912D8  thumb  ov021
  *   FIELD_MSGBG_ClearTalkWin  0x0219131C  thumb  ov021
  *   FIELD_MSGBG_AddTalkWin  0x0219129C  thumb  ov021
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   SCRCMD_WORK_GetWordSetWork  0x0215A63C  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
@@ -1030,7 +1030,7 @@ void SCRCMD_MSGWIN_OpenTalkWin(ScrcmdWork *cmdWork, FieldMsgBg *msgBg, int talkI
 
 void SCRCMD_MSGWIN_UpdateBalloonPos(ScrcmdWork *cmdWork, int forceUpdate)
 {
-    MmdlSys *mmdlSys = (struct MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    MmdlSys *mmdlSys = (struct MmdlSys *)SCRCMD_WORK_GetMmdlSys(cmdWork);
     BalloonWinWork *balloon = (struct BalloonWinWork *)SCRCMD_WORK_GetWordSetWork(cmdWork);
     Mmdl *mmdl = FLDMMDL_SysSearchObjId(mmdlSys, balloon->objId);
     VecFx32 mmdlPos;
@@ -1072,7 +1072,7 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(ScrcmdWork *cmdWork, u16 objId, u16 msgFileI
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     scriptMsgData = SCRCMD_WORK_GetMsgData(cmdWork);
     fieldParam = SCRIPT_WORK_ResetFieldParam(scriptWork);
-    mmdlSys = (struct MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = (struct MmdlSys *)SCRCMD_WORK_GetMmdlSys(cmdWork);
     playerMmdl = FLDMMDL_SysSearchObjId(mmdlSys, 0xff);
     targetMmdl = FLDMMDL_SysSearchObjId(mmdlSys, objId);
     if (targetMmdl == 0) {
@@ -1250,7 +1250,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(ScriptVm *vm, ScrcmdWork *cmdWork)
         return 1;
     }
     TPOKE_DATA_ReadRecordString(key1, key2, msgBuffer, SCRCMD_WORK_GetHeapId(cmdWork));
-    if (FLDMMDL_SysSearchObjId((struct MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork), objId) == 0) {
+    if (FLDMMDL_SysSearchObjId((struct MmdlSys *)SCRCMD_WORK_GetMmdlSys(cmdWork), objId) == 0) {
         objId = 0xff;
     }
     balloon = (struct BalloonWinWork *)SCRCMD_WORK_GetWordSetWork(cmdWork);
@@ -1258,7 +1258,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(ScriptVm *vm, ScrcmdWork *cmdWork)
     MI_CpuFill8(balloon, 0, 0x28);
     balloon->objId = objId;
     fieldPlayer = FIELDMAP_GetFieldPlayer(fieldParam->fieldSystem);
-    mmdlSys = (struct MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = (struct MmdlSys *)SCRCMD_WORK_GetMmdlSys(cmdWork);
     playerMmdl = FIELD_PLAYER_GetMmdl(fieldPlayer);
     FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(mmdlSys, balloon->objId), (struct VecFx32 *)(&targetPos));
     placement = SCRCMD_MSGWIN_GetBalloonSide(playerMmdl, &targetPos);

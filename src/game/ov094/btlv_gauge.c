@@ -38,7 +38,7 @@
  *   GFL_USE_CancelChangeAndPlayBgm  0x02005D90  thumb
  *   BTLV_GAUGE_SetSavedBgmNo  0x02208918  thumb  ov094
  *   BTLV_GAUGE_SetBgmReplaced  0x02208924  thumb  ov094
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetOwnedWork   0x02030EE8  arm
  *   KEY_GetTrg 0x020362DC arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MIi_CpuClear16  0x02082A48  arm
@@ -391,7 +391,7 @@ void BTLV_GAUGE_Delete(BtlvGaugeWork *work)
     CLACT_DeleteUnit(work->unit);
     GFL_HEAP_Free(work->screenData);
     ARC_TOOL_DeleteHandle(work->arcHandle);
-    GFL_HEAP_Free((void *)TCBL_IsDeletePending(work->flashTask));
+    GFL_HEAP_Free((void *)TCBL_GetOwnedWork(work->flashTask));
     TCB_DeleteTask(work->flashTask);
     GFL_HEAP_Free(work);
 }

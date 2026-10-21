@@ -125,7 +125,6 @@ struct ArcFile;
 struct NitroFileHeader;
 struct VmanBank;
 struct PaletteCompInfo;
-struct VramTransferTask;
 struct CellAnim;
 struct MultiCellAnim;
 struct CellXferState;
@@ -133,6 +132,12 @@ struct AnimSequence;
 #include "../types.h"
 #include "../sdk_ioreg.h"
 #include "clact.h"
+#include "nns_g2d_cell_transfer.h"
+#include "nns_g2d_oam_manager_types.h"
+#include "nns_g2d_load.h"
+#include "nns_g2d_renderer.h"
+#include "nns_g2d_renderer_types.h"
+#include "../sdk_gx.h"
 #include "nns_g2d_res_types.h"
 #include "nns_g2d_anim_types.h"
 
@@ -319,16 +324,12 @@ struct TransferEntry {
 };
 
 struct TransferPool {
-    struct VramTransferTask *tasks;   /* 0x00 */
+    CellTransferState *tasks;       /* 0x00 */
     struct TransferEntry    *entries; /* 0x04 */
     u32                      count;   /* 0x08 */
     u32                      ready;   /* 0x0c */
 };
 
-/* The opaque 0x30-byte task records handed to the transfer manager. */
-struct VramTransferTask {
-    u8 raw[0x30];
-};
 
 typedef union {
     u32 attr01;
@@ -386,7 +387,7 @@ struct Renderer {
 };
 
 struct OamManager {               /* 0x20 */
-    u8  pad_00[0x1c];
+    NNSG2dOamManagerInstance inst;
     u32 bound;
 };
 
@@ -444,9 +445,6 @@ struct ClactTables {
 
 typedef struct { u32 oam_func, affine_func, extra_func; } SurfaceFuncs;
 
-struct OamEntry {
-    u16 attr[4];
-};
 
 typedef void (*AnimUpdateFn)(struct AnimCtl *ctl, u32 frames);
 
@@ -484,7 +482,15 @@ extern int VMAN_IsHandleInvalid(struct VmanHandle *handle);
 struct VmanBank;
 extern void NNS_G2dEndRendering(void);
 /* Kept local: clact.c passes the heap id as a full word (vman.h takes u16). */
+/* Original DS prototype: the caller passes the arguments at the wider width; the host build uses the header. */
+#ifdef __MWERKS__
+#define VMAN_Create VMAN_Create_header
+#endif
+#include "vman.h"
+#ifdef __MWERKS__
+#undef VMAN_Create
 extern struct VmanBank *VMAN_Create(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
+#endif
 extern void VMAN_Free(struct VmanBank *bank, struct VmanHandle *handle);
 extern int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i);
 extern int NNSi_G2dGetVramHandleValue(int *p, int i);
@@ -494,21 +500,24 @@ extern int NNSi_G2dGetVramHandleValue(int *p, int i);
 extern int NNSi_G2dIsVramHandleSetEx(char *p, int i);
 extern int NNSi_G2dGetVramHandleEx(char *p, int i);
 struct Node;
-extern u16 NNSi_G2dGetCellAnimFrameIdx(struct Node *n);
-extern void NNS_G2dInitOamManagerModule(void);
-extern unsigned int NNSi_G2dReserveOamManagerSpan(void *p, int a, int b, int which);
 struct NNSG2dOamManagerInstance;
-extern void NNS_G2dApplyOamManagerToHW(struct NNSG2dOamManagerInstance *pMan, unsigned int bound);
-extern void NNS_G2dResetOamManagerBuffer(struct NNSG2dOamManagerInstance *pMan);
 struct NNSG2dRendererInstance;
 extern void NNS_G2dInitRenderer(struct NNSG2dRendererInstance *pRend);
 struct NNSG2dRenderSurface;
 extern void NNS_G2dSetRendererTargetSurface(struct NNSG2dRendererInstance *pRend, struct NNSG2dRenderSurface *pNew);
-extern void NNS_G2dInitRenderSurface(struct Surface *p);
-extern u32  NNSi_G2dEntryOamManagerOam(struct OamManager *win, struct OamEntry *entry, u32 mode);
-extern void NNS_G2dEntryOamManagerAffine(struct OamManager *pMan, u32 mtx);
-extern void  NNS_G2dInitCellTransferStateManager(struct VramTransferTask *recs, u32 n, void *cb);
 #include "gf_panic.h"
+/* Original DS prototypes: the caller takes the affine entry as returning nothing and passes the first OAM index as an int; the host build uses the header. */
+#ifdef __MWERKS__
+#define NNS_G2dEntryOamManagerAffine NNS_G2dEntryOamManagerAffine_header
+#define NNSi_G2dReserveOamManagerSpan NNSi_G2dReserveOamManagerSpan_header
+#endif
+#include "nns_g2d_oam_manager.h"
+#ifdef __MWERKS__
+#undef NNS_G2dEntryOamManagerAffine
+#undef NNSi_G2dReserveOamManagerSpan
+extern u32 NNSi_G2dReserveOamManagerSpan(NNSG2dOamManagerInstance *s, int first, int count, int which);
+extern void NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx);
+#endif
 extern void NNSi_G2dInitVramHandle(u32 *p);
 extern void NNSi_G2dInitVramHandleEx(u32 *p);
 extern void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy);
@@ -663,11 +672,11 @@ void CLACT_ExitRenderer(struct Renderer *renderer);
 void CLACT_SetSurfaceCulling(struct Renderer *renderer, int enable);
 void CLACT_InitSurface(struct Surface *surface, const struct SurfaceInit *init);
 void CLACT_SetSurfaceType(struct Surface *surface, u32 idx);
-void CLACT_EntryOam(struct OamManager *oam_manager, struct OamEntry *src_entry, u32 mode, u32 pltt_offset, u32 pltt_op);
-void CLACT_EntryOamMain(struct OamEntry *entry, u32 mode);
-void CLACT_EntryOamSub(struct OamEntry *entry, u32 mode);
-void CLACT_EntryAffineMain(u32 value);
-void CLACT_EntryAffineSub(u32 value);
+void CLACT_EntryOam(struct OamManager *oam_manager, GXOamAttr *src_entry, u32 mode, u32 pltt_offset, u32 pltt_op);
+void CLACT_EntryOamMain(GXOamAttr *entry, u32 mode);
+void CLACT_EntryOamSub(GXOamAttr *entry, u32 mode);
+void CLACT_EntryAffineMain(const MtxFx22 *value);
+void CLACT_EntryAffineSub(const MtxFx22 *value);
 int CLACT_IsAffineCellInView(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view);
 int CLACT_IsCellInView(struct CellData *cell, struct Affine2D *affine, struct ViewRect *view);
 void CLACT_CullOam(struct Surface *surface, struct ViewRect *view, s32 unused_arg2, s32 unused_arg3, struct Affine2D *affine);
@@ -678,8 +687,8 @@ void CLACT_AllocTransferEntries(struct TransferPool *pool, u32 count, u32 heapId
 void CLACT_FreeTransferEntries(struct TransferPool *pool);
 void CLACT_ExecuteTransfers(struct TransferPool *pool);
 struct TransferEntry *CLACT_GetFreeTransferEntry(struct TransferPool *pool);
-u32 CLACT_RequestTransfer(u32 kind, u32 dest, u32 src, u32 size);
-void CLACT_SetTransferEntry(struct TransferEntry *entry, u32 entry_kind, u32 dest, u32 src, u32 size);
+BOOL CLACT_RequestTransfer(s32 kind, u32 dest, void *src, u32 size);
+void CLACT_SetTransferEntry(struct TransferEntry *entry, u32 entry_kind, u32 dest, void *src, u32 size);
 void CLACT_ExecuteTransfer(struct TransferEntry *entry);
 struct ClactActor *CLACT_GetFreeActor(struct Unit *unit);
 void CLACT_DrawUnit(struct Unit *unit);
@@ -2541,7 +2550,7 @@ void CLACT_SetActorAnimIndex(struct ClactActor *actor, u32 anim_idx)
  */
 u16 CLACT_GetActorAnimSeqCount(struct ClactActor *actor)
 {
-    return NNSi_G2dGetCellAnimFrameIdx((struct Node *)(CLACT_GetAnimObject(&actor->ctl)));
+    return NNSi_G2dGetCellAnimFrameIdx(CLACT_GetAnimObject(&actor->ctl));
 }
 
 /*
@@ -3108,7 +3117,7 @@ void CLACT_InitOamManager(struct OamManager *oam_manager, int base, int count, i
         oam_manager->bound = 0;
         return;
     }
-    NNSi_G2dReserveOamManagerSpan(oam_manager, base, count, screen);
+    NNSi_G2dReserveOamManagerSpan(&oam_manager->inst, base, count, screen);
     oam_manager->bound = 1;
 }
 
@@ -3234,7 +3243,7 @@ void CLACT_InitSurface(struct Surface *surface, const struct SurfaceInit *init)
     s16 init_h;
     s16 init_y;
 
-    NNS_G2dInitRenderSurface(surface);
+    NNS_G2dInitRenderSurface((NNSG2dRenderSurface *)surface);
     init_y = init->y;
     surface->x = (int)init->x << 12;
     init_h = init->h;
@@ -3295,31 +3304,31 @@ void CLACT_SetSurfaceType(struct Surface *surface, u32 idx)
  *   python tools/match.py one --src src/matched/CLACT_EntryOam.c \
  *       --func CLACT_EntryOam --addr 0x0204BF40 --cc 1.1p1 --arm
  */
-void CLACT_EntryOam(struct OamManager *oam_manager, struct OamEntry *src_entry, u32 mode, u32 pltt_offset,
+void CLACT_EntryOam(struct OamManager *oam_manager, GXOamAttr *src_entry, u32 mode, u32 pltt_offset,
                    u32 pltt_op)
 {
-    struct OamEntry entry_copy;
+    GXOamAttr entry_copy;
     u32 *attr2;
 
     MI_CpuCopy8(src_entry, &entry_copy, sizeof(entry_copy));
 
     if (pltt_op == 0) {
-        attr2 = (u32 *)&entry_copy.attr[2];
+        attr2 = &entry_copy.attr23;
         *attr2 = (*attr2 & ~0xf000) |
                  ((((u32)(u16)*attr2 >> 12) + pltt_offset) << 28 >> 16);
     } else if (pltt_op == 1) {
-        *(u32 *)&entry_copy.attr[2] = (*(u32 *)&entry_copy.attr[2] & ~0xf000) |
+        entry_copy.attr23 = (entry_copy.attr23 & ~0xf000) |
                                (pltt_offset << 28 >> 16);
     }
 
-    NNSi_G2dEntryOamManagerOam(oam_manager, &entry_copy, mode);
+    NNSi_G2dEntryOamManagerOam(&oam_manager->inst, &entry_copy, mode);
 }
 
 /*
  * Forward one command at the manager itself: the manager is the command
  * block, its u16 at +0xf0 is the id and the word at +0xf4 the payload.
  */
-void CLACT_EntryOamMain(struct OamEntry *entry, u32 mode)
+void CLACT_EntryOamMain(GXOamAttr *entry, u32 mode)
 {
     CLACT_EntryOam(&g_ClactSystem->oam_mgrs.mgr[0], entry, mode, g_ClactSystem->pltt_base[0], g_ClactSystem->pltt_op);
 }
@@ -3328,7 +3337,7 @@ void CLACT_EntryOamMain(struct OamEntry *entry, u32 mode)
  * Same forward as CLACT_EntryOamMain, but aimed at the sub-command block at
  * +0x20 of the manager, whose id and payload sit at +0xf2 / +0xf4.
  */
-void CLACT_EntryOamSub(struct OamEntry *entry, u32 mode)
+void CLACT_EntryOamSub(GXOamAttr *entry, u32 mode)
 {
     CLACT_EntryOam(&g_ClactSystem->oam_mgrs.mgr[1], entry, mode,
                   g_ClactSystem->pltt_base[1], g_ClactSystem->pltt_op);
@@ -3339,9 +3348,9 @@ void CLACT_EntryOamSub(struct OamEntry *entry, u32 mode)
  * loaded, its value passed as the first argument, and the callee reached with
  * the compiler's usual `ldr ip, [pc, #4]` / `bx ip` plus a second pool word.
  */
-void CLACT_EntryAffineMain(u32 value)
+void CLACT_EntryAffineMain(const MtxFx22 *value)
 {
-    NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[0], value);
+    NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[0].inst, value);
 }
 
 /*
@@ -3352,9 +3361,9 @@ void CLACT_EntryAffineMain(u32 value)
  * docs/idioms/unlabelled-leaf-functions-hide-in-word-runs.md).  The
  * function starts at the computed address and its body ends at 0x0204C060.
  */
-void CLACT_EntryAffineSub(u32 value)
+void CLACT_EntryAffineSub(const MtxFx22 *value)
 {
-    NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[1], value);
+    NNS_G2dEntryOamManagerAffine(&g_ClactSystem->oam_mgrs.mgr[1].inst, value);
 }
 
 /*
@@ -3633,7 +3642,7 @@ int CLACT_IsRectInView(s32 dx, s32 dy, s32 x0, s32 x1, s32 y0, s32 y1,
  */
 void CLACT_InitTransferPool(struct TransferPool *pool, u8 count, u32 heapId)
 {
-    struct VramTransferTask *tasks;
+    CellTransferState *tasks;
 
     if (count == 0) {
         pool->ready = 0;
@@ -3641,7 +3650,7 @@ void CLACT_InitTransferPool(struct TransferPool *pool, u8 count, u32 heapId)
     }
 
     pool->count = count;
-    tasks = GFL_HEAP_Alloc(heapId, count * sizeof(struct VramTransferTask), 0, s_clact_c, 0x1337);
+    tasks = GFL_HEAP_Alloc(heapId, count * sizeof(CellTransferState), 0, s_clact_c, 0x1337);
     pool->tasks = tasks;
 
     NNS_G2dInitCellTransferStateManager(tasks, count, CLACT_RequestTransfer);
@@ -3805,7 +3814,7 @@ struct TransferEntry *CLACT_GetFreeTransferEntry(struct TransferPool *pool)
  *   python tools/match.py one --src src/matched/CLACT_RequestTransfer.c \
  *       --func CLACT_RequestTransfer --addr 0x0204C83C --cc 1.1p1 --arm
  */
-u32 CLACT_RequestTransfer(u32 kind, u32 dest, u32 src, u32 size)
+BOOL CLACT_RequestTransfer(s32 kind, u32 dest, void *src, u32 size)
 {
     void *entry;
     u32   entry_kind;
@@ -3838,10 +3847,10 @@ u32 CLACT_RequestTransfer(u32 kind, u32 dest, u32 src, u32 size)
  *   python tools/match.py one --src src/matched/CLACT_SetTransferEntry.c \
  *       --func CLACT_SetTransferEntry --addr 0x0204C8A4 --cc 1.1p1 --arm
  */
-void CLACT_SetTransferEntry(struct TransferEntry *entry, u32 entry_kind, u32 dest, u32 src, u32 size)
+void CLACT_SetTransferEntry(struct TransferEntry *entry, u32 entry_kind, u32 dest, void *src, u32 size)
 {
     entry->kind = entry_kind;
-    entry->src = (void *)src;
+    entry->src = src;
     entry->dest = dest;
     entry->size = size;
 }

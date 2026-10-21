@@ -77,7 +77,9 @@ extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16
 #else
 #include "../arm9/arc_tool.h"
 #endif
-extern void G3D_SYSTEM_InitResourceByFile(void *dst, void *src);
+struct G3dResource;
+struct NNSG3dResFileHeader;
+extern void G3D_SYSTEM_InitResourceByFile(struct G3dResource *res, struct NNSG3dResFileHeader *file);
 #include "../arm9/fx_cp.h"
 #include "../arm9/fx_mtx33.h"
 Field3dbgBillboard *FIELD_3DBG_CreateBillboard(const Field3dbgBillboardDesc *desc, u32 heapId);

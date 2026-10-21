@@ -102,7 +102,7 @@
 #include "intro_types.h"
 #include "../sdk_ioreg.h"
 
-struct IntroGameState;
+struct MyStatus;
 
 struct Actor;
 
@@ -151,7 +151,7 @@ struct SaveControlIntr;
 
 #include "../arm9/config.h"
 
-extern void MYSTATUS_SetSex(struct IntroGameState*,u32);
+extern void MYSTATUS_SetSex(struct MyStatus*,u32);
 
 
 
@@ -541,7 +541,7 @@ int INTRO_CMD_CmdSetAppliedFlag(u8*p,u32 unused,u32*q){IntroCmdWork *work=(Intro
 /*
  * prototype: 0200854C widened to u32: original has no byte truncation; its u8 prototype added a shift pair.
  */
-int INTRO_CMD_CmdSetConfig(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;struct IntroGameState*obj=((IntroArgs *)work->args)->gameState;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;MYSTATUS_SetSex(obj,flag);return 1;}
+int INTRO_CMD_CmdSetConfig(u8*p,u32 unused,u32*q){IntroCmdWork *work=(IntroCmdWork *)p;struct MyStatus*obj=((IntroArgs *)work->args)->myStatus;Bool flag;if(*q==0)flag=B_FALSE;else flag=B_TRUE;MYSTATUS_SetSex(obj,flag);return 1;}
 
 int INTRO_CMD_CmdMoveVoice(u8 *p, u32 *q)
 {
@@ -603,7 +603,7 @@ int INTRO_CMD_CmdUpdateIntro(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(INTRO
 int INTRO_CMD_CmdAnimMode(char *p,u32 *q)
 {
     IntroCmdWork *work = (IntroCmdWork *)p;
-    void *obj;
+    struct MyStatus *obj;
     switch (*q) {
     case 0:
         INTRO_G3D_SetAnimMode(work->g3d,0);
@@ -630,7 +630,7 @@ int INTRO_CMD_CmdAnimMode(char *p,u32 *q)
         }
         break;
     case 2:
-        obj=((IntroArgs *)work->args)->gameState;
+        obj=((IntroArgs *)work->args)->myStatus;
         if (q[1]==0) {
             MYSTATUS_SetSex(obj,0);
             INTRO_G3D_SetAnimMode(work->g3d,3);
@@ -740,7 +740,7 @@ int INTRO_CMD_CreateActors(char *p)
     u32 i;
     char *row;
     arc=ARC_TOOL_CreateHandle(170,work->heapId);
-    if(MYSTATUS_GetSex((struct MyStatus *)(((IntroArgs *)work->args)->gameState))==0){
+    if(MYSTATUS_GetSex((struct MyStatus *)(((IntroArgs *)work->args)->myStatus))==0){
         work->charHandle[0].ptr=(void *)CLACT_RegisterCharacter(arc,6,0,0,work->heapId);
         work->palHandle[0].ptr=(void *)CLACT_RegisterPalette(arc,7,0,0,work->heapId);
         work->cellAnimHandle[0].ptr=(void *)CLACT_RegisterCellAnim(arc,5,4,work->heapId);
@@ -838,9 +838,9 @@ int INTRO_CMD_CmdActorFadeOut(char *p, unsigned *state, unsigned *q)
     return 0;
 }
 
-int INTRO_CMD_CmdCheckConfig(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(!MYSTATUS_GetSex((struct MyStatus *)(((IntroArgs *)work->args)->gameState)))return 1;return 0;}
+int INTRO_CMD_CmdCheckConfig(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(!MYSTATUS_GetSex((struct MyStatus *)(((IntroArgs *)work->args)->myStatus)))return 1;return 0;}
 
-void INTRO_CMD_CmdSetWordSet(u8*p,u32 a){IntroCmdWork *work=(IntroCmdWork *)p;struct WordSet*q=(struct WordSet *)INTRO_MSG_GetWordSet(work->msg);WORDSET_SetSlotMyStatus(q,a,((IntroArgs *)work->args)->gameState);}
+void INTRO_CMD_CmdSetWordSet(u8*p,u32 a){IntroCmdWork *work=(IntroCmdWork *)p;struct WordSet*q=(struct WordSet *)INTRO_MSG_GetWordSet(work->msg);WORDSET_SetSlotMyStatus(q,a,((IntroArgs *)work->args)->myStatus);}
 
 char *INTRO_CMD_Create(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap)
 {

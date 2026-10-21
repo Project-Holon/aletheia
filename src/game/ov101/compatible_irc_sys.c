@@ -54,7 +54,7 @@ struct Entry;
 struct Link;
 #include "../sdk_os.h"
 
-struct RtcDate;
+#include "../sdk_rtc.h"
 struct BigObj;
 struct Ctx;
 struct Rec44;
@@ -389,7 +389,7 @@ void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out)
     out->leadType2=POKE_TOOL_GetPartyValue(record,111,0);
     out->leadType1=POKE_TOOL_GetPartyValue(record,110,0);
     out->leadNature=POKE_TOOL_GetPartyValue(record,76,0);
-    GF_STANDARD_GetCachedDate((struct RtcDate *)(&date));
+    GF_STANDARD_GetCachedDate((RTCDate *)(&date));
     if(date.day == 14) flag=1;
     out->isDay14=(u8)flag;
     out->packedDate=((u32)date.year << 24) | (((u32)date.month << 24) >> 8) | (((u32)date.day << 24) >> 16) | date.week;

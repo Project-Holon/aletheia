@@ -144,7 +144,7 @@ void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct MyStatus
 /* Stores today's RTC date into save variables 0x92 to 0x94. */
 void SAVE_EVENT_StoreTodayDate(struct SaveData *save)
 {
-    struct RtcDate date;
+    RTCDate date;
 
     GF_STANDARD_GetCachedDate(&date);
 
@@ -171,7 +171,7 @@ void SAVE_EVENT_ClearVariant(struct SaveData *save, u32 variant)
 /* Stores the event id with today's date into the given variant. */
 void SAVE_EVENT_WriteEventIdWithDate(struct SaveData *save, u32 eventId, u32 variant)
 {
-    struct RtcDate date;
+    RTCDate date;
 
     GF_STANDARD_GetCachedDate(&date);
 

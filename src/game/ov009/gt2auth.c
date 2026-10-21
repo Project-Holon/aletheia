@@ -25,7 +25,15 @@
 #define CALCULATEODDMODE(buffer, i, oddmode) ((buffer[i-1] & 1) ^ (i & 1) ^ oddmode ^ (buffer[0] & 1) ^ ((buffer[0] < 79) ? 1 : 0) ^ ((buffer[i-1] < buffer[0]) ? 1 : 0))
 #include "gsplatformutil.h"
 extern void srand(unsigned int seed);
+#ifdef __MWERKS__
+#define rand randHeader
+#endif
+#include "../arm9/msl_stdlib.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef rand
 extern int rand();
+#endif
 #include "../arm9/msl_string_str.h"
 extern int gti2VerifyChallenge();
 #include "../arm9/msl_crt.h"

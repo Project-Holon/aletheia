@@ -432,11 +432,7 @@ typedef int Bool;
 #include "../arm9/mi_memory.h"
 #include "../ov010/script_sys.h"
 #include "fieldmap.h"
-/* GAME_DATA_GetEventState is declared u8 * in the ARM9 header but its callers read the 32-bit slot; kept until the header returns u32 *. */
-#define GAME_DATA_GetEventState GAME_DATA_GetEventState_header
 #include "../arm9/game_data.h"
-#undef GAME_DATA_GetEventState
-extern u32 *GAME_DATA_GetEventState(struct GameData *gd);
 #include "pleasure_boat.h"
 #include "event_trainer_eye.h"
 /* DS-original prototypes: the DS code was built against narrower or wider integer parameters than the header; the host build uses the header. */
@@ -525,8 +521,8 @@ extern int FLDMMDL_RAIL_GetHitBitsDirNoAttr(Mmdl *, u32);
 #include "field_tile_move.h"
 #include "field_gimmick.h"
 #include "../ov038/field_gimmick_plate_doors.h"
-extern struct GameEvent *FIELD_GIMMICK_D06_CheckPushStone(struct FieldMap *fieldMap, s32 facingDir);
-extern struct GameEvent *FIELD_GIMMICK_CART_LANES_CheckRideEvent(struct GameSystem *gameSystem);
+#include "../ov051/field_gimmick_d06.h"
+#include "../ov039/field_gimmick_cart_lanes.h"
 #include "../ov041/field_gimmick_cannons.h"
 #include "field_encount.h"
 #include "rail_attr.h"
@@ -1066,11 +1062,11 @@ void FIELD_EVENT_CHECK_StopSoundAfterEvent(void *gameSystem, FieldMap *fieldMap)
 
     subscreenProc = (void *)FIELD_SUBSCREEN_GetCGear((struct FieldSubscreen *)FIELDMAP_GetSubscreen(fieldMap));
     if (subscreenProc == 0) {
-        FIELD_SOUND_SYSTEM_StopRingtone((void *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)));
+        FIELD_SOUND_SYSTEM_StopRingtone(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)));
         return;
     }
     if (C_GEAR_IsLastCommandWifi(subscreenProc) == 0) {
-        FIELD_SOUND_SYSTEM_StopRingtone((void *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)));
+        FIELD_SOUND_SYSTEM_StopRingtone(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)));
         C_GEAR_StopRingtone(subscreenProc);
     }
 }

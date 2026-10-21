@@ -212,7 +212,6 @@ struct Params {u16 a,b,c,d; unsigned x,y,arr[6];};
 
 enum Index { INDEX_ZERO = 0 };
 
-struct ZukanPos { u16 x, y, z, pad; };
 
 #include "../arm9/mi_memory.h"
 
@@ -230,7 +229,7 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 
 extern void CLACT_ReleaseCharacter(u32 i);
 
-extern struct ClactActor *CLACT_CreateActor(u32 owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+#include "../arm9/clact.h"
 
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 
@@ -284,7 +283,7 @@ extern void ZUKAN_INFO_Delete(char *);
 
 extern u32 ZUKAN_SAVE_GetViewMode(struct ZukanSave *pZukan);
 
-extern void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u32 personalParam, u32 formTableNeeded, u32 showCurrent, u32 mode, u32 femaleFlag, u8 a10, u32 a11, u32 a12, void *a13, u32 a14, u32 a15, u32 a16);
+#include "../ov206/zukan_info.h"
 
 extern void ZUKAN_INFO_Show(struct ZukanInfo *p);
 
@@ -308,11 +307,16 @@ extern void ZUKAN_INFO_ShowPage(char *p, int mode);
 
 extern void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
 
+/* The DS code was built against other parameter widths for ZUKAN_SAVE_GetViewGenderAndForm, ZUKAN_SAVE_IsCaught (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void ZUKAN_SAVE_GetViewGenderAndForm(struct ZukanSave *, u32, u32 *, u32 *, u32 *, u16);
+extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *, u32);
+#else
+#include "../arm9/zukan_save.h"
+#endif
 
 extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct ZukanSave *pZukan, u32 which);
 
-extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *, u32);
 
 extern u32 ZUKAN_SAVE_HasLanguageFlag(struct ZukanSave *pZukan, u32 species, u32 language);
 
@@ -481,8 +485,8 @@ int ZUKAN_DETAIL_INFO_Main(void *unused, int *state, struct Ov208Heap *h, struct
         actorUnit = ZUKAN_DETAIL_GRAPHIC_Reset3dState(ZUKAN_DETAIL_COMMON_GetDisplay(ctx));
         viewMode = ZUKAN_SAVE_GetViewMode(t);
         ZUKAN_DETAIL_INFO_GetPanelParams((const u16 *)h, (u8 *)p, ctx, &w[3], &w[2], &w[1], &w[0], &personality, &caught, tbl);
-        p->speciesInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 0, 1, actorUnit, (uptr)p->font, ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (uptr)p->msg0, (uptr)p->msg1, (uptr)p->msg2);
-        p->langInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 1, 1, actorUnit, (uptr)p->font, ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (uptr)p->msg0, (uptr)p->msg1, (uptr)p->msg2);
+        p->speciesInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 0, 1, actorUnit, (uptr)p->font, (uptr)ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (uptr)p->msg0, (uptr)p->msg1, (uptr)p->msg2);
+        p->langInfo = ZUKAN_INFO_Create(h->heap, w[3], w[2], w[1], w[0], personality, viewMode, caught, 2, 1, 1, actorUnit, (uptr)p->font, (uptr)ZUKAN_DETAIL_COMMON_GetGraphics(ctx), (uptr)p->msg0, (uptr)p->msg1, (uptr)p->msg2);
         ZUKAN_INFO_Show(p->langInfo);
         ZUKAN_DETAIL_INFO_ResetButtons((sptr)h, (char *)p, ctx, (int *)tbl);
         ZUKAN_DETAIL_INFO_LoadHighlightPalettes((u16 *)h, (u8 *)p, ctx);
@@ -745,7 +749,7 @@ void ZUKAN_DETAIL_INFO_SelectLanguageButton(void *first,char *q,struct Ov208Ctx 
 
 void ZUKAN_DETAIL_INFO_CreateLanguageButtons(u16 *heap, char *p, struct Ov208Ctx *key)
 {
-    struct ZukanPos pos;
+    struct ActorInitParam pos;
     void *scene;
     int owner;
     void *arc;
@@ -776,8 +780,8 @@ void ZUKAN_DETAIL_INFO_CreateLanguageButtons(u16 *heap, char *p, struct Ov208Ctx
         ((struct Ov208InfoWork *)q)->buttons[0].state = 0;
         pos.x = t[0];
         pos.y = t[1];
-        pos.z = ((struct Ov208InfoWork *)q)->buttons[0].idleAnim;
-        ((struct Ov208InfoWork *)q)->buttons[0].actor = CLACT_CreateActor(owner, ((struct Ov208InfoWork *)p)->charRes, ((struct Ov208InfoWork *)p)->palRes, ((struct Ov208InfoWork *)p)->cellRes, &pos, flag, *heap);
+        pos.anim_seq = ((struct Ov208InfoWork *)q)->buttons[0].idleAnim;
+        ((struct Ov208InfoWork *)q)->buttons[0].actor = CLACT_CreateActor((struct Unit *)(sptr)owner, ((struct Ov208InfoWork *)p)->charRes, ((struct Ov208InfoWork *)p)->palRes, ((struct Ov208InfoWork *)p)->cellRes, &pos, flag, *heap);
         CLACT_SetActorAutoAnim((struct ClactActor *)((struct ClactActor *)((struct Ov208InfoWork *)q)->buttons[0].actor), 1);
         CLACT_SetActorObjMode((struct ClactActor *)((struct Actor *)((struct Ov208InfoWork *)q)->buttons[0].actor), 1);
         i = (u8)(i + 1);

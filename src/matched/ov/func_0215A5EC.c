@@ -1,5 +1,5 @@
 /*
- * function: SCRCMD_WORK_GetOccupyInfo
+ * function: SCRCMD_WORK_GetMmdlSys
  * address:  0x0215A5EC
  * packet:   pkt_0215A5EC
  * region:   ov010
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-void *SCRCMD_WORK_GetOccupyInfo(void *p)
+void *SCRCMD_WORK_GetMmdlSys(void *p)
 {
     return ((struct Obj17659 *)(*(u8 * *)&((struct Obj00005 *)p)->f20))->fC;
 }

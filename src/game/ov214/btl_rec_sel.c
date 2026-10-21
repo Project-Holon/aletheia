@@ -355,14 +355,19 @@ struct Strbuf;
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 #include "../arm9/msg_speed.h"
 extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
-extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
 extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 #include "../arm9/touchpanel.h"
 extern void PRINTSYS_PrintQue(void *queue, struct Bmp *bmp, unsigned int x, short y, void *str, struct GfFont *font);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern unsigned BG_SYS_CreateRun(unsigned,unsigned,unsigned);
+/* The DS code was built against other parameter widths for PRINTSYS_PrintQueColor (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void PRINTSYS_PrintQueColor(struct PrintQueue *, struct Bmp *, unsigned, unsigned, struct Strbuf *, struct GfFont *, int);
+extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+#else
+#include "../arm9/printsys.h"
+#endif
 #include "../arm9/wordset.h"
 #include "../arm9/poke_tool_ext.h"
 extern void UI_SCENE_LoadActorGfx(struct ActorGfxSet *,struct ActorGfxDesc *,void *,u16);
@@ -380,7 +385,12 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void BG_SYS_PushTile(u32);
+/* The DS code was built against other parameter widths for BG_SYS_FreeLayerBuf (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_FreeLayerBuf(u8);
+#else
+#include "../arm9/bg_sys.h"
+#endif
 struct TcbSystem;
 extern struct PaletteFade *PALANM_Create(u32);
 extern void PALANM_SetAutoTransfer(struct PaletteFade *o, int v);
@@ -389,7 +399,12 @@ extern void PALANM_CopyHwPaletteToSlot(struct PaletteFade *slots, u32 bank, u32 
 extern void PALANM_FreeSlotBuffers(struct PaletteFade *,u32);
 extern u32 PALANM_Delete(struct PaletteFade *);
 extern u32 PALANM_GetFadeRequestBits(const struct PaletteFade *);
+/* The DS code was built against other parameter widths for PALANM_RequestFade (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern int PALANM_RequestFade(struct PaletteFade *,u16,u32,s16,u8,u8,u16,void *);
+#else
+#include "../arm9/palanm.h"
+#endif
 extern void PALANM_TransferPalettes(struct PaletteFade *);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 #include "../arm9/g3x.h"

@@ -22,7 +22,7 @@ void G3D_UTIL_BuildUnitObjects(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *s
 void G3D_UTIL_BuildUnitObjectsLoaded(G3dUtil *util, u16 unitIdx, const G3dUtilSetup *setup, u16 heapID);
 void G3D_UTIL_FreeUnitObjects(G3dUtil *util, u32 unitIdx);
 u32 G3D_UTIL_GetUnitObjIdx(G3dUtil *util, int unitIdx);
-u32 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int unitIdx);
+u16 G3D_UTIL_GetUnitObjCount(G3dUtil *util, int unitIdx);
 u32 G3D_UTIL_GetResource(G3dUtil *util, int resIdx);
 u32 G3D_UTIL_GetObject(G3dUtil *util, int objIdx);
 /* END mkheaders: generated region */

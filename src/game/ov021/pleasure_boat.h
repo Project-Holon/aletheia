@@ -4,8 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of pleasure_boat.c, prototypes copied from their definitions. */
 
-struct ScrCmdWork;
-typedef struct ScrCmdWork ScrCmdWork;
+struct ScrcmdWork;
+typedef struct ScrcmdWork ScrcmdWork;
 
 #include "../ov021/pleasure_boat_types.h"
 #include "../ov020/event_mapchange_types.h"
@@ -25,12 +25,12 @@ u32 PLEASURE_BOAT_GetPassengerOccupied(PleasureBoatWork *work, u32 index);
 void PLEASURE_BOAT_SetPassengerOccupied(PleasureBoatWork *work, int index, int occupied);
 int PLEASURE_BOAT_GetTimeEvent(PleasureBoatWork *work);
 PleasureBoatWork *PLEASURE_BOAT_Lock(PleasureBoatWork *work);
-int PLEASURE_BOAT_ScrCmdCreate(ScriptVm *vm, ScrCmdWork *scrCmdWork);
-int PLEASURE_BOAT_ScrCmdDelete(ScriptVm *vm, ScrCmdWork *scrCmdWork);
-int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrCmdWork *scrCmdWork);
-int PLEASURE_BOAT_ScrCmdAddTime(ScriptVm *vm, ScrCmdWork *scrCmdWork);
-int PLEASURE_BOAT_ScrCmdSetPassengerInfo(ScriptVm *vm, ScrCmdWork *scrCmdWork);
-int PLEASURE_BOAT_ScrCmdLock(ScriptVm *vm, ScrCmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdCreate(ScriptVm *vm, ScrcmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdDelete(ScriptVm *vm, ScrcmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrcmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdAddTime(ScriptVm *vm, ScrcmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdSetPassengerInfo(ScriptVm *vm, ScrcmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdLock(ScriptVm *vm, ScrcmdWork *scrCmdWork);
 /* END mkheaders: generated region */
 
 #endif

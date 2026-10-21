@@ -144,7 +144,7 @@ void FIELD_GIMMICK_LANE_TRAINS_Update(struct FieldMap *fieldMap)
 
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
     if (playerPos.z >= FIELD_GIMMICK_LANE_TRAINS_HEAR_MIN_Z && playerPos.z <= FIELD_GIMMICK_LANE_TRAINS_HEAR_MAX_Z) {
-        fieldSound = (void *)GAME_DATA_GetBgmInfo(gameData);
+        fieldSound = GAME_DATA_GetBgmInfo(gameData);
         delta = playerPos.x - eastLeadX;
         if (delta >= 0 && delta <= FIELD_GIMMICK_LANE_TRAINS_HEAR_DISTANCE && work->eastSoundPlayed == 0) {
             if (GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(0x77e)) == 0) {

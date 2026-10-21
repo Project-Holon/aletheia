@@ -293,7 +293,15 @@ extern const char printsys_File[];
 extern struct PrintCtx _PrintJobWork;
 
 typedef short s16_p07;
+/* Original DS prototype: the caller passes the arguments at the wider width; the host build uses the header. */
+#ifdef __MWERKS__
+#define BMP_Create BMP_Create_header
+#endif
+#include "bmp.h"
+#ifdef __MWERKS__
+#undef BMP_Create
 extern struct Bmp *BMP_Create(u32 widthTiles, u32 heightTiles, u32 tileBytes, u32 heap);
+#endif
 extern u16   BMP_GetWidth(const struct Bmp *bmp);
 extern void  BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
 extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);

@@ -1,6 +1,9 @@
 #ifndef GAME_OV186_BR_UTIL_H
 #define GAME_OV186_BR_UTIL_H
 
+/* Not in the generated region: its definition takes a file-local typedef. */
+struct BrListMenu *BR_UTIL_CreateListMenu(const struct BrListMenuConfig *cfg, u16 heap);
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of br_util.c, prototypes copied from their definitions. */
 
@@ -74,8 +77,5 @@ int BR_UTIL_StepLine(int *p, BrPair *out, int step);
 void BR_UTIL_Init(int *p, int a, const int *values, int duration);
 int BR_UTIL_StepFollow(char *p,int *out);
 /* END mkheaders: generated region */
-
-/* Not in the generated region: its definition takes a file-local typedef. */
-struct BrListMenu *BR_UTIL_CreateListMenu(const struct BrListMenuConfig *cfg, u16 heap);
 
 #endif

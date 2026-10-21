@@ -1,6 +1,10 @@
 #ifndef GAME_OV021_FIELD_RAIL_H
 #define GAME_OV021_FIELD_RAIL_H
 
+/* Kept by hand: mkheaders cannot read __restrict, and the definition needs it for the load/store order. */
+#include "../ov021/field_rail_types.h"
+void FIELD_RAIL_WORK_GetLocation(RailWork *work, RailLocation * __restrict outLocation);
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of field_rail.c, prototypes copied from their definitions. */
 

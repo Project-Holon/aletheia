@@ -66,7 +66,7 @@ typedef struct {
     u8  *pEntries;     /* +0x04 */
 } MCNameTable;
 
-typedef struct {
+typedef struct MCAnimBank {
     MCNameTable *pHeader;
     u8    pad_04[4];
     u32   kind;
@@ -79,7 +79,6 @@ struct CellDrawState {
 };
 
 #include "mi_memory.h"
-void NNSi_G2dMCEnumAnimBank(MCAnimBank *bank, int (*visit)(void *, void *, void *, int), void *ctx);
 void NNSi_G2dRendererResetMtxSlot(void);
 void NNSi_G2dMCMLoadCurrentMtxToCache(void);
 void NNSi_G2dRendererBeforeDrawCell(struct CellDrawState *pDrawState, void *pCellData);

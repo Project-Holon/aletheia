@@ -144,7 +144,7 @@ struct ZukanSave;
 
 #include "../arm9/bg_sys.h"
 
-extern struct ClactActor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+#include "../arm9/clact.h"
 
 int ZUKAN_Create(struct Proc *obj,int unused,struct ZukanParam *ctx);
 
@@ -506,5 +506,5 @@ void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter) {
 }
 
 struct ClactActor *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap) {
-    return CLACT_CreateActor((void *)bank,t->charIdx,t->palIdx,t->cellIdx,t,t->y,heap);
+    return CLACT_CreateActor((struct Unit *)bank,t->charIdx,t->palIdx,t->cellIdx,(const struct ActorInitParam *)t,t->y,heap);
 }

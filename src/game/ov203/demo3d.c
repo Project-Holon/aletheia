@@ -104,7 +104,12 @@ struct Proc;
 #include "../arm9/gfl_heap.h"
 #include "../arm9/procsys.h"
 #include "../arm9/mi_memory.h"
+/* The DS code was built against other parameter widths for DEMO3D_GRAPHIC_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern struct Demo3dGraphic *DEMO3D_GRAPHIC_Create(unsigned, void *, unsigned);
+#else
+#include "demo3d_graphic.h"
+#endif
 #include "../arm9/msgdata.h"
 struct PrintQueue;
 #include "../arm9/printsys.h"

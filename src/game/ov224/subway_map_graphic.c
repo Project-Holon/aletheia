@@ -157,24 +157,39 @@ struct TcbTask;
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 #include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 extern void BG_SYS_ClearGraphicsMemory(u32);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
+/* The DS code was built against other parameter widths for BG_SYS_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_Create(u32);
+extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
+#else
+#include "../arm9/bg_sys.h"
+#endif
+extern void G3D_SYSTEM_Exit(void);
 #include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
 struct DispVramCfg;
 struct SysInit;
+/* The DS code was built against other parameter widths for G3D_SYSTEM_Init (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,unsigned short,u32,void(*)(void));
+#else
+#include "../arm9/g3d_system.h"
+#endif
+/* The DS code was built against other parameter widths for G3D_CAMERA_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct VecFx32 *,struct VecFx32 *,struct VecFx32 *,u32);
+#else
+#include "../arm9/g3d_camera.h"
+#endif
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void G3D_SYSTEM_Exit(u32 x);
 int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args);
 int SUBWAY_MAP_GRAPHIC_Exit(void *a,int b,int c,char *p);
 int SUBWAY_MAP_GRAPHIC_Main(void *a,unsigned *state,int b,char *p);
@@ -478,5 +493,6 @@ void SUBWAY_MAP_GRAPHIC_CreateCamera(void **p,u32 heap)
 
 void SUBWAY_MAP_GRAPHIC_DeleteCamera(u32 *p)
 {
-    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
+    G3D_CAMERA_Delete((void *)(*p));
+    G3D_SYSTEM_Exit();
 }

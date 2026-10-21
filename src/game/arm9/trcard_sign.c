@@ -169,7 +169,7 @@ void TRCARD_SIGN_SetBadgeDate(struct TrainerCardSignature *card, u32 badge, u32 
     struct RTCTime time;
     u64 second;
 
-    GF_STANDARD_CopyCachedRtc((struct RtcDate *)&date, (struct RtcTime *)&time);
+    GF_STANDARD_CopyCachedRtc((RTCDate *)&date, (RTCTime *)&time);
     second = RTC_ConvertDateTimeToSecond(&date, &time);
 
     card->badgeDate[badge].year = year;

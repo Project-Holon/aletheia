@@ -110,7 +110,7 @@ void DWCi_MOV_MBP_KickChild(u16 child_aid);
 void DWCi_MOV_MBP_AcceptChild(u16 aid);
 #include "../arm9/mi_memory.h"
 #include "../arm9/os_terminate_processor.h"
-void DWCi_MOV_MBP_MemInit(int x);
+void DWCi_MOV_MBP_MemInit(sptr x);
 void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid);
 void DWCi_MOV_MBP_Start(MBGameRegistry *gameInfo, u16 channel);
 int DWCi_MOV_MBP_RegistFile(MBGameRegistry *gameInfo);

@@ -98,7 +98,7 @@ void BTLV_MCSS_AnimWatchTaskMain(struct TcbTask *task, void *arg);
 void BTLV_MCSS_RotationTaskMain(struct TcbTask *task, void *arg);
 void BTLV_MCSS_RotationTaskEnd(void *task);
 void BTLV_MCSS_IdleAnimCallback(int pos);
-int BTLV_MCSS_CellCallbackCheckStopCell(u32 flags, int unused, int *out, int stopCell);
+int BTLV_MCSS_CellCallbackCheckStopCell(void *ctx, void *record, void *value, int stopCell);
 void BTLV_MCSS_AnimCallbackClearPending(int pos);
 void BTLV_MCSS_CalcSlotPosition(BtlvMcssWork *work, BtlvMcssVec *out, int pos);
 int BTLV_MCSS_CalcSlotScale(BtlvMcssWork *work, int pos, int mode);

@@ -158,15 +158,6 @@ struct Cmd020659D4 {
     u16  dirtyFlags;
 };
 
-struct RndStateObj {
-    u8   pad_00[0x10];
-    u32  state;     /* 0x10 */
-    u32  mode;      /* 0x14 */
-    u32  fn18;      /* 0x18 */
-    u32  fn1c;      /* 0x1c */
-    u32  fn20;      /* 0x20 */
-    u32  fn24;      /* 0x24 */
-};
 
 typedef struct NNSG2dMultiCellHierarchyData {
     u16 animSequenceIdx;
@@ -231,7 +222,6 @@ void NNSi_G2dRendererDrawCellTransformed(struct CellDrawCmd *c);
 void NNSi_G2dRendererDrawCellEntryTransformed(struct Cmd020659D4 *c);
 void NNS_G2dInitRenderer(NNSG2dRendererInstance *pRend);
 void NNS_G2dSetRendererTargetSurface(NNSG2dRendererInstance *pRend, NNSG2dRenderSurface *pNew);
-void NNS_G2dInitRenderSurface(struct RndStateObj *p);
 void NNS_G2dBeginRendering(NNSG2dRendererInstance *obj);
 void NNS_G2dEndRendering(void);
 void NNSi_G2dRendererDrawCellZOffset(void *pCell);
@@ -605,17 +595,17 @@ void NNS_G2dSetRendererTargetSurface(NNSG2dRendererInstance *pRend, NNSG2dRender
  * traced func_ label); the earlier MATCH cap recorded in
  * docs/notes/pkt_02065B74.c.txt predates that class being widened.
  */
-void NNS_G2dInitRenderSurface(struct RndStateObj *p)
+void NNS_G2dInitRenderSurface(NNSG2dRenderSurface *p)
 {
     MIi_CpuClear16(0, p, 0x48);
 
-    p->state = 1;
-    p->mode  = 3;
+    p->isActive = 1;
+    p->type = 3;
 
-    p->fn18 = (uptr)NNSi_G2dRendererBeforeDrawCell;
-    p->fn1c = (uptr)NNSi_G2dRendererAfterDrawCell;
-    p->fn20 = (uptr)NNSi_G2dRendererPreDrawOam;
-    p->fn24 = (uptr)NNSi_G2dRendererCallSurfaceOamFunc;
+    p->pBeforeDrawCellFunc = NNSi_G2dRendererBeforeDrawCell;
+    p->pAfterDrawCellFunc = NNSi_G2dRendererAfterDrawCell;
+    p->pBeforeDrawOamFunc = NNSi_G2dRendererPreDrawOam;
+    p->pCallOamFunc = NNSi_G2dRendererCallSurfaceOamFunc;
 }
 
 /*

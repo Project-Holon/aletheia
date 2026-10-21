@@ -311,7 +311,7 @@ void *BR_MAIN_CreateReplayScene(u16 heapId, BrMainWork *work)
 
 void BR_MAIN_DeleteReplayScene(struct BattleSetupParam *setup, BrMainWork *work)
 {
-    void *soundSys = (void *)GAME_DATA_GetBgmInfo(work->launch->gameData);
+    void *soundSys = GAME_DATA_GetBgmInfo(work->launch->gameData);
     GFL_USE_PopBgm();
     GFL_USE_SetBgmPaused(0);
     GFL_USE_FadeInBgmFull(30);

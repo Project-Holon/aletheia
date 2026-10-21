@@ -5,6 +5,7 @@
 /* Public functions of ircbattlemenu.c, prototypes copied from their definitions. */
 
 struct IrcBattleWinDesc;
+struct TcbTask;
 struct ProcWork;
 typedef struct IrcBattleWinDesc IrcBattleWinDesc;
 
@@ -73,7 +74,6 @@ void IRCBATTLEMENU_SeqSaveStart(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqWaitTouchExit(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqSaveYesNo(IrcBattleMenuWork *work);
 void IRCBATTLEMENU_SeqSaveQuestionWait(IrcBattleMenuWork *work);
-struct TcbTask;
 void IRCBATTLEMENU_VBlankTask(struct TcbTask *task, void *arg);
 int IRCBATTLEMENU_Init(struct ProcWork *proc, u32 seq, IrcBattleEntryWork *param);
 u32 IRCBATTLEMENU_Main(u32 proc, u32 seq, u32 param, IrcBattleMenuWork *work);

@@ -209,7 +209,7 @@ int BR_POKESEARCH_Update(int task,int unused,int unused2,char *work)
 {
     int handleIndex;
     if (BR_NET_HandleNetError((struct BrNet *)(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->net))==2) {
-        BR_PROC_SYS_FlushWindows((struct Context *)(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->proc.proc));
+        BR_PROC_SYS_FlushWindows((struct BrProcSysContext *)(*(char * *)&((struct BrDownloadOwner *)(*(char * *)&((struct BrPokeSearchWork *)work)->owner))->proc.proc));
         return 1;
     }
     BR_UTIL_RunTask((u8 *)(*(char * *)&((struct BrPokeSearchWork *)work)->task.task));

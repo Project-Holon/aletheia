@@ -4,8 +4,11 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_g2d_renderer_mtx_cache.c, prototypes copied from their definitions. */
 
+struct MCAnimBank;
 struct CellDrawState;
+typedef struct MCAnimBank MCAnimBank;
 
+void NNSi_G2dMCEnumAnimBank(MCAnimBank *bank, int (*visit)(void *, void *, void *, int), void *ctx);
 void NNSi_G2dRendererResetMtxSlot(void);
 void NNSi_G2dMCMLoadCurrentMtxToCache(void);
 void NNSi_G2dRendererBeforeDrawCell(struct CellDrawState *pDrawState, void *pCellData);

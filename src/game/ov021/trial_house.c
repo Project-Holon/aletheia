@@ -202,16 +202,8 @@ struct GameSystem;
 struct PokemonParam;
 #include "../arm9/pokeparty.h"
 #include "../arm9/poke_tool.h"
-extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
-extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(SaveControl *saveControl, u32 blockId, u16 heapId, void *buf, u32 size);
-extern TrialHouseDelivery *SAVE_CONTROL_GetExtraSaveRecord(SaveControl *saveControl, u32 blockId, u32 arg);
-extern void SAVE_CONTROL_DeleteExtraSaveBuffered(SaveControl *saveControl, unsigned int blockId);
-extern int BATTLE_EXAMINATION_IsDeliveryValid(void *delivery);
-extern int BATTLE_EXAMINATION_IsDeliveryUnused(void *delivery);
-extern BtlInstTrainer *BATTLE_EXAMINATION_GetTrainerSlot(TrialHouseDelivery *delivery, u32 index);
-extern u16 BATTLE_EXAMINATION_GetDeliveryId(void *delivery);
-extern void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap);
-extern void BATTLE_EXAMINATION_RefreshMarker(void *delivery);
+#include "../arm9/battle_examination.h"
+#include "../arm9/save_control.h"
 #include "../arm9/trial_house_savedata.h"
 #include "../arm9/record.h"
 #include "../arm9/gfl_use.h"
@@ -398,7 +390,7 @@ void TRIAL_HOUSE_LoadDeliveredTrainer(GameSystem *gameSystem, BtlInstTrainer *ds
     saveControl = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
     buf = GFL_HEAP_Alloc(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x14C);
     if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
-        *dst = *BATTLE_EXAMINATION_GetTrainerSlot(SAVE_CONTROL_GetExtraSaveRecord(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0), index);
+        *dst = *(BtlInstTrainer *)BATTLE_EXAMINATION_GetTrainerSlot(SAVE_CONTROL_GetExtraSaveRecord(saveControl, TRIAL_HOUSE_SAVE_BLOCK, 0), index);
     }
     SAVE_CONTROL_DeleteExtraSaveBuffered(saveControl, TRIAL_HOUSE_SAVE_BLOCK);
     GFL_HEAP_Free(buf);
@@ -627,7 +619,7 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
         saveControl2 = GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem));
         buf = GFL_HEAP_Alloc(TRIAL_HOUSE_SAVE_HEAP_ID, TRIAL_HOUSE_SAVE_BUF_SIZE, 1, d_021DE674, 0x277);
         if (SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, TRIAL_HOUSE_SAVE_HEAP_ID, buf, TRIAL_HOUSE_SAVE_BUF_SIZE) == 1) {
-            MI_CpuCopy8(SAVE_CONTROL_GetExtraSaveRecord(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, 0)->profile, save->profile, sizeof(save->profile));
+            MI_CpuCopy8(((TrialHouseDelivery *)SAVE_CONTROL_GetExtraSaveRecord(saveControl2, TRIAL_HOUSE_SAVE_BLOCK, 0))->profile, save->profile, sizeof(save->profile));
         }
         GFL_HEAP_Free(buf);
         SAVE_CONTROL_DeleteExtraSaveBuffered(saveControl2, TRIAL_HOUSE_SAVE_BLOCK);

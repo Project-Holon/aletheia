@@ -5,6 +5,7 @@
 /* Public functions of field_menu.c, prototypes copied from their definitions. */
 
 struct FieldMenu;
+struct TcbTask;
 struct FieldMenuItem;
 struct FieldMenuItemInit;
 typedef struct FieldMenu FieldMenu;
@@ -14,7 +15,6 @@ typedef struct FieldMenuItemInit FieldMenuItemInit;
 #include "../types.h"
 
 FieldMenu *FIELD_MENU_Create(u16 heapId, u16 subHeapId, void *parent, void *fieldMap, int slideIn);
-struct TcbTask;
 void FIELD_MENU_NotifyParentOnExit(FieldMenu *menu);
 void FIELD_MENU_Delete(FieldMenu *menu);
 void FIELD_MENU_ShowBgLayers(void);

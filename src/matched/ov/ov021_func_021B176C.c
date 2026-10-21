@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
@@ -21,7 +21,7 @@
 typedef signed short s16;
 
 typedef unsigned int   u32;
-void *SCRCMD_WORK_GetOccupyInfo(void *p);
+void *SCRCMD_WORK_GetMmdlSys(void *p);
 unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 s16 *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
@@ -34,7 +34,7 @@ int SCRCMD_FLDMMDL_GetMmdlGridPos(int a, int b)
     s16 *r7;
     s16 *r4;
 
-    r6 = (int)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    r6 = (int)SCRCMD_WORK_GetMmdlSys((void *)b);
     r6 = (int)FLDMMDL_SysSearchObjId((void *)r6, SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b));
     r7 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     r4 = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);

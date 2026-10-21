@@ -238,7 +238,6 @@ struct Descriptor;
 struct Cfg;
 struct CharBuf;
 struct ClactActor;
-struct PmsDraw;
 struct Actor;
 struct Node;
 struct Bank;
@@ -247,10 +246,6 @@ struct Bits;
 struct Vec2;
 struct BeaconDetailGraTransfer;
 struct Bmp;
-struct BeaconDetailGraPmsDraw;
-struct BeaconDetailGraPmsDraw;
-struct TouchBar;
-struct TouchBar;
 struct TcblNode;
 struct Tcbl;
 #include "../arm9/arc_tool.h"
@@ -260,7 +255,6 @@ struct Tcbl;
 #include "../types.h"
 
 struct BeaconDetailGraQuad;
-struct TouchBarParams;
 #include "../arm9/clact.h"
 #include "../arm9/bg_sys_types.h"
 
@@ -294,10 +288,8 @@ struct BeaconDetailGraPrintTask { int arg; u8 *owner; int *counter; };
  */
 struct ProcOwner;              /* PROCSYS_AllocProcWork owner (0x0203159C) */
 struct GflHeap;                /* GFL heap handle (0x020315D4) */
-struct TouchBar;               /* touch bar instance (TOUCHBAR_*) */
 struct GameBeaconRecord;       /* one GAME_BEACON_ACCESSOR record */
 struct BeaconDetailGraTransfer; /* CLACT_TransferCharacter arg (0x0204A9D0) */
-struct BeaconDetailGraPmsDraw;  /* PMS_DRAW instance (0x0202DCC4) */
 
 /* CLACT palette/character/cellanim descriptor (sBeaconDetailGraConfigA/sBeaconDetailGraConfigB). */
 struct ClactResConfig { u8 a,b,c,pad; u16 first,second,third; };
@@ -432,10 +424,8 @@ struct TcblSystem;
 extern void TCBL_Main(struct TcblSystem *tcbl);
 struct PrintQueue;
 extern unsigned PRINTSYS_QUE_Main(struct PrintQueue *queue);
-extern unsigned PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 #include "../arm9/fade.h"
-extern int TOUCHBAR_GetPressedButtonIdIfDone(struct TouchBar *);
 struct GameBeaconInfo;
 #include "../ov010/game_beacon_accessor.h"
 #include "../arm9/game_data.h"
@@ -460,10 +450,22 @@ extern void BG_SYS_PushTile(u32);
 struct ArcHandle;
 #include "../arm9/nns_g2d_anim_bank.h"
 #include "../arm9/g2.h"
-extern struct TouchBar *TOUCHBAR_Create(struct TouchBarParams *,int);
-extern void TOUCHBAR_Delete(struct TouchBar *);
-extern void TOUCHBAR_Update(struct TouchBar *p);
+/* The DS code passes the heap id as a word (the original prototype); the header takes a halfword. The host build uses the header. */
+#ifdef __MWERKS__
+#define TOUCHBAR_Create TOUCHBAR_Create_header
+#endif
+#include "../ov067/touchbar.h"
+#ifdef __MWERKS__
+#undef TOUCHBAR_Create
+extern TouchBar *TOUCHBAR_Create(TouchBarParams *params, int heapId);
+#endif
+/* The DS code takes the window width as a word and the result as a word (the original prototype); the header has a byte width and returns the window pointer. The host build uses the header. */
+#ifdef __MWERKS__
 extern unsigned BMP_WIN_Create(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
+extern unsigned PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+#else
+#include "../arm9/bmp_win.h"
+#endif
 struct BmpWin;
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 #include "../arm9/bmp.h"
@@ -487,7 +489,12 @@ struct TcbTask;
 extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void *,void *), void *work, unsigned int priority);
 struct TcbTask;
 #include "../arm9/tcb_list.h"
+/* The DS code was built against other parameter widths for BG_SYS_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_Create(int);
+#else
+#include "../arm9/bg_sys.h"
+#endif
 extern void BMP_WIN_Init(u32);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -504,7 +511,6 @@ struct Renderer;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 #include "../arm9/net.h"
-extern int TOUCHBAR_GetPressedButtonIdIfPressing(struct TouchBar *);
 #include "../arm9/key.h"
 struct GameSystem;
 #include "../arm9/gamesystem.h"
@@ -512,26 +518,34 @@ struct GameSystem;
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 #include "../arm9/os_cache.h"
 #include "../arm9/gx_load2d.h"
-extern void TOUCHBAR_SetButtonEnabled(struct TouchBar *p, unsigned int id, int v);
 #include "../arm9/zonedata.h"
-extern u32 PMS_DRAW_IsActive(const struct BeaconDetailGraPmsDraw *, u32);
+extern u32 PMS_DRAW_IsActive(const struct PmsDraw *, u32);
 extern void PMS_DRAW_SetVisible(struct PmsDraw *wk, int id, unsigned int visible);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 #include "../arm9/palanm.h"
-extern u32 PMS_DRAW_IsActive(const struct BeaconDetailGraPmsDraw *,u32);
+extern u32 PMS_DRAW_IsActive(const struct PmsDraw *,u32);
 extern void PMS_DRAW_Clear(struct PmsDraw *wk, int id, unsigned int isTrans);
 struct GameBeaconPms;
 extern void PMS_DRAW_Print(u32,u32,struct BeaconDetailGraQuad *,u32);
 #include "../arm9/cursor_move.h"
 extern int TOWNMAP_GRH_FindRecordIndex(struct TownMapInfoRow *info, int id);
+/* The DS code was built against other parameter widths for TOWNMAP_GRH_GetTownInfoValue (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern u16 TOWNMAP_GRH_GetTownInfoValue(struct TownMapInfoRow *,int,int);
+#else
+#include "../ov072/townmap_grh.h"
+#endif
 struct TcblTask;
 extern struct TcblTask *TCBL_AddTask(struct TcblSystem *tcbl, void (*)(struct TcblNode *, void *), unsigned int workSize, unsigned int priority);
 extern void *TCBL_GetWork(struct TcblTask *task);
 extern void TCBL_DeleteTask(struct TcblTask *task);
-extern void TOUCHBAR_SetAllButtonsEnabled(struct TouchBar *, u32);
+/* The DS code was built against other parameter widths for PRINTSYS_PrintQueColor (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void PRINTSYS_PrintQueColor(struct PrintQueue *, struct Bmp *, u32, u32, struct Strbuf *, struct GfFont *, u16);
+#else
+#include "../arm9/printsys.h"
+#endif
 extern void BEACON_DETAIL_GRA_PrintWaitTask(int,int **);
 int BEACON_DETAIL_GRA_Init(struct ProcOwner *obj,int unused1,void *config);
 int BEACON_DETAIL_GRA_Exit(struct GflHeap *heap,int unused1,int unused2,char *p);
@@ -547,9 +561,9 @@ void BEACON_DETAIL_GRA_CreateObjects(char *p);
 void BEACON_DETAIL_GRA_DeleteObjects(char *p);
 void BEACON_DETAIL_GRA_LoadBackground(char *p,u16 heap);
 void BEACON_DETAIL_GRA_FreeBackground(char *p);
-struct TouchBar *BEACON_DETAIL_GRA_CreateTouchBar(int manager,int heap);
+TouchBar *BEACON_DETAIL_GRA_CreateTouchBar(int manager,int heap);
 void BEACON_DETAIL_GRA_DeleteTouchBar(unsigned char *p);
-void BEACON_DETAIL_GRA_UpdateTouchBar(struct TouchBar *p);
+void BEACON_DETAIL_GRA_UpdateTouchBar(TouchBar *p);
 void BEACON_DETAIL_GRA_RegisterActorGfx(unsigned short *p,int *out,const struct ClactResConfig *cfg,void *handle);
 void BEACON_DETAIL_GRA_ReleaseActorGfx(void *unused, char *p);
 void BEACON_DETAIL_GRA_LoadTrainerGfx(char *p,u32 handle);
@@ -670,7 +684,7 @@ int BEACON_DETAIL_GRA_Exit(struct GflHeap *heap,int unused1,int unused2,char *p)
 int BEACON_DETAIL_GRA_Main(int unused0,int *state,int unused2,char *p)
 {
     if (((struct BeaconDetailGraWork *)p)->fadeMode) return 1;
-    if (*state>=2 && *state<=3) BEACON_DETAIL_GRA_UpdateTouchBar((struct TouchBar *)(((struct BeaconDetailGraWork *)p)->touchBar));
+    if (*state>=2 && *state<=3) BEACON_DETAIL_GRA_UpdateTouchBar((TouchBar *)(((struct BeaconDetailGraWork *)p)->touchBar));
     switch (*state) {
     case 0: *state=BEACON_DETAIL_GRA_StateInit((unsigned char *)p); break;
     case 1: *state=BEACON_DETAIL_GRA_StateFadeIn(p); break;
@@ -714,8 +728,8 @@ int BEACON_DETAIL_GRA_StateFadeOut(char *p)
     switch (((struct BeaconDetailGraWork *)p)->state) {
     case 0:
         if (((struct BeaconDetailGraConfig *)(*(char * *)&((struct BeaconDetailGraWork *)p)->config))->mode==0) {
-            BEACON_DETAIL_GRA_UpdateTouchBar((struct TouchBar *)(((struct BeaconDetailGraWork *)p)->touchBar));
-            if (TOUCHBAR_GetPressedButtonIdIfDone((struct TouchBar *)(*(unsigned char * *)&((struct BeaconDetailGraWork *)p)->touchBar))!=1) break;
+            BEACON_DETAIL_GRA_UpdateTouchBar((TouchBar *)(((struct BeaconDetailGraWork *)p)->touchBar));
+            if (TOUCHBAR_GetPressedButtonIdIfDone((TouchBar *)(*(unsigned char * *)&((struct BeaconDetailGraWork *)p)->touchBar))!=1) break;
         }
         FADE_Start(3,0,16,0);
         (((struct BeaconDetailGraWork *)p)->state)++;
@@ -830,11 +844,11 @@ void BEACON_DETAIL_GRA_FreeBackground(char *p)
     *(volatile unsigned short *)0x04000050 = 0;
 }
 
-struct TouchBar *BEACON_DETAIL_GRA_CreateTouchBar(int manager,int heap){struct TouchBarParam a;enum {Zero} zero=Zero;MI_CpuFill8(&a,0,32);a.f0=(unsigned char *)d_021BDB4C;a.f4=3;a.f10=13;a.f14=11;a.f8=manager;a.fC=zero;a.f18=zero;return TOUCHBAR_Create((struct TouchBarParams *)(&a),heap);}
+TouchBar *BEACON_DETAIL_GRA_CreateTouchBar(int manager,int heap){struct TouchBarParam a;enum {Zero} zero=Zero;MI_CpuFill8(&a,0,32);a.f0=(unsigned char *)d_021BDB4C;a.f4=3;a.f10=13;a.f14=11;a.f8=manager;a.fC=zero;a.f18=zero;return TOUCHBAR_Create((TouchBarParams *)(&a),heap);}
 
-void BEACON_DETAIL_GRA_DeleteTouchBar(unsigned char *p){TOUCHBAR_Delete((struct TouchBar *)p);}
+void BEACON_DETAIL_GRA_DeleteTouchBar(unsigned char *p){TOUCHBAR_Delete((TouchBar *)p);}
 
-void BEACON_DETAIL_GRA_UpdateTouchBar(struct TouchBar *p){TOUCHBAR_Update(p);}
+void BEACON_DETAIL_GRA_UpdateTouchBar(TouchBar *p){TOUCHBAR_Update(p);}
 
 void BEACON_DETAIL_GRA_RegisterActorGfx(unsigned short *p,int *out,const struct ClactResConfig *cfg,void *handle)
 {
@@ -962,7 +976,7 @@ void BEACON_DETAIL_GRA_CreateListWindows(char *p)
         layer=i+4;
         q=p+348+i*128;
         q[126]=(u8)layer;
-        *(u32 *)(q+112)=BMP_WIN_Create((u8)layer,2,15,28,4,i,1);
+        *(u32 *)(q+112)=(u32)(uptr)BMP_WIN_Create((u8)layer,2,15,28,4,i,1);
         for(j=0;j<4;j++)BEACON_DETAIL_GRA_CreateWindow((struct BeaconDetailGraWindow *)(q+j*16),layer,i,2,j*2+1,19,2);
         BEACON_DETAIL_GRA_CreateWindow((struct BeaconDetailGraWindow *)(q+64),layer,i,2,9,19,2);
         BEACON_DETAIL_GRA_CreateWindow((struct BeaconDetailGraWindow *)(q+80),layer,i,3,11,28,4);
@@ -1384,8 +1398,8 @@ void BEACON_DETAIL_GRA_SetSlotVisible(char *p, u8 index, u32 enable)
     CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct ClactActor * *)&((struct BeaconDetailGraEntry *)entry)->actorB), enable);
     if (((struct BeaconDetailGraEntry *)entry)->hasSecondActor != 0)
         CLACT_SetActorDrawEnable((struct ClactActor *)(*(struct ClactActor * *)&((struct BeaconDetailGraEntry *)entry)->actorA), enable);
-    if (PMS_DRAW_IsActive(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw, index) != 0)
-        PMS_DRAW_SetVisible((struct PmsDraw *)(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw), index, enable);
+    if (PMS_DRAW_IsActive(*(struct PmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw, index) != 0)
+        PMS_DRAW_SetVisible((struct PmsDraw *)(*(struct PmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw), index, enable);
     BG_SYS_SetPlaneVisible(((struct BeaconDetailGraEntry *)entry)->layer, (u8)enable);
 }
 
@@ -1433,7 +1447,7 @@ void BEACON_DETAIL_GRA_SetupSlot(char *p,void *record,u16 unused,u8 slot)
     WORDSET_SetSlotNumber(*(struct WordSet * *)&((struct BeaconDetailGraWork *)p)->wordSet,1,GAME_BEACON_ACCESSOR_GetThanksCount(record),5,1,1);
     BEACON_DETAIL_GRA_PrintMsg((u8 *)p,10);
     BEACON_DETAIL_GRA_DrawWindowRecord((char *)p,(void **)(q+96),*(int *)&((struct BeaconDetailGraWork *)p)->textBuf2,21,0,6,4,0);
-    if(PMS_DRAW_IsActive(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw,slot)!=0) PMS_DRAW_Clear((struct PmsDraw *)(*(struct BeaconDetailGraPmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw),slot,1);
+    if(PMS_DRAW_IsActive(*(struct PmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw,slot)!=0) PMS_DRAW_Clear((struct PmsDraw *)(*(struct PmsDraw * *)&((struct BeaconDetailGraWork *)p)->pmsDraw),slot,1);
     GAME_BEACON_ACCESSOR_GetDetailsPms(record,(struct GameBeaconPms *)(&data));
     PMS_DRAW_Print(*(u32 *)&((struct BeaconDetailGraWork *)p)->pmsDraw,((struct BeaconDetailGraEntry *)q)->iconWindow.handle,&data,slot);
     ((struct BeaconDetailGraEntry *)q)->appearance=GAME_BEACON_ACCESSOR_GetTrainerAppearance(record);
@@ -1529,7 +1543,7 @@ void BEACON_DETAIL_GRA_AddTimerTaskEx(char *owner, int *counter)
     MI_CpuFill8(work, 0, 16);
     *(char * *)&((struct BeaconDetailGraTimerTask *)work)->owner = owner;
     ((struct BeaconDetailGraTimerTask *)work)->count = 150;
-    TOUCHBAR_SetAllButtonsEnabled((struct TouchBar *)(*(u8 * *)&((struct BeaconDetailGraWork *)owner)->touchBar), 0);
+    TOUCHBAR_SetAllButtonsEnabled((TouchBar *)(*(u8 * *)&((struct BeaconDetailGraWork *)owner)->touchBar), 0);
     *(int * *)&((struct BeaconDetailGraTimerTask *)work)->counter = counter;
     ++*counter;
 }
@@ -1648,14 +1662,14 @@ void BEACON_DETAIL_GRA_AddSlotSlideTaskEx(char *owner, int direction, int *count
 void BEACON_DETAIL_GRA_SlotSlideCallback(struct TcblNode *task,char *work)
 {
     if(((struct BeaconDetailGraSlotTask *)work)->flags==0) {
-        if(TOUCHBAR_GetPressedButtonIdIfDone((struct TouchBar *)(*(u8 * *)&((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->touchBar))!=-1)
+        if(TOUCHBAR_GetPressedButtonIdIfDone((TouchBar *)(*(u8 * *)&((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->touchBar))!=-1)
             ((struct BeaconDetailGraSlotTask *)work)->flags=1;
     }
     if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)(*(struct PrintSys * *)&((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->printQue))==0) return;
     switch(((struct BeaconDetailGraSlotTask *)work)->step) {
     case 0:
         if(((struct BeaconDetailGraSlotTask *)work)->flags==0) break;
-        TOUCHBAR_SetAllButtonsEnabled((struct TouchBar *)(*(u8 * *)&((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->touchBar),0);
+        TOUCHBAR_SetAllButtonsEnabled((TouchBar *)(*(u8 * *)&((struct BeaconDetailGraWork *)(*(char * *)&((struct BeaconDetailGraSlotTask *)work)->owner))->touchBar),0);
         ++((struct BeaconDetailGraSlotTask *)work)->step;
         return;
     case 1:

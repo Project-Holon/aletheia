@@ -24,7 +24,7 @@
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   TCB_AddTask  0x02030DA8  arm
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetOwnedWork   0x02030EE8  arm
  *   d_0220AE68     0x0220AE68  data   ov094  a1
  *   d_02209DCC     0x02209DCC  data   ov094  a4
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -4441,7 +4441,7 @@ void BTLV_EFFVM_SePlayTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_EFFVM_SePlayTaskEnd(void *task)
 {
-    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_IsDeletePending(task));
+    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_GetOwnedWork(task));
 
     work->flags.word &= ~4u;
 }
@@ -4514,7 +4514,7 @@ void BTLV_EFFVM_SeVolumeTweenTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_EFFVM_SeVolumeTweenTaskEnd(void *task)
 {
-    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_IsDeletePending(task));
+    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_GetOwnedWork(task));
 
     work->flags.word &= ~8u;
 }
@@ -4543,7 +4543,7 @@ void BTLV_EFFVM_SeModulationTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_EFFVM_SeModulationTaskEnd(void *task)
 {
-    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_IsDeletePending(task));
+    BtlvEffVmWork *work = *((BtlvEffVmWork **)TCBL_GetOwnedWork(task));
 
     work->flags.word &= ~0x800u;
 }
@@ -4615,7 +4615,7 @@ void BTLV_EFFVM_BlendRegisterTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_EFFVM_BlendRegisterTaskEnd(void *task)
 {
-    BtlvEffVmWindowWipeJob *job = (BtlvEffVmWindowWipeJob *)TCBL_IsDeletePending(task);
+    BtlvEffVmWindowWipeJob *job = (BtlvEffVmWindowWipeJob *)TCBL_GetOwnedWork(task);
 
     if (job->keepWindow == 0)
         *(volatile unsigned int *)0x04000000 &= ~0xE000u;

@@ -161,8 +161,6 @@ typedef struct Util Util;
 
 #include "../types.h"
 
-struct ActorGfxDesc;
-struct ActorGfxSet;
 struct G3dResource;
 struct G3dUtilSetup;
 struct NNSG3dResTex;
@@ -303,7 +301,16 @@ struct MsgBank;
 #include "../arm9/msgdata.h"
 struct PrintQueue;
 #include "../arm9/printsys.h"
+#include "../ov067/ui_scene_types.h"
+/* The DS code was built against other parameter widths for UI_SCENE_Create, UI_SCENE_LoadActorGfx, UI_SCENE_CreateActor (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern struct UiScene *UI_SCENE_Create(u32,const struct UiSceneEntry *,u8,u32,void *);
+extern void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *in, void *, unsigned heap);
+extern struct Actor *UI_SCENE_CreateActor(ActorGfxSet *,void *,unsigned char,unsigned char,unsigned char,unsigned short);
+extern void UI_SCENE_FreeActorGfx(ActorGfxSet *p);
+#else
+#include "../ov067/ui_scene.h"
+#endif
 #include "../arm9/net.h"
 #include "../arm9/bg_sys.h"
 extern void UI_SCENE_Delete(struct UiScene *scene);
@@ -320,7 +327,12 @@ extern void UI_SCENE_AdvancePhaseFrame(struct UiScene *scene);
 struct Party;
 #include "../arm9/pokeparty.h"
 struct PokemonParam;
+/* The DS code passes the window width as a word and takes the window as a word (the original prototype); the header has a byte width and returns the window pointer. The host build uses the header. */
+#ifdef __MWERKS__
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+#else
+#include "../arm9/bmp_win.h"
+#endif
 struct Strbuf;
 #include "../arm9/strbuf.h"
 #include "../arm9/mystatus.h"
@@ -335,11 +347,13 @@ extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 void COMM_BTL_DEMO_MAIN_UpdateRowContext();
 #include "../arm9/record.h"
-extern void UI_SCENE_LoadActorGfx(struct ActorGfxSet *out, struct ActorGfxDesc *in, void *, unsigned heap);
-extern void UI_SCENE_FreeActorGfx(struct ActorGfxSet *p);
-extern struct Actor *UI_SCENE_CreateActor(struct ActorGfxSet *,void *,unsigned char,unsigned char,unsigned char,unsigned short);
 extern void G2x_SetBlendAlpha_(void *,int,int,int,int),PARTICLE_InitManager(unsigned);
+/* The DS code was built against other parameter widths for G3D_UTIL_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern struct G3dUtil *G3D_UTIL_Create(unsigned,unsigned,unsigned);
+#else
+#include "../arm9/g3d_util.h"
+#endif
 extern void G3D_UTIL_Delete(struct G3dUtil *p);
 #include "../arm9/particle.h"
 #include "../arm9/fx_mtx33.h"
@@ -780,7 +794,7 @@ unsigned COMM_BTL_DEMO_MAIN_CreateRowWindow(unsigned kind,unsigned index)
         case 3:x=23;y=7;break;
         }
     }
-    return BMP_WIN_Create(1,(unsigned char)x,(unsigned char)y,10,3,1,1);
+    return (unsigned)(uptr)BMP_WIN_Create(1,(unsigned char)x,(unsigned char)y,10,3,1,1);
 }
 
 /*
@@ -933,12 +947,12 @@ void COMM_BTL_DEMO_MAIN_InitCursor(char *p, void *state, int heap)
     config.flip=0;
     config.visible=4;
     resource=COMM_BTL_DEMO_GRAPHIC_GetCamera(state);
-    UI_SCENE_LoadActorGfx((struct ActorGfxSet *)(p+8), (struct ActorGfxDesc *)(&config), (void *)resource, heap);
+    UI_SCENE_LoadActorGfx((ActorGfxSet *)(p+8), (ActorGfxDesc *)(&config), (void *)resource, heap);
 }
 
-void COMM_BTL_DEMO_MAIN_DeleteCursor(char *p){UI_SCENE_FreeActorGfx((struct ActorGfxSet *)(p+8));}
+void COMM_BTL_DEMO_MAIN_DeleteCursor(char *p){UI_SCENE_FreeActorGfx((ActorGfxSet *)(p+8));}
 
-void *COMM_BTL_DEMO_MAIN_CreateActor(char *p,int a,int b,unsigned short c){return UI_SCENE_CreateActor((struct ActorGfxSet *)(p+8),(void *)(COMM_BTL_DEMO_GRAPHIC_GetCamera(((struct CommBtlDemoCursor *)p)->state)),a,b,c,((struct CommBtlDemoCursor *)p)->heap);}
+void *COMM_BTL_DEMO_MAIN_CreateActor(char *p,int a,int b,unsigned short c){return UI_SCENE_CreateActor((ActorGfxSet *)(p+8),(void *)(COMM_BTL_DEMO_GRAPHIC_GetCamera(((struct CommBtlDemoCursor *)p)->state)),a,b,c,((struct CommBtlDemoCursor *)p)->heap);}
 
 void *COMM_BTL_DEMO_MAIN_CreateSideActor(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=COMM_BTL_DEMO_MAIN_CreateActor(p,x,y,a);CLACT_SetActorDrawEnable(v,0);CLACT_SetActorDrawPriority(v,1);return v;}
 

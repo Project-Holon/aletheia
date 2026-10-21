@@ -630,13 +630,13 @@ void FIELD_FK_BUILD_SOUND_Init(struct FieldSubproc *proc, struct FieldMap *field
             break;
         }
     }
-    FIELD_SOUND_SYSTEM_ClaimSlot((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
+    FIELD_SOUND_SYSTEM_ClaimSlot(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
 }
 
 /* Exit of that proc: stops the loop sound. */
 void FIELD_FK_BUILD_SOUND_Exit(struct FieldSubproc *proc, struct FieldMap *fieldMap)
 {
-    FIELD_SOUND_SYSTEM_ReleaseSlot((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
+    FIELD_SOUND_SYSTEM_ReleaseSlot(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FK_SE_BUILD_ANIME_LOOP);
 }
 
 /* Update of that proc: plays the hit sound when the building animation reaches the trigger frame. */
@@ -645,7 +645,7 @@ void FIELD_FK_BUILD_SOUND_Update(struct FieldSubproc *proc, struct FieldMap *fie
     struct FieldSoundSystem *soundSys;
 
     if (work->triggerFrame == FIELD_BUILDMODEL_GetEntrySlotFrame(work->man, work->entry, 1)) {
-        soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+        soundSys = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
         work->triggerIndex = 0;
         work->triggerFrame = gFkBuildSoundTriggerFrame[work->triggerIndex];
         FIELD_SOUND_SYSTEM_ClaimSlot(soundSys, FK_SE_BUILD_ANIME_HIT);

@@ -86,7 +86,12 @@ struct Bmp;
 #include "../arm9/strbuf_types.h"
 #include "../ov094/btlv_input_shared_types.h"
 #include "../ov099/wifi_club_work.h"
+/* The DS code was built against other parameter widths for PRINTSYS_PrintColor (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+#else
+#include "../arm9/printsys.h"
+#endif
 #include "../arm9/bmp_win.h"
 #include "../arm9/bmp.h"
 #include "../arm9/bg_sys.h"

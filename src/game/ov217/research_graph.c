@@ -390,7 +390,7 @@ struct GameSystem;
 
 extern void BG_SYS_DrawTile(u32 index, void *src, u8 dx, u8 dy, u8 cw, u8 ch);
 
-extern int BG_SYS_PushTile(int);
+extern void BG_SYS_PushTile(u32 layer);
 
 
 extern void BG_SYS_FillTileMap(unsigned char index, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char pal);
@@ -405,7 +405,7 @@ extern void CLACT_DrawSystem();
 
 
 
-extern u32 GFL_USE_PlaySeDefaultVolume(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 #include "../arm9/fade.h"
 
@@ -429,11 +429,8 @@ extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, unsigned int enable
 
 struct PaletteAnime;
 
-extern void PALETTE_ANIME_Start(struct PaletteAnime *anime, unsigned int mode, unsigned short color);
 
-extern void PALETTE_ANIME_Stop(struct PaletteAnime *anime);
 
-extern void PALETTE_ANIME_Update(struct PaletteAnime *anime);
 
 
 
@@ -451,7 +448,7 @@ extern void PALETTE_ANIME_Update(struct PaletteAnime *anime);
 
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-extern u32 BG_SYS_ClearSlot();
+extern void BG_SYS_ClearSlot(u8 slot);
 
 extern void BG_SYS_FreeTiles(u32, u32, u32);
 struct BgTextLabelConfig;
@@ -469,7 +466,7 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern void CLACT_ReleaseCharacter(u32 i);
 
-extern u32 CLACT_ReleaseCellAnim();
+extern void CLACT_ReleaseCellAnim(u32 handle);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -479,13 +476,9 @@ extern u32 CLACT_DeleteUnit(struct Unit *bank);
 
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 
-extern u32 PALETTE_ANIME_Create(u32 heapId);
 
-extern u32 PALETTE_ANIME_Destroy(struct PaletteAnime *anime);
 
-extern void PALETTE_ANIME_Bind(struct PaletteAnime *anime, unsigned short *palette, unsigned short *original, int colorCount);
 
-extern int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -506,7 +499,7 @@ extern void CLACT_AddActorSurfacePos(struct ClactActor *p,const struct ClactVec2
 
 
 
-extern u32 PALETTE_ANIME_IsRunning();
+#include "palette_anime.h"
 
 
 extern void BG_SYS_Update();
@@ -521,7 +514,12 @@ extern struct TcbList *GFL_USE_GetMainTaskList(void);
 struct Strbuf;
 
 
+/* The DS code was built against other parameter widths for PRINTSYS_PrintColor (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+#else
+#include "../arm9/printsys.h"
+#endif
 struct BmpOamSys;
 
 
@@ -545,11 +543,11 @@ void RESEARCH_GRAPH_InitOverlayBackgrounds(char *p);
 
 void RESEARCH_GRAPH_LoadBackground6(char *p);
 
-u32 RESEARCH_GRAPH_UpdateBackground7();
+void RESEARCH_GRAPH_UpdateBackground7();
 
 void RESEARCH_GRAPH_LoadBackground2(char *p);
 
-u32 RESEARCH_GRAPH_UpdateBackground3();
+void RESEARCH_GRAPH_UpdateBackground3();
 
 void RESEARCH_GRAPH_CreateLabels(char *p);
 
@@ -592,7 +590,7 @@ struct CircleGraph;
 
 
 
-u32 RESEARCH_GRAPH_ExitOverlayBackgrounds();
+void RESEARCH_GRAPH_ExitOverlayBackgrounds();
 
 void RESEARCH_GRAPH_DummyBg7();
 
@@ -604,9 +602,9 @@ void RESEARCH_GRAPH_ShowBackground3();
 
 void RESEARCH_GRAPH_DestroyLabels(int *p);
 
-u32 RESEARCH_GRAPH_ReleaseEntryResources(u32 graph);
+void RESEARCH_GRAPH_ReleaseEntryResources(u32 graph);
 
-u32 RESEARCH_GRAPH_ReleaseCursorResources(u32 graph);
+void RESEARCH_GRAPH_ReleaseCursorResources(u32 graph);
 
 void RESEARCH_GRAPH_DeleteUnits(int *p);
 
@@ -772,7 +770,7 @@ void RESEARCH_GRAPH_SelectPrev(u8 *p);
 
 void RESEARCH_GRAPH_SelectNext(u8 *p);
 
-u32 RESEARCH_GRAPH_SelectDirect(u32 graph, u32 index);
+void RESEARCH_GRAPH_SelectDirect(u32 graph, u32 index);
 
 void RESEARCH_GRAPH_ApplySelection(u8 *graph, u32 index);
 
@@ -780,9 +778,9 @@ void RESEARCH_GRAPH_MoveGroupBackward(char *p);
 
 void RESEARCH_GRAPH_MoveGroupForward(char *p);
 
-u32 RESEARCH_GRAPH_MoveEntryForward(u32 graph);
+void RESEARCH_GRAPH_MoveEntryForward(u32 graph);
 
-u32 RESEARCH_GRAPH_MoveEntryBackward(u32 graph);
+void RESEARCH_GRAPH_MoveEntryBackward(u32 graph);
 
 void RESEARCH_GRAPH_MoveToFirstEntry(char *p);
 
@@ -798,7 +796,7 @@ void RESEARCH_GRAPH_CycleIndex(char *p, int a);
 
 void RESEARCH_GRAPH_SetIndex(void *p, u32 v);
 
-int RESEARCH_GRAPH_DrawIndexCursor(char *p);
+void RESEARCH_GRAPH_DrawIndexCursor(char *p);
 
 void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *p);
 
@@ -1846,11 +1844,11 @@ void RESEARCH_GRAPH_SelectNext(u8 *graph)
     RESEARCH_GRAPH_LayoutTouchRects(graph);
 }
 
-u32 RESEARCH_GRAPH_SelectDirect(u32 graph, u32 index)
+void RESEARCH_GRAPH_SelectDirect(u32 graph, u32 index)
 {
     RESEARCH_GRAPH_ApplySelection((u8 *)graph, index);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)graph, 1);
-    return GFL_USE_PlaySeDefaultVolume(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
 }
 
 void RESEARCH_GRAPH_ApplySelection(u8 *graph, u32 index)
@@ -1932,20 +1930,20 @@ void RESEARCH_GRAPH_MoveGroupForward(char *graph)
     GFL_USE_PlaySeDefaultVolume(1352);
 }
 
-u32 RESEARCH_GRAPH_MoveEntryForward(u32 graph)
+void RESEARCH_GRAPH_MoveEntryForward(u32 graph)
 {
     RESEARCH_GRAPH_StepEntry((u8 *)graph, 1);
     RESEARCH_GRAPH_PrintSliceLabel((char *)graph);
     RESEARCH_GRAPH_LayoutArrow((char *)graph);
-    return GFL_USE_PlaySeDefaultVolume(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
 }
 
-u32 RESEARCH_GRAPH_MoveEntryBackward(u32 graph)
+void RESEARCH_GRAPH_MoveEntryBackward(u32 graph)
 {
     RESEARCH_GRAPH_StepEntry((u8 *)graph, -1);
     RESEARCH_GRAPH_PrintSliceLabel((char *)graph);
     RESEARCH_GRAPH_LayoutArrow((char *)graph);
-    return GFL_USE_PlaySeDefaultVolume(1352);
+    GFL_USE_PlaySeDefaultVolume(1352);
 }
 
 void RESEARCH_GRAPH_MoveToFirstEntry(char *graph)
@@ -2032,7 +2030,7 @@ void RESEARCH_GRAPH_SetIndex(void *graph, u32 index)
     ((struct ResearchObjB *)graph)->cursorIndex = index;
 }
 
-int RESEARCH_GRAPH_DrawIndexCursor(char *graph)
+void RESEARCH_GRAPH_DrawIndexCursor(char *graph)
 {
     switch (((struct ResearchObjB *)graph)->cursorIndexSigned) {
     case 0:
@@ -2051,7 +2049,7 @@ int RESEARCH_GRAPH_DrawIndexCursor(char *graph)
         RESEARCH_GRAPH_SetHighlightA((uptr)graph);
         break;
     }
-    return BG_SYS_PushTile(2);
+    BG_SYS_PushTile(2);
 }
 
 void RESEARCH_GRAPH_DrawIndexCursorDim(u8 *graph)
@@ -2654,7 +2652,7 @@ void RESEARCH_GRAPH_StopSlotPaletteAnime(u8 *graph, u32 slot)
  */
 u32 RESEARCH_GRAPH_IsSlotPaletteAnimeRunning(u8 *graph, u32 slot)
 {
-    return PALETTE_ANIME_IsRunning((u32)(*(u32*)(graph + (slot)*4 + 804)), (uptr)(graph + (slot)*4));
+    return PALETTE_ANIME_IsRunning((struct PaletteAnime *)(uptr)(*(u32*)(graph + (slot)*4 + 804)), (uptr)(graph + (slot)*4));
 }
 
 void RESEARCH_GRAPH_UpdateSlotPalettes(int *graph)
@@ -3386,7 +3384,7 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 #include "../arm9/g2.h"
 
-extern u32 BG_SYS_FreeLayerBuf();
+extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void CLACT_ReleasePalette(u32 i);
 
@@ -3436,14 +3434,14 @@ void RESEARCH_GRAPH_InitOverlayBackgrounds(char *graph)
  *
  * Addresses are Black-image addresses.
  */
-u32 RESEARCH_GRAPH_ExitOverlayBackgrounds()
+void RESEARCH_GRAPH_ExitOverlayBackgrounds()
 {
     BMP_WIN_Exit();
     BG_SYS_FreeLayerBuf(0);
     BG_SYS_FreeLayerBuf(3);
     BG_SYS_FreeLayerBuf(2);
     BG_SYS_FreeLayerBuf(7);
-    return BG_SYS_FreeLayerBuf(6);
+    BG_SYS_FreeLayerBuf(6);
 }
 
 void RESEARCH_GRAPH_LoadBackground6(char *graph)
@@ -3469,10 +3467,10 @@ void RESEARCH_GRAPH_DummyBg7()
 {
 }
 
-u32 RESEARCH_GRAPH_UpdateBackground7()
+void RESEARCH_GRAPH_UpdateBackground7()
 {
     BG_SYS_Init(7, 0, 1, 0);
-    return BG_SYS_ClearSlot(7);
+    BG_SYS_ClearSlot(7);
 }
 
 /*
@@ -3506,10 +3504,10 @@ void RESEARCH_GRAPH_DummyBg3()
 {
 }
 
-u32 RESEARCH_GRAPH_UpdateBackground3()
+void RESEARCH_GRAPH_UpdateBackground3()
 {
     BG_SYS_Init(3, 0, 1, 0);
-    return BG_SYS_ClearSlot(3);
+    BG_SYS_ClearSlot(3);
 }
 
 /*
@@ -3587,11 +3585,11 @@ void RESEARCH_GRAPH_RegisterEntryResources(char *graph)
     ARC_TOOL_DeleteHandle(h);
 }
 
-u32 RESEARCH_GRAPH_ReleaseEntryResources(u32 graph)
+void RESEARCH_GRAPH_ReleaseEntryResources(u32 graph)
 {
     CLACT_ReleaseCharacter(((struct ResearchObjB *)(((u8*)graph)))->clactUnits[4]);
     CLACT_ReleasePalette(((struct ResearchObjB *)(((u8*)graph)))->clactUnits[5]);
-    return CLACT_ReleaseCellAnim(((struct ResearchObjB *)(((u8*)graph)))->clactUnits[6]);
+    CLACT_ReleaseCellAnim(((struct ResearchObjB *)(((u8*)graph)))->clactUnits[6]);
 }
 
 void RESEARCH_GRAPH_RegisterCursorResources(char *graph)
@@ -3612,12 +3610,12 @@ void RESEARCH_GRAPH_RegisterCursorResources(char *graph)
     ((struct ResearchObjB *)graph)->clactUnits[2] = c;
 }
 
-u32 RESEARCH_GRAPH_ReleaseCursorResources(u32 graph)
+void RESEARCH_GRAPH_ReleaseCursorResources(u32 graph)
 {
     CLACT_ReleaseCharacter(((struct ResearchObjB *)(((u8*)graph)))->clactUnits[0]);
     CLACT_ReleasePalette(((struct ResearchObjB *)(((u8*)graph)))->clactUnits[1]);
     CLACT_ReleasePalette(((struct ResearchObjB *)(((u8*)graph)))->clactUnits[3]);
-    return CLACT_ReleaseCellAnim(((struct ResearchObjB *)(((u8*)graph)))->clactUnits[2]);
+    CLACT_ReleaseCellAnim(((struct ResearchObjB *)(((u8*)graph)))->clactUnits[2]);
 }
 
 void RESEARCH_GRAPH_ClearUnits(void *graph)

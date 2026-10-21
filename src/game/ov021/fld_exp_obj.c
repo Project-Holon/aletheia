@@ -44,17 +44,10 @@
 typedef int (*GameEventFunc)(struct GameEvent *event, u32 *seq, void *work);
 
 #include "../arm9/gfl_heap_wrap.h"
-extern struct G3dUtil *G3D_UTIL_Create(u16 resCount, u16 objCount, u16 heapId);
-extern void G3D_UTIL_Delete(struct G3dUtil *util);
-extern u16 G3D_UTIL_AddUnitLoaded(struct G3dUtil *util, const G3dUtilSetup *setup);
 #include "../arm9/fx_mtx33.h"
 #include "../arm9/g3d_system.h"
-extern void G3D_UTIL_RemoveUnit(struct G3dUtil *util, u32 unitId);
-extern u32 G3D_UTIL_GetUnitObjIdx(struct G3dUtil *util, int unitId);
-extern struct G3dObject *G3D_UTIL_GetObject(struct G3dUtil *util, int objIdx);
-extern u16 G3D_UTIL_GetUnitObjCount(struct G3dUtil *util, int unitId);
+#include "../arm9/g3d_util.h"
 #include "../arm9/arc_tool.h"
-extern u16 G3D_UTIL_AddUnitFromArchive(struct G3dUtil *util, const G3dUtilSetup *setup, void *archive);
 
 FldExpObjCnt *FLD_EXP_OBJ_Create(u32 resCount, u32 objCount, u32 heapId);
 void FLD_EXP_OBJ_Delete(FldExpObjCnt *cnt);
@@ -218,7 +211,7 @@ struct G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *cnt, u32 unitIdx, int
         return 0;
     }
     firstObjIdx = G3D_UTIL_GetUnitObjIdx(cnt->util, cnt->units[unitIdx].unitId);
-    return G3D_UTIL_GetObject(cnt->util, (u16)(firstObjIdx + modelIdx));
+    return (struct G3dObject *)G3D_UTIL_GetObject(cnt->util, (u16)(firstObjIdx + modelIdx));
 }
 
 /*
@@ -238,7 +231,7 @@ void FLD_EXP_OBJ_Draw(FldExpObjCnt *cnt)
             modelCount = G3D_UTIL_GetUnitObjCount(cnt->util, cnt->units[unitIdx].unitId);
             for (modelIdx = 0; modelIdx < modelCount; modelIdx++) {
                 if (cnt->units[unitIdx].models[modelIdx].hidden == 0) {
-                    struct G3dObject *obj = G3D_UTIL_GetObject(cnt->util, (u16)(firstObjIdx + modelIdx));
+                    struct G3dObject *obj = (struct G3dObject *)G3D_UTIL_GetObject(cnt->util, (u16)(firstObjIdx + modelIdx));
                     model = &cnt->units[unitIdx].models[modelIdx];
                     if (model->cullDraw != 0) {
                         G3D_SYSTEM_DrawObjectCulling(obj, &model->status);
@@ -395,7 +388,7 @@ int FLD_EXP_OBJ_GetAnimeLastFrame(FldExpObjAnime *anime)
  */
 void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *cnt, const G3dUtilSetup *setup, u16 unitIdx)
 {
-    void *archive;
+    struct ArcHandle *archive;
     u16 unitId;
     u16 modelCount;
     FldExpObjModel *models;

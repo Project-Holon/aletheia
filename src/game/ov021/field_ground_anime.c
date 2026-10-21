@@ -111,11 +111,11 @@ typedef struct GroundAnimeDesc {
     u16 reserved;
 } GroundAnimeDesc;
 
-/* Header of an NNS animation resource (type name is a guess). */
-typedef struct NNSG3dResAnm {
+/* The part of the NNS animation resource header that this file reads. */
+typedef struct NNSG3dAnmFmtHeader {
     u32 header;
     u16 numFrame;
-} NNSG3dResAnm;
+} NNSG3dAnmFmtHeader;
 
 #include "../arm9/nns_g3d_anm_calc_types.h"
 
@@ -131,7 +131,7 @@ typedef union GroundAnmFlags {
 typedef struct GroundAnmEntry {
     GroundAnmFlags flags;
     NNSG3dAnmObj *anmObj;
-    NNSG3dResAnm *pResAnm;
+    NNSG3dAnmFmtHeader *pResAnm;
 } GroundAnmEntry;
 
 typedef struct GroundAnmSet {
@@ -289,8 +289,9 @@ typedef struct GroundAnimeWork {
 #include "../arm9/nns_g3d_res.h"
 struct G3dResource;
 #include "../arm9/g3d_system.h"
-extern void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 pResMdl, u32 pResTex);
-extern void G3D_SYSTEM_InitResourceByFile(void *out, void *file);
+struct NNSG3dResFileHeader;
+extern void G3D_SYSTEM_InitResourceByFile(struct G3dResource *res, struct NNSG3dResFileHeader *file);
+extern void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dAnmFmtHeader *pResAnm, u32 pResMdl, u32 pResTex);
 #include "../ov010/fldmmdl.h"
 #include "fieldmap.h"
 #include "field_player.h"
@@ -373,7 +374,7 @@ void FIELD_GROUND_ANIME_AnmSetInit(GroundAnmSet *set, u32 arcId, u32 memberId, u
 void FIELD_GROUND_ANIME_AnmSetFree(GroundAnmSet *set);
 void FIELD_GROUND_ANIME_AnmSetUpdate(GroundAnmSet *set, u32 dt);
 GroundAnmEntry *FIELD_GROUND_ANIME_AnmSetGetEntry(GroundAnmSet *set, int index);
-void FIELD_GROUND_ANIME_AnmEntryInit(GroundAnmEntry *entry, NNSG3dResAnm *pResAnm, u16 heapId);
+void FIELD_GROUND_ANIME_AnmEntryInit(GroundAnmEntry *entry, NNSG3dAnmFmtHeader *pResAnm, u16 heapId);
 int FIELD_GROUND_ANIME_AnmEntryFree(GroundAnmEntry *entry);
 u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj);
 void FIELD_GROUND_ANIME_AnmEntryUnbind(GroundAnmEntry *entry);
@@ -470,10 +471,10 @@ void FIELD_GROUND_ANIME_UnbindAnm(GroundAnmEntry *entry)
 void FIELD_GROUND_ANIME_AnmSetInit(GroundAnmSet *set, u32 arcId, u32 memberId, u32 count, u16 heapId)
 {
     u32 i;
-    NNSG3dResAnm *pResAnm;
+    NNSG3dAnmFmtHeader *pResAnm;
     i = 0;
     set->file = (void *)ARC_UTIL_LoadMember(arcId, memberId, 0, heapId);
-    pResAnm = (struct NNSG3dResAnm *)NNS_G3dGetAnmByIdx(set->file, 0);
+    pResAnm = (struct NNSG3dAnmFmtHeader *)NNS_G3dGetAnmByIdx(set->file, 0);
     set->entries = GFL_HEAP_Alloc(heapId, count * 12, 1, &_FieldGroundAnimeFileName, 0x196);
     set->count = count;
     for (i = 0; i < set->count; i++)
@@ -516,7 +517,7 @@ GroundAnmEntry *FIELD_GROUND_ANIME_AnmSetGetEntry(GroundAnmSet *set, int index)
     return 0;
 }
 
-void FIELD_GROUND_ANIME_AnmEntryInit(GroundAnmEntry *entry, NNSG3dResAnm *pResAnm, u16 heapId)
+void FIELD_GROUND_ANIME_AnmEntryInit(GroundAnmEntry *entry, NNSG3dAnmFmtHeader *pResAnm, u16 heapId)
 {
     entry->anmObj = GFL_HEAP_Alloc(heapId, 0x80, 1, &_FieldGroundAnimeFileName, 0x206);
     entry->pResAnm = pResAnm;
@@ -580,7 +581,7 @@ int FIELD_GROUND_ANIME_AnmEntryUpdate(GroundAnmEntry *entry, int frame)
     NNSG3dAnmObj *anmObj;
     if (entry->flags.bits.bound) {
         anmObj = entry->anmObj;
-        frame = frame % (((NNSG3dResAnm *)anmObj->resAnm)->numFrame << 12);
+        frame = frame % (((NNSG3dAnmFmtHeader *)anmObj->resAnm)->numFrame << 12);
         anmObj->frame = frame;
     }
     return frame;
@@ -909,7 +910,7 @@ void *FIELD_GROUND_ANIME_CreateA(GroundAnimeArgs *args)
     task = GAME_EVENT_Create(args->gameSystem, 0, (GameEventFunc)FIELD_GROUND_ANIME_MainA, 0x3C);
     w = GAME_EVENT_GetWork(task);
     w->args = args;
-    w->bgmInfo = (void *)GAME_DATA_GetBgmInfo(args->gameData);
+    w->bgmInfo = GAME_DATA_GetBgmInfo(args->gameData);
     w->buildModel = 0;
     w->frameCounter = 0;
     w->playerMoveMode = FIELD_GROUND_ANIME_GetPlayerMoveMode(args->fieldMap);
@@ -1107,7 +1108,7 @@ void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args)
     task = GAME_EVENT_Create(args->gameSystem, 0, (GameEventFunc)FIELD_GROUND_ANIME_MainB, 0x3C);
     work = GAME_EVENT_GetWork(task);
     work->args = args;
-    work->bgmInfo = (void *)GAME_DATA_GetBgmInfo(args->gameData);
+    work->bgmInfo = GAME_DATA_GetBgmInfo(args->gameData);
     work->buildModel = 0;
     work->frameCounter = 0;
     work->playerMoveMode = FIELD_GROUND_ANIME_GetPlayerMoveMode(args->fieldMap);

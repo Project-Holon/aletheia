@@ -7,10 +7,11 @@
    pokelist_types.h first. */
 
 /* One team panel (PLIST_BATTLE_CreateTeamPanel): a name window and six mini cells. */
+struct BmpWin;
 typedef struct PlistMiniCell PlistMiniCell;
 typedef struct PlistTeamPanel {
     u32 active;                       /* 0x00: windows are open */
-    u32 nameWindow;                   /* 0x04 */
+    struct BmpWin *nameWindow;        /* 0x04 */
     PlistMiniCell *cells[6];          /* 0x08 */
 } PlistTeamPanel;
 
@@ -23,8 +24,8 @@ typedef struct PlistTeamSource {
 /* One mini cell: party member icon, held item mark, sex and level windows. */
 struct PlistMiniCell {
     u32 active;                       /* 0x00 */
-    u32 sexWindow;                    /* 0x04: sex mark */
-    u32 levelWindow;                  /* 0x08 */
+    struct BmpWin *sexWindow;         /* 0x04: sex mark */
+    struct BmpWin *levelWindow;       /* 0x08 */
     u32 iconRes;                      /* 0x0C */
     u32 iconActor;                    /* 0x10 */
     u32 itemMarkActor;                /* 0x14 */

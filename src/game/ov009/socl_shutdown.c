@@ -41,7 +41,7 @@ extern SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
                                                      SOCLSocket *socket,
                                                      long flag);
 #include "cps_network.h"
-int SOCL_Shutdown(int s);
+int SOCL_Shutdown(sptr s);
 
 static int SOCLi_ShutdownCallBack(void *arg);
 

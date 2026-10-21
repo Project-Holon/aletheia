@@ -370,7 +370,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->eventWork = GAME_DATA_GetEventWorkFromSave(gameData->saveControl);
     gameData->fieldWork = (uptr)MAP_MATRIX_Create(heapId);
     gameData->occupyInfo = FLDMMDL_CreateSys(heapId, 0x40, SAVE_CONTROL_GetBlock(gameData->saveControl, 0x33));
-    gameData->bgmInfo = (uptr)FIELD_SOUND_SYSTEM_Create(gameData, heapId);
+    gameData->bgmInfo = FIELD_SOUND_SYSTEM_Create(gameData, heapId);
     gameData->moveModelSys = (void *)FIELD_STATUS_Create(heapId);
     gameData->mapMatrix = (uptr)MYITEM_SAVEDATA_CreateBagCursor(heapId);
     gameData->myItem = SAVE_CONTROL_GetBlock(gameData->saveControl, 0x19);
@@ -391,7 +391,7 @@ struct GameData *GAME_DATA_Create(u16 heapId)
     gameData->saveStatus = 0;
     SAVE_CONTROL_IsNewGame(gameData->saveControl);
 
-    gameData->fieldGimmick = (uptr)FIELD_ENCOUNT_ST_Create(heapId);
+    gameData->fieldGimmick = FIELD_ENCOUNT_ST_Create(heapId);
     PMS_DRAW_ClearWork(gameData->rtcWork);
     GAME_DATA_LoadFromSave(gameData);
     gameData->eventState = 0;
@@ -431,7 +431,7 @@ void GAME_DATA_Delete(struct GameData *gameData)
     CALENDER_Delete((struct CalenderWork *)gameData->musicalWork);
     BEACON_STATUS_Delete((struct BeaconStatus *)gameData->itemUseWork);
     COMM_PLAYER_SUPPORT_Delete(gameData->pmsWork);
-    FIELD_ENCOUNT_ST_Delete((void *)gameData->fieldGimmick);
+    FIELD_ENCOUNT_ST_Delete(gameData->fieldGimmick);
     BGM_INFO_Free((struct BgmInfoTable *)gameData->bagCursor);
     GFL_HEAP_Free((void *)gameData->wifiList);
     BOX_SAVEDATA_Delete((void *)gameData->boxManager);
@@ -440,7 +440,7 @@ void GAME_DATA_Delete(struct GameData *gameData)
     MAP_MATRIX_Delete((void *)gameData->fieldWork);
     EVENTDATA_SYSTEM_Delete((struct EventDataSystem *)gameData->eventData);
     FIELD_STATUS_Delete((struct FieldStatus *)gameData->moveModelSys);
-    FIELD_SOUND_SYSTEM_Delete((struct FieldSoundSystem *)gameData->bgmInfo);
+    FIELD_SOUND_SYSTEM_Delete(gameData->bgmInfo);
     GFL_HEAP_Free(gameData);
 }
 
@@ -790,9 +790,9 @@ u8 GAME_DATA_IncWalkCount(struct GameData *gd);
 
 u8 GAME_DATA_IsWalkCountEnabled(const struct GameData *gd);
 
-u32 GAME_DATA_GetBgmInfo(const struct GameData *gd);
+struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gd);
 
-u32 GAME_DATA_GetFieldGimmick(const struct GameData *gd);
+void *GAME_DATA_GetFieldGimmick(const struct GameData *gd);
 
 u32 GAME_DATA_GetLastBattleResult(const struct GameData *gd);
 
@@ -884,7 +884,7 @@ struct SaveControl *GAME_DATA_GetSaveControlWork(struct GameData *gd);
 
 u8 *GAME_DATA_GetFieldSave(struct GameData *gd);
 
-u8 *GAME_DATA_GetEventState(struct GameData *gd);
+void **GAME_DATA_GetEventState(struct GameData *gd);
 
 void *GAME_DATA_GetCurrentEvent(struct GameData *gd);
 
@@ -1114,12 +1114,12 @@ u8 GAME_DATA_IsWalkCountEnabled(const struct GameData *gd)
     return gd->walkCountEnabled;
 }
 
-u32 GAME_DATA_GetBgmInfo(const struct GameData *gd)
+struct FieldSoundSystem *GAME_DATA_GetBgmInfo(const struct GameData *gd)
 {
     return gd->bgmInfo;
 }
 
-u32 GAME_DATA_GetFieldGimmick(const struct GameData *gd)
+void *GAME_DATA_GetFieldGimmick(const struct GameData *gd)
 {
     return gd->fieldGimmick;
 }
@@ -1653,9 +1653,9 @@ u8 *GAME_DATA_GetFieldSave(struct GameData *gd)
     return gd->fieldSave;
 }
 
-u8 *GAME_DATA_GetEventState(struct GameData *gd)
+void **GAME_DATA_GetEventState(struct GameData *gd)
 {
-    return (u8 *)&gd->eventState;
+    return &gd->eventState;
 }
 
 void *GAME_DATA_GetCurrentEvent(struct GameData *gd)

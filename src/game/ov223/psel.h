@@ -10,7 +10,7 @@ typedef struct Main Main;
 
 #include "../types.h"
 
-int PSEL_SetAnimFrame(int anime, int frame);
+void PSEL_SetAnimFrame(int anime, int frame);
 struct PselRecord *PSEL_CreateRecords(u32 heap,u32 count);
 void PSEL_DeleteRecords(void *p);
 int PSEL_Init(void *a,int unused,void *c);
@@ -48,9 +48,9 @@ void PSEL_UpdateActorPosition(char *p);
 void PSEL_CreateBmpWindows(u16 *p);
 void PSEL_NopBgWindows(int *unused);
 void PSEL_InitBgLayers(u16 *p);
-int PSEL_ClearBgLayer2(void);
+void PSEL_ClearBgLayer2(unsigned char *work);
 void PSEL_DeleteBgLayers(u16 *p);
-void PSEL_NopBgDelete(void);
+void PSEL_NopBgDelete(unsigned char *work);
 void PSEL_SetBgSys(const u16 *p);
 void PSEL_ClearBgLayerEx(char *unused);
 void PSEL_UploadBgPalette(u16 *p);
@@ -67,7 +67,7 @@ void PSEL_ClearWin(char *p);
 void PSEL_ClearWin2(char *p);
 void PSEL_ClearWin3(char *p);
 void PSEL_CreateTaskRes(char *p);
-int PSEL_DeleteTaskResData(int *p);
+void PSEL_DeleteTaskResData(int *p);
 void PSEL_ShowTaskRes(char *p);
 void PSEL_DeleteTaskRes(char *p);
 void PSEL_UpdateTaskResWin(char *p);

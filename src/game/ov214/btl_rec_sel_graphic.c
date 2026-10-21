@@ -105,7 +105,13 @@ struct TcbTask;
 extern struct TcbTask *GFL_USE_AddMainTask(void (*)(void *),void *,u32);
 struct TcbTask;
 #include "../arm9/tcb_list.h"
+/* The DS code was built against other parameter widths for BG_SYS_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_Create(u32);
+#else
+#include "../arm9/bg_sys.h"
+#endif
+extern void G3D_SYSTEM_Exit(void);
 #include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -119,10 +125,19 @@ struct SysInit;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 #include "btl_rec_sel.h"
+/* The DS code was built against other parameter widths for G3D_SYSTEM_Init (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
+#else
+#include "../arm9/g3d_system.h"
+#endif
+/* The DS code was built against other parameter widths for G3D_CAMERA_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct VecFx32 *,struct VecFx32 *,struct VecFx32 *,u32);
+#else
+#include "../arm9/g3d_camera.h"
+#endif
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void G3D_SYSTEM_Exit(int);
 extern void G3D_SYSTEM_DrawStart(void);
 struct G3dCamera;
 extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
@@ -260,7 +275,8 @@ void BTL_REC_SEL_GRAPHIC_InitG3d(u32 **out,u32 heap)
 
 void BTL_REC_SEL_GRAPHIC_DeleteG3d(int *p)
 {
-    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
+    G3D_CAMERA_Delete((void *)(*p));
+    G3D_SYSTEM_Exit();
 }
 
 void BTL_REC_SEL_GRAPHIC_DrawG3d(unsigned int *p)

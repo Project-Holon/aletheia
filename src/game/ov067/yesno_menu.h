@@ -10,7 +10,7 @@ struct Strbuf;
 #include "../ov067/yesno_menu_types.h"
 #include "../types.h"
 
-YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, u32 fontId, struct PrintSys *printer);
+YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, struct GfFont *font, struct PrintQueue *printer);
 void YESNO_MENU_Delete(YesNoMenu *menu);
 void YESNO_MENU_Start(YesNoMenu *menu, struct Strbuf *upperText, struct Strbuf *lowerText);
 void YESNO_MENU_Close(YesNoMenu *menu);

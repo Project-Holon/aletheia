@@ -62,20 +62,6 @@ typedef struct OamCache {
     OamAffineCache affineCache;
 } OamCache;
 
-struct Span {
-    u32 which;
-    u16 first;
-    u16 last;
-    u16 cur;
-    u16 afirst;
-    u16 alast;
-    u16 acur;
-    u16 id;
-    u16 pad_12;
-    u32 live;
-};
-
-struct OamWindow { u32 bank; u16 min_oam; u16 max_oam; u16 cur_oam; };
 
 #include "../sdk_fx.h"
 
@@ -86,23 +72,7 @@ typedef struct {
     u16 _12, _13, _14; s16 PD;
 } GXOamAffine;
 
-typedef enum { NNS_G2D_OAMTYPE_MAIN = 0, NNS_G2D_OAMTYPE_SUB = 1, NNS_G2D_OAMTYPE_SOFTWAREEMULATION = 2 } NNSG2dOamType;
-
-typedef struct NNSG2dOAMManageArea {
-    u16 fromIdx;
-    u16 toIdx;
-    u16 currentIdx;
-} NNSG2dOAMManageArea;
-
-typedef struct NNSG2dOamManagerInstance {
-    NNSG2dOamType type;
-    NNSG2dOAMManageArea managedAttrArea;
-    NNSG2dOAMManageArea managedAffineArea;
-    u16 GUID;
-    u16 pad16_;
-    BOOL bFastTransferEnable;
-    fx32 spriteZoffsetStep;
-} NNSG2dOamManagerInstance;
+#include "nns_g2d_oam_manager_types.h"
 
 typedef void (OBJLoadFunction)(const void *pSrc, u32 offset, u32 szByte);
 
@@ -171,8 +141,8 @@ typedef struct VramResourceIndices {
 void NNSi_G2dCpuLoadOamSub(void *src, u32 offset, u32 size);
 void NNSi_G2dCpuLoadOamMain(void *src, u32 offset, u32 size);
 void NNS_G2dInitOamManagerModule(void);
-u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, int count, int which);
-u32 NNSi_G2dEntryOamManagerOam(struct OamWindow *win, GXOamAttr *src, u32 mode);
+u32 NNSi_G2dReserveOamManagerSpan(NNSG2dOamManagerInstance *s, u16 first, int count, int which);
+u32 NNSi_G2dEntryOamManagerOam(NNSG2dOamManagerInstance *win, GXOamAttr *src, u32 mode);
 u16 NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx);
 void NNS_G2dApplyOamManagerToHW(NNSG2dOamManagerInstance *pMan, u32 bound);
 void NNS_G2dResetOamManagerBuffer(NNSG2dOamManagerInstance *pMan);
@@ -334,7 +304,7 @@ static inline u32 IsFree(u16 *tbl, u16 first, u16 last)
  *   python3 tools/match.py one --src src/matched/NNSi_G2dReserveOamManagerSpan.c
  *       --func NNSi_G2dReserveOamManagerSpan --addr 0x02063138 --arm --cc ../2.0/sp2
  */
-u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, int count, int which)
+u32 NNSi_G2dReserveOamManagerSpan(NNSG2dOamManagerInstance *s, u16 first, int count, int which)
 {
     OamCache *bank = &g_02146BC8[which];
     u16 last = first + (count - 1);
@@ -342,11 +312,11 @@ u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, int count, int whic
     u16 *coarse;
 
     if (IsFree(bank->attributeCache.reservationTable, first, last)) {
-        s->id = g_02146BC4++;
-        s->first = first;
-        s->last = last;
-        s->cur = first;
-        Fill(bank->attributeCache.reservationTable, first, last, s->id);
+        s->GUID = g_02146BC4++;
+        s->managedAttrArea.fromIdx = first;
+        s->managedAttrArea.toIdx = last;
+        s->managedAttrArea.currentIdx = first;
+        Fill(bank->attributeCache.reservationTable, first, last, s->GUID);
     } else {
         return 0;
     }
@@ -355,29 +325,29 @@ u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, int count, int whic
     alast = afirst + ((u16)(count >> 2) - 1);
     coarse = bank->affineCache.reservationTable;
     if (IsFree(coarse, afirst, alast)) {
-        s->afirst = afirst;
-        s->alast = alast;
-        s->acur = afirst;
-        Fill(coarse, afirst, alast, s->id);
+        s->managedAffineArea.fromIdx = afirst;
+        s->managedAffineArea.toIdx = alast;
+        s->managedAffineArea.currentIdx = afirst;
+        Fill(coarse, afirst, alast, s->GUID);
     } else {
         return 0;
     }
 
-    s->live = 1;
-    s->which = which;
+    s->bFastTransferEnable = 1;
+    s->type = which;
     return 1;
 }
 
 /*
  * Writes one OAM entry (attr0/attr1/attr2) into the next free slot of a
- * reserved span of bank g_02146BC8[win->bank]'s OAM shadow (+0x100), and,
+ * reserved span of bank g_02146BC8[win->type]'s OAM shadow (+0x100), and,
  * when the entry is affine (rsMode bit 0) and mode != 0xFFFE, stamps the
  * affine parameter index into attr1 bits 9-13.  Returns 1, or 0 when the
  * span is full.
  *
  * WHAT CLOSED IT (wave 10), after 16 hand spellings at 13 bytes out:
  *  1. The permuter's split-assign(ptr): `ptr = g_02146BC8; ptr = ptr +
- *     win->bank * 0x540;` -- two statements on ONE variable -- coalesces the
+ *     win->type * 0x540;` -- two statements on ONE variable -- coalesces the
  *     mla's addend with its destination (image `mla ip, r4, r3, ip`), which
  *     the one-expression spelling never does.  The "mla destination is not
  *     source-addressable" wall of cluster_02063000.h was a declarations
@@ -395,25 +365,25 @@ u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, int count, int whic
  *   python3 tools/match.py one --src src/matched/NNSi_G2dEntryOamManagerOam.c
  *       --func NNSi_G2dEntryOamManagerOam --addr 0x02063294 --arm --cc ../2.0/sp2
  */
-u32 NNSi_G2dEntryOamManagerOam(struct OamWindow *win, GXOamAttr *src, u32 mode)
+u32 NNSi_G2dEntryOamManagerOam(NNSG2dOamManagerInstance *win, GXOamAttr *src, u32 mode)
 {
-    u16 max_oam = win->max_oam;
-    u16 cur_oam = *(volatile u16 *)&win->cur_oam;
+    u16 max_oam = win->managedAttrArea.toIdx;
+    u16 cur_oam = *(volatile u16 *)&win->managedAttrArea.currentIdx;
     u32 valid = 0;
     u32 count;
     u32 ge;
     u8 *ptr;
     u32 idx;
     if (!((int)cur_oam > (int)max_oam + 1)) {
-        if (win->min_oam <= max_oam) valid = 1;
+        if (win->managedAttrArea.fromIdx <= max_oam) valid = 1;
     }
     if (valid == 0) count = 0;
     else count = (u16)(max_oam - cur_oam + 1);
     if (count >= 1) ge = 1; else ge = 0;
     if (ge == 0) goto fail;
     ptr = (u8 *)g_02146BC8;
-    ptr = ptr + win->bank * 0x540;
-    idx = win->cur_oam;
+    ptr = ptr + win->type * 0x540;
+    idx = win->managedAttrArea.currentIdx;
     ptr = ptr + 0x100;
     {
         GXOamAttr *dst = (GXOamAttr *)(ptr + idx * 8);
@@ -426,7 +396,7 @@ u32 NNSi_G2dEntryOamManagerOam(struct OamWindow *win, GXOamAttr *src, u32 mode)
             }
         }
     }
-    win->cur_oam = win->cur_oam + 1;
+    win->managedAttrArea.currentIdx = win->managedAttrArea.currentIdx + 1;
     return 1;
 fail:
     return 0;

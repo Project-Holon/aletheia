@@ -1,6 +1,8 @@
 #ifndef GAME_OV021_SCRCMD_MISC_H
 #define GAME_OV021_SCRCMD_MISC_H
 
+#include "../arm9/mic.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of scrcmd_misc.c, prototypes copied from their definitions. */
 
@@ -11,7 +13,6 @@ typedef struct IcaAnime IcaAnime;
 
 #include "../arm9/script_vm_types.h"
 #include "../ov021/scrcmd_misc_types.h"
-#include "../arm9/mic.h"
 #include "../ov020/event_mapchange_types.h"
 #include "../types.h"
 #include "../sdk_fx.h"

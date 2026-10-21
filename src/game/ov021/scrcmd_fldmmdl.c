@@ -38,7 +38,7 @@
  *   VM_SetWait  0x020113D0  thumb
  *   GAME_DATA_GetMyPlayerWork  0x020127A4  thumb
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb
@@ -171,7 +171,6 @@ typedef int Bool;
 #include "fldmmdl_rail.h"
 #include "field_player.h"
 #include "field_rail.h"
-extern void FIELD_RAIL_WORK_GetLocation(RailWork *work, RailLocation *outLocation);
 #include "scrcmd_player_events.h"
 #include "field_task_manager.h"
 
@@ -237,7 +236,7 @@ Mmdl *SCRCMD_FLDMMDL_GetMmdlByScriptId(ScrcmdWork *cmdWork, u32 objId)
     MmdlSys *mmdlSys;
     Mmdl *mmdl;
 
-    mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     if (objId == 0xf2) {
         mmdl = FLDMMDL_SysSearchMoveCode(mmdlSys, 0x30);
     } else if (objId == 0xf1) {
@@ -285,7 +284,7 @@ int SCRCMD_FLDMMDL_WaitAnimeTasks(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Script command: read the move code of a model into a script variable. */
 int SCRCMD_FLDMMDL_GetMmdlMoveCode(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    MmdlSys *mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    MmdlSys *mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     u16 *moveCodeVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
 
     *moveCodeVar = 0;
@@ -296,7 +295,7 @@ int SCRCMD_FLDMMDL_GetMmdlMoveCode(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Script command: change the move code of a model. */
 int SCRCMD_FLDMMDL_ChangeMmdlMoveCode(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    MmdlSys *mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    MmdlSys *mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     u32 objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u32 moveCode = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
@@ -312,7 +311,7 @@ int SCRCMD_FLDMMDL_GetMmdlGridPos(ScriptVm *vm, ScrcmdWork *cmdWork)
     u16 *gridXVar;
     u16 *gridZVar;
 
-    mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     mmdl = FLDMMDL_SysSearchObjId(mmdlSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     gridXVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     gridZVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -369,7 +368,7 @@ int SCRCMD_FLDMMDL_AddMmdl(ScriptVm *vm, ScrcmdWork *cmdWork)
     spriteId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     moveCode = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     zoneId = FIELDMAP_GetZoneId(fieldParam->fieldSystem);
-    mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     objCode = FLDMMDL_GetRealObjCode(GAME_DATA_GetEventWork(SCRCMD_WORK_GetGameData(cmdWork)), spriteId);
     mmdl = FLDMMDL_AddMmdlParam(mmdlSys, gridX, gridZ, dir, objId, objCode, moveCode, zoneId);
     if (mmdl != 0) {
@@ -381,7 +380,7 @@ int SCRCMD_FLDMMDL_AddMmdl(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Script command: delete a model. */
 int SCRCMD_FLDMMDL_DeleteMmdl(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    MmdlSys *mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    MmdlSys *mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     Mmdl *mmdl = FLDMMDL_SysSearchObjId(mmdlSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
 
     if (mmdl != 0) {
@@ -402,7 +401,7 @@ int SCRCMD_FLDMMDL_AddPartyFollowerMmdl(ScriptVm *vm, ScrcmdWork *cmdWork)
     EventWork *eventWork;
     Mmdl *mmdl;
 
-    mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     gameData = SCRCMD_WORK_GetGameData(cmdWork);
     eventData = GAME_DATA_GetEventData(gameData);
     count = EVENTDATA_SYSTEM_GetNpcCount(eventData);
@@ -433,7 +432,7 @@ int SCRCMD_FLDMMDL_InitMmdlGridPosition(ScriptVm *vm, ScrcmdWork *cmdWork)
     gridY = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     gridZ = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     dir = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), objId);
+    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys(cmdWork), objId);
     if (mmdl) {
         FLDMMDL_InitGridPosition(mmdl, gridX, gridY, gridZ, dir);
     }
@@ -445,7 +444,7 @@ int SCRCMD_FLDMMDL_GetMmdlEventFlag(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u16 *eventFlagVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    Mmdl *mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), objId);
+    Mmdl *mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys(cmdWork), objId);
 
     if (mmdl != 0) {
         *eventFlagVar = FLDMMDL_GetEventFlag(mmdl);
@@ -464,7 +463,7 @@ int SCRCMD_FLDMMDL_GetMmdlParam(ScriptVm *vm, ScrcmdWork *cmdWork)
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     paramIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     paramVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), objId);
+    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys(cmdWork), objId);
     if (paramIndex <= 2 && mmdl != 0) {
         *paramVar = FLDMMDL_GetParam(mmdl, paramIndex);
     }
@@ -475,7 +474,7 @@ int SCRCMD_FLDMMDL_GetMmdlParam(ScriptVm *vm, ScrcmdWork *cmdWork)
 int SCRCMD_FLDMMDL_SetMmdlZoneDeleteOff(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    Mmdl *mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), objId);
+    Mmdl *mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys(cmdWork), objId);
 
     if (mmdl != 0) {
         FLDMMDL_SetStatusBitZoneDeleteOff(mmdl, 1);
@@ -494,7 +493,7 @@ int SCRCMD_FLDMMDL_CheckMmdlPauseRelease(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     targetMmdl = SCRIPT_WORK_GetTargetObj(SCRCMD_WORK_GetScriptWork(cmdWork));
     playerMmdl = SCRCMD_FLDMMDL_GetPlayerMmdl(cmdWork);
-    mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     if (gScrcmdFldmmdlPauseFlags & FLDMMDL_PAUSE_FLAG_PLAYER) {
         if (FLDMMDL_CheckEndAcmd(playerMmdl) == 1) {
             FLDMMDL_OnMoveBitMovePause(playerMmdl);
@@ -539,7 +538,7 @@ int SCRCMD_FLDMMDL_PauseMmdlsReleaseActive(ScriptVm *vm, ScrcmdWork *cmdWork)
     Mmdl *partnerMmdl;
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     targetMmdl = SCRIPT_WORK_GetTargetObj(scriptWork);
     playerMmdl = SCRCMD_FLDMMDL_GetPlayerMmdl(cmdWork);
     FLDMMDL_SysSearchMoveCode(mmdlSys, 0x30);
@@ -570,7 +569,7 @@ int SCRCMD_FLDMMDL_PauseMmdlsReleaseActive(ScriptVm *vm, ScrcmdWork *cmdWork)
 int SCRCMD_FLDMMDL_PauseMmdls(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     if (SCRIPT_WORK_GetTargetObj(SCRCMD_WORK_GetScriptWork(cmdWork)) == 0) {
-        FLDMMDL_SysPauseMove(SCRCMD_WORK_GetOccupyInfo(cmdWork));
+        FLDMMDL_SysPauseMove(SCRCMD_WORK_GetMmdlSys(cmdWork));
     } else {
         return SCRCMD_FLDMMDL_PauseMmdlsReleaseActive(vm, cmdWork);
     }
@@ -580,7 +579,7 @@ int SCRCMD_FLDMMDL_PauseMmdls(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Called by the script work code: releases the pause of all models. */
 void SCRCMD_FLDMMDL_UnpauseAllMmdls(ScrcmdWork *cmdWork)
 {
-    FLDMMDL_SysResumeMove(SCRCMD_WORK_GetOccupyInfo(cmdWork));
+    FLDMMDL_SysResumeMove(SCRCMD_WORK_GetMmdlSys(cmdWork));
 }
 
 /* Script command: turn the talk target to face the player. */
@@ -742,7 +741,7 @@ int SCRCMD_FLDMMDL_StartPlayerOffsetTaskAgain(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Returns the player model. */
 Mmdl *SCRCMD_FLDMMDL_GetPlayerMmdl(ScrcmdWork *cmdWork)
 {
-    return FLDMMDL_SysSearchPlayer(SCRCMD_WORK_GetOccupyInfo(cmdWork));
+    return FLDMMDL_SysSearchPlayer(SCRCMD_WORK_GetMmdlSys(cmdWork));
 }
 
 /* Script command: when an event waits in front of the player, turn the player toward it unless already facing it. */
@@ -847,7 +846,7 @@ int SCRCMD_FLDMMDL_StartMmdlMoveToGrid(ScriptVm *vm, ScrcmdWork *cmdWork)
     gridX = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     gridY = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     gridZ = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     mmdl = FLDMMDL_SysSearchObjId(mmdlSys, objId);
     FLDMMDL_GetPos(mmdl, (struct VecFx32 *)(&start));
@@ -892,7 +891,7 @@ int SCRCMD_FLDMMDL_GetMmdlRailLocation(ScriptVm *vm, ScrcmdWork *cmdWork)
     u16 *lineGridVar;
     u16 *widthGridVar;
 
-    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys(cmdWork), SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     railIndexVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     lineGridVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     widthGridVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
@@ -911,7 +910,7 @@ int SCRCMD_FLDMMDL_StartMmdlRailSlipDown(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = SCRCMD_WORK_GetMmdlSys(cmdWork);
     mmdl = FLDMMDL_SysSearchObjId(mmdlSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     event = RAIL_SLIPDOWN_Start(gameSystem, (uptr)(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem), (uptr)mmdl);
     SCRIPT_SYS_CallEvent(scriptWork, event);
@@ -949,7 +948,7 @@ int SCRCMD_FLDMMDL_SetMmdlRailLocation(ScriptVm *vm, ScrcmdWork *cmdWork)
     u32 lineGrid;
     u32 widthPos;
 
-    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys(cmdWork), SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     railIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     lineGrid = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     widthPos = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -973,7 +972,7 @@ int SCRCMD_FLDMMDL_StartMmdlSpinRise(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), objId);
+    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys(cmdWork), objId);
     fieldMap = SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem;
     taskManager = FIELDMAP_GetTaskManager(fieldMap);
     GFL_USE_PlaySeDefaultVolume(0x676);
@@ -1006,7 +1005,7 @@ int SCRCMD_FLDMMDL_StartMmdlDropIn(ScriptVm *vm, ScrcmdWork *cmdWork)
     gridX = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     gridZ = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     dir = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), objId);
+    mmdl = FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys(cmdWork), objId);
     fieldMap = SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem;
     taskManager = FIELDMAP_GetTaskManager(fieldMap);
     if (mmdl == 0) {

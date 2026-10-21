@@ -30,11 +30,11 @@ u32 POKEGRA_GetTrainerMCelArcIndex(u32 trType, u32 flags);
 u32 POKEGRA_GetTrainerMAnmArcIndex(u32 trType, u32 flags);
 u32 POKEGRA_GetTrainerNcecArcIndex(u32 trType, u32 flags);
 void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId);
-void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, volatile u16 heapId);
+void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, u16 heapId);
 void *POKEGRA_OpenHandle(u32 heapId);
 int POKEGRA_RegisterPalette(u32 handle, int monsNo, int formNo, int sex, u32 rare, int dir, int egg, int drawType, unsigned short palOffset, unsigned short heapId);
-u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, volatile u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 personality, volatile u32 drawType, volatile u16 heapId);
-u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, volatile u32 dir, volatile u32 egg, volatile u32 mapping, volatile u32 unusedArg, volatile u16 heapId);
+u32 POKEGRA_RegisterCgr(u32 handle, u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 personality, u32 drawType, u16 heapId);
+u32 POKEGRA_RegisterCellAnim(u32 monsNo, u32 formNo, u32 sex, u32 rare, u32 dir, u32 egg, u32 mapping, u32 unusedArg, u16 heapId);
 int POKEGRA_RegisterPalettePP(int handle, void *pp, int dir, int drawType, unsigned short palOffset, unsigned short heapId);
 int POKEGRA_RegisterCgrPP(int handle, void *pp, int dir, int drawType, unsigned short heapId);
 u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
@@ -42,7 +42,7 @@ void *POKEGRA_OpenTrainerHandle(u32 heapId);
 s32 POKEGRA_RegisterTrainerPalette(u8 *handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId);
 s32 POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId);
 s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId);
-void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *palDst, volatile u16 heapId);
+void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *palDst, u16 heapId);
 /* END mkheaders: generated region */
 
 #endif

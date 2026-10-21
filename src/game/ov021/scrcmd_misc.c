@@ -237,7 +237,7 @@
  *   FIELD_CAMERA_RestartDelay  0x0218F05C  thumb  ov021
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   FX_SinCosTable_     0x020A1B38  data   a2
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   SP_POKE_GIMMICK_StartSwapNpc  0x021F3CFC  thumb  ov059
  *   FIELD_GIMMICK_ARC_EFFECT_StartPlayerEffect  0x021F37B8  thumb  ov064
  *   FIELD_GIMMICK_ARC_EFFECT_StartArcEffect  0x021F3970  thumb  ov064
@@ -1956,7 +1956,7 @@ int SCRCMD_GetNpcGreetingMessage(ScriptVm *vm, ScrcmdWork *cmdWork)
     Party *party;
     int i, partyCount;
     PokemonParam *mon;
-    struct RtcTime time;
+    RTCTime time;
     int base;
     int msgIndex;
     u32 countA, countB;
@@ -2171,7 +2171,7 @@ u32 SCRCMD_StartSwapNpcEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
     GAMESYSTEM_GetFieldMap(gameSystem);
     removeObjId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     addObjId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId((MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork), removeObjId), (VecFx32 *)&pos);
+    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId((MmdlSys *)SCRCMD_WORK_GetMmdlSys(cmdWork), removeObjId), (VecFx32 *)&pos);
     task = SP_POKE_GIMMICK_StartSwapNpc(gameSystem, &pos, removeObjId, addObjId);
     if (task == 0) {
         return 1;

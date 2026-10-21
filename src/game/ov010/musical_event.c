@@ -877,7 +877,7 @@ void MUSICAL_EVENT_ScorePerformers(MusicalEventWork *work)
 void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
 {
     MusicalShowRecord *record;
-    struct RtcDate date;
+    RTCDate date;
     void *title;
     u8 sortScore[4];
     u8 i;

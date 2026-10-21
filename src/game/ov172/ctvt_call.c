@@ -1834,7 +1834,7 @@ void CTVT_CALL_WorkInit(char *self)
         CTVT_COMM_SetRequestedMode((char *)((sptr)self), (char *)W(0x1e4), 4);
         CTVT_COMM_SetConnectMac((char *)((sptr)self), (char *)W(0x1e4), (const u8 *)(W(0x1f8) + 8));
         W(0xc) = 2;
-        FIELD_SOUND_SYSTEM_StopRingtone((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo((const struct GameData *)(*(unsigned int *)W(0x1f8))));
+        FIELD_SOUND_SYSTEM_StopRingtone(GAME_DATA_GetBgmInfo((const struct GameData *)(*(unsigned int *)W(0x1f8))));
         break;
     case 3:
         CTVT_COMM_SetRequestedMode((char *)((sptr)self), (char *)W(0x1e4), 5);

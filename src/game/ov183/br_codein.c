@@ -416,10 +416,6 @@ typedef union CodeinProfileConfig {u64 wide;Point pair;} CodeinProfileConfig;
 typedef struct Table {int head[4];SOCLResource pair;} Table;
 
 #include "../ov186/br_proc_sys.h"
-/* The window context is private to br_proc_sys.c. */
-struct Context;
-extern void BR_PROC_SYS_SetupWindow(struct Context *context);
-extern void BR_PROC_SYS_FlushWindows(struct Context *context);
 #include "../arm9/procsys.h"
 #include "../arm9/mi_memory.h"
 #include "../arm9/printsys.h"
@@ -1141,7 +1137,7 @@ void BR_CODEIN_RecordStepMenu(int *task,int *state,struct CodeinRecordWork *work
             else if(work->savedActorSys==0)BR_UTIL_SetTaskStep((int *)task,(sptr)BR_CODEIN_RecordStepConfirm);
             else {
                 **(int **)((char *)work+0xd0)=1;
-                BR_PROC_SYS_SetupWindow((struct Context *)((CodeinWindowState *)(*(CodeinWindowState **)(work->ctx+0x14))));
+                BR_PROC_SYS_SetupWindow((struct BrProcSysContext *)((CodeinWindowState *)(*(CodeinWindowState **)(work->ctx+0x14))));
                 BR_UTIL_SetTaskStep(task,(sptr)BR_CODEIN_RecordStepFadeOut);
             }
         }
@@ -1303,7 +1299,7 @@ void BR_CODEIN_RecordStepReceive(int *task,int *state,struct CodeinRecordWork *w
                 BR_CODEIN_BATTLE_REC_SET_DATA((const void *)source,(const struct BattleRecHeader *)(source+0x80),(const struct BattleRecBody *)(source+0xc4),(unsigned int)GAME_DATA_GetSaveControl((struct GameData *)(*(void **)(work->ctx+0x28))));
                 **(long long **)(work->ctx+0x2c)=index;
                 **(int * *)&work->ctx=1;
-                BR_PROC_SYS_SetupWindow((struct Context *)((CodeinWindowState *)(*(CodeinProcEntry **)(work->ctx+0x14))));*state=8;
+                BR_PROC_SYS_SetupWindow((struct BrProcSysContext *)((CodeinWindowState *)(*(CodeinProcEntry **)(work->ctx+0x14))));*state=8;
             } else {
                 BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->ctx+0x10)),(void *)0x114);*state=11;
             }
@@ -1420,7 +1416,7 @@ void BR_CODEIN_RecordStepConfirm(int *task,int *state,struct CodeinRecordWork *w
         if(!GFL_USE_IsSeqPlaying(0x701)) {
             BR_CODEIN_RecordDeleteTextWin((struct CodeinRecordWork *)work,(char *)work->ctx);
             **(int * *)&work->ctx=1;
-            BR_PROC_SYS_SetupWindow((struct Context *)((CodeinWindowState *)(*(CodeinWindowState * *)&((struct CodeinSubA *)(work->ctx))->procQuery)));
+            BR_PROC_SYS_SetupWindow((struct BrProcSysContext *)((CodeinWindowState *)(*(CodeinWindowState * *)&((struct CodeinSubA *)(work->ctx))->procQuery)));
             BR_UTIL_ClearTaskStep((int *)task);
         }
         break;

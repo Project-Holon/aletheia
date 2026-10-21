@@ -69,7 +69,15 @@
 struct Bitmap;
 
 #include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+#define BG_SYS_DrawTileEx BG_SYS_DrawTileExHeader
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+/* original prototype: the DS code passes the tile coordinates as words */
+#undef BG_SYS_DrawTileEx
 extern void BG_SYS_DrawTileEx(u8 layer, u32 dstX, u32 dstY, u32 width, u8 height, void *, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
+#endif
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 pltt);
 #include "../arm9/ui.h"
 #include "../arm9/key.h"

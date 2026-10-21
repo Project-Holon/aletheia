@@ -11,7 +11,7 @@
  *
  * symbols:
  *   SCRCMD_MSGWIN_UpdateBalloonPos  0x021B0B08  thumb
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   SCRCMD_WORK_GetWordSetWork  0x0215A63C  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
@@ -38,7 +38,7 @@ typedef struct S {
     V3 b;
 } S;
 
-extern void *SCRCMD_WORK_GetOccupyInfo(void *);
+extern void *SCRCMD_WORK_GetMmdlSys(void *);
 extern unsigned char *SCRCMD_WORK_GetWordSetWork(unsigned char *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -57,7 +57,7 @@ extern void SCRCMD_MSGWIN_SelectBalloonOffset(V3 *, V3 *, int, int, int);
 
 void SCRCMD_MSGWIN_UpdateBalloonPos(void *a, int b)
 {
-    void *t = SCRCMD_WORK_GetOccupyInfo(a);
+    void *t = SCRCMD_WORK_GetMmdlSys(a);
     S *s = (S *)SCRCMD_WORK_GetWordSetWork(a);
     void *o = FLDMMDL_SysSearchObjId(t, s->id);
     V3 v;

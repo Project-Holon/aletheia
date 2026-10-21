@@ -85,9 +85,6 @@ typedef int RTCResult;
 #include "external.h"
 
 
-extern u32  RTC_GetDateTimeAsync(struct RtcDate *date, struct RtcTime *time,
-                          void (*done)(u32, struct RtcRequest *),
-                          struct RtcRequest *arg);
 
 #include "convert.h"
 
@@ -124,15 +121,15 @@ void GF_STANDARD_InitRtc(void);
 
 void GF_STANDARD_UpdateRtc(void);
 
-void GF_STANDARD_RtcReadDone(u32 result, struct RtcRequest *req);
+void GF_STANDARD_RtcReadDone(int result, void *arg);
 
 void GF_STANDARD_RequestRtc(struct RtcRequest *req);
 
-void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
+void GF_STANDARD_CopyCachedRtc(RTCDate *date, RTCTime *time);
 
-void GF_STANDARD_GetCachedTime(struct RtcTime *time);
+void GF_STANDARD_GetCachedTime(RTCTime *time);
 
-void GF_STANDARD_GetCachedDate(struct RtcDate *date);
+void GF_STANDARD_GetCachedDate(RTCDate *date);
 
 u32 GF_STANDARD_GetSecondsOfDay(void);
 
@@ -164,9 +161,9 @@ extern short FX_SinCosTable_[];
 
 extern struct Block g_021469FC;
 
-extern struct RtcDate g_02146A0C;
+extern RTCDate g_02146A0C;
 
-extern struct RtcTime g_02146A1C;
+extern RTCTime g_02146A1C;
 
 /*
  * TU: gf_standard.c.  The allocation site string at 0x020A7E4C reads
@@ -502,8 +499,10 @@ void GF_STANDARD_UpdateRtc(void)
  *   python tools/match.py one --src src/matched/GF_STANDARD_RtcReadDone.c \
  *       --func GF_STANDARD_RtcReadDone --addr 0x0203F42C --cc 1.1p1 --arm
  */
-void GF_STANDARD_RtcReadDone(u32 result, struct RtcRequest *req)
+void GF_STANDARD_RtcReadDone(int result, void *arg)
 {
+    struct RtcRequest *req = arg;
+
     req->result = result;
     req->hasResult = 1;
     req->date = req->stagedDate;
@@ -542,7 +541,7 @@ void GF_STANDARD_RequestRtc(struct RtcRequest *req)
  *   python tools/match.py one --src src/matched/GF_STANDARD_CopyCachedRtc.c \
  *       --func GF_STANDARD_CopyCachedRtc --addr 0x0203F49C --cc 1.1p1 --arm
  */
-void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time)
+void GF_STANDARD_CopyCachedRtc(RTCDate *date, RTCTime *time)
 {
     *date = g_02146A0C;
     *time = g_02146A1C;
@@ -556,7 +555,7 @@ void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time)
  *   python tools/match.py one --src src/matched/GF_STANDARD_GetCachedTime.c \
  *       --func GF_STANDARD_GetCachedTime --addr 0x0203F4CC --cc 1.1p1 --arm
  */
-void GF_STANDARD_GetCachedTime(struct RtcTime *time)
+void GF_STANDARD_GetCachedTime(RTCTime *time)
 {
     *time = g_02146A1C;
 }
@@ -569,7 +568,7 @@ void GF_STANDARD_GetCachedTime(struct RtcTime *time)
  *   python tools/match.py one --src src/matched/GF_STANDARD_GetCachedDate.c \
  *       --func GF_STANDARD_GetCachedDate --addr 0x0203F4E4 --cc 1.1p1 --arm
  */
-void GF_STANDARD_GetCachedDate(struct RtcDate *date)
+void GF_STANDARD_GetCachedDate(RTCDate *date)
 {
     *date = g_02146A0C;
 }

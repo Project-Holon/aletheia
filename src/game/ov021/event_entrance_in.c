@@ -305,7 +305,7 @@ void EVENT_ENTRANCE_IN_ReplaceBgm(EntranceInWork *work)
     EntranceParam *param = work->param;
     GameData *gameData = param->gameData;
 
-    FIELD_SOUND_SYSTEM_PostZoneBgmReplace((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData), gameData, param->destination.zoneId, param->toSeason);
+    FIELD_SOUND_SYSTEM_PostZoneBgmReplace(GAME_DATA_GetBgmInfo(gameData), gameData, param->destination.zoneId, param->toSeason);
     param->bgmReplaced = 1;
 }
 

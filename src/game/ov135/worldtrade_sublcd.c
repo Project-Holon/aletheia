@@ -38,7 +38,7 @@
  *   CLACT_GetActorSurfacePos  0x0204B454  arm
  *   tbl_022038A2   0x022038A2  data  a2
  *   TCB_AddTask 0x02030DA8 arm
- *   TCBL_IsDeletePending 0x02030EE8 arm
+ *   TCBL_GetOwnedWork 0x02030EE8 arm
  *   str_02203E44 0x02203E44 data a1
  *   d_022038BE 0x022038BE data a2
  *   CLACT_GetActorDrawEnable 0x0204B3F4 arm
@@ -195,7 +195,7 @@ void WORLDTRADE_SUBLCD_StartAnimTaskA(WorldtradeWork *p)
     WORLDTRADE_SUBLCD_CreateActors((WorldtradeWork *)p);
     p->animTaskData = GFL_HEAP_Alloc(0x48, 12, 0, str_02203E44, 0xD4);
     p->animTask = TCB_AddTask((struct TcbSystem *)p->rec_p, (TcbFunc)WORLDTRADE_SUBLCD_AnimTaskA, (void *)p->animTaskData, 5);
-    a = (Anim *)TCBL_IsDeletePending(p->animTask);
+    a = (Anim *)TCBL_GetOwnedWork(p->animTask);
     a->state = 0;
     a->y = -40;
     a->p = p;
@@ -256,7 +256,7 @@ void WORLDTRADE_SUBLCD_StartAnimTaskB(WorldtradeWork *p)
     Anim *a;
     p->animTaskData = GFL_HEAP_Alloc(0x48, 12, 0, str_02203E44, 0x150);
     p->animTask = TCB_AddTask((struct TcbSystem *)p->rec_p, (TcbFunc)WORLDTRADE_SUBLCD_AnimTaskB, (void *)p->animTaskData, 5);
-    a = (Anim *)TCBL_IsDeletePending(p->animTask);
+    a = (Anim *)TCBL_GetOwnedWork(p->animTask);
     a->state = 0;
     a->y = 0x8A;
     a->p = p;

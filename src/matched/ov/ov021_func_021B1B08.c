@@ -11,7 +11,7 @@
  *
  * symbols:
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
  *   SCRCMD_FLDMMDL_GetPlayerMmdl  0x021B1E74  thumb  ov021
  *   FLDMMDL_SysSearchMoveCode  0x0216DE54  thumb  ov010
@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 void *SCRCMD_WORK_GetScriptWork(void *p);
-void *SCRCMD_WORK_GetOccupyInfo(void *b);
+void *SCRCMD_WORK_GetMmdlSys(void *b);
 void *SCRIPT_WORK_GetTargetObj(void *a);
 int SCRCMD_FLDMMDL_GetPlayerMmdl(u32 a);
 void *FLDMMDL_SysSearchMoveCode(void *map, u32 kind);
@@ -49,7 +49,7 @@ int SCRCMD_FLDMMDL_PauseMmdlsReleaseActive(int a, void *b)
     void *r7;
 
     r4 = SCRCMD_WORK_GetScriptWork(b);
-    r6 = SCRCMD_WORK_GetOccupyInfo(b);
+    r6 = SCRCMD_WORK_GetMmdlSys(b);
     r4 = SCRIPT_WORK_GetTargetObj(r4);
     r7 = (void *)SCRCMD_FLDMMDL_GetPlayerMmdl((u32)b);
     FLDMMDL_SysSearchMoveCode(r6, 0x30);

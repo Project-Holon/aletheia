@@ -78,7 +78,7 @@ int BATTLE_EXAMINATION_IsDeliveryUnused(void *p);
 
 u16 BATTLE_EXAMINATION_GetDeliveryId(void *p);
 
-char *BATTLE_EXAMINATION_GetTrainerSlot(char *p, u32 idx);
+void *BATTLE_EXAMINATION_GetTrainerSlot(void *p, u32 idx);
 
 void BATTLE_EXAMINATION_LoadDelivery(void *sys, void *dst, u32 heap);
 
@@ -146,10 +146,10 @@ u16 BATTLE_EXAMINATION_GetDeliveryId(void *delivery)
  * records, the base itself when idx is out of range. Filed as the relocation
  * witness for ov021 TRIAL_HOUSE_LoadDeliveredTrainer (wave A1).
  */
-char *BATTLE_EXAMINATION_GetTrainerSlot(char *base, u32 index)
+void *BATTLE_EXAMINATION_GetTrainerSlot(void *base, u32 index)
 {
     if (index < 5) {
-        base += index * 0x120;
+        base = (char *)base + index * 0x120;
     }
     return base;
 }

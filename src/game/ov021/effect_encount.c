@@ -105,35 +105,20 @@ typedef struct EffectEncountArea {
 } EffectEncountArea;
 
 
-/* Size of a model in tiles, in the object code parameter. */
-typedef struct MmdlObjSize {
-    u8 pad00[0x0B];
-    u8 gridWidth;
-    u8 gridDepth;
-} MmdlObjSize;
-
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/mi_memory.h"
 #include "../arm9/gfl_use.h"
 #include "fieldmap.h"
-extern EncountGimmickWork *GAME_DATA_GetFieldGimmick(const struct GameData *gameData);
+#include "../arm9/game_data.h"
 #include "field_player.h"
-extern short FLDMMDL_GetGridNowX(struct Mmdl *mmdl);
-extern short FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
 struct FieldEffectCont;
-extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
 struct VecFx32;
-extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct VecFx32 *out);
 struct MapMatrix;
 #include "../ov010/map_matrix.h"
-extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 #include "../arm9/beacon.h"
 struct MmdlGridVec;
-extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, struct MmdlGridVec *out);
 #include "field_g3d_mapper.h"
-extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *sys, struct Mmdl **out, u32 *iter);
-extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
-extern MmdlObjSize *FLDMMDL_GetObjCodeParam(struct Mmdl *mmdl);
+#include "../ov010/fldmmdl.h"
 struct EncountSys;
 struct FieldEffectObj;
 #include "fldeff_encount.h"
@@ -342,7 +327,7 @@ int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
 /* Writes the larger of the x and z tile distance between the player and the active spot; 0 when there is no spot. */
 int EFFECT_ENCOUNT_GetSpotDistance(FieldEncount *encount, short *out)
 {
-    EffectEncountSpot *spot = &GAME_DATA_GetFieldGimmick(encount->gameData)->spot;
+    EffectEncountSpot *spot = &((EncountGimmickWork *)GAME_DATA_GetFieldGimmick(encount->gameData))->spot;
     GridPos playerPos;
     int distX, distZ;
 
@@ -367,7 +352,7 @@ int EFFECT_ENCOUNT_GetSpotDistance(FieldEncount *encount, short *out)
 /* Marks the active spot as used and tells its effect object. */
 void EFFECT_ENCOUNT_ConsumeSpot(FieldEncount *encount)
 {
-    EffectEncountSpot *spot = &GAME_DATA_GetFieldGimmick(encount->gameData)->spot;
+    EffectEncountSpot *spot = &((EncountGimmickWork *)GAME_DATA_GetFieldGimmick(encount->gameData))->spot;
     if (spot->active) {
         spot->consumed = 1;
         if (encount->effectEncount->effectObj != 0) {
@@ -404,7 +389,7 @@ u16 EFFECT_ENCOUNT_GetItemId(FieldEncount *encount)
 /* Map exit: flags the active spot so that the next map entry recreates its effect object. */
 void EFFECT_ENCOUNT_MarkSpotForRestore(FieldEncount *encount)
 {
-    EffectEncountSpot *spot = &GAME_DATA_GetFieldGimmick(encount->gameData)->spot;
+    EffectEncountSpot *spot = &((EncountGimmickWork *)GAME_DATA_GetFieldGimmick(encount->gameData))->spot;
     if (spot->active) {
         spot->needsRestore = 1;
     }
@@ -413,7 +398,7 @@ void EFFECT_ENCOUNT_MarkSpotForRestore(FieldEncount *encount)
 /* Map entry: recreates the effect object of a saved spot, or drops the spot when it no longer fits. */
 void EFFECT_ENCOUNT_RestoreSpot(FieldEncount *encount, EffectEncount *effectEncount)
 {
-    EffectEncountSpot *spot = &GAME_DATA_GetFieldGimmick(encount->gameData)->spot;
+    EffectEncountSpot *spot = &((EncountGimmickWork *)GAME_DATA_GetFieldGimmick(encount->gameData))->spot;
     unsigned short zoneId;
 
     if (spot->active == 0 || spot->needsRestore == 0)
@@ -562,7 +547,7 @@ int EFFECT_ENCOUNT_IsTileOccupied(FieldEncount *encount, s16 gridX, s16 gridHeig
     u32 iter = 0;
     struct MmdlSys *mmdlSys;
     struct Mmdl *player;
-    MmdlObjSize *size;
+    MmdlObjCodeParam *size;
 
     player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap));
     mmdlSys = FIELDMAP_GetMmdlSys(encount->fieldMap);
@@ -577,9 +562,9 @@ int EFFECT_ENCOUNT_IsTileOccupied(FieldEncount *encount, s16 gridX, s16 gridHeig
         FLDMMDL_GetGridNowPos(mmdl, (struct MmdlGridVec *)(&pos));
         if (gridHeight != pos.y)
             continue;
-        if (gridX < pos.x || gridX >= pos.x + size->gridWidth)
+        if (gridX < pos.x || gridX >= pos.x + size->sizeWidth)
             continue;
-        if (gridZ > pos.z || gridZ <= pos.z - size->gridDepth)
+        if (gridZ > pos.z || gridZ <= pos.z - size->sizeDepth)
             continue;
         return 1;
     }
@@ -589,7 +574,7 @@ int EFFECT_ENCOUNT_IsTileOccupied(FieldEncount *encount, s16 gridX, s16 gridHeig
 /* Removes the active spot when a model stands on it; returns 1 if it did. */
 int EFFECT_ENCOUNT_ClearSpotIfOccupied(FieldEncount *encount)
 {
-    EffectEncountSpot *spot = &GAME_DATA_GetFieldGimmick(encount->gameData)->spot;
+    EffectEncountSpot *spot = &((EncountGimmickWork *)GAME_DATA_GetFieldGimmick(encount->gameData))->spot;
 
     if (spot->active == 0)
         return 0;

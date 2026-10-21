@@ -14,7 +14,7 @@
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   FIELDMAP_GetZoneId  0x02188C9C  thumb  ov021
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetEventWork  0x0201296C  thumb
  *   FLDMMDL_GetRealObjCode  0x0216E3D0  thumb  ov010
@@ -30,7 +30,7 @@ typedef unsigned char  u8;
 int SCRIPT_WORK_ResetFieldParam(int a0);
 unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 u16 FIELDMAP_GetZoneId(u8 *p);
-void *SCRCMD_WORK_GetOccupyInfo(void *p);
+void *SCRCMD_WORK_GetMmdlSys(void *p);
 void *SCRCMD_WORK_GetGameData(void *a0);
 typedef unsigned int   u32;
 struct BigObj;
@@ -59,7 +59,7 @@ int SCRCMD_FLDMMDL_AddMmdl(int a, int b)
     v4 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     r7 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     r5 = FIELDMAP_GetZoneId((u8 *)(((int *)r6)[1]));
-    r6 = (int)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    r6 = (int)SCRCMD_WORK_GetMmdlSys((void *)b);
     r0 = FLDMMDL_GetRealObjCode(GAME_DATA_GetEventWork(SCRCMD_WORK_GetGameData((void *)b)), v4);
     r0 = FLDMMDL_AddMmdlParam(r6, v0, v1, v2, v3, r0, r7, r5);
     if (r0 != 0) {

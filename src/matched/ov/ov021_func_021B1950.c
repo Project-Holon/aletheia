@@ -11,7 +11,7 @@
  *
  * symbols:
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   FLDMMDL_InitGridPosition  0x0216E084  thumb  ov010
  */
@@ -20,7 +20,7 @@ typedef signed short s16;
 
 unsigned int SCRIPT_WORK_ReadWorkValue(void *a0, void *a1);
 typedef unsigned int   u32;
-void *SCRCMD_WORK_GetOccupyInfo(void *p);
+void *SCRCMD_WORK_GetMmdlSys(void *p);
 void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 void FLDMMDL_InitGridPosition(int a, int b, int c, int d, int e);
 
@@ -38,7 +38,7 @@ int SCRCMD_FLDMMDL_InitMmdlGridPosition(int a, int b)
     r7 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     r6 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     r4 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
-    r0 = (int)FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo((void *)b), r2);
+    r0 = (int)FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys((void *)b), r2);
     if (r0) {
         FLDMMDL_InitGridPosition(r0, r1, r7, r6, r4);
     }

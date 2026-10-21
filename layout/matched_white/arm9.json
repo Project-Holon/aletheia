@@ -3333,7 +3333,7 @@
   {"name": "TCB_AddTask", "black_address": "0x02030DA8", "white_address": "0x02030DC0", "size": 32, "diff": "shifted", "source": "src/game/arm9/tcb_list.c", "version_switch": false, "status": "EXACT"},
   {"name": "TCB_InsertTask", "black_address": "0x02030DC8", "white_address": "0x02030DE0", "size": 228, "diff": "shifted", "source": "src/game/arm9/tcb_list.c", "version_switch": false, "status": "EXACT"},
   {"name": "TCB_DeleteTask", "black_address": "0x02030EAC", "white_address": "0x02030EC4", "size": 60, "diff": "shifted", "source": "src/game/arm9/tcb_list.c", "version_switch": false, "status": "EXACT"},
-  {"name": "TCBL_IsDeletePending", "black_address": "0x02030EE8", "white_address": "0x02030F00", "size": 8, "diff": "shifted", "source": "src/game/arm9/tcbl.c", "version_switch": false, "status": "EXACT"},
+  {"name": "TCBL_GetOwnedWork", "black_address": "0x02030EE8", "white_address": "0x02030F00", "size": 8, "diff": "shifted", "source": "src/game/arm9/tcbl.c", "version_switch": false, "status": "EXACT"},
   {"name": "TCBL_GetTaskSlot", "black_address": "0x02030EF0", "white_address": "0x02030F08", "size": 20, "diff": "shifted", "source": "src/game/arm9/tcbl.c", "version_switch": false, "status": "EXACT"},
   {"name": "TCBL_PopFreeTask", "black_address": "0x02030F04", "white_address": "0x02030F1C", "size": 48, "diff": "shifted", "source": "src/game/arm9/tcbl.c", "version_switch": false, "status": "EXACT"},
   {"name": "TCBL_PushFreeTask", "black_address": "0x02030F34", "white_address": "0x02030F4C", "size": 28, "diff": "shifted", "source": "src/game/arm9/tcbl.c", "version_switch": false, "status": "EXACT"},

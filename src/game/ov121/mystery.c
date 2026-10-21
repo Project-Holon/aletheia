@@ -234,7 +234,7 @@ struct PrintSys;
 struct Rec;
 struct Proc;
 struct Obj;
-struct RtcDate;
+#include "../sdk_rtc.h"
 struct U16Vec;
 struct Strbuf;
 struct Actor;
@@ -1150,7 +1150,7 @@ void MYSTERY_TaskReceive(void *task,u32 *state,u8 *p)
             if(v==0) {
                 MYSTERY_DeleteCardMenu((char *)p);
                 if(((MysteryPacketFlag *)(p+1152))->bit && MYSTERY_DATA_IsEventFlag(((MysteryWork *)p)->mysteryData.ptr,((MysteryWork *)p)->packet.eventFlag)) {*state=11;break;}
-                GF_STANDARD_GetCachedDate((struct RtcDate *)(&date));
+                GF_STANDARD_GetCachedDate((RTCDate *)(&date));
                 ((MysteryWork *)p)->packet.date=(((u32)date.y+2000)<<16)|(((u32)date.m<<24)>>16)|(u8)date.d;
                 MYSTERY_DATA_AddCard(((MysteryWork *)p)->mysteryData.ptr,p+972);
                 MYSTERY_DATA_SetEventFlag(((MysteryWork *)p)->mysteryData.ptr,((MysteryWork *)p)->packet.eventFlag);

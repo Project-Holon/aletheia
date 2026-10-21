@@ -240,7 +240,15 @@ struct ClInitParam;
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 #include "../arm9/gf_font.h"
 struct PrintQueue;
-extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
+#ifdef __MWERKS__
+#define PRINTSYS_PrintColor PRINTSYS_PrintColorHeader
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef PRINTSYS_PrintColor
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+#endif
 struct GFont;
 struct TaskMenuRes;
 #include "../arm9/app_taskmenu.h"
@@ -249,9 +257,15 @@ struct TcblSystem;
 #include "../arm9/tcbl.h"
 #include "../arm9/gamesystem.h"
 struct SaveControl;
-extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
-extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+#ifdef __MWERKS__
+#define GFL_HEAP_Free GFL_HEAP_FreeHeader
+#endif
+#include "../arm9/gfl_heap_wrap.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef GFL_HEAP_Free
+extern void GFL_HEAP_Free(void *p);
+#endif
 struct TcbTask;
 extern struct TcbTask *GFL_USE_AddMainTask(void (*fn)(struct Task *, OptionMenuScreen *), void *work, u32 priority);
 struct TcbTask;
@@ -259,19 +273,15 @@ struct TcbTask;
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void BMP_WIN_Init(u32 heapId);
 #include "../arm9/arc_tool.h"
-extern void GFL_HEAP_Free(void *p);
 struct BmpWin;
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BMP_WIN_Exit(void);
 struct Strbuf;
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 struct Bmp;
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 struct Bmp;
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
@@ -282,26 +292,23 @@ extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 #include "../arm9/nns_gfd_vram_transfer.h"
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct ClactSysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
+#ifdef __MWERKS__
+#define CLACT_RegisterPalette CLACT_RegisterPaletteHeader
+#define CLACT_RegisterCharacter CLACT_RegisterCharacterHeader
+#define CLACT_CreateActor CLACT_CreateActorHeader
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef CLACT_RegisterPalette
 extern s32 CLACT_RegisterPalette(void *arc, int id, int b, int c, int heapId);
+#undef CLACT_RegisterCharacter
 extern s32 CLACT_RegisterCharacter(void *arc, int id, int b, int c, int heapId);
-extern s32 CLACT_RegisterCellAnim(void *arc, u32 first, u32 second, u32 heapId);
-extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, struct ClRes *charRes, struct ClRes *plttRes, struct ClRes *cellRes, struct ActorInitParam *param, int flag, int heapId);
+#undef CLACT_CreateActor
+extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, unsigned int charRes, unsigned int plttRes, unsigned int cellRes, struct ActorInitParam *param, int flag, int heapId);
+#endif
 struct Actor;
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 pltt_op);
 #include "../arm9/net.h"
-extern void CLACT_DeleteActor(struct ClactActor *actor);
-extern void CLACT_ReleasePalette(u32 idx);
-extern void CLACT_ReleaseCharacter(u32 idx);
-extern void CLACT_ReleaseCellAnim(u32 idx);
-extern u32 CLACT_DeleteUnit(struct Unit *unit);
-extern void CLACT_ExitSystem(void);
-extern void CLACT_SetActorAnimIndex(struct ClactActor *actor, u32 anim_idx);
-extern void CLACT_DrawSystem(void);
-extern void CLACT_VBlankSystem(void);
 #include "../arm9/touchpanel.h"
 #include "../arm9/key.h"
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
@@ -310,13 +317,7 @@ struct PrintStreamCtrl;
 extern u8 BMP_WIN_GetPalette(struct BmpWin *win);
 #include "../arm9/bmp_menuwork.h"
 struct TextPrinter;
-extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
-extern void PRINTSYS_PrintQue(void *queue, struct Bmp *bmp, u32 x, s16 y, void *str, struct GfFont *font);
-extern struct TextPrinter *PRINTSYS_PrintStream(struct BmpWin *win, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, s32 wait, struct Tcbl *tcbl, u32 priority, u16 heap, u16 fillColor);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 #include "../ov067/touchbar.h"
-extern void CLACT_ChangeActorAnimSeq(struct ClactActor *actor, u16 anim_seq);
-extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u32 which);
 extern void GFL_USE_SetStereoOutput(u32 a);
 struct TaskMenuInitWork;
 struct TaskMenuWork;
@@ -324,7 +325,6 @@ struct TaskMenuWork;
 #include "../arm9/config.h"
 #include "../arm9/gf_standard.h"
 #include "../arm9/fade.h"
-extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 #include "../arm9/save_control.h"
 #include "../arm9/msg_speed.h"
 
@@ -334,7 +334,7 @@ int OPTION_MENU_Main(struct Proc *proc, int *seq, void *args, OptionMenuWork *wo
 void OPTION_MENU_InitScreen(OptionMenuScreen *screen, u16 heapId);
 void OPTION_MENU_ExitScreen(OptionMenuScreen *screen);
 void OPTION_MENU_UpdateScreen(OptionMenuScreen *screen);
-struct ClActor *OPTION_MENU_GetScreenSpriteActor(OptionMenuScreen *screen, int index);
+struct ClactActor *OPTION_MENU_GetScreenSpriteActor(OptionMenuScreen *screen, int index);
 struct Unit *OPTION_MENU_GetScreenSpriteUnit(OptionMenuScreen *screen);
 struct BmpWindow *OPTION_MENU_GetScreenWindow(OptionMenuScreen *screen, int index);
 void OPTION_MENU_RestartScreenBlink(OptionMenuScreen *screen);
@@ -351,7 +351,7 @@ void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 he
 void OPTION_MENU_ExitSprites(OptionMenuSprites *sprites);
 void OPTION_MENU_UpdateSprites(OptionMenuSprites *sprites);
 void OPTION_MENU_DrawSprites(OptionMenuSprites *sprites);
-struct ClActor *OPTION_MENU_GetSpriteActor(OptionMenuSprites *sprites, int index);
+struct ClactActor *OPTION_MENU_GetSpriteActor(OptionMenuSprites *sprites, int index);
 struct Unit *OPTION_MENU_GetSpriteUnit(OptionMenuSprites *sprites);
 void OPTION_MENU_InitInput(OptionMenuInput *input, int heapId);
 void OPTION_MENU_ExitInput(OptionMenuInput *input);
@@ -544,7 +544,7 @@ void OPTION_MENU_UpdateScreen(OptionMenuScreen *screen)
     OPTION_MENU_UpdateGfxBlink(&screen->gfx);
 }
 
-struct ClActor *OPTION_MENU_GetScreenSpriteActor(OptionMenuScreen *screen, int index)
+struct ClactActor *OPTION_MENU_GetScreenSpriteActor(OptionMenuScreen *screen, int index)
 {
     return OPTION_MENU_GetSpriteActor(&screen->sprites, index);
 }
@@ -776,11 +776,11 @@ void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 he
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     arc = ARC_TOOL_CreateHandle(0x1b, heapId);
-    sprites->plttRes = (struct ClRes *)CLACT_RegisterPalette(arc, 6, 0, 0, heapId);
-    sprites->mainCharRes = (struct ClRes *)CLACT_RegisterCharacter(arc, 5, 0, 0, heapId);
-    sprites->mainCellRes = (struct ClRes *)CLACT_RegisterCellAnim(arc, 4, 3, heapId);
-    sprites->subCharRes = (struct ClRes *)CLACT_RegisterCharacter(arc, 0xc, 0, 0, heapId);
-    sprites->subCellRes = (struct ClRes *)CLACT_RegisterCellAnim(arc, 0xb, 0xa, heapId);
+    sprites->plttRes = CLACT_RegisterPalette(arc, 6, 0, 0, heapId);
+    sprites->mainCharRes = CLACT_RegisterCharacter(arc, 5, 0, 0, heapId);
+    sprites->mainCellRes = CLACT_RegisterCellAnim(arc, 4, 3, heapId);
+    sprites->subCharRes = CLACT_RegisterCharacter(arc, 0xc, 0, 0, heapId);
+    sprites->subCellRes = CLACT_RegisterCellAnim(arc, 0xb, 0xa, heapId);
     ARC_TOOL_DeleteHandle(arc);
     MI_CpuFill8(&param, 0, 8);
     param.bgPriority = 2;
@@ -788,7 +788,7 @@ void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 he
     for (i = OPTION_ACTOR_CHOICE_FIRST; i < OPTION_ACTOR_CHOICE_FIRST + OPTION_ACTOR_CHOICE_COUNT; i++) {
         param.x = gOptionMenuChoices[i - 2].actorX;
         param.y = gOptionMenuChoices[i - 2].actorY;
-        sprites->actors[i] = (struct ClActor *)CLACT_CreateActor(sprites->unit, sprites->mainCharRes, sprites->plttRes, sprites->mainCellRes, (struct ActorInitParam *)(&param), 0, heapId);
+        sprites->actors[i] = CLACT_CreateActor(sprites->unit, sprites->mainCharRes, sprites->plttRes, sprites->mainCellRes, (struct ActorInitParam *)(&param), 0, heapId);
         CLACT_SetActorAutoAnim((struct ClactActor *)sprites->actors[i], 0);
     }
     MI_CpuFill8(&param, 0, 8);
@@ -796,7 +796,7 @@ void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 he
     param.y = 0x60;
     param.bgPriority = 2;
     param.priority = 1;
-    sprites->actors[OPTION_ACTOR_CURSOR] = (struct ClActor *)CLACT_CreateActor(sprites->unit, sprites->subCharRes, sprites->plttRes, sprites->subCellRes, (struct ActorInitParam *)(&param), 0, heapId);
+    sprites->actors[OPTION_ACTOR_CURSOR] = CLACT_CreateActor(sprites->unit, sprites->subCharRes, sprites->plttRes, sprites->subCellRes, (struct ActorInitParam *)(&param), 0, heapId);
     CLACT_SetActorPaletteOffset((struct ClactActor *)sprites->actors[OPTION_ACTOR_CURSOR], 6, 1);
     if (GFL_NET_GetRunState())
         GFL_NET_RefreshWmIconAtTopRight(1, heapId);
@@ -839,7 +839,7 @@ void OPTION_MENU_UpdateSprites(OptionMenuSprites *sprites)
 
 void OPTION_MENU_DrawSprites(OptionMenuSprites *sprites) { CLACT_VBlankSystem(); }
 
-struct ClActor *OPTION_MENU_GetSpriteActor(OptionMenuSprites *sprites, int index)
+struct ClactActor *OPTION_MENU_GetSpriteActor(OptionMenuSprites *sprites, int index)
 {
     return sprites->actors[index];
 }

@@ -145,13 +145,18 @@ struct SysInit;
 
 #include "egg_demo_menu.h"
 
+/* The DS code was built against other parameter widths for G3D_SYSTEM_Init (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void G3D_SYSTEM_Init(unsigned,unsigned,unsigned,unsigned,u16,unsigned,void (*)(void));
+#else
+#include "../arm9/g3d_system.h"
+#endif
+extern void G3D_SYSTEM_Exit(void);
 
 extern struct G3dCamera *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, VecFx32 *eye, VecFx32 *target, VecFx32 *up, u16 heapID);
 
 extern u32 G3D_CAMERA_Delete(void *ptr);
 
-extern void G3D_SYSTEM_Exit(int);
 
 extern void G3D_SYSTEM_DrawStart(void);
 struct G3dCamera;
@@ -334,7 +339,8 @@ void EGG_DEMO_GRAPHIC_InitG3d(void **g3d,u16 heapId)
 
 void EGG_DEMO_GRAPHIC_DeleteG3d(int *g3d)
 {
-    G3D_SYSTEM_Exit(G3D_CAMERA_Delete(((struct EggDemoG3d *)g3d)->camera));
+    G3D_CAMERA_Delete(((struct EggDemoG3d *)g3d)->camera);
+    G3D_SYSTEM_Exit();
 }
 
 /*

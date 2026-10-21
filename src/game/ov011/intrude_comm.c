@@ -315,11 +315,7 @@ typedef struct { u8 value; u8 enabled; } LinkValueMessage;
 struct EventSlots;
 #include "../ov010/event_field_proclink_return.h"
 #include "../arm9/strbuf.h"
-#ifdef __MWERKS__
-extern void GAME_DATA_SetOwnNetId(struct GameData *gd, u32 value); /* original prototype; the definition differs in argument width */
-#else
-extern void GAME_DATA_SetOwnNetId(struct GameData*, u8);
-#endif
+extern void GAME_DATA_SetOwnNetId(struct GameData *gd, u32 value);
 extern void GAME_DATA_SetIntrudeId(struct GameData *gameData, u32 intrudeId);
 extern void GAME_DATA_SetEnterMode(struct GameData *gameData, u8 enterMode);
 extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 index);

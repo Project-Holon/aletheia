@@ -1069,7 +1069,7 @@ int FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc
 
 void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap)
 {
-    struct RtcTime time;
+    RTCTime time;
     u16 zoneId = FIELDMAP_GetZoneId(fieldMap);
     struct FieldPlayer *player = FIELDMAP_GetFieldPlayer(fieldMap);
 

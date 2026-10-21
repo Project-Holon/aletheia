@@ -85,6 +85,7 @@
  *   MI_CpuCopy8  0x02082D44  arm
  */
 #include "br_types.h"
+#include "br_proc_sys_types.h"
 
 struct BrProcWorkOwner;
 
@@ -145,22 +146,6 @@ typedef struct { int w0, w4, w8, wc, w10, w14; struct { int pad[3]; struct { int
 
 typedef struct Fields {u32 words[4];void *handles[4];u32 flags[4];u64 values[4];u32 state,ready;} Fields;
 
-typedef struct Context {
-    unsigned object;               /* 0x00 process-system object */
-    void *base;                    /* 0x04 record array base */
-    unsigned short count;          /* 0x08 record count */
-    unsigned short pad0;           /* 0x0A */
-    unsigned arg;                  /* 0x0C */
-    unsigned short heap;           /* 0x10 heap id */
-    unsigned short pad1;           /* 0x12 */
-    int done;                      /* 0x14 set when the running slot completes */
-    int state;                     /* 0x18 slot state machine */
-    u8 slotArea[0x30];             /* 0x1C old/current/next slots and entry scratch */
-    unsigned pending[6];           /* 0x4C pending record indices */
-    int pendingCount;              /* 0x64 */
-    unsigned *list;                /* 0x68 loaded index list */
-    int loaded;                    /* 0x6C */
-} Context;
 
 struct Ops {u32 id,size,fn;void (*init)(void *,u32,void *,int);void (*update)(void *,u32);};
 
@@ -177,7 +162,7 @@ typedef struct BrProcEntry {
 typedef struct BrProcSys {
     void *graphic;                     /* 0x00 */
     void *resources;                   /* 0x04 */
-    Context *proc;                     /* 0x08 */
+    struct BrProcSysContext *proc;                     /* 0x08 */
     void *fade;                        /* 0x0C */
     void *sidebar;                     /* 0x10 */
     void *net;                         /* 0x14 */
@@ -353,7 +338,6 @@ struct StoredMon;
 
 
 
-extern void PROCSYS_Delete(struct ProcSys *);
 
 
 
@@ -420,7 +404,7 @@ void BR_PROC_SYS_NoopI(void);
 
 void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap);
 
-Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap);
+struct BrProcSysContext *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap);
 
 void BR_PROC_SYS_Delete(int *p);
 
@@ -434,9 +418,9 @@ void BR_PROC_SYS_PopEntry(unsigned *ctx);
 
 void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index);
 
-void BR_PROC_SYS_SetupWindow(Context *p);
+void BR_PROC_SYS_SetupWindow(struct BrProcSysContext *p);
 
-void BR_PROC_SYS_FlushWindows(Context *p);
+void BR_PROC_SYS_FlushWindows(struct BrProcSysContext *p);
 
 void BR_PROC_SYS_InitEntry(char *p,int a,int b);
 
@@ -489,7 +473,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     } else GF_OVERLAY_Load((sptr)ov125_id);
     if(GFL_NET_GetRunState()) GFL_NET_RefreshWmIconAtTopRight(0,0x5a);
     if(!**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
-        if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) FIELD_SOUND_SYSTEM_FadeVolume((void *)GAME_DATA_GetBgmInfo((struct GameData *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
+        if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) FIELD_SOUND_SYSTEM_FadeVolume(GAME_DATA_GetBgmInfo((struct GameData *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
     } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
     if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag==1) {
         BR_SIDEBAR_ResetPositions((struct BrSidebar *)(*(int *)&((struct BrProcSys *)p)->sidebar));BR_SIDEBAR_StartWobble((struct BrSidebar *)(*(int *)&((struct BrProcSys *)p)->sidebar));
@@ -501,7 +485,7 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
 int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
 {
     int *nested=(int *)((int *)p[6])[3];
-    if(nested[0]==0) FIELD_SOUND_SYSTEM_FadeVolume((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo((struct GameData *)nested[1]),0x7f,0);
+    if(nested[0]==0) FIELD_SOUND_SYSTEM_FadeVolume(GAME_DATA_GetBgmInfo((struct GameData *)nested[1]),0x7f,0);
     if(p[5]) {
         if(BR_NET_IsFatal((struct BrNet *)p[5])) ((int *)((int *)p[6])[3])[3]=2;
         BR_NET_Destroy((struct BrNet *)p[5]); p[5]=0;
@@ -877,9 +861,9 @@ void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap)
     }
 }
 
-Context *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap)
+struct BrProcSysContext *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap)
 {
-    Context *ctx;
+    struct BrProcSysContext *ctx;
     unsigned i = 0;
     ctx = GFL_HEAP_Alloc(heap, 0x70, 0, d_02200D04, 0x77);
     MI_CpuFill8(ctx, 0, 0x70);
@@ -919,29 +903,29 @@ void BR_PROC_SYS_RunSlot(char *p)
  current=(struct BrProcSysSlot *)(p+0x2c);
  old=(struct BrProcSysSlot *)(p+0x1c);
  next=(struct BrProcSysSlot *)(p+0x3c);
- switch(((struct Context *)p)->state){
- case 0:*old=*current;*current=*next;((struct Context *)p)->state=1;break;
+ switch(((struct BrProcSysContext *)p)->state){
+ case 0:*old=*current;*current=*next;((struct BrProcSysContext *)p)->state=1;break;
  case 1:{
   int mode;
   if(!current->active)GF_PANIC_Fail(d_02200D14,0,d_02200D14);
   if(!current->ops->init)GF_PANIC_Fail(d_02200D14,0,d_02200D14);
-  current->work=GFL_HEAP_Alloc(((struct Context *)p)->heap,current->ops->size,0,d_02200D04,0xd2);
+  current->work=GFL_HEAP_Alloc(((struct BrProcSysContext *)p)->heap,current->ops->size,0,d_02200D04,0xd2);
   MI_CpuFill8(current->work,0,current->ops->size);
-  mode=-2;if(!((struct Context *)p)->loaded)mode=old->arg;
-  current->ops->init(current->work,((struct Context *)p)->arg,old->work,mode);
-  ((struct Context *)p)->loaded=0;
+  mode=-2;if(!((struct BrProcSysContext *)p)->loaded)mode=old->arg;
+  current->ops->init(current->work,((struct BrProcSysContext *)p)->arg,old->work,mode);
+  ((struct BrProcSysContext *)p)->loaded=0;
   if(old->work)GFL_HEAP_Free(old->work);
-  PROCSYS_Push((struct ProcSys *)*(u32 *)&((struct Context *)p)->object,current->ops->fn,(const struct ProcData *)current->ops->id,current->work);
-  ((struct Context *)p)->state=2;break;
+  PROCSYS_Push((struct ProcSys *)*(u32 *)&((struct BrProcSysContext *)p)->object,current->ops->fn,(const struct ProcData *)current->ops->id,current->work);
+  ((struct BrProcSysContext *)p)->state=2;break;
  }
- case 2:if(!PROCSYS_Main((void *)((struct Context *)p)->object))((struct Context *)p)->state=3;break;
+ case 2:if(!PROCSYS_Main((void *)((struct BrProcSysContext *)p)->object))((struct BrProcSysContext *)p)->state=3;break;
  case 3:
   if(!current->active)GF_PANIC_Fail(d_02200D14,0,d_02200D14);
-  if(current->ops->update)current->ops->update(current->work,((struct Context *)p)->arg);
-  if(((struct Context *)p)->pendingCount)((struct Context *)p)->state=0;
-  else{if(current->work)GFL_HEAP_Free(current->work);((struct Context *)p)->state=4;}
+  if(current->ops->update)current->ops->update(current->work,((struct BrProcSysContext *)p)->arg);
+  if(((struct BrProcSysContext *)p)->pendingCount)((struct BrProcSysContext *)p)->state=0;
+  else{if(current->work)GFL_HEAP_Free(current->work);((struct BrProcSysContext *)p)->state=4;}
   break;
- case 4:((struct Context *)p)->done=1;break;
+ case 4:((struct BrProcSysContext *)p)->done=1;break;
  }
 }
 
@@ -983,7 +967,7 @@ void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index)
     BrProcEntry info;
     char *base = (char *)ctx[1];
     char *entry = base + index * 20;
-    if (index >= ((struct Context *)ctx)->count)
+    if (index >= ((struct BrProcSysContext *)ctx)->count)
         GF_PANIC_Fail(d_02200D14, 0, d_02200D14);
     BR_PROC_SYS_InitEntry((char *)(&info), index, (sptr)entry);
     if (ctx[25] >= 6)
@@ -993,14 +977,14 @@ void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index)
     *(BrProcEntry *)((char *)ctx + 0x3c) = info;
 }
 
-void BR_PROC_SYS_SetupWindow(Context *p)
+void BR_PROC_SYS_SetupWindow(struct BrProcSysContext *p)
 {
     MI_CpuCopy8(p->pending, p->list, 0x18);
     ((struct BrProcSlotList *)((char *)p->list))->count = p->pendingCount;
     BR_PROC_SYS_FlushWindows(p);
 }
 
-void BR_PROC_SYS_FlushWindows(Context *p)
+void BR_PROC_SYS_FlushWindows(struct BrProcSysContext *p)
 {
     while (p->pendingCount != 0)
         BR_PROC_SYS_PopEntry((unsigned int *)p);

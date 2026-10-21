@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   SCRCMD_WORK_GetGameData  0x0215A5E4  thumb  ov010
  *   GAME_DATA_GetEventData  0x02012844  thumb
  *   EVENTDATA_SYSTEM_GetNpcCount  0x02162744  thumb  ov010
@@ -26,7 +26,7 @@
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct SaveBlock;
-void *SCRCMD_WORK_GetOccupyInfo(void *p);
+void *SCRCMD_WORK_GetMmdlSys(void *p);
 void *SCRCMD_WORK_GetGameData(void *a0);
 typedef unsigned int   u32;
 struct BigObj;
@@ -51,7 +51,7 @@ int SCRCMD_FLDMMDL_AddPartyFollowerMmdl(int a, int b)
     int s10;
     int r0;
 
-    s8 = (int)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    s8 = (int)SCRCMD_WORK_GetMmdlSys((void *)b);
     r4 = SCRCMD_WORK_GetGameData((void *)b);
     sc = GAME_DATA_GetEventData(r4);
     r5 = EVENTDATA_SYSTEM_GetNpcCount((u8 *)sc);

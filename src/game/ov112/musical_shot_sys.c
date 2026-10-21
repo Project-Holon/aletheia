@@ -65,7 +65,7 @@
 
 struct Proc;
 
-struct RtcDate;
+#include "../sdk_rtc.h"
 
 struct Proc;
 
@@ -172,7 +172,7 @@ int MUSICAL_SHOT_SYS_Create(void *owner,int unused,const Save *save)
   p->save->config=GFL_HEAP_Alloc(74,length,1,d_021F836C,111);
   p->save->b=0;
   cfg=p->save->config;
-  GF_STANDARD_GetCachedDate((struct RtcDate *)(&options));
+  GF_STANDARD_GetCachedDate((RTCDate *)(&options));
   ((MusicalShotRecord *)cfg)->programId=3;((MusicalShotRecord *)cfg)->winnerMask=(u8)2;
   ((MusicalShotRecord *)cfg)->year=options.x;((MusicalShotRecord *)cfg)->month=options.y;((MusicalShotRecord *)cfg)->day=options.z;
   *(u16 *)((uptr)cfg+(length-0x4C))=0x30DD;

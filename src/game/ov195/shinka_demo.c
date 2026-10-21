@@ -355,7 +355,7 @@ struct TcbSystem;
 #include "../ov067/yesno_menu.h"
 #ifdef __MWERKS__
 #undef YESNO_MENU_Create
-extern YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, u32 fontId, struct PrintSys *printer, int extra);
+extern YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, struct GfFont *font, struct PrintQueue *printer, int extra);
 #endif
 #ifdef __MWERKS__
 #define SHINKA_DEMO_YESNO_MENU_CREATE(a, b, c, d, e, f, g, h, extra) YESNO_MENU_Create(a, b, c, d, e, f, g, h, extra)
@@ -614,7 +614,7 @@ int SHINKA_DEMO_Main(int unused0,int unused1,char *a,char *s)
     case 29:
         if(FADE_IsActive())break;
         W(0x28)=30;GF_OVERLAY_Unload((sptr)ov196_id);GF_OVERLAY_Unload((sptr)ov198_id);PALANM_FreeSlotBuffers(P(0xa8),1);PALANM_FreeSlotBuffers(P(0xa8),3);PALANM_Delete(P(0xa8));TCB_Noop(P(0xa0));GFL_HEAP_Free(P(0xa4));W(0xa0)=0;W(0xa4)=0;W(0xa8)=0;
-        SHINKA_DEMO_SETUP_SUB_BG_ARG(P(4));P(0x9c)=SHINKA_DEMO_YESNO_MENU_CREATE(H(0),5,0,1,0,(void *)(SHINKA_DEMO_GRAPHIC_GetCamera((char *)(P(4)))),W(8),(struct PrintSys *)(W(0xc)),0);GFL_NET_RefreshWmIconAtTopRight(0,H(0));FADE_Start(2,16,0,0);break;
+        SHINKA_DEMO_SETUP_SUB_BG_ARG(P(4));P(0x9c)=SHINKA_DEMO_YESNO_MENU_CREATE(H(0),5,0,1,0,(void *)(SHINKA_DEMO_GRAPHIC_GetCamera((char *)(P(4)))),(struct GfFont *)W(8),(struct PrintQueue *)(W(0xc)),0);GFL_NET_RefreshWmIconAtTopRight(0,H(0));FADE_Start(2,16,0,0);break;
     case 30:
         if(FADE_IsActive())break;
         B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=POKE_TOOL_GetPartyValue(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}
@@ -1186,7 +1186,7 @@ void SHINKA_DEMO_CreateConfirmMenu(int unused, char *scene)
 {
     ((struct Scene *)scene)->confirmMsgBank = (uptr)MSGDATA_CreateFromArchive(0, 2, 0xe9, ((struct Scene *)scene)->heap);
     ((struct Scene *)scene)->yesNoMenu = (uptr)SHINKA_DEMO_YESNO_MENU_CREATE(((struct Scene *)scene)->heap, 5, 0, 1, 0, (void *)(SHINKA_DEMO_GRAPHIC_GetCamera((char *)(((struct Scene *)scene)->graphic))),
-                                       ((struct Scene *)scene)->font, (struct PrintSys *)(((struct Scene *)scene)->printQue), 0);
+                                       (struct GfFont *)((struct Scene *)scene)->font, (struct PrintQueue *)(((struct Scene *)scene)->printQue), 0);
     ((struct Scene *)scene)->strbufC = 0;
     ((struct Scene *)scene)->strbufD = 0;
 }

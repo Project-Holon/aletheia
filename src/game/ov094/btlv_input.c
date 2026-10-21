@@ -27,7 +27,7 @@
  *   PALANM_RequestFade  0x0202173C  thumb
  *   PALANM_GetFadeRequestBits  0x02021ED8  thumb
  *   BG_SYS_SetPlaneVisible  0x02040588  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetOwnedWork   0x02030EE8  arm
  *   KEY_GetTrg 0x020362DC arm
  *   PALANM_BlendColors  0x02021F64  thumb
  *   GFL_HEAP_Alloc  0x02030734  arm
@@ -2126,7 +2126,7 @@ typedef struct BtlvInputScrollTask {
 
 void BTLV_INPUT_TaskEndClearBusyBit(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_GetOwnedWork(task);
     input->flags.busy = 0;
 }
 
@@ -2163,7 +2163,7 @@ void BTLV_INPUT_BgScrollTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_INPUT_BgScrollTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_GetOwnedWork(task);
     input->flags.animTasks--;
 }
 
@@ -2201,7 +2201,7 @@ void BTLV_INPUT_BgWipeTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_INPUT_BgWipeTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_GetOwnedWork(task);
     input->flags.animTasks--;
 }
 
@@ -2241,7 +2241,7 @@ void BTLV_INPUT_PaletteCycleTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_INPUT_PaletteCycleTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_GetOwnedWork(task);
     input->flags.animTasks--;
 }
 
@@ -2293,7 +2293,7 @@ void BTLV_INPUT_CursorActorTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_INPUT_CursorActorTaskEnd(void *task)
 {
-    BtlvInputCursorActorTask *t = (BtlvInputCursorActorTask *)TCBL_IsDeletePending(task);
+    BtlvInputCursorActorTask *t = (BtlvInputCursorActorTask *)TCBL_GetOwnedWork(task);
     int i;
 
     for (i = 0; i < 6; i++) {
@@ -2355,7 +2355,7 @@ void BTLV_INPUT_PaletteFlashTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_INPUT_PaletteFlashTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_GetOwnedWork(task);
     input->flags.animTasks--;
 }
 
@@ -2413,7 +2413,7 @@ void BTLV_INPUT_WaitFadeTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_INPUT_WaitFadeTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_GetOwnedWork(task);
     input->flags.fadeKind = 0;
 }
 
@@ -2436,7 +2436,7 @@ void BTLV_INPUT_CursorMoveTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_INPUT_CursorMoveTaskEnd(void *task)
 {
-    BtlvInput *input = *(BtlvInput **)TCBL_IsDeletePending(task);
+    BtlvInput *input = *(BtlvInput **)TCBL_GetOwnedWork(task);
     input->flags.animTasks--;
 }
 
@@ -3593,7 +3593,7 @@ void BTLV_INPUT_ButtonFlashTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_INPUT_ButtonFlashTaskEnd(void *task)
 {
-    (*(BtlvInput **)TCBL_IsDeletePending((struct TcblSystem *)task))->flags.inputLock = 0;
+    (*(BtlvInput **)TCBL_GetOwnedWork((struct TcblSystem *)task))->flags.inputLock = 0;
 }
 
 void BTLV_INPUT_DrawRunButtonText(BtlvInput *input, char *runInfo)
@@ -3670,7 +3670,7 @@ void BTLV_INPUT_DeleteTask(BtlvInput *input, void *task)
     int off;
 
     if (task != 0) {
-        void *r = (void *)TCBL_IsDeletePending((struct TcblSystem *)task);
+        void *r = (void *)TCBL_GetOwnedWork((struct TcblSystem *)task);
         char *t = (char *)input->taskEnd;
         void (*cb)(void *);
 

@@ -988,37 +988,7 @@ typedef void (*Fn)(struct RigObject *, struct RenderNode *);
 
 typedef void (*Fn1)(SPLTexture *);
 
-typedef void *(*AllocFn)(u32 size);
-
-struct VramNodeHeap {
-    AllocFn alloc;       /* 0x00 */
-    u32 reserved0;
-    u32 reserved1;
-    u32 reserved2;
-    u32 nodeListFirst;
-    u32 nodeListCount;
-    u32 nodeListLast;
-    u32 rowListFirst;
-    u32 rowListCount;
-    u32 rowListLast;
-    u32 reserved3;
-    u32 reserved4;
-    u16 reserved5;
-    u16 reserved6;
-    u16 nodeCount;
-    u16 rowCount;
-    u32 b0  : 6;
-    u32 b6  : 6;
-    u32 b12 : 6;
-    u32 b18 : 6;
-    u32 b24 : 1;
-    u32 b25 : 7;
-    u32 reserved7;
-    u32 reserved8;
-    u32 reserved9;
-    u16 reserved10;
-    u16 reserved11;
-};
+#include "spl_emitter.h"
 
 struct VramNodeBlob9C { u8 b[0x9c]; };
 
@@ -4149,7 +4119,7 @@ struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2
     h->b24 = 0;
     h->b25 = 0;
     h->alloc = alloc;
-    h->reserved1 = 0;
+    h->effectCount = 0;
     h->nodeListCount = 0;
     h->rowListCount = 0;
     h->reserved0 = 0;

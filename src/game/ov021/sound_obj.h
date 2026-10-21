@@ -5,13 +5,12 @@
 /* Public functions of sound_obj.c, prototypes copied from their definitions. */
 
 struct SoundObj;
-struct G3dObjectStatus;
 typedef struct SoundObj SoundObj;
-typedef struct G3dObjectStatus G3dObjectStatus;
 
 #include "../ov020/event_mapchange_types.h"
 #include "../sdk_fx.h"
 #include "../types.h"
+#include "../arm9/g3d_system_types.h"
 
 SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 startArg0, u32 startArg1);
 SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, G3dObjectStatus *target);

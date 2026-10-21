@@ -100,7 +100,7 @@ extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
 extern s32 CLACT_RegisterCharacter(void *arc, u32 id, u32 compressed, u32 vramType, u16 heapId);
 extern s32 CLACT_RegisterCellAnim(void *arc, u32 cellId, u32 animId, u32 heapId);
 extern void CLACT_ReleaseCharacter(u32 resId);
-extern u32 CLACT_ReleaseCellAnim();
+extern void CLACT_ReleaseCellAnim(u32 handle);
 extern s32 CLACT_RegisterPaletteEx(void *arc, u32 id, u32 type, u32 offset, u16 palCount, u16 slot, u16 heapId);
 extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern u32 CLACT_DeleteUnit(struct Unit *unit);
@@ -114,7 +114,7 @@ struct GameData;
 struct DispVramCfg;
 struct SysInit;
 extern void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
-extern u32 CLACT_ExitSystem(u32 a);
+extern void CLACT_ExitSystem(void);
 extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
 
 /* palette_anime.c */
@@ -141,12 +141,12 @@ void RESEARCH_COMMON_ClearFields(struct ResearchCommon *common);
 struct ResearchCommon *RESEARCH_COMMON_Alloc(u32 heapId);
 u32 RESEARCH_COMMON_Free(struct ResearchCommon *common);
 void RESEARCH_COMMON_Init(struct ResearchCommon *common, const struct Ctx *ctx, u32 heapId);
-u32 RESEARCH_COMMON_Exit(struct ResearchCommon *common);
+void RESEARCH_COMMON_Exit(struct ResearchCommon *common);
 void RESEARCH_COMMON_InitClact(struct ResearchCommon *common);
-u32 RESEARCH_COMMON_ExitClact(u32 a);
+void RESEARCH_COMMON_ExitClact(u32 a);
 void RESEARCH_COMMON_ClearResourceIds(struct ResearchCommon *common);
 void RESEARCH_COMMON_RegisterResources(struct ResearchCommon *common);
-u32 RESEARCH_COMMON_ReleaseResources(struct ResearchCommon *common);
+void RESEARCH_COMMON_ReleaseResources(struct ResearchCommon *common);
 void RESEARCH_COMMON_ClearClactUnit(struct ResearchCommon *common);
 void RESEARCH_COMMON_CreateClactUnit(struct ResearchCommon *common);
 void RESEARCH_COMMON_DeleteClactUnit(struct ResearchCommon *common);
@@ -323,7 +323,7 @@ void RESEARCH_COMMON_Init(struct ResearchCommon *common, const struct Ctx *ctx, 
 }
 
 /* Tears the sub-objects down in reverse order of creation. */
-u32 RESEARCH_COMMON_Exit(struct ResearchCommon *common)
+void RESEARCH_COMMON_Exit(struct ResearchCommon *common)
 {
     RESEARCH_COMMON_ExitPaletteAnime(common);
     RESEARCH_COMMON_DestroyPaletteAnime(common);
@@ -332,7 +332,7 @@ u32 RESEARCH_COMMON_Exit(struct ResearchCommon *common)
     RESEARCH_COMMON_DeleteActor(common);
     RESEARCH_COMMON_DeleteClactUnit(common);
     RESEARCH_COMMON_ReleaseResources(common);
-    return RESEARCH_COMMON_ExitClact((uptr)common);
+    RESEARCH_COMMON_ExitClact((uptr)common);
 }
 
 /*
@@ -347,9 +347,9 @@ void RESEARCH_COMMON_InitClact(struct ResearchCommon *common)
 }
 
 /* Veneer: shuts the CLACT system down. */
-u32 RESEARCH_COMMON_ExitClact(u32 a)
+void RESEARCH_COMMON_ExitClact(u32 a)
 {
-    return CLACT_ExitSystem(a);
+    CLACT_ExitSystem();
 }
 
 /* Clears the three resource ids. */
@@ -375,11 +375,11 @@ void RESEARCH_COMMON_RegisterResources(struct ResearchCommon *common)
 }
 
 /* Releases the three resources. */
-u32 RESEARCH_COMMON_ReleaseResources(struct ResearchCommon *common)
+void RESEARCH_COMMON_ReleaseResources(struct ResearchCommon *common)
 {
     CLACT_ReleaseCharacter(common->resourceIds[0]);
     CLACT_ReleasePalette(common->resourceIds[1]);
-    return CLACT_ReleaseCellAnim(common->resourceIds[2]);
+    CLACT_ReleaseCellAnim(common->resourceIds[2]);
 }
 
 /* Clears the CLACT unit slot. */

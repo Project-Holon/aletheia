@@ -10,7 +10,7 @@ typedef struct DWCi_MOV_MBPChildInfo DWCi_MOV_MBPChildInfo;
 #include "../types.h"
 #include "../sdk_mb.h"
 
-void DWCi_MOV_MBP_MemInit(int x);
+void DWCi_MOV_MBP_MemInit(sptr x);
 void DWCi_MOV_MBP_Init(u32 ggid, u16 tgid);
 void DWCi_MOV_MBP_Start(MBGameRegistry *gameInfo, u16 channel);
 int DWCi_MOV_MBP_RegistFile(MBGameRegistry *gameInfo);

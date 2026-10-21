@@ -113,7 +113,7 @@
  *   d_02184A40 0x02184A40 data a4
  *   GFL_USE_GetRandom 0x020056EC thumb
  *   TCB_AddTask  0x02030DA8  arm
- *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   TCBL_GetOwnedWork  0x02030EE8  arm
  *   GF_STANDARD_SinFromDegrees  0x0203F5FC  arm
  *   CLACT_SetActorPosAxis  0x0204B550  arm
  *   _ll_mul        0x0209C054  arm
@@ -285,12 +285,22 @@ extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 #include "../arm9/app_icon.h"
 extern void BG_SYS_Create(u16);
+/* The DS code was built against other parameter widths for BMP_WIN_Init (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BMP_WIN_Init(u16);
+#else
+#include "../arm9/bmp_win.h"
+#endif
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 #include "../arm9/gf_font.h"
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u8);
+/* The DS code was built against other parameter widths for BG_SYS_InitRun (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u16 heapId);
+#else
+#include "../arm9/bg_sys.h"
+#endif
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_FreeLayerBuf(u32 v);
 extern void BMP_WIN_Exit(void);
@@ -896,7 +906,7 @@ void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x
 
     t = (uptr)TCB_AddTask((struct TcbSystem *)owner, MICTEST_UpdateSpriteTask, entry, (unsigned int)0);
     entry->task = (void *)t;
-    o = (MictestMotion *)TCBL_IsDeletePending((struct TcblSystem *)t);
+    o = (MictestMotion *)TCBL_GetOwnedWork((struct TcblSystem *)t);
     o->actor = handle;
     o->wait = wait;
     o->x = FX_F32_TO_FX32(x);

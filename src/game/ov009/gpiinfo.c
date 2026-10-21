@@ -136,7 +136,6 @@ extern void *__builtin__clear(void *dest, unsigned long size);
 
 typedef int _GPResult;
 
-extern int strncmp(const char *s1, const char *s2, unsigned int n);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 #include "../arm9/msl_strtod.h"
 #include "gpiprofile.h"
@@ -148,7 +147,7 @@ extern void *memset(void *dst, int c, unsigned long n);
 #include "../arm9/os_printf.h"
 extern _GPResult gpiSendLocalInfo(void **connection, char *info, char *value);
 extern _GPResult gpiSendUserInfo(void **connection, char *info, char *value);
-extern int strlen(char *s);
+#include "../arm9/msl_string_str.h"
 #include "gsstringutil.h"
 extern int gpiSendGetInfo(void **connection, int profileid, int operationid);
 #include "gpi.h"

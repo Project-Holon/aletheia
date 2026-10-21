@@ -136,13 +136,19 @@ struct GameData;
 #include "wih_dwc.h"
 #include "game_beacon.h"
 extern void BG_SYS_FreeTileRun(u32 a, u32 b, u32 c);
-extern int  BG_SYS_LoadPltt(u32 a, const void *b, u16 c, u16 d);
+/* Original DS prototype: the caller passes the tile arguments as words; the host build uses the header. */
+#ifdef __MWERKS__
+#define BG_SYS_SetTileEntry BG_SYS_SetTileEntry_header
+#endif
+#include "bg_sys.h"
+#ifdef __MWERKS__
+#undef BG_SYS_SetTileEntry
+extern void BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+#endif
 #include "arc_tool.h"
 #include "arc_util.h"
 extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
-extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 #include "gf_standard.h"
-extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern void BG_SYS_PushTile(u32 index);
 #include "os_emulator.h"
 void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap);
@@ -150,7 +156,7 @@ void INFOWIN_Update(void);
 int INFOWIN_Exit(void);
 void INFOWIN_DrawTask(struct TcbTask *task, void *work);
 void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h);
-int INFOWIN_LoadCharacters(int tile, const void *src, int count);
+void INFOWIN_LoadCharacters(int tile, const void *src, int count);
 void INFOWIN_LoadGraphics(u32 a, u32 b, u16 c);
 void INFOWIN_UpdateClock(void);
 
@@ -469,9 +475,9 @@ void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h)
     BG_SYS_DrawTileEx(gInfoWin->bgFrame, x, y, w, h, (void *)buf, 0, 0, w, h);
 }
 
-int INFOWIN_LoadCharacters(int tile, const void *src, int count)
+void INFOWIN_LoadCharacters(int tile, const void *src, int count)
 {
-    return BG_SYS_LoadPltt(gInfoWin->bgFrame, src, count * 2, (tile + (gInfoWin->palette << 4)) * 2);
+    BG_SYS_LoadPltt(gInfoWin->bgFrame, (void *)src, count * 2, (tile + (gInfoWin->palette << 4)) * 2);
 }
 
 void INFOWIN_LoadGraphics(u32 a, u32 b, u16 c)
@@ -495,7 +501,7 @@ void INFOWIN_LoadGraphics(u32 a, u32 b, u16 c)
 
 void INFOWIN_UpdateClock(void)
 {
-    struct RtcTime time;
+    RTCTime time;
     u32 v;
 
     GF_STANDARD_GetCachedTime(&time);

@@ -4,7 +4,7 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of socl_shutdown.c, prototypes copied from their definitions. */
 
-int SOCL_Shutdown(int s);
+int SOCL_Shutdown(sptr s);
 /* END mkheaders: generated region */
 
 #endif

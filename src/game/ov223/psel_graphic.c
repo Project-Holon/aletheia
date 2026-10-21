@@ -240,7 +240,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern void PSEL_ClearWin3(char *p);
 extern void PSEL_DeleteListAnime(char *p);
 extern void PSEL_NopBgDelete(unsigned char *);
-extern int PSEL_ClearBgLayer2(unsigned char *);
+extern void PSEL_ClearBgLayer2(unsigned char *);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void PSEL_SetupSelectAnime(char *);
 extern void PSEL_CreateUnits(char *);
@@ -259,7 +259,7 @@ extern void PSEL_SetActorPosition(char *,int);
 extern void PSEL_UpdateActorPosition(char *);
 extern void PSEL_SelectUnit(char *,u32);
 extern void PSEL_SetUnitVisible(char *,u32);
-extern int TOUCHPANEL_HitTrg(const void *);
+#include "../arm9/touchpanel.h"
 extern void PSEL_ShowTaskRes(char *),PSEL_UpdateTaskResWin(char *),PSEL_SetTaskResActive(char *),PSEL_DeleteTaskRes(char *),BG_SYS_MarkTileDirty(u32);
 extern u32 PSEL_IsTaskResFinished(char *);
 extern void PSEL_SetAnimTarget(char *,int,int),PSEL_StepAnim(char *);
@@ -275,7 +275,7 @@ extern void PSEL_ClearBgLayerEx(char *);
 extern void PSEL_DeleteActors(char *);
 extern void PSEL_DeleteUnits(char *);
 extern void PSEL_DeleteSelectAnime(char *);
-extern int PSEL_DeleteTaskResData(int *);
+extern void PSEL_DeleteTaskResData(int *);
 extern void PSEL_DeleteWin(char *p);
 extern void PSEL_NopBgWindows(int *);
 extern void PSEL_DeleteG3dUtil(int *);
@@ -284,14 +284,20 @@ struct TcbTask;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 #include "../arm9/g3x.h"
 struct G3dLight;
-extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
+/* The DS code was built against other parameter widths for BG_SYS_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_Create(int);
+extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
+#else
+#include "../arm9/bg_sys.h"
+#endif
+extern void G3D_SYSTEM_Exit(void);
 #include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -306,10 +312,22 @@ struct ClactSysInit;
 #include "../arm9/clact.h"
 struct Unit;
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
+/* The DS code was built against other parameter widths for G3D_SYSTEM_Init (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void G3D_SYSTEM_Init(int,int,int,int,int,int,void (*)(void));
-extern int G3D_CAMERA_Create(int,int,int,int,int,int,int,int,const int *,const int *,const int *,int);
+#else
+#include "../arm9/g3d_system.h"
+#endif
+/* The DS code takes the heap id as a word and returns the camera as a word (the original prototype); the header has a halfword heap id and returns the camera pointer. The host build uses the header. */
+#ifdef __MWERKS__
+#define G3D_CAMERA_Create G3D_CAMERA_Create_header
+#endif
+#include "../arm9/g3d_camera.h"
+#ifdef __MWERKS__
+#undef G3D_CAMERA_Create
+extern int G3D_CAMERA_Create(int,int,int,int,int,int,int,int,const VecFx32 *,const VecFx32 *,const VecFx32 *,int);
+#endif
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void G3D_SYSTEM_Exit(int);
 extern void G3D_SYSTEM_DrawStart(void);
 struct G3dCamera;
 extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
@@ -956,16 +974,16 @@ int PSEL_GRAPHIC_Main(char *work,u32 *state)
                 else if(KEY_GetTrg()&32){if(*(int *)&((struct PselWork *)work)->fade.state.menuSelected>0){--*(int *)&((struct PselWork *)work)->fade.state.menuSelected;changed=1;}}
                 else if(KEY_GetTrg()&16){if(*(int *)&((struct PselWork *)work)->fade.state.menuSelected<2){++*(int *)&((struct PselWork *)work)->fade.state.menuSelected;changed=1;}}
                 if(changed){GFL_USE_PlaySeDefaultVolume(1352);PSEL_UpdateActorPosition(work);PSEL_SelectUnit(work,((struct PselWork *)work)->fade.state.menuSelected);PSEL_SetUnitVisible(work,((struct PselWork *)work)->fade.state.menuSelected);selected=((struct PselWork *)work)->fade.state.menuSelected;if(selected==4)selected=3;PSEL_GRAPHIC_SetFadeSource((u8 *)work,(u8)selected);dirty=1;}
-            }else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){if(*(int *)&((struct PselWork *)work)->fade.state.menuSelected!=choice)dirty=1;GFL_USE_PlaySeDefaultVolume(1352);PSEL_SetActorPosition(work,0);*(int *)&((struct PselWork *)work)->fade.state.menuSelected=choice;PSEL_SelectUnit(work,choice);PSEL_SetUnitVisible(work,((struct PselWork *)work)->fade.state.menuSelected);selected=((struct PselWork *)work)->fade.state.menuSelected;if(selected==4)selected=3;PSEL_GRAPHIC_SetFadeSource((u8 *)work,(u8)selected);((struct PselWork *)work)->fadeSpeed=1;*state=5;}}
+            }else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg((const TouchHitTable *)d_021BC75C);if(choice>=0&&choice<=2){if(*(int *)&((struct PselWork *)work)->fade.state.menuSelected!=choice)dirty=1;GFL_USE_PlaySeDefaultVolume(1352);PSEL_SetActorPosition(work,0);*(int *)&((struct PselWork *)work)->fade.state.menuSelected=choice;PSEL_SelectUnit(work,choice);PSEL_SetUnitVisible(work,((struct PselWork *)work)->fade.state.menuSelected);selected=((struct PselWork *)work)->fade.state.menuSelected;if(selected==4)selected=3;PSEL_GRAPHIC_SetFadeSource((u8 *)work,(u8)selected);((struct PselWork *)work)->fadeSpeed=1;*state=5;}}
         }else{
             if(KEY_GetTrg()!=0){((struct PselWork *)work)->fadeSpeed=0;*state=3;}
-            else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice>=0&&choice<=2){GFL_USE_PlaySeDefaultVolume(1352);*(int *)&((struct PselWork *)work)->fade.state.menuSelected=choice;PSEL_SelectUnit(work,choice);PSEL_SetUnitVisible(work,((struct PselWork *)work)->fade.state.menuSelected);selected=((struct PselWork *)work)->fade.state.menuSelected;if(selected==4)selected=3;PSEL_GRAPHIC_SetFadeSource((u8 *)work,(u8)selected);dirty=1;*state=5;}}
+            else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg((const TouchHitTable *)d_021BC75C);if(choice>=0&&choice<=2){GFL_USE_PlaySeDefaultVolume(1352);*(int *)&((struct PselWork *)work)->fade.state.menuSelected=choice;PSEL_SelectUnit(work,choice);PSEL_SetUnitVisible(work,((struct PselWork *)work)->fade.state.menuSelected);selected=((struct PselWork *)work)->fade.state.menuSelected;if(selected==4)selected=3;PSEL_GRAPHIC_SetFadeSource((u8 *)work,(u8)selected);dirty=1;*state=5;}}
         }break;
     case 5:PSEL_ShowTaskRes(work);*state=6;break;
     case 6:
         PSEL_UpdateTaskResWin(work);
         if(KEY_GetTrg()!=0){((struct PselWork *)work)->fadeSpeed=0;if(KEY_GetTrg()&1){GFL_USE_PlaySeDefaultVolume(1356);PSEL_SetTaskResActive(work);*state=7;}else{PSEL_DeleteTaskRes(work);BG_SYS_MarkTileDirty(3);*state=3;}}
-        else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg(d_021BC75C);if(choice==3){GFL_USE_PlaySeDefaultVolume(1356);PSEL_SetTaskResActive(work);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct PselWork *)work)->fade.state.menuSelected!=choice){GFL_USE_PlaySeDefaultVolume(1352);*(int *)&((struct PselWork *)work)->fade.state.menuSelected=choice;PSEL_SelectUnit(work,choice);PSEL_SetUnitVisible(work,((struct PselWork *)work)->fade.state.menuSelected);selected=((struct PselWork *)work)->fade.state.menuSelected;if(selected==4)selected=3;PSEL_GRAPHIC_SetFadeSource((u8 *)work,(u8)selected);dirty=1;}}break;
+        else if(TOUCHPANEL_GetTrg()!=0){choice=TOUCHPANEL_HitTrg((const TouchHitTable *)d_021BC75C);if(choice==3){GFL_USE_PlaySeDefaultVolume(1356);PSEL_SetTaskResActive(work);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct PselWork *)work)->fade.state.menuSelected!=choice){GFL_USE_PlaySeDefaultVolume(1352);*(int *)&((struct PselWork *)work)->fade.state.menuSelected=choice;PSEL_SelectUnit(work,choice);PSEL_SetUnitVisible(work,((struct PselWork *)work)->fade.state.menuSelected);selected=((struct PselWork *)work)->fade.state.menuSelected;if(selected==4)selected=3;PSEL_GRAPHIC_SetFadeSource((u8 *)work,(u8)selected);dirty=1;}}break;
     case 7:PSEL_UpdateTaskResWin(work);if(PSEL_IsTaskResFinished(work)){PSEL_DeleteTaskRes(work);BG_SYS_MarkTileDirty(3);*state=8;}break;
     case 8:PSEL_SetMode(work,(u32)20);PSEL_SetAnimTarget(work,*(int *)&((struct PselWork *)work)->fade.state.menuSelected,0);*state=9;break;
     case 9:PSEL_StepAnim(work);if(PSEL_IsModeDone(work)&&PSEL_IsAnimTargetReached(work))*state=10;break;
@@ -1253,7 +1271,7 @@ u32 PSEL_GRAPHIC_LoadWord(const u32 *word) { return *word; }
 void PSEL_GRAPHIC_InitG3d(int *camera,int heap)
 {
     G3D_SYSTEM_Init(0,1,0,1,4096,heap,PSEL_GRAPHIC_G3dCallback);
-    *camera=G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,4096,0x400000,0,d_021BC91C,d_021BC910,d_021BC928,heap);
+    *camera=(int)(uptr)G3D_CAMERA_Create(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,4096,0x400000,0,(VecFx32 *)d_021BC91C,(VecFx32 *)d_021BC910,(VecFx32 *)d_021BC928,heap);
 }
 
 
@@ -1262,7 +1280,8 @@ void PSEL_GRAPHIC_InitG3d(int *camera,int heap)
 
 void PSEL_GRAPHIC_ExitG3d(int *camera)
 {
-    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*camera)));
+    G3D_CAMERA_Delete((void *)(*camera));
+    G3D_SYSTEM_Exit();
 }
 
 

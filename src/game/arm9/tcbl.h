@@ -12,7 +12,7 @@ struct TcblTask;
 
 #include "../types.h"
 
-u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
+u32 TCBL_GetOwnedWork(struct TcblSystem *tcbl);
 struct TcblTask *TCBL_GetTaskSlot(struct TcblSystem *tcbl, u32 index);
 struct TcblTask *TCBL_PopFreeTask(struct TcblSystem *tcbl);
 void TCBL_PushFreeTask(struct TcblSystem *tcbl, struct TcblTask *task);

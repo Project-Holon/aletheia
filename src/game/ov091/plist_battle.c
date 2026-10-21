@@ -123,7 +123,15 @@ struct PrintQueue;
 #include "../arm9/printsys.h"
 #include "../arm9/strbuf.h"
 #include "../arm9/wordset.h"
-extern u32 BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
+#ifdef __MWERKS__
+#define BMP_WIN_Create BMP_WIN_CreateHeader
+#endif
+#include "../arm9/bmp_win.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef BMP_WIN_Create
+extern struct BmpWin *BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
+#endif
 struct BmpWin;
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 struct Bmp;
@@ -194,7 +202,7 @@ PlistTeamPanel *PLIST_BATTLE_CreateTeamPanel(PokelistWork *work, PlistTeamSource
     panel->nameWindow = BMP_WIN_Create((int)4, (u8)(x + 1 + ((u32)width >> 1)), (u8)(y + 1), (int)10, 2, 0xe, active);
     nameBuf = (uptr)STRBUF_Create(0x10, work->heapId);
     STRBUF_SetString((struct Strbuf *)nameBuf, source->name);
-    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp((struct BmpWin *)panel->nameWindow), 0, 0, (struct Strbuf *)nameBuf, work->fontMain, 0x3c40);
+    PRINTSYS_PrintQueColor(work->printSys, BMP_WIN_GetBmp(panel->nameWindow), 0, 0, (struct Strbuf *)nameBuf, work->fontMain, 0x3c40);
     STRBUF_Delete((struct Strbuf *)nameBuf);
     panel->active = active;
     return panel;
@@ -207,7 +215,7 @@ void PLIST_BATTLE_DeleteTeamPanel(PokelistWork *work, PlistTeamPanel *panel)
         PlistMiniCell *cell = panel->cells[i];
         if (cell) PLIST_BATTLE_DeleteMiniCell(work, cell);
     }
-    BMP_WIN_Delete((struct BmpWin *)panel->nameWindow);
+    BMP_WIN_Delete(panel->nameWindow);
     GFL_HEAP_Free(panel);
 }
 
@@ -219,8 +227,8 @@ void PLIST_BATTLE_UpdateTeamPanel(PokelistWork *work, PlistTeamPanel *panel)
         if (panel->cells[i] != 0)
             PLIST_BATTLE_UpdateMiniCell(work, panel->cells[i]);
     }
-    if (panel->active == 1 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp((struct BmpWin *)panel->nameWindow)) == 0) {
-        window = panel->nameWindow;
+    if (panel->active == 1 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp(panel->nameWindow)) == 0) {
+        window = (uptr)panel->nameWindow;
         panel->active = 0;
         BMP_WIN_TransferChars((struct BmpWin *)window);
         BMP_WIN_MakeScreen((struct BmpWin *)window);
@@ -295,8 +303,8 @@ PlistMiniCell *PLIST_BATTLE_CreateMiniCell(PokelistWork *work, void *mon, s16 x,
 
 void PLIST_BATTLE_DeleteMiniCell(PokelistWork *unusedWork, PlistMiniCell *cell)
 {
-    BMP_WIN_Delete((struct BmpWin *)cell->sexWindow);
-    BMP_WIN_Delete((struct BmpWin *)cell->levelWindow);
+    BMP_WIN_Delete(cell->sexWindow);
+    BMP_WIN_Delete(cell->levelWindow);
     CLACT_DeleteActor((struct ClactActor *)cell->itemMarkActor);
     CLACT_DeleteActor((struct ClactActor *)cell->iconActor);
     CLACT_ReleaseCharacter(cell->iconRes);
@@ -307,14 +315,14 @@ void PLIST_BATTLE_UpdateMiniCell(PokelistWork *work, PlistMiniCell *cell)
 {
     uptr window;
     if (cell->active == 1
-        && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp((struct BmpWin *)cell->sexWindow)) == 0
-        && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp((struct BmpWin *)cell->levelWindow)) == 0) {
-        window = cell->sexWindow;
+        && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp(cell->sexWindow)) == 0
+        && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, (void *)BMP_WIN_GetBmp(cell->levelWindow)) == 0) {
+        window = (uptr)cell->sexWindow;
         cell->active = 0;
         BMP_WIN_TransferChars((struct BmpWin *)window);
         BMP_WIN_MakeScreen((struct BmpWin *)window);
         BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
-        window = cell->levelWindow;
+        window = (uptr)cell->levelWindow;
         BMP_WIN_TransferChars((struct BmpWin *)window);
         BMP_WIN_MakeScreen((struct BmpWin *)window);
         BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));

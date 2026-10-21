@@ -171,7 +171,15 @@ static int StringHash(char *s, int numbuckets);
 #include "gsplatformsocket.h"
 #include "soc.h"
 struct SOCSockAddr;
+#ifdef __MWERKS__
+#define rand randHeader
+#endif
+#include "../arm9/msl_stdlib.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef rand
 extern int rand(void);
+#endif
 #include "gsmemory.h"
 #include "sb_crypt.h"
 extern void SBServerSetFlags(SBServer *server, unsigned char flags);

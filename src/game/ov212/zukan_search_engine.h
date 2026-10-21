@@ -9,7 +9,7 @@ struct Query;
 
 #include "../types.h"
 
-void ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap);
+struct Search *ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap);
 void ZUKAN_SEARCH_ENGINE_ReleaseWork(int work);
 int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
 u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,u16 heap,u16 **out);

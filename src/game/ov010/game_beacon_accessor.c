@@ -102,7 +102,7 @@ u8 GAME_BEACON_ACCESSOR_TableGetCount(const GameBeaconInfoTable *table);
 /* Moves the new beacon log entries into the table; returns how many. */
 int GAME_BEACON_ACCESSOR_TableAddNewLogs(GameBeaconInfoTable *table)
 {
-    struct RtcTime time;
+    RTCTime time;
     int cursor;
     int added;
     int receiveTime;

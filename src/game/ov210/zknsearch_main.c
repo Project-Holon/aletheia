@@ -297,7 +297,7 @@ struct ZukanSave;
 #include "../arm9/zukan_save.h"
 #include "../arm9/net.h"
 #include "zknsearch_sys.h"
-extern int ZUKAN_SEARCH_ENGINE_Create(struct Search *, struct Query *, int);
+extern struct Search *ZUKAN_SEARCH_ENGINE_Create(struct Search *, struct Query *, int);
 extern void ZUKAN_SEARCH_ENGINE_ReleaseWork(int);
 extern int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
 #include "../arm9/ui.h"
@@ -1446,7 +1446,7 @@ int ZKNSEARCH_MAIN_UpdateSearchEngine(unsigned char *work)
     if (work[0x2BB] == 1) {
         ZKNSEARCH_MAIN_DenormalizeRecordByte(work);
         *(int *)(work + 0x2CC) =
-            ZUKAN_SEARCH_ENGINE_Create((struct Search *)(*(int *)(*(int *)work + 4)), (struct Query *)(*(int *)(*(int *)work + 8)), 0x807B);
+            (sptr)ZUKAN_SEARCH_ENGINE_Create((struct Search *)(*(int *)(*(int *)work + 4)), (struct Query *)(*(int *)(*(int *)work + 8)), 0x807B);
         *(int *)(work + 0x2D0) = 0;
     }
     if (work[0x2BB] >= 2) {

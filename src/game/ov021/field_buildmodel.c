@@ -255,7 +255,9 @@ struct ArcHandle;
 struct G3dResource;
 #include "../arm9/g3d_system.h"
 #include "../arm9/timezone.h"
-extern void G3D_SYSTEM_InitResourceByFile(struct S02046CE0 *out, u32 *tag);
+struct G3dResource;
+struct NNSG3dResFileHeader;
+extern void G3D_SYSTEM_InitResourceByFile(struct G3dResource *res, struct NNSG3dResFileHeader *file);
 struct G3dRender;
 struct G3dAnime;
 struct G3dObject;
@@ -825,13 +827,13 @@ void FIELD_BUILDMODEL_LoadModel(BuildModelMan *man, BuildModelModel *out, int in
     int i;
     out->def = FIELD_BUILDMODEL_GetModelDef(man, index);
     out->resource = GFL_HEAP_Alloc(man->heapId, G3D_SYSTEM_GetResourceSize(), 1, (char *)gBuildModelFileName, 0x4d0);
-    G3D_SYSTEM_InitResourceByFile(out->resource, (u32 *)FIELD_BUILDMODEL_GetModelResourceData((char *)man->archive, index));
+    G3D_SYSTEM_InitResourceByFile(out->resource, (struct NNSG3dResFileHeader *)FIELD_BUILDMODEL_GetModelResourceData((char *)man->archive, index));
     anims = FIELD_BUILDMODEL_GetModelAnimDefs(out->def);
     count = FIELD_BUILDMODEL_CountAnimResources((int *)anims);
     for (i = 0; i < BUILDMODEL_ANIM_SLOTS; i++) {
         if (i < count) {
             out->animResource[i] = GFL_HEAP_Alloc(man->heapId, G3D_SYSTEM_GetResourceSize(), 1, (char *)gBuildModelFileName, 0x4db);
-            G3D_SYSTEM_InitResourceByFile(out->animResource[i], (u32 *)FIELD_BUILDMODEL_GetAnimResourceData(anims, i));
+            G3D_SYSTEM_InitResourceByFile(out->animResource[i], (struct NNSG3dResFileHeader *)FIELD_BUILDMODEL_GetAnimResourceData(anims, i));
         } else {
             out->animResource[i] = 0;
         }

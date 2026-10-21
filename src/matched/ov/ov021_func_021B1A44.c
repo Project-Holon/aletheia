@@ -13,7 +13,7 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_GetTargetObj  0x02158F90  thumb  ov010
  *   SCRCMD_FLDMMDL_GetPlayerMmdl  0x021B1E74  thumb  ov021
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   FLDMMDL_CheckEndAcmd  0x0216D454  thumb  ov010
  *   FLDMMDL_OnMoveBitMovePause  0x0216DAF8  thumb  ov010
  *   FLDMMDL_CheckMoveBitMove  0x0216DA5C  thumb  ov010
@@ -28,7 +28,7 @@ void *SCRCMD_WORK_GetScriptWork(void *p);
 void *SCRIPT_WORK_GetTargetObj(void *p);
 typedef unsigned int   u32;
 int SCRCMD_FLDMMDL_GetPlayerMmdl(u32 a);
-void *SCRCMD_WORK_GetOccupyInfo(void *p);
+void *SCRCMD_WORK_GetMmdlSys(void *p);
 int FLDMMDL_CheckEndAcmd(int a);
 void FLDMMDL_OnMoveBitMovePause(void *a0);
 int FLDMMDL_CheckMoveBitMove(void *a0);
@@ -44,7 +44,7 @@ int SCRCMD_FLDMMDL_CheckMmdlPauseRelease(int a, int b)
 
     r5 = (int)SCRIPT_WORK_GetTargetObj(SCRCMD_WORK_GetScriptWork((void *)b));
     r6 = SCRCMD_FLDMMDL_GetPlayerMmdl(b);
-    r7 = (int)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    r7 = (int)SCRCMD_WORK_GetMmdlSys((void *)b);
     if (gScrcmdFldmmdlPauseFlags & 1) {
         if (FLDMMDL_CheckEndAcmd(r6) == 1) {
             FLDMMDL_OnMoveBitMovePause((void *)r6);

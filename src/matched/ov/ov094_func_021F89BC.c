@@ -13,7 +13,7 @@
  *   gBtlvEff     0x0220AF20  data   ov094
  *   GFL_HEAP_Free   0x020307B0  arm
  *   TCB_DeleteTask   0x02030EAC  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetOwnedWork   0x02030EE8  arm
  *   BTLV_EFFECT_FindTaskIndex  0x021F899C  thumb  ov094
  */
 typedef struct {
@@ -30,7 +30,7 @@ typedef unsigned int u32;
 extern int BTLV_EFFECT_FindTaskIndex(void *h);
 struct Node;
 struct S02030EE8;
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetOwnedWork(struct S02030EE8 *p);
 extern void TCB_DeleteTask(struct Node *n);
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -41,7 +41,7 @@ void BTLV_EFFECT_DeleteTask(void *h)
 
     if (h == 0)
         return;
-    w = (void *)TCBL_IsDeletePending(h);
+    w = (void *)TCBL_GetOwnedWork(h);
     if (gBtlvEff->cb[i] != 0)
         gBtlvEff->cb[i](h);
     if (w != 0)

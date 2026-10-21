@@ -54,16 +54,12 @@ typedef struct BrCodeinRecPair { u32 a,b; } BrCodeinRecPair;
 
 typedef struct { u32 f0,f4; BrCodeinRecPair callbacks; } Table;
 
-typedef struct BrCodeinRecDesc {short x,y,n;unsigned char flag,pad;} BrCodeinRecDesc;
-
-typedef struct BrCodeinRecTriple {int a,b,c;} BrCodeinRecTriple;
-
 #include "../ov186/br_util.h"
 struct BrRes;
 #include "../ov186/br_res.h"
 struct Strbuf;
 #include "../arm9/strbuf.h"
-extern void MI_CpuFill8(void *,int,unsigned),*BR_BTN_CreateObject(void *,void *,int,int,int,int,int,void *,unsigned short);
+extern void MI_CpuFill8(void *,int,unsigned);
 #include "../arm9/msgdata.h"
 #include "../arm9/wordset.h"
 #include "../ov186/br_btn.h"
@@ -99,8 +95,8 @@ void BR_CODEIN_GetMenuCallbacks(BrCodeinRecPair *out) {
 
 void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg)
 {
-    BrCodeinRecTriple t;
-    BrCodeinRecDesc d;
+    BrBtnSpriteIds t;
+    BrBtnPlacement d;
     sptr h, c;
     void *a,*b,*s,*owner,*tmp;
     int i;
@@ -111,7 +107,7 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuAr
     b=STRBUF_Create(0x80,menu->heapId);
     s=STRBUF_Create(0x80,menu->heapId);
     MI_CpuFill8(&d,0,8);
-    d.x=0x30;d.y=0x28;d.n=11;d.flag=1;
+    d.x=0x30;d.y=0x28;d.value=11;d.flag=1;
     BR_RES_LoadSprite(arg->resource,1,menu->heapId);
     BR_RES_GetSprite(arg->resource,1,&t);
     for(i=0;i<3;i++) {
@@ -121,10 +117,10 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuAr
             WORDSET_SetSlotTag((struct WordSet *)a,0,(struct Strbuf *)(*(unsigned *)((char *)arg->entries+offset+0x10)),*(unsigned *)((char *)arg->entries+offset+0x20),1,2);
             WORDSET_CopyTaggedText((struct WordSet *)a,(struct Strbuf *)b,(struct Strbuf *)s);
         }else MSGDATA_ReadString((struct MsgBank *)c,9,(struct Strbuf *)b);
-        menu->button[i]=BR_BTN_CreateObject(&d,b,0xa0,1,arg->windowKind,(sptr)menu->oamSys,h,&t,menu->heapId);
+        menu->button[i]=BR_BTN_CreateObject(&d,b,0xa0,1,(void *)(sptr)arg->windowKind,(void *)(sptr)menu->oamSys,(void *)h,&t,menu->heapId);
         d.y=d.y+0x28;
     }
-    d.n=1;
+    d.value=1;
     menu->button[3]=BR_BTN_CreateFromMessage((void *)(&d),4,0xa0,1,(void *)arg->windowKind,(void *)menu->oamSys,(void *)h,(struct MsgBank *)c,(void *)&t,menu->heapId);
     owner=BATTLE_REC_GetWork();
     tmp=GDS_PROFILE_CreateNameStr(owner,(u16)((menu->heapId&0x7fff)|0x8000));

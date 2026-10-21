@@ -43,7 +43,7 @@
  *   BG_SYS_Update 0x020419E4 arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   gPmsInputViewTaskTable 0x021C3B94 data a4
- *   TCBL_IsDeletePending 0x02030EE8 arm
+ *   TCBL_GetOwnedWork 0x02030EE8 arm
  *   BG_SYS_ClearGraphicsMemory 0x0204335C arm
  *   BG_SYS_ClearMainPlanes 0x020434CC arm
  *   BG_SYS_ClearSubPlanes 0x02043588 arm
@@ -416,7 +416,7 @@ int PMS_INPUT_VIEW_IsTaskNotRunning(struct PmsInputView *view, int id) {
     int value;
     for(i=0;i<PMS_INPUT_VIEW_TASK_SLOTS;i++)
         if(view->eventTasks[i]) {
-            value=((struct PmsInputViewTask *)TCBL_IsDeletePending((struct TcblSystem *)view->eventTasks[i]))->id;
+            value=((struct PmsInputViewTask *)TCBL_GetOwnedWork((struct TcblSystem *)view->eventTasks[i]))->id;
             if(value==id) return 0;
         }
     return 1;

@@ -166,7 +166,6 @@ struct FieldNogridMapper;
 #include "map_attr.h"
 struct VecFx32;
 struct FieldNogridMapper;
-extern u32 FIELD_RAIL_WORK_GetLocation(RailWork *railWork, RailLocation *outLoc);
 #include "../arm9/fx_cp.h"
 #include "../arm9/zonedata.h"
 #include "../arm9/fx_vec.h"
@@ -176,7 +175,7 @@ extern u32 FIELD_RAIL_WORK_GetLocation(RailWork *railWork, RailLocation *outLoc)
 
 void FLDMMDL_RAIL_SetLocation(Mmdl *mmdl, RailLocation *loc);
 void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *outLoc);
-int FLDMMDL_RAIL_GetNowLocation(Mmdl *mmdl, RailLocation *outLoc);
+void FLDMMDL_RAIL_GetNowLocation(Mmdl *mmdl, RailLocation *outLoc);
 RailWork *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl);
 void FLDMMDL_RAIL_UpdateRailWork(Mmdl *mmdl);
 void FLDMMDL_RAIL_SetMoveRequest(Mmdl *mmdl, u32 dir, u32 key);
@@ -269,9 +268,9 @@ void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *outLoc)
 }
 
 /* Read the place the model is at now. */
-int FLDMMDL_RAIL_GetNowLocation(Mmdl *mmdl, RailLocation *outLoc)
+void FLDMMDL_RAIL_GetNowLocation(Mmdl *mmdl, RailLocation *outLoc)
 {
-    return FIELD_RAIL_WORK_GetLocation(((RailMoveWork *)FLDMMDL_GetMoveProcWork(mmdl))->railWork, outLoc);
+    FIELD_RAIL_WORK_GetLocation(((RailMoveWork *)FLDMMDL_GetMoveProcWork(mmdl))->railWork, outLoc);
 }
 
 RailWork *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl)

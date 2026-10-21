@@ -178,17 +178,16 @@ typedef short s16_p07;
 struct TaskMenuRes;
 struct TaskMenuInitWork;
 struct TaskMenuWork;
-extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
-void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
-extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
+#ifdef __MWERKS__
+#define APP_TASKMENU_WIN_Create APP_TASKMENU_WIN_CreateHeader
+#endif
+#include "../arm9/app_taskmenu.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef APP_TASKMENU_WIN_Create
 extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, const struct TaskMenuItem *entry, u32 charPosX, u32 charPosY, u8 width, u16 heapId);
+#endif
 struct TaskMenuWin;
-extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
-extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, u32 isActive);
-void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, s32 isDecide);
 #include "../arm9/file_util.h"
 struct ItemRecord;
 #include "../arm9/game_beacon.h"

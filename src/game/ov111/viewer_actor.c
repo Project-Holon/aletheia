@@ -135,8 +135,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 struct Blk34;
-struct RtcDate;
-struct RtcTime;
+#include "../sdk_rtc.h"
 struct Sub020089A8Obj;
 
 typedef struct {
@@ -1011,7 +1010,7 @@ void VIEWER_ACTOR_SaveBadgeTimers(ViewerTextWork *p)
     s64 sec;
     int i;
 
-    GF_STANDARD_CopyCachedRtc((struct RtcDate *)(&date), (struct RtcTime *)(&time));
+    GF_STANDARD_CopyCachedRtc((RTCDate *)(&date), (RTCTime *)(&time));
     sec = RTC_ConvertDateTimeToSecond(&date, &time);
     TRCARD_SIGN_SetLastBadgeTime(p->saveBlock, (u32)sec, (u32)(sec >> 32));
     for (i = 0; i < 8; i++) {
@@ -1040,7 +1039,7 @@ void VIEWER_ACTOR_LoadBadgeTimers(ViewerTextWork *p)
 
     saved = TRCARD_SIGN_GetLastBadgeTime(p->saveBlock);
     RTC_ConvertSecondToDateTime(&date2, &time2, saved);
-    GF_STANDARD_CopyCachedRtc((struct RtcDate *)(&date), (struct RtcTime *)(&time));
+    GF_STANDARD_CopyCachedRtc((RTCDate *)(&date), (RTCTime *)(&time));
     hours = (RTC_ConvertDateTimeToSecond(&date, &time) - saved) / 3600;
     if (hours < 0) {
         hours = 0;

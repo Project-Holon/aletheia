@@ -6,11 +6,11 @@
 
 struct Lcg64;
 struct RtcRequest;
-struct RtcDate;
-struct RtcTime;
 struct RtcDateSigned;
 
 #include "../types.h"
+#include "../sdk_rtc.h"
+#include "../sdk_rtc.h"
 
 void GF_STANDARD_Init(u32 heapId);
 s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
@@ -26,11 +26,11 @@ void GF_STANDARD_XorCryptEx(void *p, unsigned int size, unsigned int seed);
 u16 GF_STANDARD_RandLcg(u32 *seed);
 void GF_STANDARD_InitRtc(void);
 void GF_STANDARD_UpdateRtc(void);
-void GF_STANDARD_RtcReadDone(u32 result, struct RtcRequest *req);
+void GF_STANDARD_RtcReadDone(int result, void *arg);
 void GF_STANDARD_RequestRtc(struct RtcRequest *req);
-void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
-void GF_STANDARD_GetCachedTime(struct RtcTime *time);
-void GF_STANDARD_GetCachedDate(struct RtcDate *date);
+void GF_STANDARD_CopyCachedRtc(RTCDate *date, RTCTime *time);
+void GF_STANDARD_GetCachedTime(RTCTime *time);
+void GF_STANDARD_GetCachedDate(RTCDate *date);
 u32 GF_STANDARD_GetSecondsOfDay(void);
 s64 GF_STANDARD_GetRtcTimestamp(void);
 s32 GF_STANDARD_GetDayOfYear(struct RtcDateSigned *d);

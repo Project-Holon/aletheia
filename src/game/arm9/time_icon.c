@@ -100,7 +100,15 @@ extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
 
 extern u8 BMP_WIN_GetPalette(struct BmpWin *win);
 
+/* Original DS prototype: the caller passes the arguments at the wider width; the host build uses the header. */
+#ifdef __MWERKS__
+#define BMP_WIN_Create BMP_WIN_Create_header
+#endif
+#include "bmp_win.h"
+#ifdef __MWERKS__
+#undef BMP_WIN_Create
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u32 width, u32 height, u32 palette, u32 allocDir);
+#endif
 
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 

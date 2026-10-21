@@ -11,13 +11,13 @@
  *
  * symbols:
  *   MCSS_CloseHandle   0x02014CD4  thumb
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetOwnedWork   0x02030EE8  arm
  *   func_020307B0   0x020307B0  arm
  *   func_02030EAC   0x02030EAC  arm
  *   MCSS_Del   0x02015BA4  thumb
  *
  * Tear-down of a "list of arrays" record: close the open sub-object at +0xC
- * (three frees through the handle returned by TCBL_IsDeletePending, then the handle
+ * (three frees through the handle returned by TCBL_GetOwnedWork, then the handle
  * itself), then walk the +0x14 array of +0x10 entries and release each live
  * one through MCSS_Del, finally the array and the record itself.
  *
@@ -36,7 +36,7 @@ struct Node;
 struct Sub02014CB8Obj;
 extern void MCSS_CloseHandle(struct Sub02014CB8Obj *o);
 struct S02030EE8;
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetOwnedWork(struct S02030EE8 *p);
 extern u32 func_020307B0(void *p);
 extern void func_02030EAC(struct Node *n);
 extern void  MCSS_Del(void *a0, void *a1);
@@ -47,7 +47,7 @@ void MCSS_Exit(u8 *a0)
 
     MCSS_CloseHandle((struct Sub02014CB8Obj *)a0);
     if (*(u8 * *)&((struct Obj03429 *)a0)->fC != 0) {
-        u8 *p = (u8 *)TCBL_IsDeletePending((struct S02030EE8 *)(*(u8 * *)&((struct Obj03429 *)a0)->fC));
+        u8 *p = (u8 *)TCBL_GetOwnedWork((struct S02030EE8 *)(*(u8 * *)&((struct Obj03429 *)a0)->fC));
 
         func_020307B0(*(u8 * *)&((struct Obj15656 *)(*(u8 * *)&((struct Obj11255 *)p)->f4))->fC);
         func_020307B0(*(u8 * *)&((struct Obj11255 *)p)->f4);

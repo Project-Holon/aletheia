@@ -13,7 +13,7 @@
  *   SCRCMD_FLDMMDL_StartMmdlDropIn  0x021B229C  thumb
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
  *   FIELDMAP_GetTaskManager  0x02188D38  thumb  ov021
@@ -36,7 +36,7 @@ extern const Vec gScrcmdFldmmdlDropInDrawOffset;
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
 typedef unsigned char  u8;
-extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern void *SCRCMD_WORK_GetMmdlSys(void *p);
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
 extern u32 FIELDMAP_GetTaskManager(u8 *p);
@@ -60,7 +60,7 @@ int SCRCMD_FLDMMDL_StartMmdlDropIn(u32 a, u32 b)
     k1 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     k2 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     k3 = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
-    o = (u32)FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo((void *)b), k0);
+    o = (u32)FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys((void *)b), k0);
     e = ((u32 *)SCRIPT_WORK_ResetFieldParam((int)t))[1];
     g = FIELDMAP_GetTaskManager((u8 *)e);
     if (o == 0) {

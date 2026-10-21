@@ -173,7 +173,12 @@ struct GFont;
 struct TaskMenuRes;
 
 
+/* The DS code passes the source as a pointer (the original prototype); the header takes an address word. The host build uses the header. */
+#ifdef __MWERKS__
 extern int NNS_GfdRegisterNewVramTransferTask(void *, unsigned, void *, int);
+#else
+#include "../arm9/nns_gfd_vram_transfer.h"
+#endif
 
 
 
@@ -384,8 +389,13 @@ void MANUAL_COMMON_CreateListWorkMenu(char *work)
     BG_SYS_FreeSlot(5);
     *(struct ManualRes * *)&((struct ManualListWork *)work)->resource = (struct ManualRes *)APP_TASKMENU_RES_Create(5, 4, (struct GFont *)(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->font), (struct PrintQueue *)(((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->printQue[1]), ((struct ManualData *)(*(char * *)&((struct ManualListWork *)work)->data))->heap);
     ((struct ManualListWork *)work)->paletteColor = 0x1ce7;
+#ifdef __MWERKS__
     NNS_GfdRegisterNewVramTransferTask((void *)31, 154, work + 0x4c, 2);
     NNS_GfdRegisterNewVramTransferTask((void *)31, 186, work + 0x4c, 2);
+#else
+    NNS_GfdRegisterNewVramTransferTask((void *)31, 154, (uptr)(work + 0x4c), 2);
+    NNS_GfdRegisterNewVramTransferTask((void *)31, 186, (uptr)(work + 0x4c), 2);
+#endif
     MANUAL_COMMON_RebuildListWindows(work);
     if (UI_GetInputMode() == 0) {
         APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct ClactActor **)(work + MANUAL_COMMON_GetCursorIndex((u16 **)work) * 4 + 0xc)), 1);

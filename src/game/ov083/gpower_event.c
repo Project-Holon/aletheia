@@ -85,19 +85,37 @@ typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 struct GPowerData;
-extern struct GPowerData *GPOWER_LoadPowerTable(u32 heapId);
+#ifdef __MWERKS__
+#define GPOWER_GetPowerCost GPOWER_GetPowerCostHeader
+#endif
+#include "../arm9/gpower.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef GPOWER_GetPowerCost
+extern u16   GPOWER_GetPowerCost(struct GPowerData *table, int powerId);
+#endif
 extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, s32 reserved);
 extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
-extern unsigned int GPOWER_GetPowerType(struct GPowerData *table, s32 powerId);
-extern void GPOWER_Activate(s32 powerId, struct GPowerData *table, s32 select);
+#ifdef __MWERKS__
+#define SCRIPT_WORK_SetParams SCRIPT_WORK_SetParamsHeader
+#endif
+#include "../ov010/script_work.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef SCRIPT_WORK_SetParams
 extern int SCRIPT_WORK_SetParams(struct ScriptWork *scriptWork, u16 powerId, u16 powerType, u16 payWithItems, u16 unused);
-extern void *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
-extern u16   GPOWER_GetPowerCost(struct GPowerData *table, int powerId);
+#endif
 #include "../arm9/game_data.h"
 #include "../arm9/myitem_savedata.h"
-extern void GAME_BEACON_SEARCH_SetVersionAction(u32 version);
+#ifdef __MWERKS__
+#define GAME_BEACON_SEARCH_SetHalfwordValue GAME_BEACON_SEARCH_SetHalfwordValueHeader
+#endif
+#include "../ov010/game_beacon_set.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef GAME_BEACON_SEARCH_SetHalfwordValue
 extern void  GAME_BEACON_SEARCH_SetHalfwordValue(int powerId);
-extern void  GPOWER_FreePowerTable(struct GPowerData *table);
+#endif
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 #include "../ov021/fieldmap.h"
@@ -113,16 +131,12 @@ struct MsgBank;
 struct Party;
 #include "../arm9/pokeparty.h"
 struct PokemonParam;
-extern u32   GPOWER_UseHpRestore(void *party);
-extern u32   GPOWER_UsePpRestore(void *party);
 struct FieldSysWin;
 #include "../ov021/field_msgbg.h"
 struct FieldMsgWin;
 #include "../arm9/key.h"
 struct IntrudeSave;
 #include "../arm9/intrude.h"
-extern u8 GPOWER_GetActiveIdByType(int type);
-extern u32 GPOWER_GetMinutesLeftByType(u32 type);
 struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, GPowerActivateParam *param);
 struct GameEvent *GPOWER_EVENT_CreateTimeoutScriptEvent(struct GameSystem *gameSystem, void *arg);
 struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem);

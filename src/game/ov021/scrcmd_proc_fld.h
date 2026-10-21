@@ -6,8 +6,6 @@
 
 struct ScriptVm;
 struct ScrcmdWork;
-struct Ov170EventHandoff;
-typedef struct Ov170EventHandoff Ov170EventHandoff;
 
 #include "../ov021/scrcmd_proc_fld_types.h"
 #include "../types.h"

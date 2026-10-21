@@ -14,6 +14,8 @@ typedef struct MCMMtxState {
     u16 pad16;
 } MCMMtxState;
 
+struct CellDrawState;
+struct RndOamCell;
 typedef struct NNSG2dRenderSurface NNSG2dRenderSurface;
 
 /* A render surface starts with the core surface (view rectangle, active flag, type). */
@@ -21,7 +23,10 @@ struct NNSG2dRenderSurface {
     u8   pad_00[0x10];
     int  isActive;
     int  type;
-    u8   pad_18[0x10];
+    void (*pBeforeDrawCellFunc)(struct CellDrawState *pDrawState, void *pCellData);
+    void (*pAfterDrawCellFunc)(void *pDrawState, void *pCellData);
+    void (*pBeforeDrawOamFunc)(struct RndOamCell *c, void *pCellData, void *pOam);
+    void (*pCallOamFunc)(void *pRend, void *pCellData, void *pOam);
     int  pFuncOamRegister;
     int  pFuncOamAffineRegister;
     NNSG2dRenderSurface *pNextSurface;

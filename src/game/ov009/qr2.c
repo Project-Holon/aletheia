@@ -153,7 +153,15 @@ typedef struct key4_t {
 #include "gsstringutil.h"
 #include "soc.h"
 #include "../arm9/os_printf.h"
+#ifdef __MWERKS__
+#define rand randHeader
+#endif
+#include "../arm9/msl_stdlib.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef rand
 extern int rand(void);
+#endif
 extern void srand(unsigned int seed);
 extern int strcmp(const char *a, const char *b);
 #include "natneg.h"

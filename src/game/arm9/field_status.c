@@ -354,7 +354,7 @@ int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, u32 *seq, void *work)
     struct FieldMap *fieldMap = wk->fieldMap;
     struct FieldSoundSystem *fieldSound;
 
-    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = GAME_DATA_GetBgmInfo(gameData);
     switch (*seq) {
     case 0:
         FIELDMAP_RequestClose(fieldMap);

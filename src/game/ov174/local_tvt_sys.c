@@ -199,7 +199,7 @@ struct GameData;
 
 #include "../arm9/timezone.h"
 
-extern void GF_STANDARD_GetCachedTime(struct RtcTime *),GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
+extern void GF_STANDARD_GetCachedTime(RTCTime *),GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
 struct TcbTask;
 
 #include "../arm9/tcb_list.h"
@@ -424,7 +424,7 @@ extern char d_021B74AC[];
 
 void LOCAL_TVT_SYS_Create(u8 *p)
 {
- struct RtcTime time; unsigned season,earlyHour,midHour,lateHour; u8 i; void *task; unsigned one;
+ RTCTime time; unsigned season,earlyHour,midHour,lateHour; u8 i; void *task; unsigned one;
  LOCAL_TVT_SYS_SetupDisplay(p);
  ((struct LocalTvtSys *)p)->arcHandle=ARC_TOOL_CreateHandle(131,((struct LocalTvtSys *)p)->heapId);
  LOCAL_TVT_SYS_LoadMenuData((char *)p);LOCAL_TVT_SYS_CreateGraphics(p);LOCAL_TVT_SYS_CreateTextResources(p);

@@ -262,7 +262,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern u32 BG_SYS_Delete();
+extern void BG_SYS_Delete(void);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -279,11 +279,16 @@ extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
 #include "../arm9/nns_g2d_load.h"
 
-extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
 
 
 
+/* The DS code was built against other parameter widths for BG_SYS_FillTileMap (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_FillTileMap(int index, int x0, int y0, int w, int h, int pal);
+extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
+#else
+#include "../arm9/bg_sys.h"
+#endif
 
 
 
@@ -321,7 +326,7 @@ struct Actor;
 
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int value);
 
-extern u32 CLACT_SetActorAnimFrame();
+extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
 
 extern void CLACT_SetActorAutoAnim(struct ClactActor *p, unsigned int v);
 
@@ -355,7 +360,7 @@ extern void G2x_SetBlendAlpha_(volatile unsigned *,unsigned,unsigned,unsigned,un
 
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-extern u32 BG_SYS_ClearSlot();
+extern void BG_SYS_ClearSlot(u8 slot);
 
 extern void BG_SYS_FreeTiles(u32, u32, u32);
 struct BgTextLabelConfig;
@@ -373,7 +378,7 @@ extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleasePalette(u32 i);
 
-extern u32 CLACT_ReleaseCellAnim();
+extern void CLACT_ReleaseCellAnim(u32 handle);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
@@ -433,7 +438,7 @@ u32 RESEARCH_TOP_DestroyListView(u32 proc);
 
 void RESEARCH_TOP_InitBackgrounds(unsigned short heapId);
 
-u32 RESEARCH_TOP_ExitBackgrounds(void);
+void RESEARCH_TOP_ExitBackgrounds(void);
 
 void RESEARCH_TOP_LoadSubAssets(u32 heap);
 
@@ -497,7 +502,7 @@ void RESEARCH_TOP_SetupTextLabel(u32 obj);
 
 void RESEARCH_TOP_StartPaletteAnime(u8 *obj);
 
-u32 RESEARCH_TOP_ShowEntryActor(u32 obj);
+void RESEARCH_TOP_ShowEntryActor(u32 obj);
 
 void RESEARCH_TOP_FadeIn(void);
 
@@ -575,7 +580,7 @@ void RESEARCH_TOP_LoadBackground6(char *obj);
 
 void RESEARCH_TOP_DummyBg7(u32 unused);
 
-u32 RESEARCH_TOP_UpdateBackground7(void *obj);
+void RESEARCH_TOP_UpdateBackground7(void *obj);
 
 void RESEARCH_TOP_ShowBackground7(u32 obj);
 
@@ -583,7 +588,7 @@ void RESEARCH_TOP_LoadBackground2(char *obj);
 
 void RESEARCH_TOP_DummyBg3(u32 unused);
 
-u32 RESEARCH_TOP_UpdateBackground3(void *obj);
+void RESEARCH_TOP_UpdateBackground3(void *obj);
 
 void RESEARCH_TOP_ShowBackground3(u32 obj);
 
@@ -597,11 +602,11 @@ void RESEARCH_TOP_ClearResources(void *obj);
 
 void RESEARCH_TOP_RegisterEntryResources(struct ResearchObjC *p);
 
-u32 RESEARCH_TOP_ReleaseEntryResources(u32 obj);
+void RESEARCH_TOP_ReleaseEntryResources(u32 obj);
 
 void RESEARCH_TOP_RegisterCursorResources(struct ResearchObjC *p);
 
-u32 RESEARCH_TOP_ReleaseCursorResources(u32 obj);
+void RESEARCH_TOP_ReleaseCursorResources(u32 obj);
 
 void RESEARCH_TOP_ClearUnits(void *obj);
 
@@ -921,11 +926,11 @@ void RESEARCH_TOP_InitBackgrounds(unsigned short heapId)
     BG_SYS_SetPlaneVisible(1, 1);
 }
 
-u32 RESEARCH_TOP_ExitBackgrounds(void)
+void RESEARCH_TOP_ExitBackgrounds(void)
 {
     BG_SYS_FreeLayerBuf(1);
     BG_SYS_FreeLayerBuf(4);
-    return BG_SYS_Delete();
+    BG_SYS_Delete();
 }
 
 void RESEARCH_TOP_LoadSubAssets(u32 heap)
@@ -1329,13 +1334,13 @@ void RESEARCH_TOP_StartPaletteAnime(u8 *obj)
     RESEARCH_COMMON_StartPaletteAnime((struct ResearchCommon *)(((struct ResearchObjC *)obj)->ownerHandle), 0);
 }
 
-u32 RESEARCH_TOP_ShowEntryActor(u32 obj)
+void RESEARCH_TOP_ShowEntryActor(u32 obj)
 {
     u32 actor = RESEARCH_TOP_GetEntryIconSource((void *)obj, 0);
     CLACT_SetActorDrawEnable((struct ClactActor *)actor, 1);
     CLACT_SetActorAutoAnim((struct ClactActor *)actor, 1);
     CLACT_SetActorAutoAnimSpeed((struct ClactActor *)actor, 4096);
-    return CLACT_SetActorAnimFrame(actor, 0);
+    CLACT_SetActorAnimFrame((struct ClactActor *)actor, 0);
 }
 
 void RESEARCH_TOP_FadeIn(void)
@@ -1647,10 +1652,10 @@ void RESEARCH_TOP_DummyBg7(u32 unused)
 {
 }
 
-u32 RESEARCH_TOP_UpdateBackground7(void *obj)
+void RESEARCH_TOP_UpdateBackground7(void *obj)
 {
     BG_SYS_Init(7, 0, 1, 0);
-    return BG_SYS_ClearSlot(7);
+    BG_SYS_ClearSlot(7);
 }
 
 void RESEARCH_TOP_ShowBackground7(u32 obj)
@@ -1672,10 +1677,10 @@ void RESEARCH_TOP_DummyBg3(u32 unused)
 {
 }
 
-u32 RESEARCH_TOP_UpdateBackground3(void *obj)
+void RESEARCH_TOP_UpdateBackground3(void *obj)
 {
     BG_SYS_Init(3, 0, 1, 0);
-    return BG_SYS_ClearSlot(3);
+    BG_SYS_ClearSlot(3);
 }
 
 void RESEARCH_TOP_ShowBackground3(u32 obj)
@@ -1741,11 +1746,11 @@ void RESEARCH_TOP_RegisterEntryResources(struct ResearchObjC *p)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-u32 RESEARCH_TOP_ReleaseEntryResources(u32 obj)
+void RESEARCH_TOP_ReleaseEntryResources(u32 obj)
 {
     CLACT_ReleaseCharacter(((struct ResearchObjC *)obj)->entryCharacter);
     CLACT_ReleasePalette(((struct ResearchObjC *)obj)->entryPalette);
-    return CLACT_ReleaseCellAnim(((struct ResearchObjC *)obj)->entryCell);
+    CLACT_ReleaseCellAnim(((struct ResearchObjC *)obj)->entryCell);
 }
 
 void RESEARCH_TOP_RegisterCursorResources(struct ResearchObjC *p)
@@ -1759,11 +1764,11 @@ void RESEARCH_TOP_RegisterCursorResources(struct ResearchObjC *p)
     ARC_TOOL_DeleteHandle(arc);
 }
 
-u32 RESEARCH_TOP_ReleaseCursorResources(u32 obj)
+void RESEARCH_TOP_ReleaseCursorResources(u32 obj)
 {
     CLACT_ReleaseCharacter(((struct ResearchObjC *)obj)->cursorCharacter);
     CLACT_ReleasePalette(((struct ResearchObjC *)obj)->cursorPalette);
-    return CLACT_ReleaseCellAnim(((struct ResearchObjC *)obj)->cursorCell);
+    CLACT_ReleaseCellAnim(((struct ResearchObjC *)obj)->cursorCell);
 }
 
 void RESEARCH_TOP_ClearUnits(void *obj)

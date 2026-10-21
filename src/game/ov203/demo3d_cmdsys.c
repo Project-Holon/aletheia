@@ -64,7 +64,7 @@ extern u32 DEMO3D_DATA_GetExitCommandList(u32 id);
 
 #include "../arm9/tcbl.h"
 
-extern Demo3dCmdsysRecord *DEMO3D_DATA_GetCommandList(int);
+extern u32 DEMO3D_DATA_GetCommandList(u32 id);
 struct TcblSystem;
 
 
@@ -128,7 +128,7 @@ void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag)
     p->flags[2]=flag?1:0;
     TCBL_Main((struct TcblSystem *)p->task);
     if(p->ended==0 && time!=-4096) {
-        r=DEMO3D_DATA_GetCommandList(p->config)+p->index;
+        r=(Demo3dCmdsysRecord *)(uptr)DEMO3D_DATA_GetCommandList(p->config)+p->index;
         time>>=12;
         if(r->time==time && p->previous!=time) {
             i=0;
@@ -164,7 +164,7 @@ int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index)
 {
     Demo3dCmdsysRecord *r;
     int i;
-    r=DEMO3D_DATA_GetCommandList(((struct Demo3dOwner *)owner)->config);
+    r=(Demo3dCmdsysRecord *)(uptr)DEMO3D_DATA_GetCommandList(((struct Demo3dOwner *)owner)->config);
     for(i=0;i<9999;i++) {
         if(r[i].kind==18) return 1;
         if(r[i].time==-1) DEMO3D_CMDSYS_Dispatch((Demo3dCmdContext *)p,owner,&r[i]);

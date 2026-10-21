@@ -25,8 +25,7 @@ struct Task;
 struct TaskMenu;
 struct TaskMenuRes;
 struct Unit;
-struct ClRes;
-struct ClActor;
+struct ClactActor;
 struct Config;
 struct GameData;
 struct GameSystem;
@@ -188,12 +187,12 @@ typedef struct OptionMenuGfx {
 /* Sprite resources and actors. */
 typedef struct OptionMenuSprites {
     struct Unit *unit;              /* 0x00 */
-    struct ClRes *plttRes;          /* 0x04 */
-    struct ClRes *mainCharRes;      /* 0x08 */
-    struct ClRes *mainCellRes;      /* 0x0C */
-    struct ClRes *subCharRes;       /* 0x10 */
-    struct ClRes *subCellRes;       /* 0x14 */
-    struct ClActor *actors[OPTION_ACTOR_COUNT]; /* 0x18 */
+    s32 plttRes;                    /* 0x04 */
+    s32 mainCharRes;                /* 0x08 */
+    s32 mainCellRes;                /* 0x0C */
+    s32 subCharRes;                 /* 0x10 */
+    s32 subCellRes;                 /* 0x14 */
+    struct ClactActor *actors[OPTION_ACTOR_COUNT]; /* 0x18 */
     u16 animFrame;                  /* 0x50 */
     u16 pad52;                      /* 0x52 alignment, struct size 0x54 */
 } OptionMenuSprites;
@@ -262,7 +261,7 @@ typedef struct OptionMenuList {
     u16 mainLayer;                  /* 0x00 */
     u16 subLayer;                   /* 0x02 */
     int cursor;                     /* 0x04 */
-    struct ClActor *choiceActors[OPTION_ACTOR_CHOICE_COUNT]; /* 0x08 */
+    struct ClactActor *choiceActors[OPTION_ACTOR_CHOICE_COUNT]; /* 0x08 */
     int scrollY;                    /* 0x34 */
     u32 repeatCounter;              /* 0x38 */
     u32 inputTrail;                 /* 0x3C */

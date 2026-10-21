@@ -91,8 +91,8 @@ struct TcblSys;
 #include "../arm9/gfl_heap_wrap.h"
 struct TcbSystem;
 struct TcbTask;
-extern void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown);
 #include "../arm9/tcb_list.h"
+void RAIL_SLIPDOWN_TaskMain(struct TcbTask *tcb, void *work);
 RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, int isPlayer);
 void RAIL_SLIPDOWN_Delete(RailSlipdown *slipdown);
 int RAIL_SLIPDOWN_IsDone(RailSlipdown *slipdown);
@@ -132,7 +132,7 @@ RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl
     FLDMMDL_SetStatusBitAttrGetOff(slipdown->mmdl, 1);
     FLDMMDL_SetStatusBitFellowHit(slipdown->mmdl, 0);
     FLDMMDL_OnMoveBitMovePause(slipdown->mmdl);
-    slipdown->task = TCB_AddTask((struct TcbSystem *)FIELDMAP_GetTcblSys(fieldMap), (TcbFunc)RAIL_SLIPDOWN_TaskMain, (void *)slipdown, 0);
+    slipdown->task = TCB_AddTask((struct TcbSystem *)FIELDMAP_GetTcblSys(fieldMap), RAIL_SLIPDOWN_TaskMain, slipdown, 0);
     return slipdown;
 }
 
@@ -154,8 +154,9 @@ int RAIL_SLIPDOWN_IsDone(RailSlipdown *slipdown)
  * Task of RAIL_SLIPDOWN_Create. Finds the landing place below the model,
  * then slides the model (and the camera with it) from start to end in steps.
  */
-void RAIL_SLIPDOWN_TaskMain(void *tcb, RailSlipdown *slipdown)
+void RAIL_SLIPDOWN_TaskMain(struct TcbTask *tcb, void *work)
 {
+    RailSlipdown *slipdown = work;
     int stepFixed;
     struct RailManager *railMan;
     int widthLimit, slideY, valid, i;

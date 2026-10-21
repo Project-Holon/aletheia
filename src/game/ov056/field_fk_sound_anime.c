@@ -89,7 +89,7 @@ void FIELD_FK_SOUND_ANIME_InitFrameSound(struct FieldSubproc *proc, struct Field
     man = (struct BuildModelMan *)FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(fieldMap));
     work->entry = FIELD_BUILDMODEL_GetFirstEntryNearPos(man, 0, &gFkFrameSoundModelPos);
     work->man = man;
-    work->soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    work->soundSys = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
 }
 
 /* Exit of that proc: nothing to undo. */
@@ -137,7 +137,7 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundA(struct FieldSubproc *proc, struct Fi
 
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
     work->eventWork = GAME_DATA_GetEventWork(gameData);
-    work->soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    work->soundSys = GAME_DATA_GetBgmInfo(gameData);
     work->stopVar = ZONEDATA_GetEventWorkAddress(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
     if (*work->stopVar == 0) {
         FIELD_SOUND_SYSTEM_ClaimSlot(work->soundSys, FK_SE_AMBIENT_A);
@@ -171,7 +171,7 @@ void FIELD_FK_SOUND_ANIME_InitAmbientSoundB(struct FieldSubproc *proc, struct Fi
 
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
     work->eventWork = GAME_DATA_GetEventWork(gameData);
-    work->soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    work->soundSys = GAME_DATA_GetBgmInfo(gameData);
     work->stopVar = ZONEDATA_GetEventWorkAddress(work->eventWork, FK_AMBIENT_STOP_WORK_ID);
     if (*work->stopVar == 0) {
         FIELD_SOUND_SYSTEM_ClaimSlot(work->soundSys, FK_SE_AMBIENT_B);

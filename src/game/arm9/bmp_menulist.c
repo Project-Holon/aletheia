@@ -45,32 +45,9 @@
 #include "../types.h"
 
 struct BmpMenuList;
+struct Strbuf;
 
-/*
- * The template the caller hands to the constructor.  It is copied over the
- * first 0x34 bytes of BmpMenuList, so it has no field names of its own.
- */
-struct BmpMenuListTemplate {
-    u32 w[13];
-};
-
-struct BmpMenuListItem {
-    void *text;
-    u32   value;
-};
-
-typedef void (*MenuDrawHook)(struct BmpMenuList *menu, u32 value, u8 y);
-
-typedef void (*MenuCursorNotify)(struct BmpMenuList *menu, u32 value, void *arg);
-
-/* The halfword at +0x1A. */
-struct MenuFlags {
-    u16 mode3 : 3;
-    u16 lineGap : 4;
-    u16 pageKeys : 2;
-    u16 mode6 : 6;
-    u16 cursorOff : 1;
-};
+#include "../arm9/bmp_menulist_types.h"
 
 struct BmpMenuList {
     struct BmpMenuListItem *items;
@@ -93,8 +70,8 @@ struct BmpMenuList {
     u16 rowH;
     u8 reserved24[0x28 - 0x24];
     struct MenuTarget *target;
-    void *printer;
-    u32 font;
+    struct PrintQueue *printer;
+    struct GfFont *font;
     u8 ovLetter : 4;
     u8 ovBg : 4;
     u8 ovShadow : 4;
@@ -129,8 +106,18 @@ typedef short s16_p07;
 #include "gfl_use.h"
 
 
-extern void PRINTSYS_PrintQueColor(void *printer, struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
-extern void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, u32 y, const void *text, u32 param, u16 color);
+/* Original DS prototypes: the caller passes the row as a word; the host build uses the header. */
+#ifdef __MWERKS__
+#define PRINTSYS_PrintQueColor PRINTSYS_PrintQueColor_header
+#define PRINTSYS_PrintColor PRINTSYS_PrintColor_header
+#endif
+#include "printsys.h"
+#ifdef __MWERKS__
+#undef PRINTSYS_PrintQueColor
+#undef PRINTSYS_PrintColor
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u16 color);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u16 color);
+#endif
 
 
 
@@ -165,7 +152,7 @@ u32 BMP_MENULIST_GetItemValue(struct BmpMenuList *menu, u32 index);
 
 u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr);
 
-void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u32 y, u32 queued);
+void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, struct Strbuf *text, u32 x, u32 y, u32 queued);
 
 void BMP_MENULIST_DrawItems(struct BmpMenuList *menu, u16 item, u16 winRow, u16 numRows, u32 scrollFirst);
 
@@ -471,15 +458,15 @@ u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr)
  * say, and the C reproduces it; it reads like a copy-paste slip in the
  * original.  EXACT* only because the extent includes 2 bytes of padding.
  */
-void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u32 y, u32 queued)
+void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, struct Strbuf *text, u32 x, u32 y, u32 queued)
 {
     if (text == 0)
         return;
     if (menu->useOverride) {
         if (queued) {
-            u32 printer = (uptr)menu->printer;
+            struct PrintQueue *printer = menu->printer;
             struct MenuTarget *target = menu->target;
-            PRINTSYS_PrintQueColor((void *)printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->font,
+            PRINTSYS_PrintQueColor(printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->font,
                           COLOR(menu->ovLetter, menu->ovShadow, menu->ovBg));
             target->dirty = 1;
         } else {
@@ -488,9 +475,9 @@ void BMP_MENULIST_PrintItem(struct BmpMenuList *menu, const void *text, u32 x, u
         }
     } else {
         if (queued) {
-            u32 printer = (uptr)menu->printer;
+            struct PrintQueue *printer = menu->printer;
             struct MenuTarget *target = menu->target;
-            PRINTSYS_PrintQueColor((void *)printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->font,
+            PRINTSYS_PrintQueColor(printer, BMP_WIN_GetBmp(target->win), x, y, text, menu->font,
                           COLOR(menu->letterColor, menu->shadowColor, menu->bgColor));
             target->dirty = 1;
         } else {
@@ -585,7 +572,7 @@ void BMP_MENULIST_DrawCursor(struct BmpMenuList *menu)
 
     switch (menu->flags.cursorOff) {
     case 0:
-        BMP_CURSOR_Draw(menu->cursor, cursorX, cursorY, menu->target, menu->printer, (u32)menu->font);
+        BMP_CURSOR_Draw(menu->cursor, cursorX, cursorY, menu->target, menu->printer, menu->font);
         break;
     case 1:
     case 2:

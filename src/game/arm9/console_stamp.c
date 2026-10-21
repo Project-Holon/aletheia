@@ -161,7 +161,7 @@ u8 CONSOLE_STAMP_GetBirthdayDay(const struct ConsoleStamp *stamp)
 void DAILY_CLOCK_Init(struct DailyClock *clock)
 {
     clock->started = 1;
-    GF_STANDARD_CopyCachedRtc((struct RtcDate *)&clock->date, (struct RtcTime *)&clock->time);
+    GF_STANDARD_CopyCachedRtc((RTCDate *)&clock->date, (RTCTime *)&clock->time);
     clock->dayCount = RTC_ConvertDateToDay(&clock->date);
     clock->startSecond = RTC_ConvertDateTimeToSecond(&clock->date, &clock->time);
     clock->usedMinutes = 0;
@@ -195,6 +195,6 @@ void DAILY_CLOCK_Spend(struct DailyClock *clock, u32 minutes)
 void DAILY_CLOCK_Refill(struct DailyClock *clock)
 {
     clock->remainingMinutes = DAILY_MINUTES_MAX;
-    GF_STANDARD_CopyCachedRtc((struct RtcDate *)&clock->date, (struct RtcTime *)&clock->time);
+    GF_STANDARD_CopyCachedRtc((RTCDate *)&clock->date, (RTCTime *)&clock->time);
     clock->dayCount = RTC_ConvertDateToDay(&clock->date);
 }

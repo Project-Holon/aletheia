@@ -82,7 +82,7 @@ s16 MCSS_GetOfsX(McssWork *work);
 s16 MCSS_GetOfsY(McssWork *work);
 u8 MCSS_GetStopCellFlags(McssWork *work);
 int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg);
-void MCSS_SetCellCallback(McssWork *work, unsigned flags, void *callback);
+void MCSS_SetCellCallback(McssWork *work, unsigned flags, int (*callback)(void *, void *, void *, int));
 void MCSS_SetPaletteFade(McssWork *work, u32 start, u32 end, s32 wait, u32 color);
 u8 MCSS_GetAlpha(McssWork *work);
 void MCSS_SetAlpha(McssWork *work, int alpha);

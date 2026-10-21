@@ -198,7 +198,7 @@ struct ArcHandle;
 struct FieldMap;
 struct FieldWfbc;
 struct GameSystem;
-struct RtcDate;
+#include "../sdk_rtc.h"
 struct GameEvent;
 struct WordSet;
 struct Mmdl;
@@ -1247,7 +1247,7 @@ int FIELD_WFBC_DATA_LOCAL_ScrCmdFindTargetPokemonInParty(ScriptVm *vm, struct Sc
     outIndex = SCRIPT_WORK_ReadWorkPointer((ScriptVm *)(((void *)vm)), (struct ScrcmdWork *)(((void *)work)));
     n = POKEPARTY_GetCount(b);
     key = FIELD_WFBC_DATA_LOCAL_ReadValue((const WfbcDailyState *)(w));
-    GF_STANDARD_GetCachedDate((struct RtcDate *)d);
+    GF_STANDARD_GetCachedDate((RTCDate *)d);
     *outFound = 0;
     *outDateMatch = 0;
     *outIndex = 0xFFFF;

@@ -461,7 +461,7 @@ void BMP_MENU_DrawCursor(BmpMenu *menu)
 
     if (menu->header.cursorMode != 1) {
         BMP_MENU_GetItemPixelPos(menu, &x, &y, menu->selected);
-        BMP_CURSOR_Draw((struct MenuCursor *)menu->cursor, (u32)x, (u32)y, (struct MenuTarget *)menu->header.util, menu->header.que, (uptr)menu->header.fontH);
+        BMP_CURSOR_Draw((struct MenuCursor *)menu->cursor, (u32)x, (u32)y, (struct MenuTarget *)menu->header.util, menu->header.que, menu->header.fontH);
     }
 }
 

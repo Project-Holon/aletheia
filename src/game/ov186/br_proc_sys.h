@@ -1,9 +1,12 @@
 #ifndef GAME_OV186_BR_PROC_SYS_H
 #define GAME_OV186_BR_PROC_SYS_H
 
+#include "../ov186/br_proc_sys_types.h"
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of br_proc_sys.c, prototypes copied from their definitions. */
 
+struct BrProcSysContext;
 struct BrProcQuery;
 
 #include "../types.h"
@@ -34,19 +37,17 @@ void BR_PROC_SYS_BuildRecord2(int *out,int *source,const char *ctx,int type);
 void BR_PROC_SYS_NoopH(void);
 void BR_PROC_SYS_NoopI(void);
 void BR_PROC_SYS_LoadRecords(char *p, int skip, void *sys, int heap);
+struct BrProcSysContext *BR_PROC_SYS_Create(unsigned fallback, void *base, unsigned count, unsigned arg, unsigned *list, unsigned short heap);
 void BR_PROC_SYS_Delete(int *p);
 void BR_PROC_SYS_RunSlot(char *p);
 int BR_PROC_SYS_IsDone(int *p);
 unsigned BR_PROC_SYS_GetSlotId(struct BrProcQuery *p);
 void BR_PROC_SYS_PopEntry(unsigned *ctx);
 void BR_PROC_SYS_PushEntry(unsigned *ctx, unsigned index);
+void BR_PROC_SYS_SetupWindow(struct BrProcSysContext *p);
+void BR_PROC_SYS_FlushWindows(struct BrProcSysContext *p);
 void BR_PROC_SYS_InitEntry(char *p,int a,int b);
 void BR_PROC_SYS_ClearEntry(void *p);
 /* END mkheaders: generated region */
-
-/* Context is private to br_proc_sys.c, so mkheaders skips these two. */
-struct Context;
-void BR_PROC_SYS_SetupWindow(struct Context *p);
-void BR_PROC_SYS_FlushWindows(struct Context *p);
 
 #endif

@@ -424,8 +424,6 @@
  */
 #ifdef __MWERKS__
 /* The original callers take the condition word as a plain word. */
-#define BTL_POKEPARAM_GetSickContRaw BTL_POKEPARAM_GetSickContRawHeader
-#define BTL_SICKCONT_IsKind1Index15 BTL_SICKCONT_IsKind1Index15Header
 #define BTL_POKEPARAM_FindMoveSlot BTL_POKEPARAM_FindMoveSlotHeader
 #define BTL_CALC_MakeSickContPoke BTL_CALC_MakeSickContPokeHeader
 #define WAZA_TOOL_GetFlag WAZA_TOOL_GetFlagHeader
@@ -540,8 +538,6 @@ struct BtlDeadRec;
 #include "btl_typepair.h"
 #include "btl_sickcont.h"
 #ifdef __MWERKS__
-#undef BTL_POKEPARAM_GetSickContRaw
-#undef BTL_SICKCONT_IsKind1Index15
 #undef BTL_POKEPARAM_FindMoveSlot
 #undef BTL_CALC_MakeSickContPoke
 #undef WAZA_TOOL_GetFlag
@@ -565,8 +561,6 @@ extern u16 BTL_TYPEPAIR_MakeSingle(int value);
 extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
 extern u32 BTL_CALC_MakeSickContPoke(int pokeId);
 extern u8 BTL_POKEPARAM_FindMoveSlot(struct BtlPokeParam *bpp, int moveId);
-extern int BTL_SICKCONT_IsKind1Index15(int sickCont);
-extern u32 BTL_POKEPARAM_GetSickContRaw(struct BtlPokeParam *bpp, int sickKind);
 #endif
 void HAND_ITEM_GemMovePower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work, u8 gemType);
 void HAND_ITEM_GemMoveDamageEnd(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work);
@@ -6058,55 +6052,31 @@ int *HAND_WAZA_GetPsychoShiftHandlers(int *handlerCount)
 
 
 
-/*
- * Psycho Shift, event 0xa0: moves the major status of the user to a target that has none.
- * Frame: 0x1c bytes of locals needs the two BTL_POKEPARAM_GetMajorStatusIndex calls and
- * BTL_SICKCONT_MakeKind1Index15 declared as returning a one-word struct (OneWordResult); see
- * docs/idioms/an-unused-frame-word-is-a-callee-returning-a-one-word-struct.md.
- * OneWordResult on BTL_POKEPARAM_GetSickContRaw or BTL_CALC_MakeDefaultSickCont as well gives a larger frame.
- * The shared prototypes (hand_common_protos.h) return int for GetMajorStatusIndex and a condition
- * record for BTL_CALC_MakeDefaultSickCont; the casts to function pointer types below reproduce the
- * per-call return types this function needs for its frame.
- */
+/* Psycho Shift, event 0xa0: moves the major status of the user to a target that has none. */
 void HAND_WAZA_PsychoShiftTransferStatus(BTL_EVENT_SIGNATURE)
 {
     struct BtlPokeParam *userBpp;
     int sickKind;
     u8 targetId;
-    int sickCont;
+    union SickCont sickCont;
+    union SickCont newCont;
     struct HandExAddSick *addSick;
     struct HandExCureSick *cureSick;
-    /*
-     * The calls below keep their call-site types. This handler calls the status getter as a one-word
-     * struct return (the compiler reserves a frame word) and the default condition as a plain word.
-     * The rest of the file calls both through the shared prototypes, so one file-scope view cannot
-     * hold both (tools/tuboundary.py only finds weak evidence for a TU split here).
-     */
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID)) {
         userBpp = BTL_SERVER_FLOW_GetPokeParam(flow, pokeId);
-        sickKind = ((OneWordResult (*)(struct BtlPokeParam *))BTL_POKEPARAM_GetMajorStatusIndex)(userBpp).value;
+        sickKind = BTL_POKEPARAM_GetMajorStatusIndex(userBpp);
         if (sickKind != 0) {
             targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_FIRST);
-            if (((OneWordResult (*)(struct BtlPokeParam *))BTL_POKEPARAM_GetMajorStatusIndex)(BTL_SERVER_FLOW_GetPokeParam(flow, targetId)).value == 0) {
-#ifdef __MWERKS__
+            if (BTL_POKEPARAM_GetMajorStatusIndex(BTL_SERVER_FLOW_GetPokeParam(flow, targetId)) == 0) {
                 sickCont = BTL_POKEPARAM_GetSickContRaw(userBpp, sickKind);
-#else
-                sickCont = BTL_POKEPARAM_GetSickContRaw(userBpp, sickKind).raw;
-#endif
                 addSick = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_KIND_ADD_SICK, pokeId);
                 addSick->sickKind = sickKind;
-#ifdef __MWERKS__
                 if (sickKind == BTL_SICK_POISON && BTL_SICKCONT_IsKind1Index15(sickCont) != 0)
-                    addSick->sickCont = BTL_SICKCONT_MakeKind1Index15();
+                    newCont = BTL_SICKCONT_MakeKind1Index15();
                 else
-                    addSick->sickCont.raw = ((int (*)(int))BTL_CALC_MakeDefaultSickCont)(sickKind);
-#else
-                if (sickKind == BTL_SICK_POISON && BTL_SICKCONT_IsKind1Index15((union SickCont){ sickCont }) != 0)
-                    addSick->sickCont = BTL_SICKCONT_MakeKind1Index15();
-                else
-                    addSick->sickCont.raw = ((int (*)(int))BTL_CALC_MakeDefaultSickCont)(sickKind);
-#endif
+                    newCont = BTL_CALC_MakeDefaultSickCont(sickKind);
+                addSick->sickCont = newCont;
                 addSick->pokeId = targetId;
                 addSick->suppressMessage = 1;
                 BTL_SERVER_FLOW_CommitCmdRecord(flow, addSick);
@@ -8942,22 +8912,16 @@ int *HAND_WAZA_AddRoost(int *handlerCount)
 /* Roost: add the status that removes the Flying type for the turn. */
 void HAND_WAZA_RoostGroundFlyingType(int factor, void *flow, int pokeId)
 {
-    struct HandWazaSickRecord *sick;
-    int turns = 2;
-    int cont;
-    u32 *contSlot;
+    struct HandExAddSick *addSick;
 
     if (pokeId == BTL_EVENT_GetVar(WAZAVAR_POKE_ID)) {
-        sick = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_WAZA_KIND_ADD_SICK, pokeId);
-        sick->pokeId = pokeId;
-        sick->flag = 1;
-        sick->sickKind = SICK_ROOST_GROUNDED;
-        /* The call is typed as returning a plain word: the shared prototype returns a condition record, which would add a frame word here. */
-        cont = ((int (*)(int, int))BTL_SICKCONT_MakeKind2)(1, turns);
-        contSlot = &sick->sickCont;
-        *contSlot = cont;
-        BTL_SICKCONT_SetFlag((union SickCont *)contSlot, 1);
-        BTL_SERVER_FLOW_CommitCmdRecord(flow, sick);
+        addSick = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_WAZA_KIND_ADD_SICK, pokeId);
+        addSick->pokeId = pokeId;
+        addSick->fromMove = 1;
+        addSick->sickKind = SICK_ROOST_GROUNDED;
+        addSick->sickCont = BTL_SICKCONT_MakeKind2(1, 2);
+        BTL_SICKCONT_SetFlag(&addSick->sickCont, 1);
+        BTL_SERVER_FLOW_CommitCmdRecord(flow, addSick);
     }
 }
 

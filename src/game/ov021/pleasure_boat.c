@@ -192,7 +192,7 @@ int PLEASURE_BOAT_GetStat(PleasureBoatWork *work, int kind)
 
 typedef struct GameData GameData;
 
-extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrCmdWork *scrCmdWork);
+#include "../ov010/scrcmd_work.h"
 
 #include "../arm9/gamesystem.h"
 #include "../arm9/vm.h"
@@ -201,11 +201,14 @@ extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrCmdWork *scrCmdWork);
 
 
 
-extern PleasureBoatHolder *GAME_DATA_GetEventState(GameData *gameData);
+#include "../arm9/game_data.h"
+static inline PleasureBoatHolder *PLEASURE_BOAT_GetHolder(GameData *gameData)
+{
+    return (PleasureBoatHolder *)GAME_DATA_GetEventState(gameData);
+}
 struct SymbolMapOwner;
 
 
-extern void *SCRCMD_WORK_GetScriptWork(ScrCmdWork *scrCmdWork);
 
 struct ScrcmdWork;
 struct ScriptVm;
@@ -225,17 +228,17 @@ void PLEASURE_BOAT_SetPassengerOccupied(PleasureBoatWork *work, int index, int o
 
 PleasureBoatWork *PLEASURE_BOAT_Lock(PleasureBoatWork *work);
 
-int PLEASURE_BOAT_ScrCmdCreate(ScriptVm *vm, ScrCmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdCreate(ScriptVm *vm, ScrcmdWork *scrCmdWork);
 
-int PLEASURE_BOAT_ScrCmdDelete(ScriptVm *vm, ScrCmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdDelete(ScriptVm *vm, ScrcmdWork *scrCmdWork);
 
-int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrCmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrcmdWork *scrCmdWork);
 
-int PLEASURE_BOAT_ScrCmdAddTime(ScriptVm *vm, ScrCmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdAddTime(ScriptVm *vm, ScrcmdWork *scrCmdWork);
 
-int PLEASURE_BOAT_ScrCmdSetPassengerInfo(ScriptVm *vm, ScrCmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdSetPassengerInfo(ScriptVm *vm, ScrcmdWork *scrCmdWork);
 
-int PLEASURE_BOAT_ScrCmdLock(ScriptVm *vm, ScrCmdWork *scrCmdWork);
+int PLEASURE_BOAT_ScrCmdLock(ScriptVm *vm, ScrcmdWork *scrCmdWork);
 
 /* Script queries 5, 6, 7 and 8 read these passenger fields (see symbol_map.c, SYMBOL_MAP_ScrCmdGetEventStateValue). */
 u32 PLEASURE_BOAT_GetPassengerParam(PleasureBoatWork *work, u32 index)
@@ -283,30 +286,30 @@ PleasureBoatWork *PLEASURE_BOAT_Lock(PleasureBoatWork *work)
 }
 
 /* Script command: creates the boat work in the event state unless it exists. */
-int PLEASURE_BOAT_ScrCmdCreate(ScriptVm *vm, ScrCmdWork *scrCmdWork)
+int PLEASURE_BOAT_ScrCmdCreate(ScriptVm *vm, ScrcmdWork *scrCmdWork)
 {
-    PleasureBoatHolder *holder = GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))));
+    PleasureBoatHolder *holder = PLEASURE_BOAT_GetHolder(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))));
     if (holder->boat == 0)
         holder->boat = PLEASURE_BOAT_Create();
     return 0;
 }
 
 /* Script command: frees the boat work. */
-int PLEASURE_BOAT_ScrCmdDelete(ScriptVm *vm, ScrCmdWork *scrCmdWork)
+int PLEASURE_BOAT_ScrCmdDelete(ScriptVm *vm, ScrcmdWork *scrCmdWork)
 {
-    SYMBOL_MAP_DeleteLinkRecord((struct SymbolMapOwner *)(GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))))));
+    SYMBOL_MAP_DeleteLinkRecord((struct SymbolMapOwner *)(PLEASURE_BOAT_GetHolder(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))))));
     return 0;
 }
 
 /* Script command: reads the statistic selected by the next operand into the output variable. */
-int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrCmdWork *scrCmdWork)
+int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrcmdWork *scrCmdWork)
 {
     PleasureBoatHolder *holder;
     int kind;
     u16 *out;
 
     SCRCMD_WORK_GetScriptWork(scrCmdWork);
-    holder = GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))));
+    holder = PLEASURE_BOAT_GetHolder(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))));
     kind = VM_ReadU16(vm);
     out = SCRIPT_WORK_ReadWorkPointer(vm, (struct ScrcmdWork *)scrCmdWork);
     *out = PLEASURE_BOAT_GetStat(holder->boat, kind);
@@ -314,15 +317,15 @@ int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrCmdWork *scrCmdWork)
 }
 
 /* Script command: advances the boat clock by the seconds operand; the second operand is the clamp flag. */
-int PLEASURE_BOAT_ScrCmdAddTime(ScriptVm *vm, ScrCmdWork *scrCmdWork)
+int PLEASURE_BOAT_ScrCmdAddTime(ScriptVm *vm, ScrcmdWork *scrCmdWork)
 {
     SCRCMD_WORK_GetScriptWork(scrCmdWork);
-    PLEASURE_BOAT_AdvanceTime(GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))))->boat, VM_ReadU16(vm), VM_ReadU16(vm));
+    PLEASURE_BOAT_AdvanceTime(PLEASURE_BOAT_GetHolder(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))))->boat, VM_ReadU16(vm), VM_ReadU16(vm));
     return 0;
 }
 
 /* Script command: sets a passenger field; only sub-command 8 (occupied flag) writes anything. */
-int PLEASURE_BOAT_ScrCmdSetPassengerInfo(ScriptVm *vm, ScrCmdWork *scrCmdWork)
+int PLEASURE_BOAT_ScrCmdSetPassengerInfo(ScriptVm *vm, ScrcmdWork *scrCmdWork)
 {
     PleasureBoatHolder *holder;
     int index;
@@ -330,7 +333,7 @@ int PLEASURE_BOAT_ScrCmdSetPassengerInfo(ScriptVm *vm, ScrCmdWork *scrCmdWork)
     int value;
 
     SCRCMD_WORK_GetScriptWork(scrCmdWork);
-    holder = GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(scrCmdWork)));
+    holder = PLEASURE_BOAT_GetHolder(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(scrCmdWork)));
     index = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scrCmdWork);
     subCommand = VM_ReadU16(vm);
     VM_ReadU16(vm);
@@ -353,8 +356,8 @@ int PLEASURE_BOAT_ScrCmdSetPassengerInfo(ScriptVm *vm, ScrCmdWork *scrCmdWork)
 }
 
 /* Script command: locks the boat clock and arrivals. */
-int PLEASURE_BOAT_ScrCmdLock(ScriptVm *vm, ScrCmdWork *scrCmdWork)
+int PLEASURE_BOAT_ScrCmdLock(ScriptVm *vm, ScrcmdWork *scrCmdWork)
 {
-    PLEASURE_BOAT_Lock(GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))))->boat);
+    PLEASURE_BOAT_Lock(PLEASURE_BOAT_GetHolder(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))))->boat);
     return 0;
 }

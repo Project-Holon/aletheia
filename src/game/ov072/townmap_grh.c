@@ -156,7 +156,15 @@ extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
 extern s32 CLACT_RegisterPalette(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 extern u32 CLACT_DeleteUnit(struct Unit *unit);
 extern void CLACT_ExitSystem(void);
+#ifdef __MWERKS__
+#define CLACT_DrawSystem CLACT_DrawSystemHeader
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef CLACT_DrawSystem
 extern void CLACT_DrawSystem(int arg);
+#endif
 extern void CLACT_VBlankSystem(void);
 
 /* Siblings in townmap.c. */
@@ -533,7 +541,11 @@ void TOWNMAP_GRH_ExitSprites(TownMapSprites *sprites)
 /* Thumb long-branch veneer to CLACT_DrawSystem, declared as an ordinary call. */
 void TOWNMAP_GRH_DrawClactSystem(int arg)
 {
+#ifdef __MWERKS__
     CLACT_DrawSystem(arg);
+#else
+    CLACT_DrawSystem();
+#endif
 }
 
 void TOWNMAP_GRH_VBlankSprites(TownMapSprites *sprites)

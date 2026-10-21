@@ -4,6 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of field_g3dobj.c, prototypes copied from their definitions. */
 
+struct G3dObjectStatus;
+
 #include "../ov021/field_g3dobj_types.h"
 #include "../types.h"
 #include "../sdk_fx.h"

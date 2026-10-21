@@ -37,7 +37,6 @@
 struct Obj;
 #include "../types.h"
 
-struct ActorGfxSet;
 struct Demo3dExpCCruiserVec2 { short x, y; };
 
 typedef struct Demo3dCruiserActorGfx { int id; int resource; int palette; int frame; } Demo3dCruiserActorGfx;
@@ -79,7 +78,12 @@ struct Demo3dGraphic;
 #include "demo3d_graphic.h"
 #include "../ov067/ui_scene_types.h"
 extern void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys, u16 heapId);
-extern struct Actor *UI_SCENE_CreateActor(struct ActorGfxSet *, void *, unsigned char, unsigned char, unsigned char, unsigned short);
+/* The DS code was built against other parameter widths for UI_SCENE_CreateActor (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
+extern struct Actor *UI_SCENE_CreateActor(ActorGfxSet *, void *, unsigned char, unsigned char, unsigned char, unsigned short);
+#else
+#include "../ov067/ui_scene.h"
+#endif
 struct Actor;
 #include "../arm9/clact.h"
 #include "../arm9/bg_sys.h"
@@ -125,7 +129,7 @@ void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
     config.flip = 0;
     config.visible = 1;
     UI_SCENE_LoadActorGfx((ActorGfxSet *)&a->actorGfx, (ActorGfxDesc *)&config, (void *)resource, p->heapId);
-    a->actor = (struct Obj *)UI_SCENE_CreateActor((struct ActorGfxSet *)(&a->actorGfx), (void *)resource, d_021C3BD0[a->step].x, d_021C3BD0[a->step].y, 0, p->heapId);
+    a->actor = (struct Obj *)UI_SCENE_CreateActor((ActorGfxSet *)(&a->actorGfx), (void *)resource, d_021C3BD0[a->step].x, d_021C3BD0[a->step].y, 0, p->heapId);
     CLACT_SetActorDrawEnable((struct ClactActor *)a->actor, 1);
     CLACT_SetActorAutoAnim((struct ClactActor *)a->actor, 1);
     BG_SYS_SetPlaneVisible(6, 1);

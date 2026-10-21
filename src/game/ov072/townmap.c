@@ -188,18 +188,6 @@ struct Pair;
 #include "../types.h"
 
 struct TouchBar;
-struct TouchBarParams;
-/* Button manager request. */
-typedef struct ButtonManRequest {
-    u8 *table;
-    u32 tableCount;
-    int clactSet;
-    u32 bgLayer;
-    u32 palette;
-    u32 tileBase;
-    int kind;
-    int reserved;
-} ButtonManRequest;
 
 typedef struct { u32 w[16]; } ButtonTable;
 
@@ -228,7 +216,15 @@ struct TcbTask;
 #include "../arm9/ui.h"
 #include "../arm9/arc_tool.h"
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+#ifdef __MWERKS__
+#define CLACT_RegisterCharacter CLACT_RegisterCharacterHeader
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef CLACT_RegisterCharacter
 extern s32 CLACT_RegisterCharacter(void *arc, u32 id, u32 a, u32 b, u32 heap);
+#endif
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 struct ClactActor;
 struct Unit;
@@ -239,7 +235,15 @@ struct Pair32;
 extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 extern void CLACT_StopActorAnim(struct ClactActor *actor);
-extern struct TouchBar *TOUCHBAR_Create(struct TouchBarParams *r, int heap);
+#ifdef __MWERKS__
+#define TOUCHBAR_Create TOUCHBAR_CreateHeader
+#endif
+#include "../ov067/touchbar.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef TOUCHBAR_Create
+extern struct TouchBar *TOUCHBAR_Create(TouchBarParams *r, int heap);
+#endif
 extern void TOUCHBAR_SetAllButtonsPriority(TouchBar *bar, u32 priority);
 extern void TOUCHBAR_Delete(TouchBar *bar);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
@@ -606,7 +610,7 @@ int TOWNMAP_StepBrowse(TownMapProc *proc,int *unusedState,TownMapWork *work)
 
 void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet, u8 bgLayer, u8 palette, u8 tileBase, u32 ctx, u16 heapId)
 {
-    ButtonManRequest req;
+    TouchBarParams req;
     ButtonTable table;
     SpriteInit init;
     void *archive;
@@ -627,14 +631,14 @@ void TOWNMAP_BackButtonInit(TownMapButtonBar *bar, u32 unusedMode, u32 clactSet,
     CLACT_StopActorAnim((struct ClactActor *)bar->sprite);
     table = d_021BBB8C;
     MI_CpuFill8(&req, 0, 0x20);
-    req.table = (u8 *)&table;
-    req.tableCount = 2;
-    req.clactSet = clactSet;
+    req.defs = (TouchBarButtonDef *)&table;
+    req.count = 2;
+    req.actorSys = (struct Unit *)clactSet;
     req.bgLayer = bgLayer;
-    req.palette = palette;
-    req.tileBase = tileBase + 4;
-    req.kind = 2;
-    bar->buttonMan = (uptr)TOUCHBAR_Create((struct TouchBarParams *)(&req), heapId);
+    req.bgPlttSlot = palette;
+    req.actorPlttSlot = tileBase + 4;
+    req.iconSet = 2;
+    bar->buttonMan = (uptr)TOUCHBAR_Create(&req, heapId);
     TOUCHBAR_SetAllButtonsPriority((TouchBar *)bar->buttonMan, 10);
 }
 

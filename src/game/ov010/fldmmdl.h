@@ -5,6 +5,7 @@
 /* Public functions of fldmmdl.c, prototypes copied from their definitions. */
 
 struct TcbTask;
+struct BlactSys;
 struct MmdlSearchList;
 typedef struct MmdlSearchList MmdlSearchList;
 

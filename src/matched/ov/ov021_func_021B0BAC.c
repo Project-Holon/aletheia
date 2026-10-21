@@ -14,7 +14,7 @@
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRCMD_WORK_GetMsgData  0x0215A60C  thumb  ov010
  *   SCRIPT_WORK_ResetFieldParam  0x02158F58  thumb  ov010
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   SCRIPT_WORK_GetMsgBuffer  0x02158F78  thumb  ov010
  *   SCRIPT_WORK_GetWordSet  0x02158F74  thumb  ov010
@@ -61,7 +61,7 @@ struct Rec;
 struct WordSet;
 extern u32 SCRCMD_WORK_GetMsgData(u8 *p);
 extern int SCRIPT_WORK_ResetFieldParam(int a0);
-extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern void *SCRCMD_WORK_GetMmdlSys(void *p);
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 extern u32 SCRIPT_WORK_GetMsgBuffer(u8 *p);
 extern void *SCRIPT_WORK_GetWordSet(void *p);
@@ -103,7 +103,7 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(u32 b, u16 id, u16 c, u16 d, u16 e, int f)
     o = SCRCMD_WORK_GetScriptWork((void *)b);
     s28 = SCRCMD_WORK_GetMsgData((u8 *)b);
     q = (u32 *)SCRIPT_WORK_ResetFieldParam((int)o);
-    t = (u32)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    t = (u32)SCRCMD_WORK_GetMmdlSys((void *)b);
     m20 = (u32)FLDMMDL_SysSearchObjId((void *)t, 0xff);
     m1c = (u32)FLDMMDL_SysSearchObjId((void *)t, id);
     if (m1c == 0) {

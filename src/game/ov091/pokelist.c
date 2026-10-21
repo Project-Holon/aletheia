@@ -575,7 +575,15 @@ struct SysInit;
 extern void CLACT_InitSystem(const struct ClactSysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
 #include "../arm9/nns_gfd_vram_load.h"
 #include "../arm9/gx.h"
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_InitHeader
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef G3D_SYSTEM_Init
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, int);
+#endif
 struct VecFx32;
 struct G3dCamera;
 extern struct G3dCamera *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, struct VecFx32 *eye, struct VecFx32 *target, struct VecFx32 *up, u16 heapID);
@@ -628,7 +636,15 @@ struct Strbuf;
 struct Bmp;
 extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 #include "../arm9/strbuf.h"
+#ifdef __MWERKS__
+#define PRINTSYS_PrintColor PRINTSYS_PrintColorHeader
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef PRINTSYS_PrintColor
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+#endif
 struct WordSet;
 #include "../arm9/wordset.h"
 struct MyItem;

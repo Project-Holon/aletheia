@@ -362,7 +362,7 @@ struct DailyClock;
 #include "../arm9/console_stamp.h"
 
 
-struct RtcDate;
+#include "../sdk_rtc.h"
 
 struct RtcDateSigned;
 
@@ -1658,7 +1658,7 @@ void GSYNC_STATE_StateSendFinalRequest(char *state)
     saved.month=(u8)(rtcPacked>>16);
     saved.day=(u8)(rtcPacked>>8);
     saved.week=(u8)rtcPacked;
-    GF_STANDARD_GetCachedDate((struct RtcDate *)&current);
+    GF_STANDARD_GetCachedDate((RTCDate *)&current);
     day=GF_STANDARD_GetDayOfYear((struct RtcDateSigned *)&saved);
     if (day==GF_STANDARD_GetDayOfYear((struct RtcDateSigned *)&current)) {
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(sptr)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x869);
@@ -1737,7 +1737,7 @@ void GSYNC_STATE_StateTrainerRecordSaveStart(char *state)
     struct GsyncRtcDate date;
     saveSystem=GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
     ((GsyncStateWork *)state)->monStored=0;
-    GF_STANDARD_GetCachedDate((struct RtcDate *)&date);
+    GF_STANDARD_GetCachedDate((RTCDate *)&date);
     BLOCK20_SAVEDATA_SetDateStamp(saveSystem, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
     if (BLOCK20_SAVEDATA_GetProgress(saveSystem)!=127) {
         BLOCK20_SAVEDATA_SetFlag(saveSystem,1);

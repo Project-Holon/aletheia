@@ -183,7 +183,7 @@ void FIELD_GIMMICK_CART_LANES_Setup(struct FieldMap *fieldMap)
     expObj = FIELDMAP_GetExpObj(fieldMap);
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
     save = (FieldGimmickCartLanesSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_CART_LANES_SAVE_ID);
-    soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    soundSys = GAME_DATA_GetBgmInfo(gameData);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), FIELD_GIMMICK_CART_LANES_WORK_SIZE);
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &sCartSetup, 0);
     FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0)->trans = sModelPos00;
@@ -279,7 +279,7 @@ void FIELD_GIMMICK_CART_LANES_UpdateTask(struct TcbTask *tcb, struct FieldMap *f
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap));
     save = (FieldGimmickCartLanesSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(gameData), FIELD_GIMMICK_CART_LANES_SAVE_ID);
-    soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    soundSys = GAME_DATA_GetBgmInfo(gameData);
     for (i = 0; i < FIELD_GIMMICK_CART_LANES_LANE_COUNT; i++) {
         lane = i;
         if (work->switchRequest[lane] != 0) {
@@ -352,7 +352,7 @@ void FIELD_GIMMICK_CART_LANES_End(struct FieldMap *fieldMap)
     FldExpObjCnt *expObj = FIELDMAP_GetExpObj(fieldMap);
     FieldGimmickCartLanesWork *work = FIELDMAP_GetCommonWork(fieldMap, 1);
 
-    FIELD_SOUND_SYSTEM_ReleaseSlot((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP);
+    FIELD_SOUND_SYSTEM_ReleaseSlot(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP);
     TCB_DeleteTask(work->task);
     FIELDMAP_FreeCommonWork(fieldMap, 1);
     FLD_EXP_OBJ_RemoveUnit(expObj, 0);
@@ -379,7 +379,7 @@ void FIELD_GIMMICK_CART_LANES_TransferSound(struct GameSystem *gameSystem)
 {
     struct FieldSoundSystem *soundSys;
 
-    soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem));
+    soundSys = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem));
     FIELD_SOUND_SYSTEM_ClaimSlot(soundSys, FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP);
     FIELD_SOUND_SYSTEM_TransferSlot(soundSys, FIELD_GIMMICK_CART_LANES_SLOT_CART_LOOP, 0);
 }
@@ -647,7 +647,7 @@ int FIELD_GIMMICK_CART_LANES_RideEventMain(struct GameEvent *event, int *seq, vo
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_GetCommonWork(fieldMap, 1);
-    soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    soundSys = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     seSlot = GFL_USE_GetSeSlot(FIELD_GIMMICK_CART_LANES_SE_CART_RUN);
     lane = (u8)(work->selectedCart >> 1);
     model = lane;
@@ -1123,7 +1123,7 @@ void FIELD_GIMMICK_CART_LANES_UpdateCartSound(struct FieldMap *fieldMap, FieldGi
     int volume;
 
     expObj = FIELDMAP_GetExpObj(fieldMap);
-    soundSys = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    soundSys = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
     first = 1;
     for (i = 0; i < FIELD_GIMMICK_CART_LANES_LANE_COUNT; i++) {
         int laneIdx = (u8)i;

@@ -24,7 +24,7 @@
  *   gDailyLayoutCompanionCellsA     0x021F3A82  data  a1
  *   gDailyLayoutCompanionCellsB     0x021F3A90  data  a1
  */
-struct RtcDate;
+#include "../sdk_rtc.h"
 #include "../types.h"
 
 #include "../sdk_rtc.h"
@@ -117,7 +117,7 @@ void DAILY_LAYOUT_Generate(DailyLayoutWork *work)
     u8 pick;
     u8 entryCell;
 
-    GF_STANDARD_GetCachedDate((struct RtcDate *)(&date));
+    GF_STANDARD_GetCachedDate((RTCDate *)(&date));
     switch (date.week) {
     case 1:
         mainCount = 4;

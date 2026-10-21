@@ -166,15 +166,12 @@ struct G3dObject;
 
 
 
-extern void NNS_G3dMdlSetMdlLightEnableFlag(void *mdl, int a, int b);
-
-extern void NNS_G3dMdlSetMdlPolygonID(void *mdl, int a, int b);
-
-extern void NNS_G3dMdlSetMdlCullMode(void *mdl, int a, int b);
-
-extern void NNS_G3dMdlSetMdlAlpha(void *mdl, int a, int b);
-
-extern void NNS_G3dMdlSetMdlPolygonMode(void *mdl, int a, int b);
+struct ResMdl;
+extern void NNS_G3dMdlSetMdlLightEnableFlag(struct ResMdl *mdl, u32 a, u32 b);
+extern void NNS_G3dMdlSetMdlPolygonID(struct ResMdl *mdl, u32 a, u32 b);
+extern void NNS_G3dMdlSetMdlCullMode(struct ResMdl *mdl, u32 a, u32 b);
+extern void NNS_G3dMdlSetMdlAlpha(struct ResMdl *mdl, u32 a, u32 b);
+extern void NNS_G3dMdlSetMdlPolygonMode(struct ResMdl *mdl, u32 a, u32 b);
 
 struct ScrcmdWork;
 struct GameSystem;

@@ -116,7 +116,15 @@ struct Strbuf;
 struct BmpWin;
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 #include "../arm9/strbuf.h"
+#ifdef __MWERKS__
+#define BMP_WIN_Create BMP_WIN_CreateHeader
+#endif
+#include "../arm9/bmp_win.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef BMP_WIN_Create
 extern struct BmpWin *BMP_WIN_Create(int bgLayer, u8 posX, u8 posY, int width, u8 height, u8 palette, u8 allocDir);
+#endif
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 struct Renderer;
 struct PrintQueue;
@@ -135,7 +143,15 @@ extern void BMP_WIN_SetPosX(struct BmpWin *win, u8 posX);
 struct Pokemon;
 struct Regulation;
 #include "../arm9/poke_regulation.h"
+#ifdef __MWERKS__
+#define BGWINFRM_GetScaleRank BGWINFRM_GetScaleRankHeader
+#endif
+#include "../arm9/bgwinfrm.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef BGWINFRM_GetScaleRank
 extern u8 BGWINFRM_GetScaleRank(u32 a, u32 b);
+#endif
 #include "pokelist.h"
 
 PlistPlate *PLIST_PLATE_Create(PokelistWork *work, int slot, void *mon);

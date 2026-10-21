@@ -12,7 +12,7 @@
  * symbols:
  *   BTLV_MCSS_FindSpriteIndex  0x022019F4  thumb  ov094
  *   MCSS_Del  0x02015BA4  thumb
- *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   TCBL_GetOwnedWork  0x02030EE8  arm
  *   func_020307B0  0x020307B0  arm
  *   func_02030EAC  0x02030EAC  arm
  */
@@ -34,7 +34,7 @@ extern int BTLV_MCSS_FindSpriteIndex(char *p, int key);
 extern void MCSS_Del(void *obj, void *h);
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetOwnedWork(struct S02030EE8 *p);
 extern u32 func_020307B0(void *p);
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -46,7 +46,7 @@ void BTLV_MCSS_RemoveSprite(Work *w, int key)
     MCSS_Del(w->obj, w->e[idx].h);
     w->e[idx].h = 0;
     if (w->e[idx].task != 0) {
-        func_020307B0((void *)TCBL_IsDeletePending(w->e[idx].task));
+        func_020307B0((void *)TCBL_GetOwnedWork(w->e[idx].task));
         func_02030EAC(w->e[idx].task);
         w->e[idx].task = 0;
     }

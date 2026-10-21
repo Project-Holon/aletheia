@@ -360,4 +360,20 @@ struct BrButton {
     u32 paramA;                  /* 0x14 width source (a>>3) and actor arg */
 };
 
+/* Placement of a button object: screen position, caller value, flag and attribute bytes. */
+typedef struct BrBtnPlacement {
+    s16 x;
+    s16 y;
+    u16 value;
+    u8 flag;
+    u8 attr;
+} BrBtnPlacement;
+
+/* Three sprite resource ids handed to BR_BTN_CreateObject. */
+typedef struct BrBtnSpriteIds {
+    u32 x;
+    u32 y;
+    u32 z;
+} BrBtnSpriteIds;
+
 #endif

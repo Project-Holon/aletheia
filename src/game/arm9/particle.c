@@ -100,17 +100,19 @@ struct ParticleCamera;   /* camera object made by G3D_CAMERA_Create, opaque */
 
 struct TaskNode;         /* one-shot task node, opaque */
 
+#ifdef __MWERKS__
+#define SPL_EMITTER_FreeTexNode SPL_EMITTER_FreeTexNode_header
+#endif
+#include "spl_emitter.h"
+#ifdef __MWERKS__
+#undef SPL_EMITTER_FreeTexNode
+extern int SPL_EMITTER_FreeTexNode(struct VramNodeHeap *engine); /* original prototype; the definition differs in pointer type, return type */
+#endif
 struct ParticleSys;
 
 /* ---- particle ---- */
 typedef u32 (*ParticleLoadFn)(u32 id, u32 arg);
 
-/* Particle engine instance made by SPL_EMITTER_AllocNodeFromHeap; only the count is read here. */
-struct ParticleEngine {
-    u32 engineId;
-    u32 effectLimit;
-    int effectCount;
-};
 
 #include "particle_types.h"
 #include "particle.h"
@@ -126,7 +128,7 @@ struct ParticleEngine {
 
 /* One particle system (0x260 bytes allocated, 0x25C used). */
 struct ParticleSys {
-    struct ParticleEngine *engine;      /* 0x00 */
+    struct VramNodeHeap *engine;      /* 0x00 */
     void *resourceBlock;                /* 0x04: freed on delete unless flags bit 0 */
     int activeEffect;                   /* 0x08: handle of the last effect started */
     u32 workBase;                       /* 0x0C: caller's work buffer */
@@ -161,7 +163,6 @@ struct ParticleMan {
 };
 
 #include "gfl_heap_wrap.h"
-extern struct ParticleEngine *SPL_EMITTER_AllocNodeFromHeap(void *(*alloc)(u32 size), u32 effectLimit, u32 particleLimit, u32 limitA, u32 limitB, u32 maxResIndex);
 
 
 
@@ -234,9 +235,6 @@ struct VramHeapHead;
 
 #include "fx_mtx33.h"
 
-#ifdef __MWERKS__
-extern int SPL_EMITTER_FreeTexNode(struct ParticleEngine *engine); /* original prototype; the definition differs in pointer type, return type */
-#endif
 
 #include "g3d_camera.h"
 
@@ -790,7 +788,7 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
     u32 palMode;
     u32 z;
     s32 i;
-    struct ParticleEngine *engine;
+    struct VramNodeHeap *engine;
 
     z = 0;
     mode = (G3D_SYSTEM_GetTexManagerMode() == 1) ? 1 : 2;
@@ -881,7 +879,7 @@ void PARTICLE_SetupSystemNoHandlers(struct ParticleSys *sys, void *block)
 void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys)
 {
     ParticleLoadFn fn;
-    struct ParticleEngine *engine;
+    struct VramNodeHeap *engine;
 
     g_pParticleMan->current = sys;
 
@@ -1265,9 +1263,6 @@ extern void SPL_EMITTER_BuildFrame(struct AxisAngleKey *o, u8 *dst);
 struct RigOffsetPair;
 struct ScaledVecSource;
 
-#ifdef __MWERKS__
-extern void SPL_EMITTER_AddScaledVec(struct ScaledVecSource *a, struct RigOffsetPair *b, s32 *c);
-#endif
 struct RandomVecSource;
 struct RandomVecRange;
 

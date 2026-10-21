@@ -10,13 +10,13 @@
  * status:   EXACT
  *
  * symbols:
- *   TCBL_IsDeletePending  0x02030EE8  arm  arm9
+ *   TCBL_GetOwnedWork  0x02030EE8  arm  arm9
  */
 
 typedef struct { char pad[0x68]; unsigned int f68; } W;
-extern W **TCBL_IsDeletePending(void *h);
+extern W **TCBL_GetOwnedWork(void *h);
 
 void BTLV_INPUT_ButtonFlashTaskEnd(void *h)
 {
-    (*TCBL_IsDeletePending(h))->f68 &= 0x7fffffff;
+    (*TCBL_GetOwnedWork(h))->f68 &= 0x7fffffff;
 }

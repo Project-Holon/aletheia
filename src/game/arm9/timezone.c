@@ -22,7 +22,7 @@
 /* RTC time as GF_STANDARD_GetCachedTime fills it. */
 #include "gf_standard_types.h"
 
-extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
+extern void GF_STANDARD_GetCachedTime(RTCTime *time);
 
 u32 TIMEZONE_GetNowTimeZone(u32 season);
 
@@ -58,7 +58,7 @@ extern const u8 _TimeZoneLightTable[][5];
  */
 u32 TIMEZONE_GetNowTimeZone(u32 season)
 {
-    struct RtcTime time;
+    RTCTime time;
 
     GF_STANDARD_GetCachedTime(&time);
     return TIMEZONE_GetTimeZoneOfHour(season, time.hour);

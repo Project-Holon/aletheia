@@ -87,8 +87,18 @@ struct Rec;
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/mi_memory.h"
 #include "../arm9/arc_tool.h"
+#ifdef __MWERKS__
+#define CLACT_RegisterPaletteEx CLACT_RegisterPaletteExHeader
+#define CLACT_RegisterCharacter CLACT_RegisterCharacterHeader
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef CLACT_RegisterPaletteEx
 extern s32 CLACT_RegisterPaletteEx(void *arc, u32 fileId, u32 screen, u32 offset, u16 count, u16 mode, u32 heapId);
+#undef CLACT_RegisterCharacter
 extern s32 CLACT_RegisterCharacter(void *arc, u32 fileId, u32 flags, u32 screen, u32 heapId);
+#endif
 extern s32 CLACT_RegisterCellAnim(void *arc, u32 cellFile, u32 animFile, u32 heapId);
 struct ClactActor;
 #include "../arm9/strbuf_types.h"
@@ -98,16 +108,36 @@ extern void CLACT_ReleaseCellAnim(u32 idx);
 extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, unsigned int charIdx, unsigned int plttIdx, unsigned int cellIdx, const struct ActorInitParam *init, u16 space, u16 heapId);
 extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
 #include "../arm9/app_icon.h"
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadPaletteFromHandleWhole ARC_UTIL_UploadPaletteFromHandleWholeHeader
+#define ARC_UTIL_RegisterObjCharFromHandle ARC_UTIL_RegisterObjCharFromHandleHeader
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef ARC_UTIL_UploadPaletteFromHandleWhole
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
+#undef ARC_UTIL_RegisterObjCharFromHandle
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 fileId, u32 bgLayer, u32 offset, u32 size, u32 heapId);
+#endif
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
 #include "../arm9/nns_g2d_load.h"
 extern u8 BG_SYS_GetColorMode(int bgLayer);
 extern u32 BG_SYS_GetBuf(int bgLayer);
+#ifdef __MWERKS__
+#define BG_SYS_DrawTileEx BG_SYS_DrawTileExHeader
+#define BG_SYS_PushTile BG_SYS_PushTileHeader
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef BG_SYS_DrawTileEx
 extern void BG_SYS_DrawTileEx(u8 bgLayer, u32 dstX, u32 dstY, u32 dstWidth, u8 dstHeight, void *, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight);
-extern void BG_SYS_FillTileMap(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
+#undef BG_SYS_PushTile
 extern void BG_SYS_PushTile(u8 bgLayer);
+#endif
+extern void BG_SYS_FillTileMap(u8 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern u32 CLACT_GetActorDrawEnable(struct ClactActor *actor);
@@ -128,7 +158,15 @@ extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority);
 extern void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
 #include "../arm9/msgdata.h"
 #include "../arm9/gf_font.h"
+#ifdef __MWERKS__
+#define STRBUF_Create STRBUF_CreateHeader
+#endif
+#include "../arm9/strbuf.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef STRBUF_Create
 extern struct Strbuf *STRBUF_Create(u32 size, u16 heapId);
+#endif
 struct Strbuf;
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 #include "../arm9/wordset.h"

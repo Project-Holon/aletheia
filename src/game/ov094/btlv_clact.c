@@ -21,7 +21,7 @@
  *   FX_Div  0x0207C768  arm
  *   TCB_AddTask  0x02030DA8  arm
  *   PALANM_RequestFade  0x0202173C  thumb
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetOwnedWork   0x02030EE8  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   gBtlvClactFileName  0x0220AE88  data  a4
  *   CLACT_DrawSystem  0x0204A600  arm
@@ -323,7 +323,7 @@ void BTLV_CLACT_MoveTaskMain(struct TcbTask *task, void *work)
 
 void BTLV_CLACT_MoveTaskEnd(void *task)
 {
-    BtlvClactMoveTask *job = (BtlvClactMoveTask *)TCBL_IsDeletePending(task);
+    BtlvClactMoveTask *job = (BtlvClactMoveTask *)TCBL_GetOwnedWork(task);
     job->clact->moveMask &= (1 << job->slot) ^ -1;
 }
 
@@ -344,6 +344,6 @@ void BTLV_CLACT_MoveTaskMainWide(struct TcbTask *task, void *work)
 
 void BTLV_CLACT_MoveTaskEndWide(void *task)
 {
-    BtlvClactMoveTask *job = (BtlvClactMoveTask *)TCBL_IsDeletePending(task);
+    BtlvClactMoveTask *job = (BtlvClactMoveTask *)TCBL_GetOwnedWork(task);
     job->clact->scaleMask &= (1 << job->slot) ^ -1;
 }

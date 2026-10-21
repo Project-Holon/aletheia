@@ -5,7 +5,7 @@
 /* Public functions of option_menu.c, prototypes copied from their definitions. */
 
 struct Proc;
-struct ClActor;
+struct ClactActor;
 struct Unit;
 struct BmpWindow;
 struct Task;
@@ -26,7 +26,7 @@ int OPTION_MENU_Main(struct Proc *proc, int *seq, void *args, OptionMenuWork *wo
 void OPTION_MENU_InitScreen(OptionMenuScreen *screen, u16 heapId);
 void OPTION_MENU_ExitScreen(OptionMenuScreen *screen);
 void OPTION_MENU_UpdateScreen(OptionMenuScreen *screen);
-struct ClActor *OPTION_MENU_GetScreenSpriteActor(OptionMenuScreen *screen, int index);
+struct ClactActor *OPTION_MENU_GetScreenSpriteActor(OptionMenuScreen *screen, int index);
 struct Unit *OPTION_MENU_GetScreenSpriteUnit(OptionMenuScreen *screen);
 struct BmpWindow *OPTION_MENU_GetScreenWindow(OptionMenuScreen *screen, int index);
 void OPTION_MENU_RestartScreenBlink(OptionMenuScreen *screen);
@@ -43,7 +43,7 @@ void OPTION_MENU_InitSprites(OptionMenuSprites *sprites, const void *res, u32 he
 void OPTION_MENU_ExitSprites(OptionMenuSprites *sprites);
 void OPTION_MENU_UpdateSprites(OptionMenuSprites *sprites);
 void OPTION_MENU_DrawSprites(OptionMenuSprites *sprites);
-struct ClActor *OPTION_MENU_GetSpriteActor(OptionMenuSprites *sprites, int index);
+struct ClactActor *OPTION_MENU_GetSpriteActor(OptionMenuSprites *sprites, int index);
 struct Unit *OPTION_MENU_GetSpriteUnit(OptionMenuSprites *sprites);
 void OPTION_MENU_InitInput(OptionMenuInput *input, int heapId);
 void OPTION_MENU_ExitInput(OptionMenuInput *input);

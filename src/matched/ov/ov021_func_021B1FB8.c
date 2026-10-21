@@ -12,7 +12,7 @@
  * symbols:
  *   SCRCMD_WORK_GetScriptWork  0x0215A5F4  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   SCRCMD_WORK_GetGameSystem  0x0215A5DC  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   FLDMMDL_GetPos  0x0216D88C  thumb  ov010
@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern void *SCRCMD_WORK_GetScriptWork(void *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 struct Tri;
-extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern void *SCRCMD_WORK_GetMmdlSys(void *p);
 extern void *SCRCMD_WORK_GetGameSystem(void *a0);
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 struct Actor;
@@ -55,7 +55,7 @@ int SCRCMD_FLDMMDL_StartMmdlMoveToGrid(u32 a, u32 b)
     x = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     y = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
     z = SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b);
-    m = (u32)SCRCMD_WORK_GetOccupyInfo((void *)b);
+    m = (u32)SCRCMD_WORK_GetMmdlSys((void *)b);
     w = SCRCMD_WORK_GetGameSystem((void *)b);
     o = (u32)FLDMMDL_SysSearchObjId((void *)m, i);
     FLDMMDL_GetPos((const struct Actor *)o, (struct VecFx32 *)buf);

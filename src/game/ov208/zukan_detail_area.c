@@ -437,7 +437,12 @@ typedef enum { ONE = 1 } One;
 
 #include "../arm9/mi_memory.h"
 
+/* The DS code was built against other parameter widths for BG_SYS_InitBgLayer (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_InitBgLayer(u8 bgId, const struct BgTemplate *tmpl, u8 type);
+#else
+#include "../arm9/bg_sys.h"
+#endif
 
 extern void BG_SYS_FreeSlot(u8);
 

@@ -4,6 +4,8 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of fldmmdl_rail_move.c, prototypes copied from their definitions. */
 
+struct FieldEffectSys;
+
 #include "../ov010/fldmmdl_types.h"
 #include "../arm9/zonedata_types.h"
 #include "../types.h"

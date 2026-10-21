@@ -340,10 +340,15 @@ struct ArcHandle;
 
 #include "../arm9/nns_g2d_load.h"
 
-extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
 
 
+/* The DS code was built against other parameter widths for BG_SYS_FillTileMap (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_FillTileMap(int index, int x0, int y0, int w, int h, int pal);
+extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
+#else
+#include "../arm9/bg_sys.h"
+#endif
 struct ResearchCommon;
 
 #include "research_common.h"
@@ -468,7 +473,12 @@ extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 
 
+/* The DS code calls PALETTE_ANIME_IsRunning with the animation only (the original prototype has no parameters); the header takes a second, ignored argument. The host build uses the header. */
+#ifdef __MWERKS__
 extern u32 PALETTE_ANIME_IsRunning();
+#else
+#include "palette_anime.h"
+#endif
 
 
 extern void BG_SYS_Update();
@@ -491,7 +501,12 @@ extern struct TcbList *GFL_USE_GetMainTaskList(void);
 struct Strbuf;
 
 
+/* The DS code was built against other parameter widths for PRINTSYS_PrintColor (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+#else
+#include "../arm9/printsys.h"
+#endif
 
 struct BmpOamSys;
 
@@ -2428,9 +2443,15 @@ void RESEARCH_LIST_StopListPaletteAnime(u8 *list, int slot)
  */
 u32 RESEARCH_LIST_IsListPaletteAnimeRunning(u32 list, u32 slot)
 {
+#ifdef __MWERKS__
     if (PALETTE_ANIME_IsRunning(*(u32*)(((u8*)list + ((u32)slot << 2) + 156))) == 0) {
     return 1;
     }
+#else
+    if (PALETTE_ANIME_IsRunning((struct PaletteAnime *)(uptr)*(u32*)(((u8*)list + ((u32)slot << 2) + 156)), 0) == 0) {
+    return 1;
+    }
+#endif
     return 0;
 }
 

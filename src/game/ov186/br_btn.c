@@ -114,11 +114,7 @@ typedef struct Placement { short x, y; unsigned short animation; unsigned char p
 
 typedef struct BrBtnSpriteInfo { int words[3]; } BrBtnSpriteInfo;
 
-typedef struct { s16 x,y;u16 value;u8 flag,attr; } Point;
-
 typedef struct { void *bmp;s16 x,y;u32 spriteZ,flags;u8 objMode,flip;u16 mode;u32 mode2; } Param;
-
-typedef struct { u32 x,y,z; } BrBtnSpriteIds;
 
 typedef struct BrBtnPtS { s16 x, y; } BrBtnPtS;
 
@@ -278,7 +274,7 @@ int BR_BTN_AnimMove2(Button *ctx);
 
 void *BR_BTN_CreateFromMessage(void *ctx, u16 file, unsigned short a, int b, void *c, void *d, void *e, struct MsgBank *archive, void *config, unsigned short heap);
 
-struct BrButton *BR_BTN_CreateObject(const Point *pt,void *data,u16 a,u32 b,void *c,void *owner,void *font,const BrBtnSpriteIds *triple,u16 heap);
+struct BrButton *BR_BTN_CreateObject(const BrBtnPlacement *pt,void *data,u16 a,u32 b,void *c,void *owner,void *font,const BrBtnSpriteIds *triple,u16 heap);
 
 void BR_BTN_DeleteObject(char *p);
 
@@ -828,7 +824,7 @@ void BR_BTN_InitRecord(Button *ctx, void *object, unsigned a, void *b, char *own
     config.z = BR_BTN_DATA_GetRowField(ctx->object, 4);
     config.flag = 1;
     BR_RES_GetSprite((struct BrRes *)owner, ctx->index + 1, info);
-    ctx->result = (char *)BR_BTN_CreateObject((const Point *)&config, ctx->work, 0xa0, ctx->enabled, (void *)a, b, (void *)BR_RES_GetFont((struct BrRes *)owner), (const BrBtnSpriteIds *)info, (unsigned short)((heap & 0x7fff) | 0x8000));
+    ctx->result = (char *)BR_BTN_CreateObject((const BrBtnPlacement *)&config, ctx->work, 0xa0, ctx->enabled, (void *)a, b, (void *)BR_RES_GetFont((struct BrRes *)owner), (const BrBtnSpriteIds *)info, (unsigned short)((heap & 0x7fff) | 0x8000));
 }
 
 void BR_BTN_DeleteRecord(Button *p)
@@ -916,7 +912,7 @@ void BR_BTN_SetMode(Button *ctx, int mode)
     resource = BR_RES_GetFont((struct BrRes *)ctx->owner);
     BR_RES_GetMsgData((struct BrRes *)ctx->owner);
     BR_BTN_DATA_GetRowField(ctx->object, 3);
-    ctx->result = (char *)BR_BTN_CreateObject((const Point *)&placement, ctx->work, 160, mode, (void *)ctx->a, ctx->b, (void *)resource, (const BrBtnSpriteIds *)&config, ctx->heap);
+    ctx->result = (char *)BR_BTN_CreateObject((const BrBtnPlacement *)&placement, ctx->work, 160, mode, (void *)ctx->a, ctx->b, (void *)resource, (const BrBtnSpriteIds *)&config, ctx->heap);
 }
 
 void BR_BTN_CopyRecord(void *ctx, Button *dest, const Button *source, int mode)
@@ -1149,7 +1145,7 @@ void *BR_BTN_CreateFromMessage(void *ctx, u16 file, unsigned short a, int b, voi
     void *data;
     void *result;
     data = MSGDATA_AllocString(archive, file);
-    result = BR_BTN_CreateObject((const Point *)ctx, data, a, b, c, d, e, (const BrBtnSpriteIds *)config, heap);
+    result = BR_BTN_CreateObject((const BrBtnPlacement *)ctx, data, a, b, c, d, e, (const BrBtnSpriteIds *)config, heap);
     STRBUF_Delete(data);
     return result;
 }
@@ -1157,7 +1153,7 @@ void *BR_BTN_CreateFromMessage(void *ctx, u16 file, unsigned short a, int b, voi
 /*
  * lever: parameter a declared u16 (u8 also EXACT); a narrow parameter pins its home store to the front of the prologue, see docs/idioms/a-narrow-parameter-pins-its-home-store-to-the-front-of-the-prologue.md. 2026-10-05 wave P12 lane A5: the older draft (docs/notes/pkt_ov186_021FB3BC.c.txt) was only wrong here.
  */
-struct BrButton *BR_BTN_CreateObject(const Point *pt,void *data,u16 a,u32 b,void *c,void *owner,void *font,const BrBtnSpriteIds *triple,u16 heap)
+struct BrButton *BR_BTN_CreateObject(const BrBtnPlacement *pt,void *data,u16 a,u32 b,void *c,void *owner,void *font,const BrBtnSpriteIds *triple,u16 heap)
 {
     Param param;
     const BrBtnSpriteIds *config;

@@ -13,7 +13,7 @@ void INFOWIN_Update(void);
 int INFOWIN_Exit(void);
 void INFOWIN_DrawTask(struct TcbTask *task, void *work);
 void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h);
-int INFOWIN_LoadCharacters(int tile, const void *src, int count);
+void INFOWIN_LoadCharacters(int tile, const void *src, int count);
 void INFOWIN_LoadGraphics(u32 a, u32 b, u16 c);
 void INFOWIN_UpdateClock(void);
 /* END mkheaders: generated region */

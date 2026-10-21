@@ -123,7 +123,13 @@ extern void G3D_LIGHT_ApplySlots(struct LightSlot *);
 
 #include "../arm9/fx_vec.h"
 
+/* The DS code was built against other parameter widths for G3D_LIGHT_SetDirection (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void G3D_LIGHT_SetDirection(struct LightSlot *slots, u32 i, struct Rgb555 *in);
+#else
+#include "../arm9/g3d_light.h"
+#endif
+extern void G3D_SYSTEM_Exit(void);
 
 
 #include "../arm9/bmp_win.h"
@@ -150,7 +156,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct Unit *unit);
 
 extern u32 CLACT_DeleteUnit(struct Unit *unit);
 
-extern void CLACT_ExitSystem(int);
+extern void CLACT_ExitSystem(void);
 
 extern void CLACT_DrawSystem(void);
 
@@ -166,7 +172,6 @@ extern struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *s
 
 extern u32 G3D_LIGHT_DeleteSlots(void *slots);
 
-extern void G3D_SYSTEM_Exit(int);
 
 extern void G3D_SYSTEM_DrawStart(void);
 
@@ -379,7 +384,8 @@ void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, int a, int b)
 
 void DEMO3D_GRAPHIC_DeleteClact(Demo3dGraphicClact *p)
 {
-    CLACT_ExitSystem(CLACT_DeleteUnit((struct Unit *)p->unit));
+    CLACT_DeleteUnit((struct Unit *)p->unit);
+    CLACT_ExitSystem();
     MI_CpuFill8(p, 0, 4);
 }
 
@@ -402,7 +408,8 @@ void DEMO3D_GRAPHIC_InitG3d(Demo3dGraphicG3d *p, u8 heap)
 
 void DEMO3D_GRAPHIC_DeleteG3d(Demo3dGraphicG3d *p)
 {
-    G3D_SYSTEM_Exit(G3D_LIGHT_DeleteSlots((void *)((sptr)p->lightSlots)));
+    G3D_LIGHT_DeleteSlots((void *)((sptr)p->lightSlots));
+    G3D_SYSTEM_Exit();
 }
 
 void DEMO3D_GRAPHIC_ApplyLookAt(void *a)

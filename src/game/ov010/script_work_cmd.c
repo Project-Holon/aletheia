@@ -570,7 +570,7 @@ int SCRIPT_WORK_CmdPopAllBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
     struct GameData *gameData = GAMESYSTEM_GetGameData(gameSystem);
     int popped = 0;
     SCRCMD_FLDMMDL_UnpauseAllMmdls(cmdWork);
-    if (FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData))) {
+    if (FIELD_SOUND_SYSTEM_GetPendingBgmStackDepth(GAME_DATA_GetBgmInfo(gameData))) {
         SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPopAllTask(gameSystem, popped));
         popped = 1;
     }

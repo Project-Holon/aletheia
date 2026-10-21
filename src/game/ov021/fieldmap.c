@@ -426,11 +426,7 @@ typedef void (*FieldMapDrawFunc)(FieldMap *fieldMap);
 typedef int (*FieldMapDrawEndFunc)(FieldMap *fieldMap);
 
 #include "../arm9/gamesystem.h"
-/* GAME_DATA_GetEventState is declared u8 * in the ARM9 header but its callers read the 32-bit slot; kept until the header returns u32 *. */
-#define GAME_DATA_GetEventState GAME_DATA_GetEventState_header
 #include "../arm9/game_data.h"
-#undef GAME_DATA_GetEventState
-extern u32 *GAME_DATA_GetEventState(struct GameData *gameData);
 #include "field_event_check.h"
 #include "../arm9/arc_tool.h"
 #include "../arm9/billboard.h"
@@ -497,8 +493,7 @@ extern u32 *GAME_DATA_GetEventState(struct GameData *gameData);
 #include "pleasure_boat.h"
 #include "sodateya.h"
 struct Proc;
-u32 GAME_COMM_GetKind(struct GameComm *gameComm);
-void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
+#include "../arm9/game_comm.h"
 /* Original DS prototype: the DS code passes plain ints and takes the area data as a struct pointer; the host build uses the header. */
 #ifdef __MWERKS__
 #define ZONEDATA_CreateAreaData ZONEDATA_CreateAreaData_header
@@ -526,9 +521,8 @@ struct FieldG3dMapper;
 #include "field_g3d_mapper.h"
 #include "field_g3dobj.h"
 struct Tcb;
-extern u32 TCB_GetTaskOffset(u32 idx);
+#include "../arm9/tcb_list.h"
 struct TcbSystem;
-extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
 struct FldVReq;
 struct FieldMsgContext;
 struct FieldPlaceName;
@@ -571,7 +565,6 @@ struct LightSlot;
 extern WeatherSys *WEATHER_Create(struct FieldCamera *camera, struct FieldLight *light, struct FieldFog *fog, struct FieldZoneFog *zoneFog, struct FieldSoundSystem *soundSys, int zoneId, int heapId);
 #endif
 struct FieldSubscreen;
-extern void GAME_COMM_CallHandler(struct GameComm *comm, u32 arg);
 struct FieldSubprocMgr;
 struct FieldMap;
 struct EncEffWork;
@@ -580,7 +573,6 @@ struct DaycareSave;
 struct SodateyaWork;
 struct MmdlSys;
 struct GameEvent;
-extern void TCB_Main(struct TcbSystem *sys);
 struct PleasureBoatWork;
 /* Original DS prototype: the DS code passes plain unsigned values; the host build uses the header. */
 #ifdef __MWERKS__
@@ -591,20 +583,14 @@ struct PleasureBoatWork;
 #undef G3D_SYSTEM_Init
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u32 fifoSize, u32 heap, void (*setup)(void));
 #endif
-extern void GAME_COMM_CallKindNotify(struct GameComm *comm, u32 arg);
-extern void TCB_Noop(struct TcbSystem *tcblSys);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
 #include "../arm9/zone_weather.h"
 struct FieldMapCtrlHybridWork;
 extern struct DispConfig sBgModeSetup;
 #include "../arm9/button_man.h"
 #include "../arm9/g2.h"
 #include "../arm9/nns_g3d_ge.h"
-extern void G3X_SetFog(int enable, int fogMode, int fogSlope, int fogOffset);
-extern void G3X_SetFogTable(void *a);
-extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void G3X_SetEdgeColorTable(void *a);
+#include "../arm9/g3x.h"
 extern struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, void (*transCallback)(int, int, void *, int), int heapId);
 struct BbBoard;
 struct Blk3;
@@ -627,8 +613,6 @@ extern void FIELD_SOUND_SYSTEM_PostZoneBgmChange(struct FieldSoundSystem *soundS
 #endif
 struct UnionInfo;
 struct FieldWfbc;
-extern u32 GAME_COMM_GetLastKind(struct GameComm *comm);
-extern u32 GAME_COMM_IsTransition(struct GameComm *comm);
 #include "../arm9/nns_g3d_glb.h"
 int FIELDMAP_ProcInit(struct GfProc *proc, int *seq, struct GameSystem *gameSystem);
 int FIELDMAP_ProcMain(struct GfProc *proc, int *seq, struct GameSystem *gameSystem, FieldMapProcWork *work);
@@ -952,6 +936,7 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         int dirType;
         VecFx32 *playerPos;
         int value;
+        struct FieldSoundSystem *soundSys;
         int season;
         playerWork = GAMESYSTEM_GetMyPlayerWork(gameSystem);
         dirType = GAME_DATA_GetPlayerDirectionType(playerWork);
@@ -973,8 +958,8 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         value = ZONEDATA_GetAreaLightType(fieldMap->areaData);
         season = GF_STANDARD_GetSecondsOfDay();
         fieldMap->light = FIELD_LIGHT_Create(value, season, COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)gameSystem), fieldMap->fog, fieldMap->g3dLight, fieldMap->heapId);
-        value = GAME_DATA_GetBgmInfo(fieldMap->gameData);
-        fieldMap->weather = WEATHER_Create(fieldMap->camera, fieldMap->light, fieldMap->fog, fieldMap->zoneFog, (struct FieldSoundSystem *)(uptr)value, COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)gameSystem), 0x92);
+        soundSys = GAME_DATA_GetBgmInfo(fieldMap->gameData);
+        fieldMap->weather = WEATHER_Create(fieldMap->camera, fieldMap->light, fieldMap->fog, fieldMap->zoneFog, soundSys, COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)gameSystem), 0x92);
         WEATHER_SetImmediate(fieldMap->weather, (u16)((int)GAME_DATA_GetWeatherId(fieldMap->gameData)), 0x92);
         FIELD_GIMMICK_Setup(fieldMap);
         break;
@@ -1779,7 +1764,7 @@ void FIELDMAP_ChangeZoneSound(FieldMap *fieldMap, unsigned int zoneId)
 
     gameData = GAMESYSTEM_GetGameData(fieldMap->gameSystem);
     issSys = (void *)GAMESYSTEM_GetIssSystem(fieldMap->gameSystem);
-    bgmInfo = (void *)GAME_DATA_GetBgmInfo(gameData);
+    bgmInfo = GAME_DATA_GetBgmInfo(gameData);
     objCode = GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetMyPlayerWork(gameData));
     ISS_SYS_ChangeZone(issSys, zoneId);
     if (objCode != 2)

@@ -4,9 +4,6 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of fldmmdl_rail.c, prototypes copied from their definitions. */
 
-struct RailMoveWork;
-typedef struct RailMoveWork RailMoveWork;
-
 #include "../ov010/fldmmdl_types.h"
 #include "../arm9/zonedata_types.h"
 #include "../ov021/field_rail_types.h"
@@ -14,7 +11,7 @@ typedef struct RailMoveWork RailMoveWork;
 
 void FLDMMDL_RAIL_SetLocation(Mmdl *mmdl, RailLocation *loc);
 void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *outLoc);
-int FLDMMDL_RAIL_GetNowLocation(Mmdl *mmdl, RailLocation *outLoc);
+void FLDMMDL_RAIL_GetNowLocation(Mmdl *mmdl, RailLocation *outLoc);
 RailWork *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl);
 void FLDMMDL_RAIL_UpdateRailWork(Mmdl *mmdl);
 void FLDMMDL_RAIL_SetMoveRequest(Mmdl *mmdl, u32 dir, u32 key);
@@ -28,7 +25,6 @@ int FLDMMDL_RAIL_GetLocationByDir(Mmdl *mmdl, u32 dir, RailLocation *outLoc);
 void FLDMMDL_RAIL_SetGridPosByDir(Mmdl *mmdl, u16 dir);
 void FLDMMDL_RAIL_GetDrawOffset(Mmdl *mmdl, s16 *outOffset);
 void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *outOffset);
-RailMoveWork *FLDMMDL_RAIL_StayInit(Mmdl *mmdl);
 void FLDMMDL_RAIL_StayMove(Mmdl *mmdl, u32 unused1, u32 unused2, u32 unused3);
 void FLDMMDL_RAIL_StayDelete(Mmdl *mmdl, u32 unused1, u32 unused2, u32 unused3);
 void FLDMMDL_RAIL_AcquireRailWorkBody(Mmdl *mmdl);
@@ -54,18 +50,11 @@ void FLDMMDL_RAIL_ShuttleMove(Mmdl *mmdl);
 void FLDMMDL_RAIL_ShuttleDelete(Mmdl *mmdl);
 u32 FLDMMDL_RAIL_DirToRailKey(int dir);
 u32 FLDMMDL_RAIL_RailKeyToDir(int key);
-RailMoveWork *FLDMMDL_RAIL_InitMoveWork(Mmdl *mmdl, u32 size);
 int FLDMMDL_RAIL_CheckOutsideHomeArea(Mmdl *mmdl, int homeLine, int homeWidth, RailLocation *loc);
 int FLDMMDL_RAIL_GetTableLength(u32 *table, u32 terminator);
 int FLDMMDL_RAIL_GetRandomTableEntry(u32 *table, int terminator);
 u32 FLDMMDL_RAIL_GetRandomDirOfKind(u32 kind, u32 terminator);
 u32 *FLDMMDL_RAIL_GetDirListOfKind(int kind);
-int FLDMMDL_RAIL_InitRailWork(RailMoveWork *work, Mmdl *mmdl);
-void FLDMMDL_RAIL_StoreNowLocation(RailMoveWork *work, Mmdl *mmdl);
-void FLDMMDL_RAIL_ReleaseRailWork(RailMoveWork *work, Mmdl *mmdl);
-void FLDMMDL_RAIL_AcquireRailWork(RailMoveWork *work, Mmdl *mmdl);
-void FLDMMDL_RAIL_StoreLocation(RailMoveWork *work, const RailLocation *loc);
-void FLDMMDL_RAIL_ApplyStoredLocation(RailMoveWork *work, Mmdl *mmdl);
 void FLDMMDL_RAIL_LookAroundInit(Mmdl *mmdl, u16 kind);
 void FLDMMDL_RAIL_LookAroundMoveBody(Mmdl *mmdl);
 void FLDMMDL_RAIL_LookAroundDeleteBody(Mmdl *mmdl);

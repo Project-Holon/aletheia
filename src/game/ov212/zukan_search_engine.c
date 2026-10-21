@@ -69,7 +69,7 @@ extern void *ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decom
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
 
-void ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap);
+struct Search *ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap);
 
 void ZUKAN_SEARCH_ENGINE_ReleaseWork(int work);
 
@@ -89,7 +89,7 @@ extern const char g_021C99A8[];
 
 extern int g_021C9968[];
 
-void ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap)
+struct Search *ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap)
 {
     struct Search *q = GFL_HEAP_Alloc(heap, 0x48, 1, (const char *)0x021C99A8, 0x1ce);
 
@@ -101,6 +101,7 @@ void ZUKAN_SEARCH_ENGINE_Create(struct Search *p, struct Query *b, int heap)
     q->personal = 0;
     q->resultCount = 0;
     q->result = 0;
+    return q;
 }
 
 /*

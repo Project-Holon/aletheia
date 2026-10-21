@@ -514,50 +514,101 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int heap, unsigned
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void  MI_CpuFill8(void *p, int v, int n);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern void BG_SYS_SetLcdSwap(u32 swap);
+#ifdef __MWERKS__
+#define BG_SYS_SetPlaneVisible BG_SYS_SetPlaneVisibleHeader
+#define BG_SYS_Create BG_SYS_CreateHeader
+#define BG_SYS_DrawTileEx BG_SYS_DrawTileExHeader
+#define BG_SYS_FillTileMap BG_SYS_FillTileMapHeader
+#define BG_SYS_FreeSlot BG_SYS_FreeSlotHeader
+#endif
+#include "../arm9/bg_sys.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef BG_SYS_SetPlaneVisible
 extern void BG_SYS_SetPlaneVisible(u32 which, unsigned char enable);
-extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
+#undef BG_SYS_Create
+extern void BG_SYS_Create(int);
+#undef BG_SYS_DrawTileEx
+extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, void *, u8 sx, u8 sy, u8 sw, u8 sh);
+#undef BG_SYS_FillTileMap
+extern void BG_SYS_FillTileMap(u32, u32, u8, u8, u8, u32);
+#undef BG_SYS_FreeSlot
+extern void BG_SYS_FreeSlot(int a);
+#endif
 extern u32 ICA_ANIME_GetFrame(struct IcaAnime *p);
 extern u32   KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
-extern void GFL_USE_FadeOutBgm(u32 a);
+#ifdef __MWERKS__
+#define GFL_USE_AddMainTask GFL_USE_AddMainTaskHeader
+#define GFL_USE_SetVBlankHook GFL_USE_SetVBlankHookHeader
+#endif
+#include "../arm9/gfl_use.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef GFL_USE_AddMainTask
+extern struct TcbTask *GFL_USE_AddMainTask(void *, void *, int);
+#undef GFL_USE_SetVBlankHook
+extern u32 GFL_USE_SetVBlankHook(void (*)(struct TcbTask *, void *), void *);
+#endif
 extern int  FADE_IsActive(void);
-extern void GFL_USE_PlayFanfare(u32 seqNo);
 extern u32  PM_VOICE_IsSlotActive(u32 a);
-extern int  GFL_USE_IsBgmFading(void);
-extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern void PROCSYS_FreeProcWork(struct Proc *a);
 extern void GFL_HEAP_DeleteChecked(unsigned int a);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
-extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
-extern void CLACT_VBlankSystem(void);
-extern void BG_SYS_Create(int);
+#ifdef __MWERKS__
+#define CLACT_RegisterCharacter CLACT_RegisterCharacterHeader
+#define CLACT_RegisterPalette CLACT_RegisterPaletteHeader
+#define CLACT_CreateActor CLACT_CreateActorHeader
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef CLACT_RegisterCharacter
+extern int CLACT_RegisterCharacter(void *, int, int, int, int);
+#undef CLACT_RegisterPalette
+extern int CLACT_RegisterPalette(void *, int, int, int, int);
+#undef CLACT_CreateActor
+extern struct ClactActor *CLACT_CreateActor(struct Unit *, int, int, int, struct ActorInitParam *, int, int);
+#endif
 extern void BMP_WIN_Init(u32 heapId);
+#ifdef __MWERKS__
+#define G3D_SYSTEM_Init G3D_SYSTEM_InitHeader
+#endif
+#include "../arm9/g3d_system.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef G3D_SYSTEM_Init
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, void (*)(struct TcbTask *, void *));
+#endif
 extern void GF_FONT_InitTextColor(void);
+#ifdef __MWERKS__
+#define TCBL_Create TCBL_CreateHeader
+#endif
+#include "../arm9/tcbl.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef TCBL_Create
 extern struct TcblSystem *TCBL_Create(int, int, int, int);
-extern struct TcbTask *GFL_USE_AddMainTask(void *, void *, int);
-extern void BG_SYS_ResetSubDisplay(void);
+#endif
 struct TcblSystem;
-void TCBL_Main(struct TcblSystem *tcbl);
 struct TcbTask;
-extern void TCB_DeleteTask(struct TcbTask *task);
-extern void TCBL_Destroy(struct TcblSystem *tcbl);
-extern void G3D_SYSTEM_Exit(void);
 extern void BMP_WIN_Exit(void);
-extern void BG_SYS_Delete(void);
-extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadBgCharFromArchive ARC_UTIL_UploadBgCharFromArchiveHeader
+#define ARC_UTIL_UploadBgPaletteFromArchive ARC_UTIL_UploadBgPaletteFromArchiveHeader
+#define ARC_UTIL_UploadPaletteFromArchiveWhole ARC_UTIL_UploadPaletteFromArchiveWholeHeader
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef ARC_UTIL_UploadBgCharFromArchive
 extern u32 ARC_UTIL_UploadBgCharFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+#undef ARC_UTIL_UploadBgPaletteFromArchive
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+#undef ARC_UTIL_UploadPaletteFromArchiveWhole
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void BG_SYS_PushTile(u32 layer);
-extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
-extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
+#endif
 struct BmpWin;
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *p);
@@ -566,61 +617,56 @@ extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 struct PrintQueue;
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u32 heapId);
-extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern u32 GPOWER_GetSpecialPowerId(void);
 struct Strbuf;
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
+#ifdef __MWERKS__
+#define G3D_UTIL_Create G3D_UTIL_CreateHeader
+#define G3D_UTIL_GetObject G3D_UTIL_GetObjectHeader
+#endif
+#include "../arm9/g3d_util.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef G3D_UTIL_Create
 extern struct G3dUtil *G3D_UTIL_Create(u32 a, u32 b, u32 heap);
-extern u16   G3D_UTIL_AddUnit(struct G3dUtil *a, const struct G3dUtilSetup *b);
-extern u32 G3D_UTIL_GetUnitObjIdx(struct G3dUtil *util, int i);
+#undef G3D_UTIL_GetObject
 extern u32   G3D_UTIL_GetObject(struct G3dUtil *a, u16 b);
+#endif
 struct G3dObject;
-extern s32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
 extern fx32  FX_Div(fx32 numer, fx32 denom);
+#ifdef __MWERKS__
+#define G3D_CAMERA_Create G3D_CAMERA_CreateHeader
+#endif
+#include "../arm9/g3d_camera.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef G3D_CAMERA_Create
 extern struct G3dCamera *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h,
                            struct VecFx32 *pos, struct VecFx32 *up, struct VecFx32 *tgt, int heap);
+#endif
 extern struct IcaAnime *ICA_ANIME_CreateStream(u32 heap, u32 arcId, u32 dataId, u32 bufFrameNum);
+#ifdef __MWERKS__
+#define G3D_LIGHT_CreateSlots G3D_LIGHT_CreateSlotsHeader
+#endif
+#include "../arm9/g3d_light.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef G3D_LIGHT_CreateSlots
 extern struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *s, u32 heap);
-extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
-extern void BG_SYS_EnableBg0WithPriority(u32 mode);
+#endif
 extern u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *p, s32 v);
 extern void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime);
 struct G3dCamera;
-extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
-extern void G3D_SYSTEM_DrawStart(void);
-extern void G3D_SYSTEM_ApplyLookAt(void);
 struct G3dObjectStatus;
-extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
-extern void G3D_SYSTEM_DrawEnd(void);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, s32 anmIdx, s32 step);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
-extern u32 G3D_CAMERA_Delete(void *ptr);
-extern u32 G3D_LIGHT_DeleteSlots(void *slots);
-extern void G3D_UTIL_RemoveUnit(struct G3dUtil *c, u32 i);
-extern void G3D_UTIL_Delete(struct G3dUtil *p);
 extern void ICA_ANIME_SetFrame(struct IcaAnime *p, s32 v);
-extern s32 G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, u16 anmIdx, s32 *frame);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 struct DispVramCfg;
 struct SysInit;
-extern void CLACT_InitSystem(struct ClactSysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
-extern struct Unit *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
-extern void CLACT_SetUnitDefaultRenderer(struct Unit *bank);
-extern int CLACT_RegisterCharacter(void *, int, int, int, int);
-extern int CLACT_RegisterPalette(void *, int, int, int, int);
-extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern struct ClactActor *CLACT_CreateActor(struct Unit *, int, int, int, struct ActorInitParam *, int, int);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 extern void ARC_TOOL_DeleteHandle(void *);
-void CLACT_DrawSystem(void);
-extern void CLACT_ReleaseCharacter(u32 i);
-extern void CLACT_ReleasePalette(u32 i);
-extern void CLACT_ReleaseCellAnim(u32 i);
-extern u32 CLACT_DeleteUnit(struct Unit *bank);
-extern void CLACT_ExitSystem(void);
 extern struct SaveControl *SAVE_CONTROL_Get(void);
 extern struct MyStatus *SYSTEM_DATA_GetMyStatus(void *sys);
 struct MiscSave;
@@ -641,20 +687,12 @@ extern u32 WIPE_SYS_EndCheck(void);
 struct Bmp;
 struct BlinkPalAnm;
 extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *anm);
-extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern unsigned int KEY_GetRepeat(void);
 extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anm);
 struct CGearSave;
 extern u8 CGEAR_SAVE_GetObtained(struct CGearSave *save);
 extern int APP_ENV_IsWirelessAvailable(void);
 extern u32 APP_ENV_IsRunOnTwl(void);
-extern void BG_SYS_LoadPlttEntry(u32 bgId, u32 color);
-extern void BG_SYS_Update(void);
-extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, s32 c, u32 d, s32 e, u16 f);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heap);
 extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcStart, u32 dstStart);
@@ -670,10 +708,8 @@ extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, st
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 MYSTATUS_GetSex(const struct MyStatus *obj);
-extern struct PlayerLocationData *PLAYER_LOCATION_GetData(void *sys);
-extern u16 *PLAYER_LOCATION_GetLocationA(void *);
+#include "../arm9/player_location.h"
 struct LocationRecord;
-extern void PLAYER_LOCATION_CopyRecord(void *save, struct LocationRecord *dest);
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
 extern void ZONEDATA_Exit(void);
 extern struct PlayTime *SYSTEM_DATA_GetPlayTime(void *sys);
@@ -683,8 +719,6 @@ extern void *ZUKAN_SAVE_GetBlock(void *);
 struct ZukanSave;
 extern u32 ZUKAN_SAVE_CountSeen(struct ZukanSave *pZukan, u32 heap);
 extern u32 MISC_CountBadges(struct MiscSave *beacon);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
 struct BgWinFrmWork;
 extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
 extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY);
@@ -693,16 +727,9 @@ extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
 extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern u8 SAVE_CONTROL_HasFlashSave(struct SaveControl *saveControl);
 extern u8 MISC_GetSlotState(struct MiscSave *beacon, u32 slot);
-extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *o, u32 a, u32 b, void **out, u16 e);
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern u32 GFL_HEAP_Free(void *p);
-extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, struct ClactVec2 *out, u16 space);
-extern void CLACT_AddActorSurfacePos(struct ClactActor *p, const struct ClactVec2 *delta, u32 which);
-extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, void *, u8 sx, u8 sy, u8 sw, u8 sh);
 extern u16 *BGWINFRM_GetFrameBuffer(struct BgWinFrmWork *wk, u32 idx);
-extern void BG_SYS_MarkTileDirty(u32);
-extern void BG_SYS_FillTileMap(u32, u32, u8, u8, u8, u32);
-extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 extern signed char MSG_SPEED_GetWait(void);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
@@ -869,7 +896,6 @@ typedef struct SaveLocation {
 typedef enum { Z0 } Zero;
 struct SndWaveSetHeader;
 
-extern void GFL_USE_ReleaseWaveArcSet(struct SndWaveSetHeader *header);
 extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
 extern void PROCSYS_Delete(struct ProcSys *p);
 extern u8 SAVE_CONTROL_GetOutsideSaveLoaded(struct SaveControl *saveControl);
@@ -887,25 +913,21 @@ extern void CONFIG_ApplyTextLanguage(const struct Config *config);
 extern void MISC_SetSlotStates(struct MiscSave *beacon, u8 states);
 extern void MYSTATUS_NameFromStrbuf(u16 *out, struct Strbuf *buf);
 extern void MYSTATUS_SetSex(struct MyStatus *, u32);
-extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern void MYSTATUS_SetId(struct MyStatus *obj, u32 value);
 extern u32 GF_STANDARD_Rand(void);
 extern void MYSTATUS_SetTrainerView(struct MyStatus *obj, u8 value);
 extern void CONFIG_SetTextLanguage(struct Config *config, unsigned int on);
-extern void BG_SYS_FreeSlot(int a);
 extern int TOUCHPANEL_HitTrg(const union TouchHitTable *p);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 struct TimeIcon;
 extern void TIME_ICON_Update(struct TimeIcon *icon);
 struct TcbList;
 extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
-extern u32 GFL_USE_SetVBlankHook(void (*)(struct TcbTask *, void *), void *);
 extern void SAVE_OUTSIDE_ClearFlash(u32 heap);
 extern void *SAVE_CONTROL_EraseMainSave(struct SaveControl *saveControl);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 heapId);
 extern void SAVE_CONTROL_EraseExtraSave(struct SaveControl *saveControl, u32 slot, u32 heapId);
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
-extern void GFL_USE_ClearVBlankHook(void);
 extern void OS_ResetSystem(u32 parameter);
 extern u8 MSGDATA_GetLanguage(void);
 extern void MSGDATA_SetLanguage(u8);
@@ -993,7 +1015,6 @@ extern void *MYSTATUS_Create(int heapId);
 extern void *CONFIG_Create(int heapId);
 extern NameInArgs *NAMEIN_SETUP_CreateArgs(unsigned short heapId, int kind, short species, short traits, int maxLen, struct Strbuf *initialName, void *pokedex);
 extern void *PROCSYS_Create(int heapId);
-extern struct SndWaveSetHeader *GFL_USE_LoadWaveArcSet(const u32 *ids, u32 count);
 extern int PM_VOICE_Prepare(s32 species, s32 form, s32 pan, s32 dual, s32 volumeBiasB, s32 frequencyOffsetB, s32 reverse, void **recordedVoice);
 extern u32 SAVE_CONTROL_INTR_Update(struct SaveControlIntr *saveIntr);
 extern unsigned int PROCSYS_Main(struct ProcSys *procSys);
@@ -2128,7 +2149,7 @@ void STARTMENU_CreateRowWindows(StartMenuWork *work)
     msgStr = MSGDATA_AllocString(work->msgBank, 16);
     ZONEDATA_Init(0x800B);
     if (ZONEDATA_CheckEventFlag(work->eventWork, 0x966) == 1) {
-        zoneName = (void *)ZONEDATA_GetPlaceNameId(PLAYER_LOCATION_GetLocationA(PLAYER_LOCATION_GetData(work->saveData))[2]);
+        zoneName = (void *)ZONEDATA_GetPlaceNameId(PLAYER_LOCATION_GetLocationA(PLAYER_LOCATION_GetData(work->saveData))->zoneId);
     } else {
         PLAYER_LOCATION_CopyRecord(work->saveData, (struct LocationRecord *)locationBuf);
         zoneName = (void *)ZONEDATA_GetPlaceNameId(locationBuf[0]);
@@ -3504,7 +3525,11 @@ void STARTMENU_SaveEraseStepErase(SaveEraseWork *work, int *seq)
     if (STARTMENU_SaveEraseUpdateMessage(work) == 0) {
         d_021BDA20 = TIME_ICON_Create(0, work->window, 0xf, 0x10, 0x81);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(work->window));
+#ifdef __MWERKS__
         GFL_USE_SetVBlankHook(STARTMENU_SaveEraseUpdateTimeIcon, 0);
+#else
+        GFL_USE_SetVBlankHook((void (*)(void *))STARTMENU_SaveEraseUpdateTimeIcon, 0);
+#endif
         saveControl = SAVE_CONTROL_Get();
         GF_OVERLAY_Load((uptr)ov228_id);
         SAVE_OUTSIDE_ClearFlash(0x81);
@@ -3606,7 +3631,11 @@ void STARTMENU_SaveEraseVblankTask(void)
 
 void STARTMENU_SaveEraseStartVblankTask(SaveEraseWork *work)
 {
+#ifdef __MWERKS__
     work->vblankTask = GFL_USE_AddMainTask(STARTMENU_SaveEraseVblankTask, work, 0);
+#else
+    work->vblankTask = GFL_USE_AddMainTask((TcbFunc)STARTMENU_SaveEraseVblankTask, work, 0);
+#endif
 }
 
 void STARTMENU_SaveEraseStopVblankTask(SaveEraseWork *work)

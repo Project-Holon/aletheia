@@ -17,7 +17,7 @@ typedef struct RecvArg RecvArg;
 #include "../types.h"
 #include "../ov009/gpi_types.h"
 
-u8 DWC_GetFriendStatus(int a, int b);
+u8 DWC_GetFriendStatus(sptr a, sptr b);
 u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusString);
 unsigned char DWC_GetFriendStatusData(void *p, int a, u8 *b);
 unsigned char DWC_GetFriendStatusDataSC(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusData, int *size);

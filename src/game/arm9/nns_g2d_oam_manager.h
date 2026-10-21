@@ -11,9 +11,6 @@ typedef struct VramHandleList VramHandleList;
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of nns_g2d_oam_manager.c, prototypes copied from their definitions. */
 
-struct Span;
-struct OamWindow;
-struct NNSG2dOamManagerInstance;
 struct VramResource;
 struct VramHandle;
 struct VramResourceSel;
@@ -21,7 +18,6 @@ struct VramHandleSel;
 struct VramResourceList;
 struct VramResourceIndices;
 struct VramHandleList;
-typedef struct NNSG2dOamManagerInstance NNSG2dOamManagerInstance;
 typedef struct VramResourceSel VramResourceSel;
 typedef struct VramHandleSel VramHandleSel;
 typedef struct VramResourceList VramResourceList;
@@ -29,14 +25,15 @@ typedef struct VramResourceIndices VramResourceIndices;
 typedef struct VramHandleList VramHandleList;
 
 #include "../types.h"
+#include "../arm9/nns_g2d_oam_manager_types.h"
 #include "../sdk_gx.h"
 #include "../sdk_fx.h"
 
 void NNSi_G2dCpuLoadOamSub(void *src, u32 offset, u32 size);
 void NNSi_G2dCpuLoadOamMain(void *src, u32 offset, u32 size);
 void NNS_G2dInitOamManagerModule(void);
-u32 NNSi_G2dReserveOamManagerSpan(struct Span *s, u16 first, int count, int which);
-u32 NNSi_G2dEntryOamManagerOam(struct OamWindow *win, GXOamAttr *src, u32 mode);
+u32 NNSi_G2dReserveOamManagerSpan(NNSG2dOamManagerInstance *s, u16 first, int count, int which);
+u32 NNSi_G2dEntryOamManagerOam(NNSG2dOamManagerInstance *win, GXOamAttr *src, u32 mode);
 u16 NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *pMan, const MtxFx22 *mtx);
 void NNS_G2dApplyOamManagerToHW(NNSG2dOamManagerInstance *pMan, u32 bound);
 void NNS_G2dResetOamManagerBuffer(NNSG2dOamManagerInstance *pMan);

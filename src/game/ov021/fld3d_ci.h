@@ -4,9 +4,12 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of fld3d_ci.c, prototypes copied from their definitions. */
 
+struct TcbTask;
+
 #include "../ov021/fld3d_ci_types.h"
 #include "../types.h"
 #include "../ov021/fld3d_ci_types.h"
+#include "../arm9/g3d_util_types.h"
 
 Fld3dCi *FLD3D_CI_Create(u32 heapId, FldParticle *particle);
 void FLD3D_CI_Delete(Fld3dCi *ci);

@@ -27,23 +27,27 @@
  *   SAVE_CONTROL_MainSave  0x02007168  thumb
  *   SAVE_CONTROL_CancelSave  0x020071A8  thumb
  */
-extern void SAVE_CONTROL_CancelSave(struct SaveControl *saveControl);
+#ifdef __MWERKS__
+#define SAVE_CONTROL_SetOutsideSaveLoaded SAVE_CONTROL_SetOutsideSaveLoadedHeader
+#define SAVE_CONTROL_SetOutsideSaveBroken SAVE_CONTROL_SetOutsideSaveBrokenHeader
+#endif
+#include "../arm9/save_control.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef SAVE_CONTROL_SetOutsideSaveLoaded
+void SAVE_CONTROL_SetOutsideSaveLoaded(void *, u32);
+#undef SAVE_CONTROL_SetOutsideSaveBroken
+void SAVE_CONTROL_SetOutsideSaveBroken(void *, u32);
+#endif
 
 struct Sub020071E4Ctrl;
 struct Sub02007168;
 #include "../types.h"
 #include "../arm9/gfl_heap_wrap.h"
 struct SaveControl;
-extern u8 SAVE_CONTROL_GetOutsideSaveLoaded(const struct SaveControl *saveControl);
-extern u8 SAVE_CONTROL_HasFlashSave(const struct SaveControl *saveControl);
 #include "../arm9/ui.h"
-extern int SAVE_CONTROL_StartSave(struct SaveControl *saveControl);
 #include "../arm9/system_data.h"
-extern u8 SAVE_CONTROL_GetOutsideSaveBroken(const struct SaveControl *saveControl);
-void SAVE_CONTROL_SetOutsideSaveLoaded(void *, u32);
-void SAVE_CONTROL_SetOutsideSaveBroken(void *, u32);
 #include "../arm9/backup_system.h"
-extern u32 SAVE_CONTROL_MainSave(struct SaveControl *saveControl);
 
 /* Save progress object: drives a save that can be paused or cancelled. */
 typedef struct SaveControlIntr {

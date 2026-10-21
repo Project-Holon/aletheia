@@ -280,7 +280,12 @@ struct GameData;
 
 
 
+/* The DS code was built against other parameter widths for ZUKAN_SAVE_GetViewGenderAndForm (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void ZUKAN_SAVE_GetViewGenderAndForm(struct ZukanSave *, u32, u32 *, u32 *, u32 *, u16);
+#else
+#include "../arm9/zukan_save.h"
+#endif
 struct ZukanSave;
 
 extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct ZukanSave *pZukan, u32 which);

@@ -1,7 +1,7 @@
 /*
  * file:     tcbl.c
  * unit:     yes
- * function: TCBL_IsDeletePending, TCBL_GetTaskSlot, TCBL_PopFreeTask, TCBL_PushFreeTask, TCBL_InitTaskLinks, TCBL_FreeTask, TCBL_GetTaskWork, TCBL_BuildFreeList, TCBL_Create, TCBL_Main, TCBL_Destroy, TCBL_DeleteAllTasks, TCBL_DeleteTask, TCBL_AddTask, TCBL_SetTaskFunc, TCBL_GetWork
+ * function: TCBL_GetOwnedWork, TCBL_GetTaskSlot, TCBL_PopFreeTask, TCBL_PushFreeTask, TCBL_InitTaskLinks, TCBL_FreeTask, TCBL_GetTaskWork, TCBL_BuildFreeList, TCBL_Create, TCBL_Main, TCBL_Destroy, TCBL_DeleteAllTasks, TCBL_DeleteTask, TCBL_AddTask, TCBL_SetTaskFunc, TCBL_GetWork
  * address:  0x02030EE8
  * region:   arm9
  * compiler: dsi/1.1p1
@@ -51,7 +51,7 @@ struct TcblSystem {
 #include "gfl_heap_wrap.h"
 
 
-u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
+u32 TCBL_GetOwnedWork(struct TcblSystem *tcbl);
 
 struct TcblTask *TCBL_GetTaskSlot(struct TcblSystem *tcbl, u32 index);
 
@@ -89,10 +89,10 @@ extern const char tcbl_File[];
  * A plain word accessor at offset 0x10. No relocations.
  *
  * Verified with:
- *   python tools/match.py one --src src/matched/TCBL_IsDeletePending.c \
- *       --func TCBL_IsDeletePending --addr 0x02030EE8 --cc 1.1p1
+ *   python tools/match.py one --src src/matched/TCBL_GetOwnedWork.c \
+ *       --func TCBL_GetOwnedWork --addr 0x02030EE8 --cc 1.1p1
  */
-u32 TCBL_IsDeletePending(struct TcblSystem *tcbl)
+u32 TCBL_GetOwnedWork(struct TcblSystem *tcbl)
 {
     return tcbl->deletePending;
 }

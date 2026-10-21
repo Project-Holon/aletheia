@@ -80,6 +80,7 @@
 #include "../types.h"
 #include "manual_common_shared_types.h"
 #include "manual_touchbar_shared_types.h"
+#include "../ov067/touchbar_types.h"
 
 struct CharBuf;
 
@@ -91,12 +92,10 @@ struct Actor;
 
 struct ManualTouchbar;
 
-struct TouchBar;
-
 /* Touch bar object built by MANUAL_COMMON_CreateTouchbar (0x4C). */
 struct ManualTouchbar {
     void *owner;                /* 0x00 */
-    void *touchbar;             /* 0x04 TOUCHBAR handle */
+    TouchBar *touchbar;  /* 0x04 TOUCHBAR handle */
     u32 mode;                   /* 0x08 */
     u8 selectX;                 /* 0x0C */
     u8 selectY;                 /* 0x0D */
@@ -118,8 +117,6 @@ struct ManualTouchbar {
     void *task;                 /* 0x48 */
 };
 
-/* Argument block for TOUCHBAR_Create. */
-typedef struct {u8 *bgTable;u32 layer;int clactUnit;u32 cellW,cellH,flags;int reserved18,reserved1C;} ManualTouchbarArgs;
 
 struct ManualBgTable {u32 words[16];};
 
@@ -155,23 +152,26 @@ struct GfFont;
 struct TcbTask;
 
 
-extern void TOUCHBAR_Delete(TouchBar *bar);
 
 
-extern void TOUCHBAR_Update(TouchBar *bar);
 
-extern int TOUCHBAR_GetPressedButtonIdIfPressing(TouchBar *bar);
 
-extern int TOUCHBAR_GetPressedButtonIdIfDone(TouchBar *bar);
 
-extern void TOUCHBAR_SetButtonVisible(TouchBar *bar, unsigned int buttonId, unsigned int visible);
 
 
 #include "../arm9/mi_memory.h"
 
 #include "manual_graphic.h"
 
-extern struct ManualRes *TOUCHBAR_Create(ManualTouchbarArgs *,int);
+/* The DS code passes the heap id as a word (the original prototype); the header takes a halfword. The host build uses the header. */
+#ifdef __MWERKS__
+#define TOUCHBAR_Create TOUCHBAR_Create_header
+#endif
+#include "../ov067/touchbar.h"
+#ifdef __MWERKS__
+#undef TOUCHBAR_Create
+extern TouchBar *TOUCHBAR_Create(TouchBarParams *params, int heapId);
+#endif
 struct BmpWin;
 
 extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
@@ -309,12 +309,12 @@ void MANUAL_COMMON_UpdateTouchbar(char *touchbar)
     ((struct ManualTouchbar *)touchbar)->pressedId=-1;((struct ManualTouchbar *)touchbar)->releasedId=-1;MANUAL_COMMON_UpdateTouchbarSlots(touchbar);
     if(((struct ManualTouchbar *)touchbar)->pressState==1) {((struct ManualTouchbar *)touchbar)->pressState=0;return;}
     if(((struct ManualTouchbar *)touchbar)->pressState==0 || ((struct ManualTouchbar *)touchbar)->pressState==2) {
-        TOUCHBAR_Update((TouchBar *)(*(struct TouchBar * *)&((struct ManualTouchbar *)touchbar)->touchbar));
+        TOUCHBAR_Update(((struct ManualTouchbar *)touchbar)->touchbar);
         if(((struct ManualTouchbar *)touchbar)->pressState==0) {
-            int result=TOUCHBAR_GetPressedButtonIdIfPressing((TouchBar *)(*(u8 * *)&((struct ManualTouchbar *)touchbar)->touchbar));
+            int result=TOUCHBAR_GetPressedButtonIdIfPressing(((struct ManualTouchbar *)touchbar)->touchbar);
             if(result!=-1) {((struct ManualTouchbar *)touchbar)->pressState=2;((struct ManualTouchbar *)touchbar)->pressedId=result;}
         } else {
-            int result=TOUCHBAR_GetPressedButtonIdIfDone((TouchBar *)(*(u8 * *)&((struct ManualTouchbar *)touchbar)->touchbar));
+            int result=TOUCHBAR_GetPressedButtonIdIfDone(((struct ManualTouchbar *)touchbar)->touchbar);
             if(result!=-1) {((struct ManualTouchbar *)touchbar)->pressState=1;((struct ManualTouchbar *)touchbar)->releasedId=result;}
         }
     }
@@ -332,7 +332,7 @@ void MANUAL_COMMON_SetTouchbarState(char *touchbar,unsigned state)
 {
     if(((struct ManualTouchbar *)touchbar)->mode==state)return;
     switch(((struct ManualTouchbar *)touchbar)->mode) {
-    case 0:TOUCHBAR_SetButtonVisible((TouchBar *)(((struct ManualTouchbar *)touchbar)->touchbar),0,0);break;
+    case 0:TOUCHBAR_SetButtonVisible(((struct ManualTouchbar *)touchbar)->touchbar,0,0);break;
     case 3:CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct ClactActor * *)&((struct ManualTouchbar *)touchbar)->actor0)),0);CLACT_SetActorDrawEnable((struct ClactActor *)((struct Actor *)(*(struct ClactActor * *)&((struct ManualTouchbar *)touchbar)->actor1)),0);break;
     case 1:case 2:case 4:break;
     }
@@ -379,13 +379,13 @@ void MANUAL_COMMON_TouchbarTaskNoop(void *task,void *data)
  */
 void MANUAL_COMMON_CreateTouchbarWidget(char *touchbar)
 {
-    ManualTouchbarArgs args;
+    TouchBarParams args;
     struct ManualBgTable gManualGraphicMainBgLayerTable=gManualCommonTouchbarBgTable;
     MI_CpuFill8(&args,0,sizeof(args));
-    args.bgTable=(u8 *)&gManualGraphicMainBgLayerTable;args.layer=2;
-    args.clactUnit=(int)MANUAL_GRAPHIC_GetClactUnit(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->screen);
-    args.cellW=6;args.cellH=3;args.flags=1;args.reserved18=0;
-    *(struct ManualRes * *)&((struct ManualTouchbar *)touchbar)->touchbar=TOUCHBAR_Create(&args,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
+    args.defs=(TouchBarButtonDef *)&gManualGraphicMainBgLayerTable;args.count=2;
+    args.actorSys=(struct Unit *)MANUAL_GRAPHIC_GetClactUnit(((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->screen);
+    args.bgLayer=6;args.bgPlttSlot=3;args.actorPlttSlot=1;args.iconSet=0;
+    ((struct ManualTouchbar *)touchbar)->touchbar=TOUCHBAR_Create(&args,((struct ManualData *)(*(char * *)&((struct ManualTouchbar *)touchbar)->owner))->heap);
     TOUCHBAR_SetButtonVisible(((struct ManualTouchbar *)touchbar)->touchbar,0,0);
 }
 

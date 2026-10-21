@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   TCBL_GetOwnedWork  0x02030EE8  arm
  *   BTLV_EFFECT_GetBitMask  0x021F935C  thumb  ov094
  *
  */
@@ -50,12 +50,12 @@ typedef struct {
 
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetOwnedWork(struct S02030EE8 *p);
 extern int BTLV_EFFECT_GetBitMask(int x);
 
 void BTLV_MCSS_PositionTweenTaskEnd(void *h)
 {
-    Ctx *c = (Ctx *)TCBL_IsDeletePending(h);
+    Ctx *c = (Ctx *)TCBL_GetOwnedWork(h);
 
     if (c->tag == c->w->tag[c->key])
         c->w->mask &= BTLV_EFFECT_GetBitMask(c->key) ^ 0xFFFFFFFF;

@@ -55,20 +55,22 @@ struct GameData;
 struct FieldMap;
 #include "../arm9/field_status.h"
 #include "../ov021/event_fieldmap_control.h"
-int EVENT_BSUBWAY_COMM_Start(int gameSystem, BsubwayProcArgs *args);
-void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr);
+struct GameEvent *EVENT_BSUBWAY_COMM_Start(struct GameSystem *gameSystem, void *arg);
+struct GameEvent *EVENT_BSUBWAY_COMM_CreateEvent(struct GameSystem *gameSystem, int value, int *resultPtr);
 u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work);
 extern char ov116_id[];
 extern char d_021D83A4[];
 
-int EVENT_BSUBWAY_COMM_Start(int gameSystem, BsubwayProcArgs *args)
+struct GameEvent *EVENT_BSUBWAY_COMM_Start(struct GameSystem *gameSystem, void *arg)
 {
-    return (sptr)EVENT_BSUBWAY_COMM_CreateEvent((void *)gameSystem, args->value, (sptr)args->resultPtr);
+    BsubwayProcArgs *args = arg;
+
+    return EVENT_BSUBWAY_COMM_CreateEvent(gameSystem, args->value, args->resultPtr);
 }
 
-void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr)
+struct GameEvent *EVENT_BSUBWAY_COMM_CreateEvent(struct GameSystem *gameSystem, int value, int *resultPtr)
 {
-    void *event;
+    struct GameEvent *event;
     int *work;
 
     GAMESYSTEM_GetGameData(gameSystem);
@@ -76,7 +78,7 @@ void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr)
     work = GAME_EVENT_GetWork(event);
     work[0] = value;
     work[1] = (sptr)gameSystem;
-    work[3] = resultPtr;
+    work[3] = (sptr)resultPtr;
     if (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm(gameSystem)))
         GAME_COMM_RequestExitNoCallback((struct GameComm *)GAMESYSTEM_GetGameComm(gameSystem));
     return event;

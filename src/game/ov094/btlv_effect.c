@@ -92,7 +92,7 @@
  *   BTL_MAIN_IsRecordEnabledInComm 0x021BA1EC thumb ov093
  *   BTL_MAIN_IsRecordAllowed 0x021BA20C thumb ov093
  *   TCB_DeleteTask   0x02030EAC  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetOwnedWork   0x02030EE8  arm
  *   CLACT_VBlankSystem 0x0204A648 arm
  *   PALANM_TransferPalettes 0x02021D50 thumb
  *   gBtlvIntroPickTableA 0x0220AC70 data a4
@@ -308,7 +308,15 @@ struct TcbTask;
 
 /* Likely original mismatch: the caller passes the move id without narrowing, the ARM9 definition takes u16. */
 /* Original prototype: the move is passed as a word (docs/ORIGINAL_BUGS.tsv, kind B). */
+#ifdef __MWERKS__
+#define WAZA_TOOL_GetDamageType WAZA_TOOL_GetDamageTypeHeader
+#endif
+#include "../arm9/waza_tool.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef WAZA_TOOL_GetDamageType
 extern int WAZA_TOOL_GetDamageType(int move);
+#endif
 
 #include "btlv_gauge.h"
 
@@ -1667,7 +1675,7 @@ void BTLV_EFFECT_DeleteTask(void *task)
 
     if (task == 0)
         return;
-    w = (void *)TCBL_IsDeletePending(task);
+    w = (void *)TCBL_GetOwnedWork(task);
     if (gBtlvEff->taskCallback[i] != 0)
         gBtlvEff->taskCallback[i](task);
     if (w != 0)
@@ -1821,7 +1829,7 @@ void BTLV_EFFECT_DamageTintTaskMain(struct TcbTask *task, void *arg)
  */
 void BTLV_EFFECT_ClearTaskMaskM0(void *tcb)
 {
-    BtlvEffDamageTintTask *task = (struct BtlvEffDamageTintTask *)TCBL_IsDeletePending(tcb);
+    BtlvEffDamageTintTask *task = (struct BtlvEffDamageTintTask *)TCBL_GetOwnedWork(tcb);
     int m = BTLV_EFFECT_GetBitMask(task->pos);
     gBtlvEff->damageTintTaskMask &= m ^ 0xffffffff;
 }
@@ -1894,7 +1902,7 @@ void BTLV_EFFECT_SequenceTaskMain(struct TcbTask *task, void *arg)
  */
 void BTLV_EFFECT_ClearTaskMaskM1(void *tcb)
 {
-    BtlvEffHitTask *task = (struct BtlvEffHitTask *)TCBL_IsDeletePending(tcb);
+    BtlvEffHitTask *task = (struct BtlvEffHitTask *)TCBL_GetOwnedWork(tcb);
     int m = BTLV_EFFECT_GetBitMask(task->pos);
     gBtlvEff->hitTaskMask &= m ^ 0xffffffff;
 }
@@ -1928,7 +1936,7 @@ void BTLV_EFFECT_PokeSpriteTransitionTaskMain(struct TcbTask *task, void *arg)
 
 void BTLV_EFFECT_ClearTaskMaskM2(void *tcb)
 {
-    BtlvEffSpriteTransitionTask *task = (struct BtlvEffSpriteTransitionTask *)TCBL_IsDeletePending(tcb);
+    BtlvEffSpriteTransitionTask *task = (struct BtlvEffSpriteTransitionTask *)TCBL_GetOwnedWork(tcb);
     int m = BTLV_EFFECT_GetBitMask(task->pos);
     gBtlvEff->spriteTransitionTaskMask &= m ^ 0xffffffff;
 }
@@ -1951,7 +1959,7 @@ void BTLV_EFFECT_DelayedStartEffectTaskMain(struct TcbTask *task, void *arg)
  */
 void BTLV_EFFECT_FreeTaskArg(void *tcb)
 {
-    BtlvEffQueuedScript *task = (struct BtlvEffQueuedScript *)TCBL_IsDeletePending(tcb);
+    BtlvEffQueuedScript *task = (struct BtlvEffQueuedScript *)TCBL_GetOwnedWork(tcb);
     if (task->params != 0)
         GFL_HEAP_Free(task->params);
 }

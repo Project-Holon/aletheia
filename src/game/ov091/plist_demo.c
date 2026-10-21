@@ -56,7 +56,6 @@
 #include "plist_demo_types.h"
 
 struct Rec;
-struct RtcTime;
 struct PokemonParam;
 #include "../arm9/poke_tool.h"
 #include "../arm9/gfl_heap_wrap.h"
@@ -198,7 +197,7 @@ int PLIST_DEMO_CanUseGracidea(PokelistWork *work, u32 unused)
         return result;
     dayStart = TIMEZONE_GetLight(work->arg->season, result);
     dayEnd = TIMEZONE_GetLight(work->arg->season, 3);
-    GF_STANDARD_GetCachedTime((struct RtcTime *)now);
+    GF_STANDARD_GetCachedTime((RTCTime *)now);
     if (now[0] < dayStart || now[0] >= dayEnd)
         return 0;
     return 1;

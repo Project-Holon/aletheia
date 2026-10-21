@@ -680,7 +680,7 @@ int GAMESYSTEM_Main(struct GameSystem *gameSystem)
         GAME_COMM_Update(gameSystem->gameComm);
     }
     gameSystem->procStatus = PROCSYS_Main(gameSystem->procSys);
-    FIELD_SOUND_SYSTEM_Update((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameSystem->gameData));
+    FIELD_SOUND_SYSTEM_Update(GAME_DATA_GetBgmInfo(gameSystem->gameData));
     ISS_SYS_Update(gameSystem->issSystem);
     PALANM_UpdateTimer((u8 *)gameSystem->gameData);
     if (GAME_DATA_IsWalkCountEnabled(gameSystem->gameData) != 0)

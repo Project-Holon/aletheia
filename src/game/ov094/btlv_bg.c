@@ -23,7 +23,7 @@
  *   GFL_USE_AddMainTask  0x020056A0  thumb
  *   BTLV_BG_Delete 0x0220977C thumb ov094
  *   TCB_AddTask  0x02030DA8  arm
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetOwnedWork   0x02030EE8  arm
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   BG_SYS_GetScrollX  0x020407E8  arm
  *   BG_SYS_GetScrollY  0x02040804  arm
@@ -219,7 +219,7 @@ void BTLV_BG_ScrollTask(struct TcbTask *task, void *arg)
 
 void BTLV_BG_OnScrollJobEnd(void *task)
 {
-    BtlvBg *bg = *((BtlvBg **)TCBL_IsDeletePending(task));
+    BtlvBg *bg = *((BtlvBg **)TCBL_GetOwnedWork(task));
     bg->scrolling = 0;
 }
 
@@ -230,7 +230,7 @@ void BTLV_BG_OnScrollJobEnd(void *task)
  */
 void BTLV_BG_ApplyScrollTask(struct TcbTask *task, void *work)
 {
-    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_IsDeletePending((struct TcblSystem *)task);
+    BtlvBgScrollArgs *args = (BtlvBgScrollArgs *)TCBL_GetOwnedWork((struct TcblSystem *)task);
 
     BG_SYS_ChangeScrollImmediate(3, 0, args->scrollX);
     BG_SYS_ChangeScrollImmediate(3, 3, args->scrollY);

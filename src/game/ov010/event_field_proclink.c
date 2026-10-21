@@ -593,7 +593,7 @@ ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startS
     param->gameData = gameData;
     param->zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
     param->myStatus = (u8 *)GAME_DATA_GetMyStatus(param->gameData);
-    bgmInfo = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(param->gameData);
+    bgmInfo = GAME_DATA_GetBgmInfo(param->gameData);
     FIELD_SOUND_SYSTEM_LowerVolume(bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (startSpecies != -1) {
         param->startSpecies = startSpecies;
@@ -605,7 +605,7 @@ ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startS
 
 Bool EVENT_FIELD_PROCLINK_ReturnZukan(ProcLinkWork *work, ZukanParam *param)
 {
-    FieldSoundSystem *bgmInfo = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(param->gameData);
+    FieldSoundSystem *bgmInfo = GAME_DATA_GetBgmInfo(param->gameData);
 
     FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (param->result == 0)
@@ -855,7 +855,7 @@ void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPag
     FieldSoundSystem *bgmInfo;
     TrainerCardViewWork *viewWork;
 
-    bgmInfo = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    bgmInfo = GAME_DATA_GetBgmInfo(gameData);
     FIELD_SOUND_SYSTEM_LowerVolume(bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (ZONEDATA_IsUnionRoom(zoneId) != 0 || (int)ZONEDATA_IsZone96Pair((u16)zoneId) != 0) {
         canFly = 0;
@@ -872,7 +872,7 @@ int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardVi
     FieldSoundSystem *bgmInfo;
 
     gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
-    bgmInfo = (FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    bgmInfo = GAME_DATA_GetBgmInfo(gameData);
     FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (param->result != 1)
         return 0;
@@ -1577,7 +1577,7 @@ void EVENT_FIELD_PROCLINK_SetCommProcParam(CommProcParam *param, GameSystem *gam
 
 void EVENT_FIELD_PROCLINK_StartCommProc(CommProcParam *param, GameSystem *gameSystem, u8 kind, u8 sub)
 {
-    struct RtcTime time;
+    RTCTime time;
     u8 season;
 
     GF_STANDARD_GetCachedTime(&time);

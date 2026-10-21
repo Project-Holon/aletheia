@@ -8,7 +8,7 @@ struct ShortcutMenu;
 struct MsgBank;
 struct GfFont;
 struct PrintSys;
-struct BmpMenuList;
+struct ClactActor;
 typedef struct ShortcutMenu ShortcutMenu;
 
 #include "../types.h"

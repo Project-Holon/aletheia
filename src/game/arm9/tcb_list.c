@@ -64,7 +64,7 @@ struct TcbTask *TCB_AddTask(struct TcbSystem *sys, TcbFunc func, void *work, u32
 
 struct TcbTask *TCB_InsertTask(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority);
 
-void TCB_DeleteTask(struct TcbTask *task);
+u32 TCB_DeleteTask(struct TcbTask *task);
 
 /*
  * Refill the free stack: every node in the pool is blanked, pointed back at
@@ -399,7 +399,7 @@ struct TcbTask *TCB_InsertTask(struct TcbSystem *sys, TcbFunc func, void *work, 
  *   python tools/match.py one --src src/matched/TCB_DeleteTask.c \
  *       --func TCB_DeleteTask --addr 0x02030EAC --cc 1.1p1 --arm
  */
-void TCB_DeleteTask(struct TcbTask *task)
+u32 TCB_DeleteTask(struct TcbTask *task)
 {
     struct TcbSystem *sys = task->owner;
 
@@ -408,5 +408,5 @@ void TCB_DeleteTask(struct TcbTask *task)
     }
     task->prev->next = task->next;
     task->next->prev = task->prev;
-    TCB_FreeTask(task->owner, task);
+    return TCB_FreeTask(task->owner, task);
 }

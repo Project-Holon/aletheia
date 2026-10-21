@@ -2023,7 +2023,7 @@ static inline void SetActorAnimFrame(struct ClactActor *actor, int frame)
 
 void C_GEAR_UpdateClock(CGearWork *work)
 {
-    struct RtcTime time;
+    RTCTime time;
     struct ClactActor *actor;
     int digit;
 
@@ -2405,7 +2405,7 @@ void C_GEAR_Cleanup(CGearWork *work)
     GFL_HEAP_Free(work->fadeMem);
     TCB_DeleteTask((struct TcbTask *)work->palTransferTask);
     if (work->lastCommand != 5) {
-        FIELD_SOUND_SYSTEM_StopRingtone((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(work->gameSystem)));
+        FIELD_SOUND_SYSTEM_StopRingtone(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(work->gameSystem)));
     }
     ARC_TOOL_DeleteHandle(work->archive);
     C_GEAR_FreeGraphics(work);

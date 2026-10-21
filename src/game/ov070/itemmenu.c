@@ -292,13 +292,13 @@ struct MsgBank;
 struct WordSet;
 struct TaskMenu;
 struct PrintSys;
-struct ButtonTask;
+struct ButtonMan;
 struct KeyCursor;
 struct MiscSave;
 struct ItemData;
 struct Tcbl;
 struct BagCursor;
-struct TcblTask;
+struct TcbTask;
 struct Tcbl;
 struct TaskMenuRes;
 struct Strbuf;
@@ -408,7 +408,18 @@ struct TaskMenuWork;
 
 #include "../arm9/app_taskmenu.h"
 #include "../arm9/game_beacon.h"
+#ifdef __MWERKS__
+#define FILE_UTIL_GetItemParam FILE_UTIL_GetItemParamHeader
+#define FILE_UTIL_Get FILE_UTIL_GetHeader
+#endif
+#include "../arm9/file_util.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef FILE_UTIL_GetItemParam
 extern u32 FILE_UTIL_GetItemParam(u16 a, u32 sel, u32 id);
+#undef FILE_UTIL_Get
+extern u32 FILE_UTIL_Get(unsigned short, int);
+#endif
 struct FieldSkillUseFlags;
 #include "../arm9/app_keycursor.h"
 #include "../arm9/msgdata.h"
@@ -458,7 +469,15 @@ extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
 extern int TOUCHPANEL_HitTrg(const union TouchHitTable *p);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, s32 c, u32 d, s32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
+#ifdef __MWERKS__
+#define ARC_UTIL_UploadBgPaletteAddFromHandle ARC_UTIL_UploadBgPaletteAddFromHandleHeader
+#endif
+#include "../arm9/arc_util.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef ARC_UTIL_UploadBgPaletteAddFromHandle
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
+#endif
 struct DispVramCfg;
 struct SysInit;
 #include "../arm9/bmp_menuwork.h"
@@ -470,7 +489,6 @@ extern u8 WAZA_TOOL_GetType(u16 move);
 #include "../arm9/bmp.h"
 extern u32 FILE_UTIL_GetId(u32 id);
 extern void FILE_UTIL_ReadStringAlt(void *dst, u32 entry, u32 heap);
-extern u32 FILE_UTIL_Get(unsigned short, int);
 extern u32 FILE_UTIL_IsMachineItem(u32 id);
 #include "../arm9/os_cache.h"
 #include "../arm9/gx_load2d.h"
@@ -479,7 +497,15 @@ extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 struct TaskMenuInitWork;
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
+#ifdef __MWERKS__
+#define WAZA_TOOL_GetParam WAZA_TOOL_GetParamHeader
+#endif
+#include "../arm9/waza_tool.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef WAZA_TOOL_GetParam
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
+#endif
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 #include "../arm9/msg_speed.h"
 struct TextPrinter;
@@ -497,8 +523,24 @@ extern void MYITEM_SAVEDATA_CompactAllPockets();
 #include "../arm9/myitem_savedata.h"
 #endif
 extern void MYITEM_SAVEDATA_GetFieldPocketCursor(struct BagCursor *p, int i, s16 *a, s16 *b);
-extern struct ButtonTask *BUTTON_MAN_Create();
-extern struct TcblTask *GFL_USE_AddMainTask();
+#ifdef __MWERKS__
+#define BUTTON_MAN_Create BUTTON_MAN_CreateHeader
+#endif
+#include "../arm9/button_man.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef BUTTON_MAN_Create
+extern struct ButtonMan *BUTTON_MAN_Create();
+#endif
+#ifdef __MWERKS__
+#define GFL_USE_AddMainTask GFL_USE_AddMainTaskHeader
+#endif
+#include "../arm9/gfl_use.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef GFL_USE_AddMainTask
+extern struct TcbTask *GFL_USE_AddMainTask();
+#endif
 struct GFont;
 #include "../arm9/net.h"
 void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work);
@@ -1479,7 +1521,7 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
         return;
     if (TOUCHPANEL_GetCont() == 0)
         work->isTouchActive = 0;
-    BUTTON_MAN_UpdateSlots((struct ButtonMan *)work->taskSys);
+    BUTTON_MAN_UpdateSlots(work->taskSys);
     BLINK_PALANM_Update(work->blinkPalAnm);
     if (work->taskFn != (ItemMenuTaskFn)ITEMMENU_TaskBagMain)
         return;
@@ -2339,10 +2381,18 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     ITEMMENU_CreateTabActors(work);
     ITEMMENU_ForceRedrawList(work);
     ITEMMENU_CreateCursorActors(work);
+#ifdef __MWERKS__
     work->taskSys = BUTTON_MAN_Create(sButtonHitTable, ITEMMENU_HandleTouchTarget, work, work->heapId);
+#else
+    work->taskSys = BUTTON_MAN_Create((u8 *)sButtonHitTable, (void (*)(s32, s32, s32))ITEMMENU_HandleTouchTarget, (sptr)work, work->heapId);
+#endif
     ITEMMENU_CreateBlinkPalAnm(work);
     ITEMMENU_AllocPalAnmSlots(work);
+#ifdef __MWERKS__
     work->unitList = GFL_USE_AddMainTask(ITEMMENU_VBlankCallback, work, 0);
+#else
+    work->unitList = GFL_USE_AddMainTask((TcbFunc)ITEMMENU_VBlankCallback, work, 0);
+#endif
     work->touchTask = (struct Tcbl *)TCBL_Create(work->heapId, work->heapId, 1, 0);
     ITEMMENU_PrintPocketName(work);
     work->taskMenuState = APP_TASKMENU_RES_Create(3, 9, (struct GFont *)work->menuTaskArg, (struct PrintQueue *)work->printSys, work->heapId);
@@ -2382,7 +2432,7 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
         return 0;
     if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printSys) == 0)
         return 0;
-    TCB_DeleteTask((struct TcbTask *)work->unitList);
+    TCB_DeleteTask(work->unitList);
     MYITEM_SAVEDATA_SetLastFieldPocket(work->bagCursor, work->currentPocket);
     MYITEM_SAVEDATA_SetFieldPocketCursor(work->bagCursor, (u16)work->currentPocket, work->cursorRow, work->scrollOffset + 1);
     APP_TASKMENU_RES_Delete(work->taskMenuState);
@@ -2406,7 +2456,7 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
     PRINTSYS_QUE_Delete((struct PrintQueue *)work->printSys);
     ITEMMENU_FreePalAnmSlots(work);
     ITEMMENU_DeleteBlinkPalAnm(work);
-    BUTTON_MAN_Delete((struct ButtonMan *)work->taskSys);
+    BUTTON_MAN_Delete(work->taskSys);
     BMP_WIN_Exit();
     BG_SYS_Delete();
     parentArgs->nextState = work->nextState;

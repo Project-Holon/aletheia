@@ -125,9 +125,14 @@ extern u8 BG_SYS_GetColorMode(int channel);
 
 extern u32 BG_SYS_GetBuf(int channel);
 
-extern void BG_SYS_DrawTileEx(unsigned int index, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch, void *src, unsigned char sx, unsigned char sy, unsigned char sw, unsigned char sh);
 
+/* The DS code was built against other parameter widths for BG_SYS_PushTile (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_PushTile(u8 channel);
+extern void BG_SYS_DrawTileEx(unsigned int index, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch, void *src, unsigned char sx, unsigned char sy, unsigned char sw, unsigned char sh);
+#else
+#include "../arm9/bg_sys.h"
+#endif
 
 extern u8   BG_SYS_GetPriority(u32 layer);
 

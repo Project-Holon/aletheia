@@ -3,15 +3,15 @@
 
 #include "../sdk_stdarg.h"
 
+/* va_list functions: kept by hand because tools/mkheaders.py skips va_list parameters. */
+int OS_VSPrintf(char *dst, const char *fmt, va_list vlist);
+int OS_VSNPrintf(char *dst, unsigned int len, const char *format, va_list vlist);
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of os_printf.c, prototypes copied from their definitions. */
 
 int OS_SPrintf(char *dst, const char *fmt, ...);
 int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 /* END mkheaders: generated region */
-
-/* va_list functions: kept by hand because tools/mkheaders.py skips va_list parameters. */
-int OS_VSPrintf(char *dst, const char *fmt, va_list vlist);
-int OS_VSNPrintf(char *dst, unsigned int len, const char *format, va_list vlist);
 
 #endif

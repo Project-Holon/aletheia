@@ -197,15 +197,12 @@ struct StrObj;
 struct Tmpl;
 struct FrameList;
 struct UiScene;
-struct TouchBar;
 struct Proc;
 struct Obj;
 struct Actor;
 struct UnSelectPtS;
 #include "../types.h"
 
-struct TouchBarParams;
-struct TouchBarWindow;
 typedef struct { u8 *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1c; } UnSelectTouchBarParams;
 
 typedef struct { u32 words[24]; } Table;
@@ -306,7 +303,15 @@ struct TaskMenuRes;
 #include "../arm9/arc_util.h"
 #include "../arm9/bg_sys.h"
 #include "../arm9/mi_memory.h"
-extern struct TouchBar *TOUCHBAR_Create(struct TouchBarParams *, int);
+/* The DS code passes the heap id as a word (the original prototype); the header takes a halfword. The host build uses the header. */
+#ifdef __MWERKS__
+#define TOUCHBAR_Create TOUCHBAR_Create_header
+#endif
+#include "../ov067/touchbar.h"
+#ifdef __MWERKS__
+#undef TOUCHBAR_Create
+extern TouchBar *TOUCHBAR_Create(TouchBarParams *params, int heapId);
+#endif
 struct PrintQueue;
 struct Bmp;
 struct Strbuf;
@@ -318,10 +323,6 @@ struct ClactVec2;
 #include "../arm9/strbuf_types.h"
 #include "../ov067/touchbar_types.h"
 #include "../ov099/wifi_club_work.h"
-extern void TOUCHBAR_SetAllButtonsBgPriority(TouchBar *bar, u32 bgPriority);
-extern void TOUCHBAR_SetButtonSound(TouchBar *bar, unsigned int buttonId, int soundId);
-extern void TOUCHBAR_Delete(TouchBar *bar);
-extern void TOUCHBAR_Update(TouchBar *bar);
 struct Strbuf;
 #include "../arm9/msgdata.h"
 #include "../arm9/strbuf.h"
@@ -340,7 +341,6 @@ typedef short s16_p07;
 #include "../arm9/bmp.h"
 struct TextPrinter;
 #include "../arm9/wordset.h"
-extern void TOUCHBAR_PrintAligned(struct TouchBarWindow *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 #include "../arm9/msg_speed.h"
 #include "../arm9/key.h"
 #include "../arm9/touchpanel.h"
@@ -355,7 +355,6 @@ struct UiSceneEntry;
 struct GFont;
 #include "../arm9/g2.h"
 #include "../arm9/net.h"
-extern int TOUCHBAR_GetPressedButtonIdIfDone(TouchBar *bar);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -368,7 +367,12 @@ extern void CLACT_DeleteActor(struct ClactActor *actor);
 extern struct ClactActor *CLACT_CreateActor(struct Unit *unit, u32 char_idx, u32 pltt_idx, u32 cell_idx, const struct ActorInitParam *init, u16 space, u16 heap_id);
 extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
 extern u32 CLACT_GetActorDrawEnable(struct ClactActor *actor);
+/* The DS code was built against other parameter widths for CLACT_GetActorSurfacePos (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, struct ClactVec2 *out, u32 space);
+#else
+#include "../arm9/clact.h"
+#endif
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactVec2 *delta, u32 which);
 #include "../arm9/g3x.h"
 struct G3dLight;
@@ -377,9 +381,9 @@ int UN_SELECT_SceneCreate(void *owner,int *state,char *input,u8 *p);
 int UN_SELECT_SceneDelete(struct Proc *ctx, int *state, void *unused, char *p);
 int UN_SELECT_SceneUpdate(void *ctx, int *state, void *unused, char *p);
 void UN_SELECT_LoadBg(u8 *p, u16 heap);
-struct TouchBar *UN_SELECT_CreateTouchBar(int heap, int id);
+TouchBar *UN_SELECT_CreateTouchBar(int heap, int id);
 void UN_SELECT_Delete(u8 *p);
-void UN_SELECT_UpdateTouchBar(struct TouchBar *p);
+void UN_SELECT_UpdateTouchBar(TouchBar *p);
 struct TaskMenu *UN_SELECT_OpenTaskMenu(void *arg, struct MsgBank *bank, u32 heap);
 void UN_SELECT_CloseTaskMenu(struct TaskMenu *p);
 void UN_SELECT_UpdateTaskMenu(Obj *p);
@@ -544,11 +548,11 @@ void UN_SELECT_LoadBg(u8 *p, u16 heap)
     ARC_TOOL_DeleteHandle(h);
 }
 
-struct TouchBar *UN_SELECT_CreateTouchBar(int heap, int id)
+TouchBar *UN_SELECT_CreateTouchBar(int heap, int id)
 {
     Table table = d_021BAC20;
     UnSelectTouchBarParams config;
-    struct TouchBar *p;
+    TouchBar *p;
     MI_CpuFill8(&config, 0, sizeof(config));
     config.f0 = (u8 *)&table;
     config.f4 = 3;
@@ -557,7 +561,7 @@ struct TouchBar *UN_SELECT_CreateTouchBar(int heap, int id)
     config.f10 = 13;
     config.f14 = 0;
     config.f18 = 0;
-    p = TOUCHBAR_Create((struct TouchBarParams *)(&config), id);
+    p = TOUCHBAR_Create((TouchBarParams *)(&config), id);
     TOUCHBAR_SetAllButtonsBgPriority((TouchBar *)p, 1);
     TOUCHBAR_SetButtonSound((TouchBar *)p, 4, 0);
     TOUCHBAR_SetButtonSound((TouchBar *)p, 5, 0);
@@ -569,7 +573,7 @@ void UN_SELECT_Delete(u8 *p)
     TOUCHBAR_Delete((TouchBar *)p);
 }
 
-void UN_SELECT_UpdateTouchBar(struct TouchBar *p)
+void UN_SELECT_UpdateTouchBar(TouchBar *p)
 {
     TOUCHBAR_Update((TouchBar *)p);
 }
@@ -695,10 +699,10 @@ void UN_SELECT_DrawFrameListRow(p, a, b, cd)
     MSGDATA_ReadString(*(void **)(p + 8), (t == 2) ? 0xF0 : 0xED, *(void **)(p + 0x18));
     WORDSET_SetSlotNumber(*(void **)(p + 0x14), 2, t, 3, 0, 1);
     WORDSET_CopyTaggedText(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
-    TOUCHBAR_PrintAligned((struct TouchBarWindow *)a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
     p += 0x2C;
     if (PRINTSYS_CountLine((struct Strbuf *)(*(u32 *)(p + d * 4))) > 1) r = 4;
-    TOUCHBAR_PrintAligned((struct TouchBarWindow *)a, b, 0x1E, r, *(u32 *)(p + d * 4), c, 0x39E0, 0);
+    TOUCHBAR_PrintAligned((TouchBarWindow *)a, b, 0x1E, r, *(u32 *)(p + d * 4), c, 0x39E0, 0);
 }
 
 void UN_SELECT_DrawMessage(char *p, u32 id)

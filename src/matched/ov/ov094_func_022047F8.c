@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   TCBL_GetOwnedWork  0x02030EE8  arm
  *   CLACT_DeleteActor  0x0204B3B4  arm
  *   CLACT_DeleteUnit  0x0204B1CC  arm
  */
@@ -30,14 +30,14 @@ typedef struct Ctx {
 typedef unsigned int   u32;
 struct Bank;
 struct S02030EE8;
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetOwnedWork(struct S02030EE8 *p);
 struct Obj;
 extern void CLACT_DeleteActor(struct Obj *p);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 void BTLV_INPUT_CursorActorTaskEnd(void *h)
 {
-    Ctx *c = (Ctx *)TCBL_IsDeletePending(h);
+    Ctx *c = (Ctx *)TCBL_GetOwnedWork(h);
     int i;
 
     for (i = 0; i < 6; i++) {

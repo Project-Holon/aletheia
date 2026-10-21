@@ -64,6 +64,6 @@ extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 struct FieldMap;
 extern struct EncEffWork *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
-extern EncEffGridWork *ENCEFF_GetWork(struct EncEffWork *eff);
+extern void *ENCEFF_GetWork(struct EncEffWork *eff);
 
 #endif

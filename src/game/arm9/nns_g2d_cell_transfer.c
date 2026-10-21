@@ -139,8 +139,6 @@
 
 #include "nns_g2d_cell_transfer.h"
 
-typedef BOOL (*TransferFunc)(s32 type, u32 dstAddr, void *pSrc, u32 szByte);
-
 typedef struct CellTransferStateManager {
     TransferFunc       pFuncTransfer;  /* +0x00 */
     u32                numState;       /* +0x04 */

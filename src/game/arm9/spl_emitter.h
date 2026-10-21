@@ -10,6 +10,38 @@ typedef struct SPLParticleList SPLParticleList;
 typedef struct SPLManager SPLManager;
 typedef struct SPLTexture SPLTexture;
 
+typedef void *(*AllocFn)(u32 size);
+
+struct VramNodeHeap {
+    AllocFn alloc;       /* 0x00 */
+    u32 reserved0;
+    int effectCount;     /* 0x08: live effects */
+    u32 reserved2;
+    u32 nodeListFirst;
+    u32 nodeListCount;
+    u32 nodeListLast;
+    u32 rowListFirst;
+    u32 rowListCount;
+    u32 rowListLast;
+    u32 reserved3;
+    u32 reserved4;
+    u16 reserved5;
+    u16 reserved6;
+    u16 nodeCount;
+    u16 rowCount;
+    u32 b0  : 6;
+    u32 b6  : 6;
+    u32 b12 : 6;
+    u32 b18 : 6;
+    u32 b24 : 1;
+    u32 b25 : 7;
+    u32 reserved7;
+    u32 reserved8;
+    u32 reserved9;
+    u16 reserved10;
+    u16 reserved11;
+};
+
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of spl_emitter.c, prototypes copied from their definitions. */
 
@@ -35,6 +67,7 @@ struct SPLManager;
 struct SPLTexture;
 struct ResourceSetup;
 struct SplEmitterCfg;
+struct VramNodeHeap;
 struct VramTexHeap;
 struct VramHeapHeader;
 struct VramFreeList;
@@ -92,6 +125,7 @@ void SPL_EMITTER_UpdateSubX(struct RigObject *o);
 void SPL_EMITTER_UpdateSubC(struct RigObject *o);
 int SPL_EMITTER_AllocTexVram(u32 szByte, u32 is4x4comp);
 int SPL_EMITTER_AllocPlttVram(u32 szByte, u32 is4pltt);
+struct VramNodeHeap *SPL_EMITTER_AllocNodeFromHeap(AllocFn alloc, u16 n1, u16 n2, u16 limitA, u16 limitB, u16 maxResIndex);
 void SPL_EMITTER_FreeNodeToHeap(struct VramTexHeap *h, struct VramHeapHeader *d);
 void SPL_EMITTER_AllocTexVramDefault(u32 rigObject);
 void SPL_EMITTER_AllocPlttVramDefault(u32 rigObject);

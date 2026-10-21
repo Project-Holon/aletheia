@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "SCRCMD_WORK_GetOccupyInfo",
+   "name": "SCRCMD_WORK_GetMmdlSys",
    "address": "0x0215A5EC",
    "kind": "game",
    "region": "ov010",

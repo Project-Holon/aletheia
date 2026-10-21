@@ -222,7 +222,7 @@
  *   FLDMMDL_SysGetTcbSys  0x0216D514  thumb  ov010
  *   TCB_AddTask  0x02030DA8  arm
  *   d_021DDBE0     0x021DDBE0  data  a4
- *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   TCBL_GetOwnedWork  0x02030EE8  arm
  *   FLDMMDL_EndAcmd  0x0216D480  thumb  ov010
  *   d_021D4A50     0x021D4A50  data  a4
  *   FLDMMDL_CheckPossibleAcmd  0x0216D3CC  thumb  ov010

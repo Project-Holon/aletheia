@@ -308,7 +308,12 @@ struct ActorInitParam;
 #include "../ov099/wifi_club_work.h"
 extern void CLACT_GetActorPos(const struct ClactActor *actor, struct Pt16 *out);
 extern void CLACT_SetActorPos(struct ClactActor *actor, const struct Pt16 *pos);
+/* The DS code was built against other parameter widths for BMP_WIN_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u32 c, u32 d, u32 slot);
+#else
+#include "../arm9/bmp_win.h"
+#endif
 struct BmpWin;
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
@@ -324,7 +329,12 @@ extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
+/* The DS code was built against other parameter widths for BMP_Blit (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+#else
+#include "../arm9/bmp.h"
+#endif
 extern void BMP_Delete(struct Bmp *p);
 #include "../arm9/pokegra.h"
 extern void CLACT_ReleasePalette(u32 i);
@@ -341,7 +351,12 @@ extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 pltt_op);
+/* The DS code was built against other parameter widths for CLACT_AddActorSurfacePos (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void CLACT_AddActorSurfacePos(struct ClactActor *, struct ClactVec2 *, unsigned short);
+#else
+#include "../arm9/clact.h"
+#endif
 extern void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int target);
 #include "../arm9/nns_gfd_vram_transfer.h"
 void *ZUKAN_INFO_CreateFromMon(u16 heap,void *mon,unsigned formTableNeeded,unsigned showCurrent,unsigned mode,unsigned femaleFlag,u8 bgLayerBase,unsigned clactUnit,unsigned font,unsigned unused,unsigned a10,unsigned a11,unsigned a12);

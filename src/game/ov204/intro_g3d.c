@@ -139,9 +139,19 @@ struct McssWork;
 
 
 
+/* The DS code was built against other parameter widths for G3D_UTIL_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern struct G3dUtil *G3D_UTIL_Create(u16,u16,u32);
+#else
+#include "../arm9/g3d_util.h"
+#endif
 
+/* The DS code was built against other parameter widths for G3D_CAMERA_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct VecFx32 *,struct VecFx32 *,struct VecFx32 *,u32);
+#else
+#include "../arm9/g3d_camera.h"
+#endif
 
 extern u16 G3D_UTIL_AddUnit(struct G3dUtil *,const struct G3dUtilSetup *);
 

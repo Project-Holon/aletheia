@@ -557,11 +557,6 @@ typedef struct {
 
 struct BtlPokeParam;
 
-/* A callee that returns a one-word struct: the compiler then reserves a frame word. */
-typedef struct OneWordResult {
-    u32 value;
-} OneWordResult;
-
 /* Event variable keys (same values and names as the other handler headers). */
 
 /* contFlag numbers (BTL_POKEPARAM_TestContFlag). */
@@ -1156,17 +1151,6 @@ struct HandWazaAnimRecord {
     u8 mode;
     u8 pad08[3];
     u8 flag;
-};
-
-/* Kind 12: add a status condition. */
-struct HandWazaSickRecord {
-    u32 header;
-    u32 sickKind;
-    u32 sickCont;
-    u8 pad0C;
-    u8 flag;
-    u8 pad0E;
-    u8 pokeId;
 };
 
 

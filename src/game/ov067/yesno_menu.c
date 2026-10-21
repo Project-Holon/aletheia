@@ -94,7 +94,6 @@ struct ClactVec2;
 #define YESNO_MENU_SE_DECIDE 0x54d
 #define YESNO_MENU_SE_CANCEL 0x552
 
-struct CharBuf;
 struct Strbuf;
 
 #include "../arm9/gfl_heap_wrap.h"
@@ -115,7 +114,15 @@ extern void CLACT_DeleteActor(struct ClactActor *actor);
 struct BmpWin;
 struct Bmp;
 #include "../arm9/bmp_win.h"
-extern void PRINTSYS_PrintQueColor(struct PrintSys *printer, struct CharBuf *chars, s16 x, s16 y, struct Strbuf *text, u32 fontId, u16 color);
+#ifdef __MWERKS__
+#define PRINTSYS_PrintQueColor PRINTSYS_PrintQueColorHeader
+#endif
+#include "../arm9/printsys.h"
+#ifdef __MWERKS__
+/* original prototype: the DS code passes the x coordinate as a halfword */
+#undef PRINTSYS_PrintQueColor
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font, u16 color);
+#endif
 extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 value);
 extern void CLACT_SetActorBgPriority(struct ClactActor *actor, unsigned int priority);
 struct GfFont;
@@ -127,13 +134,21 @@ struct NitroFileHeader;
 struct BmpWin;
 typedef short s16_p07;
 #include "../arm9/bmp.h"
+#ifdef __MWERKS__
+#define CLACT_AddActorSurfacePos CLACT_AddActorSurfacePosHeader
+#endif
+#include "../arm9/clact.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef CLACT_AddActorSurfacePos
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, struct ClactVec2 *pos, u16 screen);
+#endif
 struct Bmp;
 struct PrintQueue;
 extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 #include "../arm9/nns_gfd_vram_transfer.h"
 #include "ui_scene.h"
-YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, u32 fontId, struct PrintSys *printer);
+YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, struct GfFont *font, struct PrintQueue *printer);
 void YESNO_MENU_Delete(YesNoMenu *menu);
 void YESNO_MENU_Start(YesNoMenu *menu, struct Strbuf *upperText, struct Strbuf *lowerText);
 void YESNO_MENU_Close(YesNoMenu *menu);
@@ -147,7 +162,7 @@ extern const YesNoFlashStep d_021B94D0[YESNO_MENU_FLASH_STEPS];
 extern const YesNoCursorOrigin d_021B94B8;
 extern const YesNoButtonOffsets d_021B94BC;
 
-YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, u32 fontId, struct PrintSys *printer)
+YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32 plttSlot, u8 actorPlttSlot, void *actorSys, struct GfFont *font, struct PrintQueue *printer)
 {
     ActorGfxDesc desc;
     PlttFile *plttFile;
@@ -165,7 +180,7 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
     MI_CpuFill8(menu, 0, YESNO_MENU_SIZE);
     menu->heapId = heapId;
     menu->actorSys = actorSys;
-    menu->fontId = fontId;
+    menu->font = font;
     menu->printer = printer;
     if (textBgLayer > 3)
         plttTarget = 4;
@@ -276,21 +291,21 @@ void YESNO_MENU_Start(YesNoMenu *menu, struct Strbuf *upperText, struct Strbuf *
     BG_SYS_SetPlaneVisible(menu->buttonBgLayer, 1);
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper), 0);
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower), 0);
-    textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)upperText, (struct GfFont *)menu->fontId, 0);
-    PRINTSYS_PrintQueColor(menu->printer, (struct CharBuf *)BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper), (u16)((0x100 - textWidth) / 2), 0x10, upperText, menu->fontId, 0x3c40);
-    textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)lowerText, (struct GfFont *)menu->fontId, 0);
-    PRINTSYS_PrintQueColor(menu->printer, (struct CharBuf *)BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower), (u16)((0x100 - textWidth) / 2), 0x10, lowerText, menu->fontId, 0x3c40);
+    textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)upperText, menu->font, 0);
+    PRINTSYS_PrintQueColor(menu->printer, BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper), (u16)((0x100 - textWidth) / 2), 0x10, upperText, menu->font, 0x3c40);
+    textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)lowerText, menu->font, 0);
+    PRINTSYS_PrintQueColor(menu->printer, BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower), (u16)((0x100 - textWidth) / 2), 0x10, lowerText, menu->font, 0x3c40);
     menu->upperDone = 0;
     menu->lowerDone = 0;
     BG_SYS_SetPlaneVisible(menu->textBgLayer, 1);
-    if (menu->upperDone == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper))) == 0) {
+    if (menu->upperDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper))) == 0) {
         window = menu->windowUpper;
         BMP_WIN_TransferChars((struct BmpWin *)window);
         BMP_WIN_MakeScreen((struct BmpWin *)window);
         BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
         menu->upperDone = 1;
     }
-    if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower))) == 0) {
+    if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower))) == 0) {
         window = menu->windowLower;
         BMP_WIN_TransferChars((struct BmpWin *)window);
         BMP_WIN_MakeScreen((struct BmpWin *)window);
@@ -444,14 +459,14 @@ void YESNO_MENU_Update(YesNoMenu *menu)
         break;
     }
     if (menu->state != YESNO_MENU_STATE_IDLE) {
-        if (menu->upperDone == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper))) == 0) {
+        if (menu->upperDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper))) == 0) {
             window = menu->windowUpper;
             BMP_WIN_TransferChars((struct BmpWin *)window);
             BMP_WIN_MakeScreen((struct BmpWin *)window);
             BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
             menu->upperDone = 1;
         }
-        if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower))) == 0) {
+        if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower))) == 0) {
             window = menu->windowLower;
             BMP_WIN_TransferChars((struct BmpWin *)window);
             BMP_WIN_MakeScreen((struct BmpWin *)window);

@@ -65,7 +65,7 @@ void PALETTE_ANIME_Update(struct PaletteAnime *anime);
 void PALETTE_ANIME_Start(struct PaletteAnime *anime, u32 mode, u16 color);
 void PALETTE_ANIME_Stop(struct PaletteAnime *anime);
 int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
-void PALETTE_ANIME_IsRunning(struct PaletteAnime *anime, u32 unused);
+u32 PALETTE_ANIME_IsRunning(struct PaletteAnime *anime, u32 unused);
 void PALETTE_ANIME_StartImpl(struct PaletteAnime *anime, u32 mode, u16 color);
 void PALETTE_ANIME_StopImpl(struct PaletteAnime *anime);
 void PALETTE_ANIME_UpdateImpl(struct PaletteAnime *anime);
@@ -133,9 +133,9 @@ int PALETTE_ANIME_Restore(struct PaletteAnime *anime)
 }
 
 /* Veneer: reads the running flag; the second argument is ignored. */
-void PALETTE_ANIME_IsRunning(struct PaletteAnime *anime, u32 unused)
+u32 PALETTE_ANIME_IsRunning(struct PaletteAnime *anime, u32 unused)
 {
-    PALETTE_ANIME_IsRunningImpl(anime);
+    return PALETTE_ANIME_IsRunningImpl(anime);
 }
 
 /* Starts the animation: mode and colour set, frame counter cleared. */

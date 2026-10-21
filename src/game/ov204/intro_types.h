@@ -88,7 +88,7 @@ typedef struct IntroCmdWork {
     IntroHandle cellAnimHandle[3]; /* 0x10CC */
 } IntroCmdWork;
 
-struct IntroGameState;
+struct MyStatus;
 
 /*
  * The intro args object handed to INTRO_GRAPHIC_Create and stored in the
@@ -98,7 +98,7 @@ struct IntroGameState;
  * 0x10 and one more word written by a command handler at 0x14.
  */
 typedef struct IntroArgs {
-    struct IntroGameState *gameState; /* 0x00 */
+    struct MyStatus *myStatus;      /* 0x00 */
     void *appliedFlag;          /* 0x04: u16 * for CONFIG_SetTextLanguage */
     unsigned int mode;          /* 0x08: intro mode/kind */
     void *saveControl;          /* 0x0C */

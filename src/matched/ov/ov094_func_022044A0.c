@@ -9,15 +9,15 @@
  * status:   EXACT
  *
  * symbols:
- *   TCBL_IsDeletePending  0x02030EE8  arm  arm9
+ *   TCBL_GetOwnedWork  0x02030EE8  arm  arm9
  */
 typedef struct Bits { unsigned a:1; unsigned n:3; unsigned rest:28; } Bits;
 typedef unsigned int   u32;
 struct S02030EE8;
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_GetOwnedWork(struct S02030EE8 *p);
 
 void BTLV_INPUT_BgScrollTaskEnd(void *h)
 {
-    char *p = *((char **)TCBL_IsDeletePending(h));
+    char *p = *((char **)TCBL_GetOwnedWork(h));
     ((Bits *)(p + 0x68))->n--;
 }

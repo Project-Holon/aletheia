@@ -110,9 +110,13 @@ extern void BG_SYS_DecodeTileSource(u32 index, const void *src, u32 mode, u32 of
 
 extern void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 
+/* Original DS prototypes: the caller passes the layer as a byte; the host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_PushTile(u8 channel);
-
 extern void BG_SYS_MarkTileDirty(u8 channel);
+#else
+#include "bg_sys.h"
+#endif
 
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 a, u32 b, u32 c, u32 zero, u32 d, u32 e, u16 f);
 

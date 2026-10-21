@@ -248,7 +248,7 @@ struct Bmp;
 
 struct Actor;
 
-struct Obj;
+struct ClactActor;
 
 struct Vec2;
 
@@ -309,7 +309,7 @@ struct ZukanList {
     void *printer;                       /* 0x048 */
     struct U16Vec *speciesText[649];     /* 0x04C one string per species row */
     struct Bank *clactUnit;              /* 0xA70 */
-    struct Obj *actors[60];              /* 0xA74 */
+    struct ClactActor *actors[60];              /* 0xA74 */
     u32 charHandles[36];                 /* 0xB64 */
     u32 paletteHandles[6];               /* 0xBF4 */
     u32 cellAnimHandles[6];              /* 0xC0C */
@@ -485,7 +485,12 @@ extern void ZUKAN_SAVE_SetViewMode(struct ZukanSave *pZukan, u32 value);
 
 
 
+/* The DS code was built against other parameter widths for ZUKAN_SAVE_SetLastViewedSpecies (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void ZUKAN_SAVE_SetLastViewedSpecies(struct ZukanSave *,u16);
+#else
+#include "../arm9/zukan_save.h"
+#endif
 
 
 
@@ -561,7 +566,7 @@ struct SysInit;
 
 struct ZknSearchActorTemplate;
 
-extern struct Obj *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap);
+extern struct ClactActor *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap);
 
 
 extern u32 ZUKAN_SAVE_GetDexObtained(struct ZukanSave *pZukan);
@@ -1541,7 +1546,7 @@ int ZUKAN_LIST_GetActorAnimSeq(struct ZukanList *p, int actorIndex)
 
 u32 ZUKAN_LIST_IsActorAnimActive(struct ZukanList *p,u32 actorIndex) {return CLACT_IsActorAnimActive((struct ClactActor *)p->actors[actorIndex]);}
 
-void ZUKAN_LIST_SetActorVisible(struct ZukanList *p,u32 actorIndex,u32 value) {struct Obj *actor;actor=p->actors[actorIndex];if(actor) CLACT_SetActorDrawEnable((struct ClactActor *)actor,value);}
+void ZUKAN_LIST_SetActorVisible(struct ZukanList *p,u32 actorIndex,u32 value) {struct ClactActor *actor;actor=p->actors[actorIndex];if(actor) CLACT_SetActorDrawEnable((struct ClactActor *)actor,value);}
 
 u32 ZUKAN_LIST_GetActorVisible(struct ZukanList *p,u32 actorIndex) {return CLACT_GetActorDrawEnable((struct ClactActor *)p->actors[actorIndex]);}
 
@@ -1648,7 +1653,7 @@ void ZUKAN_LIST_CreateActors(struct ZukanList *p)
         ZUKAN_LIST_StartActorAnim(p, 5, 7);
 }
 
-void ZUKAN_LIST_DeleteActor(struct ZukanList *p,u32 actorIndex) {char *actorTable;u32 actorOffset;actorOffset=actorIndex*4;actorTable=(char *)p+0xa74;if(*(struct Obj **)(actorTable+actorOffset)) {CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct Obj **)(actorTable+actorOffset))));*(struct Obj **)(actorTable+actorOffset)=0;}}
+void ZUKAN_LIST_DeleteActor(struct ZukanList *p,u32 actorIndex) {char *actorTable;u32 actorOffset;actorOffset=actorIndex*4;actorTable=(char *)p+0xa74;if(*(struct ClactActor **)(actorTable+actorOffset)) {CLACT_DeleteActor((struct ClactActor *)((struct Actor *)(*(struct ClactActor **)(actorTable+actorOffset))));*(struct ClactActor **)(actorTable+actorOffset)=0;}}
 
 void ZUKAN_LIST_DeleteActorUnit(struct ZukanList *p) {u32 actorIndex;for(actorIndex=0;actorIndex<60;actorIndex++) ZUKAN_LIST_DeleteActor(p,actorIndex);CLACT_DeleteUnit((struct Unit *)p->clactUnit);}
 
@@ -1753,7 +1758,7 @@ void ZUKAN_LIST_TransferSpeciesGraphics(struct ZukanList *p, int actorIndex, uns
     void *owner;
     void *data;
     struct ClactPartData *out;
-    struct Obj **slot;
+    struct ClactActor **slot;
     unsigned charHalfSaved;
     owner=ARC_TOOL_CreateHandle(7,0x806b);
     charHalfSaved=charHalf;

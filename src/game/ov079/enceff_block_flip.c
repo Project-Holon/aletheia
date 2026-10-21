@@ -32,7 +32,15 @@ struct FieldMap;
 struct FieldMap;
 #include "../ov021/fieldmap.h"
 extern void ENCEFF_LoadOverlays4B4D(struct EncEffWork *eff);
+#ifdef __MWERKS__
+#define ENCEFF_StartScreenTexEffectFlash ENCEFF_StartScreenTexEffectFlashHeader
+#endif
+#include "../ov075/enceff_screen_tex.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef ENCEFF_StartScreenTexEffectFlash
 extern struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, const struct VecFx32 *cameraPos, void *build, void *draw);
+#endif
 extern void ENCEFF_DrawCellGrid(EncEffGridWork *work);
 extern void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
 void *ENCEFF_BuildBlockFlip(void *gameSystem, struct FieldMap *fieldMap);
@@ -45,7 +53,11 @@ extern const VecFx32 gBlockFlipCameraPos;
 void *ENCEFF_BuildBlockFlip(void *gameSystem, struct FieldMap *fieldMap) {
     VecFx32 cameraPos = gBlockFlipCameraPos;
     ENCEFF_LoadOverlays4B4D(FIELDMAP_GetEncEff(fieldMap));
+#ifdef __MWERKS__
     return ENCEFF_StartScreenTexEffectFlash(gameSystem, &cameraPos, ENCEFF_StartBlockFlip, ENCEFF_DrawCellGrid);
+#else
+    return ENCEFF_StartScreenTexEffectFlash(gameSystem, &cameraPos, (EncEffScreenTexStartFunc)ENCEFF_StartBlockFlip, (EncEffScreenTexDrawFunc)ENCEFF_DrawCellGrid);
+#endif
 }
 
 

@@ -2266,12 +2266,7 @@ void POKETRADE_SAVE_DrawPartnerOfferCard(char *p,int i,void *mon)
     items=p+0x5c4;
     *(void **)(items+index)=BMP_WIN_Create(1,(u8)layer,0,14,5,5,0);
     items2=p+0x5cc;
-#ifdef __MWERKS__
-    /* The original prototype took the x position as u8. */
-    *(int *)(items2+index)=((u32 (*)(u32, u8, u32, u32, u8, u8, u8))BMP_WIN_Create)(1,layer,17,13,2,5,0);
-#else
-    *(void **)(items2+index)=BMP_WIN_Create(1,layer,17,13,2,5,0);
-#endif
+    *(void **)(items2+index)=BMP_WIN_Create(1,(layer & 0xff),17,13,2,5,0);
     idx2=i*2;
     col=((u32 *)&colors)[idx2];
     BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)*(int *)(items+index)),(u8)(col|(col<<4)));

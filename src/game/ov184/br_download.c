@@ -178,7 +178,7 @@ int BR_DOWNLOAD_Main(int a,int b,int c,char *p)
 {
     int i;
     if (BR_NET_HandleNetError((struct BrNet *)(char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->net)==2) {
-        BR_PROC_SYS_FlushWindows((struct Context *)((char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->proc.proc));
+        BR_PROC_SYS_FlushWindows((struct BrProcSysContext *)((char *)((struct BrDownloadOwner *)((struct BrDownloadWork *)p)->owner.owner)->proc.proc));
         return 1;
     }
     BR_UTIL_RunTask((u8 *)((struct BrDownloadWork *)p)->task.task);

@@ -7,6 +7,7 @@
 struct ZukanTorokuWork;
 struct ZukanTorokuDisplay;
 struct Unit;
+struct TcbTask;
 typedef struct ZukanTorokuWork ZukanTorokuWork;
 typedef struct ZukanTorokuDisplay ZukanTorokuDisplay;
 
@@ -17,14 +18,14 @@ int ZUKAN_TOROKU_GRAPHIC_Exit(void *a,int b,int c,ZukanTorokuWork *work);
 int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork *work);
 void ZUKAN_TOROKU_GRAPHIC_CreateBg(ZukanTorokuWork *work);
 void ZUKAN_TOROKU_GRAPHIC_DeleteBg(ZukanTorokuWork *work);
-void ZUKAN_TOROKU_GRAPHIC_ClearTask(int unused, ZukanTorokuWork *work);
+void ZUKAN_TOROKU_GRAPHIC_ClearTask(struct TcbTask *task, void *taskWork);
 void *ZUKAN_TOROKU_GRAPHIC_CreateDisplay(int a,int heap);
 void ZUKAN_TOROKU_GRAPHIC_DeleteDisplay(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_Draw(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_Update(void *unused);
 void ZUKAN_TOROKU_GRAPHIC_UpdateSub(void *unused);
 u32 ZUKAN_TOROKU_GRAPHIC_GetDisplay(ZukanTorokuDisplay *display);
-void ZUKAN_TOROKU_GRAPHIC_VBlank(void*unused,ZukanTorokuDisplay *display);
+void ZUKAN_TOROKU_GRAPHIC_VBlank(struct TcbTask *task, void *taskWork);
 void ZUKAN_TOROKU_GRAPHIC_InitBg(ZukanTorokuDisplay *display,int heap);
 void ZUKAN_TOROKU_GRAPHIC_ExitBg(ZukanTorokuDisplay *display);
 void ZUKAN_TOROKU_GRAPHIC_UpdateBg(ZukanTorokuDisplay *display);

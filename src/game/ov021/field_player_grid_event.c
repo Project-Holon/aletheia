@@ -61,7 +61,7 @@
  *   MAP_ATTR_IsLongHopEdge  0x021AB2E8  thumb  ov021
  *   FIELDMAP_GetTcblSys  0x02188D30  thumb  ov021
  *   TCB_AddTask  0x02030DA8  arm
- *   TCBL_IsDeletePending  0x02030EE8  arm
+ *   TCBL_GetOwnedWork  0x02030EE8  arm
  *   TCB_DeleteTask  0x02030EAC  arm
  *   FLDMMDL_GetDirDisp  0x0216D5F8  thumb  ov010
  *   FLDMMDL_GetGridNowX  0x0216D83C  thumb  ov010
@@ -548,12 +548,12 @@ struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateHopTask(FieldPlayer *player, u16 d
 
 int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcbTask *task)
 {
-    return ((HopWork *)TCBL_IsDeletePending((struct TcblSystem *)task))->done;
+    return ((HopWork *)TCBL_GetOwnedWork((struct TcblSystem *)task))->done;
 }
 
 void FIELD_PLAYER_GRID_EVENT_DeleteHopTask(struct TcbTask *task)
 {
-    GFL_HEAP_Free((void *)TCBL_IsDeletePending((struct TcblSystem *)task));
+    GFL_HEAP_Free((void *)TCBL_GetOwnedWork((struct TcblSystem *)task));
     TCB_DeleteTask(task);
 }
 
@@ -651,12 +651,12 @@ struct TcbTask *FIELD_PLAYER_GRID_EVENT_CreateJumpTask(FieldPlayer *player, u16 
 
 int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcbTask *task)
 {
-    return ((JumpWork *)TCBL_IsDeletePending((struct TcblSystem *)task))->done;
+    return ((JumpWork *)TCBL_GetOwnedWork((struct TcblSystem *)task))->done;
 }
 
 void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(struct TcbTask *task)
 {
-    GFL_HEAP_Free((void *)TCBL_IsDeletePending((struct TcblSystem *)task));
+    GFL_HEAP_Free((void *)TCBL_GetOwnedWork((struct TcblSystem *)task));
     TCB_DeleteTask(task);
 }
 

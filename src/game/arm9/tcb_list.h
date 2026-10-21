@@ -30,7 +30,7 @@ void TCB_Main(struct TcbSystem *sys);
 void TCB_Noop(struct TcbSystem *sys);
 struct TcbTask *TCB_AddTask(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority);
 struct TcbTask *TCB_InsertTask(struct TcbSystem *sys, TcbFunc func, void *work, u32 priority);
-void TCB_DeleteTask(struct TcbTask *task);
+u32 TCB_DeleteTask(struct TcbTask *task);
 /* END mkheaders: generated region */
 
 #endif

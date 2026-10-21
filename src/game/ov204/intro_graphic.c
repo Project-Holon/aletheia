@@ -217,8 +217,13 @@ struct TcbTask;
 struct DispVramCfg;
 struct SysInit;
 #include "../arm9/clact.h"
+/* The DS code was built against other parameter widths for G3D_SYSTEM_Init (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u16 fifoSize, u16 heap, void (*setupFn)(void));
+#else
+#include "../arm9/g3d_system.h"
+#endif
 #include "../arm9/g3d_camera.h"
 struct G3dCamera;
 struct LightSetDesc;

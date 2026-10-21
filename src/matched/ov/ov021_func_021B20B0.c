@@ -10,7 +10,7 @@
  * status:   EXACT*
  *
  * symbols:
- *   SCRCMD_WORK_GetOccupyInfo  0x0215A5EC  thumb  ov010
+ *   SCRCMD_WORK_GetMmdlSys  0x0215A5EC  thumb  ov010
  *   SCRIPT_WORK_ReadWorkValue  0x02159B10  thumb  ov010
  *   FLDMMDL_SysSearchObjId  0x0216DE94  thumb  ov010
  *   SCRIPT_WORK_ReadWorkPointer  0x02159AE8  thumb  ov010
@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct Obj;
-extern void *SCRCMD_WORK_GetOccupyInfo(void *p);
+extern void *SCRCMD_WORK_GetMmdlSys(void *p);
 extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
 extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *a0, void *a1);
@@ -38,7 +38,7 @@ int SCRCMD_FLDMMDL_GetMmdlRailLocation(u32 a, u32 b)
     unsigned short *y;
     unsigned short *z;
 
-    h = (u32)FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo((void *)b), SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b));
+    h = (u32)FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetMmdlSys((void *)b), SCRIPT_WORK_ReadWorkValue((void *)a, (void *)b));
     x = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     y = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);
     z = SCRIPT_WORK_ReadWorkPointer((void *)a, (void *)b);

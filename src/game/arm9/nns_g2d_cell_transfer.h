@@ -29,7 +29,10 @@ typedef struct CellTransferState {
     u32          szByte;            /* +0x2c */
 } CellTransferState;
 
+typedef BOOL (*TransferFunc)(s32 type, u32 dstAddr, void *pSrc, u32 szByte);
+
 CellTransferState *NNSi_G2dGetCellTransferState(u32 stateIdx);
+void NNS_G2dInitCellTransferStateManager(CellTransferState *pStates, u32 numStates, TransferFunc pTransferFunc);
 void NNS_G2dSetCellTransferState(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 void NNS_G2dUpdateCellTransferStateManager(void);
 CellTransferState *NNSi_G2dRequestCellTransferState(u32 stateIdx, u32 srcOffset, u32 szByte);

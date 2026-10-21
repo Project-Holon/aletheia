@@ -159,7 +159,7 @@ void FIELD_CLOCK_Update(GameData *gameData)
     FieldClock *clock = (FieldClock *)CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData));
     if (clock->valid == 0)
         return;
-    GF_STANDARD_CopyCachedRtc((struct RtcDate *)&date, (struct RtcTime *)&time);
+    GF_STANDARD_CopyCachedRtc((RTCDate *)&date, (RTCTime *)&time);
     if (FIELD_CLOCK_CalcElapsed(clock, &date, &time, &days, &minutes) == 0)
         return;
     if (minutes == 0 && days != 0)

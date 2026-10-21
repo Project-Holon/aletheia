@@ -21,7 +21,7 @@
  *   GFL_USE_AddMainTask     0x020056A0  thumb
  *   sFileMcss  0x020A72CC  data
  *   MCSS_CloseHandle   0x02014CD4  thumb
- *   TCBL_IsDeletePending   0x02030EE8  arm
+ *   TCBL_GetOwnedWork   0x02030EE8  arm
  *   TCB_DeleteTask   0x02030EAC  arm
  *   MCSS_Del   0x02015BA4  thumb
  *   MCSS_RestartAnime  0x02016374  thumb
@@ -353,8 +353,8 @@ typedef struct McssWork {
     McssTexImage texImage;              /* 0x09C */
     u32 texImageExtra;                  /* 0x0BC */
     McssPlttProxy plttProxy;            /* 0x0C0 */
-    void *plttOriginal;                 /* 0x0D4 */
-    void *plttCurrent;                  /* 0x0D8 */
+    u16 *plttOriginal;                  /* 0x0D4 */
+    u16 *plttCurrent;                   /* 0x0D8 */
     u32 plttByteSize;                   /* 0x0DC */
     VecFx32 position;                   /* 0x0E0 */
     VecFx32 scale;                      /* 0x0EC */
@@ -381,9 +381,9 @@ typedef struct McssWork {
 } McssWork;
 
 #include "gfl_heap_wrap.h"
+#include "arc_tool.h"
+#include "arc_util.h"
 
-extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heap);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
 
 #include "nns_g2d_oam_manager.h"
@@ -406,8 +406,6 @@ struct MultiCellAnim;
 
 extern void MCSS_RestartAnime(McssWork *work);
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
-extern void  ARC_TOOL_DeleteHandle(void *arcHandle);
 
 extern void MCSS_FreeResource(McssWork *work);
 
@@ -436,32 +434,27 @@ struct CellAnim;
 
 #include "nns_g2d_cell_animation.h"
 
-extern void NNSi_G2dMCEnumAnimBank(void *, void *, unsigned);
+#include "nns_g2d_renderer_mtx_cache.h"
+/* Original DS prototype: the caller passes the colour count as a halfword; the host build uses the header. */
+#ifdef __MWERKS__
+#define PALANM_BlendColors PALANM_BlendColors_header
+#endif
+#include "palanm.h"
+#ifdef __MWERKS__
+#undef PALANM_BlendColors
+extern void PALANM_BlendColors(u16 *src, u16 *dst, u16 count, int weight, u16 color);
+#endif
 struct AnimSequenceData;
 
 #include "nns_g2d_anim_bank.h"
 
 
 
-extern void  PALANM_BlendColors(void *src, void *dst, u16 count, int fadeLevel, u16 fadeColor);
-/* The original calls pass the heap as a word to the Archive loaders. */
-extern void *ARC_UTIL_LoadCellBankFromArchive(u32 arcId, u32 member, u32 flag, struct CellDataBank **out, u32 heap);
-extern void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 arcId, u32 member, u32 flag, struct AnimBank **out, u32 heap);
-extern void *ARC_UTIL_LoadAnimBankFromArchive(u32 arcId, u32 member, u32 flag, struct MultiCellBank **out, u32 heap);
-extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 arcId, u32 member, u32 flag, struct AnimBank **out, u32 heap);
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, struct CellDataBank **unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, struct AnimBank **unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, struct MultiCellBank **unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, struct AnimBank **unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
 
 
 struct ArcHandle;
 
-extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
 struct VramHandle;
 struct VramResource;
 
@@ -596,7 +589,7 @@ u8 MCSS_GetStopCellFlags(McssWork *work);
 
 int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg);
 
-void MCSS_SetCellCallback(McssWork *work, unsigned flags, void *callback);
+void MCSS_SetCellCallback(McssWork *work, unsigned flags, int (*callback)(void *, void *, void *, int));
 
 void MCSS_SetPaletteFade(McssWork *work, u32 start, u32 end, s32 wait, u32 color);
 
@@ -731,7 +724,7 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
 
 /*
  * Tear-down of a "list of arrays" record: close the open sub-object at +0xC
- * (three frees through the handle returned by TCBL_IsDeletePending, then the handle
+ * (three frees through the handle returned by TCBL_GetOwnedWork, then the handle
  * itself), then walk the +0x14 array of +0x10 entries and release each live
  * one through MCSS_Del, finally the array and the record itself.
  *
@@ -745,7 +738,7 @@ void MCSS_Exit(McssSys *sys)
 
     MCSS_CloseHandle(sys);
     if (sys->shadowPlttTask != 0) {
-        McssTransTask *task = (struct McssTransTask *)TCBL_IsDeletePending(sys->shadowPlttTask);
+        McssTransTask *task = (struct McssTransTask *)TCBL_GetOwnedWork(sys->shadowPlttTask);
 
         GFL_HEAP_Free(task->plttData->data);
         GFL_HEAP_Free(task->plttData);
@@ -1961,9 +1954,9 @@ int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unu
 #endif
 }
 
-void MCSS_SetCellCallback(McssWork *work, unsigned flags, void *callback)
+void MCSS_SetCellCallback(McssWork *work, unsigned flags, int (*callback)(void *, void *, void *, int))
 {
-    NNSi_G2dMCEnumAnimBank(&work->cellCtrl, callback, flags);
+    NNSi_G2dMCEnumAnimBank((struct MCAnimBank *)&work->cellCtrl, callback, (void *)(uptr)flags);
 }
 
 /*
@@ -2386,7 +2379,7 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
 {
     McssWork *work = sys->works[index];
     McssTransTask *task;
-    u32 heap;
+    u16 heap;
     u32 flag;
     McssCellHeader *cellHeader;
 
@@ -2752,7 +2745,7 @@ dec:
  * zeroes the other four (+0xc, +0x1c, +0x14, +0x24, +0x2c) and, if the
  * object's own field at +0 is non-zero, recurses into MCSS_DeleteTextureTask with
  * that field's value before zeroing it too. MCSS_DeleteTextureTask turns an id into
- * an object through TCBL_IsDeletePending, releases one or two of the object's own
+ * an object through TCBL_GetOwnedWork, releases one or two of the object's own
  * pointer fields the same way, releases the object itself, and finally
  * releases the id through TCB_DeleteTask.
  *
@@ -2798,7 +2791,7 @@ void MCSS_FreeResource(McssWork *work)
 
 void MCSS_DeleteTextureTask(void *taskHandle)
 {
-    McssTransTask *task = (struct McssTransTask *)TCBL_IsDeletePending(taskHandle);
+    McssTransTask *task = (struct McssTransTask *)TCBL_GetOwnedWork(taskHandle);
 
     if (task->texBuf != 0) {
         GFL_HEAP_Free(task->texBuf);
@@ -2812,7 +2805,7 @@ void MCSS_DeleteTextureTask(void *taskHandle)
 
 void MCSS_DeletePaletteTask(void *taskHandle)
 {
-    McssTransTask *task = (struct McssTransTask *)TCBL_IsDeletePending(taskHandle);
+    McssTransTask *task = (struct McssTransTask *)TCBL_GetOwnedWork(taskHandle);
     GFL_HEAP_Free(task->plttData->data);
     GFL_HEAP_Free(task->plttData);
     GFL_HEAP_Free(task);

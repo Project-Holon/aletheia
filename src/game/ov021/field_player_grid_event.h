@@ -4,25 +4,23 @@
 /* BEGIN mkheaders: generated region, rewritten by tools/mkheaders.py, keep hand-written code outside it */
 /* Public functions of field_player_grid_event.c, prototypes copied from their definitions. */
 
-struct G3dMapper;
-struct FieldPlayerGrid;
-typedef struct FieldPlayerGrid FieldPlayerGrid;
 struct BoulderDropWork;
+struct TcbTask;
 struct HopWork;
 struct JumpWork;
-typedef struct G3dMapper G3dMapper;
 typedef struct BoulderDropWork BoulderDropWork;
 typedef struct HopWork HopWork;
 typedef struct JumpWork JumpWork;
 
-#include "../ov021/field_flash_shared_types.h"
+#include "../ov021/field_player_types.h"
 #include "../types.h"
-#include "../ov010/fldmmdl_types.h"
 #include "../ov020/event_mapchange_types.h"
+#include "../ov010/fldmmdl_types.h"
+#include "../ov021/field_flash_shared_types.h"
+#include "../sdk_fx.h"
 
 int FIELD_PLAYER_GRID_EVENT_TryPushBoulder(FieldPlayerGrid *player, int unused, int keyDir, int flags);
 int FIELD_PLAYER_GRID_EVENT_PushBoulderByFlags(FieldPlayerGrid *player, u16 dir, u32 flags);
-int FIELD_PLAYER_GRID_EVENT_GetHoleCoverage(Mmdl *boulder, u32 dir, G3dMapper *map);
 int FIELD_PLAYER_GRID_EVENT_StartBoulderDrop(FieldPlayerGrid *player, u16 dir, int hitResult);
 GameEvent *FIELD_PLAYER_GRID_EVENT_CreateBoulderDropEvent(FieldPlayerGrid *player, u32 dir, Mmdl *boulder, u32 fillsHole);
 int FIELD_PLAYER_GRID_EVENT_BoulderDropEvent(GameEvent *event, int *seq, BoulderDropWork *work);

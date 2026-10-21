@@ -32,7 +32,7 @@ void PMS_DRAW_CalcDecoPos(u32 bmpWin, u32 charX, u32 line, const struct PmsPos *
 u32 PMS_DRAW_GetDecoCgrIndex(u32 engine);
 u32 PMS_DRAW_GetDecoCelIndex(u32 engine);
 u32 PMS_DRAW_GetDecoAnmIndex(u32 engine);
-void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u32 heapId);
+void PMS_DRAW_LoadResources(u32 *res, u32 plttOffset, u16 heapId);
 void PMS_DRAW_ReleaseResources(struct PmsDrawRes *res);
 void *PMS_DRAW_CreateDecoActor(struct PmsDrawRes *res, u16 heapId);
 void PMS_DRAW_PlaceDecoActor(void *actor, struct Descriptor *bmpWin, u32 charX, u32 line, u32 wordId, const struct PmsPos *offset);

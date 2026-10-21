@@ -817,7 +817,7 @@ void SYMBOL_MAP_StoreResult(SymbolMapProgress *progress, int value) {
  */
 int SYMBOL_MAP_ScrCmdGetEventStateValue(void *vm, void *work)
 {
-    u8 *eventState;
+    void **eventState;
     u32 index;
     u16 subCommand;
     u32 index2;
@@ -870,7 +870,7 @@ int SYMBOL_MAP_ScrCmdStartRecordTask(void *vm, void *work)
     void *gameSystem = SCRCMD_WORK_GetGameSystem(work);
     void **eventState;
     void *task;
-    eventState = (void **)GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(gameSystem));
+    eventState = GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(gameSystem));
     task = SYMBOL_MAP_CreateRecordTask(gameSystem, *eventState, SCRIPT_WORK_ReadWorkPointer(vm, work));
     if (task == 0)
         return 1;

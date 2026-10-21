@@ -131,7 +131,7 @@ extern unsigned char ov_id_0D[];
 /* RTC calendar date (config.c layout). */
 #include "../sdk_rtc.h"
 
-struct RtcDate;
+#include "../sdk_rtc.h"
 
 #include "gf_standard.h"
 struct DWCstAccUserData;
@@ -492,7 +492,7 @@ void WIFILIST_SetFriendLastSeen(struct WifiList *list, int slot)
 {
     struct RTCDate date;
 
-    GF_STANDARD_GetCachedDate((struct RtcDate *)(&date));
+    GF_STANDARD_GetCachedDate((RTCDate *)(&date));
     list->friendInfo[slot].lastYear = date.year + 2000;
     list->friendInfo[slot].lastMonth = date.month;
     list->friendInfo[slot].lastDay = date.day;

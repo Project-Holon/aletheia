@@ -35,7 +35,7 @@ u32 SCRCMD_WORK_GetCallMode(ScrcmdWork *work);
 u32 SCRCMD_WORK_GetCallParam(ScrcmdWork *work);
 struct GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *work);
 struct GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *work);
-struct MmdlSys *SCRCMD_WORK_GetOccupyInfo(ScrcmdWork *work);
+struct MmdlSys *SCRCMD_WORK_GetMmdlSys(ScrcmdWork *work);
 struct ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *work);
 int SCRCMD_WORK_GetMenuHeap(ScrcmdWork *work);
 struct MsgBank *SCRCMD_WORK_GetMsgData(ScrcmdWork *work);

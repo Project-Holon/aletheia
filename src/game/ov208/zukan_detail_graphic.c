@@ -192,11 +192,16 @@ extern u32 CLACT_DeleteUnit(struct Unit *unit);
 
 extern void CLACT_ExitSystem(void);
 
-extern void CLACT_DrawSystem(char *);
+extern void CLACT_DrawSystem(void);
 
 extern void CLACT_VBlankSystem(void);
 
+/* The DS code was built against other parameter widths for G3D_SYSTEM_Init (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
+#else
+#include "../arm9/g3d_system.h"
+#endif
 
 
 
@@ -428,7 +433,7 @@ void ZUKAN_DETAIL_GRAPHIC_ExitActorSystem(char *p)
 
 void ZUKAN_DETAIL_GRAPHIC_DrawActors(char *p)
 {
-    CLACT_DrawSystem(p);
+    CLACT_DrawSystem();
 }
 
 void ZUKAN_DETAIL_GRAPHIC_VBlankActors(char *unused)

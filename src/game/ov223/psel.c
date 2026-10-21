@@ -245,7 +245,7 @@ typedef struct {u8 a,b,c,d,e,f,g,h,i;} PselTableEntry;
 
 struct PselItem { void *text; u16 color; unsigned value; };
 
-extern int ICA_ANIME_SetFrame(int, int);
+extern void ICA_ANIME_SetFrame(struct IcaAnime *, s32);
 #include "../arm9/gfl_heap_wrap.h"
 #include "../arm9/fx_mtx33.h"
 #include "../arm9/fade.h"
@@ -270,9 +270,9 @@ extern u16 G3D_UTIL_AddUnit(struct G3dUtil *util, struct G3dUtilSetup *setup);
 extern u32 G3D_UTIL_GetUnitObjIdx(struct G3dUtil *util, s32 unitIdx);
 extern struct IcaAnime *ICA_ANIME_CreateStream(u32 heap, u32 b, u32 c, u32 d);
 extern void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime);
-extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32),PSEL_DeleteRecords(void *),ICA_ANIME_Delete(struct IcaAnime *);
+extern void G3D_UTIL_RemoveUnit(struct G3dUtil *,u32);
+extern void PSEL_DeleteRecords(void *),ICA_ANIME_Delete(struct IcaAnime *);
 extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, signed int v);
-extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
 /* B908 reads only r0, forwarding its live r1 to D478; legacy r2/r3 unused. */
 #include "../arm9/clact.h"
 #include "../arm9/pokegra.h"
@@ -285,7 +285,7 @@ typedef short s16_p07;
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern void BG_SYS_DrawTile(u32 index, void *src, u8 dx, u8 dy, u8 cw, u8 ch);
 extern void BG_SYS_MarkTileDirty(unsigned);
-extern int BG_SYS_ClearLayerEx(int, int);
+extern void BG_SYS_ClearLayerEx(int channel, u16 val);
 #include "../arm9/arc_util.h"
 extern void BG_SYS_PushTile(unsigned);
 #include "../arm9/msgdata.h"
@@ -305,7 +305,7 @@ struct GfFont;
 #include "../arm9/wordset.h"
 struct GFont;
 extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
-extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 struct TaskMenuItem;
 struct TaskMenuWin;
 extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u16 heapId);
@@ -314,7 +314,7 @@ extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
 extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, u32 isActive);
 extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, s32 isDecide);
 extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
-int PSEL_SetAnimFrame(int anime, int frame);
+void PSEL_SetAnimFrame(int anime, int frame);
 struct PselRecord *PSEL_CreateRecords(u32 heap,u32 count);
 void PSEL_DeleteRecords(void *p);
 int PSEL_Init(void *a,int unused,void *c);
@@ -352,9 +352,9 @@ void PSEL_UpdateActorPosition(char *p);
 void PSEL_CreateBmpWindows(u16 *p);
 void PSEL_NopBgWindows(int *unused);
 void PSEL_InitBgLayers(u16 *p);
-int PSEL_ClearBgLayer2(void);
+void PSEL_ClearBgLayer2(unsigned char *work);
 void PSEL_DeleteBgLayers(u16 *p);
-void PSEL_NopBgDelete(void);
+void PSEL_NopBgDelete(unsigned char *work);
 void PSEL_SetBgSys(const u16 *p);
 void PSEL_ClearBgLayerEx(char *unused);
 void PSEL_UploadBgPalette(u16 *p);
@@ -371,7 +371,7 @@ void PSEL_ClearWin(char *p);
 void PSEL_ClearWin2(char *p);
 void PSEL_ClearWin3(char *p);
 void PSEL_CreateTaskRes(char *p);
-int PSEL_DeleteTaskResData(int *p);
+void PSEL_DeleteTaskResData(int *p);
 void PSEL_ShowTaskRes(char *p);
 void PSEL_DeleteTaskRes(char *p);
 void PSEL_UpdateTaskResWin(char *p);
@@ -396,9 +396,9 @@ extern const PselTableEntry sPselEntryTable[];
 extern const u32 d_021BC730[];
 extern const u16 d_021BC710[];
 
-int PSEL_SetAnimFrame(int anime, int frame)
+void PSEL_SetAnimFrame(int anime, int frame)
 {
-    return ICA_ANIME_SetFrame(anime, frame / 2);
+    ICA_ANIME_SetFrame((struct IcaAnime *)(sptr)anime, frame / 2);
 }
 
 struct PselRecord *PSEL_CreateRecords(u32 heap,u32 count)
@@ -538,7 +538,7 @@ void PSEL_SetupListAnime(u8 *p)
     *(u32 *)(p + 0x50) = 0;
 }
 
-void PSEL_DeleteListAnime(char *p) { G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)p)->unitId);PSEL_DeleteRecords(((struct PselWork *)p)->records);((struct PselWork *)p)->recordCount=0;ICA_ANIME_Delete(*(struct IcaAnime * *)&((struct PselWork *)p)->animStream); }
+void PSEL_DeleteListAnime(char *p) { G3D_UTIL_RemoveUnit(*(struct G3dUtil * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)p)->unitId);PSEL_DeleteRecords(((struct PselWork *)p)->records);((struct PselWork *)p)->recordCount=0;ICA_ANIME_Delete(*(struct IcaAnime * *)&((struct PselWork *)p)->animStream); }
 
 void PSEL_UpdateListAnime(char *p)
 {
@@ -582,7 +582,7 @@ void PSEL_SetupSelectAnime(char *p)
     ((struct PselWork *)p)->animFrame=0;
 }
 
-void PSEL_DeleteSelectAnime(char *p) {G3D_UTIL_RemoveUnit(*(struct Ctx * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)p)->unitId2);PSEL_DeleteRecords(((struct PselWork *)p)->records);((struct PselWork *)p)->recordCount=0;ICA_ANIME_Delete(*(struct IcaAnime * *)&((struct PselWork *)p)->animStream);}
+void PSEL_DeleteSelectAnime(char *p) {G3D_UTIL_RemoveUnit(*(struct G3dUtil * *)&((struct PselWork *)p)->g3dUtil,((struct PselWork *)p)->unitId2);PSEL_DeleteRecords(((struct PselWork *)p)->records);((struct PselWork *)p)->recordCount=0;ICA_ANIME_Delete(*(struct IcaAnime * *)&((struct PselWork *)p)->animStream);}
 
 void PSEL_UpdateSelectAnime(char *p)
 {
@@ -1091,9 +1091,9 @@ void PSEL_InitBgLayers(u16 *p)
 /*
  * Addresses are Black-image addresses.
  */
-int PSEL_ClearBgLayer2(void)
+void PSEL_ClearBgLayer2(unsigned char *work)
 {
-    return BG_SYS_ClearLayerEx(2, 0xd000);
+    BG_SYS_ClearLayerEx(2, 0xd000);
 }
 
 void PSEL_DeleteBgLayers(u16 *p)
@@ -1107,7 +1107,7 @@ void PSEL_DeleteBgLayers(u16 *p)
     BG_SYS_PushTile(4);
 }
 
-void PSEL_NopBgDelete(void) {}
+void PSEL_NopBgDelete(unsigned char *work) {}
 
 void PSEL_SetBgSys(const u16 *p)
 {
@@ -1368,9 +1368,9 @@ void PSEL_ClearWin3(char *p) {struct Descriptor *d;u32 off;off=0x238;BMP_Clear((
 
 void PSEL_CreateTaskRes(char *p) {*(struct TaskMenuRes * *)&((struct PselWork *)p)->taskRes=APP_TASKMENU_RES_Create(3,11,(struct GFont *)(*(u32 *)&((struct PselWork *)p)->font),(struct PrintQueue *)(((struct PselWork *)p)->printQue),((struct PselWork *)p)->heapId);}
 
-int PSEL_DeleteTaskResData(int *p)
+void PSEL_DeleteTaskResData(int *p)
 {
-    return APP_TASKMENU_RES_Delete((struct TaskMenuState *)p[0x97]);
+    APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(sptr)p[0x97]);
 }
 
 /*

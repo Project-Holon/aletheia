@@ -9,7 +9,8 @@
 #include "../ov067/ui_scene_types.h"
 
 struct TextWindow;
-struct PrintSys;
+struct PrintQueue;
+struct GfFont;
 
 /* Values of YesNoMenu.state. */
 #define YESNO_MENU_STATE_IDLE 0
@@ -33,8 +34,8 @@ typedef struct {
     u16 heapId;
     u16 pad02;
     void *actorSys;
-    u32 fontId;
-    struct PrintSys *printer;
+    struct GfFont *font;
+    struct PrintQueue *printer;
     u32 plttTarget;
     u8 buttonBgLayer;
     u8 buttonPriority;

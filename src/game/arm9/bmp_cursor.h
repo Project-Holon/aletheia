@@ -6,12 +6,14 @@
 
 struct MenuCursor;
 struct MenuTarget;
+struct PrintQueue;
+struct GfFont;
 
 #include "../types.h"
 
 struct MenuCursor *BMP_CURSOR_Create(u32 heap);
 void BMP_CURSOR_Delete(struct MenuCursor *cursor);
-void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target, void *printer, u32 param);
+void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target, struct PrintQueue *printer, struct GfFont *font);
 void BMP_CURSOR_SetTileBitmap(struct MenuCursor *cursor, int heap);
 /* END mkheaders: generated region */
 

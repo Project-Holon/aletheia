@@ -1055,7 +1055,7 @@ int EVENT_MAPCHANGE_DetachedTailEvent(struct GameEvent *event, int *seq, MapChan
     gameSystem = work->gameSystem;
     fieldMap = work->fieldMap;
     gameData = work->gameData;
-    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1131,7 +1131,7 @@ int EVENT_MAPCHANGE_FadeDelayedEvent(struct GameEvent *event, int *seq, MapChang
     gameSystem = work->gameSystem;
     gameData = work->gameData;
     fieldMap = work->fieldMap;
-    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1176,7 +1176,7 @@ int EVENT_MAPCHANGE_TargetPositionEvent(struct GameEvent *event, int *seq, MapCh
     gameSystem = work->gameSystem;
     gameData = work->gameData;
     fieldMap = work->fieldMap;
-    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1217,7 +1217,7 @@ int EVENT_MAPCHANGE_SeasonEffectAEvent(struct GameEvent *event, int *seq, MapCha
     gameSystem = work->gameSystem;
     gameData = work->gameData;
     fieldMap = work->fieldMap;
-    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1257,7 +1257,7 @@ int EVENT_MAPCHANGE_SeasonEffectBEvent(struct GameEvent *event, int *seq, MapCha
     struct GameSystem *gameSystem = work->gameSystem;
     struct GameData *gameData = work->gameData;
     struct FieldMap *fieldMap = work->fieldMap;
-    struct FieldSoundSystem *fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    struct FieldSoundSystem *fieldSound = GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1301,7 +1301,7 @@ int EVENT_MAPCHANGE_ResetPlayerFormEvent(struct GameEvent *event, int *seq, MapC
     gameSystem = work->gameSystem;
     gameData = work->gameData;
     fieldMap = work->fieldMap;
-    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1412,7 +1412,7 @@ int EVENT_MAPCHANGE_EffectCEvent(struct GameEvent *event, int *seq, MapChangeWor
     gameSystem = work->gameSystem;
     gameData = work->gameData;
     fieldMap = work->fieldMap;
-    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:

@@ -230,7 +230,15 @@ struct Party;
 #include "../ov010/namein_setup.h"
 #include "../arm9/record.h"
 #include "../arm9/gfl_use.h"
+#ifdef __MWERKS__
+#define SHINKA_CHECK_CheckEvolution SHINKA_CHECK_CheckEvolutionHeader
+#endif
+#include "../arm9/shinka_check.h"
+#ifdef __MWERKS__
+/* original prototypes: the DS code declares these with other argument or return types than the definitions */
+#undef SHINKA_CHECK_CheckEvolution
 extern u16 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *mon, u32 mode, u32 zoneId, u8 season, u32 *method, u16 heapId);
+#endif
 #include "../ov010/fldmmdl_poslog.h"
 #include "../arm9/arc_tool.h"
 int EVENT_BATTLE_RETURN_Init(struct ProcObj *proc);

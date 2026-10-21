@@ -6,9 +6,8 @@
 
 struct FieldEventInput;
 struct GameEvent;
-struct LedgeJumpWork;
+struct Mmdl;
 typedef struct FieldEventInput FieldEventInput;
-typedef struct LedgeJumpWork LedgeJumpWork;
 
 #include "../ov020/event_mapchange_types.h"
 #include "../types.h"

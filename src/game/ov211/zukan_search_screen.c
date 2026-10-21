@@ -111,7 +111,12 @@ extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned),BG_SYS_SetSubPlaneVisi
 struct GameData;
 struct SaveControl;
 #include "../arm9/game_data.h"
+/* The DS code was built against other parameter widths for SAVE_CONTROL_LoadExtraSave (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *,u32,u32);
+#else
+#include "../arm9/save_control.h"
+#endif
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 slot, u32 recordId);
 extern u32 ZUKAN_SKIN_SAVE_GetValidFlag(const void *obj);
 extern void *ZUKAN_SKIN_SAVE_GetTiles(void *),*ZUKAN_SKIN_SAVE_GetPalette(void *);

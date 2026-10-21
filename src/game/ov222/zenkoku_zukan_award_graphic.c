@@ -96,7 +96,13 @@ extern void BG_SYS_ClearSubPlanes(void);
 struct TcbTask;
 #include "../arm9/tcb_list.h"
 extern void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(u32 *);
+/* The DS code was built against other parameter widths for BG_SYS_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void BG_SYS_Create(u32);
+#else
+#include "../arm9/bg_sys.h"
+#endif
+extern void G3D_SYSTEM_Exit(void);
 #include "../arm9/bmp_win.h"
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -110,10 +116,19 @@ struct SysInit;
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 #include "zenkoku_zukan_award.h"
+/* The DS code was built against other parameter widths for G3D_SYSTEM_Init (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u32,void (*)(void));
+#else
+#include "../arm9/g3d_system.h"
+#endif
+/* The DS code was built against other parameter widths for G3D_CAMERA_Create (the original prototypes); the header differs. The host build uses the header. */
+#ifdef __MWERKS__
 extern struct G3dCamera *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct VecFx32 *,struct VecFx32 *,struct VecFx32 *,u32);
+#else
+#include "../arm9/g3d_camera.h"
+#endif
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void G3D_SYSTEM_Exit(u32 x);
 void* ZENKOKU_ZUKAN_AWARD_GRAPHIC_Create(u32 swap,u32 heap);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Delete(char *p);
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_Update(char *p);
@@ -250,5 +265,6 @@ void ZENKOKU_ZUKAN_AWARD_GRAPHIC_SetupCamera(u32 **out,u32 heap)
 
 void ZENKOKU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(u32 *p)
 {
-    G3D_SYSTEM_Exit(G3D_CAMERA_Delete((void *)(*p)));
+    G3D_CAMERA_Delete((void *)(*p));
+    G3D_SYSTEM_Exit();
 }

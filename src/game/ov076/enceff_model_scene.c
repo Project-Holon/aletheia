@@ -119,7 +119,7 @@ void *ENCEFF_BuildModelSceneKind31(void *gameSystem, struct FieldMap *fieldMap, 
 void *ENCEFF_BuildModelSceneKind35(void *gameSystem, struct FieldMap *fieldMap, int useSubScreen) {
     void *event;
     event = ENCEFF_StartModelScene(gameSystem, fieldMap, 11, 10, useSubScreen);
-    ENCEFF_GetWork(FIELDMAP_GetEncEff(fieldMap))->soundId = 0x7F3;
+    ((EncEffModelScene *)ENCEFF_GetWork(FIELDMAP_GetEncEff(fieldMap)))->soundId = 0x7F3;
     return event;
 }
 
@@ -145,7 +145,7 @@ void *ENCEFF_StartModelScene(void *gameSystem, struct FieldMap *fieldMap, u32 mo
 }
 
 
-void ENCEFF_UpdateModelScene(struct EncEffWork *eff) { SCREENTEX_SetupCamera((ENCEFF_GetWork(eff)->object)); }
+void ENCEFF_UpdateModelScene(struct EncEffWork *eff) { SCREENTEX_SetupCamera((((EncEffModelScene *)ENCEFF_GetWork(eff))->object)); }
 
 
 int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state)
